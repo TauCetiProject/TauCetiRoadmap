@@ -47,8 +47,9 @@ stated coefficient generality.
    CW pair, using Tau Ceti's lim/lim¹ and Milnor sequences, with
    cofinal-shift naturality and the specified-homotopy-square maps of Layer 6.0.
 
-8. Ordinary cohomology is represented on arbitrary CW complexes and CW pairs by the shared
-   Eilenberg–MacLane models; nonabelian classifying spaces, universal classes, loop comparisons,
+8. Ordinary cohomology in positive degree is represented on spaces of CW type by every
+   Eilenberg–MacLane space, and on CW pairs by the shared Eilenberg–MacLane models;
+   nonabelian classifying spaces, universal classes, loop comparisons,
    and primary relative obstruction cochains have explicit normalization and transport maps.
 
 The scope includes ordinary cohomology on arbitrary CW complexes and the tools needed for
@@ -373,7 +374,10 @@ named in this section is cited as it is at those revisions.
   `H^(n+1)(X;R,M)` and onto `Hom(H_(n+1)(X;R),M)` through the Kronecker map
   (`TopCat.singularKronecker_surjective`), natural in X, and the non-natural decomposition
   `TopCat.singularUniversalCoefficientEquiv`. Layer 6.1 consumes it and adds the local-system,
-  relative and general-ring forms.
+  relative and general-ring forms. The Kronecker map itself is `TopCat.singularKronecker`, with
+  its naturality `TopCat.singularKronecker_naturality` (`Cohomology.Kronecker`); with the
+  naturality `HomotopyGroup.hurewicz_map` of the absolute Hurewicz map it fixes the class of
+  §8.10.
 - The Euler characteristic in `Cellular.EulerCharacteristic`: the alternating cell count
   `TauCeti.cwEulerChar` of a finite CW complex (`TauCeti.cwEulerChar_def`), its Euler–Poincaré
   equality `finsum_finrank_singularHomology_of_finite_cwComplex`, the Euler characteristic
@@ -462,7 +466,15 @@ named in this section is cited as it is at those revisions.
   Whitehead's theorem `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv` for spaces of CW
   type, whose forward map is the given map
   (`ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv_toFun`), in
-  `AlgebraicTopology.Homotopy.Whitehead`. Simple connectivity at infinity is
+  `AlgebraicTopology.Homotopy.Whitehead`, with the two halves of Hatcher's Proposition 4.22 for
+  sources of CW type in the same file: maps into the target lift through a weak homotopy
+  equivalence up to homotopy (`ContinuousMap.IsWeakHomotopyEquivalence.exists_comp_homotopic`),
+  and two maps whose composites with it are homotopic are homotopic
+  (`ContinuousMap.IsWeakHomotopyEquivalence.homotopic_of_comp_homotopic`). A weak homotopy
+  equivalence induces isomorphisms on singular homology with coefficients in any ring
+  (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap`,
+  `AlgebraicTopology.Singular.Homotopy.WeakHomotopyEquivalence`). §8.10 consumes these three.
+  Simple connectivity at infinity is
   `TauCeti.SimplyConnectedAtInfinity` (`AlgebraicTopology.Homotopy.SimplyConnectedAtInfinity`).
   Proper homotopy equivalences are `ContinuousMap.HasProperHomotopyInverse`
   (`Topology.Homotopy.Proper`: a proper map with a proper homotopy inverse and both homotopies
@@ -837,8 +849,22 @@ the homotopy acceptance applications. Item-specific inputs separate the independ
 product foundations from later applications.
 
 Other roadmaps cite this one in the form "AlgebraicTopology Stage k item m" and by
-heading anchors `stage-k-…`. Stage k is Layer k, with the same title, so the anchor
-`stage-k-<title>` is the anchor `layer-k-<title>`, and item m of Stage k is §k.m:
+heading anchors `stage-k-…`. Stage k is Layer k, with the same title, and item m of Stage k
+is §k.m. The former Stage anchors correspond to the Layer anchors as follows; a link by a
+former anchor is read as a link to the Layer in the same row.
+
+| Former anchor (Stage numbering) | Anchor now | Section now |
+| --- | --- | --- |
+| `#stage-1-van-kampen-through-the-fundamental-groupoid` | `#layer-1-van-kampen-through-the-fundamental-groupoid` | Layer 1 |
+| `#stage-2-relative-singular-chains-and-homology` | `#layer-2-relative-singular-chains-and-homology` | Layer 2 |
+| `#stage-3-subdivision-excision-and-mayer--vietoris` | `#layer-3-subdivision-excision-and-mayer--vietoris` | Layer 3 |
+| `#stage-4-cw-pairs-cellular-homology-and-cofibrations` | `#layer-4-cw-pairs-cellular-homology-and-cofibrations` | Layer 4 |
+| `#stage-5-bundles-covers-products-and-finite-cover-descent` | `#layer-5-bundles-covers-products-and-finite-cover-descent` | Layer 5 |
+| `#stage-6-cohomology-products-and-manifold-duality` | `#layer-6-cohomology-products-and-manifold-duality` | Layer 6 |
+| `#stage-7-euler-characteristic-and-finite-decompositions` | `#layer-7-euler-characteristic-and-finite-decompositions` | Layer 7 |
+| `#stage-8-relative-homotopy-hurewicz-whitehead-and-ordinary-representability` | `#layer-8-relative-homotopy-hurewicz-whitehead-and-ordinary-representability` | Layer 8 |
+
+Items map to sections as follows.
 
 - Stage 1 items 1–6 are §§1.1–1.6.
 - Stage 2 items 1 and 3–6 are §§2.1 and 2.3–2.6; Stage 2 item 2, the relative homology
@@ -1205,10 +1231,14 @@ Consume native excision for `TopPair` and extend to local coefficients: if the c
    data and compatibility with the pair connecting morphism.
 ### 3.4 Local Mayer–Vietoris
 
-*Needs:* §3.3 and the native ordinary Mayer–Vietoris connecting map.
+*Needs:* §§3.2 and 3.3 and the native ordinary Mayer–Vietoris connecting map.
 
 Consume native Mayer--Vietoris for a binary open cover and extend its natural
-   long exact sequence to local coefficients (Hatcher, §2.2, p.149; §3.H, p.333).  Prove that
+   long exact sequence to local coefficients: Hatcher derives it from the short exact sequence
+   of chain complexes `0→C(U∩V)→C(U)⊕C(V)→C(U+V)→0` and the small-chain theorem (§2.2,
+   pp.149–150), and the same derivation applies to local coefficients with §3.2's twisted
+   small chains (Hatcher, §3.H, p.333, for iterated subdivision with local coefficients).
+   Prove that
    its first map is `(i_U, -i_V)` under the pinned sign convention.
 ### 3.5 Sphere calculations
 
@@ -3316,7 +3346,9 @@ The absolute Hurewicz map `HomotopyGroup.hurewicz`, a class p sent to p_* of the
    direct Eilenberg-subcomplex connected-map comparison; it uses face-compatible compression
    and prisms, not this Hurewicz theorem. Prove the absolute theorem in every universe: an
    `(n-1)`-connected pointed space has reduced integral homology zero below `n` and
-   `pi_n(X) ~= H_n(X;Z)` for `n>=2`, by the native map (Hatcher, Theorem 4.32, p.366).
+   `pi_n(X) ~= H_n(X;Z)` for `n>=2`, by the native map (Hatcher, Theorem 4.37, p.371, for the
+   pair of X and its basepoint; Theorem 4.32, p.366, states the vanishing and an abstract
+   isomorphism).
    `hurewicz_bijective` states the isomorphism: for X in any universe u and n≥0, if
    π_k(X,x) is trivial for every k<n+2, then the native map π_(n+2)(X,x)→H_(n+2)(X;ℤ), with ℤ
    lifted to u and evaluated at 1, is bijective.
@@ -3344,7 +3376,9 @@ and the pair is (n−1)-connected: every path component of X meets A and
 π_i(X,A,a₀)=0 for 1≤i<n (Hatcher, §4.1, p.346, where the condition in degree 0 is on
 path components). Prove H_i(X,A;ℤ)=0 for 0≤i<n and that the
 native relative Hurewicz map π_n(X,A,a₀)→H_n(X,A;ℤ) is an isomorphism (Hatcher,
-Theorem 4.32, p.366), in every universe. The native bijectivity assumes A and X themselves
+Theorem 4.37, p.371, whose quotient π′_n(X,A,a₀) is π_n(X,A,a₀) itself because π₁(A) is
+trivial; Theorem 4.32, p.366, states the vanishing and an abstract isomorphism), in every
+universe. The native bijectivity assumes A and X themselves
 (n−1)-connected; here only A is simply connected and the pair is (n−1)-connected. No cofibration or closedness assumption is imposed.
 `relativeHurewicz_bijective` states the isomorphism with n+2 in place of n: for a based pair
 `X : TauCeti.BasedTopPair` in any universe whose subspace is simply connected, with every point
@@ -3611,7 +3645,9 @@ Prove that every finite-dimensional Hausdorff second-countable smooth manifold
    finitely many prescribed interior marked points outside the relative boundary locus. As a reusable corollary, prove that a simply connected integral homology
    `n`-sphere, `n>=2`, is homotopy equivalent to the standard `S^n`
    (`nonempty_homotopyEquiv_sphere_of_homologySphere`): by 8.3, Hurewicz identifies
-   `π_n(X)` with `H_n(X;ℤ)≅ℤ` (Hatcher, Theorem 4.32, p.366), a generator is represented by a
+   `π_n(X)` with `H_n(X;ℤ)≅ℤ` (X is `(n−1)`-connected by Hatcher, Theorem 4.32, p.366, applied
+   inductively, and the map is the Hurewicz isomorphism of Theorem 4.37, p.371, for the pair of
+   X and a point), a generator is represented by a
    map `S^n→X` inducing an isomorphism on every integral homology group, and 8.5's
    homological Whitehead theorem on the CW models makes it a homotopy equivalence (Hatcher,
    Corollary 4.33, p.367).
@@ -3807,7 +3843,7 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
 
 ### 8.10 Ordinary representability
 
-*Needs:* §§4.5, 6.1, 8.3 and 8.9; DGFloer Layer 1 items 1 and 4; GeneralizedCohomology G2.1 product comparison and §4.8.
+*Needs:* §§4.5, 6.1, 8.3 and 8.9; DGFloer Layer 1 items 1 and 4; GeneralizedCohomology G2.1 product comparison and §4.8; for `ordinaryEMRepresentability` on an arbitrary space, Tau Ceti's lifting through weak homotopy equivalences from sources of CW type, weak-equivalence invariance of singular homology, the universal coefficient sequence and the naturality of the Hurewicz and Kronecker maps (supplier contracts).
 
 **Ordinary cohomology representability.**
     Consume DGFloer's single functorial abelian CW/bar/Dold–Kan K(A,n) constructors
@@ -3847,6 +3883,29 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
     including the quotient `(X/B,*)`; for B empty use X with an added basepoint.
     Export the pointed/reduced version and the comparison with unreduced groups.
 
+`ordinaryEMRepresentability` states the absolute theorem in degree n+1, n≥0, for every
+Eilenberg–MacLane space and not only for the family's models. Let A be an abelian group and K
+a space with a point k at which π_i(K,k) is trivial for every i≠n+1 (for i=0 this says that K
+is path connected), and let e:π_(n+1)(K,k)≅A. The class ι∈H^(n+1)(K;A) is fixed by requiring
+that its Kronecker evaluation on the Hurewicz image of every a∈π_(n+1)(K,k) be e(a): it is the
+fundamental class of Hatcher's Theorem 4.57 (p.393), the inverse of the Hurewicz isomorphism
+read through universal coefficients (p.394). For every space X of CW type (`TauCeti.CWType`;
+X may be empty or have any number of path components) every class of H^(n+1)(X;A) is f*ι for a
+map f:X→K, and two maps with equal pullbacks of ι are homotopic. No CW structure, separation
+axiom or finiteness is assumed of K. The homotopy classes are free ones: π₁(K) acts trivially
+on π_(n+1)(K), for n=0 because A is abelian (Hatcher, p.394). Chains have the coefficients ℤ
+lifted to the universe of K, and cochains take values in A. To prove it, write d=n+1. The
+family's model K₀ of K(A,d), with identification e₀, has one vertex and no cells in dimensions
+1 to d−1. Extend e⁻¹∘e₀ over its d- and (d+1)-cells (Hatcher, Lemma 4.31, p.366) and then over
+its higher cells, whose attaching spheres are nullhomotopic in K because π_i(K)=0 for i>d. The
+resulting based map φ:K₀→K induces e⁻¹∘e₀ on π_d and is a weak homotopy equivalence. Tau Ceti's
+lifting through weak equivalences transports homotopy classes of maps out of X. Its homology
+invariance and the universal coefficient sequence make φ* an isomorphism on H^d(-;A), and the
+naturality of the Hurewicz and Kronecker maps makes φ* send the normalized class of K to that of
+K₀. So the theorem for K₀ gives the theorem for K, and for X of CW type it follows from the CW
+case through a homotopy equivalence to a CW complex. Degree zero, where K(A,0) is A discrete, is
+the separate statement above and is not part of `ordinaryEMRepresentability`.
+
 **Checks.**
 
 - A=ℤ, n=1: K(ℤ,1) is the bar model of S¹, the universal class evaluates to 1 on the
@@ -3857,6 +3916,35 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
 - n=0: K(A,0) is A discrete, and [X,A] is the set of functions π₀X→A, which is H⁰(X;A);
   the universal H⁰ class is the identity function on A, not an identification of H₀(A)
   with A: for A=ℤ, H₀(A;ℤ) is the free abelian group on the set ℤ.
+- `ordinaryEMRepresentability` on a space that is not a model: K the unit circle in ℂ with
+  k=1, A=ℤ, n=0, and e the winding number, sending t↦exp(2πit) to 1. Its Hurewicz image
+  generates H₁(K;ℤ)=ℤ, so ι is the generator on which that image evaluates to 1, and f*ι
+  is the degree of f:S¹→K times the corresponding generator of H¹(S¹;ℤ)=ℤ. The opposite
+  identification −e gives −ι, which also represents but evaluates to −1; the zero class
+  pulls every map back to 0 and is not onto ℤ.
+- The vanishing above degree n+1 is needed: K=S², A=ℤ, n=1 has π₂(S²)=ℤ but π₃(S²)=ℤ≠0.
+  [S³,S²]=π₃(S²)=ℤ while H²(S³;ℤ)=0, so the Hopf map and a constant map have the same
+  pullback of every class and no class of H²(S²;ℤ) can represent.
+- The vanishing below degree n+1 is needed: K=S¹×CP∞, A=ℤ, n=1 has π₂=ℤ but π₁=ℤ≠0.
+  For X=S¹ the free classes are [S¹,S¹]×[S¹,CP∞]=ℤ×0=ℤ while H²(S¹;ℤ)=0.
+- Path-connectedness, the degree-zero clause, is needed: K=S¹⊔{p} with k on the circle,
+  A=ℤ, n=0 has π₁(K,k)=ℤ and π_i(K,k)=0 for i≥2. For X a point, [X,K] has two
+  elements and H¹(X;ℤ)=0 has one.
+- K a point: every homotopy group is trivial, so an e exists exactly for A=0, and then ι=0,
+  [X,K] has one element and H^(n+1)(X;0)=0 for every X, X=∅ included. For A=ℤ no e exists
+  and nothing is claimed.
+- The source needs CW type. The Warsaw circle W, the closed topologist's sine curve closed
+  up by an arc from (0,−1) to (1,sin 1), has every homotopy group trivial, so H¹(W;ℤ)=0.
+  Collapsing the limit segment {0}×[−1,1] gives a map q:W→S¹ that is not nullhomotopic: a
+  nullhomotopy would lift q to ℝ by the covering homotopy property; the lift is constant
+  on the connected segment, but along the arc and the graph it changes by a full turn as
+  x→0, while those points accumulate on the segment. So q and a constant map have equal
+  pullbacks and are not homotopic, and W has no CW type.
+- For n=0 the hypotheses on K are Tau Ceti's `TauCeti.IsEilenbergMacLaneSpaceOne` for
+  `Multiplicative A` (asphericity and π₁≅A). For K=RP∞ and A=ℤ/2, ι is the nonzero class
+  of H¹(RP∞;ℤ/2)=ℤ/2, and [RP²,RP∞] has two elements, the constant map and the inclusion,
+  matching H¹(RP²;ℤ/2)=ℤ/2; the nonabelian K(S₃,1) has no abelian A with e and is outside
+  the theorem.
 
 ### 8.11 Mapping spaces and EM loops
 
@@ -4121,7 +4209,8 @@ based-loop forms below retain the relative data.
   class is the unique nonzero element of H¹(RP∞;ℤ/2)=ℤ/2, and its restriction to
   RP¹≅S¹ is nonzero, detecting the antipodal double cover.
 
-Hatcher Theorem 4.32 (§4.2, p.366) gives absolute Hurewicz, and Theorem 4.5 (§4.1, p.346) gives Whitehead; Whitehead, Chapters
+Hatcher Theorem 4.32 (§4.2, p.366) gives the Hurewicz isomorphisms and Theorem 4.37 (§4.2,
+p.371) the bijectivity of the Hurewicz map itself, and Theorem 4.5 (§4.1, p.346) gives Whitehead; Whitehead, Chapters
 IV--VII, gives the relative and cellular forms.  May, *Simplicial Objects in Algebraic Topology*,
 Chapters 3 and 12, supplies the Kan-group construction and comparison route.
 Hatcher Section 4.3 supplies ordinary representability and obstruction theory;
@@ -4493,7 +4582,8 @@ The objects consumers cite are carried by the following sections.
   to these two Tau Ceti declarations.
 - GeneralizedCohomology (G2.1) consumes §4.7's realization CW structure on every
   simplicial set, §8.2's Kan property of simplicial groups, Moore comparison and
-  realization-unit theorem, §8.10's ordinary representability and 8.11b's ordinary
+  realization-unit theorem, §8.10's ordinary representability (`ordinaryEMRepresentability`
+  with its normalized class, and the family and relative forms) and 8.11b's ordinary
   EM loop comparison.
 - HeegaardFloer consumes §6.4's compact-triad Poincaré–Lefschetz theorem with its
   degree, cap-boundary sign and coefficient-pairing conventions.
@@ -4518,9 +4608,10 @@ headline theorems, so each former name maps to the section that carries its obje
   §4.5, the pair-quotient comparisons `H_n(X,B;M)≃H̃_n(X/B;M)` and
   `H^n(X,B;M)≃H̃^n(X/B;M)` for closed cofibration pairs, applied to the disk and its
   boundary sphere through §4.4's native `TopCat.disk n` and boundary inclusion.
-- `ordinaryEMUniversalClass`, `ordinaryEMRepresentability` and
-  `ordinaryEMRelativeRepresentability` (GeneralizedCohomology): §8.10, the universal class
-  and absolute and relative ordinary representability.
+- `ordinaryEMUniversalClass` and `ordinaryEMRelativeRepresentability`
+  (GeneralizedCohomology): §8.10, the universal class, which is the class ι of
+  `ordinaryEMRepresentability` for the family's model, and relative ordinary
+  representability.
 - `ordinaryEMLoopComparison` and `ordinaryCohomologySuspension` (GeneralizedCohomology): 8.11b,
   the EM loop comparison and the cohomology suspension.
 - `projectiveEMComparisons` (GeneralizedCohomology): §8.12, the identification of `RP^∞` and
@@ -4597,7 +4688,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.8a raw bar/abelian input | 4, ordinary 6, native nerve/realization and universal-cover APIs | DGFloer Layer 1 item 4 abelian K(A,1) specialization |
 | 8.8b normalized model comparison | Layer 8.8a bar model; Tau Ceti's Milnor model, uniqueness theorem and group-(co)homology identifications (supplier contracts) | 8.9 |
 | 8.9 primary relative obstructions | 4, DGFloer 1.2 fibre transport, ordinary 6 cellular cochains, 8.1–8.7 | 8.8b |
-| 8.10 ordinary representability | 4, ordinary 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and Layer 4.8 kification and Layer 4.4 normalized comparisons | 7 |
+| 8.10 ordinary representability | 4, ordinary 6, 8.3/8.6, 8.9, DGFloer Layer 1 items 1 and 4, GeneralizedCohomology G2.1 foundational product comparison and Layer 4.8 kification and Layer 4.4 normalized comparisons; for arbitrary Eilenberg–MacLane spaces Tau Ceti's weak-equivalence lifting, homology invariance, universal coefficients and Hurewicz/Kronecker naturality | 7 |
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and Layer 4.8 compact-generation/product API and Layer 4.4 normalized comparisons; no 8.10 or the EM loop comparison input | 7 |
 | 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, Layer 4.8 compact generation and foundational adjunction, with Layer 4.4 normalized comparisons, G2.1 foundation-only realization-product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
@@ -4664,9 +4755,10 @@ downstream comparison theorem as input.
   map takes a based top pair; its point lies in the subspace and all maps preserve it. The API
   cannot construct `pi_n(X,A)` from an unbased `TopPair` or from an empty subspace.
 
-- Ordinary representability's pullback map is bijective on arbitrary CW complexes,
-  including disconnected and infinite-dimensional ones, and additive for every abelian
-  coefficient group. Degree zero uses component functions; relative maps fix the subcomplex.
+- Ordinary representability's pullback map is bijective on arbitrary CW complexes and
+  spaces of CW type, including disconnected and infinite-dimensional ones, for every
+  Eilenberg–MacLane space of positive degree, and additive on the family's models for every
+  abelian coefficient group. Degree zero uses component functions; relative maps fix the subcomplex.
 - The normalized universal class evaluates to the identity on the distinguished homotopy
   group, and the ordinary loop comparison induces that identity with the pinned suspension sign.
 - A fixed n-skeleton extends exactly when its obstruction cochain vanishes. Vanishing of

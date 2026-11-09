@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
 public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
 public import TauCeti.AlgebraicTopology.Cohomology.Cup
+public import TauCeti.AlgebraicTopology.Cohomology.Kronecker
 public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 public import TauCeti.AlgebraicTopology.Homotopy.Hurewicz.Basic
 public import TauCeti.AlgebraicTopology.Homotopy.Relative.Hurewicz
@@ -25,8 +26,9 @@ spaces of CW type; proper Whitehead; finite CW type of compact smooth manifolds 
 homology-sphere recognition corollary; CW type of mapping spaces from compact sources; the
 nerve model of K(G,1); rectification of a proper homotopy inverse to a proper strong
 deformation retraction; the Künneth and Cartan–Leray spectral sequences; the topological
-restriction-tower comparisons; ordinary representability with the EM loop comparison;
-relative obstruction theory; the transverse circle classifying map of an integral degree-one
+restriction-tower comparisons; ordinary representability by every Eilenberg–MacLane space of
+positive degree, with its normalized class (§8.10); the EM loop comparison (§8.11b); relative
+obstruction theory; the transverse circle classifying map of an integral degree-one
 class (§8.13); and the non-freeness of `C_p × C_p` actions on spheres (§8.15).
 
 Results that Tau Ceti proves are consumed through the README's supplier contracts and not
@@ -51,15 +53,19 @@ of the tensor product of chain complexes whose second page is `Tor`, and the Car
 spectral sequence needs the double complex of the deck action with its group-homology second
 page; neither pinned library has them. The topological Milnor comparison needs the skeletal
 restriction tower of cohomology modules of a CW complex and its limit comparison; the generic
-tower algebra is Tau Ceti's. The normalized representability and EM-loop headlines need the
-supplier's functorial normalized K(A,n) family and its universal class; the pins have only
-K(G,1) spaces. The obstruction extension criteria need the cellular obstruction and difference
-cochains with their transport. Proper Whitehead needs compactly supported singular cohomology
-with pullback along proper maps, the carrier of its hypothesis, which neither pinned library
-has. Of the smooth-manifold CW-type headlines, the boundary-pair and marked-point forms need a
-homotopy equivalence of pairs, and the countable locally finite CW type of a noncompact
-manifold needs a local-finiteness predicate on CW models. These constructions remain README
-targets, not admitted data here.
+tower algebra is Tau Ceti's. The EM loop comparison is a family of pointed maps
+K(A, n) → ΩK(A, n + 1), natural in homomorphisms A → A′ and inducing the identity on A; it needs
+the functorial family A ↦ K(A, n) with its normalized identification of `πₙ` (DGFloer Layer 1
+item 4), and the pins have only the K(G, 1) predicate and Milnor's classifying space. For one
+pair of spaces the comparison is Tau Ceti's loop shift `HomotopyGroup.pathLoopSpaceMulEquiv`
+followed by the uniqueness of Eilenberg–MacLane spaces (Hatcher, Proposition 4.30, p.366), so a
+statement for one pair would drop the naturality that is its content. The obstruction extension
+criteria need the cellular obstruction and difference cochains with their transport. Proper
+Whitehead needs compactly supported singular cohomology with pullback along proper maps, the
+carrier of its hypothesis, which neither pinned library has. Of the smooth-manifold CW-type
+headlines, the boundary-pair and marked-point forms need a homotopy equivalence of pairs, and the
+countable locally finite CW type of a noncompact manifold needs a local-finiteness predicate on
+CW models. These constructions remain README targets, not admitted data here.
 -/
 
 public section
@@ -198,7 +204,8 @@ theorem finsum_finrank_singularHomology_fiberBundle (k : Type u) [Field k]
 
 /-- **Absolute Hurewicz in every universe.** If `πₖ(X, x)` is trivial for every `k < n + 2`,
 then the Hurewicz map `πₙ₊₂(X, x) → Hₙ₊₂(X; ℤ)`, sending a class to the image of the cube
-generator, is bijective (Hatcher, Theorem 4.32, p.366). The space lives in an arbitrary universe
+generator, is bijective (Hatcher, Theorem 4.37, p.371, for the pair `(X, {x})`; Theorem 4.32,
+p.366, states only an abstract isomorphism). The space lives in an arbitrary universe
 `u`, and `ℤ` is lifted to it; Tau Ceti's `HomotopyGroup.bijective_hurewicz` is the case of
 spaces in `Type`. -/
 theorem hurewicz_bijective {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ)
@@ -211,7 +218,8 @@ theorem hurewicz_bijective {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ)
 in any universe, with `A` simply connected, every point of `X` joined by a path to a point of
 `A` (every path component of `X` meets `A`), and `π_{k+1}(X, A, a₀)` trivial for `k < n + 1`.
 Then the relative Hurewicz map `πₙ₊₂(X, A, a₀) → Hₙ₊₂(X, A; ℤ)` is bijective (Hatcher,
-Theorem 4.32, p.366). `TauCeti.RelHomotopyGroup (Fin k) X` is `π_{k+1}(X, A, a₀)`. Nothing is
+Theorem 4.37, p.371, whose quotient `π′ₙ₊₂(X, A, a₀)` is `πₙ₊₂(X, A, a₀)` itself because `π₁(A)`
+is trivial). `TauCeti.RelHomotopyGroup (Fin k) X` is `π_{k+1}(X, A, a₀)`. Nothing is
 assumed of `πₖ(A)` for `k ≥ 2` or of `πₖ(X)`: for `(D³, S²)` with `n = 1` the map is
 `π₃(D³, S²) ≅ π₂(S²) = ℤ → H₃(D³, S²) = ℤ`, outside Tau Ceti's
 `TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`. -/
@@ -257,9 +265,11 @@ theorem compactManifoldWithBoundaryFiniteCWType (n : ℕ) [NeZero n] (M : Type u
 
 /-- A simply connected space of CW type (Tau Ceti's `TauCeti.CWType`) whose integral singular
 homology vanishes in every degree other than `0` and `n` and is `ℤ` in degree `n ≥ 2` is
-homotopy equivalent to the standard sphere `Sⁿ`: Hurewicz gives a map `Sⁿ → X` inducing an
-isomorphism on homology (Hatcher, Theorem 4.32, p.366) and homological Whitehead makes it a
-homotopy equivalence (Hatcher, Corollary 4.33, p.367). -/
+homotopy equivalent to the standard sphere `Sⁿ`: Hurewicz, applied inductively, makes `X`
+`(n − 1)`-connected (Hatcher, Theorem 4.32, p.366), the Hurewicz map `πₙ(X) → Hₙ(X; ℤ) ≅ ℤ` is
+then an isomorphism (Hatcher, Theorem 4.37, p.371, for the pair of `X` and a point), so a
+generator is a map `Sⁿ → X` inducing an isomorphism on homology, and homological Whitehead makes
+it a homotopy equivalence (Hatcher, Corollary 4.33, p.367). -/
 theorem nonempty_homotopyEquiv_sphere_of_homologySphere (n : ℕ) (hn : 2 ≤ n)
     (X : Type u) [TopologicalSpace X] [SimplyConnectedSpace X] [TauCeti.CWType X]
     (hvanish : ∀ k : ℕ, k ≠ 0 → k ≠ n →
@@ -304,6 +314,33 @@ noncomputable def groupClassifyingSpaceBasepoint (G : Type u) [Group G] :
 theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
     TauCeti.IsEilenbergMacLaneSpaceOne G (groupClassifyingSpace G)
       (groupClassifyingSpaceBasepoint G) := by
+  sorry
+
+/-- **Ordinary representability** (§8.10; Hatcher, Theorem 4.57, p.393, with the fundamental
+class and the free homotopy classes of p.394). Let `A` be an abelian group and `K` a space whose
+homotopy groups at `k` are trivial in every degree other than `n + 1` (in degree `0`: `K` is path
+connected), with `e : π_(n+1)(K, k) ≅ A`. Then the class `ι ∈ H^(n+1)(K; A)` whose Kronecker
+evaluation on the Hurewicz image of every `a ∈ π_(n+1)(K, k)` is `e a` represents
+`H^(n+1)(-; A)` on spaces of CW type: for every space `X` of CW type every class of
+`H^(n+1)(X; A)` is `f*ι` for some map `f : X → K`, and two maps with the same pullback of `ι` are
+homotopic. No CW structure, separation axiom or finiteness is assumed of `K`, and `X` may be
+empty or disconnected. -/
+theorem ordinaryEMRepresentability (A : Type u) [AddCommGroup A] (n : ℕ)
+    (K : Type u) [TopologicalSpace K] (k : K)
+    (hK : ∀ i, i ≠ n + 1 → Subsingleton (HomotopyGroup (Fin i) K k))
+    (e : HomotopyGroup (Fin (n + 1)) K k ≃* Multiplicative A) :
+    ∃ ι : (TopCat.of K).singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ
+        (ModuleCat.of ℤ A) (n + 1),
+      (∀ a : HomotopyGroup (Fin (n + 1)) K k,
+        ((TopCat.of K).singularKronecker ℤ (n + 1) ι).hom
+            ((HomotopyGroup.hurewicz (ModuleCat.of ℤ (ULift.{u} ℤ)) n a).hom 1) =
+          Multiplicative.toAdd (e a)) ∧
+      ∀ (X : Type u) [TopologicalSpace X] [TauCeti.CWType X],
+        (∀ c : (TopCat.of X).singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ
+            (ModuleCat.of ℤ A) (n + 1),
+          ∃ f : C(X, K), TopCat.singularCohomologyMap (TopCat.ofHom f) (n + 1) ι = c) ∧
+        ∀ f g : C(X, K), TopCat.singularCohomologyMap (TopCat.ofHom f) (n + 1) ι =
+            TopCat.singularCohomologyMap (TopCat.ofHom g) (n + 1) ι → f.Homotopic g := by
   sorry
 
 /-- Proper extension retains a jointly proper map on the entire cylinder.
