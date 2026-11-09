@@ -104,7 +104,8 @@ Ownership against the other roadmaps, by section:
   identification, and owns the Milnor and presentation models, their pointed
   CW-type uniqueness, the cellular/bar projective-resolution comparisons and
   the identity-on-π₁ normalized comparison of the nerve/bar model with those
-  models; no stage here consumes those models or that comparison. Stage8.8a
+  models (its Stage 3, the comparison of the models); no stage here consumes
+  those models or that comparison. Stage8.8a
   owns the raw nerve/bar construction; Stage8.8b owns only the bar model's own
   normalized pointed interface. The raw bar also supplies the abelian input
   used by Stage 8.8c.
@@ -135,6 +136,17 @@ Ownership against the other roadmaps, by section:
   [DGFloer](../DGFloer/README.md) Layer 1 consumes these ordinary targets for
   its cubical transports and comparisons; GeneralizedCohomology G2 and G5,
   TopologicalKTheory T1.5 and ComplexKahlerGeometry K8 consume them directly.
+  A citation of DGFloer Layer 1 for one of these ordinary targets resolves
+  here: item 2's CW approximation of arbitrary spaces and its connected-map
+  homology comparison (connectedMapHomologyComparison) are Stage 4.8; item 2's
+  fibration homotopy sequence, Serre preimage excision and homological,
+  cohomological and multiplicative Serre spectral sequences
+  (arbitraryCWSerreSpectralSequence, arbitraryBaseSerreSpectralSequence and
+  their cohomological counterparts) are Stage 5.5; item 3, the spectral
+  sequence of a filtered complex, is Stage 5.0; item 4's Serre classes and
+  Hurewicz modulo a class are Stage 8.8d and its functorial abelian K(A,n)
+  family is Stage 8.8c. Item 4's mod-2 vanishing theorem and its
+  Whitehead-tower applications are not targets of this roadmap.
   DGFloer's standing Moore-loop conventions and its Layer 2 item 3 consume
   8.11b's fixed-interval loops for their carrier comparisons; 8.11b owns the
   based suspension–loop adjunction on those native loops.
@@ -160,7 +172,8 @@ Ownership against the other roadmaps, by section:
   rank-one RP∞ and CP∞ carriers, and consumes Stage 8.8b's normalized ℤ/2
   model, Stage 8.10's ordinary models and representability and Stage 8.12's
   native circle comparison for its identification of those carriers as
-  ordinary EM spaces. No stage here consumes those carriers, comparisons or
+  ordinary EM spaces (its C1.5a, the classical Eilenberg–MacLane
+  comparisons). No stage here consumes those carriers, comparisons or
   that identification. CharacteristicClasses C1.2a consumes the compactly
   supported local-coefficient cochains of the supported-cellular supplement
   after Stage 6.2 (their support colimit, enlargement and cofinality
@@ -444,7 +457,9 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
   (`Topology/Homotopy/Extension/Prod.lean`), homotopy inverses relative to cofibered subspaces
   `TauCeti.HasHomotopyExtensionProperty.exists_inverse_homotopicRel` and relative to points
   `TauCeti.HasHomotopyExtensionProperty.exists_basedInverse_homotopicRel`
-  (`Extension/HomotopyEquivRel.lean`), the relative cylinder CW structure
+  (`Extension/HomotopyEquivRel.lean`), the cobase change of a closed embedding along a pushout
+  in `TopCat`, `TauCeti.TopCat.isClosedEmbedding_of_isPushout`
+  (`Topology/Category/TopCat/ClosedEmbedding.lean`), the relative cylinder CW structure
   `TauCeti.relCWComplexCylinder` (`Topology/CWComplex/Classical/Cylinder.lean`), cellular
   approximation `TauCeti.exists_isCellular_homotopicRel` and
   `TauCeti.exists_isCellular_homotopic` (`CellularApproximation.lean`), and the finite CW
@@ -482,6 +497,20 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
   `TauCeti.fiberLocalSystem` of a Hurewicz fibration with a chosen lifting function, on
   normalized cubical chains (`AlgebraicTopology/Singular/Fibration/LocalSystem.lean`). Stage 5.5
   consumes both.
+- Native spectral sequence of a filtered cochain complex of modules
+  (`Algebra/Homology/SpectralSequence/Filtered/`): `CochainComplex.spectralSequence` with its
+  first page `CochainComplex.spectralSequenceFirstPageXIsoCokernel` and first differential
+  `CochainComplex.spectralSequence_first_page_d_eq`, the abutment
+  `CochainComplex.filtrationAbutmentIso` with its image filtration, exhaustiveness
+  `CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι`, strong convergence for finite
+  filtrations `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite` and, under the
+  stated vanishing of incoming terms, for exhaustive ones
+  `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive`, the comparison theorems
+  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page` and
+  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`, naturality
+  `CochainComplex.filtrationFunctorMap`, and the E∞ graded-piece identification
+  `CategoryTheory.Abelian.SpectralObject.EInftyIsoCokernel`
+  (`Algebra/Homology/SpectralObject/Abutment.lean`). Stage 5.0 consumes them.
 - Native cohomology algebra: universal coefficients over a hereditary commutative ring
   `TopCat.singularUniversalCoefficientEquiv` with
   `TopCat.exact_singularExtToCohomology_singularKronecker`
@@ -537,9 +566,31 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
   `TauCeti.HasHomotopyExtensionProperty.exists_basedInverse_homotopicRel` applied through the
   0-cell extension lemma of Stage 4.5; ordinaryEMUniversalClass is the normalized universal
   class ι whose existence is the first conjunct of `ordinaryEMRepresentability` (Stage 8.10);
-  simplicialRealizationCW is Stage 4.7's realization CW structure, stated in prose there; and
-  Stage 4 item 8, *Compact generation and the pointed adjunction*, is Stage 4.5's
-  compact-generation interface and 8.11b's based suspension–loop adjunction.
+  simplicialRealizationCW is Stage 4.7's realization CW structure, stated in prose there;
+  supBallEuclideanDiskHomeomorph is Stage 2.5's sup-ball-to-Euclidean-disk homeomorphism;
+  diskQuotientSphereHomeomorph is Stage 4.4's disk-quotient sphere homeomorphism, and
+  diskBoundaryRelCW with its boundary subset diskBoundarySubset is Stage 4.4's disk-boundary
+  relative CW structure; homotopyPushoutGluingComparison, cofibrationTowerHomotopyEquivalence,
+  cwSubcomplexTowerUnion and cwSubcomplexNeighborhoods are Stage 4.5's homotopy-pushout gluing
+  comparison, cofibration-tower homotopy equivalence, CW-subcomplex tower union and subcomplex
+  neighbourhoods; poincareDualityMap_isIso is Stage 6.4's duality by cap with a fundamental
+  class, stated as `poincareDuality_zmodTwo` and `poincareDuality_int`, and
+  compactTriadPoincareLefschetz is Stage 6.4's compact triad duality; relativeHurewicz is
+  `TauCeti.RelHomotopyGroup.hurewicz`; homotopyGroupKelleyProduct is Stage 8.1's Kelley product
+  comparison of homotopy groups; simplicialGroupKan, simplicialGroupMooreHomotopyIso and
+  kanRealizationUnitHomotopyIso are Stage 8.2's Kan property of simplicial groups, Moore
+  comparison and Kan realization-unit comparison; endComponents, stableFundamentalGroupAtEnd and
+  properWhiteheadSimplyConnectedCW are Stage 8.5's ends, stable fundamental group at an end and
+  proper Whitehead theorem; mapsToGroupClassifyingSpaceEquiv is Stage 8.8b's bijection
+  `[X,Bπ]_*≃Hom(π₁X,π)`; ordinaryEMRelativeRepresentability is Stage 8.10's relative
+  representability of CW pairs; ordinaryEMLoopComparison (with ordinaryEMLoopComparison_pi) and
+  ordinaryCohomologySuspension are 8.11b's EM loop comparison and its suspension σ_right;
+  projectiveEMComparisons is CharacteristicClasses C1.5a, which consumes 8.12's native circle
+  comparison; relativeCWPushout_base_isClosedEmbedding is
+  `TauCeti.TopCat.isClosedEmbedding_of_isPushout` applied to the base of a relative CW pair;
+  twistedRelativeSingularChainComplex and twistedRelativeHomology are `TopPair.twistedChainComplex`
+  and `TopPair.twistedHomology`; and Stage 4 item 8, *Compact generation and the pointed adjunction*, is Stage
+  4.5's compact-generation interface and 8.11b's based suspension–loop adjunction.
 
 ### From other roadmaps
 
@@ -970,8 +1021,11 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    Hausdorff native relative CW pair (Y,B),
    a Hausdorff space Z and a continuous attaching map a:B→Z, use the actual
    TopCat pushout Z∪_aY of the inclusion `relativeCWPushoutInclusion` and a,
-   with its quotient topology. Prove that Z→Z∪_aY is
-   a closed embedding (`relativeCWPushout_base_isClosedEmbedding`), that the
+   with its quotient topology. That Z→Z∪_aY is a closed embedding is the
+   native cobase change of the closed embedding B→Y,
+   `TauCeti.TopCat.isClosedEmbedding_of_isPushout`
+   (`Topology/Category/TopCat/ClosedEmbedding.lean`), applied with Mathlib's
+   `Topology.RelCWComplex.isClosedBase`. Prove that the
    pushout is Hausdorff (`relativeCWPushout_t2Space`), and construct native
    `RelCWComplex` relative to its image. Its n-cells are exactly the relative
    n-cells of (Y,B), with characteristic maps composed with Y→Z∪_aY.
@@ -983,6 +1037,18 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    otherwise identify its Kelley coreflection with the compactly generated
    pushout of kZ←kB→kY, retaining the canonical continuous bijection to
    the raw pushout and its comparison maps.
+
+   **Checks (`relativeCWPushoutCarrier`).**
+   - For B=∅ the attaching map is empty and the pushout is the disjoint union Z⊔Y, with Z and Y
+     both open and closed; a construction that collapsed B to a point would add a spurious
+     point, and one that took Y/B alone would lose Z.
+   - For B=Y (a relative CW pair with no cells) the pushout of the identity of Y along a is Z
+     itself: the map Z→Z∪_aY is a homeomorphism, and the relative CW structure on the pushout
+     relative to Z has no cells.
+   - For (Y,B)=(D¹,S⁰) and Z a point the pushout is D¹ with its two ends identified, a circle,
+     Hausdorff with one relative 1-cell; attaching the same pair to a two-point Z along a
+     bijection S⁰→Z instead gives an interval, so the result depends on a and not only on
+     (Y,B).
    Own the homotopy-pushout gluing comparison: pushouts along a closed
    cofibration B→Y are homotopy pushouts. For an actual commuting map of
    attachment diagrams that is a homotopy equivalence on B,Y,Z, construct
@@ -1000,15 +1066,25 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    `TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod`
    (`Topology/Homotopy/Extension/Prod.lean`; Strøm's product theorem, *Note on
    cofibrations II*, Theorem 6): for closed A⊆X with native HEP, the subset
-   ({0,1}×X)∪(I×A) of I×X has HEP, in the native I×X order; this is the
-   theorem the earlier interface called closedCofibrationCylinderHomotopyExtension.
+   ({0,1}×X)∪(I×A) of I×X has HEP, in the native I×X order.
    Own `homotopyInversePairExtension_left` for pairs (X,A),(X′,A′). Require both
    inclusions to be closed cofibrations, f:X→X′ to carry A into A′, and
    both f and its restriction f₀:A→A′ to be homotopy equivalences.
    Given g₀:A′→A and H₀:g₀f₀≃id_A, construct g:X′→X and H:gf≃id_X
    with g|A′=g₀ and H|A×I=H₀ as actual maps into A. Construct the other
-   inverse homotopy. Use the relative mapping-cylinder/HEP construction and
-   the native cylinder theorem for this one-sided pair data.
+   inverse homotopy. Route: g₀ is a two-sided homotopy inverse of f₀, since
+   it is a left inverse of a homotopy equivalence. Choose K₀:f₀g₀≃id_(A′)
+   with f₀H₀≃K₀f₀ and H₀g₀≃g₀K₀ relative to the ends (Vogt, *A note on
+   homotopy equivalences*, Proposition, p. 627). Brown's extension theorem for
+   maps of cofibrations (Brown, *Topology and Groupoids*, 7.4.2 and its
+   Addendum, pp. 285–286) extends g₀ to a homotopy inverse g of f with
+   fg≃id extending K₀ and gf≃id extending the track sum
+   H₀+g₀K₀f₀−g₀f₀H₀; that sum is homotopic to H₀ relative to the ends,
+   because g₀K₀f₀≃H₀(g₀f₀×1) by the choice of K₀, and H₀(g₀f₀×1)≃g₀f₀H₀ by
+   the interchange of tracks (Vogt, Lemma 1, p. 627). The native cylinder theorem (Strøm, Theorem 6) for
+   the pair (X×I, X×∂I∪A×I) then deforms gf≃id relative to X×∂I until it
+   restricts to H₀ on A×I. The H₀ clause is the point: the Addendum alone
+   gives the modified sum, not H₀.
    Own the cofibration-tower homotopy equivalence: for sequences of Hausdorff
    spaces with closed-cofibration bonding inclusions and strictly commuting
    levelwise equivalences f_n, construct the actual mapping telescopes and
@@ -1079,8 +1155,8 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    homeomorphism of cofibered subspaces. Own the 0-cell lemma that applies it
    to Hausdorff CW complexes with marked 0-cell basepoints: the singleton of a
    point of an open 0-cell is a subcomplex, so its inclusion has HEP by the
-   native relative-CW theorem. The composite is the theorem the earlier
-   interface, AT8.5 and TopK T7.0 call basedHomotopyInverseOfEquivalence.
+   native relative-CW theorem. Stage 8.5 and TopologicalKTheory T7.0 consume
+   the composite.
    Consume the native relative cylinder CW structure `TauCeti.relCWComplexCylinder`
    (`Topology/CWComplex/Classical/Cylinder.lean`): for a relative CW pair (C,D), native
    `RelCWComplex` on C×I relative to (C×{0,1})∪(D×I), with original cell
@@ -1141,10 +1217,17 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    for its pointed smash/quotient versions and monoidal/cofiber diagrams,
    so no second realization-product comparison is built there.
    Own `ordinaryPairQuotientComparison` and `ordinaryPairQuotientCohomologyComparison`:
-   for closed CW/cofibration-NDR pairs (X,B), the actual collapse map induces
+   for Hausdorff relative CW pairs (X,B), the actual collapse map induces
    H_n(X,B;M)≃H̃_n(X/B;M) and H^n(X,B;M)≃H̃^n(X/B;M), for every n≥0 (Hatcher,
-   Proposition 2.22 for good pairs, which CW pairs are, and its cohomological counterpart),
-   for constant modules over any coefficient ring; extend homology to the
+   Proposition 2.22 for good pairs, which CW pairs with nonempty B are by Proposition A.5, and
+   its cohomological counterpart),
+   for constant modules over any coefficient ring. Prove the same two comparisons for every
+   closed cofibered pair, B closed in X with the native
+   `TauCeti.HasHomotopyExtensionProperty B` and no CW structure: the inclusion of the cone CB
+   (with cone point, so that C∅ is a point) into the mapping cone X∪CB has the extension
+   property as the cobase change of B→X, so the collapse X∪CB→X/B is a homotopy equivalence
+   (Hatcher, Proposition 0.17, p. 15), and H_n(X,B)≅H̃_n(X∪CB) for every pair (Hatcher,
+   Section 2.1, p. 125, after Proposition 2.22). Extend homology to the
    abelian-category coefficient generality and exactness assumptions of Stage 2. For local
    coefficients require a specified system on the quotient and its pullback
    identification on X; do not assert descent of an arbitrary system on X.
@@ -1231,8 +1314,10 @@ coefficients satisfy the categorical exactness assumptions. Extend its API below
    on singular homology with coefficients in any ring and with any local
    coefficient system on the target
    (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap`,
-   `ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap`,
-   Hatcher Proposition 4.21), on arbitrary spaces. Own its connected-map
+   `ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap`
+   in `AlgebraicTopology/Singular/Homotopy/WeakHomotopyEquivalence.lean`), on arbitrary
+   spaces; Hatcher, Proposition 4.21, states the constant-coefficient case, and the
+   local-coefficient case is the native theorem. Own its connected-map
    refinement: the homology comparison of a k-connected map
    on native simplicial singular and twisted chains, by the direct
    Eilenberg-subcomplex route of tom Dieck 9.5.1: formulate connectivity by
@@ -1292,43 +1377,76 @@ sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.  It
 homological algebra on native filtered complexes and consumes no topology; Stage 6.0's lim¹
 sequence supplies its complete-convergence form.
 
-0. **Spectral sequence of a filtered complex.** Reuse the native
-   `CochainComplex.spectralObject`, `filtrationFunctor`, `spectralSequence`
-   and mapping-cone/cokernel first-page comparisons in
-   [`Filtered/SpectralObject.lean`](https://github.com/TauCetiProject/TauCeti/blob/720bf8c135bd2c354a15d55a73f2fc2c3d7aa358/TauCeti/Algebra/Homology/SpectralSequence/Filtered/SpectralObject.lean),
-   with the reindexing and convergence comparisons specified here. For an
-   increasing filtration of a module chain complex over a ring, assume
-   degreewise filtration lower bounds `∀ n, ∃ s(n), F_(s(n)) C_n=0` and
-   exhaustion `⋃_p F_p C_n=C_n`. Construct the sequence
-   `E¹_(p,q)=H_(p+q)(F_p C/F_(p−1) C)` as an instance of Mathlib's
-   `SpectralObject` and prove natural strong convergence: the induced
-   filtration `F_p H_n=im(H_n(F_p C)→H_n(C))` is exhaustive and bounded below,
-   hence separated and complete in its lower direction, and
-   `E∞_(p,q)≃F_p H_(p+q)/F_(p−1) H_(p+q)` naturally. No finite upper
-   filtration bound is required; this is Weibel's Classical Convergence
-   Theorem 5.5.1(2), and the lower bound concerns the filtration in each chain
-   degree, not merely the degrees in which the complex is nonzero. Regrade
-   C^(−n)=C_n with the same differential, pull native
-   `HomotopyCategory.spectralObjectMappingCone` back along the EInt-indexed
-   increasing filtration functor, with 0 and C at its infinite endpoints, and
-   compose with the degreewise cohomology homological functor. Use native
-   `coreE₂Cohomological`: the homological E_r^(p,q) is its page r+1 at
-   native bidegree (a,b)=(1−2p−q,p−1), so deg=a+b=−(p+q), i₁=p−1 and i₂=p.
-   For a decreasing cochain filtration F^p use the increasing functor
-   G_t=F^(−t); its cohomological E_r^(p,q) is native page r+1 at
-   (a,b)=(2p+q+1,−p−1), so deg=p+q, i₁=−p−1 and i₂=−p. Prove the
-   quotient-page identifications and the representative-boundary
-   differential formula, retaining the mapping-cone/reindexing signs. Own the
-   cohomological form of Weibel's Complete Convergence Theorem 5.5.10 for
-   complete exhaustive decreasing cochain filtrations with regular spectral
-   sequence: prove weak convergence with its induced cohomology
-   filtration/E∞ graded identification, and strong convergence under the
-   theorem's degreewise spectral boundedness after cohomological reindexing,
-   using Stage 6.0's Milnor/lim¹ sequence; the first-quadrant case is regular
-   and degreewise bounded. Cup pairings come from actual filtered cochain
-   maps, independently of convergence. Item 5's Serre sequences,
+0. **Spectral sequence of a filtered complex.** Consume the native spectral
+   sequence of an increasing ℤ-indexed filtration of a cochain complex of
+   modules over a ring and its convergence theory in
+   `Algebra/Homology/SpectralSequence/Filtered/` and
+   `Algebra/Homology/SpectralObject/Abutment.lean`: the spectral object
+   `CochainComplex.spectralObject` of `CochainComplex.filtrationFunctor` and its
+   spectral sequence `CochainComplex.spectralSequence`; the first page as the
+   cohomology of the graded pieces `CochainComplex.spectralSequenceFirstPageXIsoCokernel`
+   and the first differential as the connecting map of the triple of three
+   consecutive stages `CochainComplex.spectralSequence_first_page_d_eq`; the
+   abutment `CochainComplex.filtrationAbutmentIso`, whose filtration is the image
+   filtration `F_q H^n=im(H^n(F_q)→H^n(K))`
+   (`CochainComplex.toFiltrationAbutmentFiltration_comp_filtrationAbutmentIso_hom`),
+   with E∞ its graded piece
+   (`CategoryTheory.Abelian.SpectralObject.EInftyIsoCokernel`); exhaustiveness of
+   that filtration for an exhaustive filtration
+   (`CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι`); strong
+   convergence for a finite filtration
+   (`CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite`) and, for an
+   exhaustive filtration, the identification of the page-r object at (p,q) with
+   the graded piece once the stage F_(q−r+2) has vanishing H^(p+q+1) and the
+   graded pieces F_(i+1)/F_i with i≥q+r−1 have vanishing H^(p+q−1)
+   (`CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive`); the
+   comparison theorems `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`
+   and `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`;
+   and naturality for maps of filtered complexes `CochainComplex.filtrationFunctorMap`
+   through `CochainComplex.spectralObjectMap`. Own only what the pins lack.
+   First, the homological adapter: regrade C^(−n)=C_n with the same
+   differential, so that the homological E_r^(p,q) is native page r+1 at native
+   bidegree (a,b)=(1−2p−q,p−1), deg=a+b=−(p+q), i₁=p−1 and i₂=p, and
+   `E¹_(p,q)=H_(p+q)(F_p C/F_(p−1) C)` with d¹ the connecting map of the triple;
+   for a decreasing cochain filtration F^p use G_t=F^(−t), whose cohomological
+   E_r^(p,q) is native page r+1 at (a,b)=(2p+q+1,−p−1), deg=p+q, i₁=−p−1 and
+   i₂=−p; retain the mapping-cone/reindexing signs. Second, Weibel's Classical
+   Convergence Theorem 5.5.1(2) in the generality the native exhaustive theorem
+   does not reach: for an increasing filtration of a module chain complex with
+   degreewise lower bounds `∀ n, ∃ s(n), F_(s(n)) C_n=0` and exhaustion
+   `⋃_p F_p C_n=C_n`, but with no bound on the filtration degrees of the
+   graded pieces in a fixed total degree, the differentials leaving (p,q) vanish
+   from some page on, so E_(r+1)^(p,q) is a quotient of E_r^(p,q) for large r;
+   identify the colimit of these quotients with the native E∞ object, hence with
+   `F_p H_(p+q)/F_(p−1) H_(p+q)`, naturally, and prove that the induced filtration
+   is exhaustive and bounded below, hence separated and complete in its lower
+   direction. The lower bound concerns the filtration in each chain degree, not
+   merely the degrees in which the complex is nonzero. Third, the cohomological
+   form of Weibel's Complete Convergence Theorem 5.5.10 for complete exhaustive
+   decreasing cochain filtrations with regular spectral sequence: weak
+   convergence with its induced cohomology filtration/E∞ graded identification,
+   and strong convergence under the theorem's degreewise spectral boundedness
+   after cohomological reindexing, using Stage 6.0's Milnor/lim¹ sequence; the
+   first-quadrant case is regular and degreewise bounded and is the native
+   exhaustive theorem. Cup pairings come from actual filtered cochain maps,
+   independently of convergence. Item 5's Serre sequences,
    ComplexKahlerGeometry K8's column-filtration adapter and DGFloer Layer 1's
    cubical transports consume this single construction.
+
+   **Checks.**
+   - For the two-step filtration 0⊂F_0 C⊂F_1 C=C of the complex ℤ→ℤ (multiplication by 2,
+     from degree 1 to degree 0) with F_0 C the degree-0 term, E¹ has ℤ in (0,0) and in (1,0)
+     and d¹ is multiplication by 2, so E²=E∞ is ℤ/2 in (0,0) and 0 in (1,0), the homology of
+     C; a d¹ read in the opposite direction would put ℤ/2 in total degree 1 instead.
+   - For the filtration of ⊕_(k≥0) (ℤ·x_k→ℤ·y_k), x_k in degree 1 mapping to y_k in degree 0,
+     with x_k in filtration k+1 and y_k in filtration 0, the degreewise lower bound and
+     exhaustion hold, d^(k+1) hits y_k from (k+1,−k), and no single page agrees with E∞ at
+     (0,0) in total degree 0; the colimit of the quotients is 0=H_0, which the native
+     exhaustive theorem cannot see because the graded pieces in degree 1 are nonzero in every
+     filtration.
+   - For the constant filtration F_p C=C, for every p, of C=ℤ in degree 0 (exhaustive, with no
+     lower bound) the graded pieces vanish, so E¹=E∞=0 while H_0=ℤ: the abutment filtration is
+     not separated, and the lower bound is needed.
 1. Consume native Alexander--Whitney, shuffle and Eilenberg--Zilber chain-homotopy
    equivalences for singular chains. Extend their natural/local-coefficient and relative APIs.  Over every commutative
    ring `R`, construct the first-quadrant Kunneth spectral sequence
@@ -1744,6 +1862,19 @@ homology with one copy of the coefficient ring also assumes connectedness.
    `H^k(X;L)⊗H_n(X,A;L')→H_(n−k)(X,A;L⊗L')` and
    `H^k(X,A;L)⊗H_n(X,A;L')→H_(n−k)(X;L⊗L')`,
    proving descent to relative chains and compatibility with connecting maps.
+
+   **Checks (`capProduct`).**
+   - On chains, for the ordered 2-simplex σ=[v₀,v₁,v₂] and the 1-cochain φ dual to its front
+     edge [v₀,v₁] (value 1 there and 0 on every other 1-simplex), σ⌢φ is the back edge [v₁,v₂];
+     the back-face convention φ(σ|[v₁,v₂])·σ|[v₀,v₁] gives 0 instead.
+   - Capping with the unit 1∈H⁰(X;R) (p=0) is the identity of H_q(X;R) for every q, since
+     σ⌢1=σ on chains; a convention keeping the front face instead of the back face would send σ
+     to its first vertex and change the degree.
+   - For p=q the cap a⌢c lies in H₀(X;R) and its augmentation is the Kronecker pairing ⟨a,c⟩,
+     since σ⌢φ=φ(σ)·σ|[v_q]; on S¹ with c the fundamental class and a the class with ⟨a,c⟩=1,
+     a⌢c is the class of a point, and −a gives minus that class. For p>q the target degree q−p
+     would be truncated to 0 by natural-number subtraction; the hypothesis p≤q excludes those
+     degrees.
    Own local-coefficient cups with every specified R-linear pairing
    L⊗_R L′→L″ for a commutative ring R. Use 6.1's first-vertex cochains:
    for σ and degrees p,q pair the front-face value with the back-face value
@@ -2001,9 +2132,9 @@ homology with one copy of the coefficient ring also assumes connectedness.
    into its local images at points of K (`compactSupportTopClass_unique`, on the
    supported twisted homology `supportedTwistedHomology` of the pair `(U, U\K)`,
    with the local image `twistedSupportLocalMap` induced by the pair map
-   `supportLocalPairMap` into `puncturedPair`, the twisted relative homology
-   `twistedRelativeHomology` of the twisted relative chains
-   `twistedRelativeSingularChainComplex`). Prove existence as well
+   `supportLocalPairMap` into `puncturedPair`, on the native relative twisted homology
+   `TopPair.twistedHomology` of the native twisted relative chains
+   `TopPair.twistedChainComplex`). Prove existence as well
    (`compactSupportTopClass_exists`): every locally represented section
    `LocallyRepresentedTopSection` satisfying this ball-local condition over a neighborhood of K
    comes from exactly one relative class with those local images at K. Prove this
@@ -2956,8 +3087,8 @@ items 1–7 are independent of those later constructions.
     model's identification assigns to γ; it excludes −ι and ι composed with a
     nontrivial automorphism of A, and determines ι, since the Hurewicz map onto
     H_(n+1)(K;ℤ) is surjective and `H^(n+1)(K;A)≅Hom(H_(n+1)(K;ℤ),A)` for a model
-    (Hatcher, Theorem 4.57, there for basepoint-preserving maps of connected
-    complexes; π₁(K) acts trivially on them: for n≥1 the model is simply connected and the
+    (Hatcher, Theorem 4.57, there for basepoint-preserving maps of CW complexes;
+    π₁(K) acts trivially on them: for n≥1 the model is simply connected and the
     native `TauCeti.fundamentalGroup_smul_eq_self` applies, and for the degree-one model the
     native action on π₁ is conjugation (`TauCeti.pi1MulEquivFundamentalGroup_smul`) in the
     abelian group A; the free form follows componentwise). Fix degree-one identification
@@ -3000,6 +3131,16 @@ items 1–7 are independent of those later constructions.
       not path connected, although every homotopy group at either point vanishes.
     - RP^∞ with π₁≅ℤ/2 is a model for (ℤ/2,1), and its universal class in H¹(RP^∞;ℤ/2) is the
       nonzero class.
+
+    **Checks (`ordinaryEMPullback`).**
+    - The class of the identity of K goes to ι itself, by functoriality of singular
+      cohomology; a pullback twisted by an automorphism of A would fail this.
+    - For n≥1 the class of a constant map X→K goes to 0, since it factors through a point and
+      H^n(pt;A)=0; for n=0 the constant map at k goes to the constant function with value ι(k),
+      so the vanishing is a positive-degree statement.
+    - For a map h:X′→X and f:X→K the class of f∘h goes to h^* of the image of the class of f,
+      so the pullback map is natural in X; for K=S¹, A=ℤ and n=1 the class of the degree-d map
+      S¹→S¹ goes to d times the generator.
 11. **Mapping-space CW type and ordinary EM loops.**
     **8.11a. Early mapping-space CW type (`finiteSourceMappingCWType`,
     `basedLoopCWType`).** This independent block uses the earlier CW/pair
@@ -3236,8 +3377,12 @@ trivial monodromy.
 
 ## References
 
-- Ronald Brown, *Topology and Groupoids*, 3rd ed., Booksurge, 2006, Section 6.7 (Theorem 6.7.2)
-  and Sections 8.4 and 9.1 (Theorems 8.4.1 and 9.1.2).
+- Ronald Brown, *Topology and Groupoids*, 3rd ed., Booksurge, 2006, Section 6.7 (Theorem 6.7.2),
+  Section 7.4 (7.4.2 and its Addendum, pp. 285–286, homotopy equivalences of maps between
+  cofibrations) and Sections 8.4 and 9.1 (Theorems 8.4.1 and 9.1.2).
+- Rainer M. Vogt, *A note on homotopy equivalences*, Proceedings of the American Mathematical
+  Society 32 (1972), 627–629, Proposition and Lemma 1, p. 627, for adjusting the second
+  inverse homotopy of a homotopy equivalence.
 - Samuel Eilenberg and Norman Steenrod, *Foundations of Algebraic Topology*, Princeton
   University Press, 1952, Chapters I--III.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),

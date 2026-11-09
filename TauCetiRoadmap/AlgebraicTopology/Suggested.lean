@@ -62,6 +62,11 @@ public import TauCeti.AlgebraicTopology.ClassifyingSpace.Uniqueness
 public import TauCeti.AlgebraicTopology.ClassifyingSpace.Circle
 public import TauCeti.Topology.CWComplex.Classical.Cylinder
 public import TauCeti.Topology.CWComplex.Classical.CellularApproximation
+public import TauCeti.Topology.Category.TopCat.ClosedEmbedding
+public import TauCeti.Algebra.Homology.SpectralSequence.Filtered.Exhaustive
+public import TauCeti.Algebra.Homology.SpectralSequence.Filtered.FirstPage
+public import TauCeti.Algebra.Homology.SpectralSequence.Filtered.Naturality
+public import TauCeti.Algebra.Homology.SpectralSequence.Filtered.Comparison
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
@@ -93,8 +98,10 @@ and Tau Ceti, the roadmap's headline theorems that are statable on native carrie
 Several results the roadmap states as targets are proved by the pinned Tau Ceti and are not
 restated: the no-retraction theorem and Brouwer's fixed-point theorem in its disk, compact
 convex, closed-ball and finite-span forms, Strøm's cylinder theorem for closed cofibrations,
-homotopy inverses relative to subspaces and to points with the extension property, the
-degree-one and absolute Hurewicz theorems, relative Hurewicz for highly connected pairs,
+homotopy inverses relative to subspaces and to points with the extension property, the cobase
+change of a closed embedding along a pushout of spaces, the spectral sequence of a filtered
+complex with its first page, naturality and its convergence for finite filtrations and, under a
+vanishing hypothesis, for exhaustive ones, the degree-one and absolute Hurewicz theorems, relative Hurewicz for highly connected pairs,
 Whitehead's theorem, the homology invariance of weak equivalences, CW approximation of
 path-connected spaces, the connectivity of a CW pair from its cell dimensions, the killing of
 homotopy groups by cell attachment with the extension of maps over the killing tower, the cellular
@@ -203,6 +210,17 @@ Inventory of `README.md`. -/
 #check TauCeti.HasHomotopyExtensionProperty.zero_one_prod_univ_union_univ_prod
 #check TauCeti.HasHomotopyExtensionProperty.exists_inverse_homotopicRel
 #check TauCeti.HasHomotopyExtensionProperty.exists_basedInverse_homotopicRel
+#check TauCeti.TopCat.isClosedEmbedding_of_isPushout
+#check CochainComplex.spectralSequenceFirstPageXIsoCokernel
+#check CochainComplex.spectralSequence_first_page_d_eq
+#check CochainComplex.filtrationAbutmentIso
+#check CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι
+#check CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite
+#check CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive
+#check CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page
+#check CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive
+#check CochainComplex.filtrationFunctorMap
+#check CategoryTheory.Abelian.SpectralObject.EInftyIsoCokernel
 #check TauCeti.RelHomotopyGroup.hurewicz
 #check HomotopyGroup.hurewiczHom
 #check IsCoveringMap.singularTransfer
@@ -323,17 +341,13 @@ theorem relativeCWPushout_t2Space [RelCWComplex (Set.univ : Set Y) B]
     T2Space (relativeCWPushoutCarrier B a) := by
   sorry
 
-/-- Stage 4.5: `Z` embeds as a closed subspace of the pushout `Z ∪_a Y`. -/
-theorem relativeCWPushout_base_isClosedEmbedding
-    [RelCWComplex (Set.univ : Set Y) B] (a : C(B, Z)) :
-    IsClosedEmbedding
-      (pushout.inr (relativeCWPushoutInclusion B) (TopCat.ofHom a)) := by
-  sorry
-
 /-- Stage 4.5: for closed cofibered pairs `(X, A)` and `(X', A')` and a homotopy equivalence `e`
 carrying `A` into `A'` by a homotopy equivalence `e₀`, prescribed one-sided inverse data `g₀`
 and `H₀ : g₀ ∘ e₀ ≃ id_A` extend to a left inverse `g` of `e` with `g ∘ e ≃ id_X` restricting to
-`g₀` and `H₀`, and `g` is also a right inverse up to homotopy. -/
+`g₀` and `H₀`, and `g` is also a right inverse up to homotopy (Brown, *Topology and Groupoids*,
+7.4.2 and its Addendum, pp. 285–286, which extends a modified homotopy; Vogt, *A note on homotopy
+equivalences*, Proposition and Lemma 1, p. 627, which bring it back to `H₀` up to homotopy rel
+the ends; and Strøm, *Note on cofibrations II*, Theorem 6, which makes the restriction exact). -/
 theorem homotopyInversePairExtension_left
     {X X' : Type u} [TopologicalSpace X] [TopologicalSpace X']
     (A : Set X) (A' : Set X')
@@ -405,18 +419,6 @@ abbrev LocalCoefficientSystem (R : Type u) [CommRing R] (X : TopCat.{u}) :=
 def puncturedPair (X : TopCat.{u}) (x : X) : TopPair.{u} :=
   TopPair.ofSubset ({x}ᶜ : Set X)
 
-/-- Relative singular chains of a pair with coefficients in a local system on the ambient space:
-a simplex carries its coefficient at its first vertex, and the zeroth face transports along the
-first edge. -/
-abbrev twistedRelativeSingularChainComplex (R : Type u) [CommRing R]
-    (P : TopPair.{u}) (L : LocalCoefficientSystem R P.fst) :
-    ChainComplex (ModuleCat.{u} R) ℕ := P.twistedChainComplex L
-
-/-- Relative singular homology with local coefficients. -/
-abbrev twistedRelativeHomology (R : Type u) [CommRing R]
-    (P : TopPair.{u}) (L : LocalCoefficientSystem R P.fst) (n : ℕ) : ModuleCat.{u} R :=
-  (twistedRelativeSingularChainComplex R P L).homology n
-
 /-- The pair map `(X, X ∖ B) ⟶ (X, X ∖ {x})` for a point `x` of `B`. -/
 def supportLocalPairMap (X : TopCat.{u}) (B : Set X) (x : X) (hx : x ∈ B) :
     TopPair.ofSubset Bᶜ ⟶ puncturedPair X x :=
@@ -429,8 +431,7 @@ twisted homology. -/
 def twistedSupportLocalMap (R : Type u) [CommRing R]
     (X : TopCat.{u}) (L : LocalCoefficientSystem R X) (n : ℕ)
     (B : Set X) (x : X) (hx : x ∈ B) :
-    twistedRelativeHomology R (TopPair.ofSubset Bᶜ) L n ⟶
-      twistedRelativeHomology R (puncturedPair X x) L n :=
+    (TopPair.ofSubset Bᶜ).twistedHomology L n ⟶ (puncturedPair X x).twistedHomology L n :=
   (TopPair.ofSubset Bᶜ).twistedHomologyCoefficientMap
     ((TauCeti.LocalCoefficientSystem.pullbackIdIso X).app L).inv n ≫
     TopPair.twistedHomologyMap (supportLocalPairMap X B x hx) L n
@@ -441,19 +442,19 @@ values on `B`. On a manifold these neighbourhoods may be refined to coordinate b
 structure LocallyRepresentedTopSection (R : Type u) [CommRing R]
     (X : TopCat.{u}) (L : LocalCoefficientSystem R X) (n : ℕ) (V : Set X) where
   /-- The value of the section at each point of `V`. -/
-  localValue : ∀ x : X, x ∈ V →
-    twistedRelativeHomology R (puncturedPair X x) L n
+  localValue : ∀ x : X, x ∈ V → (puncturedPair X x).twistedHomology L n
   /-- The values are locally the images of one supported class. -/
   locally_represented : ∀ x : X, x ∈ V →
     ∃ B : Set X, ∃ hBV : B ⊆ V, IsOpen B ∧ x ∈ B ∧
-      ∃ c : twistedRelativeHomology R (TopPair.ofSubset Bᶜ) L n,
+      ∃ c : (TopPair.ofSubset Bᶜ).twistedHomology L n,
         ∀ y : X, ∀ hy : y ∈ B,
           twistedSupportLocalMap R X L n B y hy c = localValue y (hBV hy)
 
-/-- Twisted homology supported in `K`: the relative group of the pair `(X, X ∖ K)`. -/
+/-- Twisted homology supported in `K`: the native relative twisted homology of the pair
+`(X, X ∖ K)`. -/
 abbrev supportedTwistedHomology (R : Type u) [CommRing R] (X : TopCat.{u})
     (L : LocalCoefficientSystem R X) (n : ℕ) (K : Set X) : ModuleCat.{u} R :=
-  twistedRelativeHomology R (TopPair.ofSubset Kᶜ) L n
+  (TopPair.ofSubset Kᶜ).twistedHomology L n
 
 /-- Existence half of the compact-support theorem of Stage 6.3 with local coefficients (Hatcher,
 Lemma 3.27(a), extended to local systems): on a Hausdorff space charted on a real normed space of
@@ -744,7 +745,7 @@ def ordinaryEMPullback (A : Type u) [AddCommGroup A] (n : ℕ) (K : TopCat.{u})
         (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ (ModuleCat.of ℤ A) n
       exact congrArg (fun q => q.hom ι) heq)
 
-/-- Stage 8.10 (Hatcher, Theorem 4.57, there for basepoint-preserving maps of connected complexes;
+/-- Stage 8.10 (Hatcher, Theorem 4.57, there for basepoint-preserving maps of CW complexes;
 `π₁(K)` acts trivially on them, by `TauCeti.fundamentalGroup_smul_eq_self` for `n ≥ 1` and because
 the degree-one action is conjugation in the abelian group `A` for `n = 0`, so the free form follows
 componentwise): every `K(A, n + 1)` model
