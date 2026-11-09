@@ -23,8 +23,7 @@ Headline theorems stated here (README target, Lean name):
   `Module.injective_iff_forall_smul_surjective` and `Module.Injective.quotient`; 2.9,
   `Module.Flat.isSMulRegular_quotient_smul_top` and `Submodule.IsAssociatedPrime.comap_eq_of_flat`;
   2.10, `IsFractionRing.nonempty_torsionBy_linearEquiv`.
-* 3.1, `Derivation.leibniz_zpow_units`; 3.2, `Derivation.lie_mulLeft` and
-  `Derivation.mulLeft_mul_mul_mulLeft_inv`.
+* 3.1, `Derivation.leibniz_zpow_units`.
 * 4.1, `ContinuousMap.continuous_curry_of_locallyCompactSpace`,
   `ContinuousMap.continuous_curry_of_r1Space` and `ContinuousMap.continuous_uncurry_of_r1Space`;
   4.2, `NoetherianSpace.isOpen_of_stableUnderGeneralization`.
@@ -55,8 +54,9 @@ primary components of an injective module over a Noetherian ring (Tau Ceti's ins
 divisibility and the injectivity of `K ⧸ S` (Tau Ceti's `Module.Baer.of_surjective_smul` and
 `Submodule.injective_quotient_of_divisionRing`); the Leibniz rule for finite products (Tau Ceti's
 `Derivation.leibniz_prod`); the Cauchy–Binet formula (PadicMeasuresIwasawaAlgebras §6.4,
-`Matrix.compound_mul`, with Tau Ceti's `Matrix.pairMinor_mul` for `2 × 2` minors); and the
-integer-valued polynomials (ClassicalArithmeticCompletion §§3.6, 3.43 and 3.57).
+`Matrix.compound_mul`, with Tau Ceti's `Matrix.pairMinor_mul` for `2 × 2` minors); the
+commutator of a derivation with a multiplication and its conjugation by a unit (PCurvature §0.4);
+and the integer-valued polynomials (ClassicalArithmeticCompletion §§3.6, 3.43 and 3.57).
 -/
 
 public section
@@ -213,21 +213,6 @@ theorem IsFractionRing.nonempty_torsionBy_linearEquiv {A K : Type*} [CommRing A]
 theorem Derivation.leibniz_zpow_units {R A M : Type*} [CommRing R] [CommRing A] [Algebra R A]
     [AddCommGroup M] [Module A M] [Module R M] (D : Derivation R A M) (u : Aˣ) (n : ℤ) :
     D ↑(u ^ n) = n • ((u ^ (n - 1) : Aˣ) : A) • D ↑u := by
-  sorry
-
-/-- The commutator of a derivation `D` with left multiplication by `a` is left multiplication by
-`D a`. -/
-theorem Derivation.lie_mulLeft {R A : Type*} [CommRing R] [CommRing A] [Algebra R A]
-    (D : Derivation R A A) (a : A) :
-    ⁅(D : Module.End R A), LinearMap.mulLeft R a⁆ = LinearMap.mulLeft R (D a) := by
-  sorry
-
-/-- Conjugating a derivation by multiplication by a unit `u` subtracts multiplication by the
-logarithmic derivative `u⁻¹ * D u`. -/
-theorem Derivation.mulLeft_mul_mul_mulLeft_inv {R A : Type*} [CommRing R] [CommRing A]
-    [Algebra R A] (D : Derivation R A A) (u : Aˣ) :
-    LinearMap.mulLeft R (u : A) * (D : Module.End R A) * LinearMap.mulLeft R ((u⁻¹ : Aˣ) : A) =
-      (D : Module.End R A) - LinearMap.mulLeft R (((u⁻¹ : Aˣ) : A) * D u) := by
   sorry
 
 /-! ## Layer 4: topology -/

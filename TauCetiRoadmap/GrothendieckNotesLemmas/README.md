@@ -1,6 +1,6 @@
 # Roadmap: general lemmas in commutative algebra, topology and linear algebra
 
-**Summary.** Twenty-eight general targets on Mathlib's native carriers, in five independent
+**Summary.** Twenty-seven general targets on Mathlib's native carriers, in five independent
 layers. Layer 1: binomial coefficients modulo a prime (`p ^ e ∣ n` iff `p` divides every
 `n.choose k` with `0 < k < p ^ e`, for `p` prime; `(p ^ a − 1).choose k ≡ (−1) ^ k mod p` for
 `k ≤ p ^ a − 1`), the kernel of the Hasse derivatives of orders `0 < k < p ^ e` over a commutative
@@ -16,9 +16,9 @@ is formally smooth over `S`, rational multiples of an indivisible lattice vector
 divisible over a principal ideal domain with quotients of injectives injective, the associated
 primes of `F ⁄ pF` for `F` flat, `(K ⁄ A)[t] ≅ A ⁄ (t)` for `t ≠ 0` over a domain `A` with fraction
 field `K`, and finite length of finitely generated torsion modules over a Noetherian ring of Krull
-dimension at most one. Layer 3: the Leibniz rule for integer powers of units, and the commutator
-of a derivation with a multiplication. Layer 4: the exponential law for the compact-open topology
-with `X` locally compact or `R1Space`, and an openness criterion in Noetherian quasi-sober spaces.
+dimension at most one. Layer 3: the Leibniz rule for integer powers of units. Layer 4: the
+exponential law for the compact-open topology with `X` locally compact or `R1Space`, and an
+openness criterion in Noetherian quasi-sober spaces.
 Layer 5: right zeros of finite monoids, the Binet–Cauchy and Lagrange identities, traces of odd
 powers of a difference of idempotent matrices, common denominators in the Grothendieck group of a
 commutative monoid, and simple modules over an algebraically closed field, finite-dimensional over
@@ -53,6 +53,9 @@ already prove at the pins are listed below under "Supplied at the pins" and are 
 - *The cotangent complex and its low-degree terms*: DerivedModuleAlgebra, §§0.4, 0.7 and 0.8.
   Target 2.6 and Layer 3 use only Mathlib's `KaehlerDifferential`, `Algebra.H1Cotangent` and
   `Derivation`, and no derived object.
+- *The commutator of a derivation with a multiplication*, `⁅D, a⁆ = D a` as endomorphisms of a
+  commutative algebra, and the conjugation `u ∘ D ∘ u⁻¹ = D − u⁻¹ D u` by a unit `u`: PCurvature,
+  §0.4. Target 3.1 is the Leibniz rule for integer powers of a unit.
 - *Gaussian binomial coefficients and Cauchy's `q`-binomial theorem* over every commutative ring,
   `∏ i < n, (1 + t ^ i z) = ∑ k ≤ n, t ^ (k.choose 2) [n, k]_t z ^ k`, whose value at `z = −1` is
   the vanishing alternating sum for `n ≥ 1`: ArithmeticStatisticsPartIV, §3.2. The symmetric
@@ -168,8 +171,7 @@ already prove at the pins are listed below under "Supplied at the pins" and are 
 - Differentials and derivations: `KaehlerDifferential.mapBaseChange`,
   `KaehlerDifferential.exact_mapBaseChange_map`, `Algebra.H1Cotangent`,
   `Algebra.H1Cotangent.exact_δ_mapBaseChange`, `Algebra.FormallySmooth`, `Derivation`,
-  `Derivation.leibniz_pow`, `Derivation.leibniz_zpow` (over fields), `LinearMap.mulLeft`,
-  `Module.End`.
+  `Derivation.leibniz_pow`, `Derivation.leibniz_zpow` (over fields).
 - Topology: `ContinuousMap.curry`, `ContinuousMap.uncurry`, `ContinuousMap.continuous_curry`
   (for `LocallyCompactSpace (X × Y)`), `Homeomorph.curry`, `R1Space`, `LocallyCompactSpace`,
   `TopologicalSpace.NoetherianSpace`, `QuasiSober`, `StableUnderGeneralization`,
@@ -218,7 +220,7 @@ Nothing is consumed from another roadmap.
 ## How to read the build
 
 The five layers are independent of one another, and within a layer the only dependencies are
-1.1 → 1.3 → 1.4 and 3.1 → 3.2, and, in 2.8 and 2.9, the later statement on the earlier one.
+1.1 → 1.3 → 1.4 and, in 2.8 and 2.9, the later statement on the earlier one.
 Layer 1 is arithmetic of binomial coefficients and polynomials in prime characteristic, two
 determinantal or group identities that rest on Vandermonde's convolution and on `n.choose 2`, and
 perfect subgroups. Layer 2 is
@@ -226,7 +228,7 @@ module theory: flatness, finite presentation, injective modules, adic completene
 differentials, associated primes, the module `K ⁄ A` and torsion modules of finite length.
 Layer 3 extends Mathlib's and Tau Ceti's derivation API. Layer 4 is general topology. Layer 5
 collects finite monoids, two identities, traces, Grothendieck groups, and simple modules recognised
-by their traces. The smallest targets are 1.5, 1.7, 1.8, 2.1, 2.5, 2.11, 3.1 and 3.2; 1.7, 2.5,
+by their traces. The smallest targets are 1.5, 1.7, 1.8, 2.1, 2.5, 2.11 and 3.1; 1.7, 2.5,
 2.11 and the finite-product form of 2.1 follow from the pins in two lines.
 
 ## Layer 1: binomial coefficients, Hasse derivatives, a determinant, commutators
@@ -541,8 +543,8 @@ in universe `v`. Route: divisibility gives Baer's criterion by Tau Ceti's
 `Module.Baer.of_surjective_smul`, hence injectivity by `Module.Baer.injective`; conversely, over a
 domain `r • ·` is injective on `R`, so only `s = 0` kills `r ≠ 0`, and Tau Ceti's
 `TauCeti.exists_linearMap_apply_eq_iff_forall_smul_eq_zero` extends `r ↦ x` to a linear map
-`f : R → Q`, and `x = r • f 1`. A quotient of a divisible module is divisible, which gives the second statement from the
-first. *Needs:* Tau Ceti `Module.Baer.of_surjective_smul`,
+`f : R → Q`, and `x = r • f 1`. A quotient of a divisible module is divisible, which gives the
+second statement from the first. *Needs:* Tau Ceti `Module.Baer.of_surjective_smul`,
 `TauCeti.exists_linearMap_apply_eq_iff_forall_smul_eq_zero`; Mathlib `Module.Baer`,
 `Module.Baer.injective`, `Module.Baer.of_injective`, `IsPrincipalIdealRing`, `Submodule.mkQ`.
 
@@ -662,32 +664,15 @@ Route: `Derivation.leibniz_pow` for `n ≥ 0`; for `n < 0`, apply `D` to `u ^ n 
 - `n = −2` on `ℚ[x, x⁻¹]` with `D = d ⁄ dx` and `u = x` gives `−2 x⁻³`; a unit of the base, such
   as `u = 2` in `ℚ[x, x⁻¹]`, has `D u = 0` and both sides vanish.
 
-### 3.2 Commutators with multiplications
-
-Prove `Derivation.lie_mulLeft`: for a derivation `D` of a commutative `R`-algebra `A` into itself
-and `a ∈ A`, the commutator of `D` with `LinearMap.mulLeft R a` in `Module.End R A` is
-`LinearMap.mulLeft R (D a)`. Prove `Derivation.mulLeft_mul_mul_mulLeft_inv`: for a unit `u`,
-`u ∘ D ∘ u⁻¹ = D − (u⁻¹ D u)` as endomorphisms, multiplications written as `LinearMap.mulLeft`.
-Both are own statements. *Needs:* Mathlib `Derivation`, `LinearMap.mulLeft`, `Module.End`; 3.1.
-
-**Checks.**
-
-- `A = k[x]`, `D = d ⁄ dx`, `a = x`: the commutator is the identity, `LinearMap.mulLeft (D x)` with
-  `D x = 1`.
-- `u` a unit of `k`: `D u = 0`, and conjugation fixes `D`.
-- The sign: on `k[x, x⁻¹]` with `u = x`, `x · D (x⁻¹ · 1) = −x⁻¹ = (D − x⁻¹ D x) 1`; the opposite
-  sign would give `+x⁻¹`.
-
 ### Examples
 
 - `Derivation.leibniz_zpow_units` on `k[x, x⁻¹]` with `D = d ⁄ dx` gives `D (x ^ n) = n x ^ (n − 1)`
   for every `n : ℤ`.
-- `Derivation.lie_mulLeft` gives the Weyl relation `⁅d ⁄ dx, x⁆ = 1` on `k[x]`.
 
 ### Dependencies
 
-Mathlib `Derivation` and `LinearMap.mulLeft`; Tau Ceti `Derivation.leibniz_prod`. Within the
-layer, 3.2 uses 3.1 for `D (u⁻¹)`.
+Mathlib `Derivation`, `Derivation.leibniz_pow` and `Derivation.leibniz_zpow`; Tau Ceti
+`Derivation.leibniz_prod`. The layer has one target.
 
 ## Layer 4: topology
 
@@ -876,8 +861,9 @@ another.
 
 ## Downstream consumers
 
-PCurvature (Layers 1.1 and 1.4) consumes 3.2: `Derivation.lie_mulLeft` and
-`Derivation.mulLeft_mul_mul_mulLeft_inv`.
+ArithmeticInterpolationDeterminants consumes 1.4, `Polynomial.hasseDeriv_expand_mul`, in the
+coefficientwise route of its target 0.4, and its Scope names 1.3–1.4 as the owner of the kernel
+of the Hasse derivatives of orders `0 < k < p ^ e` and of their linearity over `R[X ^ (p ^ e)]`.
 
 ## References
 
