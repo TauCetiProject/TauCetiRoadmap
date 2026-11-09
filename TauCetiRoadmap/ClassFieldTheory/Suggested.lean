@@ -2,10 +2,8 @@ import Mathlib
 import TauCeti.NumberTheory.ClassFieldTheory.ClassFields.RayClassField
 import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Basic
 import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
-import TauCeti.NumberTheory.ClassFieldTheory.Local.Conductor.Basic
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Reciprocity
-import TauCeti.NumberTheory.LocalField.Discriminant.Basic
-import TauCeti.NumberTheory.LocalField.Herbrand.Basic
+import TauCeti.NumberTheory.LocalField.Herbrand.ArtinConductor
 import TauCeti.NumberTheory.LocalField.UnitFiltration.Basic
 import TauCeti.RingTheory.DedekindDomain.Discriminant.Basic
 
@@ -18,7 +16,8 @@ the one definition they need, `galoisCharacterConductorExp`; it is not an exhaus
 
 Tau Ceti proves the following headline results at the pin, in
 `TauCeti/NumberTheory/ClassFieldTheory/` and `TauCeti/RepresentationTheory/Homological/`, so none
-of them is restated here; the roadmap consumes them under Tau Ceti's names (README §3):
+of them is restated here; the roadmap consumes them under Tau Ceti's names
+(README Exact supplier contracts):
 
 * Tate's theorem and the abstract Artin map of a class formation, the Tate–Nakayama theorem, and
   the theorem of Nakayama and Rim, `Rep.projective_of_isZero_res` (Layers 0–4);
@@ -47,11 +46,16 @@ of them is restated here; the roadmap consumes them under Tau Ceti's names (READ
 The open headline theorems stated below are:
 
 * the cyclotomic normalization at a unit for every finite `ℚ_p`-algebra structure, the form that
-  `LocalGaloisGroups` consumes, the upper-numbering theorem, the local conductor–discriminant
-  formula, and the conductor as the largest character conductor (Layer 7);
+  `LocalGaloisGroups` consumes, the finite upper-numbering theorem and the comparison of the
+  reciprocity character conductor with the native Artin conductor (Layer 7);
 * the principal ideal theorem in the Hilbert class field, and the global conductor–discriminant
   formula, with the discriminant the product and the conductor the lcm of the conductors of the
   characters (Layer 13).
+
+The absolute unit-filtration reciprocity theorem of Layer 7 is not statable at the pins:
+`RamificationOfCompleteDiscretelyValuedFields` §4a.1 supplies the absolute upper ramification
+subgroup, but that carrier is absent from the pinned libraries. Its statement is in the README;
+no substitute filtration is defined here.
 -/
 
 namespace TauCetiRoadmap.ClassFieldTheory
@@ -110,30 +114,17 @@ noncomputable def galoisCharacterConductorExp
     ((Abelianization.lift χ).comp
       ((normResidue K L).toMonoidHom.comp (QuotientGroup.mk' (normGroup K L)))).ker}
 
-/-- **The local conductor–discriminant formula** (Serre, *Local Fields*, IV §1 and VI §2, with
-the upper-numbering theorem identifying the class-field conductor of a character with its Artin
-conductor). For a finite abelian extension `L/K` of nonarchimedean local fields, the exponent
-`δ(L/K) = f · d` of the discriminant ideal of `L/K` in `𝒪[K]` is the sum of the conductor
-exponents of the characters of `Gal(L/K)`. -/
-theorem discriminantExponent_eq_finsum_galoisCharacterConductorExp
+/-- **The reciprocity conductor equals the Artin conductor.** For a finite abelian valued
+extension `L/K` of nonarchimedean local fields and a character `χ` of its Galois group, the
+least unit depth killed by `χ` through reciprocity equals the least upper ramification depth
+killed by `χ` (Serre, *Local Fields*, XV §2, Theorem 2). -/
+theorem galoisCharacterConductorExp_eq_artinConductorExponent
     (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
     (L : Type) [Field L] [ValuativeRel L] [TopologicalSpace L] [IsNonarchimedeanLocalField L]
     [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] [IsGalois K L]
-    [IsMulCommutative (L ≃ₐ[K] L)] :
-    discriminantExponent K L = ∑ᶠ χ : (L ≃ₐ[K] L) →* ℂˣ, galoisCharacterConductorExp K L χ :=
-  sorry
-
-/-- **The conductor is the largest character conductor.** For a finite abelian extension `L/K`
-of nonarchimedean local fields, `U_K^(n)` consists of norms from `L` exactly when every character
-of `Gal(L/K)`, read on `Kˣ` through the norm residue isomorphism, kills it, because the characters
-of a finite abelian group separate its points; so the conductor exponent of `L/K` is the maximum
-of the conductor exponents of its characters. -/
-theorem conductorExponent_eq_iSup_galoisCharacterConductorExp
-    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-    (L : Type) [Field L] [ValuativeRel L] [TopologicalSpace L] [IsNonarchimedeanLocalField L]
-    [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] [IsGalois K L]
-    [IsMulCommutative (L ≃ₐ[K] L)] :
-    conductorExponent K L = ⨆ χ : (L ≃ₐ[K] L) →* ℂˣ, galoisCharacterConductorExp K L χ :=
+    [IsMulCommutative (L ≃ₐ[K] L)] (χ : (L ≃ₐ[K] L) →* ℂˣ) :
+    galoisCharacterConductorExp K L χ =
+      LocalFieldsRamification.artinConductorExponent K L χ :=
   sorry
 
 /-! ## Layer 13: the principal ideal theorem and the global conductor–discriminant formula -/
