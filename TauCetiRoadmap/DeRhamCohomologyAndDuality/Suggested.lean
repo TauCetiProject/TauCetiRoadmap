@@ -24,7 +24,8 @@ Not statable at the pins:
   smooth singular cochains (`deRhamHom`, DifferentialGeometry 8.4): Tau Ceti integrates a form over
   a single smooth simplex (`TauCeti.SmoothSimplex.integral`) but has no Stokes' theorem for smooth
   simplices, hence no cochain map. The relative complex of §3.1 itself is definable from
-  `TauCeti.deRhamComplex.map`, `HomologicalComplex.extend` and `CochainComplex.mappingCocone`;
+  `TauCeti.deRhamComplex.map`, `HomologicalComplex.extend` and `CochainComplex.mappingCocone`,
+  with Tau Ceti's coordinates `CochainComplex.mappingCocone.relativeCoordinates`;
 * the fundamental-class integration comparison (§4.1) needs that cochain map and the homological
   orientation of a tangent orientation (AlgebraicTopology 6.3): Tau Ceti has
   `TauCeti.HomologicalOrientation` with its fundamental classes, and from a
@@ -111,8 +112,9 @@ noncomputable abbrev smoothPairToSingular (W : Set X) :
 /-- **§2.4, the relative smooth chain comparison.** For an open `W` in a Hausdorff σ-compact
 smooth manifold `X` over any finite-dimensional real model with corners, the inclusion of
 relative smooth chains `C^∞(X)/C^∞(W)` into relative singular chains `C(X)/C(W)`, with real
-coefficients, is a quasi-isomorphism. The proof is the five lemma on the two short exact
-sequences of chains, from DifferentialGeometry 8.3's absolute comparisons for `X` and for `W`. -/
+coefficients, is a quasi-isomorphism. The proof is Tau Ceti's five-lemma comparison
+`SSetPair.quasiIso_chainComplexMap`, from DifferentialGeometry 8.3's absolute comparisons for `X`
+and for `W` (the absolute case is Lee, *Introduction to Smooth Manifolds*, Thm. 18.7). -/
 theorem quasiIso_smoothPairToSingular [FiniteDimensional ℝ E] [IsManifold I ∞ X] [T2Space X]
     [SigmaCompactSpace X] {W : Set X} (hW : IsOpen W) :
     QuasiIso (SSetPair.chainComplexMap (smoothPairToSingular I X W) (ModuleCat.of ℝ ℝ)) :=
@@ -145,7 +147,10 @@ def relativeTranslate (f : E → V) (β : E → ℝ) (p : V) (x : E) : V :=
 
 /-- **§5.2, generic parameters.** For smooth maps between finite-dimensional spaces, under
 universal transversality the parameters whose slice is not transverse form a Haar-null set
-(outer measure). -/
+(outer measure). Transversality of the slice to `j` at `(x, y)` is transversality of
+`(x, y) ↦ (F(x, p), j(y))` to the diagonal of `V × V`, so this is the flat case of parametric
+transversality to a submanifold (Lee, *Introduction to Smooth Manifolds*, Thm. 6.35), proved by
+flat Sard on the incidence manifold. -/
 theorem addHaar_setOf_not_isRegularIncidenceParameter [FiniteDimensional ℝ E]
     [FiniteDimensional ℝ V] [FiniteDimensional ℝ W] [FiniteDimensional ℝ P]
     [MeasurableSpace P] [BorelSpace P]

@@ -32,8 +32,9 @@ This roadmap owns:
   semiflow, inward domination, the transfer of smooth-chain equivalences along a smooth homotopy
   retraction, the relative smooth chain comparison, and relative approximation into
   finite-dimensional vector spaces with collar data (Layer 2);
-- the relative de Rham complex of an open pair, the algebraic comparison of a cone with a kernel,
-  relative integration, the relative de Rham homomorphism and isomorphism (Layer 3);
+- the relative de Rham complex of an open pair, the compatibility of Tau Ceti's kernel-to-cocone
+  quasi-isomorphism with the connecting maps, relative integration, the relative de Rham
+  homomorphism and isomorphism (Layer 3);
 - the integration comparison with singular fundamental classes and the smooth-boundary
   compatibility formula, with the coefficient and carrier conversions they need (Layer 4);
 - finite-parameter relative transversality: the incidence equation, regular incidence parameters,
@@ -48,20 +49,24 @@ It does not own, and imports:
   open embeddings and Stokes' theorem over the half-space model, the de Rham complex and
   cohomology with functoriality, homotopy invariance, compact supports, Mayer–Vietoris and the
   Poincaré pairing, the flat and manifold Poincaré lemmas, smooth path integrals, local primitives
-  of `1`-forms and the covering space of primitives of a closed form, smooth singular simplices
-  with their integrals, small singular chains and pairs of simplicial sets, and the compact-support
+  of `1`-forms and the covering space of primitives of a closed form, the integral of a closed
+  `C¹` `1`-form along continuous path classes with its periods, relative coordinates on the
+  shifted mapping cone and the quasi-isomorphism from the kernel of a degreewise surjection to its
+  cocone, smooth singular simplices with their integrals, small singular chains, singular cochains
+  of pairs with their long exact sequence, excision and the Kronecker pairing, the five-lemma
+  comparisons of relative chains and cochains of pairs of simplicial sets, and the compact-support
   and integral fundamental classes of a homologically oriented topological manifold;
 - from DifferentialGeometry, by section: the absolute smoothing equivalence (8.3), chain
   integration, Stokes for smooth simplices and chains and the de Rham homomorphism `deRhamHom`
   (8.4), and the absolute de Rham isomorphism `deRhamEquiv` (8.5); Poincaré duality (9.3), Sard on
   manifolds and the degree (layer 10) and the hairy ball theorem (layer 11) stay
   DifferentialGeometry's, and nothing here consumes them;
-- from AlgebraicTopology, by stage: singular chains and cochains, relative chains and cochains,
-  subdivision, small chains, excision and Mayer–Vietoris (Stages 2–3), universal coefficients, the
-  evaluation pairing, the cup product, the comparison of tangent orientations with homological
-  orientations and the oriented relative class of a compact manifold with boundary (Stage 6, in
-  particular 6.1 and 6.3); its Stage 6.5 compares its homological degree with DifferentialGeometry
-  10's smooth degree, and nothing here touches that comparison.
+- from AlgebraicTopology Stage 6.3: the comparison of tangent orientations with homological
+  orientations and the oriented relative class of a compact manifold with boundary. The singular
+  chains and cochains of pairs, excision and the evaluation pairing that its Stages 2–3 and 6.1
+  plan are consumed from Tau Ceti, where they are already in the library; its Stage 6.5 compares
+  its homological degree with DifferentialGeometry 10's smooth degree, and nothing here touches
+  that comparison.
 
 Deferrals that no target here consumes: sharp finite-order Sard is HeegaardFloer §2.1's (F0.S),
 and every map in Layer 5 is `C^∞`, so no target here needs it; collars, collar uniqueness, tubular
@@ -70,14 +75,20 @@ theorem. AlgebraicTopology 6.3 names DifferentialGeometry 9.3 as the consumer of
 the owner of the integration comparison; DifferentialGeometry 9.3 plans duality only, and that
 comparison, with the carrier and coefficient conversions it needs, is §4.1 here.
 
-Adjacent roadmaps with a different object: TangentialBordism §2.1 proves parametric transversality
-to a closed embedded submanifold with a dense set of good parameters, and relative Whitney
-approximation into a manifold; Layer 5 here is transversality of a family to an arbitrary smooth
-map `j : N → V` into a vector space, with a Haar-null exceptional set, and §2.5 here prescribes
-boundary collar data for fillings into a vector space. ComplexKahlerGeometry K5a owns the
-complex-coefficient de Rham comparison and the punctured-plane computation
-`H¹_dR(ℂ ∖ {0}; ℂ) ≅ ℂ` for smooth forms; Layer 1 here integrates `1`-forms with local primitives
-along continuous paths.
+Adjacent roadmap with an overlapping object: TangentialBordism §2.1 proves parametric
+transversality to a closed embedded submanifold, with a null set (`TauCeti.IsNullSet`) of bad
+parameters, and relative Whitney approximation into a manifold. §5.2 here is the flat case of that
+theorem against a smooth map `j : W → V`: the slice at `p` is transverse to `j` exactly when
+`(x, y) ↦ (F(x, p), j(y))` is transverse to the diagonal of `V × V`, and on a vector space of
+parameters a null set is Haar-null. §5.2 is stated on `TauCeti.IsRegularParameter` of the
+incidence equation, which is statable at the pins and is the form §5.3 consumes, and is proved here
+by its own route on Tau Ceti's flat Sard theorem, so that this roadmap does not depend on
+TangentialBordism. The relative perturbations of §5.3 move `f` and keep `j` fixed, and §2.5 here
+prescribes boundary collar data for fillings into a vector space.
+
+Adjacent roadmap with a different object: ComplexKahlerGeometry K5a owns the complex-coefficient
+de Rham comparison and the punctured-plane computation `H¹_dR(ℂ ∖ {0}; ℂ) ≅ ℂ` for smooth forms;
+Layer 1 here integrates `1`-forms with local primitives along continuous paths.
 
 The relative smooth chain comparison (§2.4), the relative form complex of an open pair, relative
 integration and the relative de Rham isomorphism (§§3.1–3.3), and the compact-support integration
@@ -143,11 +154,20 @@ installed on a manifold. In addition:
 - `CochainComplex.mappingCone`, `CochainComplex.mappingCocone` (the cone shifted by `−1`, with its
   signed projections and inclusions), `HomologicalComplex.extend`, `ComplexShape.embeddingUpNat`,
   `HomologicalComplex.homology`, `CategoryTheory.ShortComplex.ShortExact` and its long exact
-  sequence, `ChainComplex.linearYonedaObj`, `Homotopy`, the five lemma, `QuasiIso`.
+  sequence, `ChainComplex.linearYonedaObj`, `Homotopy`, the five lemma, `QuasiIso`; for the cone
+  of a monomorphism in a short exact sequence, the comparison of its connecting map with that of
+  the sequence, `CochainComplex.mappingCone.homologySequenceδ_triangleh`
+  (`Algebra/Homology/HomotopyCategory/ShortExact.lean`).
 - Pairs of simplicial sets `SSetPair`, `SSetPair.of`, `SSetPair.homMk`, `SSet.Subcomplex.pair`
   (`AlgebraicTopology/SimplicialSet/SSetPair.lean`), their relative chains `SSetPair.chainComplex`
   (the cokernel of the chains of the subobject) and `SSetPair.chainComplexMap`
   (`AlgebraicTopology/SimplicialSet/Homology/Relative.lean`), and `SSet.chainComplexMap`.
+- Homotopy invariance of chains: the chain homotopy `SSet.Homotopy.chainComplexMap` of a
+  simplicial homotopy (`AlgebraicTopology/SimplicialSet/Homology/HomotopyInvariance.lean`), the
+  simplicial homotopy `TopCat.Homotopy.toSSet` of singular simplicial sets induced by a homotopy
+  (`Topology/Homotopy/TopCat/ToSSet.lean`), and the singular chain homotopy
+  `TopCat.Homotopy.singularChainComplexFunctorObjMap`
+  (`AlgebraicTopology/SingularHomology/HomotopyInvariance.lean`).
 - `Continuous.exists_contMDiff_approx_and_eqOn` and `Continuous.exists_contDiff_approx_and_eqOn`
   (`Geometry/Manifold/SmoothApprox.lean`): finite-dimensional source, Hausdorff σ-compact manifold,
   a closed set near which the map is already smooth, and a positive continuous tolerance.
@@ -173,8 +193,9 @@ installed on a manifold. In addition:
   (`Geometry/Manifold/DifferentialForm/`).
 - Orientations `TauCeti.Manifold.Orientation` (chart-sign data) and
   `TauCeti.Manifold.Orientation.IsOrientationPreservingAt` (`Geometry/Manifold/Orientation/`).
-- The maximal flow `TauCeti.flowOf` on `TauCeti.flowDomain`, jointly smooth in finite dimensions
-  (`Geometry/Manifold/Flow/Basic.lean`), and the smooth proper exhaustion function
+- The maximal flow `TauCeti.flowOf` on `TauCeti.flowDomain`, jointly smooth on a Hausdorff
+  boundaryless manifold over a finite-dimensional model (`TauCeti.contMDiffOn_flowOf`,
+  `Geometry/Manifold/Flow/Basic.lean`), and the smooth proper exhaustion function
   `TauCeti.exists_contMDiffMap_isProperMap_nonneg` on a finite-dimensional Hausdorff σ-compact
   manifold, boundary allowed (`Geometry/Manifold/Exhaustion.lean`).
 - Integration of top forms `TauCeti.integralTopForm` (total: zero unless the form is compactly
@@ -211,6 +232,28 @@ installed on a manifold. In addition:
   `TauCeti.exists_mextDeriv_eq_of_simplyConnectedSpace`
   (`Geometry/Manifold/DeRham/SimplyConnected.lean`);
   `ModelWithCorners.locallyPathConnectedSpace` (`Geometry/Manifold/Topology.lean`).
+- Integrals of closed `1`-forms along continuous paths, under the same standing hypotheses (a
+  closed `C¹` form, complete coefficients, a finite-dimensional Hausdorff smooth manifold):
+  `TauCeti.pathClassIntegral` on path classes, defined through the monodromy of
+  `TauCeti.PrimitiveSpace` and equal to the change of value along any continuous lift
+  (`TauCeti.pathClassIntegral_mk_eq_sub`), with `TauCeti.PrimitiveSpace.value_monodromy`,
+  `TauCeti.pathClassIntegral_trans`, `TauCeti.pathClassIntegral_symm`, agreement with
+  `TauCeti.pathIntegral` along `C¹` curves (`TauCeti.pathClassIntegral_mk_eq_pathIntegral`),
+  naturality `TauCeti.pathClassIntegral_mpullback`, the period homomorphism `TauCeti.periodHom`
+  and exactness of a closed smooth real form with vanishing periods on a connected manifold
+  (`TauCeti.mem_exactForms_one_iff_periodHom_eq_zero`) (`Geometry/Manifold/DeRham/Period.lean`).
+- Relative coordinates on Mathlib's cocone of a map `f : K ⟶ L` of `ℤ`-indexed complexes of
+  modules: `CochainComplex.mappingCocone.relativeCoordinates` identifies the degree-`p` term with
+  `K^p × L^(p−1)` by negating Mathlib's second projection, with differential
+  `(a, b) ↦ (da, f a − db)` (`CochainComplex.mappingCocone.relativeCoordinates_d`), cocycles
+  (`CochainComplex.mappingCocone.d_relativeCoordinates_symm_eq_zero_iff`), coboundaries
+  (`CochainComplex.mappingCocone.relativeCoordinates_symm_mem_range_d_iff`) and componentwise maps
+  of pairs (`CochainComplex.mappingCocone.relativeCoordinates_map`)
+  (`Algebra/Homology/HomotopyCategory/MappingCocone/Relative.lean`); for a short exact sequence of
+  `ℤ`-indexed cochain complexes in an abelian category, the lift of the first map to the cocone of
+  the second is a quasi-isomorphism, `CochainComplex.mappingCocone.quasiIso_lift_of_shortExact`,
+  and the cocone of an identity is acyclic, `CochainComplex.mappingCocone.acyclic_mappingCocone_id`
+  (`MappingCocone/Basic.lean`); neither compares connecting maps.
 - Smooth singular simplices: `TauCeti.smoothSingularSubcomplex`, the subcomplex of
   `TopCat.toSSet.obj M` of simplices that near every point of the full-dimensional simplex agree
   with a smooth map on a neighbourhood in `ℝᵏ`, defined on any charted space;
@@ -220,10 +263,20 @@ installed on a manifold. In addition:
   (`Geometry/Convex/FullSimplex.lean`). The inclusion of smooth chains into singular chains is
   `SSet.chainComplexMap (TauCeti.smoothSingularSubcomplex I M).ι`.
 - Singular theory: `TopCat.singularCochainComplex`, `TopCat.singularCohomology` and induced maps
-  (`AlgebraicTopology/Cohomology/Basic.lean`); `TopPair.singularCochainComplex` and the cochain
-  sequence of a pair (`AlgebraicTopology/Cohomology/Relative.lean`); the subcomplex
-  `TopCat.smallSingularSubcomplex` of simplices with image in a member of a family
-  (`AlgebraicTopology/Singular/Subdivision/Small/Chains.lean`).
+  (`AlgebraicTopology/Cohomology/Basic.lean`); `TopPair.singularCochainComplex`, the short exact
+  cochain sequence of a pair `TopPair.shortExact_singularCochainComplexShortComplex` and its
+  connecting map `TopPair.singularCohomologyδ` (`AlgebraicTopology/Cohomology/Relative.lean`); the
+  Kronecker pairings `TopCat.singularKronecker` and `TopPair.singularKronecker` of cohomology with
+  homology (`AlgebraicTopology/Cohomology/Kronecker.lean`); excision for a closed `K` inside an
+  open `U`, `TopPair.isIso_singularHomologyMap_excisionMap_of_isClosed_subset`
+  (`AlgebraicTopology/Singular/Excision.lean`); the subcomplex `TopCat.smallSingularSubcomplex` of
+  simplices with image in a member of a family
+  (`AlgebraicTopology/Singular/Subdivision/Small/Chains.lean`); and the five-lemma comparisons for
+  a map of pairs of simplicial sets that is a quasi-isomorphism on both members,
+  `SSetPair.quasiIso_chainComplexMap` on relative chains
+  (`AlgebraicTopology/SimplicialSet/Homology/Relative/Basic.lean`) and
+  `SSetPair.quasiIso_cochainComplexMap` on relative cochains
+  (`AlgebraicTopology/Cohomology/Relative.lean`).
 - Fundamental classes, on a Hausdorff topological manifold modelled on a finite-dimensional `E`:
   `TauCeti.HomologicalOrientation` (`AlgebraicTopology/Singular/LocalHomology/Orientation/`);
   the class `TauCeti.HomologicalOrientation.fundamentalClassOn` in `H_n(M, M ∖ A; ℤ)` of a compact
@@ -236,9 +289,11 @@ installed on a manifold. In addition:
   (`LocalHomology/FundamentalClass.lean`); the local orientation at a point selected by a tangent
   orientation of a boundaryless Euclidean-model manifold,
   `TauCeti.localOrientationOfManifoldOrientation` (`LocalHomology/Orientation/Chart.lean`).
-- `TauCeti.IsRegularParameter`, `TauCeti.isMeagre_setOf_not_isRegularParameter` and the level-set
-  charts `levelSetChart` (`Analysis/Fredholm/LevelSet/`); every operator between
-  finite-dimensional spaces is Fredholm.
+- `TauCeti.IsRegularParameter` (surjectivity of the fixed-parameter derivative at every solution)
+  and the meagre statement `TauCeti.isMeagre_setOf_not_isRegularParameter`, which §5.2 refines
+  (`Analysis/Fredholm/LevelSet/GlobalParametric.lean`), and the level-set charts
+  `TauCeti.levelSetChart` at regular points (`Analysis/Fredholm/LevelSet/Basic.lean`); every
+  operator between finite-dimensional spaces is Fredholm.
 - `TauCeti.addHaar_image_criticalPoints_eq_zero` (flat Morse–Sard on a set, threshold
   `(dim source)² + 1`, `Analysis/Calculus/Sard/OutermostStratum.lean`).
 - Brown's collar theorem `TauCeti.IsLocallyCollared.isCollared` (`Geometry/Manifold/Boundary/Collar/Brown.lean`)
@@ -255,14 +310,15 @@ installed on a manifold. In addition:
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
-- Stages 2–3: relative singular chains, excision, the five-lemma comparisons.
-- Stage 6.1: the evaluation pairing and relative cochains.
 - Stage 6.3: the comparison of tangent orientations with homological orientations, by which an
   orientation `TauCeti.Manifold.Orientation` of a boundaryless smooth manifold determines a
   `TauCeti.HomologicalOrientation` with the chart-normalized point generators, natural under
-  oriented open embeddings; and the oriented relative class of a compact manifold with boundary.
-  The compact-support classes, their support-enlargement law and the integral fundamental class
-  that Stage 6.3 also plans are Tau Ceti's declarations above.
+  oriented open embeddings, through its Euclidean rechart along a linear equivalence
+  `E ≃L[ℝ] EuclideanSpace ℝ (Fin m)` and its open-embedding local maps; and the oriented relative
+  class of a compact manifold with boundary. The compact-support classes, their
+  support-enlargement law and the integral fundamental class that Stage 6.3 also plans are Tau
+  Ceti's declarations above, and so are the relative chains and cochains, excision, the five-lemma
+  comparisons and the evaluation pairing of its Stages 2–3 and 6.1.
 
 ## How to read the build
 
@@ -271,22 +327,22 @@ Layer 2 is differential topology of models with corners: the inward cone and inw
 (§§2.1–2.2) are independent of chains; the transfer lemma (§2.3) consumes §2.2 and Tau Ceti's
 smooth singular simplices, and the relative chain comparison (§2.4) consumes DifferentialGeometry
 8.3's equivalence directly; relative approximation (§2.5) is independent of the rest. Layer 3
-builds the relative de Rham theory on Tau Ceti's de Rham complexes, DifferentialGeometry 8.4–8.5
-and Layer 2's relative chains. Layer 4 consumes Layer 3, Tau Ceti's integration of top forms and
-fundamental classes, and AlgebraicTopology 6.3. Layer 5 needs only calculus, Tau Ceti's level-set
-and Sard APIs and §2.5, and can start at once.
+builds the relative de Rham theory on Tau Ceti's de Rham complexes and relative coordinates,
+DifferentialGeometry 8.4–8.5 and Layer 2's relative chains. Layer 4 consumes Layer 3, Tau Ceti's
+integration of top forms and fundamental classes, and AlgebraicTopology 6.3. Layer 5 needs only
+calculus, Tau Ceti's level-set and Sard APIs and §2.5, and can start at once.
 
 ## Layer 1: `1`-forms with local primitives along continuous paths
 
 Tau Ceti integrates a closed `C^r` `1`-form (`r ≥ 1`) with complete coefficients on a
 finite-dimensional Hausdorff smooth manifold along continuous paths through the covering space of
-its local primitives, `TauCeti.PrimitiveSpace`, and proves it exact on simply connected manifolds;
-along smooth curves it has `TauCeti.pathIntegral`. Closedness enters there only through the
-Poincaré lemma, to produce local primitives. This layer takes the local primitives themselves as
-the hypothesis, so it covers forms that are not `C¹` or not even continuous, coefficients that are
-not complete, and `C¹` manifolds over any real model with corners, with no finite-dimensionality or
-Hausdorff hypothesis. The integral is a monodromy, built from values of primitives and never from a
-derivative of the path.
+its local primitives, `TauCeti.PrimitiveSpace` (`TauCeti.pathClassIntegral`), and proves it exact
+on simply connected manifolds; along smooth curves it has `TauCeti.pathIntegral`. Closedness enters
+there only through the Poincaré lemma, to produce local primitives. This layer takes the local
+primitives themselves as the hypothesis, so it covers forms that are not `C¹` or not even
+continuous, coefficients that are not complete, and `C¹` manifolds over any real model with
+corners, with no finite-dimensionality or Hausdorff hypothesis. The integral is a monodromy, built
+from values of primitives and never from a derivative of the path.
 
 ### 1.1 Local primitives
 
@@ -338,16 +394,30 @@ rel endpoints (`IsCoveringMap.liftPath_apply_one_eq_of_homotopicRel`); that it i
 differentiable maps (`TauCeti.IsPrimitiveOn.mpullback`); and that for continuous `φ`, complete `F`
 and a `C¹` curve `γ : ℝ → M` it equals `TauCeti.pathIntegral φ γ 0 1`, by the fundamental theorem of
 calculus on each subinterval. On path-connected `M`, every loop integral vanishes iff `φ` has a
-global primitive, integration from a base point being one. *Needs:* §1.1; Tau Ceti
-`TauCeti.PrimitiveSpace`, `TauCeti.IsPrimitiveOn.isOpen_setOf_eq`, `TauCeti.pathIntegral`; Mathlib
-`IsCoveringMap.liftPath`, `IsCoveringMap.liftPath_apply_one_eq_of_homotopicRel`, `Path`,
-`ContinuousMap.HomotopyRel`.
+global primitive, integration from a base point being one. This generalizes Tau Ceti's
+`TauCeti.pathClassIntegral` from closed `C¹` forms with complete coefficients on finite-dimensional
+Hausdorff smooth manifolds to forms with local primitives:
+
+- for a closed `C¹` form `φ` with complete `F` on a finite-dimensional Hausdorff smooth `M`,
+  `∫_γ φ = TauCeti.pathClassIntegral φ ⟦γ⟧`, both being the change of value along a lift
+  (`TauCeti.pathClassIntegral_mk_eq_sub`); on such forms the properties above are Tau Ceti's
+  `TauCeti.PrimitiveSpace.value_monodromy`, `TauCeti.pathClassIntegral_trans`,
+  `TauCeti.pathClassIntegral_symm`, `TauCeti.pathClassIntegral_mk_eq_pathIntegral`,
+  `TauCeti.pathClassIntegral_mpullback` and, for smooth real forms, the period criterion
+  `TauCeti.mem_exactForms_one_iff_periodHom_eq_zero`, and this layer proves them without those
+  hypotheses.
+
+*Needs:* §1.1; Tau Ceti `TauCeti.PrimitiveSpace`, `TauCeti.IsPrimitiveOn.isOpen_setOf_eq`,
+`TauCeti.pathIntegral`, `TauCeti.pathClassIntegral_mk_eq_sub`; Mathlib `IsCoveringMap.liftPath`,
+`IsCoveringMap.liftPath_apply_one_eq_of_homotopicRel`, `Path`, `ContinuousMap.HomotopyRel`.
 
 **Checks.**
 
 - The angular form over the unit circle loop has integral `2π`, equal to Mathlib's `curveIntegral`
-  of its covector field along the circle; over the loop traversed twice, `4π`; over its reversal,
-  `−2π`.
+  of its covector field along the circle and, the form being smooth and closed, to Tau Ceti's
+  `TauCeti.periodHom` at the class of that loop; over the loop traversed twice, `4π`; over its
+  reversal, `−2π`. A definition that integrated the form's norm would give `2π` on the reversal
+  as well.
 - `φ = dx` over any path from `a` to `b` gives `Re b − Re a`, including the nowhere-differentiable
   path `t ↦ t + i·W(t)` for a continuous nowhere-differentiable `W` with `W(0) = W(1) = 0`, to
   which neither `TauCeti.pathIntegral` nor `curveIntegral` applies.
@@ -355,6 +425,10 @@ global primitive, integration from a base point being one. *Needs:* §1.1; Tau C
   `Re` on the first piece and `Re + 7` on the second: `(1 − 0) + ((3 + 7) − (1 + 7)) = 3`, as with
   one primitive, so the choice of primitives does not matter.
 - A constant path has integral `0`.
+- On `ℝ²`, `φ = d(|x|^(3/2))` along the segment from `(0, 0)` to `(1, 0)` has integral
+  `1^(3/2) − 0 = 1`, and along the segment from `(−1, 0)` to `(1, 0)` integral `1 − 1 = 0`;
+  `TauCeti.pathClassIntegral` returns its junk value `0` on the first segment because `φ` is not
+  `C¹`, so the agreement bullet needs its closed `C¹` hypothesis.
 
 ### 1.3 Exactness on simply connected manifolds
 
@@ -474,15 +548,21 @@ For smooth `j : N → M` and `r : M → N` with a specified smooth homotopy `Φ 
 `j ∘ r` to `id_M`, prove: if the inclusion of smooth chains into singular chains is a chain
 homotopy equivalence for `N`, with a given homotopy inverse `s`, then `j_* ∘ s ∘ r_*` (with `r_*`
 on singular chains and `j_*` on smooth chains) is a homotopy inverse of the inclusion for `M`.
-Prove both inverse identities from pushforward naturality, the smooth prism operator of the
-jointly smooth homotopy `Φ` on smooth chains, and on singular chains the chain homotopy of the
-restriction of `Φ` to `[0, 1] × M`; no homotopy `r ∘ j ~ id_N` is used. Two homotopy inverses of
-one map are homotopic (`s ~ s ≫ i ≫ t ~ t`), so the transferred inverse is independent of `j`, `r`,
-`Φ` and `s` up to homotopy and the induced map on homology is natural. Inward domination (§2.2)
-supplies such a triple with `N = I.interior M`, `j` the inclusion and `r` the retraction; the
-equivalence for `M` itself is DifferentialGeometry 8.3's, imported as stated. *Needs:* §2.2;
-Tau Ceti `TauCeti.smoothSingularSubcomplex`, `TauCeti.smoothSingularSubcomplexMap`;
-AlgebraicTopology Stage 2 (chain homotopy of a homotopy).
+Prove both inverse identities from pushforward naturality and two chain homotopies from
+`(j ∘ r)_*` to the identity; no homotopy `r ∘ j ~ id_N` is used. On singular chains it is
+Mathlib's `TopCat.Homotopy.singularChainComplexFunctorObjMap` of the restriction of `Φ` to
+`[0, 1] × M`. On smooth chains it is the smooth prism operator, Mathlib's
+`SSet.Homotopy.chainComplexMap` of the simplicial homotopy that `TopCat.Homotopy.toSSet` of that
+restriction induces on `TauCeti.smoothSingularSubcomplex I M`: prove that this simplicial homotopy
+preserves smooth simplices, because the simplices of `Δ[1]` act through affine maps of the
+simplex into `ℝ` and `Φ` is jointly smooth on `ℝ × M`. Two homotopy inverses of one map are
+homotopic (`s ~ s ≫ i ≫ t ~ t`), so the transferred inverse is independent of `j`, `r`, `Φ` and `s`
+up to homotopy and the induced map on homology is natural. Inward domination (§2.2) supplies such
+a triple with `N = I.interior M`, `j` the inclusion and `r` the retraction; the equivalence for
+`M` itself is DifferentialGeometry 8.3's, imported as stated. The transfer lemma is this
+roadmap's. *Needs:* §2.2; Tau Ceti `TauCeti.smoothSingularSubcomplex`,
+`TauCeti.smoothSingularSubcomplexMap`; Mathlib `TopCat.Homotopy.singularChainComplexFunctorObjMap`,
+`TopCat.Homotopy.toSSet`, `SSet.Homotopy.chainComplexMap`.
 
 **Checks.**
 
@@ -507,17 +587,21 @@ that subcomplex; and `smoothPairToSingular I X W`, the inclusion of the first pa
 second. Their relative chain complexes (`SSetPair.chainComplex`) are `C^∞(X)/C^∞(W)` and
 `C(X)/C(W)`, a smooth simplex of `X` with image in the open `W` being a smooth simplex of `W`.
 Prove `quasiIso_smoothPairToSingular`: with real coefficients,
-`SSetPair.chainComplexMap (smoothPairToSingular I X W)` is a quasi-isomorphism, by the five lemma
-on the short exact sequences of chains of the two pairs from DifferentialGeometry 8.3's absolute
-comparisons for `X` and for `W` (an open subset of a σ-compact finite-dimensional manifold is
-σ-compact). Over `ℝ`, give the relative comparison and its homotopy inverse from degreewise
-splittings of cycles and boundaries, compatibly with the dual map; the dual relative cochain
-quasi-isomorphism against Tau Ceti's `TopPair.singularCochainComplex` of the pair `(X, W)`, whose
-singular simplices of `W` are those of `singularPairIn X W`; naturality in smooth maps of pairs
-(through `TauCeti.smoothSingularSubcomplexMap`), relative boundary maps and enlargement of `W`.
-*Needs:* DifferentialGeometry 8.3; Tau Ceti `TauCeti.smoothSingularSubcomplex`,
-`TopCat.smallSingularSubcomplex` and relative cochains; Mathlib `SSetPair.chainComplexMap`;
-AlgebraicTopology Stages 2 and 6.1.
+`SSetPair.chainComplexMap (smoothPairToSingular I X W)` is a quasi-isomorphism. Route: Tau Ceti's
+five-lemma comparison `SSetPair.quasiIso_chainComplexMap` reduces it to the absolute comparisons on
+the two members, which are DifferentialGeometry 8.3's for `X` and for `W` (an open subset of a
+σ-compact finite-dimensional manifold is σ-compact, and the smooth simplices of `X` with image in
+`W` are those of `W`). The absolute smoothing theorem is [Lee, Thm. 18.7]; the relative form over
+models with corners is this roadmap's. Over `ℝ`, give the relative comparison and its homotopy
+inverse from degreewise splittings of cycles and boundaries, compatibly with the dual map; the
+dual relative cochain quasi-isomorphism against Tau Ceti's `TopPair.singularCochainComplex` of the
+pair `(X, W)`, whose singular simplices of `W` are those of `singularPairIn X W`, by
+`SSetPair.quasiIso_cochainComplexMap` from the dual absolute comparisons; naturality in smooth
+maps of pairs (through `TauCeti.smoothSingularSubcomplexMap`), relative boundary maps and
+enlargement of `W`. *Needs:* DifferentialGeometry 8.3; Tau Ceti `TauCeti.smoothSingularSubcomplex`,
+`TopCat.smallSingularSubcomplex`, `TopPair.singularCochainComplex`,
+`SSetPair.quasiIso_chainComplexMap`, `SSetPair.quasiIso_cochainComplexMap`; Mathlib
+`SSetPair.chainComplexMap`.
 
 **Checks.**
 
@@ -547,8 +631,9 @@ arbitrarily little in `C⁰` and fixes the boundary; then apply
 `Continuous.exists_contDiff_approx_and_eqOn` with that collar fixed. Export the smooth filling, the
 straight-line homotopy rel boundary and its `C⁰` bound; a compact image reserve in an open
 `U ⊆ V` is preserved by a tolerance from finitely many balls; restriction, collar refinement,
-coordinate change and finite products. *Needs:* Mathlib `Continuous.exists_contDiff_approx_and_eqOn`,
-`exists_contMDiffMap_one_nhds_of_subset_interior`.
+coordinate change and finite products. The approximation without boundary data is Mathlib's; the
+form with prescribed collar data is this roadmap's. *Needs:* Mathlib
+`Continuous.exists_contDiff_approx_and_eqOn`, `exists_contMDiffMap_one_nhds_of_subset_interior`.
 
 **Checks.**
 
@@ -568,8 +653,8 @@ smallest relative chain computation.
 ### Dependencies
 
 DifferentialGeometry 8.3; Tau Ceti exhaustion functions, flows, smooth singular simplices, small
-singular chains and relative cochains; AlgebraicTopology Stages 2, 3 and 6.1; Mathlib partitions of
-unity, smooth approximation and pairs of simplicial sets.
+singular chains, relative cochains and the five-lemma comparisons for pairs; Mathlib partitions of
+unity, smooth approximation, pairs of simplicial sets and homotopy invariance of chains.
 
 ## Layer 3: relative de Rham theory
 
@@ -578,14 +663,19 @@ unity, smooth approximation and pairs of simplicial sets.
 For `X` as in Layer 2 and an open `W ⊆ X`, extend the de Rham complexes `TauCeti.deRhamComplex` of
 `X` and of `W` by zero along `ComplexShape.embeddingUpNat` and define the relative complex as
 `CochainComplex.mappingCocone` of the extended restriction `TauCeti.deRhamComplex.map` along the
-inclusion of `W`. Export the coordinate isomorphism with
-degree-`q` term `Ω^q(X) ⊕ Ω^(q−1)(W)` and differential `(α, β) ↦ (dα, α|_W − dβ)`: the coordinate
-map to the shifted cone is `(α, β) ↦ (α, −β)`, whose shifted differential in coordinates `(α, g)` is
-`(dα, −α|_W − dg)`. The connecting map is `δ[b] = −[(0, b)]`; when `b` extends to `b̃` on `X` it
-equals `[(db̃, 0)]`. This is [Bott–Tu, Ch. I, §6, relative de Rham theory] for an open inclusion;
-the identification with Mathlib's cocone and its signs is this roadmap's. *Needs:* Tau Ceti
-`TauCeti.deRhamComplex`, `TauCeti.deRhamComplex.map`; Mathlib `CochainComplex.mappingCocone`,
-`HomologicalComplex.extend`.
+inclusion of `W`. Its coordinates are Tau Ceti's `CochainComplex.mappingCocone.relativeCoordinates`
+for this restriction: they identify the degree-`q` term with `Ω^q(X) × Ω^(q−1)(W)` by negating
+Mathlib's second projection, so that the differential is `(α, β) ↦ (dα, α|_W − dβ)`
+(`CochainComplex.mappingCocone.relativeCoordinates_d`), the relative cocycles are the pairs with
+`dα = 0` and `α|_W = dβ`, the relative coboundaries are the pairs `(dγ, γ|_W − dε)`, and smooth maps
+of open pairs act componentwise (`CochainComplex.mappingCocone.relativeCoordinates_map`). In
+Mathlib's own coordinates `(α, g) = (α, −β)` the differential reads `(dα, −α|_W − dg)`. Define the
+connecting map `δ : H^(q−1)(W) → H^q(X, W)` by `δ[b] = −[(0, b)]`; when `b` extends to `b̃` on `X`
+it equals `[(db̃, 0)]`, since `d(b̃, 0) = (db̃, b)`. This is [Bott–Tu, Ch. I, §6] for an open
+inclusion; the sign of `δ` and its agreement with the singular connecting map are this roadmap's.
+*Needs:* Tau Ceti `TauCeti.deRhamComplex`, `TauCeti.deRhamComplex.map`,
+`CochainComplex.mappingCocone.relativeCoordinates` and its API; Mathlib
+`CochainComplex.mappingCocone`, `HomologicalComplex.extend`.
 
 **Checks.**
 
@@ -597,24 +687,50 @@ the identification with Mathlib's cocone and its signs is this roadmap's. *Needs
   evaluates to `1`, which is the singular `(δb)(c) = b(∂c) = 1`; the opposite convention
   `δ[b] = [(0, b)]` gives `−1`.
 
-### 3.2 The cone of a surjection and relative integration
+### 3.2 The cocone of a surjection and relative integration
 
-For a degreewise surjective cochain map, build the comparison from its shifted cone to its kernel:
-a chain map, a quasi-isomorphism, compatible with the connecting maps including the sign (no
-closed-pair or cofibration hypothesis). Apply it to smooth and continuous singular cochains, whose
-restriction to `W` is surjective (extend simplex coefficients by zero). Restriction of forms to `W`
-need not be surjective, so the form cone is never identified with a kernel. Relative integration is
-the induced cone map; prove its evaluation formula `∫_c α − ∫_{∂c} β`, identity, composition and
-naturality for smooth maps of open pairs. A closed `α` vanishing on `W` gives the relative cocycle
-`(α, 0)`, sent to the cochain evaluating `α` on relative smooth chains, with absolute image
-`deRhamHom [α]`. *Needs:* §3.1, §2.4; DifferentialGeometry 8.4.
+For a short exact sequence `0 → N → K → L → 0` of `ℤ`-indexed cochain complexes in an abelian
+category, the lift `N ⟶ mappingCocone (K → L)` of the inclusion, `a ↦ (a, 0)` in relative
+coordinates, is a quasi-isomorphism (`CochainComplex.mappingCocone.quasiIso_lift_of_shortExact`),
+with no closed-pair or cofibration hypothesis. There is no canonical chain map in the other
+direction without a splitting. Prove that this lift carries the connecting map of the sequence to
+the connecting map `δ[b] = −[(0, b)]` of the cocone, sign included: for a cocycle `b` of `L` and a
+lift `b̃` to `K`, the connecting map of the sequence sends `[b]` to `[db̃]`, and `(db̃, 0)` differs
+from `−(0, b)` by the coboundary `d(b̃, 0) = (db̃, b)`. This is dual to Mathlib's
+`CochainComplex.mappingCone.homologySequenceδ_triangleh` for the cone of a monomorphism; the
+cocone statement with this sign is this roadmap's. Apply it to smooth and to continuous singular
+cochains, extended by zero to `ℤ`, whose restriction to `W` is surjective (extend simplex
+coefficients by zero; for continuous cochains the sequence is
+`TopPair.shortExact_singularCochainComplexShortComplex`, with connecting map
+`TopPair.singularCohomologyδ`). Restriction of forms to `W` need not be surjective, so the form
+cocone is never compared with a kernel. Relative integration is the map of cocones induced by the
+integration of forms over smooth simplices (DifferentialGeometry 8.4), which commutes with
+restriction to `W` and acts as `(α, β) ↦ (∫α, ∫β)` in relative coordinates, followed on cohomology
+by the inverse of the lift for smooth singular cochains. Prove its evaluation formula
+`∫_c α − ∫_{∂c} β` on relative smooth cycles `c` (extend `∫β` by zero off `W` to `e` and subtract
+`d(e, 0)`), identity, composition and naturality for smooth maps of open pairs. A closed `α`
+vanishing on `W` gives the relative cocycle `(α, 0)`, sent to the class of the cochain evaluating
+`α` on relative smooth chains, with absolute image `deRhamHom [α]`. *Needs:* §3.1, §2.4;
+DifferentialGeometry 8.4; Tau Ceti `CochainComplex.mappingCocone.quasiIso_lift_of_shortExact`,
+`CochainComplex.mappingCocone.relativeCoordinates_map`,
+`TopPair.shortExact_singularCochainComplexShortComplex`.
 
 **Checks.**
 
 - On `(ℝ, ℝ ∖ {0})`, `α = ψ dx` with `ψ` supported in `(−1, 1)` and `∫ψ = 1`, `β` a primitive of
   `ψ` on `W` equal to `0` left of the support and `1` right of it: relative integration over
   `[−1, 1]` is `1 − 1 = 0`, and indeed `(α, β) = d(Ψ, 0)` for the global primitive `Ψ`.
-- The cone of `id` on a complex is acyclic and its kernel is `0`.
+- Sign of the comparison, on singular cochains of `(ℝ, ℝ ∖ {0})`: let `b` be the `0`-cocycle of `W`
+  equal to `1` on points of `(0, ∞)` and `0` on points of `(−∞, 0)`, and `b̃` its extension by zero.
+  The connecting map of the sequence gives the relative cocycle `b̃ ∘ ∂`, whose value on the path
+  `c = [−1, 1]` is `b̃(1) − b̃(−1) = 1`; its lift `(b̃ ∘ ∂, 0)` is cohomologous to `−(0, b)`. So the
+  lift carries it to `δ[b]`, which evaluates to `1` on `c`, as in §3.1; with the opposite
+  convention `δ[b] = [(0, b)]` the square commutes only up to `−1`, and the value is `−1`.
+- No canonical map from the cocone to the kernel: for `K = ℝ²`, `L = ℝ` in degree `0` and the
+  projection `(k₁, k₂) ↦ k₁`, the kernel is `{(0, k₂)}`, the degree-`0` cocone term is `ℝ² × 0`
+  and its `H⁰` is `{((0, k₂), 0)}`; for every real `t`, `((k₁, k₂), 0) ↦ (0, k₂ + t·k₁)` is a chain
+  map from the cocone to the kernel inducing on `H⁰` the inverse of the lift
+  `(0, k₂) ↦ ((0, k₂), 0)`, so a target defined as "the" map in that direction is not determined.
 - Restriction `Ω⁰(ℝ) → Ω⁰(ℝ ∖ {0})` is not surjective (`1/x` does not extend), so the kernel model
   is wrong for forms.
 
@@ -623,8 +739,10 @@ naturality for smooth maps of open pairs. A closed `α` vanishing on `W` gives t
 Prove that relative integration induces an isomorphism `H^q(X, W) ≅ H^q(X, W; ℝ)` onto
 Tau Ceti's relative singular cohomology, from DifferentialGeometry 8.5 on `X` and on `W`, §2.4's
 relative comparison and the five lemma, compatible with both long exact sequences including the
-sign of `δ`; compatible with enlargement of `W` and with compactly supported relative classes.
-*Needs:* §§3.1–3.2, §2.4; DifferentialGeometry 8.5; Tau Ceti's long exact sequence of a pair.
+sign of `δ`; compatible with enlargement of `W` and with compactly supported relative classes. The
+absolute de Rham theorem is [Lee, Thm. 18.14]; the relative form is this roadmap's. *Needs:*
+§§3.1–3.2, §2.4; DifferentialGeometry 8.5; Tau Ceti's long exact sequence of a pair
+(`TopPair.singularCohomologyδ`).
 
 **Checks.**
 
@@ -640,7 +758,8 @@ The pairs `(ℝ, ℝ ∖ {0})` and `(ℝ², ℝ² ∖ {0})`.
 
 ### Dependencies
 
-Tau Ceti de Rham complexes and relative cochains; DifferentialGeometry 8.4 and 8.5; §2.4.
+Tau Ceti de Rham complexes, relative coordinates on the cocone, the kernel-to-cocone
+quasi-isomorphism and relative cochains; DifferentialGeometry 8.4 and 8.5; §2.4.
 
 ## Layer 4: integration against fundamental classes
 
@@ -649,8 +768,14 @@ Tau Ceti de Rham complexes and relative cochains; DifferentialGeometry 8.4 and 8
 On Hausdorff σ-compact finite-dimensional boundaryless manifolds `N` over any real model, with an
 orientation `o : TauCeti.Manifold.Orientation` and the homological orientation `o_h` that
 AlgebraicTopology 6.3 attaches to it (a `TauCeti.HomologicalOrientation` of `N` read as a
-topological manifold modelled on `E`, whose local orientation at each point is
-`TauCeti.localOrientationOfManifoldOrientation`):
+topological manifold modelled on `E`). In positive dimension `m` its local orientation at `x` is
+the image under AlgebraicTopology 6.3's open-embedding local map of
+`TauCeti.localOrientationOfManifoldOrientation` of the pullback of `o` to its Euclidean rechart
+along a linear equivalence `E ≃L[ℝ] EuclideanSpace ℝ (Fin m)`, independent of that equivalence:
+the pinned declaration takes only orientations over `𝓘(ℝ, E′)` for an inner-product space `E′` of
+dimension `m ≥ 1`. In dimension `0` it is the signed point class `ε_o(x)[x]`, `ε_o(x) = ±1` the
+sign of `o` at `x`. The pairing `⟨·, ·⟩` below is Tau Ceti's `TopCat.singularKronecker`, and
+`TopPair.singularKronecker` on pairs:
 
 - for compact `N` and every smooth top form `η`,
   `TauCeti.integralTopForm o η = ⟨deRhamHom [η], [N]_ℝ⟩`, where `[N]_ℝ` is
@@ -681,7 +806,9 @@ from the relative evaluation of §3.2 at `β = 0` and the one-chart integral ide
 `Σ_{x ∈ K} ε_o(x) α(x)` of `TauCeti.integralTopForm_ofFunction_finite_zeroDim`. The interior
 compact-support formula on a manifold `M` with boundary, which §4.2 uses, is the second bullet on
 the boundaryless open submanifold `I.interior M`, carried to `M` by
-`TauCeti.integralTopForm_mpullback_subtypeVal` and excision of `M ∖ I.interior M`; general
+`TauCeti.integralTopForm_mpullback_subtypeVal` and excision of `M ∖ I.interior M`
+(`TopPair.isIso_singularHomologyMap_excisionMap_of_isClosed_subset` for `K` inside the open
+`I.interior M`); general
 orientation-preserving open embeddings of equal dimension are Tau Ceti's
 `Topology.IsOpenEmbedding.integralTopForm_mpullback_of_isOrientationPreservingAt`. The statement is
 a de Rham form of the fact that the fundamental class is dual to integration ([Bott–Tu, §5] for the
@@ -689,7 +816,10 @@ compact boundaryless case through Poincaré duality); the chain-level comparison
 classes is this roadmap's. *Needs:* Layer 3; DifferentialGeometry 8.4; Tau Ceti
 `TauCeti.integralTopForm`, `TauCeti.integralTopForm_add`,
 `TauCeti.HomologicalOrientation.fundamentalClassOn`,
-`TauCeti.HomologicalOrientation.realFundamentalClass`; AlgebraicTopology 6.1 and 6.3 (the
+`TauCeti.HomologicalOrientation.realFundamentalClass`,
+`TauCeti.localOrientationOfManifoldOrientation`,
+`TopCat.singularKronecker`, `TopPair.singularKronecker`,
+`TopPair.isIso_singularHomologyMap_excisionMap_of_isClosed_subset`; AlgebraicTopology 6.3 (the
 homological orientation of a tangent orientation).
 
 **Checks.**
@@ -735,7 +865,7 @@ near `∂M` and supported in a closed neighbourhood inside `U`; `γ = ρβ` exte
 ### Dependencies
 
 Layer 3; DifferentialGeometry 8.4; Tau Ceti orientations, integration of top forms, Stokes'
-theorem, fundamental classes and collars; AlgebraicTopology 6.1 and 6.3.
+theorem, fundamental classes, excision, the Kronecker pairing and collars; AlgebraicTopology 6.3.
 
 ## Layer 5: finite-parameter relative transversality
 
@@ -771,13 +901,20 @@ derivative of `incidenceEquation F j` at every zero. *Needs:* Tau Ceti
 
 Prove `addHaar_setOf_not_isRegularIncidenceParameter`: for finite-dimensional `E, W, V, P` and
 smooth `F`, `j` with universal transversality, the parameters whose slice is not transverse form a
-Haar-null set. The incidence is a smooth manifold by Tau Ceti's level-set charts; at an incidence
-point the projection to `P` is regular exactly when the slice derivative is onto; apply
-`TauCeti.addHaar_image_criticalPoints_eq_zero` in countably many incidence charts. Neither
-properness nor closedness of `j(W)` is assumed. This refines Tau Ceti's meagre statement
-`TauCeti.isMeagre_setOf_not_isRegularParameter` to a null one; the parametric transversality
-theorem for embedded submanifolds is [Lee, Thm. 6.35]. *Needs:* §5.1; Tau Ceti level-set charts and
-flat Sard.
+set that is null for every additive Haar measure on `P`. Route: the incidence
+`{((x, y), p) | F(x, p) = j(y)}` is a smooth manifold by Tau Ceti's level-set charts
+`TauCeti.levelSetChart`, universal transversality being surjectivity of the full derivative of
+`incidenceEquation F j` at its zeros; at an incidence point the projection to `P` is regular
+exactly when the slice derivative is onto; apply `TauCeti.addHaar_image_criticalPoints_eq_zero` in
+countably many incidence charts. Neither properness nor closedness of `j(W)` is assumed. This
+refines Tau Ceti's meagre statement `TauCeti.isMeagre_setOf_not_isRegularParameter` to a null one.
+At a point with `F(x, p) = j(y)`, the image of the slice derivative of `(x, y) ↦ (F(x, p), j(y))`
+together with the tangent space `{(a, a)}` of the diagonal is all of `V × V` exactly when
+`(u, v) ↦ D_xF(x, p)u − Dj(y)v` is onto, because `(D_xF u + a, Dj v + a) = (c₁, c₂)` is solvable
+iff `D_xF u − Dj v = c₁ − c₂` is; so this is the flat case, against the diagonal, of the parametric
+transversality theorem for embedded submanifolds [Lee, Thm. 6.35], and the incidence form against
+a map is this roadmap's. *Needs:* §5.1; Tau Ceti `TauCeti.levelSetChart` and
+`TauCeti.addHaar_image_criticalPoints_eq_zero`.
 
 **Checks.**
 
@@ -833,7 +970,8 @@ parabola family `x² + p` has the single bad parameter `0`.
 - **"A semiflow of a strictly inward field is a collar."** Not for a general convex model; collars
   are GeometricTopology's.
 - **"The form cone is the kernel of restriction."** Restriction of forms to an open need not be
-  surjective; only the cochain cones are identified with kernels.
+  surjective; the kernel-to-cocone quasi-isomorphism of §3.2 applies only to the cochain
+  sequences.
 - **"A continuous `1`-form can be integrated along continuous paths."** Continuity alone gives no
   primitives (`x dy` has none on any disc, §1.1); local primitives are the hypothesis of Layer 1.
 - **"Transverse parameters are dense, hence the bad set is null."** Density is Tau Ceti's meagre
@@ -847,22 +985,21 @@ parabola family `x² + p` has the single bad parameter `0`.
   pairs, enlargement of `W` and the absolute image of `(α, 0)` (§§3.1–3.3); the relative
   smooth/continuous chain comparison (§2.4); and the compact-support integration formula with its
   compact absolute case, dimension-zero sign and independence of `K` (§4.1), whose change of
-  variables along open embeddings is Tau Ceti's. K6.1
-  names these as DifferentialGeometry 8.4's, 8.3's and 9.3's; DifferentialGeometry 8.3, 8.4 and 9.3
-  plan the absolute theory only. Citations of these targets as DR.3.8 and DR.4.4 refer to
-  §§3.1–3.3 and §4.1 here.
+  variables along open embeddings is Tau Ceti's. K6.1 names these as DifferentialGeometry 8.4's,
+  8.3's and 9.3's; DifferentialGeometry 8.3, 8.4 and 9.3 plan the absolute theory only.
 
 ## Prior work
 
-Yury Kudryashov's `github.com/urkud/DeRhamCohomology` for the de Rham carriers consumed from
-DifferentialGeometry; cited for design, never as the definition of a target.
+Yury Kudryashov's `github.com/urkud/DeRhamCohomology` for the de Rham carriers consumed from Tau
+Ceti; cited for design, never as the definition of a target.
 
 ## References
 
 - [Lee] John M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Graduate Texts in Mathematics
   218, Springer, 2013: Prop. 2.28 (exhaustion functions), Thms. 9.24–9.26, pp. 222–223 (boundary
   flowout, collar neighbourhoods, homotopy equivalence with the interior), Thms. 6.35–6.36
-  (parametric transversality).
+  (parametric transversality), Thm. 18.7 (smooth singular homology) and Thm. 18.14 (the de Rham
+  theorem).
 - [Bott–Tu] Raoul Bott and Loring W. Tu, *Differential Forms in Algebraic Topology*, Graduate
   Texts in Mathematics 82, Springer, 1982: Ch. I, §5 (Poincaré duality) and §6 (relative de Rham
   theory).
