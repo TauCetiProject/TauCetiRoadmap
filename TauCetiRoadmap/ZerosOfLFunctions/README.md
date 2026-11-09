@@ -163,7 +163,10 @@ not the roadmap.
   `MeromorphicOn.meromorphicOrderAt_ne_top_of_isPreconnected`, `MeromorphicOn.extract_zeros_poles`,
   `meromorphicTrailingCoeffAt` (divisors, local finiteness, identity theorem, normal form);
 - `MeromorphicOn.circleAverage_log_norm`, `AnalyticOnNhd.sum_divisor_le` (Jensen's formula and
-  the disc zero bound);
+  the disc zero bound), with `AnalyticAt.analyticOrderAt_eq_natCast` (the factorization
+  `f = (z − c)^m g`, `g c ≠ 0`, at a zero of finite order) and
+  `Complex.norm_le_of_forall_mem_frontier_norm_le` with `frontier_ball` (the maximum principle on a
+  ball) for the trailing-coefficient form of 4.3;
 - `ValueDistribution.logCounting`, `ValueDistribution.log_counting_zero_sub_logCounting_top`,
   `Function.locallyFinsuppWithin.logCounting_divisor_eq_circleAverage_sub_const` (Nevanlinna
   counting, for the comparison of 4.6);
@@ -181,8 +184,10 @@ not the roadmap.
 - `Complex.Gamma_eq_integral`, `Real.Gamma_eq_integral`, `Real.convexOn_Gamma`,
   `Complex.Gamma_conj`, `Complex.Gammaℝ_conj`, `Complex.Gammaℂ_conj`, `deriv_conj_conj`,
   `Complex.digamma_one_sub`, `Complex.digamma_two_mul`, `completedRiemannZeta_one_sub`,
-  `logDeriv_riemannZeta_one_sub` (Euler's integral, conjugation, and the functional equation of
-  `ζ'/ζ`, for 1.3a and 1.4a);
+  `logDeriv_riemannZeta_one_sub`, `Complex.Gammaℝ_eq_zero_iff`, `differentiableAt_riemannZeta`,
+  `logDeriv_congr_nhds`, `logDeriv_congr_nhdsNE`, `logDeriv_mul`, `logDeriv_comp` (Euler's
+  integral, conjugation, and the functional equation of `ζ'/ζ`, for 1.3a and 1.4a);
+- `Summable.of_nonneg_of_le` (comparison, for 5.6a);
 - `completedRiemannZeta`, `completedRiemannZeta₀`, `riemannZeta`, `riemannZeta_zero`,
   `riemannZeta_def_of_ne_zero`, `riemannZetaZeros`, `isDiscrete_riemannZetaZeros`,
   `IsCompact.inter_riemannZetaZeros_finite`, `RiemannHypothesis`;
@@ -555,8 +560,9 @@ in 8.4.
 
 *Needs:* 1.4; Mathlib `Complex.Gamma_conj`, `Complex.Gammaℝ_conj`, `Complex.Gammaℂ_conj`,
 `deriv_conj_conj`, `logDeriv_riemannZeta_one_sub`, `completedRiemannZeta_one_sub`,
-`riemannZeta_def_of_ne_zero`, `Complex.digamma_one_sub`, `Complex.digamma_two_mul`,
-`logDeriv_congr_nhdsNE`; Tau Ceti
+`riemannZeta_def_of_ne_zero`, `Complex.Gammaℝ_eq_zero_iff`, `differentiableAt_riemannZeta`,
+`Complex.differentiable_Gammaℝ_inv`, `logDeriv_congr_nhds`, `logDeriv_mul`, `logDeriv_comp`,
+`Complex.digamma_one_sub`, `Complex.digamma_two_mul`, `logDeriv_congr_nhdsNE`; Tau Ceti
 `TauCeti.LFunctions.AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq` and
 `HasFunctionalEquation.norm_rootNumber` (L-functions Layer 0,
 `NumberTheory/LFunctions/Data/Basic.lean`); L-functions Layer 3 `completedDedekindZeta_one_sub`.
@@ -939,7 +945,10 @@ with bound `1` to `(R^m/M) g`, whose zeros are those of `g`. The scalar is posit
 since otherwise `f` vanishes on the sphere and hence, by the maximum principle, on the whole ball,
 against the finiteness of `m`. Applying the first form to `g` itself would need `1 ≤ M/R^m`.
 
-*Needs:* Mathlib `AnalyticOnNhd.sum_divisor_le`, `meromorphicTrailingCoeffAt`.
+*Needs:* Mathlib `AnalyticOnNhd.sum_divisor_le`, `meromorphicTrailingCoeffAt`,
+`AnalyticAt.analyticOrderAt_eq_natCast` (the factorization `f = (z − c)^m g` with `g c ≠ 0`, which
+makes `g` analytic at `c` with `g c = a`), `Complex.norm_le_of_forall_mem_frontier_norm_le` and
+`frontier_ball` (the maximum principle on `ball c R`, for `M > 0`).
 
 **Checks.**
 
@@ -1142,9 +1151,10 @@ this to `Re s < 0`. Next, `s ↦ Λ₀(s + 2)` is entire with `OrderLE _ 1`, sin
 at `0`; so 5.3 gives `∑_ρ m_ρ ‖ρ − 2‖^{−2} < ∞`. For `0 ≤ Re ρ ≤ 1`,
 `‖ρ − 2‖² ≤ 4 + (Im ρ)² ≤ 4(1 + (Im ρ)²)`, and comparison (`Summable.of_nonneg_of_le`) concludes.
 
-*Needs:* 5.3, 3.1, 1.5, 4.2; Layer 0 *entireCompletion*; Tau Ceti
-`TauCeti.LFunctions.AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq` (L-functions Layer 0,
-`NumberTheory/LFunctions/Data/Basic.lean`); L-functions Layers 3 and 5 (the Euler products).
+*Needs:* 5.3, 3.1, 1.5, 4.2; Layer 0 *entireCompletion*; Mathlib `Summable.of_nonneg_of_le`;
+Tau Ceti `TauCeti.LFunctions.AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq`
+(L-functions Layer 0, `NumberTheory/LFunctions/Data/Basic.lean`); L-functions Layers 3 and 5 (the
+Euler products).
 
 **Checks.**
 
@@ -1528,8 +1538,8 @@ those at the negative odd integers, each of order `r₂`, giving
 together with the horizontal edges of 8.2. At `K = ℚ` it is `chebyshevPsi_explicitFormula`
 (Davenport §17), where `T ≤ x` absorbs the near-prime-power term.
 
-*Needs:* 8.2; Arithmetic Dirichlet Series §2.3 `IdealArithmeticFunction.vonMangoldt`; L-functions Layer 8
-`dedekindZeta_logDeriv_eq`.
+*Needs:* 8.1, 8.2; Arithmetic Dirichlet Series §2.3 `IdealArithmeticFunction.vonMangoldt`;
+L-functions Layer 8 `dedekindZeta_logDeriv_eq`.
 
 **Checks.**
 
@@ -1610,7 +1620,7 @@ coming from the reflection to `χ⁻¹`; order `#{j : a_j = 0} + r₂` at `s = 0
 and 8.5 are, from 8.1–8.2 for `χ`, the region of 6.4 and the count 4.5; Davenport §§19–20 is the
 `K = ℚ` case.
 
-*Needs:* 8.2–8.5, 6.3–6.5, 4.5, 1.5.
+*Needs:* 8.1–8.5, 6.3–6.5, 4.5, 1.5.
 
 **Checks.**
 
