@@ -59,15 +59,10 @@ elsewhere. In particular it owns:
 - fundamental chains rel boundary of topological manifolds with corners in normalized cubical
   chains (Layer 0);
 - the cubical and universe-polymorphic forms of the degree-one Hurewicz isomorphism
-  `π₁(X)ᵃᵇ ≅ H₁(X; ℤ)`, CW approximation of spaces that are not path-connected, invariance of
-  cohomology under weak equivalences and the comparison for `k`-connected maps, lifting for
-  arbitrary relative CW pairs and the fibration homotopy exact sequence of a Serre fibration, and
-  the ordinary homological and multiplicative cohomological Serre spectral sequences over
-  arbitrary CW and arbitrary bases, with their cubical transport (Layer 1 items 1–2);
-- the homological regrading of Tau Ceti's filtered-complex spectral sequence and the complete
-  convergence theorem for decreasing cochain filtrations (Layer 1 item 3);
-- Hurewicz modulo a Serre class, the functorial Eilenberg–MacLane models `K(A, n)` for abelian
-  `A` with their uniqueness, and the mod-2 vanishing theorem (Layer 1 item 4);
+  `π₁(X)ᵃᵇ ≅ H₁(X; ℤ)` (Layer 1 item 1), and the transport of AlgebraicTopology's homological
+  Serre spectral sequence over a CW base to normalized cubical chains (Layer 1 item 2);
+- the natural surjection `H₁(Z; ℤ) → H₁(Z; ℤ/2)`, the vanishing of `H̃_*(K(A, n); 𝔽₂)` for a
+  `ℤ[1/2]`-module `A`, the one-step lemma and the mod-2 vanishing theorem (Layer 1 item 4);
 - independence of the Pontryagin–Thom collapse of a framed submanifold from the tube, its effect
   on fundamental classes and its compatibility with shriek maps (Layer 1 item 5);
 - local triviality of evaluation `Diff(M) → O` onto the orbit of a chosen point (Layer 1 item 6);
@@ -161,7 +156,27 @@ basepoint change; Layer 3 items 2, 3 and 4: `TauCeti.fibrationLocalSystem`,
 `TauCeti.classicalDGLocalSystemEquivalence` and `TauCeti.RankOneLocalSystem`. Layer 4 items 1, 2,
 3 and 4: `TauCeti.TwistingCocycle`, `TauCeti.TwistingCocycle.twistedCochainComplex`,
 `TauCeti.ContinuationCocycle` with `TauCeti.ParametrizedCocycle`, and
-`TauCeti.TwistingCocycle.indexSpectralSequence`; Layer 4 item 5: Layer 4 item 1.
+`TauCeti.TwistingCocycle.indexSpectralSequence`; Layer 4 item 5: Layer 4 item 1. The ordinary
+targets of Layer 1 items 2–4 are AlgebraicTopology's, and a citation of one of them resolves
+there:
+
+- Layer 1 item 2's CW approximation of arbitrary spaces and its connected-map homology
+  comparison (cited as connectedMapHomologyComparison): AlgebraicTopology Stage 4.8.
+- Layer 1 item 2's relative-CW lifting, fibre transport and fibration homotopy exact sequence:
+  AlgebraicTopology Stage 5.5.
+- Layer 1 item 2's homological, cohomological and multiplicative Serre spectral sequences over
+  CW and arbitrary bases (cited as arbitraryCWSerreSpectralSequence and
+  arbitraryBaseSerreSpectralSequence) and its Serre preimage excision (cited as
+  serrePreimageSubcomplexExcision): AlgebraicTopology Stage 5.5.
+- Layer 1 item 3's homological regrading and its classical and complete convergence theorems:
+  AlgebraicTopology Stage 5.0.
+- Layer 1 item 4's Serre classes and Hurewicz modulo a Serre class: AlgebraicTopology Stage 8.8d.
+- Layer 1 item 4's functorial abelian Eilenberg–MacLane spaces `K(A, n)`, with their
+  presentation model, uniqueness and loop identification: AlgebraicTopology Stage 8.8c.
+
+Layer 1 item 2 keeps its number for the cubical transport, and Layer 1 item 4 for the mod-2
+chain comparison, the mod-2 vanishing of `K(A, n)`, the one-step lemma and the mod-2 vanishing
+theorem.
 
 **Left to named roadmaps.** The following objects are built elsewhere; this roadmap consumes
 them by name and section (see the supplier contracts) and does not restate them.
@@ -179,7 +194,7 @@ them by name and section (see the supplier contracts) and does not restate them.
 | Global flux of symplectic paths, the Hamiltonian kernel, the endpoint quotient `Ham → Symp₀ → H¹_dR/Γ_ω`, the area-normalized torus lattice and compact-support flux | HamiltonianReduction R1a.0–R1a.4 | R1a.0–R1a.1 and R1a.3–R1a.4 are not consumed; R1a.2's identity component `Symp₀(M, ω)` with its `C^∞` topology is consumed by Layer 7.T item 9 |
 | The `Sp(2, ℝ)` polar factorization `A = PU ↦ P^{1−t}U` and its symplectic polar factors | CotangentLagrangian C2.0–C2.1 | not consumed here |
 | Period-controlled Novikov completions, finite-below convolution, total quotient rings and based torsion | MorseNovikov N1 and N4 | consumed by Layers 7.C and 7.T; N6's finite-dimensional bifurcation theorem is not a Floer theorem and is not consumed |
-| Singular and twisted chains, CW pairs, Eilenberg–Zilber and Künneth, fundamental classes and duality, relative Hurewicz and Whitehead, the Hurewicz map of Stage 8.3, the bar construction of Stage 8.8 | AlgebraicTopology Stages 2–8 | consumed by Layers 0–1 and 5 |
+| Singular and twisted chains, CW pairs, Eilenberg–Zilber and Künneth, fundamental classes and duality, relative Hurewicz and Whitehead, the Hurewicz map of Stage 8.3, the bar construction of Stage 8.8; CW approximation of arbitrary spaces and the connected-map homology comparison (Stage 4.8); the adapters and convergence theorems of the filtered-complex spectral sequence (Stage 5.0); relative-CW lifting, the homotopy exact sequence and the homological, cohomological and multiplicative Serre spectral sequences of a Serre fibration over CW and arbitrary bases (Stage 5.5); the functorial abelian Eilenberg–MacLane spaces with their uniqueness (Stage 8.8c); Serre classes and Hurewicz modulo a Serre class (Stage 8.8d) | AlgebraicTopology Stages 2–8 | consumed by Layers 0–1, 5, 9 and 10 |
 | Collars and tubular neighbourhoods | GeometricTopology Layer 1 | consumed by Layer 1 item 5 and Layer 11 item 2; `Diff(M)` with its `C^∞` topology and the smooth-families map, which GeometricTopology Layer 3 plans, and the flow diffeotopies of complete vector fields on boundaryless finite-dimensional manifolds are already in Tau Ceti (`TauCeti.Diff`, `Diffeomorph.ofSmoothFamily`, `TauCeti.globalFlowDiffeotopy`), and the local triviality of evaluation `Diff(M) → O` is Layer 1 item 6 |
 | Jacobi fields, the index form and the finite broken-geodesic carriers | RiemannianGeometry R2–R3 | consumed by Layer 5 item 6 |
 | Compact Lie theory: Lie's third theorem and the integration of homomorphisms out of simply connected groups, universal covers and their central kernels, the `Ad`-invariant inner product with the orthogonal splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]`, the semisimplicity of `[𝔤, 𝔤]` and its negative-definite Killing form, maximal tori, the compact real roots and their rank-one representatives `SU(2) → G`, the Haar probability measure and averaging | LieGroups Layers 4, 5, 5A and 6, CompactGroups Layer 0 | consumed by Layer 11; the negative semidefinite Killing form of `𝔤` with kernel `𝔷`, the Cartan 3-form argument and the finite cover are Layer 11 items 1–2 |
@@ -205,9 +220,9 @@ them by name and section (see the supplier contracts) and does not restate them.
 
 - **Cubical chains and the ordinary supplier.** The DG, Morse and Floer chains of this roadmap
   are Tau Ceti's normalized cubical singular chains `TauCeti.NormalizedCubicalChain`, as in the
-  source and in BDHO §5.2. Layer 1 item 2's general ordinary-topology supplier uses
-  AlgebraicTopology's native simplicial singular and twisted chains, and transports its homology
-  and Serre sequence to cubical chains for the DG consumers.
+  source and in BDHO §5.2. AlgebraicTopology's ordinary Serre spectral sequences live on native
+  simplicial singular and twisted chains; Layer 1 item 2 transports the homological one to
+  cubical chains for the DG consumers.
   - A singular `n`-cube is a continuous map `Iⁿ → X`. It is degenerate when it does not depend
     on at least one coordinate (Massey's convention, which is BDHO §5.2's). The chain group is
     free on all cubes modulo the degenerate ones.
@@ -343,8 +358,9 @@ them by name and section (see the supplier contracts) and does not restate them.
   Viterbo transfer and the Viterbo map are constructed from explicit data. Their independence of
   choices is a theorem about specified chain homotopies, never a quotient taken silently.
 - **Universes.** Spaces, modules and bases live in arbitrary universes; where a carrier is
-  built from a universal test object (Layer 1 item 2's all-CW testing, Tau Ceti's lifting
-  functions) the statement names the universe of the test object and transports along `ULift`.
+  built from a universal test object (AlgebraicTopology Stage 5.5's relative-CW lifting, Tau
+  Ceti's lifting functions) the statement names the universe of the test object and transports
+  along `ULift`.
 ## Exact supplier contracts
 
 Every declaration below exists at the pinned Mathlib and Tau Ceti. What the pins lack is a target
@@ -366,8 +382,8 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   `SpectralSequenceDataCore`, `coreE₂Cohomological`, `HasSpectralSequence`, `IsFirstQuadrant`
   (`Mathlib/Algebra/Homology/SpectralObject/`), the index type `EInt`, and
   `HomotopyCategory.spectralObjectMappingCone`
-  (`Mathlib/Algebra/Homology/HomotopyCategory/SpectralObject.lean`). What Layer 1 item 3
-  assumes of them: a spectral object indexed by `EInt` has pages, differentials and an `E₂`
+  (`Mathlib/Algebra/Homology/HomotopyCategory/SpectralObject.lean`). What Layer 1 items 2–3
+  assume of them: a spectral object indexed by `EInt` has pages, differentials and an `E₂`
   cohomological spectral sequence through `coreE₂Cohomological`, and the mapping-cone spectral
   object of a functor into the homotopy category exists. Mathlib has no filtration functor on
   cochain complexes and no convergence theorem; Tau Ceti has both (From Tau Ceti).
@@ -694,7 +710,7 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   that union only, extends to the whole cylinder; `N` may be empty). What Layer 1 item 2 assumes
   of them: total space and base are objects of one `TopCat.{u}`, and the predicate builds in no
   surjectivity. Lifting against arbitrary relative CW pairs and the fibration homotopy exact
-  sequence are not at the pin; they are Layer 1 item 2's.
+  sequence are not at the pin; they are AlgebraicTopology Stage 5.5's.
 - Hurewicz fibrations (`TauCeti/Topology/Homotopy/HurewiczFibration/`,
   `TauCeti/Topology/Homotopy/MappingPath/`, `TauCeti/Topology/Homotopy/LoopSpaceFibration.lean`):
   `TauCeti.IsHurewiczFibration.{w} p`, continuity and homotopy lifting for every test space in
@@ -726,7 +742,7 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`; and its instance on singular
   chains, `TauCeti.singularChainFiltration` with `TauCeti.filteredSpaceSpectralSequence`
   (`TauCeti/AlgebraicTopology/Singular/FilteredSpace.lean`). Decreasing complete filtrations and
-  their convergence are not at the pin; they are Layer 1 item 3's.
+  their convergence are not at the pin; they are AlgebraicTopology Stage 5.0's.
 
 ### From TauCetiRoadmap.PseudoholomorphicCurveAnalysis
 
@@ -765,9 +781,17 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
 - Stage 2: relative singular homology, local coefficient systems and their transport along
   paths.
 - Stage 4: CW pairs, cellular approximation, cofibrations, 4.4's based circle and sphere models,
-  4.5's CW structure on `k(B × B)` and its product-cell filtration.
-- Stages 5.1–5.4: Eilenberg–Zilber, the Künneth theorems and transfer. Stage 5.5 consumes
-  Layer 1 item 2 and supplies nothing to it.
+  4.5's CW structure on `k(B × B)` and its product-cell filtration; 4.8's CW approximation of
+  every space and of pairs, its connected-map homology comparison with local coefficients and
+  the cohomology and pair forms of weak-equivalence invariance.
+- Stage 5.0: the homological and decreasing-cochain adapters of Tau Ceti's filtered-complex
+  spectral sequence, with Weibel's classical and complete convergence theorems. Stages 5.1–5.4:
+  Eilenberg–Zilber, the Künneth theorems and transfer. Stage 5.5: for Tau Ceti's
+  `TauCeti.TopCat.serreFibrations`, relative-CW lifting, fibre transport and the fibration
+  homotopy exact sequence, and the homological, cohomological and multiplicative Serre spectral
+  sequences over CW and arbitrary bases, with Serre preimage excision. What Layer 1 assumes of
+  them is stated in its item 2: strong convergence in each total degree, path-transport
+  monodromy and the Koszul sign `(−1)^{q p'}` of the `E₂` product.
 - Stage 6: 6.0–6.2's cochains and cup product, fundamental classes (6.3), the orientation local
   system, cap products, Poincaré and Poincaré–Lefschetz duality, and 6.5's homological degree
   `f_*[S] = deg(f) · [Q]`, the only degree this roadmap uses.
@@ -776,8 +800,11 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   `n ≥ 1` (of which Layer 1 item 1 proves the degree-one isomorphism), the absolute and relative
   Hurewicz theorems in degrees `≥ 2`, 8.5's Whitehead theorem, 8.6's positive sphere
   orientation; Stage 8.8 and 8.8a's bar construction `|nerve (SingleObj G)|` with its
-  contractible cover and fundamental-group normalization. Nothing from Stages 8.9–8.12 is
-  consumed.
+  contractible cover and fundamental-group normalization; 8.8c's functorial abelian
+  Eilenberg–MacLane spaces `K(A, n)` with the normalized identification `π_n ≅ A`, the
+  directed-union property, uniqueness and the loop identification `ΩK(A, n) ≃ K(A, n − 1)`; 8.8d's
+  `K(A, 1)` axiom for the torsion and power-torsion classes and Hurewicz modulo a Serre class.
+  Nothing from Stages 8.9–8.12 is consumed.
 
 ### From other roadmaps
 
@@ -812,7 +839,8 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   bifurcation theorem is not consumed.
 - **RiemannianGeometry.** R2: Jacobi fields and endpoint-exponential comparisons. R3: the
   index form, finite node-value reduction, complete-manifold finite broken-geodesic carriers and
-  path-energy comparisons; its based-loop sphere calculation consumes Layer 1 item 2 only.
+  path-energy comparisons; its based-loop sphere calculation uses AlgebraicTopology Stage 5.5's
+  Serre spectral sequence and nothing of this roadmap.
 - **SmoothBundlesConnections** B6.0: uniform normal-radius and strong-convexity bounds on a
   compact Riemannian manifold (Layer 5 item 6).
 - **MorseTheory** M4: the critical number `c(M)` (Layer 7.C.6h); M1–M6 through HeegaardFloer
@@ -860,13 +888,12 @@ topology, every class `A ∈ H₂(X; ℤ)` and every `k ≥ 0`:
 
 Layers 0–4 are reusable algebraic topology and algebra, in build order, on the cubical chains,
 Moore paths, DG local systems and twisted complexes of the pinned Tau Ceti: fundamental chains of
-manifolds with corners (0); the general facts no other roadmap builds, among them the cubical
-degree-one Hurewicz isomorphism, the exact sequence and spectral sequences of Tau Ceti's Serre
-fibrations, the adapters and complete convergence of the filtered-complex spectral sequence,
-Hurewicz modulo a Serre class and Eilenberg–MacLane spaces, the Pontryagin–Thom collapse and the
-evaluation bundle of `Diff(M)` (1); the positive-duration Moore loop maps of Hurewicz fibrations,
-Hurewicz fibrations from bundles and coverings, and the canonical homeomorphisms the pins lack
-(2); basepoint change of DG local systems (3); the Brown resolution (4). Layer 5 is DG Morse
+manifolds with corners (0); the general facts of topology the later layers need, on
+AlgebraicTopology's Serre spectral sequences, filtered complexes and Eilenberg–MacLane spaces:
+the cubical degree-one Hurewicz isomorphism, the cubical transport of the Serre spectral
+sequence, mod-2 vanishing, the Pontryagin–Thom collapse and the evaluation bundle of `Diff(M)`
+(1); the positive-duration Moore loop maps of Hurewicz fibrations, Hurewicz fibrations from
+bundles and coverings, and the canonical homeomorphisms the pins lack (2); basepoint change of DG local systems (3); the Brown resolution (4). Layer 5 is DG Morse
 homology on closed manifolds and on the free loop space, with its fibration theorem. Layer
 6 is the Hamiltonian and Liouville dynamics the Floer layers need. Layer 7 is classical
 Hamiltonian Floer homology and symplectic homology on the analytic tower of HeegaardFloer, with
@@ -885,8 +912,8 @@ route is not blocked behind an unrelated layer.
 The chains of this roadmap are Tau Ceti's Massey-normalized cubical chains, with their strictly
 associative cross product, their DG algebra on a topological monoid and their comparison with
 simplicial singular chains (supplier contracts, From Tau Ceti). The cubical transport of the
-Serre spectral sequences is part of Layer 1 item 2. This layer adds the fundamental chains of
-manifolds with corners on which every representing chain system of Layers 5 and 8 rests.
+homological Serre spectral sequence is part of Layer 1 item 2. This layer adds the fundamental
+chains of manifolds with corners on which every representing chain system of Layers 5 and 8 rests.
 
 ### 0.1 Fundamental chains of manifolds with corners
 
@@ -924,7 +951,11 @@ AlgebraicTopology Stage 6.3. Source: BDHO Appendix A; Barraud–Cornea, Appendix
 
 ## Layer 1: topological prerequisites
 
-These are general facts that the later layers use, which no other roadmap builds.
+These are the general facts of topology that the later layers use. This layer consumes
+AlgebraicTopology's ordinary theory of Serre fibrations, filtered complexes, Serre classes and
+Eilenberg–MacLane spaces, and builds what no other roadmap builds: the degree-one Hurewicz
+extensions, the cubical transport, mod-2 vanishing, the Pontryagin–Thom collapse and the
+evaluation bundle of `Diff(M)`.
 
 ### 1.1 Hurewicz in degree one
 
@@ -949,81 +980,63 @@ The source uses it for `H₁(Ω²Q) ≅ π₃(Q)` in Proposition 5.11, whose Moo
   the image of the identity `1`-simplex is the identity `1`-cube, so a path and its cube agree
   in `H₁`, with no sign.
 - `S¹ ∨ S¹`: `π₁` is free on `a, b`, `H₁ = ℤ²`, and the commutator `aba⁻¹b⁻¹` is nullhomologous
-  (its `1`-cycle bounds the `2`-chain of a square with identified edges) but not nullhomotopic.
+  but not nullhomotopic. Its singular `1`-simplex is homologous to `a + b − a − b = 0` by the
+  relations `σ_{fg} ∼ σ_f + σ_g` and `σ_{f̄} ∼ −σ_f` of the proof of Hatcher's Theorem 2A.1
+  (`hatcher-at` lines 7250–7255), so the bounding `2`-chain is a sum of those relations' simplices.
+  No single singular square in `S¹ ∨ S¹` has the commutator as its boundary loop: such a square
+  would be a null-homotopy. The square with identified edges bounds the commutator only in `T²`.
   Path-connectedness is needed for surjectivity: for `X = S¹ ⊔ pt`, `H₁(X) = ℤ` while
   `π₁(X, pt) = 0`.
 
 ### 1.2 Weak equivalences, CW approximation, Serre fibrations and their spectral sequences
 
-**CW approximation.** Consume Tau Ceti's CW approximation of a path-connected space, a weak
-homotopy equivalence from a CW complex with a single `0`-cell
-(`TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`), natural up to homotopy
-(`TauCeti.cwApproximationLift`) (Hatcher Proposition 4.13). Own its extension to an arbitrary
-space, as the disjoint union of the approximations of its path components at chosen basepoints,
-with its naturality up to homotopy. *Needs:* Tau Ceti
-`TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`, AlgebraicTopology Stage 4.
+**The ordinary theory.** Consume AlgebraicTopology's homotopy theory of Serre fibrations on
+native simplicial singular and twisted chains, as stated there:
 
-**The connected-map homology comparison.** The homology form for weak equivalences is Tau Ceti's: a
-weak homotopy equivalence induces isomorphisms on singular homology with coefficients in any ring
-and on homology with every local coefficient system
-(`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap` and
-`ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap`; Hatcher Proposition 4.21), and
-so is the pair form of the vanishing below the connectivity
-(`TauCeti.isZero_singularHomology_ofSubset_of_relHomotopyGroup`). Own the comparison for maps,
-consumed by CharacteristicClasses under the name connectedMapHomologyComparison: a `k`-connected map
-induces isomorphisms on homology with every coefficient system below degree `k` and a surjection in
-degree `k`; and the cohomology forms of both statements, for every coefficient system, on native
-simplicial singular and twisted cochains. One route is the Eilenberg subcomplex argument: formulate
-connectivity by relative disc and sphere compression and homotopy lifting; for a `k`-connected
-mapping-cylinder pair generate the subcomplex by simplices carrying their `k`-skeleton into the
-subspace; construct face-compatible homotopies `P(σ)`, fixing compressed simplices and relative
-faces, and the prism chain equivalence; transport local coefficients along `P` at vertices with face
-and prism compatibility. The complexes agree through degree `k`. For a weak equivalence compress
-compatibly in every degree to obtain the coefficient-chain homotopy equivalence and its Hom and
-cohomology comparison, for maps of pairs and their exact sequences. This route uses neither
-AlgebraicTopology 8.1's relative homotopy groups nor 8.3's Hurewicz theorem; Hatcher's route through
-the mapping cylinder and the relative Hurewicz theorem is another. *Needs:* AlgebraicTopology Stages
-2 and 4, Tau Ceti twisted singular homology and
-`ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap`.
+- Stage 4.8: CW approximation of every space, path-connected or not, and of pairs, extending Tau
+  Ceti's CW approximation of a path-connected space by a CW complex with a single `0`-cell
+  (`TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`, natural up to homotopy through
+  `TauCeti.cwApproximationLift`; Hatcher Proposition 4.13); the connected-map comparison, that a
+  `k`-connected map induces isomorphisms on homology with every local coefficient system below
+  degree `k` and a surjection in degree `k`, through chain complexes that agree through degree
+  `k`; and the cohomology and pair forms of weak-equivalence invariance. The homology form for
+  weak equivalences is Tau Ceti's
+  (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap` and
+  `ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap`; Hatcher Proposition 4.21),
+  and so is the vanishing of relative homology below the connectivity of a pair
+  (`TauCeti.isZero_singularHomology_ofSubset_of_relHomotopyGroup`).
+- Stage 5.5, for a morphism `p : E ⟶ B` of `TopCat.{u}` in Tau Ceti's
+  `TauCeti.TopCat.serreFibrations` (homotopy lifting for every disc, equivalently for every cube,
+  `TauCeti.TopCat.mem_serreFibrations_iff_cube`; Hatcher, the maps of Theorem 4.41): homotopy
+  lifting against every relative CW pair with a Hausdorff CW parameter in a named universe; fibre
+  transport along base paths; the fibration homotopy exact sequence, with its boundary built from
+  a lift prescribed on the bottom and the sides of a cube, its group laws, and pointed-set
+  exactness at `π₁` and `π₀` (Hatcher Theorem 4.41); the homological Serre spectral sequence
+  `E²_{p,q} = H_p(B; H_q(F; R)) ⇒ H_{p+q}(E; R)` with path-transport monodromy, over a
+  path-connected CW base through the filtration `E_p = p⁻¹(B^{(p)})` and over an arbitrary base
+  through CW approximation, with no finite-type or dimension bound on `B` or `F`; the
+  cohomological sequence `E₂^{p,q} = H^p(B; H^q(F; M)) ⇒ H^{p+q}(E; M)` with path-transport
+  local coefficients; for a commutative ring `R` and a local-system pairing `M ⊗_R N → P`, its
+  multiplicative structure, with `E₂` pairing `(−1)^{q p'}` times the local-coefficient cup
+  pairing and differentials `d_r : E_r^{p,q} → E_r^{p+r,q−r+1}` satisfying
+  `d_r(uv) = d_r(u) v + (−1)^{p+q} u d_r(v)`, and Serre preimage excision; with naturality in the
+  fibration and the coefficients, independence of the CW approximation, and componentwise and
+  disconnected-base forms. Both sequences converge strongly: in each total degree the abutment
+  filtration is finite, exhaustive and separated, with graded pieces `E^∞`. The sources are
+  Serre, *Homologie singulière des espaces fibrés*, Chapter II, and Hatcher, *Spectral
+  Sequences*: Theorem 1.3 with its local-coefficient form (`hatcher-ssat` lines 433–438 and
+  985–994) and its reduction to CW bases (lines 806–814), and Theorem 1.14 with the
+  multiplicative structure after it (lines 1414–1419 and 1508–1524), which Hatcher states for
+  trivial monodromy and extends to local coefficients by the modification of lines 984–994 and
+  1539–1541.
 
-**Serre fibrations and their homotopy exact sequence.** A Serre fibration is a morphism
-`p : E ⟶ B` of `TopCat.{u}` in Tau Ceti's `TauCeti.TopCat.serreFibrations`: it has the
-homotopy lifting property for every disc, equivalently for every cube `Iⁿ`, `n ≥ 0`
-(`TauCeti.TopCat.mem_serreFibrations_iff_cube`; Hatcher, the maps of Theorem 4.41). Its
-closure under base change, composition, products and retracts, the covering-map,
-product-projection and locally-trivial-bundle instances (the last with no paracompactness
-hypothesis, Hatcher Proposition 4.48), path lifting, and lifting with a prescribed lift on the
-bottom and sides of a finite cube are the library's (supplier contracts, From Tau Ceti); this
-item uses them as stated there and does not restate them. Construct the fibration homotopy
-exact sequence directly by disc lifting and endpoint restriction, retaining group laws and
-pointed-set exactness at `π₁` and `π₀` (Hatcher Theorem 4.41), without consuming
-AlgebraicTopology 8.1's relative-pair sequence: construct the boundary by the relative lift
-`TauCeti.TopCat.exists_lift_openBox_of_mem_serreFibrations` and endpoint restriction, prove
-representative and lift independence by a further relative cube lift, and naturality for
-commuting based squares; pin all concatenation comparisons to the native `transAt` order. At
-the low end retain pointed sets, component actions and image-equals-kernel exactness, with no
-module carrier for `π₁` or components. Every-fibre weak contractibility, including
-nonemptiness, gives a weak equivalence by this sequence and component lifting; homotopy
-equivalence additionally uses CW-type witnesses and AlgebraicTopology 8.5's Whitehead theorem.
-A chosen fibre alone gives no conclusion on unrelated base components. *Needs:* Tau Ceti
-`TauCeti.TopCat.serreFibrations` with `TauCeti.TopCat.mem_serreFibrations_iff_cube` and
-`TauCeti.TopCat.exists_lift_openBox_of_mem_serreFibrations`; Mathlib `HomotopyGroup`;
-AlgebraicTopology Stages 1–4.
-
-**All-CW testing and the based fibration sequence.** Own homotopy lifting for a Serre fibration
-against every relative CW pair, for every Hausdorff CW parameter in the displayed universe:
-transport Tau Ceti's relative cube lifting
-`TauCeti.TopCat.exists_lift_openBox_of_mem_serreFibrations` to the cells through a
-homeomorphism of pairs `(Dⁿ, Sⁿ⁻¹) ≅ (Iⁿ, ∂Iⁿ)` proved here, and extend cellwise over a native
-relative CW pair, keeping arbitrary dimensions and cell sets; glue through attaching quotient
-diagrams and prove the product weak-topology lemma for the compact Hausdorff interval (Hatcher,
-the remarks after Theorem 4.41 and before Proposition 4.48). Empty pairs and `0`-cells are
-included. This relative-CW lifting, not disc testing alone, fixes basepoint tracks for the
-finite sphere and cube representatives and their homotopies. For NDR parameter pairs the
-Hurewicz lane consumes Tau Ceti's `TauCeti.IsHurewiczFibration.exists_lift_of_ndrPair`.
-Paracompactness is retained where Layer 2 asks for the stronger Hurewicz-fibration property.
-*Needs:* the preceding paragraph, Tau Ceti
-`TauCeti.TopCat.exists_lift_openBox_of_mem_serreFibrations`, AlgebraicTopology Stage 4.
+What this roadmap assumes of these targets: total space and base lie in one universe, and the
+predicate builds in no surjectivity; every-fibre weak contractibility, nonemptiness included,
+gives a weak equivalence, while a chosen fibre alone says nothing about other base components;
+and in trivial-monodromy tensor coordinates the `E₂` product is
+`(a ⊗ x)(b ⊗ y) = (−1)^{q p'} (ab ⊗ xy)`, with `x` in fibre degree `q` and `b` in base degree
+`p'`. *Needs:* AlgebraicTopology Stages 4.8 and 5.5; Tau Ceti `TauCeti.TopCat.serreFibrations`
+with `TauCeti.TopCat.mem_serreFibrations_iff_cube`.
 
 **Checks (the fibration exact sequence).**
 - The projection `B × F → B`, a Serre fibration as a product projection: a based sphere
@@ -1045,102 +1058,15 @@ Paracompactness is retained where Layer 2 asks for the stronger Hurewicz-fibrati
   is not exact at `π₁(S¹)`, where the preimage of the base point is all of `ℤ` and the image is
   `0`. The fibration hypothesis is therefore not removable.
 
-**The homological Serre spectral sequence over a CW base.** Own, for every path-connected CW
-base, the spectral sequence consumed by AlgebraicTopology Stage 5.5 under the name
-arbitraryCWSerreSpectralSequence (Serre, *Homologie singulière des espaces fibrés*, Chapter II;
-Hatcher, *Spectral Sequences*, Theorem 1.3 with its local-coefficient form, `hatcher-ssat`
-lines 433–438 and 985–994), using AlgebraicTopology Stages 1–4 and the filtration
-`E_p = p⁻¹(B^{(p)})`, with `E_{−1}` empty. Prove that singular chains are exhausted by this
-filtration using compact simplex images and the cellular filtration comparison. Apply Tau
-Ceti's spectral sequence of a filtered space, `TauCeti.filteredSpaceSpectralSequence` of the
-family `p ↦ E_p`, through item 3's homological regrading. Construct the local system
-`b ↦ H_q(p⁻¹(b); R)` of a Serre fibration by path transport through relative cube lifting
-(Tau Ceti's `TauCeti.fiberLocalSystem` is built from a lifting function of a Hurewicz
-fibration, and does not apply), and identify `E²_{p,q} = H_p(B; H_q(F; R))` with path-transport
-monodromy, and prove convergence to `H_{p+q}(E; R)`. In each total degree the first-quadrant
-filtration is finite, exhaustive and separated; identify its graded pieces with `E^∞`,
-including the extension data. No finite-type or dimension bound is imposed on `B` or `F`.
-Prove naturality under maps of fibrations and coefficient maps, and the componentwise version.
-*Needs:* the exact sequence above, item 3, AlgebraicTopology Stages 1–4, Tau Ceti
-`TauCeti.TopCat.serreFibrations`, `TauCeti.filteredSpaceSpectralSequence` and
-`LocalCoefficientSystem`.
-
-**The arbitrary-base sequence.** For a Serre fibration over an arbitrary path-connected space
-`B`, pull back along a CW approximation `B' → B`. Prove the induced total-space map is a weak
-equivalence by the fibration homotopy sequence, including components (the reduction closing
-Hatcher's proof of Theorem 1.3, `hatcher-ssat` lines 806–814), and identify its
-local-coefficient homology maps and the base local-coefficient homology comparison. Transport
-the preceding spectral sequence, its `E²` page, convergence and abutment filtration to the
-original fibration (the sequence consumed by AlgebraicTopology under the name
-arbitraryBaseSerreSpectralSequence). Prove independence of the CW approximation via comparison
-refinements and naturality from `E²` onward; give the disconnected-base version. These targets
-use AlgebraicTopology Stages 1–4 and item 3, with no Stage 5.5 or GeneralizedCohomology input,
-and precede item 4. The source applies them over `Ω₀Q`, `Ω²B` and `Y`. *Needs:* the two
-preceding paragraphs.
-
-**The cohomological and multiplicative sequences.** Own the cohomological Serre spectral
-sequences over CW and arbitrary bases on the same skeletal filtration, using the dual filtered
-cochain complex and its relative quotients, including the cellular and singular filtration
-comparison; cohomology pages are not identified by naive duality of homology pages. The
-cohomological sequence has `E₂^{p,q} = H^p(B; H^q(F; M))`, with path-transport local
-coefficients, and converges to `H^{p+q}(E; M)`. Hatcher's Theorem 1.14 states it when `π₁(B)`
-acts trivially on `H^*(F; M)` (`hatcher-ssat` lines 1414–1419); the local-coefficient form is
-this item's, by the modification of the filtration argument that Hatcher's local-coefficient
-remark describes for homology (lines 984–994) and that his multiplicative discussion invokes for
-cohomology (lines 1539–1541). Prove first-quadrant strong convergence: the induced abutment
-filtration in each total degree is finite, exhaustive and separated, with
-`E_∞` its graded module. Prove completeness of the cochain inverse filtration and vanishing of
-the relevant inverse-limit obstruction; retain the absence of finite-type or dimension
-restrictions. Construct coefficient and fibration naturality, arbitrary-base pullback comparison
-and independence, and componentwise forms. For a commutative ring `R` and local-system pairing
-`M ⊗_R N → P`, own the multiplicative comparison: consume AlgebraicTopology 4.5's CW structure
-on `k(B × B)`, its product-cell filtration `(B × B)_m = ⋃_{i+j ≤ m} B^i × B^j` and cellular
-approximation `D` of `Δ_B`; own a compatible filtered CW approximation `q : E' → E` with CW
-subcomplexes `E'_p` and `q_p : E'_p → E_p` weak equivalences, including relative pair
-comparisons and filtered local-cochain maps that are quasi-isomorphisms on the relative
-filtration quotients; first pull back `p × p` along `k(B × B) → B × B` and then along `D`; lift
-the diagonal-to-`D` homotopy only on the CW source `E'`, cell by cell with the fixed faces;
-construct its product-filtered cup map and transport through those filtered comparisons; do not
-assert the ordinary Alexander–Whitney product is filtered on `E_p`. Own the preimage excision
-consumed under the name serrePreimageSubcomplexExcision: preimages of CW subcomplexes `A, B`
-under a Serre fibration over a CW base form an excisive couple for native singular and twisted
-chains and relative-cochain products; consume AlgebraicTopology 4.5's compatible open
-neighbourhoods of `A`, `B` and their intersection and union, prove each preimage inclusion over
-the deformation retraction is a weak equivalence by the fibration sequence and component path
-lifting, apply the weak-equivalence coefficient-chain comparison and AlgebraicTopology Stage 3's
-open excision to the intersection-union diagram, and construct the small-chain
-quasi-isomorphism `C(E_A) + C(E_B) → C(E_{A∪B})` and the relative cochain map, with chosen
-inverses and homotopies only up to specified natural homotopy; iterate it for the finite
-product-skeletal union in each `m` to define the product-filtered cup on a small-chain relative
-model. Use the base-change and product stability of Tau Ceti's `serreFibrations`
-(`IsStableUnderBaseChange`, `IsStableUnderProductsOfShape`), and
-identify `g^*(M ⊠ N)` with `q^*(M ⊗ N)` by inverse transport along the lifted diagonal-to-`g`
-homotopy, using AlgebraicTopology Stage 2's transport of local systems along paths; retain
-that identification in cups. Own comparison prisms raising the base filtration by at most one,
-giving independence and naturality of the resulting pairings from `E₂` onward and preserving
-the abutment cup product. For fixed choices construct all `E_r` pairings; the `E₂` pairing is
-`(−1)^{q p'}` times the local-coefficient cup pairing in every bidegree (Hatcher's multiplicative
-structure (a)–(c) after Theorem 1.14, `hatcher-ssat` lines 1508–1524, for trivial monodromy). In
-trivial-monodromy tensor coordinates the product has Koszul sign `(a ⊗ x)(b ⊗ y) = (−1)^{q p'} (ab ⊗ xy)`, with `x`
-in fibre degree `q` and `b` in base degree `p'`. State `d_r : E_r^{p,q} → E_r^{p+r,q−r+1}` and
-`d_r(uv) = d_r(u) v + (−1)^{p+q} u d_r(v)`, and prove multiplicative abutment and extension
-compatibility. For a field `k`, a simply connected base and degreewise finite-dimensional
-`H^q(F; k)`, own the natural `E₂` graded-algebra identification `H^*(B; k) ⊗_k H^*(F; k)`,
-proving the local tensor and cohomology comparison that gives the algebra, not just its vector
-space. For the ring sequence take constant `R` and its multiplication. Use AlgebraicTopology
-6.0–6.2's cochain and cup API and item 3's cohomological filtered construction, independently
-of duality, Eilenberg–MacLane constructions and GeneralizedCohomology G5, which consumes this
-supplier for rational `K(ℤ, n)`. *Needs:* the preceding paragraphs, item 3, AlgebraicTopology
-Stages 2, 3, 4.5 and 6.0–6.2.
-
-**Cubical transport.** Transport the homological Serre spectral sequence over a CW base, with its
-local-coefficient `E²` term, to normalized cubical chains, for the DG consumers of Layer 5:
-Tau Ceti's natural comparison `TauCeti.cubicalSingularHomotopyEquiv`, and its local-coefficient
-form `TauCeti.LocalCoefficientSystem.twistedCubicalToSingularMap`, preserve the filtration by the
-chains of the preimages `E_p`, being natural in inclusions, and are homotopy equivalences on
-each `E_p` and on each relative quotient by the relative comparison, so they induce isomorphisms
-of spectral sequences from the first page on. *Needs:* the preceding paragraphs, Tau Ceti's
-cubical–simplicial comparison and its relative and local-coefficient forms.
+**Cubical transport.** Transport Stage 5.5's homological Serre spectral sequence over a CW base,
+with its local-coefficient `E²` term, to normalized cubical chains, for the DG consumers of
+Layer 5: Tau Ceti's natural comparison `TauCeti.cubicalSingularHomotopyEquiv`, and its
+local-coefficient form `TauCeti.LocalCoefficientSystem.twistedCubicalToSingularMap`, preserve
+the filtration by the chains of the preimages `E_p`, being natural in inclusions, and are
+homotopy equivalences on each `E_p` and on each relative quotient by the relative comparison, so
+they induce isomorphisms of spectral sequences from the first page on. *Needs:*
+AlgebraicTopology Stages 5.0 and 5.5, Tau Ceti's cubical–simplicial comparison and its relative
+and local-coefficient forms.
 
 **Checks (spectral sequences).**
 - The trivial fibration `B × F → B` with `F` connected: `E² = H_*(B) ⊗ H_*(F)` over a field and
@@ -1169,35 +1095,25 @@ identifications `CochainComplex.spectralSequenceFirstPageXIsoCokernel` and
 `CochainComplex.spectralSequence_first_page_d_eq`, the abutment
 `CochainComplex.filtrationAbutmentIso` with its image filtration, the convergence theorems for
 finite and for exhaustive filtrations, the naturality `CochainComplex.filtrationFunctorMap` and
-the comparison theorem. Own the homological adapter and the convergence beyond them. For an
-increasing filtration of a module chain complex over a ring, assume degreewise filtration lower
-bounds `∀ n, ∃ s(n), F_{s(n)} C_n = 0` and exhaustion `⋃_p F_p C_n = C_n`. Regrade
-`C^{−n} = C_n` with the same differential and apply Tau Ceti's construction to the regraded
-filtration. The stated homological `E_r^{p,q}`, with `E¹_{p,q} = H_{p+q}(F_p C / F_{p−1} C)`,
-is its page `r + 1` at bidegree `(a, b) = (1 − 2p − q, p − 1)`, so `deg = a + b = −(p + q)`,
-`i₁ = p − 1` and `i₂ = p`. For a decreasing cochain filtration `F^p`, use the increasing
-functor `G_t = F^{−t}`; its cohomological `E_r^{p,q}` is page `r + 1` at
-`(a, b) = (2p + q + 1, −p − 1)`, so `deg = p + q`, `i₁ = −p − 1` and `i₂ = −p`. Transport the
-quotient-page identifications and the connecting-map formula for the first differential through
-these reindexings, retaining the mapping-cone and reindexing signs. Prove natural strong
-convergence in the following sense: the induced filtration `F_p H_n = im(H_n(F_p C) → H_n(C))`
-is exhaustive (Tau Ceti's `CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι`) and
-vanishes at `s(n)` in degree `n`, from the degreewise lower bound alone (hence separated and
-complete in its lower-filtration direction), and `E^∞_{p,q} ≅ F_p H_{p+q} / F_{p−1} H_{p+q}`
-naturally; no finite upper filtration bound and no global lower bound are required (Weibel,
-Classical Convergence Theorem 5.5.1(2); the lower bound concerns the filtration in each chain
-degree, not the degrees in which the complex is nonzero). Own the cohomological form of
-Weibel's Complete Convergence Theorem 5.5.10 for complete exhaustive decreasing cochain
-filtrations with regular spectral sequence: prove weak convergence and its induced cohomology
-filtration and `E∞` graded identification, and strong convergence under the theorem's
-degreewise spectral boundedness after cohomological reindexing, using the Milnor `lim¹`
-sequence of Tau Ceti's `TauCeti.ComplexTower`; the first-quadrant case is regular and degreewise
-bounded. In the Serre instance
-prove completeness of the inverse cochain filtration and the degreewise finite abutment
-filtration. Cup pairings come from filtered cochain maps, independently of convergence.
-*Needs:* Tau Ceti `CochainComplex.filtrationFunctor`, `CochainComplex.spectralSequence` and
-their convergence and naturality API; Mathlib `coreE₂Cohomological`, `EInt`;
-`HomologicalComplex`.
+the comparison theorem. Consume AlgebraicTopology Stage 5.0's adapters and convergence theorems
+beyond them. For an increasing filtration of a module chain complex over a ring with degreewise
+lower bounds `∀ n, ∃ s(n), F_{s(n)} C_n = 0` and exhaustion `⋃_p F_p C_n = C_n`, the regrading
+`C^{−n} = C_n` places the homological `E_r^{p,q}`, with `E¹_{p,q} = H_{p+q}(F_p C / F_{p−1} C)`,
+at page `r + 1` and bidegree `(a, b) = (1 − 2p − q, p − 1)`, so `deg = a + b = −(p + q)`,
+`i₁ = p − 1` and `i₂ = p`; for a decreasing cochain filtration `F^p`, the increasing functor
+`G_t = F^{−t}` places the cohomological `E_r^{p,q}` at page `r + 1` and
+`(a, b) = (2p + q + 1, −p − 1)`, so `deg = p + q`, `i₁ = −p − 1` and `i₂ = −p`. The induced
+filtration `F_p H_n = im(H_n(F_p C) → H_n(C))` is exhaustive and vanishes at `s(n)` in degree
+`n`, and `E^∞_{p,q} ≅ F_p H_{p+q} / F_{p−1} H_{p+q}` naturally, with no finite upper filtration
+bound and no global lower bound (Weibel, Classical Convergence Theorem 5.5.1(2); the lower bound
+concerns the filtration in each chain degree, not the degrees in which the complex is nonzero).
+A complete exhaustive decreasing cochain filtration with regular spectral sequence converges
+weakly, and strongly under the degreewise spectral boundedness of Weibel's Complete Convergence
+Theorem 5.5.10, through the Milnor `lim¹` sequence of Tau Ceti's `TauCeti.ComplexTower`; the
+first-quadrant case is regular and degreewise bounded. Layer 1 item 2's cubical transport and
+the Serre sequences it transports rest on these. *Needs:* Tau Ceti
+`CochainComplex.filtrationFunctor`, `CochainComplex.spectralSequence` and their convergence and
+naturality API; Mathlib `coreE₂Cohomological`, `EInt`; AlgebraicTopology Stage 5.0.
 
 **Checks.**
 - A two-step filtration `0 ⊆ F_0 C ⊆ F_1 C = C` gives `E¹` the homologies of `F_0 C` and
@@ -1220,9 +1136,12 @@ abelian groups (closed under subobjects, quotients and extensions), with Serre's
 torsion class `AddCommGrpCat.isTorsion` (equivalently `G ⊗ ℚ = 0`) and, for a fixed integer
 `d ≥ 1`, `AddCommGrpCat.isKilledBySomePower d`, the groups annihilated by **some** power of `d`,
 `∃ m, dᵐ·G = 0`; Tau Ceti proves their closure under `⊗` and `Tor` and the `K(A, 1)` axiom for
-finite `A`. Prove the `K(A, 1)` axiom for every member of the two classes, and Hurewicz modulo a
-Serre class for simply connected spaces (Serre 1953, Theorem 1; the source's Theorem 5.12).
-*Needs:* AlgebraicTopology Stages 2, 4 and 8.1–8.7, item 2, item 3, Tau Ceti's Serre classes.
+finite `A`. Consume AlgebraicTopology Stage 8.8d's `K(A, 1)` axiom for every member of the two
+classes and its Hurewicz theorem modulo a Serre class (Serre 1953, Theorem 1; the source's
+Theorem 5.12): for a Serre class `C` satisfying the axioms and a simply connected space `X` with
+`π_i(X) ∈ C` for `2 ≤ i < n`, `H_i(X; ℤ) ∈ C` for `0 < i < n`, and the Hurewicz map
+`π_n(X) → H_n(X; ℤ)` has kernel and cokernel in `C`. *Needs:* AlgebraicTopology Stage 8.8d, Tau
+Ceti's Serre classes.
 
 **Checks (Serre classes).**
 - The groups annihilated by one fixed `dᵐ`, for `d ≥ 2` and `m ≥ 1`, do not form a class: they
@@ -1233,73 +1152,29 @@ Serre class for simply connected spaces (Serre 1953, Theorem 1; the source's The
 - The torsion groups form a Serre class, and Hurewicz modulo it gives
   `π_n(X) ⊗ ℚ ≅ H_n(X; ℚ)` for `n` up to the first rational homotopy group.
 
-**Eilenberg–MacLane spaces.** Pin one functorial abelian model in each degree. For `n = 1` set
-`K(A, 1) = B(Multiplicative A)`, an alias of AlgebraicTopology Stage 8.8's native
-`|nerve (SingleObj (Multiplicative A))|`; that stage owns the generic contractible `Eπ`,
-covering, CW structure and fundamental-group edge normalization, and has no dependency on this
-item. For `n ≥ 2` use the realization of the simplicial abelian group `Γ(A[n])` from Mathlib's
-Dold–Kan equivalence, with `A[n]` the nonnegative chain complex concentrated in degree `n`.
-Consume AlgebraicTopology Stage 4's generic simplicial-realization CW structure. Construct the
-coefficient-natural identification `π_n ≅ A` through Stage 8.2's simplicial-group Kan and Moore
-theorem and Kan realization-unit comparison, followed by the cubical comparison and the
-degree-`n` homology map of the native Dold–Kan counit `NΓ(A[n]) ≅ A[n]`; thus the distinguished
-class from a normalized simplex labelled `a` maps to `a`. Pin the positive sphere orientation
-by Stage 8.6. In degree one compare `Γ(A[1])` with the abelian nerve as simplicial abelian
-groups, with the edge labelled `a` corresponding to `a`; use the bar carrier throughout. Prove
-all other positive homotopy groups vanish. Thus Stage 8.10 consumes a fixed constructor and
-normalized identification, without constructing another abelian model; the construction uses
-only Stages 8.1–8.8, not 8.9–8.12. For a **directed union** `A = ⋃ A_i` of subgroups, prove the
-corresponding simplicial inclusions are subcomplexes with union the chosen model, so
-`H_*(K(A, n)) = colim H_*(K(A_i, n))` by compact supports. No statement about arbitrary
-topological filtered colimits is made: the topological colimit of `S¹ → S¹ → ⋯` under degree-2
-maps is indiscrete and is not `K(ℤ[1/2], 1)` (its mapping telescope is one, but is not used).
-Native `IsEilenbergMacLaneSpaceOne` supplies the degree-one interface. *Needs:* AlgebraicTopology
-Stages 4, 8.2, 8.6 and 8.8; Mathlib's Dold–Kan equivalence; Tau Ceti `IsEilenbergMacLaneSpaceOne`.
-
-**Presentation model and skeletal extension.** Own a second, comparison CW construction of
-`K(A, n)` from a presentation of `A`: for `n ≥ 2` start with a wedge of positively oriented
-`n`-spheres for its generators, attach `(n+1)`-cells along its relations, and kill successive
-higher homotopy groups by cells in dimensions `≥ n + 2`; for `n = 1` use the group-presentation
-`2`-complex of `A` and kill higher homotopy in dimensions `≥ 3`. Prove each stage preserves `π_n`
-and the lower groups, and prove the limit's homotopy groups by compact-family factorization
-through the CW tower. Give the coefficient-normalized comparison to the chosen bar and Dold–Kan
-model, using the skeletal extension below and Whitehead; the chosen functorial carrier stays
-that single model. Own Hatcher's Lemma 4.31 skeletal extension: realize a supplied homomorphism
-on `π_n` by maps of the generator spheres, extend over the presentation cells using their null
-relations, and over every higher cell using the target's vanishing higher homotopy; construct
-the based maps and homotopies and prove their coefficient normalization. The general
-higher-cell killing construction with its connectivity and preserved lower groups (Hatcher §4.1)
-is Tau Ceti's `TauCeti.killHomotopyGroups`, for Hausdorff spaces. *Needs:* AlgebraicTopology
-Stages 4 and 8.1–8.7, Tau Ceti `TauCeti.killHomotopyGroups`.
-
-**Uniqueness.** For the CW complex `K(A, n)` above and any space `Z` with `π_n Z ≅ A` and all
-other homotopy groups zero, a map `K(A, n) → Z` realizing a given isomorphism on `π_n` exists by
-the presentation and skeletal extension and is a weak equivalence (Hatcher Proposition 4.30).
-Construct it first on the presentation model, and precompose with a based homotopy inverse of
-the coefficient-normalized presentation-to-bar comparison to obtain the map on the chosen
-functorial carrier. Use Whitehead's theorem from Stages 8.1–8.7 and CW approximation from item 2
-for the CW comparison. The normalized identification uses Stage 8.2's ordered-simplex and cube
-orientation comparison: a spherical `n`-simplex labelled `a` has cubical Hurewicz image the
-relative class `σ_*[Δⁿ, ∂Δⁿ]`, transported to absolute homology by the point-pair sequence for
-`n ≥ 1`; separately its normalized Moore class maps to `a` under the native Dold–Kan counit,
-which does not act directly on the topological singular homology class. This fixes the
-constructor's sign. Stage 8.10 proves the downstream universal-class evaluation `e_a ↦ a`; this
-item consumes no such class. Through item 2, every `K(A, n)` has the homology of the chosen
-degree-one bar or higher-degree Dold–Kan model. The chosen models and the targets `Z` are path
-connected; `π₀` is included explicitly. *Needs:* the two preceding paragraphs, item 2.
-
-**Path and homotopy-fibre carriers.** Consume Tau Ceti's based path fibration and mapping-path
-homotopy fibre: `TauCeti.MappingPathSpace` of a constant map with its contractibility, its
-endpoint Hurewicz fibration `TauCeti.MappingPathSpace.isHurewiczFibration_endpoint`, the fibre
-homeomorphism `TauCeti.mappingPathFiberConstHomeomorphLoopSpace` onto native `LoopSpace`, and
-the Serre comparison `TauCeti.IsHurewiczFibration.mem_serreFibrations`. Apply item 2's
-fibration homotopy sequence, including its component terms, to these Hurewicz fibrations.
-Identify the loop fibre `ΩK(A, n)` with `K(A, n−1)` for `n ≥ 2` through the uniqueness target
-above, after CW approximation, using the coefficient-natural connecting isomorphism on
-`π_{n−1}`; this comparison consumes no Stage 8.11 result and no Eilenberg–MacLane
-representability. *Needs:* Tau Ceti `TauCeti.MappingPathSpace`,
-`TauCeti.mappingPathFiberConstHomeomorphLoopSpace` and `TauCeti.IsHurewiczFibration`, item 2,
-the preceding paragraphs.
+**Eilenberg–MacLane spaces.** Consume AlgebraicTopology Stage 8.8c's single functorial abelian
+model `K(A, n)` in each degree `n ≥ 1`: for `n = 1` the bar construction
+`|nerve (SingleObj (Multiplicative A))|` of Stage 8.8a, and for `n ≥ 2` the realization of the
+simplicial abelian group `Γ(A[n])` of Mathlib's Dold–Kan equivalence, with `A[n]` the
+nonnegative chain complex concentrated in degree `n`. Stage 8.8c provides the
+coefficient-natural identification `π_n(K(A, n)) ≅ A`, under which the class of a normalized
+simplex labelled `a` goes to `a`; the vanishing of every other homotopy group; the
+directed-union property `H_*(K(A, n)) = colim H_*(K(A_i, n))` for a directed union
+`A = ⋃ A_i` of subgroups; the comparison with the presentation model through Hatcher's Lemma
+4.31 skeletal extension; uniqueness (Hatcher Proposition 4.30: for a path-connected `Z` with
+`π_n Z ≅ A` and every other homotopy group zero, a map `K(A, n) → Z` realizing a given
+isomorphism on `π_n` exists and is a weak equivalence); and the identification of `ΩK(A, n)`
+with `K(A, n − 1)` for `n ≥ 2` through the fibre of the based path fibration. Tau Ceti's
+`IsEilenbergMacLaneSpaceOne` is the degree-one property interface, and Tau Ceti's based path
+fibration `TauCeti.MappingPathSpace` of a constant map, with the endpoint Hurewicz fibration
+`TauCeti.MappingPathSpace.isHurewiczFibration_endpoint`, the fibre homeomorphism
+`TauCeti.mappingPathFiberConstHomeomorphLoopSpace` onto native `LoopSpace` and the Serre
+comparison `TauCeti.IsHurewiczFibration.mem_serreFibrations`, carries the homotopy fibres of the
+one-step lemma below. No statement about arbitrary topological filtered colimits is used: the
+topological colimit of `S¹ → S¹ → ⋯` under degree-2 maps is indiscrete and is not
+`K(ℤ[1/2], 1)`. *Needs:* AlgebraicTopology Stages 8.8a and 8.8c; Tau Ceti
+`IsEilenbergMacLaneSpaceOne`, `TauCeti.MappingPathSpace`,
+`TauCeti.mappingPathFiberConstHomeomorphLoopSpace` and `TauCeti.IsHurewiczFibration`.
 
 **Integral and mod-2 chain comparison.** The coefficient sequence `0 → ℤ → ℤ → ℤ/2 → 0` in
 singular homology, with `ℤ/2` taken as a `ℤ`-module, is Tau Ceti's, and so is its consequence
@@ -1315,36 +1190,36 @@ directed union of its finitely generated `ℤ[1/2]`-submodules, which are finite
 `ℤ[1/2]` and of finite cyclic groups of odd order, so by the directed-union property and Künneth
 it suffices to treat these two. Construct the canonical map `|N(A × B)| → |N(A)| × |N(B)|`
 induced by the two group projections; Stage 8.8 identifies its `π₁` map with the identity on
-`A × B` and all higher groups with zero, so it is a weak equivalence, and item 2's homology
+`A × B` and all higher groups with zero, so it is a weak equivalence, and Tau Ceti's homology
 invariance and Stage 5.1's field Künneth theorem give the natural homology product formula. For
 `ℤ[1/2]` and for a finite cyclic group of odd order the vanishing is Tau Ceti's on Milnor's
 classifying space (`TauCeti.isZero_classifyingSpace_singularHomology_localizationAway` with
 `m = 2`, and `TauCeti.subsingleton_classifyingSpace_singularHomology_of_isUnit_natCard`),
-transported to the chosen model by the uniqueness paragraph and the weak-equivalence invariance
-of homology. For `n ≥ 2`: induction through the
-path-loop fibration `K(A, n−1) → P → K(A, n)` over the simply connected base `K(A, n)`; the
-mod-2 Serre spectral sequence has `E²` concentrated in the bottom row, which is
-`H_*(K(A, n); 𝔽₂)`, so `E² = E^∞`, and the total space is contractible. *Needs:* the preceding
-paragraphs, item 2, AlgebraicTopology Stages 5.1 and 8.8, Tau Ceti's homology of classifying
-spaces.
+transported to Stage 8.8c's model by its uniqueness and the weak-equivalence invariance of
+homology. For `n ≥ 2`: induction through the path-loop fibration `K(A, n−1) → P → K(A, n)` over
+the simply connected base `K(A, n)`; Stage 5.5's mod-2 Serre spectral sequence has `E²`
+concentrated in the bottom row, which is `H_*(K(A, n); 𝔽₂)`, so `E² = E^∞`, and the total space
+is contractible. *Needs:* the preceding paragraphs, AlgebraicTopology Stages 5.1, 5.5, 8.8 and
+8.8c, Tau Ceti's homology of classifying spaces and weak-equivalence invariance.
 
 **The one-step lemma.** Let `n ≥ 2` and let `Z` be an `(n−1)`-connected space with
 `H̃_*(Z; 𝔽₂) = 0`. Then `π_n Z` is uniquely 2-divisible: this is Tau Ceti's
 `TauCeti.isUniquelyTwoDivisible_homotopyGroup_of_isZero_mod_two` for spaces in `Type`, through the
 Hurewicz isomorphism and the chain comparison, and its proof gives it in every universe. After CW
-approximation (item 2), attaching cells of dimension `≥ n + 2` to `Z` (`TauCeti.killHomotopyGroups`)
-kills `π_k` for `k > n` and produces a `K(π_n Z, n)` containing `Z`, with `Z → K(π_n Z, n)` an
+approximation (AlgebraicTopology Stage 4.8), attaching cells of dimension `≥ n + 2` to `Z`
+(`TauCeti.killHomotopyGroups`) kills `π_k` for `k > n` and produces a `K(π_n Z, n)` containing `Z`, with `Z → K(π_n Z, n)` an
 isomorphism on `π_n` (Hatcher §4.1). Let `Z' → Z` be its homotopy fibre. Then `Z'` is `n`-connected,
-`π_k Z' ≅ π_k Z` for `k > n`, and the fibre of `Z' → Z` is `ΩK(π_n Z, n)`, a `K(π_n Z, n−1)`. Then
-`H̃_*(Z'; 𝔽₂) = 0`: the mod-2 Serre spectral sequence of `K(π_n Z, n−1) → Z' → Z` has a simply
-connected base, `H̃_*(Z; 𝔽₂) = 0`, and `H̃_*(K(π_n Z, n−1); 𝔽₂) = 0` by the previous paragraph, so
-`E²` is concentrated at `(0, 0)`. The Eilenberg–MacLane fibre sits over the `(n−1)`-connected stage
+`π_k Z' ≅ π_k Z` for `k > n`, and the fibre of `Z' → Z` is `ΩK(π_n Z, n)`, a `K(π_n Z, n−1)` by
+the exact sequence of Stage 5.5. Then `H̃_*(Z'; 𝔽₂) = 0`: Stage 5.5's mod-2 Serre spectral
+sequence of `K(π_n Z, n−1) → Z' → Z` has a simply connected base, `H̃_*(Z; 𝔽₂) = 0`, and
+`H̃_*(K(π_n Z, n−1); 𝔽₂) = 0` by the previous paragraph and Stage 8.8c's uniqueness, so `E²` is
+concentrated at `(0, 0)`. The Eilenberg–MacLane fibre sits over the `(n−1)`-connected stage
 `Z`, never over the original space: for `Y = S²` and `n = 3`, a 3-connected `E` in a fibre sequence
 `K(π₃S², 2) → E → S²` would give `0 = π₂(E) → π₂(S²) = ℤ → π₁(K(π₃S², 2)) = 0` in the long exact
 sequence, which is impossible. Iterating the lemma produces the Whitehead tower
 `⋯ → Y⟨n+1⟩ → Y⟨n⟩ → ⋯ → Y⟨2⟩ = Y` with `K(π_n Y, n−1) → Y⟨n+1⟩ → Y⟨n⟩` between **successive**
-stages; the tower as a whole is not needed. *Needs:* the preceding paragraphs, item 2,
-AlgebraicTopology Stage 8.3.
+stages; the tower as a whole is not needed. *Needs:* the preceding paragraphs,
+AlgebraicTopology Stages 4.8, 5.5, 8.3 and 8.8c, Tau Ceti `TauCeti.killHomotopyGroups`.
 
 **Mod-2 vanishing.** For a simply connected space `Y` with `H̃_*(Y; 𝔽₂) = 0`, every `π_i(Y)` is
 uniquely 2-divisible (a `ℤ[1/2]`-module); no finite generation is assumed. In `Suggested.lean`
@@ -1491,7 +1366,8 @@ cell-killing construction and the mod-2 coefficient sequence, the Serre- and Hur
 predicates with their lifting API, the mapping-path carriers, the filtered-complex and
 filtered-space spectral sequences, the Pontryagin–Thom collapse, `TauCeti.Diff` with its
 smooth-families map and flow diffeotopies, and the cubical–simplicial comparison.
-AlgebraicTopology Stages 1–6 and 8.1–8.8; GeometricTopology Layer 1. Source: Hatcher,
+AlgebraicTopology Stages 1–6, among them 4.8, 5.0 and 5.5, and 8.1–8.8d; GeometricTopology
+Layer 1. Source: Hatcher,
 *Algebraic Topology*, §§2.A, 3.3, 4.1–4.3, 4.D, 4.J; Hatcher, *Spectral Sequences*, Chapter 1 and
 Serre, *Homologie singulière des espaces fibrés*, Chapter II (item 2); BDHO §§9.2 and 11.3 (item
 5); Weibel §5.5; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais, *Local
@@ -1893,7 +1769,7 @@ factors from item 3. A total space or fibre need not be a manifold; the map is c
 the base Morse and fibration-chain model, with its absolute and relative and coefficient diagrams.
 *Needs:* items 1–3, Tau Ceti `TauCeti.fibrationLocalSystem`,
 `TauCeti.MooreReplacement.fiberHomotopyEquiv` and `TauCeti.TwistingCocycle.indexSpectralSequence`,
-Layer 1 item 2 (Serre spectral sequence).
+Layer 1 item 2 (the cubical Serre spectral sequence).
 
 **Checks.**
 - The path-loop fibration over `Sⁿ`: `H_*(Sⁿ; C_*(ΩSⁿ)) ≅ H_*(pt)` (worked example 4); a
@@ -1944,8 +1820,8 @@ AlgebraicTopology Stage 6.
 Define DG Morse homology of `𝓛₀Q` and `𝓛Q` for a closed manifold `Q` through the
 finite-dimensional approximations by broken geodesics and the colimit over them (BDHO Chapter
 13: Propositions 13.2.2, 13.2.3, Definition 13.3.1, Propositions 13.3.2–13.3.3). *Needs:*
-items 1–4, RiemannianGeometry R2–R3, SmoothBundlesConnections B6.0, Layer 1 item 2 (weak
-equivalences), Tau Ceti `TauCeti.MooreFreeLoopSpace`.
+items 1–4, RiemannianGeometry R2–R3, SmoothBundlesConnections B6.0, AlgebraicTopology Stage 4.8
+(weak equivalences), Tau Ceti `TauCeti.MooreFreeLoopSpace`.
 
 - Consume RiemannianGeometry R3's finite-vertex short-segment path construction. For closed `Q`
   construct the cyclic vertex carrier, its seam charts and energy, its comparison and
@@ -1974,7 +1850,8 @@ equivalences), Tau Ceti `TauCeti.MooreFreeLoopSpace`.
   minimizing geodesic between its endpoints inside a convex ball and interpolates the durations
   linearly. It is natural in `K`. Deduce that `colim geoʳ : colim 𝓛ʳQ → 𝓛Q` is a weak homotopy
   equivalence (Abouzaid Proposition 3.2.4 states the homotopy equivalence; the weak version
-  suffices by Layer 1 item 2): surjectivity on `π_k` by applying the lemma to the image of a
+  suffices by AlgebraicTopology Stage 4.8 and Tau Ceti's weak-equivalence invariance):
+  surjectivity on `π_k` by applying the lemma to the image of a
   sphere; injectivity by applying it to the image of a nullhomotopy in `𝓛Q` of `geoʳ ∘ σ`, for
   `σ : S^k → 𝓛ʳQ`, together with a homotopy inside `𝓛^{r'}Q`, for `r' ≥ r` large, between
   `ev_{r'} ∘ geoʳ` and the iterated `ι`, which slides the sample vertices along the broken
@@ -2004,7 +1881,8 @@ equivalences), Tau Ceti `TauCeti.MooreFreeLoopSpace`.
 
 HeegaardFloer Lane M; Layer 0 item 1; Layers 2–4 and Tau Ceti's Moore paths, DG local systems and
 twisted complexes; AlgebraicTopology Stage 6; RiemannianGeometry R2–R3 and
-SmoothBundlesConnections B6.0 (item 6); Layer 1 item 2. Source: BDHO Chapters 5–13; the source
+SmoothBundlesConnections B6.0 (item 6); Layer 1 item 2; AlgebraicTopology Stages 4.8 and 5.5.
+Source: BDHO Chapters 5–13; the source
 paper §§2.1–2.4 and 4.3–4.4; Abouzaid §3.2.
 
 ## Layer 6: Hamiltonian dynamics, Liouville domains, and capacities
@@ -2318,8 +2196,11 @@ Chapter 1), and prove that `W ⊂ Ŵ` satisfies `TauCeti.IsLiouvilleDomain` and
 HeegaardFloer F2.1, DifferentialGeometry Layers 0–1 and 3.
 
 **Checks.**
-- The unit disc `D²ⁿ` with `λ = ½ Σ (p dq − q dp)` is a Liouville domain with `Z = ½(q ∂_q + p ∂_p)`;
-  its completion is `ℝ²ⁿ`.
+- The unit disc `D²ⁿ` in `(ℝ²ⁿ, Σ dq ∧ dp)` with `λ = ½ Σ (q dp − p dq)` is a Liouville domain
+  with `Z = ½(q ∂_q + p ∂_p)`: `dλ = Σ dq ∧ dp` and `ι_Z(dq ∧ dp) = ½(q dp − p dq) = λ`. Its
+  completion is `ℝ²ⁿ`; the flow of `Z` is `z ↦ e^{t/2} z`, so the radial coordinate of the end is
+  `r = |z|²`. The primitive `½ Σ (p dq − q dp)` with the same `Z` is excluded: its differential is
+  `−Σ dq ∧ dp`, which is not the standard form of the conventions.
 - `(D*Q, −λ_can)` is a Liouville domain with `Z = p ∂_p` (Tau Ceti's
   `TauCeti.CotangentBundle.isLiouvilleDomain_codiscBundle`); with `+λ_can` the field would point
   inward and the definition would fail at the boundary.
@@ -2586,9 +2467,13 @@ parts and the long exact sequence between them; the Viterbo transfer `ι_!` for 
 codimension-zero embeddings. *Needs:* items 1–4, Layer 6 item 2.
 
 **Checks.**
-- `SH_*(D²ⁿ) = 0`: a linear Hamiltonian of slope not in `2πℤ` has only the constant orbit at
-  the origin, whose index rises by `2n` each time the slope crosses `2πℤ`, so the direct limit
-  over slopes vanishes.
+- `SH_*(D²ⁿ) = 0`. For Layer 6 item 2's `λ` the Reeb orbits on `∂D²ⁿ` are the Hopf circles,
+  each with `∫ λ = π`, so the Reeb periods are `kπ`, `k ≥ 1`. A linear Hamiltonian `a|z|²` of
+  slope `a ∉ πℤ` has only the constant orbit at the origin, whose index rises by `2n` each time
+  the slope crosses `πℤ`, so the direct limit over slopes vanishes. At `a = π` the field
+  `X_H = 2π(p ∂_q − q ∂_p)` turns every complex line at angular speed `2π`, so every point lies
+  on a 1-periodic orbit: a Check with `2πℤ` in place of `πℤ` would call this degenerate slope
+  admissible.
 - `SH_*(T*S¹) ≅ H_*(𝓛S¹)` (worked example 7).
 - The transfer for `W ⊆ W` is the identity, and for `D²ⁿ ⊆ W` it is zero.
 ### 7.C Capped classical Floer theory on closed spherically monotone and spherically c₁-zero targets
@@ -3775,13 +3660,26 @@ Serre spectral sequence. *Needs:* items 3–5, Layer 7 item 4, Layer 5 items 2�
 Define `SH_*(W; 𝓕)` for a Liouville domain as a direct limit over slopes; prove the zero-energy
 identification `SH^{=0}_*(W; 𝓕) ≅ H_{*+n}(W, ∂W; i_W^*𝓕)` (Proposition 3.44), which defines
 `i_{W*}`; the long exact sequence (Proposition 3.45); the Viterbo transfer (Proposition 3.46);
-the spectral sequence (Theorem 3.49). *Needs:* items 3–6, Layer 7 item 5, Layer 6 item 2.
+the spectral sequence with `E²_{p,q} = SH_p(W; H_q(𝓕))`, the classical symplectic homology with
+coefficients in the local system `H_q(𝓕)` (Theorem 3.49(i)), which converges to `SH_*(W; 𝓕)`
+when either `H_*(𝓕)` is bounded below and `SH_*(W; H_q(𝓕))` is bounded below uniformly in `q`,
+or both are bounded above in the same sense (Theorem 3.49(ii), conditions (A) and (B),
+`bdho-cotangent` lines 2956–2967). *Needs:* items 3–6, Layer 7 item 5, Layer 6 item 2.
 
 **Checks.**
 - For `𝓕` concentrated in degree `0` this is Layer 7 item 5's symplectic homology with local
   coefficients.
-- For the ball `D²ⁿ`, `SH_*(D²ⁿ; 𝓕) = 0` for every `𝓕` pulled back from a point, since the
-  classical `SH_*(D²ⁿ) = 0` and the spectral sequence of Theorem 3.49 has zero `E²`.
+- For the ball `D²ⁿ`, `SH_*(D²ⁿ; 𝓕) = 0` for every `𝓕` pulled back from a point with `H_*(𝓕)`
+  bounded below or bounded above: the classical `SH_*(D²ⁿ; H_q(𝓕))` vanishes for every `q`, so
+  condition (A), respectively (B), holds and the spectral sequence, whose `E²` is zero,
+  converges to `SH_*(D²ⁿ; 𝓕)`.
+- The convergence hypothesis is not decorative. For `𝓕 = ⊕_{k ∈ ℤ} ℤ[k]` on which the loop
+  chains act through the augmentation, `H_*(𝓕)` is bounded neither below nor above, so the zero
+  `E²` page alone proves nothing. The vanishing of `SH_*(D²ⁿ; 𝓕)` holds for another reason: the
+  twisted complex is `𝓕 ⊗ FC(H)`, since the augmentation keeps only the degree-`0` counts, the
+  continuation maps are the identity of `𝓕` tensored with the classical ones, and over `ℤ` the
+  Künneth sequence of the free complexes `FC(H)` passes to the direct limit, where
+  `SH_*(D²ⁿ) ⊗ H_*(𝓕)` and `Tor(SH_*(D²ⁿ), H_*(𝓕))` are zero.
 - The Viterbo transfer for `W ⊆ W` is the identity.
 
 ### Examples
@@ -3868,7 +3766,8 @@ chains (Proposition 4.11), evaluation maps (Proposition 4.13) and the equation f
 (Proposition 4.14); the finite-dimensional reduction (Lemma 4.15); and the chain map `Ψ̃ʳ`
 (Proposition 4.16). The map is an isomorphism by comparison of index spectral sequences, whose
 `E²` map is item 2. *Needs:* items 1–2, Layer 8 item 7, Layer 5 item 6, Tau Ceti
-`TauCeti.TwistingCocycle.indexSpectralSequence` and `TauCeti.MooreFreeLoopSpace`, Layer 1 item 2.
+`TauCeti.TwistingCocycle.indexSpectralSequence` and `TauCeti.MooreFreeLoopSpace`,
+AlgebraicTopology Stage 4.8.
 
 - **Finite-dimensional approximation** (the source's §4.3; Abouzaid §3.2). Use the manifolds
   `𝓛ʳQ`, the maps `ιʳ`, `geoʳ`, the sampling maps `evᵣ`, the compact-family approximation lemma
@@ -3915,8 +3814,8 @@ item 3.
 
 ### Dependencies
 
-Layers 5 (item 6), 7 (item 5) and 8 (item 7); Tau Ceti's classical and rank-one local systems; Layer 1 item 2 (weak
-equivalences); AlgebraicTopology Stage 6 and CharacteristicClasses for `o_Q`, `w₁`, `w₂`.
+Layers 5 (item 6), 7 (item 5) and 8 (item 7); Tau Ceti's classical and rank-one local systems;
+AlgebraicTopology Stage 4.8 (weak equivalences); AlgebraicTopology Stage 6 and CharacteristicClasses for `o_Q`, `w₁`, `w₂`.
 Source: the source paper §§1.5 and 4; Abouzaid Chapters 3–6; Abbondandolo–Schwarz, *On the Floer
 homology of cotangent bundles* and its corrigendum, for the untwisted case.
 
@@ -4029,15 +3928,16 @@ group among the `π_j(Q)`, `j ≥ 2`.
   annihilated by no power `d^m`, `m ≥ 1`, then `ker i_{Q*}` is not `d`-torsion, that is, some
   element of it is not killed by `d`.
 
-The third case uses the class of groups annihilated by some power of `d` (Layer 1 item 4).
+The third case uses the class of groups annihilated by some power of `d` (Layer 1 item 4) and
+AlgebraicTopology Stage 8.8d's Hurewicz theorem modulo that class.
 Theorem 5.10 uses the first case when `π₂(Q) ≠ 0`, the second under its condition 1 and the
 third, for `|d| ≥ 2`, under its condition 2 (`bdho-cotangent` lines 4252–4258); for `d = ±1` every
 nonzero element of the kernel serves. Prove also Proposition 5.13: for
 `φ : S → U` with `S` a closed smooth oriented `n`-manifold and `π ∘ φ` of degree `d ≠ 0`,
 `ker π_{U!}` is `d`-torsion: `(π ∘ φ)_! = φ_! ∘ π_{U!}`, so `ker π_{U!} ⊆ ker (π ∘ φ)_!`, and
 `(π ∘ φ)_* (π ∘ φ)_! = d · Id` (Layer 5 item 3; `bdho-cotangent` lines 4231–4242). *Needs:* Tau Ceti
-`TauCeti.isAspherical_iff_doubleLoopSpace_singularHomology`, Layer 1 items 1, 2 and 4, Layer 2
-item 3, Layer 5 item 3 (`f_* f_! = d · Id`) and item 5.
+`TauCeti.isAspherical_iff_doubleLoopSpace_singularHomology`, Layer 1 items 1 and 4,
+AlgebraicTopology Stages 4.8, 5.5 and 8.8d, Layer 2 item 3, Layer 5 item 3 (`f_* f_! = d · Id`) and item 5.
 
 **Checks.**
 - `Q = T^r`: `Ω²T^r` is contractible and `i_{Q*}` is injective.
@@ -4178,7 +4078,8 @@ degree), Tau Ceti `TauCeti.HomologicalOrientation.mapFundamentalClass`, Mathlib
 
 ### Dependencies
 
-Layers 6, 8, 9; Layer 1 items 1, 2 and 4; Layer 2 item 3; Layer 5 item 5; AlgebraicTopology
+Layers 6, 8, 9; Layer 1 items 1 and 4; AlgebraicTopology Stages 4.8, 5.5 and 8.8d; Layer 2
+item 3; Layer 5 item 5; AlgebraicTopology
 Stage 6; Tau Ceti `TauCeti.HomologicalOrientation.mapFundamentalClass`,
 `TauCeti.CotangentBundle.symplecticForm` and `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`.
 Source: the source paper §§5 and 6.1–6.2.
@@ -4324,41 +4225,29 @@ Bott, *An application of the Morse theory to the topology of Lie-groups*, §1.
 
 ## Downstream consumers
 
-- **AlgebraicTopology.** Stage 5.5 consumes Layer 1 item 2's fibration homotopy exact sequence
-  and Serre spectral sequences; Stage 8.10 consumes Layer 1 item 1's degree-one Hurewicz
-  isomorphism and item 4's abelian Eilenberg–MacLane family; Stages 8.9, 8.11 and 8.12 consume
-  Layer 1 item 2's fibre transport, CW approximation and Serre sequence, and Layer 2 item 3's
-  loop comparison. Where those items consume Tau Ceti (the degree-one Hurewicz isomorphism, CW
-  approximation of path-connected spaces, the canonical homeomorphisms), the citing stage can
-  consume Tau Ceti directly.
-- **GeneralizedCohomology.** G2.10's fibration-sequence applications and G5's rational
-  Hurewicz consume Layer 1 item 2's exact sequence and multiplicative Serre spectral sequence.
-- **CharacteristicClasses** consumes Layer 1 item 2's connected-map homology comparison.
-- **MorseTheory** M5 consumes Layer 1 item 3's filtered-complex algebra; **ComplexKahlerGeometry**
-  and **RiemannianGeometry** R3 consume Layer 1 item 2's spectral sequence and early
-  weak-equivalence comparison.
-- **StableHomotopyKTheory** consumes Layer 1 items 1–4; **StringOrientation** consumes Layer
-  11's finite cover and torus criterion.
-- **HeegaardFloer** consumes Layer 1 item 2's Serre spectral sequence and multiplicative
-  cohomological Serre sequence, and Layer 7 consumes nothing back from this use.
+- **StableHomotopyKTheory** consumes Layer 1 item 1; **StringOrientation** consumes Layer 11's
+  finite cover and torus criterion.
 - **MorseNovikov** consumes Layer 1 item 1's natural `H₁ ≅ π₁ᵃᵇ`. Layer 7.C and 7.T consume its
   N1 and N4 back, and Layer 1 item 1 consumes nothing from MorseNovikov, so the two directions
   are acyclic item by item; where the degree-one Hurewicz isomorphism is Tau Ceti's
   (`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`, path-connected spaces in the smallest
   universe), MorseNovikov can consume Tau Ceti directly.
-- **TopologicalKTheory** (T1.5), **SeibergWittenTheory** (SW3.3a), **ReductiveGroups**,
-  **BordismFormalGroups** and **SpinRepresentations** consume Layer 1 item 2: the homotopy exact
-  sequence of a Serre fibration with its bundle-to-Serre comparison, and the ordinary
-  cohomological Serre spectral sequence with local coefficients.
 - **GeometricCurrents** consumes Layer 0: the coherent corner fundamental chains of Layer 0
   item 1, and the normalized cubical chains, cross product and simplicial comparison, which are
   Tau Ceti's and which it can consume from Tau Ceti directly.
 - **HamiltonianFloerOperations** consumes the capped classical branch 7.C: its cap cover and
   period datum, cylinders, continuation maps, ordered orientation conventions and the PSS module
   comparison with both inverse homotopies (7.C.5b, 7.C.6c).
-- **DGFloerPartII** consumes Layer 1 items 1–6, Layer 2, Layer 4 item 1, Layer 5 items 4–6,
+- **DGFloerPartII** consumes Layer 1 items 1, 5 and 6, Layer 2, Layer 4 item 1, Layer 5 items 4–6,
   Layer 6 items 3–4, Layer 10 and Layer 11, for Theorem B, the manifolds abundant with
   2-spheres, the projective loop-space computations and the knotted hypersurfaces.
+- Citations of Layer 1 items 2–4 for the ordinary theory resolve to AlgebraicTopology through
+  the numbering note (Scope and ownership): those of GeneralizedCohomology (G2.10, G5),
+  CharacteristicClasses (the connected-map comparison), MorseTheory M5, ComplexKahlerGeometry,
+  RiemannianGeometry R3, StableHomotopyKTheory, HeegaardFloer, TopologicalKTheory T1.5,
+  SeibergWittenTheory SW3.3a, ReductiveGroups, BordismFormalGroups, SpinRepresentations and
+  DGFloerPartII. None of these consumes the ordinary theory from this roadmap, and
+  AlgebraicTopology consumes nothing of Layer 1.
 
 ## Worked examples
 
@@ -4465,7 +4354,7 @@ Numbers follow arXiv version 3 of the source paper.
 | Prop 5.9 | 10.3 |
 | Thm 5.10, Thm 5.15 | 10.5 (5.15 through the mod-2 vanishing theorem of 1.4) |
 | Prop 5.11, Prop 5.13 | 10.4 |
-| Thm 5.12 | 1.4, for genuine Serre classes; the source's mod-2 class is replaced there |
+| Thm 5.12 | AlgebraicTopology Stage 8.8d for genuine Serre classes, consumed by 1.4; the source's mod-2 class is replaced in 1.4 |
 | Def 6.1, Prop 6.3 | 6.5 (Def 6.1 for the whole domain is Tau Ceti's `TauCeti.SmoothTwoForm.contractibleHZCapacity`) |
 | Thm 6.4, Props 6.6, 6.7 | 10.2 |
 | Ex 6.30 (the aspherical hypothesis), the finite cover in the proof of Prop 6.31 | 11 |

@@ -59,9 +59,6 @@ Not statable at the pins, each with the carrier it lacks:
 * The Arnold bound on contractible 1-periodic orbits (README Layer 7.C.6g): the first Chern class
   on spherical classes, for the spherical monotonicity hypothesis; the pinned Floer cap classes
   take the Chern number as an abstract homomorphism.
-* The Serre spectral sequences (README Layer 1 item 2): the local system of fibre homology of a
-  Serre fibration, the coefficient system of `E²`. The pinned fibre-homology local system
-  `TauCeti.fiberLocalSystem` is built from a lifting function of a Hurewicz fibration.
 * The Floer–Novikov torsion invariant (README Layer 7.T.8): Floer complexes over Novikov rings.
 -/
 
