@@ -524,8 +524,8 @@ arbitrary Lie subalgebra.
    quotients used here. Prove in particular U(k)→(U/U₁)(k) surjective.
    A regular section of varieties is not asserted a group homomorphism.
 2. **Rational algebraic cohomology and averaging.** For an affine k-group H
-   and rational H-module V consume [IntegralHeckeAndGaloisDeterminants0.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1e875b1e9277da9091c8c1338594ede28d52f342/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md#07-connected-reductive-invariant-evaluations)'s
-   generic rational-cohomology construction for a flat commutative coordinate Hopf
+   and rational H-module V consume IntegralHeckeAndGaloisDeterminants §0.7's
+   generic rational-cohomology construction (*Rational cohomology of a flat affine group scheme*) for a flat commutative coordinate Hopf
    algebra and an arbitrary right comodule, specialized to the field k. The canonical
    generic cofree-resolution, enough-injectives and derived-invariants API is owned
    by that early supplier, consuming the native comodule/cofree foundations used in
@@ -825,10 +825,11 @@ algebra. Mathlib's finite-index adjunction declarations additionally require
 `[S.FiniteIndex]`, `[DecidableRel (QuotientGroup.rightRel S)]`, and carrier universe
 `Rep.{max w u v}`. Keep Tau Ceti's `indFDRep` and its finite-dimensional adjunctions for the
 field / complex specialization; they do not supply the general coefficient-ring adapter.
-For the complex specialization, use
-`indFDRep (FDRep.of (M.ρ.comp π))`, where `π:P^F→L^F` is the projection. The dimension
-theorem is `finrank ℂ (indFromProjectedLevi P π M) = P.index * finrank ℂ M`, by Tau
-Ceti's `finrank_indFDRep`. For nontrivial `M`, a coset-function presentation of induction must use the section
+Over any field `k` (the complex specialization is `k=ℂ`), induce an `L^F`-module `M` inflated
+along the projection `π:P^F→L^F` as `indFromProjectedLevi P π M`, that is,
+`indFDRep (FDRep.of (M.ρ.comp π))`. Its dimension theorem `finrank_indFromProjectedLevi` is
+`finrank k (indFromProjectedLevi P π M) = P.index * finrank k M`, by Tau Ceti's
+`finrank_indFDRep`; for `P=G` it is `finrank k M`, and for `M=0` both sides vanish. For nontrivial `M`, a coset-function presentation of induction must use the section
 cocycle; the coset permutation action itself carries only the trivial module.
 
 ### Layer 7d: rational transport and the specialized Mackey theorem
@@ -1080,11 +1081,21 @@ replace it.
   after algebraic closure and the obstruction to descending it. Keep the schematic center
   without an unproved smoothness assertion.
 
-  Consume the finite-locally-free affine Weil-restriction construction, point adjunction,
-  products/base change and Hopf transport of [ReductiveGroupsPartII RG2.0a.1–2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1e875b1e9277da9091c8c1338594ede28d52f342/TauCetiRoadmap/ReductiveGroupsPartII/README.md), whose lower
-  dependencies are Layer0 and ModularCurves0F. For every nontrivial finite purely
-  inseparable extension K/k, construct `Res_(K/k) G_m` with its actual unit functor
-  `(K⊗_k A)ˣ`. Prove it smooth, connected, commutative and pseudo-reductive over k.
+  Consume Tau Ceti's Weil restriction along a commutative algebra `B` that is finite and
+  projective over a commutative ring `R`: the Hopf structure
+  `TauCeti.Algebra.WeilRestriction.instHopfAlgebra` on `WeilRestriction R B H` for a finitely
+  presented commutative Hopf `B`-algebra `H` with group `G`, the point isomorphism
+  `TauCeti.Algebra.WeilRestriction.pointsMulEquiv`, `(Res_(B/R) G)(T) ≃* G(B⊗_R T)` for every
+  commutative `R`-algebra `T`, with its naturality in `T`, and the functoriality
+  `TauCeti.Algebra.WeilRestriction.mapBialgHom`. For `G_m` the same supplier gives the unit
+  description `TauCeti.Algebra.WeilRestriction.multiplicativeGroupPoints`,
+  `(Res_(B/R) G_m)(T) ≃* (B⊗_R T)ˣ`, smoothness (`TauCeti.Algebra.WeilRestriction.instSmooth`),
+  commutativity (`TauCeti.Algebra.WeilRestriction.instIsCocomm`) and, for `B` finite over a
+  field, geometric connectedness
+  (`TauCeti.Algebra.WeilRestriction.geometricallyConnectedCommHopfAlgProperty_multiplicativeGroup`).
+  So for every nontrivial finite purely inseparable extension K/k, `Res_(K/k) G_m` is a smooth
+  connected commutative k-group with unit functor `T ↦ (K⊗_k T)ˣ`. Prove it pseudo-reductive
+  over k.
   On an algebraic closure, identify K⊗k k̄ as a local algebra with residue k̄; the units
   have quotient G_m and unipotent kernel `1+nilradical` of dimension `[K:k]−1`, so the
   group is not reductive. Prove the kernel filtration by powers of the nilradical and its
@@ -1214,7 +1225,7 @@ algebra by its Killing-semisimple part.
    invariance to prove the nonzero opposite root-space pairings; assemble
    components. The simple generators satisfy the actual Serre relations, giving
    native `TauCeti.serreLift` with its H/E/F values and surjectivity. Consume
-   [LieHighestWeight Layer7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8e4c6c209a7a4675f8f9654b2a1a97f4966d34b3/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md)
+   LieHighestWeight Layer 7 (*Serre's relations and the split-field presentation of `L`*)
    for the split-field presentation/injectivity comparison; the native pinned
    Serre map alone supplies no injectivity theorem. Preserve its Cartan-matrix
    orientation even where ADE symmetry hides the transpose.
@@ -1242,7 +1253,10 @@ algebra by its Killing-semisimple part.
    maps. Use native `GroupExtension.Equiv` for extension transport and its
    existing section-ratio/quotient APIs for the corresponding comparison laws.
    Prove closure, inverse and identity by these equations and use the
-   native subgroup group structure. Export its cover action, projection to A,
+   native subgroup group structure. For any extension `S : GroupExtension ℤˣ E Q`
+   and action `ρ : A →* MulAut Q` this subgroup is `liftSubgroup S ρ`, the group
+   `LiftGroup S ρ`, with projection `projection S ρ : LiftGroup S ρ →* A`,
+   `(φ,a)↦a`. Export its cover action, projection to A,
    conjugation/change-of-order maps, and the literal action on simple lifts,
    section values, τ, products, inverses and root fibers. This is the group of
    **all** compatible lifts, not one silently selected lift per root isometry.
@@ -1392,7 +1406,7 @@ algebra by its Killing-semisimple part.
    associated finite root pairing and its simple base, rather than just naming
    a matrix. The ambient `RootPairing.Base.cartanMatrix` uses roots as rows;
    translate it by the actual transpose to the H-row convention as in
-   [LieHighestWeight Layer7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/8e4c6c209a7a4675f8f9654b2a1a97f4966d34b3/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md).
+   LieHighestWeight Layer 7 (*Serre's relations and the split-field presentation of `L`*).
 
    Prove the exact higher Serre powers and construct `TauCeti.IsSerreSystem`
    for these actual fixed vectors. The resulting native `serreLift` maps into
@@ -1766,8 +1780,8 @@ and T-compatibility are part of the integration interface.
 #### 10B. Induction, Weyl modules and simple heads
 
 For a split connected reductive G over a field fix B⁺ and its opposite B⁻,
-with positive roots from B⁺. Consume [IntegralHeckeAndGaloisDeterminants0.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1e875b1e9277da9091c8c1338594ede28d52f342/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md#07-connected-reductive-invariant-evaluations)'s
-canonical arbitrary-base algebraic induction: the actual cotensor equalizer for the
+with positive roots from B⁺. Consume IntegralHeckeAndGaloisDeterminants §0.7's
+canonical arbitrary-base algebraic induction (*Algebraic induction*): the actual cotensor equalizer for the
 coordinate bialgebra map, its native comodule coaction and natural reciprocity maps.
 Specialize to k and transport by its antipode/inversion comparison from
 `F(hg)=hF(g)` with right translation to `f(gh)=h⁻¹f(g)` with left translation.
@@ -1922,7 +1936,7 @@ preceding Cartan algebra; over positive characteristic retain10C's simple
 socle, generation and nonsimplicity distinctions. In the preceding
 characteristic-zero general-group lane, apply the coefficient and
 multiplication comparisons to
-[GroebnerGeometry G5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d21bc1c2f895047275495326f5f693e89f0e244c/TauCetiRoadmap/GroebnerGeometry/README.md)'s
+GroebnerGeometry G5's
 polynomial flag-minor/standard-monomial construction. First prove that its
 polynomial flag-minor algebra is `O(Mat_n)^(1×N⁺)` for the actual right
 upper-unipotent matrix action. Then prove that localization at the full
@@ -1976,7 +1990,7 @@ once RootSystems' finite Coxeter presentation is available. `SpectralWeylTargets
 prototypes selected maps; all of 11A–11G below is normative.
 
 **11A. Plane configurations, geometric braids and their basepoints.** Consume the early
-configuration contract [InverseGaloisAndArithmeticFundamentalGroups IG.5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/164e3b19e90ef83d80c3c51722ad429cedfc7f02/TauCetiRoadmap/InverseGaloisAndArithmeticFundamentalGroups/README.md),
+configuration contract InverseGaloisAndArithmeticFundamentalGroups IG.5.1,
 including its actual injective-tuple carrier, permutation quotient, disc configuration
 comparison, finite covering and native braid/permutation maps. This is a specialization of
 that generic configuration theory; its later arithmetic and Hurwitz-moduli layers are not
