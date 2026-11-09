@@ -29,6 +29,8 @@ body:
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
+        - AnalyticNumberTheoryPartI
+        - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -50,9 +52,11 @@ body:
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
+        - ConformalMappingPartII
         - CountableModelCounting
         - DGAInfinity
         - DGFloer
+        - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
         - DifferentialGeometry
@@ -96,6 +100,7 @@ body:
         - KhovanovHomology
         - LFunctions
         - LieGroupoidsPoisson
+        - LinearFormsInLogarithms
         - LocalPurity
         - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
@@ -110,6 +115,7 @@ body:
         - NilpotentOrbits
         - NoncommutativeGeometry
         - NoncommutativeIntegration
+        - NoncongruenceModularForms
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
@@ -149,6 +155,8 @@ body:
         - SeibergWittenTheory
         - SmoothBundlesConnections
         - SobolevPolynomialApproximation
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
