@@ -3816,7 +3816,7 @@ The following three targets use the same totally real F, odd prime l, residual r
 
 (Source: [MS19](#references) §4.2, Lemma 4.10, pp.22–24.)
 
-**Theorem.** For the large-image residual representation and exceptional `l=5` condition of [R18.4.32 Large-image residual Ihara lemma](#r18432-large-image-residual-ihara-lemma), fix finite S and local conditions as above. With `Σ` the framed finite places, `j=4|Σ|−1`, there exist integers r,g and sets `Q_n` outside S, `|Q_n|=r`, with `Nv≡1 mod lⁿ` and two distinct residual Frobenius eigenvalues at `v∈Q_n`. Choose one eigenvalue at each v. The framed fixed-determinant global ring `R_(S∪Q_n)^□,θ` admits a surjection `R_loc[[x₁,…,x_g]]→R_(S∪Q_n)^□,θ`. The unframed ring represents strict-equivalence deformations with the same determinant `θ`, and framing is formally smooth of relative dimension j. Set `R_∞=R_loc[[x₁,…,x_g]]` and `S_∞=O[[y₁,…,y_r,w₁,…,w_j]]`; `dim R_loc=r+j−g+1` and `dim R_∞=dim S_∞=r+j+1`.
+**Theorem.** For the large-image residual representation and exceptional `l=5` condition of [R18.4.32 Large-image residual Ihara lemma](#r18432-large-image-residual-ihara-lemma), fix finite S and local conditions as above. With `Σ` the framed finite places, `j=4|Σ|−1`, there exist integers r,g and sets `Q_n` outside S, `|Q_n|=r`, with `Nv≡1 mod lⁿ` and two distinct residual Frobenius eigenvalues at `v∈Q_n`. Choose one eigenvalue at each v. The framed fixed-determinant global ring `R_(S∪Q_n)^{□,θ}` admits a surjection `R_loc[[x₁,…,x_g]]→R_(S∪Q_n)^{□,θ}`. The unframed ring represents strict-equivalence deformations with the same determinant `θ`, and framing is formally smooth of relative dimension j. Set `R_∞=R_loc[[x₁,…,x_g]]` and `S_∞=O[[y₁,…,y_r,w₁,…,w_j]]`; `dim R_loc=r+j−g+1` and `dim R_∞=dim S_∞=r+j+1`.
 
 `ρ̄|_(G_F(ζ_l))` absolutely irreducible; for `l=5` with projective image `PGL₂(F₅), ker` proj `ρ̄` is not contained in `G_F(ζ₅)`.
 
@@ -4171,7 +4171,7 @@ Prove the regular-base flatness specialization of DeformationAndDerivedPatchingA
 
 The quotient is nonzero by Nakayama. Thus the two bounds coincide and the supplier theorem makes M A-flat. Treat M=0 separately. Verify this specialization on the actual patched local-type rings, retaining all formally smooth factors. Prove the nodal thickening transfer: for a field `k`, `A = k[[X,Y]]/(X²Y)`, an `A`-algebra `R` and an exact sequence of `R`-modules `0 → L → M → N → 0`, assume `M` is `A`-flat, `XL = 0` and `XYN = 0`. Then `N = M/(XY)M` is flat over `B = A/(XY)` and `N/XN ≅ L`. Finally prove the nodal filtration transfer: let `R` be a complete local noetherian `B = k[[X,Y]]/(XY)`-algebra with residue field `k`; let `M` be `B`-flat, `YN = 0`, `N` flat over `B/(Y)`, `L ≅ M/XM` and `P ≅ L ⊕ M`. If `P` has a filtration with graded pieces `N`, `L ⊕ L`, `N` in that order, then `0 → N → M/YM → N → 0` is exact as `R`-modules. These are theorem targets with their displayed inputs and conclusions; no domain hypothesis is added. (Source: DeformationAndDerivedPatchingAlgebra §3.3 (generic module flatness); [MS19](#references), Lemmas 5.1–5.3, pp.31–33.)
 
-**Theorem.** With the preceding finite-level patching datum, `M_∞(1)` is flat over `R_nr`, `N_∞` is flat over `R_N` and `M_∞(σ_ps,O)` is flat over the regular `R_ps`. Residually `M_∞(St_k)` is flat over `B=k[[X,Y]]/(XY)` (with the retained formal smooth parameters), `M_∞(St_k)/X≅M_∞(1_k)`, and there is an exact sequence `0→N_∞→M_∞(St_k)/Y→N_∞→0`. All identifications are `R_∞`-linear and commute with the w-degeneracy maps.
+**Theorem.** With the preceding finite-level patching datum, `M_∞(1)` is flat over `R_nr`, `N_∞` is flat over `R_N` and `M_∞(σ_{ps,O})` is flat over the regular `R_ps`. Residually `M_∞(St_k)` is flat over `B=k[[X,Y]]/(XY)` (with the retained formal smooth parameters), `M_∞(St_k)/X≅M_∞(1_k)`, and there is an exact sequence `0→N_∞→M_∞(St_k)/Y→N_∞→0`. All identifications are `R_∞`-linear and commute with the w-degeneracy maps.
 
 The local rings are precisely the minimal-ramification models above, and the nonzero modules have the stated MCM dimension equality.
 
@@ -4193,7 +4193,7 @@ The type sequence and N,M²,N filtration are exact and compatible; zero modules 
 
 ### R18.4.31 Patched degeneracy surjectivity
 
-**Theorem.** For constant residual coefficients and the large-image datum, the homological trace map `M_∞,K_0(w)(St_k)→M_∞,K(St_k)²` is surjective. Specializing by X and then the `S_∞` augmentation gives the surjective finite-level trace `H₁(X_(K_0(w)),k)_m→H₁(X_K,k)_m²`, first on the chosen central character and then on the whole localized module.
+**Theorem.** For constant residual coefficients and the large-image datum, the homological trace map `M_{∞,K_0(w)}(St_k)→M_{∞,K}(St_k)²` is surjective. Specializing by X and then the `S_∞` augmentation gives the surjective finite-level trace `H₁(X_(K_0(w)),k)_m→H₁(X_K,k)_m²`, first on the chosen central character and then on the whole localized module.
 
 The [R18.4.30 Patched Steinberg branch flatness](#r18430-patched-steinberg-branch-flatness) exact sequences are constructed at K and `K_0(w)` compatibly.
 
@@ -4293,7 +4293,7 @@ All algebraic and parity hypotheses of [R18.4.34 Saito quaternionic coefficient 
 
 For the open Hilbert clause the actual sheaf extends as lisse pure of weight r on the chosen smooth finite-field fibre.
 
-In the raw tensor formula `n_i` are nonnegative integers and `d_{i,b}` are integers; negative determinant exponents are inverse line powers over the rational coefficient field.
+In the raw tensor formula the `n_i` are nonnegative integers and the `d_i` and `b` are integers; negative determinant exponents are inverse line powers over the rational coefficient field.
 
 *Proof route.* Import abelian Weil purity and the operations on pure representations to obtain the raw rank-two tensor weight; apply proper smooth direct-image/cohomology purity. Use [R18.4.34 Saito quaternionic coefficient projector](#r18434-saito-quaternionic-coefficient-projector) and its good-model comparison. The selected smooth proper `H^(q₀+1)` has that weight; its CM factor has weight 2a. Subtract 2a and calculate `(2g−1)(w−2)+1−2(g−1)(w−2)=w−1`. Use generic weights operations for the Tate twist. For descent compare `Frob_u` with `Frob_v^f` at an unramified place; the absolute values of the fth powers imply the same weight at v. For the open Hilbert clause import §7.12, whose compact-support upper and ordinary-support lower bounds meet on the image.
 
@@ -4301,6 +4301,7 @@ In the raw tensor formula `n_i` are nonnegative integers and `d_{i,b}` are integ
 
 - For `g=2,w=4` the coefficient H¹ weight is three, not seven.
 - Raw coefficients and normalized F(k) must not be assigned the same weight merely because they use the same abelian family.
+- One factor with `n₁=2, d₁=−1, b=1`: `Sym²V₁⊗det(V₁)^(−1)` is the trace-zero part of `End(V₁)`, of weight 0, and the twist (1) lowers it to `r=2−2−2=−2`, so H¹ has weight −1. Reading the twist as raising weight gives 2 and 3. A twist `b=1/2` is not defined over the rational coefficient field without a chosen square root of the residue cardinality, which is why b is an integer.
 
 (Source: [Sai09](#references) Lemma 3, p.30, and Lemma 4, pp.32–33 (The projector realizes normalized coefficients with the CM twist on a good total-space model); [Del80](#references) Corollaries 3.3.4–3.3.6, printed p.206 (The two support bounds imply pure inner cohomology; proper smooth purity is their proper specialization))
 
