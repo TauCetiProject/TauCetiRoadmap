@@ -32,14 +32,18 @@ value p(HP²)=1+2u+7u²; S2.2 owns the structured Pontryagin–Thom isomorphism
 Ω^fr_n≅π_nS and the stem π₃S≅ℤ/24 with generator ν, and S5.3 the equivalence
 MSpin[1/2]≃MSO[1/2]. StringOrientation S4–S5 and EllipticCohomology own the
 Witten genus and the Cayley-plane kernel theorem; neither consumes anything
-from here. StringOrientation S2.3's stem (through EllipticCohomology E4.S)
-and S5.3's Hovey splitting use BordismFormalGroups F3–F5, which consume
-B4.1–B4.2, B4.4–B4.8 and B5.4 below; of S5.3 only the equivalence is
+from here. StringOrientation S2.3's stem (through EllipticCohomology E4.S
+and E5) and S5.3's Hovey splitting rest on BordismFormalGroups, whose F2
+and F6 consume B4.1–B4.2, B4.4–B4.8 and B5.4 below (F2 the Adams towers,
+the MO coefficients and B5.4's MU comparison, F6 the Steenrod and Adams
+carriers) and whose F3–F5 build on F2; of S5.3 only the equivalence is
 consumed, by B3.4, and S2.3 is consumed by B3.3 and B5.5. None of
 B4.1–B4.2, B4.4–B4.8 and B5.4, and nothing that they need, uses these
-three items. Layer 9 below adds to S1.5 only the identification of its Jordan
-algebra with LieHighestWeight's compact Albert carrier, the explicit idempotent
-charts, the Peirce Clifford module with its pinned volume sign, the F₄ type
+three items. Of S2.2, B5.4 consumes only the isomorphism Ω^θ_n≅π_nMθ for
+a general bundle diagram θ, whose route there uses neither S2.1 nor
+EllipticCohomology E5; the argument is in Downstream consumers. Layer 9
+below adds to S1.5 only the identification of its Jordan algebra with
+LieHighestWeight's compact Albert carrier, the explicit idempotent charts, the Peirce Clifford module with its pinned volume sign, the F₄ type
 comparison, the smooth quotient through SmoothBundlesConnections B1.4, the Bott
 clutching sign witness for u, and the Pontryagin classes of every HP^k.
 PositiveScalarCurvature owns connection-metric
@@ -92,9 +96,8 @@ which the boundary or those faces form a subcomplex. CalibratedGeometry 2.4 cons
 ordered parametrizations and integral fundamental chains.
 
 Finite quadratic Arf classification and the Seifert knot/proper-link dictionary
-are GeometricTopology Layer 4.3.1; the finite algebra this roadmap needs is
-declared as the supplier gap gap:finite-quadratic-arf in the exact supplier
-contracts, the only gap this roadmap declares. This roadmap owns their
+are GeometricTopology Layer 4.3.1; the finite algebra this roadmap consumes
+from it is listed in the exact supplier contracts. This roadmap owns their
 Spin-surface refinement and bordism applications.
 SpinGeometry G4 supplies geometric Spin lifts. Generic bundle classifiers and
 Thom spectra remain CharacteristicClasses C1–C2 and GeneralizedCohomology G5.
@@ -318,7 +321,7 @@ retain their native hypotheses and chosen smooth structures.
 | --- | --- | --- |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Layers2–4,6,8 and 8.13 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, 6.3's homological orientation system and its comparison with smooth orientations, EM carriers and representability; 8.13's smoothing of continuous maps into a compact boundaryless manifold relative to a closed set, parametric transversality and relative transversality, for boundaryless sigma-compact Hausdorff second-countable sources | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT; B1.6 owns the Sard theorem in unequal dimensions, the extension of 8.13's smoothing to sources over any model with corners, and the extension of its two transversality theorems, facewise, to sources with DifferentialGeometry 5.5b's face structure |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5b | 2.1's manifold orientation, the pinned `TauCeti.Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's oriented-atlas criterion for boundaryless manifolds, in the direction from an orientation to an oriented atlas (2.2's orientation-preserving maps, pullback and product orientations and the direction from an oriented atlas to an orientation are realised at the pin and consumed from it, as in From Tau Ceti); 5.5b's smooth face structure and face-indexed abstract boundary of a manifold with corners, with the outward-first orientation of its sheets and the product boundary sign; its open face strata are the strata of B1.6's corner Sard and transversality theorems | B1.1 owns the comparisons of this one orientation with cycle and witness records (the faces of a witness among 5.5b's boundary sheets included), frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 owns the Sard theorem in unequal dimensions and derives its transversality theorems from it |
-| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and the isotopy uniqueness of tubular neighbourhoods (Layer1; their existence for boundaryless models is the pinned `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`), and the interior of a second-countable manifold with boundary as a boundaryless manifold whose inclusion is a homotopy equivalence (Layer1.1); the existence of Whitehead's smooth triangulation of a smooth manifold, a homeomorphism satisfying the pinned `TauCeti.IsSmoothTriangulation` (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
+| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1 and Layer11.3 | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, itemized below); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and the isotopy uniqueness of tubular neighbourhoods (Layer1; their existence for boundaryless models is the pinned `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`), and the interior of a second-countable manifold with boundary as a boundaryless manifold whose inclusion is a homotopy equivalence (Layer1.1); the existence of Whitehead's smooth triangulation of a smooth manifold, a homeomorphism satisfying the pinned `TauCeti.IsSmoothTriangulation` (Layer11.3) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
 | StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] alone, whose proof there uses no BordismFormalGroups item, and not its Hovey splitting | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary oriented Adams and comodule-algebra calculation and B3.4 its transport to MSpin; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
@@ -331,7 +334,7 @@ retain their native hypotheses and chosen smooth structures.
 | IndexTheory, I1/I2/I3/I5, I7.2, I7.5; PseudodifferentialOperators; G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index; I7.2's `sign(M)=⟨L(TM),[M]⟩`; I7.5's integral equality σ(M)=−16α for the quaternionic index α of a closed Spin four-manifold and its Rokhlin theorem that σ(M) is divisible by 16 | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
 | AffineMorseLefschetz A0, A5, A6; ComplexKahlerGeometry K7.1 | polynomial projective zero-locus carrier, smooth projective atlas, weak Lefschetz and Veronese comparison | B1.7 specializes them to the Fermat quartic and constructs its characteristic numbers |
 
-What GeometricTopology must provide (gap:finite-quadratic-arf): for a
+What is consumed from GeometricTopology Layer 4.3.1: for a
 finite-dimensional F₂ vector space V with a quadratic form q whose polar
 bilinear form is nondegenerate, so that dim V = 2m with m ≥ 0, the Arf
 invariant Arf(q) ∈ F₂ given on a symplectic basis (a_i, b_i) by Σ q(a_i)q(b_i),
@@ -342,14 +345,14 @@ dimension and Arf classifying (V, q) up to isometry; the integer Gauss sum
 `Σ_v (−1)^(q v) = (−1)^Arf(q) · 2^m`; the q-zero count
 `2^(2m−1) + (−1)^Arf(q) · 2^(m−1)` for m ≥ 1, with count 1 for m = 0; and the
 equivalence of Arf(q) = 0 with the existence of an m-dimensional subspace on
-which q vanishes. Every use below names this slug; GeometricTopology Layer
-4.3.1 is where the algebra is specified, and nothing here derives it from the
-geometric theorems that consume it.
+which q vanishes. Every use below cites GeometricTopology Layer 4.3.1, where
+the algebra is specified, and nothing here derives it from the geometric
+theorems that consume it.
 
 ## How to read the build
 
 Layer 1 records the finite quadratic algebra consumed from GeometricTopology
-under gap:finite-quadratic-arf.
+Layer 4.3.1.
 Layers 2–3 construct geometry,
 witnesses and the homology theory; Layer 4 constructs ordinary operations and
 Adams towers independently of bordism coefficients. Layer 5 proves the finite
@@ -369,8 +372,8 @@ it does not mean the nth subsection of the enclosing layer.
 ### 1.1 Arf interface for Spin surfaces (B3.2(a))
 
 Consume GeometricTopology Layer 4.3.1's finite nonsingular-F₂ quadratic
-Arf algebra on native quadratic forms, declared as gap:finite-quadratic-arf
-in the exact supplier contracts. Its symplectic-basis formula, basis
+Arf algebra on native quadratic forms, itemized in the exact supplier
+contracts. Its symplectic-basis formula, basis
 independence, isometry invariance, orthogonal-sum additivity, hyperbolic and
 anisotropic plane classification, integer Gauss sum, q-zero counts and
 q-zero Lagrangian criterion supply B3.2(b)–(c). The finite algebra precedes
@@ -388,7 +391,7 @@ comparison, using SpinGeometry's circle lifts (G6 item 5) and surface lifts
 - Two copies of the anisotropic plane have a q-zero diagonal subspace of
   dimension 2, as required by the surgery criterion in B3.2(c).
 
-*Needs:* GeometricTopology gap:finite-quadratic-arf (the Layer 4.3.1 finite quadratic Arf algebra).
+*Needs:* GeometricTopology Layer 4.3.1 (the finite quadratic Arf algebra).
 
 ### Examples
 
@@ -397,7 +400,7 @@ B3.2(b)–(c) construct its geometric Spin-surface realizations and fillings.
 
 ### Dependencies
 
-GeometricTopology gap:finite-quadratic-arf (Layer 4.3.1); SpinGeometry
+GeometricTopology Layer 4.3.1; SpinGeometry
 G4.3–G4.4 and G6 item 5 supply the Spin lifts for the geometric applications.
 
 ## Layer 2: cycles, structures and collared geometry
@@ -501,16 +504,22 @@ This item owns the following.
   boundaryless, modelled on the half-space, or carry DifferentialGeometry
   5.5b's face structure, with the strata of the Sard bullet, by the same
   route. From this item's Sard theorem prove the parametric transversality
-  theorem: if M is such a source, F:M×S→N is smooth, with S and N without
+  theorem: if M is such a source and is Lindelöf (second countable in
+  particular), F:M×S→N is smooth, with S and N without
   boundary (S an open subset of a finite-dimensional real vector space in
   particular), and the restriction
   of F to (open face stratum)×S is transverse to a closed embedded
   submanifold Z⊂N for every stratum of M, the interior included, then the
   s∈S for which F(−,s) fails to be transverse to Z on some stratum form a
-  `TauCeti.IsNullSet` in S, so the good parameters are dense. On each
-  stratum the bad parameters are the critical values of the projection to
-  S of the embedded submanifold F⁻¹(Z)∩(stratum×S), a boundaryless
-  manifold, null by `isNullSet_image_criticalPoints_of_boundaryless`; that
+  `TauCeti.IsNullSet` in S, so the good parameters are dense. M is second
+  countable, being Lindelöf with second-countable chart domains, and so is
+  each stratum. For a stratum and the source S₀ of the preferred chart of
+  S at a point, the bad parameters in S₀ are the critical values of the
+  projection to S₀ of the embedded submanifold F⁻¹(Z)∩(stratum×S₀), a
+  boundaryless second-countable manifold, null by
+  `isNullSet_image_criticalPoints_of_boundaryless`; `TauCeti.IsNullSet` is
+  tested in the preferred chart at each point, so no countability
+  hypothesis on S is needed. That
   projection has source dimension
   dim(stratum)+dim S−codim Z, equal to dim S only when
   dim(stratum)=codim Z, so the pinned equal-dimension
@@ -600,6 +609,7 @@ Its API includes:
 - For f:ℝ→ℝ², t↦(t,0), every point is critical and the image, a line, is null in ℝ²; the equal-dimension theorem does not apply to it. For the projection ℝ²→ℝ there is no critical point and the image ℝ is not null: the theorem bounds the critical values only.
 - For M a point and f:M→ℝ² the critical set is M and its image is one point, null; this is the parametric theorem with S=N=ℝ², Z={0} and F(pt,s)=s, whose bad parameters are {0}, and no theorem assuming equal model dimensions applies to a map from a 0-manifold to ℝ².
 - The Lindelöf hypothesis cannot be dropped: on M=ℝ²_δ×[0,∞), the plane with the discrete topology times the half-line, a half-space manifold that is not Lindelöf, the map f(c,t)=c into ℝ² has derivative 0 at every point, so every point is critical, and its critical values form all of ℝ², which is not null.
+- The Lindelöf hypothesis of the parametric theorem cannot be dropped either: on M=ℝ_δ, the line with the discrete topology (a boundaryless 0-manifold that is not Lindelöf), with S=N=ℝ, Z={0} and F(m,s)=s−m, F is transverse to Z since ∂F/∂s=1, but each slice F(−,s) has derivative 0 and meets Z at m=s, so every s∈ℝ is a bad parameter and the bad set ℝ is not null. For M=ℤ with the same F, a countable 0-manifold, the bad set is ℤ, which is null.
 - A manifold modelled on the closed round cone z≥√(x²+y²) in ℝ³ (a model with corners in Mathlib's sense, convex with nonempty interior) with a point at the vertex is a source of the smoothing theorem, whose route uses no strata, and admits no face structure, so it is outside the Sard and transversality statements for corner sources; the same three-manifold charted only on the interior of the cone is boundaryless and is covered by the boundaryless Sard theorem. The closed unit disc in ℝ², by contrast, admits half-plane charts at each boundary point, its boundary circle being smooth, so a manifold on it can be given that face structure.
 - For the proper exhaustion f(x)=|x|² on ℝⁿ with n≥2 the critical set is {0}, the only critical value is 0, and every c>0 is regular with f⁻¹((−∞,c]) the closed ball; the one-dimensional target excludes the equal-dimension theorem when n≠1.
 - On M=[0,∞) with f(t)=t² into ℝ the boundary point 0 is critical for f and for the restriction of f to the stratum {0}; with f(t)=t the boundary point is regular for f (derivative 1) but critical for that restriction, so the inclusion of the critical set of f into the union of the critical sets of the stratum restrictions holds, and its converse fails.
@@ -1015,7 +1025,7 @@ Its API includes:
 - For (X,X), every relative group is 0; for (X,empty), it is the absolute group.
 - A finite collection of points in an infinite discrete space has finitely supported coordinates, not an arbitrary infinite product element.
 
-The pair and arbitrary-CW extension is constructed here from the collar and finite-support arguments; it is not asserted to be the coefficient theorem of Thom IV.8.
+That bordism of maps from closed manifolds, with any stable tangential structure, is a generalized homology theory is Freed, *Bordism: Old and New*, Lecture 12, p.103; for unoriented bordism it is Miller, Chapter 1, §4, Theorem 4.2 with the remark after it, p.10, deduced there through the Thom spectrum MO, a route not used here. The pair and arbitrary-CW extension is constructed here from the collar and finite-support arguments of B1; it is not asserted to be the coefficient theorem of Thom IV.8.
 
 *Needs:* B2.1; B1.3 relative faces, B1.5 finite support and B1.6 separating hypersurfaces; AlgebraicTopology Layers 2–4.
 
@@ -2261,11 +2271,11 @@ Its API includes:
 - The Lie-spin torus has q(a)=q(b)=q(a+b)=1 and Arf 1.
 - S² has H₁=0 and Arf 0; disconnected surfaces use the orthogonal direct sum.
 
-*Needs:* B3.2(a) (gap:finite-quadratic-arf); SpinGeometry G4.3–G4.4 existence and torsor of lifts on Σ, and G6 item 5 circle and torus lifts; AlgebraicTopology Layer 6 H₁ and mod2 duality. No bordism coefficient calculation is used.
+*Needs:* B3.2(a) (GeometricTopology Layer 4.3.1); SpinGeometry G4.3–G4.4 existence and torsor of lifts on Σ, and G6 item 5 circle and torus lifts; AlgebraicTopology Layer 6 H₁ and mod2 duality. No bordism coefficient calculation is used.
 
 ### 8.2 Spin-surface filling classification (B3.2(c))
 
-Use B3.2(a) (gap:finite-quadratic-arf), B3.2(b) and surgery on q-zero curves to
+Use B3.2(a) (GeometricTopology Layer 4.3.1), B3.2(b) and surgery on q-zero curves to
 prove ΩSpin_2≃F2 by Arf(q): realize a q-zero Lagrangian by disjoint
 embedded curves, attach the corresponding two-handles to Σ×I and cap
 the resulting spheres; conversely, the kernel of H1(∂W;F2)→H1(W;F2) for a
@@ -2288,7 +2298,7 @@ classification alone is not cited as a proof of this filling theorem.
 - A torus refinement with q(a)=q(b)=0 has a q-zero line and the corresponding handlebody filling.
 - The product Lie-spin torus has Arf 1, so it cannot be the entire Spin boundary; two copies have Arf 0 and admit the surgery construction.
 
-*Needs:* B3.2(a) (gap:finite-quadratic-arf) and B3.2(b); B1–B2; GeometricTopology Layer 1 handles; AlgebraicTopology Layer 6 relative duality.
+*Needs:* B3.2(a) (GeometricTopology Layer 4.3.1) and B3.2(b); B1–B2; GeometricTopology Layer 1 handles; AlgebraicTopology Layer 6 relative duality.
 
 ### 8.3 Spin three-manifolds (B3.3)
 
@@ -2756,11 +2766,13 @@ range and counterexample use distinct parts of this same operation API.
 The realization theorems for finite polyhedra are Thom, Théorèmes III.2
 (mod2, every degree), III.3 (integral, degree at most five) and III.4 (a
 nonzero multiple of every integral class, hence the rational surjection),
-p.59; the non-realizable integral classes in every degree at least seven
-are his Théorème III.9, and the L⁷×L⁷ example at p=3, pp.62–63. Degree
-six, the pairs and arbitrary CW targets, and the operation identities of
-the lens-space example are proved by the explicit AHSS and operation
-calculations above.
+p.59, and Corollaire III.7 (integral, degree six), p.62; the
+non-realizable integral classes in every degree at least seven are his
+Théorème III.9, and the L⁷×L⁷ example at p=3, pp.62–63. The AHSS
+argument above proves the integral range 0≤n≤6, which Thom states for
+finite polyhedra, for pairs and arbitrary CW targets, and the operation
+identities of the lens-space example are proved by the explicit
+operation calculations above.
 
 *Needs:* B4.4, B4.7, B5.7 and B6.1–B6.2; ClassifyingSpaces Stage 4; Mathlib `Rep.FiniteCyclicGroup.groupHomologyIsoEven`; AlgebraicTopology Layers 4 and 6.
 
@@ -3106,22 +3118,33 @@ owns the boundaryless-source smoothing and transversality that its
 classifying maps into Circle, RP^N and CP^N use, and B1.6 consumes 8.13
 for that case. These consumers provide no prerequisite of the targets
 above, except that AlgebraicTopology supplies B1.6's boundaryless case
-and B2–B6, and that BordismFormalGroups F3–F5, which consume B4.1–B4.2,
-B4.4–B4.8 and B5.4, are inputs of StringOrientation S2.3's stem
-(through EllipticCohomology E4.S) and S5.3's Hovey splitting. The
+and B2–B6, and that BordismFormalGroups, whose F2 and F6 consume
+B4.1–B4.2, B4.4–B4.8 and B5.4 and whose F3–F5 build on F2, supplies
+inputs of StringOrientation S2.3's stem (through EllipticCohomology E4.S
+and E5) and S5.3's Hovey splitting. The
 supply is layered: B3.3, B3.4 and B5.5, the only consumers of S2.3 and
 S5.3, are used by none of the items BordismFormalGroups consumes nor by
 anything those items need, and
 B3.4 takes from S5.3 only its equivalence MSpin[1/2]≃MSO[1/2], whose proof
-there uses no BordismFormalGroups item.
+there uses no BordismFormalGroups item. B5.4 takes from S2.2 only the
+isomorphism Ω^θ_n≅π_nMθ for a general bundle diagram θ. Its route in
+S2.2 (the collapse onto a tubular neighbourhood from GeometricTopology
+Layer 1, Thom's transversality theorem for maps into Thom spaces,
+GeneralizedCohomology G5's bundle diagrams and G5.3's Thom spectrum)
+uses neither S2.1 nor EllipticCohomology E5; S2.2's *Needs:* lists S2.1
+for its application to String bordism. S2.1 in turn takes from E5 only
+MString, its comparison with G5.3's sequential Thom spectrum and the E∞
+map MString→MSpin, which EllipticCohomology builds from
+GeneralizedCohomology G3.8 and G5.3–G5.5 alone; the BordismFormalGroups
+inputs of E5 enter only its other targets.
 
 ## References
 
 - R. Thom, *Quelques propriétés globales des variétés différentiables*,
   Commentarii Math. Helv.28(1954),17–86,
   [primary paper](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Thom1954.pdf),
-  Théorèmes III.2–III.4, p.59, and III.9 with the L⁷×L⁷ example, pp.62–63,
-  for geometric realization; Théorème IV.12 and the low unoriented groups
+  Théorèmes III.2–III.4, p.59, Corollaire III.7, p.62, and III.9 with the
+  L⁷×L⁷ example, pp.62–63, for geometric realization; Théorème IV.12 and the low unoriented groups
   after it, pp.79–80, and Théorème IV.13, p.81, for the low oriented groups.
 - C. T. C. Wall, *Determination of the Cobordism Ring*, Annals of Math.
   72(1960),292–311, [primary paper](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/cobord.pdf).
@@ -3166,7 +3189,9 @@ there uses no BordismFormalGroups item.
   Chapter 17 for bordism and Chapter 18 for the classical Thom comparison.
 - H. Miller, *Notes on Cobordism*, MIT lecture notes, version December 5, 2001,
   [institutional copy](https://rezk.web.illinois.edu/miller-lecture-notes.pdf), for the spectral MO
-  computation and the distinction between additive splitting and ring proof.
+  computation and the distinction between additive splitting and ring proof;
+  Chapter 1, §4, Theorem 4.2 with the remark after it, p.10, for unoriented
+  bordism of spaces as a homology theory.
 - S. Führing, *Bordism and projective space bundles*, Münster J. Math.
   15(2022),355–388,
   [primary paper](https://www.uni-muenster.de/FB10/mjm/vol_15/mjm_vol_15_11.pdf).
@@ -3223,7 +3248,8 @@ there uses no BordismFormalGroups item.
 - D. S. Freed, *Bordism: Old and New*, lecture notes, 2013,
   [author's page](https://web.ma.utexas.edu/users/dafr/bordism.pdf),
   Lecture 5, Proposition 5.55 and (5.57), p.45, for the stable framing of a
-  compact Lie group and the Lie-framed circle as the generator of π₁S.
+  compact Lie group and the Lie-framed circle as the generator of π₁S;
+  Lecture 12, p.103, for bordism of maps as a generalized homology theory.
 - R. Benedetti and P. Lisca, *Framing 3-manifolds with bare hands*, 2018,
   [arXiv:1806.04991v2](https://arxiv.org/abs/1806.04991v2), Theorem 1, p.1,
   and §2.1, pp.2–3, for closed three-manifold parallelization and its Wu/Spin route.

@@ -22,8 +22,8 @@ boundary of a compact smooth `(n+1)`-manifold" on the pinned boundary charts and
 boundary orientation. For boundaryless sources the smoothing statement is
 AlgebraicTopology 8.13's theorem, which this roadmap consumes; the statement here is over an
 arbitrary model with corners, and the corner-source case is what this roadmap proves.
-The finite quadratic Arf algebra consumed by Layer 1 is a declared supplier gap of
-GeometricTopology (gap:finite-quadratic-arf) and is not stated here.
+The finite quadratic Arf algebra consumed by Layer 1 is GeometricTopology Layer 4.3.1's and is
+not stated here.
 Parallelization uses native tangent bundles and a chosen native oriented atlas.
 
 The other headline theorems are not statable at the pins:
