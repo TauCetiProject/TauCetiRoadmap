@@ -5,6 +5,8 @@ public import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Conjugation
 public import TauCeti.Algebra.AlgebraicGroup.Borel.Basic
 public import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.Weight.Parabolic.Basic
 public import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.UpperTriangular.Basic
+public import TauCeti.Algebra.AlgebraicGroup.Representation.ProjectiveOrbit.Quotient
+public import TauCeti.Algebra.AlgebraicGroup.Representation.Stabilizer
 
 /-!
 # Flag varieties: target signatures
@@ -19,7 +21,7 @@ The five general reductive-group classifications still need the following declar
    for a geometrically connected affine group. The full classification needs the parabolic predicate,
    the standard-parabolic bridge, unconditional Borel conjugacy and pointwise normalizer.
 3. Projective `G/H` iff parabolic: the predicate and a represented homogeneous quotient scheme
-   with projectivity, complete `G/B`, and complete-scheme Borel fixed point.
+   with projectivity and complete-scheme Borel fixed point. Complete `G/B` is a target here.
 4. Classification of projective homogeneous schemes: the scheme action and stabilizer/quotient
    comparison and the ingredients of 2 and 3.
 5. Equivariant morphism classification: represented `G/P_J` schemes, scheme-level equivariant
@@ -27,6 +29,16 @@ The five general reductive-group classifications still need the following declar
 
 The declarations use native Hopf ideals. They introduce no point-set replacement for a scheme
 statement.
+
+Layer 4.0(a)-(b) needs carriers absent at the pinned Tau Ceti: the complete-flag incidence
+scheme `Fl(V)` over the product of quotient-rank Grassmannians, its universal subbundles,
+and its Plücker–Segre morphism to the projective scheme of the prefix-wedge tensor module.
+`Module.Grassmannian.scheme` exists, but the complete-flag scheme does not. The compatible
+`FGComoduleCat.tensorFin` / `Comodule.flagExteriorPowers` carrier and
+`Module.Basis.flagTensorVector` are in progress in TauCeti PR #33233, not at this pin.
+The README specifies these constructions and their point comparisons; no substitute carrier
+or conclusion-shaped structure is introduced here. Layer 4.0(c) can already be stated using
+the pinned projective orbit scheme and its fppf sheaf of points.
 -/
 
 public section
@@ -63,6 +75,24 @@ theorem conjugate_eq_of_borel_le {k : Type u} [Field k] [IsAlgClosed k]
     (hB : HopfIdeal.IsBorelOverAlgClosed k G B)
     (hPB : P ≤ B) (hQB : Q ≤ B)
     (g : WithConv (G.obj →ₐ[k] k)) (hconj : Q = P.conjugate g) : P = Q := by
+  sorry
+
+/-! ## Layer 4: complete G/B -/
+
+/-- A Borel is the scheme-theoretic line stabilizer in a finite-dimensional representation
+with closed projective orbit. That orbit is proper and represents the native fppf quotient.
+This is Layer 4.0(c), with no reductivity hypothesis. -/
+theorem exists_closed_projectiveOrbit_borel_quotient {k : Type u} [Field k] [IsAlgClosed k]
+    (G : FiniteTypeCommHopfAlgCat.{u, u} k)
+    (hG_smooth : smoothCommHopfAlgProperty k G.obj)
+    (hG_connected : geometricallyConnectedCommHopfAlgProperty k G.obj)
+    (B : HopfIdeal k G) (hB : HopfIdeal.IsBorelOverAlgClosed k G B) :
+    ∃ (M : FGComoduleCat.{u, u, u} k G) (m : M) (hm : Module.IsUnimodular k m),
+      (Submodule.span k {m}).stabilizerHopfIdeal G = B ∧
+      IsClosed (Set.range (Comodule.projectiveOrbitMap (H := G) m hm)) ∧
+      AlgebraicGeometry.IsProper (Comodule.projectiveOrbitToSpec (H := G) m hm) ∧
+      Nonempty (CommHopfAlgCat.fppfHomogeneousQuotient G.obj B ≅
+        Comodule.projectiveOrbitPointsSheaf (H := G.obj) m hm) := by
   sorry
 
 end TauCetiRoadmap.FlagVarieties
