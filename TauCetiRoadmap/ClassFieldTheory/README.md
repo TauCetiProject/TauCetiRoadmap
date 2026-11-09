@@ -184,10 +184,12 @@ are the theorems stated in `Suggested.lean`.
   Layers 8 and 9. The upper-numbering theorem and the conductor–discriminant formula of Layer 7
   stay here in every characteristic, because their norm-map proof uses neither theory.
   The equal-characteristic finite and absolute filtration comparisons that FunctionFieldArithmetic
-  §4.2 needs are the characteristic-`p` cases of Layer 7's `normResidue_map_unitFiltration` and
-  `closure_map_artinMap_unitFiltration_eq_upper`, which it imports rather than proves; its own
-  additional comparison is the action on Lubin–Tate torsion, and its conductor consequence uses
-  `conductorExponent_le_iff_upperRamificationGroup_eq_bot`;
+  §4.2 uses are the characteristic-`p` cases of Layer 7's `normResidue_map_unitFiltration` and
+  `closure_map_artinMap_unitFiltration_eq_upper`. This roadmap owns them in both characteristics,
+  and a consumer cites them from Layer 7 instead of deriving them again. FunctionFieldArithmetic's
+  own additional comparison is the action of the Artin map on Lubin–Tate torsion, and the Tau
+  Ceti conductor criterion it uses is
+  `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot` (Layer 7);
 - Layer 7 owns the absolute upper filtration on every nonarchimedean local field, in both
   characteristics, by taking inverse images of the native finite upper groups. The general
   valuation-subring filtration over perfect residue fields belongs to
@@ -598,7 +600,7 @@ The declarations below supply the native arithmetic and cohomology contracts.
 | the local Brauer group and invariant | `Br`, `invMap`, `unitsRep` |
 | local class formation and finite local reciprocity | `localClassFormation`, `localArtinEquiv`, `localArtinMap`, `normResidue`, `normGroup` |
 | the absolute local Artin map | `artinMap`, `artinMap_restrict`, `artinMap_norm`, `artinMap_congr`, `continuous_artinMap`, `denseRange_artinMap`, `ker_artinMap_eq_iInf` |
-| local norm subgroups and abelian layers | `localNormSubgroup`, `isOpen_localNormSubgroup`, `finiteIndex_localNormSubgroup`, `localNormSubgroup_maximalAbelianLayer`, `localAbelianGaloisEquiv`, `index_localNormSubgroup` |
+| local norm subgroups and abelian layers | `localNormSubgroup`, `isOpen_localNormSubgroup`, `finiteIndex_localNormSubgroup`, `localNormSubgroup_mono`, `localNormSubgroup_sup`, `localNormSubgroup_inf_of_isAbelian`, `localNormSubgroup_maximalAbelianLayer`, `localAbelianGaloisEquiv`, `index_localNormSubgroup` |
 | local coefficients and local Tate duality | `GalRep`, `muNRep`, `tateDual`, `tateDualityPairing`, `dualityMap0_kummerCoeff_bijective`, `dualityMap1_kummerCoeff_bijective`, `dualityMap2_kummerCoeff_bijective`, `subsingleton_h3_unitsRep` |
 | ramification and conductors | `unitFiltration`, `LocalFieldsRamification.upperRamificationGroup`, `discriminantExponent` |
 | local invariants of a global Brauer class | `finiteInvAt`, `infiniteInvAt` |
@@ -610,6 +612,7 @@ The declarations below supply the native arithmetic and cohomology contracts.
 | normalizations of the local Artin map (Layers 6 and 7) | `localArtinMap_uniformizer`, `localArtinMap_eq_frobenius_pow_valuation`, `localArtinMap_quadratic_eq_nontrivial_iff_not_norm`, `localArtinMap_quadratic_eq_hilbertSymbol`, `unramifiedCoordinate_artinMap`, `localCyclotomicCharacter_artinMap_padic`, `localCyclotomicCharacter_artinMap_unit`, `abelianizedLocalCyclotomicCharacter_artinMap_norm`, `geometricArtinMap` |
 | local conductors (Layer 7) | `conductorExponent`, `conductorIdeal`, `characterConductorExp`, `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`, `conductorExponent_fixedField_ker` |
 | local existence and the local correspondence (Layer 8) | `localAbelianExistence`, `localAbelianExistence_primeToResidueCharacteristic`, `localClassField_unique`, `localClassFieldCorrespondence`, `localClassFieldCorrespondencePrimeToResidueCharacteristic`, `injective_artinMap` |
+| conductors of local class fields (Layer 8; every theorem but the prime-to-`p` form assumes `[CharZero K]`) | `conductorExponent_localClassField_le_iff`, `conductorExponent_localClassFieldPrimeToResidueCharacteristic_le_iff`, `unitFiltrationSupZpowers`, `conductorExponent_localClassField_unitFiltrationSupZpowers`, `conductorExponent_localClassField_unitFiltrationSupZpowers_one_eq_zero` |
 | the local Weil group (Layer 9) | `localWeilGroup`, `WeilGroup`, `weilDegree`, `inertiaToWeil`, `isOpenEmbedding_inertiaToWeil`, `weilTopology_unique`, `weilTransfer`, `index_range_weilTransfer`, `weilDegree_weilTransfer`, `weilRestrict`, `range_weilTransfer_eq_ker_weilRestrict`, `localWeilArtinEquiv`, `localWeilArtinEquiv_compat` |
 | the Brauer sequence of a number field (Layer 10) | `brLocalization_injective`, `sumLocalInv_brLocalization_eq_zero`, `range_brLocalization`, `exists_br_of_sum_eq_zero`, `infiniteInvMap`, `infiniteArtinAt`, `globalInv` |
 | global reciprocity (Layer 11) | `globalClassFormation`, `globalArtinEquiv`, `globalArtinMap`, `ker_globalArtinMap`, `surjective_globalArtinMap`, `globalArtinMap_principal`, `globalArtinMap_local`, `globalArtinMap_ideal`, `globalArtinMap_isArithFrobAt` |
@@ -1157,7 +1160,9 @@ Layers 1–5; the native LocalFieldsRamification contract in Exact supplier cont
 
 *Prerequisites:* Layers 5, 6; `LocalFieldsRamification` (the upper-numbering filtration
 `upperRamificationGroup`, its compatibility with quotients, Hasse–Arf, and the discriminant
-exponent `discriminantExponent`). The absolute Artin map, its normalizations and the conductors
+exponent `discriminantExponent`); ProfiniteProPGroups Layer 0 (quotients by closed normal
+subgroups, and closed subgroups of a profinite group determined by their finite images), for the
+absolute upper filtration and absolute unit-filtration reciprocity. The absolute Artin map, its normalizations and the conductors
 have their interface in `TauCeti/NumberTheory/ClassFieldTheory/Local/` (`ArtinMap`,
 `Unramified`, `Cyclotomic`, `ExplicitCyclotomicSymbol/`, `GeometricArtinMap`, `Conductor/`), and
 consumed here under Tau Ceti's names. The contract:
@@ -1166,8 +1171,8 @@ consumed here under Tau Ceti's names. The contract:
   Mathlib's `Field.absoluteGaloisGroup K`, the inverse limit of the finite maps
   (`artinMap_restrict`), natural in the field (`artinMap_congr`), with dense image
   (`denseRange_artinMap`), not surjective (`not_surjective_artinMap`), kernel the intersection of
-  the norm groups (`ker_artinMap_eq_iInf`), and continuous for finite extensions of `ℚ_p`
-  (`continuous_artinMap`). Its unramified coordinate is the normalized valuation
+  the norm groups (`ker_artinMap_eq_iInf`), and continuous for every nonarchimedean local field,
+  in either characteristic (`continuous_artinMap`). Its unramified coordinate is the normalized valuation
   (`unramifiedCoordinate_artinMap`): lifts of `Art_K(π)` are arithmetic Frobenius lifts
   (`isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`) and lifts of `Art_K(u)`, `u` a unit, lie in
   inertia (`mem_inertiaSubgroup_of_mk_eq_artinMap`). Norm functoriality is `artinMap_norm`, along
@@ -1404,9 +1409,14 @@ Layer 5 and the Galois dictionary `classField` of Layer 5 are prerequisites of t
 consequences of it. The interface is in
 `TauCeti/NumberTheory/ClassFieldTheory/LocalExistence/`, and consumed here under Tau Ceti's names;
 the statements below are the contract. The characteristic-zero statements carry the instance
-argument `[CharZero K]`, which every finite extension of `ℚ_p` satisfies, and local existence
-needs no openness hypothesis, an open subgroup of finite index being exactly a subgroup of finite
-index containing a power subgroup.
+argument `[CharZero K]`, which every finite extension of `ℚ_p` satisfies. Neither existence
+statement carries an openness hypothesis, and neither needs one: a subgroup of finite index `n`
+contains `(Kˣ)ⁿ`, which is open when `n` is invertible in `K`, so the subgroup is open. That covers
+every `n` in characteristic zero and every `n` prime to the residue characteristic in either
+characteristic. It fails for `p ∣ n` in characteristic `p`. For `K = 𝔽_p((t))` the principal units
+`U(K,1)` are a product of countably many copies of `ℤ_p`, and there are subgroups of finite index
+that are not closed (Milne, *Arithmetic Duality Theorems*, I §2, footnote 6, p. 26). So
+openness is a genuine condition on the `p`-primary norm subgroups of FunctionFieldArithmetic §4.2.
 
 The endpoint of the layer is a **correspondence**, not an existence statement. `∃ V, N(V) = N` on
 its own names nothing: by the norm limitation theorem of Layer 4 a layer and its maximal abelian
@@ -1418,8 +1428,13 @@ The norm-subgroup and existence interface consists of the following laws:
 
 - the norm subgroup `localNormSubgroup V ≤ Kˣ` of an open normal subgroup of `G_K` is open
   (`isOpen_localNormSubgroup`) and of finite index (`finiteIndex_localNormSubgroup`);
-- it is monotone in `V` (`localNormSubgroup_mono`) — hence inclusion-reversing on fields — and
-  respects composita and intersections; `localNormSubgroup_top` pins the extreme case
+- it is monotone in `V` (`localNormSubgroup_mono`) — hence inclusion-reversing on fields. The
+  norm subgroup of the intersection of two fields, cut out by `V ⊔ W`, is the product of their
+  norm subgroups (`localNormSubgroup_sup`). For two abelian layers, the norm subgroup of the
+  compositum, cut out by `V ⊓ W`, is the intersection of theirs
+  (`localNormSubgroup_inf_of_isAbelian`). By norm limitation the left side of the compositum
+  formula sees only the maximal abelian subextension of the compositum, which is why Tau Ceti
+  states it for abelian layers. `localNormSubgroup_top` pins the extreme case
   `V = ⊤ ↦ K ↦ Kˣ`, which is what fixes the direction of the correspondence;
 - the concrete forms of norm limitation, `localNormSubgroup_maximalAbelianLayer`;
 - in characteristic zero, every finite-index subgroup of `Kˣ` is the norm subgroup of a finite
@@ -1454,13 +1469,21 @@ The norm-subgroup and existence interface consists of the following laws:
   asserted in equal characteristic: every prime-to-`p` norm subgroup contains the pro-`p` principal
   units, so the intersection of the norm subgroups this roadmap constructs there is not trivial,
   and the missing extensions are the Artin–Schreier–Witt ones of FunctionFieldArithmetic §4.2;
-- the compatibility of the Layer 7 conductors with existence: the norm subgroup attached to an
-  abelian extension of conductor exponent `n` contains `U(K,n)` and no smaller step of the unit
-  filtration. Whenever the existence scope above supplies the class field of
-  `N = U(K,n)·⟨π⟩`, its conductor is the least `m` with `U(K,m) ≤ N`, hence is at most
-  `n`; equality requires that no smaller unit step lie in `N`. At a repeated shallow step this
-  can be strict: for `K = ℚ₂`, `U(K,0) = U(K,1)`, so `U(K,1)·⟨2⟩ = Kˣ` has trivial
-  class field and conductor zero.
+- the compatibility of the Layer 7 conductors with existence: the norm subgroup of an abelian
+  extension of conductor exponent `n` contains `U(K,n)` and no `U(K,m)` with `m < n`. Read
+  through existence, the conductor exponent of the class field of `N` is at most `n` exactly
+  when `U(K,n) ≤ N`, so it is the least `m` with `U(K,m) ≤ N`. Tau Ceti proves this as
+  `conductorExponent_localClassField_le_iff` in characteristic zero, and as
+  `conductorExponent_localClassFieldPrimeToResidueCharacteristic_le_iff` in either characteristic
+  for `N` of index prime to the residue characteristic `p`. For a uniformizer `π`,
+  `unitFiltrationSupZpowers` is `U(K,n)·⟨π⟩` as an open subgroup of finite index. In
+  characteristic zero its class field has conductor exponent exactly `n`, unless `n = 1` and the
+  residue field has two elements (`conductorExponent_localClassField_unitFiltrationSupZpowers`).
+  The exception is genuine. Then `U(K,0) = U(K,1)`, so `U(K,1)·⟨π⟩ = Kˣ`, whose class field is
+  `K` itself, of conductor exponent zero
+  (`conductorExponent_localClassField_unitFiltrationSupZpowers_one_eq_zero`). For `K = ℚ₂` and
+  `π = 2` this is `U(K,1)·⟨2⟩ = ℚ₂ˣ`. Both theorems on the class field of `U(K,n)·⟨π⟩` assume
+  `[CharZero K]`.
 
 One proof route is: norm subgroups first define the normic topology and its
 completion; norm limitation precedes `localAbelianExistence_primeToResidueCharacteristic`; the
@@ -1478,6 +1501,8 @@ theory are proved in the correct order.
 ### Examples
 
 For ℚ₂, U⁰ = U¹, hence U¹·⟨2⟩ = ℚ₂ˣ, its class field is ℚ₂, and its conductor is 0 rather than 1.
+
+For K = 𝔽_p((t)), write Kˣ = ⟨t⟩ × 𝔽_pˣ × U¹ with U¹ ≅ ∏ ℤ_p, a product of countably many copies. Choose a subgroup H of index p in U¹ that contains the direct sum ⊕ ℤ_p, for example the kernel of a nonzero functional on 𝔽_p^ℕ that vanishes on the finitely supported vectors. Then ⟨t⟩ × 𝔽_pˣ × H has index p in Kˣ but is not open. An open subgroup of ∏ ℤ_p contains all but finitely many factors, and together with the direct sum those factors generate ∏ ℤ_p. The openness argument for the existence statements therefore needs n invertible in K, and it does not reach the p-primary norm subgroups.
 
 ### Dependencies
 
@@ -2013,10 +2038,11 @@ Layers 5, 10–11 and 13; Mathlib quadratic reciprocity for comparison.
 
 LocalGaloisGroups consumes the local coefficients, duality, Euler characteristic and unit
 cyclotomic normalization of Layers 5–7. FunctionFieldArithmetic §4.2 owns full
-equal-characteristic existence and the action of the Artin map on Lubin–Tate torsion; its
-equal-characteristic unit-filtration comparisons are imported from Layer 7, as the
-characteristic-`p` cases of `normResidue_map_unitFiltration` and
-`closure_map_artinMap_unitFiltration_eq_upper`, and are not proved a second time there.
+equal-characteristic existence and the action of the Artin map on Lubin–Tate torsion. The
+equal-characteristic unit-filtration comparisons it uses are the characteristic-`p` cases of
+Layer 7's `normResidue_map_unitFiltration` and `closure_map_artinMap_unitFiltration_eq_upper`.
+This roadmap owns them in both characteristics, and a consumer cites them from Layer 7 instead of
+proving them a second time.
 GlobalQuadraticForms §4.2 consumes the first fundamental inequality of Layer 10 and §4.3 the
 quadratic Hasse norm theorem of Layer 13. QuadraticFormInvariants consumes the cohomological
 Hilbert symbol of Layer 5 and Tau Ceti's comparisons of its norm-equation symbol with it. PadicPeriodRings and LocalAnabelianGeometry use the absolute
@@ -2258,7 +2284,8 @@ local formulas of Layer 7 and the global correspondence of Layer 12.
   3.29–3.30, p. 165; VII §§4–5, Proposition 7.2, Lemma 7.3, Theorem 8.1, Lemmas 9.1–9.4
   and Theorem 9.5; VIII Theorem 3.1 and Remark 3.2, p. 234, and Theorems 4.2 and 4.7.
 - J. S. Milne, *Arithmetic Duality Theorems*, 2nd ed., 2006 (milne-adt): I Theorem 2.1
-  and Corollary 2.3, pp. 26–28 (local duality and finiteness); I Theorem 2.8, p. 31,
+  and Corollary 2.3, pp. 26–28 (local duality and finiteness); I §2, footnote 6, p. 26
+  (subgroups of finite index that are not closed in characteristic `p`); I Theorem 2.8, p. 31,
   and Lemmas 2.10 and 2.12 (Euler characteristic).
 - J. Neukirch, A. Schmidt and K. Wingberg, *Cohomology of Number Fields*, 2nd ed., 2008
   (nsw): (7.1.8) and (7.2.5) (local cohomological and strict cohomological dimensions),
