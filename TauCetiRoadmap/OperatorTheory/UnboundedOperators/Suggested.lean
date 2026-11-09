@@ -6,6 +6,8 @@ import Mathlib
 import TauCeti.Topology.Algebra.Module.LinearPMap.Resolvent.Basic
 import TauCeti.Analysis.Normed.Operator.LinearPMap.RelativeBound
 import TauCeti.Analysis.InnerProductSpace.ProjValMeasure.MatrixElement
+import TauCeti.LinearAlgebra.LinearPMap.SmulSub
+import TauCeti.Analysis.Semigroups.Group.Unitary
 
 /-!
 # Unbounded operators: target signatures
@@ -15,12 +17,16 @@ theorems against the pinned APIs. Projection-valued measures are Tau Ceti's
 `TauCeti.ProjValMeasure`, with diagonal measures `diag` and polarized complex measures
 `polarizedComplexMeasure`; resolvents, resolvent sets and spectra are Tau Ceti's
 `LinearPMap.resolvent`, `LinearPMap.resolventSet` and `LinearPMap.spectrum`, in the convention
-`R(z) = (zI − A)⁻¹`; relative bounds are Tau Ceti's `LinearPMap.IsRelativelyBounded`, with
-`‖V x‖ ≤ a ‖x‖ + b ‖A x‖`; completed Hilbert tensor products are completions of Mathlib's
+`R(z) = (zI − A)⁻¹`, and the shift `x ↦ z x − A x` on `dom A` is Tau Ceti's
+`LinearPMap.smulSub z A`; relative bounds are Tau Ceti's `LinearPMap.IsRelativelyBounded`, with
+`‖V x‖ ≤ a ‖x‖ + b ‖A x‖`; the Stone group of a self-adjoint `A` is the unitary
+`TauCeti.Semigroups.StronglyContinuousGroup` with complex generator `i • A`, that is
+`U(t) = exp(itA)`; completed Hilbert tensor products are completions of Mathlib's
 inner-product tensor product. Stated here: the unbounded spectral integral of a measurable
 symbol against a normalized projection-valued measure on any measurable space, with its
 adjoint; the maximal multiplication operator; the spectral theorem for a normal partial
-operator; the joint projection-valued measure of finitely many strongly commuting
+operator; the equivalence of the resolvent and Stone-group forms of strong commutation; the
+joint projection-valued measure of finitely many strongly commuting
 self-adjoint operators; the multiparameter Stone theorem; the spectral-type decomposition of
 a real projection-valued measure; the essential spectrum of a partial operator and its Fredholm
 characterization for self-adjoint operators; the spectrum alternatives of a closed symmetric
@@ -31,17 +37,19 @@ relatively compact symmetric perturbation theorem; the holomorphic eigenvalue br
 simple isolated eigenvalue of a type (A) family and Rellich's real-analytic branches at finite
 multiplicity; Kato's essential self-adjointness of `−Δ + V` on `C_c^∞(ℝ³)` for real
 `V ∈ L² + L^∞`; and the self-adjoint closures of tensor sums and tensor products with their
-spectra. The Hilbert-basis cardinal classification used by the deficiency theory is
-BanachSpaceTheory B5's `nonempty_linearIsometryEquiv_iff_lift_mk_eq` and is not restated here.
+spectra, and the factorization of the Stone group of a tensor sum. The Hilbert-basis cardinal
+classification used by the deficiency theory is BanachSpaceTheory B5's
+`nonempty_linearIsometryEquiv_iff_lift_mk_eq` and is not restated here.
 
 Not statable at the pins: every headline about the spectral measure `P_A` of a given
 self-adjoint partial operator, which is SelfAdjointSpectralTheory SA-E01 and not at the pins.
 This covers the Borel calculus `f(A)` and its representation of `A` (README §§1.2–1.8), the
-equivalent forms of strong commutation (§2.3), the spectral-projection form of the essential
-spectrum (§3.2), the staircase approximation (§3.4), the diagonal spectrum realization (§3.5),
-the square-root form-domain identity and the real spectral restriction (§4.7), the latter on the
-pinned Hilbert complexification `WithLp 2 (TauCeti.Complexification H)`, and the identification
-of the tensor closures with joint spectral integrals and their unitary groups (§§6.2–6.3). The
+spectral-projection form of strong commutation (§2.3, form (i)), the spectral-projection form of
+the essential spectrum (§3.2), the staircase approximation `Aₙ = fₙ(A)` (§3.4), the diagonal
+spectrum realization `g(A)` (§3.5), the square-root form-domain identity and the real spectral
+restriction (§4.7), the latter on the pinned Hilbert complexification
+`WithLp 2 (TauCeti.Complexification H)`, and the identification of the tensor closures with
+spectral integrals against the product measure of `P_A` and `P_B` (§§6.2–6.3). The
 singular-endpoint headlines need the minimal and maximal Sturm–Liouville operators (§4.8), and
 the geometric Nelson-counterexample headlines (the completed translation surface, its genus and
 the noncommuting Stone groups, §§2.3–2.4) need the translation-surface construction described in
@@ -107,6 +115,22 @@ theorem existsUnique_projValMeasure_of_normal {H : Type*}
         ⟪y, N x⟫_ℂ = ∫ᵛ z, z ∂[ContinuousLinearMap.mul ℝ ℂ; P.polarizedComplexMeasure y x] := by
   sorry
 
+/-- Strong commutation, resolvent form against Stone-group form (README §2.3, UO-B03): let `U`
+and `V` be the unitary groups with complex generators `i • A` and `i • B`, so that `A` and `B`
+are self-adjoint and `U(s) = exp(isA)`, `V(t) = exp(itB)` (Stone's theorem,
+`IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`). For any resolvent points
+`z` of `A` and `w` of `B`, the resolvents `(zI − A)⁻¹` and `(wI − B)⁻¹` commute exactly when
+`U(s)` and `V(t)` commute for all real `s` and `t` (Teschl, (4.24)–(4.25), p.117; the
+condition at `conj z` in (4.24) follows by Fuglede's theorem, `(zI − A)⁻¹` being normal). -/
+theorem commute_resolvent_iff_commute_stoneGroup {H : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (A B : H →ₗ.[ℂ] H) (U V : TauCeti.Semigroups.StronglyContinuousGroup H)
+    (hU : U.IsUnitary) (hV : V.IsUnitary)
+    (hUA : U.complexGenerator hU = Complex.I • A) (hVB : V.complexGenerator hV = Complex.I • B)
+    (z w : ℂ) (hz : z ∈ A.resolventSet) (hw : w ∈ B.resolventSet) :
+    Commute (A.resolvent z) (B.resolvent w) ↔ ∀ s t : ℝ, Commute (U s) (V t) := by
+  sorry
+
 /-- Joint projection-valued measure (README §2.5, UO-B04): finitely many self-adjoint
 partial operators whose resolvents at `i` commute pairwise are the coordinate spectral
 integrals of exactly one normalized projection-valued measure on `ℝⁿ`. Commuting resolvents
@@ -138,13 +162,13 @@ theorem existsUnique_projValMeasure_of_unitary_representation {H : Type*}
 /-! ## Layer 3: spectrum, spectral types, and pure-point approximation -/
 
 /-- The discrete spectrum of a partial operator (README §3.2, UO-C02): the isolated points of its
-spectrum that are eigenvalues with a finite-dimensional eigenspace `ker(zI − A)` (Teschl, §6.4,
-p.145). -/
+spectrum that are eigenvalues with a finite-dimensional eigenspace `ker(zI − A)`, the kernel of
+Tau Ceti's shift `LinearPMap.smulSub z A` (Teschl, §6.4, p.145). -/
 def discreteSpectrum {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
     (A : H →ₗ.[ℂ] H) : Set ℂ :=
   {z | z ∈ A.spectrum ∧ (∃ ε > 0, Metric.ball z ε ∩ A.spectrum = {z}) ∧
-    LinearMap.ker (z • A.domain.subtype - A.toFun) ≠ ⊥ ∧
-    FiniteDimensional ℂ (LinearMap.ker (z • A.domain.subtype - A.toFun))}
+    LinearMap.ker (A.smulSub z) ≠ ⊥ ∧
+    FiniteDimensional ℂ (LinearMap.ker (A.smulSub z))}
 
 /-- The essential spectrum of a partial operator (README §3.2, UO-C02): the complement of the
 discrete spectrum in the spectrum (Teschl, §6.4, p.145). -/
@@ -160,9 +184,9 @@ and a closed range of finite codimension. It is proved from Teschl's spectral-pr
 theorem notMem_essentialSpectrum_iff {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℂ H] [CompleteSpace H] (A : H →ₗ.[ℂ] H) (hA : IsSelfAdjoint A) (z : ℂ) :
     z ∉ essentialSpectrum A ↔
-      FiniteDimensional ℂ (LinearMap.ker (z • A.domain.subtype - A.toFun)) ∧
-        IsClosed (LinearMap.range (z • A.domain.subtype - A.toFun) : Set H) ∧
-        FiniteDimensional ℂ (H ⧸ LinearMap.range (z • A.domain.subtype - A.toFun)) := by
+      FiniteDimensional ℂ (LinearMap.ker (A.smulSub z)) ∧
+        IsClosed (LinearMap.range (A.smulSub z) : Set H) ∧
+        FiniteDimensional ℂ (H ⧸ LinearMap.range (A.smulSub z)) := by
   sorry
 
 /-- Spectral-type decomposition (README §3.3, UO-C03): for a normalized projection-valued
@@ -396,8 +420,8 @@ theorem exists_realAnalytic_eigenvalue_branches {H : Type*}
     [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
     (A B : H →ₗ.[ℂ] H) (hA : IsSelfAdjoint A) (hB : B.IsFormalAdjoint B) (a b : ℝ)
     (hAB : B.IsRelativelyBounded A a b) (lam₀ : ℝ) (m : ℕ)
-    (hfin : FiniteDimensional ℂ (LinearMap.ker ((lam₀ : ℂ) • A.domain.subtype - A.toFun)))
-    (hm : Module.finrank ℂ (LinearMap.ker ((lam₀ : ℂ) • A.domain.subtype - A.toFun)) = m)
+    (hfin : FiniteDimensional ℂ (LinearMap.ker (A.smulSub (lam₀ : ℂ))))
+    (hm : Module.finrank ℂ (LinearMap.ker (A.smulSub (lam₀ : ℂ))) = m)
     (hiso : ∃ ε > 0, Metric.ball (lam₀ : ℂ) ε ∩ A.spectrum = {(lam₀ : ℂ)}) :
     ∃ r > 0, ∃ δ > 0, ∃ (lam : Fin m → ℝ → ℝ) (v : Fin m → ℝ → H),
       (∀ k, AnalyticOnNhd ℝ (lam k) (Set.Ioo (-r) r)) ∧
@@ -469,6 +493,34 @@ theorem existsUnique_tensorProd {H K : Type*}
         x = (((a : H) ⊗ₜ[ℂ] (b : K) : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K))})).closure ∧
       IsSelfAdjoint P ∧
       P.resolventSetᶜ = closure (A.resolventSetᶜ * B.resolventSetᶜ) := by
+  sorry
+
+/-- Stone group of a tensor sum (README §6.3, UO-F03): let `S` be the closed tensor sum of
+`existsUnique_tensorSum`, given by its action on elementary tensors of `dom A ⊗ dom B` and as the
+closure of its restriction to their span, and let `U`, `V` and `W` be the unitary groups with
+complex generators `i • A`, `i • B` and `i • S`. Then `W(t)(a ⊗ b) = U(t) a ⊗ V(t) b` for every
+real `t`, `a ∈ H` and `b ∈ K`, that is `exp(itS) = exp(itA) ⊗ exp(itB)` on the dense span of the
+elementary tensors (Teschl, Theorem 4.14, p.121, and Corollary 5.3, p.125). -/
+theorem stoneGroup_tensorSum_apply_tmul {H K : Type*}
+    [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    [NormedAddCommGroup K] [InnerProductSpace ℂ K] [CompleteSpace K]
+    (A : H →ₗ.[ℂ] H) (B : K →ₗ.[ℂ] K)
+    (S : UniformSpace.Completion (H ⊗[ℂ] K) →ₗ.[ℂ] UniformSpace.Completion (H ⊗[ℂ] K))
+    (hact : ∀ (a : A.domain) (b : B.domain),
+      ∃ h : (((a : H) ⊗ₜ[ℂ] (b : K) : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K)) ∈
+          S.domain,
+        S ⟨_, h⟩ = ((A a ⊗ₜ[ℂ] (b : K) + (a : H) ⊗ₜ[ℂ] B b : H ⊗[ℂ] K) :
+          UniformSpace.Completion (H ⊗[ℂ] K)))
+    (hclosure : S = (S.domRestrict (Submodule.span ℂ {x | ∃ (a : A.domain) (b : B.domain),
+      x = (((a : H) ⊗ₜ[ℂ] (b : K) : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K))})).closure)
+    (U : TauCeti.Semigroups.StronglyContinuousGroup H)
+    (V : TauCeti.Semigroups.StronglyContinuousGroup K)
+    (W : TauCeti.Semigroups.StronglyContinuousGroup (UniformSpace.Completion (H ⊗[ℂ] K)))
+    (hU : U.IsUnitary) (hV : V.IsUnitary) (hW : W.IsUnitary)
+    (hUA : U.complexGenerator hU = Complex.I • A) (hVB : V.complexGenerator hV = Complex.I • B)
+    (hWS : W.complexGenerator hW = Complex.I • S) (t : ℝ) (a : H) (b : K) :
+    W t ((a ⊗ₜ[ℂ] b : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K)) =
+      ((U t a ⊗ₜ[ℂ] V t b : H ⊗[ℂ] K) : UniformSpace.Completion (H ⊗[ℂ] K)) := by
   sorry
 
 end TauCetiRoadmap.UnboundedOperators

@@ -33,7 +33,11 @@ a σ-finiteness assumption. The positive/signed Radon–Nikodym and absolute-con
 inputs below retain their stated measure hypotheses. `IsCoercive.continuousLinearEquivOfBilin`
 from `Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean` is the real Lax–Milgram theorem: for
 a complete real inner-product space `V` and a coercive bounded bilinear form `B : V →L[ℝ] V →L[ℝ] ℝ`
-it gives the continuous linear equivalence inverting `B♯`; it is stated for real scalars only.
+it upgrades `B♯ = InnerProductSpace.continuousLinearMapOfBilin B`, the map with
+`⟪B♯ v, w⟫ = B v w` (`IsCoercive.continuousLinearEquivOfBilin_apply`), to a continuous linear
+equivalence `V ≃L[ℝ] V`. Its inverse, composed with the inverse Riesz map
+`(InnerProductSpace.toDual ℝ V).symm`, sends a continuous functional ℓ to the unique u with
+`B u w = ℓ w` for all w. It is stated for real scalars only.
 `banach_steinhaus` from `Mathlib/Analysis/Normed/Operator/BanachSteinhaus.lean` is the uniform
 boundedness principle used for strongly convergent operator sequences.
 
@@ -47,7 +51,22 @@ conclusions through these declarations; Layer 5 obtains membership from
 self-adjointness and nonreal parameters. Analyticity of the resolvent in the spectral
 parameter on the resolvent set is `TauCeti.LinearPMap.analyticAt_resolvent` from `TauCeti/Analysis/Normed/Operator/Resolvent/Analytic.lean`.
 The spectrum `LinearPMap.spectrum` of a partial operator is the complement of its resolvent set
-(same `Resolvent/Basic.lean`). The self-adjoint resolvent results of SelfAdjointSpectralTheory
+(same `Resolvent/Basic.lean`). The shift `x↦c•x−Ax` on `dom A` is the linear map
+`LinearPMap.smulSub c A : A.domain →ₗ[R] E` (`TauCeti/LinearAlgebra/LinearPMap/SmulSub.lean`),
+defined as `c • A.domain.subtype - A.toFun`; its kernel `ker(cI−A)` and range `ran(cI−A)` are the
+eigenspaces and ranges of §§3.2 and 5.5. The Stone group of a self-adjoint partial operator A is
+Tau Ceti's `TauCeti.Semigroups.StronglyContinuousGroup` (`TauCeti/Analysis/Semigroups/Group/Basic.lean`),
+a C₀-group of real-linear operators, which is unitary
+(`TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary`: each `U(t)` preserves the complex inner
+product, hence is complex-linear) and has the complex-linear generator
+`TauCeti.Semigroups.StronglyContinuousGroup.complexGenerator`
+(`TauCeti/Analysis/Semigroups/Group/Unitary.lean`); by Stone's theorem
+`IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`
+(`TauCeti/Analysis/Semigroups/Group/Stone/Unbounded.lean`) a self-adjoint A has exactly one
+unitary C₀-group with complex generator `i•A`, the group `U(t)=exp(itA)`, and conversely
+`LinearPMap.isSelfAdjoint_iff_exists_isUnitary_complexGenerator_eq_I_smul` makes every A with
+`i•A` such a generator self-adjoint. §2.3 and §6.3 state their group conclusions through these
+declarations. The self-adjoint resolvent results of SelfAdjointSpectralTheory
 are implemented in `TauCeti/Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`: every nonreal
 scalar is a resolvent point of a self-adjoint partial operator
 (`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, SA-D17), its spectrum lies in the real axis
@@ -195,6 +214,18 @@ independently of Layers 2–3. Layer 5 develops cores, analytic vectors and pert
 joint calculus on completed tensor products. The UO-A through UO-F identifiers
 name the corresponding targets inside these six layers; the worked examples
 apply them with their actual domains.
+
+##### Milestone names and dependency order
+
+The targets are grouped into five milestones, which other roadmaps cite by name and which follow the layer order:
+
+- UO1 is Layer 1 (UO-A01–UO-A08, with UO-A02a).
+- UO2 is Layers 2–3 (UO-B01–UO-B05, UO-B03a and UO-C01–UO-C05).
+- UO3 is Layer 4 and §§5.2–5.3 (UO-D01–UO-D07, with UO-D01a, and UO-E02–UO-E03).
+- UO4 is §5.1 and §§5.4–5.7 (UO-E01, UO-E04, UO-E04a, UO-E05 and UO-E06).
+- UO5 is Layer 6 (UO-F01–UO-F04).
+
+A target needs only what its *Needs:* line names, which can be less than all earlier milestones: §4.7, for instance, needs Layer 1 but not Layers 2–3.
 
 ## Layer 1: unbounded Borel calculus and spectral correspondences
 
@@ -371,7 +402,7 @@ Construct the normalized PVM on `ℂ`, prove the square-integrability domain and
 
 ### 2.3 Strong commutation (UO-B03)
 
-For self-adjoint `A,B`, prove equivalence of (i) commuting spectral projections for all Borel sets, (ii) commuting resolvents at nonreal parameters, and (iii) commuting Stone groups `exp(itA)` and `exp(isB)` for every `s,t` (Teschl (2009), Lemma 4.5, p.116, Lemma 4.9 and Problem 4.2, p.117). A common invariant graph core with `AB=BA` is still insufficient. Verify Nelson's Section 10 construction below: it gives two self-adjoint closures whose restrictions to the same invariant domain are essentially self-adjoint (hence the domain is a graph core for each), commute there, and have noncommuting Stone groups. The twisted-cylinder example is a separate, simpler dense-invariant-domain contrast; it is not a common graph core for both operators.
+For self-adjoint `A,B`, prove equivalence of (i) commuting spectral projections `P_A(Ω)`, `P_B(Ω′)` for all Borel sets, (ii) commuting resolvents `R_A(z)`, `R_B(w)` at one pair of resolvent points `z∈ρ(A)`, `w∈ρ(B)`, equivalently at every such pair, and (iii) commuting Stone groups `exp(isA)` and `exp(itB)` for every `s,t` (Teschl (2009), Lemma 4.5, p.116, (4.24)–(4.25), Lemma 4.9 and Problem 4.2, p.117, and (5.5), p.126). Teschl's (4.24) also asks for commutation of `R_A(conj z)` with `R_B(w)`; it follows from commutation at z by Fuglede's theorem (Mathlib's `IsStarNormal.commute_star_right`), since `R_A(z)` is a bounded normal operator with adjoint `R_A(conj z)` (SA-D20). A and B **strongly commute** when these equivalent conditions hold. The headline `commute_resolvent_iff_commute_stoneGroup` states (ii)⇔(iii) at an arbitrary pair `z∈ρ(A)`, `w∈ρ(B)`, real points of the resolvent sets included, for the unitary C₀-groups U and V of Tau Ceti with complex generators `i•A` and `i•B` (so `U(s)=exp(isA)`, `V(t)=exp(itB)`, and A, B are self-adjoint by Stone's theorem); form (i) needs the spectral measures `P_A`, `P_B` of SA-E01. A route for (ii)⇔(iii): apply Teschl's Lemma 4.9, p.117, which characterizes commutation of a bounded operator with a self-adjoint operator through its group, first to the bounded operator `R_B(w)` and A, then to each `exp(isA)` and B, with Fuglede's theorem supplying the conjugate parameters; Lemma 4.9 allows any one resolvent point, real or not, since `λ↦(z−λ)⁻¹` is injective on σ(A). A common invariant graph core with `AB=BA` is still insufficient. Verify Nelson's Section 10 construction below: it gives two self-adjoint closures whose restrictions to the same invariant domain are essentially self-adjoint (hence the domain is a graph core for each), commute there, and have noncommuting Stone groups. The twisted-cylinder example is a separate, simpler dense-invariant-domain contrast; it is not a common graph core for both operators.
 
 Fix the Fourier comparison explicitly. With `F_-f(λ)=∫exp(−2πitλ)f(t)dt` and the positive Stone group, define `J_f x=∫f(t)exp(+i2πtA)xdt` as an H-valued Bochner integral for f∈L¹(ℝ). Prove `‖J_f‖≤‖f‖₁` and `J_f=(F_-f)(−A)`; using exp(−i2πtA) instead gives (F_-f)(A). Use scalar spectral-measure Fubini and the existing bounded calculus; operator-norm Bochner measurability of an unbounded-generator group in B(H) is not assumed. In the commutation proof, simple-function approximation is against each finite diagonal spectral measure, or by uniformly bounded pointwise approximants giving strong convergence; exponentials are not Lebesgue-L¹ functions. The generic commutation and norm-square endpoints remain B03/A01. The generator domain is the derivative-limit domain, and the self-adjoint action is `Aψ=−i lim_(t→0)(U(t)ψ−ψ)/t`. The single-convolution set is total; use its linear span for a linear core.
 
@@ -392,7 +423,19 @@ WOT and SOT coincide as relative topologies on the unitary group when the limit 
 
 For the B03 operator example, prove the regular quotient is a Hausdorff, second-countable smooth surface with the displayed translation atlas and descended flat Riemannian metric. Supply its `RiemannianBundle` and `IsContinuousRiemannianBundle` instances, the Borel measurable-space structure with `BorelSpace M`, and `LindelofSpace` from second countability, together with the smooth-manifold instance required by native `TauCeti.riemannianVolume`. Prove the translation-chart orientation and area form `dx∧dy` descend, with its positive measure agreeing with the descended flat Riemannian volume. Translation charts have Gram determinant one, so use the native chart-volume characterization `eq_riemannianVolume_iff` to identify that measure with Lebesgue measure transported from `int M₁`, after removing the finitely many glued boundary arcs and punctures, which are null. Keep completion and genus in the separate UO-B03a acceptance target below. On `H=L²(M,dx dy)` put `D=C_c^∞(M)` and use the chart fields `X₀=∂ₓ`, `Y₀=∂ᵧ`. Prove D dense and invariant, integration-by-parts skew-symmetry and `X₀Y₀=Y₀X₀` there. Own Nelson Lemma 10.1's flow criterion: for a smooth divergence-free field, if the **closures** `E_t,E_(-t)` of the sets where the respective partial flows are undefined are null for some `t>0`, then its restriction to `C_c^∞` is essentially skew-adjoint. Prove this from the measure-preserving partial flows and their contraction extensions. For each `(a,b)`, show those exceptional closures for `aX₀+bY₀` are finite unions of straight segments leading to the removed vertices, in both time directions for each finite t; include vertical directions and the zero field. Thus every real linear combination is essentially skew-adjoint on D. Put `X=cl(X₀)`, `Y=cl(Y₀)`, `A=−iX`, `B=−iY`; prove these are self-adjoint and D is a graph core for each. Their Stone groups are `e^(itA)=e^(tX)` and `e^(isB)=e^(sY)`. Fix the pullback convention `e^(tX)u=u∘φ_t^x`, so supports move by `φ_(-t)^x`, and likewise for Y. Under the pullback convention fixed here, the positive-exponential products `e^Xe^Yu` and `e^Ye^Xu` each have support in `(2,3)×(2,3)`; `(3,3)` is the regular corner of that target square. The distinct-support witness uses inverse flows: for a nonzero smooth u compactly supported in `(0,1)²`, calculate that `e^(-X)e^(-Y)u` is supported in `(0,1)×(1,2)`, while `e^(-Y)e^(-X)u` is supported in `(1,2)×(0,1)`. The nonzero images have disjoint supports, so these groups and hence their spectral PVMs do not commute. This supplies the common invariant graph-core counterexample with essential self-adjointness proved from the flow criterion.
 
-*Needs:* SelfAdjointSpectralTheory SA-D17, SA-E26 and SA-E43; §1.1; PDE integration by parts for the flow example; the translation-surface construction in this section.
+*Needs:* SelfAdjointSpectralTheory SA-D17, SA-D20, SA-E26 and SA-E43; Tau Ceti's unitary C₀-groups and Stone's theorem `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`; Mathlib's Fuglede theorem `IsStarNormal.commute_star_right`; §1.1; PDE integration by parts for the flow example; the translation-surface construction in this section.
+
+**API.**
+
+- Strong commutation of self-adjoint A and B is commutation of `R_A(z)` and `R_B(w)` at one pair of resolvent points; it then holds at every pair, and at `conj z` by Fuglede's theorem.
+- It is equivalent to `exp(isA)exp(itB)=exp(itB)exp(isA)` for all real s and t (`commute_resolvent_iff_commute_stoneGroup`) and to commutation of all spectral projections `P_A(Ω)` and `P_B(Ω′)`.
+- For bounded self-adjoint B it is ordinary commutation of B with `R_A(z)`, since `B=w−R_B(w)⁻¹`; commutation of A and B on a common invariant graph core does not imply it.
+
+**Checks.**
+
+- For the Pauli matrices X and Z on ℂ², `(iI−X)(iI+X)=−2I` gives `R_X(i)=−(iI+X)/2`, and likewise for Z, so `R_X(i)R_Z(i)−R_Z(i)R_X(i)=(XZ−ZX)/4`, with `XZ−ZX=[[0,−2],[2,0]]≠0`; on the group side `exp(iπX/2)=iX` and `exp(iπZ/2)=iZ` give the products `−XZ≠−ZX`. Both forms fail, as the equivalence requires.
+- For A=diag(0,1) and the real resolvent point z=1/2, `R_A(1/2)=diag(2,−2)`, which commutes with every diagonal matrix and with no non-diagonal one: with B=diag(2,3) both forms hold, while with B=X, `diag(2,−2)X≠X diag(2,−2)` and `exp(iπA)=Z` does not commute with `exp(iπX/2)=iX`. So one real resolvent point already decides strong commutation, as the headline's arbitrary pair `z∈ρ(A)`, `w∈ρ(B)` allows.
+- For A=B, `R_A(z)` and `R_A(w)` commute by the resolvent identity and `exp(isA)` and `exp(itA)` commute; on the zero Hilbert space both forms hold trivially. Nelson's surface below gives self-adjoint A, B commuting on a common invariant graph core whose groups do not commute, so by the equivalence their resolvents do not commute either: commutation on a core is not strong commutation.
 
 ### 2.4 Completion and genus acceptance for Nelson’s model (UO-B03a)
 
@@ -401,6 +444,12 @@ This is a separate geometric acceptance target, not a prerequisite for the opera
 Construct its finite CW structure with eight faces, sixteen edges and two vertices: the 2-cells are the open unit squares of `M₁`, the 1-cells are its eight interior unit edges and the eight classes of glued boundary edges, and the 0-cells are the added point and the class of the outer corners. Its cellular Euler characteristic is `2−16+8=−6`. Consume native `TauCeti.finsum_finrank_singularHomology_of_finite_cwComplex` (`TauCeti/AlgebraicTopology/Cellular/EulerCharacteristic/Singular.lean`), constructing the required finite CW instance on M, to identify `−6` with the alternating sum of the dimensions of the singular homology of M with rational coefficients.
 
 Compute the integral cellular chain complex `ℤ⁸ → ℤ¹⁶ → ℤ²` of this structure. Orient each square by the translation charts and each edge in its coordinate direction; let p be the added point and q the regular point. Twelve of the sixteen edges are loops at p and the other four join p and q, so by `TauCeti.cellularIncidence_zero` the boundary map `∂₁` has image `ℤ·(q − p)`, of rank one with invariant factor `1`. By `TauCeti.cellularIncidence_eq_inv_cellLocalClass`, `∂₂` sends each square to the signed sum of its four edges. Because the identifications are translations, every edge class occurs exactly twice among these boundaries, with opposite signs; for the four squares adjacent to the hole the two occurrences lie in the same square, whose boundary is then the difference of its two remaining sides. So the kernel of `∂₂` is spanned by the sum of the eight squares, which are connected across edges. Ordering the squares around the ring, the interior edge shared by the k-th and (k+1)-th square occurs only in their two boundaries; for k = 1, …, 7 these rows and the first seven squares give a bidiagonal minor of `∂₂` with diagonal entries `±1`. Hence `∂₂` has rank seven with all invariant factors `1`, and the cellular homology is `ℤ`, `ℤ⁸`, `ℤ` in degrees 0, 1, 2. Native `TauCeti.cellularSingularHomologyIsoUniv` (`TauCeti/AlgebraicTopology/Cellular/Comparison.lean`), for this finite-dimensional complex with integer coefficients, identifies it with the integral singular homology: `H₁(M; ℤ) ≅ ℤ⁸` and `H₂(M; ℤ) ≅ ℤ`. Define the genus of M as half the rank of `H₁(M; ℤ)`; it is `4`, and `χ(M) = 2 − 2·4` agrees with the cell count. The cell structure computes every invariant, and the orientation is the extended translation-chart orientation: no triangulation of M and no classification of surfaces is used.
+
+**API.**
+
+- The regular quotient of `M₂` by the translations of §2.3 is a Hausdorff, second-countable smooth surface with a translation atlas and the descended flat metric; its Riemannian volume `TauCeti.riemannianVolume` is Lebesgue measure transported from the interior of `M₁`, and the chart fields `X₀=∂ₓ`, `Y₀=∂ᵧ` are well defined, divergence free and commute.
+- Its metric completion M adds exactly one point, the class of the twelve removed vertices, with cone angle `14π` and topological disk chart `(r,θ)↦(r,θ/7)` in polar coordinates about it; the class of the four outer corners is a regular point of angle `2π`. M is a compact, connected, oriented topological surface without boundary, oriented by the extended translation-chart orientation.
+- M has a finite CW structure with two 0-cells, sixteen 1-cells and eight 2-cells; its integral cellular and singular homology is `ℤ`, `ℤ⁸`, `ℤ` in degrees 0, 1, 2, its Euler characteristic is `−6`, and its genus, half the rank of `H₁(M; ℤ)`, is 4.
 
 **Checks.**
 
@@ -476,7 +525,7 @@ Approximate eigenvectors do not characterize point spectrum: multiplication by x
 
 ### 3.2 Essential spectrum (UO-C02)
 
-Define essential spectrum both as spectrum after deleting isolated eigenvalues of finite multiplicity and as failure of Fredholmness of `A−λ` with its closed domain/range data. Prove equivalence for self-adjoint `A`, stability under unitary equivalence, and the spectral-projection characterization using finite rank on compact intervals away from the essential spectrum. The first definition and the spectral-projection form are Teschl's (Teschl (2009), p.145: the discrete and essential spectrum and their spectral-projection descriptions (6.27)–(6.28)), with the Weyl criterion (Lemma 6.17, p.145) and invariance under compact and resolvent-compact perturbations (Lemma 6.18 and Theorem 6.19, p.146). The Fredholm characterization is proved here from (6.28) and Lemma 6.17. If `P_A((λ−ε,λ+ε))` has finite rank, `A−λ` is boundedly invertible on the complementary spectral subspace, so its kernel is finite-dimensional and its range is closed of finite codimension. Conversely, if `A−λ` is Fredholm it is bounded below on the orthogonal complement of its finite-dimensional kernel, which an orthonormal singular Weyl sequence contradicts. For nonreal λ both conditions hold, since `A−λ` is invertible. The definitions `discreteSpectrum` and `essentialSpectrum` apply to every complex partial operator A: `discreteSpectrum A` is the set of isolated points of `LinearPMap.spectrum A` that are eigenvalues with finite-dimensional eigenspace `ker(λI−A)`, and `essentialSpectrum A` is the complement of `discreteSpectrum A` in the spectrum. The headline `notMem_essentialSpectrum_iff` states the Fredholm characterization for self-adjoint A on a complete space: λ lies outside `essentialSpectrum A` exactly when `λI−A:dom A→H` has finite-dimensional kernel and closed range of finite codimension. For a bounded self-adjoint T, regarded as a total partial operator, prove that `essentialSpectrum` of T is OperatorKTheory §8.4's Fredholm essential spectrum of T on `H →L[ℂ] H`, a different declaration on the bounded carrier: by the headline both are the set of λ for which `T−λ` is not Fredholm.
+Define essential spectrum both as spectrum after deleting isolated eigenvalues of finite multiplicity and as failure of Fredholmness of `A−λ` with its closed domain/range data. Prove equivalence for self-adjoint `A`, stability under unitary equivalence, and the spectral-projection characterization using finite rank on compact intervals away from the essential spectrum. The first definition and the spectral-projection form are Teschl's (Teschl (2009), p.145: the discrete and essential spectrum and their spectral-projection descriptions (6.27)–(6.28)), with the Weyl criterion (Lemma 6.17, p.145) and invariance under compact and resolvent-compact perturbations (Lemma 6.18 and Theorem 6.19, p.146). The Fredholm characterization is proved here from (6.28) and Lemma 6.17. If `P_A((λ−ε,λ+ε))` has finite rank, `A−λ` is boundedly invertible on the complementary spectral subspace, so its kernel is finite-dimensional and its range is closed of finite codimension. Conversely, if `A−λ` is Fredholm it is bounded below on the orthogonal complement of its finite-dimensional kernel, which an orthonormal singular Weyl sequence contradicts. For nonreal λ both conditions hold, since `A−λ` is invertible. The definitions `discreteSpectrum` and `essentialSpectrum` apply to every complex partial operator A: `discreteSpectrum A` is the set of isolated points of `LinearPMap.spectrum A` that are eigenvalues with finite-dimensional eigenspace `ker(λI−A)`, the kernel of Tau Ceti's shift `LinearPMap.smulSub λ A`, and `essentialSpectrum A` is the complement of `discreteSpectrum A` in the spectrum. The headline `notMem_essentialSpectrum_iff` states the Fredholm characterization for self-adjoint A on a complete space: λ lies outside `essentialSpectrum A` exactly when the shift `LinearPMap.smulSub λ A : dom A→H`, `x↦λx−Ax`, has finite-dimensional kernel and closed range of finite codimension. For a bounded self-adjoint T, regarded as a total partial operator, prove that `essentialSpectrum` of T is OperatorKTheory §8.4's Fredholm essential spectrum of T on `H →L[ℂ] H`, a different declaration on the bounded carrier: by the headline both are the set of λ for which `T−λ` is not Fredholm.
 
 *Needs:* §3.1; HilbertModules H6 closed range; finite-dimensional projection/range theory; OperatorKTheory §8.4 for the bounded comparison.
 
@@ -659,8 +708,11 @@ Own the coercive solution map over `[RCLike 𝕜]`: for the shifted form
 `q_α(u,v)=q(u,v)+α⟨j u,j v⟩` with `RCLike.re q_α(u,u)≥c‖u‖²`, `c>0`, prove that every
 continuous linear functional ℓ on V is `q_α(u,·)` for a unique `u∈V`, that `ℓ↦u` is
 conjugate-linear with `‖u‖≤c⁻¹‖ℓ‖`, and in particular that every `h∈H` gives a unique u with
-`q_α(u,v)=⟨h,j v⟩` for all v, `h↦u` being `𝕜`-linear and bounded by `c⁻¹‖j‖`. At `𝕜=ℝ` this
-is Mathlib's `IsCoercive.continuousLinearEquivOfBilin` applied to the bilinear form `q_α`;
+`q_α(u,v)=⟨h,j v⟩` for all v, `h↦u` being `𝕜`-linear and bounded by `c⁻¹‖j‖`. At `𝕜=ℝ` the
+map `ℓ↦u` is the inverse of Mathlib's `IsCoercive.continuousLinearEquivOfBilin` for the bilinear
+form `q_α`, composed with the inverse Riesz map `(InnerProductSpace.toDual ℝ V).symm` (for
+V=ℝ, `q_α(u,v)=2uv` and `ℓ(v)=6v`, the equivalence is `v↦2v`, the Riesz vector of ℓ is 6, and
+its inverse gives u=3 with `q_α(3,v)=6v`, while the equivalence itself would give 12);
 for general `𝕜` regard V as a real Hilbert space through `InnerProductSpace.rclikeToReal`,
 apply the real theorem to the coercive real bilinear form `RCLike.re q_α` and the functional
 `RCLike.re ℓ`, and recover the `𝕜`-valued identity from its real part by testing against
@@ -743,7 +795,7 @@ form domain put `q_α(u,v)=q(u,v)+α⟨j(u),j(v)⟩`, α>−γ. With
 do not identify that operator with the algebraic operator sum without its domain
 theorem.
 
-*Needs:* Mathlib RCLike, continuous sesquilinear forms and Hilbert adjoints; Mathlib `IsCoercive.continuousLinearEquivOfBilin` and `InnerProductSpace.rclikeToReal` for the coercive solution map; Tau Ceti's `WithLp 2 (TauCeti.Complexification H)` and `ContinuousLinearMap.complexifyL2` for the Hilbert complexification and its inclusion; GeneralizedCohomology G5.5-RealHilbert for the conjugation and the unbounded complexification on `RealHilbertComplexification H`; §1.1–§1.3 and SelfAdjointSpectralTheory SA-E01 for square roots.
+*Needs:* Mathlib RCLike, continuous sesquilinear forms and Hilbert adjoints; Mathlib `IsCoercive.continuousLinearEquivOfBilin`, `InnerProductSpace.toDual` and `InnerProductSpace.rclikeToReal` for the coercive solution map; Tau Ceti's `WithLp 2 (TauCeti.Complexification H)` and `ContinuousLinearMap.complexifyL2` for the Hilbert complexification and its inclusion; GeneralizedCohomology G5.5-RealHilbert for the conjugation and the unbounded complexification on `RealHilbertComplexification H`; §1.1–§1.3 and SelfAdjointSpectralTheory SA-E01 for square roots.
 
 **API.**
 
@@ -933,7 +985,7 @@ For an isolated real eigenvalue λ₀ of finite multiplicity m≥1 choose a posi
 
 For m=1 and a unit u₀∈ker(A−λ₀), prove the unique eigenvalue λ(z) inside Γ and a nonvanishing eigenvector v(z) are holomorphic locally, with v(z)∈D(A) graph-norm holomorphically, λ(0)=λ₀ and v(0)=u₀. One may use v(z)=P(z)u₀ and the complex-linear functional x↦⟨u₀,x⟩ to recover λ(z); shrink the neighborhood to keep its denominator nonzero. For real t prove λ(t) is real and v(t)/‖v(t)‖ is a real-analytic unit eigenvector (Kato (1995), Chapter VII, §3, for selfadjoint holomorphic families), and prove `λ′(0)=⟨u₀,Bu₀⟩` here by differentiating `⟨u₀,(T(z)−λ(z))v(z)⟩=0` at z=0: the term `⟨u₀,(A−λ₀)v′(0)⟩=⟨(A−λ₀)u₀,v′(0)⟩` vanishes by symmetry, and `⟨u₀,v(0)⟩=1`. Do not require unit normalization to be holomorphic for complex z. The headline `exists_analytic_eigenvalue_branch` states the complex-parameter part: if λ₀ is an isolated point of the spectrum of A whose eigenspace is spanned by the unit vector u₀, there are r>0 and functions λ and v, holomorphic on `|z|<r` (v as an H-valued function), with λ(0)=λ₀, v(0)=u₀, `λ′(0)=⟨u₀,Bu₀⟩`, and v(z)∈D(A), v(z)≠0 and `Av(z)+zBv(z)=λ(z)v(z)` for `|z|<r`.
 
-For m>1 also build the finite-multiplicity real-parameter layer: transport P(t)H real-analytically to the fixed m-dimensional initial eigenspace, using an orthonormal frame obtained from `P(t)|_(P(0)H)` and its positive Gram-matrix inverse square root. Prove the finite-dimensional Rellich theorem that a one-real-parameter real-analytic Hermitian matrix family admits local real-analytic eigenvalues and a real-analytic orthonormal eigenbasis (Kato (1995), Chapter II, §6); use it to produce m real-analytic eigenvalue/eigenvector branches for T(t), counted with multiplicity and without imposing increasing eigenvalue order through crossings, with graph-norm-analytic eigenvectors. Include the degenerate first-derivative comparison with the eigenvalues of `P(0)B|_(P(0)H)`. Keep this local real-parameter theorem distinct from global analyticity of the full spectral set or branch claims for arbitrary non-self-adjoint analytic families. These local theorems describe how an isolated eigenvalue of A moves under the perturbation tB. The headline `exists_realAnalytic_eigenvalue_branches` states the branch theorem for every finite multiplicity m, m=1 included: if λ₀ is an isolated point of the spectrum of A with m-dimensional eigenspace, there are r,δ>0 and functions `λ_k:ℝ→ℝ` and `v_k:ℝ→H`, k<m, real analytic on `(−r,r)`, with `λ_k(0)=λ₀`, such that for `|t|<r` the `v_k(t)` are orthonormal vectors of D(A) with `Av_k(t)+tBv_k(t)=λ_k(t)v_k(t)`, the spectrum of `A+tB` in the disc of radius δ about λ₀ is `{λ_k(t)}`, and every eigenvector of `A+tB` for an eigenvalue in that disc lies in the span of the `v_k(t)`. Both headlines record analyticity of the eigenvectors as H-valued functions; their graph-norm analyticity is the further target above.
+For m>1 also build the finite-multiplicity real-parameter layer: transport P(t)H real-analytically to the fixed m-dimensional initial eigenspace, using an orthonormal frame obtained from `P(t)|_(P(0)H)` and its positive Gram-matrix inverse square root. Prove the finite-dimensional Rellich theorem that a one-real-parameter real-analytic Hermitian matrix family admits local real-analytic eigenvalues and a real-analytic orthonormal eigenbasis (Kato (1995), Chapter II, §6); use it to produce m real-analytic eigenvalue/eigenvector branches for T(t), counted with multiplicity and without imposing increasing eigenvalue order through crossings, with graph-norm-analytic eigenvectors. Include the degenerate first-derivative comparison with the eigenvalues of `P(0)B|_(P(0)H)`. Keep this local real-parameter theorem distinct from global analyticity of the full spectral set or branch claims for arbitrary non-self-adjoint analytic families. These local theorems describe how an isolated eigenvalue of A moves under the perturbation tB. The headline `exists_realAnalytic_eigenvalue_branches` states the branch theorem for every finite multiplicity m, m=1 included: if λ₀ is an isolated point of the spectrum of A with m-dimensional eigenspace `ker(λ₀I−A)`, the kernel of `LinearPMap.smulSub λ₀ A`, there are r,δ>0 and functions `λ_k:ℝ→ℝ` and `v_k:ℝ→H`, k<m, real analytic on `(−r,r)`, with `λ_k(0)=λ₀`, such that for `|t|<r` the `v_k(t)` are orthonormal vectors of D(A) with `Av_k(t)+tBv_k(t)=λ_k(t)v_k(t)`, the spectrum of `A+tB` in the disc of radius δ about λ₀ is `{λ_k(t)}`, and every eigenvector of `A+tB` for an eigenvalue in that disc lies in the span of the `v_k(t)`. Both headlines record analyticity of the eigenvectors as H-valued functions; their graph-norm analyticity is the further target above.
 
 *Needs:* §5.4; Tau Ceti unbounded resolvent identities; BanachAlgebras A2 bounded Riesz idempotents; finite-dimensional Hermitian matrix theory for the Rellich branch.
 
@@ -1017,13 +1069,13 @@ For self-adjoint A and B on complete complex Hilbert spaces, construct the produ
 
 ### 6.3 Tensor spectra and evolution (UO-F03)
 
-For the closed realizations S and P of UO-F02, prove `σ(S)=closure(σ(A)+σ(B))` and `σ(P)=closure(σ(A)σ(B))` (Teschl (2009), (4.43)–(4.44), p.121), deriving them from the joint PVM support. No nonzero-space hypothesis is needed: if H or K is zero, the tensor space is zero, both sides are empty, and so is the spectrum of the zero factor. Prove `exp(itS)=exp(itA)⊗exp(itB)` by the joint calculus. Establish finite n-fold closed sums by the product PVM, with domain `{x:∫_(ℝⁿ)|t₁+⋯+tₙ|² dμ_(A₁,…,Aₙ)^x<∞}`, and prove their group factorization by induction.
+For the closed realizations S and P of UO-F02, prove `σ(S)=closure(σ(A)+σ(B))` and `σ(P)=closure(σ(A)σ(B))` (Teschl (2009), (4.43)–(4.44), p.121), deriving them from the joint PVM support. No nonzero-space hypothesis is needed: if H or K is zero, the tensor space is zero, both sides are empty, and so is the spectrum of the zero factor. Prove `exp(itS)=exp(itA)⊗exp(itB)` by the joint calculus. The headline `stoneGroup_tensorSum_apply_tmul` states it on elementary tensors, for all complete H and K: if S is the closed tensor sum, given as in `existsUnique_tensorSum` by its action on `a⊗b`, `a∈dom A`, `b∈dom B`, and as the closure of its restriction to their span, and U, V, W are Tau Ceti's unitary C₀-groups with complex generators `i•A`, `i•B` and `i•S`, then `W(t)(a⊗b)=U(t)a⊗V(t)b` for every real t and all a∈H, b∈K; elementary tensors span a dense subspace, so this determines W(t). A route that avoids the product PVM: `U(t)⊗V(t)` extends to a unitary C₀-group on the completed tensor product whose generator extends `i(A⊙I+I⊙B)` on `dom A⊙dom B`; that subspace is dense and invariant under the group, hence a core for its generator (Teschl (2009), Corollary 5.3, p.125), so the generator is `i•S` and the two groups agree by the uniqueness in Stone's theorem. For A=2I and B=3I on ℂ, `W(t)=e^(5it)` and `e^(2it)a⊗e^(3it)b=e^(5it)(a⊗b)`; the convention `exp(−itA)` on one factor only would give `e^(it)`. Establish finite n-fold closed sums by the product PVM, with domain `{x:∫_(ℝⁿ)|t₁+⋯+tₙ|² dμ_(A₁,…,Aₙ)^x<∞}`, and prove their group factorization by induction.
 
 **Independent real-polynomial tensor/power-core adapter.** For finitely many independent complete complex Hilbert factors H_j and self-adjoint A_j, write a real polynomial as `q(t)=Σ_α c_α t^α` with finitely many multi-indices. Choose d_j at least the highest exponent of variable j and a linear graph core D_j for A_j^(d_j); for d_j=0 require only density. Use the existing product PVM and joint Borel calculus to define the self-adjoint q-operator on exactly `{x:∫_(ℝⁿ)|q(t)|²dμ_x(t)<∞}`. Prove its restriction to the algebraic tensor of the D_j is essentially self-adjoint and has this closure. No invariance or analytic-vector premise on D_j is required. The full domain is the q-moment domain, which can be larger than separate highest-power moment domains because of cancellations.
 
 Prove the core statement by rectangular joint spectral cutoffs, finite elementary-tensor approximation on each rectangle, then per-factor A_j^(d_j) graph approximation using `|q(t)|²≤C∏_j(1+|t_j|^(2d_j))` and the lower-power bounds. For nonzero factors prove `σ(q)=closure(q(∏_jσ(A_j)))` from the product PVM support; the image itself need not be closed. If any H_j=0, the tensor Hilbert space is0 and the operator spectrum is∅. Constant q uses d_j=0 and gives its scalar operator; with no factors declare the tensor unit ℂ and take that constant branch. The raw spectral sum can miss0: use independent diagonals n and −n+1/n, n≥1. The raw product for spectra ℕ₊ and {0}∪{1/n:n≥1} is ℚ_≥0, whereas the closed tensor product spectrum is [0,∞). Existing F03 already supplies binary sum/product closures. Do not extend the separate-core conclusion to an arbitrary strongly commuting family without a joint-core argument; F04's analytic criterion retains its separate scope.
 
-*Needs:* §6.2; §1.6; SelfAdjointSpectralTheory SA-E43; factor graph-core approximation for the polynomial case.
+*Needs:* §6.2; §1.6; SelfAdjointSpectralTheory SA-E43; Tau Ceti's unitary C₀-groups and Stone's theorem `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul` for the group factorization, with §5.1's unitary-group core criterion for its route through the tensor group; factor graph-core approximation for the polynomial case.
 
 ### 6.4 Nelson tensor-sum criterion (UO-F04)
 
@@ -1037,7 +1089,7 @@ Scalar tensor factors give sum 5 and product 6. Independent unbounded diagonals 
 
 ### Dependencies
 
-VonNeumannAlgebras V2 completed tensors and V2.RectangularL2; VonNeumannAlgebras V10 polar decomposition for the adjoint identity of §6.1; Layers 1–2 joint calculus; Layer 5 analytic vectors for §6.4 only.
+VonNeumannAlgebras V2 completed tensors and V2.RectangularL2; VonNeumannAlgebras V10 polar decomposition for the adjoint identity of §6.1; Layers 1–2 joint calculus; Tau Ceti's unitary C₀-groups for the group factorization of §6.3; Layer 5 analytic vectors for §6.4, and §5.1's unitary-group core criterion for one route to §6.3's group factorization.
 
 ## Downstream consumers
 
@@ -1464,9 +1516,9 @@ Further acceptance tests, rather than separate quantum-mechanics deliverables, a
   and Corollary 3.9, p.97, Problems 3.10–3.11, p.99 (unbounded Borel calculus);
   (3.23), p.91; (3.67), Lemmas 3.11–3.12, p.101, Lemmas 3.14–3.15, pp.103–104, Theorems 3.17–3.18, (3.83) and
   Lemma 3.19, p.105 (spectral mapping and spectral types); Lemma 4.5, p.116,
-  (4.24), Lemma 4.9 and Problem 4.2, p.117 (commutation), Theorem 4.14, (4.43)–(4.44) and
-  Problem 4.5, p.121 (tensor products); Theorem 5.2, p.124, and Corollary 5.3, p.125 (Stone,
-  invariant cores); Theorem 6.4, p.135, (6.27)–(6.28) and Lemma 6.17, p.145, Lemma 6.18 and Theorem 6.19, p.146,
+  (4.24)–(4.25), Lemma 4.9 and Problem 4.2, p.117 (commutation), Theorem 4.14, (4.43)–(4.44) and
+  Problem 4.5, p.121 (tensor products); Theorem 5.2, p.124, Corollary 5.3, p.125, and (5.5),
+  p.126 (Stone, invariant cores, commuting groups); Theorem 6.4, p.135, (6.27)–(6.28) and Lemma 6.17, p.145, Lemma 6.18 and Theorem 6.19, p.146,
   Lemmas 6.22–6.23, p.148, Theorem 6.31, p.154, Lemma 6.34, p.155 (perturbations,
   essential spectrum, resolvent convergence); §8.3, pp.178–179, with Theorem 8.5, p.179 (harmonic oscillator);
   (9.4)–(9.7) and Theorem 9.1, p.182, Lemma 9.4, p.184, Theorem 9.6, p.187, Theorem 9.9, p.191
