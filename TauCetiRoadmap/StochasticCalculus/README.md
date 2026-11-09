@@ -401,8 +401,10 @@ Continuous paths on finite horizons use `ContinuousMap` and the uniform
    metric axioms, completeness and equivalence with native `MeasureTheory.TendstoInMeasure P`
    (an elementary own proof, not taken from a source: the metric axioms from the monotonicity
    and subadditivity of `x↦x/(1+x)`; the equivalence from Markov's inequality,
-   `P(|f−g|>ε)≤((1+ε)/ε)d(f,g)`, in one direction and `x/(1+x)≤min(x,1)`, hence
-   `d(f,g)≤ε+P(|f−g|>ε)`, in the other; completeness from the almost-everywhere convergent
+   `P(|f−g|>ε)≤((1+ε)/ε)d(f,g)`, in one direction; in the other, `x/(1+x)≤x≤ε` on
+   `{|f−g|≤ε}` and `x/(1+x)≤1` off it give `d(f,g)≤ε·P(Ω)+P(|f−g|>ε)`, where the finite
+   total mass `P(Ω)` multiplies ε, so first let `P(|f_n−g|>ε)→0` and then ε→0;
+   completeness from the almost-everywhere convergent
    subsequence of a sequence Cauchy in measure, selected by Borel–Cantelli).
    Use a distinct wrapper for real L⁰ and an equivalence with `AEEqFun Ω ℝ P`;
    no second a.e. quotient is constructed.
@@ -426,9 +428,15 @@ Continuous paths on finite horizons use `ContinuousMap` and the uniform
 - On the two-point uniform space with `f=1_{a}` and `g=0`, the distance is `½·½=1/4`,
   not the disagreement probability `P(f≠g)=1/2`; the two metrics are distinct, though
   both induce convergence in measure.
-- For constants a,b the distance is `|a−b|/(1+|a−b|)<1`, so the constants `n` have
-  distance to 0 tending to 1 and converge to nothing, while an unbounded formula `∫|f−g|`
-  would not even be a metric with values in [0,∞).
+- For constants a,b on a space of total mass m=P(Ω) the distance is
+  `m·|a−b|/(1+|a−b|)`, strictly below m when m>0 (below 1 on a probability space), so for
+  m>0 the constants `n` have distance to 0 tending to m and converge to nothing, while an
+  unbounded formula `∫|f−g|` would not even be a metric with values in [0,∞). For m=0
+  every distance is 0, matching the one-point quotient `AEEqFun Ω ℝ 0`.
+- On a one-point space with `P=3δ_a`, `f=½`, `g=0` and `ε=½`, the distance is
+  `3·(½)/(3/2)=1`. The reverse bound with the total mass gives `ε·P(Ω)+P(|f−g|>ε)=3/2+0≥1`,
+  while the same bound with the mass normalized to 1, `ε+P(|f−g|>ε)=½`, is violated: an
+  argument that treats a finite measure as a probability measure is wrong here.
 
 ### 0.2 regularity and measurability
 
@@ -644,7 +652,7 @@ Construct the progressive sigma algebra and its
 
 ### 0.3 augmentation
 
-Complete a probability space and transport laws and processes (Karatzas–Shreve, §2.7.A).
+Complete a probability space and transport laws and processes (Karatzas–Shreve, §2.7).
    Define `ambientNullAugmentation F P`
    on the original measurable space by adjoining every *ambient-measurable* P-null set to
    each `F_t`; prove that every ambient-measurable null set is measurable at time zero, and
@@ -1408,7 +1416,7 @@ is contained in the ambient product sigma algebra: its generators `{0}×A` for `
 `(t,∞)×A` for `A∈F_t` are product-measurable. Define the predictable measure on the
 horizon T by trimming `(timeMeasure T).prod P` along that inclusion;
 its predictable L² space is the native real `Lp` space with exponent 2
-(Karatzas–Shreve, §3.2.A, for the measure on `[0,∞)×Ω` induced by the bracket of a
+(Karatzas–Shreve, §3.2, for the measure on `[0,∞)×Ω` induced by the bracket of a
 square-integrable martingale and its L² space of integrands; for Brownian `M` that measure
 is Lebesgue measure times `P`).
 
@@ -1439,7 +1447,7 @@ On a usual basis construct the nonnegative
    predictable sets, zero mass at time 0 and rectangle value
    `μ_M((s,t]×A)=E[1_A(M_t−M_s)²]`, A∈ℱ_s. Prove countable additivity, finiteness on
    finite horizons for L² martingales, uniqueness and the predictable-bracket representation
-   `μ_M(A)=E∫1_A d⟨M⟩` (Karatzas–Shreve, §3.2.A, where this identity is the definition of
+   `μ_M(A)=E∫1_A d⟨M⟩` (Karatzas–Shreve, §3.2, where this identity is the definition of
    `μ_M`; Protter, Chapter III, for the Doob–Meyer decomposition and the compensator that
    `λ_Z` and `⟨M⟩` encode); its Brownian
    specialization on [0,T] is the trim of `(timeMeasure T).prod P` to
@@ -2702,7 +2710,7 @@ Prove `cameronMartin_equivalence` and `cameronMartin_singularity` for every fini
 horizon T≥0 and every continuous deterministic shift h on [0,T]. Mutual absolute
 continuity holds exactly when there exists a strongly measurable L² velocity u with
 `h(t)=∫₀ᵗu(s)ds` for all t≤T, expressed by `IsCameronMartinShift`; otherwise the
-translated and original laws are mutually singular (Revuz–Yor, Chapter VIII, §1).
+translated and original laws are mutually singular (Revuz–Yor, Chapter VIII).
 The density statement is `cameronMartin_pushforward`. At T=0 equivalence means
 h(0)=0; a nonzero h(0) gives two disjoint Dirac laws.
 
@@ -2752,7 +2760,7 @@ Prove that the Wiener RKHS consists exactly of
    For Cameron–Martin shifts prove preservation of the completed Wiener sigma-algebra
    in both directions, using the positive density identity to transport null sets. Prove density
    `exp(∫h′·dB−½∫‖h′‖²)` for the **pushforward** under ω↦ω+h, and singularity for a
-   continuous shift outside this space (Revuz–Yor, Chapter VIII, §1, for the density;
+   continuous shift outside this space (Revuz–Yor, Chapter VIII, for the density;
    Mörters–Peres, Theorem 1.38, p. 25, for the equivalence/singularity dichotomy on
    `C[0,1]`; Hairer, Theorem 4.44, p. 31, and its proof for the general Gaussian case).
    Prove translation composition/density cocycle,
@@ -3802,7 +3810,7 @@ Wiener laws with that reference is this roadmap's, not a dependency of OptimalTr
   S4.3 owns the stopped-L²/good-λ construction and the required maximal estimates.
 - Ioannis Karatzas and Steven E. Shreve, *Brownian Motion and Stochastic Calculus*, second
   edition, Springer GTM 113 (1991): Chapters 1–3 process/martingale/Brownian/integration
-  (Lemma 2.9.4 time inversion, §3.2.A the measure `μ_M`, Proposition 3.2.10 the integral's
+  (Lemma 2.9.4 time inversion, §3.2 the measure `μ_M`, Proposition 3.2.10 the integral's
   martingale and bracket properties, Theorem 3.3.16 Lévy's characterization),
   §3.4 martingale representation and DDS, §3.5 Girsanov/Novikov (Theorem 3.5.1, §3.5.C
   Brownian motion with drift), Chapter 5 SDEs/flows (Theorem 5.2.5 local Lipschitz
