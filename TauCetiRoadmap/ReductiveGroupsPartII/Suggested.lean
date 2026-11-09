@@ -129,9 +129,9 @@ theorem h1_vanishes (K : Type u) [Field K] [ValuativeRel K]
     (hH : ringChar K = 0 ∨ TauCeti.reductiveCommHopfAlgProperty K H)
     (L : Type u) [Field L] [Algebra K L] [FiniteDimensional K L] [IsGalois K L]
     (c : (L ≃ₐ[K] L) → WithConv (H →ₐ[K] L))
-    (hc : ∀ γ δ, c (γ * δ) = c γ * TauCeti.AlgHom.mapValue γ.toAlgHom (c δ)) :
+    (hc : ∀ γ δ, c (γ * δ) = c γ * AlgHom.mapValue γ.toAlgHom (c δ)) :
     ∃ b : WithConv (H →ₐ[K] L), ∀ γ,
-      c γ = b⁻¹ * TauCeti.AlgHom.mapValue γ.toAlgHom b := sorry
+      c γ = b⁻¹ * AlgHom.mapValue γ.toAlgHom b := sorry
 
 end Steinberg
 
@@ -172,9 +172,9 @@ theorem smooth_fixedPoints {k : Type u} [CommRing k]
     ∃ (H' : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} k) (f : H ⟶ H'),
       TauCeti.smoothCommHopfAlgProperty k H'.obj ∧ Function.Surjective f.hom.hom ∧
       ∀ (R : Type u) [CommRing R] [Algebra k R],
-        Set.range (TauCeti.AlgHom.mapDomain (A := R) (f.hom.hom : (H : Type u) →ₐc[k] H')) =
+        Set.range (BialgHom.mapDomain (A := R) (f.hom.hom : (H : Type u) →ₐc[k] H')) =
           {g | ∀ θ : Θ,
-            TauCeti.AlgHom.mapDomain (A := R) ((ρ θ).hom.hom.hom : (H : Type u) →ₐc[k] H) g = g} :=
+            BialgHom.mapDomain (A := R) ((ρ θ).asIso.hom.hom.hom : (H : Type u) →ₐc[k] H) g = g} :=
   sorry
 
 end TameDescent
@@ -186,7 +186,7 @@ def integralPoints (O : Type u) [CommRing O] (K : Type u) [Field K] [Algebra O K
     (A : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} O) :
     Subgroup (WithConv (K ⊗[O] A →ₐ[K] K)) :=
   ((TauCeti.AlgHom.baseChangePointsMulEquiv (k := O) (K := K) (A := A) (R := K)).toMonoidHom.comp
-    (TauCeti.AlgHom.mapValue (H := A) (Algebra.ofId O K))).range
+    (AlgHom.mapValue (H := A) (Algebra.ofId O K))).range
 
 /-- The Bruhat–Tits extension principle: a generic-fibre homomorphism extends uniquely to smooth
 models over a strictly henselian DVR exactly when it preserves integral points
@@ -200,7 +200,7 @@ theorem extend_iff (O : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRi
       TauCeti.FiniteTypeCommHopfAlgCat.baseChange (K := K) A) :
     (∃! F : A' ⟶ A, TauCeti.FiniteTypeCommHopfAlgCat.baseChangeMap (K := K) F = f) ↔
       ∀ g ∈ integralPoints O K A,
-        TauCeti.AlgHom.mapDomain f.hom.hom g ∈ integralPoints O K A' := sorry
+        BialgHom.mapDomain f.hom.hom g ∈ integralPoints O K A' := sorry
 
 end IntegralModel
 
