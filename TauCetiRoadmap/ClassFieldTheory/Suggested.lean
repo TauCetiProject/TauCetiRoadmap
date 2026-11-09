@@ -3,6 +3,7 @@ import TauCeti.NumberTheory.ClassFieldTheory.ClassFields.RayClassField
 import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Basic
 import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Reciprocity
+import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
 import TauCeti.NumberTheory.LocalField.Herbrand.ArtinConductor
 import TauCeti.NumberTheory.LocalField.UnitFiltration.Basic
 import TauCeti.RingTheory.DedekindDomain.Discriminant.Basic
@@ -12,7 +13,8 @@ import TauCeti.RingTheory.DedekindDomain.Discriminant.Basic
 
 The roadmap is `README.md`; this file is not the roadmap. It gives suggested forms of the
 roadmap's open headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, and
-the one definition they need, `galoisCharacterConductorExp`; it is not an exhaustive checklist.
+the two simple definitions they need, `localAbsoluteUpperRamificationGroup` and
+`galoisCharacterConductorExp`; it is not an exhaustive checklist.
 
 Tau Ceti proves the following headline results at the pin, in
 `TauCeti/NumberTheory/ClassFieldTheory/` and `TauCeti/RepresentationTheory/Homological/`, so none
@@ -46,16 +48,15 @@ of them is restated here; the roadmap consumes them under Tau Ceti's names
 The open headline theorems stated below are:
 
 * the cyclotomic normalization at a unit for every finite `ℚ_p`-algebra structure, the form that
-  `LocalGaloisGroups` consumes, the finite upper-numbering theorem and the comparison of the
+  `LocalGaloisGroups` consumes, finite and absolute unit-filtration reciprocity, and the comparison of the
   reciprocity character conductor with the native Artin conductor (Layer 7);
 * the principal ideal theorem in the Hilbert class field, and the global conductor–discriminant
   formula, with the discriminant the product and the conductor the lcm of the conductors of the
   characters (Layer 13).
 
-The absolute unit-filtration reciprocity theorem of Layer 7 is not statable at the pins:
-`RamificationOfCompleteDiscretelyValuedFields` §4a.1 supplies the absolute upper ramification
-subgroup, but that carrier is absent from the pinned libraries. Its statement is in the README;
-no substitute filtration is defined here.
+All open headline theorems are statable at the pins. The absolute upper group needed for
+absolute unit-filtration reciprocity is the intersection of the inverse images of the native
+finite upper groups, on the native absolute Galois group; its simple definition is below.
 -/
 
 namespace TauCetiRoadmap.ClassFieldTheory
@@ -99,6 +100,33 @@ theorem normResidue_map_unitFiltration
         ((normResidue K L).toMonoidHom.comp (QuotientGroup.mk' (normGroup K L))) =
       (LocalFieldsRamification.upperRamificationGroup K L
           ⟨n, Nat.cast_mem_ramificationIndexDomain n⟩).map Abelianization.of :=
+  sorry
+
+/-- **The absolute upper ramification group of a local field.** For real `v ≥ -1`, an
+absolute Galois automorphism belongs to `G_K^v` precisely when its restriction to every finite
+Galois intermediate field belongs to its upper group, using the canonical extended valuation
+(Serre, *Local Fields*, IV §3, Proposition 14). -/
+noncomputable def localAbsoluteUpperRamificationGroup
+    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (v : LocalFieldsRamification.RamificationIndexDomain) : Subgroup (Field.absoluteGaloisGroup K) :=
+  ⨅ M : FiniteGaloisIntermediateField K (AlgebraicClosure K),
+    letI := finiteIntermediateFieldValuativeRel K (AlgebraicClosure K) M.toIntermediateField
+    letI := finiteIntermediateFieldTopology K (AlgebraicClosure K) M.toIntermediateField
+    letI := finiteIntermediateField_isNonarchimedeanLocalField K (AlgebraicClosure K)
+      M.toIntermediateField
+    letI := finiteIntermediateField_valuativeExtension K (AlgebraicClosure K) M.toIntermediateField
+    (LocalFieldsRamification.upperRamificationGroup K M v).comap (AlgEquiv.restrictNormalHom M)
+
+/-- **Absolute unit-filtration reciprocity.** For a nonarchimedean local field in either
+characteristic, the closure of the image of the units of depth `n ≥ 0` under the arithmetic
+Artin map is the image of the absolute upper ramification group at depth `n` in the topological
+abelianization (Serre, *Local Fields*, XV §2, Theorem 2 and Corollary 3 to Theorem 1). -/
+theorem closure_map_artinMap_unitFiltration_eq_upper
+    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (n : ℕ) :
+    ((unitFiltration K n).map (artinMap K)).topologicalClosure =
+      (localAbsoluteUpperRamificationGroup K ⟨n, Nat.cast_mem_ramificationIndexDomain n⟩).map
+        (QuotientGroup.mk' (commutator (Field.absoluteGaloisGroup K)).topologicalClosure) :=
   sorry
 
 /-- **The conductor exponent of a Galois character** `χ : Gal(L/K) → ℂˣ` of a finite Galois

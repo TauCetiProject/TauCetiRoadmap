@@ -89,7 +89,7 @@ are the theorems stated in `Suggested.lean`.
    (Layers 6 and 7): Tau Ceti's. **Open targets** (Layer 7): the cyclotomic normalization at a
    unit for every finite `ℚ_p`-algebra structure, without Tau Ceti's compatibility hypothesis on
    the valuations; and, in every characteristic, the upper-numbering theorem identifying the image
-   of `U(K,n)` under reciprocity with that of `G(L/K)^n`, its absolute form (using RamificationOfCompleteDiscretelyValuedFields §4a.1), and the
+   of `U(K,n)` under reciprocity with that of `G(L/K)^n`, its absolute form on the local-field filtration constructed in Layer 7, and the
    comparison of reciprocity character conductors with Artin conductors. The local sum and
    maximum formulas follow from that comparison and the native ramification theorems.
 4. Local existence for a finite **abelian** layer, uniqueness of that layer, and the local
@@ -184,6 +184,11 @@ are the theorems stated in `Suggested.lean`.
   §4.2 are specializations of Layer 7; its own additional comparison is the action on
   Lubin–Tate torsion, and its conductor consequence uses
   `conductorExponent_le_iff_upperRamificationGroup_eq_bot`;
+- Layer 7 owns the absolute upper filtration on every nonarchimedean local field, in both
+  characteristics, by taking inverse images of the native finite upper groups. The general
+  valuation-subring filtration over perfect residue fields belongs to
+  RamificationOfCompleteDiscretelyValuedFields §4a.1; its local-field specialization agrees with
+  this construction. No result from that generalization is an input here;
 - `GlobalQuadraticForms` owns Hasse–Minkowski and the global classification of quadratic
   forms. Its Layers 3.3, 4.2–4.4 and 5.1 consume Tau Ceti's norm index
   `card_ideleClassNormQuotient` (Layer 12), the cyclic Hasse norm theorem `cyclicHasseNorm` with
@@ -594,12 +599,6 @@ modules `NumberTheory/LocalField/Basic`, `FiniteExtension/`, `UnitFiltration/`, 
 `LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
 `LocalFieldsRamification.hasseArf`, `differentExponent`, `discriminantExponent` and
 `LocalFieldsRamification.artinConductorExponent` on compatible finite Galois valued extensions.
-
-### From TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
-
-Section 4a.1 supplies the absolute upper ramification groups, their closedness and surjection
-onto every finite upper group for a complete discretely valued base with perfect residue field.
-Only its local-field specialization is consumed in Layer 7.
 
 ### From TauCetiRoadmap.GlobalNumberFields
 
@@ -1186,23 +1185,81 @@ The conductor definition has the following API:
   (`TauCeti/NumberTheory/ClassFieldTheory/Local/Conductor/UpperNumbering.lean`).
   These are consequences, not separate acceptance declarations (Serre, *Local Fields*, VI §2).
 
+**The absolute upper filtration of a local field.** For every nonarchimedean local field `K`
+in either characteristic and every real `v ≥ −1`, define
+`localAbsoluteUpperRamificationGroup K v` as the subgroup of `Field.absoluteGaloisGroup K`
+consisting of automorphisms whose restriction to every finite Galois intermediate field
+`M : FiniteGaloisIntermediateField K (AlgebraicClosure K)` belongs to
+`LocalFieldsRamification.upperRamificationGroup K M v`. Equip each `M` with Tau Ceti's canonical
+extended valuation and topology, supplied by `finiteIntermediateFieldValuativeRel`,
+`finiteIntermediateFieldTopology`, `finiteIntermediateField_isNonarchimedeanLocalField` and
+`finiteIntermediateField_valuativeExtension`. Thus the definition is the intersection of the
+inverse images under `AlgEquiv.restrictNormalHom M`, over all finite Galois levels, including
+nonabelian ones (Serre, *Local Fields*, IV §3, Proposition 14; for the totally ramified
+inverse-limit construction, Serre 1961, n° 3.1, paragraph after Proposition 3, p. 128).
+
+Its API consists of the following facts (Serre, *Local Fields*, IV §§1–3, especially IV §3,
+Proposition 14, with ProfiniteProPGroups Layer 0 for passage to closed subgroups):
+
+- Each group is closed and normal, and `v ≤ w` implies `G_K^w ≤ G_K^v`.
+- Restriction from `G_K` to every finite Galois `Gal(M/K)` maps `G_K^v` onto the native
+  finite upper group, for every real `v ≥ −1`. Herbrand's quotient theorem makes the transition
+  maps surjective, and compactness supplies simultaneous lifts through all finite levels.
+- The term at `−1` is `G_K`, the term at `0` is the native inertia subgroup, and the closure
+  of the union of the terms with `v > 0` is the native wild inertia subgroup. The intersection
+  of all terms is the trivial subgroup, since a nonidentity automorphism is detected at a
+  finite level whose upper filtration is eventually trivial.
+- For every algebraic Galois intermediate extension `E/K`, restriction from `G_K` to
+  `Gal(E/K)` maps this filtration onto the intersection of the inverse images of the finite
+  upper groups of `M/K` with `M ⊆ E`. This gives the quotient filtration with its Krull topology,
+  independently of the ambient algebraic closure.
+- A continuous field isomorphism `K ≃ K′` and an extension to algebraic closures carry
+  `G_K^v` onto `G_K′^v`. Changing that extension conjugates the image, so normality makes the
+  resulting subgroup independent of the choice.
+
+*Needs:* the native finite upper groups and
+`LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`; the finite-intermediate-field
+structures above; `AlgEquiv.restrictNormalHom` and
+`InfiniteGalois.restrictNormalHom_continuous`; ProfiniteProPGroups Layer 0. The canonical
+finite-extension structures and restriction maps come from
+`TauCeti/NumberTheory/LocalField/FiniteExtension/IntermediateField.lean` and
+`Mathlib/FieldTheory/Galois/Profinite.lean` (for continuity) and
+`Mathlib/FieldTheory/Normal/Defs.lean` (for restriction).
+
+**Checks.**
+
+- At the identity finite layer the image is the one-element group at every depth, including
+  `−1`. At an unramified cubic layer the depth `−1` image has order 3 and the depth `0` image
+  has order 1; a Frobenius generator belongs to the former and not the latter.
+- In `ℚ₂(ζ₈)/ℚ₂`, identify automorphisms by their exponents in `(ℤ/8ℤ)ˣ`. The images at depths
+  `0, 1, 2, 3` are `{1,3,5,7}`, `{1,3,5,7}`, `{1,5}`, `{1}`. In particular exponent 5 lies in
+  depth 2 and exponent 3 does not; the constant inertia filtration fails at depths 2 and 3.
+- In the tame layer `ℚ₅(ζ₅)/ℚ₅`, depth 0 has order 4 and every positive depth has order 1.
+  Thus `G_K^0` cannot be substituted for the positive-depth union or its closure.
+- For the tame splitting field of `X³ − 5` over `ℚ₅`, the finite Galois group is `S₃`, with
+  depth `−1` image `S₃`, depth 0 image `C₃`, and depth 1 image trivial. The image of `C₃` in
+  `S₃`'s abelianization is trivial; defining the absolute filtration using only abelian
+  quotients would lose this nonabelian finite-level condition.
+- In `ℚ₃(ζ₉)/ℚ₃`, the depth 2 image is trivial whereas the lower group at 2 has order 3;
+  the Herbrand calculation in the reciprocity Checks below rules out lower numbering.
+
 **Absolute unit-filtration reciprocity.** For a nonarchimedean local field `K` in either
-characteristic and every integer `n ≥ 0`, the closure of the image of `U(K,n)` under
-`artinMap : Kˣ → Field.absoluteGaloisGroupAbelianization K` is the image of `G_K^n` under the
-quotient map from `Field.absoluteGaloisGroup K`. Here `G_K^n` is the absolute upper group of
-RamificationOfCompleteDiscretelyValuedFields §4a.1, for the integral closure of `𝒪[K]` in
-`AlgebraicClosure K`; no absolute filtration is constructed here. Its image is closed, since
-`G_K^n` is compact and the abelianization is Hausdorff. The same assertion projects to every
-abelian algebraic extension. Route: finite unit-filtration reciprocity, the supplier’s surjectivity
-onto every finite upper group, and the characterization of a closed subgroup of a profinite
-group by its finite images (Serre, *Local Fields*, XV §2, Theorem 2 and Corollary 3 to Theorem 1).
-*Needs:* this layer’s finite comparison and `artinMap_restrict`;
-RamificationOfCompleteDiscretelyValuedFields §4a.1; ProfiniteProPGroups Layer 0.
+characteristic and every integer `n ≥ 0`, prove `closure_map_artinMap_unitFiltration_eq_upper`:
+the closure of the image of `U(K,n)` under
+`artinMap : Kˣ → Field.absoluteGaloisGroupAbelianization K` is the image of
+`localAbsoluteUpperRamificationGroup K n` under the quotient map from
+`Field.absoluteGaloisGroup K` by the closure of its commutator subgroup. This image is closed,
+since `G_K^n` is compact and the abelianization is Hausdorff. The same assertion projects to
+every abelian algebraic extension. Route: finite unit-filtration reciprocity, the preceding
+finite-level surjections, and the characterization of a closed subgroup of a profinite group
+by its finite images (Serre, *Local Fields*, XV §2, Theorem 2 and Corollary 3 to Theorem 1).
+*Needs:* this layer's finite comparison and absolute filtration API; `artinMap_restrict`;
+ProfiniteProPGroups Layer 0.
 
 The finite-level interface map_unitFiltration_normResidue corresponds to
 `normResidue_map_unitFiltration`; the absolute interface closure_map_artinMap_unitFiltration
-is the preceding target. Its absolute upper-group carrier is not present at the pins, so the
-acceptance file records that missing carrier rather than encoding another filtration.
+corresponds to `closure_map_artinMap_unitFiltration_eq_upper`. Both statements use their
+constructed groups, with no arbitrary subgroup parameter.
 
 `discriminantExponent` is `δ(L/K) = v_K(𝔡_{L/K}) = f(L/K) · d(L/K)`, the exponent of an ideal of
 the base and not the different exponent of `L`.
@@ -1255,7 +1312,7 @@ In ℚ₃(ζ₉)/ℚ₃ at depth 2 the finite image of the absolute unit image i
 
 ### Dependencies
 
-Layers 5–6; the native LocalFieldsRamification contract in Exact supplier contracts; RamificationOfCompleteDiscretelyValuedFields §4a.1 for the absolute target only; ProfiniteProPGroups Layer 0. Each comparison lists its own narrower inputs above.
+Layers 5–6; the native LocalFieldsRamification contract in Exact supplier contracts; ProfiniteProPGroups Layer 0. Each comparison lists its own narrower inputs above.
 
 ## Layer 8: separate arithmetic local existence and the local class-field correspondence
 
@@ -2046,9 +2103,11 @@ intermediate field is Mathlib’s `AlgEquiv.restrictNormalHom`.
 ### Acceptance signatures
 
 `Suggested.lean` is the roadmap's acceptance test. It states the open headline theorems of the
-table in Exact supplier contracts, each with `sorry`, against the pinned Mathlib and Tau Ceti, and the one definition
-with a real body they need, `galoisCharacterConductorExp`, the least unit-filtration level
-contained in the kernel of a Galois character read through `normResidue`. Its imports are
+table in Exact supplier contracts, each with `sorry`, against the pinned Mathlib and Tau Ceti.
+Its two simple definitions with real bodies are `localAbsoluteUpperRamificationGroup`, the
+intersection of the inverse images of all finite upper groups, and `galoisCharacterConductorExp`,
+the least unit-filtration level contained in the kernel of a Galois character read through
+`normResidue`. Its imports are
 `Mathlib` and individual Tau Ceti modules; it imports no roadmap. Its module docstring lists the
 headline results Tau Ceti proves at the pin, by layer.
 
@@ -2060,9 +2119,8 @@ It does not contain:
 - an existence statement whose witness is not pinned: the principal ideal theorem is stated on
   Tau Ceti's `hilbertClassField`, not on an existential field.
 
-Every finite-level headline is statable at the pins. Absolute unit-filtration reciprocity
-requires the absolute upper ramification subgroup of
-RamificationOfCompleteDiscretelyValuedFields §4a.1, absent at the pins; it is specified in Layer 7.
+Every open headline is statable at the pins using these definitions, including absolute
+unit-filtration reciprocity on the native absolute Galois group.
 
 ---
 
@@ -2077,7 +2135,7 @@ later, and a layer's row lists exactly the prerequisites stated at the head of t
 | 1–4: formations, class formations, Tate's theorem, abstract Artin map | Layer 0; Mathlib open subgroups |
 | 5: local coefficients, `Br K`, `invMap`, local symbol, local duality, Euler characteristic | Layer 0; ProfiniteCohomology, LocalFieldsRamification |
 | 6: local class formation, finite local reciprocity, `cd_ℓ G_K` | Layers 1–5; LocalFieldsRamification |
-| 7: absolute local Artin map, normalizations, conductors | Layers 5, 6; LocalFieldsRamification; RamificationOfCompleteDiscretelyValuedFields §4a.1 (absolute target only); ProfiniteProPGroups Layer 0 |
+| 7: absolute local Artin map, normalizations, conductors | Layers 5, 6; LocalFieldsRamification; ProfiniteProPGroups Layer 0 |
 | 8: local existence, the local correspondence | Layers 4 (norm limitation), 5 (Kummer theory), 6, 7 |
 | 9: the local Weil group | Layers 5–8; LocalFieldsRamification |
 | 10: idele carriers, Brauer sequence, sum of local invariants | Layers 1, 2, 4, 5 (`invMap` at every completion), 6, 7 (cyclotomic normalization); LocalFieldsRamification, GlobalNumberFields, ProfiniteCohomology |
@@ -2092,7 +2150,7 @@ Layers 1–4. Layer 7 proves the cyclotomic normalization of the absolute local 
 explicit cyclotomic symbols over `ℚ`, and Layer 10 consumes it for the sum of local invariants;
 Layer 10 builds the archimedean Artin maps from the class formations of Layers 1–4. The open
 finite targets of Layer 7 need only Layers 5–7 and LocalFieldsRamification; its absolute
-target also uses the absolute filtration and profinite contracts listed above; those of Layer 13 need the
+target also uses this layer's absolute filtration and the profinite contract listed above; those of Layer 13 need the
 local formulas of Layer 7 and the global correspondence of Layer 12.
 
 ---
@@ -2103,7 +2161,11 @@ local formulas of Layer 7 and the global correspondence of Layer 12.
   XIV §§1–5 (formations, invariants, Tate isomorphism and reciprocity); XIV §6, p. 163
   (existence axioms); XIII (principal ideal theorem); V–VIII (global inequalities,
   reciprocity and existence); XI §5 (conductors); XII (power reciprocity); XV (Weil groups).
+- J.-P. Serre, *Sur les corps locaux à corps résiduel algébriquement clos*, 1961 (serre1961):
+  n° 3.1, Proposition 3 and the following paragraph, p. 128 (upper filtration and passage
+  to infinite totally ramified Galois extensions).
 - J.-P. Serre, *Local Fields*, 1979 (serre-local-fields): IV §1 (different),
+  IV §3, Proposition 14 (upper numbering and quotients),
   V §§3, 6 (norms and ramification), VI §2 (Artin conductors), IX §8 (Tate–Nakayama),
   XI–XIV (local invariants and reciprocity), XIV §3 (cyclotomic normalization), and
   XV §2, Theorem 2 and Corollary 3 to Theorem 1 (unit-filtration reciprocity).
