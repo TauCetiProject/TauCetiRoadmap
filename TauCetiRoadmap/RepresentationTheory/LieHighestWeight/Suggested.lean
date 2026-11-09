@@ -17,21 +17,22 @@ and Tau Ceti, the headline theorems of the roadmap that the pins do not already 
 `sorry`. It declares no definitions: every carrier its statements need exists at the pins.
 
 The following headlines of the README are proved at the pinned Tau Ceti and are consumed there
-by name, not restated here: the classification of the finite-dimensional `sl₂`-irreducibles and
-their integer spectrum (Layer 0); the diagonalizability of the Cartan action and the integrality
-of weights (Layer 2); the PBW basis, Verma modules and the irreducible quotients `L(λ)`
-(Layer 3); the dominant-integral classification (Layer 4); complete reducibility and the Casimir
-eigenvalue (Layer 5); the Weyl character, dimension and Kostant formulas, the orbit-sum
-expansion, the isotypic toolkit, self-duality of `L(λ)` and the minuscule Pieri rule (Layer 6);
-the Harish-Chandra isomorphisms, the central-character orbit theorem, Chevalley restriction,
-Cartan conjugacy, the PBW centre symbols and Freudenthal's formula (Layer 7); the dimension and
-simplicity of the octonion derivations, the surjection from split `G₂`, the dimension of the
-Albert derivations and the Albert determinant and cubic identity (Layer 8); the reductive
-structure theory, the `gl_n` classification on the carrier `TauCeti.glIrreducible`, the
-`sl ↔ gl` transfer, the dual-standard Pieri rule, the single-weight isotypic criterion, the
-trace-form Casimir and the differentiation of rational `GL_n`-representations (Layer 9); and the
-surjection from the alcove stabilizer `Ω` onto `P∨/Q∨` and its action on the affine walls
-(Layer 10).
+by name, not restated here: the classification of the finite-dimensional `sl₂`-irreducibles,
+`sl₂` complete reducibility and the Clebsch–Gordan rule (Layer 0); the integral weight lattice
+(Layer 1); the diagonalizability of the Cartan action and the integrality of weights (Layer 2);
+the PBW basis, the finiteness of `U(L)` over central scalars, the PBW Rees algebra and its
+fibres, Verma modules and the irreducible quotients `L(λ)` (Layer 3); the dominant-integral
+classification (Layer 4); complete reducibility and the Casimir eigenvalue (Layer 5); the Weyl
+character, dimension and Kostant formulas, the orbit-sum expansion, the isotypic toolkit and the
+minuscule Pieri rule (Layer 6); the Harish-Chandra isomorphisms, the central-character orbit
+theorem, Chevalley restriction, Cartan conjugacy, the PBW centre symbols and Freudenthal's
+formula (Layer 7); the dimension and simplicity of the octonion derivations, the surjection from
+split `G₂`, the dimension of the Albert derivations and the Albert determinant and cubic identity
+(Layer 8); the reductive structure theory, the `gl_n` classification on the carrier
+`TauCeti.glIrreducible`, the `sl ↔ gl` transfer, the dual-standard Pieri rule, the single-weight
+isotypic criterion, the trace-form Casimir and the differentiation of rational
+`GL_n`-representations (Layer 9); and the surjection from the alcove stabilizer `Ω` onto
+`P∨/Q∨` and its action on the affine walls (Layer 10).
 
 The following headlines are not statable at the pins, and nothing is stated in their place:
 
@@ -43,17 +44,13 @@ The following headlines are not statable at the pins, and nothing is stated in t
   `248`-dimensional underlying module but not the graded bracket, and neither Freudenthal model;
 * the first-order Poisson bracket on the zero fibre of the PBW Rees algebra
   (`TauCeti.UniversalEnvelopingAlgebra.reesAlgebra`) and its comparison with symmetrization:
-  the pins have no Poisson-algebra structure on `SymmetricAlgebra`;
-* the compact-centre theorem `Z(G) ≃ P∨/Y` of the late LieGroups application: the pins have no
-  maximal torus of a compact Lie group with its period lattice.
+  the pins have no Poisson-algebra structure on `SymmetricAlgebra`.
 
 The symmetrization form of the PBW theorem, `Sym(L) ≃ U(L)` over a commutative `ℚ`-algebra, is
 statable, but ScatteringDiagrams §0.4 owns it (`exists_pbwSymmetrizationEquiv`); it is not
-restated here. The type-A identification of a rational `GL_n`-character with the
-determinant-shifted Schur polynomial is statable, but it is the headline of ClassicalGroups
-Layer 4, which this roadmap's precursor to Layer 6 reproves by an independent route; it is not
-restated here. The fixed-point
-and Fourier forms of Layer 6F are restatements of the native Weyl character formula.
+restated here. The fixed-point form of the Weyl character formula (Layer 6) is a restatement of
+the native formula `formalCharacter_mul_weylDenominator_eq_weylNumerator` in the fraction field
+of the weight group algebra, and is not a headline.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.LieHighestWeight
@@ -65,22 +62,6 @@ open scoped TensorProduct
 
 universe u v w
 
-/-! ## Layer 3: the enveloping algebra -/
-
-/-- **Finiteness over a central subalgebra.** Let `L` be a Lie algebra over an arbitrary field
-`K` with a finite ordered basis `b`, and let `R` be a subalgebra of the centre of `U(L)`. If every
-`ι(bᵢ)` satisfies a monic polynomial with coefficients in `R`, then `U(L)` is a finite
-`R`-module (spanned by the ordered PBW monomials with bounded exponents). -/
-theorem module_finite_of_central_monic_relations (K : Type u) [Field K]
-    (L : Type v) [LieRing L] [LieAlgebra K L] {κ : Type w} [Fintype κ] [LinearOrder κ]
-    (b : Basis κ K L) (R : Subalgebra K (UniversalEnvelopingAlgebra K L))
-    (hR : R ≤ Subalgebra.center K (UniversalEnvelopingAlgebra K L))
-    (hmonic : ∀ i : κ, ∃ (d : ℕ) (c : Fin d → R), 0 < d ∧
-      (UniversalEnvelopingAlgebra.ι K (b i)) ^ d +
-          ∑ j : Fin d, (c j : UniversalEnvelopingAlgebra K L) *
-            (UniversalEnvelopingAlgebra.ι K (b i)) ^ (j : ℕ) = 0) :
-    Module.Finite R (UniversalEnvelopingAlgebra K L) := sorry
-
 /-! ## Layer 7: the Serre presentation -/
 
 open scoped Classical in
@@ -89,7 +70,8 @@ non-degenerate Killing form over a field `K` of characteristic zero, `H` a split
 subalgebra and `base` a base of its root system. For raising and lowering families `e`, `f`
 which, with the simple coroots, satisfy the Serre relations for the transposed Cartan matrix and
 generate `L`, the induced map from Mathlib's Serre-presented algebra to `L` is injective
-(Humphreys, *Introduction to Lie Algebras*, §18.3). -/
+(Etingof, *Lie groups and Lie algebras*, Theorem 24.2, p. 122, over `ℂ`; Humphreys,
+*Introduction to Lie Algebras*, §18.3). -/
 theorem serreLift_injective_of_base {K : Type u} [Field K] [CharZero K]
     {L : Type v} [LieRing L] [LieAlgebra K L] [FiniteDimensional K L] [LieAlgebra.IsKilling K L]
     [LieAlgebra.IsSimple K L] {H : LieSubalgebra K L} [H.IsCartanSubalgebra]
@@ -105,22 +87,26 @@ theorem serreLift_injective_of_base {K : Type u} [Field K] [CharZero K]
 /-- **`G₂` is the derivation algebra of the split octonions.** Over a field of characteristic
 zero, the map from Mathlib's split `G₂` to the derivations of the split octonions
 `TauCeti.Octonion K`, defined by the Chevalley generators, is injective; with the native
-surjectivity it is an isomorphism (Baez, *The Octonions*, §4.1, p. 35, for the compact form). -/
+surjectivity it is an isomorphism (Schafer, *An Introduction to Nonassociative Algebras*, 1961
+notes, Ch. III, p. 28: the derivation algebra of a Cayley algebra is central simple of dimension
+`14`, of type `G₂`). -/
 theorem g₂ToDerivationLieAlgebra_injective (K : Type u) [Field K] [CharZero K] :
     Function.Injective (TauCeti.Octonion.g₂ToDerivationLieAlgebra (R := K)) := sorry
 
 /-- **`F₄` is the derivation algebra of the split Albert algebra.** Over a field of
 characteristic zero, the derivation Lie algebra of the split Albert algebra
-`TauCeti.AlbertAlgebra K` is isomorphic to Mathlib's split `F₄` (Baez, *The Octonions*, §4.2,
-p. 39, for the compact form). -/
+`TauCeti.AlbertAlgebra K` is isomorphic to Mathlib's split `F₄` (Schafer, *An Introduction to
+Nonassociative Algebras*, 1961 notes, Ch. IV, p. 41: the derivation algebra of an exceptional
+central simple Jordan algebra is central simple of dimension `52`, of type `F₄`). -/
 theorem nonempty_derivationAlbert_lieEquiv_f₄ (K : Type u) [Field K] [CharZero K]
     [Invertible (2 : K)] :
     Nonempty (TauCeti.derivationLieAlgebra K (TauCeti.AlbertAlgebra K) ≃ₗ⁅K⁆ LieAlgebra.f₄ K) :=
   sorry
 
 /-- **Compact `G₂`, dimension.** The derivation Lie algebra of the real division octonions
-`TauCeti.DivisionOctonionReal` (the Cayley–Dickson double of `ℍ[ℝ]`) has dimension `14` (Baez,
-*The Octonions*, §4.1, p. 35). -/
+`TauCeti.DivisionOctonionReal` (the Cayley–Dickson double of `ℍ[ℝ]`) has dimension `14`
+(Baez, *The Octonions*, arXiv v4, §4.1, p. 36, computes `14` for the automorphism group of the
+octonions). -/
 theorem finrank_derivationLieAlgebra_divisionOctonionReal :
     Module.finrank ℝ (TauCeti.derivationLieAlgebra ℝ TauCeti.DivisionOctonionReal) = 14 := sorry
 
@@ -142,7 +128,7 @@ theorem finrank_e₇ (K : Type u) [Field K] [CharZero K] :
     Module.finrank K (LieAlgebra.e₇ K) = 133 := sorry
 
 /-- **The dimension of `E₈`.** Over a field of characteristic zero, Mathlib's Serre-presented
-split `E₈` has dimension `248 = 8 + 240` (Baez, *The Octonions*, §4.6, p. 48). -/
+split `E₈` has dimension `248 = 8 + 240` (Baez, *The Octonions*, arXiv v4, §4.6, p. 49). -/
 theorem finrank_e₈ (K : Type u) [Field K] [CharZero K] :
     Module.finrank K (LieAlgebra.e₈ K) = 248 := sorry
 
@@ -152,8 +138,9 @@ theorem finrank_e₈ (K : Type u) [Field K] [CharZero K] :
 partitions `λ`, `μ`, `ν` with at most `N` rows, the multiplicity of the irreducible
 `glIrreducible N ν` in `glIrreducible N λ ⊗ glIrreducible N μ`, measured as the dimension of the
 space of `gl_N`-module maps, is the number of Littlewood–Richardson tableaux of skew shape `ν/λ`
-and content `μ` (Stembridge, *A concise proof of the Littlewood–Richardson rule*, second
-Corollary, p. 3, for the Schur-function identity). -/
+and content `μ` (Stembridge, *A concise proof of the Littlewood–Richardson rule*, Corollary on
+p. 3 at `ν = ∅`, a sum over the `λ`-Yamanouchi tableaux of shape `μ`, which
+`TauCeti.lrTableauEquivYamanouchi` identifies with these Littlewood–Richardson tableaux). -/
 theorem finrank_lieModuleHom_glIrreducible_tmul_eq_card_lrTableau (K : Type u) [Field K]
     [CharZero K] (N : ℕ) (lam mu nu : YoungDiagram)
     (hlam : lam.colLen 0 ≤ N) (hmu : mu.colLen 0 ≤ N) (hnu : nu.colLen 0 ≤ N) :
@@ -169,7 +156,7 @@ theorem finrank_lieModuleHom_glIrreducible_tmul_eq_card_lrTableau (K : Type u) [
 Archimedean ordered field, the map from the stabilizer `Ω` of the fundamental alcove in the
 extended affine Weyl group to the coweight lattice modulo the coroot lattice, taking an element
 to the class of its translation part, is bijective (Garnier, *Fundamental domains for extended
-affine Weyl groups*, Prop.-Def. 2.2.1, p. 12). -/
+affine Weyl groups*, §2.2, p. 7, and Prop.-Def. 2.2.1, p. 8). -/
 theorem fundamentalAlcoveStabilizerToQuotient_bijective {ι R M N : Type*} [Field R]
     [LinearOrder R] [IsStrictOrderedRing R] [Archimedean R] [AddCommGroup M] [Module R M]
     [AddCommGroup N] [Module R N] (P : RootPairing ι R M N) (b : P.Base) [Finite ι] [Nonempty ι]
@@ -178,10 +165,10 @@ theorem fundamentalAlcoveStabilizerToQuotient_bijective {ι R M N : Type*} [Fiel
 
 /-- **`Aut(affine Cartan matrix) = Ω ⋊ Aut(finite Cartan matrix)`.** For a finite reduced
 irreducible crystallographic root pairing over an Archimedean ordered field, every permutation
-of the affine nodes preserving the affine Cartan matrix is, uniquely, the permutation of the
-alcove walls induced by an element of `Ω` followed by a symmetry of the affine Cartan matrix
-fixing the affine node (Garnier, *Fundamental domains for extended affine Weyl groups*,
-Cor. 2.2.7, p. 14). -/
+of the affine nodes preserving the affine Cartan matrix is, uniquely, a symmetry of the affine
+Cartan matrix fixing the affine node followed by the permutation of the alcove walls induced by an
+element of `Ω`: `σ = π(ω) ∘ τ`, the product of `Equiv.Perm` being composition (Garnier,
+*Fundamental domains for extended affine Weyl groups*, Cor. 2.2.7, p. 10). -/
 theorem existsUnique_fundamentalAlcoveStabilizerToPerm_mul {ι R M N : Type*} [Field R]
     [LinearOrder R] [IsStrictOrderedRing R] [Archimedean R] [AddCommGroup M] [Module R M]
     [AddCommGroup N] [Module R N] {P : RootPairing ι R M N} (b : P.Base) [Finite ι] [Nonempty ι]
