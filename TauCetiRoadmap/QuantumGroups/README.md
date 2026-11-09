@@ -72,8 +72,8 @@ structure. This roadmap owns the Layer 8 statements Tau Ceti does not prove:
 the Biedenharn–Elliott pentagon and dual compatibility of the Clebsch–Gordan
 maps, the pivotal and spherical structure on finite modules with its
 comparison with PivotalSpherical, the group-algebra comparison and the
-representation ring of §8.5, the corollaries of finite complete reducibility
-listed in §8.3, and the SUq(2) comparison of §8.6.
+representation ring of §8.5, the Hom and endomorphism formulas of §8.3, and
+the SUq(2) comparison of §8.6.
 
 Apart from §1.1's classical locally compact example, Layers 1–7 concern compact
 symmetry. General locally compact quantum groups, their unbounded Haar weights and
@@ -325,7 +325,7 @@ The analytic-category and duality interfaces have the following API.
 - At q=1/2, the fundamental quantum-group object has intrinsic dimension 5/2 and Hilbert dimension 2. Its forgotten conjugate solution has norm product 5/2>2; assuming a faithful fiber functor preserves standardness would give a false equality.
 - On ℂ², J(z₁,z₂)=(−conj z₂,conj z₁) satisfies J²=−I; ordinary conjugation squares to I. Both are antiunitary, so antiunitarity alone does not choose the sign.
 
-*Needs:* HilbertModules H2 for the module-category example; Mathlib `CategoryTheory.Category`, `CategoryTheory.Linear`, `CategoryTheory.MonoidalCategory`, `CategoryTheory.Karoubi` and native rigid pairings; PivotalSpherical Layers 0–2,7. Longo–Roberts §§2–3 and Appendix; signed equations also follow by transporting the two conjugate equations.
+*Needs:* HilbertModules H2 for the module-category example; Mathlib `CategoryTheory.Category`, `CategoryTheory.Linear`, `CategoryTheory.MonoidalCategory`, `CategoryTheory.Idempotents.Karoubi` and native rigid pairings; PivotalSpherical Layers 0–2,7. Longo–Roberts §§2–3 and Appendix; signed equations also follow by transporting the two conjugate equations.
 
 ### 0.3 The unitary Temperley–Lieb category
 
@@ -1051,7 +1051,7 @@ The defining objects have the following API.
 - At q=1, a=0,c=1 gives u=[[0,−1],[1,0]], whose adjoint product is I₂; q=1/2 with this same tuple gives aa*+q²c*c=1/4≠1.
 - At q=1/2, S(c)=−c/2 and S(c*)=−2c*, so S²(c)=c/4; replacing both factors by −1 would incorrectly make S²(c)=c.
 
-*Needs:* Layers 1,3,4; CStarAlgebras C5.1 for minimal tensor products of star homomorphisms; VonNeumannAlgebras Layer 0 for representations and state separation. Timmermann Chapter 6 §2; Bédos–Murphy–Tuset §2, pp.12–14.
+*Needs:* Layers 1,3,4; CStarAlgebras C5.1 for minimal tensor products of star homomorphisms; VonNeumannAlgebras Layer 0 for representations and state separation. Timmermann Chapter 6 §2; Bédos–Murphy–Tuset §2, pp.13–14.
 
 ### 5.2 Free orthogonal quantum groups
 
@@ -1222,7 +1222,7 @@ The defining objects have the following API.
 - For the finite absorbing monoid {1,0}, 0·1=0·0 with 1≠0, so it fails cancellation and cannot pass group reconstruction.
 - For C(C₂), the recovered identity is e, the inverse fixes both elements, and Haar gives each point mass 1/2; both points lie in its support.
 
-*Needs:* §§6.1–6.2; Mathlib `gelfandStarTransform`, `gelfandStarTransform_naturality`, `WeakDual.CharacterSpace.compContinuousMap` and `WeakDual.CharacterSpace.homeoEval` for Gelfand duality; CStarAlgebras C5.2 for `C(X)⊗min C(X)≅C(X×X)`; Layer 1 cancellation. Malacarne Theorem 4.1 for fiber reconstruction; the compact-semigroup step is the idempotent/cancellation argument stated above.
+*Needs:* §§6.1–6.2; §4.2 for the universal and reduced completions of the reconstructed core and §4.3 for A_u=A_r=C(G); Mathlib `gelfandStarTransform`, `gelfandStarTransform_naturality`, `WeakDual.CharacterSpace.compContinuousMap` and `WeakDual.CharacterSpace.homeoEval` for Gelfand duality; CStarAlgebras C5.2 for `C(X)⊗min C(X)≅C(X×X)`; Layer 1 cancellation. Malacarne Theorem 4.1 for fiber reconstruction; the compact-semigroup step is the idempotent/cancellation argument stated above.
 
 ### Examples
 
@@ -1514,11 +1514,24 @@ on W. The multiplicity of L_m^ε in a finite-dimensional V is
 dim Hom_U(L_m^ε,V), read off the formal character
 (`TauCeti.UqSl2.finrank_linearMap_ladderModule_eq_formalCharacter_coeff_sub`).
 
-Derive from complete reducibility and the classification, at generic q, that K
-acts diagonalizably on every finite-dimensional module with eigenvalues ±q^k,
-that every short exact sequence of finite-dimensional modules splits, and the
-Hom formula dim Hom_U(V,W)=Σ_(m,ε) a_(m,ε) b_(m,ε) for V≅⊕(L_m^ε)^(a_(m,ε)) and
-W≅⊕(L_m^ε)^(b_(m,ε)), with End_U(V)≅Π_(m,ε) M_(a_(m,ε))(ℂ).
+Two consequences at generic q are already in the pinned libraries. K acts
+diagonalizably on every finite-dimensional module with eigenvalues ±q^k, k∈ℤ:
+a finite-dimensional module is locally finite by the instance
+`TauCeti.IsLocallyFiniteModule.of_finite`, and the reverse direction of
+`TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`
+(the type-1 theory recalled in §8.4) makes it of signed type 1. Every short
+exact sequence of finite-dimensional modules splits: its middle term is
+semisimple by `TauCeti.UqSl2.isSemisimpleModule_of_finiteDimensional`, and
+Mathlib's `IsSemisimpleModule.extension_property` and
+`IsSemisimpleModule.lifting_property` give the retraction and the section.
+Derive the Hom formula dim Hom_U(V,W)=Σ_(m,ε) a_(m,ε) b_(m,ε) for
+V≅⊕(L_m^ε)^(a_(m,ε)) and W≅⊕(L_m^ε)^(b_(m,ε)), with
+End_U(V)≅Π_(m,ε) M_(a_(m,ε))(ℂ). A route is Mathlib's
+`IsSemisimpleModule.exists_end_algEquiv_pi_matrix_end`, which writes End_U(V)
+as a product of matrix algebras over the endomorphism rings of the simple
+summands, with End_U(L_m^ε)=ℂ by Schur's lemma over the algebraically closed
+field ℂ and the matrix sizes identified with the multiplicities
+dim Hom_U(L_m^ε,V) above.
 
 The defining objects have the following API.
 
@@ -1530,8 +1543,9 @@ The defining objects have the following API.
 - At q=1/2, Ω on L₀⁺,L₁⁺,L₂⁺ is respectively 10/9,17/9,65/18; on the corresponding negative simples these values are negated, and all six are distinct.
 - On L₁⁺ at q=1/2, FE=diag(0,1), while the toral term (qK+q⁻¹K⁻¹)/(q−q⁻¹)² is diag(17/9,8/9); their sum is (17/9)I₂. In the other form EF=diag(1,0) and (q⁻¹K+qK⁻¹)/(q−q⁻¹)²=diag(8/9,17/9), with the same sum; mixing the two orderings, FE plus the second toral term, gives diag(8/9,26/9), which is not scalar.
 - L₀⁻⊕L₁⁺ has dimension 1+2=3 and Casimir blocks −10/9,17/9, so dim Hom_U(L₁⁺,L₀⁻⊕L₁⁺)=1 and End_U(L₀⁻⊕L₁⁺)≅ℂ×ℂ. The zero module is also semisimple. In the algebra itself Ω has PBW leading term FE, so Ω² has leading term F²E² with coefficient 1, distinct from degree-one polynomials.
+- The generic hypothesis is needed: at q=1 the totalized algebra ℂ[E,F,K,K⁻¹] acts on ℂ² by E=F=0 and K=[[1,1],[0,1]]. This K has the single eigenvalue 1 with a one-dimensional eigenspace ℂe₁, so it is not diagonalizable, and the submodule ℂe₁ has no invariant complement, so 0→ℂe₁→ℂ²→ℂ→0 does not split.
 
-*Needs:* §§8.1–8.2; Tau Ceti `QuantumGroups/UqSl2/{Center,CompleteReducibility,Character}` and `QuantumGroups/UqSl2/Casimir/`; Mathlib polynomial evaluation, IsSemisimpleModule and primary decomposition. Virelizier Theorem 3.13 and Corollary 3.14, p.13, give the type-1 splitting.
+*Needs:* §§8.1–8.2; Tau Ceti `QuantumGroups/UqSl2/{Center,CompleteReducibility,Character,TypeOne}`, `QuantumGroups/UqSl2/Casimir/` and `RingTheory/Finiteness/LocallyFinite.lean`; Mathlib polynomial evaluation, IsSemisimpleModule with its extension and lifting properties, the Wedderburn–Artin description of the endomorphism algebra of a finite semisimple module, and primary decomposition. Virelizier Theorem 3.13 and Corollary 3.14, p.13, give the type-1 splitting.
 
 ### 8.4 Arbitrary local finiteness and the type-1 distinction
 
