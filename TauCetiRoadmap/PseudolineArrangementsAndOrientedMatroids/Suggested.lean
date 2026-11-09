@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.GroupTheory.Coxeter.Basic
 public import TauCeti.GroupTheory.Coxeter.Geometric
 
 /-!
@@ -55,7 +56,7 @@ Headlines stated here (README target, Lean name):
   `exists_monotoneArrangement_nonPappus` (on `pappusPoints`, `nonPappusFun`).
 * 6.4, `isRealizable_real_of_natCard_le_eight`, `isRealizable_rat_of_natCard_le_eight`.
 * 7.1, `stringCoxeterMatrix`, `cartographicGroup` (definitions, with
-  `stringCoxeterMatrix_of_far` and `commute_simple_of_eq_two`).
+  `stringCoxeterMatrix_of_far`).
 * 7.2, `GMap.exists_monoidHom_stringCoxeterMatrix_iff` (on `GMap.isLiftable_adj`,
   `GMap.monodromyHom`, `GMap.ofMonodromyHom`).
 * 7.3, `GMap.surjective_of_map_adj`, `GMap.eq_of_mem_aut_of_apply_eq`, `GMap.natCard_aut_le` (on
@@ -73,7 +74,7 @@ Headlines stated here (README target, Lean name):
   `hemiW₀`, `hemiIcosahedronGMap`, `coxeterGMap`, `icosahedronGMap`).
 * 9.6, `card_torusGroup`, `cellNumbers_torusGMap` (on `torusInvolution`, `torusGroup`,
   `torusInvolution_involutive`, `torusGMap`).
-* 10.1–10.2, `geometricRepresentationFun_cartographic_injective` (on
+* 10.1–10.2, `geometricRepresentationFun_stringCoxeterMatrix_injective` (on
   `geometricRepresentationFun`).
 
 Not stated here, with the carrier each lacks:
@@ -681,15 +682,6 @@ theorem stringCoxeterMatrix_of_far {n : ℕ} {p : Fin n → ℕ} {hp : ∀ i, p 
 abbrev cartographicGroup (n : ℕ) : Type :=
   (stringCoxeterMatrix n 0 (fun _ => by simp)).Group
 
-/-- Two simple reflections whose Coxeter entry is `2` commute. -/
-theorem commute_simple_of_eq_two {B W : Type*} [Group W] {M : CoxeterMatrix B}
-    (cs : CoxeterSystem M W) {i j : B} (h : M i j = 2) : Commute (cs.simple i) (cs.simple j) := by
-  have h2 := cs.simple_mul_simple_pow i j
-  rw [h, sq] at h2
-  have := eq_inv_of_mul_eq_one_left h2
-  rw [mul_inv_rev, cs.inv_simple, cs.inv_simple] at this
-  exact this
-
 namespace GMap
 
 variable {n : ℕ} {D D' : Type*} (G : GMap n D)
@@ -720,7 +712,8 @@ def ofMonodromyHom (φ : cartographicGroup n →* Perm D) : GMap n D where
   involutive i d := by
     rw [← Perm.mul_apply, ← map_mul, CoxeterSystem.simple_mul_simple_self, map_one,
       Perm.one_apply]
-  commute_of_far i j h := (commute_simple_of_eq_two _ (stringCoxeterMatrix_of_far h)).map φ
+  commute_of_far i j h :=
+    (CoxeterSystem.commute_simple_of_eq_two _ (stringCoxeterMatrix_of_far h)).map φ
 
 /-- The monodromy homomorphism factors through `(stringCoxeterMatrix n p hp).Group` iff
 `(adj i * adj (i + 1)) ^ p i = 1` for every `i` (Layer 7.2). -/
@@ -790,9 +783,9 @@ variable {n : ℕ} {D : Type*} (G : GMap n D)
 /-- Regular: connected, with a monodromy group acting freely (Layer 9.1). -/
 def IsRegular : Prop := G.IsConnected ∧ ∀ g ∈ G.monodromy, ∀ d, g d = d → g = 1
 
-/-- For a finite nonempty connected flag system, regular iff the automorphism group acts
-transitively (Layer 9.1). -/
-theorem isRegular_iff_isPretransitive_aut [Finite D] [Nonempty D] (hG : G.IsConnected) :
+/-- For a connected flag system, regular iff the automorphism group acts transitively
+(Layer 9.1). -/
+theorem isRegular_iff_isPretransitive_aut (hG : G.IsConnected) :
     G.IsRegular ↔ MulAction.IsPretransitive G.aut D := sorry
 
 /-- For a finite nonempty connected flag system, regular iff it has `Nat.card D` automorphisms
@@ -863,7 +856,7 @@ def coxeterGMap {n : ℕ} {W : Type*} [Group W] {M : CoxeterMatrix (Fin (n + 1))
     (cs : CoxeterSystem M W) (hM : ∀ i j : Fin (n + 1), (i : ℕ) + 2 ≤ j → M i j = 2) :
     GMap n W :=
   GMap.ofGroup cs.simple cs.simple_mul_simple_self
-    (fun i j h => commute_simple_of_eq_two cs (hM i j h))
+    (fun i j h => cs.commute_simple_of_eq_two (hM i j h))
 
 /-- The icosahedral map, of type `{3,5}`. -/
 def icosahedronGMap : GMap2 CoxeterMatrix.H₃.Group :=
@@ -889,7 +882,7 @@ def hemiIcosahedronGMap :
   GMap.ofGroup (fun i => QuotientGroup.mk (CoxeterMatrix.H₃.toCoxeterSystem.simple i))
     (fun i => by
       rw [← QuotientGroup.mk_mul, CoxeterSystem.simple_mul_simple_self, QuotientGroup.mk_one])
-    (fun i j h => (commute_simple_of_eq_two _
+    (fun i j h => (CoxeterSystem.commute_simple_of_eq_two _
       (by fin_cases i <;> fin_cases j <;> first | (simp at h; done) | rfl)).map
         (QuotientGroup.mk' _))
 
@@ -952,11 +945,12 @@ def geometricRepresentationFun {B W : Type*} [Finite B] [Group W]
   (MonoidHom.ofClass
     ((Finsupp.linearEquivFunOnFinite ℝ ℝ B).conjAlgEquiv ℝ)).comp cs.geometricRepresentation
 
-/-- The cartographic group acts faithfully on `ℝ ^ (n + 1)` by reflections (Layer 10.2), from the
-faithfulness of the geometric representation (RootSystems §1.3, `geometric_faithfulness`). -/
-theorem geometricRepresentationFun_cartographic_injective (n : ℕ) :
-    Function.Injective
-      (geometricRepresentationFun (stringCoxeterMatrix n 0 (fun _ => by simp)).toCoxeterSystem) :=
+/-- Every string Coxeter group, the cartographic group (`p = 0`) included, acts faithfully on
+`ℝ ^ (n + 1)` by reflections (Layer 10.2), from the faithfulness of the geometric representation
+(RootSystems §1.3, `geometric_faithfulness`). -/
+theorem geometricRepresentationFun_stringCoxeterMatrix_injective (n : ℕ) (p : Fin n → ℕ)
+    (hp : ∀ i, p i ≠ 1) :
+    Function.Injective (geometricRepresentationFun (stringCoxeterMatrix n p hp).toCoxeterSystem) :=
   sorry
 
 end
