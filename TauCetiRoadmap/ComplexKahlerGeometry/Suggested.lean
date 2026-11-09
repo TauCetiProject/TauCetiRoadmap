@@ -5,6 +5,7 @@ public import TauCeti.Geometry.Manifold.Complex.AlmostComplexStructure
 public import TauCeti.Geometry.Manifold.Complex.Orientation
 public import TauCeti.Geometry.Manifold.Complex.StructureSheaf.Domain
 public import TauCeti.Geometry.Manifold.DeRham.Basic
+public import TauCeti.Geometry.Manifold.DifferentialForm.Closed
 public import TauCeti.Geometry.Manifold.DifferentialForm.AlmostComplexType
 public import TauCeti.Geometry.Manifold.DifferentialForm.Dolbeault.Basic
 public import TauCeti.Geometry.Manifold.DifferentialForm.MapCoeff
@@ -14,44 +15,53 @@ public import TauCeti.Geometry.Manifold.DifferentialForm.Wedge.Smooth.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.Codifferential
 public import TauCeti.Geometry.Symplectic.Manifold.JHolomorphic
 public import TauCeti.Geometry.Symplectic.Manifold.Nijenhuis
+public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 
 /-!
 # Complex manifolds, Dolbeault theory and Kähler geometry: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
-definitions needed to state them (a polydisc as an open submanifold, Dolbeault and complex de
-Rham cohomology as quotients of pinned submodules, the Kähler condition on a real two-form and
-the iterated Lefschetz wedge). Every carrier is pinned: `TauCeti.SmoothForm`, `mextDerivₗ`,
-`SmoothAlmostComplexStructure.ofComplexManifold`, `delBar`, `typeProjection`, `nijenhuis`,
-`wedgeWith`, `smoothSheafCommRing`, `IsManifold.maximalAtlas`, `TauCeti.closedForms`,
-`TauCeti.deRhamCohomology` and `TauCeti.SmoothForm.codifferential`.
+definitions needed to state them (a polydisc as an open submanifold, an analytic subset of an
+open set of `ℂⁿ` and its singular locus, Dolbeault and complex de Rham cohomology as quotients of
+pinned submodules, the Kähler condition on a real two-form and the iterated Lefschetz wedge).
+Every carrier is pinned: `TauCeti.SmoothForm`, `mextDerivₗ`, `TauCeti.SmoothForm.IsClosed`,
+`TauCeti.SmoothTwoForm.Compatible`, `SmoothAlmostComplexStructure.ofComplexManifold`, `delBar`,
+`typeProjection`, `nijenhuis`, `wedgeWith`, `smoothSheafCommRing`, `IsManifold.maximalAtlas`,
+`TauCeti.closedForms`, `TauCeti.deRhamCohomology` and `TauCeti.SmoothForm.codifferential`.
 
 Stated here: the Newlander–Nirenberg theorem in its local form (Layer 1); the
 Dolbeault–Grothendieck lemma on a polydisc (Layer 2); the Hartogs extension theorem on an open
 set of `ℂⁿ`, the Weierstrass preparation theorem with its uniqueness, the regularity, Noetherian
-property and factoriality of the ring of holomorphic germs, Rückert's Nullstellensatz and Oka's
-coherence theorem in its primitive relation form (Layer 3); the Hodge theorem for real de Rham
-cohomology of a compact oriented Riemannian manifold (Layer 5); finiteness of Dolbeault
-cohomology and Serre duality with trivial coefficients on a compact complex manifold (Layer 5);
-and, on a compact Kähler manifold, the Hodge decomposition in its dimension form, Hodge
-symmetry, the evenness of odd Betti numbers and the Hard Lefschetz theorem (Layer 6).
+property and factoriality of the ring of holomorphic germs, Rückert's Nullstellensatz, Oka's
+coherence theorem in its primitive relation form, Cartan's coherence theorem for the ideal of an
+analytic subset in its primitive local form, and the analyticity of the singular locus (Layer
+3); the Hodge theorem for real de Rham cohomology of a compact oriented Riemannian manifold
+(Layer 5); finiteness of Dolbeault cohomology and Serre duality with trivial coefficients on a
+compact complex manifold (Layer 5); on a compact Kähler manifold, the Hodge decomposition in its
+dimension form, Hodge symmetry, the evenness of odd Betti numbers and the Hard Lefschetz theorem
+(Layer 6); and the identity `b₁ = 2h^(1,0)` on a compact Riemann surface (Layer 7).
 
 Not statable at the pins, and therefore not stated: Serre duality and the Hodge theorem with
 coefficients in a holomorphic vector bundle, Koszul–Malgrange and the Chern connection, which
-lack the holomorphic-bundle mixin of ComplexManifolds Milestone 7; the Kähler identities and the
-Hodge–Riemann bilinear relations, which lack the complex-linear Hodge star on `(p,q)`-forms (the
-pin has `TauCeti.SmoothForm.hodgeStar` for real coefficients only) and the complex-linear
-integral of top forms; the Dolbeault theorem `H^q(M, Ω^p) ≃ H^(p,q)`, which lacks the sheaf of
-holomorphic `p`-forms and its derived-functor cohomology; the projective computations of
-Layer 7, because the pinned complex-manifold structure on `Projectivization ℂ (Fin (n+1) → ℂ)`
-(`Projectivization.instIsManifold`) lives in `TauCeti.Geometry.Manifold.Instances.Projectivization`,
-whose import `TauCeti.Topology.Algebra.Projectivization` declares a second
+lack the holomorphic-bundle mixin of ComplexManifolds Milestone 7; the flat-bundle/local-system
+equivalences of Layer 4, which lack that mixin and a category of finite-rank bundles with flat
+connections; the Kähler identities and the Hodge–Riemann bilinear relations, which lack the
+complex-linear Hodge star on `(p,q)`-forms (the pin has `TauCeti.SmoothForm.hodgeStar` for real
+coefficients only) and the complex-linear integral of top forms; the Dolbeault theorem
+`H^q(M, Ω^p) ≃ H^(p,q)`, which lacks the sheaf of holomorphic `p`-forms and its derived-functor
+cohomology; the projective computations of Layer 7, because the pinned complex-manifold
+structure on `Projectivization ℂ (Fin (n+1) → ℂ)` (`Projectivization.instIsManifold`) lives in
+`TauCeti.Geometry.Manifold.Instances.Projectivization`, whose import
+`TauCeti.Topology.Algebra.Projectivization` declares a second
 `Projectivization.instTopologicalSpace` next to Mathlib's and cannot be imported beside
-`import Mathlib`; the torus, Hopf and Iwasawa computations of Layers 7–8, whose carriers (complex
-tori and holomorphic quotients) are targets of ComplexTori, ComplexManifolds and Layer 7; and
-the Frölicher spectral sequence, which lacks the bicomplex spectral-sequence carrier of
-AlgebraicTopology Stage 5.0.
+`import Mathlib` (7.1 owns the move of that structure onto Mathlib's instance); the torus, Hopf
+and Iwasawa computations of Layers 7–8, whose carriers (complex tori and holomorphic quotients)
+are targets of ComplexTori, ComplexManifolds and Layer 7; and the Frölicher spectral sequence:
+the pin has the spectral sequence of a first-quadrant homological bicomplex,
+`HomologicalComplex₂.columnFiltrationSpectralSequence` with its first-page and abutment
+isomorphisms, but not the Dolbeault double complex of type forms as a `HomologicalComplex₂`,
+which 8.1 constructs.
 
 The holomorphic-stalk statements take the manifold in `Type` because `smoothSheafCommRing`
 requires its base and its coefficient ring in one universe. The real-analytic structure of a
@@ -103,7 +113,7 @@ def polydisc (r : Fin n → ℝ) : TopologicalSpace.Opens (Fin n → ℂ) where
   is_open' := isOpen_set_pi Set.finite_univ fun _ _ ↦ Metric.isOpen_ball
 
 /-- **The Dolbeault–Grothendieck lemma on a polydisc** (Demailly, Chapter I, (3.29); the whole-
-polydisc form is K2's parameter-dependent exhaustion argument). A smooth `∂̄`-closed form of
+polydisc form is 2.3's parameter-dependent exhaustion argument). A smooth `∂̄`-closed form of
 type `(p, q+1)` on an open polydisc of `ℂⁿ` is `∂̄` of a smooth form of type `(p, q)` on the
 whole polydisc. For `n = 0` every form of positive degree vanishes and the statement is
 trivial. -/
@@ -166,7 +176,7 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimension
   {M : Type} [TopologicalSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℂ, E) ∞ M]
 
 /-- **The ring of holomorphic germs is a regular local ring of dimension `n`** (Demailly,
-Chapter II, (2.7) for the Noetherian property; K3.HolomorphicStalk). The stalk at `x` of
+Chapter II, (2.7) for the Noetherian property; 3.2 and 3.4). The stalk at `x` of
 Mathlib's sheaf of complex-smooth, that is holomorphic, functions on a complex manifold of
 dimension `n = dim_ℂ E` is a Noetherian local ring (`smoothSheafCommRing.instLocalRing_stalk`
 gives locality at the pin) whose maximal ideal is generated by the `n` coordinate germs, so its
@@ -217,6 +227,59 @@ theorem oka_coherence {n k : ℕ} {U : Set (Fin n → ℂ)} (hU : IsOpen U)
             ∀ i, h i =ᶠ[𝓝 y] fun z ↦ ∑ j, c j z * g j i z := by
   sorry
 
+/-- A subset `A` of an open set `U ⊆ ℂⁿ` is an **analytic subset** of `U` (Demailly, Chapter II,
+(4.1)) when `A ⊆ U` and every point of `U` has an open neighbourhood `V ⊆ U` on which `A` is the
+common zero set of finitely many holomorphic functions. Quantifying over all points of `U`, not
+only those of `A`, makes `A` closed in `U`; the condition forces `U` to be open. The empty set
+(one equation `1`) and `U` itself (no equation) are analytic in `U`; the closed unit disc is not
+analytic in `ℂ`, and `{1/k : k ≥ 1}` is analytic in `ℂ ∖ {0}` but its closure is not analytic in
+`ℂ`. -/
+def IsAnalyticSubset {n : ℕ} (U A : Set (Fin n → ℂ)) : Prop :=
+  A ⊆ U ∧ ∀ x ∈ U, ∃ V : Set (Fin n → ℂ), IsOpen V ∧ x ∈ V ∧ V ⊆ U ∧
+    ∃ (k : ℕ) (g : Fin k → (Fin n → ℂ) → ℂ), (∀ i, DifferentiableOn ℂ (g i) V) ∧
+      A ∩ V = {z ∈ V | ∀ i, g i z = 0}
+
+/-- **Cartan's coherence theorem** (Demailly, Chapter II, (4.29)), in its primitive local form:
+the ideal of germs vanishing on an analytic subset `A` of an open set `U ⊆ ℂⁿ` is locally
+finitely generated by sections. For every `x ∈ U` there are a neighbourhood `V ⊆ U` of `x` and
+finitely many holomorphic functions `g₁, …, g_N` on `V` vanishing on `A ∩ V` such that, at every
+point `y` of `V`, every analytic germ `h` at `y` vanishing on `A` near `y` is `Σ_j c_j g_j` near
+`y` for analytic germs `c_j`. With Oka's theorem this is the coherence of the ideal sheaf of `A`;
+by Rückert's Nullstellensatz the ideal at `y` is the radical of the ideal of any local
+equations. For `A = U`, `N = 0` works; for `A = ∅`, `N = 1` and `g₁ = 1`. Instance: `A = {0} ⊂ ℂ`,
+the zero set of `z²`, with `N = 1` and `g₁ = z`, not `z²`. -/
+theorem cartan_coherence {n : ℕ} {U A : Set (Fin n → ℂ)} (hA : IsAnalyticSubset U A)
+    {x : Fin n → ℂ} (hx : x ∈ U) :
+    ∃ V : Set (Fin n → ℂ), IsOpen V ∧ x ∈ V ∧ V ⊆ U ∧
+      ∃ (N : ℕ) (g : Fin N → (Fin n → ℂ) → ℂ),
+        (∀ j, DifferentiableOn ℂ (g j) V) ∧ (∀ j, ∀ z ∈ A ∩ V, g j z = 0) ∧
+        ∀ y ∈ V, ∀ h : (Fin n → ℂ) → ℂ, AnalyticAt ℂ h y →
+          (∀ᶠ z in 𝓝 y, z ∈ A → h z = 0) →
+          ∃ c : Fin N → (Fin n → ℂ) → ℂ, (∀ j, AnalyticAt ℂ (c j) y) ∧
+            h =ᶠ[𝓝 y] fun z ↦ ∑ j, c j z * g j z := by
+  sorry
+
+/-- The **singular locus** of a subset `A ⊆ ℂⁿ` (Demailly, Chapter II, (4.23)): the points
+`x ∈ A` that are not regular, a point being regular when near it `A` is a complex submanifold,
+that is, when there are an open `V ∋ x` and a map `u : ℂⁿ → ℂᵐ` holomorphic on `V` with
+surjective complex derivative at `x` and `A ∩ V = {z ∈ V | u z = 0}`. Interior points of `A` are
+regular (`m = 0`). The cusp `{z² = w³}` and the cross `{z₁ z₂ = 0}` have singular locus `{0}`;
+`{0} ⊂ ℂ`, the zero set of `z²`, has empty singular locus, the locus depending on the set and not
+on a choice of equations. -/
+def singularLocus {n : ℕ} (A : Set (Fin n → ℂ)) : Set (Fin n → ℂ) :=
+  {x ∈ A | ¬ ∃ V : Set (Fin n → ℂ), IsOpen V ∧ x ∈ V ∧
+    ∃ (m : ℕ) (u : (Fin n → ℂ) → Fin m → ℂ), DifferentiableOn ℂ u V ∧
+      Function.Surjective (fderiv ℂ u x) ∧ A ∩ V = {z ∈ V | u z = 0}}
+
+/-- **The singular locus of an analytic subset is analytic** (Demailly, Chapter II, (4.31)), in
+its local form on an open set `U ⊆ ℂⁿ`: if `A` is an analytic subset of `U`, so is
+`singularLocus A`. The route uses Cartan's theorem for local generators of the ideal of each
+irreducible local component, the Jacobian minors of those generators and the intersections of
+distinct components. -/
+theorem isAnalyticSubset_singularLocus {n : ℕ} {U A : Set (Fin n → ℂ)}
+    (hA : IsAnalyticSubset U A) : IsAnalyticSubset U (singularLocus A) := by
+  sorry
+
 end LocalAnalytic
 
 /-! ## Layer 5: compact Hermitian elliptic theory and Serre duality (K5): the real Hodge theorem -/
@@ -231,7 +294,7 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [Topological
   [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
   [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
 
-/-- **The Hodge theorem for real de Rham cohomology** (Wells, Chapter IV, §5; Layer 5.7): on a
+/-- **The Hodge theorem for real de Rham cohomology** (Wells, Chapter IV, §5; 5.7): on a
 compact oriented boundaryless Riemannian manifold of dimension `m = k + 1 + l`, every de Rham
 class of degree `k + 1` has exactly one representative that is closed and coclosed for the pinned
 codifferential `d* = (−1)^(m(k+2)+1) ⋆d⋆`, that is, exactly one harmonic representative. In
@@ -276,7 +339,7 @@ abbrev DolbeaultCohomology (p q : ℕ) :=
   ↥((dolbeaultCocycles E M p q).map (dolbeaultCoboundaries E M p q).mkQ)
 
 /-- **The Hodge theorem for Dolbeault cohomology** (Wells, Chapter IV, §§4–5; Demailly, Chapter
-VI, (7.2), the Hodge isomorphism theorem; K5b.1): on a compact complex manifold every Dolbeault
+VI, (7.2), the Hodge isomorphism theorem; 5.10): on a compact complex manifold every Dolbeault
 cohomology group is finite-dimensional, being the space of `∂̄`-harmonic forms of a Hermitian
 metric. -/
 theorem finiteDimensional_dolbeaultCohomology [T2Space M] [CompactSpace M] (p q : ℕ) :
@@ -284,7 +347,7 @@ theorem finiteDimensional_dolbeaultCohomology [T2Space M] [CompactSpace M] (p q 
   sorry
 
 /-- **Serre duality with trivial coefficients** (Demailly, Chapter VI, (7.3); Wells, Chapter IV,
-§5; K5b.1): on a compact complex manifold of dimension `n`, the pairing of `H^(p,q)` with
+§5; 5.10): on a compact complex manifold of dimension `n`, the pairing of `H^(p,q)` with
 `H^(n−p,n−q)` by wedge and integration is perfect, so the two groups have the same dimension. -/
 theorem finrank_dolbeaultCohomology_serre [T2Space M] [CompactSpace M] {p q : ℕ}
     (hp : p ≤ Module.finrank ℂ E) (hq : q ≤ Module.finrank ℂ E) :
@@ -314,23 +377,22 @@ def deRhamCoboundaries : (k : ℕ) → Submodule ℂ (SmoothForm 𝓘(ℝ, E) M 
 
 /-- Complex de Rham cohomology `H^k_dR(M; ℂ)` on the pinned form carrier with complex
 coefficients: closed forms modulo exact forms, realized as the image of the closed forms in the
-quotient of all `k`-forms by the exact ones; a complex vector space (K5a). -/
+quotient of all `k`-forms by the exact ones; a complex vector space (5.6). -/
 abbrev ComplexDeRhamCohomology (k : ℕ) :=
   ↥((deRhamCocycles E M k).map (deRhamCoboundaries E M k).mkQ)
 
-/-- A real smooth two-form `κ` on a complex manifold is a **Kähler form** when it is closed,
-invariant under the complex structure `J = ofComplexManifold E M` in both arguments, and
-`g(v, w) = κ(v, Jw)` is positive definite, which the `J`-invariance makes symmetric. On `ℂ` with
-`κ = dx ∧ dy` and `J = i`, `κ(1, i) = 1 > 0`; on `ℂ²` the closed form
+/-- A real smooth two-form `κ` on a complex manifold is a **Kähler form** when it is closed (the
+pinned `SmoothForm.IsClosed`, `mextDeriv κ = 0`) and compatible with the complex structure
+`J = ofComplexManifold E M` in the pinned sense `SmoothTwoForm.Compatible`: invariant under `J` in
+both arguments and positive on `(v, Jv)` for `v ≠ 0`, so that `g(v, w) = κ(v, Jw)` is a
+Riemannian metric. On `ℂ` with `κ = dx ∧ dy` and `J = i`, `κ(1, i) = 1 > 0`, while `−dx ∧ dy` is
+closed and invariant with `κ(1, i) = −1`; on `ℂ²` the closed form
 `dx₁ ∧ dy₁ + dx₂ ∧ dy₂ + ε dx₁ ∧ dx₂` with `0 < ε < 1` is positive on `(v, Jv)` but not
 `J`-invariant, so the invariance clause is not implied by the other two. -/
 def IsKahlerForm (κ : SmoothForm 𝓘(ℝ, E) M ℝ 2) : Prop :=
-  mextDerivₗ 𝓘(ℝ, E) 2 κ = 0 ∧
-    (∀ (x : M) (v w : TangentSpace 𝓘(ℝ, E) x),
-      κ.1 x ![ofComplexManifold E M x v, ofComplexManifold E M x w] = κ.1 x ![v, w]) ∧
-    ∀ (x : M) (v : TangentSpace 𝓘(ℝ, E) x), v ≠ 0 → 0 < κ.1 x ![v, ofComplexManifold E M x v]
+  κ.IsClosed ∧ SmoothTwoForm.Compatible κ (ofComplexManifold E M)
 
-/-- **The Hodge decomposition, in its dimension form** (Demailly, Chapter VI, (8.5); K6.1): on a
+/-- **The Hodge decomposition, in its dimension form** (Demailly, Chapter VI, (8.5); 6.2): on a
 compact Kähler manifold, the `k`-th complex Betti number is the sum of the Hodge numbers
 `h^(p,k−p)` over `0 ≤ p ≤ k`. -/
 theorem finrank_complexDeRhamCohomology_eq_sum_dolbeault [T2Space M] [CompactSpace M]
@@ -339,7 +401,7 @@ theorem finrank_complexDeRhamCohomology_eq_sum_dolbeault [T2Space M] [CompactSpa
       ∑ p ∈ Finset.range (k + 1), Module.finrank ℂ (DolbeaultCohomology E M p (k - p)) := by
   sorry
 
-/-- **Hodge symmetry** (Demailly, Chapter VI, (8.5); K6.1): on a compact Kähler manifold,
+/-- **Hodge symmetry** (Demailly, Chapter VI, (8.5); 6.2): on a compact Kähler manifold,
 complex conjugation of harmonic forms gives `h^(p,q) = h^(q,p)`. -/
 theorem finrank_dolbeaultCohomology_symm [T2Space M] [CompactSpace M]
     {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2} (hω : IsKahlerForm E M κ) (p q : ℕ) :
@@ -348,7 +410,7 @@ theorem finrank_dolbeaultCohomology_symm [T2Space M] [CompactSpace M]
   sorry
 
 /-- **Odd Betti numbers of a compact Kähler manifold are even** (Demailly, Chapter VI, (8.12);
-K6.1), from Hodge decomposition and Hodge symmetry: `b_(2k+1) = 2 Σ_(p ≤ k) h^(p,2k+1−p)`. -/
+6.2), from Hodge decomposition and Hodge symmetry: `b_(2k+1) = 2 Σ_(p ≤ k) h^(p,2k+1−p)`. -/
 theorem even_finrank_complexDeRhamCohomology_odd [T2Space M] [CompactSpace M]
     {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2} (hω : IsKahlerForm E M κ) (k : ℕ) :
     Even (Module.finrank ℂ (ComplexDeRhamCohomology E M (2 * k + 1))) := by
@@ -362,7 +424,7 @@ def lefschetzPow (κ : SmoothForm 𝓘(ℝ, E) M ℝ 2) {k : ℕ} :
   | j + 1, α =>
     SmoothForm.wedgeWith (ContinuousLinearMap.lsmul ℝ ℝ).flip (lefschetzPow κ j α) κ
 
-/-- **The Hard Lefschetz theorem** (Demailly, Chapter VI, (8.17); K6.1): on a compact Kähler
+/-- **The Hard Lefschetz theorem** (Demailly, Chapter VI, (8.17); 6.2): on a compact Kähler
 manifold of dimension `n` with Kähler form `κ`, for `k ≤ n` the map `α ↦ α ∧ κ^(n−k)` induces an
 isomorphism `H^k_dR(M; ℂ) → H^(2n−k)_dR(M; ℂ)`; stated on forms, it sends a closed form to an exact
 one only when the form is exact, and every closed form of degree `2n − k` is cohomologous to the
@@ -380,5 +442,20 @@ theorem hard_lefschetz [T2Space M] [CompactSpace M] {κ : SmoothForm 𝓘(ℝ, E
   sorry
 
 end Cohomology
+
+/-! ## Layer 7: projective, torus, Riemann-surface and Hopf examples (K7) -/
+
+/-- **The genus dictionary of a compact Riemann surface** (Demailly, Chapter VI, §10.1,
+(10.1)–(10.2); 7.3): on a compact Riemann surface `X` the first complex Betti number is twice the
+geometric genus `h^(1,0)`. Every Hermitian metric on a curve is Kähler (6.1), so Hodge
+decomposition and Hodge symmetry (6.2) give `b₁ = h^(1,0) + h^(0,1) = 2h^(1,0)`. Connectedness is
+not needed: two disjoint elliptic curves give `4 = 2 · 2`, an elliptic curve `2 = 2 · 1` and
+`ℂP¹` gives `0 = 2 · 0`. -/
+theorem finrank_complexDeRhamCohomology_one_riemannSurface
+    {X : Type*} [TopologicalSpace X] [ChartedSpace ℂ X] [IsManifold 𝓘(ℂ, ℂ) ∞ X]
+    [T2Space X] [CompactSpace X] :
+    Module.finrank ℂ (ComplexDeRhamCohomology ℂ X 1) =
+      2 * Module.finrank ℂ (DolbeaultCohomology ℂ X 1 0) := by
+  sorry
 
 end TauCetiRoadmap.ComplexKahlerGeometry
