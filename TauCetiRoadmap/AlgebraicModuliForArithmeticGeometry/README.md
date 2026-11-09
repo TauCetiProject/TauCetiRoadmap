@@ -126,7 +126,9 @@ Weil restriction over an affine base (RG2.0a.1). AdicSpacesPartII supplies the a
 functor over a nonarchimedean field (R1.3), and AdicSpacesPartIII supplies formal geometry,
 Grothendieck's existence theorem with dévissage (F0.5–F0.7) and proper GAGA for rigid spaces
 (R3.7). EnhancedDerivedSheaves supplies perfect pushforward with proper support and arbitrary derived
-base change (§E1.9, `perfect_proper_pushforward`). DerivedModuleAlgebra supplies effectivity of
+base change (§E1.9, `perfect_proper_pushforward`). FiniteEquivalenceRelations supplies effective
+descent of modules along pure ring maps (§4.2), of which §3.1's affine module descent is the
+faithfully flat case. DerivedModuleAlgebra supplies effectivity of
 compatible perfect ring-complex systems (§1.E.1, `perfectInverseSystemEffectivity`) and Matlis
 duality with completion for arbitrary residue fields (§1.M.2). CrystallineCohomology supplies divisorial log
 structures (§CR.5:log-algebra.4, target *Divisorial log structures*) and algebraic logarithmic
@@ -271,6 +273,14 @@ here needs one of their carriers, the README states it and the Lean does not.
 | Compatible perfect ring-complex systems | DerivedModuleAlgebra §1.E.1 / `perfectInverseSystemEffectivity` | Derived-limit effectivity for surjective inverse ring systems with locally nilpotent transition kernels |
 | Characteristic-zero resolution and boundary geometry | ResolutionOfSingularitiesCharacteristicZero Layers 1–6 and §7.8 / `resolution_field`, `relativeEmbeddedResolution`, `sncCompactification`, `cartierSeparation` | Common scheme, blowup and labelled SNC carriers; §§9.1–9.7 identify the supplier exports, and §§9.10–9.11 construct their vanishing and numerical applications |
 | Matlis duality and completion | DerivedModuleAlgebra §1.M.2 / *Matlis duality and completion inputs* | §7.5 uses the arbitrary-residue-field duality in `ArithmeticCoefficients.dvrTorsionCofiniteCriterion` and `ko_cohomology_cofinite` |
+| Module descent along pure ring maps | FiniteEquivalenceRelations §4.2 / `nonempty_comonadicLeftAdjoint_iff`, `full_faithful_comparison_iff` | The general theorem; §3.1's `affineModuleDescentEquivalence` states only its faithfully flat case in descent-data form |
+
+### From TauCetiRoadmap.FiniteEquivalenceRelations
+
+§4.2 characterizes the ring maps along which extension of scalars of modules is comonadic, and
+along which it is fully faithful into comonad coalgebras, as the pure ones. A faithfully flat map
+is pure, so the comonadicity used by §3.1's `affineModuleDescentEquivalence` is the faithfully
+flat case, stated in Mathlib as `comonadicExtendScalars`. This roadmap states no pure-map version.
 
 ## How to read the build
 
@@ -1199,6 +1209,8 @@ The API provides:
 
 Prove `affineModuleDescentEquivalence`. For a faithfully flat commutative ring map `R→A`, Mathlib's canonical functor ModuleCat R→affine ModuleCat DescentData for the singleton `f.op` is an equivalence. Under the tensor-overlap comparison its inverse is `M={n∈N | 1⊗n=θ(n⊗1)}`. The comparison `A⊗R M→N` is `a↦(m↦a m)` and is an isomorphism of the descent data, not merely of modules.
 
+Effective descent of modules along an arbitrary pure ring map, the Joyal–Tierney theorem, is FiniteEquivalenceRelations §4.2 (`nonempty_comonadicLeftAdjoint_iff`). A faithfully flat map is pure, so this target is its faithfully flat case, and Mathlib's `comonadicExtendScalars` is the comonadicity it uses. Only the faithfully flat form is stated here, with Mathlib's `DescentData` category, the explicit equalizer inverse and the descent-data comparison, as `affineFpqcQuasicoherentDescent` requires.
+
 Here Commutative rings R,A in one fixed universe, a specified ring map `f:R→A` with f faithfully flat, and arbitrary R- and A-modules with all module morphisms. No Noetherian, finite-generation or finite-presentation hypotheses.
 
 ([Stacks](https://stacks.math.columbia.edu/tag/023N), Proposition 35.3.9(1)–(3)).
@@ -1865,7 +1877,7 @@ For multiplication by 2 on Z, pulling back the inclusion `2Z→Z` to `Z/2` makes
 
 ### Dependencies
 
-Tau Ceti's quasi-coherent pullback and tilde comparison (`TauCeti.AlgebraicGeometry.QuasicoherentSheaf.pullback`, `TauCeti.AlgebraicGeometry.tildeFunctorCompPullbackIso`); Mathlib module descent and comonadicity; SchemeAndStackFoundations §1.1 (quasi-coherent descent), §§1.2–1.11 (algebraic spaces, their étale sites and quasi-coherent modules) and §1.17 (Artin's bootstrap); ModularCurves §§0C, 0E and 0F; ReductiveGroupsPartII RG2.0a.1.
+Tau Ceti's quasi-coherent pullback and tilde comparison (`TauCeti.AlgebraicGeometry.QuasicoherentSheaf.pullback`, `TauCeti.AlgebraicGeometry.tildeFunctorCompPullbackIso`); Mathlib module descent and comonadicity; FiniteEquivalenceRelations §4.2 (module descent along pure ring maps); SchemeAndStackFoundations §1.1 (quasi-coherent descent), §§1.2–1.11 (algebraic spaces, their étale sites and quasi-coherent modules) and §1.17 (Artin's bootstrap); ModularCurves §§0C, 0E and 0F; ReductiveGroupsPartII RG2.0a.1.
 
 ## Layer 4: gerbes, bands and profinite stages
 
