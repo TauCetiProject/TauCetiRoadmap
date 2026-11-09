@@ -26,8 +26,9 @@ theories of `G`- and `H`-torsors are Morita-equivalent exactly when `G ≃* H`; 
 classify intervals, with `Δ[1]` as generic interval (Layer 3); a commutative ring finitely
 presentable in `CommRingCat` is finitely presented, and presheaves on the opposite of finitely
 presented commutative rings classify commutative rings, with the forgetful functor and its pointwise
-operations as generic ring; that functor is a sheaf for the Zariski topology; and the Zariski topos
-classifies local rings, with the sheafified generic ring as generic local ring (Layer 4).
+operations as generic ring; that functor is a sheaf for the Zariski topology, the case of
+SchemeAndStackFoundations §2.9 for `𝔾_a` over `Spec ℤ`; and the Zariski topos classifies local
+rings, with the sheafified generic ring as generic local ring (Layer 4).
 
 Suggested home: `TauCeti/ModelTheory/Geometric/` for Layer 1 and
 `TauCeti/CategoryTheory/Topos/Classifying/` for Layers 2–4.
@@ -63,6 +64,13 @@ correspondence between subtopoi of `Sheaf J (Type u)` and topologies `J' ≥ J` 
 classifying topos with inverse images, the left exact left adjoints
 `Sheaf J (Type u) ⥤ Sheaf K (Type u)`, which GrothendieckTopoi 2.1 identifies with geometric
 morphisms; it restates none of those statements.
+
+**Left to SchemeAndStackFoundations.** The sheaf `𝔾_a = (O_S)^a`, `T ↦ Γ(T, O_T)`, on the big
+site over a scheme `S`, and the fact that it is a sheaf for the Zariski, étale, fppf and fpqc
+topologies (SchemeAndStackFoundations §2.9). The forgetful functor of 4.2 is its restriction, for
+`S = Spec ℤ`, to the affine schemes `Spec A` with `A` finitely presented: 4.2 cites that
+statement, and this roadmap owns only the Zariski topology on `FPRing.{u}ᵒᵖ` and the
+restriction.
 
 **Left to LocallyPresentableCategories.** Gabriel–Ulmer duality and the categories of models of
 small categories with finite limits (LocallyPresentableCategories 3.1–3.4), essentially algebraic
@@ -191,6 +199,11 @@ left exact left adjoints between Grothendieck topoi are the inverse images of ge
 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`, Diaconescu's theorem), 4.2 (the
 subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`), 6.1 (points of a topos,
 `nonempty_point_equivalence`).
+
+**From SchemeAndStackFoundations** (on main). §2.9: for a quasi-coherent `O_S`-module `F`, the
+big-site module `F^a : (T, h) ↦ Γ(T, h^* F)` is a sheaf for the Zariski topology of the big site
+over `S` (with the étale, fppf and fpqc topologies), and `(O_S)^a` has underlying abelian sheaf
+`𝔾_a`; used in 4.2 for `S = Spec ℤ`, `F = O_S`.
 
 **From LocallyPresentableCategories.** 1.5 (finitely accessible categories are `Ind A`), 3.5
 (essentially algebraic theories), for the Examples of Layer 3.
@@ -754,15 +767,17 @@ finitely presentable set-models (`CommRingCat.isFinitelyPresentable_hom` and
 
 Define `zariskiCovers A` (the sieves on `A : FPRing.{u}ᵒᵖ` containing, for each `f` of a finite
 family generating the unit ideal, a map `A ⟶ B` making `B` a localization of `A` away from `f`)
-and `zariskiTopology`, the smallest Grothendieck topology containing them. Prove
-`isSheaf_forget_zariskiTopology`: the forgetful functor is a Zariski sheaf (Mac Lane–Moerdijk,
-VIII.6, pp. 445–450). Route: the pullback of a Zariski covering family along `A ⟶ A'` contains the
-localizations of `A'` away from the images of the `fᵢ`, which still generate the unit ideal, so
-it suffices to check the sheaf condition on the generating families; there it is the exactness of
-`A ⟶ ∏ᵢ A[1/fᵢ] ⇉ ∏ᵢⱼ A[1/fᵢfⱼ]`, the gluing of functions on a cover of `Spec A` by basic open
-sets.
-*Needs:* 4.1; Mathlib `GrothendieckTopology` (complete lattice), `Ideal.span`,
-`IsLocalization.Away`, `RingHom.toAlgebra`, `Presheaf.IsSheaf`.
+and `zariskiTopology`, the smallest Grothendieck topology containing them. That the forgetful
+functor is a Zariski sheaf is SchemeAndStackFoundations §2.9: `𝔾_a` is a sheaf for the Zariski
+topology of the big site over `Spec ℤ` (Mac Lane–Moerdijk, VIII.6, pp. 445–450, on this site).
+`isSheaf_forget_zariskiTopology` records it on `FPRing.{u}ᵒᵖ`, the form 4.3 uses; it is the
+adapter. Route: `A ↦ Spec A` sends a generating family of `zariskiCovers A`
+to a Zariski covering `{Spec A[1/fᵢ] → Spec A}` of the big site, and the forgetful functor to the
+restriction of `𝔾_a`; the pullback of a generating family along `A ⟶ A'` contains the
+localizations of `A'` away from the images of the `fᵢ`, which still generate the unit ideal, so it
+suffices to check the sheaf condition on the generating families, where it is that of `𝔾_a`.
+*Needs:* 4.1; SchemeAndStackFoundations §2.9; Mathlib `GrothendieckTopology` (complete lattice),
+`Ideal.span`, `IsLocalization.Away`, `RingHom.toAlgebra`, `Presheaf.IsSheaf`.
 
 **Checks.**
 
@@ -807,7 +822,8 @@ axiom, by induction on the size of the family generating the unit ideal).
 
 ### Dependencies
 
-Layers 1–3. Within the layer, 4.2 uses 4.1 and 4.3 uses 4.1 and 4.2.
+Layers 1–3; SchemeAndStackFoundations §2.9 for 4.2. Within the layer, 4.2 uses 4.1 and 4.3 uses
+4.1 and 4.2.
 
 ## Downstream consumers
 
