@@ -50,33 +50,36 @@ representation; the local hyperbolicity criteria; the global-to-local map of Wit
 value on the Witt class of a form; and the worked examples `⟨1, 1, -3⟩`, `⟨1, 1⟩`,
 `⟨1, 1, -1⟩ ≅ ⟨1, 2, -2⟩` and the `ℚ(√5)` record.
 
-Section and name map, for citations of Layers 0–3 and of 4.4 of this roadmap. They resolve to Tau
-Ceti declarations, which hold for number fields in every universe except where a line says
-"in `Type`"; for those, the statement in every universe is 4.1, item 3:
+Section and name map, for citations of Layers 0–3 and of 4.4 of this roadmap. Each id below
+resolves to the Tau Ceti declarations named on its line. They hold for number fields in every
+universe except where a line says "in `Type`"; for those, the statement in every universe is 4.1,
+item 3:
 
-- Layer 0, localizations and local predicates: `QuadraticForm.atFinitePlace`,
+- Layer 0, localizations and local predicates, resolves to `QuadraticForm.atFinitePlace`,
   `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
   `QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresentsScalar`,
   `QuadraticForm.LocallyRepresents` and `QuadraticForm.LocallyEquivalent`, with
   `QuadraticForm.equivalent_atComplexEmbedding_iff_finrank_eq` for the complex places.
-- Layer 1, real places: `QuadraticForm.realPositiveIndex`, `QuadraticForm.realNegativeIndex` and
-  `QuadraticForm.equivalent_atRealPlace_iff_realSignature_eq`.
-- Layer 2, finite places: `QuadraticForm.finiteHasse`, `QuadraticForm.hasFiniteMulSupport_finiteHasse`
-  and `QuadraticForm.equivalent_atFinitePlace_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq`.
-- Layer 3, admissible systems of local invariants: the record
+- Layer 1, real places, resolves to `QuadraticForm.realPositiveIndex`,
+  `QuadraticForm.realNegativeIndex` and `QuadraticForm.equivalent_atRealPlace_iff_realSignature_eq`.
+- Layer 2, finite places, resolves to `QuadraticForm.finiteHasse`,
+  `QuadraticForm.hasFiniteMulSupport_finiteHasse` and
+  `QuadraticForm.equivalent_atFinitePlace_iff_finrank_eq_and_discr_eq_and_finiteHasse_eq`.
+- Layer 3, admissible systems of local invariants, resolves to the record
   `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants` (3.1), `GlobalFormInvariants.IsAdmissible`
   (3.2), and the record of a form `QuadraticForm.globalInvariants` with
-  `QuadraticForm.isAdmissible_globalInvariants_iff` (3.3). The admissibility of the record of a
+  `QuadraticForm.isAdmissible_globalInvariants_iff` (3.3); the admissibility of the record of a
   regular form of positive rank is `QuadraticForm.isAdmissible_globalInvariants`, in `Type`.
-- 4.4, the localized product formula: `TauCeti.hilbertSymbol_productFormula`, in `Type`.
-- 4.4, the real symbol: `TauCeti.hilbertSymbol_real` and
-  `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`.
-- 4.4, sign prescription with a prescribed second argument:
-  `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite`, in `Type`.
-- 4.4, sign prescription for a pair, cited under the name exists_hilbertSymbol_eq_neg_one_iff_pair:
-  `TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`, in `Type`.
-- 4.4, the Hasse product of one form: `QuadraticForm.globalInvariants_hasseProduct_eq_one`, in
+- 4.4, the localized product formula, resolves to `TauCeti.hilbertSymbol_productFormula`, in
   `Type`.
+- 4.4, the real symbol, resolves to `TauCeti.hilbertSymbol_real` and
+  `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`.
+- 4.4, sign prescription with a prescribed second argument, resolves to
+  `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite`, in `Type`.
+- 4.4, sign prescription for a pair, cited under the name exists_hilbertSymbol_eq_neg_one_iff_pair,
+  resolves to `TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`, in `Type`.
+- 4.4, the Hasse product of one form, resolves to
+  `QuadraticForm.globalInvariants_hasseProduct_eq_one`, in `Type`.
 
 This roadmap does not own, and cites:
 
