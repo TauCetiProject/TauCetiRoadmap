@@ -5,6 +5,7 @@ public import TauCeti.AlgebraicGeometry.FiniteEtale.PuncturedSpectrum
 public import TauCeti.AlgebraicGeometry.LineBundle.Class
 public import TauCeti.AlgebraicGeometry.ProjectiveSpectrum.PolynomialQuotient
 public import TauCeti.AlgebraicGeometry.ProjectiveSpectrum.TwistingSheaf.LocalTriviality
+public import TauCeti.AlgebraicGeometry.Sites.Big.StructureSheaf
 public import TauCeti.RingTheory.GradedAlgebra.HomogeneousLocalization.Dehomogenization
 public import TauCeti.RingTheory.RegularLocalRing.Basic
 
@@ -14,10 +15,12 @@ public import TauCeti.RingTheory.RegularLocalRing.Basic
 **This file is not the roadmap.** The roadmap is `README.md`. This file states, against the
 pinned Mathlib and Tau Ceti, the headline theorems of the roadmap that are statable there, each
 with `sorry`, together with the few definitions their statements need: Cohen presentations,
-complete intersections and the virtual dimension (README §1.1), and the class of the twisting
-sheaf `𝒪(1)` on the projective spectrum of a quotient of a polynomial ring (§7.8). The punctured
-spectrum of a local ring and restriction of finite étale schemes to it are Tau Ceti's
-`TauCeti.IsLocalRing.puncturedSpectrum` and `TauCeti.IsLocalRing.restrictPunctured`.
+complete intersections and the virtual dimension (README §1.1), the inclusion of an open subscheme
+as a morphism of the small étale site (§6.3), the class of the twisting sheaf `𝒪(1)` on the
+projective spectrum of a quotient of a polynomial ring (§7.8), and the sheaf `𝔾_m` on the small
+étale site, obtained from Tau Ceti's big-site sheaf `AlgebraicGeometry.Scheme.Gm` (README
+Convention 7). The punctured spectrum of a local ring and restriction of finite étale schemes to it
+are Tau Ceti's `TauCeti.IsLocalRing.puncturedSpectrum` and `TauCeti.IsLocalRing.restrictPunctured`.
 
 The stated headlines are Zariski–Nagata purity in virtual dimension `≥ 2` and `≥ 3`
 (Česnavičius–Scholze, *Purity for flat cohomology*, Theorem 3.3.1; README §1.8), Gabber's
@@ -29,6 +32,12 @@ complete intersections (*loc. cit.* Corollary 7.2.3; README §7.8), and Gabber's
 bound `H^i_𝔪(R, G) = 0` for `i < vdim(R)` for the constant coefficients `G = ℤ/n`, `n ≥ 1`
 (*loc. cit.* Theorem 6.2.4, and Theorem 3.2.4 for `n` invertible in `R`; README §§1.6, 6.3), on the
 small étale site, where Mathlib's `CategoryTheory.Sheaf.cohomologyPresheaf` has restriction maps;
+purity for the torsion of `H²(−, 𝔾_m)` of Noetherian schemes whose local rings along the removed
+closed subset are complete intersections of dimension `≥ 4` or regular of dimension `≥ 2`
+(*loc. cit.* Theorem 1.1.4, the case `T = 𝔾_m` of Theorem 7.2.8(b); README §7.14); Česnavičius's
+purity for the Brauer group, `H²_ét(U_R, 𝔾_m) = 0` for a strictly henselian regular local ring `R`
+of dimension `≥ 2` and its global form for locally Noetherian schemes (Česnavičius, *Purity for the
+Brauer group*, Theorems 1.3 and 1.1; README §§8.1, 8.7);
 together with three classical inputs the roadmap proves: Katz's theorem on Frobenius-fixed vectors
 over an algebraically closed field (README §5.6), Auslander's freeness criterion through
 endomorphisms (§7.2) and the factoriality of regular local rings (§7.4). The fundamental-group
@@ -68,16 +77,20 @@ The following headline theorems are not statable at the pinned libraries.
   subcanonical (`CategoryTheory.GrothendieckTopology.subcanonical_over`); but neither pin restricts
   torsors along a morphism of sites, such as the inclusion of `X ∖ Z` into `X`, and neither has
   gerbes.
-* Gabber's conjecture on the local Brauer group (Theorem 7.2.5; §7.12) and purity for the
-  Brauer group of regular schemes with the codimension-one and residue descriptions
-  (Česnavičius, *Purity for the Brauer group*, Theorems 1.1–1.3; §§8.1, 8.7, 8.10, 8.16): there is
-  no Brauer group of Azumaya algebras on a scheme and no sheaf `𝔾_m` on the small étale site, so no
-  étale cohomology of `𝔾_m` with restriction maps.
+* Gabber's conjecture on the local Brauer group (Theorem 7.2.5; §7.12): there is no Brauer group of
+  Azumaya algebras on a scheme. Its cohomological form `H²(R, 𝔾_m)_tors ≅ H²(U_R, 𝔾_m)_tors` is the
+  case `X = Spec R`, `U = U_R` of `etaleCohomology_two_gm_torsion_purity`.
+* The description of `H²(X, 𝔾_m)` as an intersection over codimension-one points and the residue
+  sequences (Česnavičius, Theorems 1.2 and 6.2; §§8.9, 8.10, 8.15, 8.16): the maps
+  `H²(X, 𝔾_m) → H²(𝒪_{X,x}, 𝔾_m) → H²(K, 𝔾_m)` are pullbacks along `Spec 𝒪_{X,x} → X` and
+  `Spec K → X`, which are not morphisms of the small étale site of `X`, and the pins have no pullback
+  of small-étale cohomology along a morphism of schemes.
 * Purity for groups of multiplicative type and for tori (Theorems 7.2.8–7.2.9; Česnavičius,
-  Theorems 1.4 and 6.1; §§7.14, 7.15, 8.3, 8.6): they need the fppf and étale cohomology of a
-  group over a scheme with restriction maps, which the pins lack as in the first two items, and
-  groups of multiplicative type over a base scheme, which the pins have only over a field (README
-  §7.12c defines them).
+  Theorems 1.4 and 6.1; §§7.14, 7.15, 8.3, 8.6): groups of multiplicative type and tori over a base
+  scheme are in the pins only over a field (README §7.12c defines them), and the pins have no functor
+  from group schemes over `X` to abelian sheaves on the small étale or the big fppf site of `X`, as
+  in the first two items. The degree-two torsion clause of Theorem 7.2.8(b) for `T = 𝔾_m`, which the
+  source states separately as Theorem 1.1.4, is `etaleCohomology_two_gm_torsion_purity`.
 -/
 
 universe u v
@@ -166,15 +179,14 @@ theorem frobeniusSemilinear_exists_fixed_basis (p : ℕ) [Fact p.Prime]
 
 /-! ## Layer 6: Purity for complete intersections and regular local rings -/
 
-/-- The inclusion `U_R → Spec R` of the punctured spectrum of a local ring (Tau Ceti
-`TauCeti.IsLocalRing.puncturedSpectrum`), an open immersion and hence étale, as a morphism of the
-small étale site of `Spec R` from `U_R` to the terminal object `Spec R`. Restriction of étale
-cohomology from `Spec R` to `U_R` is the map of cohomology presheaves along it. README §6.3. -/
-def puncturedSpectrumEtaleHom (R : Type u) [CommRing R] [IsLocalRing R] :
-    Scheme.Etale.mk (TauCeti.IsLocalRing.puncturedSpectrum R).ι ⟶
-      Scheme.Etale.mk (𝟙 (Spec (CommRingCat.of R))) :=
-  (Scheme.Etale.forget _).preimage
-    (Over.homMk (TauCeti.IsLocalRing.puncturedSpectrum R).ι (by simp))
+/-- The inclusion `U → X` of an open subscheme, an open immersion and hence étale, as a morphism of
+the small étale site of `X` from `U` to the terminal object `X`. Restriction of étale cohomology from
+`X` to `U` is the map of cohomology presheaves along it; for `U` the punctured spectrum `U_R` of a
+local ring (Tau Ceti `TauCeti.IsLocalRing.puncturedSpectrum`) it is restriction from `Spec R` to
+`U_R`. README §6.3. -/
+def openEtaleHom {X : Scheme.{u}} (U : X.Opens) :
+    Scheme.Etale.mk U.ι ⟶ Scheme.Etale.mk (𝟙 X) :=
+  (Scheme.Etale.forget _).preimage (Over.homMk U.ι (by simp))
 
 /-- **Gabber's étale-depth bound for constant coefficients.** For a Noetherian local ring `R` and
 `n ≥ 1`, `H^i_𝔪(R, ℤ/n) = 0` for `i < vdim(R)`. Through the long exact sequence of étale cohomology
@@ -189,11 +201,11 @@ theorem etaleDepth_ge_virtualDimension (R : Type u) [CommRing R] [IsLocalRing R]
     ((i : ℤ) < virtualDimension R → Function.Injective
       ((((constantSheaf (Spec (CommRingCat.of R)).smallEtaleTopology AddCommGrpCat.{u}).obj
           (AddCommGrpCat.of (ULift.{u} (ZMod n)))).cohomologyPresheaf i).map
-            (puncturedSpectrumEtaleHom R).op)) ∧
+            (openEtaleHom (TauCeti.IsLocalRing.puncturedSpectrum R)).op)) ∧
     ((i : ℤ) + 1 < virtualDimension R → Function.Bijective
       ((((constantSheaf (Spec (CommRingCat.of R)).smallEtaleTopology AddCommGrpCat.{u}).obj
           (AddCommGrpCat.of (ULift.{u} (ZMod n)))).cohomologyPresheaf i).map
-            (puncturedSpectrumEtaleHom R).op)) := by
+            (openEtaleHom (TauCeti.IsLocalRing.puncturedSpectrum R)).op)) := by
   sorry
 
 /-! ## Layer 7: Global purity and the conjectures of Gabber -/
@@ -289,6 +301,60 @@ theorem picard_globalCompleteIntersection_bijective_zpow {k : Type u} [Field k] 
   sorry
 
 end GlobalCompleteIntersection
+
+/-- The sheaf `𝔾_m : V ↦ Γ(V, 𝒪_V)ˣ` (written additively) on the small étale site of a scheme `S`:
+the sheafification of the restriction to the small étale site of Tau Ceti's sheaf
+`AlgebraicGeometry.Scheme.Gm S` on the big fpqc site over `S`. That restriction is already a sheaf,
+étale covers being fpqc covers, so the sheafification map is an isomorphism and the value on an
+étale `V → S` is `Γ(V, 𝒪_V)ˣ`. It is the Lean form of SchemeAndStackFoundations §2.9's `GmEtale`;
+its cohomology `H^i_ét(V, 𝔾_m)` with restriction maps is `(gmSmallEtale S).cohomologyPresheaf i`.
+README Convention 7. -/
+def gmSmallEtale (S : Scheme.{u}) : Sheaf S.smallEtaleTopology AddCommGrpCat.{u} :=
+  (presheafToSheaf S.smallEtaleTopology AddCommGrpCat.{u}).obj
+    ((Scheme.Etale.forget S).op ⋙ (Scheme.Gm S).obj)
+
+/-- **Purity for the torsion of `H²(−, 𝔾_m)`.** Let `X` be a Noetherian scheme and `U ⊆ X` open such
+that every local ring `𝒪_{X,z}` at a point `z ∉ U` is either a complete intersection of dimension
+`≥ 4` or regular of dimension `≥ 2`. Then restriction `H²_ét(X, 𝔾_m) → H²_ét(U, 𝔾_m)` is a bijection
+between the torsion subgroups: it is injective on torsion classes, and every torsion class on `U` is
+the restriction of a torsion class on `X`. On a Noetherian scheme a class killed by a locally
+constant positive integer is killed by one integer, since there are finitely many connected
+components. Česnavičius–Scholze, Theorem 1.1.4, the case `T = 𝔾_m` of Theorem 7.2.8(b).
+README §7.14. -/
+theorem etaleCohomology_two_gm_torsion_purity (X : Scheme.{u}) [IsNoetherian X] (U : X.Opens)
+    (hZ : ∀ z : X, z ∉ U →
+      (IsCompleteIntersection (X.presheaf.stalk z) ∧ 4 ≤ ringKrullDim (X.presheaf.stalk z)) ∨
+      (IsRegularLocalRing (X.presheaf.stalk z) ∧ 2 ≤ ringKrullDim (X.presheaf.stalk z))) :
+    (∀ x, IsOfFinAddOrder x →
+        ((gmSmallEtale X).cohomologyPresheaf 2).map (openEtaleHom U).op x = 0 → x = 0) ∧
+      ∀ y, IsOfFinAddOrder y → ∃ x, IsOfFinAddOrder x ∧
+        ((gmSmallEtale X).cohomologyPresheaf 2).map (openEtaleHom U).op x = y := by
+  sorry
+
+/-! ## Layer 8: Purity for the Brauer group and for tori on regular schemes -/
+
+/-- **Purity for the Brauer group of a punctured spectrum.** For a strictly henselian regular local
+ring `R` (henselian with separably closed residue field) of dimension at least `2`, the étale
+cohomology `H²_ét(U_R, 𝔾_m)` of the punctured spectrum vanishes. Česnavičius, *Purity for the
+Brauer group*, Theorem 1.3 (= Theorem 5.3). README §8.1. -/
+theorem etaleCohomology_two_gm_puncturedSpectrum_subsingleton (R : Type u) [CommRing R]
+    [IsRegularLocalRing R] [HenselianLocalRing R] [IsSepClosed (IsLocalRing.ResidueField R)]
+    (h : 2 ≤ ringKrullDim R) :
+    Subsingleton (((gmSmallEtale (Spec (CommRingCat.of R))).cohomologyPresheaf 2).obj
+      (Opposite.op (Scheme.Etale.mk (TauCeti.IsLocalRing.puncturedSpectrum R).ι))) := by
+  sorry
+
+/-- **Purity for the Brauer group of regular schemes.** Let `X` be a locally Noetherian scheme and
+`U ⊆ X` open such that every local ring `𝒪_{X,z}` at a point `z ∉ U` is regular of dimension `≥ 2`;
+no regularity is assumed on `U`. Then restriction `H²_ét(X, 𝔾_m) → H²_ét(U, 𝔾_m)` is bijective and
+`H³_ét(X, 𝔾_m) → H³_ét(U, 𝔾_m)` is injective. Česnavičius, *Purity for the Brauer group*,
+Theorem 1.1 (= Theorem 6.1 for `T = 𝔾_m`). README §8.7. -/
+theorem etaleCohomology_gm_purity_regular (X : Scheme.{u}) [IsLocallyNoetherian X] (U : X.Opens)
+    (hZ : ∀ z : X, z ∉ U → IsRegularLocalRing (X.presheaf.stalk z) ∧
+      2 ≤ ringKrullDim (X.presheaf.stalk z)) :
+    Function.Bijective (((gmSmallEtale X).cohomologyPresheaf 2).map (openEtaleHom U).op) ∧
+      Function.Injective (((gmSmallEtale X).cohomologyPresheaf 3).map (openEtaleHom U).op) := by
+  sorry
 
 end
 
