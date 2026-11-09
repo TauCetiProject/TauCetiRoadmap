@@ -312,17 +312,25 @@ Layer 0).
 
 It proves the theorem of Nakayama and Rim (Serre, *Local Fields*, IX §§3–5; Brown, *Cohomology of
 Groups*, VI §8; Rim, Ann. of Math. 69 (1959)) in the namespace `Rep`, with cohomological
-triviality written as the conclusion of `TauCeti.TateCohomology.isZero_of_forall_isPGroup`: a
-projective `k[G]`-module is cohomologically trivial; over a principal ideal domain of
-characteristic zero in which every prime is a unit or generates a maximal ideal, a cohomologically
-trivial representation free over `k` is projective; the kernel of a surjection from a projective
-module onto a cohomologically trivial one is projective, with no finiteness hypothesis; and a
-representation with a projective resolution of length one is cohomologically trivial. The kernel
-statement uses `Submodule.free_of_isPrincipalIdealRing` (Lang, *Algebra*, III Theorem 7.1), in
-every rank. Finally, `p`-primary Tate cohomology sees only `p`: if multiplication by `p` is
-bijective on `A`, the `p`-primary component of `Ĥⁿ(S, A)` vanishes.
+triviality written as the conclusion of `TauCeti.TateCohomology.isZero_of_forall_isPGroup`, the
+vanishing of `Ĥⁿ(S, A)` for every finite subgroup `S` and every integer `n`. Over every
+commutative ring `k` and every group `G`, a representation whose `k[G]`-module is projective is
+cohomologically trivial, and so is a representation with a projective resolution
+`0 → P₁ → P₀ → A → 0` of length one. The converse statements take `G` finite and a hypothesis on
+`k` that concerns prime numbers, not prime elements of `k`: `k` is an integral domain of
+characteristic zero in which every prime number `p` is a unit or generates a maximal ideal `pk`,
+such as `ℤ`, `ℤ_p`, `ℤ_(p)` or a field of characteristic zero. Over such a `k`, a cohomologically
+trivial representation whose underlying `k`-module is projective (for instance free, of any rank)
+is a projective `k[G]`-module; this is the lattice form. If `k` is moreover a principal ideal
+domain, the kernel of every surjection from a projective `k[G]`-module onto a cohomologically
+trivial representation is projective, with no finiteness hypothesis on either module: the kernel
+of the free cover is free over `k` by `Submodule.free_of_isPrincipalIdealRing` (Lang, *Algebra*,
+III Theorem 7.1), in every rank, so the lattice form applies to it, and Schanuel's lemma passes to
+every other projective cover. Finally, `p`-primary Tate cohomology sees only `p`: if
+multiplication by `p` is bijective on `A`, the `p`-primary component of `Ĥⁿ(S, A)` vanishes.
 
-`LocalGaloisGroups` uses the last two as Tau Ceti's `Rep.projective_ker_of_isZero_res` and
+`LocalGaloisGroups` uses the kernel statement, at `k = ℤ_p`, and the `p`-primary vanishing, as Tau
+Ceti's `Rep.projective_ker_of_isZero_res` and
 `TauCeti.TateCohomology.primaryComponent_tateCohomology_eq_bot`.
 
 ### Examples
@@ -331,6 +339,17 @@ bijective on `A`, the `p`-primary component of `Ĥⁿ(S, A)` vanishes.
   `Ĥ⁻²(C₂, ℤ) = C₂ ≅ ℝˣ / ℝ_{>0}`, so Tate's criterion applies with `u = [-1]`.
 - The trivial `C₂`-module `ℤ/2` fails the first hypothesis, `H¹ = ℤ/2`, and indeed
   `Ĥ⁻¹(C₂, ℤ) = 0 ≠ Ĥ¹(C₂, ℤ/2)`.
+- The kernel statement needs `k` principal. Take `G` trivial and `k = ℚ[x, y]`, an integral
+  domain of characteristic zero in which every prime number is a unit. Every representation of
+  the trivial group is cohomologically trivial (`Ĥ⁰ = M/N(M) = M/M = 0`, `Ĥ⁻¹ = ker N = 0`, and
+  ordinary cohomology and homology vanish in positive degrees). The kernel `(x, y)` of
+  `k → k/(x, y)` is not projective: localized at `(x, y)` it has rank one but needs two
+  generators, since `(x, y)/(x, y)²` is two-dimensional over `ℚ`. The lattice form still holds
+  over this `k`.
+- The hypothesis on `k` concerns prime numbers. In any principal ideal domain every nonzero prime
+  element generates a maximal ideal, so a condition on prime elements would exclude nothing.
+  `ℤ[i]` is a principal ideal domain of characteristic zero outside the hypothesis: `2 = −i(1 + i)²`
+  is not a unit, and `(2) = (1 + i)²` is not maximal.
 
 ### Dependencies
 
@@ -1028,12 +1047,23 @@ predicates and the idele norms.
      extensions have the same norm group (`AlgEquiv.normGroup_eq`), so the conductor exponent of
      `F_χ/K_v` is that of `M_u/K_v`.
   5. Local and global conductors agree: the exponent of `v` in `abelianConductor K M` equals the
-     conductor exponent of `M_u/K_v`. The global exponent is at least the local one, as the
-     conductor is admissible (`TauCeti.ClassFieldTheory.isAdmissibleModulus_abelianConductor`,
-     and `TauCeti.ClassFieldTheory.IsAdmissibleModulus.conductorExponent_le_exponent` for `M/K`
-     at `u`). It is at most the local one because the modulus `𝔪₀` is admissible, where `𝔪₀`
-     has, at each finite place `v'`, the conductor exponent of `M_{u'}/K_{v'}` for a chosen prime
-     `u'` of `M` above `v'`, and the real places of `K` that become complex in `M`. A congruence
+     conductor exponent of `M_u/K_v`. For each finite place `v'` of `K` choose a prime `u'` of
+     `M` above it, with `u' = u` at `v`, and write `c(v')` for the conductor exponent of
+     `M_{u'}/K_{v'}`. The global exponent is at least the local one at every finite place: the
+     conductor is admissible (`TauCeti.ClassFieldTheory.isAdmissibleModulus_abelianConductor`),
+     so `c(v')` is at most the exponent of `v'` in `abelianConductor K M`
+     (`TauCeti.ClassFieldTheory.IsAdmissibleModulus.conductorExponent_le_exponent` for `M/K` at
+     `u'`). It is at most the local one because a modulus `𝔪₀` with exponent `c(v')` at every
+     `v'` exists and is admissible. The exponent of `v'` in a modulus is the multiplicity of `v'`
+     in its finite part (`TauCeti.GlobalNumberFields.Modulus.exponent_def`), and the finite part
+     of `abelianConductor K M` is a nonzero ideal
+     (`TauCeti.GlobalNumberFields.Modulus.finitePart_ne_bot`), so the bound just proved makes the
+     family `v' ↦ v'^{c(v')}` of prime powers finitely supported
+     (`Ideal.hasFiniteMulSupport_asIdeal_pow_of_le_count`). Its finite product `∏_{v'} v'^{c(v')}`
+     is nonzero (Mathlib's `finprod_ne_zero`, every factor being a power of a nonzero prime) and
+     has multiplicity `c(v')` at every `v'` (`Ideal.count_finprod_asIdeal_pow`). Let `𝔪₀` be the
+     modulus with this finite part and with infinite part the real places of `K` that become
+     complex in `M`; its exponent at `v'` is `c(v')`. A congruence
      idele of `𝔪₀` is a norm from every local étale algebra `K_{v'} ⊗_K M`. A norm from one
      completion above `v'` is a norm from `K_{v'} ⊗_K M`, the other components being `1`
      (`TauCeti.mem_range_normUnits_adicCompletion_iff`, and
@@ -1047,9 +1077,14 @@ predicates and the idele norms.
      `K` is complex, every unit is a local norm
      (`TauCeti.mem_range_normUnits_completion_of_finrank_eq_one`,
      `TauCeti.mem_range_normUnits_completion_of_isComplex`). Hence the idele is an idele norm
-     (`TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`), and
-     `TauCeti.ClassFieldTheory.isAdmissibleModulus_iff_abelianConductor_dvd` gives
-     `abelianConductor K M ∣ 𝔪₀`.
+     `N_{M/K}(y)` (`TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`). Every class of the
+     ray subgroup of `𝔪₀` is the class of a congruence idele of `𝔪₀`
+     (`TauCeti.GlobalNumberFields.mem_raySubgroup_iff`), and the class of `N_{M/K}(y)` is the
+     idele-class norm of the class of `y` (`TauCeti.GlobalNumberFields.ideleClassNormMap_mk`), so
+     the ray subgroup of `𝔪₀` lies in the idele-class norm group: `𝔪₀` is admissible for `M/K`.
+     Then `TauCeti.ClassFieldTheory.isAdmissibleModulus_iff_abelianConductor_dvd` gives
+     `abelianConductor K M ∣ 𝔪₀`, and `TauCeti.GlobalNumberFields.Modulus.exponent_mono` reads
+     this divisibility at `v`: the exponent of `v` in `abelianConductor K M` is at most `c(v)`.
 
   Summing steps 3–5 over the characters `χ` and grouping them by `M` gives the formula at `v`.
   *Needs:* `TauCeti.relDiscr` (`TauCeti/RingTheory/DedekindDomain/Discriminant/Basic.lean`),
@@ -1096,7 +1131,18 @@ predicates and the idele norms.
   `TauCeti.mem_range_normUnits_completion_of_isComplex`
   (`TauCeti/NumberTheory/NumberField/LocalGlobal/Semilocal/Norm/Units.lean`),
   `TauCeti.GlobalNumberFields.mem_range_ideleNormMap_iff`
-  (`TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Range.lean`).
+  (`TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Range.lean`);
+  `TauCeti.GlobalNumberFields.Modulus.finitePart_ne_bot`,
+  `TauCeti.GlobalNumberFields.Modulus.exponent_def`,
+  `TauCeti.GlobalNumberFields.Modulus.exponent_mono`
+  (`TauCeti/NumberTheory/NumberField/Global/RayClass/Modulus.lean`),
+  `Ideal.hasFiniteMulSupport_asIdeal_pow_of_le_count`, `Ideal.count_finprod_asIdeal_pow`
+  (`TauCeti/RingTheory/DedekindDomain/Factorization.lean`), Mathlib's `finprod_ne_zero`
+  (`Mathlib/Algebra/BigOperators/Finprod.lean`),
+  `TauCeti.GlobalNumberFields.mem_raySubgroup_iff`
+  (`TauCeti/NumberTheory/NumberField/Global/Ideles/Ray/Subgroup.lean`) and
+  `TauCeti.GlobalNumberFields.ideleClassNormMap_mk`
+  (`TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Relative.lean`).
   *Checks:* for `ℚ(ζ₅)/ℚ` at `v = 5`, `g = 1`, the local extension is tame and totally ramified
   of degree `4`, so `f = 1`, `d = 3` and step 1 gives `1 · 1 · 3 = 3`, while its four characters
   have Artin conductor exponents `0, 1, 1, 1`, summing to the same `δ = 3`; for `ℚ(ζ₁₅)/ℚ` at
@@ -1117,7 +1163,12 @@ predicates and the idele norms.
   `𝔡 = 1 · 4 · 5 · 20 = 400 = 2⁴ · 5²`; in step 4 for `M = ℚ(√-5)`, `D ∩ ker χ` is trivial, so
   `F_χ = L_w = ℚ₅(√5)`, while `M_u = ℚ₅(√-5)` is a separate field; the canonical map sends `√-5`
   to `i · √5`, where `i ∈ ℚ₅` as `5 ≡ 1 mod 4`, so its image is `F_χ`, and
-  `[M_u : ℚ₅] = 2 = [D : D ∩ ker χ]`.
+  `[M_u : ℚ₅] = 2 = [D : D ∩ ker χ]`; in step 5 for `M = ℚ(√-5)` over `ℚ`, `c(2) = 2`, since
+  `ℚ₂(√-5) = ℚ₂(√3)` (`−5 · 3 = −15 ≡ 1 mod 8` is a square in `ℚ₂`) has discriminant exponent
+  `2`, `c(5) = 1`, the extension being tame there, and `c(p) = 0` at every other prime (`3`
+  splits, as `−5 ≡ 1 mod 3`); each is at most the exponent of `p` in the conductor `20·∞`, the
+  family `p ↦ p^{c(p)}` is supported on `{2, 5}`, and `𝔪₀ = 20·∞ = abelianConductor ℚ M`, with
+  exponent `1` at `5` on both sides.
 
 ### Examples
 
