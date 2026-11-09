@@ -50,7 +50,9 @@ and residue field `k`:
   with their norm-kernel components, and the graded norms with filtered norm-kernel components,
   all over an algebraically closed residue field; and, on a nonarchimedean local field, the
   agreement of the Herbrand functions and the upper groups with the completed roadmap's, through
-  which §3a.3 recovers `TauCeti.LocalFieldsRamification.hasseArf`.
+  which Herbrand's theorem, tower transitivity and the intersection formula there are the
+  completed roadmap's Tau Ceti theorems and §3a.3 recovers
+  `TauCeti.LocalFieldsRamification.hasseArf`.
 - 4a: over a perfect residue field, the absolute upper filtration `G_K^u` and `G_K^(u+)` of
   `Field.absoluteGaloisGroup K`, defined relative to a valuation subring of `AlgebraicClosure K`,
   its closedness, normality, antitonicity, finite projections and separation, the identification
@@ -78,8 +80,10 @@ second time on local fields.
 The following belong elsewhere and are consumed, where needed, under their owners' names.
 Mathlib's `Ideal.sum_ramification_inertia_eq_card` gives `[L : K] = #G = ef` once `B` is a
 discrete valuation ring finite and flat over `A`: its sum over the primes of `B` above `𝔪_A`
-has the single term `𝔪_B`. Tau Ceti proves on its local-ring carrier, without completeness or
-residue finiteness, integral monogenicity
+has the single term `𝔪_B`; its `Ideal.Quotient.stabilizerHom_surjective` makes `G` map onto the
+automorphisms of the residue extension with kernel `G_0`, and, for separable residue extension,
+its `Ideal.card_inertia_eq_ramificationIdxIn` gives `#G_0 = e`. Tau Ceti proves on its local-ring
+carrier, without completeness or residue finiteness, integral monogenicity
 (`TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top`), the lower index at a generator
 (`TauCeti.IsLocalRing.lowerIndex_eq_addVal_of_adjoin_singleton_eq_top`), `G_i = G` for `i ≤ −1`
 (`TauCeti.IsLocalRing.ramificationGroup_eq_top_of_le_neg_one`), normality
@@ -123,8 +127,11 @@ fields is this roadmap's, because the completed roadmap's Herbrand functions ass
 `IsGalois K L`: the function `ψ_(L/K)` of a finite separable, not necessarily Galois, extension
 of nonarchimedean local fields, with its independence of the Galois closure, its tower law, the
 finite-level subgroup identity and the integral formula, is §4a.2's, read through §3a.2's
-agreement. A roadmap that uses this function on local fields cites §4a.2 and does not define it a
-second time.
+agreement. When `L/K` is Galois, its tower law and its finite-level subgroup identity are Tau
+Ceti's `TauCeti.LocalFieldsRamification.inverseHerbrand_tower` and
+`TauCeti.LocalFieldsRamification.comap_restrictScalarsHom_upperRamificationGroup`, which §4a.2
+consumes there and does not restate. A roadmap that uses this function on local fields cites
+§4a.2 and does not define it a second time.
 
 ## Conventions
 
@@ -163,7 +170,15 @@ the fixed ring of a normal subgroup `H` and its invariants `A` (both instances i
 `Mathlib/RingTheory/Invariant/Basic.lean`), `QuotientGroup.mk'`, `differentIdeal` and
 `conductor_mul_differentIdeal`, `Ideal.sum_ramification_inertia_eq_card` (whose `IsGaloisGroup`
 hypothesis bundles `FaithfulSMul G B`, `SMulCommClass G A B` and `Algebra.IsInvariant A B G`),
-`Polynomial.IsEisensteinAt` with its irreducibility criterion, adic completion of a Noetherian
+`Ideal.card_inertia_eq_ramificationIdxIn` (in `Mathlib/NumberTheory/RamificationInertia/Galois.lean`:
+under the same `IsGaloisGroup` hypothesis, `B` finite and flat over `A` and
+`Algebra.HasSeparableResidueFieldsAt A B 𝔪_A`, the inertia group of a prime of `B` has order the
+ramification index), `Ideal.Quotient.stabilizerHom_surjective` and
+`Ideal.Quotient.stabilizerQuotientInertiaEquiv` (in `Mathlib/RingTheory/Invariant/Basic.lean`: for
+finite `G` with `Algebra.IsInvariant A B G`, the stabilizer of a prime `Q` of `B` maps onto the
+automorphism group of the residue extension at `Q`, with kernel the inertia group, and no
+separability is assumed), `Polynomial.IsEisensteinAt` with its irreducibility criterion, adic
+completion of a Noetherian
 local ring, `intervalIntegral`, `IsGalois.normalAutEquivQuotient`, `Field.absoluteGaloisGroup`
 with its Krull topology and `Subgroup.topologicalClosure`,
 `Field.absoluteGaloisGroup.mapOfAlgebra` (the continuous map `G_L → G_K` given by restriction
@@ -190,10 +205,24 @@ decomposition group of a valuation subring is Mathlib's `ValuationSubring.inerti
 `TauCeti.IsLocalRing.subgroupOf_ramificationGroup`,
 `TauCeti.IsLocalRing.sum_addVal_smul_sub_eq_finsum_card_ramificationGroup_sub_one`,
 `TauCeti.IsLocalRing.sum_min_lowerIndex_natCast`,
-`TauCeti.IsLocalRing.lowerIndex_eq_addVal_of_adjoin_singleton_eq_top` and
-`TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top`. These are the carriers on which Layer 3a
-is stated; none of them assumes a finite residue field, and the local-field objects below are
-their instances. Layer 4a also uses, from Tau Ceti's
+`TauCeti.IsLocalRing.lowerIndex_eq_addVal_of_adjoin_singleton_eq_top`,
+`TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top`,
+`TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertia` (`G_0` is Mathlib's `Ideal.inertia` of the
+maximal ideal) and `TauCeti.IsLocalRing.adjoin_eq_top_of_span_eval_eq_maximalIdeal` (an element
+whose residue generates the residue extension and at which some polynomial over the base generates
+the maximal ideal generates the ring), together with Tau Ceti's
+`Ideal.card_inertia_eq_ramificationIdx`
+(`TauCeti/NumberTheory/RamificationInertia/Galois.lean`: Mathlib's
+`Ideal.card_inertia_eq_ramificationIdxIn` with the ramification index of the prime itself) and, in
+`TauCeti/RingTheory/DiscreteValuationRing/Eisenstein.lean`, for a domain `C` containing a discrete
+valuation ring `R` and generated over it by a root `x` of a monic polynomial `g` that is Eisenstein
+at `𝔪_R`: `Polynomial.IsEisensteinAt.isDiscreteValuationRing_of_adjoin_eq_top` (`C` is a discrete
+valuation ring), `Polynomial.IsEisensteinAt.irreducible_of_adjoin_eq_top` (`x` is a uniformizer of
+`C`) and `Polynomial.IsEisensteinAt.ramificationIdx_eq_natDegree` (the ramification index of `C`
+over `R` is `deg g`), with neither completeness nor separability. The local-ring declarations are
+the carriers on which Layer 3a is stated; none of the declarations of this paragraph assumes a
+finite residue field, and the local-field objects below are their instances. Layer 4a also
+uses, from Tau Ceti's
 `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean` and for every field `K`, with no
 valuation involved: `TauCeti.fixingSubgroup_fixedField` (a closed subgroup of the Galois group of
 a normal extension is the fixing subgroup of its fixed field);
@@ -226,18 +255,34 @@ declarations proved in the pinned Tau Ceti; the file paths are relative to
 - Unramified extensions (`Unramified/Maximal.lean`):
   `TauCeti.maximalUnramifiedExtension` with `IntermediateField.le_maximalUnramifiedExtension_iff`.
 - Monogenicity, the lower numbering, the Herbrand functions, the upper numbering and the
-  different (`Monogenic.lean`, `RamificationGroup.lean`,
+  different (`Monogenic.lean`, `RamificationGroup.lean`, `ResidueCorrespondence.lean`,
   `UnitFiltration/RamificationGroup.lean`, `Herbrand/` and `Different/`): local monogenicity
   `TauCeti.exists_integerRing_adjoin_eq_top`; the lower ramification groups
   `TauCeti.LocalFieldsRamification.lowerRamificationGroup K L i`, defined as
-  `TauCeti.IsLocalRing.ramificationGroup (L ≃ₐ[K] L) 𝒪[L] i`; the quotient embeddings of
-  `G_0/G_1` and `G_i/G_(i+1)`, `TauCeti.tameCharacter` and
-  `TauCeti.ramificationGroupGradedToResidueField`; the Herbrand objects
+  `TauCeti.IsLocalRing.ramificationGroup (L ≃ₐ[K] L) 𝒪[L] i`, with
+  `#G_0 = e` (`TauCeti.LocalFieldsRamification.natCard_lowerRamificationGroup_zero`) and the
+  action on the residue field onto the residue Galois group with kernel `G_0`
+  (`TauCeti.residueField_toAlgAut_surjective`, `TauCeti.ker_residueField_toAlgAut`); the quotient
+  embeddings of `G_0/G_1` and `G_i/G_(i+1)`, `TauCeti.tameCharacter` and
+  `TauCeti.ramificationGroupGradedToResidueField`, with their consequences that `G_0/G_1` is cyclic
+  (`TauCeti.isCyclic_ramificationGroupGraded_zero`), that the positive-depth groups are `p`-groups
+  for the residue characteristic `p` (`TauCeti.isPGroup_ramificationGroup`) and that `G_1` is the
+  Sylow `p`-subgroup of `G_0` (`TauCeti.ramificationGroupOneSylow`); the Herbrand objects
   `TauCeti.LocalFieldsRamification.herbrandOrderIso`, `herbrand`, `inverseHerbrand`, `psiNat` with
-  `coe_psiNat` and `psiNat_tower`, and `TauCeti.LocalFieldsRamification.upperRamificationGroup`
-  with `UpperJump` and its compatibility with restriction in a Galois tower,
-  `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`; and the
-  different exponent `TauCeti.differentExponent` with Hilbert's formula
+  `coe_psiNat` and `psiNat_tower`, the correspondence of jumps
+  `TauCeti.LocalFieldsRamification.upperJump_herbrand_iff` and
+  `TauCeti.LocalFieldsRamification.lowerJump_inverseHerbrand_iff` (`Herbrand/Jump.lean`), tower
+  transitivity `TauCeti.LocalFieldsRamification.herbrand_tower` and
+  `TauCeti.LocalFieldsRamification.inverseHerbrand_tower` (`Herbrand/Tower.lean`: for `M/L/K` with
+  `L/K` and `M/K` Galois, `φ_(M/K) = φ_(L/K) ∘ φ_(M/L)` and `ψ_(M/K) = ψ_(M/L) ∘ ψ_(L/K)`), and
+  `TauCeti.LocalFieldsRamification.upperRamificationGroup` with `UpperJump`, its compatibility with
+  restriction in a Galois tower,
+  `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`, and the
+  intersection formula
+  `TauCeti.LocalFieldsRamification.comap_restrictScalarsHom_upperRamificationGroup`
+  (`Herbrand/UpperQuotient.lean`: for the same tower,
+  `Gal(M/L) ∩ Gal(M/K)^v = Gal(M/L)^(ψ_(L/K)(v))`); and the different exponent
+  `TauCeti.differentExponent` with Hilbert's formula
   `TauCeti.differentExponent_eq_finsum_lowerRamificationGroup`.
 - The absolute Galois group (`Unramified/Inertia/`, `WildInertia.lean` and
   `Tame/Quotient.lean`): the ambient model `Field.absoluteGaloisGroup K` on
@@ -351,7 +396,20 @@ group is Mathlib's `Field.absoluteGaloisGroup`. The section numbers specify the 
 `L` is the unique one extending that of `K`, with `v_L = e·v_K` on `K`. On such a `B` the
 following are proved in the pinned Mathlib and Tau Ceti, without completeness or residue
 finiteness, and are cited here, not restated. Mathlib's `Ideal.sum_ramification_inertia_eq_card`, whose sum over the
-primes above `𝔪_A` has the single term `𝔪_B`, gives `[L : K] = #G = ef`. For separable residue
+primes above `𝔪_A` has the single term `𝔪_B`, gives `[L : K] = #G = ef`. Every `σ ∈ G` stabilizes
+`𝔪_B`, and `G_0` is Mathlib's inertia group `Ideal.inertia G 𝔪_B`
+(`TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertia`), so, with or without separability,
+Mathlib's `Ideal.Quotient.stabilizerHom_surjective` makes the action of `G` on
+`IsLocalRing.ResidueField B` onto the group of its `k`-automorphisms, with kernel `G_0`, and
+`Ideal.Quotient.stabilizerQuotientInertiaEquiv` gives `G/G_0 ≅ Aut(IsLocalRing.ResidueField B / k)`.
+For separable residue extension, Mathlib's `Ideal.card_inertia_eq_ramificationIdxIn` (Tau Ceti's
+`Ideal.card_inertia_eq_ramificationIdx` with the ramification index of `𝔪_B` itself) gives
+`#G_0 = e`, so `G/G_0 ≅ Gal(IsLocalRing.ResidueField B / k)` has order `f`. Applied to `L` over the
+fixed field `K_0` of `G_0`, whose inertia group is all of `G_0`, it gives `e(L/K_0) = #G_0 = e(L/K)`,
+so `L/K_0` is totally ramified and `e(K_0/K) = 1`. Every intermediate `F ⊆ K_0` has `e(F/K) = 1`,
+a divisor of `e(K_0/K)`; conversely, if `e(F/K) = 1`, the inertia group `Gal(L/F) ∩ G_0` of `L/F`
+(`TauCeti.IsLocalRing.subgroupOf_ramificationGroup`) has order `e(L/F) = e(L/K) = #G_0`, so it is
+`G_0` and `F ⊆ K_0`. So `K_0` is the maximal unramified subextension. For separable residue
 extension some `x ∈ B` has `Algebra.adjoin A {x} = ⊤`
 (`TauCeti.IsDiscreteValuationRing.exists_adjoin_eq_top`), and for every such `x` and `σ ∈ G`,
 with or without separability, `lowerIndex B σ = v_L(σx − x)`
@@ -370,7 +428,15 @@ and that the finite group `G` acts faithfully, `G_i = 1` for all large `i`; and 
 gives a uniformizer-independent map to `U(L,i)/U(L,i+1)`, where `U(L,i) = 1 + 𝔪_B^i`; identifying
 that quotient with the additive residue field uses `π_L`. Hence `G_0/G_1` is cyclic of order prime to the residue
 characteristic, `G_1` is the Sylow `p`-subgroup of `G_0` when the residue characteristic is
-`p > 0`, and `G_1 = 1` when it is zero. Hilbert's formula holds: the different exponent `d(L/K)`,
+`p > 0`, and `G_1 = 1` when it is zero. On a nonarchimedean local field, `#G_0 = e`, the
+surjection onto the residue Galois group with kernel `G_0`, the cyclicity of `G_0/G_1` and the
+Sylow statement are Tau Ceti's `TauCeti.LocalFieldsRamification.natCard_lowerRamificationGroup_zero`,
+`TauCeti.residueField_toAlgAut_surjective` with `TauCeti.ker_residueField_toAlgAut`,
+`TauCeti.isCyclic_ramificationGroupGraded_zero`, and `TauCeti.isPGroup_ramificationGroup` with
+`TauCeti.ramificationGroupOneSylow`, which this section consumes there and does not restate. They
+assume a finite residue field; the general forms of the first two are the Mathlib theorems cited
+above, and this section owns those of the last two. Hilbert's formula holds: the different
+exponent `d(L/K)`,
 the `v_L`-valuation of Mathlib's `differentIdeal A B`, is `Σ_(i ≥ 0) (#G_i − 1)`. Its
 ideal-valued form, `differentIdeal A B = 𝔪_B^(Σ_(i ≥ 0) (#G_i − 1))`, is
 `differentIdeal_eq_pow_maximalIdeal_of_separable_residue` in `Suggested.lean`. There it is
@@ -401,12 +467,18 @@ gives `differentIdeal A B = (f′(x))` for the minimal polynomial `f` of `x`, an
 `TauCeti.IsLocalRing.sum_addVal_smul_sub_eq_finsum_card_ramificationGroup_sub_one`.
 
 *Needs:* Mathlib `IsDiscreteValuationRing`, `IsAdicComplete`, `Algebra.IsInvariant`,
-`Ideal.sum_ramification_inertia_eq_card`, `differentIdeal` and `conductor_mul_differentIdeal`;
-Tau Ceti `TauCeti.IsLocalRing.ramificationGroup`, `TauCeti.IsLocalRing.lowerIndex`, the
-local-ring and monogenicity results cited in the statement, and the counting identity above; the
-completed roadmap's Tau Ceti declarations for the local-field instance: local monogenicity
-`TauCeti.exists_integerRing_adjoin_eq_top`, the quotient embeddings `TauCeti.tameCharacter` and
-`TauCeti.ramificationGroupGradedToResidueField`, and the different `TauCeti.differentExponent`.
+`Ideal.sum_ramification_inertia_eq_card`, `Ideal.card_inertia_eq_ramificationIdxIn`,
+`Ideal.Quotient.stabilizerHom_surjective`, `Ideal.Quotient.stabilizerQuotientInertiaEquiv`,
+`differentIdeal` and `conductor_mul_differentIdeal`; Tau Ceti `TauCeti.IsLocalRing.ramificationGroup`,
+`TauCeti.IsLocalRing.lowerIndex`, `TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertia`,
+`Ideal.card_inertia_eq_ramificationIdx`, the local-ring and monogenicity results cited in the
+statement, and the counting identity above; the completed roadmap's Tau Ceti declarations for the
+local-field instance: local monogenicity `TauCeti.exists_integerRing_adjoin_eq_top`,
+`TauCeti.LocalFieldsRamification.natCard_lowerRamificationGroup_zero`,
+`TauCeti.residueField_toAlgAut_surjective`, `TauCeti.ker_residueField_toAlgAut`, the quotient
+embeddings `TauCeti.tameCharacter` and `TauCeti.ramificationGroupGradedToResidueField` with
+`TauCeti.isCyclic_ramificationGroupGraded_zero`, `TauCeti.isPGroup_ramificationGroup` and
+`TauCeti.ramificationGroupOneSylow`, and the different `TauCeti.differentExponent`.
 
 **Checks.**
 
@@ -421,10 +493,17 @@ completed roadmap's Tau Ceti declarations for the local-field instance: local mo
 - On `ℚ_2(ζ_8)/ℚ_2` the groups are the completed roadmap's lower groups, `#G_0 = #G_1 = 4`,
   `#G_2 = #G_3 = 2`, `G_4 = 1`, and `d = 3 + 3 + 1 + 1 = 8`. A finite unramified `L/K` has
   `G_0 = 1` and `d = 0`.
+- For odd `p`, `L = ℚ_p(ζ_(p²−1), √p)` over `ℚ_p` has `G = C_2 × C_2`, `e = f = 2`, and `G_0` the
+  order-`2` subgroup fixing `ζ_(p²−1)`: its generator moves `√p` by `2√p`, of valuation `1`, so
+  `#G_0 = 2 = e`, `G_1 = 1`, `G/G_0 ≅ Gal(F_(p²)/F_p)` and `K_0 = ℚ_p(ζ_(p²−1))`, over which `L` is
+  totally ramified. Reading `G_0` as all of `G`, or as trivial, gives `#G_0 = 4` or `1`, not `e`.
 - The separability hypothesis cannot be dropped. Over `K = F_p(s)((t))`, let `L = K(y)` with
   `y^p − y = s·t^(−p)` and put `z = ty`, so `z^p − t^(p−1) z = s`. The residue extension
   `F_p(s^(1/p))/F_p(s)` is purely inseparable of degree `p`, `e = 1`, `B = A[z]`, and the generator
   with `σ(z) = z + t` lies in `G_0` but not in `G_1`: `G_0/G_1` has order `p`, and `#G_0 ≠ e`.
+  The surjection onto the residue automorphisms, which needs no separability, still holds:
+  `G/G_0 = 1` is the automorphism group of the purely inseparable `F_p(s^(1/p))/F_p(s)`, of order
+  `1 ≠ f = p`. Here `K_0 = K` although `L/K` itself has `e = 1`.
 - Monogenicity needs separability too. Over `K = F_p(s, u)((t))`, adjoin roots of
   `y₁^p − y₁ = s·t^(−p)` and `y₂^p − y₂ = u·t^(−p)`. For `(i, j) ∈ F_p² ∖ {0}`, the element
   `(is + ju)·t^(−p)` is not of the form `a^p − a` with `a ∈ K`: such an `a` has valuation `−1`,
@@ -475,7 +554,16 @@ for these functions, prove:
   `TauCeti.LocalFieldsRamification.inverseHerbrand K L`,
   `TauCeti.LocalFieldsRamification.psiNat K L` and
   `TauCeti.LocalFieldsRamification.upperRamificationGroup K L` of the completed roadmap, in Tau
-  Ceti's `TauCeti/NumberTheory/LocalField/Herbrand/`.
+  Ceti's `TauCeti/NumberTheory/LocalField/Herbrand/`; through this agreement the correspondence of
+  jumps, Herbrand's theorem, tower transitivity and the intersection formula above are there,
+  for towers of Galois extensions of nonarchimedean local fields, Tau Ceti's
+  `TauCeti.LocalFieldsRamification.upperJump_herbrand_iff` with
+  `TauCeti.LocalFieldsRamification.lowerJump_inverseHerbrand_iff`,
+  `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
+  `TauCeti.LocalFieldsRamification.herbrand_tower` with
+  `TauCeti.LocalFieldsRamification.inverseHerbrand_tower`, and
+  `TauCeti.LocalFieldsRamification.comap_restrictScalarsHom_upperRamificationGroup`, which this
+  section consumes there and does not restate.
 
 (Jean-Pierre Serre, [Local Fields](#source-serre-local-fields), IV §3, Propositions 14 and 15.)
 (Jean-Pierre Serre, [Sur les corps locaux à corps résiduel algébriquement
@@ -505,7 +593,13 @@ intersection formula follows from `H_i = H ∩ G_i` of 3a.1 and transitivity.
 `FixedPoints.subalgebra` with its quotient action, and `QuotientGroup.mk'`; Tau Ceti
 `TauCeti.IsLocalRing.ramificationGroupReal` and `TauCeti.IsLocalRing.sum_min_lowerIndex_natCast`;
 the completed roadmap's Herbrand objects in Tau Ceti's `TauCeti/NumberTheory/LocalField/Herbrand/`
-(for the local-field instance).
+with `TauCeti.LocalFieldsRamification.upperJump_herbrand_iff`,
+`TauCeti.LocalFieldsRamification.lowerJump_inverseHerbrand_iff`,
+`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
+`TauCeti.LocalFieldsRamification.herbrand_tower`,
+`TauCeti.LocalFieldsRamification.inverseHerbrand_tower` and
+`TauCeti.LocalFieldsRamification.comap_restrictScalarsHom_upperRamificationGroup` (for the
+local-field instance).
 
 **Checks.**
 
@@ -584,7 +678,12 @@ field `κ` and a specified algebraic closure `κ̄/κ`, construct a faithfully f
 `E′ = (Frac R′)[X]/(f)` of the same degree, integral closure `R′[π_E]`, and the same Galois group.
 Prove that the normalized values of `σπ_E − π_E`, the lower groups, and the Herbrand functions
 are preserved: the Eisenstein generator remains a uniformizer, and expansion in its integral
-power basis preserves the valuation of each displacement. Sources: EGA III, Chapitre 0,
+power basis preserves the valuation of each displacement. That `f` is irreducible over `R′` is
+Mathlib's Eisenstein criterion; that `R′[π_E]` is a discrete valuation ring, hence the integral
+closure, with uniformizer `π_E` and ramification index `deg f` over `R′` is Tau Ceti's
+`Polynomial.IsEisensteinAt.isDiscreteValuationRing_of_adjoin_eq_top`,
+`Polynomial.IsEisensteinAt.irreducible_of_adjoin_eq_top` and
+`Polynomial.IsEisensteinAt.ramificationIdx_eq_natDegree`. Sources: EGA III, Chapitre 0,
 (10.3.1), its associated-graded formula (10.3.1.5) and completion remark, printed pp. 20–23;
 §3a.1's monogenic lower-index formula (Serre, *Local Fields*, IV §1, Proposition 1).
 
@@ -677,24 +776,34 @@ corollaries, printed pp. 132–135, and n° 3.5, Proposition 8(i)–(iii), print
 `B ⊗_A Â` is the completion `B̂`, again a discrete valuation ring; `G` acts on it with invariants
 `Â` because `Â` is flat over `A`, and `B̂/𝔪_(B̂)^(i+1) = B/𝔪_B^(i+1)` keeps the residue fields and
 every `G_i`. A jump at `−1` is an integer. For `v ≥ 0` the upper groups of `G` are those of its
-inertia group `G_0 = Gal(L/K_0)`, where `K_0` is the maximal unramified subextension: both have
-the same lower groups `G_i`, `i ≥ 0`, hence the same Herbrand function on `[0, ∞)`. Because the
-residue extension is separable, `L/K_0` is totally ramified, so `L = K_0(π_L)` for a root `π_L` of
-an Eisenstein polynomial. Let `A′` be the completion of a flat local `A_0`-algebra, `A_0` the
-integer ring of `K_0`, whose maximal ideal is generated by `𝔪_(A_0)` and whose residue field is
-an algebraic closure of `k`; it exists by EGA (10.3.1) and is a complete discrete valuation ring
-with the same uniformizer. The Eisenstein polynomial stays Eisenstein over `A′`, so
+inertia group `G_0 = Gal(L/K_0)`, where `K_0` is the maximal unramified subextension (3a.1): both
+have the same lower groups `G_i`, `i ≥ 0`, hence the same Herbrand function on `[0, ∞)`. Because
+the residue extension is separable, `L/K_0` is totally ramified (3a.1, from `#G_0 = e`), so the
+integer ring of `L` is `A_0[π_L]` for a uniformizer `π_L` (Tau Ceti's
+`TauCeti.IsLocalRing.adjoin_eq_top_of_span_eval_eq_maximalIdeal` with the polynomial `X`, the
+residue extension being trivial), `A_0` the integer ring of `K_0`, and the minimal polynomial of
+`π_L` over `K_0` is Eisenstein (Serre, *Local Fields*, I §6, Proposition 18). Let `A′` be the
+completion of a flat local `A_0`-algebra whose maximal ideal is generated by `𝔪_(A_0)` and whose
+residue field is an algebraic closure of `k`; it exists by EGA (10.3.1) and is a complete discrete
+valuation ring with the same uniformizer. The Eisenstein polynomial stays Eisenstein over `A′`, so
 `L̃ = K̃(π_L)` is a totally ramified Galois extension of `K̃ = Frac A′` with group `G_0`, integer
-ring `A′[π_L]` and the same values `v_L(σπ_L − π_L)`: the lower filtration, hence the upper one,
-is unchanged. The proalgebraic and graded-norm targets give `π₀(V) ≅ G_0` in the abelian case.
+ring `A′[π_L]` (a discrete valuation ring with uniformizer `π_L` by Tau Ceti's
+`Polynomial.IsEisensteinAt.isDiscreteValuationRing_of_adjoin_eq_top` and
+`Polynomial.IsEisensteinAt.irreducible_of_adjoin_eq_top`, hence integrally closed) and the same
+values `v_L(σπ_L − π_L)`: the lower filtration, hence the upper one, is unchanged. The proalgebraic and graded-norm targets give `π₀(V) ≅ G_0` in the abelian case.
 Its order, together with the bound on `#π₀(V_0)`, forces `G_(ψ(s)+1) = G_(ψ(s+1))` for every
 integer `s ≥ 0`: a strict inclusion would make the product of graded indices smaller than `#G_0`.
 A lower jump `m` with nonintegral `φ(m)` would lie between `ψ(s)` and `ψ(s+1)` and contradict
 that equality (Serre 1961, n° 3.5, Corollary 1 to Proposition 8).
 
-*Needs:* 3a.1; 3a.2; this section's residue-enlargement, proalgebraic-unit and filtered
-norm-kernel targets; Mathlib `Polynomial.IsEisensteinAt` and its irreducibility criterion, and
-adic completion of a Noetherian local ring.
+*Needs:* 3a.1 (including `#G_0 = e` and the maximal unramified subextension, from Mathlib's
+`Ideal.card_inertia_eq_ramificationIdxIn` and `Ideal.Quotient.stabilizerHom_surjective`); 3a.2;
+this section's residue-enlargement, proalgebraic-unit and filtered norm-kernel targets; Mathlib
+`Polynomial.IsEisensteinAt` and its irreducibility criterion, and adic completion of a Noetherian
+local ring; Tau Ceti `TauCeti.IsLocalRing.adjoin_eq_top_of_span_eval_eq_maximalIdeal`,
+`Polynomial.IsEisensteinAt.isDiscreteValuationRing_of_adjoin_eq_top`,
+`Polynomial.IsEisensteinAt.irreducible_of_adjoin_eq_top` and
+`Polynomial.IsEisensteinAt.ramificationIdx_eq_natDegree`.
 
 **Checks.**
 
@@ -820,8 +929,9 @@ trivially on the residue field of `O ∩ M`, which is `absoluteUpperRamification
 hypothesis on `O`. In the setting of this layer the valuation of `K` has a unique prolongation to
 every finite extension, so `O` is unique and every `σ ∈ G_K` carries it to itself: its
 decomposition group is `⊤`. As `k` is perfect, `Gal(M/K)^0` is the inertia group of `M/K`, whose
-fixed field is the maximal unramified subextension of `M`, so `σ ∈ G_K^0` exactly when `σ` fixes
-every finite unramified subextension, that is `G_K^0 = I_K`.
+fixed field is the maximal unramified subextension of `M` (3a.1, through Mathlib's
+`Ideal.card_inertia_eq_ramificationIdxIn` and `Ideal.Quotient.stabilizerHom_surjective`), so
+`σ ∈ G_K^0` exactly when `σ` fixes every finite unramified subextension, that is `G_K^0 = I_K`.
 
 For `G_K^(0+)`, at every level and for every `w > 0`, `ψ(w) > 0`, so `Gal(M/K)^w = G_(ψ(w))` lies in
 `G_1`, with equality once `ψ(w) ≤ 1`. The set `P_K` is closed, an intersection of preimages of
@@ -855,7 +965,9 @@ with images `G_0` and `G_1` in every finite quotient
 `Subgroup.topologicalClosure`, `FiniteGaloisIntermediateField`, `AlgEquiv.restrictNormalHom`,
 `AlgEquiv.restrictNormalHom_surjective`, `InfiniteGalois.restrictNormalHom_continuous`,
 `ValuationSubring.comap`, `ValuationSubring.decompositionSubgroup`,
-`ValuationSubring.inertiaSubgroup`, `IsAdicComplete` and `PerfectField`; Tau Ceti
+`ValuationSubring.inertiaSubgroup`, `IsAdicComplete`, `PerfectField`,
+`Ideal.card_inertia_eq_ramificationIdxIn` and `Ideal.Quotient.stabilizerHom_surjective` (through
+3a.1, for `G_K^0 = I_K`); Tau Ceti
 `TauCeti.absoluteGaloisGroupRestrictEquiv` with `TauCeti.absoluteGaloisGroupRestrictEquiv_apply`,
 the instance `CompactSpace (Field.absoluteGaloisGroup K)`,
 `TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertiaSubgroup`, and, for the pro-`p` statement
@@ -926,13 +1038,18 @@ Prove:
 - `ψ_(L/K)` does not depend on `M`, agrees with 3a.2 when `L/K` is Galois (so that, on
   nonarchimedean local fields, it is then `TauCeti.LocalFieldsRamification.inverseHerbrand K L` by
   §3a.2's agreement), is continuous, strictly increasing, piecewise linear and the identity on
-  `[−1, 0]`, and `ψ_(N/K) = ψ_(N/L) ∘ ψ_(L/K)` for every finite separable `N ⊇ L`;
+  `[−1, 0]`, and `ψ_(N/K) = ψ_(N/L) ∘ ψ_(L/K)` for every finite separable `N ⊇ L`; when `L/K` and
+  `N/K` are Galois extensions of nonarchimedean local fields, this tower law is Tau Ceti's
+  `TauCeti.LocalFieldsRamification.inverseHerbrand_tower` through §3a.2's agreement;
 - the finite-level subgroup identity: for every finite Galois `M/K` containing `L`,
   `Gal(M/L) ∩ Gal(M/K)^u = Gal(M/L)^(ψ_(L/K)(u))` for `u ≥ −1`. With `ψ_(L/K)` written as
   `φ_(M/L) ∘ ψ_(M/K)`, this holds for every subgroup `H` of a finite group `G` acting on a local
   ring, normal or not and with no hypothesis on the residue extension: it is
   `subgroupOf_upperRamificationGroup` in `Suggested.lean`, for `G = Gal(M/K)` and `H = Gal(M/L)`
-  acting on the integer ring of `M`;
+  acting on the integer ring of `M`. When `L/K` is a Galois extension of nonarchimedean local
+  fields it is Tau Ceti's
+  `TauCeti.LocalFieldsRamification.comap_restrictScalarsHom_upperRamificationGroup` through
+  §3a.2's agreement; on local fields this section owns it for `L/K` not Galois;
 - the open-subgroup identity `G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` for every `u ≥ −1`: when `O ∩ K`
   is a complete discrete valuation ring with perfect residue field, for every `L` contained in a
   finite Galois `M/K`, every embedding `ι` over `L` and every valuation subring `O′` of
@@ -981,7 +1098,10 @@ local-field reading; Mathlib `IntermediateField.fixingSubgroup`, `IntermediateFi
 `ValuationSubring.comap`; Tau Ceti `TauCeti.fixingSubgroup_fixedField`,
 `TauCeti.absoluteGaloisGroup_mapOfAlgebra_commutes` and
 `TauCeti.IsLocalRing.subgroupOf_ramificationGroupReal`; the completed roadmap's
-`TauCeti.LocalFieldsRamification.inverseHerbrand`, for the local-field reading.
+`TauCeti.LocalFieldsRamification.inverseHerbrand`,
+`TauCeti.LocalFieldsRamification.inverseHerbrand_tower` and
+`TauCeti.LocalFieldsRamification.comap_restrictScalarsHom_upperRamificationGroup`, for the
+local-field reading.
 
 **Checks.**
 
@@ -1034,16 +1154,25 @@ finite separable extension of `K′` is generated by a root of a separable polyn
 close to a defining polynomial, so the functor is essentially surjective; henselianity makes `K^ur`
 separably closed in `K′`, so it is fully faithful. The argument uses only separability and
 completeness, so it applies in equal characteristic as well. For `L/K` Galois with
-`K_0 = L ∩ K^ur`, `L/K_0` is totally ramified, `L = K_0(π_L)` for an Eisenstein `π_L`, and the
+`K_0 = L ∩ K^ur`, the fixed field of `G_0`, `L/K_0` is totally ramified (3a.1, from `#G_0 = e`),
+the integer ring of `L` is generated over that of `K_0` by a uniformizer `π_L`
+(`TauCeti.IsLocalRing.adjoin_eq_top_of_span_eval_eq_maximalIdeal` with the polynomial `X`), whose
+minimal polynomial is Eisenstein (Serre, *Local Fields*, I §6, Proposition 18), and the
 Eisenstein polynomial stays Eisenstein over the integer ring of `K′` because `e(K′/K_0) = 1`.
-Hence the integer ring of `L′` is generated by `π_L`, the values `v_L(σπ_L − π_L)` are unchanged,
+Hence the integer ring of `L′` is generated by `π_L`, a uniformizer of it (Tau Ceti's
+`Polynomial.IsEisensteinAt.isDiscreteValuationRing_of_adjoin_eq_top` and
+`Polynomial.IsEisensteinAt.irreducible_of_adjoin_eq_top`), the values `v_L(σπ_L − π_L)` are unchanged,
 and the lower filtration of `G_0(L/K) = Gal(L/K_0) ≅ Gal(L′/K′)`, the Herbrand function on
 `[0, ∞)`, the upper groups at `v ≥ 0` and, by Hilbert's formula, the different agree. A finite
 separable `L` is handled through a Galois closure, and the absolute statement is the limit over
 `M`, by 4a.1.
 
-*Needs:* 3a.1; 3a.2; 4a.1; Mathlib `UniformSpace.Completion`, `IsKrasner.of_completeSpace_of_normal`,
-`Polynomial.IsEisensteinAt` and `differentIdeal`.
+*Needs:* 3a.1 (including `#G_0 = e`, from Mathlib's `Ideal.card_inertia_eq_ramificationIdxIn`);
+3a.2; 4a.1; Mathlib `UniformSpace.Completion`, `IsKrasner.of_completeSpace_of_normal`,
+`Polynomial.IsEisensteinAt` and `differentIdeal`; Tau Ceti
+`TauCeti.IsLocalRing.adjoin_eq_top_of_span_eval_eq_maximalIdeal`,
+`Polynomial.IsEisensteinAt.isDiscreteValuationRing_of_adjoin_eq_top` and
+`Polynomial.IsEisensteinAt.irreducible_of_adjoin_eq_top`.
 
 **Checks.**
 
