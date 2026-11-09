@@ -9,22 +9,26 @@ The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: the nondegenerate Lefschetz fixed-point
 formula and the nondegenerate vector-field Poincaré–Hopf theorem.
 
-The remaining headlines are not statable at these pins without substantial new
-constructions. Layer 1's completion and universal property lack the period-controlled
-completed group ring and topology. Layer 2's compactification and gluing lack the
-closed-one-form cutoff trajectory spaces. Layer 3's continuation, completed cellular
-comparison and top-degree vanishing lack the Novikov complex
-and controlled cellular/singular chain models. Layer 4's Novikov inequalities, torsion decomposition and
-transformation laws lack the based determinant-line torsion construction and the
-Novikov ring. Layer 5's integral zeta product and cover-norm theorem lack the periodic
-orbit counting series and its completion. Layer 6's dynamical torsion invariance,
-cellular equality and mapping-torus/knot-surgery torsion formulas lack these torsion
-and zeta carriers; the continuous fixed-point-index strengthening also lacks its
-local index construction. Layer 7's Euler-refined equality lacks the Euler-structure
-torsor and its determinant-volume normalization. None is replaced by admitted data.
+Several algebraic headlines are already proved at the pinned Tau Ceti and are consumed,
+not restated: Layer 1's completion `TauCeti.NovikovSeries`, its universal property
+`TauCeti.NovikovSeries.completionPkg`, its functoriality `TauCeti.NovikovSeries.mapRingHom`
+and its domain theorem `TauCeti.NovikovSeries.isDomain_of_fg`; Layer 4's based torsion
+`HomologicalComplex.reidemeisterTorsion` with its basis-change law
+`HomologicalComplex.reidemeisterTorsion_eq_mul_finprod_det_toMatrix`, its homology-basis form
+`HomologicalComplex.reidemeisterTorsionWithHomology` and its componentwise form
+`HomologicalComplex.componentwiseReidemeisterTorsion`; and Layer 5's integral product
+formula `TauCeti.NovikovSeries.orbitZeta_eq_mapRingHom_eulerProduct` for the algebraic
+orbit zeta function `TauCeti.NovikovSeries.orbitZeta`.
 
-The `AbelianCoverHomology` section records the integer coordinate calibration of
-the Klein-bottle abelian cover of §2.3.
+The remaining headlines are not statable at these pins. Layer 3's comparison of Novikov
+homology with completed cellular homology, its top-degree vanishing and Layer 4's Novikov
+inequalities lack Novikov homology of a closed one-form: the pins have no complex built
+from signed trajectory counts of a closed one-form on an abelian cover. Layer 5's flow
+zeta function and cover-norm theorem lack the periodic-orbit data of a closed one-form:
+the deck classes of the closed orbits of its negative dual flow and their return-map
+signs. Layer 6's dynamical torsion invariance, its equality with cellular torsion and the
+mapping-torus and knot-surgery torsion formulas lack both carriers. Layer 7's refined
+equality lacks, in addition, the Euler-structure torsor. None is replaced by admitted data.
 -/
 
 @[expose] public section
@@ -98,38 +102,5 @@ theorem poincare_hopf {E H M : Type}
         (Module.finrank ℚ (((AlgebraicTopology.singularHomologyFunctor.{0}
           (ModuleCat.{0} ℚ) i).obj (ModuleCat.of.{0} ℚ ℚ)).obj (TopCat.of M)) : ℚ) := by
   sorry
-
-/-! ## Layer 2 (§2.3): Abelian-cover homology coordinate calibration -/
-
-section AbelianCoverHomology
-
-/-! These integer maps calibrate the proposed geometric covering map of the
-Klein bottle (README.md, N2, is definitive); they do not construct the cover,
-fundamental group or homology identifications. -/
-
-namespace AbelianCoverHomology
-
-/-- The generator of the length-two fiber projects to twice the fiber loop. -/
-def doubling : ℤ →+ ℤ where
-  toFun n := 2 * n
-  map_zero' := by simp
-  map_add' a b := by simp [mul_add]
-
-/-- The section coordinate is zero and twice a fiber class vanishes modulo two. -/
-def fiberMap : ℤ →+ ℤ × ZMod 2 :=
-  (0 : ℤ →+ ℤ).prod ((Int.castAddHom (ZMod 2)).comp doubling)
-
-theorem doubling_injective : Function.Injective doubling := by
-  sorry
-
-theorem fiberMap_eq_zero : fiberMap = 0 := by
-  sorry
-
-theorem fiberMap_not_injective : ¬ Function.Injective fiberMap := by
-  sorry
-
-end AbelianCoverHomology
-
-end AbelianCoverHomology
 
 end TauCetiRoadmap.MorseNovikov
