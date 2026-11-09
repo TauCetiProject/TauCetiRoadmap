@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.RepresentationTheory.Symmetric.TensorAction.Basic
 
 /-!
 # Cyclic homology, Lie algebra homology of matrices and quasi-free algebras: target signatures
@@ -12,9 +13,14 @@ carriers. The API around each target, the special cases and the Checks stay in t
 
 Headlines stated, with their README targets:
 
-* 2.2 `injective_permOperators_iff` and `mem_range_permOperators_of_commute`;
+* 2.2 `mem_range_permTensorActionAlgHom_of_commute_glAction`;
 * 4.1 `IsQuasiFree.exists_lift_of_nilpotent`;
 * 4.2 `isQuasiFree_freeAlgebra` and `not_isQuasiFree_mvPolynomial_fin_two`.
+
+Headline owned elsewhere and not restated: 2.2's faithfulness threshold, that the permutations
+of the factors of `(kʳ)^{⊗p}` are linearly independent exactly when `p ≤ r`, is Tau Ceti's
+`TauCeti.permTensorActionAlgHom_injective_iff`, on the group-algebra map
+`TauCeti.permTensorActionAlgHom` that 2.2 uses.
 
 Headlines not stated, with the carrier each lacks at the pins:
 
@@ -52,36 +58,20 @@ section InvariantTheory
 
 variable (k : Type u) [CommRing k] (r p : ℕ)
 
-/-- **2.2.** The endomorphism of `(kʳ)^{⊗p}` permuting the tensor factors along `σ`. -/
-noncomputable def permOperator (σ : Equiv.Perm (Fin p)) :
-    Module.End k (⨂[k] _ : Fin p, Fin r → k) :=
-  (PiTensorProduct.reindex k (fun _ : Fin p => Fin r → k) σ).toLinearMap
-
-/-- **2.2.** The linear map `k[Σ_p] → End((kʳ)^{⊗p})` sending a permutation to the permutation of
-the tensor factors; the group algebra `k[Σ_p]` is written as finitely supported functions. -/
-noncomputable def permOperators :
-    (Equiv.Perm (Fin p) →₀ k) →ₗ[k] Module.End k (⨂[k] _ : Fin p, Fin r → k) :=
-  Finsupp.linearCombination k (permOperator k r p)
-
 /-- **2.2.** The action of `x ∈ 𝔤𝔩_r(k)` on `(kʳ)^{⊗p}` as a derivation:
 `x · (v₁ ⊗ ⋯ ⊗ v_p) = Σ_i v₁ ⊗ ⋯ ⊗ x v_i ⊗ ⋯ ⊗ v_p`. -/
 noncomputable def glAction (x : Module.End k (Fin r → k)) :
     Module.End k (⨂[k] _ : Fin p, Fin r → k) :=
   ∑ i : Fin p, PiTensorProduct.map (Function.update (fun _ : Fin p => LinearMap.id) i x)
 
-/-- **2.2.** Over a nontrivial commutative ring, the permutations of the tensor factors of
-`(kʳ)^{⊗p}` are linearly independent exactly when `p ≤ r`. -/
-theorem injective_permOperators_iff [Nontrivial k] :
-    Function.Injective (permOperators k r p) ↔ p ≤ r := by
-  sorry
-
 /-- **2.2.** Weyl's first fundamental theorem in Loday–Quillen's form: over a field of
 characteristic zero, every endomorphism of `(kʳ)^{⊗p}` commuting with the action of `𝔤𝔩_r(k)` is
-a linear combination of permutations of the tensor factors. -/
-theorem mem_range_permOperators_of_commute (K : Type u) [Field K] [CharZero K]
+a linear combination of permutations of the tensor factors, that is, lies in the range of Tau
+Ceti's `TauCeti.permTensorActionAlgHom`. -/
+theorem mem_range_permTensorActionAlgHom_of_commute_glAction (K : Type u) [Field K] [CharZero K]
     (f : Module.End K (⨂[K] _ : Fin p, Fin r → K))
     (hf : ∀ x : Module.End K (Fin r → K), Commute f (glAction K r p x)) :
-    f ∈ LinearMap.range (permOperators K r p) := by
+    f ∈ (TauCeti.permTensorActionAlgHom K r p).range := by
   sorry
 
 end InvariantTheory

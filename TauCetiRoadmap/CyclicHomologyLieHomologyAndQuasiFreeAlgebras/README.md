@@ -12,8 +12,8 @@ cyclic `k`-module `X`, its dual `HC^n(A) ≅ Ext^n_(kΛ)(A♮, k♮)` over a fie
 homology of tensor algebras (Layer 1); for a field `k` of characteristic zero and every unital
 `k`-algebra `A`, the Loday–Quillen–Tsygan theorem `Prim H_n(𝔤𝔩(A); k) ≅ HC_(n−1)(A)`, so that
 `H_*(𝔤𝔩(A); k)` is the free graded-commutative algebra on `HC_(*−1)(A)`, with its invariant-theory
-input (the permutations of the factors of `(kʳ)^⊗p` are linearly independent exactly when
-`p ≤ r`, over every nontrivial commutative ring, and span the commutant of `𝔤𝔩_r(k)`), the
+input (the permutations of the factors of `(kʳ)^⊗p` span the commutant of `𝔤𝔩_r(k)`, and are
+linearly independent exactly when `p ≤ r` by Tau Ceti's faithfulness threshold), the
 isomorphism `H₂(𝔰𝔩(A)) ≅ HC₁(A)` and the stability of `H_i(𝔤𝔩_n(A))` for `i < n − 1` (Layer 2);
 Goodwillie's theorems, over a field of characteristic zero: a derivation acts trivially on
 periodic cyclic homology, and `HP_*(A) → HP_*(A/I)` is an isomorphism for every nilpotent
@@ -34,19 +34,28 @@ Suggested home: `TauCeti/Algebra/Homology/Cyclic/` for Layers 1 and 3–4,
 **Owned here.** The `Tor` and `Ext` descriptions of cyclic homology over Connes' cyclic category,
 the classifying space of that category, and the cyclic homology of tensor algebras (Layer 1); the
 Chevalley–Eilenberg homology of Lie algebras with trivial coefficients and its Hopf algebra
-structure for `𝔤𝔩(A)`, the invariant theory of `𝔤𝔩_r` acting on tensor powers, the
+structure for `𝔤𝔩(A)`, the commutant of `𝔤𝔩_r` acting on tensor powers and its coinvariant form, the
 Loday–Quillen–Tsygan theorem, its low-degree corollary and the stability theorem (Layer 2); the
-action of derivations on cyclic homology and Goodwillie's nil-invariance of periodic cyclic
-homology (Layer 3); quasi-free algebras, the X-complex, the universal extension with its Fedosov
-product, and excision in periodic cyclic homology (Layer 4); H-unitality, excision in Hochschild
-and cyclic homology, rational excision in K-theory, firm modules over nonunital rings, Morita
-contexts between them, and the group `K₀′` (Layer 5). A search of the roadmaps on main, of the
-open pull requests and of the maintainers' packages for the Loday–Quillen–Tsygan theorem, Lie
-algebra homology of matrices, Chevalley–Eilenberg homology, quasi-free algebras, the X-complex,
-Goodwillie's theorem on periodic cyclic homology, H-unitality, Wodzicki excision, firm modules
-over noncommutative rings, Morita contexts and Quillen's `K₀′` finds no other owner. Mathlib
-has only low-degree Lie algebra cochains (`LieModule.Cohomology.twoCochain`), not the
-Chevalley–Eilenberg complex.
+action of derivations on cyclic homology and Goodwillie's nil-invariance of periodic cyclic homology
+(Layer 3); quasi-free algebras, the X-complex, the universal extension with its Fedosov product, and
+excision in periodic cyclic homology (Layer 4); H-unitality, excision in Hochschild and cyclic
+homology, the Suslin–Wodzicki criterion for rational excision in K-theory, firm modules over
+nonunital rings, Morita contexts between them, and the group `K₀′` (Layer 5). A search of the
+roadmaps on main, of the open pull requests and of the maintainers' packages for the
+Loday–Quillen–Tsygan theorem, Lie algebra homology of matrices, Chevalley–Eilenberg homology,
+quasi-free algebras, the X-complex, Goodwillie's theorem on periodic cyclic homology, H-unitality,
+Wodzicki excision, firm modules over noncommutative rings, Morita contexts and Quillen's `K₀′` finds
+no other owner. Mathlib has only low-degree Lie algebra cochains
+(`LieModule.Cohomology.twoCochain`), not the Chevalley–Eilenberg complex. The firm and unitary
+modules of 5.4, over an arbitrary nonunital ring, are the general statement of which
+SmoothRepresentationsOfLocalGroups' nondegenerate modules over an idempotented algebra are an
+instance; that roadmap cites 5.4.
+
+**Left to Tau Ceti.** The action of `Σ_p` and of its group algebra on `(kʳ)^⊗p` by permuting the
+factors, the threshold `p ≤ r` for its faithfulness, and Schur–Weyl duality for the diagonal
+operators (`TauCeti.permTensorActionAlgHom`, `TauCeti.permTensorActionAlgHom_injective_iff`,
+`TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`). Target 2.2 consumes them and owns
+only the form with the Lie algebra action of `𝔤𝔩_r(k)`.
 
 **Left to RefinedTraceMethods.** Connes' cyclic category `Λ`, cyclic objects and their
 presentation by `(d_i, s_j, t_n)` (RefinedTraceMethods §1.1); Connes' operator
@@ -68,6 +77,10 @@ and products, and the HKR comparison with its characteristic-zero de Rham form
 unitisation (AlgebraicKTheory §3.4); K-theory of nonunital rings as a relative fibre and the
 definition of absolute excision with Suslin's integral `Tor` criterion (GeneralAlgebraicKTheory
 §§8.3 and 8.10). Layer 5 consumes them.
+
+**Left to TopologicalKTheory.** Relative K-theory `K⁰(X, Y)` of a compact pair through bounded
+complexes of vector bundles exact on `Y` (TopologicalKTheory T3.2), the topological model of
+Quillen's `K₀′` of 5.6.
 
 **Neighbouring constructions.** NoncommutativeGeometry N1 constructs universal differential forms,
 cyclic cochains and periodic cyclic cohomology for complex algebras through their forced
@@ -125,8 +138,8 @@ for `𝔬(A)` and `𝔰𝔭(A)`, and Quillen's derived categories of firm module
 **From Mathlib** (at the pins).
 
 - Tensor powers and permutations: `PiTensorProduct` with `PiTensorProduct.tprod`,
-  `PiTensorProduct.map`, `PiTensorProduct.reindex`, `Equiv.Perm`, `Finsupp.linearCombination`,
-  `Module.End`, `Commute`, `LinearMap.range`, `Function.update`.
+  `PiTensorProduct.map`, `Equiv.Perm`, `MonoidAlgebra`, `Module.End`, `Commute`, `AlgHom.range`,
+  `Function.update`.
 - Lie algebras: `LieRing`, `LieAlgebra`, `LieSubalgebra`, `UniversalEnvelopingAlgebra`,
   `exteriorPower` (`⋀[R]^n M`), `Matrix`, `Matrix.trace`, `LieAlgebra.SpecialLinear.sl`.
 - Algebras: `AlgHom`, `FreeAlgebra` with `FreeAlgebra.lift` and `FreeAlgebra.ι`, `MvPolynomial`,
@@ -136,14 +149,22 @@ for `𝔬(A)` and `𝔰𝔭(A)`, and Quillen's derived categories of firm module
   `CategoryTheory.Abelian.Ext`, `Module.Projective`, `Module.Flat`.
 - Simplicial and homotopical: `CategoryTheory.nerve`, `SSet.toTop`, `HomotopyGroup`.
 
-**From Tau Ceti.** Nothing is consumed.
+**From Tau Ceti** (at the pin), in
+`TauCeti/RepresentationTheory/Symmetric/TensorAction/`: `Basic.lean`
+(`TauCeti.permTensorAction`, `TauCeti.permTensorActionAlgHom`, the action of `Σ_p` and of
+`k[Σ_p] = MonoidAlgebra k (Equiv.Perm (Fin p))` on `(kʳ)^⊗p` by permuting the factors),
+`Faithful.lean` (`TauCeti.permTensorActionAlgHom_injective_iff`: injective if and only if
+`p ≤ r`, over a nontrivial commutative ring), `SchurWeyl.lean`
+(`TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`: over a field in which `p!` is
+nonzero, the range is the commutant of the diagonal operators `f^⊗p`).
 
 **From RefinedTraceMethods.** §1.1 (Connes' cyclic category `Λ`, cyclic objects of a category as
 functors `Λᵒᵖ ⥤ C`, the inclusion `Δ → Λ`, the presentation by `(d_i, s_j, t_n)`); §1.2 (Connes'
 operator `B`, mixed complexes, the normalised mixed complex of a cyclic module); §1.4 (`HC`,
 `HC⁻`, `HP` of a mixed complex and of an algebra, the SBI sequence, the comparison with Connes'
 complex when `ℚ ⊆ k`); §1.6 (Morita invariance of cyclic homology, the matrix trace
-`HC_*(M_r(A)) ≅ HC_*(A)`).
+`HC_*(M_r(A)) ≅ HC_*(A)`); §4.18 (Cortiñas' theorem: the obstruction to excision in rational
+K-theory is that in cyclic homology, shifted by one).
 
 **From KTheoryFiniteLocalFields.** §4.0 (`cyclicHomologyModel`: Hochschild homology `HH_*(A/k)`,
 `HC_*(A/k)`, `HP_*(A/k)` with functoriality in algebra maps, relative fibres for an ideal and the
@@ -161,15 +182,15 @@ two-sided ideal).
 
 Layer 1 extends RefinedTraceMethods' cyclic category to Connes' `Tor` and `Ext` description of
 cyclic homology, the classifying space of `Λ` and the cyclic homology of tensor algebras. Layer 2
-defines Lie algebra homology, proves the invariant theory of `𝔤𝔩_r` on tensor powers (the one
-layer stated in Lean on Mathlib alone) and deduces the Loday–Quillen–Tsygan theorem, its
-corollary in degree two and stability; it uses Layer 1 only through the Connes complex.
-Layer 3 is Goodwillie's theory of derivations and nilpotent extensions in periodic cyclic
-homology. Layer 4 defines quasi-free algebras by a lifting property, on Mathlib's algebra maps,
-gives their characterisations and examples, then builds the X-complex and proves that it computes
-periodic cyclic homology, using Layer 3's nil-invariance for the independence of the extension,
-and ends with excision. Layer 5 treats rings without unit: H-unitality and Wodzicki's excision,
-rational excision in K-theory, firm modules and Morita contexts, and Quillen's `K₀′`.
+defines Lie algebra homology, proves the invariant theory of `𝔤𝔩_r` on tensor powers from Tau Ceti's
+Schur–Weyl duality (the one layer stated in Lean, on Mathlib and Tau Ceti) and deduces the
+Loday–Quillen–Tsygan theorem, its corollary in degree two and stability; it uses Layer 1 only
+through the Connes complex. Layer 3 is Goodwillie's theory of derivations and nilpotent extensions
+in periodic cyclic homology. Layer 4 defines quasi-free algebras by a lifting property, on Mathlib's
+algebra maps, gives their characterisations and examples, then builds the X-complex and proves that
+it computes periodic cyclic homology, using Layer 3's nil-invariance for the independence of the
+extension, and ends with excision. Layer 5 treats rings without unit: H-unitality and Wodzicki's
+excision, rational excision in K-theory, firm modules and Morita contexts, and Quillen's `K₀′`.
 
 ## Layer 1: cyclic homology over the cyclic category
 
@@ -297,37 +318,46 @@ and cocommutative connected Hopf algebra (Loday–Quillen 1984, §6, p. 584).
 
 ### 2.2 Invariant theory of tensor powers
 
-Define `permOperator k r p σ`, the endomorphism of `(kʳ)^⊗p` permuting the factors along `σ`,
-`permOperators k r p : k[Σ_p] →ₗ[k] End((kʳ)^⊗p)`, with `k[Σ_p]` written as
-`Equiv.Perm (Fin p) →₀ k`, and `glAction k r p x`, the action of `x ∈ 𝔤𝔩_r(k)` as the derivation
-`Σ_i 1 ⊗ ⋯ ⊗ x ⊗ ⋯ ⊗ 1`. Prove `injective_permOperators_iff`: over every nontrivial commutative
-ring `k`, `permOperators k r p` is injective if and only if `p ≤ r`. Prove
-`mem_range_permOperators_of_commute`: over a field of characteristic zero, every endomorphism of
-`(kʳ)^⊗p` commuting with `glAction k r p x` for all `x` is in the image of `permOperators`
-(Weyl's first fundamental theorem, as used by Loday–Quillen 1984, §6.3, pp. 584–585). By the
-trace duality `𝔤𝔩_r(k)* = 𝔤𝔩_r(k)`, deduce the coinvariant form: for `r ≥ p`,
+The permutation action of `Σ_p` on `(kʳ)^⊗p` and its group-algebra form
+`k[Σ_p] → End((kʳ)^⊗p)` are Tau Ceti's `TauCeti.permTensorAction k r p` and
+`TauCeti.permTensorActionAlgHom k r p`, and their faithfulness threshold is Tau Ceti's
+`TauCeti.permTensorActionAlgHom_injective_iff`: over every nontrivial commutative ring `k`, the
+algebra map is injective if and only if `p ≤ r`, the antisymmetriser `Σ_σ sgn(σ) σ` lying in the
+kernel when `p > r`. This target restates neither. Define `glAction k r p x`, the action of
+`x ∈ 𝔤𝔩_r(k)` on `(kʳ)^⊗p` as the derivation `Σ_i 1 ⊗ ⋯ ⊗ x ⊗ ⋯ ⊗ 1`. Prove
+`mem_range_permTensorActionAlgHom_of_commute_glAction`: over a field of characteristic zero, every
+endomorphism of `(kʳ)^⊗p` commuting with `glAction k r p x` for all `x` is in the range of
+`TauCeti.permTensorActionAlgHom k r p` (Weyl's first fundamental theorem, as used by Loday–Quillen
+1984, §6.3, pp. 584–585). Route: in characteristic zero the operators `glAction k r p x` generate
+an associative subalgebra containing every diagonal operator `f^⊗p` (by polarisation, from
+`glAction k r 2 x ^ 2 − glAction k r 2 (x²) = 2 (x ⊗ x)` in degree two and its analogue in degree
+`p`), so the hypothesis gives commutation with every `f^⊗p`, and Tau Ceti's
+`TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute` concludes. By the trace duality
+`𝔤𝔩_r(k)* = 𝔤𝔩_r(k)` and the faithfulness threshold, deduce the coinvariant form: for `r ≥ p`,
 `(𝔤𝔩_r(k)^⊗p)_(𝔤𝔩_r(k)) ≅ k[Σ_p]`, with `Σ_p` acting on `k[Σ_p]` by conjugation (loc. cit.,
-p. 585). Route for the converse of injectivity: for `p > r`, the antisymmetriser
-`Σ_σ sgn(σ) σ` is a nonzero element of the kernel, since each basis tensor `e_(i₁) ⊗ ⋯ ⊗ e_(i_p)`
-repeats an index and the transposition of the repeated positions pairs its terms with opposite
-signs.
-*Needs:* Mathlib `PiTensorProduct.reindex`, `PiTensorProduct.map`, `Finsupp.linearCombination`,
-`Equiv.Perm`, `Commute`, `LinearMap.range`.
+p. 585).
+*Needs:* Tau Ceti `TauCeti.permTensorActionAlgHom`, `TauCeti.permTensorActionAlgHom_injective_iff`,
+`TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`; Mathlib `PiTensorProduct.map`,
+`Function.update`, `Commute`, `AlgHom.range`.
 
 **Checks.**
 
-- `r = 1`, `p = 2`: `(k¹)^⊗2 = k` and both permutations act as the identity, so `id − swap` is in
-  the kernel; `injective_permOperators_iff` gives `¬ 2 ≤ 1`, consistently.
-- `r = 2`, `p = 2`, `k = ℤ`: on `e₁ ⊗ e₂` the identity and the swap give the distinct basis
-  tensors `e₁ ⊗ e₂` and `e₂ ⊗ e₁`, so `a·id + b·swap` vanishes only for `a = b = 0`: injective, and
-  `2 ≤ 2`.
+- `glAction k r p 1 = p • 1`: for `p = 2` the identity of `𝔤𝔩_r(k)` acts by `2`, while the
+  diagonal operator `1 ⊗ 1` is the identity; a definition by `x ⊗ ⋯ ⊗ x` would not be a Lie
+  algebra action.
+- `glAction` is a Lie algebra map: for `r = p = 2`, `x = E₁₂`, `y = E₂₁` and `[x, y] = E₁₁ − E₂₂`,
+  on `e₂ ⊗ e₂` the operator `glAction y` gives `0` and `glAction y (glAction x (e₂ ⊗ e₂)) =
+  glAction y (e₁ ⊗ e₂ + e₂ ⊗ e₁) = 2 e₂ ⊗ e₂`, so the commutator gives `−2 e₂ ⊗ e₂`, which is
+  `glAction (E₁₁ − E₂₂) (e₂ ⊗ e₂)`; the diagonal operators `x ⊗ x` give `−e₂ ⊗ e₂` against
+  `+e₂ ⊗ e₂`.
 - `r = 2`, `p = 3`: `glAction k 2 3 x` for `x = E₁₂` sends `e₂ ⊗ e₂ ⊗ e₂` to
   `e₁ ⊗ e₂ ⊗ e₂ + e₂ ⊗ e₁ ⊗ e₂ + e₂ ⊗ e₂ ⊗ e₁`, a symmetric tensor; the cyclic permutation
   `(123)` commutes with it, while the projection onto `e₁ ⊗ e₂ ⊗ e₂` alone does not, and is not
-  in the range of `permOperators`.
-- `p = 0`: `(kʳ)^⊗0 = k`, `Σ₀` is trivial and `permOperators` is the identity of `k`, injective
-  for every `r`, including `r = 0`; for `r = 0` and `p = 1` the tensor power is `0` and the map
-  `k → End(0)` is not injective, as `1 ≤ 0` fails.
+  in the range of `TauCeti.permTensorActionAlgHom k 2 3`.
+- The coinvariant form needs `r ≥ p`: for `r = 1`, `p = 2`, `(k¹)^⊗2 = k` and both permutations
+  act as the identity, so `id − swap` is in the kernel of `TauCeti.permTensorActionAlgHom k 1 2`,
+  as `TauCeti.permTensorActionAlgHom_injective_iff` predicts from `¬ 2 ≤ 1`; for `r = p = 2` the
+  identity and the swap send `e₁ ⊗ e₂` to distinct basis tensors.
 
 ### 2.3 Coinvariants and primitive elements
 
@@ -420,8 +450,8 @@ is an exact sequence
 
 ### Dependencies
 
-Mathlib for 2.1–2.2; RefinedTraceMethods §§1.4 and 1.6 and KTheoryFiniteLocalFields §4.0 from 2.3
-on. Within the layer, each target uses the previous ones.
+Mathlib for 2.1–2.2 and Tau Ceti for 2.2; RefinedTraceMethods §§1.4 and 1.6 and
+KTheoryFiniteLocalFields §4.0 from 2.3 on. Within the layer, each target uses the previous ones.
 
 ## Layer 3: derivations and nilpotent extensions
 
@@ -690,13 +720,17 @@ cyclic homology (Wodzicki 1989).
 
 ### 5.3 Rational excision in algebraic K-theory
 
-Prove: a ring `A` without unit satisfies excision in rational algebraic
-K-theory, in the sense of GeneralAlgebraicKTheory §8.10 after tensoring with `ℚ`, if and only if
-`A ⊗_ℤ ℚ` is H-unital (Suslin–Wodzicki 1992). Deduce that every C*-algebra satisfies rational
-excision, since C*-algebras are H-unital (loc. cit.). Without H-unitality, the defect of excision
-in rational K-theory is measured by birelative cyclic homology (Cortiñas 2006, Theorem 0.1), which
-RefinedTraceMethods §4.18 states; 5.3 is the case where both defects vanish.
-*Needs:* 5.1, 5.2; GeneralAlgebraicKTheory §8.3, §8.10.
+The comparison of the two obstructions is Cortiñas' theorem, stated by RefinedTraceMethods §4.18
+(truncating invariants): the obstruction to excision in rational K-theory is the obstruction to
+excision in rational cyclic homology, shifted by one (Cortiñas 2006, Theorem 0.1). This target does
+not restate it and deduces from it, with 5.2, the Suslin–Wodzicki criterion: a ring `A`
+without unit satisfies excision in rational algebraic K-theory, in the sense of
+GeneralAlgebraicKTheory §8.10 after tensoring with `ℚ`, if and only if `A ⊗_ℤ ℚ` is H-unital
+(Suslin–Wodzicki 1992). Route: by Cortiñas' theorem, rational K-excision for `A` inside every unital
+ring containing it is excision in cyclic homology for the `ℚ`-algebra `A ⊗_ℤ ℚ`, which 5.2
+characterises by H-unitality. Deduce that every C*-algebra satisfies rational excision, since
+C*-algebras are H-unital (Suslin–Wodzicki 1992).
+*Needs:* 5.1, 5.2; RefinedTraceMethods §4.18; GeneralAlgebraicKTheory §8.3, §8.10.
 
 **Checks.**
 
@@ -761,9 +795,9 @@ sequences of complexes and from quasi-isomorphisms (Quillen 1996). Prove that `K
 depend on `R`; that two nonunital rings linked by a Morita context with surjective pairings and firm
 bimodules have isomorphic `K₀′`, a case of Quillen's Morita invariance; that there is a natural
 surjection `K₀′(A) → K₀(A)` onto AlgebraicKTheory
-§3.4's reduced `K₀`, an isomorphism when `A` is a C*-algebra; and that for a compact space `X`
-and a closed subspace `Y`, `K⁰(X, Y)` is the Grothendieck group of bounded complexes of vector
-bundles on `X` acyclic on `Y` (Quillen 1996).
+§3.4's reduced `K₀`, an isomorphism when `A` is a C*-algebra (Quillen 1996). The topological
+model of `K₀′`, the class of a bounded complex of vector bundles on a compact space `X` exact on a
+closed subspace `Y` in `K⁰(X, Y)`, is TopologicalKTheory T3.2 and is not restated here.
 *Needs:* 5.5; AlgebraicKTheory §3.4; Mathlib `Module.Projective`, `ChainComplex`, `Unitization`.
 
 **Checks.**
@@ -791,17 +825,21 @@ bundles on `X` acyclic on `Y` (Quillen 1996).
 ### Dependencies
 
 Mathlib for 5.1 and 5.4; KTheoryFiniteLocalFields §4.0 and RefinedTraceMethods §1.4 for 5.2;
-GeneralAlgebraicKTheory §§8.3 and 8.10 for 5.3; AlgebraicKTheory §3.4 for 5.6. Within the layer,
+RefinedTraceMethods §4.18 and GeneralAlgebraicKTheory §§8.3 and 8.10 for 5.3; AlgebraicKTheory
+§3.4 for 5.6. Within the layer,
 5.2 and 5.3 use 5.1, 5.5 uses 5.4 and 5.6 uses 5.5.
 
 ## Downstream consumers
 
-No roadmap on main or in the open pull requests cites CyclicHomologyLieHomologyAndQuasiFreeAlgebras.
-RefinedTraceMethods §4.17 uses Goodwillie's nil-invariance of periodic cyclic homology (3.2 here)
-as a proof input of its rational comparison of relative K-theory with cyclic homology, citing
-Goodwillie directly. NoncommutativeGeometry fixes its nonunital conventions by forced
-unitisation and assumes no H-unitality (Scope, conventions and suppliers); it cites no roadmap
-for excision.
+SmoothRepresentationsOfLocalGroups consumes 5.4: its idempotented algebras and their nondegenerate
+modules (its SR.1.3, *locally-unital-algebra*) are the instance, for an idempotented algebra, of the
+unitary and firm modules over a nonunital ring and of the abelian category of firm modules over a
+left xst ring. No other roadmap on main or in the open pull requests cites
+CyclicHomologyLieHomologyAndQuasiFreeAlgebras. RefinedTraceMethods §4.17 uses Goodwillie's
+nil-invariance of periodic cyclic homology (3.2 here) as a proof input of its rational comparison of
+relative K-theory with cyclic homology, citing Goodwillie directly. NoncommutativeGeometry fixes its
+nonunital conventions by forced unitisation and assumes no H-unitality (Scope, conventions and
+suppliers); it cites no roadmap for excision.
 
 ## Research context
 
