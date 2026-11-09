@@ -476,6 +476,40 @@ directly, and ranks do not change under field extension from the prime field. *N
   `O(Z) ⊗ O(Z)`, and its degree-`1` part is `0` (Raicu's generators have degree `≥ 2` and the ideal
   of `Z × Z` starts in degree `4`), so it does not contain `x₁ - y₁ ∈ ker μ`.
 
+**Smaller lengths (not a target).** The following lower bounds for the length of a finite local
+scheme carrying a non-effective closed equivalence relation are this roadmap's own.
+
+- Length `≤ 2`, over every field: every closed equivalence relation is effective. The algebras are
+  `k`, `k × k`, the quadratic field extensions `L` and `k[ε]`. For `k × k`, the symmetric ideals
+  inside `ker μ` are `0` and `ker μ` (0.1). For `L`, `L ⊗[k] L` is `L × L` or `L[t]/(t²)`, and in
+  both `ker μ` is an ideal with no nonzero proper subideal. The two survivors, `0` (the kernel pair
+  of `k ⊆ A`) and `ker μ` (the diagonal), are effective. `k[ε]` is covered by the next item.
+- `m² = 0`, over every field and in every finite length: if `A = k ⊕ V` with `V² = 0`, every
+  equivalence ideal `I` on `A` is effective. Since `I ⊆ ker μ`, every `z ∈ I` is
+  `(a ⊗ 1 - 1 ⊗ a) + t` with `a ∈ V` and `t ∈ V ⊗ V`; let `I₁ ⊆ V` be the set of these `a`.
+  Multiplying `z` by `1 ⊗ b` and by `b ⊗ 1`, `b ∈ V`, gives `a ⊗ b` and `-b ⊗ a`, so
+  `T = I₁ ⊗ V + V ⊗ I₁ ⊆ I`. Applying `id ⊗ π ⊗ id`, `π : A → k` the residue map, to
+  `incl₁₃ (I) ⊆ incl₁₂ (I) + incl₂₃ (I)` gives `I ⊆ I₁ ⊗ A + A ⊗ I₁`, hence `I ∩ (V ⊗ V) = T`.
+  For `z_a = (a ⊗ 1 - 1 ⊗ a) + t_a ∈ I`, the element
+  `incl₁₃ (z_a) - incl₁₂ (z_a) - incl₂₃ (z_a)` lies in `incl₁₂ (I) + incl₂₃ (I)`; its component in
+  `V ⊗ k ⊗ V` is `t_a` placed in the outer factors, and that component of
+  `incl₁₂ (I) + incl₂₃ (I)` lies in `I₁ ⊗ k ⊗ V + V ⊗ k ⊗ I₁`. So `t_a ∈ T ⊆ I`, every
+  `a ⊗ 1 - 1 ⊗ a` with `a ∈ I₁` lies in `I`, and `A^R = k ⊕ I₁`. Then `differenceIdeal I`
+  contains these differences and their products `a ⊗ b`, `-b ⊗ a` with `1 ⊗ b`, `b ⊗ 1`, hence
+  contains `I`, and `I = differenceIdeal I` (1.1), which is effectivity by 1.3.
+- Lengths `3` and `4`, over `𝔽₂` and over `𝔽₃`: every closed equivalence relation on a finite local
+  `k`-scheme is effective, by an exhaustive computation over the local algebras of these lengths
+  (`k[x]/(x³)`, `k[x, y]/m²`, `𝔽_{p³}`; `k[x]/(x⁴)`, `k[x, y, z]/m²`, every `k[x, y]/(W + m³)` with
+  `W` a plane of quadrics, `𝔽_{p²}[ε]`, `𝔽_{p⁴}`; a local algebra over a finite field has a
+  coefficient field) and over all their ideals satisfying the three fields of 0.1, with the
+  criterion of 1.3. The search over the split algebras uses `I ⊆ I₁ ⊗ A + A ⊗ I₁` from the previous
+  item. The equivalence ideals found are exactly the kernel pairs of subalgebras: `16` on
+  `𝔽₂[x, y, z]/m²`, one for each subspace of `m`, and `2`, `2`, `3` on the fields of degree `2`,
+  `3`, `4`, one for each subgroup of the Galois group.
+
+So the smallest length of a finite local scheme carrying a non-effective closed equivalence relation
+is between `5` and `16` over `𝔽₂` and between `5` and `15` over `𝔽₃`.
+
 ### 3.3 The obstruction over 𝔽₃
 
 Prove `raicuCocycle_not_mem_differenceIdeal`: over `𝔽₃`, the image of `raicuCocycle` in
@@ -728,9 +762,22 @@ is not effective is not pure. For quasi-compact morphisms of schemes, stable eff
 quasi-coherent modules is equivalent to purity (Mesablishvili 2004a), and purity to being a
 stable regular epimorphism (Mesablishvili 2004b).
 
-Whether a non-effective closed equivalence relation exists on a finite scheme of length less
-than `15`, and whether every non-effective example comes, as in 3.2, from restricting one on an
-affine space, is not known.
+The smallest length of a finite local scheme over a field carrying a non-effective closed
+equivalence relation is not known. It is at least `3` over every field, at least `5` over `𝔽₂` and
+`𝔽₃`, and algebras with `m² = 0` give no example in any length (3.2, Smaller lengths); it is at most
+`15` (`16` in characteristic `2`) by 3.2. Whether every non-effective example comes, as in 3.2,
+from restricting one on an affine space is not known either.
+
+Kollár's Question 8 is open: in characteristic zero, for a scheme-theoretic equivalence relation
+`R ⊂ X × X` whose two projections are finite, does a geometric quotient `X/R` exist, that is a
+categorical quotient `X → X/R` which is finite and whose geometric fibres are the equivalence
+classes (Kollár 2012, Definition 4 and Question 8)? In positive characteristic the answer is yes
+for finite set-theoretic equivalence relations on algebraic spaces essentially of finite type over
+a noetherian `𝔽_p`-scheme (Theorem 6). In characteristic zero, categorical quotients by finite
+set-theoretic equivalence relations can be non-noetherian, already for `k[x, ε]` (Example 9) and
+for smooth complex varieties (§2). Raicu's relation of 3.1 has a geometric quotient although it is
+not effective, so a positive answer would not give effectivity. For the finite schemes of Layer 1,
+`Spec A^R` is a finite categorical quotient (1.2); the question starts in dimension `1`.
 
 ## References
 
@@ -747,7 +794,8 @@ affine space, is not known.
   1970; re-edition by P. Gille and P. Polo, Documents Mathématiques 7, Soc. Math. France, 2011.
 - J. Kollár, « Quotients by finite equivalence relations », with an appendix by C. Raicu, in
   *Current Developments in Algebraic Geometry*, MSRI Publ. 59, Cambridge Univ. Press, 2012,
-  227–256: Theorem 6, Question 8, appendix ¶50, Theorem 51 (numbering of arXiv:0812.3608).
+  227–256: Definition 4, Theorem 6, Question 8, §2 and Example 9, appendix ¶50, Theorem 51
+  (numbering of arXiv:0812.3608).
   Zbl 1271.14002.
 - C. Raicu, « Affine toric equivalence relations are effective », *Proc. Amer. Math. Soc.* 138
   (2010), 3835–3847: §1, Definition; §2.1; Example 2.1; Theorems 3.1 and 4.1 (numbering of
