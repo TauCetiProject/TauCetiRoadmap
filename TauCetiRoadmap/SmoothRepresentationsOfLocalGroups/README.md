@@ -76,6 +76,9 @@ from open subgroups, induction in stages and the Mackey filtration. From
 it takes the double-coset Hecke ring with Shimura's product and the GL_2 polynomial presentation,
 and adds convolution and permutation-module Hecke algebras with their comparison with the
 double-coset ring, and the all-rank Satake isomorphism. From
+CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4 it takes unitary and firm modules over a
+nonunital ring and the abelian category of firm modules over a left xst ring, and adds
+idempotented algebras, their principal projective generators and the Hecke-module equivalence. From
 [Reductive groups](../ReductiveGroups/README.md#layer-3-subgroups-quotients-components) layer 3,
 [layer 7](../ReductiveGroups/README.md#layer-7-structure-theory) and
 [layer 9](../ReductiveGroups/README.md#layer-9-pinned-chevalleydemazure-group-schemes-over-ℤ) it
@@ -129,7 +132,10 @@ adjointness that these projectives give (*integral-second-adjointness*).
 The following supplier results fix the shared interfaces. Compact open subgroups form Hecke pairs, with U₁gU₂ a finite union of
 [U₁ : U₁ ∩ gU₂g⁻¹] left cosets: ReductiveGroupsPartII, RG2.4 (compact double-coset finiteness),
 with Tau Ceti `HeckeCoset.degree_eq_relIndex`. The base-change map B ⊗_A V^K → (B ⊗_A V)^K and its
-isomorphism under an averaging projector: *coefficient-change*. The normalised Satake data used by geometric Satake are those of
+isomorphism under an averaging projector: *coefficient-change*. Unitary and firm modules over a
+nonunital ring, left xst rings and the abelian category of their firm modules:
+CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4, of which the nondegenerate modules of an
+idempotented algebra (SR.1.3 *locally-unital-algebra*) are the instance. The normalised Satake data used by geometric Satake are those of
 *satake-isomorphism*; integral essential vectors for GL_n are outside this roadmap. The following
 library and roadmap declarations are the algebraic or compact-group halves of targets that remain
 here, which add the locally profinite, ring-valued or reductive clause: Tau Ceti `DiscreteRep`,
@@ -518,6 +524,14 @@ Layer 3: the Mackey decomposition formula, the finite case of the Mackey filtrat
 Layer 2: the double-coset Hecke ring with Shimura's product, the GL_2 polynomial presentation and
 the central-coset localisation, which SR.1.2 compares with and SR.4.3 reuses rather than defining
 another multiplication.
+
+### From TauCetiRoadmap.CyclicHomologyLieHomologyAndQuasiFreeAlgebras
+
+§5.4: unitary (RM = M) and firm (R ⊗_R M → M bijective) left modules over a nonunital ring R,
+taken as modules over its unitisation over ℤ; the full subcategories they form; firm modules are
+unitary; a ring is left xst exactly when every unitary module is firm, and then its firm modules
+form an abelian category. SR.1.3 *locally-unital-algebra* applies these to the underlying
+nonunital ring of an idempotented algebra.
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -1296,13 +1310,17 @@ fourth test), so through V^U = Hom_G(A[G/U], V) it acts as ρ(1)⁻¹: the right
 commutative and H an idempotented A-algebra. Define idempotented algebras: an A-algebra H (not
 necessarily unital) is idempotented (locally unital) if every finite subset {x_i} admits an
 idempotent e with e x_i = x_i = x_i e; then H = ⋃_e eHe. Define NondegMod H, the full subcategory
-of left H-modules M that are nondegenerate, HM = M, equivalently M = ⋃_e eM. Prove
-that NondegMod H is a full abelian subcategory of H-modules with exact
+of left H-modules M that are nondegenerate, HM = M, equivalently M = ⋃_e eM. These are the
+unitary modules of CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4 for the underlying nonunital
+ring of H; on them the A-module structure is recovered as a·m = (ae)m for a local unit e of m. Prove
+that H is left xst in the sense of §5.4 (a submodule of a nondegenerate module is nondegenerate),
+so that §5.4 identifies NondegMod H with the firm H-modules and makes it abelian. Prove
+further that NondegMod H is a full abelian subcategory of H-modules with exact
 filtered colimits, closed under subquotients, direct sums and filtered colimits, with products
 given by nondegenerate parts of products and a centre identified with the bimodule endomorphisms
 of H. Prove Hom_H(He, M) ≃ eM, so that the He are finitely generated
 projective generators ([Ber87] §1.1–1.2 and §1.8, pp. 3–4 and 8). *Needs:* the library
-vocabulary of this layer.
+vocabulary of this layer; CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4.
 
 Separate statements give projectivity, finite generation and generation by the principal objects
 He, and the Grothendieck property of NondegMod H. The evaluation convention of Hom_H(He, M) ≃ eM is
@@ -1642,7 +1660,8 @@ and no unit in H(ℚ_p, ℚ).
 ### Dependencies
 
 SR.0; Mathlib's `LocallyConstant`, `CompactlySupportedContinuousMap` and `haarMeasure`; the
-double-coset Hecke ring of Mathlib and Tau Ceti; ModularForms layer 2; ReductiveGroups layer 7;
+double-coset Hecke ring of Mathlib and Tau Ceti; ModularForms layer 2;
+CyclicHomologyLieHomologyAndQuasiFreeAlgebras §5.4; ReductiveGroups layer 7;
 ReductiveGroupsPartII RG2.3 and RG2.4.
 
 ## Layer SR.0d: the derived smooth category
