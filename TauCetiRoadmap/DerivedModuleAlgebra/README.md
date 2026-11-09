@@ -1032,7 +1032,7 @@ For arbitrary scalar extension, the derived identification uses degreewise-flat 
 not identify an arbitrary underived scalar extension with derived base change. The shuffle
 comparisons preserve the tensor unit, associativity and Koszul symmetry in the homotopy category,
 hence in `D(A)`. These identities give the graded multiplications in §§0.14–0.16 and their scalar
-change laws. ([StacksSites], Remark 21.39.11, Tag 08QD, p.96; [DoldPuppe],
+change laws. ([StacksSites], Remark 21.39.11, Tag 08QD, pp.96–97; [DoldPuppe],
 §2, Theorems 2.9 and 2.15, pp.213–217.)
 
 *Needs:* §0.2 (K-flat models and derived tensor); Tau Ceti
