@@ -149,30 +149,82 @@ Ehrenfeucht–Mostowski models, Hanf numbers, small models and complete sentence
 
 The parent [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md) roadmap is implemented in Tau Ceti
 (Scott's theorem in [Tau Ceti #18977](https://github.com/TauCetiProject/TauCeti/pull/18977); the
-modules `TauCeti/ModelTheory/Infinitary/`, `BackAndForth/` and `Scott/`, namespace `TauCeti`, are
-newer than this repository's Tau Ceti pin, so `Suggested.lean` imports the parent's prototype
-instead). This roadmap consumes:
+modules `TauCeti/ModelTheory/Infinitary/`, `BackAndForth/` and `Scott/`), and `Suggested.lean`
+imports it at this repository's Tau Ceti pin (2fd255d99). Syntax and semantics are in the namespace
+`FirstOrder.Language`, everything else in `TauCeti`. This roadmap consumes:
 
 * the syntax `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the coded connectives
-  `iInfAlong`/`iSupAlong`, `IndexCoding.ofEncodableWith`, and realization, with its invariance under
-  isomorphism (`StrongHomClass.realize_boundedFormulaInf` and `realize_sentenceInf`,
+  `BoundedFormulaInf.iInfAlong`/`iSupAlong`, `IndexCoding.ofEncodableWith`, the finitary embedding
+  `BoundedFormula.toInf`, and realization (`SentenceInf.Realize φ M` for sentences), with its
+  invariance under isomorphism (`StrongHomClass.realize_boundedFormulaInf` and
+  `StrongHomClass.realize_sentenceInf`,
   [Tau Ceti #18035](https://github.com/TauCetiProject/TauCeti/pull/18035));
-* `BFEquiv` with `BFEquiv.succ`, `BFEquiv.limit`, monotonicity, reflexivity, symmetry,
-  transitivity, re-indexing of both tuples along a map `Fin m → Fin n`, and invariance under
-  isomorphism (`TauCeti.BFEquiv`, `BFEquiv.refl`, `BFEquiv.symm`, `BFEquiv.trans`, `BFEquiv.comp`,
-  `FirstOrder.Language.Equiv.bfEquiv`);
+* `BFEquiv` with `BFEquiv.add_one` (the successor step), `BFEquiv.limit`, monotonicity
+  (`BFEquiv.mono`), reflexivity, symmetry, transitivity, re-indexing of both tuples along a map
+  `Fin m → Fin n`, and invariance under isomorphism (`TauCeti.BFEquiv`, `BFEquiv.refl`,
+  `BFEquiv.symm`, `BFEquiv.trans`, `BFEquiv.comp`, `FirstOrder.Language.Equiv.bfEquiv`);
 * `countable_potentialIso_iff_iso` and `potentialIso_iff_bfEquiv_all`;
 * the Scott formulas `scottFormula a α` with `realize_scottFormula_iff_bfEquiv`, so that for
-  `α < ω₁` the class `{d | bfEquivSetoid α c d}` is the model class of the sentence
+  `α < ω₁` the class `{d | bfEquivSetoid L ℕ α c d}` is the model class of the sentence
   `scottFormula (Fin.elim0) α` of the structure decoded from `c`;
 * `SelfStabilizesCompletely`, `selfStabilizationOrdinal`, `orbitRank`, `internalScottRank` and
   `internalScottRank_lt_omega_one`.
 
-Free-variable support ([Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547))
-and the random-graph worked example
-([Tau Ceti #18726](https://github.com/TauCetiProject/TauCeti/pull/18726)) are not needed here.
-`exs` (existential closure, `TauCeti/ModelTheory/Infinitary/Syntax.lean`) is a parent-roadmap
-target; `Suggested.lean` carries it as a stand-in because the parent prototype lacks it.
+Tau Ceti defines `BFEquiv`, the stabilization notions, the Scott height and the internal Scott
+rank only for relational languages (`[L.IsRelational]`), which every statement here that uses them
+already assumes. Free-variable support
+([Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547)) and the random-graph
+worked example ([Tau Ceti #18726](https://github.com/TauCetiProject/TauCeti/pull/18726)) are not
+needed here.
+
+### Targets of this roadmap in Tau Ceti
+
+Tau Ceti implements the following targets at the pin; `Suggested.lean` uses its definitions and
+proves the corresponding statements by its theorems. Files are under `TauCeti/ModelTheory/`.
+
+* **Layer 0** (`Counting/Classes.lean`, `Counting/LanguageEquiv.lean`, `Infinitary/Infinite.lean`):
+  `RelationalConfiguration.isoSetoidOn V φ`, `CountableModelClasses`, `countableModelCount` with
+  `countableModelCount_eq_add_sum`, `countableModelCount_le_add_aleph0_mul` and
+  `countableModelCount_le_of_subset` (stated for inclusion of the model classes on `ℕ` and on each
+  `Fin n`), `classOf`, `classOf_eq_classOf_iff`, `classOf_surjective`, the tier lemmas
+  `exists_classOf_eq_inl_iff` and `exists_classOf_eq_inr_iff`, `countableModelCount_le_continuum`,
+  `HasPerfectlyManyCountableModels` with `HasPerfectlyManyCountableModels.countableModelCount_eq`,
+  `FirstOrder.Language.infiniteSentence` (the countable conjunction of Mathlib's
+  `Sentence.cardGe L n`) with `realize_infiniteSentence_iff`,
+  `LEquiv.lift_countableModelCount_onBoundedFormulaInf`,
+  `LEquiv.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff`, and
+  `exists_language_zero_countableModelCount` (the move to `Language.{0, 0}`). The finite-carrier
+  Borel graph `measurableSet_isoSetoid_fin` is `RelationalConfiguration.measurableSet_setOf_isoSetoid`
+  (`RelationalConfiguration/Isomorphism.lean`, any finite carrier), and `encodeVia_mem_modelsOf` is
+  `Equiv.realize_encodeVia` with `RelationalConfiguration.mem_modelsOf`.
+* **Layer 1** (`Counting/Levels.lean`, `Counting/Stratification.lean`,
+  `RelationalConfiguration/LevelSentence.lean`, `BackAndForth/ExtensionSpectrum.lean`,
+  `TauCeti/Data/Setoid/Isolation.lean`): `RelationalConfiguration.bfEquivSetoidOn V φ α` with
+  `bfEquivSetoidOn_anti`, `isoSetoidOn_le_bfEquivSetoidOn`, `mk_quotient_bfEquivSetoidOn_le` and
+  `measurableSet_setOf_bfEquivSetoidOn`; `RelationalConfiguration.scottSentenceAtLevel` with
+  `modelsOf_scottSentenceAtLevel`; `IsIsolatingRank` with `IsIsolatingRank.isolates_of_le`,
+  `IsIsolatingRank.of_le`, `IsIsolatingRank.exists_unbounded_of_not_countable` and
+  `exists_rank_bound_of_countable_isoClasses` (the target `exists_bound_of_countable`, for any
+  invariant map below `ω₁`); `isIsolatingRank_scottHeight` and `exists_isIsolatingRank`, which need
+  no countability of `L`; `mk_isoClasses_le_aleph_one_of_countable_levels`, also without
+  countability of `L`; `Setoid.IsolatedBy`, written `R.IsolatedBy E`, with
+  `Setoid.IsolatedBy.countable_quotient` (the target `Setoid.countable_quotient_of_isolatedBy`) and
+  `Setoid.IsolatedBy.lift_mk_quotient_le`; and the level-by-level transfer `bfTupleSetoid`,
+  `bfExtensionSpectra`, `bfTupleSetoid_add_one_iff`, `BFSmall`, `BFSmall.countable_quotient` and
+  `BFSmall.mk_isoClasses_le_aleph_one`. `BFSmall` and `bfTupleSetoid` are indexed by a family of
+  structures rather than by `(φ, C)`; on codes they apply to the structures decoded from `C`.
+* **Layer 4a–4b** (`Counting/Scattered/Basic.lean`): `BFScattered` with `BFScattered.mono` and
+  `bfScattered_of_observation` (the observation adapter), `IsIsolatingRank.countable_isoClasses_iff_bounded`,
+  `IsIsolatingRank.mk_isoClasses_eq_aleph_one`, `IsIsolatingRank.exists_rank_bound_iff` and
+  `IsIsolatingRank.exists_comap_isoSetoid_eq_bfEquivSetoid` (the code form of the isolating level).
+* **Layer 5**: the limit model `RelationalConfiguration.exists_limit_of_bfEquiv_chain`
+  (`RelationalConfiguration/BackAndForth.lean`, levels in any ordinal universe).
+
+Tau Ceti states its counting results for the quotient of isomorphism restricted to a set `K` of
+codes, `Quotient ((isoSetoid L ℕ).comap Subtype.val)`; the targets here use the image of `K` in the
+quotient by `isoSetoid L ℕ`, and the two are in bijection by Mathlib's `Setoid.comapQuotientEquiv`.
+Tau Ceti assumes countably many relation symbols of each arity where this roadmap assumes
+`[Countable (Σ l, L.Relations l)]`; the two are equivalent (convention 1).
 
 ### Dependencies on other roadmaps
 
