@@ -11,8 +11,6 @@ public import TauCeti.Geometry.Manifold.Riemannian.Sphere
 public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
 public import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
-public import TauCeti.Analysis.Contour.Winding.Number.Basic
-public import TauCeti.Analysis.Normed.Module.FilledHull
 
 /-!
 # Differential geometry — forms, Stokes, flows, de Rham cohomology, degree, planar Green and Riemannian calculus: target signatures
@@ -29,54 +27,63 @@ homogeneity, the flow characterization of the bracket [Lee, Thm. 9.38], straight
 [Lee, Thm. 9.22] and time-dependent flows [Lee, Thm. 9.48] (3); integrability implies
 involutivity, the annihilator criterion, local Frobenius with integral slices, weak embeddedness
 and global leaves [Lee, Ch. 19] (4); the planar radial primitive and the moving-pullback identity
-(5.4–5.4a); the one-cell identities on vertical and horizontal cells (5.6); the hairy ball theorem
+(5.4–5.4a); the hairy ball theorem
 in its tangent-field and tangent-bundle-section forms [Lee, Problem 16-6] (11); the Riemannian
 divergence theorem on half-space manifolds with the induced boundary measure and outward unit
 normal [Lee, Thm. 16.32], and the volume of the round circle (12).
 
-Headline theorems that Tau Ceti proves at the pins are not restated: the flip, associativity,
-graded Jacobi and interior-product identities of the paired wedge (0.1), the smooth alternating
-bundle (0.2), the wedge of smooth forms (0.4), naturality, `d ∘ d = 0`, regularity, the Leibniz
-rule and the invariant formula of the exterior derivative (1.2–1.4), the two-orientation theorem,
-the pullback orientation, the orientation of a nowhere-vanishing top form and the π₁ criterion
-(2.1–2.4), compactly supported completeness and conjugate flows (3.3–3.4), the outward field, the
-outward-first boundary orientation, the integral of top forms with its chart formula, linearity,
-orientation sign, positivity and change of variables, and Stokes' theorem for the half-space with
-its boundaryless and interval cases (5.1–5.3), Green's theorem for absolutely continuous cycles
-(5.6.3), and the existence of metrics, the gradient calculus, the symmetry of the Hessian and the
-boundaryless divergence theorem with Green's identities (12.1–12.3, 12.5); the README's *From Tau
-Ceti* contract names each with its module. The paired and bracket wedges (0.1), the pointwise
-wedge of rough forms (0.3), the planar curl, circulation integrand and area weight (5.6) and the
-gradient, Hessian and Laplace–Beltrami operator (12.2–12.3) are likewise Tau Ceti's definitions
-and are not redeclared. Five statements that Tau Ceti also proves are kept because declarations of
-this file or of its consumers use them: `mextDeriv_add`, `mextDeriv_smul` and
-`isSmoothForm_mextDeriv_infty` build the linear map `mextDerivₗ` behind `closedForms`, and
-`isCompleteVectorField_of_compactSpace` and `toFlow_apply` are the completeness input and the
-rewriting rule of MorseNovikov's flow of the negative dual field. The definitions `flowDomain`,
-`IsCompleteVectorField`, `IsOutwardPointing` and `divergence`, which Tau Ceti also has with the
-same bodies, are kept because `toFlow` and the divergence theorem of 12.5 are stated on them.
+Headline theorems that Tau Ceti proves are not restated: the flip, associativity, graded Jacobi
+and interior-product identities of the paired wedge (0.1), the smooth alternating bundle (0.2),
+coefficient postcomposition with its laws (0.3–0.4), the wedge of smooth forms (0.4), naturality,
+commutation with coefficient postcomposition, `d ∘ d = 0`, regularity, the Leibniz rule, the
+invariant formula of the exterior derivative, the Lie derivative of forms and Cartan's formula
+(1.2–1.4), the two-orientation theorem, the pullback and product orientations, the orientation of
+a nowhere-vanishing top form and the π₁ criterion (2.1–2.4), compactly supported completeness,
+conjugate flows and the Lie derivative of forms along a flow (3.3–3.4), the finite-dimensional
+time-dependent flow on the time slab `ℝ` (3.5), the outward field, the outward-first boundary
+orientation, the closed ball with its boundary sphere and radial field, the integral of top forms
+with its chart formula, linearity, orientation sign, positivity and change of variables, and
+Stokes' theorem for the half-space with its boundaryless and interval cases (5.1–5.3), the
+homotopy operator with its cochain-homotopy identity (5.4), the index calculus of absolutely
+continuous curves, the one-cell identities on vertical and horizontal cells, Green's theorem for
+finite type-I/type-II divisions with Henstock–Kurzweil boundary integrals, the winding-weighted
+polygonal identity and Green's theorem for absolutely continuous cycles (5.6.1–5.6.3), the
+existence of metrics, the gradient calculus, the symmetry of the Hessian, the induced boundary
+metric and the boundaryless divergence theorem with Green's identities (12.1–12.3, 12.5), and
+the comparison of the planar Green theorems with the integral of top forms (12.6); the README's
+*From Tau Ceti* contract names each with its module. The paired and bracket wedges (0.1), the
+pointwise wedge of rough forms (0.3), the planar cells, curl, circulation integrand and area
+weight (5.6) and the gradient, Hessian and Laplace–Beltrami operator (12.2–12.3) are likewise Tau
+Ceti's definitions and are not redeclared. Five statements that Tau Ceti also proves are kept
+because declarations of this file or of its consumers use them: `mextDeriv_add`,
+`mextDeriv_smul` and `isSmoothForm_mextDeriv_infty` build the linear map `mextDerivₗ` behind
+`closedForms`, and `isCompleteVectorField_of_compactSpace` and `toFlow_apply` are the
+completeness input and the rewriting rule of MorseNovikov's flow of the negative dual field. The
+definitions `flowDomain`, `IsCompleteVectorField`, `IsOutwardPointing` and `divergence`, which Tau
+Ceti also has with the same bodies, are kept because `toFlow` and the divergence theorem of 12.5
+are stated on them, and `roundMetricCircle`, which selects the round-sphere metric that
+`TauCeti.roundMetricCircle` bundles, because `volume_circle` is.
 
-Headline theorems not statable at the pins, and what each lacks: Stokes' theorem for smooth faces
-and corners (5.5b) lacks the smooth face structure with its abstract boundary; the face-structured
-divergence theorem (12.5) lacks the same face structure; the triviality of the orientation double
-cover and the commutation of `d` with the averaging operators (2.4) lack, among this file's
-imports, Tau Ceti's `TauCeti.Manifold.OrientationCover` and `TauCeti.invariantPart`, and the
-antipodal sign on `Sⁿ` lacks the outward orientation of the sphere, a construction; the
-homotopy-operator identity (5.4) lacks, among this file's imports, Tau Ceti's homotopy operator;
-agreement of densities with the integral of top forms (5.5a) and of the Riemannian volume form
-with the Riemannian density (12.4) lack the integral of densities and the volume form; Cartan's
-formula (1.4) lacks the Lie derivative of forms; the finite type-I/type-II division theorems
-(5.6.2) lack the oriented boundary chain of finite integer-weighted sums of parametrized arcs with
-its Henstock–Kurzweil integrals; the migration equivalence of 0.4 lacks the generic carrier in Tau
-Ceti; the de Rham theorem (8.5) and the multiplicativity of the de Rham homomorphism lack the de
-Rham homomorphism on smooth singular chains, a cochain map whose well-definedness is Stokes for
-chains (8.4), and, among this file's imports, Tau Ceti's de Rham complex and smooth singular chains
-(singular cohomology with real coefficients is `TauCeti.singularCohomologyFunctor` over
-`ModuleCat ℝ` with `R`, `k` and `M` all `ℝ`); Poincaré duality (9.3) and the top-cohomology
-theorems (9.2) lack, among this file's imports, Tau Ceti's de Rham complex, Poincaré pairing and
-integral of top forms; the degree formula `∫_M f^*ω = deg f · ∫_N ω` and the homotopy invariance
-of the degree (10.3–10.5) lack, among this file's imports, Tau Ceti's integral of top forms and
-signed fibre count.
+Headline theorems not stated here, and what each lacks: Stokes' theorem for smooth faces and
+corners (5.5b) lacks the smooth face structure with its abstract boundary; the face-structured
+divergence theorem (12.5) lacks the same face structure; the sign of the antipodal map of `Sⁿ`
+(2.4) lacks the outward orientation of the sphere, a construction; agreement of densities with
+the integral of top forms (5.5a) and of the Riemannian volume form with the Riemannian density
+(12.4) lack the integral of densities; the migration equivalence of 0.4 lacks the generic carrier
+in Tau Ceti; the de Rham theorem (8.5) and the multiplicativity of the de Rham homomorphism lack
+the de Rham homomorphism on smooth singular chains, a cochain map whose well-definedness is
+Stokes for chains (8.4) (singular cohomology with real coefficients is
+`TauCeti.singularCohomologyFunctor` over `ModuleCat ℝ` with `R`, `k` and `M` all `ℝ`); the
+homotopy invariance of the degree (10.5) lacks the degree as one integer, whose independence of
+the regular value is 10.4. Four further headlines are stated in the README on Tau Ceti carriers
+that the Tau Ceti revision this file is built against does not contain, and are stated here once
+the build is against the revision of the README's *From Tau Ceti* contract: the triviality of the
+orientation double cover of an orientable manifold and the commutation of `d` with the averaging
+operators (2.4, on `TauCeti.Manifold.OrientationCover` and `TauCeti.invariantPart`), the
+top-cohomology theorem and Poincaré duality (9.2–9.3, on
+`TauCeti.compactlySupportedDeRhamCohomology.integral` and `TauCeti.poincarePairing`), and the
+degree formula `∫_M f^*ω = deg f · ∫_N ω` (10.3–10.4, on `TauCeti.integralTopForm` and
+`TauCeti.degreeAtRegularValue`).
 
 The definitions `closedForms`, `toFlow`, `fullSimplex`, `fullSimplexEquivStdSimplex`, `Density`,
 `RoughDensity`, `CurvatureForm`, `circleAngularForm` and `Manifold.Orientation.pullback` are the
@@ -1049,66 +1056,6 @@ noncomputable def fullSimplexEquivStdSimplex (p : ℕ) :
     exact Convexity.StdSimplex.continuous_weights_apply ℝ i.succ
 
 end StandardSimplex
-
-/-! ### Layer 5.6: Green's theorem for planar regions and curves
-
-The plane is `ℂ` with positive basis `(1, I)` and `volume` as area; `TauCeti.Contour.windingNumber`
-is the index. The one-cell identities of 5.6.2 are stated on the cells below; the absolutely
-continuous theorems of 5.6.3 are Tau Ceti's (`TauCeti.Green.green_ac_winding` on its curl,
-circulation integrand and area weight), and the finite type-I/type-II division theorems of 5.6.2
-lack the oriented boundary chain carrier (module docstring).
--/
-
-namespace Green
-
-noncomputable section
-
-open MeasureTheory Set
-open scoped Classical
-
-/-- **Layer 5.6.2.** The vertical (type-I) cell `{x + iy : a ≤ x ≤ b, ℓ x ≤ y ≤ u x}`. -/
-def verticalCell (a b : ℝ) (ℓ u : ℝ → ℝ) : Set ℂ :=
-  {z | z.re ∈ Icc a b ∧ z.im ∈ Icc (ℓ z.re) (u z.re)}
-
-/-- **Layer 5.6.2.** The horizontal (type-II) cell `{x + iy : c ≤ y ≤ d, ℓ y ≤ x ≤ u y}`. -/
-def horizontalCell (c d : ℝ) (ℓ u : ℝ → ℝ) : Set ℂ :=
-  {z | z.im ∈ Icc c d ∧ z.re ∈ Icc (ℓ z.im) (u z.im)}
-
-/-- **Layer 5.6.2, the `P dx` identity on a vertical cell**, `∮_{∂V} P dx = −∫_V ∂ᵧP dA`. On the
-positively oriented boundary the vertical edges contribute nothing to `∮ P dx`, and the bottom
-and top graphs, parametrized by `x`, contribute `∫ P(x + iℓ x) dx` and `−∫ P(x + iu x) dx`; the
-boundary side is an ordinary interval integral because its integrand is continuous. Only
-continuity of `P` on the cell and of the graphs, the slice derivative `Py` of `y ↦ P (x + iy)` at
-every point of the cell, and area integrability of `Py` are assumed: no Fréchet derivative of
-`P`, no other partial derivative, and no continuity of `Py`. -/
-theorem green_verticalCell {a b : ℝ} (hab : a < b) {ℓ u : ℝ → ℝ}
-    (hℓ : ContinuousOn ℓ (Icc a b)) (hu : ContinuousOn u (Icc a b))
-    (hℓu : ∀ x ∈ Icc a b, ℓ x ≤ u x) {P Py : ℂ → ℝ}
-    (hP : ContinuousOn P (verticalCell a b ℓ u))
-    (hPy : ∀ z ∈ verticalCell a b ℓ u,
-      HasDerivAt (fun y : ℝ ↦ P (z.re + y * Complex.I)) (Py z) z.im)
-    (hint : IntegrableOn Py (verticalCell a b ℓ u) volume) :
-    (∫ x in a..b, (P (x + ℓ x * Complex.I) - P (x + u x * Complex.I))) =
-      -∫ z in verticalCell a b ℓ u, Py z :=
-  sorry
-
-/-- **Layer 5.6.2, the `Q dy` identity on a horizontal cell**, `∮_{∂H} Q dy = ∫_H ∂ₓQ dA`: the
-right graph is traversed upward and the left graph downward, and the horizontal edges contribute
-nothing to `∮ Q dy`. The hypotheses are the coordinate-swapped ones of `green_verticalCell`. -/
-theorem green_horizontalCell {c d : ℝ} (hcd : c < d) {ℓ u : ℝ → ℝ}
-    (hℓ : ContinuousOn ℓ (Icc c d)) (hu : ContinuousOn u (Icc c d))
-    (hℓu : ∀ y ∈ Icc c d, ℓ y ≤ u y) {Q Qx : ℂ → ℝ}
-    (hQ : ContinuousOn Q (horizontalCell c d ℓ u))
-    (hQx : ∀ z ∈ horizontalCell c d ℓ u,
-      HasDerivAt (fun x : ℝ ↦ Q (x + z.im * Complex.I)) (Qx z) z.re)
-    (hint : IntegrableOn Qx (horizontalCell c d ℓ u) volume) :
-    (∫ y in c..d, (Q (u y + y * Complex.I) - Q (ℓ y + y * Complex.I))) =
-      ∫ z in horizontalCell c d ℓ u, Qx z :=
-  sorry
-
-end
-
-end Green
 
 /-! ## Layer 11: the hairy ball theorem -/
 

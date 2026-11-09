@@ -47,20 +47,32 @@ it and its API and plans nothing.
 
 Already in the library (*From Tau Ceti*, the differential-form, flow, orientation, Green,
 Riemannian, de Rham and orientation-cover modules): the flip, associativity, graded Jacobi and
-interior-product identities of the paired wedge (0.1), the smooth alternating bundle (0.2), the
-wedge of smooth forms (0.4), naturality, `d ∘ d = 0`, regularity, the Leibniz rule and the
-invariant formula of the exterior derivative (1.2–1.4), the two-orientation theorem, the
-pullback orientation and the orientation of a nowhere-vanishing top form (2.1–2.2), compactly
-supported completeness and conjugate flows (3.3–3.4), the outward field along the boundary,
-the restriction of forms to the boundary, the outward-first boundary orientation and the
-nullity of the boundary (5.1), the integral of top forms with its chart formula, linearity,
+interior-product identities of the paired wedge (0.1), the smooth alternating bundle (0.2),
+coefficient postcomposition of rough and smooth forms with its laws (0.3–0.4), the
+wedge of smooth forms (0.4), naturality, commutation with coefficient postcomposition,
+`d ∘ d = 0`, regularity, the Leibniz rule, the invariant formula of the exterior derivative,
+the Lie derivative of forms and Cartan's formula (1.2–1.4), the two-orientation theorem, the
+pullback and product orientations and the orientation of a nowhere-vanishing top form
+(2.1–2.2), compactly supported completeness, conjugate flows and the Lie derivative of forms
+along the flow of a complete field (3.3–3.4), the finite-dimensional time-dependent flow on
+the time slab `ℝ` (3.5), the outward field along the boundary,
+the restriction of forms to the boundary, the outward-first boundary orientation, the
+nullity of the boundary and the closed ball with its boundary sphere, orientation and outward
+radial field (5.1), the integral of top forms with its chart formula, linearity,
 orientation sign, positivity and change of variables (5.2), Stokes' theorem for the half-space
 with its boundaryless and interval cases and its agreement with line integrals (5.3), the
-homotopy operator with its cochain-homotopy identity and regularity (5.4), Green's theorem for
-absolutely continuous cycles with its curl, circulation integrand and area weight (5.6.3), the
-existence of Riemannian metrics, the gradient with its calculus, the divergence, the Hessian
+homotopy operator with its cochain-homotopy identity and regularity (5.4), the index calculus
+of absolutely continuous curves and the area weight with its estimates (5.6.1), the planar
+cells with the one-cell directional identities, the one-dimensional Henstock–Kurzweil
+integral, boundary chains, finite type-I/type-II divisions with their Green theorem and the
+winding-weighted polygonal identity (5.6.2), Green's theorem for
+absolutely continuous cycles with its curl, circulation integrand and area weight (5.6.3) and
+the acceptance examples of 5.6, the
+existence of Riemannian metrics, pulled-back, product, open-subset and boundary metrics and
+the round metric of the circle, the gradient with its calculus, the divergence, the Hessian
 with its symmetry, the Laplace–Beltrami operator, the Riemannian volume form and the
-boundaryless divergence theorem with Green's identities (12.1–12.5); the paired and bracket
+boundaryless divergence theorem with Green's identities (12.1–12.5), and the comparison of
+the planar Green theorems with the integral of top forms and half-space Stokes (12.6); the paired and bracket
 wedges of 0.1 and the pointwise wedge of rough forms of 0.3 are Tau Ceti's
 `ContinuousAlternatingMap.pairedWedge`, `TauCeti.bracketWedge` and `TauCeti.RoughForm.wedgeWith`,
 and consumers citing this roadmap's wedge, bracket wedge, gradient, Hessian, Laplacian, curl,
@@ -431,6 +443,48 @@ Checked against the pin; re-grep before citing anything in code.
   subsections named consume these by name and plan nothing again; a declaration of
   `Suggested.lean` bearing one of these names is that target's signature, never a second
   definition.
+- **Coefficient maps, the Lie derivative of forms, time-dependent flows, product and
+  closed-ball orientations, and metrics on products, open subsets and boundaries**:
+  `Geometry/Manifold/DifferentialForm/MapCoeff.lean` and
+  `Geometry/Manifold/DifferentialForm/Wedge/MapCoeff.lean` — `TauCeti.RoughForm.mapCoeff`,
+  `TauCeti.IsSmoothForm.mapCoeff`, `TauCeti.mextDerivWithin_mapCoeff`,
+  `TauCeti.mextDeriv_mapCoeff`, `TauCeti.mpullback_mapCoeff`, `TauCeti.SmoothForm.mapCoeff`,
+  its commutation with the linear exterior derivative, and `mapCoeff_wedgeWith_eq_postcomp`
+  in the namespaces `TauCeti.RoughForm` and `TauCeti.SmoothForm` (0.3–0.4, 1.2–1.3);
+  `Geometry/Manifold/DifferentialForm/{LieDeriv,Flow}.lean` — `TauCeti.mlieDerivForm`,
+  `TauCeti.mlieDerivForm_apply_vectorField`, `TauCeti.mlieDerivForm_eq_interior_mextDeriv_add`
+  and `TauCeti.hasDerivAt_mpullback_globalFlow` (1.4, 3.4);
+  `Geometry/Manifold/Flow/TimeDependent.lean` — `TauCeti.timeDependentSuspensionField`,
+  `TauCeti.timeDependentFlowDomain`, `TauCeti.timeDependentFlowOf`,
+  `TauCeti.isOpen_timeDependentFlowDomain`, `TauCeti.contMDiffOn_timeDependentFlowOf`,
+  `TauCeti.timeDependentFlowOf_trans_of_mem` and `TauCeti.exists_timeDependentFlow` (3.5);
+  `Geometry/Manifold/Orientation/{Prod,ClosedBall}.lean` and
+  `Geometry/Manifold/Instances/ClosedBall/{Boundary,Outward}.lean` —
+  `TauCeti.Manifold.Orientation.prod`, `TauCeti.Manifold.Orientation.closedBall`,
+  `TauCeti.sphereDiffeomorphBoundaryClosedBall` and
+  `TauCeti.isOutwardPointing_closedBall_radial` (2.2, 5.1);
+  `Geometry/Manifold/Riemannian/{Pullback/Basic,Prod,Restriction,Boundary,Circle}.lean` —
+  `Bundle.ContMDiffRiemannianMetric.pullback`, `…prodTangentSpace`,
+  `…restrictOpenTangentSpace`, `…restrictBoundaryTangentSpace` and
+  `TauCeti.roundMetricCircle` (12.1, 12.5).
+- **Planar Green** (5.6 and 12.6): `Analysis/Green/` and `Analysis/BoxIntegral/` — the cells
+  `TauCeti.Green.verticalRegion` and `TauCeti.Green.horizontalRegion` with
+  `TauCeti.Green.integral_graphs_sub_eq_neg_integral_verticalRegion` and
+  `TauCeti.Green.integral_graphs_sub_eq_integral_horizontalRegion`; the oriented gauge
+  integral `TauCeti.BoxIntegral.HasHenstockIntervalIntegral` with
+  `TauCeti.BoxIntegral.hasIntegral_GP_iff_Henstock_fin_one` and
+  `TauCeti.BoxIntegral.hasIntegral_Henstock_of_hasDerivAt_off_countable`;
+  `TauCeti.Green.BoundaryChain`, `TauCeti.Green.Division` and
+  `TauCeti.Green.Division.integrable_and_integral_add_integral_eq_integral_sub`;
+  `TauCeti.Green.green_polygonal`; the area-weight API of `Analysis/Green/WindingWeight/`
+  and the kernel estimates of `Analysis/Complex/CauchyKernel.lean`; the absolutely continuous
+  index API of `Analysis/Contour/Winding/AbsolutelyContinuous/`; the examples of
+  `Analysis/Green/Examples/`; and the comparison with the integral of top forms in
+  `Analysis/Green/Comparison/` (`TauCeti.Green.manifoldOneForm`,
+  `TauCeti.Green.green_ac_winding_integralTopForm`,
+  `TauCeti.Green.integralTopForm_rectangle_mextDeriv`,
+  `TauCeti.Green.integral_image_curl_eq_boundary_curveIntegral`). 5.6.1–5.6.3 and 12.6 consume
+  them by name.
 - **Singular (co)homology, subdivision and the Brouwer theorems** (algebraic-topology roadmap):
   `AlgebraicTopology/Cohomology/{Basic,HomotopyInvariance,Relative,Kronecker,UniversalCoefficient,Cup}.lean`,
   `AlgebraicTopology/Cohomology/MayerVietoris/Basic.lean`,
@@ -447,27 +501,29 @@ Checked against the pin; re-grep before citing anything in code.
   `TauCeti.filledHull`, `filledHull_subset_closedConvexHull`, `isBounded_filledHull`,
   `subset_filledHull_of_frontier_subset`, and
   `connectedComponentIn_compl_eq_of_unbounded_component`. Layer 5.6 uses
-  `filledHull K \ K` for the bounded complementary components of a trace; it introduces
+  `filledHull K \ K` for the bounded complementary components of a trace; there is
   no second inside or filled-hull definition.
 - **Scalar contour and index APIs** (completed contour-integration roadmap):
   `Analysis/Contour/Winding/{Number/Basic,Number/Homotopy,Proximity,UnboundedComponent}.lean`
   and `Analysis/Contour/Cycle/` — `windingNumber_eq_integral_of_avoidance`,
   `windingNumber_eq_two_pi_I_inv_mul_curveIntegral`, proximity invariance, vanishing on
-  unbounded components, and `Cycle`. Layer 5.6 extends their regularity theorems to AC curves.
+  unbounded components, and `Cycle`. Their extensions to AC curves are the planar Green bullet's.
 - **Metric derivatives and rectangle Green formulas**:
   `MeasureTheory/Function/MetricDerivative/Basic.lean` —
   `HasDerivAt.metricDerivative_eq` and
   `AbsolutelyContinuousOnInterval.lintegral_metricDerivative_lt_top`; and
   `MeasureTheory/Integral/DivergenceTheorem.lean` —
   `ContinuousLinearMap.integral_bilinear_fderiv_sub_prod_Icc`. Layer 5.6 consumes these
-  length and rectangle results and proves agreement with its planar formula.
+  length and rectangle results; their agreement with the planar formula is
+  `Analysis/Green/RectangleComparison.lean`.
 
 ### From TauCetiRoadmap.GeometricMeasureTheory
 
 - G1–G2: rectifiability, arclength, the variation–speed identity and the arclength factorization
-  of absolutely continuous curves, and Hausdorff length; 5.6.1 consumes the nullity of an
-  absolutely continuous trace and the variation–speed identity as specializations, and
-  *Rectifiable curves and geometric measure theory* consumes the arclength factorization.
+  of absolutely continuous curves, and Hausdorff length; *Rectifiable curves and geometric
+  measure theory* consumes the arclength factorization. The nullity of an absolutely
+  continuous trace and the variation–speed identity that 5.6.1 names are Tau Ceti's
+  declarations of those specializations.
 
 ## Existing code to refactor
 
@@ -503,8 +559,7 @@ characteristic identity `inner_rieszDual` and chartwise regularity
 ## What is missing (build here)
 
 Everything the layers specify beyond the inventory above. The layer order is the order of
-dependence, and the two hardest items — Banach smooth dependence (3.1) and Green's theorem for
-absolutely continuous cycles (5.6.3) — gate what follows them. `Suggested.lean` states the
+dependence, and the hardest item, Banach smooth dependence (3.1), gates what follows it. `Suggested.lean` states the
 headline theorems of these layers against the pinned libraries; it is a nonexhaustive
 illustration of particular signatures, and this README is definitive. A definition in
 `Suggested.lean` has a real body (`mpullback`, `flowDomain`/`flowOf`, `toFlow`,
@@ -539,25 +594,26 @@ The numbered order is not an additional dependency edge.
 
 - Native chart/calculus and bundle foundations support 0–1. Orientations 2,
   the vector-field part of 3, and metrics/gradient/divergence 12.1–12.3 can
-  be developed independently of form integration; Cartan's form identity
-  in 3.4 uses 1. The finite-dimensional suspension in 3.5 consumes the native
-  maximal flow; its Banach extension needs 3.1–3.2. Frobenius 4 needs 3 and 1.4.
+  be developed independently of form integration; the Lie derivative of forms
+  along a flow in 3.4 uses 1. The finite-dimensional open-slab suspension in 3.5 consumes the
+  native maximal flow and time-dependent flow; its Banach extension needs 3.1–3.2. Frobenius 4 needs 3 and 1.4.
 - The boundary interface 5.1, top-form integration 5.2 and half-space Stokes 5.3 are Tau
-  Ceti's and name its declarations; what remains of 5.1 (the closed ball) uses 2 and 2.4, and
+  Ceti's and name its declarations; what remains of 5.1 (the boundary orientation of the closed
+  ball against the outward orientation of the sphere) uses 2 and 2.4, and
   what remains of 5.3 uses 5.1–5.2. The direct homotopy identity 5.4 is Tau Ceti's as well, and
   its naturality uses 0–1, not Stokes. Generic densities 5.5a use 5.2 and the absolute
   determinant law, not the face branch. The geometric face data 5.5b use
   native quadrant charts and 2; their Stokes theorem then uses integration
   and the local half-space/quadrant formula. No GT collar is an input.
-- Flat Green 5.6.1→5.6.2→5.6.3 uses native flat calculus, contour/index and
-  gauge integration, plus GMT's early arclength/variation targets at their
-  stated scope. Neither manifold Stokes nor Riemannian divergence is an
-  input to that producer. The compatibility theorem is 12.6, downstream.
+- Flat Green 5.6.1→5.6.2→5.6.3 is Tau Ceti's, built on flat calculus, contour/index and
+  gauge integration; neither manifold Stokes nor Riemannian divergence is an
+  input to it. What remains of 5.6 is the flat punctured-plane family, which uses flat
+  calculus only. The compatibility theorem is 12.6, downstream.
 - Volume/density 12.4 uses native metric volume and 5.5a, with 0/2 for its
   oriented form bridge. Divergence/Green 12.5 uses 12.3–12.4 and half-space
   Stokes 5.3, or 5.5b for the face version. Circle volume uses the angular
-  gate 5.5a. Finally 12.6 consumes the independently completed 5.6 and 12.5
-  producers, plus the appropriate integration/face comparisons, and has
+  gate 5.5a. Finally 12.6 names Tau Ceti's comparison of 5.6 with form integration, and its
+  remaining targets consume 5.5a, 5.5b and 12.4–12.5, with
   no edge back into any of them. Global collars/gluing remain GT targets
   consuming 5.5b's geometric data, not prerequisites of those targets.
 - The de Rham track is 0–1 → 6 → 7 → {8, 9} → 10 → 11. Layer 6 needs only 0–1 and 5.4's
@@ -566,7 +622,7 @@ The numbered order is not an additional dependency edge.
   and the flat Morse–Sard theorem; 11 needs 10.5. 6 and 7.1–7.3 are in the library, so 7.4 and
   8.3 can start at once. DeRhamCohomologyAndDuality is downstream of every layer here.
 
-Claim single numbered items or smaller; the headline theorems 5.3, 5.5b's corner Stokes, 5.6.3,
+Claim single numbered items or smaller; the headline theorems 5.5b's corner Stokes,
 8.5, 9.3, 10.4, 11.1 and 12.5 remain staged claims with reusable intermediate results. All general-model,
 face-structured, finite-regularity and zero-dimensional branches retain their stated hypotheses
 and obligations.
@@ -635,20 +691,24 @@ hypotheses.
   and pulling back a paired wedge pulls back the fibrewise pairing as well as both forms, with no
   differentiability hypothesis. `mpullback` is the fixed-coefficient specialization. Its chain
   rule carries the differentiability hypotheses `mfderiv`'s does, pointwise, on open sets and
-  globally. For fixed coefficients, define the coefficient postcomposition `L_*ω` of a rough form
-  pointwise by `fun x ↦ L.compContinuousAlternatingMap (ω x)` for every continuous real-linear
-  `L : F →L[ℝ] G`; use Mathlib's native coefficient-postcomposition operation, not a parallel
-  alternating-map carrier. Provide identity, composition, zero, addition and real-linearity laws
-  in both the map and form arguments, and prove that coefficient postcomposition preserves the
-  stated roughness/smoothness class. These calculus targets require normed real coefficient spaces,
-  not completeness. The pointwise paired product is Tau Ceti's
+  globally. For fixed coefficients, the coefficient postcomposition `L_*ω` of a rough form along
+  a continuous real-linear `L : F →L[ℝ] G` is Tau Ceti's `TauCeti.RoughForm.mapCoeff L ω`
+  (`DifferentialForm/MapCoeff.lean`), pointwise `L.compContinuousAlternatingMap (ω x)`, with
+  its zero, addition, scalar, identity and composition laws (`mapCoeff_zero`, `mapCoeff_add`,
+  `mapCoeff_smul`, `mapCoeff_id`, `mapCoeff_mapCoeff` in the namespace `TauCeti.RoughForm`),
+  preservation of every smoothness class `C^n` (`TauCeti.IsSmoothForm.mapCoeff`) and
+  commutation with pullback (`TauCeti.mpullback_mapCoeff`), for normed real
+  coefficient spaces without completeness; 0.3 consumes them and plans nothing about them
+  again. The pointwise paired product is Tau Ceti's
   `TauCeti.RoughForm.wedgeWith` (`DifferentialForm/Wedge/Basic.lean`), the trivial-bundle case
   of its bundle-valued paired wedge `TauCeti.bundleWedgeWith` through a fibrewise continuous
   bilinear pairing; pullback commutes with it unconditionally, and with the
   real wedge as its multiplication specialization. Coefficient postcomposition is compatible with paired wedges:
-  for `μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃` and `L : F₃ →L[ℝ] G`, let `μ_L` be the continuous
-  real-bilinear pairing `μ_L a b = L (μ a b)` and prove
-  `L_*(RoughForm.wedgeWith μ φ η) = RoughForm.wedgeWith μ_L φ η`.
+  for `μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃` and `L : F₃ →L[ℝ] G`, with `μ_L` the continuous
+  real-bilinear pairing `μ_L a b = L (μ a b)`,
+  `L_*(RoughForm.wedgeWith μ φ η) = RoughForm.wedgeWith μ_L φ η` is Tau Ceti's
+  `mapCoeff_wedgeWith_eq_postcomp` in the namespace `TauCeti.RoughForm`
+  (`DifferentialForm/Wedge/MapCoeff.lean`).
   `C^(n+1)` maps pull `C^n` forms back to `C^n` forms (`isSmoothBundleForm_mpullback`, with values
   in the pulled-back bundle).
   **Open-subtype flat adapter.** For an open `U⊆E` in a real normed model `E`, give the
@@ -729,13 +789,12 @@ hypotheses.
   compiles on the generic carrier with closedness, nondegeneracy, the symplectic predicate,
   tameness, compatibility, constant-form normalization and energy identities preserved; and over
   `𝓘(ℝ, E)`, `mpullback` at a point where `f` is differentiable is the flat pullback
-  `(φ (f x)).compContinuousLinearMap (fderiv ℝ f x)`. Add fixed-coefficient
-  postcomposition `L_*ω` on smooth forms using the same native
-  `ContinuousLinearMap.compContinuousAlternatingMap` operation. Its identity, composition, zero,
-  addition and real-linearity API must agree with the rough form API; prove it preserves
-  `SmoothForm` smoothness. Keep the coefficient spaces normed over `ℝ` and do not add a
-  `[CompleteSpace]` requirement for this algebraic or calculus interface. Transfer the
-  coefficient-postcomposition/paired-wedge compatibility from rough forms to bundled forms.
+  `(φ (f x)).compContinuousLinearMap (fderiv ℝ f x)`. Fixed-coefficient
+  postcomposition on smooth forms is Tau Ceti's linear map `TauCeti.SmoothForm.mapCoeff L`
+  from `SmoothForm I M F k` to `SmoothForm I M G k`, with `mapCoeff_id`,
+  `mapCoeff_comp` and the bundled wedge compatibility
+  `mapCoeff_wedgeWith_eq_postcomp` (all in the namespace `TauCeti.SmoothForm`), for normed real coefficient spaces
+  without completeness; 0.4 consumes them and plans nothing about them again.
   *Needs:* 0.2–0.3; for the migration, Tau Ceti's `TauCeti.SmoothTwoForm` API and
   `Geometry/Symplectic/Manifold/{TwoForm,Energy}.lean`, and 1.1's `mextDeriv` for the closedness
   comparison.
@@ -778,31 +837,28 @@ hypotheses.
   `extDerivWithin_pullback`, `extChartAt` and `extDeriv_constOfIsEmpty`.
 - **1.2 Naturality.** `f^*(dω) = d(f^*ω)` for a `C²` map and a `C¹` form, `At`, `On` and
   globally, is Tau Ceti's `TauCeti.mpullback_mextDeriv` with its `_at` and `_on` forms
-  (`DifferentialForm/Naturality.lean`). The primary fixed-coefficient theorem is on the rough
-  fixed-coefficient
-  carriers of Layers 0.3 and 1.1: for every continuous real-linear `L : F →L[ℝ] G` and every rough
-  form `ω` satisfying the `C¹` hypotheses required by `mextDeriv`, prove
-  `mextDeriv (L_*ω) = L_*(mextDeriv ω)` in `At`, `On` and
-  global forms. Prove its pointwise `Within` form on the same `RoughForm` carriers: for the
-  chartwise `C¹`-within hypotheses required by `mextDerivWithin` and
-  `UniqueMDiffWithinAt I s x`,
-  `mextDerivWithin (L_*ω) s x =
-  L.compContinuousAlternatingMap (mextDerivWithin ω s x)`. Here `UniqueMDiffWithinAt` is precisely the
-  flat hypothesis
-  `UniqueDiffWithinAt ℝ ((extChartAt I x).symm ⁻¹' s ∩ range I) ((extChartAt I x) x)`;
-  this is its definition, with no additional set-membership premise. Prove the flat coefficient
-  calculation using `fderivWithin_comp`, the `extDerivWithin` definition and alternatization,
-  then lift through the source chart. Real and imaginary projections `ℂ →L[ℝ] ℝ` consume
-  this general theorem, not separate coefficient carriers. No coefficient-completeness assumption is needed.
-  *Needs:* 0.3 (`mpullback` and coefficient postcomposition); 1.1; Mathlib's
-  `extDerivWithin_pullback` and `fderivWithin_comp`.
+  (`DifferentialForm/Naturality.lean`). Commutation with coefficient postcomposition is Tau Ceti's as well
+  (`DifferentialForm/MapCoeff.lean`): for every continuous real-linear `L : F →L[ℝ] G` and a
+  `C¹` form `ω` on a `C¹` manifold, `mextDeriv (L_*ω) = L_*(mextDeriv ω)`
+  (`TauCeti.mextDeriv_mapCoeff`), and its pointwise `Within` form
+  `mextDerivWithin (L_*ω) s x = L.compContinuousAlternatingMap (mextDerivWithin ω s x)` under
+  differentiability of the chart coefficient within the chart image of `s` and
+  `UniqueMDiffWithinAt I s x` (`TauCeti.mextDerivWithin_mapCoeff`), whose cases `s = univ` and
+  `s` open are the `At` and `On` forms; `UniqueMDiffWithinAt` is by
+  definition the flat hypothesis
+  `UniqueDiffWithinAt ℝ ((extChartAt I x).symm ⁻¹' s ∩ range I) ((extChartAt I x) x)`. Real
+  and imaginary projections `ℂ →L[ℝ] ℝ` consume this general theorem, not separate coefficient
+  carriers, and no coefficient completeness is assumed. 1.2 consumes these by name and plans
+  nothing again.
 - **1.3 d² = 0 and regularity.** `d ∘ d = 0` for `C²` forms is Tau Ceti's
   `TauCeti.mextDeriv_mextDeriv` (`DifferentialForm/Squared.lean`), and `d` takes `C^p` forms to
   `C^n` forms for `n + 1 ≤ p` on a `C²` manifold, Tau Ceti's `TauCeti.isSmoothForm_mextDeriv`
   (`DifferentialForm/Regularity.lean`), whose smooth case `isSmoothForm_mextDeriv_infty` is what
-  lets `d` map `Ω^k` to `Ω^(k+1)`. Use this
-  regularity and Layer 0.4's coefficient-map smoothness preservation to derive the bundled
-  `SmoothForm` mirror of Layer 1.2's coefficient naturality for `C^∞` forms. On bundled smooth
+  lets `d` map `Ω^k` to `Ω^(k+1)`. The bundled
+  `SmoothForm` mirror of 1.2's coefficient naturality, `d (L_*φ) = L_*(d φ)` for `C^∞` forms
+  on a `C²` manifold, is Tau Ceti's as well: its linear exterior derivative commutes with
+  `TauCeti.SmoothForm.mapCoeff` (the last theorem on coefficient maps of
+  `DifferentialForm/MapCoeff.lean`'s `SmoothForm` section). On bundled smooth
   real forms, `d` is the linear map `mextDerivₗ`, and the closed forms `closedForms I M k` are
   its kernel: closedness is the equation `mextDeriv φ = 0`, with any chartwise description a
   theorem about it. *Needs:* 1.1–1.2; 0.4 (the bundled carrier and its coefficient-map
@@ -836,8 +892,14 @@ hypotheses.
   require a connection, and the covariant Leibniz law requires compatible connections on the
   pairing's three bundles. Then the invariant formulas
   through `mlieBracket` [Lee, Prop. 14.29, 14.32] (Tau Ceti's `TauCeti.mextDeriv_apply_one` in
-  degree one, `DifferentialForm/VectorField.lean`), the Lie derivative of forms by the bracket
-  formula (the Lie derivative of forms) [Lee, Cor. 12.33], and Cartan's magic formula [Lee, Thm. 14.35].
+  degree one, `DifferentialForm/VectorField.lean`). The Lie derivative of forms by the bracket
+  formula [Lee, Cor. 12.33] is Tau Ceti's `TauCeti.mlieDerivForm V φ`
+  (`DifferentialForm/LieDeriv.lean`), with its evaluation on vector fields
+  `TauCeti.mlieDerivForm_apply_vectorField`, and Cartan's magic formula
+  `L_V φ = ι_V (dφ) + d(ι_V φ)` [Lee, Thm. 14.35] is
+  `TauCeti.mlieDerivForm_eq_interior_mextDeriv_add`, with the degree-zero case
+  `TauCeti.mlieDerivForm_eq_interior_mextDeriv`; 1.4 consumes them and plans nothing about
+  them again.
   *Acceptance:* on `ℝ²`, `d(x dy) = dx ∧ dy` and `d(dx) = 0`. *Needs:* 0.1 (the paired wedge
   and `ContinuousAlternatingMap.curryLeft_pairedWedge`); 1.1–1.3; Mathlib's `mlieBracket` and
   the flat bracket formula
@@ -927,7 +989,14 @@ Geometric Topology.
   orientation along local diffeomorphisms (Tau Ceti's `TauCeti.Manifold.Orientation.pullback`
   along a `C¹` map with everywhere invertible differential, from which `f` preserves orientation
   at every point, `Orientation/Pullback.lean`) and
-  product orientations [Lee, Prop. 15.15]. The pullback along `f : M → M'` of an orientation of
+  product orientations [Lee, Prop. 15.15], which are Tau Ceti's
+  `TauCeti.Manifold.Orientation.prod` (`Orientation/Prod.lean`): for orientations indexed by
+  `Fin m` and `Fin n` of finite-dimensional manifolds, an orientation of the product indexed by
+  `Fin (m + n)` whose tangent orientation at `(x, y)` is the ordered product of the two, first
+  factor first (the tangent-orientation formula of the same file), negated by negating either
+  factor (`prod_neg_left`, `prod_neg_right` in the namespace
+  `TauCeti.Manifold.Orientation`), with the instance that a product of orientable
+  manifolds is orientable. The pullback along `f : M → M'` of an orientation of
   `M'` indexed by `ι` requires `Fintype.card ι = finrank ℝ E`, the dimension of the source: for
   nonempty `M` this follows from the invertible differential of `f`, and for empty `M` it is
   exactly the condition for an orientation of `M` indexed by `ι` to exist. The pullback is
@@ -1185,30 +1254,54 @@ Geometric Topology.
   the straightening theorem `exists_chart_mfderiv_eq_const` [Lee, Thm. 9.22], the
   flow characterization of the bracket `hasDerivAt_mpullback_flowOf` [Lee, Thm. 9.38], commuting
   flows and the canonical form for commuting fields [Lee, Thm. 9.44, 9.46], and Lie derivatives of
-  forms via flows [Lee, Thm. 12.37]. *Acceptance:* constant fields flow by translation, the rotation
+  forms via flows [Lee, Thm. 12.37]: for a complete `C²` field `Z` on a boundaryless
+  finite-dimensional Hausdorff `C²` manifold and a form `α` differentiable at `ψ_t x`, the
+  curve `s ↦ (ψ_s^*α)_x` has derivative `(ψ_t^* L_Z α)_x` at `t`, which is Tau Ceti's
+  `TauCeti.hasDerivAt_mpullback_globalFlow` (`DifferentialForm/Flow.lean`) on its
+  `TauCeti.mlieDerivForm`; the target is the same derivative along the maximal flow `flowOf` of
+  a field that need not be complete, at the times and points of `flowDomain`. *Acceptance:* constant fields flow by translation, the rotation
   field of `ℝ²` by rotation. *Needs:* 3.2–3.3; Mathlib's `VectorField.mpullback` and
   `mlieBracket`; Tau Ceti's inverse function theorem `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`
   for straightening; 0.3 and 1.4 for the Lie derivative of forms.
-- **3.5 Time-dependent flows** [Lee, Thm. 9.48]. For an open time slab
-  `J : TopologicalSpace.Opens ℝ` and a smooth time-dependent field on `↥J × M`,
-  build the maximal two-time flow by suspending to the autonomous field `(1,X)`.
-  Use the open-submanifold and product atlases of `↥J × M`. First build the
-  finite-dimensional specialization directly from the native autonomous maximal
-  flow on this suspension (`suspendedTimeField`): openness of `timeDependentFlowDomain` and joint
-  smoothness of `timeDependentFlow` on it. Its flow-law,
-  inverse and extension adapters likewise consume the native finite-dimensional
-  laws, independently of 3.1's Banach ODE theorem. The general Banach specialization uses the
-  3.1–3.2 Banach smooth-dependence/open-domain extension. Prove open maximal
+- **3.5 Time-dependent flows** [Lee, Thm. 9.48]. On the time slab `ℝ` and a
+  finite-dimensional model the theory is Tau Ceti's (`Flow/TimeDependent.lean`), by suspending
+  a time-dependent field `X` to the autonomous field `(1, X)` on `ℝ × M`
+  (`TauCeti.timeDependentSuspensionField`): the maximal domain
+  `TauCeti.timeDependentFlowDomain X` of triples `((s, t), x)`, initial time first, and the
+  flow `TauCeti.timeDependentFlowOf X s t x`, the value at time `t` of the solution through
+  `x` at time `s`; openness of the domain for a `C¹` field
+  (`TauCeti.isOpen_timeDependentFlowDomain`), joint `C^n` smoothness in both times and the
+  initial point on a Hausdorff boundaryless manifold (`TauCeti.contMDiffOn_timeDependentFlowOf`),
+  the identity at equal times, the equation in the final time
+  (`TauCeti.hasMFDerivAt_timeDependentFlowOf`), the two-time composition law and the inverse
+  law on the domain (`TauCeti.timeDependentFlowOf_trans_of_mem`,
+  `TauCeti.timeDependentFlowOf_symm_of_mem`), the local flow through every time and point
+  (`TauCeti.exists_timeDependentFlow`, finite-dimensional), and, for a field vanishing at all
+  times outside one compact set, completeness of the suspension with the global flow and its
+  diffeomorphisms (`TauCeti.isCompleteVectorField_timeDependentSuspensionField`,
+  `TauCeti.timeDependentFlowDomain_eq_univ`, `TauCeti.timeDependentFlowDiffeomorph`). 3.5
+  consumes these by name and plans nothing about them again.
+
+  The targets are the two extensions. First, an open time slab
+  `J : TopologicalSpace.Opens ℝ` and a smooth time-dependent field on `↥J × M`, with the
+  open-submanifold and product atlases of `↥J × M`: the suspension `suspendedTimeField`, the
+  maximal two-time domain `timeDependentFlowDomain`, the open subset of `J × J × M` in the
+  order `(t,s,x)`, target time first, where the suspended solution through `(s,x)` exists at
+  elapsed time `t−s`, and the flow `timeDependentFlow`, its `M` component. For
+  finite-dimensional models this is built from the native autonomous maximal flow of the
+  suspension, independently of 3.1's Banach ODE theorem, and for `J = ⊤`, under the
+  identification of `↥⊤` with `ℝ`, it agrees with Tau Ceti's flow with the two times
+  exchanged, `timeDependentFlow ⊤ v t s x = TauCeti.timeDependentFlowOf v s t x`. Second, Banach models,
+  through the 3.1–3.2 smooth-dependence and open-domain extension. Prove open maximal
   domain, joint smoothness in initial point and both times, identity,
   two-time composition, inverse partial diffeomorphisms (`timeDependentFlow_spec`, for Banach
   models), restriction/naturality, and the compact-time escape criterion. On finite-dimensional Hausdorff
   boundaryless manifolds, a trajectory remaining in a compact subset through
   a compact time interval inside J extends through that interval; compact M
-  gives global flow on every such interval (`timeDependentFlowDomain_eq_univ`, for an interval J). The two-time domain is the open
-  subset of `J × J × M`, in the order `(t,s,x)`, where the suspended solution through `(s,x)` exists
-  at elapsed time `t−s`; its M component is the requested flow. Keep the existing
-  `exists_timeDependentFlow` as the independent C¹ Banach local target on
-  ℝ×M, proved via 3.1; it is not asserted to follow from the C∞ slab theorem.
+  gives global flow on every such interval (`timeDependentFlowDomain_eq_univ`, for an interval J).
+  `exists_timeDependentFlow` is the independent C¹ Banach local target on
+  ℝ×M, proved via 3.1, whose finite-dimensional case is Tau Ceti's theorem of the same name;
+  it is not asserted to follow from the C∞ slab theorem.
   For a disconnected open J, the maximal domain stays within the connected
   time component of its initial time, as the suspension domain requires.
   HeegaardFloer Lane F2, item 1 (its symplectic and almost-complex foundations, Darboux and
@@ -1216,9 +1309,10 @@ Geometric Topology.
   including its compact-time extension, smooth dependence on both time
   variables and initial point, and restriction/naturality. SBC B5 consumes
   this same finite-dimensional specialization. *Needs:* 3.2's `flowOf` and `flowDomain`; Tau
-  Ceti's finite-dimensional maximal flow (`IntegralCurve/Flow.lean`) for the finite-dimensional
-  specialization; 3.1–3.2 for the Banach specialization and `exists_timeDependentFlow`; Mathlib's
-  open-submanifold and product atlases.
+  Ceti's finite-dimensional maximal flow (`IntegralCurve/Flow.lean`) and time-dependent flow on
+  `ℝ` (`Flow/TimeDependent.lean`) for the finite-dimensional specialization; 3.1–3.2 for the
+  Banach specialization and `exists_timeDependentFlow`; Mathlib's open-submanifold and product
+  atlases.
   **Checks.**
   - `suspendedTimeField J v` at `(s, x)` is `(1, v s x)`: its time component is the unit field,
     so the suspended curve through `(s, x)` has time coordinate `s + τ` at elapsed time `τ`,
@@ -1376,8 +1470,10 @@ that target's signature, never a second definition.
   integral immersion meeting it (in particular of every one through the point). Prove that the
   leaf images partition `M` (two leaves that meet contain each other) and that leaves are second
   countable when `M` is second countable. `Distribution.exists_leaf` states existence with all
-  these properties. *Needs:* 4.2–4.3 (flat charts, slices and weak embeddedness); Tau Ceti's
-  `TauCeti.Foliation` (`Foliation/Basic.lean`).
+  these properties. Develop these results on the existing distribution and foliation
+  interfaces. No boundaryless leaf through every boundary point is asserted: the full tangent
+  distribution on `[0, ∞)` rules that out. *Needs:* 4.2–4.3 (flat charts, slices and weak
+  embeddedness); Tau Ceti's `TauCeti.Foliation` (`Foliation/Basic.lean`).
   **Checks.**
   - Rank zero: the leaves are the points of `M`; rank `dim M`: the leaves are the connected
     components with their manifold structure.
@@ -1385,10 +1481,7 @@ that target's signature, never a second definition.
     dense image; its carrier is `ℝ`, and the subspace topology on the image is not locally
     connected, so a leaf carried by its image would be wrong.
   - Maximality only among *connected* integral manifolds: a disjoint union of two plaques of
-    different leaves is an integral manifold meeting a leaf without lying in it. Develop these results on the existing distribution
-  and foliation interfaces. No assertion of a boundaryless leaf through
-  every boundary point is made: the full tangent distribution on `[0, ∞)`
-  rules out that generalization.
+    different leaves is an integral manifold meeting a leaf without lying in it.
 
 **Acceptance examples.** Constant distributions give affine slices. Reuse
 `TauCeti.standardContactDistribution` and its noninvolutivity theorem. To
@@ -1431,16 +1524,23 @@ stronger quantifier order.
   and `…_left`, `Orientation/Interval.lean`), so a function `g` on the two-point boundary
   integrates to `g(b) − g(a)` (`TauCeti.integralTopForm_ofFunction_boundary_Icc`,
   `DifferentialForm/Integration/Interval/Stokes.lean`).
-  What remains is the closed ball. For the unit closed ball in `ℝ^(n+1)`, consume Tau Ceti's
-  `instChartedSpaceClosedBall`, `instIsManifoldClosedBall`,
-  `contMDiff_subtypeVal_closedBall` and `boundary_closedBall`. Construct the smooth
-  diffeomorphism from this manifold boundary to Mathlib's native `S^n`, with underlying
-  map the identity on ambient points, and prove the boundary orientation agrees with
-  2.4's outward orientation of `S^n`. Orient the ball by its ambient inclusion and
-  prove the derivative criterion and the outward radial-field law. *Needs:* 2.1–2.2; Tau Ceti's
-  boundary manifold `TauCeti.isManifold_boundary`, `TauCeti.boundaryOrientation` with
-  `TauCeti.boundaryOrientation_spec`, and the closed-ball instances named above; 2.4's
-  orientation of `Sⁿ`; Tau Ceti's `TauCeti.exists_isOutwardPointingField` for the outward field.
+  The closed unit ball of a real inner product space of dimension `n + 1` is Tau Ceti's as
+  well: its manifold structure (`instChartedSpaceClosedBall`, `instIsManifoldClosedBall`,
+  `contMDiff_subtypeVal_closedBall`, `boundary_closedBall`), the analytic diffeomorphism from
+  Mathlib's unit sphere onto its manifold boundary that is the identity on ambient points
+  (`TauCeti.sphereDiffeomorphBoundaryClosedBall`, `Instances/ClosedBall/Boundary.lean`), the
+  orientation pulled back along the inclusion from an orientation of the ambient space, which
+  the differential of the inclusion carries back to that orientation at every point, boundary
+  points included (`TauCeti.Manifold.Orientation.closedBall` with `map_orientationAt_closedBall`
+  in the same namespace, `Orientation/ClosedBall.lean`),
+  and the outward radial field: at a boundary point `x` the tangent vector that the inclusion
+  sends to `x` is outward (`TauCeti.isOutwardPointing_closedBall_radial`,
+  `Instances/ClosedBall/Outward.lean`). What remains is one comparison: under
+  `TauCeti.sphereDiffeomorphBoundaryClosedBall` the boundary orientation of the ball agrees
+  with 2.4's outward orientation of `S^n`. *Needs:* 2.1–2.2; Tau Ceti's
+  `TauCeti.boundaryOrientation` with `TauCeti.boundaryOrientation_spec`,
+  `TauCeti.Manifold.Orientation.closedBall`, `TauCeti.sphereDiffeomorphBoundaryClosedBall` and
+  `TauCeti.isOutwardPointing_closedBall_radial`; 2.4's orientation of `Sⁿ`.
   **Checks.**
   - The half-space `{x₀ ≥ 0}` in `ℝ²` with its standard orientation: at a boundary point the
     outward vector is `−e₀`, the pair `(−e₀, e₁)` has determinant `−1`, so `e₁` is negative for
@@ -1494,10 +1594,11 @@ stronger quantifier order.
   and agreement of the oriented integral over `Icc a b` of a pulled-back continuous `1`-form with
   the line integral of the form along a `C¹` curve, Tau Ceti's `TauCeti.pathIntegral`
   (`TauCeti.integralTopForm_mpullback_Icc_eq_pathIntegral`, `Integration/Path.lean`). 5.3
-  consumes these by name. What remains here: the smooth-boundary specialization of Green's
-  theorem, for a compact planar domain with smooth boundary read as a half-space manifold, and
-  the agreement of `TauCeti.pathIntegral` with Mathlib's `curveIntegral` for `C¹` curves. The
-  planar post-manifold comparison theorem is owned by 12.6, after the flat 5.6 theorem.
+  consumes these by name. The smooth-boundary specialization of Green's theorem, for a compact
+  planar domain with smooth boundary read as a half-space manifold, and the planar agreement of
+  the oriented integral over `Icc 0 1` with Mathlib's `curveIntegral` are Tau Ceti's too
+  (12.6 names them). What remains here is the agreement of `TauCeti.pathIntegral` with
+  Mathlib's `curveIntegral` for `C¹` curves in a general normed target.
   *Needs:* 5.1–5.2 and Tau Ceti's `TauCeti.integralTopForm_mextDeriv`; for the agreement,
   Mathlib's `curveIntegral`.
 - **5.4 The homotopy operator.** The homotopy operator `K` on `M × Icc 0 1` is Tau Ceti's
@@ -1535,6 +1636,7 @@ stronger quantifier order.
   - `P = −y`, `Q = x` (not closed, curl `2`): `g = x ∫₀¹ (−ty) dt + y ∫₀¹ tx dt = 0`, so
     `dg = 0 ≠ ω`; the closedness hypothesis of `planarRadialPrimitive_hasFDerivAt` is necessary.
     For every `P`, `Q`, `g(a) = 0`, both factors `(z − a).re` and `(z − a).im` vanishing at `a`.
+
   For the separate vertical-disk formula, let `D={x+iy: |x+iy-a|<r}`, `r>0`,
   `a=a₁+ia₂`, and let `ω` be a smooth `F`-valued 2-form on `D`, for any complete normed real
   space `F`. Define its scalar-coordinate coefficient by `f(z)=−ω_z(1,i)`, since
@@ -1709,6 +1811,7 @@ stronger quantifier order.
   - `p = 2`: the triangle with vertices `0`, `e₁`, `e₂`, of area `½`; the vertex `e₁` goes to the
     weight `1` at index `1` and the origin to the weight `1` at index `0`; a convention putting
     the weight `1 − Σ xᵢ` last would send `e₁` to index `0` and permute the faces.
+
   Construct the standard simplex face data in barycentric charts: at a
   point choose a positive barycentric coordinate as pivot, use the other
   n coordinates, and restrict the positive coordinates to stay positive.
@@ -1823,41 +1926,71 @@ no second index is defined. On the trace the area-weight function is set to zero
 of the principal-value index there. The signed chain boundary convention is terminal endpoint
 minus initial endpoint; outer boundaries run counterclockwise and hole boundaries clockwise.
 
-**5.6.1 Curves, indices, and planar area.** Extend the existing index API to absolutely
-continuous curves `γ : ℝ → ℂ` on `a..b`, `a < b`, using their a.e. derivative and FTC.
-Prove interval-integrability of `deriv γ` and consume
-`windingNumber_eq_integral_of_avoidance` to obtain the off-trace index integral.
-Extend integrality for closed curves, local constancy off the compact trace
-`K = γ '' uIcc a b`, vanishing on unbounded complementary components, and the existing
-proximity-invariance theorem `windingNumber_eq_of_dist_lt_dist` to AC curves. The proximity
-hypothesis is `∀ t ∈ uIcc a b, dist (γ₁ t) (γ₀ t) < dist (γ₀ t) z` for two closed curves;
-conclude equality of their indices at `z`. Do not apply the existing countable-exception
-integrality and proximity theorems to an arbitrary AC curve: its exceptional set need only
-be null.
+**5.6.1 Curves, indices, and planar area.** The index calculus of absolutely continuous
+curves `γ : ℝ → ℂ` on `a..b` is Tau Ceti's; 5.6.1 names it and plans nothing about it again.
 
-Use the existing `TauCeti.filledHull K`; the bounded complementary region is `filledHull K \ K`.
-Consume the filled-hull boundedness and separation API from conformal mapping. Prove the
-remaining facts needed here: this region is open, its frontier lies in `K`, the trace of an
-AC curve has zero area, and adding or deleting that trace preserves area integrals.
-The finite-length assertion is `BoundedVariationOn γ (uIcc a b)`, already supplied by
-`AbsolutelyContinuousOnInterval.boundedVariationOn`. Relate its total variation to
-`∫ t in a..b, ‖deriv γ t‖` using the existing metric-derivative API; do not create a path-length
-carrier.
+- *The index.* Off the trace the winding number is the integral of `(γ t − z)⁻¹ γ'(t)` with
+  the a.e. derivative, which is interval integrable
+  (`AbsolutelyContinuousOnInterval.windingNumber_eq_integral`,
+  `AbsolutelyContinuousOnInterval.intervalIntegrable_inv_sub_mul_deriv`,
+  `Analysis/Contour/Winding/Number/AbsolutelyContinuous.lean`). For closed curves it is an
+  integer (`AbsolutelyContinuousOnInterval.exists_int_windingNumber`), locally constant off
+  the compact trace `K = γ '' uIcc a b`
+  (`AbsolutelyContinuousOnInterval.isLocallyConstant_windingNumber`), zero on the unbounded
+  complementary component
+  (`AbsolutelyContinuousOnInterval.windingNumber_eq_zero_of_unbounded_component`), and
+  invariant under proximity: for two closed absolutely continuous curves with
+  `∀ t ∈ uIcc a b, dist (γ₁ t) (γ₀ t) < dist (γ₀ t) z`, the indices at `z` agree
+  (`AbsolutelyContinuousOnInterval.windingNumber_eq_of_dist_lt_dist`), all in
+  `Analysis/Contour/Winding/AbsolutelyContinuous/`. The countable-exception integrality and
+  proximity theorems of the contour roadmap are not applied to an arbitrary absolutely
+  continuous curve, whose exceptional set need only be null.
+- *Curve calculus.* A piecewise `C¹` curve is absolutely continuous
+  (`IsPiecewiseC1On.absolutelyContinuousOnInterval`), so contour cycles specialize every
+  statement here. The index is invariant under increasing absolutely continuous
+  reparametrizations onto the parameter interval and changes sign under decreasing ones
+  (`AbsolutelyContinuousOnInterval.windingNumber_comp_of_monotoneOn`, `…_of_antitoneOn`),
+  agrees with the `curveIntegral` form and is compatible with reversal and concatenation of
+  paths (`AbsolutelyContinuousOnInterval.windingNumber_eq_two_pi_I_inv_mul_curveIntegral`,
+  `…windingNumber_path_symm`, `…windingNumber_path_trans`); the line integral of a continuous
+  one-form has the same reparametrization invariance
+  (`AbsolutelyContinuousOnInterval.integral_oneForm_comp`,
+  `MeasureTheory/Integral/CurveIntegral/Reparam.lean`), and the circulation integrand of a
+  field continuous on the trace is interval integrable
+  (`AbsolutelyContinuousOnInterval.intervalIntegrable_circulationFun`,
+  `Analysis/Green/AbsolutelyContinuous.lean`). Raw curves and Mathlib's `Path`s are the
+  carriers.
+- *Planar area.* The bounded complementary region of the trace is `TauCeti.filledHull K \ K`:
+  it is open with frontier in `K` (`IsClosed.isOpen_filledHull_sdiff`,
+  `IsClosed.frontier_filledHull_sdiff_subset`, `Topology/FilledHull.lean`). The trace has zero
+  area (`AbsolutelyContinuousOnInterval.addHaar_image_uIcc_eq_zero`,
+  `MeasureTheory/Function/AbsolutelyContinuous/Trace.lean`), so adding or deleting it
+  preserves area integrals. The finite-length assertion is `BoundedVariationOn γ (uIcc a b)`
+  (`AbsolutelyContinuousOnInterval.boundedVariationOn`), and the total variation is
+  `∫ t in a..b, ‖deriv γ t‖` for `a ≤ b`
+  (`AbsolutelyContinuousOnInterval.integral_norm_deriv_eq_eVariationOn_toReal`,
+  `MeasureTheory/Function/MetricDerivative/Variation.lean`); there is no separate path-length
+  carrier.
+- *The area weight.* For a closed curve, `TauCeti.Green.windingWeight γ a b z` is the real
+  part of the winding number off `K` and zero on `K`. It is measurable, integer-valued,
+  compactly supported in the filled hull and integrable, although it need not be bounded
+  (`AbsolutelyContinuousOnInterval.measurable_windingWeight`, `…exists_int_windingWeight`,
+  `…hasCompactSupport_windingWeight`, `…integrable_windingWeight`,
+  `Analysis/Green/WindingWeight/Basic.lean`). The kernel estimate
+  `∫ z in closedBall c R, ‖z − w‖⁻¹ ≤ 4πR` for `w ∈ closedBall c R` is
+  `TauCeti.integral_norm_sub_inv_closedBall_le`, with local `L¹` continuity of the complex
+  reciprocal kernel under translation of the pole
+  (`TauCeti.tendsto_integral_norm_sub_inv_sub_sub_inv_closedBall`,
+  `Analysis/Complex/CauchyKernel.lean`); Tonelli applied to the off-trace index formula bounds
+  `∫ |windingWeight|` by `2R` times the total variation when the ball contains the trace
+  (`TauCeti.Green.integral_abs_windingWeight_le`, `Analysis/Green/WindingWeight/Bound.lean`),
+  and the weights of uniformly convergent closed curves with `L¹`-convergent derivatives
+  converge in `L¹` (`TauCeti.Green.tendsto_integral_abs_windingWeight_sub`,
+  `Analysis/Green/WindingWeight/Convergence.lean`). These are the estimates of 5.6.3's limit
+  passage, not an assumed uniform bound on the index.
 
-For a closed curve let `nγ(z)` be the real part of its existing winding number off `K`, and
-zero on `K`. Prove measurability, integrability, and compact support of `nγ`. Its values need
-not be bounded. Supply the kernel estimate
-`∫ z in closedBall c R, ‖z-w‖⁻¹ ≤ 4πR` for `R>0` and `w ∈ closedBall c R`, together with
-integrability of this kernel. Tonelli applied to the off-trace index formula then bounds
-`∫ |nγ|` by `2R` times the curve length when that ball contains the trace; use filled-hull
-containment in the ball to control the support. Prove local `L¹` continuity under translation
-of the complex reciprocal kernel. These are the estimates used in 5.6.3's `L¹` limit passage,
-not an assumed uniform bound on the index. *Needs:* Tau Ceti's winding-number API
-(`windingNumber_eq_integral_of_avoidance`, `windingNumber_eq_of_dist_lt_dist`), filled-hull API
-(`TauCeti.filledHull`) and metric-derivative API (`HasDerivAt.metricDerivative_eq`,
-`AbsolutelyContinuousOnInterval.lintegral_metricDerivative_lt_top`); Mathlib's
-`AbsolutelyContinuousOnInterval` with its fundamental theorem of calculus and Tonelli;
-GeometricMeasureTheory G1 (trace nullity and the variation–speed identity).
+The completed contour roadmap continues to own cycles, residues, principal values,
+homological Cauchy, and index definitions.
 
 **Checks** (for Tau Ceti's `TauCeti.Green.windingWeight`, `TauCeti.Green.circulationFun` and
 `TauCeti.Green.curl`, which 5.6.3 consumes).
@@ -1877,52 +2010,44 @@ GeometricMeasureTheory G1 (trace nullity and the variation–speed identity).
   the theorems ask for `C¹`
   fields on `U`.
 
-Prove that the existing `IsPiecewiseC1On` implies absolute continuity, so existing contour
-cycles specialize the new results. Supply restriction, splitting, reversal, concatenation,
-finite integer-weighted sums, and increasing AC reparametrizations onto the parameter
-interval. Prove integral and index invariance for those reparametrizations, sign reversal for
-decreasing ones, and integrability. Raw curves and existing `Path`s remain the carriers.
-Extend the existing raw-curve/`curveIntegral` index agreement to AC curves. The completed
-contour roadmap continues to own cycles, residues, principal values, homological Cauchy,
-and index definitions.
+**5.6.2 Directional Green identities and finite divisions.** This subsection is Tau Ceti's as
+well (`Analysis/Green/` and `Analysis/BoxIntegral/`); it names the declarations and plans
+nothing about them again. A vertical (type-I) cell is
 
-**5.6.2 Directional Green identities and finite divisions.** A vertical (type-I) cell is
+    V = {x + iy : a ≤ x ≤ b, ℓ(x) ≤ y ≤ u(x)},   a ≤ b,
 
-    V = {x + iy : a ≤ x ≤ b, ℓ(x) ≤ y ≤ u(x)},   a < b,
+Tau Ceti's `TauCeti.Green.verticalRegion a b ℓ u`, with `ℓ ≤ u` and continuous graphs; a
+horizontal (type-II) cell `TauCeti.Green.horizontalRegion` is the coordinate-swapped version
+(`Analysis/Green/Cell.lean`). Equality of the graphs is allowed, including at endpoints. The
+cells are compact and measurable with null frontier, slice by Fubini and are exchanged by the
+coordinate swap (`isCompact_verticalRegion`, `measurableSet_verticalRegion`,
+`volume_frontier_verticalRegion_eq_zero`, `integral_verticalRegion`,
+`preimage_coordinateSwapCLE_verticalRegion`, in the namespace `TauCeti.Green`). Affine
+covariance of real `C¹` one-forms, for an affine isomorphism `A` with linear part `L`, is
 
-with `ℓ ≤ u`, continuous graphs, and graphs `C¹` away from a finite exceptional set.
-A horizontal (type-II) cell is the coordinate-swapped version. Equality of the graphs is
-allowed, including at endpoints. This weaker finite-exception condition is written with
-`ContinuousOn` and `ContDiffOn` on the interval minus the exceptions; it does **not** mean
-Tau Ceti's stronger `IsPiecewiseC1On`, which requires regularity up to breakpoints.
+    curl(A^* α) = det(L) · (curl α) ∘ A
 
-Build their four parameterized edges and signed boundaries, membership formulas, compactness,
-measurability, null boundaries, slicing formulas, and coordinate-swap transport with its
-orientation sign. Establish affine covariance for real `C¹` one-forms. For an affine
-isomorphism `A` with linear part `L`, prove the pullback formula and
+(`TauCeti.Green.curl_affinePullback`), with the change of area by the absolute determinant and
+the transport of the circulation (`TauCeti.Green.integral_affineMap_image`,
+`TauCeti.Green.integral_circulationFun_affineMap`, `Analysis/Green/Affine/Basic.lean`). The
+directional identities keep their separate slice hypotheses; arbitrary affine mixing is not
+asserted to preserve them.
 
-    curl(A^* α) = det(L) · (curl α) ∘ A,
+On a vertical cell the `P dx` identity
 
-together with change of area by the absolute determinant and the corresponding
-boundary-orientation formula. The directional Green identities retain
-their separate slice hypotheses; arbitrary affine mixing is not asserted to preserve them.
+    ∮_{∂V} P dx = ∫_a^b (P(x + iℓ(x)) − P(x + iu(x))) dx = −∫_V ∂y P dA
 
-On `V` (`verticalCell a b ℓ u`), assume only that `P` is continuous, `∂y P` exists at every
-point (the derivative of `y ↦ P (x+iy)`), and this derivative is area-integrable on `V`; derive
-the measurability of the zero-extended fiber integral from area integrability by Fubini. Prove
-
-    ∮_{∂V} P dx = −∫_V ∂y P dA.
-
-The vertical edges contribute nothing to `∮ P dx`, and the bottom and top graphs, parametrized
-by `x`, contribute `∫_a^b P(x + iℓ(x)) dx` and `−∫_a^b P(x + iu(x)) dx`; since `P` and the
-graphs are continuous, this boundary side is an ordinary interval integral of a continuous
-function, and only the continuity of the graphs is used. This is `green_verticalCell`. On a
-horizontal cell (`horizontalCell c d ℓ u`) assume the analogous hypotheses on `Q` and `∂x Q`,
-and prove `∮ Q dy = ∫ ∂x Q dA` (`green_horizontalCell`), the right graph traversed upward and
-the left downward. Derivatives are specified through `HasDerivAt` on coordinate slices,
-not through `fderiv` of a field that need not be Fréchet differentiable. In particular, do
-not demand the unused partial derivatives or continuity of the used derivatives. Prove the
-slice FTC and Fubini steps.
+is `TauCeti.Green.integral_graphs_sub_eq_neg_integral_verticalRegion`
+(`Analysis/Green/Directional.lean`), for `P` with values in a complete normed space,
+continuous on each vertical fibre of the cell, with the slice derivative `∂y P` (the derivative
+of `y ↦ P (x+iy)`) at every point of each open fibre and area-integrable on `V`. The vertical
+edges contribute nothing to `∮ P dx`, and the bottom and top graphs, parametrized by `x`,
+contribute the two terms of the interval integral. On a horizontal cell the `Q dy` identity
+`∮ Q dy = ∫ ∂x Q dA`, the right graph traversed upward and the left downward, is
+`TauCeti.Green.integral_graphs_sub_eq_integral_horizontalRegion`. Derivatives are specified
+through `HasDerivAt` on coordinate slices, not through `fderiv` of a field that need not be
+Fréchet differentiable; neither the unused partial derivative nor continuity of the used one
+is assumed.
 
 **Checks.**
 - On the unit square with `P = y`: `∫₀¹ (P(x) − P(x + i)) dx = −1` and `−∫ 1 dA = −1`; with
@@ -1934,52 +2059,70 @@ slice FTC and Fubini steps.
   `x = 1/2`; the vertical identity applies (both sides `0`), and a `C¹` hypothesis would exclude it.
 
 For the finite divisions the boundary integrals along general arcs are
-**Henstock–Kurzweil**: develop the oriented
-one-dimensional specialization of `BoxIntegral.HasIntegral` on `Fin 1`, with restriction,
-finite splitting, reversal, linearity, uniqueness, FTC, and graph substitution. Prove the
-named one-dimensional equivalence: `GP` and `Henstock`
-have the same integral for every scalar integrand on a `Box (Fin 1)`. This is needed to consume
-Mathlib's `hasIntegral_GP_pderiv`, which is stated for `GP`, and derive the scalar FTC for
-continuous functions differentiable off a **countable** exceptional set. Finite-exception
-paths are a specialization. Prove its
-agreement with `intervalIntegral` and `curveIntegral` whenever the boundary integrand is
-Bochner integrable. The finite-exception path hypothesis alone does not guarantee this;
-never replace a conditionally integrable boundary expression by Bochner's junk value.
-Graph substitution must permit continuous parametrizations `C¹` away from finitely many
-exceptions, including unbounded speed and backtracking.
+**Henstock–Kurzweil**. The oriented one-dimensional specialization of
+`BoxIntegral.HasIntegral` on `Fin 1` is `TauCeti.BoxIntegral.HasHenstockIntervalIntegral`
+(`Analysis/BoxIntegral/Oriented/Basic.lean`), with restriction, finite splitting, reversal,
+linearity and uniqueness. In dimension one `GP` and `Henstock` have the same integral for
+every integrand on a `Box (Fin 1)` (`TauCeti.BoxIntegral.hasIntegral_GP_iff_Henstock_fin_one`), which gives the
+fundamental theorem of calculus for continuous functions differentiable off a **countable**
+exceptional set, with no integrability hypothesis on the derivative
+(`TauCeti.BoxIntegral.hasIntegral_Henstock_of_hasDerivAt_off_countable`,
+`Analysis/BoxIntegral/FundThmCalculus.lean`). The gauge integral agrees with `intervalIntegral`
+whenever the integrand is interval integrable (`IntervalIntegrable.hasHenstockIntervalIntegral`,
+`TauCeti.BoxIntegral.HasHenstockIntervalIntegral.eq_intervalIntegral`); a conditionally integrable boundary
+expression is never replaced by Bochner's junk value. Graph substitution permits continuous
+parametrizations differentiable off countably many points, including unbounded speed and
+backtracking (`TauCeti.Green.hasHenstockIntervalIntegral_graph_reparam`,
+`Analysis/Green/GraphIntegral.lean`).
 
-A finite division covers its region by such cells with pairwise area-null intersections.
-Use finite integer-weighted sums of parameterized arcs for its boundary, with zero endpoint
-boundary for a cycle. Build the API for arc subdivision, reversal with coefficient negation,
-reparametrization, and cancellation. For the `P dx` identity compare boundaries modulo vertical
-arcs (whose `dx` integral is zero); for `Q dy` compare modulo horizontal arcs. This permits
-different type-I and type-II divisions and different boundary presentations related by common
-subdivision or graph reparametrization, as in AFP; a single shared cell decomposition is not a
-premise. Construct and prove the comparison certificates, rather than assuming that the
-boundary integrals are equal. Sum the component identities to obtain full Green for such
-regions, including finite holes and disconnected regions. Derive integrability of the boundary
-components in the gauge sense, and of `∂x Q − ∂y P` in the area sense. State the Bochner
-specialization with its genuine boundary-integrability assumptions. Consume Mathlib's
-rectangle divergence theorem and Tau Ceti's bilinear rectangle Green formula as existing
-special cases, and prove agreement.
+A finite division `TauCeti.Green.Division d D` covers its region `D` by finitely many graph
+cells with pairwise area-null intersections (`Analysis/Green/Division/Basic.lean`). Its
+boundary is a `TauCeti.Green.BoundaryChain`, a finite integer-weighted sum of parametrized arcs
+(`Arc →₀ ℤ`, `Analysis/Green/BoundaryChain/Basic.lean`), with its endpoint boundary, gauge
+integral and integrability. For the `P dx` identity boundaries are compared modulo vertical
+arcs, and for `Q dy` modulo horizontal arcs: `TauCeti.Green.BoundaryChain.NullChain d U` is
+generated, under sums and negatives, by arcs constant in the coordinate integrated against,
+closed chains of arcs on one graph, and the differences that concatenation, reversal and
+regular reparametrization of piecewise graph arcs produce, and a null chain has zero gauge
+integral for every field continuous on `U`
+(`TauCeti.Green.BoundaryChain.NullChain.integrable_and_integral_eq_zero`,
+`Analysis/Green/BoundaryChain/Relations.lean`).
+This permits different type-I and type-II divisions and different boundary presentations, as
+in AFP; a single shared cell decomposition is not a premise, and equality of the boundary
+integrals is never assumed. Full Green for such regions, including finite holes and
+disconnected regions, is
+`TauCeti.Green.Division.integrable_and_integral_add_integral_eq_integral_sub`
+(`Analysis/Green/Division/Green.lean`): for a type-I division `V` and a type-II division `H`
+of `D` whose boundaries differ from a common chain `c` by null chains, `P` and `Q` continuous
+on a set containing `D`, and the slice derivatives `∂y P` and `∂x Q` existing in the open
+fibres of the cells and area-integrable on them, the chain integrals of `P dx` and `Q dy`
+along `c` exist in the gauge sense, `∂x Q − ∂y P` is area-integrable on `D`, and
 
-Build the **winding-weighted polygonal identity** for fields `C¹` on all of `ℂ`. For a closed
-polygon with consecutive vertices `vᵢ,vᵢ₊₁` and any base point `c`, use the triangle fan
-`Tᵢ=(c,vᵢ,vᵢ₊₁)`. The oriented boundaries telescope to the polygon because radial segments
-cancel. Prove the explicit index of each triangle boundary: off its three edges it is the
-sign of `det(vᵢ-c,vᵢ₊₁-c)` on the triangle interior and zero outside; degenerate triangles
-have zero index off their trace. Supply the triangular cell divisions and use the existing
-contour homotopy/proximity calculus for the index computation. Additivity gives
-`n_polygon = Σᵢ sign(detᵢ) · 1_{interior Tᵢ}` a.e.; internal triangle edges are area-null.
-Combining triangle Green with that index identity gives
-`∮_polygon P dx + Q dy = ∫ n_polygon · (∂x Q − ∂y P) dA`.
-Self-intersections, repeated vertices and repeated edges require no separate face arrangement.
-Do not require fan triangles to lie in a local field domain; the polygonal statement has
-explicitly global field hypotheses. *Needs:* Mathlib's Fubini, `BoxIntegral.HasIntegral`,
-`BoxIntegral.IntegrationParams.Henstock`, `hasIntegral_GP_pderiv` and
-`IntegrableOn.hasBoxIntegral`; for the agreement, Mathlib's rectangle divergence theorem and Tau
-Ceti's `ContinuousLinearMap.integral_bilinear_fderiv_sub_prod_Icc`; for the polygonal identity,
-5.6.1's index API and the contour homotopy and proximity calculus.
+    ∫_c P dx + ∫_c Q dy = ∫_D (∂x Q − ∂y P) dA.
+
+Its Bochner specialization, with interval integrability of the circulation on every arc of
+`c` as a hypothesis and Mathlib's `curveIntegral` in the conclusion, is
+`TauCeti.Green.Division.integrableOn_and_linearCombination_curveIntegral_eq_integral_sub`.
+Mathlib's rectangle divergence theorem and Tau Ceti's bilinear rectangle Green formula are
+special cases, by `TauCeti.Green.integral_rectangle_boundary_eq_divergence` and
+`TauCeti.Green.integral_rectangle_boundary_eq_bilinear`
+(`Analysis/Green/RectangleComparison.lean`).
+
+The **winding-weighted polygonal identity** for fields `C¹` on all of `ℂ` is
+`TauCeti.Green.green_polygonal` (`Analysis/Green/Polygonal/Green.lean`): for a closed
+polygonal curve,
+`∮_polygon P dx + Q dy = ∫ n_polygon · (∂x Q − ∂y P) dA`, with integrability of both sides.
+Its route is the triangle fan `Tᵢ=(c,vᵢ,vᵢ₊₁)` from any base point `c`, whose oriented
+boundaries telescope to the polygon because radial segments cancel; the index of a triangle
+boundary is the sign of `det(vᵢ-c,vᵢ₊₁-c)` on the triangle interior and zero outside, and zero
+off the trace for a degenerate triangle (`windingNumber_triangleCurve_eq_one`,
+`windingNumber_triangleCurve_eq_neg_one`,
+`windingNumber_triangleCurve_eq_zero_of_notMem_convexHull`,
+`windingNumber_triangleCurve_eq_zero_of_degenerate`, `Analysis/Green/Polygonal/Index.lean`),
+so `n_polygon = Σᵢ sign(detᵢ) · 1_{interior Tᵢ}` a.e. (`windingWeight_eq_triangle_fan`,
+`Analysis/Green/Polygonal/Fan.lean`). Self-intersections, repeated vertices and repeated
+edges need no separate face arrangement, and the fan triangles need not lie in a local field
+domain, since the field hypotheses are global.
 
 **5.6.3 Green for absolutely continuous cycles.** For a closed absolutely continuous curve
 on `a..b`, `a < b`, an open `U` containing the trace, and `P,Q` real `C¹` on `U`, assume the
@@ -2019,26 +2162,32 @@ flat identities with the half-space theorem 5.3 and face-structured theorem 5.5b
 their outward-first orientations, the integral of top forms, coordinate area, and
 12.5's Euclidean divergence theorem. The flat theorem and the general
 manifold theorems are constructed independently before that comparison;
-neither consumes it as a prerequisite. *Needs:* 5.6.1–5.6.2; Mathlib's smooth bump functions
-(the cutoff); Tau Ceti's `TauCeti.Contour.Cycle` for the specialization to cycles; nothing of
-layers 0–5.5 and 12.
+neither consumes it as a prerequisite. *Needs:* Tau Ceti's `TauCeti.Green.green_ac_winding`,
+`TauCeti.Green.green_ac_winding_sum`, `TauCeti.Contour.Cycle.green_winding`,
+`TauCeti.Green.green_ac_index_one` and `TauCeti.Green.green_ac_flux`; nothing of layers 0–5.5
+and 12.
 
-**Acceptance examples.** Prove the unit-circle and ellipse area formulas from
-`P=-y/2, Q=x/2`. For `a,b>0`, define the closed ellipse
-`E_{a,b}={x+iy : (x/a)²+(y/b)²≤1}` and its positive boundary
-`γ(t)=a cos(t)+i b sin(t)`, `0≤t≤2π`. Prove by the positive affine change of variables
-`(x,y)↦(ax,by)` from the unit disk, with Jacobian `ab`, and the nullity of the boundary, that
-`(volume E_{a,b}).toReal=πab`. Also prove
-`∮_{∂E_{a,b}} x dy=∮_{∂E_{a,b}} (−y dx+x dy)/2=πab`; connect the two integrands by
-`d(xy)/2`, and use the positive orientation. Reversal negates both signed integrals but not the
-geometric area. Also prove the annulus formula `π(R²-r²)` for `0<r<R` with a clockwise inner circle;
-the signed shoelace formula for a closed polygonal path, including a self-intersecting path;
-and a twice-traversed circle with weight two. Give the unit-circle boundary a reparametrization
-`θ(t)=2π√t`, `0≤t≤1`, and recover area `π`: this curve is absolutely continuous with unbounded
-speed. Discharge a weak-field example `P(x,y)=|x-1/2|, Q(x,y)=x` on the unit square: only `∂y P=0`
-and `∂x Q=1` are needed, although the field is not `C¹` on a neighbourhood of the square.
-For the gauge FTC, take `h(0)=0` and `h(t)=t² sin(t⁻²)` for `0<t≤1`: prove that the
-Henstock–Kurzweil integral of `h'` is `sin 1`, and that `h'` is not Bochner integrable.
+**Acceptance examples.** Tau Ceti proves them (`Analysis/Green/Examples/` and
+`Analysis/BoxIntegral/Examples/GaugeFTC.lean`), each from `P=-y/2, Q=x/2` unless said
+otherwise. The unit circle has area `π` (`TauCeti.Green.Examples.green_circle_area`). For `a,b>0`, the
+positive boundary `γ(t)=a cos(t)+i b sin(t)`, `0≤t≤2π`, of the closed ellipse
+`E_{a,b}={x+iy : (x/a)²+(y/b)²≤1}` has circulation `πab`, equal to the area of the region by
+the affine change of variables `(x,y)↦(ax,by)` from the unit disk, with Jacobian `ab`
+(`TauCeti.Green.Examples.green_ellipse_area`, `TauCeti.Green.Examples.green_ellipse_region_area`); reversal
+negates the signed integral but not the geometric area. The annulus `0<r<R` with a clockwise
+inner circle has `π(R²-r²)` (`TauCeti.Green.Examples.green_annulus_area`); the signed shoelace formula
+holds for a closed polygonal path, including the self-intersecting bow tie
+(`TauCeti.Green.Examples.integral_circulationFun_area_shoelace`,
+`TauCeti.Green.Examples.integral_circulationFun_area_bowTieCurve`); a twice-traversed circle has
+weight two (`TauCeti.Green.Examples.green_double_circle_area`). The unit circle reparametrized by
+`θ(t)=2π√t`, `0≤t≤1`, is absolutely continuous with unbounded speed and still gives area `π`
+(`TauCeti.Green.Examples.green_sqrt_circle_area`). The weak field `P(x,y)=|x-1/2|, Q(x,y)=x` on the
+unit square needs only `∂y P=0` and `∂x Q=1`, although it is not differentiable along
+`x = 1/2` (`TauCeti.Green.Examples.green_abs_unitSquare`). For the gauge fundamental theorem, with
+`h(0)=0` and `h(t)=t² sin(t⁻²)` for `0<t≤1`, the Henstock–Kurzweil integral of `h'` is
+`sin 1` while `h'` is not interval integrable
+(`TauCeti.BoxIntegral.Examples.hasHenstockIntervalIntegral_deriv_oscillatoryPrimitive`,
+`TauCeti.BoxIntegral.Examples.not_intervalIntegrable_deriv_oscillatoryPrimitive`).
 These supplement the unit-square sign check of 5.5a. The area formula for a general cycle is
 **signed area counted with index**, not the area of the union of its bounded complementary
 components.
@@ -2058,8 +2207,9 @@ uses the flat differentiable-form calculus on `U` and does not consume 5.5a, 5.5
 DeRhamCohomologyAndDuality's continuous path integral. The form
 `ω_α` itself is globally defined on `U`; no global real-valued angle potential is asserted.
 
-**Ownership and ordering.** This layer owns the AC and directional planar extensions and
-their comparisons with existing rectangle and manifold results. Layers
+**Ownership and ordering.** This layer is the home of the AC and directional planar
+extensions and their comparisons with existing rectangle and manifold results, which Tau Ceti
+has built; it owns the flat punctured-plane family. Layers
 5.3 and 5.5b retain half-space and face-structured Stokes, and 5.5a retains
 generic density integration. Layer 12.5 retains Riemannian divergence and
 Green's integration-by-parts identities; 12.6 owns their later planar comparison. The completed
@@ -2067,8 +2217,8 @@ Green's integration-by-parts identities; 12.6 owns their later planar comparison
 and index APIs consumed above; [conformal mapping](../../Completed/ConformalMapping/README.md), L5, owns
 the filled-hull and planar-separation APIs consumed here. [PDE](../PDE/README.md) owns Green functions, boundary-value
 problems, and weak PDE solutions; [modular forms](../ModularForms/README.md) owns its
-Petersson/region-Stokes application and can consume these identities. Sequence 5.6.1's curve
-calculus and 5.6.2's finite divisions before the approximation and limit passage in 5.6.3.
+Petersson/region-Stokes application and can consume these identities. 5.6.1's curve
+calculus and 5.6.2's finite divisions precede the approximation and limit passage in 5.6.3.
 They use Mathlib's flat calculus and
 integration directly. The subsequent comparison 12.6 consumes the completed
 flat theorem, 5.2/5.3/5.5a, the face data and theorem 5.5b when corners occur,
@@ -2080,12 +2230,9 @@ and `HasFDerivWithinAt.curveIntegral_segment_source`, and the community's
 [Stokes discussion](https://leanprover-community.github.io/archive/stream/116395-maths/topic/Stokes'.20theorem.html)
 about gauge integrals. The [Jordan-curve discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Jordan.20curve.20.2F.20Smooth.20Jordan.20curve/near/569492761)
 likewise favours existing maps and regularity hypotheses over a new smooth-Jordan-curve
-carrier. Build missing compatibility lemmas in Tau Ceti following those APIs; consume
-Mathlib declarations wherever they already express a target.
-The `Green` namespace of `Suggested.lean` states the one-cell identities of 5.6.2; the
-absolutely continuous theorems of 5.6.3 are Tau Ceti's, on its curl, circulation integrand and
-area weight; the finite division theorems lack the oriented boundary-chain carrier there, and
-the markdown specifies the full layer.
+carrier. Tau Ceti's planar Green library follows those APIs. `Suggested.lean` states nothing
+of this layer: 5.6.1–5.6.3 and the acceptance examples are Tau Ceti's, and the target that
+remains, the flat punctured-plane family, is specified above.
 
 ### Layer 6: the de Rham complex and cohomology
 
@@ -2482,23 +2629,35 @@ Riesz duality.*
   consumed. Consume `TauCeti.inducedRiemannianMetric` and
   `inducedRiemannianMetric_inner` from `Geometry/Manifold/Riemannian/Induced.lean`
   for a finite-dimensional source and a C^(n+1) map into any real inner product
-  space with injective differential, giving a C^n metric. Build `immersionMetric`
-  for maps with injective `mfderiv` into arbitrary Riemannian manifolds: its
+  space with injective differential, giving a C^n metric. For a `C^(n+1)` map with injective
+  `mfderiv` into a manifold with a `C^n` metric, the pulled-back `C^n` metric is Tau Ceti's
+  `Bundle.ContMDiffRiemannianMetric.pullback` with its inner-product formula
+  `Bundle.ContMDiffRiemannianMetric.pullback_inner` (`Riemannian/Pullback/Basic.lean`). The
+  target `immersionMetric` differs from it in asking no regularity: it is defined
+  for maps with injective `mfderiv` into arbitrary Riemannian manifolds, and its
   pointwise metric data require only the finite-dimensional source and the
   target's pointwise metric, without a regularity or finite-dimension assumption
   on the target. Its inner product is, by construction, the target's inner product of the
   `mfderiv` images. Prove that it is `C^n` for every `n : ℕ∞ω`, for a C^(n+1) map and a C^n
   target metric, consuming the native bilinear pullback regularity theorem. Prove
   that it agrees with Tau Ceti's `inducedRiemannianMetric` in the real-inner-product target
-  case. Include
-  restrictions, smooth isometry transport and identity/composition of pullbacks.
-  Build product, `Opens` and boundary metrics. Consume the existing analytic
-  `sphereRoundMetric` and its instances on spheres and Circle; `roundMetricCircle`
-  selects that same native instance. The new circle target is
+  case and with `Bundle.ContMDiffRiemannianMetric.pullback` when the map is `C^(n+1)` and the
+  target metric `C^n`. Include
+  smooth isometry transport and identity/composition of pullbacks.
+  Product, `Opens` and boundary metrics are Tau Ceti's
+  `Bundle.ContMDiffRiemannianMetric.prodTangentSpace` (`Riemannian/Prod.lean`),
+  `Bundle.ContMDiffRiemannianMetric.restrictOpenTangentSpace` (`Riemannian/Restriction.lean`)
+  and `Bundle.ContMDiffRiemannianMetric.restrictBoundaryTangentSpace`
+  (`Riemannian/Boundary.lean`). Consume the existing analytic
+  `sphereRoundMetric` and its instances on spheres and Circle; the round metric of the circle
+  is Tau Ceti's `TauCeti.roundMetricCircle` (`Riemannian/Circle.lean`), bundling that metric,
+  with `Circle.roundMetricCircle_inner`, and `roundMetricCircle` of `Suggested.lean`
+  selects the same native instance, kept because `volume_circle` is stated on it. The new circle target is
   its volume comparison `volume_circle`, using the angular integral gate of 5.5a. *Needs:*
   Mathlib's partitions of unity and `RiemannianBundle`; Tau Ceti's
-  `TauCeti.inducedRiemannianMetric`, `Bundle.ContMDiffRiemannianMetric.contMDiffAt_pullback` and
-  `TauCeti.sphereRoundMetric`; for `volume_circle`, 5.5a's angular gate and Tau Ceti's
+  `TauCeti.inducedRiemannianMetric`, `Bundle.ContMDiffRiemannianMetric.contMDiffAt_pullback`,
+  `Bundle.ContMDiffRiemannianMetric.pullback`, `TauCeti.sphereRoundMetric` and
+  `TauCeti.roundMetricCircle`; for `volume_circle`, 5.5a's angular gate and Tau Ceti's
   `TauCeti.riemannianVolume`.
   **Checks.**
   - `immersionMetric` along the identity is the given metric; along `x ↦ 2x` on `ℝ` it is
@@ -2592,8 +2751,13 @@ Riesz duality.*
   take a smooth positive-definite Riemannian metric, the native Borel
   structures and volume measure, and a smooth vector field X. Assume
   **either M is compact or X vanishes outside a compact subset of M**.
-  Construct the induced boundary metric `halfSpaceBoundaryMetric` by pullback along the native
-  smooth boundary immersion, with its smoothness and continuity
+  The induced boundary metric is the pullback along the native smooth boundary immersion, which
+  for a bundled `C^k` metric is Tau Ceti's
+  `Bundle.ContMDiffRiemannianMetric.restrictBoundaryTangentSpace` with
+  `Bundle.ContMDiffRiemannianMetric.restrictBoundaryTangentSpace_inner`
+  (`Riemannian/Boundary.lean`); `halfSpaceBoundaryMetric` is the same pullback as an instance
+  for the ambient instance metric, on which the boundary measure and the theorem are stated,
+  with its continuity
   (`halfSpaceBoundaryMetric_continuous`) and native `TauCeti.riemannianVolume` on that boundary
   (`halfSpaceBoundaryVolume`). Construct the unique smooth outward unit normal N along the
   boundary (`exists_halfSpaceOutwardUnitNormal`): norm one, orthogonal to the image of its tangent
@@ -2652,21 +2816,46 @@ Riesz duality.*
   - The closed unit disk with the flat metric: the boundary metric is the round metric of `S¹`
     and `halfSpaceBoundaryVolume` has total mass `2π`, agreeing with `volume_circle` through the
     identification of 5.1.
-- **12.6 Planar/manifold compatibility, after both producers.** Consume
-  the completed flat theorems 5.6.1–5.6.3, half-space Stokes 5.3,
-  density integration 5.5a, the face construction/theorem 5.5b when needed,
-  and 12.4–12.5. Identify the complex plane orientation, its coordinate
-  area with the Euclidean metric measure, AC/rectifiable line integrals
-  with smooth-boundary pullback integrals where their hypotheses overlap,
-  outward-first boundary signs and the outward flux of (Q,-P) with
-  circulation P dx+Q dy (so div(Q,-P)=∂x Q-∂y P). Derive the rectangle, square, smooth Jordan, finite-hole
-  and compatible face-boundary specializations, including orientation
-  reversal and repeated traversal. This is an equality of already
-  constructed statements at their common scope; it neither strengthens
-  the directional/HK theorem to C¹ nor uses an HK statement to infer
-  unsupported manifold regularity. It feeds downstream consumers without
-  becoming a prerequisite of 5.3, 5.5 or 12.5. *Needs:* 5.6.1–5.6.3; 5.2–5.3; 5.5a; 5.5b where
-  corners occur; 12.4–12.5.
+- **12.6 Planar/manifold compatibility, after both producers.** The comparison of the flat
+  theorems 5.6.1–5.6.3 with the integral of top forms and half-space Stokes is Tau Ceti's
+  (`Analysis/Green/Comparison/` and `Analysis/Green/{DifferentialForm,Orientation}.lean`), and
+  12.6 names it and plans nothing about it again. The planar one-form `P dx + Q dy` as a
+  manifold form is `TauCeti.Green.manifoldOneForm P Q`, with
+  `d(P dx + Q dy) = (∂x Q − ∂y P) dx ∧ dy`
+  (`DifferentiableAt.mextDeriv_manifoldOneForm_eq_smul_area`), and coordinate area is the
+  integral of `TauCeti.Green.manifoldAreaForm` against the orientation of `ℂ` with positive
+  basis `(1, i)` (`HasCompactSupport.integralTopForm_model_manifoldAreaForm`). The oriented
+  integral over `Icc 0 1` of the pullback along a `C¹` path is Mathlib's `curveIntegral`
+  (`Path.integralTopForm_mpullback`). The winding-weighted theorem, its finite sums, its cycle
+  form and the index-one form agree with the integral of the manifold exterior derivative
+  (`TauCeti.Green.green_ac_winding_integralTopForm`,
+  `TauCeti.Green.green_ac_winding_sum_integralTopForm`,
+  `TauCeti.Contour.Cycle.green_winding_integralTopForm`,
+  `TauCeti.Green.integralTopForm_mpullback_eq_index_one_area`). On the rectangle
+  `Icc a b × Icc c d` as a product of interval manifolds, the integral of the pulled-back
+  `d(P dx + Q dy)` is the gauge integral over the four outward-first oriented faces, and the
+  flux of `(Q, −P)` is the outward-unit-normal functional, so `div(Q,−P) = ∂x Q − ∂y P`
+  (`TauCeti.Green.integralTopForm_rectangle_mextDeriv`,
+  `TauCeti.Green.integral_rectangle_flux_eq_outward`,
+  `TauCeti.Green.integral_rectangle_flux_eq_trace`). For a compact half-space surface mapped
+  to the plane by an injective positively oriented `C²` immersion, half-space Stokes is Green
+  over the image with the boundary curve integrals, for one boundary loop or finitely many
+  (`TauCeti.Green.integral_image_curl_eq_boundary_curveIntegral`,
+  `TauCeti.Green.integral_image_curl_eq_boundary_sum_curveIntegral`), which gives the smooth
+  Jordan and finite-hole specializations; orientation reversal and repeated traversal are in
+  5.6's examples. Each is an equality of already constructed statements at their common scope;
+  none strengthens the directional/HK theorem to `C¹` or uses an HK statement to infer
+  manifold regularity.
+
+  What remains are the comparisons with this roadmap's own remaining producers: the
+  identification of coordinate area with `TauCeti.riemannianVolume` of the Euclidean metric
+  and with 5.5a's density integral, the compatible face-boundary specialization for the
+  smooth face structure of 5.5b (the square and polygons as manifolds with corners), and the
+  identification of the flux form of Green's theorem on a compact planar domain with smooth
+  boundary with 12.5's divergence theorem, its induced boundary measure and outward unit
+  normal. They feed downstream consumers without becoming a prerequisite of 5.3, 5.5 or 12.5.
+  *Needs:* Tau Ceti's comparison modules named above; 5.5a; 5.5b where corners occur;
+  12.4–12.5.
 
 ## Statements that must not enter the library
 
@@ -2748,8 +2937,8 @@ Green targets of layer 5.6
 own winding numbers, curve integration, and the actual area identity; 5.3
 and 5.5b retain half-space and face-structured Stokes, 5.5a retains generic
 density integration, and 12.6 owns their post-construction comparison. In 5.6.1, AC trace-nullity and variation–speed
-are specializations consumed from G1, whose general metric statements are the single
-owned targets; this layer builds their integral and index compatibility.
+are the Tau Ceti specializations of G1's general metric statements, which are the single
+owned targets; their integral and index compatibility is Tau Ceti's planar Green library.
 
 For continuous BV curves, construct the geometric line integral of a continuous real
 1-form along the trace with its traversal multiplicity, using G1's AC arclength
