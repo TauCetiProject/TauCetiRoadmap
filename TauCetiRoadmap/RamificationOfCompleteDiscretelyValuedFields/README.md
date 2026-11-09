@@ -87,7 +87,8 @@ triviality (`TauCeti.IsLocalRing.exists_forall_ramificationGroup_eq_bot`) and `H
 
 ClassFieldTheory owns local reciprocity, local duality, finite-group Tate cohomology and the
 reciprocity–filtration compatibilities. LocalGaloisGroups owns the maximal pro-`p` quotient of the
-absolute Galois group and its presentation. ReductiveGroups Layer 3 owns finite-type algebraic
+absolute Galois group and its presentation. ProfiniteProPGroups owns pro-`p` groups, whose
+predicate is Tau Ceti's `TauCeti.IsProP`. ReductiveGroups Layer 3 owns finite-type algebraic
 groups, their closed subgroups, normal quotients and identity components;
 SchemeAndStackFoundations §0.24 owns perfection in characteristic `p`; AdicSpacesPartII §R0.19.9
 owns the generic pro-category with its limit–colimit Hom formula. PadicPeriodRings owns the
@@ -233,6 +234,16 @@ nonarchimedean local fields is Tau Ceti's `TauCeti.LocalFieldsRamification.hasse
 integer), owned by the completed roadmap and consumed here, not restated: §3a.3 proves its
 generalization without residue finiteness and records in a Check that, through §3a.2's
 agreement, it recovers `TauCeti.LocalFieldsRamification.hasseArf`.
+
+### From TauCetiRoadmap.ProfiniteProPGroups
+
+The completed roadmap [ProfiniteProPGroups](../../Completed/ProfiniteProPGroups/README.md)
+supplies the pro-`p` predicate through Tau Ceti's `TauCeti.IsProP p G`, in
+`TauCeti/Topology/Algebra/Group/Profinite/ProP/Basic.lean`: every quotient of the topological
+group `G` by an open normal subgroup is a `p`-group. §4a.1 uses it, for the subspace topology, to
+say that wild inertia is pro-`p`. The predicate does not include compactness, which `P_K` has as a
+closed subgroup of the compact group `G_K`, and for `p = 0` it holds for every group, since
+`g^(0^1) = 1`; §4a.1 therefore states residue characteristic zero separately, as `P_K = 1`.
 
 ### From ReductiveGroups, SchemeAndStackFoundations, AdicSpacesPartII and ReductiveGroupsPartII
 
@@ -734,7 +745,8 @@ subring lying over `A`, every `D_M` is all of `Gal(M/K)` and `O ∩ M` is the in
 - in the setting of this layer, each `G_K^u` is a closed normal subgroup, the family is antitone,
   `G_K^(−1) = G_K`, and the intersection of all `G_K^u` is trivial; the decomposition group of `O`
   is all of `G_K`, and `G_K^0` is inertia `I_K`, the fixing subgroup of the maximal unramified
-  extension `K^ur`; `P_K` is pro-`p` when `p > 0` and trivial when `p = 0`;
+  extension `K^ur`; when `p > 0`, `P_K` is pro-`p`, `TauCeti.IsProP p P_K` for the subspace
+  topology, and when `p = 0`, `P_K` is trivial;
 - on a nonarchimedean local field `K`, with each finite level `M` carrying the local-field
   structure of `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`, the image of `G_K^u`
   in `Gal(M/K) = M ≃ₐ[K] M` is `TauCeti.LocalFieldsRamification.upperRamificationGroup K M u` for
@@ -784,7 +796,12 @@ subgroups of finite discrete groups under the continuous restrictions
 (`InfiniteGalois.restrictNormalHom_continuous`), so `G_K^(0+) ⊆ P_K` for every `O`. Conversely, a
 neighbourhood of `σ ∈ P_K` contains the coset of the fixing subgroup of some finite Galois `M`; for
 small `w > 0`, `σ|_M ∈ G_1 = Gal(M/K)^w`, and the finite projections give `τ ∈ G_K^w` with
-`τ|_M = σ|_M`. Each `G_1` is a `p`-group by 3a.1.
+`τ|_M = σ|_M`. Each `G_1` is a `p`-group by 3a.1, and trivial when `p = 0`. An open normal
+subgroup of `P_K` contains `P_K ∩ G_M` for the fixing subgroup `G_M` of some finite Galois `M`,
+and `P_K ∩ G_M` is the kernel of restriction from `P_K` to `Gal(M/K)`, whose image lies in `G_1`;
+so every quotient of `P_K` by an open normal subgroup is a quotient of a subgroup of a `p`-group,
+which is `TauCeti.IsProP p P_K`, and `P_K = 1` when `p = 0`, an element trivial on every finite
+level being trivial.
 
 On a nonarchimedean local field, a finite level `M` is a local field valuatively over `K`
 (`TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`,
@@ -806,8 +823,9 @@ with images `G_0` and `G_1` in every finite quotient
 `ValuationSubring.comap`, `ValuationSubring.decompositionSubgroup`,
 `ValuationSubring.inertiaSubgroup`, `IsAdicComplete` and `PerfectField`; Tau Ceti
 `TauCeti.absoluteGaloisGroupRestrictEquiv` with `TauCeti.absoluteGaloisGroupRestrictEquiv_apply`,
-the instance `CompactSpace (Field.absoluteGaloisGroup K)`, and
-`TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertiaSubgroup`; for the local-field agreements,
+the instance `CompactSpace (Field.absoluteGaloisGroup K)`,
+`TauCeti.IsLocalRing.ramificationGroup_zero_eq_inertiaSubgroup`, and, for the pro-`p` statement
+on `P_K`, ProfiniteProPGroups' predicate `TauCeti.IsProP`; for the local-field agreements,
 §3a.2's agreement of filtrations and the completed roadmap's Tau Ceti declarations
 `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`,
 `TauCeti.finiteIntermediateField_valuativeExtension`, `TauCeti.integerRing_eq_integralClosure`,
@@ -846,6 +864,14 @@ the instance `CompactSpace (Field.absoluteGaloisGroup K)`, and
   outside `I_K`, since it moves the unramified `ζ_(p²−1)` to `ζ_(p²−1)^p`.
 - For odd `p` and `K = Frac W(F̄_p)`, the tame extension `K(ζ_p)/K` shows `G_K^(0+) ≠ G_K^0`: `I_K`
   maps onto `Gal(K(ζ_p)/K)`, of order `p − 1`, while `P_K` maps to `G_1 = 1`.
+- Being pro-`p` separates wild inertia from inertia. For `K = ℚ_3` and `M = ℚ_3(ζ_9)`,
+  `Gal(M/K) ≅ (ℤ/9)ˣ` has `#G_0 = 6` and `G_1 = {1, 4, 7}`: the quotient of `P_K` by its open
+  normal subgroup `P_K ∩ G_M` is `G_1`, of order `3`, while the quotient of `I_K` by `I_K ∩ G_M`
+  is all of `(ℤ/9)ˣ`, of order `6`, so `I_K` is not pro-`3`.
+- In residue characteristic zero the predicate says nothing. For `K = ℂ((t))`, whose residue
+  field is algebraically closed, `I_K = G_K`, and `TauCeti.IsProP 0 I_K` holds as it does for
+  every group; what the target asserts there is `P_K = 1`, every finite level being tame with
+  `G_1 = 1`.
 
 ### 4a.2 Finite separable extensions: ψ_(L/K) and the open-subgroup identity
 
@@ -1051,7 +1077,8 @@ Layer 3a; the completed roadmap, through the Tau Ceti declarations for the local
 of finite extensions, `TauCeti.maximalUnramifiedExtension`, `TauCeti.inertiaSubgroup` and
 `TauCeti.wildInertiaSubgroup`; Tau Ceti's restriction isomorphism
 `TauCeti.absoluteGaloisGroupRestrictEquiv`, the compactness of `Field.absoluteGaloisGroup K` and
-`TauCeti.absoluteGaloisGroup_mapOfAlgebra_commutes`; ReductiveGroupsPartII §RG2.0.4 for
+`TauCeti.absoluteGaloisGroup_mapOfAlgebra_commutes`; the completed roadmap ProfiniteProPGroups,
+through its pro-`p` predicate `TauCeti.IsProP`; ReductiveGroupsPartII §RG2.0.4 for
 `Breve E`; Mathlib's absolute Galois group with `Field.absoluteGaloisGroup.mapOfAlgebra`,
 valuation subrings with their decomposition and inertia subgroups, finite Galois intermediate
 fields, uniform completion and Krasner's lemma.
@@ -1061,9 +1088,12 @@ fields, uniform completion and Krasner's lemma.
 The external dependency order is
 **[LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md) → this roadmap**,
 with ReductiveGroups, SchemeAndStackFoundations and AdicSpacesPartII supplying
-§3a.3's proalgebraic inputs and ReductiveGroupsPartII §RG2.0.4 supplying the field `Breve E` of
-§4a.3's agreement. Within this roadmap the order is §3a.1 → §3a.2 → §3a.3 (its three
-prerequisite targets, then the theorem) → §4a.1 → §4a.2 → §4a.3.
+§3a.3's proalgebraic inputs, the completed roadmap
+[ProfiniteProPGroups](../../Completed/ProfiniteProPGroups/README.md) supplying, through Tau Ceti's
+`TauCeti.IsProP`, the pro-`p` predicate of §4a.1's wild inertia, and ReductiveGroupsPartII
+§RG2.0.4 supplying the field `Breve E` of §4a.3's agreement. Within this roadmap the order is
+§3a.1 → §3a.2 → §3a.3 (its three prerequisite targets, then the theorem) → §4a.1 → §4a.2 →
+§4a.3.
 
 ## Downstream consumers
 
