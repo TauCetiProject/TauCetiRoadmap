@@ -10,9 +10,10 @@ theory of a single manifold with smooth paths and smooth forms. This Part II con
 with five additions that DifferentialGeometry does not plan: integration along *continuous* paths
 of `1`-forms that merely have local primitives, on any `C¹` manifold, extending Tau Ceti's covering
 space of primitives of closed `C^r` forms; inward domination of a manifold with corners by its
-interior through strictly inward vector fields, the transfer of smooth-chain equivalences along a
-smooth homotopy retraction, the relative smooth chain comparison and relative approximation into
-vector spaces; the relative de Rham complex of an open pair, its integration map and the relative de Rham isomorphism; the comparison of
+interior through strictly inward vector fields, the transfer of smooth-chain equivalences along
+smooth maps whose composite is homotopic to the identity on singular and on smooth chains, the
+relative smooth chain comparison and relative approximation into vector spaces; the relative de
+Rham complex of an open pair, its integration map and the relative de Rham isomorphism; the comparison of
 integration of top forms with singular fundamental classes, including manifolds with boundary;
 and finite-parameter relative transversality of families against maps, with Haar-null exceptional
 parameters. The end theorems are exactness of `1`-forms with local primitives on simply connected
@@ -29,9 +30,10 @@ This roadmap owns:
   manifolds, for forms that need not be closed `C^r` forms and coefficients that need not be
   complete (Layer 1);
 - the strict inward cone of a model with corners, strictly inward vector fields, their forward
-  semiflow, inward domination, the transfer of smooth-chain equivalences along a smooth homotopy
-  retraction, the relative smooth chain comparison, and relative approximation into real normed
-  spaces with collar data (Layer 2);
+  semiflow, inward domination, the transfer of smooth-chain equivalences along smooth maps whose
+  composite is homotopic to the identity on singular and on smooth chains, the relative smooth
+  chain comparison, and relative approximation into real normed spaces with collar data
+  (Layer 2);
 - the relative de Rham complex of an open pair, the compatibility of Tau Ceti's kernel-to-cocone
   quasi-isomorphism with the connecting maps, relative integration, the relative de Rham
   homomorphism and isomorphism (Layer 3);
@@ -124,7 +126,9 @@ DifferentialGeometry 8.3 states, and owns, the absolute smoothing equivalence fo
 stated, whatever its route. A face-fixing relative smoothing lemma fails for targets with boundary
 (*Statements that must not enter the library*, the `3`-simplex in `[0, ∞)`). DifferentialGeometry
 supplies this roadmap and consumes none of it: the transfer lemma (§2.3) and inward domination
-(§2.2) are theorems here, and no input to 8.3.
+(§2.2) are theorems here, and no input to 8.3. The transfer lemma takes its chain homotopy on
+smooth chains as a hypothesis, and no target here builds a prism operator of smooth homotopies on
+smooth chains.
 
 ## Conventions
 
@@ -190,12 +194,17 @@ installed on a manifold. In addition:
   (`AlgebraicTopology/SimplicialSet/SSetPair.lean`), their relative chains `SSetPair.chainComplex`
   (the cokernel of the chains of the subobject) and `SSetPair.chainComplexMap`
   (`AlgebraicTopology/SimplicialSet/Homology/Relative.lean`), and `SSet.chainComplexMap`.
-- Homotopy invariance of chains: the chain homotopy `SSet.Homotopy.chainComplexMap` of a
-  simplicial homotopy (`AlgebraicTopology/SimplicialSet/Homology/HomotopyInvariance.lean`), the
-  simplicial homotopy `TopCat.Homotopy.toSSet` of singular simplicial sets induced by a homotopy
-  (`Topology/Homotopy/TopCat/ToSSet.lean`), and the singular chain homotopy
-  `TopCat.Homotopy.singularChainComplexFunctorObjMap`
+- Homotopy invariance of singular chains: the singular chain homotopy
+  `TopCat.Homotopy.singularChainComplexFunctorObjMap` of a homotopy `TopCat.Homotopy`
   (`AlgebraicTopology/SingularHomology/HomotopyInvariance.lean`).
+- The homotopy category `HomotopyCategory` with its quotient functor `HomotopyCategory.quotient`,
+  which identifies two chain maps exactly when they are homotopic (`HomotopyCategory.eq_of_homotopy`
+  and, conversely, `HomotopyCategory.homotopyOfEq`, `Algebra/Homology/HomotopyCategory.lean`);
+  retracts of arrows `CategoryTheory.RetractArrow`
+  (`CategoryTheory/Retract.lean`) and the stability of isomorphisms under retracts
+  `CategoryTheory.MorphismProperty.IsStableUnderRetracts.isomorphisms`, whose proof exhibits, for a
+  retract `h` of an isomorphism `g`, the inverse `h.i.right ≫ inv g ≫ h.r.left`
+  (`CategoryTheory/MorphismProperty/Retract.lean`).
 - `Continuous.exists_contMDiff_approx_and_eqOn` and `Continuous.exists_contDiff_approx_and_eqOn`
   (`Geometry/Manifold/SmoothApprox.lean`): finite-dimensional source, Hausdorff σ-compact manifold,
   a closed set near which the map is already smooth, and a positive continuous tolerance; the
@@ -386,10 +395,12 @@ installed on a manifold. In addition:
 
 Layer 1 extends Tau Ceti's covering space of local primitives and depends on nothing else here.
 Layer 2 is differential topology of models with corners: the inward cone and inward domination
-(§§2.1–2.2) are independent of chains; the transfer lemma (§2.3) consumes Tau Ceti's smooth
-singular simplices and Mathlib's homotopy invariance of chains, and §2.2 supplies its instance
-`N = I.interior M`; the relative chain comparison (§2.4) consumes DifferentialGeometry
-8.3's equivalence directly; relative approximation (§2.5) is independent of the rest. Layer 3
+(§§2.1–2.2) are independent of chains; the transfer lemma (§2.3) is homological algebra on Tau
+Ceti's smooth singular simplices, Mathlib's homotopy invariance of singular chains and retracts in
+Mathlib's homotopy category, with its chain homotopy on smooth chains a hypothesis, and §2.2
+supplies its maps for `N = I.interior M`; the relative chain comparison (§2.4) consumes
+DifferentialGeometry 8.3's equivalence directly; relative approximation (§2.5) is independent of
+the rest. Layer 3
 builds the relative de Rham theory on Tau Ceti's de Rham complexes and relative coordinates,
 DifferentialGeometry 8.4–8.5 and Layer 2's relative chains. Layer 4 consumes Layer 3, Tau Ceti's
 integration of top forms and fundamental classes, and AlgebraicTopology 6.3. Layer 5 needs only
@@ -629,38 +640,60 @@ on the boundaryless interior; Mathlib `ModelWithCorners.isOpen_interior`.
 
 ### 2.3 Transfer of smooth-chain equivalences
 
-For smooth `j : N → M` and `r : M → N` with a specified smooth homotopy `Φ : ℝ × M → M` from
-`j ∘ r` to `id_M`, prove: if the inclusion of smooth chains into singular chains is a chain
-homotopy equivalence for `N`, with a given homotopy inverse `s`, then `j_* ∘ s ∘ r_*` (with `r_*`
-on singular chains and `j_*` on smooth chains) is a homotopy inverse of the inclusion for `M`.
-Prove both inverse identities from pushforward naturality and two chain homotopies from
-`(j ∘ r)_*` to the identity; no homotopy `r ∘ j ~ id_N` is used. On singular chains it is
-Mathlib's `TopCat.Homotopy.singularChainComplexFunctorObjMap` of the restriction of `Φ` to
-`[0, 1] × M`. On smooth chains it is the smooth prism operator, Mathlib's
-`SSet.Homotopy.chainComplexMap` of the simplicial homotopy that `TopCat.Homotopy.toSSet` of that
-restriction induces on `TauCeti.smoothSingularSubcomplex I M`: prove that this simplicial homotopy
-preserves smooth simplices, because the simplices of `Δ[1]` act through affine maps of the
-simplex into `ℝ` and `Φ` is jointly smooth on `ℝ × M`. Two homotopy inverses of one map are
-homotopic (`s ~ s ≫ i ≫ t ~ t`), so the transferred inverse is independent of `j`, `r`, `Φ` and `s`
-up to homotopy and the induced map on homology is natural. Inward domination (§2.2) supplies such
-a triple with `N = I.interior M`, `j` the inclusion and `r` the retraction; the equivalence for
-`M` itself is DifferentialGeometry 8.3's, imported as stated. The transfer lemma is this
-roadmap's. *Needs:* Tau Ceti `TauCeti.smoothSingularSubcomplex`,
-`TauCeti.smoothSingularSubcomplexMap`; Mathlib `TopCat.Homotopy.singularChainComplexFunctorObjMap`,
-`TopCat.Homotopy.toSSet`, `SSet.Homotopy.chainComplexMap`.
+Let `N` and `M` be charted spaces over real models with corners `J` and `I`; no manifold structure
+is used. For smooth `j : N → M` and `r : M → N`, a homotopy `Φ` from `j ∘ r` to `id_M`
+(a `TopCat.Homotopy`) and a chain homotopy `H` on the smooth chains of `M` from `(j ∘ r)_*` to the
+identity, prove: if the inclusion of smooth chains into singular chains is a chain homotopy
+equivalence for `N`, with a given homotopy inverse `s`, then `j_* ∘ s ∘ r_*` (with `r_*` on
+singular chains and `j_*` on smooth chains) is a homotopy inverse of the inclusion for `M`. The
+pushforwards of smooth chains are `TauCeti.smoothSingularSubcomplexMap`, and they commute with the
+inclusions into singular chains (`TauCeti.smoothSingularSubcomplexMap_ι`). The two chain
+homotopies from `(j ∘ r)_*` to the identity are Mathlib's
+`TopCat.Homotopy.singularChainComplexFunctorObjMap` of `Φ` on singular chains and the given `H` on
+smooth chains, which is a hypothesis exactly as `s` is; no homotopy `r ∘ j ~ id_N` is used. Route:
+after `HomotopyCategory.quotient`, these data make the inclusion for `M` a retract
+(`CategoryTheory.RetractArrow`) of the inclusion for `N`, through `r_*` and then `j_*` on both
+complexes, the retraction identities being the images of the two homotopies
+(`HomotopyCategory.eq_of_homotopy`); isomorphisms are stable under retracts
+(`CategoryTheory.MorphismProperty.IsStableUnderRetracts.isomorphisms`), with inverse the image of
+`j_* ∘ s ∘ r_*`, and `HomotopyCategory.homotopyOfEq` turns the two inverse identities into chain
+homotopies. Two homotopy inverses of one map are homotopic (`s ~ s ≫ i ≫ t ~ t`), so the
+transferred inverse is independent of `j`, `r`, `Φ`, `H` and `s` up to homotopy and the induced map
+on homology is natural. Inward domination (§2.2) supplies `j`, `r` and `Φ` with
+`N = I.interior M`, `j` the inclusion, `r` the retraction and `Φ` the restriction of its
+deformation to `[0, 1] × M`; the equivalence for `M` itself is DifferentialGeometry 8.3's,
+imported as stated. The algebra is Mathlib's stability of isomorphisms under retracts; its
+instance on smooth and singular chains is this roadmap's. *Needs:* Tau Ceti
+`TauCeti.smoothSingularSubcomplex`, `TauCeti.smoothSingularSubcomplexMap`,
+`TauCeti.smoothSingularSubcomplexMap_ι`; Mathlib
+`TopCat.Homotopy.singularChainComplexFunctorObjMap`, `HomotopyCategory.quotient`,
+`HomotopyCategory.eq_of_homotopy`, `HomotopyCategory.homotopyOfEq`, `CategoryTheory.RetractArrow`,
+`CategoryTheory.MorphismProperty.IsStableUnderRetracts.isomorphisms`.
 
 **Checks.**
 
-- `N = M`, `j = r = id` and the constant homotopy: the transferred inverse is `s` itself, and the
-  two inverse identities are the given ones.
-- `M = [0, ∞)`, `N = (0, ∞)`, `r(x) = x + 1`, `Φ(t, x) = x + (1 − t)²` (the witness of §2.2): the
-  point cycle `[0]` goes to `[1]`, then to a smooth `0`-chain of total coefficient `1` supported
-  in `(0, ∞)`, which is homologous to `[0]` in `M` through the smooth `1`-simplex `t ↦ t` with
-  boundary `[1] − [0]`; a transfer that applied `r` on smooth chains and `j` on singular chains
-  would land in the wrong complex.
-- The homotopy `j ∘ r ~ id_M` is necessary: for `N` a point, `M = S¹`, `r` constant and `j` the
-  inclusion of a point, `j_* ∘ s ∘ r_*` is zero on `H₁(S¹) ≅ ℝ` while the inclusion of smooth
-  chains is an isomorphism there, so the composite is no inverse.
+- `N = M`, `j = r = id`, the constant homotopy and `H = 0`: the transferred inverse is `s` itself,
+  and the two inverse identities are the given ones.
+- `M = [0, ∞)`, `N = (0, ∞)`, `r(x) = x + 1`, `Φ(t, x) = x + (1 − t)²` on `[0, 1] × M` (the
+  witness of §2.2): the point cycle `[0]` goes to `[1]`, then to a smooth `0`-chain of total
+  coefficient `1` supported in `(0, ∞)`, which is homologous to `[0]` in `M` through the smooth
+  `1`-simplex `t ↦ t` with boundary `[1] − [0]`; a transfer that applied `r` on smooth chains and
+  `j` on singular chains would land in the wrong complex.
+- The homotopies are necessary: for `N` a point, `M = S¹`, `r` constant and `j` the inclusion of a
+  point, `j ∘ r` is not homotopic to `id_M`, and `j_* ∘ s ∘ r_*` is zero on `H₁(S¹) ≅ ℝ` while the
+  inclusion of smooth chains is an isomorphism there, so the composite is no inverse.
+- `Φ` does not provide `H`: let `M` be `ℝ` with its usual topology and the charts
+  `φ_a(y) = ∛(y − a)`, `chartAt a = φ_a`, over `𝓘(ℝ, ℝ)`, a charted space that is not a smooth
+  manifold (the chart change `z ↦ ∛(z³ + a − b)` is not differentiable where `z³ = b − a`). Near
+  every point `x` of the simplex, a smooth simplex `g` agrees with `g(x) + h³` for a smooth real
+  `h` with `h(x) = 0`, read in the chart at `g(x)`, so the derivative of `g` vanishes at every
+  interior point, every smooth simplex is constant, and the smooth `H₀` of `M` is free on the
+  points of `ℝ`, while the singular `H₀` is `ℝ`. With `N` a point over the zero-dimensional model,
+  `r` constant, `j` the inclusion of `0` and `Φ(t, y) = ty`, which is continuous for the usual
+  topology, every hypothesis but `H` holds, the inclusion for `N` being an isomorphism (every
+  simplex of a point is smooth). The conclusion fails, since the inclusion for `M` is not
+  injective on `H₀` (`[1] − [0] ↦ 0`), and no `H` exists, since `(j ∘ r)_*` has rank `1` on the
+  smooth `H₀`.
 
 ### 2.4 Relative smooth chains
 
@@ -764,7 +797,8 @@ smallest relative chain computation.
 
 DifferentialGeometry 8.3; Tau Ceti exhaustion functions, flows, smooth singular simplices, small
 singular chains, relative cochains and the five-lemma comparisons for pairs; Mathlib partitions of
-unity, smooth approximation, pairs of simplicial sets and homotopy invariance of chains.
+unity, smooth approximation, pairs of simplicial sets, homotopy invariance of singular chains, the
+homotopy category and retracts of arrows.
 
 ## Layer 3: relative de Rham theory
 
