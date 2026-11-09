@@ -400,6 +400,40 @@ not another module local-cohomology functor. The affine Ext computations in §3.
 `TauCeti.ScalarAut.instMulSemiringAction`; `TauCeti.brauerCohomologyEquiv`,
 `subsingleton_brauerGroup_of_finite`; `TauCeti.NodeAlgebra`; `TauCeti.Topology.subsingleton_H_succ_of_isFlasque`.
 
+**From Tau Ceti, the regular-local-ring package** (§4.13 and its consumers). Let `R` be a
+Noetherian local ring with maximal ideal `𝔪` and residue field `κ`. Projective and global
+dimensions are taken in `ModuleCat.{v} R`; the statements comparing them with `ringKrullDim R`,
+with depth or with finite and cyclic modules carry `[Small.{v} R]`. In
+`TauCeti/RingTheory/RegularLocalRing/CohenMacaulay.lean`, `TauCeti.IsRegularLocalRing.isCohenMacaulay`
+(a regular local ring is Cohen–Macaulay, 00NQ). In `TauCeti/RingTheory/GlobalDimension.lean`,
+`TauCeti.globalDimension` (the supremum of Mathlib's `CategoryTheory.projectiveDimension`, 00O6),
+`TauCeti.globalDimension_le_iff_hasProjectiveDimensionLE` (the bound `≤ n` is Mathlib's
+`HasProjectiveDimensionLE` for every module), `TauCeti.globalDimension_le_tfae` (finite and cyclic
+modules suffice, 065T) and `Submonoid.globalDimension_localization_le` (00O8). In
+`TauCeti/RingTheory/RegularLocalRing/Free.lean`, `TauCeti.IsRegularLocalRing.free_of_isCohenMacaulay`
+(a finite Cohen–Macaulay module with `Module.supportDim R M = ringKrullDim R` is free, 00NT). In
+`TauCeti/RingTheory/CohenMacaulay/Resolution.lean`, `TauCeti.exists_resolution_maximalCohenMacaulay`
+(00NG). In `TauCeti/RingTheory/Depth/AuslanderBuchsbaum.lean`,
+`ModuleCat.projectiveDimension_add_depth_eq_depth` (for `M` finite and nonzero with
+`projectiveDimension M ≠ ⊤`, `projectiveDimension M + depth M = depth R`, 090V) and
+`IsLocalRing.projectiveDimension_quotient_maximalIdeal_le_ringKrullDim` (if `κ` has finite
+projective dimension, it is at most `ringKrullDim R`, 00OB). In
+`TauCeti/RingTheory/RegularLocalRing/ProjectiveDimension.lean`,
+`TauCeti.IsRegularLocalRing.globalDimension_eq_ringKrullDim` (00O7),
+`TauCeti.finrank_cotangentSpace_le_projectiveDimension_quotient_maximalIdeal` (`dim_κ 𝔪/𝔪²` is at
+most the projective dimension of `κ`, 00OA), `TauCeti.isRegularLocalRing_tfae` and
+`TauCeti.IsRegularLocalRing.of_hasProjectiveDimensionLE` (Serre's characterization, 00OC),
+`TauCeti.isRegularLocalRing_iff_globalDimension_lt_top` (0AFS, first sentence), the instance
+`TauCeti.isRegularRing_of_isRegularLocalRing` (0AFS, second sentence), and
+`TauCeti.isRegularRing_of_globalDimension_lt_top` with `TauCeti.IsRegularRing.hasProjectiveDimensionLE`
+(00OE). Through Mathlib's field `IsRegularRing.isRegularLocalRing_localization` the instance makes
+`Localization.AtPrime p` a regular local ring for every prime `p` of a regular local ring; for any
+`S` with `[IsLocalization.AtPrime S p]` use `TauCeti.Excellence.mem_regularLocus_iff_of_isLocalization`
+with `TauCeti.Excellence.regularLocus_eq_univ` (`TauCeti/RingTheory/RegularLocalRing/Locus.lean`).
+The lifting of freeness along a regular element (00NS) is Mathlib's
+`Module.free_quotSMulTop_iff_free`, for `M` finitely presented and `x` an `M`-regular element of the
+Jacobson radical.
+
 **From TauCetiRoadmap.AlgebraicVectorBundles**: L0A (monoidal closed `X.Modules`), L0B
 (`FiniteLocallyFreeSheaf`, `isFiniteLocallyFreeOfRank`, `rank`), L0C (`dual`, `determinant`,
 `symmetricPower`, `exteriorPower`), L1A–L1B (`pullbackQuasicoherentAlgebra`, `relativeSpecHomEquiv`,
@@ -884,7 +918,8 @@ the residue field of `A'` is purely inseparable over that of `A` (Stacks, Defini
 at every point. API: `IsGeometricallyUnibranch.of_isIntegrallyClosed` (normal local domains are
 geometrically unibranch), `isUnibranch_iff_irreducible_henselization` and
 `isGeometricallyUnibranch_iff_irreducible_strictHenselization` (ModularCurves 4D's strict
-henselization; Stacks, Lemma 15.108.5), `IsGeometricallyUnibranch.of_etale`,
+henselization; Stacks, Lemma 15.108.3 (0BQ0) for the henselization and Lemma 15.108.5 (06DM) for
+the strict henselization), `IsGeometricallyUnibranch.of_etale`,
 `IsGeometricallyUnibranch.baseChange_sepClosed` (invariance under separable field extension).
 Prove `unibranch_finite_components`: let `X` be locally Noetherian and let `p : Y → X`
 represent a finite locally constant étale sheaf. Every connected component `C` of `Y` is open
@@ -1528,7 +1563,8 @@ equivalences. Sheaf transport of constants, module coefficients, stalks, section
 cohomology belongs to EtaleCohomologyFoundations.
 
 *Source:* Stacks, §59.45 [Topological invariance of the small étale site](https://stacks.math.columbia.edu/tag/04DY),
-Theorems 59.45.1–59.45.2 ([04DZ](https://stacks.math.columbia.edu/tag/04DZ)); the covering
+Theorem 59.45.1 ([0BTY](https://stacks.math.columbia.edu/tag/0BTY)) and Theorem 59.45.2
+([04DZ](https://stacks.math.columbia.edu/tag/04DZ)); the covering
 condition is joint surjectivity and is preserved and reflected by universal homeomorphisms.
 
 *Needs:* §0.23; Mathlib `AlgebraicGeometry.Scheme.Etale`, `Scheme.smallEtaleTopology`,
@@ -3640,9 +3676,10 @@ inverse-image functors, with `comparison_comp` (coherent composition), `comparis
 `Scheme.Modules.Cohomology` is the Zariski term) (Stacks, Proposition 35.9.3 (03DW)). Prove
 `etale_pullback_fppf_comparison`: for an abelian sheaf `F` on `X_ét`, `H^q(X_ét, F) = H^q_fppf(X,
 a_X^{-1} F)` (Stacks, Lemmas 59.100.5–59.100.8 (0DDK)). Prove `smoothGroup_fppf_etale_comparison`:
-for a smooth commutative group scheme `G` over `X`, `H^q(X_ét, G) = H^q(X_fppf, G)` (Česnavičius
-2018, §2, proof of Proposition 2.3 and Remark 2.7, Appendix A). *Needs:* §2.1, §2.6, §2.9, §2.12;
-Mathlib `etaleTopology`, `fppfTopology`, `Opens.grothendieckTopology`.
+for a smooth commutative group scheme `G` over `X`, `H^q(X_ét, G) = H^q(X_fppf, G)` (Grothendieck,
+*Le groupe de Brauer III*, Théorème 11.7; Česnavičius 2018, §2.7, applies it with `G = 𝔾_m`).
+*Needs:* §2.1, §2.6, §2.9, §2.12; Mathlib `etaleTopology`, `fppfTopology`,
+`Opens.grothendieckTopology`.
 
 **Checks.**
 - `test_comparison_id`: the étale-to-étale comparison is the identity.
@@ -5654,67 +5691,22 @@ of *regularLocus_eq_smoothLocus*. This subsection owns the general finite-type p
 statement; *regularLocus_abundanceSpecialization* identifies its restriction to the supplier's
 normal varieties with the same open smooth locus.
 
-*Regular local rings: Serre's theorem and localization.* Let `(R, 𝔪, κ)` be a Noetherian local
-ring. Prove *IsRegularLocalRing.isCohenMacaulay*: a regular local ring of dimension `d` has depth
-`d`, by induction on a regular system of parameters (Tau Ceti
-`TauCeti.IsRegularLocalRing.quotient_span_singleton` and §0.17 `depth_quotSMulTop`); this is the
-local statement behind §0.17 `Ring.IsCohenMacaulay.of_isRegularRing` and uses no localization.
-Define *globalDimension R*, the supremum in `WithBot ℕ∞` of Mathlib's
-`CategoryTheory.projectiveDimension` over `ModuleCat R` (Stacks, Definition 10.109.10 (00O6)),
-with *globalDimension_le_iff* (`globalDimension R ≤ n` iff every finite module, iff every cyclic
-module, has projective dimension `≤ n`; Lemma 10.109.12 (065T)),
-*globalDimension_le_iff_hasProjectiveDimensionLE* (`globalDimension R ≤ n` iff every
-`M : ModuleCat R` satisfies `CategoryTheory.HasProjectiveDimensionLE M n`, the comparison with
-Mathlib's pointwise bound, not a second dimension notion) and *globalDimension_localization_le*
-(localization does not increase global dimension; Lemma 10.109.13 (00O8); the module statement is
-Mathlib's `ModuleCat.projectiveDimension_le_projectiveDimension_of_isLocalizedModule`). Prove,
-each as its tag states it: *Module.free_of_quotSMulTop_free* (Lemma 10.106.5 (00NS), the
-Noetherian-local form of Mathlib's `Module.free_quotSMulTop_iff_free`);
-*IsRegularLocalRing.free_of_isCohenMacaulay* (a maximal Cohen–Macaulay module over a regular local
-ring is free; Lemma 10.106.6 (00NT)); *exists_resolution_maximalCohenMacaulay* (Lemma 10.104.9
-(00NG)); *IsRegularLocalRing.globalDimension_le* (over a regular local ring of dimension `d`, a
-finite module of depth `e` has a finite free resolution of length `d − e`, so
-`globalDimension R ≤ d`; Proposition 10.110.1 (00O7)); *auslander_buchsbaum* (for a nonzero finite
-module `M` of finite projective dimension,
-`projectiveDimension M + IsLocalRing.depth M = IsLocalRing.depth R`; Proposition 10.111.1 (090V));
-*projectiveDimension_residueField_ge* (the projective dimension of `κ` is at least
-`dim_κ 𝔪/𝔪²`; Lemma 10.110.3 (00OA)); *projectiveDimension_residueField_le* (if `κ` has finite
-projective dimension `n` then `n ≤ ringKrullDim R`, from *auslander_buchsbaum* and §0.17
-`depth_le_supportDim`; Lemma 10.110.4 (00OB)); *isRegularLocalRing_tfae* (`κ` has finite
-projective dimension, iff `R` has finite global dimension, iff `R` is regular, and then
-`globalDimension R = ringKrullDim R`; Proposition 10.110.5 (00OC)), with its residue-field
-direction *isRegularLocalRing_of_projectiveDimension_residueField*; and
-*isRegularLocalRing_iff_finite_globalDimension* and
-*IsRegularLocalRing.isRegularLocalRing_localization* (Lemma 10.110.6 (0AFS), both sentences: a
-Noetherian local ring is regular iff it has finite global dimension, and the localization of a
-regular local ring at a prime is a regular local ring, for `Localization.AtPrime p` and for any `S`
-with `[IsLocalization.AtPrime S p]`). Conclude *isRegularRing_of_isRegularLocalRing*: a regular
-local ring is Mathlib's `IsRegularRing`, whose converse is Mathlib's
-`IsRegularLocalRing.of_isRegularRing_of_isLocalRing`; through *isRegular_spec_iff* it makes
-`Spec A` regular for `A` regular local, so that *IsRegular.isNormal* and §0.17
-`Ring.IsCohenMacaulay.of_isRegularRing` apply to a regular local base. For
-*projectiveDimension_residueField_ge*, realize a finite projective-dimension bound `d` on `κ` by an
-augmented finite free resolution `F → κ`, zero above degree `d` (0CXF), iterating finite free
-surjections (Mathlib `Module.Finite.exists_fin'`) with kernels finite by Noetherianity and the
-last kernel projective by `ShortComplex.ShortExact.hasProjectiveDimensionLT_X₃_iff`,
-`projective_iff_hasProjectiveDimensionLE_zero`, `IsProjective.iff_projective` and
-`Module.free_of_flat_of_isLocalRing`; minimize it by splitting off contractible `R → R` summands
-(00MT), keeping the augmentation and the length bound and giving `im(dᵢ) ⊆ 𝔪Fᵢ₋₁`; take the
-Koszul complex `K(x)` of DerivedModuleAlgebra §0.K.1 on lifts `x₁, …, xₙ` of a basis of `𝔪/𝔪²`,
-with `Kᵢ = ⋀ⁱ Rⁿ`, augmented to `κ` by Nakayama; build an augmentation-preserving comparison
-`α : K(x) → F` inducing the identity of `κ` (00LS), degreewise by
-`ShortComplex.Exact.liftFromProjective`, only `F → κ` being exact; and show by induction that
-every `αᵢ ⊗ κ` is injective, using the linearized Koszul differential
-`⋀ⁱ κⁿ → ⋀ⁱ⁻¹ κⁿ ⊗_κ 𝔪/𝔪²` and minimality of `F`, so that the nonzero top exterior power gives
-`Fₙ ⊗ κ ≠ 0` and `n ≤ d`; the infinite-projective-dimension case is immediate. Neither regularity
-nor Cohen–Macaulayness of `R`, nor exactness of `K(x)`, enters this argument. LocalPurity §2.1
-consumes *isRegularRing_of_isRegularLocalRing* and *IsRegularLocalRing.isCohenMacaulay*;
-PurityOfBranchLocus §§0.3 and 2.1 consume the localization statement of 0AFS and the regular-ring
-conclusion; EnhancedDerivedSheaves E1.6 consumes
-*isRegularLocalRing_of_projectiveDimension_residueField* and
-*globalDimension_le_iff_hasProjectiveDimensionLE*, and retains the bound for all modules over a
-finite-dimensional regular ring (00OE) with its perfect-algebra and enhanced-derived
-applications.
+*Regular local rings.* The homological theory of regular local rings is at the Tau Ceti pin and
+is consumed through the regular-local-ring paragraph of the `From Tau Ceti` contract; this
+subsection restates none of it. That paragraph covers Serre's theorem that a regular local ring is
+Cohen–Macaulay (Stacks, Lemma 10.106.3 (00NQ)), global dimension with its finite and cyclic test
+modules and its behaviour under localization (Definition 10.109.10 (00O6), Lemmas 10.109.12 (065T)
+and 10.109.13 (00O8)), freeness of maximal Cohen–Macaulay modules (Lemma 10.106.6 (00NT)), the
+Auslander–Buchsbaum formula (Proposition 10.111.1 (090V)), both bounds on the projective dimension
+of the residue field (Lemmas 10.110.3 (00OA) and 10.110.4 (00OB)), Serre's characterization by
+finite global dimension (Proposition 10.110.5 (00OC)) and both sentences of Lemma 10.110.6 (0AFS),
+whose second sentence is the instance making a regular local ring Mathlib's `IsRegularRing`. With
+*isRegular_spec_iff* that instance makes `Spec A` regular for `A` regular local, so that
+*IsRegular.isNormal* and §0.17 `Ring.IsCohenMacaulay.of_isRegularRing` apply to a regular local base.
+LocalPurity §2.1 and PurityOfBranchLocus §§0.3 and 2.1 take Serre's theorem, the localization
+statement of 0AFS and the regular-ring conclusion from this contract. AbhyankarLemma §3.3 takes
+*IsRegular.isNormal* from this subsection, and EnhancedDerivedSheaves E1.6 takes
+*IsRegular.isCohenMacaulay*; that roadmap owns its residue-field and global-dimension statements.
 Prove `resolution_of_curves`: for `Y` integral Noetherian of dimension `≤ 1`, let `Y^ν → Y` be the
 normalisation of `Y` in its function field, that is Mathlib's `Scheme.Hom.normalization` of
 `Y.fromSpecStalk (genericPoint Y) : Spec K(Y) → Y`, which over an affine open `Spec A` is `Spec` of
@@ -5743,14 +5735,9 @@ Prove `bertini_smoothness`: for `X ⊆ ℙ^n_k`
 smooth over an infinite field `k`, a general hyperplane section `X ∩ H` is smooth, and the same for
 a general member of a generating linear system whose associated morphism to
 projective space is an immersion (in particular a very ample system) (Stacks, Section 33.47 (0FD4), Lemmas 33.47.1
-(0FD5), 33.47.3 (0FD6)). *Needs:* §0.17 (`depth_quotSMulTop`, `depth_le_supportDim`,
-`Ring.IsCohenMacaulay.of_isRegularRing`), §0.20, §0.21, §4.11; DerivedModuleAlgebra §0.K.1 (the
-Koszul complex of a finite sequence); Mathlib `IsRegularLocalRing`, `IsRegularRing`,
-`IsRegularLocalRing.of_isRegularRing_of_isLocalRing`, `CategoryTheory.projectiveDimension`,
-`CategoryTheory.HasProjectiveDimensionLE`,
-`ModuleCat.projectiveDimension_le_projectiveDimension_of_isLocalizedModule`,
-`Module.free_quotSMulTop_iff_free`, `IsLocalization.AtPrime`, `Scheme.Hom.normalization`,
-`smoothLocus`; Tau Ceti `NodeAlgebra`, `TauCeti.IsRegularLocalRing.quotient_span_singleton`.
+(0FD5), 33.47.3 (0FD6)). *Needs:* §0.17, §0.20, §0.21, §4.11; Mathlib `IsRegularLocalRing`,
+`IsRegularRing`, `Scheme.Hom.normalization`, `smoothLocus`; Tau Ceti `NodeAlgebra` and the
+regular-local-ring paragraph of the `From Tau Ceti` contract.
 
 **Checks.**
 - `bertini_frobenius_pencil_rejected`: over an algebraically closed field of
@@ -5759,11 +5746,6 @@ Koszul complex of a finite sequence); Mathlib `IsRegularLocalRing`, `IsRegularRi
   not an immersion, so it is excluded from `bertini_smoothness`.
 - *isRegular_affineSpace*, *isRegular_specInt*, *isRegular_empty*.
 - `not_isRegular_node` (`k[x, y]/(xy)` at the origin), `not_isRegular_dualNumbers`.
-- *globalDimension_test_field*: a field has global dimension `0`.
-- *globalDimension_test_dualNumbers*: `k[ε]/(ε²)` has infinite global dimension, so it is not
-  regular by *isRegularLocalRing_iff_finite_globalDimension*.
-- *isRegularLocalRing_localization_test_plane*: the localization of the regular local ring
-  `k[x, y]_(x, y)` at the prime `(x)` is the discrete valuation ring `k[x, y]_(x)`.
 - `resolution_test_cusp`: the cusp `Y = Spec k[t², t³]` is integral, Noetherian, of dimension one
   and not regular; its normalisation in its function field is `Spec k[t] → Y`, which is finite,
   regular and a modification.
@@ -7478,10 +7460,12 @@ extension. The Weil-conjectures roadmap imports the Weil bound
 finite-cover form (§2.22). JacobianChallenge Layer C's Grothendieck Picard construction consumes
 `Scheme.Modules.Cohomology.formalFunctionsIso` from §4.9, after its own
 proper-cohomology finiteness and coherent-pushforward prerequisites. The same
-completion and coherent-cohomology carriers serve both sides. LocalPurity §2.1,
-PurityOfBranchLocus §§0.3 and 2.1 and AbhyankarLemma §3.3 consume the regular-local-ring package
-of §4.13: Serre's theorem, the regularity of localizations of a regular local ring (Stacks 0AFS)
-and the regular-ring conclusion. StableReduction consumes nothing from this roadmap.
+completion and coherent-cohomology carriers serve both sides. LocalPurity §2.1 and
+PurityOfBranchLocus §§0.3 and 2.1 receive Tau Ceti's regular-local-ring declarations (Serre's
+theorem, the regularity of the localizations of a regular local ring, Stacks 0AFS, and the
+regular-ring conclusion) through this roadmap's `From Tau Ceti` contract and §4.13;
+AbhyankarLemma §3.3 consumes §4.13's normality of regular schemes. StableReduction consumes
+nothing from this roadmap.
 
 ## References
 
