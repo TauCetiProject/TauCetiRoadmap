@@ -520,7 +520,7 @@ All paths at the pinned Mathlib.
   `CompleteLinearOrder`;
   `CommGroup.primaryComponent` and `AddCommGroup.primaryComponent`, with the submonoid forms
   `CommMonoid.primaryComponent` and `AddCommMonoid.primaryComponent` they extend
-  (`Mathlib/GroupTheory/Torsion.lean`); `AddMonoid.IsTorsion`; `IsSimpleModule`;
+  (`Mathlib/GroupTheory/Torsion.lean`); `IsAddTorsion`; `IsSimpleModule`;
   `CategoryTheory.Simple`.
 - **Group theory for Layers 11 and 13:**
   `Mathlib/Topology/Algebra/Group/TopologicalAbelianization.lean` (`TopologicalAbelianization`, the
