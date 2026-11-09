@@ -1006,6 +1006,37 @@ universe-general statements here are part of the work. The map below says where 
 | L7 | `ModelTheory/PCClass.lean`; `Methods/Interpolation/*` (relational core: `CraigSublanguage`, `CraigRelational`, `CraigSeparation`, `PairedInsepFamily`, `Inseparability`, `ConstantElimination`; Lyndon: `Lomega1omega/Polarity.lean`, `Lomega1omega/PolaritySemantics.lean`, `LyndonSublanguage`; Malitz: `Lomega1omega/QuantifierClass.lean`, `BudgetedPair`, `MalitzSublanguage`); audits `docs/{craig,lyndon,malitz}-audit.md` | arbitrary-language headlines in `CraigArbitrary.lean` and `LyndonArbitrary.lean` (statements over `Language.{0, 0}` with no hypotheses on `L`); `pcSeparation` in sum form is new; the source's Malitz is relational, and `docs/malitz-audit.md` §D5 records why the translation cannot extend it |
 | L8 | `Methods/WellOrdering/*` (`ClosureFields`, `GapWitness`, `ModelExtraction`, `Boundedness`, `Undefinability`, `SymbolCountability`, `GraphTranslation`); audit `docs/wellordering-audit.md` | `GraphTranslation.lean` holds the arbitrary-language endpoints, with no hypotheses on `L` |
 
+### Tau Ceti implementation
+
+At Tau Ceti `2fd255d99`, the revision this repository pins, the declarations below implement
+targets of this roadmap. Files are under `TauCeti/ModelTheory/` and names are in the namespace
+`FirstOrder.Language` unless written with `TauCeti`. `Suggested.lean` uses these definitions under
+their Tau Ceti names and proves its statement of each listed theorem by the Tau Ceti theorem.
+Where the two statements differ, the roadmap's statement remains the target and the difference is
+recorded in the last column.
+
+| Layer | Files | Declarations | Difference from the roadmap |
+|---|---|---|---|
+| L0 | `Infinitary/{LanguageMap,Symbols,Sublanguage,SmallPresentation,SubstBounds,ConstantSupport,ConstantAbstraction,Syntax}.lean`, `Term/Symbols.lean`, `Sublanguage.lean` | `LHom.onBoundedFormulaInf`, `LHom.realize_onBoundedFormulaInf`; `Term.functionsIn` (the roadmap's `termFunctionsIn`), `BoundedFormulaInf.functionsIn`, `relationsIn`, `functionsIn_countable`, `relationsIn_countable`, `realize_congr_of_agreeOn`; `Term.constantSupport`, `BoundedFormulaInf.constantSupport`; `symbSublang`, `symbSublangIncl`, `BoundedFormulaInf.restrictSymbols`, `LHom.exists_eq_onBoundedFormulaInf_of_subset_range`; `smallPresentation`, `smallPresentationEquiv`, `realize_smallPresentation`; `BoundedFormulaInf.liftSubst`, `substBounds`, `inst`, `realize_substBounds`, `LHom.onBoundedFormulaInf_substBounds`; `BoundedFormulaInf.constantsVarsEquiv`; `BoundedFormulaInf.IsAtomic` | `inst` accepts any type of free variables, not only `Empty`; `IsAtomic` is an inductive predicate |
+| L1 | `Infinitary/{Theory,Satisfiability,Fragment,FormationClosed}.lean` | `Theoryω`, `Theoryω.Model`, `Theoryω.IsSatisfiable`, `Theoryω.Entails`, `Sentenceω.Entails`, `Theoryω.entails_iff_not_isSatisfiable`, `Theoryω.conjunction`, `OmitsType`; `Fragment` (with `SetLike` and the complete lattice), `Fragment.GeneratedFrom`, `Fragment.generated`, `Fragment.generated_countable`, `Fragment.ofSentence`, `Fragment.ofTheory`, `Fragment.formationClosure`, `Fragment.FormationClosed` | `FormationClosed` states closure under renaming by `mapBound` (`mapBound_mem`), which is `substBounds` along variable terms by `BoundedFormulaInf.mapBound_eq_substBounds` |
+| L2 | `ModelExistence/{AElementary,LowenheimSkolem,DirectedUnion,CountableModel}.lean` | `AElementary`, `aElementary_of_tarskiVaught`, `Fragment.witnessHull`, `exists_aElementary_substructure`, `exists_aElementary_substructure_of_eq_univ`, `exists_countable_aElementary_substructure`, `aElementary_iSup`, `aElementary_inclusion_iSup`, `aElementary_iSup_of_monotone`, `OmitsType.of_aElementary`, `OmitsType.iSup`; `Theoryω.exists_countable_model`, `Theoryω.entails_iff_countable`, `Theoryω.Entails.realize`, `Sentenceω.Entails.onBoundedFormulaInf`, `Sentenceω.entails_onBoundedFormulaInf_iff` | none |
+| L3 | `ModelExistence/{ConsistencyProperty,ModelExistence}.lean` | `ConsistencyProperty`, `ConsistencyProperty.model_existence`, `ConsistencyProperty.model_existence_omitting`, `ConsistencyProperty.ofModel` | `model_existence` also gives `Nonempty M`; `model_existence_omitting` takes the types as a countable indexed family; `ofModel` takes an `L[[ℕ]]`-structure whose constants exhaust it in place of a surjection `e : ℕ → M` |
+| L4 | `ModelExistence/{Types,Isolation}.lean` | `infinitaryType`, `realizedTypes`, `StrongHomClass.realizedTypes_eq`, `TauCeti.infEquivAt_nat_iff_realizedTypes_zero_eq`, `exists_isolatingFormula`, `Theoryω.IsolatesIn` | none |
+| L5 | `ModelExistence/Morleyization.lean` | `morleyize`, `lhomMorleyize`, `morleyExpansion` with the instance `isExpansionOn_morleyExpansion`, `isRelational_morleyize`, `countable_relations_morleyize`, `definingTheory`, `eq_morleyExpansion_of_model_definingTheory`, `BoundedFormulaInf.unMorleyize`, `nonempty_morleyEquiv_iff`, `exists_morleyEmbedding_iff_aElementary` | none |
+| L6 | `Infinitary/GraphTranslation/{Language,Relationalize,Reconstruct,BackTranslate}.lean` | `GraphRelation`, `graphLanguage`, `graphExpansion`, `relSym`, `relSym_inter`; `BoundedFormulaInf.relationalize`, `realize_relationalize`, `relationsIn_relationalize`; `graphAxioms`, `reconstructStructure`, `BoundedFormulaInf.realize_relationalize_reconstructStructure`; `Term.backTranslate` (the roadmap's `ungraphTerm`), `BoundedFormulaInf.backTranslate`, `realize_backTranslate` | `relationalize` is a definition, which witnesses `exists_relationalize`; `backTranslate` works at every carrier; `graphAxioms F` is a theory, for any `F`, not one sentence |
+| L7 | `Interpolation/PCClass.lean` | `LHom.PCMem` (the roadmap's `PCMem`), `StrongHomClass.pcMem_iff`, `LHom.pcMem_id_iff`, `LHom.pcMem_comp_iff`, `LHom.pcMem_sumInl_inf_iff`, `LHom.pcMem_sumInl_sup_iff` | `pcMem_sumInl_sup_iff` assumes `[Nonempty (L₁.Structure M)]` and `[Nonempty (L₂.Structure M)]` in place of relational `L₁` and `L₂` |
+| L8 | `WellOrdering.lean` | `RelChain`, `RelChain.not_wellFounded`, `Sentenceω.HasWellOrderedChains`, `Sentenceω.exists_model_relChain_rat`, `Sentenceω.wellFounded_boundedness`, `Sentenceω.wellOrder_type_boundedness`, `wellOrdering_undefinable` | proved for arbitrary languages directly, with no relational core stated |
+
+Among the targets that `Suggested.lean` states, Tau Ceti `2fd255d99` does not implement
+`fragmentType`, `AElementary.fragmentType_comp`, `Theoryω.exists_countable_model_omitting`,
+`OmitsFOType`, `IsolatesFO`, `exists_countable_model_omitting_fo`,
+`exists_firstOrder_presentation`, `craig_interpolation_relational`, `craig_interpolation`,
+`pcSeparation`, `relationsInSigned`, `lyndon_interpolation`, `universalSigned` or
+`malitz_interpolation`. Tau Ceti main at `d2083f0` (2026-11-08) implements all of them except the
+three first-order omitting-types items, Lyndon and Malitz. In particular it has `pcSeparation` in
+`Interpolation/Craig.lean`, whose hypothesis ranges over countable structures in an arbitrary
+universe rather than in `Type`.
+
 ## References
 
 * David Marker, *Lectures on Infinitary Model Theory*, Lecture Notes in Logic 46, Cambridge
