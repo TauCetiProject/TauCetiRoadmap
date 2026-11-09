@@ -90,7 +90,8 @@ finite-fibre points of the minimal resolution.
 
 Use `AlgebraicGeometry.Scheme.relativeDifferentials` in
 TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean,
-`SheafOfModules.exteriorPower` in TauCeti/Algebra/Category/ModuleCat/Sheaf/ExteriorPower/Basic.lean,
+`SheafOfModules.exteriorPower`, Tau Ceti's exterior power of a sheaf of modules under
+TauCeti/Algebra/Category/ModuleCat/Sheaf,
 and `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` in
 TauCeti/AlgebraicGeometry/Cohomology/Basic.lean. These retain the actual structure
 morphism, sheaf and cohomology group. Global vector fields are morphisms
@@ -150,7 +151,14 @@ declarations for such a γ:
   spaces exactly in S and in T is the gluing along some such γ.
 
 Tau Ceti supplies no criterion for extending a pair of isometries of S and T to the
-glued lattice. That criterion is §7.1's `gluing_isometry_extension_iff`.
+glued lattice. That criterion is §7.1's `gluing_isometry_extension_iff`. It is stated for
+a lattice L on S_ℚ×T_ℚ with the orthogonal-sum form whose carrier is
+`TauCeti.IntegralLattice.intermediateCarrierOfDiscriminantSubgroup` of the graph of γ
+transported along `TauCeti.IntegralLattice.discriminantGroupOrthogonalSumEquiv`. By
+`TauCeti.IntegralLattice.glueAlongDiscriminant_form` and
+`TauCeti.IntegralLattice.ofIsotropicSubgroup_carrier` these two conditions hold for
+`TauCeti.IntegralLattice.glueAlongDiscriminant` and, by the extensionality of
+`TauCeti.IntegralLattice`, for no other lattice.
 
 ### From the named roadmaps
 
@@ -870,10 +878,11 @@ both are primitive. So `TauCeti.IntegralLattice.exists_eq_glueAlongDiscriminant`
 `TauCeti.IntegralLattice.glueAlongDiscriminant` for a discriminant anti-isometry
 γ:A_S→A_T. State `gluing_isometry_extension_iff` for all nondegenerate even S,T and
 every isometry γ from the discriminant form of S to the negative of that of T, in the
-half-norm convention. Its lattice L is the native glued lattice on S_ℚ×T_ℚ, whose form is
-the orthogonal-sum form and whose carrier is exactly the inverse image of the graph
-Γ_γ={(a,γa)} in S*⊕T*. This general statement applies to the K3 model; it is not restricted
-to discriminant exponent two (Huybrechts draft §14.0.3(vii), p.284 for the model;
+half-norm convention. Its lattice L is any lattice on S_ℚ×T_ℚ whose form is the
+orthogonal-sum form and whose carrier is exactly the inverse image of the graph
+Γ_γ={(a,γa)} in S*⊕T*; these two conditions determine L as the native glued lattice
+`TauCeti.IntegralLattice.glueAlongDiscriminant`. This general statement applies to the K3
+model; it is not restricted to discriminant exponent two (Huybrechts draft §14.0.3(vii), p.284 for the model;
 Gritsenko–Hulek v2, §2, p.4 for extension). For g∈O(S), h∈O(T), construct the unique integral extension to L iff γ∘ḡ=h̄∘γ. Prove both directions on the actual inverse image of the graph inside S*⊕T*, preserve the embedding, and give restriction/extension composition and inverse equations. A route: the candidate extension is the restriction of `TauCeti.IntegralLattice.Isometry.orthogonalSum` g h, whose action on A_S×A_T is (ḡ,h̄) componentwise (`TauCeti.IntegralLattice.discriminantQuadraticIsometryOrthogonalSum_orthogonalSum`). It carries Γ_γ onto itself exactly when γḡ=h̄γ. In that case `TauCeti.IntegralLattice.Isometry.ofIsotropicSubgroups` restricts it to L. Conversely, an extension preserves the carrier of L, so by `TauCeti.IntegralLattice.Isometry.discriminantSubgroup_intermediateCarrierEquiv` the discriminant action of g⊕h preserves Γ_γ. A pair of rational isometries with matching ranks is insufficient.
 
 The integral involution and eigensublattice API is:

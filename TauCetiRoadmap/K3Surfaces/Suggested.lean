@@ -1,9 +1,10 @@
 import Mathlib
-import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower.Basic
+import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Cohomology.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
-import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Graph
+import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Operations
+import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Basic
 
 /-!
 # K3 surfaces: target signatures
@@ -85,22 +86,27 @@ theorem finrank_lineBundleClass_eq_twentyTwo_of_unirational
 
 open TauCeti
 
-/-- For nondegenerate even lattices `S` and `T` and an isometry `γ` from the discriminant
-quadratic form of `S` to the negative of that of `T`, a pair of integral isometries `g` of `S`
-and `h` of `T` extends to an integral isometry of the graph-glued overlattice
-`S.glueAlongDiscriminant T hS hT γ` (the lattice on `V × W` with the orthogonal-sum form
-whose carrier is the inverse image of the graph of `γ` in the dual), necessarily uniquely,
-exactly when the induced discriminant actions commute with `γ` (Gritsenko–Hulek, §2, p.4;
-Huybrechts, §14.0.3(vii), p.284 for the K3 model). -/
+/-- Let `S` and `T` be nondegenerate even lattices, `γ` an isometry from the discriminant
+quadratic form of `S` to the negative of that of `T`, and `L` the graph-glued overlattice: the
+lattice on `V × W` with the orthogonal-sum form whose carrier is the inverse image in the dual of
+the graph of `γ`. The two hypotheses on `L` determine it; it is the lattice Tau Ceti builds as
+`glueAlongDiscriminant`. A pair of integral isometries `g` of `S` and `h` of `T` extends to an
+integral isometry of `L`, necessarily uniquely, exactly when the induced discriminant actions
+commute with `γ` (Gritsenko–Hulek, §2, p.4; Huybrechts, §14.0.3(vii), p.284 for the K3
+model). -/
 theorem gluing_isometry_extension_iff
     {V W : Type*} [AddCommGroup V] [Module ℚ V] [AddCommGroup W] [Module ℚ W]
     (S : IntegralLattice V) (T : IntegralLattice W)
     [S.IsNondegenerate] [T.IsNondegenerate] (hS : S.IsEven) (hT : T.IsEven)
     (γ : FiniteQuadraticModule.Isometry (S.discriminantQuadraticModule hS)
       (T.discriminantQuadraticModule hT).neg)
+    (L : IntegralLattice (V × W)) (hform : L.form = (S.orthogonalSum T).form)
+    (hcarrier : L.carrier =
+      ((S.orthogonalSum T).intermediateCarrierOfDiscriminantSubgroup
+        (γ.toAddEquiv.toAddMonoidHom.graph.comap
+          (S.discriminantGroupOrthogonalSumEquiv T).toAddMonoidHom) : Submodule ℤ (V × W)))
     (g : S.Isometry S) (h : T.Isometry T) :
-    (∃! F : (S.glueAlongDiscriminant T hS hT γ).Isometry (S.glueAlongDiscriminant T hS hT γ),
-        ∀ v w, F (v, w) = (g v, h w)) ↔
+    (∃! F : L.Isometry L, ∀ v w, F (v, w) = (g v, h w)) ↔
       ∀ a, γ (g.discriminantGroupEquiv a) = h.discriminantGroupEquiv (γ a) := by
   sorry
 
