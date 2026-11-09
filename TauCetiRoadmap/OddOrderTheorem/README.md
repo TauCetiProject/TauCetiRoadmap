@@ -31,13 +31,14 @@ The roadmap owns:
   `IsMinimalOddSimple`, and its elementary properties (Layer 0);
 - the general local analysis of Bender–Glauberman Chapter I and Appendices A–B that neither the
   pinned libraries nor an earlier roadmap state: `π`-cores and the upper `p`-series, Hall
-  subgroups of solvable groups beyond their existence (conjugacy, containment, the coprime-action
-  forms, Schur–Zassenhaus conjugacy), the Fitting-subgroup laws beyond its definition, coprime
-  action, elementary abelian subgroups, `p`-rank, critical and extraspecial subgroups,
-  `p`-constraint, `p`-stability and the focal subgroup theorem, and the Puig subgroup with the
-  `ZL` theorem (Theorem 6.2); and the odd-order local tools of that chapter: `p`-length at most
-  one and its formulations, the rank-two `p`-length theorem (Theorem 4.18), the `p`-stability of
-  solvable groups of odd order (Theorem 6.1) and the Z-group prime-length theorem (Theorem 3.6)
+  subgroups of solvable groups beyond their existence (conjugacy, containment and the
+  coprime-action forms), the Fitting-subgroup laws beyond its definition, coprime action,
+  elementary abelian subgroups, `p`-rank, critical and extraspecial subgroups, `p`-constraint,
+  `p`-stability, the focal subgroup theorem and the Baer–Suzuki theorem, and the Puig subgroup
+  with the `ZL` theorem (Theorem 6.2); and the odd-order local tools of that chapter: `p`-length
+  at most one and its formulations, the rank-two `p`-length theorem (Theorem 4.18), the
+  `p`-stability of groups of odd order (Theorem A.4(c)) with the `p`-abelian-constraint of
+  solvable groups of odd order (Theorem 6.1), and the Z-group prime-length theorem (Theorem 3.6)
   (Layer 1);
 - Peterfalvi Part I §§1–6 on native class functions: the preliminary lemmas of §1, **Dade data**,
   the **Dade isometry** and its comparison with induction (§2), the **cyclic trivial-intersection
@@ -73,7 +74,9 @@ The roadmap leaves to named suppliers:
 - InverseGaloisAndArithmeticFundamentalGroups IG.4.3, target *The Fitting subgroup*: the Fitting
   subgroup `F(G)` as the supremum of the nilpotent normal subgroups, Fitting's theorem, its
   characteristic property, its nilpotence for finite `G` and `Φ(G) ≤ F(G)`; Layer 1 §1.2 adds the
-  laws the local analysis needs and never redefines `F(G)`;
+  laws the local analysis needs and never redefines `F(G)`. IG.3.4, target *Conjugacy of coprime
+  complements*: the conjugacy of the complements of a normal Hall subgroup `N` when `N` or `G ⧸ N`
+  is solvable (Schur–Zassenhaus conjugacy), consumed by §1.1 and §4.2;
 - FiniteGroupInvariants §2.1: the predicate `IsHallFor π H` and Hall's existence theorem
   `exists_isHallFor_of_isSolvable`; conjugacy and containment, which that section does not state,
   are Layer 1 §1.1;
@@ -171,6 +174,7 @@ one. The Brauer–Suzuki argument of GlaubermanZStar consumes Layer 2 and is not
 | Use here | Section |
 |---|---|
 | the Fitting subgroup `F(G)` of a group, the supremum of its nilpotent normal subgroups; Fitting's theorem (the join of two nilpotent normal subgroups is nilpotent); `F(G)` characteristic, nilpotent for finite `G`, containing every nilpotent normal subgroup and `Φ(G)` | IG.4.3, target *The Fitting subgroup* |
+| the conjugacy, by an element of `N`, of any two complements of a normal subgroup `N ⊴ G` with `Nat.Coprime (Nat.card N) N.index` when `N` or `G ⧸ N` is solvable (Schur–Zassenhaus conjugacy) | IG.3.4, target *Conjugacy of coprime complements* |
 
 ### From `TauCetiRoadmap.FiniteGroupInvariants`
 
@@ -192,7 +196,7 @@ containment of every `π`-subgroup in one and the coprime-action forms are §1.1
 
 Layer 0 reduces the theorem to the nonexistence of a minimal odd simple group and records what
 such a group satisfies. Layer 1 states the general local analysis of Bender–Glauberman Chapter I
-that the pins lack (§1.1–§1.5) and proves the solvable odd-order local theorems of that chapter
+that the pins lack (§1.1–§1.5) and proves the odd-order local theorems of that chapter
 (§1.6–§1.10). Layer 2 is independent of Layers 0, 1 and 3–6 and of Layer 1's suppliers: it
 builds the Dade isometry, coherence and the cyclic trivial-intersection isometry for an arbitrary
 finite group, and is the part other developments consume. Layer 3 applies Layers 1–2's group
@@ -291,10 +295,13 @@ consumed by §1.6–§1.10 and by Layer 3. The Fitting subgroup is
 InverseGaloisAndArithmeticFundamentalGroups' (IG.4.3, target *The Fitting subgroup*) and the
 existence of Hall subgroups of solvable groups is FiniteGroupInvariants §2.1's; the existence
 half of Schur–Zassenhaus, Burnside's normal `p`-complement theorem and the Frattini argument are
-Mathlib's. A theorem marked † assumes that the group acted on is solvable; in Layer 3 that
-hypothesis is discharged by `IsMinimalOddSimple.proper_solvable`, never by the theorem being
-proved, and the unconditional forms that follow from the odd order theorem itself are never
-used. §1.6–§1.10 are the solvable odd-order local theorems of the same chapter.
+Mathlib's, and the conjugacy half of Schur–Zassenhaus is
+InverseGaloisAndArithmeticFundamentalGroups IG.3.4's (*Conjugacy of coprime complements*). A
+theorem marked † assumes that the group acted on is solvable; in Layer 3 that hypothesis is
+discharged by `IsMinimalOddSimple.proper_solvable`, never by the theorem being proved, and the
+unconditional forms that follow from the odd order theorem itself are never used. §1.6–§1.10
+are the odd-order local theorems of the same chapter, each with its solvability hypothesis
+where the source has one.
 
 ### 1.1 Cores, the upper `p`-series and Hall subgroups
 
@@ -321,12 +328,16 @@ is an `A`-invariant Hall `π`-subgroup of `G` (1.5(a)); every `A`-invariant `π`
 an `A`-invariant Hall `π`-subgroup (1.5(b)); any two `A`-invariant Hall `π`-subgroups are
 conjugate by an element of `C_G(A)` (1.5(c)); and for an `A`-invariant `N ⊴ G`, `C_{G⧸N}(A)` is
 the image of `C_G(A)` (1.5(d)). With `A = 1`, (b) and (c) are the conjugacy and containment
-halves of Hall's theorem, which FiniteGroupInvariants does not state. Deduce **Schur–Zassenhaus
-conjugacy** in a solvable group: the complements of a normal Hall `π`-subgroup `N` of a solvable
-`G` are its Hall `π'`-subgroups, hence conjugate; their existence is Mathlib's
-`Subgroup.exists_right_complement'_of_coprime`. *Needs:* FiniteGroupInvariants §2.1, Mathlib
-`Sylow`, `IsPGroup`, `IsPGroup.exists_le_sylow`, `Subgroup.Characteristic`,
-`Subgroup.IsComplement'`, `Subgroup.exists_right_complement'_of_coprime`.
+halves of Hall's theorem, which FiniteGroupInvariants does not state. The complements of a
+normal Hall `π`-subgroup `N` of a finite group `G` are exactly its Hall `π'`-subgroups (a
+complement has order `|G : N|`, a `π'`-number; a Hall `π'`-subgroup meets `N` trivially and has
+order `|G : N|`), so for solvable `G` their conjugacy is both 1.5(c) at `A = 1` and
+InverseGaloisAndArithmeticFundamentalGroups IG.3.4 (*Conjugacy of coprime complements*, which
+assumes only that `N` or `G ⧸ N` is solvable); their existence is Mathlib's
+`Subgroup.exists_right_complement'_of_coprime`. *Needs:* FiniteGroupInvariants §2.1,
+InverseGaloisAndArithmeticFundamentalGroups IG.3.4, Mathlib `Sylow`, `IsPGroup`,
+`IsPGroup.exists_le_sylow`, `Subgroup.Characteristic`, `Subgroup.IsComplement'`,
+`Subgroup.exists_right_complement'_of_coprime`.
 
 **Checks.**
 - `O_2(S₄) = V₄`, the intersection of the three Sylow `2`-subgroups (each dihedral of order `8`
@@ -346,8 +357,11 @@ conjugacy** in a solvable group: the complements of a normal Hall `π`-subgroup 
   and of the seven Hall `{3}`-subgroups `⟨aⁱ b⟩` only `⟨b⟩` is `A`-invariant (the image of
   `aⁱ b` is `a⁻ⁱ b`, which lies in `⟨aⁱ b⟩ = {1, aⁱ b, a³ⁱ b²}` only for `i = 0`); the six others
   are not conjugate to `⟨b⟩` under `C_G(A)`, and the statement does not claim it.
-- Schur–Zassenhaus conjugacy: the four complements `Stab(i) ≅ S₃` of `V₄` in `S₄` are conjugate,
-  as are the three complements of `A₃` in `S₃`.
+- Complements of a normal Hall subgroup are its Hall subgroups for the complementary primes: the
+  three complements of `A₃ ⊴ S₃` are its Sylow `2`-subgroups, and the seven complements of
+  `C₇ ⊴ C₇ ⋊ C₃` are its Sylow `3`-subgroups, conjugate in both cases. The Hall hypothesis
+  matters: `V₄ ⊴ S₄` has even index `6`, so it is not a Hall subgroup, and in `C₂ × C₂` the two
+  complements of a factor `C₂` are not conjugate.
 
 ### 1.2 The Fitting subgroup, chief factors and minimal normal subgroups
 
@@ -427,7 +441,7 @@ without solvability are consequences of the odd order theorem and are not inputs
 
 ### 1.4 `p`-groups: elementary abelian subgroups, `p`-rank, critical and extraspecial subgroups
 
-Define `IsElementaryAbelian p E` for a group `E`: abelian with `e ^ p = 1` for every `e`; Tau
+Define **elementary abelian `p`-groups** `E`: abelian with `e ^ p = 1` for every `e`; Tau
 Ceti's `TauCeti.exists_index_eq_notMem_of_exponent_dvd` (`GroupTheory/ExponentPrime.lean`) then
 separates its points by index-`p` subgroups. Define `E_p(G)` as the elementary abelian
 `p`-subgroups of `G`, `E_p^k(G)` as those of order `p^k`, the **`p`-rank** `m_p(G)` as the largest
@@ -438,16 +452,17 @@ subgroups `A ⊴ P` with `C_P(A) = A`, `SCN_n(P)` as its members of rank at leas
 `p`-group of order `p^k` is an `𝔽_p`-vector space of dimension `k` through `Additive`;
 `m_p(H) ≤ m_p(G)` for `H ≤ G` and `m_p(G) = m_p(S)` for a Sylow `p`-subgroup `S`
 (`IsPGroup.exists_le_sylow`); for a `p`-group `P`, `P ⧸ Φ(P)` is elementary abelian and
-`Φ(P) = 1` iff `P` is elementary abelian (Lemma 1.7); for a `p`-group `P` of odd order, a
+`Φ(P) = 1` iff `P` is elementary abelian (Lemma 1.7); for a `p`-group `P ≠ 1` of odd order, a
 characteristic **critical subgroup** `H ≤ P` with `[H, P] ≤ Z(H)`, class at most `2`, exponent
-`p` and `C_{Aut P}(H)` a `p`-group (Theorem 1.13); the exponent of `Ω₁(P)` divides `p` when
-`P` has class at most `2`, or at most `3` and `p > 3` (Proposition 4.3); a noncyclic `p`-group of
+`p` and `C_{Aut P}(H)` a `p`-group (Theorem 1.13); for a `p`-group `P` of odd order, the
+exponent of `Ω₁(P)` divides `p` when `P` has class at most `2`, or at most `3` and `p > 3`
+(Proposition 4.3); a noncyclic `p`-group of
 odd order has a normal elementary abelian subgroup of order `p²` (Lemma 4.5(a)), so a `p`-group
 of odd order and `p`-rank one is cyclic, and a noncyclic normal subgroup `S ⊴ P` contains one
 (Proposition 4.6); for a `p`-group `P` of odd order, `r(P) ≤ 2` iff `SCN₃(P) = ∅` (Lemma 4.7);
 a `p`-group of rank at most `2` and exponent `p` has order at most `p³` (Proposition 4.8(a));
 and, for `S` a Sylow `p`-subgroup of `G` and `A ∈ SCN(S)`, `C_G(A) = O_{p'}(C_G(A)) × A`
-(Proposition 4.4(b)). Define `IsExtraspecial p P`: `P` is a `p`-group with `|Z(P)| = p` and
+(Proposition 4.4(b)). Define **extraspecial `p`-groups** `P`: a `p`-group with `|Z(P)| = p` and
 `P' = Φ(P) = Z(P)`; prove `|P| = p^{1 + 2n}` for some `n ≥ 1` and that the commutator induces a
 nondegenerate alternating form on `P ⧸ Z(P)` over `𝔽_p` (Bender–Glauberman §2, the setting of
 Theorem 2.5; math-comp `extraspecial` in `maximal.v`). Prove Theorem 2.5: for `P` extraspecial of
@@ -473,6 +488,10 @@ not divide `|G|` (2.6(a)), and in characteristic `p` its derived group lies in a
 - The critical subgroup of `C₉` is `Ω₁(C₉) = C₃`: `[C₃, C₉] = 1`, exponent `3`, and the
   automorphisms `x ↦ x^k` with `k ≡ 1 (mod 3)` centralizing it form the `3`-group `{1, 4, 7}`;
   `C₉` itself is excluded by the exponent clause.
+- Oddness is needed in Proposition 4.3: `D₈` has class `2` and `Ω₁(D₈) = D₈` (two reflections
+  generate it), of exponent `4`; `Q₈`, also of class `2`, has `Ω₁(Q₈) = {±1}` of exponent `2`,
+  so for `p = 2` the conclusion fails for some groups and holds for others. Theorem 1.13 needs
+  `P ≠ 1`: the only subgroup of the trivial group has exponent `1 ≠ p`.
 - Extraspecial groups: the Heisenberg group of order `27` (`n = 1`, `Z = P' = Φ` of order `3`),
   `D₈` and `Q₈` (`n = 1`, `p = 2`); `C₃ × Heis₂₇` is not extraspecial (`|Z| = 9`). Theorem 2.5
   at `P = Heis₂₇`: a cyclic `H` acting as required has order dividing `4` or `2`; `C₄ ≤ Q₈ ≤
@@ -495,8 +514,9 @@ subgroup of a Sylow `p`-subgroup of `G` lies in `O_{p',p}(G)`. These are definit
 Layer 1 as hypotheses only of the theorems that prove them. Prove: a solvable group is
 `p`-constrained (Proposition 1.15(a), the Hall–Higman Lemma 1.2.3); for a `p`-subgroup `R` of a
 solvable `G`, `O_{p'}(C_G(R)) ≤ O_{p'}(G)` (Proposition 1.15(b), due to Goldschmidt); a
-`p`-stable `p`-constrained group is `p`-abelian-constrained (Appendix A, the step of Theorem
-A.4(b) that §1.8 uses; math-comp `p_stable_abelian_constrained`). Prove the **focal subgroup
+`p`-stable `p`-constrained group is `p`-abelian-constrained (math-comp
+`p_stable_abelian_constrained` in `BGsection1.v`, the step by which Theorem 6.1 follows from
+Theorem A.4(c) in §1.8). Prove the **focal subgroup
 theorem** (Theorem 1.17): for a Sylow `p`-subgroup `S`, `S ⊓ G'` is generated by the commutators
 `[x, u]` with `x ∈ S`, `u ∈ G` and `u⁻¹ x u ∈ S`. Burnside's normal `p`-complement theorem
 (Theorem 1.18) is Mathlib's `MonoidHom.ker_transferSylow_isComplement'`; deduce Corollary 1.19:
@@ -535,9 +555,12 @@ at most one with Sylow `p`-subgroup `S` and `K = O_{p'}(G)` (Lemma 6.6): `K S = 
 `K · N_G(S) = G` (a); `S ≤ G'` forces `S ≤ N_G(S)'` (b); for solvable `G`, every `g ∈ G` with
 `Y ⊆ S` and `g⁻¹ Y g ⊆ S` factors as `c u` with `c ∈ C_G(Y)` and `u ∈ N_G(S)` (c), and every
 `p`-subgroup `Q` is conjugate into `S` by an element of `C_G(Q ⊓ S)` (d); and the factorization
-lemmas for `G = K U` with `K ⊴ G`, `H ≤ U` and `gcd(|K|, |H|) = 1` (Lemma 6.5): `H ⊓ G' = H ⊓ U'`,
-`N_G(H) = C_K(H) · N_U(H)`, and `g ∈ G` with `g⁻¹ H g ≤ U` factors as `c u` with `c ∈ C_K(H)`,
-`u ∈ U`. *Needs:* §1.1 (`O_{p'}`, `O_{p',p}`, the `π`-core of a quotient), §1.3, Mathlib `Sylow`,
+lemmas for a finite group `G = K U` with `K ⊴ G`, `H ≤ U` and `gcd(|K|, |H|) = 1` (Lemma 6.5):
+`H ⊓ G' = H ⊓ U'`, with no solvability assumed (a); and, for solvable `G`,
+`N_G(H) = C_K(H) · N_U(H)` (b) and every `g ∈ G` with `g⁻¹ H g ≤ U` factors as `c u` with
+`c ∈ C_K(H)`, `u ∈ U` (c), where (c) is the conjugacy in the solvable group `(K H) ⊓ U` of its
+Hall subgroups `H` and `k⁻¹ H k`, `k ∈ K` (§1.1), and (b) follows from (c). *Needs:* §1.1
+(`O_{p'}`, `O_{p',p}`, the `π`-core of a quotient, Hall conjugacy), §1.3, Mathlib `Sylow`,
 `IsPGroup`.
 
 **Checks.**
@@ -551,6 +574,11 @@ lemmas for `G = K U` with `K ⊴ G`, `H ≤ U` and `gcd(|K|, |H|) = 1` (Lemma 6.
   `3`-length one.
 - Lemma 6.6(a) on `S₄`, `p = 3`: `K = V₄`, `S = C₃`, `K S = A₄ = O_{3',3}(S₄)` and
   `K · N_{S₄}(S) = V₄ · S₃ = S₄`.
+- Lemma 6.5 on `G = S₄`, `K = V₄`, `U = S₃` (the stabilizer of `4`), `H = ⟨(1 2 3)⟩`:
+  `H ⊓ G' = H ⊓ A₄ = H = H ⊓ U'`; `N_G(H) = S₃`, `C_K(H) = 1` (the `3`-cycle permutes the three
+  involutions of `V₄`) and `N_U(H) = S₃`, so `C_K(H) · N_U(H) = N_G(H)`; and `g⁻¹ H g ≤ U`
+  forces `g⁻¹ H g = H`, the only subgroup of order `3` in `U`, so `g ∈ N_G(H) = U` factors with
+  `c = 1`.
 
 ### 1.7 Rank at most two forces `p`-length at most one
 
@@ -582,20 +610,37 @@ subgroup splits globally, used to split a chief factor off its centralizer).
   `3`-rank is at least `6`, so the hypothesis `m_3 ≤ 2` is what excludes it.
 - Negative control for the odd-order hypothesis: `S₄` has `2`-rank `2` and `2`-length two (§1.6).
 
-### 1.8 `p`-stability of solvable groups of odd order
+### 1.8 `p`-stability of groups of odd order
 
-Prove: a finite solvable group of odd order is `p`-stable for every odd prime `p`, in the sense
-of §1.5 (Bender–Glauberman, Theorem 6.1 and Theorem A.4(b): the Hall–Higman quadratic-action
-argument), hence `p`-abelian-constrained by §1.5. State the quadratic-action criterion
-explicitly: if a `p'`-element `x` of a solvable group of odd order acts on a faithful
-`𝔽_p`-module `V` with `[V, x, x] = 0`, then `x` acts trivially. The route is the faithful
-chief-factor representation of §1.7 and the estimate that a quadratic `p'`-element of odd order
-on an irreducible module over `𝔽_p` is trivial. *Needs:* §1.7, §1.5 (`p`-stability,
-`p`-constraint and their consequence), §1.3 (coprime action).
+Prove: every finite group of odd order is `p`-stable for every prime `p`, in the sense of §1.5
+(Bender–Glauberman, Theorem A.4(c); no solvability is assumed, and for `p = 2` the statement is
+vacuous). Deduce Theorem 6.1: a finite solvable group of odd order is `p`-abelian-constrained,
+since it is `p`-constrained by Proposition 1.15(a) and §1.5 turns `p`-stable and `p`-constrained
+into `p`-abelian-constrained (Bender–Glauberman, Theorem A.4(b)). The route is the Hall–Higman
+quadratic-action analysis of Theorems A.1–A.3, stated as the **two-generator quadratic lemma**:
+if `x` and `y` are `p`-elements of a finite group `K` generating a subgroup `G = ⟨x, y⟩` of odd
+order that normalizes a `p`-subgroup `E ≤ K` with `[E, x, x] = 1 = [E, y, y]`, then `G ⧸ C_G(E)`
+is a `p`-group (induction on `|E|` reduces to `E` a minimal normal subgroup of `E G`, hence
+elementary abelian, and then to an irreducible `𝔽_p`-module); together with the **Baer–Suzuki
+theorem**, stated and proved here since the pins lack it: a `p`-element `x` of a finite group `G`
+lies in `O_p(G)` iff `⟨x, g⁻¹ x g⟩` is a `p`-group for every `g ∈ G`. Given `P` and `A` as in
+the definition of `p`-stability and `a ∈ A`, the lemma applied to `a` and `g⁻¹ a g` for
+`g ∈ N_G(P)` shows that `⟨a, g⁻¹ a g⟩` acts on `P` as a `p`-group, and Baer–Suzuki in
+`N_G(P) ⧸ C_G(P)` puts the image of `a` in `O_p(N_G(P) ⧸ C_G(P))`. *Needs:* §1.1 (`O_p`), §1.3
+(coprime action), §1.4 (elementary abelian groups as `𝔽_p`-vector spaces), §1.5 (`p`-stability,
+`p`-constraint and their consequence), Mathlib `IsPGroup`, `Subgroup.normalizer`,
+`Subgroup.centralizer`.
 
 **Checks.**
 - `S₄` is not `2`-stable: for `P = V₄ ⊴ S₄` a transposition `x` satisfies `[V₄, x, x] = 1`, but
   its image in `S₄ ⧸ C(V₄) ≅ S₃` is not in `O_2(S₃) = 1`; the odd-order hypothesis excludes it.
+  The same instance refutes the two-generator lemma without odd order: `x = (1 2)` and
+  `y = (1 3)` act quadratically on `E = V₄` (each fixes one involution of `V₄` and swaps the
+  other two, so `[V₄, x] = ⟨(1 2)(3 4)⟩` is centralized by `x`), `G = ⟨x, y⟩ ≅ S₃` has even
+  order, and `G ⧸ C_G(V₄) ≅ S₃` is not a `2`-group.
+- Baer–Suzuki on `S₃`: for `p = 2`, a transposition `x` and its conjugate by a `3`-cycle
+  generate `S₃`, not a `2`-group, and `x ∉ O_2(S₃) = 1`; for `p = 3`, a `3`-cycle and each of
+  its conjugates generate `A₃`, a `3`-group, and `A₃ = O_3(S₃)`.
 - In `C₇ ⋊ C₃` with `p = 3`, the Sylow `3`-subgroup is self-normalizing and self-centralizing,
   so the condition holds vacuously.
 - A `p`-group is `p`-stable: `N_G(P) ⧸ C_G(P)` is a `p`-group for every `P`.
@@ -610,7 +655,8 @@ other by one more step. Prove: `L(S)` is characteristic in `S`, `Z(L(S)) ≠ 1` 
 `L(S) = S` when `S` is abelian. Prove the **`ZL` theorem** (Theorem 6.2, Bender–Glauberman's
 substitute for the `ZJ` theorem): for a solvable group `G` of odd order with Sylow `p`-subgroup
 `S`, `O_{p'}(G) · Z(L(S)) ⊴ G`, and when `O_{p'}(G) = 1`, `Z(L(S)) ⊴ G`; the input is the
-`p`-stability of §1.8 through the `p`-abelian-constraint of §1.5, the Puig factorization of
+`p`-abelian-constraint of Theorem 6.1 (§1.8, from the `p`-stability of Theorem A.4(c) and
+§1.5), the Puig factorization of
 Appendix B, and the coprime action of §1.3. Prove also Theorem 6.7: for `p` odd, `G` solvable of
 `p`-length at most one, `E` a maximal elementary abelian `p`-subgroup of `G` and `L ≤ G` a
 `p'`-subgroup normalized by `E`, `L ≤ O_{p'}(G)`. *Needs:* §1.1, §1.3, §1.4, §1.5, §1.6, §1.8,
@@ -672,9 +718,10 @@ multiplication by an element of order `13` and `C₃` by the Frobenius `x ↦ x�
 ### Dependencies
 
 Layer 0 (solvability of proper subgroups when applied in Layer 3);
-InverseGaloisAndArithmeticFundamentalGroups IG.4.3 (*The Fitting subgroup*);
-FiniteGroupInvariants §2.1; FiniteGroupExtensionSplitting §2.4, §3.1; Tau Ceti
-`TauCeti.exists_index_eq_notMem_of_exponent_dvd`, `TauCeti.IsFrobeniusComplement`; Mathlib
+InverseGaloisAndArithmeticFundamentalGroups IG.3.4 (*Conjugacy of coprime complements*) and
+IG.4.3 (*The Fitting subgroup*); FiniteGroupInvariants §2.1; FiniteGroupExtensionSplitting §2.4,
+§3.1; Tau Ceti `TauCeti.exists_index_eq_notMem_of_exponent_dvd`, `TauCeti.IsFrobeniusComplement`;
+Mathlib
 `Sylow`, `IsPGroup`, `IsZGroup`, `frattini`, `Subgroup.exists_right_complement'_of_coprime`,
 `MonoidHom.ker_transferSylow_isComplement'`, `IsZGroup.coprime_commutator_index`.
 
@@ -1212,9 +1259,10 @@ Tau Ceti `TauCeti.IsFrobeniusComplement`, `TauCeti.frobeniusKernelSubgroup`,
   points): the theorem asserts that this configuration does not occur as a maximal subgroup of
   type I in a minimal odd simple group, which is a theorem and not a definition.
 - For `M = C₇ ⋊ C₃` the conclusion holds with `E = C₃`, and `TauCeti.frobeniusKernel E` is `C₇`.
-- The statement is about some complement `E`, not every complement: all complements of `H(M)`
-  in the solvable group `M` are conjugate (Schur–Zassenhaus conjugacy, §1.1), so the choice is
-  immaterial.
+- The statement is about some complement `E`, not every complement: `H(M)`, a product of normal
+  Sylow subgroups, is a normal Hall subgroup of the solvable group `M`, so all its complements
+  are conjugate (InverseGaloisAndArithmeticFundamentalGroups IG.3.4, *Conjugacy of coprime
+  complements*) and the choice is immaterial.
 
 ### 4.3 Exclusion of the all-type-I case (F4c, §12)
 
@@ -1454,14 +1502,14 @@ Layers 0–5.
   origin of the Dade data of §2.2; Chapters IV–VI are superseded here by Peterfalvi Part I.
 - H. Bender and G. Glauberman, *Local Analysis for the Odd Order Theorem*, LMS Lecture Note
   Series 188, Cambridge University Press, 1994: Chapter I with Appendices A–B (the general
-  results of §1, Theorems 2.5–2.6, Lemmas 4.3–4.8 and §6, and Theorems 3.6, 4.18, 6.1–6.2, for
-  Layer 1), Chapters II–III (§§7–16 for Layer 3) and Appendix C, Theorem C (§5.1).
+  results of §1, Theorems 2.5–2.6, Lemmas 4.3–4.8 and §6, and Theorems 3.6, 4.18, 6.1–6.2 and
+  A.4(c), for Layer 1), Chapters II–III (§§7–16 for Layer 3) and Appendix C, Theorem C (§5.1).
 - T. Peterfalvi, *Character Theory for the Odd Order Theorem*, LMS Lecture Note Series 272,
   Cambridge University Press, 2000, Part I §§1–14: §§1–6 for Layer 2, §8 for Layer 3, §§7 and
   9–13 for Layer 4, §14 for Layer 5.
 - The Mathematical Components odd-order development (`math-comp/odd-order`, files `BGsection1.v`
-  to `BGsection16.v`, `BGappendixC.v`, `PFsection1.v` to `PFsection14.v`) is an independently
-  organized formal proof whose comments record the theorem numbers of the two books cited above;
+  to `BGsection16.v`, `BGappendixAB.v`, `BGappendixC.v`, `PFsection1.v` to `PFsection14.v`) is
+  an independently organized formal proof whose comments record the theorem numbers of the two books cited above;
   every locator above was checked against it. Its finite-group and character types require
   mathematical comparison with Lean's native objects; it is a provenance source, not a
   specification.
