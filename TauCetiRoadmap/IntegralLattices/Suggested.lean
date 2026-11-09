@@ -2,13 +2,16 @@ module
 
 public import Mathlib
 public import TauCeti.FieldTheory.SquareClassGroup.Basic
+public import TauCeti.LinearAlgebra.IntegralLattice.Characteristic.Basic
 public import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
 public import TauCeti.LinearAlgebra.IntegralLattice.Gram
 public import TauCeti.LinearAlgebra.IntegralLattice.Signature
 public import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
 public import TauCeti.LinearAlgebra.IntegralLattice.Isometry.Group
+public import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE.Basic
 public import TauCeti.LinearAlgebra.IntegralLattice.Rank24.Niemeier
 public import TauCeti.LinearAlgebra.IntegralLattice.Rank24.Leech.Minimum
+public import TauCeti.LinearAlgebra.IntegralLattice.PosDef.SuccessiveMinima
 public import TauCeti.LinearAlgebra.FiniteBilinearModule.GaussSum
 public import TauCeti.LinearAlgebra.FiniteBilinearModule.OddCyclic.Basic
 public import TauCeti.LinearAlgebra.FiniteBilinearModule.Dyadic.Cyclic
@@ -32,46 +35,25 @@ group, half-norm discriminant forms, finite quadratic modules, Gauss-sum invaria
 root lattices and Nikulin's generator decomposition
 `FiniteQuadraticModule.exists_isometry_prod_pi_generators`. None of them is restated here.
 
-The headline theorems stated here are: finiteness of positive definite classes of given rank and
-determinant (2G); the adelic double-coset description of the classes in a genus
+The headline theorems stated here are: Nikulin's classification of finite quadratic forms by
+their bilinear form and Gauss-sum invariant, Theorem 1.11.3 (1H); van der Blij's congruence (1L)
+and Milgram's theorem at every signature (1I); Minkowski's second theorem (2F) and finiteness of
+positive definite classes (2G); the adelic double-coset description of the classes in a genus
 (4B), finiteness of the classes in a binary genus (4E) and infinitude of the isometry group of
 an indefinite lattice of rank at least 3 (4F); the determination of the genus of an even lattice
 by its signature and discriminant form, Nikulin's Corollary 1.9.4 (5A); the choice-independence
 of `discr K(q_p)` with its dyadic exception, Nikulin's existence theorem 1.10.1 with its strict
 corollary 1.10.2, his primitive-embedding theorems 1.12.2 and 1.12.4, and his `2`-elementary
 existence theorem 3.6.2 (5B, 5G, 5J); the classification of
-indefinite unimodular lattices of both parities (6A), the Gram-matrix classification of odd
-unimodular positive definite lattices in rank at most 8 and of all unimodular positive definite
-lattices in rank 9 (6C), the rank-16 pair
+indefinite unimodular lattices of both parities (6A), existence of even unimodular positive
+definite lattices exactly in ranks divisible by 8 (6B), the classification of positive definite
+unimodular lattices in rank at most 9 with the uniqueness of `E₈` (6C), the rank-16 pair
 `E₈ ⊕ E₈` and `D₁₆⁺` in one genus and not isometric (6D) with the failure of cancellation built
 on it (6H), the separation of the rank-24 lattices by their root systems, for the lattices of two
 rootful rows whose root sublattices are their displayed root lattices and for every rootful row
-lattice against the Leech lattice (6E); stabilization of the local density count at every
+lattice against the Leech lattice (6E), and `|O(E₈)| = 696729600` (6G); stabilization of the local density count at every
 prime and its closed value at the odd primes not dividing the determinant (7C); the Euclidean
 volumes of `SO(n)` and `O(n)` (7E); and completeness of a list of classes from the mass (9B).
-
-Headline theorems that are **proved in Tau Ceti at the pin**, and so are not restated here:
-Nikulin's Theorem 1.11.3, the classification of nondegenerate finite quadratic modules by their
-bilinear module and Gauss-sum invariant (1H), is
-`TauCeti.FiniteQuadraticModule.nonempty_isometry_iff_bilinear_isometry_and_gaussSign_eq`;
-Milgram's theorem at every signature (1I) is
-`TauCeti.IntegralLattice.gaussSign_discriminantQuadraticModule_eq_sigPos_sub_sigNeg`; van der
-Blij's congruence (1L) is `TauCeti.IntegralLattice.vanDerBlij`; Minkowski's second theorem (2F)
-is `TauCeti.IntegralLattice.IsPosDef.prod_successiveMinimum_mul_pi_pow_le`, in the squared form
-`(∏ λ_i) · πⁿ ≤ 4ⁿ · Γ(n/2 + 1)² · det L`; existence of even unimodular positive definite
-lattices exactly in ranks divisible by 8 (6B) is
-`TauCeti.IntegralLattice.exists_isEven_isUnimodular_isPosDef_iff`; the uniqueness of `E₈` among
-even unimodular positive definite lattices of rank 8 (6C) is
-`TauCeti.IntegralLattice.IsPosDef.nonempty_isometry_typeE₈RootLattice_of_isEven`, and the
-lattice-form classification in rank at most 9 is
-`TauCeti.IntegralLattice.IsPosDef.nonempty_isometry_of_isUnimodular_of_finrank_le_nine`; and
-`|O(E₈)| = 696729600` (6G) is `TauCeti.IntegralLattice.card_isometry_typeE₈RootLattice`. The
-lattice-form rank-16 pair (`TauCeti.IntegralLattice.sameGenus_e8PowLattice_checkerboardPlusLattice`,
-`TauCeti.IntegralLattice.isEmpty_isometry_e8PowLattice_checkerboardPlusLattice`) and the
-lattice-form failure of cancellation
-(`TauCeti.IntegralLattice.not_forall_nonempty_isometry_of_orthogonalSum`) are native as well; 6D
-and 6H below are their Gram-matrix readings with the explicit basis of `D₁₆⁺`, and 2G and 6C are
-Gram-matrix readings of the native finiteness and small-rank theorems.
 
 The local stabilizers `K_p(L)`, their compact-open family, the finite adelic orthogonal group and
 the local and adelic spinor norms are Tau Ceti's (`integralOrthogonalSubgroup`,
@@ -115,6 +97,22 @@ open TauCeti TauCeti.IntegralLattice
 universe u v
 
 /-! ## Layer 1: finite quadratic forms, the Gauss-sum invariant, and signature mod 8 -/
+
+namespace IntegralLattice
+
+variable {V : Type u} [AddCommGroup V] [Module ℚ V] (L : IntegralLattice V)
+
+/-- **Layer 1L, van der Blij's congruence.** For a nondegenerate **unimodular** lattice and any
+characteristic vector `w` (Tau Ceti's `IsCharacteristicVector`),
+`t₊ − t₋ ≡ β(w, w) (mod 8)`. The signature difference is taken in `ℤ`. At `w = 0` this recovers
+`8 ∣ t₊ − t₋` for even unimodular lattices, and for `⟨1⟩` it is `w² ≡ 1 (mod 8)` for odd `w`.
+Unimodularity is needed: for `⟨2⟩` every vector is characteristic, `t₊ − t₋ = 1`, and every
+`β(w,w) = 2k²` is even (van der Blij 1959; Milnor–Husemoller, Appendix 4). -/
+theorem vanDerBlij [FiniteDimensional ℚ V] [L.IsNondegenerate] (hU : L.IsUnimodular)
+    {w : L} (hw : L.IsCharacteristicVector w) :
+    Int.ModEq 8 ((L.sigPos : ℤ) - (L.sigNeg : ℤ)) (L.integralForm w w) := sorry
+
+end IntegralLattice
 
 namespace FiniteQuadraticModule
 
@@ -204,7 +202,36 @@ def HasCyclicTwoSummand (A : TauCeti.FiniteQuadraticModule.{u}) : Prop :=
   ∃ (θ : ℤ) (A' : TauCeti.FiniteQuadraticModule.{0}),
     Odd θ ∧ Nonempty (A.Isometry ((TauCeti.FiniteQuadraticModule.dyadicCyclic 1 θ).prod A'))
 
+/-- **Layer 1H, Nikulin Theorem 1.11.3.** Two nondegenerate finite quadratic modules whose
+underlying bilinear modules are isometric are themselves isometric exactly when their Gauss-sum
+invariants agree in `ℤ/8`. The dyadic modules `u^{(2)}(2)` and `v^{(2)}(2)` share the bilinear
+module on `(ℤ/2)²` and have invariants `0` and `4`, so they are not isometric; `q_1^{(2)}(2)` and
+`q_5^{(2)}(2)` are isometric with equal invariants. At odd `p` the bilinear module already
+determines the quadratic one (Nikulin, §1, 11°). -/
+theorem nonempty_isometry_iff_gaussSign_eq (q₁ q₂ : TauCeti.FiniteQuadraticModule.{u})
+    (h₁ : q₁.IsNondegenerate) (h₂ : q₂.IsNondegenerate)
+    (hb : Nonempty (q₁.toFiniteBilinearModule.Isometry q₂.toFiniteBilinearModule)) :
+    Nonempty (q₁.Isometry q₂) ↔ q₁.gaussSign = q₂.gaussSign :=
+  sorry
+
 end FiniteQuadraticModule
+
+section Layer1
+
+variable {V : Type v} [AddCommGroup V] [Module ℚ V]
+
+/-- **Layer 1I, Milgram's theorem at every signature.** For an even nondegenerate lattice the
+signature difference is the Gauss-sum invariant of its discriminant form:
+`t₊ − t₋ ≡ sign q_L (mod 8)`, where `∑_{γ ∈ A_L} e(q_L(γ)) = √|A_L| · e(sign q_L / 8)` (Nikulin
+Theorem 1.3.3; Milnor–Husemoller, Appendix 4). For `⟨2⟩`: `A = ℤ/2`, `q = 1/4`, Gauss sum
+`1 + i = √2 · e(1/8)`, and `t₊ − t₋ = 1`. -/
+theorem milgram [FiniteDimensional ℚ V] (L : IntegralLattice V) [L.IsNondegenerate]
+    (hL : L.IsEven) :
+    ((((L.sigPos : ℤ) - (L.sigNeg : ℤ) : ℤ) : ZMod 8)) =
+      (L.discriminantQuadraticModule hL).gaussSign :=
+  sorry
+
+end Layer1
 
 /-! ## Gram-level vocabulary
 
@@ -236,14 +263,22 @@ def GramSameGenus {n : ℕ} (G H : Matrix (Fin n) (Fin n) ℤ) : Prop :=
 
 section Layer2
 
+/-- **Layer 2F, Minkowski's second theorem.** For a positive definite integral lattice of rank
+`n` with native successive minima `λ₁ ≤ … ≤ λₙ` (values of the norm `β x x`),
+`vol(Bₙ) · ∏ λ_i^{1/2} ≤ 2ⁿ · (det L)^{1/2}`, where `Bₙ` is the Euclidean unit ball and
+`(det L)^{1/2}` is the covolume of the real realization (Cassels, *An Introduction to the Geometry
+of Numbers*, Chapter VIII). For `⟨a⟩` it is `2√a ≤ 2√a`. -/
+theorem IntegralLattice.IsPosDef.volume_ball_mul_prod_sqrt_successiveMinimum_le
+    {V : Type u} [AddCommGroup V] [Module ℚ V] {L : IntegralLattice V} (hL : L.IsPosDef) :
+    (volume (Metric.ball (0 : EuclideanSpace ℝ (Fin (Module.finrank ℤ L))) 1)).toReal *
+        ∏ i, Real.sqrt (L.successiveMinimum i) ≤
+      2 ^ (Module.finrank ℤ L) * Real.sqrt (L.determinant) :=
+  sorry
+
 /-- **Layer 2G, reduction-theory finiteness**, the positive definite branch of class-number
 finiteness: there are finitely many positive definite integral Gram matrices of given size and
 determinant up to integral congruence. Every class contains a Minkowski-reduced Gram matrix, and
-reduced matrices of bounded determinant have bounded entries. Tau Ceti's
-`exists_finset_forall_exists_gramMatrix_mem` gives a finite set of integral matrices containing a
-Gram matrix of every positive definite lattice of rank `n` and determinant at most `D`; this is
-its reading on Gram matrices, which differs from it by the change of basis identifying two Gram
-matrices of one lattice. Definiteness is needed: the
+reduced matrices of bounded determinant have bounded entries. Definiteness is needed: the
 argument has no indefinite analogue (`[0,1;1,2k]` is a Gram matrix of `U` for every `k`). -/
 theorem finite_classes_of_posDef (n : ℕ) (d : ℤ) :
     ∃ S : Finset (Matrix (Fin n) (Fin n) ℤ), ∀ G : Matrix (Fin n) (Fin n) ℤ,
@@ -528,13 +563,26 @@ theorem equivalent_of_odd_unimodular_indefinite {n : ℕ} (G₁ G₂ : Matrix (F
     (Matrix.toBilin' G₁).Equivalent (Matrix.toBilin' G₂) :=
   sorry
 
+/-- **Layer 6B, existence in the definite case.** An even unimodular positive definite lattice of
+rank `n` exists exactly when `8 ∣ n` (existence: Serre's `Γ₈ = E₈` of V.1.4.3 and the remark after
+V.2 Theorem 2; necessity: Corollary 2 of that theorem, Milgram's theorem). Rank 0 is included: the
+zero lattice is even, unimodular and positive definite. -/
+theorem exists_isEven_isUnimodular_isPosDef_iff (n : ℕ) :
+    (∃ L : IntegralLattice (Fin n → ℚ), L.IsEven ∧ L.IsUnimodular ∧ L.IsPosDef) ↔ 8 ∣ n :=
+  sorry
+
+/-- **Layer 6C, uniqueness of `E₈`.** Every even unimodular positive definite lattice of rank 8 is
+isometric to Tau Ceti's `E₈` root lattice (O'Meara 106:13). `I₈` is unimodular, positive definite
+and odd, so evenness is needed. -/
+theorem nonempty_isometry_typeE₈RootLattice_of_isEven_of_finrank_eq_eight
+    {V : Type u} [AddCommGroup V] [Module ℚ V] (L : IntegralLattice V)
+    (hV : Module.finrank ℚ V = 8) (he : L.IsEven) (hu : L.IsUnimodular) (hp : L.IsPosDef) :
+    Nonempty (L.Isometry typeE₈RootLattice) :=
+  sorry
+
 /-- **Layer 6C, odd unimodular lattices of rank at most 8.** An odd unimodular positive definite
 integral Gram matrix of size at most 8 is integrally equivalent to the identity, that is, the
-lattice is `Iₙ` (O'Meara 106:13). In size 9 the odd lattice `E₈ ⊕ I₁` is a second class. This is
-the Gram-matrix reading of Tau Ceti's lattice-form classification
-`IsPosDef.nonempty_isometry_of_isUnimodular_of_finrank_le_nine` (`Iₙ`, `E₈` or `I₁ ⊕ E₈`), from
-which it differs by the change of basis between a Gram matrix and its lattice and by the parity
-bookkeeping that excludes the even `E₈`. -/
+lattice is `Iₙ` (O'Meara 106:13). In size 9 the odd lattice `E₈ ⊕ I₁` is a second class. -/
 theorem equivalent_one_of_odd_unimodular_posDef_of_le_eight {n : ℕ} (hn : n ≤ 8)
     (G : Matrix (Fin n) (Fin n) ℤ) (hs : G.IsSymm) (hodd : ∃ i, ¬ 2 ∣ G i i)
     (hu : G.det = 1) (hp : (Matrix.toQuadraticForm' G).PosDef) :
@@ -587,11 +635,7 @@ def e8SumE8Gram : Matrix (Fin 16) (Fin 16) ℤ :=
 the genus of `E₈ ⊕ E₈` (both have invariants `(16, 0, 0)`, 5A), and the two are not integrally
 isometric: the norm-2 vectors of `D₁₆⁺` are the 480 roots of `D₁₆` and span a sublattice of
 index 2, while the 480 roots of `E₈ ⊕ E₈` span everything (Serre V.1.4.3 and VII.6.6). At
-`n = 8` the same construction gives `D₈⁺ ≅ E₈`, so the rank enters through `h² = 4`. In lattice
-form both halves are Tau Ceti's, `sameGenus_e8PowLattice_checkerboardPlusLattice` and
-`isEmpty_isometry_e8PowLattice_checkerboardPlusLattice` at `k = 2`; this statement differs from
-them by the identification of the displayed matrix with a Gram matrix of `D₁₆⁺` in the basis
-above. -/
+`n = 8` the same construction gives `D₈⁺ ≅ E₈`, so the rank enters through `h² = 4`. -/
 theorem d16Plus_sameGenus_not_isometric_e8SumE8 :
     (∀ i, 2 ∣ d16PlusGram i i) ∧ d16PlusGram.det = 1 ∧
       (Matrix.toQuadraticForm' d16PlusGram).PosDef ∧
@@ -629,16 +673,20 @@ theorem RootfulNiemeierType.isEmpty_isometry_lattice_leechLattice (r : RootfulNi
 /-- **Layer 6H, the failure of cancellation over `ℤ`.** `E₈ ⊕ E₈ ⊕ U` and `D₁₆⁺ ⊕ U` are
 integrally isometric, both being even unimodular indefinite of signature `(17, 1)` (6A), although
 `E₈ ⊕ E₈` and `D₁₆⁺` are not (6D). Dropping `U` would contradict 6D; `U ⊕ ⟨1⟩ ≅ I_{2,1}` while
-`U ≇ ⟨1⟩ ⊕ ⟨−1⟩` is the parity analogue. In lattice form this is Tau Ceti's
-`nonempty_isometry_orthogonalSum_hyperbolicPlane_e8PowLattice`, with the failure of cancellation
-`not_forall_nonempty_isometry_of_orthogonalSum`; the Gram-matrix statement differs by the explicit
-basis of `D₁₆⁺`. -/
+`U ≇ ⟨1⟩ ⊕ ⟨−1⟩` is the parity analogue. -/
 theorem gramIsometric_e8SumE8_sum_U_d16Plus_sum_U :
     GramIsometric
       (Matrix.reindex finSumFinEquiv finSumFinEquiv
         (Matrix.fromBlocks e8SumE8Gram 0 0 !![0, 1; 1, 0]))
       (Matrix.reindex finSumFinEquiv finSumFinEquiv
         (Matrix.fromBlocks d16PlusGram 0 0 !![0, 1; 1, 0])) :=
+  sorry
+
+/-- **Layer 6G, the order of `O(E₈)`.** The isometry group of Tau Ceti's `E₈` root lattice has
+order `240 · 126 · 23040 = 696729600`: it is the Weyl group, generated by the reflections in the
+240 roots, which contains `−1`. -/
+theorem natCard_isometry_typeE₈RootLattice :
+    Nat.card (typeE₈RootLattice.Isometry typeE₈RootLattice) = 696729600 :=
   sorry
 
 end Layer6
