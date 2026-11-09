@@ -1,6 +1,8 @@
 module
 
 public import Mathlib
+public import TauCeti.Algebra.Module.ZLattice.Quotient
+public import TauCeti.Geometry.Manifold.Algebra.Quotient
 public import TauCeti.Geometry.Manifold.Complex.AlmostComplexStructure
 public import TauCeti.Geometry.Manifold.Complex.Orientation
 public import TauCeti.Geometry.Manifold.Complex.StructureSheaf.Domain
@@ -11,6 +13,7 @@ public import TauCeti.Geometry.Manifold.DifferentialForm.MapCoeff
 public import TauCeti.Geometry.Manifold.DifferentialForm.Regularity
 public import TauCeti.Geometry.Manifold.DifferentialForm.Smooth
 public import TauCeti.Geometry.Manifold.DifferentialForm.Wedge.Smooth.Basic
+public import TauCeti.Geometry.Manifold.Instances.ComplexProjectiveSpace
 public import TauCeti.Geometry.Manifold.Riemannian.Codifferential
 public import TauCeti.Geometry.Symplectic.Manifold.JHolomorphic
 public import TauCeti.Geometry.Symplectic.Manifold.Nijenhuis
@@ -25,7 +28,9 @@ Rham cohomology as quotients of pinned submodules, the Kähler condition on a re
 the iterated Lefschetz wedge). Every carrier is pinned: `TauCeti.SmoothForm`, `mextDerivₗ`,
 `SmoothAlmostComplexStructure.ofComplexManifold`, `delBar`, `typeProjection`, `nijenhuis`,
 `wedgeWith`, `smoothSheafCommRing`, `IsManifold.maximalAtlas`, `TauCeti.closedForms`,
-`TauCeti.deRhamCohomology` and `TauCeti.SmoothForm.codifferential`.
+`TauCeti.deRhamCohomology` and `TauCeti.SmoothForm.codifferential`, with the pinned
+sphere-quotient complex projective space `TauCeti.ComplexProjectiveSpace n` and the pinned
+complex-torus quotient `AddAction.orbitRel.Quotient L E` for Layer 7.
 
 Stated here: the Newlander–Nirenberg theorem in its local form (Layer 1); the
 Dolbeault–Grothendieck lemma on a polydisc (Layer 2); the Hartogs extension theorem on an open
@@ -34,24 +39,34 @@ property and factoriality of the ring of holomorphic germs, Rückert's Nullstell
 coherence theorem in its primitive relation form (Layer 3); the Hodge theorem for real de Rham
 cohomology of a compact oriented Riemannian manifold (Layer 5); finiteness of Dolbeault
 cohomology and Serre duality with trivial coefficients on a compact complex manifold (Layer 5);
-and, on a compact Kähler manifold, the Hodge decomposition in its dimension form, Hodge
-symmetry, the evenness of odd Betti numbers and the Hard Lefschetz theorem (Layer 6).
+on a compact Kähler manifold, the `∂∂̄`-lemma, the Hodge decomposition in its dimension form,
+Hodge symmetry, the evenness of odd Betti numbers and the Hard Lefschetz theorem (Layer 6); the
+Hodge numbers of complex projective space and of complex tori (Layer 7); and the Frölicher
+inequality and the Euler-characteristic identity on every compact complex manifold (Layer 8).
 
 Not statable at the pins, and therefore not stated: Serre duality and the Hodge theorem with
 coefficients in a holomorphic vector bundle, Koszul–Malgrange and the Chern connection, which
-lack the holomorphic-bundle mixin of ComplexManifolds Milestone 7; the Kähler identities and the
-Hodge–Riemann bilinear relations, which lack the complex-linear Hodge star on `(p,q)`-forms (the
-pin has `TauCeti.SmoothForm.hodgeStar` for real coefficients only) and the complex-linear
-integral of top forms; the Dolbeault theorem `H^q(M, Ω^p) ≃ H^(p,q)`, which lacks the sheaf of
-holomorphic `p`-forms and its derived-functor cohomology; the projective computations of
-Layer 7, because the pinned complex-manifold structure on `Projectivization ℂ (Fin (n+1) → ℂ)`
-(`Projectivization.instIsManifold`) lives in `TauCeti.Geometry.Manifold.Instances.Projectivization`,
-whose import `TauCeti.Topology.Algebra.Projectivization` declares a second
-`Projectivization.instTopologicalSpace` next to Mathlib's and cannot be imported beside
-`import Mathlib`; the torus, Hopf and Iwasawa computations of Layers 7–8, whose carriers (complex
-tori and holomorphic quotients) are targets of ComplexTori, ComplexManifolds and Layer 7; and
-the Frölicher spectral sequence, which lacks the bicomplex spectral-sequence carrier of
-AlgebraicTopology Stage 5.0.
+lack smooth forms with values in a vector bundle, the bundle Dolbeault operator `∂̄_E` and
+connections on complex vector bundles (the pinned `del` and `delBar` act on forms with values in
+a fixed normed space, and the holomorphic bundle itself is Mathlib's `ContMDiffVectorBundle`);
+the Kähler identities, which lack the complex-linear Hodge star on `(p,q)`-forms (the pin has
+`TauCeti.SmoothForm.hodgeStar` for real coefficients only); the Hodge–Riemann bilinear
+relations, which lack the complex-linear integral of top forms: the pinned `integralTopForm` is
+real and takes an orientation indexed by the exact degree, so the form `α ∧ ᾱ ∧ ω^(n−k)` of
+degree `2k + 2(n − k)` would have to be cast to degree `2n` and replaced by its real part, an
+ad hoc encoding; the Dolbeault theorem `H^q(M, Ω^p) ≃ H^(p,q)`, which lacks the sheaf of holomorphic `p`-forms and its derived-functor
+cohomology; the statements on the Fubini–Study form of Layer 7, whose global construction from
+the chart potentials `log(1 + Σ|z_j|²)` is a target of 7.2, and on the line bundles `O(k)`, which
+lack the tautological bundle on `TauCeti.ComplexProjectiveSpace n`; the Hodge numbers of the
+Hopf surface and of the Iwasawa manifold, whose carriers (the quotient of `ℂ² ∖ {0}` by the
+contraction `z ↦ 2z` and the quotient of the complex Heisenberg group by its Gaussian-integer
+lattice) need
+the free and properly discontinuous action instances that the pinned quotient manifold
+`TauCeti.instIsManifoldQuotient` takes, which are not at the pins and are targets of 7.3 and
+8.2–8.3 (an instance with a `sorry` body is not allowed); and the Frölicher spectral sequence as
+an object, which lacks the complex de Rham complex as a cochain complex with its type
+filtration (the filtered-complex spectral sequence itself is the pinned
+`CochainComplex.spectralSequence`).
 
 The holomorphic-stalk statements take the manifold in `Type` because `smoothSheafCommRing`
 requires its base and its coefficient ring in one universe. The real-analytic structure of a
@@ -330,25 +345,43 @@ def IsKahlerForm (κ : SmoothForm 𝓘(ℝ, E) M ℝ 2) : Prop :=
       κ.1 x ![ofComplexManifold E M x v, ofComplexManifold E M x w] = κ.1 x ![v, w]) ∧
     ∀ (x : M) (v : TangentSpace 𝓘(ℝ, E) x), v ≠ 0 → 0 < κ.1 x ![v, ofComplexManifold E M x v]
 
-/-- **The Hodge decomposition, in its dimension form** (Demailly, Chapter VI, (8.5); K6.1): on a
-compact Kähler manifold, the `k`-th complex Betti number is the sum of the Hodge numbers
-`h^(p,k−p)` over `0 ≤ p ≤ k`. -/
+/-- **The `∂∂̄`-lemma** (Demailly, Chapter VI, (8.6), p. 311; K6.1): on a compact Kähler
+manifold, a `d`-exact form of pure type `(p+1, q+1)` is `∂∂̄v` for a smooth form `v` of type
+`(p, q)`. It makes the Hodge decomposition (Demailly, Chapter VI, (8.5)) independent of the
+metric. For `n = 1` and `(p, q) = (0, 0)` it says that an exact two-form on a compact Riemann
+surface is `∂∂̄` of a function. The companion case of type `(p, 0)` or `(0, q)`, where the lemma
+says that the form vanishes, is a README target of 6.2; on the non-Kähler Iwasawa manifold the
+`d`-exact `(2,0)`-form `dz₁ ∧ dz₂ = −d(dz₃ − z₁ dz₂)` is nonzero. -/
+theorem ddbar_lemma [T2Space M] [CompactSpace M] {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2}
+    (hω : IsKahlerForm E M κ) {p q : ℕ} (u : SmoothForm 𝓘(ℝ, E) M ℂ (p + q + 2))
+    (hu : u.IsOfType (ofComplexManifold E M) (p + 1) (q + 1))
+    (hex : u ∈ deRhamCoboundaries E M (p + q + 2)) :
+    ∃ v : SmoothForm 𝓘(ℝ, E) M ℂ (p + q),
+      v.IsOfType (ofComplexManifold E M) p q ∧
+        (ofComplexManifold E M).del ((ofComplexManifold E M).delBar v) = u := by
+  sorry
+
+/-- **The Hodge decomposition, in its dimension form** (Demailly, Chapter VI, (8.12), p. 313,
+the numerical form of the canonical decomposition (8.5); K6.1): on a compact Kähler manifold,
+the `k`-th complex Betti number is the sum of the Hodge numbers `h^(p,k−p)` over
+`0 ≤ p ≤ k`. -/
 theorem finrank_complexDeRhamCohomology_eq_sum_dolbeault [T2Space M] [CompactSpace M]
     {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2} (hω : IsKahlerForm E M κ) (k : ℕ) :
     Module.finrank ℂ (ComplexDeRhamCohomology E M k) =
       ∑ p ∈ Finset.range (k + 1), Module.finrank ℂ (DolbeaultCohomology E M p (k - p)) := by
   sorry
 
-/-- **Hodge symmetry** (Demailly, Chapter VI, (8.5); K6.1): on a compact Kähler manifold,
-complex conjugation of harmonic forms gives `h^(p,q) = h^(q,p)`. -/
+/-- **Hodge symmetry** (Demailly, Chapter VI, (8.12), p. 313, the numerical form of the
+conjugation isomorphism of (8.5); K6.1): on a compact Kähler manifold, complex conjugation of
+harmonic forms gives `h^(p,q) = h^(q,p)`. -/
 theorem finrank_dolbeaultCohomology_symm [T2Space M] [CompactSpace M]
     {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2} (hω : IsKahlerForm E M κ) (p q : ℕ) :
     Module.finrank ℂ (DolbeaultCohomology E M p q) =
       Module.finrank ℂ (DolbeaultCohomology E M q p) := by
   sorry
 
-/-- **Odd Betti numbers of a compact Kähler manifold are even** (K6.1), from Hodge decomposition
-and Hodge symmetry. -/
+/-- **Odd Betti numbers of a compact Kähler manifold are even** (Demailly, Chapter VI, (8.12),
+p. 313; K6.1), from Hodge decomposition and Hodge symmetry. -/
 theorem even_finrank_complexDeRhamCohomology_odd [T2Space M] [CompactSpace M]
     {κ : SmoothForm 𝓘(ℝ, E) M ℝ 2} (hω : IsKahlerForm E M κ) (k : ℕ) :
     Even (Module.finrank ℂ (ComplexDeRhamCohomology E M (2 * k + 1))) := by
@@ -380,5 +413,65 @@ theorem hard_lefschetz [T2Space M] [CompactSpace M] {κ : SmoothForm 𝓘(ℝ, E
   sorry
 
 end Cohomology
+
+/-! ## Layer 7: projective, torus, Riemann-surface and Hopf examples (K7) -/
+
+section Examples
+
+/-- **The Hodge numbers of complex projective space** (Demailly, Chapter VI, (8.8), p. 312;
+K7.2): on the pinned complex manifold `TauCeti.ComplexProjectiveSpace n`, the sphere-quotient
+`ℂPⁿ` with its homogeneous-ratio atlas, `h^(p,q) = 1` when `p = q ≤ n` and `0` otherwise. For
+`n = 0` the space is a point and only `h^(0,0) = 1` survives; for `n = 1`, `ℂP¹` has
+`h^(0,0) = h^(1,1) = 1` and no holomorphic one-form. -/
+theorem finrank_dolbeaultCohomology_complexProjectiveSpace (n p q : ℕ) :
+    Module.finrank ℂ (DolbeaultCohomology (Fin n → ℂ) (TauCeti.ComplexProjectiveSpace n) p q) =
+      if p = q ∧ p ≤ n then 1 else 0 := by
+  sorry
+
+/-- **The Hodge numbers of a complex torus** (Demailly, Chapter VI, (4.5), p. 297, for the flat
+Kähler metric whose harmonic forms are the translation-invariant ones; K7.3): for a full lattice
+`L` of a complex vector space `E` of dimension `n`, the pinned complex torus
+`AddAction.orbitRel.Quotient L E` has `h^(p,q) = binomial(n, p) · binomial(n, q)`. For an
+elliptic curve all four Hodge numbers are `1`; for `p > n` both sides vanish. -/
+theorem finrank_dolbeaultCohomology_complexTorus {E : Type*} [NormedAddCommGroup E]
+    [NormedSpace ℂ E] [FiniteDimensional ℂ E] (L : Submodule ℤ E) [DiscreteTopology L]
+    [IsZLattice ℝ L] (p q : ℕ) :
+    Module.finrank ℂ (DolbeaultCohomology E (AddAction.orbitRel.Quotient L E) p q) =
+      (Module.finrank ℂ E).choose p * (Module.finrank ℂ E).choose q := by
+  sorry
+
+end Examples
+
+/-! ## Layer 8: the Frölicher spectral sequence and non-Kähler comparison (K8) -/
+
+section Frolicher
+
+variable (E : Type*) [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+  (M : Type*) [TopologicalSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℂ, E) ∞ M]
+
+/-- **The Frölicher inequality** (Demailly, Chapter VI, (11.2), p. 322; K8.1): on every compact
+complex manifold the `k`-th complex Betti number is at most the sum of the Hodge numbers
+`h^(p,k−p)`, `0 ≤ p ≤ k`, the dimension of the first page of the Hodge–Frölicher spectral
+sequence in total degree `k`. On the Iwasawa manifold `b₁ = 4 < 5 = h^(1,0) + h^(0,1)`; on the
+non-Kähler Hopf surface every degree is an equality. -/
+theorem finrank_complexDeRhamCohomology_le_sum_dolbeault [T2Space M] [CompactSpace M] (k : ℕ) :
+    Module.finrank ℂ (ComplexDeRhamCohomology E M k) ≤
+      ∑ p ∈ Finset.range (k + 1), Module.finrank ℂ (DolbeaultCohomology E M p (k - p)) := by
+  sorry
+
+/-- **The Euler characteristic from the Hodge numbers** (Demailly, Chapter VI, (11.7), p. 323;
+K8.1): on every compact complex manifold of dimension `n`,
+`Σ_(0≤k≤2n) (−1)^k b_k = Σ_(0≤p,q≤n) (−1)^(p+q) h^(p,q)`, because the alternating dimension of
+each page of the Hodge–Frölicher spectral sequence is the same. On the Hopf surface both sides
+are `0`, from `b = 1, 1, 0, 1, 1` and `h^(0,0) = h^(0,1) = h^(2,1) = h^(2,2) = 1`; on `ℂP¹` both
+are `2`. -/
+theorem sum_neg_one_pow_finrank_complexDeRhamCohomology [T2Space M] [CompactSpace M] :
+    ∑ k ∈ Finset.range (2 * Module.finrank ℂ E + 1),
+        (-1 : ℤ) ^ k * Module.finrank ℂ (ComplexDeRhamCohomology E M k) =
+      ∑ p ∈ Finset.range (Module.finrank ℂ E + 1), ∑ q ∈ Finset.range (Module.finrank ℂ E + 1),
+        (-1 : ℤ) ^ (p + q) * Module.finrank ℂ (DolbeaultCohomology E M p q) := by
+  sorry
+
+end Frolicher
 
 end TauCetiRoadmap.ComplexKahlerGeometry
