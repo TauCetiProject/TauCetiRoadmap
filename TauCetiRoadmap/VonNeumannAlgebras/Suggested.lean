@@ -45,10 +45,11 @@ Headline theorems of the README that are not statable at the pins, and the carri
   von Neumann algebra or von Neumann crossed product).
 * Layer 9: formal degrees of discrete series and the covolume formula (no square-integrable
   representation or formal degree).
-* Layer 10: Tomita–Takesaki theory, the KMS characterization of the modular group, the
-  finite-dimensional identification `σ_t = Ad(h^{it})` and the Bost–Connes type III theorem.
-  There is no closed antilinear operator `S`, modular operator `Δ`, modular conjugation `J` or
-  modular automorphism group.
+* Layer 10: Tomita–Takesaki theory, the finite-dimensional identification `σ_t = Ad(h^{it})`
+  and the Bost–Connes type III theorem. There is no closed antilinear operator `S`, modular
+  operator `Δ`, modular conjugation `J` or modular automorphism group. The KMS characterization
+  of the modular group needs none of them in its existence-and-uniqueness form, which is stated
+  below.
 * Layer 11: weights, spatial derivatives, Connes cocycles, the continuous core, Takesaki duality,
   the invariants `S` and `T`, and the flow of weights (no modular automorphism group of a weight,
   on which each of these depends).
@@ -382,6 +383,30 @@ theorem ergodicSMul_dense_subgroup
     (μ : MeasureTheory.Measure G) [μ.IsHaarMeasure] [μ.Regular]
     (Γ : Subgroup G) [Countable Γ] (hd : Dense (Γ : Set G)) :
     ErgodicSMul Γ G μ := by
+  sorry
+
+/-! ## Layer 10: Affiliated operators and Tomita–Takesaki theory -/
+
+/-- **The KMS characterization of the modular group** (Takesaki). A faithful normal state `φ` on
+`M` has exactly one one-parameter group `σ` of star automorphisms of `M`, pointwise continuous in
+the strong operator topology, for which `φ` satisfies the KMS condition at `β = -1`: for all
+`x, y ∈ M` some function `F`, bounded and continuous on the strip `0 ≤ Im z ≤ 1` and holomorphic
+inside it, has `F t = φ(σ_t(x) y)` and `F (t + i) = φ(y σ_t(x))` for real `t`. This group is the
+modular group `σ_t(x) = Δ^{it} x Δ^{-it}` of `φ`. A weakly continuous automorphism group is
+pointwise strongly continuous, so the uniqueness class is Takesaki's (README, V10.KMS; Hiai, §2.2
+and Theorem 2.14, pp. 17–18). On `M₂(ℂ)` with `φ = Tr(h ·)` and `h = diag(2/3, 1/3)` it is
+`Ad(h^{it})`; for a tracial `φ` it is the identity. -/
+theorem existsUnique_isKMS_flow {M : VonNeumannAlgebra H}
+    (φ : M.toStarSubalgebra →ₗ[ℂ] ℂ) (hφ1 : φ 1 = 1) (hφ : ∀ x, 0 ≤ φ (star x * x))
+    (hφn : IsNormalFunctional M φ) (hφf : ∀ x, φ (star x * x) = 0 → x = 0) :
+    ∃! σ : ℝ → (M.toStarSubalgebra ≃⋆ₐ[ℂ] M.toStarSubalgebra),
+      (∀ s t, σ (s + t) = (σ t).trans (σ s)) ∧
+      (∀ x, Continuous fun t ↦ ContinuousLinearMap.toPointwiseConvergenceCLM ℂ (RingHom.id ℂ) H H
+        ((σ t x : M.toStarSubalgebra) : H →L[ℂ] H)) ∧
+      ∀ x y, ∃ F : ℂ → ℂ, ContinuousOn F {z | 0 ≤ z.im ∧ z.im ≤ 1} ∧
+        DifferentiableOn ℂ F {z | 0 < z.im ∧ z.im < 1} ∧
+        Bornology.IsBounded (F '' {z | 0 ≤ z.im ∧ z.im ≤ 1}) ∧
+        ∀ t : ℝ, F t = φ (σ t x * y) ∧ F (t + Complex.I) = φ (y * σ t x) := by
   sorry
 
 /-! ## Layer 12: Two projections, ultraproducts, and central sequences -/

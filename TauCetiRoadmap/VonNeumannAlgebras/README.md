@@ -44,7 +44,11 @@ It leaves the following to the named owners and consumes them by section.
   antilinear extensions and modular consequences.
 * [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) owns C₀ semigroups, generators and
   resolvents. Stone's theorem is consumed from Tau Ceti. Modular automorphism groups and their
-  KMS characterization belong here.
+  KMS characterization belong here. The KMS condition of a point-norm continuous action on a
+  C*-algebra, with the uniqueness of KMS functions and the KMS states of the inner dynamics of a
+  Hermitian matrix (its Gibbs states), is consumed from Tau Ceti; V10.KMS adds the condition for
+  weakly continuous automorphism groups of a von Neumann algebra, which need not be norm
+  continuous, and its characterization of the modular group.
 * [BanachSpaceTheory](../BanachSpaceTheory/README.md) owns annihilators, quotient duals, adjoints,
   Goldstine and weak/weak-star duality (B1), Eberlein–Šmulian, James and Krein–Šmulian (B2)
   and Banach tensor products (B4). The operator-topology adapters on
@@ -64,8 +68,9 @@ It leaves the following to the named owners and consumes them by section.
 * [Chebotarev](../../Completed/Chebotarev/README.md) owns prime counting in arithmetic
   progressions: the prime number theorem in an invertible residue class, implemented in Tau Ceti
   (its Layers 13–14 specialized to the cyclotomic fields `ℚ(ζ_d)`), is consumed by V10.AffineAP,
-  which adds only the comparison of prime ideals of `𝓞 ℚ` with rational primes and the ratio-2
-  prime-pair lemma.
+  which adds only the identity between that prime-ideal count and the count of rational primes,
+  transported along the comparison of the primes of `𝓞 ℚ` with rational primes that Mathlib and
+  Tau Ceti prove, and the ratio-2 prime-pair lemma.
 * [BanachAlgebras](../BanachAlgebras/README.md) owns the group algebra `L¹(G)` of a locally
   compact group and its harmonic analysis up to Fourier uniqueness: its §7.2 the convolution and
   involution of `L¹(G)`; its §7.3 (A7.IntegratedRepresentations and A7.RegularL2) the faithful
@@ -189,7 +194,19 @@ functional calculus `cfc` of a normal element (`IsStarNormal`) and Fuglede's the
 with its adjoint (`Mathlib/Analysis/CStarAlgebra/Fuglede.lean`); the one-point
 compactification `OnePoint`; the partial-map
 adjoint `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and `LinearPMap.isSelfAdjoint_def`
-(`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`). Each is used as stated at the
+(`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`); the Phragmén–Lindelöf principle on a
+horizontal strip `a<Im z<b` for functions with values in a complex normed space,
+`PhragmenLindelof.horizontal_strip` (a function holomorphic on the open strip, continuous on its
+closure, of growth at most `exp(B·exp(c·|Re z|))` with `c<π/(b−a)`, and bounded by C on both
+boundary lines is bounded by C on the closed strip) and `PhragmenLindelof.eqOn_horizontal_strip`
+(two such functions that agree on both boundary lines agree on the closed strip)
+(`Mathlib/Analysis/Complex/PhragmenLindelof.lean`); the Gaussian integrals
+`integral_cexp_quadratic` and `fourierIntegral_gaussian`
+(`Mathlib/Analysis/SpecialFunctions/Gaussian/FourierTransform.lean`); and the bijection
+`Rat.HeightOneSpectrum.primesEquiv` from the height-one primes of a Dedekind domain that is the
+integral closure of ℤ in its fraction field ℚ, here `𝓞 ℚ`, onto `Nat.Primes`, sending v to the
+positive generator `Rat.HeightOneSpectrum.natGenerator v` of its contraction to ℤ
+(`Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean`). Each is used as stated at the
 pin; none of them includes separability, a chosen faithful state or a nonzero identity.
 
 **From Tau Ceti.** The Stone theorem in `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`;
@@ -242,7 +259,27 @@ and a natural number a with `IsUnit (a : ZMod m)`, the number
 `TauCeti.primeCount ℚ {𝔭 | absNorm 𝔭 % m = a % m} x` of primes 𝔭 of `𝓞 ℚ` with
 `absNorm 𝔭 ≤ x` in that class (`TauCeti.primeCount`,
 `TauCeti/NumberTheory/ArithmeticDirichletSeries/Counting.lean`), divided by `x / log x`, tends
-to `1/φ(m)`, and the count is asymptotic to `Li(x)/φ(m)`.
+to `1/φ(m)`, and the count is asymptotic to `Li(x)/φ(m)`. The norm of a prime of `𝓞 ℚ`,
+`Rat.HeightOneSpectrum.absNorm_asIdeal`: `Ideal.absNorm v.asIdeal = natGenerator v`
+(`TauCeti/NumberTheory/NumberField/Ideal/IntegersRat.lean`).
+The KMS condition of a point-norm continuous real action α on a possibly nonunital C*-algebra
+(`TauCeti.CStarAction`): `TauCeti.CStarAction.IsKMSFunction`, a function F bounded and
+continuous on the closed strip between ℝ and the line `Im z=β`, holomorphic on the open strip,
+with `F(t)=φ(aα_t(b))` and `F(t+iβ)=φ(α_t(b)a)`; `TauCeti.CStarAction.IsKMSState`, a state with
+such a function for every pair a, b; `TauCeti.CStarAction.IsKMSFunction.eqOn`, the uniqueness of
+the KMS function of a pair; and `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_iff`,
+for entire analytic b the function `z↦φ(aα_z(b))` is the KMS function of the pair exactly when
+`φ(aα_(t+iβ)(b))=φ(α_t(b)a)` for real t (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`).
+The inner dynamics `selfAdjoint.cstarAction h`, `τ_t(a)=exp(ith)a·exp(−ith)` for a self-adjoint
+element h of a unital C*-algebra, for which every element is entire analytic with
+`τ_z(a)=exp(izh)a·exp(−izh)`, `selfAdjoint.entireExtension_cstarAction`
+(`TauCeti/Analysis/CStarAlgebra/Action/Inner.lean`). The Gibbs state `Matrix.gibbsState`,
+`x↦Tr(exp(−βK)x)/Tr(exp(−βK))` for a Hermitian complex matrix K, with
+`Matrix.IsHermitian.isKMSState_gibbsState` (it is a β-KMS state of the inner dynamics of K for
+every real β) and `Matrix.IsHermitian.isKMSState_iff_eq_gibbsState` (it is the only one)
+(`TauCeti/Analysis/CStarAlgebra/Action/Gibbs.lean`). Trace duality
+`LinearMap.existsUnique_trace_mul_eq`: every linear functional on square matrices is `x↦Tr(ρx)`
+for a unique matrix ρ (`TauCeti/LinearAlgebra/Matrix/Trace/Duality.lean`).
 Each is used as stated at the pin.
 
 **From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
@@ -2799,23 +2836,57 @@ Consume V10.ModularTheory and its modular action convention.
 Prove the KMS characterization for an arbitrary strongly continuous φ-preserving
 normal automorphism group α: for the convention `σ_t(x)=Δ^(it)xΔ^(-it)`, F is bounded
 continuous on `0≤Im z≤1`, holomorphic inside, `F(t)=φ(α_t(x)y)` and
-`F(t+i)=φ(yα_t(x))`. Prove α=σ^φ iff it satisfies this condition (Hiai, Theorem 2.14; Takesaki II, Theorem VIII.1.2). Establish existence and uniqueness for faithful normal states;
-construct analytic elements by smoothing, prove strip approximation and uniqueness using
-Stone's theorem and common spectral cores. Supply the required scalar/vector strip
-Phragmén–Lindelöf and Fourier smoothing estimates here from Mathlib complex analysis.
+`F(t+i)=φ(yα_t(x))`. Prove α=σ^φ iff it satisfies this condition (Hiai, Theorem 2.14; Takesaki II, Theorem VIII.1.2). Establish existence and uniqueness for faithful normal states:
+a faithful normal state φ on a concrete von Neumann algebra M has exactly one one-parameter
+group of star automorphisms of M, pointwise continuous in the strong operator topology, for which
+φ satisfies the condition, and it is σ^φ. This is `existsUnique_isKMS_flow`, which needs no
+carrier for Δ. Its continuity class is Takesaki's: a weakly continuous automorphism group is
+pointwise strongly continuous, since
+`‖(α_t(x)−x)ξ‖²=⟨ξ,α_t(x*x)ξ⟩−⟨α_t(x)ξ,xξ⟩−⟨xξ,α_t(x)ξ⟩+⟨ξ,x*xξ⟩→0` (Hiai, §2.2, p. 17), and
+strong convergence implies weak convergence.
+Construct analytic elements by the Gaussian means `x_n=√(n/π)∫e^(−nt²)α_t(x)dt` (Hiai, Lemma
+2.13, p. 18), and prove strip approximation and uniqueness using Stone's theorem and common
+spectral cores. The strip estimates are Mathlib's Phragmén–Lindelöf principle for functions with
+values in a complex normed space: `PhragmenLindelof.horizontal_strip` bounds a function on the
+closed strip by its bound on the two boundary lines, and `PhragmenLindelof.eqOn_horizontal_strip`
+determines it by its boundary values. The Gaussian integrals are Mathlib's
+`integral_cexp_quadratic` (`∫cexp(bx²+cx+d)dx` in closed form for `Re b<0`) and
+`fourierIntegral_gaussian` (`∫e^(itx)e^(−bx²)dx=(π/b)^(1/2)e^(−t²/(4b))` for `Re b>0`). The
+Fourier smoothing estimate for the Gaussian means and
+the construction of analytic elements for a weakly continuous group are owned here: a modular
+group is in general not norm continuous, and `TauCeti.CStarAction` is a point-norm continuous
+action.
+For a point-norm continuous α the condition is Tau Ceti's at β=−1 with the pair exchanged: F is
+a strip function of the pair x, y exactly when `G(z)=F(z+i)` is a
+`TauCeti.CStarAction.IsKMSFunction` at β=−1 of the pair a=y, b=x, with boundary values
+`G(t)=φ(yα_t(x))` and `G(t−i)=φ(α_t(x)y)`; so a state satisfies the condition for every pair
+exactly when it is a `TauCeti.CStarAction.IsKMSState` at β=−1.
 Prove the stronger finite-dimensional statement for every finite-dimensional
 M, including a direct sum of matrix blocks. With Tr_M the sum of the
-unnormalized block traces, use the finite-dimensional density theorem to
-write each faithful state uniquely as `φ(x)=Tr_M(hx)` with invertible
-`h∈M₊` and Tr_M(h)=1. Prove invariance and the entire extension
+unnormalized block traces, write each faithful state uniquely as `φ(x)=Tr_M(hx)` with invertible
+`h∈M₊` and Tr_M(h)=1, blockwise by Tau Ceti's trace duality `LinearMap.existsUnique_trace_mul_eq`.
+Prove invariance and the entire extension
 `F(z)=Tr_M(h h^(iz)x h^(-iz)y)`, with the two stated boundary equations
-for `α=σ^φ`. Prove this using finite spectral sums and cyclicity; strip
-holomorphy in the general theorem does not replace the entire conclusion.
+for `α=σ^φ`; strip holomorphy in the general theorem does not replace the entire conclusion.
+For a single block `M_n(ℂ)` this is Tau Ceti's Gibbs theorem at β=−1 with `K=log h`: the inner
+dynamics `exp(itK)x·exp(−itK)=h^(it)xh^(−it)` is σ^φ, the Gibbs state `Tr(e^K·)/Tr(e^K)` is
+`Tr(h·)`, `Matrix.IsHermitian.isKMSState_gibbsState` gives the condition and
+`Matrix.IsHermitian.isKMSState_iff_eq_gibbsState` the uniqueness of the state. Own the
+multi-block case: with `K=log h∈M`, every element of M is entire analytic for
+`selfAdjoint.cstarAction K`, the analytic identity
+`Tr_M(h·y·h^(i(t−i))xh^(−i(t−i)))=Tr_M(h·h^(it)xh^(−it)·y)` follows from the cyclicity of each
+block trace, and `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_iff` makes
+`G(z)=Tr_M(h·y·h^(iz)xh^(−iz))=F(z+i)` the KMS function of the pair y, x. On several blocks the
+state is not determined by the dynamics (Checks).
 Define the centralizer, prove equality with the modular fixed algebra and the commutation
 identity `φ(xy)=φ(yx)`, and prove it is a finite algebra with trace φ.
-*Needs:* V10.ModularTheory, Tau Ceti's Stone theorem, Mathlib complex analysis (the strip
-Phragmén–Lindelöf and Fourier smoothing estimates are built here from the maximum modulus
-principle and `Real.fourierIntegral`), the finite-dimensional density theorem above.
+*Needs:* V10.ModularTheory, Tau Ceti's Stone theorem; Mathlib
+`PhragmenLindelof.horizontal_strip`, `PhragmenLindelof.eqOn_horizontal_strip`,
+`integral_cexp_quadratic` and `fourierIntegral_gaussian`; Tau Ceti `TauCeti.CStarAction.IsKMSFunction`,
+`TauCeti.CStarAction.IsKMSState`, `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_iff`,
+`selfAdjoint.cstarAction`, `selfAdjoint.entireExtension_cstarAction`,
+`Matrix.IsHermitian.isKMSState_gibbsState`, `Matrix.IsHermitian.isKMSState_iff_eq_gibbsState`
+and `LinearMap.existsUnique_trace_mul_eq`.
 
 **Checks.**
 
@@ -2828,6 +2899,19 @@ principle and `Real.fourierIntegral`), the finite-dimensional density theorem ab
 - Uniqueness: on `M₂(ℂ)` the only state with KMS condition for `α_t=Ad(diag(2^(it),1))`
   is `φ=Tr(h·)` with `h=diag(2/3,1/3)`, since the condition on `x=e₁₂`, `y=e₂₁` forces
   `h₁₁/h₂₂=2`.
+- Uniqueness of the group for that φ: the φ-preserving group `α_t=Ad(diag(3^(it),1))` fails the
+  condition. On `x=e₁₂`, `y=e₂₁` the boundary values are `(2/3)3^(it)` and `(1/3)3^(it)`; the
+  bounded strip function with the first values is `(2/3)3^(iz)`, which takes the value
+  `(2/9)3^(it)≠(1/3)3^(it)` on `Im z=1`. The trivial group fails too: F is the constant 2/3, not
+  1/3 on `Im z=1`. Among the groups `Ad(diag(r^(it),1))`, r>0, the same pair gives
+  `F(z)=(2/3)r^(iz)` and requires `(2/3)/r=1/3`, so only r=2, the group `Ad(h^(it))`, passes.
+- The crosswalk is at β=−1, not β=1: for `K=log h` with `h=diag(2/3,1/3)`, the Gibbs state at
+  β=−1 is `Tr(e^K·)/Tr(e^K)=Tr(h·)`, while at β=1 it is `Tr(h⁻¹·)/Tr(h⁻¹)=Tr(diag(1/3,2/3)·)`.
+  For `x=e₁₂`, `y=e₂₁`, `G(z)=F(z+i)=(1/3)2^(iz)` has `G(t)=(1/3)2^(it)=φ(yσ_t(x))` and
+  `G(t−i)=(2/3)2^(it)=φ(σ_t(x)y)`, Tau Ceti's boundary values for a=y, b=x.
+- Several blocks: on `M=ℂ⊕ℂ` every h is central, so σ^φ is trivial and every state, faithful or
+  not, satisfies the condition for it; the uniqueness of the state holds for one block only, while
+  the uniqueness of the group given a faithful φ holds on every M.
 
 **V10.Hecke — discrete pairs and operator conventions.** Consume
 V10.ModularTheory and V10.KMS before computing Δ, J and σ. For an arbitrary
@@ -2995,12 +3079,18 @@ p≡a₀ mod d and ϕ is Euler's totient, is consumed from Tau Ceti and not prov
 `IsUnit (a₀ : ZMod d)`, `NumberField.Chebotarev.tendsto_primeCount_primesCongruent d a₀` says that
 `TauCeti.primeCount ℚ {𝔭 : absNorm 𝔭 % d = a₀ % d} x / (x / log x) → 1/ϕ(d)`, and
 `NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral d a₀` gives the
-equivalent form `~ Li(x)/ϕ(d)` (Chebotarev, Layers 13–14, owns both). Own only the
-rational-prime/prime-ideal comparison that turns this prime-ideal count into `π_(d,a₀)`: the
-bijection `p ↦ pℤ` from rational primes onto `HeightOneSpectrum (𝓞 ℚ)`, with `absNorm(pℤ)=p`, so
-that the congruence condition and the inclusive cutoff `absNorm 𝔭 ≤ x` of `TauCeti.primeCount`
-become p≡a₀ mod d and p≤x. Mathlib's Dirichlet theorem (infinitely many primes in the class)
-does not give the block counts used below.
+equivalent form `~ Li(x)/ϕ(d)` (Chebotarev, Layers 13–14, owns both). The comparison of the
+primes of `𝓞 ℚ` with rational primes is also in the libraries: Mathlib's
+`Rat.HeightOneSpectrum.primesEquiv` is the bijection `v ↦ natGenerator v` from
+`HeightOneSpectrum (𝓞 ℚ)` onto `Nat.Primes`, with inverse `p ↦ pℤ`, and Tau Ceti's
+`Rat.HeightOneSpectrum.absNorm_asIdeal` gives `absNorm v = natGenerator v`. Own only the counting
+identity `π_(d,a₀)(x) = TauCeti.primeCount ℚ {𝔭 | absNorm 𝔭 % d = a₀ % d} x` for real x,
+obtained by transporting the finite set of primes of norm at most x along `primesEquiv`: the
+congruence condition and the inclusive cutoff `absNorm 𝔭 ≤ x` become p≡a₀ mod d and p≤x. At
+d=4, a₀=3, x=10 both sides are 2, counting the primes 3 and 7 and the primes 3ℤ and 7ℤ of
+`𝓞 ℚ`; the cutoff is inclusive, so at x=7 both sides are still 2 and at x=6.9 both are 1.
+Mathlib's Dirichlet theorem (infinitely many primes in the class) does not give the block counts
+used below.
 
 Derive the precise prime-pair lemma: for every modulus d≥1 and 0<η<1/4, outside
 any finite prime set choose pairwise disjoint prime pairs (p_j,q_j),
@@ -3012,9 +3102,10 @@ pairs in each sufficiently large block; their reciprocal contribution
 is ≥c'_(d,δ)/log X, whose block sum diverges. This explicit estimate
 is an owned prerequisite, not a claim that infinitude supplies it.
 *Needs:* Tau Ceti `NumberField.Chebotarev.tendsto_primeCount_primesCongruent`,
-`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral` and
-`TauCeti.primeCount`; Mathlib `Ideal.absNorm`, `IsDedekindDomain.HeightOneSpectrum`,
-`Nat.totient` and `ZMod`.
+`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`,
+`TauCeti.primeCount` and `Rat.HeightOneSpectrum.absNorm_asIdeal`; Mathlib `Ideal.absNorm`,
+`IsDedekindDomain.HeightOneSpectrum`, `Rat.HeightOneSpectrum.primesEquiv`, `Nat.totient` and
+`ZMod`.
 
 **V10.AffineType — Haar return, ergodicity and type III.** Consume
 V10.AffineAP, V10.AffineHecke, GlobalNumberFields Layer4, V8,
@@ -3101,7 +3192,13 @@ Bost–Connes Theorem 5, Laca–Raeburn and Neshveyev are the sources (Reference
   V4.0.Multiplication and PolarDecomposition, for V10.ClosedOperators; Tau Ceti `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`.
 - Mathlib `IsHeckeTriple` and `HeckeRing` and Tau Ceti's Hecke-ring modules for V10.Hecke; GlobalNumberFields Layer 4 for V10.AffineHecke;
   Tau Ceti's prime number theorem in arithmetic progressions
-  (`NumberField.Chebotarev.tendsto_primeCount_primesCongruent`) for V10.AffineAP.
+  (`NumberField.Chebotarev.tendsto_primeCount_primesCongruent`), Mathlib's
+  `Rat.HeightOneSpectrum.primesEquiv` and Tau Ceti's `Rat.HeightOneSpectrum.absNorm_asIdeal` for
+  V10.AffineAP.
+- Mathlib's `PhragmenLindelof.horizontal_strip`, and Tau Ceti's KMS functions and states
+  (`TauCeti.CStarAction.IsKMSFunction`, `TauCeti.CStarAction.IsKMSState`), inner dynamics
+  (`selfAdjoint.cstarAction`) and Gibbs states (`Matrix.IsHermitian.isKMSState_gibbsState`) for
+  V10.KMS.
 
 ## Layer 11: Weights, Connes invariants, and continuous cores
 
@@ -4713,7 +4810,9 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 
 - [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
   SA-B85 consumes V4.0.Fields' measurable fields and change-of-measure unitaries.
-- [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) consumes V0–V4, V8 and V11.
+- [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) consumes V0–V4, V8, V10 (the
+  modular operator and modular group of a faithful normal state, the KMS characterization
+  `existsUnique_isKMS_flow` and the standard form) and V11.
 - [TypeAHeckeAlgebras](../TypeAHeckeAlgebras/README.md) H3 consumes V2's reference-vector
   infinite tensor product.
 - CStarAlgebras consumes V0–V4 and V12.J; its C3–C4 consume V13a; its C5 consumes
