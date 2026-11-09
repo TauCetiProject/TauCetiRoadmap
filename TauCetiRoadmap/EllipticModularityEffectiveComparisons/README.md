@@ -6,7 +6,7 @@
 
 This roadmap continues EllipticCurveModularity: its Layers R29.3–R29.6 end at modularity, exact arithmetic conductor, modular quotients and parametrisations. Here the new conclusions are effective residual comparisons and uniform image bounds. EllipticCurveModularity R29.1’s finiteness of the reducible-prime set for each fixed curve has no dependency on the uniform bounds here.
 
-The following objects retain their existing owners. Mathlib supplies prime factorization, Möbius convolution, integer and field norms and the Minkowski ideal-class bound. Tau Ceti supplies the actual newspace, diamond eigenspaces, characteristic-zero Sturm equality, geometric torsion action, isogenies and geometric kernels. ModularForms Layers 4, 8G and 10 supply primitive decomposition, coefficient-field orbit degree and the full Γ₀ dimension formula. The coefficient-degree estimate is consumed as the dimension consequence of the independent conjugate eigenlines in Layer 8G. SerreWeightAndLevelOptimisation §§2.8, 4.8, 6.1–6.3 owns optimized lifts and the deletion level. NeronModelsAndSemistableAbelianVarieties §5.3h owns the full residual conductor formula. ModularCurvesPartII §§16.2–16.6 and AutomorphicGaloisRepresentations §§6.1, 6.4 own rational-newform elliptic quotients, their Tate comparison and exact conductor. EisensteinIdealAndRationalTorsion §§2.3, 6.3–6.4 and 7.9 owns the nonzero finite Eisenstein quotient, its cusp formal immersion, the potential-good-reduction consequence and the general geometric cuspidal-divisor torsion theorem of Manin–Drinfeld, for every smooth projective congruence modular curve over a number field, nonsquarefree levels and Cartan quotients included; Layer 5 applies that theorem to the mixed Cartan curves and states no cuspidal-torsion target of its own. HeightsRationalPointsAndObstructions §§1.15b–1.18 owns the full torsion specialization under e<q−1. ImaginaryQuadraticClassNumber H1.1–H1.4, H3.5 and H3.6 owns quadratic integral models, the six values γ₂(τ_D)∈{0,−32,−96,−960,−5280,−640320}, the certified singular values j(τ_D)=γ₂(τ_D)³ with recovery of the order from its CM j-value, and the exhaustive class-number-one classification; its H3.2 owns the general Siegel functions with their transformation law, modular-product criterion and integrality. AnabelianGeometryAndNonabelianChabauty §1.7 (Generalized Jacobian of a reduced boundary) owns the generalized Jacobian of a smooth proper curve over a characteristic-zero field with a nonempty reduced finite étale boundary, its torus extension, its base change and its pointed Abel map; §5.4a applies it to X₀(p) with its two rational cusps. These results are imports rather than targets below.
+The following objects retain their existing owners. Mathlib supplies prime factorization, Möbius convolution, integer and field norms and the Minkowski ideal-class bound. Tau Ceti supplies the actual newspace, diamond eigenspaces, characteristic-zero Sturm equality, geometric torsion action, isogenies and geometric kernels. ModularForms Layers 4, 8G and 10 supply primitive decomposition, coefficient-field orbit degree and the full Γ₀ dimension formula. The coefficient-degree estimate is consumed as the dimension consequence of the independent conjugate eigenlines in Layer 8G. SerreWeightAndLevelOptimisation §§2.8, 4.8, 6.1–6.3 owns optimized lifts and the deletion level. NeronModelsAndSemistableAbelianVarieties §5.3h owns the full residual conductor formula. ModularCurvesPartII §§16.2–16.6 and AutomorphicGaloisRepresentations §§6.1, 6.4 own rational-newform elliptic quotients, their Tate comparison and exact conductor. WeightsInEtaleCohomology §6.1 (Layer R34.6) owns the Ramanujan bound |σ(a_q(f))|≤2√q for a weight-two newform f of level N, at every embedding σ:K_f→ℂ and every prime q∤N. EisensteinIdealAndRationalTorsion §§2.3, 6.3–6.4 and 7.9 owns the nonzero finite Eisenstein quotient, its cusp formal immersion, the potential-good-reduction consequence and the general geometric cuspidal-divisor torsion theorem of Manin–Drinfeld, for every smooth projective congruence modular curve over a number field, nonsquarefree levels and Cartan quotients included; Layer 5 applies that theorem to the mixed Cartan curves and states no cuspidal-torsion target of its own. HeightsRationalPointsAndObstructions §§1.15b–1.18 owns the full torsion specialization under e<q−1. ImaginaryQuadraticClassNumber H1.1–H1.4, H3.5 and H3.6 owns quadratic integral models, the six values γ₂(τ_D)∈{0,−32,−96,−960,−5280,−640320}, the certified singular values j(τ_D)=γ₂(τ_D)³ with recovery of the order from its CM j-value, and the exhaustive class-number-one classification; its H3.2 owns the general Siegel functions with their transformation law, modular-product criterion and integrality. AnabelianGeometryAndNonabelianChabauty §1.7 (Generalized Jacobian of a reduced boundary) owns the generalized Jacobian of a smooth proper curve over a characteristic-zero field with a nonempty reduced finite étale boundary, its torus extension, its base change and its pointed Abel map; §5.4a applies it to X₀(p) with its two rational cusps. These results are imports rather than targets below.
 
 Layers 0–5 develop effective residual comparisons beyond the end of EllipticCurveModularity; the roadmaps that consume such comparisons, and the supplier they cite, are listed under Downstream consumers. The newspace correction formula, the arithmetic norm comparison, Kraus’s filters and realization arguments, the prime and composite rational cyclic-degree classification, and the five-level Cartan argument belong here. The general ideal-valued Sturm comparison and the quantitative elliptic-isogeny bound required by those arguments are explicit targets, with full coefficient and number-field generality. The four exceptional-prime point exhaustions belong here. The winding application retains its specific mixed-level boundary and nonvanishing calculation; general modular curves, integral Hecke pairings and Jacobian quotients are supplied by their named owners. The finite rational-point and residual-image conclusions are mathematical exhaustiveness theorems, with all primes in their quantified ranges.
 
@@ -63,7 +63,7 @@ What SerreWeightAndLevelOptimisation must provide (gap:weight-two-local-reductio
 
 ### From TauCetiRoadmap.ArithmeticGaloisRepresentations
 
-Consume §§2.3–2.4 for tame and fundamental characters, §§3.1–3.6 for full Artin/Swan conductors and residual comparison, §§4.2–4.5 for finite subgroups of GL₂, §5.1 for Frobenius recognition, and §§6.1–6.4 for elliptic torsion, the Weil determinant, Tate extensions and image conventions. Reducibility yields a Galois-stable line, rather than a pointwise rational kernel. EllipticCurves Layers 1–2 supplies quotient isogenies and prime-to-degree torsion transport.
+Consume §§2.3–2.4 for tame and fundamental characters, §§3.1–3.6 for full Artin/Swan conductors and residual comparison, §§4.2–4.5 for finite subgroups of GL₂, §5.1 for Frobenius recognition, and §§6.1–6.4 for elliptic torsion, the Weil determinant, Tate extensions and image conventions. Reducibility yields a Galois-stable line, rather than a pointwise rational kernel. EllipticCurves Layer 1 supplies quotient isogenies and the dual isogeny, whose identities φ̂∘φ=[deg φ] and φ∘φ̂=[deg φ] make a rational isogeny of degree prime to n a Galois-equivariant bijection on n-torsion; its Layer 2 supplies the structure of E[N]. The transport of torsion actions and stable subgroups along such isogenies is the §4.0 API here.
 
 ### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
 
@@ -91,11 +91,13 @@ Consume Layer 2 (§§2.1–2.2, 2.5, 2.7–2.8) for the integral q-expansion pri
 
 What AlgebraicModularFormsAndSerreWeights must provide (gap:positive-characteristic-support): For a weight-two differential in the mixed-level integral cotangent comparison in characteristic q>3 with q∤rp, prove that vanishing of every coefficient indexed prime to p forces descent through the p-degeneracy map to level r, with all descent and level hypotheses explicit.
 
-### From TauCetiRoadmap.AutomorphicGaloisRepresentations and TauCetiRoadmap.DeligneWeightsAndPurity
+### From TauCetiRoadmap.AutomorphicGaloisRepresentations
 
-Consume AutomorphicGaloisRepresentations §§6.1 and 6.4 for the weight-two Tate decomposition and exact conductor of A_f, and DeligneWeightsAndPurity §§1.1–1.4 (Layer DWP.1) for the abelian Weil estimate. For every embedding σ:K_f→ℂ and q∤N, identify `X^2 - sigma(a_q)*X + q` with that component’s Frobenius polynomial, yielding |σ(a_q)|≤2√q.
+Consume §6.1 for the weight-two Tate decomposition of A_f and §6.4 for the exact conductor away from ℓ and the bad Euler factors of the arithmetic representation of a newform; for K_f=ℚ these identify the conductor and L-function of the elliptic quotient E_f with those of f.
 
-What AutomorphicGaloisRepresentations must provide (gap:all-embedding-frobenius): Make the Tate decomposition and Frobenius polynomial comparison simultaneous for every coefficient-field embedding of a weight-two trivial-character newform and preserve the integral lattice and coefficient-prime reduction needed for the elliptic residual comparison.
+### From TauCetiRoadmap.WeightsInEtaleCohomology
+
+Consume §6.1 (Layer R34.6), the Ramanujan bound `newform_ramanujan`, at weight k=2 and trivial nebentypus: for a normalized weight-two trivial-character newform f of level N, every embedding σ:K_f→ℂ and every prime q∤N, the Hecke polynomial `X^2 - sigma(a_q)*X + q` has both roots of absolute value √q, so |σ(a_q(f))|≤2√q. Sections 1.4 and 3.4 use exactly this bound, through §§1.1 and 1.3; the residual congruences it is combined with come with the SerreWeightAndLevelOptimisation lifts.
 
 ### From TauCetiRoadmap.EisensteinIdealAndRationalTorsion
 
@@ -420,11 +422,11 @@ Let E/ℚ have conductor M, ℓ≥3 prime and irreducible E[ℓ]. Let M₀ be th
 
 Throughout this subsection, E/ℚ is elliptic of conductor M; ℓ≥3 is prime and E[ℓ] is irreducible; M₀ is the exact deletion level of SerreWeightAndLevelOptimisation §6.1; p≠ℓ is prime with p∥M and ℓ|v_p(Δ_min(E)); f is the supplied normalized weight-two trivial-character newform at M₀.
 
-A proof route is as follows. Import elliptic modularity and the reduced-level newform with its exact residual congruence prime. The hypotheses remove p, so p∤M₀. Import p+1≡s a_p(f) mod λ for s=±1. Its left-hand algebraic-integer difference is nonzero by §1.1 and the all-embedding Frobenius/Weil supplier comparison. Section 1.2 gives ℓ≤absolute integer norm; §1.3 and the integer/field comparison bound it by the displayed power.
+A proof route is as follows. Import elliptic modularity and the reduced-level newform with its exact residual congruence prime. The hypotheses remove p, so p∤M₀. Import p+1≡s a_p(f) mod λ for s=±1. Its left-hand algebraic-integer difference is nonzero by §1.1, applied with the Ramanujan bound of WeightsInEtaleCohomology §6.1 at one embedding. Section 1.2 gives ℓ≤absolute integer norm; §1.3 and the integer/field comparison bound it by the displayed power.
 
 The valuation is an exponent v_p(Δ_min), never the largest prime power dividing Δ_min; p=ℓ is excluded.
 
-*Needs:* EllipticCurveModularity Layer R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; Layer 1.1 Nonvanishing of the removed-prime comparison integer; Layer 1.3 Archimedean bound on the comparison norm; AutomorphicGaloisRepresentations §§6.1, 6.4; DeligneWeightsAndPurity §§1.1–1.4 (Layer DWP.1); Layer 1.2 Congruences force divisibility of the integer norm.
+*Needs:* EllipticCurveModularity Layer R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; Layer 1.1 Nonvanishing of the removed-prime comparison integer; Layer 1.3 Archimedean bound on the comparison norm; WeightsInEtaleCohomology §6.1 (Layer R34.6); Layer 1.2 Congruences force divisibility of the integer norm.
 
 ### 1.5 Replacing the coefficient degree by the explicit level
 
@@ -456,7 +458,7 @@ For K=ℚ, p=2, c=1, sign +, the comparison integer is 2, its norm is 2, and the
 
 ### Dependencies
 
-Layer 0; EllipticCurveModularity R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; ModularForms Layer 8G; AutomorphicGaloisRepresentations §6.1 and gap:all-embedding-frobenius; DeligneWeightsAndPurity §§1.1–1.4 (Layer DWP.1); Mathlib integral and field norms.
+Layer 0; EllipticCurveModularity R29.6; SerreWeightAndLevelOptimisation §§6.1–6.3; ModularForms Layer 8G; WeightsInEtaleCohomology §6.1 (Layer R34.6); Mathlib integral and field norms.
 
 
 ## Layer 2: the exact Kraus thresholds
@@ -595,7 +597,7 @@ A proof route is as follows. Nonzero follows because b is an integer. In the goo
 
 Both good and multiplicative comparisons are needed; Hasse for b is unavailable in the multiplicative case.
 
-*Needs:* AutomorphicGaloisRepresentations §§6.1, 6.4; DeligneWeightsAndPurity §§1.1–1.4 (Layer DWP.1); Mathlib `Algebra.norm_eq_prod_embeddings`; ArithmeticGaloisRepresentations §§6.1–6.4.
+*Needs:* WeightsInEtaleCohomology §6.1 (Layer R34.6) for |σ(a_q(f))|≤2√q; EllipticCurves Layer 3 for the Hasse bound |b|≤2√q in the good case; Mathlib `Algebra.norm_eq_prod_embeddings`; ArithmeticGaloisRepresentations §§6.1–6.4.
 
 ### 3.5 The F-threshold forces coefficient field Q
 
@@ -736,7 +738,7 @@ The strict inequality ℓ>G is essential to the integer-lifting contradiction.
 
 ### 3.14 Global four-point counts give a rational two-torsion point
 
-If C/ℚ has 4|#C(F_q) at every good odd prime, then C has a rational point of order two. (kraus-1997, §3.3 proof of Théorème 4, p.1146, and the explicit mod-two Chebotarev argument, kraus-1997 lines 435–441.)
+If C/ℚ has 4|#C(F_q) at every good odd prime, then C has a rational point of order two. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 lines 437–438, which assert the rational two-point by reference to item [25], IV-6, of its bibliography; the Chebotarev argument is supplied here.)
 
 Throughout this subsection, C/ℚ is elliptic; 4 divides #C(F_q) for every prime q of good odd reduction.
 
@@ -748,7 +750,7 @@ Having a Galois-stable subgroup of order two gives a rational generator only bec
 
 ### 3.15 Four-point counts force one quadratic square class
 
-Let C:y²=x(x²+ax+b) over ℚ be nonsingular, with its rational point (0,0). If 4 divides #C(F_q) at every good odd prime q, then b or a²−4b is a square in ℚ. (kraus-1997, §3.3, p.1146, the final two-isogeny conclusion and the coordinate/Chebotarev argument below, kraus-1997 lines 435–441.)
+Let C:y²=x(x²+ax+b) over ℚ be nonsingular, with its rational point (0,0). If 4 divides #C(F_q) at every good odd prime q, then b or a²−4b is a square in ℚ. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 lines 438–439, which assert without proof that the quotient by the only rational two-point has full rational two-torsion; this subsection supplies the square-class step.)
 
 Throughout this subsection, C:y²=x(x²+ax+b) over ℚ is nonsingular, so b(a²−4b)≠0; 4 divides #C(F_q) at every prime of good odd reduction.
 
@@ -800,7 +802,7 @@ For y²=x³−x, the three nonzero rational two-points are (0,0),(1,0),(−1,0).
 
 ### Dependencies
 
-Layers 0–2; SerreWeightAndLevelOptimisation §4.8 and §§6.1–6.3; NeronModelsAndSemistableAbelianVarieties §5.3h; EllipticCurveModularity R29.6; ModularForms Layers 2–4 and 8G; AlgebraicModularFormsAndSerreWeights Layer 2; ModularCurvesPartII §§16.2–16.6; AutomorphicGaloisRepresentations §§6.1,6.4; EllipticCurves Layers 1–4; Chebotarev Layer 10; gap:optimized-elliptic-weight-two and gap:weight-two-local-reduction.
+Layers 0–2; SerreWeightAndLevelOptimisation §4.8 and §§6.1–6.3; NeronModelsAndSemistableAbelianVarieties §5.3h; EllipticCurveModularity R29.6; ModularForms Layers 2–4 and 8G; AlgebraicModularFormsAndSerreWeights Layer 2; ModularCurvesPartII §§16.2–16.6; AutomorphicGaloisRepresentations §§6.1,6.4; WeightsInEtaleCohomology §6.1 (Layer R34.6); EllipticCurves Layers 1–4; Chebotarev Layer 10; gap:optimized-elliptic-weight-two and gap:weight-two-local-reduction.
 
 
 ## Layer 4: rational cyclic isogenies and uniform irreducibility
@@ -1072,7 +1074,7 @@ The isogeny is defined over ℚ while its whole kernel need not be pointwise rat
 
 ### 4.19 Full two-torsion gives a cyclic four-isogeny in its class
 
-If E/ℚ has full rational two-torsion, choose distinct rational order-two subgroups T,T′. For E′=E/T, the composite E′→E→E/T′ of the dual first isogeny and the second quotient is a rational cyclic four-isogeny. (EllipticCurves Layer 1, the dual isogeny with its two degree identities and the quotient by a finite Galois-stable subgroup; Layer 2, prime-to-degree torsion transport.)
+If E/ℚ has full rational two-torsion, choose distinct rational order-two subgroups T,T′. For E′=E/T, the composite E′→E→E/T′ of the dual first isogeny and the second quotient is a rational cyclic four-isogeny. (EllipticCurves Layer 1, the dual isogeny with its two degree identities and the quotient by a finite Galois-stable subgroup; Layer 2, the structure of E[N] over a separably closed field, so that E′[2] is the only noncyclic subgroup of order four.)
 
 Throughout this subsection, E/ℚ has full rational two-torsion; T,T′ are distinct order-two rational subgroups; E′=E/T.
 
@@ -1084,7 +1086,7 @@ Composing an isogeny with its own dual gives [2] with noncyclic kernel, so disti
 
 ### 4.20 Full two-torsion and reducibility give a cyclic four-times-prime isogeny
 
-If E/ℚ has full rational two-torsion and reducible E[ℓ] for an odd prime ℓ, a ℚ-isogenous curve admits a rational cyclic 4ℓ-isogeny. (EllipticCurves Layer 1, the dual isogeny with its two degree identities and the quotient by a finite Galois-stable subgroup; Layer 2, prime-to-degree torsion transport.)
+If E/ℚ has full rational two-torsion and reducible E[ℓ] for an odd prime ℓ, a ℚ-isogenous curve admits a rational cyclic 4ℓ-isogeny. (EllipticCurves Layer 1, the dual isogeny with its two degree identities, which make the degree-two quotient map a Galois-equivariant bijection E[ℓ]→E′[ℓ] for odd ℓ, and the quotient by a finite Galois-stable subgroup; the transport of the stable line is the §4.0 API.)
 
 Throughout this subsection, E/ℚ has full rational two-torsion; ℓ is an odd prime; E[ℓ] is reducible.
 
@@ -1092,7 +1094,7 @@ A proof route is as follows. Transport E[ℓ] to E′=E/T through the degree-two
 
 The 4ℓ-isogeny lies on the isogenous curve; no rational point of order four is asserted on E.
 
-*Needs:* Layer 4.19 Full two-torsion gives a cyclic four-isogeny in its class; ArithmeticGaloisRepresentations §§6.1–6.4; EllipticCurves Layer 1; ArithmeticGaloisRepresentations §§3.1–3.6.
+*Needs:* Layer 4.0 Native torsion and cyclic-kernel predicates; Layer 4.19 Full two-torsion gives a cyclic four-isogeny in its class; ArithmeticGaloisRepresentations §§6.1–6.4; EllipticCurves Layer 1; ArithmeticGaloisRepresentations §§3.1–3.6.
 
 ### 4.21 Uniform irreducibility with one rational two-point
 
@@ -1194,6 +1196,8 @@ Identify each remaining point with the supplied CM point. ImaginaryQuadraticClas
 
 Deduce that if E/ℚ has a rational prime isogeny of degree r∈{19,43,67,163}, then E has geometric complex multiplication. Therefore a non-CM curve with a nontrivial rational cyclic isogeny has a rational prime isogeny with degree r∈{2,3,5,7,11,13,17,37}. Choose a prime-order subgroup of its stable cyclic kernel, apply §4.7, and use the four point exhaustions above to exclude the four exceptional degrees. (lemos-2017, §2, start of proof of Theorem 1.1, p.5, lemos-2017 line 187.)
 
+In moduli form, prove `exceptional_prime_isogeny_j`: for (r,γ)∈{(19,96),(43,960),(67,5280),(163,640320)}, the set of j-invariants of the elliptic curves E/ℚ admitting a rational cyclic isogeny of degree r is exactly {−γ³}. Both inclusions are asserted: some E/ℚ with this j-value has a rational r-isogeny, the CM isogeny of the class-number-one order of discriminant −r (mazur-1978, Introduction, p.129, mazur-1978 lines 26–28), and no other j-value occurs. This is the j-column of the table; the point count is the stronger assertion that Y₀(r)(ℚ) has exactly one point. Prove `non_cm_prime_isogeny_degrees`: if E/ℚ is geometrically non-CM and admits a rational cyclic isogeny of prime degree r, then r∈{2,3,5,7,11,13,17,37} (lemos-2017, §2, proof of Theorem 1.1, p.5, lemos-2017 lines 187–189).
+
 Non-CM means End_(Qbar)(E)=ℤ; End_Q(E)=ℤ alone would not exclude CM.
 
 **Checks.**
@@ -1202,6 +1206,7 @@ Non-CM means End_(Qbar)(E)=ℤ; End_Q(E)=ℤ alone would not exclude CM.
 - At r=43 the allowed-degree list contains 43, whereas the point theorem gives the singleton j-image {−884736000}. H_(−43)=X+884736000 vanishes there and takes value 884736000 at j=0, so a different CM j-value is excluded as well.
 - At r=67 and 163 the singleton values are −147197952000 and −262537412640768000; the respective polynomials X+147197952000 and X+262537412640768000 have these roots and not zero. The genera are 5 and 13 and the finite quotient groups have orders 11 and 27; neither group order equals the total rational point count three. A genus-one torsion count cannot replace these finite-fibre exhaustions.
 - The identity isogeny has degree one and no prime-order kernel subgroup. The condition that the cyclic degree exceed one is required before choosing r.
+- The curve y²+y=x³−38x+90 has c₄=1824=19·96 and Δ=−19³, so j=1824³/(−19³)=−96³, and its CM by the maximal order of ℚ(√−19) gives a rational 19-isogeny. Degree 19 lies outside {2,3,5,7,11,13,17,37}, so the non-CM degree list is false without the geometric non-CM hypothesis.
 
 *Needs:* For the point exhaustions, ModularCurvesPartII §§5.2, 13.1–13.3, 16.2–16.6, 17.3 for the curves, Jacobians, quotient and j-maps; EisensteinIdealAndRationalTorsion §§2.3, 6.3–6.4 for the nonzero quotient and finite rational group; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18 and EllipticCurves Layers 6–7 for descent and torsion; ModularForms Layers 0 and 10 for normalized q-expansions and genus/cusp formulas; ImaginaryQuadraticClassNumber H3.5–H3.6 for the certified singular values and order recovery, and ComplexMultiplicationAndExplicitReciprocity §3.1, §§5.1–5.5 for class polynomials and CM. For the CM corollary, the four point exhaustions in this subsection, Layer 4.7 Mazur’s rational prime-isogeny theorem and EllipticCurves Layer 1.
 
@@ -1623,7 +1628,7 @@ The statement does not claim all mod-p subgroup labels remain identical under a 
 
 ### 5.25 The finite j-table at prime degrees 11,17,37
 
-For r=11,17,37 the possible rational noncuspidal j-values are respectively {−11·131³,−2^15,−11²}, {−17²·101³/2,−17·373³/2^17}, and {−7·137³·2083³,−7·11³}. Among these seven values, −2^15 is the only geometric CM value. (lemos-2017, §2, S11,S17,S37 and CM observation, pp.5–6, lemos-2017 line 193.)
+Prove `isogeny_j_tables_11_17_37`: for r=11,17,37 the j-invariants of the elliptic curves E/ℚ admitting a rational cyclic isogeny of degree r form exactly the sets {−11·131³,−2^15,−11²}, {−17²·101³/2,−17·373³/2^17} and {−7·137³·2083³,−7·11³} respectively. These are the j-values of the noncuspidal rational points of X₀(r) in the cited tables. Among these seven values, −2^15 is the only geometric CM value. (lemos-2017, §2, S11,S17,S37 and CM observation, pp.5–6, lemos-2017 lines 191–202.)
 
 Throughout this subsection, r∈{11,17,37}; consider noncuspidal rational points of X0(r) and geometric CM.
 

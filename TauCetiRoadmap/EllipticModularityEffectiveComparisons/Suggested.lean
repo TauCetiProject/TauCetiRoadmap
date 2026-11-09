@@ -17,17 +17,21 @@ headline theorems against the pinned Mathlib and Tau Ceti APIs: Martin’s dimen
 formula and sharp bound, Kraus’s finite-prime coefficient recognition, the
 integral ideal Sturm theorem, Kraus’s prime-power coefficient congruence, the
 four-divisible two-isogeny realization, the prime and composite cyclic-isogeny
-degree classifications, the two uniform irreducibility bounds, split-normalizer
+degree classifications, the two uniform irreducibility bounds, the j-values of the
+four CM prime-isogeny exceptions and the non-CM prime-degree list, split-normalizer
 exclusion, nonsplit containment of proper images, integrality of j under a
-genus-zero isogeny and nonsplit image, and Lemos’s surjectivity theorem.
+genus-zero isogeny and nonsplit image, the rational j-tables at the prime degrees
+11, 17 and 37, and Lemos’s surjectivity theorem. The j-value theorems are stated in
+moduli form, on elliptic curves over ℚ with a rational cyclic isogeny.
 
 The removed-prime exponent bound and Kraus's rational and full-two-torsion
 realization theorems are not statable at the pins: the arithmetic elliptic
 conductor, full residual Artin conductor and Serre weight interfaces are missing.
 The split-Cartan rational-point theorem lacks its modular curve and cusp/CM
 loci; the elliptic image exclusion is stated separately on native torsion.
-The four exceptional-prime rational-point exhaustions likewise lack the
-congruence modular curves and their Picard Jacobians at the pins.
+The point counts of the four exceptional-prime exhaustions, that `Y₀(r)(ℚ)` is a
+single point for `r ∈ {19, 43, 67, 163}`, likewise lack the modular curves `X₀(r)`
+at the pins; only their j-values are stated.
 The mixed winding quotient, its nonvanishing and cusp formal immersion
 lack mixed modular Jacobians, integral Hecke quotients and their integral models.
 The general quantitative elliptic-isogeny bound lacks the stable Faltings-height
@@ -233,6 +237,23 @@ def NonsplitNormalizerImage (E : WeierstrassCurve ℚ) [E.IsElliptic] (p : ℕ) 
       (E.torsionGaloisAction (K := AlgebraicClosure ℚ) (p : ℤ)).range ≤
         Subgroup.normalizer (C : Set (Multiplicative (AddAut (GeometricTorsion E p))))
 
+/-- The four CM prime-isogeny exceptions in moduli form: for `r = 19, 43, 67, 163`, with
+`γ = 96, 960, 5280, 640320`, the j-invariants of the rational elliptic curves with a rational
+cyclic isogeny of degree `r` form the singleton `{-γ³}` (Mazur 1978, introduction, p. 129). -/
+theorem exceptional_prime_isogeny_j (r γ : ℕ)
+    (hrγ : (r, γ) ∈ ({(19, 96), (43, 960), (67, 5280), (163, 640320)} : Finset (ℕ × ℕ))) :
+    {j : ℚ | ∃ (E : WeierstrassCurve ℚ) (_ : E.IsElliptic), CyclicIsogenyDegree E r ∧ E.j = j} =
+      {-((γ : ℚ) ^ 3)} := by
+  sorry
+
+/-- A geometrically non-CM rational elliptic curve with a rational cyclic isogeny of prime
+degree `r` has `r ∈ {2, 3, 5, 7, 11, 13, 17, 37}`: Mazur's degrees 19, 43, 67 and 163 occur
+only on CM curves (Lemos 2017, §2, proof of Theorem 1.1). -/
+theorem non_cm_prime_isogeny_degrees (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hCM : GeometricallyNonCM E) (r : ℕ) (hr : r.Prime) (h : CyclicIsogenyDegree E r) :
+    r ∈ ({2, 3, 5, 7, 11, 13, 17, 37} : Finset ℕ) := by
+  sorry
+
 /-- Bilu–Parent–Rebolledo excludes split-normalizer images for a non-CM rational
 elliptic curve at every prime p>11 except 13. -/
 theorem split_normalizer_exclusion (E : WeierstrassCurve ℚ) [E.IsElliptic]
@@ -257,6 +278,18 @@ theorem cyclic_isogeny_integral_j (E : WeierstrassCurve ℚ) [E.IsElliptic]
     (r : ℕ) (hr : r ∈ ({2, 3, 5, 7, 13} : Finset ℕ)) (hiso : CyclicIsogenyDegree E r)
     (p : ℕ) (hp : p.Prime) (hpr : p ∉ ({2, 3, 5, 7, 13} : Finset ℕ))
     (hns : NonsplitNormalizerImage E p) : ∃ z : ℤ, E.j = z := by
+  sorry
+
+/-- The rational j-tables at the prime degrees 11, 17 and 37, in moduli form: the
+j-invariants of the rational elliptic curves with a rational cyclic isogeny of degree 11,
+17 or 37 are exactly the listed values (Lemos 2017, §2, the sets `S₁₁`, `S₁₇`, `S₃₇`). -/
+theorem isogeny_j_tables_11_17_37 :
+    {j : ℚ | ∃ (E : WeierstrassCurve ℚ) (_ : E.IsElliptic), CyclicIsogenyDegree E 11 ∧ E.j = j} =
+        {-(11 * 131 ^ 3), -(2 ^ 15), -(11 ^ 2)} ∧
+      {j : ℚ | ∃ (E : WeierstrassCurve ℚ) (_ : E.IsElliptic), CyclicIsogenyDegree E 17 ∧ E.j = j} =
+        {-(17 ^ 2 * 101 ^ 3) / 2, -(17 * 373 ^ 3) / 2 ^ 17} ∧
+      {j : ℚ | ∃ (E : WeierstrassCurve ℚ) (_ : E.IsElliptic), CyclicIsogenyDegree E 37 ∧ E.j = j} =
+        {-(7 * 137 ^ 3 * 2083 ^ 3), -(7 * 11 ^ 3)} := by
   sorry
 
 /-- Lemos's rational cyclic-isogeny uniformity theorem: every prime above 37
