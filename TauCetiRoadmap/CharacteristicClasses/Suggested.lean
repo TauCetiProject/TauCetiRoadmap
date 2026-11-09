@@ -77,6 +77,13 @@ Not statable at the pins, and therefore not stated here:
   a Mathlib `CovariantDerivative`, but no Chern–Weil form `P(F)` of an invariant polynomial on the curvature,
   no de Rham/singular comparison map, and no Chern or Pontryagin class in
   singular cohomology to compare with;
+* the de Rham/Chevalley–Eilenberg comparison `H*(Ω(K)) ≅ H*(CE(𝔤;ℝ))` of a compact
+  connected Lie group through its left-invariant forms (C5a.1), and the filtered
+  Cartan–Koszul comparison identifying `H*(CE(𝔤;ℝ))` with the exterior algebra on the
+  transgressions of the basic invariants (C5a.4): the pins have only the low-degree
+  cochains of Mathlib (`LieModule.Cohomology.d₁₂`, `LieModule.Cohomology.d₂₃`) and
+  Tau Ceti's low-degree and continuous variants of them, with no all-degree
+  Chevalley–Eilenberg complex and no Weil algebra `Sym(𝔤*[2]) ⊗ Λ(𝔤*[1])`;
 * the exterior Hopf isomorphism `H*(K;ℚ) ≅ Λ_ℚ(z₁,…,z_r)`, `|zᵢ| = 2dᵢ − 1`,
   of a compact connected Lie group (C5a.5): the pinned cup `TopCat.singularCup`
   is a family of bilinear maps `H^p × H^q → H^(p+q)`, with no graded
