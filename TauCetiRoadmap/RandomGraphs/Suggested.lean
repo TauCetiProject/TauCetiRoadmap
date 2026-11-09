@@ -4,6 +4,8 @@ public import Mathlib
 public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Finite
 public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Infinite
 public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.AlmostSure.Basic
+public import TauCeti.Combinatorics.SimpleGraph.ExtensionProperty
+public import TauCeti.ModelTheory.Scott.RandomGraph
 
 /-!
 # Random graphs, Fraïssé limits, and first-order asymptotic laws: suggested signatures
@@ -25,11 +27,10 @@ Use the existing Tau Ceti EF strategies, back-and-forth relations and graph atom
 this file does not redeclare those objects. Direct rank-agreement signatures can state the
 endpoint without importing the implementation of those strategies.
 
-The imports consume existing graphon objects. The README specifies the further shared
-interfaces needed for implementation. The finite atomic diagrams that give pattern formulas their
-meaning (`TauCeti.firstOrderAtomicDiagram`, in Tau Ceti's `ModelTheory/Scott/AtomicDiagram.lean`)
-and the graph stand-ins below are later than this repository's Tau Ceti pin, so this file does not
-import them.
+The imports consume existing graphon objects and the canonical extension predicate
+`SimpleGraph.HasExtensionProperty`, the Rado graph `TauCeti.radoGraph` and its countable
+characterization `TauCeti.nonempty_iso_radoGraph_iff` from Tau Ceti. The README specifies the
+further shared interfaces needed for implementation.
 -/
 
 @[expose] public section
@@ -149,19 +150,14 @@ def HasExtensionUpTo (G : SimpleGraph V) (d : ℕ) : Prop :=
   ∀ U Z : Finset V, Disjoint U Z → U.card + Z.card ≤ d →
     ∃ x, IsExtensionWitness G U Z x
 
-/-- Stand-in for the canonical `SimpleGraph.HasExtensionProperty` of the InfinitaryLogic
-random-graph worked example (Tau Ceti #19595), which is not at this file's Tau Ceti pin.
-That predicate omits `x ∉ U`, which adjacency to every vertex of `U` forces in a loopless
-graph; the two agree, and implementations use the canonical one. -/
-def HasExtensionProperty (G : SimpleGraph V) : Prop :=
-  ∀ U Z : Finset V, Disjoint U Z → ∃ x, IsExtensionWitness G U Z x
-
 theorem hasExtensionUpTo_zero_iff (G : SimpleGraph V) :
     HasExtensionUpTo G 0 ↔ Nonempty V := by
   sorry
 
+/-- The canonical predicate omits `x ∉ U`, which adjacency to every vertex of `U` forces in a
+loopless graph. -/
 theorem hasExtensionProperty_iff (G : SimpleGraph V) :
-    HasExtensionProperty G ↔ ∀ d, HasExtensionUpTo G d := by
+    G.HasExtensionProperty ↔ ∀ d, HasExtensionUpTo G d := by
   sorry
 
 theorem HasExtensionUpTo.mono {G : SimpleGraph V} {d e : ℕ}
@@ -195,31 +191,25 @@ noncomputable def radoAxioms : Language.graph.Theory :=
 
 theorem model_radoAxioms_iff (G : SimpleGraph V) :
     (letI : Language.graph.Structure V := G.structure
-     V ⊨ radoAxioms) ↔ HasExtensionProperty G := by
+     V ⊨ radoAxioms) ↔ G.HasExtensionProperty := by
   sorry
 
-/-- Stand-in for `TauCeti.radoGraph` of the same supplier, with its definition;
-`radoGraph_adj` is the bridge to the ordered binary presentation. -/
-def radoGraph : SimpleGraph ℕ :=
-  SimpleGraph.fromRel fun i j => j.testBit i
-
+/-- The ordered binary presentation of `TauCeti.radoGraph`. Tau Ceti's `TauCeti.radoGraph_adj`
+is the symmetric form `i ≠ j ∧ (j.testBit i ∨ i.testBit j)`. -/
 theorem radoGraph_adj (i j : ℕ) :
-    radoGraph.Adj i j ↔
+    TauCeti.radoGraph.Adj i j ↔
       (i < j ∧ Nat.testBit j i = true) ∨
       (j < i ∧ Nat.testBit i j = true) := by
   sorry
 
-theorem radoGraph_extension : HasExtensionProperty radoGraph := by
-  sorry
-
 theorem nonempty_iso_rado [Countable V] (G : SimpleGraph V)
-    (hG : HasExtensionProperty G) : Nonempty (G ≃g radoGraph) := by
-  sorry
+    (hG : G.HasExtensionProperty) : Nonempty (G ≃g TauCeti.radoGraph) :=
+  TauCeti.nonempty_iso_radoGraph_iff.mpr hG
 
 /-- Rooted universality into an extension-property graph of arbitrary cardinality. -/
 theorem exists_graphEmbedding_over_root {A : Type w} [Finite A] [Countable V]
     (F : SimpleGraph A) (G : SimpleGraph V) (H : SimpleGraph W)
-    (aG : F ↪g G) (aH : F ↪g H) (hH : HasExtensionProperty H) :
+    (aG : F ↪g G) (aH : F ↪g H) (hH : H.HasExtensionProperty) :
     ∃ e : G ↪g H, ∀ x, e (aG x) = aH x := by
   sorry
 
@@ -356,12 +346,12 @@ theorem exists_isQF_equivalent {m : ℕ} (φ : Language.graph.Formula (Fin m)) :
 computable test on codes of sentences that answers truth in the Rado graph. -/
 theorem exists_computable_decide_rado :
     ∃ D : ℕ → Bool, Computable D ∧
-      ∀ φ : Language.graph.Sentence, D (boundedCode φ) = true ↔ Satisfies radoGraph φ := by
+      ∀ φ : Language.graph.Sentence, D (boundedCode φ) = true ↔ Satisfies TauCeti.radoGraph φ := by
   sorry
 
 noncomputable def radoTruth (φ : Language.graph.Sentence) : ℝ := by
   classical
-  exact if Satisfies radoGraph φ then 1 else 0
+  exact if Satisfies TauCeti.radoGraph φ then 1 else 0
 
 /-! ## Witness counts and explicit error profiles (Milestones 6–7) -/
 
@@ -439,7 +429,7 @@ theorem ae_eventually_all_bounded_rank
     (hlaw : ∀ n, μ.map (X n) = SimpleGraph.binomialRandom (Fin n) p) :
     ∀ᵐ ω ∂μ, ∀ d : ℕ, ∀ᶠ n : ℕ in atTop,
       ∀ φ : Language.graph.Sentence, foRank φ ≤ d + 1 →
-        (Satisfies (X n ω) φ ↔ Satisfies radoGraph φ) := by
+        (Satisfies (X n ω) φ ↔ Satisfies TauCeti.radoGraph φ) := by
   sorry
 
 /-! ## Rooted formulas (Milestone 8)
@@ -470,11 +460,11 @@ theorem rootEvent_pos {m : ℕ} (p : I)
 noncomputable def rootedTruth {m : ℕ} (φ : Language.graph.Formula (Fin m))
     (a : Fin m → ℕ) : ℝ := by
   classical
-  exact if SatisfiesFormula radoGraph φ a then 1 else 0
+  exact if SatisfiesFormula TauCeti.radoGraph φ a then 1 else 0
 
 theorem rooted_firstOrder_limit {m : ℕ} (p : I)
     (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1)
-    (H : SimpleGraph (Fin m)) (a : H ↪g radoGraph)
+    (H : SimpleGraph (Fin m)) (a : H ↪g TauCeti.radoGraph)
     (φ : Language.graph.Formula (Fin m)) :
     Tendsto (fun n => rootedProbability p n H φ) atTop
       (𝓝 (rootedTruth φ a)) := by
@@ -486,7 +476,7 @@ theorem rooted_firstOrder_limit {m : ℕ} (p : I)
 open TauCeti.DenseGraphLimits
 
 theorem ae_isomorphic_rado (p : I) (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1) :
-    ∀ᵐ G ∂SimpleGraph.binomialRandom ℕ p, Nonempty (G ≃g radoGraph) := by
+    ∀ᵐ G ∂SimpleGraph.binomialRandom ℕ p, Nonempty (G ≃g TauCeti.radoGraph) := by
   sorry
 
 section Graphons
@@ -499,7 +489,7 @@ theorem infiniteSampleLaw_const (p : I) :
 
 theorem infiniteSampleLaw_ae_rado (K : Graphon Ω μ)
     (hK : ∀ᵐ z ∂μ.prod μ, 0 < K z.1 z.2 ∧ K z.1 z.2 < 1) :
-    ∀ᵐ G ∂infiniteSampleLaw K, Nonempty (G ≃g radoGraph) := by
+    ∀ᵐ G ∂infiniteSampleLaw K, Nonempty (G ≃g TauCeti.radoGraph) := by
   sorry
 
 theorem graphon_extension_failure_le (K : Graphon Ω μ)
@@ -663,7 +653,7 @@ theorem productGraphon_noIsolated_limit :
   sorry
 
 theorem productGraphon_ae_isomorphic_rado :
-    ∀ᵐ G ∂infiniteSampleLaw productGraphon, Nonempty (G ≃g radoGraph) := by
+    ∀ᵐ G ∂infiniteSampleLaw productGraphon, Nonempty (G ≃g TauCeti.radoGraph) := by
   sorry
 
 end TauCetiRoadmap.RandomGraphs
