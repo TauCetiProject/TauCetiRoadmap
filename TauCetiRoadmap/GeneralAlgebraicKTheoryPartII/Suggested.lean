@@ -18,7 +18,6 @@ statable at the pins: the required spectral and enhanced categorical carriers ar
 absent. The precise missing carriers are listed below.
 
 - Bott–Samelson and the homology of the reduced product: lack the Pontryagin product on singular homology.
-- Stable James splitting: lacks stable equivalences of spectra; Tau Ceti's symmetric spectra and free spectra are point-set constructions with no stable homotopy category.
 - K-theory localization for compact kernels: lacks enhanced stable categories and their K spectrum.
 - Connective plus comparison: lacks connective ring spectra, GL spaces, plus and K.
 - Additive Morita and projective K comparison: lacks additive infinity categories and spectral modules.
