@@ -18,10 +18,10 @@ public import TauCeti.Geometry.Euclidean.Volume.OrthogonalGroup
 public import TauCeti.Geometry.Manifold.Riemannian.Induced
 public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 public import TauCeti.NumberTheory.IntegralLattice.ClassNumber
+public import TauCeti.NumberTheory.IntegralLattice.ProperClassNumber
 public import TauCeti.NumberTheory.IntegralLattice.Genus
-public import TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.Integral.CompactOpen
-public import TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.FiniteAdelic
-public import TauCeti.Topology.Algebra.RestrictedProduct.Diagonal
+public import TauCeti.NumberTheory.IntegralLattice.Localization.Stabilizer
+public import TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.DoubleCoset.Basic
 
 /-!
 # Integral quadratic forms and lattices: target signatures
@@ -37,9 +37,9 @@ root lattices, Nikulin's generator decomposition
 `FiniteQuadraticModule.exists_isometry_prod_pi_generators`, genus relation `SameGenus`, isometry
 classes `IsometryQuotient` and class sets `genusClasses`. None of them is restated here.
 
-The headline theorems stated here are: the adelic double-coset description of the classes in a
-genus (4B); the determination of the genus of an even lattice by its signature and discriminant
-form, Nikulin's Corollary 1.9.4 (5A); the choice-independence of `discr K(q_p)` with its dyadic
+The headline theorems stated here are: the adelic double-coset descriptions of the classes and
+of the proper classes in a genus (4B); the determination of the genus of an even lattice by its
+signature and discriminant form, Nikulin's Corollary 1.9.4 (5A); the choice-independence of `discr K(q_p)` with its dyadic
 exception, Nikulin's existence theorem 1.10.1 with its strict corollary 1.10.2, his
 primitive-embedding theorems 1.12.2 and 1.12.4 (5B, 5G), and the sufficiency half of his
 `2`-elementary existence theorem 3.6.2 on Tau Ceti's own predicates (5J); the classification of
@@ -50,17 +50,31 @@ comparison of the Riemannian volume of the bi-invariant metric `−tr(XY)/2` on 
 with Tau Ceti's Euclidean Haar measure of the orthogonal group and its volumes (7E).
 
 Headline theorems of the roadmap that are **proved in Tau Ceti at the pin**, and so are consumed
-rather than stated: Nikulin's Theorem 1.11.3
+rather than stated: Nikulin's relations among his generators (the isometries of
+`OddCyclic/Relations.lean`, `Dyadic/Relations.lean`, `Dyadic/UnequalExponents.lean` and
+`Dyadic/SmallRelations.lean`) and the classification of quadratic modules of odd order
+(`FiniteQuadraticModule.nonempty_isometry_pi_oddCyclic_iff`, 1G), the odd-prime Gauss-sum value
+`sign q_θ^{(p)}(p^k) = k²(1 − p) + 2k(1 − (θ|p))` (`FiniteQuadraticModule.gaussSign_oddCyclic`,
+1H) and Nikulin's Theorem 1.11.3
 (`FiniteQuadraticModule.nonempty_isometry_iff_bilinear_isometry_and_gaussSign_eq`, 1H), Milgram's
 theorem (`gaussSign_discriminantQuadraticModule_eq_sigPos_sub_sigNeg`, 1I), van der Blij's
 congruence (`vanDerBlij`, 1L), Minkowski's second theorem
 (`IsPosDef.prod_successiveMinimum_mul_pi_pow_le`, 2F), reduction theory and the finiteness of
 positive definite classes (`IsMinkowskiReduced`, `exists_finset_forall_exists_gramMatrix_mem`,
-`IsPosDef.finite_genusClasses`, 2G), the finite genus test
+`IsPosDef.finite_genusClasses`, 2G), Jordan splittings over a discrete valuation ring with the
+invariance of their ranks and parity types (`LinearMap.BilinForm.IsSymm.exists_isJordanSplitting`,
+`LinearMap.BilinForm.IsJordanSplitting.finrank_eq_of_equivalent`,
+`LinearMap.BilinForm.IsJordanSplitting.isScaleEven_iff_of_equivalent`, 3B), the classification
+of `ℤ_p`-lattices at odd `p` by their Jordan constituents
+(`localIntegralForm_equivalent_iff_forall_equivalent_restrict`, 3C) and of `ℤ₂`-lattices
+unimodular at `2` (`localIntegralForm_two_equivalent_iff`, 3D), Cho's dyadic density exponents
+with their invariance and his Lemma 5.1 (`DyadicJordanProfile.nQ_eq_nM_add_densityExponent`,
+`SameGenus.dyadicJordanProfile_eq`, 3I), the finite genus test
 (`sameGenus_iff_localIntegralForm_equivalent_primeFactors`, 3F), class numbers (`classNumber`,
 `properClassNumber`, 4A), the binary class-number finiteness
 (`finite_genusClasses_of_finrank_eq_two`, 4E), the infinitude of the isometry group of an
-indefinite lattice of rank at least 3 (`infinite_isometry_of_isIndefinite`, 4F), the necessity half
+indefinite lattice of rank at least 3 (`infinite_isometry_of_isIndefinite`, 4F), Kneser
+neighbours in one genus (`IsNeighbor.sameGenus`, `isNeighbor_neighbor`, 4G), the necessity half
 of Theorem 3.6.2 (`TwoElementaryLatticeWithInvariants.twoElementaryAdmissible`, 5J), the existence
 of even unimodular positive definite lattices exactly in ranks divisible by 8
 (`exists_isEven_isUnimodular_isPosDef_iff`, 6B), the classification of positive definite
@@ -69,22 +83,28 @@ unimodular lattices of rank at most 9 with the uniqueness of `E₈`
 `IsPosDef.nonempty_isometry_typeE₈RootLattice_of_isEven`, 6C), the rank-16 pair in one genus and
 not isometric (`sameGenus_e8PowLattice_checkerboardPlusLattice`,
 `isEmpty_isometry_e8PowLattice_checkerboardPlusLattice`, 6D), `|O(E₈)| = 696729600`
-(`card_isometry_typeE₈RootLattice`, 6G), the failure of cancellation
+(`card_isometry_typeE₈RootLattice`, 6G) and the mass `1/696729600` of the genus of `E₈`
+(`mass_typeE₈RootLattice`), the failure of cancellation
 (`nonempty_isometry_orthogonalSum_hyperbolicPlane_e8PowLattice`, 6H), the masses with
 `m⁺ = 2m` and the rank-0 and rank-1 values (`mass`, `properMass`, `properMass_eq_two_mul_mass`,
 7A, 7G), the local density count with its stabilization and odd-prime values
 (`Matrix.localDensityCount`, `Matrix.localDensity`, `localDensityCount_div_pow_of_det_ne_zero`,
-`tendsto_localDensityCount_div_of_card_eq_two_mul_add_one`, `…_two_mul_add_two`, 7C), the
+`tendsto_localDensityCount_div_of_card_eq_two_mul_add_one`, `…_two_mul_add_two`,
+`Matrix.localDensity_diagonal_unit_mul_pow`, 7C) with the convergent products of the normalized
+good-prime densities outside rank 2 (`Matrix.hasProd_inv_half_localDensity_of_card_eq_two_mul_add_one`,
+`…_two_mul_add_two`, 7C), the
 Euclidean volumes of `SO(n)` and `O(n)` (`specialOrthogonalGroupVolume_eq_prod`,
 `orthogonalGroupVolume_eq_two_mul_specialOrthogonalGroupVolume`, 7E), and completeness of a
 list of classes from the mass (`sum_inv_natCard_isometry_eq_mass_iff`, 9B).
 
-The local stabilizers `K_p(L)`, their compact-open family, the finite adelic orthogonal group and
-the local and adelic spinor norms are Tau Ceti's (`integralOrthogonalSubgroup`,
-`OrthogonalCompactOpens.integral`, `finiteAdelicOrthogonal`, `localSpinorNormImage`,
-`adelicSpinorNorm`), as are the Hilbert symbol `hilbertSymbol`, the orders `NumberFieldOrder` of
-a number field with `Pic` and `NarrowPic`, and the odd-prime diagonalization of a localized
-lattice; none of them is restated here.
+The local stabilizers `K_p(L)`, their compact-open family, the finite adelic orthogonal groups
+with their rational diagonals and double-coset sets, and the local and adelic spinor norms are
+Tau Ceti's (`localStabilizer`, `orthogonalCompactOpens`, `finiteAdelicOrthogonalDiagonal`,
+`finiteAdelicOrthogonalDoubleCoset`, `finiteAdelicSpecialOrthogonalDoubleCoset`,
+`localSpinorNormImage`, `adelicSpinorNorm`), as are the Hilbert symbol `hilbertSymbol` with its
+product formula `hilbertSymbol_productFormula`, the orders `NumberFieldOrder` of a number field
+with `Pic` and `NarrowPic`, and the odd-prime diagonalization of a localized lattice; none of
+them is restated here.
 
 Headline theorems that are **not statable at the pins**, and what each lacks:
 
@@ -95,9 +115,7 @@ Headline theorems that are **not statable at the pins**, and what each lacks:
   the finite adelic square-class group relative to the local spinor images is native
   (`finiteAdelicSquareClasses`), but the diagonal of `ℚˣ` into it needs, inside the definition, the
   proof that a rational square class is a unit square class at almost every prime and that the
-  unit square classes are the spinor image there, so the quotient has no carrier at the pin;
-* the odd-prime value of the Gauss-sum invariant of `q_θ^{(p)}(p^k)` (1H): a statement about
-  Tau Ceti's `oddCyclic`, which is a README target rather than a headline.
+  unit square classes are the spinor image there, so the quotient has no carrier at the pin.
 
 Nikulin's Proposition 1.15.1 (5I), a correspondence of gluing data used inside proofs, is a
 `README.md` target rather than a headline.
@@ -223,45 +241,55 @@ end FiniteQuadraticModule
 section Layer4
 
 open TauCeti.QuadraticMap
+open scoped TensorProduct
 
-/-- The rational quadratic form `x ↦ xᵀGx` of an integral Gram matrix on the coordinate space. -/
-noncomputable abbrev gramForm {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ) :
-    QuadraticForm ℚ (Fin n → ℚ) :=
-  Matrix.toQuadraticForm' (G.map (Int.cast : ℤ → ℚ))
+/-- **An adele carries `L` to `M` (4B)**: for lattices `L` and `M` on one rational space `V`, a
+family `g` of linear automorphisms of the completions `V_p` with `g_p L_p = M_p` at every prime,
+the local lattices being the images of the localizations in `V_p`. -/
+def LocallyCarries {V : Type u} [AddCommGroup V] [Module ℚ V] (L M : IntegralLattice V)
+    (g : ∀ p : Nat.Primes, ℚ_[p] ⊗[ℚ] V ≃ₗ[ℚ_[p]] ℚ_[p] ⊗[ℚ] V) : Prop :=
+  ∀ (p : Nat.Primes) (x : ℚ_[p] ⊗[ℚ] V),
+    g p x ∈ LinearMap.range (M.localizationToCompletion p) ↔
+      x ∈ LinearMap.range (L.localizationToCompletion p)
 
-/-- **The stabilizer family of the lattice `ℤⁿ` (N0, 4B)**: Tau Ceti's integral compact-open
-reference family of the standard basis, whose subgroup at `p` is the stabilizer `K_p` of
-`ℤ_pⁿ` in `O(V_p)`, with the Spin references over it. -/
-noncomputable abbrev gramIntegralFamily {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ)
-    (hG : (gramForm G).Nondegenerate) : OrthogonalCompactOpens (gramForm G) :=
-  OrthogonalCompactOpens.integral (gramForm G) hG (Pi.basisFun ℚ (Fin n))
+/-- **Layer 4B, the classes in a genus as an adelic double coset.** For a nondegenerate lattice
+`L` on `V`, there is a bijection from the classes in the genus of `L` (Tau Ceti's `genusClasses`)
+onto `O(V)(ℚ) \ O(V)(𝔸_f) / ∏_p K_p(L)`, the native double-coset set of the compact-open family
+`L.orthogonalCompactOpens` of the local stabilizers `K_p(L)`, which sends the class of every
+lattice `M` on `V` with the form of `L` to the double coset of every adele `g` carrying `L` to
+`M`. Every class in the genus has such a representative and such an adele (local isometries
+`L_p ≅ M_p` extended to `V_p`, and Hasse–Minkowski for the rational form), so the equation pins
+the bijection (O'Meara §§101–102). The orthogonal group is that of the norm form `B(x, x)`, which
+has the isometries of `B`. For `⟨1⟩` every `K_p` is all of `O(V_p) = {±1}` and both sides are a
+point; for the genus of `!![4,1;1,6]` both sides have two points. -/
+theorem exists_genusClasses_equiv_doubleCoset {V : Type u} [AddCommGroup V] [Module ℚ V]
+    (L : IntegralLattice V) [L.IsNondegenerate] :
+    ∃ e : L.genusClasses ≃ L.orthogonalCompactOpens.finiteAdelicOrthogonalDoubleCoset,
+      ∀ (M : IntegralLattice V) (hM : L.SameGenus M), M.form = L.form →
+        ∀ g : L.orthogonalCompactOpens.finiteAdelicOrthogonal,
+          LocallyCarries L M (fun p ↦ (g p : ℚ_[p] ⊗[ℚ] V ≃ₗ[ℚ_[p]] ℚ_[p] ⊗[ℚ] V)) →
+            e ⟨M.isometryClass, isometryClass_mem_genusClasses_iff.mpr hM⟩ =
+              DoubleCoset.mk L.orthogonalCompactOpens.finiteAdelicOrthogonalDiagonal.range
+                (integralSubgroup L.orthogonalCompactOpens.orthogonal) g :=
+  sorry
 
-/-- **The rational diagonal `O(V)(ℚ) → O(V)(𝔸_f)` (4B)**, assembled from Tau Ceti's base change
-of rational isometries and the native fact that a rational isometry is integral at almost every
-prime. -/
-noncomputable def gramAdelicDiagonal {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ)
-    (hG : (gramForm G).Nondegenerate) :
-    orthogonalGroup (gramForm G) →* (gramIntegralFamily G hG).finiteAdelicOrthogonal :=
-  letI : Invertible (2 : ℚ) := invertibleOfNonzero two_ne_zero
-  rationalDiagonal (fun (p : Nat.Primes) => orthogonalGroupBaseChange (A := ℚ_[p]) (gramForm G))
-    (gramIntegralFamily G hG).orthogonal (gramIntegralFamily G hG).eventually_orthogonal
-
-/-- **Layer 4B, the class set as a double coset space.** For a nondegenerate symmetric integral
-Gram matrix `G`, the classes in the genus of the lattice `ℤⁿ ⊆ ℚⁿ` with Gram matrix `G` (Tau
-Ceti's `ofGramMatrix` on the standard basis, with its native `genusClasses`, the isometry classes
-of the lattices on `ℚⁿ` in its genus `SameGenus`) are in bijection with the double cosets
-`O(V)(ℚ) \\ O(V)(𝔸_f) / K_f`, `K_f = ∏_p K_p` the stabilizer of `ℤⁿ`, where `V = ℚⁿ` carries the
-form of `G` and `O(V)` is the orthogonal group of `gramForm`, whose rational points are the
-isometries of the bilinear form of `G`. The adele carrying `L` to `M` is assembled from local
-isometries `L_p ≅ M_p`, and `M` lies in the rational class of `L` by Hasse–Minkowski, which is why
-the double cosets live in `O(V)(𝔸_f)` for the one rational space `V` (O'Meara §§101–102). For
-`⟨1⟩` every `K_p` is the whole `O(V_p) = {±1}`, the double coset space is a point and the genus is
-one class; for the genus of `!![4,1;1,6]` it has two points. -/
-theorem exists_genusClasses_equiv_doubleCoset {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ)
-    (hs : G.IsSymm) (hG : (gramForm G).Nondegenerate) :
-    Nonempty ((ofGramMatrix (Pi.basisFun ℚ (Fin n)) G hs).genusClasses ≃
-      DoubleCoset.Quotient (Set.range (gramAdelicDiagonal G hG))
-        (integralSubgroup (gramIntegralFamily G hG).orthogonal : Set _)) :=
+/-- **Layer 4B, the proper classes in a genus as an adelic double coset.** For a nondegenerate
+lattice `L` on `V`, there is a bijection from the proper classes in the genus of `L` (Tau Ceti's
+`genusProperClasses`) onto `SO(V)(ℚ) \ SO(V)(𝔸_f) / ∏_p K_p⁺(L)`, which sends the proper class of
+every lattice `M` on `V` with the form of `L` to the double coset of every adele `g` in
+`SO(V)(𝔸_f)` carrying `L` to `M`. In positive rank every `K_p(L)` contains a reflection, of
+determinant `−1`, so every such `M` is reached by an adele in `SO(V)(𝔸_f)`. For the genus of
+`!![4,1;1,6]` both sides have three points, against two classes. -/
+theorem exists_genusProperClasses_equiv_doubleCoset {V : Type u} [AddCommGroup V] [Module ℚ V]
+    [FiniteDimensional ℚ V] (L : IntegralLattice V) [L.IsNondegenerate] :
+    ∃ e : L.genusProperClasses ≃
+        L.orthogonalCompactOpens.finiteAdelicSpecialOrthogonalDoubleCoset,
+      ∀ (M : IntegralLattice V) (hM : L.SameGenus M), M.form = L.form →
+        ∀ g : L.orthogonalCompactOpens.finiteAdelicSpecialOrthogonal,
+          LocallyCarries L M (fun p ↦ (g p : ℚ_[p] ⊗[ℚ] V ≃ₗ[ℚ_[p]] ℚ_[p] ⊗[ℚ] V)) →
+            e ⟨M.properIsometryClass, properIsometryClass_mem_genusProperClasses_iff.mpr hM⟩ =
+              DoubleCoset.mk L.orthogonalCompactOpens.finiteAdelicSpecialOrthogonalDiagonal.range
+                (integralSubgroup L.orthogonalCompactOpens.specialOrthogonal) g :=
   sorry
 
 end Layer4
@@ -404,38 +432,29 @@ end Layer5
 
 section Layer6
 
-/-- **Layer 6A, even indefinite unimodular uniqueness.** Two even unimodular indefinite integral
-Gram matrices of equal signature are integrally equivalent
-(`II_{t₊,t₋} ≅ U^{min(t₊,t₋)} ⊕ E₈(±1)^{|t₊−t₋|/8}`; Serre, *A Course in Arithmetic*, V.2.2;
-Milnor–Husemoller, Chapter II). The definite analogue fails in rank 16. -/
-theorem equivalent_of_isEven_unimodular_indefinite {n : ℕ} (G₁ G₂ : Matrix (Fin n) (Fin n) ℤ)
-    (h₁s : G₁.IsSymm) (h₂s : G₂.IsSymm)
-    (h₁e : ∀ i, 2 ∣ G₁ i i) (h₂e : ∀ i, 2 ∣ G₂ i i)
-    (h₁u : G₁.det = 1 ∨ G₁.det = -1) (h₂u : G₂.det = 1 ∨ G₂.det = -1)
-    (hp : sigPos (Matrix.toQuadraticForm' (G₁.map (Int.cast : ℤ → ℝ)))
-        = sigPos (Matrix.toQuadraticForm' (G₂.map (Int.cast : ℤ → ℝ))))
-    (hn : sigNeg (Matrix.toQuadraticForm' (G₁.map (Int.cast : ℤ → ℝ)))
-        = sigNeg (Matrix.toQuadraticForm' (G₂.map (Int.cast : ℤ → ℝ))))
-    (hindef : 0 < sigPos (Matrix.toQuadraticForm' (G₁.map (Int.cast : ℤ → ℝ))) ∧
-        0 < sigNeg (Matrix.toQuadraticForm' (G₁.map (Int.cast : ℤ → ℝ)))) :
-    (Matrix.toBilin' G₁).Equivalent (Matrix.toBilin' G₂) :=
+/-- **Layer 6A, even indefinite unimodular uniqueness.** Two even unimodular lattices, in any two
+rational spaces, the first indefinite (`IsIndefinite`: `t₊ > 0` and `t₋ > 0`), with equal
+signature triples, are isometric: both are `U^{min(t₊,t₋)} ⊕ E₈(±1)^{|t₊−t₋|/8}` (Serre, *A
+Course in Arithmetic*, V.2.2; Milnor–Husemoller, Chapter II). The second is indefinite too, its
+signature being the first's. The definite analogue fails in rank 16: `E₈ ⊕ E₈` and `D₁₆⁺`. -/
+theorem nonempty_isometry_of_isUnimodular_of_isEven_of_isIndefinite {V : Type u} {W : Type v}
+    [AddCommGroup V] [Module ℚ V] [AddCommGroup W] [Module ℚ W]
+    (L : IntegralLattice V) (M : IntegralLattice W) (hLu : L.IsUnimodular) (hMu : M.IsUnimodular)
+    (hLe : L.IsEven) (hMe : M.IsEven) (hind : L.IsIndefinite)
+    (hsig : L.signature = M.signature) :
+    Nonempty (L.Isometry M) :=
   sorry
 
-/-- **Layer 6A, odd indefinite unimodular uniqueness.** Two odd unimodular indefinite integral
-Gram matrices of equal signature are integrally equivalent, both to
-`I_{t₊,t₋} = ⟨1⟩^{t₊} ⊕ ⟨−1⟩^{t₋}` (Serre, V.2.2). A Gram matrix is odd exactly when one of its
-diagonal entries is odd. `U` and `⟨1⟩ ⊕ ⟨−1⟩` show that parity cannot be dropped. -/
-theorem equivalent_of_odd_unimodular_indefinite {n : ℕ} (G₁ G₂ : Matrix (Fin n) (Fin n) ℤ)
-    (h₁s : G₁.IsSymm) (h₂s : G₂.IsSymm)
-    (h₁o : ∃ i, ¬ 2 ∣ G₁ i i) (h₂o : ∃ i, ¬ 2 ∣ G₂ i i)
-    (h₁u : G₁.det = 1 ∨ G₁.det = -1) (h₂u : G₂.det = 1 ∨ G₂.det = -1)
-    (hp : sigPos (Matrix.toQuadraticForm' (G₁.map (Int.cast : ℤ → ℝ)))
-        = sigPos (Matrix.toQuadraticForm' (G₂.map (Int.cast : ℤ → ℝ))))
-    (hn : sigNeg (Matrix.toQuadraticForm' (G₁.map (Int.cast : ℤ → ℝ)))
-        = sigNeg (Matrix.toQuadraticForm' (G₂.map (Int.cast : ℤ → ℝ))))
-    (hindef : 0 < sigPos (Matrix.toQuadraticForm' (G₁.map (Int.cast : ℤ → ℝ))) ∧
-        0 < sigNeg (Matrix.toQuadraticForm' (G₁.map (Int.cast : ℤ → ℝ)))) :
-    (Matrix.toBilin' G₁).Equivalent (Matrix.toBilin' G₂) :=
+/-- **Layer 6A, odd indefinite unimodular uniqueness.** Two odd unimodular lattices, in any two
+rational spaces, the first indefinite, with equal signature triples, are isometric: both are
+`I_{t₊,t₋} = ⟨1⟩^{t₊} ⊕ ⟨−1⟩^{t₋}` (Serre, V.2.2). `U` and `⟨1⟩ ⊕ ⟨−1⟩` show that parity cannot be
+dropped. -/
+theorem nonempty_isometry_of_isUnimodular_of_not_isEven_of_isIndefinite {V : Type u}
+    {W : Type v} [AddCommGroup V] [Module ℚ V] [AddCommGroup W] [Module ℚ W]
+    (L : IntegralLattice V) (M : IntegralLattice W) (hLu : L.IsUnimodular) (hMu : M.IsUnimodular)
+    (hLo : ¬ L.IsEven) (hMo : ¬ M.IsEven) (hind : L.IsIndefinite)
+    (hsig : L.signature = M.signature) :
+    Nonempty (L.Isometry M) :=
   sorry
 
 /-- **Layer 6E, the root system separates the rootful rank-24 lattices.** Let `N_r` be the
