@@ -2,6 +2,7 @@ module
 
 public import Mathlib
 public import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
+public import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.ScalarChange
 public import TauCeti.CategoryTheory.GrothendieckGroup.Split
 
 /-!
@@ -17,28 +18,31 @@ stable group `GL(R)` and `K₁(R)` are README targets.
 
 Headline theorems of the roadmap that are not statable at the pins:
 
-* The Milnor patching theorem and the Milnor exact sequence of A6, the identification of the
-  patched modules of 7.1 with glued bundles, the torsion class `[M(2)] − [D]` and the form
-  `ker f₀ ≅ ℤ/5` of 7.2, and every statement about the `K₀` map of a ring homomorphism: these
-  need extension of scalars along an arbitrary ring homomorphism on finitely generated projective
-  right modules over noncommutative rings. Mathlib's `ModuleCat.extendScalars` requires
-  commutative rings, and neither pinned library supplies the ordinary balanced tensor product
-  over an arbitrary associative ring with its outer target-ring action. The gluing of 7.1
-  additionally needs the section modules of continuous bundles. The two values of `K₀` computed
-  in 7.2 mention no ring map and are stated below.
+* The Milnor patching theorem and the full Milnor exact sequence of A6: the patching theorem
+  needs the category of patching triples, and the `K₁` terms and the boundary need the stable
+  group `GL(R)` and `K₁(R)`, README targets that neither library has. The `K₀` end of the
+  sequence is stated below, with the `K₀` map of a ring homomorphism `kZeroMap`, which is
+  `TauCeti.SplitK0.map` of the pinned extension-of-scalars functor on finitely generated
+  projective modules.
+* The torsion class `[M(2)] − [D]` of 7.2: the patched module `M(2)` is a finitely generated
+  projective module only by the patching theorem, so its class cannot be written without a
+  sorry'd proof inside the term. The kernels `ker f₀ ≅ ℤ/2` and `ker f₀ ≅ ℤ/5` of 7.2, which
+  mention only `kZeroMap`, are stated below inside the two values of `K₀`: the kernel of `f₀` is
+  the preimage of the torsion factor under the stated decomposition.
+* The identification of the patched modules of 7.1 with glued bundles: this needs the section
+  modules of continuous bundles, which neither library has.
 * The real tangent-section module's nonfreeness, stable splitting and K₀ class (0.5)
   require the continuous section submodule cut out by the sphere projection, with its
   finite-projective object in `FiniteProjectiveRight`.
 * The free rank-two complexified sphere module and its scalar-extension comparison (0.6)
-  require that section module over `C(S², ℂ)` and the extension functor of 0.2; the Chern
-  number comparison additionally requires the oriented tangent complex line and its first
-  Chern class.
+  require that section module over `C(S², ℂ)`; the extension of scalars itself is the pinned
+  `TauCeti.BalancedExtension`. The Chern number comparison additionally requires the oriented
+  tangent complex line and its first Chern class.
 * The real Möbius module's nonfreeness and order-two reduced K₀ class, and its free complex
   scalar extension (0.7), require the antiperiodic section module over `C(AddCircle 1, 𝕜)`,
-  its descended scalar action and finite-projective object, and the same extension functor.
+  its descended scalar action and finite-projective object.
 * The relative exact sequences of A3 and the boundary map of A6: these need A3's relative
-  triple group and A2's automorphism presentation of `K₁`, which neither library has, and for
-  rings that same base change.
+  triple group and A2's automorphism presentation of `K₁`, which neither library has.
 * The universal central extension `St(R) → E(R)`, Matsumoto's presentation of `K₂` of a field
   and `K₂(𝔽_q) = 0` (A5): neither library has the Steinberg group.
 * The surjection of algebraic `K₁` of a Banach algebra `A` onto its stable component group, the
@@ -64,6 +68,14 @@ abbrev FiniteProjectiveRight (R : Type u) [Ring R] :=
 /-- `K₀(R)`: the split Grothendieck group of finitely generated projective right `R`-modules. -/
 abbrev KZero (R : Type u) [Ring R] :=
   TauCeti.SplitK0.{u} (FiniteProjectiveRight R)
+
+/-- `K₀(f) : K₀(R) → K₀(S)` for a ring homomorphism `f : R →+* S`: `TauCeti.SplitK0.map` of Tau
+Ceti's extension-of-scalars functor on finitely generated projective modules along
+`fᵐᵒᵖ : Rᵐᵒᵖ →+* Sᵐᵒᵖ`, so that `[P] ↦ [P ⊗_R S]` (Weibel, *The K-book*, Chapter II, §2.8 and
+Example 2.8.1, chapter p. 13). The pinned functor takes `R` and `S` in one universe. -/
+noncomputable def kZeroMap {R S : Type u} [Ring R] [Ring S] (f : R →+* S) :
+    KZero R →+ KZero S :=
+  TauCeti.SplitK0.map (RingHom.op f).finiteProjectiveModulesExtendScalars
 
 /-- `K₀` of a division ring is `ℤ`, with the class of the free module of rank one going to `1`
 (Weibel, *The K-book*, Chapter II, §2, the division-ring example before Lemma 2.1). -/
@@ -209,23 +221,45 @@ theorem hasStableRangeLE_continuousMap_real_iff (X : Type u) [TopologicalSpace X
     HasStableRangeLE C(X, ℝ) s ↔ HasCoveringDimensionLE X (s - 1) := by
   sorry
 
+/-! ## Layer A6: Milnor patching and the boundary -/
+
+/-- The `K₀` end of the Mayer–Vietoris sequence of a Milnor square: for unital maps
+`π₁ : A₁ → Q`, `π₂ : A₂ → Q` one of which is surjective, with `D = A₁ ×_Q A₂` Mathlib's
+`RingHom.pullback` and `p₁, p₂` its projections, the sequence
+`K₀(D) → K₀(A₁) ⊕ K₀(A₂) → K₀(Q)`, with `f₀ = (K₀(p₁), K₀(p₂))` and
+`g₀(x, y) = K₀(π₁)x − K₀(π₂)y`, is exact at `K₀(A₁) ⊕ K₀(A₂)` (Weibel, *The K-book*,
+Chapter III, Theorem 2.6, chapter p. 15). Neither injectivity of `f₀` nor surjectivity of `g₀`
+is claimed. -/
+theorem kZero_mayerVietoris_exact {A₁ A₂ Q : Type u} [Ring A₁] [Ring A₂] [Ring Q]
+    (π₁ : A₁ →+* Q) (π₂ : A₂ →+* Q)
+    (h : Function.Surjective π₁ ∨ Function.Surjective π₂) :
+    Function.Exact
+      ((kZeroMap (RingHom.pullbackFst π₁ π₂)).prod (kZeroMap (RingHom.pullbackSnd π₁ π₂)))
+      ((kZeroMap π₁).comp (AddMonoidHom.fst (KZero A₁) (KZero A₂)) -
+        (kZeroMap π₂).comp (AddMonoidHom.snd (KZero A₁) (KZero A₂))) := by
+  sorry
+
 /-! ## Layer A7: Gluing examples and calculations -/
 
 /-- The ring `ℤ ×_{𝔽₅} ℤ = {(a, b) | a ≡ b mod 5}` of the arithmetic Milnor square, Mathlib's
 pullback of two copies of the reduction `ℤ → 𝔽₅`. -/
 abbrev arithmeticSquare := (Int.castRingHom (ZMod 5)).pullback (Int.castRingHom (ZMod 5))
 
-/-- `K₀(ℤ ×_{𝔽₅} ℤ) ≅ ℤ ⊕ ℤ/2`, with the class of the free module of rank one going to `(1, 0)`:
-in the Mayer–Vietoris sequence of the arithmetic square the image in `K₀(ℤ) ⊕ K₀(ℤ)` is the
-diagonal and the kernel is `𝔽₅ˣ/{±1}` (Weibel, *The K-book*, Chapter III, Theorem 2.6, chapter
-p. 15). -/
+/-- `K₀(ℤ ×_{𝔽₅} ℤ) ≅ ℤ ⊕ ℤ/2`, with the class of the free module of rank one going to `(1, 0)`,
+and the kernel of `f₀ = (K₀(p₁), K₀(p₂)) : K₀(ℤ ×_{𝔽₅} ℤ) → K₀(ℤ) ⊕ K₀(ℤ)` the preimage of
+`0 ⊕ ℤ/2`, so `ker f₀ ≅ ℤ/2`: in the Mayer–Vietoris sequence of the arithmetic square the image
+of `f₀` is the diagonal and its kernel is `𝔽₅ˣ/{±1}`, the cokernel of `K₁(ℤ) ⊕ K₁(ℤ) → K₁(𝔽₅)`
+(Weibel, *The K-book*, Chapter III, Theorem 2.6, chapter p. 15). -/
 theorem kZero_arithmeticSquare :
     ∃ e : KZero arithmeticSquare ≃+ ℤ × ZMod 2,
       e (TauCeti.SplitK0.of
         (⟨ModuleCat.of arithmeticSquareᵐᵒᵖ arithmeticSquareᵐᵒᵖ,
           TauCeti.finiteProjectiveModules_iff.mpr
             ⟨Module.Finite.self _, @Module.Projective.of_free _ _ _ _ _ (Module.Free.self _)⟩⟩ :
-          FiniteProjectiveRight arithmeticSquare)) = (1, 0) := by
+          FiniteProjectiveRight arithmeticSquare)) = (1, 0) ∧
+      ∀ x : KZero arithmeticSquare,
+        ((kZeroMap (R := arithmeticSquare) (RingHom.pullbackFst _ _)).prod
+          (kZeroMap (R := arithmeticSquare) (RingHom.pullbackSnd _ _))) x = 0 ↔ (e x).1 = 0 := by
   sorry
 
 /-- The cusp `𝔽₅[t², t³]`, Mathlib's pullback of the reduction `𝔽₅[t] → 𝔽₅[t]/(t²)` and the
@@ -235,16 +269,21 @@ noncomputable abbrev cuspSquare :=
     ((Ideal.Quotient.mk (Ideal.span {(Polynomial.X : Polynomial (ZMod 5)) ^ 2})).comp
       (algebraMap (ZMod 5) (Polynomial (ZMod 5))))
 
-/-- `K₀(𝔽₅[t², t³]) ≅ ℤ ⊕ 𝔽₅`, with the class of the free module of rank one going to `(1, 0)`
+/-- `K₀(𝔽₅[t², t³]) ≅ ℤ ⊕ 𝔽₅`, with the class of the free module of rank one going to `(1, 0)`,
+and the kernel of `f₀ = (K₀(p₁), K₀(p₂)) : K₀(𝔽₅[t², t³]) → K₀(𝔽₅[t]) ⊕ K₀(𝔽₅)` the preimage of
+`0 ⊕ 𝔽₅`, so `ker f₀ ≅ ℤ/5`, the cokernel `1 + t𝔽₅` of `K₁(𝔽₅[t]) ⊕ K₁(𝔽₅) → K₁(𝔽₅[t]/(t²))`
 (Weibel, *The K-book*, Chapter II, Example 2.9.1, chapter p. 13, for the cusp over a field `k`,
-where `K₀ ≅ ℤ ⊕ k`). -/
+where `K₀ ≅ ℤ ⊕ k`, and Chapter III, Theorem 2.6, chapter p. 15). -/
 theorem kZero_cuspSquare :
     ∃ e : KZero cuspSquare ≃+ ℤ × ZMod 5,
       e (TauCeti.SplitK0.of
         (⟨ModuleCat.of cuspSquareᵐᵒᵖ cuspSquareᵐᵒᵖ,
           TauCeti.finiteProjectiveModules_iff.mpr
             ⟨Module.Finite.self _, @Module.Projective.of_free _ _ _ _ _ (Module.Free.self _)⟩⟩ :
-          FiniteProjectiveRight cuspSquare)) = (1, 0) := by
+          FiniteProjectiveRight cuspSquare)) = (1, 0) ∧
+      ∀ x : KZero cuspSquare,
+        ((kZeroMap (R := cuspSquare) (RingHom.pullbackFst _ _)).prod
+          (kZeroMap (R := cuspSquare) (RingHom.pullbackSnd _ _))) x = 0 ↔ (e x).1 = 0 := by
   sorry
 
 end TauCetiRoadmap.AlgebraicKTheory
