@@ -748,10 +748,11 @@ subring lying over `A`, every `D_M` is all of `Gal(M/K)` and `O ∩ M` is the in
   acting on `O ∩ M`, that is the inverse limit of the finite `G_1`
   (`topologicalClosure_iSup_absoluteUpperRamificationGroup`);
 - in the setting of this layer, each `G_K^u` is a closed normal subgroup, the family is antitone,
-  `G_K^(−1) = G_K`, and the intersection of all `G_K^u` is trivial; the decomposition group of `O`
-  is all of `G_K`, and `G_K^0` is inertia `I_K`, the fixing subgroup of the maximal unramified
-  extension `K^ur`; when `p > 0`, `P_K` is pro-`p`, `TauCeti.IsProP p P_K` for the subspace
-  topology, and when `p = 0`, `P_K` is trivial;
+  `G_K^(u+) ⊆ G_K^u` for every `u`, in particular `G_K^(0+) ⊆ G_K^0`, `G_K^(−1) = G_K`, and the
+  intersection of all `G_K^u` is trivial; the decomposition group of `O` is all of `G_K`, and
+  `G_K^0` is inertia `I_K`, the fixing subgroup of the maximal unramified extension `K^ur`; when
+  `p > 0`, `P_K` is pro-`p`, `TauCeti.IsProP p P_K` for the subspace topology, and when `p = 0`,
+  `P_K` is trivial;
 - on a nonarchimedean local field `K`, with each finite level `M` carrying the local-field
   structure of `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`, the image of `G_K^u`
   in `Gal(M/K) = M ≃ₐ[K] M` is `TauCeti.LocalFieldsRamification.upperRamificationGroup K M u` for
@@ -782,8 +783,9 @@ residue field, every residue extension is separable and, for `M ⊆ M′`, `O �
 `Gal(M/K)^u`. Hence `G_K^u` is the inverse limit of these nonempty finite sets along surjections; it
 is closed, and, `G_K` being compact and mapping onto each `Gal(M′/K)`
 (`AlgEquiv.restrictNormalHom_surjective`), it maps onto each of them. Normality and antitonicity
-hold at every finite level. A `σ ≠ 1` is nontrivial on `K^s`, so it moves an element of some finite
-`M`, and `Gal(M/K)^u = 1` for large `u`.
+hold at every finite level. For `w > u` the subgroup `G_K^u` contains `G_K^w`, and it is closed,
+so it contains the closure `G_K^(u+)` of their union. A `σ ≠ 1` is nontrivial on `K^s`, so it
+moves an element of some finite `M`, and `Gal(M/K)^u = 1` for large `u`.
 
 For `G_K^0`, at every level `ψ(0) = 0`, since `φ` is the identity on `[−1, 0]` and positive on
 `(0, ∞)`, so the upper group at `0` is `G_0`, which
@@ -876,8 +878,9 @@ recovered statements there, `TauCeti.inertiaSubgroup_normal`,
 - For `K = ℚ_p`, a lift to `G_K` of the arithmetic Frobenius acts on the residue field `F̄_p` of
   `O` by `x ↦ x^p`, so it lies outside the image of `ValuationSubring.inertiaSubgroup K O`, and
   outside `I_K`, since it moves the unramified `ζ_(p²−1)` to `ζ_(p²−1)^p`.
-- For odd `p` and `K = Frac W(F̄_p)`, the tame extension `K(ζ_p)/K` shows `G_K^(0+) ≠ G_K^0`: `I_K`
-  maps onto `Gal(K(ζ_p)/K)`, of order `p − 1`, while `P_K` maps to `G_1 = 1`.
+- For odd `p` and `K = Frac W(F̄_p)`, the tame extension `K(ζ_p)/K` shows that the inclusion
+  `G_K^(0+) ⊆ G_K^0` can be strict: `I_K` maps onto `Gal(K(ζ_p)/K)`, of order `p − 1`, while
+  `P_K` maps to `G_1 = 1`.
 - Being pro-`p` separates wild inertia from inertia. For `K = ℚ_3` and `M = ℚ_3(ζ_9)`,
   `Gal(M/K) ≅ (ℤ/9)ˣ` has `#G_0 = 6` and `G_1 = {1, 4, 7}`: the quotient of `P_K` by its open
   normal subgroup `P_K ∩ G_M` is `G_1`, of order `3`, while the quotient of `I_K` by `I_K ∩ G_M`
