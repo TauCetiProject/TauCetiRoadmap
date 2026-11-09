@@ -53,7 +53,7 @@ cohomology objects beneath it (11.2); the `R`-linear functor instance on
 `TauCeti.ContinuousCohomology.continuousCochainsFunctor` (1.7); the agreement of the explicit
 finite-quotient transitions with `TauCeti.finiteLevelTransition` under the comparisons with
 `groupCohomology`, in degrees `0, 1, 2` (4.2); the explicit degree-one transport of conjugation
-through corestriction (6.5); the cofinality statement of the finite-level Galois dictionary (9.4);
+through corestriction (6.5);
 the agreement of the all-degree finite-quotient system with the explicit systems of Layer 4 in degrees `0, 1, 2` (10.1); and the
 general Evens norm (13.2), that is its construction for a discrete commutative `G`-ring and,
 already for `𝔽₂` coefficients, its transitivity, its double-coset formula over several double
@@ -243,7 +243,8 @@ N(α + β) - N(α) - N(β) = cor (α ⌣ (s · β)),
 with the **conjugate** class on the right. Dropping the conjugate gives a different statement, and
 this roadmap does not supply it; a consumer that wants the unconjugated form must prove the two
 equivalent under stated hypotheses. And the conjugate `s · β` is `OpenSubgroup.evensConj`, which is defined
-without choosing `s`: an element outside `U` appears only where a right-hand side is a cochain
+without choosing `s` and is pullback along conjugation by every `s ∉ U`, in every degree
+(`OpenSubgroup.evensConj_eq_trivialF2Map`): an element outside `U` appears only where a right-hand side is a cochain
 formula (identity 3, `TauCeti.ContCohomology.graphClass_eq_cochainClass`,
 `TauCeti.ContCohomology.evensNormIndexTwo_eq_ind_pullback`), and there
 it is universally quantified, so none of the identities is a statement about a choice.
@@ -515,7 +516,7 @@ All paths at the pinned Mathlib.
   (`CompactSpace Gal(K/k)` for `[IsGalois k K]`, `InfiniteGalois.profiniteGalGrp`, the limit
   presentation over `FiniteGaloisIntermediateField`); `Mathlib/FieldTheory/Galois/Infinite.lean`
   (the fundamental theorem of infinite Galois theory:
-  `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`,
+  `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`, `InfiniteGalois.fixedField_fixingSubgroup`,
   `InfiniteGalois.normalAutEquivQuotient : Gal(K/k) ⧸ H ≃* Gal(fixedField H / k)`,
   `InfiniteGalois.isOpen_iff_finite`, `InfiniteGalois.normal_iff_isGalois`,
   `InfiniteGalois.isOpen_and_normal_iff_finite_and_isGalois`);
@@ -619,7 +620,9 @@ Galois-cohomology modules of `TauCeti/FieldTheory/GaloisCohomology/` (`Coefficie
 `MuTwo/Basic`, `MuTwo/KummerCharacter`, `MuTwo/Cup`, `MuTwo/Real` and `MuTwo/Rational`) with
 `TauCeti.AbsoluteGaloisGroup`, the topological quotient `TauCeti.quotientFixingSubgroupEquiv` of
 `TauCeti/FieldTheory/Galois/Quotient.lean`,
-`TauCeti.absoluteGaloisGroupRestrictEquiv`, `TauCeti.galoisSubgroup` and the power classes of
+`TauCeti.absoluteGaloisGroupRestrictEquiv`, `TauCeti.galoisSubgroup`, the levels
+`TauCeti.galoisOpenNormalSubgroup` with `TauCeti.exists_galoisOpenNormalSubgroup_eq` of
+`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/FiniteExtension.lean`, and the power classes of
 `TauCeti/Algebra/Group/PowerClassGroup/Basic.lean`, together with `TauCeti.InternalHom`, the
 `G ⧸ H`-action on
 `FixedPoints.addSubgroup H M` in `TauCeti/GroupTheory/GroupAction/FixedPoints.lean`,
@@ -2288,10 +2291,14 @@ The inputs for this layer are Mathlib: `SeparableClosure`, `separableClosure.isG
 `SeparableClosure.isSepClosed`, `separableClosure.isPurelyInseparable`,
 `instSubsingletonAlgHomOfIsPurelyInseparable`, `AlgEquiv.restrictNormalHom_surjective`,
 `Field.absoluteGaloisGroup`, `InfiniteGalois.isOpen_and_normal_iff_finite_and_isGalois`,
+`InfiniteGalois.IntermediateFieldEquivClosedSubgroup`, `InfiniteGalois.fixedField_fixingSubgroup`,
 `InfiniteGalois.normalAutEquivQuotient`, `rootsOfUnity`, `powMonoidHom`,
 `groupCohomology.H1ofAutOnUnitsUnique`, `krullTopology`. Tau Ceti: `TauCeti.AbsoluteGaloisGroup`
 and `TauCeti.absoluteGaloisGroupRestrictEquiv`
-(`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`), the power classes of
+(`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`),
+`TauCeti.exists_galoisOpenNormalSubgroup_eq`
+(`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/FiniteExtension.lean`),
+`TauCeti.quotientFixingSubgroupEquiv` (`TauCeti/FieldTheory/Galois/Quotient.lean`), the power classes of
 `TauCeti/Algebra/Group/PowerClassGroup/Basic.lean`, the action
 `TauCeti.rootsOfUnity.mulDistribMulAction`, and `TauCeti/FieldTheory/GaloisCohomology/` (the
 coefficient modules and the Kummer sequence in `Coefficients.lean`, the Kummer map, isomorphism and
@@ -2374,19 +2381,46 @@ there.
 ### 9.4 The finite-level Galois dictionary
 
 Finite Galois intermediate fields `K ⊆ L ⊆ Kˢ` correspond
-to open normal subgroups of `G_K`; `G_K ⧸ U` is continuously isomorphic to `Gal(L/K)` for the
-corresponding `L`; `(Kˢ)^U = L`; and these subgroups are cofinal in the system Layer 4 uses.
-Most of this is Mathlib's infinite Galois correspondence
-(`InfiniteGalois.isOpen_and_normal_iff_finite_and_isGalois`,
-`InfiniteGalois.normalAutEquivQuotient`, `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`);
-what has to be added is the identification of the quotient as a **topological** group and the
-cofinality statement in the form Layer 4 consumes. The first is Tau Ceti's
-`TauCeti.quotientFixingSubgroupEquiv` (`TauCeti/FieldTheory/Galois/Quotient.lean`): for normal
-`E/F` and a normal intermediate field `M`, restriction induces
-`Gal(E/F) ⧸ M.fixingSubgroup ≃ₜ* Gal(M/F)`, applied here at `E = Kˢ`, `F = K`. The cofinality
-statement is the target of this subsection.
+bijectively, and with inclusions reversed, to the open normal subgroups of `G_K`, by
+`L ↦ U_L = L.fixingSubgroup`; `G_K ⧸ U_L` is continuously isomorphic to `Gal(L/K)`; and
+`(Kˢ)^{U_L} = L`. So Layer 4's system at `G = G_K`, indexed by `(OpenNormalSubgroup G_K)ᵒᵖ`, is
+the same system indexed by the finite Galois subextensions under inclusion, `L ⊆ L'` going to
+`U_{L'} ≤ U_L`, and for `M = UnitsCoeff K` its stage at `U_L` is `Hⁱ(Gal(L/K), Lˣ)` through these
+identifications, which is how 9.5 applies the finite-level Hilbert 90. Every open normal subgroup
+is a level, not only a cofinal family of them.
 
-*Needs:* Mathlib infinite Galois correspondence; Layer 4 quotient system.
+All of it is at the pins. Mathlib's `InfiniteGalois.IntermediateFieldEquivClosedSubgroup` is the
+order isomorphism `IntermediateField K Kˢ ≃o (ClosedSubgroup G_K)ᵒᵈ`, `E ↦ E.fixingSubgroup`,
+with inverse the fixed field (`InfiniteGalois.fixedField_fixingSubgroup` is `(Kˢ)^{U_L} = L`), so
+`L ↦ U_L` is injective and reverses inclusion; `InfiniteGalois.isOpen_and_normal_iff_finite_and_isGalois`
+says that `E.fixingSubgroup` is open and normal exactly when `E/K` is finite and Galois. Tau Ceti's
+`TauCeti.exists_galoisOpenNormalSubgroup_eq` is the surjectivity in the form Layer 4 indexes over:
+every `U : OpenNormalSubgroup (AbsoluteGaloisGroup K)` is `TauCeti.galoisOpenNormalSubgroup K E E.val`
+for an intermediate field `E` of `Kˢ/K` that is finite and Galois over `K`
+(`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/FiniteExtension.lean`). The quotient as a
+**topological** group is Tau Ceti's `TauCeti.quotientFixingSubgroupEquiv`
+(`TauCeti/FieldTheory/Galois/Quotient.lean`): for normal `E/F` and a normal intermediate field
+`M`, restriction induces `Gal(E/F) ⧸ M.fixingSubgroup ≃ₜ* Gal(M/F)`, applied here at `E = Kˢ`,
+`F = K`; Mathlib's `InfiniteGalois.normalAutEquivQuotient` is the same restriction map as an
+isomorphism of abstract groups, indexed by the closed normal subgroup `U_L`, with target
+`Gal(fixedField U_L / K)`. This subsection adds no target.
+
+*Needs:* Mathlib infinite Galois correspondence; Tau Ceti `TauCeti.exists_galoisOpenNormalSubgroup_eq`
+and `TauCeti.quotientFixingSubgroupEquiv`; Layer 4 quotient system.
+
+**Checks.**
+
+- For `K = 𝔽_p`, `G_K ≅ Ẑ` with Frobenius as `1`, and `U_{𝔽_{pⁿ}} = nẐ`: the inclusion
+  `𝔽_{p²} ⊆ 𝔽_{p⁴}` goes to `2Ẑ ⊇ 4Ẑ`, and `Ẑ ⧸ 4Ẑ ≅ ℤ/4 ≅ Gal(𝔽_{p⁴}/𝔽_p)`. An orientation
+  preserving inclusions would claim `2Ẑ ⊆ 4Ẑ`, which fails at `2`.
+- For `K = ℚ`, `L = ℚ(∛2)` is finite but not normal: `U_L` is open of index `3` but not normal,
+  since an automorphism with `∛2 ↦ ω∛2` conjugates it to the fixing subgroup of `ℚ(ω∛2) ≠ L`. A
+  dictionary over all finite subextensions would leave the index category of Layer 4.
+- For `K = 𝔽_p`, the infinite extension `⋃ₖ 𝔽_{p^{2^k}}` has fixing subgroup
+  `⋂ₖ 2ᵏẐ = ∏_{ℓ ≠ 2} ℤ_ℓ`, closed of infinite index and so not open: closed subgroups that are
+  not open belong to infinite extensions and are not levels.
+- For `K = ℝ` there are two levels, `U_ℝ = G_ℝ` and `U_ℂ = 1`; the stages of `UnitsCoeff ℝ` are
+  `Hⁱ(1, ℝˣ)` and `Hⁱ(Gal(ℂ/ℝ), ℂˣ)`, and `(Kˢ)^{U_ℝ} = ℝ`.
 
 ### 9.5 Hilbert 90, in two steps
 
@@ -2525,10 +2559,14 @@ Mathlib: `SeparableClosure`, `separableClosure.isGalois`,
 `SeparableClosure.isSepClosed`, `separableClosure.isPurelyInseparable`,
 `instSubsingletonAlgHomOfIsPurelyInseparable`, `AlgEquiv.restrictNormalHom_surjective`,
 `Field.absoluteGaloisGroup`, `InfiniteGalois.isOpen_and_normal_iff_finite_and_isGalois`,
+`InfiniteGalois.IntermediateFieldEquivClosedSubgroup`, `InfiniteGalois.fixedField_fixingSubgroup`,
 `InfiniteGalois.normalAutEquivQuotient`, `rootsOfUnity`, `powMonoidHom`,
 `groupCohomology.H1ofAutOnUnitsUnique`, `krullTopology`. Tau Ceti: `TauCeti.AbsoluteGaloisGroup`
 and `TauCeti.absoluteGaloisGroupRestrictEquiv`
-(`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`), the power classes of
+(`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`),
+`TauCeti.exists_galoisOpenNormalSubgroup_eq`
+(`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/FiniteExtension.lean`),
+`TauCeti.quotientFixingSubgroupEquiv` (`TauCeti/FieldTheory/Galois/Quotient.lean`), the power classes of
 `TauCeti/Algebra/Group/PowerClassGroup/Basic.lean`, the action
 `TauCeti.rootsOfUnity.mulDistribMulAction`, and `TauCeti/FieldTheory/GaloisCohomology/` (the
 coefficient modules and the Kummer sequence in `Coefficients.lean`, the Kummer map, isomorphism and
@@ -3617,7 +3655,8 @@ and the class-level pullback identity are listed below:
   `TauCeti.ContCohomology.evensNormIndexTwo_polarization` and
   `TauCeti.ContCohomology.evensNormIndexTwo_trivialF2ResMap` (`Evens/Identities.lean`);
 - the conjugation `OpenSubgroup.evensConj`, defined as `res ∘ cor − id` and therefore free of any
-  choice of `s` (`Corestriction/IndexTwo/EvensConj.lean`);
+  choice of `s`, and equal in every degree to pullback along conjugation by any `s ∉ U`
+  (`OpenSubgroup.evensConj_eq_trivialF2Map`, `Corestriction/IndexTwo/EvensConj.lean`);
 - the identities: restriction, `res_U N_Ev(α) = [α] ⌣ evensConj [α]`
   (`TauCeti.ContCohomology.trivialF2ResMap_graphClass`); polarization,
   `N_Ev(α + β) − N_Ev(α) − N_Ev(β) = cor ([α] ⌣ evensConj [β])`
@@ -4062,9 +4101,10 @@ The cup product, `degreeCast` and `coeffMap` take values in
   `χ_{L/K} = galoisCharacter`, Evens's identity 5 transported as in 13.3, with the conclusion of
   `TauCeti.galoisEvens_galoisRes`.
 
-The following names are cited in roadmaps as `ProfiniteCohomology.<name>` but are not declared in
-`Suggested.lean`, because the Tau Ceti declaration on the right states them; a citing roadmap reads
-that declaration instead.
+The following names are cited in roadmaps as this roadmap's declarations, qualified as
+`ProfiniteCohomology.<name>` or unqualified in a supplier list, but are not declared in
+`Suggested.lean`, because the Mathlib or Tau Ceti declaration or term on the right states them; a
+citing roadmap reads that instead. Each is written here in its qualified form.
 
 - `ProfiniteCohomology.cd_p_le_of_isClosed` → `TauCeti.cohomologicalDimensionAt_le_of_isClosed`.
 - `ProfiniteCohomology.cd_p_le_scd_p` →
@@ -4093,6 +4133,28 @@ that declaration instead.
   `TauCeti.ContCohomology.DiscreteShortExact.longExact_exact₁`, `longExact_exact₂` and
   `longExact_exact₃`, its three conjuncts.
 - `ProfiniteCohomology.H1ConjInvariants` → `TauCeti.ContCohomology.H1ConjInvariants`.
+- `ProfiniteCohomology.explicitH2Obj` → the object
+  `TopModuleCat.of ℤ (TauCeti.ContCohomology.DiscreteH2 G M)`, the source of
+  `explicitH2IsoContinuousCohomology`.
+- `ProfiniteCohomology.Coind` → `TauCeti.coind G U A`, the locally constant `f : G → A` with
+  `f (u g) = u • f g`, whose discrete carrier is `TauCeti.DiscreteCoind G U A`.
+- `ProfiniteCohomology.coindEmbedding` → `TauCeti.DiscreteCoind.unit G ⊥ M`, the unit
+  `m ↦ (g ↦ g • m)` of coinduction at the trivial subgroup, injective by
+  `TauCeti.DiscreteCoind.unit_injective`; as an arrow of smooth discrete representations over a
+  ring `R` of a compact `G`, the same map is the unit of
+  `TauCeti.smoothDiscreteResCoindAdjunction R G ⊥`.
+- `ProfiniteCohomology.dimensionShiftQuotient` → `TauCeti.ContCohomology.CoindQuotient G ⊥ M`, for
+  a discrete `G`-module `M` the discrete quotient of `Coind_1^G M` by the image of that unit
+  (continuous action for compact `G`), with the short exact sequence
+  `TauCeti.ContCohomology.coindShortExact G ⊥ M`.
+- `ProfiniteCohomology.cup_add_right` → additivity of the `R`-linear map
+  `TauCeti.TopPairing.cup P m n a` (`map_add`), the second-argument companion of `cup_add_left`.
+- `ProfiniteCohomology.trivialF2_isSmoothDiscrete` → `TauCeti.isSmoothDiscrete_trivialF2`.
+- `ProfiniteCohomology.evensConj_eq_conjMapOf` → `OpenSubgroup.evensConj_eq_trivialF2Map`: for
+  `s ∉ U` and a continuous endomorphism `κ` of `U` with `κ u = s⁻¹ u s`, `OpenSubgroup.evensConj`
+  is pullback along `κ` in every degree; in degree one also
+  `OpenSubgroup.evensConj_explicitH1AddEquivContinuousCohomology` with
+  `TauCeti.ContCohomology.evensConj1_eq_explicitConj1`.
 
 No arrow in these consumer contracts is an input to the present roadmap.
 
