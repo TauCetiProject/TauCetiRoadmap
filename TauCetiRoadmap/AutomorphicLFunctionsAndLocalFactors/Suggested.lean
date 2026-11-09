@@ -1,11 +1,13 @@
 import Mathlib
+import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Diagonal.Normalizer
+import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.UpperUnitriangular.Basic
 
 /-!
 # Automorphic L-functions and local factors: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. This file states the roadmap's headline theorems against the pinned Mathlib, with
-only the definitions their statements need.
+`README.md`. This file states the roadmap's headline theorems against the pinned Mathlib and
+Tau Ceti, with only the definitions their statements need.
 
 AL.0 states the finite-jet theorem for point-supported tempered distributions, the half-order
 K-Bessel derivative and the Bessel–Laplace Mellin identity. AL.1 states local eigenline
@@ -32,6 +34,10 @@ scalar and the global root number needs the supplied `tateLocalConstant` and sta
 comparisons. The archimedean Godement–Jacquet and Rankin–Selberg theorems need Casselman–Wallach
 representations of `GLₙ(ℝ)` and `GLₙ(ℂ)` with their continuous contragredient vectors and
 Whittaker functionals; only the rank-one case, on Mathlib's Schwartz space, is stated.
+
+The unipotent subgroup `N_n` of the Whittaker character and of the Rankin–Selberg quotients is
+Tau Ceti's `TauCeti.upperUnitriangularGroup`, and the long Weyl element is the image of
+`Fin.revPerm` under Tau Ceti's `TauCeti.permutationGL`.
 
 AL.3's curve reciprocity and pure realization, intersection-complex purity, shtuka comparison,
 cuspidal polynomial degree and Riemann-hypothesis statements need lisse adic sheaves,
@@ -400,24 +406,24 @@ open _root_.Matrix
 open scoped ValuativeRel
 
 /-- The `ψ_N`-Whittaker functionals on a representation `π` of `GL_{n+1}(F)`: the linear
-functionals `ℓ` with `ℓ(π(u)v) = ψ(Σᵢ u_{i,i+1}) ℓ(v)` for every upper unitriangular `u`, the
-character `ψ_N` of the upper unipotent subgroup being the sum of the superdiagonal entries
-composed with `ψ`. For `n = 0` the unipotent subgroup is trivial and this is the whole dual. -/
+functionals `ℓ` with `ℓ(π(u)v) = ψ(Σᵢ u_{i,i+1}) ℓ(v)` for every `u` in the upper unitriangular
+subgroup `N_{n+1}(F)` (Tau Ceti's `upperUnitriangularGroup`), the character `ψ_N` of `N_{n+1}(F)`
+being the sum of the superdiagonal entries composed with `ψ`. For `n = 0` the unipotent subgroup
+is trivial and this is the whole dual. -/
 def whittakerFunctionals {F V : Type*} [Field F] [AddCommGroup V] [Module ℂ V] (n : ℕ)
     (π : Representation ℂ (GeneralLinearGroup (Fin (n+1)) F) V) (ψ : AddChar F Circle) :
     Submodule ℂ (Module.Dual ℂ V) where
-  carrier := {ell | ∀ (u : GeneralLinearGroup (Fin (n+1)) F),
-      (∀ i j, j < i → u i j = 0) → (∀ i, u i i = 1) →
+  carrier := {ell | ∀ u ∈ TauCeti.upperUnitriangularGroup (Fin (n+1)) F,
       ∀ v : V, ell (π u v) = (ψ (∑ i : Fin n, u i.castSucc i.succ) : ℂ) * ell v}
-  zero_mem' := by intro u _ _ v; simp
+  zero_mem' := by intro u _ v; simp
   add_mem' := by
-    intro a b ha hb u hu1 hu2 v
+    intro a b ha hb u hu v
     simp only [Set.mem_ofPred_eq] at ha hb
-    simp [ha u hu1 hu2 v, hb u hu1 hu2 v, mul_add]
+    simp [ha u hu v, hb u hu v, mul_add]
   smul_mem' := by
-    intro c a ha u hu1 hu2 v
+    intro c a ha u hu v
     simp only [Set.mem_ofPred_eq] at ha
-    simp [ha u hu1 hu2 v, mul_left_comm]
+    simp [ha u hu v, mul_left_comm]
 
 /-- AL.3.1.1, local Whittaker uniqueness (Bernstein–Zelevinsky, Theorem 5.16; Gelfand–Kazhdan):
 for every irreducible smooth admissible representation of `GL_{n+1}(F)` over a nonarchimedean
@@ -438,46 +444,6 @@ theorem whittakerUniqueness {F V : Type*} [Field F] [ValuativeRel F]
     Module.rank ℂ (whittakerFunctionals n π ψ) ≤ 1 := by
   sorry
 
-/-- The upper unitriangular subgroup `N_n(F)` of `GL_n(F)`, the subgroup of the Whittaker
-character `ψ_N`. The local Rankin–Selberg integrals are taken over `N_n(F)\GL_n(F)`. -/
-def upperUnitriangular (F : Type*) [Field F] (n : ℕ) :
-    Subgroup (GeneralLinearGroup (Fin n) F) where
-  carrier := {u | (∀ i j, j < i → u i j = 0) ∧ ∀ i, u i i = 1}
-  one_mem' := ⟨fun i j h => by simp [h.ne'], fun i => by simp⟩
-  mul_mem' := by
-    rintro u v ⟨hu, hu1⟩ ⟨hv, hv1⟩
-    refine ⟨fun i j hji => ?_, fun i => ?_⟩
-    · change (u.val * v.val) i j = 0
-      rw [Matrix.mul_apply]
-      refine Finset.sum_eq_zero fun l _ => ?_
-      rcases lt_or_ge l i with h | h
-      · simp [hu i l h]
-      · simp [hv l j (lt_of_lt_of_le hji h)]
-    · change (u.val * v.val) i i = 1
-      rw [Matrix.mul_apply, Finset.sum_eq_single i]
-      · simp [hu1 i, hv1 i]
-      · intro l _ hl
-        rcases lt_or_gt_of_ne hl with h | h
-        · simp [hu i l h]
-        · simp [hv l i h]
-      · simp
-  inv_mem' := by
-    rintro u ⟨hu, hu1⟩
-    have htri : (u.val).BlockTriangular id := fun i j h => hu i j h
-    have hinv : ((u⁻¹ : GeneralLinearGroup (Fin n) F).val).BlockTriangular id := by
-      rw [Matrix.coe_units_inv]
-      have : Invertible u.val := Units.invertible u
-      exact Matrix.blockTriangular_inv_of_blockTriangular htri
-    refine ⟨fun i j h => hinv h, fun i => ?_⟩
-    have h1 : (u.val * (u⁻¹ : GeneralLinearGroup (Fin n) F).val) i i = 1 := by simp
-    rw [Matrix.mul_apply, Finset.sum_eq_single i] at h1
-    · simpa [hu1 i] using h1
-    · intro l _ hl
-      rcases lt_or_gt_of_ne hl with h | h
-      · simp [hu i l h]
-      · simp [hinv h]
-    · simp
-
 /-- The block matrix `[[h, 0, 0], [x, I_j, 0], [0, 0, I_{k+1−j}]]` of `GL_{m+k+2}(F)`, for
 `h ∈ GL_{m+1}(F)` and a `j × (m+1)` matrix `x` (`j ≤ k+1`): the argument of the first Whittaker
 function in the local Rankin–Selberg integral `Ψ_j` of `GL_{m+k+2} × GL_{m+1}`. At `j = 0` it is
@@ -497,9 +463,10 @@ def rsEmbedding {F : Type*} [Field F] (m k j : ℕ) (h : GeneralLinearGroup (Fin
       rw [← map_mul, fromBlocks_multiply]
       simp [Matrix.mul_assoc] }
 
-/-- The long Weyl element `w_n` of `GL_n(F)`, the antidiagonal permutation matrix. -/
+/-- The long Weyl element `w_n` of `GL_n(F)`, the antidiagonal permutation matrix: the image of
+the order-reversing permutation `Fin.revPerm` under Tau Ceti's `permutationGL`. -/
 def longWeyl (F : Type*) [Field F] (n : ℕ) : GeneralLinearGroup (Fin n) F :=
-  (Matrix.permMatrixHom (R := F)).toHomUnits Fin.revPerm
+  TauCeti.permutationGL (k := F) Fin.revPerm
 
 /-- The Weyl element `w_{n,m} = diag(I_{m+1}, w_{k+1})` of `GL_{m+k+2}(F)`, `n = m+k+2`, by which
 the dual Whittaker function is translated in the unequal-rank local functional equation. -/
@@ -524,7 +491,7 @@ for Whittaker functions `W`, `W′` with opposite characters the integrand is le
 def rsIntegrand {F : Type*} [Field F] (m k j : ℕ) (a : F → ℝ)
     (W : GeneralLinearGroup (Fin (m+k+1+1)) F → ℂ) (W' : GeneralLinearGroup (Fin (m+1)) F → ℂ)
     (s : ℂ)
-    (p : (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)) ×
+    (p : (GeneralLinearGroup (Fin (m+1)) F ⧸ TauCeti.upperUnitriangularGroup (Fin (m+1)) F) ×
       Matrix (Fin j) (Fin (m+1)) F) : ℂ :=
   W (rsEmbedding m k j (p.1.out)⁻¹ p.2) * W' (p.1.out)⁻¹ *
     (a ((p.1.out)⁻¹ : GeneralLinearGroup (Fin (m+1)) F).val.det : ℂ) ^ (s - ((k : ℂ) + 1) / 2)
@@ -534,7 +501,7 @@ def rsIntegrand {F : Type*} [Field F] (m k j : ℕ) (a : F → ℝ)
 `e_{m+1} h` is the last row of `h`, with the quotient realized as in `rsIntegrand`. -/
 def rsIntegrandEqualRank {F : Type*} [Field F] (m : ℕ) (a : F → ℝ)
     (W W' : GeneralLinearGroup (Fin (m+1)) F → ℂ) (Φ : (Fin (m+1) → F) → ℂ) (s : ℂ)
-    (y : GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)) : ℂ :=
+    (y : GeneralLinearGroup (Fin (m+1)) F ⧸ TauCeti.upperUnitriangularGroup (Fin (m+1)) F) : ℂ :=
   W (y.out)⁻¹ * W' (y.out)⁻¹ *
     Φ (fun l => ((y.out)⁻¹ : GeneralLinearGroup (Fin (m+1)) F) (Fin.last m) l) *
     (a ((y.out)⁻¹ : GeneralLinearGroup (Fin (m+1)) F).val.det : ℂ) ^ s
@@ -542,7 +509,10 @@ def rsIntegrandEqualRank {F : Type*} [Field F] (m : ℕ) (a : F → ℝ)
 /-- AL.3.2.3 and AL.3.3.2 at a finite place for unequal ranks, the local Rankin–Selberg theorem
 of Jacquet–Piatetski-Shapiro–Shalika for `GL_{m+k+2} × GL_{m+1}` (Cogdell, Fields lectures,
 Lecture 6, Proposition 6.2, Theorem 6.1, Corollary 6.3.1, Theorem 6.2 and Proposition 6.5,
-pp.47–49). Let `π`, `π′` be irreducible smooth admissible with nonzero Whittaker functionals `ℓ`
+pp.47–49, for unitary `π`, `π′`; for every generic pair, unitary or not, Cogdell–Piatetski-Shapiro,
+*Derivatives and L-functions for GLn*, §2.1, the basic existence theorem, pp.16–17, stated there
+for representations of Whittaker type). Let `π`, `π′` be irreducible smooth admissible with
+nonzero Whittaker functionals `ℓ`
 for `ψ` and `ℓ′` for `ψ⁻¹`, so that `W(g) = ℓ(π(g)v)` and `W′(h) = ℓ′(π′(h)v′)` run over the
 Whittaker models `W(π, ψ)` and `W(π′, ψ⁻¹)`. Then there are polynomials `P = L(s, π×π′)⁻¹` and
 `Pd = L(s, π∨×π′∨)⁻¹` in `q^(−s)` with constant term 1, an abscissa `c` and a nonzero monomial
@@ -577,9 +547,9 @@ theorem rankinSelbergLocal {F V V' : Type*} [Field F] [ValuativeRel F]
     (ell' : Module.Dual ℂ V') (hell' : ell' ∈ whittakerFunctionals m π' ψ⁻¹)
     (hell'0 : ell' ≠ 0)
     (μF : Measure F) [μF.IsAddHaarMeasure]
-    (μ : Measure (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)))
+    (μ : Measure (GeneralLinearGroup (Fin (m+1)) F ⧸ TauCeti.upperUnitriangularGroup (Fin (m+1)) F))
     [SMulInvariantMeasure (GeneralLinearGroup (Fin (m+1)) F)
-      (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)) μ]
+      (GeneralLinearGroup (Fin (m+1)) F ⧸ TauCeti.upperUnitriangularGroup (Fin (m+1)) F) μ]
     [IsFiniteMeasureOnCompacts μ] (hμ : μ ≠ 0)
     (μx : ∀ j : ℕ, Measure (Matrix (Fin j) (Fin (m+1)) F)) [∀ j, (μx j).IsAddHaarMeasure]
     (a : F → ℝ) (ha : Continuous a) (hapos : ∀ x ≠ 0, 0 < a x)
@@ -626,7 +596,9 @@ theorem rankinSelbergLocal {F V V' : Type*} [Field F] [ValuativeRel F]
   sorry
 
 /-- AL.3.2.3 and AL.3.3.2 at a finite place for equal ranks, the local Rankin–Selberg theorem
-for `GL_{m+1} × GL_{m+1}` (Cogdell, Columbia lectures, §1.3, facts 1–4, pp.7–8). With `π`, `π′`,
+for `GL_{m+1} × GL_{m+1}` (Cogdell, Columbia lectures, §1.3, facts 1–4, pp.7–8, for local
+components of unitary cuspidal representations; for every generic pair, unitary or not,
+Cogdell–Piatetski-Shapiro, *Derivatives and L-functions for GLn*, §2.1, pp.16–17). With `π`, `π′`,
 `ℓ`, `ℓ′` as in `rankinSelbergLocal`, there are polynomials `P = L(s, π×π′)⁻¹` and
 `Pd = L(s, π∨×π′∨)⁻¹` in `q^(−s)` with constant term 1, an abscissa `c` and a nonzero monomial
 `ε q^(−es)` such that for every locally constant compactly supported `Φ` on `F^{m+1}` the integral
@@ -659,9 +631,9 @@ theorem rankinSelbergLocalEqualRank {F V V' : Type*} [Field F] [ValuativeRel F]
     (hell'0 : ell' ≠ 0)
     (μF : Measure F) [μF.IsAddHaarMeasure]
     (μv : Measure (Fin (m+1) → F)) [μv.IsAddHaarMeasure]
-    (μ : Measure (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)))
+    (μ : Measure (GeneralLinearGroup (Fin (m+1)) F ⧸ TauCeti.upperUnitriangularGroup (Fin (m+1)) F))
     [SMulInvariantMeasure (GeneralLinearGroup (Fin (m+1)) F)
-      (GeneralLinearGroup (Fin (m+1)) F ⧸ upperUnitriangular F (m+1)) μ]
+      (GeneralLinearGroup (Fin (m+1)) F ⧸ TauCeti.upperUnitriangularGroup (Fin (m+1)) F) μ]
     [IsFiniteMeasureOnCompacts μ] (hμ : μ ≠ 0)
     (a : F → ℝ) (ha : Continuous a) (hapos : ∀ x ≠ 0, 0 < a x)
     (hmod : ∀ (x : F) (U : Set F), MeasurableSet U →
