@@ -525,12 +525,16 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
   instance of the member `¬ψ` of `A`. The model omits `p` because it omits the image of `p` along
   `lhomWithConstants` and every element is named.
 * Corollaries: for `A` and `T` as above (in particular `T` satisfiable), a partial type inside `A`
-  realized in every countable model of `T` is isolated over `T` in `A`; and the **first-order omitting types theorem**: for a countable language, a
-  satisfiable first-order theory and countably many first-order partial types none isolated by a
-  first-order formula modulo the theory (in the sense of Mathlib's `Theory.IsSatisfiable`), there
-  is a countable model omitting them all (`exists_countable_model_omitting_fo`; the empty type,
-  isolated by `⊤`, shows that the non-isolation hypothesis cannot be dropped). Derive it by taking
-  `A` to be the first-order image fragment.
+  realized in every countable model of `T` is isolated over `T` in `A`; and the **first-order
+  omitting types theorem** `exists_countable_model_omitting_fo`: for a countable language, a
+  satisfiable first-order theory `T` and countably many first-order partial types `p`, none
+  isolated by a first-order formula modulo `T`, there is a countable model `M` omitting them all.
+  For `p` a set of formulas in `n` bound positions, `IsolatesFO T p` says that some first-order
+  `φ` in the same positions has `T ∪ {∃x̄ φ}` (`insert φ.exs T`) satisfiable in the sense of
+  Mathlib's `Theory.IsSatisfiable` and `T ⊨ᵇ φ.imp ψ`, that is `T ⊨ ∀x̄ (φ → ψ)`, for every
+  `ψ ∈ p`; omission is `OmitsFOType M p`, every `n`-tuple of `M` refuting some formula of `p`. The empty type, isolated by `⊤`, shows that
+  the non-isolation hypothesis cannot be dropped. Derive the theorem by taking `A` to be the
+  first-order image fragment.
 
 **Acceptance example.** A partial type realized in every countable model of a satisfiable `T` is
 isolated.
