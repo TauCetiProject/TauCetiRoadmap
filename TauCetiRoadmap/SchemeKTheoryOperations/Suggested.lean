@@ -15,14 +15,14 @@ on Mathlib's complexes of module sheaves. The resolution property is written dir
 as the finite locally free quotient condition, without introducing another predicate.
 
 The enhanced perfect categories and complicial/Frobenius models needed for the other
-Layer 1 comparisons and finite descent are absent at the pins (Mathlib 6b7abb3,
-Tau Ceti a91d3aa). Layers 2–5 require scheme K/G spectra, their supported localisation
+Layer 1 comparisons and finite descent are absent at the pins (Mathlib 1b1ccf4,
+Tau Ceti 2fd255d). Layers 2–5 require scheme K/G spectra, their supported localisation
 maps, spectral hypercohomology and coniveau towers; the Witt results also need the
 enhanced perfect categories of Witt thickenings. Thus localisation, spectral descent,
 Gersten exactness and Bloch's formula, Witt hyperdescent, and the projective-bundle,
 Bass and blowup formulas have no signatures here. Layers 6–7 additionally require
-special λ-ring structures, higher Adams operations, Chow/Chern carriers and their
-comparison maps. Adams weight decompositions, Chern-character isomorphisms,
+special λ-ring structures, higher Adams operations, Chern classes and characters,
+and comparison maps from K-theory to Chow groups. Adams weight decompositions, Chern-character isomorphisms,
 Riemann–Roch and excess intersection likewise remain mathematical targets in the
 README without compiled statements here.
 -/
