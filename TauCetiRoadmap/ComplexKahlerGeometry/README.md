@@ -43,10 +43,11 @@ bundles with complex structure, tensor/dual/Hom/complexification, Hermitian metr
 connections, curvature and their principal-bundle comparison maps; its B6.1 owns the
 manifold good-cover/sheaf/singular comparison and B6.2 the circle-bundle
 classification by `H²(M;ℤ)`, which B2's associated-bundle comparison turns into the
-smooth complex-line classification consumed in K4.P. [TopologicalKTheory T1.6d](../TopologicalKTheory/README.md)
-supplies, on smooth finite-dimensional manifolds, smooth representatives of continuous
-bundles and of continuous isomorphisms between smooth bundles; K4.P uses it in rank one
-only. [PDE](../PDE/README.md)
+smooth complex-line classification consumed in K4.P. TopologicalKTheory consumes K5–K7,
+including K7.2's complex characteristic cells, and is not a supplier here; K4.P compares
+smooth and continuous complex lines itself through the two exponential sheaf sequences, a
+rank-one statement that differs from TopologicalKTheory's arbitrary-rank smoothing of
+continuous bundles by partitions and matrix models. [PDE](../PDE/README.md)
 supplies scalar real-domain Sobolev, embedding, Rellich and elliptic estimates, not system
 estimates. [PseudodifferentialOperators P1.0](../PseudodifferentialOperators/README.md#p10-differential-operator-core)
 supplies differential-operator carriers, jets, symbols and formal density adjoints
@@ -68,11 +69,9 @@ are conjugate-linear in the first argument and linear in the second. For a real 
 metric and its fundamental form, pin `g(u,v)=ω(u,Jv)`; positivity and compatibility are
 Tau Ceti's `SmoothTwoForm.Compatible` convention. The definitive degree-two
 carrier is DG0.4's `SmoothForm I M ℝ 2`, with closedness `mextDeriv ω = 0`.
-Transport the pinned native two-form compatibility and closedness API through
-DG0.4's `legacySmoothTwoFormEquiv` and
-`legacySmoothTwoFormEquiv_isClosed_iff`; the prototypes use that native
-carrier to pin these preservation laws during its migration. No independent
-two-form carrier is introduced. On `(TM,J)` set
+The pinned `TauCeti.SmoothTwoForm I M` is the abbreviation `SmoothForm I M ℝ 2`, so
+`TauCeti.SmoothTwoForm.Compatible` and `TauCeti.SmoothForm.IsClosed` are used directly on
+DG0.4's carrier. No independent two-form carrier is introduced. On `(TM,J)` set
 `h_T(u,v)=g(u,v)+iω(u,v)` (conjugate-linear first slot). Transport through
 `u↦u^(1,0)=(u−iJu)/2`. If `g_ℂ` is the complex-bilinear extension, then
 `h_T(u^(1,0),v^(1,0))=2g_ℂ(bar(u^(1,0)),v^(1,0))`. In holomorphic coordinates,
@@ -103,17 +102,17 @@ Laplace–Beltrami operator. Do not use one sign for both without the comparison
 ## K1. Complex structures and type calculus
 
 Consume ComplexManifolds Milestones 1 and 2, including the orientation construction,
-atlas independence, product law and preservation by biholomorphisms (M2.4).
+atlas independence, product law and preservation by biholomorphisms (Milestone 2, item 4).
 These targets use DifferentialGeometry 2.1's `Manifold.Orientation`, whose fibers are
 `Orientation ℝ (TangentSpace I x) ι`. Reindex `Fin (2 * finrank ℂ E)`
 to `Fin (finrank ℝ E)` using the scalar-restriction dimension equality,
 and prove every chart sign of the resulting `OrientationLift` is positive.
-Consume ComplexManifolds Milestone 2.1's real determinant positivity, expressed by
+Consume ComplexManifolds Milestone 2, item 1's real determinant positivity, expressed by
 `LinearMap.det_restrictScalars` and `Algebra.norm_complex_eq`.
 The shared carrier in ComplexManifolds is literally DG2.1's `Manifold.Orientation`
 through HeegaardFloer's delegation to DG. K1 owns the tangent-index and
-positive-chart-sign comparisons just stated, derived from ComplexManifolds M2.1's
-determinant positivity and M2.2's overlap lemma; it constructs no second
+positive-chart-sign comparisons just stated, derived from ComplexManifolds Milestone 2, item 1's
+determinant positivity and item 2's overlap lemma; it constructs no second
 orientation. The consumed orientation laws include compatibility with
 DG 2.2's pullback along open inclusions and along
 the identity between compatible atlases, and with its product orientation.
@@ -204,8 +203,7 @@ invertibility of the composed coordinate maps and smooth regularity by
 iteration/bootstrapping. These analytic prerequisites belong here, consuming PDE's scalar
 Hölder/Schauder tools. A fixed-Hölder contraction using polydisc Cauchy–Green alone does
 not give the required derivative control. This is not a consequence of real Frobenius
-alone. LieGroupoidsPoisson consumes the eigensubbundle/involutivity dictionary and builds
-their complex Lie algebroid structures.
+alone.
 
 ## K2. Dolbeault calculus and the local lemmas
 
@@ -220,9 +218,12 @@ Leibniz (`del_wedgeWith`, `delBar_wedgeWith`), conjugation
 (`mpullback_delBar`). Prove the Dolbeault–Grothendieck lemma for smooth `(p,q)` forms, q>0,
 on a whole open polydisc: `dolbeault_grothendieck_polydisc` states it on `polydisc c r`, the
 open polydisc with centre c and polyradius r as an open subset of `ℂⁿ` (empty when some
-radius is nonpositive), for the pinned types and `delBar`. For the scalar Cauchy–Green step consume [GH0's compact-support operator, identity and real-plane
-area normalization](../GlobalHolomorphicFunctions/README.md) under their support and smoothness hypotheses, and consume
-[GH0's finite-rank Runge operator](../GlobalHolomorphicFunctions/README.md) with its
+radius is nonpositive), for the pinned types and `delBar`. For the scalar Cauchy–Green step consume
+[GlobalHolomorphicFunctions §0.3](../GlobalHolomorphicFunctions/README.md)'s compact-support
+operator (Tau Ceti's Cauchy transform), its identities and its real-plane area normalization
+under their support and smoothness hypotheses, and consume
+[GH0's finite-rank Runge operator](../GlobalHolomorphicFunctions/README.md) (GlobalHolomorphicFunctions
+Layer 2, §2.5) with its
 operator bound `sup_K|f−A_jf|≤ε sup_L|f|` for holomorphic f on the stated neighborhood. The
 finite-rank operators have fixed spatial evaluation points and output functions, independent of
 external parameters.
@@ -240,8 +241,8 @@ is `exists_mixed_parameter_dbar_solution`.
 
 **Parameter Cauchy–Green.** Prove the following lemma for this solver. For a fixed
 `χ ∈ C_c^∞(Ω)` independent of all parameters and jointly smooth `f` on
-`P × Q × Ω`, extend `χ f(p,q,·)` by zero and apply GH0's fixed-normalization
-Cauchy–Green operator `T`. The map `(p,q,z) ↦ T(χ f(p,q,·))(z)` is jointly `C^∞`;
+`P × Q × Ω`, extend `χ f(p,q,·)` by zero and apply GlobalHolomorphicFunctions §0.3's
+fixed-normalization Cauchy–Green operator `T`. The map `(p,q,z) ↦ T(χ f(p,q,·))(z)` is jointly `C^∞`;
 in parameter charts every smooth derivative in `p` commutes with `T`, and
 `∂̄_{q_j} T(χ f) = T(χ ∂̄_{q_j} f)`. Its `z`-equation is
 `∂̄_z T(χ f)=χ f`. Prove these identities by differentiating under the integral
@@ -443,10 +444,10 @@ at `e a` to those at `a` (`TauCeti.Analysis.Meromorphic.Pullback`), which respec
 derivation `meromorphicGerms.derivation` with the chain rule `derivation_pullback`
 (`TauCeti.Analysis.Meromorphic.Derivation`).
 
-Own what the pins lack. Consume [GH2's local Laurent construction](../GlobalHolomorphicFunctions/README.md),
-specifically its finite-pole local phase before global Runge patching: the generic local
-Laurent decomposition and coefficient extraction remain owned by GlobalHolomorphicFunctions,
-and this target proves that GH2's negative Laurent coefficients of a finite-pole germ are the
+Own what the pins lack. Consume [GH2](../GlobalHolomorphicFunctions/README.md)'s local Laurent
+decomposition and Laurent-coefficient extraction (GlobalHolomorphicFunctions Layer 4, §4.1),
+which GlobalHolomorphicFunctions owns, and prove that GH2's negative Laurent coefficients of a
+finite-pole germ are the
 coefficients of its `principalPart`, by the circle-integral formula above and annulus integral
 invariance, and that GH2's finite-pole output is the germ with that principal part and that
 regular germ. Prove the product formula: a fixed negative coefficient of `φψ` is the finite
@@ -461,7 +462,7 @@ evaluation of `O_a` at `a` through the regular part (`regularEval_eq_eval_regula
 `e(z)=2z` at `a=0`, `1/z` pulls back to `1/(2z)`, pullback of `1/(2z)` along `w↦w/2` returns
 `1/w`, and the regular germ `1+z` pulls back to `1+2z`, with value 1 on both sides.
 K3.MeromorphicGermField consumes the stalk/identity foundation, these native
-analytic/meromorphic APIs and this local GH2 phase, and precedes applications needing scalar
+analytic/meromorphic APIs and GH2's Laurent decomposition, and precedes applications needing scalar
 meromorphic coefficient germs. It has no QFT prerequisite. General isolated
 essential-singularity and global Mittag–Leffler constructions retain their
 GlobalHolomorphicFunctions owner.
@@ -553,6 +554,25 @@ dimension hypothesis is needed. No extension theorem for arbitrary singular
 ambient spaces is asserted. Work
 out the node `z²=w²+w³` and cusp `z²=w³`, distinguishing global irreducibility from local
 analytic branches on the actual zero sets and germs.
+
+**Checks.**
+
+- Weierstrass preparation and division: for `f(z,w)=w²−z` the order of `w↦f(0,w)=w²` is
+  d=2, the unit is 1 and the coefficient germs `(0,−z)` vanish at 0; dividing `w³` by it
+  gives `q=w` and remainder `zw`, of degree 1<2 in w. If `f(0,0)≠0` the order is 0 and f
+  is a unit times the polynomial 1; for `f=z` the function `w↦f(0,w)` vanishes
+  identically, so no preparation in w exists without a linear change of coordinates.
+- Reduced ideal and singular locus: `V={zw=0}⊂ℂ²` has `Sing V={0}`, two irreducible
+  components and dimension 1; computing the Jacobian criterion from the nonreduced
+  equation `(zw)²`, whose gradient vanishes on all of V, would make every point singular.
+- Global irreducibility versus local branches: the node `z²=w²+w³` is the image of
+  `t↦(t(t²−1),t²−1)`, with `t=±1` both sent to 0, so its regular locus is the connected
+  `ℂ∖{±1}` and V is irreducible, while its germ at 0 has the two branches
+  `z=±w√(1+w)`; the cusp `z²=w³`, the image of `t↦(t³,t²)`, has `Sing={0}` and an
+  irreducible germ there.
+- Extension: `1/z` on `ℂ∖{0}` does not extend, so Hartogs needs `dimℂ A≤n−2`; on `ℂ²` every
+  holomorphic function on `ℂ²∖{0}` extends, and a function bounded near a hypersurface
+  such as `{z=0}` extends by the Riemann extension theorem, while `1/z` is unbounded there.
 
 ## K4. Holomorphic and Hermitian bundles
 
@@ -659,7 +679,11 @@ componentwise category with pointwise finite-dimensional functors on
 `FundamentalGroupoid M` and with locally constant sheaves of ℂ-modules
 having finite-dimensional stalks. Prove the three category equivalences for
 flat holomorphic connections, flat smooth ℂ-linear connections and those
-local systems; recover the equivalences of isomorphism groupoids as well.
+local systems; recover the equivalences of isomorphism groupoids as well. At a fixed rank
+on a connected base these are the classical correspondences (Demailly, Chapter V, (6.6),
+(6.7) and the construction after (6.7), pp. 260–261, for flat bundles and representations
+of the fundamental group; Chapter IV, (16.8), p. 249, for locally constant sheaves); the
+componentwise assembly without a rank bound is this roadmap's own statement.
 Use local parallel frames and path transport, including inverse sheaf/gluing,
 stalk and monodromy naturality. Extract `(D^(0,1),D^(1,0))` by
 Koszul–Malgrange. Construct the inverse holomorphic object as `L⊗𝒪` with
@@ -677,6 +701,23 @@ Prove the torsion tensor and Cartan frame structure equations for tangent connec
 consuming existing covariant-derivative curvature and torsion APIs and translating frame
 conventions. These include the dual and tensor-connection exercises as specializations of
 B3 rather than new connection objects.
+
+**Checks.**
+
+- Chern connection: on the trivial line over ℂ with `h=e^(−|z|²)`, `A=h⁻¹∂h=−z̄ dz` and
+  `F=dA=dz∧dz̄`, so `(i/(2π))F=(1/π)dx∧dy` is positive of type `(1,1)`; the formula
+  `h⁻¹∂̄h=−z dz̄` would give a connection whose `(0,1)` part is not ∂̄.
+- Frame change: for `e′=e g` with `g=e^z`, `h′=|e^z|²h` and `A′=A+dz`, which is
+  `g⁻¹Ag+g⁻¹dg` in rank one; a constant `g=2` gives `h′=4h` and `A′=A`.
+- Monodromy convention: for the flat connection `d−a dz/z` on the trivial line over ℂ×
+  the parallel sections are `c z^a`, so the positive loop has `M(γ)=e^(2πia)`; the inverse
+  convention would give `e^(−2πia)`, and for `a∈ℤ` the gauge `z^a` makes the connection
+  trivial.
+- Flatness on curves: on a complex curve `Ω^(2,0)=0`, so every holomorphic connection is
+  flat, while the Chern connection of `O(1)` on ℂP¹ has nonzero curvature.
+- Componentwise ranks: on `M=ℂ⊔ℂ` with ranks 0 and 2 the assembled bundle has fibres 0
+  and ℂ², which no single fixed model F describes; the empty base and rank zero give zero
+  bundles, sheaves and local systems.
 
 ### K4.P. Holomorphic Picard groups and the exponential comparison
 
@@ -724,23 +765,39 @@ curvature and the real de Rham comparison, including torsion invisible to
 curvature, tensor powers and conjugate/dual signs.
 
 Prove that H¹(M,𝒪)=H²(M,𝒪)=0 makes c₁:Pic_hol(M)→H²(M,ℤ) an isomorphism.
-On the underlying smooth manifold consume
-[TopologicalKTheory T1.6d](../TopologicalKTheory/README.md)'s
-finite-rank bundle and isomorphism smoothing in **unstabilized rank one**.
-Write Pic_sm(M) and Pic_cont(M) for smooth and continuous complex-line
-isomorphism classes, respectively. Construct the forgetful group isomorphism
-F_M:Pic_sm(M)≃Pic_cont(M): every continuous line has a smooth representative
-continuously isomorphic to it, and continuously isomorphic smooth lines admit
-a smooth isomorphism. The latter makes the inverse on classes independent of
-all representative and smoothing choices. This is a bijection of actual
+On the underlying smooth manifold, Hausdorff and second-countable hence paracompact,
+write Pic_sm(M) and Pic_cont(M) for smooth and continuous complex-line
+isomorphism classes, respectively, and construct the forgetful group isomorphism
+F_M:Pic_sm(M)≃Pic_cont(M) in **unstabilized rank one** from the two exponential
+sheaf sequences. Let `C⁰_ℂ` and `C^∞_ℂ` be the sheaves of continuous and smooth
+complex functions and `C⁰_ℂ×`, `C^∞_ℂ×` their unit sheaves. Prove stalkwise exactness
+of `0→ℤ→C⁰_ℂ→C⁰_ℂ×→1` and `0→ℤ→C^∞_ℂ→C^∞_ℂ×→1`, both with f↦exp(2πif): a
+nonvanishing continuous function on a chart ball has a continuous logarithm by
+Mathlib's `IsCoveringMap.existsUnique_continuousMap_lifts` for
+`Complex.isCoveringMap_exp`, and that logarithm is smooth when the function is,
+since exp is a local diffeomorphism. Both function sheaves are fine, by continuous
+partitions of unity (`PartitionOfUnity.exists_isSubordinate`) and by smooth ones, so
+K2's fine-implies-acyclic theorem gives `H^q(M;C⁰_ℂ)=H^q(M;C^∞_ℂ)=0` for q≥1
+(Demailly, Chapter IV, (4.11)–(4.12), p. 204, and (4.15), p. 205). Hence both
+connecting maps `H¹(M;C^∞_ℂ×)→H²(M;ℤ)` and `H¹(M;C⁰_ℂ×)→H²(M;ℤ)` are isomorphisms.
+The inclusion `C^∞_ℂ⊂C⁰_ℂ` is a morphism of the two sequences that is the identity
+on ℤ, so naturality of the connecting maps makes the induced map
+`H¹(M;C^∞_ℂ×)→H¹(M;C⁰_ℂ×)` an isomorphism commuting with both. Identify Pic_sm(M)
+and Pic_cont(M) with these two H¹ groups through transition cocycles in K4's frame
+convention, and the induced map with F_M (Demailly, Chapter V, (8.2) and (9.2),
+p. 264, for the smooth case; the continuous case is the same argument with
+continuous functions, and is this roadmap's own statement). Thus every continuous
+line has a smooth representative continuously isomorphic to it, and continuously
+isomorphic smooth lines admit a smooth isomorphism; the latter makes the inverse on
+classes independent of all representative choices. This is a bijection of actual
 rank-one isomorphism classes, not merely stable K₀ classes and not a claimed
 bijection between the individual smooth and continuous morphism sets.
 Identify F_M with forgetting regularity of the SAME underlying complex line.
 Prove compatibility with the trivial line, tensor product and dual, and
 F_N(f*L)=f*F_M(L) for smooth maps f:N→M, in particular for holomorphic maps.
-Use the same integral singular c₁ on both sides and prove
-c₁_cont(F_M[L])=c₁_sm([L]), including torsion, through the transition-cocycle
-and sheaf/singular comparisons already fixed above.
+Both integral classes are the connecting images just described, so
+c₁_cont(F_M[L])=c₁_sm([L]), including torsion; SBC B6.1's sheaf/singular comparison
+identifies this class with the integral singular c₁ fixed above.
 
 Compose Pic_hol(M)→Pic_sm(M)→[F_M]Pic_cont(M). Prove that it is the ordinary
 forgetful map on underlying lines and respects tensor, dual and holomorphic
@@ -762,8 +819,8 @@ SBC B6.1 owns the manifold good-cover/sheaf/singular comparison; consume
 SBC B6's smooth line classification and curvature comparisons through it.
 AlgebraicTopology supplies singular cochains and their coefficient exact
 sequences, not a second manifold sheaf/singular bridge. The continuous-line
-corollary additionally consumes TopologicalKTheory T1.6d's unstabilized
-rank-one smoothing interface specified above. These are its explicit lower
+corollary additionally uses K2's fine-implies-acyclic theorem, continuous partitions of
+unity and the covering-space logarithm specified above. These are its explicit lower
 inputs. Its conditional Picard isomorphism uses supplied vanishing and does
 not assume Borel–Weil, Kodaira embedding, flag cohomology or K7's section
 dimension calculations. K4.P owns the generic `Pic_hol(M)`, the exponential
@@ -775,9 +832,10 @@ identifies its root-degree basis. SchubertGeometry S5's vanishing on Schubert
 varieties is algebraic coherent cohomology; it uses no holomorphic Picard group
 and is neither an input nor a consumer of K4.P.
 
-*Needs:* K2's Čech/derived comparison; K3's function sheaf; K4's line bundles;
-SmoothBundlesConnections B6.1–B6.2; TopologicalKTheory T1.6d (rank one);
-AlgebraicTopology's singular cochains; Mathlib `Sheaf.H.δ`, `Additive`.
+*Needs:* K2's Čech/derived comparison and fine-implies-acyclic theorem; K3's function
+sheaf; K4's line bundles; SmoothBundlesConnections B6.1–B6.2; AlgebraicTopology's
+singular cochains; Mathlib `Sheaf.H.δ`, `Additive`, `PartitionOfUnity.exists_isSubordinate`,
+`Complex.isCoveringMap_exp` and `IsCoveringMap.existsUnique_continuousMap_lifts`.
 
 **Checks.**
 
@@ -793,6 +851,18 @@ AlgebraicTopology's singular cochains; Mathlib `Sheaf.H.δ`, `Additive`.
 - Torsion is seen: on a complex manifold with `H²(M;ℤ)` having a torsion class `t`
   and `H¹(𝒪)=H²(𝒪)=0`, the line with `c₁=t` is holomorphically nontrivial while its
   curvature class is zero, so curvature alone does not determine the class.
+- `F_M` on `ℂP¹`: both `Pic_sm` and `Pic_cont` are `H²(ℂP¹;ℤ)=ℤ` through the two
+  connecting maps, and the underlying line of `O(1)` has `c₁·[ℂP¹]=+1` on both sides, so
+  `F_M` is the identity of ℤ; a comparison through the inverse frame cocycle on one side
+  only would be multiplication by `−1`.
+- `F_M` sees torsion: on the smooth manifold `ℝP²`, `H²(ℝP²;ℤ)=ℤ/2`, and the
+  complexified Möbius line has `c₁` the nonzero class, since the Bockstein
+  `H¹(ℝP²;ℤ/2)→H²(ℝP²;ℤ)` is injective (`H¹(ℝP²;ℤ)=0`); it is smoothly and continuously
+  nontrivial although its real curvature class vanishes, and a de Rham-valued `c₁` would
+  call it trivial.
+- The connecting maps need the fine function sheaves: on `S¹` the locally constant sheaf ℂ
+  has `H¹=ℂ≠0`, while `C⁰_ℂ` and `C^∞_ℂ` are acyclic; and classifying complex lines on `S²`
+  by `H¹(S²;ℤ/2)=0` (the real-line classification) would miss the lines `O(k)`, `k≠0`.
 
 
 ## K5. Compact Hermitian elliptic theory and Serre duality
@@ -969,7 +1039,7 @@ Identify its continuous dual with compactly supported distributions, proving
 that continuity bounds the pairing by finitely many such seminorms and hence
 forces compact support. These carriers precede the Hilbert scale.
 
-**K5a.SmoothSectionMontel — compact and bounded dual convergence.** For a finite-dimensional second-countable Hausdorff smooth manifold M and a finite-rank real or complex smooth bundle E, use the preceding complete compact-C^k Fréchet section topology. Prove that every bounded subset has compact closure: on each compact chart/frame set apply Arzelà–Ascoli to every derivative using the next derivative bound, choose a diagonal subsequence along the countable exhaustion and derivative orders, and show the limits are compatible smooth sections. Include finite/disconnected and compact M. Install the native `MontelSpace` instance from `Mathlib.Analysis.LocallyConvex.Montel`; do not define another Montel predicate. Consume its `ContinuousLinearEquiv.toCompactConvergenceCLM` (and its pointwise apply laws) for the continuous-dual strong/compact-convergence comparison, supplying the native Hausdorff and scalar/module hypotheses. Its two continuity directions use that compact sets are von Neumann bounded and every von Neumann bounded set lies in its compact closure. The new target here is the smooth-section Montel instance and its bundle/density adapters, not a duplicate generic dual-topology theorem. Transport through the section/density trivializations already constructed here. This comparison supplies E′ on Euclidean configuration spaces and on the compact real sphere; it does not identify the LF compact-test dual topology or the pointwise Schwartz-dual topology with either topology by notation.
+**K5a.SmoothSectionMontel — compact and bounded dual convergence.** For a finite-dimensional second-countable Hausdorff smooth manifold M and a finite-rank real or complex smooth bundle E, use the preceding complete compact-C^k Fréchet section topology. Prove that every bounded subset has compact closure: on each compact chart/frame set apply Arzelà–Ascoli to every derivative using the next derivative bound, choose a diagonal subsequence along the countable exhaustion and derivative orders, and show the limits are compatible smooth sections. Include finite/disconnected and compact M. Install the native `MontelSpace` instance from `Mathlib.Analysis.LocallyConvex.Montel`; do not define another Montel predicate. Consume its `ContinuousLinearEquiv.toCompactConvergenceCLM` (and its pointwise apply laws) for the continuous-dual strong/compact-convergence comparison, supplying the native Hausdorff and scalar/module hypotheses. Its two continuity directions use that compact sets are von Neumann bounded and every von Neumann bounded set lies in its compact closure. The new target here is the smooth-section Montel instance and its bundle/density adapters, not a duplicate generic dual-topology theorem; this bundle-valued Montel statement is this roadmap's own, proved by the Arzelà–Ascoli route above. Transport through the section/density trivializations already constructed here. This comparison supplies E′ on Euclidean configuration spaces and on the compact real sphere; it does not identify the LF compact-test dual topology or the pointwise Schwartz-dual topology with either topology by notation.
 
 For compact M define `BundleSobolev E s`, s∈ℝ, as the subspace of
 BundleDistribution(E) whose localizations χ_i u in a fixed finite smooth
@@ -1172,9 +1242,9 @@ DG8.4's existing vector-valued simplex/chain integrals and Stokes. Use that
 agreement for the complex-linear de Rham integration map and its naturality. On an
 oriented real Riemannian manifold, extend compactly supported smooth top-form
 integration to integrable `f dvol_g` through the L¹ density completion;
-prove independence of the approximants. Combine DG 5.5's
-`integralTopForm_eq_integralDensity` and 12.4's
-`integral_riemannianVolume_eq_integralDensity` to prove
+prove independence of the approximants. Combine DG 5.5's agreement of the density
+integral with `integralTopForm` on oriented manifolds and DG 12.4's agreement of
+`TauCeti.riemannianVolume` with the density integral to prove
 `∫_M f dvol_g=∫ f d(riemannianVolume I M)` for integrable complex f,
 first on compactly supported smooth functions and then by L¹ density. Use
 this comparison in every L² formal-adjoint and Hodge pairing identity.
@@ -1205,14 +1275,17 @@ radial homotopy, to obtain smooth primitives `g_+` and `g_-` of `ω` on these do
 Split the positively oriented circle into four arcs: `1→i` and `−i→1` lie in `V_+`, while
 `i→−1` and `−1→−i` lie in `V_-`. The upper and lower overlap components are connected, so
 `g_+−g_-` is constant there, with values `c_U` and `c_L`. Apply the interval fundamental
-theorem to the four arcs, using DG's open-subtype flat adapter and DG1.5's comparison with
-native `curveIntegral`. Their sum gives `Per(ω)=c_U−c_L`. Thus zero period makes the constants
+theorem to the four arcs, reading each 1-form on the open subtype as its flat covector field
+on the ambient plane and comparing with native `curveIntegral` by Mathlib's
+`curveIntegral_eq_intervalIntegral_deriv`. Their sum gives `Per(ω)=c_U−c_L`. Thus zero period makes the constants
 equal; after one constant adjustment the two local primitives glue to a global smooth primitive.
 For general `ω`, set `k=(2πi)⁻¹Per(ω)`; the closed form `ω−k dz/z` has zero period and is
 exact, so `[ω]=k[dz/z]`. Since `Per(dz/z)=2πi`, `P([dz/z])=1` and `P` is a
 complex-linear equivalence.
 For the normalization, construct `dz/z` as a smooth form through DG0.3 and prove
-`dz/z=β+iα` in the polar notation of DG1.5. Define `Log_+` as the principal logarithm on `V_+` with argument
+`dz/z=β+iα`, where `α=(−y dx+x dy)/(x²+y²)` and `β=(x dx+y dy)/(x²+y²)` on the
+punctured plane, so that the polar map `(r,θ)↦(r cos θ,r sin θ)` pulls α back to `dθ` and
+β to `dr/r`. Define `Log_+` as the principal logarithm on `V_+` with argument
 `(−π,π)`, and `Log_−(z)=log(−z)+iπ` on `V_-`, with argument `(0,2π)`. Then
 `Log_−−Log_+` is `0` on the upper overlap and `2πi` on the lower. Prove
 `d Log_±=dz/z` on the corresponding slit domains from the real derivative of the complex
@@ -1422,12 +1495,37 @@ where appropriate. None of these finite-component estimates supplies a
 uniform rank, shift or analytic constant for an arbitrary noncompact base;
 K4 retains its unbounded-rank componentwise scope there.
 
+**Checks.**
+
+- `complexBesselSymbol` at `z=0` is 1 at every ζ, so `Λ^0` is the identity, as is Mathlib's
+  `besselPotential` at order 0; at `z=2` it is `1+‖ζ‖²`, the multiplier of `1−(2π)^(−2)Δ` in the
+  native Fourier normalization, not of `1−Δ`.
+- At real `z=s` it is `(1+‖ζ‖²)^(s/2)`, the symbol of Mathlib's `besselPotential` of order s;
+  at `z=it` its modulus is `exp(Re((it/2)log(1+‖ζ‖²)))=1`, so `Λ^(it)` is an L² isometry. A
+  symbol built from `log(1+‖ζ‖)` would give `1+‖ζ‖` at z=2, which is 3 instead of 5 at
+  `‖ζ‖=2`; the symbols multiply, `z=1` and `z=−1` giving 1.
+- The density line transition is `|det|`: under the chart `x↦−x` on ℝ the density `|dx|`
+  is unchanged while the form `dx` changes sign; with `det` the density line would be the
+  orientation line, nontrivial on `ℝP²`, whereas `DensityBundle ℝP²` is trivial.
+- `BundleTest` and `BundleDistribution` on ℝ with the trivial line: the delta
+  `φ|dx|↦φ(0)` is chart independent, and the locally integrable function 1 pairs as
+  `φ|dx|↦∫φ dx`, also chart independent; pairing with bare functions instead of densities
+  would make it depend on the chart, since under `y=2x` `∫φ dy=2∫φ dx`. The empty base and
+  the zero bundle give zero test and distribution spaces.
+- `BundleSobolev`: a point delta on a compact n-manifold lies in `BundleSobolev E s` exactly
+  when `s<−n/2`, since its Fourier transform has modulus 1 and `∫(1+‖ζ‖²)^s dζ` is finite
+  exactly then (`s<−1/2` on `S¹`); a weight `(1+‖ζ‖²)^(2s)` would move the threshold to
+  `s<−n/4`. Smooth sections lie in every `BundleSobolev E s`.
+
 **K5b. Hermitian type calculus, Dolbeault Hodge theory and Serre duality.**
 **K5b.0 — Local Hermitian identities on arbitrary complex manifolds.**
 Consume K1, K2, K4 and K5a's pointwise density/formal-adjoint layer.
 The Gram/type/star identities, Dolbeault formal adjoint on compact supports
 and principal symbol `σ(Δ_∂̄_E)(ξ)=½|ξ|²_g Id` below hold on arbitrary
-Hermitian complex manifolds and their open sets, without compactness.
+Hermitian complex manifolds and their open sets, without compactness (Demailly,
+Chapter VI, §7, p. 309: the formal adjoint `D*_E=−⋆D_E⋆`, where Demailly's ⋆ is the
+complex-linear star `*` here and his conjugate-linear variant `#` is `barStar`, and the
+principal part of `Δ''_E` equal to one half that of `Δ_E`).
 RealAnalyticGeometry R3.1 consumes them for its weighted noncompact estimate.
 Prove
 `dvol_g=ω^n/n!` for the complex orientation. Identify K1's
@@ -1451,7 +1549,8 @@ A unitary `(1,0)` coframe φ for h_T* has Gram norm √2; prove the scaling
 `e_(φ_j)i_(φ_k)+i_(φ_k)e_(φ_j)=2δ_jk`. Transport K5a's pointwise type law to the
 complex-linear Hodge star `*:Ω^(p,q)→Ω^(n−q,n−p)`, its degree
 square identities, and the `(n−p,n−q)` type of the pinned `barHodgeStar`, `barStar β=*(bar β)`. Pin
-`α∧barStar β=⟨β,α⟩dvol` and `∂̄*=−*∂*`. Consume K5a's
+`α∧barStar β=⟨β,α⟩dvol` and `∂̄*=−*∂*` (Demailly, Chapter VI, (5.2)–(5.3), p. 300, where
+⋆ is the complex-linear star of type `(n−q,n−p)`). Consume K5a's
 `*Δ_d=Δ_d*` and prove `barStar Δ_∂̄=Δ_∂̄ barStar`.
 For a Hermitian holomorphic bundle E construct conjugate-linear
 `barStar_E:Ω^(p,q)(E)→Ω^(n−p,n−q)(E*)` using the fiberwise metric identification; pin
@@ -1500,6 +1599,19 @@ identification to an anti-complex-linear isomorphism
 `H^(p,q)(M) ≃ H^(n−p,n−q)(M)`. Prove its inverse and square sign.
 It depends on the Hermitian metric; it is distinct from the complex-linear
 pointwise star, whose type is `(n−q,n−p)`.
+
+**Checks.**
+
+- Volume normalization: on ℂ with the standard metric `ω=(i/2)dz∧dz̄=dx∧dy=dvol`, and on ℂ²
+  `ω²/2!=dx₁∧dy₁∧dx₂∧dy₂`; dropping the `1/n!` gives `2dvol` on ℂ².
+- Gram norm and adjoint: `|dz|²_Gram=|dx|²+|dy|²=2`, hence `∂̄*(f dz̄)=−2∂f/∂z` and
+  `Δ_∂̄ g=−2∂_z∂_z̄ g=−½Δ_flat g` on functions, whose symbol is `½|ξ|²`, as stated above;
+  the normalization `|dz|²=1` would give symbol `¼|ξ|²`.
+- Serre duality without Kähler: on the Hopf surface `h^(0,1)=1=h^(2,1)` while
+  `h^(1,0)=0`, so `h^(p,q)=h^(n−p,n−q)` holds and `h^(p,q)=h^(q,p)` fails; on ℂP¹
+  `h^(0,0)=h^(1,1)=1` and `h^(1,0)=h^(0,1)=0`.
+- Complex-linear versus conjugate-linear star: on ℂ, `*dz` is a multiple of `dz` (type
+  `(n−q,n−p)=(1,0)`), while `barStar dz` is a multiple of `dz̄` (type `(n−p,n−q)=(0,1)`).
 
 ## K6. Kähler identities and Hodge decomposition
 
@@ -1756,7 +1868,9 @@ finite-dimensional boundaryless manifold and U⊆M open; the cases used above ar
 the compact ambient M and the regular locus V_reg. K6.1.RelativeIntegration
 owns these boundaryless open-pair statements; DeRhamCohomologyAndDuality
 §§2.4, 3.1–3.3 and 4.1, which extend them to models with corners, consume
-these instances.
+these instances. Statements (i) and (iii) are this roadmap's own relative forms of
+DG8.3's smoothing and DG8.5's de Rham comparison, proved by the routes given; (ii) is
+the open-pair case of Bott–Tu's relative de Rham complex.
 
 - (i) Relative smooth chains: the quotient of Tau Ceti's smooth singular chains
   of M (`smoothSingularSubcomplex`) by the image of those of U under
@@ -1765,14 +1879,22 @@ these instances.
   DG8.3's absolute smoothing equivalences for M and for U, natural in smooth
   maps of open pairs and under enlargement of U.
 - (ii) The relative de Rham complex: degree-q term `Ω^q(M)⊕Ω^(q−1)(U)` with
-  differential `(α,β)↦(dα,α|_U−dβ)`, and relative integration
-  `(α,β)↦(c↦∫_cα−∫_(∂c)β)` on relative smooth chains through Tau Ceti's
-  `SmoothSimplex.integral`. Prove it is well defined on the quotient (on a
-  chain in U it is `∫_c dβ−∫_(∂c)β=0` by DG8.4's Stokes for chains), a cochain
-  map into the duals of relative smooth chains, and natural under smooth maps
-  of open pairs (`integral_smoothSingularSubcomplexMap_app`). A closed α
-  vanishing on U gives the relative cocycle `(α,0)`, whose class
-  `[α]_rel∈H^q(M,U;ℝ)` has absolute image DG8.4's `deRhamHom[α]`.
+  differential `(α,β)↦(dα,α|_U−dβ)` (Bott and Tu, *Differential Forms in Algebraic
+  Topology*, §6, relative de Rham theory, p. 78). Relative integration takes values in the
+  mapping cone of the restriction `C^•_sm(M;ℝ)→C^•_sm(U;ℝ)` of real cochains on smooth singular chains:
+  degree-q term `C^q_sm(M)⊕C^(q−1)_sm(U)`, differential `(a,b)↦(δa,a|_U−δb)` with
+  `(δa)(c)=a(∂c)`. Relative integration is `(α,β)↦(∫α,∫β)`, where `(∫α)(σ)=∫_σα`
+  through Tau Ceti's `SmoothSimplex.integral`. Prove it is a cochain map by DG8.4's
+  Stokes for chains, `∫dα=δ∫α` and `∫(α|_U−dβ)=(∫α)|_U−δ∫β`, natural under smooth
+  maps of open pairs (`integral_smoothSingularSubcomplexMap_app`). Restriction of
+  cochains is degreewise surjective (extend by zero on simplices not contained in U),
+  so `a↦(a,0)` from the relative cochains, the cochains vanishing on the image of the
+  chains of U and hence the dual of the quotient in (i), into the cone is a
+  quasi-isomorphism, by the five lemma on the two long exact sequences. On a relative
+  cycle c, a chain of M whose boundary is a chain of U, the induced pairing of cone
+  cohomology is `(a,b)↦a(c)−b(∂c)`. A closed α vanishing on U gives the relative
+  cocycle `(α,0)`, whose image `(∫α,0)` is the image of the relative cocycle `∫α`; its
+  class `[α]_rel∈H^q(M,U;ℝ)` has absolute image DG8.4's `deRhamHom[α]`.
 - (iii) The integration comparison: for compact oriented N of dimension n and a
   smooth top form η, `∫_Nη=⟨deRhamHom[η],[N]_ℝ⟩`, with `[N]_ℝ` Tau Ceti's
   `realFundamentalClass` of AT6.3's homological orientation of N; for oriented
@@ -1793,9 +1915,15 @@ orientation of an oriented smooth manifold.
 
 - Sign of (ii): on `(ℝ,ℝ∖{0})` let ψ be supported in `(−1,1)` with `∫ψ=1`, Ψ
   its primitive vanishing far left, and `β=Ψ|_U`, which is 0 left of the
-  support and 1 right of it. Then `(ψdx,β)=d(Ψ,0)`, and relative integration
-  over the path from −1 to 1 gives `1−(1−0)=0`; evaluating by `∫_cα+∫_(∂c)β`
-  would give 2 on this coboundary.
+  support and 1 right of it. Then `(ψdx,β)=d(Ψ,0)`, and the cone pairing of its image
+  `(∫ψdx,∫β)` with the relative cycle given by the path from −1 to 1 is `1−(1−0)=0`;
+  evaluating by `∫_cα+∫_(∂c)β` would give 2 on this coboundary.
+- Cone, not quotient: on `(ℝ,ℝ∖{0})`, `(dx,0)` is not a cocycle (`d(dx,0)=(0,dx|_U)`),
+  and its image `(∫dx,0)` takes the value 1 on the 1-simplex `[1,2]⊂U`, which is zero in
+  the quotient of (i). A formula `c↦∫_cα−∫_(∂c)β` on that quotient would have to vanish
+  there, and on the simplex `[0,1]` it would need `β(0)` with `0∉U`; the cone cochain has
+  neither requirement. For the consumers' cocycle `(α′,0)` with `α′|_U=0`, the image
+  `(∫α′,0)` is the image of the relative cochain `∫α′`.
 - Compact support in (iii): on `N=ℝ` with `K=[−1,1]` and `η=ψdx`, `[N]_K` is
   the class of the smooth path from −2 to 2, whose boundary lies in `N∖K`, and
   the pairing is `∫_(−2)^2ψ=1`; enlarging K to `[−3,3]` (the path from −4 to 4)
@@ -1874,6 +2002,17 @@ Projective-family consumers use the `Projectivization` carrier; Riemann-sphere
 consumers use `OnePoint ℂ` and this biholomorphism. Use that comparison for
 every ℂP¹ example and transport theorem.
 
+**Checks.**
+
+- The model comparison `[v]↦[v/‖v‖]`: `v=(3,4)` and `2iv=(6i,8i)` go to `(3/5,4/5)` and
+  `i(3/5,4/5)`, which differ by the unit scalar i and give one point, with chart value
+  `4/3` in the chart `v₀≠0` of both models.
+- It is holomorphic, not antiholomorphic: `v=(1,i)` has chart value i in both models,
+  while the equally well defined map `[v]↦[v̄/‖v‖]` gives `−i`, so the chart identity
+  excludes it.
+- n=0: both models are one point; for n=1, `v=(0,1)` lies only in the chart `v₁≠0`,
+  with value 0 in both models.
+
 **K7.2. Projective bundles, forms and cohomology.** Construct tautological O(−1),
 dual powers O(k), Hermitian metrics and normalized Fubini–Study form. Prove
 the holomorphic tensor and dual laws `O(a)⊗O(b)≃O(a+b)` and
@@ -1921,7 +2060,10 @@ transitivity by extending normalized representatives to orthonormal bases.
 Identify the stabilizer of the standard line in U(n+1) with U(1)×U(n),
 and its descended stabilizer with `(U(1)×U(n))/U(1)_diag ≃ U(n)`; state
 these as explicit subgroup/action comparisons with their maps. This makes
-checking positivity at one point valid. Include n=0: CP⁰ is a point, its
+checking positivity at one point valid (Ballmann, §4, Example 5, (4.12)–(4.14),
+pp. 43–44, for the unitary invariance of `i∂∂̄ ln‖z‖²` and the reduction of positivity to
+one point by transitivity; Demailly, Chapter VI, (4.4), p. 297, for the normalization
+`(i/(2π))∂∂̄ log` and `∫_(ℂPⁿ)ω^n=1`). Include n=0: CP⁰ is a point, its
 tangent space and FS form are zero, positivity is vacuous, the full U(1)
 action is the scalar kernel and PU(1) is trivial. Retain K7.2's integral
 normalization `∫_(CP¹)ω_FS=1` and `∫_(CPⁿ)ω_FS^n=1`.
@@ -2030,9 +2172,7 @@ charts `v_j=v_i z_j`, their inverses, transitions and blowdown with the
 preceding incidence charts, and identify the incidence projection E→P(V)
 as the total space of O(−1). This is the application-specific comparison of
 chart data with the existing algebraic blowup, not a second blowup
-construction; the identification of the blowup's analytification with E over
-V needs scheme analytification and belongs to ComplexComparisonPartII, which
-consumes K3–K4, and is not a target here. At d=1, P(V) is a point and b is
+construction. At d=1, P(V) is a point and b is
 the identity on V under the total-line identification.
 
 Construct the algebra isomorphism `b*:O_hol(V)≃O_hol(E)` on entire
@@ -2316,7 +2456,9 @@ spectral-sequence object. Prove E₁ degeneration in the compact Kähler case us
 
 Construct the complex Heisenberg group and its Gaussian-integer lattice, the compact
 Iwasawa quotient and invariant form equations. Compute `h^(1,0)=3`, `h^(0,1)=2`, `b₁=4`
-with a proof that the invariant-form calculation gives the relevant cohomology. Exhibit
+with a proof that the invariant-form calculation gives the relevant cohomology (Angella,
+§4.1 for `b₁=4` and §4.2 for `h^(1,0)=3` and `h^(0,1)=2` on the Iwasawa manifold itself,
+p. 13). Exhibit
 the nonzero first spectral differential and the failure of an additive Hodge decomposition
 on this compact complex manifold. Own the Heisenberg group and lattice, the
 freeness and proper discontinuity of its holomorphic lattice action, and
@@ -2342,8 +2484,10 @@ a theorem label or a conditional assumption that a suitable A exists is
 not this input. In the nonabelian case take the last nonzero lower-central
 ideal of 𝔤. Prove it is positive-dimensional, central, proper and rational
 for this Γ-induced rational form; put `A=exp(𝔞)`. Prove A is closed,
-connected and simply connected, `Γ∩A` is a uniform lattice, AΓ is closed,
-and the image Γ̄ in G/A is discrete and cocompact. Construct G/A as a
+connected and simply connected, `Γ∩A` is a uniform lattice (Raghunathan, Corollary 1,
+p. 31), AΓ is closed (Raghunathan, Theorem 1.13, p. 23), as Sakane, p. 189, uses them at
+this step, and the image Γ̄ in G/A is discrete and cocompact. The remaining rationality
+and quotient-chart steps are this roadmap's own, proved by the route given. Construct G/A as a
 simply connected nilpotent Lie group of strictly smaller dimension using
 quotient BCH charts. Construct the smooth principal torus bundle
 `G/Γ → (G/A)/Γ̄` with fibre `A/(Γ∩A)`, its local trivializations and
@@ -2388,32 +2532,34 @@ convergence/naturality, not these geometric page identifications. Apply Sakane o
 this precise complex-parallelizable nilpotent class. An invariant subcomplex alone does
 not prove its inclusion is a quasi-isomorphism.
 
+**Checks.**
+
+- Iwasawa manifold: `h^(1,0)+h^(0,1)=3+2=5>4=b₁`, so some differential of the
+  Frölicher spectral sequence is nonzero; with `dφ₃=−φ₁∧φ₂` for the invariant
+  holomorphic coframe, `d₁[φ₃]=[∂φ₃]=−[φ₁∧φ₂]≠0` in `E₁^(2,0)`.
+- A complex torus `ℂⁿ/Λ` has `h^(1,0)+h^(0,1)=2n=b₁` and degenerates at E₁; so does the
+  non-Kähler Hopf surface (`0+1=1=b₁`), so E₁ degeneration does not imply Kähler.
+- Malcev rationality for the integer Heisenberg group: the element with entries
+  `x=y=z=1` has logarithm `X+Y+½Z`, so log Γ is not an additive subgroup of 𝔤 but spans
+  the rational form `ℚX+ℚY+ℚZ`; the centre `A=exp(ℝZ)` has `Γ∩A≅ℤ`, `G/A≅ℝ²` and
+  `Γ̄≅ℤ²`. For the Iwasawa manifold A is the complex centre, `Γ∩A=ℤ[i]` and the fibre
+  `A/(Γ∩A)` is the elliptic curve with `τ=i`.
+
 ## Order and references
 
-The local Laurent construction within [GlobalHolomorphicFunctions GH2](../GlobalHolomorphicFunctions/README.md)
-is a native-only preparatory phase before GH0; GH2's global prescribed-singularity
-patching follows GH0. Separate these phases explicitly. On a punctured disk of any radius r in (0,∞], using finite circles
-0<ρ<R<r, construct Laurent coefficients by circle integrals and prove radius independence
-using native Cauchy-Goursat on concentric annuli. Derive the two-circle Cauchy
-representation for ρ<|w-a|<R by applying annulus integral invariance to the removable divided
-difference `(f(z)-f(w))/(z-w)`, filling its value at w by f'(w). For the kernel
-`(z-w)^(-1)`, the outer circle integral is2πi and the inner integral is0. Expand the two kernels by
-geometric series on smaller closed subannuli, with uniform summable bounds,
-and interchange the circle integrals and sums. The positive part converges on
-the original disk; the negative part converges on the whole punctured plane,
-using arbitrarily small inner circles. Prove uniqueness and the coefficient,
-restriction and differentiation laws in this local phase. These are
-GlobalHolomorphicFunctions' existing local Laurent targets, proved from native
-one-variable Cauchy/power-series inputs, not from GH0/GH5 or CKG. This phase
-supplies GH0's Laurent truncation for pole pushing and its finite-pole output
-to K3.MeromorphicGermField's native field/regular-evaluation adapter.
-The global one-variable provider order is GH0 (compact-support formula, area normalization, finite-rank Runge operators and exhaustion) → GH5 (global scalar solver using GH0) → GH5.1 (complex 2-form exactness). K2 consumes [GH0](../GlobalHolomorphicFunctions/README.md#gh0-runge)'s finite-rank operators and compact-support map to build its own smooth/holomorphic/mixed parameter solver; it does not assume a parameter export from the scalar GH5 theorem. K5a consumes [GH5.1](../GlobalHolomorphicFunctions/README.md) and owns the complex-coefficient carrier comparison. GlobalHolomorphicFunctions does not consume ComplexKahlerGeometry.
+GlobalHolomorphicFunctions, whose Layer k is cited as GH(k−2), is consumed in this order:
+K2 takes §0.3's compact-support Cauchy–Green operator and area normalization and GH0's
+finite-rank Runge operators and exhaustion (§§2.1, 2.5) to build its own
+smooth/holomorphic/mixed parameter solver, without a parameter export from GH5's scalar
+theorem; K3.MeromorphicGermField takes GH2's Laurent decomposition and coefficient extraction
+(§4.1); K5a takes GH5.1's complex two-form exactness (§7.4) and owns the complex-coefficient
+carrier comparison. GlobalHolomorphicFunctions does not consume ComplexKahlerGeometry.
 
 K3.0 several-variable calculus precedes K1. K1's scalar-restriction and
 orientation paragraph precedes K7.1 and SBC B1's acceptance examples;
 K1's eigenbundle calculus consumes SBC B2's complexification and precedes K2.
 K2's scalar calculus, whole-polydisc local lemma, parameter-dependent shell solver, and Ω^p sheaves
-consume GH0's fixed finite-rank operators and Cauchy–Green map under their stated interfaces and precede K4's holomorphic bundles and connections. K2's bundle-valued comparison follows
+consume GH0's fixed finite-rank operators and GlobalHolomorphicFunctions §0.3's Cauchy–Green map under their stated interfaces and precede K4's holomorphic bundles and connections. K2's bundle-valued comparison follows
 K4's holomorphic-section sheaf and ∂̄_E. The rest of K3 uses that local analysis and feeds K4's
 analytic-sheaf examples. K5a's orientation line and density bundle use DG, SBC B2 and Tau Ceti's pointwise star
 independently of PDO P1.0 and K1–K4. K5a's BundleTest, BundleDistribution and Fréchet
@@ -2445,12 +2591,12 @@ projectivization instances and affine atlas and Tau Ceti's sphere-quotient model
 structure and additive groups are Tau Ceti's on the sphere-quotient model, transported by
 K7.1's comparison; its cup calculation uses AT Stage 6 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
-and the generic spectral-sequence machinery. K4.P follows K2's Čech/derived comparison, K3's function sheaf, K4's line
-bundles and SBC B6.1–B6.2; its ℂP¹ normalization check uses K7.1's charts. Its
-continuous-line corollary consumes only the closing smoothing clause of
-TopologicalKTheory T1.6d (partitions of unity and T1.5–T1.6's matrix models), not
-T1.6d's rank-one CP∞ comparison, which itself consumes K7.2; no K7 item consumes
-K4.P, so the two roadmaps supply each other in one direction per item.
+and the generic spectral-sequence machinery. K4.P follows K2's Čech/derived comparison
+and fine-implies-acyclic theorem, K3's function sheaf, K4's line bundles and SBC
+B6.1–B6.2; its ℂP¹ normalization check uses K7.1's charts, and K7.FlatDegreeZero
+consumes it. Its continuous-line corollary uses the continuous exponential sequence and
+no TopologicalKTheory input; TopologicalKTheory consumes K5–K7, including K7.2's
+complex characteristic cells.
 K7.2.RationalQuartic's embedding uses
 K7.1; its bundle and section comparisons use K7.2's twists and monomial
 section calculation. Its explicit higher-twist surjectivity uses monomial
@@ -2493,9 +2639,14 @@ supplies the compatible triangulation in K6.
   Theorems 2.3.4 and 2.3.5, for distributions supported in a point and in a
   submanifold in K5a.DistributionLocalStructure.
 - [Angella, *The cohomologies of the Iwasawa manifold and of its small deformations*](https://arxiv.org/abs/1212.4351),
-  for the explicit non-Kähler cohomology comparison.
+  §§4.1–4.2, p. 13, for the explicit non-Kähler cohomology comparison.
+- Raghunathan, *Discrete Subgroups of Lie Groups*, Springer, 1972, Theorem 1.13, p. 23,
+  and Corollary 1, p. 31, for the lattice steps of K8.NilpotentCentralReduction.
+- Bott and Tu, *Differential Forms in Algebraic Topology*, Springer, 1982, §6, relative
+  de Rham theory, p. 78, for the relative de Rham complex of K6.1.RelativeIntegration.
 - [Ballmann, *Lectures on Kähler Manifolds*, ESI Lectures in Mathematics and Physics, EMS, 2006](https://people.maths.ox.ac.uk/joyce/Nairobi2019/BallmannKahlerManifolds.pdf),
-  Theorem 4.17, for the global Kähler/normal-coordinate equivalences in K6.0.
+  Theorem 4.17, for the global Kähler/normal-coordinate equivalences in K6.0, and §4,
+  Example 5, pp. 43–44, for the unitary invariance of the Fubini–Study form in K7.2.
 - [Berwick-Evans and Tripathy, *A de Rham model for complex analytic equivariant elliptic cohomology*, 2021](https://par.nsf.gov/servlets/purl/10339859),
   §2.1, Remark 2.1, for the unitary-character description of degree-zero elliptic lines.
 - [Knutson, *Representations of U(n): the Borel–Weil theorem*, notes for Math 261, 2001](https://pi.math.cornell.edu/~allenk/courses/16spring/BorelWeil.pdf),
