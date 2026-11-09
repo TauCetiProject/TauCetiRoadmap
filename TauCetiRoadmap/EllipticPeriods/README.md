@@ -25,9 +25,12 @@ them. This roadmap owns:
   balance over a period parallelogram, even elliptic functions as rational functions of `℘` and
   the descent of their coefficients, `4X³ − g₂X − g₃ = 4∏(X − e_i)`, the Laurent expansion of
   `℘` and the polynomiality of `G_{2k}` in `g₂, g₃`;
-- the Weierstrass `ζ` function as a series, the quasi-period map `quasiPeriod` read off from it,
-  their identification with `σ′/σ` and `latticeQuasiPeriod`, and the homogeneity of `G_k` for all
-  `k` under `Λ ↦ cΛ` (Layers 0 and 2);
+- the homogeneity `G_k(cΛ) = c⁻ᵏ G_k(Λ)` for all `k` (0.1), whose weights `4` and `6` are the
+  homotheties of `g₂`, `g₃` in ModularCurvesPartII §1.3 and ModularForms §10D;
+- the Weierstrass `ζ` function as a series and the map `quasiPeriod` read off from it, with
+  their identification with `σ′/σ` and `latticeQuasiPeriod` (Layer 2). The quasi-period map and
+  Legendre's relation are ModularCurvesPartII §1.4a's: `quasiPeriod` is the form of
+  `latticeQuasiPeriod` in which Layers 3–5 are written, not a second owner;
 - the dictionary between the quasi-period `η(1)` of `ℤ + ℤτ` and Mathlib's
   `EisensteinSeries.E2`, and the scaled dictionary for a positive period pair (Layer 2); the
   comparison `g₂ = (4π⁴/3)E₄`, `g₃ = (8π⁶/27)E₆` for
@@ -197,8 +200,9 @@ target.
 ### 0.1 Scaling
 
 The action `SMul ℂˣ PeriodPair` (defined in `Suggested.lean`), with the lattice of `c • L` equal
-to `c · L.lattice`, the laws of a `MulAction ℂˣ PeriodPair`, and `G_smul` for all `k`. The cases
-`g₂`, `g₃` and `℘` are ModularCurvesPartII §1.3 and are not restated.
+to `c · L.lattice`, the laws of a `MulAction ℂˣ PeriodPair`, and `G_smul` for all `k`, owned
+here: its cases `k = 4, 6` are the homotheties of `g₂`, `g₃` in ModularCurvesPartII §1.3 and
+ModularForms §10D. The homothety of `℘` is ModularCurvesPartII §1.3 and is not restated.
 
 *Needs:* Mathlib `PeriodPair`, `PeriodPair.G`.
 
@@ -400,10 +404,11 @@ precedes 1.4, and 1.6 precedes 1.7.
 `Λ` (`meromorphic_weierstrassZeta`), oddness (`weierstrassZeta_neg`),
 `hasDerivAt_weierstrassZeta : ζ′ = −℘` off `Λ`, the Laurent expansion
 `ζ(z) = 1/z − ∑_{k≥1} G_{2k+2} z^{2k+1}`, the scaling `ζ_{cΛ}(cz) = c⁻¹ ζ_Λ(z)` and the
-dependence of `ζ` on `L.lattice` only.
+dependence of `ζ` on `L.lattice` only. It is the series form of the logarithmic derivative
+`σ′/σ` of ModularCurvesPartII §1.4a, identified in 2.3.
 
-*Needs:* Layer 0; 1.6; Mathlib `PeriodPair.weierstrassP`; Tau Ceti `TauCeti.Contour.residue`.
-(DLMF 23.2.5.)
+*Needs:* Layer 0; 1.6; Mathlib `PeriodPair.weierstrassP`; Tau Ceti `TauCeti.Contour.residue`;
+ModularCurvesPartII §1.4a (`latticeSigma`, compared in 2.3). (DLMF 23.2.5.)
 
 **Checks.**
 
@@ -413,14 +418,18 @@ dependence of `ζ` on `L.lattice` only.
 
 ### 2.2 Quasi-periods
 
-`quasiPeriod L l = ζ(ω₁/2 + l) − ζ(ω₁/2)`. For `l ∈ Λ`, `z ↦ ζ(z + l) − ζ(z)` has derivative
-`0` on the connected open set `ℂ ∖ Λ` (by `hasDerivAt_weierstrassZeta` and the periodicity of
-`℘`), so it is constant there, equal to its value at `ω₁/2`:
+The quasi-period map is ModularCurvesPartII §1.4a's `latticeQuasiPeriod`, consumed here;
+`quasiPeriod` is its form read off the series `ζ` of 2.1, in which Layers 3–5 are written, and
+2.3 identifies the two on `Λ`. Define `quasiPeriod L l = ζ(ω₁/2 + l) − ζ(ω₁/2)`. For
+`l ∈ Λ`, `z ↦ ζ(z + l) − ζ(z)` has derivative `0` on the connected open set `ℂ ∖ Λ` (by
+`hasDerivAt_weierstrassZeta` and the periodicity of `℘`), so it is constant there, equal to its
+value at `ω₁/2`:
 `weierstrassZeta_add_coe : ζ(z + l) = ζ(z) + quasiPeriod L l` for `z ∉ Λ`. Hence
 `quasiPeriod_add`, `η(ω) = 2ζ(ω/2)` for `ω ∈ Λ ∖ 2Λ` (oddness at `z = −ω/2`),
 `quasiPeriod_smul`, `quasiPeriod_congr`.
 
-*Needs:* 2.1; Mathlib `weierstrassP_add_coe`, `ω₁_div_two_notMem_lattice`.
+*Needs:* 2.1; Mathlib `weierstrassP_add_coe`, `ω₁_div_two_notMem_lattice`; ModularCurvesPartII
+§1.4a (`latticeQuasiPeriod`, the owner of the quasi-period map, compared in 2.3).
 
 **Checks.**
 
@@ -504,7 +513,7 @@ ComplexComparisonPartII and PeriodsAndSpecialValues, and is not built here.
 `det_periodMatrix : det P = −2πi` for a positive basis (Legendre). Change of basis of the same
 lattice by `γ ∈ GL₂(ℤ)` multiplies `P` on the right by `γ`.
 
-*Needs:* 2.2, 2.3.
+*Needs:* 2.2, 2.3; ModularCurvesPartII §1.4a (`latticeQuasiPeriod_legendre`).
 
 **Checks.**
 
@@ -592,7 +601,8 @@ a ratio of algebraic numbers). So the transcendence degree is an invariant of th
 
 ### Dependencies
 
-Layers 0–2; Tau Ceti `TauCeti.ringKrullDim_eq_toNat_trdeg`.
+Layers 0–2; ModularCurvesPartII §1.4a (Legendre, through 2.3); Tau Ceti
+`TauCeti.ringKrullDim_eq_toNat_trdeg`.
 
 ## Layer 4: complex multiplication
 
@@ -801,6 +811,10 @@ statements only. Within the layer, 5.2 repeats the proof of 5.1, and 5.3–5.5 f
   `ℤ + ℤτ`), to be cited from there rather than restated.
 
 ModularCurvesPartII's lattice analysis consumes nothing from here (Exact supplier contracts).
+ModularCurvesPartII §1.3 and ModularForms §10D state the homotheties `g₂(uΛ) = u⁻⁴g₂(Λ)` and
+`g₃(uΛ) = u⁻⁶g₃(Λ)`, the cases `k = 4, 6` of `G_smul` (0.1), which owns the statement for all
+`k`; both precede this roadmap in the dependency order, so this is a comparison of statements,
+not a dependency edge.
 
 ## Research context
 
