@@ -532,6 +532,15 @@ locally `κ`-presentable) and `Equivalence.isCardinalLocallyPresentable`. Forwar
   is bijective, i.e. `Z` is a subsingleton: the locally finitely presentable category of 1.2,
   second Check.
 
+Not a target: reflectivity beyond small-orthogonality classes. That every full subcategory of a
+locally presentable category closed under limits is reflective is equivalent to the weak Vopěnka
+principle (Adámek–Rosický–Trnková 1988; Rosický–Trnková–Adámek 1990; as recalled in Wilson 2020,
+§1). Adámek, Rosický and Trnková asked whether the weak principle implies Vopěnka's principle. It
+does not, unless the existence of a supercompact cardinal is inconsistent: if `κ` is the least
+supercompact cardinal, `V_(κ+1)` satisfies the weak principle and has no supercompact cardinal,
+while Vopěnka's principle implies that there is one (Wilson 2020, Theorem 1.2, for the semi-weak
+principle, and Theorem 1.4, its equivalence with the weak one). The statements of 2.1 hold in ZFC.
+
 ### Examples
 
 - For the codiagonal of 2.1, third Check, the reflection onto the local sets sends `∅` to `∅` and
@@ -996,6 +1005,12 @@ colimits beyond the directed unions of 1.7 only partial results are known; under
 proper class of strongly compact cardinals, directed colimits of accessible embeddings that are not
 full are accessible (Paré–Rosický 2013, Corollary 3.2).
 
+Whether every locally presentable abelian category with enough injective objects is a Grothendieck
+category is open (Positselski–Šťovíček 2022, Question 9.10). Grothendieck categories, among them
+the module categories of 1.6, have enough injectives (Grothendieck 1957); a counterexample would be
+a locally presentable abelian category with enough injectives whose filtered colimits are not
+exact.
+
 ## References
 
 - J. Adámek, J. Rosický, *Locally presentable and accessible categories*, London Math. Soc.
@@ -1028,5 +1043,17 @@ full are accessible (Paré–Rosický 2013, Corollary 3.2).
   version 1).
 - G. Tendas, « On continuity of accessible functors », *Appl. Categ. Structures* 30 (2022), no. 5,
   937–946. doi:10.1007/s10485-022-09677-x; arXiv:2110.14192 (numbering of arXiv version 2).
+- J. Adámek, J. Rosický, V. Trnková, « Are all limit-closed subcategories of locally presentable
+  categories reflective? », in *Categorical algebra and its applications* (Louvain-la-Neuve, 1987),
+  Lecture Notes in Math. 1348, Springer, 1988, 1–18.
+- J. Rosický, V. Trnková, J. Adámek, « Unexpected properties of locally presentable categories »,
+  *Algebra Universalis* 27 (1990), 153–170.
+- T. M. Wilson, « Weak Vopěnka's principle does not imply Vopěnka's principle », *Adv. Math.* 363
+  (2020), 106986. arXiv:1909.09333 (numbering of arXiv version 1).
+- L. Positselski, J. Šťovíček, « Derived, coderived, and contraderived categories of locally
+  presentable abelian categories », *J. Pure Appl. Algebra* 226 (2022). arXiv:2101.10797
+  (numbering of arXiv version 3).
+- A. Grothendieck, « Sur quelques points d'algèbre homologique », *Tôhoku Math. J.* (2) 9 (1957),
+  119–221.
 - S. Lack, J. Power, « Gabriel–Ulmer duality and Lawvere theories enriched over a general base »,
   *J. Funct. Programming* 19 (2009), no. 3–4, 265–286. doi:10.1017/S0956796809007254.
