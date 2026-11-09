@@ -20,11 +20,11 @@ in `Fin n`, so that `Fin.castSucc` and `Fin.succ` name the two swapped positions
 
 Headlines stated here (README target, Lean name):
 
+* 0.3, `GMap.isConnected_iff_preconnected_flagGraph` (on `GMap`, `GMap2`, `GMap.monodromy`,
+  `GMap.residueRel`, `GMap.Cell`, `GMap.IsConnected`, `GMap.Iso`, `GMap.cellNumbers`,
+  `GMap.IsClosedSurface`, `GMap.flagGraph`, `GMap.IsOrientable`).
 * 0.4, `GMap.isOrientable_orientationDoubleCover`, `GMap.isConnected_orientationDoubleCover_iff`,
-  `GMap.natCard_cell_orientationDoubleCover` (on `GMap`, `GMap2`, `GMap.monodromy`,
-  `GMap.residueRel`, `GMap.Cell`, `GMap.Components`, `GMap.IsConnected`, `GMap.Iso`,
-  `GMap.cellNumbers`, `GMap.eulerChar`, `GMap.IsClosedSurface`, `GMap.flagGraph`,
-  `GMap.IsOrientable`, `GMap.orientationDoubleCover`, the flag systems of 0.3).
+  `GMap.natCard_cell_orientationDoubleCover` (on `GMap.orientationDoubleCover`).
 * 1.4, `Chirotope.isChirotope_ofVectorsFun` (on `Chirotope`, `GP3`, `permSign`, `IsChirotope`,
   `Chirotope.ofVectorsFun`, `Chirotope.IsRealizable`).
 * 1.5, `Chirotope.isChirotope_reorientFun`, `Chirotope.isChirotope_relabelFun` (on
@@ -55,13 +55,13 @@ Headlines stated here (README target, Lean name):
 * 6.1, `isRealizable_iff_exists_ofLines`.
 * 6.3, `isChirotope_nonPappusFun`, `not_isRealizable_nonPappusFun`,
   `exists_monotoneArrangement_nonPappus` (on `pappusPoints`, `nonPappusFun`).
+* 6.4, `isRealizable_real_of_natCard_le_eight`, `isRealizable_rat_of_natCard_le_eight`.
 * 7.1, `stringCoxeterMatrix`, `cartographicGroup` (definitions, with
   `stringCoxeterMatrix_of_far` and `commute_simple_of_eq_two`).
 * 7.2, `GMap.exists_monoidHom_stringCoxeterMatrix_iff` (on `GMap.isLiftable_adj`,
   `GMap.monodromyHom`, `GMap.ofMonodromyHom`).
 * 7.3, `GMap.surjective_of_map_adj`, `GMap.eq_of_mem_aut_of_apply_eq`, `GMap.natCard_aut_le` (on
   `GMap.aut`).
-* 7.4, `GMap.isConnected_iff_preconnected_flagGraph`.
 * 7.5, `GMap.exists_iso_cosetGMap`, `GMap.nonempty_iso_cosetGMap_iff` (on `GMap.cosetGMap`).
 * 8.1, `GMap.isOrientable_iff_not_isPretransitive_evenMonodromy` (on `GMap.evenMonodromy`).
 * 9.1, `GMap.isRegular_iff_isPretransitive_aut`, `GMap.isRegular_iff_natCard_aut`,
@@ -85,20 +85,19 @@ Not stated here, with the carrier each lacks:
   maximal chain of the projective face poset can be exchanged in exactly one way, so it is a heavy
   definition kept in the README; 8.4 (ii) also needs GraphConnectivityAndFlows Target 1.1's
   isomorphisms of `Graph α β`.
-* 8.3 and the skeleton clauses of 8.4 (ii), 9.4–9.6: the skeleton is a `Graph (G.Cell 0)
-  (G.Cell 1)` whose connectivity and isomorphisms are GraphConnectivityAndFlows Target 1.1's,
-  which are not at the pins.
 * 4.2–4.3, the arrangement drawn from a wiring diagram, its simplicity, the invariance of its
   chirotope under commutations and the braid move as a legal mutation: they lack the
   piecewise-linear arrangement drawn from a word, which this file does not build.
 * 5.1 (localizations), 5.4, 5.5, the poset of positions and the unmarked topological
   representation: they lack the localization of a single-element extension as a function on
   cocircuits, which this file does not build.
-* 9.3, and the string C-group clauses of 9.4–9.5: there is no abstract polytope at the pins.
+* 9.3, the correspondence between regular polytopes and string C-groups: there is no abstract
+  polytope at the pins.
 
 The inverse bijection of 7.2, the incidence of residues in 7.4, the pointed and finite-index forms
-of 7.5, the two orbits of 8.1 and the types of 9.4–9.6 are API around the stated headlines; the
-README keeps them.
+of 7.5, the two orbits of 8.1, the skeleton of 8.3, the types and the skeleton clauses of 9.4–9.6
+and the string C-group clauses of 9.4–9.5 are API around the stated headlines; the README keeps
+them.
 
 The proof of 10.1–10.2 consumes the faithfulness of `CoxeterSystem.geometricRepresentation` for
 every Coxeter system, RootSystems §1.3 (`geometric_faithfulness`), which is not at the pins.
@@ -157,9 +156,6 @@ def residueRel (J : Set (Fin (n + 1))) : Setoid D :=
 /-- The `i`-cells: the residues of `{j | j ≠ i}`. -/
 def Cell (i : Fin (n + 1)) : Type _ := Quotient (G.residueRel {j | j ≠ i})
 
-/-- The components: the residues of all the indices. -/
-def Components : Type _ := Quotient (G.residueRel Set.univ)
-
 /-- Connected: the monodromy group acts transitively (the empty flag system is connected). -/
 def IsConnected : Prop := MulAction.IsPretransitive G.monodromy D
 
@@ -174,10 +170,6 @@ structure Iso (G : GMap n D) (G' : GMap n D') where
 def cellNumbers (G : GMap2 D) : ℕ × ℕ × ℕ :=
   (Nat.card (G.Cell 0), Nat.card (G.Cell 1), Nat.card (G.Cell 2))
 
-/-- The Euler characteristic of a finite flag system of rank 2: vertices minus edges plus faces. -/
-def eulerChar [Finite D] (G : GMap2 D) : ℤ :=
-  Nat.card (G.Cell 0) - Nat.card (G.Cell 1) + Nat.card (G.Cell 2)
-
 /-- The closed-surface predicate: no dart is fixed by `adj 0`, `adj 1` or `adj 2`, and
 `adj 2 d ≠ adj 0 d`. -/
 def IsClosedSurface (G : GMap2 D) : Prop :=
@@ -191,6 +183,10 @@ def flagGraph : SimpleGraph D where
 
 /-- Orientable: the flag graph is bipartite. -/
 def IsOrientable : Prop := G.flagGraph.Colorable 2
+
+/-- A flag system is connected iff its flag graph is preconnected (Layer 0.3). -/
+theorem isConnected_iff_preconnected_flagGraph :
+    G.IsConnected ↔ G.flagGraph.Preconnected := sorry
 
 /-- The orientation double cover (Layer 0.4): darts `D × Bool`, with
 `adj i (d, b) = (adj i d, !b)`. -/
@@ -655,6 +651,16 @@ theorem exists_monotoneArrangement_nonPappus :
       (fun t : Fin 3 → Fin 9 => A.chiFun (some ∘ t)) =
         Chirotope.reorientFun (Chirotope.relabelFun σ nonPappusFun) R := sorry
 
+/-- Small cases (Layer 6.4, Goodman–Pollack): a simple rank-3 chirotope on at most eight elements
+is realizable over `ℝ`. -/
+theorem isRealizable_real_of_natCard_le_eight {E : Type*} [Finite E] (χ : Chirotope 3 E)
+    (hs : χ.IsSimple) (hE : Nat.card E ≤ 8) : Chirotope.IsRealizable χ ℝ := sorry
+
+/-- Small cases (Layer 6.4): a uniform rank-3 chirotope on at most eight elements is realizable
+over `ℚ`. -/
+theorem isRealizable_rat_of_natCard_le_eight {E : Type*} [Finite E] (χ : Chirotope 3 E)
+    (hu : Chirotope.IsUniform χ) (hE : Nat.card E ≤ 8) : Chirotope.IsRealizable χ ℚ := sorry
+
 /-! ## Layer 7: the cartographic group -/
 
 /-- The string Coxeter matrix with `M i (i + 1) = p i` (`0` meaning `∞`) and `2` between
@@ -758,10 +764,6 @@ theorem eq_of_mem_aut_of_apply_eq (hG : G.IsConnected) {σ τ : Perm D} (hσ : �
 (Layer 7.3). -/
 theorem natCard_aut_le [Finite D] [Nonempty D] (hG : G.IsConnected) :
     Nat.card G.aut ≤ Nat.card D := sorry
-
-/-- A flag system is connected iff its flag graph is (Layer 7.4). -/
-theorem isConnected_iff_preconnected_flagGraph :
-    G.IsConnected ↔ G.flagGraph.Preconnected := sorry
 
 /-- The coset flag system of `H ≤ cartographicGroup n` on `cartographicGroup n ⧸ H` (Layer 7.5). -/
 def cosetGMap (H : Subgroup (cartographicGroup n)) : GMap n (cartographicGroup n ⧸ H) :=
