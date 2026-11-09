@@ -10,7 +10,6 @@ import TauCeti.NumberTheory.HilbertSymbol.Basic
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Bimultiplicativity
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Brauer
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Classification
-import TauCeti.NumberTheory.QuadraticForm.Global.ProductFormula
 
 /-!
 # Quadratic forms and cohomological invariants: target signatures
@@ -33,13 +32,12 @@ The other declarations are the names that other roadmaps import from this namesp
 statements of `GlobalQuadraticForms` use `formClass` (with its carrier `RegularFormClass`),
 `discr`, `hilbertSymbol`, `localHasse`, `hilbertSymbol_neg_self`, `hilbertSymbol_mul` and
 `exists_hilbertSymbol_eq_neg_one`, and those of `OrthogonalSpinGroups` use `hilbertSymbol`,
-`localHasse` and `hasseInvariant_eq_localHasse`. `hilbertSymbol_productFormula` is the name under
-which `IntegralLattices` imports Hilbert reciprocity in sign form, and
-`ClassicalArithmeticCompletion` cites it with `hilbertSymbol`. Each is an abbreviation of a Tau
-Ceti declaration, a definition read off one, or a theorem whose proof is a Tau Ceti theorem; none
-is admitted. `hilbertSymbol` and `localHasse` keep the bodies that `GlobalQuadraticForms` unfolds.
+`localHasse` and `hasseInvariant_eq_localHasse`. Each is an abbreviation of a Tau Ceti
+declaration, a definition read off one, or a theorem whose proof is a Tau Ceti theorem; none is
+admitted. `hilbertSymbol` and `localHasse` keep the bodies that `GlobalQuadraticForms` unfolds.
 The other names that roadmaps cite from this namespace are Tau Ceti's declarations, and
-`README.md` gives the Tau Ceti name of each.
+`README.md` gives the Tau Ceti name of each; among them, Hilbert reciprocity in sign form is
+`TauCeti.hilbertSymbol_productFormula`, which `IntegralLattices` consumes under that name.
 -/
 
 namespace TauCetiRoadmap.QuadraticFormInvariants
@@ -122,19 +120,6 @@ theorem exists_hilbertSymbol_eq_neg_one {K : Type u} [Field K] [ValuativeRel K]
     (ha : ¬ IsSquare a) :
     ∃ b : Kˣ, hilbertSymbol a b = -1 :=
   TauCeti.exists_hilbertSymbol_eq_neg_one (Invertible.ne_zero (2 : K)) ha
-
-open IsDedekindDomain NumberField in
-open scoped Classical in
-/-- **Hilbert's product formula for the norm-equation symbol** (6C), Tau Ceti's
-`TauCeti.hilbertSymbol_productFormula`: over a number field the symbols at the finite places, read
-in the completions, and at the real places multiply to `1`. Tau Ceti derives it from Class Field
-Theory's Hilbert reciprocity (that roadmap's Layer 14). -/
-theorem hilbertSymbol_productFormula (F : Type) [Field F] [NumberField F] (a b : Fˣ) :
-    (∏ᶠ v : HeightOneSpectrum (𝓞 F),
-        hilbertSymbol (v.unitAtFinitePlace a) (v.unitAtFinitePlace b)) *
-      ∏ w : {w : InfinitePlace F // w.IsReal},
-        hilbertSymbol (TauCeti.unitAtRealPlace w a) (TauCeti.unitAtRealPlace w b) = 1 :=
-  TauCeti.hilbertSymbol_productFormula a b
 
 /-- **The local classification** (6D; O'Meara 63:20; Serre, *A Course in Arithmetic*, IV.2.3,
 Thm. 7),

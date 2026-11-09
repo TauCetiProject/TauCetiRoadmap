@@ -37,13 +37,11 @@ declaration, a definition read off one, or a theorem whose proof is a Tau Ceti t
   `ClassicalArithmeticCompletion` cites `hilbertSymbol`), and `hasseInvariant_eq_localHasse`
   (`OrthogonalSpinGroups`);
 - `hilbertSymbol_neg_self`, `hilbertSymbol_mul` and `exists_hilbertSymbol_eq_neg_one`
-  (`GlobalQuadraticForms`);
-- `hilbertSymbol_productFormula` (`GlobalQuadraticForms`, `IntegralLattices`,
-  `ClassicalArithmeticCompletion`).
+  (`GlobalQuadraticForms`).
 
 A consumer that moves to the Tau Ceti name of one of these needs nothing from this namespace.
 
-Ten names that other roadmaps cite from this namespace are Tau Ceti's declarations, and this
+Eleven names that other roadmaps cite from this namespace are Tau Ceti's declarations, and this
 roadmap declares no copy of them; one line per name, old → new:
 
 - `signedDiscr` → `TauCeti.RegularFormClass.signedDiscr`, valued in the additive
@@ -67,7 +65,10 @@ roadmap declares no copy of them; one line per name, old → new:
 - `exists_of_realization` → `TauCeti.RegularFormClass.exists_of_realization`, the realization of
   local invariants (6D);
 - `hilbertSymbol_eq_cohomological` → `TauCeti.hilbertSymbol_eq_cohomological`, the comparison of
-  the norm-equation symbol with the cohomological one (6C item 13).
+  the norm-equation symbol with the cohomological one (6C item 13);
+- `hilbertSymbol_productFormula` → `TauCeti.hilbertSymbol_productFormula`, Hilbert reciprocity in
+  sign form: over a number field the symbols at the finite places, read in the completions, and at
+  the real places multiply to `1` (6C item 14).
 
 **Excluded.** The exclusions are deliberate, and a separate roadmap for any of them is welcome.
 
@@ -99,18 +100,19 @@ roadmap declares no copy of them; one line per name, old → new:
   symbol of Layer 6C is compared with that pairing, and the dependency runs
   `ClassFieldTheory → QuadraticFormInvariants`, never the reverse. In Tau Ceti both the comparison
   (`TauCeti.hilbertSymbol_eq_cohomological`) and the sign form of reciprocity
-  (`TauCeti.hilbertSymbol_productFormula`) are proved from the native class field theory; this
-  roadmap's `hilbertSymbol_productFormula` is an alias of the second.
+  (`TauCeti.hilbertSymbol_productFormula`) are proved from the native class field theory, and a
+  consumer cites both by their Tau Ceti names.
 - [Profinite Cohomology](../ProfiniteCohomology/README.md) owns continuous cohomology and its
   operations: the carrier, the cup product, restriction, inflation, corestriction, Kummer theory
   and the index-two Evens norm (its Layers 1, 8–10, 12 and 13). Layers 7 to 9 here add only what
   is specific to `μ₂` and to quadratic forms.
 - [Local Fields Ramification](../../Completed/LocalFieldsRamification/README.md) owns the general
-  arithmetic of a nonarchimedean local field: the normalized valuation, the unit filtration, the
-  Teichmüller section, ramification and residue degrees, power classes and unramified extensions.
-  All of it is Tau Ceti's, recorded under the items *Valuations and `e`, `f`*, *Units*, *Power
-  classes* and *Unramified extensions* of that roadmap's *Exact supplier contracts*. Sublayer 6A
-  defines no second valuation or filtration.
+  arithmetic of a nonarchimedean local field: finite extensions as local fields, the normalized
+  valuation, the unit filtration, the Teichmüller section, ramification and residue degrees, power
+  classes and unramified extensions. All of it is Tau Ceti's, recorded under the items *Finite
+  extensions*, *Valuations and `e`, `f`*, *Units*, *Power classes* and *Unramified extensions* of
+  that roadmap's *Exact supplier contracts*. Sublayer 6A defines no second valuation or
+  filtration, and 6C no second local-field structure on a quadratic extension.
 - [Semisimple Algebras](../RepresentationTheory/SemisimpleAlgebras/README.md) owns central simple
   algebras, Skolem–Noether, the Brauer group and splitting fields (its Layers 4–6). Layer 5 takes
   the quaternion and Clifford cases and the 2-torsion package; Layer 7B takes the crossed-product
@@ -322,11 +324,14 @@ Each layer states its results against this list.
   `SeparableClosure K`, and the open subgroup `TauCeti.galoisSubgroup` of a finite extension.
 - **From TauCetiRoadmap.LocalFieldsRamification**
   ([Exact supplier contracts](../../Completed/LocalFieldsRamification/README.md#exact-supplier-contracts),
-  items *Valuations and `e`, `f`*, *Units*, *Power classes* and *Unramified extensions*): the
-  normalized valuation, the unit filtration with its graded pieces, `natCastValuation` read at `2`
-  (so that `e = v_K(2)`), ramification and inertia degrees, the Teichmüller section, the
-  square-class counts and the unramified norm group.
-  These are Tau Ceti's `TauCeti.normalizedValuation`, `TauCeti.unitFiltration`,
+  items *Finite extensions*, *Valuations and `e`, `f`*, *Units*, *Power classes* and *Unramified
+  extensions*): the local-field structure on a finite extension, the normalized valuation, the
+  unit filtration with its graded pieces, `natCastValuation` read at `2` (so that `e = v_K(2)`),
+  ramification and inertia degrees, the Teichmüller section, the square-class counts and the
+  unramified norm group.
+  These are Tau Ceti's `TauCeti.algebraicExtensionValuativeRel`,
+  `TauCeti.finiteExtension_isNonarchimedeanLocalField`, `TauCeti.normalizedValuation`,
+  `TauCeti.unitFiltration`,
   `TauCeti.UnitFiltrationGraded`, `TauCeti.natCastValuation`, `TauCeti.ramificationIndex`,
   `TauCeti.inertiaDegree`, `TauCeti.absoluteRamificationIndex`, `TauCeti.teichmuller`,
   `TauCeti.card_squareClasses`, `TauCeti.normGroup`, `TauCeti.map_normUnits_unitFiltration` and
@@ -336,17 +341,20 @@ Each layer states its results against this list.
 - **From TauCetiRoadmap.ClassFieldTheory** ([Layers 5 and 14](../ClassFieldTheory/README.md)):
   the coefficient object `μ_n`, the Kummer class, the Kummer-cup pairing, the local symbol and
   local Tate duality (Layer 5), and Hilbert reciprocity (Layer 14). Both layers are proved in Tau
-  Ceti. That roadmap's `Suggested.lean` re-exports their objects under its own names (its
-  *Consumers, and the names they import*); this roadmap imports no module of it and consumes the
-  Tau Ceti declarations `TauCeti.ClassFieldTheory.muNRep`, `TauCeti.ClassFieldTheory.kummerClass`,
-  `TauCeti.ClassFieldTheory.kummerCupPairing`, `TauCeti.ClassFieldTheory.localSymbol`,
-  `TauCeti.ClassFieldTheory.invMap`, `TauCeti.ClassFieldTheory.h2MuEquivZMod`,
+  Ceti. That roadmap's `Suggested.lean` re-exports their objects under its own names (its README,
+  §6 *Downstream consumers*, table *Names imported from `Suggested.lean`*); this roadmap imports no
+  module of it and consumes the Tau Ceti declarations `TauCeti.ClassFieldTheory.muNRep`,
+  `TauCeti.ClassFieldTheory.kummerClass`, `TauCeti.ClassFieldTheory.kummerCupPairing`,
+  `TauCeti.ClassFieldTheory.localSymbol`, `TauCeti.ClassFieldTheory.invMap`,
+  `TauCeti.ClassFieldTheory.brauerGroupEquivBr` (Mathlib's `BrauerGroup` against the cohomological
+  `Br F` on which the invariant is defined), `TauCeti.ClassFieldTheory.h2MuEquivZMod`,
   `TauCeti.ClassFieldTheory.finiteHilbertInvariantAt` and
   `TauCeti.ClassFieldTheory.hilbertProductFormula`
   (`TauCeti/NumberTheory/ClassFieldTheory/`, files `MuNRep.lean`, `Local/Symbol.lean`,
-  `Brauer/Invariant.lean`, `Brauer/RootsOfUnity.lean` and `Global/Hilbert/`). The comparisons of
-  Layers 6C and 7C and the product formula are stated on Tau Ceti's objects
-  (`TauCeti.hilbertSymbol_eq_cohomological`, `TauCeti.hilbertSymbol_productFormula`).
+  `Brauer/Invariant.lean`, `Brauer/CentralSimple/Basic.lean`, `Brauer/RootsOfUnity.lean` and
+  `Global/Hilbert/`). The comparisons of Layers 6C and 7C and the product formula are stated on Tau
+  Ceti's objects (`TauCeti.hilbertSymbol_eq_cohomological`,
+  `TauCeti.hilbertSymbol_productFormula`).
 - **From TauCetiRoadmap.ProfiniteCohomology** ([Layers 0–4, 8–10, 12 and 13](../ProfiniteCohomology/README.md)):
   discrete modules, the openness of stabilizers and continuous sections of quotient maps, through
   which Layer 7B descends a continuous cocycle to a finite Galois level (Layer 0), the canonical
@@ -365,11 +373,13 @@ Each layer states its results against this list.
   prototypes, as are the identities stated on them. Layers 7 to 9 are therefore stated on Tau
   Ceti's native operations listed above, never on those prototypes.
 - **From TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras**
-  ([Layers 4 and 6](../RepresentationTheory/SemisimpleAlgebras/README.md)): the tensor product of
-  central simple algebras, `A ⊗_K Aᵒᵖ ≃ₐ[K] M_n(K)`, the Brauer group as a group under `⊗_K`, and
-  splitting by a finite separable extension. The group law used here is Tau Ceti's
-  `TauCeti.BrauerGroup.instCommGroup`, the actual tensor-product law, and the finite Galois
-  splitting field is `TauCeti.Algebra.exists_finiteGalois_splittingField`.
+  ([Layers 4 to 6](../RepresentationTheory/SemisimpleAlgebras/README.md)): the tensor product of
+  central simple algebras, `A ⊗_K Aᵒᵖ ≃ₐ[K] M_n(K)` (Layer 4), Skolem–Noether (Layer 5), through
+  which Layer 7B makes a semilinear automorphism of `M_n(L)` inner, the Brauer group as a group
+  under `⊗_K`, and splitting by a finite separable extension (Layer 6). The group law used here is
+  Tau Ceti's `TauCeti.BrauerGroup.instCommGroup`, the actual tensor-product law, Skolem–Noether is
+  Tau Ceti's `TauCeti/Algebra/CentralSimple/SkolemNoether.lean`, and the finite Galois splitting
+  field is `TauCeti.Algebra.exists_finiteGalois_splittingField`.
 
 ## How to read the build
 
@@ -387,8 +397,8 @@ Layer 7B and Class Field Theory's Layer 5, and is stated in 6E but built after L
 the comparison of the symbol with the cohomological pairing in 6C is built after Layer 7C.
 
 Layer 7A depends on Layer 0 and on 6A; Layer 7B on Layers 5 and 7A and on the semisimple-algebras
-roadmap's Layer 6; Layer 7C on Layers 2 and 7B. Layer 8 depends on Layer 7. Layer 9 splits: the
-transfer half needs Layers 1 to 4, and the relative-formula half needs Layers 7C and 8 and the
+roadmap's Layers 4 to 6; Layer 7C on Layers 2 and 7B. Layer 8 depends on Layer 7. Layer 9 splits:
+the transfer half needs Layers 1 to 4, and the relative-formula half needs Layers 7C and 8 and the
 index-two Evens norm.
 
 Each milestone below states what it is, which Tau Ceti declaration discharges it, and what it
@@ -488,7 +498,7 @@ holds it.
   (`Module.Basis.reflTransGen_isOrtho_isContiguous`). This is a comparison with the chain
   relation above and never an alternative definition of it.
 
-  *Needs:* chain equivalence above; Mathlib `LinearMap.BilinForm.IsOrthoᵢ`.
+  *Needs:* chain equivalence above; Mathlib `LinearMap.IsOrthoᵢ`.
 
 - **The descent principle** (Tau Ceti's, consumed;
   `TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/Descent.lean`),
@@ -1539,7 +1549,8 @@ sublayer are proved without the local invariant map, in this order.
   them `L` is a nonarchimedean local field, `TauCeti.finiteExtension_isNonarchimedeanLocalField`
   under `[Module.Finite K L]` (`TauCeti/NumberTheory/LocalField/FiniteExtension/Basic.lean`), and the
   valuative relation extends that of `K`, `TauCeti.algebraicExtension_valuativeExtension`.
-  *Needs:* 6A; Mathlib's `IsNonarchimedeanLocalField` and spectral norms.
+  *Needs:* 6A; Mathlib's `IsNonarchimedeanLocalField` and spectral norms;
+  TauCetiRoadmap.LocalFieldsRamification's *Exact supplier contracts*, item *Finite extensions*.
 - **The norm form.** The `K`-algebra equivalence `QuadraticAlgebra K a 0 ≃ₐ[K] L`, `(x, y) ↦ x + ys`,
   carries Mathlib's `QuadraticAlgebra.norm` to the field norm, because multiplication by `x + ys` has
   matrix `[[x, ay], [y, x]]` (`QuadraticAlgebra.det_toLinearMap_eq_norm`). So the norm subgroup
@@ -1656,10 +1667,10 @@ Milestones, in this order, each Tau Ceti's:
 14. **The global product formula.** Over a number field the symbols at the finite places, read in
     the completions, and at the real places multiply to `1`: Tau Ceti's
     `TauCeti.hilbertSymbol_productFormula` (`TauCeti/NumberTheory/QuadraticForm/Global/ProductFormula.lean`),
-    obtained from `TauCeti.ClassFieldTheory.hilbertProductFormula` through the sign dictionary, and
-    consumed under this roadmap's name `hilbertSymbol_productFormula`. It is an export to
-    `GlobalQuadraticForms`, `IntegralLattices` and `ClassicalArithmeticCompletion`, not a
-    local-global classification theorem.
+    obtained from `TauCeti.ClassFieldTheory.hilbertProductFormula` through the sign dictionary.
+    It is the form of reciprocity that `GlobalQuadraticForms`, `IntegralLattices` and
+    `ClassicalArithmeticCompletion` consume, and the name they cite is the Tau Ceti one. It
+    constrains the local symbols; it is not a local-global classification theorem.
 15. **The two Hasse invariants agree**, which is sublayer 6E.
 
 ⚠ Nearby false generalization. Bimultiplicativity fails over a general field. Take `K = ℚ` and
@@ -1830,7 +1841,7 @@ Tau Ceti's `TauCeti/NumberTheory/LocalField/` (`Uniformizer`, `Squares`, `Square
 `FiniteExtension/`), `TauCeti/NumberTheory/HilbertSymbol/`, `TauCeti/NumberTheory/Padics/SerreSigns.lean`
 and `TauCeti/FieldTheory/GaloisCohomology/MuTwo/LocalSymbol.lean`; Layers 0 to 5 of this roadmap,
 with 6E's second milestone after Layer 7B; the items of TauCetiRoadmap.LocalFieldsRamification's
-*Exact supplier contracts* that 6A cites;
+*Exact supplier contracts* that 6A, 6B and 6C cite;
 TauCetiRoadmap.ClassFieldTheory Layers 5 and 14.
 
 ## Layer 7: the Brauer group in Galois cohomology
@@ -2311,9 +2322,12 @@ Edge cases: rank `0`, where both classes vanish; rank `1`, where `w₁⟨a⟩ = 
 - `w₁(⟨1⟩ⁿ) = 0` and `w₂(⟨1⟩ⁿ) = 0`; `w₁⟨a⟩ = (a)` and `w₂⟨a⟩ = 0`; `w₂⟨a,b⟩ = (a) ∪ (b)`
   (`TauCeti.sw2Class_mk_binary`); the values on Pfister forms (`TauCeti.sw1Class_pfisterFormClass`,
   `TauCeti.sw2Class_pfisterFormClass_two`).
-- The table of `w₁` and `w₂` over `ℚ_2` for the eight forms `⟨a⟩` with `a` in
-  `{±1, ±5, ±2, ±10}`, together with the sixteen binary forms `⟨1, a⟩` and `⟨a, a⟩`; for instance
-  `w₂⟨2, 5⟩ = (2) ∪ (5) ≠ 0`, and `w₂⟨a, a⟩ = (a) ∪ (−1)`.
+- The table over `ℚ_2`, where `H²(G_ℚ₂, 𝔽₂) = {0, ν}` with `ν = (2) ∪ (5) = (−1) ∪ (−1)`, on the
+  representatives `a ∈ {±1, ±5, ±2, ±10}`: `w₁⟨a⟩ = (a)` and `w₂⟨a⟩ = 0`; `w₁⟨1, a⟩ = (a)` and
+  `w₂⟨1, a⟩ = 0`; `w₁⟨a, a⟩ = 0`, and `w₂⟨a, a⟩ = (a) ∪ (−1)`, which is `ν` for
+  `a ∈ {−1, −5, −2, −10}` and `0` for `a ∈ {1, 5, 2, 10}`, the classes of sums of two squares.
+  Also `w₂⟨2, 5⟩ = ν`. The row `⟨1, −1⟩` separates the conventions: `w₂⟨1, −1⟩ = 0`, while the
+  product over `i ≤ j` of O'Meara's Hasse symbol would give `(−1) ∪ (−1) = ν`.
 - The Clifford comparison at `n = 3`:
   `ι(c(q)) = w₂(q) + 1·((−1) ∪ (d(q))) + 1·((−1) ∪ (−1))`.
 
@@ -2649,10 +2663,6 @@ Kummer class is the class of this character, through
   a graded cohomology ring, an Evens norm in every degree, and the multiplicative extension
   `N^Ev(1 + x) = 1 + cor(x) + … + N^Ev(x)`, together with a target in which a class with constant
   term `1` is invertible. See "Scope and ownership".
-- **Finite dyadic specialization**, as the final acceptance example. `K` is a finite extension of
-  `ℚ_2`, `L = K(√d)` is quadratic, and `q = ⟨a⟩`. The two identities are then computations in the
-  finite group `H²(G_K, 𝔽₂)`, with the square classes of `L` supplied by 6A's count, and they are
-  the sharpest available test of the signs and of the conjugate in the polarization term.
 
 The transfer is transitive in a tower `M/L/K` and compatible with base change
 (`TauCeti.WittRing.scharlauTransfer_baseChange`), and `Pin⁺` lifts are carried by the Galois
@@ -2675,11 +2685,35 @@ not the norm.
 - `Tr_*⟨1⟩ ≅ ⟨2, 2d⟩` for `ℚ(√d)/ℚ` and for `ℚ_2(√d)/ℚ_2`, which recovers the `ℂ/ℝ` computation of
   `TauCeti/NumberTheory/EffectiveBounds/TraceForm.lean` as the archimedean sibling.
 - An instance of the relative formula in low degree: `K = ℚ_2`, `L = ℚ_2(√5)`, the unramified
-  quadratic extension, and `q = ⟨a⟩`, with both sides of the degree-`≤ 2` identity computed as `a`
-  runs over the eight unit square classes of `L`, that is over the image of `𝒪[L]ˣ` in
-  `Lˣ/(Lˣ)²`. That image is the kernel of the parity-of-valuation map and has order `8`, while
-  `Lˣ/(Lˣ)²` has order `16` by Layer 6A with `[L : ℚ_2] = 2`. A uniformizer represents the missing
-  coset and is excluded here deliberately.
+  quadratic extension, so `d = 5`, and `q = ⟨a⟩` as `a` runs over the eight unit square classes of
+  `L`, that is over the image of `𝒪[L]ˣ` in `Lˣ/(Lˣ)²`. That image is the kernel of the
+  parity-of-valuation map and has order `8`, while `Lˣ/(Lˣ)²` has order `16` by Layer 6A with
+  `[L : ℚ_2] = 2`. A uniformizer represents the missing coset and is excluded here deliberately.
+  With `ω = (1 + √5)/2`, the eight classes are those of `±1`, `±ω`, `±√5` and `±√5·ω`: the norm
+  sends the four pairs onto the four unit classes `[1]`, `[−1]`, `[−5]`, `[5]` of `ℚ_2`, and `−1` is
+  not a square in `L` (neither `−1` nor `−5` is a square in `ℚ_2`). Write `ν` for the nonzero
+  element `(2) ∪ (5)` of `H²(G_ℚ₂, 𝔽₂)`. Then `Tr_*⟨1⟩ ≅ ⟨2, 10⟩`, so `w₁(Tr_*⟨1⟩) = (5)` and
+  `w₂(Tr_*⟨1⟩) = ν`, and the cross term `(5) ∪ (N a)` is `0` in every row because `N a` is a norm
+  from `L`. The left-hand sides are computed on the forms, `Tr_*⟨a⟩ ≅ ⟨Tr a, 5 · Tr a · N a⟩` when
+  `Tr a ≠ 0` and the hyperbolic plane when `Tr a = 0`; the norm is the value of the previous
+  subsection.
+
+  | `a` | `Tr a` | `N a` | `w₁(Tr_*⟨a⟩) = (5 · N a)` | `N^Ev((a))` | `w₂(Tr_*⟨a⟩) = ν + N^Ev((a))` |
+  |---|---|---|---|---|---|
+  | `1` | `2` | `1` | `(5)` | `0` | `ν` |
+  | `−1` | `−2` | `1` | `(5)` | `ν` | `0` |
+  | `ω` | `1` | `−1` | `(−5)` | `ν` | `0` |
+  | `−ω` | `−1` | `−1` | `(−5)` | `ν` | `0` |
+  | `√5` | `0` | `−5` | `(−1)` | `ν` | `0` |
+  | `−√5` | `0` | `−5` | `(−1)` | `ν` | `0` |
+  | `√5·ω` | `5` | `5` | `0` | `ν` | `0` |
+  | `−√5·ω` | `−5` | `5` | `0` | `0` | `ν` |
+
+  For instance `a = −√5·ω` gives `⟨−5, −125⟩ ≅ ⟨−5, −5⟩` with `w₂ = (−5) ∪ (−1) = ν`, while
+  `N^Ev((a)) = (−5) ∪ (−25) + ν = 0`; and `a = √5` gives the hyperbolic plane, `w₂ = 0`, with
+  `N^Ev((√5)) = (2) ∪ (5) = ν`. Every row separates the formula from the variant without the
+  `w₂(Tr_*⟨1⟩)` term and from a value of the norm without its `(2) ∪ (d)` term, since each shifts
+  the right-hand side by `ν`.
 - The value of the Evens norm pins its sign. Over `ℚ_2`, with `d = −1`, `L = ℚ_2(i)` and
   `a = 1 + 2i`: `Tr a = 2` and `N a = 5`, so `N^Ev((a)) = (2) ∪ (5)`, which is nonzero because
   `(2,5)_ℚ₂ = −1`. Kahn's form `(Tr a) ∪ (−d · N a) + (2) ∪ (d)` is `(2) ∪ (5) + (2) ∪ (−1)`, the
@@ -2690,7 +2724,8 @@ not the norm.
 ### Dependencies
 
 Layers 1 to 4 for the transfer half, which can be built together with Layer 5; Layers 7 and 8 for
-the relative-formula half; Layer 6's 6A square-class count for the finite dyadic specialization.
+the relative-formula half; Layer 6 (6A's square-class count and the symbols over `ℚ_2` of 6C
+and 6E) for the `ℚ_2(√5)` example.
 Mathlib's `Algebra.trace`, `Algebra.traceForm`, `traceForm_nondegenerate`, `Algebra.norm`, `Algebra.IsQuadraticExtension`, `Matrix`,
 `DihedralGroup` and `IsSepClosed`. Tau Ceti's `TauCeti/LinearAlgebra/QuadraticForm/Transfer/`,
 `TauCeti/FieldTheory/QuadraticForm/StiefelWhitney/`, `TauCeti/LinearAlgebra/Matrix/PinPlusPlane/`,
@@ -2701,8 +2736,8 @@ for the specification of the transfer along `L/K` and the `D₁₆` pullback for
 
 ## Downstream consumers
 
-The names that these roadmaps import from this namespace, and the ten names that are Tau Ceti's,
-are listed under Scope and ownership. None of these roadmaps supplies an input to this one.
+The names that these roadmaps import from this namespace, and the eleven names that are Tau
+Ceti's, are listed under Scope and ownership. None of these roadmaps supplies an input to this one.
 
 - GlobalQuadraticForms: the carrier and the discriminants of Layers 0 and 3, Layer 0's
   representation criterion, Layer 1's hyperbolic planes, Witt cancellation and Witt extension,
@@ -2710,16 +2745,16 @@ are listed under Scope and ownership. None of these roadmaps supplies an input t
   unramified class of 6B–6C, the realization theorem and the classification with its isotropy list
   of 6D, and the cohomological comparison and product formula of 6C.
 - IntegralLattices: the square classes and the Witt, Brauer, Hasse and Clifford invariants of
-  Layers 0 and 3 to 5, the local classification of 6D, and Hilbert reciprocity through
-  `hilbertSymbol_productFormula` (its 3G and 6A).
+  Layers 0 and 3 to 5, the local classification of 6D, and Hilbert reciprocity through Tau Ceti's
+  `TauCeti.hilbertSymbol_productFormula` (its 3G and 6A).
 - OrthogonalSpinGroups: Layer 0's orthogonal bases and multiplicative square-class quotient,
   Layer 1's reflections, Cartan–Dieudonné theorem and Witt extension, Layer 3's plain
   discriminant, and `hilbertSymbol`, `localHasse`, `hasseInvariant_eq_localHasse` and the
   classification over `ℚ_p` by `(dim, d, s)` of 6C to 6E.
 - ClassicalArithmeticCompletion: 6C's Hilbert symbol `hilbertSymbol` (item 1), with which its
   degree-two norm-residue symbol is compared; the closed formulas of 6C items 9 and 10, the second
-  with its exponent computed in `ZMod 2`; and the product formula `hilbertSymbol_productFormula`
-  (item 14).
+  with its exponent computed in `ZMod 2`; and the product formula
+  `TauCeti.hilbertSymbol_productFormula` (item 14).
 - SpinRepresentations: the reflection and Cartan–Dieudonné suppliers recorded in Layer 1.
 - SchemeAndStackFoundations: the identification of the Brauer group of a field with `H²` of
   Layer 7B.
