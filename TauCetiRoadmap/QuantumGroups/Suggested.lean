@@ -18,12 +18,20 @@ with the few definitions (real bodies on native carriers) that those statements 
 Stated here: the weighted Schur orthogonality relations on a Hopf *-algebra with a positive
 invariant functional (§3.1); the algebraic compact-type equivalence, the existence and uniqueness
 of the modular automorphism of the Haar functional and the Kac equivalence between traciality of
-the Haar functional and involutivity of the antipode (§4.1); and, for the generic quantized
-enveloping algebra `U_q(sl₂)` presented as a `RingQuot` of a free algebra (Layer 8): the unique
-coassociative coproduct, the PBW basis, the domain property, the centre `ℂ[Ω]`, the signed ladder
-classification of finite-dimensional simple modules together with the existence of every ladder,
-finite complete reducibility, and the characterisation and semisimplicity of locally finite
-modules.
+the Haar functional and involutivity of the antipode (§4.1). A Hopf *-algebra is a native complex
+Hopf algebra with a compatible star structure whose comultiplication preserves the star; these
+statements take that condition, `Δ(a*) = Δ(a)*` for the tensor star `(x ⊗ y)* = x* ⊗ y*`, as the
+hypothesis `hΔ`. It is the defining field `comul_star` of Tau Ceti's `TauCeti.StarCoalgebra ℂ A`.
+
+Proved in the pinned Tau Ceti and not restated: the Layer 8 algebra `TauCeti.UqSl2` with its
+universal property, Ore-tower presentation, PBW basis and domain property for every `q ≠ 0`, its
+Hopf structure, Casimir element and centre `ℂ[Ω]`, the Verma and signed ladder modules with the
+classification of finite-dimensional simples, finite complete reducibility, the semisimplicity,
+ladder decomposition and type-1 characterisations of locally finite modules (in particular
+`TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`),
+the Clebsch–Gordan isomorphisms and triple recoupling, contragredients, quantum traces, the
+compact real form with its invariant metric and the classical specialisation, together with the
+finite Hopf-module category `TauCeti.FiniteHopfModuleCat` of §8.5.
 
 Not statable at the pins:
 
@@ -55,11 +63,13 @@ Not statable at the pins:
 * Layer 7 fusion rules, dimensions and Haar laws of `SUq(2)` and `O_F^+`: they are statements
   about the universal C*-algebras of Layer 5, which need the minimal tensor product for their
   coproduct.
-* §8.5 Clebsch–Gordan decompositions, 6j symbols and the pivotal structure, §8.6 the comparison
-  with `SUq(2)` and §8.7 the classical specialisation: they need the monoidal, rigid and pivotal
-  structure on finite-dimensional modules over a Hopf algebra, the Laurent-polynomial ladder
-  family and its Lie-module adapter, which are constructions of the roadmap and not carriers at
-  the pins.
+* §8.5 Biedenharn–Elliott pentagon: it needs the recoupling isomorphisms between the five
+  bracketings of a quadruple tensor product of signed ladder modules, in channel coordinates;
+  the pins supply recoupling only for triple products
+  (`TauCeti.UqSl2.clebschGordanRecouplingEquiv`).
+* §8.6 comparison of finite positive-`K` modules with the finite unitary corepresentations of
+  `SUq(2)`: it needs the universal C*-algebra `C(SUq(2))` of Layer 5, which needs the minimal
+  tensor product above.
 -/
 
 open scoped TensorProduct ComplexOrder
@@ -75,12 +85,6 @@ universe u v w
 section HopfCore
 
 variable {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A] [StarModule ℂ A]
-
-/-- A Hopf *-algebra: a complex Hopf algebra with a compatible star structure whose
-comultiplication preserves the star. Counit and antipode compatibility are consequences. -/
-class StarCompatibleHopf : Prop where
-  comul_star : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) =
-    star (Coalgebra.comul (R := ℂ) a)
 
 variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
   [TauCeti.Comodule ℂ A H]
@@ -106,7 +110,8 @@ irreducible finite comodule with unitary coefficient matrix `u` there is a posit
 `F̃` with `Tr F̃ = Tr F̃⁻¹`, `h(u_ij* u_kl) = δ_jl (F̃⁻¹)_ik / Tr F̃⁻¹` and
 `h(u_ij u_kl*) = δ_ik F̃_jl / Tr F̃`. The matrix is the README's pre-antipode `F̃`, not its
 transpose `F`. -/
-theorem schur_orthogonality [StarCompatibleHopf (A := A)]
+theorem schur_orthogonality
+    (hΔ : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) = star (Coalgebra.comul (R := ℂ) a))
     [IsSimpleOrder (TauCeti.Subcomodule ℂ A H)]
     (h : AlgebraicHaar (A := A)) (b : OrthonormalBasis ι ℂ H)
     (hu : TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis ∈ unitary (Matrix ι ι A)) :
@@ -138,7 +143,8 @@ def unitaryCoefficientSet (A : Type u) [Ring A] [HopfAlgebra ℂ A] [StarRing A]
 normalized positive two-sided invariant integral exactly when it is spanned by the coefficients
 of its finite unitary comodules. -/
 theorem compactType_iff (A : Type u) [Ring A] [Nontrivial A] [HopfAlgebra ℂ A]
-    [StarRing A] [StarModule ℂ A] [StarCompatibleHopf (A := A)] :
+    [StarRing A] [StarModule ℂ A]
+    (hΔ : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) = star (Coalgebra.comul (R := ℂ) a)) :
     Nonempty (AlgebraicHaar (A := A)) ↔
       Submodule.span ℂ (unitaryCoefficientSet A) = ⊤ := by
   sorry
@@ -148,7 +154,9 @@ Theorem 1.7.3, p. 22): a positive normalized invariant integral `h` on a Hopf *-
 exactly one algebra automorphism `θ` with `h(ab) = h(b θ(a))` for all `a, b`. On a unitary
 coefficient matrix `θ(u) = F u F`; uniqueness is the faithfulness of `h`. -/
 theorem haar_modular_automorphism {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
-    [StarModule ℂ A] [StarCompatibleHopf (A := A)] (h : AlgebraicHaar (A := A)) :
+    [StarModule ℂ A]
+    (hΔ : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) = star (Coalgebra.comul (R := ℂ) a))
+    (h : AlgebraicHaar (A := A)) :
     ∃! θ : A ≃ₐ[ℂ] A, ∀ a b : A, h.functional (a * b) = h.functional (b * θ a) := by
   sorry
 
@@ -156,190 +164,12 @@ theorem haar_modular_automorphism {A : Type u} [Ring A] [HopfAlgebra ℂ A] [Sta
 normalized invariant integral `h` on a Hopf *-algebra is a trace exactly when the antipode is
 involutive. -/
 theorem haar_trace_iff_antipode_involutive {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
-    [StarModule ℂ A] [StarCompatibleHopf (A := A)] (h : AlgebraicHaar (A := A)) :
+    [StarModule ℂ A]
+    (hΔ : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) = star (Coalgebra.comul (R := ℂ) a))
+    (h : AlgebraicHaar (A := A)) :
     (∀ a b : A, h.functional (a * b) = h.functional (b * a)) ↔
       ∀ a : A, HopfAlgebra.antipode ℂ (HopfAlgebra.antipode ℂ a) = a := by
   sorry
-
-/-! ## Layer 8: Generic U_q(sl₂), signed modules and integrability -/
-
-noncomputable section GenericRankOne
-
-/-- The generators `E, F, K, K⁻¹` of `U_q(sl₂)`. -/
-inductive SL2Generator
-  | E | F | K | Kinv
-  deriving DecidableEq
-
-/-- The defining relations of `U_q(sl₂)` in the free complex algebra:
-`KK⁻¹ = K⁻¹K = 1`, `KE = q²EK`, `KF = q⁻²FK`, `EF − FE = (K − K⁻¹)/(q − q⁻¹)`. -/
-inductive QuantumSL2Relation (q : ℂ) :
-    FreeAlgebra ℂ SL2Generator → FreeAlgebra ℂ SL2Generator → Prop
-  | kkInv : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .K * FreeAlgebra.ι ℂ .Kinv) 1
-  | kInvK : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .Kinv * FreeAlgebra.ι ℂ .K) 1
-  | ke : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .K * FreeAlgebra.ι ℂ .E)
-      (q ^ 2 • (FreeAlgebra.ι ℂ .E * FreeAlgebra.ι ℂ .K))
-  | kf : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .K * FreeAlgebra.ι ℂ .F)
-      ((q⁻¹) ^ 2 • (FreeAlgebra.ι ℂ .F * FreeAlgebra.ι ℂ .K))
-  | ef : QuantumSL2Relation q
-      (FreeAlgebra.ι ℂ .E * FreeAlgebra.ι ℂ .F)
-      (FreeAlgebra.ι ℂ .F * FreeAlgebra.ι ℂ .E +
-        (q - q⁻¹)⁻¹ • (FreeAlgebra.ι ℂ .K - FreeAlgebra.ι ℂ .Kinv))
-
-/-- `U_q(sl₂)` as the quotient of the free complex algebra by `QuantumSL2Relation q`. It is
-defined for every `q` (at `q = 0` the relations force `E = F = 0`, and at `q = ±1` the totalised
-inverse makes the quotient commutative); the headline theorems state their hypotheses on `q`. -/
-abbrev QuantumSL2 (q : ℂ) := RingQuot (QuantumSL2Relation q)
-
-/-- The image of a generator in `QuantumSL2 q`. -/
-def quantumSL2Generator (q : ℂ) (g : SL2Generator) : QuantumSL2 q :=
-  RingQuot.mkAlgHom ℂ (QuantumSL2Relation q) (FreeAlgebra.ι ℂ g)
-
-/-- `K` as a unit of `QuantumSL2 q`, with inverse the generator `K⁻¹`. -/
-def quantumSL2KUnit (q : ℂ) : (QuantumSL2 q)ˣ where
-  val := quantumSL2Generator q .K
-  inv := quantumSL2Generator q .Kinv
-  val_inv := by
-    simpa [quantumSL2Generator] using
-      (RingQuot.mkAlgHom_rel ℂ (QuantumSL2Relation.kkInv (q := q)))
-  inv_val := by
-    simpa [quantumSL2Generator] using
-      (RingQuot.mkAlgHom_rel ℂ (QuantumSL2Relation.kInvK (q := q)))
-
-/-- The quantum Casimir element `Ω = FE + (qK + q⁻¹K⁻¹)/(q − q⁻¹)²`. -/
-def quantumSL2Casimir (q : ℂ) : QuantumSL2 q :=
-  quantumSL2Generator q .F * quantumSL2Generator q .E +
-    ((q - q⁻¹) ^ 2)⁻¹ •
-      (q • quantumSL2Generator q .K + q⁻¹ • quantumSL2Generator q .Kinv)
-
-/-- The symmetric quantum integer `[r]_q = (q^r − q^(−r))/(q − q⁻¹)` for `r : ℤ`; under the
-generic hypothesis the denominator is nonzero. -/
-def quantumInteger (q : ℂ) (r : ℤ) : ℂ := (q ^ r - q ^ (-r)) / (q - q⁻¹)
-
-/-- The coproduct of `U_q(sl₂)` (§8.1): for `q ≠ 0` there is exactly one algebra map
-`Δ : U_q → U_q ⊗ U_q` with `ΔK = K ⊗ K`, `ΔE = E ⊗ 1 + K ⊗ E` and `ΔF = F ⊗ K⁻¹ + 1 ⊗ F`,
-and it is coassociative. -/
-theorem quantumSL2Comul_exists (q : ℂ) (hq : q ≠ 0) :
-    ∃! Δ : QuantumSL2 q →ₐ[ℂ] QuantumSL2 q ⊗[ℂ] QuantumSL2 q,
-      Δ (quantumSL2Generator q .K) =
-          quantumSL2Generator q .K ⊗ₜ[ℂ] quantumSL2Generator q .K ∧
-      Δ (quantumSL2Generator q .E) =
-          quantumSL2Generator q .E ⊗ₜ[ℂ] 1 +
-            quantumSL2Generator q .K ⊗ₜ[ℂ] quantumSL2Generator q .E ∧
-      Δ (quantumSL2Generator q .F) =
-          quantumSL2Generator q .F ⊗ₜ[ℂ] quantumSL2Generator q .Kinv +
-            1 ⊗ₜ[ℂ] quantumSL2Generator q .F ∧
-      (Algebra.TensorProduct.assoc ℂ ℂ ℂ (QuantumSL2 q) (QuantumSL2 q)
-            (QuantumSL2 q)).toAlgHom.comp
-          ((Algebra.TensorProduct.map Δ (AlgHom.id ℂ (QuantumSL2 q))).comp Δ) =
-        (Algebra.TensorProduct.map (AlgHom.id ℂ (QuantumSL2 q)) Δ).comp Δ := by
-  sorry
-
-/-- The PBW theorem (§8.1): for `q ≠ 0` not a root of unity the ordered monomials
-`F^a K^b E^c`, `(a, b, c) ∈ ℕ × ℤ × ℕ`, form a basis of `U_q(sl₂)`. -/
-theorem quantumSL2PBW_exists (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) :
-    ∃ b : Module.Basis (ℕ × ℤ × ℕ) ℂ (QuantumSL2 q), ∀ a z c,
-      b (a, z, c) = quantumSL2Generator q .F ^ a *
-        ((quantumSL2KUnit q) ^ z : (QuantumSL2 q)ˣ) *
-        quantumSL2Generator q .E ^ c := by
-  sorry
-
-/-- `U_q(sl₂)` is a domain for `q ≠ 0` not a root of unity (§8.1, via the Ore tower);
-`IsDomain` includes nontriviality. -/
-theorem quantumSL2_domain (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) : IsDomain (QuantumSL2 q) := by
-  sorry
-
-/-- The centre of `U_q(sl₂)` is the polynomial algebra on the Casimir (§8.3): for `q ≠ 0` not
-a root of unity, an element is central exactly when it is a polynomial in `Ω`, and that
-polynomial is unique, so `Ω` is transcendental over `ℂ`. -/
-theorem quantumSL2_center (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) (z : QuantumSL2 q) :
-    (∀ x, Commute z x) ↔ ∃! p : Polynomial ℂ,
-      Polynomial.eval₂ (algebraMap ℂ (QuantumSL2 q)) (quantumSL2Casimir q) p = z := by
-  sorry
-
-/-- Complete reducibility (§8.3): for `q ≠ 0` not a root of unity every finite-dimensional
-`U_q(sl₂)`-module is semisimple, with no assumption that `K` acts diagonalisably. -/
-theorem quantumSL2_finite_semisimple (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1)
-    (V : Type u) [AddCommGroup V] [Module ℂ V] [Module (QuantumSL2 q) V]
-    [IsScalarTower ℂ (QuantumSL2 q) V] [FiniteDimensional ℂ V] :
-    IsSemisimpleModule (QuantumSL2 q) V := by
-  sorry
-
-/-- Classification of finite-dimensional simple modules (§8.2): for `q ≠ 0` not a root of
-unity, every finite-dimensional simple `U_q(sl₂)`-module `V` has a basis `b₀, …, b_m` and a sign
-`ε = ±1` with `K b_j = ε q^(m−2j) b_j`, `F b_j = [j+1]_q b_(j+1)` and
-`E b_j = ε [m−j+1]_q b_(j−1)` (out-of-range vectors zero): it is the signed ladder `L_m^ε`.
-No diagonalisability of `K` is assumed. -/
-theorem quantumSL2_simple_classification (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1)
-    (V : Type u) [AddCommGroup V] [Module ℂ V] [Module (QuantumSL2 q) V]
-    [IsScalarTower ℂ (QuantumSL2 q) V] [FiniteDimensional ℂ V]
-    [IsSimpleModule (QuantumSL2 q) V] :
-    ∃ (m : ℕ) (ε : ℂ) (b : Module.Basis (Fin (m + 1)) ℂ V),
-      (ε = 1 ∨ ε = -1) ∧ ∀ j : Fin (m + 1),
-      quantumSL2Generator q .K • b j = (ε * q ^ ((m : ℤ) - 2 * j.val)) • b j ∧
-      quantumSL2Generator q .F • b j =
-        (if h : j.val < m then quantumInteger q (j.val + 1) • b ⟨j.val + 1, by omega⟩
-         else 0) ∧
-      quantumSL2Generator q .E • b j =
-        (if h : 0 < j.val then (ε * quantumInteger q ((m : ℤ) - j.val + 1)) •
-          b ⟨j.val - 1, by omega⟩ else 0) := by
-  sorry
-
-/-- Existence in the classification (§8.2): for every `m : ℕ` and sign `ε = ±1` there is an
-irreducible action of `U_q(sl₂)` on `ℂ^(m+1)` whose first basis vector is killed by `E` and is
-a `K`-eigenvector of eigenvalue `ε q^m` (the ladder module `L_m^ε`); with
-`quantumSL2_simple_classification` the pairs `(m, ε)` are in bijection with the
-finite-dimensional simples. -/
-theorem quantumSL2_exists_ladderAction (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1) (m : ℕ) (ε : ℂ) (hε : ε = 1 ∨ ε = -1) :
-    ∃ ρ : QuantumSL2 q →ₐ[ℂ] Module.End ℂ (Fin (m + 1) → ℂ),
-      (∀ p : Submodule ℂ (Fin (m + 1) → ℂ), (∀ a, ∀ x ∈ p, ρ a x ∈ p) → p = ⊥ ∨ p = ⊤) ∧
-      ρ (quantumSL2Generator q .E) (Pi.single 0 1) = 0 ∧
-      ρ (quantumSL2Generator q .K) (Pi.single 0 1) = (ε * q ^ m) • Pi.single 0 1 := by
-  sorry
-
-/-- Local finiteness (§8.2): each cyclic `U_q`-submodule is finite-dimensional as a complex
-vector space, with the restricted scalar action. -/
-def QuantumSL2LocallyFinite (q : ℂ) (V : Type u) [AddCommGroup V]
-    [Module ℂ V] [Module (QuantumSL2 q) V] [IsScalarTower ℂ (QuantumSL2 q) V] : Prop :=
-  ∀ v : V, FiniteDimensional ℂ ((Submodule.span (QuantumSL2 q) {v}).restrictScalars ℂ)
-
-/-- Signed integral weights (§8.4): `V` is spanned over `ℂ` by `K`-eigenvectors of eigenvalues
-`±q^z`, `z : ℤ`. -/
-def QuantumSL2SignedWeights (q : ℂ) (V : Type u) [AddCommGroup V]
-    [Module ℂ V] [Module (QuantumSL2 q) V] : Prop :=
-  Submodule.span ℂ {v : V | ∃ (z : ℤ) (ε : ℂ), (ε = 1 ∨ ε = -1) ∧
-    quantumSL2Generator q .K • v = (ε * q ^ z) • v} = ⊤
-
-/-- Local finiteness is equivalent to signed integral weights together with local nilpotence
-of both ladder operators, for an arbitrary algebraic module (§8.4). -/
-theorem quantumSL2_locallyFinite_iff (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1)
-    (V : Type u) [AddCommGroup V] [Module ℂ V] [Module (QuantumSL2 q) V]
-    [IsScalarTower ℂ (QuantumSL2 q) V] :
-    QuantumSL2LocallyFinite q V ↔ QuantumSL2SignedWeights q V ∧
-      (∀ v : V, ∃ n : ℕ, quantumSL2Generator q .E ^ n • v = 0) ∧
-      (∀ v : V, ∃ n : ℕ, quantumSL2Generator q .F ^ n • v = 0) := by
-  sorry
-
-/-- An arbitrary locally finite module is semisimple (§8.4); its simple submodules are
-finite-dimensional, hence the signed ladders of `quantumSL2_simple_classification`. -/
-theorem quantumSL2_locallyFinite_semisimple (q : ℂ) (hq : q ≠ 0)
-    (hgeneric : ∀ r : ℕ, 0 < r → q ^ r ≠ 1)
-    (V : Type u) [AddCommGroup V] [Module ℂ V] [Module (QuantumSL2 q) V]
-    [IsScalarTower ℂ (QuantumSL2 q) V] (hV : QuantumSL2LocallyFinite q V) :
-    IsSemisimpleModule (QuantumSL2 q) V := by
-  sorry
-
-end GenericRankOne
 
 end
 
