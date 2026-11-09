@@ -1682,7 +1682,13 @@ assembles the statement from six targets.
   logarithmic derivative, the sum over zeros, and, for the trivial character only, the pole terms
   `1/s + 1/(s − 1)` (Kadiri §2.1.2); at height `t` the term `1/(s − 1)` is kept, `Re (1/s) < 1` is
   absorbed, and 1.4 bounds the real part of the gamma term by
-  `½ log analyticConductorAt d (it) + O(1)`. The first bound fails at the
+  `½ log (analyticConductorAt d (it)/N) + O(1)`, half the logarithm of the archimedean factors
+  alone, so that together with `½ log N` it gives `½ log analyticConductorAt d (it) + O(1)`; a
+  bound by `½ log analyticConductorAt d (it)` for the gamma term alone would count `N` twice. For
+  the `ζ` record (`N = 1`, `gammaR = {0}`) the gamma term at `s = 2` is
+  `(digamma 1)/2 − (log π)/2 = −γ_E/2 − (log π)/2 ≈ −0.8610`, below `½ log 3 ≈ 0.5493`, and at
+  `s = σ + it` its gap to `½ log (|t| + 3)` tends to `½ log 2π ≈ 0.9189` as `|t| → ∞`.
+  The first bound fails at the
   trivial character: at `K = ℚ`, `t = 0`, `σ = 1 + u`, the left side is `1/u + O(1)` while the
   right side stays bounded as `u → 0⁺`. Both bounds use `Re b(χ) = −∑_ρ Re (1/ρ)`, which is 5.6
   for every `χ`, real or not. The
