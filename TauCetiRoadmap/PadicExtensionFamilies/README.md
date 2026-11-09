@@ -20,10 +20,12 @@ definition here, or consumed by name from a named supplier, or handed, with its 
 neighbouring roadmap. The carrier is Tau Ceti's local-field vocabulary at the pin: a base
 `K` with `[Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]`, an
 extension `L` with the same structure and `[Algebra K L] [ValuativeExtension K L]`, Eisenstein
-polynomials over `𝒪[K]` in Mathlib's `Polynomial.IsEisensteinAt 𝓂[K]`, and the ramification
+polynomials over `𝒪[K]` in Mathlib's `Polynomial.IsEisensteinAt 𝓂[K]`, the ramification
 filtration, Herbrand functions and upper numbering of
-`TauCeti.LocalFieldsRamification` (`TauCeti/NumberTheory/LocalField/`). Nothing below defines a
-second valuation, a second filtration, a second different, or a second Newton polygon.
+`TauCeti.LocalFieldsRamification` (`TauCeti/NumberTheory/LocalField/`), and Tau Ceti's Newton
+polygons `Polynomial.newtonPolygon`, `Polynomial.newtonSlopes` and `TauCeti.lowerConvexEnvelope`
+(`TauCeti/NumberTheory/NewtonPolygon/`, `TauCeti/Analysis/Convex/Sequence/`). Nothing below
+defines a second valuation, a second filtration, a second different, or a second Newton polygon.
 
 Suggested home: `TauCeti/NumberTheory/LocalField/Ramification/` for Layers 0–4 (files
 `CanonicalTower.lean`, `RamificationPolygon.lean`, `ResidualPolynomial.lean`, `Breaks.lean`,
@@ -33,9 +35,10 @@ Suggested home: `TauCeti/NumberTheory/LocalField/Ramification/` for Layers 0–4
 `TauCeti/NumberTheory/NumberField/GaloisRootDiscriminant.lean` for Layer 7.
 
 `Suggested.lean` is the acceptance test for the headline theorems that can be stated against
-the pinned APIs. Its module docstring identifies the missing carriers for the polygon, slope,
-filtered-unit and family theorems; the definitions, APIs and Checks in this README specify those
-targets. Counts concern actual extensions and representatives under algebra equivalence.
+the pinned APIs, the slope-polygon and polygon-to-break theorems among them. Its module
+docstring identifies the missing carriers for the slope-dictionary, slope-content, filtered-unit
+and family theorems; the definitions, APIs and Checks in this README specify those targets.
+Counts concern actual extensions and representatives under algebra equivalence.
 
 ## Scope and ownership
 
@@ -113,12 +116,14 @@ Monge's count.
   `lowerRamificationGroup_one_eq_bot_iff_isTamelyRamified` (`TamelyRamified/`); inertia and wild
   inertia of `G_K`, `inertiaSubgroup`, `wildInertiaSubgroup`, `maximalTameExtension`
   (`Unramified/Inertia/`, `WildInertia.lean`); and `RootsOfUnity/` for the order of `μ(K)`.
-- From NewtonPolygons Layers 0–3 and 6 and MassFormula Layers 0, 3–4 (roadmap contracts):
-  Newton polygons' `lowerConvexEnvelope` (§0.1), `ConvexPolygon.FiniteSlopeData` (§0.6) and
-  `Polynomial.newtonPolygon` (§2.1), together with the finite slope multiset of a polynomial and
-  its product law (§3.2), the identification of the slopes with the negatives of the nonzero
-  root valuations (§3.3), the denominator theorem (§6.1) and the divisibility of slope
-  denominators by the ramification index (§6.2), all cited by section; Mass formula's
+- From Tau Ceti's Newton polygons at the pin: the lower convex envelope
+  `TauCeti.lowerConvexEnvelope`, its faces `TauCeti.IsFiniteFace` and the slope presentation
+  `TauCeti.FiniteSlopeData` (`TauCeti/Analysis/Convex/Sequence/`), the Newton polygon
+  `Polynomial.newtonPolygon`, its finite slope multiset `Polynomial.newtonSlopes` with its
+  cardinality and product law, the identification of the slopes with the negatives of the
+  nonzero root valuations `Polynomial.newtonSlopes_eq_map_roots_map`, and the slope-denominator
+  theorems (`TauCeti/NumberTheory/NewtonPolygon/`), each named in the supplier table below.
+- From MassFormula Layers 0, 3–4 (roadmap contracts): Mass formula's
   `totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `eisensteinSet`,
   `measure_eisensteinSet`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv` and
   `TauCetiRoadmap.MassFormula.card_aroots_eq` (its `Suggested.lean`), realizing Mass formula
@@ -166,8 +171,9 @@ Monge's count.
 - The étale (Bhargava) mass formula, and the classification of finite extensions by their
   unramified part with its automorphism count: [Étale mass formula](../EtaleMassFormula/README.md),
   Layers 1–3.
-- Newton polygons as such, including slope factorization over a complete field:
-  [Newton polygons](../NewtonPolygons/README.md).
+- Newton polygons as such: Tau Ceti's `TauCeti/NumberTheory/NewtonPolygon/` at the pin, and
+  slope factorization over a complete field, [Newton polygons](../NewtonPolygons/README.md)
+  Layer 4.
 
 ## Conventions
 
@@ -192,9 +198,11 @@ Monge's count.
    `lf_families` are **Swan**, and `visible` there is Artin. Artin slope `0` is the unramified
    step and Artin slope `1` the tame step; neither is ever listed among the wild slopes.
 4. **Orientation of the ramification polygon.** The ramification polygon of `φ` with root `α` is
-   `Polynomial.newtonPolygon ρ v` for `ρ(x) = α^{-n} φ(αx + α)` and `v` the additive normalized
-   valuation of `L`, in the orientation of Newton polygons' Convention 3: points `(i, v_L(ρ_i))`,
-   slopes increasing from left to right, a slope `m` corresponding to a root of valuation `-m`. The
+   `Polynomial.newtonPolygon ρ v` for `ρ(x) = α^{-n} φ(αx + α)` and
+   `v : AddValuation L (WithTop ℝ)` the additive normalized valuation of `L`, that is
+   `v x = v_L(x)` for `x ≠ 0`, in the orientation of Tau Ceti's `Polynomial.newtonPolygon`
+   (`TauCeti/NumberTheory/NewtonPolygon/Basic.lean`): points `(i, v_L(ρ_i))`, slopes increasing
+   from left to right, a slope `m` corresponding to a root of valuation `-m`. The
    LMFDB plots the reflection `(-i, v_L(ρ_i))`. **Rams are the negatives of the Newton slopes.**
    `ρ(0) = 0`, so the polygon starts at abscissa `1`; its finite slopes count `n − 1` roots.
 5. **Rams, slopes and means are indexed `1, …, w`,** `w = v_p(e)`, nondecreasing, with the
@@ -255,7 +263,12 @@ separately supplied ambient local field. Their mathematical invariant assertions
 compatible local-field extension, monic Eisenstein generator and splitting hypotheses stated
 in the relevant theorem; totalized values outside those hypotheses assert no invariant.
 The function `addValInt` has value zero at zero, and is used as a finite valuation only on
-nonzero differences or nontrivial principal units.
+nonzero differences or nontrivial principal units. The polygon statements take the valuation
+`v : AddValuation L (WithTop ℝ)` of Convention 4 as an argument, with the hypothesis
+`v x = addValInt L x` for `x ≠ 0`, which determines it; Tau Ceti's Newton-polygon theorems
+likewise take the valuation explicitly, and at the pins the additive valuation of a local field
+`L` is Mathlib's `ℕ∞`-valued `IsDiscreteValuationRing.addVal` on `𝒪[L]`, while `ρ` has its
+coefficients in `L`.
 
 ## Exact supplier contracts
 
@@ -277,20 +290,16 @@ The suppliers, with what is taken from each:
   discriminant) and Layer 4 (inertia, wild inertia, the tame quotient of `G_K`), consumed at the pin where the exact contracts below name declarations. The non-Galois
   Herbrand function is the next supplier's.
 - [Ramification of complete discretely valued fields](../RamificationOfCompleteDiscretelyValuedFields/README.md),
-  §4a.2: the Herbrand function `ψ_{L/K}` of a finite separable, not necessarily Galois, extension
-  and its inverse `φ_{L/K}`, with their independence of the Galois closure, the tower law, the
-  finite-level subgroup identity
+  §4a.2: the inverse Herbrand function `ψ_{L/K}` of a finite separable, not necessarily Galois,
+  extension and the Herbrand function `φ_{L/K}`, its inverse, with their independence of the
+  Galois closure, the tower law, the finite-level subgroup identity
   (`TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields.subgroupOf_upperRamificationGroup`,
   its `Suggested.lean`) and the integral formula, read on nonarchimedean local fields through its
-  §3a.2 agreement with Tau Ceti's `herbrand` and `inverseHerbrand`. Used in Layers 2 and 6.
-- [Newton polygons](../NewtonPolygons/README.md), Layers 0–3 and 6: the lower convex envelope
-  `lowerConvexEnvelope` (§0.1), the slope presentation `ConvexPolygon.FiniteSlopeData` (§0.6),
-  the Newton polygon `Polynomial.newtonPolygon` of a polynomial and its finite slope multiset
-  (§2.1), the product formula for polygons and slope multisets (§3.2), the identification of the
-  slopes with the negatives of the nonzero root valuations (§3.3), the denominator theorem
-  (§6.1) and §6.2 (slope denominators divide the ramification index). The ramification polygon is an instance of that polygon, in that roadmap's
-  orientation; this roadmap builds no polygon API of its own and does not use the parallel
-  polynomial-only items 3.11/3.33/3.46/3.52/3.53 of
+  §3a.2 agreement with Tau Ceti's `inverseHerbrand` and `herbrand` respectively when `L/K` is
+  Galois. Used in Layers 2 and 6.
+- Tau Ceti's Newton polygons, at the pin (the supplier table below): the ramification polygon is
+  an instance of `Polynomial.newtonPolygon`, in its orientation; this roadmap builds no polygon
+  API of its own and does not use the parallel polynomial-only items 3.11/3.33/3.46/3.52/3.53 of
   [Classical arithmetic completion](../ClassicalArithmeticCompletion/README.md).
 - [Mass formula](../MassFormula/README.md), Layers 0–4: `σ_K(n)`, the wild exponent `c`,
   the Eisenstein region and its measure, Layer 1’s quantitative root lifting,
@@ -356,13 +365,14 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
 | different, discriminant, Hilbert's formula | `differentExponent`, `discriminantExponent`, `discriminantExponent_eq_inertiaDegree_mul_differentExponent`, `differentExponent_eq_ramificationIndex_sub_one_iff`, `differentExponent_bounds_of_wild`, `differentExponent_eq_finsum_lowerRamificationGroup`, `natCast_differentExponent_eq_iInf_of_eisenstein_adjoin_eq_top`, `differentExponent_tower`, `discriminantExponent_eq_of_algEquiv` (`Different/`, `Discriminant/`) |
 | lower numbering, lower index | `LocalFieldsRamification.lowerRamificationGroup`, `lowerRamificationGroupReal`, `LowerJump`, `largestLowerJump`, `natCard_lowerRamificationGroup_zero`, `map_restrictScalarsHom_lowerRamificationGroup`, `IsLocalRing.lowerIndex`, `ramificationIndex_mul_lowerIndex_eq_sum` (`RamificationGroup.lean`, `LowerIndex.lean`, `RingTheory/LocalRing/RamificationGroup.lean`) |
 | Herbrand, upper numbering, breaks | `RamificationIndexDomain`, `herbrandOrderIso`, `herbrand`, `inverseHerbrand`, `psiNat`, `upperRamificationGroup`, `UpperJump`, `upperJump_herbrand_iff`, `lowerJump_inverseHerbrand_iff`, `herbrand_tower`, `inverseHerbrand_tower`, `map_restrictNormalHom_upperRamificationGroup`, `comap_restrictScalarsHom_upperRamificationGroup`, `upperJump_iff_upperJump_or_upperJump_inverseHerbrand`, `Subgroup.upperRamificationGroup_quotient` (`Herbrand/`) |
-| Hasse–Arf, prime degree | `UpperJump.exists_eq_intCast_of_finrank_prime`, `UpperJump.eq_of_finrank_prime` (`Herbrand/HasseArf.lean`; the abelian theorem is Local fields and ramification Layer 3 *Hasse–Arf*, specified there as the abelian theorem) |
+| Hasse–Arf | `hasseArf` (`Herbrand/HasseArf/Abelian.lean`: every upper break of a finite abelian Galois extension is an integer); `UpperJump.exists_eq_intCast_of_finrank_prime`, `UpperJump.eq_of_finrank_prime` (`Herbrand/HasseArf/PrimeDegree.lean`, the prime-degree case) |
 | tame structure | `natCard_lowerRamificationGroup_one`, `lowerRamificationGroup_one_eq_bot_iff_isTamelyRamified`, `IsTotallyRamified.exists_pow_eq_uniformizer_of_isTamelyRamified`, `finrank_fixedField_lowerRamificationGroup_one` (`TamelyRamified/Basic.lean`, `TamelyRamified/Subextension.lean`); `IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot` and `IsTotallyRamified.isGalois_iff_ramificationIndex_dvd_card_residueField_sub_one` (`TamelyRamified/Galois.lean`) |
 | absolute inertia, wild inertia | `inertiaSubgroup`, `wildInertiaSubgroup`, `maximalTameExtension`, `restrictNormal_mem_lowerRamificationGroup_zero`, `map_wildInertiaSubgroup_restrictNormalHom` (`Unramified/Inertia/Basic.lean`, `WildInertia.lean`) |
 | finite intermediate fields | `finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`, `finiteIntermediateField_isNonarchimedeanLocalField`, `finiteIntermediateField_valuativeExtension`, `IntermediateField.valuativeExtension_of_isNonarchimedeanLocalField` (`FiniteExtension/IntermediateField.lean`) |
 | finite extensions (spectral norm) | `algebraicExtensionValuativeRel`, `algebraicExtensionNormedFieldTopology`, `algebraicExtension_valuativeExtension` (`AlgebraicExtension/Basic.lean`), `finiteExtension_isNonarchimedeanLocalField` (`FiniteExtension/Basic.lean`); used for the splitting fields of `X^{p^i} − 1` in 6.7 |
 | roots of unity | `RootsOfUnity/Basic.lean`, `RootsOfUnity/Torsion.lean` |
-| Newton polygons (roadmap contract) | `lowerConvexEnvelope` (§0.1), `ConvexPolygon.FiniteSlopeData` (§0.6), `Polynomial.newtonPolygon` (§2.1); the finite slope multiset and its product law (§3.2), the root-valuation identification (§3.3) and the denominator theorems (§§6.1–6.2) are cited by section |
+| lower convex envelopes, faces, slope data (outside the local-field prefix) | `TauCeti.lowerConvexEnvelope` (`TauCeti/Analysis/Convex/Sequence/Envelope.lean`), `TauCeti.IsFiniteFace` (`…/Sequence/Face.lean`), `TauCeti.FiniteSlopeData` (`…/Sequence/SlopeData/Basic.lean`), `TauCeti.IsLowerConvexEnvelope.exists_rat_eq_and_den_dvd_of_isFiniteFace` (`…/Sequence/Rationality.lean`: a face of positive width with integral endpoint heights has rational slope whose denominator divides its width) |
+| Newton polygons (outside the local-field prefix) | `Polynomial.newtonPolygon` (`TauCeti/NumberTheory/NewtonPolygon/Basic.lean`); `Polynomial.newtonSlopes`, `Polynomial.card_newtonSlopes`, `Polynomial.newtonSlopes_eq_slopeMultiset`, `Polynomial.count_newtonSlopes_of_isFiniteFace`, `Polynomial.den_dvd_card_newtonSlopes` (`…/NewtonPolygon/Slopes.lean`); `Polynomial.newtonPolygon_mul`, `Polynomial.newtonSlopes_mul` (`…/NewtonPolygon/Mul.lean`); `Polynomial.newtonSlopes_eq_map_roots_map`, `Polynomial.card_filter_roots_le_addValuation` (`…/NewtonPolygon/Roots.lean`); `Polynomial.den_dvd_of_forall_mem_newtonSlopes_eq` (`…/NewtonPolygon/Ramification.lean`: the slope denominator of a pure polynomial divides the ramification index) |
 | mass formula (roadmap contract) | `totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `intermediateFieldDiscriminantExponent_eq_of_algEquiv`, `eisensteinSet`, `measure_eisensteinSet`, `mem_eisensteinSet_iff`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv`, `TauCetiRoadmap.MassFormula.card_aroots_eq` (its `Suggested.lean`) |
 | non-Galois Herbrand function (roadmap contract) | RamificationOfCompleteDiscretelyValuedFields §4a.2: `ψ_{L/K}`, `φ_{L/K}`, independence of the Galois closure, tower law, integral formula; the finite-level subgroup identity `TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields.subgroupOf_upperRamificationGroup` (its `Suggested.lean`) |
 
@@ -541,15 +551,18 @@ conjugates `α'` of `α`, each simple. *Needs:* Tau Ceti `addVal_sum_eisenstein_
 The polynomial used by Greve–Pauli divides our `ρ` by `X`. Its polygon is therefore
 translated one unit to the left; its nonzero roots and slopes are unchanged.
 
-Define ramificationPolygon φ α := Polynomial.newtonPolygon ρ v_L (Newton polygons §2.1, in
-Convention 4's orientation), its height function `N : ℕ → WithTop ℝ`, and its finite slope
-multiset (Newton polygons §2.1), of cardinality `n − 1` because `ρ` has degree `n` and order `1`.
+Define ramificationPolygon φ α := Polynomial.newtonPolygon ρ v (Tau Ceti's
+`Polynomial.newtonPolygon`, with `v` the normalized valuation of Convention 4), its height
+function `N : ℕ → WithTop ℝ`, and
+its finite slope multiset `Polynomial.newtonSlopes ρ v`, of cardinality `n − 1` by
+`Polynomial.card_newtonSlopes`, because `ρ` has degree `n` and order `1`.
 Prove:
 
 - **Independence.** Two uniformizers `α, α'` of `L` (equivalently two Eisenstein polynomials of
   `L/K`) give the same polygon: `α' = α u` with `u ∈ 𝒪[L]ˣ`, the roots `(σα' − α')/α'` and
   `(σα − α)/α` have the same valuations, and a polygon is determined by its slope multiset
-  together with its endpoints (Newton polygons 0.6).
+  together with its left endpoint (`TauCeti.FiniteSlopeData`,
+  `Polynomial.newtonSlopes_eq_slopeMultiset`).
 - **Vertices at powers of `p`.** The abscissae of the vertices of the polygon lie in
   `{p^0, p^1, …, p^w} ∪ {n}`, and `N` is affine on each `[p^{k-1}, p^k]` and on `[p^w, n]`,
   where `N = 0` (the tame segment, absent when `ε = 1`; the whole polygon is flat when `w = 0`). The proof is the valuation formula
@@ -563,17 +576,24 @@ Prove:
   faces are read from abscissa `p^w` down to `1`, which is what makes the list nondecreasing).
   Prove `0 < r_1 ≤ … ≤ r_w`, and the **slope dictionary**: the Newton slope multiset of `ρ` is
   `{−r_k with multiplicity p^{w-k+1} − p^{w-k} : k = 1, …, w} + {0 with multiplicity n − p^w}`.
-  Hence (Newton polygons 3.3) `v_L((α' − α)/α) = r_k` for exactly `p^{w-k+1} − p^{w-k}` conjugates
+  Hence (`Polynomial.newtonSlopes_eq_map_roots_map`, the roots of `ρ` being the `(α' − α)/α`
+  of 1.1) `v_L((α' − α)/α) = r_k` for exactly `p^{w-k+1} − p^{w-k}` conjugates
   `α' ≠ α` and `= 0` for `n − p^w` of them, and `#{α' : v_L((α' − α)/α) ≥ t} = p^{#{k : r_k ≥ t}} − 1`
   for every `t > 0`. A run `r_k = ⋯ = r_{k+d-1}` of length `d` is a single face, spanning
-  `[p^{w-k-d+1}, p^{w-k+1}]` with integer endpoint heights, so Newton polygons 6.1 gives
+  `[p^{w-k-d+1}, p^{w-k+1}]` with integer endpoint heights, so
+  `TauCeti.IsLowerConvexEnvelope.exists_rat_eq_and_den_dvd_of_isFiniteFace` gives
   `p^{w-k-d+1}(p^d − 1) r_k ∈ ℕ` (2.6 sharpens this to `(p^d − 1) r_k ∈ ℕ`).
+  The count is stated against the Galois closure in 2.5, as
+  `one_add_card_filter_newtonSlopes_eq_relIndex`.
 - **Wild segments.** wildSegments φ α := (rams φ α).dedup.length, the number of segments of
   positive slope; it is `≤ w`.
 
-*Needs:* 1.1; Newton polygons 0.6, 2.1, 3.2, 3.3, 6.1 (`Polynomial.newtonPolygon`, the finite
-slope multiset and its cardinality, the product law, slopes as negatives of root valuations, the
-denominator theorem).
+*Needs:* 1.1; Tau Ceti `Polynomial.newtonPolygon`, `Polynomial.newtonSlopes`,
+`Polynomial.card_newtonSlopes`, `Polynomial.newtonSlopes_mul` (the product law),
+`Polynomial.newtonSlopes_eq_map_roots_map` and `Polynomial.card_filter_roots_le_addValuation`
+(slopes as negatives of root valuations, face endpoints as root counts),
+`TauCeti.FiniteSlopeData`, `TauCeti.IsLowerConvexEnvelope.exists_rat_eq_and_den_dvd_of_isFiniteFace`
+(the denominator theorem).
 
 **Checks.**
 
@@ -591,9 +611,9 @@ denominator theorem).
 
 ### 1.3 Residual polynomials of the segments
 
-For a segment `S` of the polygon with abscissae `k < k + l` and slope `−h/m` (Convention 7; in
-`Suggested.lean` a segment is the data `k l h m` satisfying the predicate
-`IsPolygonSegment ρ k l h m`, stated on the coefficient valuations) define
+For a segment `S` of the polygon with abscissae `k < k + l` and slope `−h/m` (Convention 7: a
+face of positive width, `TauCeti.IsFiniteFace (Polynomial.newtonPolygon ρ v) (−h/m) k (k + l)`
+with `0 < l`, for the valuation `v` of Convention 4) define
 `residualPolynomial φ α k l h m : 𝓀[L][X]` by Ore's formula
 `A(x) = Σ_{j=0}^{l/m} \overline{ρ_{jm+k} α^{jh − v_L(ρ_k)}} x^j`, where `h/m` is the slope in
 lowest terms (`m = 1`, `h = 0` on the tame segment). Prove: `deg A = l/m`; `A(0) ≠ 0` and the
@@ -605,14 +625,18 @@ abscissae on `S`, by 1.2), so that `A` has the form `Σ a_j x^j` with `a_j ≠ 0
 has `x^{p^w} A(x) ≡ \overline{ρ}` modulo the ideal of higher-valuation terms. Define
 residualPolynomials φ α : List 𝓀[L][X] listing the segments from abscissa `n` down to `1`, the
 order the LMFDB stores them (left to right in its reflected plot): the tame segment `[p^w, n]`
-first when `ε > 1`, then the wild segments by increasing ram. *Needs:* 1.1, 1.2; Mathlib `Polynomial.sum`,
+first when `ε > 1`, then the wild segments by increasing ram. *Needs:* 1.1, 1.2; Tau Ceti
+`TauCeti.IsFiniteFace`, `Polynomial.newtonPolygon`; Mathlib `Polynomial.sum`,
 `IsLocalRing.residue`.
 
 - Reduction takes place only after the normalized segment coefficients are integral.
 - The endpoint coefficients are nonzero; degree is the segment length divided by its
   slope denominator (Ore's associated-polynomial definition; Greve–Pauli author preprint §3).
 - For a positive ram, the shifted polynomial has only p-power exponents;
-  `residualPolynomial_additive` states this on `IsPolygonSegment` at the pins.
+  `residualPolynomial_additive` states this for every face of positive width and slope `−h/m`,
+  `h, m > 0` coprime, given as `TauCeti.IsFiniteFace` of `Polynomial.newtonPolygon ρ v`:
+  a nonzero coefficient of index `j` of `residualPolynomial φ α k l h m` has `k + j m` a power
+  of `p`.
 
 **Checks.**
 
@@ -711,16 +735,19 @@ For an unramified extension the relative degree is `1` and the ram list is empty
 
 ### Dependencies
 
-Layer 0; NewtonPolygons §§0.6, 2.1, 3.3 and 6.1; polynomial composition and residue maps.
+Layer 0; Tau Ceti's Newton polygons at the pin (`TauCeti/NumberTheory/NewtonPolygon/`,
+`TauCeti/Analysis/Convex/Sequence/`); polynomial composition and residue maps.
 
 ## Layer 2: breaks of a separable extension and the slope polygon
 
 Standing hypotheses: `K`, `L` as in Convention 1, `L/K` finite separable, `M/K` finite Galois
 with `L ⊆ M` (a tower `K ⊆ L ⊆ M` of local fields, `[Algebra L M] [IsScalarTower K L M]`), `G =
 Gal(M/K)`, `H = Gal(M/L) = fixingSubgroup L ≤ G`, with the upper filtration `G^u` of Tau Ceti
-and the lower filtration `G_t`. `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` on `[−1, ∞)` is the Herbrand
-function of the separable extension `L/K` and `φ_{L/K}` its inverse, independent of `M`
-(RamificationOfCompleteDiscretelyValuedFields §4a.2); for `ℚ_2(∜2)` with its `D_4`-closure,
+and the lower filtration `G_t`. `ψ_{L/K} = φ_{M/L} ∘ ψ_{M/K}` on `[−1, ∞)` is the inverse
+Herbrand function of the separable extension `L/K`, and its inverse `φ_{L/K}` is the Herbrand
+function, both independent of `M` (RamificationOfCompleteDiscretelyValuedFields §4a.2); when
+`L/K` is Galois they are Tau Ceti's `inverseHerbrand K L` and `herbrand K L`, and `φ_{M/L}` is
+always `herbrand L M`, `M/L` being Galois. For `ℚ_2(∜2)` with its `D_4`-closure,
 `ψ_{L/K}(2) = φ_{M/L}(ψ_{M/K}(2)) = φ_{M/L}(3) = 2` and `ψ_{L/K}(3) = φ_{M/L}(7) = 4`.
 
 ### 2.1 The orbit-count function
@@ -763,10 +790,10 @@ constant value of the orbit count on `(u, u + δ)` for small `δ > 0`, and
 artinSlopes K L := swanSlopes.map (· + 1); the multiset does not depend on `M`.
 Prove card (swanSlopes K L) = w. For `L/K` Galois, prove the multiplicity of `u` is
 `log_p [G^{(u+1)} : G^{(u+1)+}]` in the notation of Convention 3, and that the Swan slopes are
-integers when `G` is abelian (Hasse–Arf, Local fields and ramification Layer 3). *Needs:* 2.1;
+integers when `G` is abelian (Tau Ceti's `hasseArf`, the Hasse–Arf theorem). *Needs:* 2.1;
 RamificationOfCompleteDiscretelyValuedFields §4a.2;
 Tau Ceti `UpperJump`, `upperJump_iff_upperJump_or_upperJump_inverseHerbrand`,
-`natCard_lowerRamificationGroup_one`.
+`natCard_lowerRamificationGroup_one`, `hasseArf` (`Herbrand/HasseArf/Abelian.lean`).
 
 **Checks.**
 
@@ -830,9 +857,11 @@ fixing subgroup H used in `embeddingOrbitCount`.
 
 ### 2.4 The slope polygon theorem
 
-Define slopePolygon K L as the lower convex envelope (`lowerConvexEnvelope`, Newton
-polygons 0.1, indexed by the degree `n_E ∈ ℕ`) of the finite point set
-`{(n_E, c(E/K)) : K ⊆ E ⊆ L}`. Prove:
+Define `slopePolygon K L : ℕ → WithTop ℝ` for a finite separable `L/K` as Tau Ceti's
+`TauCeti.lowerConvexEnvelope` of the heights `n ↦ min {c(E/K) : K ⊆ E ⊆ L, [E : K] = n}` (`⊤`
+when `L/K` has no intermediate field of degree `n`), each `E` with the structure of the
+finite-intermediate-field adapters; this is the lower convex envelope of the finite point set
+`{(n_E, c(E/K)) : K ⊆ E ⊆ L}`, indexed by the degree `n_E ∈ ℕ`. Prove:
 
 - its vertices are the points `(n_{E_u}, c(E_u/K))` for the fields `E_u := L ∩ M^{G^u}`
   (the fixed field of `G^u H` in `M`, independent of `M`; `G^u` is left-continuous, so `E_u` is
@@ -853,14 +882,36 @@ polygons 0.1, indexed by the degree `n_E ∈ ℕ`) of the finite point set
 
 This is the LMFDB definition of the visible slopes (knowl `lf.slopes`), proved equal to Deligne's.
 Define visibleArtinSlopes K L := artinSlopes K L and visibleSwanSlopes K L := swanSlopes K L;
-the adjective records that they are read from `L` alone. *Needs:* 2.1–2.3; Newton polygons
-0.1, 0.6.
+the adjective records that they are read from `L` alone. *Needs:* 2.1–2.3; Tau Ceti
+`TauCeti.lowerConvexEnvelope`, `TauCeti.FiniteSlopeData`, the finite-intermediate-field adapters
+`finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`.
+
+- `slopePolygon` needs only a finite separable `L/K`: the heights read each intermediate field
+  with its canonical local-field structure, so the structure on `L` itself does not enter. Its
+  height at `1` is `0` (only `K` has degree `1`), it is `⊤` outside `[1, [L : K]]`, and it is
+  unchanged by a `K`-algebra equivalence of `L`.
+- `slopePolygon_eq_of_embeddingOrbitCount_eq` states the first two items in one form: for
+  `u, u' ≥ −1` with the orbit count `[G : G^v H]` constant for `v ∈ (u, u']` (only `u ≤ u'` has
+  content, the orbit count being nondecreasing), and every
+  abscissa `n` with `[G : G^u H] ≤ n ≤ [G : G^{u'} H]`, the height at `n` is the height at
+  `[G : G^u H]` plus `(u + 1)(n − [G : G^u H])`. With `u` an upper break and `u'` the next one,
+  this is the segment of slope `u + 1` between consecutive vertices; with `u = −1`, `u' = 0` it
+  is the slope `0` segment of width `f − 1`, and with `u = 0` and `0 < u'` at most the first
+  positive break (any `u' > 0` when `L/K` is tame), the slope `1` segment of width `f(ε − 1)`.
 
 **Checks.**
 
 - The quartic `ℚ_2(∜2)` has points `(1,0),(2,3),(4,11)`, hence slopes `3,4`.
 - An unramified quadratic has points `(1,0),(2,0)` and slope `0`, not a wild slope.
 - A tame cubic has points `(1,0),(3,2)` and slope `1`, of width `2` and no wild multiplicity.
+- (least height) For `ℚ_2(ζ_8)` the points are `(1,0)`, `(2,2)` for `ℚ_2(i)`, `(2,3)` for
+  `ℚ_2(√2)` and for `ℚ_2(√−2)`, and `(4,8)`; the height at `2` is `2`, giving the Artin slopes
+  `2 = 1 + 1` on `[1,2]` and `(8 − 2)/2 = 3 = 2 + 1` on `[2,4]`, the upper breaks `1, 2`. Taking
+  the largest discriminant at each degree would put `(2,3)` instead, above the chord from `(1,0)`
+  to `(4,8)`, and the envelope would be that chord, of slope `8/3`, which is no Artin slope.
+- (interpolation) For `ℚ_2(∜2)` there is no field of degree `3`, so that height is `⊤`, but the
+  envelope has height `3 + 4·1 = 7` at `3`, on the slope-`4` segment from `(2,3)` to `(4,11)`; a
+  polygon read only at the points would be `⊤` there.
 
 ### 2.5 Rams are lower breaks: the polygon-to-break theorem
 
@@ -885,15 +936,26 @@ therefore the ram `φ_{M/L}(t) = ψ_{L/K}(φ_{M/K}(t))`, a lower break of `L/K` 
 (Deligne, Appendix §A.6, Prop. A.6.2; Greve–Pauli, author preprint, §8 in the Galois case, where `φ_{M/L} = id`;
 witness `ℚ_2(∜2)` with its `D_4`-closure: `|G_t| = 8, 8, 4, 4, 2, 2, 2, 2, 1`, `H` a reflection,
 `G_t H` jumps at `t = 3, 7`, `φ_{M/L}(3) = 2`, `φ_{M/L}(7) = 4`, the rams `(2, 4)`). Consequently
-the **Herbrand function of `L/K` is read off the polygon**: `ψ_{L/K}` is the piecewise affine
-function through `(0, 0), (s_1, r_1), …, (s_w, r_w)` with slopes `ε p^{k-1}` on `[s_{k-1}, s_k]`
-and `ε p^w` beyond, where `s_k` are the Swan slopes of 2.2 listed with multiplicity; the LMFDB's
-*Herbrand function of a family* is the graph of `φ_{L/K} = ψ_{L/K}^{-1}` through `(r_k, s_k)`.
+the **Herbrand function of `L/K` and its inverse are read off the polygon**: the inverse Herbrand
+function `ψ_{L/K}` is the piecewise affine function through `(0, 0), (s_1, r_1), …, (s_w, r_w)`
+with slopes `ε p^{k-1}` on `[s_{k-1}, s_k]` and `ε p^w` beyond, where `s_k` are the Swan slopes of
+2.2 listed with multiplicity; the LMFDB's *Herbrand function of a family* is the graph of the
+Herbrand function `φ_{L/K} = ψ_{L/K}^{-1}` through `(r_k, s_k)`.
 For a general separable `L/K` the statement holds for `L/L^{ur}` (1.5) and the breaks of `L/K`
 and of `L/L^{ur}` coincide for `u > 0` (`comap_restrictScalarsHom_upperRamificationGroup` with
 `ψ_{L^{ur}/K} = id`). *Needs:* 1.2, 2.1, 2.2; RamificationOfCompleteDiscretelyValuedFields §4a.2; Tau Ceti
-`LowerIndex.lean`,
-`RamificationGroup.lean`.
+`LowerIndex.lean`, `RamificationGroup.lean`, `herbrand`, `Polynomial.newtonSlopes`,
+`Polynomial.newtonSlopes_eq_map_roots_map`.
+
+- `one_add_card_filter_newtonSlopes_eq_relIndex` is the count at the pins, for `φ` monic
+  Eisenstein with a root `α` generating `L`, `M/K` finite Galois containing `L`, `H = Gal(M/L)`
+  (`embeddingSubgroup K L M`) and `v` the valuation of Convention 4: for every `t ≥ −1`, one
+  more than the number of Newton slopes of `ρ` that are at most `−φ_{M/L}(t)` equals
+  `[G_t : G_t ∩ H]`, the relative index of `H` in the real-indexed lower group
+  `lowerRamificationGroupReal K M t`, with `φ_{M/L} = herbrand L M`. The extra `1` is the root
+  `0` of `ρ`, from the identity embedding, which has no slope.
+- For `t ∈ [−1, 0]` both sides are `n` (all slopes are `≤ 0`, and `G_0` acts transitively on
+  `Hom_K(L, M)` because `L/K` is totally ramified); beyond the largest lower jump both are `1`.
 
 **Checks.**
 
@@ -902,6 +964,11 @@ and of `L/L^{ur}` coincide for `u > 0` (`comap_restrictScalarsHom_upperRamificat
 - For `ℚ_2(ζ_8)`, `M=L` and the same map is the identity: `1,3` remain `1,3`.
 - For a tame cubic, the two nonidentity root differences have value `0`, so for `t>0`
   both the root count and `p^0−1` equal `0`.
+- (count against the closure) For `ℚ_2(∜2)` with its `D_4`-closure the Newton slopes of `ρ` are
+  `{−4, −2, −2}` and `H` meets `G_t` only for `t ≤ 1`. At `t = 3`, `φ_{M/L}(3) = 2`, all three
+  slopes are `≤ −2`, and `1 + 3 = 4 = #G_3/#(G_3 ∩ H) = 4/1`; at `t = 5`, `φ_{M/L}(5) = 3`, one
+  slope, and `1 + 1 = 2 = 2/1`; at `t = 8`, none, and `1 = 1/1`. Comparing the slopes with `−t`
+  instead of `−φ_{M/L}(t)` gives `1 + 1 = 2 ≠ 4` at `t = 3`.
 
 ### 2.6 The dictionary: slopes, rams, means
 
@@ -981,9 +1048,9 @@ galoisTameDegree K L := tameRamificationIndex K M (written `t`), and the **slope
 slopeContent K L := (galoisArtinSlopes K L, t, u), a triple of a slope multiset and two positive integers. Prove `[M : K] = t u p^k` with
 k = card (galoisArtinSlopes K L), that `t` is the order of `G_0/G_1` (cyclic, prime to `p`),
 `u = [G : G_0]`, and the Artin slopes are `> 1`, nondecreasing when sorted, and are integers when
-`G` is abelian. Prove the LMFDB rendering: `[s_1, …, s_k]_t^u` with `_t` omitted when `t = 1`
-and `^u` omitted when `u = 1`, as a function slopeContentString. *Needs:* 2.2, 0.1; Tau Ceti
-`natCard_lowerRamificationGroup_zero`, `natCard_lowerRamificationGroup_one`.
+`G` is abelian (Tau Ceti's `hasseArf`). Prove the LMFDB rendering: `[s_1, …, s_k]_t^u` with
+`_t` omitted when `t = 1` and `^u` omitted when `u = 1`, as a function slopeContentString. *Needs:* 2.2, 0.1; Tau Ceti
+`natCard_lowerRamificationGroup_zero`, `natCard_lowerRamificationGroup_one`, `hasseArf`.
 
 **Checks.**
 
@@ -1913,7 +1980,7 @@ Mathlib discriminants, normal closures and prime factorization.
 - No label beyond the prefix `p.f.e.c` and the intrinsic partitions (Scope); no ordering of
   anything; no statement about which fields or families the LMFDB stores.
 - No conductor of a representation, no Artin `L`-function, no root number.
-- No Newton polygon theory beyond consuming Newton polygons; no slope factorization; no
+- No Newton polygon theory beyond consuming Tau Ceti's Newton polygons; no slope factorization; no
   Ore–Montes or Okutsu invariants; no Montes algorithm.
 - No `p`-adic logarithm or exponential (Local fields and ramification Layer 1), no explicit
   reciprocity, no class field theory, no `G_K(p)`.
@@ -2040,15 +2107,15 @@ Galois mean slopes through the product formula.
 
 ```text
 Tau Ceti LocalField (pin) ──► Layer 0 ──► Layer 1 ──► Layer 2 ──► Layer 3
-NewtonPolygons L0–3, 6 ─────────────┘        │          │            │
+Tau Ceti NewtonPolygon (pin) ───────┘        │          │            │
                                               ▼          ▼            ▼
                                            Layer 4    Layer 5      Layer 7
 MassFormula L0, 3, 4 ────────────────────────────────► Layer 5 ──► Layer 6 ◄── Layers 1–3
 NumberFieldArithmetic L5–6 ───────────────────────────────────────► Layer 7
 ```
 
-Layer 0 first. Layer 1 needs Layer 0 and Newton polygons. Layer 2 needs Layers 0–1, the Tau
-Ceti Herbrand package and RamificationOfCompleteDiscretelyValuedFields §4a.2; 2.1–2.3 can be built in
+Layer 0 first. Layer 1 needs Layer 0 and Tau Ceti's Newton polygons. Layer 2 needs Layers 0–1,
+the Tau Ceti Herbrand package and RamificationOfCompleteDiscretelyValuedFields §4a.2; 2.1–2.3 can be built in
 parallel with Layer 1 and meet it at 2.5. Layer 3 needs Layer 2. Layer 4 needs Layers 1–2 (4.1) and only Local fields and ramification Layer 1
 (4.2), so 4.2 is independent of everything else here. Layer 5 needs Layer 0 and Mass formula, not
 Layers 1–4. Layer 6 needs Layers 1–3 and 5. Layer 7 needs 3.3 and Number-field arithmetic and is

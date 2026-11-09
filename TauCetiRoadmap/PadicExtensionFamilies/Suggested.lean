@@ -7,24 +7,31 @@ import TauCeti.NumberTheory.LocalField.Eisenstein.PowerBasis
 import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
 import TauCeti.NumberTheory.LocalField.Padic
 import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
+import TauCeti.Analysis.Convex.Sequence.Envelope
+import TauCeti.Analysis.Convex.Sequence.Face
+import TauCeti.NumberTheory.NewtonPolygon.Slopes
 
 /-!
 # Ramification polygons, slopes and families of p-adic extensions: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the headline theorems
 against the pinned Mathlib and Tau Ceti APIs: invariance of root differences, additivity of
-wild residual polynomials, the discriminant integral, invariance of the indices of
+wild residual polynomials on the faces of the ramification polygon, the discriminant integral,
+the slope-polygon theorem, the polygon-to-break theorem, invariance of the indices of
 inseparability, Miki's ordered decomposition, Ore's realizability theorem, Krasner's refined
 count, Monge's class count, completeness of a finite totally ramified list by its mass,
-and the Galois root-discriminant product formula.
+and the Galois root-discriminant product formula. Polygons are Tau Ceti's
+`Polynomial.newtonPolygon`, `Polynomial.newtonSlopes`, `TauCeti.lowerConvexEnvelope` and
+`TauCeti.IsFiniteFace`, read with a real additive valuation of `L` normalized by `addValInt`.
 
-The polygon-to-break and slope-polygon theorems cannot be stated at the pins: the native
-Newton polygon and its slope multiset are missing. The field-valued slope dictionary and
-Galois slope-content formula consequently lack these intrinsic slope carriers. The jump-set
+The slope dictionary and the Galois slope content are statements about the Swan-slope multiset
+of a separable extension: the upper breaks with their multiplicities. Its definition as a
+multiset needs the finiteness of the set of breaks, which is itself a theorem; the pins have the
+break predicate `UpperJump` but no finite carrier of breaks with multiplicities. The jump-set
 classification lacks the filtered principal-unit module and its standard filtered presentation.
 The generic-family polynomial and family-mass theorems lack the intrinsic Herbrand invariant
-of a field and the Eisenstein diagram. These remain README targets, without substitute
-predicates or arithmetic-only theorems here.
+of a field, built on the same Swan-slope multiset, and the Eisenstein diagram. These remain
+README targets, without substitute predicates or arithmetic-only theorems here.
 
 Counting uses finite intermediate fields of SeparableClosure K with the pinned spectral-norm
 adapters; representatives are selected by actual K-algebra equivalences. The arithmetic
@@ -106,19 +113,6 @@ theorem card_filter_conjugateBreaks_eq_zero [ValuativeExtension L M] [Module.Fin
 end Closure
 
 variable {K L} in
-/-- `README.md`, Layer 1, 1.2 and Convention 7. The abscissae `k < k + l` bound a segment of
-slope `−h/m` of the Newton polygon of `ρ` (points `(i, v_L(ρ_i))`, Convention 4): both endpoint
-coefficients are nonzero, the chord from `(k, v_L(ρ_k))` to `(k + l, v_L(ρ_{k+l}))` has slope
-`−h/m`, and every point of the polygon lies on or above that chord's line. Stated on `addValInt`
-so that it needs no polygon API; 1.2 identifies it with the faces of `Polynomial.newtonPolygon`.
-The ram of the segment is `h/m`. -/
-def IsPolygonSegment (ρ : L[X]) (k l h m : ℕ) : Prop :=
-  0 < l ∧ 0 < m ∧ ρ.coeff k ≠ 0 ∧ ρ.coeff (k + l) ≠ 0 ∧
-    (m : ℚ) * (addValInt L (ρ.coeff (k + l)) - addValInt L (ρ.coeff k)) = -(h : ℚ) * l ∧
-    ∀ i, ρ.coeff i ≠ 0 →
-      -(h : ℚ) * ((i : ℚ) - k) ≤ (m : ℚ) * (addValInt L (ρ.coeff i) - addValInt L (ρ.coeff k))
-
-variable {K L} in
 /-- `README.md`, Layer 1, 1.3. Ore's residual polynomial of the segment of the ramification
 polygon with left abscissa `k`, length `l` and slope `h/m` in lowest terms, with respect to the
 uniformizer `α` (a root of the Eisenstein polynomial `φ`):
@@ -133,13 +127,18 @@ def residualPolynomial (φ : 𝒪[K][X]) (α : L) (k l h m : ℕ) : 𝓀[L][X] :
         if hx : x ∈ 𝒪[L] then residue 𝒪[L] ⟨x, hx⟩ else 0) * X ^ j
 
 variable {K L} in
-/-- `README.md`, Layer 1, 1.3. On a segment of positive slope `h/m`, `x^k A(x^m)` is an additive
-polynomial over `𝓀[L]`: its nonzero coefficients sit at `p`-power exponents. -/
+/-- `README.md`, Layer 1, 1.3. Let `[k, k + l]`, `l > 0`, be the face of slope `−h/m` of the
+ramification polygon (Convention 4: Tau Ceti's `Polynomial.newtonPolygon` of `ρ` for the
+normalized valuation `v` of `L`), with `h/m > 0` in lowest terms, so that `h/m` is a ram. Then
+`x^k A(x^m)` is an additive polynomial over `𝓀[L]`: the nonzero coefficients of the residual
+polynomial `A` of that face sit at exponents `j` with `k + j m` a power of `p`. -/
 theorem residualPolynomial_additive {φ : 𝒪[K][X]} (hmonic : φ.Monic) (hφ : φ.IsEisensteinAt 𝓂[K]) {α : L}
     (hroot : (φ.map ((algebraMap K L).comp (algebraMap 𝒪[K] K))).IsRoot α)
-    (hgen : K⟮α⟯ = ⊤) {k l h m : ℕ} (hh : 0 < h) (hcop : h.Coprime m)
-    (hseg : IsPolygonSegment (ramificationPolynomial φ α) k l h m) {j : ℕ}
-    (hj : (residualPolynomial φ α k l h m).coeff j ≠ 0) :
+    (hgen : K⟮α⟯ = ⊤) (v : AddValuation L (WithTop ℝ))
+    (hv : ∀ x : L, x ≠ 0 → v x = ((addValInt L x : ℝ) : WithTop ℝ)) {k l h m : ℕ} (hl : 0 < l)
+    (hh : 0 < h) (hm : 0 < m) (hcop : h.Coprime m)
+    (hface : IsFiniteFace ((ramificationPolynomial φ α).newtonPolygon v) (-(h : ℝ) / m) k (k + l))
+    {j : ℕ} (hj : (residualPolynomial φ α k l h m).coeff j ≠ 0) :
     ∃ i : ℕ, k + j * m = ringChar 𝓀[K] ^ i := by
   sorry
 
@@ -172,6 +171,57 @@ theorem discriminantExponent_eq_integral [Algebra.IsSeparable K L] :
       ∫ u in Set.Ioi (-1 : ℝ),
         ((Module.finrank K L : ℝ) -
           embeddingOrbitCount K L M ⟨max u (-1), le_max_right u (-1)⟩) := by
+  sorry
+
+/-- `README.md`, Layer 2, 2.4. The **slope polygon** of a finite separable `L/K`: Tau Ceti's
+lower convex envelope of the points `(n_E, c(E/K))` over the intermediate fields `E` of `L/K`,
+`n_E = [E : K]`, each `E` with its canonical local-field structure. The height at abscissa `n` is
+the least discriminant exponent of a subextension of degree `n`, or `⊤` when there is none. -/
+def slopePolygon [Module.Finite K L] [Algebra.IsSeparable K L] : ℕ → WithTop ℝ :=
+  lowerConvexEnvelope fun n =>
+    ⨅ (E : IntermediateField K L) (_ : Module.finrank K E = n),
+      haveI := Algebra.isSeparable_tower_bot_of_isSeparable K E L
+      letI := finiteIntermediateFieldValuativeRel K L E
+      letI := finiteIntermediateFieldTopology K L E
+      letI := finiteIntermediateField_isNonarchimedeanLocalField K L E
+      letI := finiteIntermediateField_valuativeExtension K L E
+      (((discriminantExponent K E : ℕ) : ℝ) : WithTop ℝ)
+
+/-- `README.md`, Layer 2, 2.4. **The slope-polygon theorem.** If the orbit count
+`[G : G^v H]` is constant for `v ∈ (u, u']`, then the slope polygon of `L/K` is affine of slope
+`u + 1` on the abscissae from `[G : G^u H]` to `[G : G^{u'} H]`, the degrees of the fixed fields
+of `G^u H` and `G^{u'} H`. The orbit count is nondecreasing, so only `u ≤ u'` has content. Taking for `u` the upper breaks of `L/K` in turn, its segments have
+slope `0` on `[1, f]`, slope `1` on `[f, f ε]`, and the Artin slopes `u + 1`, `u > 0`, beyond:
+the LMFDB's visible slopes are Deligne's (Deligne, Appendix A.6; Serre IV §1, Prop. 4). -/
+theorem slopePolygon_eq_of_embeddingOrbitCount_eq [Module.Finite K L]
+    [Algebra.IsSeparable K L] {u u' : RamificationIndexDomain}
+    (hconst : ∀ v : RamificationIndexDomain, u < v → v ≤ u' →
+      embeddingOrbitCount K L M v = embeddingOrbitCount K L M u')
+    (n : ℕ) (hn : embeddingOrbitCount K L M u ≤ n) (hn' : n ≤ embeddingOrbitCount K L M u') :
+    slopePolygon K L n =
+      slopePolygon K L (embeddingOrbitCount K L M u) +
+        ((((u : ℝ) + 1) * ((n : ℝ) - embeddingOrbitCount K L M u) : ℝ) : WithTop ℝ) := by
+  sorry
+
+/-- `README.md`, Layer 2, 2.5, with Layer 1, 1.2. **The polygon-to-break theorem.** Let `φ` be
+a monic Eisenstein polynomial over `𝒪[K]` with a root `α` generating `L`, and read the
+ramification polygon with the normalized valuation `v` of `L`. For every `t ≥ −1`, one more
+than the number of Newton slopes of `ρ` that are at most `−φ_{M/L}(t)` (the nonzero roots
+`(σα − α)/α` of valuation at least `φ_{M/L}(t)`, the root `0` being the identity embedding) is
+the size `[G_t : G_t ∩ H]` of the `G_t`-orbit of the identity embedding in `Hom_K(L, M)`, where
+`G_t` is the lower filtration of `M/K` and `φ_{M/L}` is Tau Ceti's `herbrand L M`. Hence the rams
+are the values `φ_{M/L}(t)` at the jumps of `G_t H` (Deligne, Appendix A.6, Prop. A.6.2;
+Greve–Pauli, §8, when `M = L`). -/
+theorem one_add_card_filter_newtonSlopes_eq_relIndex [ValuativeExtension L M]
+    [Module.Finite L M] [IsGalois L M] {φ : 𝒪[K][X]} (hmonic : φ.Monic)
+    (hφ : φ.IsEisensteinAt 𝓂[K]) {α : L}
+    (hroot : (φ.map ((algebraMap K L).comp (algebraMap 𝒪[K] K))).IsRoot α)
+    (hgen : K⟮α⟯ = ⊤) (v : AddValuation L (WithTop ℝ))
+    (hv : ∀ x : L, x ≠ 0 → v x = ((addValInt L x : ℝ) : WithTop ℝ))
+    (t : RamificationIndexDomain) :
+    1 + (((ramificationPolynomial φ α).newtonSlopes v).filter
+        fun s => s ≤ -((herbrand L M t : RamificationIndexDomain) : ℝ)).card =
+      (embeddingSubgroup K L M).relIndex (lowerRamificationGroupReal K M t) := by
   sorry
 
 end Breaks
