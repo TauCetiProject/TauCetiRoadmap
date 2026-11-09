@@ -222,10 +222,10 @@ These choices are part of the specification.
 
 ## Inventory: consume Mathlib and follow its interface direction
 
-The development starts from these pinned APIs, read at the revisions the content
-repository's manifest records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and
-Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Every declaration, module and file
-named in this section is cited as it is at those revisions.
+The development starts from these APIs, read at Tau Ceti
+`2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Every declaration, module and file named in this
+section is cited as it is at those revisions.
 
 - `TopCat`, `TopCat.toSSet`, `SSet.chainComplex`, `singularChainComplexFunctor`, and
   `singularHomologyFunctor`.

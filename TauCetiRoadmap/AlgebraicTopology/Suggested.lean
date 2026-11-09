@@ -36,9 +36,9 @@ defining conditions of Tau Ceti's `TauCeti.LSCategoricalCover`,
 `ContinuousMap.HasProperHomotopyInverse` and `TauCeti.CWType`, with the cover, the inverse
 with its two homotopies, and the CW model named as binders.
 
-Not stated, because Tau Ceti proves them at the pin: commutativity of the fundamental group
-of a space with a continuous unital multiplication (Stage 1 item 6;
-`FundamentalGroup.instCommGroup`); the Brouwer fixed-point theorem for nonempty compact convex
+Not stated, because Tau Ceti proves them at the revision the README Inventory names:
+commutativity of the fundamental group of a space with a continuous unital multiplication
+(Stage 1 item 6; `FundamentalGroup.instCommGroup`); the Brouwer fixed-point theorem for nonempty compact convex
 sets in a finite-dimensional space or subspace (Stage 2.7;
 `TauCeti.brouwerFixedPoint_compactConvex`, `TauCeti.brouwerFixedPoint_compactConvex_finiteSpan`);
 the cellular comparison for relative CW complexes of arbitrary dimension (Stage 4.3;
@@ -57,14 +57,13 @@ cells have dimension at least `λ` (Stage 8.1; `TauCeti.injective_homotopyGroupM
 (Stage 8.5; `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv`).
 
 Relative Hurewicz in the generality of Stage 8.4 (`X` path connected, `A` simply connected,
-`π_i(X, A)` trivial for `1 ≤ i < n`, degree `n ≥ 2`; Hatcher, Theorem 4.37, p. 371) is the one
-headline statable on the pinned Tau Ceti that this file does not state. Its statement is Stage
-8.4's: bijectivity of `TauCeti.RelHomotopyGroup.hurewicz` out of
+`π_i(X, A)` trivial for `1 ≤ i < n`, degree `n ≥ 2`; Hatcher, Theorem 4.37, p. 371) is statable
+at the Tau Ceti revision the README Inventory names, and it is the one such headline this file
+does not state: its module, `TauCeti.AlgebraicTopology.Homotopy.Relative.Hurewicz`, is absent
+from the Tau Ceti revision this file is elaborated against. Its statement is Stage 8.4's:
+bijectivity of `TauCeti.RelHomotopyGroup.hurewicz` out of
 `TauCeti.RelHomotopyGroup (Fin (n − 1))` of the based pair, under `PathConnectedSpace X`,
 `SimplyConnectedSpace A` and the vanishing of `TauCeti.RelHomotopyGroup (Fin k)` for `k ≤ n − 2`.
-Its module, `TauCeti.AlgebraicTopology.Homotopy.Relative.Hurewicz`, is absent from the Tau Ceti
-revision this file is elaborated against; the README's supplier contracts name the later
-revision that carries it, and the headline is stated once this file elaborates there.
 
 Not statable at the pins, and therefore stated nowhere in this file:
 the Cartan–Leray spectral sequence (its `E²` term is group homology of the deck
