@@ -56,9 +56,10 @@ and section, and does not plan again:
 - **RepresentationTheory/InductionRestriction** §2.1 (almost-conjugacy of subgroups of a finite
   group, the fixed-coset criterion, `Gassmann.almostConjugate_iff_permutation_equiv`), §2.2 (the
   almost-conjugate, non-conjugate pair in `S₁₆` built from `C₄ × C₄` and `Q₈ × C₂`,
-  `Gassmann.exists_S16_gassmann_pair`) and Layer 7 (projective representations, the Schur
-  multiplier `TauCeti.schurMultiplier`, and representation groups, that is Schur covers, with
-  their existence and lifting theorems); **InverseGaloisAndArithmeticFundamentalGroups** IG.3.4,
+  `Gassmann.exists_S16_gassmann_pair`) and Layer 7 (projective representations, the group
+  `H²(G, kˣ)` of factor-set classes, which is `TauCeti.schurMultiplier` and not the integral
+  multiplier `M(G)` below, and representation groups, that is Schur covers, with their existence
+  and lifting theorems); **InverseGaloisAndArithmeticFundamentalGroups** IG.3.4,
   target *Reduced Schur covers* (for a Schur cover `π : S → G` of a finite group, the class map is
   an isomorphism `M(G) ≅ ker π`, where `M(G) = H₂(G, ℤ)`); and **InductionRestrictionPartII**
   §RS.0.1 (the five-term exact sequence of a central extension and its stem corollaries: the class
@@ -861,20 +862,27 @@ Define `IsStemGroup G`: the centre lies in the commutator subgroup. Prove
 `exists_isoclinic_isStemGroup`: every finite group is isoclinic to a finite stem group, and the
 stem groups of an isoclinism class are exactly its groups of least order (hall-1940, p. 135:
 existence of stem groups in every class, and for finite groups their characterisation by least
-order). The kernel of a stem extension of `G` is a quotient of the Schur multiplier by
+order). The kernel of a stem extension of `G` is a quotient of `M(G) = H₂(G, ℤ)` by
 InductionRestrictionPartII §RS.0.1, and the bound is attained: a Schur cover of `G`
 (InductionRestriction Layer 7) is a stem extension whose kernel IG.3.4 identifies with `M(G)`.
-Tau Ceti proves the existence of such a finite stem extension, lifting every projective
-representation over an algebraically closed field
+For an algebraically closed field `k`, Tau Ceti proves the existence of a finite stem extension
+`π : E → G` whose character transgression `Hom(ker π, kˣ) → H²(G, kˣ)` is bijective and over
+which every finite-dimensional projective representation of `G` over `k` lifts
 (`TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression` and
 `TauCeti.exists_finite_stem_extension_lifting_pgl`, in
-`TauCeti/RepresentationTheory/ProjectiveRepresentation/RepresentationGroup/{Basic,Lifting}.lean`,
-which landed after this repository's Tau Ceti pin).
+`TauCeti/RepresentationTheory/ProjectiveRepresentation/RepresentationGroup/{Basic,Lifting}.lean`).
+These theorems do not identify `ker π` with `M(G)`, and when the characteristic of `k` divides
+`|M(G)|` such an extension need not be a Schur cover (second Check below).
 *Needs:* 4.3; for the multiplier statements only, InductionRestrictionPartII §RS.0.1,
 InductionRestriction Layer 7 and InverseGaloisAndArithmeticFundamentalGroups IG.3.4.
 
 **Checks.**
 - `Q₈`, `D₄`, `S₃` and the trivial group are stem groups; `C₂` is not.
+- `G = C₂ × C₂`, `k = 𝔽̄₂`: `|G| = 4` kills `H²(G, kˣ)` and acts invertibly on `kˣ`, so
+  `H²(G, kˣ) = 0`, and the identity `G → G` is a stem extension with bijective character
+  transgression over which every finite-dimensional projective representation over `k` lifts;
+  its kernel is trivial, while `M(G) = C₂` and the Schur covers `D₄` and `Q₈` have order `8`.
+  Over `ℂ` the same transgression condition forces a kernel of order `|H²(G, ℂˣ)| = 2`.
 - `D₄ × C₂` is not a stem group (centre `C₂ × C₂`, commutator `C₂`) and is isoclinic to the stem
   group `D₄` of half its order.
 - The stem groups isoclinic to an abelian group are the trivial group only.
@@ -1722,7 +1730,7 @@ the abstract group from here.
 - collins: M. J. Collins, *On Jordan's theorem for complex linear groups*, J. Group Theory 10
   (2007), 411–423 (Theorem).
 - curtis-reiner-1962: C. W. Curtis, I. Reiner, *Representation Theory of Finite Groups and
-  Associative Algebras*, Wiley, 1962, §36.
+  Associative Algebras*, Wiley, 1962, §36, §70.
 - dallavolta-lucchini-2021: F. Dalla Volta, A. Lucchini, *The A-Möbius function of a finite group*,
   arXiv:2109.05260v1: formula (1.1), p. 2 (Hall's formula); p. 3 (Hall's vanishing theorem).
 - desmit-perlis: B. de Smit, R. Perlis, *Zeta functions do not determine class numbers*, Bull. AMS
