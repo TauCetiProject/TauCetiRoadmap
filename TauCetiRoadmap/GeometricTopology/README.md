@@ -1457,7 +1457,7 @@ discrete and the forgetful map is an embedding.
   class group.
 - A `TauCeti.Diffeotopy` gives a path in `Diff(M)` from the identity
   (`TauCeti.Diffeotopy.toPath`); a continuous path in `Diff(M)` need not be a smooth isotopy,
-  and the smoothing of paths is Layer 3.3's.
+  and the smoothing of paths is TeichmullerGeometry §0.2's.
 
 **Checks.**
 - *Convergence in C¹ only.* On `S¹` the diffeomorphisms `θ + k⁻² sin(kθ)`, `k ≥ 2`, tend to the
