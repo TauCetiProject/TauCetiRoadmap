@@ -227,12 +227,18 @@ Each layer states its results against this list.
   `s'_*(q) ≅ s_*(⟨λ⟩ ⊗ q)` when `s' = s ∘ (λ·)`.
 - **Cohomological dictionary** for Layers 7 to 9. `Kˢ` is the separable closure and
   `G_K = Gal(Kˢ/K)`, Tau Ceti's `TauCeti.AbsoluteGaloisGroup K`. `H¹(G_K, μ₂) ≅ Kˣ/(Kˣ)²` is the
-  Kummer isomorphism, and the class of `a` is written `(a)` (`TauCeti.kummerClass a`). The
-  identification of `Br(K)[2]` with `H²(G_K, μ₂)` is proved in Layer 7B and is never assumed before
-  it. The Stiefel–Whitney classes of `q ≅ ⟨a₁, …, aₙ⟩` in the two degrees used are
-  `w₁(q) = ∑ᵢ (aᵢ)` and `w₂(q) = ∑_{i<j} (aᵢ)(aⱼ)`, the degree-one and degree-two parts of Delzant's
-  total class `∏ᵢ (1 + (aᵢ))` (Delzant 1962; Kahn 1984, II.1.3). Here `w₁(q) = (d(q))` uses the
-  plain discriminant and not `d±`.
+  Kummer isomorphism, and the class of `a` is written `(a)` (`TauCeti.kummerClass a`). `Br(K)` is
+  Mathlib's `BrauerGroup K` under Layer 5's group law and `Br(K)[2]` its 2-torsion
+  `TauCeti.BrauerGroup.twoTorsion K`; the cohomological Brauer group `H²(G_K, (Kˢ)ˣ)` on which
+  TauCetiRoadmap.ClassFieldTheory Layer 5 defines the local invariant is always written
+  `TauCeti.ClassFieldTheory.Br K`, and `TauCeti.ClassFieldTheory.brauerGroupEquivBr` compares the
+  two. `H²(G_K, μ₂)` is Tau Ceti's `TauCeti.cohomF2` with trivial `𝔽₂` coefficients, read through
+  Layer 7A's dictionary, except where a statement names ClassFieldTheory's coefficients
+  `TauCeti.ClassFieldTheory.muNRep 2 K`. The identification of `Br(K)[2]` with `H²(G_K, μ₂)` is
+  proved in Layer 7B and is never assumed before it. The Stiefel–Whitney classes of
+  `q ≅ ⟨a₁, …, aₙ⟩` in the two degrees used are `w₁(q) = ∑ᵢ (aᵢ)` and `w₂(q) = ∑_{i<j} (aᵢ)(aⱼ)`,
+  the degree-one and degree-two parts of Delzant's total class `∏ᵢ (1 + (aᵢ))` (Delzant 1962; Kahn
+  1984, II.1.3). Here `w₁(q) = (d(q))` uses the plain discriminant and not `d±`.
 - **The `Pin⁺` model and the explicit cochains** for Layer 9. The Clifford algebra of
   `(F², ⟨1, 1⟩)` is `M₂(F)` with `e₁ = diag(1, −1)`, `e₂ = [[0, 1], [1, 0]]` and
   `e₁² = e₂² = +1`, so that the lift of `C₂ ≀ C₂` is `D₁₆` and not `Q₁₆`; an orthogonal `x` acts
@@ -344,13 +350,15 @@ Each layer states its results against this list.
   that roadmap and states everything on the Tau Ceti declarations.
 - **From TauCetiRoadmap.ClassFieldTheory** ([Layers 5 and 14](../ClassFieldTheory/README.md)):
   the coefficient object `μ_n`, the Kummer class, the Kummer-cup pairing, the local symbol and the
-  local invariant on `Br(K)` and on `H²(G_K, μ_n)` (Layer 5), and the local Hilbert invariants
-  with Hilbert reciprocity (Layer 14). Both layers are proved in Tau Ceti. Of these, that
+  local invariant on the cohomological Brauer group `TauCeti.ClassFieldTheory.Br K` and on
+  `H²(G_K, μ_n)` (Layer 5), and the local Hilbert invariants with Hilbert reciprocity (Layer 14).
+  Both layers are proved in Tau Ceti. Of these, that
   roadmap's `Suggested.lean` re-exports `muNRep`, `kummerCupPairing` (Tau Ceti's for
   `n ≠ 0`, and `0` at `n = 0`), `finiteHilbertInvariantAt` and `hilbertProductFormula` under its
   own names (its README, §6 *Downstream consumers*, subsection *Names imported from
   `Suggested.lean`*, and Layer 14); the Kummer class, the local symbol and the invariant on
-  `Br(K)` are Tau Ceti names only there, and the invariant on `H²(G_K, μ_n)` appears only as
+  `TauCeti.ClassFieldTheory.Br K` are Tau Ceti names only there, and the invariant on
+  `H²(G_K, μ_n)` appears only as
   `h2MuEquivZMod_mixed`, for a finite extension of `ℚ_p` and `n ≠ 0`. This roadmap imports no
   module of it and consumes the Tau Ceti declarations `TauCeti.ClassFieldTheory.muNRep`,
   `TauCeti.ClassFieldTheory.kummerClass`, `TauCeti.ClassFieldTheory.kummerCupPairing`,
@@ -359,14 +367,20 @@ Each layer states its results against this list.
   `TauCeti.ClassFieldTheory.finiteHilbertInvariantAt` and
   `TauCeti.ClassFieldTheory.hilbertProductFormula`
   (`TauCeti/NumberTheory/ClassFieldTheory/`, files `MuNRep.lean`, `Local/Symbol.lean`,
-  `Brauer/Invariant.lean`, `Brauer/RootsOfUnity.lean` and `Global/Hilbert/`). The bridge
-  `TauCeti.ClassFieldTheory.brauerGroupEquivBr : Additive (BrauerGroup F) ≃+ Br F`
-  (`Brauer/CentralSimple/Basic.lean` there), along which the invariant evaluates the classes of
-  central simple algebras, lies in the same namespace but is no part of that roadmap's layers: it
-  is Layer 7B item 3's `TauCeti.brauerExplicitH2Equiv` followed by Tau Ceti's change of model
-  `TauCeti.ClassFieldTheory.unitsRepH2Equiv` onto the carrier `Br F = H²(G_F, (Fˢ)ˣ)` of that
-  roadmap's Layer 5. The comparisons of Layers 6C and 7C and the product formula are stated on Tau
-  Ceti's objects (`TauCeti.hilbertSymbol_eq_cohomological`,
+  `Brauer/Invariant.lean`, `Brauer/RootsOfUnity.lean` and `Global/Hilbert/`). Two maps in the
+  same namespace are no part of that roadmap's layers. The bridge
+  `TauCeti.ClassFieldTheory.brauerGroupEquivBr K`, from `Additive (BrauerGroup K)` to
+  `TauCeti.ClassFieldTheory.Br K` (`Brauer/CentralSimple/Basic.lean` there), along which the
+  invariant evaluates the classes of central simple algebras, is Layer 7B item 3's
+  `TauCeti.brauerExplicitH2Equiv` followed by Tau Ceti's change of model
+  `TauCeti.ClassFieldTheory.unitsRepH2Equiv` onto the carrier
+  `TauCeti.ClassFieldTheory.Br K = H²(G_K, (Kˢ)ˣ)` of that roadmap's Layer 5. The coefficient map
+  `TauCeti.ClassFieldTheory.h2MuToBr` (`Brauer/Torsion.lean` there), from `H²(G_K, μ_n)` with
+  coefficients `TauCeti.ClassFieldTheory.muNRep n K` into that carrier, is the map along which
+  `TauCeti.ClassFieldTheory.h2MuEquivZMod` is normalized; it is injective with image the
+  `n`-torsion when `n` is invertible in `K` (`TauCeti.ClassFieldTheory.h2MuToBr_injective`,
+  `TauCeti.ClassFieldTheory.h2MuToBr_range`). The comparisons of Layers 6C and 7C and the product
+  formula are stated on Tau Ceti's objects (`TauCeti.hilbertSymbol_eq_cohomological`,
   `TauCeti.hilbertSymbol_productFormula`).
 - **From TauCetiRoadmap.ProfiniteCohomology** ([Layers 0–4, 8–10, 12 and 13](../ProfiniteCohomology/README.md)):
   discrete modules, the openness of stabilizers and continuous sections of quotient maps, through
@@ -1694,7 +1708,9 @@ it one.
 *Needs:* 6A and 6B; Layer 2's four-fold criterion; Layer 0's descent principle and Layer 3's
 chain-induction lemmas and binary quaternion lemma; Mathlib's `legendreSym` and
 `TauCeti/NumberTheory/LegendreSymbol/SquareClass.lean` for item 9; TauCetiRoadmap.ClassFieldTheory
-Layers 5 and 14 for the local symbol of item 13 and the reciprocity of item 14.
+Layers 5 and 14 for the local symbol of item 13 and the reciprocity of item 14; Layer 7C's
+identification of the local symbol with the cup (`TauCeti.localSymbol_eq_zero_iff_cup`) and its
+five-fold criterion for item 13, through which item 14 reads the reciprocity in signs.
 
 ### 6D. The classification and its corollaries
 
@@ -1773,14 +1789,19 @@ uniqueness of the quaternion division algebra.
 
 **Milestone 2.** `ε` is the degree-two local invariant. Precisely, `Q(K) = Br(K)[2]`
 (`TauCeti.BrauerGroup.quaternionSubgroup_eq_twoTorsion`,
-`TauCeti/NumberTheory/LocalField/Quaternion/Invariant.lean`), the local invariant
-`TauCeti.ClassFieldTheory.invMap` carries the class of `[(a,b)]` to `1/2` exactly when
-`(a,b)_K = −1` (`TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff`), and the
-normalized invariant `TauCeti.ClassFieldTheory.h2MuEquivZMod` on `H²(G_K, μ₂)` sends that class to `1`
-exactly when `(a,b)_K = −1` (`TauCeti.BrauerGroup.h2MuEquivZMod_eq_one_iff_hilbertSymbol_eq_neg_one`).
-So, as an equality of signs and not only an equivalence of vanishings,
+`TauCeti/NumberTheory/LocalField/Quaternion/Invariant.lean`); the local invariant
+`TauCeti.ClassFieldTheory.invMap` carries the image of `[(a,b)]` in `TauCeti.ClassFieldTheory.Br K`
+under the bridge `TauCeti.ClassFieldTheory.brauerGroupEquivBr` to `1/2` exactly when `(a,b)_K = −1`
+(`TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff`); and the normalized
+invariant `TauCeti.ClassFieldTheory.h2MuEquivZMod` on `H²(G_K, μ₂)`, with coefficients
+`TauCeti.ClassFieldTheory.muNRep 2 K`, sends the preimage of that image under
+`TauCeti.ClassFieldTheory.h2MuToBr` to `1` exactly when `(a,b)_K = −1`
+(`TauCeti.BrauerGroup.h2MuEquivZMod_eq_one_iff_hilbertSymbol_eq_neg_one`). These three statements
+concern the class of the quaternion algebra. The same sign is read off the cup product of the
+Kummer classes by 6C's item 13: as an equality of signs and not only an equivalence of vanishings,
 `(a,b)_K = hilbertSign (localSymbol (a) (b))`, which is `TauCeti.hilbertSymbol_eq_cohomological`, and
-in Brauer form `TauCeti.hilbertSymbol_eq_hilbertSign_kummerBrauerClass`. The equality is what is
+in Brauer form `TauCeti.hilbertSymbol_eq_hilbertSign_kummerBrauerClass`; both run through Layer 7C's
+cup-norm theorem. The equality is what is
 stated: the vanishing statement `localSymbol (a) (b) = 0 ↔ (a,b)_K = +1`
 (`TauCeti.localSymbol_eq_zero_iff_hilbertSymbol_eq_one`) determines the sign only once one knows the
 target has two elements, and a consumer that needs the sign should not have to reprove that.
@@ -1796,20 +1817,29 @@ restates the invariant-map form of this milestone there; Layer 7B item 5's
 universe lift.
 
 **Compatibility with the cup product** at the same normalization is then one step. By Layer 7B's
-`ι [(a,b)] = (a) ∪ (b)` and Milestone 1, the composite `ε ∘ ι⁻¹` carries `(a) ∪ (b)` to `(a,b)_K`; in
-particular `(a) ∪ (b) = 0` exactly when `(a,b)_K = +1`, which agrees with Tau Ceti's cup-norm theorem
-`TauCeti.cup_kummerClass_eq_zero_iff` (Layer 7C). No further normalization convention is introduced
-anywhere in Layers 6 to 9.
+`ι [(a,b)] = (a) ∪ (b)`, by `Q(K) = Br(K)[2]` and by Milestone 1, the composite `ε ∘ ι⁻¹` carries
+`(a) ∪ (b)` to `(a,b)_K`; in particular `(a) ∪ (b) = 0` exactly when `(a,b)_K = +1`, which agrees
+with Tau Ceti's cup-norm theorem `TauCeti.cup_kummerClass_eq_zero_iff` (Layer 7C). No further
+normalization convention is introduced anywhere in Layers 6 to 9.
 
-This second milestone is the one place in Layers 0 to 6 that uses cohomology, and it comes after
-Layer 7B in the build order.
+This second milestone uses cohomology and comes after Layer 7B in the build order; its sign
+identity, which is 6C's item 13, comes after Layer 7C.
 
-*Needs:* Milestone 1; Layer 7B's comparisons `Additive (BrauerGroup K) ≃+ H²_cont(G_K, Kˢˣ)` (item 3)
-and `Br(K)[2] ≅ H²(G_K, μ₂)` (item 4); TauCetiRoadmap.ClassFieldTheory Layer 5 for the local
-invariant `TauCeti.ClassFieldTheory.invMap` on its carrier `Br F = H²(G_F, (Fˢ)ˣ)` and for the local
-symbol; and Tau Ceti's bridge `TauCeti.ClassFieldTheory.brauerGroupEquivBr` from Brauer classes to
-that carrier, which is item 3's `TauCeti.brauerExplicitH2Equiv` followed by the change of model
-`TauCeti.ClassFieldTheory.unitsRepH2Equiv` and is not a target of ClassFieldTheory.
+*Needs:* Milestone 1; 6C's item 2, that `(a,b)_K = +1` exactly when `ℍ[K,a,b]` splits; Layer 7B's
+comparison `Additive (BrauerGroup K) ≃+ H²_cont(G_K, Kˢˣ)` (item 3), its 2-torsion subgroup
+`TauCeti.BrauerGroup.twoTorsion` and, for the compatibility with the cup product, its
+`ι : Br(K)[2] ≃ H²(G_K, μ₂)` (item 4) and `ι [(a,b)] = (a) ∪ (b)` (item 6); 6C's item 13, through
+Layer 7C, for the sign identity; TauCetiRoadmap.ClassFieldTheory Layer 5 for the local invariant
+`TauCeti.ClassFieldTheory.invMap` on its carrier `TauCeti.ClassFieldTheory.Br K = H²(G_K, (Kˢ)ˣ)`,
+for the normalized invariant `TauCeti.ClassFieldTheory.h2MuEquivZMod` on `H²(G_K, μ₂)` with
+coefficients `TauCeti.ClassFieldTheory.muNRep 2 K`, and for the local symbol; and two Tau Ceti maps
+that are not targets of ClassFieldTheory: the coefficient map `TauCeti.ClassFieldTheory.h2MuToBr`
+from that `H²(G_K, μ₂)` into `TauCeti.ClassFieldTheory.Br K`, along which `h2MuEquivZMod` is
+normalized and which is not `ι` (the source of `ι` is the 2-torsion of Mathlib's `BrauerGroup K`,
+and its target is `TauCeti.cohomF2` with trivial `𝔽₂` coefficients); and the bridge
+`TauCeti.ClassFieldTheory.brauerGroupEquivBr` from Brauer classes to
+`TauCeti.ClassFieldTheory.Br K`, which is item 3's `TauCeti.brauerExplicitH2Equiv` followed by the
+change of model `TauCeti.ClassFieldTheory.unitsRepH2Equiv`.
 
 ### Examples
 
@@ -1858,8 +1888,8 @@ Tau Ceti's `TauCeti/NumberTheory/LocalField/` (`Uniformizer`, `Squares`, `Square
 `SquareClasses`, `UnitFiltration/`, `QuadraticForm/`, `Quaternion/`, `AlgebraicExtension/`,
 `FiniteExtension/`), `TauCeti/NumberTheory/HilbertSymbol/`, `TauCeti/NumberTheory/Padics/SerreSigns.lean`
 and `TauCeti/FieldTheory/GaloisCohomology/MuTwo/LocalSymbol.lean`; Layers 0 to 5 of this roadmap,
-with 6E's second milestone after Layer 7B; the items of TauCetiRoadmap.LocalFieldsRamification's
-*Exact supplier contracts* that 6A, 6B and 6C cite;
+with 6E's second milestone after Layer 7B and 6C's items 13 and 14 after Layer 7C; the items of
+TauCetiRoadmap.LocalFieldsRamification's *Exact supplier contracts* that 6A, 6B and 6C cite;
 TauCetiRoadmap.ClassFieldTheory Layers 5 and 14.
 
 ## Layer 7: the Brauer group in Galois cohomology
