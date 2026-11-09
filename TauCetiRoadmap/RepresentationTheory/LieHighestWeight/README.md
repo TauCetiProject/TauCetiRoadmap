@@ -104,9 +104,10 @@ shares its `FDRep`-flavoured vocabulary with the finite-group
   default. The abelian, nilpotent, and solvable notions are Mathlib's (`LieAlgebra.IsNilpotent`,
   `LieAlgebra.IsSolvable`, `HasTrivialRadical`).
 - **Cartan subalgebras, roots, and weights are Mathlib's.** Fix a Cartan subalgebra `H` via
-  `[H.IsCartanSubalgebra]` (`LieSubalgebra.IsCartanSubalgebra`); it exists by
-  `LieAlgebra.exists_isCartanSubalgebra`. A **root** is a nonzero `LieModule.Weight K H L` (element of
-  the `Finset` `LieSubalgebra.root H`); a **weight of a module** `M` is a `LieModule.Weight K H M`; the
+  `[H.IsCartanSubalgebra]` (`LieSubalgebra.IsCartanSubalgebra`); for finite-dimensional `L` over
+  an infinite field, so over every characteristic-zero field, one exists by
+  `LieAlgebra.exists_isCartanSubalgebra_engel`, which gives an element `x` whose Engel subalgebra
+  `engel K x` is Cartan. A **root** is a nonzero `LieModule.Weight K H L` (element of the `Finset` `LieSubalgebra.root H`); a **weight of a module** `M` is a `LieModule.Weight K H M`; the
   **root space** and **weight space** are `LieAlgebra.rootSpace H α = LieModule.genWeightSpace L α` and
   `LieModule.genWeightSpace M χ`. The **root system** is `LieAlgebra.IsKilling.rootSystem H`, a
   `RootPairing H.root K (Module.Dual K H) H`; its **coroots** are `LieAlgebra.IsKilling.coroot`, and
@@ -188,8 +189,9 @@ below are the Mathlib-now column.
   `SpecialLinear.singleSubSingle`, and `sl_non_abelian`; `sl (Fin 2) K` is our worked `sl₂`.
 - **Cartan subalgebras:** `Mathlib/Algebra/Lie/CartanSubalgebra.lean`
   (`LieSubalgebra.IsCartanSubalgebra`, self-normalizing and nilpotent) and
-  `Mathlib/Algebra/Lie/CartanExists.lean` (`LieAlgebra.exists_isCartanSubalgebra`,
-  `exists_isCartanSubalgebra_engel`).
+  `Mathlib/Algebra/Lie/CartanExists.lean` (`LieAlgebra.exists_isCartanSubalgebra_engel` for
+  `[Infinite K]`, and `LieAlgebra.exists_isCartanSubalgebra_engel_of_finrank_le_card` when
+  `finrank K L ≤ #K`).
 - **Weights and the weight-space decomposition:** `Mathlib/Algebra/Lie/Weights/Basic.lean`,
   `LieModule.genWeightSpace M χ`, `genWeightSpaceOf`, `LieModule.Weight R L M` (a bundled nonzero
   weight, `FunLike` to `L → R`), `LieModule.IsTriangularizable`, `iSupIndep_genWeightSpace`,
@@ -610,9 +612,14 @@ The highest-weight predicates, Verma modules, weight form and Casimir in Layers 
 Construct the following independent type-A character route over ℂ. Its inputs are
 ClassicalGroups Layer 3's group-level classification of rational GLₙ-representations,
 highest-weight cone, one-dimensional highest-weight line and torus weights;
-CompactGroups' invariant Hermitian forms, complete reducibility and character
-orthogonality; LieGroups Layer 6's normalized Haar Weyl integration formula and
-Layer 7's compact-complexification equivalence for finite-dimensional continuous
+CompactGroups' invariant Hermitian forms and complete reducibility; the native
+compact character orthogonality
+`ContRepresentation.inner_characterLp_eq_finrank_contIntertwiningMap`
+(`TauCeti/RepresentationTheory/Compact/Intertwiner/Dimension.lean`: for continuous
+finite-dimensional representations π, ρ of a compact group with π unitary, the
+normalized-Haar L² inner product of their characters is the dimension of the
+space of continuous intertwiners π → ρ); LieGroups Layer 6's normalized Haar Weyl
+integration formula and Layer 7's compact-complexification equivalence for finite-dimensional continuous
 U(n)-representations; and SchurWeyl Layer 7's combinatorial Schur polynomials and
 division-free bialternant identity. The GLₙ classification uses torus weights and
 transvections before comparison with glₙ Lie modules. The compact-complexification
@@ -620,7 +627,7 @@ equivalence uses the compact polar and algebraic-realization constructions befor
 the Tannakian reconstruction layer. Retain these phase boundaries: neither input
 uses ClassicalGroups Layer 4's character–Schur identification, this layer's Weyl
 formula, its Fourier-boundary comparison, or a formula for tensor multiplicities.
-These inputs commission the following construction, separately from the native
+The construction below uses only these inputs and is separate from the native
 Freudenthal–Casimir proof used in Layer 6.
 
 Apply the complete LieGroups Layer 7 compact-real-form-pair *morphism* theorem:
@@ -752,11 +759,17 @@ inequality, rather than replacing it by a bound on adjacent gaps of μ. For n=0
 and n=1 the empty adjacent conditions give the direct character identities.
 
 For n≥1 and the restriction GLₙ→GL_(n−1)×GL₁, consume ClassicalGroups' interlacing
-branching contract and retain the finite-alternant proof: after tₙ=1, the
+branching contract and retain the finite-alternant proof: for dominant λ and a
+dominant GL_(n−1) weight μ (μ₁≥⋯≥μ_(n−1) in ℤ), after tₙ=1, the
 coefficient determinant has entries `[λⱼ+n−j ≥ μᵢ+n−i]` for i<n and final row
 all 1. Prove its value is 1 precisely when
 `λᵢ+n−i ≥ μᵢ+n−i > λ_(i+1)+n−i−1`, equivalently
-λᵢ≥μᵢ≥λ_(i+1), and 0 otherwise. The extra GL₁ exponent is |λ|−|μ|. Iterating
+λᵢ≥μᵢ≥λ_(i+1), and 0 otherwise. The dominance of μ cannot be dropped: for
+n=3, λ=(0,0,0) and μ=(−1,1) the rows are (1,1,0), (1,0,0), (1,1,1), the
+determinant is −1, and μ does not interlace λ. For λ=(1,0,0) the dominant
+μ=(1,0) gives the rows (1,0,0), (1,1,0), (1,1,1) and determinant 1, while the
+dominant μ=(2,0) gives a zero first row and determinant 0. The extra GL₁
+exponent is |λ|−|μ|. Iterating
 this multiplicity-one decomposition gives the Gel'fand–Cetlin lines, canonical
 up to separate nonzero scalings, their row-sum-difference weights and the
 weight-multiplicity count. SchurWeyl owns the combinatorial interlacing identity,
@@ -912,9 +925,11 @@ by evaluating an individual pole. Differentiate neither chamber series nor
 distributional boundary values without their specified topology/support
 hypotheses. The Weyl-invariant integral finite character lattice and the
 triangular irreducible-character basis then give the virtual-character
-expansion; [CompactGroups Layer6](../CompactGroups/README.md#layer-6-characters-of-compact-groups)'s
-actual compact-group character orthogonality gives its squared group-Haar
-norm. State that norm on the group, and consume
+expansion; the native compact-group character orthogonality
+`ContRepresentation.inner_characterLp_eq_finrank_contIntertwiningMap` (for a
+unitary π, the L² inner product of the characters of π and ρ is the dimension
+of the continuous intertwiners π → ρ) gives its squared group-Haar norm.
+State that norm on the group, and consume
 [LieGroups Layer6](../LieGroups/README.md#layer-6-maximal-tori-the-weyl-group-and-weyl-integration)'s
 normalized Weyl integration theorem if rewriting it as a weighted torus norm. These inputs
 are distinct from polynomiality or an unweighted torus norm.
