@@ -3806,13 +3806,18 @@ AlgebraicTopology Stage 4.8.
 - The bounded-below hypothesis enters only the spectral-sequence step. For `𝓕` the chains on a
   fibre of a Hurewicz fibration it holds, since chains sit in degrees `≥ 0`. For `Q = S³`, where
   `η₀` is trivial and `𝓛S³ ≃ ΩS³ × S³` gives `H_p(𝓛S³; ℤ) = ℤ` for `p = 0` and every `p ≥ 2`
-  (and `0` for `p = 1`), take `𝓕 = ⊕_{k ∈ ℤ} ℤ[k]` with the loop chains acting through the
+  (and `0` for `p = 1`), take `𝓕 = ⊕_{k ∈ ℤ} ℤ[k]`, where `ℤ[k]` is `ℤ` in degree `−k` under
+  item 1's shift convention `C[n]_j = C_{j+n}`, with the loop chains acting through the
   augmentation. Then `E²_{p,q} = H_p(𝓛S³; ℤ)` for every `q`, so each line `p + q = n` meets
   infinitely many nonzero terms and the source's dimensional convergence argument does not
   apply. Theorem K still holds: both twisted complexes are `𝓕` tensored with the classical ones,
   so both sides are `⊕_{p ≥ 0} H_p(𝓛S³; ℤ)` in each degree, matched by the classical Viterbo
-  isomorphism, and the truncations `τ_{≥m}𝓕 = ⊕_{k ≥ m} ℤ[k]` exhibit this as the colimit of
-  the extension.
+  isomorphism. The good truncation `τ_{≥m}𝓕 = ⊕_{k ≤ −m} ℤ[k]` is `ℤ` in each degree `≥ m`; in
+  degree `n` both sides of Theorem K for it are `⊕_{0 ≤ p ≤ n − m} H_p(𝓛S³; ℤ)` (zero for
+  `n < m`), which increase to `⊕_{p ≥ 0} H_p(𝓛S³; ℤ)` as `m → −∞`, so the extension recovers
+  that value as the colimit. The family `⊕_{k ≥ m} ℤ[k]` is `ℤ` in each degree `≤ −m`: it is the
+  truncation from above, its homology is bounded above and not below, and the bounded-below
+  theorem does not apply to it.
 - The truncation has to be from below. The elements `𝓕_{≤k}` of degree `≤ k` also form a
   subcomplex, since the differential lowers degree, but not a sub-DG module: for `C_*(ΩS³)`
   acting on itself, whose homology is `ℤ` in every even degree `≥ 0`, and `k ∈ {0, 1}`, the
