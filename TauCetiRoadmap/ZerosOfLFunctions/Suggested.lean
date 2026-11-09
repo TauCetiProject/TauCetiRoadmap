@@ -39,9 +39,9 @@ Stated here:
   count for the Dedekind zeta function, and its conductor-uniform Dirichlet instance;
 * Layer 8, the truncated explicit formula for `Chebyshev.psi`, the Weil explicit formula for `ζ`
   over smooth compactly supported test functions, the effective prime ideal theorem over an
-  arbitrary number field (8.5), the effective prime count in a ray class (8.7) and its `K = ℚ`
-  case for arithmetic progressions, and the effective Chebotarev count for an abelian extension
-  (8.8).
+  arbitrary number field (8.5), the effective prime count in a ray class with its width uniform
+  over the fields of degree `n` (8.7) and its `K = ℚ` case for arithmetic progressions, and the
+  effective Chebotarev count for an abelian extension (8.8).
 
 Not stated here:
 
@@ -297,23 +297,26 @@ theorem primeIdealCount_effective (K : Type*) [Field K] [NumberField K] :
               (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) - TauCeti.Real.logIntegral x)
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
-/-- **Layer 8.7, the effective prime count in a ray class.** For a number field `K` and a modulus
-`𝔪` there is `c > 0` such that for every ray class `a` of `𝔪`, the number of nonzero prime ideals
-of `𝓞 K` prime to `𝔪`, of norm at most `x` and in the class `a`, is
-`Li(x)/#Cl_𝔪 + O(x exp(−c √log x))`, the constants depending on `K` and `𝔪`. For fixed `K` and
-`𝔪` the exceptional term is `O(x^β)` with `β < 1`, which the error absorbs. The main
-coefficient is `1/#Cl_𝔪`, not the ideal-counting constant `rayClassIdealMainTerm 𝔪`. At
-`K = ℚ` and `𝔪 = (q)∞` this is `primeCounting_progression_effective` at fixed `q`. -/
-theorem rayClassPrimeCount_effective (K : Type*) [Field K] [NumberField K]
-    (𝔪 : TauCeti.GlobalNumberFields.Modulus K) :
-    ∃ c : ℝ, 0 < c ∧ ∀ a : TauCeti.GlobalNumberFields.RayClassGroup 𝔪,
-      (fun x : ℝ ↦ (Set.ncard
-            {P : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K) |
-              ∃ h : P.asIdeal ∈ TauCeti.GlobalNumberFields.integralIdealsPrimeTo 𝔪,
-                TauCeti.GlobalNumberFields.idealClass 𝔪 ⟨P.asIdeal, h⟩ = a ∧
-                  (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) -
-          TauCeti.Real.logIntegral x / Nat.card (TauCeti.GlobalNumberFields.RayClassGroup 𝔪))
-        =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
+/-- **Layer 8.7, the effective prime count in a ray class.** For each degree `n` there is `c > 0`
+such that for every number field `K` of degree `n`, every modulus `𝔪` of `K` and every ray class
+`a` of `𝔪`, the number of nonzero prime ideals of `𝓞 K` prime to `𝔪`, of norm at most `x` and in
+the class `a`, is `Li(x)/#Cl_𝔪 + O(x exp(−c √log x))`, the implied constant depending on `K` and
+`𝔪`. The width `c` comes from the region constant of `heckeLFunction_zeroFreeRegion` for degree
+`n`; for fixed `K` and `𝔪` the exceptional term is `O(x^β)` with `β < 1`, which the error absorbs.
+The main coefficient is `1/#Cl_𝔪`, not the ideal-counting constant `rayClassIdealMainTerm 𝔪`. At
+`n = 1` the constant is absolute, and `K = ℚ`, `𝔪 = (q)∞` give
+`primeCounting_progression_effective`. -/
+theorem rayClassPrimeCount_effective (n : ℕ) :
+    ∃ c : ℝ, 0 < c ∧ ∀ (K : Type*) [Field K] [NumberField K], Module.finrank ℚ K = n →
+      ∀ (𝔪 : TauCeti.GlobalNumberFields.Modulus K)
+        (a : TauCeti.GlobalNumberFields.RayClassGroup 𝔪),
+        (fun x : ℝ ↦ (Set.ncard
+              {P : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers K) |
+                ∃ h : P.asIdeal ∈ TauCeti.GlobalNumberFields.integralIdealsPrimeTo 𝔪,
+                  TauCeti.GlobalNumberFields.idealClass 𝔪 ⟨P.asIdeal, h⟩ = a ∧
+                    (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) -
+            TauCeti.Real.logIntegral x / Nat.card (TauCeti.GlobalNumberFields.RayClassGroup 𝔪))
+          =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
 
 /-- **Layer 8.7 at `K = ℚ`, the effective prime number theorem in arithmetic progressions.**
 There is an absolute `c > 0` such that for every modulus `q ≥ 1` and residue `a` prime to `q`,

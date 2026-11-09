@@ -86,7 +86,9 @@ not the roadmap.
   family;
 - proving the Riemann hypothesis, the generalized Riemann hypothesis, or the nonexistence of
   exceptional zeros; Siegel's theorem and every lower bound for `1 − β` uniform in the conductor,
-  so no effective estimate here is uniform in the modulus or the character;
+  so no implied constant of an effective prime count here (8.5–8.8) is uniform in the modulus or
+  the character (the width `c` of an error `O(x exp(−c √log x))` is uniform in the modulus in 8.7
+  and its `K = ℚ` case);
 - identifying an exceptional zero with the zero of a quadratic character's L-function (a
   Stark-type statement), and the Landau–Page statement across a family of characters;
 - interval arithmetic, numerical evaluation of zeros, and decimal constants: constants in the
@@ -590,9 +592,13 @@ there. At `δ ≥ π` the set is empty.
   from its value `0` at `2`; a branch shifted by `2πi` gives `log 2 + 2πi`.
 - `Re (logGamma δ s) = log ‖Γ(s)‖` on `S_δ`, whatever the normalization; only the imaginary part
   is pinned by the value at `2`.
-- `Complex.log ∘ Γ` is not a branch: along the ray `arg s = π/2` the argument of `Γ(it)` is
-  `t log t − t − π/4 + o(1)`, which crosses every odd multiple of `π`, where the principal
-  logarithm jumps by `2πi`; a definition through it fails the holomorphy clause.
+- `Complex.log ∘ Γ` is not a branch, for any `δ`: fix `θ` with `0 < θ < π − δ`, so that the ray
+  `s = r e^{iθ}`, `r > 1`, lies in `S_δ`. By 1.2 the imaginary part of *logGamma* `δ` along it is
+  `r sin θ log r + r (θ cos θ − sin θ) − θ/2 + O(1/r)`, which tends to `+∞`; wherever it passes an
+  odd multiple of `π`, `Γ(s)` is a negative real and the principal logarithm jumps by `2πi`, so a
+  definition through it fails the holomorphy clause. The first such point is near `r = 5.539` at
+  `θ = π/2` (where the expansion is `t log t − t − π/4` at `s = it`, a ray inside `S_δ` only for
+  `δ < π/2`), near `r = 4.151` at `θ = π/4` and near `r = 12.626` at `θ = 1/10`.
 
 ### 1.2 Stirling on the sector
 
@@ -2019,17 +2025,27 @@ zero data occur; they do not assert the existence of an exceptional zero.
 - If only a non-real character is tested, its exceptional set is empty by 6.3 and both
   contributions are `0`; taking the real part of an arbitrary complex zero would give a false term.
 
-For fixed `K` and `𝔪` there is `c₀ > 0` with
+There is `c₀ > 0` depending only on the degree `n = [K : ℚ]`, and absolute at `n = 1`, such that
+for every `K` of degree `n`, every modulus `𝔪` and every class `c`, as `x → ∞`,
 
 ```text
 rayClassPsi 𝔪 c x = x/#Cl_𝔪 − exceptionalRayClassTerm 𝔪 c x + O(x exp(−c₀ √log x)),
 ```
 
 and the number of prime ideals prime to `𝔪`, of norm at most `x`, in the class `c` is
-`Li x/#Cl_𝔪 − exceptionalRayClassPrimeCountTerm 𝔪 c x + O(x exp(−c₀ √log x))`. The trivial
-character gives the main term `x/#Cl_𝔪` through 8.5. The finite Euler correction at the primes of
-`𝔪` does **not** enter the main coefficient: deleting those Euler factors changes the logarithmic
-derivative by a function regular at `s = 1`, and changes the prime-power sum by
+`Li x/#Cl_𝔪 − exceptionalRayClassPrimeCountTerm 𝔪 c x + O(x exp(−c₀ √log x))`; the implied
+constant, the threshold in `x` and the exceptional terms depend on `K` and `𝔪`. The width comes
+from the region constant `c_n` of 6.4 for degree `n` (`heckeLFunction_zeroFreeRegion`): at the
+height `T = exp(√log x)` of 8.5, a character at `𝔪` has conductor `𝔣` dividing `𝔪`, and
+`log(|d_K| 𝔑𝔣 (T + 3)^n) ≤ n √log x + log(|d_K| 𝔑𝔪) + n log 2 ≤ 2n √log x` once `x` is large in
+terms of `K` and `𝔪`. So every zero with `|Im ρ| ≤ T` other than an exceptional one has
+`|x^ρ| ≤ x exp(−(c_n/2n) √log x)`; with the weight `∑_{|Im ρ| ≤ T} m_ρ/‖ρ‖ = O(log² T)` of 4.5
+and the truncation error `O(x log² x exp(−√log x))` of 8.3 and 8.6 at that height,
+`c₀ = min(c_n/(2n), 1)/2` serves.
+
+The trivial character gives the main term `x/#Cl_𝔪` through 8.5. The finite Euler correction at
+the primes of `𝔪` does **not** enter the main coefficient: deleting those Euler factors changes the
+logarithmic derivative by a function regular at `s = 1`, and changes the prime-power sum by
 `O(log x)`. The main coefficient of the prime count is therefore `1/#Cl_𝔪`, not the ideal-counting
 constant `TauCeti.GlobalNumberFields.rayClassIdealMainTerm 𝔪`, which multiplies the Dedekind-zeta
 residue by that correction and governs the count of all ideals in a class. Each nontrivial
@@ -2043,12 +2059,13 @@ which is not `O(x exp(−c √log x))`. For fixed `K` and `𝔪` each exceptiona
 is `rayClassPrimeCount_effective`: it counts the nonzero primes `P` of `𝓞 K` with
 `P ∈ TauCeti.GlobalNumberFields.integralIdealsPrimeTo 𝔪` and
 `TauCeti.GlobalNumberFields.idealClass 𝔪 P = c`, against
-`TauCeti.Real.logIntegral x / Nat.card (TauCeti.GlobalNumberFields.RayClassGroup 𝔪)`. At `K = ℚ`
-and `𝔪 = (q)∞` this is `primeCounting_progression_effective` (Davenport §20), with main term
-`Li x/φ(q)`.
+`TauCeti.Real.logIntegral x / Nat.card (TauCeti.GlobalNumberFields.RayClassGroup 𝔪)`, with one
+width for all fields of degree `n`. At `K = ℚ`, where the width is absolute, and `𝔪 = (q)∞` this is
+`primeCounting_progression_effective` (Davenport §20), with main term `Li x/φ(q)`.
 
-*Needs:* 8.5, 8.6, 6.3, 6.4b; L-functions Layers 2, 5 `partialZeta_eq_sum_heckeLFunctionC`,
-`PrimitiveRayClassCharacter.of`; Global Number Fields Layers 2, 3E, 9 `RayClassGroup`,
+*Needs:* 8.5, 8.6, 6.3, 6.4 (`heckeLFunction_zeroFreeRegion`, for the width), 6.4b, 4.5;
+L-functions Layers 2, 5 `partialZeta_eq_sum_heckeLFunctionC`, `PrimitiveRayClassCharacter.of`;
+Global Number Fields Layers 2, 3E, 9 `RayClassGroup`,
 `idealClass`, `integralIdealsPrimeTo`, `rayClassIdealMainTerm_eq`, `RayClassCharacter`;
 Arithmetic Dirichlet Series §§2.3, 6.1–6.2 `IdealArithmeticFunction.vonMangoldt`,
 `idealSummatory_mul_eq_sub_integral_mul`, `TauCeti.Real.logIntegral`.
@@ -2062,6 +2079,12 @@ Arithmetic Dirichlet Series §§2.3, 6.1–6.2 `IdealArithmeticFunction.vonMango
   because `ζ` has no real zero in `(0, 1)`.
 - `K = ℚ(√−5)`, `𝔪 = 1`: two classes, the principal and non-principal prime ideals each with
   coefficient `1/2`; the split primes `p ≡ 1, 9 (mod 20)` have principal factors.
+- The width is uniform and the threshold is not. At `K = ℚ` and a character of conductor `q`, the
+  bound `log(q (T + 3)) ≤ 2 √log x` at `T = exp(√log x)` holds once
+  `exp(√log x) ≥ (q + √(q² + 12q))/2`, that is from `log x = 0.696` at `q = 1`, `2.496` at `q = 3`
+  and `190.868` at `q = 10⁶`, while `c₀ = min(c_1/2, 1)/2` is the same for all three. A width
+  chosen after `𝔪` would make the `n = 1` case weaker than `primeCounting_progression_effective`,
+  whose `c` is absolute.
 
 ### 8.8 Effective Chebotarev for an abelian extension
 
