@@ -69,11 +69,16 @@ It does not own, and imports:
   that comparison.
 
 Deferrals that no target here consumes: sharp finite-order Sard is HeegaardFloer §2.1's (F0.S),
-and every map in Layer 5 is `C^∞`, so no target here needs it; collars, collar uniqueness, tubular
-neighbourhoods and gluing are GeometricTopology's, and §4.2 uses only Tau Ceti's Brown collar
-theorem. AlgebraicTopology 6.3 names DifferentialGeometry 9.3 as the consumer of its classes and
-the owner of the integration comparison; DifferentialGeometry 9.3 plans duality only, and that
-comparison, with the carrier and coefficient conversions it needs, is §4.1 here.
+and every map in Layer 5 is `C^∞`, so no target here needs it; smooth collars, collar
+uniqueness, tubular neighbourhoods and gluing are GeometricTopology's, and so, for manifolds with
+boundary over the half-space model, is the homotopy equivalence of the interior with the manifold
+(GeometricTopology §1.1); §4.2 uses only Tau Ceti's Brown collar theorem. Inward domination (§2.2)
+differs from GeometricTopology §1.1 in allowing every finite-dimensional convex model with corners
+and in producing an explicit smooth deformation into the interior; in the half-space case it
+implies §1.1's homotopy equivalence. AlgebraicTopology 6.3 names DifferentialGeometry 9.3 as the
+consumer of its classes and the owner of the integration comparison; DifferentialGeometry 9.3
+plans duality only, and that comparison, with the carrier and coefficient conversions it needs, is
+§4.1 here.
 
 Adjacent roadmap with an overlapping object: TangentialBordism §2.1 proves parametric
 transversality to a closed embedded submanifold, with a null set (`TauCeti.IsNullSet`) of bad
@@ -178,8 +183,11 @@ installed on a manifold. In addition:
   `[NormalSpace M]` as well, which a Hausdorff σ-compact manifold over a finite-dimensional model
   satisfies through `ChartedSpace.locallyCompactSpace` (from
   `ModelWithCorners.locallyCompactSpace`), `paracompact_of_locallyCompact_sigmaCompact` and
-  `NormalSpace.of_paracompactSpace_r1Space`.
-- `IsOpen.exists_contDiff_support_eq` (support equal to a given open set, not compact support).
+  `NormalSpace.of_paracompactSpace_r1Space`; and, under the same three hypotheses,
+  `exists_contMDiff_zero_iff_one_iff_of_isClosed` (same file): for disjoint closed `s` and `t`, a
+  smooth function with values in `[0, 1]` that is `0` exactly on `s` and `1` exactly on `t`.
+- `IsOpen.exists_contDiff_support_eq` (support equal to a given open set, not compact support);
+  `Metric.infDist`, the distance from a point to a set.
 - `ModelWithCorners.interior`, `ModelWithCorners.isOpen_interior`, `ModelWithCorners.boundary`,
   `ModelWithCorners.convex_range`, `ModelWithCorners.isClosed_range`,
   `ModelWithCorners.nonempty_interior`, `BoundarylessManifold`, `𝓡∂ n`,
@@ -199,16 +207,23 @@ installed on a manifold. In addition:
   `TauCeti.exists_contMDiffMap_isProperMap_nonneg` on a finite-dimensional Hausdorff σ-compact
   manifold, boundary allowed (`Geometry/Manifold/Exhaustion.lean`).
 - Integration of top forms `TauCeti.integralTopForm` (total: zero unless the form is compactly
-  supported and integrable) and `TauCeti.integralTopForm_add`
-  (`Geometry/Manifold/DifferentialForm/Integration/`); change of variables along an open embedding
+  supported and integrable), `TauCeti.integralTopForm_add` and, for finite sums of integrable top
+  forms, `TauCeti.integralTopForm_sum` (`Geometry/Manifold/DifferentialForm/Integration/`), with
+  `TauCeti.IsSmoothForm.integrableTopForm` (a compactly supported continuous top form is
+  integrable); change of variables along an open embedding
   between manifolds over models on the same `E`, orientation-preserving at every point, for forms
   supported in its range, `Topology.IsOpenEmbedding.integralTopForm_mpullback_of_isOrientationPreservingAt`
   (`Integration/ChangeOfVariables.lean`), with its open-subset case
-  `TauCeti.integralTopForm_mpullback_subtypeVal` (`Integration/OpenSubset.lean`); the
-  zero-dimensional signed sum `TauCeti.integralTopForm_ofFunction_finite_zeroDim`
-  (`Integration/ZeroDim.lean`); Stokes' theorem `TauCeti.integralTopForm_mextDeriv` for compactly
-  supported `C¹` forms over `𝓡∂ (n+1)` with the outward-first `TauCeti.boundaryOrientation` and
-  `TauCeti.boundaryRestriction` (`Integration/Stokes.lean`, `Geometry/Manifold/Boundary/`), and
+  `TauCeti.integralTopForm_mpullback_subtypeVal` (`Integration/OpenSubset.lean`); in dimension
+  `0`, over `𝓘(ℝ, E)` with `Subsingleton E`, the integral of a function supported in one point `x`,
+  its value at `x` times the orientation sign at `x`
+  (`TauCeti.integralTopForm_ofFunction_zeroDim`), and on a finite manifold (`[Fintype M]`) the
+  signed sum of values `TauCeti.integralTopForm_ofFunction_finite_zeroDim`
+  (`Integration/ZeroDim.lean`), every zero-dimensional form being smooth
+  (`TauCeti.isSmoothForm_zeroDim`, `DifferentialForm/Regularity.lean`); Stokes' theorem
+  `TauCeti.integralTopForm_mextDeriv` for compactly supported `C¹` forms over `𝓡∂ (n+1)` with the
+  outward-first `TauCeti.boundaryOrientation` and `TauCeti.boundaryRestriction`
+  (`Integration/Stokes.lean`, `Geometry/Manifold/Boundary/`), and
   `TauCeti.integralTopForm_mextDeriv_eq_zero` on boundaryless manifolds; smooth path integrals
   `TauCeti.pathIntegral` (`Integration/Path.lean`).
 - De Rham theory: `TauCeti.deRhamComplex`, `TauCeti.deRhamCohomology`, `TauCeti.closedForms`,
@@ -296,8 +311,10 @@ installed on a manifold. In addition:
   operator between finite-dimensional spaces is Fredholm.
 - `TauCeti.addHaar_image_criticalPoints_eq_zero` (flat Morse–Sard on a set, threshold
   `(dim source)² + 1`, `Analysis/Calculus/Sard/OutermostStratum.lean`).
-- Brown's collar theorem `TauCeti.IsLocallyCollared.isCollared` (`Geometry/Manifold/Boundary/Collar/Brown.lean`)
-  and the boundary manifold of a manifold over `𝓡∂ (n+1)` (`Geometry/Manifold/Boundary/`).
+- The topological collar predicate `TauCeti.IsCollar`, an open embedding of `N × [0, 1)` equal at
+  depth `0` to a given map (`Geometry/Manifold/Boundary/Collar/Global.lean`), Brown's collar theorem
+  `TauCeti.IsLocallyCollared.isCollared` (`Collar/Brown.lean`) and the boundary manifold of a
+  manifold over `𝓡∂ (n+1)` (`Geometry/Manifold/Boundary/`).
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
@@ -394,7 +411,12 @@ rel endpoints (`IsCoveringMap.liftPath_apply_one_eq_of_homotopicRel`); that it i
 differentiable maps (`TauCeti.IsPrimitiveOn.mpullback`); and that for continuous `φ`, complete `F`
 and a `C¹` curve `γ : ℝ → M` it equals `TauCeti.pathIntegral φ γ 0 1`, by the fundamental theorem of
 calculus on each subinterval. On path-connected `M`, every loop integral vanishes iff `φ` has a
-global primitive, integration from a base point being one. This generalizes Tau Ceti's
+global primitive, integration from a base point being one. The covering-space steps are the
+homotopy lifting property and the uniqueness of lifts [Hatcher, Props. 1.30 and 1.34]; for smooth
+closed covector fields along piecewise smooth curves, path independence and its equivalence with
+exactness are [Lee, Ch. 11, *Conservative Covector Fields*]; the monodromy integral of `1`-forms
+with local primitives along continuous paths, on `C¹` manifolds with coefficients that need not be
+complete, is this roadmap's. This generalizes Tau Ceti's
 `TauCeti.pathClassIntegral` from closed `C¹` forms with complete coefficients on finite-dimensional
 Hausdorff smooth manifolds to forms with local primitives:
 
@@ -437,11 +459,14 @@ Prove `exists_isPrimitiveOn_univ_of_simplyConnectedSpace`: on a simply connected
 local primitives has a global primitive `g`, `TauCeti.IsPrimitiveOn φ g univ`. Route: `M` is
 locally path-connected (`ChartedSpace.locallyPathConnectedSpace` over
 `ModelWithCorners.locallyPathConnectedSpace`), so the identity of `M` lifts through §1.2's covering
-map (`IsCoveringMap.existsUnique_continuousMap_lifts`), and the value coordinate of the lift agrees
-near each point with a translate of a local primitive. This extends
-`TauCeti.exists_mextDeriv_eq_of_simplyConnectedSpace`, which assumes a closed `C^r` form with
-complete coefficients on a finite-dimensional Hausdorff manifold. On an arbitrary `M` apply it on
-each simply connected open submanifold. *Needs:* §§1.1–1.2; Mathlib
+map (`IsCoveringMap.existsUnique_continuousMap_lifts`, the lifting criterion [Hatcher,
+Prop. 1.33] for a simply connected, hence path-connected, and locally path-connected source), and
+the value coordinate of the lift agrees near each point with a translate of a local primitive.
+This extends `TauCeti.exists_mextDeriv_eq_of_simplyConnectedSpace`, which assumes a closed `C^r`
+form with complete coefficients on a finite-dimensional Hausdorff manifold; for smooth closed
+covector fields the exactness on simply connected manifolds is [Lee, Ch. 11, *Conservative
+Covector Fields*], and the form for `1`-forms with local primitives is this roadmap's. On an
+arbitrary `M` apply it on each simply connected open submanifold. *Needs:* §§1.1–1.2; Mathlib
 `IsCoveringMap.existsUnique_continuousMap_lifts`, `ChartedSpace.locallyPathConnectedSpace`; Tau Ceti
 `ModelWithCorners.locallyPathConnectedSpace`.
 
@@ -484,7 +509,9 @@ covering maps with path and homotopy lifting.
 For `C = range I` (convex by `ModelWithCorners.convex_range`, closed by
 `ModelWithCorners.isClosed_range`, with nonempty interior by `ModelWithCorners.nonempty_interior`),
 the *strict inward cone* at `x ∈ C` is the set of `v ∈ E` for which there are `ε, δ > 0` with
-`ball(x + tv, εt) ⊆ C` for `0 < t < δ`. *Needs:* Mathlib `ModelWithCorners.convex_range`,
+`ball(x + tv, εt) ⊆ C` for `0 < t < δ`. The strict inward cone of a general convex model with
+corners, its chart invariance and the gluing of strictly inward fields are this roadmap's.
+*Needs:* Mathlib `ModelWithCorners.convex_range`,
 `ModelWithCorners.isClosed_range`, `ModelWithCorners.nonempty_interior`, `Metric.ball`; for the
 last bullet below, `exists_contMDiffSection_forall_mem_convex_of_local`.
 
@@ -523,10 +550,14 @@ rescaling `X` so that `|Xf| ≤ 1/2`. The intrinsic interior `N = I.interior M` 
 the semiflow `ψ`, `r = ψ(1, ·)` and `Φ(t, x) = ψ((1 − t)², x)`, prove
 `exists_smooth_inward_deformation`: there are smooth `r : M → M` with values in `I.interior M` and
 smooth `Φ : ℝ × M → M` (over `𝓘(ℝ, ℝ).prod I`) with `Φ(0, ·) = r`, `Φ(1, ·) = id` and every
-`Φ(t, ·)` preserving `I.interior M`. This *inward domination* is the target. For
-the half-space model, the flowout of an inward-pointing field, the collar and the homotopy
-equivalence of a manifold with boundary with its interior are [Lee, Thms. 9.24–9.26,
-pp. 222–223]; for a general convex model the construction is this roadmap's. *Needs:* §2.1;
+`Φ(t, ·)` preserving `I.interior M`. This *inward domination* is the target. It implies that the
+inclusion `I.interior M ↪ M` is a homotopy equivalence with homotopy inverse `r`: `Φ` on
+`[0, 1] × M` joins the composite `M → I.interior M ↪ M` to `id_M`, and, every `Φ(t, ·)` preserving
+the interior, its restriction to `[0, 1] × I.interior M` joins `r` restricted to the interior to
+the identity there. For the half-space model the smooth collar and this homotopy equivalence are
+GeometricTopology §1.1's [Lee, Thms. 9.24–9.26, pp. 222–223]; §2.2 differs in allowing every
+finite-dimensional convex model with corners and in producing the explicit smooth deformation
+`Φ`, and the construction for a general convex model is this roadmap's. *Needs:* §2.1;
 Tau Ceti `TauCeti.exists_contMDiffMap_isProperMap_nonneg`, and the maximal flow `TauCeti.flowOf`
 on the boundaryless interior; Mathlib `ModelWithCorners.isOpen_interior`.
 
@@ -539,8 +570,15 @@ on the boundaryless interior; Mathlib `ModelWithCorners.isOpen_interior`.
   and fails the interior clause.
 - On a boundaryless `M`, `r = id` and `Φ(t, x) = x` work; the theorem has content only at the
   boundary.
-- A semiflow is not a collar: on the quadrant the flow of `(1, 1)` is not a product structure near
-  the corner; collars remain GeometricTopology's.
+- At a corner the semiflow gives a topological collar and nothing smooth. On the quadrant
+  `Q = [0, ∞)²` the strictly inward field `(1, 1)` has semiflow `ψ(s, p) = p + s(1, 1)`, which maps
+  `∂Q × [0, 1)` homeomorphically onto the open set `{min(x, y) < 1}` of `Q`, with inverse
+  `(x, y) ↦ ((x − m, y − m), m)` for `m = min(x, y)`; with depth `0` the inclusion of `∂Q`, it is a
+  collar in the sense of `TauCeti.IsCollar`. Its depth coordinate `m` is not differentiable on the
+  diagonal (from `x < y` its `x`-derivative is `1`, from `x > y` it is `0`), and the flowout
+  `{(a + s, s) | a, s ≥ 0}` of the single face `{y = 0}` misses `(0, t)` for every `t > 0`
+  (`(0, t) = (a + s, s)` forces `a = −t`), so it is no neighbourhood of that face at the corner.
+  Smooth collars are GeometricTopology §1.1's.
 
 ### 2.3 Transfer of smooth-chain equivalences
 
@@ -619,31 +657,55 @@ enlargement of `W`. *Needs:* DifferentialGeometry 8.3; Tau Ceti `TauCeti.smoothS
 
 ### 2.5 Relative approximation into vector spaces
 
-Source a Hausdorff σ-compact finite-dimensional manifold with corners, target a finite-dimensional
-real normed space `V`. For the interval, the closed disc and the square, construct ambient
-fillings: the continuous retractions `r(t) = max(0, min(1, t))`, `r(s, t) = (r(s), r(t))` and
-`r(v) = v / max(1, ‖v‖)` extend a continuous filling to the ambient space. Boundary data come with a
-specified compatible smooth collar extension (sitting intervals at endpoints; edge extensions
-constant near vertices on the square; the radial collar on the disc), glued by a smooth cutoff. If
-a filling agrees with the extension only on the boundary, blend in a thin collar chosen by
-continuity and compactness, so that the result is smooth near a smaller closed collar, moves
-arbitrarily little in `C⁰` and fixes the boundary; then apply
-`Continuous.exists_contDiff_approx_and_eqOn` with that collar fixed. Export the smooth filling, the
-straight-line homotopy rel boundary and its `C⁰` bound; a compact image reserve in an open
-`U ⊆ V` is preserved by a tolerance from finitely many balls; restriction, collar refinement,
-coordinate change and finite products. The approximation without boundary data is Mathlib's; the
-form with prescribed collar data is this roadmap's. *Needs:* Mathlib
-`Continuous.exists_contDiff_approx_and_eqOn`, `exists_contMDiffMap_one_nhds_of_subset_interior`.
+Let `D` be a Hausdorff σ-compact smooth manifold over a finite-dimensional real model with corners
+`I`, `V` a finite-dimensional real normed space, `A ⊆ D` closed, `f : D → V` continuous,
+`e : D → V` smooth on an open `O ⊇ A` with `e = f` on `A`, and `ε : D → ℝ` continuous with
+`ε(x) > 0` everywhere. Prove that there is a smooth `g : D → V` equal to `e` on a neighbourhood of
+`A` with `‖g(x) − f(x)‖ < ε(x)` for every `x ∈ D`. The case of interest is `A = I.boundary D`,
+closed as the complement of the open `I.interior D`, with `e` a collar extension of boundary data.
+Route: `O′ = {x ∈ O | ‖e(x) − f(x)‖ < ε(x)/2}` is open, `e` being continuous on the open `O`, and
+contains `A`; for a closed neighbourhood `T` of `A` inside `O′` and a smooth `ρ : D → [0, 1]`
+equal to `1` near `A` and to `0` off `T` (`exists_contMDiffMap_one_nhds_of_subset_interior`, `D`
+being normal as in the supplier contracts), `h = f + ρ(e − f)` is continuous (it is `f` off `T`),
+within `ε/2` of `f`, and equal to `e`, hence smooth, on an open `O″ ⊇ A`;
+`Continuous.exists_contMDiff_approx_and_eqOn` with tolerance `ε/2`, fixing a closed neighbourhood
+of `A` inside `O″`, gives `g`. Mathlib's lemma assumes the map already smooth near the fixed set;
+the form with a smooth `e` that agrees with `f` only on `A` is this roadmap's. *Needs:* Mathlib
+`Continuous.exists_contMDiff_approx_and_eqOn`, `exists_contMDiffMap_one_nhds_of_subset_interior`.
+
+- *Homotopy rel `A`.* The straight-line homotopy `(1 − s)f + sg`, `s ∈ [0, 1]`, fixes `A`
+  pointwise and stays within `ε` of `f`.
+- *Image reserve.* If `f(D) ⊆ U` for an open `U ≠ V`, the theorem with the tolerance
+  `min(ε(x), Metric.infDist (f x) (V ∖ U))`, continuous and positive, gives `g` and a homotopy with
+  values in `U`. On a compact `D` a constant tolerance suffices, the compact `f(D)` having positive
+  distance from `V ∖ U`.
+- *Model domains in ambient coordinates.* Let `D` be the interval `[0, 1] ⊆ ℝ`, the square
+  `[0, 1]² ⊆ ℝ²` or the closed unit disc in `ℝ²`, `e` smooth on an open neighbourhood of the
+  topological boundary `∂D` in the ambient space, and `f : D → V` continuous with `f = e` on `∂D`.
+  For every `ε > 0` there is a smooth `g` on the ambient space equal to `e` near `∂D` with
+  `‖g − f‖ < ε` on `D`. The continuous retractions `r(t) = max(0, min(1, t))`,
+  `r(s, t) = (r(s), r(t))` and `r(v) = v / max(1, ‖v‖)` onto `D` extend `f` to `f ∘ r`, and the
+  theorem on the boundaryless ambient space with `A = ∂D` applies, its last step being
+  `Continuous.exists_contDiff_approx_and_eqOn`. Collar data for these domains are sitting intervals
+  at the endpoints, edge extensions constant near the vertices of the square and the radial collar
+  on the disc.
 
 **Checks.**
 
 - `r(2) = 1`, `r(−1) = 0`, `r(0.3) = 0.3`; on the disc `r((3, 4)) = (0.6, 0.8)` and `r` fixes the
   unit disc pointwise.
-- A boundary trace that is only continuous (`θ ↦ (|sin θ|, 0)` on the disc boundary) cannot be
-  fixed by any smooth filling: the collar hypothesis is necessary.
-- Into a target with boundary the result fails: the face data `(y−z)²`, `(x−z)²`, `(x−y)²` of
-  *Statements that must not enter the library* have a continuous filling into `[0, ∞)` and no
-  smooth one.
+- The smooth `e` agreeing with `f` on `A` is necessary for `g = f` on `A`: on the disc the
+  continuous filling `f(x, y) = (|y|, 0)` has boundary trace `θ ↦ (|sin θ|, 0)`, which is the
+  restriction of no smooth map on a neighbourhood of the circle (its composite with
+  `θ ↦ (cos θ, sin θ)` would be smooth, and `|sin θ|` is not differentiable at `θ = 0`), so no
+  smooth `g` agrees with `f` on `∂D`; a statement without `e` would claim one.
+- Into a target with boundary the conclusion fails. On `ℝ³` let
+  `Q = x² + y² + z² − 2xy − 2xz − 2yz`, which is `(y − z)²` on the plane `x = 0` and symmetrically
+  on the others, let `ψ` be the bump of *Statements that must not enter the library*, vanishing on
+  a closed ball `B` around `0`, let `A` be the part of the three coordinate faces of the closed positive octant inside `B`, `e = Q` and
+  `f = max(Q + ψ, 0) ≥ 0`, so that `f = e` on `A`. Every smooth `g` equal to `Q` near `A` has
+  `g(t, t, t) = Q(t, t, t) = −3t² < 0` for small `t > 0`, so no smooth approximation with values in
+  `[0, ∞)` exists, and the image-reserve bullet needs `U` open.
 
 ### Examples
 
@@ -796,14 +858,23 @@ sign of `o` at `x`. The pairing `⟨·, ·⟩` below is Tau Ceti's `TopCat.singu
 
 No second class carrier, orientation local system or class factory is built; this roadmap owns the
 conversions between existing carriers: the passage from a boundaryless smooth manifold over a model
-`I` to the topological manifold modelled on `E` that `TauCeti.HomologicalOrientation` takes, the
-change of coefficients `ℤ → ℝ` on relative local homology through `TauCeti.intToRealCoeff`, and
+`I` to the topological manifold modelled on `E` that `TauCeti.HomologicalOrientation` takes and,
+in dimension `0`, to the smooth manifold over `𝓘(ℝ, E)` with the transported orientation and
+forms, on which Tau Ceti's zero-dimensional integrals are stated, the change of coefficients
+`ℤ → ℝ` on relative local homology through `TauCeti.intToRealCoeff`, and
 smooth-relative-to-singular naturality. Local computation: place each compact piece `S` of a
 partition inside an injective chart simplex whose boundary avoids `S`; derive the local formula
 from the relative evaluation of §3.2 at `β = 0` and the one-chart integral identity; assemble by
-`TauCeti.integralTopForm_add`. Dimension zero: the class along a finite `K` is
-`Σ_{x ∈ K} ε_o(x)[x]`, by the local-image characterization, and the integral is the signed sum
-`Σ_{x ∈ K} ε_o(x) α(x)` of `TauCeti.integralTopForm_ofFunction_finite_zeroDim`. The interior
+`TauCeti.integralTopForm_add`. Dimension zero: a compact `K` is finite, and the class along `K`
+is `Σ_{x ∈ K} ε_o(x)[x]`, by the local-image characterization. A top form `η` vanishing outside
+`K` is the finite sum of the forms `η_x` equal to `η` at `x ∈ K` and `0` elsewhere, each supported
+in `{x}`; `TauCeti.integralTopForm_ofFunction_zeroDim` integrates `η_x` to `ε_o(x) η(x)`, and
+`TauCeti.integralTopForm_sum` adds the pieces, each smooth (`TauCeti.isSmoothForm_zeroDim`) with
+compact support and hence integrable (`TauCeti.IsSmoothForm.integrableTopForm`). So the integral
+is `Σ_{x ∈ K} ε_o(x) η(x)` for every `N`, finite or not; for finite `N` and `K = N` it is
+`TauCeti.integralTopForm_ofFunction_finite_zeroDim`, which assumes `[Fintype N]`. These lemmas are
+stated over `𝓘(ℝ, E)`, so they are applied on `N` recharted along `I` (in dimension `0`,
+`range I = E`), one of the carrier conversions above. The interior
 compact-support formula on a manifold `M` with boundary, which §4.2 uses, is the second bullet on
 the boundaryless open submanifold `I.interior M`, carried to `M` by
 `TauCeti.integralTopForm_mpullback_subtypeVal` and excision of `M ∖ I.interior M`
@@ -828,6 +899,11 @@ homological orientation of a tangent orientation).
   orientation negates both sides.
 - Two points with orientations `+` and `−`: `∫ f = f(a) − f(b)`; a convention ignoring point
   orientations gives `f(a) + f(b)`.
+- `N = ℤ` with the discrete topology (Hausdorff, σ-compact, boundaryless, dimension `0`, not
+  compact), all signs `+`, `K = {0, 1}` and `η = 1` at `0`, `2` at `1`, `0` elsewhere: the
+  compact-support formula gives `1 + 2 = 3` on both sides, the class `[ℤ]_K` being `[0] + [1]`.
+  A dimension-zero step through the finite-manifold lemma alone would need `[Fintype ℤ]`, which
+  does not exist; the one-point lemma and the finite sum over `K` give the value.
 - `ℝ` with `ψ dx`, `ψ` supported in `K = [−1, 1]`, `∫ψ = 1`: `[ℝ]_K` is represented by the smooth
   simplex `t ↦ 4t − 2`, whose boundary `[2] − [−2]` lies in `ℝ ∖ K`, and the pairing is
   `∫_{−2}^{2} ψ dx − 0 = 1`; for `K′ = [−3, 3]` the simplex `t ↦ 8t − 4` gives `1` again. The
@@ -846,8 +922,9 @@ smooth factorization of the boundary inclusion (no derivative of the topological
 Route: a smooth cutoff `ρ` from `exists_contMDiffMap_one_nhds_of_subset_interior`, equal to `1`
 near `∂M` and supported in a closed neighbourhood inside `U`; `γ = ρβ` extended by zero;
 `[α, β] = [α − dγ, β − γ|_U]`; §4.1's interior formula for `α − dγ` and Stokes' theorem
-`TauCeti.integralTopForm_mextDeriv` for `γ`; independence of cutoff and collar. *Needs:*
-§4.1, §3.3; Tau Ceti `TauCeti.boundaryOrientation`, `TauCeti.integralTopForm_mextDeriv`,
+`TauCeti.integralTopForm_mextDeriv` for `γ`; independence of cutoff and collar. The formula,
+which combines §4.1's interior formula with Stokes' theorem, is this roadmap's. *Needs:* §4.1,
+§3.3; Tau Ceti `TauCeti.boundaryOrientation`, `TauCeti.integralTopForm_mextDeriv`,
 `TauCeti.IsLocallyCollared.isCollared`; AlgebraicTopology 6.3 (the oriented relative class).
 
 **Checks.**
@@ -882,11 +959,12 @@ derivative of `incidenceEquation F j` at every zero. *Needs:* Tau Ceti
   `(u, v) ↦ D_xF(x, p)u − Dj(y)v` when `F` and `j` are differentiable there.
 - If `dim E + dim W < dim V`, a regular parameter's slice misses `j(W)` entirely (avoidance), and
   this holds simultaneously for countable families.
-- Restriction to open subsets, affine changes of coordinates and reindexing preserve regularity;
-  on a non-product open `U ⊆ M × P` and on manifolds the incidence is covered by countably many
-  product chart neighbourhoods, never extended by junk values; parameter manifolds go through
-  their charts; without a global Hausdorff hypothesis on the source of `j` the result is applied on
-  each Hausdorff chart domain of a countable atlas.
+- Regularity of `p` is pointwise on the incidence, so for open covers of `E` and `W` it is the
+  conjunction of the same condition for the restrictions of `F(·, p)` and `j` to the members; it is
+  unchanged under affine isomorphisms of `E`, `W` and `V`, and an affine isomorphism `ψ` of `P`
+  makes `p` regular for `F ∘ (id × ψ)` exactly when `ψ(p)` is regular for `F`. §5.3 passes to
+  manifolds this way, through countably many product chart neighbourhoods of the incidence,
+  without extending maps by junk values off their chart domains.
 
 **Checks.**
 
@@ -925,19 +1003,57 @@ a map is this roadmap's. *Needs:* §5.1; Tau Ceti `TauCeti.levelSetChart` and
 
 ### 5.3 Relative perturbations
 
-Define `relativeTranslate f β p = f + β • p`. For a smooth cutoff `β ≥ 0` with zero set `C` and `f`
-already transverse to `j` on `C`, the family `(x, p) ↦ f(x) + β(x)p` is universally transverse: where
+Define `relativeTranslate f β p = f + β • p` for `f : E → V`, `β : E → ℝ` and `p ∈ V`. Prove
+`exists_isRegularIncidenceParameter_relativeTranslate`: for finite-dimensional `E`, `W`, `V`,
+smooth `f : E → V`, `j : W → V` and `β : E → ℝ` with `β ≥ 0` and zero set exactly `C`, if at every
+`x ∈ C` and every `y` with `f(x) = j(y)` the map `(u, v) ↦ Df(x)u − Dj(y)v` is onto, then for every
+`r > 0` there is `p ∈ V` with `‖p‖ < r` that is a regular incidence parameter of the family
+`(x, p) ↦ f(x) + β(x)p` against `j`, so that `relativeTranslate f β p` is transverse to `j`, and
+`relativeTranslate f β p = f` on `C`. Route: the family is universally transverse (where
 `β(x) > 0` the parameter derivative `β(x)·id` is onto; where `β(x) = 0`, `Dβ(x) = 0` because `x`
-minimizes `β`, so the source derivative is `Df(x)` and the hypothesis applies. Prove
-`exists_isRegularIncidenceParameter_relativeTranslate`: there are arbitrarily small `p` whose
-translate is transverse to `j` and equals `f` on `C`. Cutoffs come from
-`IsOpen.exists_contDiff_support_eq` on Euclidean sources and from a two-set partition of unity
-subordinate to `{B, M ∖ C}` in general. On compact sources: simultaneous transverse perturbations
-arbitrarily close in every finite `C^k` norm (bounds `sup_K ‖Dⁱ(F_p − f)‖ ≤ Bᵢ‖p‖` in a finite chart
-cover), finite lists of maps, and the straight-line homotopy; compact sources with corners of
-dimension `1` or `2` through their intrinsic interior and specified boundary extensions, continuous
-fillings first through §2.5. The cutoff argument extends [Lee, Thm. 6.36] from embedded
-submanifolds to maps. *Needs:* §§5.1–5.2, §2.5; Mathlib `IsOpen.exists_contDiff_support_eq`.
+minimizes `β`, so the source derivative is `Df(x)` and the hypothesis applies), so by §5.2 its bad
+parameters form a Haar-null set, which contains no ball. For every closed `C ⊆ E` such a `β`, with
+values in `[0, 1]`, is Mathlib's `IsOpen.exists_contDiff_support_eq` applied to `E ∖ C`. The
+cutoff argument extends [Lee, Thm. 6.36] from embedded submanifolds to maps. *Needs:* §§5.1–5.2;
+Mathlib `IsOpen.exists_contDiff_support_eq`.
+
+On manifolds, a smooth `g : M → V` is *transverse to* a smooth `j : N → V` at `x ∈ M` when
+`(u, v) ↦ mfderiv g x u − mfderiv j y v` is onto `V` for every `y` with `g(x) = j(y)`, vacuously
+when there is none.
+
+- *Manifold sources.* Let `M` be a Hausdorff σ-compact boundaryless smooth manifold and `N` a
+  second-countable boundaryless smooth manifold, both over finite-dimensional real models,
+  `f : M → V` and `j : N → V` smooth, and `C ⊆ M` closed with `f` transverse to `j` at every point
+  of `C`. For every smooth `β : M → ℝ` with `β ≥ 0` and zero set exactly `C`, and every `r > 0`,
+  there is `p ∈ V` with `‖p‖ < r` such that `f + βp` is transverse to `j` at every point of `M`
+  and equals `f` on `C`. Such a `β`, with values in `[0, 1]`, exists by Mathlib's
+  `exists_contMDiff_zero_iff_one_iff_of_isClosed` with the empty set as the set where it is `1`.
+  Route: the family is universally transverse as in the flat case; §5.2's argument (level-set
+  charts and flat Sard on a set) applies to it on the products of chart domains of countable
+  atlases of `M` and `N` (§5.1), and a countable union of Haar-null sets is Haar-null. *Needs:*
+  §§5.1–5.2; Mathlib `exists_contMDiff_zero_iff_one_iff_of_isClosed`.
+- *Compact sources, finitely many maps, finite order.* If moreover `M` is compact and
+  `f₁, …, f_n : M → V` are smooth, each transverse to `j` at every point of `C`, then for every
+  `k ∈ ℕ` and `ε > 0` there is one `p ∈ V` such that every `f_i + βp` is transverse to `j`, equals
+  `f_i` on `C`, and lies within `ε` of `f_i` in the norm
+  `‖h‖_{C^k} = max_{a, i ≤ k} sup_{φ_a(K_a)} ‖Dⁱ(h ∘ φ_a⁻¹)‖` of a fixed finite family of charts
+  `φ_a` and compact `K_a` in their domains covering `M`. Route: `‖βp‖_{C^k} = ‖β‖_{C^k} ‖p‖`, so
+  every `p` with `‖p‖ < ε / (1 + ‖β‖_{C^k})` is close enough, and the bad parameters of the finite
+  family form a finite union of Haar-null sets. The straight-line homotopy `s ↦ f_i + sβp`,
+  `s ∈ [0, 1]`, fixes `C` and stays within `ε` of `f_i` in that norm. *Needs:* the manifold
+  statement above.
+- *Compact sources with corners.* Let `D` be a compact smooth manifold over a finite-dimensional
+  real model with corners `I`, `j : N → V` as above, `f : D → V` continuous, `e : D → V` smooth on
+  an open `O ⊇ I.boundary D` with `e = f` on `I.boundary D` and `e` transverse to `j` at every
+  point of `O`, and `ε > 0`. Then there is a smooth `g : D → V` with `‖g − f‖ < ε` everywhere,
+  equal to `e` near `I.boundary D` and transverse to `j` at every point of `D`. Route: §2.5 gives a
+  smooth `g₀` within `ε/2` of `f` and equal to `e` on an open `O₀` with
+  `I.boundary D ⊆ O₀ ⊆ O`; for a closed neighbourhood `C ⊆ O₀` of the boundary and a cutoff
+  `β : D → [0, 1]` with zero set `C`, the manifold statement on the boundaryless open
+  `I.interior D`, for `g₀` and `C ∩ I.interior D`, gives `p` with `‖p‖ < ε/2`, and
+  `g = g₀ + βp` equals `g₀ = e` on `C`. For the interval, the square and the closed disc the same
+  holds in ambient coordinates, through the model-domain form of §2.5. *Needs:* the manifold
+  statement above, §2.5.
 
 **Checks.**
 
@@ -967,8 +1083,12 @@ parabola family `x² + p` has the single bad parameter `0`.
   face-fixing relative smoothing lemma holds only for boundaryless targets, and a proof of
   DifferentialGeometry 8.3 over models with corners cannot use it; the transfer of §2.3 along
   inward domination (§2.2) is a route that does not.
-- **"A semiflow of a strictly inward field is a collar."** Not for a general convex model; collars
-  are GeometricTopology's.
+- **"The semiflow of a strictly inward field is a smooth collar, face by face."** At a corner it is
+  neither. On the quadrant the semiflow of `(1, 1)` is a topological collar of the whole boundary
+  whose depth coordinate `min(x, y)` is not differentiable on the diagonal, and its flowout
+  `{(a + s, s) | a, s ≥ 0}` of the face `{y = 0}` misses `(0, t)` for every `t > 0`, so it is not a
+  neighbourhood of that face (§2.2). For the half-space model the flowout of an inward-pointing
+  field is a smooth collar, which is GeometricTopology §1.1's.
 - **"The form cone is the kernel of restriction."** Restriction of forms to an open need not be
   surjective; the kernel-to-cocone quasi-isomorphism of §3.2 applies only to the cochain
   sequences.
@@ -998,8 +1118,12 @@ Ceti; cited for design, never as the definition of a target.
 - [Lee] John M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Graduate Texts in Mathematics
   218, Springer, 2013: Prop. 2.28 (exhaustion functions), Thms. 9.24–9.26, pp. 222–223 (boundary
   flowout, collar neighbourhoods, homotopy equivalence with the interior), Thms. 6.35–6.36
-  (parametric transversality), Thm. 18.7 (smooth singular homology) and Thm. 18.14 (the de Rham
-  theorem).
+  (parametric transversality), Ch. 11, *Conservative Covector Fields* (path independence and
+  exactness of closed covector fields), Thm. 18.7 (smooth singular homology) and Thm. 18.14 (the
+  de Rham theorem).
+- [Hatcher] Allen Hatcher, *Algebraic Topology*, Cambridge University Press, 2002, cited from the
+  author's online edition: Prop. 1.30 (homotopy lifting), Prop. 1.33 (the lifting criterion) and
+  Prop. 1.34 (uniqueness of lifts).
 - [Bott–Tu] Raoul Bott and Loring W. Tu, *Differential Forms in Algebraic Topology*, Graduate
   Texts in Mathematics 82, Springer, 1982: Ch. I, §5 (Poincaré duality) and §6 (relative de Rham
   theory).
