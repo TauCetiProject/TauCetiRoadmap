@@ -2,25 +2,29 @@ module
 
 import Mathlib
 import TauCeti.Analysis.Normed.Algebra.HolomorphicFunctionalCalculus.Cycle
+import TauCeti.Analysis.Semigroups.Group.Generator
+import TauCeti.Geometry.Lie.Exponential.Basic
+import TauCeti.RepresentationTheory.Continuous.OneParameter
 
 /-!
 # Smooth Banach representations: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs, for real and complex coefficients.
-The headlines are smoothing and density with the real/general-group extensions,
-the scalar compact-support parametrix, support-controlled vector and function
-Dixmier–Malliavin, smooth lifting, inverse closure (including matrix Banach algebras)
-and holomorphic closure, the last stated on the pinned resolvent integral over
-contour cycles.
+The headlines are the finite-order domain criterion for orbits, stated with the
+real one-parameter generators and their mixed words, smoothing and density with
+the real/general-group extensions, the scalar compact-support parametrix,
+support-controlled vector and function Dixmier–Malliavin, smooth lifting, inverse
+closure (including matrix Banach algebras) and holomorphic closure, the last stated
+on the pinned resolvent integral over contour cycles.
 
-The complete mixed-word topology and its finite-regularity criterion, continuous
-Lie/enveloping action, smooth-topology approximation, topological exactness and
-dense smooth tensor comparison need the mixed-domain Fréchet topology on the smooth
-vectors from the README. That carrier is not at the pins; the algebraic submodule
-below does not substitute its ambient topology. The completed locally convex
-projective tensor is at the pin (`TauCeti.CompletedProjectiveTensorProduct`), so
-the tensor comparison lacks only that Fréchet carrier as a seminorm family.
+The complete mixed-word topology, continuous Lie/enveloping action, smooth-topology
+approximation, topological exactness and dense smooth tensor comparison need the
+mixed-domain Fréchet topology on the smooth vectors from the README. That carrier is
+not at the pins; the algebraic submodule below does not substitute its ambient topology.
+The completed locally convex projective tensor is at the pin
+(`TauCeti.CompletedProjectiveTensorProduct`), so the tensor comparison lacks only that
+Fréchet carrier as a seminorm family.
 The scalar parametrix is stated in the native distribution topology. Its
 fixed-support strong-dual comparison and Banach-vector passage still need the
 distribution-to-smooth-dual interface; native distribution convergence alone
@@ -51,6 +55,23 @@ variable {V H G E : Type*}
 /-- Strong orbit continuity is explicit: the native representation does not include it. -/
 def HasContinuousOrbits (π : ContRepresentation 𝕜 G E) : Prop :=
   ∀ v : E, Continuous (fun g : G => π g v)
+
+/-- The real generator `A_X` of `π` along the one-parameter subgroup `t ↦ exp(tX)` of a
+left-invariant derivation `X`: the generator of the strongly continuous group `t ↦ π(exp(tX))`
+with scalars restricted to `ℝ`, a real partial linear map on `E`. -/
+def lieGenerator (π : ContRepresentation 𝕜 G E) (hπ : HasContinuousOrbits π)
+    (X : LeftInvariantDerivation I G) : E →ₗ.[ℝ] E :=
+  ((π.restrict (oneParameterSubgroup X).toMonoidHom).toStronglyContinuousGroup
+    (fun v => (hπ v).comp (oneParameterSubgroup X).continuous)).generator
+
+open Classical in
+/-- The value at `v` of a word in the partial maps `A i`, read right to left: the empty word
+gives `v`, and `i :: w` applies `A i` to the value of `w` when that value lies in the domain of
+`A i`. The result is `none` as soon as a domain condition fails. -/
+def wordApply {ι : Type*} (A : ι → E →ₗ.[ℝ] E) : List ι → E → Option E
+  | [], v => some v
+  | i :: w, v => (wordApply A w v).bind fun u =>
+      if h : u ∈ (A i).domain then some (A i ⟨u, h⟩) else none
 
 /-! ## Layer 1: Smooth tests and integration -/
 
@@ -88,6 +109,20 @@ def lieSmoothVectors (π : ContRepresentation 𝕜 G E) : Submodule 𝕜 E where
     have h : ContMDiff I 𝓘(ℝ, E) ∞ (fun g : G => z • π g v) :=
       (((z • ContinuousLinearMap.id 𝕜 E).restrictScalars ℝ).contMDiff).comp hv
     exact h.congr (fun g => by simp)
+
+omit hBorel [MeasurableSpace G] in
+include hFD hLie hManifold hT2 hBoundary hComplete in
+/-- Finite-order domain criterion: for a basis `b` of the real Lie algebra and a natural number
+`k`, the orbit `g ↦ π(g)v` is `C^k` into the Banach space `E` exactly when every word of length
+at most `k` in the generators `A_(b i)` is defined at `v`. At `k = 0` only the empty word occurs
+and both sides hold by orbit continuity. -/
+theorem contMDiff_orbit_iff_wordApply_isSome (π : ContRepresentation 𝕜 G E)
+    (hπ : HasContinuousOrbits π) {ι : Type*}
+    (b : Module.Basis ι ℝ (LeftInvariantDerivation I G)) (k : ℕ) (v : E) :
+    ContMDiff I 𝓘(ℝ, E) k (fun g : G => π g v) ↔
+      ∀ w : List ι, w.length ≤ k →
+        (wordApply (fun i => lieGenerator (I := I) π hπ (b i)) w v).isSome := by
+  sorry
 
 include hFD hLie hManifold hT2 hBoundary hComplete hBorel
 
