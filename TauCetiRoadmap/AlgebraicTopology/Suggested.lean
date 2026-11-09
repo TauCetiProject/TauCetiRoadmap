@@ -14,14 +14,17 @@ public import TauCeti.Topology.CWComplex.Classical.FiniteCWType
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs. The headlines are the cup-length bound
 for categorical covers; Poincaré duality by cap with a fundamental class and its twisted,
-boundary and compact-triad Poincaré–Lefschetz forms; the bundle formula for the Euler
+boundary and compact-triad Poincaré–Lefschetz forms; the product-ball intersection theorem
+(§6.6); the bundle formula for the Euler
 characteristic; homological Whitehead; finite CW type of compact smooth manifolds and the
 homology-sphere recognition corollary; CW type of mapping spaces from compact sources; the
 nerve model of K(G,1); rectification of a proper homotopy inverse to a proper strong
 deformation retraction; absolute Hurewicz in every universe and relative Hurewicz for a simply
 connected subspace; proper Whitehead; the Künneth, Wang, Cartan–Leray and Serre spectral
 sequences; the topological restriction-tower comparisons; ordinary representability with the
-EM loop comparison; and relative obstruction theory.
+EM loop comparison; relative obstruction theory; the transverse circle classifying map of an
+integral degree-one class (§8.13); and the non-freeness of `C_p × C_p` actions on spheres
+(§8.15).
 
 Results that Tau Ceti proves are consumed through the README's supplier contracts and not
 restated here: Brouwer's fixed-point theorem, the chain transfer of a
@@ -148,6 +151,28 @@ theorem poincareDuality_twoTorsionCoefficients (n : ℕ) (M : Type u) [Topologic
           (fun a : singularCohomology R (TopCat.of M) p =>
             ((TopCat.of M).singularCap R (MonoidalCategory.leftUnitor (ModuleCat.of R R)).inv
               (MonoidalCategory.leftUnitor (ModuleCat.of R R)).hom p q n h a).hom μ) := by
+  sorry
+
+/-- **Product-ball intersection** (§6.6). Continuous fillings `f : D_p → D_p × D_q` and
+`g : D_q → D_p × D_q` of the two coordinate factors, with `f x = (x, 0)` on the unit sphere of
+`D_p` and `g y = (0, y)` on the unit sphere of `D_q`, have a common image point. The balls are the
+native closed unit balls of `EuclideanSpace ℝ (Fin p)` and `EuclideanSpace ℝ (Fin q)`; for `p = 0`
+or `q = 0` the ball is a point with empty sphere, and these cases are included. No smoothness,
+injectivity or transversality is assumed: the proof is the relative-homology coefficient
+`(−1)^q · d_f · d_g` of the README, here with `d_f = d_g = 1`. -/
+theorem productBallImages_intersect {p q : ℕ}
+    (f : C(Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1,
+      Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1 ×
+        Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1))
+    (g : C(Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1,
+      Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1 ×
+        Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1))
+    (hf : ∀ x : Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1,
+      ‖(x : EuclideanSpace ℝ (Fin p))‖ = 1 → f x = (x, ⟨0, by simp⟩))
+    (hg : ∀ y : Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1,
+      ‖(y : EuclideanSpace ℝ (Fin q))‖ = 1 → g y = (⟨0, by simp⟩, y)) :
+    ∃ (x : Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1)
+      (y : Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1), f x = g y := by
   sorry
 
 /-! ## Layer 7: Euler characteristic -/
@@ -304,6 +329,44 @@ theorem properStrongDeformationRetract_of_inverse
       ∃ H : (ContinuousMap.id X).HomotopyRel
         ((⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)).comp r) A,
         IsProperMap H := by
+  sorry
+
+/-! ## Layer 8: smooth representatives and acceptance applications -/
+
+open scoped ContDiff Manifold in
+/-- **Transverse circle classifying map** (§8.13). On a compact boundaryless smooth
+manifold `M` (Hausdorff, second countable, any finite-dimensional real model `I`), every
+integral degree-one class `a` is the pullback of a generator of `H¹(Circle; ℤ)` along a smooth
+map `f : M → Circle` whose derivative is surjective at every point of `f⁻¹(1)`: `1` is a regular
+value and `f⁻¹(1)` is the embedded codimension-one representative of the Poincaré dual of `a`.
+The generator is quantified; the README fixes the one given by the positive loop
+`t ↦ exp(2πit)`, and either generator is carried to the other by complex conjugation. -/
+theorem exists_transverse_circle_classifying_map
+    {E H M : Type} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [TopologicalSpace H] [TopologicalSpace M] (I : ModelWithCorners ℝ E H) [ChartedSpace H M]
+    [IsManifold I ∞ M] [I.Boundaryless] [T2Space M] [SecondCountableTopology M]
+    [CompactSpace M]
+    (b : Module.Basis (Fin 1) ℤ (singularCohomology ℤ (TopCat.of Circle) 1))
+    (a : singularCohomology ℤ (TopCat.of M) 1) :
+    ∃ f : C^∞⟮I, M; 𝓡 1, Circle⟯,
+      (TopCat.singularCohomologyMap (R := ModuleCat.of ℤ ℤ) (k := ℤ) (M := ModuleCat.of ℤ ℤ)
+        (TopCat.ofHom ⟨f, f.contMDiff.continuous⟩) 1) (b 0) = a ∧
+      ∀ x : M, f x = 1 → Function.Surjective (mfderiv I (𝓡 1) f x) := by
+  sorry
+
+/-- **Non-freeness of `C_p × C_p` on spheres** (§8.15; Hatcher, Section 4.2, Exercise 28,
+p. 391). For every prime `p` and every `n ≥ 0`, no continuous action of `C_p × C_p`, the
+multiplicative wrapper of `ZMod p × ZMod p`, on the unit sphere of
+`EuclideanSpace ℝ (Fin (n + 1))` is free: some nonidentity element fixes a point. For a finite
+group, continuity of each translation is continuity of the action for the discrete topology. No
+linearity, smoothness or cellularity of the action is assumed, and `S⁰` is included. -/
+theorem elementaryAbelianPair_sphere_action_has_stabilizer (p n : ℕ) (hp : p.Prime)
+    [MulAction (Multiplicative (ZMod p × ZMod p))
+      ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)]
+    (hcont : ∀ g : Multiplicative (ZMod p × ZMod p),
+      Continuous fun x : ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) => g • x) :
+    ∃ g : Multiplicative (ZMod p × ZMod p), g ≠ 1 ∧
+      ∃ x : ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1), g • x = x := by
   sorry
 
 end
