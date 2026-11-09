@@ -138,7 +138,7 @@ The roadmap is complete when Tau Ceti proves the following.
   sheaves and dimension formulas (§10C).** Its §10A and
   §10B consume this roadmap's compactified quotients, degree theory and topological genus
   (Layers 0–5), and its §10A and §10D consume the identification `X(1) ≃ P¹` of Layer 6. This
-  roadmap does not reconstruct modular forms, cohomology, or Riemann--Roch in its level-one
+  roadmap does not reconstruct modular forms, cohomology, or Riemann–Roch in its level-one
   application.
 - **Tau Ceti supplies the normalized level-one `j`-function**
   (`TauCeti/Analysis/Complex/ModularForms/LevelOne/JInputs.lean`): `TauCeti.ModularForm.j`, defined
@@ -202,7 +202,7 @@ Fuchsian L0/L1/L2.1/L4/L4a -> downstream consumer TeichmullerGeometry
 Fuchsian L0/L2/L4/L4a/L5 -> downstream consumer ArithmeticFuchsianGroups
 ```
 
-The Riemann-surface degree modules import neither `ModularForms` nor analytic Riemann--Roch,
+The Riemann-surface degree modules import neither `ModularForms` nor analytic Riemann–Roch,
 automorphy-sheaf, or dimension-formula modules. The separate level-one application consumes the
 lower `TauCeti.Analysis.Complex.ModularForms.LevelOne.JInputs` module, which contains only the
 normalized `j`-function, its invariance, q-expansion, and elliptic orders.  The module boundaries
@@ -366,7 +366,7 @@ The development starts from the following material.
    (`TauCeti.isCoveringMap_quotientMk_freeLocus`) and a local biholomorphism
    (`Subgroup.isLocalDiffeomorph_quotientMk_freeLocus`, `Analysis/Complex/Fuchsian/FreeLocus.lean`).
 
-**Source spine:** Beardon, Chapters 7--8; Katok, §§2.1--2.4; Mathlib's
+**Source spine:** Beardon, Chapters 7–8; Katok, §§2.1–2.4; Mathlib's
 `UpperHalfPlane/ProperAction.lean` and `UpperHalfPlane/FixedPoints.lean`.
 
 ## Layer 1: elliptic points and coarse quotient charts
@@ -404,7 +404,7 @@ The development starts from the following material.
    local order formula `ord_z(F ∘ π) = m · ord_[z](F)` at a point of stabilizer order `m` is
    `Subgroup.meromorphicOrderAt_comp_quotientMk`.
 
-**Source spine:** Farkas--Kra, §IV.9; Miranda, Chapter III §§3--4; Diamond--Shurman, §§2.1--2.3.
+**Source spine:** Farkas–Kra, §IV.9; Miranda, Chapter III §§3–4; Diamond–Shurman, §§2.1–2.3.
 
 ## Layer 2: hyperbolic polygons and cofinite groups
 
@@ -562,7 +562,7 @@ The development starts from the following material.
    and `TauCeti.UpperHalfPlane.ConvexPolygon.natCard_cuspOrbit_of_doubleTriangle`
    (`Fuchsian/TriangleOrder/`); `(p,q,cusp)` is not untyped infinity notation.
 
-**Source spine:** Beardon, Chapters 9--11; Katok, Chapters 3--4; Stillwell, Chapter 5.
+**Source spine:** Beardon, Chapters 9–11; Katok, Chapters 3–4; Stillwell, Chapter 5.
 
 ## Layer 3: cusps and q-coordinates
 
@@ -606,7 +606,7 @@ The development starts from the following material.
    (`TauCeti.Subgroup.CuspDatum.natCast_le_meromorphicOrderAt_cuspExtension`,
    `Fuchsian/Cusp/Growth.lean`).
 
-**Source spine:** Diamond--Shurman, §2.4.
+**Source spine:** Diamond–Shurman, §2.4.
 
 ## Layer 4: compactified quotient Riemann surfaces
 
@@ -659,7 +659,7 @@ namespace, such as `isOpenEmbedding_ofQuotient`, are in Tau Ceti's namespace
 
 No step identifies the carrier with `P^1`, a torus, or another classified surface by definition.
 
-**Source spine:** Katok, Chapter 4; Diamond--Shurman, §2.4.
+**Source spine:** Katok, Chapter 4; Diamond–Shurman, §2.4.
 
 ## Layer 5: compact-surface degree theory and Fuchsian applications
 
@@ -815,8 +815,8 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    - The `(2, 3, 7)` triangle group has covolume `π/21`; the formula with `χ_orb` in place of
      `−χ_orb` would give a negative area.
 
-**Source spine:** Forster, §§4, 17 and 19; Miranda, Chapter II §4 and Chapter III §§3--4;
-Farkas--Kra, §§I.2 and III.1; Beardon, §10.4; Katok, §4.3.
+**Source spine:** Forster, §§4, 17 and 19; Miranda, Chapter II §4 and Chapter III §§3–4;
+Farkas–Kra, §§I.2 and III.1; Beardon, §10.4; Katok, §4.3.
 
 ## Layer 4a: minimal areas of cofinite Fuchsian groups
 
@@ -937,26 +937,26 @@ implemented in Tau Ceti, in the construction order below.
 5. No atlas is transferred backward by fiat: every statement about `P^1` is obtained through this
    proved biholomorphism after the compact quotient already exists.
 
-**Source spine:** Diamond--Shurman, §§2.3--2.4; Serre, Chapter VII; Tau Ceti's
+**Source spine:** Diamond–Shurman, §§2.3–2.4; Serre, Chapter VII; Tau Ceti's
 `TauCeti/Analysis/Complex/ModularForms/LevelOne/JInputs.lean`.
 
 ## Dependency order and parallel work
 
 | Track | Depends on | Feeds |
 | --- | --- | --- |
-| L0 effective action and free locus | Mathlib, ComplexManifolds Milestone 4 | L1--L4 |
-| L1 elliptic charts | L0, ComplexManifolds Milestones 5--6 | L4--L6 |
-| L2 polygons and presentations | L0, Tau Ceti half-space model | L3--L4, L6 |
-| L3 cusps and q-coordinates | L0, L2 | L4--L6 |
-| L4 compactification | L1--L3 | L5--L6 |
-| L5 degree theory and applications | ComplexManifolds Milestones 1--2, AlgebraicTopology Stages 6 and 8, Tau Ceti Euler characteristic and Riemann-surface degree, L2, L4 | L4a, L6, ModularForms §§10A--10B |
-| L6 level-one example | L0--L5, Tau Ceti `j` | normalized `X(1) ≃ P^1`; ModularForms §§10A and 10D |
+| L0 effective action and free locus | Mathlib, ComplexManifolds Milestone 4 | L1–L4, L6 |
+| L1 elliptic charts | L0, ComplexManifolds Milestones 5–6 | L4–L6 |
+| L2 polygons and presentations | L0, Tau Ceti half-space model | L3–L6 |
+| L3 cusps and q-coordinates | L0, L2 | L4–L6 |
+| L4 compactification | L1–L3 | L5–L6 |
+| L5 degree theory and applications | ComplexManifolds Milestones 1–2, AlgebraicTopology Stages 6 and 8, Tau Ceti Euler characteristic and Riemann-surface degree, L2, L4 | L4a, L6, ModularForms §§10A–10B |
+| L6 level-one example | L0–L5, Tau Ceti `j` | normalized `X(1) ≃ P^1`; ModularForms §§10A and 10D |
 | L4a minimal areas | L5 item 7, Tau Ceti deficit bound | area ≥ `π/21`; area ≥ `π/3` with a cusp; equality cases |
 
 The dependency order follows the table. No row depends on TeichmullerGeometry or
 ArithmeticFuchsianGroups, which consume this roadmap downstream. L1 and L2 can proceed in parallel
 after L0. The local q-coordinate calculation in L3 can proceed while the global polygon results are
-completed. Layer 5 items 1--3 can proceed in parallel with Layers 0--4; items 4--7 begin after
+completed. Layer 5 items 1–3 can proceed in parallel with Layers 0–4; items 4–7 begin after
 Layer 4, and Layer 4a follows Layer 5 item 7. Matching Mathlib APIs
 replace local declarations when available, but no layer waits for them.
 
@@ -1000,11 +1000,11 @@ replace local declarations when available, but no layer waits for them.
 ## References
 
 - Alan Beardon, *The Geometry of Discrete Groups*, Graduate Texts in Mathematics 91,
-  Springer, 1983, especially Chapters 7--11.
+  Springer, 1983, especially Chapters 7–11.
 - Svetlana Katok, *Fuchsian Groups*, Chicago Lectures in Mathematics, University of Chicago
-  Press, 1992, especially §1.2 and Chapters 2--4.
+  Press, 1992, especially §1.2 and Chapters 2–4.
 - Fred Diamond and Jerry Shurman, *A First Course in Modular Forms*, Graduate Texts in
-  Mathematics 228, Springer, 2005, §§2.1--2.4.
+  Mathematics 228, Springer, 2005, §§2.1–2.4.
 - Otto Forster, *Lectures on Riemann Surfaces*, Graduate Texts in Mathematics 81,
   Springer, 1981, especially §§4, 17 and 19.
 - Hershel Farkas and Irwin Kra, *Riemann Surfaces*, Graduate Texts in Mathematics 71,
