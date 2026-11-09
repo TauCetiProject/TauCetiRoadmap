@@ -756,6 +756,13 @@ bijection; the route is its proof.
   and it is positive definite, so not isometric to the indefinite `q₈`: its class in
   `H¹(ℤ, O(q₈))` is not trivial.
 
+**Forms over a polynomial ring (not a target).** By 3.4 the analogue of the Quillen–Suslin theorem
+for smooth forms would say that every smooth form over `k[x₁, …, x_m]`, `k` a field, is extended
+from `k`. It fails: there are fields `k` and quadratic spaces over `k[x₁, …, x_m]` that are not
+extended from `k` (Parimala 1978). More generally, torsors over a polynomial ring under a reductive
+group need not descend to the base, and a positive statement is expected only for totally
+isotropic groups (Česnavičius 2022, §3.6 and Conjecture 3.6.1).
+
 ### Examples
 
 - For `q = x₀x₁` over `ℤ`, `O(q)(ℤ)` is `{!![t, 0; 0, t]} ∪ {!![0, t; t, 0]}` for `t = ±1`, of
@@ -945,6 +952,18 @@ over a commutative ring: its discriminant is a square modulo `4` (Auel–Biesel�
 algebra with the same discriminant form, multiplicative for the product of 5.2:
 `Δ(A × B) ≅ Δ(A) ∗ Δ(B)` (Biesel–Gioia 2016, §8).
 
+Whether a smooth form over a regular local ring `R` that is isotropic over `Frac R` is isotropic
+over `R` is open in general. Quadratic forms are the cases that suggested the Colliot-Thélène–Panin
+conjecture: for a reductive `R`-group `G`, if `G_K`, `K = Frac R`, has a parabolic subgroup of a
+given type, so does `G` (Česnavičius 2022, Conjecture 3.3.3). That conjecture holds for
+`dim R ≤ 1`, by the valuative criterion of properness, and for `R` Henselian (§3.3.5 (1)–(2));
+several orthogonal cases are settled (§3.3.5 (3), with the references there); and it follows from
+the Grothendieck–Serre conjecture together with the Colliot-Thélène–Sansuc purity conjecture
+(§3.3.6). The Grothendieck–Serre conjecture is known in equal characteristic and open in mixed
+characteristic, especially over ramified regular local rings (end of §3.1.4). A first ramified case
+is `R = ℤ[x, y]/(x y − p)` localised at `(p, x, y)`: its maximal ideal is `(x, y)`, so `R` is
+regular of dimension `2`, and `p = x y ∈ m²`.
+
 ## References
 
 - A. Auel, O. Biesel, J. Voight, « Stickelberger's discriminant theorem for algebras », *Amer.
@@ -962,10 +981,15 @@ algebra with the same discriminant form, multiplicative for the product of 5.2:
   et Synthèses 42–43, Soc. Math. France, 2014, 93–444. Zbl 1349.14151. Author's version:
   https://math.stanford.edu/~conrad/papers/luminysga3.pdf (Appendix C, pp. 302–325); page
   numbers above are those of this version.
+- K. Česnavičius, « Problems about torsors over regular rings », with an appendix by Y. Zhao,
+  *Acta Math. Vietnam.* 47 (2022), 39–107. doi:10.1007/s40306-022-00477-y; arXiv:2201.06424
+  (numbering of v4).
 - J. Dieudonné, « Pseudo-discriminant and Dickson invariant », *Pacific J. Math.* 5 (1955),
   907–910. doi:10.2140/pjm.1955.5.907; Zbl 0067.00705.
 - M.-A. Knus, *Quadratic and Hermitian Forms over Rings*, Grundlehren der mathematischen
   Wissenschaften 294, Springer, 1991. doi:10.1007/978-3-642-75401-2.
+- S. Parimala, « Failure of a quadratic analogue of Serre's conjecture », *Amer. J. Math.* 100
+  (1978), no. 5, 913–924. doi:10.2307/2373953.
 - J. Voight, « Characterizing quaternion rings over an arbitrary base », *J. reine angew. Math.*
   657 (2011), 113–134. doi:10.1515/crelle.2011.054; Zbl 1229.11146; arXiv:0904.4310.
 - J. Voight, « Discriminants and the monoid of quadratic rings », *Pacific J. Math.* 283 (2016),
