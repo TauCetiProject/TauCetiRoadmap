@@ -1,0 +1,43 @@
+import TauCeti.Geometry.Toric.Analytic.Fan.Boundary.Transversality
+import TauCeti.Geometry.Toric.Analytic.Fan.Boundary.Multiplicity
+import TauCeti.Geometry.Toric.Analytic.Fan.Boundary.Product
+import TauCeti.Geometry.Toric.Analytic.Fan.Map.Proper
+import TauCeti.Geometry.Toric.Analytic.Fan.Map.StarSubdivision
+import TauCeti.Geometry.Toric.Analytic.Fan.Map.Equiv
+import TauCeti.Geometry.Toric.Analytic.Fan.Comparison.TorusAction
+import TauCeti.Geometry.Toric.Analytic.Fan.Comparison.Manifold
+import TauCeti.Geometry.Toric.Analytic.Fan.Comparison.Naturality
+import TauCeti.Geometry.Toric.Analytic.Fan.Comparison.ProjectiveSpace
+import TauCeti.Geometry.Toric.Analytic.Fan.Product.Manifold
+import TauCeti.Geometry.Toric.Analytic.Fan.Subfan.Holomorphic
+import TauCeti.Geometry.Toric.Analytic.Fan.Compact
+
+open TauCeti.Toric
+
+#check Fan.exists_partialDiffeomorph_analyticBoundaryComponent_normalForm
+#check Fan.exists_contMDiffOn_analyticBoundaryComponent_eq_zero_transverse_curve
+#check Fan.exists_contMDiffOn_analyticBoundaryComponent_eq_zero_mvfderiv_surjective
+#check FanHom.isProperMap_analyticMap_iff
+#check FanHom.isProperMap_analyticMap_of_isEmpty
+#check FanHom.not_forall_preimage_realMap_eq_iUnion_of_isEmpty
+#check Fan.compactSpace_analyticRealization_iff_isComplete
+#check Fan.compactSpace_analyticRealization_iff_isEmpty_or_isComplete
+#check Fan.algebraicAnalyticDiffeomorph
+#check Fan.AlgebraicComplexPoint.ofAffinePoint
+#check Fan.AlgebraicComplexPoint.ofAffinePoint_eq_ofAffinePoint_iff
+#check FanHom.algebraicAnalyticEquiv_naturality
+#check Fan.analyticProdDiffeomorph
+#check Fan.isLocalDiffeomorph_subfanAnalyticMap
+#check FanEquiv.analyticDiffeomorph
+#check specMap_smul_eq_lift_comp_affineToricSchemeAction
+#check Fan.AlgebraicComplexPoint.coe_smul
+
+#print axioms Fan.exists_partialDiffeomorph_analyticBoundaryComponent_normalForm
+#print axioms Fan.exists_contMDiffOn_analyticBoundaryComponent_eq_zero_transverse_curve
+#print axioms Fan.exists_contMDiffOn_analyticBoundaryComponent_eq_zero_mvfderiv_surjective
+#print axioms FanHom.isProperMap_analyticMap_iff
+#print axioms FanHom.isProperMap_analyticMap_of_isEmpty
+#print axioms FanHom.not_forall_preimage_realMap_eq_iUnion_of_isEmpty
+#print axioms Fan.compactSpace_analyticRealization_iff_isComplete
+#print axioms Fan.compactSpace_analyticRealization_iff_isEmpty_or_isComplete
+#print axioms Fan.algebraicAnalyticDiffeomorph
