@@ -232,9 +232,9 @@ arithmetic lattices by covolume.
   from `GL₂(ℚ)⁺` to `PSL₂(ℝ)`;
 - `TauCeti.skolemNoether` (`TauCeti/Algebra/CentralSimple/SkolemNoether.lean`): over a field `K`,
   two `K`-algebra maps from a central simple `K`-algebra to a simple `K`-algebra that is
-  finite-dimensional over `K` are conjugate by a unit; it is applied over `ℝ` to real splittings
-  (§1.1), never over `k` with target `M₂(ℝ)`, and over `K₀(Γ)` to the four-dimensional trace
-  envelope (§2.2);
+  finite-dimensional over `K` are conjugate by a unit; it is applied over `ℝ` to the `ℝ`-algebra
+  maps `ℍ[ℝ, place(a), place(b)] → M₂(ℝ)` induced by real splittings (§1.1), which needs no
+  finiteness of `M₂(ℝ)` over `k`, and over `K₀(Γ)` to the four-dimensional trace envelope (§2.2);
 - `TauCeti.QuaternionAlgebra.instIsCentral` and `TauCeti.QuaternionAlgebra.instIsSimpleRing`
   (`TauCeti/Algebra/Quaternion/CentralSimple.lean`): over a commutative ring `K` in which `2` is
   invertible, `ℍ[K,a,b]` is central over `K` when `b` is a unit, and over such a field it is a simple
@@ -393,15 +393,18 @@ scalar matrix `place(x)`. For a number field the last field induces an isomorphi
 
 - Two real splittings `S₁, S₂` with the same place differ by conjugation by an element `u` of
   `GL₂(ℝ)`, unique up to `ℝ^×`, so every construction below is defined up to `PGL₂(ℝ)`-conjugacy.
-  The comparison is made over `ℝ`: `M₂(ℝ)` is infinite-dimensional over `k`, so
-  `TauCeti.skolemNoether` does not apply to `S₁, S₂` over `k`. For each `m`, `S_m(i)` and `S_m(j)`
-  satisfy the relations of `ℍ[ℝ, place(a), place(b)]`, so Mathlib's `QuaternionAlgebra.lift` gives
-  an `ℝ`-algebra map `f_m : ℍ[ℝ, place(a), place(b)] → M₂(ℝ)` with `S_m = f_m ∘ ι`, where `ι` applies
-  `place` to the four coordinates (this is the base change along `place`). Since `place(a)` and
-  `place(b)` are nonzero, `ℍ[ℝ, place(a), place(b)]` is central simple over `ℝ` (Tau Ceti
-  `TauCeti.QuaternionAlgebra.instIsCentral` and `TauCeti.QuaternionAlgebra.instIsSimpleRing`), and
-  `M₂(ℝ)` is simple and four-dimensional over `ℝ`; so `TauCeti.skolemNoether` over `ℝ` gives `u` with
-  `f₂ = u f₁ u⁻¹`, hence `S₂ = u S₁ u⁻¹`. As `f₁` is onto, `u` is unique up to the centre `ℝ^×`.
+  The comparison is made over `ℝ`, and the argument below works for every field `k`. For a number
+  field `k` the image `place(k)` is countable, so `M₂(ℝ)` is infinite-dimensional over `k` and
+  `TauCeti.skolemNoether` does not apply to `S₁, S₂` over `k`; for `k = ℝ`, `place` is the identity
+  and the argument is Skolem–Noether applied to `S₁, S₂` themselves. For each `m`, `S_m(i)` and
+  `S_m(j)` satisfy the relations of `ℍ[ℝ, place(a), place(b)]`, so Mathlib's
+  `QuaternionAlgebra.lift` gives an `ℝ`-algebra map `f_m : ℍ[ℝ, place(a), place(b)] → M₂(ℝ)` with
+  `S_m = f_m ∘ ι`, where `ι` applies `place` to the four coordinates (this is the base change along
+  `place`). Since `place(a)` and `place(b)` are nonzero, `ℍ[ℝ, place(a), place(b)]` is central
+  simple over `ℝ` (Tau Ceti `TauCeti.QuaternionAlgebra.instIsCentral` and
+  `TauCeti.QuaternionAlgebra.instIsSimpleRing`), and `M₂(ℝ)` is simple and four-dimensional over
+  `ℝ`; so `TauCeti.skolemNoether` over `ℝ` gives `u` with `f₂ = u f₁ u⁻¹`, hence `S₂ = u S₁ u⁻¹`.
+  As `f₁` is onto, `u` is unique up to the centre `ℝ^×`.
 - If `k` is totally real of degree `n`, a real splitting exists exactly when `B` ramifies at the
   `n − 1` real places other than `place` and splits at `place`; the ramification set then has
   `n − 1` real places and, by GL2AutomorphicRepresentationsAndTransfer R17.1.5, an even total
@@ -421,6 +424,14 @@ scalar matrix `place(x)`. For a number field the last field induces an isomorphi
 - Over `ℚ(√2)` the algebra `(1,1) ≃ M₂(ℚ(√2))` splits at both real places, so the ramification
   condition fails for either choice of `place`; a definition that only asked for one split place
   would accept it, and `Γ(O)` would then not be discrete in `PSL₂(ℝ)`.
+- Over `k = ℝ` the only ring homomorphism `ℝ → ℝ` is the identity, so `place = id`, the
+  ramification condition is empty and `M₂(ℝ)` is four-dimensional over `k`; a justification of the
+  comparison by `M₂(ℝ)` being infinite-dimensional over `k` fails here, while the comparison over
+  `ℝ` applies with `ι = id` and `f_m = S_m`. For `(a,b) = (1,1)`, `S₁ : i ↦ diag(1, −1)`,
+  `j ↦ (0 1; 1 0)` is a real splitting (`S₁(i)² = S₁(j)² = I` and
+  `S₁(j)S₁(i) = (0 −1; 1 0) = −S₁(i)S₁(j)`); `S₂ = Ad(diag(2, 1)) ∘ S₁` fixes `S₁(i)` and sends `j`
+  to `(0 2; 1/2 0)`, and the conjugating element is `diag(2, 1)`, unique up to `ℝ^×` because the
+  images `I, diag(1, −1), (0 1; 1 0), (0 1; −1 0)` of `1, i, j, ij` span `M₂(ℝ)`.
 
 Orders and maximal orders of `ℍ[k,a,b]` are Tau Ceti's `TauCeti.IntegralOrder.IsOrder k O` and
 `TauCeti.IntegralOrder.IsMaximalOrder k O` for an `𝓞_k`-subalgebra `O` (Conventions). Prove for them:
@@ -1412,7 +1423,8 @@ PseudodifferentialOperators P7a.
   *Annali della Scuola Normale Superiore di Pisa* (4) 8 (1981), 1–33: §§3–4, 7.1, Theorem 7.3,
   Lemma 8.1, Theorem 8.2. <http://www.numdam.org/item/ASNSP_1981_4_8_1_1_0/>
 - **takeuchi1983.** Kisao Takeuchi, “Arithmetic Fuchsian groups with signature (1;e),” *Journal of
-  the Mathematical Society of Japan* 35 (1983), 381–407, Theorem 2.1.
+  the Mathematical Society of Japan* 35 (1983), 381–407, Theorem 2.1, p. 382.
+  <https://www.jstage.jst.go.jp/article/jmath1948/35/3/35_3_381/_pdf/-char/en>
 - **maclachlanreid2003.** Colin Maclachlan and Alan W. Reid, *The Arithmetic of Hyperbolic
   3-Manifolds*, Graduate Texts in Mathematics 219: Theorems 11.2.1 and 11.3.1.
 - **bgls2010.** M. Belolipetsky, T. Gelander, A. Lubotzky and A. Shalev, “Counting arithmetic
