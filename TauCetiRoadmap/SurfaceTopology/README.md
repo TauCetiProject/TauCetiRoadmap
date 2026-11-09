@@ -325,9 +325,10 @@ def GMap2.IsConnected (G : GMap2 D) : Prop := Nat.card G.Components = 1
 def GMap2.IsBoundaryDart (G : GMap2 D) (d : D) : Prop := G.adj 2 d = d
 instance : DecidablePred G.IsBoundaryDart
 
-/-- Orientations of cells are intrinsic: an edge is oriented by choosing one of its two ends, the
-    two `⟨α₂⟩`-orbits inside its dart orbit; a face by choosing one of the two ways round it, the
-    two `⟨α₀ α₁⟩`-orbits inside its dart orbit. -/
+/-- Raw local choices: `⟨α₂⟩`-orbits within an edge's dart orbit, and
+    `⟨α₀ α₁⟩`-orbits within a face's dart orbit. Each type has exactly two elements
+    under `IsSurfaceGMap`, as proved below. Endpoint incidences remain distinct
+    when both ends of a loop belong to the same vertex. -/
 def GMap2.EdgeOrientation (G : GMap2 D) (e : G.Cell 1) : Type
 def GMap2.FaceOrientation (G : GMap2 D) (f : G.Cell 2) : Type
 
@@ -340,6 +341,12 @@ instance : DecidablePred (IsSurfaceGMap (D := D))
 
 def IsClosedSurfaceGMap (G : GMap2 D) : Prop :=
   IsSurfaceGMap G ∧ ∀ d, G.adj 2 d ≠ d
+
+/-- The two-choice claims require the surface hypothesis, not global orientability. -/
+theorem GMap2.card_edgeOrientation (h : IsSurfaceGMap G) (e : G.Cell 1) :
+    Nat.card (G.EdgeOrientation e) = 2
+theorem GMap2.card_faceOrientation (h : IsSurfaceGMap G) (f : G.Cell 2) :
+    Nat.card (G.FaceOrientation f) = 2
 
 /-- Orientability as a property; fixed points representing boundary do not change side. -/
 def GMap2.IsOrientable (G : GMap2 D) : Prop :=
@@ -366,6 +373,17 @@ def GMap2.nonorientableGenus (G : GMap2 D)
 
 - The surface condition separates two facts that are easy to conflate. Manifoldness is free: every 2-generalized map realizes to a compact surface with boundary, because the link of a vertex, an edge midpoint, or a face centre in the realization is the orbit graph of two involutions, hence a path or a cycle (Damiand–Lienhardt §2.4: quasi-manifolds of dimension at most two are manifolds). The cell count is not free: a folded edge, `α₂ d = α₀ d`, is glued to itself by a half-turn about its midpoint, which becomes a vertex the orbit count never sees. Damiand–Lienhardt §4.3.4.2 name the configuration and their own constraint excluding it, and §8.3.2.1 states that without 0- or 1-boundary and without folded cells the orbit count is the Euler characteristic. Their Definition 91, the alternating sum over all seven orbit types, is the Euler characteristic of the flag triangulation and is always correct; `eulerChar` is the cell count, which every table and every later layer wants, and the third condition is its price.
 - Multi-incidence is allowed and must be: the projective plane `aa` has one cell in each dimension, and a dangling edge, `α₂ d = α₁ d`, is a genuine edge whose far vertex has degree one. Neither is excluded, and both count correctly.
+- **Local cell orientations.** Under `IsSurfaceGMap`, the commuting involutions
+  `α₀, α₂` give exactly two `⟨α₂⟩`-orbits in each edge: `α₀` exchanges them, and
+  the no-folding condition prevents them from coinciding. For a face, the two
+  fixed-point-free involutions `α₀, α₁` give an alternating even cycle, split into
+  exactly two `⟨α₀ α₁⟩`-orbits, again exchanged by `α₀`. Make these induced
+  reversal operations part of the API, with involution and no-fixed-point laws
+  under the surface hypothesis, and prove transport by map isomorphisms. The
+  selected endpoint incidence is the tail of an oriented edge; the other is its
+  head. Choices for different cells are independent, including on a
+  nonorientable surface. The raw orbit types exist for arbitrary maps, but the
+  two-choice and reversal-without-fixed-points assertions do not.
 - Orientability is a bipartition of the darts in which every **non-fixed** adjacency changes side. Fixed points of the final involution encode boundary and must not make orientability impossible. The existence of such a bipartition is a property; a chosen bipartition is additional data. A chosen orientation directs each boundary circle of the boundary 1-map so that the surface lies to its left, matching `PlanarTopology`'s convention.
 - The `commute_of_far` condition is stated only for `i + 2 ≤ j`; its symmetric form is an immediate lemma. The two genus numbers are first defined from the finite invariants; their identification with the genera of the standard surfaces is proved in layer 8.
 
@@ -383,7 +401,14 @@ def GMap2.nonorientableGenus (G : GMap2 D)
 
 Counter-witnesses: `IsSurfaceGMap` is **false** for the map on `Bool` with all three involutions the swap, whose realization is a sphere while its orbit count is 1, **false** for a map with a fixed point of `α₀`, and **false** for a map with a fixed point of `α₁`. A dangling-edge map is a positive witness with multi-incidence. `IsOrientable` is **false** for the Klein bottle map and **true** for the torus map, decided by the same procedure.
 
-**Natural intermediate results.** (i) the structure and basic permutation lemmas; (ii) cells, orbits, and decidability; (iii) Euler characteristic and the example table; (iv) boundary darts, the boundary 1-map, and the boundary test; (v) `IsSurfaceGMap` and its counter-witnesses; (vi) orientability; (vii) boundary count and the two genus formulas for connected surface maps.
+For local orientations, the single edge of the projective-plane `aa` map has
+exactly two choices, even though its two endpoint incidences belong to the same
+vertex and the surface is nonorientable. Each face of every validated table map
+has two choices as well. In the all-swap map on `Bool`, the single edge instead
+has only one `⟨α₂⟩`-orbit: reversal fixes that choice. This map fails
+`IsSurfaceGMap` and is the counterexample to the unrestricted two-choice claim.
+
+**Natural intermediate results.** (i) the structure and basic permutation lemmas; (ii) cells, orbits, decidability, local orientation choices, and their surface-hypothesis cardinality and reversal API; (iii) Euler characteristic and the example table; (iv) boundary darts, the boundary 1-map, and the boundary test; (v) `IsSurfaceGMap` and its counter-witnesses; (vi) orientability; (vii) boundary count and the two genus formulas for connected surface maps.
 
 ---
 
@@ -1149,7 +1174,8 @@ general cellular chains enter only in the separate comparison after these target
 ```lean
 variable {D : Type*} [Fintype D] [DecidableEq D] {G : GMap2 D} (h : IsSurfaceGMap G)
 
-/-- Three finite free modules and two matrices, from a choice of orientation of every cell. -/
+/-- Independent local edge and face orientations; each vertex has its canonical generator.
+    Layer 1 proves the two-choice and reversal API under `IsSurfaceGMap`. -/
 structure GMap2.CellOrientations (G : GMap2 D) where
   edge : ∀ e : G.Cell 1, G.EdgeOrientation e
   face : ∀ f : G.Cell 2, G.FaceOrientation f
@@ -1251,6 +1277,11 @@ theorem homology_normalFormNonorientable_boundary (k : ℕ) (hk : 0 < k) (b : �
   sign when needed for the library's chain-homotopy convention. Restrict these
   targets to finite triangulated surfaces; arbitrary-dimensional chain theory
   remains with the shared suppliers.
+- **Changing local orientations.** Reversing an edge negates its column in
+  `∂₁` and its row in `∂₂`; reversing a face negates its column in `∂₂`. The
+  corresponding diagonal sign maps give chain isomorphisms for any two choices
+  in `CellOrientations`, and induce `homology_congr`. This requires no global
+  orientation of the surface; vertices keep their canonical generators.
 - **The sign convention.** Traversing a face in its chosen direction passes from a dart `d` to `α₀ d` along the edge of `d`, crossing that edge from the end of `d` to the end of `α₀ d`; the edge enters `∂₂` of the face with sign `+` when this agrees with the edge's chosen end and `−` otherwise, and `∂₁` of an edge is its head minus its tail. Multi-incidence falls out: `aa` gives `±2` and `a a⁻¹` gives `0`.
 - The graph path group and the face presentation are the shared ones, transported along
   the layer 2 adapter, with a base vertex on each connected component. An arbitrary
