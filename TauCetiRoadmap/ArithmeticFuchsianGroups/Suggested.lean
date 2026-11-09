@@ -13,8 +13,11 @@ statements need.
 
 `PSL(2,ℝ)` acts on the upper half-plane by Tau Ceti's `UpperHalfPlane.instMulActionPSL2`, which
 agrees with Mathlib's `PGL(2,ℝ)` action along `Matrix.ProjectiveSpecialLinearGroup.toPGL`
-(`UpperHalfPlane.toPGL_smul`). Hyperbolic area is Mathlib's `volume` on `UpperHalfPlane`, with
-density `y⁻²`, and hyperbolic distance is Mathlib's metric on `UpperHalfPlane`. Lattices are Tau
+(`UpperHalfPlane.toPGL_smul`). `PGL(2,ℝ)`, a `def` for `GL(2,ℝ) ⧸ Subgroup.center GL(2,ℝ)` that
+carries no topology at the pins, is given the quotient topology of `GL(2,ℝ)`
+(`instTopologicalSpacePGL`); discreteness of its subgroups refers to it. Hyperbolic area is
+Mathlib's `volume` on `UpperHalfPlane`, with density `y⁻²`, and hyperbolic distance is Mathlib's
+metric on `UpperHalfPlane`. Lattices are Tau
 Ceti's cofinite subgroups `Subgroup.IsCofinite` (discrete, of finite covolume
 `MeasureTheory.covolume Γ ℍ`). Quaternion algebras are presented as `ℍ[k,a,b]`; the reduced norm
 is Tau Ceti's `QuaternionAlgebra.normForm`, the reduced trace is `x + star x = 2 * x.re`, the
@@ -23,18 +26,15 @@ reduced-norm-one group is Mathlib's `unitary`, and orders and maximal orders are
 
 Takeuchi's fixed-signature finiteness (§1.4) is the case `C = A` of
 `finite_conj_isArithmetic_covolume_le`, since a signature determines the covolume `A`
-(FuchsianOrbifolds Layer 5 item 7). The following headline theorems are not statable at the pins,
-and nothing is stated in their place.
+(FuchsianOrbifolds Layer 5 item 7). One headline theorem is not statable at the pins, and nothing
+is stated in its place.
 
-* The maximality consequence `Comm_PGL(Γ) = Γ` (§2.4): `PGL(2,ℝ)` is `Matrix.ProjGenLinGroup`, a
-  `def` carrying no topology at the pins, so "maximal among discrete subgroups of `PGL(2,ℝ)`" has
-  no meaning there.
-* The isospectral covers of Layer 3: besides the same maximality hypothesis, the conclusion
-  compares the multiplicities of the eigenvalues of the Laplacian of the compact quotient surfaces
-  `Γᵢ\ℍ`. Tau Ceti has the Riemann surface `Γ\ℍ` (`Subgroup.instIsManifoldOrbitRelQuotient`), the
-  descent of an invariant metric to an orbit space (`Bundle.ContMDiffRiemannianMetric.quotient`),
-  the pointwise operator `laplaceBeltrami` and the carrier `TauCeti.HyperbolicMetric`, but no
-  Laplace spectrum with multiplicities of a compact Riemannian manifold.
+* The isospectral nonisometric covers of Layer 3: the conclusion compares the multiplicities of
+  the eigenvalues of the Laplacian of the compact quotient surfaces `Γᵢ\ℍ`. Tau Ceti has the
+  Riemann surface `Γ\ℍ` (`Subgroup.instIsManifoldOrbitRelQuotient`), the descent of an invariant
+  metric to an orbit space (`Bundle.ContMDiffRiemannianMetric.quotient`), the pointwise operator
+  `laplaceBeltrami` and the carrier `TauCeti.HyperbolicMetric`, but no Laplace spectrum with
+  multiplicities of a compact Riemannian manifold.
 -/
 
 namespace TauCetiRoadmap.ArithmeticFuchsianGroups
@@ -161,6 +161,16 @@ theorem invariant_squared_trace_data_commensurable {Γ Δ : Subgroup PSL(2, ℝ)
           ((c⁻¹ : SL(2, ℝ)) : Matrix (Fin 2) (Fin 2) ℝ)) '' traceEnvelope Δ := by
   sorry
 
+/-- **The trace envelope is a quaternion algebra** (§1.3): for a finitely generated nonelementary
+`Γ`, `A_Γ` is a subalgebra of `M₂(ℝ)` over `K₀(Γ)`, central simple of dimension four, with no
+algebraicity assumption on `K₀(Γ)`. -/
+theorem traceEnvelope_isCentral_isSimpleRing_finrank_eq_four {Γ : Subgroup PSL(2, ℝ)}
+    (hfg : Group.FG Γ) (hΓ : IsNonelementary Γ) :
+    ∃ A : Subalgebra (squaredTraceField Γ) (Matrix (Fin 2) (Fin 2) ℝ),
+      Subalgebra.toSubmodule A = traceEnvelope Γ ∧ Algebra.IsCentral (squaredTraceField Γ) A ∧
+        IsSimpleRing A ∧ Module.finrank (squaredTraceField Γ) A = 4 := by
+  sorry
+
 /-- **Integral trace lattices** (§1.3): a subgroup of the norm-one group whose `K`-span is the
 algebra and whose reduced traces are algebraic integers spans an order over `𝓞 K`, and that order
 lies in a maximal order. -/
@@ -203,7 +213,7 @@ theorem finite_conj_isArithmetic_covolume_le (C : ℝ) :
         ∃ Δ ∈ F, ∃ c : PSL(2, ℝ), MulAut.conj c • Γ = Δ := by
   sorry
 
-/-- **The sharp totally real discriminant bound** (§1.5): every totally real number field of
+/-- **An explicit totally real discriminant bound** (§1.5): every totally real number field of
 degree `n` satisfies `|d_k| ≥ a₀ R₀ⁿ` with `a₀ = 2439/10⁷` and `R₀ = 29.099`. -/
 theorem discr_ge_totallyReal (k : Type*) [Field k] [NumberField k] [IsTotallyReal k] :
     (2439 / 10 ^ 7 : ℝ) * (29099 / 1000 : ℝ) ^ Module.finrank ℚ k ≤ |(discr k : ℝ)| := by
@@ -230,6 +240,31 @@ number field as squared-trace field. -/
 theorem dense_commensurator_squared_trace_field_is_number_field {Γ : Subgroup PSL(2, ℝ)}
     (hΓ : Γ.IsCofinite) (hdense : Dense (Subgroup.Commensurable.commensurator Γ : Set PSL(2, ℝ))) :
     FiniteDimensional ℚ (squaredTraceField Γ) := by
+  sorry
+
+/-- `PGL(2,ℝ)` with the quotient topology of `GL(2,ℝ)` by its centre (Conventions, §2.3), the
+topology Mathlib puts on the quotient group `GL(2,ℝ) ⧸ Subgroup.center GL(2,ℝ)`. -/
+instance instTopologicalSpacePGL : TopologicalSpace PGL(2, ℝ) :=
+  inferInstanceAs (TopologicalSpace (GL (Fin 2) ℝ ⧸ Subgroup.center (GL (Fin 2) ℝ)))
+
+/-- **The PGL passage** (§2.3): the `PGL(2,ℝ)`-commensurator of the image of a nonarithmetic
+lattice is discrete and contains that image with finite index. -/
+theorem commensurator_pgl_discrete_of_not_isArithmetic {Γ : Subgroup PSL(2, ℝ)}
+    (hΓ : Γ.IsCofinite) (hna : ¬ IsArithmetic Γ) :
+    DiscreteTopology
+        (Subgroup.Commensurable.commensurator (Γ.map ProjectiveSpecialLinearGroup.toPGL)) ∧
+      (Γ.map ProjectiveSpecialLinearGroup.toPGL).IsFiniteRelIndex
+        (Subgroup.Commensurable.commensurator (Γ.map ProjectiveSpecialLinearGroup.toPGL)) := by
+  sorry
+
+/-- **Maximality** (§2.4): a nonarithmetic lattice whose image is maximal among discrete subgroups
+of `PGL(2,ℝ)` is its own `PGL(2,ℝ)`-commensurator. -/
+theorem commensurator_pgl_eq_of_maximal {Γ : Subgroup PSL(2, ℝ)} (hΓ : Γ.IsCofinite)
+    (hna : ¬ IsArithmetic Γ)
+    (hmax : Maximal (fun Λ : Subgroup PGL(2, ℝ) ↦ DiscreteTopology Λ)
+      (Γ.map ProjectiveSpecialLinearGroup.toPGL)) :
+    Subgroup.Commensurable.commensurator (Γ.map ProjectiveSpecialLinearGroup.toPGL) =
+      Γ.map ProjectiveSpecialLinearGroup.toPGL := by
   sorry
 
 /-! ## Layer 3: isometries of the hyperbolic plane and the order-32 Gassmann covers -/
