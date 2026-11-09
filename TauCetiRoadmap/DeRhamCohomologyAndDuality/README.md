@@ -345,8 +345,8 @@ installed on a manifold. In addition:
 - 8.3: the absolute smoothing equivalence, as stated there: for every Hausdorff σ-compact
   finite-dimensional manifold over any real model with corners, the inclusion of smooth singular
   chains into singular chains, on Tau Ceti's carriers above, is a chain homotopy equivalence.
-- 8.4: `chainIntegral`, Stokes for smooth simplices and chains (`SmoothSimplex.integral_mextDeriv`),
-  and `deRhamHom` into real singular cohomology with its naturality.
+- 8.4: `chainIntegral`, Stokes for smooth simplices and chains, and `deRhamHom` into real singular
+  cohomology with its naturality.
 - 8.5: `deRhamEquiv`, for every open of a Hausdorff σ-compact finite-dimensional `M`.
 
 ### From TauCetiRoadmap.AlgebraicTopology
@@ -415,8 +415,9 @@ but the locality bullet is Tau Ceti's. *Needs:* Tau Ceti `TauCeti.IsPrimitiveOn`
   primitive fails here.
 - `φ = d(|x|^(3/2))` has local primitives although `φ` is not `C¹`, and on `ℝ` the form
   `d(x² sin(1/x))`, with primitive `x² sin(1/x)` extended by `0` at `0`, has one although `φ` is not
-  continuous at `0`: a closed `C^r` form, the hypothesis of
-  `TauCeti.exists_contMDiff_isPrimitiveOn`, is strictly stronger, and so is continuity.
+  continuous at `0`. A closed `C^r` form with `1 ≤ r`, the hypothesis of
+  `TauCeti.exists_contMDiff_isPrimitiveOn`, is strictly stronger; continuity is neither necessary
+  (this form) nor sufficient (`x dy` above).
 
 ### 1.2 The covering space of primitives and the continuous path integral
 
@@ -826,8 +827,9 @@ DifferentialGeometry 8.4; Tau Ceti `CochainComplex.mappingCocone.quasiIso_lift_o
 Prove that relative integration induces an isomorphism `H^q(X, W) ≅ H^q(X, W; ℝ)` onto
 Tau Ceti's relative singular cohomology, from DifferentialGeometry 8.5 on `X` and on `W`, §2.4's
 relative comparison and the five lemma, compatible with both long exact sequences including the
-sign of `δ`; compatible with enlargement of `W` and with compactly supported relative classes. The
-absolute de Rham theorem is [Lee, Thm. 18.14]; the relative form is this roadmap's. *Needs:*
+sign of `δ`; compatible with enlargement of `W` (the identity of `X` as a map of pairs
+`(X, W) → (X, W′)` for open `W ⊆ W′`), by §3.2's naturality. The absolute de Rham theorem is
+[Lee, Thm. 18.14]; the relative form is this roadmap's. *Needs:*
 §§3.1–3.2, §2.4; DifferentialGeometry 8.5; Tau Ceti's long exact sequence of a pair
 (`TopPair.singularCohomologyδ`).
 
