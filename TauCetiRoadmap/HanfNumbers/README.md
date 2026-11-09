@@ -127,7 +127,7 @@ The following are suppliers, not requests to rebuild their objects.
 | Mathlib ordered fields | `HahnSeries` with the lexicographic order `Lex R⟦Γ⟧` and its `IsStrictOrderedRing` instance (`RingTheory/HahnSeries/Lex.lean`), `Subfield.closure`, `Subfield.cardinalMk_closure_le_max` |
 | Mathlib first-order logic | `FirstOrder.Language`, `Structure`, `Term`, `Term.realize`, `LHom` (`→ᴸ`) and `LHom.reduct`, `Language.sum`, `M ≃[L] N`, `Substructure.closure`; the first-order Skolem language `Language.skolem₁` fixes the shape of the Skolem functions of Layer 2 |
 | [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0 | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, `Realize` and its simp lemmas, `IndexCoding` and the coded connectives `iInfAlong`/`iSupAlong`, `subst`, `relabel`, `mapBound`, `castLE`, and the finitary embedding `toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); implemented in Tau Ceti as `TauCeti/ModelTheory/Infinitary/{Syntax, Semantics, CodedConnectives, Substitution, Operations}.lean` (Tau Ceti PRs [#17407](https://github.com/TauCetiProject/TauCeti/pull/17407), [#17576](https://github.com/TauCetiProject/TauCeti/pull/17576), [#17885](https://github.com/TauCetiProject/TauCeti/pull/17885)) |
-| InfinitaryLogic, Layers 1–3 | `BFEquiv`, `PotentialIso`, `TauCeti.potentialIso_iff_bfEquiv_all`, the forward Karp direction `TauCeti.PotentialIso.infEquivAt` ([#18194](https://github.com/TauCetiProject/TauCeti/pull/18194)), `TauCeti.scottSentence`, `TauCeti.realize_scottSentence_self` and `TauCeti.bfEquiv_of_realize_scottSentence`, which holds for a model of any cardinality. These are the Tau Ceti implementations, at revision [`85f3eb5`](https://github.com/TauCetiProject/TauCeti/tree/85f3eb5579df5ca44ba8cd0921d614b41ab72174/TauCeti/ModelTheory) in `Scott/Sentence.lean`, `BackAndForth/AllLevels.lean` and `BackAndForth/Karp.lean`, of the parent's contracts: Layer 3's `scottSentenceAt`, `realize_scottSentenceAt_self` and `isTupleBFSystem_of_realize_scottSentenceAt` (in any model `N`), and Layer 1's `potentialIso_iff_exists_isTupleBFSystem` and Karp theorem |
+| InfinitaryLogic, Layers 1–3 | `TauCeti.BFEquiv` and `TauCeti.PotentialIso`, and the following Tau Ceti declarations at this repository's pin (Tau Ceti 2fd255d99): `TauCeti.scottSentence`, `TauCeti.realize_scottSentence_self` and `TauCeti.bfEquiv_of_realize_scottSentence` ([`Scott/Sentence.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/Sentence.lean)), the last for a model of any cardinality in any universe; `TauCeti.potentialIso_iff_bfEquiv_all` ([`BackAndForth/AllLevels.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/AllLevels.lean)); and the forward Karp direction `TauCeti.PotentialIso.infEquivAt` ([`BackAndForth/Karp.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Karp.lean), [#18194](https://github.com/TauCetiProject/TauCeti/pull/18194)). They are built on the parent's contracts as Tau Ceti implements them at the pin: Layer 3's `scottSentenceAt`, `realize_scottSentenceAt_self` and `isTupleBFSystem_of_realize_scottSentenceAt` (in any model `N`), as `TauCeti.scottSentenceAt`, `TauCeti.realize_scottSentenceAt_self` and `TauCeti.isTupleBFSystem_of_realize_scottSentenceAt` in `Scott/Sentence.lean`; and Layer 1's `potentialIso_iff_exists_isTupleBFSystem` and Karp theorem, as `TauCeti.potentialIso_iff_exists_isTupleBFSystem` ([`BackAndForth/Presentation.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Presentation.lean)) and `TauCeti.karp_theorem` (`BackAndForth/Karp.lean`). Except `PotentialIso` and `scottSentenceAt`, all of these assume `[L.IsRelational]`, as Layer 5.4 does |
 
 **From the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) roadmap** (IME)
 this roadmap consumes exactly the following, cited by IME layer and section, and nothing else of
@@ -808,9 +808,12 @@ Scott sentences require.
   `potentialIso_iff_exists_isTupleBFSystem`.
 - **`isCompleteSentence_scottSentence`**: the Scott sentence of a countable structure `M₀` is
   complete. A model `N` of it, of any cardinality, satisfies `BFEquiv β` with `M₀` at every level
-  (`TauCeti.bfEquiv_of_realize_scottSentence`), hence is potentially isomorphic to `M₀`
-  (`TauCeti.potentialIso_iff_bfEquiv_all`), hence agrees with `M₀` on every Lω₁ω sentence
-  (`TauCeti.PotentialIso.infEquivAt` at the carrier `ℕ`).
+  (`TauCeti.bfEquiv_of_realize_scottSentence`, from the parent's
+  `isTupleBFSystem_of_realize_scottSentenceAt`), hence is potentially isomorphic to `M₀`
+  (`TauCeti.potentialIso_iff_bfEquiv_all`, from the parent's
+  `potentialIso_iff_exists_isTupleBFSystem`), hence agrees with `M₀` on every Lω₁ω sentence
+  (`TauCeti.PotentialIso.infEquivAt` at the carrier `ℕ`, the forward direction of the parent's
+  `karp_theorem`). All three are Tau Ceti declarations at the pin.
 - **`isLω₁ωSmall_iff_exists_isCompleteSentence`** (headline): `M` is small exactly when it satisfies
   a complete sentence. Forward: the Scott sentence of a countable companion. Backward: a complete
   `σ` has a countable model `M₀ ⊆ M`, a countable substructure that is `AElementary` for
@@ -836,8 +839,9 @@ countable fragment need not be small.
 
 ⚠ **API warning.** Do not prove completeness of a Scott sentence by comparing it only with
 countable models. The completeness quantifies over models of every cardinality in `Type w`, and the
-argument must go through a back-and-forth system with an arbitrary model, which
-`bfEquiv_of_realize_scottSentence` supplies.
+argument must go through a back-and-forth system with an arbitrary model, which Tau Ceti's
+`TauCeti.bfEquiv_of_realize_scottSentence` supplies at the pin, from the parent's
+`isTupleBFSystem_of_realize_scottSentenceAt` in any model `N`.
 
 ## Worked examples
 
