@@ -638,38 +638,51 @@ the elementary row and column operations by handle slides (Milnor, Theorems 7.6,
 Prove the local Whitney move.  If two transverse intersections of opposite sign are joined by
 an embedded framed Whitney disc whose interior misses both submanifolds, construct an ambient
 isotopy removing the pair and prove its support and framing properties
-(Milnor, Theorem 6.6 and the local-disc construction in its proof, pp.71–76).
+(Milnor, Theorem 6.6, p.71, and the isotopy built on the standard model of Lemma 6.7 in its
+proof, pp.73–74).
 
 ### 1.5 Whitney discs in codimension at least three
 
-*Needs:* 1.4; simple connectivity of the level manifold; general position with p,q≥3.
+*Needs:* 1.4; simple connectivity of the level manifold; general position with p,q≥3; simple connectivity of the Stiefel manifold `O(p+q−2)/O(q−1)` for q≥3.
 
 Let V be a simply connected smooth manifold of dimension p+q, and let P,Q be closed
 transverse complementary submanifolds with p,q≥3, P oriented and the normal bundle of Q
 oriented. For two opposite-sign intersections, require specified embedded arcs between
 them in P and Q whose interiors avoid all other intersections. Their union is the Whitney
 loop; use simple connectivity to contract it and construct a framed Whitney disc with
-interior disjoint from P∪Q (Milnor, Theorem 6.6 and its remark, pp.71–72). Prove
-the complement and relative general-position steps (Lemmas 6.10–6.12, pp.79–80).
-When both submanifolds are connected, derive the required arcs by deleting the other
-intersection points. Ambient simple connectivity alone does not supply arcs in disconnected P or Q.
+interior disjoint from P∪Q. Milnor's Theorem 6.6 and its remark, pp.71–72, give the
+hypotheses and the arcs; the disc is the embedding of the standard model, Lemma 6.7, p.73,
+proved on pp.77–84 with the metric of Lemma 6.8, pp.74–77. Prove the complement and relative
+general-position steps (Lemmas 6.10–6.12, pp.79–80), which contract the loop in the
+complement of P∪Q and embed the disc there; they use that Q has codimension p≥3 and P has
+codimension q≥3. Prove the normal framing of the disc (Lemma 6.13, pp.80–83): the frames
+given along the two arcs extend over the disc because their fibre, the Stiefel manifold
+`O(p+q−2)/O(q−1)` of orthonormal (p−1)-frames in `ℝ^(p+q−2)`, is (q−2)-connected, hence
+simply connected for q≥3 (p.83). When both submanifolds are connected, derive the required
+arcs by deleting the other intersection points. Ambient simple connectivity alone does not
+supply arcs in disconnected P or Q.
 
-### 1.6 The five-dimensional level
+### 1.6 Whitney discs at index two
 
-*Needs:* 1.2–1.4; the two embedded arcs of 1.5; injectivity of π₁(V∖Q)→π₁(V); relative general position and piping.
+*Needs:* 1.2–1.4; the two embedded arcs, the relative general-position steps and the framing of 1.5; injectivity of π₁(V∖Q)→π₁(V).
 
-Treat the six-dimensional cobordism boundary case separately.  For index-two/index-three
-cancellation the level V is five-dimensional and (dim P,dim Q)=(2,3). Require the
-opposite-sign pair and the arcs avoiding other intersections as above, and require the
-inclusion π₁(V∖Q)→π₁(V) to be injective. For simply connected V this means
-π₁(V∖Q)=0. Use this condition for the contraction off Q and the piping argument
-(Milnor, Theorem 6.6, p.71, and its proof, pp.73–84).
-For the attaching/belt-sphere instance, prove the gradient-flow identification of
-V∖Q with the incoming level minus the attaching circle; removing that circle in a
-simply connected five-manifold preserves π₁ by codimension four. This proves the
-required complement condition (Milnor, proof of Theorem 6.4, pp.72–73, the λ=2 case).
-The three-sphere Q itself has codimension two, so codimension-three general position
-cannot replace this argument.
+Treat index-two/index-three cancellation separately. For critical points of indices 2 and 3
+in a cobordism of dimension m+1≥6, the level V between them has dimension m≥5, P is the
+attaching 2-sphere of the index-3 handle and Q is the belt (m−2)-sphere of the index-2
+handle, so (dim P,dim Q)=(2,m−2) with m−2≥3; the five-dimensional level m=5 gives (2,3).
+Require the opposite-sign pair and the arcs avoiding other intersections as in 1.5, and
+require the inclusion π₁(V∖Q)→π₁(V) to be injective. For simply connected V this means
+π₁(V∖Q)=0. Use this condition to contract the Whitney loop in the complement of Q, which has
+codimension two, where 1.5 uses Lemma 6.10 (Milnor, Theorem 6.6, p.71, the case r=2, and the
+proof of Lemma 6.7, p.80). The steps of 1.5 for P, which has codimension m−2≥3, apply as
+there: the general-position embedding of Lemmas 6.11–6.12, p.79, applies because
+2·2+1≤m, and the framing of Lemma 6.13, pp.80–83, has fibre `O(m−2)/O(m−3) ≅ S^(m−3)`,
+simply connected for m≥5. For the attaching/belt-sphere instance, prove the gradient-flow
+identification of V∖Q with the incoming level minus the attaching circle of the index-2
+handle; that circle has codimension m−1≥4, so removing it from the simply connected incoming
+level preserves π₁. This proves the required complement condition (Milnor, proof of
+Theorem 6.4, pp.72–73, the λ=2 case). The sphere Q itself has codimension two, so
+codimension-three general position cannot replace this argument.
 
 ### 1.7 The smooth product theorem
 
@@ -718,13 +731,16 @@ The h-cobordism predicate has the following API on the shared oriented collared 
 For the handle and Whitney constructions, a cancelling pair with intersection matrix [1]
 has zero relative homology. Two oppositely signed intersections contribute +1−1=0,
 but this algebraic equality is used only after producing the framed Whitney disc.
-The level-dimension-five case has dimensions 2+3=5 and is not covered by p,q≥3.
+The index-two case of 1.6 has dimensions (2,m−2) in a level of dimension m≥5 and is not
+covered by p,q≥3; its five-dimensional level has 2+3=5.
 
 **Checks for the Whitney hypotheses.**
 
 - In S³×S³, P=(S³×{a})⊔(−S³×{b}) and Q={c}×S³ have intersection signs +1,−1 but no arc in P joining the two points; their componentwise counts remain (1,−1), although the total is 0.
 - A local opposite-sign pair on the same components has the two arcs and a nullhomotopic Whitney loop; the move changes its intersection count from 2 to 0 while preserving signed sum 0.
 - In the five-dimensional level, Q has codimension 5−3=2; the incoming attaching circle has codimension 5−1=4. The latter complement has π₁=0 and its gradient-flow identification supplies the former complement condition.
+- In a six-dimensional level, inside a cobordism of dimension seven, an index-two/index-three pair has (dim P,dim Q)=(2,4): 1.5 does not apply because dim P=2, Q again has codimension 2, the incoming attaching circle has codimension 5, and the frame fibre of Lemma 6.13 is O(4)/O(3)≅S³. Milnor's Theorem 7.8 (p.97, proof pp.98–99) cancels such pairs in every cobordism dimension at least six, so the product theorem of 1.7 in cobordism dimension seven uses 1.6 at m=6.
+- The frame fibre `O(p+q−2)/O(q−1)` of 1.5 at (p,q)=(3,3) is the Stiefel manifold of orthonormal 2-frames in ℝ⁴, an S²-bundle over S³, hence simply connected. At (p,q)=(3,2) it is the Stiefel manifold of orthonormal 2-frames in ℝ³, homeomorphic to SO(3) with π₁=ℤ/2, so frames given along the two arcs need not extend over the disc; this is where q≥3 enters the framing.
 
 ### Dependencies
 
@@ -3261,7 +3277,9 @@ in the merge order or already on main.
 - GeneralAlgebraicKTheoryPartII consumes the reduced stable James splitting
   `Σ∞ΩΣW ≃ ⋁_(r≥1) Σ∞W^∧r` of 3B.6 in its §§4.33 and 7.7.
 - On main, PositiveScalarCurvature consumes 1.2–1.6 (ordered handle decompositions,
-  cancellation and the Whitney moves), Layer 2 (homotopy spheres and Θₙ), 3C, Layers 6–8 and,
+  cancellation and the Whitney moves; the index-two complement condition that its §4.2 states
+  for levels of dimension at least six is the case m≥6 of 1.6), Layer 2 (homotopy spheres and
+  Θₙ), 3C, Layers 6–8 and,
   from 9A.1, the complex e-invariant with the seventh-stem value; GeneralizedCohomology
   consumes 3A.2–3A.4 (mapping cones and Puppe sequences, the stable stems and the Freudenthal
   comparison) and 4B, for the low homotopy groups of stable BSpin; BordismFormalGroups
