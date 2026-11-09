@@ -72,7 +72,7 @@ the section, or the pinned declaration, in the right column.
 | `DerivedDeRham.completeFlatness`, `DerivedDeRham.completeFlatBaseChange` | §1.7 |
 | `DerivedDeRham.boundedTorsionCriterion` | §1.8; for modules, `DerivedDeRham.isAdicComplete_of_isCompletelyFlatModule` and `DerivedDeRham.isCompletelyFlatModule_of_isAdicComplete` |
 | `DerivedDeRham.completeFlatDescent` | §1.9 |
-| `PerfectComplex.IsPerfect`, isPerfect_baseChange | §1.E.0: `DerivedDeRham.IsPerfect` and its derived scalar change |
+| `PerfectComplex.IsPerfect`, isPerfect_baseChange | §1.E.0: `DerivedDeRham.IsPerfect`, and the theorem that derived extension of scalars along a map of commutative rings preserves perfection. The second name is plain text because `Suggested.lean` declares no theorem of that name: no derived extension of scalars on Mathlib's `DerivedCategory` of modules exists at the pins |
 | `DerivedDeRham.perfectInverseSystemEffectivity` | §1.E.1 |
 
 The sheaf enhancement, point-site and affine comparisons belong to EnhancedDerivedSheaves
@@ -2302,8 +2302,9 @@ exactly when `M` has an infinite resolution by finite free modules, which is Tau
 reindexed to nonpositive cohomological degrees ([StacksMA], Lemma 15.66.4(4), Tag 064T, p.162). Define Tor amplitude `[a, b]` for `K` over commutative `A` by vanishing of `H^i(K ⊗^L_A N[0])` for every `A`-module `N`
 and `i ∉ [a, b]`. Provide invariance under isomorphisms, closure of perfect complexes under shifts
 and the third vertex of distinguished triangles, and closure under retracts, for unital rings.
-For commutative rings provide arbitrary derived scalar change and a finite Tor interval for
-every perfect complex. A perfect complex is pseudo-coherent; it need not have
+For a map `A → B` of commutative rings, prove that the derived extension of scalars `− ⊗^L_A B` of
+§0.2 carries perfect complexes to perfect complexes ([StacksMA], Lemma 15.76.9, Tag 066W, p.192),
+and that every perfect complex has a finite Tor interval. A perfect complex is pseudo-coherent; it need not have
 a bounded finite-free representative. For bounded-above finite-free complexes, supply
 the finite-free base-change comparison: ordinary termwise scalar extension represents derived base change,
 naturally in complex maps and in compositions of ring maps.
@@ -2330,7 +2331,9 @@ theorems `isPerfect_retract`, `isPerfect_shift`, `isPerfect_triangle` and
   representative: its Euler ranks on the two components differ. The bounded-above free resolution
   with differentials alternating `1−e` and `e` does represent it.
 - The perfect `ℤ`-complex `[ℤ --2→ ℤ]` in degrees `[−1,0]` base-changes to `[F₂ --0→ F₂]`;
-  base change must retain the negative cohomology.
+  base change must retain the negative cohomology. Perfection of the input is needed: the
+  `ℤ/4`-module `ℤ/2` in degree zero base-changes along `ℤ/4 → F₂` to a complex with
+  `H^(−i) = F₂` for every `i ≥ 0`, which is not perfect.
 
 **Compatible finite-free models.** Let `A_(n+1) → A_n` be surjective maps of commutative rings
 with locally nilpotent kernels. A compatible perfect system consists of perfect `M_n ∈ D(A_n)` and

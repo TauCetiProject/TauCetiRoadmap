@@ -46,8 +46,9 @@ the injective hulls, completion action, finite-length biduality and Artinian cri
 
 Headline theorems that are not statable at the pins, and the carrier each lacks:
 
-* the unbounded module derived tensor `⊗^L` on `D(R)` (§0.2) and the
-  derived scalar extension and restriction functors with their adjunction (§1.E.0): no derived
+* the unbounded module derived tensor `⊗^L` on `D(R)` (§0.2), the
+  derived scalar extension and restriction functors with their adjunction, and the preservation of
+  perfection by derived scalar extension along a map of commutative rings (§1.E.0): no derived
   tensor bifunctor or derived extension of scalars on `DerivedCategory (ModuleCat R)` exists at
   the pin;
 * the cohomological first-quadrant spectral sequence, its edge morphisms and the five-term and
