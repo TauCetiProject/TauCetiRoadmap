@@ -87,18 +87,21 @@ It leaves the following to the roadmaps that state them, and states none of them
   class formation, the reciprocity isomorphisms `C_F/N_{L/F}C_L ≅ Gal(L/F)^ab` compatible with
   local reciprocity, the description of norm groups as the open subgroups of finite index, and the
   `S`-version with cokernel `Ẑ/ℤ`.
-- **AutomorphicLFunctionsAndLocalFactors**, Layer AL.3: *Curve additive analysis* (the
+- **AutomorphicLFunctionsAndLocalFactors**, Layer AL.0, §AL.0.6.1 *Curve additive analysis* (the
   completion-valued adeles `𝔸_K` with their topology, the identification of `𝔸_Kˣ` with the
   ideles above, the valuation-divisor map with kernel `∏_v O_vˣ` and quotient `Pic(X)`, the
-  discrete cocompact diagonal with quotient volume `q^(g−1)` for local integral volume one, the
-  residue character of a differential with its conductor, self-dual measures and Poisson
-  summation); *Rank-one unramified reciprocity* (the zero-modulus Picard and Lang-cover
-  comparison, including the constant-field direction); *Ramified rank-one curve reciprocity*
-  (the finite-field generalized Picard objects for every effective modulus, ray-class
-  comparison, Abel and Lang maps, finite-cover comparison and rank-one character dictionary
-  with least conductor); *The `GL(n)`
-  cuspidal Fourier expansion*, *Global Whittaker factorization* and *Spherical Whittaker normalization
-  at nonzero conductor*; and *Function-field local factors, multiplicity one and converse theorem*.
+  discrete cocompact diagonal with quotient volume `q^(g−1)` for local integral volume one,
+  compact rational unipotent quotients with integration in stages, the residue character of a
+  differential with its conductor, self-dual measures and Poisson summation); §AL.R.3
+  *Restricted tensor realizations* (the complex `GLₙ` automorphic spaces compared in §6.2);
+  Layer AL.3: §AL.3.10.2 *Rank-one unramified reciprocity* (the zero-modulus Picard and
+  Lang-cover comparison, including the constant-field direction); §AL.3.10.4 *Ramified rank-one
+  curve reciprocity* (the finite-field generalized Picard objects for every effective modulus,
+  ray-class comparison, Abel and Lang maps, finite-cover comparison and rank-one character
+  dictionary with least conductor); §AL.3.4.1 *The `GL(n)` cuspidal Fourier expansion*,
+  §AL.3.4.2 *Global Whittaker factorization* and §AL.3.14.1 *Spherical Whittaker normalization
+  at nonzero conductor*; and §AL.3.10.3 *Function-field local factors, multiplicity one and
+  converse theorem*.
 - **ArithmeticGaloisRepresentations**: §2.5 *Local factors* (`GaloisRep.localEulerFactor` on
   inertia invariants, for any coefficient field); §3.7 *Artin–Schreier characters* (break `m`,
   Swan conductor `m`, Artin conductor `m + 1`, different exponent `(p − 1)(m + 1)`); §5.13
@@ -164,8 +167,8 @@ RelativeJacobiansAndIntegralCurveModels §§1.3–1.5 supplies the finite-flat r
 Picard sheaf, unit sequence, smooth representing algebraic space and universal rigidified
 family. Section 4.6 specializes these objects to perfect-field curves and proves their
 additional scheme and structure assertions; §4.7 proves Rosenlicht's fixed-modulus
-universal property over every perfect field. AutomorphicLFunctionsAndLocalFactors AL.3,
-*Ramified rank-one curve reciprocity*, supplies the finite-field generalized Picard objects,
+universal property over every perfect field. AutomorphicLFunctionsAndLocalFactors §AL.3.10.4
+*Ramified rank-one curve reciprocity* supplies the finite-field generalized Picard objects,
 ray-class comparison, Abel and Lang maps and finite-character dictionary with least modulus.
 Sections 4.5 and 4.8–4.10 consume those constructions, specify coordinate conventions and
 extend the rank-one dictionary to arbitrary finite abelian groups. ArithmeticGaloisDuality
@@ -275,9 +278,14 @@ and of finite index (`NormSubgroup.lean`); `TauCeti.ClassFieldTheory.index_local
 index equal to degree for an abelian layer (`AbelianLayer.lean`);
 `TauCeti.ClassFieldTheory.localClassField_unique`, two abelian layers with the same norm subgroup
 are equal (`Correspondence.lean`); and, under `[CharZero K]` only,
-`TauCeti.ClassFieldTheory.localAbelianExistence` (`Existence.lean`) and
-`TauCeti.ClassFieldTheory.injective_artinMap` (`ArtinMap.lean`), whose module docstring claims
-neither statement in characteristic `p`. In every characteristic `Existence.lean` gives only
+`TauCeti.ClassFieldTheory.localAbelianExistence` (`Existence.lean`),
+`TauCeti.ClassFieldTheory.injective_artinMap` and
+`TauCeti.ClassFieldTheory.profiniteCompletionArtinEquiv`, the isomorphism of topological groups
+from the profinite completion of `Kˣ` onto `G_K^ab` extending `artinMap K` (`ArtinMap.lean`, whose
+module docstring claims neither injectivity nor this isomorphism in characteristic `p`), and
+`TauCeti.ClassFieldTheory.localClassFieldCorrespondence`, the order isomorphism from the open
+subgroups of finite index of `Kˣ` (`TauCeti.ClassFieldTheory.LocalNormSubgroups K`) onto the
+abelian layers of `TauCeti.AbsoluteGaloisGroup K` (`Correspondence.lean`). In every characteristic `Existence.lean` gives only
 `TauCeti.ClassFieldTheory.localAbelianExistence_primeToResidueCharacteristic`, for index prime
 to `p`. `TauCeti.ClassFieldTheory.profiniteCompletionArtinMap` (`LocalExistence/ArtinMap.lean`)
 extends `artinMap K` to Mathlib's profinite completion
@@ -296,6 +304,27 @@ constant term, composition by substitution, base change; `Hom.lean`) and
 `FormalGroup.TopNilpotentPoint` (the group of points in the topologically nilpotent elements of
 a complete Hausdorff linearly topologized algebra, with continuous functoriality;
 `TopNilpotentPoint/Basic.lean`).
+
+Descent of schemes and morphisms is consumed from Tau Ceti and Mathlib. A descent datum
+`TauCeti.DescentDatum p X` on `X` over `S'` relative to `p : S' ⟶ S` is an action
+`S' ×_S X ⟶ X` satisfying the normalization and cocycle laws
+(`TauCeti/CategoryTheory/Limits/Shapes/Pullback/DescentDatum.lean`). In
+`TauCeti/AlgebraicGeometry/Descent/AffineMorphism.lean`, for `p` affine (`[IsAffineHom p]`) and `X`
+affine over `S'` (`[IsAffineHom X.hom]`), over an arbitrary base `S`:
+`TauCeti.DescentDatum.descended`, the descended scheme, affine over `S`;
+`TauCeti.DescentDatum.isIso_toBaseChangeDescended_hom`, for `[Flat p]`, the comparison of `D`
+with the canonical datum on the base change of `D.descended` is an isomorphism; and
+`TauCeti.DescentDatum.isPullback_toDescended`, for `[Flat p]`, `X` is the base change of
+`D.descended` along `p`. A morphism `Y ⟶ Z` over `S` descends from its base change along `p` by
+`TauCeti.homDescentEquiv` (`TauCeti/CategoryTheory/EffectiveEpi/Descent.lean`) when
+`Y ×_S S' ⟶ Y` is an effective epimorphism; Mathlib's `AlgebraicGeometry/Sites/Fpqc.lean`
+proves this for every flat surjective morphism that is quasi-compact or locally of finite
+presentation, from the subcanonicity of `AlgebraicGeometry.Scheme.fpqcTopology` and
+`AlgebraicGeometry.Scheme.fppfTopology`. Section 4.6 uses the affine forms for
+`p : Pic_X ⊗_k k′ → Pic_X`, the base change of a finite separable `Spec k′ → Spec k`, which is
+affine, flat and surjective, and identifies the descended scheme with the supplied algebraic
+space through the fppf sheaf property of that space. Section 4.7 uses `TauCeti.homDescentEquiv`
+along the smooth surjective high-degree Abel map and along `Spec k̄ → Spec k`.
 
 ### From TauCetiRoadmap.AlgebraicCurves
 
@@ -322,15 +351,22 @@ completed to `ℤ̂`, so the uncompleted idele class group is not itself profini
 
 ### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
 
-AutomorphicLFunctionsAndLocalFactors AL.3 constructs the completed adeles `𝔸_K`, the residue
+AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis* constructs the
+completed adeles `𝔸_K`, the residue
 character `ψ_ω(a) = ψ₀(Σ_v Tr_{κ(v)/k} res_v(a_v ω))` of a nonzero rational differential `ω`
 and a nontrivial `ψ₀ : 𝔽_q → ℂˣ`, the conductor exponent `n_v = ord_v(ω)` (triviality on
 `π_v^(−n_v) O_v`, nontriviality on `π_v^(−n_v−1) O_v`), self-dual measures and Poisson
-summation. Layer 2 uses exactly these objects. Its *Ramified rank-one curve reciprocity*
-supplies the finite-field objects and comparisons consumed in §§4.5 and 4.8–4.10,
+summation, together with the compact rational unipotent quotients and integration in stages.
+Layers 0, 2, 6 and 7 use exactly these objects. Its §AL.3.10.4 *Ramified rank-one curve
+reciprocity* supplies the finite-field objects and comparisons consumed in §§4.5 and 4.8–4.10,
 including every positive modulus. Its convention is `χ(a)=ρ(Art_ar(a)⁻¹)` for a
 rank-one local system; the deck action on a Lang torsor below instead records
-arithmetic Artin itself, so passing to that local system inverts the character.
+arithmetic Artin itself, so passing to that local system inverts the character. Layer 6
+consumes §AL.R.3 *Restricted tensor realizations* (the complex `GLₙ` automorphic spaces with
+fixed unitary central character, in §6.2) and, in §6.7, §AL.3.4.1 *The `GL(n)` cuspidal Fourier
+expansion* in its function-field case, §AL.3.4.2 *Global Whittaker factorization* and
+§AL.3.14.1 *Spherical Whittaker normalization at nonzero conductor* (`W(t_v) ≠ 0` for a nonzero
+spherical `W`, with `t_v` built from `ϖ_v^(−n_v)`).
 
 ### From TauCetiRoadmap.ArithmeticGaloisRepresentations
 
@@ -404,20 +440,15 @@ coherent curve cohomology and pushforward vanishing and base change. Section 4.6
 scheme representability and structure to the rigidified algebraic space supplied by
 RelativeJacobiansAndIntegralCurveModels §§1.3–1.5; §4.7 adds the perfect-field modulus
 universal property.
-SchemeAndStackFoundations §1.1 supplies quasi-coherent module descent; ModularCurves
-Layer 0E supplies effective descent of affine schemes. The subcanonical flat topology
-supplies descent of morphisms.
+SchemeAndStackFoundations §1.1 supplies quasi-coherent module descent. Effective descent of
+schemes affine over the base and descent of morphisms are the pinned Tau Ceti declarations
+listed under *From Tau Ceti*.
 
 ### From TauCetiRoadmap.JacobianChallenge
 
 JacobianChallenge Layers A–C supply line bundles, coherent curve cohomology, pushforward
 vanishing and base change. Layer D supplies ordinary Picard representability and its
 Picard–Brauer comparison, through SchemeAndStackFoundations §3.6.
-
-### From TauCetiRoadmap.ModularCurves
-
-ModularCurves Layer 0E supplies effective descent of affine schemes, used to descend
-the affine rigidification presentation in §4.6.
 
 ### From TauCetiRoadmap.RelativeJacobiansAndIntegralCurveModels
 
@@ -496,12 +527,14 @@ comparison from these interfaces, for the odd-characteristic global branch of La
 Layer 0 fixes the setting and conventions and transports F. K. Schmidt's theorem to divisors.
 Layers 1–3 are independent of each other: Layer 1 is the polynomial-lattice description of
 `L(D)`, Layer 2 the additive adelic volumes, Layer 3 Artin–Schreier–Witt theory. Layer 4 needs
-Layer 3 for the Schmid–Witt symbol and Layer 2 for the local-coordinate comparison.
+Layer 3 for the Schmid–Witt symbol, Layer 2 for the local-coordinate comparison and Layer 0 for
+the valuation degree and the degree-one divisors used in §4.5.
 Its geometric branch (§§4.6–4.10) uses the supplied rigidified Picard spaces and
 finite-field Lang covers, curve Riemann–Roch and compatible finite Artin reciprocity. It does not
 depend on Layer 5's Chebotarev estimate or on the higher-rank automorphic results.
-Layer 5 needs Layer 0 and AlgebraicCurves Layers 3–5; its finite-ray comparisons use §4.5. Layer 6
-needs Layer 2 (unipotent quotient volumes) and Layer 0. Layer 7 needs Layers 2 and 6. The worked
+Layer 5 needs Layer 0 and AlgebraicCurves Layers 3–5. Layer 6
+needs Layer 2 (unipotent quotient volumes) and Layer 0. Layer 7 needs Layers 0, 2, 5 and 6; it
+uses Layer 5 only through §§5.1–5.5, to continue the good Euler product of §7.6. The worked
 examples after Layer 7 use Layers 0, 3 and 5.
 
 ## Layer 0: finite constant fields, degrees and normalisations
@@ -514,8 +547,8 @@ of the curve is assumed.
 
 Prove degree_conventions, comparing the supplied degrees and reciprocity maps:
 
-1. Under the valuation-divisor map of AutomorphicLFunctionsAndLocalFactors *Curve additive
-   analysis*, the valuation degree `deg a` of ArithmeticGaloisDuality §R02.3.2 equals `TauCeti.Divisor.degree` of the
+1. Under the valuation-divisor map of AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve
+   additive analysis*, the valuation degree `deg a` of ArithmeticGaloisDuality §R02.3.2 equals `TauCeti.Divisor.degree` of the
    divisor `Σ_v ord_v(a_v)[v]`. Yu's degree is `deg_Yu a = −deg a`, and `|a| = q^(deg_Yu a)`.
 2. **Constant-field reciprocity.** For the global reciprocity map `Art` of ArithmeticGaloisDuality
    *The class formation of a global function field*, and `r ≥ 1`, the image of an idele class `a`
@@ -526,12 +559,12 @@ Prove degree_conventions, comparing the supplied degrees and reciprocity maps:
 reciprocity, a constant extension is unramified at every place, and at a place of degree `d_v` it has
 `gcd(r,d_v)` completion factors, each unramified of degree `r/gcd(r,d_v)`. Local arithmetic
 Frobenius restricts to `φ^(d_v)` on `𝔽_{q^r}`; multiplicativity in `a` and triviality on
-`Fˣ` give the formula. (Yu, §2.2.1, p. 8 and §2.2.3, p. 9, for the idele norm and
-the sign of his degree; ArithmeticGaloisDuality §R02.3.2 for the global map.)
+`Fˣ` give the formula. (Yu, §2.2.1, p. 8, for his degree and its sign; Yu, §2.3.4, p. 12, for
+the norm `|g| = q^(deg det g)`; ArithmeticGaloisDuality §R02.3.2 for the global map.)
 
 *Needs:* Tau Ceti `Divisor.degree`, `Divisor.degree_principal`, `Place.ordAddMonoidHom`;
-ArithmeticGaloisDuality §R02.3.2; AutomorphicLFunctionsAndLocalFactors AL.3 *Curve additive
-analysis*; AlgebraicCurves Layer 0.
+ArithmeticGaloisDuality §R02.3.2; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve
+additive analysis*; AlgebraicCurves Layer 0.
 
 **Checks.**
 
@@ -559,7 +592,7 @@ assert the existence of a place of degree one, nor of a rational point of the mo
 *Proof sketch.* This is the divisor form of F. K. Schmidt's theorem, transported from
 the degree-surjectivity API of ArithmeticGaloisDuality §R02.3.2, *Function-field places,
 ideles and S-units*, along the valuation-divisor map of
-AutomorphicLFunctionsAndLocalFactors AL.3 and the comparison 0.1(1): a degree-one idele maps to
+AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 and the comparison 0.1(1): a degree-one idele maps to
 a degree-one divisor. A direct proof, independent of class field theory, runs through the Weil
 bound: if `e > 1` divided every place degree, the model would have no `𝔽_{q^r}`-points for
 `e ∤ r`, contradicting `|#X(𝔽_{q^r}) − q^r − 1| ≤ 2g q^(r/2)` (SchemeAndStackFoundations §5.11 *Weil bound via surfaces*,
@@ -570,7 +603,7 @@ characteristic p*, §4.3.3, p. 26, which records the theorem and its original ze
 
 *Needs:* ArithmeticGaloisDuality §R02.3.2, *Function-field places, ideles and S-units*,
 degree-surjectivity API; AutomorphicLFunctionsAndLocalFactors
-AL.3 *Curve additive analysis*; Layer 0.1.
+§AL.0.6.1 *Curve additive analysis*; Layer 0.1.
 
 **Checks.**
 
@@ -616,7 +649,7 @@ For `F = 𝔽_q(t)`: `k̃ = 𝔽_q`, `g = 0`, `h = 1`, the place `∞` has degre
 ### Dependencies
 
 AlgebraicCurves Layers 0, 3, 5, 8 and 12; ArithmeticGaloisDuality §R02.3.2;
-AutomorphicLFunctionsAndLocalFactors AL.3 *Curve additive analysis*; SchemeAndStackFoundations
+AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*; SchemeAndStackFoundations
 §3.6 and §5.11; DeligneWeightsAndPurity §1.9; ClassFieldTheory Layer 5.
 
 ## Layer 1: Riemann–Roch spaces over a polynomial subring
@@ -742,8 +775,8 @@ AlgebraicCurves Layers 2, 3 and 4; Tau Ceti `riemannRochSpace`, `genus`.
 
 Here `k = 𝔽_q` with exact constants; write `K=F` for the function field. The completed adeles `𝔸_K`, the residue character `ψ_ω` of a
 nonzero rational differential `ω`, its conductor exponents `n_v = ord_v(ω)`, the self-dual
-measures and Poisson summation are those of AutomorphicLFunctionsAndLocalFactors AL.3, *Curve
-additive analysis*; they are not constructed again. This layer adds the lattice-level statements
+measures and Poisson summation are those of AutomorphicLFunctionsAndLocalFactors §AL.0.6.1,
+*Curve additive analysis*; they are not constructed again. This layer adds the lattice-level statements
 that make Riemann–Roch visible in that adelic picture and pins the volume normalisations used by
 Layers 6 and 7. Only the definitions of the additive character, the self-dual measure and the
 adelic Fourier transform are used; no theorem of Tate's thesis is stated or cited.
@@ -772,8 +805,8 @@ image in the `D`-filtration sense; since `A(D)` is open, every class of
 `dim_k(π_v^(−b)O_v/π_v^(−a)O_v) = (b − a)d_v` of AlgebraicCurves Layer 4. (Parshin, *Notes on the
 Poisson formula*, §2.1, p. 7, and §2.2, pp. 9–10, for divisor lattices in the full adeles.)
 
-*Needs:* AutomorphicLFunctionsAndLocalFactors AL.3 *Curve additive analysis*; AlgebraicCurves
-Layers 4 and 5; Tau Ceti `riemannRochSpace`.
+*Needs:* AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*;
+AlgebraicCurves Layers 4 and 5; Tau Ceti `riemannRochSpace`.
 
 **Checks.**
 
@@ -806,11 +839,11 @@ The measure and annihilator API is:
 
 *Proof sketch.* Self-duality forces `μ_{ω,v}(O_v) · μ_{ω,v}(O_v^⊥) = 1`, and
 `O_v^⊥ = π_v^(−n_v) O_v` has `μ_{ω,v}`-volume `q_v^(n_v) μ_{ω,v}(O_v)`. The product over `v` is
-`q^(−Σ n_v d_v / 2) = q^(1−g)`. The lattice volume follows from the index in 2.1. AL.3 gives
+`q^(−Σ n_v d_v / 2) = q^(1−g)`. The lattice volume follows from the index in 2.1. §AL.0.6.1 gives
 `μ_int(𝔸_K/K) = q^(g−1)`, so `μ_ω(𝔸_K/K) = q^(1−g) q^(g−1) = 1`. (Parshin, §2.2, pp. 9–10,
 formulas (9)–(10); see the remark on source corrections below.)
 
-*Needs:* Layer 2.1; AutomorphicLFunctionsAndLocalFactors AL.3 *Curve additive analysis*;
+*Needs:* Layer 2.1; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*;
 AdelicAlgebraicGroups Layer AA.0; Tau Ceti `degree_weilDifferentialDivisor`, `Divisor.degree_principal`.
 
 **Checks.**
@@ -823,7 +856,7 @@ AdelicAlgebraicGroups Layer AA.0; Tau Ceti `degree_weilDifferentialDivisor`, `Di
 
 ### 2.3 Fourier transforms of lattice indicators
 
-With the Fourier transform `f̂(b) = ∫ f(a) ψ_ω(ab) dμ_ω(a)` of AL.3, prove
+With the Fourier transform `f̂(b) = ∫ f(a) ψ_ω(ab) dμ_ω(a)` of §AL.0.6.1, prove
 fourier_indicator_divisorLattice: for every divisor `D`,
 
 ```text
@@ -841,7 +874,8 @@ times the indicator of its annihilator; the annihilator of `A(D)` under `ψ_ω` 
 cosets of some `A(D)` and supported on finitely many cosets of a larger one.
 (Parshin, §2.1, p. 7, and §2.2, pp. 9–10.)
 
-*Needs:* Layers 2.1–2.2; AutomorphicLFunctionsAndLocalFactors AL.3 *Curve additive analysis*.
+*Needs:* Layers 2.1–2.2; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive
+analysis*.
 
 **Checks.**
 
@@ -866,8 +900,8 @@ On `𝔽_q(t)`, `ω = dt`: `μ_ω(A(m∞)) = q^(m+1)`, which for `m ≥ 0` is `q
 
 ### Dependencies
 
-AutomorphicLFunctionsAndLocalFactors AL.3 *Curve additive analysis*; AdelicAlgebraicGroups Layer
-AA.0; AlgebraicCurves Layers 4 and 5; Tau Ceti `degree_weilDifferentialDivisor`.
+AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*; AdelicAlgebraicGroups
+Layer AA.0; AlgebraicCurves Layers 4 and 5; Tau Ceti `degree_weilDifferentialDivisor`.
 
 ## Layer 3: Artin–Schreier–Witt theory
 
@@ -1433,7 +1467,7 @@ Layer 7 (the Artin map).
 
 ### 4.5 Finite ray characters and local-coordinate comparisons
 
-For an effective modulus `m`, use AL.3, *Ramified rank-one curve reciprocity*, for the
+For an effective modulus `m`, use §AL.3.10.4, *Ramified rank-one curve reciprocity*, for the
 ray quotient `C_m = C_K / im U_m`, with
 `U_m = ∏_v U_v^{m_v}`, `U_v^0 = O_vˣ` and `U_v^j = 1 + 𝔭_v^j` for `j ≥ 1`.
 Its degree and rigidified-Picard comparisons give
@@ -1556,8 +1590,9 @@ units modulo scalars; splitting the Artin algebra gives the dimension and struct
 (Guignard, §4.7, Proposition 4.8 and Lemma 4.9, pp. 1317–1319; Conrad, §2, pp. 1–3.)
 
 *Needs:* RelativeJacobiansAndIntegralCurveModels §§1.3–1.5; SchemeAndStackFoundations
-§§1.1, 3.3 and 3.6; ModularCurves Layer 0E (affine descent); JacobianChallenge Layers
-A–C; ReductiveGroupsPartII RG2.0a.
+§§1.1, 3.3 and 3.6; Tau Ceti `TauCeti.DescentDatum.descended` and
+`TauCeti.DescentDatum.isPullback_toDescended` (affine descent along `Pic_X ⊗_k k′ → Pic_X`);
+JacobianChallenge Layers A–C; ReductiveGroupsPartII RG2.0a.
 
 **Checks.**
 
@@ -1579,7 +1614,7 @@ A–C; ReductiveGroupsPartII RG2.0a.
 ### 4.7 The ray Abel map and Rosenlicht's universal property
 
 Over every perfect field, form the ray Abel map `α_m : U → Pic_m^1` by `x ↦ (O(x),1|_m)` when `m ≠ 0`, and by the ordinary
-Abel map when `m=0`. Over finite fields this is AL.3's supplied Abel map. Extend its
+Abel map when `m=0`. Over finite fields this is §AL.3.10.4's supplied Abel map. Extend its
 base-change and forgetful compatibilities and its additive maps `Sym^n U → Pic_m^n`
 to the perfect-field setting, compatible with addition of divisors
 and with `n=0,1`. For `m ≠ 0` and `n ≥ max(0,2g+N−1)`, prove
@@ -1625,9 +1660,10 @@ Conversely, the rigidified bundle associated to `div f` with `f ≡ 1 mod m` is 
 so any such factorization kills that divisor. This proof uses no fundamental-group
 invariance for affine bundles.
 
-*Needs:* §4.6; AL.3, *Ramified rank-one curve reciprocity* (the finite-field Abel map);
+*Needs:* §4.6; §AL.3.10.4, *Ramified rank-one curve reciprocity* (the finite-field Abel map);
 JacobianChallenge Layers A–C (coherent cohomology and base change);
-SchemeAndStackFoundations §§1.1 and 3.7 (descent and ordinary Abel maps).
+SchemeAndStackFoundations §§1.1 and 3.7 (descent and ordinary Abel maps); Tau Ceti
+`TauCeti.homDescentEquiv` (descent of morphisms along the Abel map and to `k`).
 
 **Checks.**
 
@@ -1654,7 +1690,7 @@ SchemeAndStackFoundations §§1.1 and 3.7 (descent and ordinary Abel maps).
 ### 4.8 Ray classes as rational rigidified line bundles
 
 Return to `k=𝔽_q`, with `q` any prime power, including powers of two, and the exact-constant
-curve of §0. Consume AL.3, *Ramified rank-one curve reciprocity*, for the degree-preserving
+curve of §0. Consume §AL.3.10.4, *Ramified rank-one curve reciprocity*, for the degree-preserving
 isomorphism `C_m ≅ ⨿_{d∈ℤ} Pic_m^d(k)`, its degree-zero identification with `J_m(k)`,
 its degree-one torsor comparison and its modulus, tensor and divisor compatibilities.
 In particular `Pic_m^1(k)` is nonempty, even when `U(k)` is empty; no effective degree-one
@@ -1670,7 +1706,7 @@ ray-class isomorphism. The inverse direction for the rigidification must not be 
 without also inverting its section. (Conrad, §2 and Theorem 3.2, pp. 1–4; Guignard,
 §4.7, pp. 1317–1318.)
 
-*Needs:* AL.3, *Ramified rank-one curve reciprocity*; §4.6; AlgebraicCurves Layers 3–5
+*Needs:* §AL.3.10.4, *Ramified rank-one curve reciprocity*; §4.6; AlgebraicCurves Layers 3–5
 (divisors and approximation).
 
 **Checks.**
@@ -1689,7 +1725,7 @@ without also inverting its section. (Conrad, §2 and Theorem 3.2, pp. 1–4; Gui
 
 ### 4.9 Lang ray covers, Frobenius and geometric connectedness
 
-Choose `a ∈ Pic_m^1(k)` and put `A=J_m(k)`. Use AL.3, *Ramified rank-one curve
+Choose `a ∈ Pic_m^1(k)` and put `A=J_m(k)`. Use §AL.3.10.4, *Ramified rank-one curve
 reciprocity*, for the Lang isogeny `L_m(y)=Frob_q(y)−y` with kernel `A` and its pullback
 along `α_a(x)=α_m(x)−a`. Denote the supplied torsor by `Y_{m,a} → U`; its deck action
 is translation on `y`. Its finite étaleness, modulus compatibilities and geometric
@@ -1701,10 +1737,10 @@ a degree-`d` closed point `v∈U` translates by `[v]−d·a`, and its Artin char
 conjugates of a geometric point: the left side is `Frob_q^d(y)−y`, and the right side
 is `[v]−d·a`. The supplied finite-cover comparison then gives the displayed Artin
 character. Geometric Frobenius has the opposite translation. The rank-one local-system
-convention in AL.3 evaluates a character on inverse arithmetic Artin, so it inverts
+convention in §AL.3.10.4 evaluates a character on inverse arithmetic Artin, so it inverts
 these deck eigenvalues. (Conrad, Theorem 3.2, p. 4.)
 
-*Needs:* AL.3, *Ramified rank-one curve reciprocity*; ArithmeticGaloisDuality §R02.3.2;
+*Needs:* §AL.3.10.4, *Ramified rank-one curve reciprocity*; ArithmeticGaloisDuality §R02.3.2;
 §§4.6–4.8; ReductiveGroupsPartII RG2.3.7 for the supplied Lang isogeny.
 
 **Checks.**
@@ -1730,7 +1766,7 @@ these deck eigenvalues. (Conrad, Theorem 3.2, p. 4.)
 
 Let `B` be any finite abelian group and `θ : C_m → B` a homomorphism. Choose `r≥1` killing
 `θ(a)`, where the degree-one ray class `a` and its Picard point are identified by §4.8.
-Extend AL.3's finite rank-one character dictionary to arbitrary finite abelian `B`.
+Extend §AL.3.10.4's finite rank-one character dictionary to arbitrary finite abelian `B`.
 Form its `B`-torsor by pushing out the product of the supplied `Y_{m,a}` and
 the constant cover `U_{𝔽_{q^r}} → U` along
 
@@ -1771,7 +1807,7 @@ stated Lang and constant-cover construction; uniqueness in a fixed separable clo
 the supplied class-field uniqueness. The proof uses finite reciprocity for constructed
 extensions and does not assume existence in order to construct these covers.
 
-Use AL.3's least-conductor comparison on each character of `B`. Prove its
+Use §AL.3.10.4's least-conductor comparison on each character of `B`. Prove its
 finite-abelian-group extension rayLangCover_conductor: the least modulus for this torsor (or for its connected
 field cover when `θ` is onto) has local exponent the least `j≥0` killing `U_v^j` under
 `θ`. Equivalently it is the componentwise maximum of the conductors of all characters
@@ -1845,10 +1881,12 @@ formal-group declarations listed under *From Tau Ceti* (among them
 `TauCeti.ClassFieldTheory.conductorExponent` and `TauCeti.FormalGroupHom`);
 AlgebraicCurves Layers 3, 5 and 9; ArithmeticGaloisDuality §R02.3.2; Mathlib `FormalGroup`.
 The geometric branch also uses AlgebraicCurves Layers 8 and 12, JacobianChallenge Layers
-A–C, SchemeAndStackFoundations §1.1, §§3.3, 3.6–3.7, ModularCurves Layer 0E,
+A–C, SchemeAndStackFoundations §1.1, §§3.3, 3.6–3.7, Tau Ceti's affine descent
+(`TauCeti.DescentDatum.descended`, `TauCeti.DescentDatum.isPullback_toDescended`) and
+`TauCeti.homDescentEquiv`,
 ReductiveGroupsPartII RG2.0a and RG2.3.7,
-RelativeJacobiansAndIntegralCurveModels §§1.3–1.5, and AL.3's
-*Ramified rank-one curve reciprocity*. No result of
+RelativeJacobiansAndIntegralCurveModels §§1.3–1.5, and AutomorphicLFunctionsAndLocalFactors
+§AL.3.10.4 *Ramified rank-one curve reciprocity*. No result of
 GlobalShtukasAndFunctionFieldLanglands is an input.
 
 ## Layer 5: zeta functions and `L`-polynomials of function fields
@@ -2236,18 +2274,18 @@ function field `y² = x³ + x + 1` over `𝔽_5` (discriminant `−16·31 ≢ 0`
 
 ### Dependencies
 
-Layers 0.1–0.2 and 4.5; AlgebraicCurves Layers 2, 3, 4, 5, 6, 8 and 12; DeligneWeightsAndPurity §§1.6 and 1.9; WeilConjectures WC.1 and §5.20; ArithmeticGaloisRepresentations §§2.5 and 5.13;
+Layers 0.1–0.2; AlgebraicCurves Layers 2, 3, 4, 5, 6, 8 and 12; DeligneWeightsAndPurity §§1.6 and 1.9; WeilConjectures WC.1 and §5.20; ArithmeticGaloisRepresentations §§2.5 and 5.13;
 EtaleCohomologyFoundations §§F.2.5, F.3 and
 F.10.2–F.10.3; PadicMeasuresIwasawaAlgebras §5.1.
 
 ## Layer 6: automorphic functions over function fields
 
 `K = k(X)` with `k = 𝔽_q`, `𝔸 = 𝔸_K` the completed adeles of AutomorphicLFunctionsAndLocalFactors
-AL.3. This layer supplies arithmetic automorphic functions, constant terms and cuspidal finiteness
+§AL.0.6.1. This layer supplies arithmetic automorphic functions, constant terms and cuspidal finiteness
 for arbitrary connected reductive groups over `K` and coefficient rings in which `p` is invertible,
 as the work of V. Lafforgue and Böckle–Harris–Khare–Thorne requires. The complex `GLₙ` specialization
 is compared with AutomorphicLFunctionsAndLocalFactors' supplied function spaces
-in *Representation prerequisites — Restricted tensor realizations* and with
+in §AL.R.3 *Restricted tensor realizations* and with
 AutomorphicSpectralTheory's function-field branch.
 
 ### 6.1 Adelic points of affine groups over a function field
@@ -2280,13 +2318,14 @@ finite. The adelic-point API is:
 *Proof sketch.* Use the embedding-independent point topology of ReductiveGroupsPartII RG2.0;
 continuity and openness of the restricted-product comparison maps follow from writing
 `𝔸` as the direct limit of the open subrings `∏_{v∈S} K_v × ∏_{v∉S} O_v`. Discreteness of `G(K)`
-follows from the discreteness of `K` in `𝔸` (AL.3). This is the function-field counterpart of
+follows from the discreteness of `K` in `𝔸` (§AL.0.6.1). This is the function-field counterpart of
 AdelicAlgebraicGroups Layer 1, which is written for number fields only. (Conrad, *Weil and Grothendieck approaches to
 adelic points*, Proposition 2.1, p. 2; Example 2.3, p. 3; Theorem 3.6, p. 6, all for an arbitrary
 global field; Böckle–Harris–Khare–Thorne, *Ĝ-local systems on smooth projective curves are
-potentially automorphic*, Proposition 8.1, p. 34.)
+potentially automorphic*, Proposition 8.1, p. 34, stated for `G` split semisimple over `𝔽_q`;
+its proof uses only that `G` is affine.)
 
-*Needs:* AutomorphicLFunctionsAndLocalFactors AL.3 *Curve additive analysis*; Tau Ceti
+*Needs:* AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*; Tau Ceti
 `AlgHom.instGroup`, `ReductiveAffineGroupSchemeCat`; ReductiveGroupsPartII RG2.0;
 Mathlib `RestrictedProduct`,
 `RestrictedProduct.unitsEquiv`.
@@ -2321,19 +2360,18 @@ The automorphic-function API is:
 
 For `G = GL_n`, `R = ℂ` and a fixed unitary central character, prove the comparison
 with the smooth central-character automorphic function space and its constant terms in
-AutomorphicLFunctionsAndLocalFactors, *Representation prerequisites — Restricted tensor
-realizations*. Restriction to level `U` and `Ξ` identifies the two spaces, their quotient
+AutomorphicLFunctionsAndLocalFactors §AL.R.3 *Restricted tensor realizations*. Restriction to level `U` and `Ξ` identifies the two spaces, their quotient
 measures, Hecke actions and cusp subspaces. This comparison is the input to §6.7's use of
-AL.3 Fourier reconstruction; the supplied complex theory has no dependence on Layer 6.
+§AL.3.4.1 Fourier reconstruction; the supplied complex theory has no dependence on Layer 6.
 
 *Proof sketch.* These are definitions over Layer 6.1; the Hecke action is well defined because
 `UgU` is a finite union of `U`-cosets. (Yu, *Comptage des systèmes locaux ℓ-adiques sur une courbe*,
 §§2.2–2.3, pp. 8–12; Harder, *Chevalley groups over function fields and automorphic forms*, §1.1,
-pp. 252–253; Böckle–Harris–Khare–Thorne, §8.1, p. 34.)
+pp. 252–253; Böckle–Harris–Khare–Thorne, §8.1, p. 34, for `G` split semisimple over `𝔽_q`.)
 
 *Needs:* Layer 6.1; Layer 0.2; ArithmeticGaloisDuality §R02.3.2;
-AutomorphicLFunctionsAndLocalFactors, *Representation prerequisites — Restricted tensor
-realizations*, for the complex `GL_n` comparison.
+AutomorphicLFunctionsAndLocalFactors §AL.R.3 *Restricted tensor realizations*, for the complex
+`GL_n` comparison.
 
 **Checks.**
 
@@ -2370,14 +2408,18 @@ so the integral is defined in `R`. Define
 
 *Proof sketch.* `K`-splitness of the unipotent radical gives a filtration by normal subgroups
 with vector-group quotients on which `P` acts linearly (Morris I, §5.4, p. 104, after SGA 3 XXVI,
-Proposition 2.1, and Borel–Tits, Théorème 3.17), and the compactness of `K∖𝔸` (AL.3) gives compactness of `N(K)∖N(𝔸)`; the
+Proposition 2.1, and Borel–Tits, Théorème 3.17), and the compactness of `K∖𝔸` (§AL.0.6.1) gives compactness of `N(K)∖N(𝔸)`; the
 quotient measure is built in stages from these vector-group quotients and AdelicAlgebraicGroups
 Layer AA.0's Haar products. (Böckle–Harris–Khare–
-Thorne, §8.1, definition of `C_cusp(U, R)`, p. 34; Ciubotaru–Harris, *On the generalized Ramanujan
-and Arthur conjectures over function fields*, §3, p. 8; Morris, *Eisenstein series for reductive
+Thorne, §8.1, definition of `C_cusp(U, R)`, p. 34, for `G` split semisimple over `𝔽_q`;
+Ciubotaru–Harris, *On the generalized Ramanujan and Arthur conjectures over function fields*, §3,
+p. 8, for semisimple `G`; Morris, *Eisenstein series for reductive
 groups over global function fields I*, §4, Proposition on the compactness of `N(F)∖N°`, p. 102.)
 
-*Needs:* Layer 6.2; AutomorphicLFunctionsAndLocalFactors AL.3; AdelicAlgebraicGroups Layer AA.0;
+*Needs:* Layer 6.2; Layer 2.2 (the covolume-one measure gives `∏_v O_v` volume `q^(1−g)`, so
+`μ(J) ∈ ℤ[1/p]`); AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*
+(compactness of `K∖𝔸`, rational unipotent quotients and integration in stages);
+AdelicAlgebraicGroups Layer AA.0;
 ReductiveGroupsPartII Layer RG2.4 (parabolic subgroups and decompositions).
 
 **Checks.**
@@ -2451,8 +2493,9 @@ finite set and lie in a finite free `R`-module. (Harder, Theorem 1.2.1 and Lemma
 pp. 255–256, and Corollary 1.2.3, p. 256, for split groups; Morris I, §§4.1–4.3, p. 101 (the
 reduction theory of Harder for connected reductive groups over global function fields) and
 §§5.3–5.6, pp. 104–106 (compact support modulo `Z(𝔸)G(K)` of `K`-finite cuspidal functions, with a
-bound depending only on the level);
-Böckle–Harris–Khare–Thorne, Proposition 8.2, pp. 34–35.)
+bound depending only on the level), which is the source for connected reductive `G`, the
+passage from `Z(𝔸)` to `Ξ` being the argument above; Böckle–Harris–Khare–Thorne, Proposition 8.2,
+p. 35, for `G` split semisimple over `𝔽_q`, where no central quotient is needed.)
 
 *Needs:* Layers 6.1–6.3; function-field reduction above; Layer 0.2; ReductiveGroupsPartII Layer RG2.4.
 
@@ -2498,8 +2541,11 @@ a transcendental central character.
 linear equations with coefficients in `ℤ[1/p]`; an embedding `R ⊆ C` factors through the fraction
 field, so scalar extension is flat. The Hecke operators preserve the `ℚ`-structure, so their
 characteristic polynomials have rational coefficients, and Cayley–Hamilton gives algebraic
-eigenvalues. (Ciubotaru–Harris, §3, Proposition 3.1 and Lemma 3.2, pp. 8–9; Böckle–Harris–Khare–
-Thorne, Proposition 8.2, pp. 34–35.)
+eigenvalues. (Ciubotaru–Harris, §3, Proposition 3.1, p. 8, and Lemma 3.2, p. 9, for semisimple
+`G`; Böckle–Harris–Khare–Thorne, Proposition 8.2, p. 35, for `G` split semisimple over `𝔽_q`.
+For connected reductive `G` with central quotient `Ξ` the same argument runs on the uniform
+finite support of §6.4, which rests on Morris I, §§5.3–5.6, pp. 104–106, and the passage from
+`Z(𝔸)` to `Ξ` proved there.)
 
 *Needs:* Layers 6.3–6.4.
 
@@ -2543,7 +2589,8 @@ the Satake parameter is its inverse, so exactly one inversion separates the two 
 
 *Proof sketch.* Constant terms commute with right translation; the relative Satake identity is
 the computation of a constant term of a right convolution by integrating over `N(K_v)` first.
-(Böckle–Harris–Khare–Thorne, §8.1, (8.1)–(8.3), p. 35; Yu, §§2.2–2.3, pp. 8–12.)
+(Böckle–Harris–Khare–Thorne, §8.1, (8.1)–(8.3), p. 35, for `G` split semisimple over `𝔽_q`;
+Yu, §§2.2–2.3, pp. 8–12, for `GLₙ`.)
 
 *Needs:* Layers 6.2–6.3; SmoothRepresentationsOfLocalGroups §SR.4.1; ArithmeticGaloisDuality
 §R02.3.2; Layer 0.1.
@@ -2569,10 +2616,10 @@ representation of `GL_n(𝔸)`, `n ≥ 1`, unramified at every place, and `φ �
 `GL_n(Ô)`-invariant vector. Then `φ(g) ≠ 0` for some `g ∈ GL_n(𝔸)` with `deg_Yu(det g) = 0`.
 
 *Proof sketch.* Fix a nonzero rational differential `ω` with `n_v = ord_v(ω)` and the residue
-character of AL.3. Fourier reconstruction (AL.3 *The `GL(n)` cuspidal Fourier expansion*, in its
+character of §AL.0.6.1. Fourier reconstruction (§AL.3.4.1 *The `GL(n)` cuspidal Fourier expansion*, in its
 function-field case) shows that some
 Whittaker coefficient `W_φ` is nonzero; by the global Whittaker factorization and the spherical
-normalization at nonzero conductor (AL.3), `W_φ(t) ≠ 0` for `t = (t_v)` with
+normalization at nonzero conductor (§AL.3.14.1), `W_φ(t) ≠ 0` for `t = (t_v)` with
 `t_v = diag(π_v^(−(n−1)n_v), …, π_v^(−n_v), 1)`. Its valuation degree is
 `−(n(n−1)/2)·Σ_v n_v d_v = −n(n−1)(g − 1)`, so `deg_Yu(det t) = +n(n−1)(g − 1)`. Multiplying by the
 scalar `a^(−(n−1)(g−1))` for an idele `a` with `deg_Yu a = 1` (Layer 0.2) changes `deg_Yu det` by
@@ -2586,8 +2633,9 @@ determinant of `t` is assigned Yu degree `−n(n−1)(g − 1)` and a scalar pow
 in Yu's own convention (`deg g = −Σ_v [κ(v):𝔽_q] v(g_v)`, §2.2.1, p. 8) the degree is
 `+n(n−1)(g − 1)` and the scalar power must be `−(n−1)(g−1)`, as above.
 
-*Needs:* Layers 0.1–0.2 and 6.2–6.3; AutomorphicLFunctionsAndLocalFactors AL.3 *The `GL(n)`
-cuspidal Fourier expansion*, *Global Whittaker factorization*, *Spherical Whittaker normalization at
+*Needs:* Layers 0.1–0.2 and 6.2–6.3; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve
+additive analysis* (the residue character), §AL.3.4.1 *The `GL(n)` cuspidal Fourier expansion*,
+§AL.3.4.2 *Global Whittaker factorization* and §AL.3.14.1 *Spherical Whittaker normalization at
 nonzero conductor*; Tau Ceti `degree_weilDifferentialDivisor`.
 
 **Checks.**
@@ -2606,7 +2654,8 @@ operator at `∞` acts by `1`.
 
 ### Dependencies
 
-Layers 0.1–0.2 and 2; AutomorphicLFunctionsAndLocalFactors AL.3; ArithmeticGaloisDuality §R02.3.2;
+Layers 0.1–0.2 and 2; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1, §AL.R.3, §§AL.3.4.1–AL.3.4.2
+and §AL.3.14.1; ArithmeticGaloisDuality §R02.3.2;
 AdelicAlgebraicGroups Layer AA.0; ReductiveGroupsPartII Layer RG2.4; SmoothRepresentationsOfLocalGroups
 §SR.4.1; Tau Ceti `AlgHom.instGroup`, `ReductiveAffineGroupSchemeCat`, `degree_weilDifferentialDivisor`.
 
@@ -2831,7 +2880,7 @@ SmoothRepresentationsOfLocalGroups §§SR.2.1–SR.2.3, SR.4.1 and SR.4.4.
 
 The dual of `N_n(𝔸) = Herm_n(𝔸_F)` is `Herm_n(𝔸_F, ω_F)`, the Hermitian forms valued in the rational
 canonical line `ω_F`, through the residue pairing `⟨T, b⟩ = Res(−Tr(Tb))` and a fixed nontrivial
-`ψ₀ : 𝔽_q → ℂˣ` (AL.3's residue character, applied entrywise). Define
+`ψ₀ : 𝔽_q → ℂˣ` (§AL.0.6.1's residue character, applied entrywise). Define
 
 ```text
 E_T(g, s, Φ) := ∫_{N_n(F)∖N_n(𝔸)} E(n(b)g, s, Φ) ψ₀(⟨T, b⟩) db,
@@ -2885,7 +2934,8 @@ above have explicit domains. The latter is FYZ (2.3); together with (2.2) it sup
 adelic nonsingular calculation needed in §7.6. The full, possibly singular global coefficient
 is not assigned the local Whittaker transformation law.
 
-*Needs:* Layers 2.2 and 7.2; AutomorphicLFunctionsAndLocalFactors AL.3 *Curve additive analysis*.
+*Needs:* Layers 2.2 and 7.2; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive
+analysis*.
 
 **Checks.**
 
@@ -3219,7 +3269,8 @@ For `n = 1`, `X = ℙ¹`, `F′ = F × F` and `(𝓔, a)` self-dual, the formula
 
 ### Dependencies
 
-Layers 0, 2, 6; ArithmeticGaloisDuality §R02.3.2; AutomorphicLFunctionsAndLocalFactors AL.3;
+Layers 0, 2, 5 (§§5.1–5.5) and 6; ArithmeticGaloisDuality §R02.3.2;
+AutomorphicLFunctionsAndLocalFactors §AL.0.6.1;
 ReductiveGroupsPartII Layers RG2.3–RG2.4; SmoothRepresentationsOfLocalGroups
 §§SR.2.1–SR.2.3, SR.4.1 and SR.4.4;
 GeometryOfNumbersAndQuadraticArithmetic §§3.1–3.2; MetaplecticAutomorphicForms §§2.5, 3.2a, 3.3 and 3.3b; SchemeAndStackFoundations
