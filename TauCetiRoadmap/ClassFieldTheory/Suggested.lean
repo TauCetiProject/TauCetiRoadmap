@@ -49,9 +49,10 @@ No headline of the roadmap is unstatable at the pins.
 **Names imported by other roadmaps.** The Lean files of `LocalGaloisGroups` and
 `GlobalQuadraticForms` import this file and cite the remaining declarations under this roadmap's
 name (README, §6), except `tateDual` and the three Hilbert invariants, which occur in the types of
-cited declarations. They are not headlines. Each is an abbreviation of a Tau Ceti declaration, a
-definition built from Tau Ceti's, or a theorem closed by Tau Ceti's theorem under Tau Ceti's
-hypotheses or a specialization of them, so a consumer's statement is about Tau Ceti's object.
+cited declarations. They are not headlines. Each is an abbreviation of a Tau Ceti or Mathlib
+declaration (`H` and `principalIdele` are Mathlib's), a definition built from Tau Ceti's, or a
+theorem closed by Tau Ceti's theorem under Tau Ceti's hypotheses or a specialization of them, so
+a consumer's statement is about the library's object.
 
 The two Layer 0 theorems, whose coefficient ring and group share a universe, and the valuation
 comparison are universe-polymorphic; everything else is stated for fields and groups in `Type`
@@ -210,9 +211,10 @@ the algebra map is assumed. It is a statement about the valuative relation, not 
 valuations: on `ℚ₂(i)` over `ℚ₂` the normalized valuation of `2` is `2` while that of `2 ∈ ℚ₂` is
 `1`, and both relations put `2` strictly below `1`. The route uses discreteness only: the
 normalized valuation of `F` vanishes on the units of `K`, because for a unit `u` and a prime `ℓ`
-different from the residue characteristic, `u^{q-1}` has an `ℓ^k`-th root for every `k` by Hensel's
-lemma; and it is positive on a uniformizer of `K`, because otherwise it would vanish on `K` and
-then on the algebraic extension `F`. -/
+different from the residue characteristic, `u^{q-1}` has an `ℓ^k`-th root for every `k`, the
+simple root `1` of `X^{ℓ^k} - u^{q-1}` modulo the maximal ideal lifting to `𝒪[K]` (Milne,
+*Algebraic Number Theory*, v3.08, Proposition 7.31, p. 120); and it is positive on a uniformizer
+of `K`, because otherwise it would vanish on `K` and then on the algebraic extension `F`. -/
 theorem valuativeExtension_of_finite (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
     [IsNonarchimedeanLocalField K] (F : Type*) [Field F] [ValuativeRel F] [TopologicalSpace F]
     [IsNonarchimedeanLocalField F] [Algebra K F] [Module.Finite K F] :
