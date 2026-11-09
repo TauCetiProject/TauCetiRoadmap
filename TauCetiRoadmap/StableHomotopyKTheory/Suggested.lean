@@ -189,7 +189,7 @@ theorem IsPlusConstruction.lift (hX : HasCWType X) (hY : HasCWType Y) (hZ : HasC
         ContinuousMap.Homotopic h.hom h'.hom := sorry
 
 /-- For an aspherical source, π₂ of plus is the Schur multiplier of P (§3.29). -/
-theorem IsPlusConstruction.piTwoEquiv
+theorem IsPlusConstruction.nonempty_piTwoEquiv
     (hX : HasCWType X) (hY : HasCWType Y)
     [PathConnectedSpace X] [PathConnectedSpace Y]
     (f : X ⟶ Y) (x : X) (P : Subgroup (FundamentalGroup X x))
