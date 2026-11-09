@@ -250,7 +250,10 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   `⨂[ℂ] _ : Fin n, h`, used by D8;
   `PontryaginDual` with its compact-open topology, its locally compact
   abelian group structure and `Circle`, `Measure.IsHaarMeasure` with
-  `Measure.Regular`, `Lp` and `lp`, used by D4; the C*-algebra instances on
+  `Measure.Regular`, `Lp` and `lp`, and the Fourier transform `𝓕` on ℝ
+  (`Real.instFourierTransform`, with `Real.fourier_eq'` giving the kernel
+  `exp(−2πi⟪v,w⟫)`, against which D4.Harmonic's convention is checked),
+  used by D4; the C*-algebra instances on
   `lp A ∞` for C*-algebras `A i`, commutative and unital when every `A i`
   is commutative and nontrivial (`Mathlib/Analysis/CStarAlgebra/lpSpace.lean`),
   which make `lp (fun _ : ℤ => ℂ) ∞` the unital C*-algebra `ℓ∞(ℤ)` of
@@ -1228,7 +1231,7 @@ avoiding category is available: cover K by countably many translates of a
 small identity neighbourhood, find a preimage of positive Haar measure
 inside a compact identity neighbourhood of G, and apply Steinhaus's theorem
 `div_mem_nhds_one_of_haar_pos` (Williams, Theorem D.3 and Lemma D.4).
-Mathlib's `AddMonoidHom.continuous_of_measurable` treats only additive
+Mathlib's `MeasureTheory.Measure.AddMonoidHom.continuous_of_measurable` treats only additive
 homomorphisms from a locally compact normed group into a real normed space,
 so it does not apply to `U(H)_s`. A ℚ-linear map ℝ→ℝ that is not ℝ-linear,
 built from a Hamel basis, is a discontinuous homomorphism; by the theorem
@@ -2024,7 +2027,9 @@ flow with its non-Hausdorff orbit space, worked below.
 
 **Worked example: the saddle flow.** For the continuous action
 `t·(x,y)=(exp(t)x,exp(−t)y)` of ℝ on ℝ², classify orbits and compute the
-quotient topology directly; this uses only Mathlib's `Real.exp`, quotient
+quotient topology directly (Williams, Example 3.32, pp. 96–97, for the same
+flow written as the action `r·(x,y)=(rx,r⁻¹y)` of the multiplicative
+positive reals, `r=exp(t)`); this uses only Mathlib's `Real.exp`, quotient
 topologies and `IsOpenMap`, and no operator-algebra input. The nonaxis
 orbits are the four quadrant branches indexed by `r=|xy|>0`;
 each is closed. The remaining orbits are the four open half-axes and the
@@ -2272,8 +2277,10 @@ measure.
   p. 27) is the transform of a function on 𝕋 at the character `z↦z^(−n)`; in
   this roadmap's convention it is the value at `−n` of the transform on 𝕋.
 - `G=ℝ` with Lebesgue measure: the characters are `χ_ξ(x)=e^(iξx)` and
-  `f̂(ξ)=∫f(x)e^(iξx)dx`; Mathlib's `Real.fourierIntegral` integrates
-  `f(x)e^(−2πiwx)`, so it is this transform at `χ_(−2πw)`.
+  `f̂(ξ)=∫f(x)e^(iξx)dx`; Mathlib's Fourier transform `𝓕` on ℝ (the
+  instance `Real.instFourierTransform`, written out by `Real.fourier_eq'`
+  as `𝓕 f w = ∫ v, exp(−2πi⟪v,w⟫) • f v`) integrates `f(x)e^(−2πiwx)`,
+  since `⟪x,w⟫=xw` on ℝ, so it is this transform at `χ_(−2πw)`.
 - G trivial: `Ĝ` is trivial, `C*(G)=ℂ=C₀(point)`, and ev is the identity.
 - For nondiscrete G neither `C*(G)` nor `C₀(Ĝ)` has a unit, since Ĝ is
   compact exactly when G is discrete: for G=ℝ the right side is `C₀(ℝ)`,
@@ -2320,7 +2327,8 @@ Tau Ceti `TauCeti.Amenable.of_commGroup` (abelian groups are amenable); the dual
 and Pontryagin duality theorem of VonNeumannAlgebras V11; Mathlib
 `PontryaginDual`, `Circle`, Haar measure with `Measure.IsHaarMeasure` and
 `Measure.Regular`, and `Lp`; Tau Ceti `TauCeti.circleEquivPontryaginDualInt`
-for the Checks.
+and Mathlib `Real.instFourierTransform` with `Real.fourier_eq'` for the
+Checks.
 
 ### D4.LCAWeyl. Translation covariance and the general LCA Weyl dictionary
 
@@ -2456,7 +2464,7 @@ Pontryagin duality theorem of VonNeumannAlgebras V11; Mathlib
 ### Examples
 
 `ℤ/2`, ℤ and ℝ for the Fourier transform and its conventions against
-Mathlib's `Real.fourierIntegral`; `S₃` as the non-abelian non-example; the
+Mathlib's Fourier transform `𝓕` on ℝ (`Real.fourier_eq'`); `S₃` as the non-abelian non-example; the
 Schrödinger pairs of `ℤ/2`, ℤ and ℝ with their covariance phases
 `conj(χ(s))` and the `ℤ/3` asymmetry of the phase; the normalization of
 the dual measure on `ℤ/n`, ℤ and ℝ; Takai duality for finite abelian
@@ -2470,7 +2478,9 @@ C2.2–C2.4; VonNeumannAlgebras V11 (the
 Fourier isomorphism `C*_r(G)≅C₀(Ĝ)`); the dual Haar measure, Plancherel
 unitary, Fourier inversion and Pontryagin duality theorem of
 VonNeumannAlgebras V11; Mathlib `PontryaginDual`, `Circle`, Haar
-measure, `Lp` and `lp`; Tau Ceti `ContRepresentation.IsUnitary` and
+measure, `Lp`, `lp` and the Fourier transform on ℝ
+(`Real.instFourierTransform`, `Real.fourier_eq'`, for the convention
+Check); Tau Ceti `ContRepresentation.IsUnitary` and
 `TauCeti.circleEquivPontryaginDualInt`.
 
 ## D5. Haar groupoids, convolution, and disintegration
@@ -3802,7 +3812,8 @@ traces out C from `ρ_BC`, and `ρ_AB` traces out C after regrouping the
 index as `(a×b)×c` (Nielsen–Petz, inequality (1), p. 1, for density
 matrices). No trace normalization is needed: for c>0,
 `S(cσ)=cS(σ)−c·Tr σ·log c`, and the four matrices have the trace of ρ, so
-replacing ρ by cρ changes both sides by `−2c·Tr ρ·log c`; a positive
+replacing ρ by cρ multiplies each side by c and then adds `−2c·Tr ρ·log c`
+to it, and the inequality for cρ is equivalent to that for ρ; a positive
 semidefinite ρ of trace 0 is 0. For a concrete route (Nielsen–Petz, §§2–4,
 pp. 3–6), build the compression inequality for −log from its resolvent integral and
 positive block-matrix Schur complements. On Hilbert–Schmidt matrices form
@@ -4041,7 +4052,8 @@ of a positive-definite matrix through the Hermitian functional calculus).
   Proposition I.21, p. 494) for the induced Hilbert spaces consumed from
   HilbertModules H3 and for `L²(G,H)` (D1.Modules, D2);
   Theorem 5.9 and Lemma 5.10 for induction in stages; Proposition 3.19
-  (p. 93) for full ideal exactness; Theorem 4.1, Corollary 4.17, Theorem 4.22,
+  (p. 93) for full ideal exactness; Example 3.32 (pp. 96–97) for the orbit
+  space of the saddle flow in D2's worked example; Theorem 4.1, Corollary 4.17, Theorem 4.22,
   Corollary 4.23 and Theorem 4.24 for symmetric and Green imprimitivity and `C₀(G)⋊G≅K(L²G)` (Theorem 4.24,
   p. 133); Definition 4.26, Lemma 4.28 and Theorem 4.29 (pp. 135–137) for
   Heisenberg pairs and the von Neumann uniqueness theorem of D4.LCAWeyl;

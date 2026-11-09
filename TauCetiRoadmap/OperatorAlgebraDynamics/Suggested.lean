@@ -403,8 +403,9 @@ positive semidefinite matrix `ρ` of a tripartite system indexed by `a × (b × 
 `S(ρ_ABC) + S(ρ_B) ≤ S(ρ_AB) + S(ρ_BC)`. Here `ρ_BC = Tr_A ρ` is `partialTraceLeft ρ`, `ρ_B` is
 the partial trace of `ρ_BC` over `c`, and `ρ_AB` is the partial trace over `c` of `ρ` regrouped
 along `(a × b) × c ≃ a × (b × c)`. No trace normalization is needed: scaling `ρ` by `t > 0`
-changes each of the four entropies `S(σ)` to `t S(σ) - t Tr(ρ) log t`, so both sides change alike;
-the density matrices are the case `Tr ρ = 1`. -/
+changes each of the four entropies `S(σ)` to `t S(σ) - t Tr(ρ) log t`, so each side is multiplied
+by `t` and then shifted by `-2 t Tr(ρ) log t`, and the inequality for `t ρ` is equivalent to that
+for `ρ`; the density matrices are the case `Tr ρ = 1`. -/
 theorem vonNeumannEntropy_strong_subadditivity {a b c : Type*} [Fintype a] [DecidableEq a]
     [Fintype b] [DecidableEq b] [Fintype c] [DecidableEq c]
     {ρ : Matrix (a × b × c) (a × b × c) ℂ} (hρ : ρ.PosSemidef) :
