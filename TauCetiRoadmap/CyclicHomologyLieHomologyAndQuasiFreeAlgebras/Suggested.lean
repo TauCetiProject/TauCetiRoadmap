@@ -34,6 +34,12 @@ Headlines not stated, with the carrier each lacks at the pins:
 * 2.1 and 2.6 (the Chevalley–Eilenberg complex and the stability theorem): Mathlib at the pins
   has neither the Chevalley–Eilenberg complex nor `Tor` over a noncommutative ring; the complex
   with its proof of `d² = 0` is target 2.1 itself.
+* 2.2's coinvariant form `(𝔤𝔩_r(k)^{⊗p})_{𝔤𝔩_r(k)} ≅ k[Σ_p]`: Mathlib has coinvariants of group
+  representations only (`Representation.Coinvariants`), not of Lie modules, and no Lie module
+  structure on `PiTensorProduct` powers.
+* 4.1's characterisations (`Ext²_{A^e}(A, −) = 0`, `Ω¹A` projective over `A^e`, right
+  connections): Mathlib has no `A ⊗ Aᵐᵒᵖ`-module structure on `A ⊗ A` and no tensor product over
+  a noncommutative ring, so neither `A^e`-modules nor `Ω¹A ⊗_A Ω¹A`.
 * 5.1–5.3 (H-unitality, Wodzicki's excision, rational excision in K-theory): the bar complex
   `(A^⊗•, b′)` tensored with an arbitrary module (RefinedTraceMethods §1.2 has `b′` on cyclic
   modules only), Hochschild and cyclic homology (KTheoryFiniteLocalFields §4.0), and the K-theory

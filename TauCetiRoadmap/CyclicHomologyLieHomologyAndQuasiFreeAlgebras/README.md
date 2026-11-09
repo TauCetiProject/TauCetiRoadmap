@@ -8,16 +8,17 @@ said), Lie algebras over `k` with Mathlib's `LieRing` and `LieAlgebra`, tensor p
 `⨂[k] _ : Fin p, Fin r → k` with Mathlib's `PiTensorProduct`, `k`-algebra maps `A →ₐ[k] R`, and
 nonunital rings through Mathlib's `Unitization`. The end theorems are: Connes' description of
 cyclic homology as `Tor` over the cyclic category, `HC_n(X) ≅ Tor_n^(kΛᵒᵖ)(k♮, X)` for every
-cyclic `k`-module `X`, its dual `HC^n(A) ≅ Ext^n_(kΛ)(A♮, k♮)` over a field, and the cyclic
-homology of tensor algebras (Layer 1); for a field `k` of characteristic zero and every unital
-`k`-algebra `A`, the Loday–Quillen–Tsygan theorem `Prim H_n(𝔤𝔩(A); k) ≅ HC_(n−1)(A)`, so that
-`H_*(𝔤𝔩(A); k)` is the free graded-commutative algebra on `HC_(*−1)(A)`, with its invariant-theory
-input (the permutations of the factors of `(kʳ)^⊗p` span the commutant of `𝔤𝔩_r(k)`, and are
-linearly independent exactly when `p ≤ r` by Tau Ceti's faithfulness threshold), the
-isomorphism `H₂(𝔰𝔩(A)) ≅ HC₁(A)` and the stability of `H_i(𝔤𝔩_n(A))` for `i < n − 1` (Layer 2);
-Goodwillie's theorems, over a field of characteristic zero: a derivation acts trivially on
-periodic cyclic homology, and `HP_*(A) → HP_*(A/I)` is an isomorphism for every nilpotent
-two-sided ideal `I` (Layer 3); Cuntz–Quillen's quasi-free algebras, defined by lifting along
+cyclic `k`-module `X`, its dual `HC^n(A) ≅ Ext^n_(kΛ)(A♮, k♮)` over a field of characteristic
+zero, and the cyclic homology of tensor algebras (Layer 1); for a field `k` of characteristic zero
+and every unital `k`-algebra `A`, the Loday–Quillen–Tsygan theorem
+`Prim H_n(𝔤𝔩(A); k) ≅ HC_(n−1)(A)`, so that `H_*(𝔤𝔩(A); k)` is the free graded-commutative
+algebra on `HC_(*−1)(A)`, with its invariant-theory input (the permutations of the factors of
+`(kʳ)^⊗p` span the commutant of `𝔤𝔩_r(k)`, and are linearly independent exactly when `p ≤ r` by
+Tau Ceti's faithfulness threshold) and the stability of `H_i(𝔤𝔩_n(A))` for `i < n − 1`, and, over
+every field, the isomorphism `H₂(𝔰𝔩(A)) ≅ HC₁(A)` (Layer 2); Goodwillie's theorems: over every
+commutative ring a derivation acts trivially on periodic cyclic homology, and over a field of
+characteristic zero `HP_*(A) → HP_*(A/I)` is an isomorphism for every nilpotent two-sided ideal
+`I` (Layer 3); Cuntz–Quillen's quasi-free algebras, defined by lifting along
 square-zero extensions, their characterisations (nilpotent lifting, Hochschild cohomological
 dimension at most one, projectivity of `Ω¹A`), free algebras as examples and `k[x, y]` as a
 non-example, the X-complex, `HP_*(A) ≅ H_*(X̂(R, I))` for every extension `A = R/I` with `R`
@@ -33,29 +34,42 @@ Suggested home: `TauCeti/Algebra/Homology/Cyclic/` for Layers 1 and 3–4,
 
 **Owned here.** The `Tor` and `Ext` descriptions of cyclic homology over Connes' cyclic category,
 the classifying space of that category, and the cyclic homology of tensor algebras (Layer 1); the
-Chevalley–Eilenberg homology of Lie algebras with trivial coefficients and its Hopf algebra
-structure for `𝔤𝔩(A)`, the commutant of `𝔤𝔩_r` acting on tensor powers and its coinvariant form, the
-Loday–Quillen–Tsygan theorem, its low-degree corollary and the stability theorem (Layer 2); the
-action of derivations on cyclic homology and Goodwillie's nil-invariance of periodic cyclic homology
-(Layer 3); quasi-free algebras, the X-complex, the universal extension with its Fedosov product, and
-excision in periodic cyclic homology (Layer 4); H-unitality, excision in Hochschild and cyclic
-homology, the Suslin–Wodzicki criterion for rational excision in K-theory, firm modules over
-nonunital rings, Morita contexts between them, and the group `K₀′` (Layer 5). A search of the
-roadmaps on main, of the open pull requests and of the maintainers' packages for the
-Loday–Quillen–Tsygan theorem, Lie algebra homology of matrices, Chevalley–Eilenberg homology,
-quasi-free algebras, the X-complex, Goodwillie's theorem on periodic cyclic homology, H-unitality,
-Wodzicki excision, firm modules over noncommutative rings, Morita contexts and Quillen's `K₀′` finds
-no other owner. Mathlib has only low-degree Lie algebra cochains
-(`LieModule.Cohomology.twoCochain`), not the Chevalley–Eilenberg complex. The firm and unitary
+Chevalley–Eilenberg chain complex `(⋀^• 𝔤, d)` of a Lie algebra over a commutative ring with
+trivial coefficients, its homology and the Hopf algebra structure for `𝔤𝔩(A)`, the commutant
+of `𝔤𝔩_r` acting on tensor powers and its coinvariant form, the Loday–Quillen–Tsygan theorem, its
+low-degree corollary and the stability theorem (Layer 2); the action of derivations on cyclic
+homology and Goodwillie's nil-invariance of periodic cyclic homology relative to a field of
+characteristic zero (Layer 3); quasi-free algebras, the X-complex, the universal extension with
+its Fedosov product, and excision in periodic cyclic homology (Layer 4); H-unitality, excision in
+Hochschild and cyclic homology, the Suslin–Wodzicki criterion for rational excision in K-theory,
+firm modules over nonunital rings, Morita contexts between them, and the group `K₀′` (Layer 5).
+A search of the roadmaps on main, of the open pull requests and of the maintainers' packages for the
+Loday–Quillen–Tsygan theorem, Lie algebra homology of matrices, the Chevalley–Eilenberg chain
+complex, quasi-free algebras, the X-complex, H-unitality, Wodzicki excision, firm modules over
+noncommutative rings, Morita contexts and Quillen's `K₀′` finds no other owner. The
+Chevalley–Eilenberg cochain complexes in all degrees are ArithmeticLocallySymmetricSpaces ALS.F.5
+(Lie algebra cochains, relative cochains and invariant forms) and LieGroupoidsPoisson §G1.3 (for a
+Lie algebroid over a manifold, and for a Lie algebra in all degrees); 2.1 owns the chain complex
+with trivial coefficients over a commutative ring, which neither states, and uses neither. Mathlib
+has only low-degree Lie algebra cochains (`LieModule.Cohomology.twoCochain`). The firm and unitary
 modules of 5.4, over an arbitrary nonunital ring, are the general statement of which
 SmoothRepresentationsOfLocalGroups' nondegenerate modules over an idempotented algebra are an
-instance; that roadmap cites 5.4.
+instance. SmoothRepresentationsOfLocalGroups SR.1.3 (*locally-unital-algebra*) states the
+idempotented-algebra case independently and cites nothing here; 5.4 records it as an
+instance.
 
 **Left to Tau Ceti.** The action of `Σ_p` and of its group algebra on `(kʳ)^⊗p` by permuting the
 factors, the threshold `p ≤ r` for its faithfulness, and Schur–Weyl duality for the diagonal
 operators (`TauCeti.permTensorActionAlgHom`, `TauCeti.permTensorActionAlgHom_injective_iff`,
 `TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`). Target 2.2 consumes them and owns
-only the form with the Lie algebra action of `𝔤𝔩_r(k)`.
+only the form with the Lie algebra action of `𝔤𝔩_r(k)`. Connes' cyclic cohomology `HCⁿ(A)` of a
+unital algebra by cyclic cochains, periodic cyclic cohomology, and the relative cyclic cohomology of
+a nonunital algebra through its forced unitisation (`TauCeti.cyclicCohomology`,
+`TauCeti.periodicCyclicCohomology`, `TauCeti.relativeCyclicCohomology`), which 1.1's dual, 1.2
+and 4.6 consume; the universal forms of a nonunital algebra through its forced unitisation
+(`TauCeti.UniversalForms`, `TauCeti.UniversalOneForms`), of which the normalised forms of a unital
+algebra in 4.1 and 4.3 are a quotient; and the cyclic quotient `A/[A, A]`
+(`TauCeti.cyclicQuotient`), the target of the trace in 2.5.
 
 **Left to RefinedTraceMethods.** Connes' cyclic category `Λ`, cyclic objects and their
 presentation by `(d_i, s_j, t_n)` (RefinedTraceMethods §1.1); Connes' operator
@@ -64,9 +78,9 @@ totalisations, `HC`, `HC⁻` and `HP` of a mixed complex and of an algebra, the 
 the comparison with Connes' complex `C^λ(A) = C(A)/(1 − t)` when `ℚ ⊆ k` (§1.4); Morita
 invariance of cyclic homology and the matrix trace (§1.6); Cortiñas' theorem that the obstruction
 to excision in rational K-theory is the obstruction to excision in cyclic homology, shifted by one
-(§4.18, truncating invariants). Its §4.17 uses Goodwillie's
-nil-invariance of periodic cyclic homology as a proof input of the rational comparison of
-relative K-theory with cyclic homology; the theorem itself is stated here, 3.2.
+(§4.18, truncating invariants). RefinedTraceMethods §4.9 states that `HP(−⊗ℚ/ℚ)` is truncating,
+hence nil-invariant by its §4.18. 3.2 cites it for `k = ℚ` and keeps the form for `HP` relative to
+an arbitrary field `k` of characteristic zero.
 
 **Left to KTheoryFiniteLocalFields.** The cyclic structure on Hochschild chains, the Connes
 mixed complex, `HH`, `HC`, `HC⁻`, `HP` of an algebra with their functoriality, relative fibres
@@ -99,9 +113,12 @@ for `𝔬(A)` and `𝔰𝔭(A)`, and Quillen's derived categories of firm module
 
 ## Conventions
 
-1. **Ground rings.** Layer 1, 4.1–4.2 and 5.1–5.2 work over a commutative ring `k`; 4.1's
-   characterisations other than lifting take `k` a field; Layers 2 and 3 and 4.3–4.6 take `k` a
-   field of characteristic zero, as Loday–Quillen, Goodwillie and Cuntz–Quillen do. Witness: the
+1. **Ground rings.** Layer 1 (except 1.1's dual and the operator `S` of 1.2), 2.1's complex and
+   its `Tor` comparison, 2.5 (for `A` free as a `k`-module), 3.1, 4.1–4.2 and 5.1–5.2 work over a
+   commutative ring `k`; 4.1's characterisations other than lifting take `k` a field; 1.1's dual,
+   the operator `S` of 1.2, 2.1's Hopf structure, 2.2–2.4, 2.6, 3.2 and 4.3–4.6 take `k` a field
+   of characteristic zero, as Loday–Quillen §6, Goodwillie's nil-invariance and Cuntz–Quillen do.
+   Witness: the
    reduced cyclic homology `H̄C₁(k[x])` is `0` for `k = ℚ` and nonzero for `k = 𝔽₂` (1.4, Checks),
    so the characteristic-zero hypothesis of the later layers is not decorative.
 2. **Cyclic operator and Connes' complex.** `t(a₀ ⊗ ⋯ ⊗ a_n) = (−1)^n a_n ⊗ a₀ ⊗ ⋯ ⊗ a_(n−1)`,
@@ -122,7 +139,8 @@ for `𝔬(A)` and `𝔰𝔭(A)`, and Quillen's derived categories of firm module
    elements vanishes. Witness: `k[ε]/(ε²) → k` is square-zero; `k[x]/(x³) → k` is nilpotent of
    order 3 and not square-zero (`x · x ≠ 0`).
 6. **The X-complex.** `X(R)` is `ℤ/2`-graded with `X₀ = R`, `X₁ = Ω¹R_♮ = Ω¹R/[R, Ω¹R]`,
-   `♮d : X₀ → X₁` and `b : X₁ → X₀`, `b(♮(x dy)) = [x, y]` (Cuntz–Quillen 1995b, §1). Witness: for
+   `♮d : X₀ → X₁` and `b : X₁ → X₀`, `b(♮(x dy)) = [x, y]` (Cuntz–Quillen 1995b, §4, p. 392).
+   Witness: for
    `R = k[x]` over `ℚ ⊆ k`, `b = 0` and `♮d = d : k[x] → k[x]dx`, so `H₀ = k`, `H₁ = 0`, the
    periodic cyclic homology of `k`.
 7. **The bar complex.** `B_q(A) = A^⊗q` for `q ≥ 1`, with
@@ -149,21 +167,39 @@ for `𝔬(A)` and `𝔰𝔭(A)`, and Quillen's derived categories of firm module
   `CategoryTheory.Abelian.Ext`, `Module.Projective`, `Module.Flat`.
 - Simplicial and homotopical: `CategoryTheory.nerve`, `SSet.toTop`, `HomotopyGroup`.
 
-**From Tau Ceti** (at the pin), in
-`TauCeti/RepresentationTheory/Symmetric/TensorAction/`: `Basic.lean`
-(`TauCeti.permTensorAction`, `TauCeti.permTensorActionAlgHom`, the action of `Σ_p` and of
-`k[Σ_p] = MonoidAlgebra k (Equiv.Perm (Fin p))` on `(kʳ)^⊗p` by permuting the factors),
-`Faithful.lean` (`TauCeti.permTensorActionAlgHom_injective_iff`: injective if and only if
-`p ≤ r`, over a nontrivial commutative ring), `SchurWeyl.lean`
-(`TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`: over a field in which `p!` is
-nonzero, the range is the commutant of the diagonal operators `f^⊗p`).
+**From Tau Ceti** (at the pin).
+
+- In `TauCeti/RepresentationTheory/Symmetric/TensorAction/`: `Basic.lean`
+  (`TauCeti.permTensorAction`, `TauCeti.permTensorActionAlgHom`, the action of `Σ_p` and of
+  `k[Σ_p] = MonoidAlgebra k (Equiv.Perm (Fin p))` on `(kʳ)^⊗p` by permuting the factors),
+  `Faithful.lean` (`TauCeti.permTensorActionAlgHom_injective_iff`: injective if and only if
+  `p ≤ r`, over a nontrivial commutative ring), `SchurWeyl.lean`
+  (`TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`: over a field in which `p!` is
+  nonzero, the range is the commutant of the diagonal operators `f^⊗p`).
+- `TauCeti.cyclicCohomology`, in `TauCeti/RingTheory/CyclicCohomology/Cohomology.lean`: Connes'
+  cyclic cohomology `HCⁿ(A; M)` of a unital algebra, the cohomology of the cyclic cochains; over a
+  ground ring containing `ℚ` it agrees with the cohomology of the cyclic bicomplex.
+- `TauCeti.periodicCyclicCohomology`, in
+  `TauCeti/RingTheory/CyclicCohomology/PeriodicCohomology.lean`: `HPⁿ(A; M)`, the direct limit of
+  the cohomology of the total cyclic bicomplex in degrees `n + 2m` under `S`.
+- `TauCeti.relativeCyclicCohomology`, in `TauCeti/RingTheory/CyclicCohomology/Relative.lean`: the
+  cyclic cohomology of a nonunital algebra relative to the ground ring, through its forced
+  unitisation.
+- `TauCeti.UniversalForms`, in `TauCeti/NoncommutativeGeometry/UniversalDifferential/Complex.lean`,
+  and `TauCeti.UniversalOneForms`, in
+  `TauCeti/NoncommutativeGeometry/UniversalDifferential/OneForms.lean`: the universal forms
+  `A⁺ ⊗ A^⊗n` of a nonunital algebra with the forced unitisation `A⁺` kept even when `A` has a
+  unit, and the universal one-forms as the kernel of the multiplication of `A⁺ ⊗ A⁺`.
+- `TauCeti.cyclicQuotient`, in `TauCeti/Algebra/Algebra/CyclicQuotient.lean`: the cyclic quotient
+  `A/[A, A]`.
 
 **From RefinedTraceMethods.** §1.1 (Connes' cyclic category `Λ`, cyclic objects of a category as
 functors `Λᵒᵖ ⥤ C`, the inclusion `Δ → Λ`, the presentation by `(d_i, s_j, t_n)`); §1.2 (Connes'
 operator `B`, mixed complexes, the normalised mixed complex of a cyclic module); §1.4 (`HC`,
 `HC⁻`, `HP` of a mixed complex and of an algebra, the SBI sequence, the comparison with Connes'
 complex when `ℚ ⊆ k`); §1.6 (Morita invariance of cyclic homology, the matrix trace
-`HC_*(M_r(A)) ≅ HC_*(A)`); §4.18 (Cortiñas' theorem: the obstruction to excision in rational
+`HC_*(M_r(A)) ≅ HC_*(A)`); §4.9 (`HP(−⊗ℚ/ℚ)` is a truncating invariant); §4.18 (truncating
+invariants are nil-invariant, and Cortiñas' theorem: the obstruction to excision in rational
 K-theory is that in cyclic homology, shifted by one).
 
 **From KTheoryFiniteLocalFields.** §4.0 (`cyclicHomologyModel`: Hochschild homology `HH_*(A/k)`,
@@ -203,9 +239,13 @@ colim_(Λᵒᵖ) X`. Prove: for every commutative ring `k` and every cyclic `k`-
 `HC_n(X) ≅ Tor_n^(kΛᵒᵖ)(k♮, X)`, naturally in `X`, where `HC` is the cyclic homology of the mixed
 complex of `X` (RefinedTraceMethods §1.4). Route: the columns of the cyclic bicomplex of the
 cyclic module `k[Λ(−, [n])]` assemble into a projective resolution of `k♮` (Loday, *Cyclic
-Homology*, §6.2). Over a field, prove the dual statement `HC^n(A) ≅ Ext^n_(kΛ)(A♮, k♮)` for a
-unital `k`-algebra `A` with its cyclic module `A♮`, `[n] ↦ A^⊗(n+1)` (Connes 1983).
-*Needs:* RefinedTraceMethods §1.1, §1.2, §1.4; Mathlib `CategoryTheory.Abelian.Ext`, `ModuleCat`.
+Homology*, §6.2). Over a field of characteristic zero, prove the dual statement
+`HC^n(A) ≅ Ext^n_(kΛ)(A♮, k♮)` for a unital `k`-algebra `A` with its cyclic module `A♮`,
+`[n] ↦ A^⊗(n+1)`, where `HC^n(A)` is Tau Ceti's `TauCeti.cyclicCohomology` with coefficients in
+`k`, Connes' cyclic cochains, which compute the cohomology of the cyclic bicomplex when `ℚ ⊆ k`
+(Connes 1983).
+*Needs:* RefinedTraceMethods §1.1, §1.2, §1.4; Tau Ceti `TauCeti.cyclicCohomology`; Mathlib
+`CategoryTheory.Abelian.Ext`, `ModuleCat`.
 
 **Checks.**
 
@@ -222,17 +262,20 @@ unital `k`-algebra `A` with its cyclic module `A♮`, `[n] ↦ A^⊗(n+1)` (Conn
 ### 1.2 The cyclic cohomology of the trivial module
 
 Prove: over a field `k`, `Ext^*_(kΛ)(k♮, k♮)` is the polynomial algebra `k[u]` on a
-class `u` of degree 2 under the Yoneda product, and Connes' periodicity operator
-`S : HC^n(A) → HC^(n+2)(A)` is the Yoneda product with `u` under 1.1 (Connes 1983; Loday, *Cyclic
-Homology*, §6.2).
-*Needs:* 1.1; RefinedTraceMethods §1.4 (the SBI sequence and the operator `S`).
+class `u` of degree 2 under the Yoneda product, and, over a field of characteristic zero, Connes'
+periodicity operator `S : HC^n(A) → HC^(n+2)(A)` on `TauCeti.cyclicCohomology` is the Yoneda
+product with `u` under 1.1's dual, so that `TauCeti.periodicCyclicCohomology`, the direct limit
+under `S`, is the direct limit of `Ext^(n+2m)_(kΛ)(A♮, k♮)` under the product with `u` (Connes
+1983; Loday, *Cyclic Homology*, §6.2).
+*Needs:* 1.1; RefinedTraceMethods §1.4 (the SBI sequence and the operator `S`); Tau Ceti
+`TauCeti.cyclicCohomology`, `TauCeti.periodicCyclicCohomology`.
 
 **Checks.**
 
 - In degree 0, `Ext⁰(k♮, k♮) = Hom(k♮, k♮) = k`, the endomorphisms of a constant functor on a
   connected category.
-- `Ext¹(k♮, k♮) = HC¹(k) = 0`, by 1.1's dual for `A = k`: the odd cyclic cohomology of `k`
-  vanishes, so a class `u` of degree 1 would contradict 1.1.
+- `Ext¹(k♮, k♮) = HC¹(k) = 0` for `k = ℚ`, by 1.1's dual for `A = k`: the odd cyclic cohomology
+  of `k` vanishes, so a class `u` of degree 1 would contradict 1.1.
 - `u` is not nilpotent: `Sᵐ : HC⁰(k) → HC^(2m)(k)` is an isomorphism `k ≅ k` for every `m`, so
   `uᵐ ≠ 0`; an exterior algebra on `u` would give `HC⁴(k) = 0`.
 
@@ -240,7 +283,8 @@ Homology*, §6.2).
 
 Prove: the geometric realisation `|NΛ|` of the nerve of `Λ` is an
 Eilenberg–Mac Lane space `K(ℤ, 2)`: it is path-connected, `π₂(|NΛ|) ≅ ℤ` and `π_n(|NΛ|) = 0` for
-`n ≠ 2` (Connes 1983; Dwyer–Hopkins–Kan 1985; Loday, *Cyclic Homology*, Chapter 7). Route:
+`n ≠ 2` (Connes 1983; Dwyer–Hopkins–Kan 1985, §5, p. 287, which records `BΛ ≃ K(ℤ, 2)` from
+Connes; Loday, *Cyclic Homology*, Chapter 7). Route:
 `|NΛ|` is the homotopy orbit space of a point for the circle action of the realisation of a
 cyclic set, `ES¹ ×_(S¹) *`; equivalently, 1.2 computes its cohomology ring `k[u]` and the
 paracyclic category `Λ_∞` of RefinedTraceMethods §1.1 has contractible nerve.
@@ -284,22 +328,29 @@ Proposition 5.4, p. 583).
 
 ### Dependencies
 
-RefinedTraceMethods §§1.1, 1.2 and 1.4, KTheoryFiniteLocalFields §4.0, and Mathlib. Within the
-layer, 1.2 uses 1.1 and 1.3 uses 1.2.
+RefinedTraceMethods §§1.1, 1.2 and 1.4, KTheoryFiniteLocalFields §4.0, Tau Ceti's cyclic
+cohomology for 1.1's dual and 1.2, and Mathlib. Within the layer, 1.2 uses 1.1 and 1.3 uses 1.2.
 
 ## Layer 2: Lie algebra homology of matrices
 
 ### 2.1 Chevalley–Eilenberg homology
 
 Define, for a Lie algebra `𝔤` over a commutative ring `k`, the Chevalley–Eilenberg complex
-`(⋀^• 𝔤, d)` with the differential of Convention 3, prove `d² = 0`, and define `H_n(𝔤; k)` as its
-homology. Prove functoriality in Lie algebra maps, and for `𝔤` projective as a `k`-module the
-comparison `H_n(𝔤; k) ≅ Tor_n^(U(𝔤))(k, k)` with `U(𝔤)` Mathlib's
-`UniversalEnvelopingAlgebra` (Cartan–Eilenberg, Chapter XIII; Loday–Quillen 1984, §6, p. 583).
-For `𝔤𝔩(A) = colim_r 𝔤𝔩_r(A)` over a field `k`, define the product
+`(⋀^• 𝔤, d)` with the differential of Convention 3, and `H_n(𝔤; k)` as its homology. For
+`𝔤𝔩(A) = colim_r 𝔤𝔩_r(A)` over a field `k` of characteristic zero, define the product
 `H_*(𝔤𝔩(A)) ⊗ H_*(𝔤𝔩(A)) → H_*(𝔤𝔩(A))` induced by the direct sum `𝔤𝔩_r ⊕ 𝔤𝔩_s → 𝔤𝔩_(r+s)` and
-the coproduct induced by the diagonal, and prove that they make `H_*(𝔤𝔩(A))` a graded-commutative
-and cocommutative connected Hopf algebra (Loday–Quillen 1984, §6, p. 584).
+the coproduct induced by the diagonal (Loday–Quillen 1984, §6, pp. 583–584, where `k` has
+characteristic zero throughout the section). Prove:
+
+- `d² = 0`, over every commutative ring `k`.
+- Functoriality: a Lie algebra map `𝔤 → 𝔥` induces a chain map `⋀^• 𝔤 → ⋀^• 𝔥`, hence maps
+  `H_n(𝔤; k) → H_n(𝔥; k)`, compatibly with identities and composition.
+- For `𝔤` projective as a `k`-module, `H_n(𝔤; k) ≅ Tor_n^(U(𝔤))(k, k)`, with `U(𝔤)` Mathlib's
+  `UniversalEnvelopingAlgebra` (Cartan–Eilenberg, Chapter XIII; Loday–Quillen 1984, §6, p. 583).
+- Over a field `k` of characteristic zero, the product and the coproduct make `H_*(𝔤𝔩(A))` a
+  graded-commutative and cocommutative connected Hopf algebra (Loday–Quillen 1984, §6,
+  pp. 583–584).
+
 *Needs:* Mathlib `LieAlgebra`, `exteriorPower`, `ChainComplex`, `HomologicalComplex.homology`,
 `UniversalEnvelopingAlgebra`, `Matrix`.
 
@@ -313,8 +364,10 @@ and cocommutative connected Hopf algebra (Loday–Quillen 1984, §6, p. 584).
 - `𝔤 = 𝔰𝔩₂(ℚ)` with `[h, e] = 2e`, `[h, f] = −2f`, `[e, f] = h`: `d(e ∧ f ∧ h) = −h ∧ h +
   [e, h] ∧ f − [f, h] ∧ e = −2e ∧ f + 2e ∧ f = 0`, and its class spans `H₃ = ℚ`, while
   `H₁ = H₂ = 0` (Whitehead's lemmas).
-- The product on `H_*(𝔤𝔩(A))` uses the direct sum, not the tensor product of matrices: on `H₁` it
-  is addition `A/[A, A] × A/[A, A] → A/[A, A]` through the trace.
+- The product on `H_*(𝔤𝔩(A))` uses the direct sum, not the tensor product of matrices: on `H₁`,
+  the map `H₁(𝔤𝔩_r(A)) × H₁(𝔤𝔩_s(A)) → H₁(𝔤𝔩_(r+s)(A))` induced by the block sum is
+  `(a, b) ↦ a + b` under the trace, the trace of a block-diagonal matrix being the sum of the
+  traces of its blocks; the product itself sends `H₁ ⊗ H₁` to `H₂`.
 
 ### 2.2 Invariant theory of tensor powers
 
@@ -405,9 +458,18 @@ connected graded-commutative and cocommutative Hopf algebras over a field of cha
 
 ### 2.5 Low degrees: `𝔰𝔩(A)`
 
-Define `𝔰𝔩(A)` as the kernel of `𝔤𝔩(A) → A/[A, A]`, the trace. Prove: over a field
-of characteristic zero, `H₂(𝔰𝔩(A); k) ≅ HC₁(A)` (Loday–Quillen 1984, Corollary 6.7, p. 586).
-*Needs:* 2.4; Mathlib `LieAlgebra.SpecialLinear.sl` for `A = k`.
+Define `𝔰𝔩(A)` as the kernel of the trace `𝔤𝔩(A) → A/[A, A]`, with values in Tau Ceti's
+`TauCeti.cyclicQuotient`. Prove: for a commutative ring `k` and a unital `k`-algebra `A` that is
+free as a `k`-module, in particular for every algebra over a field, in every characteristic,
+`H₂(𝔰𝔩(A); k) ≅ HC₁(A)` (Loday–Quillen 1984, Corollary 6.7, p. 586, and the Remark after it,
+p. 587; Kassel–Loday 1982, Corollaire 1.9, p. 124, where cyclic homology is indexed one higher and
+the group is written `HC₂(A)`). Route: the Steinberg Lie algebra `𝔰𝔱(A)`, generated by symbols
+`u_ij(a)` subject to the Steinberg relations, is the universal central extension of `𝔰𝔩(A)` and its
+kernel is `HC₁(A)` (Kassel–Loday 1982, Théorème 1.7, pp. 123–124, and Proposition 1.8, p. 124); for
+a perfect Lie algebra over `k`, free as a `k`-module, `H₂` is the kernel of the universal central
+extension.
+*Needs:* 2.1; RefinedTraceMethods §1.4 (`HC₁`); Tau Ceti `TauCeti.cyclicQuotient`; Mathlib
+`LieAlgebra.SpecialLinear.sl` for `A = k`.
 
 **Checks.**
 
@@ -416,6 +478,10 @@ of characteristic zero, `H₂(𝔰𝔩(A); k) ≅ HC₁(A)` (Loday–Quillen 198
 - `A = k[x]` over `ℚ`: `HC₁(k[x]) = Ω¹/dΩ⁰ = 0` by 1.4, so `H₂(𝔰𝔩(k[x])) = 0`; for
   `A = k[x, x⁻¹]`, `HC₁ = k·[x⁻¹dx] ≠ 0`, the class of the central extension that gives affine
   Lie algebras.
+- Positive characteristic: for commutative `A`, `HC₁(A) = Ω¹_A/dA` (Kassel–Loday 1982, p. 124);
+  over `k = 𝔽_p` the class of `x^(p−1)dx` in `Ω¹/dΩ⁰` of `𝔽_p[x]` is nonzero, since
+  `d(xᵐ) = m x^(m−1)dx` vanishes for `m = p`, so `H₂(𝔰𝔩(𝔽_p[x])) ≠ 0`, while over `ℚ` it is `0`; a
+  statement in characteristic zero only would miss this case.
 - The trace is taken in `A/[A, A]`: for `A = M₂(k)`, the `1 × 1` matrix with entry
   `E₁₁ − E₂₂ = [E₁₂, E₂₁]` has nonzero trace in `A` and zero trace in `A/[A, A]`, so it lies in
   `𝔰𝔩(A)`; trace zero in `A` would give a smaller algebra, not equal to `[𝔤𝔩(A), 𝔤𝔩(A)]`.
@@ -450,19 +516,22 @@ is an exact sequence
 
 ### Dependencies
 
-Mathlib for 2.1–2.2 and Tau Ceti for 2.2; RefinedTraceMethods §§1.4 and 1.6 and
-KTheoryFiniteLocalFields §4.0 from 2.3 on. Within the layer, each target uses the previous ones.
+Mathlib for 2.1–2.2 and Tau Ceti for 2.2 and 2.5; RefinedTraceMethods §§1.4 and 1.6 and
+KTheoryFiniteLocalFields §4.0 from 2.3 on. Within the layer, 2.2–2.4 and 2.6 each use the previous
+targets, and 2.5 uses 2.1 only.
 
 ## Layer 3: derivations and nilpotent extensions
 
 ### 3.1 Derivations act trivially on periodic cyclic homology
 
-For a derivation `D` of a unital algebra `A` over a field `k` of characteristic zero, define its
+For a derivation `D` of a unital algebra `A` over a commutative ring `k`, define its
 action `L_D(a₀ ⊗ ⋯ ⊗ a_n) = Σ_i a₀ ⊗ ⋯ ⊗ D a_i ⊗ ⋯ ⊗ a_n` on Hochschild chains, which commutes
 with `b` and `B` and induces endomorphisms of `HH_*(A)`, `HC_*(A)` and `HP_*(A)`. Prove:
 `L_D` acts as zero on `HP_*(A)`, and `S ∘ L_D = 0` on `HC_*(A)`
 (Goodwillie 1985, Part II). Route: the Cartan homotopy formula `L_D = [b + uB, e_D + E_D]` with
-the two operators `e_D` and `E_D` of Goodwillie on the periodic complex.
+the two operators `e_D` and `E_D` of Goodwillie on the periodic complex, from the identities
+`[b, e_D] = 0`, `[B, E_D] = 0` and `[b, E_D] + [B, e_D] = L_D`, which have integer coefficients, so
+that no hypothesis on the characteristic is used.
 *Needs:* RefinedTraceMethods §1.2, §1.4; KTheoryFiniteLocalFields §4.0.
 
 **Checks.**
@@ -472,18 +541,23 @@ the two operators `e_D` and `E_D` of Goodwillie on the periodic complex.
 - `A = k[x]`, `D = x d/dx` (the Euler derivation): on `HC₀ = k[x]`, `L_D(xᵐ) = m xᵐ`, nonzero for
   `m > 0`, so `L_D ≠ 0` on `HC`; but `S : HC₀ → HC₋₂ = 0`, and `HP₀(k[x]) = k` (the constants),
   where `L_D = 0`.
-- The route divides by weights: over `𝔽_p`, `D = x d/dx` acts on the weight-`p` class `x^p` of
-  `HC₀(𝔽_p[x])` by `p = 0`, so the weight argument says nothing there, and the statement is made
-  in characteristic zero only.
+- Positive characteristic: over `𝔽_p`, `D = x d/dx` acts on the weight-`m` part of
+  `H̄C_n(𝔽_p[x])`, `n ≥ 1`, by `m`, and by 1.4 this part is nonzero only when `p ∣ m`, where
+  `m = 0` in `𝔽_p`; so `L_D = 0` there, as the statement over every commutative ring predicts,
+  whereas a weight `m` prime to `p` with nonzero homology in degree `n ≥ 1` would refute it.
 
 ### 3.2 Nil-invariance of periodic cyclic homology
 
 Prove: for a field `k` of characteristic zero, a unital `k`-algebra `A` and a
 nilpotent two-sided ideal `I ⊆ A` (some `Iᴺ = 0`), the quotient map induces an isomorphism
-`HP_*(A) ≅ HP_*(A/I)` (Goodwillie 1985, Part II). Route: reduce to `I² = 0`, filter by powers of
-`I`, and apply 3.1 to the derivation acting on the associated graded with weight `m` on
-`(I/I²)^⊗m`.
-*Needs:* 3.1; KTheoryFiniteLocalFields §4.0 (functoriality, relative fibres).
+`HP_*(A) ≅ HP_*(A/I)` (Goodwillie 1985, Theorem II.5.1, as cited in Cortiñas 2006, p. 3). For
+`k = ℚ` this is RefinedTraceMethods §4.9 (`HP(−⊗ℚ/ℚ)` is truncating) with its §4.18 (truncating
+invariants are nil-invariant), which 3.2 cites; 3.2 owns the form for `HP` relative to an arbitrary
+field `k` of characteristic zero. Route: reduce to `I² = 0`, filter by powers of `I`, and apply
+3.1 to the derivation acting on the associated graded with weight `m` on `(I/I²)^⊗m`, dividing by
+`m`.
+*Needs:* 3.1; RefinedTraceMethods §4.9, §4.18; KTheoryFiniteLocalFields §4.0 (functoriality,
+relative fibres).
 
 **Checks.**
 
@@ -495,6 +569,10 @@ nilpotent two-sided ideal `I ⊆ A` (some `Iᴺ = 0`), the quotient map induces 
 - `I` two-sided and nilpotent, not only nil in a quotient: for `A = T₂(k)`, the upper triangular
   matrices, and `I` its strictly upper triangular part, `I² = 0` and 3.2 gives
   `HP₀(T₂(k)) = HP₀(k × k) = k²`.
+- The route divides by weights: over `𝔽_p`, the weight derivation acts on weight `m` by `m`, which
+  is `0` for `p ∣ m`, so 3.1 gives nothing there; the computation below shows that nil-invariance
+  indeed fails in characteristic `p`, which is why 3.2, unlike 3.1, is made in characteristic
+  zero.
 
 Not a target: nil-invariance fails in characteristic `p > 0`, already for `𝔽_p[ε]`, `ε² = 0`
 (own computation). The normalised chains of `k[ε]` split by weight, the number of `ε`'s. In weight
@@ -518,7 +596,8 @@ in both parities, so `HP₁(𝔽_p[ε]) ≠ 0 = HP₁(𝔽_p)`.
 
 ### Dependencies
 
-RefinedTraceMethods §§1.2, 1.4 and 1.6 and KTheoryFiniteLocalFields §4.0. 3.2 uses 3.1.
+RefinedTraceMethods §§1.2, 1.4, 1.6, 4.9 and 4.18 and KTheoryFiniteLocalFields §4.0. 3.2 uses
+3.1.
 
 ## Layer 4: quasi-free algebras and the X-complex
 
@@ -526,17 +605,25 @@ RefinedTraceMethods §§1.2, 1.4 and 1.6 and KTheoryFiniteLocalFields §4.0. 3.2
 
 Define `IsQuasiFree k A` for a `k`-algebra `A` over a commutative ring `k`: for every surjective
 `π : R →ₐ[k] S` whose kernel has zero products (Convention 5), every `f : A →ₐ[k] S` is
-`π.comp g` for some `g : A →ₐ[k] R`, with `R` and `S` in the universe of `A`. Prove
-`IsQuasiFree.exists_lift_of_nilpotent`: a quasi-free algebra lifts along every surjection whose
-kernel is nilpotent of some order `n`. Over a field `k`, prove that the following are equivalent
-(Cuntz–Quillen 1995a): `A` is quasi-free; `Ext²_(A^e)(A, M) = 0` for every `A`-bimodule `M`, with
-`A^e = A ⊗_k Aᵐᵒᵖ` (Hochschild cohomological dimension at most one); the bimodule
-`Ω¹A = ker(A ⊗_k A → A)` is projective over `A^e`; `Ω¹A` admits a right connection, a left
-`A`-linear map `∇ : Ω¹A → Ω²A` with `∇(ωa) = ∇(ω)a + ω da`. More generally `Ω^nA` is projective if
-and only if the Hochschild cohomological dimension of `A` is at most `n` (loc. cit.).
-Route for nilpotent lifting: lift through `R/Kⁱ → R/K^(i−1)` one square-zero step at a time.
-*Needs:* Mathlib `AlgHom`, `List.prod`, `Algebra.TensorProduct`, `MulOpposite`,
-`CategoryTheory.Abelian.Ext`, `Module.Projective`.
+`π.comp g` for some `g : A →ₐ[k] R`, with `R` and `S` in the universe of `A`. Here
+`Ω¹A = ker(A ⊗_k A → A)` and `Ω²A = Ω¹A ⊗_A Ω¹A` are the forms of the unital algebra `A`, the
+normalised quotient of Tau Ceti's forced-unitisation `TauCeti.UniversalOneForms` and
+`TauCeti.UniversalForms`, and `A^e = A ⊗_k Aᵐᵒᵖ`. Prove:
+
+- Lifting along square-zero surjections: the definition, for every `π` as above.
+- `IsQuasiFree.exists_lift_of_nilpotent`: if `A` is quasi-free, `π : R →ₐ[k] S` is surjective and
+  every product of `n` elements of its kernel vanishes, every `f : A →ₐ[k] S` lifts through `π`
+  (Cuntz–Quillen 1995a, §6, p. 275). Route: lift through `R/Kⁱ → R/K^(i−1)` one square-zero
+  step at a time.
+- Over a field `k`: `A` is quasi-free if and only if `Ext²_(A^e)(A, M) = 0` for every
+  `A`-bimodule `M` (Hochschild cohomological dimension at most one), if and only if the bimodule
+  `Ω¹A` is projective over `A^e` (Cuntz–Quillen 1995a, Proposition 3.3, p. 267).
+- Over a field `k`: `A` is quasi-free if and only if `Ω¹A` admits a right connection, a left
+  `A`-linear map `∇ : Ω¹A → Ω²A` with `∇(ωa) = ∇(ω)a + ω da` (Cuntz–Quillen 1995a,
+  Proposition 3.4 (4), p. 268).
+*Needs:* Tau Ceti `TauCeti.UniversalOneForms`, `TauCeti.UniversalForms`; Mathlib `AlgHom`,
+`List.prod`, `Algebra.TensorProduct`, `MulOpposite`, `CategoryTheory.Abelian.Ext`,
+`Module.Projective`.
 
 **Checks.**
 
@@ -554,12 +641,14 @@ Route for nilpotent lifting: lift through `R/Kⁱ → R/K^(i−1)` one square-ze
 ### 4.2 Examples and non-examples
 
 Prove `isQuasiFree_freeAlgebra`: for every commutative ring `k` and type `X`, `FreeAlgebra k X`
-is quasi-free; the route lifts the images of the generators, using only the surjectivity of `π`.
-Prove `not_isQuasiFree_mvPolynomial_fin_two`: over a field `K`, `K[x, y]` is not quasi-free, its
-Hochschild cohomological dimension being 2 (Cuntz–Quillen 1995a). Prove that finite products,
-free products and matrix algebras `M_r(A)` of quasi-free algebras over a field are quasi-free,
-that separable algebras, `k[x]` and `k[x, x⁻¹]` are quasi-free, and that the `I`-adic completion
-`R̂ = lim R/Iⁿ` of a quasi-free `R` along an ideal `I` is again quasi-free (loc. cit.).
+is quasi-free (Cuntz–Quillen 1995a, p. 267); the route lifts the images of the generators, using
+only the surjectivity of `π`. Prove `not_isQuasiFree_mvPolynomial_fin_two`: over a field `K`,
+`K[x, y]` is not quasi-free, its Hochschild cohomological dimension being 2 (Cuntz–Quillen 1995a,
+§5, p. 273). Prove that separable algebras are quasi-free (loc. cit., p. 267); that finite
+products, free products, matrix algebras `M_r(A)` and localisations of quasi-free algebras over a
+field are quasi-free (loc. cit., Proposition 5.3, p. 273), so that `k[x]` and `k[x, x⁻¹]` are; and
+that a quasi-free `A` lifts every homomorphism `A → R/I` to the `I`-adic completion
+`R̂ = lim R/Iⁿ`, for every algebra `R` and ideal `I` (loc. cit., Proposition 6.1 (1), p. 275).
 *Needs:* 4.1; Mathlib `FreeAlgebra.lift`, `FreeAlgebra.ι`, `MvPolynomial`, `Polynomial`,
 `Matrix`.
 
@@ -572,6 +661,11 @@ that separable algebras, `k[x]` and `k[x, x⁻¹]` are quasi-free, and that the 
 - `M₂(K)` is separable, hence quasi-free of cohomological dimension 0; `K[ε]/(ε²)` is not
   quasi-free: the identity does not lift along `K[t]/(t³) → K[t]/(t²)`, since a lift would send
   `ε` to an element of square zero in `K[t]/(t³)` mapping to `t`, and `(t + ct²)² = t² ≠ 0`.
+- Completion lifts maps and does not preserve quasi-freeness: `ℚ[x]` is quasi-free and its
+  `x`-adic completion `ℚ⟦x⟧` is not, since a quasi-free algebra is formally smooth and
+  `Ω_(ℚ⟦x⟧/ℚ)` is not projective (its fibre at the closed point has dimension at most 1 and its
+  generic rank is `2^ℵ₀`); what the completion clause gives on `R = ℚ[x]`, `I = (x)` is only that
+  maps `ℚ[x] → ℚ` lift to `ℚ⟦x⟧`, which they do.
 
 Not a target: for a field `k` and a group `G`, the group algebra `k[G]` is quasi-free exactly
 when `G` is the fundamental group of a graph of finite groups whose orders are invertible in `k`
@@ -589,13 +683,24 @@ finite `G` of order invertible in `k` is separable, and `k[ℤ] = k[x, x⁻¹]`.
 ### 4.3 Noncommutative forms and the X-complex
 
 For a unital algebra `R` over a field `k` of characteristic zero, define the differential graded
-algebra of noncommutative forms `ΩR` with `Ω^nR = R ⊗ R̄^⊗n`, `R̄ = R/k`, the Hochschild operator
-`b` with `b(ω da) = (−1)^|ω| [ω, a]`, the Karoubi operator `κ = 1 − (db + bd)` and Connes'
-operator `B`, and identify `(ΩR, b, B)` with the normalised mixed complex of RefinedTraceMethods
-§1.2 (Cuntz–Quillen 1995b, §§1–2). Define `Ω¹R_♮ = Ω¹R/[R, Ω¹R]` and the `ℤ/2`-graded complex
-`X(R)` of Convention 6, prove `b ∘ ♮d = 0` and `♮d ∘ b = 0`, and, for an ideal `I ⊆ R`, the
-`I`-adic filtration of `X(R)` and its completion `X̂(R, I) = lim X(R/Iⁿ)`.
-*Needs:* RefinedTraceMethods §1.2; Mathlib `KaehlerDifferential`.
+algebra of noncommutative forms `ΩR` with `Ω^nR = R ⊗ R̄^⊗n`, `R̄ = R/k`, the unital (normalised)
+forms, a quotient of Tau Ceti's forced-unitisation `TauCeti.UniversalForms`; the Hochschild
+operator `b` with `b(ω da) = (−1)^|ω| [ω, a]`, the Karoubi operator `κ = 1 − (db + bd)` and
+Connes' operator `B` (Cuntz–Quillen 1995b, §3, p. 388). Define `Ω¹R_♮ = Ω¹R/[R, Ω¹R]`, the
+`ℤ/2`-graded complex `X(R)` of Convention 6 (loc. cit., §4, p. 392), and, for an ideal `I ⊆ R`,
+the completion `X̂(R, I) = lim X(R/Iⁿ)`. Prove:
+
+- `d² = 0` and the Leibniz rule make `ΩR` a differential graded algebra, and `Ω^nR = R ⊗ R̄^⊗n`
+  as a left `R`-module, with `a₀ da₁ ⋯ da_n ↦ a₀ ⊗ ā₁ ⊗ ⋯ ⊗ ā_n`.
+- `b² = 0`, `B² = 0` and `bB + Bb = 0`, and `(ΩR, b, B)` is the normalised mixed complex of
+  RefinedTraceMethods §1.2.
+- `κ(ω da) = (−1)^|ω| da ω` on `Ω^(≥1)R`.
+- `b ∘ ♮d = 0` and `♮d ∘ b = 0` on `X(R)`.
+- The `I`-adic filtration of `X(R)` is a filtration by subcomplexes, and an algebra map
+  `R → R′` carrying `I` into `I′` induces a map of completed complexes `X̂(R, I) → X̂(R′, I′)`.
+
+*Needs:* RefinedTraceMethods §1.2; Tau Ceti `TauCeti.UniversalForms`; Mathlib
+`KaehlerDifferential`.
 
 **Checks.**
 
@@ -612,10 +717,11 @@ operator `B`, and identify `(ΩR, b, B)` with the normalised mixed complex of Re
 
 Prove: for a field `k` of characteristic zero, a unital `k`-algebra `A` and an
 extension `0 → I → R → A → 0` with `R` quasi-free, `HP_*(A) ≅ H_*(X̂(R, I))`, naturally in the
-extension; in particular `HP_*(R) ≅ H_*(X(R))` for `R` quasi-free (Cuntz–Quillen 1995b). Route:
-for quasi-free `R` the normalised mixed complex `(ΩR, b, B)` contracts onto its quotient
-`ΩR/F²`, quasi-isomorphic to `X(R)`; independence of the extension uses 3.2 and the
-quasi-freeness of `R̂` (4.2).
+extension; in particular `HP_*(R) ≅ H_*(X(R))` for `R` quasi-free (Cuntz–Quillen 1995b, (2),
+p. 373, Theorem 6.2, p. 403, and Corollary 9.4, p. 417). Route: for quasi-free `R` the normalised
+mixed complex `(ΩR, b, B)` contracts onto its quotient `ΩR/F²`, quasi-isomorphic to `X(R)`;
+independence of the extension uses 3.2 and lifting from the quasi-free `R` into towers `(Sₙ)`
+(Cuntz–Quillen 1995b, Proposition 9.2 and Theorem 9.3, p. 416).
 *Needs:* 4.1, 4.2, 4.3, 3.2; KTheoryFiniteLocalFields §4.0 (`HP_*`).
 
 **Checks.**
@@ -636,7 +742,7 @@ unital, and that `RA = (Ω^evA, ∘)` is universal for unit-preserving linear ma
 algebra `B`, restriction to `Ω⁰A = A` is a bijection from unital algebra maps `RA → B` to
 unit-preserving linear maps `A → B`. Prove that the kernel `IA` of the multiplication
 `RA → A` is `⊕_(n≥1) Ω^(2n)A` with `(IA)ⁿ = ⊕_(m≥n) Ω^(2m)A`, and that `RA` is quasi-free
-(Cuntz–Quillen 1995a; Quillen 1989).
+(Cuntz–Quillen 1995a, Proposition 1.2, p. 255; Quillen 1989).
 *Needs:* 4.1, 4.3; Mathlib `FreeAlgebra`.
 
 **Checks.**
@@ -654,10 +760,12 @@ unit-preserving linear maps `A → B`. Prove that the kernel `IA` of the multipl
 
 Prove: for a field `k` of characteristic zero and every extension of (possibly
 nonunital) `k`-algebras `0 → J → A → B → 0`, with `HP` of a nonunital algebra defined through its
-unitisation relative to `k`, there is a six-term exact sequence
+unitisation relative to `k`, the homological counterpart of the convention of Tau Ceti's
+`TauCeti.relativeCyclicCohomology`, there is a six-term exact sequence
 `HP₀(J) → HP₀(A) → HP₀(B) → HP₁(J) → HP₁(A) → HP₁(B) → HP₀(J)`, natural in the extension
 (Cuntz–Quillen 1997; Cuntz–Quillen 1993 for the approximately H-unital case).
-*Needs:* 4.4, 4.5; KTheoryFiniteLocalFields §4.0 (`HP_*`, relative fibres).
+*Needs:* 4.4, 4.5; KTheoryFiniteLocalFields §4.0 (`HP_*`, relative fibres); Tau Ceti
+`TauCeti.relativeCyclicCohomology`.
 
 **Checks.**
 
@@ -677,8 +785,9 @@ unitisation relative to `k`, there is a six-term exact sequence
 
 ### Dependencies
 
-Mathlib for 4.1–4.2; RefinedTraceMethods §1.2 and KTheoryFiniteLocalFields §4.0 from 4.3 on;
-4.4 uses 3.2. Within the layer, each target uses the previous ones.
+Mathlib and Tau Ceti's universal forms for 4.1–4.3; RefinedTraceMethods §1.2 and
+KTheoryFiniteLocalFields §4.0 from 4.3 on; Tau Ceti's relative cyclic cohomology for 4.6; 4.4
+uses 3.2. Within the layer, each target uses the previous ones.
 
 ## Layer 5: rings without unit
 
@@ -686,10 +795,14 @@ Mathlib for 4.1–4.2; RefinedTraceMethods §1.2 and KTheoryFiniteLocalFields §
 
 For a nonunital algebra `A` over a commutative ring `k` (a `k`-module with an associative
 `k`-bilinear multiplication), define the bar complex `B_*(A)` of Convention 7 and call `A`
-H-unital if `B_*(A) ⊗_k V` is acyclic for every `k`-module `V` (Wodzicki 1989). Prove that unital
-algebras are H-unital, that an algebra with left local units (for every finite family
-`a₁, …, a_n` there is `e` with `e a_i = a_i`) is H-unital, and that an H-unital algebra satisfies
-`A² = A` (loc. cit.).
+H-unital if `B_*(A) ⊗_k V` is acyclic for every `k`-module `V` (Wodzicki 1989). Prove:
+
+- Unital algebras are H-unital.
+- An algebra with left local units (for every finite family `a₁, …, a_n` there is `e` with
+  `e a_i = a_i`) is H-unital.
+- An H-unital algebra satisfies `A² = A`, since `H₁(B(A)) = A/A²` (Convention 7).
+
+(Wodzicki 1989.)
 *Needs:* Mathlib `Module.Flat`, `ChainComplex`.
 
 **Checks.**
@@ -722,14 +835,15 @@ cyclic homology (Wodzicki 1989).
 
 The comparison of the two obstructions is Cortiñas' theorem, stated by RefinedTraceMethods §4.18
 (truncating invariants): the obstruction to excision in rational K-theory is the obstruction to
-excision in rational cyclic homology, shifted by one (Cortiñas 2006, Theorem 0.1). This target does
-not restate it and deduces from it, with 5.2, the Suslin–Wodzicki criterion: a ring `A`
-without unit satisfies excision in rational algebraic K-theory, in the sense of
+excision in rational cyclic homology, shifted by one (Cortiñas 2006, Corollary 0.2, p. 2). This
+target does not restate it and deduces from it, with 5.2, the Suslin–Wodzicki criterion: a ring
+`A` without unit satisfies excision in rational algebraic K-theory, in the sense of
 GeneralAlgebraicKTheory §8.10 after tensoring with `ℚ`, if and only if `A ⊗_ℤ ℚ` is H-unital
-(Suslin–Wodzicki 1992). Route: by Cortiñas' theorem, rational K-excision for `A` inside every unital
-ring containing it is excision in cyclic homology for the `ℚ`-algebra `A ⊗_ℤ ℚ`, which 5.2
-characterises by H-unitality. Deduce that every C*-algebra satisfies rational excision, since
-C*-algebras are H-unital (Suslin–Wodzicki 1992).
+(the "if" direction is Suslin–Wodzicki 1992, Theorem A, the "only if" direction Wodzicki 1989,
+(4), as recorded in Cortiñas 2006, p. 3). Route: by Cortiñas' theorem, rational K-excision for
+`A` inside every unital ring containing it is excision in cyclic homology for the `ℚ`-algebra
+`A ⊗_ℤ ℚ`, which 5.2 characterises by H-unitality. Deduce that every C*-algebra satisfies rational
+excision, since C*-algebras are H-unital (Suslin–Wodzicki 1992).
 *Needs:* 5.1, 5.2; RefinedTraceMethods §4.18; GeneralAlgebraicKTheory §8.3, §8.10.
 
 **Checks.**
@@ -737,21 +851,27 @@ C*-algebras are H-unital (Suslin–Wodzicki 1992).
 - `A = ℚ` (unital): H-unital, and excision holds, as for every unital ring.
 - `A = εℚ[ε]` (square-zero, nonunital): `A ≠ A²`, so excision fails rationally already in degree 1,
   matching GeneralAlgebraicKTheory §8.10's criterion `I = I²` in degree one.
-- `A = ℤ` with zero multiplication: `A ⊗ ℚ = ℚ` with zero multiplication is not H-unital, and
-  `K₁` excision fails for the ideal `ℤε ⊂ ℤ[ε]/(ε²)`.
+- `A = ℤ` with zero multiplication: `A ⊗ ℚ = ℚ` with zero multiplication is not H-unital, so by
+  5.3 some unital ring containing `A` violates rational excision; the Dorroh unitisation
+  `ℤ[ε]/(ε²) = ℤ ⋉ ℤε` itself never does, its excision map being the identity
+  (GeneralAlgebraicKTheory §8.10).
 
 ### 5.4 Firm modules
 
 For a nonunital ring `A`, define a left `A`-module `M` to be unitary if `AM = M` and firm if the
 multiplication `A ⊗_A M → M` is bijective (Convention 8), and the full subcategories of firm and
-of unitary modules (Quillen's notions; Marín 1998). Prove: for unital `A`, firm, unitary and
-unital modules coincide; firm modules are unitary; `A` is firm as a left module over itself if
-and only if `A ⊗_A A → A` is bijective, which holds for `A` with local units; `A` is left xst
-(the class of unitary modules is closed under submodules) if and only if every unitary module is
-firm, and then the firm modules form an abelian category (González-Férez–Marín 2007). For the
-nonunital monomial algebra `R = k⟨x, y, z₁, z₂, …⟩/I` with `I` generated by `xz₁` and the
-`xz_n − z_(n−1)y` for `n ≥ 2`, the category of firm left `R`-modules is not abelian (loc. cit.,
-main theorem).
+of unitary modules (Quillen's notions; Marín 1998). Call `A` left xst if the class of unitary
+modules is closed under submodules. Prove:
+
+- For unital `A`, firm, unitary and unital modules coincide.
+- Firm modules are unitary.
+- `A` is firm as a left module over itself if and only if `A ⊗_A A → A` is bijective, and this
+  holds when `A` has local units.
+- `A` is left xst if and only if every unitary module is firm, and then the firm modules form an
+  abelian category (González-Férez–Marín 2007).
+- For the nonunital monomial algebra `R = k⟨x, y, z₁, z₂, …⟩/I` with `I` generated by `xz₁` and
+  the `xz_n − z_(n−1)y` for `n ≥ 2`, the category of firm left `R`-modules is not abelian
+  (González-Férez–Marín 2007).
 *Needs:* Mathlib `Unitization`, `TwoSidedIdeal`.
 
 **Checks.**
@@ -766,13 +886,17 @@ main theorem).
 
 Define a Morita context `(A, B, P, Q, φ, ψ)` between nonunital rings: bimodules `ₐP_B`, `_BQ_A`
 and bimodule maps `φ : P ⊗_B Q → A`, `ψ : Q ⊗_A P → B` satisfying the two associativity
-conditions. Prove: if `φ` and `ψ` are surjective, `P ⊗_B −` and
-`Q ⊗_A −` are inverse equivalences between the categories of firm `B`-modules and firm
-`A`-modules, and `Hom_A(P, −)`, `Hom_B(Q, −)` between the categories of closed modules
-(`M ≅ Hom_A(A, M)`). Prove the characterisation: for any Morita context the functors are inverse
-equivalences on firm modules if and only if the context is acceptable, that is for every sequence
-`(a_n)` in `A` some finite product `a₁a₂⋯a_m` lies in the image of `φ`, and likewise in `B` for
-`ψ` (Marín 1998).
+conditions. Call the context acceptable if for every sequence `(a_n)` in `A` some finite product
+`a₁a₂⋯a_m` lies in the image of `φ`, and likewise in `B` for `ψ`. Prove:
+
+- If `φ` and `ψ` are surjective, `P ⊗_B −` and `Q ⊗_A −` are inverse equivalences between the
+  categories of firm `B`-modules and firm `A`-modules.
+- If `φ` and `ψ` are surjective, `Hom_A(P, −)` and `Hom_B(Q, −)` are inverse equivalences between
+  the categories of closed modules (`M ≅ Hom_A(A, M)`).
+- For any Morita context, `P ⊗_B −` and `Q ⊗_A −` are inverse equivalences on firm modules if and
+  only if the context is acceptable.
+
+(Marín 1998.)
 *Needs:* 5.4.
 
 **Checks.**
@@ -791,11 +915,15 @@ equivalences on firm modules if and only if the context is acceptable, that is f
 For a nonunital ring `A` and a unital ring `R` containing `A` as a two-sided ideal, define
 `K₀′(A)` as the Grothendieck group of bounded complexes of finitely generated projective
 `R`-modules that become acyclic after reduction modulo `A`, with relations from short exact
-sequences of complexes and from quasi-isomorphisms (Quillen 1996). Prove that `K₀′(A)` does not
-depend on `R`; that two nonunital rings linked by a Morita context with surjective pairings and firm
-bimodules have isomorphic `K₀′`, a case of Quillen's Morita invariance; that there is a natural
-surjection `K₀′(A) → K₀(A)` onto AlgebraicKTheory
-§3.4's reduced `K₀`, an isomorphism when `A` is a C*-algebra (Quillen 1996). The topological
+sequences of complexes and from quasi-isomorphisms (Quillen 1996). Prove:
+
+- `K₀′(A)` does not depend on `R`, up to canonical isomorphism.
+- Two nonunital rings linked by a Morita context with surjective pairings and firm bimodules
+  have isomorphic `K₀′`, a case of Quillen's Morita invariance.
+- There is a natural surjection `K₀′(A) → K₀(A)` onto AlgebraicKTheory §3.4's reduced `K₀`, and it
+  is an isomorphism when `A` is a C*-algebra.
+
+(Quillen 1996.) The topological
 model of `K₀′`, the class of a bounded complex of vector bundles on a compact space `X` exact on a
 closed subspace `Y` in `K⁰(X, Y)`, is TopologicalKTheory T3.2 and is not restated here.
 *Needs:* 5.5; AlgebraicKTheory §3.4; Mathlib `Module.Projective`, `ChainComplex`, `Unitization`.
@@ -831,13 +959,11 @@ RefinedTraceMethods §4.18 and GeneralAlgebraicKTheory §§8.3 and 8.10 for 5.3;
 
 ## Downstream consumers
 
-SmoothRepresentationsOfLocalGroups consumes 5.4: its idempotented algebras and their nondegenerate
-modules (its SR.1.3, *locally-unital-algebra*) are the instance, for an idempotented algebra, of the
-unitary and firm modules over a nonunital ring and of the abelian category of firm modules over a
-left xst ring. No other roadmap on main or in the open pull requests cites
-CyclicHomologyLieHomologyAndQuasiFreeAlgebras. RefinedTraceMethods §4.17 uses Goodwillie's
-nil-invariance of periodic cyclic homology (3.2 here) as a proof input of its rational comparison of
-relative K-theory with cyclic homology, citing Goodwillie directly. NoncommutativeGeometry fixes its
+No roadmap on main or in the open pull requests consumes a target of
+CyclicHomologyLieHomologyAndQuasiFreeAlgebras. SmoothRepresentationsOfLocalGroups SR.1.3
+(*locally-unital-algebra*) states the idempotented-algebra case of 5.4 independently and cites
+nothing here; 5.4 records it as an instance. RefinedTraceMethods obtains the nil-invariance of
+`HP(−⊗ℚ/ℚ)` from its own §§4.9 and 4.18 and does not use 3.2. NoncommutativeGeometry fixes its
 nonunital conventions by forced unitisation and assumes no H-unitality (Scope, conventions and
 suppliers); it cites no roadmap for excision.
 
@@ -865,6 +991,9 @@ Institute) work on these questions.
 - B. L. Tsygan, « The homology of matrix Lie algebras over rings and the Hochschild homology »,
   *Russian Math. Surveys* 38 (1983), no. 2, 198–199. doi:10.1070/RM1983v038n02ABEH003481.
   Zbl 0526.17006.
+- C. Kassel, J.-L. Loday, « Extensions centrales d'algèbres de Lie », *Ann. Inst. Fourier* 32
+  (1982), no. 4, 119–142. doi:10.5802/aif.896. Zbl 0485.17006. Open: Numdam,
+  AIF_1982__32_4_119_0.
 - J.-L. Loday, *Cyclic Homology*, Grundlehren Math. Wiss. 301, Springer, 1992. Zbl 0780.18009.
   Second edition 1998, doi:10.1007/978-3-662-11389-9, Zbl 0885.18007.
 - H. Cartan, S. Eilenberg, *Homological Algebra*, Princeton University Press, 1956.
