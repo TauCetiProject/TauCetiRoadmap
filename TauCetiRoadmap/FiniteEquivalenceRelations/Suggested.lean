@@ -42,9 +42,9 @@ Headline theorems stated here:
 * README 4.2, `forall_isAmitsurEqualizer_iff`, `full_faithful_comparison_iff` and
   `nonempty_comonadicLeftAdjoint_iff`: the Amitsur condition for every module, descent and
   effective descent of modules are each equivalent to purity of `A → B` (Joyal–Tierney).
-* README 4.3, `isAmitsurEqualizer_invariants` and `nonempty_comonadicLeftAdjoint_invariants`: the
-  quotient map `A^R → A` satisfies the Amitsur condition for `A^R`, and in the flat case
-  extension of scalars along it is comonadic.
+* README 4.3, `isEffective_invariants` and `nonempty_comonadicLeftAdjoint_invariants`: the
+  quotient map `A^R → A` satisfies Mathlib's `Algebra.IsEffective` (the Amitsur condition for
+  `A^R`), and in the flat case extension of scalars along it is comonadic.
 * README 4.4, `universally_effectiveEpi_iff`: `Spec B → Spec A` is a universal effective
   epimorphism of affine schemes iff `A → B` is pure.
 -/
@@ -336,7 +336,7 @@ noncomputable def pullLeft (g : B ⊗[A] M →ₗ[B] B ⊗[A] N) :
     (TensorProduct.comm A B B).toLinearMap.rTensor M
 
 /-- A `B`-linear `g : B ⊗[A] M → B ⊗[A] N` is a morphism of the canonical descent data when its
-two base changes to `B ⊗[A] B` agree (Stacks, Definition 35.4.15, Tag 08WY; Mesablishvili 2000,
+two base changes to `B ⊗[A] B` agree (Stacks, Definition 35.3.1 (2), Tag 023G; Mesablishvili 2000,
 p. 39). -/
 def IsCompatible (g : B ⊗[A] M →ₗ[B] B ⊗[A] N) : Prop :=
   pullLeft g = pullRight g
@@ -402,9 +402,10 @@ section QuotientDescent
 variable (k : Type u) [CommRing k] (A : Type u) [CommRing A] [Algebra k A]
 
 /-- The quotient map `X → Spec A^R` satisfies the Amitsur condition for the structure sheaf:
-`A^R → A ⇉ A ⊗[A^R] A` is an equalizer, for every ideal `I`. -/
-theorem isAmitsurEqualizer_invariants (I : Ideal (A ⊗[k] A)) :
-    IsAmitsurEqualizer (invariants k A I) A (invariants k A I) := by
+`A^R → A ⇉ A ⊗[A^R] A` is an equalizer (Mathlib's `Algebra.IsEffective`), for every ideal `I`;
+with the injectivity of `A^R ⊆ A` this is `IsAmitsurEqualizer` for the module `A^R`. -/
+theorem isEffective_invariants (I : Ideal (A ⊗[k] A)) :
+    Algebra.IsEffective (invariants k A I) A := by
   sorry
 
 end QuotientDescent
