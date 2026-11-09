@@ -1903,7 +1903,7 @@ Strict special modules, fixed frame and arrow convention as above.
 - Valuation-zero elements preserve the parity of vertices; their displacements are even.
 - Shrinking a tame level gives finite-index subgroups, while cocompactness does not itself exclude torsion.
 
-(Source: [BZ22](#references) §6, proof of Proposition 6.6, pp.47–48; [BC91](#references) Part III §§5.1–5.3.2, pp.139–142.)
+(Source: [BZ22](#references) §6, proof of Proposition 6.6, pp.47–48; [BC91](#references) Part III §§5.1–5.3.2, pp.139–143.)
 
 *Needs:* [R18.5.6 Height action and Frobenius descent](#r1856-height-action-and-frobenius-descent); AdelicAlgebraicGroups §§3.4, 4.2–4.3; ReductiveGroupsPartII RG2.2.
 
@@ -2020,7 +2020,7 @@ Its API:
 - At free level an edge orbit has node chart `xy=π`.
 - A quotient with a nontrivial effective vertex stabiliser cannot use the free-action regularity argument.
 
-(Source: [BZ22](#references) §1, pp.1–3; §6, pp.45–50; [BC91](#references) Part III §§5.1–5.3.2, pp.139–142.)
+(Source: [BZ22](#references) §1, pp.1–3; §6, pp.45–50; [BC91](#references) Part III §§5.1–5.3.2, pp.139–143.)
 
 *Needs:* arithmetic stabilizers and finite components (§R18.5.7a), very free arithmetic stabilizers at small tame level (§R18.5.10), separated Drinfeld quotient charts (§R18.5.11); [R18.5.6 Height action and Frobenius descent](#r1856-height-action-and-frobenius-descent); [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `Layer 3`, `Layer 4`; [AdicSpacesPartIII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdicSpacesPartIII/README.md) `R2`; Tau Ceti roadmap [StableReduction, layer 5 regular and minimal models](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/StableReduction/README.md#layer-5-regular-and-minimal-models).
 
@@ -3863,7 +3863,7 @@ The definite clause is independent of Ihara: a free finite Γ_K-set is a disjoin
 
 ### R18.4.22 Auxiliary-prime integral types
 
-**Construction.** Let `G_q=GL₂(k_q), B_q` its upper Borel, `q≡1 mod l, l>2` and O as in the local-model target. The permutation representation `Ind_(B_q)^(G_q)1` splits over O as `1⊕St_O`, where `St_O` is the sum-zero complement (q+1 is a unit). Choose a tame character `χ:k_q×→O[ζ]×` of exact order l. The characteristic-zero type `σ_ps=Ind(χ⊗χ⁻¹)` has an E-model by its Schur-index/descent result and an O-lattice with residual nonsplit sequence `0→1_k→σ_ps,k→St_k→0`. Fix this orientation of the lattice; the reverse extension is not interchangeable. Inflate all types through `GL₂(O_q)→G_q`.
+**Construction.** Let `G_q=GL₂(k_q), B_q` its upper Borel, `q≡1 mod l, l>2` and O as in the local-model target. The permutation representation `Ind_(B_q)^(G_q)1` splits over O as `1⊕St_O`, where `St_O` is the sum-zero complement (q+1 is a unit). Choose a tame character `χ:k_q×→O[ζ]×` of exact order l. The characteristic-zero type `σ_ps=Ind(χ⊗χ⁻¹)` has an E-model by its Schur-index/descent result and an O-lattice with residual nonsplit sequence `0→1_k→σ_{ps,k}→St_k→0`. Fix this orientation of the lattice; the reverse extension is not interchangeable. Inflate all types through `GL₂(O_q)→G_q`.
 
 The chosen E is the fraction field of `W(k)[ζ+ζ⁻¹]`; scalar extension to `E(ζ)` defines the inducing characters.
 
@@ -3874,7 +3874,7 @@ Prescribed central character is unramified at q, so its restriction to `GL₂(O_
 Its API:
 
 - `Ind_B^G 1=1⊕St_O` with its constant and sum-zero inclusions.
-- The specified lattice gives the exact nonsplit `0→1_k→σ_ps,k→St_k→0`.
+- The specified lattice gives the exact nonsplit `0→1_k→σ_{ps,k}→St_k→0`.
 - Inflation has trivial principal-congruence action and the prescribed unramified central restriction.
 - Changing the selected lattice by homothety gives an isomorphic integral type and the same extension orientation.
 - Realize `Ind_B^G 1` as O-valued functions on `P¹(k_q)`, constants as the trivial summand and `St_O` as the kernel of the coordinate sum.
@@ -4157,7 +4157,7 @@ Its API:
 
 - The zero type produces zero, which is handled separately from nonzero MCM support claims.
 - The augmentation returns full H¹ dual, including its rank-two Galois factor; replacing it by a rank-one multiplicity space fails.
-- The type lattice sequence gives `0→M_∞(1)→M_∞(σ_ps,k)→M_∞(St_k)→0` with the declared orientation.
+- The type lattice sequence gives `0→M_∞(1)→M_∞(σ_{ps,k})→M_∞(St_k)→0` with the declared orientation.
 
 (Source: [MS19](#references) Lemma 4.7, p.21; Propositions 4.14 and 4.16, pp.26–27; Theorem 4.17, p.28; Theorem 4.19, p.30; Propositions 4.20–4.21, p.30 (The finite-level systems patch with exactness, augmentation, MCM and local support under these hypotheses))
 
@@ -4293,7 +4293,7 @@ All algebraic and parity hypotheses of [R18.4.34 Saito quaternionic coefficient 
 
 For the open Hilbert clause the actual sheaf extends as lisse pure of weight r on the chosen smooth finite-field fibre.
 
-In the raw tensor formula `n_i` are nonnegative integers and `d_i,b` are integers; negative determinant exponents are inverse line powers over the rational coefficient field.
+In the raw tensor formula `n_i` are nonnegative integers and `d_{i,b}` are integers; negative determinant exponents are inverse line powers over the rational coefficient field.
 
 *Proof route.* Import abelian Weil purity and the operations on pure representations to obtain the raw rank-two tensor weight; apply proper smooth direct-image/cohomology purity. Use [R18.4.34 Saito quaternionic coefficient projector](#r18434-saito-quaternionic-coefficient-projector) and its good-model comparison. The selected smooth proper `H^(q₀+1)` has that weight; its CM factor has weight 2a. Subtract 2a and calculate `(2g−1)(w−2)+1−2(g−1)(w−2)=w−1`. Use generic weights operations for the Tate twist. For descent compare `Frob_u` with `Frob_v^f` at an unramified place; the absolute values of the fth powers imply the same weight at v. For the open Hilbert clause import §7.12, whose compact-support upper and ordinary-support lower bounds meet on the image.
 
