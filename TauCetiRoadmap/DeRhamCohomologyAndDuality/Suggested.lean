@@ -15,8 +15,11 @@ their statements need.
 
 Stated here: exactness of `1`-forms with local primitives on simply connected manifolds
 (Layer 1), inward domination of a manifold with corners by its interior and the relative smooth
-chain comparison (Layer 2), and the Haar-null and relative-perturbation theorems of
-finite-parameter relative transversality in flat coordinates (Layer 5).
+chain comparison (Layer 2), and, for finite-parameter relative transversality (Layer 5), the
+Haar-null theorem for incidence parameters, the relative-perturbation theorem in flat
+coordinates, and the Haar-null theorem for relative perturbations of a map from a boundaryless
+manifold, transverse on the zero set of the cutoff to a map from a second boundaryless manifold
+into a finite-dimensional vector space.
 
 Not statable at the pins:
 
@@ -140,9 +143,9 @@ def incidenceEquation (F : E × P → V) (j : W → V) : (E × W) × P → V :=
 def IsRegularIncidenceParameter (F : E × P → V) (j : W → V) (p : P) : Prop :=
   TauCeti.IsRegularParameter (incidenceEquation F j) 0 p
 
-/-- **§5.3.** The relative translation family `f(x) + β(x) p`, which fixes `f` on the zero set
-of the cutoff `β`. -/
-def relativeTranslate (f : E → V) (β : E → ℝ) (p : V) (x : E) : V :=
+/-- **§5.3.** The relative translation family `f(x) + β(x) p` on any domain `X`, which fixes
+`f` on the zero set of the cutoff `β`. -/
+def relativeTranslate {X : Type*} (f : X → V) (β : X → ℝ) (p : V) (x : X) : V :=
   f x + β x • p
 
 /-- **§5.2, generic parameters.** For smooth maps between finite-dimensional spaces, under
@@ -161,9 +164,10 @@ theorem addHaar_setOf_not_isRegularIncidenceParameter [FiniteDimensional ℝ E]
     μ {p | ¬ IsRegularIncidenceParameter F j p} = 0 :=
   sorry
 
-/-- **§5.3, small relative perturbations.** If `f` is already transverse to `j` on the zero set
-`C` of a nonnegative smooth cutoff `β`, arbitrarily small parameters make the relative
-translate transverse to `j` while fixing `f` on `C`. -/
+/-- **§5.3, small relative perturbations in flat coordinates.** If `f : E → V` is already
+transverse to `j : W → V` on the zero set `C` of a nonnegative smooth cutoff `β`, arbitrarily
+small parameters are regular incidence parameters of the relative translation family, so the
+relative translate is transverse to `j`, and it fixes `f` on `C`. -/
 theorem exists_isRegularIncidenceParameter_relativeTranslate [FiniteDimensional ℝ E]
     [FiniteDimensional ℝ V] [FiniteDimensional ℝ W] (f : E → V) (β : E → ℝ)
     (j : W → V) (C : Set E) (hf : ContDiff ℝ ∞ f) (hβ : ContDiff ℝ ∞ β) (hj : ContDiff ℝ ∞ j)
@@ -177,5 +181,46 @@ theorem exists_isRegularIncidenceParameter_relativeTranslate [FiniteDimensional 
   sorry
 
 end FiniteParameterTransversality
+
+section ManifoldTransversality
+
+variable {EM HM M EN HN N V : Type*}
+  [NormedAddCommGroup EM] [NormedSpace ℝ EM] [TopologicalSpace HM]
+  [TopologicalSpace M] [ChartedSpace HM M]
+  [NormedAddCommGroup EN] [NormedSpace ℝ EN] [TopologicalSpace HN]
+  [TopologicalSpace N] [ChartedSpace HN N]
+  [NormedAddCommGroup V] [NormedSpace ℝ V]
+
+/-- **§5.3.** A map `g : M → V` is transverse to `j : N → V` at `x ∈ M` when, at every `y ∈ N`
+with `g x = j y`, the map `(u, v) ↦ dg(x) u − dj(y) v` from `T_x M × T_y N` to `V` is onto; it
+holds vacuously when `g x` is not a value of `j`. On normed spaces, for smooth `F : E × P → V`
+and `j`, the slice `F(·, p)` is transverse to `j` at every point exactly when `p` is a regular
+incidence parameter, `mfderiv` being `fderiv` there. -/
+def IsTransverseAt (I : ModelWithCorners ℝ EM HM) (J : ModelWithCorners ℝ EN HN)
+    (g : M → V) (j : N → V) (x : M) : Prop :=
+  ∀ y, g x = j y → Function.Surjective
+    ((mfderiv I 𝓘(ℝ, V) g x : EM →L[ℝ] V).coprod (-(mfderiv J 𝓘(ℝ, V) j y : EN →L[ℝ] V)))
+
+/-- **§5.3, generic relative perturbations on manifolds.** Let `M` and `N` be second-countable
+boundaryless smooth manifolds over finite-dimensional real models and `f : M → V`, `j : N → V`
+smooth maps into a finite-dimensional space. If `f` is transverse to `j` at every zero of a
+nonnegative smooth `β : M → ℝ`, then the parameters `p` for which the relative translate
+`f + β p` fails to be transverse to `j` at some point of `M` form a set that is null for every
+additive Haar measure on `V` (outer measure); every translate equals `f` on the zero set of `β`.
+The relative translation family is universally transverse, and the local form of §5.2 applies in
+countably many products of charts of `M` and `N`. The cutoff argument extends Lee,
+*Introduction to Smooth Manifolds*, Thm. 6.36, from embedded submanifolds to maps. -/
+theorem addHaar_setOf_not_forall_isTransverseAt_relativeTranslate
+    (I : ModelWithCorners ℝ EM HM) (J : ModelWithCorners ℝ EN HN) [FiniteDimensional ℝ EM]
+    [FiniteDimensional ℝ EN] [FiniteDimensional ℝ V] [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [SecondCountableTopology M] [IsManifold J ∞ N]
+    [BoundarylessManifold J N] [SecondCountableTopology N] [MeasurableSpace V] [BorelSpace V]
+    (μ : Measure V) [μ.IsAddHaarMeasure] {f : M → V} {β : M → ℝ} {j : N → V}
+    (hf : ContMDiff I 𝓘(ℝ, V) ∞ f) (hβ : ContMDiff I 𝓘(ℝ) ∞ β) (hj : ContMDiff J 𝓘(ℝ, V) ∞ j)
+    (hnonneg : ∀ x, 0 ≤ β x) (hgood : ∀ x, β x = 0 → IsTransverseAt I J f j x) :
+    μ {p | ¬ ∀ x, IsTransverseAt I J (relativeTranslate f β p) j x} = 0 :=
+  sorry
+
+end ManifoldTransversality
 
 end TauCetiRoadmap.DeRhamCohomologyAndDuality

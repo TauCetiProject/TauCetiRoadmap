@@ -30,16 +30,17 @@ This roadmap owns:
   complete (Layer 1);
 - the strict inward cone of a model with corners, strictly inward vector fields, their forward
   semiflow, inward domination, the transfer of smooth-chain equivalences along a smooth homotopy
-  retraction, the relative smooth chain comparison, and relative approximation into
-  finite-dimensional vector spaces with collar data (Layer 2);
+  retraction, the relative smooth chain comparison, and relative approximation into real normed
+  spaces with collar data (Layer 2);
 - the relative de Rham complex of an open pair, the compatibility of Tau Ceti's kernel-to-cocone
   quasi-isomorphism with the connecting maps, relative integration, the relative de Rham
   homomorphism and isomorphism (Layer 3);
 - the integration comparison with singular fundamental classes and the smooth-boundary
   compatibility formula, with the coefficient and carrier conversions they need (Layer 4);
 - finite-parameter relative transversality: the incidence equation, regular incidence parameters,
-  the Haar-null theorem, relative translation families, avoidance, and perturbation on compact
-  sources (Layer 5).
+  the Haar-null theorem and its local form, relative translation families, transversality of a
+  map to a map on manifolds, avoidance, the Haar-null theorem for relative perturbations on
+  boundaryless manifold sources, and perturbation on compact sources (Layer 5).
 
 It does not own, and imports:
 
@@ -137,7 +138,8 @@ installed on a manifold. In addition:
 - **Transversality.** For `F : E × P → V` and `j : W → V`, the source coordinates come before the
   parameter, as in `TauCeti.IsRegularParameter`; a parameter `p` is regular when
   `(u, v) ↦ D_xF(x, p)u − Dj(y)v` is onto at every `(x, y)` with `F(x, p) = j(y)`, vacuously when
-  there is no such point.
+  there is no such point. On manifolds the same condition, read with `mfderiv`, is
+  `IsTransverseAt` (§5.3).
 
 ## Exact supplier contracts
 
@@ -175,7 +177,8 @@ installed on a manifold. In addition:
   (`AlgebraicTopology/SingularHomology/HomotopyInvariance.lean`).
 - `Continuous.exists_contMDiff_approx_and_eqOn` and `Continuous.exists_contDiff_approx_and_eqOn`
   (`Geometry/Manifold/SmoothApprox.lean`): finite-dimensional source, Hausdorff σ-compact manifold,
-  a closed set near which the map is already smooth, and a positive continuous tolerance.
+  a closed set near which the map is already smooth, and a positive continuous tolerance; the
+  target is any real normed space, with no completeness or dimension hypothesis.
 - `exists_contMDiffMap_one_nhds_of_subset_interior` and
   `exists_contMDiffSection_forall_mem_convex_of_local` (`Geometry/Manifold/PartitionOfUnity.lean`),
   both under `[FiniteDimensional ℝ E] [T2Space M] [SigmaCompactSpace M]`; the latter needs
@@ -188,6 +191,12 @@ installed on a manifold. In addition:
   smooth function with values in `[0, 1]` that is `0` exactly on `s` and `1` exactly on `t`.
 - `IsOpen.exists_contDiff_support_eq` (support equal to a given open set, not compact support);
   `Metric.infDist`, the distance from a point to a set.
+- `mfderiv`, which on normed spaces is `fderiv` (`mfderiv_eq_fderiv`), and
+  `ContinuousLinearMap.coprod`; `ModelWithCorners.secondCountableTopology` and
+  `ChartedSpace.secondCountable_of_sigmaCompact` (a σ-compact manifold over a finite-dimensional
+  model is second countable), and conversely `sigmaCompactSpace_of_locallyCompact_secondCountable`
+  with `ChartedSpace.locallyCompactSpace`; additive Haar measures
+  `MeasureTheory.Measure.IsAddHaarMeasure`, positive on nonempty open sets.
 - `ModelWithCorners.interior`, `ModelWithCorners.isOpen_interior`, `ModelWithCorners.boundary`,
   `ModelWithCorners.convex_range`, `ModelWithCorners.isClosed_range`,
   `ModelWithCorners.nonempty_interior`, `BoundarylessManifold`, `𝓡∂ n`,
@@ -658,7 +667,7 @@ enlargement of `W`. *Needs:* DifferentialGeometry 8.3; Tau Ceti `TauCeti.smoothS
 ### 2.5 Relative approximation into vector spaces
 
 Let `D` be a Hausdorff σ-compact smooth manifold over a finite-dimensional real model with corners
-`I`, `V` a finite-dimensional real normed space, `A ⊆ D` closed, `f : D → V` continuous,
+`I`, `V` a real normed space, `A ⊆ D` closed, `f : D → V` continuous,
 `e : D → V` smooth on an open `O ⊇ A` with `e = f` on `A`, and `ε : D → ℝ` continuous with
 `ε(x) > 0` everywhere. Prove that there is a smooth `g : D → V` equal to `e` on a neighbourhood of
 `A` with `‖g(x) − f(x)‖ < ε(x)` for every `x ∈ D`. The case of interest is `A = I.boundary D`,
@@ -669,8 +678,9 @@ equal to `1` near `A` and to `0` off `T` (`exists_contMDiffMap_one_nhds_of_subse
 being normal as in the supplier contracts), `h = f + ρ(e − f)` is continuous (it is `f` off `T`),
 within `ε/2` of `f`, and equal to `e`, hence smooth, on an open `O″ ⊇ A`;
 `Continuous.exists_contMDiff_approx_and_eqOn` with tolerance `ε/2`, fixing a closed neighbourhood
-of `A` inside `O″`, gives `g`. Mathlib's lemma assumes the map already smooth near the fixed set;
-the form with a smooth `e` that agrees with `f` only on `A` is this roadmap's. *Needs:* Mathlib
+of `A` inside `O″`, gives `g`. Mathlib's lemma assumes the map already smooth near the fixed set
+and asks nothing of the target beyond a real normed space, and no step of the route uses a
+dimension of `V`; the form with a smooth `e` that agrees with `f` only on `A` is this roadmap's. *Needs:* Mathlib
 `Continuous.exists_contMDiff_approx_and_eqOn`, `exists_contMDiffMap_one_nhds_of_subset_interior`.
 
 - *Homotopy rel `A`.* The straight-line homotopy `(1 − s)f + sg`, `s ∈ [0, 1]`, fixes `A`
@@ -974,6 +984,10 @@ derivative of `incidenceEquation F j` at every zero. *Needs:* Tau Ceti
   predicate fails at `0`.
 - Same `F`, `W = ℝ`, `j = id`: every `p` is regular, since `(u, v) ↦ 2xu − v` is onto; a definition
   that forgets `Dj` would wrongly reject `p = 0`.
+- Universal transversality is a condition on the whole family: `F(x, p) = x² + p` against `j = 0`
+  on a point has full derivative `(u, q) ↦ 2xu + q`, onto at every zero, although the slice at
+  `p = 0` is not transverse; `F(x, p) = x²` has full derivative `(u, q) ↦ 2xu`, which vanishes at
+  the zeros `(0, p)`, so it is not universally transverse.
 
 ### 5.2 Generic parameters
 
@@ -994,16 +1008,31 @@ transversality theorem for embedded submanifolds [Lee, Thm. 6.35], and the incid
 a map is this roadmap's. *Needs:* §5.1; Tau Ceti `TauCeti.levelSetChart` and
 `TauCeti.addHaar_image_criticalPoints_eq_zero`.
 
+- *Local form.* The same holds for `F` smooth on an open `O ⊆ E × P` and `j` smooth on an open
+  `W₀ ⊆ W`, with universal transversality asked only at the zeros of `incidenceEquation F j` in
+  the open set `{((x, y), p) | (x, p) ∈ O, y ∈ W₀}`: the parameters `p` for which some `(x, y)`
+  with `(x, p) ∈ O`, `y ∈ W₀` and `F(x, p) = j(y)` has `(u, v) ↦ D_xF(x, p)u − Dj(y)v` not onto
+  form a Haar-null set. The values of `F` and `j` off `O` and `W₀` never enter and the route is
+  unchanged: a level-set chart needs strict differentiability at its centre only,
+  `TauCeti.addHaar_image_criticalPoints_eq_zero` asks for `ContDiffAt` only at the points of a set,
+  which need not be open, and the incidence, a subset of a finite-dimensional space, is covered
+  by countably many charts. §5.3 applies this form in products of chart domains.
+
 **Checks.**
 
 - `F(x, p) = x² + p`, `j = 0`: the bad set is `{0}`, Haar-null.
 - `F(x, p) = x²` (no parameter dependence), `j = 0`: universal transversality fails at `(0, p)` and
   every `p` is bad, a set of full measure; the hypothesis is necessary.
 - `V = 0`: every parameter is regular and the bad set is empty.
+- Local form, `F(x, p) = x² + p` against `j = 0` on a point: on `O = (−1, 1) × ℝ` the bad set is
+  still `{0}`, the zero `x = 0` of the slice at `p = 0` lying in `O`; on `O = (1, 2) × ℝ` it is
+  empty, the zeros `√(−p)`, `−4 < p < −1`, having derivative `2√(−p) ∈ (2, 4)`. Nothing outside
+  `O` is extended or consulted.
 
 ### 5.3 Relative perturbations
 
-Define `relativeTranslate f β p = f + β • p` for `f : E → V`, `β : E → ℝ` and `p ∈ V`. Prove
+Define `relativeTranslate f β p = f + β • p` for maps `f : X → V` and `β : X → ℝ` on any type `X`
+and `p ∈ V`; it equals `f` on the zero set of `β`. Prove
 `exists_isRegularIncidenceParameter_relativeTranslate`: for finite-dimensional `E`, `W`, `V`,
 smooth `f : E → V`, `j : W → V` and `β : E → ℝ` with `β ≥ 0` and zero set exactly `C`, if at every
 `x ∈ C` and every `y` with `f(x) = j(y)` the map `(u, v) ↦ Df(x)u − Dj(y)v` is onto, then for every
@@ -1017,43 +1046,89 @@ values in `[0, 1]`, is Mathlib's `IsOpen.exists_contDiff_support_eq` applied to 
 cutoff argument extends [Lee, Thm. 6.36] from embedded submanifolds to maps. *Needs:* §§5.1–5.2;
 Mathlib `IsOpen.exists_contDiff_support_eq`.
 
-On manifolds, a smooth `g : M → V` is *transverse to* a smooth `j : N → V` at `x ∈ M` when
-`(u, v) ↦ mfderiv g x u − mfderiv j y v` is onto `V` for every `y` with `g(x) = j(y)`, vacuously
-when there is none.
+On manifolds, define `IsTransverseAt I J g j x` for maps `g : M → V` and `j : N → V` from charted
+spaces over real models with corners `I` and `J`, and a point `x ∈ M`: `g` is *transverse to* `j`
+at `x` when `(u, v) ↦ mfderiv g x u − mfderiv j y v` is onto `V` for every `y ∈ N` with
+`g(x) = j(y)`, vacuously when there is none. `mfderiv` is total, zero where a map is not
+differentiable, so the predicate is applied to smooth maps only. *Needs:* Mathlib `mfderiv`,
+`ContinuousLinearMap.coprod`.
 
-- *Manifold sources.* Let `M` be a Hausdorff σ-compact boundaryless smooth manifold and `N` a
-  second-countable boundaryless smooth manifold, both over finite-dimensional real models,
-  `f : M → V` and `j : N → V` smooth, and `C ⊆ M` closed with `f` transverse to `j` at every point
-  of `C`. For every smooth `β : M → ℝ` with `β ≥ 0` and zero set exactly `C`, and every `r > 0`,
-  there is `p ∈ V` with `‖p‖ < r` such that `f + βp` is transverse to `j` at every point of `M`
-  and equals `f` on `C`. Such a `β`, with values in `[0, 1]`, exists by Mathlib's
-  `exists_contMDiff_zero_iff_one_iff_of_isClosed` with the empty set as the set where it is `1`.
-  Route: the family is universally transverse as in the flat case; §5.2's argument (level-set
-  charts and flat Sard on a set) applies to it on the products of chart domains of countable
-  atlases of `M` and `N` (§5.1), and a countable union of Haar-null sets is Haar-null. *Needs:*
-  §§5.1–5.2; Mathlib `exists_contMDiff_zero_iff_one_iff_of_isClosed`.
+- On normed spaces, over `𝓘(ℝ, E)` and `𝓘(ℝ, W)`, for smooth `F : E × P → V` and `j : W → V`,
+  the slice `F(·, p)` is transverse to `j` at every point exactly when `p` is a regular incidence
+  parameter (§5.1), because `mfderiv` is `fderiv` there (`mfderiv_eq_fderiv`).
+- For fixed `j`, transversality of `g` at `x` depends only on the germ of `g` at `x`. It is
+  unchanged when `g` and `j` are both composed with one affine isomorphism of `V`, and it is
+  invariant under diffeomorphisms of the sources: for a diffeomorphism `ψ`, `g ∘ ψ` is transverse
+  to `j` at `x` exactly when `g` is at `ψ(x)`, and likewise for `j ∘ ψ`.
+- If `dim M + dim N < dim V` (model dimensions), `g` is transverse to `j` at `x` exactly when
+  `g(x) ∉ j(N)`.
+
+**Checks.**
+
+- Vacuous case: `M = V = ℝ`, `N` a point, `g = 1`, `j = 0`. No `y` has `g(x) = j(y)`, so `g` is
+  transverse to `j` at every point although `Dg = 0`; a definition demanding that `Dg` be onto
+  rejects it.
+- `Dj` counts: `M = N = V = ℝ`, `g = 0`, `j = id`. At every `x` the only `y` is `0`, and
+  `(u, v) ↦ 0·u − v` is onto, so `g` is transverse at every point; a definition that forgets `Dj`
+  rejects it.
+- A failure: `M = V = ℝ`, `N` a point, `j = 0`, `g(x) = x²`. At `x = 0` the map `(u, v) ↦ 0` is not
+  onto, so `g` is not transverse at `0`, while at every `x ≠ 0` it is, vacuously; an always-true
+  predicate is wrong at `0`.
+- Agreement with §5.1: for `F(x, p) = x² + p` and `j = 0` on a point, the slice at `p = −1` is
+  transverse at `±1` (derivatives `±2`) and vacuously elsewhere, and `−1` is a regular incidence
+  parameter; at `p = 0` both fail, at `x = 0`.
+
+The targets on manifolds:
+
+- *Manifold sources.* Let `M` and `N` be second-countable boundaryless smooth manifolds over
+  finite-dimensional real models `I` and `J`, `V` a finite-dimensional real normed space, and
+  `f : M → V`, `j : N → V` and `β : M → ℝ` smooth with `β ≥ 0` and `f` transverse to `j` at every
+  zero of `β`. Prove `addHaar_setOf_not_forall_isTransverseAt_relativeTranslate`: the parameters
+  `p ∈ V` for which `relativeTranslate f β p` fails to be transverse to `j` at some point of `M`
+  form a set that is null for every additive Haar measure on `V` (outer measure). A Haar-null set
+  contains no ball, so for every `r > 0` there is `p` with `‖p‖ < r` for which
+  `relativeTranslate f β p` is transverse to `j` at every point of `M`, and it equals `f` on the
+  zero set `C` of `β`. On a Hausdorff such `M`, every closed `C` is the zero set of such a `β` with
+  values in `[0, 1]`, by Mathlib's `exists_contMDiff_zero_iff_one_iff_of_isClosed` with the empty
+  set as the set where it is `1` (`M` is σ-compact, being second countable and locally compact).
+  Route: the family `(x, p) ↦ f(x) + β(x)p` is universally transverse to `j` as in the flat case,
+  a zero of `β ≥ 0` being a minimum and so, `M` being boundaryless, a critical point of `β`. Every
+  point of `M` has a chart neighbourhood whose extended chart image is open in the model vector
+  space: shrink the chart domain to the preimage of the interior of `range I`, which contains the
+  image of the point because `M` is boundaryless. Countably many of these cover the
+  second-countable `M`, and likewise for `N`. On the product of two such neighbourhoods the
+  family and `j`, read in the charts, are smooth on open sets and the chart derivatives are
+  isomorphisms, so transversality of `relativeTranslate f β p` to `j` there is regularity of `p`
+  for the coordinate family (§5.1). The local form of §5.2 makes the bad parameters of each
+  product Haar-null, and a countable union of Haar-null sets is Haar-null. *Needs:* §5.1, the
+  local form of §5.2; Mathlib `mfderiv`, `exists_contMDiff_zero_iff_one_iff_of_isClosed`.
 - *Compact sources, finitely many maps, finite order.* If moreover `M` is compact and
-  `f₁, …, f_n : M → V` are smooth, each transverse to `j` at every point of `C`, then for every
-  `k ∈ ℕ` and `ε > 0` there is one `p ∈ V` such that every `f_i + βp` is transverse to `j`, equals
-  `f_i` on `C`, and lies within `ε` of `f_i` in the norm
-  `‖h‖_{C^k} = max_{a, i ≤ k} sup_{φ_a(K_a)} ‖Dⁱ(h ∘ φ_a⁻¹)‖` of a fixed finite family of charts
-  `φ_a` and compact `K_a` in their domains covering `M`. Route: `‖βp‖_{C^k} = ‖β‖_{C^k} ‖p‖`, so
-  every `p` with `‖p‖ < ε / (1 + ‖β‖_{C^k})` is close enough, and the bad parameters of the finite
-  family form a finite union of Haar-null sets. The straight-line homotopy `s ↦ f_i + sβp`,
-  `s ∈ [0, 1]`, fixes `C` and stays within `ε` of `f_i` in that norm. *Needs:* the manifold
-  statement above.
-- *Compact sources with corners.* Let `D` be a compact smooth manifold over a finite-dimensional
-  real model with corners `I`, `j : N → V` as above, `f : D → V` continuous, `e : D → V` smooth on
-  an open `O ⊇ I.boundary D` with `e = f` on `I.boundary D` and `e` transverse to `j` at every
-  point of `O`, and `ε > 0`. Then there is a smooth `g : D → V` with `‖g − f‖ < ε` everywhere,
-  equal to `e` near `I.boundary D` and transverse to `j` at every point of `D`. Route: §2.5 gives a
-  smooth `g₀` within `ε/2` of `f` and equal to `e` on an open `O₀` with
-  `I.boundary D ⊆ O₀ ⊆ O`; for a closed neighbourhood `C ⊆ O₀` of the boundary and a cutoff
-  `β : D → [0, 1]` with zero set `C`, the manifold statement on the boundaryless open
-  `I.interior D`, for `g₀` and `C ∩ I.interior D`, gives `p` with `‖p‖ < ε/2`, and
-  `g = g₀ + βp` equals `g₀ = e` on `C`. For the interval, the square and the closed disc the same
-  holds in ambient coordinates, through the model-domain form of §2.5. *Needs:* the manifold
-  statement above, §2.5.
+  `f₁, …, f_n : M → V` are smooth, each transverse to `j` at every zero of `β`, then for every
+  `k ∈ ℕ` and `ε > 0` there is one `p ∈ V` such that every `relativeTranslate f_i β p` is
+  transverse to `j` at every point, equals `f_i` on the zero set of `β`, and lies within `ε` of
+  `f_i` in the norm `‖h‖_{C^k} = max_{a, l ≤ k} sup_{φ_a(K_a)} ‖Dˡ(h ∘ φ_a⁻¹)‖` of a fixed finite
+  family of charts `φ_a` and compact `K_a` in their domains covering `M`. Route:
+  `‖βp‖_{C^k} = ‖β‖_{C^k} ‖p‖`, so every `p` with `‖p‖ < ε / (1 + ‖β‖_{C^k})` is close enough;
+  by the manifold statement the bad parameters of each `f_i` form a Haar-null set, and the finite
+  union of these contains no ball. The straight-line homotopy `s ↦ f_i + sβp`, `s ∈ [0, 1]`, fixes
+  the zero set of `β` and stays within `ε` of `f_i` in that norm. *Needs:* the manifold statement
+  above.
+- *Compact sources with corners.* Let `D` be a compact Hausdorff smooth manifold over a
+  finite-dimensional real model with corners `I`, `j : N → V` as above, `f : D → V` continuous,
+  `e : D → V` smooth on an open `O ⊇ I.boundary D` with `e = f` on `I.boundary D` and `e`
+  transverse to `j` at every point of `O`, and `ε > 0`. Then there is a smooth `g : D → V` with
+  `‖g − f‖ < ε` everywhere, equal to `e` near `I.boundary D` and transverse to `j` at every point
+  of `D`. Route: §2.5 gives a smooth `g₀` within `ε/2` of `f` and equal to `e` on an open `O₀`
+  with `I.boundary D ⊆ O₀ ⊆ O`. Take a closed neighbourhood `C ⊆ O₀` of the boundary and a cutoff
+  `β : D → [0, 1]` with zero set `C`. The open `I.interior D` is boundaryless and second countable
+  (`D` is compact, hence second countable by `ChartedSpace.secondCountable_of_sigmaCompact`), and
+  `g₀` is transverse to `j` at the points of `C` in it, where it agrees with `e` near the point; the
+  manifold statement there gives `p` with `‖p‖ < ε/2` for which `g = g₀ + βp` is transverse to `j`
+  at every interior point. On `C`, a neighbourhood of `I.boundary D`, `g = g₀ = e`, so `g` is
+  transverse to `j` at the boundary points too, and `‖g − f‖ < ‖p‖ + ε/2 < ε`. For the interval,
+  the square and the closed disc the same holds in ambient coordinates, through the model-domain
+  form of §2.5. *Needs:* the manifold statement above, §2.5, Mathlib
+  `ChartedSpace.secondCountable_of_sigmaCompact`.
 
 **Checks.**
 
@@ -1062,15 +1137,30 @@ when there is none.
 - The transversality hypothesis on `C` is necessary: for `f(x) = x²`, `β(x) = x²`, `j = 0` on `ℝ`,
   `f` is not transverse at `0 ∈ C`, and every translate `x²(1 + p)` has the zero `0` with
   derivative `0`, so no parameter is regular.
+- Manifold sources, `M = ℝ`, `N` a point, `j = 0`, `f(x) = x²`, `β = 1` (no zeros, so the
+  hypothesis is empty): `x² + p` fails to be transverse only at `p = 0`, where its zero `0` has
+  derivative `0`; for `p > 0` it has no zeros and for `p < 0` its zeros `±√(−p)` have derivatives
+  `±2√(−p) ≠ 0`. The bad set `{0}` is Haar-null and nonempty, so a statement that every parameter
+  is good would be false.
+- Second countability is necessary: let `N` be `ℝ` with the discrete topology, a boundaryless
+  `0`-dimensional manifold that is not second countable, `j` the identity into `V = ℝ`, `M` a
+  point, `f = 0` and `β = 1`. Every translate `p` equals `j(p)`, where the map
+  `T M × T_p N = 0 → ℝ` is not onto, so every parameter is bad and the bad set has infinite
+  measure.
 
 ### Examples
 
 Two curves in `ℝ³` (`dim E + dim W = 2 < 3`) are made disjoint by a generic translation; the
-parabola family `x² + p` has the single bad parameter `0`.
+parabola family `x² + p` has the single bad parameter `0`. Two circles `S¹ → ℝ³`, the second fixed
+and the first translated by `βp` with `β` vanishing on an arc already disjoint from the second
+circle, are made disjoint by almost every small `p`, by the manifold form of §5.3 with
+`dim M + dim N = 2 < 3`.
 
 ### Dependencies
 
-§2.5; Tau Ceti level-set charts and flat Sard; Mathlib bump functions and partitions of unity.
+§2.5; Tau Ceti level-set charts and flat Sard; Mathlib bump functions and partitions of unity,
+manifold derivatives `mfderiv`, countable atlases of second-countable manifolds and additive Haar
+measures.
 
 ## Statements that must not enter the library
 
