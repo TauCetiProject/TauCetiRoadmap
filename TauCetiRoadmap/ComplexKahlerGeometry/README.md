@@ -1189,7 +1189,7 @@ equivalence, proving basis independence and continuity of the |det| action.
 Construct the smooth real density line bundle on M with local
 transition |det D(chart change)|, its dual/tensor and pullback maps, and construct
 its `ContMDiffVectorBundle ∞` structure. Identify its smooth sections with
-chart-smooth values of DifferentialGeometry §5.5's `RoughDensity` carrier (its densities part); scalar-extend it
+chart-smooth values of DifferentialGeometry §5.5's `RoughDensity` carrier (its densities part, §5.5a in that roadmap's open revision); scalar-extend it
 to 𝕜 for complex coefficient bundles. Define
 the density-valued dual-bundle test space as the compactly supported smooth sections,
 using native `ContMDiffSection` with `ContMDiffVectorBundle ∞`, and fixed-compact
@@ -1233,7 +1233,7 @@ The star, density line, tests and distribution carriers have the following API:
   and d(u dz)=dx∧dy; using −1/(2i) would give −dx∧dy. The denominator 2i is nonzero.
 - For P=x∂ₓ on the line with density dx, Pᵗ=−x∂ₓ−1, so the action on the constant distribution 1 is ⟨P1,ψ⟩=−∫(xψ)′dx=0, matching x∂ₓ1=0; with −x∂ₓ in place of Pᵗ it would be ∫ψ dx, which is 1 for a bump ψ of integral 1.
 
-*Needs:* DifferentialGeometry §§0.1–0.4 and 5.5 (densities); SmoothBundlesConnections B2–B4; Tau Ceti `Orientation.formHodgeStar`, `Orientation.complexHodgeStar`, `Orientation.barHodgeStar`, `TauCeti.alternatingFormEquiv` and `TauCeti.RoughForm.hodgeStar`; native test functions and distributions; PseudodifferentialOperators P1.0's density transpose for the operator action.
+*Needs:* DifferentialGeometry §§0.1–0.4 and 5.5 (densities; 5.5a in its open revision); SmoothBundlesConnections B2–B4; Tau Ceti `Orientation.formHodgeStar`, `Orientation.complexHodgeStar`, `Orientation.barHodgeStar`, `TauCeti.alternatingFormEquiv` and `TauCeti.RoughForm.hodgeStar`; native test functions and distributions; PseudodifferentialOperators P1.0's density transpose for the operator action.
 
 #### Differential operators, consumed
 
@@ -1561,8 +1561,8 @@ DifferentialGeometry §8.4's chain integrals and Stokes. Use that
 agreement for the complex-linear de Rham integration map and its naturality. On an
 oriented real Riemannian manifold, extend compactly supported smooth top-form
 integration to integrable `f dvol_g` through the L¹ density completion;
-prove independence of the approximants. Combine DifferentialGeometry §5.5's (densities) agreement of
-the density integral with the top-form integral and §12.4's agreement of
+prove independence of the approximants. Combine the agreement, in DifferentialGeometry §5.5 (densities;
+§5.5a in its open revision), of the density integral with the top-form integral and §12.4's agreement of
 `TauCeti.riemannianVolume` with the density integral to prove
 `∫_M f dvol_g=∫ f d(riemannianVolume I M)` for integrable complex f,
 first on compactly supported smooth functions and then by L¹ density. Use
