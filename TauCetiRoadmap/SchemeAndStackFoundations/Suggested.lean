@@ -7,7 +7,6 @@ import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Modules.Tilde.Basic
 import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
-import TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint
 
 /-!
 # Scheme, stack, cohomology and intersection foundations: target signatures
@@ -17,10 +16,6 @@ theorems against the pinned Mathlib and Tau Ceti, with the few definitions they 
 
 Headline theorems that are not statable at the pins, and what each lacks:
 
-* §0.29: the properties of absolute and relative Frobenius of a scheme (integral, a universal
-  homeomorphism, an isomorphism for étale morphisms, finite locally free of rank `p^d` in smooth
-  relative dimension `d`, base change). The pinned Mathlib has no Frobenius endomorphism of a
-  scheme; a body for it needs locality of the `p`-power map on stalks.
 * §2.18: gluing of derived morphisms and of derived objects on an open basis (Stacks 0D66,
   0D6C). Derived restriction to an open needs `Scheme.Modules.restrictFunctor` to be additive and
   exact, which the pins do not provide.
@@ -66,36 +61,19 @@ section Layer0
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry
 open scoped _root_.TensorProduct ZeroObject
 
-/-! ### §0.3 Proj and base change -/
-
-namespace Proj
-
-/-- `Proj` of a graded `R`-algebra commutes with base change along `R → R'`.
-Stacks, Lemma 27.11.6 (01N2). -/
-theorem isPullback_baseChange {R R' A : Type u} [CommRing R] [CommRing R'] [CommRing A]
-    [Algebra R A] [Algebra R R'] (𝒜 : ℕ → Submodule R A) [GradedAlgebra 𝒜]
-    [GradedAlgebra (fun d => (𝒜 d).baseChange R')] :
-    ∃ (f : Proj (fun d => (𝒜 d).baseChange R') ⟶ Proj 𝒜)
-      (g : Proj (fun d => (𝒜 d).baseChange R') ⟶ Spec (CommRingCat.of R')),
-      IsPullback f g (Proj.toSpecZero 𝒜 ≫ Spec.map (CommRingCat.ofHom (algebraMap R (𝒜 0))))
-        (Spec.map (CommRingCat.ofHom (algebraMap R R'))) := by
-  sorry
-
-end Proj
-
 /-! ### §0.5 Pseudo-coherent modules -/
 
 namespace PseudoCoherence
 
 /-- A module with a resolution by finite free modules in nonnegative chain degrees.
-Stacks, Definition 15.66.1 (064Q). -/
+Stacks, Definition 15.66.1 (064Q). Tau Ceti's `TauCeti.Huber.IsPseudoCoherentOver A M ⊤`. -/
 def IsPseudoCoherentModule (A : Type u) [CommRing A] (M : ModuleCat.{u} A) : Prop :=
   ∃ P : ChainComplex (ModuleCat.{u} A) ℕ,
     (∀ n, Module.Free A (P.X n) ∧ Module.Finite A (P.X n)) ∧
     Nonempty (P.homology 0 ≅ M) ∧ ∀ n : ℕ, IsZero (P.homology (n + 1))
 
 /-- Zariski-local resolutions of a module sheaf by finite free module sheaves.
-Stacks, §36.10 (08E4). -/
+Stacks, §36.10 (08E4). Tau Ceti's `AlgebraicGeometry.Scheme.Modules.IsPseudoCoherent`. -/
 def IsPseudoCoherentSheaf {X : Scheme.{u}} (F : X.Modules) : Prop :=
   ∀ x : X, ∃ U : X.Opens, x ∈ U ∧
     ∃ P : ChainComplex U.toScheme.Modules ℕ,
@@ -138,14 +116,15 @@ theorem unibranch_finite_components {X Y : Scheme.{u}} [IsLocallyNoetherian X]
 /-! ### §0.20 Japanese and Nagata rings -/
 
 /-- A domain is Japanese (N-2) if its integral closure in every finite extension of its fraction
-field is a finite module, inseparable extensions included. Stacks, Definition 10.161.1 (032F). -/
+field is a finite module, inseparable extensions included. Stacks, Definition 10.161.1 (032F).
+The body of Tau Ceti's `TauCeti.Ring.IsJapanese`. -/
 def Ring.IsJapanese (R : Type u) [CommRing R] [IsDomain R] : Prop :=
   ∀ (L : Type u) [Field L] [Algebra R L] [Algebra (FractionRing R) L]
     [IsScalarTower R (FractionRing R) L] [FiniteDimensional (FractionRing R) L],
     Module.Finite R (integralClosure R L)
 
 /-- A ring is Nagata if it is Noetherian and every quotient by a prime is Japanese.
-Stacks, Definition 10.162.1 (032R). -/
+Stacks, Definition 10.162.1 (032R). The fields of Tau Ceti's `TauCeti.Ring.IsNagata`. -/
 def Ring.IsNagata (R : Type u) [CommRing R] : Prop :=
   IsNoetherianRing R ∧ ∀ (p : Ideal R) [p.IsPrime], Ring.IsJapanese (R ⧸ p)
 
@@ -166,22 +145,26 @@ theorem Ring.IsNagata.of_complete_local (A : Type u) [CommRing A] [IsLocalRing A
 namespace Excellence
 
 /-- Noetherian geometric regularity over a field, tested after finite purely inseparable
-extensions. Stacks, Lemma 10.166.1 and Definition 10.166.2. -/
+extensions. Stacks, Lemma 10.166.1 and Definition 10.166.2. The fields of Tau Ceti's
+`TauCeti.Excellence.GeometricallyRegular`. -/
 def GeometricallyRegular (k B : Type u) [Field k] [CommRing B] [Algebra k B] : Prop :=
   IsNoetherianRing B ∧
     ∀ (L : Type u) [Field L] [Algebra k L], Module.Finite k L →
       IsPurelyInseparable k L → IsRegularRing (L ⊗[k] B)
 
-/-- Flat with geometrically regular fibres. Stacks, Definition 15.42.1. -/
+/-- Flat with geometrically regular fibres. Stacks, Definition 15.42.1. The fields of Tau Ceti's
+`TauCeti.Excellence.RegularAlgebraMap`. -/
 def RegularAlgebraMap (R B : Type u) [CommRing R] [CommRing B] [Algebra R B] : Prop :=
   Module.Flat R B ∧ ∀ p : PrimeSpectrum R,
     GeometricallyRegular p.asIdeal.ResidueField (p.asIdeal.Fiber B)
 
-/-- The regular locus; it need not be open. Stacks, §15.48. -/
+/-- The regular locus; it need not be open. Stacks, §15.48. Tau Ceti's
+`TauCeti.Excellence.regularLocus`. -/
 def regularLocus (R : Type u) [CommRing R] : Set (PrimeSpectrum R) :=
   {p | IsRegularLocalRing (Localization.AtPrime p.asIdeal)}
 
-/-- G-rings: Noetherian, with regular formal fibres at every prime. Stacks, Definition 15.51.1. -/
+/-- G-rings: Noetherian, with regular formal fibres at every prime. Stacks, Definition 15.51.1.
+The fields of Tau Ceti's `TauCeti.Excellence.IsGRing`. -/
 def IsGRing (R : Type u) [CommRing R] : Prop :=
   IsNoetherianRing R ∧ ∀ p : PrimeSpectrum R,
     RegularAlgebraMap (Localization.AtPrime p.asIdeal)
@@ -267,121 +250,6 @@ theorem universalHomeomorphismEtaleEquivalence_baseChange {X Y Y' : Scheme.{u}}
         (e.hom.app V).left ≫ pullback.snd (pullback.snd V.hom g) (pullback.snd f g) =
           pullback.snd (pullback.snd V.hom f) (pullback.fst f g) := by sorry
 
-/-! ### §0.27 Flat base change of annihilators -/
-
-namespace FlatAnnihilator
-
-/-- For `R → S` flat and `M` finite, `Ann_S(S ⊗ M) = Ann_R(M) · S`. Stacks, Lemma 10.40.4. -/
-theorem annihilator_flat_baseChange {R S M : Type u} [CommRing R] [CommRing S] [Algebra R S]
-    [AddCommGroup M] [Module R M] [Module.Flat R S] [Module.Finite R M] :
-    (Module.annihilator R M).map (algebraMap R S) =
-      Module.annihilator S (S ⊗[R] M) := by
-  sorry
-
-/-- Flat base change preserves the annihilator of the unit pure tensor, for any module. -/
-theorem element_annihilator_flat_baseChange {R S M : Type u}
-    [CommRing R] [CommRing S] [Algebra R S] [AddCommGroup M] [Module R M]
-    [Module.Flat R S] (m : M) :
-    (Submodule.span R {m}).annihilator.map (algebraMap R S) =
-      (Submodule.span S {(1 : S) ⊗ₜ[R] m}).annihilator := by sorry
-
-end FlatAnnihilator
-
-/-! ### §0.30 Normal schemes, codimension-one points under finite morphisms, ramification -/
-
-namespace NormalSchemes
-
-open Order
-
-/-- A scheme is **normal** if every local ring is an integrally closed domain.
-Stacks, Definition 28.7.1 (033I). -/
-@[stacks 033I]
-class IsNormalScheme (X : Scheme.{u}) : Prop where
-  isDomain_stalk : ∀ x : X, IsDomain (X.presheaf.stalk x)
-  isIntegrallyClosed_stalk : ∀ x : X, IsIntegrallyClosed (X.presheaf.stalk x)
-
-instance IsNormalScheme.isDomain_stalk' (X : Scheme.{u}) [IsNormalScheme X] (x : X) :
-    IsDomain (X.presheaf.stalk x) :=
-  IsNormalScheme.isDomain_stalk x
-
-/-- On a locally Noetherian normal scheme the stalk at a point of coheight one is a discrete
-valuation ring. Stacks, Lemma 10.119.7 (00PD). -/
-@[stacks 00PD "the codimension-one stalk"]
-theorem IsNormalScheme.isDiscreteValuationRing_stalk (X : Scheme.{u}) [IsLocallyNoetherian X]
-    [IsNormalScheme X] (x : X) (hx : coheight x = 1) :
-    IsDiscreteValuationRing (X.presheaf.stalk x) := by
-  sorry
-
-variable {X Y : Scheme.{u}} (f : X ⟶ Y)
-
-/-- A point over a point of coheight one under a finite dominant morphism of integral schemes has
-coheight one (incomparability, with dominance). -/
-theorem coheight_eq_one_of_coheight_apply_eq_one [IsFinite f] [IsDominant f] [IsIntegral X]
-    [IsIntegral Y] (x : X) (hx : coheight (f x) = 1) : coheight x = 1 := by
-  sorry
-
-/-- The image of a point of coheight one under a finite dominant morphism of integral schemes,
-with target locally of finite type over a field and Noetherian: the local dimension formula
-`dim_x X = trdeg_k κ(x) + dim 𝒪_{X,x}` (Stacks, Lemma 33.20.3 (0A21)) on `X` and on `Y`, with
-`dim X = dim Y` (Stacks, Lemma 29.45.9 (0ECG)) and `[κ(x) : κ(f x)] < ∞`. -/
-theorem coheight_apply_eq_one (k : Type u) [Field k] (sY : Y ⟶ Spec (.of k))
-    [LocallyOfFiniteType sY] [IsLocallyNoetherian Y] [TopologicalSpace.NoetherianSpace Y]
-    [IsFinite f] [IsDominant f] [IsIntegral X] [IsIntegral Y]
-    (x : X) (hx : coheight x = 1) : coheight (f x) = 1 := by
-  sorry
-
-/-- The image of a point of coheight one under a finite dominant morphism of integral schemes
-with normal target has coheight one: going down (Stacks, Proposition 10.38.7 (00H8)). -/
-theorem coheight_apply_eq_one_of_isNormalScheme [IsLocallyNoetherian Y] [IsNormalScheme Y]
-    [IsFinite f] [IsDominant f] [IsIntegral X] [IsIntegral Y]
-    (x : X) (hx : coheight x = 1) : coheight (f x) = 1 := by
-  sorry
-
-/-- The map on codimension-one points induced by `f`, given that `f` preserves coheight one
-(supplied by `coheight_apply_eq_one` or `coheight_apply_eq_one_of_isNormalScheme`). -/
-def codimensionOneMap (hf : ∀ x : X, coheight x = 1 → coheight (f x) = 1) :
-    TauCeti.AlgebraicGeometry.CodimensionOnePoint X →
-      TauCeti.AlgebraicGeometry.CodimensionOnePoint Y :=
-  fun x => ⟨f x, hf x x.2⟩
-
-/-- Every codimension-one point of the target of a finite dominant morphism of integral schemes is
-the image of a codimension-one point. -/
-theorem codimensionOneMap_surjective [IsFinite f] [IsDominant f] [IsIntegral X] [IsIntegral Y]
-    (hf : ∀ x : X, coheight x = 1 → coheight (f x) = 1) :
-    Function.Surjective (codimensionOneMap f hf) := by
-  sorry
-
-/-- The **ramification index of `f` at `x`**: the ramification index of the maximal ideal of
-`𝒪_{X,x}` over `𝒪_{Y,f(x)}` along the stalk map. -/
-def ramificationIdxAt (x : X) : ℕ :=
-  letI := (f.stalkMap x).hom.toAlgebra
-  (IsLocalRing.maximalIdeal (X.presheaf.stalk x)).ramificationIdx (Y.presheaf.stalk (f x))
-
-/-- Ramification indices multiply in towers at points of coheight one. The stalk map of `f ≫ g`
-at `x` is the composite of the stalk maps (`Scheme.Hom.stalkMap_comp`), and the extensions of
-discrete valuation rings are torsion free, hence flat, as `Ideal.ramificationIdx_tower` requires. -/
-theorem ramificationIdxAt_comp {Z : Scheme.{u}} (g : Y ⟶ Z) [IsFinite f] [IsDominant f]
-    [IsFinite g] [IsDominant g] [IsIntegral X] [IsIntegral Y] [IsIntegral Z]
-    [IsLocallyNoetherian X] [IsLocallyNoetherian Y] [IsLocallyNoetherian Z]
-    [IsNormalScheme X] [IsNormalScheme Y] [IsNormalScheme Z]
-    (x : X) (hx : coheight x = 1) :
-    ramificationIdxAt (f ≫ g) x = ramificationIdxAt f x * ramificationIdxAt g (f x) := by
-  sorry
-
-/-- **Regular quotients of a regular local ring.** If `R ⧸ I` is a regular local ring, `I` is
-generated by part of a minimal generating set of the maximal ideal. Stacks, Lemma 10.106.4
-(00NR). -/
-@[stacks 00NR]
-theorem exists_regularSystem_of_quotient {R : Type u} [CommRing R]
-    [IsRegularLocalRing R] (I : Ideal R) [IsRegularLocalRing (R ⧸ I)] :
-    ∃ (d c : ℕ) (x : Fin d → R), c ≤ d ∧
-      Ideal.span (Set.range x) = IsLocalRing.maximalIdeal R ∧
-      (IsLocalRing.maximalIdeal R).spanFinrank = d ∧
-      I = Ideal.span (x '' {i | (i : ℕ) < c}) := by
-  sorry
-
-end NormalSchemes
-
 end Layer0
 
 /-! ## Layer 1: descent, algebraic spaces and stacks -/
@@ -390,25 +258,28 @@ section Layer1
 
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.Opposite _root_.AlgebraicGeometry
 
-/-- Presheaves of sets on the big category of schemes. -/
+/-- Presheaves of sets on the big category of schemes; Tau Ceti's
+`TauCeti.AlgebraicGeometry.SchemePresheaf`. -/
 abbrev SchemePresheaf := Scheme.{u}ᵒᵖ ⥤ Type u
 
 /-! ### §1.3–§1.10 Algebraic spaces -/
 
 namespace Spaces
 
-/-- The diagonal `F → F × F` is relatively representable by schemes. -/
+/-- The diagonal `F → F × F` is relatively representable by schemes; Tau Ceti's
+`TauCeti.AlgebraicGeometry.Spaces.RepresentableDiagonal`. -/
 def RepresentableDiagonal (F : SchemePresheaf.{u}) : Prop :=
   yoneda.relativelyRepresentable (prod.lift (𝟙 F) (𝟙 F))
 
 /-- `a : h_U → F` is representable, and étale and surjective after every base change to a
-scheme. -/
+scheme; the fields of Tau Ceti's `TauCeti.AlgebraicGeometry.Spaces.EtaleAtlas`. -/
 def EtaleAtlas (F : SchemePresheaf.{u}) (U : Scheme.{u}) (a : yoneda.obj U ⟶ F) : Prop :=
   MorphismProperty.presheaf (@Etale : MorphismProperty Scheme.{u}) a ∧
     MorphismProperty.presheaf (@Surjective : MorphismProperty Scheme.{u}) a
 
 /-- An algebraic space: an fppf sheaf with representable diagonal and an étale atlas.
-Stacks, Definition 65.6.1 (025Y). -/
+Stacks, Definition 65.6.1 (025Y). The fields of Tau Ceti's
+`TauCeti.AlgebraicGeometry.Spaces.IsAlgebraicSpace`. -/
 def IsAlgebraicSpace (F : SchemePresheaf.{u}) : Prop :=
   Presheaf.IsSheaf Scheme.fppfTopology F ∧ RepresentableDiagonal F ∧
     ∃ (U : Scheme.{u}) (a : yoneda.obj U ⟶ F), EtaleAtlas F U a
@@ -583,16 +454,9 @@ namespace QCoh
 
 open TauCeti.AlgebraicGeometry
 
-/-- Over an affine base, the cohomology of quasi-coherent modules on the source of a qcqs
-morphism vanishes in a range depending only on the morphism. Stacks, Lemmas 30.4.1–30.4.6 (01XH). -/
-theorem higherDirectImage_vanishing {X S : Scheme.{u}} (f : X ⟶ S) [QuasiCompact f]
-    [QuasiSeparated f] [IsAffine S] :
-    ∃ N : ℕ, ∀ (F : X.Modules) [F.IsQuasicoherent] (p : ℕ), N ≤ p →
-      Subsingleton (Scheme.Modules.Cohomology F p) := by
-  sorry
-
 /-- Serre's criterion: a quasi-compact scheme on which `H¹` of every quasi-coherent module
-vanishes is affine. Stacks, Lemmas 30.3.1, 30.3.2 and 30.3.4 (01XE). -/
+vanishes is affine. Stacks, Lemma 30.3.1 (01XF); Lemma 30.3.2 (01XG) is the quasi-separated
+form. -/
 theorem isAffine_of_H1_vanishing (X : Scheme.{u}) [CompactSpace X]
     (h : ∀ (I : X.Modules) [I.IsQuasicoherent], Subsingleton (Scheme.Modules.Cohomology I 1)) :
     IsAffine X := by
@@ -617,7 +481,7 @@ theorem artinSchreier_vanishing (p : ℕ) [Fact p.Prime] (X : Scheme.{u}) [IsAff
   sorry
 
 /-- Tsen: the function field of a curve over an algebraically closed field has trivial Brauer
-group. Stacks, Theorems 59.67.8 and 59.67.10 (0A2M). -/
+group. Stacks, Theorems 59.67.8 (03RC) and 59.67.10 (03RD). -/
 theorem brauer_functionField_curve_trivial (k K : Type u) [Field k] [IsAlgClosed k] [Field K]
     [Algebra k K] (t : K) (ht : Transcendental k t)
     (halg : Algebra.IsAlgebraic (IntermediateField.adjoin k {t}) K)
@@ -681,7 +545,7 @@ end Nisnevich
 namespace Proetale
 
 /-- Limits of towers of epimorphisms have epimorphic legs. Bhatt–Scholze 2014, Definition
-3.1.1. -/
+3.1.1. Tau Ceti's `TauCeti.IsReplete` with `TauCeti.IsReplete.epi_π_app`. -/
 def IsReplete (T : Type w) [Category.{v} T] : Prop :=
   ∀ (F : ℕᵒᵖ ⥤ T) (_ : ∀ n : ℕ, Epi (F.map (homOfLE (Nat.le_succ n)).op))
     (c : Cone F) (_ : IsLimit c) (m : ℕ), Epi (c.π.app (Opposite.op m))
@@ -853,13 +717,6 @@ theorem vectorBundleDegree_pullback (X Y : Scheme.{u})
     vectorBundleDegree k X ((Scheme.Modules.pullback f).obj E) r =
       Module.finrank Y.functionField X.functionField * vectorBundleDegree k Y E r := by sorry
 
-/-- A proper geometrically integral scheme over `k` has `H⁰(X, O_X) = k`.
-Stacks, Lemma 33.9.3 (0BUG), part (7). -/
-theorem cohomologyDim_zero_structureModule (X : Scheme.{u}) [X.Over (Spec (.of k))]
-    [IsProper (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))] :
-    cohomologyDim k X (structureModule X) 0 = 1 := by
-  sorry
-
 /-- Riemann–Hurwitz for finite étale maps of smooth proper curves: `g_X − 1 = n (g_Y − 1)`.
 Stacks, Lemmas 0C1C, 0C1D and 0C1F. -/
 theorem genus_of_finite_etale {X Y : Scheme.{u}} [X.Over (Spec (.of k))] [Y.Over (Spec (.of k))]
@@ -913,12 +770,13 @@ namespace Formal
 
 /-! ### §4.1 Thickenings and the infinitesimal lifting criterion -/
 
-/-- A thickening: a closed immersion surjective on points. Stacks, Definition 37.2.1 (04EX). -/
+/-- A thickening: a closed immersion surjective on points. Stacks, Definition 37.2.1 (04EX).
+Tau Ceti's `TauCeti.AlgebraicGeometry.IsThickening`. -/
 class IsThickening {Z X : Scheme.{u}} (i : Z ⟶ X) : Prop extends IsClosedImmersion i,
   Surjective i
 
 /-- A first-order thickening: a closed immersion whose ideal squares to zero.
-Stacks, Definition 37.2.1 (04EX). -/
+Stacks, Definition 37.2.1 (04EX). Tau Ceti's `TauCeti.AlgebraicGeometry.IsFirstOrderThickening`. -/
 class IsFirstOrderThickening {Z X : Scheme.{u}} (i : Z ⟶ X) : Prop extends IsClosedImmersion i where
   ker_mul_self : i.ker * i.ker = ⊥
 
@@ -1054,22 +912,6 @@ theorem algebraize_hom (A : AdicRing.{u}) [IsNoetherianRing A.carrier]
 
 /-! ### §4.11–§4.17 Modifications, alterations, regularity and normal crossings -/
 
-/-- For a finitely generated ideal, vanishing of a module element on every principal open
-of its complement is equivalent to annihilation by one power of the ideal. This gives the
-affine degree-zero support comparison for strict transforms. Stacks, Lemma 47.9.1 (0A6R). -/
-theorem strictTransform_supportComparison_affine (A : Type u) [CommRing A]
-    (I : Ideal A) (hI : I.FG) (M : ModuleCat.{u} A) (m : M) :
-    (∀ a ∈ I, ∃ n : ℕ, a ^ n • m = 0) ↔
-      ∃ n : ℕ, ∀ a ∈ I ^ n, a • m = 0 := by
-  sorry
-
-/-- Proper morphisms that are isomorphisms over a dense open with dense preimage.
-Stacks, Definition 29.52.11 (0AAZ). -/
-class IsModification {S' S : Scheme.{u}} (f : S' ⟶ S) : Prop where
-  isProper : IsProper f
-  birational : ∃ U : S.Opens, Dense (U : Set S) ∧ Dense ((f ⁻¹ᵁ U : S'.Opens) : Set S') ∧
-    IsIso (f ∣_ U)
-
 /-- Proper dominant morphisms finite over a nonempty open. Stacks, Definition 29.52.12 (0AB0). -/
 class IsAlteration {S' S : Scheme.{u}} (f : S' ⟶ S) : Prop where
   isProper : IsProper f
@@ -1097,20 +939,11 @@ theorem generic_flatness {X S : Scheme.{u}} (f : X ⟶ S) [IsIntegral S] [Locall
     [QuasiCompact f] : ∃ U : S.Opens, Dense (U : Set S) ∧ Flat (f ∣_ U) := by
   sorry
 
-/-- Regular schemes: locally Noetherian with regular local rings. -/
+/-- Regular schemes: locally Noetherian with regular local rings; the fields of Tau Ceti's
+`TauCeti.AlgebraicGeometry.IsRegular`. -/
 class IsRegular (X : Scheme.{u}) : Prop where
   isLocallyNoetherian : IsLocallyNoetherian X
   isRegularLocalRing : ∀ x : X, IsRegularLocalRing (X.presheaf.stalk x)
-
-/-- Resolution of curves by normalization: the normalization `Ỹ → Y` of `Y` in its function field
-`Spec K(Y) → Y`, when finite (Nagata), is regular and a modification.
-Stacks, Lemmas 33.41.1 (0C45) and 54.15.1 (0BI4). -/
-theorem resolution_of_curves (Y : Scheme.{u}) [IsIntegral Y] [IsNoetherian Y]
-    (hdim : topologicalKrullDim Y ≤ 1)
-    [IsFinite (Y.fromSpecStalk (genericPoint Y)).fromNormalization] :
-    IsRegular (Y.fromSpecStalk (genericPoint Y)).normalization ∧
-      IsModification (Y.fromSpecStalk (genericPoint Y)).fromNormalization := by
-  sorry
 
 /-- Strict normal crossings data: finitely many components. de Jong 1996, 2.4. -/
 structure SNCData (X : Scheme.{u}) where
@@ -1291,7 +1124,8 @@ variable (κ : Type u) [Field κ]
 
 /-- Cycles of dimension `k`: coefficients supported at points `x` with `Order.height x = k`,
 the dimension of the closure of `x` in Mathlib's specialisation order.
-Stacks, Definition 42.8.1 (02QR) and Lemma 42.7.5 (02QO). -/
+Stacks, Definition 42.8.1 (02QR) and Lemma 42.7.5 (02QO). Tau Ceti's
+`TauCeti.AlgebraicGeometry.Chow.cyclesOfDimension X k`. -/
 def cyclesOfDimension (X : Scheme.{u}) [X.Over (Spec (.of κ))]
     [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : AddSubgroup (AlgebraicCycle X ℤ) :=
   Function.locallyFinsuppWithin.supported ℤ Set.univ
@@ -1301,7 +1135,9 @@ attribute [local instance] Classical.propDecidable
 
 /-- Rational equivalence: the subgroup generated by the sums of principal divisors on a locally
 finite family of integral closed subschemes of dimension `k + 1` (these sums already form a
-subgroup). Stacks, Definition 42.19.1 (02RW). -/
+subgroup). Stacks, Definition 42.19.1 (02RW). Tau Ceti's
+`TauCeti.AlgebraicGeometry.Chow.RatEquiv X k`, whose families give `W j` dimension `k + 1` as the
+height of its generic point. -/
 def RatEquiv (X : Scheme.{u}) [X.Over (Spec (.of κ))]
     [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) :
     AddSubgroup (cyclesOfDimension κ X k) :=
@@ -1314,7 +1150,8 @@ def RatEquiv (X : Scheme.{u}) [X.Over (Spec (.of κ))]
       ∀ x : X, α.val x = ∑ᶠ j, ∑ᶠ w : W j,
         if (i j) w = x then (W j).ord (r j) w else 0}
 
-/-- `CH_k(X)`: `k`-cycles modulo rational equivalence. -/
+/-- `CH_k(X)`: `k`-cycles modulo rational equivalence; Tau Ceti's
+`TauCeti.AlgebraicGeometry.Chow.ChowGroup X k`. -/
 def ChowGroup (X : Scheme.{u}) [X.Over (Spec (.of κ))]
     [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : Type u :=
   cyclesOfDimension κ X k ⧸ RatEquiv κ X k
