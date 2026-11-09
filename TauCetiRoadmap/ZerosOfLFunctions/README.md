@@ -316,7 +316,9 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   sum of the higher-prime-power weight `log 𝔑𝔭` over the prime powers `𝔭^k`, `k ≥ 2`, of norm at
   most `x` with base in `S`) and `TauCeti.primePowerSummatory_indicator_sub_primeTheta` (the same
   split for the standard weight restricted to any set `T` of prime powers whose members that are
-  primes are exactly the primes of `S`); `TauCeti.higherPrimePowerTheta K x`
+  primes are exactly the primes of `S`); `TauCeti.primePowerWeight_eq_vonMangoldt_re`
+  (`Prime/Psi.lean`: that standard weight, `log 𝔑𝔭` at `𝔭^k` for every `k ≥ 1`, is the real part
+  of `Λ_K(𝔭^k)`); `TauCeti.higherPrimePowerTheta K x`
   (`ArithmeticDirichletSeries/HigherPrimePowers.lean`, that sum over all `𝔭^k`, `k ≥ 2`, which is
   `primePsi K Set.univ x − primeTheta K Set.univ x`) with `TauCeti.higherPrimePowerTheta_le` (for
   `x ≥ 1` it is at most `([K : ℚ]/(2 log 2)) √x log² x`), `TauCeti.higherPrimePowerTheta_isBigO`
@@ -337,7 +339,10 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   (`NumberTheory/NumberField/Ideal/IntegersRat.lean`: the absolute norm of a height-one prime of
   `𝓞 ℚ` is the rational prime `natGenerator` below it); `TauCeti.Real.logIntegral`
   (`Analysis/SpecialFunctions/LogIntegral.lean`) with
-  `TauCeti.Real.logIntegral_isEquivalent_div_log`;
+  `TauCeti.Real.logIntegral_isEquivalent_div_log` and, for 8.9,
+  `TauCeti.Real.intervalIntegrable_inv_log_pow` (`(log t)^(−n)` is interval integrable between any
+  two points `> 1`) and `TauCeti.Real.integral_inv_log_pow_le` (for `1 < a ≤ b`,
+  `∫_a^b (log t)^(−n) dt ≤ (b − a)/(log a)^n`);
   `NumberField.Chebotarev.frobeniusPrimeCount` (`NumberTheory/Chebotarev/PrimeCounting/VonMangoldt.lean`,
   the primes of `K` unramified in `L`, of norm at most `x`, with Frobenius class `C`); and the ray
   classes of `TauCeti.GlobalNumberFields` listed below;
