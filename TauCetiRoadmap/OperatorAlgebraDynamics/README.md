@@ -158,7 +158,7 @@ It leaves to named roadmaps:
   standard-fibre model, in which every fibre is a subspace of one `ℓ²(ℕ)`,
   with a measurable field in that sense.
 
-D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, of the antisymmetric Hilbert Fock carrier with its vacuum, creation and annihilation operators and faithful CAR representation, and of the symmetric Hilbert Fock carrier `F_s(h)` with its vacuum, its exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its regularity, its field operators `Φ(f)` as Stone generators and its vacuum characteristic function. QuantumFoundations §6.3 owns second quantization `Γ(U)` and `dΓ(A)` with their domains and the number operator `N` with `D(N)` and `D(N^(1/2))`. QuantumFoundations §6.4 owns the bosonic finite-particle domain `D_fin` of `F_s(h)` with the creation and annihilation operators `a(f)` and `a†(f)` on it, the CCR on `D_fin` and on `D(N)`, the closures of `a(f)` and `a†(f)`, the Segal field `(a(f)+a†(f))/√2` on `D_fin` with its essential self-adjointness and the identification of its closure with `Φ(f)`, the strong continuity of `f↦π_F(W(f))` in the norm of `h`, and the vacuum cyclicity and irreducibility of `π_F`. Both consume the D8 carriers and identities; D8 uses none of their results. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
+D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, of the antisymmetric Hilbert Fock carrier with its vacuum, creation and annihilation operators and faithful CAR representation, and of the symmetric Hilbert Fock carrier `F_s(h)` with its vacuum, its exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its regularity, its field operators `Φ(f)` as Stone generators, its vacuum characteristic function and the cyclicity of its vacuum. QuantumFoundations §6.3 owns second quantization `Γ(U)` and `dΓ(A)` with their domains and the number operator `N` with `D(N)` and `D(N^(1/2))`. QuantumFoundations §6.4 owns the bosonic finite-particle domain `D_fin` of `F_s(h)` with the creation and annihilation operators `a(f)` and `a†(f)` on it, the CCR on `D_fin` and on `D(N)`, the closures of `a(f)` and `a†(f)`, the Segal field `(a(f)+a†(f))/√2` on `D_fin` with its essential self-adjointness and the identification of its closure with `Φ(f)`, the strong continuity of `f↦π_F(W(f))` in the norm of `h`, and the irreducibility of `π_F`. Both consume the D8 carriers and identities; D8 uses none of their results. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
 
 General non-Hausdorff groupoids, groupoid primitive-ideal classification and
 interacting continuum gases are outside this roadmap. So are the dual Haar
@@ -166,11 +166,12 @@ measure, the Plancherel unitary, Fourier inversion and the Pontryagin
 duality theorem of a locally compact abelian group, the Fourier
 isomorphism `C*_r(G)≅C₀(Ĝ)` of its reduced group C*-algebra, and Bochner's
 theorem for positive-definite functions: VonNeumannAlgebras V11 owns the
-first four, in V11.FourierInversion (inversion, Plancherel and duality),
+first four, in its inversion, Plancherel and duality target, the one that
+follows V11.FourierUniqueness,
 and the Fourier isomorphism (V11.UnitizationCharacters maps the nonzero
 characters of `C*_r(G)` injectively and continuously into Ĝ and identifies
 the Gelfand transform of `λ(f)` with f̂ along that map, and
-V11.FourierInversion proves `‖λ(f)‖=sup|f̂|` and the surjectivity of the
+that inversion target proves `‖λ(f)‖=sup|f̂|` and the surjectivity of the
 character map), all cited by section; D4.Harmonic builds on them only the agreement of the full
 and reduced group C*-algebras for abelian G, which carries that
 isomorphism to the full algebra `C*(G)=ℂ⋊G`, and the identification
@@ -458,20 +459,21 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   V4.0.Decomposition → D5.Fields → D5; D5 is not a prerequisite for those
   suppliers.
 - Use the topological groupoid vocabulary shared with
-  LieGroupoidsPoisson G0:
+  LieGroupoidsPoisson G0.0:
   `CategoryTheory.Groupoid`, topology on the total `Arrow`, and continuous
   composition on composable arrows. Write `gh` for first h, then g
-  (`h ≫ g` in category notation). What LieGroupoidsPoisson must provide
-  (gap:topological-groupoid-vocabulary): G0's total-arrow and
-  composable-arrow topologies with continuous composition, inversion, range
-  and source. D5 consumes that topological layer and builds Haar,
+  (`h ≫ g` in category notation). LieGroupoidsPoisson G0.0 supplies, as a
+  roadmap on main cited by section, the total-arrow and composable-arrow
+  topologies with continuous composition, inversion, range and source, and
+  names D5 as the consumer of that layer. D5 consumes it and builds Haar,
   integration and representation interfaces; smooth structures are not
   prerequisites.
 
 Further cited suppliers on main:
 
-VonNeumannAlgebras V11 supplies, cited by section (V11.FourierInversion:
-inversion, Plancherel and duality), for every locally compact Hausdorff abelian group G
+VonNeumannAlgebras V11 supplies, cited by section (its inversion,
+Plancherel and duality target, the one that follows V11.FourierUniqueness
+and consumes it), for every locally compact Hausdorff abelian group G
 with a regular Haar measure μ and the positive-character transform `f̂(χ)=∫f(g)χ(g)dμ(g)`, the dual Haar
 measure μ̂ on Ĝ, the unique regular Haar measure with `∫|f̂|²dμ̂=∫|f|²dμ` on
 `L¹(G)∩L²(G)`, the Plancherel unitary `F:L²(G,μ)≅L²(Ĝ,μ̂)` extending
@@ -487,13 +489,13 @@ The same section supplies the Fourier isomorphism of the reduced group
 C*-algebra: V11.UnitizationCharacters maps the nonzero characters of `C*_r(G)`
 injectively and continuously into Ĝ, identifies the Gelfand transform of
 `λ(f)` with f̂ along that map and `‖a‖` with `sup|â|`, and
-V11.FourierInversion proves `‖λ(f)‖=sup|f̂|` and the surjectivity of the
+the inversion target proves `‖λ(f)‖=sup|f̂|` and the surjectivity of the
 character map, so that
 `λ(f)↦f̂` extends to a *-isomorphism `C*_r(G)≅C₀(Ĝ)` in the
 positive-character convention above; D4.Harmonic consumes this isomorphism
 and does not repeat its argument.
 
-VonNeumannAlgebras V4.0.Fields supplies (gap:measurable-hilbert-fields),
+VonNeumannAlgebras V4.0.Fields supplies,
 as a roadmap on main cited by section, over a standard σ-finite measure space `(X,μ)`, measurable fields of separable
 Hilbert spaces `x↦H_x` given by a fundamental sequence of sections, their
 direct integral `∫⊕H_xdμ(x)` with the diagonal operators of `L∞(X,μ)`, the
@@ -510,7 +512,7 @@ statements for fields whose fibres are all nonzero, the standing
 assumption of his Appendix F; fields with zero fibres, such as the
 zero-extended λ-field, are V4.0.Fields' extension of them.
 
-VonNeumannAlgebras V4.0.Decomposition supplies (gap:diagonal-reduction),
+VonNeumannAlgebras V4.0.Decomposition supplies,
 as a roadmap on main cited by section (its reduction of separable C*-representations commuting with
 the diagonal, which names this roadmap's D5 as its consumer, and the
 uniqueness and transport of the decomposition), for a separable
@@ -524,6 +526,17 @@ null sets, a Borel isomorphism τ of the bases with `τ_*μ` equivalent to ν
 composed with the change-of-measure unitary and a measurable field of
 unitaries `H_x→K_(τ(x))` intertwining `π_x` with `ρ_(τ(x))`
 (Williams, Proposition F.26, p. 419, and Proposition F.33, p. 423).
+
+VonNeumannAlgebras V2 supplies, as a roadmap on main cited by section,
+for D8: the completed Hilbert tensor product `H⊗̂K` of two Hilbert spaces,
+the completion of the normed `TensorProduct ℂ H K` with its product inner
+product, in which the elementary tensors are dense and
+`‖ξ⊗η‖=‖ξ‖‖η‖`; the extensions to the completions of `TensorProduct.mapL`,
+`commIsometry` and `assocIsometry`, unique by their values on elementary
+tensors; and the bounded-operator tensor maps with their norm, product and
+adjoint formulas (the target of V2 preceding V2.RectangularL2). D8 iterates
+this product to the n-th Hilbert tensor power `h^(⊗̂n)` and builds the
+antisymmetric and symmetric Fock spaces from its closed subspaces.
 
 VonNeumannAlgebras V1 and V10 supply, as a roadmap on main cited by
 section, for D7: Kaplansky's density theorem in its strong-star form, that
@@ -2145,8 +2158,9 @@ law `(f*)^=conj(f̂)`: G is unimodular, so `f*(x)=conj(f(x⁻¹))`, and
 inversion invariance of μ with `χ(y⁻¹)=conj(χ(y))` gives
 `∫conj(f(x⁻¹))χ(x)dμ(x)=∫conj(f(y)χ(y))dμ(y)`.
 
-VonNeumannAlgebras V11 (V11.UnitizationCharacters and
-V11.FourierInversion) identifies the reduced group
+VonNeumannAlgebras V11 (V11.UnitizationCharacters and the inversion,
+Plancherel and duality target that follows V11.FourierUniqueness)
+identifies the reduced group
 C*-algebra `C*_r(G)`, the norm closure of `λ(L¹(G))` on `L²(G)`, with
 `C₀(Ĝ)` by the Fourier transform: the nonzero characters of `C*_r(G)` are
 the evaluations at the points of Ĝ, the Gelfand transform of `λ(f)` is f̂,
@@ -2408,8 +2422,8 @@ measure, `Lp` and `lp`; Tau Ceti `ContRepresentation.IsUnitary` and
 
 ## D5. Haar groupoids, convolution, and disintegration
 
-Consume LieGroupoidsPoisson G0's unit/arrow and composable-pair topology
-and continuous operations (gap:topological-groupoid-vocabulary). Develop the Haar-theoretic restrictions to
+Consume LieGroupoidsPoisson G0.0's unit/arrow and composable-pair topology
+and continuous operations. Develop the Haar-theoretic restrictions to
 isotropy, invariant subsets, reductions, transformation groupoids and
 continuous groupoid actions on that interface. A Haar system is a family of positive Radon measures λᵘ with
 support exactly `Gᵘ=r⁻¹(u)`, continuous integration of compactly supported
@@ -2464,7 +2478,7 @@ and almost-everywhere equality rather than an independent measure language.
   `dν⁻¹/dν=Δ⁻¹`, so `D=Δ_G` and `ν₀=Δ^(−1/2)ν`; `D=1` exactly for unimodular
   G.
 
-*Needs:* the topological groupoid layer `gap:topological-groupoid-vocabulary`
+*Needs:* LieGroupoidsPoisson G0.0
 (the total-arrow and composable-arrow topologies); D1–D2
 (the group and transformation-groupoid comparisons); BanachAlgebras A7
 (Haar measure and modular identities); `gap:cstar-ideals-multipliers`
@@ -2573,7 +2587,7 @@ h_i with `0≤h_i≤1`, eventually equal to 1 on each prescribed compact subset
 of X. For f∈C_c(G), the compact sets r(supp f) and s(supp f) give
 `m(h_i)f→f` and `f m(h_i)→f` in I-norm. The dense span L(C_c(G))H
 and `‖ρ_L(h_i)‖≤1` then give strong convergence `ρ_L(h_i)→I`.
-Consume [VonNeumannAlgebras V4.0.Fields](../VonNeumannAlgebras/README.md) (gap:measurable-hilbert-fields) for measurable Hilbert fields, square-integrable
+Consume [VonNeumannAlgebras V4.0.Fields](../VonNeumannAlgebras/README.md) for measurable Hilbert fields, square-integrable
 sections, rectangular decomposable maps and RN measure-change/zero-extension
 unitaries, and [SelfAdjointSpectralTheory SA-B85](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
 for the diagonal spectral representation of this nondegenerate C₀(G⁰)
@@ -2591,7 +2605,7 @@ assumed for a bounded intertwiner. On H₁⊕H₂ the off-diagonal block
 `S(ξ₁,ξ₂)=(0,Tξ₁)`, and S†, commute with the common diagonal. Form the
 separable unital C*-algebra generated by `diag(ρ₁(h),ρ₂(h))`, h∈C₀(G⁰),
 S,S† and I. Apply [V4.0.Decomposition's reduction of a separable C*-representation
-commuting with a given diagonal](../VonNeumannAlgebras/README.md) (gap:diagonal-reduction) to this auxiliary algebra,
+commuting with a given diagonal](../VonNeumannAlgebras/README.md) to this auxiliary algebra,
 and Fields' rectangular criterion to recover measurable fibre maps, with
 essential norm, adjoint, composition and fibrewise-unitarity comparisons.
 Here V4.0.Decomposition denotes reduction over the given diagonal supplied
@@ -2705,12 +2719,12 @@ with varying coordinate sets for the direct integrals.
 ### Dependencies
 
 D1–D2; the topological groupoid vocabulary of
-`gap:topological-groupoid-vocabulary`; SelfAdjointSpectralTheory SA-B79 and SA-B85; BanachAlgebras A7;
+LieGroupoidsPoisson G0.0; SelfAdjointSpectralTheory SA-B79 and SA-B85; BanachAlgebras A7;
 `gap:cstar-ideals-multipliers` and `gap:cstar-representations`; Mathlib
 `Lp`, `Measure.rnDeriv`, Radon measures,
 standard Borel spaces and Bochner integration; the measurable fields of
-VonNeumannAlgebras V4.0.Fields (`gap:measurable-hilbert-fields`) and the
-reduction of VonNeumannAlgebras V4.0.Decomposition (`gap:diagonal-reduction`).
+VonNeumannAlgebras V4.0.Fields and the
+reduction of VonNeumannAlgebras V4.0.Decomposition.
 Within the layer: SA-B85 →
 D5.Fields → the representation and disintegration targets.
 
@@ -2901,9 +2915,14 @@ states as a target.
   `S_0S_0*+S_1S_1*=1`, since `[0]⊔[1]=X`; the gauge action is
   `z·S_i=zS_i`, and the core at level k is spanned by `s_μs_ν*` with
   `|μ|=|ν|=k`, of dimension `4^k=(2^k)²`.
-- A topology on `X×ℤ×X` finer or coarser than the Deaconu–Renault one: the
-  subspace topology makes the bisection `Z(U,1,0,V)` fail to be open in the
-  groupoid when `shift` is not injective on U, so étaleness fails.
+- The subspace topology of `X×ℤ×X`, coarser than the Deaconu–Renault
+  topology, is not it. For n=2 the arrows `(0^m10^∞,0,0^∞)`, m≥1, are not
+  units (`shift^(m+1)` identifies the two points) and converge to the unit
+  `(0^∞,0,0^∞)`, so the unit space is not open and the groupoid is not
+  étale. Likewise `Z([0],1,0,X)` is not open in it, although `shift` is
+  injective on the cylinder `[0]`: the arrows `(0^m10^∞,1,0^∞)` lie outside
+  it, since `shift(0^m10^∞)≠0^∞`, and converge to `(0^∞,1,0^∞)`, which
+  lies in it.
 
 *Needs:* D5 (étale groupoids, their algebras); `gap:cstar-tensor-limits`
 (inductive limits, and the universal unitary algebra as the model of a
@@ -3238,9 +3257,16 @@ simplicity, and the finite-dimensional identification `CAR(ℂⁿ)≃M_(2ⁿ)(�
 Proposition 8.13, p. 13).
 Construct the antisymmetric Hilbert Fock space `F_a(h)`, the Hilbert direct
 sum over n≥0 of the closed antisymmetric subspaces `Λⁿ(h)` of the completed
-n-th Hilbert tensor powers, with vacuum Ω=1∈Λ⁰(h)=ℂ; take it as a closed
-subspace of the full Fock space and completed tensor powers of
-[FreeProbability F3](../FreeProbability/README.md). Define the creation
+n-th Hilbert tensor powers `h^(⊗̂n)`, with vacuum Ω=1∈Λ⁰(h)=ℂ. Here
+`h^(⊗̂0)=ℂ` and `h^(⊗̂(n+1))=h^(⊗̂n)⊗̂h` is the iterate of the completed
+Hilbert tensor product of
+[VonNeumannAlgebras V2](../VonNeumannAlgebras/README.md), whose
+`assocIsometry` identifies the other bracketings and whose `commIsometry`
+gives, for each permutation σ of n letters, the permutation unitary `U_σ`
+of `h^(⊗̂n)`, `U_σ(ξ_1⊗…⊗ξ_n)=ξ_(σ⁻¹(1))⊗…⊗ξ_(σ⁻¹(n))`, so that
+`U_σU_τ=U_(στ)`; `Λⁿ(h)` is the range of the antisymmetrizing projection
+`P_a=(1/n!)Σ_σ sgn(σ)U_σ`, which is an orthogonal projection because
+`U_σ*=U_(σ⁻¹)` and `sgn` is a character. Define the creation
 operator `a†(f)ψ=√(n+1)·P_a(f⊗ψ)` on `Λⁿ(h)`, linear in f, where P_a is the
 antisymmetrizing projection, and the annihilation operator `a(f)=a†(f)*`,
 antilinear in f, with a(f)Ω=0. Prove that both are bounded with
@@ -3386,8 +3412,9 @@ need not give a point-norm continuous Weyl-algebra action.
 
 For `V=h_ℝ`, `σ(f,g)=Im⟨f,g⟩`, construct the symmetric Hilbert Fock
 space `F_s(h)`, the Hilbert direct sum over n≥0 of the closed symmetric
-subspaces `Symⁿ(h)` of the completed n-th Hilbert tensor powers of
-FreeProbability F3, with vacuum
+subspaces `Symⁿ(h)` of the completed n-th Hilbert tensor powers `h^(⊗̂n)`
+of VonNeumannAlgebras V2 built above, `Symⁿ(h)` being the range of the
+symmetrizing projection `P_s=(1/n!)Σ_σ U_σ`, with vacuum
 Ω=1∈Sym⁰(h)=ℂ. For g∈h define
 the exponential vector `e(g)=Σ_(n≥0) g^(⊗n)/√(n!)∈F_s(h)`; prove
 `⟨e(u),e(v)⟩=exp⟨u,v⟩`, that finite families of exponential vectors are
@@ -3410,7 +3437,11 @@ representation π_F of the Weyl algebra of `(h_ℝ,σ)`, with field operators
 `Φ(f)`, the Stone generators of `t↦W_F(tf)` constructed above, and with
 vacuum characteristic function
 `ω₀(W(f))=⟨Ω,π_F(W(f))Ω⟩=exp(−‖f‖²/4)`, since `W_F(f)Ω=exp(−‖f‖²/4)e(if/√2)`
-and `⟨e(0),e(v)⟩=1` (Bratteli–Robinson 2, §5.2.1). The translation by
+and `⟨e(0),e(v)⟩=1` (Bratteli–Robinson 2, §5.2.1). Prove from the same
+formula that Ω is cyclic for π_F: `π_F(W(f))Ω` is a nonzero multiple of
+`e(if/√2)`, every exponential vector `e(g)` is `e(if/√2)` at `f=−i√2·g`,
+so the closed span of `{π_F(W(f))Ω : f∈h}` is the closed span of the
+exponential vectors, which is `F_s(h)` by the totality proved above. The translation by
 `if/√2` is fixed by three computations: the product law computed from the
 displayed formula is `W_F(f)W_F(g)=exp(−i·Im⟨f,g⟩/2)W_F(f+g)`, the Weyl
 relation of `(h_ℝ,Im⟨·,·⟩)` rather than of `(h_ℝ,2·Im⟨·,·⟩)`; minus the
@@ -3432,8 +3463,8 @@ characteristic function `exp(−‖f‖²/2)`, and is excluded by all three. The
 bosonic creation and annihilation operators on the finite-particle domain
 `D_fin` of `F_s(h)`, the CCR there, the Segal field with its essential
 self-adjointness and the identification of its closure with `Φ(f)`, the
-strong continuity of `f↦W_F(f)` in the norm of h, and the vacuum cyclicity
-and irreducibility of π_F are not targets here: QuantumFoundations §6.4
+strong continuity of `f↦W_F(f)` in the norm of h, and the
+irreducibility of π_F are not targets here: QuantumFoundations §6.4
 constructs and proves them on this carrier, over the number-operator domains
 of its §6.3, and nothing in D8 uses them.
 
@@ -3458,6 +3489,13 @@ of its §6.3, and nothing in D8 uses them.
   does not by itself put ξ in `D(A²)`: for A multiplication by λ on `L²(ℝ)`
   and `|ξ(λ)|²=c/(1+|λ|⁵)`, c≈0.4677, the second moment is finite (≈0.618)
   and the fourth diverges, so ξ∈D(A) and ξ∉D(A²).
+- Vacuum cyclicity for `h=ℂ`: `F_s(ℂ)=ℓ²(ℕ)` with `e(g)=(gⁿ/√(n!))_n`, and
+  a vector c orthogonal to every `π_F(W(f))Ω`, that is to every `e(g)`, has
+  `Σ_n conj(c_n)gⁿ/√(n!)=0` for all g∈ℂ, an entire function with vanishing
+  Taylor coefficients, so c=0. The cyclicity is for the whole of h, not for a
+  line: for `h=ℂ²` and `f=(1,0)` the vectors `π_F(W(tf))Ω`, t∈ℝ, are
+  multiples of `e((it/√2,0))` and span only `F_s(ℂ×0)`, which misses the
+  one-particle vector `(0,1)`.
 - The inner-product identity `⟨e(u),e(v)⟩=Σ_n ⟨u,v⟩ⁿ/n!=exp⟨u,v⟩` uses
   `‖u^(⊗n)‖=‖u‖ⁿ` in the tensor norm; with Attal's n!-weighted sector norm
   the same identity holds for `Σ u^(⊗n)/n!`, so the two normalizations give
@@ -3544,8 +3582,9 @@ hypothesis.
 `gap:cstar-representations` (states) and `gap:cstar-tensor-limits`
 (inductive limits, tensor products);
 RepresentationTheory/SpinRepresentations (finite-dimensional Clifford and
-exterior algebras); FreeProbability F3 (the full Fock space and completed
-Hilbert tensor powers); OneParameterSemigroups and SelfAdjointSpectralTheory
+exterior algebras); VonNeumannAlgebras V2 (the completed Hilbert tensor
+product with `commIsometry` and `assocIsometry` on the completions, iterated
+to the powers `h^(⊗̂n)`); OneParameterSemigroups and SelfAdjointSpectralTheory
 SA-A21 (Stone's theorem, cores); Mathlib `VonNeumannAlgebra`,
 `ContinuousLinearMapWOT`, `PositiveLinearMap.GNS`,
 `MeasureTheory.Measure.ext_of_charFun`, `ProbabilityTheory.charFun_gaussianReal`
@@ -3562,8 +3601,9 @@ degenerate Weyl algebra.
 ### Dependencies
 
 D7; `gap:cstar-representations` and `gap:cstar-tensor-limits`;
-RepresentationTheory/SpinRepresentations; FreeProbability F3;
-OneParameterSemigroups; SelfAdjointSpectralTheory SA-A21; Mathlib
+RepresentationTheory/SpinRepresentations; VonNeumannAlgebras V2
+(completed Hilbert tensor products); OneParameterSemigroups;
+SelfAdjointSpectralTheory SA-A21; Mathlib
 `VonNeumannAlgebra`, `ContinuousLinearMapWOT`, `PositiveLinearMap.GNS`,
 `MeasureTheory.Measure.ext_of_charFun`, `ProbabilityTheory.charFun_gaussianReal`
 and the matrix exponential `NormedSpace.exp`.
@@ -3733,8 +3773,12 @@ the on-site model.
 - Van Hove: the boxes `[−n,n]^ν` are van Hove for every tile; the segments
   `[0,n]×{0}` in `ℤ²` have volume tending to infinity but contain no
   translate of the tile `Λ_((1,2))`, so `n⁻/n⁺=0` and they are not van Hove.
-- `d=1`: every `A_Λ=ℂ`, the quasi-local algebra is ℂ, its unique state is
-  KMS for every β, and every interaction norm is 0.
+- `d=1`: every `A_Λ=ℂ`, the quasi-local algebra is ℂ, every `Φ(X)` is a
+  real scalar, so every commutator vanishes, the dynamics is trivial and
+  the unique state is β-KMS for every β; the interaction norms need not
+  vanish: `Φ({x})=1`, `Φ(X)=0` otherwise, has `Mλ(Φ)=1`, `‖Φ‖B=1`,
+  `H_Φ(Λ)=|Λ|`, so `p(βΦ)=−β`, mean energy `e_Φ=1` and mean entropy
+  `s=0`, and `s−βe_Φ=−β=p(βΦ)`.
 
 *Needs:* D7 (KMS states, ground states, bounded perturbations and their
 sign); Tau Ceti's quantum spin systems (`TauCeti.QuantumSpin.Interaction`
@@ -3848,8 +3892,9 @@ of a positive-definite matrix through the Hermitian functional calculus).
   their vacuum, the antisymmetric Fock creation and annihilation operators
   with the faithful CAR representation, the regular symmetric Fock
   representation `π_F` with its Stone field operators, its regularity along
-  each line `t↦π_F(W(tf))` and its vacuum characteristic function, and the
-  universal Weyl convention; it builds there the bosonic creation and
+  each line `t↦π_F(W(tf))`, its vacuum characteristic function and the
+  cyclicity of its vacuum, and the universal Weyl convention; it builds
+  there the bosonic creation and
   annihilation operators on the finite-particle domain with their sector
   formulas, the CCR on that domain and on `D(N)`, the Segal field and the
   strong continuity of `f↦π_F(W(f))` for the norm topology of h. The Fock
