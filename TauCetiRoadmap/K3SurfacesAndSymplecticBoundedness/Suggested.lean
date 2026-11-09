@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower
+import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower.Basic
 import TauCeti.Algebra.Category.ModuleCat.Sheaf.TensorProduct.Closed
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
@@ -203,7 +203,7 @@ theorem IsK3.picardFaithful_of_rank22 (k : Type u) [Field k] [IsAlgClosed k]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) (hX : IsK3 k f) (hp : ringChar k ≠ 0)
     (h22 : Module.finrank ℤ (Additive (TauCeti.AlgebraicGeometry.LineBundleClass X)) = 22)
     (g : Aut (Over.mk f))
-    (hg : ∀ a, TauCeti.AlgebraicGeometry.LineBundleClass.pullback g.hom.left a = a) :
+    (hg : ∀ a, TauCeti.AlgebraicGeometry.LineBundleClass.pullback g.asIso.hom.left a = a) :
     g = 1 := by
   sorry
 
