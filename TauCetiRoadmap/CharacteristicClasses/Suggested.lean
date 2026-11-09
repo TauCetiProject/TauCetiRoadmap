@@ -3,6 +3,11 @@ module
 public import Mathlib
 public import TauCeti.Topology.VectorBundle.Orientation.ThomClass
 public import TauCeti.Analysis.Normed.Module.Ball.IntUnitsAction
+public import TauCeti.AlgebraicTopology.Cohomology.FundamentalClass
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Chart
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Linear
+public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
+public import TauCeti.Geometry.Manifold.Orientation.Basic
 
 /-!
 # Characteristic classes and Chern–Weil theory: target signatures
@@ -28,6 +33,18 @@ over an arbitrary base, prescribed on every fibre by the orientation, and the
 headline of C2.2, the Euler class as the primary obstruction: over a CW
 complex of dimension at most the rank `n ≥ 2`, an integral Euler class
 vanishes exactly when a nowhere-zero section exists.
+
+Stated also is the headline of C2.3, `⟨e(TM), [M]⟩ = χ(M)` for a closed oriented
+manifold of positive dimension, on the pinned Euler characteristic `TauCeti.eulerChar` of a
+space of finite CW type, the evaluation `TauCeti.HomologicalOrientation.evalFundamentalClass`
+on the fundamental class, and the pinned local orientations
+`TauCeti.localOrientationOfManifoldOrientation` that a manifold orientation selects through
+its oriented charts; the Thom class is normalized on every fibre by the pinned generator
+`Orientation.localOrientation` of the tangent orientation. Finite CW type is a hypothesis,
+since the pins have no such instance for compact manifolds. The self-map form
+`⟨f* e(TM), [M]⟩ = deg(f) χ(M)` follows from it through the pinned
+`TauCeti.HomologicalOrientation.evalFundamentalClass_id_singularCohomologyMap` and is not
+restated.
 
 Stated as well is the headline of C7.3a, Whitney's theorem that `ℝP^(2^k)`
 admits no smooth immersion into `ℝ^(2^(k+1)-2)`. Here `ℝPᵐ` is the orbit space
@@ -58,15 +75,6 @@ Not statable at the pins, and therefore not stated here:
   `TauCeti.classifyingSpace G`, but no infinite Grassmannian, no classifying
   space of a topological group, no universal bundle, and no Chern or
   Stiefel–Whitney class;
-* `e(TM)[M]=χ(M)` (C2.3) and the Euler-pullback identity for a self-map:
-  the pins have the Euler characteristic `TauCeti.eulerChar` of a space of
-  finite CW type, the evaluation `TauCeti.HomologicalOrientation.evalFundamentalClass`
-  on the fundamental class of a compact manifold with a homological
-  orientation, and the tangent-bundle orientation
-  `TauCeti.Manifold.Orientation.toVectorBundleOrientation` of an oriented
-  manifold, but no identification of a tangent-bundle orientation with the
-  homological orientation that fixes `[M]`, so the sign of `e(TM)[M]` has no
-  carrier;
 * Borel's theorem `H*(BG;ℚ)≃H*(BT;ℚ)^W` and the universal Chern–Weil
   isomorphism (C5.2): no classifying space and no Chern–Weil map exist at
   the pins;
@@ -173,6 +181,40 @@ theorem eulerClass_eq_zero_iff_exists_ne_zero [T2Space B] [Topology.CWComplex (u
   sorry
 
 end Bundle
+
+/-! ## C2.3: the Euler number of a closed oriented manifold -/
+
+open scoped Manifold ContDiff in
+/-- **The Euler number of the tangent bundle is the Euler characteristic** (C2.3;
+Milnor–Stasheff, Corollary 11.12). Let `M` be a compact Hausdorff boundaryless smooth manifold
+of dimension `n + 1` modelled on a finite-dimensional real inner product space `E`, of finite
+CW type, with an orientation `o`. Let `oh` be a homological orientation whose local
+orientation at every point is the one `o` selects through its oriented charts, and let `u` be
+a class of `H^(n+1)(TM, TM ∖ 0; ℤ)` whose restriction to the fibre at every point pairs to `1`
+with the generator of `H_(n+1)(E, E ∖ {0}; ℤ)` selected by the tangent orientation of `o`
+there. Then the Euler class `e(u) ∈ H^(n+1)(M; ℤ)` evaluates to `χ(M)` on the fundamental
+class of `oh`. Reversing `o` negates both `u` and `[M]`. -/
+theorem eval_eulerClass_tangent_eq_eulerChar {M E : Type} [NormedAddCommGroup E]
+    [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace M] [T2Space M]
+    [CompactSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℝ, E) ∞ M] [TauCeti.FiniteCWType M]
+    {n : ℕ} (hE : finrank ℝ E = n + 1)
+    (o : TauCeti.Manifold.Orientation 𝓘(ℝ, E) M (Fin (n + 1)))
+    (oh : TauCeti.HomologicalOrientation M E (n + 1))
+    (hoh : ∀ x, oh x = TauCeti.localOrientationOfManifoldOrientation o hE x)
+    (u : (TauCeti.thomPair E (TangentSpace 𝓘(ℝ, E) : M → Type)).singularCohomology
+      (ModuleCat.of ℤ (ULift.{0} ℤ)) ℤ (ModuleCat.of ℤ (ULift.{0} ℤ)) (n + 1))
+    (hu : ∀ b : M,
+      (TopPair.singularKronecker (TopPair.ofSubset (X := TopCat.of E) ({0}ᶜ : Set E)) ℤ (n + 1)
+        (TopPair.singularCohomologyMap
+          (TauCeti.fiberThomPairMap E (TangentSpace 𝓘(ℝ, E) : M → Type) b) (n + 1) u)).hom
+        (Orientation.localOrientation
+          (show Orientation ℝ E (Fin (n + 1)) from o.toVectorBundleOrientation b) hE).1 =
+        ULift.up 1) :
+    oh.evalFundamentalClass (hE ▸ rfl) (ModuleCat.of ℤ (ULift.{0} ℤ)) (ContinuousMap.id M)
+        (TauCeti.eulerClass (ModuleCat.of ℤ (ULift.{0} ℤ)) ℤ (ModuleCat.of ℤ (ULift.{0} ℤ)) E
+          (TangentSpace 𝓘(ℝ, E) : M → Type) (n + 1) u) =
+      ULift.up (TauCeti.eulerChar M) := by
+  sorry
 
 /-! ## C7.3a: real projective spaces and the immersion obstruction -/
 
