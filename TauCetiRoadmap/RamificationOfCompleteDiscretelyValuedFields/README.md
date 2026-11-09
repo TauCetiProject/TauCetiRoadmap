@@ -127,10 +127,11 @@ fields is this roadmap's, because the completed roadmap's Herbrand functions ass
 `IsGalois K L`: the function `ψ_(L/K)` of a finite separable, not necessarily Galois, extension
 of nonarchimedean local fields, with its independence of the Galois closure, its tower law, the
 finite-level subgroup identity and the integral formula, is §4a.2's, read through §3a.2's
-agreement. When `L/K` is Galois, its tower law and its finite-level subgroup identity are Tau
-Ceti's `TauCeti.LocalFieldsRamification.inverseHerbrand_tower` and
-`TauCeti.LocalFieldsRamification.comap_restrictScalarsHom_upperRamificationGroup`, which §4a.2
-consumes there and does not restate. A roadmap that uses this function on local fields cites
+agreement. When `L/K` is Galois, its finite-level subgroup identity is Tau Ceti's
+`TauCeti.LocalFieldsRamification.comap_restrictScalarsHom_upperRamificationGroup`, and, when
+`L/K` and `N/K` are both Galois, its tower law `ψ_(N/K) = ψ_(N/L) ∘ ψ_(L/K)` is Tau Ceti's
+`TauCeti.LocalFieldsRamification.inverseHerbrand_tower`; §4a.2 consumes these there and does not
+restate them. A roadmap that uses this function on local fields cites
 §4a.2 and does not define it a second time.
 
 ## Conventions
