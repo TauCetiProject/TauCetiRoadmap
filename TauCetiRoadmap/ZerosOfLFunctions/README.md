@@ -178,10 +178,13 @@ not the roadmap.
   `Function.locallyFinsuppWithin.logCounting_divisor_eq_circleAverage_sub_const` (Nevanlinna
   counting, for the comparison of 4.6);
 - `PhragmenLindelof.vertical_strip` (convexity on a strip);
-- `Convex.contractibleSpace`, `SimplyConnectedSpace.ofContractible`,
-  `Topology.IsEmbedding.isSimplyConnected_image` (simple connectivity of `Set.univ` and of the
-  sector of 1.1, for Tau Ceti's holomorphic logarithm), `Complex.exp_eq_exp_iff_exists_int` and
-  `is_const_of_deriv_eq_zero` (uniqueness of a logarithm modulo `2πi ℤ`, for 1.1 and 5.4);
+- `Convex.contractibleSpace`, `SimplyConnectedSpace.ofContractible` (simple connectivity of
+  `Set.univ`, and of the strip `Ω_δ` of 1.1 that `exp` carries onto the sector `S_δ`, for Tau
+  Ceti's holomorphic logarithm), `Complex.log_exp` and `Complex.exp_log` (`exp` maps `Ω_δ`
+  injectively onto `S_δ`), `Complex.exp_eq_exp_iff_exists_int` (for 1.1 and 5.4),
+  `is_const_of_deriv_eq_zero` (uniqueness of an entire logarithm modulo `2πi ℤ`, for 5.4), and
+  `IsOpen.is_const_of_deriv_eq_zero` with `Convex.isPreconnected` and `IsPreconnected.image`
+  (uniqueness of the branch of 1.1 on the open preconnected sector, which omits the poles of `Γ`);
 - `Complex.differentiableOn_update_limUnder_of_bddAbove` (removable singularities);
 - `Summable.multipliableLocallyUniformlyOn_one_add`, `tprod_one_add_ne_zero_of_summable`,
   `logDeriv_tprod_eq_tsum` (infinite products), with `multipliable_sineTerm` and
@@ -217,6 +220,11 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   `TauCeti.exists_differentiableOn_eqOn_exp_comp`, a holomorphic `f` on a simply connected open
   `U` with `exp ∘ f = g` on `U` for `g` holomorphic on `U` with `0 ∉ g '' U` (Mathlib's continuous
   branch with its holomorphy added), for 1.1 at the sector `S_δ` and 5.4 at `Set.univ`;
+- images under injective holomorphic maps (`Analysis/Complex/Conformal/ImageSimplyConnected.lean`):
+  `TauCeti.isOpen_image_of_differentiableOn_of_injOn` and
+  `TauCeti.isSimplyConnected_image_of_differentiableOn_of_injOn`, for `Ω` open and `g` holomorphic
+  and injective on `Ω`, the image `g '' Ω` is open, and simply connected when `Ω` is; for 1.1, with
+  `g = exp` on the strip `Ω_δ`, whose image is the sector `S_δ`;
 - piecewise-`C¹` curves (`Analysis/Calculus/ContDiff/PiecewiseC1On.lean`): `TauCeti.IsPiecewiseC1On`,
   the hypothesis on the curve in `TauCeti.Contour.argumentPrinciple_nullHomologous`;
 - contour integration (`Analysis/Contour/`): `TauCeti.Contour.windingNumber`,
@@ -538,30 +546,43 @@ Mathlib: real powers, asymptotic bounds, removable singularities and `completedR
 
 ### 1.1 A holomorphic branch of log Γ
 
-Fix `δ` with `0 < δ < π` and the sector `S_δ = {s : |arg s| < π − δ ∧ 1 < ‖s‖}`. For that range
-`S_δ` is open, simply connected (its image under `log` is a convex set), free of poles of `Γ`, and
-contains `2`. `Γ` is holomorphic on `S_δ` (`Complex.differentiableAt_Gamma`, since `S_δ` contains
-no nonpositive integer) and has no zero there (`Complex.Gamma_ne_zero`). Define *logGamma* `δ` as
-the branch that `TauCeti.exists_differentiableOn_eqOn_exp_comp` supplies for `Γ` on `S_δ`, minus its
-value at `2`, so that *logGamma* `δ 2 = 0`; that value lies in `2πi ℤ` because `Γ 2 = 1`, so the
-shift keeps `exp ∘ logGamma δ = Γ`.
+Fix `δ` with `0 < δ < π` and the sector `S_δ = {s : |arg s| < π − δ ∧ 1 < ‖s‖}`. It is the image
+under `exp` of the strip `Ω_δ = {w : 0 < Re w ∧ |Im w| < π − δ}`, since `‖exp w‖ = e^(Re w)` and
+`arg (exp w) = Im w` for `|Im w| < π`. `Ω_δ` is open and convex, and `exp` is injective on it
+(`Complex.log_exp` inverts it there), so `S_δ` is open and simply connected
+(`TauCeti.isOpen_image_of_differentiableOn_of_injOn`,
+`TauCeti.isSimplyConnected_image_of_differentiableOn_of_injOn`) and preconnected as a continuous
+image of a convex set. For that range `S_δ` is also free of poles of `Γ` and contains `2`. `Γ` is
+holomorphic on `S_δ` (`Complex.differentiableAt_Gamma`, since `S_δ` contains no nonpositive integer)
+and has no zero there (`Complex.Gamma_ne_zero`). Define *logGamma* `δ` as the branch that
+`TauCeti.exists_differentiableOn_eqOn_exp_comp` supplies for `Γ` on `S_δ`, minus its value at `2`,
+so that *logGamma* `δ 2 = 0`; that value lies in `2πi ℤ` because `Γ 2 = 1`, so the shift keeps
+`exp ∘ logGamma δ = Γ`.
 
 - `exp (logGamma δ s) = Γ(s)` for `s ∈ S_δ`.
 - *logGamma* `δ` is holomorphic on `S_δ`: the cited branch is holomorphic, and so is its shift by a
   constant.
 - `2 ∈ S_δ` for `0 < δ < π`, and `Γ 2 = 1`, so the normalization is consistent.
-- Two values `δ ≤ δ'` give branches agreeing on `S_{δ'}`.
+- Two values `δ ≤ δ'` give branches agreeing on `S_{δ'}`, which lies in `S_δ`. Route: the
+  difference `h = logGamma δ − logGamma δ'` is holomorphic on `S_{δ'}` with `exp ∘ h = Γ/Γ = 1`
+  there, so `h' = 0` on `S_{δ'}`; the sector is open and preconnected and `h 2 = 0`, so `h = 0` on
+  it by `IsOpen.is_const_of_deriv_eq_zero`. The global `is_const_of_deriv_eq_zero` does not apply,
+  since it asks for `h` differentiable on all of `ℂ`, and `h` need not be differentiable at the
+  poles `0, −1, −2, …` of `Γ`, which lie in no `S_δ`.
 
 The hypothesis `δ > 0` is the angular margin that makes the asymptotic of 1.2 uniform: at `δ = 0`
 the set `S_0` is `{‖s‖ > 1}` minus the negative real axis, which is still simply connected, but the
 poles of `Γ` at the negative integers lie on its boundary and the error term in 1.2 is not uniform
 there. At `δ ≥ π` the set is empty.
 
-*Needs:* Tau Ceti `TauCeti.exists_differentiableOn_eqOn_exp_comp`; Mathlib
-`Complex.differentiableAt_Gamma`, `Complex.Gamma_ne_zero`, `Complex.exp_eq_exp_iff_exists_int`,
-`Convex.contractibleSpace`, `SimplyConnectedSpace.ofContractible` and
-`Topology.IsEmbedding.isSimplyConnected_image` (simple connectivity: `S_δ` is the image of the
-convex set `{w : 0 < Re w ∧ |Im w| < π − δ}` under `exp`, an embedding on the strip `|Im w| < π`).
+*Needs:* Tau Ceti `TauCeti.exists_differentiableOn_eqOn_exp_comp`,
+`TauCeti.isOpen_image_of_differentiableOn_of_injOn` and
+`TauCeti.isSimplyConnected_image_of_differentiableOn_of_injOn` (openness and simple connectivity of
+`S_δ = exp '' Ω_δ`); Mathlib `Complex.differentiableAt_Gamma`, `Complex.Gamma_ne_zero`,
+`Complex.exp_eq_exp_iff_exists_int`, `Complex.log_exp` and `Complex.exp_log` (`exp` injective on
+`Ω_δ` with image `S_δ`), `Convex.contractibleSpace` and `SimplyConnectedSpace.ofContractible`
+(simple connectivity of `Ω_δ`), and `IsOpen.is_const_of_deriv_eq_zero` with
+`Convex.isPreconnected` and `IsPreconnected.image` (the uniqueness clause).
 
 **Checks.**
 
@@ -782,9 +803,11 @@ while `ζ(0) = −1/2` (`riemannZeta_def_of_ne_zero` carries `s ≠ 0` for this 
 
 ### Dependencies
 
-Mathlib: the Gamma and digamma API, the entire reciprocal gamma functions, `riemannZeta`. Tau Ceti
-`TauCeti.exists_differentiableOn_eqOn_exp_comp` (1.1). L-functions Layers 0, 3, 5. Layer 0 for the
-record's predicates.
+Mathlib: the Gamma and digamma API, the entire reciprocal gamma functions, `riemannZeta`,
+`IsOpen.is_const_of_deriv_eq_zero` (1.1). Tau Ceti `TauCeti.exists_differentiableOn_eqOn_exp_comp`,
+`TauCeti.isOpen_image_of_differentiableOn_of_injOn` and
+`TauCeti.isSimplyConnected_image_of_differentiableOn_of_injOn` (1.1). L-functions Layers 0, 3, 5.
+Layer 0 for the record's predicates.
 
 ## Layer 2: the analytic conductor
 
@@ -2094,6 +2117,32 @@ of fields in `Type`; Mathlib `IsAbelianGalois` for the statement.
   conjugation counts the primes `≡ 3 (mod 4)`, coefficient `1/2`.
 - With main term `x/log x` the `K = L = ℚ` case would assert
   `π(x) − x/log x = O(x exp(−c √log x))`, false since `(x/log² x)/(x exp(−c √log x)) → ∞`.
+
+**Checks for the exceptional terms.** As in 8.7, these conditional tests specify the value if the
+indicated zero data occur; they do not assert the existence of an exceptional zero.
+
+- If among the characters of `Gal(L/K)` only the trivial one, whose primitive source has L-function
+  `ζ_K`, has an exceptional zero `β`, then *exceptionalChebotarevTerm* `C x = x^β/(β #G)` in every
+  class, and its sum over the `#G` classes (singletons, `G` being abelian) is `x^β/β`, the term of
+  8.5; *exceptionalChebotarevPrimeCountTerm* is `Li(x^β)/#G`. The fibre sum of 8.7's term gives the
+  same value, `#ker Φ · x^β/(β #Cl_𝔪) = x^β/(β #G)`, since `#ker Φ = #Cl_𝔪/#G`. A definition that
+  omits the trivial character gives `0`; one with weight `1` in place of `(#G)⁻¹` gives `x^β/β` in
+  every class and `#G · x^β/β` in total, against 8.5.
+- If `L/K` is quadratic, `G = {1, σ}`, and only the nontrivial character `ψ` has an exceptional zero
+  `β`, the term is `(1/2) conj ψ(1) x^β/β = x^β/(2β)` at `C = {1}` and
+  `(1/2) conj ψ(σ) x^β/β = −x^β/(2β)` at `C = {σ}`, and the prime-count term is `Li(x^β)/2` and
+  `−Li(x^β)/2`: the zero thins the split primes and adds the same amount to the inert ones. The
+  class sum is `0`, matching 8.5 for a `ζ_K` without an exceptional zero. The weight-`1` model
+  gives `±x^β/β`, twice the value.
+- `L = ℚ(i)`, `K = ℚ`: the dictionaries at `(4)∞` (`Φ` the isomorphism `(ℤ/4)ˣ ≅ G`) and at
+  `(8)∞` (`ker Φ = {1, 5}` in `(ℤ/8)ˣ`) induce the same primitive characters, the trivial one and
+  `χ₋₄`, so they give the same term, which is `0` in both classes: `ζ` is negative on `(0, 1)`, and
+  `L(s, χ₋₄) = 1 − 3^(−s) + 5^(−s) − …` is positive there, an alternating series with decreasing
+  terms. A definition summing over all characters `ψ'` at `𝔪`, with `ψ'(c)` at one class
+  `c ∈ Φ⁻¹(σ_C)` in place of `ψ(σ_C)`, would at `(8)∞` also take in any exceptional zero of the
+  conductor-`8` characters `χ₈ = (2/·)` and `χ₋₈ = (−2/·)`, which are `−1` at `5 ∈ ker Φ` and so do not factor through `Φ`; those contributions
+  change sign between `c` and `5c`, so its value would depend on the choice of `c` and of the
+  dictionary.
 
 ### 8.9 The logarithmic integral
 
