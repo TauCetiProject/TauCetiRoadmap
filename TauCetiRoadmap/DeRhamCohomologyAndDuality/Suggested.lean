@@ -33,7 +33,8 @@ Not statable at the pins:
   orientation of a tangent orientation (AlgebraicTopology 6.3): Tau Ceti has
   `TauCeti.HomologicalOrientation` with its fundamental classes, and from a
   `TauCeti.Manifold.Orientation` only the local orientation at a single point,
-  `TauCeti.localOrientationOfManifoldOrientation`;
+  `TauCeti.localOrientationOfManifoldOrientation`, which in dimension `1` is the class of a
+  decreasing path in an oriented chart, the negative of AlgebraicTopology 6.3's point generator;
 * the smooth-boundary compatibility formula (§4.2) needs, in addition, the relative de Rham class
   of §3.3 and the oriented relative class of a compact Hausdorff manifold with boundary
   (AlgebraicTopology 6.3).

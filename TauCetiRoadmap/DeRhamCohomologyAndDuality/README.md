@@ -150,6 +150,12 @@ installed on a manifold. In addition:
   `(δb)(c) = b(∂c)` (witness in §3.1). The boundary of a smooth simplex is
   `∂σ = Σᵢ (−1)ⁱ σ ∘ δᵢ`. Boundary orientations are Tau Ceti's outward-first
   `TauCeti.boundaryOrientation` for Mathlib's half-space, which constrains the *first* coordinate.
+  The local generator of an oriented manifold at a point is AlgebraicTopology 6.3's point
+  generator: in positive dimension `m` the class of an affine simplex `[v₀, …, vₘ]` around the
+  point in an oriented chart with `(v₁ − v₀, …, vₘ − v₀)` positively oriented, in dimension `1`
+  the increasing path, so that `∂[D¹, ∂D¹] = [+1] − [−1]`; in dimension `0` the signed point class
+  `ε_o(x)[x]`. Tau Ceti's chart generator `TauCeti.localOrientationOfManifoldOrientation` is the
+  decreasing path in dimension `1`, its negative (witness in §4.1).
 - **Transversality.** For `F : E × P → V` and `j : W → V`, the source coordinates come before the
   parameter, as in `TauCeti.IsRegularParameter`; a parameter `p` is regular when
   `(u, v) ↦ D_xF(x, p)u − Dj(y)v` is onto at every `(x, y)` with `F(x, p) = j(y)`, vacuously when
@@ -325,9 +331,16 @@ installed on a manifold. In addition:
   `TauCeti.HomologicalOrientation.fundamentalClass`, characterized the same way
   (`TauCeti.HomologicalOrientation.eq_fundamentalClass`), and its real image
   `TauCeti.HomologicalOrientation.realFundamentalClass` under `TauCeti.intToRealCoeff`
-  (`LocalHomology/FundamentalClass.lean`); the local orientation at a point selected by a tangent
-  orientation of a boundaryless Euclidean-model manifold,
-  `TauCeti.localOrientationOfManifoldOrientation` (`LocalHomology/Orientation/Chart.lean`).
+  (`LocalHomology/FundamentalClass.lean`). For §4.1's negative-control Check only: the local
+  orientation at a point selected by a tangent orientation of a Hausdorff boundaryless manifold
+  over `𝓘(ℝ, E′)`, `E′` an inner-product space of dimension `m ≥ 1`,
+  `TauCeti.localOrientationOfManifoldOrientation` (`LocalHomology/Orientation/Chart.lean`), which
+  pulls the zero-sphere generator `[−b₀] − [b₀]` (`TauCeti.reducedSingularHomologySphereIso_inv_ι`,
+  `AlgebraicTopology/Singular/Sphere.lean`) back through the connecting map and radial projection.
+  In dimension `1` it is the class of a decreasing path in an oriented chart, as Tau Ceti records
+  for the interval (`TauCeti.singularHomologyCubeBoundaryPairIso_one_inv`,
+  `AlgebraicTopology/Singular/IntervalGenerator.lean`), the negative of AlgebraicTopology 6.3's
+  point generator; §4.1 does not build `o_h` from it.
 - `TauCeti.IsRegularParameter` (surjectivity of the fixed-parameter derivative at every solution)
   and the meagre statement `TauCeti.isMeagre_setOf_not_isRegularParameter`, which §5.2 refines
   (`Analysis/Fredholm/LevelSet/GlobalParametric.lean`), and the level-set charts
@@ -353,9 +366,12 @@ installed on a manifold. In addition:
 
 - Stage 6.3: the comparison of tangent orientations with homological orientations, by which an
   orientation `TauCeti.Manifold.Orientation` of a boundaryless smooth manifold determines a
-  `TauCeti.HomologicalOrientation` with the chart-normalized point generators, natural under
-  oriented open embeddings, through its Euclidean rechart along a linear equivalence
-  `E ≃L[ℝ] EuclideanSpace ℝ (Fin m)` and its open-embedding local maps; and the oriented relative
+  `TauCeti.HomologicalOrientation` whose point generators are the signed classes of the ordered
+  affine simplex of an oriented chart (Stage 6.3 selects them so, and checks
+  `∂[D¹] = [+1] − [−1]`), natural under oriented open embeddings, through its Euclidean rechart
+  along a linear equivalence `E ≃L[ℝ] EuclideanSpace ℝ (Fin m)` and its open-embedding local maps,
+  with the signed local images of chart-simplex classes at every interior point of the simplex
+  and, in dimension `0`, the generator `ε_o(x)[x]`; and the oriented relative
   class of a compact Hausdorff manifold over `𝓡∂ m`, `m > 0` (Stage 6.3 builds it for Hausdorff
   second-countable `M`, through Brown's collar). The compact-support classes, their
   support-enlargement law and the integral fundamental class that Stage 6.3 also plans are Tau
@@ -860,12 +876,16 @@ On Hausdorff σ-compact finite-dimensional boundaryless manifolds `N` over any r
 orientation `o : TauCeti.Manifold.Orientation` and the homological orientation `o_h` that
 AlgebraicTopology 6.3 attaches to it (a `TauCeti.HomologicalOrientation` of `N` read as a
 topological manifold modelled on `E`). In positive dimension `m` its local orientation at `x` is
-the image under AlgebraicTopology 6.3's open-embedding local map of
-`TauCeti.localOrientationOfManifoldOrientation` of the pullback of `o` to its Euclidean rechart
-along a linear equivalence `E ≃L[ℝ] EuclideanSpace ℝ (Fin m)`, independent of that equivalence:
-the pinned declaration takes only orientations over `𝓘(ℝ, E′)` for an inner-product space `E′` of
-dimension `m ≥ 1`. In dimension `0` it is the signed point class `ε_o(x)[x]`, `ε_o(x) = ±1` the
-sign of `o` at `x`. The pairing `⟨·, ·⟩` below is Tau Ceti's `TopCat.singularKronecker`, and
+AlgebraicTopology 6.3's point generator: pull `o` back to the Euclidean rechart of `N` along a
+linear equivalence `E ≃L[ℝ] EuclideanSpace ℝ (Fin m)`, take there the class of an affine simplex
+`[v₀, …, vₘ]` containing the point over `x` in its interior, in an oriented chart, with
+`(v₁ − v₀, …, vₘ − v₀)` positively oriented, and push it forward by the open-embedding local map;
+the result is independent of the linear equivalence. In dimension `1` it is the class of an
+increasing path in an oriented chart. It is not Tau Ceti's chart generator
+`TauCeti.localOrientationOfManifoldOrientation`, which in dimension `1` is the class of a
+decreasing path, the negative of this one (negative-control Check below). In dimension `0` it is
+the signed point class `ε_o(x)[x]`, `ε_o(x) = ±1` the sign of `o` at `x`. The pairing `⟨·, ·⟩`
+below is Tau Ceti's `TopCat.singularKronecker`, and
 `TopPair.singularKronecker` on pairs:
 
 - for compact `N` and every smooth top form `η`,
@@ -892,9 +912,14 @@ in dimension `0`, to the smooth manifold over `𝓘(ℝ, E)` with the transporte
 forms, on which Tau Ceti's zero-dimensional integrals are stated, the change of coefficients
 `ℤ → ℝ` on relative local homology through `TauCeti.intToRealCoeff`, and
 smooth-relative-to-singular naturality. Local computation: place each compact piece `S` of a
-partition inside an injective chart simplex whose boundary avoids `S`; derive the local formula
-from the relative evaluation of §3.2 at `β = 0` and the one-chart integral identity; assemble by
-`TauCeti.integralTopForm_add`. Dimension zero: a compact `K` is finite, and the class along `K`
+partition inside the interior of a positively oriented affine simplex `σ` of an oriented chart,
+as above; `σ` is a relative cycle of `(N, N ∖ S)` and its class is `[N]_S`, since its local image
+at every interior point is AlgebraicTopology 6.3's point generator
+(`TauCeti.HomologicalOrientation.eq_fundamentalClassOn`); derive the local formula
+`⟨ℐ_S[η_S], [σ]⟩ = ∫_σ η_S = TauCeti.integralTopForm o η_S` for the piece `η_S` of `η` vanishing
+outside `S` from the relative evaluation of §3.2 at `β = 0` and the one-chart integral identity,
+in which the orientation-preserving parametrization `σ` integrates `η_S` with sign `+1`; assemble
+by `TauCeti.integralTopForm_add`. Dimension zero: a compact `K` is finite, and the class along `K`
 is `Σ_{x ∈ K} ε_o(x)[x]`, by the local-image characterization. A top form `η` vanishing outside
 `K` is the finite sum of the forms `η_x` equal to `η` at `x ∈ K` and `0` elsewhere, each supported
 in `{x}`; `TauCeti.integralTopForm_ofFunction_zeroDim` integrates `η_x` to `ε_o(x) η(x)`, and
@@ -917,16 +942,18 @@ compact boundaryless case through Poincaré duality); the chain-level comparison
 classes is this roadmap's. *Needs:* Layer 3; DifferentialGeometry 8.4; Tau Ceti
 `TauCeti.integralTopForm`, `TauCeti.integralTopForm_add`,
 `TauCeti.HomologicalOrientation.fundamentalClassOn`,
+`TauCeti.HomologicalOrientation.eq_fundamentalClassOn`,
 `TauCeti.HomologicalOrientation.realFundamentalClass`,
-`TauCeti.localOrientationOfManifoldOrientation`,
 `TopCat.singularKronecker`, `TopPair.singularKronecker`,
 `TopPair.isIso_singularHomologyMap_excisionMap_of_isClosed_subset`; AlgebraicTopology 6.3 (the
-homological orientation of a tangent orientation).
+homological orientation of a tangent orientation, its point generators and the signed local
+images of chart-simplex classes).
 
 **Checks.**
 
-- `S¹` with the counterclockwise orientation: `∫ dθ = 2π = ⟨deRhamHom [dθ], [S¹]_ℝ⟩`; reversing the
-  orientation negates both sides.
+- `S¹` with the counterclockwise orientation: `[S¹]_ℝ` is the counterclockwise loop
+  `t ↦ e^(2πit)`, whose local image at each point is the increasing path in an angle chart, and
+  `∫ dθ = 2π = ⟨deRhamHom [dθ], [S¹]_ℝ⟩`; reversing the orientation negates both sides.
 - Two points with orientations `+` and `−`: `∫ f = f(a) − f(b)`; a convention ignoring point
   orientations gives `f(a) + f(b)`.
 - `N = ℤ` with the discrete topology (Hausdorff, σ-compact, boundaryless, dimension `0`, not
@@ -940,8 +967,13 @@ homological orientation of a tangent orientation).
   simplex `t ↦ 2t − 1` is no relative cycle (its endpoints `±1` lie in `K`). `ℐ_K[η]` is nonzero
   although its absolute image `deRhamHom [η]` is `0` (as `H¹(ℝ; ℝ) = 0`), so a formula read on
   absolute classes would give `0`.
-
-### 4.2 Smooth-boundary compatibility
+- The local generator is AlgebraicTopology 6.3's, not Tau Ceti's chart generator. On `ℝ` with
+  the standard orientation, `TauCeti.localOrientationOfManifoldOrientation` at `0` is the class of
+  the path from `1` to `−1`: the orthonormal basis of the positive orientation is `b₀ = 1`, the
+  zero-sphere generator is `[−1] − [1]`, and the connecting map sends the class of a path `γ` to
+  `[γ(1)] − [γ(0)]`. AlgebraicTopology 6.3's point generator at `0` is the path from `−1` to `1`.
+  A homological orientation built from the former has `[ℝ]_K` represented by `t ↦ 2 − 4t`, and the
+  formula would read `1 = −1` on the `ψ dx` above and `2π = −2π` on the counterclockwise `S¹`.
 
 For compact Hausdorff oriented `M` over `𝓡∂ m`, `m > 0` (second countable by
 `ChartedSpace.secondCountable_of_sigmaCompact`, so that AlgebraicTopology 6.3's relative class
