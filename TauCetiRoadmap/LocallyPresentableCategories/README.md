@@ -34,8 +34,9 @@ free completion `Ĩ` of a small `I` under `D`-limits is essentially small and ha
 property of the `D`-envelope (5.2); a small set `S` of arrows of a small category can be
 inverted inside the 2-category of categories with `D`-limits (5.3); and a functor `i : I → R` from
 a small set generates `R` under `D`-limits exactly when every fully faithful `D`-functor through
-which it factors is essentially surjective, and exactly when `R` is reached from the envelope of `I`
-by a small transfinite sequence of localisations and adjunctions of arrows (5.5).
+which it factors is essentially surjective, and, when `WalkingParallelPair` is among the `D a`,
+exactly when `R` is reached from the envelope of `I` by a small transfinite sequence of
+localisations and adjunctions of arrows (5.5).
 
 Suggested home: `TauCeti/CategoryTheory/Presentable/`, beside Mathlib's
 `Mathlib/CategoryTheory/Presentable/`.
@@ -58,7 +59,8 @@ an arbitrary small theory, that concern locally presentable and accessible categ
   recognition theorem, and initial algebras of endofunctors through the initial chain (Layer 4);
 - categories with `D`-limits for a small family `D` of shapes, their models, `D`-envelopes,
   localisation in the 2-category they form, sound doctrines, and generation under `D`-limits with
-  its comparison to presentation by envelopes, localisations and adjunctions of arrows (Layer 5).
+  its comparison to presentation by envelopes, localisations and adjunctions of arrows, an
+  equivalence when `WalkingParallelPair` is among the `D a` (Layer 5).
 
 **Supplied by Mathlib and consumed by name.** `κ`-presentable objects, `κ`-filtered categories,
 locally `κ`-presentable and `κ`-accessible categories and their unbounded versions, strong
@@ -207,9 +209,8 @@ to finite products: algebras, sifted colimits, and the recognition theorem; it e
 algebras of endofunctors (4.4). Layer 5 replaces `κ`-small limits by an arbitrary small family `D`
 of shapes: models, the `D`-envelope of a small category, localisation, sound doctrines, and
 generation under `D`-limits (5.5, on 5.2 and 5.3). Within Layer 1, 1.2 comes first and 1.1 uses its
-forward half; Layer 2 uses 3.1 and 3.2; Layer 3 uses 0.1, and 1.4 in 3.4; Layer 4 uses 3.1, and 4.4
-uses 1.1; Layer 5 uses 3.1. The hardest targets are 1.4 (via the solution-set condition), 3.4 and
-5.3.
+forward half; Layer 2 uses 3.1 and 3.2; Layer 3 uses 0.1, and 1.4 in 3.4; Layer 4 uses 3.1; Layer 5
+uses 3.1. The hardest targets are 1.4 (via the solution-set condition), 3.4 and 5.3.
 
 ## Layer 0: `κ`-small shapes
 
@@ -739,17 +740,17 @@ For `C` with an initial object and `F : C ⥤ C`, define the initial chain `init
 `initial.to` at `n = 0` and `F.map` of the previous map after it. Prove
 `exists_isInitial_algebra_colimit_initialChain`: if the initial chain has a colimit `W` and `F`
 preserves it, then `W` has a structure map `F W ⟶ W` making it an initial `F`-algebra; and
-`hasInitial_algebra_of_isAccessible`: every accessible endofunctor of a locally presentable
-category has an initial algebra. Source: Adámek 1974, §I, p. 592, the free-algebra construction
-`W₀ = A`, `Wᵢ₊₁ = A ⨿ F Wᵢ`, colimits at limit ordinals, and its Proposition: if the construction
-stops (`Wᵢ ⟶ Wᵢ₊₁` is an isomorphism), `Wᵢ` is a free `F`-algebra over `A`. At `A = 0` the stages
-are `Fⁱ 0`, and a free algebra over `0` is an initial algebra. Route for the first statement: the
-preserved colimit gives `F W ≅ colim Fⁿ⁺¹ 0 ≅ W`, whose inverse is the structure map; for an
-algebra `b : F B ⟶ B`, the maps `Fⁿ 0 ⟶ B` defined by `initial.to` and `F.map (−) ≫ b` form a
-cocone, and its induced map is the unique algebra map, by induction along the chain. Route for the
-second: `C` is cocomplete (1.1 and Mathlib), `F` preserves `κ`-filtered colimits for some regular
-`κ`, so it preserves the colimit of the transfinite chain of length `κ`, which is `κ`-filtered,
-and the construction stops at `κ`. *Needs:* 1.1; Mathlib `Endofunctor.Algebra`,
+`hasInitial_algebra_of_isAccessible`: every accessible endofunctor of a locally presentable category
+has an initial algebra. Source: Adámek 1974, §I, p. 592, the free-algebra construction `W₀ = A`,
+`Wᵢ₊₁ = A ⨿ F Wᵢ`, colimits at limit ordinals, and its Proposition: if the construction stops
+(`Wᵢ ⟶ Wᵢ₊₁` is an isomorphism), `Wᵢ` is a free `F`-algebra over `A`. At `A = 0` the stages are
+`Fⁱ 0`, and a free algebra over `0` is an initial algebra. Route for the first statement: the
+preserved colimit gives `F W ≅ colim Fⁿ⁺¹ 0 ≅ W`, whose inverse is the structure map; for an algebra
+`b : F B ⟶ B`, the maps `Fⁿ 0 ⟶ B` defined by `initial.to` and `F.map (−) ≫ b` form a cocone, and
+its induced map is the unique algebra map, by induction along the chain. Route for the second: `C`
+is cocomplete (by definition of `IsCardinalLocallyPresentable`), `F` preserves `κ`-filtered colimits
+for some regular `κ`, so it preserves the colimit of the transfinite chain of length `κ`, which is
+`κ`-filtered, and the construction stops at `κ`. *Needs:* Mathlib `Endofunctor.Algebra`,
 `Endofunctor.Algebra.mk`, `Functor.ofSequence`, `HasInitial`, `IsInitial`, `PreservesColimit`,
 `IsLocallyPresentable`, `Functor.IsAccessible`.
 
@@ -776,8 +777,7 @@ and the construction stops at `κ`. *Needs:* 1.1; Mathlib `Endofunctor.Algebra`,
 ### Dependencies
 
 Mathlib: `CategoryTheory.Limits.Sifted`, `CategoryTheory.Limits.Preserves.Finite`,
-`CategoryTheory.Endofunctor.Algebra`, `CategoryTheory.Functor.OfSequence`. This roadmap: 3.1; 1.1
-(for 4.4).
+`CategoryTheory.Endofunctor.Algebra`, `CategoryTheory.Functor.OfSequence`. This roadmap: 3.1.
 
 ## Layer 5: categories with `D`-limits
 
@@ -842,7 +842,8 @@ sketch made of the `D`-limit cones of `R` and, for each `f : a ⟶ b` in `S`, th
 and leg `f` over the one-object diagram `b`, which is a limit cone exactly where `f` is inverted).
 `R` need not have `D`-limits; when it has them and `S` is empty, `q` can be taken to be an
 equivalence (Kelly, Proposition 6.13). Equalizing a pair of arrows and adjoining an arrow are
-localisations of the same kind: invert the equalizer inclusion, and localise a free extension.
+localisations of the same kind when `WalkingParallelPair` is among the `D a`: invert the
+equalizer inclusion, and localise a free extension.
 *Needs:* 5.1, 5.2; Mathlib `MorphismProperty.IsInvertedBy`, `Functor.IsEquivalence`,
 `comp_preservesLimitsOfShape`.
 
@@ -911,23 +912,26 @@ categories with `D`-limits and `D`-functors `Rβ ⥤ Rβ'` for `β ≤ β'`, wit
 `Rβ ⥤ Rβ⟨H⟩` whose `D`-functors to every `C` with `D`-limits are the pairs of a `D`-functor `ψ` on
 `Rβ` and arrows `ψ aₕ ⟶ ψ bₕ`, `h ∈ H` (Kelly, §6.4, Theorem 6.23, pp. 122–123, for the sketch of
 the `D`-limit cones of `Rβ` with the new arrows adjoined to its underlying category); the 2-colimit
-in the 2-category of categories with `D`-limits at limit ordinals; and an equivalence `Rγ ≌ R`
-whose composite with `I → Ĩ → Rγ` is isomorphic to `i`. Equalising a pair of arrows is a
-localisation (5.3). Prove, for a small family `D` and `R` with `w`-small hom-sets: `i` is basic iff
-`Generates D i`, with the base `I` fixed. Route, basic ⇒ generation, for every family `D`: by
-induction along the sequence, with `generates_iff_essSurj`: for `u : B ⥤ R_β` fully faithful through
-which the image of `I` passes, the universal property of the envelope, of the localisation, of the
-adjoined arrows or of the 2-colimit, applied with target `B`, gives a `D`-functor `r : Rβ ⥤ B`
-with `r ⋙ u ≅ 𝟭`, so `u` is essentially surjective (fullness of `u` lifts the adjoined arrows and
-faithfulness the equations). Generation ⇒ basic: `R` is essentially small (Kelly, §3.5); for
-`ρ` regular exceeding the numbers of morphisms of the `D a`, build `Sβ`, `β ≤ ρ`, small with
-`D`-limits, with `D`-functors `Φβ : Sβ ⥤ R` extending `i`, from `S₀ = Ĩ` and `Φ₀` the extension of
-5.2; at successor steps adjoin a formal arrow `a ⟶ b` for every arrow `Φβ a ⟶ Φβ b` of `R`, then
-equalise every pair of parallel arrows that `Φβ` identifies; at limit ordinals take the union,
-which is the 2-colimit because every `D`-diagram in it lies in an earlier stage. Then `Φρ` is fully
-faithful, its essential image is closed under `D`-limits, so by `Generates D i` it is an
-equivalence. *Needs:* 5.2, 5.3; Mathlib `ObjectProperty.limitsClosure`, `ObjectProperty.ofObj`,
-`Functor.Full`, `Functor.Faithful`, `Functor.EssSurj`.
+in the 2-category of categories with `D`-limits at limit ordinals; and an equivalence `Rγ ≌ R` whose
+composite with `I → Ĩ → Rγ` is isomorphic to `i`. Prove, for a small family `D` and `R` with
+`w`-small hom-sets, with the base `I` fixed: if `i` is basic, then `Generates D i`; and, when
+`WalkingParallelPair` is among the `D a`, conversely, so that `i` is basic iff `Generates D i`. The
+converse needs the equalizer shape: with it, equalising a pair of arrows is the localisation at its
+equalizer inclusion (5.3, third Check), and without it the converse can fail (last Check below).
+Route, basic ⇒ generation, for every small family `D`: by induction along the sequence, with
+`generates_iff_essSurj`: for `u : B ⥤ R_β` fully faithful through which the image of `I` passes, the
+universal property of the envelope, of the localisation, of the adjoined arrows or of the 2-colimit,
+applied with target `B`, gives a `D`-functor `r : Rβ ⥤ B` with `r ⋙ u ≅ 𝟭`, so `u` is essentially
+surjective (fullness of `u` lifts the adjoined arrows and faithfulness the equations). Generation ⇒
+basic, with `WalkingParallelPair` among the `D a`: `R` is essentially small (Kelly, §3.5); for `ρ`
+regular exceeding the numbers of morphisms of the `D a`, build `Sβ`, `β ≤ ρ`, small with `D`-limits,
+with `D`-functors `Φβ : Sβ ⥤ R` extending `i`, from `S₀ = Ĩ` and `Φ₀` the extension of 5.2; at
+successor steps adjoin a formal arrow `a ⟶ b` for every arrow `Φβ a ⟶ Φβ b` of `R`, then equalise
+every pair of parallel arrows that `Φβ` identifies; at limit ordinals take the union, which is the
+2-colimit because every `D`-diagram in it lies in an earlier stage. Then `Φρ` is fully faithful, its
+essential image is closed under `D`-limits, so by `Generates D i` it is an equivalence. *Needs:*
+5.2, 5.3; Mathlib `ObjectProperty.limitsClosure`, `ObjectProperty.ofObj`, `Functor.Full`,
+`Functor.Faithful`, `Functor.EssSurj`.
 
 **Checks.**
 
@@ -942,20 +946,18 @@ equivalence. *Needs:* 5.2, 5.3; Mathlib `ObjectProperty.limitsClosure`, `ObjectP
   give `σ y = F.map s ≫ σ x ≫ F'.map r`, so restriction to `x` is faithful for every `C`; but `y`
   is not isomorphic to `x` (`End y = {𝟙}` and `End x = {𝟙, e}`), so `Generates D i` fails, and
   `i` is not basic.
-- Smallness of `D` is needed. Take for `D` all `w`-small categories, indexed by a type of
-  `Type (w + 1)` and so outside the convention of this layer, and `i : PUnit → Type w` picking
-  `Bool`. Every type `X` is in bijection with the equaliser of the two maps
-  `f, g : (Set X → Bool) ⟶ (Set (Set X) ⊕ Set X → Bool)`, `f u = (S ↦ u (⋂₀ S), A ↦ u Aᶜ)` and
-  `g u = (S ↦ ⋀_{A ∈ S} u A, A ↦ ¬ u A)`, through `x ↦ (A ↦ [x ∈ A])`: the equaliser is the set of
-  complete Boolean homomorphisms `Set X → Bool`, each the evaluation at a unique point. So
-  `I₂ = Type w`, and `Fin 3 ∉ I₁`, since a limit of copies of `Bool` is closed under the ternary
-  operation `x + y + z` of `ℤ/2` and no three-element subset of a power of `Bool` is. Thus
-  `Generates D i` holds. But `i` is not basic: dually, the target of a basic functor for all small
-  colimits is the reflective orthogonality class of a small sketch in a presheaf category, closed
-  there under `λ`-filtered colimits for some regular `λ` (Kelly, §6.2, Theorem 6.5, p. 117, §6.3,
-  Theorem 6.11, p. 119, and §5.12, Theorem 5.56, p. 108, along the sequence), so each of its
-  objects is presentable, while `op Bool` is not `κ`-presentable in `Type wᵒᵖ` for any regular `κ`
-  (1.1, second Check).
+- The equalizer shape is needed for generation ⇒ basic. With `α` empty, let `R = Bℤ/2`, the
+  one-object category of the group `ℤ/2`, and let `i` pick its object. `Generates D i` holds, since
+  the closure is the repletion of the image. But `i` is not basic. `Ĩ` is a groupoid whose objects
+  are uniquely isomorphic, and no step adds objects, so every object of every `Rβ` is isomorphic
+  to the point. The universal properties of the steps, with target `Bℤ/3` (a category with
+  `D`-limits, since `α` is empty), give functors `Nβ : Rβ ⥤ Bℤ/3` compatible with the transitions
+  up to isomorphism: trivial on `Ĩ`; extended along a localisation, `Bℤ/3` being a groupoid;
+  extended along an adjunction of `H` by `N h = N φₕ + 1` for a chosen isomorphism
+  `φₕ : aₕ ⟶ bₕ` of `Rβ`; induced at limit ordinals. Some arrow is adjoined, since otherwise every
+  `Rβ` is equivalent to `PUnit`. For such an `h`, `N (h ≫ φₕ⁻¹) = 1`, and this value of an
+  endomorphism is unchanged in `Rγ`, `ℤ/3` being abelian; but in `Rγ ≌ Bℤ/2` every endomorphism
+  `t` has `t ≫ t = 𝟙`, which would give `2 = 0` in `ℤ/3`.
 
 ### Examples
 
@@ -965,34 +967,34 @@ equivalence. *Needs:* 5.2, 5.3; Mathlib `ObjectProperty.limitsClosure`, `ObjectP
 ### Dependencies
 
 Mathlib: `CategoryTheory.ObjectProperty.LimitsClosure`, `CategoryTheory.MorphismProperty`,
-`CategoryTheory.Limits.Sifted`. This roadmap: 3.1; 5.2 and 5.3 (for 5.5); 1.1, second Check (for
-the last Check of 5.5).
+`CategoryTheory.Limits.Sifted`. This roadmap: 3.1; 5.2 and 5.3 (for 5.5).
 
 ## Downstream consumers
 
-No roadmap cites this one. HigherToposTheory (Layer F1) consumes Mathlib's
-`CategoryTheory.Presentable` directly; its statements about locally presentable categories use the
-carriers named here.
+ClassifyingTopoi consumes 1.5 (finitely accessible categories as `Ind A`), 3.1 and 3.5 (theories
+with finite limits and essentially algebraic theories) in the Examples of its Layer 3.
+HigherToposTheory (Layer F1) consumes Mathlib's `CategoryTheory.Presentable` directly; its
+statements about locally presentable categories use the carriers named here.
 
 ## Research context
 
-Gabriel–Ulmer duality is a biequivalence between the 2-category of small categories with
-`κ`-small limits, `κ`-continuous functors and natural transformations, and the opposite of the
-2-category of locally `κ`-presentable categories, right adjoints preserving `κ`-filtered colimits
-and natural transformations; 3.2–3.4 are its statements on objects, on recovery and on 1- and
-2-cells. It has enriched forms over a locally finitely presentable symmetric monoidal closed base
-(Kelly 1982) and over more general bases with more general classes of limits (Lack–Power 2009;
-Lack–Rosický 2011, Theorem 5.4), and its doctrinal form is the theory of sound doctrines of 5.4.
-Grothendieck's lectures at Buffalo in 1973 worked in the 2-category of categories with `D`-limits
-of Layer 5, where the envelope and localisation of 5.2 and 5.3 are constructions on theories, and
-asked whether a theory presented from a set of objects by such constructions is the same as one
-generated by them under `D`-limits; 5.5 is the comparison, for small `D`, and its last Check shows
-that it fails for all small limits. On the side of limits, accessible categories and accessible
-functors are closed under the 2-categorical limits computed in categories (Makkai–Paré 1989,
-ch. 5; Mathlib has the comma categories), while for colimits beyond the directed unions of 1.7
-only partial results are known; under the existence of a proper class of strongly compact
-cardinals, directed colimits of accessible embeddings that are not full are accessible
-(Paré–Rosický 2013, Corollary 3.2).
+Gabriel–Ulmer duality is a biequivalence between the 2-category of small categories with `κ`-small
+limits, `κ`-continuous functors and natural transformations, and the opposite of the 2-category of
+locally `κ`-presentable categories, right adjoints preserving `κ`-filtered colimits and natural
+transformations; 3.2–3.4 are its statements on objects, on recovery and on 1- and 2-cells. It has
+enriched forms over a locally finitely presentable symmetric monoidal closed base (Kelly 1982) and
+over more general bases with more general classes of limits (Lack–Power 2009; Lack–Rosický 2011,
+Theorem 5.4), and its doctrinal form is the theory of sound doctrines of 5.4. Grothendieck's
+lectures at Buffalo in 1973 worked in the 2-category of categories with `D`-limits of Layer 5, where
+the envelope and localisation of 5.2 and 5.3 are constructions on theories, and asked whether a
+theory presented from a set of objects by such constructions is the same as one generated by them
+under `D`-limits; 5.5 is the comparison: for small `D`, presentation implies generation, and the
+converse holds when `D` contains the equalizer shape but not in general (5.5, last Check). On the
+side of limits, accessible categories and accessible functors are closed under the 2-categorical
+limits computed in categories (Makkai–Paré 1989, ch. 5; Mathlib has the comma categories), while for
+colimits beyond the directed unions of 1.7 only partial results are known; under the existence of a
+proper class of strongly compact cardinals, directed colimits of accessible embeddings that are not
+full are accessible (Paré–Rosický 2013, Corollary 3.2).
 
 ## References
 

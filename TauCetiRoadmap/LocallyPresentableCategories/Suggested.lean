@@ -68,8 +68,9 @@ preserves the defining limits; nothing in this file is data built on `sorry`.
 Not stated here: README 3.5, the syntactic essentially algebraic theories (sorts, total and
 partial operations, equations) and their equivalence with small categories with `κ`-small
 limits, and README 5.4, sound doctrines; neither is a headline of the Summary, and both are kept
-in the README. Not stated: the equivalence of README 5.5 between basic functors and generation
-under `D`-limits, lacking a 2-colimit of a transfinite chain in the 2-category of categories with
+in the README. Not stated: the comparison of README 5.5 between basic functors and generation
+under `D`-limits (basic functors generate; conversely when `WalkingParallelPair` is among the
+`D a`), lacking a 2-colimit of a transfinite chain in the 2-category of categories with
 `D`-limits, on which the notion of a basic functor is built.
 
 Conventions (README §Conventions): `κ`-small shapes are small categories `J` with
