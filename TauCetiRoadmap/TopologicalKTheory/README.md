@@ -123,8 +123,13 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   (`FiberBundle/Principal.lean`).
 - [AlgebraicTopology](../AlgebraicTopology/README.md) supplies CW pairs,
   cofibrations, homotopies, relative homotopy sequences and ordinary
-  (co)homology, and its Stage 5.5 supplies the bundle-to-Serre comparison
-  and the based homotopy long exact sequence used by T1.5. T1 supplies the
+  (co)homology, and its Stage 5.5 supplies the based homotopy long exact
+  sequence used by T1.5. The bundle-to-Serre comparison is Tau Ceti's,
+  in `Topology/Homotopy/SerreFibration/FiberBundle.lean`, with no
+  hypothesis on the base: `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`
+  makes a map whose every base point lies in the base set of a Mathlib
+  `Trivialization` a Serre fibration, and `TauCeti.TopCat.mem_serreFibrations_proj`
+  does so for the projection of a `FiberBundle`. T1 supplies the
   bundle-specific section-extension argument; T3 supplies K-theory's own exact
   sequences.
 - [GrothendieckEulerForms](../GrothendieckEulerForms/README.md) supplies the
@@ -198,13 +203,17 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   homotopy groups of `O` (4.2c). T1.5–T1.6
   consume Tau Ceti's finite Grassmannian and finite oriented carriers and own
   their Schubert cells, fixed-rank BO(n)/BSO(n), stable BO/BSO colimits,
-  universal bundles and their finite-CW/numerable classification, T1.6a's
-  loop comparisons ΩBO≃O and ΩBSO≃SO, and T1.6d's comparison of the
-  homogeneous tower with 4.2b's Grassmannian member.
+  universal bundles and their finite-CW/numerable classification, and
+  T1.6d's homogeneous tower with its equivalence with BO×ℤ.
   T1.6a also owns the lifted cells on the oriented carriers;
   CharacteristicClasses C1.1a–b consumes these same classifier carriers.
   Any distinct homogeneous model has a named comparison to
-  these carriers, not a second classifier definition. T7 owns the geometric
+  these carriers, not a second classifier definition. T7 is the only part
+  of this roadmap that consumes 4.2a–4.2c, because GeneralizedCohomology
+  G4.0 consumes T1.5–T1.6 and 4.2a–4.2b consume G4.0b. T7.1 owns the loop
+  comparisons ΩBO≃O and ΩBSO≃SO with 4.2a's `O` and `SO` and the
+  comparison of T1.6d's homogeneous tower with 4.2b's Grassmannian member
+  Ω₇; T7 owns the geometric
   KO/ABS and multiplicative normalization. Consume 4.2a–4.2c's exact
   stable-group, Bott-map and periodicity contract and construct unavailable
   mathematics in Tau Ceti in that shape before its comparison is used.
@@ -414,9 +423,10 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    **T1.5a. First Stiefel groups and normalized boundary.** On Tau Ceti's
    orthonormal-frame carriers write V_r(ℝ^n) for
    `TauCeti.finiteOrthonormalFrame ℝ r n`, 0≤r≤n, m=n−r. Construct
-   the last-vector forgetful map, local trivializations and sphere fibre S^m.
-   Consume AlgebraicTopology Stage 5.5's bundle-to-Serre comparison and its
-   based homotopy long exact sequence.
+   the last-vector forgetful map, local trivializations and sphere fibre S^m;
+   these trivializations make it a Serre fibration by Tau Ceti's
+   `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`. Consume
+   AlgebraicTopology Stage 5.5's based homotopy long exact sequence.
    For m≥1 prove (m−1)-connectivity. For r=1 the space is S^m and π_m=Z
    for either parity. For r≥2,m≥1 prove π_m=Z when m is even and Z/2 when
    m is odd, with the bottom-fibre Z map the stated quotient and generator.
@@ -494,27 +504,6 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    stableOrientedGrassmannian BSO as the positive-cofinal rank-colimit on
    those lifted cells, with their universal bundle diagrams and stabilization.
    Set BSO(0)=pt for the canonically positively oriented zero bundle.
-   Own the loop comparisons ΩBO≃O and ΩBSO≃SO: the based loop space of
-   stableRealGrassmannian at its trivial-bundle basepoint is weakly homotopy
-   equivalent to DGFloerPartII 4.2a's stable `O`, and that of
-   stableOrientedGrassmannian to its `SO`. Route: the frame-span maps
-   V_n(ℝ^N)→Gr_n(ℝ^N) of T1.5a's orthonormal-frame carriers and their
-   oriented versions V_n(ℝ^N)→finiteOrientedGrassmannian n N, the
-   Stiefel-quotient comparison below, are principal O(n)-, respectively
-   SO(n)-bundles; their colimits along the rank and ambient stabilizations
-   are fibre sequences O→EO→BO and SO→ESO→BSO whose fibres, the colimits of
-   the finite groups along T1.6a's rank maps, are identified with 4.2a's
-   `O` and `SO` through the cyclic-permutation comparison with the
-   last-column inclusions in the finite oriented carriers paragraph below.
-   The total spaces are contractible: every
-   compact subset lies in a finite stage, and the (N−n−1)-connectivity of
-   V_n(ℝ^N) (T1.5a) grows without bound along the diagonal N=2n. The based
-   homotopy long exact sequence of AlgebraicTopology Stage 5.5 then makes
-   the connecting maps isomorphisms π_(i+1)(BO)≅π_i(O) and
-   π_(i+1)(BSO)≅π_i(SO) for every i≥0, realized by the path-lifting maps
-   ΩBO→O and ΩBSO→SO, which are therefore weak homotopy equivalences.
-   These are the fibration-sequence comparisons, not 4.2c's Bott map
-   `O≃Ω(ℤ×BO)`; their agreement on coefficients is part of T7's bridge.
    This supplies T7's BO/BSO classification input.
 
    **Finite oriented carriers (part of T1.6a).** For n≥1 an orientation of a
@@ -820,23 +809,17 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    projection/sum H-map comparison.
 
    **T1.6d. Component and companion-model comparisons.**
-   On BO×ℤ and BU×ℤ also add the integer components. Construct the
-   comparison with DGFloerPartII 4.2b's Grassmannian member Ω₇ of the
-   Clifford chain using T1.6's own 2n-dimensional homogeneous tower,
-   cofinally compared with 4.2b's stages ⊔_(0≤p≤2n) G_p(ℝ^(2n)): the orbit
-   map from O(2n)/(O(k)×O(2n−k)) sends
+   On BO×ℤ and BU×ℤ also add the integer components. Construct T1.6's own
+   2n-dimensional homogeneous tower with stages
+   ⊔_(0≤k≤2n) O(2n)/(O(k)×O(2n−k)): the orbit map sends
    a matrix to the span of its first k columns in T1.5's carrier.
    Label that stage by k−n, with the added-first-line/append-last-ambient
    stabilization preserving this virtual dimension. Prove the cofinal
-   based homotopy equivalence over ℤ with BO×ℤ, and compatibility with
-   4.2b's block stabilization, which appends the new block's +1-eigenline
-   last, up to the elementary coordinate homotopies: the two stabilizations
-   differ by composition with an element of SO(2n+2), since each image
-   leaves a line of the new ambient summand free, a path from the identity
-   in SO(2n+2) is the homotopy, and AT4.5's `cofibrationTowerHomotopyEquivalence`
-   compares the two telescopes, so that Ω₇≃ℤ×BO carries the component of
-   index d to {d}×BO and the base point J₇ into d=0. Transport the block
-   sum along it.
+   based homotopy equivalence over ℤ with BO×ℤ, carrying the label d to
+   {d}×BO, and transport T1.6b's block sum to the tower along it. This
+   tower uses only T1.5's carriers and T1.6's stable carriers; its
+   comparison with the Grassmannian member Ω₇ of the Clifford chain is
+   T7.1's.
    T2.1 supplies the group-completion comparison for BU×ℤ.
    In rank one use Gr_1(𝕜^(N+1)): name `RP∞` for 𝕜=ℝ and `CP∞` for 𝕜=ℂ,
    with one cell in each nonnegative degree or each even nonnegative degree,
@@ -1502,7 +1485,74 @@ its characteristic-class consequences; G2.8 owns the generic
 
 1. Develop KO⁰'s finite-bundle/relative/support API and all negative suspension
    degrees, reusing T1.6's unoriented BO classification and its oriented BSO
-   comparison. First work on finite CW pairs. Use DGFloerPartII 4.2a–4.2c's
+   comparison. First work on finite CW pairs.
+
+   Own the loop comparisons ΩBO≃O and ΩBSO≃SO: the based loop space of
+   T1.6a's stableRealGrassmannian at its trivial-bundle basepoint is weakly
+   homotopy equivalent to DGFloerPartII 4.2a's stable `O`, and that of
+   T1.6a's stableOrientedGrassmannian to its `SO`. Route: the frame-span
+   maps V_n(ℝ^N)→Gr_n(ℝ^N) of T1.5a's orthonormal-frame carriers and their
+   oriented versions V_n(ℝ^N)→finiteOrientedGrassmannian n N, through
+   T1.6a's Stiefel-quotient comparison, are principal O(n)-, respectively
+   SO(n)-bundles; their colimits along the rank and ambient stabilizations
+   are fibre sequences O→EO→BO and SO→ESO→BSO. O(n) acts on frames on the
+   right; identify the fibre over the basepoint span(e₀,…,e_(n−1)) with O(n)
+   by f₀·g↦g, where f₀=(e₀,…,e_(n−1)) is the standard frame. The rank maps
+   then induce A↦diag(1,A), new coordinate first. Conjugation by the
+   coordinate-reversal permutation matrices w_n, which satisfy
+   w_(n+1)·diag(1,A)·w_(n+1)=diag(w_n·A·w_n,1), carries these maps strictly
+   to 4.2a's block inclusions ι_n(A)=diag(A,1), and so identifies the
+   fibres, the colimits of the finite groups, with 4.2a's `O` and `SO` as
+   topological groups. The total spaces are weakly contractible: every
+   compact subset lies in a finite stage, and the (N−n−1)-connectivity of
+   V_n(ℝ^N) (T1.5a) grows without bound along the diagonal N=2n. The based
+   homotopy long exact sequence of AlgebraicTopology Stage 5.5 then makes
+   the connecting maps isomorphisms π_(i+1)(BO)≅π_i(O) and
+   π_(i+1)(BSO)≅π_i(SO) for every i≥0, realized by the path-lifting maps
+   ΩBO→O and ΩBSO→SO, which are therefore weak homotopy equivalences.
+   These are the fibration-sequence comparisons, not the composite of
+   4.2c's Bott map `O ≃ Ω(Ω₇)` with the Ω₇ comparison below. The first
+   identifies the coefficient groups by sphere clutching below, and the
+   bridge B_n below uses only the second; no agreement between the two
+   resulting isomorphisms `π_i(O) ≅ π_(i+1)(BO)` is asserted or used.
+
+   **Checks.**
+   - i=0, n=1, N=2: the loop of lines ℝ(cos θ,sin θ), θ∈[0,π], in Gr_1(ℝ²)
+     lifts to the frame path from (1,0) to (−1,0)=f₀·(−1), so the connecting
+     map sends the generator of π₁(BO)=ℤ/2 to −1∈O(1), the non-identity
+     element of π₀(O)=ℤ/2; replacing `O` by `SO` would send it to the only
+     element of π₀(SO).
+   - n=2, A=[[a,b],[c,d]]: w₃·diag(1,A)·w₃=[[d,c,0],[b,a,0],[0,0,1]]=
+     diag(w₂·A·w₂,1); without the conjugation, diag(1,A)=[[1,0,0],[0,a,b],[0,c,d]]
+     lies in ι₂(O(2)) only when c=0 and d=1, that is A=diag(±1,1), so the
+     identity maps do not intertwine the two towers.
+   - i≡0,1,2,4,5,6 (mod 8): π_i(O) is ℤ/2 or 0, whose only automorphism is
+     the identity, so any two isomorphisms π_i(O)≅π_(i+1)(BO) agree there.
+     For i=3: inversion in O induces −1 on π₃(O)=ℤ, because the pointwise
+     product of sphere maps induces the sum and the pointwise product of a
+     map with its pointwise inverse is constant; identifying the fibre by
+     f₀·g↦g⁻¹ instead of f₀·g↦g negates the connecting isomorphism
+     π₄(BO)→π₃(O). Equating it with the Bott composite would therefore need
+     a sign fixed by both conventions, which is why no such equation is
+     stated.
+
+   Construct the comparison of T1.6d's homogeneous tower with DGFloerPartII
+   4.2b's Grassmannian member Ω₇ of the Clifford chain, cofinally comparing
+   the tower's stages ⊔_(0≤k≤2n) O(2n)/(O(k)×O(2n−k)), labelled by k−n,
+   with 4.2b's stages ⊔_(0≤p≤2n) G_p(ℝ^(2n)), labelled by d=p−n. Prove the
+   compatibility of T1.6d's added-first-line/append-last-ambient
+   stabilization with 4.2b's block stabilization, which appends the new
+   block's +1-eigenline last, up to the elementary coordinate homotopies:
+   the two stabilizations differ by composition with an element of
+   SO(2n+2), since each image leaves a line of the new ambient summand free,
+   a path from the identity in SO(2n+2) is the homotopy, and AT4.5's
+   `cofibrationTowerHomotopyEquivalence`, in its form for squares commuting
+   up to specified homotopies, compares the two telescopes. Composed with
+   T1.6d's equivalence with BO×ℤ this gives Ω₇≃ℤ×BO, carrying the
+   component of index d to {d}×BO and the base point J₇ into d=0. Transport
+   the block sum along it.
+
+   Use DGFloerPartII 4.2a–4.2c's
    actual stable groups with their finite-to-stable range, Clifford chain
    with its stabilization and eight stable Bott maps with their homotopy
    equivalences; identify the eight coefficient groups by sphere clutching.
@@ -1535,7 +1585,7 @@ its characteristic-class consequences; G2.8 owns the generic
    entire proof.
    For every n≥0 prove the precise geometric bridge: the coefficient map B_n
    induced by DGFloerPartII 4.2c's composite of the eight stable Bott
-   equivalences, read on ℤ×BO through T1.6d's comparison, satisfies
+   equivalences, read on ℤ×BO through the Ω₇ comparison above, satisfies
    `B_n(α_n(m))=α_(n+8)(m⊗λ₈)` for the ABS maps α and chosen graded
    degree8 module λ₈. Construct the pointed comparison homotopies from
    4.2b–4.2c's concrete minimal-geodesic and stable Bott maps, respecting
@@ -1624,7 +1674,10 @@ comparison and no Hopf-invariant-one or bordism coefficient input. T4 precedes T
 descent, the projective-family index and normalized transfer; only then does it prove
 general equivariant Thom and projective comparisons. T7's real
 periodicity consumes DGFloerPartII 4.2a–4.2c's proof, independently of the
-complex Thom and index developments. Every analytic step in T4 concerns finite
+complex Thom and index developments. T1.5–T1.6 consume nothing from
+DGFloerPartII, since GeneralizedCohomology G4.0 consumes them and 4.2a–4.2b
+consume G4.0b; the loop comparisons ΩBO≃O and ΩBSO≃SO and the comparison
+of T1.6d's tower with Ω₇ are therefore T7.1's. Every analytic step in T4 concerns finite
 matrix/bundle families; no elliptic operator or index theorem proves Bott.
 
 - Atiyah–Bott, [*On the periodicity theorem for complex vector bundles*](https://doi.org/10.1007/BF02391772), Acta Math.112 (1964), 229–247, for the polynomial-clutching proof.
