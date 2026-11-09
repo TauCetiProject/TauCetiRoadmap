@@ -73,20 +73,29 @@ by interlacing (`TauCeti.nonempty_equiv_weylRepOfShape_comp_glBlockSucc`,
   [ClassicalGroups](../ClassicalGroups/README.md) Layers 3–6; its characters, tensor products and
   branching are natively proved at the pin as listed above. ClassicalGroups Layer 3 is built on this roadmap, so no section here consumes
   ClassicalGroups; Layer 9 reaches `gl_n`-modules from the native group-level theorems.
-- Compact Lie groups: maximal tori and Weyl integration, the transport of the Weyl character
-  formula to the compact maximal torus with its Fourier-coefficient and Haar-norm forms, and the
-  centre theorem `Z(G) ≃ P∨/Y` for a compact connected semisimple group with cocharacter lattice
-  `Y` are compact-group statements over [LieGroups](../LieGroups/README.md) Layers 6–7. LieGroups
-  consumes this roadmap (its Layers 0, 3 and 7), so these statements are not planned here; Layer
-  10's `Ω ≃ P∨/Q∨` is the algebraic input this roadmap supplies to them.
+- Compact Lie groups: maximal tori and Weyl integration, and the transport of the Weyl character
+  formula to the compact maximal torus with its Fourier-coefficient and Haar-norm forms, are
+  compact-group statements of [LieGroups](../LieGroups/README.md) Layer 6. LieGroups consumes this
+  roadmap (its Layers 0, 3 and 7), so no section here consumes LieGroups.
+- The centre theorem for a compact connected semisimple Lie group `G` with maximal torus `T` and
+  cocharacter lattice `Y`, `Z(G) ≃ P∨/Y` equivariantly for `Γ_Y`, with `Y = Q∨` when `G` is
+  simply connected (EtingofLieGroupsLieAlgebras Theorem 43.4, p. 216, line 8891, and
+  Corollary 43.5(i), p. 217, line 8914), is not part of this roadmap: its proof needs the maximal
+  tori and cocharacter lattices of LieGroups Layers 6–7 and the integration of Lie algebra
+  representations of LieGroups Layer 4, and a section here consuming them would close a cycle with
+  LieGroups. Its algebraic inputs are owned here: the coweight lattice `P∨ ⊇ Q∨` with
+  `[P∨ : Q∨] = |det A|` (§10.1) and the group `Γ_Y` of based automorphisms preserving `Y` (§10.3).
+  It is a different quotient from Layer 10's `Ω ≃ P∨/Q∨`: with translations by `Y` the alcove
+  stabilizer is `Y/Q∨`, so for `SU(2)` (`Y = Q∨`) the centre `{±I}` has order `2` while that
+  stabilizer is trivial, and for `SO(3)` (`Y = P∨`) the orders are reversed.
 - Rational cone series, vector-partition chamber polynomials and the Fourier boundary values of
   character formulas are
   [TensorProductCombinatorics §1.6 and §2.6](../../TensorProductCombinatorics/README.md#16-rational-cone-series-fourier-boundary-values-and-lattice-endpoints);
   that roadmap consumes ClassicalGroups and LieGroups and is downstream of this one. The former
   Layer 6F (Fourier boundary values of the Weyl formula) is now §6.2 for its fixed-point form and
   TensorProductCombinatorics §§1.6 and 2.6 for its cone series and Fourier boundary values; its
-  compact-torus forms are the LieGroups statements of the previous bullet, and no section here
-  consumes any of them.
+  compact-torus forms are the LieGroups Layer 6 statements of the compact-Lie-group bullet above,
+  and no section here consumes any of them.
 - The idempotent geometry of the formally real Albert algebra, its compact automorphism group and
   the `F₄`/`Spin(9)` Cayley-plane comparison are
   [TangentialBordism §§9.1–9.2](../../TangentialBordism/README.md#91-idempotent-cayley-plane-b36).
@@ -311,7 +320,10 @@ Each item is a pinned declaration, consumed as stated in its file.
   `PBW.Noetherian.Basic` and `.Opposite`; the Rees algebra
   `TauCeti.UniversalEnvelopingAlgebra.reesAlgebra` with `reesParameter`, `reesGenerator`,
   `reesGenerator_mul_sub_mul`, `reesOneFiberEquiv`, `reesZeroFiberEquiv`,
-  `ker_reesSpecializationZero`; `TauCeti.positiveNilradical`, `TauCeti.negativeNilradical`,
+  `reesSpecializationZero`, `ker_reesSpecializationZero`, `reesSpecializationZero_eq_zero_iff`
+  (`UniversalEnveloping/Rees/ZeroFiber.lean`, for `[Module.Free R L]`: the coefficientwise
+  description of the kernel) and `pbwFiltrationPrevious_zero`, `pbwFiltrationPrevious_succ`
+  (`F_{−1} = 0`, `F_{(n+1)−1} = F_n`); `TauCeti.positiveNilradical`, `TauCeti.negativeNilradical`,
   `TauCeti.borelSubalgebra`; the triangular decomposition
   `TauCeti.UniversalEnvelopingAlgebra.triangularMulEquiv` (`UniversalEnveloping/Triangular.lean`:
   multiplication `U(n⁻) ⊗ (U(H) ⊗ U(n⁺)) ≃ₗ[K] U(L)`, `f ⊗ h ⊗ e ↦ f h e`, for a Killing `L`
@@ -337,6 +349,10 @@ Each item is a pinned declaration, consumed as stated in its file.
   `casimirScalar_ne_casimirScalar_of_genWeightSpace_ne_bot_of_isHighestWeightVector`;
   `RootPairing.weylWeightOrbit`, `RootPairing.weightOrbitSum`,
   `TauCeti.formalCharacter_eq_orbitSum_add_lower`, `TauCeti.polynomial_eq_zero_of_dominantIntegral`;
+  `TauCeti.posRootCone` (`LinearAlgebra/RootSystem/Positive.lean`, the additive submonoid generated
+  by the simple roots), `TauCeti.finite_setOf_dominant_sub_mem_posRootCone` and
+  `RootPairing.dominantWeightsBelow` (`LinearAlgebra/RootSystem/DominantCone.lean`, for a finite
+  crystallographic root system over a characteristic-zero domain and an arbitrary weight `λ`);
   `asModule`, `asModule_ι_smul`, `lieSubmoduleOrderIso_isotypicComponent`,
   `lieSpan_equiv_irreducibleQuotient_of_isHighestWeightVector`,
   `isotypicComponent_eq_top_of_forall_isHighestWeightVector`, `LieModule.isotypicMultiplicity`,
@@ -369,7 +385,12 @@ Each item is a pinned declaration, consumed as stated in its file.
   `TauCeti.UniversalEnvelopingAlgebra.centerPBWGradedInvariantIso`, `mk_pbwSymmetrization`;
   `TauCeti.IsSerreSystem`, `TauCeti.serreLift`, `serreLift_surjective`,
   `exists_isSerreSystem_of_base`, `exists_surjective_serreLift_of_base`
-  (`Presentation/Serre.lean`, `Serre/Killing.lean`).
+  (`Presentation/Serre.lean`, `Serre/Killing.lean`); for the route of §7.5,
+  `TauCeti.finrank_eigenspace_toEnd_neg` (`Sl2/WeightMultiplicity.lean`: the `μ`- and
+  `−μ`-eigenspaces of `h` on a finite-dimensional module over an `sl₂` triple have equal dimension,
+  over a field of characteristic zero) and `TauCeti.exists_mem_support_weylGroupToPerm_eq`
+  (`LinearAlgebra/RootSystem/Weyl/Orbit/Basic.lean`: every root of a finite reduced
+  crystallographic pairing over a characteristic-zero domain is a Weyl translate of a simple root).
 - **Layer 8** (`TauCeti/Algebra/Octonion/`, `AlbertAlgebra/`, `CayleyDickson/`,
   `Lie/Derivation/`, `Lie/E7/`, `Lie/E8/`): `TauCeti.Octonion K` (Zorn vector matrices
   `⟨a, b, v, w⟩` with norm `a * b − v ⬝ᵥ w` and trace `a + b`), `TauCeti.Octonion.norm`,
@@ -410,9 +431,12 @@ Each item is a pinned declaration, consumed as stated in its file.
   `TauCeti.CayleyDickson.flexible`, `TauCeti.CayleyDickson.mul_inv_cancel₀`;
   `TauCeti.E7Minuscule` with `cartanMatrix`, `raisingMatrix`, `loweringMatrix`, `isSerreSystem`,
   `serreRepresentation` (`E7/Minuscule/Basic.lean`); `TauCeti.finrank_prod_sl_exteriorPower_dual`.
-- **Layer 9** (`TauCeti/Algebra/Lie/GeneralLinear/`, `RepresentationTheory/ClassicalGroups/`,
+- **Layer 9** (`TauCeti/Algebra/Lie/Reductive/`, `Algebra/Lie/Weights/Central.lean`,
+  `Algebra/Lie/GeneralLinear/`, `RepresentationTheory/ClassicalGroups/`,
   `Combinatorics/Young/LittlewoodRichardson/`, `RingTheory/MvPolynomial/Symmetric/Schur/`):
-  `TauCeti.hasCentralRadical_iff_isCompl_center_derivedSeries`, `TauCeti.hasCentralRadical_matrix`,
+  `TauCeti.hasCentralRadical_iff_isCompl_center_derivedSeries`,
+  `TauCeti.hasCentralRadical_of_hasTrivialRadical_derivedSeries` (over a commutative ring, no
+  finiteness), `TauCeti.hasCentralRadical_matrix`,
   `TauCeti.exists_centralWeight_of_isIrreducible`, `TauCeti.isIrreducible_restrict_derivedSeries`,
   `TauCeti.complementedLattice_lieSubmodule_of_isSemisimple_center`, `TauCeti.diagonalCartan`,
   `TauCeti.glWeightEquiv`, `TauCeti.IsGlDominantIntegral`, `TauCeti.IsGlHighestWeightVector`,
@@ -479,7 +503,7 @@ linear functions `ℓ_x(ξ) = ξ(x)`. Assumed: the sign is positive, as that roa
 
 ## How to read the build
 
-Layer 0 is the `sl₂` engine, called by Layers 2, 4 and 5. Layer 1 assembles the Cartan and
+Layer 0 is the `sl₂` engine, called by Layers 2, 4, 5 and 7. Layer 1 assembles the Cartan and
 root-space picture and the integral weight lattice from Mathlib and Tau Ceti. Layer 2 consumes the
 honest weight-space decomposition, integrality and Weyl invariance, all native. Layer 3 builds
 the enveloping algebra side: PBW, its Rees deformation and zero-fibre Poisson bracket, Verma
@@ -690,9 +714,13 @@ on the quotient and its generators; with the native ordered PBW basis prove that
 products of the `j(bᵢ)` form an `R[t]`-basis, so the family is free and flat over `R[t]`. Prove
 naturality under Lie homomorphisms and independence of the chosen basis. Identify the fibre at a
 unit `a ∈ Rˣ` with `U_R(L)` by `j(x) ↦ a ι(x)`, and after extension to `R[t, t⁻¹]` the family with
-`R[t, t⁻¹] ⊗_R U_R(L)` by `j(x) ↦ t ι(x)`; a nonzero nonunit is not covered. Prove that the
-degree-`n` coefficient of the zero-fibre kernel is `F_{n−1}`. *Needs:* §3.1; Tau Ceti
-`reesAlgebra` and its fibre maps.
+`R[t, t⁻¹] ⊗_R U_R(L)` by `j(x) ↦ t ι(x)`; a nonzero nonunit is not covered. The coefficients of
+the zero-fibre kernel are native: for `L` free, an element of the Rees algebra lies in the kernel
+of the zero-fibre map `TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero` exactly when its
+degree-`n` coefficient lies in `pbwFiltrationPrevious R L n = F_{n−1}` for every `n`
+(`TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero_eq_zero_iff`), so the degree-`n`
+coefficients of the kernel fill out `F_{n−1}`. *Needs:* §3.1; Tau Ceti `reesAlgebra` and its fibre
+maps.
 
 Define the **zero-fibre bracket**: for `a, b` in the Rees algebra write `[a, b] = ħ c` with `c`
 unique, and set `{ā, b̄}` to the zero-fibre class of `c`. It is independent of both lifts. Prove
@@ -869,8 +897,12 @@ p. 133, line 5294), proved by expanding the character formula against the geomet
 inverse denominator. Consume the orbit inputs `RootPairing.weylWeightOrbit`,
 `RootPairing.weightOrbitSum` and the triangular expansion
 `TauCeti.formalCharacter_eq_orbitSum_add_lower` (`ch L(λ) = m_λ + Σ_{μ<λ} c_μ m_μ`, `c_μ ∈ ℕ`), and
-`TauCeti.polynomial_eq_zero_of_dominantIntegral`. Prove that for dominant integral `λ` the dominant
-integral `μ` with `λ − μ` in the `ℕ`-span of the simple roots form a finite set.
+`TauCeti.polynomial_eq_zero_of_dominantIntegral`. Consume the finiteness of the dominant weights
+below a weight: for every weight `λ` (dominant or not) of a finite crystallographic root system
+over a characteristic-zero domain, only finitely many `μ` with `λ − μ` in the positive root cone
+`TauCeti.posRootCone` (the `ℕ`-span of the simple roots) take natural values on every simple
+coroot (`TauCeti.finite_setOf_dominant_sub_mem_posRootCone`), and
+`RootPairing.dominantWeightsBelow` is that finite set.
 
 Prove the **fixed-point form**: in the fraction field of `ℤ[P]`,
 `ch L(λ) = Σ_{w ∈ W} e^{wλ} / ∏_{α>0}(1 − e^{−wα})`, using the inversion identity
@@ -878,7 +910,7 @@ Prove the **fixed-point form**: in the fraction field of `ℤ[P]`,
 the sign `(−1)^{ℓ(w)}` coming from the `ℓ(w)` factors with `wα < 0` (it is the Weyl character
 formula, EtingofLieGroupsLieAlgebras Theorem 26.4, p. 131, line 5190, divided term by term using
 the anti-invariance of the Weyl denominator, Proposition 26.3, p. 131, line 5185). *Needs:* §6.1;
-Tau Ceti `HighestWeight/Weyl/`.
+Tau Ceti `HighestWeight/Weyl/`, `LinearAlgebra/RootSystem/DominantCone.lean`.
 
 ### 6.3 The decomposition toolkit
 
@@ -912,7 +944,7 @@ dominant, each with multiplicity one (native `TauCeti.IsMinuscule`, `TauCeti.min
 ### Dependencies
 
 Layers 3–5; Tau Ceti `Weights/FormalCharacter.lean`, `HighestWeight/Weyl/`, isotypic and minuscule
-files, `RingTheory/GrothendieckRing.lean`.
+files, `RingTheory/GrothendieckRing.lean`, `LinearAlgebra/RootSystem/DominantCone.lean`.
 
 ## Layer 7: the center of `U(L)`, Harish-Chandra, Freudenthal, and Serre's relations
 
@@ -1001,17 +1033,32 @@ for the transposed Cartan matrix of `base` together with the simple coroots and 
 lift `TauCeti.serreLift hS` from Mathlib's Serre-presented algebra to `L` is injective
 (EtingofLieGroupsLieAlgebras Theorem 24.2, p. 122, line 4818, over `ℂ`, for every reduced root
 system, reducible ones included, its proof starting from `g(R₁ ⊔ R₂) = g(R₁) ⊕ g(R₂)`, line 4827;
-HumphreysIntroLieAlgebras §18.3). Route: show that the simple Cartan generators and one bracket
-word per root span the presented algebra (a root-graded straightening from the Serre relations),
-that their images are the normalized coroot and root-space basis of `L` (root strings, Jacobi and
-characteristic-zero coefficients), and conclude by independence of the images; the root-space
-decomposition this uses holds for every Killing `L` with split Cartan, simple or not. Combine with
-surjectivity into the presentation equivalence with its `H/E/F` value equations. With
-`A = base.cartanMatrix`, the native convention is
-`A i j = αᵢ(hⱼ)` while `CartanMatrix.Relations.HE` imposes `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`; hence
+HumphreysIntroLieAlgebras §18.3). Route: the presented algebra is graded by the root lattice, its
+degree-`0` piece is spanned by the `Hᵢ`, and every other nonzero degree is a nonnegative or a
+nonpositive combination of the simple roots; each graded piece is finite-dimensional, spanned by
+finitely many bracket words. The Serre relations make the presented algebra a sum of
+finite-dimensional modules over each simple `sl₂` spanned by `Eᵢ, Fᵢ, Hᵢ`: each generator generates
+a finite-dimensional module, and a bracket generates a quotient of a tensor product
+(EtingofLieGroupsLieAlgebras Theorem 24.2(ii), p. 123, lines 4874–4879). Applying the `sl₂`
+symmetry of weight multiplicities (native `TauCeti.finrank_eigenspace_toEnd_neg`, over any field of
+characteristic zero) to the finite-dimensional submodule generated by a graded piece shows that
+the dimensions of the graded pieces are invariant under the simple reflections. Induction on height
+then shows that every nonzero degree with a nonzero piece is a root, and, since every root is a
+Weyl translate of a simple root (native `TauCeti.exists_mem_support_weylGroupToPerm_eq`) and the
+degree-`αᵢ` piece is the line of `Eᵢ`, that every root piece is at most a line (Theorem
+24.2(iii)–(iv), pp. 123–124, lines 4880–4897). Hence the presented algebra has dimension at most
+the rank plus the number of roots, which is `dim L` by the root-space decomposition of §1.1; that
+decomposition holds for every Killing `L` with split Cartan, simple or not, so the surjective lift
+is injective. In type `G₂` (`α₁` short) the degree `4α₁ + 2α₂`, the highest root plus `α₁`, is not
+a root: `s₁` takes it to `2α₁ + 2α₂` and `s₂` then to `2α₁`, whose piece is zero because
+`⁅E₁, E₁⁆ = 0`. Combine with surjectivity into the presentation equivalence with its `H/E/F` value
+equations. With `A = base.cartanMatrix`, the native convention is `A i j = αᵢ(hⱼ)` while
+`CartanMatrix.Relations.HE` imposes `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`; hence
 `⁅hᵢ, eⱼ⁆ = αⱼ(hᵢ) • eⱼ = A j i • eⱼ`, and the higher relations are `ad(eᵢ)^(1 − A j i) eⱼ = 0` and
-`ad(fᵢ)^(1 − A j i) fⱼ = 0`. *Needs:* §1.1; Mathlib `SerreConstruction.lean`,
-`RootPairing.Base.equivOfCartanMatrixEq`; Tau Ceti `Presentation/Serre.lean`, `Serre/Killing.lean`.
+`ad(fᵢ)^(1 − A j i) fⱼ = 0`. *Needs:* §1.1; §§0.1–0.2 for the `sl₂` theory of the finite-dimensional
+submodules; Mathlib `SerreConstruction.lean`, `RootPairing.Base.equivOfCartanMatrixEq`,
+`RootPairing.weylGroup`; Tau Ceti `Presentation/Serre.lean`, `Serre/Killing.lean`,
+`Sl2/WeightMultiplicity.lean`, `LinearAlgebra/RootSystem/Weyl/Orbit/Basic.lean`.
 
 ### Examples
 
@@ -1030,8 +1077,9 @@ surjectivity into the presentation equivalence with its `H/E/F` value equations.
 
 ### Dependencies
 
-Layers 1–6; Mathlib `SerreConstruction.lean`; Tau Ceti `CentralCharacter/`, `Chevalley/`,
-`Presentation/Serre/`; GuttDeformationQuantization for §7.3.
+Layers 0–6 (Layer 0 for §7.5's `sl₂` argument); Mathlib `SerreConstruction.lean`; Tau Ceti
+`CentralCharacter/`, `Chevalley/`, `Presentation/Serre/`, `Sl2/WeightMultiplicity.lean`,
+`LinearAlgebra/RootSystem/Weyl/Orbit/Basic.lean`; GuttDeformationQuantization for §7.3.
 
 ## Layer 8: the exceptional Lie algebras, explicitly
 
@@ -1187,8 +1235,8 @@ form is negative definite, `κ(D, D) < 0` for `D ≠ 0`, because `exp(tD)` prese
 lies in the compact `so(7)` of `Im(A)`, `ad D` is skew for the restricted positive form, and the
 centre is zero (its complexification is the simple `Der(𝕆_ℂ)`, native
 `TauCeti.Octonion.isSimple_derivationLieAlgebra` at `ℂ`); it is the compact real form of `G₂`, not
-split `LieAlgebra.g₂ ℝ`, whose Killing form is indefinite (signature `(8, 6)`); LieGroups Layer 7's
-compact `G₂` application consumes this sublane. *Needs:* §8.1, the base change above; Tau Ceti
+split `LieAlgebra.g₂ ℝ`, whose Killing form is indefinite (signature `(8, 6)`). *Needs:* §8.1,
+the base change above; Tau Ceti
 `Octonion/Derivation.lean`, `Octonion/Simple.lean`.
 
 ### 8.4 The formally real Albert algebra and compact `F₄`
@@ -1318,15 +1366,22 @@ complex `F₄`; its dimension `52` comes from the native Albert dimension.
 
 ### 9.1 Reductive Lie algebras and their irreducibles
 
-`radical = center` iff `L` is the direct sum of its centre and its derived ideal with the derived
-ideal semisimple; both conjuncts are needed (`sl₂ ⋉ K²` has trivial centre and derived ideal all of
-`L`). For `gl_n` the centre is the scalars, the derived ideal `sl n`, and `gl_n` is reductive. Over
-algebraically closed `K` the centre acts on a finite-dimensional irreducible by a central weight
-with no integrality constraint, the restriction to the derived ideal is irreducible, and complete
+For finite-dimensional `L` over a field of characteristic zero, `radical = center` iff `L` is the
+direct sum of its centre and its derived ideal with the derived ideal semisimple. Semisimplicity
+of the derived ideal alone suffices: a derived ideal with trivial radical makes `L` reductive, over
+any commutative ring and with no finiteness hypothesis, and in finite dimension over a field of
+characteristic zero the direct sum then follows. The
+direct sum alone does not suffice: `sl₂ ⋉ K²` with the standard module has trivial centre and
+derived ideal all of `L`, so it is `0 ⊕ L`, while its radical `K²` is not central. For `gl_n` the
+centre is the scalars, the derived ideal `sl n`, and `gl_n` is reductive. Over algebraically
+closed `K` the centre acts on a finite-dimensional irreducible by a central weight with no
+integrality constraint, the restriction to the derived ideal is irreducible, and complete
 reducibility holds when every central element acts semisimply. Native:
-`TauCeti.hasCentralRadical_iff_isCompl_center_derivedSeries`, `TauCeti.hasCentralRadical_matrix`,
+`TauCeti.hasCentralRadical_iff_isCompl_center_derivedSeries`,
+`TauCeti.hasCentralRadical_of_hasTrivialRadical_derivedSeries`, `TauCeti.hasCentralRadical_matrix`,
 `TauCeti.exists_centralWeight_of_isIrreducible`, `TauCeti.isIrreducible_restrict_derivedSeries`,
 `TauCeti.complementedLattice_lieSubmodule_of_isSemisimple_center`. *Needs:* Layer 5; Tau Ceti
+`Algebra/Lie/Reductive/Basic.lean`, `Reductive/CompleteReducibility.lean`, `Weights/Central.lean`,
 `GeneralLinear/Radical.lean`.
 
 ### 9.2 Highest weights for `gl_n`
@@ -1403,9 +1458,9 @@ to be a tensor multiplicity. *Needs:* §9.2; Tau Ceti `RepresentationTheory/Clas
 
 ### Dependencies
 
-Layers 0, 2, 4–6; Tau Ceti `GeneralLinear/`, `RepresentationTheory/ClassicalGroups/`,
-`Combinatorics/Young/LittlewoodRichardson/`, `RingTheory/MvPolynomial/Symmetric/Schur/`. Layer 8
-is not used.
+Layers 0, 2, 4–6; Tau Ceti `Reductive/`, `Weights/Central.lean`, `GeneralLinear/`,
+`RepresentationTheory/ClassicalGroups/`, `Combinatorics/Young/LittlewoodRichardson/`,
+`RingTheory/MvPolynomial/Symmetric/Schur/`. Layer 8 is not used.
 
 ## Layer 10: affine Weyl geometry and the coweight quotient `P∨/Q∨`
 
@@ -1557,7 +1612,7 @@ the semidirect-product convention.
 
 - [ClassicalGroups](../ClassicalGroups/README.md) Layer 3 consumes the classification of Layer 4.
 - [LieGroups](../LieGroups/README.md) consumes Layer 0's `sl₂` strings and integrality, Layer 3's
-  PBW theorem, Layer 7's Serre data and highest-weight lines, and §8.3's compact `G₂`.
+  PBW theorem, and Layer 7's Serre data and highest-weight lines.
 - [Ado–Iwasawa](../AdoIwasawa/README.md) consumes §3.1's PBW and finiteness over central scalars and
   §5.2's complete reducibility over an arbitrary field of characteristic zero.
 - [ChevalleyGroups](../../ChevalleyGroups/README.md) consumes Layers 3–4 and specializes §7.5's
