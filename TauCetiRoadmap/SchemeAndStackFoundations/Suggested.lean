@@ -43,8 +43,13 @@ Headline theorems that are not statable at the pins, and what each lacks:
   together they are a long encoding rather than a few simple definitions.
 * §5.8: Grothendieck–Riemann–Roch. The pins have no Chern character, Todd class or proper
   pushforward on `K_0` of a scheme.
-* §5.10: the Hodge index theorem. The pins have no intersection pairing on the Picard group of
-  a projective surface over a field; Tau Ceti's intersection matrices of numerical types are
+* §5.10: the Hodge index theorem. Tau Ceti's `LineBundleClass.intersectionNumber` pairs a
+  line-bundle class with a scheme `C ⟶ S` over the field (the Euler-characteristic degree of the
+  class restricted to `C`), and `LineBundleClass.IsAmple` is ampleness of a class; the pins have
+  no pairing of two classes on `Pic(S)` of a projective surface `S` (§5.9's
+  `deg(c_1(L) ∩ c_1(M) ∩ [S])`, or the Euler-characteristic form
+  `χ(O_S) − χ(L⁻¹) − χ(M⁻¹) + χ(L⁻¹ ⊗ M⁻¹)` on `Scheme.Modules.eulerCharBelow k S _ 3`), no
+  numerical equivalence and no `Num S`; the intersection matrices of numerical types are
   combinatorial data, not this pairing.
 -/
 

@@ -745,8 +745,8 @@ free one, which is the content of §0.6's reflexive hull. *Needs:* Mathlib `Quas
 Pseudo-coherence is Tau Ceti's. For modules, `TauCeti.Huber.IsPseudoCoherentOver R M m`
 (`TauCeti/Algebra/Module/PseudoCoherent/Basic.lean:89`) is `m`-pseudo-coherence, and `m = ⊤` is a
 resolution `⋯ → R^{a_1} → R^{a_0} → M → 0` by finite free modules (Stacks, Definition 15.66.1 (064Q);
-the chain-complex form is `exists_quasiIso_single₀`, `ChainComplex.lean:41`), with `finite`
-(`:127`), `finitePresentation` (`:217`; Lemma 15.66.4 (064T)), `of_isNoetherianRing` (`:391`; with
+the chain-complex form is `exists_quasiIso_single₀`, `ChainComplex.lean:41`), with, in `Basic.lean`,
+`finite` (`:127`), `finitePresentation` (`:217`; Lemma 15.66.4 (064T)), `of_isNoetherianRing` (`:391`; with
 `finite`, over a Noetherian ring pseudo-coherent is finite, Lemma 15.66.17 (066E)), `baseChange`
 along flat maps (`BaseChange.lean:42`) and the two-out-of-three statements `extension`, `cokernel`,
 `kernel` (`TwoOutOfThree.lean:109`, `:125`, `:143`; Lemma 15.66.6 (064V)). For module sheaves,
@@ -1286,7 +1286,7 @@ Cohen–Macaulay modules and rings are Tau Ceti's: `Module.IsCohenMacaulay R M`
 (`TauCeti/RingTheory/SerreCondition/Basic.lean:85`; `depth M_p ≥ min(n, dim Supp M_p)` at every prime,
 Definition 10.157.1 (031P)) and `Ring.SatisfiesSerreR n R` (`:199`), with `satisfiesSerreS_zero`
 (`:102`), `SatisfiesSerreS.mono` (`:112`), `forall_satisfiesSerreS_iff_forall_isCohenMacaulay` (`:118`)
-and `TauCeti.Ring.isCohenMacaulay_iff_forall_satisfiesSerreS` (`Ring.lean:59`), `satisfiesSerreS_one_iff`
+and `TauCeti.Ring.isCohenMacaulay_iff_forall_satisfiesSerreS` (`TauCeti/RingTheory/CohenMacaulay/Ring.lean:59`), `satisfiesSerreS_one_iff`
 (`:144`; Lemma 10.157.2 (031Q)), `SatisfiesSerreS.localization_self` (`:175`), `SatisfiesSerreR.mono`
 (`:211`) and `TauCeti.isReduced_iff_satisfiesSerreR_zero_and_satisfiesSerreS_one` (`:258`; Lemma 10.157.3
 (031R)).
@@ -1924,7 +1924,8 @@ distinct codomains. The declarations, all in `AlgebraicGeometry.Scheme` or
 `AlgebraicGeometry.Scheme.Hom` unless stated, are:
 
 - *Characteristic `p`*: `SchemeCharP.iff_structureMap` (`:132`), the structure map to
-  `Spec (ZMod p)` being unique (`Scheme/ToSpecZMod.lean:52`), `SchemeCharP.iff_forall_natCast_eq_zero` (`:98`), `.iff_affineOpens` (`:103`),
+  `Spec (ZMod p)` being unique (`Scheme/ToSpecZMod.lean:52`), and, in `Scheme/Characteristic.lean`,
+  `SchemeCharP.iff_forall_natCast_eq_zero` (`:98`), `.iff_affineOpens` (`:103`),
   `.spec_iff_natCast_eq_zero` (`:117`), `.charP_sections` (`:64`, nonempty opens), `.iff_of_iso`
   (`:78`), `.of_hom` (`:112`), and instances for the empty scheme, opens, products and fibre
   products (`:145`–`:168`).
@@ -3470,7 +3471,7 @@ Prove `qcoh_higherDirectImages`: for `f : X → S` quasi-compact and quasi-separ
 quasi-coherent, `R^p f_* F` is quasi-coherent, computed on affines by `H^p(f⁻¹ U, F)`, and
 commutes with filtered colimits. Use JacobianChallenge Layer C's flat-base-change comparison
 for these higher direct images. The uniform vanishing is Tau Ceti's: for affine `S`,
-`AlgebraicGeometry.Scheme.Modules.exists_subsingleton_cohomology_of_isAffine` bounds `H^p(X, F)` for
+`AlgebraicGeometry.Scheme.Hom.exists_subsingleton_cohomology_of_isAffine` bounds `H^p(X, F)` for
 all quasi-coherent `F` by a bound depending only on the qcqs map `f`, and for quasi-compact `S`,
 `AlgebraicGeometry.Scheme.Hom.exists_isZero_higherDirectImage` does the same for `R^p f_* F`
 (`TauCeti/AlgebraicGeometry/Cohomology/QuasiSeparated.lean`, `:198`; Stacks, Lemmas 30.4.1–30.4.6
@@ -3514,7 +3515,7 @@ ampleness); JacobianChallenge Layer B and Layer C (flat base change for qcqs mor
 *Lean:* `QCoh.isAffine_of_H1_vanishing` (the direction of `serre_affineness_criterion` from the
 vanishing of `H¹` of every quasi-coherent module to affineness). Citations of
 *QCoh.higherDirectImage_vanishing* to §2.6 resolve to
-`AlgebraicGeometry.Scheme.Modules.exists_subsingleton_cohomology_of_isAffine`.
+`AlgebraicGeometry.Scheme.Hom.exists_subsingleton_cohomology_of_isAffine`.
 
 ### 2.7 Cohomology with supports and local cohomology
 
@@ -3633,7 +3634,7 @@ sheaf on every coarser topology, with `bigSheaf_obj`, `bigSheaf_isSheaf`
 of sheaves), `bigSheaf_exact_of_flat_quotient` (a short exact sequence stays exact
 when its quotient is flat over `O_S`, so pullback to every test scheme stays exact), `bigSheaf_pullback` (restriction along `S' → S` is
 `(g^* F)^a`), `bigSheaf_structureSheaf` (`(O_S)^a` is the unit module; its underlying abelian sheaf is `𝔾_a`, with the structure-sheaf ring operations), `bigSheaf_fullyFaithful` (bijections on **O-linear** Hom sets;
-[Stacks, Lemma 35.8.8](https://stacks.math.columbia.edu/tag/03DR); fpqc descent of sections is
+[Stacks, Lemma 35.8.8](https://stacks.math.columbia.edu/tag/0GN7); fpqc descent of sections is
 Lemma 35.8.1, and the same O-linear Hom comparison applies to the fpqc carrier). The ring sheaf
 `bigStructureSheaf S` and the sheaves of abelian groups `Ga S` (`T ↦ Γ(T, O_T)`), `Gm S`
 (`T ↦ Γ(T, O_T)^×`) and `mu S n` (`T ↦ {t ∈ Γ(T, O)^× : t^n = 1}`) on the big fpqc site over `S` are
@@ -7452,8 +7453,9 @@ smooth proper geometric connectedness and invertible `ℓ`. *Needs:* §5.6, §5.
 **Checks.**
 - All products in (i)–(iv) as separate equalities. This geometric
   table needs a construction of `O(Γ)`, `O(Δ)` and the two fibre classes from a curve and its
-  relative Frobenius, with Cartier-divisor and degree comparisons, which `intersectionNumber` (a
-  pairing on line-bundle classes) does not supply. Those constructions are targets of
+  relative Frobenius, with Cartier-divisor and degree comparisons, which Tau Ceti's
+  `LineBundleClass.intersectionNumber` (the degree of a line-bundle class restricted to a curve
+  mapping to the surface, not a pairing of two classes) does not supply. Those constructions are targets of
   §5.6, using the scheme map §0.29 /
   the `q`-power Frobenius of §0.29 after base change from the finite field. Given the table,
   (iv) is a computation with the pairing alone: it fixes the signs `Γ_0² = −2gq`, `Δ_0² = −2g`
