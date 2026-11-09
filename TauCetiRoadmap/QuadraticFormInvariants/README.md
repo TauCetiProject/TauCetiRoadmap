@@ -336,13 +336,22 @@ Each layer states its results against this list.
   `TauCeti.inertiaDegree`, `TauCeti.absoluteRamificationIndex`, `TauCeti.teichmuller`,
   `TauCeti.card_squareClasses`, `TauCeti.normGroup`, `TauCeti.map_normUnits_unitFiltration` and
   `TauCeti.mem_normGroup_iff_dvd_normalizedValuation`, which that roadmap records there. Its
-  *Names imported by other roadmaps* re-exports them under its own namespace; this roadmap imports
-  no module of that roadmap and states everything on the Tau Ceti declarations.
+  *Names imported by other roadmaps* re-exports ten of them under its own namespace, the valuation,
+  ramification, unit-filtration, Teichmüller and norm-group names; the two finite-extension
+  declarations are Tau Ceti names only there, and `TauCeti.card_squareClasses` and
+  `TauCeti.map_normUnits_unitFiltration` appear only through specializations (the non-dyadic and
+  dyadic square-class counts, and the norm map at depth `0`). This roadmap imports no module of
+  that roadmap and states everything on the Tau Ceti declarations.
 - **From TauCetiRoadmap.ClassFieldTheory** ([Layers 5 and 14](../ClassFieldTheory/README.md)):
-  the coefficient object `μ_n`, the Kummer class, the Kummer-cup pairing, the local symbol and
-  local Tate duality (Layer 5), and Hilbert reciprocity (Layer 14). Both layers are proved in Tau
-  Ceti. That roadmap's `Suggested.lean` re-exports their objects under its own names (its README,
-  §6 *Downstream consumers*, table *Names imported from `Suggested.lean`*); this roadmap imports no
+  the coefficient object `μ_n`, the Kummer class, the Kummer-cup pairing, the local symbol and the
+  local invariant on `Br(K)` and on `H²(G_K, μ_n)` (Layer 5), and the local Hilbert invariants
+  with Hilbert reciprocity (Layer 14). Both layers are proved in Tau Ceti. Of these, that
+  roadmap's `Suggested.lean` re-exports `muNRep`, `kummerCupPairing` (Tau Ceti's for
+  `n ≠ 0`, and `0` at `n = 0`), `finiteHilbertInvariantAt` and `hilbertProductFormula` under its
+  own names (its README, §6 *Downstream consumers*, subsection *Names imported from
+  `Suggested.lean`*, and Layer 14); the Kummer class, the local symbol and the invariant on
+  `Br(K)` are Tau Ceti names only there, and the invariant on `H²(G_K, μ_n)` appears only as
+  `h2MuEquivZMod_mixed`, for a finite extension of `ℚ_p` and `n ≠ 0`. This roadmap imports no
   module of it and consumes the Tau Ceti declarations `TauCeti.ClassFieldTheory.muNRep`,
   `TauCeti.ClassFieldTheory.kummerClass`, `TauCeti.ClassFieldTheory.kummerCupPairing`,
   `TauCeti.ClassFieldTheory.localSymbol`, `TauCeti.ClassFieldTheory.invMap`,
@@ -1772,8 +1781,10 @@ stated: the vanishing statement `localSymbol (a) (b) = 0 ↔ (a,b)_K = +1`
 (`TauCeti.localSymbol_eq_zero_iff_hilbertSymbol_eq_one`) determines the sign only once one knows the
 target has two elements, and a consumer that needs the sign should not have to reprove that.
 Tau Ceti states the three declarations of this milestone, like `TauCeti.ClassFieldTheory.invMap`
-itself, for a local field `K : Type` in universe `0`, the universe of the whole development of
-TauCetiRoadmap.ClassFieldTheory (its Conventions); Milestone 1, the cup compatibility below and
+itself, for a local field `K : Type` in universe `0`, the universe of the formations, class
+formations and arithmetic layers of TauCetiRoadmap.ClassFieldTheory (its §2.1 *Formations*, which
+exempts the generic statements of its Layer 0 and the comparison of valuations of its Layer 5);
+Milestone 1, the cup compatibility below and
 `TauCeti.hilbertSymbol_eq_cohomological` are universe-polymorphic. A consumer whose field lives in
 a higher universe takes the sign identity from `TauCeti.hilbertSymbol_eq_cohomological` and
 restates the invariant-map form of this milestone there; Layer 7B item 5's
