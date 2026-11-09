@@ -8,8 +8,9 @@ import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
 # Orthogonal Tamagawa comparison and lattice masses: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
-and Tau Ceti, the headline theorems of the positive-definite lane: the numerical mass formula for
-an arbitrary positive definite integral genus of rank at least three (1.3), the even-unimodular
+and Tau Ceti, the headline theorems of the positive-definite branch: the numerical mass formula for
+an arbitrary positive definite integral genus of rank at least three (1.3), its rank-two form with
+the product over the primes taken in increasing order (1.3, through 1.4), the even-unimodular
 mass formula (3.1) and the unconditional class counts in ranks 16, 24, 32 and 40, over a small
 Gram-matrix presentation of native integral-lattice isometry classes (no second lattice or
 orthogonal-group carrier).
@@ -29,11 +30,12 @@ Not statable at the pins, and therefore not stated here:
   attached to a Jordan splitting over an unramified extension of `ℤ₂`;
 * the away-S Spin approximation and Eichler applications of 0.3: the algebraic Spin group
   with its almost-simple factors and its comparison with the native restricted product is
-  missing, as is the proper spinor-genus class carrier needed by the Eichler conclusion;
-* the same-form binary analytic and order/genus comparisons of 1.4: the native characters,
-  quadratic fields and order Picard groups exist, but the comparison from an integral lattice
-  to its primitive quadratic order, signed character and local-density genus has not been
-  constructed. No theorem on unrelated character and scalar variables stands in for it.
+  missing, as is the proper spinor-genus class carrier needed by the Eichler conclusion.
+
+The comparisons of 1.4 (from a binary lattice to its primitive quadratic order and signed
+character, the ordered Euler product at `s = 1`, and the class-number, unit, regulator and
+genus-index identities of that order) are steps of the proof of `genusMass_eq_rank_two` and
+supporting identities of the indefinite binary branch, not headlines of their own.
 -/
 
 noncomputable section
@@ -126,13 +128,27 @@ def localDensity {n : ℕ} (G : GramMatrix n) (p : ℕ) : ℝ :=
 /-- Siegel's mass formula, the numerical form of 1.3: for a positive definite integral Gram
 matrix `G` of rank `n ≥ 3`, the full mass of its genus is
 `2 π^(−n(n+1)/4) ∏_{j=1}^{n} Γ(j/2) · (det G)^((n+1)/2) · ∏_p (α_p(G)/2)⁻¹`,
-the product over all primes converging absolutely (Conway–Sloane, equations (2), (3), (6)). -/
+the product over all primes converging absolutely (Conway–Sloane, equation (2), p.263, with the
+density `α_p` and the `p`-mass related in §12, p.281). -/
 theorem genusMass_eq {n : ℕ} (hn : 3 ≤ n) (G : PositiveGram n) :
     (genusMass G : ℝ) =
       2 * Real.pi ^ (-((n : ℝ) * (n + 1)) / 4) *
         (∏ j ∈ Finset.Icc 1 n, Real.Gamma ((j : ℝ) / 2)) *
         (G.1.det : ℝ) ^ (((n : ℝ) + 1) / 2) *
         ∏' p : Nat.Primes, (localDensity G.1 p / 2)⁻¹ := by
+  sorry
+
+/-- Siegel's mass formula in rank two, the binary case of 1.3 obtained through 1.4: for a
+positive definite integral binary Gram matrix `G`, the partial products
+`(2/π) · (det G)^(3/2) · ∏_{p < N prime} (α_p(G)/2)⁻¹` tend to the full mass of the genus of `G` as
+`N → ∞`. Here `2 π^(−3/2) Γ(1/2) Γ(1) = 2/π`; at the primes not dividing `2 det G` the factor is
+`(1 − χ(p)/p)⁻¹` for the nontrivial quadratic character `χ` of `−det G`, so the product converges
+conditionally, in this order, and not absolutely (Conway–Sloane, equation (2), p.263, stated for `n ≥ 2`). -/
+theorem genusMass_eq_rank_two (G : PositiveGram 2) :
+    Filter.Tendsto
+      (fun N : ℕ => 2 / Real.pi * (G.1.det : ℝ) ^ ((3 : ℝ) / 2) *
+        ∏ p ∈ (Finset.range N).filter Nat.Prime, (localDensity G.1 p / 2)⁻¹)
+      Filter.atTop (nhds (genusMass G : ℝ)) := by
   sorry
 
 /-! ## Layer 3: The even-unimodular mass -/
@@ -155,8 +171,10 @@ def bernoulliFullMass (m : ℕ) : ℚ :=
 
 /-- The mass formula for even unimodular lattices: for `n > 0` divisible by `8`, the sum of
 `1/|O(L)|` over the classes of positive definite even unimodular lattices `L` of rank `n` is
-`|B_{n/2}/n| · ∏_{j=1}^{n/2−1} |B_{2j}/(4j)|` (Belolipetsky–Gan, Theorem 3.1, p.4, with the
-dyadic correction `λ₂ = 1` of §5, Corollary 5.3, p.7; Conway–Sloane, §9(iv), p.274). -/
+`|B_{n/2}/n| · ∏_{j=1}^{n/2−1} |B_{2j}/(4j)|` (Conway–Sloane, §9(iv), p.274). Belolipetsky–Gan,
+Theorem 3.1, p.4, with the dyadic correction `λ₂ = 1` of §5, Corollary 5.3, p.7, gives twice this
+value: their mass sums `1/|SO(L)|` over the proper classes, which is twice the full mass in
+positive rank. -/
 theorem evenUnimodularMass_eq (n : ℕ) (hn : 0 < n) (h8 : 8 ∣ n) :
     evenUnimodularMass n = bernoulliFullMass (n / 2) := by
   sorry
