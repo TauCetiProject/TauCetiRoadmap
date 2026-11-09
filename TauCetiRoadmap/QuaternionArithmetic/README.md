@@ -198,7 +198,7 @@ numbering and linked by directory. Nothing rests on a Mathlib pull request.
 The roadmaps consumed are: [quadratic form invariants](../QuadraticFormInvariants/README.md)
 (Layer 2 and sublayer 6C), [global quadratic forms](../GlobalQuadraticForms/README.md) (4.4, 5.5,
 6.1, 6.3), [class field theory](../ClassFieldTheory/README.md) (Layers 5, 10 and 14),
-[global number fields](../../Completed/GlobalNumberFields/README.md) (Layers 1, 6 and 11), the
+[global number fields](../../Completed/GlobalNumberFields/README.md) (Layers 1, 2, 4, 6 and 11), the
 [completed number-field arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md)
 (Layers 1 and 5), [classical arithmetic completion](../ClassicalArithmeticCompletion/README.md)
 (Layer 7, items 7.4, 7.20, 7.21, 7.44, 7.56, 7.60, 7.72, 7.77, 7.78, 7.98),
@@ -215,7 +215,10 @@ milestone under *Scope and ownership*.
   `adicCompletion`; `NumberField.InfinitePlace` with `IsReal` and `IsTotallyReal`; `ClassGroup`;
   `Matrix.SpecialLinearGroup`, `ProjectiveSpecialLinearGroup`, `UpperHalfPlane` with its
   `SL(2,ℝ)` action and `volume`; `MulAction.orbitRel.Quotient`, `MulAction.stabilizer`;
-  `Nat.totient`, `legendreSym`, `jacobiSym`; `SemidirectProduct`; `MeasureTheory.covolume`.
+  `Nat.totient`, `legendreSym`, `jacobiSym`; `SemidirectProduct`; `MeasureTheory.covolume`;
+  the unit subgroup `Submonoid.units` of a submonoid, with `Submonoid.mem_units_iff` (`x ∈ S.units`
+  iff `x` and `x⁻¹` lie in `S`; `Mathlib/Algebra/Group/Submonoid/Units.lean`), which is `O^×` in 1.2;
+  `Algebra.adjoin` and `IsSemisimpleRing` for the Hecke algebra of 7.3.
 - **From Tau Ceti at the pin** (module paths under `TauCeti/`): the norm form
   `QuaternionAlgebra.normForm`, `pureNormForm`, `normForm_apply`, `normForm_mul`, `isUnit_iff_normForm_isUnit`,
   `anisotropic_normForm_iff` (`Algebra/Quaternion/NormForm.lean`); the four-fold splitting criterion
@@ -251,15 +254,21 @@ milestone under *Scope and ownership*.
   of spaces homotopy equivalent to a finite CW complex (`Topology/CWComplex/Classical/FiniteCWType.lean`)
   and the Euler characteristic `TauCeti.eulerChar` of such a space
   (`AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean`), and the covolume scaling
-  `MeasureTheory.covolume_eq_card_mul_covolume` (`MeasureTheory/Group/FundamentalDomain.lean`).
-  Orders, maximal orders and left orders are Tau Ceti's `TauCeti.IntegralOrder.IsOrder` (an
-  `R`-subalgebra that is an `R`-lattice), `TauCeti.IntegralOrder.IsMaximalOrder` (maximal among
-  them) and `Submodule.leftOrder` (`RingTheory/IntegralOrder/{Basic,Maximal,LeftOrder}.lean`), the
-  carriers of classical arithmetic completion 7.4, 7.20 and 7.21: the bundle `QuatOrder` of
-  `Suggested.lean` is a subalgebra with the lattice property of `IsOrder`, `IsMax` in its
-  inclusion order is `IsMaximalOrder`, and `leftOrderSubalgebra I` has the carrier of
-  `Submodule.leftOrder I`; Tau Ceti has no right order, and `rightOrderSubalgebra` is its mirror
-  image. At the pin, `TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff`
+  `MeasureTheory.covolume_eq_card_mul_covolume` (`MeasureTheory/Group/FundamentalDomain.lean`);
+  the moduli and ray class groups `TauCeti.GlobalNumberFields.Modulus` (a nonzero finite part and a
+  `Finset` of real places), `IsCongrOne` (the valuation conditions at the primes of the finite part
+  and positivity at the infinite part) and `RayClassGroup`
+  (`NumberTheory/NumberField/Global/RayClass/{Modulus,Basic}.lean`), whose group with finite part
+  `⊤` and infinite part `Ω` is the `Cl_Ω R` of 4.1. Orders, maximal orders and left orders are, at
+  Tau Ceti `2fd255d` (the three modules are absent at `358314d`), Tau Ceti's
+  `TauCeti.IntegralOrder.IsOrder` (an `R`-subalgebra that is an `R`-lattice),
+  `TauCeti.IntegralOrder.IsMaximalOrder` (maximal among them) and `Submodule.leftOrder`
+  (`RingTheory/IntegralOrder/{Basic,Maximal,LeftOrder}.lean`), the carriers of classical
+  arithmetic completion 7.4, 7.20 and 7.21: the bundle `QuatOrder` of `Suggested.lean` is a
+  subalgebra with the lattice property of `IsOrder`, `IsMax` in its inclusion order is
+  `IsMaximalOrder`, and `leftOrderSubalgebra I` has the carrier of `Submodule.leftOrder I`; Tau
+  Ceti `2fd255d` has no right order, and `rightOrderSubalgebra` is its mirror image. At the pin,
+  `TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff`
   in `NumberTheory/LocalField/Quaternion/Invariant.lean` (line 79) identifies Hilbert symbol −1
   with local invariant 1/2 for a nonarchimedean local field with 2 invertible;
   `quaternionSubgroup_eq_twoTorsion` in the same file identifies the quaternion subgroup with Br(K)[2].
@@ -291,7 +300,7 @@ milestone under *Scope and ownership*.
   complex points Layer 8 and Layer 9 describe as `Γ \ ℍ`; R18.3.1 (the central quotient of the class set `Cl(U)` by the finite ideles of the centre);
   §R18.5.16a (for an Eichler order `R` of level `𝔑` in a quaternion algebra over a number field,
   with orders and maximal orders Tau Ceti's `TauCeti.IntegralOrder.IsOrder` and
-  `TauCeti.IntegralOrder.IsMaximalOrder`: item 1, over every discrete valuation ring `A`, an
+  `TauCeti.IntegralOrder.IsMaximalOrder` at Tau Ceti `2fd255d`: item 1, over every discrete valuation ring `A`, an
   `A`-order of `M₂(K)` is the intersection of two maximal orders iff it is conjugate to some
   `O_0(𝔭^e)` iff it contains a conjugate of `A × A`, with `e` and the pair of maximal orders unique,
   the ends of the path of length `e`; item 2, `R` is Eichler iff every completion is, the level is
@@ -359,7 +368,7 @@ milestone under *Scope and ownership*.
   finite place (`[L] ↦ End(L)` from the vertices of the tree to the maximal orders, adjacency to
   Eichler orders of level `v`, conjugation to the tree action, unit groups and normalizers to
   stabilizers); and the finiteness of maximal-order types over a totally real field. Its orders are
-  Tau Ceti's `TauCeti.IntegralOrder.IsOrder k O` on `𝓞_k`-subalgebras, which for `k = ℚ` are the
+  Tau Ceti's `TauCeti.IntegralOrder.IsOrder k O` (at Tau Ceti `2fd255d`) on `𝓞_k`-subalgebras, which for `k = ℚ` are the
   `ℤ`-orders of 1.1 through Mathlib's `Rat.ringOfIntegersEquiv`, and its `O ∩ B¹` (`B¹` Mathlib's
   `unitary`) is the norm-one group `O¹` of 1.2. Sections 0.3, 1.2, 1.6, 1.11, 3.5, 3.6, 4.6, 8.1
   and 8.2 consume these as stated there.
@@ -381,8 +390,10 @@ milestone under *Scope and ownership*.
   and 4.7 read 7.44 and 7.98 for `B` indefinite.
 - **From the completed number-field arithmetic roadmap:** Layer 1 (splitting of primes in a
   quadratic field, `legendreSym` dictionary) and Layer 5 (completions as local fields).
-- **From global number fields:** Layer 1 (weak approximation), Layer 6 (ideles and the idele class
-  group), Layer 11 (`NumberFieldOrder`, `Pic`, the conductor).
+- **From global number fields:** Layer 1 (weak approximation), Layer 2 (moduli and ray class
+  groups: Tau Ceti's `Modulus`, `IsCongrOne` and `RayClassGroup`, the carrier of `Cl_Ω R` in 4.1),
+  Layer 4 (finite adeles and the finite-idele description of the class group, used in 3.4), Layer 6
+  (ideles and the idele class group), Layer 11 (`NumberFieldOrder`, `Pic`, the conductor).
 
 The native bundle instances `instSetLikeQuatOrder` and `instPartialOrderQuatOrder` expose order
 membership and inclusion; `instNormalScalars` supplies the central scalar quotient of §9.2.
@@ -539,6 +550,9 @@ Its API:
 ### 0.4 The discriminant of `B`
 
 For the rational acceptance statements, `ramificationBound` is the nonzero integer bound above and `discNat` is the finite product defining D.
+Over a number field `disc B` is `discIdeal a b`, the `Finset` product of the `v.asIdeal` over the
+ramified places inside the finite support of the localized Hilbert symbol
+(`hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace`).
 
 Define `disc B = ∏_{v ∈ Ram_f B} v.asIdeal`, a product over the finite set of 0.3 (a `Finset`
 product, never `∏ᶠ`), and prove: `disc B` is squarefree; `disc B = 1 ↔ Ram_f B = ∅`; `disc` is
@@ -610,7 +624,7 @@ Pinned quaternion/Hilbert-symbol theory; ArithmeticFuchsianGroups §1.2; Quadrat
 
 ### 1.1 Lattices, left and right orders
 
-The acceptance bundle `QuatOrder` carries the native subalgebra and lattice property; `QuatOrder.toSubmodule` is its underlying module. The predicates `leftOrderSubalgebra` and `rightOrderSubalgebra` express the two multiplier orders on native subalgebras. The lattice property is Tau Ceti's `TauCeti.IntegralOrder.IsOrder`, maximality in the inclusion order of the bundle is `TauCeti.IntegralOrder.IsMaximalOrder`, and `leftOrderSubalgebra I` has the carrier of `Submodule.leftOrder I` (supplier contracts).
+The acceptance bundle `QuatOrder` carries the native subalgebra and lattice property; `QuatOrder.toSubmodule` is its underlying module. The predicates `leftOrderSubalgebra` and `rightOrderSubalgebra` express the two multiplier orders on native subalgebras. The lattice property is Tau Ceti's `TauCeti.IntegralOrder.IsOrder`, maximality in the inclusion order of the bundle is `TauCeti.IntegralOrder.IsMaximalOrder`, and `leftOrderSubalgebra I` has the carrier of `Submodule.leftOrder I`, all at Tau Ceti `2fd255d` (supplier contracts).
 
 Using the generic lattice-order and multiplier-order carriers in the supplier contracts, prove
 the quaternion-specific comparison O_L(star I) = star O_R(I) and its right-handed version
@@ -637,9 +651,10 @@ Its API:
 
 ### 1.2 Unit groups
 
-The signature definitions `units` and `normOne` realize these two groups as subgroups of Bˣ.
+The signature definitions `units` and `normOne` realize these two groups as subgroups of Bˣ;
+`units O` is Mathlib's `Submonoid.units` of the order, not a new construction.
 
-Define `O^×` (the units of the subalgebra) and `O¹ = {γ ∈ O^× : nrd γ = 1}`, a subgroup of `Bˣ`
+Define `O^×` (the units of the subalgebra, Mathlib's `Submonoid.units`) and `O¹ = {γ ∈ O^× : nrd γ = 1}`, a subgroup of `Bˣ`
 (closure under products is `normForm_mul`, inverses are `star`); `O¹` is ArithmeticFuchsianGroups
 §1.1's norm-one group `O ∩ B¹` (`B¹` Mathlib's `unitary`), realized here as a subgroup of `Bˣ`. Prove
 that `γ ∈ O` is a unit of `O` iff `nrd γ ∈ R^×` (`[V, Exercise 10.15]`, p. 158), so `nrd(O^×) ⊆ R^×`, that
@@ -754,9 +769,11 @@ completed NFA Layer 5.
 
 ### 1.7 The maximality criterion
 
-The rational maximality equivalence is `isMax_iff_discrdNat_eq`.
+The acceptance theorem `isMax_iff_discrd_eq_discIdeal` states the criterion over `𝓞 F`, comparing
+the integral ideal `discrd O` of `𝓞 F` with `discIdeal a b` (0.4); its integer form over `ℤ`, in the
+generators `discrd O` and `D` that the level of 1.9 uses, is `isMax_iff_discrdNat_eq`.
 
-For `R = 𝓞 F`: `O` is maximal iff `discrd O = disc B` (`[V, 15.5.5]`). Corollaries: maximal orders
+For `R = 𝓞 F`: `O` is maximal iff `discrd O = disc B` (`[V, 15.5.5]`, p. 241). Corollaries: maximal orders
 form one genus; two maximal orders have the same reduced discriminant; the maximal orders of the
 examples of 0.7: the Hurwitz order `ℤ⟨i, j, (1+i+j+k)/2⟩ ⊂ ℍ[ℚ,-1,-1]` (construct the displayed lattice as an order and prove maximality by its discriminant) and, for `ℍ[ℚ,3,-1]`,
 `O = ℤ⟨1, i, j, (1+i+j+k)/2⟩` with `discrd O = 6`. The Lipschitz order `ℤ⟨i,j⟩ ⊂ ℍ[ℚ,-1,-1]` has
@@ -807,10 +824,12 @@ For `R = 𝓞 F` and `O` Eichler, the local–global form, the level and the loc
 Hilbert modular varieties §R18.5.16a items 2–4, consumed: at `𝔭 | disc B`, `O_𝔭` is the unique
 maximal order; at `𝔭 ∤ disc B`, `O_𝔭 ≅ O_0(𝔭^e)` with `e = ord_𝔭 discrd O`; `discrd O = disc B · 𝔐`
 with the **level** `𝔐` coprime to `disc B`; and `[GL₂(R_𝔭) : O_0(𝔭^e)^×] = N𝔭^{e-1}(N𝔭 + 1)` for
-`e ≥ 1`, so that `[O(1)^× : O^×]` for a maximal `O(1) ⊇ O`, locally at every `𝔭 | 𝔐`, is
-`ψ(𝔐) = N𝔐 ∏_{𝔭|𝔐}(1 + 1/N𝔭)`. Prove here: the pair `(disc B, 𝔐)` determines the genus of `O`
+`e ≥ 1`, so that for a maximal `O(1) ⊇ O` the local indices `[O(1)_𝔭^× : O_𝔭^×]`, `𝔭 | 𝔐`,
+multiply to `ψ(𝔐) = N𝔐 ∏_{𝔭|𝔐}(1 + 1/N𝔭)`; these are local indices, and in a definite algebra
+the global index `[O(1)^× : O^×]` can be smaller (Off-hypothesis checks). Prove here: the pair `(disc B, 𝔐)` determines the genus of `O`
 (`[V, 23.4.19]`); over `ℚ`, `discrd O = DN` with `gcd(D,N) = 1`; the local indices of the norm-one
-groups are the same `ψ(𝔐)`, by the norm-maximality below. Prove that every Eichler order is locally norm-maximal:
+groups equal the local unit indices, `[O(1)_𝔭¹ : O_𝔭¹] = [O(1)_𝔭^× : O_𝔭^×]`, so their product is
+again `ψ(𝔐)`, by the norm-maximality below. Prove that every Eichler order is locally norm-maximal:
 `nrd(O_𝔭^×) = R_𝔭^×` for all `𝔭` (`[V, 28.5.16]`) — at the `𝔭` where `O_𝔭` is maximal this is
 classical arithmetic completion 7.60, consumed, and what is proved here is the case `𝔭 | 𝔐`,
 `O_𝔭 ≅ O_0(𝔭^e)` with `e ≥ 1`. *Needs:* 1.6–1.8; HilbertModularVarietiesAndShimuraCurves
@@ -1366,14 +1385,37 @@ Here `R = 𝓞 F` and `B` is indefinite (0.5). The input is adelic algebraic gro
 
 ### 4.1 Eichler's theorem on the class set
 
+The acceptance theorem `classNumber_eq_card_rayClassGroup` states `# Cls O = # Cl_Ω R` for an
+Eichler order `O` over `𝓞 F` in an indefinite `ℍ[F,a,b]`, with `Cl_Ω R` Tau Ceti's
+`RayClassGroup` of the modulus with finite part `⊤` and infinite part `Ω`, the real places at which
+the real Hilbert symbol is `−1`. Local norm-maximality needs the completed orders and is not a
+definition of `Suggested.lean`, so the theorem is stated for the Eichler orders, which 1.9 proves
+locally norm-maximal.
+
 Prove that `nrd` induces a bijection `Cls O → Cl_{G(O)} R` (`[V, 28.5.5]`), and for locally
 norm-maximal `O` (every Eichler order, 1.9) a bijection `Cls O → Cl_Ω R`, the ray class group of
-`R` with positivity at the real ramified places `Ω` (`[V, 28.5.17]`, `[V, 17.8.3]`). The
+`R` with positivity at the real ramified places `Ω` (`[V, 28.5.17]`, p. 475, `[V, 17.8.3]`). The
 strong-approximation input is adelic algebraic groups AA.4.2 and, in the form
 `J(B)′ = B^×′·(J(B)′ ∩ U(O))` for `B` satisfying Eichler's condition (for a quaternion algebra,
 indefiniteness, 0.5), classical arithmetic completion 7.44; both are consumed. Deduce: `# Cls O = # Cl_Ω R`; if `# Cl⁺ R = 1` then every
 proper invertible right ideal of an Eichler order is principal. *Needs:* 3.2, 3.4, 1.9; AA.4.2; CAC 7.44;
-GNF Layer 2 (ray class groups).
+GNF Layer 2 (ray class groups: Tau Ceti `RayClassGroup`, `Modulus`, `IsCongrOne`).
+
+**Checks.**
+
+- For `F = ℚ` and `B` indefinite the real place is unramified, `Ω = ∅`, and `Cl_∅ ℤ = Cl ℤ = 1`:
+  every Eichler order has one class, which is 4.3.
+- For `F = ℚ(√3)` (`h = 1`, narrow class number `2`, since the fundamental unit `2 + √3` has norm
+  `1`) and `B` ramified at one real place `w` and one finite prime, `Ω = {w}`; the unit `−1` is
+  negative at `w`, so every principal ideal has a generator positive at `w` and `# Cls O = 1`.
+  Positivity at both real places would give `2`, and that algebra would be totally definite, where
+  the theorem does not apply.
+- (convention) `Ω` is the set of ramified real places, not of split ones: for `F = ℚ(√3)` and `B`
+  ramified at two finite primes and at no real place, `Ω = ∅` and `# Cls O = h = 1`, while
+  positivity at the two split real places would give the narrow class number `2`.
+- (reject) For the definite algebra of discriminant `11` over `ℚ`, `Ω = {∞}` and `Cl_Ω ℤ`, the
+  narrow class group of `ℤ`, is trivial, while a maximal order has `# Cls O = 2` (5.6): the
+  indefiniteness hypothesis cannot be dropped.
 
 ### 4.2 Types
 
@@ -1523,7 +1565,8 @@ function of Mathlib (`dedekindZeta`) and its Euler product.
 Its API:
 
 - `φ(𝔇)` and `ψ(𝔐)` are multiplicative in coprime arguments, with `φ(𝔭) = N𝔭 − 1` and
-  `ψ(𝔭^e) = N𝔭^{e−1}(N𝔭 + 1)`, and `ψ(𝔐)` is the unit index `[O(1)^× : O^×]` of 1.9.
+  `ψ(𝔭^e) = N𝔭^{e−1}(N𝔭 + 1)`, and `ψ(𝔐) = ∏_{𝔭 | 𝔐}[O(1)_𝔭^× : O_𝔭^×]` is the product of the
+  local unit indices of 1.9; the global index `[O(1)^× : O^×]` can be smaller.
 - The mass of an Eichler order of level `𝔐` is `ψ(𝔐)` times the mass of a maximal order of the
   same algebra, and over `ℚ` the formula is 5.2.
 
@@ -1538,6 +1581,9 @@ Its API:
 - For `F = ℚ(√5)`, `d_F = 5`, `h_F = 1`, `ζ_F(2) = 2π⁴/(75√5)` and the algebra ramified exactly at
   the two real places, a maximal order has mass `2·(2π⁴/(75√5))·5^{3/2}/(2π)⁴ = 1/60`: one class whose
   unit group modulo `R^×` is the binary icosahedral group modulo `±1`, of order `60`.
+- (local index) At `(D, M) = (2, 7)`, `ψ(7) = [GL₂(ℤ₇) : O_0(7)^×] = 8` is the local index and the
+  mass is `8·(1/12) = 2/3`, while the global index is `[O(1)^× : O^×] = 24/6 = 4`: reading `ψ` as
+  the global index would give mass `1/3`.
 - (product form) For `F = ℚ`, `D = 2` and level `3`: `N𝔑 = 6` and `(1 − 1/2)(1 + 1/3) = 2/3` give
   `6·2/3 = 4 = φ(2)ψ(3)` and mass `4/12 = 1/3`; the sign `+` at the ramified prime would give
   `6·(3/2)(4/3) = 12` and mass `1`.
@@ -1578,7 +1624,7 @@ Layers 2 and 3; AdelicAlgebraicGroups §5.3; HilbertModularVarietiesAndShimuraCu
 ## Layer 6: optimal embeddings, embedding numbers, class and type number formulas
 
 `K ⊇ F` is a quadratic field extension with `K ⊆ B` embedded (every embedding is conjugate to
-this one by Skolem–Noether, Tau Ceti `CentralSimple/SkolemNoether`), and `S ⊆ K` a quadratic
+this one by Skolem–Noether, Tau Ceti `Algebra/CentralSimple/SkolemNoether.lean`), and `S ⊆ K` a quadratic
 `R`-order (for `F = ℚ`, `S : NumberFieldOrder K`; the maximal order `ℤ_K` as a `NumberFieldOrder`
 is Tau Ceti's `maximalNumberFieldOrder K`, `NumberTheory/NumberField/Global/Orders/Basic.lean` at the
 pin, and the statements below take `S = maximalNumberFieldOrder K`, equivalently
@@ -1609,10 +1655,26 @@ Its API:
 
 ### 6.2 Finiteness and the local embedding numbers of maximal orders
 
-Prove `m(S,O;Γ) < ∞` for `R = 𝓞 F`: for `Γ = O^×` the sum over `Cls O` of 6.4 is `h(S)` times a finite product of local embedding numbers (`[V, 30.4.7, (30.7.2)]`), and `[V, 30.3.14]` for `O¹ ≤ Γ ≤ O^×` together with the surjection `Emb(S,O;Γ) → Emb(S,O;Γ')` for `Γ ≤ Γ'` carry finiteness to every `Γ`; the local statement, for `R` a DVR, is `[V, 30.5.5]`. For R a complete DVR, m(S, M₂(R); GL₂(R)) = 1 for quadratic R-orders S. For the following division embedding counts assume in addition that the residue field is finite; for B
+Prove `m(S,O;Γ) < ∞` for `R = 𝓞 F`: for `Γ = O^×` the sum over `Cls O` of 6.4 is `h(S)` times a finite product of local embedding numbers (`[V, 30.4.7, (30.7.2)]`), and `[V, 30.3.14]` for `O¹ ≤ Γ ≤ O^×` together with the surjection `Emb(S,O;Γ) → Emb(S,O;Γ')` for `Γ ≤ Γ'` carry finiteness to every `Γ`; the local statement, for `R` a complete DVR with finite residue field (the standing hypothesis of `[V, §30.5]`), is `[V, 30.5.5]` (p. 541); without the finite residue field it fails (the first Check below). For R a complete DVR, m(S, M₂(R); GL₂(R)) = 1 for quadratic R-orders S. For the following division embedding counts assume in addition that the residue field is finite; for B
 division with valuation ring `O` and `S` integrally closed, `m(S,O;N_{B^×}(O)) = 1` and
 `m(S,O;O^×) = 1 − (K | 𝔭)`, where `(K|𝔭) ∈ {1, 0, −1}` is split, ramified, inert
 (`[V, 30.5.3]`); for `S` not maximal in a division `B`, `Emb(S,O) = ∅`. *Needs:* 6.1, 1.6.
+
+**Checks.**
+
+- (reject) Over `R = ℂ[[t]]`, with `O = O_0(t²)` and `S = R[t√t]`, the matrices
+  `g_s = [[ts, 1],[t²(t − s²), −ts]]`, `s ∈ R`, lie in `O`, satisfy `g_s² = t³` and give optimal
+  embeddings (an element `x + y·g_s` of `O` has `y ∈ R` from its `(1,2)` entry, then `x ∈ R`).
+  Conjugation by `O^×` preserves the image `(ts, −ts)` of `g_s` under the ring map
+  `O_0(t²) → R/t² × R/t²` onto the diagonal entries, so `s mod t ∈ ℂ` separates infinitely many
+  `O^×`-classes; the normalizer only swaps the two diagonal entries and leaves infinitely many.
+  Local finiteness needs the finite residue field.
+- For the division algebra over `ℚ₂` and its valuation ring: `ℤ₂[i]` (`ℚ₂(i)` ramified) gives
+  `m(S,O;O^×) = 1 − 0 = 1`, `ℤ₂[ζ₃]` (`ℚ₂(ζ₃)` unramified) gives `1 − (−1) = 2`, and
+  `ℤ₂[(1 + √−7)/2]` (`ℚ₂(√−7) ≅ ℚ₂ × ℚ₂`, since `−7 ≡ 1 (mod 8)`) gives `1 − 1 = 0`, no embedding.
+- (reject) `ℤ₂[2i]` embeds into the valuation ring `O` of the division algebra but never optimally:
+  `O` is the set of all integral elements, so every `φ(ℚ₂(i)) ∩ O` contains `φ(ℤ₂[i])`, and
+  `Emb(ℤ₂[2i], O) = ∅` while `ℤ₂[i]` has one class.
 
 ### 6.3 Local embedding numbers of Eichler orders
 
@@ -1797,15 +1859,26 @@ sum `q_v + 1` is §R18.5.16c item 2's row sum, consumed); for `𝔭 ∤ 𝔑`,
 
 ### 7.3 The Hecke algebra and its semisimplicity
 
+The acceptance theorems `brandtMatrix_commute` and `isSemisimpleRing_adjoin_brandtMatrix` state,
+over `𝓞 F` for a totally definite `ℍ[F,a,b]` and a complete set of class representatives, that
+`T(𝔪)` and `T(𝔫)` commute for nonzero `𝔪, 𝔫` each coprime to `discrd O` (not necessarily to each
+other), and that the `ℚ`-subalgebra of `M_h(ℚ)` generated by the `T(𝔫)` with `𝔫 ≠ 0` coprime to
+`discrd O`, which is `𝕋(O) ⊗ ℚ`, is a semisimple ring (Mathlib's `IsSemisimpleRing`).
+
 Define `𝕋(O) ⊆ M_h(ℤ)` generated by the `T(𝔫)` with `𝔫` coprime to `𝔑`; prove it commutative
-(`[V, 41.3.15]`); with the divisor pairing ⟨x,y⟩ = ∑ᵢ wᵢxᵢyᵢ prove T(𝔫)* = P(𝔫⁻¹)T(𝔫). For `O`
+(`[V, 41.3.6, 41.3.15]`, pp. 755–756; for coprime `𝔪, 𝔫` this is 7.2, and the recursion of 7.2
+for `T(𝔭^r)T(𝔭^s)` is symmetric in `r, s`); with the divisor pairing ⟨x,y⟩ = ∑ᵢ wᵢxᵢyᵢ prove T(𝔫)* = P(𝔫⁻¹)T(𝔫). For `O`
 Eichler and `𝔫 = 𝔭_v` as in 7.1, the commutativity of two such generators and the adjoint
 identity, in the transposed form `w_j B(v)_{ij} = w_i B(v)_{j,s_v(i)}`, are §R18.5.16c items 3–4,
 consumed.
 On functions use ⟨f,g⟩ = ∑ᵢ f(Iᵢ)g(Iᵢ)/wᵢ and the transpose identity for A(𝔫),
 so `T(𝔫)` is normal and self-adjoint for `𝔫` narrowly principal, and `𝕋(O) ⊗ ℚ` is semisimple with
-a common eigenbasis and real eigenvalues for narrowly principal `𝔫` (`[V, 41.4.3, 41.4.10]`).
-*Needs:* 7.2; HilbertModularVarietiesAndShimuraCurves §R18.5.16c.
+a common eigenbasis and real eigenvalues for narrowly principal `𝔫` (`[V, 41.4.3, 41.4.10]`,
+pp. 758–759): commuting operators normal for a positive definite form are simultaneously
+diagonalizable over `ℂ`, so `𝕋(O) ⊗ ℂ` is reduced, and a commutative finite-dimensional
+`ℚ`-algebra whose complexification is reduced is a product of fields.
+*Needs:* 7.2; HilbertModularVarietiesAndShimuraCurves §R18.5.16c; Mathlib `IsSemisimpleRing`,
+`Algebra.adjoin`.
 
 Its API:
 
@@ -1817,6 +1890,15 @@ Its API:
 - For D = 11, T(2)δ₁ = (1,2) on divisors, while A(2)δ₁ = (1,3) on functions.
 - With weights (2,3), the off-diagonal divisor pairings are 2·3 = 3·2 = 6; the function pairings are 3/3 = 2/2 = 1.
 - In the Hurwitz one-class case w = 12; T(3) = A(3) = (4), but the divisor and function squared basis norms are 12 and 1/12.
+- (commutativity) For `D = 11`, `T(2)T(3) = T(3)T(2) = [[8,6],[4,6]]`, and
+  `T(4) = T(2)² − 2·P(2) = [[7,3],[2,6]] − 2·1 = [[5,3],[2,4]]`, with column sums `7 = σ(4)`,
+  commutes with `T(2)` although `2` and `4` are not coprime.
+- (semisimplicity) For `D = 11`, `T(2)` has characteristic polynomial `λ² − λ − 6 = (λ − 3)(λ + 2)`,
+  `T(3)` has `λ² − 3λ − 4 = (λ − 4)(λ + 1)` and `T(4)` has `λ² − 9λ + 14 = (λ − 7)(λ − 2)`:
+  `ℚ[T(2)] ≅ ℚ × ℚ`. The eigenvalues are `3, 4, 7 = σ(2), σ(3), σ(4)` on one common eigenvector
+  and `−2, −1, 2 = a_2, a_3, a_4` of the weight-two newform of level `11` (7.5) on the other.
+- (reject) The unipotent matrix `[[1,1],[0,1]]` generates `ℚ[x]/(x − 1)²`, which is not semisimple;
+  it is normal for no positive definite form, and the adjoint identity above excludes it.
 
 ### 7.4 The Eichler trace formula
 
@@ -2078,8 +2160,8 @@ so `t = 0` (`γ² = −m`), or `m = 2`, `t = ±2` (`γ = 1 ± i'`, `i'² = −1`
 same point and are never `O¹`-conjugate for `D > 1`), from the `O¹`-classes of optimal embeddings
 `φ` with `φ(K^×) ∩ ℚ^× w_m O¹ ≠ ∅` onto `Fix(w_m)`. For `N = 1` every `γ ∈ O` with `nrd γ = m ∥ D`
 normalizes `O` (`Oγ` is two-sided: at `p | m` every one-sided ideal of the local division order
-is two-sided, at `p ∤ m` `γ_p` is a unit), so with 6.1 and 4.4 (Ogg's formula)
-`# Fix(w_m) = ∑_S m(S,O;O^×)`, the sum over `S = ℤ[√−m]`, `S = ℤ[(1+√−m)/2]` when `m ≡ 3 (mod 4)`,
+is two-sided, at `p ∤ m` `γ_p` is a unit), so with 6.1 and 4.4
+`# Fix(w_m) = ∑_S m(S,O;O^×)`, proved here by this route from 8.3 and 6.1–6.4, the sum over `S = ℤ[√−m]`, `S = ℤ[(1+√−m)/2]` when `m ≡ 3 (mod 4)`,
 and additionally `S = ℤ[i]` when `m = 2` (for `m = 3` the order `ℤ[ω] = ℤ[(1+√−3)/2]` is the second
 order already), where by 6.4 and `# Cls O = 1` each `m(S,O;O^×) = h(S)∏_{p|D} m_p(S)` with
 `m_p(S) = 1 − (K|p)` if `S_p` is the maximal order of `K_p` and `m_p(S) = 0` otherwise (6.2). For
@@ -2365,7 +2447,9 @@ Prove `ν_q(Γ_H) ≠ 0` only for `q ∈ {2, 3, 4, 6}` (8.7), and the genus form
 LMFDB verifies:
 `g(X_H) = 1 + [Γ_G : Γ_H]·(a(K)/#Aut_{±μ}(O))·φ(D)ψ(M)/12 − (1/2)∑_{q ∈ {2,3,4,6}} ν_q(Γ_H)(1 − 1/q)`,
 where `a(K)` is the aut-gerbiness, since `[Γ_G : Γ¹(O)] = #Aut_{±μ}(O)/a(K)` (9.4) and
-`area(Γ¹(O)\ℍ)/(4π) = φ(D)ψ(M)/12` (8.2). Prove the permutation form over an arbitrary base genus: with `e_1, …, e_r`
+`area(Γ¹(O)\ℍ)/(4π) = φ(D)ψ(M)/12` (8.2); its second term is the area formula
+`area(X_H)/(4π) = [Γ_G : Γ_H]·(a(K)/#Aut_{±μ}(O))·φ(D)ψ(M)/12`, from the finite-index scaling of
+covolume (8.2) along `Γ_H ≤ Γ_G` and `Γ¹(O) ≤ Γ_G`. Prove the permutation form over an arbitrary base genus: with `e_1, …, e_r`
 generators of the elliptic stabilizers of `Γ_G` and `σ_i` their images in the permutation
 representation of `Γ_G` on `Γ_G/Γ_H`, `2g(X_H) − 2 = [Γ_G:Γ_H](2g(X_G) − 2) + ∑_i ∑_{cycles c of σ_i}(|c| − 1)`
 (Riemann–Hurwitz, FO Layer 5.3, for `X_H → X_{G}`), and `ν_q(Γ_H)` is the number of cycles of
@@ -2543,7 +2627,7 @@ schema or the contents of a stored record.
 | quaternion algebra `(a,b/ℚ)` (`i_square`, `j_square`) | carrier | general |
 | `discB` | 0.4 | general |
 | `ℤ`-basis of `O` (`gens_numerators/denominators`), `discO` | 1.10 | general |
-| `area_numerator/denominator` (= `φ(D)ψ(M)/12`) | 8.2 | general |
+| `area_numerator/denominator`, read as `area(X_H)/(4π) = [Γ_G : Γ_H]·(a(K)/#Aut_{±μ}(O))·φ(D)ψ(M)/12`, which is `φ(D)ψ(M)/12` exactly when `[Γ_G : Γ_H] = [Γ_G : Γ¹(O)] = #Aut_{±μ}(O)/a(K)`, as for `Γ_H = Γ¹(O)` | 8.2, 9.6 | general; this reading is the roadmap's convention, and none of the knowls above defines the column |
 | polarization `mu`, `deg_mu` (`nrdmu`) | 9.1 | general |
 | `AutmuO_size`, `AutmuO_is_cyclic`, `AutmuO_generators`, `Gerby_gen` | 9.2, 9.4 | general; the generators as elements, their stored coordinates are presentation data |
 | `level`, `index`, `fuchsian_index`, `gerbiness`, `aut_gerbiness`, `is_coarse` | 9.5 | general |
@@ -2563,7 +2647,7 @@ schema or the contents of a stored record.
 ### 10.3 The worked suite
 
 The worked objects give values for the rows of 10.2 as follows: the algebra, `discB`, the basis
-and `discO` by 0.7, 1.10 and 2.7; the area by 8.2 and 9.9; the polarization and its degree by
+and `discO` by 0.7, 1.10 and 2.7; the area of `X_H` by 8.2, 9.6 and 9.9 (`1/6` for `X(6;1)` and `1/24` for `X^*(6;1)`, in units of `4π`); the polarization and its degree by
 9.1; the automorphism group by 9.3 and 9.4; the level, index, Fuchsian index, gerbiness and
 coarseness by 9.5 and 9.9; `nu2`, `nu3`, `nu4`, `nu6` and the genus by 8.3, 8.4 and 9.9 (`nu4`
 and `nu6` by `X^*(6;1)`); `torsion` by the fixed module of 9.7; `autmuO_norms` and `is_split` by
@@ -2766,7 +2850,8 @@ untwisted, one pair for each `S`: two classes, the LMFDB's `39.1` being the pair
   Series 22, AMS 2004, [DOI](https://doi.org/10.1090/crmm/022) — explicit maximal orders, the
   ternary forms of Layer 2, and tables of `X_0(D;N)` of low genus.
 - A. Ogg, *Real points on Shimura curves*, in *Arithmetic and Geometry I*, Progr. Math. 35,
-  Birkhäuser 1983 — the fixed-point counts of the Atkin–Lehner involutions used in 8.6.
+  Birkhäuser 1983 — the fixed points of the Atkin–Lehner involutions on `X_0(D;N)`, whose count
+  8.6 proves by its own route from the embedding numbers.
 - V. Rotger, *Modular Shimura varieties and forgetful maps*, Trans. AMS 356 (2004),
   [author edition](https://web.mat.upc.edu/victor.rotger/docs/ModularShimura.pdf) — polarized orders and the groups
   `Aut_{±μ}(O)` (Voight 43.6.4 follows §3 there).

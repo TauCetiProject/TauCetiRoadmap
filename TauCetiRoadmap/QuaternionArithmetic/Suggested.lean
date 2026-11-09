@@ -4,6 +4,8 @@ import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.NumberTheory.HilbertSymbol.Basic
 import TauCeti.NumberTheory.HilbertSymbol.Archimedean
 import TauCeti.NumberTheory.QuadraticForm.Global.Localization
+import TauCeti.NumberTheory.QuadraticForm.Global.HilbertSymbol
+import TauCeti.NumberTheory.NumberField.Global.RayClass.Basic
 import TauCeti.NumberTheory.NumberField.Global.Orders.Picard
 import TauCeti.NumberTheory.NumberField.Global.Orders.Discriminant
 import TauCeti.Analysis.Complex.UpperHalfPlane.PSL.Action
@@ -14,18 +16,25 @@ import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
 # Arithmetic of quaternion algebras and Shimura curves: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-arithmetic theorems against the pinned Mathlib and Tau Ceti APIs: the maximality criterion,
-unique Gorenstein saturation, the Bass property of Eichler orders, finiteness of ideal classes,
-Eichler's indefinite class-number and conjugacy theorems, the normalizer index, the Eichler mass
-formula over `ℚ` and, for Eichler orders, over a totally real field, the class-number formula,
-Deuring's type formula, the multiplicativity and column sums of Brandt matrices over a number
-field and their theta-series interpretation over `ℚ`, the area, elliptic points and genus of the
-Shimura curves `X_0(D;N)`, principal-polarization existence, and the polarized-automorphism
-classification. Only native bundles and definitions needed by those statements are included.
+arithmetic theorems against the pinned Mathlib and Tau Ceti APIs: the maximality criterion over
+the ring of integers of a number field and in its integer form over `ℤ`, unique Gorenstein
+saturation, the Bass property of Eichler orders, finiteness of ideal classes, Eichler's theorem
+`# Cls O = # Cl_Ω(𝓞 F)` for Eichler orders in an indefinite algebra over a number field, the
+class-number-one and conjugacy theorems over `ℚ`, the normalizer index, the Eichler mass formula
+over `ℚ` and, for Eichler orders, over a totally real field, the class-number formula, Deuring's
+type formula, the multiplicativity, column sums and commutativity of Brandt matrices and the
+semisimplicity of the Hecke algebra they generate over a number field, their theta-series
+interpretation over `ℚ`, the area, elliptic points and genus of the Shimura curves `X_0(D;N)`,
+principal-polarization existence, and the polarized-automorphism classification. Only native
+bundles and definitions needed by those statements are included.
 
 Not statable at the pins:
 * the even Clifford correspondence (§2.1), which needs the ideal-valued ternary quadratic modules
   and their twisted similarities;
+* Eichler's theorem for an arbitrary order (§4.1, `[V, 28.5.5]`), whose target `Cl_{G(O)} R` is
+  cut out by the reduced norms of the completed order `Ô^×`, and its form for every locally
+  norm-maximal order (`[V, 28.5.17]`), whose hypothesis `nrd(Ô^×) = R̂^×` needs the same completed
+  orders; the case of Eichler orders, which are locally norm-maximal (§1.9), is stated;
 * the mass formula for an arbitrary order (§§5.2–5.3, `[V, 25.3.19, 26.1.5]`), whose factor
   `λ(O,𝔭)` needs the Eichler symbol of §2.4, the classification of the semisimple residue algebra
   `O_𝔭/rad O_𝔭` as `k × k`, `k`, a quadratic field over `k` or a quaternion algebra over `k`;
@@ -122,6 +131,16 @@ variable {F : Type*} [Field F] [NumberField F]
 def IsRamifiedAt (a b : Fˣ) (v : HeightOneSpectrum (𝓞 F)) : Prop :=
   TauCeti.hilbertSymbol (v.unitAtFinitePlace a) (v.unitAtFinitePlace b) = -1
 
+open Classical in
+/-- **0.4** The discriminant `disc B = ∏_{v ∈ Ram_f B} 𝔭_v` of `ℍ[F,a,b]`, an ideal of `𝓞 F`: a
+`Finset` product over the ramified places, which lie in the finite support of the localized
+Hilbert symbol (Tau Ceti's `hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace`; `README.md`,
+Layer 0, 0.4; Conventions, Discriminant of `B`). -/
+def discIdeal (a b : Fˣ) : Ideal (𝓞 F) :=
+  ∏ v ∈ (Set.Finite.toFinset
+      (TauCeti.hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace a b)).filter (IsRamifiedAt a b),
+    v.asIdeal
+
 /-- **0.5** `ℍ[F,a,b]` is totally definite when `F` is totally real and the real Hilbert symbol of
 `(a, b)` is `-1` at every real place (`README.md`, Layer 0, 0.5; Conventions, Definite,
 indefinite). -/
@@ -191,23 +210,11 @@ def rightOrderSubalgebra (I : Submodule R ℍ[F,(a : F),(b : F)]) :
   algebraMap_mem' r x hx := by
     rw [← Algebra.commutes, ← Algebra.smul_def]; exact I.smul_mem r hx
 
-/-- **1.2** The unit group `Oˣ`, as the subgroup of `Bˣ` of units lying in `O` together with
-their inverses (`README.md`, Layer 1, 1.2). -/
-def units (O : QuatOrder a b R) : Subgroup ℍ[F,(a : F),(b : F)]ˣ where
-  carrier := {γ | (γ : ℍ[F,(a : F),(b : F)]) ∈ O ∧ ((γ⁻¹ : _ˣ) : ℍ[F,(a : F),(b : F)]) ∈ O}
-  one_mem' := by
-    show ((1 : ℍ[F,(a : F),(b : F)]ˣ) : ℍ[F,(a : F),(b : F)]) ∈ O ∧
-      (((1 : ℍ[F,(a : F),(b : F)]ˣ)⁻¹ : _ˣ) : ℍ[F,(a : F),(b : F)]) ∈ O
-    rw [inv_one, Units.val_one]
-    exact ⟨O.toSubalgebra.one_mem, O.toSubalgebra.one_mem⟩
-  mul_mem' := by
-    rintro γ δ ⟨hγ, hγ'⟩ ⟨hδ, hδ'⟩
-    refine ⟨?_, ?_⟩
-    · rw [Units.val_mul]; exact O.toSubalgebra.mul_mem hγ hδ
-    · rw [mul_inv_rev, Units.val_mul]; exact O.toSubalgebra.mul_mem hδ' hγ'
-  inv_mem' := by
-    rintro γ ⟨hγ, hγ'⟩
-    exact ⟨hγ', by rwa [inv_inv]⟩
+/-- **1.2** The unit group `Oˣ`: Mathlib's unit subgroup `Submonoid.units` of the order, whose
+members are the units `γ` of `B` with `γ ∈ O` and `γ⁻¹ ∈ O` (`Submonoid.mem_units_iff`;
+`README.md`, Layer 1, 1.2). -/
+abbrev units (O : QuatOrder a b R) : Subgroup ℍ[F,(a : F),(b : F)]ˣ :=
+  O.toSubalgebra.toSubmonoid.units
 
 /-- **1.2** The norm-one group `O¹ = {γ ∈ Oˣ : nrd γ = 1}` (`README.md`, Layer 1, 1.2). -/
 def normOne (O : QuatOrder a b R) : Subgroup ℍ[F,(a : F),(b : F)]ˣ where
@@ -293,8 +300,10 @@ theorem isMax_iff_discrdNat_eq (O : QuatOrder a b ℤ) : IsMax O ↔ discrdNat O
 1.9; Conventions, Maximal, Eichler, level). -/
 def level (O : QuatOrder a b ℤ) : ℕ := discrdNat O / discNat a b
 
-/-- **1.9** `ψ(N) = N ∏_{p | N}(1 + 1/p)`, the index of the unit groups of an Eichler order of
-level `N` in those of a maximal order containing it (`README.md`, Layer 1, 1.9). -/
+/-- **1.9** `ψ(N) = N ∏_{p | N}(1 + 1/p)`, the product over the primes `p | N` of the local unit
+indices `[O(1)_pˣ : O_pˣ]` of an Eichler order `O` of level `N` in a maximal order `O(1) ⊇ O`
+(`README.md`, Layer 1, 1.9). The global index is `ψ(N)` for the norm-one groups of an indefinite
+algebra (`relindex_normOne_eq_psi`), and can be smaller in a definite one. -/
 def psi (N : ℕ) : ℕ := ∏ p ∈ N.primeFactors, p ^ (N.factorization p - 1) * (p + 1)
 
 /-- **1.9, 8.2** `[O(1)¹ : O¹] = ψ(N)` for `O ⊆ O(1)` Eichler of level `N` inside a maximal order
@@ -307,6 +316,20 @@ theorem relindex_normOne_eq_psi (O O₁ : QuatOrder a b ℤ) (hind : ¬ IsDefini
     (normOne O).relIndex (normOne O₁) = psi (level O) := sorry
 
 end IntegralOrders
+
+/-! ### Layer 1 over the ring of integers of a number field -/
+
+section Layer1NumberField
+
+variable {F : Type*} [Field F] [NumberField F] {a b : Fˣ}
+
+/-- **1.7** The maximality criterion over the ring of integers of a number field: an order `O` is
+maximal iff its reduced discriminant, an integral ideal of `𝓞 F`, is the discriminant
+`disc B = ∏_{v ∈ Ram_f B} 𝔭_v` (`README.md`, Layer 1, 1.7; `[V, 15.5.5]`, p. 241). -/
+theorem isMax_iff_discrd_eq_discIdeal (O : QuatOrder a b (𝓞 F)) :
+    IsMax O ↔ (discrd O).comap (Algebra.linearMap (𝓞 F) F) = discIdeal a b := sorry
+
+end Layer1NumberField
 
 /-! ## Layer 2: Gorenstein and Bass orders -/
 
@@ -421,7 +444,29 @@ theorem card_atkinLehnerGroup {a b : ℚˣ} (O : QuatOrder a b ℤ) (hind : ¬ I
 
 end Layer3
 
-/-! ## Layer 4: Eichler's theorems for indefinite algebras over `ℚ` -/
+/-! ## Layer 4: Eichler's theorems for indefinite algebras -/
+
+section Layer4NumberField
+
+variable {F : Type*} [Field F] [NumberField F] {a b : Fˣ}
+
+open Classical in
+/-- **4.1** Eichler's theorem on the class set: for an Eichler order `O` over `𝓞 F` in an
+indefinite `ℍ[F,a,b]`, the reduced norm is a bijection `Cls O → Cl_Ω(𝓞 F)`, so
+`# Cls O = # Cl_Ω(𝓞 F)`, where `Cl_Ω` is Tau Ceti's ray class group of the modulus with unit finite
+part and infinite part the set `Ω` of real places at which the algebra ramifies: the invertible
+fractional ideals modulo the principal ideals with a generator positive at every place of `Ω`
+(`README.md`, Layer 4, 4.1; `[V, 28.5.17]`, p. 475, for the locally norm-maximal orders, which
+include the Eichler orders by 1.9). -/
+theorem classNumber_eq_card_rayClassGroup (O : QuatOrder a b (𝓞 F)) (hO : IsEichler O)
+    (hind : ¬ IsTotallyDefinite a b) :
+    classNumber O = Nat.card (RayClassGroup (K := F) ⟨⊤, top_ne_bot,
+      Finset.univ.filter fun w => TauCeti.hilbertSymbol (TauCeti.unitAtRealPlace w a)
+        (TauCeti.unitAtRealPlace w b) = -1⟩) := sorry
+
+end Layer4NumberField
+
+/-! ### Layer 4 over `ℚ` -/
 
 section Layer4
 
@@ -615,6 +660,29 @@ theorem sum_brandtMatrix_col (O : QuatOrder a b (𝓞 F)) (hdef : IsTotallyDefin
     {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥)
     (hcop : IsCoprime 𝔫 ((discrd O).comap (Algebra.linearMap (𝓞 F) F))) (j : Fin h) :
     ∑ i, brandtMatrix O reps 𝔫 i j = ∑ᶠ (𝔡 : Ideal (𝓞 F)) (_ : 𝔡 ∣ 𝔫), Ideal.absNorm 𝔡 := sorry
+
+/-- **7.3** Commutativity of the Hecke algebra: for nonzero ideals `𝔪, 𝔫` of `𝓞 F`, each coprime
+to `discrd O` but not necessarily to each other, and a complete set of class representatives,
+`T(𝔪)T(𝔫) = T(𝔫)T(𝔪)` (`README.md`, Layer 7, 7.3; `[V, 41.3.6, 41.3.15]`, pp. 755–756). -/
+theorem brandtMatrix_commute (O : QuatOrder a b (𝓞 F)) (hdef : IsTotallyDefinite a b) {h : ℕ}
+    (reps : Fin h → RightIdeal O)
+    (hreps : Function.Bijective (fun i => (Quot.mk (ClassRel O) (reps i) : ClassSet O)))
+    {𝔪 𝔫 : Ideal (𝓞 F)} (h𝔪 : 𝔪 ≠ ⊥) (h𝔫 : 𝔫 ≠ ⊥)
+    (h𝔪O : IsCoprime 𝔪 ((discrd O).comap (Algebra.linearMap (𝓞 F) F)))
+    (h𝔫O : IsCoprime 𝔫 ((discrd O).comap (Algebra.linearMap (𝓞 F) F))) :
+    Commute (brandtMatrix O reps 𝔪) (brandtMatrix O reps 𝔫) := sorry
+
+/-- **7.3** Semisimplicity of the Hecke algebra: for a complete set of class representatives, the
+`ℚ`-subalgebra of `M_h(ℚ)` generated by the Brandt matrices `T(𝔫)` of the nonzero ideals `𝔫`
+coprime to `discrd O`, which is `𝕋(O) ⊗ ℚ`, is a semisimple ring: the `T(𝔫)` commute and are
+normal for the divisor pairing `⟨x, y⟩ = ∑ᵢ wᵢxᵢyᵢ` (`README.md`, Layer 7, 7.3;
+`[V, 41.4.3, 41.4.10]`, pp. 758–759). -/
+theorem isSemisimpleRing_adjoin_brandtMatrix (O : QuatOrder a b (𝓞 F))
+    (hdef : IsTotallyDefinite a b) {h : ℕ} (reps : Fin h → RightIdeal O)
+    (hreps : Function.Bijective (fun i => (Quot.mk (ClassRel O) (reps i) : ClassSet O))) :
+    IsSemisimpleRing (Algebra.adjoin ℚ {M : Matrix (Fin h) (Fin h) ℚ | ∃ 𝔫 : Ideal (𝓞 F),
+      𝔫 ≠ ⊥ ∧ IsCoprime 𝔫 ((discrd O).comap (Algebra.linearMap (𝓞 F) F)) ∧
+        M = (brandtMatrix O reps 𝔫).map (Nat.cast : ℕ → ℚ)}) := sorry
 
 end Layer7NumberField
 
