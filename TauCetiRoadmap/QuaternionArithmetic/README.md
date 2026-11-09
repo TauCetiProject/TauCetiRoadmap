@@ -69,12 +69,13 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
   the adjoint identity, the Eichler trace formula, and the theta-series interpretation over `ℚ`.
 - **Shimura curves `X_0(D;N)` over `ℚ`** (Layer 8): the index `ψ(N)` and area of the Eichler-order
   group, its elliptic points as embedding numbers, the genus formula, the Atkin–Lehner involutions
-  and the quotients `X_0(D;N)/⟨w_m⟩` and `X^*(D;N)`, and CM points as optimal embeddings.
+  and the quotients `X_0(D;N)/⟨w_m⟩` and `X_0^*(D;N)`, and CM points as optimal embeddings.
 - **Polarized orders and enhanced groups** (Layer 9): polarizations and their degree,
   `Aut_μ(O)` and `Aut_{±μ}(O)`, the enhanced group `Aut_{±μ}(O) ⋉ (O/NO)^×`, the curve `X_H`
   of a subgroup `H`, and every group-theoretic invariant the LMFDB computes from `H` (level,
   index, Fuchsian index, gerbiness, coarseness, elliptic points of orders `2, 3, 4, 6`, genus,
-  torsion invariants, their comparison for marked QM surfaces (§§9.7–9.8), Atkin–Lehner content, the named families `X(D;N)`, `X^*(D;N)`, `X(D,M;1)`).
+  torsion invariants, their comparison for marked QM surfaces (§§9.7–9.8), Atkin–Lehner content, the named families `X(D;N)` and `X^*(D;N)` of full level `N` and
+  `X(D,M;1)`).
 - **The LMFDB dictionary** (Layer 10): the intrinsic label prefix `D.d.δ.N.i.g` and the coverage
   table of the Shimura-curve page.
 
@@ -177,13 +178,13 @@ Integer levels and congruence moduli are positive, and ideal norms in the counti
 | Brandt matrix | With representatives `I_1,…,I_h` of `Cls O`, `T(𝔫)_{ij} = #{J ⊆ I_j : nrd J = 𝔫·nrd I_j, [J] = [I_i]}` (`[V, 41.2.3]`); on the free module of classes this is T(𝔫); on functions M₂(O) = Map(Cls O, ℤ), the pullback operator A(𝔫) has `(A(𝔫)f)([I]) = ∑_{J ⊆ I, nrd J = 𝔫 nrd I} f([J])` and matrix T(𝔫)ᵗ (`[V, 41.2.6]`). Columns index the source class. |
 | Real splitting | For `B` indefinite over `ℚ`, `ι_∞ : B → M₂(ℝ)` is a fixed `ℚ`-algebra embedding; `det ∘ ι_∞ = nrd`. Changing `ι_∞` conjugates every group below inside `PGL₂(ℝ)`; every invariant stated is conjugation invariant. |
 | Fuchsian groups | `Γ¹(O) = ι_∞(O¹)/{±1} ≤ PSL₂(ℝ)`; `Γ¹_0(D;N) = Γ¹(O)` for `O` Eichler of level `N` in the algebra of discriminant `D`; `Γ⁺(O) = ι_∞(N_{B^×}(O)^{+})ℝ^×/ℝ^×`, the image of the positive-norm normalizer. `PSL(2,ℝ)` is Mathlib's `ProjectiveSpecialLinearGroup (Fin 2) ℝ` acting through Tau Ceti's `instMulActionPSL2`. |
-| Curves | `X_0(D;N) = Γ¹_0(D;N) \ ℍ`, `X^*(D;N) = Γ⁺(O) \ ℍ`; for `D > 1` these are compact Riemann surfaces (no cusps), and `genus` means the genus of the compact Riemann surface `Subgroup.CompactifiedQuotient Γ` (which is the coarse quotient itself) in the sense of Fuchsian orbifolds Layer 5. Area is hyperbolic area for `volume` on `ℍ` with density `y^{-2}dx dy`. |
+| Curves | `X_0(D;N) = Γ¹_0(D;N) \ ℍ`, `X_0^*(D;N) = Γ⁺(O) \ ℍ` (the full Atkin–Lehner quotient; the LMFDB's `X^*(D;N)` of full level `N` is 9.5's); for `D > 1` these are compact Riemann surfaces (no cusps), and `genus` means the genus of the compact Riemann surface `Subgroup.CompactifiedQuotient Γ` (which is the coarse quotient itself) in the sense of Fuchsian orbifolds Layer 5. Area is hyperbolic area for `volume` on `ℍ` with density `y^{-2}dx dy`. |
 | Elliptic points | `ν_q(Γ)` is the number of `Γ`-orbits of points of `ℍ` whose stabilizer in `Γ` has order `q ≥ 2`. The Gauss–Bonnet identity for a cocompact `Γ` reads `2g − 2 = area(Γ\ℍ)/(2π) − ∑_q ν_q(1 − 1/q)`. |
 | Polarization | For an order `O` in an indefinite `B/ℚ`, a **polarization** is `μ ∈ B^×` with `μ² ∈ ℤ_{<0}` and `trd(μO) ⊆ ℤ`, i.e. `μ ∈ O^♯`; its **degree** `deg μ` is the unique squarefree positive integer `δ` with `nrd(μ)/discrd(O) ∈ δ·(ℚ^×)²`. `(O,μ) ≃ (O',μ')` when a conjugation carrying `O` to `O'` carries `μ` to `μ'`. Voight's *principal* polarization of a maximal order (`μ² + D = 0`, `[V, 43.6.4]`) is the degree-`1` case. |
 | `Aut_{±μ}(O)` | `N_{B^×}(O) = {γ : γ^{-1}Oγ = O}`; `Aut_μ(O) = {γ ∈ N_{B^×}(O)/ℚ^× : γ^{-1}μγ = μ}` and `Aut_{±μ}(O) = {γ ∈ N_{B^×}(O)/ℚ^× : γ^{-1}μγ = ±μ}`. |
-| Enhanced group | `G(O,μ,N) = Aut_{±μ}(O) ⋉ (O/NO)^×` with `w` acting on `(O/NO)^×` by `x ↦ wxw^{-1}`; `G(O,μ) = Aut_{±μ}(O) ⋉ O^×`, with the reduction `ρ_N : G(O,μ) → G(O,μ,N)`. In Lean the carrier is Mathlib's `SemidirectProduct`, whose product is `(x₁,w₁)(x₂,w₂) = (x₁·w₁x₂w₁^{-1}, w₁w₂)`; the LMFDB code multiplies pairs `(w,x)` by `(w₁,x₁)(w₂,x₂) = (w₁w₂, w₂^{-1}x₁w₂·x₂)`. The map `(x,w) ↦ (w, w^{-1}xw)` is an isomorphism from the first group to the second (9.4); the subgroups `H` and every invariant below are the same under either convention. |
+| Enhanced group | `G(O,μ,N) = Aut_{±μ}(O) ⋉ (O/NO)^×` with `w` acting on `(O/NO)^×` by `x ↦ wxw^{-1}`; `G(O,μ) = Aut_{±μ}(O) ⋉ O^×`, with the reduction `ρ_N : G(O,μ) → G(O,μ,N)`. In Lean the carrier is Mathlib's `SemidirectProduct`, whose product is `(x₁,w₁)(x₂,w₂) = (x₁·w₁x₂w₁^{-1}, w₁w₂)`; the knowls `shimcurve.enhanced_group` and `shimcurve.is_coarse` write pairs `(w,x)` and make `(w,x) ↦ w·x` a homomorphism to `N_{B^×}(O)/ℚ^×`, which forces the product `(w₁,x₁)(w₂,x₂) = (w₁w₂, w₂^{-1}x₁w₂·x₂)`. The map `(x,w) ↦ (w, w^{-1}xw)` is an isomorphism from the first group to the second (9.4); the subgroups `H` and every invariant below are the same under either convention. |
 | `π` and the kernel | `π : G(O,μ) → N_{B^×}(O)/ℚ^×`, `π(x,w) = x·w` (in Mathlib's ordering), is a homomorphism; `K = ker π` is finite cyclic and contains `(−1, 1)`. `G(O,μ)^+` is the preimage of the positive-norm elements. |
-| `X_H` | For `H ≤ G(O,μ,N)`, `Γ_H = π(ρ_N^{-1}(H) ∩ G(O,μ)^+) ≤ PSL₂(ℝ)` and `X_H = Γ_H \ ℍ`. This is one geometric component of the LMFDB's `X_H`; the full `X(O;N)^{big} = B^×\(ℍ^± × B̂^×)/Γ(Ô,N)` has `φ(N)` components, each isomorphic over `ℂ` to `Γ(O,N)\ℍ`, and `X_H` is its quotient by `H`. All invariants the LMFDB lists are invariants of the component. |
+| `X_H` | For `H ≤ G(O,μ,N)`, `Γ_H = π(ρ_N^{-1}(H) ∩ G(O,μ)^+) ≤ PSL₂(ℝ)` and `X_H = Γ_H \ ℍ`. This is one geometric component of the LMFDB's `X_H`; the full `X(O;N)^{big} = B^×\(ℍ^± × B̂^×)/Γ(Ô,N)` has `φ(N)` components, each isomorphic over `ℂ` to `Γ¹(O;N)\ℍ` (9.5), and `X_H` is its quotient by `H`. All invariants the LMFDB lists are invariants of the component. |
 | LMFDB invariants of `H` | level `N(H)` = least `N` with `H ⊇ ker((O/N'O)^× → (O/NO)^×)` in the enhanced group at the ambient level `N'`; index `[G(O,μ,N) : H]`; Fuchsian index `[Γ_G : Γ_H]`; gerbiness `#ρ_{N(H)}(K)`, the order of the image of `K` in the enhanced group at the level of `H` (equal to `#ρ_N(K)` when `N = N(H)`); aut-gerbiness `#(image of K in Aut_{±μ}(O))`; `H` is **coarse** when `H ⊇ ρ_N(K)`. |
 | Intrinsic label prefix | `D.d.δ.N.i.g` with `D = disc B`, `d = discrd O` (omitted when `O` is maximal), `δ = deg μ`, `N` the level of `H`, `i` its index, `g` the genus of `X_H`. The suffix `c.n` is not an object of this roadmap. |
 
@@ -311,8 +312,10 @@ milestone under *Scope and ownership*.
   R18.1.3 supplies uniformization, and R18.1.7–8 supplies an auxiliary PEL bridge. Neither
   supplies the enhanced integral Galois representation. Sections 9.7–9.8 own its comparisons
   for a polarized QM surface with the specified integral module marking.
-- **From AbelianSchemesAndArithmeticModuli §§A0.1, A3.2, A3.9:** abelian schemes, finite étale
-  N-torsion in characteristic zero, and the Rosati involution. Sections 9.7–9.8 use these
+- **From AbelianSchemesAndArithmeticModuli §§A0.1, A3.2, A3.9, A6.20:** abelian schemes, finite étale
+  N-torsion in characteristic zero, the Rosati involution, and the full-level descent of
+  homomorphisms (every homomorphism `A_{k̄} → B_{k̄}` of abelian varieties over `k` is defined over
+  `k(A[n], B[n])` for `n ≥ 3` prime to the characteristic). Sections 9.7–9.8 use these
   with a number field, its algebraic closure and the natural Galois actions; they construct
   no moduli space and make no assertion that an arbitrary complex curve point descends.
 - **From adelic algebraic groups:** §4.4 “Nested-level map on double cosets” and
@@ -469,13 +472,14 @@ in the supplier contracts.
 
 ### 0.2 Local ramification predicates
 
-The rational local predicate is IsRamifiedAtPrime, with its primality instance explicit.
+The rational local predicate is IsRamifiedAtPrime, with its primality instance explicit; over a
+number field the finite-place predicate of the signatures is `IsRamifiedAt a b v`.
 
 For a finite place `v` of `F` write `a_v = v.unitAtFinitePlace a : (F_v)ˣ`, and for a real place
-`w` write `a_w = TauCeti.unitAtRealPlace w a : ℝˣ`. Define IsRamifiedAt B v :⟺ the local Hilbert symbol of a and b = -1
+`w` write `a_w = TauCeti.unitAtRealPlace w a : ℝˣ`. Define `IsRamifiedAt a b v` :⟺ `(a_v, b_v)_v = -1`
 and IsRamifiedAtReal B w :⟺ (a_w, b_w)_ℝ = -1. Prove:
 
-- IsRamifiedAt B v ↔ ¬ Nonempty (ℍ[F_v, a_v, b_v] ≃ₐ[F_v] Matrix (Fin 2) (Fin 2) F_v), from
+- `IsRamifiedAt a b v` ↔ ¬ Nonempty (ℍ[F_v, a_v, b_v] ≃ₐ[F_v] Matrix (Fin 2) (Fin 2) F_v), from
   `hilbertSymbol_eq_one_iff_nonempty_algEquiv_matrix`, and `↔ ∀ x ≠ 0 in ℍ[F_v,a_v,b_v], IsUnit x`
   (`forall_isUnit_or_nonempty_algEquiv_matrix`);
 - IsRamifiedAtReal B w ↔ a_w < 0 ∧ b_w < 0 (`hilbertSymbol_real`);
@@ -503,8 +507,8 @@ Its API:
 
 ### 0.3 The ramification set is finite of even cardinality
 
-Define `Ram_f B = {v | IsRamifiedAt B v}` and `Ram_∞ B = {w real | IsRamifiedAtReal B w}`. Prove
-the comparison `IsRamifiedAt B v ↔ v ∈ finiteRamification a b` with ArithmeticFuchsianGroups
+Define `Ram_f B = {v | IsRamifiedAt a b v}` and `Ram_∞ B = {w real | IsRamifiedAtReal B w}`. Prove
+the comparison `IsRamifiedAt a b v ↔ v ∈ finiteRamification a b` with ArithmeticFuchsianGroups
 §1.2's set (the norm form of `ℍ[F_v, a_v, b_v]` is anisotropic iff every nonzero element is a unit,
 `anisotropic_normForm_iff`, iff the local symbol is `−1`, 0.2), so that `Ram_f B` is that set; its
 finiteness and the parity `#Ram_f B + #Ram_∞ B ≡ 0 (mod 2)` are ArithmeticFuchsianGroups §1.2's,
@@ -514,7 +518,7 @@ which `2`, `a` and `b` are units is unramified (`hilbertSymbol_unitAtFinitePlace
 (`hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace a b` gives its finiteness a second time, at
 the pin); and the parity read as the localized product formula of global quadratic forms 4.4,
 `∏_v (a_v,b_v)_v = 1`, whose cohomological form is class field theory's `hilbertProductFormula`.
-Prove the local invariant reading: IsRamifiedAt B v ↔ finiteInvAt F v [B] = 1/2
+Prove the local invariant reading: `IsRamifiedAt a b v` ↔ finiteInvAt F v [B] = 1/2
 and IsRamifiedAtReal B w ↔ infiniteInvAt F w [B] = 1/2, where `[B] ∈ Br F` is the class of
 Tau Ceti's `quaternionClass a b` under the comparison `brauerGroupEquivBr`; Tau Ceti's
 `TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff` in
@@ -555,10 +559,11 @@ Its API:
 
 ### 0.5 Definite and indefinite
 
-The rational predicate in the signatures is `IsDefinite`.
+The rational predicate in the signatures is `IsDefinite`; over a number field it is
+`IsTotallyDefinite a b`.
 
-Define IsTotallyDefinite B :⟺ IsTotallyReal F ∧ ∀ w real, IsRamifiedAtReal B w and
-IsIndefinite B :⟺ ¬ IsTotallyDefinite B. Prove: over `ℚ`, definite iff `a < 0 ∧ b < 0`, and
+Define `IsTotallyDefinite a b` :⟺ IsTotallyReal F ∧ ∀ w real, IsRamifiedAtReal B w and
+IsIndefinite B :⟺ ¬ `IsTotallyDefinite a b`. Prove: over `ℚ`, definite iff `a < 0 ∧ b < 0`, and
 then `D` has an odd number of prime factors; indefinite iff `D` has an even number of prime
 factors; if `F` has a complex place then every `B` is indefinite; `B` totally definite implies
 `nrd` is positive definite at every real embedding and `B` is a division algebra. *Needs:*
@@ -888,7 +893,8 @@ For lattices `I, J ⊆ B` define the product `IJ` (the `R`-span of the products,
 `Submodule.mul`), **compatible** (`O_R(I) = O_L(J)`), **principal** (`I = O_L(I)α = αO_R(I)` for
 some `α ∈ B^×`), **locally principal** (`I_𝔭` principal for every `𝔭`), and **invertible**: there
 is a lattice `I'` with `II' = O_L(I)` and `I'I = O_R(I)` (`[V, 16.2.1, 16.2.4–16.2.5, 16.5.1]`). Define
-`nrd(I)` as the `R`-submodule of `F` generated by `{nrd α : α ∈ I}`. Prove `IJ` is a lattice
+`nrd(I)` (in the signatures `latticeNrd I`) as the `R`-submodule of `F` generated by
+`{nrd α : α ∈ I}` (`[V, 16.3.1]`, p. 253). Prove `IJ` is a lattice
 with `O_L(IJ) ⊇ O_L(I)`, `O_R(IJ) ⊇ O_R(J)`, that a principal lattice is invertible with
 `I' = α^{-1}O_L(I)`, and that invertibility is invariant under `AlgEquiv` and under `I ↦ star I`.
 Right fractional O-ideals are lattices I with IO ⊆ I; proper means O_R(I) = O.
@@ -1499,9 +1505,16 @@ in `ℝ⁴`), or, for the passage between levels, adelic algebraic groups AA.5.3
 
 ### 5.3 The Eichler mass formula over a totally real field
 
+The acceptance theorem `eichler_mass_formula_totallyReal` states the Eichler-order form below for
+`O` over `𝓞 F` in a totally definite `ℍ[F,a,b]` (`IsTotallyDefinite a b`), summing
+`[O_L(I)^× : (𝓞 F)^×]^{-1}` over a complete set of class representatives, with `φ(𝔇)ψ(𝔐)` written as
+`N𝔑·∏_{𝔭 | 𝔑}(1 + ε_𝔭/N𝔭)` for `𝔑 = discrd O`, `ε_𝔭 = −1` where `B` ramifies (`IsRamifiedAt`) and
+`ε_𝔭 = +1` elsewhere: this is the same number because `𝔑 = 𝔇𝔐` with `𝔇` squarefree and coprime to
+`𝔐` (1.9).
+
 `mass(Cls O) = (2ζ_F(2)/(2π)^{2n})·d_F^{3/2}·h_F·N𝔑·∏_{𝔭|𝔑} λ(O,𝔭)` (`[V, 26.1.5]`), and for
 Eichler orders of level `𝔐` in the algebra of discriminant `𝔇`,
-`mass(Cls O) = (2ζ_F(2)/(2π)^{2n})·d_F^{3/2}·h_F·φ(𝔇)ψ(𝔐)` (`[V, 26.1.12]`), where
+`mass(Cls O) = (2ζ_F(2)/(2π)^{2n})·d_F^{3/2}·h_F·φ(𝔇)ψ(𝔐)` (`[V, 26.1.12]`, p. 421), where
 `φ(𝔇) = ∏_{𝔭|𝔇}(N𝔭 − 1)` and `ψ(𝔐) = N𝔐∏_{𝔭|𝔐}(1 + 1/N𝔭)`. Over `ℚ` this is 5.2. The analytic
 inputs are the Dedekind zeta value `ζ_F(2)` and the residue formula; the proof route is the zeta
 function of the order (`[V, 26.4–26.6]`). *Needs:* 5.1, 3.10, 2.4; the Dedekind zeta
@@ -1525,6 +1538,9 @@ Its API:
 - For `F = ℚ(√5)`, `d_F = 5`, `h_F = 1`, `ζ_F(2) = 2π⁴/(75√5)` and the algebra ramified exactly at
   the two real places, a maximal order has mass `2·(2π⁴/(75√5))·5^{3/2}/(2π)⁴ = 1/60`: one class whose
   unit group modulo `R^×` is the binary icosahedral group modulo `±1`, of order `60`.
+- (product form) For `F = ℚ`, `D = 2` and level `3`: `N𝔑 = 6` and `(1 − 1/2)(1 + 1/3) = 2/3` give
+  `6·2/3 = 4 = φ(2)ψ(3)` and mass `4/12 = 1/3`; the sign `+` at the ramified prime would give
+  `6·(3/2)(4/3) = 12` and mass `1`.
 
 ### 5.4 Level change
 
@@ -1719,6 +1735,10 @@ representatives `I_1, …, I_h` and left orders `O_i = O_L(I_i)` (`[V, 41.2.1]`)
 
 ### 7.1 Definition
 
+The signature definition `brandtMatrix O reps 𝔫` is the matrix `T(𝔫)` of Conventions for a family
+`reps : Fin h → RightIdeal O`: its `(i, j)` entry counts the proper invertible right `O`-ideals
+`J ⊆ I_j` with `latticeNrd J = 𝔫 • latticeNrd I_j` in the class of `I_i` (`[V, 41.2.3]`, p. 751).
+
 Define T(𝔫) on the free module of classes and A(𝔫) on functions as in Conventions; prove
 that A(𝔫) has matrix T(𝔫)ᵗ in the characteristic-function basis and that `T(𝔫)` does not depend on the
 representatives (`[V, 41.2.5]`). Prove the element count
@@ -1751,6 +1771,11 @@ Its API:
 
 ### 7.2 Column sums and multiplicativity
 
+The acceptance theorems `sum_brandtMatrix_col` and `brandtMatrix_mul` state the two parts of
+`[V, 41.3.1]` (p. 754) over `𝓞 F` for a totally definite `ℍ[F,a,b]` and a complete set of class
+representatives: for `𝔫 ≠ 0` coprime to `discrd O` every column of `T(𝔫)` sums to
+`∑_{𝔡 | 𝔫} N𝔡`, and `T(𝔪𝔫) = T(𝔪)T(𝔫)` for coprime nonzero `𝔪, 𝔫`.
+
 Prove the column sums of `T(𝔫)` are constant, equal to `∑_{𝔡|𝔫} N𝔡` for `𝔫` coprime to `𝔑`, and
 `T(𝔪𝔫) = T(𝔪)T(𝔫)` for coprime `𝔪, 𝔫` (`[V, 41.3.1]`; at `𝔫 = 𝔭_v` and `O` Eichler the column
 sum `q_v + 1` is §R18.5.16c item 2's row sum, consumed); for `𝔭 ∤ 𝔑`,
@@ -1764,6 +1789,11 @@ sum `q_v + 1` is §R18.5.16c item 2's row sum, consumed); for `𝔭 ∤ 𝔑`,
 - `D = 11`: `T(2)T(3) = T(3)T(2) = [[8,6],[4,6]] = T(6)`, with column sums `12 = σ(6)`; on class
   functions it acts by the transpose `[[8,4],[6,6]]`.
 - (reject) The row sums are not constant: `4` and `2` for `T(2)`, `D = 11`.
+- (coprimality) For the Hurwitz order and `n = 2`, which divides `discrd O = 2`, the only right
+  ideal of norm `2` is the two-sided prime over `2`, so `T(2) = (1)`, not `σ(2) = 3`.
+- (complete representatives) Listing the class of `I_1` twice for `D = 11`, as `(I_1, I_1, I_2)`,
+  counts every `J` in that class twice: the column sums of the resulting `3 × 3` matrix for `n = 2`
+  are `1 + 1 + 2 = 4`, `4` and `3 + 3 + 0 = 6`, not `3`.
 
 ### 7.3 The Hecke algebra and its semisimplicity
 
@@ -1856,6 +1886,11 @@ sums `p + 1`, are the operators on class functions); `D = 37`:
 7.1, 5.6.
 
 ### 7.7 Theta series of ideals
+
+The acceptance theorem `exists_modularForm_qExpansion_brandtMatrix` states the case below: for
+`O` Eichler and any two proper invertible right ideals `I_i, I_j`, there is a modular form of weight
+`2` on `Γ₀(DM)` with `q`-expansion `1/#O_L(I_i)^× + ∑_{n ≥ 1} T(n)_{ij}qⁿ` (Mathlib's
+`ModularForm` and `UpperHalfPlane.qExpansion` with period `1`).
 
 For `B/ℚ` definite, `O` Eichler of level `M`, and invertible right ideals `I_i, I_j`, the lattice
 `L_{ij} = I_jI_i^{-1}` with the quadratic form `nrd/nrd(L_{ij})` is an even positive-definite
@@ -2012,8 +2047,13 @@ ArithmeticFuchsianGroups §1.1; FO Layers 1, 4, 5; Tau Ceti `TauCeti.eulerChar`,
 
 For `m ∥ DN` let `w_m ∈ N^+_{B^×}(O)` have norm `m` (4.6). Prove `w_m` normalizes `Γ¹(O)`, acts on
 `X_0(D;N)` with square the identity (and has order two when m > 1), that `m ↦ w_m` is an isomorphism `(ℤ/2)^{ω(DN)} → N^+/(ℚ^×O¹) =: W`,
-and define `Γ⁺(O) = ι_∞(N^+)ℝ^×/ℝ^×`, so `Γ⁺(O)/Γ¹(O) ≅ W` and `X^*(D;N) = Γ⁺(O)\ℍ = X_0(D;N)/W`.
-For a subgroup `W' ≤ W`, define `Γ_{W'}` and `X_0(D;N)/W'`. *Needs:* 4.5, 4.6, 8.1.
+and define `Γ⁺(O) = ι_∞(N^+)ℝ^×/ℝ^×`, so `Γ⁺(O)/Γ¹(O) ≅ W` and `X_0^*(D;N) = Γ⁺(O)\ℍ = X_0(D;N)/W`.
+For a subgroup `W' ≤ W`, define `Γ_{W'}` and `X_0(D;N)/W'`. The group structure is
+`[V, 28.9.10, 28.9.17]` (pp. 485–486): for `O` Eichler of reduced discriminant `𝔑` the two-sided
+ideals modulo those of `R` form `∏_{𝔭 | 𝔑} ℤ/2ℤ`, and for `B` indefinite `N_{B^×}(O)/ℚ^×O^×` is
+that group (`Cl ℤ = 1`), equal to `N^+/(ℚ^×O¹)` because `O` has a unit of norm `−1` (4.4); at
+`D = 6` the involutions are the `w₂, w₃, w₆` of positive norm of `[V, 43.2.15]` (p. 789).
+*Needs:* 4.5, 4.6, 8.1.
 
 Its API:
 
@@ -2023,7 +2063,7 @@ Its API:
 **Checks.**
 
 - `D = 6`, `N = 1`: `Γ⁺(O)/Γ¹(O) ≅ (ℤ/2)²`, of order `4 = 2^ω(6)`.
-- `X^*(6;1)` has genus `0`, and so does each `X_0(6;1)/⟨w_m⟩` (8.6).
+- `X_0^*(6;1)` has genus `0`, and so does each `X_0(6;1)/⟨w_m⟩` (8.6).
 - (reject) The normalizer contains a unit of norm `−1` (4.4), whose image has negative
   determinant; `Γ⁺(O)` is built from the positive-norm part only.
 
@@ -2052,7 +2092,7 @@ subset. By Riemann–Hurwitz (FO Layer 5.3)
 `h(−8)(1 − (−8|3)) = 0`; `# Fix(w_3) = m(ℤ[ω],O;O^×) = (1 − (−3|2))(1 − (−3|3)) = 2` and `ℤ[√−3]`,
 not maximal at `2 | D`, contributes `0`; `# Fix(w_6) = h(−24) = 2`; so each quotient
 `X_0(6;1)/⟨w_m⟩` has genus `(1/2)(0 + 1 − 1) = 0`, and `−2 = 4(2g^* − 2) + 6` gives
-`g(X^*(6;1)) = 0`. *Needs:* 8.3–8.5, 6.1–6.4.
+`g(X_0^*(6;1)) = 0`. *Needs:* 8.3–8.5, 6.1–6.4.
 
 **Checks.**
 
@@ -2067,7 +2107,11 @@ For `Γ¹(O) ≤ Γ' ≤ Γ⁺(O)`, prove that the stabilizer orders of `Γ'` li
 (an element of `N^+` with `γ² ∈ ℚ` has order `2` in `PSL₂(ℝ)`; `1 + i`, `1 + ζ₆` have orders `4`
 and `6`), and compute `ν_q(Γ')` from the embedding numbers of the orders `ℤ[√−m]`,
 `ℤ[(1+√−m)/2]`, `ℤ[i]`, `ℤ[ω]` through the orbit–stabilizer relation with `Γ¹(O)` (the elliptic
-ramification indices of Tau Ceti `Fuchsian/Elliptic/Ramification`). *Needs:* 8.3, 8.5, 8.6.
+ramification indices of Tau Ceti `Fuchsian/Elliptic/Ramification`). These are proved here: an
+element `γ` of finite order in `Γ'` generates an imaginary quadratic field `K = ℚ(γ)`, and
+`[x] ↦ x/x̄` embeds the torsion of `K^×/ℚ^×` into the roots of unity of `K`, of orders `2`, `4` or
+`6`, which bounds the stabilizer orders; the counts follow from 8.3 and 8.6 by orbit–stabilizer.
+*Needs:* 8.3, 8.5, 8.6.
 
 ### 8.8 The curves as canonical models
 
@@ -2165,11 +2209,15 @@ Its API:
 In the signatures `scalars` is the central scalar subgroup, `ConjugatesPmMu` is the sign-preserving predicate and `autPmMu` its image subgroup. The theorem `card_autPmMu_general` allows the smaller groups; `card_autPmMu` additionally assumes that μ normalizes O. Both carry the division and indefiniteness hypotheses explicitly.
 
 Define both as pinned, as subgroups of `N_{B^×}(O)/ℚ^×`. Prove: `Aut_μ(O) = (ℚ(μ)^× ∩ N_{B^×}(O))/ℚ^×`
-is finite cyclic of order 1, 2, 3, 4 or 6. When μ normalizes O it contains [μ] of order two,
+is finite cyclic of order 1, 2, 3, 4 or 6 (`[x] ↦ x/x̄` embeds the torsion of `ℚ(μ)^×/ℚ^×` into
+the roots of unity of the imaginary quadratic field `ℚ(μ)`). When μ normalizes O it contains [μ] of order two,
 so its order is then 2, 4 or 6; it has order
 `4` only if `ℚ(μ) ≅ ℚ(i)` (then generated by the class of an element `1 + i'` with `i'² = −1`
 normalizing `O`), of order `6` only if `ℚ(μ) ≅ ℚ(√−3)` (generated by `1 + ζ₆`);
-`[Aut_{±μ}(O) : Aut_μ(O)] ≤ 2`, with equality iff there is `χ ∈ N_{B^×}(O)` with `χμ = −μχ` (**twisting**), and then
+`[Aut_{±μ}(O) : Aut_μ(O)] ≤ 2`, with equality iff there is `χ ∈ N_{B^×}(O)` with `χμ = −μχ`
+(**twisting**; such a `χ ∈ O` with `χ² + nrd χ = 0` is a twist of `(O, μ)` in Rotger, *Modular
+Shimura varieties and forgetful maps*, §4, pp. 9–10, and conjugation by `N_{B^×}(O)` gives the
+isomorphisms of polarized orders, `[V, 43.6.5]`, p. 802), and then
 Aut±μ(O) is the semidirect product of that cyclic subgroup with a group of order two
 acting by inversion, hence has order 2, 4, 6, 8 or 12 in the twisted case. Without twisting
 it equals Aut_μ(O). Thus in general its cardinality lies in {1,2,3,4,6,8,12}; under the
@@ -2204,7 +2252,9 @@ pure element of `O` orthogonal to `μ` with `nrd χ = −2` or `−3`), dihedral
 discriminant `10`: order `4` for `deg μ ∈ {1, 2, 5}`; for discriminant `14`: order `2` (cyclic)
 for `deg 1`, `4` for `deg 7`, `8` for `deg 14`; for discriminant `26`: `2`, `4`, `4` for
 `deg 1, 2, 13`; for discriminant `35`: `2` for `deg 1`, `4` for `deg 5`; for the Eichler order of
-level `5` in discriminant `6` with `deg μ = 1`: order `4`; for level `11`: order `2`. Prove the
+level `5` in discriminant `6` with `deg μ = 1`: order `4`; for level `11`: order `2`. These values are
+evaluations of the twisting criterion of 9.2 on the stored orders and polarizations, as for the
+table of the worked examples. Prove the
 twisting criterion in the form used for all of these: for `deg μ = 1` and `O` maximal,
 `#Aut_{±μ}(O) = 4` iff the (negative definite) binary form `nrd` on `{v ∈ O : vμ = −μv}` represents
 `−m` for some `m ∣ D`, `m > 1`, and `2` otherwise. *Needs:* 9.2.
@@ -2226,10 +2276,14 @@ is finite cyclic of order `2`, `4` or `6`, containing `(−1, 1)`; π(G(O,μ)) =
 the positive-norm part `G(O,μ)^+ = π^{-1}(N^+/ℚ^×)` has index `2` and surjects onto every coset of
 `Aut_{±μ}(O)` (4.4 gives a unit of norm `−1`); and that `(x, w) ↦ (w, w^{-1}xw)` is an
 isomorphism onto the group of pairs `(w, x)` with the product
-`(w₁,x₁)(w₂,x₂) = (w₁w₂, w₂^{-1}x₁w₂x₂)` used by the LMFDB code. Prove the kernel of
+`(w₁,x₁)(w₂,x₂) = (w₁w₂, w₂^{-1}x₁w₂x₂)`, the pair order of the knowls `shimcurve.enhanced_group`
+and `shimcurve.is_coarse`, in which `(w, x) ↦ w·x` is a homomorphism. Prove the kernel of
 `G(O,μ)^+ → PSL₂(ℝ)` is `K`, so `π(G(O,μ)^+) ≅ G(O,μ)^+/K ≤ PSL₂(ℝ)` and
 Γ_G := π(G(O,μ)⁺) is the positive part of image(Oˣ)·Aut±μ(O) and contains Γ¹(O) with
-index `[Aut_{±μ}(O) : image of K]`. *Needs:* 9.2, 4.4, 4.6; Mathlib `SemidirectProduct`.
+index `[Aut_{±μ}(O) : image of K]`. The enhanced group is the semidirect product
+`Aut_{±μ}(O) ⋉ Ô^×` of the knowl `shimcurve.enhanced_group`, and `K` is the kernel of the map
+`(w, x) ↦ w·x` of the knowl `shimcurve.is_coarse`. *Needs:* 9.2, 4.4, 4.6; Mathlib
+`SemidirectProduct`.
 
 Its API:
 
@@ -2248,28 +2302,38 @@ Its API:
 
 ### 9.5 Subgroups `H`, level, index, `Γ_H`, `X_H`
 
-For `H ≤ G(O,μ,N)` define the level `N(H)`, the index `[G(O,μ,N) : H]`,
+For `H ≤ G(O,μ,N)` define the level `N(H)`, the index `[G(O,μ,N) : H]` (knowls `shimcurve.level`,
+`shimcurve.index`; the curve `X_H` and its stack are those of the knowl `shimcurve`),
 `Γ_H = π(ρ_N^{-1}(H) ∩ G(O,μ)^+) ≤ PSL₂(ℝ)`, and `X_H = Γ_H\ℍ`, as pinned. Prove: `Γ_H` is a
 finite-index subgroup of `Γ_G`, hence cocompact Fuchsian; the Fuchsian index
 `[Γ_G : Γ_H] = [G^+/K : (H^+K)/K]` where `H^+ = ρ_N^{-1}(H) ∩ G^+`; `X_H` depends only on the
 `G(O,μ,N)`-conjugacy class of `H`; replacing `N` by a multiple and `H` by its preimage does not
 change `Γ_H`; `H` and `H·ρ_N(K)` give the same curve, and `H` is coarse iff `H ⊇ ρ_N(K)`, with
-gerbiness `#ρ_N(K)` and aut-gerbiness as pinned. Compute the three extreme subgroups: the
-trivial subgroup of `G(O,μ,N)` has `Γ_H = Γ¹(O;N) := π(O¹ ∩ (1 + NO))`, the principal congruence
-subgroup (and `H = 1` is not coarse for `N > 2`, since `ρ_N(−1, 1) ≠ 1`); the subgroup
-`(O/NO)^× ⋊ 1` has `Γ_H = Γ¹(O)` (its preimage is `O^× ⋊ 1`, whose positive-norm part is
-`O¹ ⋊ 1`); the full group has `Γ_H = Γ_G`. So the named families are: `X(D;1)`
-(`H = 1 ≤ G(O,μ,1) = Aut_{±μ}(O)`, `O` maximal), whose curve is `Γ¹(O)\ℍ = X_0(D;1)`; `X(D;N)`
-(`H = (O/NO)^× ⋊ 1 ≤ G(O,μ,N)`), also `Γ¹(O)\ℍ` — the level structure changes the stack and the
-index, not the component's genus, exactly as the LMFDB tables record; `X^*(D;N)`
-(`H = G(O,μ,N)`), the curve `Γ_G\ℍ`, the quotient of `X_0(D;M)` by the image of
-`Aut_{±μ}(O)` in `W`; `X(D,M;1)` for `O` Eichler of level `M` and `H = 1`. The CM discriminants
+gerbiness `#ρ_N(K)` and aut-gerbiness as pinned. Compute the extreme subgroups: the
+trivial subgroup of `G(O,μ,N)` has level `N`, index `#Aut_{±μ}(O)·#(O/NO)^×` and
+`Γ_H = Γ¹(O;N) := π(O¹ ∩ (1 + NO))`, the principal congruence subgroup (and `H = 1` is not coarse
+for `N > 2`, since `ρ_N(−1, 1) ≠ 1`); the subgroup `(O/NO)^× ⋊ 1`, the kernel of
+`G(O,μ,N) → G(O,μ,1)` and so the preimage of the trivial subgroup of `G(O,μ,1)`, has level `1`
+and `Γ_H = Γ¹(O)` (its preimage is `O^× ⋊ 1`, whose positive-norm part is `O¹ ⋊ 1`); the full
+group has level `1` and `Γ_H = Γ_G`. The named families are those of the LMFDB knowls
+`shimcurve.xd1`, `shimcurve.xdn`, `shimcurve.xd1_star`, `shimcurve.xdn_star` and `shimcurve.xdm1`,
+read with the full level-`N` curve `X(O;N)^{big}` of the knowl `shimcurve` (the quotient by
+`Γ(Ô,N)`, so the trivial subgroup at level `N`). For `O` maximal: `X(D;N)` (`H = 1 ≤ G(O,μ,N)`)
+is the full level-`N` curve, of level `N`, index `#Aut_{±μ}(O)·#(O/NO)^×` and curve
+`Γ¹(O;N)\ℍ`, and `X(D;1)` is its case `N = 1`, with curve `Γ¹(O)\ℍ = X_0(D;1)`; `X^*(D;N)`
+(`H = {(1, w) : w ∈ Aut_{±μ}(O)}`, the complement `1 ⋊ Aut_{±μ}(O)`) is the quotient of `X(D;N)`
+by `Aut_{±μ}(O)`, of level `N` and index `#(O/NO)^×`, and `X^*(D;1)` (`H = G(O,μ,1)`) has curve
+`Γ_G\ℍ`, the quotient of `X_0(D;1)` by the image of `Aut_{±μ}(O)` in `W`. For `O` Eichler of level
+`M`, `X(D,M;1)` is `H = 1 ≤ G(O,μ,1)`. Since a subgroup and its preimage at a multiple of the level
+give the same curve and the same index, `(O/NO)^× ⋊ 1` and `G(O,μ,N)` give `X(D;1)` and `X^*(D;1)`
+again at every `N`. The CM discriminants
 of `X_H` are the `d` with `m(S_d, O; Γ̃_H) > 0` for the preimage `Γ̃_H ≤ N^+_{B^×}(O)` of `Γ_H`
-(8.9). Caution: `X^*(D;1)` in the LMFDB sense is the
-quotient by the image of `Aut_{±μ}(O)` in `W`, which is all of W exactly when the projection to W is surjective
-(as for D = 6, degree one); its cardinality is #Aut±μ(O)/a(K), and it can be proper (for `D = 14`, `deg μ = 1`, it is
-the quotient by one involution); it coincides with the classical `X^*(D;N)` of 8.5 only in the
-first case. *Needs:* 9.4, 8.1, 8.5, 8.9.
+(8.9). Caution: `X^*(D;1)` is the quotient of `X_0(D;1)` by the image of `Aut_{±μ}(O)` in `W`,
+which is all of W exactly when the projection to W is surjective (as for D = 6, degree one); its
+cardinality is #Aut±μ(O)/a(K), and it can be proper (for `D = 14`, `deg μ = 1`, it is the quotient
+by one involution); it coincides with the full Atkin–Lehner quotient `X_0^*(D;1)` of 8.5 only in
+the first case. For `N > 1`, `X^*(D;N)` (full level `N` on a maximal order) and `X_0^*(D;N)` (an
+Eichler order of level `N`) are different curves. *Needs:* 9.4, 8.1, 8.5, 8.9.
 
 Its API:
 
@@ -2280,7 +2344,17 @@ Its API:
 **Checks.**
 
 - `X(6;1)`: `H = 1 ≤ G(O_6,μ,1) = Aut_{±μ}(O_6)` has index `4` and `Γ_H = Γ¹(O_6)`.
-- `H = (O/NO)^× ⋊ 1` gives `Γ¹(O)` at every level `N`, and `H = G(O,μ,N)` gives `Γ_G`.
+- `X(6;5)`: `H = 1 ≤ G(O_6,μ,5)`, with `(O_6/5O_6)^× ≅ GL₂(𝔽₅)` of order `480`, has level `5` and
+  index `4·480 = 1920`. `Γ¹(O_6;5)` is torsion free (an element of `1 + 5O_6` has reduced trace
+  `≡ 2 (mod 5)`, while the nontrivial torsion of `O_6¹` has trace `0`, `±1` or `−2`) of index
+  `#SL₂(𝔽₅)/2 = 60` in `Γ¹(O_6)`, so its area is `60·(2π/3) = 40π`, `2g − 2 = 20`, the genus is
+  `11` and the label prefix is `6.1.5.1920.11`.
+- `X^*(6;5)`: `H = {(1, w)}` has level `5`, index `480` and Fuchsian index `120`: `Γ_H` contains
+  `Γ¹(O_6;5)` with index `2` (the positive-norm classes `1`, `[μ]` of `Aut_{±μ}(O_6)`), and
+  `[Γ_G : Γ¹(O_6;5)] = 4·60 = 240`.
+- (reject) `(O/5O)^× ⋊ 1 ≤ G(O_6,μ,5)` is the kernel of reduction to level `1`, so it has level `1`,
+  index `4`, curve `Γ¹(O_6)\ℍ` and prefix `6.1.1.4.0`, those of `X(6;1)`; it is not `X(6;5)`.
+  Likewise `H = G(O,μ,N)` has level `1` and gives `Γ_G` at every `N`.
 - (coarseness) `H = 1` is not coarse for `N > 2`, since `ρ_N(−1, 1) ≠ 1`; at `N = 1`, `ρ_1(K)` is
   trivial, the gerbiness is `1` for `D = 6`, and `H = 1` is coarse.
 - (reject) `H` and `H·ρ_N(K)` have the same `Γ_H`, so `Γ_H` does not determine `H`.
@@ -2310,7 +2384,8 @@ length `e_i/q` among the `σ_i` with `e_i` the order of the elliptic element. *N
 ### 9.7 Torsion invariants and the action on `O/NO`
 
 Define the right action of `G(O,μ,N)` on `O/NO` by y·(w,x) = w⁻¹yw·x in the LMFDB pair order, equivalently
-y·(x,w) = w⁻¹(yx)w in Mathlib order ( the `GL₄(ℤ/N)` embedding of the code) and the **torsion invariants** of `H` as the
+y·(x,w) = w⁻¹(yx)w in Mathlib order (a `ℤ`-basis of `O`, 1.10, identifies `O/NO` with `(ℤ/N)⁴`
+and this action with a homomorphism `G(O,μ,N) → GL₄(ℤ/N)`), and the **torsion invariants** of `H` as the
 abelian group invariants of `(O/NO)^H`. Prove the action is faithful on `(O/NO)^×` and that for
 H containing the residue units the fixed module is the H-fixed part of
 {y : y(u−1) = 0 for every residue unit u}. Prove vanishing whenever the right ideal generated
@@ -2361,8 +2436,12 @@ hence with Gal(k_end/k). The action of N(O)/ℚˣ on O is faithful since O spans
 B has centre ℚ; thus the projection has exactly this kernel, not merely the kernel of
 its action on O/NO. This comparison uses the same semilinear construction as §9.7 and
 faithful descent of morphisms; it does not assign an endomorphism field to an abstract H.
+It is proved here from 9.7: `θ` has finite image because every geometric endomorphism is defined
+over the finite extension `k(A[3])` (AbelianSchemesAndArithmeticModuli A6.20), and the descent
+statement used is that a geometric endomorphism is defined over an intermediate field `L` exactly
+when `Gal(k̄/L)` fixes it, the form in which A6.20 descends homomorphisms.
 Define `IsSplit H` to hold when some conjugate of `H` is the internal semidirect product of its
-intersections with `(O/NO)^×` and with `Aut_{±μ}(O)`. *Needs:* 9.4, 9.5, 9.7; AbelianSchemesAndArithmeticModuli §A0.1.
+intersections with `(O/NO)^×` and with `Aut_{±μ}(O)`. *Needs:* 9.4, 9.5, 9.7; AbelianSchemesAndArithmeticModuli §A0.1, A6.20.
 
 Its API:
 
@@ -2402,8 +2481,8 @@ index `4`, `ν₂ = 4`, genus `1`, prefix `6.30.1.1.4.1` (with `d = 30`); `X(6,1
 Prove: the definite algebra `ℍ[ℚ,-1,-1]` admits no real splitting, so Layer 8–9 constructions
 reject it; a subgroup `H` not containing `ρ_N(K)` has the same `Γ_H` as `H·ρ_N(K)` (so distinct
 `H` give the same curve: `is_coarse = false` cases); `deg μ` is not `nrd(μ)/discrd(O)` (for `D = 6`,
-`deg μ = 2` has `nrd μ = 3`, `nrd μ/6 = 1/2`); the classical `X^*(14;1) = X_0(14;1)/(ℤ/2)²` differs
-from the LMFDB's `X^*(14;1)` for `deg μ = 1`; the torsion of `ℚ(μ)^×/ℚ^×` is not `Aut_μ(O)`: for
+`deg μ = 2` has `nrd μ = 3`, `nrd μ/6 = 1/2`); the full Atkin–Lehner quotient `X_0^*(14;1) = X_0(14;1)/(ℤ/2)²`
+differs from the LMFDB's `X^*(14;1)` for `deg μ = 1`; the torsion of `ℚ(μ)^×/ℚ^×` is not `Aut_μ(O)`: for
 `D = 21`, `deg μ = 21` (`μ = 21i'`, `i'² = −1`) the element `1 + i'` has norm `2 ∤ 21` and does not
 normalize `O` (`O_2 ≅ M₂(ℤ_2)`, whose normalizer `ℚ_2^×GL₂(ℤ_2)` has norms of even valuation), so
 `Aut_μ(O) = {1, [i']}` and `#Aut_{±μ}(O) = 4` (twisted by `χ² = 21`), not `8`; likewise `D = 33`,
@@ -2416,7 +2495,7 @@ The degree-one polarization at D = 6 is twisted; the full residue-unit subgroup 
 
 ### Dependencies
 
-Layers 4, 6 and 8; native semidirect products; AbelianSchemesAndArithmeticModuli §§A0.1, A3.2, A3.9 for the arithmetic comparisons.
+Layers 4, 6 and 8; native semidirect products; AbelianSchemesAndArithmeticModuli §§A0.1, A3.2, A3.9, A6.20 for the arithmetic comparisons.
 
 ## Layer 10: the LMFDB dictionary
 
@@ -2449,8 +2528,13 @@ The mathematical dictionary uses the LMFDB knowls
 [enhanced groups](https://www.lmfdb.org/knowledge/show/shimcurve.enhanced_group),
 [order discriminant](https://www.lmfdb.org/knowledge/show/shimcurve.disco),
 [level](https://www.lmfdb.org/knowledge/show/shimcurve.level),
-[index](https://www.lmfdb.org/knowledge/show/shimcurve.index), and
-[labels](https://www.lmfdb.org/knowledge/show/shimcurve.label), by those exact identifiers.
+[index](https://www.lmfdb.org/knowledge/show/shimcurve.index),
+[labels](https://www.lmfdb.org/knowledge/show/shimcurve.label), and the named families
+[`X(D;1)`](https://www.lmfdb.org/knowledge/show/shimcurve.xd1),
+[`X(D;N)`](https://www.lmfdb.org/knowledge/show/shimcurve.xdn),
+[`X^*(D;1)`](https://www.lmfdb.org/knowledge/show/shimcurve.xd1_star),
+[`X^*(D;N)`](https://www.lmfdb.org/knowledge/show/shimcurve.xdn_star) and
+[`X(D,M;1)`](https://www.lmfdb.org/knowledge/show/shimcurve.xdm1), by those exact identifiers.
 The table specifies mathematical meanings; it does not certify a version of the database
 schema or the contents of a stored record.
 
@@ -2468,7 +2552,7 @@ schema or the contents of a stored record.
 | `torsion` | 9.7 | fixed-module invariant; rational torsion under the integral QM comparison hypotheses |
 | `autmuO_norms`, `is_split`, `galEnd` (as the group `H̄`) | 9.8 | group invariants; endomorphism-field interpretation under the comparison hypotheses; no group label |
 | `cm_discriminants` | 8.9, 9.5 | general |
-| `name` (`X(D;N)`, `X^*(D;N)`, `X(D,M;1)`) | 9.5 | general |
+| `name` (`X(D;1)`, `X(D;N)`, `X^*(D;1)`, `X^*(D;N)`, `X(D,M;1)`) | 9.5 (knowls `shimcurve.xd1`, `shimcurve.xdn`, `shimcurve.xd1_star`, `shimcurve.xdn_star`, `shimcurve.xdm1`; `X(D;N)` is the full level-`N` curve) | general |
 | `coarse_label`, `psl2label`, `scalar_label`, `Glabel`, `c.n` | — | none: labels and ordering |
 | `rank`, `genus_minus_rank`, `dims`, `mults`, `newforms`, `conductor`, `simple`, `squarefree`, `trace_hash` | — | none: Jacquet–Langlands (R17.3) and the modular-forms roadmap |
 | `q_gonality`, `qbar_gonality`, `models`, `modelmaps`, `pointless`, `obstructions`, `num_known_degree1_points` | — | none: `CanonicalModelsAndGonality`, rational points |
@@ -2692,5 +2776,6 @@ untwisted, one pair for each `S`: two classes, the LMFDB's `39.1` being the pair
   modular forms that 7.5 records.
 - The LMFDB knowls `shimcurve`, `shimcurve.polarized_order`, `shimcurve.aut_pm_mu_o`,
   `shimcurve.enhanced_group`, `shimcurve.level`, `shimcurve.index`, `shimcurve.is_coarse`,
-  `shimcurve.nrdmu`, `shimcurve.disco`, `shimcurve.eichler`, `shimcurve.label` — the definitions
+  `shimcurve.nrdmu`, `shimcurve.disco`, `shimcurve.eichler`, `shimcurve.label`, `shimcurve.xd1`,
+  `shimcurve.xdn`, `shimcurve.xd1_star`, `shimcurve.xdn_star`, `shimcurve.xdm1` — the definitions
   Layer 9 and 10 formalize, used only as source definitions, restated here in independent wording.

@@ -3,6 +3,7 @@ import Mathlib
 import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.NumberTheory.HilbertSymbol.Basic
 import TauCeti.NumberTheory.HilbertSymbol.Archimedean
+import TauCeti.NumberTheory.QuadraticForm.Global.Localization
 import TauCeti.NumberTheory.NumberField.Global.Orders.Picard
 import TauCeti.NumberTheory.NumberField.Global.Orders.Discriminant
 import TauCeti.Analysis.Complex.UpperHalfPlane.PSL.Action
@@ -14,28 +15,38 @@ import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 arithmetic theorems against the pinned Mathlib and Tau Ceti APIs: the maximality criterion,
-unique Gorenstein saturation, the Bass property of Eichler orders, finiteness of ideal classes, Eichler's indefinite
-class-number and conjugacy theorems, the normalizer index, the rational mass and class-number
-formulas, Deuring's type formula, the area, elliptic points and genus of the Shimura curves
-`X_0(D;N)`, principal-polarization existence, and the polarized-automorphism classification.
-Only native bundles and definitions needed by those statements are included.
+unique Gorenstein saturation, the Bass property of Eichler orders, finiteness of ideal classes,
+Eichler's indefinite class-number and conjugacy theorems, the normalizer index, the Eichler mass
+formula over `ℚ` and, for Eichler orders, over a totally real field, the class-number formula,
+Deuring's type formula, the multiplicativity and column sums of Brandt matrices over a number
+field and their theta-series interpretation over `ℚ`, the area, elliptic points and genus of the
+Shimura curves `X_0(D;N)`, principal-polarization existence, and the polarized-automorphism
+classification. Only native bundles and definitions needed by those statements are included.
 
-The Clifford correspondence cannot be stated here without the ideal-valued ternary quadratic
-module and twisted-similarity carrier of README §2.1. The general mass formula requires the
-local order residue-algebra/Eichler-symbol carrier of §2.4; the embedding trace formula requires
-the completed-order and local optimal-embedding carriers of §§6.2–6.4. Brandt multiplicativity,
-trace and theta comparison require the norm-indexed ideal correspondence of §7.1 and its
-Brandt module. The genus formula of §8.4 is stated through the Euler characteristic
-`χ = 2 − 2g` of the compactified quotient: Tau Ceti defines the topology of
-`Subgroup.CompactifiedQuotient` for a discrete subgroup and `TauCeti.eulerChar` for a space of
-finite CW type, and neither the discreteness of `Γ¹(O)` (ArithmeticFuchsianGroups §1.1) nor a
-finite CW structure on a compact Riemann surface is at the pins, so both enter that statement
-as instance hypotheses. The genus and torsion theorems for the curves `X_H` (§§9.6–9.7) require the
-enhanced group `(O/NO)ˣ ⋊ Aut_{±μ}(O)` with its conjugation action and reduction maps (§9.4).
-These constructions are README targets, not arbitrary predicates standing in for them here. The integral torsion and
-endomorphism-field comparisons of §§9.7–9.8 additionally require a polarized QM abelian
-surface, its geometric endomorphism order and a marked rank-one integral torsion module;
-these arithmetic carriers and their compatibility are not supplied by the imported APIs.
+Not statable at the pins:
+* the even Clifford correspondence (§2.1), which needs the ideal-valued ternary quadratic modules
+  and their twisted similarities;
+* the mass formula for an arbitrary order (§§5.2–5.3, `[V, 25.3.19, 26.1.5]`), whose factor
+  `λ(O,𝔭)` needs the Eichler symbol of §2.4, the classification of the semisimple residue algebra
+  `O_𝔭/rad O_𝔭` as `k × k`, `k`, a quadratic field over `k` or a quaternion algebra over `k`;
+* the embedding trace formula (§6.4), which needs the completed orders and the local optimal
+  embedding numbers of §§6.2–6.3;
+* the Eichler trace formula (§7.4), whose terms `h_D(t² − 4n)` weight the class numbers of the
+  imaginary quadratic orders of every discriminant by their local embedding numbers at the primes
+  dividing `D`: Tau Ceti has the unweighted `TauCeti.hurwitzClassNumber` and the `Pic` of an order
+  in one fixed number field, while the formula runs over the fields `ℚ(√(t² − 4n))`, which vary
+  with `t`, and needs these weighted class numbers as a function of the discriminant;
+* the genus formula and the torsion invariants of the curves `X_H` (§§9.6–9.7), which need the
+  enhanced group `(O/NO)ˣ ⋊ Aut_{±μ}(O)` with its conjugation action and reduction maps (§9.4);
+* the integral torsion and endomorphism-field comparisons of §§9.7–9.8, which additionally need a
+  polarized QM abelian surface, its geometric endomorphism order and a marked rank-one integral
+  torsion module.
+
+The genus formula of §8.4 is stated through the Euler characteristic `χ = 2 − 2g` of the
+compactified quotient: Tau Ceti defines the topology of `Subgroup.CompactifiedQuotient` for a
+discrete subgroup and `TauCeti.eulerChar` for a space of finite CW type, and neither the
+discreteness of `Γ¹(O)` (ArithmeticFuchsianGroups §1.1) nor a finite CW structure on a compact
+Riemann surface is at the pins, so both enter that statement as instance hypotheses.
 
 `PSL(2,ℝ)` acts on `ℍ` through Tau Ceti's `UpperHalfPlane.instMulActionPSL2`, and hyperbolic
 area is Mathlib's `volume` on `UpperHalfPlane`, with density `y⁻²`.
@@ -99,6 +110,26 @@ def discNat : ℕ :=
     (fun p => ∃ hp : p.Prime, @IsRamifiedAtPrime a b p ⟨hp⟩), p
 
 end Rational
+
+/-! ### Layer 0 over a number field: finite ramification and total definiteness -/
+
+section NumberField
+
+variable {F : Type*} [Field F] [NumberField F]
+
+/-- **0.2** `ℍ[F,a,b]` is ramified at the finite place `v` when the Hilbert symbol of the images of
+`a` and `b` in `F_v` is `-1` (`README.md`, Layer 0, 0.2; Conventions, Ramified). -/
+def IsRamifiedAt (a b : Fˣ) (v : HeightOneSpectrum (𝓞 F)) : Prop :=
+  TauCeti.hilbertSymbol (v.unitAtFinitePlace a) (v.unitAtFinitePlace b) = -1
+
+/-- **0.5** `ℍ[F,a,b]` is totally definite when `F` is totally real and the real Hilbert symbol of
+`(a, b)` is `-1` at every real place (`README.md`, Layer 0, 0.5; Conventions, Definite,
+indefinite). -/
+def IsTotallyDefinite (a b : Fˣ) : Prop :=
+  IsTotallyReal F ∧ ∀ w : {w : InfinitePlace F // w.IsReal},
+    TauCeti.hilbertSymbol (TauCeti.unitAtRealPlace w a) (TauCeti.unitAtRealPlace w b) = -1
+
+end NumberField
 
 /-! ## Layer 1: lattices and orders -/
 
@@ -234,6 +265,11 @@ def IsInvertible (I : Submodule R ℍ[F,(a : F),(b : F)]) : Prop :=
   Submodule.IsLattice F I ∧ ∃ I' : Submodule R ℍ[F,(a : F),(b : F)], Submodule.IsLattice F I' ∧
     I * I' = Subalgebra.toSubmodule (leftOrderSubalgebra I) ∧
     I' * I = Subalgebra.toSubmodule (rightOrderSubalgebra I)
+
+/-- **1.12** The reduced norm `nrd(I)` of a lattice: the `R`-submodule of `F` generated by the
+reduced norms of its elements (`README.md`, Layer 1, 1.12; `[V, 16.3.1]`). -/
+def latticeNrd (I : Submodule R ℍ[F,(a : F),(b : F)]) : Submodule R F :=
+  Submodule.span R (nrd a b '' (I : Set ℍ[F,(a : F),(b : F)]))
 
 end Layer1
 
@@ -432,6 +468,34 @@ theorem eichler_mass_formula (O : QuatOrder a b ℤ) (hdef : IsDefinite a b)
 
 end Layer5
 
+/-! ### Layer 5 over a totally real field -/
+
+section Layer5TotallyReal
+
+variable {F : Type*} [Field F] [NumberField F] {a b : Fˣ}
+
+open Classical in
+/-- **5.3** The Eichler mass formula for an Eichler order `O` in a totally definite algebra over a
+totally real field `F` of degree `n` (`README.md`, Layer 5, 5.3; `[V, 26.1.12]`, p. 421):
+`∑_{[J]} [O_L(J)ˣ : (𝓞 F)ˣ]⁻¹ = 2ζ_F(2)(2π)^{-2n} d_F^{3/2} h_F φ(𝔇)ψ(𝔐)`. With
+`𝔑 = discrd O`, which is `𝔇𝔐` for coprime `𝔇 = disc B` and level `𝔐`, the factor `φ(𝔇)ψ(𝔐)` is
+written as `N𝔑 ∏_{𝔭 ∣ 𝔑}(1 ∓ 1/N𝔭)`, with `−` at the primes where `B` ramifies and `+` at the
+others. -/
+theorem eichler_mass_formula_totallyReal (O : QuatOrder a b (𝓞 F)) (hdef : IsTotallyDefinite a b)
+    (hO : IsEichler O) {h : ℕ} (reps : Fin h → RightIdeal O)
+    (hreps : Function.Bijective (fun i => (Quot.mk (ClassRel O) (reps i) : ClassSet O))) :
+    (∑ i, ((Units.map (algebraMap (𝓞 F)
+        (leftOrderSubalgebra (reps i).toSubmodule)).toMonoidHom).range.index : ℂ)⁻¹) =
+      2 * NumberField.dedekindZeta F 2 / (2 * (Real.pi : ℂ)) ^ (2 * Module.finrank ℚ F) *
+        ((|(NumberField.discr F : ℝ)| ^ ((3 : ℝ) / 2) : ℝ) : ℂ) * (NumberField.classNumber F : ℂ) *
+        (Ideal.absNorm ((discrd O).comap (Algebra.linearMap (𝓞 F) F)) : ℂ) *
+        ((∏ᶠ (v : HeightOneSpectrum (𝓞 F))
+            (_ : v.asIdeal ∣ (discrd O).comap (Algebra.linearMap (𝓞 F) F)),
+          (1 + (if IsRamifiedAt a b v then -1 else 1) / (Ideal.absNorm v.asIdeal : ℝ)) : ℝ) : ℂ) :=
+  sorry
+
+end Layer5TotallyReal
+
 /-! ## Layer 6: optimal embeddings and embedding numbers over `ℚ` -/
 
 section Layer6
@@ -509,6 +573,68 @@ theorem typeNumber_prime (O : QuatOrder a b ℤ) (hdef : IsDefinite a b) (hmax :
       (Nat.card (Pic S') : ℚ) / 4 := sorry
 
 end Layer6
+
+/-! ## Layer 7: Brandt matrices -/
+
+section Layer7
+
+variable {F : Type*} [Field F] [CharZero F] {a b : Fˣ}
+variable {R : Type*} [CommRing R] [IsDedekindDomain R] [Algebra R F] [IsFractionRing R F]
+
+/-- **7.1** The Brandt matrix `T(𝔫)` for a family `I₁, …, I_h` of invertible right `O`-ideals:
+`T(𝔫)_{ij}` counts the invertible right `O`-ideals `J ⊆ I_j` with `nrd J = 𝔫·nrd I_j` in the class
+of `I_i` (`README.md`, Layer 7, 7.1; Conventions, Brandt matrix; `[V, 41.2.3]`, p. 751). Columns
+index the source class. -/
+def brandtMatrix (O : QuatOrder a b R) {h : ℕ} (reps : Fin h → RightIdeal O) (𝔫 : Ideal R) :
+    Matrix (Fin h) (Fin h) ℕ := fun i j =>
+  Nat.card {J : RightIdeal O // J.toSubmodule ≤ (reps j).toSubmodule ∧
+    latticeNrd J.toSubmodule = 𝔫 • latticeNrd (reps j).toSubmodule ∧ ClassRel O (reps i) J}
+
+end Layer7
+
+/-! ### Layer 7 over a number field and over `ℚ` -/
+
+section Layer7NumberField
+
+variable {F : Type*} [Field F] [NumberField F] {a b : Fˣ}
+
+/-- **7.2** Multiplicativity: for coprime nonzero ideals `𝔪, 𝔫` of `𝓞 F` and a complete set of
+class representatives, `T(𝔪𝔫) = T(𝔪)T(𝔫)` (`README.md`, Layer 7, 7.2; `[V, 41.3.1(b)]`, p. 754). -/
+theorem brandtMatrix_mul (O : QuatOrder a b (𝓞 F)) (hdef : IsTotallyDefinite a b) {h : ℕ}
+    (reps : Fin h → RightIdeal O)
+    (hreps : Function.Bijective (fun i => (Quot.mk (ClassRel O) (reps i) : ClassSet O)))
+    {𝔪 𝔫 : Ideal (𝓞 F)} (h𝔪 : 𝔪 ≠ ⊥) (h𝔫 : 𝔫 ≠ ⊥) (hcop : IsCoprime 𝔪 𝔫) :
+    brandtMatrix O reps (𝔪 * 𝔫) = brandtMatrix O reps 𝔪 * brandtMatrix O reps 𝔫 := sorry
+
+/-- **7.2** Column sums: for a nonzero ideal `𝔫` of `𝓞 F` coprime to `discrd O` and a complete set
+of class representatives, every column of `T(𝔫)` sums to `∑_{𝔡 ∣ 𝔫} N𝔡` (`README.md`, Layer 7, 7.2;
+`[V, 41.3.1(a)]`, p. 754). -/
+theorem sum_brandtMatrix_col (O : QuatOrder a b (𝓞 F)) (hdef : IsTotallyDefinite a b) {h : ℕ}
+    (reps : Fin h → RightIdeal O)
+    (hreps : Function.Bijective (fun i => (Quot.mk (ClassRel O) (reps i) : ClassSet O)))
+    {𝔫 : Ideal (𝓞 F)} (h𝔫 : 𝔫 ≠ ⊥)
+    (hcop : IsCoprime 𝔫 ((discrd O).comap (Algebra.linearMap (𝓞 F) F))) (j : Fin h) :
+    ∑ i, brandtMatrix O reps 𝔫 i j = ∑ᶠ (𝔡 : Ideal (𝓞 F)) (_ : 𝔡 ∣ 𝔫), Ideal.absNorm 𝔡 := sorry
+
+end Layer7NumberField
+
+section Layer7Rational
+
+variable {a b : ℚˣ}
+
+/-- **7.7** Theta series of ideals: for `B/ℚ` definite, `O` Eichler of level `M` and invertible
+right ideals `I_i, I_j`, the series `1/#O_L(I_i)ˣ + ∑_{n ≥ 1} T(n)_{ij} qⁿ`, which is
+`(1/#O_L(I_i)ˣ)·Θ` for the theta series `Θ` of the lattice `I_j I_i⁻¹` with the quadratic form
+`nrd/nrd(I_j I_i⁻¹)`, is the `q`-expansion of a modular form of weight `2` on `Γ₀(DM)`
+(`README.md`, Layer 7, 7.7; `[V, 41.2.7]`, p. 752, with theta series Layer 7). -/
+theorem exists_modularForm_qExpansion_brandtMatrix (O : QuatOrder a b ℤ)
+    (hdef : IsDefinite a b) (hO : IsEichler O) {h : ℕ} (reps : Fin h → RightIdeal O) (i j : Fin h) :
+    ∃ f : ModularForm (CongruenceSubgroup.Gamma0 (discNat a b * level O)) 2,
+      UpperHalfPlane.qExpansion 1 f = PowerSeries.mk fun n =>
+        if n = 0 then (Nat.card ((leftOrderSubalgebra (reps i).toSubmodule)ˣ) : ℂ)⁻¹
+        else (brandtMatrix O reps (Ideal.span {(n : ℤ)}) i j : ℂ) := sorry
+
+end Layer7Rational
 
 /-! ## Layer 8: the Shimura curves `X_0(D;N)` over `ℚ` -/
 
@@ -656,7 +782,10 @@ def autPmMu (O : QuatOrder a b ℤ) (μ : ℍ[ℚ,(a : ℚ),(b : ℚ)]) : Subgro
       exact Or.inr (neg_eq_iff_eq_neg.mp e)
 
 /-- **9.2** For a normalizing polarization in an indefinite division algebra, the group has
-order `2, 4, 6, 8` or `12` (`README.md`, Layer 9, 9.2). -/
+order `2, 4, 6, 8` or `12` (`README.md`, Layer 9, 9.2): `Aut_μ(O)` is cyclic of order `2`, `4` or
+`6`, since `[x] ↦ x/x̄` embeds the torsion of `ℚ(μ)ˣ/ℚˣ` into the roots of unity of `ℚ(μ)` and
+`[μ]` has order two, and a twist `χ` with `χμ = −μχ` (Rotger, *Modular Shimura varieties and
+forgetful maps*, §4, pp. 9–10; `[V, 43.6.5]`, p. 802) doubles it by a dihedral extension. -/
 theorem card_autPmMu (O : QuatOrder a b ℤ) (μ : ℍ[ℚ,(a : ℚ),(b : ℚ)]) (hO : IsEichler O)
     (h : ¬ IsDefinite a b) (hdiv : ∀ x : ℍ[ℚ,(a : ℚ),(b : ℚ)], x ≠ 0 → IsUnit x)
     (hμ : IsPolarization O μ)
@@ -664,7 +793,10 @@ theorem card_autPmMu (O : QuatOrder a b ℤ) (μ : ℍ[ℚ,(a : ℚ),(b : ℚ)])
     Nat.card (autPmMu O μ) ∈ ({2, 4, 6, 8, 12} : Finset ℕ) := sorry
 
 /-- **9.2** Without a normalizing hypothesis the polarization stabilizer can be trivial or
-cyclic of order three, as well as the larger cyclic and dihedral cases. -/
+cyclic of order three, as well as the larger cyclic and dihedral cases (`README.md`, Layer 9, 9.2):
+`Aut_μ(O)` is cyclic of order `1, 2, 3, 4` or `6` by the embedding `[x] ↦ x/x̄` of the torsion of
+`ℚ(μ)ˣ/ℚˣ` into the roots of unity of `ℚ(μ)`, and a twist (Rotger, *Modular Shimura varieties and
+forgetful maps*, §4, pp. 9–10) at most doubles it. -/
 theorem card_autPmMu_general (O : QuatOrder a b ℤ) (μ : ℍ[ℚ,(a : ℚ),(b : ℚ)])
     (hO : IsEichler O) (h : ¬ IsDefinite a b)
     (hdiv : ∀ x : ℍ[ℚ,(a : ℚ),(b : ℚ)], x ≠ 0 → IsUnit x) (hμ : IsPolarization O μ) :
