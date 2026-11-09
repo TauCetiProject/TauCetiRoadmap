@@ -969,9 +969,11 @@ the convergence of a double complex with finitely many nonzero terms in each tot
 the comparison of an exact augmentation with the total complex are [StacksHom], §12.25,
 Lemmas 12.25.1, 12.25.3 and 12.25.4, Tags 0130, 0132 and 0133, pp.67–69. The edge morphisms and
 the five-term and extended sequences follow from that convergence in any abelian category. Since
-`F⁰Hⁿ = Hⁿ`, `Fⁿ⁺¹Hⁿ = 0` and `d_r` has bidegree `(r, 1 − r)`, no differential with `r ≥ 2` enters
-`E_r^{0,n}` or leaves `E_r^{n,0}`. So `Hⁿ/F¹Hⁿ = E_∞^{0,n}` is a subobject of `E₂^{0,n}`, and
-`FⁿHⁿ = E_∞^{n,0}` is a quotient of `E₂^{n,0}`. In total degrees 1 and 2, `F¹H¹ = E₂^{1,0}`,
+the double complex is first-quadrant, `E_r^{pq} = 0` for `p < 0` or `q < 0`, and `d_r` has
+bidegree `(r, 1 − r)`; so no differential with `r ≥ 2` enters `E_r^{0,n}` or leaves `E_r^{n,0}`,
+and `E_∞^{0,n}` is a subobject of `E₂^{0,n}` while `E_∞^{n,0}` is a quotient of `E₂^{n,0}`. Since
+`F⁰Hⁿ = Hⁿ` and `Fⁿ⁺¹Hⁿ = 0`, the graded pieces at the two ends are `Hⁿ/F¹Hⁿ = E_∞^{0,n}` and
+`FⁿHⁿ = E_∞^{n,0}`. In total degrees 1 and 2, `F¹H¹ = E₂^{1,0}`,
 `H¹/F¹H¹ = ker(d₂ : E₂^{0,1} → E₂^{2,0})` and `F²H² = coker d₂`, which is the five-term sequence.
 Under the row-vanishing hypothesis the same argument with `d_(n+1)` in place of `d₂` gives the
 extended sequence. *Needs:* Tau Ceti
