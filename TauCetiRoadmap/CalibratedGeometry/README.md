@@ -93,11 +93,11 @@ with the Hodge Laplacian (Layer 6).
   lower bound `comass(φ) ≤ |φ|_H` and the comparison of the mass of a k-vector with its norm: Tau
   Ceti, by the names listed in the supplier contracts. 1.1 owns the orthonormal-frame supremum
   and 1.3 the upper bound of the Hilbert-norm comparison.
-- Existence of smooth triangulations of smooth manifolds without boundary (Whitehead):
-  GeometricTopology, smoothing and triangulation comparison item 1. Its relative refinement, in
-  which the collared boundary of a compact manifold is a subcomplex: TangentialBordism B1.5
-  (quotient and bundle adapters). Neither fixes a vertex order; 2.4 adds the global vertex order,
-  the ordered parametrizations and the integral fundamental chains.
+- Existence of smooth triangulations of smooth manifolds without boundary (Cairns–Whitehead):
+  GeometricTopology 11.3 (smooth triangulations and combinatorial manifolds). Its relative
+  refinement, in which the collared boundary of a compact manifold is a subcomplex:
+  TangentialBordism B1.5 (quotient and bundle adapters). Neither fixes a vertex order; 2.4 adds
+  the global vertex order, the ordered parametrizations and the integral fundamental chains.
 - The Levi-Civita connection of a Riemannian manifold: Mathlib `leviCivitaConnection`. Curvature
   calculus and induced tensor connections: RiemannianGeometry R1. The normal bundle of an
   immersion, the second fundamental form, the normal connection, the C² relative-volume functional
@@ -360,9 +360,9 @@ and stability, `Q(V,V) ≥ 0` for every such V).
 ### From TauCetiRoadmap.GeometricTopology
 
 Layer 1 (collars of compact manifolds with boundary; its tubular neighbourhoods are not consumed,
-Tau Ceti's normal exponential being used instead) and the smoothing and triangulation comparison
-item 1 (existence of smooth triangulations of smooth manifolds without boundary, used directly for
-closed sources).
+Tau Ceti's normal exponential being used instead) and 11.3 (the Cairns–Whitehead theorem: every
+smooth manifold has a smooth triangulation in the sense of the pinned
+`TauCeti.IsSmoothTriangulation`, used directly for closed sources).
 
 ### From TauCetiRoadmap.TangentialBordism
 
@@ -755,7 +755,7 @@ Let N be a compact smooth manifold with boundary, collared by GeometricTopology 
 relative smooth triangulation from TangentialBordism B1.5: a finite simplicial complex K with a
 homeomorphism `h : |K| → N` restricting to a smooth embedding on each closed simplex, in which `∂N`
 is the image of a subcomplex (Munkres1966EDT, Chapter II, §10). For closed N take Whitehead's
-triangulation from GeometricTopology's smoothing and triangulation item 1. Fix a total order on the
+triangulation from GeometricTopology 11.3. Fix a total order on the
 vertices of K and parametrize each simplex `[v₀ < ⋯ < v_p]` by h composed with the affine map
 sending the standard vertex `e_i` to `v_i`; the face maps of these ordered parametrizations are the
 ordered parametrizations of the faces, literally, not only up to reparametrization.
@@ -769,7 +769,7 @@ independence of refinement and of choices up to an explicit boundary. For closed
 that the image of `c_N` under 2.3's comparison represents AlgebraicTopology 6.3's fundamental class
 of N; the integral chain statements precede their real corollaries.
 *Needs:* TangentialBordism B1.5 (relative smooth triangulation); GeometricTopology Layer 1
-(collars) and smoothing item 1 (closed case); Tau Ceti `TauCeti.IsSmoothTriangulation`,
+(collars) and 11.3 (closed case); Tau Ceti `TauCeti.IsSmoothTriangulation`,
 `TauCeti.integralTopForm` with its outward-first boundary orientation; AlgebraicTopology 6.3; 2.3.
 
 **Checks.**
@@ -794,7 +794,7 @@ trivial triangulation has `c = [e₀,e₁,e₂]` with sign +1, `∂c = [e₁,e�
 2.1 needs Layer 1, Tau Ceti's forms and Mathlib's Levi-Civita connection; 2.2 needs 2.1 and Tau
 Ceti's pullback metrics, volume forms and top-form integration; 2.3 needs Tau Ceti's smooth singular
 subcomplex and simplex integrals and AlgebraicTopology Stages 2 and 3.1; 2.4 needs 2.3,
-TangentialBordism B1.5, GeometricTopology Layer 1 and smoothing item 1, and AlgebraicTopology 6.3.
+TangentialBordism B1.5, GeometricTopology Layer 1 and 11.3, and AlgebraicTopology 6.3.
 
 ## Layer 3: Volume minimization and stability (C3)
 
