@@ -66,7 +66,8 @@ theorem differentiableOn_complex_of_continuous_real_lineDerivatives_cr
 open scoped Classical in
 /-- Weighted genus-one specialization. Compact finiteness supplies cofinite escape on the
 repeated index; inverse-square summability supplies the compact majorants. Both products
-converge to the same normalized entire function, even at zeros. The factor
+converge to the same normalized entire function, even at zeros: the grouped product is the
+repeated-index one regrouped by AnalyticNumberTheoryPartI §0.15's fibre-grouping law. The factor
 `(1 - w) * exp w` is AnalyticNumberTheoryPartI's `elementaryFactor 1`, written out. -/
 theorem exists_entire_genusOne_product (S : Set ℂ) [Countable S] (m : S → ℕ)
     (hzero : (0 : ℂ) ∉ S)

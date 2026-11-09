@@ -152,6 +152,12 @@ the empty cases here follow directly from the definitions.
   `Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean`: for `a ≤ b` and an
   interval-integrable real `g` bounding `‖f‖` almost everywhere on `(a, b]`,
   `‖∫_a^b f‖ ≤ ∫_a^b g`.
+- `IsOpen.isConnected_iff_isPathConnected` in
+  `Mathlib/Topology/Connected/LocallyPathConnected.lean`: an open subset of a locally
+  path-connected space is connected exactly when it is path-connected. The principal
+  `Complex.log` is complex-differentiable at every point of `Complex.slitPlane`
+  (`Complex.differentiableAt_log` in `Mathlib/Analysis/SpecialFunctions/Complex/LogDeriv.lean`),
+  and `Complex.exp_log` inverts it at every nonzero argument.
 - `Complex.volume_preserving_equiv_real_prod` fixes area normalization.
   The low-regularity route uses locally compact Baire, product Fubini,
   `MeasureTheory.integral_eq_of_hasDerivAt_off_countable_of_le`,
@@ -175,8 +181,16 @@ Use `TauCeti.Contour.isExactOn_of_forall_closed_integral_eq_zero`,
 `TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_isExactOn`, and
 `TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_filledHull_subset`
 from `TauCeti/Analysis/Contour/Primitive.lean`: retain openness, continuity or holomorphy,
-all closed-path periods, and nowhere-zero hypotheses. `TauCeti.morera` supplies the
-rectangle-conservative criterion. No alias of these statements is an acceptance target here.
+all closed-path periods, and nowhere-zero hypotheses. From
+`TauCeti/Analysis/Contour/Winding/` use
+`TauCeti.IsPiecewiseC1On.windingNumber_eq_of_mem_connectedComponentIn` (`LocallyConstant.lean`:
+for a closed piecewise-`C¹` curve, two points of one connected component of the complement of
+its image have the same winding number) and
+`TauCeti.Contour.windingNumber_eq_integral_of_avoidance` (`Number/Basic.lean`: for a curve
+continuous on its parameter interval and avoiding `z₀` there, with interval-integrable
+`(γ t − z₀)⁻¹ γ′(t)`, the winding number about `z₀` is `(2πi)⁻¹` times the integral of that
+function). `TauCeti.morera` supplies the rectangle-conservative criterion. No alias of these
+statements is an acceptance target here.
 
 Use `TauCeti.wirtingerDeriv` and `TauCeti.conjWirtingerDeriv` from
 `TauCeti/Analysis/Complex/Wirtinger/Basic.lean`, with `wirtingerDeriv_apply`,
@@ -281,8 +295,10 @@ Use the native contour logarithm implementation for the logarithm contract.
 Consume §0.15's primary factor `elementaryFactor` with its normalization, simple zero at one,
 sharp estimate `|1−E_p(w)|≤|w|^(p+1)` on the closed unit disk and identification of `E₁` with
 ZerosOfLFunctions' genus-one factor; its compact-summability product theorem with additive
-orders and unit tail; and its countable variable-genus product with exact orders,
-`exists_entire_primary_product_exact`. Consume §0.15a's equal-divisor factorization
+orders and unit tail; its countable variable-genus product with exact orders,
+`exists_entire_primary_product_exact`; and its reindexing and fibre-grouping law: reindexing
+a product by an equivalence, or grouping its index into finite multiplicity fibres, gives a
+family whose product converges locally uniformly to the same limit. Consume §0.15a's equal-divisor factorization
 `exists_entire_exp_mul_of_divisor_eq` for two entire functions, neither identically zero, and
 its full Weierstrass factorization: every nonzero entire `f` with zero order `m` at the origin
 is `z^m exp(g(z)) ∏ E_(p_a)(z/a)^(m_a)` over its nonzero zeros `a` with multiplicities `m_a`,
@@ -352,7 +368,7 @@ The operator API, proved from the native defining formulas, is:
 - For u(z)=|z|², the pair is (z̄,z); at z=i this is (−i,i), distinguishing conjugation.
 
 These are direct real-coordinate differentiations; the differential convention agrees with
-Rainer, §10, equation (10.1), p. 23 (rainer line 1189).
+Rainer, §10, equation (10.1), p. 23 (rainer line 1211).
 *Needs:* Tau Ceti's Wirtinger derivatives; Mathlib `fderiv`, real/complex differentiability
 and the chain and product rules.
 
@@ -694,9 +710,10 @@ Apply AnalyticNumberTheoryPartI's `exists_entire_primary_product_exact` to `ι=�
 `a(ρ,j)=ρ`, and constant `p=1`. Compact finiteness of S and finiteness of every `Fin (m ρ)`
 give cofinite escape for a. For each `R>0`, summing over the finite fibers gives exactly
 `Σ_(i:ι) (R/‖a i‖)² = R² Σ_(ρ:S) m(ρ)/‖ρ‖²`.
-Prove the local-uniform product grouping identity between this repeated-index product
-and the product of powers over S, including convergence at zeros; do not justify the
-identity merely by manipulating totalized `tprod` values. Identify the zero fiber at ρ
+Consume §0.15's fibre-grouping law for the finite fibres `{ρ} × Fin (m ρ)`: grouping them
+turns the locally uniform repeated-index product into the locally uniform product of the
+powers `E₁(z/ρ)^(m ρ)` over S, with the same limit, at the zeros as elsewhere; the grouping
+is of locally uniform products, not of totalized `tprod` values. Identify the zero fiber at ρ
 with `Fin (m ρ)` and translate `analyticOrderAt` through the native
 `MeromorphicOn.AnalyticOnNhd.divisor_apply` formula. Thus equal multiplicities give equality of native
 divisors, without a private zero-divisor carrier.
@@ -715,9 +732,10 @@ product is the supplied canonical product, by uniqueness of its locally uniform 
 The growth/counting argument and the linear bound on the exponential factor belong to
 the supplier contract; neither is an input to the summability-input theorem.
 
-The weighted-product API identifies the grouped and repeated-index limits, their normalization,
-analytic orders and native divisors; restriction to compact disks and insertion of zero
-multiplicities preserve the limit. This is the inverse-square-input consequence of
+The weighted-product API consists of the normalization, analytic orders and native divisors
+of the limit, which §0.15's fibre-grouping law makes common to the grouped and the
+repeated-index product; restriction to compact disks and insertion of zero multiplicities
+preserve the limit. This is the inverse-square-input consequence of
 AnalyticNumberTheoryPartI §0.15, using Rainer, Theorem 14.3, pp. 35–36 (rainer line 1868).
 
 **Checks.**
@@ -727,8 +745,9 @@ AnalyticNumberTheoryPartI §0.15, using Rainer, Theorem 14.3, pp. 35–36 (raine
 - S={2}, m(2)=0 contributes factor 1 and order 0; forbidding zero multiplicity would lose this input.
 - For S={1}, m=2, the repeated-index majorant is 2R²=R²·2, fixing the real multiplicity cast.
 
-*Needs:* AnalyticNumberTheoryPartI §0.15; ZerosOfLFunctions Layer 5.1's support API; finite-fiber grouping for
-locally uniform products and the native analytic-order/divisor comparison.
+*Needs:* AnalyticNumberTheoryPartI §0.15, its product theorem with exact orders and its
+fibre-grouping law; ZerosOfLFunctions Layer 5.1's support API; the native
+analytic-order/divisor comparison.
 
 ### 1.3 Variable exponents, genus, and logarithmic derivatives
 
@@ -923,7 +942,9 @@ is the hull equality of 2.5; the exhaustion is its recursive compact-cofinal con
   the closed ball of radius n+1, which is its own hull.
 - For Ω the open unit disk, the thickening of radius 1 of {|z|≥1} is {z≠0}, so K_0={0},
   K_1={|z|≤1/2} and K_2={|z|≤2/3}; 0 lies in int K_1, as nesting requires. Reading the
-  thickening radius as n+1 instead of (n+1)⁻¹ would remove the whole disk from every stage.
+  thickening radius as n+1 instead of (n+1)⁻¹ agrees at n=0 (K_0={0}) but empties every
+  stage with n≥1, since a thickening of radius n+1≥2 of {|z|≥1} is all of ℂ; the union is
+  then {0}, not the disk.
 
 *Needs:* Tau Ceti's `IsOpen.isFilledIn_closedBall_sdiff_thickening`; Mathlib compact closed
 balls, open thickenings, extended distances and connected components; the maximum
@@ -1227,11 +1248,39 @@ finite-support `MeromorphicOn.extract_zeros_poles` result.
 
 First prove `exists_zero_free_holomorphic_approximation`, zero-free Runge approximation: if K is Runge in Ω and u is holomorphic and
 nowhere zero on a neighborhood of K, approximate u uniformly on K by a function holomorphic
-and nowhere zero on all of Ω. Prove the winding-class extension needed for this result;
-ordinary scalar Runge approximation only controls zeros near K. If Ω is disconnected, carry the
-construction on all its components together: use one finite dual-cycle family over V and the
-simultaneous correction below, not separate componentwise period systems. Prove a concrete
-Runge-neighborhood construction. Fix a square grid and a dyadic mesh sequence δ_n=2^(−n)δ₀;
+and nowhere zero on all of Ω. Ordinary scalar Runge approximation only controls zeros near K.
+Two routes prove the theorem; neither is an input of the other, and each lists its inputs in the
+*Needs:* line below.
+
+The first route is Rainer's proof of Proposition 15.2 (rainer lines 1956–1993). For K=∅ take
+g=1. Otherwise let η>0 be the minimum of |u| on K. Every bounded connected component B of
+ℂ∖K meets ℂ∖Ω: B is open and closed in ℂ∖K, so its closure lies in B∪K; if B⊆Ω, that closure
+is compact and contained in Ω, and B is a connected component of Ω∖K that `IsFilledIn K Ω`
+excludes. By 2.5's rational Runge variant choose a rational r with poles off K and
+|u−r|<min(ε,η)/2 on K. Then r has no zero on K, so r=c∏_i(z−b_i)^(m_i) with c≠0, finitely
+many distinct b_i∉K and m_i∈ℤ∖{0}. Fix R>0 with K⊆ball 0 R; the point R lies in the unbounded
+component of ℂ∖K. For each bounded component B containing some b_i choose a_B∈B∖Ω, and pair
+each b_i with a_B for its component B, or with R when b_i lies in the unbounded component.
+For a and b in one component C of ℂ∖K, the quotient (z−b)/(z−a) has a holomorphic logarithm on
+the open neighborhood W=ℂ∖P of K, where P is a path in C from b to a (Rainer, Lemma 15.1,
+p. 36, rainer line 1934). Indeed, for a closed piecewise-C¹ curve γ in W the connected set P
+misses the trace of γ, so γ winds equally about a and b by
+`TauCeti.IsPiecewiseC1On.windingNumber_eq_of_mem_connectedComponentIn`; the integral of
+1/(z−b)−1/(z−a) along γ is then zero by `TauCeti.Contour.windingNumber_eq_integral_of_avoidance`,
+and `TauCeti.Contour.isExactOn_of_forall_closed_integral_eq_zero` followed by
+`TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_isExactOn` gives the logarithm. On
+ball 0 R, z−R=exp(log R+iπ+log(1−z/R)) with Mathlib's principal `Complex.log`, since
+Re(1−z/R)>0 there. Multiplying out, r=H·exp(ℓ) on an open neighborhood of K, where
+H(z)=∏_B(z−a_B)^(n_B), n_B is the sum of the m_i with b_i∈B, and ℓ is holomorphic on that
+neighborhood. Scalar Runge (2.5) gives L holomorphic on Ω with |L−ℓ|<δ on K; set G=H·exp(L).
+Every a_B lies outside Ω, so G is holomorphic and nowhere zero on Ω, and on K
+|G−r|=|r|·|exp(L−ℓ)−1|≤sup_K|r|·(e^δ−1), which is below ε/2 for small δ; hence |u−G|<ε on K.
+The construction refers to no component of Ω, so disconnected and empty Ω need no separate case.
+
+The second route replaces rational approximation by finite dual-grid cycles. If Ω is
+disconnected, it carries the construction on all components together: one finite dual-cycle
+family over V and the simultaneous correction below, not separate componentwise period
+systems. It starts from a concrete Runge-neighborhood construction. Fix a square grid and a dyadic mesh sequence δ_n=2^(−n)δ₀;
 let L_n be the finite union of closed squares of mesh δ_n meeting K. For small δ₀, prove
 K⊂int L_n⊂L_n⊂U∩Ω. The fixed-grid refinement gives L_(n+1)⊂L_n. Prove the hulls
 H_n=(L_n)^_Ω (the Ω-holomorphic hull of L_n) are nested compacta and their intersection is K: for each holomorphic g,
@@ -1240,9 +1289,9 @@ every open N⊃K some H_n⊂N; otherwise nested compactness would give a point o
 (⋂H_n)\N. Choose such n with H_n⊂U∩Ω and set V=int H_n. The hull H_n is compact and
 Runge. Prove V is relatively compact and finite-connectivity, `closure V=H_n` for this finite
 square-cell construction (or give the exact replacement compact Runge neighborhood with the same
-hull), and every bounded component of ℂ\V meets ℂ\Ω. The proof must establish finite
-polygonal boundary and local finiteness for this square construction; do not assume arbitrary
-regular cells are affine convex cells.
+hull), and every bounded component of ℂ\V meets ℂ\Ω. This route establishes finite
+polygonal boundary and local finiteness for this square construction; it does not assume
+arbitrary regular cells are affine convex cells.
 For each bounded connected component B_k of ℂ\V choose a point a_k∈B_k\Ω. Prove the
 finite dual-grid-boundary lemma: construct a cycle σ_k : `TauCeti.Contour.Cycle` whose finitely
 many closed piecewise-C¹ terms lie in V and for which
@@ -1272,9 +1321,9 @@ logarithmic-derivative period of R on σ_k is 2πi w_k. The null-homology identi
 shows that `(u/R)′/(u/R)` has zero integral on every closed piecewise-C¹ cycle in V. Apply the
 native exactness criterion and primitive-to-logarithm theorem on each component of V; the
 componentwise logarithms together form one element of H(V), even when V is disconnected.
-Approximate that function by the finite-rank GH0 operator/Runge theorem and exponentiate. The
-boundary-cycle construction and its winding-decomposition identity are the explicit planar
-prerequisites; scalar Runge approximation alone does not supply them.
+Approximate that function by the finite-rank GH0 operator/Runge theorem and exponentiate. This
+route needs the boundary-cycle construction and its winding-decomposition identity, which scalar
+Runge approximation alone does not supply; the first route needs neither.
 Choose a nested Runge compact exhaustion of Ω. Each stage meets the relatively closed
 discrete divisor in a finite set. Form finite divisor products over E∩K_n and their shell
 ratios; approximate each inverse shell ratio on K_n by the globally nowhere-zero functions
@@ -1308,7 +1357,9 @@ The divisor-realization API includes exact orders, finite nonzero germs on every
 restriction and products/quotients corresponding to addition/subtraction of divisor data.
 The zero-free approximation API retains a nonvanishing approximant on the whole ambient domain.
 These are Rainer, Proposition 15.2 and Theorem 15.3, pp. 36–38
-(rainer lines 1950, 1997); the explicit finite-cycle proof supplies the winding extension.
+(rainer lines 1950, 1997); the first route of the zero-free approximation is the proof of
+Proposition 15.2 with Lemma 15.1, and the second replaces its rational approximation by finite
+dual-grid cycles.
 
 **Checks.**
 
@@ -1319,10 +1370,28 @@ These are Rainer, Proposition 15.2 and Theorem 15.3, pp. 36–38
   has order 0 on both, so no connectedness hypothesis is needed.
 - On an annulus, u=z has winding 1 and is already a global zero-free approximant;
   exponentials alone have winding 0 and cannot supply the whole approximation theorem.
+- For K={1≤|z|≤2}, Ω=ℂ∖{0} and u=z−1/2, the function u is holomorphic on Ω and approximates
+  itself, but vanishes at 1/2∈Ω, so the scalar Runge approximant is not admissible. The first
+  route takes r=u, b=1/2 in the bounded component {|z|<1} of ℂ∖K and a=0∈ℂ∖Ω, so H(z)=z and
+  ℓ=log(1−1/(2z)); with L_N=−Σ_(k≤N)(2z)^(−k)/k it gives G_N=z·exp(L_N), nowhere zero on Ω.
+  At z=1, G_1=exp(−1/2)≈0.6065, G_3=exp(−2/3)≈0.5134, tending to u(1)=1/2.
+- In the same example, pairing b=1/2 with the point 3 of the unbounded component fails:
+  along |z|=3/2, inside K, the quotient (z−1/2)/(z−3) winds once about 0, so it has no
+  logarithm near K; the pairing within one component of ℂ∖K is forced.
 
-*Needs:* Layers 1 and 2; AnalyticNumberTheoryPartI §0.15; native divisors and analytic orders; Tau Ceti closed periods,
-integer winding and primitive-to-logarithm. The cycle-composition and finite-grid dual cycles
-are the explicit targets in this subsection, not an assumed homology basis.
+*Needs:* for the zero-free approximation by the first route, 2.5's scalar Runge equivalence and
+its rational Runge variant, Tau Ceti's `IsFilledIn`,
+`TauCeti.IsPiecewiseC1On.windingNumber_eq_of_mem_connectedComponentIn`,
+`TauCeti.Contour.windingNumber_eq_integral_of_avoidance`,
+`TauCeti.Contour.isExactOn_of_forall_closed_integral_eq_zero` and
+`TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_isExactOn`, Mathlib's
+`IsOpen.isConnected_iff_isPathConnected`, the splitting of complex polynomials and the
+principal `Complex.log` on `Complex.slitPlane`; by the second route, Layer 2's hulls and
+finite-rank Runge operator, Tau Ceti's cycles, null homology, homology Cauchy theorem, integer
+winding and primitive-to-logarithm, and this route's cycle-composition adapter and finite
+dual-grid cycles, not an assumed homology basis. For the divisor constructions, the zero-free
+approximation and Layer 2's exhaustion (first construction), AnalyticNumberTheoryPartI §0.15
+and Layer 1, native divisors and analytic orders.
 
 ### 3.2 Boundary zeros and domains of holomorphy
 
@@ -2070,7 +2139,7 @@ GH5 computation.
 
 These are derived coordinate computations using the real chain and product rules and the
 polar Jacobian r, not attributed exercise statements. For the differential convention use
-Rainer, §10, equation (10.1), p. 23 (rainer line 1189); the polar kernel calculation in the
+Rainer, §10, equation (10.1), p. 23 (rainer line 1211); the polar kernel calculation in the
 proof of Proposition 10.1, p. 23 (rainer line 1237), uses the same area normalization.
 
 **Checks.**
@@ -2147,7 +2216,7 @@ remains an earlier supplier.
   Theorem 11.1, Lemma 11.3 and Theorem 11.7, pp. 25–29; Theorems 12.1–12.4,
   pp. 31–32; Propositions 14.1–14.2 and Theorem 14.3, pp. 34–36;
   Proposition 15.2, Theorem 15.3, Remark 15.4 and Theorems 15.5–15.7, pp. 36–40.
-  Locators use printed pages, not PDF page numbers; rainer lines 1189–2136.
+  Locators use printed pages, not PDF page numbers; rainer lines 1211–2136.
 - J. D. Gray and S. A. Morris, *When Is a Function That Satisfies the Cauchy–Riemann
   Equations Analytic?*, American Mathematical Monthly 85 (1978), 246–256.
   [Legal author copy](https://www.sidneymorris.net/Morris51.pdf).
