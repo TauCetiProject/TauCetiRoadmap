@@ -1440,6 +1440,9 @@ ModularCurves 0C; SchemeAndStackFoundations §0.6, §3.4.
 - NeronModelsAndSemistableAbelianVarieties names 4.2, as GS4.2, as the owner of Chevalley's
   theorem for noncommutative groups and of its comparison with its own 2.3, and consumes nothing
   from it.
+- PurityForFlatCohomology §§7.12a–7.12e consume 0.1, 1.1–1.4, 2.1–2.3 and 2.7 (`D_S(M)`, groups
+  of multiplicative type and tori, `X*(H)`, subgroups, quotients and `Hᵗᵒʳ`) for its purity
+  results.
 - SpringerResolutionAndCharacteristicCycles (Scope) names 7.6, as GS8.5 or §7.6, for the
   Grothendieck–Springer space `G̃ ⊆ G × Bor(G)`, distinct from its own additive `g̃`, and consumes
   nothing from it.
