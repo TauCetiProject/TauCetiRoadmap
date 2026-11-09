@@ -8,16 +8,20 @@ import TauCeti.LinearAlgebra.IntegralLattice.Unimodular
 # Orthogonal Tamagawa comparison and lattice masses: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
-and Tau Ceti, the headline theorems of the positive-definite even-unimodular lane: the mass
-formula and the unconditional class counts in ranks 16, 24, 32 and 40, over a small Gram-matrix presentation of
-native integral-lattice isometry classes (no second lattice or orthogonal-group carrier).
+and Tau Ceti, the headline theorems of the positive-definite lane: the numerical mass formula for
+an arbitrary positive definite integral genus of rank at least three (1.3), the even-unimodular
+mass formula (3.1) and the unconditional class counts in ranks 16, 24, 32 and 40, over a small
+Gram-matrix presentation of native integral-lattice isometry classes (no second lattice or
+orthogonal-group carrier).
 
 Not statable at the pins, and therefore not stated here:
 * the structure theorems of 0.1 (Spin of an arbitrary nondegenerate form is a semisimple simply
   connected central μ₂-cover of SO for rank at least three): Tau Ceti has the form-preserving
   and standard special orthogonal group schemes, but no Spin group scheme attached to an arbitrary nondegenerate form;
-* the arbitrary-genus mass formula of 1.3 and the orthogonal quotient comparison of 1.1–1.2:
-  there is no adelic orthogonal quotient with its Tamagawa measure, and no local density;
+* the measure identities of 1.1–1.3 (the decomposition of the orthogonal quotient into lattice
+  classes, the gauge and Jacobian transport, and the identity of the full genus mass with
+  `τ(SO)/(2 v_∞ ∏_p v_p)`): there is no adelic orthogonal quotient with its Tamagawa measure.
+  The numerical form of 1.3 is stated below as `genusMass_eq`;
 * the quadratic residue-group comparison of 0.1a: the symmetric-bilinear equation schemes
   do not supply the quadratic-preserving scheme and its reduction in characteristic two;
 * Cho's smooth dyadic model and density formula of 2.1–2.2: there is no smooth integral model
@@ -39,10 +43,11 @@ namespace TauCetiRoadmap.OrthogonalTamagawaAndLatticeMass
 
 /-! ## Layer 0: Gram presentations and native lattices -/
 
-/-- Integral square matrices of the specified rank. -/
+/-- Integral `n × n` matrices, indexed by `Fin n`. -/
 abbrev GramMatrix (n : ℕ) := Matrix (Fin n) (Fin n) ℤ
 
-/-- Integral positive Gram presentations, including the empty rank-zero matrix. -/
+/-- Symmetric integral `n × n` matrices that are positive definite over `ℚ`; for `n = 0` the
+empty matrix. -/
 abbrev PositiveGram (n : ℕ) :=
   {G : GramMatrix n // G.IsSymm ∧ (G.map (algebraMap ℤ ℚ)).PosDef}
 
@@ -51,7 +56,8 @@ def nativeLattice {n : ℕ} (G : PositiveGram n) :
     IntegralLattice (Fin n → ℚ) :=
   IntegralLattice.ofGramMatrix (Pi.basisFun ℚ (Fin n)) G.1 G.2.1
 
-/-- Integral basis changes, with invertibility retained even before definiteness is used. -/
+/-- Integral congruence: `AᵀGA = H` for an integral matrix `A` with unit determinant, that is
+`A ∈ GLₙ(ℤ)`. -/
 def GramEquivalent {n : ℕ} (G H : PositiveGram n) : Prop :=
   ∃ A : GramMatrix n, IsUnit A.det ∧ A.transpose * G.1 * A = H.1
 
@@ -85,13 +91,53 @@ def classOf {n : ℕ} (G : PositiveGram n) : GramClass n :=
 def fullAutomorphismOrder {n : ℕ} (G : PositiveGram n) : ℕ :=
   Nat.card (IntegralLattice.Isometry (nativeLattice G) (nativeLattice G))
 
-/-- Descent is justified by conjugation under actual integral isometries. -/
+/-- The order of the full integral isometry group `O(L)` of the native lattice `L` of the chosen
+Gram representative `Quotient.out c` of the class `c`. -/
 def classAutomorphismOrder {n : ℕ} (c : GramClass n) : ℕ :=
   fullAutomorphismOrder (Quotient.out c)
 
+/-! ## Layer 1: quotient and gauge transport -/
+
+/-- Two positive Gram matrices of rank `n` lie in one genus when, for every prime `p`, some
+`A ∈ Mₙ(ℤ_p)` with unit determinant satisfies `AᵀGA = H` over `ℤ_p` (IntegralLattices §3F);
+both being positive definite of rank `n`, their real classes agree. -/
+def SameGenus {n : ℕ} (G H : PositiveGram n) : Prop :=
+  ∀ (p : ℕ) [Fact p.Prime], ∃ A : Matrix (Fin n) (Fin n) ℤ_[p], IsUnit A.det ∧
+    A.transpose * G.1.map (Int.cast : ℤ → ℤ_[p]) * A = H.1.map (Int.cast : ℤ → ℤ_[p])
+
+/-- The full mass of the genus of `G`: the sum of `1/|O(L)|`, with `O(L)` the full integral
+isometry group, over the integral isometry classes of positive Gram matrices in the genus of `G`
+(IntegralLattices §7A). -/
+def genusMass {n : ℕ} (G : PositiveGram n) : ℚ :=
+  ∑' c : {c : GramClass n // ∃ H : PositiveGram n, classOf H = c ∧ SameGenus G H},
+    (classAutomorphismOrder c.1 : ℚ)⁻¹
+
+/-- The local density
+`α_p(G) = lim_{r → ∞} p^(−r·n(n−1)/2) · #{X ∈ Mₙ(ℤ/p^r) : XᵀGX ≡ G (mod p^r)}`
+(IntegralLattices §7C). -/
+def localDensity {n : ℕ} (G : GramMatrix n) (p : ℕ) : ℝ :=
+  Filter.limUnder Filter.atTop fun r : ℕ =>
+    (Nat.card {X : Matrix (Fin n) (Fin n) (ZMod (p ^ r)) //
+        X.transpose * G.map (Int.cast : ℤ → ZMod (p ^ r)) * X =
+          G.map (Int.cast : ℤ → ZMod (p ^ r))} : ℝ) /
+      (p : ℝ) ^ (r * (n * (n - 1) / 2))
+
+/-- Siegel's mass formula, the numerical form of 1.3: for a positive definite integral Gram
+matrix `G` of rank `n ≥ 3`, the full mass of its genus is
+`2 π^(−n(n+1)/4) ∏_{j=1}^{n} Γ(j/2) · (det G)^((n+1)/2) · ∏_p (α_p(G)/2)⁻¹`,
+the product over all primes converging absolutely (Conway–Sloane, equations (2), (3), (6)). -/
+theorem genusMass_eq {n : ℕ} (hn : 3 ≤ n) (G : PositiveGram n) :
+    (genusMass G : ℝ) =
+      2 * Real.pi ^ (-((n : ℝ) * (n + 1)) / 4) *
+        (∏ j ∈ Finset.Icc 1 n, Real.Gamma ((j : ℝ) / 2)) *
+        (G.1.det : ℝ) ^ (((n : ℝ) + 1) / 2) *
+        ∏' p : Nat.Primes, (localDensity G.1 p / 2)⁻¹ := by
+  sorry
+
 /-! ## Layer 3: The even-unimodular mass -/
 
-/-- Evenness and unimodularity use the native lattice predicates. -/
+/-- The classes of positive definite Gram matrices of rank `n` whose native lattice is even and
+unimodular. -/
 def evenUnimodularClasses (n : ℕ) : Set (GramClass n) :=
   {c | ∃ G : PositiveGram n, classOf G = c ∧
     (nativeLattice G).IsEven ∧ (nativeLattice G).IsUnimodular}
@@ -100,12 +146,16 @@ def evenUnimodularClasses (n : ℕ) : Set (GramClass n) :=
 def evenUnimodularMass (n : ℕ) : ℚ :=
   ∑' c : evenUnimodularClasses n, (classAutomorphismOrder c.1 : ℚ)⁻¹
 
-/-- The Bernoulli convention is the native one with B₁=-1/2; rank zero is separate. -/
+/-- `|B_m/(2m)| · ∏_{j=1}^{m−1} |B_{2j}/(4j)|`, with Mathlib's Bernoulli numbers `bernoulli`
+(`B₁ = −1/2`); at `m = 0` the division by zero makes it `0`. -/
 def bernoulliFullMass (m : ℕ) : ℚ :=
   |bernoulli m / (2 * (m : ℚ))| *
     ∏ j ∈ Finset.Ico 1 m, |bernoulli (2 * j) / (4 * (j : ℚ))|
 
-/-- The full orthogonal mass formula for positive rank divisible by eight. -/
+/-- The mass formula for even unimodular lattices: for `n > 0` divisible by `8`, the sum of
+`1/|O(L)|` over the classes of positive definite even unimodular lattices `L` of rank `n` is
+`|B_{n/2}/n| · ∏_{j=1}^{n/2−1} |B_{2j}/(4j)|` (Belolipetsky–Gan, Theorem 3.1, p.4, with the
+dyadic correction `λ₂ = 1` of §5, Corollary 5.3, p.7; Conway–Sloane, §9(iv), p.274). -/
 theorem evenUnimodularMass_eq (n : ℕ) (hn : 0 < n) (h8 : 8 ∣ n) :
     evenUnimodularMass n = bernoulliFullMass (n / 2) := by
   sorry
