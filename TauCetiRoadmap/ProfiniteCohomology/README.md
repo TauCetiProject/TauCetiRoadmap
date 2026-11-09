@@ -47,10 +47,15 @@ short definition on their carriers.
 
 ### Library scope and remaining targets
 
-The remaining targets are the universe comparison, continuous Frobenius reciprocity and its
-transport laws, coefficient and connecting-map compatibilities, simple-module dévissage, and the
-general Evens norm. The list below describes the library scope; a qualified Mathlib
-or Tau Ceti declaration is consumed under Exact supplier contracts, not replanned.
+The remaining targets, which the pinned Tau Ceti does not implement, are the independence of the
+dimension invariants from the extra coefficient universe with the comparison of canonical
+cohomology objects beneath it (11.2), the explicit degree-one transport of conjugation through
+corestriction and the compatibility of conjugation with restriction (Layer 6), the agreement of the
+all-degree finite-quotient system with the explicit systems of Layer 4 in degrees `0, 1, 2` (10.1),
+the agreement of the canonical Shapiro map with the explicit Shapiro isomorphisms in degrees
+`0, 1, 2` (10.4), and the general Evens norm (13.2). The list below describes the library scope; a
+qualified Mathlib or Tau Ceti declaration is consumed under Exact supplier contracts, not
+replanned.
 
 1. Discrete modules over a topological group: the openness API, the closure properties actually
    used, continuous sections of profinite quotients (Layer 0).
@@ -99,8 +104,9 @@ This list is definitive, not a list of things that might come later.
   for them. The one exception is the cohomology of a finite discrete group, where every cochain is
   continuous and the topology of the coefficients plays no part: Layer 11's class-module theorem
   is stated for the finite quotient `G ⧸ V` acting on the profinite group `V^ab(p)`.
-- All-degree explicit inhomogeneous cochains `C(Gⁿ, M)` for groups that are not profinite. Layer
-  3 gives the inhomogeneous description exactly where currying is an equivalence.
+- All-degree explicit inhomogeneous cochains `C(Gⁿ, M)`, for every topological group, profinite or
+  not. The explicit complex of Layer 2 stops at degree `2`, and Layer 3 compares the explicit and
+  canonical models in degrees `0, 1, 2` only.
 - Profinite Sylow theory and the resulting equality `cd_p G = cd_p G_p`. That belongs to the
   Profinite Pro-`p` Groups roadmap, which owns the existence and conjugacy of pro-`p` Sylow subgroups
   and supernatural indices.
@@ -196,7 +202,7 @@ shapes" is not a citable export, and no row contains one.
 | the coefficient dictionary | 1 | `TauCeti.ofDiscreteModule`, `TauCeti.ofDiscreteModule_isSmoothDiscrete`, `TauCeti.ofDiscreteModuleMap`, `TauCeti.ofDiscreteModulePair`, `TauCeti.ofDiscreteModuleQuotient`, `TauCeti.IsSmoothDiscrete`, `TauCeti.SmoothDiscreteTopRep`, `TauCeti.discreteRepEquivSmoothTopRep` | `DiscreteRep R G ≌ SmoothDiscreteTopRep R G`; Tau Ceti's `TauCeti.ofDiscreteModule ℤ G M` and its companions |
 | explicit `H⁰`, `H¹`, `H²` | 2 | `TauCeti.ContCohomology.C1`, `TauCeti.ContCohomology.C2`, `TauCeti.ContCohomology.d0`, `TauCeti.ContCohomology.d1`, `TauCeti.ContCohomology.Z1`, `TauCeti.ContCohomology.Z2`, `TauCeti.ContCohomology.B1`, `TauCeti.ContCohomology.B2`, `TauCeti.ContCohomology.H0`, `TauCeti.ContCohomology.H1`, `TauCeti.ContCohomology.H2`, `TauCeti.ContCohomology.H1pi`, `TauCeti.ContCohomology.H2pi`, `TauCeti.ContCohomology.DiscreteH1`, `TauCeti.ContCohomology.DiscreteH2`, `TauCeti.ContCohomology.discreteH1Equiv`, `TauCeti.ContCohomology.discreteH2Equiv` | `M^G`, and quotients of additive subgroups of the cochain spaces; Tau Ceti's `TauCeti.ContCohomology` complex |
 | explicit low-degree functoriality | 2 | `TauCeti.ContCohomology.explicitMap1`, `TauCeti.ContCohomology.explicitMap1Equiv`, `TauCeti.ContCohomology.explicitRes0`, `TauCeti.ContCohomology.explicitRes1`, `TauCeti.ContCohomology.explicitRes2`, `TauCeti.ContCohomology.explicitInfl1`, `TauCeti.ContCohomology.explicitInfl2`, `TauCeti.ContCohomology.explicitCoeff0`, `TauCeti.ContCohomology.explicitCoeff1`, `TauCeti.ContCohomology.explicitCoeff2`, `TauCeti.ContCohomology.explicitConj1`, `TauCeti.ContCohomology.explicitConj1_eq_id_of_mem` | additive maps between the explicit groups |
-| the comparison in degrees 0, 1, 2 | 3 | `TauCeti.ContCohomology.explicitH0IsoContinuousCohomology`, `TauCeti.ContCohomology.explicitH1IsoContinuousCohomology`, `TauCeti.ContCohomology.explicitH2IsoContinuousCohomology` | isomorphisms in `TopModuleCat ℤ` |
+| the comparison in degrees 0, 1, 2 | 3 | `TauCeti.ContCohomology.explicitH0IsoContinuousCohomology`, `TauCeti.ContCohomology.explicitH1AddEquivContinuousCohomology`, `TauCeti.ContCohomology.explicitH2AddEquivContinuousCohomology`, `TauCeti.ContCohomology.explicitH1IsoContinuousCohomology`, `TauCeti.ContCohomology.explicitH2IsoContinuousCohomology` | additive equivalences in degree `1` for every topological group and in degree `2` for locally compact `G`; isomorphisms in `TopModuleCat ℤ` in degree `0` for every topological group and in degrees `1, 2` for compact `G` |
 | the comparison with discrete `groupCohomology` | 3 | `TauCeti.ContCohomology.explicitH0IsoGroupCohomology`, `TauCeti.ContCohomology.explicitH1IsoGroupCohomology`, `TauCeti.ContCohomology.explicitH2IsoGroupCohomology` | additive equivalences with `groupCohomology (Rep.ofDistribMulAction ℤ G M) i` |
 | naturality of the comparison | 3 | `TauCeti.ContCohomology.explicitIso_map`, `TauCeti.ContCohomology.explicitIso_res`, `TauCeti.ContCohomology.explicitIso_infl`, `TauCeti.ContCohomology.explicitIso_coeffMap` | commuting squares in compatible pairs |
 | the finite-quotient system | 4 | `TauCeti.QuotientGroup.mapOfLE`, `TauCeti.invariantsInclusion`, `TauCeti.invariantsInclusion_equivariant`, `TauCeti.transitionPair`, `TauCeti.finiteLevelTransition`, `TauCeti.finiteLevelTransition_refl`, `TauCeti.finiteLevelTransition_comp` | a functor on `(OpenNormalSubgroup G)ᵒᵖ` |
@@ -465,8 +471,9 @@ All paths at the pinned Mathlib.
   (`cochainsMap` for a pair `(f : G →* H, φ : res f A ⟶ B)`, `map`, `mapCocycles₁/₂`, `H1InfRes`
   with `H1InfRes_exact`, `resNatTrans`, `infNatTrans`, `functor`); `LongExactSequence.lean`
   (`groupCohomology.δ`, `mapShortComplex₁/₂/₃_exact`, `δ₀_apply`, `δ₁_apply`); `Shapiro.lean`
-  (`coindIso : Hⁿ(G, Coind_S^G A) ≅ Hⁿ(S, A)`); `Hilbert90.lean` (`H1ofAutOnUnitsUnique`,
-  `TauCeti.hilbert90`); `FiniteCyclic.lean` (`groupCohomologyIsoEven/Odd`); `Resolution.lean` (the bar
+  (`coindIso : Hⁿ(G, Coind_S^G A) ≅ Hⁿ(S, A)`); `Hilbert90.lean`
+  (`groupCohomology.H1ofAutOnUnitsUnique`, Noether's finite-level Hilbert 90 as a `Unique`
+  instance on `H1 (Rep.ofAlgebraAutOnUnits K L)`); `FiniteCyclic.lean` (`groupCohomologyIsoEven/Odd`); `Resolution.lean` (the bar
   resolution).
 - **Coinduction and finite index, discrete:** `Mathlib/RepresentationTheory/Coinduced.lean`
   (`Representation.coind` along any `φ`), `Induced.lean`, `FiniteIndex.lean`
@@ -572,11 +579,18 @@ its objects (`SmoothDiscrete`, `Functoriality`, `Additive`, `LowDegree`, `Explic
 `TrivialF2`, `Evens/Cochain`, `Evens/Class`, `Evens/DihedralPullback`,
 `Corestriction/Mackey/Basic`, `Corestriction/Mackey/AllDegrees`,
 `Corestriction/AllDegreeTransitivity`, `Corestriction/ConnectingMap`, `Corestriction/Conjugation`,
-`Coinduced/Quotient`, `FiniteCyclic`, `CohomologicalDimension/ClosedSubgroup`,
-`CohomologicalDimension/Corestriction`, `CohomologicalDimension/IntegralCriterion`, the class-module
+`Coinduced/Quotient`, `FiniteCyclic`, `CompactDiscrete`, `Coinduced/Adjunction`,
+`Coinduced/Induced`, `Shapiro/Naturality`, `Shapiro/Corestriction`, `Shapiro/Induced`,
+`Corestriction/Naturality`, `FiniteQuotient/Naturality`, `FilteredColimits`,
+`Coefficients/FilteredColimits`, `Coefficients/FinitelyGenerated`, `Annihilation`, `Torsion`,
+`Cup/Restriction`, `Cup/Inflation`, `Cup/Naturality`, `Cup/ConnectingMap/AllDegrees`,
+`CohomologicalDimension/ClosedSubgroup`, `CohomologicalDimension/Corestriction`,
+`CohomologicalDimension/IntegralCriterion`, `CohomologicalDimension/Simple`, the class-module
 package `CohomologicalDimension/ClassModule/` (`Basic`, `ChangeOfGroup`, `Transfer`, `Cyclic`,
 `Inflation`, `PGroup`, `CoprimeRestriction` and `Sylow`), `TrivialF2/Character`,
-`Evens/IndexTwoNorm` and `Evens/Identities`), the transversal word `TauCeti.lWord` of
+`Evens/IndexTwoNorm` and `Evens/Identities`), the inflation-invariance of irreducibility and
+simplicity `Representation.isIrreducible_ofQuotient_iff` and `Rep.simple_ofQuotient_iff` of
+`TauCeti/RepresentationTheory/Induction/Restriction.lean`, the transversal word `TauCeti.lWord` of
 `TauCeti/GroupTheory/TransversalWord.lean` with its continuity `TauCeti.continuous_lWord`, the
 permutation wreath products `TauCeti.PermutationWreathProduct` and `TauCeti.WreathProduct` with the
 monomial homomorphism `Subgroup.monomialHom` and its continuity `Subgroup.continuous_monomialHom`,
@@ -1061,9 +1075,9 @@ refinement only where a `k`-action genuinely exists.
 
 *Needs:* Layer 2; Mathlib `groupCohomology` and its low-degree cocycles.
 
-### 3.2 Inhomogeneous against canonical, for profinite `G`, degrees `0, 1, 2`
+### 3.2 Inhomogeneous against canonical, degrees `0, 1, 2`
 
-The canonical model
+(NSW (1.2.2) and the inhomogeneous translation of I §2.) The canonical model
 uses invariant elements of iterated compact-open function spaces `C(G, C(G, …, M))`, not
 functions on `Gⁿ`. Mathlib's `ContinuousMap.curry : C(G × G, M) → C(G, C(G, M))` is defined with
 no hypothesis, but its inverse `ContinuousMap.uncurry` needs `[LocallyCompactSpace G]`, and the
@@ -1071,10 +1085,22 @@ equivalence `Homeomorph.curry` needs local compactness of both factors. So the p
 canonical description back to functions on `G × G` is exactly a local-compactness statement,
 and avoiding that hypothesis is why the canonical model is homogeneous rather than `n`-ary.
 
-Accordingly this milestone is stated for **profinite `G`**, which is compact Hausdorff and hence
-locally compact, with discrete coefficients. State the compact-open equivalence as an explicit
-prerequisite of the degree-2 comparison. A locally compact Hausdorff generalization may be added
-only when the exact Mathlib theorem and all its hypotheses are named in the statement.
+Accordingly the milestone is stated, with discrete coefficients, at exactly the generality of the
+exponential law each degree uses. Degree `0` holds over every topological group, through
+`ContinuousCohomology.zeroIso`. Degree `1` holds over every topological group, as an additive
+equivalence, since a degree-1 homogeneous cochain is an element of `C(G, C(G, M))` determined by a
+single continuous map `G → M` and no uncurrying is needed. Degree `2` holds for **locally
+compact** `G`, the hypothesis of `ContinuousMap.uncurry` that turns an element of
+`C(G, C(G, M))` back into a continuous function on `G × G`. The comparisons as isomorphisms in
+`TopModuleCat ℤ` hold for **compact** `G` (3.3). A profinite group is compact and hence locally
+compact, so it satisfies all of them. Tau Ceti has the comparison at each of these generalities:
+`TauCeti.ContCohomology.explicitH0IsoContinuousCohomology` (`ContinuousCohomologyIso.lean`) in
+degree `0`, an isomorphism in `TopModuleCat ℤ` over any topological group;
+`TauCeti.ContCohomology.explicitH1AddEquivContinuousCohomology` in degree `1` over any
+topological group; `TauCeti.ContCohomology.explicitH2AddEquivContinuousCohomology` in degree `2`
+under `[LocallyCompactSpace G]`; and `TauCeti.ContCohomology.explicitH1IsoContinuousCohomology`
+and `TauCeti.ContCohomology.explicitH2IsoContinuousCohomology` under `[CompactSpace G]`, all four
+in `CohomologyComparison.lean`.
 
 The chain-level correspondence is the classical one: in degree 1,
 `f (g₀, g₁) = g₀ • c (g₀⁻¹ * g₁)` with inverse `c g = f (1, g)`; in degree 2,
@@ -1091,11 +1117,29 @@ milestone.
 
 *Needs:* Layers 1 and 2; Mathlib `ContinuousMap.curry`, `ContinuousMap.uncurry` and `Homeomorph.curry`.
 
+**Checks.**
+
+- `G = ℚ_p` with trivial `𝔽_p`: `ℚ_p` is locally compact and not compact, so the degree-two
+  comparison applies although `ℚ_p` is not profinite, while the `TopModuleCat` form is not
+  asserted, because its proof uses the discreteness of the canonical side, which rests on
+  compactness.
+- `G = ⊕_ℕ 𝔽₂` with the subspace topology from the compact group `∏_ℕ 𝔽₂`: a dense subgroup that
+  is not closed, hence not locally compact. The degree-one comparison applies, and with trivial
+  `𝔽₂` both sides are the continuous characters, the finite sums of coordinate characters, a
+  group `⊕_ℕ 𝔽₂` and not the group `∏_ℕ 𝔽₂` of all characters of the underlying discrete group;
+  a comparison that forgot continuity would get the second group. The degree-two comparison is not
+  asserted for this `G`.
+- For `G = 1` the degree-one cochain `c` and its homogeneous form `f (g₀, g₁) = g₀ • c (g₀⁻¹ g₁)`
+  both reduce to the single value `c 1`, and the inverse formula `c g = f (1, g)` returns it.
+
 ### 3.3 The category of the comparison
 
-For compact `G` and discrete `M`, prove that `C(G, M)` is
-discrete in the compact-open topology, hence that every term of the homogeneous cochain complex
-and every subquotient of it is discrete. With that in hand, state the comparison as an
+For compact `G` and discrete `M`, `C(G, M)` is
+discrete in the compact-open topology, hence every term of the homogeneous cochain complex
+and every subquotient of it is discrete. This roadmap gives no textbook locator for it; the
+locator is Tau Ceti's instance `TauCeti.discreteTopology_continuousCohomology`
+(`CompactDiscrete.lean`), which makes `continuousCohomology n X` discrete for compact `G` and any
+`X : TopRep k G` whose underlying module is discrete. With that in hand, state the comparison as an
 isomorphism in `TopModuleCat ℤ` between discrete objects, rather than as an additive isomorphism
 after forgetting the topology. Whichever of the two a given statement makes, it must say which:
 an `explicit ≅ continuousCohomology` with the category left unsaid is not a usable statement.
@@ -1137,8 +1181,10 @@ entry on it is a milestone.
 The chain-level correspondence between inhomogeneous and homogeneous cochains is
 classical and is displayed above; what has to be watched is the hypothesis. `ContinuousMap.curry`
 needs nothing, `ContinuousMap.uncurry` needs `[LocallyCompactSpace Y]`, and `Homeomorph.curry`
-needs local compactness of both factors, so the comparison is stated for profinite `G`, which is
-compact Hausdorff. The false neighbor is the compact-open exponential law itself,
+needs local compactness of both factors, so the degree-two comparison is stated for locally
+compact `G`, the degree-one comparison for every topological group, and the transport lemmas with
+the hypotheses of the comparison they transport. The false neighbor is the compact-open
+exponential law itself,
 `C(G × G, M) ≃ C(G, C(G, M))` for an arbitrary topological group: currying is continuous with no
 hypothesis and the inverse is not, which is exactly why Mathlib carries the local-compactness
 hypothesis on `uncurry` and on `Homeomorph.curry`. What this does **not** establish is that the
@@ -1162,9 +1208,11 @@ This roadmap: Layers 1 and 2.
 
 The inputs for this layer are Mathlib: `OpenNormalSubgroup`, `ProfiniteGrp.toFiniteQuotientFunctor`,
 `Rep.quotientToInvariants`, `groupCohomology.map`, `AddCommGrpCat`. Tau Ceti: the modules
-`FiniteQuotient/Basic`, `FiniteQuotient/Explicit`, `FiniteQuotient/Colimit` and
-`FiniteQuotient/DegreeTwoDescent` of `TauCeti/RepresentationTheory/Homological/ContCohomology/`,
-which implement this layer apart from its coefficient colimits: the six milestones of the system as
+`FiniteQuotient/Basic`, `FiniteQuotient/Explicit`, `FiniteQuotient/Colimit`,
+`FiniteQuotient/DegreeTwoDescent`, `Coefficients/FilteredColimits` and
+`Coefficients/FinitelyGenerated` of
+`TauCeti/RepresentationTheory/Homological/ContCohomology/`,
+which implement this layer: the six milestones of the system as
 `TauCeti.QuotientGroup.mapOfLE`, `TauCeti.invariantsInclusion`,
 `TauCeti.invariantsInclusion_equivariant`, `TauCeti.transitionPair`,
 `TauCeti.finiteLevelTransition`, `TauCeti.finiteLevelTransition_refl` and
@@ -1239,13 +1287,42 @@ finite-level class that becomes zero in `G` is already zero at some deeper finit
 
 ### 4.3 Coefficient colimits
 
-`Hⁱ(G, -)` commutes with filtered colimits of discrete modules for
+For compact `G`, `Hⁱ(G, -)` commutes with filtered colimits of discrete modules for
 `i ≤ 2` on the explicit model: a continuous cochain into a filtered colimit takes its values in
-a single stage, by compactness again. With Layer 0: the cohomology of any discrete module is the
-filtered colimit
-over its finitely generated `ℤ[G ⧸ U]`-submodules.
+a single stage, by compactness again (NSW (1.5.1) and Serre, *Galois Cohomology* I §2.2 Prop. 8,
+each read at the constant system of groups). With Layer 0: the cohomology of any discrete module
+is the filtered colimit over its finitely generated `ℤ[G ⧸ U]`-submodules, `U` running over the
+open normal subgroups acting trivially on them; these are exactly the `G`-stable subgroups that are
+finitely generated as abelian groups, because `ℤ[G ⧸ U]` is a finitely generated `ℤ`-module.
 
-*Needs:* Layer 2 continuous cochains; filtered colimits of discrete modules and compactness.
+Tau Ceti has both. The explicit groups form functors `TauCeti.ContCohomology.explicitH0Functor`,
+`explicitH1Functor` and `explicitH2Functor` on smooth discrete representations, whose arrows are
+the explicit coefficient maps, naturally isomorphic to canonical continuous cohomology
+(`explicitH0FunctorIsoContinuousCohomology` and its two siblings, the third for locally compact
+`G`), and for compact `G` each preserves filtered colimits indexed by categories of size at most
+that of `G`: `TauCeti.ContCohomology.explicitH0Functor_preservesFilteredColimits`,
+`explicitH1Functor_preservesFilteredColimits` and `explicitH2Functor_preservesFilteredColimits`
+(`Coefficients/FilteredColimits.lean`), deduced from 10.2 through those isomorphisms; no total
+disconnectedness is needed. The finitely generated colimit, in every degree, is
+`TauCeti.SmoothDiscreteTopRep.isColimitContinuousCohomologyFGSubrepresentationCocone`
+(`Coefficients/FinitelyGenerated.lean`), over the subrepresentations whose underlying module is
+finitely generated.
+
+*Needs:* Layer 2 continuous cochains; filtered colimits of discrete modules and compactness; for
+the route through the canonical object, 10.2 and Layer 3.
+
+**Checks.**
+
+- For `G = ℤ_p` with trivial action and `X_k = p⁻ᵏℤ_p/ℤ_p`, colimit `ℚ_p/ℤ_p`: in degree one each
+  stage is `Hom(ℤ_p, ℤ/pᵏ) = ℤ/pᵏ` and the colimit `ℚ_p/ℤ_p` equals `H¹(ℤ_p, ℚ_p/ℤ_p)`, every
+  homomorphism `ℤ_p → ℚ_p/ℤ_p` being continuous because its image of `1` has finite order.
+- For finite `M`, `M` itself is finitely generated and the finitely generated colimit is constant,
+  so it returns `Hⁱ(G, M)`; for `M = ⊕_ℕ 𝔽₂` with trivial action the finitely generated
+  subrepresentations are the finite subspaces, and a class of `H¹(G, M) = Hom_cont(G, M)` has
+  finite image, so it lies in one of them.
+- Discrete `G = ⊕_ℕ ℤ`, not compact, fails the degree-one statement on the same system, as in the
+  negative check of 10.2: `(ℤ/pᵏ)^ℕ` has colimit the bounded sequences, smaller than
+  `(ℚ_p/ℤ_p)^ℕ`.
 
 ### 4.4 First consequences
 
@@ -1297,9 +1374,11 @@ At `G = C₂`, trivial `𝔽₂` coefficients, degree one at `U = G` is `0`, and
 
 Mathlib: `OpenNormalSubgroup`, `ProfiniteGrp.toFiniteQuotientFunctor`,
 `Rep.quotientToInvariants`, `groupCohomology.map`, `AddCommGrpCat`. Tau Ceti: the modules
-`FiniteQuotient/Basic`, `FiniteQuotient/Explicit`, `FiniteQuotient/Colimit` and
-`FiniteQuotient/DegreeTwoDescent` of `TauCeti/RepresentationTheory/Homological/ContCohomology/`,
-which implement this layer apart from its coefficient colimits: the six milestones of the system as
+`FiniteQuotient/Basic`, `FiniteQuotient/Explicit`, `FiniteQuotient/Colimit`,
+`FiniteQuotient/DegreeTwoDescent`, `Coefficients/FilteredColimits` and
+`Coefficients/FinitelyGenerated` of
+`TauCeti/RepresentationTheory/Homological/ContCohomology/`,
+which implement this layer: the six milestones of the system as
 `TauCeti.QuotientGroup.mapOfLE`, `TauCeti.invariantsInclusion`,
 `TauCeti.invariantsInclusion_equivariant`, `TauCeti.transitionPair`,
 `TauCeti.finiteLevelTransition`, `TauCeti.finiteLevelTransition_refl` and
@@ -1496,10 +1575,15 @@ well, in all three degrees: `TauCeti.ContCohomology.explicitCor0_mackey`,
 summands `TauCeti.ContCohomology.explicitMackeyTerm0`, `TauCeti.ContCohomology.explicitMackeyTerm1` and
 `TauCeti.ContCohomology.explicitMackeyTerm2` and their independence of the double-coset representative
 (`TauCeti.ContCohomology.explicitMackeyTerm0_eq_of_mk_eq` and its two siblings;
-`Corestriction/Mackey/Basic.lean`). What remains to build here is naturality of `TauCeti.ContCohomology.explicitCor1` and `TauCeti.ContCohomology.explicitCor2` in coefficient maps on classes
-(Tau Ceti has it on cochains, `map_cochainsCor1` and `map_cochainsCor2`, and in degree 0,
-`map_explicitCor0`), explicit degree-one transport of conjugation/corestriction,
-and conjugation/restriction compatibility. All-degree conjugation/corestriction and its explicit
+`Corestriction/Mackey/Basic.lean`). Naturality of the corestrictions in the coefficients is Tau
+Ceti's as well, for a continuous `G`-equivariant additive map `f : M →+ N` and open `U` of finite
+index: on cochains as `map_cochainsCor1` and `map_cochainsCor2`, and on classes as
+`map_explicitCor0`, `TauCeti.ContCohomology.explicitCor1_explicitMap1_id`
+(`Corestriction/Basic.lean`) and `TauCeti.ContCohomology.explicitCor2_explicitMap2_id`
+(`Corestriction/Naturality.lean`), each saying that applying `f` on `Hⁱ(U, -)` and then
+corestricting equals corestricting and then applying `f`. What remains to build here is the
+explicit degree-one transport of conjugation through corestriction and the compatibility of
+conjugation with restriction. All-degree conjugation/corestriction and its explicit
 degree-two version use the contracts
 `TauCeti.ContinuousCohomology.map_comp_corestriction_of_conj` and
 `TauCeti.ContCohomology.explicitCor2_explicitMap2_of_conj` in
@@ -1688,10 +1772,12 @@ carrier `TauCeti.DiscreteCoind`, the trace `TauCeti.coindTrace`, the object and 
 `TauCeti.topologicalCoindIsoAlgebraic` with `TauCeti.topologicalCoindIsoAlgebraic_shapiro`, and
 the isomorphisms
 `TauCeti.ContCohomology.explicitShapiro0`, `TauCeti.ContCohomology.explicitShapiro1` and
-`TauCeti.ContCohomology.explicitShapiro2`. What remains to build here is the continuous
-Frobenius reciprocity, the naturality of the explicit Shapiro isomorphisms in `A` and their
-compatibility with restriction and corestriction, `Ind_H^G A ≅ Coind_H^G A` for open `H` with the
-induced-module form of Shapiro, and the worked example.
+`TauCeti.ContCohomology.explicitShapiro2`. The rest of the layer is Tau Ceti's too: the continuous
+Frobenius reciprocity (`Coinduced/Adjunction.lean`, 7.1), the naturality of the explicit Shapiro
+maps in `A` with their compatibility with restriction (`Shapiro/Naturality.lean`) and with
+corestriction (`Shapiro/Corestriction.lean`, 7.2), and `Ind_H^G A ≅ Coind_H^G A` for open `H` with
+the induced-module form of Shapiro (`Coinduced/Induced.lean`, `Shapiro/Induced.lean`, 7.3). Nothing
+in this layer remains to build.
 
 
 ### 7.1 The coinduced module
@@ -1707,7 +1793,13 @@ in `A` (`TauCeti.coindMap_injective`,
 Layer 0's continuous section of `G → G ⧸ H`, cited by name. The counit is evaluation at `1`
 (`TauCeti.coindEval`, bundled as `TauCeti.coindCounit`). Adjunction with restriction:
 `Hom_G(M, Coind_H^G A) ≃ Hom_H(res M, A)`, the continuous Frobenius reciprocity, in the
-direction of the pin's discrete adjunction.
+direction of the pin's discrete `Rep.resCoindHomEquiv`. Tau Ceti states it on smooth discrete
+representations of a compact group `G` and any subgroup `H`, closed or not, as the additive
+equivalence `TauCeti.smoothDiscreteResCoindHomEquiv`, whose forward map sends `f` to
+`m ↦ (g ↦ f (g • m))` and whose inverse is restriction followed by evaluation at `1`; as the
+adjunction `TauCeti.smoothDiscreteResCoindAdjunction`, natural in both arguments, with counit
+`TauCeti.coindCounitNatTrans`; and as the instance `TauCeti.coindFunctor_isRightAdjoint`
+(`Coinduced/Adjunction.lean`).
 Exactness is not represented only by preservation of monomorphisms and epimorphisms:
 `TauCeti.coindFunctor_map_shortExact` states that an injective map followed by a surjective one, exact at
 the middle object, is sent to maps with the same three properties, including exactness at the
@@ -1716,7 +1808,7 @@ middle object.
 in a footnote (2nd ed., p. 61). When citing NSW (1.6.4) next to a Lean `coind`, cite the
 footnote too, and reserve `ind` for the genuine left adjoint.
 
-*Needs:* Layer 0 continuous sections and open stabilizers; `TauCeti.DiscreteCoind`, its counit and exactness.
+*Needs:* Layer 0 continuous sections and open stabilizers; `TauCeti.DiscreteCoind`, its counit and exactness; for the adjunction, `TauCeti.smoothDiscreteResCoindHomEquiv`.
 
 **Checks.**
 
@@ -1736,24 +1828,42 @@ and `TauCeti.ContCohomology.explicitShapiro2`, on the discrete carrier `TauCeti.
 application theorems (`TauCeti.ContCohomology.explicitShapiro1_apply` and its siblings) pin
 evaluation at `1`, and their inverses pin the section formula
 (`TauCeti.ContCohomology.explicitShapiro1_symm_apply`, `explicitShapiro2_symm_apply`). Degree `0`
-needs no closedness. The pin's `coindIso` fixes the direction. The canonical Shapiro map in every
+needs no closedness. The naturality in `A` and the compatibility with restriction are one theorem
+per degree, the commuting square of a compatible pair of subgroup and coefficient maps pushed to
+the coinduced coefficients by `TauCeti.DiscreteCoind.pullback`:
+`TauCeti.ContCohomology.explicitShapiro0_pullback`, `explicitShapiroMap1_pullback` and
+`explicitShapiroMap2_pullback` (`Shapiro/Naturality.lean`), which need no closedness. The
+compatibility with corestriction is `TauCeti.ContCohomology.explicitShapiro0_relativeTrace_corestriction`,
+`explicitShapiroMap1_relativeTrace_corestriction` and
+`explicitShapiroMap2_relativeTrace_corestriction` (`Shapiro/Corestriction.lean`): for compact `G`
+and subgroups `V ≤ U` with `V` of finite index in `U`, and open in `U` in degrees one and two, the
+relative trace `Coind_V^G A → Coind_U^G A` followed by the forward Shapiro map of `U` equals the
+forward Shapiro map of `V` followed by corestriction from `V` to `U`. The pin's `coindIso` fixes
+the direction. The canonical Shapiro map in every
 degree and its isomorphism `TauCeti.ContinuousCohomology.shapiroIso` are Layer 10 milestones, not Layer 7 exports.
 
-*Needs:* Layer 2; the coinduced module, evaluation and section formulas; Layer 6 for corestriction compatibility.
+*Needs:* Layer 2; the coinduced module, evaluation and section formulas; `TauCeti.DiscreteCoind.pullback` for naturality and restriction; Layer 6 and Tau Ceti's relative trace `TauCeti.DiscreteCoind.relativeTrace` for corestriction compatibility.
 
 ### 7.3 Open subgroups and the algebraic comparison
 
-For **open** `H`, prove `Ind_H^G A ≅
-Coind_H^G A` using a finite transversal, with the pin's discrete `Rep.indCoindIso` as the model,
-and derive the induced-module form of Shapiro. Then state the theorem that joins this roadmap to
-the representation theory family: for open `H`, the topological coinduction of a discrete module
-agrees with the algebraic coinduction of
+For **open** `H`, `Ind_H^G A ≅
+Coind_H^G A` comes from a finite transversal, with the pin's discrete `Rep.indCoindIso` as the
+model, and the induced-module form of Shapiro follows. Tau Ceti has both, for compact `G` and an
+open subgroup `U`: the isomorphism `TauCeti.topologicalIndCoindIso` of smooth discrete
+representations between Mathlib's algebraic induction, given the discrete topology, and locally
+constant coinduction (`Coinduced/Induced.lean`), and the isomorphism
+`TauCeti.ContinuousCohomology.inducedShapiroIso` from `Hⁿ(G, Ind_U^G A)` to `Hⁿ(U, A)` in every
+degree, for profinite `G`, whose forward map is restriction to `U` followed by the transported
+evaluation counit, natural in `A` by `TauCeti.ContinuousCohomology.inducedShapiroMap_naturality`
+(`Shapiro/Induced.lean`). The theorem that joins this roadmap to
+the representation theory family is that, for open `H`, the topological coinduction of a discrete
+module agrees with the algebraic coinduction of
 [`RepresentationTheory/InductionRestriction`](../RepresentationTheory/InductionRestriction/README.md),
 by the named `TauCeti.topologicalCoindIsoAlgebraic`, with compatibility with the explicit and canonical
 Shapiro maps stated by `TauCeti.topologicalCoindIsoAlgebraic_shapiro` (`Shapiro/Algebraic.lean`). For closed `H` of infinite index
 only the coinduced form is asserted.
 
-*Needs:* Mathlib `Rep.indCoindIso`; InductionRestriction, “What Mathlib already has (consume)” and Layer 0; `TauCeti.topologicalCoindIsoAlgebraic`.
+*Needs:* Mathlib `Rep.indCoindIso`; InductionRestriction, “What Mathlib already has (consume)” and Layer 0; `TauCeti.topologicalCoindIsoAlgebraic`, `TauCeti.topologicalIndCoindIso`, `TauCeti.ContinuousCohomology.inducedShapiroIso`.
 
 ### 7.4 Acyclicity and dimension shifting
 
@@ -1895,6 +2005,18 @@ Four theorems, in the degrees where both sides are defined:
 3. coefficient maps, that is naturality in `μ` (NSW (1.4.2));
 4. the **projection formula** `cor (res a ⌣ b) = a ⌣ cor b` for open `U`, by the transversal
    argument (NSW (1.5.3)(iv), Ribes-Zalesskii 7.9.6 and 7.9.7, Brown V (3.8)).
+
+All four are Tau Ceti's, one theorem per shape `(p, q)` with `p + q ≤ 2`: restriction as
+`TauCeti.ContCohomology.explicitRes0_explicitCup00` through `explicitRes2_explicitCup11` and
+`explicitRes2_explicitCup20` (`Cup/Restriction.lean`); inflation along a normal subgroup, over the
+pairing the given one induces on invariants, as `TauCeti.ContCohomology.explicitInfl0_explicitCup00`
+through `explicitInfl2_explicitCup20` (`Cup/Inflation.lean`); naturality in a compatible pair whose
+three coefficient maps intertwine the two pairings as `TauCeti.ContCohomology.explicitMap0_explicitCup00`
+through `explicitMap2_explicitCup11`, with the coefficient instances
+`TauCeti.ContCohomology.explicitCoeff0_explicitCup00` through `explicitCoeff2_explicitCup11`
+(`Cup/Naturality.lean`), of which the restriction theorems are the instance at `(U ↪ G, id)`; and
+the projection formula as `TauCeti.ContCohomology.explicitCup_projection` and its five companions
+(`ProjectionFormula.lean`, cited in Layer 6).
 
 *Needs:* Layer 2 restriction, inflation and coefficient maps; Layer 6 corestriction.
 
@@ -2099,8 +2221,8 @@ cofinality statement in the form Layer 4 consumes.
 
 First, for a specified Galois extension `L/K` with `Gal(L/K)`
 profinite: `H¹(Gal(L/K), Lˣ) = 0` (NSW (6.2.1); multiplicative coefficients through `Additive`).
-Prove it by Layer 4's colimit from the pin's finite-level `groupCohomology.hilbert90`
-(`H1ofAutOnUnitsUnique`) through Layer 3's finite comparison and the dictionary above, citing the
+Prove it by Layer 4's colimit from the pin's finite-level Hilbert 90, the instance
+`groupCohomology.H1ofAutOnUnitsUnique`, through Layer 3's finite comparison and the dictionary above, citing the
 named quotient and fixed-field equivalences rather than "by Layer 4". Then specialize to
 `L = Kˢ`, which is the exported `TauCeti.hilbert90`, stated at `UnitsCoeff K` against the canonical
 carrier: Tau Ceti's `TauCeti.subsingleton_H1_additive_units` and `TauCeti.hilbert90`. Layer 4
@@ -2265,19 +2387,46 @@ continuous action. All three are Tau Ceti's, of the same names in `TauCeti.ContC
 (`FiniteQuotient/Canonical.lean`, `FiniteQuotient/AllDegreeColimit.lean`), with the object,
 arrow, point and leg equations `continuousFiniteQuotientSystem_obj`,
 `continuousFiniteQuotientTransition_eq_map`, `continuousFiniteQuotientCocone_pt` and
-`continuousFiniteQuotientComparisonApp_eq_map`. What remains here is naturality in coefficients
-and agreement with every Layer 4 system in degrees `0, 1, 2`.
+`continuousFiniteQuotientComparisonApp_eq_map`. The system is natural in the coefficients, also
+by Tau Ceti (`FiniteQuotient/Naturality.lean`, NSW (1.2.5)): an equivariant `f : M →+[G] N` of
+discrete modules gives the natural transformation
+`TauCeti.ContCohomology.continuousFiniteQuotientSystemMap f n` of systems, commuting with the
+transitions by `TauCeti.ContCohomology.continuousFiniteQuotientTransition_naturality`, and the
+comparison to `Hⁿ(G, -)` is natural by
+`TauCeti.ContCohomology.continuousFiniteQuotientComparison_naturality`. What remains here is the
+agreement with every Layer 4 system in degrees `0, 1, 2`.
 
 *Needs:* Layer 1 canonical cohomology; Layer 4 finite-quotient system and descent.
 
 ### 10.2 Filtered coefficient colimits
 
-Restrict Layer 1's `continuousCohomologyFunctor R G n`
-along `smoothDiscreteι R G` to smooth discrete coefficients and prove
-`TauCeti.ContinuousCohomology.continuousCohomology_preservesFilteredColimits`. Layer 11 cites this theorem, not an unnamed
-compactness argument.
+For a **compact** group `G : Type u` and every degree `n`, Layer 1's
+`continuousCohomologyFunctor R G n`, restricted along `smoothDiscreteι R G` to smooth discrete
+coefficients, preserves colimits of filtered diagrams indexed by categories of size at most `u`
+(objects in a universe `w'` and morphisms in a universe `w` with `UnivLE.{w', u}` and
+`UnivLE.{w, u}`): `Hⁿ(G, colim_j X_j) = colim_j Hⁿ(G, X_j)` (NSW (1.5.1) and Serre, *Galois
+Cohomology* I §2.2 Prop. 8, each read at the constant system of groups). This is Tau Ceti's
+`TauCeti.ContinuousCohomology.continuousCohomology_preservesFilteredColimits`
+(`FilteredColimits.lean`). Layer 11 cites this theorem, not an unnamed compactness argument.
+Compactness is used twice: a continuous map from `G` into a discrete space has finite image, so a
+cochain into the colimit comes from one stage; and the orbit of a lift is finite, so a lift becomes
+invariant at a deeper stage.
 
-*Needs:* Layer 1 smooth discrete coefficient functor; compactness and filtered colimits.
+*Needs:* Layer 1 smooth discrete coefficient functor; compactness of `G` and filtered colimits of
+size at most that of `G`.
+
+**Checks.**
+
+- For `G = 1` every positive degree vanishes on both sides, and in degree `0` the statement is that
+  the colimit of the `X_j` is the colimit of the `X_j`.
+- Compactness cannot be dropped: for the discrete, non-compact `G = ⊕_ℕ ℤ` with trivial action on
+  `X_k = p⁻ᵏℤ_p/ℤ_p ≅ ℤ/pᵏ`, colimit `ℚ_p/ℤ_p`, one has `H¹(G, X_k) = Hom(G, X_k) = (ℤ/pᵏ)^ℕ`,
+  whose colimit consists of the sequences of bounded order, while `H¹(G, ℚ_p/ℤ_p) = (ℚ_p/ℤ_p)^ℕ`
+  contains `(p⁻ᵏ)_k`, of unbounded order, so the comparison is not surjective.
+- For the profinite `G = ℤ_p` and `X_k = ℤ/pᵏ` with trivial action and the inclusions
+  `ℤ/pᵏ ↪ ℤ/pᵏ⁺¹`, colimit `ℚ_p/ℤ_p`: `H¹(ℤ_p, ℤ/pᵏ) = ℤ/pᵏ` and
+  `H¹(ℤ_p, ℚ_p/ℤ_p) = ℚ_p/ℤ_p`, and the transition maps are the inclusions, so the colimit of the
+  left sides is the right side.
 
 ### 10.3 The long exact sequence in every degree
 
@@ -2439,8 +2588,14 @@ inclusion with the identity on coefficients, and it has facts 1 to 3 as
 profinite `G` and `i ≥ 1`: a class of `Hⁱ(G, M)` annihilated by restriction to an open `U` is
 annihilated by `(G : U)`; every element of `Hⁱ(G, M)` is torsion; and `Hⁱ(G, M) = 0` when `M` is a
 `ℚ`-vector space. The `p`-primary refinement for pro-`p` groups belongs to
-the Profinite Pro-`p` Groups roadmap; state here the general
-torsion statement and the finite-level annihilation the orders of the `G ⧸ U` provide.
+the Profinite Pro-`p` Groups roadmap; the general torsion statement and the finite-level
+annihilation the orders of the `G ⧸ U` provide are stated here. All three are Tau Ceti's, at a
+generality wider than profinite: `TauCeti.ContinuousCohomology.index_nsmul_eq_zero_of_res_eq_zero`
+(`Annihilation.lean`) for a locally compact `G`, an open subgroup `U` of finite index and any
+`X : TopRep k G`, discrete or not, in degree `n + 1`; and
+`TauCeti.ContinuousCohomology.isAddTorsion_continuousCohomology` and
+`TauCeti.ContinuousCohomology.subsingleton_continuousCohomology_of_module_rat` (`Torsion.lean`)
+for a compact `G` and an `X` with discrete underlying module, in degree `n + 1`.
 
 The API for the all-degree package includes:
 
@@ -2685,12 +2840,16 @@ power of `p` that a prime-to-`p` index is played against.
 2. `TauCeti.cohomologicalDimensionAt_le_iff_forall_finite_subsingleton_succ`: it is enough to test the single degree `n + 1` on **finite**
    discrete `p`-primary modules, by Layer 10's colimit, long exact sequence and dimension
    shifting;
-3. the same test on the finite **simple** such modules. "Simple" is spelled as follows: a finite
-   discrete `p`-primary `G`-module `M` is simple if it is
-   nontrivial, `p • M = 0`, and, for one (equivalently any) open normal `U` acting trivially on
-   `M`, the corresponding object of `Rep (ZMod p) (G ⧸ U)` is `CategoryTheory.Simple`. Prove the
-   independence of `U` as part of the milestone, and include all finiteness hypotheses in the
-   reduction theorem.
+3. `TauCeti.cohomologicalDimensionAt_le_iff_forall_isIrreducible`: for compact `G`, it is enough
+   to test the single degree `n + 1` on the finite **simple** such modules, the finite discrete
+   `G`-modules `M` with a `ZMod p`-module structure (so `p • M = 0`) on which
+   `Representation.ofDistribMulAction (ZMod p) G M` is irreducible (in particular `M ≠ 0`). The
+   fixed-degree step is `TauCeti.ContinuousCohomology.subsingleton_continuousCohomology_of_forall_isIrreducible`
+   (`CohomologicalDimension/Simple.lean`), which needs only local compactness. Irreducibility over
+   `G` is the same as simplicity, `CategoryTheory.Simple`, of the corresponding object of
+   `Rep (ZMod p) (G ⧸ U)` for one, equivalently every, open normal `U` acting trivially on `M`:
+   Tau Ceti's `Representation.isIrreducible_ofQuotient_iff` and `Rep.simple_ofQuotient_iff` give
+   that independence of `U`.
 
 For `G` pro-`p` the single module `𝔽_p` suffices (NSW (3.3.2) final clause;
 Koch Def. 5.1 takes that as the definition); that refinement lives in
@@ -3155,12 +3314,16 @@ structure on `⨁ₙ Hⁿ(G, 𝔽₂)` (`TauCeti.cohomF2.instGCommRing`, `TauCet
 `Cup/TrivialF2/GradedAlgebra.lean`), in which the degree multiplication `q ↦ l q` of Layer 13 is
 typeable.
 
-What remains to build in this layer is the compatibility of the graded cup with the connecting maps
-of a short exact sequence of coefficients in every bidegree (NSW (1.4.3) and (1.4.5)): for short
-exact sequences `0 → A → B → C → 0` and `0 → A' → B' → C' → 0` of discrete modules and pairings
-`B × Y → B'` restricting to `A × Y → A'` and inducing `C × Y → C'`, the connecting map `δ` of Layer
-10 satisfies `δ(x ⌣ y) = δx ⌣ y` for `x ∈ Hᵐ(G, C)`, `y ∈ Hⁿ(G, Y)`, and, with the pairing in the
-other variable, `δ(y ⌣ x) = (−1)^n (y ⌣ δx)`. Tau Ceti has the six instances of degree `≤ 2` on the
+The compatibility of the graded cup with the connecting maps of a short exact sequence of
+coefficients in every bidegree (NSW (1.4.3) and (1.4.5)) is Tau Ceti's as well, for compact `G`:
+for short exact sequences `0 → A → B → C → 0` and `0 → A' → B' → C' → 0` of discrete modules and
+pairings `B × Y → B'` restricting to `A × Y → A'` and inducing `C × Y → C'`, the connecting map `δ`
+of Layer 10 satisfies `δ(x ⌣ y) = δx ⌣ y` for `x ∈ Hᵐ(G, C)`, `y ∈ Hⁿ(G, Y)`, read through the
+degree transport `m + 1 + n = m + n + 1`
+(`TauCeti.ContCohomology.DiscreteShortExact.delta_cup_left`), and, with the pairing in the other
+variable, `δ(y ⌣ x) = (−1)^n (y ⌣ δx)`
+(`TauCeti.ContCohomology.DiscreteShortExact.delta_cup_right`), both in
+`Cup/ConnectingMap/AllDegrees.lean`. Tau Ceti also has the six instances of degree `≤ 2` on the
 explicit model (Layer 8). *Needs:* Tau Ceti `TauCeti.TopPairing.cup`,
 `TauCeti.TopPairing.cupCochain_leibniz`, `TauCeti.ContCohomology.DiscreteShortExact.delta`.
 **Checks.**
@@ -3598,8 +3761,14 @@ Layer 13's index-two norm and Galois transport and owns their Stiefel–Whitney 
 
 These four roadmaps import `Suggested.lean`, and besides the Tau Ceti declarations named in the
 layers they read part of the roadmap through names declared there. Each such name is a Mathlib or
-Tau Ceti declaration under this roadmap's name and argument order, with that declaration's
-hypotheses, except for the few short definitions and the two theorems described in full below.
+Tau Ceti declaration under this roadmap's name and argument order, except for the few short
+definitions and the two theorems described in full below. Each carries exactly the compactness and
+total-disconnectedness hypotheses of the declaration it names: `[CompactSpace G]` alone for
+`explicitH2IsoContinuousCohomology`, none for `explicitFiniteQuotientComparison2`, and both for
+`explicitFiniteQuotientColimit2` and `abelianizationProPClass_generates`. Beyond those, a name may
+carry standing hypotheses of Conventions (a topological group `G` acting continuously on a
+topological module) that the named declaration does not need: Tau Ceti's
+`TauCeti.ContCohomology.Z2`, for one, needs only a multiplication on `G`.
 The cup product, `degreeCast` and `coeffMap` take values in
 `(TauCeti.ContinuousCohomology.continuousCohomologyFunctor R G n).obj X`, which is
 `continuousCohomology n X` by definition.

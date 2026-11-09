@@ -170,21 +170,25 @@ noncomputable abbrev discreteH2Equiv (G : Type*) [Group G] [TopologicalSpace G]
 /-! ## Layer 3: the comparison isomorphisms -/
 
 /-- **The degree-two comparison** of the explicit `H²(G, M)`, with the discrete topology, and the
-canonical `H²(G, M)`, for profinite `G` and a discrete `G`-module `M`, in `TopModuleCat ℤ`: Tau
-Ceti's `TauCeti.ContCohomology.explicitH2IsoContinuousCohomology`. -/
+canonical `H²(G, M)`, for compact `G` and a discrete `G`-module `M`, in `TopModuleCat ℤ`: Tau
+Ceti's `TauCeti.ContCohomology.explicitH2IsoContinuousCohomology`, with its hypotheses. Total
+disconnectedness is not needed: compactness makes the canonical side discrete and the group
+locally compact, which is what degree two uses. -/
 noncomputable abbrev explicitH2IsoContinuousCohomology (G : Type u) [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] (M : Type u) [AddCommGroup M] [TopologicalSpace M]
     [IsTopologicalAddGroup M] [DiscreteTopology M] [DistribMulAction G M] [ContinuousSMul G M]
-    [CompactSpace G] [TotallyDisconnectedSpace G] :=
+    [CompactSpace G] :=
   TauCeti.ContCohomology.explicitH2IsoContinuousCohomology G M
 
 /-! ## Layer 4: the finite-quotient colimit description -/
 
 /-- **The degree-two comparison cocone legs** `H²(G ⧸ U, M^U) → H²(G, M)`, over the open normal
-subgroups `U` of the profinite `G`, each leg the explicit inflation: Tau Ceti's
-`TauCeti.ContCohomology.explicitFiniteQuotientComparison2`. -/
+subgroups `U` of `G`, each leg the explicit inflation: Tau Ceti's
+`TauCeti.ContCohomology.explicitFiniteQuotientComparison2`, with its hypotheses. The legs and
+their cocone exist for every topological group; compactness and total disconnectedness enter only
+in `explicitFiniteQuotientColimit2`, which says that the cocone is a colimit. -/
 noncomputable abbrev explicitFiniteQuotientComparison2 (G : Type u) [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] (M : Type u)
+    [IsTopologicalGroup G] (M : Type u)
     [AddCommGroup M] [TopologicalSpace M] [IsTopologicalAddGroup M] [DiscreteTopology M]
     [DistribMulAction G M] [ContinuousSMul G M] :=
   TauCeti.ContCohomology.explicitFiniteQuotientComparison2 G M
