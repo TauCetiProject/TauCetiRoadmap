@@ -51,8 +51,10 @@ The existence of Levi complements of parabolic `k`-subgroups of §7.2 lacks a pa
 predicate on Hopf ideals of a given group: the pinned dynamic parabolic of a cocharacter is a
 subgroup functor of points whose representability is not addressed. The Bruhat decomposition
 `B(k)\G(k)/B(k) ≃ W` of §7.3 lacks the root subgroups and the Weyl group `N_G(T)/T` of a given
-split group with its root datum: the pinned root subgroups and Weyl groups are those of `GL_n`
-and `SL_n`, and the pinned Bruhat decomposition is that of an abstract Tits system.
+split group with its root datum: the pinned root subgroups, Weyl groups and Bruhat decompositions
+belong to specific carriers (`GL_n`, `SL_n`, `Sp_2n`, and the Chevalley-type group schemes built
+from Kostant forms, such as the Geck and E₆ minuscule carriers) and to an abstract Tits system,
+none of them attached to an arbitrary split group with its root datum.
 The Harish–Chandra biadjunctions, Mackey
 decomposition and common-Levi independence of §§7c–7e, including their Steinberg
 endomorphism extensions in §7g, lack the constructed
