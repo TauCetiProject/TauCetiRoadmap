@@ -28,12 +28,12 @@ Every object of this roadmap is Tau Ceti's at the pinned commit, and the README'
 contracts name the native declaration and file for each layer. This file therefore restates
 nothing that Tau Ceti already has. It contains two kinds of declaration.
 
-* **The names other roadmaps consume.** `GlobalQuadraticForms`, `IntegralLattices` and
-  `OrthogonalSpinGroups` import or cite this namespace for `RegularFormClass`, `formClass`,
-  `discr`, `wittRing`, `toWittRing`, `hilbertSymbol`, `hilbertSymbol_neg_self`,
-  `hilbertSymbol_comm`, `hilbertSymbol_mul`, `hilbertSymbol_unramified`,
-  `exists_hilbertSymbol_eq_neg_one`, `localHasse`, `exists_of_realization`,
-  `hasseInvariant_eq_localHasse`, `hilbertSymbol_eq_cohomological` and
+* **The names other roadmaps consume.** `GlobalQuadraticForms`, `IntegralLattices`,
+  `OrthogonalSpinGroups` and `ClassicalArithmeticCompletion` import or cite this namespace for
+  `RegularFormClass`, `formClass`, `discr`, `wittRing`, `toWittRing`, `hilbertSymbol`,
+  `hilbertSymbol_neg_self`, `hilbertSymbol_comm`, `hilbertSymbol_mul`,
+  `hilbertSymbol_unramified`, `exists_hilbertSymbol_eq_neg_one`, `localHasse`,
+  `exists_of_realization`, `hasseInvariant_eq_localHasse`, `hilbertSymbol_eq_cohomological` and
   `hilbertSymbol_productFormula`. Each is an alias of a Tau Ceti declaration or is proved from
   one, with no admitted step. `localHasse` and `hilbertSymbol` keep the bodies that their
   consumers unfold.

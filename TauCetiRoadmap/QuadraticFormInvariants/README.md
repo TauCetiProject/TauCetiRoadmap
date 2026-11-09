@@ -26,14 +26,15 @@ declarations or proved from them, the names that other roadmaps import or cite f
 namespace:
 
 - `RegularFormClass`, `formClass`, `discr`, `wittRing` and `toWittRing` (`GlobalQuadraticForms`);
-- `hilbertSymbol` (`GlobalQuadraticForms`, `OrthogonalSpinGroups`);
+- `hilbertSymbol` (`GlobalQuadraticForms`, `OrthogonalSpinGroups`,
+  `ClassicalArithmeticCompletion`);
 - `hilbertSymbol_neg_self`, `hilbertSymbol_comm`, `hilbertSymbol_mul`,
   `hilbertSymbol_unramified`, `exists_hilbertSymbol_eq_neg_one` and `exists_of_realization`
   (`GlobalQuadraticForms`);
 - `localHasse` (`GlobalQuadraticForms`, `OrthogonalSpinGroups`) and
   `hasseInvariant_eq_localHasse` (`OrthogonalSpinGroups`);
 - `hilbertSymbol_eq_cohomological` (`GlobalQuadraticForms`) and `hilbertSymbol_productFormula`
-  (`GlobalQuadraticForms`, `IntegralLattices`).
+  (`GlobalQuadraticForms`, `IntegralLattices`, `ClassicalArithmeticCompletion`).
 
 `IntegralLattices` takes the symbol, the local Hasse invariant and the cohomological comparison
 from Tau Ceti directly, as `TauCeti.hilbertSymbol`, `TauCeti.RegularFormClass.localHasse` and
@@ -42,9 +43,9 @@ from Tau Ceti directly, as `TauCeti.hilbertSymbol`, `TauCeti.RegularFormClass.lo
 **Excluded.** The exclusions are deliberate, and a separate roadmap for any of them is welcome.
 
 - The characteristic-2 theory of quadratic and bilinear forms, that is the Arf invariant and
-  quasilinear forms. Grove's chapters on characteristic 2 and EKM Chapter II (§10 on totally
-  singular forms, Example 13.5 for the Arf invariant) record how different that theory is, and
-  every statement here assumes `2` invertible.
+  quasilinear forms. EKM Chapter II (§10 on totally singular forms, Example 13.5 for the Arf
+  invariant) records how different that theory is, and every statement here assumes `2`
+  invertible.
 - The deep theory of Pfister forms: function-field methods, the Arason–Pfister Hauptsatz, the
   Milnor conjecture, the norm-residue theorem, and each classification statement that rests on
   them. Pfister forms in every degree, and the elementary generation statements for `I`, `I²` and
@@ -1574,7 +1575,8 @@ Milestones, in this order, each Tau Ceti's:
     `TauCeti.hilbertSymbol_productFormula` (`TauCeti/NumberTheory/QuadraticForm/Global/ProductFormula.lean`),
     obtained from `TauCeti.ClassFieldTheory.hilbertProductFormula` through the sign dictionary, and
     consumed under this roadmap's name `hilbertSymbol_productFormula`. It is an export to
-    `GlobalQuadraticForms` and `IntegralLattices`, not a local-global classification theorem.
+    `GlobalQuadraticForms`, `IntegralLattices` and `ClassicalArithmeticCompletion`, not a
+    local-global classification theorem.
 15. **The two Hasse invariants agree**, which is sublayer 6E.
 
 ⚠ Nearby false generalization. Bimultiplicativity fails over a general field. Take `K = ℚ` and
@@ -2649,8 +2651,7 @@ for the specification of the transfer along `L/K` and the `D₁₆` pullback for
   Ch. 5 (local fields).
 - R. Elman, N. Karpenko, A. Merkurjev, *The Algebraic and Geometric Theory of Quadratic
   Forms*, AMS Colloq. 56 (2008): II §7 is the source of Mathlib's `Nondegenerate`, and
-  the modern reference for Layers 0 to 4.
+  the modern reference for Layers 0 to 4; II §10 and Example 13.5 are cited for the
+  characteristic-2 exclusion.
 - J.-P. Serre, *Local Fields*, GTM 67, Springer (1979): Ch. X (crossed products and
   `H²`), XIV §2 (the symbol as a cup product and the norm criterion).
-- L. C. Grove, *Classical Groups and Geometric Algebra*, GSM 39, AMS (2002), cited only
-  for the characteristic-2 exclusion note.
