@@ -28,7 +28,7 @@ surface theory and classification.
 
 The summits, in order of construction:
 
-1. **The Jordan curve theorem and the crosscut theorem**, with the frontier and
+1. **The Jordan curve theorem and the polygonal-crosscut theorem**, with the frontier and
    accessibility API used by `ConformalMapping`, and **invariance of domain** in
    dimension two, by way of Brouwer's fixed-point theorem.
 2. **Radó's theorem**: every compact surface is triangulable.
@@ -40,7 +40,8 @@ The summits, in order of construction:
 4. **The Euler characteristic and orientability** of a compact surface, with its
    orientations and its boundary components, all well defined and homeomorphism invariants.
 5. **The Schoenflies theorem** in its polygonal, planar, spherical, and relative forms, and
-   tameness of arcs, simple closed curves, and finite graphs in a surface.
+   tameness of arcs, simple closed curves, and finite graphs in a surface, followed by the
+   crosscut theorem for arbitrary embedded arcs.
 6. **Uniqueness of the piecewise-linear and smooth structures** on a compact surface, and
    Epstein's theorem that homotopic homeomorphisms are isotopic.
 
@@ -186,7 +187,7 @@ L0 conventions
 L1 polygonal engine
  |\
  | \__ Track I  (approximation and separation)
- |    L2 separation, crosscuts, Brouwer, invariance of domain
+ |    L2 separation, polygonal crosscuts, Brouwer, invariance of domain
  |    L7 topological Schoenflies and tameness  (graph tameness also uses L3 and L5)
  |
  \____ Track II (piecewise-linear)
@@ -399,9 +400,11 @@ two counted side occurrences give parity `0`.
 
 ---
 
-## Layer 2: Separation, crosscuts, and invariance of domain
+## Layer 2: Separation, polygonal crosscuts, and invariance of domain
 
-The milestone of this layer is the crosscut theorem.
+The milestone of this layer is polygonal-crosscut splitting inside an arbitrary Jordan
+curve. The full theorem for arbitrary embedded crosscuts is proved in layer 7 after
+Schoenflies and arc straightening.
 
 ⚠ Component count is a corollary of separation, but not the primary objective. The statement `Nat.card (ConnectedComponents Jᶜ) = 2`, the form the [lean-eval](https://github.com/leanprover/lean-eval) problem states, is not sufficient for `ConformalMapping`'s length-area argument or this roadmap's layer 7.
 
@@ -418,6 +421,16 @@ The basic API identifies its two boundary endpoints, proves compactness of the a
 and makes each endpoint accessible by taking a terminal subarc, with reversal when needed.
 Relate the witness definition to layer 0's arc vocabulary: it is equivalent to `IsArc P`,
 `endpoints P ⊆ J`, and `P \ endpoints P ⊆ filledHull J \ J`.
+
+For the early splitting theorem require in addition that `P` is the carrier of a finite
+`PolygonalChain`; this is `IsPolygonalCrosscut`. `PolygonallyAccessible` requires the same
+finite-carrier witness for the embedded approach arc. Forgetting polygonality gives
+`IsCrosscut` or `Accessible`, respectively. The Jordan curve `J` remains arbitrary.
+Prove density of polygonally accessible points and the joining lemma: any interior point
+can be joined to any polygonally accessible boundary point by an embedded polygonal
+approach arc inside the domain. Two distinct polygonally accessible boundary points can
+therefore be joined by a polygonal crosscut, removing loops from a finite polygonal path
+when necessary. These are the finite joining inputs for layer 7.
 
 **Representative formal statements.**
 
@@ -442,6 +455,18 @@ def Accessible (J : Set ℂ) (p : ℂ) : Prop :=
   p ∈ J ∧ ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ γ 1 = p ∧
     ∀ t : unitInterval, t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J
 
+/-- Polygonality concerns the cutting arc, not the boundary curve. -/
+def IsPolygonalCrosscut (J P : Set ℂ) : Prop :=
+  IsCrosscut J P ∧ ∃ Q : PolygonalChain, Q.carrier = P
+
+def PolygonallyAccessible (J : Set ℂ) (p : ℂ) : Prop :=
+  p ∈ J ∧ ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ γ 1 = p ∧
+    (∀ t : unitInterval, t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J) ∧
+    ∃ Q : PolygonalChain, Q.carrier = Set.range γ
+
+theorem IsPolygonalCrosscut.isCrosscut (hP : IsPolygonalCrosscut J P) : IsCrosscut J P
+theorem PolygonallyAccessible.accessible (hp : PolygonallyAccessible J p) : Accessible J p
+
 variable {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J)
 
 theorem Accessible.mem {p : ℂ} (hp : Accessible J p) : p ∈ J
@@ -465,18 +490,29 @@ theorem isJordanDomain_inside (hJ : TauCeti.IsJordanCurve J) : TauCeti.IsJordanD
 example (hJ : TauCeti.IsJordanCurve J) : IsSimplyConnected hJ.inside :=
   (isJordanDomain_inside hJ).isSimplyConnected
 
+/-- The stronger density input used by the finite construction of Schoenflies. -/
+theorem closure_polygonallyAccessible (hJ : TauCeti.IsJordanCurve J) :
+    closure {p | PolygonallyAccessible J p} = J
+
+/-- Polygonal joining inside a Jordan domain, with a prescribed interior start point. -/
+theorem PolygonallyAccessible.exists_approach_from (hJ : TauCeti.IsJordanCurve J)
+    (hp : PolygonallyAccessible J p) (hq : q ∈ hJ.inside) :
+    ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ γ 0 = q ∧ γ 1 = p ∧
+      (∀ t : unitInterval, t ≠ 1 → γ t ∈ hJ.inside) ∧
+      ∃ Q : PolygonalChain, Q.carrier = Set.range γ
+
 /-- Accessible points are dense in `J`: their ambient closure equals `J`. -/
 theorem closure_accessible (hJ : TauCeti.IsJordanCurve J) : closure {p | Accessible J p} = J
 
-/-- The workhorse. -/
-theorem crosscut (hJ : TauCeti.IsJordanCurve J) (P : Set ℂ) (hP : IsCrosscut J P) :
+/-- The early workhorse: polygonal cutting arcs inside an arbitrary Jordan curve. -/
+theorem polygonal_crosscut (hJ : TauCeti.IsJordanCurve J) (P : Set ℂ) (hP : IsPolygonalCrosscut J P) :
     ∃ J₁ J₂ : Set ℂ, TauCeti.IsJordanCurve J₁ ∧ TauCeti.IsJordanCurve J₂ ∧
       J₁ ∩ J₂ = P ∧ J₁ ∪ J₂ = J ∪ P ∧
       (TauCeti.filledHull J \ J) \ P =
         (TauCeti.filledHull J₁ \ J₁) ∪ (TauCeti.filledHull J₂ \ J₂) ∧
       Disjoint (TauCeti.filledHull J₁ \ J₁) (TauCeti.filledHull J₂ \ J₂)
 
-/-- The corollary, including the shape used by lean-eval. -/
+/-- Component-count consequence of Jordan separation, in the lean-eval shape. -/
 theorem card_connectedComponents (hJ : TauCeti.IsJordanCurve J) :
     Nat.card (ConnectedComponents ((J : Set ℂ)ᶜ)) = 2
 end IsJordanCurve
@@ -516,6 +552,7 @@ theorem boundaryComponentCount_congr (e : M ≃ₜ N) :
 - **The conformal interface.** Apply `TauCeti.IsJordanDomain.isSimplyConnected` (`TauCeti/Analysis/Complex/Conformal/Jordan/Domain.lean`) to `isJordanDomain_inside`. The Carathéodory declaration `TauCeti.exists_homeomorph_closedBall_closure_of_isJordanCurve_frontier` (`Jordan/Approach.lean`) takes exactly the four Jordan-domain fields: openness, connectedness, boundedness, and a Jordan frontier. Layer 2 proves these fields by its elementary route for the inside of every Jordan curve, using the same interface as the existing separation theorems. This application uses no Layer 7 result; the Schoenflies development below follows its elementary geometric route.
 - The order of development follows Thomassen. Approximate the paths that would have to cross the curve, not the curve itself, because Osgood gives an obstruction to curve approximation.  A curve can have positive measure (layer 0) whereas the crossing paths are compact arcs in an open set and are cheap to control. A hypothetical failure of separation, or a third complementary component, would result in a polygonal drawing of `K₃,₃`.
 - Arc non-separation is proved by the chain-of-small-squares argument using the small-arc diameter bounds in `TauCeti/Topology/JordanCurve/SmallArc.lean`.
+- The polygonal accessibility argument is on Thomassen p. 122, before Theorem 2.12; the early splitting theorem is Lemma 2.13, pp. 122–123, whose cutting arc is polygonal. `closure_accessible` follows by forgetting polygonality from the stronger density result. Use polygonal joining within the connected open inside and discard loops in the finite path; this supplies the finite extensions in his Theorem 3.1. The arbitrary-crosscut statement follows the straightening step in layer 7.
 - ⚠ `invarianceOfDomain₂` is key. Without it neither `∂M` nor the boundary count is known to be a topological invariant of a surface. Its route needs nothing from the Jordan curve theorem: layer 1's integer winding number and its homotopy invariance show that the circle is not a retract of the disc, that gives Brouwer's fixed-point theorem by the usual construction of a retraction from a fixed-point-free map, and invariance of domain follows by the finite approximation argument of Kulpa (1998), pp. 127–129 and 132–133, with its auxiliary lemma constructed below. Neither step needs a regularity hypothesis on the paths: Tau Ceti's `windingNumber_eq_of_pathHomotopy` (`Analysis/Contour/Winding/Number/Homotopy.lean`) is invariance under continuous fixed-endpoint homotopies of piecewise-`C¹` paths, and a retraction `r` of the disc onto its circle contracts the standard loop `p` through `H s t = r ((1 - s) * p t + s)`, which is valued in the circle and fixes both endpoints since the disc is convex and `r 1 = 1`. AlgebraicTopology Stage 2, item 7 owns the dimension-general no-retraction and Brouwer interfaces; the plane proofs here use the shared specializations and the earlier winding-number calculation.
 
 **The finite approximation input for invariance of domain.** Build Kulpa's plane
@@ -533,17 +570,19 @@ radial pushing and the lemma applied to its inverse, a zero-free square map with
 forbidden opposite-face signs. The input lemma and deduction are explicit layer 2
 targets (Kulpa, pp. 127–129, 132–133).
 
-**Examples and mathematical checks.** `subset_closure_inside` is stated in the same form as `TauCeti/Topology/FilledHull.lean`. `isJordanDomain_inside` is checked against the constructors of `IsJordanDomain` from a ball and from a convex set, which it subsumes. `crosscut` is checked on a worked example where the two pieces are visibly different (an off-centre chord of a disc). Brouwer is exercised on a rotation of the disc, whose only fixed point is the centre, and `boundaryComponentCount` is computed for the closed disc, one, and the transported sphere, zero.
+**Examples and mathematical checks.** `subset_closure_inside` is stated in the same form as `TauCeti/Topology/FilledHull.lean`. `isJordanDomain_inside` is checked against the constructors of `IsJordanDomain` from a ball and from a convex set, which it subsumes. `polygonal_crosscut` is checked on a worked example where the two pieces are visibly different (an off-centre chord of a disc). Brouwer is exercised on a rotation of the disc, whose only fixed point is the centre, and `boundaryComponentCount` is computed for the closed disc, one, and the transported sphere, zero.
 
 Crosscut checks in the unit disc: the real diameter is a crosscut, and so is the off-centre
 chord joining `1` to `I`. A boundary semicircle fails interior containment; the segment from
 `0` to `1` fails the two-boundary-endpoint condition; a singleton fails to be an embedded
 arc with distinct endpoints. Check the exact identity `P ∩ J = {a, b}` in the positive cases.
-For accessibility, the radial approaches to `1` and `I` are positive examples, while `0`
+For polygonal accessibility, the radial approaches to `1` and `I` are positive examples, while `0`
 is not a boundary point. A path approaching `1` from outside the disc does not witness
-accessibility from the inside. These checks precede the Schoenflies construction.
+accessibility from the inside. These checks precede the Schoenflies construction. A curved
+crosscut, such as `y = (1-x²)/2` for `-1 ≤ x ≤ 1` in the unit disc, satisfies
+`IsCrosscut` but fails `IsPolygonalCrosscut`; its splitting theorem is a layer 7 check.
 
-**Natural intermediate results.** (i) `inside`, `outside`, boundedness, and connectedness; (ii) the crosscut and interior-accessibility definitions, the endpoint and reversal API, and compactness of crosscut carriers; (iii) the common frontier and arc non-separation; (iv) accessibility of crosscut endpoints and density of accessible boundary points; (v) the crosscut theorem; (vi) the component count; (vii) no retraction, Brouwer, the finite-grid zero-avoidance lemma, Poincaré–Miranda, `invarianceOfDomain₂`, chart-independence of `∂M`, and the boundary count.
+**Natural intermediate results.** (i) `inside`, `outside`, boundedness, and connectedness; (ii) the crosscut and interior-accessibility definitions, the endpoint and reversal API, and compactness of crosscut carriers; (iii) the common frontier and arc non-separation; (iv) density of polygonally accessible points, polygonal joining, and accessibility of crosscut endpoints; (v) the polygonal-crosscut theorem; (vi) the component count; (vii) no retraction, Brouwer, the finite-grid zero-avoidance lemma, Poincaré–Miranda, `invarianceOfDomain₂`, chart-independence of `∂M`, and the boundary count.
 
 **Consequences.** An elementary proof comparison for `ConformalMapping` layer 5 through `isJordanDomain_inside`. Layer 7. `∂M` and the boundary count for the rest of this roadmap and for `SurfaceTopology`.
 
@@ -1012,7 +1051,7 @@ surface classification. The Möbius-band case distinguishes this cover from a tr
 
 Schoenflies gives local flatness for embedded circles and arc interiors lying in the interior of a surface. Arc endpoints have half-line slices. Finite embedded graphs are tame, with finite planar stars at their vertices and a point at an isolated vertex. These are the dimension-two results supplied to `GeometricTopology` and `SurfaceTopology`.
 
-**From layers 0 and 2.** Alexander's trick, `IsotopicRel`, the crosscut theorem, accessibility, `isJordanDomain_inside`.
+**From layers 0 and 2.** Alexander's trick, `IsotopicRel`, polygonal-crosscut splitting, dense polygonal accessibility and its joining lemma, and `isJordanDomain_inside`.
 **From layers 3 and 5.** `IsCombinatorialSurface`, `Subdivides`, and Radó: the tameness of finite graphs concludes with a triangulation of the surface, so it is downstream of both.
 
 **Representative formal statements.**
@@ -1078,18 +1117,35 @@ theorem exists_ambientIsotopy_pl_of_arcs [CompactSpace M] (A : Fin n → Set M) 
     ∃ e : M ≃ₜ M, Isotopic e (Homeomorph.refl M) ∧
       ∃ (ι' : Type) (K' : AbstractSimplicialComplex ι') (s : Subdivision K' K),
         ∀ i, (t ∘ s.toHomeomorph) ⁻¹' (e '' A i) is the carrier of a subcomplex of K'
+
+namespace IsJordanCurve
+/-- Plane arc straightening, after the tameness results above. -/
+theorem exists_polygonal_image_of_crosscut (hJ : TauCeti.IsJordanCurve J)
+    (hP : IsCrosscut J P) :
+    ∃ h : ℂ ≃ₜ ℂ, IsPolygonalCrosscut (h '' J) (h '' P)
+
+/-- Full crosscut splitting, after straightening and the layer 2 polygonal theorem. -/
+theorem crosscut (hJ : TauCeti.IsJordanCurve J) (P : Set ℂ) (hP : IsCrosscut J P) :
+    ∃ J₁ J₂ : Set ℂ, TauCeti.IsJordanCurve J₁ ∧ TauCeti.IsJordanCurve J₂ ∧
+      J₁ ∩ J₂ = P ∧ J₁ ∪ J₂ = J ∪ P ∧
+      (TauCeti.filledHull J \ J) \ P =
+        (TauCeti.filledHull J₁ \ J₁) ∪ (TauCeti.filledHull J₂ \ J₂) ∧
+      Disjoint (TauCeti.filledHull J₁ \ J₁) (TauCeti.filledHull J₂ \ J₂)
+
+end IsJordanCurve
 ```
 
 **Mathematical route and formalization notes.**
 
-- No homeomorphism is built directly.  Instead this approach builds two matched finite cell decompositions, one of the closed interior and one of the closed square, isomorphic as cellulations and agreeing with a chosen boundary correspondence.  It refines them alternately so that cells become small on both sides and constructs the homeomorphism off the nested closed stars. Every finite stage is a plane graph governed by layer 2's crosscut theorem. No polygonal approximation of the curve appears anywhere.
+- No homeomorphism is built directly.  Instead this approach builds two matched finite cell decompositions, one of the closed interior and one of the closed square, isomorphic as cellulations and agreeing with a chosen boundary correspondence.  It refines them alternately so that cells become small on both sides and constructs the homeomorphism off the nested closed stars. Every finite stage adds polygonal arcs and uses layer 2's polygonal-crosscut theorem and dense polygonal accessibility. No polygonal approximation of the curve appears anywhere.
 - The matched cellulations here are finite approximating devices internal to this proof. They are not the generalized maps of `SurfaceTopology` and carry no realization theory of their own.
 - Tameness of a finite family of arcs is proved arc by arc and then at the joints: each arc extends to a simple closed curve away from the others, by layer 2's accessibility, and Schoenflies straightens it; at a common endpoint the finitely many arcs are straightened together by a second application of Schoenflies inside a small disc around the point. The second step is where a finite star needs more than the tameness of each of its arcs. This gives a finite-star model at a graph vertex and a line model along an edge interior. An arc endpoint has one branch, an edge interior has two, and a Y vertex has three; straightening preserves this distinction.
-- Carathéodory applies to the Jordan-domain output of layer 2 and gives an analytic route to the closed-inside disc identification. The proof developed here is the elementary matched-cellulation construction, followed by the geometric straightening arguments for arcs and finite stars. Its prerequisites are the earlier polygonal, separation, accessibility, and crosscut results.
+- **Arbitrary crosscuts after straightening.** Include the version of finite-arc tameness that fixes the boundary of a containing polygonal disc. Applied in a large triangulated square containing `J ∪ P` in its interior, this straightens `P` to a finite polygonal arc. Extend the resulting square homeomorphism by the identity outside to obtain `exists_polygonal_image_of_crosscut`. A plane homeomorphism carries the bounded and unbounded complementary sides to the corresponding sides: compactness of the closed bounded side and the same fact for the inverse distinguish them. Thus it transports `IsCrosscut` and the inside sets. Apply layer 2's `polygonal_crosscut` to the image and pull both Jordan boundaries and both inside regions back. The straightening construction uses Schoenflies and polygonal joining; the arbitrary-crosscut theorem is a consequence of it.
+- Carathéodory applies to the Jordan-domain output of layer 2 and gives an analytic route to the closed-inside disc identification. The proof developed here is the elementary matched-cellulation construction, followed by the geometric straightening arguments for arcs and finite stars. Its prerequisites are the earlier polygonal separation, polygonal accessibility, joining, and polygonal-crosscut results.
 
-**Examples and mathematical checks.** `schoenflies_closure` is instantiated on a curve that is not rectifiable. Circle and arc statements use Tau Ceti's `IsSliceEmbedding`, with local flatness the coordinate-line case. Exhibit an ambient straightening of a Y-shaped union of three arcs into a triangulation: it is a positive graph-tameness check. It is a negative local-flatness check at the common vertex, since removing that vertex from a small graph neighbourhood leaves three components, whereas a punctured line neighbourhood has two. A simple circle gives the positive line-model check; an arc endpoint gives the distinct half-line model. The core circle of a Möbius band is the counterexample to an unconditional product collar: it is tame and locally flat but one-sided. Automatic tameness fails in dimension three, where wild embeddings occur.
+**Examples and mathematical checks.** The parabola arc `y = (1-x²)/2`, `-1 ≤ x ≤ 1`, is a nonpolygonal crosscut of the unit disc; the full `crosscut` theorem gives the regions above and below it inside the disc. A straight chord satisfies both crosscut predicates and recovers the layer 2 result. `schoenflies_closure` is instantiated on a curve that is not rectifiable. Circle and arc statements use Tau Ceti's `IsSliceEmbedding`, with local flatness the coordinate-line case. Exhibit an ambient straightening of a Y-shaped union of three arcs into a triangulation: it is a positive graph-tameness check. It is a negative local-flatness check at the common vertex, since removing that vertex from a small graph neighbourhood leaves three components, whereas a punctured line neighbourhood has two. A simple circle gives the positive line-model check; an arc endpoint gives the distinct half-line model. The core circle of a Möbius band is the counterexample to an unconditional product collar: it is tame and locally flat but one-sided. Automatic tameness fails in dimension three, where wild embeddings occur.
 
-**Natural intermediate results.** (i) finite cellulations of a Jordan domain using layer 2's crosscuts; (ii) matching and refinement transfer; (iii) alternation and the small-cell estimate; (iv) the nested-star limit and `schoenflies_closure`; (v) the ambient and spherical forms; (vi) tameness of arcs; (vii) tameness of simple closed curves; (viii) the annulus/Möbius regular-neighbourhood dichotomy and the two-sided collar corollary; (ix) tameness of finite families of arcs.
+**Natural intermediate results.** (i) finite cellulations of a Jordan domain using layer 2's polygonal crosscuts and polygonal joining; (ii) matching and refinement transfer; (iii) alternation and the small-cell estimate; (iv) the nested-star limit and `schoenflies_closure`; (v) the ambient and spherical forms; (vi) tameness of arcs; (vii) tameness of simple closed curves; (viii) the annulus/Möbius regular-neighbourhood dichotomy and the two-sided collar corollary; (ix) tameness of finite families of arcs, including the form fixed on the boundary of a containing polygonal disc; (x) plane crosscut straightening, transport of inside sets, and the arbitrary-crosscut theorem.
 
 **Consequences.** `GeometricTopology` layer 2. `SurfaceTopology` layers 5 and 9.
 
@@ -1299,7 +1355,7 @@ The point-set topology of compact connected metric spaces is a subject in its ow
 
 The principal reference is Cannon, *Topology as Fluid Geometry*, volume 2, chapters 5, 6, 8, 10, and 11.
 
-Moore's decomposition theorem is the two-dimensional ancestor of the cell-like approximation theorems, and it is what makes Douady's pinched-disc model of the Mandelbrot set a disc; locally connected models of the Mandelbrot set are standard objects in complex dynamics. Brouwer's characterization of the Cantor set is used throughout descriptive set theory and one-dimensional dynamics.
+Moore's decomposition theorem is a two-dimensional ancestor of cell-like approximation theorems. It has applications to planar quotient constructions, including pinched-disc models in complex dynamics. The resulting disc quotient can have cut points and need not itself be a disc. Brouwer's characterization of the Cantor set is used throughout descriptive set theory and one-dimensional dynamics.
 
 
 ---
@@ -1341,7 +1397,7 @@ vocabulary: `TauCeti.IsJordanCurve` rather than a parametrized definition, `ℂ`
 Stable bibliographic keys and printed-page locators are recorded in `sources.toml`.
 
 - C. Thomassen, *The Jordan–Schönflies theorem and the classification of surfaces*,
-  Amer. Math. Monthly **99** (1992), 116–131. Polygonal separation and crosscuts are Lemmas 2.3–2.4, pp. 119–120; polygonal nonplanarity of `K₃,₃` is Lemma 2.5, p. 120; the Jordan curve theorem is Theorem 2.12, p. 122; the Jordan crosscut lemma is Lemma 2.13, pp. 122–123; the prescribed-boundary Schoenflies extension is Theorem 3.1, pp. 123–125. These are the inputs for layers 1, 2, and 7.
+  Amer. Math. Monthly **99** (1992), 116–131. Polygonal separation and crosscuts are Lemmas 2.3–2.4, pp. 119–120; polygonal nonplanarity of `K₃,₃` is Lemma 2.5, p. 120; the Jordan curve theorem is Theorem 2.12, p. 122; polygonal accessibility is discussed on p. 122, and the crosscut lemma with a polygonal cutting arc is Lemma 2.13, pp. 122–123; the prescribed-boundary Schoenflies extension is Theorem 3.1, pp. 123–125. These are the inputs for layers 1, 2, and 7.
 - `alonamaloh/jordan-schoenflies`, the blueprint. The only source cited here written at
   formalization granularity, with a statement-level index and a suggested module order.
   Treat it as the primary route document for layers 1, 2, and 7.

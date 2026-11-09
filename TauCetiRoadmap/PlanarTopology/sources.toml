@@ -5,7 +5,7 @@ schema = 1
 title = "The Jordan–Schönflies theorem and the classification of surfaces"
 authors = ["Carsten Thomassen"]
 year = 1992
-locators = ["American Mathematical Monthly 99, pp. 116–131", "Lemmas 2.3–2.4, pp. 119–120: polygonal separation and crosscuts", "Lemma 2.5, p. 120: polygonal K3,3 obstruction", "Theorem 2.12, p. 122: Jordan separation", "Lemma 2.13, pp. 122–123: crosscuts", "Theorem 3.1, pp. 123–125: prescribed-boundary Schoenflies extension"]
+locators = ["American Mathematical Monthly 99, pp. 116–131", "Lemmas 2.3–2.4, pp. 119–120: polygonal separation and crosscuts", "Lemma 2.5, p. 120: polygonal K3,3 obstruction", "Theorem 2.12, p. 122: Jordan separation", "p. 122: dense polygonal accessibility", "Lemma 2.13, pp. 122–123: polygonal crosscuts of arbitrary Jordan domains", "Theorem 3.1, pp. 123–125: prescribed-boundary Schoenflies extension"]
 
 [sources.thomassen_blueprint]
 title = "Jordan–Schoenflies formalization blueprint"

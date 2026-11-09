@@ -1,5 +1,7 @@
-import Mathlib
-import TauCeti.Topology.Triangulable
+module
+
+public import Mathlib
+public import TauCeti.Topology.Triangulable
 
 /-!
 # Surface topology, finite presentations, and classification: target signatures
@@ -38,6 +40,8 @@ Other README headlines need vocabulary not implemented at this library pin:
 
 The README retains the full APIs, examples and proof routes for these targets.
 -/
+
+@[expose] public section
 
 noncomputable section
 namespace TauCetiRoadmap.SurfaceTopology

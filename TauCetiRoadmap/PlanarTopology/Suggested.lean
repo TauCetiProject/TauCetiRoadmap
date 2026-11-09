@@ -1,12 +1,14 @@
-import Mathlib
-import TauCeti.Analysis.Complex.Conformal.Jordan.Domain
-import TauCeti.Geometry.Manifold.Instances.ClosedBall
-import TauCeti.Geometry.Manifold.LocallyFlat.Basic
-import TauCeti.Topology.FilledHull
-import TauCeti.Topology.JordanCurve.Basic
-import TauCeti.Topology.Homotopy.Isotopy.Basic
-import TauCeti.Topology.PL.Map
-import TauCeti.Topology.Triangulable
+module
+
+public import Mathlib
+public import TauCeti.Analysis.Complex.Conformal.Jordan.Domain
+public import TauCeti.Geometry.Manifold.Instances.ClosedBall
+public import TauCeti.Geometry.Manifold.LocallyFlat.Basic
+public import TauCeti.Topology.FilledHull
+public import TauCeti.Topology.JordanCurve.Basic
+public import TauCeti.Topology.Homotopy.Isotopy.Basic
+public import TauCeti.Topology.PL.Map
+public import TauCeti.Topology.Triangulable
 
 /-!
 # Planar topology and the PL structure of surfaces: target signatures
@@ -18,11 +20,11 @@ finishes neither a layer nor the roadmap. `sorry` is allowed in this human-owned
 library: these are targets, not completed proofs.
 
 The roadmap has two interacting tracks. Layers 0--2 build the planar separation engine
-(Jordan curves, crosscuts, accessibility, Brouwer's fixed-point theorem, and two-dimensional
+(Jordan curves, polygonal crosscuts, polygonal accessibility, Brouwer's fixed-point theorem, and two-dimensional
 invariance of domain). Layers 3--6 build the simplicial/PL engine (subdivision, PL
 approximation, Radó, the two-dimensional Hauptvermutung, Pachner's theorem, Euler
 characteristic, and orientability). Layer 7 proves Schoenflies and automatic tameness in
-dimension two; layer 8 identifies the topological, PL, and smooth categories for compact
+dimension two, followed by the arbitrary-crosscut theorem; layer 8 identifies the topological, PL, and smooth categories for compact
 surfaces.
 
 The guiding philosophy is classical geometric and combinatorial surface topology: curves,
@@ -44,8 +46,7 @@ The closed-disc charts and boundary identification are imported from
 `boundary_closedBall`). No private admitted disc atlas is used.
 
 The README also requires the following headlines whose input carriers are absent at
-the library pin: polygonal ears and crosscut splitting need the ear and
-polygonal-crosscut APIs; Radó's combinatorial form, the
+the library pin: polygonal ears need the ear API; Radó's combinatorial form, the
 Hauptvermutung and Pachner need IsCombinatorialSurface and support-aware heterogeneous
 Subdivides; orientation transport needs the simplicial orientation double cover and
 its realization comparisons; Euler characteristic needs those finite invariance
@@ -59,6 +60,8 @@ Their intended shapes are recorded as comments and should become compiled target
 the prerequisite vocabulary is pinned. This follows the roadmap convention that a
 condition which cannot yet be stated is omitted rather than replaced by an empty predicate.
 -/
+
+@[expose] public section
 
 noncomputable section
 
@@ -214,7 +217,7 @@ theorem polygonal_schoenflies (P : PolygonalLoop) (hP : P.IsSimple) :
         segment ℝ Complex.I 0 := by
   sorry
 
-/-! ## Layer 2: Jordan separation, crosscuts, Brouwer, and invariance of domain -/
+/-! ## Layer 2: Jordan separation, polygonal crosscuts, Brouwer, and invariance of domain -/
 
 namespace IsJordanCurve
 
@@ -236,6 +239,17 @@ def IsCrosscut (J P : Set ℂ) : Prop :=
 def Accessible (J : Set ℂ) (p : ℂ) : Prop :=
   p ∈ J ∧ ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ γ 1 = p ∧
     ∀ t : unitInterval, t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J
+
+/-- A crosscut whose carrier is a finite polygonal chain. The Jordan boundary itself
+can be arbitrary. -/
+def IsPolygonalCrosscut (J P : Set ℂ) : Prop :=
+  IsCrosscut J P ∧ ∃ Q : PolygonalChain, Q.carrier = P
+
+/-- Accessibility through an embedded approach arc with a finite polygonal carrier. -/
+def PolygonallyAccessible (J : Set ℂ) (p : ℂ) : Prop :=
+  p ∈ J ∧ ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ γ 1 = p ∧
+    (∀ t : unitInterval, t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J) ∧
+    ∃ Q : PolygonalChain, Q.carrier = Set.range γ
 
 /-- Accessibility is a condition on points of the boundary itself. -/
 theorem Accessible.mem {J : Set ℂ} {p : ℂ} (hp : Accessible J p) : p ∈ J :=
@@ -279,14 +293,30 @@ example {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
     IsSimplyConnected (TauCeti.filledHull J \ J) :=
   (isJordanDomain_inside hJ).isSimplyConnected
 
+/-- The dense polygonally accessible boundary points used by the matched-cellulation
+construction. The approach arcs are finite polygonal chains. -/
+theorem closure_polygonallyAccessible {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
+    closure {p | PolygonallyAccessible J p} = J := by
+  sorry
+
+/-- Join any interior point to a polygonally accessible boundary point by an embedded
+polygonal approach arc, with every other point in the inside. -/
+theorem PolygonallyAccessible.exists_approach_from {J : Set ℂ}
+    (hJ : TauCeti.IsJordanCurve J) {p q : ℂ} (hp : PolygonallyAccessible J p)
+    (hq : q ∈ TauCeti.filledHull J \ J) :
+    ∃ γ : C(unitInterval, ℂ), IsEmbedding γ ∧ γ 0 = q ∧ γ 1 = p ∧
+      (∀ t : unitInterval, t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J) ∧
+      ∃ Q : PolygonalChain, Q.carrier = Set.range γ := by
+  sorry
+
 /-- Accessible boundary points have ambient closure exactly equal to the Jordan curve. -/
 theorem closure_accessible {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
     closure {p | Accessible J p} = J := by
   sorry
 
-/-- A crosscut produces two Jordan curves, their intersection and union, and the two inside regions. -/
-theorem crosscut {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) (P : Set ℂ)
-    (hP : IsCrosscut J P) :
+/-- Polygonal-crosscut splitting for an arbitrary Jordan boundary, proved in layer 2. -/
+theorem polygonal_crosscut {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) (P : Set ℂ)
+    (hP : IsPolygonalCrosscut J P) :
     ∃ J₁ J₂ : Set ℂ, TauCeti.IsJordanCurve J₁ ∧ TauCeti.IsJordanCurve J₂ ∧
       J₁ ∩ J₂ = P ∧ J₁ ∪ J₂ = J ∪ P ∧
       (TauCeti.filledHull J \ J) \ P =
@@ -298,7 +328,7 @@ end IsJordanCurve
 
 /-- Jordan separation in the component-count form, the shape
 [lean-eval](https://github.com/leanprover/lean-eval) states, as a corollary of the stronger
-crosscut/frontier package. -/
+Jordan separation and frontier package. -/
 theorem jordan_separation (hJ : TauCeti.IsJordanCurve J) :
     Nat.card (ConnectedComponents ((J : Set ℂ)ᶜ : Set ℂ)) = 2 := by
   sorry
@@ -449,6 +479,29 @@ theorem isSliceEmbedding_arc (f : unitInterval → M) (hf : IsEmbedding f)
   sorry
 
 end Tameness
+
+namespace IsJordanCurve
+
+/-- The plane form of arc straightening, established after Schoenflies and tameness.
+The image remains a crosscut and has a finite polygonal carrier. -/
+theorem exists_polygonal_image_of_crosscut {J P : Set ℂ}
+    (hJ : TauCeti.IsJordanCurve J) (hP : IsCrosscut J P) :
+    ∃ h : ℂ ≃ₜ ℂ, IsPolygonalCrosscut (h '' J) (h '' P) := by
+  sorry
+
+/-- Arbitrary-crosscut splitting, proved after straightening by the layer 2 polygonal
+theorem and transport along the ambient homeomorphism. -/
+theorem crosscut {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) (P : Set ℂ)
+    (hP : IsCrosscut J P) :
+    ∃ J₁ J₂ : Set ℂ, TauCeti.IsJordanCurve J₁ ∧ TauCeti.IsJordanCurve J₂ ∧
+      J₁ ∩ J₂ = P ∧ J₁ ∪ J₂ = J ∪ P ∧
+      (TauCeti.filledHull J \ J) \ P =
+        (TauCeti.filledHull J₁ \ J₁) ∪ (TauCeti.filledHull J₂ \ J₂) ∧
+      Disjoint (TauCeti.filledHull J₁ \ J₁) (TauCeti.filledHull J₂ \ J₂) := by
+  sorry
+
+
+end IsJordanCurve
 
 /-! ## Layer 8: isotopy of closed-surface homeomorphisms -/
 
