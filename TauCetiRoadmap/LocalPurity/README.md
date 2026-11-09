@@ -10,9 +10,10 @@ Noetherian scheme it extends across a complement whose local rings are regular o
 (SGA 2, Exposé X, Proposition 3.3 with Théorème 3.4 (i)). It is built on Tau Ceti's finite étale
 schemes, punctured spectra and notion of purity, and on Tau Ceti's dimension-two case of 0BMA. The
 route is that of Stacks, Sections 58.19–58.21: the anti-equivalence between finite étale covers of
-the punctured spectrum and finite normal algebras, completion, full faithfulness of restriction to
-a hypersurface section, the local Lefschetz extension theorem (Lemma 58.20.7 (0BLM)), and an
-induction on the dimension starting from dimension two.
+the punctured spectrum and finite normal algebras, formal glueing of modules along the completion
+and the formal-sections comparison, full faithfulness of restriction to a hypersurface section,
+the local Lefschetz extension theorem (Lemma 58.20.7 (0BLM)), and an induction on the dimension
+starting from dimension two.
 
 [PurityOfBranchLocus](../PurityOfBranchLocus/README.md) consumes §2.1 for Zariski–Nagata purity
 of the branch locus (Stacks 0BMB), and [AbhyankarLemma](../AbhyankarLemma/README.md) consumes
@@ -21,13 +22,13 @@ regular divisor (Stacks 0EYE–0EYH).
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [1](#layer-1-finite-étale-covers-of-punctured-spectra) | Finite étale covers of punctured spectra | the anti-equivalence with finite normal algebras, completion, restriction to a hypersurface, the local Lefschetz extension theorem |
+| [1](#layer-1-finite-étale-covers-of-punctured-spectra) | Finite étale covers of punctured spectra | the anti-equivalence with finite normal algebras, formal glueing and formal sections, completion, restriction to a hypersurface, the local Lefschetz extension theorem |
 | [2](#layer-2-local-purity-and-extension) | Local purity and extension | purity for regular local rings, spreading out from a local scheme, extension across points where purity holds and across a regular complement of codimension `≥ 2` |
 
 ```text
 Mathlib + Tau Ceti → Layer 1 → Layer 2
-SchemeAndStackFoundations §§0.14, 2.7, 4.7–4.8 ──→ Layer 1
-SchemeAndStackFoundations §0.9 ──────────────────→ Layer 2 §2.2
+SchemeAndStackFoundations §§0.14, 0.17, 2.7, 4.7–4.8 ──→ Layer 1
+SchemeAndStackFoundations §0.9 ────────────────────────→ Layer 2 §2.2
 ```
 
 The end theorems are `IsLocalRing.purityHolds_of_isRegularLocalRing` and
@@ -41,7 +42,12 @@ correction of Convention 5, and with it the anti-equivalence between finite éta
 punctured spectrum of a Noetherian normal local domain of dimension `≥ 2` and finite normal
 torsion-free algebras étale away from the closed point; Stacks, Lemmas 58.19.3 (0BLH), 58.20.4
 (0BLL), 58.19.4 (0BLI), 58.17.1 (0EL8), 58.19.6 (0BM6), 58.19.7 (0BLJ), 58.20.6 (0BLS) and 58.20.7
-(0BLM), and Algebraic and Formal Geometry, Lemma 52.15.5 (0EKS); purity for regular local rings
+(0BLM), and Algebraic and Formal Geometry, Lemma 52.15.5 (0EKS); the inputs of 0BLH and 0EKS:
+formal glueing of modules along a flat ring map that is an isomorphism modulo a finitely generated
+ideal, with its preservation of finiteness and of tensor products (More on Algebra, Remark 15.91.10
+(05EL), Proposition 15.91.16 (05ER) and Remark 15.91.20 (05EU)), the formal-sections comparison
+(Algebraic and Formal Geometry, Lemma 52.12.7 (0EII)) and the completion criterion on finite locally
+free modules (Lemma 52.15.1 (0EKP)); purity for regular local rings
 of every dimension `≥ 2`, both clauses of Lemma 58.21.3 (0BMA); spreading out from a local scheme
 (Limits, Lemmas 32.20.3 (0BQ5) and 32.20.4 (0EY3)); the extension result 58.21.6 (0EY7); full
 faithfulness of restriction to an open of a locally Noetherian scheme whose complement has depth
@@ -67,7 +73,12 @@ no second carrier. The declarations are listed under the supplier contracts.
   quotient by a regular parameter 00NQ, a regular local ring is a regular ring 0AFS, integrally
   closed 0567, depth equal to dimension).
 - *Depth, Cohen–Macaulay modules and rings, Serre's criterion*: Mathlib's `IsLocalRing.depth`;
-  Tau Ceti's Cohen–Macaulay notions and Serre's criterion (031S).
+  Tau Ceti's Cohen–Macaulay notions and Serre's criterion (031S); the regular-sequence depth of
+  SchemeAndStackFoundations §0.17, in which §2.7 there states its vanishing theorem.
+- *Normality along étale maps* (Stacks 033C, étale case): Tau Ceti.
+- *The torsion lemmas of formal glueing* (More on Algebra, Lemmas 15.91.2 (05E9) and 15.91.3
+  (05EC)) and *ampleness of `𝒪_X` on a quasi-affine scheme*: Tau Ceti; quasi-affine schemes:
+  Mathlib.
 - *The commutative algebra of the dimension-two case*: Tau Ceti owns miracle flatness (Algebra,
   Lemma 10.128.1 (00R4)), the discriminant criterion (Discriminants, Lemma 49.3.1 (0BJF)) and
   clause (2) of 0BMA in dimension two, with torsion freeness. §2.1 starts its induction there.
@@ -115,19 +126,29 @@ no second carrier. The declarations are listed under the supplier contracts.
 
 - `Scheme`, `IsFinite` (which extends `IsAffineHom`, `Mathlib/AlgebraicGeometry/Morphisms/Finite.lean`),
   `Etale`, `IsNoetherian` and `IsLocallyNoetherian` (`Mathlib/AlgebraicGeometry/Noetherian.lean`),
-  `Scheme.Opens`, `IsAffineOpen`, `MorphismProperty.Over`, `MorphismProperty.Over.pullback`, and
-  `Scheme.Cover.glueMorphisms` (`Mathlib/AlgebraicGeometry/Gluing.lean`).
-- `IsRegularLocalRing` (a Noetherian local ring whose maximal ideal needs `ringKrullDim` generators),
-  `IsRegularRing` and `IsRegularLocalRing.of_isRegularRing_of_isLocalRing`
-  (`Mathlib/RingTheory/RegularLocalRing/Defs.lean`).
+  `Scheme.Opens`, `IsAffineOpen`, `MorphismProperty.Over`, `MorphismProperty.Over.pullback`, glueing
+  of schemes `Scheme.GlueData` and of morphisms `Scheme.Cover.glueMorphisms`
+  (`Mathlib/AlgebraicGeometry/Gluing.lean`).
+- `Scheme.IsQuasiAffine` (quasi-compact, with `X → Spec Γ(X, 𝒪_X)` an immersion) and
+  `Scheme.IsQuasiAffine.of_isImmersion` (a quasi-compact subscheme of a quasi-affine scheme is
+  quasi-affine) (`Mathlib/AlgebraicGeometry/QuasiAffine.lean`).
+- `IsRegularLocalRing` (a Noetherian local ring whose maximal ideal needs `ringKrullDim` generators)
+  and `IsRegularRing` (`Mathlib/RingTheory/RegularLocalRing/Defs.lean`).
 - `IsLocalRing.depth` (`Mathlib/RingTheory/Depth/Basic.lean`): depth with respect to the maximal
-  ideal, defined by vanishing of `Ext`, which agrees with the length of a maximal regular sequence
-  for a finite module over a Noetherian local ring.
-- `AdicCompletion`, `AdicCompletion.flat_of_isNoetherian`, `localCohomology`.
-- `Algebra.Etale`, `Algebra.IsEtaleAt`, `Module.IsTorsionFree`, `Algebra.HasGoingDown`, and
+  ideal, defined by vanishing of `Ext` as `Ideal.depth` of the maximal ideal; and
+  `Ideal.depth_eq_sSup_length_isRegular` (over a Noetherian ring, for a finite module `M` with
+  `IM ≠ M`, the depth with respect to `I` is the supremum of the lengths of `M`-regular sequences in
+  `I`; for a nonzero finite module over a Noetherian local ring and `I = 𝔪`, Nakayama gives
+  `𝔪M ≠ M`).
+- `AdicCompletion`, `AdicCompletion.flat_of_isNoetherian`, `AdicCompletion.pow_smul_top_eq_ker_eval`
+  (for `I` finitely generated, `IⁿÂ` is the kernel of `Â → A/Iⁿ`,
+  `Mathlib/RingTheory/AdicCompletion/Completeness.lean`), `localCohomology`.
+- `Algebra.Etale`, `Algebra.IsEtaleAt`, `Module.IsTorsionFree`, and
   `IsIntegralClosure.finite` (`Mathlib/RingTheory/DedekindDomain/IntegralClosure.lean`: the integral
   closure of a Noetherian integrally closed domain in a finite separable extension of its fraction
   field is finite).
+- `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat` (`Mathlib/RingTheory/Finiteness/Descent.lean`:
+  finiteness descends along a faithfully flat ring map).
 
 **From Tau Ceti.** Paths are under `TauCeti/`.
 
@@ -193,6 +214,18 @@ no second carrier. The declarations are listed under the supplier contracts.
   and `TauCeti.Algebra.etale_of_finiteNormal_of_ringKrullDim_eq_two` (0BMA (2) in dimension two: `B`
   finite, torsion free, normal at its maximal ideals and unramified at every prime not over `𝔪`;
   `RingTheory/RegularLocalRing/Purity.lean`).
+- Normality along étale maps: `TauCeti.Algebra.Etale.isDomain_localization_atPrime_of_isIntegrallyClosed`
+  and `TauCeti.Algebra.Etale.isIntegrallyClosed_localization_atPrime_of_isIntegrallyClosed` (for `R`
+  an integrally closed domain and `S` étale over `R`, every localization of `S` at a prime is an
+  integrally closed domain; `RingTheory/Etale/Normal.lean`).
+- The torsion lemmas of formal glueing, for `R → S` flat with `R/I → S/IS` bijective:
+  `TauCeti.tensorProduct_mk_bijective_of_primaryComponent_eq_top` (05E9: an `I`-power torsion module
+  is unchanged by base change to `S`) and `TauCeti.isBaseChange_of_primaryComponent_eq_top` (05EC:
+  an `IS`-power torsion `S`-module is the base change of its underlying `R`-module)
+  (`RingTheory/FormalGlueing/Torsion.lean`).
+- `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple` and
+  `TauCeti.AlgebraicGeometry.LineBundleClass.isAmple_one_iff` (`𝒪_X` is ample exactly when `X` is
+  quasi-affine; `AlgebraicGeometry/LineBundle/Ample.lean`).
 - The counterexample of Convention 5, for `A` a local domain that is not a field:
   `TauCeti.IsLocalRing.isEtaleAt_prod_residueField`,
   `TauCeti.IsLocalRing.not_isTorsionFree_prod_residueField`,
@@ -201,20 +234,25 @@ no second carrier. The declarations are listed under the supplier contracts.
 
 **From TauCetiRoadmap.SchemeAndStackFoundations.** §0.9 `finite_presentation_limits` (over a
 cofiltered limit of quasi-compact quasi-separated schemes with affine transition maps, schemes of
-finite presentation, their morphisms and the properties finite and étale descend to a finite
-stage); §0.14
+finite presentation, their morphisms and the properties proper, finite, étale and closed immersion
+descend to a finite stage); §0.17 `Module.depth` (depth by weakly regular sequences, the depth in
+which §2.7 is stated) and `depth_eq_iff_ext` (it is the least degree of a nonzero
+`Ext^i(κ, M)`, which is Mathlib's `IsLocalRing.depth`); §0.14
 *henselian_finiteEtale_equivalence* (More on Algebra, Lemma 15.13.2 (09ZL): for a henselian pair
 `(R, I)`, base change is an equivalence from finite étale `R`-algebras to finite étale
-`R/I`-algebras); §2.7 `depth_localCohomology_vanishing` and `localCohomology_module_comparison`;
-§§4.7–4.8 formal completion along a closed subscheme and `CoherentFormalModule`. Assumed as stated
-there.
+`R/I`-algebras); §2.7 `supports_localization_triangle`, `depth_localCohomology_vanishing` and
+`localCohomology_module_comparison`; §§4.7–4.8 formal completion along a closed subscheme,
+`CoherentFormalModule` (morphisms are compatible families of linear maps) and `completionFunctor`.
+Assumed as stated there.
 
 ## How to read the build
 
 There is no Layer 0 and no §1.1: the commutative algebra inputs and the punctured spectrum with
 its notion of purity are Tau Ceti's (supplier contracts). Layer 1 works over a fixed Noetherian
-local ring: §1.2 completes the anti-equivalence between finite étale covers of the punctured
-spectrum and finite normal algebras, §1.3 compares covers of `A`, of its completion and of a
+local ring, except for the general statements on formal glueing, formal sections and completion
+that open §1.3: §1.2 completes the anti-equivalence between finite étale covers of the punctured
+spectrum and finite normal algebras, §1.3 proves formal glueing of modules and the
+formal-sections comparison and with them compares covers of `A`, of its completion and of a
 hypersurface section, and §1.4 extends covers from a hypersurface section. Layer 2 proves purity
 for regular local rings by induction on the dimension, starting from Tau Ceti's dimension-two
 case, and globalizes it over Noetherian and locally Noetherian schemes. Each subsection's *Needs:*
@@ -235,16 +273,22 @@ and finite normal algebras, whose quasi-inverse is global sections. Moreover, `V
 restriction of a finite étale scheme over `X` iff `Γ(V, 𝒪_V)` is étale over `A`: `A` has depth
 `≥ 2` by Tau Ceti's depth bound for normal local domains, `Γ(V, 𝒪_V)` is finite over `A` by the
 first part, and Tau Ceti's `TauCeti.IsLocalRing.extends_iff_sections_finiteEtale` applies. The
-route is that of Stacks: `V` is normal, so a finite disjoint union of integral schemes; for `V`
-integral its function field `L` is finite separable over the fraction field of `A`, the integral
-closure `B'` of `A` in `L` is finite (`IsIntegralClosure.finite`), torsion free and normal, and
-agrees with `Γ(V ×_U D(f), 𝒪)` after inverting each `f ∈ 𝔪`, so `V` is the restriction of
+route is that of Stacks: `V` is normal, its local rings being localizations of étale algebras over
+the integrally closed domains `A_f` (`TauCeti.Algebra.Etale.isDomain_localization_atPrime_of_isIntegrallyClosed`,
+`TauCeti.Algebra.Etale.isIntegrallyClosed_localization_atPrime_of_isIntegrallyClosed`), so a
+finite disjoint union of integral schemes; for `V` integral its function field `L` is finite
+separable over the fraction field of `A`, the integral closure `B'` of `A` in `L` is finite
+(`IsIntegralClosure.finite`), torsion free and normal, and agrees with `Γ(V ×_U D(f), 𝒪)` after
+inverting each of finitely many generators `f` of `𝔪`, whose principal opens cover `U`
+(`TauCeti.IsLocalRing.puncturedSpectrum_eq_iSup_basicOpen`), so `V` is the restriction of
 `Spec B'`; then `B' = Γ(V, 𝒪_V)` by `TauCeti.IsLocalRing.isIso_appTop_pullback_fst_puncturedSpectrum`.
 *Needs:* Tau Ceti `TauCeti.IsLocalRing.FiniteNormalPuncturedEtaleAlg`,
 `TauCeti.IsLocalRing.restrictPuncturedSpec`, `TauCeti.IsLocalRing.restrictPuncturedSpec.fullyFaithful`,
 `TauCeti.IsLocalRing.isIso_appTop_pullback_fst_puncturedSpectrum`,
 `TauCeti.IsLocalRing.extends_iff_sections_finiteEtale`, the depth bound
-`two_le_depth_of_isIntegrallyClosed`;
+`two_le_depth_of_isIntegrallyClosed`, `TauCeti.IsLocalRing.puncturedSpectrum_eq_iSup_basicOpen`,
+`TauCeti.Algebra.Etale.isDomain_localization_atPrime_of_isIntegrallyClosed`,
+`TauCeti.Algebra.Etale.isIntegrallyClosed_localization_atPrime_of_isIntegrallyClosed`;
 Mathlib `IsIntegralClosure.finite`, `Algebra.IsEtaleAt`.
 
 **Checks.**
@@ -262,34 +306,161 @@ Mathlib `IsIntegralClosure.finite`, `Algebra.IsEtaleAt`.
 
 ### 1.3 Completion and restriction to a hypersurface
 
-Fix `f ∈ 𝔪` and set `X_0 = Spec (A ⧸ Ideal.span {f})` with punctured spectrum `U_0` (Stacks,
-Situation 58.19.1 (0BLF)); restriction from finite étale schemes over `U` to those over `U_0` is
-base change along `U_0 → U`. Prove, each with the hypotheses and conclusion of its tag:
-*finite_extend_of_completion* (Lemma 58.19.3 (0BLH)); *extends_iff_completion_extends* (Lemma
-58.20.4 (0BLL)): a finite étale `V` over `U` is the restriction of a finite étale scheme over `X`
-iff its base change to the punctured spectrum of the `𝔪`-adic completion `Â` is the restriction of
-a finite étale scheme over `Spec Â`; *restrictHypersurface_fullyFaithful_of_completion* (Lemma
-58.19.4 (0BLI)): if `(A, (f))` is a henselian pair and restriction from `U′` to `U′_0` over
-`Spec Â` is fully faithful, then so is restriction from `U` to `U_0`;
-*fullyFaithful_of_completion_coherent* (Lemma 58.17.1 (0EL8));
-*completion_fullyFaithful_of_localCohomology* (Algebraic and Formal Geometry, Lemma 52.15.5
-(0EKS)); *restrictHypersurface_fullyFaithful_of_localCohomology* (Lemma 58.19.6 (0BM6)): if
-`H¹_𝔪(A)` and `H²_𝔪(A)` are annihilated by a power of `f` and `(A, (f))` is a henselian pair, then
-restriction from finite étale schemes over `U` to finite étale schemes over `U_0` is fully
-faithful; and *restrictHypersurface_fullyFaithful* (Lemma 58.19.7 (0BLJ)): the same for
-`depth A ≥ 3` and `(A, (f))` a henselian pair.
-For *finite_extend_of_completion*, specialize formal module gluing along `A → Â` and a finite
-principal-open cover of `U` (More on Algebra, Proposition 15.91.16 (05ER)); its monoidal and
-finiteness preservation (Remark 15.91.20 (05EU)) descends the algebra structure and finite
-module. The target here is the finite-morphism specialization, not a second general gluing
-theory. For *completion_fullyFaithful_of_localCohomology*, use formal-section comparison (Algebraic
-and Formal Geometry, Lemma 52.12.7 (0EII)) and its finite-locally-free completion criterion
-(Lemma 52.15.1 (0EKP)); the §2.7 local-cohomology API supplies the vanishing hypotheses.
-*Needs:* Tau Ceti `TauCeti.IsLocalRing.puncturedSpectrum`, `TauCeti.FiniteEtaleScheme.pullback`;
-SchemeAndStackFoundations §0.14 (henselian pairs), §2.7 (`depth_localCohomology_vanishing`,
-`localCohomology_module_comparison`), §§4.7–4.8 (formal completion, `CoherentFormalModule`);
-Mathlib `IsLocalRing.depth`, `AdicCompletion`, `AdicCompletion.flat_of_isNoetherian`,
-`localCohomology`.
+**Formal glueing.** For a ring map `R → S`, elements `f_1, …, f_t ∈ R` and `I = (f_1, …, f_t)`,
+define *FormalGlueData* `R S (f_1, …, f_t)`, the category `Glue(R → S, f_1, …, f_t)` of glueing
+data (More on Algebra, Remark 15.91.10 (05EL)). An object is an `S`-module `M′`, an
+`R_{f_i}`-module `M_i` for each `i`, isomorphisms `α_i : M′_{f_i} → M_i ⊗_R S` of
+`S_{f_i}`-modules and isomorphisms `α_{ij} : (M_i)_{f_j} → (M_j)_{f_i}` of `R_{f_i f_j}`-modules,
+such that `(α_{ij} ⊗ S) ∘ α_i = α_j` as maps `M′_{f_i f_j} → (M_j)_{f_i} ⊗_R S` and
+`α_{jk} ∘ α_{ij} = α_{ik}` as maps `(M_i)_{f_j f_k} → (M_k)_{f_i f_j}`. A morphism is an `S`-linear
+map together with `R_{f_i}`-linear maps commuting with the `α_i` and the `α_{ij}`.
+
+- *Can* sends an `R`-module `M` to `(M ⊗_R S, M_{f_i}, can_i, can_{ij})`, with the canonical
+  isomorphisms. *H⁰* sends an object to the `R`-module of families `(m′, m_i) ∈ M′ × ∏_i M_i` with
+  `α_i(m′/1) = m_i ⊗ 1` and `α_{ij}(m_i/1) = m_j/1` for all `i, j`. `H⁰` is right adjoint to `Can`
+  (More on Algebra, Lemma 15.91.11 (0H77)).
+- For `R → S` flat, *FormalGlueData* is abelian, with kernels and cokernels computed componentwise,
+  and `Can` is exact and commutes with all colimits (Lemma 15.91.13 (05EN)).
+- If `(f_1, …, f_t) = R`, then for every flat `R → S` the functors `Can` and `H⁰` are quasi-inverse
+  equivalences (Lemma 15.91.14 (05EP)): this is Zariski glueing of modules, and the
+  `S`-component is determined by the others.
+
+**Checks.**
+- For `S = 0` and `t = 1`, `f_1 = 1`, an object is an `R`-module `M_1` together with the zero
+  module, and `Can` and `H⁰` are the identity of `R`-modules up to isomorphism: when `I` is the unit
+  ideal the `S`-component carries no information.
+- For `R = ℤ_(p)`, `S = ℤ_p` and `f_1 = p`, the object `(ℤ_p, ℚ, α_1)`, with `α_1` the identity of
+  `ℚ_p = ℚ ⊗_{ℤ_(p)} ℤ_p`, has `H⁰ = ℤ_p ∩ ℚ = ℤ_(p)` inside `ℚ_p`, and it is `Can(ℤ_(p))`.
+- For `R = k[x]`, `S = k = R/(x)` and `f_1 = x`, the map `R/(x) → S/xS` is bijective but `S` is not
+  flat over `R`. Both `(R ⊗_R S)_x = k_x` and `R_x ⊗_R S = k[x, x⁻¹]/(x)` vanish, so
+  `H⁰(Can(R)) = k × k[x, x⁻¹]`, which is not `R`: flatness cannot be dropped from
+  *formalGlueing_equiv*.
+- For `R = ℤ`, `S = ℚ` and `f_1 = p`, `S` is flat but `R/pR = 𝔽_p → S/pS = 0` is not bijective,
+  and `Can(𝔽_p) = 0 = Can(0)` because `𝔽_p ⊗ ℚ = 0` and `(𝔽_p)_p = 0`: `Can` is not faithful, so the
+  hypothesis on `R/I → S/IS` cannot be dropped either.
+
+Prove *formalGlueing_equiv* (More on Algebra, Proposition 15.91.16 (05ER) and Remark 15.91.20
+(05EU)): if `R → S` is flat and `R/I → S/IS` is bijective, then `Can` and `H⁰` are quasi-inverse
+equivalences between `R`-modules and *FormalGlueData* `R S (f_1, …, f_t)`; an `R`-module `M` is
+finite, finitely presented, flat or projective iff `M ⊗_R S` has that property over `S` and every
+`M_{f_i}` has it over `R_{f_i}`; and both functors are compatible with tensor products, so they
+restrict to equivalences between `R`-algebras and glueing data of algebras, and between finite
+`R`-algebras and glueing data of finite algebras. The route is that of Stacks. `H⁰ ∘ Can ≅ id` is
+the exactness of the glueing complex
+`0 → M → (M ⊗_R S) × ∏_i M_{f_i} → ∏_i (M ⊗_R S)_{f_i} × ∏_{i,j} M_{f_i f_j}` (Lemma 15.91.9
+(05EK)), which rests on the invariance of `I`-power torsion under base change along `R → S` (Tau
+Ceti `TauCeti.tensorProduct_mk_bijective_of_primaryComponent_eq_top`, 05E9, and
+`TauCeti.isBaseChange_of_primaryComponent_eq_top`, 05EC). For `Can ∘ H⁰ ≅ id`, the comparison map
+becomes an isomorphism after base change to each `R_{f_i}` (Lemmas 15.91.14 (05EP) and 15.91.15
+(05EQ)), so it is injective with cokernel an `IS`-power torsion `S`-module, and the extension it
+defines descends to `R` (Lemma 15.91.8 (05EG)). Lemmas 15.91.4–15.91.9 are steps of this target.
+The property clauses are descent along the faithfully flat map `R → S × ∏_i R_{f_i}` (Mathlib
+`Module.Finite.of_finite_tensorProduct_of_faithfullyFlat` for finiteness; Algebra, Lemma 10.83.2
+and Theorem 10.95.6 for the others, as in Remark 15.91.20).
+
+**Formal sections and completion.** Prove *formalSections_of_localCohomology* (Algebraic and
+Formal Geometry, Lemma 52.12.7 (0EII)): for a Noetherian ring `R`, an ideal `𝔞`, an element
+`g ∈ 𝔞` and a finite `R`-module `M`, if `R` is `g`-adically complete and `H¹_𝔞(M)` and `H²_𝔞(M)`
+are annihilated by a power of `g`, then with `W = Spec R ∖ V(𝔞)` the map
+`Γ(W, M~) → lim_n Γ(W, M~/gⁿM~)` is bijective. Route: for `F = M~|_W`, `H¹(W, F) ≅ H²_𝔞(M)` and
+there is an exact sequence `0 → M/H⁰_𝔞(M) → Γ(W, F) → H¹_𝔞(M) → 0` (SchemeAndStackFoundations
+§2.7 `supports_localization_triangle` and `localCohomology_module_comparison`, `Spec R` being
+affine). The `g`-power torsion of the coherent `F` on the Noetherian `W` is bounded, so
+`lim_n Γ(W, F/gⁿF)` is an extension of the `g`-adic Tate module of `H¹(W, F)` by the `g`-adic
+completion of `Γ(W, F)` (the degree-zero case of Algebraic and Formal Geometry, Lemma 52.3.2
+(0BLD), a step of this target); that Tate module vanishes because `H¹(W, F)` is killed by a power
+of `g`. Finally `Γ(W, F)` is `g`-adically complete, being an extension of a module killed by a
+power of `g` by the finite, hence complete, module `M/H⁰_𝔞(M)` (Algebra, Lemmas 10.97.1 (00MA) and
+10.96.4 (0BNG)).
+
+Prove *completion_fullyFaithful_of_sections* (Algebraic and Formal Geometry, Lemma 52.15.1
+(0EKP)): let `X` be a Noetherian scheme and `Y ⊆ X` a closed subscheme with ideal sheaf `𝓘` and
+infinitesimal neighbourhoods `Y_n = V(𝓘ⁿ)`, and consider the conditions
+(1) `X` is quasi-affine (`Scheme.IsQuasiAffine`) and `Γ(X, 𝒪_X) → lim_n Γ(Y_n, 𝒪_{Y_n})` is
+bijective; (2) `X` has an ample invertible module `L`
+(`TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple`) with
+`Γ(X, L^{⊗m}) → lim_n Γ(Y_n, L^{⊗m}|_{Y_n})` bijective for all `m ≫ 0`; (3) for every finite
+locally free `𝒪_X`-module `E`, `Γ(X, E) → lim_n Γ(Y_n, E|_{Y_n})` is bijective; (4) the completion
+functor from coherent `𝒪_X`-modules to coherent formal modules on the completion of `X` along `Y`
+(SchemeAndStackFoundations §4.8 `completionFunctor`) is fully faithful on finite locally free
+modules. Then (1) ⇒ (2) ⇒ (3) and (3) ⇔ (4). Route: (1) ⇒ (2) with `L = 𝒪_X`, which is ample
+exactly when `X` is quasi-affine (`TauCeti.AlgebraicGeometry.LineBundleClass.isAmple_one_iff`);
+(2) ⇒ (3) by a universally exact sequence `0 → E → (L^{⊗p})^{⊕r} → (L^{⊗q})^{⊕s}`, obtained by
+dualizing surjections from sums of negative powers of `L` onto `Hom(E, 𝒪_X)` and onto the next
+cokernel (Properties of Schemes, Proposition 28.27.13 (01Q3)), and the limit of its restrictions
+to the `Y_n`; (3) ⇒ (4) by applying (3) to `Hom(G, F)` for finite locally free `F` and `G`, morphisms of
+coherent formal modules being compatible families of maps (SchemeAndStackFoundations §4.8;
+Cohomology of Schemes, Lemma 30.23.5 (0882)); (4) ⇒ (3) by taking `G = 𝒪_X`, since morphisms
+`𝒪_X → E` are global sections and morphisms of the completions are elements of
+`lim_n Γ(Y_n, E|_{Y_n})`.
+
+**Checks.**
+- For `R = k⟦x, y, z⟧`, `𝔞 = 𝔪`, `g = z` and `M = R`, the depth is `3`, so `H¹_𝔪(R) = H²_𝔪(R) = 0`,
+  and both sides of *formalSections_of_localCohomology* are `R`: `Γ(W, 𝒪_W) = R` and
+  `Γ(W, 𝒪_W/zⁿ) = R/zⁿ`, the punctured spectrum of `R/zⁿ` having depth `2`.
+- For `R = k[x, y, z]_{(x, y, z)}` with the same `𝔞`, `g` and `M`, the local cohomology hypothesis
+  holds but `R` is not `z`-adically complete: `Γ(W, 𝒪_W) = R` maps to the `z`-adic completion of
+  `R`, injectively and not onto, so completeness cannot be dropped.
+- For `R = k⟦x, y⟧`, `𝔞 = 𝔪`, `g = x` and `M = R`, `R` is complete but no power of `x` kills
+  `H²_𝔪(R)` (`xⁿ · x^{−n−1}y^{−1} = x^{−1}y^{−1} ≠ 0`); `Γ(W, 𝒪_W) = R`, while
+  `Γ(W, 𝒪_W/xⁿ) = (R/xⁿ)[1/y]`, so the limit is the `x`-adic completion of `R[1/y]`, which contains
+  `y⁻¹`: the local cohomology hypothesis cannot be dropped.
+- For `X = Spec k[x]` and `Y = V(x)`, condition (1) fails (`k[x] → k⟦x⟧` is not onto), and so does
+  (4): multiplication by `1/(1 − x)` on the completion of `𝒪_X` comes from no endomorphism of `𝒪_X`.
+  For `X = Spec k⟦x⟧` and the same `Y`, (1) holds, and the completion functor is fully faithful
+  on finite free modules `P`, `Q`, because `Hom(P, Q)` is `x`-adically complete.
+
+**Completion and hypersurface sections.** Fix `f ∈ 𝔪` and set `X_0 = Spec (A ⧸ Ideal.span {f})`
+with punctured spectrum `U_0` (Stacks, Situation 58.19.1 (0BLF)); restriction from finite étale
+schemes over `U` to those over `U_0` is base change along `U_0 → U`. Let `Â` be the `𝔪`-adic
+completion and `U′`, `U′_0` the base changes of `U`, `U_0` to `Spec Â`. Prove, each with the
+hypotheses and conclusion of its tag: *finite_extend_of_completion* (Lemma 58.19.3 (0BLH)): if
+`V → U` is finite and its base change `V′` to `U′` is the restriction of a scheme `Y′` finite over
+`Spec Â`, then `V` is the restriction of a scheme `Y` finite over `X` with `Y′ = Y ×_X Spec Â`;
+*extends_iff_completion_extends* (Lemma 58.20.4 (0BLL)): a finite étale `V` over `U` is the
+restriction of a finite étale scheme over `X` iff `V′` is the restriction of a finite étale scheme
+over `Spec Â`; *restrictHypersurface_fullyFaithful_of_completion* (Lemma 58.19.4 (0BLI)): if
+`(A, (f))` is a henselian pair and restriction from `U′` to `U′_0` is fully faithful, then so is
+restriction from `U` to `U_0`; *fullyFaithful_of_completion_coherent* (Lemma 58.17.1 (0EL8)): for a
+Noetherian scheme and a closed subscheme along which completion is fully faithful on finite locally
+free coherent modules, restriction of finite étale schemes to the closed subscheme is fully
+faithful; *completion_fullyFaithful_of_localCohomology* (Algebraic and Formal Geometry, Lemma
+52.15.5 (0EKS)): for a Noetherian ring `R`, `g ∈ 𝔞 ⊆ R`, `R` `g`-adically complete and `H¹_𝔞(R)`,
+`H²_𝔞(R)` annihilated by a power of `g`, completion along `V(g)` is fully faithful on finite locally
+free coherent modules on `Spec R ∖ V(𝔞)`; *restrictHypersurface_fullyFaithful_of_localCohomology*
+(Lemma 58.19.6 (0BM6)): if `H¹_𝔪(A)` and `H²_𝔪(A)` are annihilated by a power of `f` and
+`(A, (f))` is a henselian pair, then restriction from finite étale schemes over `U` to finite
+étale schemes over `U_0` is fully faithful; and *restrictHypersurface_fullyFaithful* (Lemma 58.19.7
+(0BLJ)): the same for `depth A ≥ 3` and `(A, (f))` a henselian pair.
+
+For *finite_extend_of_completion*, apply *formalGlueing_equiv* to `A → Â`, which is flat
+(`AdicCompletion.flat_of_isNoetherian`) and bijective modulo `𝔪`
+(`AdicCompletion.pow_smul_top_eq_ker_eval`), and to generators `f_1, …, f_t` of `𝔪`, whose
+principal opens cover `U` (`TauCeti.IsLocalRing.puncturedSpectrum_eq_iSup_basicOpen`): the rings
+of `Y′` and of the affine schemes `V ×_U D(f_i)` form a glueing datum of finite algebras, and its
+`H⁰` is a finite `A`-algebra `B` with `Y = Spec B`. For *completion_fullyFaithful_of_localCohomology*,
+apply (1) ⇒ (4) of *completion_fullyFaithful_of_sections* to the quasi-affine
+`Spec R ∖ V(𝔞)` (`Scheme.IsQuasiAffine.of_isImmersion`) and its closed subscheme cut out by `g`;
+condition (1) is *formalSections_of_localCohomology* for `M = R`. For
+*restrictHypersurface_fullyFaithful_of_localCohomology*, the hypotheses pass to `Â` (§2.7
+`localCohomology_flat_baseChange`), *restrictHypersurface_fullyFaithful_of_completion* reduces to
+`A` complete, and then *fullyFaithful_of_completion_coherent* for `U ⊇ U_0` with
+*completion_fullyFaithful_of_localCohomology* for `𝔞 = 𝔪` and `g = f` gives the claim. For
+*restrictHypersurface_fullyFaithful*, `depth A ≥ 3` makes `H¹_𝔪(A)` and `H²_𝔪(A)` vanish (§2.7
+`depth_localCohomology_vanishing`, after §0.17 `depth_eq_iff_ext` identifies Mathlib's depth with
+the depth of §2.7).
+*Needs:* Tau Ceti `TauCeti.IsLocalRing.puncturedSpectrum`,
+`TauCeti.IsLocalRing.puncturedSpectrum_eq_iSup_basicOpen`, `TauCeti.FiniteEtaleScheme.pullback`,
+`TauCeti.tensorProduct_mk_bijective_of_primaryComponent_eq_top`,
+`TauCeti.isBaseChange_of_primaryComponent_eq_top`, `TauCeti.AlgebraicGeometry.LineBundleClass.IsAmple`,
+`TauCeti.AlgebraicGeometry.LineBundleClass.isAmple_one_iff`; SchemeAndStackFoundations §0.14
+(henselian pairs), §0.17 (`depth_eq_iff_ext`), §2.7 (`supports_localization_triangle`,
+`depth_localCohomology_vanishing`, `localCohomology_module_comparison`,
+`localCohomology_flat_baseChange`), §§4.7–4.8 (formal completion, `CoherentFormalModule`,
+`completionFunctor`); Mathlib `IsLocalRing.depth`, `AdicCompletion`,
+`AdicCompletion.flat_of_isNoetherian`, `AdicCompletion.pow_smul_top_eq_ker_eval`, `localCohomology`,
+`Scheme.IsQuasiAffine`, `Scheme.IsQuasiAffine.of_isImmersion`,
+`Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`.
 
 ### 1.4 The local Lefschetz extension theorem
 
@@ -303,8 +474,46 @@ local-cohomology hypothesis. For 0BLS, reduce to the complete case by
 SchemeAndStackFoundations §0.14 *henselian_finiteEtale_equivalence*, and identify the two covers of
 `U` by *restrictHypersurface_fullyFaithful_of_localCohomology* (§1.3). For 0BLM, `depth A ≥ 3`
 makes `H¹_𝔪(A)` and `H²_𝔪(A)` vanish (SchemeAndStackFoundations §2.7
-`depth_localCohomology_vanishing`), and 0BLS applies.
-*Needs:* §1.3; SchemeAndStackFoundations §§0.14, 2.7; Mathlib `IsLocalRing.depth`.
+`depth_localCohomology_vanishing`, stated for the depth of §0.17, which `depth_eq_iff_ext`
+identifies with Mathlib's `IsLocalRing.depth`), and 0BLS applies.
+*Needs:* §1.3; SchemeAndStackFoundations §0.14 (*henselian_finiteEtale_equivalence*), §0.17
+(`depth_eq_iff_ext`), §2.7 (`depth_localCohomology_vanishing`); Mathlib `IsLocalRing.depth`.
+
+### Examples
+
+- For `A = k⟦x, y, z⟧` and `f = z`, `A = k⟦x, y⟧⟦z⟧` is `z`-adically complete, so `(A, (z))` is a
+  henselian pair, and `depth A = 3`, so `H¹_𝔪(A) = H²_𝔪(A) = 0`. Restriction from finite étale
+  schemes over `U` to those over `U_0`, the punctured spectrum of `k⟦x, y⟧`, is fully faithful
+  (*restrictHypersurface_fullyFaithful*), and a cover of `U` whose restriction to `U_0` extends to
+  `Spec k⟦x, y⟧` extends to `Spec A` (*finiteEtale_extend_of_hypersurface*).
+- For `A = k⟦x, y⟧` and `f = xy`, the pair `(A, (xy))` is henselian since `A` is complete, but
+  `depth A = 2` and no power of `xy` kills `H²_𝔪(A)`:
+  `(xy)ⁿ · x^{−n−1}y^{−n−1} = x^{−1}y^{−1} ≠ 0`. The conclusion of 0BM6 and 0BLJ fails as well:
+  `U` is irreducible, since `A` is a domain, while `U_0 = Spec k((x)) ⊔ Spec k((y))` is the two
+  generic points of the branches `y = 0` and `x = 0`. So `Hom_U(U, U ⊔ U)` has `2` elements and
+  `Hom_{U_0}(U_0, U_0 ⊔ U_0)` has `4`, and restriction is not full: neither the depth bound nor
+  the local cohomology hypothesis can be dropped.
+- For `A = k⟦x, y⟧` and `f = x`, `(A, (x))` is henselian and `xⁿ · x^{−n−1}y^{−1} = x^{−1}y^{−1} ≠ 0`
+  in `H²_𝔪(A)`, so 0BM6's hypothesis fails. Its conclusion still holds: by purity in dimension two
+  and because `A` is henselian, finite étale schemes over `U` are those of finite étale
+  `k`-algebras, and base change from `k` to `U_0 = Spec k((y))` is fully faithful on them because
+  `k` is algebraically closed in `k((y))`. The hypothesis is sufficient, not necessary.
+- For `A = k[x, y]_{(x, y)}` and the generators `x, y` of `𝔪`, the glueing datum of `V = U` in
+  *finite_extend_of_completion* has `H⁰ = Â ∩ A_x ∩ A_y = A`, the intersection taken in `Â_{xy}`,
+  so `Y = X`.
+
+### Dependencies
+
+Tau Ceti: finite étale schemes and their base change, the punctured spectrum and its cover by
+principal opens, restriction and purity, the sections results (0BM8, 0BLK), the full faithfulness
+half of 0BM9, the depth bound for normal local domains, normality along étale maps, the torsion
+lemmas of formal glueing (05E9, 05EC) and ampleness of `𝒪_X` on quasi-affine schemes. Mathlib:
+integral closure in a finite separable extension, étale algebras, depth, adic completion with its
+flatness and its quotients, local cohomology, quasi-affine schemes and descent of finiteness along
+faithfully flat maps. SchemeAndStackFoundations §§0.14 (henselian pairs and their finite étale
+algebras), 0.17 (depth by regular sequences and its `Ext` description), 2.7 (local cohomology, its
+comparison with cohomology with supports, flat base change and vanishing below the depth) and
+4.7–4.8 (formal completion, coherent formal modules and the completion functor).
 
 ## Layer 2: local purity and extension
 
@@ -353,9 +562,13 @@ Prove *spread_from_localScheme* (Limits, Lemmas 32.20.3 (0BQ5) and 32.20.4 (0EY3
 schemes over `U` and over `Spec 𝒪_{S,s}` whose restrictions to `V` are isomorphic glue to a finitely
 presented scheme over an open `U' ⊇ U ∪ {s}`, uniquely up to shrinking `U'`; and if both are
 separated, proper, finite or étale, the glued scheme has the same property after shrinking `U'`.
-The proof applies SchemeAndStackFoundations §0.9 `finite_presentation_limits` to `Spec 𝒪_{S,s}` as
-the limit of its affine open neighbourhoods. Prove `finiteEtale_extend_of_purity` (Stacks, Lemma
-58.21.6 (0EY7)): for a Noetherian scheme `X` and an open `U ⊆ X` with
+The proof glues relative schemes over `U` and an affine open neighbourhood `W` of `s` along
+`U ∩ W` (Mathlib `Scheme.GlueData`), and applies SchemeAndStackFoundations §0.9
+`finite_presentation_limits` to `Spec 𝒪_{S,s}` as the limit of the affine open neighbourhoods `W`
+(Limits, proof of 0BQ5). Properness, finiteness and étaleness descend by §0.9; separatedness
+descends by applying its closed-immersion clause to the diagonal, a morphism between schemes of
+finite presentation (Limits, Lemma 32.8.6 (01ZQ)). Prove `finiteEtale_extend_of_purity`
+(Stacks, Lemma 58.21.6 (0EY7)): for a Noetherian scheme `X` and an open `U ⊆ X` with
 `TauCeti.IsLocalRing.PurityHolds 𝒪_{X,x}` for every `x ∉ U`, restriction from finite étale schemes
 over `X` to finite étale schemes over `U` is essentially surjective. The proof is Noetherian
 induction on the complement: at the generic point `x` of an irreducible component of `X ∖ U`, the
@@ -372,13 +585,14 @@ the equivalence stated there; for `X` regular this is SGA 1, Exposé X, Corollai
 hypothesis that `X ∖ U` has codimension `≥ 2` makes every local ring along it of dimension `≥ 2`): for a locally Noetherian scheme `X` and an open `U` such that `𝒪_{X,x}`
 is a regular local ring of dimension `≥ 2` for every `x ∉ U`, restriction is essentially surjective.
 On each affine open it is `finiteEtale_extend_of_purity` with
-`IsLocalRing.purityHolds_of_isRegularLocalRing`, and the local extensions glue by
-*restrictOpen_fullyFaithful_of_depth*, since a regular local ring of dimension `d` has depth `d`
-(`TauCeti.IsRegularLocalRing.depth_eq_ringKrullDim`).
+`IsLocalRing.purityHolds_of_isRegularLocalRing`; on overlaps the local extensions are identified by
+unique isomorphisms by *restrictOpen_fullyFaithful_of_depth*, since a regular local ring of
+dimension `d` has depth `d` (`TauCeti.IsRegularLocalRing.depth_eq_ringKrullDim`), and they glue to
+a scheme over `X` (`Scheme.GlueData`), finite étale because both properties are local on `X`.
 *Needs:* §2.1; SchemeAndStackFoundations §0.9; Tau Ceti `TauCeti.IsLocalRing.PurityHolds`,
 `TauCeti.FiniteEtaleScheme.pullback`, `TauCeti.FiniteEtaleScheme.fullyFaithfulPullbackιOfTwoLeDepth`,
 `TauCeti.IsRegularLocalRing.depth_eq_ringKrullDim`; Mathlib `IsNoetherian`, `IsLocallyNoetherian`,
-`Scheme.Opens`, `IsAffineOpen`, `Scheme.Cover.glueMorphisms`, `IsLocalRing.depth`.
+`Scheme.Opens`, `IsAffineOpen`, `Scheme.GlueData`, `Scheme.Cover.glueMorphisms`, `IsLocalRing.depth`.
 
 **Checks.**
 - `test_extend_dvr_fails`: for `X = Spec ℤ_(p)` and `U` its generic point, purity fails at the
@@ -390,6 +604,30 @@ On each affine open it is `finiteEtale_extend_of_purity` with
 - `test_open_equals_whole`: for `U = X`, restriction is the identity up to the isomorphism
   `Y ×_X X ≅ Y`, and both extension statements hold with no hypothesis on points.
 
+### Examples
+
+- For `A = k⟦x, y, z⟧` the induction of §2.1 runs once: with `f = z ∈ 𝔪 ∖ 𝔪²`,
+  `A ⧸ Ideal.span {z} = k⟦x, y⟧` is regular of dimension two, where purity is Tau Ceti's base case,
+  and `depth A = 3`, so *finiteEtale_extend_of_hypersurface* extends every finite étale cover of the
+  punctured spectrum of `A` (Layer 1, first example).
+- For `X = 𝔸³_k` and `U = X ∖ L` with `L` a line, the local ring of `X` at the generic point of `L`
+  is regular of dimension two and at each closed point of `L` regular of dimension three, so every
+  finite étale cover of `U` extends to `X` (`finiteEtale_extend_of_regular_codimTwo`).
+- For `X = 𝔸²_k` with `char k ≠ 2` and `U = D(x)`, the cover of `U` given by `t² = x` is finite étale
+  and does not extend: its normalization over `X` is ramified along `x = 0`. The local ring of `X`
+  at the generic point of that line has dimension one, so neither extension theorem applies.
+- The Checks of §§2.1–2.2 give the failures in dimension one and for a non-regular normal local ring
+  of dimension two, and the case `U = X`.
+
+### Dependencies
+
+Layer 1 (§§1.2 and 1.4). Tau Ceti: purity for a local ring, base change of finite étale schemes,
+full faithfulness of restriction over an affine Noetherian base, the dimension-two case of 0BMA and
+the facts on regular local rings listed in the supplier contracts. SchemeAndStackFoundations §0.9
+(finitely presented schemes and morphisms over a limit, and the descent of proper, finite, étale
+and closed immersion, the last applied to diagonals). Mathlib: Noetherian and locally Noetherian
+schemes, affine opens, glueing of schemes and of morphisms, regular local rings and étale algebras.
+
 ## Stacks alignment
 
 *Exact*: the tag's hypotheses and conclusion, in Mathlib's vocabulary. *Adapted*: same mathematics
@@ -400,6 +638,9 @@ counterpart.
 | § | Target | Stacks | Class |
 | --- | --- | --- | --- |
 | 1.2 | *restrictPuncturedSpec_essSurj*, *finiteNormalEquiv* | 58.20.3 (0BM9) | corrected |
+| 1.3 | *FormalGlueData*, *formalGlueing_equiv* | 15.91.10 (05EL), 15.91.16 (05ER), 15.91.20 (05EU) | exact |
+| 1.3 | *formalSections_of_localCohomology* | 52.12.7 (0EII) | exact |
+| 1.3 | *completion_fullyFaithful_of_sections* | 52.15.1 (0EKP) | exact |
 | 1.3 | Situation | 58.19.1 (0BLF) | exact |
 | 1.3 | *finite_extend_of_completion* | 58.19.3 (0BLH) | exact |
 | 1.3 | *extends_iff_completion_extends* | 58.20.4 (0BLL) | exact |
@@ -424,17 +665,22 @@ counterpart.
 - [AbhyankarLemma](../AbhyankarLemma/README.md) Layer 2 consumes §2.1
   (`IsLocalRing.purityHolds_of_isRegularLocalRing`) and §2.2 (*spread_from_localScheme*,
   `finiteEtale_extend_of_purity`, `finiteEtale_extend_of_regular_codimTwo`).
-- PurityForFlatCohomology consumes §1.3 (*extends_iff_completion_extends*) and §§2.1–2.2.
+- PurityForFlatCohomology consumes §1.3 (*extends_iff_completion_extends*, and
+  *formalSections_of_localCohomology* as the formal-section comparison on punctured spectra) and
+  §§2.1–2.2.
 
 ## References
 
-- The Stacks Project, Chapters 10 (Algebra), 15 (More on Algebra), 32 (Limits), 49 (Discriminants),
-  52 (Algebraic and Formal Geometry) and 58 (Fundamental Groups of Schemes), https://stacks.math.columbia.edu.
+- The Stacks Project, Chapters 10 (Algebra), 15 (More on Algebra), 28 (Properties of Schemes),
+  30 (Cohomology of Schemes), 32 (Limits), 49 (Discriminants), 52 (Algebraic and Formal Geometry)
+  and 58 (Fundamental Groups of Schemes), https://stacks.math.columbia.edu.
 - A. Grothendieck, *Cohomologie locale des faisceaux cohérents et théorèmes de Lefschetz locaux et
   globaux* (SGA 2), Exposé X: Définitions 3.1–3.2 (pure pairs and pure local rings), Proposition
   3.3 (purity of a pair is purity of the local rings along the closed subset) and Théorème 3.4 (i)
   (a regular Noetherian local ring of dimension `≥ 2` is pure).
-- A. Grothendieck, *Revêtements étales et groupe fondamental* (SGA 1), Exposé X: Théorème 3.1 and
-  Corollaire 3.2 (Zariski–Nagata purity, stated there without proof; Corollaire 3.2 is a local form
-  of clause (2) of 0BMA), and Corollaire 3.3 (for `X` locally Noetherian regular and `Z` closed of
-  codimension `≥ 2`, restriction of étale covers from `X` to `X ∖ Z` is an equivalence).
+- A. Grothendieck, *Revêtements étales et groupe fondamental* (SGA 1), Exposé X: Théorème 3.1
+  (Zariski–Nagata purity, recalled there without proof, p. 212), Corollaire 3.2 (its local form and
+  a local form of clause (2) of 0BMA, proved there when `dim A = 2`: depth `≥ 2` makes `B` free over
+  `A`, and the discriminant then cuts out the ramification locus) and Corollaire 3.3 (for `X`
+  locally Noetherian regular and `Z` closed of codimension `≥ 2`, restriction of étale covers from
+  `X` to `X ∖ Z` is an equivalence, p. 213).
