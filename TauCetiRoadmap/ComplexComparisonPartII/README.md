@@ -859,7 +859,7 @@ as explained in C5.1); the two names denote the same target.
 - **Completed HodgeStructures.** Abstract pure, polarized and mixed Hodge structures, Tate twists and
   morphisms, implemented as the Tau Ceti declarations above.
 
-### From AlgebraicModuliForArithmeticGeometry and SchemeAndStackFoundations
+### Algebraic-space, resolution, derived-module and scheme suppliers
 
 - **AlgebraicModuliForArithmeticGeometry.** Layers 1–3 supply algebraic projective
   bundles and twists, `relativeSerre`, projective-space Čech comparison, `coherentDevissage`,
@@ -869,10 +869,11 @@ as explained in C5.1); the two names denote the same target.
   sheaves, base change, rigidification and infinitesimal lifting. §7.2 supplies perfect-complex
   rank loci; §§7.6.1–7.8 supply `spaceDQCoh`, `spacePerfect`, the ringed étale carriers and `properSpaceCompletionEquivalence`. §7.9 supplies
   `spaceSectionComponentCriterion`; §8.3 supplies generic parameter transport and the two
-  framed-completion equivalences. ResolutionOfSingularitiesCharacteristicZero Layers 1–6
-  supply algebraic resolution and SNC compactification.
+  framed-completion equivalences.
   The analytic local models are §§C-1.1–C-1.4, coherent GAGA is §C1.9, and derived limits,
   coherent/Picard algebraicity and components are §§C3.2a–C3.2g here.
+- **ResolutionOfSingularitiesCharacteristicZero.** Layers 1–6 supply algebraic resolution and
+  SNC compactification.
 - **DerivedModuleAlgebra §1.E.1 and EnhancedDerivedSheaves E1.9.**
   `perfectInverseSystemEffectivity` and `perfect_proper_pushforward`, respectively, supply
   the ring-complex effectivity and geometric perfect-test inputs of C3.2b. The latter also
@@ -882,7 +883,7 @@ as explained in C5.1); the two names denote the same target.
   quasi-coherent declarations named in *Scope and ownership*), including §§2.19–2.20's coherent
   duality, smooth dualizing module, trace and Serre duality for C5.3; §4.12 (Chow's lemma).
 
-### Compactification, finite and adic étale suppliers
+### Compactification, finite and adic étale, and topological suppliers
 
 - **EtaleCohomologyFoundations §§G.1–G.3.** `Compactification`,
   `DenseCompactification`, `nagataCompactification`, `compactificationCommonRefinement`,
@@ -5056,8 +5057,8 @@ an instance of the named targets, not a separate theorem.
    length two, and multiplication by `ε` is a nonzero square-zero endomorphism that analytification
    keeps (`CoherentAnalytification`, `projectiveGeometricDictionaries`).
 2. **An elliptic curve.** For an elliptic curve `E` over `ℂ`, taken as a proper smooth connected
-   genus-one `ℂ`-scheme with a marked rational point, `H⁰(E, Ω¹)` is the one-dimensional space of
-   invariant differentials, it is the `(1,0)` part of `H¹_dR(E) ≅ H¹(E^an, ℂ)` (`properDeRhamBetti`, `kaehlerHodgeDecomposition`), and
+   `ℂ`-scheme of dimension one with `dim H¹(E, O_E) = 1` and a marked `ℂ`-point (the dimension excludes a K3
+   surface, which has arithmetic genus one, and `E × P¹`, which has `h¹(O) = 1`), `H⁰(E, Ω¹)` is the one-dimensional space of invariant differentials, it is the `(1,0)` part of `H¹_dR(E) ≅ H¹(E^an, ℂ)` (`properDeRhamBetti`, `kaehlerHodgeDecomposition`), and
    `H¹(E^an, ℤ)` is free of rank two with the alternating intersection form (`multiplicativePeriodInterface`).
    A holomorphic isogeny of the analytifications is the analytification of an algebraic isogeny,
    with its group law, finite kernel and degree (`familyMorphismInterface`). No uniformization
