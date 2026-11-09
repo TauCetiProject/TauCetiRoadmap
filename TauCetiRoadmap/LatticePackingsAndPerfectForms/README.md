@@ -84,12 +84,18 @@ LMFDB columns (Layers 0, 1, 7, 8), `TauCeti/Analysis/SphericalDesign/` and
   Tau Ceti's `minimum` and `kissingNumber` **are** the LMFDB `minimum` and `kissing` columns;
   Layer 1 identifies them with the form-side definitions and adds no second minimum on the
   rational carrier.
-- **From Tau Ceti at the pin**: `TauCeti.IntegralLattice.successiveMinimum`
-  (`TauCeti/LinearAlgebra/IntegralLattice/PosDef/SuccessiveMinima.lean`) and
-  `IsPosDef.minimum_le_rpow_mul_determinant_rpow`
-  (`TauCeti/LinearAlgebra/IntegralLattice/PosDef/Hermite.lean`). The remaining integral
-  Minkowski, reduction and class-finiteness inputs are consumed from IntegralLattices
-  §§2E–2G, and the E₈ root count from its §6G; they are not new targets here.
+- **From Tau Ceti at the pin**, the integral successive minima and Hermite's inequality:
+  `TauCeti.IntegralLattice.successiveMinimum` and `IsPosSemidef.successiveMinimum_zero`
+  (`TauCeti/LinearAlgebra/IntegralLattice/PosDef/SuccessiveMinima.lean`);
+  `IsPosDef.three_pow_mul_minimum_pow_le` and `IsPosDef.minimum_le_rpow_mul_determinant_rpow`
+  (`…/IntegralLattice/PosDef/Hermite.lean`); the `A₂` equality case
+  `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`
+  (`…/IntegralLattice/RootLattice/TypeA/Hermite.lean`); and the form-level statements
+  `LinearMap.BilinForm.exists_isPrimitive_forall_apply_self_le` and
+  `LinearMap.BilinForm.exists_ne_zero_three_pow_mul_pow_le_four_pow_mul_det`
+  (`TauCeti/LinearAlgebra/BilinearForm/Hermite.lean`). The remaining integral Minkowski,
+  reduction and class-finiteness inputs are consumed from IntegralLattices §§2E–2G, and the E₈
+  root count from its §6G; they are not new targets here.
 - **From GeometryOfNumbersAndQuadraticArithmetic §4.3**: `polynomialLaplacian`,
   `polynomial_fischer_decomposition`, `polynomial_sphere_harmonic_span`, and
   `fourier_harmonic_gaussian`. Layer 5 adds the Gram-coordinate adapter, the design
@@ -317,11 +323,12 @@ dimension formula gives `S_k(SL₂(ℤ)) = 0` for `k < 12` and `dim S₁₂ = 1`
 | `norm`, `integralNorm`, `vectorsOfNorm`, `representationNumber`, `minimum`, `kissingNumber`, `IsPosDef.finite_vectorsOfNorm`, `IsPosSemidef.isLeast_minimum`, `IsPosDef.minimum_pos`, `TauCeti.IntegralLattice.kissingNumber_eq_representationNumber`, `Isometry.minimum_eq`, `Isometry.kissingNumber_eq` | `…/Norm.lean`, `…/PosDef/{Finite,RepresentationNumber,Minimum}.lean` | 1.2, 1.3, 6.1, 8.1 |
 | `Isometry`, `Isometry L L` as a group, `Isometry.det`, `specialOrthogonalGroup`, `IsPosDef.finite_isometry`, `Isometry.dualCarrierEquiv`, `Isometry.discriminantGroupEquiv` | `…/Isometry/{Basic,Group}.lean`, `…/Dual/Basic.lean`, `…/Discriminant/Group.lean` | 7.5, 7.6 |
 | realizations: `gram_comp_eq_map_gramMatrix`, `discreteTopology_range`, `covolume_range_sq_eq_determinant` | `…/PosDef/Covolume.lean` | 0.3, 1.5 |
-| `dualCarrier`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap` | `…/Dual/Basic.lean`, `…/Discriminant/{Group,Bilinear,Quadratic}.lean` | 7.5 |
+| `dualCarrier`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `discriminantBilinearModule`, `discriminantQuadraticModule`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry` | `…/Dual/Basic.lean`, `…/Discriminant/{Group,Bilinear,Quadratic}.lean` | 7.4, 7.5 |
 | `FiniteBilinearModule.Isometry` and the finite quadratic modules of Completed IL Layer 3 | `TauCeti/LinearAlgebra/FiniteBilinearModule/` | 7.5 |
 | `rankOne`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `d8PlusLattice` | `…/RankOne.lean`, `…/RootLattice/TypeA/Basic.lean`, `…/RootLattice/TypeD/Basic.lean`, `…/RootLattice/TypeE.lean`, `…/RootLattice/D8Plus/Basic.lean` | 4.10, worked examples |
 | `TauCeti.ModularForm.mvPolynomialEquivModularForms`, the level-one graded ring | `TauCeti/NumberTheory/ModularForms/LevelOne/GradedRing.lean` | 5.6 |
-| `TauCeti.IntegralLattice.successiveMinimum`, Minkowski's theorems, Hermite's inequality, Minkowski reduction, reduced-Gram bounds, class finiteness, `TauCeti.IntegralLattice.kissingNumber_typeE₈RootLattice` | IntegralLattices §§2E–2G and §6G, with intended homes under `TauCeti/LinearAlgebra/IntegralLattice/PosDef/{SuccessiveMinima,Minkowski,Hermite,Reduction,ReducedGram,Classes}.lean` and `…/RootLattice/TypeE/Roots.lean`; cited in prose only | 1.6, 2.3, 1.9, 4.9, 9 |
+| `TauCeti.IntegralLattice.successiveMinimum`, `IsPosSemidef.successiveMinimum_zero`, `IsPosDef.three_pow_mul_minimum_pow_le`, `IsPosDef.minimum_le_rpow_mul_determinant_rpow`, `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`, `LinearMap.BilinForm.exists_isPrimitive_forall_apply_self_le`, `LinearMap.BilinForm.exists_ne_zero_three_pow_mul_pow_le_four_pow_mul_det` | `…/PosDef/{SuccessiveMinima,Hermite}.lean`, `…/RootLattice/TypeA/Hermite.lean`, `TauCeti/LinearAlgebra/BilinearForm/Hermite.lean` | 1.6, 1.8, 2.3 |
+| Minkowski's theorems, Minkowski reduction, reduced-Gram bounds, class finiteness, `TauCeti.IntegralLattice.kissingNumber_typeE₈RootLattice` | IntegralLattices §§2E–2G and §6G, with intended homes under `TauCeti/LinearAlgebra/IntegralLattice/PosDef/{Minkowski,Reduction,ReducedGram,Classes}.lean` and `…/RootLattice/TypeE/Roots.lean`; cited in prose only | 1.6, 2.3, 1.9, 4.9, 9 |
 
 ## How to read the build
 
@@ -648,17 +655,22 @@ API:
 
 ### 1.6 Comparison with the integral theory
 
-Record that `T⁺`'s Hermite and Minkowski bounds for `L.minimum` are the integral cases of 1.7
-and 1.8, and that `successiveMinimum L 0 = L.minimum`. No declaration here restates them; 1.7 and
-1.8 are the real-form versions those modules do not cover.
+Record, through the dictionary of 1.2, that Tau Ceti's `IsPosDef.minimum_le_rpow_mul_determinant_rpow`
+(`min L ≤ (4/3)^{(n−1)/2} (det L)^{1/n}`) is the integral case of 1.8, that `T⁺`'s Minkowski bound
+for `L.minimum` is the integral case of 1.7, and that the first integral successive minimum is the
+minimum (Tau Ceti's `IsPosSemidef.successiveMinimum_zero`). No declaration here restates them; 1.7
+and 1.8 are the real-form versions those modules do not cover.
 
 **Checks.**
 
 - For Gram [4], the native minimum is 4 and the real first length is 2.
 - For diag(1,4), the native successive minima are 1,4, rather than the lengths 1,2.
-- For A₂, minimum = 2 and determinant = 3, so the integral and real Hermite invariants both equal 2/√3.
+- For A₂, minimum = 2 and determinant = 3, so the integral and real Hermite invariants both equal
+  2/√3; the integral equality is Tau Ceti's `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`.
 
-*Needs:* T⁺ `PosDef.Hermite`, `PosDef.Minkowski`, `PosDef.SuccessiveMinima`; L 1.2.
+*Needs:* T `IsPosDef.minimum_le_rpow_mul_determinant_rpow`, `successiveMinimum`,
+`IsPosSemidef.successiveMinimum_zero`, `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`;
+T⁺ `PosDef.Minkowski`; L 1.2.
 
 ### 1.7 Minkowski's bound for real forms
 
@@ -682,9 +694,11 @@ API and acceptance statements:
 ### 1.8 Hermite's inequality for real forms
 
 Prove `min A ≤ (4/3)^{(n−1)/2} (det A)^{1/n}` for `n ≥ 1` by Hermite's induction on `n`, following
-`T⁺`'s `TauCeti.LinearAlgebra.BilinearForm.Hermite` with the integrality dropped: a minimal vector
-is primitive, extends to a basis, and the form induced on the orthogonal projection has
-determinant `det A / min A` and minimum `≥ (3/4) min A`. Hence `hermite A ≤ (4/3)^{(n−1)/2}`, and
+Tau Ceti's `LinearMap.BilinForm.exists_ne_zero_three_pow_mul_pow_le_four_pow_mul_det`
+(`TauCeti/LinearAlgebra/BilinearForm/Hermite.lean`) with the integrality dropped: a minimal vector
+is primitive (the integral case is `LinearMap.BilinForm.exists_isPrimitive_forall_apply_self_le`),
+extends to a basis, and the form induced on the orthogonal projection has determinant
+`det A / min A` and minimum `≥ (3/4) min A`. Hence `hermite A ≤ (4/3)^{(n−1)/2}`, and
 `sup_A hermite A` is finite. Prove equality for `A₂ = [[2,1],[1,2]]`: `hermite A₂ = 2/√3`.
 
 API and acceptance statements:
@@ -740,7 +754,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 1.3 | L 1.1 |
 | 1.4 | M `InnerProductSpace.volume_ball`, `ZLattice.covolume`, `IsAddFundamentalDomain`; GoN 4.4.1; L 0.3, 1.1 |
 | 1.5 | M `Real.rpow`; L 0.2, 1.4 |
-| 1.6 | T⁺ `PosDef.Hermite`, `PosDef.Minkowski`, `PosDef.SuccessiveMinima`; L 1.2 |
+| 1.6 | T `IsPosDef.minimum_le_rpow_mul_determinant_rpow`, `successiveMinimum`, `IsPosSemidef.successiveMinimum_zero`, `minimum_typeARootLattice_two_eq_rpow_mul_determinant_rpow`; T⁺ `PosDef.Minkowski`; L 1.2 |
 | 1.7 | M `exists_ne_zero_mem_lattice_of_measure_mul_two_pow_lt_measure`, `InnerProductSpace.volume_ball`; L 0.3, 1.1, 1.4, 1.5 |
 | 1.8 | M `abs_sub_round`, Schur complements `Matrix.det_fromBlocks₁₁`; L 0.1, 1.1, 1.5 |
 | 1.9 | SM 1.1; GoN 1.3; T⁺ `PosDef.Reduction`, `PosDef.ReducedGram` (as the integral case, prose); L 0.1, 1.1 |
@@ -1803,7 +1817,7 @@ API:
   composition order. Identity fixes all eight classes and f² fixes each class.
   The quadratic value of each eᵢ/2 is 1/4, with polar self-pairing 1/2 modulo ℤ.
 
-*Needs:* T `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry` (Discriminant/Bilinear and Discriminant/Quadratic); IntegralLattices §§1C–1D, 1G.
+*Needs:* T `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, and the induced isometries `Isometry.discriminantBilinearIsometry` and `Isometry.discriminantQuadraticIsometry` of `discriminantBilinearModule` and `discriminantQuadraticModule`, which preserve `b_L` and, for even `L`, `q_L` (Discriminant/Bilinear and Discriminant/Quadratic); IntegralLattices §§1C–1D, 1G.
 
 ### 7.5 The Festi–Veniani index
 
@@ -1846,7 +1860,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 7.1 | M `TensorProduct`, `LinearMap.BilinForm.tensorDistrib`, `Basis.tensorProduct`, `Matrix.det_kronecker`; T `ofIntegralForm`, `dualCarrier`; L 0.2 |
 | 7.2 | T⁺ `PosDef.Reduction` (prose); L 1.1, 1.2, 7.1 |
 | 7.3 | T `Isometry`, `determinant`; L 7.1, 7.2 |
-| 7.4 | T `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`; IL 1C, 1D, 1G |
+| 7.4 | T `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry`; IL 1C, 1D, 1G |
 | 7.5 | M `Subgroup.index`; T `IsPosDef.finite_isometry`; L 7.4 |
 
 ## Downstream consumers
