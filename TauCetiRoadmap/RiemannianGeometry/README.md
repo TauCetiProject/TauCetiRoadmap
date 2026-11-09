@@ -687,8 +687,10 @@ The following contracts specify each supplier and section consumed.
   Dirac-type theorem only the case D:E→E is assumed; R7.3 derives the
   D:E→F case from the composition and adjoint symbol formulas. R5b's normal
   Jacobi operator and R7's geometric operators are P1.0 differential operators.
-- [PDE A.1–6/D16–19/E20–22](../PDE/README.md): Sobolev, trace and
-  energy/interior estimates for R5b's normal-Jacobi Dirichlet specialization.
+- [PDE A1–A6, D16–D19, E20–E22](../PDE/README.md): Sobolev, trace and
+  energy/interior estimates for R5b's normal-Jacobi Dirichlet specialization;
+  §1.1 (A1), the absolutely continuous representative of an interval Sobolev class
+  with its endpoint fundamental theorem of calculus, for R3.1's H¹ paths.
   R5b constructs its boundary H² estimate and exact operator domain; these are
   not supplied by closed-manifold K5a or PDE E's interior regularity theorem.
   The abstract coercive-form solution operator, its compactness, symmetry,
@@ -1568,8 +1570,14 @@ completeness of this particular metric in constructing the Hilbert charts.
   distances tend to zero, but their distances to the zero path tend to 1,
   demonstrating the stated incompleteness.
 
-*Needs:* PDE Lane A (scalar weak derivatives and Sobolev calculus);
-R2 along-curve regularity; R3 first variation and compact-interval section spaces.
+*Needs:* PDE §1.1 (A1: the absolutely continuous representative of a
+`W^(1,p)(a,b)` class, the endpoint fundamental theorem of calculus and integration
+by parts; the one-dimensional embedding `|u(y)−u(x)|≤|y−x|^(1/2)‖u′‖_(L²(a,b))`
+follows from the first two by Cauchy–Schwarz); Tau Ceti
+`CovariantDerivative.eventuallyEq_sectionCoord_alongCurveWithin` (fixed-chart
+formula for D_t, used for the chart section norm) and
+`CovariantDerivative.contMDiffOn_alongCurveWithin` (along-curve regularity),
+supplier contract; R3 first variation and compact-interval section spaces.
 
 ### R3.2. Finite broken geodesics and path CW models
 
@@ -1874,7 +1882,9 @@ R3 uses R2 and HopfRinow first variation; its finite subdivision uses
 SmoothBundlesConnections B6.0. Its CW/path comparisons use MorseTheory M1–M5,
 GeometricTopology smooth triangulation, AlgebraicTopology Stages 4 and 8,
 CharacteristicClasses C2.0 and DGFloer Layer 1 item 2. The topology comparison
-uses the pinned compact-generation results and AlgebraicTopology §8.11a.
+uses the pinned compact-generation results and AlgebraicTopology §8.11a. R3.1's
+H¹ paths use PDE §1.1 (A1) and Tau Ceti's along-curve regularity and fixed-chart
+formula.
 
 ## Layer 4: comparison and geodesic multiplicity
 
@@ -3004,8 +3014,8 @@ line-bundle form and its double-cover scalar description with deck-odd
 sections, not the scalar inequality for every function on the cover.
 
 Prove the W¹,²_0 quadratic-form extension on relatively compact smooth
-domains and its agreement with the smooth form. Consume PDE A.1–6/D16–19/
-E20–22's Sobolev, trace and bounded-domain elliptic/Dirichlet estimates, and own
+domains and its agreement with the smooth form. Consume PDE A1–A6, D16–D19 and
+E20–E22's Sobolev, trace and bounded-domain elliptic/Dirichlet estimates, and own
 their finite-chart Riemannian normal-bundle specialization: actual
 metric/connection weights, trace-compatible transitions, bounded curvature
 potential, coercive shift, form closure and compact embedding. On a relatively
