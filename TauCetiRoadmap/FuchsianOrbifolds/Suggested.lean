@@ -13,7 +13,10 @@ import TauCeti.GroupTheory.GroupAction.Stabilizer.Basic
 
 **This file is not the roadmap and is not exhaustive.** The roadmap is `README.md`. This file
 states the roadmap's headline theorems that the pinned Tau Ceti does not already prove, each with
-`sorry`, against the pinned Mathlib and Tau Ceti, together with the one definition they need.
+`sorry`, against the pinned Mathlib and Tau Ceti, together with the one definition they need,
+`genus`. It also names Tau Ceti's compactified carrier and its atlas `CompactifiedQuotient` and
+`compactifiedChartedSpace`, and exports the native degree API with `genus` and `riemannHurwitz`
+under the short names `RiemannSurface.*`.
 
 Headlines already proved at the Tau Ceti pin, and therefore not restated: the effective action of
 `PSL(2, ℝ)` on `ℍ` (`UpperHalfPlane.instMulActionPSL2`) and proper discontinuity of discrete
@@ -42,13 +45,12 @@ open scoped MatrixGroups UpperHalfPlane Manifold Real
 
 /-! ## Layer 4: compactified quotient Riemann surfaces -/
 
-/-- The compactified quotient `X(Γ) = (Γ \ ℍ) ⊔ {cusp orbits}`: the roadmap's name for Tau Ceti's
-carrier `Subgroup.CompactifiedQuotient`, under which the modular-forms roadmap imports it. -/
+/-- The compactified quotient `X(Γ) = (Γ \ ℍ) ⊔ {cusp orbits}`: an abbreviation of Tau Ceti's
+carrier `Subgroup.CompactifiedQuotient`. -/
 abbrev CompactifiedQuotient (Γ : Subgroup PSL(2, ℝ)) : Type := Γ.CompactifiedQuotient
 
 /-- The complex atlas of `X(Γ)` for a discrete `Γ`, made of the coarse-quotient charts and the
-`q`-coordinate charts at the cusps: Tau Ceti's `Subgroup.CompactifiedQuotient.instChartedSpace`,
-under the name the modular-forms roadmap imports. -/
+`q`-coordinate charts at the cusps: Tau Ceti's `Subgroup.CompactifiedQuotient.instChartedSpace`. -/
 noncomputable abbrev compactifiedChartedSpace (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ] :
     ChartedSpace ℂ (CompactifiedQuotient Γ) :=
   inferInstance
@@ -86,10 +88,11 @@ theorem riemannHurwitz {X Y : Type*} [TopologicalSpace X] [ChartedSpace ℂ X]
 /-- **The orbifold area formula.** A cofinite Fuchsian group `Γ` of signature `(g; m₁, …, m_r; s)`
 has covolume `2π (2g − 2 + Σᵢ (1 − 1 / mᵢ) + s)`, where `g` is the genus of the compactified
 quotient `X(Γ)`, the `mᵢ` are the stabilizer orders of the elliptic orbits and `s` is the number
-of cusp orbits (Beardon, §10.4; Katok, §4.3). -/
+of cusp orbits (Martin, *The geometry and arithmetic of Kleinian groups*, arXiv:1311.2636,
+Theorem 2.2; Beardon, §10.4; Katok, §4.3). -/
 theorem covolume_eq_two_pi_mul_signature (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ]
-    (hΓ : Γ.IsCofinite) [FiniteCWType (CompactifiedQuotient Γ)] :
-    covolume Γ ℍ = ENNReal.ofReal (2 * π * (2 * (genus (CompactifiedQuotient Γ) : ℝ) - 2 +
+    (hΓ : Γ.IsCofinite) [FiniteCWType Γ.CompactifiedQuotient] :
+    covolume Γ ℍ = ENNReal.ofReal (2 * π * (2 * (genus Γ.CompactifiedQuotient : ℝ) - 2 +
       ∑ᶠ e ∈ Γ.ellipticOrbits, (1 - (cardStabilizerOnOrbit e : ℝ)⁻¹) +
         Nat.card Γ.CuspOrbit)) := by
   sorry
@@ -97,24 +100,27 @@ theorem covolume_eq_two_pi_mul_signature (Γ : Subgroup PSL(2, ℝ)) [DiscreteTo
 /-! ## Layer 4a: minimal areas of cofinite Fuchsian groups -/
 
 /-- **Siegel's lower bound.** Every cofinite Fuchsian group has covolume at least `π / 21`
-(Siegel 1945). -/
+(Siegel, *Some remarks on discontinuous groups*, Ann. of Math. 46 (1945), pp. 708–718; Martin,
+arXiv:1311.2636, Theorem 2.1). -/
 theorem pi_div_twentyOne_le_covolume (Γ : Subgroup PSL(2, ℝ)) (hΓ : Γ.IsCofinite) :
     ENNReal.ofReal (π / 21) ≤ covolume Γ ℍ := by
   sorry
 
 /-- **The equality case of Siegel's bound.** A cofinite Fuchsian group has covolume `π / 21`
 exactly when its signature is `(0; 2, 3, 7)`: genus zero, no cusp, and one elliptic orbit of each
-order `2`, `3` and `7`. -/
+order `2`, `3` and `7` (Martin, arXiv:1311.2636, Theorem 2.1: the minimum is attained only by
+the `(2, 3, 7)` triangle group). -/
 theorem covolume_eq_pi_div_twentyOne_iff (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ]
-    (hΓ : Γ.IsCofinite) [FiniteCWType (CompactifiedQuotient Γ)] :
+    (hΓ : Γ.IsCofinite) [FiniteCWType Γ.CompactifiedQuotient] :
     covolume Γ ℍ = ENNReal.ofReal (π / 21) ↔
-      genus (CompactifiedQuotient Γ) = 0 ∧ IsEmpty Γ.CuspOrbit ∧
+      genus Γ.CompactifiedQuotient = 0 ∧ IsEmpty Γ.CuspOrbit ∧
         ∀ m : ℕ, Nat.card {e // e ∈ Γ.ellipticOrbits ∧ cardStabilizerOnOrbit e = m} =
           Multiset.count m {2, 3, 7} := by
   sorry
 
 /-- **The minimal area with a cusp.** A cofinite Fuchsian group with at least one cusp has
-covolume at least `π / 3`. -/
+covolume at least `π / 3`. This follows from the area formula (Martin, arXiv:1311.2636,
+Theorem 2.2) by the case analysis over signatures with a cusp of the roadmap's Layer 4a item 2. -/
 theorem minimum_area_finite_area_orbifold (Γ : Subgroup PSL(2, ℝ)) (hΓ : Γ.IsCofinite)
     [Nonempty Γ.CuspOrbit] :
     ENNReal.ofReal (π / 3) ≤ covolume Γ ℍ := by
@@ -122,19 +128,20 @@ theorem minimum_area_finite_area_orbifold (Γ : Subgroup PSL(2, ℝ)) (hΓ : Γ.
 
 /-- **The equality case with a cusp.** A cofinite Fuchsian group with at least one cusp has
 covolume `π / 3` exactly when its signature is `(0; 2, 3; 1)`, that of `PSL(2, ℤ)`: genus zero,
-one cusp, and one elliptic orbit of each order `2` and `3`. -/
+one cusp, and one elliptic orbit of each order `2` and `3`. The case analysis of the roadmap's
+Layer 4a item 2, applied to the area formula, gives it. -/
 theorem covolume_eq_pi_div_three_iff (Γ : Subgroup PSL(2, ℝ)) [DiscreteTopology Γ]
-    (hΓ : Γ.IsCofinite) [Nonempty Γ.CuspOrbit] [FiniteCWType (CompactifiedQuotient Γ)] :
+    (hΓ : Γ.IsCofinite) [Nonempty Γ.CuspOrbit] [FiniteCWType Γ.CompactifiedQuotient] :
     covolume Γ ℍ = ENNReal.ofReal (π / 3) ↔
-      genus (CompactifiedQuotient Γ) = 0 ∧ Nat.card Γ.CuspOrbit = 1 ∧
+      genus Γ.CompactifiedQuotient = 0 ∧ Nat.card Γ.CuspOrbit = 1 ∧
         ∀ m : ℕ, Nat.card {e // e ∈ Γ.ellipticOrbits ∧ cardStabilizerOnOrbit e = m} =
           Multiset.count m {2, 3} := by
   sorry
 
 end TauCetiRoadmap.FuchsianOrbifolds
 
-/-! The short names `RiemannSurface.*` under which the modular-forms roadmap imports the native
-compact-Riemann-surface API and this roadmap's genus and Riemann–Hurwitz theorem. -/
+/-! The short names `RiemannSurface.*` of the native compact-Riemann-surface API and of this
+roadmap's genus and Riemann–Hurwitz theorem. -/
 namespace RiemannSurface
 
 export TauCeti.RiemannSurface

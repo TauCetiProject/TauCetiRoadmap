@@ -79,9 +79,14 @@ The roadmap is complete when Tau Ceti proves the following.
   `GL(2,ℝ)`, through complex conjugation `UpperHalfPlane.σ g` when `det g < 0`; the same file
   descends it to `MulAction PGL(2, ℝ) ℍ`, `FixedPoints.lean` proves `FaithfulSMul PGL(2, ℝ) ℍ`, and
   `Metric.lean` proves `IsIsometricSMul SL(2, ℝ) ℍ`.
-- **This roadmap owns the effective projective action.**  Factor the `SL(2,R)` action through
-  its center to `PSL(2,R)`, install the quotient topology and topological-group structure, and
-  prove faithfulness and holomorphy.  A subgroup of `PSL(2,R)` is the public Fuchsian-group
+- **Mathlib and Tau Ceti supply the effective projective action; this roadmap owns its
+  remaining facts.**  Mathlib defines `PSL(2,R)` as the quotient of `SL(2,R)` by its centre, so
+  its quotient topology, topological-group structure and Hausdorffness are Mathlib's
+  `QuotientGroup.instTopologicalSpace`, `QuotientGroup.instIsTopologicalGroup` and
+  `QuotientGroup.instT2Space`; Tau Ceti factors the `SL(2,R)` action through the centre and proves
+  it faithful, continuous and holomorphic (Layer 0 items 2–5). This roadmap owns second
+  countability of `PSL(2,ℝ)` (Layer 0 item 1) and the isometry of the negative-determinant
+  elements of `GL(2,ℝ)` (Layer 0 item 2). A subgroup of `PSL(2,R)` is the public Fuchsian-group
   input; no bespoke structure repeats a subgroup, topology, action, and discreteness fields.
 - **ComplexManifolds Milestones 1–6** supply Milestone 1's restriction of scalars from a complex
   to the underlying real smooth surface, Milestone 2's canonical orientation of that surface,
@@ -108,14 +113,23 @@ The roadmap is complete when Tau Ceti proves the following.
   the topological genus of a compact connected Riemann surface and the identity `χ = 2 − 2g`;
   Layer 5 item 3 owns Riemann–Hurwitz in genus form. No analytic genus and no Riemann–Roch theorem
   enters either. ComplexKahlerGeometry K7 compares its Hodge genus `h^(1,0)` with the first Betti
-  number, and ModularForms Layer 10B(v) compares its Čech genus `dim H¹(X, 𝒪)` with Layer 5 item
+  number, and ModularForms §10B compares its analytic genus `dim H¹(X, 𝒪)` with Layer 5 item
   1's genus; neither comparison is an input here.
-- **The modular-forms roadmap owns modular forms and functions before descent, including the
-  normalized level-one `j`-function, modular invariance, q-expansion, and exact elliptic orders;
-  it also owns congruence-subgroup arithmetic, analytic Riemann--Roch, automorphy sheaves, and
-  dimension formulas.** It consumes this roadmap's quotient, compactification, local-multiplicity,
-  degree, divisor-pullback, degree-one, genus and Riemann--Hurwitz declarations. This roadmap does
-  not reconstruct modular forms, cohomology, or Riemann--Roch in its level-one application.
+- **The modular-forms roadmap owns modular forms and functions before descent, congruence-subgroup
+  arithmetic, analytic Riemann--Roch, automorphy sheaves, and dimension formulas.** Its §10A and
+  §10B consume this roadmap's compactified quotients, degree theory and topological genus
+  (Layers 0–5), and its §10A and §10D consume the identification `X(1) ≃ P¹` of Layer 6. This
+  roadmap does not reconstruct modular forms, cohomology, or Riemann--Roch in its level-one
+  application.
+- **Tau Ceti supplies the normalized level-one `j`-function**
+  (`TauCeti/Analysis/Complex/ModularForms/LevelOne/JInputs.lean`): `TauCeti.ModularForm.j`, defined
+  as `E₄³/Δ`; its invariance `TauCeti.ModularForm.j_smul_SL2Z` under `SL(2,ℤ)`;
+  `TauCeti.ModularForm.j_sub_1728`, `j − 1728 = E₆²/Δ`; the exact elliptic orders
+  `TauCeti.ModularForm.analyticOrderAt_j_comp_ofComplex_ρ` (`j` vanishes to order `3` at `ρ`) and
+  `TauCeti.ModularForm.analyticOrderAt_j_sub_1728_comp_ofComplex_I` (`j − 1728` vanishes to order
+  `2` at `i`); and the q-expansion `TauCeti.ModularForm.laurentQExpansion_j`, with a simple pole
+  `q⁻¹` at the cusp. Layer 6 consumes these and owns the descent of `j` to `X(1)`, its extension
+  over the cusp and the degree-one identification `X(1) ≃ P¹`.
 - **The algebraic-curves roadmap owns algebraic curves and their function fields.**  This
   roadmap constructs analytic Riemann surfaces.  It proves no GAGA equivalence and creates no
   algebraic curve by declaration.
@@ -128,56 +142,26 @@ The roadmap is complete when Tau Ceti proves the following.
 
 ### Implemented in Tau Ceti
 
-Much of Layers 0–6 is implemented in the pinned Tau Ceti, and the layers below cite those
-declarations rather than restate them. The effective action is `UpperHalfPlane.instMulActionPSL2`
-with `UpperHalfPlane.pslMk_smul`, `UpperHalfPlane.toPGL_smul` and `FaithfulSMul PSL(2, ℝ) ℍ`
-(`Analysis/Complex/UpperHalfPlane/PSL/Action.lean`), with
-continuity and isometry in `UpperHalfPlane/ProperAction.lean` and holomorphy in
-`UpperHalfPlane/PSL/Manifold.lean`; the
-boundary action is `MulAction PSL(2, K) (OnePoint K)` with
-`Matrix.ProjectiveSpecialLinearGroup.toPGL_smul`
-(`Topology/Compactification/OnePoint/ProjectiveLine.lean`). Proper discontinuity of a discrete
-subgroup is the instance of `Analysis/Complex/Fuchsian/ProperAction.lean`, the free locus is
-`TauCeti.freeLocus` (`Topology/Algebra/GroupAction/FreeLocus.lean`), and descent of invariant
-holomorphic and meromorphic functions is `Subgroup.existsUnique_mdifferentiable_quotientMk`
-(`Fuchsian/Descent.lean`) and `Subgroup.existsUnique_meromorphicAt_quotientMk`
-(`Fuchsian/MeromorphicDescent.lean`). The coarse quotient is a Riemann surface by
-`Subgroup.instIsManifoldOrbitRelQuotient` (`Fuchsian/CoarseQuotient.lean`). Cusps are
-`Subgroup.IsCuspPoint`, `Subgroup.BoundaryOrbit`, `Subgroup.IsCuspOrbit` and `Subgroup.CuspOrbit`
-(`Fuchsian/Cusp/Basic.lean`); normalized cusp data are `Subgroup.CuspDatum` with
-`Subgroup.CuspDatum.mem_stabilizer_iff_conj` (`Fuchsian/Cusp/Datum.lean`); the q-coordinate is
-`TauCeti.Subgroup.CuspDatum.coordinate` with `TauCeti.Subgroup.CuspDatum.coordinate_smul`
-(`Fuchsian/Cusp/Coordinate.lean`); and the change of scaling is `TauCeti.cuspDatum_generator_eq`,
-`TauCeti.cuspDatum_width_eq_mul` and `TauCeti.cuspDatum_coordinate_eq`
-(`Fuchsian/Cusp/ChangeScaling.lean`). The typed triangle parameter is `TauCeti.TriangleOrder` with
-`TauCeti.TriangleOrder.reciprocal` (`Fuchsian/TriangleOrder/Basic.lean`), and every hyperbolic
-triple is realised by `TauCeti.TriangleOrder.IsHyperbolic.exists_isCofinite_triangleGroup`
-(`Fuchsian/TriangleOrder/Group.lean`). Covolume and cofiniteness are `MeasureTheory.covolume`,
-`Subgroup.exists_isFundamentalDomain` and `Subgroup.IsCofinite` (`Fuchsian/Covolume.lean`).
-Poincaré's polygon theorem is
-`TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.relatorQuotientTo_bijective_of_isParabolic`
-(`Fuchsian/Polygon/Poincare.lean`) and its converse
-`Subgroup.IsCofinite.exists_sidePairing_relatorQuotientTo_bijective`
-(`Fuchsian/DirichletDomain/Cofinite.lean`). The compactified carrier is
-`Subgroup.CompactifiedQuotient` with `Subgroup.CompactifiedQuotient.equivSum`
-(`Fuchsian/Compactification/Basic.lean`), its atlas `Subgroup.CompactifiedQuotient.instChartedSpace`
-and analytic structure `Subgroup.CompactifiedQuotient.instIsManifold`
-(`Fuchsian/Compactification/Manifold.lean`), and compactness for a cofinite group
-`Subgroup.IsCofinite.compactSpace_compactifiedQuotient`. The degree theory of finite holomorphic
-maps is `TauCeti.RiemannSurface.FiniteHolomorphicMap`, `TauCeti.RiemannSurface.localMultiplicity`,
-`TauCeti.RiemannSurface.degree`, `TauCeti.RiemannSurface.degree_eq_fiber_sum`,
-`TauCeti.RiemannSurface.degree_comp` and `TauCeti.RiemannSurface.biholomorphOfDegreeEqOne`
-(`Analysis/Complex/RiemannSurface/Degree.lean`), `TauCeti.RiemannSurface.divisorPullback`
-(`RiemannSurface/Divisor/Basic.lean`) and `TauCeti.RiemannSurface.ramificationDegree`
-(`RiemannSurface/Ramification.lean`). The level-one curve is identified with the Riemann sphere by
-`TauCeti.ModularGroup.jBiholomorph` (`Fuchsian/LevelOne/Sphere.lean`).
+Most of Layers 0–5 and all of Layer 6 are implemented in the pinned Tau Ceti. Each item below
+names, at its claim, the pinned declarations that prove it, and states as a target only what the
+pins lack:
 
-`Suggested.lean` keeps two names for the modular-forms roadmap, whose `Suggested.lean` imports this
-roadmap's: `CompactifiedQuotient`, the roadmap's name for `Subgroup.CompactifiedQuotient`, and
-`compactifiedChartedSpace`, its atlas. It also exports the native degree API and this roadmap's
-`genus` and `riemannHurwitz` under the short names `RiemannSurface.*` that the modular-forms
-roadmap uses. All other names in this README that begin with `TauCeti`, `Subgroup`,
-`UpperHalfPlane` or `MeasureTheory` are pinned library declarations.
+- second countability of `PSL(2,ℝ)` (Layer 0 item 1);
+- the isometric action of the negative-determinant elements of `GL(2,ℝ)` (Layer 0 item 2);
+- the comparison of the Riemannian distance of the Poincaré metric with Mathlib's `dist`
+  (Layer 2 item 1);
+- the comparison of the boundary word of a fundamental polygon with the orientation of cusp
+  meridians (Layer 2 item 5);
+- the topological genus with `χ = 2 − 2g`, Riemann–Hurwitz in genus form, the Fuchsian
+  Riemann–Hurwitz formula and the intrinsic orbifold area formula (Layer 5 items 1, 3, 6 and 7);
+- the minimal areas and their equality cases (Layer 4a).
+
+`Suggested.lean` also declares `CompactifiedQuotient`, an abbreviation of
+`Subgroup.CompactifiedQuotient`, with its atlas `compactifiedChartedSpace`, Tau Ceti's
+`Subgroup.CompactifiedQuotient.instChartedSpace`, and exports the native degree API with `genus`
+and `riemannHurwitz` under the short names `RiemannSurface.*`. All other names in this README
+that begin with `TauCeti`, `Subgroup`, `UpperHalfPlane`, `Matrix`, `QuotientGroup` or
+`MeasureTheory` are pinned library declarations.
 
 The import graph is strict:
 
@@ -185,8 +169,7 @@ The import graph is strict:
 TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
 TauCeti.Analysis.Complex.RiemannSurface.{Degree, Ramification, Divisor, Branch}
     -> Fuchsian Layer 5 genus and Riemann–Hurwitz
-        |-> Fuchsian compactification applications
-        `-> TauCeti.Analysis.Complex.ModularForms.DimensionFormula
+        -> Fuchsian compactification applications
 
 TauCeti.Analysis.Complex.ModularForms.LevelOne.JInputs
     -> TauCeti.Analysis.Complex.Fuchsian.LevelOne
@@ -227,23 +210,28 @@ These conventions prevent silent inversions and non-effective actions.
   A cusp datum stores an actual representative `c`, a projective scaling `σ` with `σ(c)=∞`, a
   positive element `γ`, the equality `⟨γ⟩ = stabilizer Γ c`, its width `w > 0`, and the
   formula `σγσ⁻¹(z)=z+w`. Thus the conjugated full stabilizer is exactly `wℤ`; replacing `γ`
-  by a proper power is rejected. Width is not an invariant of the bare cusp. Prove the scaling
-  theorem from the full positive generator: if two data have the same cusp representative and
+  by a proper power is rejected. Width is not an invariant of the bare cusp. The scaling theorem
+  is Tau Ceti's `TauCeti.cuspDatum_width_eq_mul` and `TauCeti.cuspDatum_coordinate_eq`
+  (`Fuchsian/Cusp/ChangeScaling.lean`): if two data have the same cusp representative and
   selected positive generator, and `σ'(z)=aσ(z)+b` for `a>0`, conjugating that generator gives
-  `w' = a w`. The q-coordinate transition then multiplies by
-  `exp(2πib/(aw))`; the compactified complex structure is independent of this choice.
+  `w' = a w`, and the q-coordinate transition multiplies by `exp(2πib/(aw))`; the compactified
+  complex structure is independent of this choice (Layer 3 item 4).
 - The coordinate attached to cusp datum `(σ,w)` is
   `q(z)=exp(2*pi*i*σ(z)/w)`. Its selected positive generator fixes `q`. Meridians are
-  counterclockwise-positive around `q=0`; prove the associated deck-generator convention and its
-  orientation-reversal law.
+  counterclockwise-positive around `q=0`: the lift of the meridian with `n` signed turns ends at
+  the `n`th power of the selected generator, not its inverse, and reversing a meridian negates
+  `n` (Tau Ceti's `TauCeti.Subgroup.CuspDatum.meridian_lift_endpoint` and
+  `TauCeti.Subgroup.CuspDatum.meridian_neg`, `Fuchsian/Cusp/Meridian.lean`).
 - Elliptic charts use a coordinate centered at the fixed point in which a generator acts by a
   primitive `m`th root of unity.  The quotient coordinate is `u=z^m`.  Ramification order is
   defined from this map-level local normal form.
-- The compactified carrier is the displayed inductive disjoint sum with constructors
-  `ofQuotient : MulAction.orbitRel.Quotient Γ UpperHalfPlane → CompactifiedQuotient Γ` and
-  `ofCusp : CuspOrbit Γ → CompactifiedQuotient Γ`, together with its explicit equivalence to the
-  corresponding `Sum`. The topology glues punctured cusp neighbourhoods across those constructors
-  and the charts are subsequently proved. It is neither opaque nor a classified surface.
+- The compactified carrier is Tau Ceti's inductive disjoint sum `Subgroup.CompactifiedQuotient`
+  (`Fuchsian/Compactification/Basic.lean`), with constructors
+  `Subgroup.CompactifiedQuotient.ofQuotient` from `MulAction.orbitRel.Quotient Γ UpperHalfPlane` and
+  `Subgroup.CompactifiedQuotient.ofCusp` from `Subgroup.CuspOrbit Γ`, and its equivalence
+  `Subgroup.CompactifiedQuotient.equivSum` with the corresponding `Sum`. The topology glues
+  punctured cusp neighbourhoods across those constructors and the charts are proved afterwards. It
+  is neither opaque nor a classified surface.
 - Orbifold signature is derived from the genus of the compactification, the list of elliptic
   stabilizer orders, and the number of cusp orbits.  Public theorems continue to expose those
   underlying objects.
@@ -252,7 +240,7 @@ These conventions prevent silent inversions and non-effective actions.
   fibre sum of local multiplicities, not a field of a map record. Its ramification degree is
   `R(f) = Σₓ (eₓ − 1)`, so the double cover `z ↦ z²` of the sphere has `R = 2`.
 - Genus is topological: `genus X = (2 − χ(X))/2` for Tau Ceti's finite-CW Euler characteristic
-  `TauCeti.eulerChar`, never the analytic `dim H¹(X, 𝒪)` of ModularForms Layer 10B.
+  `TauCeti.eulerChar`, never the analytic `dim H¹(X, 𝒪)` of ModularForms §10B.
 - `P^1` is the Riemann sphere `OnePoint ℂ` of ComplexManifolds Milestone 3.  A quotient becomes
   `P^1` only through a named biholomorphism proved after the quotient has been compactified.
 
@@ -279,30 +267,50 @@ The development starts from the following material.
 - The Tau Ceti declarations listed under Ownership.
 - The universal-covers roadmap's covering and deck-transformation results.
 - The conformal-mapping roadmap's Riemann mapping and Schwarz-reflection results.
-- The modular-forms roadmap's normalized level-one `j`, its invariance, q-expansion, and exact
-  orders at elliptic points.
+- Tau Ceti's normalized level-one `j` (`TauCeti.ModularForm.j`), its invariance, q-expansion, and
+  exact orders at elliptic points, as listed under Ownership.
 
 ## Layer 0: the effective projective Möbius action
 
-1. Equip `PSL(2,R)` with the quotient topology from `SL(2,R)` and prove it is a Hausdorff
-   second-countable topological group.  Relate the quotient map to Mathlib's algebraic quotient
-   by the center.
-2. Construct the canonical homomorphism `PSL(2,R) → PGL(2,R)` and restrict Mathlib's existing
-   projective Möbius action along it. Mathlib's `UpperHalfPlane.glAction` lets `A = [[a, b], [c, d]]`
-   act by `z ↦ (az + b)/(cz + d)` when `det A > 0` and by `z ↦ (a conj z + b)/(c conj z + d)` when
-   `det A < 0`, descends to `MulAction PGL(2, ℝ) ℍ`, and is faithful there
-   (`FaithfulSMul PGL(2, ℝ) ℍ`, `Mathlib/Analysis/Complex/UpperHalfPlane/FixedPoints.lean`); Tau
-   Ceti's `UpperHalfPlane.toPGL_smul` proves that the restriction is the `PSL(2,R)` action. Prove
-   compatibility with the `SL(2,R)` action, faithfulness, joint continuity of
-   `PSL(2,R) × UpperHalfPlane → UpperHalfPlane`, and that every element acts by a biholomorphism.
-   Prove that every element of `GL(2,ℝ)` acts by an isometry of `dist`: a positive-determinant
-   element acts as an element of `SL(2,ℝ)`, an isometry by Mathlib's
-   `IsIsometricSMul SL(2, ℝ) ℍ`, and a negative-determinant element is such an element composed
-   with `z ↦ −conj z`, which preserves `dist` by `UpperHalfPlane.dist_eq`; negative-determinant
-   elements reverse orientation and are antiholomorphic. Do not export an
-   unrelated permutation action as a second public action.
-   *Needs:* Mathlib `UpperHalfPlane.glAction`, `UpperHalfPlane.dist_eq`, `IsIsometricSMul SL(2, ℝ) ℍ`;
-   Tau Ceti `UpperHalfPlane.toPGL_smul`; item 1.
+1. Mathlib defines `PSL(2,R)` as the quotient of `SL(2,R)` by its centre, so the quotient map is
+   Mathlib's algebraic quotient map by definition, and the quotient topology, the
+   topological-group structure and the Hausdorff property are Mathlib's
+   `QuotientGroup.instTopologicalSpace`, `QuotientGroup.instIsTopologicalGroup` and
+   `QuotientGroup.instT2Space` (the centre is closed). Prove that `PSL(2,ℝ)` is second countable:
+   `SL(2,ℝ)` carries the subspace topology of `Matrix (Fin 2) (Fin 2) ℝ` through Mathlib's
+   `Matrix.SpecialLinearGroup.isClosedEmbedding_val`, so it is second countable, and Mathlib's
+   `QuotientGroup.instSecondCountableTopology` passes this to the quotient. Instance search at the
+   pins finds no `SecondCountableTopology` instance for `SL(2,ℝ)` or `PSL(2,ℝ)`.
+   *Needs:* Mathlib `Matrix.SpecialLinearGroup.isClosedEmbedding_val`,
+   `QuotientGroup.instSecondCountableTopology`.
+   **Checks.**
+   - The centre of `SL(2,ℝ)` is `{±1}`, so the quotient map identifies exactly `A` and `−A`; it
+     is open, as every quotient map by a group is, so it carries a countable basis of `SL(2,ℝ)` to
+     a countable basis of `PSL(2,ℝ)`.
+   - `SL(2,ℝ)` is a closed three-dimensional submanifold of `ℝ⁴`, and the countable family of
+     rational balls of `ℝ⁴` meets it in a countable basis; the same holds for every `SL(n,ℝ)`.
+   - With the discrete topology, `PSL(2,ℝ)` would be Hausdorff but not second countable, since
+     it is uncountable; second countability is a property of the quotient topology, not of every
+     group topology.
+2. The canonical homomorphism `PSL(2,R) → PGL(2,R)` is Mathlib's
+   `Matrix.ProjectiveSpecialLinearGroup.toPGL`. Mathlib's `UpperHalfPlane.glAction` lets
+   `A = [[a, b], [c, d]]` act by `z ↦ (az + b)/(cz + d)` when `det A > 0` and by
+   `z ↦ (a conj z + b)/(c conj z + d)` when `det A < 0`, descends to `MulAction PGL(2, ℝ) ℍ`, and is
+   faithful there (`FaithfulSMul PGL(2, ℝ) ℍ`, `Mathlib/Analysis/Complex/UpperHalfPlane/FixedPoints.lean`).
+   The `PSL(2,ℝ)` action is Tau Ceti's `UpperHalfPlane.instMulActionPSL2`
+   (`Analysis/Complex/UpperHalfPlane/PSL/Action.lean`): its compatibility with the `SL(2,R)` action
+   is `UpperHalfPlane.pslMk_smul`, its agreement with the restriction of `glAction` along `toPGL`
+   is `UpperHalfPlane.toPGL_smul`, and its faithfulness is the instance
+   `FaithfulSMul PSL(2, ℝ) ℍ` of the same file; joint continuity and isometry are the instances
+   `ContinuousSMul PSL(2, ℝ) ℍ` and `IsIsometricSMul PSL(2, ℝ) ℍ` of
+   `UpperHalfPlane/ProperAction.lean`, and holomorphy of every element is
+   `UpperHalfPlane.instContMDiffConstSMulPSL2` (`UpperHalfPlane/PSL/Manifold.lean`). Prove that
+   every element of `GL(2,ℝ)` acts by an isometry of `dist`: a positive-determinant element acts as
+   an element of `SL(2,ℝ)`, an isometry by Mathlib's `IsIsometricSMul SL(2, ℝ) ℍ`, and a
+   negative-determinant element is such an element composed with `z ↦ −conj z`, which preserves
+   `dist` by `UpperHalfPlane.dist_eq`; negative-determinant elements reverse orientation and are
+   antiholomorphic. Do not export an unrelated permutation action as a second public action.
+   *Needs:* Mathlib `UpperHalfPlane.glAction`, `UpperHalfPlane.dist_eq`, `IsIsometricSMul SL(2, ℝ) ℍ`.
    **Checks.**
    - `diag(1, −1)` has determinant `−1` and acts by `z ↦ −conj z`, sending `1 + i` to `−1 + i`
      and fixing `i`; the model without conjugation would send `1 + i` to `−1 − i ∉ ℍ`.
@@ -310,36 +318,59 @@ The development starts from the following material.
      acts trivially, so the kernel on `GL(2,ℝ)` contains the scalars and nothing else.
    - `diag(1, −1)` preserves `dist(1 + i, 2 + i) = dist(−1 + i, −2 + i)`, both equal to
      `2 arsinh(1/2)`; a map conjugating without the sign, `z ↦ conj z`, leaves `ℍ`.
-3. Prove that a discrete subgroup `Γ <= PSL(2,R)` acts properly discontinuously.  Relate this
-   theorem to Mathlib's result for discrete subgroups of `SL(2,R)` through projective lifts,
-   without forcing a choice of lift into the public interface.
-4. Prove finiteness of every stabilizer.  Classify a nontrivial stabilizer as finite cyclic,
-   generated by an elliptic element, and identify its order with the order of the derivative in
-   a disc coordinate.
-5. Define the free locus by `stabilizer Γ z = bot`; prove it is open and invariant.  Apply the
-   generic quotient theorem there and prove the projection is a covering and local
-   biholomorphism.
+3. A discrete subgroup `Γ ≤ PSL(2,ℝ)` acts properly discontinuously: this is the
+   `ProperlyDiscontinuousSMul Γ ℍ` instance of Tau Ceti's `Analysis/Complex/Fuchsian/ProperAction.lean`,
+   proved from properness of the `PSL(2,ℝ)` action, with no choice of lift to `SL(2,ℝ)` in its
+   interface.
+4. Every stabilizer of a discrete subgroup is finite, by proper discontinuity, and cyclic, by Tau
+   Ceti's `Subgroup.isCyclic_stabilizer` (`Analysis/Complex/UpperHalfPlane/Stabilizer.lean`). Its
+   order is the order of the derivative in a disc coordinate: `Subgroup.stabilizerDeriv` is an
+   injective multiplicative homomorphism to `ℂ` (`Subgroup.stabilizerDeriv_injective`) preserving orders
+   (`Subgroup.orderOf_stabilizerDeriv`), and `Subgroup.exists_discCoordinate_generator_transition`
+   records how replacing a generator changes the rotation.
+5. The free locus is Tau Ceti's `TauCeti.freeLocus`, the points with trivial stabilizer, an
+   invariant subset by construction and open by `TauCeti.isOpen_freeLocus`
+   (`Topology/Algebra/GroupAction/FreeLocus.lean`). Its projection is a covering map
+   (`TauCeti.isCoveringMap_quotientMk_freeLocus`) and a local biholomorphism
+   (`Subgroup.isLocalDiffeomorph_quotientMk_freeLocus`, `Analysis/Complex/Fuchsian/FreeLocus.lean`).
 
 **Source spine:** Beardon, Chapters 7--8; Katok, §§2.1--2.4; Mathlib's
 `UpperHalfPlane/ProperAction.lean` and `UpperHalfPlane/FixedPoints.lean`.
 
 ## Layer 1: elliptic points and coarse quotient charts
 
-1. For an elliptic fixed point `z` of order `m`, construct an invariant disc whose translates
-   are disjoint outside its stabilizer.  Conjugate the stabilizer action holomorphically to
-   multiplication by the `m`th roots of unity.
-2. Prove the finite cyclic quotient theorem for a disc: `u -> u^m` is the orbit map, its target
-   is a disc, it is a local biholomorphism away from zero, and its local multiplicity at zero is
-   exactly `m`.
-3. Glue these elliptic quotient charts to the free quotient atlas.  Prove the full coarse
-   quotient is Hausdorff, second countable, and a Riemann surface; the quotient projection is
-   holomorphic and ramified exactly at elliptic orbits.
-4. Prove independence from the invariant discs, linearizing coordinates, and stabilizer
-   generators.  Record the exact transition law under replacement of a generator by another
-   primitive generator.
-5. Prove descent and pullback criteria for holomorphic and meromorphic functions, with the local
-   order formula
-   `ord_z(f upstairs) = m * ord_[z](f descended)` at a point of stabilizer order `m`.
+1. For an elliptic fixed point `z` of order `m`, the invariant disc and the linearization are Tau
+   Ceti's: `Subgroup.stabilizerBall` is the hyperbolic disc about `z` as a set with an action of
+   the stabilizer, and `Subgroup.stabilizerBallHomeomorph` (`Analysis/Complex/UpperHalfPlane/Elliptic.lean`)
+   identifies it, through the holomorphic disc coordinate, with a Euclidean disc on which the
+   stabilizer acts by the `m`th roots of unity. For small radii its translates are disjoint outside
+   the stabilizer, in the form that its local orbit space embeds openly in `Γ \ ℍ`
+   (`Subgroup.eventually_isOpenEmbedding_orbitRelQuotientMap_stabilizerBall`); the linearizing
+   coordinate of the elliptic chart is `Subgroup.LinearizingCoordinate`
+   (`Fuchsian/Elliptic/Linearizing.lean`).
+2. The finite cyclic quotient theorem for a disc is Tau Ceti's
+   `Subgroup.stabilizerBallQuotientHomeomorph`: the orbit space of the invariant disc of radius `ε`
+   is the Euclidean disc of radius `tanh(ε/2)^m`, the orbit of `τ` going to the `m`th power of its
+   disc coordinate. The resulting chart is `Subgroup.stabilizerBallQuotientChart`, with inverse read
+   through `u ↦ u^m` by `Subgroup.stabilizerBallQuotientChart_symm_pow`
+   (`Fuchsian/Elliptic/Basic.lean`), and the local multiplicity of the quotient map at `z` is the
+   stabilizer order `m`, `Subgroup.localMultiplicity_quotientMk` (`Fuchsian/Ramification.lean`).
+3. The glued atlas of the coarse quotient is Tau Ceti's `Subgroup.instChartedSpaceOrbitRelQuotient`,
+   analytic by `Subgroup.instIsManifoldOrbitRelQuotient` and second countable by
+   `Subgroup.instSecondCountableTopologyOrbitRelQuotient` (`Fuchsian/CoarseQuotient.lean`), and
+   Hausdorff by Mathlib's `t2Space_of_properlyDiscontinuousSMul_of_t2Space`. The projection is
+   holomorphic (`Subgroup.mdifferentiable_quotientMk`) and ramified exactly at elliptic points
+   (`Subgroup.one_lt_localMultiplicity_quotientMk_iff`).
+4. Independence of the invariant disc is Tau Ceti's `Subgroup.stabilizerBallQuotientChart_trans_apply`:
+   the charts built from discs of two positive radii agree on their common domain. Independence of
+   the stabilizer generator, and the exact transition law when a generator is replaced by another
+   primitive generator, is `Subgroup.exists_discCoordinate_generator_transition`
+   (`Analysis/Complex/UpperHalfPlane/Stabilizer.lean`).
+5. Descent of invariant holomorphic and meromorphic functions is Tau Ceti's
+   `Subgroup.existsUnique_mdifferentiable_quotientMk` (`Fuchsian/Descent.lean`) and
+   `Subgroup.existsUnique_meromorphicAt_quotientMk` (`Fuchsian/MeromorphicDescent.lean`), and the
+   local order formula `ord_z(F ∘ π) = m · ord_[z](F)` at a point of stabilizer order `m` is
+   `Subgroup.meromorphicOrderAt_comp_quotientMk`.
 
 **Source spine:** Farkas--Kra, Chapter I §§4--5; Miranda, Chapter III §§3--4; Katok, §2.4.
 
@@ -356,8 +387,9 @@ The development starts from the following material.
    coincident-point case (Katok, §1.2). Identify this metric, through `x + iy ↦ (x, y)`, with the
    dimension-two half-space model of RiemannianGeometry R4 item 7, which transports completeness and
    curvature `−1`; the `PSL(2,ℝ)` and `PGL(2,ℝ)` actions are then Riemannian isometries by Layer 0
-   item 2. Covolume through measurable fundamental domains, its independence of the domain, and
-   cofiniteness are Tau Ceti's `Subgroup.exists_isFundamentalDomain`, `MeasureTheory.covolume` and
+   item 2. Covolume through measurable fundamental domains, independent of the domain, is Mathlib's
+   `MeasureTheory.covolume` (`Mathlib/MeasureTheory/Group/FundamentalDomain.lean`); the existence of a
+   fundamental domain and cofiniteness are Tau Ceti's `Subgroup.exists_isFundamentalDomain` and
    `Subgroup.IsCofinite` (`Fuchsian/Covolume.lean`), and the Gauss–Bonnet formula for finite
    hyperbolic polygons is `TauCeti.UpperHalfPlane.volume_triangle`
    (`Analysis/Complex/UpperHalfPlane/Triangle.lean`) and
@@ -374,76 +406,146 @@ The development starts from the following material.
    - `z ↦ −conj z` fixes the imaginary axis pointwise, so it is a reflection: an isometry that
      reverses orientation and is induced by no element of `PSL(2,ℝ)`, since a nontrivial element of
      `PSL(2,ℝ)` fixes at most one point of `ℍ`.
-2. Develop geodesics, half-planes, convex hyperbolic polygons, sides, vertices, side pairings,
-   cycles, and angles using Mathlib's upper-half-plane metric and topology.  Prove the local
-   finiteness facts required for translated polygons.
-3. Define the input to the Poincaré polygon theorem by separate hypotheses: geodesic
-   finite-sidedness; an orientation-reversing fixed-point-free involution on sides; projective
-   side-pairing transformations; the exact side-identification law; vertex cycles and angle sums;
-   ideal-vertex parabolic cycles; and translated-interior no-overlap plus local finiteness. Prove
-   the theorem from these hypotheses, including discreteness, the fundamental-set theorem, and the
-   presentation.
-4. Prove the converse from a non-elementary finite-covolume group and a Dirichlet centre with
-   trivial stabilizer. Construct the finite-sided Dirichlet polygon, its locally finite translates,
-   ideal vertices, side pairings, and cycles before deriving the equivalence with cofiniteness.
-5. Extract elliptic cycles, parabolic cycles, cusp orbits, genus, and the standard presentation
-   from the polygon.  Prove the relation between orientation of the boundary word and orientation
-   of meridians in the quotient.
-6. Introduce a finite-or-cusp parameter with constructors `elliptic m` carrying `2 ≤ m` and
-   `cusp`; its reciprocal is `1/m` and `0`, respectively. Construct hyperbolic triangle groups from
-   polygon reflections for triples satisfying the typed inequality that the reciprocal sum is
-   less than one. Prove discreteness, faithfulness of the presentation, elliptic orders, and cusp
-   count in one theorem family; `(p,q,cusp)` is not untyped infinity notation.
+2. Geodesics, convex hyperbolic polygons, sides, vertices, side pairings, cycles and angles are Tau
+   Ceti's: geodesics in `Analysis/Complex/UpperHalfPlane/Geodesic/`, convex polygons
+   `TauCeti.UpperHalfPlane.ConvexPolygon` with interior angles
+   `TauCeti.UpperHalfPlane.ConvexPolygon.interiorAngle`, and side pairings
+   `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing` with vertex-cycle transformations
+   `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.cycleMap`. Local finiteness of translated
+   polygons is `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.locallyFinite_smul_carrier_iff_isParabolic_cycleMap`
+   (`Fuchsian/FundamentalPolygon.lean`) and
+   `TauCeti.UpperHalfPlane.ConvexPolygon.locallyFinite_smul_carrier_of_isCuspPoint`
+   (`Fuchsian/Polygon/LocallyFinite.lean`).
+3. Poincaré's polygon theorem is Tau Ceti's, for a side-paired convex polygon whose finite vertex
+   cycles satisfy the angle condition `ord(cycle transformation) · (cycle angle sum) = 2π` and whose
+   ideal vertices have parabolic cycle transformations: the fundamental-set part
+   `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.isFundamentalDomain_carrier_of_isParabolic`,
+   discreteness with finite covolume
+   `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.isCofinite_of_isParabolic`, and the
+   presentation `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.relatorQuotientTo_bijective_of_isParabolic`
+   (`Fuchsian/Polygon/Poincare.lean`).
+4. The converse is Tau Ceti's `Subgroup.IsCofinite.exists_sidePairing_relatorQuotientTo_bijective`:
+   for a cofinite `Γ` and a Dirichlet centre in the free locus, the Dirichlet domain is a
+   finite-sided side-paired convex polygon whose pairing maps lie in `Γ` and present it; and
+   `Subgroup.isCofinite_iff_exists_convexPolygon_carrier_eq_dirichletDomain` is the equivalence of
+   cofiniteness with the Dirichlet domain being a finite-sided convex polygon
+   (`Fuchsian/DirichletDomain/Cofinite.lean`).
+5. The elliptic cycles are read off the polygon by Tau Ceti's
+   `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.ellipticOrbitEquiv` and
+   `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.natCard_ellipticOrbits`
+   (`Fuchsian/Elliptic/Polygon.lean`), the cusp orbits by
+   `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.finite_cuspOrbit`
+   (`Fuchsian/Compactification/Polygon.lean`), and the presentation by item 3; the genus read off
+   the polygon is identified with the genus of the compactified quotient in Layer 5 item 7. Prove
+   the relation between the orientation of the boundary word and the orientation of meridians in
+   the quotient, against the meridian convention fixed under Pinned conventions.
+   *Needs:* item 3; Tau Ceti `TauCeti.Subgroup.CuspDatum.meridian_lift_endpoint`,
+   `TauCeti.Subgroup.CuspDatum.meridian_neg`.
+6. The finite-or-cusp parameter is Tau Ceti's `TauCeti.TriangleOrder`, with constructors
+   `elliptic m` carrying `2 ≤ m` and `cusp`, and reciprocal `TauCeti.TriangleOrder.reciprocal`,
+   equal to `1/m` and `0` respectively (`Fuchsian/TriangleOrder/Basic.lean`). Every triple whose
+   reciprocals sum to less than one is realised by
+   `TauCeti.TriangleOrder.IsHyperbolic.exists_isCofinite_triangleGroup`: a hyperbolic triangle with
+   the corresponding angles whose reflection group is cofinite and isomorphic to the abstract
+   triangle group (`TauCeti.UpperHalfPlane.ConvexPolygon.triangleGroupEquiv`), with elliptic orders
+   and cusp count `TauCeti.UpperHalfPlane.ConvexPolygon.natCard_ellipticOrbits_of_doubleTriangle`
+   and `TauCeti.UpperHalfPlane.ConvexPolygon.natCard_cuspOrbit_of_doubleTriangle`
+   (`Fuchsian/TriangleOrder/`); `(p,q,cusp)` is not untyped infinity notation.
 
 **Source spine:** Beardon, Chapters 9--11; Katok, Chapters 3--4; Stillwell, Chapter 5.
 
 ## Layer 3: cusps and q-coordinates
 
-1. Classify parabolic elements and their unique boundary fixed points.  Define cusp orbits in
-   `OnePoint ℝ` and prove finiteness for cofinite groups.
-2. For each cusp representative `c`, construct a cusp datum: choose a projective
-   transformation `σ` with `σ(c)=∞`, prove the full stabilizer is infinite cyclic, orient it,
-   select its primitive positive generator `γ`, and prove both `⟨γ⟩ = stabilizer Γ c` and
-   `σγσ⁻¹(z)=z+w` for `w>0`. Equivalently, the conjugated full stabilizer is exactly `wℤ`.
-   Prove uniqueness only relative to this normalized datum.
-3. Construct sufficiently high horodiscs which are precisely invariant under the cusp
-   stabilizer.  Prove distinct cusp-orbit horodiscs have disjoint images after shrinking and that
-   the complement of their images in a finite-area fundamental polygon is compact.
-4. Define `q(z)=exp(2*pi*i*σ(z)/w)`. Prove invariance under the selected generator, identify the
-   punctured-disc quotient biholomorphically, and prove `q → 0` along the cusp. For a second datum
-   `σ'=aσ+b`, prove `w'=aw` and
-   `q'=exp(2πib/(aw))q`, then prove that this nonzero scalar change gives the same compactified
-   complex structure.
-5. Prove the Laurent/q-expansion criterion: an invariant holomorphic function descends on the
-   punctured cusp; boundedness gives a removable singularity, polynomial exponential growth gives
-   a pole of controlled order, and decay gives a zero of controlled order.
+1. Cusps are Tau Ceti's: `Subgroup.IsCuspPoint` holds at the fixed point of a parabolic element
+   of `Γ` (`Subgroup.isCuspPoint_iff_exists_parabolicFixedPoint_eq`,
+   `Subgroup.isCuspPoint_iff_exists_mem_stabilizer_isParabolic`), cusp orbits in `OnePoint ℝ` are
+   `Subgroup.CuspOrbit` (`Fuchsian/Cusp/Basic.lean`), and a cofinite group has finitely many of
+   them, `Subgroup.IsCofinite.finite_cuspOrbit` (`Fuchsian/Cusp/Finite.lean`).
+2. The cusp datum is Tau Ceti's `Subgroup.CuspDatum` (`Fuchsian/Cusp/Datum.lean`), whose fields are
+   the representative `c`, a scaling `σ` with `σ(c)=∞`, the selected generator `γ` and its width
+   `w > 0`, with `⟨γ⟩ = stabilizer Γ c` (`Subgroup.CuspDatum.mem_stabilizer_iff`) and
+   `σγσ⁻¹(z)=z+w`, so that the conjugated full stabilizer is exactly `wℤ`
+   (`Subgroup.CuspDatum.mem_stabilizer_iff_conj`). Every cusp representative and every scaling
+   sending it to `∞` carry a datum (`Subgroup.IsCuspPoint.exists_cuspDatum`), and a datum is
+   determined by its representative and its scaling (`Subgroup.CuspDatum.ext`); uniqueness is only
+   relative to the normalized datum.
+3. Horodiscs are Tau Ceti's `TauCeti.Subgroup.CuspDatum.horodisc` (`Fuchsian/Cusp/Horodisc.lean`):
+   from height `w` on they are precisely invariant under the cusp stabilizer
+   (`TauCeti.Subgroup.CuspDatum.disjoint_smul_horodisc`), and horodiscs at inequivalent cusps have
+   disjoint images (`TauCeti.Subgroup.CuspDatum.disjoint_image_quotientMk_horodisc_iff`). Removing
+   their images leaves a compact part of the quotient
+   (`TauCeti.UpperHalfPlane.ConvexPolygon.isCompact_compl_iUnion_image_horodisc`,
+   `Fuchsian/Compactification/Polygon.lean`).
+4. The q-coordinate `q(z)=exp(2*pi*i*σ(z)/w)` is Tau Ceti's `TauCeti.Subgroup.CuspDatum.coordinate`
+   (`Fuchsian/Cusp/Coordinate.lean`): it is invariant under the stabilizer
+   (`TauCeti.Subgroup.CuspDatum.coordinate_smul`), identifies the quotient by the full stabilizer
+   with the punctured disc (`TauCeti.Subgroup.CuspDatum.quotientHomeomorph`), and tends to `0` along
+   the cusp, its norm being small exactly on high horodiscs
+   (`TauCeti.Subgroup.CuspDatum.norm_qCoordinate_lt_iff_mem_horodisc`). For a second datum
+   `σ'=aσ+b`, `w'=aw` and `q'=exp(2πib/(aw))q` are `TauCeti.cuspDatum_width_eq_mul` and
+   `TauCeti.cuspDatum_coordinate_eq` (`Fuchsian/Cusp/ChangeScaling.lean`), and the chart of every
+   datum lies in the atlas of the compactification (`cuspChart_mem_atlas`, in Tau Ceti's namespace
+   `Subgroup.CompactifiedQuotient`),
+   so the compactified complex structure does not depend on the datum.
+5. The q-expansion criterion is Tau Ceti's: for an invariant holomorphic function, the descended
+   function on the punctured disc extends holomorphically across `0` when it is bounded
+   (`TauCeti.Subgroup.CuspDatum.analyticAt_cuspExtension_zero`, `Fuchsian/Cusp/Extension.lean`),
+   meromorphically with a pole of order at most `n` under growth `O(exp(2πn Im σ(z)/w))`
+   (`TauCeti.Subgroup.CuspDatum.neg_natCast_le_meromorphicOrderAt_cuspExtension`), and with a zero
+   of order at least `n` under decay `O(exp(−2πn Im σ(z)/w))`
+   (`TauCeti.Subgroup.CuspDatum.natCast_le_meromorphicOrderAt_cuspExtension`,
+   `Fuchsian/Cusp/Growth.lean`).
 
 **Source spine:** Diamond--Shurman, §§2.3--2.4; Katok, §§3.4 and 4.2; Forster, §19.
 
 ## Layer 4: compactified quotient Riemann surfaces
 
-The construction order in this layer is normative.
+The construction order in this layer is normative. Declarations below written without a
+namespace, such as `isOpenEmbedding_ofQuotient`, are in Tau Ceti's namespace
+`Subgroup.CompactifiedQuotient`.
 
-1. Form the carrier as the explicit inductive disjoint sum of the coarse orbit quotient and the
-   subtype of parabolic boundary orbits. Use the displayed constructors and sum equivalence in
-   `Suggested.lean`. Define cusp neighbourhoods from the precisely invariant horodiscs and prove
-   the topology is independent of all height choices.
-2. Prove the carrier is Hausdorff and second countable.  For a cofinite group, use the compact
-   truncated fundamental polygon plus finitely many cusp discs to prove compactness.
-3. Extend the quotient atlas with the q-coordinate at every new point.  Verify transitions with
-   free and elliptic charts, then prove `ChartedSpace` and `IsManifold 𝓘(ℂ, ℂ) ∞`.
-4. Prove that the original quotient is an open dense submanifold and that the compactifying
-   points are exactly the complement. Prove functoriality for conjugate groups. For every
-   finite-index inclusion `Γ' ≤ Γ`, extend the quotient map to cusps and prove that compatible data
-   give `e_cusp = w_{Γ'}/w_Γ ∈ ℕ`. Compute elliptic ramification from stabilizer indices,
-   prove multiplicativity in subgroup towers, and prove the fibre-cardinality and degree formulas.
-5. Derive the orbifold signature from the compact surface, elliptic stabilizer orders, and cusp
-   set.  Prove the orbifold Euler-characteristic and area formula, including all factors of
+1. The carrier is Tau Ceti's explicit inductive disjoint sum `Subgroup.CompactifiedQuotient` of the
+   coarse orbit quotient and the cusp orbits, with constructors
+   `Subgroup.CompactifiedQuotient.ofQuotient` and `Subgroup.CompactifiedQuotient.ofCusp` and sum
+   equivalence `Subgroup.CompactifiedQuotient.equivSum` (`Fuchsian/Compactification/Basic.lean`).
+   Its cusp neighbourhoods `Subgroup.CompactifiedQuotient.cuspNhd` are built from the precisely
+   invariant horodiscs, and the topology does not depend on the heights or on the data chosen
+   (`exists_cuspNhd_subset`).
+2. The carrier is Hausdorff (`Subgroup.CompactifiedQuotient.instT2Space`), second countable
+   (`Subgroup.CompactifiedQuotient.instSecondCountableTopology`) and connected
+   (`Subgroup.CompactifiedQuotient.instConnectedSpace`); for a cofinite group it is compact,
+   `Subgroup.IsCofinite.compactSpace_compactifiedQuotient`
+   (`Fuchsian/DirichletDomain/Cofinite.lean`), from a truncated Dirichlet polygon and finitely many
+   cusp discs.
+3. The atlas extending the coarse-quotient charts by the q-coordinate charts at the cusps is
+   `Subgroup.CompactifiedQuotient.instChartedSpace`, and it is analytic,
+   `Subgroup.CompactifiedQuotient.instIsManifold : IsManifold 𝓘(ℂ) ω`
+   (`Fuchsian/Compactification/Manifold.lean`).
+4. The original quotient is open and dense, and the cusps are exactly its complement
+   (`isOpenEmbedding_ofQuotient`, `dense_range_ofQuotient`, `compl_range_ofQuotient`). Conjugate
+   groups have biholomorphic
+   compactifications (`Subgroup.CompactifiedQuotient.conjBiholomorph`,
+   `Fuchsian/Compactification/Conj.lean`). For an inclusion `Γ' ≤ Γ` the quotient map extends to
+   the cusps as the holomorphic map `Subgroup.compactifiedQuotientMap`
+   (`mdifferentiable_compactifiedQuotientMap`). For cusp data with the same representative and
+   scaling, its local multiplicity at a cusp is the width ratio `e_cusp = w_{Γ'}/w_Γ ∈ ℕ`,
+   `localMultiplicity_compactifiedQuotientMap_ofCusp_eq_widthIndex`,
+   with `TauCeti.Subgroup.CuspDatum.width_eq_widthIndex_mul`,
+   `TauCeti.Subgroup.CuspDatum.widthIndex_eq_relIndex` (the index of the cusp stabilizers) and
+   multiplicativity in towers `TauCeti.Subgroup.CuspDatum.widthIndex_tower`
+   (`Fuchsian/Cusp/Tower.lean`). At an elliptic point it is the stabilizer index,
+   `localMultiplicity_compactifiedQuotientMap_ofQuotient_eq_ellipticRamificationIndex`
+   with `Subgroup.ellipticRamificationIndex_eq_index` and
+   `Subgroup.ellipticRamificationIndex_tower`. The fibre cardinality and the degree are
+   `Subgroup.card_fiber_compactifiedQuotientMap_eq_card_stabilizerOrbitRelQuotient` and
+   `Subgroup.degree_compactifiedQuotientMap`, the index.
+5. The orbifold signature is derived from the compact surface, the elliptic stabilizer orders
+   and the cusp set, and the orbifold Euler-characteristic and area formula carries all factors of
    `2*pi` and the effective `PSL` convention. Its form for a side-paired fundamental polygon is
    Tau Ceti's `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.covolume_eq_two_pi_mul`
    (`Fuchsian/Polygon/Area.lean`) and its level-one case
    `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange_eq_two_pi_mul`; its intrinsic form, with the
-   genus of `CompactifiedQuotient Γ`, is Layer 5 item 7's `covolume_eq_two_pi_mul_signature`.
+   genus of `Γ.CompactifiedQuotient`, is Layer 5 item 7's `covolume_eq_two_pi_mul_signature`.
 
 No step identifies the carrier with `P^1`, a torus, or another classified surface by definition.
 
@@ -469,8 +571,8 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
      so `genus = 0`.
    - A complex torus `ℂ/Λ` has `χ = 0` and genus `1`; the definition `g = 2 − χ`, without the
      halving, would give `2`.
-   - A compact surface of genus `2` has `χ = −2` and `genus = 2`; the definition `g = −χ/2`, which
-     agrees on the torus, would give `1`.
+   - A compact surface of genus `2` has `χ = −2` and `genus = 2`; the definition
+     `g = (−χ/2).toNat`, which agrees on the sphere, would give `1` here and `0` on the torus.
    - The real projective plane has `χ = 1`, and `genus` returns `0` (integer division) while
      `χ = 2 − 2 · 0` fails: the identity needs the orientable surface underlying a complex
      structure, which `RP²` does not carry.
@@ -482,8 +584,7 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    `TauCeti.RiemannSurface.biholomorphOfDegreeEqOne` with
    `TauCeti.RiemannSurface.biholomorphOfDegreeEqOne_toFun`, divisor pullback
    `TauCeti.RiemannSurface.divisorPullback` and the ramification degree
-   `TauCeti.RiemannSurface.ramificationDegree`. `Suggested.lean` exports them, with `genus` and
-   `riemannHurwitz`, under the short names `RiemannSurface.*` used by ModularForms Layer 10B.
+   `TauCeti.RiemannSurface.ramificationDegree`.
 3. **The branched-cover formula and Riemann–Hurwitz.** The branched-cover formula
    `χ(X) = deg f · χ(Y) − R(f)` for a finite holomorphic map `f : X → Y` of compact connected
    Riemann surfaces is Tau Ceti's
@@ -503,9 +604,9 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    - An unramified double cover of a genus-`2` surface by a genus-`3` surface: `4 = 2 · 2 + 0`; a
      genus that did not depend on the surface would make the two sides `2c − 2` and `2(2c − 2)`,
      unequal unless `c = 1`.
-4. Prove that a `Γ`-invariant holomorphic or meromorphic function descends uniquely to the coarse
-   quotient, and combine the elliptic local-order formula and cusp q-expansion criterion to extend
-   it to the compactification. This is implemented in Tau Ceti as
+4. A `Γ`-invariant holomorphic or meromorphic function descends uniquely to the coarse quotient,
+   and the elliptic local-order formula and the cusp q-expansion criterion extend it to the
+   compactification. This is implemented in Tau Ceti as
    `Subgroup.existsUnique_mdifferentiable_quotientMk`, `Subgroup.existsUnique_meromorphicAt_quotientMk`
    and, across cusps, `TauCeti.Fuchsian.exists_meromorphicAt_comp_ofQuotient`
    (`Fuchsian/Compactification/Extension.lean`).
@@ -523,23 +624,23 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    `X(Γ′)`, from item 3 and item 5, and `χ_orb(Γ′) = d χ_orb(Γ)` for
    `χ_orb = 2 − 2g − Σᵢ (1 − 1/mᵢ) − c`, from item 7 and Tau Ceti's
    `MeasureTheory.covolume_eq_card_mul_covolume`.
-   *Needs:* items 3, 5 and 7.
+   *Needs:* items 3, 5 and 7; Tau Ceti `MeasureTheory.covolume_eq_card_mul_covolume`.
    **Checks.**
    - The image of `Γ(2)` in `PSL(2,ℤ)` has index `6` and `X(2)` has genus `0` with three cusps of
      width `2`: over the cusp `R` gains `3`, over `i` three points of index `2` give `3`, over `ρ`
      two points of index `3` give `4`, and `−2 = 6 · (−2) + 10`.
    - `χ_orb(PSL(2,ℤ)) = 2 − (1/2 + 2/3) − 1 = −1/6` and `χ_orb(Γ(2)) = 2 − 3 = −1 = 6 · (−1/6)`.
 7. **The genus bridge and the orbifold area formula.** For a cofinite `Γ`, prove that the genus
-   read off a side-paired fundamental polygon (Layer 2 item 5) equals `genus (CompactifiedQuotient Γ)`
+   read off a side-paired fundamental polygon (Layer 2 item 5) equals `genus Γ.CompactifiedQuotient`
    of item 1: subdivide the compactified polygon so that every elliptic cycle and every cusp orbit
    is a vertex, extending the incident sectors at cusps through the filled-disc charts; this is a
    finite cell decomposition of `X(Γ)` whose cell count is `2 − 2h` for the polygon genus `h`.
    Combined with the polygon area formula of Layer 4 item 5 this proves
    `covolume_eq_two_pi_mul_signature`:
-   `covolume Γ = 2π (2g − 2 + Σₑ (1 − 1/mₑ) + c)`, where `g = genus (CompactifiedQuotient Γ)`, `e`
+   `covolume Γ = 2π (2g − 2 + Σₑ (1 − 1/mₑ) + c)`, where `g = genus Γ.CompactifiedQuotient`, `e`
    runs over the elliptic orbits `Subgroup.ellipticOrbits` with stabilizer orders
-   `mₑ = TauCeti.cardStabilizerOnOrbit e`, and `c = Nat.card Γ.CuspOrbit` (Beardon, §10.4; Katok,
-   §4.3). Keep the cell count `χ(X(Γ)) = 2 − 2g` distinct from the orbifold Euler characteristic
+   `mₑ = TauCeti.cardStabilizerOnOrbit e`, and `c = Nat.card Γ.CuspOrbit` (Martin, Theorem 2.2;
+   Beardon, §10.4; Katok, §4.3). Keep the cell count `χ(X(Γ)) = 2 − 2g` distinct from the orbifold Euler characteristic
    `χ_orb = 2 − 2g − Σₑ (1 − 1/mₑ) − c = −covolume Γ / 2π`.
    *Needs:* item 1; Layer 2 items 4 and 5; Layer 4; Tau Ceti
    `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.covolume_eq_two_pi_mul`,
@@ -558,27 +659,39 @@ Farkas--Kra, Chapter II §4; Beardon, §10.4; Katok, §4.3.
 ## Layer 4a: minimum area of compact orientable hyperbolic orbifolds
 
 A cofinite Fuchsian group `Γ` of signature `(g; m₁, …, m_r; c)`, with elliptic orders `mᵢ ≥ 2`
-and `c` cusps, has covolume `2π δ` for the deficit `δ = 2g − 2 + Σᵢ (1 − 1/mᵢ) + c`, which is
-positive (Layer 5 item 7). This layer owns the two minima of the covolume and their equality cases.
+and `c` cusps, has covolume `2π δ` for the deficit `δ = 2g − 2 + Σᵢ (1 − 1/mᵢ) + c` (Layer 5
+item 7; Martin, Theorem 2.2). The deficit is positive: Tau Ceti's `MeasureTheory.covolume_pos`
+makes the covolume of a discrete group positive, while `ENNReal.ofReal (2π δ)` vanishes for
+`δ ≤ 0`. Layer 5 item 7 assumes finite CW type of `X(Γ)`, and the two lower bounds below do not;
+their routes take it from AlgebraicTopology Stage 8 item 7, applied to the compact Riemann surface
+`X(Γ)` (Layer 4 items 2 and 3) through ComplexManifolds Milestone 1. This layer owns the two minima
+of the covolume and their equality cases.
 
 1. **The minimum `π/21`.** Prove `pi_div_twentyOne_le_covolume`: every cofinite Fuchsian group has
-   covolume at least `π/21` (Siegel 1945). Without cusps, `δ ≥ 1/42` is Tau Ceti's
-   `TauCeti.one_div_forty_two_le_hyperbolic_deficit` (`TauCeti/Data/Rat/BranchDeficit.lean`),
-   applied to `g` and the multiset of elliptic orders; with a cusp, item 2 gives the larger bound
-   `π/3`. Prove the equality case `covolume_eq_pi_div_twentyOne_iff`: the covolume is `π/21` exactly
-   for signature `(0; 2, 3, 7)`, that is genus zero, no cusp and one elliptic orbit of each order
-   `2`, `3` and `7`. The value at `(0; 2, 3, 7)` is Tau Ceti's
-   `TauCeti.hyperbolic_deficit_two_three_seven`. Uniqueness, which the Tau Ceti lemma does not
-   state, is the following case analysis. If `g ≥ 2` then `δ ≥ 2`; if `g = 1`, positivity needs
+   covolume at least `π/21` (Siegel 1945, pp. 708–718; Martin, Theorem 2.1). Without cusps,
+   `δ ≥ 1/42` is Tau Ceti's `TauCeti.one_div_forty_two_le_hyperbolic_deficit`
+   (`TauCeti/Data/Rat/BranchDeficit.lean`), applied to `g` and the multiset of elliptic orders. With
+   `c ≥ 1` cusps, replace each cusp by an elliptic point of order `m`: the deficit becomes
+   `δ − c/m`, which is positive once `m ≥ 2` and `m > c/δ`, so the same lemma, applied to `g` and
+   the elliptic orders together with `c` copies of `m`, gives `δ > δ − c/m ≥ 1/42`. Prove the
+   equality case
+   `covolume_eq_pi_div_twentyOne_iff`: the covolume is `π/21` exactly for signature `(0; 2, 3, 7)`,
+   that is genus zero, no cusp and one elliptic orbit of each order `2`, `3` and `7` (Martin,
+   Theorem 2.1). The value at `(0; 2, 3, 7)` is Tau Ceti's
+   `TauCeti.hyperbolic_deficit_two_three_seven`. A cusp makes the inequality strict, by the
+   replacement argument; without cusps, uniqueness, which the Tau Ceti lemma does not state, is the
+   following case analysis. If `g ≥ 2` then `δ ≥ 2`; if `g = 1`, positivity needs
    `r ≥ 1` and `δ ≥ 1/2`. For `g = 0` positivity needs `r ≥ 3`. For `r ≥ 5`,
    `δ ≥ r/2 − 2 ≥ 1/2`. For `r = 4` the all-order-two signature has `δ = 0`, and otherwise some
    `mᵢ ≥ 3`, so `δ ≥ 1/6`. For `r = 3` sort `m₁ ≤ m₂ ≤ m₃`: `(2, 2, m₃)` has `δ < 0`; `(2, 3, m₃)`
    has `δ = 1/6 − 1/m₃`, positive exactly for `m₃ ≥ 7` and equal to `1/42` only at `m₃ = 7`;
    `(2, 4, m₃)` needs `m₃ ≥ 5` and has `δ ≥ 1/20`; `(2, m₂, m₃)` with `m₂ ≥ 5` has `δ ≥ 1/10`; and
    `m₁ ≥ 3` has `δ ≥ 1/12`, the case `(3, 3, 3)` having `δ = 0`.
-   *Needs:* Layer 5 item 7; Tau Ceti `TauCeti.one_div_forty_two_le_hyperbolic_deficit`,
-   `TauCeti.hyperbolic_deficit_two_three_seven`, `Subgroup.IsCofinite.finite_ellipticOrbits`,
-   `Subgroup.IsCofinite.finite_cuspOrbit`.
+   *Needs:* Layer 5 item 7; Tau Ceti `MeasureTheory.covolume_pos`,
+   `TauCeti.one_div_forty_two_le_hyperbolic_deficit`, `TauCeti.hyperbolic_deficit_two_three_seven`,
+   `Subgroup.IsCofinite.finite_ellipticOrbits`, `Subgroup.IsCofinite.finite_cuspOrbit`;
+   AlgebraicTopology Stage 8 item 7 with ComplexManifolds Milestone 1, for the finite CW type of
+   `X(Γ)`.
    **Checks.**
    - `(0; 2, 3, 7)`: `δ = −2 + 1/2 + 2/3 + 6/7 = 1/42`, covolume `π/21`; a bound `π/42`, from
      forgetting the factor `2` in `2π δ`, would not be attained by any group.
@@ -588,11 +701,16 @@ positive (Layer 5 item 7). This layer owns the two minima of the covolume and th
      Gauss–Bonnet value `−2π χ` for `χ = −2`.
    - `(0; 2, 2, 2, 2)` has `δ = 0`: the bound is false for nonpositive deficit, and the hypothesis
      `Γ.IsCofinite` is what excludes it.
+   - The cusp replacement on `(0; 2, 3; 1)`, with `δ = 1/6` and `c/δ = 6`: the order `m = 7`
+     gives `(0; 2, 3, 7)` with `δ − 1/7 = 1/42`, so `1/6 > 1/42`; the order `m = 6` gives the
+     Euclidean `(0; 2, 3, 6)` with deficit `0`, to which the lemma does not apply, which is why
+     `m > c/δ` is required.
 2. **The minimum `π/3` with a cusp.** Prove `minimum_area_finite_area_orbifold`: a cofinite
    Fuchsian group with at least one cusp has covolume at least `π/3`. Prove the equality case
    `covolume_eq_pi_div_three_iff`: the covolume is `π/3` exactly for signature `(0; 2, 3; 1)`, that
    of `PSL(2,ℤ)`, whose covolume is Tau Ceti's `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange`.
-   Tau Ceti's deficit lemma has no cusp term, so the case analysis is owned here:
+   Both follow from the area formula (Martin, Theorem 2.2) by the following case analysis, which is
+   this roadmap's own; Tau Ceti's deficit lemma has no cusp term:
 
    | Signature range | Deficit and area |
    |---|---|
@@ -604,8 +722,10 @@ positive (Layer 5 item 7). This layer owns the two minima of the covolume and th
    | `g = 0, c = 1, r = 2` | sort `m₁ ≤ m₂`; `(2, 2)` gives `δ = 0`, `(2, 3)` the minimum `δ = 1/6`, and every other pair `δ ≥ 1/4` |
    | `g = 0, c = 1, r ≥ 3` | `δ ≥ 1/2`, area at least `π` |
 
-   *Needs:* Layer 5 item 7; Tau Ceti `Subgroup.IsCofinite.finite_ellipticOrbits`,
-   `Subgroup.IsCofinite.finite_cuspOrbit`, `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange`.
+   *Needs:* Layer 5 item 7; Tau Ceti `MeasureTheory.covolume_pos`,
+   `Subgroup.IsCofinite.finite_ellipticOrbits`, `Subgroup.IsCofinite.finite_cuspOrbit`,
+   `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange`; AlgebraicTopology Stage 8 item 7 with
+   ComplexManifolds Milestone 1, for the finite CW type of `X(Γ)`.
    **Checks.**
    - `(0; 2, 3; 1)`: `δ = −2 + 1/2 + 2/3 + 1 = 1/6`, covolume `π/3`, the pinned covolume of
      `PSL(2,ℤ)`.
@@ -618,30 +738,44 @@ positive (Layer 5 item 7). This layer owns the two minima of the covolume and th
 The downstream ArithmeticFuchsianGroups roadmap consumes both minima for normalizer indices, and
 the downstream TeichmullerGeometry Layer 10 consumes the equality case of item 1.
 
-**Source spine:** Siegel 1945; Beardon, §10.4; Katok, §4.3.
+**Source spine:** Siegel 1945; Martin, Theorems 2.1 and 2.2; Beardon, §10.4; Katok, §4.3.
 
 ## Layer 6: the level-one modular quotient, in construction order
 
-This layer consumes the modular-forms roadmap's normalized `j`-function, modular invariance,
-q-expansion, and exact elliptic orders.
+This layer consumes Tau Ceti's normalized `j`-function `TauCeti.ModularForm.j`, its modular
+invariance, q-expansion and exact elliptic orders (listed under Ownership); the whole layer is
+implemented in Tau Ceti, in the construction order below.
 
-1. Apply Layers 0--4 to the effective level-one modular group. Construct its coarse quotient,
-   elliptic charts, unique cusp, and compact Riemann surface `X(1)`. Prove its signature from the
-   standard fundamental polygon. The genus `RiemannSurface.genus X(1) = 0` expected by
-   ModularForms 10B(vi) follows from Layer 5 item 1's definition and Tau Ceti's
-   `TauCeti.ModularGroup.eulerChar_compactifiedQuotient`, `χ(X(1)) = 2`.
-2. Descend the normalized `j : UpperHalfPlane -> C` to the uncompactified quotient.  Use its
-   q-expansion to extend it meromorphically over the cusp and its elliptic orders to compute all
-   local multiplicities on `X(1)`.
-3. Regard the extension as a holomorphic map `X(1) -> P^1`.  Prove it has a single simple pole
-   over infinity, equivalently degree one, using Layer 5's fibre-counting theorem.
-4. Apply the degree-one theorem to obtain a named biholomorphism `X(1) ≃ P^1`.  Normalize it by
-   the cusp and elliptic images and prove that this biholomorphism is the descended `j`-map.
-5. Transfer no atlas backward by fiat: every statement about `P^1` is obtained through this
+1. Layers 0–4 applied to the effective level-one modular group `psl2zToPSL2R.range`: it is
+   cofinite (`TauCeti.ModularGroup.isCofinite_psl2zToPSL2RRange`), its elliptic orbits are those of
+   `ρ` and `i` (`TauCeti.ModularGroup.ellipticOrbits_psl2zToPSL2RRange`), with stabilizer orders `3`
+   and `2` (`TauCeti.ModularGroup.card_stabilizer_psl2zToPSL2RRange_ρ`,
+   `TauCeti.ModularGroup.card_stabilizer_psl2zToPSL2RRange_I`), it has a unique cusp
+   (`TauCeti.ModularGroup.instUniqueCuspOrbit`), and its compactified quotient `X(1)` is compact
+   (`TauCeti.ModularGroup.compactSpace_compactifiedQuotient`). Its signature `(0; 2, 3; 1)` and
+   covolume are read off the standard fundamental triangle
+   (`TauCeti.ModularGroup.covolume_psl2zToPSL2RRange_eq_two_pi_mul`). The genus `genus X(1) = 0`,
+   expected by ModularForms §10B, follows from the definition of `genus` (Layer 5 item 1) and Tau
+   Ceti's `TauCeti.ModularGroup.eulerChar_compactifiedQuotient`, `χ(X(1)) = 2`.
+2. The descent of `j` to the uncompactified quotient is `TauCeti.ModularGroup.jQuotient`, with
+   local multiplicity `1` at the orbits of `ρ` and `i`
+   (`TauCeti.ModularGroup.localMultiplicity_jQuotient_ρ`,
+   `TauCeti.ModularGroup.localMultiplicity_jQuotient_I`), and its meromorphic extension over the
+   cusp is `TauCeti.ModularGroup.jCompactified` (`TauCeti.ModularGroup.meromorphicAt_jCompactified`,
+   `Fuchsian/LevelOne/Extension.lean`).
+3. The extension as a holomorphic map `X(1) → P¹` is `TauCeti.ModularGroup.jSphere`, with a single
+   simple pole over infinity, at the cusp (`TauCeti.ModularGroup.jSphere_eq_infty_iff`,
+   `TauCeti.ModularGroup.localMultiplicity_jSphere_ofCusp`), and degree
+   one, `TauCeti.ModularGroup.degree_jSphere`, by the fibre count of Layer 5 item 2.
+4. The degree-one theorem gives the named biholomorphism `TauCeti.ModularGroup.jBiholomorph :
+   X(1) ≃ P¹`, which is the descended `j`-map (`TauCeti.ModularGroup.coe_jBiholomorph`) and is
+   normalized by `ρ ↦ 0` and `i ↦ 1728` (`TauCeti.ModularGroup.jBiholomorph_ρ`,
+   `TauCeti.ModularGroup.jBiholomorph_I`, `Fuchsian/LevelOne/Sphere.lean`).
+5. No atlas is transferred backward by fiat: every statement about `P^1` is obtained through this
    proved biholomorphism after the compact quotient already exists.
 
-**Source spine:** Diamond--Shurman, §§2.3--2.5; Serre, Chapter VII; the modular-forms roadmap's
-`j` targets.
+**Source spine:** Diamond--Shurman, §§2.3--2.5; Serre, Chapter VII; Tau Ceti's
+`TauCeti/Analysis/Complex/ModularForms/LevelOne/JInputs.lean`.
 
 ## Dependency order and parallel work
 
@@ -653,7 +787,7 @@ q-expansion, and exact elliptic orders.
 | L3 cusps and q-coordinates | L0, L2 | L4--L6 |
 | L4 compactification | L1--L3 | L5--L6 |
 | L5 degree theory and applications | ComplexManifolds Milestones 1--2, AlgebraicTopology Stages 6 and 8, Tau Ceti Euler characteristic and Riemann-surface degree, L2, L4 | L4a, L6, modular forms |
-| L6 level-one example | L0--L5, modular forms | normalized `X(1) ≃ P^1` |
+| L6 level-one example | L0--L5, Tau Ceti `j` | normalized `X(1) ≃ P^1` |
 | L4a minimal areas | L5 item 7, Tau Ceti deficit bound | area ≥ `π/21`; area ≥ `π/3` with a cusp; equality cases |
 
 The dependency order follows the table. No row depends on TeichmullerGeometry or
@@ -715,6 +849,9 @@ replace local declarations when available, but no layer waits for them.
   American Mathematical Society, 1995, Chapter II §4 and Chapter III.
 - Jean-Pierre Serre, *A Course in Arithmetic*, Graduate Texts in Mathematics 7,
   Springer, 1973, Chapter VII.
+- Gaven J. Martin, *The geometry and arithmetic of Kleinian groups*, arXiv:1311.2636 (2013),
+  Theorems 2.1 (Siegel's minimal coarea `π/21`, attained only by the `(2, 3, 7)` triangle group)
+  and 2.2 (the signature area formula).
 - Carl Ludwig Siegel, *Some remarks on discontinuous groups*, Annals of Mathematics 46 (1945),
   708–718, doi:10.2307/1969206 (the minimal covolume `π/21`).
 - John Stillwell, *Geometry of Surfaces*, Universitext, Springer, 1992, Chapter 5.
