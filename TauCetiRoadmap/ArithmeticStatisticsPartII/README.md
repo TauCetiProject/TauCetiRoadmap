@@ -55,6 +55,10 @@ From AnalyticNumberTheoryPartII require binary-cubic action and discriminant (An
 
 From ArithmeticStatisticsPartI require ArithmeticStatisticsPartI, binary cubic forms and the twisted action (Cubic supplier conventions), ArithmeticStatisticsPartI, cubic ring (Cubic supplier conventions), ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), ArithmeticStatisticsPartI, discriminant of the cubic ring of a form (Cubic supplier conventions), ArithmeticStatisticsPartI, binary quartic form (§0.3), ArithmeticStatisticsPartI, binary quartic invariants (§0.3), ArithmeticStatisticsPartI, relative invariance of i and j (§0.3), ArithmeticStatisticsPartI, invariants height and eligible pairs (§0.4), ArithmeticStatisticsPartI, quartic discriminant is the polynomial discriminant (§0.3), ArithmeticStatisticsPartI, binary local proportion (§0.12), ArithmeticStatisticsPartI, monic density formulas (§0.23), ArithmeticStatisticsPartI, local maximality (§0.12), ArithmeticStatisticsPartI, binary form order (§0.22), ArithmeticStatisticsPartI, symmetric pencil (§0.22), ArithmeticStatisticsPartI, strong weak discriminant (§0.12), ArithmeticStatisticsPartI, binary discriminant in pencil coordinates (§0.22). Their hypotheses, weights, cutoffs and normalizations are retained at the point of use below.
 
+### From TauCetiRoadmap.QuadraticFormsOverABase
+
+From QuadraticFormsOverABase §§1.1–1.3 require the half-discriminant of a quadratic form on `Fin n → R` over an arbitrary commutative ring, computed without dividing by two: §1.1's universal polynomial `univHalfDisc`, §1.2's value `halfDisc` at a form, and §1.3's transformation rules `halfDisc_mapCoeffs` (base change), `halfDisc_comp` (factor `(det g)²` in odd rank) and scaling by `aⁿ`. Section 1.3 here evaluates them at n = 3 as `4 Det`; it constructs no second half-discriminant and proves no second transformation rule.
+
 ## How to read the build
 
 The mathematical specification is this README; `Suggested.lean` states headline acceptance theorems on the pinned carriers. Its quartic coordinate definitions use Mathlib multivariate polynomials and the native elliptic-point, cubic-algebra and Selmer carriers. `BinaryQuartic.form` and `BinaryQuartic.eval` are the fixed-degree polynomial and its evaluation; `BinaryQuartic.invI` and `BinaryQuartic.invJ` use the displayed invariant formulas. `BinaryQuartic.twistedForm` and `BinaryQuartic.IsProperlyEquivalent` express the twisted substitution and its orbit relation. The native curve instances `BinaryQuartic.curveIJ_isCharNeTwoNF` and `BinaryQuartic.curveIJ_isElliptic` record the normal form over every field and ellipticity when 2, 3 and `4I^3-J^2` are nonzero. The sections below specify the full library development, including its hypotheses, source locators, basic theory and prose Checks. Arithmetic and geometric constructions whose objects are absent from the pins remain targets of these sections. Earlier-part supplier citations identify their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
@@ -289,9 +293,9 @@ For the proof, If R subset R' with index p, write `R = ℤ +` pR' `+ ℤ θ` and
 
 ### 1.3 Quartic rings and cubic resolvents
 
-**Pairs of ternary quadratic forms.** For a commutative ring R, an (integer-valued) ternary quadratic form is `Q(x) = sum_{i<=j} a_ij x_i x_j` with `a_ij` in R (with Gram matrix having `a_ii` on the diagonal and `a_ij/2` off it when 2 is invertible), and `W(R) = (Sym² R³ ⊗ R²)*` is the module of pairs `(A, B)`. The group `GL3(R) x GL2(R)` acts by `(g_3, g_2) . (A, B) = (r A' + s B', t A' + u B')` with `A' = g_3 A g_3^T`, `B' = g_3 B g_3^T` and `g_2 = (r s; t u)`. Attached invariants: `4 Det(Q) = 4 a_11 a_22 a_33 + a_12 a_13 a_23 - a_11 a_23^2 - a_22 a_13^2 - a_33 a_12^2`; the cubic resolvent form `f_{(A,B)}(x, y) = 4 Det(A x - B y)`, a binary cubic form over R; the discriminant `Disc(A, B) = disc(f_{(A,B)})`; the fifteen `SL₂`-invariants `λ^{ij}_{kl} = a_ij b_kl - a_kl b_ij`; and, over `ℤ`, the content `ct(A, B) = gcd` of the `λ^{ij}_{kl}`. One has `f_{(g . (A,B))} = (det g_3)^2` (`f_{(A,B)}` composed with the substitution by `(r -s; -t u)`), hence `Disc(g . (A,B)) = (det g_3)^8 (det g_2)^6 Disc(A, B)`.
+**Pairs of ternary quadratic forms.** For a commutative ring R, an (integer-valued) ternary quadratic form is `Q(x) = sum_{i<=j} a_ij x_i x_j` with `a_ij` in R (with Gram matrix having `a_ii` on the diagonal and `a_ij/2` off it when 2 is invertible), and `W(R) = (Sym² R³ ⊗ R²)*` is the module of pairs `(A, B)`. The group `GL3(R) x GL2(R)` acts by `(g_3, g_2) . (A, B) = (r A' + s B', t A' + u B')` with `A' = g_3 A g_3^T`, `B' = g_3 B g_3^T` and `g_2 = (r s; t u)`. Attached invariants: `4 Det(Q) = 4 a_11 a_22 a_33 + a_12 a_13 a_23 - a_11 a_23^2 - a_22 a_13^2 - a_33 a_12^2`, the half-discriminant of QuadraticFormsOverABase §1.2 at n = 3; the cubic resolvent form `f_{(A,B)}(x, y) = 4 Det(A x - B y)`, a binary cubic form over R; the discriminant `Disc(A, B) = disc(f_{(A,B)})`; the fifteen `SL₂`-invariants `λ^{ij}_{kl} = a_ij b_kl - a_kl b_ij`; and, over `ℤ`, the content `ct(A, B) = gcd` of the `λ^{ij}_{kl}`. One has `f_{(g . (A,B))} = (det g_3)^2` (`f_{(A,B)}` composed with the substitution by `(r -s; -t u)`), hence `Disc(g . (A,B)) = (det g_3)^8 (det g_2)^6 Disc(A, B)`.
 
-Integer-valued convention (Bhargava HCL III `(11)`, `(19)`): diagonal coefficients integral, off-diagonal Gram entries half-integral; `4 Det` has integer coefficients. Over a general coefficient ring, define four times the ternary determinant by the displayed integral coefficient polynomial; neither half-Gram entries nor division by four is performed in R. Congruence acts by substitution on the polynomial coefficients, and specializes to Gram congruence when 2 is invertible. Sign convention pinned: the resolvent form is `4 Det(Ax − By)` (Bhargava-Shankar); HCL III writes `4 Det(Ax + By)`, which differs by `(x, y) ↦ (x, -y)` and is inconsistent with its own multiplication table. Over `ℤ`, `GL3(ℤ) = {±1} × SL3(ℤ)` and -1 acts trivially on pairs, so `GL3(ℤ) x GL2(ℤ)`-orbits are the `GL2(ℤ) x SL3(ℤ)`-orbits of Bhargava-Shankar.
+Integer-valued convention (Bhargava HCL III `(11)`, `(19)`): diagonal coefficients integral, off-diagonal Gram entries half-integral; `4 Det` has integer coefficients. Over a general coefficient ring, four times the ternary determinant is QuadraticFormsOverABase §1.2's `halfDisc` of the associated Mathlib form, whose value is the displayed integral coefficient polynomial (its §1.1 at n = 3); neither half-Gram entries nor division by four is performed in R. Congruence acts by substitution on the polynomial coefficients, and specializes to Gram congruence when 2 is invertible. Sign convention pinned: the resolvent form is `4 Det(Ax − By)` (Bhargava-Shankar); HCL III writes `4 Det(Ax + By)`, which differs by `(x, y) ↦ (x, -y)` and is inconsistent with its own multiplication table. Over `ℤ`, `GL3(ℤ) = {±1} × SL3(ℤ)` and -1 acts trivially on pairs, so `GL3(ℤ) x GL2(ℤ)`-orbits are the `GL2(ℤ) x SL3(ℤ)`-orbits of Bhargava-Shankar.
 
 The required API is:
 
@@ -299,7 +303,7 @@ The required API is:
 
 - `Q(t) = sum_{i<=j} a_ij t_i t_j`.
 
-- `4 Det Q`.
+- `4 Det Q`, defined as QuadraticFormsOverABase §1.2's `halfDisc` of the associated Mathlib form, with the displayed six-coefficient value.
 
 - The form `t ↦ Q(M^T t)`, Gram matrix `M G M^T`.
 
@@ -309,7 +313,7 @@ The required API is:
 
 - toQuadraticForm `Q t = Q.eval t`.
 
-- `4 Det (Q o M^T) = (det M)^2 4 Det Q`.
+- `4 Det (Q o M^T) = (det M)^2 4 Det Q`, by QuadraticFormsOverABase §1.3's `halfDisc_comp` once the composed six-coefficient form is identified with the composed Mathlib form.
 
 - Pairs `(A, B)`.
 
@@ -335,9 +339,9 @@ The required API is:
 
 - All `λ` vanish iff A, B span a space of dimension `≤ 1` (over Q).
 
-For the proof, Define the six-coefficient ternary forms with evaluation, linear combination and composition `t ↦ Q(M^T t)` (coefficients by polarization at `e_i` and `e_i + e_j`); the pair action is then explicit; its axioms are polynomial identities. Transformation of `4 Det`: `Det(g A g^T) = det(g)^2 Det(A)`; for the `GL2` part, `4 Det((r A + s B) x - (t A + u B) y) = f(r x - t y, -s x + u y)` (expand). Disc: disc of a binary cubic form scales by `c^4` under multiplication by c and by `det(M)^6` under substitution by M.
+For the proof, Define the six-coefficient ternary forms with evaluation, linear combination and composition `t ↦ Q(M^T t)` (coefficients by polarization at `e_i` and `e_i + e_j`); the pair action is then explicit; its axioms are polynomial identities. Transformation of `4 Det`: QuadraticFormsOverABase §1.3's `halfDisc_comp` at n = 3, applied over `R[x, y]` to `Ax − By`, gives the factor `det(g)^2`, and its `halfDisc_mapCoeffs` specializes `4 Det(Ax − By)` at `(x, y) = (1, 0)` to `4 Det A`; for the `GL2` part, `4 Det((r A + s B) x - (t A + u B) y) = f(r x - t y, -s x + u y)` (expand). Disc: disc of a binary cubic form scales by `c^4` under multiplication by c and by `det(M)^6` under substitution by M.
 
-*Needs:* ArithmeticStatisticsPartI, binary cubic forms and the twisted action (Cubic supplier conventions), `QuadraticForm` (Mathlib), `LinearMap.BilinMap.toQuadraticMap` (Mathlib), `Matrix.GeneralLinearGroup` (Mathlib).
+*Needs:* ArithmeticStatisticsPartI, binary cubic forms and the twisted action (Cubic supplier conventions), QuadraticFormsOverABase §§1.1–1.3 (half-discriminant and its transformation rules), `QuadraticForm` (Mathlib), `LinearMap.BilinMap.toQuadraticMap` (Mathlib), `Matrix.GeneralLinearGroup` (Mathlib).
 
 ([6], Section 3.1, (11), printed pp. 1339-1340; [6], Section 3.1, printed p. 1340; [6], Section 3.2, (20), printed p. 1342.)
 
@@ -2112,7 +2116,7 @@ Proportional coefficient rows have zero quartic minors, and the characteristic-t
 
 ### Dependencies
 
-ArithmeticStatisticsPartI Layer 0 and its symmetric-pencil and binary-order targets; AnalyticNumberTheoryPartII §§5.4–5.5 (cubic action, normalization, equivalence and stabilizers); polynomial resultants and finite free algebras; the full-lattice order comparison and GlobalNumberFields Layer 11’s number-field specialization; EllipticCurves Layers 1, 6 and 7; GlobalQuadraticForms Layer 5; SchemeAndStackFoundations Layers 2–3, AbelianSchemesAndArithmeticModuli Layers A2–A3; GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3 and 4.1; and DiophantineApproximationAndTranscendence §4.3 (Thue finiteness), with the uniform bound N assumed in §1.8. Symmetric group closures, genus-one integral-model dictionaries and the specialized mirror-algebra adapter are supporting constructions of this layer.
+ArithmeticStatisticsPartI Layer 0 and its symmetric-pencil and binary-order targets; AnalyticNumberTheoryPartII §§5.4–5.5 (cubic action, normalization, equivalence and stabilizers); QuadraticFormsOverABase §§1.1–1.3 (half-discriminant and its transformation rules); polynomial resultants and finite free algebras; the full-lattice order comparison and GlobalNumberFields Layer 11’s number-field specialization; EllipticCurves Layers 1, 6 and 7; GlobalQuadraticForms Layer 5; SchemeAndStackFoundations Layers 2–3, AbelianSchemesAndArithmeticModuli Layers A2–A3; GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3 and 4.1; and DiophantineApproximationAndTranscendence §4.3 (Thue finiteness), with the uniform bound N assumed in §1.8. Symmetric group closures, genus-one integral-model dictionaries and the specialized mirror-algebra adapter are supporting constructions of this layer.
 
 ## Downstream consumers
 
