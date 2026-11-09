@@ -47,6 +47,12 @@ scheme points; this is a construction of README §3A.5. The scheme semidirect-pr
 form `U ⋊ L ≃ G` of the Levi decomposition of §6A lacks the constructed semidirect-product
 group scheme; its Hopf-coordinate form, that the quotient by a Hopf ideal restricts to an
 isomorphism from the coinvariants of the unipotent radical's defining ideal, is stated below.
+The existence of Levi complements of parabolic `k`-subgroups of §7.2 lacks a parabolic
+predicate on Hopf ideals of a given group: the pinned dynamic parabolic of a cocharacter is a
+subgroup functor of points whose representability is not addressed. The Bruhat decomposition
+`B(k)\G(k)/B(k) ≃ W` of §7.3 lacks the root subgroups and the Weyl group `N_G(T)/T` of a given
+split group with its root datum: the pinned root subgroups and Weyl groups are those of `GL_n`
+and `SL_n`, and the pinned Bruhat decomposition is that of an abstract Tits system.
 The Harish–Chandra biadjunctions, Mackey
 decomposition and common-Levi independence of §§7c–7e, including their Steinberg
 endomorphism extensions in §7g, lack the constructed

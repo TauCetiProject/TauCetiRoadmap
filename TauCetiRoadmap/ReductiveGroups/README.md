@@ -1451,7 +1451,7 @@ of the base field, which reduces the statement to an algebraically closed field)
   are graded by ℤ/p, yet it is not a torus: its coordinate ring has length p
   and is nonreduced. The smoothness hypothesis in the torus criterion is essential.
 - In characteristic p, the constant group ℤ/ℓ for a prime ℓ≠p is smooth and
-  linearly reductive (Maschke) but has two components and is not a torus; the
+  linearly reductive (Maschke) but has ℓ components and is not a torus; the
   geometric connectedness hypothesis in the torus criterion is essential. Over
   the nonclosed field 𝔽_p, the norm-one torus of 𝔽_(p²)/𝔽_p is nonsplit and
   linearly reductive, and it is a torus in the stated sense.
