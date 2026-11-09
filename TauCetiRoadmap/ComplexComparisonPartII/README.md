@@ -151,7 +151,7 @@ The analytic ownership and stage order are:
 | Bundle–sheaf equivalence at fixed and componentwise varying rank, holomorphic connections and the absolute flat category equivalences | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules`, including K4.ComponentwiseFiniteRankAssembly (all connection-preserving maps, rank zero, the empty base and unbounded ranks across components) | C0.3 identifies K4's componentwise assembly with the finite locally free subcategory of `CoherentAnalyticModule`, comparing its clopen rank-stratum presentation with K4's componentwise one on the same section sheaf; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers with K4's and transports the algebraic connection operations; `analyticFlatConnectionLocalSystem` adds holomorphic parameters and specializes over a point to K4's full category equivalence |
 | Bundle test sections and distributions | ComplexKahlerGeometry K5a's `BundleTest` and `BundleDistribution` | C5.4 transports these through the complex orientation and exterior wedge pairing; its bidegrees, positive cones, mass and complex-current extension theory use that same substrate |
 | Local analytic-set mass and L¹ integration | ComplexKahlerGeometry K6.1's chart-local Lelong estimates and K5a's L¹ integration comparison | C5.4's `analyticSetLocalFiniteMass` globalizes the supplied estimates to pure-dimensional analytic subsets in arbitrary manifolds, without compactness or a Kähler hypothesis, and compares metrics and restrictions; C5.4 glues the general cycle current and proves closedness. C5.4 identifies the compact Kähler specialization of `AnalyticCycleIntegration` with K6.1's real de Rham functional, with the same orientation and multiplicities |
-| Real dimension-graded currents and complex degree-graded currents | GeometricCurrents G1's real carrier and boundary; C5.4's `realComplexCurrentComparison` | K5a owns the general LF bundle-test/distribution foundation. C5.4 identifies G1's tests with its real exterior-dual/density specialization without an ambient orientation, and supplies complex extension with the grading sign. GeometricCurrents retains rectifiability, integral subgroups and minimizing-current geometry; C5.4 retains complex type, positivity, analytic cycles and comparison applications |
+| Real dimension-graded currents and complex degree-graded currents | GeometricCurrents G1's real carrier, test-form identification and boundary; C5.4's `realComplexCurrentComparison` | K5a owns the general LF bundle-test/distribution foundation. G1 identifies its tests with K5a's real exterior-dual/density specialization without an ambient orientation, with equal LF topologies and the dual equivalence with `BundleDistribution`; C5.4 supplies the complex extension with the grading sign and the mass comparison. GeometricCurrents retains rectifiability, integral subgroups and minimizing-current geometry; C5.4 retains complex type, positivity, analytic cycles and comparison applications |
 | Local bundle elliptic regularity, adjoints and symbols | ComplexKahlerGeometry K5a local estimates and K5b.0; K6.0 supplies local Kähler/Bochner identities | RealAnalyticGeometry R3.1 supplies their complete-metric weighted existence theorem, consumed in C1.4; the local inputs precede compact Hodge theory and use no C5.3 result |
 | Compact bundle Sobolev, harmonic and Green theory | ComplexKahlerGeometry K5a–K5b.1; K6.1 supplies compact Kähler decomposition | C5.3 identifies the supplied maps with coherent and de Rham–Betti comparisons |
 | Native coherent analytic module predicate, finite-presentation comparison and manifold calculus | RealAnalyticGeometry R3.2 item 0, over ComplexKahlerGeometry K4's ring sheaf | K3 retains primitive Oka relations and ideal generators; K3/K4 use R3.2's native predicate. C0.1–C0.3 uses the supplied predicate and its finite-presentation equivalence, descends it through analytic quotient charts, and identifies open/over-site, section/stalk/germ and bundle transports with C-1's analytic-space carriers |
@@ -256,10 +256,11 @@ here uses no stage of this roadmap.
   Lelong finite-mass estimates; C5.4 globalizes them as `analyticSetLocalFiniteMass`.
   K5a supplies the L¹ integration comparison used by C5.4's cycle currents and their
   compact Kähler specialization.
-- *GeometricCurrents, G1.* The real dimension-graded continuous-dual current carrier,
-  unsigned boundary, support and comass mass. C5.4's `realComplexCurrentComparison`
-  identifies its LF test forms with K5a's real exterior-dual/density specialization
-  and compares it with complex currents, retaining the differential sign. The general
+- *GeometricCurrents, G1.* The real dimension-graded continuous-dual current carrier, the
+  identification of its LF test forms with K5a's real exterior-dual/density specialization
+  and the dual equivalence with `BundleDistribution`, unsigned boundary, support and comass
+  mass. C5.4's `realComplexCurrentComparison` supplies the complex extension, compares it
+  with complex currents and retains the differential sign. The general
   bundle-test foundation belongs to K5a; integral subgroups and minimizing-current
   geometry belong to GeometricCurrents.
 - *ComplexManifolds, Milestones 1 and 7.1–7.3.* Functorial realification and native
@@ -296,8 +297,8 @@ here uses no stage of this roadmap.
 - *RealAlgebraicGeometry (completed roadmap), Layers 3 and 6.* Semialgebraic descriptions by
   polynomial sign conditions (Layer 3) and cylindrical cell decompositions of `ℝⁿ` with their
   projection theory (Layer 6). C6.0 uses them with the triangulation above.
-- *UniversalCovers.* Fundamental-groupoid transport, covering classification, lifting and deck
-  transformations for C6's finite topological covers and local systems.
+- *UniversalCovers (completed roadmap), Stages 0–2.* Fundamental-groupoid transport, covering
+  classification, lifting and deck transformations for C6's finite topological covers and local systems.
 - *ModularCurves, §0B.* Cartier duality on finite locally free commutative group schemes over an
   arbitrary base scheme, with biduality, rank and base change. C3.2d.5 extends it to
   algebraic-space bases for its Cartier-dual torsors.
@@ -763,12 +764,14 @@ as explained in C5.1); the two names denote the same target.
   by C5.4. C1.2a S0–S5 supplies compact-relative singular cochains with local coefficients on
   locally compact Hausdorff closed pairs, their enlargement, cofinality, proper pullback,
   open extension, jointly proper homotopy invariance and support excision, consumed by C6.1.
-- **GeometricCurrents.** G1: on a smooth manifold, real test forms transported from
-  ComplexKahlerGeometry K5a's real bundle tests, real dimension-graded currents as their
-  continuous duals, the boundary dual to the exterior derivative with `∂² = 0`, support and comass
-  mass. C5.4's `realComplexCurrentComparison` identifies these tests with K5a's real
-  exterior-dual/density specialization and extends currents to complex coefficients with the
-  grading sign; rectifiability, integral currents and minimizing currents stay with the supplier.
+- **GeometricCurrents.** G1: on a smooth manifold `N`, real `q`-form tests identified with
+  ComplexKahlerGeometry K5a's real bundle tests `BundleTest(V_q* ⊗ DensityBundle N)`, where
+  `V_q = (Λ^q T* N)* ⊗ DensityBundle N`, with equal LF topologies and the compact-convergence
+  dual equivalence of `Current q N` with `BundleDistribution(V_q)`; real dimension-graded
+  currents as their continuous duals, the boundary dual to the exterior derivative with
+  `∂² = 0`, support and comass mass. C5.4's `realComplexCurrentComparison` extends currents to
+  complex coefficients with the grading sign and compares masses; rectifiability, integral
+  currents and minimizing currents stay with the supplier.
 - **Hyperfunctions.** HF3a, “Conic sheaves and geometric derived functors”: for sheaves of
   `ℂ`-modules on finite-dimensional locally compact Hausdorff spaces, extension by zero along open
   inclusions, closed-inclusion direct image, the proper-support direct image `f_!` derived through
@@ -918,7 +921,7 @@ as explained in C5.1); the two names denote the same target.
   `ClassicalAlgebraic.properSupports` give the enhancement, canonical transformations,
   derived products/limits, reduction conservativity, étale localization and proper supports.
   Constructibility and geometric isomorphism theorems come from the preceding suppliers.
-- **UniversalCovers** supplies the topological fundamental groupoid and finite-cover
+- **UniversalCovers** Stages 0–2 supply the topological fundamental groupoid and finite-cover
   classification on locally path-connected, semilocally simply connected spaces, with deck
   groups and basepoint-change transport. **RealAlgebraicGeometry Layers 3, 6** supply the
   polynomial-sign, cell decomposition and projection theory; **AlgebraicTopology** supplies
@@ -3605,15 +3608,14 @@ integration and Stokes); Mathlib `TestFunction`, `Distribution`, `Distribution.l
 
 **Real/complex current comparison — `realComplexCurrentComparison`.** For a finite-dimensional
 Hausdorff second-countable smooth real manifold `N` without boundary and `q ∈ ℕ`,
-identify GeometricCurrents G1's compactly supported real `q`-form tests with K5a's real
-`BundleTest(V_q* ⊗ DensityBundle N)`, where
-`V_q = (Λ^q T* N)* ⊗ DensityBundle N`. The evaluation and dual-line cancellation
-`V_q* ⊗ DensityBundle N ≅ Λ^q T* N` give this identification without an orientation
-of `N`. Prove equality of the LF topologies through the fixed-compact seminorms and chart
-extension maps, and the induced compact-convergence dual equivalence between G1's
-`Current q N` and the real `BundleDistribution(V_q)`. Retain evaluation, support,
-restriction, extension by zero on tests, gluing and boundary as the transpose of exterior
-derivative. These are specializations of K5a's general foundation.
+consume GeometricCurrents G1's identification of its compactly supported real `q`-form
+tests with K5a's real `BundleTest(V_q* ⊗ DensityBundle N)`, where
+`V_q = (Λ^q T* N)* ⊗ DensityBundle N`, through the evaluation and dual-line cancellation
+`V_q* ⊗ DensityBundle N ≅ Λ^q T* N`, which needs no orientation of `N`; G1 also gives the
+equality of the LF topologies and the compact-convergence dual equivalence between
+`Current q N` and the real `BundleDistribution(V_q)`. Evaluation, support, restriction,
+extension by zero on tests, gluing and G1's boundary are used as G1 states them; none of
+them is restated here.
 
 For a complex `n`-manifold `M` as in `CurrentCalculus`, put `N = M_ℝ`. For
 `0 ≤ q ≤ 2n` construct the real topological linear equivalence `J_q` from real
@@ -3649,15 +3651,18 @@ equivalence and the positive-current coefficient bounds. For integration over co
 need not have locally finite mass or a trace mass, and neither complexification nor
 positivity implies integer rectifiability (Demailly, I (2.1)–(2.7), pp. 13–15;
 III (1.14)–(1.15), pp. 133–134, and (1.21)–(1.22) with Wirtinger's formula (1.24),
-pp. 135–136; GeometricCurrents, conventions and G1's boundary and mass definitions).
+pp. 135–136; GeometricCurrents, conventions and G1's test-form identification, boundary
+and mass definitions).
 *Needs:* `CurrentCalculus`; ComplexKahlerGeometry K5a's real bundle tests,
-distributions, density duality and scalar comparison; GeometricCurrents G1;
+distributions, density duality and scalar comparison; GeometricCurrents G1 (test-form
+identification, dual equivalence with `BundleDistribution`, boundary and mass);
 ComplexManifolds Milestone 1's realification.
 
 **Checks for the real/complex comparison.**
 
 - On the nonorientable manifold `ℝP²`, `q = 0` gives `V_0 = DensityBundle N`;
-  its dual-density tests are scalar functions, so point currents require no ambient orientation.
+  under G1's identification its dual-density tests are scalar functions, so point currents
+  require no ambient orientation.
 - On the oriented closed unit disc `D ⊂ ℂ`, `q = 2` gives
   `d J_2([D]) = −J_1([∂D])`, with the counterclockwise boundary orientation.
 - On an oriented segment from `a` to `b` in `ℂ`, `q = 1` gives
@@ -4627,7 +4632,7 @@ constant ordinary resolution used in C5.1; Hatcher, §3.H, printed pp. 333–334
 local cochains. The transport-preserving sheaf equivalence, local-system resolution and
 stratified cochain construction are the extensions specified here.
 *Needs:* §C6.0; the native `TauCeti.LocalCoefficientSystem` and its finite-stalk restriction;
-AlgebraicTopology Stages 2.6 and 6.1; UniversalCovers' groupoid/cover classification; C5.1; the singular suppliers
+AlgebraicTopology Stages 2.6 and 6.1; UniversalCovers Stages 0–2 (groupoid/cover classification); C5.1; the singular suppliers
 in *Exact supplier contracts*; EnhancedDerivedSheaves §§0.1–0.4 on topological
 module sheaves, including `ClassicalDerived.tensorHom` and `ClassicalDerived.functorCoherence`;
 Tau Ceti `TauCeti.CategoryTheory.SheafExtensionByZero` (the exact left adjoint `j_!`);
@@ -4670,7 +4675,7 @@ boundaries, finite analytic algebras, and descent to singular charts as needed f
 construction. Glue the affine-local equivalences over an arbitrary, possibly infinite, affine
 open cover: full faithfulness is local on `X`, and finite étale covers and finite topological
 covers both glue along open covers. The local topology of §C6.0 applies on the finite-type
-opens. Use the existing analytification functor and UniversalCovers' topological covering API.
+opens. Use the existing analytification functor and UniversalCovers' topological covering API (Stages 0–2).
 
 The equivalence commutes with pullback, fibre products, disjoint unions and connected
 components, identifies Galois covers and deck groups, and identifies finite lisse
@@ -4684,7 +4689,7 @@ path changes, tensor operations and coefficient changes commute with this equiva
 over `ℂ`, with §§2–3 for components and finite/étale analytification.
 *Needs:* §C-1.1; §§C6.0–C6.1;
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`,
-`VanishingCycles.constructibleEtale`; UniversalCovers; the coherent algebraization tools
+`VanishingCycles.constructibleEtale`; UniversalCovers Stages 0–2; the coherent algebraization tools
 of C0–C4 for the finite-cover analytic algebraization constructed in this target.
 
 **Checks.**
@@ -5025,7 +5030,7 @@ EtaleCohomologyFoundations §§G.1–G.3 supply compactification geometry. C6.0�
 étale foundations of EtaleCohomologyFoundations §§F.0–F.3, generic site cohomology
 and Leray from SchemeAndStackFoundations §§2.1–2.2, and the enhancement/support functors
 of EnhancedDerivedSheaves §§0.1–0.4 and EtaleCohomologyFoundations §§0.7–0.8. C6.6 additionally uses §F.4's adic
-realizations and EnhancedDerivedSheaves’ generic derived limits/completion. UniversalCovers,
+realizations and EnhancedDerivedSheaves’ generic derived limits/completion. UniversalCovers Stages 0–2,
 RealAlgebraicGeometry Layers 3, 6, AffineMorseLefschetz Layer 5 (A4.1) §5.1
 and AlgebraicTopology Stages 2.6 and 6.1 supply the specified topology. C6.1’s
 `FiniteModuleLocalSystem` restricts the native functor carrier to finite fibres.
