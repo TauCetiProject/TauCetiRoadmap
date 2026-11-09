@@ -350,13 +350,17 @@ model is smooth: over the perfect field ℂ its nonempty smooth locus
 meets each component, and translations spread it to the whole orbit.
 Consume native `Scheme.Hom.dense_smoothLocus_of_perfectField` and its
 open smooth locus, restricting to the reduced component loci as needed.
-Construct the corresponding charts and compare with the existing
-finite-dimensional LieGroups closed-stabilizer/local-constant-rank
-quotient construction. Pin H=Stab_G(x), the actual map G(ℂ)→O_x(ℂ)
-and its fibres. Consume SmoothBundlesConnections B1.1/1.4 and its
-independent LieGroupoidsPoisson G0.1 regular-fibre-product prerequisite,
-as specified by LieGroups Layer6's early homogeneous-space floor; no
-torus, conjugacy or Weyl theorem is needed. Prove the complex orbit map
+Construct the corresponding charts. Pin H=Stab_G(x), the actual map
+G(ℂ)→O_x(ℂ) and its fibres. In characteristic zero H is a smooth closed
+subgroup scheme of G, so the charts of its smooth complex points make
+H(ℂ) a closed complex submanifold and subgroup of G(ℂ) directly; no
+closed-subgroup theorem for Lie groups is an input. Consume
+SmoothBundlesConnections B1.1/B1.4 for the principal-bundle projection
+G(ℂ)→G(ℂ)/H(ℂ) and its homogeneous-space quotient manifold, and
+LieGroupoidsPoisson G0.1 for regular fibre products; no torus,
+conjugacy or Weyl theorem is needed. LieGroups consumes this layer and
+compares these quotients with its own homogeneous spaces; nothing of
+LieGroups is an input here. Prove the complex orbit map
 is a holomorphic submersion using characteristic-zero separability:
 prove the generic maximal-rank statement from the actual function-field
 extension and Jacobian criterion, then spread the smooth/rank locus by
@@ -421,7 +425,9 @@ without the actual stabilizer/separability hypotheses.
 The generic algebraic construction belongs here. SchemeAndStackFoundations
 retains generic constructibility/dimension/projective/coherent geometry,
 ComplexComparisonPartII retains generic analytification and properness,
-and LieGroups retains finite-dimensional analytic quotient/manifold theory.
+SmoothBundlesConnections supplies the homogeneous quotient manifolds used in
+3A.5, and LieGroups, a consumer of this layer, retains its Lie-theoretic
+comparisons of those quotients.
 NilpotentOrbits' adjoint orbit and SchubertGeometry's highest-line/flag
 comparison consume or compare with this earlier phase without becoming
 its prerequisites. Nonexhaustive native target forms are in
@@ -602,9 +608,10 @@ Give explicit tests on a torus acting on a vector group, upper-triangular
 invertible matrices, a connected reductive group (U=1), a connected unipotent
 group (L=1), and L×G_a. In the last example all of U centralizes the same
 complement, disproving uniqueness of the conjugating element. Under k=ℂ
-compare this exact algebraic decomposition with the underlying holomorphic
-group and use LieGroups Layer7 only for the already reductive factor's
-compact real form. There is no asserted Levi splitting for all groups in
+the scheme isomorphism U⋊L→G gives, on complex points with their classical
+topology, the holomorphic decomposition G(ℂ)≅U(ℂ)⋊L(ℂ); compact real forms
+of the reductive factor L(ℂ) are not used here (they are LieGroups', a
+consumer of this layer). There is no asserted Levi splitting for all groups in
 positive characteristic; Layer7's separate all-field parabolic theorem
 retains its hypotheses and is not replaced by this characteristic-zero lane.
 The regular extension/cohomology route is discussed in
@@ -975,9 +982,9 @@ automorphism twists and special isogenies only when this power condition is prov
 and algebraic compatibility needed to construct the finite group `G^σ`. For each stable closed
 subgroup `H`, specify the restricted endomorphism `σ|_H` and verify that its positive power is
 the restricted geometric Frobenius from the induced `F_{q′}`-structure. The ordinary q-Frobenius
-Lang statement consumed in Layer 7a covers only its stated standard-Frobenius case; the
-Steinberg Lang–Steinberg theorem and its restricted-subgroup applications are new targets
-here.
+Lang statement in ReductiveGroupsPartII RG2.3.7 is a supplier only for its stated
+standard-Frobenius case; the Steinberg Lang–Steinberg theorem and its restricted-subgroup
+applications are new targets here.
 
 Extend each finite-field interface from Layers 7a–7f to this exact regime: finiteness and
 functoriality of `G^σ` and `H^σ`; Lang–Steinberg surjectivity for every connected smooth affine
@@ -2100,16 +2107,35 @@ functions, continuity, and holomorphicity. The root-coordinate differential is
 function dictionary. A set-theoretic orbit bijection alone does not prove these statements.
 
 Construct `G/T→G/B` as a locally trivial bundle with contractible fiber `B/T≃U`, using
-Layer7's ordered root coordinates. Consume the actual flag CW structure with only even
-real-dimensional cells from [LieGroups Layer8](../RepresentationTheory/LieGroups/README.md). Prove connectedness
-and `π₁(G/T)=0` through that bundle and the based LES. This includes arbitrary connected
-complex reductive global forms; it does not assume `G` is simply connected, or infer a
-topological theorem merely from algebraic simple connectedness. Use
+Layer7's ordered root coordinates. Prove that the flag manifold `G(ℂ)/B(ℂ)` is path connected
+and simply connected, and deduce connectedness and `π₁(G/T)=0` through that bundle, whose
+fibre `U(ℂ)` is contractible, and AlgebraicTopology Stage 5.5's based fibration long exact
+sequence. The flag statement is owned here and needs no CW structure on
+`G/B`. One route: with `n₀` a lift of the longest element, `U n₀ B = n₀ U⁻ B`, so the open
+big cell `C₀=U n₀ B/B` is isomorphic to affine space `𝔸^N`, `N=|Φ⁺|`, by 7C.5's
+coordinates. Its translates `V_w=n_w n₀⁻¹·C₀=n_w U⁻ B/B`, one for each `w∈W`, cover `G/B`:
+7C's complement-first factorization `U=J_w H_w` with `n_w⁻¹J_w n_w⊂U⁻` and
+`n_w⁻¹H_w n_w⊂U` gives `U n_w B=J_w n_w B⊂n_w U⁻ B`, and the Bruhat cells `U n_w B/B`
+exhaust `G/B`. Since `G` is connected, `G/B` is irreducible, so all the `V_w` contain a
+common point `x₀` of their nonempty open intersection, and every `V_w∩V_v` is a nonempty
+Zariski-open subset of `V_w≅𝔸^N`. Its complex points are path connected: two of them lie on
+a complex affine line, which meets the closed complement in a proper Zariski-closed subset of
+the line, hence in finitely many points. Each `V_w(ℂ)≅ℂ^N` is contractible, so
+AlgebraicTopology Stage 1's van Kampen theorem for open covers (every loop at `x₀` is a
+product of loops lying in single cover members) gives `π₁(G(ℂ)/B(ℂ),x₀)=1`. Tests: for a
+torus `G=T`, `W=1` and `G/B` is a point; for `SL₂`, the two translates are the two standard
+affine charts of `P¹`, meeting in `ℂˣ`. This includes arbitrary connected complex reductive
+global forms; it does not assume `G` is simply connected, or infer a topological theorem
+merely from algebraic simple connectedness. Use
 [SmoothBundlesConnections B1.4](../SmoothBundlesConnections/README.md)'s actual closed-subgroup
-quotient and principal projection when changing analytic models.
+quotient and principal projection when changing analytic models. The CW structure of the flag
+manifold by Bruhat cells and its cohomology are LieGroups' and SchubertGeometry's, consumers of
+this roadmap, and are not inputs here.
 
-Apply [DGFloer Layer1.2](../DGFloer/README.md)'s based fiber sequence to the actual spectral
-projection and chosen `x₀=Ad₁(t₀)`. Retain the terms
+Apply [AlgebraicTopology Stage 5.5](../AlgebraicTopology/README.md)'s fibration homotopy long
+exact sequence on native `TauCeti.TopCat.serreFibrations` (the same stage supplies that
+locally trivial projections are Serre fibrations) to the actual spectral projection and chosen
+`x₀=Ad₁(t₀)`. Retain the terms
 `π₂(B_W)→π₁(G/T)→π₁(𝔤_rs)→π₁(B_W)→π₀(G/T)` and their basepoints. The middle map induced
 by `χ_rs` is an isomorphism because the fiber is connected and simply connected. No
 vanishing of `π₂(B_W)` is needed. The generic bundle/LES supplier must construct the connecting maps and prove exactness;
@@ -2154,9 +2180,10 @@ vector spaces, and contribute no extra π₁.
 
 **11G. Prerequisite and scope comparisons.** The order is IG's early configuration/native
 braid contract and RootSystems' Coxeter/chamber theory → finite arrangement topology;
-independent RG8/9 → FCO's lower dictionary → 11C invariant/spectral maps; RG7+LG8 flag cells →
-homogeneous-fiber connectedness and simple connectedness; the based DGF LES → the
-`χ_rs`-induced π₁ isomorphism; finite cover → actual root-datum monodromy. LHW Lie invariants
+independent RG8/9 → FCO's lower dictionary → 11C invariant/spectral maps; Layer 7's Bruhat
+cells and the big-cell cover of 11D with AlgebraicTopology Stage 1's van Kampen theorem →
+homogeneous-fiber connectedness and simple connectedness; AlgebraicTopology Stage 5.5's
+fibration long exact sequence → the `χ_rs`-induced π₁ isomorphism; finite cover → actual root-datum monodromy. LHW Lie invariants
 and RIT finite invariants enter 11C with the explicit comparisons stated there. No edge
 returns to those lower targets. This constructs Lie-algebra regular-semisimple topology
 over `ℂ`; it does not assert the corresponding statements for group-element toric
