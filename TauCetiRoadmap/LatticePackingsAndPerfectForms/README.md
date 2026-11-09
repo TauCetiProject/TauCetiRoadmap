@@ -130,8 +130,13 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
   `min A = successiveMin (ℤⁿ) (closedBall 0 1) 0 ^ 2` in `FormSpace A`.
 - **From GoN** (cited by milestone, no Lean declaration here): `latticePackingRadius` (4.4.1),
   `latticeCoveringRadius` (4.4.2), `StarBody` (4.5.1), with boundedness imposed where used,
-  `criticalDeterminant` (4.5.2), `mahler_compactness` (4.5.8, n ≥ 2 and a positive shortest-length bound), `IsLLLReduced`, `lll_short_vector_factor` (5.1.2, 5.1.4). Milestones 1.4 and 3.3
+  `criticalDeterminant` (4.5.2), `IsLLLReduced`, `lll_short_vector_factor` (5.1.2, 5.1.4). Milestones 1.4 and 3.3
   identify the packing radius and the inhomogeneous minimum of a form with the first two.
+- **From ProbabilisticAndMetricNumberTheory §4.9b** (cited by milestone, no Lean declaration here):
+  Mahler's criterion `mahler_relativelyCompact_iff`, that a set of classes in `SLₙ(ℝ)/SLₙ(ℤ)` has
+  compact closure exactly when the max-norm first minima of the lattices `gℤⁿ` are bounded below by
+  a positive constant. Since `‖v‖_∞ ≤ ‖v‖₂ ≤ √n ‖v‖_∞`, a positive lower bound on the Euclidean
+  first minimum is one on the max-norm first minimum and conversely; 2.2 and 4.7 use it in this form.
 - **From Tau Ceti at the pin**, the Leech lattice `Λ₂₄` as `TauCeti.leechLattice`, built by
   Construction B and an odd shift as Rank24LatticeConstructions Layer 6 specifies, with its rank,
   evenness, unimodularity, positive definiteness, `min Λ₂₄ = 4`, the absence of roots and the
@@ -295,7 +300,10 @@ this roadmap, or on a cited milestone of one of the following roadmaps.
   records; first-theorem uses below are the pinned Mathlib convex-body declarations. Real successive minima are consumed from this roadmap and from nowhere else.
 - [Geometry of numbers, quadratic forms and homogeneous arithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md)
   (GoN): 4.4.1 `latticePackingRadius` and 4.4.2 `latticeCoveringRadius` of a full Euclidean lattice,
-  4.5.1 star bodies and 4.5.8 Mahler's compactness theorem, 5.1 LLL-reduced bases.
+  4.5.1 star bodies, 5.1 LLL-reduced bases.
+- [Probabilistic and metric number theory](../ProbabilisticAndMetricNumberTheory/README.md) (PMNT):
+  §4.9b Mahler's criterion `mahler_relativelyCompact_iff` on `SLₙ(ℝ)/SLₙ(ℤ)`, stated there for
+  every `n` with the max-norm first minimum, consumed in 2.2 and 4.7.
 - [Modular forms](../ModularForms/README.md): §0.1, the cusp–Eisenstein decomposition
   `M_k(N,χ) = S_k(N,χ) ⊕ E_k(N,χ)` in weights one and two, consumed in 6.4 at weight two for the
   theta series of an even quaternary lattice. The level-one graded ring and the dimensions of
@@ -364,7 +372,7 @@ dimension formula gives `S_k(SL₂(ℤ)) = 0` for `k < 12` and `dim S₁₂ = 1`
 Milestones are numbered `N.M` and may rest only on Mathlib, Tau Ceti at the pin, a cited supplier
 milestone, or an earlier milestone of this roadmap. Each layer ends with its dependency table,
 where **M** is Mathlib, **T** Tau Ceti at the pin,
-**IL**, **TS**, **SM**, **GoN**, **GQF** the roadmaps of *Exact supplier contracts*, and **L** this
+**IL**, **TS**, **SM**, **GoN**, **PMNT**, **GQF** the roadmaps of *Exact supplier contracts*, and **L** this
 roadmap.
 
 `Suggested.lean` states the definitions and headline theorems that can be written over Mathlib and
@@ -586,7 +594,7 @@ API:
 - For I₂, the minimum is 1 and S = {±e₁,±e₂}; the two basis vectors show all three roundedness conditions.
 - In rank zero min = 0 and S is empty. For [1], sublevel C = −1 is empty, C = 0 is {0}, and C = 1 is {−1,0,1}.
 
-*Needs:* M `ZSpan.setFinite_inter`, `Nat.sInf_mem`; L 0.1, 0.3, 0.5.
+*Needs:* M `ZSpan.setFinite_inter`, `Set.exists_min_image` (applied to the finite nonempty set `{x ∈ ℤⁿ | x ≠ 0, A[x] ≤ A[e₁]}`, finite by `finite_setOf_eval_le`); L 0.1, 0.3, 0.5.
 
 ### 1.2 Identification with Tau Ceti's minimum and kissing number
 
@@ -806,7 +814,7 @@ The local Checks above and the worked examples below fix the normalizations used
 
 | Milestone | Direct prerequisites |
 | --- | --- |
-| 1.1 | M `ZSpan.setFinite_inter`, `Nat.sInf_mem`; L 0.1, 0.3, 0.5 |
+| 1.1 | M `ZSpan.setFinite_inter`, `Set.exists_min_image`; L 0.1, 0.3, 0.5 |
 | 1.2 | T `minimum`, `kissingNumber`, `vectorsOfNorm`, `IsPosSemidef.isLeast_minimum`; SM 1.1; L 0.2, 0.3, 1.1 |
 | 1.3 | L 1.1 |
 | 1.4 | M `InnerProductSpace.volume_ball`, `ZLattice.covolume`, `IsAddFundamentalDomain`; GoN 4.4.1; L 0.3, 1.1 |
@@ -850,16 +858,18 @@ API:
 
 Prove that `γₙ` is attained. For n ≥ 2 choose 0 < ε < γₙ, so η = γₙ − ε > 0.
 The forms with det A = 1 and min A ≥ η have a compact set of reduced representatives.
-Transport their lattices isometrically into one fixed Euclidean space and apply GoN §4.5.8
-on SLₙ(ℝ)/SLₙ(ℤ), with shortest length at least √η; use the reduced-Gram bounds of 1.9 to lift
-compactness to representatives. Rank one has the unique determinant-one form [1], so a maximizing sequence has a convergent
+Transport their lattices isometrically into one fixed Euclidean space as `gℤⁿ` with `A = gᵀg` and
+`g ∈ SLₙ(ℝ)` (when `det g = −1`, replace `A` by `UᵀAU` with `U = diag(−1, 1, …, 1)`), and apply
+ProbabilisticAndMetricNumberTheory §4.9b `mahler_relativelyCompact_iff` on SLₙ(ℝ)/SLₙ(ℤ): the
+Euclidean shortest length is at least √η, so the max-norm first minimum is at least √(η/n);
+use the reduced-Gram bounds of 1.9 to lift compactness to representatives. Rank one has the unique determinant-one form [1], so a maximizing sequence has a convergent
 subsequence after reduction and `min` is continuous on `PosDefForm n`. State separately the two
 continuity facts used: `min` is continuous on `PosDefForm n`, and `det` is. Prove that a critical
 form is extreme in the sense of 4.3 (a global maximum is a local one).
 
 API and acceptance statements:
 
-- `exists_hermite_eq_hermiteConstant`: The constant is attained: there is a critical form (Mahler compactness, GoN 4.5.8).
+- `exists_hermite_eq_hermiteConstant`: The constant is attained: there is a critical form (Mahler's criterion, ProbabilisticAndMetricNumberTheory §4.9b).
 
 **Checks.**
 
@@ -867,12 +877,14 @@ API and acceptance statements:
 - For n = 2 and η = 1/4, diag(1/t,t) is allowed only for 1 ≤ t ≤ 4.
 - Choosing ε = γₙ gives η = 0 and admits the unbounded diagonal family, so ε < γₙ is essential.
 
-*Needs:* GoN 4.5.1, 4.5.8; M `IsCompact.exists_isMaxOn`; L 0.3, 1.1, 2.1.
+*Needs:* GoN 4.5.1; ProbabilisticAndMetricNumberTheory §4.9b `mahler_relativelyCompact_iff`; M `IsCompact.exists_isMaxOn`; L 0.3, 1.1, 2.1.
 
 ### 2.3 The values in ranks one, two and three
 
 Prove `γ₁ = 1` (every form is `(a)`, `min = a = det`). Prove `γ₂ = (4/3)^{1/2}`: Hermite's bound
-(1.8) gives `≤`, and `A₂` gives `≥`. Prove `γ₃ = 2^{1/3}` by Gauss's reduction argument: a
+(1.8) gives `≤`, and `A₂` gives `≥`. Prove `γ₃ = 2^{1/3}` by Gauss's reduction argument (the maxima
+of `γ` in ranks `2` and `3` are attained by `A₂` and `A₃`, after Lagrange and Gauss:
+Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3, §1, Table 1, p.3): a
 Minkowski-reduced ternary form `[[a,·,·],[·,b,·],[·,·,c]]` with `a ≤ b ≤ c`, `2|a_{ij}| ≤ a_{ii}`,
 satisfies `det ≥ abc/2`, so `min³ = a³ ≤ abc ≤ 2 det`, with equality for
 `A₃ = [[2,1,0],[1,2,1],[0,1,2]]` of determinant `4` and minimum `2`. Minkowski reduction for real
@@ -883,8 +895,8 @@ uniqueness in rank `3` proved in 4.10 from the perfect-form enumeration.
 
 API and acceptance statements:
 
-- `hermiteConstant_two_sq`: `γ₂² = 4/3`, attained by `A₂`.
-- `hermiteConstant_three_pow`: `γ₃³ = 2`, attained by `A₃` (Gauss).
+- `hermiteConstant_two_sq`: `γ₂² = 4/3`: Hermite's inequality gives `≤`, and `γ(A₂)² = 4/3` gives `≥`.
+- `hermiteConstant_three_pow`: `γ₃³ = 2` (Gauss): reduction gives `≤`, and `γ(A₃)³ = 2` gives `≥`.
 
 **Checks.**
 
@@ -903,7 +915,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 2.1 | M `sSup`, `Real.rpow`; L 0.5, 1.5, 1.7, 1.8 |
-| 2.2 | GoN 4.5.1, 4.5.8; M `IsCompact.exists_isMaxOn`; L 0.3, 1.1, 2.1 |
+| 2.2 | GoN 4.5.1; PMNT §4.9b; M `IsCompact.exists_isMaxOn`; L 0.3, 1.1, 2.1 |
 | 2.3 | L 1.1, 1.8, 2.1 |
 
 ## Layer 3: Voronoi cells and covering
@@ -968,7 +980,7 @@ closed balls of radius `μ` cover a fundamental domain).
 API and acceptance statements:
 
 - `exists_isDeepHole`: Distance to a full lattice attains its maximum.
-- `IsDeepHole.exists_sub_mem_extremePoints`: A deep hole is, up to a lattice translation, a vertex (extreme point) of the Voronoi cell; the covering radius is the largest `√(A[x])` over those vertices.
+- `IsDeepHole.exists_sub_mem_extremePoints`: A deep hole is, up to a lattice translation, a vertex (extreme point) of the Voronoi cell.
 - `one_le_coveringDensity`: Covering by the balls of covering radius forces covering density at least one.
 
 API:
@@ -1010,13 +1022,15 @@ the distance to the full lattice; no integral basis attaining every minimum is r
 
 Prove the covering radii of the lattices in the worked examples (`ℤⁿ`: `√n/2`; `A₂`: `√(2/3)`; `A₃`,
 `D₄`, `E₈` with minimum `2`: `1`; `Λ₂₄`, Tau Ceti's `TauCeti.leechLattice` with minimum `4`, in the
-real model of the Gram matrix of any `ℤ`-basis: `√2`, the last by citing
-Conway–Parker–Sloane, Conway–Sloane Ch. 23, as a theorem whose proof is the classification of the
-deep holes. This subsection owns that geometric classification: prove that, up to
-lattice translations and lattice isometries, the Voronoi vertices are the finitely many
-Conway–Parker–Sloane hole types in Chapter 23, with every squared radius at most 2 and
-at least one equal to 2. Completeness of those types and their distance formulas supply
-the upper and lower covering bounds). Define the lattice covering constant
+real model of the Gram matrix of any `ℤ`-basis: `√2`, the last by the theorem of
+Conway–Parker–Sloane (Conway–Sloane, Ch. 23). This subsection owns that theorem and the
+deep-hole classification its proof rests on: every Voronoi vertex of `Λ₂₄` lies at squared
+distance at most `2` from the lattice, which is the upper covering bound by 3.2, and the vertices
+at squared distance exactly `2`, the deep holes, form `23` classes up to lattice translations and
+lattice isometries, any one of which gives the lower bound (Conway–Sloane, Ch. 23). The vertices
+at squared distance below `2`, the shallow holes, play no part in the value; their classification
+is Borcherds–Conway–Queen's (Conway–Sloane, Ch. 25) and is listed under *Explicit scope
+exclusions*). Define the lattice covering constant
 `Θₙ := sInf {coveringDensity A | A}` and prove `Θₙ ≥ 1`; its values are excluded (see *Explicit
 scope exclusions*).
 
@@ -1224,7 +1238,7 @@ API and acceptance statements:
 Prove that the eutactic forms of rank `n` fall into finitely many similarity classes (Ash, §4, Theorem 3, p.1052). Prerequisites made explicit: eutaxy is the condition that `A⁻¹`
 lies in the cone of the `x xᵀ`, the first-order (Karush–Kuhn–Tucker) condition for `A` to be a
 critical point of `hermite` on `det = 1` (4.5's analysis); well-rounded forms with `det = 1` are
-compact modulo `GL_n(ℤ)` (GoN 4.5.8, as in 2.2); and on each stratum `{A | S(A) = S}` the critical
+compact modulo `GL_n(ℤ)` (ProbabilisticAndMetricNumberTheory §4.9b, as in 2.2); and on each stratum `{A | S(A) = S}` the critical
 points are isolated. The knowl `lattice.eutactic` quotes this theorem.
 
 API and acceptance statements:
@@ -1237,7 +1251,7 @@ API and acceptance statements:
 - I₂ is eutactic with coefficient 1/2 despite not being perfect, so the eutactic quotient is not the perfect quotient.
 - The unequal form [[2,1],[1,3]] has no positive eutaxy expression because every shell outer product has zero second row.
 
-*Needs:* GoN 4.5.8; M `IsCompact`, `fderiv`; L 4.2, 4.5, 1.9.
+*Needs:* ProbabilisticAndMetricNumberTheory §4.9b `mahler_relativelyCompact_iff`; M `IsCompact`, `fderiv`; L 4.2, 4.5, 1.9.
 
 ### 4.9 The Ryshkov polyhedron and Voronoi neighbours
 
@@ -1305,16 +1319,16 @@ procedures (Dutour Sikirić–Schürmann–Vallentin, arXiv:math/0609388v3,
 
 API and acceptance statements:
 
-- `hermiteConstant_four_pow`: `γ₄⁴ = 4`, `γ₅⁵ = 8`, `γ₆⁶ = 64/3`, `γ₇⁷ = 64`, `γ₈⁸ = 256`, by the perfect-form classification (Korkine–Zolotarev; Blichfeldt).
+- `hermiteConstant_four_pow`: `γ₄⁴ = 4`, from the rank-four perfect-form classification (Korkine–Zolotarev), in which `D₄` has the largest Hermite invariant.
 - `card_perfect_quotient_four`: There are 2 perfect similarity classes in rank 4.
 - `card_perfect_quotient_five`: There are 3 perfect similarity classes in rank 5.
 - `card_perfect_quotient_six`: There are 7 perfect similarity classes in rank 6.
 - `card_perfect_quotient_seven`: There are 33 perfect similarity classes in rank 7.
 - `card_perfect_quotient_eight`: There are 10916 perfect similarity classes in rank 8.
-- `hermiteConstant_five_pow`: The sharp rank-five Hermite value, attained by D₅.
-- `hermiteConstant_six_pow`: The sharp rank-six Hermite value, attained by E₆.
-- `hermiteConstant_seven_pow`: The sharp rank-seven Hermite value, attained by E₇.
-- `hermiteConstant_eight_pow`: The sharp rank-eight Hermite value, attained by E₈.
+- `hermiteConstant_five_pow`: `γ₅⁵ = 8`, from the rank-five perfect-form classification, in which `D₅` has the largest Hermite invariant.
+- `hermiteConstant_six_pow`: `γ₆⁶ = 64/3`, from the rank-six perfect-form classification, in which `E₆` has the largest Hermite invariant.
+- `hermiteConstant_seven_pow`: `γ₇⁷ = 64`, from the rank-seven perfect-form classification, in which `E₇` has the largest Hermite invariant.
+- `hermiteConstant_eight_pow`: `γ₈⁸ = 256`, from the rank-eight perfect-form classification, in which `E₈` has the largest Hermite invariant.
 
 **Checks.**
 
@@ -1387,7 +1401,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 4.4 | T `IsPosDef.finite_isometry`; IL 2C; L 0.2, 1.1, 4.2 |
 | 4.5 | M `fderiv`, `Matrix.det`, `Real.log`, `Convex`; L 1.1, 1.5, 4.1, 4.2, 4.3 |
 | 4.6 | L 0.1, 4.1, 1.9 |
-| 4.7 | GoN 4.5.8; M `IsCompact`, `fderiv`; L 4.2, 4.5, 1.9 |
+| 4.7 | PMNT §4.9b; M `IsCompact`, `fderiv`; L 4.2, 4.5, 1.9 |
 | 4.9 | M `Convex`, `ConvexCone`, `IsClosed`; L 1.1, 4.1, 4.6 |
 | 4.10 | Completed IntegralLattices Layer 5 (root lattices); T `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`; L 0.2, 2.1, 2.2, 4.1, 4.5, 4.6, 4.9 |
 | 4.11 | TS Layer 1; M Schwartz and Fourier APIs, level-one Eisenstein series; T `TauCeti.ModularForm.valence_formula_weighted`, `TauCeti.ModularForm.valence_formula_finiteIndex`, `TauCeti.leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.discriminant_leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.finrank_leechLattice`; L 1.4, 1.5, 2.1 |
@@ -1460,7 +1474,9 @@ similarity invariance. For n > 0 prove **strongly eutactic ⇔ `2`-design form**
 IsDesignForm 4 A`, prove strongly perfect ⇒ perfect (if `H ≠ 0` is symmetric with `H[x] = 0` on
 `S(A)`, the degree-`4` polynomial `(xᵀHx)²` has average `0` over `S(A)` but positive integral over
 the sphere; Venkov §6) and strongly perfect ⇒ strongly eutactic, hence extreme by 4.5; prove the knowl's "strictly stronger" by the witness
-`A₃`, which is perfect and strongly eutactic but not a `4`-design (9). Prove that the roots of `E₈`
+`A₃`, which is perfect and strongly eutactic but not a `4`-design: in the model `D₃ ⊂ ℝ³` with
+minimal vectors `±eᵢ ± eⱼ` and `a = e₁`, the fourth moment `∑ ⟪a, x⟫⁴` of the `12` minimal vectors
+is `8`, while 5.2's `4`-design value is `3 · 12 · 2² / (3 · 5) = 48/5`. Prove that the roots of `E₈`
 form a `7`-design and the minimal vectors of `Λ₂₄` an `11`-design as corollaries of 5.7, and
 directly that the `6` minimal vectors of `A₂` form a `5`-design (the hexagon) and the `4` of `ℤ²`
 a `3`-design but not a `4`-design.
@@ -1912,8 +1928,11 @@ even `m` `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass` g
 `q(kg) = k²/(2m)`; the description of `O(D_⟨m⟩)` above is read off from these. In Gram-entry notation, `fvIndex ⟨5⟩ = fvIndex ⟨8⟩ = 1`, `fvIndex ⟨12⟩ = fvIndex ⟨15⟩ = 2`. Record that the bilinear and
 quadratic groups differ: for `⟨8⟩` the group `O(ℤ/8, b)` has order `4` while `O(ℤ/8, q) = {±1}`, so
 the index of an even lattice must be taken in the quadratic group as pinned. `fvIndex (L ⊕ M)` is
-not a function of the two indices and no product formula is claimed. Cite Festi–Veniani, *Counting
-elliptic fibrations on K3 surfaces*, for the role of the index.
+not a function of the two indices and no product formula is claimed. Festi–Veniani write `O♯(L)` for the image
+of `O(L) → O(L♯)`, with the quadratic form on `L♯` for even `L` and the bilinear form otherwise
+(Festi–Veniani, arXiv:2102.09411v2, §2.1, p.3), which is the split `fvIndex` makes; the groups
+`O♯(W)` of the frames of a K3 surface enter their count of elliptic fibrations through the double
+cosets of Theorem 2.8, p.9.
 
 API:
 
@@ -1961,7 +1980,8 @@ classes is IntegralLattices §9B's (exhaustion from the mass); no database proce
 ## Explicit scope exclusions
 
 Beyond *Not owned here*: exact values of the covering constants Θₙ and the covering analogue of Voronoi's
-theory; the kissing number problem for non-lattice arrangements and the lattice kissing maxima in
+theory; the classification of the shallow holes of the Leech lattice (Borcherds–Conway–Queen,
+Conway–Sloane, Ch. 25), which 3.4 does not use; the kissing number problem for non-lattice arrangements and the lattice kissing maxima in
 ranks `9`–`23`; dual-extreme theory beyond the definition of `γ'`; designs that are not shells of
 lattices and the Delsarte–Goethals–Seidel bounds; harmonic theta series at level `N > 1`; the
 enumeration of universal lattices beyond the two theorems; regular ternary forms; counterexamples
@@ -2024,7 +2044,7 @@ Layers 1–7 ──► downstream applications
 ```
 
 Layer 0 first. Layers 3, 6 and 7 are independent of one another and of Layers 2, 4 and 5 once Layer
-1 is in place, and can proceed in parallel. Layer 2 needs 1.7–1.8 and GoN 4.5.8; Layer 4 needs
+1 is in place, and can proceed in parallel. Layer 2 needs 1.7–1.8 and ProbabilisticAndMetricNumberTheory §4.9b; Layer 4 needs
 Layer 2 for 4.3 and 4.10; Layer 1.9 consumes SM 0.1.2 and 1.1 and Tau Ceti's Minkowski upper inequality; Layer 5 needs 4.1–4.5 for 5.3 and Theta Series
 Layer 1 for 5.5–5.6. The downstream applications consume these results.
 
@@ -2033,7 +2053,8 @@ Layer 1 for 5.5–5.6. The downstream applications consume these results.
 - J. H. Conway, N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer 1999:
   Ch. 1 §1.1–1.5 (density, center density, Hermite constant table), Ch. 2 §1–2 (covering radius,
   Voronoi cells), Ch. 4 §§6–8 (`Dₙ`, `E₈`, covering radii), Ch. 21 §3 (Voronoi-relevant vectors),
-  Ch. 23 (deep holes of the Leech lattice, covering radius `√2`).
+  Ch. 23 (covering radius `√2` of the Leech lattice and its deep holes), Ch. 25 (the shallow holes
+  of the Leech lattice).
 - J. Martinet, *Perfect Lattices in Euclidean Spaces*, Grundlehren 327, Springer 2003: Ch. 2
   (Hermite's constant, Mordell's inequality, reduction), Ch. 3 §§3.1–3.5 (perfection, eutaxy,
   Voronoi's theorem, finiteness of perfect lattices), Ch. 7 (Voronoi's algorithm), Ch. 9 (eutactic
@@ -2046,9 +2067,12 @@ Layer 1 for 5.5–5.6. The downstream applications consume these results.
 - J. W. S. Cassels, *An Introduction to the Geometry of Numbers*, Springer 1971: Ch. II, VIII, X.
 - P. M. Gruber, C. G. Lekkerkerker, *Geometry of Numbers*, 2nd ed., North-Holland 1987, Ch. 2 §13
   (inhomogeneous minimum, Jarník's inequalities).
-- B. Venkov, *Réseaux et designs sphériques*, in *Réseaux euclidiens, designs sphériques et formes
-  modulaires*, Monogr. Enseign. Math. 37 (2001), 10–86: §3 (moment criterion), §6 (strongly
-  perfect lattices), Theorem 16.1, p.59 (weighted theta modularity), Theorem 16.4, p.61 and equation (16.6), p.62 (extremal shells).
+- B. Venkov, *Réseaux et designs sphériques* (notes by J. Martinet), in *Réseaux euclidiens,
+  designs sphériques et formes modulaires*, Monogr. Enseign. Math. 37 (2001), 10–86. Page numbers
+  here are those of the version on J. Martinet's page, paginated from 1 (pp. 1–80), which is the
+  version used; section, theorem and equation numbers are the article's: §3 (moment criterion),
+  §6 (strongly perfect lattices), Theorem 16.1, p.59 (weighted theta modularity), Theorem 16.4,
+  p.61, Remark 16.5, p.61, and equation (16.6), p.62 (extremal shells).
 - E. M. Stein, G. Weiss, *Introduction to Fourier Analysis on Euclidean Spaces*, Princeton 1971,
   Ch. IV §2 and Thm. 3.4.
 - H. Cohn, A. Kumar, *Optimality and uniqueness of the Leech lattice among lattices*, Ann. of
@@ -2067,8 +2091,9 @@ Layer 1 for 5.5–5.6. The downstream applications consume these results.
   arXiv:1201.1832v1 (2012), §2, pp.2–3, especially the proof of Corollary 2.3 and Remark 2.4(1).
 - Y. Kitaoka, *Arithmetic of Quadratic Forms*, Cambridge Tracts 106, 1993, Ch. 7 (tensor
   products of positive lattices).
-- D. Festi, D. C. Veniani, *Counting elliptic fibrations on K3 surfaces*, J. Math. Soc. Japan
-  (2023).
+- D. Festi, D. C. Veniani, *Counting elliptic fibrations on K3 surfaces*, J. Math. Soc. Japan 75
+  (2023), no. 4, 1195–1225; arXiv:2102.09411v2, §2.1, p.3, and Theorem 2.8, p.9 (the version used
+  here).
 - J. Hanke, *Local densities and explicit bounds for representability by a quadratic form*,
   Duke Math. J. 124 (2004), 351–388.
 - A. Ash, *On eutactic forms*, Canad. J. Math. 29 (1977), 1040–1054.

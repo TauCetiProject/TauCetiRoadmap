@@ -34,7 +34,7 @@ covering radius `μ(Λ₂₄) = √2` (README §3.4) is not stated: its carrier,
 `TauCeti.LinearAlgebra.IntegralLattice.Rank24.Leech.Basic`, is absent from the Tau Ceti revision
 this file is elaborated against. With that module the headline reads
 `(gramForm TauCeti.isPosDef_leechLattice b).coveringRadius = √2` for every `ℤ`-basis `b` of
-`Λ₂₄` indexed by `Fin 24`. The classification of the Leech holes is the route README §3.4 takes
+`Λ₂₄` indexed by `Fin 24`. The classification of the Leech deep holes is the route README §3.4 takes
 to that value and is a README target, not a headline. All other API, local checks and examples
 are in README.md.
 
@@ -231,33 +231,39 @@ noncomputable def hermiteConstant (n : ℕ) : ℝ :=
 theorem hermiteConstant_pow_le (n : ℕ) (hn : 2 ≤ n) :
     hermiteConstant n ^ (n - 2) ≤ hermiteConstant (n - 1) ^ (n - 1) := sorry
 
-/-- **2.2.** The constant is attained: there is a critical form (Mahler compactness, GoN 4.5.8). -/
+/-- **2.2.** The constant is attained: there is a critical form (Mahler's criterion,
+ProbabilisticAndMetricNumberTheory §4.9b). -/
 theorem exists_hermite_eq_hermiteConstant (n : ℕ) (hn : 0 < n) :
     ∃ A : PosDefForm n, A.hermite = hermiteConstant n := sorry
 
-/-- **2.3.** `γ₂² = 4/3`, attained by `A₂`. -/
+/-- **2.3.** `γ₂² = 4/3`: Hermite's inequality gives `≤`, and `γ(A₂)² = 4/3` gives `≥`. -/
 theorem hermiteConstant_two_sq : hermiteConstant 2 ^ 2 = 4 / 3 := sorry
 
-/-- **2.3.** `γ₃³ = 2`, attained by `A₃` (Gauss). -/
+/-- **2.3.** `γ₃³ = 2` (Gauss): reduction gives `≤`, and `γ(A₃)³ = 2` gives `≥`. -/
 theorem hermiteConstant_three_pow : hermiteConstant 3 ^ 3 = 2 := sorry
 
-/-- **4.10.** `γ₄⁴ = 4`, `γ₅⁵ = 8`, `γ₆⁶ = 64/3`, `γ₇⁷ = 64`, `γ₈⁸ = 256`, by the perfect-form
-classification (Korkine–Zolotarev; Blichfeldt). -/
+/-- **4.10.** `γ₄⁴ = 4`, from the rank-four perfect-form classification (Korkine–Zolotarev), in
+which `D₄` has the largest Hermite invariant. -/
 theorem hermiteConstant_four_pow : hermiteConstant 4 ^ 4 = 4 := sorry
 
-/-- **4.10.** The sharp rank-five Hermite value, attained by D₅. -/
+/-- **4.10.** `γ₅⁵ = 8`, from the rank-five perfect-form classification, in which `D₅` has the
+largest Hermite invariant. -/
 theorem hermiteConstant_five_pow : hermiteConstant 5 ^ 5 = 8 := sorry
 
-/-- **4.10.** The sharp rank-six Hermite value, attained by E₆. -/
+/-- **4.10.** `γ₆⁶ = 64/3`, from the rank-six perfect-form classification, in which `E₆` has the
+largest Hermite invariant. -/
 theorem hermiteConstant_six_pow : hermiteConstant 6 ^ 6 = 64 / 3 := sorry
 
-/-- **4.10.** The sharp rank-seven Hermite value, attained by E₇. -/
+/-- **4.10.** `γ₇⁷ = 64`, from the rank-seven perfect-form classification, in which `E₇` has the
+largest Hermite invariant. -/
 theorem hermiteConstant_seven_pow : hermiteConstant 7 ^ 7 = 64 := sorry
 
-/-- **4.10.** The sharp rank-eight Hermite value, attained by E₈. -/
+/-- **4.10.** `γ₈⁸ = 256`, from the rank-eight perfect-form classification, in which `E₈` has the
+largest Hermite invariant. -/
 theorem hermiteConstant_eight_pow : hermiteConstant 8 ^ 8 = 256 := sorry
 
-/-- **4.11.** `γ₂₄ = 4`, attained by the Leech lattice (Cohn–Kumar 2009). -/
+/-- **4.11.** `γ₂₄ = 4` (Cohn–Kumar 2009): the Cohn–Elkies bound with the dimension-24 auxiliary
+function gives `≤`, and the Leech lattice, of minimum `4` and determinant `1`, gives `≥`. -/
 theorem hermiteConstant_twentyFour : hermiteConstant 24 = 4 := sorry
 
 /-! ## Layer 3: Voronoi cells and covering -/
@@ -286,7 +292,7 @@ def IsDeepHole (A : PosDefForm n) (x : FormSpace A) : Prop :=
 theorem exists_isDeepHole (A : PosDefForm n) : ∃ x, A.IsDeepHole x := sorry
 
 /-- **3.2.** A deep hole is, up to a lattice translation, a vertex (extreme point) of the Voronoi
-cell; the covering radius is the largest `√(A[x])` over those vertices. -/
+cell. -/
 theorem IsDeepHole.exists_sub_mem_extremePoints (A : PosDefForm n) {x : FormSpace A}
     (hx : A.IsDeepHole x) : ∃ v ∈ stdLattice A, x - v ∈ Set.extremePoints ℝ A.voronoiCell := sorry
 
