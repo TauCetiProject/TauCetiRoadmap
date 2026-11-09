@@ -3264,7 +3264,7 @@ in the merge order or already on main.
 - On main, GeneralizedCohomology consumes 3A.2–3A.4 (mapping cones and Puppe sequences, the
   stable stems and the Freudenthal comparison) and 4B, for the low homotopy groups of stable
   BSpin; BordismFormalGroups consumes the James stages of 3B in F6.2 and the Toda brackets
-  of 3C.3 in F4;
+  of 3C.3 in F4; GeneralAlgebraicKTheoryPartII consumes the stable James splitting of 3B.6;
   DGFloer consumes 3B.3–3B.4 (the James map and the homology of ΩΣX) and 4A–4B, and the
   framed collapse it cites from Layer 5 is TangentialBordism B5.2's; CharacteristicClasses
   consumes the quaternion-conjugation homeomorphism SO(3) ≅ S³/{±1} of 4A; MorseTheory and
