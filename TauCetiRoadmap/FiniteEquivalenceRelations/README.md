@@ -38,11 +38,11 @@ Raicu's examples (the non-effective relation on `𝔸²` and the toric theorem);
 relation on a finite local scheme of Layer 3; the Amitsur condition, descent of morphisms of
 modules and the Joyal–Tierney theorem for pure ring maps, with their application to the quotient
 map `A^R → A` and to the universal effective epimorphisms of affine schemes (Layer 4). No roadmap
-on main or in an open pull request states descent along pure maps; this roadmap gives no name to
-purity itself and writes the condition out (`P → B ⊗[A] P` injective for every `A`-module `P`).
-This roadmap owns the Joyal–Tierney theorem of 4.2 as the general affine statement of descent of
-modules: faithfully flat affine module descent is its case of a faithfully flat ring map, and the
-roadmaps stating that case are listed under Downstream consumers.
+on main or in an open pull request states descent along pure maps. Purity itself is
+PerfectoidSpacesPartII's (Owned elsewhere); Layer 4 writes the condition out (`P → B ⊗[A] P`
+injective for every `A`-module `P`). 4.2 extends faithfully flat descent of modules (Mathlib's
+`comonadicExtendScalars`; AlgebraicModuliForArithmeticGeometry §3.1,
+`affineModuleDescentEquivalence`, under Owned elsewhere) to pure ring maps; neither consumes 4.2.
 
 **Owned elsewhere.**
 
@@ -73,6 +73,11 @@ roadmaps stating that case are listed under Downstream consumers.
   (`affineModuleDescentEquivalence`), the case of 4.2 in which `A → B` is faithfully flat. Layer 4
   works with the coalgebras directly and uses that dictionary only to read its statements in the
   language of descent data.
+- PerfectoidSpacesPartII §5.1 owns pure ring maps (`IsPureHom`) and their laws (faithfully flat
+  ⇔ pure and flat; for an algebra finitely presented as a module, pure ⇔ split). Layer 4's Lean
+  statements write the same condition as `∀ P, Function.Injective (TensorProduct.mk A B P 1)`,
+  because `Suggested.lean` imports no roadmap; `P ⊗[A] A → P ⊗[A] B` injective is the same
+  condition up to `TensorProduct.comm`.
 - DirectSummandsAndBigCohenMacaulay §0.1 owns split algebras (`R`-linear retractions of the
   unit) and the equivalence of splitting with purity for an algebra finitely presented as a
   module. An example of Layer 4 cites it; no target uses it.
@@ -101,7 +106,8 @@ along which descent of flat modules is not effective (Venken 1971) is research c
   pushout with equal legs is a coequalizer. Kollár 2012, ¶50, and Raicu 2010, §1, call a relation
   effective when `R → X ×_Y X` is an isomorphism for some `Y`; for `A` finite over a field the two
   agree by 1.2 and 1.3. Witness: the diagonal `I = ker μ` is effective with `Y = X`, and `I = ⊥`
-  (all of `X ×_k X`) is effective with `Y = Spec k` when `A ≠ 0`.
+  (all of `X ×_k X`) is effective with `Y = Spec k` when `k` is a field and `A ≠ 0` (then `k → A`
+  is faithfully flat); over `k = ℤ`, `A = 𝔽₂`, `𝔽₂ ⊗ 𝔽₂ = 𝔽₂` and `I = ⊥` is the diagonal.
 - Gradings: `k[x₁, x₂] ⊗[k] k[y₁, y₂]` is graded by total degree; Raicu's ideal and the ideal of
   `Z` are homogeneous, so `I`, `A^R` and `J(B)` are graded and compared degree by degree. Witness:
   the cocycle `(x₁y₂ - x₂y₁)y₂³` has degree `5`, the degree in which the comparison of 3.1 fails.
@@ -474,8 +480,23 @@ every closed equivalence relation on a finite scheme over a field is effective. 
 rank computation needing the invariants of `O(Z)` of degree `≤ 5` only. Over `ℚ` the eliminations
 divide only by integers whose prime factors are 2, 3, 5, 7, 13, 41 and 61; for every other prime `p`
 the same elimination runs over `𝔽_p` with the same ranks, the seven listed primes are checked
-directly, and ranks do not change under field extension from the prime field. *Needs:* 0.2, 1.3,
-3.1, Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
+directly, and ranks do not change under field extension from the prime field.
+
+Prove also `eq_differenceIdeal_of_sq_eq_bot`, this roadmap's own: for `k` a field and `A = k ⊕ V`
+(every `a ∈ A` is `c · 1 + v` with `c ∈ k`, `v ∈ V`), `V` an ideal with `V² = 0`, every equivalence
+ideal `I` on `A` satisfies `I = differenceIdeal I`, and `A^R = k ⊕ I₁` with `I₁ = (id ⊗ π)(I) ⊆ V`,
+`π : A → k` the residue map; when `A` is finite-dimensional, this is effectivity by 1.3. So a
+non-effective relation on a finite local scheme with residue field `k` needs `m² ≠ 0`. Route: since
+`I ⊆ ker μ`, every `z ∈ I` is `(a ⊗ 1 - 1 ⊗ a) + t` with `a ∈ V` and `t ∈ V ⊗ V`, and `I₁` is the
+set of these `a`. Multiplying `z` by `1 ⊗ b` and by `b ⊗ 1`, `b ∈ V`, gives `a ⊗ b` and `-b ⊗ a`, so
+`T = I₁ ⊗ V + V ⊗ I₁ ⊆ I`. Applying `id ⊗ π ⊗ id` to `incl₁₃ (I) ⊆ incl₁₂ (I) + incl₂₃ (I)` gives
+`I ⊆ I₁ ⊗ A + A ⊗ I₁`, hence `I ∩ (V ⊗ V) = T`. For `z_a = (a ⊗ 1 - 1 ⊗ a) + t_a ∈ I`, the element
+`incl₁₃ (z_a) - incl₁₂ (z_a) - incl₂₃ (z_a)` lies in `incl₁₂ (I) + incl₂₃ (I)`; its component in
+`V ⊗ k ⊗ V` is `t_a` placed in the outer factors, and that component of `incl₁₂ (I) + incl₂₃ (I)`
+lies in `I₁ ⊗ k ⊗ V + V ⊗ k ⊗ I₁`. So `t_a ∈ T ⊆ I`, every `a ⊗ 1 - 1 ⊗ a` with `a ∈ I₁` lies in
+`I`, and `A^R = k ⊕ I₁`. Then `differenceIdeal I` contains these differences and their products
+`a ⊗ b`, `-b ⊗ a` with `1 ⊗ b`, `b ⊗ 1`, hence contains `I`. *Needs:* 0.1, 0.2, 1.1, 1.3, 3.1,
+Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
 
 **Checks.**
 
@@ -491,40 +512,19 @@ directly, and ranks do not change under field extension from the prime field. *N
 - `raicuArtinRelation` is neither `⊥` nor the diagonal `ker μ`: it contains `x₁² - y₁²`, nonzero in
   `O(Z) ⊗ O(Z)`, and its degree-`1` part is `0` (Raicu's generators have degree `≥ 2` and the ideal
   of `Z × Z` starts in degree `4`), so it does not contain `x₁ - y₁ ∈ ker μ`.
-
-**Smaller lengths (not a target).** The following lower bounds for the length of a finite local
-scheme carrying a non-effective closed equivalence relation are this roadmap's own.
-
+- `eq_differenceIdeal_of_sq_eq_bot` on `A = k[x, y] ⧸ m²`, `V = m`: the equivalence ideals are
+  the kernel pairs `J(k ⊕ W)` of the subalgebras `k ⊕ W`, one for each subspace `W ⊆ m`, so `5`
+  over `𝔽₂` and `6` over `𝔽₃`, all effective. A definition of `I₁` as `I ∩ (V ⊗ 1)` would be `0`
+  for every `I`, since `μ (a ⊗ 1) = a`.
 - Length `≤ 2`, over every field: every closed equivalence relation is effective. The algebras are
-  `k`, `k × k`, the quadratic field extensions `L` and `k[ε]`. For `k × k`, the symmetric ideals
-  inside `ker μ` are `0` and `ker μ` (0.1). For `L`, `L ⊗[k] L` is `L × L` or `L[t]/(t²)`, and in
-  both `ker μ` is an ideal with no nonzero proper subideal. The two survivors, `0` (the kernel pair
-  of `k ⊆ A`) and `ker μ` (the diagonal), are effective. `k[ε]` is covered by the next item.
-- `m² = 0`, over every field and in every finite length: if `A = k ⊕ V` with `V² = 0`, every
-  equivalence ideal `I` on `A` is effective. Since `I ⊆ ker μ`, every `z ∈ I` is
-  `(a ⊗ 1 - 1 ⊗ a) + t` with `a ∈ V` and `t ∈ V ⊗ V`; let `I₁ ⊆ V` be the set of these `a`.
-  Multiplying `z` by `1 ⊗ b` and by `b ⊗ 1`, `b ∈ V`, gives `a ⊗ b` and `-b ⊗ a`, so
-  `T = I₁ ⊗ V + V ⊗ I₁ ⊆ I`. Applying `id ⊗ π ⊗ id`, `π : A → k` the residue map, to
-  `incl₁₃ (I) ⊆ incl₁₂ (I) + incl₂₃ (I)` gives `I ⊆ I₁ ⊗ A + A ⊗ I₁`, hence `I ∩ (V ⊗ V) = T`.
-  For `z_a = (a ⊗ 1 - 1 ⊗ a) + t_a ∈ I`, the element
-  `incl₁₃ (z_a) - incl₁₂ (z_a) - incl₂₃ (z_a)` lies in `incl₁₂ (I) + incl₂₃ (I)`; its component in
-  `V ⊗ k ⊗ V` is `t_a` placed in the outer factors, and that component of
-  `incl₁₂ (I) + incl₂₃ (I)` lies in `I₁ ⊗ k ⊗ V + V ⊗ k ⊗ I₁`. So `t_a ∈ T ⊆ I`, every
-  `a ⊗ 1 - 1 ⊗ a` with `a ∈ I₁` lies in `I`, and `A^R = k ⊕ I₁`. Then `differenceIdeal I`
-  contains these differences and their products `a ⊗ b`, `-b ⊗ a` with `1 ⊗ b`, `b ⊗ 1`, hence
-  contains `I`, and `I = differenceIdeal I` (1.1), which is effectivity by 1.3.
-- Lengths `3` and `4`, over `𝔽₂` and over `𝔽₃`: every closed equivalence relation on a finite local
-  `k`-scheme is effective, by an exhaustive computation over the local algebras of these lengths
-  (`k[x]/(x³)`, `k[x, y]/m²`, `𝔽_{p³}`; `k[x]/(x⁴)`, `k[x, y, z]/m²`, every `k[x, y]/(W + m³)` with
-  `W` a plane of quadrics, `𝔽_{p²}[ε]`, `𝔽_{p⁴}`; a local algebra over a finite field has a
-  coefficient field) and over all their ideals satisfying the three fields of 0.1, with the
-  criterion of 1.3. The search over the split algebras uses `I ⊆ I₁ ⊗ A + A ⊗ I₁` from the previous
-  item. The equivalence ideals found are exactly the kernel pairs of subalgebras: `16` on
-  `𝔽₂[x, y, z]/m²`, one for each subspace of `m`, and `2`, `2`, `3` on the fields of degree `2`,
-  `3`, `4`, one for each subgroup of the Galois group.
-
-So the smallest length of a finite local scheme carrying a non-effective closed equivalence relation
-is between `5` and `16` over `𝔽₂` and between `5` and `15` over `𝔽₃`.
+  `k`, `k × k`, `k[ε]` (the target, `V = (ε)`) and the quadratic field extensions `L`. For `k × k`,
+  the symmetric ideals inside `ker μ` are `0` and `ker μ` (0.1). For `L`, `L ⊗[k] L` is `L × L`
+  or `L[t]/(t²)`, and in both `ker μ` is an ideal with no nonzero proper subideal. The two
+  survivors, `0` (the kernel pair of `k ⊆ A`) and `ker μ` (the diagonal), are effective.
+- The hypothesis `A = k ⊕ V` is a residue-field condition: the only square-zero ideal of a
+  quadratic field extension `L` is `0`, and `L ≠ k`, so `L` is outside the target and is treated
+  in the previous Check; `L[ε₁, ε₂] ⧸ (ε₁, ε₂)²` with `L = 𝔽₉` over `𝔽₃` (length `6`), whose
+  residue field is `L`, is outside it as well.
 
 ### 3.3 The obstruction over 𝔽₃
 
@@ -622,25 +622,25 @@ with `g (1 ⊗ 1)` in the equalizer. *Needs:* Mathlib `Algebra.TensorProduct.inc
 
 Prove `forall_isAmitsurEqualizer_iff`: `IsAmitsurEqualizer A B P` holds for every `A`-module `P` iff
 `A → B` is universally injective, or pure: `P → B ⊗[A] P` is injective for every `A`-module `P`
-(Stacks, Definition 35.4.5, Tag 08WL). Prove `full_faithful_comparison_iff`: the comparison functor
-from `A`-modules to the coalgebras of the comonad of `ModuleCat.extendRestrictScalarsAdj` (the
-descent data of Mesablishvili 2000, p. 39, by AlgebraicModuliForArithmeticGeometry §3.3,
-`moduleCanonicalComparison`) is full and faithful, that is `A → B` is a descent morphism for modules
-(Stacks, Definition 35.4.15, Tag 08WY), iff `A → B` is pure (Mesablishvili 2000, Proposition 2;
-Stacks, Theorem 35.4.22, Tag 08XA, (a) ⇔ (c)). Prove `nonempty_comonadicLeftAdjoint_iff`:
-`ModuleCat.extendScalars (algebraMap A B)` is comonadic, that is `A → B` is an effective descent
-morphism for modules, iff `A → B` is pure (Mesablishvili 2000, Theorem 4; Stacks, Theorem 35.4.22,
-Tag 08XA, (b) ⇔ (c)). This is the theorem of Joyal and Tierney, unpublished, announced by Olivier;
-Mesablishvili 2000 gives the first published proof (Mesablishvili 2000, abstract; Stacks, Section
-35.4, Tag 08WE). The modules are those of the universe of `A` and `B`, which contains every finitely
-presented module. Route: « pure ⇒ Amitsur » for `P` applies purity to `P` and to the cokernel `Q` of
-`P → B ⊗ P`: the map `(b₁ ⊗ b₂) ⊗ p ↦ b₂ ⊗ [b₁ ⊗ p]`, `(B ⊗ B) ⊗ P → B ⊗ Q`, sends
-`coface₁ x - coface₂ x` to `1 ⊗ [x]`, so an equalized `x` has `[x] = 0` in `Q`; the converse is the
-injectivity clause. Full faithfulness is then 4.1 for every `N`, and effectivity is Mesablishvili's
-split-coequalizer argument (Mesablishvili 2000, Lemma 1, Proposition 3 and Theorem 4; Stacks, Lemma
-35.4.20, Tag 08X7). *Needs:* 4.1, Mathlib `CategoryTheory.Comonad.comparison`,
-`CategoryTheory.ComonadicLeftAdjoint`, `ModuleCat.extendScalars`,
-`ModuleCat.extendRestrictScalarsAdj`, `CategoryTheory.Functor.Full`,
+(PerfectoidSpacesPartII §5.1, `IsPureHom`; Stacks, Definition 35.4.5, Tag 08WL). Prove
+`full_faithful_comparison_iff`: the comparison functor from `A`-modules to the coalgebras of the
+comonad of `ModuleCat.extendRestrictScalarsAdj` (the descent data of Mesablishvili 2000, p. 39, by
+AlgebraicModuliForArithmeticGeometry §3.3, `moduleCanonicalComparison`) is full and faithful, that
+is `A → B` is a descent morphism for modules (Stacks, Definition 35.4.15, Tag 08WY), iff `A → B` is
+pure (Mesablishvili 2000, Proposition 2; Stacks, Theorem 35.4.22, Tag 08XA, (a) ⇔ (c)). Prove
+`nonempty_comonadicLeftAdjoint_iff`: `ModuleCat.extendScalars (algebraMap A B)` is comonadic, that
+is `A → B` is an effective descent morphism for modules, iff `A → B` is pure (Mesablishvili 2000,
+Theorem 4; Stacks, Theorem 35.4.22, Tag 08XA, (b) ⇔ (c)). This is the theorem asserted by Olivier,
+extractable from the work of Joyal and Tierney, with a first free-standing proof by Mesablishvili
+2000 (Stacks, Section 35.4, Tag 08WE). The modules are those of the universe of `A` and `B`, which
+contains every finitely presented module. Route: « pure ⇒ Amitsur » for `P` applies purity to `P`
+and to the cokernel `Q` of `P → B ⊗ P`: the map `(b₁ ⊗ b₂) ⊗ p ↦ b₂ ⊗ [b₁ ⊗ p]`,
+`(B ⊗ B) ⊗ P → B ⊗ Q`, sends `coface₁ x - coface₂ x` to `1 ⊗ [x]`, so an equalized `x` has `[x] = 0`
+in `Q`; the converse is the injectivity clause. Full faithfulness is then 4.1 for every `N`, and
+effectivity is Mesablishvili's split-coequalizer argument (Mesablishvili 2000, Lemma 1, Proposition
+3 and Theorem 4; Stacks, Lemma 35.4.20, Tag 08X7). *Needs:* 4.1, Mathlib
+`CategoryTheory.Comonad.comparison`, `CategoryTheory.ComonadicLeftAdjoint`,
+`ModuleCat.extendScalars`, `ModuleCat.extendRestrictScalarsAdj`, `CategoryTheory.Functor.Full`,
 `CategoryTheory.Functor.Faithful`, and for the Checks `Algebra.IsEffective.of_faithfullyFlat`,
 `Algebra.IsEffective.of_section`; Tau Ceti `Module.FaithfullyFlat.exact_mk_one_lTensor_sub_mk_one`
 for the faithfully flat Checks.
@@ -678,10 +678,10 @@ AlgebraicModuliForArithmeticGeometry §3.2), whose kernel pair is `R` by 2.1 (FG
 SGA 1, Exp. VIII, Théorème 1.1, for faithfully flat quasi-compact morphisms). Route: Tau Ceti's
 `RingHom.IsSpecEquivRel.faithfullyFlat`, applied as in 2.1, makes `A` faithfully flat over `A^R`,
 and Mathlib's `comonadicExtendScalars` with `RingHom.faithfullyFlat_algebraMap_iff` gives
-comonadicity; equivalently 4.2, since faithfully flat maps are pure. *Needs:* 1.1, 2.1, 4.1, 4.2,
-Tau Ceti `RingHom.IsSpecEquivRel.faithfullyFlat`, Mathlib `Algebra.IsEffective`,
-`Algebra.codRestrictEqLocusPushoutCocone.surjective_of_isEffective`, `comonadicExtendScalars`,
-`RingHom.faithfullyFlat_algebraMap_iff`, `Module.FaithfullyFlat`.
+comonadicity; equivalently 4.2, since faithfully flat maps are pure (PerfectoidSpacesPartII §5.1).
+*Needs:* 1.1, 2.1, 4.1, 4.2, Tau Ceti `RingHom.IsSpecEquivRel.faithfullyFlat`, Mathlib
+`Algebra.IsEffective`, `Algebra.codRestrictEqLocusPushoutCocone.surjective_of_isEffective`,
+`comonadicExtendScalars`, `RingHom.faithfullyFlat_algebraMap_iff`, `Module.FaithfullyFlat`.
 
 **Checks.**
 
@@ -694,12 +694,21 @@ Tau Ceti `RingHom.IsSpecEquivRel.faithfullyFlat`, Mathlib `Algebra.IsEffective`,
   `A ⊗[C] A` in `A ⊗[k] A`: `k[s] ⊗[C] k[t] = k`, so the equalizer of `A ⇉ A ⊗[C] A` is
   `{(f, g) | f(0) = g(0)} = C` and `A^R = C`. But `C → A` is not pure:
   `C ⧸ (x + y) = k[x] ⧸ (x²)`, of dimension `2`, maps to `A ⧸ (x + y)A = k × k` with `x ↦ 0`.
-- Purity without flatness on a quotient: for `char k ≠ 2`, the relation `x ~ -x` on `𝔸²_k`,
-  `I = (x₁ - y₁, x₂ - y₂) ∩ (x₁ + y₁, x₂ + y₂)`, has `A^R = k[x₁², x₁x₂, x₂²]` (`a ⊗ 1 - 1 ⊗ a`
-  lies in the second ideal iff `a(x) = a(-x)`). The Reynolds operator `a ↦ (a(x) + a(-x)) ⁄ 2`
-  is an `A^R`-linear retraction, so `A^R → A` is pure (Stacks, Example 35.4.6, Tag 08WM) and 4.2
-  applies; `A` is not flat over `A^R`, since `A^R` is not regular at the origin while `k[x₁, x₂]`
-  is (Stacks, Lemma 10.110.9, Tag 00OF).
+- Purity without flatness on a quotient: for `char k ≠ 2`, the relation `x ~ -x` on `𝔸²_k` is
+  Kollár's `R*`, with ideal `I* = (x₁² - y₁², x₂² - y₂², x₁x₂ - y₁y₂)` (Kollár 2012, Example 3).
+  It is `J(C)` for `C = k[x₁², x₁x₂, x₂²] ⊆ A = k[x₁, x₂]`, the ideal of the kernel pair of
+  `Spec A → Spec C`, hence an equivalence ideal. The union of the two graphs,
+  `(x₁ - y₁, x₂ - y₂) ∩ (x₁ + y₁, x₂ + y₂)`, is not one (Kollár 2012, Example 3): it contains
+  `x₁y₂ - x₂y₁`, and `incl₁₃` of it, `x₁z₂ - x₂z₁`, is not in the sum of its images by `incl₁₂` and
+  `incl₂₃`, whose degree-`2` part is spanned by quadrics in `(x, y)` and in `(y, z)`. Since `I*`
+  lies in `(x₁ + y₁, x₂ + y₂)`, and `a ⊗ 1 - 1 ⊗ a` lies there iff `a(x) = a(-x)`,
+  `C ⊆ A^{R*} ⊆ C`. The Reynolds operator `a ↦ (a(x) + a(-x)) ⁄ 2` is a `C`-linear retraction, so
+  `C → A` is pure (PerfectoidSpacesPartII §5.1; Stacks, Example 35.4.6, Tag 08WM) and 4.2
+  applies; `A` is not flat over `C`, since `C` is not regular at the origin while `A` is (Stacks,
+  Lemma 10.110.9, Tag 00OF). As `A` is finite over `C` and `C` is the equalizer of
+  `A ⇉ A ⊗[C] A`, `Spec A → Spec C` is a strict epimorphism (FGA I, §A, n° 2, b), so `R*` is
+  effective; its projections are not flat, since flatness descends along the pure map `C → A`
+  (Stacks, Theorem 35.4.25, Tag 08XD). So effectivity does not need the flatness of 2.1.
 
 ### 4.4 Universal effective epimorphisms of affine schemes
 
@@ -741,8 +750,8 @@ universality is what brings in every module. *Needs:* 4.1, 4.2, Mathlib `Algebra
   order: `C → A` is pure and modules descend along `Spec A → Spec C`; when the retraction is a
   map of `C`-algebras, `Algebra.IsEffective C A` is `Algebra.IsEffective.of_section`.
   Conversely, for `C` noetherian and `A` a finite `C`-module, `A` is finitely presented over `C`,
-  so `C → A` is pure only if it is split as a map of `C`-modules (DirectSummandsAndBigCohenMacaulay
-  §0.1; Stacks, Lemma 10.82.4, Tag 058L).
+  so `C → A` is pure only if it is split as a map of `C`-modules (PerfectoidSpacesPartII §5.1;
+  DirectSummandsAndBigCohenMacaulay §0.1; Stacks, Lemma 10.82.4, Tag 058L).
 
 ### Dependencies
 
@@ -754,9 +763,7 @@ Layers 1 and 2; Mathlib `Algebra.IsEffective`, `ModuleCat.extendScalars`,
 
 ## Downstream consumers
 
-- AlgebraicModuliForArithmeticGeometry §3.1: faithfully flat affine module descent
-  (`affineModuleDescentEquivalence`) is the case of 4.2 (`full_faithful_comparison_iff`,
-  `nonempty_comonadicLeftAdjoint_iff`) in which `A → B` is faithfully flat.
+No roadmap on main or in an open pull request consumes this one.
 
 ## Research context
 
@@ -772,8 +779,8 @@ quasi-coherent sheaves along a finite strict epimorphism are effective, even ove
 ring (FGA I, §A, n° 2, c); descent of flat modules along finite morphisms of local artinian rings
 need not be effective (Venken 1971), and Philippe 1973 studies descent along unramified
 morphisms. Without flatness, descent of all modules along a ring map is effective exactly when the
-map is pure: announced by Olivier, proved by Joyal and Tierney in unpublished work, with a first
-published proof by Mesablishvili (Mesablishvili 2000; Stacks, Section 35.4). Being finitely
+map is pure: asserted by Olivier, extractable from the work of Joyal and Tierney, with a first
+free-standing proof by Mesablishvili 2000 (Stacks, Section 35.4, Tag 08WE). Being finitely
 generated, flat or finite projective descends along pure maps (Mesablishvili 2002, Theorem 3.2;
 Stacks, Theorem 35.4.25, Tag 08XD), so pure maps are effective descent morphisms for these
 modules too (Mesablishvili 2002, Theorem 1.1), and a ring map along which descent of flat modules
@@ -782,9 +789,14 @@ quasi-coherent modules is equivalent to purity (Mesablishvili 2004a), and purity
 stable regular epimorphism (Mesablishvili 2004b).
 
 The smallest length of a finite local scheme over a field carrying a non-effective closed
-equivalence relation is not known. It is at least `3` over every field, at least `5` over `𝔽₂` and
-`𝔽₃`, and algebras with `m² = 0` give no example in any length (3.2, Smaller lengths); it is at most
-`15` (`16` in characteristic `2`) by 3.2. Whether every non-effective example comes, as in 3.2,
+equivalence relation is not known. It is at least `3` over every field, and local algebras with
+residue field `k` and `m² = 0` give no example in any length (3.2,
+`eq_differenceIdeal_of_sq_eq_bot`); it is at most `15` (`16` in characteristic `2`) by 3.2. An
+unpublished exhaustive search over `𝔽₂` and `𝔽₃` finds no example in lengths `3` and `4`, over the
+local algebras `k[x]/(x³)`, `k[x, y]/m²`, `𝔽_{p³}`, `k[x]/(x⁴)`, `k[x, y, z]/m²`, every
+`k[x, y]/(W + m³)` with `W` a plane of quadrics, `𝔽_{p²}[ε]` and `𝔽_{p⁴}`, testing every ideal
+with the three fields of 0.1 against the criterion of 1.3; there the equivalence ideals are exactly
+the kernel pairs of subalgebras. Whether every non-effective example comes, as in 3.2,
 from restricting one on an affine space is not known either.
 
 Kollár's Question 8 is open: in characteristic zero, for a scheme-theoretic equivalence relation
@@ -813,7 +825,8 @@ not effective, so a positive answer would not give effectivity. For the finite s
   1970; re-edition by P. Gille and P. Polo, Documents Mathématiques 7, Soc. Math. France, 2011.
 - J. Kollár, « Quotients by finite equivalence relations », with an appendix by C. Raicu, in
   *Current Developments in Algebraic Geometry*, MSRI Publ. 59, Cambridge Univ. Press, 2012,
-  227–256: Definition 4, Theorem 6, Question 8, §2 and Example 9, appendix ¶50, Theorem 51
+  227–256: Example 3, Definition 4, Theorem 6, Question 8, §2 and Example 9, appendix ¶50,
+  Theorem 51
   (numbering of arXiv:0812.3608).
   Zbl 1271.14002.
 - C. Raicu, « Affine toric equivalence relations are effective », *Proc. Amer. Math. Soc.* 138

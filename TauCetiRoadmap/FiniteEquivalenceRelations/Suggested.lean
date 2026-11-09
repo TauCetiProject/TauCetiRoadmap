@@ -32,7 +32,9 @@ Headline theorems stated here:
 * README 3.1, `raicuIdeal_isEquivIdeal`, `raicuIdeal_finite` and `differenceIdeal_raicuIdeal_ne`:
   Raicu's finite equivalence relation on `𝔸²_k` is not given by its invariants.
 * README 3.2, `not_isEffectiveEquivalenceRelation_raicuArtin`: over every field, a closed
-  equivalence relation on a finite local `k`-scheme that is not effective.
+  equivalence relation on a finite local `k`-scheme that is not effective; and
+  `eq_differenceIdeal_of_sq_eq_bot`: on `A = k ⊕ V` with `V² = 0`, every equivalence ideal is the
+  difference ideal of its invariants.
 * README 3.3, `raicuCocycle_not_mem_differenceIdeal`: over `𝔽₃`, the class of Raicu's cocycle is
   the obstruction.
 * README 3.4, `eq_differenceIdeal_of_isToric`: toric equivalence relations on affine toric
@@ -254,6 +256,20 @@ theorem not_isEffectiveEquivalenceRelation_raicuArtin :
   sorry
 
 end Raicu
+
+section SquareZero
+
+variable (k : Type u) [Field k] (A : Type u) [CommRing A] [Algebra k A]
+
+/-- On `A = k ⊕ V` with `V` an ideal of square zero, every equivalence ideal is the difference
+ideal of its invariants; for `A` finite-dimensional this is effectivity by
+`isEffectiveEquivalenceRelation_iff`. -/
+theorem eq_differenceIdeal_of_sq_eq_bot (V : Ideal A) (hV : V ^ 2 = ⊥)
+    (hA : ∀ a : A, ∃ c : k, a - algebraMap k A c ∈ V) {I : Ideal (A ⊗[k] A)}
+    (hI : IsEquivIdeal k A I) : I = differenceIdeal k A I := by
+  sorry
+
+end SquareZero
 
 /-- Over `𝔽₃`, the image of Raicu's cocycle on `Z × Z` lies in the ideal of the restricted
 relation (it is a generator) and not in the ideal of `Z ×_Y Z`. -/
