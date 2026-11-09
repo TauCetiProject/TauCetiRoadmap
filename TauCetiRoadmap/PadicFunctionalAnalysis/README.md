@@ -1,11 +1,16 @@
-# P-adic functional analysis
+# Roadmap: p-adic functional analysis
 
-Build the functional analysis of nonarchimedean Banach modules and the analysis
-of continuous and locally analytic functions on `ℤ_p`: Banach–Tate operator
-theory, orthonormalisable modules, Mahler and Amice coordinates, quantitative
-distribution estimates, and continuous characters of `ℤ_pˣ` with their
-specialisation maps. These interfaces serve Fredholm theory, Iwasawa theory,
-adic geometry and families of automorphic forms.
+**Summary.** This roadmap builds the functional analysis of nonarchimedean
+Banach modules and the analysis of continuous and locally analytic functions on
+`ℤ_p`: Banach–Tate operator theory, orthonormalisable modules, Mahler and Amice
+coordinates, quantitative distribution estimates, and continuous characters of
+`ℤ_pˣ` with their specialisation maps. It starts from the pinned Tate norms,
+operator norms, model spaces, analytic stages and weight space, and ends with
+Amice's theorem, the Amice bijection between locally analytic distributions on
+`ℤ_p` and series on the open unit disc, the adic universal character of `ℤ_pˣ`,
+separation of measures by weights and the analytic levels of weights. These
+interfaces serve Fredholm theory, Iwasawa theory, adic geometry and families of
+automorphic forms.
 
 The pinned Tau Ceti proves most of Layers 0–3 and large parts of Layers 4–5:
 Tate norms and gauges, ring-scalar operator norms and the mapping theorems,
@@ -25,7 +30,7 @@ discrete-valuation and characteristic-zero assumptions are imposed locally.
 
 Every milestone and check below is required. This README is definitive;
 [Suggested.lean](Suggested.lean) states, on the pinned carriers, the headline
-theorems of §§4.4, 4.6, 5.3 and 5.4 that the pinned libraries do not prove.
+theorems of §§4.4, 4.6, 4.7, 5.3 and 5.4 that the pinned libraries do not prove.
 
 ## Scope and ownership
 
@@ -181,6 +186,45 @@ each section; a section's remaining targets consume exactly these declarations.
 - [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md):
   the local-field exponential and logarithm used in §§4.5 and 5.1.
 
+## How to read the build
+
+Layers 0–2 (ultrametric Banach modules, Tate gauges, operators, model spaces
+and bases) precede the bounded duality of Layer 3 (continuous functions, Mahler
+coordinates and bounded measures); Layer 4 (analytic stages, Amice's theorem
+and locally analytic distributions) consumes RestrictedPowerSeries and Layer 3;
+Layer 5 (weights, universal characters, analytic levels and the annular
+coefficient ring) consumes both. Within the remaining targets, Amice's theorem
+(§4.4) precedes the Mahler criterion, §4.6, §4.7 and §5.4; the completed group
+algebra of `ℤ_pˣ` precedes the adic universal character and the
+Amice-coordinate comparison of §5.3; §5.4 precedes §5.5. Only the last
+corollary of §2.4 uses completed tensors, and it takes them from the pinned
+`TauCeti.Huber.BanachModule.CompletedTensor`. The Amice-coordinate comparison
+of §5.3 uses §3.4, the pinned completed-group-algebra equivalence and
+ProfiniteProPGroups alone.
+
+Each section first lists, under "In the pinned library", the pinned
+declarations that already prove its statements; these are inputs, not targets.
+What follows under "Target" or "Targets" is the remaining work, with `*Needs:*`
+naming the pinned declarations or earlier targets it rests on. Each layer ends
+with its Examples, the Checks of the layer, and its Dependencies. Names
+without a namespace in the target lists (`amiceMap_bijective_and_norm_eq`,
+`isOrthonormalBasis_amiceTerm`, `exists_eval_eq_addChar_iff`, `distributions`,
+`binomialLA`, `amiceTransform_distribution_bijective`,
+`exists_character_of_hasEval`, `eq_aeval_binomialSeries`,
+`amiceTransform_completedGroupAlgebra_compat`, `measurePairing_injective`,
+`exists_eval_eq_principalChar_iff`) are the declarations of
+[Suggested.lean](Suggested.lean), stated against the pinned carriers. A Check
+marked as an example in a pinned file is already formalised; the others are
+required.
+
+A target is complete when its definitions use native structures, its
+statements and comparison maps are proved, its stated checks are formalised,
+and its supplier and consumer hypotheses agree. Test zero objects and empty
+indices, non-Noetherian versus Noetherian coefficients, all primes, and the
+strict radius boundaries. Admitted signatures are not completed results.
+Integration must not introduce `sorry`-based instances or silently change the
+topology of an imported object.
+
 ## Layer 0: Ultrametric Banach modules and Tate gauges
 
 ### 0.1 Sums and estimates
@@ -195,11 +239,13 @@ bilinear and module Cauchy products and double sums with joint decay are in
 `Analysis/Normed/Module/InfiniteSum.lean`
 (`TauCeti.summable_bilinear_of_nonarchimedean`,
 `TauCeti.tendsto_bilinear_cofinite_nhds_zero`); summation is norm-decreasing in
-the sup norm (`ZeroAtInftyContinuousMap.norm_tsum_smul_le`).
-
-Target: a family of null families is summable in the sup-norm space when its
-sup norms tend to zero; pointwise decay alone is insufficient
-(`ZeroAtInftyContinuousMap.not_tendsto_single_cofinite` is the obstruction).
+the sup norm (`ZeroAtInftyContinuousMap.norm_tsum_smul_le`). A family of null
+families `f : I → C₀(J,E)` whose sup norms tend to zero along the cofinite
+filter is summable in `C₀(J,E)`: this is
+`NonarchimedeanAddGroup.summable_of_tendsto_cofinite_zero` for the ultrametric
+sup norm `ZeroAtInftyContinuousMap.instIsUltrametricDist`
+(`Topology/MetricSpace/Ultra/ContinuousMaps.lean`). Nothing remains beyond the
+checks.
 
 ### 0.2 Normed rings and multiplicative units
 
@@ -308,7 +354,13 @@ Targets:
 - `(ℤ_p,p,p)` gives the norm on `ℚ_p` (`Padic.tateGauge_subring_eq_norm`);
   `(ℤ_p,p²,p)` gives values `1,p⁻¹` at `p,p²` and is not multiplicative
   (`Padic.tateGauge_subring_sq_values_and_not_mul`).
-- Still to formalise: the zero ring has zero gauge.
+- The zero ring has zero gauge: every `a^(−n)` qualifies, so the infimum is
+  `0`, and the normalisation `g(1)=1` of the nonzero Hausdorff case fails.
+- Pointwise decay does not give summability in `C₀(J,E)`: for infinite `I` the
+  family `i ↦ single i b` with `b≠0` tends to zero at each coordinate, but its
+  norms are all `‖b‖` (`ZeroAtInftyContinuousMap.not_tendsto_single_cofinite`),
+  so it is not summable; the sup-norm hypothesis of §0.1 cannot be weakened to
+  coordinatewise decay.
 - Membership `ϖ∈A₀` is essential: in `ℚ_p²`, take
   `A₀={(x,y)∈ℤ_p² : x−y∈p²ℤ_p}` and `ϖ=(p,p²)`; the formula gives `g(1)=1`,
   `g(ϖ)=a⁻¹`, `g(1+ϖ)=a²`, violating ultrametricity.
@@ -338,12 +390,9 @@ the operator space (`TauCeti.RingOpNorm.completeSpace`,
 `TauCeti.RingOpNorm.isUltrametricDist`), and Neumann inversion
 (`ContinuousLinearMap.oneSub`, `ContinuousLinearMap.ringOpNorm_oneSub_symm`,
 for a nonzero module). The operator norm is a supremum of ratios, not
-generally the supremum of values on the unit ball.
-
-Target: the zero-module case of Neumann inversion, where the inverse has norm
-zero. *Needs:* `ContinuousLinearMap.oneSub`,
-`ContinuousLinearMap.ringOpNorm_oneSub_symm` (stated for a nontrivial module)
-and `ContinuousLinearMap.ringOpNorm` on the zero module.
+generally the supremum of values on the unit ball. On the zero module every
+operator is zero, so the Neumann inverse has norm zero; this degenerate case is
+a Check below. Nothing remains.
 
 ### 1.2 Mapping theorems
 
@@ -366,11 +415,17 @@ Reuse Mathlib's continuity, completeness, equivalent-norm and closed-subspace
 theorems over complete nontrivially normed fields. In the pinned library:
 `t`-orthogonal bases for `0<t<1` (`TauCeti.exists_basis_isTOrthogonalFamily`).
 
-Target: under discrete valuation prove the orthogonal version (`t=1`, compare
-`TauCeti.isTOrthogonalFamily_one_iff`) using finite-dimensional distance
-attainment: the distances from a vector to a closed subspace lie in the
-discrete set `r^ℤ∪{0}`, so their infimum is attained. No spherical
-completeness is assumed for the general field case. *Needs:*
+Target: over a complete discretely valued field `K` with value group `r^ℤ`,
+prove the orthogonal version (`t=1`, compare
+`TauCeti.isTOrthogonalFamily_one_iff`) for a finite-dimensional normed space
+`V`, using finite-dimensional distance attainment. The nonzero norms of `V` need
+not lie in `r^ℤ`, but they lie in at most `dim V` cosets `c_i r^ℤ`: vectors
+whose norms lie in distinct cosets have `‖Σ a_i v_i‖=max‖a_i v_i‖`, since the
+nonzero terms have distinct norms, so they are linearly independent. A finite
+union of such cosets, with `0`, meets every interval `[s,2s]`, `s>0`, in
+finitely many points, so a positive distance from a vector to a closed subspace
+is attained, and a zero distance is attained because the subspace is closed.
+No spherical completeness is assumed for the general field case. *Needs:*
 `TauCeti.exists_basis_isTOrthogonalFamily`,
 `TauCeti.isTOrthogonalFamily_one_iff`, Mathlib
 `Submodule.closed_of_finiteDimensional`.
@@ -462,10 +517,15 @@ pinned `ZeroAtInftyContinuousMap.indicatorCLM` is the model-space case.
 In the pinned library, with nothing remaining: lifts of a residue basis are an
 orthonormal basis and conversely (`TauCeti.ResidueModule.isOrthonormalBasis_iff`);
 `TauCeti.IsONable` is equivalent to freeness of the residue module
-(`TauCeti.isONable_iff_free_residueModule`); over a residue field every module
-is potentially orthonormalisable, isometrically exactly when its nonzero norms
-lie in the value group (`TauCeti.isPotentiallyONable_of_discrete_norm`,
-`TauCeti.isONable_iff_discrete_norm`); cardinality invariance
+(`TauCeti.isONable_iff_free_residueModule`); over a complete discretely normed
+ultrametric norm-one commutative ring whose residue ring is a field, that is,
+one with a multiplicative pseudo-uniformiser `ϖ` whose norms `‖ϖ‖^ℤ` contain
+every nonzero scalar norm (for example a complete discretely valued field),
+every Banach module is potentially orthonormalisable, and isometrically so
+exactly when its nonzero norms lie in `‖ϖ‖^ℤ`
+(`TauCeti.isPotentiallyONable_of_discrete_norm`,
+`TauCeti.isONable_iff_discrete_norm`, [Serre] Proposition 1, p. 70);
+cardinality invariance
 (`TauCeti.IsOrthonormalBasis.lift_mk_eq_of_continuousLinearEquiv`).
 
 ### 2.4 Countable type and strict splitting
@@ -483,13 +543,17 @@ for an embedding `i:M→E`, a continuous surjection `q:E→N` with
 `range i=ker q`, and countable-type Banach `E`, an isomorphism `d:E≃L[K]M×N`
 with `d(i m)=(m,0)` and `(d x).2=q x`. No discrete valuation is required.
 
-Target: for a complete isometric extension `K'/K`, extend this splitting and
-its inverse to show that `K'⊗̂_K(−)` preserves strict exactness, on the pinned
-completed tensor `TauCeti.Huber.BanachModule.CompletedTensor K K' V`, with
+Target: for a complete isometric extension `K'/K` and a strict short exact
+sequence `0→M→E→N→0` of Banach `K`-spaces whose middle term `E` has countable
+type, extend the splitting above and its inverse along `K'⊗̂_K(−)` to show that
+`0→K'⊗̂_K M→K'⊗̂_K E→K'⊗̂_K N→0` is strict exact, on the pinned completed
+tensor `TauCeti.Huber.BanachModule.CompletedTensor K K' V`, with
 `TauCeti.Huber.BanachModule.CompletedTensor.map` for the induced maps and
 `TauCeti.Huber.BanachModule.CompletedTensor.lift` for its universal property.
-The corollary describes exactness for those native maps.
-*Needs:* `TauCeti.exists_continuousLinearEquiv_prod_of_countableType`,
+Countable type of `E` is the hypothesis of the splitting; `M` and `N` inherit
+it. The route is the proof of [Conrad] Lemma 1.1.5, p. 7, where countable type
+supplies the continuous section ([BGR] 2.7.1/4). *Needs:*
+`TauCeti.exists_continuousLinearEquiv_prod_of_countableType`,
 `TauCeti.Huber.BanachModule.CompletedTensor`. The splitting theorem itself is
 independent of tensors.
 
@@ -541,16 +605,25 @@ Targets:
   of the product order is visible. *Needs:* `ContinuousLinearMap.matrixCoeff`,
   `ContinuousLinearMap.hasSum_matrixCoeff_mul`,
   `ContinuousLinearMap.hasSum_matrixCoeff_comp`.
-- Permutation operators; over a field, a diagonal with nonzero entries is
-  injective with dense range, and invertible exactly when its inverse is
-  bounded. *Needs:* `ZeroAtInftyContinuousMap.congrLeft` for the permutation
-  of the index, `ZeroAtInftyContinuousMap.diagonalCLM` with
+- For a bijection `σ:J≃I` of discrete index types, the pinned reindexing
+  isometry `ZeroAtInftyContinuousMap.congrLeft` along `σ`, `f↦f∘σ⁻¹`, has
+  output-first matrix `matrixCoeff i j = 1` if `i=σ j` and `0` otherwise, and
+  its inverse has the transposed matrix; conversely an operator whose matrix
+  has exactly one entry `1` in each row and column and zeros elsewhere is
+  such a reindexing. *Needs:* `ZeroAtInftyContinuousMap.congrLeft`,
+  `ContinuousLinearMap.matrixCoeff`,
+  `ContinuousLinearMap.hasSum_matrixCoeff_mul`,
+  `ZeroAtInftyContinuousMap.dense_setOf_finite_support`.
+- Over a field, a diagonal operator with nonzero entries is injective with
+  dense range, and invertible exactly when the entries are bounded away from
+  zero, that is, when the diagonal of inverses is bounded. *Needs:*
+  `ZeroAtInftyContinuousMap.diagonalCLM` with
   `ZeroAtInftyContinuousMap.ringOpNorm_diagonalCLM`,
   `ZeroAtInftyContinuousMap.dense_setOf_finite_support`.
 - Over a Noetherian Banach–Tate ring, every finite submodule of `C₀(I,R)` is
   closed, so `Submodule.exists_finset_norm_le` applies to it. No freeness of
-  `P` is assumed. Follow [Buz] Lemma 2.3(b): a finite coordinate set `S` on
-  which the projection is injective on `P` exists because the ring is
+  `P` is assumed. Follow [Buz] Lemma 2.3(a)–(b), p. 10: a finite coordinate
+  set `S` on which the projection is injective on `P` exists because the ring is
   Noetherian; the image of `P` in `C₀(S,R)=R^S` is closed; the inverse is
   continuous because `P` is finite; so `P` is complete, hence closed.
   *Needs:* `TauCeti.Huber.isClosed_of_isNoetherian` for the image in `R^S`,
@@ -590,6 +663,13 @@ is a special case. Nothing remains beyond the checks.
   `ContinuousLinearMap.matrixCoeff_comp`.
 - For `P=0`, use `S=∅, C=1`; for a coordinate line or a module supported on a
   fixed finite set, take that coordinate set and `C=1`.
+- For the cyclic permutation `σ(0)=1, σ(1)=2, σ(2)=0` of `{0,1,2}`, the
+  reindexing `f↦f∘σ⁻¹` sends `single 0 1` to `single 1 1`, so its matrix has
+  entries `1` at `(1,0),(2,1),(0,2)`; the convention `f↦f∘σ` would give the
+  transposed matrix, with entries at `(0,1),(1,2),(2,0)`.
+- The diagonal `diag(p^n)` on `C₀(ℕ,ℚ_p)` is injective with dense range but
+  not surjective: `(p^n)_n` is not in its range, since the preimage would be
+  the constant sequence `1`, which is not null.
 
 ### Dependencies
 
@@ -622,12 +702,14 @@ monomials (`TauCeti.id_pow_eq_sum_stirlingSecond_smul_mahler`). The characters
 
 Target: for a continuous scalar function `g∈C(ℤ_p,R)` and a Banach module `E`
 with contractive `R`-action, multiplication by `g` on `C(ℤ_p,E)` is bounded by
-`‖g‖`; when `E≠0` and the action satisfies `NormSMulClass R E` (in particular
-for `E=R` with `NormOneClass R`), its operator norm is `‖g‖`, attained on a
-nonzero constant function, so it is contractive exactly when `‖g‖≤1`.
+`‖g‖`. Its operator norm is `‖g‖`, so that it is contractive exactly when
+`‖g‖≤1`, in two cases: when `E≠0` and `NormSMulClass R E` holds, the ratio
+`‖g‖` is attained on every nonzero constant function; when `E=R` and
+`NormOneClass R` holds, it is attained on the constant `1`. Neither case
+implies the other: `NormOneClass R` does not give `NormSMulClass R R`.
 *Needs:* Mathlib `ContinuousMap.norm_le` and `ContinuousMap.norm_coe_le_norm`
-for the sup norm, `IsBoundedSMul R E` for the bound and `NormSMulClass R E`
-for the converse.
+for the sup norm, `IsBoundedSMul R E` for the bound, `NormSMulClass R E` for
+the first case and `NormOneClass R` for the second.
 
 ### 3.3 Van der Put coordinates
 
@@ -686,20 +768,26 @@ beyond the checks.
   `E=0` with the same `g=p⁻¹`: `C(ℤ_p,0)=0`, multiplication is the zero map
   and contractive, while `‖g‖=p`; a definition claiming "contractive exactly
   when `‖g‖≤1`" without `E≠0` is refuted by it.
+- `NormOneClass` is not `NormSMulClass`: on `R=E=ℚ_p×ℚ_p` with the sup norm,
+  `‖1‖=1` but `‖(1,0)(0,1)‖=0`. For `g` the constant `(p⁻¹,1)`, `‖g‖=p`; the
+  nonzero constant `(0,1)` has ratio `1`, while the constant `1` attains `p`,
+  so the operator norm is `p` through the second case only.
+- The Amice transforms of `φδ₀`, `φδ₁` and `φ0` are `1`, `(1+T)^p` and `0`
+  (`AbstractMeasure.amiceTransform_dirac`, `AbstractMeasure.phiMeasure_dirac`):
+  `φδ₁=δ_p`. A `φ` with an averaging factor `p⁻¹` would send `δ₁` to
+  `p⁻¹(1+T)^p`.
 - A van der Put coefficient with leading digit greater than one, Dirac measures
   of norm one (`TauCeti.AbstractMeasure.norm_dirac`), `p⁻¹δ₀` outside and `0`
   inside the rational dual unit ball, the sequence `p^(−n)` not being a moment
   sequence, and at `p=3` the identities `φδ₂=δ₆`, `ψδ₆=δ₂`, `ψδ₁=0`, `ψδ₀=δ₀`
   are examples in the pinned files of §§3.3–3.4; `(φμ)(1)=μ(1)` is
   `AbstractMeasure.phiMeasure_apply_one`.
-- Still to formalise: the Amice identity sends `δ₀,δ₁,0` to `1,(1+T)^p,0`,
-  from `AbstractMeasure.amiceTransform_dirac` and
-  `AbstractMeasure.phiMeasure_dirac`.
 
 ### Dependencies
 
 Layers 0–2, Mathlib's Mahler and measure APIs, and RestrictedPowerSeries §7.1.
-Sources: [Mah], [Am], [Col] I.3 and [RJW] §3.
+Sources: [Mah], [Am] Théorème 1, p. 143 (the Mahler basis is the case
+`uₙ=n`), [Col] I.3 and [RJW] §3.
 
 ## Layer 4: Analytic stages and distributions on `ℤ_p`
 
@@ -712,15 +800,25 @@ distinct from its evaluated functions, and evaluation
 Target: consume the restricted-series carrier, unit-radius `C₀` comparison,
 evaluation, translation and differentiation from RestrictedPowerSeries, using
 its module-valued coefficient model, and compare it with
-`TauCeti.AnalyticStage`. Evaluation on a bounded set lands in bounded
-continuous functions; do not assume that the unit ball of a general
-coefficient ring is compact. For algebra coefficients one injectivity
+`TauCeti.AnalyticStage`: the curried coordinates
+`ZeroAtInftyContinuousMap.curryEquiv`, followed on each factor by the
+unit-radius coefficient isometry of RestrictedPowerSeries §1.3, give an
+`ℤ_p`-linear isometry from `TauCeti.AnalyticStage p h E` onto the product, over
+`a∈ZMod(p^h)` with the maximum norm, of the `E`-valued restricted series in one
+variable `w` at radius one, sending `c` to `(Σ_k c(a,k) w^k)_a`. Under it the
+value of `TauCeti.AnalyticStage.eval c` at `x=a+p^h w`, with `a` the natural
+representative and `w∈ℤ_p`, is the value `Σ_k w^k • c(a,k)` of the `a`-th
+series at `w` (`TauCeti.AnalyticStage.eval_natCast_val_add_mul`). Evaluation
+on a bounded set lands in bounded continuous functions; do not assume that the
+unit ball of a general coefficient ring is compact. For algebra coefficients one injectivity
 hypothesis is a separating family of bounded maps to complete nonarchimedean
 fields, as in RestrictedPowerSeries; a Banach `ℚ_p`-module instead has the
 injectivity of §4.4; a general bounded `ℤ_p`-module has neither. *Needs:*
-RestrictedPowerSeries §§0.3, 1.1 and 2.1–2.3 (module-valued coefficients,
-Gauss norms, evaluation, translation and Hasse derivatives),
+RestrictedPowerSeries §§0.3, 1.1, 1.3 and 2.1–2.3 (module-valued
+coefficients, Gauss norms, the unit-radius coefficient isometry, evaluation,
+translation and Hasse derivatives), `ZeroAtInftyContinuousMap.curryEquiv`,
 `TauCeti.AnalyticStage`, `TauCeti.AnalyticStage.eval`,
+`TauCeti.AnalyticStage.eval_natCast_val_add_mul`,
 `TauCeti.AnalyticStage.eval_injective`.
 
 ### 4.2 Discs and changes of centre
@@ -777,7 +875,8 @@ evaluation is the Mahler series with coefficients `m_h(n)c_n`
 
 Targets:
 
-- **Amice's theorem** ([Am]; [Col] Théorème I.4.7). For complete ultrametric
+- **Amice's theorem** ([Am] Théorème 2, p. 150, for `uₙ=n`; [Col] Théorème
+  I.4.7, p. 15). For complete ultrametric
   `E` with contractive `ℤ_p` action, `TauCeti.AnalyticStage.amiceMap` is
   bijective and isometric: `amiceMap_bijective_and_norm_eq`. In the integral
   case its basis vectors form an orthonormal basis of `LA_h(ℤ_p)`:
@@ -797,15 +896,29 @@ Targets:
   ```
 
   This is the level-`h` form of [Col] Théorème I.4.7 read through the Mahler
-  coefficients. *Needs:* `amiceMap_bijective_and_norm_eq`,
-  `TauCeti.AnalyticStage.eval_amiceMap`, `TauCeti.AnalyticStage.eval_injective`.
+  coefficients; for scalar coefficients it is [Am] Théorème 3 with Corollaire
+  1(c), pp. 159–161, applied to `uₙ=n`. *Needs:*
+  `amiceMap_bijective_and_norm_eq`, `TauCeti.AnalyticStage.eval_amiceMap`,
+  `TauCeti.AnalyticStage.eval_injective`.
 - Local analyticity is equivalent to positive lower exponential decay of
   `‖a_n‖`: `liminf_n (−log_p‖a_n‖)/n>0`, allowing `+∞` for zero coefficients
-  and ignoring `n=0` ([Col] Corollaire I.4.8). *Needs:* the level-`h`
+  and ignoring `n=0` ([Col] Corollaire I.4.8, p. 15; [Am] Corollaire 1(b),
+  p. 161). *Needs:* the level-`h`
   criterion above and `TauCeti.LocallyAnalytic.range_eval_eq_iSup`.
-- The transition in Amice coordinates is diagonal with multiplier
-  `m_h(n)/m_(h+1)(n)`, whose norm tends to zero
-  (compare `TauCeti.norm_factorial_le_mul_amiceRadius_succ_pow`).
+- For complete ultrametric `E` with contractive `ℤ_p` action, the transition
+  is diagonal in Amice coordinates:
+  `TauCeti.AnalyticStage.transition` of `amiceMap_h(c)` is
+  `amiceMap_(h+1)(n↦(m_h(n)/m_(h+1)(n))•c_n)`. The multiplier is the integer
+  `⌊n/p^h⌋!/⌊n/p^(h+1)⌋!`, of valuation `⌊n/p^(h+1)⌋` by Legendre's formula,
+  so its norm tends to zero. The identity holds on each Amice vector over
+  `ℤ_p`, where evaluation is injective; it passes to `E` because the
+  transition formula of §4.3 and the coefficients of Amice's vectors
+  (`TauCeti.AnalyticStage.amiceTerm_apply`) are integral multiples of `e`, and
+  then to all of `C₀(ℕ,E)` by continuity. *Needs:*
+  `TauCeti.AnalyticStage.amiceTerm`, `TauCeti.AnalyticStage.amiceTerm_apply`,
+  `TauCeti.AnalyticStage.eval_amiceTerm`, `TauCeti.AnalyticStage.eval_transition`,
+  `TauCeti.AnalyticStage.eval_injective` (for `E=ℤ_p`), and
+  `TauCeti.norm_factorial_le_mul_amiceRadius_succ_pow` for the decay.
 
 ### 4.5 Exponential, logarithm and binomial evaluation
 
@@ -817,20 +930,31 @@ and on finite extensions (`TauCeti.hasSum_exp_of_mem_maximalIdeal_pow`,
 topologically nilpotent `t` (`PadicInt.addChar_of_value_at_one`) and continuity
 of the binomial series in the exponent (`PadicInt.continuous_binomialSeries`).
 
-Targets: for a commutative Banach `ℚ_p`-algebra with bounded scalar action,
-the logarithm on `‖u‖<1` and the exponential on `‖z‖<r_p=p^(−1/(p−1))`, with
-inverse and addition formulas on the stated domains. Exact norm identities use
-a normed-field or isometric-scalar hypothesis; do not infer a Banach-algebra
-identity from field-valued evaluations alone. Prove `(1+t)^x=exp(x log(1+t))`
-on the common convergence domain, power-contraction estimates, and
-compatibility with the local-field exponential and logarithm of
-LocalFieldsRamification. Integral exponents are not arbitrary elements of the
-unit ball of a coefficient algebra. *Needs:* `Padic.log_exp`, `Padic.exp_log`,
-`Padic.norm_exp_sub_one`, `TauCeti.hasSum_exp_of_mem_maximalIdeal_pow`,
-`TauCeti.hasSum_log_of_mem_unitFiltration_one`,
-`PadicInt.addChar_of_value_at_one`, `PadicInt.continuous_binomialSeries`, and
-LocalFieldsRamification Layer 1, deep units in mixed characteristic
-(`TauCeti.deepUnitExpLogEquiv`), for the compatibility.
+Targets:
+
+- For a complete ultrametric commutative normed `ℚ_p`-algebra `A` with
+  `‖c•a‖≤‖c‖‖a‖`, Mathlib's `NormedSpace.log` converges at `1+u` for `‖u‖<1`
+  and `NormedSpace.exp` converges at `z` for `‖z‖<r_p=p^(−1/(p−1))`, with
+  `log(exp z)=z`, `exp(log(1+u))=1+u` for `‖u‖<r_p`, `exp(z+z')=exp z·exp z'`
+  and `log((1+u)(1+u'))=log(1+u)+log(1+u')` on these domains, and the bounds
+  `‖exp z−1‖≤‖z‖`, `‖log(1+u)‖≤‖u‖` for `‖z‖,‖u‖<r_p`. Exact norm identities
+  use a normed-field or isometric-scalar hypothesis; do not infer a
+  Banach-algebra identity from field-valued evaluations alone. *Needs:*
+  Mathlib `NormedSpace.exp`, `NormedSpace.log` and
+  `NonarchimedeanAddGroup.summable_of_tendsto_cofinite_zero`, with the scalar
+  case `Padic.log_exp`, `Padic.exp_log`, `Padic.norm_exp_sub_one` as the model.
+- For `t∈A` with `‖t‖<r_p` and `x∈ℤ_p`, `(1+t)^x=exp(x log(1+t))`, where the
+  left side is `PadicInt.addChar_of_value_at_one`, and
+  `‖(1+t)^x−1‖≤‖x‖‖t‖`, with equality over a normed field. Integral
+  exponents are not arbitrary elements of the unit ball of a coefficient
+  algebra. *Needs:* the previous target, `PadicInt.addChar_of_value_at_one`,
+  `PadicInt.continuous_binomialSeries` for continuity in `x`, and density of
+  `ℕ` in `ℤ_p`.
+- Over a finite extension of `ℚ_p`, the exponential and logarithm above agree
+  with the local-field ones of LocalFieldsRamification on their common
+  domains. *Needs:* `TauCeti.hasSum_exp_of_mem_maximalIdeal_pow`,
+  `TauCeti.hasSum_log_of_mem_unitFiltration_one`, and LocalFieldsRamification
+  Layer 1, deep units in mixed characteristic (`TauCeti.deepUnitExpLogEquiv`).
 
 ### 4.6 Analyticity of additive characters
 
@@ -848,7 +972,9 @@ Target: for a complete ultrametric normed `ℚ_p`-algebra `K` with
 multiplicative norm, in particular a complete normed extension `K/ℚ_p`, and
 topologically nilpotent `t`, `χ_t` lies in the image of `LA_h(K)` exactly when
 `‖t‖ < p^(−1/((p−1)p^h))`, equivalently `‖(1+t)^(p^h)−1‖<r_p`:
-`exists_eval_eq_addChar_iff`, stated with the radius `TauCeti.amiceRadius p h`.
+`exists_eval_eq_addChar_iff`, stated with the radius `TauCeti.amiceRadius p h`
+([Col] Théorème I.4.7, p. 15, with the argument of Lemme II.2.1, p. 30; [Am]
+Corollaire 1(c), p. 161, for `K=ℚ_p`).
 The "if" direction is the pinned `TauCeti.AnalyticStage.eval_addCharExpansion`;
 for "only if", Amice's theorem writes the preimage as `amiceMap c` with
 `c∈C₀(ℕ,K)`, uniqueness of Mahler coefficients gives `m_h(n)c_n=t^n`, so `c`
@@ -877,25 +1003,118 @@ convergence on the open disc
 (`TauCeti.onOpenDisc_iff_forall_hasGaussNorm_amiceRadius`,
 `TauCeti.onOpenDisc_iff_forall_bddAbove_norm_coeff_mul_norm_factorial`).
 
+Throughout, `K` is a complete normed extension of `ℚ_p`, `D(ℤ_p,K)` is the
+carrier `distributions K` below and `m_h(n)=⌊n/p^h⌋!`. No general manifold or
+tensor-distribution construction is required for this one-variable interface.
+
 Targets:
 
-- For a complete normed extension `K/ℚ_p`, the carrier `D(ℤ_p,K)` of
-  `K`-linear functionals on `TauCeti.LocallyAnalytic p K K` whose restrictions
-  to every stage are bounded, equivalently compatible stage functionals, with
-  the stage operator seminorms and no global topology.
-- For `b_n=μ(binom(−,n))`, the stage norm of `μ` is `D_h(b)` with
-  `D_h(b) = sup_n ‖b_n‖ ‖⌊n/p^h⌋!‖`, so the two inequalities above become
-  inequalities of distribution norms. *Needs:* `amiceMap_bijective_and_norm_eq`
-  and `TauCeti.amiceDualNorm`.
-- The Amice bijection between `D(ℤ_p,K)` and the open-unit-disc series algebra
-  of RestrictedPowerSeries, with its inverse and uniqueness. A bound at one
-  level is insufficient.
-- Continuous measures as distributions, Dirac transforms `(1+T)^x`
-  (`AbstractMeasure.amiceTransform_dirac` for measures), additive convolution by
-  the bounded two-variable test-function pairing with its stage estimates,
-  Amice taking it to multiplication, and comparison with native measure
-  convolution. No general manifold or tensor-distribution construction is
-  required for this one-variable interface.
+- **Distributions.** Define `distributions K` as the `K`-submodule of
+  `K`-linear forms `μ` on `TauCeti.LocallyAnalytic p K K` whose composite with
+  every stage map `TauCeti.LocallyAnalytic.ofStage K h` is continuous on the
+  Banach stage `LA_h(K)` ([Col] §II.2, p. 29). Its stage seminorms are the
+  operator norms `‖μ‖_h` of these composites; no global topology is put on it.
+  *Needs:* `TauCeti.LocallyAnalytic`, `TauCeti.LocallyAnalytic.ofStage`.
+  - A family of continuous `K`-linear forms `μ_h` on the stages with
+    `μ_(h+1)∘transition=μ_h` is the family of composites of exactly one
+    distribution (`Module.DirectLimit.lift`, `Module.DirectLimit.hom_ext`,
+    `TauCeti.LocallyAnalytic.ofStage_transition`).
+  - The stage seminorms increase with the level, `‖μ‖_h≤‖μ‖_(h+1)`, because
+    the transition is contractive (`TauCeti.AnalyticStage.norm_transition_le`).
+  - For `x∈ℤ_p`, the evaluation `δ_x(f)=(TauCeti.LocallyAnalytic.eval K f)(x)`
+    is a distribution with `‖δ_x‖_h=1` at every level, attained at the
+    constant `1` (`TauCeti.AnalyticStage.norm_eval_le`).
+  - A bounded measure `μ` in `AbstractMeasure ℤ_[p] K K` restricts to the
+    distribution `f↦μ(TauCeti.LocallyAnalytic.eval K f)` with `‖μ‖_h≤‖μ‖`.
+    Restriction is injective, and its image is the set of distributions with
+    bounded moments ([Col] §II.3, no. 2, p. 31). *Needs:*
+    `TauCeti.LocallyAnalytic.eval_ofStage`, `TauCeti.AnalyticStage.norm_eval_le`,
+    `AbstractMeasure.coeff_amiceTransform`,
+    `AbstractMeasure.mem_range_amiceTransform_iff`, and the Amice bijection
+    below for the image.
+
+  **Checks.**
+  - The derivative at zero is a distribution with `‖μ‖_h=p^h`: on the disc of
+    `0` at level `h`, the coordinate `w=x/p^h`, extended by zero to the other
+    discs, has stage norm one and derivative `p^(−h)` at `0`. Its stage norms
+    are unbounded, so it is not the restriction of a bounded measure; a carrier
+    with one bound for all stages would exclude it.
+  - No distribution has the moments `b_n=1/n!`: the form they define on
+    polynomials is bounded on `LA_0` but not on `LA_1`
+    (`TauCeti.bddAbove_norm_coeff_mul_norm_factorial_zero_exp`,
+    `TauCeti.not_bddAbove_norm_coeff_mul_norm_factorial_one_exp`); a carrier
+    asking continuity on `LA_0` alone would contain it.
+  - `δ_(−1)` has moments `(−1)^n` and `D_h=sup_n ‖m_h(n)‖=1` at every level, in
+    agreement with `‖δ_x‖_h=1` and with the stage-norm identity below.
+- **Binomial functions.** Define `binomialLA K n` as the class in
+  `TauCeti.LocallyAnalytic p K K` of the level-zero vector
+  `TauCeti.AnalyticStage.amiceTerm p 0 n ((n!)⁻¹ • 1)`. *Needs:*
+  `TauCeti.AnalyticStage.amiceTerm`, `TauCeti.LocallyAnalytic.ofStage`.
+  - It evaluates to `x↦binom(x,n)` (`TauCeti.LocallyAnalytic.eval_ofStage`,
+    `TauCeti.AnalyticStage.eval_amiceTerm`); an example in
+    [Suggested.lean](Suggested.lean) proves this.
+  - At level `h` it is the class of `amiceTerm p h n (m_h(n)⁻¹ • 1)`, of stage
+    norm `‖m_h(n)‖⁻¹`, by `TauCeti.LocallyAnalytic.eval_injective` and
+    `amiceMap_bijective_and_norm_eq`.
+  - The binomial functions span a dense subspace of every stage, by
+    `amiceMap_bijective_and_norm_eq`, so a distribution is determined by its
+    moments `b_n=μ(binomialLA K n)`.
+
+  **Checks.**
+  - `binomialLA K 0` is the constant `1`, `binomialLA K 1` is `x`, and
+    `binomialLA K 2` takes the value `1` at `x=−1`.
+  - At `p=2`, `binomialLA K 2` has stage norm `2` at level `0`, from the
+    expansion `(x²−x)/2`, and stage norm `1` at level `1`, from the expansions
+    `2w²−w` and `2w²+w` on the discs of `0` and `1`; these are `‖m_h(2)‖⁻¹`.
+  - The unnormalised vector `amiceTerm p 0 n 1` evaluates to `n!binom(x,n)`;
+    with it `δ_2` would have second moment `2` instead of `binom(2,2)=1`, and
+    transform `1+2T+2T²` instead of `(1+T)²`.
+- **Stage norms.** For a distribution `μ` with moments `b_n`, the stage norm
+  `‖μ‖_h` is `D_h(b)=sup_n ‖b_n‖ ‖m_h(n)‖`, the pinned `TauCeti.amiceDualNorm`
+  of `A_μ=Σ_n b_n T^n`, so the two inequalities above become
+  `S_h(A_μ)≤‖μ‖_h≤p S_(h+1)(A_μ)` ([Col] Théorème II.2.2, p. 30, in
+  valuations). *Needs:* `amiceMap_bijective_and_norm_eq`,
+  `TauCeti.amiceDualNorm`, and `ZeroAtInftyContinuousMap.linearCombinationEquiv`
+  for the dual of `C₀(ℕ,K)`.
+- **The Amice bijection.** For every distribution `μ`, `A_μ` lies on the open
+  unit disc (`PowerSeries.OnOpenDisc 1`), and every series on the open unit
+  disc is `A_μ` for exactly one distribution:
+  `amiceTransform_distribution_bijective` ([Col] Théorème II.2.2, p. 30; [ST]
+  Theorem 2.2, p. 9, in one variable). The inverse sends `F` to the
+  distribution acting on `LA_h` in Amice coordinates by
+  `c↦Σ_n c_n m_h(n) coeff_n F`. A bound at one level is insufficient: `exp(T)`
+  has `D_0` finite and is not on the open disc. *Needs:* `distributions`,
+  `binomialLA`, `amiceMap_bijective_and_norm_eq`,
+  `TauCeti.AnalyticStage.norm_amiceTerm_le`,
+  `TauCeti.onOpenDisc_iff_forall_bddAbove_norm_coeff_mul_norm_factorial`,
+  `ZeroAtInftyContinuousMap.linearCombinationEquiv`, `Module.DirectLimit.lift`.
+- **Integration of characters.** For a distribution `μ` and `z∈K` with
+  `‖z‖<1`, the character `x↦(1+z)^x` is the evaluation of a vector of `LA_h(K)`
+  for every `h` with `‖z‖<r_h`, and `μ` takes on it the value `A_μ(z)` of the
+  open-disc series at `z` ([Col] Lemme II.2.1, p. 30). *Needs:*
+  `TauCeti.AnalyticStage.addCharExpansion`,
+  `TauCeti.AnalyticStage.eval_addCharExpansion`,
+  `TauCeti.tendsto_amiceCharCoeff_iff`, the Amice bijection, and
+  RestrictedPowerSeries §7.1 for the value of `A_μ` at `z`.
+- **Point masses.** For `x∈ℤ_p`, `A_(δ_x)=Σ_n binom(x,n)T^n=(1+T)^x`, and
+  `δ_x` is the restriction of the bounded measure `AbstractMeasure.dirac x`,
+  whose transform is the same series (`AbstractMeasure.amiceTransform_dirac`).
+  *Needs:* `binomialLA`, `TauCeti.LocallyAnalytic.eval_ofStage`,
+  `TauCeti.AnalyticStage.eval_amiceTerm`, `AbstractMeasure.amiceTransform_dirac`.
+- **Convolution.** For distributions `λ,μ`, put
+  `(λ∗μ)(f)=μ(y↦λ(x↦f(x+y)))`. For `f∈LA_h(K)`, the function
+  `y↦λ(x↦f(x+y))` lies in `LA_h(K)` with stage norm at most `‖λ‖_h‖f‖_h`:
+  re-expanding `f(x+y)` on the discs of `x` and of `y` gives a two-variable
+  restricted series whose `y`-coefficients are vectors of `LA_h(K)` tending to
+  zero. Hence `λ∗μ` is a distribution with `‖λ∗μ‖_h≤‖λ‖_h‖μ‖_h`, and
+  `A_(λ∗μ)=A_λ·A_μ`, by Vandermonde's identity on the moments ([Col] §II.4,
+  no. 6, p. 36, with Lemme II.4.2). On restrictions of bounded measures it is
+  the restriction of the measure convolution on `Multiplicative ℤ_p`, whose
+  transform is the product by Mathlib's `AbstractMeasure.amiceTransformₐ`.
+  *Needs:* `distributions`, `binomialLA`, `TauCeti.AnalyticStage.transition`
+  for the re-expansion, RestrictedPowerSeries §§1.3 and 2.2 for the
+  two-variable coefficient model and translation, `AbstractMeasure.amiceTransformₐ`
+  for the comparison.
 
 ### Examples
 
@@ -906,9 +1125,6 @@ Targets:
   (`TauCeti.AnalyticStage.norm_frobeniusSubIdCoeffs`,
   `TauCeti.AnalyticStage.transition_frobeniusSubIdCoeffs`,
   `TauCeti.AnalyticStage.not_injective_transition_residueField`).
-- The moments `b_n=1/n!` give a bounded functional on level zero but not on
-  level one (`TauCeti.bddAbove_norm_coeff_mul_norm_factorial_zero_exp`,
-  `TauCeti.not_bddAbove_norm_coeff_mul_norm_factorial_one_exp`).
 - A parameter of norm `2^(−1/2)` fails the level-one criterion and satisfies
   the level-two criterion
   (`TauCeti.not_tendsto_amiceCharCoeff_one_and_tendsto_amiceCharCoeff_two`);
@@ -921,16 +1137,25 @@ Targets:
 - `log(1+T)` is not a measure's transform
   (`TauCeti.not_bddAbove_norm_coeff_log`,
   `TauCeti.log_notMem_range_amiceTransform`).
-- Still to formalise: `h=0`, polynomial tails and the diagonal transition on
-  the first block; the derivative functional at zero has moments
-  `b_n=(−1)^(n−1)/n` for `n≥1` and transform `log(1+T)`, a distribution but not
-  a bounded measure; `exp(p)` for odd primes and `exp(4)` at `p=2` are valid
-  generators, while the exponential of `2` is outside the convergence disc.
+- At `h=0`, `m_0(n)=n!`, so `x²=binom(x,1)+2binom(x,2)` has Amice
+  coordinates `c_1=1`, `c_2=1` and `c_n=0` for `n≥3`: a polynomial of degree `d`
+  has no Amice coordinates beyond `d`. On the first block `n<p` the transition
+  multiplier `m_0(n)/m_1(n)=n!` is a unit, and at `n=p` it is `p!`, of norm
+  `p⁻¹=p^(−⌊p/p⌋)`.
+- The derivative at zero has moments `b_n=(−1)^(n−1)/n` for `n≥1`, `b_0=0`, and
+  transform `log(1+T)`, which lies on the open unit disc
+  (`PowerSeries.onOpenDisc_log`) with unbounded coefficients: a distribution but
+  not a bounded measure.
+- `exp(p)` for odd `p` and `exp(4)` at `p=2` converge, since `‖p‖=p⁻¹<r_p` for
+  odd `p` and `‖4‖=4⁻¹<r_2=2⁻¹`; `exp(2)` diverges in `ℚ_2`, since
+  `‖2‖=2⁻¹=r_2`.
 
 ### Dependencies
 
-Layers 0–3 and RestrictedPowerSeries Layers 0–2 with §7.1. Sources: [Am],
-[Col] Théorème I.4.7, Corollaire I.4.8 and II.2, [ST] and [RJW] Theorem 3.43.
+Layers 0–3 and RestrictedPowerSeries Layers 0–2 with §7.1. Sources: [Am]
+Théorème 2, p. 150, Théorème 3 and Corollaire 1, pp. 159–161; [Col] Théorème
+I.4.7 and Corollaire I.4.8, p. 15, §§II.2–II.4, pp. 29–37; [ST] Theorem 2.2,
+p. 9; [RJW] Theorem 3.43.
 
 ## Layer 5: Characters, specialisation and coefficient rings
 
@@ -1040,7 +1265,16 @@ Targets:
   normed specialisation send `T` to the coordinate and the universal character
   to the supplied weight, and agree when both sets of hypotheses hold. A
   coefficient sup-norm on integral series does not replace the profinite
-  source topology.
+  source topology. For `S=𝒪_(ℂ_p)`, which is linearly topologised and holds
+  the values of every `ℂ_p`-valued weight, and odd `p`, this is [RJW] Remark
+  3.47, p. 25, which uses `ℤ_pˣ=μ_(p−1)×(1+pℤ_p)`; at `p=2` the same argument
+  runs with
+  `q=4`, `Δ=(ℤ/4ℤ)ˣ` and the principal units `1+4ℤ_2`. *Needs:* Mathlib
+  `PowerSeries.HasEval`, `PowerSeries.aeval` and `PowerSeries.binomialSeries`,
+  `TauCeti.padicIntUnitsEquivZModUnitsProd`, `TauCeti.WeightSpace.finiteChar`,
+  `TauCeti.WeightSpace.coord`, the completed group algebra of `ℤ_pˣ` above for
+  the algebra map from `Λ`, and `TauCeti.WeightSpace.ofCoord` for the
+  comparison with the normed case.
 - **The Amice-coordinate comparison.** Compose §3.4's integral Amice
   equivalence with the procyclic coordinate of `Multiplicative ℤ_p` at the
   generator `ofAdd 1`, so that `δ_a` goes to `[γ^a]` and `T=[γ]−1`:
@@ -1051,14 +1285,26 @@ Targets:
   `AbstractMeasure.completedGroupAlgebraEquiv`
   (`NumberTheory/Padics/Measure/CompletedGroupAlgebra.lean`) and
   ProfiniteProPGroups' `TauCeti.completedGroupAlgebra.powerSeriesCoordinate`.
-  Sources: [RJW] Proposition 3.16 and Theorem 3.25.
+  Sources: [RJW] diagram (3.4), p. 18, with Proposition 3.16 and Theorem 3.25.
 - **Separation by weights.** Weights separate bounded `ℂ_p`-valued measures on
-  `ℤ_pˣ`: `measurePairing_injective`, through
+  `ℤ_pˣ`, for every prime `p`: `measurePairing_injective`, through
   `ContinuousMonoidHom.characterIntegralAlgHom`; the integral case is the
-  pinned `TauCeti.measureFun_injective`. Prove compatibility of `TauCeti.measureFun` with
-  specialisation of `Λ`. This is a bounded function on a set of weights; a
-  geometric weight-space sheaf or a topology on the space of measures is not
-  constructed.
+  pinned `TauCeti.measureFun_injective`. The finite-order weights span the
+  locally constant functions on `ℤ_pˣ`, which are dense in `C(ℤ_pˣ,ℂ_p)`.
+  [RJW] Remark 3.47, p. 25, states the correspondence for odd `p`. *Needs:*
+  `ContinuousMonoidHom.characterIntegralAlgHom`,
+  `LocallyConstant.denseRange_toContinuousMap`, and the roots of unity of
+  `ℂ_p` for the finite-order weights.
+- **Specialisation of measure functions.** Prove compatibility of
+  `TauCeti.measureFun` with specialisation of `Λ`: for an integral measure `ν`
+  and a `ℂ_p`-valued weight `κ`, `TauCeti.measureFun ν κ` is the image of the
+  completed-group-algebra element of `ν` under the unique continuous
+  `ℤ_p`-algebra map `Λ→𝒪_(ℂ_p)` extending `κ`; both sides send `δ_x` to `κ(x)`
+  (`TauCeti.measureFun_dirac`). This is a bounded function on a set of weights;
+  a geometric weight-space sheaf or a topology on the space of measures is not
+  constructed. *Needs:* `TauCeti.measureFun`,
+  `AbstractMeasure.completedGroupAlgebraEquiv`, the adic target above for the
+  algebra map, `AbstractMeasure.extendCoefficients`.
 
 ### 5.4 Analytic levels of weights
 
@@ -1094,26 +1340,38 @@ valuation formula of §5.2 for the conductor bound.
 
 ### 5.5 Scalar analytic factors for automorphic applications
 
-Target: for a field-valued weight satisfying §5.4 at level `h`, extend its
-principal-unit part analytically to `1+p^h𝒪_K`. For `d∈ℤ_pˣ(1+p^h𝒪_K)` and
-`‖c‖≤‖p^h‖`, expand `κ(cz+d)` on the closed unit disc and prove its Gauss norm
-is one. Put `t_h=κ(exp(p^h))−1`. A radius `r>0` satisfying
+Target: let `K` be a complete normed extension of `ℚ_p` and `κ` a `K`-valued
+weight that is analytic on unit discs modulo `p^(h')` for a unit level
+`h'≥v_p(q)`, that is (§5.4), `‖t_(h')‖<r_p` for `t_(h')=κ(exp(p^(h')))−1`; this
+is the principal-part level `h'−v_p(q)` of `exists_eval_eq_principalChar_iff`.
+The bound `h'≥v_p(q)` gives `‖p^(h')‖<r_p`, so `exp(p^(h'))` converges. Extend
+`κ` analytically from `1+p^(h')ℤ_p` to `1+p^(h')𝒪_K` by
+`κ(1+u)=exp((log(1+u)/p^(h'))·log(1+t_(h')))`, which agrees with `κ` on
+`1+p^(h')ℤ_p`, and to `ℤ_pˣ(1+p^(h')𝒪_K)` multiplicatively. For
+`d∈ℤ_pˣ(1+p^(h')𝒪_K)` and `‖c‖≤‖p^(h')‖`, expand `κ(cz+d)` on the closed unit
+disc and prove its Gauss norm is one. A radius `r>0` satisfying
 
 ```text
-r‖c‖ < r_p,       r‖c‖‖t_h‖ < ‖p^h‖ r_p
+r‖c‖ < r_p,       r‖c‖‖t_(h')‖ < ‖p^(h')‖ r_p
 ```
 
 gives convergence on that radius, Gauss norm at most one, and coefficient
-bounds `‖a_n‖≤r^(−n)`. State the corresponding Banach-algebra version with the
-actual bound on the constant factor and on the analytic character. Use
+bounds `‖a_n‖≤r^(−n)`. The universal form of this expansion,
+`[cz+d]=[d₀](1+T)^(log((cz+d)/d₀)/q)` with `d₀` the finite part of `d`, is in
+the proof of [LWX] Proposition 3.14, p. 21, at `h'=v_p(q)`; the scalar
+expansion is its specialisation at `κ`. State the corresponding Banach-algebra
+version with the actual bound on the constant factor and on the analytic
+character. Use
 RestrictedPowerSeries for composition and coefficient estimates. For
 nonnegative algebraic weight the expansion agrees with `(cz+d)^k`. Matrix
 actions and the ordering convention in their cocycle identity belong to
 quaternionic modular-form theory; this section gives only scalar expansions.
-*Needs:* `exists_eval_eq_principalChar_iff` (§5.4) for the level, the
-exponential and logarithm of §4.5 for the extension to `1+p^h𝒪_K`,
-RestrictedPowerSeries §§1.1 and 2.2 (Gauss norms, substitution) for the
-composition and the coefficient bounds, `TauCeti.WeightSpace.principalChar`.
+*Needs:* `exists_eval_eq_principalChar_iff` (§5.4) at the principal-part
+level `h'−v_p(q)`, the first two targets of §4.5 for the extension to
+`1+p^(h')𝒪_K`, RestrictedPowerSeries §§1.1 and 2.2 (Gauss norms,
+substitution) for the composition and the coefficient bounds,
+`TauCeti.WeightSpace.principalChar` and
+`TauCeti.padicIntUnitsEquivZModUnitsProd`.
 
 ### 5.6 An annular coefficient ring
 
@@ -1128,7 +1386,9 @@ the algebraic identification `H≃ℤ_p[[T,U]]/(TU−p)` with `U=p/T`. This incl
 arbitrary formal tails in `U`. It is not the `p`-adic completion of the
 polynomial algebra `ℤ_p[[T]][p/T]`: that completion requires additional decay
 of the `U`-coefficients. Do not conflate the formal `(T,U)` topology with the
-gauge used below.
+gauge used below. *Needs:* Mathlib `MvPowerSeries`, `Ideal.Quotient.mk` and
+`Ideal.span` for `ℤ_p[[T,U]]/(TU−p)`, and the `p`-adic valuation on `ℤ_p` for
+the normal forms.
 
 On `H[1/T]`, establish the coefficient criterion `v_p(d_m)≥max(0,−m−k)` for
 some `k≥0`, allowing `d_m∈ℤ_p`. For a fixed `α∈(0,1)`, construct the complete
@@ -1136,23 +1396,28 @@ multiplicative-`T` gauge whose unit ball is `H` and `‖T‖=α`, and prove that
 is a nonarchimedean Banach–Tate ring (`TauCeti.NormedRing.IsTate`). State
 completeness for this gauge topology. In particular `‖U‖=1`; the partial sums
 of `Σ_(j≥0) U^j` do not converge in this topology even though the formal sum
-is an element of `H`.
+is an element of `H`. *Needs:* the ring `H` above, `TauCeti.NormedRing.IsTate`
+and `TauCeti.NormedRing.PseudoUniformizer` (with `ϖ=T`) for the gauge,
+`TauCeti.NormedRing.IsTate.isTateRing` for the topological property.
 
 At every `t∈ℂ_p` with `p⁻¹<|t|<1`, construct the evaluation `T↦t, U↦p/t` and
 prove continuity using divisibility bounds. The evaluations over this annulus
 in `ℂ_p` are jointly injective. There may be no such points over `ℚ_p`; that
 field alone cannot test injectivity. A general gauge-continuous specialisation
-need not be Lipschitz for arbitrary choices of `α`.
+need not be Lipschitz for arbitrary choices of `α`. For joint injectivity,
+take a radius `ρ∈p^ℚ∩(p⁻¹,1)` at which one term `‖d_m‖ρ^m` of a nonzero
+element strictly dominates the others (all but finitely many radii of each
+closed sub-interval); every `t` with `|t|=ρ` then gives a nonzero value.
+*Needs:* the gauge above, `ℂ_p` with Mathlib's `PadicComplex` norm and its
+algebraic closure for points of every norm in `p^ℚ`, and
+`HasSum.norm_eq_of_forall_norm_lt` (§0.1) for the dominant term.
 
 Adjoin the finite factor by `H[Δ]`, compare it with the halo coefficient ring
-`ℤ_p⟦T,pT⁻¹⟧⊗ℤ_p[Δ]` of [LWX] Lemma 3.15, and track the ideal `(p,T)=(T)` of
+`ℤ_p⟦T,pT⁻¹⟧⊗ℤ_p[Δ]` of [LWX] Lemma 3.15, p. 21, and track the ideal `(p,T)=(T)` of
 the principal coefficient ring. At `p=2`, the full finite-factor maximal ideal
 also contains `δ−1`; retain the integral group ring. Annular geometry,
-Fredholm series and slope bounds are outside this roadmap. *Needs:* Mathlib
-`MvPowerSeries` and `Ideal.Quotient` for `ℤ_p[[T,U]]/(TU−p)`,
-`TauCeti.NormedRing.IsTate` and `TauCeti.NormedRing.PseudoUniformizer` for
-the gauge, `TauCeti.NormedRing.IsTate.isTateRing` for the topological
-property, `ℂ_p` with Mathlib's `PadicComplex` norm for the annulus, and
+Fredholm series and slope bounds are outside this roadmap. *Needs:* the ring
+`H` above, Mathlib `MonoidAlgebra` for `H[Δ]` and
 `TauCeti.padicIntUnitsEquivZModUnitsProd` for the finite factor.
 
 ### Examples
@@ -1168,6 +1433,12 @@ property, `ℂ_p` with Mathlib's `PadicComplex` norm for the annulus, and
   for every `p` (`p⁻¹<p^(−1/(p−1))` for odd `p`, `4⁻¹<2⁻¹` at `p=2`), so its
   principal part is analytic on all of `ℤ_p`: `x↦x` is analytic on the cosets
   of `1+qℤ_p`.
+- §5.5 for `κ(x)=x` at the unit level `h'=v_p(q)` and `r=1`:
+  `t_(h')=exp(q)−1` has norm `‖q‖`, the radius conditions read
+  `‖c‖≤‖q‖<r_p` and `‖c‖‖q‖≤‖q‖²<‖q‖r_p`, and `κ(cz+d)=cz+d` has Gauss norm
+  `max(‖c‖,1)=1`. Reading the principal-part level `h=0` of §5.4 as a unit
+  level instead would ask for `exp(p⁰)=exp(1)`, which diverges since
+  `‖1‖=1≥r_p`.
 - Test the halo normal forms `T`, `U`, `p=TU` and `(1−U)⁻¹=Σ U^j`; distinguish
   formal equality from convergence in the gauge norm. Do not identify `H[Δ]`
   with an integral product at `p=2`.
@@ -1192,22 +1463,6 @@ Layers 0–4, RestrictedPowerSeries, LocalFieldsRamification and
 ProfiniteProPGroups' Layer 9 prerequisites. Sources: [Col], [RJW] §§3–4, [JN]
 and [LWX] §§2–3, Lemma 3.15.
 
-## How to read the build
-
-Each section first lists, under "In the pinned library", the pinned
-declarations that already prove its statements; these are inputs, not targets.
-What follows under "Target" or "Targets" is the remaining work, with `*Needs:*`
-naming the pinned declarations or earlier targets it rests on. Each layer ends
-with its Examples, the Checks of the layer, and its Dependencies. Names
-without a namespace in the target lists (`amiceMap_bijective_and_norm_eq`,
-`isOrthonormalBasis_amiceTerm`, `exists_eval_eq_addChar_iff`,
-`exists_character_of_hasEval`, `eq_aeval_binomialSeries`,
-`amiceTransform_completedGroupAlgebra_compat`, `measurePairing_injective`,
-`exists_eval_eq_principalChar_iff`) are the declarations of
-[Suggested.lean](Suggested.lean), stated against the pinned carriers. A Check
-marked as an example in a pinned file is already formalised; the others are
-required.
-
 ## Downstream consumers
 
 - AdicSpacesPartII §R0.4 consumes the gauge contract of §0.4, under the names
@@ -1222,9 +1477,14 @@ required.
   (`ContinuousLinearMap.matrixCoeff`) and the Amice transition estimate of
   §4.4.
 - LocallyAnalyticDistributions consumes §0.4, §§1.2, 1.4, 2.1–2.2, 2.4, 2.6
-  (including the input-first adapter) and §§4.3–4.7; the topology on
-  `LA(ℤ_p,E)`, the strong dual and the general distribution product are its own. Its names
-  `amiceDiscNorm_le_amiceDualNorm` and `amiceDualNorm_le_amiceDiscNorm` refer to
+  (including the input-first adapter) and §§4.3–4.7, in particular the carrier
+  `distributions`, the bijection `amiceTransform_distribution_bijective`, the
+  integration of characters, the point masses and the convolution identity of
+  §4.7; the topology on `LA(ℤ_p,E)`, the strong dual and the general
+  distribution product are its own. Its names `amiceDualNorm` and
+  `amiceDiscNorm` refer to `TauCeti.amiceDualNorm` and to
+  `PowerSeries.gaussNorm` at the radius `TauCeti.amiceRadius p h`, and
+  `amiceDiscNorm_le_amiceDualNorm` and `amiceDualNorm_le_amiceDiscNorm` to
   `TauCeti.gaussNorm_amiceRadius_le_amiceDualNorm` and
   `TauCeti.amiceDualNorm_le_mul_gaussNorm_amiceRadius_succ`.
 - PadicMeasuresIwasawaAlgebras consumes §3.4, §§5.1–5.3 and the comparison
@@ -1240,28 +1500,20 @@ required.
   `TauCeti.WeightSpace.ofCoord`; `extendIntegralMeasure` is
   `AbstractMeasure.extendCoefficients`; `measureFun`, `measureFun_norm_le` and
   `measureFun_injective` are `TauCeti.measureFun`, `TauCeti.norm_measureFun_le`
-  and `TauCeti.measureFun_injective`. `exists_character_of_hasEval` and
-  `eq_aeval_binomialSeries` are targets of §5.3.
+  and `TauCeti.measureFun_injective`; `amiceTransform` is Mathlib's
+  `AbstractMeasure.amiceTransform`; `TCoord γ κ=κ(γ)−1` at the generator
+  `γ=TauCeti.padicUnitsGenerator p` is `TauCeti.WeightSpace.coord κ`.
+  `exists_character_of_hasEval` and `eq_aeval_binomialSeries` are targets of
+  §5.3. The clause numbers it cites map to the sections here as follows.
 
-## Dependency order and completion
-
-Layers 0–2 precede the bounded duality in Layer 3; Layer 4 consumes
-RestrictedPowerSeries and Layer 3; Layer 5 consumes both. Within the remaining
-targets, Amice's theorem (§4.4) precedes the Mahler criterion, §4.6, §4.7 and
-§5.4; the completed group algebra of `ℤ_pˣ` precedes the adic universal
-character and the Amice-coordinate comparison of §5.3; §5.4 precedes §5.5.
-Only the last corollary of §2.4 uses completed tensors, and it takes them from
-the pinned `TauCeti.Huber.BanachModule.CompletedTensor`. The Amice-coordinate
-comparison of §5.3 uses §3.4, the pinned completed-group-algebra equivalence
-and ProfiniteProPGroups alone.
-
-A target is complete when its definitions use native structures, its
-statements and comparison maps are proved, its stated checks are formalised,
-and its supplier and consumer hypotheses agree. Test zero objects and empty
-indices, non-Noetherian versus Noetherian coefficients, all primes, and the
-strict radius boundaries. Admitted signatures are not completed results.
-Integration must not introduce `sorry`-based instances or silently change the
-topology of an imported object.
+  | Former clause | Now |
+  | --- | --- |
+  | §3.4, clauses 1, 4 and 5 | §3.4, "In the pinned library": Mahler duality, the bounded Amice transform and its range, the integral equivalence and the rational dual unit ball, `φ` and `ψ` |
+  | §5.1, clause 1 | §5.1 |
+  | §5.2, clauses 1 and 2 | §5.2, "In the pinned library" (`TauCeti.WeightSpace`, `TauCeti.weightSpaceEquiv`, `TauCeti.WeightSpace.coord`) and its first target, the `ℂ_p`-valued weights as open discs |
+  | §5.3, clauses 1 and 3 | §5.3, the completed group algebra of `ℤ_pˣ` and the adic target, with the normed case `TauCeti.WeightSpace.ofCoord` in the pinned library |
+  | §5.3, clause 4 | §5.3, the Amice-coordinate comparison |
+  | §5.3, clause 5 | §5.3, `TauCeti.measureFun` in the pinned library, with the targets separation by weights and specialisation of measure functions |
 
 ## References
 
@@ -1290,7 +1542,7 @@ topology of an imported object.
   **92** (1964), 117–180.
 * **[Col]** P. Colmez,
   [*Fonctions d'une variable p-adique*](https://webusers.imj-prg.fr/~pierre.colmez/fonctionsdunevariable.pdf),
-  especially I.3–I.4 and II.2.
+  especially I.3–I.4 and II.2–II.4.
 * **[ST]** P. Schneider and J. Teitelbaum, *p-adic Fourier theory*,
   Documenta Math. **6** (2001), 447–481.
 * **[RJW]** J. Rodrigues Jacinto and C. Williams,
