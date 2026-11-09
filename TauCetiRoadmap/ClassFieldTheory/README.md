@@ -1209,7 +1209,7 @@ subgroups, and closed subgroups of a profinite group determined by their finite 
 absolute upper filtration and absolute unit-filtration reciprocity. The absolute Artin map, its normalizations and the conductors
 have their interface in `TauCeti/NumberTheory/ClassFieldTheory/Local/` (`ArtinMap`,
 `Unramified`, `Cyclotomic`, `ExplicitCyclotomicSymbol/`, `GeometricArtinMap`, `Conductor/`), and
-consumed here under Tau Ceti's names. The contract:
+are consumed here under Tau Ceti's names. The contract:
 
 - **The absolute Artin map** `artinMap : Kˣ → G_K^ab` into the topological abelianization of
   Mathlib's `Field.absoluteGaloisGroup K`, the inverse limit of the finite maps
@@ -1926,8 +1926,8 @@ Layers 4, 10–11; GlobalNumberFields Layers 2 and 7 (moduli and ray classes).
 an idele class, orders and `Pic`);
 `NumberFieldArithmetic` §§4.2, 5.9–5.10 (`relDiscr`, localization, completed differents and residue-degree-weighted exponents). The norm theorems,
 the class fields and Kronecker–Weber have their interface in
-`TauCeti/NumberTheory/ClassFieldTheory/Global/HasseNorm/` and `ClassFields/`, and consumed here
-under Tau Ceti's names; the principal ideal theorem and the global conductor–discriminant formula
+`TauCeti/NumberTheory/ClassFieldTheory/Global/HasseNorm/` and `ClassFields/`, and are consumed
+here under Tau Ceti's names; the principal ideal theorem and the global conductor–discriminant formula
 are the open headline targets of this layer, and the comparison of extension of ideals with
 extension of ideles, which the principal ideal theorem's route reads, is its supporting open
 target. The contract:
