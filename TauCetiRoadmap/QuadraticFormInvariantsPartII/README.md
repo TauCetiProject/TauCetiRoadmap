@@ -116,11 +116,11 @@ index-two criterion, Benoist's period-index theorems for real surfaces, the leve
 quadric-level computations of Benoist–Wittenberg) belong to `RealSurfacePeriodIndex` Layer PI.0, which takes the Tsen–Lang theorem of 5.6 from this roadmap.
 
 Quadratic forms on `Fin n → R` over an arbitrary commutative ring belong to `QuadraticFormsOverABase`:
-its §0.2 extends a form by coefficients along any ring map (`mapCoeffs`), and for a field `K` and a
-`K`-algebra `L` its `mapCoeffs (algebraMap K L) Q` on `Fin n → K` is the coordinate polynomial of
-`extendScalars Q L` of 0.2 here, an identification that roadmap records among its downstream
-consumers; its §§2.1–2.2 define smoothness over a base and prove the unit criteria. 0.1 and 0.2 stay
-over a field, on arbitrary finite-dimensional spaces, which is the generality Layers 0–2 use.
+its §0.2 extends a form by coefficients along any ring map (`mapCoeffs`) and proves, from 0.2 here,
+that for a field `K`, a commutative `K`-algebra `L` and a form `Q` on `Fin n → K`,
+`mapCoeffs (algebraMap K L) Q` is `extendScalars Q L`; its §§2.1–2.2 define smoothness over a base
+and prove the unit criteria. 0.1 and 0.2 stay over a field, on arbitrary finite-dimensional spaces,
+which is the generality Layers 0–2 use.
 
 ## Conventions
 
@@ -2026,7 +2026,8 @@ Layer 0 for scalar extension; Tau Ceti's valuation spectrum and patch topology; 
 - `RealSurfacePeriodIndex` uses the Tsen–Lang theorem (5.6) for function fields of real surfaces and
   their complexifications; its Layer PI.0 owns the real-function-field applications listed in Scope.
 - `QuadraticFormsOverABase` identifies its base change by coefficients along `algebraMap K L`, for a
-  field `K` and a `K`-algebra `L`, with `extendScalars` (0.2) on `Fin n → K`.
+  field `K` and a commutative `K`-algebra `L`, with `extendScalars` (0.2) on `Fin n → K`, in its
+  §0.2.
 
 ## Worked examples
 
