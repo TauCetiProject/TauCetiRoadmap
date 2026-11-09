@@ -927,9 +927,36 @@ theorem riemannHurwitz [T2Space X] [T2Space Y]
     Surface.eulerChar X = (d : ℤ) * Surface.eulerChar Y -
       ∑ x ∈ hp.finite_preimage_branch.toFinset, ((e x : ℤ) - 1)
 
-def Graph.genus (Γ : Graph α β) : ℕ            -- needs layer 8
+/-- Minimum orientable genus of a closed connected host; defined after layer 8. -/
+def Graph.genus (Γ : Graph α β) : ℕ
+/-- Minimum crosscap index, with the sphere as index zero; defined after layer 8. -/
 def Graph.nonorientableGenus (Γ : Graph α β) : ℕ
 ```
+
+**Graph-genus conventions (after layer 8).** For a finite multigraph `Γ`, let
+`O_g` be the closed connected orientable model of genus `g`. Define `Graph.genus Γ`
+as the least `g : ℕ` admitting a noncrossing drawing of `Γ` in `O_g`. For the
+nonorientable invariant use the family `N_0 = O_0` (the sphere), and, for `k > 0`,
+let `N_k` be the closed connected nonorientable model with `k` crosscaps. Define
+`Graph.nonorientableGenus Γ` as the least `k : ℕ` admitting a noncrossing drawing
+in `N_k`. Thus both invariants are zero exactly for graphs admitting a sphere
+drawing, including the empty graph and `K₁`. The sphere is the zero case of this
+graph-embedding convention; it is not classified as a nonorientable surface.
+Drawings in these minima need not be cellular, and graphs need not be connected
+or have an edge. In particular, the empty drawing is allowed even though its
+complement in the sphere is not an open disc.
+
+Prove that both sets of admissible indices are nonempty and that each minimum is
+attained. Thicken vertex discs and edge bands to obtain an orientable surface
+with boundary, cap its boundary circles, and join its components away from the
+graph to obtain a connected closed host. Include isolated vertices in vertex
+discs and use the sphere for the empty graph. Attaching a crosscap away from the
+drawing also supplies a positive nonorientable host. Identify these hosts with
+layer 8's models before taking the minima. The basic API includes invariance
+under graph isomorphism, monotonicity under subgraph inclusion, an upper bound
+from a drawing in each indexed model, and the equivalence of the two zero
+conditions with existence of a sphere drawing. Layer 10 identifies that condition
+with its combinatorial `IsPlanar` predicate.
 
 **Equivalence of rotation data.** An isomorphism over `Γ` preserves its vertex and
 edge labels and the dart incidences, including the two darts of each loop. For signed
@@ -983,9 +1010,9 @@ versus a Möbius band; and that the total twist around a cycle is switching-inva
   `d F`. Apply `eulerFormula_cellular` to these boundary-supported cellulations,
   including when the surfaces have boundary. Capping, classification and homology
   are not inputs to this argument.
-- `Graph.genus` minimises over surfaces and therefore waits on layer 8; the correspondence and Euler's formula do not.
+- The two graph-genus invariants and their minimum-attainment and comparison API follow layer 8. The drawing correspondences and Euler's formula precede classification.
 
-**Examples and mathematical checks.** `K₅` and `K₃,₃` have genus 1 and are drawn cellularly in the torus. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two. `C₃` as the boundary of a disc and as an equator of the sphere is the check that the correspondences need closed surfaces, the one-point drawing of `K₁` in the sphere the check that the generalized-map form needs an edge, and the crossed `C₄` in the sphere, with five vertices, six edges, and three faces once the crossing is a vertex, the check that `toGMap2` needs noncrossing.
+**Examples and mathematical checks.** The empty graph, `K₁`, and `C₃` have both graph-genus invariants zero. `K₅` and `K₃,₃` have both invariants 1: supply cellular drawings in the torus and the projective plane, and exclude sphere drawings. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two. `C₃` as the boundary of a disc and as an equator of the sphere is the check that the correspondences need closed surfaces, the one-point drawing of `K₁` in the sphere the check that the generalized-map form needs an edge, and the crossed `C₄` in the sphere, with five vertices, six edges, and three faces once the crossing is a vertex, the check that `toGMap2` needs noncrossing.
 
 For the cellularity and Euler checks, draw `C₃` around the entire boundary of a
 closed disc: `(V,E,F) = (3,3,1)` and `3-3+1=1`. Its equatorial drawing in the sphere
@@ -1006,7 +1033,7 @@ is unbranched of degree two and gives `2 = 2·1`. The constant power `n = 0` is
 excluded by positivity and the finite-cover conditions. These checks distinguish
 weighted fibre count from raw fibre cardinality at a branch value.
 
-**Natural intermediate results.** (i) degree of finite multigraphs and its comparison with GraphConnectivityAndFlows' incidence counts; (ii) the underlying multigraph; (iii) drawings, cellularity, its boundary-support theorem, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula for compact surfaces with boundary and its closed-surface corollary; (viii) local power models, the branched-cover API, the positive global degree and Riemann–Hurwitz; (ix) genus, after layer 8.
+**Natural intermediate results.** (i) degree of finite multigraphs and its comparison with GraphConnectivityAndFlows' incidence counts; (ii) the underlying multigraph; (iii) drawings, cellularity, its boundary-support theorem, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula for compact surfaces with boundary and its closed-surface corollary; (viii) local power models, the branched-cover API, the positive global degree and Riemann–Hurwitz; (ix) both graph-genus minima, their existence, attainment, zero cases and comparison API, after layer 8.
 
 **Consequences.** Layer 10. The downstream marked-cover and analytic-cover programme
 specified in [BelyiMaps §7.7](../BelyiMaps/README.md#77-topological-branched-covers-as-a-carrier).
