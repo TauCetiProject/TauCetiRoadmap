@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup
+import TauCeti.RingTheory.MvPolynomial.LinearSubst
 
 /-!
 # Arithmetic statistics, Part II: target signatures
@@ -14,7 +15,10 @@ polynomials, and the native elliptic-point and unit-squareclass Selmer carriers:
 proper-orbit classification by the cubic invariant (§1.5), soluble orbits as
 E(K)/2E(K), compatibility with native two-descent, two-torsion stabilizers and the
 number-field two-Selmer dictionary (§1.6), and local and global integral
-representatives (§1.7). Proper equivalence is expressed by a GL₂ representative
+representatives (§1.7). The integral headlines of the ternary-pair embedding (§1.8),
+the orbit bijection and the uniform fibre bound under a hypothesis bounding the
+representations of 1 by binary cubics, are stated on integral ternary polynomials,
+with changes of variables by Tau Ceti's `MvPolynomial.linearSubst`. Proper equivalence is expressed by a GL₂ representative
 of a PGL₂ class, with the determinant-square twist and row-variable convention.
 The cubic invariant is the square class of the irrational covariant at a given
 admissible point, a point where that covariant is a unit. All fields of
@@ -32,8 +36,6 @@ such carrier, and Mathlib's `Cubic` records coefficients only.
 The quartic and quintic ring dictionaries
 (§§1.3–1.4, 1.10–1.11, 1.15) need integral multiplication tables and oriented
 quadratic or sextic resolvent data; the polynomial Galois resolvents do not supply them.
-The ternary-pair orbit and fibre theorems (§1.8) need the integer-valued
-quadratic-pair action and its resolvent construction.
 The local-density and weak-lift results (§§1.9, 1.13) need fixed-degree binary
 form orders and discriminants and the marked hyperdeterminant constructions.
 The pencil orbit, Fano, Selmer and integral comparisons (§§1.12, 1.16) need the
@@ -204,6 +206,53 @@ theorem exists_integral (A B : ℤ) (hΔ : 4 * A ^ 3 + 27 * B ^ 2 ≠ 0)
     (f : Fin 5 → ℚ) (hI : invI f = -48 * (A : ℚ)) (hJ : invJ f = -1728 * (B : ℚ))
     (hf : ∀ (p : ℕ) [Fact p.Prime], IsSoluble (fun i => (f i : ℚ_[p]))) :
     ∃ g : Fin 5 → ℤ, IsProperlyEquivalent f (fun i => (g i : ℚ)) := by sorry
+
+/-- The Veronese form `A₁ = x₁x₃ − x₂²` of Bhargava–Shankar (30), the integral ternary quadratic
+form vanishing on the conic `(x², xy, y²)`. -/
+def veroneseA : MvPolynomial (Fin 3) ℤ :=
+  MvPolynomial.X 0 * MvPolynomial.X 2 - MvPolynomial.X 1 ^ 2
+
+/-- The ternary form `B_f = a x₁² + b x₁x₂ + c x₂² + d x₂x₃ + e x₃²` of the integral binary quartic
+`f = (a, b, c, d, e)` (Bhargava–Shankar (30)); it has no `x₁x₃` term and restricts to `f` on the
+conic `(x², xy, y²)`. -/
+def veroneseB (f : Fin 5 → ℤ) : MvPolynomial (Fin 3) ℤ :=
+  MvPolynomial.C (f 0) * MvPolynomial.X 0 ^ 2 +
+    MvPolynomial.C (f 1) * MvPolynomial.X 0 * MvPolynomial.X 1 +
+    MvPolynomial.C (f 2) * MvPolynomial.X 1 ^ 2 +
+    MvPolynomial.C (f 3) * MvPolynomial.X 1 * MvPolynomial.X 2 +
+    MvPolynomial.C (f 4) * MvPolynomial.X 2 ^ 2
+
+/-- §1.8: two integral binary quartics are `GL₂(ℤ)`-equivalent exactly when their pairs
+`(A₁, B_f)` and `(A₁, B_g)` are equivalent under `F_{ℤ,1} × SO(A₁, ℤ)`, that is, some `M ∈ SL₃(ℤ)`
+fixing `A₁` and some `r ∈ ℤ` give `B_g = r A₁ + B_f ∘ M` (Bhargava–Shankar, Theorem 2.14). Changes
+of variables are `MvPolynomial.linearSubst`, evaluation at `M x`. -/
+theorem orbit_bijection_embedding (f g : Fin 5 → ℤ) :
+    (∃ γ : Matrix.GeneralLinearGroup (Fin 2) ℤ,
+        form g = MvPolynomial.linearSubst γ.val (form f)) ↔
+      ∃ (M : Matrix.SpecialLinearGroup (Fin 3) ℤ) (r : ℤ),
+        MvPolynomial.linearSubst M.val veroneseA = veroneseA ∧
+          veroneseB g = MvPolynomial.C r * veroneseA +
+            MvPolynomial.linearSubst M.val (veroneseB f) := by
+  sorry
+
+/-- §1.8: suppose every integral binary cubic form of nonzero discriminant takes the value 1 at
+no more than `N` integral points. Let `f₀` be an integral binary quartic of nonzero discriminant.
+Then a finite set of pairwise `GL₂(ℤ)`-inequivalent integral quartics `f` whose pairs `(A₁, B_f)`
+lie in the `GL₂(ℤ) × SL₃(ℤ)`-orbit of `(A₁, B_{f₀})` has at most `2N` elements (Bhargava–Shankar,
+Proposition 2.16, with the bound `2N` that its argument gives). -/
+theorem fibre_card_le (N : ℕ)
+    (hN : ∀ g : Cubic ℤ, g.discr ≠ 0 →
+      {v : ℤ × ℤ | g.a * v.1 ^ 3 + g.b * v.1 ^ 2 * v.2 + g.c * v.1 * v.2 ^ 2 +
+        g.d * v.2 ^ 3 = 1}.encard ≤ N)
+    (f₀ : Fin 5 → ℤ) (hf₀ : 4 * invI f₀ ^ 3 - invJ f₀ ^ 2 ≠ 0) (s : Finset (Fin 5 → ℤ))
+    (hs : ∀ f ∈ s, ∃ (γ : Matrix.GeneralLinearGroup (Fin 2) ℤ)
+        (M : Matrix.SpecialLinearGroup (Fin 3) ℤ),
+      ![veroneseA, veroneseB f] = fun i =>
+        ∑ j, γ.val i j • MvPolynomial.linearSubst M.val (![veroneseA, veroneseB f₀] j))
+    (hdist : ∀ f ∈ s, ∀ g ∈ s, (∃ γ : Matrix.GeneralLinearGroup (Fin 2) ℤ,
+        form g = MvPolynomial.linearSubst γ.val (form f)) → f = g) :
+    s.card ≤ 2 * N := by
+  sorry
 
 end BinaryQuartic
 
