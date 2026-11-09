@@ -58,9 +58,9 @@ this roadmap's one-variable results and is downstream, so nothing of it is an in
 ComplexKahlerGeometry K2 owns parameter-dependent solvers, and K5a owns the complex-coefficient
 de Rham comparison; they consume this roadmap's scalar results and complex two-form exactness.
 
-The native sine product and cotangent series, and the exponential finite-product majorant,
-are supplied results, not new theorems. Layer 6 retains their comparison calculations as
-proof-route examples. The sharp finite-product inequality is a distinct target.
+The native sine product, the paired cotangent series and the exponential finite-product
+majorant are supplied results; Layers 1 and 6 consume them and do not prove them again. The
+sharp finite-product inequality of Layer 1.4 is a distinct target.
 
 ## Conventions
 
@@ -94,7 +94,10 @@ the empty cases here follow directly from the definitions.
 - `Function.locallyFinsuppWithin` in `Mathlib/Topology/LocallyFinsupp.lean` is a function
   supported inside the specified set with support locally finite there. Openness is a
   separate hypothesis. `MeromorphicOn.divisor` in `Mathlib/Analysis/Meromorphic/Divisor.lean`
-  uses that carrier and sends infinite order to zero. Use `AnalyticOnNhd.divisor_apply`,
+  uses that carrier and sends infinite order to zero. Use
+  `MeromorphicOn.AnalyticOnNhd.divisor_apply` (for `f` analytic at every point of `U` and
+  `z ∈ U`, the divisor of `f` on `U` at `z` is the analytic order of `f` at `z` cast to ℤ, with
+  ∞ sent to zero),
   `AnalyticAt.analyticOrderAt_eq_natCast` and `meromorphicOrderAt_eq_int_iff` with their
   analytic-unit and neighborhood hypotheses.
 - `ContinuousMap.compactConvergenceUniformSpace`,
@@ -110,16 +113,23 @@ the empty cases here follow directly from the definitions.
   eventual holomorphy and a nonzero limit at the point. `logDeriv_tprod_eq_tsum` in
   `Mathlib/Analysis/Calculus/LogDerivUniformlyOn.lean` also requires summable logarithmic
   derivatives and factor nonvanishing.
-- `Real.prod_one_add_le_exp_sum` in `Mathlib/Analysis/Complex/Exponential.lean` applies to
-  nonnegative real terms. `Finset.norm_prod_one_add_sub_one_le`,
-  `multipliable_one_add_of_summable` and `tprod_one_add_ne_zero_of_summable` in
-  `Mathlib/Analysis/SpecialFunctions/Log/Summable.lean` supply the exponential estimate
-  and pointwise product consequences.
-- `Complex.integerComplement`, `summable_cotTerm`, `cot_series_rep`,
+- `Real.prod_one_add_le_exp_sum` in `Mathlib/Analysis/Complex/Exponential.lean` gives
+  `∏ (1 + tᵢ) ≤ exp (Σ tᵢ)` for a finite family of nonnegative reals.
+  `Finset.norm_prod_one_add_sub_one_le` in
+  `Mathlib/Analysis/SpecialFunctions/Log/Summable.lean` gives
+  `‖∏ (1 + uᵢ) − 1‖ ≤ exp (Σ ‖uᵢ‖) − 1` for every finite family in a normed commutative ring
+  whose unit has norm one, with no nonvanishing hypothesis; `multipliable_one_add_of_summable`
+  and `tprod_one_add_ne_zero_of_summable` in the same file supply the pointwise product
+  consequences.
+- `Complex.integerComplement`, `summable_cotTerm`, `cotTerm_identity`, `cot_series_rep`,
   `HasProdLocallyUniformlyOn_euler_sin_prod` and
   `multipliableUniformlyOn_euler_sin_prod_on_compact` supply integer exclusions, the paired
   cotangent series and sine products. Their files are `Mathlib/Analysis/Complex/IntegerCompl.lean`
-  and `Mathlib/Analysis/SpecialFunctions/Trigonometric/Cotangent.lean`.
+  and `Mathlib/Analysis/SpecialFunctions/Trigonometric/Cotangent.lean`. `cot_series_rep` states
+  `π cot(πx) = 1/x + Σ' n:ℕ+, (1/(x−n) + 1/(x+n))` for every `x` in the integer complement
+  `ℂ_ℤ`, the series indexed by positive integers with `n` and `−n` paired; `cotTerm x n` is the
+  paired term `1/(x−(n+1)) + 1/(x+(n+1))` for `n : ℕ`, and `cotTerm_identity` rewrites it on
+  `ℂ_ℤ` as `2x/((x+(n+1))(x−(n+1)))`.
   The quotient sin(πz)/(πz) has totalized value zero at z=0, whereas the product there is one.
 - `Complex.GammaSeq_tendsto_Gamma` in `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean`
   and `Real.tendsto_harmonic_sub_log` in `Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean`
@@ -132,17 +142,35 @@ the empty cases here follow directly from the definitions.
   subtype at a point as smoothness of the ambient map there, and `contMDiffOn_iff_contDiffOn`
   in `Mathlib/Geometry/Manifold/ContMDiff/NormedSpace.lean` compares manifold and normed-space
   smoothness on a subset of a normed space.
+- `polynomialFunctions.starClosure_topologicalClosure` in
+  `Mathlib/Topology/ContinuousMap/StoneWeierstrass.lean`: for compact `s ⊆ ℂ`, the polynomial
+  functions in `z` and `z̄` are dense in `C(s, ℂ)` (Stone–Weierstrass).
+- `HasCompactSupport.contDiff_convolution_right` in
+  `Mathlib/Analysis/Calculus/ContDiff/Convolution.lean`: the convolution of a locally integrable
+  function with a compactly supported `Cⁿ` function is `Cⁿ`, for every `n : ℕ∞`, smoothness
+  included. `intervalIntegral.norm_integral_le_of_norm_le` in
+  `Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean`: for `a ≤ b` and an
+  interval-integrable real `g` bounding `‖f‖` almost everywhere on `(a, b]`,
+  `‖∫_a^b f‖ ≤ ∫_a^b g`.
 - `Complex.volume_preserving_equiv_real_prod` fixes area normalization.
   The low-regularity route uses locally compact Baire, product Fubini,
   `MeasureTheory.integral_eq_of_hasDerivAt_off_countable_of_le`,
   `VectorMeasure.exists_extension_of_isSetSemiring_of_le_measure`,
-  `variation_le_of_forall_enorm_le`, the signed/complex Radon–Nikodym declarations and
+  `MeasureTheory.VectorMeasure.variation_le_of_forall_enorm_le`, the signed/complex
+  Radon–Nikodym declarations and
   `VitaliFamily.ae_tendsto_average_norm_sub` under the explicit hypotheses in Layer 0.2.
 
 ### From Tau Ceti
 
 Use `TauCeti.Contour.Cycle` and its trace, integral and winding number from
 `TauCeti/Analysis/Contour/Cycle/Basic.lean`, and its homology-Cauchy and integer-index API.
+The cycle integral extends the raw contour integral `∫ t in γ.a..γ.b, deriv γ t • f (γ t)` of
+each closed piecewise-`C¹` generator additively. From the same file use
+`TauCeti.Contour.Cycle.integral_add` (additivity in integrands continuous on the trace),
+`TauCeti.Contour.Cycle.integral_smul` (scalars come out of the integral) and
+`TauCeti.Contour.Cycle.norm_integral_le_of_norm_le_const`: if `‖f‖ ≤ M` on the trace, the
+norm of the cycle integral is at most `M` times the length of the cycle, the sum over its
+generators of the absolute value of the coefficient times `∫ t in Ι γ.a γ.b, ‖deriv γ t‖`.
 Use `TauCeti.Contour.isExactOn_of_forall_closed_integral_eq_zero`,
 `TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_isExactOn`, and
 `TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_filledHull_subset`
@@ -163,7 +191,14 @@ reconstructs a compactly supported `C¹` map `u` as `(2π)⁻¹ ∫ (w − z)⁻
 `HasCompactSupport.conjWirtingerDeriv_integral_sub_inv_smul_apply_one` gives `∂̄` of the
 transform of a compactly supported `C¹` map as `π` times the map, and
 `TauCeti.differentiableOn_integral_sub_inv_smul_compl` gives holomorphy off a compact set
-outside which the datum vanishes; all three assume `C¹`, not smoothness. Use
+outside which the datum vanishes; all three assume `C¹`, not smoothness. From the same file,
+`HasCompactSupport.hasFDerivAt_integral_sub_inv_smul` differentiates the transform of a
+compactly supported `C¹` map `f` into a complex normed space: its real derivative at `w` is
+`∫ z, (w − z)⁻¹ • fderiv ℝ f z`, the transform of the derivative of `f`. From
+`TauCeti/Analysis/Complex/Pompeiu/Parameter.lean` use
+`TauCeti.contDiffOn_integral_sub_inv_smul_with_param`: for a family `g p` vanishing outside a
+fixed compact set for `p` in an open parameter set `s` and jointly `Cⁿ` on `s ×ˢ univ`
+(`n : ℕ∞`), the transform is jointly `Cⁿ` on `s ×ˢ univ`. Use
 `TauCeti.exists_contDiff_conjWirtingerDeriv_apply_one_eq_of_hasCompactSupport` from
 `TauCeti/Analysis/Complex/Wirtinger/Potential.lean`, a `Cⁿ` `∂̄`-primitive of a compactly
 supported `Cⁿ` datum for `n ≥ 1`, and `Complex.locallyIntegrable_inv` from
@@ -438,12 +473,14 @@ cancelling opposite internal edges. The preceding estimate gives
 `μ=20N·volume|_K`, proving its domination and measurability hypotheses. Since `K` is
 bounded, contain it in a ball of finite volume to prove `volume K<∞` and the required
 `IsFiniteMeasure μ`. Use
-`variation_le_of_forall_enorm_le` to obtain `c.variation≤μ` and hence `c≪volume`.
+`MeasureTheory.VectorMeasure.variation_le_of_forall_enorm_le` to obtain `c.variation≤μ` and
+hence `c≪volume`.
 
 Construct `ComplexMeasure.HaveLebesgueDecomposition c volume` locally from the real and
 imaginary signed-measure decomposition instances for σ-finite volume. Use
-`ComplexMeasure.rnDeriv`, `integrable_rnDeriv`, and
-`singularPart_add_withDensity_rnDeriv_eq`. Prove singular-part elimination componentwise:
+`ComplexMeasure.rnDeriv`, `MeasureTheory.SignedMeasure.integrable_rnDeriv`, and
+`MeasureTheory.ComplexMeasure.singularPart_add_withDensity_rnDeriv_eq`. Prove singular-part
+elimination componentwise:
 `ComplexMeasure.absolutelyContinuous_ennreal_iff` gives absolute continuity of `c.re`
 and `c.im`. Each signed density measure is absolutely continuous by
 `Measure.withDensityᵥ_absolutelyContinuous`; subtract it from the corresponding signed
@@ -536,13 +573,20 @@ derivative claim or a sesquilinear test pairing. Bochner integrals use the nativ
 Banach carrier. A smooth compactly supported datum has a smooth `∂̄`-primitive on the plane
 (`exists_contDiff_conjWirtingerDeriv_apply_one_eq_of_hasCompactSupport` with `n=∞`).
 
+The regularity of the transform is native too. For smooth compactly supported φ, `Tφ` is
+smooth by Mathlib's `HasCompactSupport.contDiff_convolution_right` with the locally integrable
+kernel `Complex.locallyIntegrable_inv`, the route of
+`exists_contDiff_conjWirtingerDeriv_apply_one_eq_of_hasCompactSupport`; Tau Ceti's
+`contDiffOn_integral_sub_inv_smul_with_param` gives the same for families depending on
+parameters. Every derivative is transferred to the datum, `∂^α(Tφ)=T(∂^α φ)`, by
+`HasCompactSupport.hasFDerivAt_integral_sub_inv_smul` applied once per order: the derivative
+`fderiv ℝ φ` of a smooth compactly supported φ is again smooth and compactly supported, with
+values in the complex normed space `ℂ →L[ℝ] ℂ`. None of these is a target here.
+
 Prove here what the native transform does not state. For bounded measurable compactly
 supported input, prove integrability of the translated kernel for each z, complex-linearity
-and commutation with translations. For smooth compactly supported input, prove that `Tφ`
-itself is smooth with every derivative transferred to the datum, `∂^α(Tφ)=T(∂^α φ)`, by
-differentiating the convolution with the locally integrable kernel. These scalar analytic
-results use native real-plane measure and calculus, independently of a manifold-form
-implementation. For a
+and commutation with translations. These scalar analytic results use native real-plane
+measure and calculus, independently of a manifold-form implementation. For a
 cutoff `α` equal to one near `K`, apply the reconstruction identity to `αf`; the remaining
 cutoff-derivative term has support separated from `K`. Its integral kernel is smooth on the product
 of that support with `K`, so Riemann sums approximate the integral uniformly on `K`. Prove the uniform Riemann-sum lemma: for compact `K₁,K₂` and continuous `G:K₁×K₂→ℂ`,
@@ -559,10 +603,11 @@ f is holomorphic on U and αf is extended by zero outside U.
 The transform API is:
 
 - For bounded measurable compactly supported data the defining integral is integrable at every point.
-- It is complex-linear on such data and commutes with translations; smooth compactly supported
-  data give smooth outputs, with derivatives transferred to the datum.
-- On compactly supported `C¹` data it is a right inverse to ∂̄, and its application to ∂̄φ
-  reconstructs φ; both are native. No compact support of the output is claimed.
+- It is complex-linear on such data and commutes with translations.
+- On compactly supported `C¹` data it is a right inverse to ∂̄, its application to ∂̄φ
+  reconstructs φ, and it is differentiable with derivative the transform of the derivative;
+  on smooth compactly supported data the output is smooth. All of these are native. No compact
+  support of the output is claimed.
 
 **Checks.**
 
@@ -578,8 +623,12 @@ The transform API is:
 The inverse and reconstruction are Rainer, Theorem 10.2 and proof, pp. 23–24;
 the cutoff identity is Theorem 10.3, p. 24 (rainer lines 1255, 1295).
 The quadrature estimate is derived from uniform continuity and area additivity as above.
-*Needs:* Layer 0.1; the native Cauchy transform identities; real-plane Lebesgue integration,
-smooth cutoffs and differentiation under integrals. No manifold Stokes theorem is an input.
+*Needs:* Layer 0.1; the native Cauchy transform identities and regularity
+(`HasCompactSupport.hasFDerivAt_integral_sub_inv_smul`,
+`contDiffOn_integral_sub_inv_smul_with_param`, Mathlib's
+`HasCompactSupport.contDiff_convolution_right` and `Complex.locallyIntegrable_inv`);
+real-plane Lebesgue integration, smooth cutoffs, and uniform continuity on compact products
+for the Riemann-sum lemma. No manifold Stokes theorem is an input.
 
 
 
@@ -649,7 +698,7 @@ Prove the local-uniform product grouping identity between this repeated-index pr
 and the product of powers over S, including convergence at zeros; do not justify the
 identity merely by manipulating totalized `tprod` values. Identify the zero fiber at ρ
 with `Fin (m ρ)` and translate `analyticOrderAt` through the native
-`AnalyticOnNhd.divisor_apply` formula. Thus equal multiplicities give equality of native
+`MeromorphicOn.AnalyticOnNhd.divisor_apply` formula. Thus equal multiplicities give equality of native
 divisors, without a private zero-divisor carrier.
 
 Expose a native-divisor form: for `D : Function.locallyFinsuppWithin Set.univ ℤ`
@@ -724,27 +773,26 @@ nonzero limit and holomorphic approximants; the finite-product derivative rule.
 ### 1.4 Sharp finite-product majorant
 
 For every finite set `s` and `u : ι → ℂ`, put `P_s=∏_(i∈s)(1+u_i)` and
-`A_s=∏_(i∈s)(1+‖u_i‖) : ℝ`. Prove both inequalities
+`A_s=∏_(i∈s)(1+‖u_i‖) : ℝ`. Prove
 
-`‖P_s−1‖ ≤ A_s−1` and `A_s ≤ exp(Σ_(i∈s) ‖u_i‖)`.
+`‖P_s−1‖ ≤ A_s−1`,
 
-The first is `norm_prod_one_add_sub_one_le_prod_one_add_norm_sub_one`, a separate sharp
-finite-induction target: the native
-`Finset.norm_prod_one_add_sub_one_le` supplies the exponential consequence but does not
-state this intermediate bound. For insertion of a fresh index, use
-`P_(insert i s)−1=(P_s−1)(1+u_i)+u_i`, the triangle inequality,
-`‖1+u_i‖≤1+‖u_i‖`, and `A_s≥1`. For the second bound use
-`Real.prod_one_add_le_exp_sum` (`Mathlib/Analysis/Complex/Exponential.lean`) applied to the
-nonnegative family `t_i=‖u_i‖`. Expose the combined bound `‖P_s−1‖≤exp(Σ_(i∈s)‖u_i‖)−1`
-for consumers.
+`norm_prod_one_add_sub_one_le_prod_one_add_norm_sub_one`, a sharp finite-induction target.
+For insertion of a fresh index, use `P_(insert i s)−1=(P_s−1)(1+u_i)+u_i`, the triangle
+inequality, `‖1+u_i‖≤1+‖u_i‖`, and `A_s≥1`. The comparison `A_s ≤ exp(Σ_(i∈s) ‖u_i‖)` is
+Mathlib's `Real.prod_one_add_le_exp_sum` applied to the nonnegative family `t_i=‖u_i‖`, and
+the combined exponential bound `‖P_s−1‖≤exp(Σ_(i∈s)‖u_i‖)−1` is Mathlib's
+`Finset.norm_prod_one_add_sub_one_le`; neither is a target here. The sharp bound is
+strictly stronger than the exponential one and is not stated at the pins.
 No factor is divided out: zero factors, `u_i=0`, and an empty index set are allowed;
 for the empty set `P_s=A_s=1` and the sharp error is zero. These finite estimates precede
 the arbitrary-set uniform-tail and holomorphic product targets below. They do not introduce
 a logarithm of a vanishing factor or replace either sequential or unordered convergence.
 
-The finite-product API includes insertion, disjoint-union multiplication and the sharp error
-bound, with no nonvanishing hypotheses. The sharp inequality is the monomial expansion
-in Rainer, proof of Proposition 14.2, p. 35 (rainer line 1843).
+The finite-product API here is the sharp error bound, with no nonvanishing hypotheses;
+insertion and disjoint-union multiplication of finite products are Mathlib's
+`Finset.prod_insert` and `Finset.prod_union`. The sharp inequality is the monomial expansion
+in Rainer, proof of Proposition 14.2, p. 35 (rainer lines 1843–1853).
 
 **Checks.**
 
@@ -752,8 +800,8 @@ in Rainer, proof of Proposition 14.2, p. 35 (rainer line 1843).
 - With two terms u₁=u₂=1, both sharp sides are 3, while the exponential comparison is 4≤e².
 - With u₁=−1 and u₂=0, the product is 0 and both sharp sides are 1; division by a factor is invalid.
 
-*Needs:* Mathlib finite products, triangle inequality and `Real.prod_one_add_le_exp_sum`;
-the sharp step uses only finite induction, independently of all infinite-product conclusions.
+*Needs:* Mathlib finite products with `Finset.prod_insert` and the triangle inequality; the
+sharp step uses only finite induction, independently of all infinite-product conclusions.
 
 ### 1.5 Uniform-tail product criterion
 
@@ -838,7 +886,7 @@ deduce the ordinary distance equality to ∂Ω. Prove also `K̂_Ω⊆conv(K)`, u
 ordinary convex hull; exponential holomorphic functions realize these real support bounds.
 The Runge exhaustion of Ω is the explicit sequence
 `K_n=closedBall 0 (n+1) \ thickening (n+1)⁻¹ Ωᶜ` for n∈ℕ. Each stage is compact, as a closed
-ball minus an open set (`isCompact_closedBall`, `isOpen_thickening`); it lies in Ω, since
+ball minus an open set (`isCompact_closedBall`, `Metric.isOpen_thickening`); it lies in Ω, since
 every point of Ωᶜ lies in its own thickening; and it is filled in Ω
 (`IsFilledIn (K n) Ω`: no component of Ω∖K_n is relatively compact in Ω) by Tau Ceti's
 `IsOpen.isFilledIn_closedBall_sdiff_thickening` with r=n+1 and δ=(n+1)⁻¹. Prove the nesting
@@ -1023,29 +1071,35 @@ and power-series differentiation; Layer 2.5 for the density conclusion only.
 
 ### 2.4 Contour integration and compact-open closure
 
-For finite piecewise-C¹ curves on compact parameter intervals [a,b] with a≤b, prove the integral estimate
-`|∫_γ f−∫_γ g| ≤ sup_(trace γ)|f−g| · length(γ)` with `TauCeti.Contour`’s integral and
-`length(γ)=∫|γ′|`, under the continuity/integrability hypotheses. Treat a=b as zero length and reverse orientation
-by negation, retaining the same length bound. Derive continuity of integration
-under uniform convergence on the trace, and the finite-cycle version by summing with the
-cycle coefficients. Supply the rectangle/wedge-integral comparison to this contour API.
-Also give a disk-Morera proof of compact-open holomorphic closure: rectangle and wedge
-integrals pass to uniform limits as interval integrals, giving `IsConservativeOn`; apply
-Mathlib’s `Complex.isConservativeOn_and_continuousOn_iff_isDifferentiableOn` directly. Tau Ceti's
-`isClosed_holomorphicFunctions` already consumes `TendstoLocallyUniformlyOn.differentiableOn`;
-the contour argument is a reusable proof route and continuity result, rather than a second
-holomorphic-limit predicate or a second closedness theorem.
+For a piecewise-C¹ curve γ on a compact parameter interval [a,b] with a≤b, whose contour
+integral is the raw integral `∫ t in a..b, deriv γ t • f (γ t)` of `TauCeti.Contour`, prove the
+estimate `|∫_γ f−∫_γ g| ≤ sup_(trace γ)|f−g| · length(γ)` with `length(γ)=∫_a^b|γ′|`, for
+f and g continuous on the trace, from Mathlib's `intervalIntegral.norm_integral_le_of_norm_le`
+with the bound `|γ′(t)|·sup_(trace γ)|f−g|`. Treat a=b as zero length and reverse orientation
+by negation, retaining the same length bound. For a finite cycle the estimate is not a target:
+it is Tau Ceti's `TauCeti.Contour.Cycle.norm_integral_le_of_norm_le_const` applied to f−g,
+whose cycle integral is the difference of the two integrals by
+`TauCeti.Contour.Cycle.integral_add` and `TauCeti.Contour.Cycle.integral_smul` with the
+scalar −1; the length there weights each generator by the absolute value of its coefficient.
+Derive continuity of integration under uniform convergence on the trace, for curves and for
+cycles. Supply the rectangle/wedge-integral comparison to this contour API. Compact-open
+closedness of the holomorphic functions is Tau Ceti's `isClosed_holomorphicFunctions` and is
+not proved again here.
 
 **Checks.**
 
 - A constant path has length 0 and integral 0.
 - On the unit circle f−g=1, the integral difference is 0 and the estimate is 0≤2π.
 - Reversing a unit circle changes ∫dz/z from 2πi to −2πi, with the same length 2π.
+- For the cycle twice the unit circle and f−g=1/z, the integral difference is 2·2πi, of norm
+  4π, and the cycle bound is |2|·2π·1=4π, an equality; a length that ignored the coefficient
+  would give 2π, below the true value.
 
-This is the norm estimate for the native interval integral and the native rectangle Morera
-criterion, applied with the stated continuity hypotheses.
-*Needs:* Tau Ceti piecewise-C¹ integrals and finite cycles; Mathlib Bochner integral norm bounds
-and `Complex.isConservativeOn_and_continuousOn_iff_isDifferentiableOn`.
+The single-curve estimate is the norm bound of the native interval integral under the stated
+continuity hypotheses; the cycle estimate and the compact-open closedness are native.
+*Needs:* Tau Ceti piecewise-C¹ integrals and finite cycles with
+`TauCeti.Contour.Cycle.norm_integral_le_of_norm_le_const`, `TauCeti.Contour.Cycle.integral_add`
+and `TauCeti.Contour.Cycle.integral_smul`; Mathlib `intervalIntegral.norm_integral_le_of_norm_le`.
 
 ### 2.5 Runge equivalences, pole pushing, and interpolation
 
@@ -1169,7 +1223,7 @@ meromorphic germs; arbitrary total-function values at exceptional points are not
 Require g not identically zero on each nonempty connected component of Ω, including components
 on which F has zero germ. State componentwise behavior when Ω is disconnected. The quotient statement is a consequence of
 positive and negative parts of the divisor and the two realization theorems; it is not the
-finite-support `extract_zeros_poles` result.
+finite-support `MeromorphicOn.extract_zeros_poles` result.
 
 First prove `exists_zero_free_holomorphic_approximation`, zero-free Runge approximation: if K is Runge in Ω and u is holomorphic and
 nowhere zero on a neighborhood of K, approximate u uniformly on K by a function holomorphic
@@ -1201,14 +1255,14 @@ For a holomorphic nowhere-zero u on a neighborhood of V, define
 `w_k=(2πi)⁻¹ Cycle.integral (u′/u) σ_k`. Define the finite image cycle u_*σ_k by composing
 its supported curve generators with u; prove those compositions remain closed piecewise-C¹, and
 prove the chain-rule identity between this integral and `2πi` times the winding of u_*σ_k about
-0. Since 0 is outside its trace, `exists_int_windingNumber_of_not_mem_trace` makes w_k an integer.
+0. Since 0 is outside its trace, `Cycle.exists_int_windingNumber_of_not_mem_trace` makes w_k an integer.
 Use the native `PiecewiseC1ClosedCurve.of`, its raw-curve integral comparison, and `Cycle`'s
 additive integral/winding API; introduce only the needed finite composition and chain-rule adapter. For any finite cycle γ with `Cycle.IsIn γ V`, choose integers n_k(γ) satisfying
 `(n_k(γ):ℂ)=Cycle.windingNumber a_k γ`. Prove
 `Cycle.IsNullHomologous (γ−Σ_k n_k(γ) • σ_k) V`: at points outside V, winding is locally
 constant on each complementary component; it is zero on the unbounded component, while on B_l
 the subtracted cycle has winding `Cycle.windingNumber a_l γ−(n_l(γ):ℂ)=0`. Thus
-`homologyCauchyTheorem` gives
+`Cycle.homologyCauchyTheorem` gives
 `Cycle.integral (u′/u) γ = Σ_k n_k(γ) • Cycle.integral (u′/u) σ_k
 =2πiΣ_k (n_k(γ):ℂ)w_k`, with no homology-group abstraction.
 Set the exponents to these w_k and define the single rational function
@@ -1448,12 +1502,15 @@ The following formulas and examples are explicit targets with the stated converg
 
 Starting with the supplied sine product, derive the cosine product
 `cos(πz) = ∏_(n≥1) (1 − 4z²/(2n−1)²)`.
-The respective simple zero sets are `ℤ` and `ℤ+1/2`. On `ℂ\ℤ`, derive from compact-uniform
-product convergence
-`π cot(πz) = z⁻¹ + Σ_(n≥1) 2z/(z² − n²)`,
-where `n` and `-n` terms are paired. The paired series converges locally uniformly away from
-`ℤ`. Its residue at each integer is `1`. The half-integer shift gives `-π tan(πz)` with
-simple poles of residue `1` at `ℤ+1/2`; state its symmetric pairing and local-uniform domain.
+The respective simple zero sets are `ℤ` and `ℤ+1/2`. The paired cotangent series
+`π cot(πz) = z⁻¹ + Σ_(n≥1) 2z/(z² − n²)` on `ℂ\ℤ`, where `n` and `-n` terms are paired, is
+Mathlib's `cot_series_rep` rewritten by `cotTerm_identity`, and is not proved again here.
+Prove that the paired series converges locally uniformly on `ℂ\ℤ`, from compact-dependent
+`O(n⁻²)` bounds on `2z/(z² − n²)` (Mathlib's local uniform summability of the paired terms,
+`summableLocallyUniformlyOn_iteratedDerivWithin_cotTerm`, concerns derivatives of order at
+least one on the upper half-plane), and that its residue at each integer is `1`. The
+half-integer shift gives `-π tan(πz)` with simple poles of residue `1` at `ℤ+1/2`; state its
+symmetric pairing and local-uniform domain.
 Also prove the one-sided genus-one product
 `∏_{n≥1}(1+z/n)e^{-z/n}`: it converges locally uniformly and its zeros are exactly the negative
 integers. Also prove the all-z identity
@@ -1462,7 +1519,7 @@ integers. Also prove the all-z identity
 entire with simple zeros exactly at the nonpositive integers and agrees with native reciprocal
 Gamma on its regular locus. State pole exclusions when using native Gamma or digamma.
 Reuse `Complex.tendsto_euler_sin_prod` in `EulerSineProd.lean`; the cotangent series theorem is
-root-namespaced `cot_series_rep` in `Cotangent.lean`, not `Complex.cot_series_rep`. For compact-uniform
+the root-namespaced `cot_series_rep` in `Cotangent.lean`. For compact-uniform
 product convergence use `HasProdLocallyUniformlyOn_euler_sin_prod` and
 `multipliableUniformlyOn_euler_sin_prod_on_compact`; consume these with their stated compact and
 zero-exclusion hypotheses, and derive the cosine product from `sin(2πz)=2sin(πz)cos(πz)` by splitting even and odd factors in finite products, passing to the locally uniform limit, and checking the constant at zero. For reciprocal Gamma,
@@ -1503,85 +1560,23 @@ proof or global product API.
 - At z=1/2, the cosine product has a zero factor, so both sides are 0.
 - For α=1/2, the shifted-sine prefactor is sin(π/2)=1 and the linear exponent coefficient
   π cot(π/2)=0, recovering the cosine product.
+- At z=i the consumed series gives π cot(πi)=−iπ coth π≈−3.153348i, and the paired sum is
+  1/i+Σ_(n≥1) 2i/(−1−n²)=−i(1+2S₁) with S₁=Σ_(n≥1) 1/(1+n²)=(π coth π−1)/2≈1.076674, the same
+  value; omitting the term z⁻¹ would give −2.153348i.
+- At iy with y>0 the paired sum is −i(1/y+2S_y), where S_y=(1/y)Σ_(n≥1) 1/(1+(n/y)²) is a
+  Riemann sum for ∫₀^∞ dt/(1+t²)=π/2; at y=1, π/2−S₁≈0.494122, and as y→∞ the sum tends to
+  −πi, the limit of π cot(πiy)=−iπ coth(πy).
+- Near z=1/2, −π tan(πz) behaves like 1/(z−1/2), residue 1; a sign error in the shift
+  (π tan(πz)) would give residue −1.
 
 These are derived product comparisons from Layer 1 and the native sine, cotangent, Gamma
 sequence and Euler-constant limits in the supplier contracts; the shift uses absolute summability.
 *Needs:* Layer 1, AnalyticNumberTheoryPartI §0.15a's equal-divisor factorization and
-ZerosOfLFunctions Layer 5.4's entire logarithm, native sine/cosine identities, cotangent
-series, Gamma sequence and harmonic-logarithmic limit, with the specified nonzero denominators.
+ZerosOfLFunctions Layer 5.4's entire logarithm, native sine/cosine identities, the cotangent
+series `cot_series_rep` with `cotTerm_identity`, Gamma sequence and harmonic-logarithmic limit,
+with the specified nonzero denominators.
 
-### 6.2 Independent paired-cotangent strip proof
-
-Use the following strip argument as a worked comparison route for the supplied paired
-cotangent identity, alongside its product/logarithmic-derivative route. Its intermediate
-estimates belong to this README's examples. Write
-`U=ℂ\{(k:ℂ) | k∈ℤ}`,
-`q_N(z)=Σ_(k=−N)^N (z−k)⁻¹`, and
-`q(z)=z⁻¹+Σ_(n≥1)((z−n)⁻¹+(z+n)⁻¹)`.
-The infinite sum is specifically this paired series, not an unpaired bilateral sum.
-
-First prove local uniform convergence of `q_N` to q on U using
-`(z−n)⁻¹+(z+n)⁻¹=2z/(z²−n²)` and compact-dependent `O(n⁻²)` bounds.
-Give the finite truncation/pairing comparison, holomorphy on U, and the residue-one
-local decomposition at each integer. Derive periodicity directly from the finite identity
-
-`q_N(z+1)−q_N(z)=(z+N+1)⁻¹−(z−N)⁻¹`.
-
-Its two boundary terms converge locally uniformly to zero away from the indicated poles;
-thus `q(z+1)=q(z)` on U. Put `c(z)=π cos(πz)/sin(πz)`. Prove its regular locus and
-residue-one decompositions using elementary sine/cosine differentiation and their integer
-zeros. Cancel the principal parts to construct an actual entire function F satisfying
-`F=c−q` on U, with its values at the integers obtained by removable extension. Do not
-assign zero arbitrarily at the poles. Prove uniqueness and one-periodicity of this extension.
-
-Prove uniform bounds on the full closed fundamental strip `|Re z|≤1/2`, rather than
-only at `z=iy`. For `|Im z|≥1` and n≥1,
-
-`‖2z/(z²−n²)‖ ≤ 3|Im z|/((n−1/2)²+(Im z)²)`.
-
-The decreasing-function integral comparison gives
-`Σ_(n≥1) |y|/((n−1/2)²+y²) ≤ 1+π/2` for `|y|≥1`.
-Together with `‖1/z‖≤1`, this bounds q by `4+3π/2` on those two strip tails.
-Use the exponential formula for cotangent to bound c there by
-`π(1+exp(−2π))/(1−exp(−2π))`. On the remaining compact rectangle
-`|Re z|≤1/2`, `|Im z|≤1`, use continuity of the entire extension F, including the
-removed pole at zero. Periodicity moves every complex number into this strip, so F is
-globally bounded. Consume native Liouville only after this bound, giving F constant.
-
-Determine the constant without invoking the desired cotangent series. For real `y>0`, prove
-
-`q(iy)=−i(1/y+2 S_y)`, where
-`S_y=(1/y) Σ_(n≥1) 1/(1+(n/y)²)`.
-
-Construct the improper-Riemann comparison from finite upper and lower rectangular sums
-for the decreasing function `t↦1/(1+t²)` on `[0,R]`. Prove the improper integral is π/2
-using the arctangent derivative and limit; control the infinite tail by
-`∫_R^∞ 1/(1+t²) dt ≤ 1/R` for `R>0`. Pass from finite sums to the summable infinite
-series, obtaining the explicit all-`y>0` estimate
-`0≤π/2−S_y≤1/y`. Hence `q(iy)→−πi`. Independently the exponential formula gives
-`c(iy)→−πi`, so the constant F is zero. Conclude `c=q` on U, and compare this independently
-constructed proof with the existing native theorem afterwards. The zero value `y=0` is
-excluded from the Riemann/vertical-limit claims; integers are excluded from the final identity.
-No absolute convergence of `Σ_(k∈ℤ)(z−k)⁻¹` is claimed. This alternative does not remove
-the existing sine/cosine/Gamma/shifted-product or contour examples.
-
-The paired-series API in this worked route consists of symmetric-truncation convergence,
-integer residues, period one and the strip and imaginary-axis estimates; it uses the native
-integer complement and paired series rather than a new regular-locus carrier.
-
-**Checks.**
-
-- With N=0, q₀(z+1)−q₀(z)=(z+1)⁻¹−z⁻¹, exactly the stated boundary correction.
-- At z=i, a paired term is −2i/(1+n²); both terms have negative imaginary part.
-- At y=1, S₁=(π coth π−1)/2, so π/2−S₁ is about 0.4941, inside [0,1].
-- The model and paired limits are both −πi as y→∞, so their difference has constant value 0.
-
-This is a direct finite-sum, improper-integral and Liouville derivation of the supplied
-cotangent identity; it does not define an additional theorem of the library.
-*Needs:* native sine/cosine derivatives, removable singularities, inverse-square summability,
-arctangent integral and Liouville; the displayed bounds are the intermediate mathematical estimates.
-
-### 6.3 Theta, hyperbolic sine, divisors, and ratio products
+### 6.2 Theta, hyperbolic sine, divisors, and ratio products
 
 For real `0<r<1`, define
 `H_r(z) = ∏_(n≥1) (1 + r^(2n−1) e^z)(1 + r^(2n−1) e^(−z))`.
@@ -1645,7 +1640,7 @@ pp. 35–36, rainer line 1868) and the explicit estimates above.
 *Needs:* Layer 1; AnalyticNumberTheoryPartI §0.15; native sine/hyperbolic identities, lattice shell counts and compact
 separation from the pole closure; every ratio denominator is bounded away from zero on the stated compact.
 
-### 6.4 Polynomial and rational approximation examples
+### 6.3 Polynomial and rational approximation examples
 
 For the crescent `Ω={z∈ℂ: |z|<1 and |2z−1|>1}`, prove compact-open polynomial density in
 `H(Ω)` and the failure of global uniform approximation for all holomorphic functions.
@@ -1679,7 +1674,7 @@ These are direct applications of rational Runge (Rainer, Theorem 11.7, p. 29) an
 computed complement geometry, not global-uniform approximation theorems.
 *Needs:* Layer 2.5, the holomorphic hull construction, compact exhaustion and polynomial boundedness on a closed disk.
 
-### 6.5 Full-boundary Cauchy–Pompeiu formula
+### 6.4 Full-boundary Cauchy–Pompeiu formula
 
 Give piecewise-`C¹` Jordan parametrizations `γ₀,…,γₘ`, with `m<∞`, and write `Dⱼ` for the
 bounded Jordan component enclosed by the image of `γⱼ`. Require the closed hole interiors
@@ -1787,8 +1782,10 @@ Include the explicit example
 at `z/(2πi)` to `e^z−1`, with the exponential prefactor computed explicitly and local-uniform
 convergence proved. This identity and the reciprocal-Gamma formula are separate targets.
 
-The Stone–Weierstrass comparison is stated as real polynomials in `x,y` dense in real-valued
-`C(K,ℝ)` for compact `K⊆ℝ²`; their complex linear span is dense in `C(K,ℂ)`. The Euler example is included above with its independent convergence/identity proof obligation. The two-domain
+The Stone–Weierstrass comparison, density in `C(K,ℂ)` for compact `K⊆ℂ` of the polynomial
+functions in `z` and `z̄` (the complex polynomials in `x,y`), is Mathlib's
+`polynomialFunctions.starClosure_topologicalClosure` and is a comparison here, not a target.
+The Euler example is included above with its independent convergence/identity proof obligation. The two-domain
 annulus hull example and the approximation implication when `K̂_{Ω₂}⊆Ω₁` use the actual
 holomorphic-neighborhood and compact hypotheses. This differs
 from holomorphic polynomial approximation, which requires connected complement. For arbitrary
@@ -1814,11 +1811,12 @@ p. 23 (rainer line 1216); the finite-cycle generalization uses Tau Ceti's `Cycle
 Tau Ceti cycles, winding, circle integrals and Layer 0.1 derivatives. The boundary adapter,
 coordinate comparison and small-circle/error estimates are the local targets above.
 
-### 6.6 Product logarithmic derivatives and boundary examples
+### 6.5 Product logarithmic derivatives and boundary examples
 
 For each pole family identify principal parts before summing. Cotangent poles at integers have
-residue one; the regularized series is `1/z+Σ_{n≥1}2z/(z²-n²)`. Derive this by symmetric
-pairing and local-uniform convergence, not by assigning a value to an unpaired bilateral sum.
+residue one; the regularized series is `1/z+Σ_{n≥1}2z/(z²-n²)`, Mathlib's `cot_series_rep`
+with its symmetric pairing and the local-uniform convergence of 6.1; no value is assigned to an
+unpaired bilateral sum.
 The same rule applies to shifted lattices and logarithmic derivatives of products. Preserve the
 local pole exclusions and verify residues directly.
 
@@ -2131,9 +2129,9 @@ Layers 0 and 2 for the scalar solver; Tau Ceti's smooth-form carrier and de Rham
 
 ## Downstream consumers
 
-ComplexKahlerGeometry K2 consumes Layer 0.3's derivative transfer and Riemann-sum estimate
-for the native Cauchy transform, GH0's finite-rank Runge operators and the planar exhaustion
-for its parameter solver; K5a consumes GH5.1's complex
+ComplexKahlerGeometry K2 consumes Layer 0.3's uniform Riemann-sum estimate for the Cauchy
+transform, whose derivative transfer and parameter smoothness are Tau Ceti's, and GH0's
+finite-rank Runge operators and the planar exhaustion for its parameter solver; K5a consumes GH5.1's complex
 two-form exactness for its complex de Rham comparison. Layer 7.2 proves `H²_dR(U;ℝ)=0` for
 an open `U⊆ℂ` on Tau Ceti's `deRhamCohomology`, available to every consumer.
 Hyperfunctions HF2 uses the one-variable input through those analytic layers.
