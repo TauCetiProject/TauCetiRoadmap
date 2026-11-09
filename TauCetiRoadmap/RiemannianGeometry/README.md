@@ -45,7 +45,16 @@ its energy-space and compact-pair specializations; R5b owns the normal-Jacobi
 geometric form and its boundary-domain identification.
 
 The following are already in Tau Ceti, and this roadmap cites them rather than
-restating them: the constant-curvature Ricci and scalar contractions, the
+restating them: the first and second Bianchi identities, the metric skew symmetry
+and pair interchange of the curvature tensor, its chart formula and its
+smoothness, the covariant derivative ∇R with its contraction to ∇Ric and its
+naturality under local isometries, and the Ricci identity with and without
+torsion (R1.1); the parallel-curvature predicate ∇R=0, its consequence from
+constant sectional curvature and its pullback along local isometries, in
+particular to open submanifolds (R1.2); the constant-scaling laws for the
+connection and the curvatures, the connection and curvatures of a product metric
+and the connection of a warped product (R1.3); the constant-curvature Ricci and
+scalar contractions, the
 characterization of constant sectional curvature by the curvature tensor,
 Schur's theorem, the constancy of the Einstein factor, the parallel-curvature
 characterization of locally symmetric surfaces, the conformal-change laws for
@@ -58,9 +67,17 @@ symmetry, Rayleigh quotients and isometry naturality (R1); smoothness of geodesi
 of a smooth metric up to the ends of their parameter sets, the Jacobi predicate
 with uniqueness from initial data, the Wronskian, the constant-curvature
 solutions, the absence of endpoint-zero Jacobi fields under nonpositive sectional
-curvature, and the finite-dimensional solution space (R2); conjugacy, conjugate
+curvature, the finite-dimensional solution space, the Gauss lemma and the
+identification of d(exp_p) along a radial geodesic with the Jacobi field of
+initial data (0,w) (R2); the normal coordinate fields with their vanishing
+covariant derivatives and vanishing first metric derivatives at the centre
+(§2.2); conjugacy, conjugate
 multiplicity, its positivity criterion and its bound n−1 (R3); the model sine and
-cosine (R4.1); pullback metrics along immersions, the smooth atlas of the
+cosine (R4.1); the curvature of the round sphere of every radius and of the
+half-space model, the full isometry groups of Euclidean space and of the round
+sphere, the normal form of the isometries of the half-space model and the
+determination of an isometry of a connected manifold by its value and
+differential at one point (R4.7); pullback metrics along immersions, the smooth atlas of the
 based-path universal cover with its local-diffeomorphism projection, the bijection
 of its basepoint fibre with the fundamental group and the finiteness of the
 fundamental group when the universal cover is compact (R4.3); the
@@ -252,6 +269,74 @@ independent pairs suffices over a domain with 6≠0. The pointwise four-tensor
 `CovariantDerivative.riemannCurvatureTensor`, Rm(u,v,w,z)=⟨R(u,v)w,z⟩, with its
 two skew symmetries and first Bianchi identity, is in `Curvature/Riemann.lean`.
 
+For R1.1, also in `TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/`:
+`CovariantDerivative.curvatureTensor_cyclic_eq_zero` (`Bianchi.lean`), the first
+Bianchi identity `R(u,v)w+R(v,w)u+R(w,u)v=0` for a torsion-free connection on the
+tangent bundle; `CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_eq_neg`
+(`Metric.lean`), `⟨R(u,v)w,z⟩=−⟨w,R(u,v)z⟩` for a smooth metric-compatible connection
+on a finite-rank bundle with a C² fibre metric;
+`CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_swap_pairs`
+(`Bianchi.lean`), pair interchange `⟨R(u,v)w,z⟩=⟨R(w,z)u,v⟩` for a metric-compatible
+torsion-free connection on the tangent bundle;
+`CovariantDerivative.covariantDerivative_curvatureOperator_cyclic_eq_zero`
+(`SecondBianchi.lean`), the second Bianchi identity, the vanishing cyclic sum of
+(∇_X R)(Y,Z)σ for a smooth connection on any vector bundle, differentiated with a
+smooth torsion-free connection on the tangent bundle;
+`CovariantDerivative.curvatureTensor_symm_trivializationAt` (`Coordinates.lean`), the
+chart formula `R(a,c)w = dΓ(a)(w,c)−dΓ(c)(w,a)+Γ(Γ(w,c),a)−Γ(Γ(w,a),c)` through the
+model-space Christoffel map Γ of the chart; `CovariantDerivative.contMDiff_curvatureTensorCLM`
+(`Smoothness.lean`), the curvature tensor of a smooth connection is a smooth section
+of the iterated hom bundle, with no metric or torsion hypothesis;
+`CovariantDerivative.derivCurvatureTensor` (`Derivative.lean`), the pointwise tensor
+`(∇_vR)(u,w)s`; `CovariantDerivative.derivRicciTensor_eq_trace` (`ContractedBianchi.lean`),
+∇Ric is the trace of ∇R; and `CovariantDerivative.secondCovariantDerivative_sub_swap`
+with `CovariantDerivative.secondCovariantDerivative_sub_swap_of_isTorsionFree`
+(`SecondCovariantDerivative.lean`), the Ricci identity
+`∇²s(u,v)−∇²s(v,u)=R(u,v)s−∇_(T(u,v))s` for a smooth section s, and its torsion-free
+form `∇²s(u,v)−∇²s(v,u)=R(u,v)s`. In
+`TauCeti/Geometry/Manifold/Riemannian/Isometry/LocallySymmetric.lean`,
+`TauCeti.IsLocalRiemannianIsometry.mfderiv_derivCurvatureTensor`: a local Riemannian
+isometry f satisfies `df_x((∇_vR)(u,w)s)=(∇_(df_x v)R)(df_x u,df_x w)(df_x s)` for the
+two Levi-Civita connections.
+
+For R1.2: `CovariantDerivative.HasParallelCurvature` in
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/LocallySymmetric.lean`,
+∇R=0 at every point for a smooth connection on the tangent bundle, the torsion
+unrestricted, and in the same file
+`CovariantDerivative.HasConstantSectionalCurvature.hasParallelCurvature`, a
+metric-compatible torsion-free connection of constant sectional curvature has
+parallel curvature; `TauCeti.IsLocalRiemannianIsometry.hasParallelCurvature` in
+`TauCeti/Geometry/Manifold/Riemannian/Isometry/LocallySymmetric.lean`, parallel
+curvature of the target pulls back to the source of a local Riemannian isometry; and
+`Bundle.ContMDiffRiemannianMetric.isLocalRiemannianIsometry_restrictOpenTangentSpace`
+in `TauCeti/Geometry/Manifold/Riemannian/Isometry/Restriction.lean`, the inclusion of
+an open submanifold with the restricted metric is a local Riemannian isometry.
+
+For R1.3, in `TauCeti/Geometry/Manifold/Riemannian/Scaling.lean`, for a smooth metric g
+and a constant c>0: `Bundle.ContMDiffRiemannianMetric.leviCivitaConnection_rescale_const_apply`,
+the Levi-Civita connections of cg and g agree on every vector field differentiable at
+the point; `Bundle.ContMDiffRiemannianMetric.ricciTensor_leviCivitaConnection_rescale_const`,
+the two Ricci tensors agree; `Bundle.ContMDiffRiemannianMetric.scalarCurvature_rescale_const`,
+Scal(cg)=c⁻¹Scal(g); and
+`Bundle.ContMDiffRiemannianMetric.sectionalCurvature_leviCivitaConnection_rescale_const`,
+K(cg)=c⁻¹K(g) on every pair of tangent vectors. In
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/`, for the product of two
+smooth metrics on M×N: `TauCeti.Manifold.tangentSpaceProdEquiv_leviCivitaConnection_prodVectorField`
+(`LeviCivita/Prod.lean`), the product connection acts factor by factor on product
+fields; `TauCeti.Manifold.tangentSpaceProdEquiv_curvatureTensor_leviCivitaConnection_prod`,
+`TauCeti.Manifold.ricciTensor_leviCivitaConnection_prod` and
+`TauCeti.Manifold.scalarCurvature_leviCivitaConnection_prod` (`Curvature/Prod.lean`),
+the product curvature tensor is the product of the factor tensors, and the Ricci and
+scalar curvatures are the sums of those of the factors; and
+`TauCeti.Manifold.IsWarpedProduct.tangentSpaceProdEquiv_leviCivitaConnection_prodVectorField`
+(`LeviCivita/WarpedProd.lean`), the Levi-Civita connection of the warped product
+`g_M+f²g_N` on a product field (Y₁,Y₂) in the direction (u₁,u₂) at (x,y),
+`(∇_(u₁)Y₁−f⟨u₂,Y₂⟩grad f, ∇_(u₂)Y₂+(df(u₁)/f)Y₂+(df(Y₁)/f)u₂)` with f, df and
+grad f taken at x. Naturality of the Levi-Civita connection under a local Riemannian
+isometry, `df_x(∇_v f*Y)=∇_(df_x v)Y`, is
+`TauCeti.IsLocalRiemannianIsometry.mfderiv_leviCivitaConnection_mpullback` in
+`TauCeti/Geometry/Manifold/Riemannian/Isometry/LeviCivita.lean`.
+
 For R2, in `TauCeti/Geometry/Manifold/Riemannian/Jacobi/`: the Jacobi predicate
 `TauCeti.Manifold.IsJacobiFieldOn` (`Basic.lean`), a C² section of γ*TM along a
 geodesic on a parameter set satisfying `D_t²J+R(J,γ′)γ′=0`, with no boundaryless
@@ -282,7 +367,22 @@ Jacobi fields in constant curvature κ as model cosine and sine multiples of
 parallel fields. `TauCeti.Manifold.IsKillingField` restricts to a Jacobi field along every
 geodesic (`TauCeti/Geometry/Manifold/Riemannian/Killing.lean`), and
 `Jacobi/Exponential.lean` proves that t↦d(exp_p)_(tv)(tw) is a Jacobi field along
-the radial geodesic.
+the radial geodesic; its `TauCeti.Manifold.IsJacobiFieldOn.eq_mfderiv_riemannianExp`
+gives the converse: a Jacobi field X along t↦exp_p(tv) on a preconnected parameter
+set containing 0 inside the maximal geodesic interval of v, with X(0)=0 and
+D_tX(0)=w, is X(t)=d(exp_p)_(tv)(tw) there, with no completeness hypothesis.
+`TauCeti.Manifold.inner_mfderiv_riemannianExp_radial`
+(`TauCeti/Geometry/Manifold/Riemannian/Geodesic/Gauss/Basic.lean`) is the Gauss
+lemma `⟨d exp_v(v),d exp_v(w)⟩=⟨v,w⟩` for v in `expDomain` at p, on a boundaryless
+Hausdorff manifold.
+
+For §2.2, in `TauCeti/Geometry/Manifold/Riemannian/Geodesic/Normal/Coordinates.lean`,
+for a normal domain U at p: `TauCeti.Manifold.normalCoordinateField`, the field X_w
+whose value at exp_p(v) is d(exp_p)_v(w), the coordinate field ∂_i when w=e_i;
+`TauCeti.Manifold.IsNormalDomain.leviCivitaConnection_normalCoordinateField_self`,
+∇X_w=0 at p, the vanishing of the Christoffel symbols of normal coordinates at the
+centre; and `TauCeti.Manifold.IsNormalDomain.mfderiv_inner_normalCoordinateField_self`,
+the first derivatives of q↦⟨X_(w₁)(q),X_(w₂)(q)⟩ vanish at p.
 
 For R4.1, `TauCeti.curvatureSine` and `TauCeti.curvatureCosine` in
 `TauCeti/Analysis/SpecialFunctions/Trigonometric/Curvature.lean` are the solutions
@@ -334,6 +434,30 @@ isometry f between Hausdorff manifolds:
 curvature; and `TauCeti.IsLocalRiemannianIsometry.scalarCurvature_map`, likewise scalar
 curvature.
 
+For the R4.7 models, in `TauCeti/Geometry/Manifold/Riemannian/`:
+`TauCeti.hasConstantSectionalCurvature_sphere` (`Sphere/Curvature.lean`), the round
+unit sphere `TauCeti.sphereRoundMetric` (`Sphere/Basic.lean`) has constant sectional
+curvature 1; `TauCeti.hasConstantSectionalCurvature_sphereRoundMetricOfRadius`
+(`Sphere/Radius.lean`), the round metric of radius r>0 has constant sectional
+curvature 1/r²; `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature`
+(`Hyperbolic/UpperHalfSpace/Curvature.lean`), the metric `(|dx|²+dt²)/t²` on the
+upper half-space of E×ℝ has constant sectional curvature −1, for every
+finite-dimensional E including E=0; `LinearIsometryEquiv.unitSphereIsomHom_surjective`
+and `LinearIsometryEquiv.unitSphereIsomMulEquiv` (`Isometry/Sphere/Classification.lean`),
+every Riemannian isometry of the round unit sphere of an (n+1)-dimensional inner-product
+space is the restriction of a unique ambient linear isometry, n=0 included, so the
+orthogonal group is its full isometry group; `TauCeti.RiemannianIsometry.affineIsometryMulEquiv`
+and `TauCeti.RiemannianIsometry.stabilizerZeroMulEquiv` (`Isometry/Euclidean.lean`),
+the Riemannian isometry group of a real inner-product space is its affine isometry
+group and the isotropy group of the origin is its linear isometry group;
+`TauCeti.UpperHalfSpace.exists_eq_similarity_or_exists_eq_inversion_mul_similarity`
+(`Isometry/UpperHalfSpace.lean`), for finite-dimensional E every isometry of the
+half-space model is a similarity `(x,t)↦(cAx+b,ct)` with c>0 and A a linear isometry,
+or such a similarity followed by an inversion in a sphere centred on the boundary
+hyperplane; and `TauCeti.RiemannianIsometry.ext_of_mfderiv_eq` (`Isometry/Ext.lean`),
+two Riemannian isometries of a preconnected boundaryless Hausdorff smooth Riemannian
+manifold with the same value and differential at one point are equal.
+
 For R6, `TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` in
 `TauCeti/Geometry/Manifold/Morse/SquaredDistance.lean`: for a C² map i:M→V with
 injective differential from a second-countable boundaryless C² manifold modelled on
@@ -376,7 +500,13 @@ its iteration `MvPolynomial.homogeneousSubmodule_eq_iSup_map_mulLeft_normSq_pow`
 (g·p)(x)=p(g⁻¹x) of the orthogonal group on H_d; and
 `MvPolynomial.harmonicSphereRestriction_injective` in
 `TauCeti/Analysis/MvPolynomial/Sphere.lean`, injectivity of restriction of real
-harmonic homogeneous polynomials to the unit sphere.
+harmonic homogeneous polynomials to the unit sphere. For R8.2,
+`MvPolynomial.harmonicSphereRestriction` in the same file, the real-linear map sending
+a real harmonic homogeneous polynomial of degree d in the variables σ to its
+restriction, a continuous function on the unit sphere of `EuclideanSpace ℝ σ`; the
+round metric `TauCeti.sphereRoundMetric` with its `RiemannianBundle` instance
+(`TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`); and
+`TauCeti.Manifold.laplaceBeltrami` (the R7.0 contract).
 
 ### From the named roadmaps
 
@@ -543,20 +673,31 @@ use the comparison or path-space theorems.
 
 ### 1.1 Curvature identities
 
-1. Consume the existing pointwise curvature/sectional/Ricci/scalar carriers.
-   Supply every missing metric symmetry, pair interchange and both Bianchi
-   identities, their coordinate and moving-frame formulas, and smoothness of
-   their scalar and tensor components. Induced tensor connections define ∇R;
-   prove frame independence, contraction compatibility and isometry naturality.
+1. Consume the existing pointwise curvature/sectional/Ricci/scalar carriers and
+   their identities, all Tau Ceti's (supplier contract): the first Bianchi
+   identity `CovariantDerivative.curvatureTensor_cyclic_eq_zero`, metric skew
+   symmetry `CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_eq_neg`,
+   pair interchange `CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_swap_pairs`,
+   the second Bianchi identity
+   `CovariantDerivative.covariantDerivative_curvatureOperator_cyclic_eq_zero`, the
+   chart formula `CovariantDerivative.curvatureTensor_symm_trivializationAt`,
+   smoothness of the tensor `CovariantDerivative.contMDiff_curvatureTensorCLM`,
+   the tensor ∇R `CovariantDerivative.derivCurvatureTensor` with its contraction
+   `CovariantDerivative.derivRicciTensor_eq_trace` and its naturality under local
+   isometries `TauCeti.IsLocalRiemannianIsometry.mfderiv_derivCurvatureTensor`,
+   and the Ricci identity `∇²s(X,Y)−∇²s(Y,X)=R(X,Y)s` with its torsion
+   correction `−∇_(T(X,Y))s`
+   (`CovariantDerivative.secondCovariantDerivative_sub_swap_of_isTorsionFree`,
+   `CovariantDerivative.secondCovariantDerivative_sub_swap`). R1 owns what goes
+   beyond them: the moving-frame form of R and ∇R through the connection 1-forms of
+   a smooth local frame, skew-symmetric for an orthonormal frame, with the frame
+   components smooth on the frame's domain.
    For End-valued curvature match SBC B4's covariant exterior derivative and
    `Ω=dω+½[ω∧ω]`, `d_∇Ω=0`, explaining the equivalent matrix
    `F=dA+A∧A` convention: section coefficients are columns and
    `∇s=ds+A s`, with matrix multiplication in the wedge. Include `(d_∇)²=R∧·`, the canonical tangent-valued
    identity 1-form/torsion comparison and the affine/skew-adjoint difference of
-   metric connections as supplier acceptance checks. For the torsion-free
-   connection pin the Ricci identity
-   `∇²s(X,Y)−∇²s(Y,X)=R(X,Y)s`; identify its torsion correction for a
-   connection with torsion.
+   metric connections as supplier acceptance checks.
 2. Sectional curvature determines an algebraic Riemannian curvature tensor by
    an explicit polarization identity (Andrews, *Lectures on Differential
    Geometry*, Lecture 16, Proposition 16.2.1, p. 154), and constant sectional
@@ -571,13 +712,14 @@ use the comparison or path-space theorems.
    dimension other than two, then a is constant (Nicolaescu, *Lectures on the
    Geometry of Manifolds*, Exercise 4.2.38, p. 196, for dimension at least three,
    with a=Scal/n by Example 4.2.36, p. 195). Both are Tau Ceti's and consumed
-   here. Define local symmetry by ∇R=0,
-   prove parallel transport preserves R exactly when this condition holds,
-   and consume Tau Ceti's
+   here. Local symmetry ∇R=0 is Tau Ceti's `CovariantDerivative.HasParallelCurvature`,
+   and that constant sectional curvature implies it is
+   `CovariantDerivative.HasConstantSectionalCurvature.hasParallelCurvature`
+   (supplier contract). Prove that parallel transport preserves R exactly when
+   this condition holds (§1.2), and consume Tau Ceti's
    `CovariantDerivative.hasParallelCurvature_iff_isLocallyConstant_scalarCurvature_of_finrank_eq_two`
    for surfaces: K is locally constant, hence constant on each connected surface.
-   Constant sectional
-   curvature implies local symmetry. Flat curvature on an open set is equivalent
+   Flat curvature on an open set is equivalent
    to a local Euclidean isometry around every point of that set. For the flat
    implication use B5's local parallel frames, torsion-free closed coframes and
    DG's local primitives, then the shared manifold inverse-function theorem.
@@ -635,10 +777,14 @@ use the comparison or path-space theorems.
 
 ### 1.2 Local symmetry and the Einstein factor
 
-The local-symmetry predicate is ∇R=0. Its API consists of restriction to open
-submanifolds, invariance under local isometry, the parallel-transport
-characterization along every smooth path, and the locally constant Gaussian
-curvature characterization in dimension two. The parallel-transport
+The local-symmetry predicate ∇R=0 is Tau Ceti's `CovariantDerivative.HasParallelCurvature`
+(supplier contract). Its pullback along a local Riemannian isometry is
+`TauCeti.IsLocalRiemannianIsometry.hasParallelCurvature`; restriction to an open
+submanifold is the case of the inclusion, a local Riemannian isometry by
+`Bundle.ContMDiffRiemannianMetric.isLocalRiemannianIsometry_restrictOpenTangentSpace`.
+Both are consumed here. This roadmap owns the parallel-transport characterization
+along every smooth path and the flat ⇔ locally Euclidean equivalence of §1.1
+item 3. The parallel-transport
 characterization is the general statement that a tensor field is parallel
 exactly when every parallel transport preserves it, proved from the
 along-curve derivative of SmoothBundlesConnections B5.0 applied to R: parallel
@@ -666,8 +812,8 @@ item 2 with κ=K(x)=Scal(x)/2.
   metric satisfies Ric=Kg with nonconstant K, so dimension two is excluded; in
   dimension one Ric=0, so a=0 and the statement holds there.
 
-*Needs:* Tau Ceti's Schur, Einstein and locally symmetric surface theorems
-(supplier contract); R1 curvature symmetries; SmoothBundlesConnections
+*Needs:* Tau Ceti's Schur, Einstein, parallel-curvature and locally symmetric
+surface theorems and its curvature symmetries (supplier contract); SmoothBundlesConnections
 B3–B5 (induced tensor connections and parallel transport); HopfRinow Layer 0
 (Levi-Civita connection). The R1.4 jet calculation and the R1.5 rescaling
 limits are in Layer 2.
@@ -679,10 +825,59 @@ Mathlib's Gram exterior square ⋀²T_xM, and pin its musical isometry with K5a�
 degree-2 real Gram form bundle. The curvature operator Rop is Tau Ceti's pointwise
 `CovariantDerivative.curvatureEndomorphism` on these fibres (supplier contract);
 R1 proves that it is a smooth section of End(Λ²TM) on that shared identified
-carrier. No second unconnected exterior bundle is used. Metric
-scaling, products, pullbacks, conformal changes and warped products get full
-connection/curvature transformation laws, including scalar/Ricci contractions;
-a constant scaling c>0 preserves the connection and scales K by 1/c.
+carrier. No second unconnected exterior bundle is used. The constant-scaling
+laws, under which a constant c>0 preserves the connection and the curvature and
+Ricci tensors and scales K and Scal by 1/c
+(`Bundle.ContMDiffRiemannianMetric.leviCivitaConnection_rescale_const_apply`,
+`Bundle.ContMDiffRiemannianMetric.ricciTensor_leviCivitaConnection_rescale_const`,
+`Bundle.ContMDiffRiemannianMetric.scalarCurvature_rescale_const`,
+`Bundle.ContMDiffRiemannianMetric.sectionalCurvature_leviCivitaConnection_rescale_const`),
+the connection and the curvature, Ricci and scalar curvature of a product metric
+(`TauCeti.Manifold.tangentSpaceProdEquiv_leviCivitaConnection_prodVectorField`,
+`TauCeti.Manifold.tangentSpaceProdEquiv_curvatureTensor_leviCivitaConnection_prod`,
+`TauCeti.Manifold.ricciTensor_leviCivitaConnection_prod`,
+`TauCeti.Manifold.scalarCurvature_leviCivitaConnection_prod`) and the Levi-Civita
+connection of a warped product
+(`TauCeti.Manifold.IsWarpedProduct.tangentSpaceProdEquiv_leviCivitaConnection_prodVectorField`)
+are Tau Ceti's (supplier contract) and consumed here. Along a smooth map f with
+invertible differential the pullback metric f*g makes f a local Riemannian isometry
+onto g, by `Bundle.ContMDiffRiemannianMetric.pullback_inner`, so the connection and
+curvature of f*g are those of g by the supplied naturality theorems
+`TauCeti.IsLocalRiemannianIsometry.mfderiv_leviCivitaConnection_mpullback` and
+`TauCeti.IsLocalRiemannianIsometry.mfderiv_curvatureTensor`; pullbacks along
+immersions of lower dimension are R5a's Gauss equation.
+
+R1 owns the curvature of a warped product M×_f N, the metric g=g_M+f²g_N for a smooth
+f>0 on M, derived from the supplied connection (Barzen–Leymann, *Mathematics of
+Spacetime*, Lemma 35 and Lemma 36, pp. 61–62, whose curvature tensor has the opposite
+sign). For X,Y,Z tangent to M and U,V,W tangent to N, with k=dim N, Hess f and grad f
+taken on M and Δ=div grad on M:
+
+- `R(X,Y)Z` is the curvature of g_M, and `R(X,Y)V=R(V,W)X=0`;
+- `R(V,X)Y=−f⁻¹ Hess f(X,Y) V`;
+- `R(V,W)U=R_N(V,W)U−f⁻²|grad f|²(g(W,U)V−g(V,U)W)`;
+- `Ric(X,Y)=Ric_M(X,Y)−k f⁻¹ Hess f(X,Y)`, `Ric(X,V)=0` and
+  `Ric(V,W)=Ric_N(V,W)−(f⁻¹Δf+(k−1)f⁻²|grad f|²) g(V,W)`.
+
+**Checks.**
+
+- For dx²+e^(2x)dy² on ℝ² (M=N=ℝ, f=e^x, k=1), a unit horizontal X=∂x and a unit
+  vertical V give `⟨R(V,X)X,V⟩=−f″/f=−1`, the hyperbolic plane; the opposite sign
+  convention would give +1.
+- The unit sphere minus two antipodal points is (0,π)×_(sin) S^k with S^k unit. On
+  vertical g-orthonormal V,W, `⟨R_N(V,W)W,V⟩=1/sin²t` and the correction is
+  `−cos²t/sin²t`, so K=1; on mixed planes K=−(−sin t)/sin t=1, and
+  `Ric(∂t,∂t)=−k(−sin t)/sin t=k`. Dropping the |grad f|² term would give 1/sin²t on
+  vertical planes.
+- Euclidean ℝ^(k+1)∖{0} is (0,∞)×_r S^k: Hess f=0 and |grad f|²=1, so
+  `R(V,W)U=R_N(V,W)U−(g_N(W,U)V−g_N(V,U)W)=0`, flat as required, and the
+  vertical Ricci curvature is `(k−1)g_N−(k−1)r⁻²·r²g_N=0`.
+- For f≡1 every correction vanishes and the formulas are Tau Ceti's product
+  curvature theorems.
+
+*Needs:* Tau Ceti's warped-product connection, Hessian and gradient (supplier
+contract); R1 curvature algebra.
+
 For g̃=e^(2u)g with A_XY=du(X)Y+du(Y)X−g(X,Y)grad u, the identities ∇̃=∇+A,
 `R̃(X,Y)Z=R(X,Y)Z+(∇_X A)(Y,Z)−(∇_Y A)(X,Z)+A(X,A(Y,Z))−A(Y,A(X,Z))`
 and, in dimension n with Δ⁺=−tr Hess,
@@ -737,9 +932,10 @@ The curvature-operator API comprises:
   sectional curvature as its Rayleigh quotient and the constant-curvature
   characterization Rop=κ Id are Tau Ceti's (supplier contract); R1 proves that
   x↦Rop_x is a smooth section of End(Λ²TM).
-- Restriction to open submanifolds intertwines the operators on the identified
-  exterior squares; isometry naturality is Tau Ceti's
-  `TauCeti.IsLocalRiemannianIsometry.map_curvatureEndomorphism`.
+- Isometry naturality is Tau Ceti's
+  `TauCeti.IsLocalRiemannianIsometry.map_curvatureEndomorphism`; restriction to an
+  open submanifold is its case for the inclusion, a local Riemannian isometry by
+  `Bundle.ContMDiffRiemannianMetric.isLocalRiemannianIsometry_restrictOpenTangentSpace`.
 - Its contractions recover Ricci and scalar curvature with the standing sign:
   `Ric(u,u)=Σ_i⟨Rop(e_i∧u),e_i∧u⟩` and `Scal=2 tr Rop` for an orthonormal basis (e_i).
 
@@ -752,8 +948,9 @@ The curvature-operator API comprises:
   eigenvalues +1 and −1 and the four mixed bivectors have eigenvalue 0.
   Thus the operator is neither positive nor negative semidefinite.
 
-*Needs:* R1 pair symmetry, product curvature and SmoothBundlesConnections B2.1
-exterior bundles; ComplexKahlerGeometry K5a's degree-two Gram metric.
+*Needs:* Tau Ceti's pair interchange and product curvature (supplier contract);
+SmoothBundlesConnections B2.1 exterior bundles; ComplexKahlerGeometry K5a's
+degree-two Gram metric.
 
 The horizontal/vertical projection API comprises:
 
@@ -873,8 +1070,10 @@ recovers s′+as, fixing the supplier convention.
 
 ### Dependencies
 
-R1 connection algebra uses HopfRinow Layer 0, SmoothBundlesConnections B2–B5
-and finite-dimensional tensor algebra. Its homogeneous metrics use LieGroups
+R1 connection algebra uses HopfRinow Layer 0, SmoothBundlesConnections B2–B5,
+finite-dimensional tensor algebra and Tau Ceti's curvature identities, parallel
+curvature, constant-scaling, product and warped-product connection theorems. Its
+homogeneous metrics use LieGroups
 L0–L2, SmoothBundlesConnections B1.4–B1.5 and Tau Ceti's left-invariant metrics
 and homogeneous completeness; its curvature operator is Tau Ceti's pointwise
 curvature endomorphism. The projective examples additionally
@@ -927,12 +1126,16 @@ whole manifold.
 Conversely to Tau Ceti's variation theorem, realize any initial-data solution by
 a smooth geodesic variation on a common compact time interval, using smooth
 initial position/velocity and the joint geodesic flow. This converse does not
-promise fixed endpoints beyond first order. Prove
-`d exp_(tv)(tw)=X(t)` for X(0)=0,D_tX(0)=w, by uniqueness from Tau Ceti's radial
-Jacobi field, and its version with varying basepoint. The affine-parameter
+promise fixed endpoints beyond first order. The identity
+`d exp_(tv)(tw)=X(t)` for a Jacobi field with X(0)=0 and D_tX(0)=w along
+t↦exp_p(tv) is Tau Ceti's `TauCeti.Manifold.IsJacobiFieldOn.eq_mfderiv_riemannianExp`
+(supplier contract), consumed here; prove its version with varying basepoint, for
+the variable-base exponential map `(x,v)↦exp_x v` of SBC B6.0. The affine-parameter
 scaling of the tangential part is explicit, and constant geodesics are the
 separate affine-vector-field case.
-Pin the Gauss radial-length identity `|d exp_v(v)|=|v|`. For the equality
+The Gauss radial-length identity `|d exp_v(v)|=|v|` is the case w=v of Tau Ceti's
+Gauss lemma `TauCeti.Manifold.inner_mfderiv_riemannianExp_radial` (supplier
+contract). For the equality
 case in the radial-versus-angular length comparison, require d exp to be
 nonsingular along the compared domain before concluding the angular component
 vanishes; the norm inequality alone does not exclude a singular kernel.
@@ -972,10 +1175,11 @@ opposite curvature sign: his R(γ′,X)γ′ is our R(X,γ′)γ′.
 - On a flat unit-speed geodesic J(t)=t²E has residual 2E≠0 and is not Jacobi;
   vanishing at one point alone does not impose the differential equation.
 
-*Needs:* Tau Ceti's Jacobi theory (supplier contract); HopfRinow Layers 0–2
-(along-curve derivative and smooth geodesic flow); SmoothBundlesConnections
-B5.0 (parallel trivialization); R1 connection and curvature algebra; linear ODE
-existence on a compact interval.
+*Needs:* Tau Ceti's Jacobi theory, its exponential-differential identification and
+Gauss lemma (supplier contract); HopfRinow Layers 0–2 (along-curve derivative and
+smooth geodesic flow); SmoothBundlesConnections B5.0 (parallel trivialization) and,
+for the varying-basepoint version only, B6.0 (the variable-base exponential map); R1
+connection and curvature algebra; linear ODE existence on a compact interval.
 
 ### 2.2 Normal-coordinate jets (R1.4)
 
@@ -987,8 +1191,9 @@ Consume SBC B5's smooth parameter-dependent parallel transport to prove
 this frame smooth jointly in v, including v=0, and orthonormal throughout
 exp_p(B). Prove it is parallel along every radial geodesic and deduce
 `∇_w E_i(p)=0` for every w∈T_pM, with the corresponding induced tensor-frame
-identities. The coordinate frame `d(exp_p)_v(e_i)` and this transported
-frame have the same value at p; they are not identified away from p.
+identities. The coordinate frame `d(exp_p)_v(e_i)`, Tau Ceti's
+`TauCeti.Manifold.normalCoordinateField` at e_i (supplier contract), and this
+transported frame have the same value at p; they are not identified away from p.
 Derive the vanishing covariant derivatives from radial parallelism, rather
 than assuming d exp is parallel transport (Bishop, *Riemannian Geometry*, §6.11,
 p. 41, for this canonical frame, the normal-coordinate basis at p translated in
@@ -1028,10 +1233,13 @@ The transported-frame API comprises:
   arbitrary paths from p would not be single-valued; the radial path in the
   definition is what makes E_i a function of the point.
 
-In a normal chart prove first
-derivatives of g vanish (Nicolaescu, *Lectures on the Geometry of Manifolds*,
-Proposition 4.1.25, p. 151) and
-characterize the quadratic/cubic jets by R and ∇R. With orthonormal vectors e_i at p,
+In a normal chart the first derivatives of g vanish at the centre and the
+coordinate fields are parallel there (Nicolaescu, *Lectures on the Geometry of
+Manifolds*, Proposition 4.1.25 and Lemma 4.1.26, p. 151): these are Tau Ceti's
+`TauCeti.Manifold.IsNormalDomain.mfderiv_inner_normalCoordinateField_self` and
+`TauCeti.Manifold.IsNormalDomain.leviCivitaConnection_normalCoordinateField_self`
+(supplier contract), consumed here. Characterize the quadratic/cubic jets by R and
+∇R. With orthonormal vectors e_i at p,
 v in its tangent normal ball, pin
 `exp_p*g(e_i,e_j)=δ_ij−⅓⟨R(e_i,v)v,e_j⟩`
 `−⅙⟨(∇_vR)(e_i,v)v,e_j⟩+O(|v|⁴)`
@@ -1045,7 +1253,8 @@ particular for unit T,Y with Y⊥T,
 `|d exp_(tT)(tY)|²=t²−⅓K(T,Y)t⁴+O(t⁵)`.
 *Needs:* HopfRinow (Completed) Layers 2–3 (normal balls, Gauss lemma),
 SmoothBundlesConnections B5.0 (smooth parameter-dependent parallel transport),
-R2 (Jacobi fields and `d exp`).
+R2 (Jacobi fields and `d exp`), Tau Ceti's normal coordinate fields (supplier
+contract).
 
 ### 2.3 Euclidean limits of rescaled metrics (R1.5)
 
@@ -1062,20 +1271,26 @@ centres in C and all orthonormal frames, consuming SBC B6.0's uniform normal
 radius and smooth dependence of the exponential map on its base point;
 constants depend on g and C, and sectional-curvature bounds alone do not
 supply the higher-derivative bounds. Identify the sectional curvature of g_j
-with λ_j⁻² times that of g by R1's constant-scaling law (§1.3), and
+with λ_j⁻² times that of g by Tau Ceti's
+`Bundle.ContMDiffRiemannianMetric.sectionalCurvature_leviCivitaConnection_rescale_const`
+with c=λ_j² (supplier contract), and
 check that a Euclidean metric is unchanged by the construction. The
 coefficients of g_j at x in the basis (e_a) are those of exp_(p_j)*g on (E_j e_a)
 at E_j(x)/λ_j, so the limit is driven by the normal-coordinate expansion of §2.2,
 `exp_p*g(e_a,e_b)=δ_ab−⅓⟨R(e_a,v)v,e_b⟩+O(|v|³)` (Bishop, *Riemannian Geometry*,
 Theorem 6.11, p. 41, in his index notation): at v=E_j(x)/λ_j the correction is
 O(λ_j⁻²), and each derivative in x adds a factor λ_j⁻¹. Its first-order case is the
-vanishing of the first derivatives of g at the centre (Nicolaescu, *Lectures on
-the Geometry of Manifolds*, Proposition 4.1.25, p. 151). The uniformity in the
+vanishing of the first derivatives of g at the centre, Tau Ceti's
+`TauCeti.Manifold.IsNormalDomain.mfderiv_inner_normalCoordinateField_self`
+(Nicolaescu, *Lectures on the Geometry of Manifolds*, Proposition 4.1.25, p. 151).
+The uniformity in the
 centre and the frame is the content owned here.
 
 *Needs:* the R1.4 jets (§2.2); SmoothBundlesConnections B6.0 (uniform normal
-radius on compact sets and the variable-base exponential map); R1's
-constant-scaling law (§1.3).
+radius on compact sets and the variable-base exponential map); Tau Ceti's
+constant-scaling law
+`Bundle.ContMDiffRiemannianMetric.sectionalCurvature_leviCivitaConnection_rescale_const`
+and normal coordinate fields (supplier contract).
 
 ### Examples
 
@@ -1088,7 +1303,7 @@ coefficient agrees with the Jacobi residual checks.
 R2 uses R1 connection and curvature algebra, HopfRinow Layers 0–3 and
 SmoothBundlesConnections B5.0. The R1.4 jets use R2 initial-data and
 exponential-derivative comparisons; they are not inputs to those comparisons.
-R1.5 uses the R1.4 jets, SmoothBundlesConnections B6.0 and R1's
+R1.5 uses the R1.4 jets, SmoothBundlesConnections B6.0 and Tau Ceti's
 constant-scaling law.
 
 ## Layer 3: index forms and path topology
@@ -1784,13 +1999,21 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
 7. Consume the existing `TauCeti` round-sphere RiemannianBundle and
    `Riemannian/Hyperbolic.lean`, `Hyperbolic/UpperHalfSpace/Basic.lean` objects and
    GT Layer 7’s `HyperbolicMetric`; compare with GT Layer 8's native
-   `ModelGeometry.Space` in dimension 3. Develop the missing model formulas in all n≥2:
+   `ModelGeometry.Space` in dimension 3. The curvature +1 of the round unit sphere,
+   the curvature 1/r² of the round metric of radius r>0 and the curvature −1 of the
+   half-space metric `(|dx|²+dt²)/t²` are Tau Ceti's
+   `TauCeti.hasConstantSectionalCurvature_sphere`,
+   `TauCeti.hasConstantSectionalCurvature_sphereRoundMetricOfRadius` and
+   `TauCeti.UpperHalfSpace.hasConstantSectionalCurvature` (supplier contract),
+   consumed here. Develop the missing model formulas in all n≥2:
    Euclidean, round sphere and hyperbolic space (hyperboloid, half-space and ball), including
-   explicit isometries, geodesics, exponential maps, curvature and metric scaling.
+   explicit isometries, geodesics and exponential maps, the curvature −1 of the
+   hyperboloid and ball models, and the scaling of geodesics and exponential maps
+   with the radius.
    This direct model construction is independent of R3 and R4's comparison
    theorems: derive the round-sphere Levi-Civita connection by ambient
-   tangential projection, verify curvature +1 and great-circle geodesics from
-   R1's connection identities, and prove their scaling laws. It precedes
+   tangential projection and from it the great-circle geodesics, using R1's
+   connection identities. It precedes
    R1's projective curvature/period calculations and R3's projective examples;
    the global space-form classification below uses the remaining R4 machinery.
    Use type synonyms carrying the induced Riemannian distance via
@@ -1798,14 +2021,21 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    compatible `EMetricSpace.ofRiemannianMetric`/edist version for disconnected
    carriers, and prove `IsRiemannianManifold`; the sphere’s
    subtype chordal metric needs this comparison. Native `UpperHalfSpace`
-   already has its Riemannian distance; consume it. Pin the hyperbolic metrics
-   `(|dx|²+dy²)/y²` on y>0 and `4|dx|²/(1−|x|²)²` on |x|<1, both K=−1.
-   Consume native `RiemannianIsometry.affineIsometryMulEquiv` for Euclidean
-   affine isometries and prove the semidirect-product identification
-   E(n)=ℝⁿ⋊O(n). Consume `LinearIsometryEquiv.unitSphereIsomHom` and its
-   injectivity, and `UpperHalfSpace.isPretransitive_isom`; complete the
-   missing surjectivity/isometry-group descriptions. Identify the hyperbolic group
-   O⁺(n,1), with its action on the future unit hyperboloid.
+   already has its Riemannian distance; consume it. Pin the ball metric
+   `4|dx|²/(1−|x|²)²` on |x|<1 and prove K=−1 for it.
+   The isometry groups of Euclidean space, the affine isometries with the orthogonal
+   group as isotropy at the origin (`TauCeti.RiemannianIsometry.affineIsometryMulEquiv`,
+   `TauCeti.RiemannianIsometry.stabilizerZeroMulEquiv`), of the round unit sphere, the
+   orthogonal group (`LinearIsometryEquiv.unitSphereIsomMulEquiv`, from
+   `LinearIsometryEquiv.unitSphereIsomHom_surjective`), and of the half-space model,
+   the similarities `(x,t)↦(cAx+b,ct)` and their composites with one boundary-centred
+   inversion
+   (`TauCeti.UpperHalfSpace.exists_eq_similarity_or_exists_eq_inversion_mul_similarity`),
+   acting transitively (`TauCeti.UpperHalfSpace.isPretransitive_isom`), are Tau Ceti's
+   (supplier contract) and consumed here. R4.7 owns the semidirect-product
+   identification E(n)=ℝⁿ⋊O(n) of the affine isometry group, by translation part and
+   linear part, and the identification of the isometry group of the hyperboloid model
+   with O⁺(n,1), with its action on the future unit hyperboloid.
    On the hyperboloid restrict the fixed ambient Lorentz form to its tangent
    hyperplanes and prove positivity; construct the Riemannian metric and compute
    its connection directly rather than applying a Riemannian ambient immersion
@@ -1843,10 +2073,12 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    complete. Specialize this generic quotient to the preceding
    space-form classification and to free finite-group actions on closed manifolds
    used by PDO P7a.
-   Local isometries of a connected source are determined by value and tangent
-   map at one point. Identify round-sphere isometries with O(n+1), and classify
-   even-dimensional spherical space forms as the sphere and real projective
-   space. For real projective space consume AlgebraicTopology Stage 4.6's
+   Extend Tau Ceti's `TauCeti.RiemannianIsometry.ext_of_mfderiv_eq`, stated for
+   Riemannian isometries, to local Riemannian isometries: two local Riemannian
+   isometries M→N of a connected boundaryless source with the same value and
+   differential at one point agree on M. Classify even-dimensional spherical space
+   forms as the sphere and real projective space; the round-sphere isometry group
+   entering this classification is the supplied orthogonal group. For real projective space consume AlgebraicTopology Stage 4.6's
    native projectivization, coordinate-atlas and CW comparison; identify the
    generic isometric quotient with that carrier and descend the round metric.
    **The round real-projective quotient, with low-dimensional and orientation branches.**
@@ -2965,10 +3197,11 @@ and has no positive eigenvalue.
    Thus positive Rop on closed connected n≥3 gives b_2=0, with the n=2 sphere
    as the sharp hypothesis guard. Independently, `λ>(p−1)Λ` kills b_p for
    1≤p≤n−1; state this Ricci/curvature-operator criterion precisely. If Rop
-   has eigenvalues in [α,β] with α>β/2>0, then Ric≥(n−1)α and this criterion
-   for 1≤p≤⌊n/2⌋ and use duality for the remaining interior degrees, killing
-   all interior Betti numbers on closed oriented connected
-   n≥2 manifolds. Identify the rational homology sphere with coefficient
+   has eigenvalues in [α,β] with α>β/2>0, then Ric≥(n−1)α, so the criterion
+   holds with λ=(n−1)α and Λ=β for 1≤p≤⌊n/2⌋, since then
+   (p−1)β≤2(p−1)α≤(n−2)α<(n−1)α. On closed oriented connected n≥2 manifolds
+   Poincaré duality b_p=b_(n−p) covers the remaining interior degrees, so all
+   interior Betti numbers vanish. Identify the rational homology sphere with coefficient
    comparison. The stronger result that any positive Rop kills all interior
    Betti numbers follows separately from the sum-of-squares bound above, a
    positive Rop being bounded below by some ε>0 on the compact manifold
@@ -3116,7 +3349,26 @@ this finite construction.
 
 ### R8.2. Spectral completeness and eigenspace identification
 
-After the finite polynomial construction, consume K5a's compact scalar spectral decomposition to prove that restriction identifies the constructed harmonic degree-d space with the entire smooth and L² eigenspace for λ_d=d(d+m−1). Establish orthogonality, completeness and the comparison of the polynomial and Hilbert spectral bases, with the actual smooth-domain/elliptic-regularity interface. Retain the dimension formula binomial(m+d,d)−binomial(m+d−2,d−2), the second term zero for d<2; constants d=0 and the m=1 Fourier pair are explicit. These surjectivity and completeness outputs are later than the one-way finite polynomial calculation and are not inputs to it. Preserve O(m+1)-equivariance throughout.
+After the finite polynomial construction, consume K5a's compact scalar spectral decomposition to prove that restriction identifies the constructed harmonic degree-d space with the entire smooth and L² eigenspace for λ_d=d(d+m−1). The smooth form is the headline `eq_harmonicSphereRestriction_of_laplaceBeltrami_eq_neg_mul`: for m≥1, on the unit round sphere Sᵐ of `EuclideanSpace ℝ (Fin (m+1))` with Tau Ceti's round metric, every nonzero smooth f with `Δf=−λf` for Tau Ceti's `TauCeti.Manifold.laplaceBeltrami` (Δ=div grad) has λ=d(d+m−1) for some d≥0 and is the image of an element of `MvPolynomial.harmonicSubmodule` of degree d under `MvPolynomial.harmonicSphereRestriction`. Since d↦d(d+m−1) is strictly increasing for m≥1, d is determined by λ. The L² form follows from the smooth one by K5a's elliptic regularity, every L² eigenfunction being smooth. The bound m≥1 is needed: on S⁰={±1} the Laplacian is zero, every nonzero f has λ=0, and the function with f(1)=1, f(−1)=2 is the restriction of neither a constant (H_0) nor a multiple of X (H_1). Establish orthogonality, completeness and the comparison of the polynomial and Hilbert spectral bases, with the actual smooth-domain/elliptic-regularity interface. Retain the dimension formula binomial(m+d,d)−binomial(m+d−2,d−2), the second term zero for d<2; constants d=0 and the m=1 Fourier pair are explicit. These surjectivity and completeness outputs are later than the one-way finite polynomial calculation and are not inputs to it. Preserve O(m+1)-equivariance throughout.
+
+**Checks.**
+
+- On S¹ (m=1) the restriction of X₁ is cos θ, with `Δcos θ=−cos θ`, so λ=1=1·(1+1−1)
+  and d=1; the restrictions of Re and Im of (X₁+iX₂)^d are cos dθ and sin dθ with
+  λ=d², a two-dimensional eigenspace for every d≥1.
+- On S² (m=2) the restriction of X₁X₂ has λ=6=2·3, and that of X₃ has λ=2. With
+  Δ⁺=−div grad in place of Tau Ceti's Δ=div grad, the same hypothesis `Δ⁺f=−λf`
+  would give λ=−2 for X₃, which is d(d+1) for no d≥0; this pins the sign.
+- On S² the restriction of X₁²=(X₁²−r²/3)+r²/3 is the sum of a degree-2 and a
+  degree-0 eigenfunction with the distinct eigenvalues 6 and 0, so it is not an
+  eigenfunction; the theorem does not assert that every polynomial restricts to
+  one.
+
+*Needs:* R8.1; ComplexKahlerGeometry K5a (compact scalar spectral decomposition and
+elliptic regularity); Tau Ceti's round metric, `TauCeti.Manifold.laplaceBeltrami` and
+`MvPolynomial.harmonicSphereRestriction` (supplier contract); Mathlib's
+Stone–Weierstrass theorem `ContinuousMap.subalgebra_topologicalClosure_eq_top_of_separatesPoints`
+for the density of restricted polynomials.
 
 ### R8.3. Orthogonal highest weights and low ranks
 
@@ -3274,8 +3526,9 @@ R3/AT8.11a ordinary path carrier and DGFloer's standing Moore comparison. R5a us
 bundle/normal interfaces and R1; R5a.1's density lemma precedes R5a.2 and R5b.
 R4.9 uses R4.6's short-geodesic/injectivity estimates, the geodesic ODE, the planar Jordan/arclength/winding theorems, and finite AT/CC constructions. Its topological order is the Fréchet-plus-length carrier and component cover, relative cocycle/finite Thom detection, positive widths, and finite parameter carriers. The shared periodic normal-graph theorem, general nonzero linear zero-number theorem, interior parabolic-box compactness and scalar Harnack feed their stated g₀/arbitrary-g applications; the fixed-endpoint construction separately uses the Dirichlet boundary theorem. The round closed small-length two-point comparison precedes its Type-II exclusion and circular Type-I/stability output. Final entry neighbourhoods consume the local exit constants before the global curvature-gap theorem. The round branch then constructs its finite-length Jordan smoothing/trace and weak-set avoidance outputs; its finite-collapse conclusion consumes the arbitrary-g finite-time alternative plus the Gauss–Bonnet area ODE, while circular-singularity asymptotics and great-circle convergence are separate outputs with the routes stated in R4.9.6a. The arbitrary-g branch separately proves the finite-time BI/BII exclusion, the immortal derivative estimate as a reusable output, compact primitive geodesic sets, and smooth local graph/exit estimates. The safe family clock, intrinsic restriction/cubical face-identification laws and compatible-choice comparisons feed uniform point-relative finite-family localization and cap/minimax realization. No minimax or three-geodesic conclusion is an input to either smooth-flow analysis. R4.8's distinct-endpoint path theorem and DGF's free-loop Morse/Bott machinery keep their separate scopes.
 R5b additionally uses PDE and VariationalMethods, with no CalibratedGeometry
-input. R1.5 (§2.3) follows the R1.4 jets (§2.2), R1's constant-scaling law and
-SBC B6.0. The Surfaces
+input. R1.5 (§2.3) follows the R1.4 jets (§2.2), Tau Ceti's constant-scaling law
+`Bundle.ContMDiffRiemannianMetric.sectionalCurvature_leviCivitaConnection_rescale_const`
+and SBC B6.0. The Surfaces
 sub-roadmap uses HopfRinow, R1, R2, R3, R4.2, R4.9.6a's signed planar turning
 theorem and R6, and supplies nothing to this roadmap. R6's Euclidean comparison follows R5a and
 owns its chart Hessian/normal-derivative pairing and the identification of the

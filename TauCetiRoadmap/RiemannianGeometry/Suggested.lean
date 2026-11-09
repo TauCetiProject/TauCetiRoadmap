@@ -15,6 +15,8 @@ public import TauCeti.Geometry.Manifold.Riemannian.Sphere.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.UpperHalfSpace.Basic
 public import TauCeti.Geometry.Manifold.Orientation.Basic
 public import TauCeti.RingTheory.MvPolynomial.Harmonic
+public import TauCeti.Geometry.Manifold.Riemannian.Laplacian
+public import TauCeti.Analysis.MvPolynomial.Sphere
 
 /-!
 # Riemannian geometry: target signatures
@@ -37,16 +39,23 @@ connected closed positive-dimensional manifold (R4.8), the three simple closed g
 a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3), Bochner's
 vanishing of the first de Rham cohomology under positive Ricci curvature (R7.6), the vanishing of
 de Rham cohomology in every interior degree under a positive curvature operator (R7.7), the
-smooth-function duality for the Riemannian distance (R7.8) and the irreducibility of the complex
-harmonic polynomials of each degree under `SO(N)` for `N ≥ 3` (R8.3).
+smooth-function duality for the Riemannian distance (R7.8), the identification of the smooth
+eigenfunctions of the round-sphere Laplacian with restrictions of harmonic homogeneous polynomials
+(R8.2) and the irreducibility of the complex harmonic polynomials of each degree under `SO(N)` for
+`N ≥ 3` (R8.3).
 
 Not restated here, because Tau Ceti proves them and the README cites the declarations: the
+Bianchi identities, pair interchange and the Ricci identity, parallel curvature under constant
+sectional curvature and local isometries, the constant-scaling and product curvature laws, the
 characterization of constant sectional curvature, Schur's theorem, the constancy of the Einstein
 factor and the completeness of left-invariant metrics on Lie groups (R1); smoothness of geodesics
-up to the ends of their parameter sets, uniqueness of Jacobi fields from initial data, conjugate
-multiplicity and its bound `n − 1`, and the absence of endpoint-zero Jacobi fields under
-nonpositive sectional curvature (R2, R3); the norm-nondecreasing exponential differential under
-nonpositive sectional curvature (R4.4); the almost-everywhere Morse property of the squared
+up to the ends of their parameter sets, uniqueness of Jacobi fields from initial data, the
+identification of the differential of the exponential map with radial Jacobi fields, the
+vanishing first derivatives of the metric in normal coordinates, conjugate multiplicity and its
+bound `n − 1`, and the absence of endpoint-zero Jacobi fields under nonpositive sectional
+curvature (R2, R3); the norm-nondecreasing exponential differential under nonpositive sectional
+curvature (R4.4); the curvature of the round spheres and of the half-space model and the full
+isometry groups of Euclidean space and of the round sphere (R4.7); the almost-everywhere Morse property of the squared
 distance from a point along an immersion and its properness along a closed embedding (R6); the
 scalar Bochner identity and the Lichnerowicz eigenvalue bound (R7.0); and the Fischer
 decomposition of homogeneous polynomials (R8.1).
@@ -480,11 +489,27 @@ theorem riemannianDist_eq_sSup_smooth (x y : M) :
 
 end SmoothDistanceDuality
 
-/-! ## Layer 8: Irreducibility of the harmonic polynomials -/
+/-! ## Layer 8: Spherical harmonics -/
 
 section SphericalHarmonics
 
 open MvPolynomial
+
+/-- R8.2, the smooth eigenfunctions of the round sphere: on the unit round sphere `Sᵐ` of
+`ℝᵐ⁺¹`, `m ≥ 1`, with Tau Ceti's round metric, every nonzero smooth function `f` with
+`Δf = −λf` for Tau Ceti's Laplace–Beltrami operator `Δ = div grad` has `λ = d(d + m − 1)` for
+some degree `d` and is the restriction of a real harmonic homogeneous polynomial of degree `d`.
+For `m = 1` the eigenfunctions are `cos dθ` and `sin dθ` with `λ = d²`. The bound `m ≥ 1` is
+needed: on `S⁰ = {±1}` the Laplacian vanishes, and the function with values `1` and `2` has
+`λ = 0` but is the restriction of neither a constant nor a multiple of `X`. -/
+theorem eq_harmonicSphereRestriction_of_laplaceBeltrami_eq_neg_mul {m : ℕ} (hm : 1 ≤ m)
+    (f : Metric.sphere (0 : EuclideanSpace ℝ (Fin (m + 1))) 1 → ℝ)
+    (hf : ContMDiff (𝓡 m) 𝓘(ℝ, ℝ) ∞ f) (hf0 : f ≠ 0) {lam : ℝ}
+    (heig : ∀ x, TauCeti.Manifold.laplaceBeltrami (𝓡 m) f x = -lam * f x) :
+    ∃ d : ℕ, lam = (d : ℝ) * ((d : ℝ) + m - 1) ∧
+      ∃ p : harmonicSubmodule (Fin (m + 1)) ℝ d,
+        ⇑(harmonicSphereRestriction (Fin (m + 1)) d p) = f := by
+  sorry
 
 /-- R8.3: for `N ≥ 3` and every degree `d`, the complex harmonic homogeneous polynomials of degree
 `d` on `ℝᴺ`, Tau Ceti's `MvPolynomial.harmonicSubmodule` (homogeneous polynomials of degree `d`
