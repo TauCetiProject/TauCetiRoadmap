@@ -222,7 +222,7 @@ hypothesis and conclusion to a model of `K` in `Type`.
 All paths are under `TauCeti/`.
 
 - Localization (`NumberTheory/QuadraticForm/Global/Localization.lean`, `Operations.lean`,
-  `Discriminant.lean`, `CompletionTower.lean`, `Classification.lean`): `QuadraticForm.atFinitePlace`,
+  `Discriminant.lean`, `CompletionTower.lean`): `QuadraticForm.atFinitePlace`,
   `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
   `HeightOneSpectrum.unitAtFinitePlace` and `TauCeti.unitAtRealPlace`; the transport of
   isometry, representation and regularity (`QuadraticMap.Equivalent.atFinitePlace`,
@@ -234,10 +234,8 @@ All paths are under `TauCeti/`.
   (`QuadraticForm.atFinitePlace_smul`, `QuadraticForm.atRealPlace_smul`: the localization of
   `c • Q` is the image of `c` times the localization of `Q`); diagonal forms (the isometries
   `QuadraticForm.atFinitePlaceWeightedSumSquares` and `QuadraticForm.atRealPlaceWeightedSumSquares`
-  from the localization of `⟨a₁, …, aₙ⟩` to the diagonal form of the images of the `aᵢ`); the form
-  class of a localization (`QuadraticForm.formClass_atFinitePlace`,
-  `QuadraticForm.formClass_atRealPlace`: the class of `Q_v` is the scalar extension of the class of
-  `Q`); the localized discriminant
+  from the localization of `⟨a₁, …, aₙ⟩` to the diagonal form of the images of the `aᵢ`); the
+  localized discriminant
   (`QuadraticForm.discr_atFinitePlace`: the discriminant of `Q_v` is the image of that of `Q`); and
   `QuadraticForm.IsLocallyIsotropic.baseChange` for a finite extension of number fields.
 - Local predicates (`NumberTheory/QuadraticForm/Global/Predicates.lean`):
@@ -397,7 +395,11 @@ All paths are under `TauCeti/`.
   `a • Q` is `⟨a⟩` times the class of `Q`),
   `TauCeti.formClass_presentedForm` (every class of regular forms is the class of the diagonal form
   `TauCeti.presentedForm p` of one of its presentations),
-  `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff`, `TauCeti.WittRing`,
+  `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff`,
+  `QuadraticForm.formClass_atFinitePlace_eq_nsmul_hyperbolicClass` and
+  `QuadraticForm.formClass_atRealPlace_eq_nsmul_hyperbolicClass` (a regular form whose class over
+  `K` is `m` times the hyperbolic class has `m` times the hyperbolic class at every finite place
+  and, along the real embedding, at every real place), `TauCeti.WittRing`,
   `TauCeti.wittClass_surjective` (every element of `W(K)` is the Witt class of a class of regular
   forms), `TauCeti.wittClass_eq_zero_iff` (a class has Witt class zero exactly when its anisotropic
   part is zero), `TauCeti.RegularFormClass.wittDecomposition` (a class is a multiple of the
@@ -555,11 +557,14 @@ and `QuadraticForm.isAdmissible_globalInvariants_iff`.
   of `⟨1, θ, θ⟩`, with positive indices `3` and `1` at these two places, goes to the record of
   `⟨1, X̄, X̄⟩` with the same indices at the corresponding places.
 - On the same `K = ℚ(√5)` take the automorphism `σ` with `σθ = 1 - θ` and the real place `w'` with
-  `θ ↦ (1 + √5)/2`. The real embedding of `w'.comap σ` sends `θ` to the value of `w'` at `σθ`,
-  which is `(1 - √5)/2`, so `w'.comap σ` is the other real place. For `Q = ⟨1, θ, θ⟩` the form
-  `σQ` is `⟨1, 1 - θ, 1 - θ⟩`, whose positive index at `w'` is `1`, the index of `Q` at
-  `w'.comap σ`. A transport that kept the real place fixed would give `3`, the index of `Q` at
-  `w'`: the correspondence of real places must follow `σ`, as that of finite places does.
+  `θ ↦ (1 + √5)/2`. The real embedding of `w'.comap σ` sends `θ` to the image of `σθ` under the
+  real embedding of `w'`, which is `1 - (1 + √5)/2 = (1 - √5)/2`, so `w'.comap σ` is the other real
+  place. As an absolute value, `w'.comap σ` takes at `θ` the positive value
+  `w'(σθ) = |1 - (1 + √5)/2| = (√5 - 1)/2`; the sign is read from the real embedding. For
+  `Q = ⟨1, θ, θ⟩` the form `σQ` is `⟨1, 1 - θ, 1 - θ⟩`, whose positive index at `w'` is `1`, the
+  index of `Q` at `w'.comap σ`. A transport that kept the real place fixed would give `3`, the
+  index of `Q` at `w'`: the correspondence of real places must follow `σ`, as that of finite places
+  does.
 - For `σ` the identity both correspondences of places are the identity and `σQ = Q`; the zero form
   transports to the zero form, whose record has rank `0` and is admissible on neither side.
 - Sign prescription with `b = -1` over `ℚ`, `S = {3}` and `T` the real place: `a = -3` works.
@@ -1089,11 +1094,15 @@ Prove that a regular form which is hyperbolic at every finite and every real pla
 over `K` (Milne, VIII, Theorem 6.3, p. 252, applied to the form and to `m · H`; the Witt-class
 statement below follows from the same theorem by Witt cancellation, Proposition 6.2, p. 251).
 Route: by `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff` the rank is even, `2m`,
-and every localization has the class `m • H`. That is the class of the localizations of the global
-sum `m · H` of hyperbolic planes (`QuadraticForm.formClass_atFinitePlace`,
-`QuadraticForm.formClass_atRealPlace`), and forms with the same class are isometric
-(`TauCeti.formClass_eq_iff`), so the form is locally isometric to `m · H`, and 6.3 makes it
-isometric to `m · H`.
+and every localization has the class `m • H`. The global sum `m · H` of hyperbolic planes is
+realized by a regular form over `K`: the class `m • H` over `K` has a presentation `p`, and the
+diagonal form `TauCeti.presentedForm p` is regular with class `m • H`
+(`TauCeti.nondegenerate_presentedForm`, `TauCeti.formClass_presentedForm`). A regular form of
+class `m • H` over `K` has class `m • H` at every finite and every real place
+(`QuadraticForm.formClass_atFinitePlace_eq_nsmul_hyperbolicClass`,
+`QuadraticForm.formClass_atRealPlace_eq_nsmul_hyperbolicClass`), and forms with the same class are
+isometric (`TauCeti.formClass_eq_iff`), so the form is locally isometric to `m · H`, and 6.3 makes
+it isometric to `m · H`.
 
 Prove the corresponding statement for Witt classes: two regular forms `Q` and `R` whose
 localizations have the same Witt class at every finite and every real place have the same Witt
@@ -1110,10 +1119,12 @@ therefore zero. A class has Witt class zero exactly when it is a sum of hyperbol
 is part of the proofs of these Tau Ceti lemmas.
 
 *Needs:* 6.3; Tau Ceti `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff`,
-`QuadraticForm.formClass_atFinitePlace`, `QuadraticForm.formClass_atRealPlace`,
-`TauCeti.formClass_eq_iff`, `TauCeti.WittRing`, `QuadraticMap.nondegenerate_smul_iff`,
-`QuadraticMap.Nondegenerate.prod`, `TauCeti.formClass_prod`, `TauCeti.formClass_smul`,
-`TauCeti.RegularFormClass.add_neg_one_mul`, `QuadraticForm.atFinitePlaceProd`,
+`TauCeti.nondegenerate_presentedForm`, `TauCeti.formClass_presentedForm`,
+`QuadraticForm.formClass_atFinitePlace_eq_nsmul_hyperbolicClass`,
+`QuadraticForm.formClass_atRealPlace_eq_nsmul_hyperbolicClass`, `TauCeti.formClass_eq_iff`,
+`TauCeti.WittRing`, `QuadraticMap.nondegenerate_smul_iff`, `QuadraticMap.Nondegenerate.prod`,
+`TauCeti.formClass_prod`, `TauCeti.formClass_smul`, `TauCeti.RegularFormClass.add_neg_one_mul`,
+`QuadraticForm.atFinitePlaceProd`,
 `QuadraticForm.atRealPlaceProd`, `QuadraticForm.atFinitePlace_neg`, `QuadraticForm.atRealPlace_neg`,
 `TauCeti.wittClass_eq_zero_iff`, `TauCeti.RegularFormClass.wittDecomposition`.
 
