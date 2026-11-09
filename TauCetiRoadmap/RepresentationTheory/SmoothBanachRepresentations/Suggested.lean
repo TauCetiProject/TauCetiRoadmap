@@ -1,6 +1,7 @@
 module
 
 import Mathlib
+import TauCeti.Analysis.Normed.Algebra.HolomorphicFunctionalCalculus.Cycle
 
 /-!
 # Smooth Banach representations: target signatures
@@ -9,19 +10,21 @@ The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs, for real and complex coefficients.
 The headlines are smoothing and density with the real/general-group extensions,
 the scalar compact-support parametrix, support-controlled vector and function
-Dixmier–Malliavin, smooth lifting, and inverse closure (including matrix Banach algebras).
+Dixmier–Malliavin, smooth lifting, inverse closure (including matrix Banach algebras)
+and holomorphic closure, the last stated on the pinned resolvent integral over
+contour cycles.
 
 The complete mixed-word topology and its finite-regularity criterion, continuous
 Lie/enveloping action, smooth-topology approximation, topological exactness and
-dense smooth tensor comparison need the constructed mixed-domain Fréchet carrier
-and completed locally convex tensor from the README. Those carriers are not at
-the pins; the algebraic submodule below does not substitute its ambient topology.
+dense smooth tensor comparison need the mixed-domain Fréchet topology on the smooth
+vectors from the README. That carrier is not at the pins; the algebraic submodule
+below does not substitute its ambient topology. The completed locally convex
+projective tensor is at the pin (`TauCeti.CompletedProjectiveTensorProduct`), so
+the tensor comparison lacks only that Fréchet carrier as a seminorm family.
 The scalar parametrix is stated in the native distribution topology. Its
 fixed-support strong-dual comparison and Banach-vector passage still need the
 distribution-to-smooth-dual interface; native distribution convergence alone
-does not state those comparisons. Holomorphic closure
-needs the general Banach-algebra holomorphic functional calculus of BanachAlgebras
-A2; the pinned continuous functional calculus does not supply that carrier.
+does not state those comparisons.
 The scaling and coefficient laws of the one-parameter generators, whose two-sided
 theory is already in Tau Ceti, and the local integral estimates are supporting
 targets in the README, not additional acceptance theorems.
@@ -63,15 +66,17 @@ def smear (π : ContRepresentation 𝕜 G E) (μ : Measure G) (f : G → 𝕜) (
 
 /-! ## Layer 2: Orbit regularity -/
 
-/-- Smoothness in the original Banach norm, using native manifold calculus. -/
-def IsSmoothLieVector (π : ContRepresentation 𝕜 G E) (v : E) : Prop :=
+/-- Smoothness in the original Banach norm, using native manifold calculus. This is
+AutomorphicFormsOnReductiveGroups §2.7's predicate with the scalar field generalized from `ℂ`
+to `𝕜`. -/
+def IsLieSmoothVector (π : ContRepresentation 𝕜 G E) (v : E) : Prop :=
   ContMDiff I 𝓘(ℝ, E) ∞ (fun g : G => π g v)
 
 /-- The algebraic smooth carrier; its stronger Fréchet topology is a README target. -/
-def smoothLieVectors (π : ContRepresentation 𝕜 G E) : Submodule 𝕜 E where
-  carrier := {v | IsSmoothLieVector (I := I) π v}
+def lieSmoothVectors (π : ContRepresentation 𝕜 G E) : Submodule 𝕜 E where
+  carrier := {v | IsLieSmoothVector (I := I) π v}
   zero_mem' := by
-    simpa [IsSmoothLieVector] using
+    simpa [IsLieSmoothVector] using
       (contMDiff_const : ContMDiff I 𝓘(ℝ, E) ∞ (fun _ : G => (0 : E)))
   add_mem' := by
     intro v w hv hw
@@ -92,18 +97,18 @@ include hLC
 /-! ## Layer 3: Smoothing -/
 
 /-- Strongly continuous actions smooth under compactly supported smooth kernels. -/
-theorem isSmoothLieVector_smear (π : ContRepresentation 𝕜 G E)
+theorem isLieSmoothVector_smear (π : ContRepresentation 𝕜 G E)
     (hπ : HasContinuousOrbits π) (μ : Measure G) [μ.IsHaarMeasure] [μ.Regular]
     (f : LieTestFunction (I := I) 𝕜) (v : E) :
-    IsSmoothLieVector (I := I) π (smear π μ (fun g => f.val g) v) := by
+    IsLieSmoothVector (I := I) π (smear π μ (fun g => f.val g) v) := by
   sorry
 
 /-! ## Layer 4: Density -/
 
 /-- Density is weaker than, and separate from, the following exact finite-sum theorem. -/
-theorem dense_smoothLieVectors (π : ContRepresentation 𝕜 G E)
+theorem lieSmoothVectors_dense (π : ContRepresentation 𝕜 G E)
     (hπ : HasContinuousOrbits π) :
-    Dense (smoothLieVectors (I := I) π : Set E) := by
+    Dense (lieSmoothVectors (I := I) π : Set E) := by
   sorry
 
 /-! ## Layer 5: The scalar parametrix -/
@@ -135,10 +140,10 @@ theorem scalarParametrix (ε : ℝ) (hε : 0 < ε)
 theorem dixmierMalliavin (π : ContRepresentation 𝕜 G E)
     (hπ : HasContinuousOrbits π) (μ : Measure G) [μ.IsHaarMeasure] [μ.Regular]
     {U : Set G} (hU : IsOpen U) (h1 : (1 : G) ∈ U)
-    (v : E) (hv : IsSmoothLieVector (I := I) π v) :
+    (v : E) (hv : IsLieSmoothVector (I := I) π v) :
     ∃ n : ℕ, ∃ f : Fin n → LieTestFunction (I := I) 𝕜, ∃ w : Fin n → E,
       (∀ j, tsupport (fun g => (f j).val g) ⊆ U) ∧
-      (∀ j, IsSmoothLieVector (I := I) π (w j)) ∧
+      (∀ j, IsLieSmoothVector (I := I) π (w j)) ∧
       v = ∑ j, smear π μ (fun g => (f j).val g) (w j) := by
   sorry
 
@@ -165,8 +170,8 @@ strongly continuous Banach representations. No complemented kernel is required. 
 theorem smooth_lift (π : ContRepresentation 𝕜 G E) (ρ : ContRepresentation 𝕜 G F)
     (hπ : HasContinuousOrbits π) (hρ : HasContinuousOrbits ρ)
     (T : ContIntertwiningMap π ρ) (hT : Function.Surjective T)
-    (w : F) (hw : IsSmoothLieVector (I := I) ρ w) :
-    ∃ v : E, IsSmoothLieVector (I := I) π v ∧ T v = w := by
+    (w : F) (hw : IsLieSmoothVector (I := I) ρ w) :
+    ∃ v : E, IsLieSmoothVector (I := I) π v ∧ T v = w := by
   sorry
 
 omit hComplete hBorel hLC [MeasurableSpace G]
@@ -183,8 +188,29 @@ normed algebra. Taking A to be a matrix Banach algebra gives every matrix level.
 theorem smooth_inverse (π : ContRepresentation 𝕜 G A)
     (h1 : ∀ g : G, π g 1 = 1)
     (hmul : ∀ (g : G) (a b : A), π g (a * b) = π g a * π g b)
-    (a : Aˣ) (ha : IsSmoothLieVector (I := I) π (a : A)) :
-    IsSmoothLieVector (I := I) π (↑(a⁻¹) : A) := by
+    (a : Aˣ) (ha : IsLieSmoothVector (I := I) π (a : A)) :
+    IsLieSmoothVector (I := I) π (↑(a⁻¹) : A) := by
+  sorry
+
+omit [NormedAlgebra 𝕜 A] [IsScalarTower ℝ 𝕜 A] in
+include hCompleteA in
+/-- Holomorphic closure, on the pinned resolvent integral over contour cycles: for an action
+by algebra automorphisms of a complex Banach algebra, a smooth `a`, a cycle `Γ` in the
+resolvent set of `a` and `f` continuous on the trace of `Γ`, the integral
+`∫_Γ f(z) (z1 - a)⁻¹ dz` is smooth. No orbit continuity is needed. When `f` is holomorphic
+on an open `U ⊇ σ(a)` and `Γ` lies in `U \ σ(a)`, is null-homologous in `U` and winds once
+around `σ(a)`, the integral is `2πi • f(a)` (pinned
+`TauCeti.Contour.Cycle.integral_smul_resolvent_eq_of_windingNumber_eq` and
+`TauCeti.Contour.Cycle.integral_eval_smul_resolvent`), so `f(a)` is smooth. -/
+theorem smooth_resolventIntegral [NormedAlgebra ℂ A] [IsScalarTower ℝ ℂ A]
+    (π : ContRepresentation ℂ G A)
+    (h1 : ∀ g : G, π g 1 = 1)
+    (hmul : ∀ (g : G) (a b : A), π g (a * b) = π g a * π g b)
+    {a : A} (ha : IsLieSmoothVector (I := I) π a)
+    {Γ : TauCeti.Contour.Cycle} (hΓ : TauCeti.Contour.Cycle.IsIn Γ (resolventSet ℂ a))
+    {f : ℂ → ℂ} (hf : ContinuousOn f (TauCeti.Contour.Cycle.trace Γ)) :
+    IsLieSmoothVector (I := I) π
+      (TauCeti.Contour.Cycle.integral (fun z => f z • resolvent a z) Γ) := by
   sorry
 
 end TauCetiRoadmap.SmoothBanachRepresentations
