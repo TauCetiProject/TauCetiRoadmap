@@ -10,6 +10,8 @@ import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
 import TauCeti.Analysis.Convex.Sequence.Envelope
 import TauCeti.Analysis.Convex.Sequence.Face
 import TauCeti.NumberTheory.NewtonPolygon.Slopes
+import TauCeti.NumberTheory.LocalField.MassFormula.Basic
+import TauCeti.NumberTheory.LocalField.MassFormula.Representative
 
 /-!
 # Ramification polygons, slopes and families of p-adic extensions: target signatures
@@ -17,21 +19,33 @@ import TauCeti.NumberTheory.NewtonPolygon.Slopes
 The roadmap is README.md; this file is not the roadmap. It states the headline theorems
 against the pinned Mathlib and Tau Ceti APIs: invariance of root differences, additivity of
 wild residual polynomials on the faces of the ramification polygon, the discriminant integral,
-the slope-polygon theorem, the polygon-to-break theorem, invariance of the indices of
-inseparability, Miki's ordered decomposition, Ore's realizability theorem, Krasner's refined
-count, Monge's class count, completeness of a finite totally ramified list by its mass,
+the slope-polygon theorem, the polygon-to-break theorem, the height identity and the
+denominator theorem for rams, the weighted formula for the Galois mean slope, invariance of the
+indices of inseparability, Miki's ordered decomposition, Ore's realizability theorem, Krasner's
+refined count, Monge's class count, completeness of a finite totally ramified list by its mass,
 and the Galois root-discriminant product formula. Polygons are Tau Ceti's
 `Polynomial.newtonPolygon`, `Polynomial.newtonSlopes`, `TauCeti.lowerConvexEnvelope` and
 `TauCeti.IsFiniteFace`, read with a real additive valuation of `L` normalized by `addValInt`.
 
-The slope dictionary and the Galois slope content are statements about the Swan-slope multiset
-of a separable extension: the upper breaks with their multiplicities. Its definition as a
-multiset needs the finiteness of the set of breaks, which is itself a theorem; the pins have the
-break predicate `UpperJump` but no finite carrier of breaks with multiplicities. The jump-set
-classification lacks the filtered principal-unit module and its standard filtered presentation.
-The generic-family polynomial and family-mass theorems lack the intrinsic Herbrand invariant
-of a field, built on the same Swan-slope multiset, and the Eisenstein diagram. These remain
-README targets, without substitute predicates or arithmetic-only theorems here.
+The slopes of a separable extension `L/K` are read in a finite Galois extension `M/K`
+containing `L`: the positive upper breaks are the values of the pinned `herbrand K M` at the
+integer lower indices `1, …, largestLowerJump K M`, with multiplicities read off the lower
+filtration `lowerRamificationGroup K M`, so the list `artinSlopeList` needs no finiteness
+theorem. The totally ramified extensions of a given degree, their wild exponents and their
+representative sets are the pinned `totallyRamifiedOfDegree`, `IntermediateField.wildExponent`
+and `IsRepresentativeSet`.
+
+Not statable at the pins:
+- the jump-set classification of 4.2: the pins have a `ℤ_p`-module structure only on the deep
+  units (`deepUnitPadicIntModule`), not on all principal units `U¹(K)`, and no filtered
+  `ℤ_p`-modules with the standard filtered presentation of `U¹(K)`;
+- the family theorems of Layer 6 (the compatibility classification of Herbrand invariants, the
+  generic polynomial with its coverage and existence theorems, and the family mass formula with
+  its comparison with Serre's formula): their statements are in terms of the decomposition of a
+  Herbrand invariant into ram runs with geometric and arithmetic bands (6.2) and of its
+  Eisenstein diagram with the point counts `α, β, γ, δ` (6.4), combinatorial constructions of
+  this roadmap that are not simple definitions.
+These remain README targets, without substitute predicates or arithmetic-only theorems here.
 
 Counting uses finite intermediate fields of SeparableClosure K with the pinned spectral-norm
 adapters; representatives are selected by actual K-algebra equivalences. The arithmetic
@@ -51,9 +65,10 @@ variable (K L : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
 
 /-! ## Layer 0: the canonical tower and the invariants of the page header -/
 
-/-- `README.md`, Layer 0, 0.1. The wild exponent `w = v_p(e)` of `L/K`, where `p` is the residue
-characteristic and `e = ramificationIndex K L`. -/
-def wildExponent : ℕ :=
+/-- `README.md`, Layer 0, 0.1. The exponent `w = v_p(e)` of the wild ramification index `p^w` of
+`L/K`, where `p` is the residue characteristic and `e = ramificationIndex K L = ε p^w`. It is not
+the wild exponent `H` of the mass formula (`IntermediateField.wildExponent`). -/
+def wildRamificationExponent : ℕ :=
   padicValNat (ringChar 𝓀[K]) (ramificationIndex K L)
 
 
@@ -107,7 +122,7 @@ segment). -/
 theorem card_filter_conjugateBreaks_eq_zero [ValuativeExtension L M] [Module.Finite K M] [IsGalois K M] (h : IsTotallyRamified K L) {ξ : 𝒪[L]}
     (hξ : Irreducible ξ) :
     ((conjugateBreaks K L M (ξ : L)).filter (· = 0)).card =
-      Module.finrank K L - ringChar 𝓀[K] ^ wildExponent K L := by
+      Module.finrank K L - ringChar 𝓀[K] ^ wildRamificationExponent K L := by
   sorry
 
 end Closure
@@ -161,6 +176,22 @@ ramification group `G^u` of `M/K` on the `K`-embeddings `G/H = Hom_K(L, M)`. -/
 def embeddingOrbitCount (u : RamificationIndexDomain) : ℕ :=
   (upperRamificationGroup K M u ⊔ embeddingSubgroup K L M).index
 
+/-- `README.md`, Layer 2, 2.2, and Layer 3, 3.1. The **Artin slopes** of `L/K`, read in the
+finite Galois `M/K`, in nondecreasing order with multiplicity: for each integer lower index
+`1 ≤ i ≤ largestLowerJump K M` of `G = Gal(M/K)`, the value `φ_{M/K}(i) + 1` (with
+`φ_{M/K} = herbrand K M`) listed `log_p [G_i H : G_{i+1} H]` times, where `H = Gal(M/L)` and `p`
+is the residue characteristic. The positive upper breaks of `L/K` are the `φ_{M/K}(i)` with
+`G_i H ≠ G_{i+1} H`, so this is the multiset `artinSlopes K L` of 2.2 in increasing order, and it
+does not depend on `M`. For `L = M` (so `H = 1`) it is the list of Galois Artin slopes of `M/K`,
+the slope list of the slope content of 3.1. -/
+def artinSlopeList : List ℝ :=
+  (List.range (largestLowerJump K M).toNat).flatMap fun j =>
+    List.replicate
+      (Nat.log (ringChar 𝓀[K])
+        ((lowerRamificationGroup K M ((j + 2 : ℕ) : ℤ) ⊔ embeddingSubgroup K L M).relIndex
+          (lowerRamificationGroup K M ((j + 1 : ℕ) : ℤ) ⊔ embeddingSubgroup K L M)))
+      ((herbrand K M ⟨((j + 1 : ℕ) : ℝ), Nat.cast_mem_ramificationIndexDomain (j + 1)⟩ : ℝ) + 1)
+
 
 /-- `README.md`, Layer 2, 2.3. **The discriminant exponent as an upper-numbering integral.**
 `c(L/K) = ∫_{-1}^{∞} ([L : K] − [G : G^u H]) du`, Serre's `IV §1, Prop. 4` through Herbrand's
@@ -211,7 +242,7 @@ than the number of Newton slopes of `ρ` that are at most `−φ_{M/L}(t)` (the 
 the size `[G_t : G_t ∩ H]` of the `G_t`-orbit of the identity embedding in `Hom_K(L, M)`, where
 `G_t` is the lower filtration of `M/K` and `φ_{M/L}` is Tau Ceti's `herbrand L M`. Hence the rams
 are the values `φ_{M/L}(t)` at the jumps of `G_t H` (Deligne, Appendix A.6, Prop. A.6.2;
-Greve–Pauli, §8, when `M = L`). -/
+Greve–Pauli, author preprint, §4, p.5, when `M = L`). -/
 theorem one_add_card_filter_newtonSlopes_eq_relIndex [ValuativeExtension L M]
     [Module.Finite L M] [IsGalois L M] {φ : 𝒪[K][X]} (hmonic : φ.Monic)
     (hφ : φ.IsEisensteinAt 𝓂[K]) {α : L}
@@ -222,6 +253,53 @@ theorem one_add_card_filter_newtonSlopes_eq_relIndex [ValuativeExtension L M]
     1 + (((ramificationPolynomial φ α).newtonSlopes v).filter
         fun s => s ≤ -((herbrand L M t : RamificationIndexDomain) : ℝ)).card =
       (embeddingSubgroup K L M).relIndex (lowerRamificationGroupReal K M t) := by
+  sorry
+
+/-- `README.md`, Layer 2, 2.6. **The height identity.** Let `e` and `f` be the ramification index
+and inertia degree of `L/K`, `p` the residue characteristic, and `a_1 ≤ ⋯ ≤ a_w` the Artin slopes
+of `L/K`, so that `s_i = a_i − 1` are its Swan slopes. Then the discriminant exponent is
+`c(L/K) = f (e − 1) + f e m_w`, where `m_w = Σ_i (p − 1) s_i / p^{w+1−i}` is the top mean;
+equivalently the height `c/f − e + 1` is `e m_w`. -/
+theorem discriminantExponent_eq_sum_artinSlopeList [Algebra.IsSeparable K L] :
+    (discriminantExponent K L : ℝ) =
+      (inertiaDegree K L : ℝ) * ((ramificationIndex K L : ℝ) - 1) +
+        (inertiaDegree K L : ℝ) * (ramificationIndex K L : ℝ) *
+          ∑ i : Fin (artinSlopeList K L M).length,
+            ((ringChar 𝓀[K] : ℝ) - 1) * ((artinSlopeList K L M).get i - 1) /
+              (ringChar 𝓀[K] : ℝ) ^ ((artinSlopeList K L M).length - i.1) := by
+  sorry
+
+variable {K L} in
+/-- `README.md`, Layer 2, 2.6. **The denominator theorem for rams.** Let `φ` be a monic
+Eisenstein polynomial over `𝒪[K]` with a root `α` generating the separable extension `L`, and
+read the ramification polygon with the normalized valuation `v` of `L`. A ram `r > 0` (a Newton
+slope `−r` of `ρ`) of multiplicity `d` spans a face of width `p^a (p^d − 1)` (Layer 1, 1.2), and
+its denominator divides `p^d − 1`, the prime-to-`p` part of that width: `(p^d − 1) r ∈ ℕ`. For a
+rational `r` with `−r` not a slope the count is `0` and the divisibility holds trivially. -/
+theorem den_dvd_ordCompl_count_newtonSlopes [Algebra.IsSeparable K L] {φ : 𝒪[K][X]}
+    (hmonic : φ.Monic) (hφ : φ.IsEisensteinAt 𝓂[K]) {α : L}
+    (hroot : (φ.map ((algebraMap K L).comp (algebraMap 𝒪[K] K))).IsRoot α)
+    (hgen : K⟮α⟯ = ⊤) (v : AddValuation L (WithTop ℝ))
+    (hv : ∀ x : L, x ≠ 0 → v x = ((addValInt L x : ℝ) : WithTop ℝ)) (r : ℚ) :
+    r.den ∣ ordCompl[ringChar 𝓀[K]]
+      (((ramificationPolynomial φ α).newtonSlopes v).count (-(r : ℝ))) := by
+  sorry
+
+/-! ## Layer 3: the invariants of the Galois closure -/
+
+/-- `README.md`, Layer 3, 3.3. **The weighted formula for the Galois mean slope.** For a finite
+Galois `M/K` with slope content `[a_1, …, a_k]_t^u`, where `a_1 ≤ ⋯ ≤ a_k` are the Galois Artin
+slopes (`artinSlopeList K M M`) and `t = [G_0 : G_1]` is the tame degree,
+`c(M/K)/[M : K] = 1 − 1/(t p^k) + (p − 1) Σ_i (a_i − 1)/p^{k−i+1}`; the unramified degree `u`
+cancels. -/
+theorem discriminantExponent_div_finrank_eq :
+    (discriminantExponent K M : ℝ) / Module.finrank K M =
+      1 - 1 / (((lowerRamificationGroup K M 1).relIndex (lowerRamificationGroup K M 0) : ℝ) *
+          (ringChar 𝓀[K] : ℝ) ^ (artinSlopeList K M M).length) +
+        ((ringChar 𝓀[K] : ℝ) - 1) *
+          ∑ i : Fin (artinSlopeList K M M).length,
+            ((artinSlopeList K M M).get i - 1) /
+              (ringChar 𝓀[K] : ℝ) ^ ((artinSlopeList K M M).length - i.1) := by
   sorry
 
 end Breaks
@@ -319,23 +397,12 @@ def IsOreAdmissible (n j : ℕ) : Prop :=
     (0 < j % n ∧ natValuation K (j % n) ≤ ((j / n : ℕ) : ℕ∞) ∧
       ((j / n : ℕ) : ℕ∞) + 1 ≤ natValuation K n)
 
-/-- A finite separable subextension with prescribed ramification index, residue degree
-and discriminant exponent, using the canonical local-field structures at the pin. -/
-def HasExtensionInvariants (E : IntermediateField K (SeparableClosure K))
-    (e f c : ℕ) : Prop :=
-  ∃ h : Module.Finite K E,
-    letI := h
-    letI := finiteIntermediateFieldValuativeRel K (SeparableClosure K) E
-    letI := finiteIntermediateFieldTopology K (SeparableClosure K) E
-    letI := finiteIntermediateField_isNonarchimedeanLocalField K (SeparableClosure K) E
-    letI := finiteIntermediateField_valuativeExtension K (SeparableClosure K) E
-    ramificationIndex K E = e ∧ inertiaDegree K E = f ∧ discriminantExponent K E = c
-
-/-- Ore's realizability criterion for separable totally ramified extensions, in either
-characteristic. The degree is positive; `j` is the wild discriminant exponent. -/
+/-- `README.md`, Layer 5, 5.1. **Ore's realizability theorem** for separable totally ramified
+extensions, in either characteristic: for `n > 0`, some member of Serre's `σ_K(n)`
+(`totallyRamifiedOfDegree K n`) has wild exponent `c(L) = j`, that is discriminant exponent
+`n − 1 + j`, exactly when `j` satisfies Ore's conditions. -/
 theorem ore_realizability (n j : ℕ) (hn : 0 < n) :
-    (∃ E : IntermediateField K (SeparableClosure K), HasExtensionInvariants K E n 1 (n - 1 + j)) ↔
-      IsOreAdmissible K n j := by
+    (∃ E ∈ totallyRamifiedOfDegree K n, E.wildExponent = j) ↔ IsOreAdmissible K n j := by
   sorry
 
 /-- The coefficient lower bound of the discriminant box at index `h`, for positive degree.
@@ -356,26 +423,36 @@ def krasnerCount (n j : ℕ) : ℚ := by
         (if j % n = 0 then 1 else 1 - q⁻¹)
   else 0
 
-/-- Krasner's discriminant-refined theorem counts actual subfields, and asserts finiteness
-of each stratum, including in equal characteristic. The case `n = 0` is excluded. -/
+/-- `README.md`, Layer 5, 5.3. **Krasner's discriminant-refined count**: for `n > 0`, the members
+of `σ_K(n)` with wild exponent `j` form a finite set, including in equal characteristic, and
+their number is the box expression `krasnerCount K n j`. -/
 theorem krasner_refined_count (n j : ℕ) (hn : 0 < n) :
-    Set.Finite {E : IntermediateField K (SeparableClosure K) |
-      HasExtensionInvariants K E n 1 (n - 1 + j)} ∧
-    (Nat.card {E : IntermediateField K (SeparableClosure K) //
-      HasExtensionInvariants K E n 1 (n - 1 + j)} : ℚ) = krasnerCount K n j := by
+    {E ∈ totallyRamifiedOfDegree K n | E.wildExponent = j}.Finite ∧
+      ({E ∈ totallyRamifiedOfDegree K n | E.wildExponent = j}.ncard : ℚ) =
+        krasnerCount K n j := by
   sorry
 
 /-! ## Layer 6: counting isomorphism classes -/
+
+/-- A finite subextension of `SeparableClosure K` with prescribed ramification index and
+inertia degree, using the canonical local-field structures at the pin. -/
+def HasExtensionInvariants (E : IntermediateField K (SeparableClosure K)) (e f : ℕ) : Prop :=
+  ∃ h : Module.Finite K E,
+    letI := h
+    letI := finiteIntermediateFieldValuativeRel K (SeparableClosure K) E
+    letI := finiteIntermediateFieldTopology K (SeparableClosure K) E
+    letI := finiteIntermediateField_isNonarchimedeanLocalField K (SeparableClosure K) E
+    letI := finiteIntermediateField_valuativeExtension K (SeparableClosure K) E
+    ramificationIndex K E = e ∧ inertiaDegree K E = f
 
 /-- Representatives of extensions with prescribed positive ramification index and inertia
  degree. Every member has the required invariants and every such field is isomorphic to
  exactly one member; an empty or duplicate list cannot satisfy this predicate. -/
 def IsInertiaRepresentativeSet (e f : ℕ)
     (R : Set (IntermediateField K (SeparableClosure K))) : Prop :=
-  (∀ E ∈ R, ∃ c, HasExtensionInvariants K E e f c) ∧
-    ∀ E : IntermediateField K (SeparableClosure K),
-      (∃ c, HasExtensionInvariants K E e f c) →
-        ∃! F : IntermediateField K (SeparableClosure K), F ∈ R ∧ Nonempty (E ≃ₐ[K] F)
+  (∀ E ∈ R, HasExtensionInvariants K E e f) ∧
+    ∀ E : IntermediateField K (SeparableClosure K), HasExtensionInvariants K E e f →
+      ∃! F : IntermediateField K (SeparableClosure K), F ∈ R ∧ Nonempty (E ≃ₐ[K] F)
 
 /-- The ramification index and residue degree of the splitting field of `X^(p^i)-1`
 over `K`. In characteristic zero this is `K(ζ_(p^i))`, including `K` at `i = 0`. -/
@@ -433,33 +510,18 @@ theorem monge_class_count (p : ℕ) [Fact p.Prime] [FinitePadicExtension K p]
         R.Finite ∧ (Nat.card R : ℚ) = mongeCount K p e f := by
   sorry
 
-/-- The wild discriminant height of a finite intermediate field, using the canonical
-local-field structures, with value zero for an infinite extension. For a totally ramified
-extension this is `discriminantExponent K E + 1 - [E : K]`, the mass-formula weight. -/
-def totallyRamifiedHeight (E : IntermediateField K (SeparableClosure K)) : ℕ := by
-  classical
-  exact if h : Module.Finite K E then
-    letI := h
-    letI := finiteIntermediateFieldValuativeRel K (SeparableClosure K) E
-    letI := finiteIntermediateFieldTopology K (SeparableClosure K) E
-    letI := finiteIntermediateField_isNonarchimedeanLocalField K (SeparableClosure K) E
-    letI := finiteIntermediateField_valuativeExtension K (SeparableClosure K) E
-    discriminantExponent K E + 1 - Module.finrank K E
-  else 0
-
-/-- A finite set of pairwise nonisomorphic separable totally ramified extensions of positive
- degree is complete if and only if its Serre mass is one. This holds for every nonarchimedean
- local base field, including equal characteristic; README §6.8. -/
+/-- `README.md`, Layer 6, 6.8. **Completeness by mass.** For `n > 0`, a finite set `S` of pairwise
+non-isomorphic members of `σ_K(n)` is a set of representatives of the `K`-isomorphism classes of
+`σ_K(n)` (`IsRepresentativeSet`) if and only if its Serre mass
+`Σ_{E ∈ S} 1/(#Aut_K(E) q^{H(E)})` is `1`, with `H(E)` the wild exponent. This holds for every
+nonarchimedean local base field, including equal characteristic. -/
 theorem mass_completeness (n : ℕ) (hn : 0 < n)
     (S : Finset (IntermediateField K (SeparableClosure K)))
-    (hmem : ∀ E ∈ S, ∃ c, HasExtensionInvariants K E n 1 c)
+    (hS : ∀ E ∈ S, E ∈ totallyRamifiedOfDegree K n)
     (hpair : ∀ E ∈ S, ∀ F ∈ S, Nonempty (E ≃ₐ[K] F) → E = F) :
-    (∀ E : IntermediateField K (SeparableClosure K),
-      (∃ c, HasExtensionInvariants K E n 1 c) →
-        ∃ F ∈ S, Nonempty (E ≃ₐ[K] F)) ↔
+    IsRepresentativeSet n (S : Set (IntermediateField K (SeparableClosure K))) ↔
       (∑ E ∈ S, (1 : ℚ) /
-        ((Nat.card (E ≃ₐ[K] E) : ℚ) *
-          (Nat.card 𝓀[K] : ℚ) ^ totallyRamifiedHeight K E)) = 1 := by
+        ((Nat.card (E ≃ₐ[K] E) : ℚ) * (Nat.card 𝓀[K] : ℚ) ^ E.wildExponent)) = 1 := by
   sorry
 
 /-! ## Layer 7: the Galois root discriminant -/

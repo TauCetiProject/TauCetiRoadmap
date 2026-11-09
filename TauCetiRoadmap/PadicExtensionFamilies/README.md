@@ -35,17 +35,18 @@ Suggested home: `TauCeti/NumberTheory/LocalField/Ramification/` for Layers 0–4
 `TauCeti/NumberTheory/NumberField/GaloisRootDiscriminant.lean` for Layer 7.
 
 `Suggested.lean` is the acceptance test for the headline theorems that can be stated against
-the pinned APIs, the slope-polygon and polygon-to-break theorems among them. Its module
-docstring identifies the missing carriers for the slope-dictionary, slope-content, filtered-unit
-and family theorems; the definitions, APIs and Checks in this README specify those targets.
+the pinned APIs, among them the slope-polygon and polygon-to-break theorems, the height identity,
+the denominator theorem for rams and the weighted Galois mean slope formula. Its module docstring
+identifies the missing carriers for the jump-set classification and the family theorems; the
+definitions, APIs and Checks in this README specify those targets.
 Counts concern actual extensions and representatives under algebra equivalence.
 
 ## Scope and ownership
 
 ### Owned here
 
-- The invariants read on the canonical tower `L ⊇ L^{ur} ⊇ K`: the tame ramification index `ε`, the wild exponent `w` with
-  `e = ε p^w`, the height and the mean of `L/K`, the discriminant square class, and the
+- The invariants read on the canonical tower `L ⊇ L^{ur} ⊇ K`: the tame ramification index `ε`, the
+  exponent `w` of the wild ramification index, `e = ε p^w`, the height and the mean of `L/K`, the discriminant square class, and the
   automorphisms and subfields of `L/K` (Layer 0).
 - The **ramification polynomial** and **ramification polygon** of an Eisenstein polynomial, its
   **rams**, the **residual polynomials** of its segments with their equivalence class, the
@@ -79,8 +80,9 @@ Counts concern actual extensions and representatives under algebra equivalence.
 
 The canonical unramified–totally ramified factorization and Eisenstein generation are
 LocalFieldsRamification Layers 2–3, with the pinned declarations below. The finiteness dichotomy
-for separable degree-n extensions is MassFormula Layer 4; only bounded-discriminant finiteness
-and the refined count are targets here. The finite Galois Herbrand theory stops at normal
+for separable totally ramified degree-n extensions is Tau Ceti's `infinite_totallyRamifiedOfDegree_iff`
+(`MassFormula/Main.lean`); only bounded-discriminant finiteness and the refined count are targets
+here. The finite Galois Herbrand theory stops at normal
 extensions; its non-Galois extension `ψ_{L/K}`, needed by the polygon dictionary, is
 RamificationOfCompleteDiscretelyValuedFields §4a.2. The
 classification of the degree-`n` extensions of `K` with inertia degree `f` by their unramified part
@@ -123,14 +125,21 @@ Monge's count.
   cardinality and product law, the identification of the slopes with the negatives of the
   nonzero root valuations `Polynomial.newtonSlopes_eq_map_roots_map`, and the slope-denominator
   theorems (`TauCeti/NumberTheory/NewtonPolygon/`), each named in the supplier table below.
-- From MassFormula Layers 0, 3–4 (roadmap contracts): Mass formula's
-  `totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `eisensteinSet`,
-  `measure_eisensteinSet`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv` and
-  `TauCetiRoadmap.MassFormula.card_aroots_eq` (its `Suggested.lean`), realizing Mass formula
-  Layers 0, 3 and 4.
-- From [Mass formula](../MassFormula/README.md) as a roadmap: Layer 3's *integral of the root
-  count* `∫_{E_n} rootCount L = q^{-(d(L)+1)}(1 − q^{-1})` and Layer 4's *Theorem 1*, *Theorem 2*
-  and *orbit count*, cited by those names.
+- From Tau Ceti's mass formula at the pin (`TauCeti/NumberTheory/LocalField/MassFormula/`, which
+  realizes the [Mass formula](../MassFormula/README.md) roadmap): Serre's `σ_K(n)`
+  `totallyRamifiedOfDegree`, the wrappers `IntermediateField.discriminantExponent` and
+  `IntermediateField.wildExponent` (`c(L) = d(L) + 1 − n`), the representative-set predicate
+  `IsRepresentativeSet` with `exists_isRepresentativeSet`, the orbit count
+  `ncard_isomorphic_mul_natCard_algEquiv`, the Eisenstein region `eisensteinSet` with
+  `measure_eisensteinSet`, the integral of the root count `IntermediateField.lintegral_rootCount`
+  (`∫_{E_n} rootCount L = q^{-(d(L)+1)}(1 − q^{-1})`), Serre's first and second mass formulas
+  `tsum_one_div_natCard_residueField_pow_wildExponent` and
+  `IsRepresentativeSet.tsum_one_div_natCard_algEquiv_mul_natCard_residueField_pow_wildExponent`,
+  and the finiteness dichotomy `infinite_totallyRamifiedOfDegree_iff`; with its quantitative root
+  lifting (`Polynomial.exists_isRoot_addVal_eval_eq`, `Polynomial.existsUnique_isRoot_addVal_lt`),
+  local constancy of root counts (`exists_card_aroots_eq`) and the box scaling law
+  (`MeasureTheory.Measure.measure_image_mulVec_integerBox`), each with its file in the supplier
+  table below.
 - From [Number-field arithmetic](../../Completed/NumberFieldArithmetic/README.md): 5.1, 5.2, 5.6,
   5.10, 6.3 and 6.5, cited by number in Layer 7.
 - From [Polynomial Galois groups](../../Completed/PolynomialGaloisGroups/README.md): the transitive-group label
@@ -167,6 +176,7 @@ Monge's count.
   the zeros-of-`L`-functions and number-field roadmaps; Layer 7 defines the Galois root discriminant
   and proves its local factorization, and states no analytic lower bound.
 - Serre's mass formula itself, the Eisenstein region and Haar measure on coefficient space:
+  Tau Ceti's `TauCeti/NumberTheory/LocalField/MassFormula/` at the pin, which realizes
   [Mass formula](../MassFormula/README.md).
 - The étale (Bhargava) mass formula, and the classification of finite extensions by their
   unramified part with its automorphism count: [Étale mass formula](../EtaleMassFormula/README.md),
@@ -219,8 +229,10 @@ Monge's count.
    discriminantExponent K L: the **height** H(L/K) := c/f − e + 1 ∈ ℕ` (faithful by
    `inertiaDegree_mul_ramificationIndex_sub_one_le_discriminantExponent`) and the **mean**
    `m(L/K) := H(L/K)/e ∈ ℚ`, so `c = f(e − 1 + e m)`. For `L/K` totally ramified, `H(L/K)` is
-   Mass formula's wild exponent `c(L)`; the symbol `c` below always means the discriminant
-   exponent, as on the LMFDB page, and the wild exponent is written `H` or `i_0`.
+   Serre's wild exponent `c(L)`, Tau Ceti's `IntermediateField.wildExponent`; the symbol `c` below
+   always means the discriminant exponent, as on the LMFDB page, and the wild exponent is written
+   `H` or `i_0`. The exponent `w = v_p(e)` of the wild ramification index `p^w` (0.1) is a different
+   invariant and is never called the wild exponent.
 7. **Residual polynomials** follow Ore's normalization as the LMFDB states it: for a segment with
    endpoints at abscissae `k` and `k + l`, heights `v_α(ρ_k)` and `v_α(ρ_{k+l})`, and slope `h/m`
    in lowest terms with `h = (v_α(ρ_k) − v_α(ρ_{k+l})) m / l`,
@@ -232,7 +244,8 @@ Monge's count.
    points `(n_E, c_E)` over the subextensions `E` of `L/K` (the slope polygon), which is how the
    LMFDB computes them; the envelope statement is a theorem, not the definition.
 9. **Families are sets of isomorphism classes** of subextensions of `SeparableClosure K`,
-   represented as in Mass formula by representative sets (`IsRepresentativeSet`-style predicates),
+   represented as in Tau Ceti's mass formula by representative sets (`IsRepresentativeSet` and
+   predicates in its style),
    never by `Quotient`. A **Herbrand invariant** is the triple `(ε, f, (s_1, …, s_w))` of a tame
    index, a residue degree and a nondecreasing list of positive rationals, with rams and means as
    derived presentations; the LMFDB writes it `[s_1, …, s_w]_ε^f`, `(r_1, …, r_w)_ε^f`,
@@ -301,11 +314,13 @@ The suppliers, with what is taken from each:
   an instance of `Polynomial.newtonPolygon`, in its orientation; this roadmap builds no polygon
   API of its own and does not use the parallel polynomial-only items 3.11/3.33/3.46/3.52/3.53 of
   [Classical arithmetic completion](../ClassicalArithmeticCompletion/README.md).
-- [Mass formula](../MassFormula/README.md), Layers 0–4: `σ_K(n)`, the wild exponent `c`,
-  the Eisenstein region and its measure, Layer 1’s quantitative root lifting,
-  Layer 2’s coefficient-box measures, the integral of the root count, Theorems 1 and 2 and the
-  orbit count. Layer 5 here is the discriminant-refined count that roadmap names as outside its
-  scope, and Layer 6 compares family masses with its Theorem 2.
+- Tau Ceti's mass formula, at the pin (the supplier table below), which realizes all of
+  [Mass formula](../MassFormula/README.md), Layers 0–4: `σ_K(n)`, the wild exponent `c`,
+  the Eisenstein region and its measure, the quantitative root lifting, the coefficient-box
+  scaling law, the integral of the root count, Serre's Theorems 1 and 2, the finiteness
+  dichotomy and the orbit count, each consumed by its pinned name. Layer 5 here is the
+  discriminant-refined count that roadmap names as outside its scope, and Layer 6 compares family
+  masses with Serre's Theorem 2.
 - [Étale mass formula](../EtaleMassFormula/README.md), Layer 1: the bijection from the
   `K`-isomorphism classes of degree-`n` extensions with inertia degree `f` onto
   `𝒯(K_f, n/f)/Gal(K_f/K)`, inseparable extensions included (§1.1); the automorphism count
@@ -327,7 +342,8 @@ The suppliers, with what is taken from each:
   through open norm subgroups with cyclic quotient.
 - Mathlib: `Polynomial.IsEisensteinAt`, `IsKrasner` (`Mathlib/Analysis/Normed/Field/Krasner.lean`),
   `differentIdeal`, `NumberField.discr` and `NumberField.rootDiscr`, `normalClosure`,
-  `Polynomial.Gal`, `Subgroup.index`, and the Haar-measure API that Mass formula already uses.
+  `Polynomial.Gal`, `Subgroup.index`, and the Haar-measure API that Tau Ceti's mass formula
+  already uses.
 
 ### From Mathlib
 
@@ -344,12 +360,13 @@ The suppliers, with what is taken from each:
   (`Mathlib/RingTheory/DedekindDomain/Different.lean`).
 - Galois theory: `IsGalois`, `IntermediateField.fixingSubgroup`, `IntermediateField.fixedField`,
   `normalClosure F K L` and `normalClosure.is_finiteDimensional`, `AlgEquiv.restrictNormalHom`,
-  `AlgHom.fintype` (so `L →ₐ[K] M` is a `Fintype`), `Subgroup.index`, `Subgroup.card_mul_index`.
+  `minpoly.AlgHom.fintype` (`Mathlib/FieldTheory/Minpoly/Field.lean`; so `L →ₐ[K] M` is a
+  `Fintype`), `Subgroup.index`, `Subgroup.relIndex`, `Subgroup.card_mul_index`, `Nat.log`.
 - `NumberField`, `NumberField.discr`, `NumberField.rootDiscr` with `rootDiscr_def`
   (`Mathlib/NumberTheory/NumberField/Discriminant/Basic.lean`), `Nat.primeFactors`,
   `padicValNat`, `padicValRat`, `Nat.factorization`.
 - `Multiset`, `Multiset.count`, `Multiset.sort`, `Multiset.sub`, `Multiset.le_iff_count`;
-  `Finset.inf'`; `Nat.find`; `MeasureTheory.Measure.addHaar` and the API Mass formula lists.
+  `Finset.inf'`; `Nat.find`; `MeasureTheory.Measure.addHaar` and the API Tau Ceti's mass formula uses.
 
 ### From Tau Ceti
 
@@ -363,8 +380,8 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
 | canonical tower | `unramifiedExtension K L (inertiaDegree K L)`, `isUnramified_unramifiedExtension_inertiaDegree`, `isTotallyRamified_unramifiedExtension_inertiaDegree`, `eq_unramifiedExtension_inertiaDegree_iff`, `map_unramifiedExtension_inertiaDegree_eq_iff` (`Unramified/Factorization.lean`) |
 | Eisenstein generators | `isTotallyRamified_iff_exists_eisenstein_generator`, `IsTotallyRamified.isEisensteinAt_minpoly`, `irreducible_of_eisenstein_adjoin_eq_top`, `addVal_sum_eisenstein_powerBasis` (`Eisenstein/`) |
 | different, discriminant, Hilbert's formula | `differentExponent`, `discriminantExponent`, `discriminantExponent_eq_inertiaDegree_mul_differentExponent`, `differentExponent_eq_ramificationIndex_sub_one_iff`, `differentExponent_bounds_of_wild`, `differentExponent_eq_finsum_lowerRamificationGroup`, `natCast_differentExponent_eq_iInf_of_eisenstein_adjoin_eq_top`, `differentExponent_tower`, `discriminantExponent_eq_of_algEquiv` (`Different/`, `Discriminant/`) |
-| lower numbering, lower index | `LocalFieldsRamification.lowerRamificationGroup`, `lowerRamificationGroupReal`, `LowerJump`, `largestLowerJump`, `natCard_lowerRamificationGroup_zero`, `map_restrictScalarsHom_lowerRamificationGroup`, `IsLocalRing.lowerIndex`, `ramificationIndex_mul_lowerIndex_eq_sum` (`RamificationGroup.lean`, `LowerIndex.lean`, `RingTheory/LocalRing/RamificationGroup.lean`) |
-| Herbrand, upper numbering, breaks | `RamificationIndexDomain`, `herbrandOrderIso`, `herbrand`, `inverseHerbrand`, `psiNat`, `upperRamificationGroup`, `UpperJump`, `upperJump_herbrand_iff`, `lowerJump_inverseHerbrand_iff`, `herbrand_tower`, `inverseHerbrand_tower`, `map_restrictNormalHom_upperRamificationGroup`, `comap_restrictScalarsHom_upperRamificationGroup`, `upperJump_iff_upperJump_or_upperJump_inverseHerbrand`, `Subgroup.upperRamificationGroup_quotient` (`Herbrand/`) |
+| lower numbering, lower index | `RamificationIndexDomain`, `LocalFieldsRamification.lowerRamificationGroup`, `lowerRamificationGroupReal`, `LowerJump`, `largestLowerJump`, `lowerRamificationGroup_eq_bot_of_largestLowerJump_lt`, `natCard_lowerRamificationGroup_zero`, `map_restrictScalarsHom_lowerRamificationGroup`, `IsLocalRing.lowerIndex`, `ramificationIndex_mul_lowerIndex_eq_sum` (`RamificationGroup.lean`, `LowerIndex.lean`, `RingTheory/LocalRing/RamificationGroup.lean`) |
+| Herbrand, upper numbering, breaks | `herbrandOrderIso`, `herbrand`, `inverseHerbrand`, `psiNat`, `upperRamificationGroup`, `UpperJump`, `upperJump_herbrand_iff`, `lowerJump_inverseHerbrand_iff`, `herbrand_tower`, `inverseHerbrand_tower`, `map_restrictNormalHom_upperRamificationGroup`, `comap_restrictScalarsHom_upperRamificationGroup`, `upperJump_iff_upperJump_or_upperJump_inverseHerbrand`, `Subgroup.upperRamificationGroup_quotient` (`Herbrand/`); `isPGroup_upperRamificationGroup_of_pos` (`Herbrand/PPrimary.lean`: every positive upper ramification group is a `p`-group) |
 | Hasse–Arf | `hasseArf` (`Herbrand/HasseArf/Abelian.lean`: every upper break of a finite abelian Galois extension is an integer); `UpperJump.exists_eq_intCast_of_finrank_prime`, `UpperJump.eq_of_finrank_prime` (`Herbrand/HasseArf/PrimeDegree.lean`, the prime-degree case) |
 | tame structure | `natCard_lowerRamificationGroup_one`, `lowerRamificationGroup_one_eq_bot_iff_isTamelyRamified`, `IsTotallyRamified.exists_pow_eq_uniformizer_of_isTamelyRamified`, `finrank_fixedField_lowerRamificationGroup_one` (`TamelyRamified/Basic.lean`, `TamelyRamified/Subextension.lean`); `IsTotallyRamified.isGalois_iff_exists_isPrimitiveRoot` and `IsTotallyRamified.isGalois_iff_ramificationIndex_dvd_card_residueField_sub_one` (`TamelyRamified/Galois.lean`) |
 | absolute inertia, wild inertia | `inertiaSubgroup`, `wildInertiaSubgroup`, `maximalTameExtension`, `restrictNormal_mem_lowerRamificationGroup_zero`, `map_wildInertiaSubgroup_restrictNormalHom` (`Unramified/Inertia/Basic.lean`, `WildInertia.lean`) |
@@ -373,7 +390,7 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
 | roots of unity | `RootsOfUnity/Basic.lean`, `RootsOfUnity/Torsion.lean` |
 | lower convex envelopes, faces, slope data (outside the local-field prefix) | `TauCeti.lowerConvexEnvelope` (`TauCeti/Analysis/Convex/Sequence/Envelope.lean`), `TauCeti.IsFiniteFace` (`…/Sequence/Face.lean`), `TauCeti.FiniteSlopeData` (`…/Sequence/SlopeData/Basic.lean`), `TauCeti.IsLowerConvexEnvelope.exists_rat_eq_and_den_dvd_of_isFiniteFace` (`…/Sequence/Rationality.lean`: a face of positive width with integral endpoint heights has rational slope whose denominator divides its width) |
 | Newton polygons (outside the local-field prefix) | `Polynomial.newtonPolygon` (`TauCeti/NumberTheory/NewtonPolygon/Basic.lean`); `Polynomial.newtonSlopes`, `Polynomial.card_newtonSlopes`, `Polynomial.newtonSlopes_eq_slopeMultiset`, `Polynomial.count_newtonSlopes_of_isFiniteFace`, `Polynomial.den_dvd_card_newtonSlopes` (`…/NewtonPolygon/Slopes.lean`); `Polynomial.newtonPolygon_mul`, `Polynomial.newtonSlopes_mul` (`…/NewtonPolygon/Mul.lean`); `Polynomial.newtonSlopes_eq_map_roots_map`, `Polynomial.card_filter_roots_le_addValuation` (`…/NewtonPolygon/Roots.lean`); `Polynomial.den_dvd_of_forall_mem_newtonSlopes_eq` (`…/NewtonPolygon/Ramification.lean`: the slope denominator of a pure polynomial divides the ramification index) |
-| mass formula (roadmap contract) | `totallyRamifiedOfDegree`, `TauCetiRoadmap.MassFormula.wildExponent`, `intermediateFieldDiscriminantExponent_eq_of_algEquiv`, `eisensteinSet`, `measure_eisensteinSet`, `mem_eisensteinSet_iff`, `IsRepresentativeSet`, `ncard_isomorphic_mul_natCard_algEquiv`, `TauCetiRoadmap.MassFormula.card_aroots_eq` (its `Suggested.lean`) |
+| Serre's mass formula and its inputs | `totallyRamifiedOfDegree`, `IntermediateField.discriminantExponent`, `IntermediateField.wildExponent`, `IntermediateField.discriminantExponent_eq`, `IntermediateField.wildExponent_eq_zero_iff`, `IntermediateField.discriminantExponent_eq_of_algEquiv` (`MassFormula/Basic.lean`); `IsRepresentativeSet`, `exists_isRepresentativeSet` (`MassFormula/Representative.lean`); `ncard_isomorphic_mul_natCard_algEquiv` (`MassFormula/Orbit.lean`); `eisensteinSet`, `mem_eisensteinSet_iff_exists_isEisensteinAt`, `measure_eisensteinSet` (`MassFormula/Eisenstein/Region.lean`); `IntermediateField.rootCount_eq_sum_ite_of_eisenstein` (`MassFormula/RootCount.lean`), `IntermediateField.measure_image_setOf_exists_aeval_monicOfCoeff_eq_zero_le_addVal` (`MassFormula/Fibre.lean`), `IntermediateField.lintegral_rootCount` (`MassFormula/Integral.lean`); `tsum_one_div_natCard_residueField_pow_wildExponent`, `IsRepresentativeSet.tsum_one_div_natCard_algEquiv_mul_natCard_residueField_pow_wildExponent`, `infinite_totallyRamifiedOfDegree_iff` (`MassFormula/Main.lean`); `exists_mem_totallyRamifiedOfDegree_discriminantExponent_eq` (`MassFormula/Infinite.lean`); `countable_totallyRamifiedOfDegree` (`MassFormula/Countable.lean`); `tsum_rootCount_eq_of_separable`, `aemeasurable_rootCount_restrict_eisensteinSet` (`MassFormula/RootCount.lean`); `exists_card_aroots_eq` (`RootCount/Basic.lean`); `Polynomial.exists_isRoot_addVal_eval_eq`, `Polynomial.existsUnique_isRoot_addVal_lt` (`TauCeti/RingTheory/DiscreteValuationRing/Hensel.lean`); `MeasureTheory.Measure.measure_image_mulVec_integerBox` (`TauCeti/MeasureTheory/Group/LocalFieldScaling.lean`) |
 | non-Galois Herbrand function (roadmap contract) | RamificationOfCompleteDiscretelyValuedFields §4a.2: `ψ_{L/K}`, `φ_{L/K}`, independence of the Galois closure, tower law, integral formula; the finite-level subgroup identity `TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields.subgroupOf_upperRamificationGroup` (its `Suggested.lean`) |
 
 ## How to read the build
@@ -392,9 +409,10 @@ Standing hypotheses: `K`, `L` as in Convention 1, `L/K` finite. Write `n = [L : 
 `e = ramificationIndex K L`, `f = inertiaDegree K L`, `p = ringChar 𝓀[K]`, `q = Nat.card 𝓀[K]`,
 and, when `L/K` is separable, `c = discriminantExponent K L`.
 
-### 0.1 The tame index and the wild exponent
+### 0.1 The tame index and the wild ramification exponent
 
-Define `wildExponent K L := padicValNat p e` (written `w`) and
+Define `wildRamificationExponent K L := padicValNat p e` (written `w`: the exponent of the wild
+ramification index `p^w`, not the wild exponent `H` of Convention 6) and
 tameRamificationIndex K L := e / p^w (written `ε`), so `e = ε p^w` with `p ∤ ε`. Prove
 `IsTamelyRamified K L ↔ w = 0`, additivity `w(M/K) = w(M/L) + w(L/K)`
 and multiplicativity `ε(M/K) = ε(M/L) ε(L/K)` in a tower (`ramificationIndex_tower`), and that `ε` divides `q^f − 1` when `L/K` is Galois
@@ -404,37 +422,37 @@ and multiplicativity `ε(M/K) = ε(M/L) ε(L/K)` in a tower (`ramificationIndex_
 
 - Both invariants are preserved by K-algebra equivalence.
 - The prime-to-p factor is positive and prime to p; `e=εp^w`.
-- Tower composition adds wild exponents and multiplies tame indices.
+- Tower composition adds wild ramification exponents and multiplies tame indices.
 
 **Checks.**
 
-- For the tower `ℚ_2⊂ℚ_2(√2)⊂ℚ_2(∜2)`, wild exponents satisfy `2=1+1`,
+- For the tower `ℚ_2⊂ℚ_2(√2)⊂ℚ_2(∜2)`, wild ramification exponents satisfy `2=1+1`,
   while tame indices satisfy `1=1·1`; multiplication would give the false value `1` for the first.
 - A tame cubic over `ℚ_5` has `e=3`, `w=0`, `ε=3`; the wild factor is `5⁰=1`.
 - An unramified quadratic has `e=1`, `w=0`, `ε=1`, distinguishing inertia degree from ramification.
 
 ### 0.3 Height and mean
 
-The height extends Mass formula's wild exponent `TauCetiRoadmap.MassFormula.wildExponent` (Layer 0;
-the MassFormula Layer 0 contract), the number
-`c(L) = d(L) + 1 − [L : K]` of a totally ramified subextension `L ∈ σ_K(n)` of
-`SeparableClosure K` (not 0.1's `w`), to every finite separable `L/K`. For `L/K` separable define
-the height `H=c/f+1−e` and mean `m=H/e`. Prove the agreement: for
-`L ∈ totallyRamifiedOfDegree K n`, with the finite-intermediate-field adapters of the canonical tower contract,
-height K L = L.wildExponent (here `f = 1`, `e = n`, and `TauCetiRoadmap.MassFormula.intermediateFieldDiscriminantExponent_eq`
-identifies the two discriminant exponents). Prove c = f (e − 1) + f · height (faithfulness, from
+The height extends Serre's wild exponent, Tau Ceti's `IntermediateField.wildExponent`
+(`MassFormula/Basic.lean`), the number `c(L) = d(L) + 1 − [L : K]` of a totally ramified
+subextension `L ∈ σ_K(n)` of `SeparableClosure K` (not 0.1's `w`), to every finite separable `L/K`.
+For `L/K` separable define the height `H=c/f+1−e` and mean `m=H/e`. Prove the agreement: for
+`L ∈ totallyRamifiedOfDegree K n`, with the finite-intermediate-field adapters of the canonical
+tower contract, height K L = L.wildExponent (here `f = 1`, `e = n`, and
+`IntermediateField.discriminantExponent_eq` identifies the two discriminant exponents). Prove
+c = f (e − 1) + f · height (faithfulness, from
 `inertiaDegree_mul_ramificationIndex_sub_one_le_discriminantExponent`), height = 0 ↔ IsTamelyRamified K L
 (the tame criterion through `discriminantExponent_eq_inertiaDegree_mul_differentExponent`, which
-specializes to `TauCetiRoadmap.MassFormula.wildExponent_eq_zero_iff`),
+specializes to `IntermediateField.wildExponent_eq_zero_iff`),
 height ≤ natCastValuation L e when `(e : L) ≠ 0` (the wild upper bound), and invariance under
-`K`-isomorphism (specializing to `TauCetiRoadmap.MassFormula.intermediateFieldDiscriminantExponent_eq_of_algEquiv`). *Needs:* Tau
-Ceti `Discriminant/Basic.lean`, `Different/Wild.lean`; Mass formula Layer 0.
+`K`-isomorphism (specializing to `IntermediateField.discriminantExponent_eq_of_algEquiv`). *Needs:* Tau
+Ceti `Discriminant/Basic.lean`, `Different/Wild.lean`, `MassFormula/Basic.lean`.
 
 - Height and mean are unchanged by K-algebra equivalence and by passage to the totally
   ramified step of the canonical tower.
 - The relation `c=f(e−1+H)` recovers the discriminant exponent, with `H=em`.
 - Height is nonnegative and vanishes exactly for tame extensions (Serre, III §6, Prop.13;
-  MassFormula Layer 0, wild exponent).
+  Tau Ceti's `IntermediateField.wildExponent_eq_zero_iff` in the totally ramified case).
 
 **Checks.**
 
@@ -691,7 +709,7 @@ prove that the polygon of `L/K` is that of `L/L^{ur}` while the residue field in
 is empty, there are no residual polynomials, and the page says the polygon is trivial.
 The transported invariants are stated directly on `L/K`: rams K L : List ℚ is the list
 rams φ α of 1.2 for `φ` a monic Eisenstein polynomial of `L/L^{ur}` (the canonical tower contract) and `α` a root of it, of
-length `w = wildExponent K L`, and wildSegments K L is the number of its distinct entries; 1.2's
+length `w = wildRamificationExponent K L`, and wildSegments K L is the number of its distinct entries; 1.2's
 rams φ α is their case `f = 1`. `Suggested.lean` declares the root-difference multiset
 `conjugateBreaks K L M ξ` of 1.2 and 2.5 on a totally ramified `L/K`: for a uniformizer `ξ` of `L` and a
 finite Galois `M/K` containing `L`, with compatible valuations on the tower, the multiset of `v_M(σξ − ξ)/e(M/L) − 1` over the `K`-embeddings
@@ -702,6 +720,12 @@ never assigned a finite ram. The definition is transport along the canonical fac
 from §1.2 (Greve–Pauli, author preprint, Proposition 4.3, pp.5–6).
 *Needs:* the canonical tower contract, §§1.1–1.4.
 
+- The relative base for root differences is the maximal unramified subfield.
+- `conjugateBreaks_eq_of_irreducible` assumes total ramification and a finite Galois
+  splitting overfield with compatible valuations.
+- `card_filter_conjugateBreaks_eq_zero` counts all conjugates in that overfield;
+  its zero count is `n−p^w`.
+
 **Checks.**
 
 - (unramified) For `ℚ_2(√5)/ℚ_2` (`f = 2`, `e = 1`) the rams list is empty and the number of wild
@@ -711,15 +735,6 @@ from §1.2 (Greve–Pauli, author preprint, Proposition 4.3, pp.5–6).
 - (root differences) For `L = ℚ_2(∜2)`, `ξ = ∜2` and `M` its `D_4`-closure,
   `conjugateBreaks K L M ξ = {2, 2, 4}`, the negatives of the Newton slopes `{−4, −2, −2}` of 1.2,
   and `#{σ ≠ incl : value ≥ t} + 1 = 2^{#{k : r_k ≥ t}}` gives `4` at `t = 2` and `2` at `t = 4`.
-
-- The relative base for root differences is the maximal unramified subfield.
-- `conjugateBreaks_eq_of_irreducible` assumes total ramification and a finite Galois
-  splitting overfield with compatible valuations.
-- `card_filter_conjugateBreaks_eq_zero` counts all conjugates in that overfield;
-  its zero count is `n−p^w`.
-
-**Checks.**
-
 - For `L=ℚ_2(ζ_3)`, using all K-embeddings gives `{−1}` at the uniformizer `2` and
   `{0}` at `2ζ_3`; the zero difference takes the totalized value `addValInt 0=0`.
   Over `L^{ur}=L`, both corrected multisets are empty.
@@ -758,6 +773,8 @@ equal to `f` on `(−1,0]`, eventually equal to `[L:K]`, and independent of the 
 overfield by quotient compatibility. This is the integrand of the integral formula of
 RamificationOfCompleteDiscretelyValuedFields §4a.2, so beyond the
 largest break its value divided by `f` is `e` (Serre, IV §3, Prop. 15 and subgroup indices).
+*Needs:* RamificationOfCompleteDiscretelyValuedFields §4a.2; Tau Ceti `upperRamificationGroup`,
+`map_restrictNormalHom_upperRamificationGroup`; Mathlib `Subgroup.index`.
 
 - The orbit count uses the subgroup product because `G^u` is normal; no normality of `H`
   is assumed.
@@ -770,9 +787,6 @@ largest break its value divided by `f` is `e` (Serre, IV §3, Prop. 15 and subgr
 - For an unramified quadratic the values are `1` at `−1` and `2` immediately afterwards.
 - For `K/K`, `H=G`, so the count is `1` at every parameter, even when the overfield is nontrivial.
 
-*Needs:* RamificationOfCompleteDiscretelyValuedFields §4a.2; Tau Ceti `upperRamificationGroup`,
-`map_restrictNormalHom_upperRamificationGroup`; Mathlib `Subgroup.index`.
-
 ### 2.2 Upper and lower breaks of `L/K`
 
 Define an upper break of L/K at `u≥−1` by `G^u H ≠ G^{u'} H` for every `u' > u`, the
@@ -782,7 +796,7 @@ with `φ_{L/K}` of RamificationOfCompleteDiscretelyValuedFields §4a.2.
 Prove: the upper breaks of `L/K` form a finite set; for `L/K` Galois they are Tau Ceti's
 `UpperJump K L u`; the breaks `u > 0` are exactly the `u` at which the orbit count jumps, and at
 such a jump the ratio `embeddingOrbitCount(u+)/embeddingOrbitCount(u)` is a power of `p` (`G^u`
-is a `p`-group for `u > 0`, `lowerRamificationGroup_one` and `natCard_lowerRamificationGroup_one`);
+is a `p`-group for `u > 0`, `isPGroup_upperRamificationGroup_of_pos`);
 the break `u = −1` occurs exactly when `f > 1` and the break `u = 0` exactly when `ε > 1`. Define
 swanSlopes K L : Multiset ℚ as the multiset of positive upper breaks `u`, each with multiplicity
 `log_p (embeddingOrbitCount(u+)/embeddingOrbitCount(u))`, where `embeddingOrbitCount(u+)` is the
@@ -790,10 +804,31 @@ constant value of the orbit count on `(u, u + δ)` for small `δ > 0`, and
 artinSlopes K L := swanSlopes.map (· + 1); the multiset does not depend on `M`.
 Prove card (swanSlopes K L) = w. For `L/K` Galois, prove the multiplicity of `u` is
 `log_p [G^{(u+1)} : G^{(u+1)+}]` in the notation of Convention 3, and that the Swan slopes are
-integers when `G` is abelian (Tau Ceti's `hasseArf`, the Hasse–Arf theorem). *Needs:* 2.1;
-RamificationOfCompleteDiscretelyValuedFields §4a.2;
+integers when `G` is abelian (Tau Ceti's `hasseArf`, the Hasse–Arf theorem).
+
+Define `artinSlopeList K L M : List ℝ`, the Artin slopes in increasing order, on the integer
+lower filtration of `M/K`: for `i = 1, …, largestLowerJump K M`, the value `φ_{M/K}(i) + 1`
+(`herbrand K M`) listed `log_p [G_i H : G_{i+1} H]` times. Prove that it is `artinSlopes K L`
+sorted: `G^u` is `G_i` at `u = φ_{M/K}(i)` and `G_{i+1}` on `(φ_{M/K}(i), φ_{M/K}(i+1)]`
+(`upperRamificationGroup_herbrand`), so the positive upper breaks of `L/K` are the `φ_{M/K}(i)`
+with `G_i H ≠ G_{i+1} H`, with the multiplicities above, and for `L = M` these are the `UpperJump`s
+(`upperJump_herbrand_iff`). *Needs:* 2.1; RamificationOfCompleteDiscretelyValuedFields §4a.2;
 Tau Ceti `UpperJump`, `upperJump_iff_upperJump_or_upperJump_inverseHerbrand`,
-`natCard_lowerRamificationGroup_one`, `hasseArf` (`Herbrand/HasseArf/Abelian.lean`).
+`upperJump_herbrand_iff`, `largestLowerJump`, `herbrand`, `isPGroup_upperRamificationGroup_of_pos`,
+`natCard_lowerRamificationGroup_one`, `hasseArf` (`Herbrand/HasseArf/Abelian.lean`); Mathlib
+`Subgroup.relIndex`, `Nat.log`.
+
+- `artinSlopeList` needs only the tower `K ⊆ L ⊆ M` with `M/K` finite Galois: `H = Gal(M/L)`
+  depends on `L` only through the embedding `L → M`, so the local-field structure of `L` does not
+  enter. The list does not depend on `M` (quotient compatibility of the upper filtration,
+  `map_restrictNormalHom_upperRamificationGroup`).
+- Each multiplicity is an exact logarithm: `[G_i H : G_{i+1} H]` divides `[G_i : G_{i+1}]`, a
+  power of `p` for `i ≥ 1`. The entries are `> 1` and nondecreasing (`herbrand_strictMono`), and
+  the length is `w`, the multiplicities summing to `log_p [G_1 H : H] = log_p (n/(f ε))`.
+- For `L = M` (`H = 1`) the list is the Galois slope list of 3.1; for `L = K` (`H = G`) it is
+  empty. The right-limit subgroup `G^{(s+)}` of Convention 3 is the union over positive offsets,
+  equivalently its eventual value immediately after the break; it is not the intersection over all
+  later groups.
 
 **Checks.**
 
@@ -806,18 +841,23 @@ Tau Ceti `UpperJump`, `upperJump_iff_upperJump_or_upperJump_inverseHerbrand`,
   `[1, 2]`, as Hasse–Arf requires.
 - (tame boundary) `ℚ_5(∛5)`: no Swan slopes (`w = 0`), although its upper filtration has the break
   `u = 0` (`ε = 3 > 1`), which is not positive.
-
-- The right-limit subgroup is the union over positive offsets, equivalently its eventual
-  value immediately after the break; it is not the intersection over all later groups.
-
-**Checks.**
-
 - For `ℚ_2(ζ_8)`, the orders at Artin parameter `2` and immediately after are `4,2`,
   giving multiplicity `log₂(4/2)=1`; at `3` they are `2,1`, again multiplicity `1`.
 - The intersection over every positive offset has order `1`, which would give the wrong
-  first multiplicity `2` and total `3`, instead of wild exponent `2`.
+  first multiplicity `2` and total `3`, instead of `w = 2`.
 - For a tame cubic there are no positive Swan breaks; the jump at Swan `0` gives tame
   index `3` and is not counted as a wild slope.
+- (list, visible against Galois) `ℚ_2(∜2)` in its `D_4`-closure: `#G_t = 8, 8, 4, 4, 2, 2, 2, 2, 1`
+  for `t = 0, …, 8`, lower jumps `1, 3, 7` with `φ_{M/K} = 1, 2, 3` there, and `H` meets `G_t`
+  only for `t ≤ 1`; `[G_i H : G_{i+1} H]` is `1` at `i = 1` and `2` at `i = 3, 7`, so
+  `artinSlopeList K L M = [3, 4]`. Dropping `H` (using `[G_i : G_{i+1}]`) gives the Galois list
+  `[2, 3, 4]`, which also counts the hidden slope `2`.
+- (list, Galois) `L = M = ℚ_2(ζ_8)`: lower jumps `1, 3`, `φ(1) = 1`, `φ(3) = 2`, list `[2, 3]`;
+  reading the lower indices themselves as Swan slopes would give `[2, 4]`.
+- (list, multiplicity and empty cases) the `S_4`-closure of `F_{x⁴+2x+2}` with `L = M` has
+  `G_0 = A_4`, `G_1 = V_4`, `G_2 = 1`, so `φ(1) + 1 = 4/3` is listed `log_2 4 = 2` times:
+  `[4/3, 4/3]`. For the `S_3`-closure of `ℚ_5(∛5)`, `largestLowerJump = 0`, and for an
+  unramified quadratic it is `−1`: both lists are empty.
 
 ### 2.3 The discriminant exponent as an upper-numbering integral
 
@@ -898,6 +938,11 @@ the adjective records that they are read from `L` alone. *Needs:* 2.1–2.3; Tau
   this is the segment of slope `u + 1` between consecutive vertices; with `u = −1`, `u' = 0` it
   is the slope `0` segment of width `f − 1`, and with `u = 0` and `0 < u'` at most the first
   positive break (any `u' > 0` when `L/K` is tame), the slope `1` segment of width `f(ε − 1)`.
+- The multiset form of the last item is that theorem read at `u = φ_{M/K}(i)`,
+  `u' = φ_{M/K}(i + 1)` for `i = 1, …, largestLowerJump K M`: the orbit count is `[G : G_{i+1} H]`
+  on `(u, u']`, so the segment from abscissa `[G : G_i H]` to `[G : G_{i+1} H]` has slope
+  `φ_{M/K}(i) + 1`, and `log_p` of its width ratio `[G_i H : G_{i+1} H]` is the multiplicity of
+  that value in `artinSlopeList K L M` (2.2). It is therefore not stated separately.
 
 **Checks.**
 
@@ -933,7 +978,7 @@ Herbrand's theorem). Hence `v_L((σα − α)/α) = φ_{M/L}(m − 1)`, and sinc
 `m ≥ t + 1` (`mem_lowerRamificationGroup_iff_le_lowerIndex`), the root valuation is
 `≥ φ_{M/L}(t)` exactly when `σH` lies in the `G_t`-orbit of `H`. A jump of `G_t H` at `t` is
 therefore the ram `φ_{M/L}(t) = ψ_{L/K}(φ_{M/K}(t))`, a lower break of `L/K` in the sense of 2.2
-(Deligne, Appendix §A.6, Prop. A.6.2; Greve–Pauli, author preprint, §8 in the Galois case, where `φ_{M/L} = id`;
+(Deligne, Appendix §A.6, Prop. A.6.2; Greve–Pauli, author preprint, §4, p.5, in the Galois case, where `φ_{M/L} = id`;
 witness `ℚ_2(∜2)` with its `D_4`-closure: `|G_t| = 8, 8, 4, 4, 2, 2, 2, 2, 1`, `H` a reflection,
 `G_t H` jumps at `t = 3, 7`, `φ_{M/L}(3) = 2`, `φ_{M/L}(7) = 4`, the rams `(2, 4)`). Consequently
 the **Herbrand function of `L/K` and its inverse are read off the polygon**: the inverse Herbrand
@@ -995,7 +1040,20 @@ the slope polygon of `L/Lᵘʳ`, with vertices at abscissae `ε p^k` and heights
 identity below the first break of `L/V_{k'}`), so its ramification polygon is the single face from
 `(1, H(V_{k'}/V_{k-1}))` to `(p^d, 0)` and `(p^d − 1) r_k = H(V_{k'}/V_{k-1}) ∈ ℕ`: the denominator
 of a ram divides `p^d − 1`, `d` its multiplicity (knowl `lf.rams`), sharpening 1.2's
-`p^{w-k-d+1}(p^d − 1)`. *Needs:* 0.3, 2.1, 2.4, 2.5; RamificationOfCompleteDiscretelyValuedFields §4a.2.
+`p^{w-k-d+1}(p^d − 1)`. *Needs:* 0.3, 2.1–2.5; RamificationOfCompleteDiscretelyValuedFields §4a.2;
+Tau Ceti `Polynomial.count_newtonSlopes_of_isFiniteFace`; Mathlib `Nat.factorization`.
+
+- `discriminantExponent_eq_sum_artinSlopeList` states the height identity with the Artin slopes
+  `a_i = s_i + 1` of `artinSlopeList K L M`, for `L/K` separable inside a finite Galois `M/K`:
+  `c(L/K) = f(e − 1) + f e Σ_i (p − 1)(a_i − 1)/p^{w+1−i}`. A route: 2.3, with the orbit count
+  equal to `f` on `(−1, 0]` and to `f ε p^j` on `(s_j, s_{j+1}]` (`s_0 = 0`, `s_{w+1} = ∞`), and
+  `Σ_{j<w} (p^w − p^j)(s_{j+1} − s_j) = (p − 1) Σ_i p^{i−1} s_i`.
+- `den_dvd_ordCompl_count_newtonSlopes` states the denominator theorem on the ramification
+  polynomial of a monic Eisenstein `φ` with a root `α` generating the separable `L`, for the
+  valuation `v` of Convention 4: for every rational `r`, `r.den` divides the prime-to-`p` part
+  `ordCompl[p]` of the count of `−r` in `Polynomial.newtonSlopes`. For a ram `r` that count is the
+  width `p^{w−k'}(p^d − 1)` of its face (1.2, `Polynomial.count_newtonSlopes_of_isFiniteFace`),
+  whose prime-to-`p` part is `p^d − 1`; for any other `r` the count is `0`.
 
 **Checks.**
 
@@ -1005,6 +1063,14 @@ of a ram divides `p^d − 1`, `d` its multiplicity (knowl `lf.rams`), sharpening
   `F_{x⁴+2x²+2}`, `4 = 3 + 4·(1/4)` for `F_{x⁴+2x+2}`, `5 = 2 + 3·1` for `ℚ_3(∛3)`,
   `31 = 7 + 8·3` for `ℚ_2(⁸√2)`.
 - (tame boundary) `ℚ_5(∛5)`: no means, height = 0 and `c = f(e − 1) = 2`.
+- (height identity on the list) `ℚ_2(∜2)` with `artinSlopeList = [3, 4]`:
+  `3 + 4·(1·2/2² + 1·3/2) = 11`; `ℚ_2(√2)` inside `M = ℚ_2(ζ_8)`, list `[3]`: `1 + 2·(2/2) = 3`;
+  `L = K`, empty list: `0`. Weighting by `p^{i}` instead of `p^{w+1−i}` would give `3 + 4·(1 + 3/4) = 10`
+  for the quartic.
+- (denominators) `x⁴ + 2x + 2`: the slope `−1/3` has count `3 = 2⁰(2² − 1)`, `ordCompl[2] 3 = 3`,
+  and `3 ∣ 3`; `x⁴ − 2`: the slope `−2` has count `2 = 2¹(2 − 1)`, `ordCompl[2] 2 = 1`, and the
+  denominator `1` divides it. A face of width `6 = 2·3` with slope `−1/6` passes the pinned bound
+  (`6 ∣ 6`) but not this theorem (`6 ∤ 3`).
 
 ### 2.7 The top slope
 
@@ -1052,6 +1118,12 @@ k = card (galoisArtinSlopes K L), that `t` is the order of `G_0/G_1` (cyclic, pr
 `_t` omitted when `t = 1` and `^u` omitted when `u = 1`, as a function slopeContentString. *Needs:* 2.2, 0.1; Tau Ceti
 `natCard_lowerRamificationGroup_zero`, `natCard_lowerRamificationGroup_one`, `hasseArf`.
 
+- The slope list of the slope content, sorted, is `artinSlopeList K M M` of 2.2 (`H = 1`): the
+  values `φ_{M/K}(i) + 1` at the lower jumps `i ≥ 1` of `M/K`, each listed `log_p [G_i : G_{i+1}]`
+  times, which are the positive `UpperJump`s of `M/K` plus one (`upperJump_herbrand_iff`).
+- `k` is its length, `t = [G_0 : G_1]` and `u = [G : G_0]`; `#G_1 = p^k` is
+  `natCard_lowerRamificationGroup_one` with `k = v_p(e(M/K))`.
+
 **Checks.**
 
 - (computation) `ℚ_2(∜2)`: `[2, 3, 4]`, `t = u = 1`, and `[M : K] = 8 = 1·1·2³`;
@@ -1092,7 +1164,9 @@ galoisMeanSlope K L = 1 − 1/(t p^k) + (p − 1) Σ_{i=1}^{k} (s_i − 1) / p^{
 ```
 
 from 2.3 with `E = M`: `c(M/K)/[M:K] = ∫_{-1}^{∞} (1 − 1/#G^u) du`, where `#G^u = t p^k` on
-`(-1, 0]` and `p^{#{i : s_i − 1 ≥ u}}` on `(0, ∞)`. Prove galoisMeanSlope K L = 0 exactly when
+`(-1, 0]` and `p^{#{i : s_i − 1 ≥ u}}` on `(0, ∞)`; this is `discriminantExponent_div_finrank_eq`,
+stated for every finite Galois `M/K` with `artinSlopeList K M M` as the slope list and the
+relative index `[G_0 : G_1]` as `t`. Prove galoisMeanSlope K L = 0 exactly when
 `L/K` is unramified and `= 1 − 1/t` exactly when `L/K` is tamely ramified. Prove invariance under
 `K`-isomorphism of `L`, that galoisMeanSlope K L = galoisMeanSlope K M, and that it equals
 `(e(M/K) − 1 + e(M/K) m(M/K))/e(M/K)` in the notation of 0.3. *Needs:* 2.3, 3.1;
@@ -1108,6 +1182,8 @@ Tau Ceti `discriminantExponent`.
 - Content `[]_3^2` gives `1−1/3=2/3=4/6`, despite closure degree `6`.
 - Unramified content `[]^2` gives `1−1=0=0/2`; using degree `2` in the tame term
   would incorrectly give `1/2`.
+- Content `[5/2]_2` over `ℚ_3` (the `S_3`-closure of `ℚ_3(∛3)`, `c(M/K) = 11`) gives
+  `1 − 1/6 + 2·(3/2)/3 = 11/6 = 11/6`; dropping the factor `p − 1 = 2` would give `4/3`.
 
 ### 3.4 Galois degree, inertia and wild inertia, automorphism group
 
@@ -1271,6 +1347,9 @@ Prove independence of the strict presentation and kernel generator and the class
 of `v_(I,β)` at `i∈I` is `p^{β(i)}` and all others are zero (Pagano, Theorems 1.4–1.5,
 p.6, pagano line 219). The jump set is the corresponding `A`; its length is not stipulated
 as `v_p(e)+1`. Define it as absent when `μ_p(K)={1}`.
+*Needs:* LocalFieldsRamification Layer 1 (principal-unit filtration and p-power map);
+Mathlib `IsPrimitiveRoot`, `PadicInt`, products and quotient modules. The filtered standard
+modules, strict presentation and relation-vector comparison are constructions of this section.
 
 - The pair-to-set and set-to-pair constructions are inverse; changing a presentation acts by
   a filtered automorphism and preserves the minimal-pair invariant.
@@ -1295,10 +1374,6 @@ as `v_p(e)+1`. Define it as absent when `μ_p(K)={1}`.
   `(I={1,3},β(1)=2,β(3)=1)` and `ρ²(1)=4<ρ(3)=5`.
 - In `ℚ_3(∛3)`, no primitive cube root of unity exists, so the field jump set is absent.
 
-*Needs:* LocalFieldsRamification Layer 1 (principal-unit filtration and p-power map);
-Mathlib `IsPrimitiveRoot`, `PadicInt`, products and quotient modules. The filtered standard
-modules, strict presentation and relation-vector comparison are constructions of this section.
-
 ### Examples
 
 For `X⁴−2`, the inseparability indices are `8,4,0`; the polygon slopes give rams
@@ -1312,9 +1387,9 @@ and the filtered-unit constructions of §4.2 for jump sets.
 ## Layer 5: Krasner's count by degree and discriminant
 
 Standing hypotheses: `K` as in Convention 1, `n ≥ 1`, `p`, `q` as above, `v_K(h) :=
-natCastValuation K h` for `h ≠ 0` in `K` and `v_K(h) = ∞` otherwise; `σ_K(n)` is Mass formula's
-`totallyRamifiedOfDegree K n` and `c(L)` its wild exponent (= height K L by 0.3), so the
-discriminant exponent is `n − 1 + c(L)`.
+natCastValuation K h` for `h ≠ 0` in `K` and `v_K(h) = ∞` otherwise; `σ_K(n)` is Tau Ceti's
+`totallyRamifiedOfDegree K n` and `c(L)` its wild exponent `IntermediateField.wildExponent`
+(= height K L by 0.3), so the discriminant exponent is `n − 1 + c(L)`.
 
 ### 5.1 Ore's conditions
 
@@ -1326,14 +1401,18 @@ Eisenstein generator with coefficients `φ_h`, `c(L) = min_{1 ≤ h ≤ n} t_h` 
 `t_h := n(v_K(φ_h) − 1 + v_K(h)) + h` and `t_n = n v_K(n)`, the `t_h` are pairwise incongruent
 modulo `n` for `h < n`, so the minimum `a n + b` with `b > 0` is attained at `h = b` and forces
 `v_K(φ_b) = a + 1 − v_K(b) ≥ 1`, while `b = 0` forces `h = n`. The converse exhibits
-`X^n + π^{a+1-v_K(b)} X^b + π` (`b > 0`) and `X^n + π` (`b = 0`, `j = n v_K(n)`). Over `ℚ_p`
+`X^n + π^{a+1-v_K(b)} X^b + π` (`b > 0`) and `X^n + π` (`b = 0`, `j = n v_K(n)`); in equal
+characteristic with `p ∣ n` the case `b = 1` is Tau Ceti's
+`exists_mem_totallyRamifiedOfDegree_discriminantExponent_eq` (`X^n + π^m X + π`). Over `ℚ_p`
 this is Ore's condition `min(v_p(b) n, v_p(n) n) ≤ j ≤ v_p(n) n` (Pauli–Roblot, author preprint, Proposition 3.1, p.3; pauli-roblot line 113). *Needs:* Tau Ceti
-`natCast_differentExponent_eq_iInf_of_eisenstein_adjoin_eq_top`, `addVal_sum_eisenstein_powerBasis`;
-Mass formula Layer 0.
+`natCast_differentExponent_eq_iInf_of_eisenstein_adjoin_eq_top`, `addVal_sum_eisenstein_powerBasis`,
+`totallyRamifiedOfDegree`, `IntermediateField.wildExponent`, `IntermediateField.natCast_wildExponent`
+(`MassFormula/Basic.lean`).
 
 - The predicate is on `n>0`; `natValuation` assigns infinity to an integer that vanishes in K.
-- `ore_realizability` asserts existence of an actual separable subextension if and only if
-  the predicate holds, with discriminant exponent `n−1+j`.
+- `ore_realizability` asserts that some member of `totallyRamifiedOfDegree K n` has
+  `IntermediateField.wildExponent` equal to `j` (discriminant exponent `n−1+j`) if and only if
+  the predicate holds.
 - In the case `b=0`, admissibility requires `a=v_K(n)`; it cannot be dropped from box counts.
 
 **Checks.**
@@ -1351,7 +1430,7 @@ For admissible `j`, define eisensteinBox K n j as the set of coefficient vectors
 `v_K(a_0) = 1`, and, writing `j = an + b`: if `b > 0`, `v_K(a_b) = a + 1 − v_K(b)` exactly and
 `v_K(a_h) ≥ ν_h` for `0 < h < n`, `h ≠ b`; if `b = 0`, `v_K(a_h) ≥ ν_h` for all `0 < h < n`,
 where `ν_h := max(1, a + 1 − v_K(h) + [h < b])`. Prove: eisensteinBox K n j ⊆ eisensteinSet K n
-(Mass formula Layer 3), the boxes for distinct `j` are disjoint, their union over admissible `j` is
+(Tau Ceti's `eisensteinSet`, `MassFormula/Eisenstein/Region.lean`), the boxes for distinct `j` are disjoint, their union over admissible `j` is
 the Eisenstein region up to the null set of inseparable polynomials, a polynomial with coefficient
 vector in the box has every root generating a member of `σ_K(n)` with `c = j`, and the measure is
 
@@ -1359,8 +1438,10 @@ vector in the box has every root generating a member of `σ_K(n)` with `c = j`, 
 μ(eisensteinBox K n j) = q^{-1}(1 − q^{-1}) · (q^{-(a+1−v_K(b))}(1 − q^{-1}))^{[b>0]} · Π_{h ≠ 0, b} q^{-ν_h}
 ```
 
-for admissible `j` and the Haar measure normalized on the integer box (Mass formula Layer 2's box volumes). *Needs:*
-5.1; Mass formula Layers 2–3 (`eisensteinSet`, `measure_eisensteinSet`, box volumes).
+for admissible `j` and the Haar measure normalized on the integer box (the box volumes of
+`MeasureTheory.Measure.measure_image_mulVec_integerBox`). *Needs:* 5.1; Tau Ceti `eisensteinSet`,
+`mem_eisensteinSet_iff_exists_isEisensteinAt`, `measure_eisensteinSet`,
+`MeasureTheory.Measure.measure_image_mulVec_integerBox`.
 
 - The empty inadmissible box has measure zero and contributes no field.
 - On an admissible box the derivative minimum is exactly `j`; the equality at `b>0`
@@ -1386,10 +1467,11 @@ admissible `j`,
 #{ L ∈ σ_K(n) : c(L) = j } = n · q^{n + j} · μ(eisensteinBox K n j) / (1 − q^{-1}),
 ```
 
-a natural number. The proof integrates Mass formula Layer 3's root-count identity
-`Σ_L rootCount L = n` over the box, uses that `rootCount L` vanishes off the box when `c(L) ≠ j`
+a natural number. The proof integrates the root-count identity `Σ_L rootCount L = n` (Tau Ceti's
+`tsum_rootCount_eq_of_separable`, `MassFormula/RootCount.lean`) over the box, uses that `rootCount L` vanishes off the box when `c(L) ≠ j`
 (by 5.2), and divides by the integral of the root count, `q^{-(n+j)}(1 − q^{-1})`, which is
-constant on `{c = j}`; countability and measurability are Mass formula's. Prove the **closed form
+constant on `{c = j}` (`IntermediateField.lintegral_rootCount`); countability and measurability are
+Tau Ceti's (`countable_totallyRamifiedOfDegree`, `aemeasurable_rootCount_restrict_eisensteinSet`). Prove the **closed form
 over `ℚ_p`** (`v_K = v_p`): with `j = an + b`,
 
 ```text
@@ -1398,15 +1480,17 @@ over `ℚ_p`** (`v_K = v_p`): with `j = an + b`,
 ```
 
 by evaluating `Σ_h ν_h` (Pauli–Roblot, author preprint, Theorem 6.1, p.7).
-The acceptance theorem `krasner_refined_count` gives finiteness and cardinality of the actual
-subfields with invariants `(n,1,n−1+j)`, using `HasExtensionInvariants` and the box expression
-`krasnerCount`; `oreCoefficientDepth` is `ν_h`. Prove bounded-discriminant finiteness for every
+The acceptance theorem `krasner_refined_count` gives finiteness and cardinality of the members
+of `totallyRamifiedOfDegree K n` with `IntermediateField.wildExponent` equal to `j`, using the box
+expression `krasnerCount`; `oreCoefficientDepth` is `ν_h`. Prove bounded-discriminant finiteness for every
 local field: for fixed `n,D`, only finitely many such subfields have height at most `D`.
 Prove the
-**consistency theorem** `Σ_j #{c = j} q^{-j} = n`, by summing the formula, which is Mass formula's
-Theorem 1 regrouped by `c`; and the isomorphism-class form, through the orbit count,
-`Σ_{[L] : c = j} 1/#Aut_K(L) = #{c = j}/n`. *Needs:* 5.2; Mass formula Layers 3–4 (root-count
-integral, Theorem 1, orbit count, `TauCetiRoadmap.MassFormula.card_aroots_eq`).
+**consistency theorem** `Σ_j #{c = j} q^{-j} = n`, by summing the formula, which is Serre's
+Theorem 1 (`tsum_one_div_natCard_residueField_pow_wildExponent`) regrouped by `c`; and the isomorphism-class form, through the orbit count,
+`Σ_{[L] : c = j} 1/#Aut_K(L) = #{c = j}/n`. *Needs:* 5.2; Tau Ceti
+`tsum_rootCount_eq_of_separable`, `IntermediateField.lintegral_rootCount`,
+`tsum_one_div_natCard_residueField_pow_wildExponent`, `ncard_isomorphic_mul_natCard_algEquiv`,
+`exists_card_aroots_eq`.
 
 **Checks.**
 
@@ -1420,8 +1504,8 @@ integral, Theorem 1, orbit count, `TauCetiRoadmap.MassFormula.card_aroots_eq`).
 ### 5.4 The total count of extensions of given degree
 
 Prove Krasner's **total count**: `#σ_K(n) = Σ_{j admissible} #{c = j}` as a cardinal sum
-(or a sum of counts in `ℝ≥0∞`). By MassFormula Layer 4’s finiteness dichotomy it is finite
-exactly when `char K=0` or `p∤n`. In those cases it is a finite sum of the box counts; record the values `#σ_{ℚ_2}(2) = 6`, `#σ_{ℚ_3}(3) = 21`,
+(or a sum of counts in `ℝ≥0∞`). By Tau Ceti's finiteness dichotomy
+`infinite_totallyRamifiedOfDegree_iff` it is finite exactly when `char K=0` or `p∤n`. In those cases it is a finite sum of the box counts; record the values `#σ_{ℚ_2}(2) = 6`, `#σ_{ℚ_3}(3) = 21`,
 `#σ_{ℚ_2}(4) = 92`. Prove that the number of all (not necessarily totally ramified) extensions of
 `K` of degree `n` inside the separable closure is `Σ_{ef = n} #σ_{K_f}(e)` with `K_f` the
 unramified extension of degree `f`, each `L` arising from its canonical tower exactly once
@@ -1441,7 +1525,7 @@ Quadratic extensions of `ℚ_2` occupy two discriminant strata with embedded cou
 
 ### Dependencies
 
-Layer 0; MassFormula Layers 0, 2–4, especially the root-count integral and orbit count.
+Layer 0; Tau Ceti's mass formula at the pin, especially the root-count integral and orbit count.
 
 ## Layer 6: Herbrand invariants, families, packets and masses
 
@@ -1503,7 +1587,6 @@ exactly when its small ram `r_k^*` equals the finite value `e_K`; equality is im
   and empty ram list, not an arithmetic ram.
 - Swan `[1,2]` for `ℚ_2(ζ_8)` gives means `[1/2,5/4]`, rams `[1,3]`, height `5`,
   discriminant exponent `8`. Using `[2,3]` as Swan instead gives height `8` and exponent `11`.
-
 - Over `𝔽₂((t))`, `X²+t^m X+t` for `m=1,2,3` has nonzero derivative `t^m`,
   height and ram `2m−1=1,3,5`. All three are compatible with `e_K=∞`; a finite
   absolute-index cutoff would wrongly exclude sufficiently large `m`. The inseparable
@@ -1514,7 +1597,7 @@ exactly when its small ram `r_k^*` equals the finite value `e_K`; equality is im
 
 Define the **family** family K I as the set of `L ∈ IntermediateField K (SeparableClosure K)`,
 finite separable over `K`, with herbrandInvariant K L = I, and a **representative set** of it
-as in Mass formula Convention *Representative sets are a predicate*; `I/K` in prose means the set
+in the style of Tau Ceti's `IsRepresentativeSet`, a predicate and not a quotient; `I/K` in prose means the set
 of `K`-isomorphism classes of members. Prove (knowl `lf.family_invariants`): `p`, `n`, `e`, `f`,
 `c`, the Artin and Swan slopes, means and rams are constant on the family, as are the ramification
 polygon (1.2) and the number of wild segments; and prove that the family of `L` is the set of
@@ -1536,7 +1619,6 @@ The bijection is the restriction of the class–orbit bijection of EtaleMassForm
 - (membership) The family `[1, 5/2]` over `ℚ_2` (Artin `[2, 7/2]`, prefix `2.1.4.9`)
   contains `F_{x⁴+2x²+2}`, with closure `D_4` and hidden slope `[3]`.
 - (rejection) No family over `ℚ_2` has invariant `[3]` with `e = 2`: `[3]` is incompatible (6.2).
-
 - For `K=ℚ₂`, `f=2`, `e=2`, the two relative families over the unramified quadratic
   base have `6` and `8` classes. Frobenius fixes each family setwise but fixes only `6`
   classes in their union, exchanging the other `8` in `4` pairs: there are `10` absolute
@@ -1585,7 +1667,8 @@ is final in its run (`k = w` or `s_k < s_{k+1}`) the left end `ε p^k m_k = H(V_
 integer (2.6) and this number is `⌈r_k⌉`, whereas inside a run of equal rams it can be smaller.
 Prove also that the number of C-points on or below the top edge of `B_k` is `⌊r_k⌋` (knowl
 `lf.eisenstein_diagram`). *Needs:* 6.1,
-6.2, 1.1–1.3, 2.6; Mathlib `MvPolynomial`; MassFormula Layer 1 (quantitative root lifting).
+6.2, 1.1–1.3, 2.6; Mathlib `MvPolynomial`; Tau Ceti `Polynomial.exists_isRoot_addVal_eval_eq`,
+`Polynomial.existsUnique_isRoot_addVal_lt` (quantitative root lifting).
 
 Define separately the **reduced specialization set**, relative to fixed representatives of
 `𝓀[K_f]ˣ/(𝓀[K_f]ˣ)^e` for the constant coefficient (choose `1` when this quotient
@@ -1621,9 +1704,10 @@ For `e_K=∞`, establish the same inequalities directly with the vanishing integ
 coefficients omitted; every finite compatible list gives a finite diagram, all bands
 are geometric, and its nonzero A coefficients ensure a finite first vertex and separability.
 Coverage and reduction then use Monge's argument, whose scope includes equal characteristic
-(§1.2, p.2), with the quantitative root lifting of MassFormula Layer 1. For `w=0`, use the
-tame branch above. *Needs:* §§1.1–1.3, 2.5, 6.2; RamificationOfCompleteDiscretelyValuedFields
-§4a.2; MassFormula Layer 1; Tau Ceti
+(§1.2, p.2), with Tau Ceti's quantitative root lifting `Polynomial.exists_isRoot_addVal_eval_eq`.
+For `w=0`, use the tame branch above. *Needs:* §§1.1–1.3, 2.5, 6.2;
+RamificationOfCompleteDiscretelyValuedFields §4a.2; Tau Ceti
+`Polynomial.exists_isRoot_addVal_eval_eq`, `Polynomial.existsUnique_isRoot_addVal_lt`,
 `IsTotallyRamified.exists_pow_eq_uniformizer_of_isTamelyRamified`.
 
 **Checks.**
@@ -1676,8 +1760,10 @@ uniformizer residue classes giving a fixed field, using the coefficient-change i
 (Monge, arXiv:1109.4617v2, §2.1, Lemma 3, p.6), including the multiplicative change at
 level zero, and dividing by the free action of `Aut(L/K_f)` on generators. Each
 noncritical additive map is surjective; keeping all values at critical levels counts
-image choices as well as kernel choices. Establish this finite count using the root-count
-fibres of MassFormula Layer 3; it is a new comparison for the full-residue set.
+image choices as well as kernel choices. Establish this finite count using Tau Ceti's root-count
+fibres (`IntermediateField.rootCount_eq_sum_ite_of_eisenstein`,
+`IntermediateField.measure_image_setOf_exists_aeval_monicOfCoeff_eq_zero_le_addVal`); it is a new
+comparison for the full-residue set.
 Division of the two counts gives the displayed mass formula in both characteristics.
 
 For the reduced set use Monge's different count: put
@@ -1701,12 +1787,16 @@ Prove the
 ```
 
 where the exponent is the **wild exponent** `H(I) = n m_w(I) = c(I) − n + 1` of the family and
-not its discriminant exponent; this is Mass formula's Theorem 2 regrouped along the partition of
-`σ_K(n)`'s isomorphism classes into families (6.3), the sum being finite by 5.3 in mixed
-characteristic and as the nonnegative sum in `ℝ≥0∞` of MassFormula Layer 4 otherwise; and the unweighted degree-`n` mass
+not its discriminant exponent; this is Serre's Theorem 2
+(`IsRepresentativeSet.tsum_one_div_natCard_algEquiv_mul_natCard_residueField_pow_wildExponent`)
+regrouped along the partition of `σ_K(n)`'s isomorphism classes into families (6.3), the sum being
+finite by 5.3 in mixed characteristic and the nonnegative sum in `ℝ≥0∞` of that theorem otherwise; and the unweighted degree-`n` mass
 is the sum of the family masses, equal to `Σ_[L] 1/#Aut`, the mass of `σ_K(n)`. The columns `mass_stored`,
-`mass_found` are data. *Needs:* 6.3, 6.4, 5.3; EtaleMassFormula §1.2; Mass formula Layer 4 (Theorem 2, orbit count),
-Layer 3 (fibre count); RamificationOfCompleteDiscretelyValuedFields §4a.2; §1.3 and the tame branch of §6.4.
+`mass_found` are data. *Needs:* 6.3, 6.4, 5.3; EtaleMassFormula §1.2; Tau Ceti
+`IsRepresentativeSet.tsum_one_div_natCard_algEquiv_mul_natCard_residueField_pow_wildExponent`,
+`ncard_isomorphic_mul_natCard_algEquiv`, `IntermediateField.rootCount_eq_sum_ite_of_eisenstein`,
+`IntermediateField.measure_image_setOf_exists_aeval_monicOfCoeff_eq_zero_le_addVal`;
+RamificationOfCompleteDiscretelyValuedFields §4a.2; §1.3 and the tame branch of §6.4.
 
 **Checks.**
 
@@ -1785,9 +1875,20 @@ splitting field of `X^{p^i}−1`, with the pinned finite-extension valuation.
 
 Define `IsInertiaRepresentativeSet K e f R` by requiring every member of `R` to have these
 invariants and every such finite subextension of `SeparableClosure K` to be K-isomorphic to
-exactly one member of `R`. This differs from MassFormula's representative predicate by allowing
-arbitrary prescribed inertia degree. `HasExtensionInvariants K E e f c` installs the canonical
-local-field structures on a finite subextension and asserts the actual values `(e,f,c)`.
+exactly one member of `R`. This differs from Tau Ceti's `IsRepresentativeSet` (inertia degree `1`,
+`MassFormula/Representative.lean`) by allowing an arbitrary prescribed inertia degree.
+`HasExtensionInvariants K E e f` installs the canonical local-field structures on a finite
+subextension and asserts the actual values `(e, f)`; for `f = 1` it is membership in
+`totallyRamifiedOfDegree K e`.
+
+The absolute specializations include `N_2(2,1) = 6`, `N_2(4,1) = 48`, `N_3(3,1) = 9`, `N_2(8,1) = 1544`, `N_5(5,1) = 25`,
+`N_2(2,2) = 10`, `N_3(9,1) = 753`, with the degree totals `Σ_{ef = n} N_p(e, f)` equal to
+`7, 59, 10, 1823, 26, 795` for `(p, n) = (2,2), (2,4), (3,3), (2,8), (5,5), (3,9)`.
+*Needs:* §5.4; EtaleMassFormula §§1.1–1.2; LocalFieldsRamification Layer 1 (the principal-unit filtration);
+ClassFieldTheory Layers 6–7 (local reciprocity), Layer 8 (existence, uniqueness, quotient isomorphism and degree-index correspondence);
+Mathlib `Nat.totient`, `Nat.divisors`, `Polynomial.SplittingField`, `AlgEquiv`;
+Tau Ceti `algebraicExtensionValuativeRel`, `algebraicExtensionNormedFieldTopology`,
+`algebraicExtension_valuativeExtension` and `finiteExtension_isNonarchimedeanLocalField`.
 
 - Existence and the count refer to field classes, not numerical evaluations alone.
 - Every representative set is finite and has the same cardinality, by K-algebra equivalence.
@@ -1803,52 +1904,45 @@ local-field structures on a finite subextension and asserts the actual values `(
 - For the tame quadratic extensions of `ℚ_3`, only `i=0` contributes and the count is `2`.
   Selecting two distinct embedded conjugates of a non-Galois class fails uniqueness, even
   though those intermediate fields are different as subsets.
-
-Over `ℚ₃`, the three index-two open norm subgroups correspond to three quadratic
-extensions: one unramified and two ramified. The index-two subgroup containing all units
-gives the unramified extension; the other two do not contain all units. This checks both
-existence from a subgroup and the degree-index equality.
-
-The absolute specializations include `N_2(2,1) = 6`, `N_2(4,1) = 48`, `N_3(3,1) = 9`, `N_2(8,1) = 1544`, `N_5(5,1) = 25`,
-`N_2(2,2) = 10`, `N_3(9,1) = 753`, with the degree totals `Σ_{ef = n} N_p(e, f)` equal to
-`7, 59, 10, 1823, 26, 795` for `(p, n) = (2,2), (2,4), (3,3), (2,8), (5,5), (3,9)`.
-*Needs:* §5.4; EtaleMassFormula §§1.1–1.2; LocalFieldsRamification Layer 1 (the principal-unit filtration);
-ClassFieldTheory Layers 6–7 (local reciprocity), Layer 8 (existence, uniqueness, quotient isomorphism and degree-index correspondence);
-Mathlib `Nat.totient`, `Nat.divisors`, `Polynomial.SplittingField`, `AlgEquiv`;
-Tau Ceti `algebraicExtensionValuativeRel`, `algebraicExtensionNormedFieldTopology`,
-`algebraicExtension_valuativeExtension` and `finiteExtension_isNonarchimedeanLocalField`.
+- Over `ℚ₃`, the three index-two open norm subgroups correspond to three quadratic
+  extensions: one unramified and two ramified. The index-two subgroup containing all units
+  gives the unramified extension; the other two do not contain all units. This checks both
+  existence from a subgroup and the degree-index equality.
 
 ### 6.8 Completeness of a totally ramified list by its mass
 
-Let `K` be any nonarchimedean local field, `q=Nat.card 𝓀[K]`, `n≥1`, and let `S`
-be a finite set of pairwise non-K-isomorphic separable totally ramified degree-n extensions.
-Prove `mass_completeness`: every separable totally ramified degree-n extension is K-isomorphic
-to a member of `S` if and only if `Σ_{L∈S} 1/(#Aut_K(L) q^{H(L)})=1`. Extend `S` to a representative set;
-Serre's convergent mass formula and positivity show that the complementary sum is zero
-exactly when the complement is empty. This argument holds in both characteristics. A finite
-complete list exists exactly when `char K=0` or `p∤n`, by MassFormula Layer 4’s finiteness
-dichotomy and orbit count. In the wild equal-characteristic case both sides of the equivalence
-are false for every finite `S`.
-For the acceptance statement, `totallyRamifiedHeight K E` is the simple wrapper
-`discriminantExponent K E + 1 − Module.finrank K E` with the canonical finite-intermediate-field
-structures installed, and value zero when `E/K` is infinite. On the valid members of `S`,
-`HasExtensionInvariants K E n 1 c` identifies this with §0.3's height, so the subtraction
-is faithful. It is an adapter for the MassFormula wild exponent, not a second invariant.
+Let `K` be any nonarchimedean local field, `q=Nat.card 𝓀[K]`, `n≥1`, and let `S` be a finite set of
+pairwise non-K-isomorphic members of `σ_K(n) = totallyRamifiedOfDegree K n`. Prove
+`mass_completeness`: `S` is a set of representatives of the `K`-isomorphism classes of `σ_K(n)`
+(Tau Ceti's `IsRepresentativeSet n S`) if and only if `Σ_{L∈S} 1/(#Aut_K(L) q^{H(L)})=1`, with
+`H(L)` the wild exponent `IntermediateField.wildExponent` (Serre's `c(L)`). The forward direction is Serre's second
+mass formula
+`IsRepresentativeSet.tsum_one_div_natCard_algEquiv_mul_natCard_residueField_pow_wildExponent`.
+For the converse, extend `S` to a set of representatives (`exists_isRepresentativeSet`, choosing
+the members of `S` in their classes); by the same formula and positivity of every term the
+complementary sum is zero exactly when the complement is empty. This argument holds in both
+characteristics. A finite set of representatives exists exactly when `char K=0` or `p∤n`, by
+`infinite_totallyRamifiedOfDegree_iff` and the orbit count `ncard_isomorphic_mul_natCard_algEquiv`.
+In the wild equal-characteristic case both sides of the equivalence are false for every finite `S`.
 
-- Membership asserts finiteness, ramification index `n` and inertia degree `1`; separability
-  is enforced by the carrier `IntermediateField K (SeparableClosure K)`.
-- The finite set must contain at most one member of every K-isomorphism class.
+- Membership in `σ_K(n)` asserts finiteness, degree `n` and total ramification; separability is
+  enforced by the carrier `IntermediateField K (SeparableClosure K)`.
+- The finite set must contain at most one member of every K-isomorphism class; with that
+  hypothesis, `IsRepresentativeSet n S` says exactly that every member of `σ_K(n)` is
+  `K`-isomorphic to a member of `S`.
 - Every term is positive: the automorphism group is finite and nonempty and `q>1`.
 
-*Needs:* §0.3, §0.5, §5.1's `HasExtensionInvariants`; MassFormula Layer 4,
-*Theorem 2*, *finiteness dichotomy* and *orbit count*; pinned finite-intermediate-field adapters.
+*Needs:* §0.5; Tau Ceti `totallyRamifiedOfDegree`, `IntermediateField.wildExponent`,
+`IsRepresentativeSet`, `exists_isRepresentativeSet`,
+`IsRepresentativeSet.tsum_one_div_natCard_algEquiv_mul_natCard_residueField_pow_wildExponent`,
+`infinite_totallyRamifiedOfDegree_iff`, `ncard_isomorphic_mul_natCard_algEquiv`.
 
 **Checks.**
 
-- For `n=1`, the singleton base field has `c=0`, height `0+1−1=0`, one automorphism
-  and mass `1`; the empty set has mass `0` and is incomplete. The condition `n>0`
-  excludes degree zero. An infinite intermediate field gives the wrapper value `0`
-  but fails membership, and an unramified quadratic fails the required inertia degree `1`.
+- For `n=1`, `σ_K(1) = {K}` (`totallyRamifiedOfDegree_one`): the singleton has `H=0`, one
+  automorphism and mass `1`; the empty set has mass `0` and is not a set of representatives. The
+  condition `n>0` excludes degree zero. An infinite intermediate field has the junk wild exponent
+  `0 + 1 − 0 = 1` but is not in `σ_K(n)`, and an unramified quadratic is not totally ramified.
 - (quadratic over `ℚ_2`) The six fields `ℚ_2(√d)`, `d ∈ {−1, −5, ±2, ±10}`, of the families `[1]`
   and `[2]` (6.3) have `#Aut = 2` and `H = 1, 1, 2, 2, 2, 2`: mass `2·(1/4) + 4·(1/8) = 1`, so the
   list is complete. Omitting a member of `[1]` leaves `3/4`, omitting a member of `[2]` leaves
@@ -1863,9 +1957,8 @@ is faithful. It is an adapter for the MassFormula wild exponent, not a second in
   the trivial class and the unramified one).
 - (equal characteristic) Over `𝔽_2((t))` with `n = 2` there are infinitely many classes, so no
   finite list reaches mass `1` and neither side of the finite-set equivalence holds.
-
 - Over `𝔽_3((t))`, the two tame quadratic classes represented by `√t,√(2t)` each have
-  two automorphisms and height `0`; their mass is `1/2+1/2=1`. This is a finite complete
+  two automorphisms and wild exponent `0`; their mass is `1/2+1/2=1`. This is a finite complete
   list in equal characteristic.
 
 ### Examples
@@ -1876,7 +1969,8 @@ Their normalized mass is `1/2+2/4=1`; over the unramified quadratic base there a
 
 ### Dependencies
 
-Layers 0–3 and 5; MassFormula Layers 1, 3–4; ClassFieldTheory Layers 6–8 for Monge’s count.
+Layers 0–3 and 5; Tau Ceti's mass formula at the pin (root lifting, root-count fibres, Serre's
+Theorem 2, orbit count); ClassFieldTheory Layers 6–8 for Monge’s count.
 Compatibility necessity precedes the generic-polynomial existence theorem.
 
 ## Layer 7: the Galois root discriminant
@@ -1954,6 +2048,9 @@ that `galoisRootDiscriminant F ≤ Π_{p | disc F} p^{1 + v_p([N:ℚ])}` for eve
 the inequality is strict when the ramified-prime support is nonempty. *Needs:*
 7.1, 7.2; Tau Ceti `Different/Wild.lean`; Mathlib `Nat.factorization_prod_pow_eq_self`.
 
+The acceptance theorem `galoisRootDiscriminant_eq_prod` uses the actual prime factors of the
+absolute discriminant, hence its product for the rational field is the empty product.
+
 **Checks.**
 
 - For `F=ℚ`, the support is empty and both sides of the non-strict bound are `1`;
@@ -1961,9 +2058,6 @@ the inequality is strict when the ramified-prime support is nonempty. *Needs:*
 - For `ℚ(√5)`, `gms₅=1/2` and the product is `√5<5`, with one ramified prime.
 - For `ℚ(∜2)`, the closure has degree `8`, discriminant `2²⁴`, and product `2³=8`;
   the degree bound gives `8<2⁴=16`.
-
-The acceptance theorem `galoisRootDiscriminant_eq_prod` uses the actual prime factors of the
-absolute discriminant, hence its product for the rational field is the empty product.
 
 ### Examples
 
@@ -2110,14 +2204,14 @@ Tau Ceti LocalField (pin) ──► Layer 0 ──► Layer 1 ──► Layer 2 
 Tau Ceti NewtonPolygon (pin) ───────┘        │          │            │
                                               ▼          ▼            ▼
                                            Layer 4    Layer 5      Layer 7
-MassFormula L0, 3, 4 ────────────────────────────────► Layer 5 ──► Layer 6 ◄── Layers 1–3
+Tau Ceti MassFormula (pin) ──────────────────────────► Layer 5 ──► Layer 6 ◄── Layers 1–3
 NumberFieldArithmetic L5–6 ───────────────────────────────────────► Layer 7
 ```
 
 Layer 0 first. Layer 1 needs Layer 0 and Tau Ceti's Newton polygons. Layer 2 needs Layers 0–1,
 the Tau Ceti Herbrand package and RamificationOfCompleteDiscretelyValuedFields §4a.2; 2.1–2.3 can be built in
 parallel with Layer 1 and meet it at 2.5. Layer 3 needs Layer 2. Layer 4 needs Layers 1–2 (4.1) and only Local fields and ramification Layer 1
-(4.2), so 4.2 is independent of everything else here. Layer 5 needs Layer 0 and Mass formula, not
+(4.2), so 4.2 is independent of everything else here. Layer 5 needs Layer 0 and Tau Ceti's mass formula, not
 Layers 1–4. Layer 6 needs Layers 1–3 and 5. Layer 7 needs 3.3 and Number-field arithmetic and is
 otherwise independent of Layers 4–6.
 
@@ -2131,10 +2225,12 @@ otherwise independent of Layers 4–6.
   in *Représentations des groupes réductifs sur un corps local*, Hermann, 1984: Appendix,
   §A.6 (ramification of a non-Galois extension; Props. A.6.1–A.6.2), the source for Layer 2.
 - C. Greve and S. Pauli, *On ramification polygons and Galois groups of Eisenstein
-  polynomials*, author preprint: Lemma 4.1 and Proposition 4.3, pp.5–6; Theorem 6.2;
-  Theorems 7.3–7.4; §8. These locators refer to the author preprint, whose numbering
-  differs from *Ramification polygons, splitting fields, and Galois groups of Eisenstein
-  polynomials*, Int. J. Number Theory 8 (2012), 1401–1424.
+  polynomials*, author preprint: §4, p.5 (in the Galois case a slope `−m` of the ramification
+  polygon is a jump at `m`); Lemma 4.1 and Proposition 4.3, pp.5–6; Theorem 6.2;
+  Theorems 7.3–7.4; §8, p.15 (Galois groups of polygons with one segment). These locators
+  refer to the author preprint, whose numbering differs from *Ramification polygons, splitting
+  fields, and Galois groups of Eisenstein polynomials*, Int. J. Number Theory 8 (2012),
+  1401–1424.
 - S. Pauli and B. Sinclair, *Enumerating extensions of (π)-adic fields with given invariants*,
   Int. J. Number Theory 13 (2017), 2007–2038; locators refer to arXiv:1504.06671v1:
   Proposition 3.10, pp.7–9, and Proposition 3.11, pp.9–10 (polygon realization), Lemma 5.7, p.19
@@ -2173,7 +2269,8 @@ otherwise independent of Layers 4–6.
   Theorems 1.4–1.5, p.6. These are the preprint locators; the published paper is
   J. Algebra 592 (2022), 1–50.
 - J.-P. Serre, *Une « formule de masse » pour les extensions totalement ramifiées de degré donné
-  d'un corps local*, C. R. Acad. Sci. Paris 286 (1978), 1031–1036: consumed through Mass formula.
+  d'un corps local*, C. R. Acad. Sci. Paris 286 (1978), 1031–1036: consumed through Tau Ceti's
+  mass formula at the pin.
 - The LMFDB knowls `lf.slopes`, `lf.visible_slopes`, `lf.hidden_slopes`, `lf.slope_content`,
   `lf.galois_mean_slope`, `lf.ramification_polygon`, `lf.residual_polynomials`,
   `lf.associated_inertia`, `lf.indices_of_inseparability`, `lf.jump_set`, `lf.herbrand_invariant`,
