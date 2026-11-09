@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower
+import TauCeti.Algebra.Category.ModuleCat.Sheaf.ExteriorPower.Basic
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Cohomology.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
