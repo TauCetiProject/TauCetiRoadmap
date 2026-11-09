@@ -5152,12 +5152,16 @@ over `F₂` for `r = 2` (§7.1). Prove that for `a ≥ b` and `(a + b)!` inverti
 route is induction on `b`: split `Sym^a V ⊗ V ⊗ Sym^{b−1}V` by Pieri on either side and cancel the
 common summand `det ⊗ Sym^a V ⊗ Sym^{b−2}V` by Krull–Schmidt cancellation (a summand of finite
 length cancels from an isomorphism of direct sums; as `k[Γ]`-modules all the modules involved are
-finite-dimensional over `k`, hence of finite length); then
-`(Sym^{n−1}V)^∨ ≅ Sym^{n−1}V ⊗ det^{1−n}` gives the formula for `End`. CHT, proof of Lemma 2.5.2,
-p. 56, states the resulting
+finite-dimensional over `k`, hence of finite length); then, for `n ≥ 2`, the duality
+`(Sym^{n−1}V)^∨ ≅ Sym^{n−1}V ⊗ det^{1−n}` of §7.4 gives the formula for `End` (its hypotheses
+`2, (n − 1)! ∈ k^×` follow from `(2n − 2)! ∈ k^×`; for `n = 1` both sides are trivial of rank one).
+CHT, proof of Lemma 2.5.2, p. 56, states the resulting
 decomposition of `ad Sym^{n−1}` as an `SL₂(F_ℓ)`-module for primes `ℓ > 2n − 1`.
 *Needs:* §7.1 (the quotient symmetric powers and `∧²V = det`); §1.2 (duals and tensor products);
-Tau Ceti `TauCeti.nonempty_linearEquiv_of_prod_linearEquiv_of_isFiniteLength`.
+§7.4 **Symmetric powers of a symplectic plane** (for `n ≥ 2`, applied to `h(u, w) = det(u | w)` in a
+basis of `V`, for which every `g ∈ GL(V)` has multiplier `det g`: the perfect pairing `B_{n−1}` on
+`Sym^{n−1}V` with multiplier `det^{n−1}`, whence the duality); Tau Ceti
+`TauCeti.nonempty_linearEquiv_of_prod_linearEquiv_of_isFiniteLength`.
 
 **Modulo `p`.** For `V` two-dimensional over `k ⊇ F_p` perfect and `0 < r < p`, construct the
 natural exact sequence
