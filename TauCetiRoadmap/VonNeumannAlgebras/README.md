@@ -871,9 +871,9 @@ inner-product carrier is introduced.
 
 Prove the unique complex-linear unitary `L²(μ)⊗̂L²(ν)≃ₗᵢ[ℂ]L²(κ)` sending f⊗g to the a.e. class of `(x,y)↦f(x)g(y)`, with its exact norm and inner-product formulas, bilinearity, dense range and uniqueness on elementary tensors. Include zero measures, empty carriers and zero L² factors, with no separability assumption on the measure spaces or Hilbert spaces. Prove that changing either representative on a marginal null set changes the product only on a κ-null cylinder. Construct the map first on finite-measure simple-function factors using rectangle pairings, then extend through the existing completed Hilbert tensor. For surjectivity prove that finite spans of indicators of rectangles with finite marginal measures are dense in L²(κ). If κ(E)<∞, choose a countable rectangle cover with total cost<κ(E)+ε, discard its zero-cost rectangles modulo a κ-null union, and take finite subunions of its positive finite-cost rectangles; these have finite marginal measures and approximate E in symmetric-difference measure. Use native `Lp.simpleFunc.denseRange` for p=2 to pass from finite-measure indicators to all L² classes. Identify the completed map with pointwise products by measurable representatives and a.e.-convergent subsequences; do not infer a pointwise formula from a merely abstract Hilbert-space isomorphism.
 
-Prove naturality under measure-preserving measurable equivalences of the factors and compatibility with the Hilbert tensor flip and the coordinate swap. For any measure η let η̂ denote its completion on the completed σ-algebra of the same carrier. Construct the canonical unitary C_η:L²(η)≃ₗᵢ[ℂ]L²(η̂) induced by identity on original measurable representatives, and prove C_κ(U(f⊗g)) is the class of (x,y)↦f(x)g(y) in L²(κ̂). Also complete both marginals: let κ_c be the same native maximal product construction for μ̂,ν̂ on their product σ-algebra. Prove κ_c and κ have the same associated outer measure, and that the product of the completed marginal σ-algebras lies in the κ-completed σ-algebra. Construct the canonical identity-on-original-representatives unitary J:L²(κ)≃ₗᵢ[ℂ]L²(κ_c) and prove the commuting identity J∘U=U_c∘(C_μ⊗̂C_ν), where U_c is this same tensor unitary for the completed marginals. Identify both sides with the elementary-product class in their common measure completion. Use equality of marginal outer measures, the measurable-rectangle cover formula and null cylinders to prove these comparisons. These are a.e.-class statements; completeness of marginal σ-algebras does not imply completeness of their product σ-algebra. When μ,ν are σ-finite, prove κ equals native `μ.prod ν`, using `Measure.measurePreserving_piFinTwo`/`Measure.prod_eq`, and recover the usual product-L² unitary with that exact measure. Do not identify the two product conventions for arbitrary s-finite inputs: for μ=ν=∞ times Lebesgue measure on[0,1], the diagonal has maximal rectangle-cover measure∞ but native bind-product measure0. A different rectangle-consistent extension can give that diagonal finite positive measure. Under the maximal convention declared here the theorem holds for all measures with no separability condition, and the σ-finite models agree with native `Measure.prod`. This supplier is part of V2's existing completed-tensor/L² theory; downstream UO tensor operators consume it without a reverse dependency.
+Prove naturality under measure-preserving measurable equivalences of the factors and compatibility with the Hilbert tensor flip and the coordinate swap. For any measure η let η̂ denote its completion on the completed σ-algebra of the same carrier. Construct the canonical unitary C_η:L²(η)≃ₗᵢ[ℂ]L²(η̂) induced by identity on original measurable representatives, and prove C_κ(U(f⊗g)) is the class of (x,y)↦f(x)g(y) in L²(κ̂). Also complete both marginals: let κ_c be the same native maximal product construction for μ̂,ν̂ on their product σ-algebra. Prove κ_c and κ have the same associated outer measure, and that the product of the completed marginal σ-algebras lies in the κ-completed σ-algebra. Construct the canonical identity-on-original-representatives unitary J:L²(κ)≃ₗᵢ[ℂ]L²(κ_c) and prove the commuting identity J∘U=U_c∘(C_μ⊗̂C_ν), where U_c is this same tensor unitary for the completed marginals. Identify both sides with the elementary-product class in their common measure completion. Use equality of marginal outer measures, the measurable-rectangle cover formula and null cylinders to prove these comparisons. These are a.e.-class statements; completeness of marginal σ-algebras does not imply completeness of their product σ-algebra. When μ,ν are σ-finite, prove κ equals native `μ.prod ν`, using `MeasureTheory.measurePreserving_piFinTwo`/`Measure.prod_eq`, and recover the usual product-L² unitary with that exact measure. Do not identify the two product conventions for arbitrary s-finite inputs: for μ=ν=∞ times Lebesgue measure on[0,1], the diagonal has maximal rectangle-cover measure∞ but native bind-product measure0. A different rectangle-consistent extension can give that diagonal finite positive measure. Under the maximal convention declared here the theorem holds for all measures with no separability condition, and the σ-finite models agree with native `Measure.prod`. This supplier is part of V2's existing completed-tensor/L² theory; downstream UO tensor operators consume it without a reverse dependency.
 *Needs:* Mathlib `Measure.pi`, `MeasurableEquiv.piFinTwo`, `OuterMeasure.pi`, `Measure.pi_caratheodory`,
-`Lp.simpleFunc.denseRange`, `Measure.measurePreserving_piFinTwo`, `Measure.prod_eq`; the completed
+`Lp.simpleFunc.denseRange`, `MeasureTheory.measurePreserving_piFinTwo`, `Measure.prod_eq`; the completed
 Hilbert tensor product above.
 
 **Checks.**
@@ -3089,7 +3089,7 @@ Keep this arithmetic pair distinct from the type-A Hecke tower.
 modules (the ring structure on `𝕋 ⊤ H ℂ`,
 `HeckeCosetModule.single_mul_single`, `DoubleCoset.multiplicity`, `HeckeAntiInvolution.ofAmbient`,
 `HeckeCosetModule.mul_comm_of_antiInvolution`), V10.ModularTheory and V10.KMS, Mathlib `lp` on
-coset spaces and Smith normal form over ℤ (`Basis.SmithNormalForm`); V1's bicommutant theorem
+coset spaces and Smith normal form over ℤ (`Module.Basis.SmithNormalForm`); V1's bicommutant theorem
 and V4.Normality for the radial restriction.
 
 **V10.AffineHecke — the canonical type-III example.** Use slope-first
@@ -3353,7 +3353,7 @@ VIII.2.6, and Hiai, Remark 13.18, are the sources.
   weight and increase to 1. The weight `Σ_n n·x_n` is not faithful, since it vanishes on the
   nonzero positive `δ₀`. The weight that is ∞ on every nonzero positive element is normal and
   faithful but not semifinite.
-- `CentralizerCornerRestriction` on `M₂(ℂ)` with the weight above and `p=e₁₁` (fixed by `σ^φ`)
+- CentralizerCornerRestriction on `M₂(ℂ)` with the weight above and `p=e₁₁` (fixed by `σ^φ`)
   gives `θ_p=(2/3)·id` on `pMp=ℂ`, with trivial modular group, as the formula requires.
 
 Construct tensor-product n.s.f. weights on spatial von Neumann tensors
@@ -3724,7 +3724,7 @@ compact dense subset of a Hausdorff space is open in it, so ev(G) is an open, he
 subgroup of its closure, and equals it. No character space of C*_r(G), unitization, Fourier
 uniqueness or double-dual surjectivity enters this proof.
 *Needs:* V8.RegularL2; Tau Ceti `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`
-and `PontryaginDual.continuous_coe_eval_const`; Mathlib `PontryaginDual` (compact-open topology,
+and `TauCeti.PontryaginDual.continuous_coe_eval_const`; Mathlib `PontryaginDual` (compact-open topology,
 evaluation continuity) and regular Haar measure.
 
 **V11.UnitizationCharacters — the characters of the reduced group C*-algebra.** Let Ω be the
@@ -4945,6 +4945,34 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   V13b.SpatialNorm's spatial norm, its representation independence, slice maps and inclusion
   functoriality, and adds the maximal norm and the comparison of C*-norms; its C6 consumes the
   semidiscreteness theorems of V13b.
+- [FactorRigidity](../FactorRigidity/README.md) consumes V2 (corners, spatial tensor products,
+  Borel logarithms of unitaries), V3, V4 (normality and the Lusin–Novikov selection), V5–V7
+  (comparison, tracial standard form, coupling dimension), V8 (group algebras, discrete crossed
+  products and V8.BernoulliArbitraryDiscrete), V11 (measured relations, full groups and
+  hyperfinite exhaustions, in its Layer 6 §6.2 and Layer 7 §7.1), V12 (tracial ultrapowers and
+  central sequences) and V13a–V13b (injectivity, semidiscreteness, hypertraces and the
+  hyperfinite II₁ factor R).
+- [Subfactors](../Subfactors/README.md) consumes V1, V2, V4.Core, V4.PositivePredual and
+  V4.Normality, V5, V6, V7 (V7.StandardAmplifications, V7.Dimension, V7.SumsAndCorners,
+  V7.CountableAndTypeI and V7.Index), V8, V10.ModularTheory and V10.KMS, V11 and V13 (uniqueness
+  of the hyperfinite II₁ factor R, hypertraces and the L² perturbation lemmas).
+- [NoncommutativeIntegration](../NoncommutativeIntegration/README.md) consumes V2, V4.Core,
+  V4.PositivePredual and V4.Normality, V5, V6, V7.Index, V8, V10.ClosedOperators,
+  V10.Affiliation, V10.TracialLp, V10.ModularTheory and Layer 11 (weights, the Pedersen–Takesaki
+  theorem, Takesaki's conditional-expectation theorem and the continuous core); its I4 owns the
+  Lp inclusions attached to Takesaki's expectation.
+- [FreeProbability](../FreeProbability/README.md) consumes V0–V4, V6 (tracial L²), V8 (group
+  algebras), V10–V11 (Tomita–Takesaki theory) and V13a (completely positive maps and operator
+  systems).
+- [HilbertModules](../HilbertModules/README.md) consumes V0 (states and GNS), V4.Core (the trace
+  class and the extended positive trace on B(H)), V4.Normality and V7.StandardAmplifications.
+- [NoncommutativeGeometry](../NoncommutativeGeometry/README.md) consumes V0, V4, V6 and V10
+  (GNS representations, the Hilbert-space trace, normal tracial weights and tracial Lp).
+- [QuantumGroups](../QuantumGroups/README.md) consumes V0–V4 (state-space compactness, GNS, V1's
+  finite-dimensional bicommutant theorem and preduals) and V10–V11 (left Hilbert algebras and the
+  Tomita comparison for the Haar modular group).
+- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) consumes V2's completed
+  Hilbert tensor product.
 
 ## References
 
