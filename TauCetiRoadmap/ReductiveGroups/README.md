@@ -21,22 +21,26 @@ reciprocity are pinned, together with their rational group-scheme adapters. The 
 the points of a scheme with values in a topological algebra is a pinned Tau Ceti carrier, the
 chart topology `TauCeti.SchemePointTopology.topology` built on the affine evaluation topology
 `TauCeti.PointTopology.topology`, with the topological group of points of an affine group;
-with values in `ℂ` it is the classical topology on complex points. It is consumed in Layer 3A.5, which owns what that library does not state. For every
-local topological algebra `R` whose units are open with continuous inversion, Layer 3A.5 proves
-that affine open charts are open embeddings of point spaces, that scheme morphisms act
-continuously, that open and closed immersions give open and closed embeddings, and that
-separated and locally finite-type schemes have Hausdorff and locally compact points under the
-corresponding hypotheses on `R`. For `R = ℂ` it proves the fibre-product, reduction and proper
-comparisons, constructs the smooth charts and the complex Lie-group structure on `G(ℂ)` with its
-tangent dictionary, and proves the holomorphic orbit-map and stabilizer comparisons. Layer 11
-consumes these comparisons. ReductiveGroupsPartII RG2.0.1 states the general-`R` comparisons
-again under its own names; it is a consumer of Layer 3A.5, not a second supplier of them.
+with values in `ℂ` it is the classical topology on complex points. It is consumed in Layer 3A.5,
+which owns what that library does not state. For every local topological algebra `R` whose
+units are open with continuous inversion, Layer 3A.5 proves that affine open charts are open
+embeddings of point spaces, that scheme morphisms act continuously, that open and closed
+immersions give open and closed embeddings, and that separated, locally finite-type and
+finite-type schemes have Hausdorff, locally compact and second-countable points under the
+corresponding hypotheses on `R` (3A.5b). For `R = ℂ` it proves the fibre-product, reduction and
+proper comparisons for every locally finite-type `ℂ`-scheme (3A.5c), constructs the smooth charts
+of every smooth `ℂ`-scheme (3A.5d) and the complex Lie-group structure on `G(ℂ)` for every group
+scheme `G` of finite type over `ℂ`, affine or not, with its tangent dictionary in the affine case
+(3A.5e), and proves the holomorphic orbit-map and stabilizer comparisons (3A.5f). Layer 3A.5 is
+the single owner of these objects; Layer 11 consumes them. ReductiveGroupsPartII RG2.0.1 states
+the general-`R` comparisons again under its own names; it is a consumer of Layer 3A.5, not a
+second supplier of them.
 ComplexComparisonPartII C-1.1 builds its scheme analytification on the complex points and owns
-the identification of the analytification's underlying space with this topology; for the
-topological comparisons and the smooth charts it is a consumer of Layer 3A.5.
-FormalConnectionsOpers §4.3 consumes the
-complex Lie-group dictionary on `G(ℂ)` and transports it to the Hopf-point carrier; no target
-of FormalConnectionsOpers is an input here. Layer 11A owns the based comparison between the fundamental
+the identification of the analytification's underlying space with this topology; for
+3A.5c–3A.5e it is a consumer. FormalConnectionsOpers §2.4 consumes 3A.5c–3A.5d, and its §4.3
+consumes 3A.5e and transports it to the Hopf-point carrier; no target of FormalConnectionsOpers
+is an input here. SchubertGeometry S9 consumes 3A.5c–3A.5d and 3A.5f for its flag varieties.
+Layer 11A owns the based comparison between the fundamental
 group of the plane configuration space and the native braid group. Layer 9B owns the
 special isogenies in characteristics two and three and the three explicit toral-closure
 carriers it specifies. ReductiveGroupsPartII extends this roadmap and consumes it;
@@ -80,8 +84,9 @@ prove.
 The finite root combinatorics, chambers, the Weyl Coxeter presentation, simple transitivity
 of the Weyl group on bases and on open chambers, the Cartan–Killing classification and the
 numbered integral root data are pinned Tau Ceti declarations, listed in the supplier
-contracts; they are not RootSystems targets here. §9A.1a-L applies the simple transitivity on
-bases to the ADE root lattice for its lift comparison, retaining the separate full-Y action.
+contracts; they are not RootSystems targets here. The Weyl/based factorization of root
+automorphisms is RootSystems §5.1's; §9A.1a-L consumes it on the ADE root lattice and adds only
+its lift to the sign cover, retaining the separate full-Y action.
 
 Suggested.lean is the acceptance module: it states the headline theorems that are statable
 at the pins. The native affine Hopf dictionary, point functors and comodule reconstruction
@@ -416,7 +421,7 @@ prove them equivalent** rather than committing.
   `AnalyticAt.exists_openPartialHomeomorph` for an analytic map between Banach
   spaces over a complete nontrivially normed field whose strict derivative at the
   specified point is a continuous linear equivalence. Layer 3A.5 uses it over ℂ
-  for local sections of the orbit map in Layer 3A.5's smooth charts.
+  for the smooth charts of 3A.5d and the local sections of the orbit map in 3A.5f.
 
 ### Native unipotent radical
 
@@ -580,6 +585,15 @@ Section 0E supplies affine descent for a finite locally free base morphism and a
 finitely presented source, including arbitrary base change. Layer 9D takes `Res_(K/k) 𝔾_m`
 from Tau Ceti's `TauCeti.Algebra.WeilRestriction` (supplier contracts) and needs no
 Weil-restriction construction from this supplier.
+
+### From TauCetiRoadmap.RootSystems
+
+[RootSystems](../RepresentationTheory/RootSystems/README.md) §5.1 supplies the Weyl/based
+factorization of root automorphisms: for a finite reduced crystallographic root pairing over a
+characteristic-zero domain, `R = ℤ` included, and a base, the Weyl group complements the
+subgroup of automorphisms preserving the base. §5.2 identifies that based subgroup, for a
+spanning system, with the Cartan-preserving permutations of the simple roots. §9A.1a-L consumes
+both on the ADE root lattice and does not rederive them.
 
 ### Native quotient and isometry interfaces
 
@@ -1075,7 +1089,12 @@ closed orbit in every nonempty `X` (Milne, Proposition 1.66, pp. 27–28). Uniqu
 claimed. The argument gives closed orbits in nonproper `X` and supplies compactness only with
 properness (3A.5).
 
-**3A.5 Properness and the complex comparison.** For proper `X`,
+**3A.5 Properness and the complex comparison.** This section is the single owner of complex
+points, their classical topology, the smooth charts of smooth `ℂ`-schemes and the complex
+Lie-group structure on `G(ℂ)`. Its items 3A.5a–3A.5f state these at the generality given in each,
+and other roadmaps cite them by item number.
+
+**3A.5a Proper orbits.** For proper `X`,
 `TauCeti.SchemeAction.isProper_orbitToBase_iff` makes an orbit scheme proper exactly when the
 orbit is closed, and `TauCeti.SchemeAction.exists_isProper_orbit_subset_orbitClosure` gives a
 proper closed orbit in every orbit closure; for reduced `G` it is smooth (`Orbit/Smooth.lean`).
@@ -1084,7 +1103,7 @@ and the projective-morphism properness theorem: consume native `IsProper (Proj.t
 its `Algebra.FiniteType (𝒜 0) A` hypothesis and transport through the actual
 projective-space/closed-immersion maps.
 
-**Points with values in a local topological algebra.** Let `k` be a commutative ring and `R`
+**3A.5b Points with values in a local topological algebra.** Let `k` be a commutative ring and `R`
 a local topological `k`-algebra whose units are open, with `Units.val : Rˣ → R` an embedding,
 that is, with inversion continuous on the units. For a `k`-scheme `X`, give `X(R)`, the
 morphisms `Spec R → X` over `Spec k`, the pinned chart topology
@@ -1098,7 +1117,10 @@ immersion induces a closed embedding when `R` is Hausdorff. If `X` is separated 
 `R` is Hausdorff, then `X(R)` is Hausdorff; if `X` is locally of finite type over `k` and `R`
 is Hausdorff and locally compact, then `X(R)` is locally compact (Conrad, *Weil and
 Grothendieck approaches to adelic points*, Proposition 3.1 and its proof, p. 4, for `X` locally
-of finite type over `R` itself; `X(R)` over `k` is `(X ×_k Spec R)(R)` over `R`). The
+of finite type over `R` itself; `X(R)` over `k` is `(X ×_k Spec R)(R)` over `R`). If `X` is of
+finite type over `k` and `R` is second countable, then `X(R)` is second countable: it is the
+union of the open images of the points of finitely many affine charts, each second countable by
+the pinned `TauCeti.PointTopology.instSecondCountableTopology`. The
 open-embedding step reduces to the principal opens of a chart, which are the pinned
 `TauCeti.PointTopology.isOpenEmbedding_localization`, and uses no finiteness; the covering of
 `X(R)` by charts is `TauCeti.SchemePointTopology.exists_mem_range_chartPoint`, which needs `R`
@@ -1124,9 +1146,9 @@ morphisms.
   `X = Spec k[t₁, t₂, …]`, which is not of finite type, `X(R) = R^ℕ` with the product topology
   is not discrete.
 
-**Classical complex points.** For a locally finite-type ℂ-scheme `X`, the classical topology
-on `X(ℂ)`, the set of ℂ-morphisms `Spec ℂ → X` over ℂ, is the case `k = R = ℂ` of the topology
-above, with ℂ in its usual topology: the units of ℂ are open
+**3A.5c Classical complex points.** For every ℂ-scheme `X` locally of finite type, the
+classical topology on `X(ℂ)`, the set of ℂ-morphisms `Spec ℂ → X` over ℂ, is the case
+`k = R = ℂ` of the topology of 3A.5b, with ℂ in its usual topology: the units of ℂ are open
 (`Units.isOpenEmbedding_val`), inversion is continuous on them, and ℂ is Hausdorff and locally
 compact. On an affine `X = Spec A` it is the evaluation topology on `A →ₐ[ℂ] ℂ`
 (`TauCeti.SchemePointTopology.affineHomeomorph`), which every finite presentation embeds as
@@ -1135,10 +1157,10 @@ it is independent of the presentation; the points of a principal open `D(f)` for
 subspace where `f` is a unit; and on a general `X` a set is open exactly when its preimage in
 every affine open chart is (`TauCeti.SchemePointTopology.isOpen_iff`). The carrier admits
 singular, nonreduced and nonseparated schemes and assigns a manifold structure to none of them.
-Over ℂ the general statements above give the open-embedding charts, the functor to topological
-spaces, the embeddings induced by open and closed immersions, Hausdorff points for separated
-`X` and locally compact points (SGA 1, Exposé XII, §§1.1–1.2, revised edition, pp. 239–241, on
-underlying spaces).
+Over ℂ the general statements of 3A.5b give the open-embedding charts, the functor to
+topological spaces, the embeddings induced by open and closed immersions, Hausdorff points for
+separated `X`, locally compact points, and second-countable points for `X` of finite type
+(SGA 1, Exposé XII, §§1.1–1.2, revised edition, pp. 239–241, on underlying spaces).
 
 Its API includes:
 - The point functor preserves fibre products, via the actual projection maps; the affine
@@ -1147,70 +1169,91 @@ Its API includes:
   Proposition 2.1, pp. 239–242).
 - A proper morphism gives a relatively separated topological map whose restriction over every
   Hausdorff open subset of the target has compact inverse images of compact subsets; in
-  particular a proper ℂ-scheme has compact complex points (SGA 1, XII, Propositions 3.1(viii)
-  and 3.2(v), pp. 244–247).
-- For a smooth ℂ-scheme, construct complex charts locally in its dimension,
-  using étale coordinates and the analytic inverse theorem. Transition functions
-  and scheme maps between smooth schemes are holomorphic; étale maps become local
-  biholomorphisms and smooth maps between smooth schemes become holomorphic
-  submersions. A fixed-dimensional manifold carrier requires constant dimension;
-  otherwise use the open-and-closed loci of each dimension
-  (SGA 1, XII, Proposition 3.1(iii)–(iv), pp. 244–245).
+  particular a proper ℂ-scheme has compact Hausdorff complex points (SGA 1, XII,
+  Propositions 3.1(viii) and 3.2(v), pp. 244–247).
 
-*Needs:* the pinned complex-point topology of the supplier contract; the general-`R`
-comparisons above; Mathlib's affine scheme charts, the open embedding
-`Units.isOpenEmbedding_val` of the units of ℂ, topological gluing and manifold charts;
-SchemeAndStackFoundations §0.8's étale coordinates; the native analytic inverse theorem in the
-supplier contract. A route for the
-proper comparison uses Chow's lemma and projective-space compactness; its algebraic
-inputs are SchemeAndStackFoundations §4.12's Chow lemma, applied over affine
+*Needs:* the pinned complex-point topology of the supplier contract; 3A.5b; Mathlib's affine
+scheme charts, the open embedding `Units.isOpenEmbedding_val` of the units of ℂ and topological
+gluing. A route for the proper comparison uses Chow's lemma and projective-space compactness;
+its algebraic inputs are SchemeAndStackFoundations §4.12's Chow lemma, applied over affine
 finite-type complex opens of the base, and §0.3's projective geometry.
 
 **Checks.**
-- 𝔸¹(ℂ)=ℂ and D(t)(ℂ)=ℂ∖{0}; t↦t² takes 2 to 4 and has derivative 2 at 1,
-  hence a local inverse there. At 0 its derivative is 0, so it is not étale there.
 - Spec ℂ[ε]/(ε²) and its reduction each have exactly one complex point, and the
   reduction map is a homeomorphism. Their algebraic local rings have dimensions
   2 and 1 over ℂ: the point topology does not assert a ringed-space isomorphism.
 - The empty scheme has no points and ℙ⁰ has one compact point; ℙ¹(ℂ) is compact,
   whereas the sequence 1,2,3,… in 𝔸¹(ℂ) escapes every compact subset.
 - The line with doubled origin has two origins with no disjoint neighbourhoods,
-  so the separatedness hypothesis matters. A disjoint union of a point and 𝔸¹
-  has local dimensions 0 and 1 and no single fixed-dimensional chart model.
+  so the separatedness hypothesis matters.
 
-The closed orbit in a projective `X` therefore has compact complex points.
-To obtain the orbit's complex manifold, apply these charts, component by component when
-dimensions differ, to the orbit scheme, which is smooth when `G` is reduced (`Orbit/Smooth.lean`),
-and to `G` itself, a smooth closed subscheme of some `GLₙ` by Layer 1: `G(ℂ)` is a
-complex manifold, and multiplication, unit and inverse are holomorphic because
-they are induced by scheme morphisms, so `G(ℂ)` is a complex Lie group whose Lie algebra is
-identified with Layer 2's tangent Lie algebra by the chart at the identity. This
-complex Lie-group dictionary is owned here and consumed by Layer 11 and by
-FormalConnectionsOpers §4.3. Compare it
+**3A.5d Smooth charts.** For every smooth ℂ-scheme `X`, construct complex charts on `X(ℂ)`
+locally in its dimension. Each chart is the restriction of an étale coordinate map `U → 𝔸ᵈ`, on
+a Zariski open `U` and built from a local standard-smooth presentation, to an open subset of
+`U(ℂ)` on which it is injective; by the analytic inverse theorem it is a homeomorphism onto an
+open subset of `ℂᵈ`. Transition functions and scheme maps between smooth schemes are
+holomorphic; étale maps become local biholomorphisms and smooth maps between smooth schemes
+become holomorphic submersions. Neither separatedness nor quasi-compactness is assumed. A
+fixed-dimensional manifold carrier requires constant dimension; otherwise use the
+open-and-closed loci of each dimension (SGA 1, XII, Proposition 3.1(iii)–(iv), pp. 244–245).
+*Needs:* 3A.5c; SchemeAndStackFoundations §0.8's étale coordinates; the native analytic inverse
+theorem in the supplier contract; Mathlib's manifold charts.
+
+**Checks.**
+- 𝔸¹(ℂ)=ℂ and D(t)(ℂ)=ℂ∖{0}; t↦t² takes 2 to 4 and has derivative 2 at 1,
+  hence a local inverse there. At 0 its derivative is 0, so it is not étale there.
+- `Spec ℂ[ε]/(ε²)` has one complex point but is not smooth over ℂ; its cotangent
+  space has dimension 1 while its underlying point has dimension 0, so the smooth-chart
+  and algebraic-tangent comparison does not apply to it.
+- A disjoint union of a point and 𝔸¹ has local dimensions 0 and 1 and no single
+  fixed-dimensional chart model.
+
+**3A.5e The complex Lie group `G(ℂ)`.** Let `G` be a group scheme of finite type over ℂ, affine
+or not; this includes every affine and every quasi-projective one. `G` is smooth (Milne,
+Corollary 8.39, p. 158; for affine `G` the pinned
+`TauCeti.AlgebraicGeometry.smooth_of_grpObj_of_charZero`) and separated (Milne,
+Proposition 1.22, p. 12), and since left translations by `G(ℂ)` act transitively on its closed
+points it is equidimensional of dimension `d = dim G`. By 3A.5c–3A.5d, `G(ℂ)` is a Hausdorff,
+second-countable complex manifold modelled on `ℂᵈ`; through the fibre-product comparison
+`(G ×_ℂ G)(ℂ) = G(ℂ) × G(ℂ)`, multiplication, unit and inverse are holomorphic because they are
+induced by scheme morphisms, so `G(ℂ)` is a complex Lie group, and a homomorphism of group
+schemes induces a holomorphic homomorphism. For affine `G`, the chart at the identity identifies
+the Lie algebra of `G(ℂ)` with Layer 2's tangent Lie algebra, as Lie algebras: prove this for
+`GLₙ` and restrict along Layer 1's closed embedding `G → GLₙ`, which induces injective maps of
+both Lie algebras compatible with the identification. This complex Lie-group dictionary is owned
+here and consumed by Layer 11 and by the roadmaps named under *Downstream consumers*.
+*Needs:* 3A.5c–3A.5d; Layer 1's faithful representation; Layer 2's tangent Lie algebra; the
+native analytic inverse theorem.
+
+**Checks.**
+- The trivial group gives a one-point complex Lie group and zero tangent space;
+  𝔾_a gives addition on ℂ and tangent bracket zero.
+- An elliptic curve `E` over ℂ is a group scheme of finite type that is not affine; `E(ℂ)` is a
+  compact connected one-dimensional complex Lie group, compact by 3A.5c since `E` is proper.
+
+**3A.5f Complex orbits.** Let an affine group scheme `G` of finite type over ℂ act on `X` as in
+3A.1, and let `x ∈ X(ℂ)`. The closed orbit in a projective `X` has compact complex points by
+3A.5a and 3A.5c. To obtain the orbit's complex manifold, apply the charts of 3A.5d, component by
+component when dimensions differ, to the orbit scheme, which is smooth when `G` is reduced
+(`Orbit/Smooth.lean`), as it is over ℂ. Compare 3A.5e
 with LieGroups Layer 2's closed-subgroup theorem for the stabilizer `H(ℂ)`,
 which is closed in `G(ℂ)`. Pin `H = Stab_G(x)` (`TauCeti.stabilizer`), the actual map
 `G(ℂ) → O_x(ℂ)` and its fibres. Consume SmoothBundlesConnections B1.0 for regular fibres and fibre
 products of submersions and Mathlib's submersion normal form, and
 SmoothBundlesConnections B1.1/B1.4 for the principal-bundle and
 homogeneous-space quotient; no constant-rank theorem beyond the submersion case,
-and no torus, conjugacy or Weyl theorem, is needed. For affine `G` in characteristic zero the
-orbit projection `TauCeti.SchemeAction.toOrbit` onto the orbit scheme is smooth
+and no torus, conjugacy or Weyl theorem, is needed. As `G` is affine and ℂ has characteristic
+zero, the orbit projection `TauCeti.SchemeAction.toOrbit` onto the orbit scheme is smooth
 (`TauCeti.SchemeAction.smooth_toOrbit_of_charZero`, from smoothness of the stabilizer by
-Cartier's theorem); the smooth-chart comparison above then makes the complex orbit map a
-holomorphic submersion. Construct holomorphic local sections by the analytic inverse
-theorem, and prove the induced biholomorphic homogeneous-space identification
-`G(ℂ)/H(ℂ) ≃ O_x(ℂ)`. It does not assume an algebraic quotient `G/H` was already represented.
-*Needs:* the classical complex points above; the pinned orbit geometry; Layer 1's faithful
-representation; Layer 2's tangent Lie algebra; LieGroups Layer 2; SmoothBundlesConnections B1.0,
-B1.1 and B1.4; the native analytic inverse theorem; SchemeAndStackFoundations §0.3 for projective
-`X`.
+Cartier's theorem); 3A.5d then makes the complex orbit map a holomorphic submersion. Construct
+holomorphic local sections by the analytic inverse theorem, and prove the induced biholomorphic
+homogeneous-space identification `G(ℂ)/H(ℂ) ≃ O_x(ℂ)`. It does not assume an algebraic quotient
+`G/H` was already represented.
+*Needs:* 3A.5a and 3A.5c–3A.5e; the pinned orbit geometry; LieGroups Layer 2;
+SmoothBundlesConnections B1.0, B1.1 and B1.4; the native analytic inverse theorem;
+SchemeAndStackFoundations §0.3 for projective `X`.
 
 **Checks.**
-- The trivial group gives a one-point complex Lie group and zero tangent space;
-  𝔾_a gives addition on ℂ and tangent bracket zero.
-- `Spec ℂ[ε]/(ε²)` has one complex point but is not smooth over ℂ; its cotangent
-  space has dimension 1 while its underlying point has dimension 0, so the smooth-chart
-  and algebraic-tangent comparison does not apply to it.
 - For `𝔾_m` acting on `ℙ¹` by `t·[x:y] = [tx:y]`, the stabilizer of `[1:1]` is trivial and the
   orbit map `t ↦ [t:1]` is a biholomorphism of `ℂ ∖ {0}` onto the open orbit; the stabilizer of
   `[0:1]` is all of `𝔾_m`, and its orbit is a point.
@@ -1848,8 +1891,9 @@ the supplier contracts.
   `P` (Conrad–Feng, Definition H.1.1, p. 238). Prove that the geometric unipotent
   radical of `P` descends to a smooth connected `k`-split normal subgroup `U`,
   and that a reductive `k`-subgroup `L` exists with `P=L⋉U` (Conrad–Feng, §H.1, p. 238). In
-  the form of Layer 6A's complement, this headline reads: `U` is the `k`-unipotent radical of
-  `P`, and there is a Hopf ideal `J` of `O(P)` such that the composite
+  the form of Layer 6A's complement, this headline,
+  `StructureAcceptance.exists_levi_complement_of_isParabolic`, reads: `U` is the `k`-unipotent
+  radical of `P`, and there is a Hopf ideal `J` of `O(P)` such that the composite
   `O(P)^U → O(P) → O(P)/J = O(L)` of the inclusion of the right coinvariants of its defining
   ideal with the quotient map is bijective, that is, `L = V(J)` maps isomorphically onto
   `P/U`; for `P = G` the radical is trivial and `J = 0`, and for the Borel `B = T ⋉ U` of
@@ -2719,24 +2763,22 @@ algebra by its Killing-semisimple part.
    endomorphism `LieEquiv`s.
 
    After 9A.1b, compare its pinned **based** diagram lift with this full lift group
-   and its simple-generator equations. The comparison uses the Weyl/based
-   factorization of root automorphisms, which is a direct consequence of the pinned
-   `RootPairing.Base.existsUnique_map_eq`: for a finite reduced crystallographic root
-   pairing over a characteristic-zero domain (in particular the integral ADE
-   realization of §9A.1a over ℤ, and its real span) with a specified base Δ, and a root
-   automorphism g, the unique Weyl element v with v(gΔ)=Δ gives d=v∘g preserving Δ and
-   w=v⁻¹ with g=w∘d; the pair (w,d) is unique because dΔ=Δ forces wΔ=gΔ, which
-   determines w. Apply this factorization on the ADE root lattice for the lift
-   comparison, retaining the character ambiguity and any multiplication defect of
-   separately chosen lifts.
-   *Needs:* Tau Ceti `RootPairing.Base.existsUnique_map_eq`; §9A.1a's
-   root-shell/lattice identification, and §9A.1b only for the pinned based lift
-   comparison.
-   **Checks.** In A₁, g=−1 gives (w,d)=(−1,1); g=1 gives (1,1).
-   On the empty root span the only pair is (1,1). In A₁×A₁ the component
-   swap preserves Δ, so its pair is (1,swap), not (swap,1). In A₂, g=−1 sends Δ
-   to −Δ, and w₀ returns it because w₀α₁=−α₂ and w₀α₂=−α₁; so (w,d)=(w₀,flip),
-   where the diagram flip d is not in W, and −1 is not a Weyl element. Export transport
+   and its simple-generator equations. The Weyl/based factorization g=w∘d of a root
+   automorphism, with w in W and d preserving the specified base, is RootSystems
+   §5.1's, applied to the integral ADE realization of §9A.1a over ℤ through the
+   identification of A with the root automorphisms of the norm-two shell; RootSystems
+   §5.2 identifies the based factors d with 9A.1b's diagram automorphisms γ. This
+   roadmap adds only the lift: compare each lift of g with the product of a lift of w
+   and the pinned 9A.1b lift of d, retaining the character ambiguity and any
+   multiplication defect of separately chosen lifts.
+   *Needs:* RootSystems §§5.1–5.2; §9A.1a's root-shell/lattice identification, and
+   §9A.1b only for the pinned based lift comparison.
+   **Checks.** The factorizations themselves are RootSystems §5.1's checks. In A₁ the
+   lift group has order 4=|A|·2: over g=−1 the two lifts send u_α to u_(−α) and to
+   ι(−1)u_(−α), and their ratio is the nontrivial character of ℤα. In A₂, where
+   −1=w₀∘flip, the lifts of −1 form one coset of the kernel, of order 2²=4; the
+   product of any lift of w₀ with the pinned lift of the flip lies in it, and changing
+   the lift of w₀ changes that product by a character. Export transport
    under every specified order/section and full-Y comparison. Full-Y maps
    require the actual compatible Y action; no integral central splitting is
    inferred. Include empty/reducible ADE, rank 1, A2's negative-section test,
@@ -3360,8 +3402,10 @@ The distribution algebra and Frobenius section precede rational integration.
 
 ### Dependencies
 
-Layers 0, 2, 3, 4 and Layer 7's field structure theory; §§8.1–8.2 only; Tau Ceti's Cartan–Killing classification and numbered root data (supplier contracts); LieHighestWeight Layers 3–4 and 7;
-IntegralLattices; Tau Ceti's Kostant form, Serre presentation and Geck constructions.
+Layers 0, 2, 3, 4 and Layer 7's field structure theory; §§8.1–8.2 only; Tau Ceti's Cartan–Killing
+classification and numbered root data (supplier contracts); RootSystems §§5.1–5.2 for §9A.1a-L;
+LieHighestWeight Layers 3–4 and 7; IntegralLattices; Tau Ceti's Kostant form, Serre presentation
+and Geck constructions.
 
 ## Layer 9D: classification, relative groups and forms
 - The **isomorphism** and **existence theorems**: split reductive groups ↔ root data
@@ -3838,8 +3882,8 @@ This lane constructs the Lie-algebra spectral quotient and its based topology fo
 connected reductive algebraic group over `ℂ`, with a specified maximal algebraic torus.
 Construct it after Layers 9 and 9D have supplied the group/root-datum and pinned root maps.
 Layer 3A.5 supplies, on the pinned classical topology on complex points, the complex-manifold
-charts and complex Lie-group structure on G(ℂ),
-holomorphic action maps and orbit comparisons on that carrier; the
+charts (3A.5d) and complex Lie-group structure on G(ℂ) (3A.5e),
+holomorphic action maps and orbit comparisons on that carrier (3A.5f); the
 analytic inverse function theorem used below is Mathlib's `ContDiffAt.to_localInverse` at
 order `ω` on finite-dimensional complex charts. The algebraic classification and integral
 construction have no dependency on this lane, and no roadmap that consumes Layers 0–9 is a
@@ -4014,7 +4058,7 @@ No canonical choice of polynomial invariant generators is asserted.
 The base is the image of `𝔱_reg` in `𝔱/W`, the **discriminant complement**. It is not the
 smooth locus of the full invariant quotient, which is already an affine space in this
 setting. Construct all scheme morphisms before comparing their complex points via
-Layer 3A.5's charts and point-map comparison. Prove the coarse orbit-space homeomorphism
+Layer 3A.5d's charts and 3A.5c's point-map comparison. Prove the coarse orbit-space homeomorphism
 `𝔤_rs/G ≃ₜ 𝔱_reg/W`. This is a coarse quotient; the stack `[𝔤_rs/G]` retains torus inertia.
 
 **11D. Cameral product, local trivializations and homogeneous fiber.** Construct the
@@ -4031,7 +4075,7 @@ complex quotient topologies explicitly compared. A local section of the finite W
 trivializes `χ_rs:𝔤_rs→𝔱_reg/W` with fiber `G/T`. Supply actual inverse maps and transition
 functions, continuity, and holomorphicity. The root-coordinate differential is
 `(X mod 𝔱,Y)↦[X,t]+Y`; prove it is an isomorphism and apply Mathlib's analytic inverse
-function theorem (`ContDiffAt.to_localInverse` at order `ω`) in the 3A.5 charts. A
+function theorem (`ContDiffAt.to_localInverse` at order `ω`) in the 3A.5d charts. A
 set-theoretic orbit bijection alone does not prove these statements.
 
 Construct `G/T→G/B` as a locally trivial bundle with contractible fiber `B/T≃U`, using
@@ -4089,7 +4133,7 @@ vector spaces, and contribute no extra π₁.
 
 **11G. Prerequisite and scope comparisons.** The order is 11A's configuration/native
 braid comparison and Tau Ceti's Weyl Coxeter presentation and chambers → finite arrangement topology;
-independent Layers 8–9 and the 3A.5 complex Lie-group dictionary → 11C invariant/spectral
+independent Layers 8–9 and the 3A.5e complex Lie-group dictionary → 11C invariant/spectral
 maps; Layer 7 and LieGroups Layer 8 flag cells →
 homogeneous-fiber connectedness and simple connectedness; DGFloer Layer 1.2's based fiber sequence → the
 `χ_rs`-induced π₁ isomorphism; finite cover → actual root-datum monodromy. LHW Lie invariants
@@ -4207,12 +4251,14 @@ those points: [CFSGStatement](../CFSGStatement/README.md) consumes Layer 9's pin
 the special isogenies and the three explicit carriers of 9B, which its carrier plan
 designates; its milestone L5 needs constructions rather than existence theorems.
 ReductiveGroupsPartII extends this roadmap and consumes Layers 0–9, in particular Layer 7a's
-Lang theorem and fixed-coset lifting, and Layer 3A.5's point-topology comparisons for local
-topological algebras (in its RG2.0.1). ComplexComparisonPartII consumes Layer 3A.5's
-topological comparisons and smooth charts on complex points (in its C-1.1).
-FormalConnectionsOpers consumes Layers 0–9, Layer 3A.5's complex Lie-group dictionary on
-`G(ℂ)` (in its §4.3) and 6B's coset affineness
-(in its §3A.5); Layer 11 consumes no target of FormalConnectionsOpers; InverseGaloisAndArithmeticFundamentalGroups consumes Layers 0, 3 and 6;
+Lang theorem and fixed-coset lifting, and Layer 3A.5b's point-topology comparisons for local
+topological algebras (in its RG2.0.1). Layer 3A.5 is the single owner of complex points, their
+classical topology, smooth charts and the complex Lie group `G(ℂ)`, and three roadmaps cite it
+by item: ComplexComparisonPartII (its C-1.1) consumes 3A.5c–3A.5e; FormalConnectionsOpers
+consumes 3A.5c–3A.5d (its §2.4) and 3A.5e (its §4.3); SchubertGeometry consumes 3A.5c–3A.5d and
+3A.5f (its S9). FormalConnectionsOpers also consumes Layers 0–9 and 6B's coset affineness
+(in its §3A.5); Layer 11 consumes no target of FormalConnectionsOpers.
+InverseGaloisAndArithmeticFundamentalGroups consumes Layers 0, 3 and 6;
 NilpotentOrbits and SchubertGeometry consume the orbit theorems of Layer 3A, which are pinned
 Tau Ceti declarations, and Layer 7's structure theory.
 

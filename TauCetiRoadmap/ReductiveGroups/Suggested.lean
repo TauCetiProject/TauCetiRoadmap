@@ -9,6 +9,7 @@ import TauCeti.Algebra.AlgebraicGroup.Connected.GroupScheme
 import TauCeti.Algebra.AlgebraicGroup.Torus.Basic
 import TauCeti.Algebra.AlgebraicGroup.Torus.Maximal
 import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Conjugation
+import TauCeti.Algebra.AlgebraicGroup.Parabolic.Basic
 import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 
@@ -24,10 +25,12 @@ Nagata's characteristic-`p` criterion that a smooth connected group is linearly 
 when it is a torus; Layer 6A's characteristic-zero Levi complement, as a Hopf ideal whose quotient
 restricts to an isomorphism from the right coinvariants of the unipotent radical's defining
 ideal; Layer 7's conjugacy of maximal tori by rational points over an algebraically closed field,
-for every finite-type affine group; Layer 7a's Lang surjectivity for smooth geometrically
-connected groups over finite fields; the SL coordinate presentation of the worked examples;
-Layer 11A's plane-configuration fundamental-group/braid-group equivalence, sending half-twist
-loops to the standard generators, and permutation-map nonsplitting.
+for every finite-type affine group, and its Levi decomposition of a parabolic subgroup of a
+connected reductive group over an arbitrary field, in the same coinvariant form; Layer 7a's
+Lang surjectivity for smooth geometrically connected groups over finite fields; the SL
+coordinate presentation of the worked examples; Layer 11A's plane-configuration
+fundamental-group/braid-group equivalence, sending half-twist loops to the standard generators,
+and permutation-map nonsplitting.
 
 Proved in the pinned Tau Ceti, hence consumed and not restated: Layer 3's representability of
 the quotient by a normal closed subgroup of a geometrically reduced group,
@@ -54,14 +57,6 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   (`TauCeti.HopfIdeal.IsParabolic`, `TauCeti.HopfIdeal.IsParabolicOverAlgClosed`, in the module
   `TauCeti.Algebra.AlgebraicGroup.Parabolic.Basic`), so Layer 7's completeness characterization
   of parabolics lacks only the represented quotient.
-* Layer 7's Levi decomposition of a parabolic subgroup over an arbitrary field: for a parabolic
-  `P` of a connected reductive `G`, a Hopf ideal of `O(P)` whose quotient restricts to a bijection
-  from the right coinvariants of the `k`-unipotent radical's defining ideal of `P`, in the form
-  of Layer 6A's complement. Its only carriers are the parabolic predicate above and the
-  `k`-unipotent radical. The Tau Ceti revision this file's manifest pins does not contain the
-  module `TauCeti.Algebra.AlgebraicGroup.Parabolic.Basic` (the pinned revision the README cites
-  does), so the parabolic predicate is the missing carrier here and the decomposition is not
-  stated.
   Diagonalizable group schemes and their equivalence with finitely generated
   commutative groups exist in `TauCeti.DiagonalizableGroup.DiagonalizableGroupSchemeCat` and
   `TauCeti.DiagonalizableGroup.schemeEquivalence`; they are supplied, not targets here. The
@@ -95,10 +90,10 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   state these endpoints. Layer 11A's equivalence below is stated on the actual configuration
   quotient and characterized on the explicit half-twist loops; its covering-permutation
   refinement additionally needs the covering monodromy comparison.
-* Layer 3A.5: the complex orbit comparison `G(ℂ)/H(ℂ) ≃ O_x(ℂ)`. The classical topology on
+* Layer 3A.5f: the complex orbit comparison `G(ℂ)/H(ℂ) ≃ O_x(ℂ)`. The classical topology on
   complex points is pinned (`TauCeti.SchemePointTopology.topology`,
-  `TauCeti.PointTopology.topology`); the missing carrier is the smooth charts on complex points
-  and the complex Lie-group structure on `G(ℂ)`, which Layer 3A.5 constructs.
+  `TauCeti.PointTopology.topology`); the missing carriers are the smooth charts on complex points
+  and the complex Lie-group structure on `G(ℂ)`, which Layer 3A.5d and 3A.5e construct.
 -/
 
 namespace TauCetiRoadmap.ReductiveGroups
@@ -160,7 +155,7 @@ theorem exists_levi_complement {k : Type v} [Field k] [CharZero k]
           (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal H).coinvariants.val) := by
   sorry
 
-/-! ## Layer 7: Borel subgroups and maximal tori -/
+/-! ## Layer 7: maximal tori and Levi decompositions of parabolic subgroups -/
 
 /-- Over an algebraically closed field `k`, any two maximal tori of a finite-type affine group
 `G` are conjugate by a rational point: if the Hopf ideals `I` and `J` cut out maximal tori `T`
@@ -177,6 +172,27 @@ theorem exists_conjugate_eq_of_isMaximalTorus {k : Type v} [Field k] [IsAlgClose
     (hI : TauCeti.HopfIdeal.IsMaximalTorus k H.obj I)
     (hJ : TauCeti.HopfIdeal.IsMaximalTorus k H.obj J) :
     ∃ g : WithConv (H.obj →ₐ[k] k), I.conjugate g = J := by
+  sorry
+
+/-- Levi decomposition of a parabolic subgroup over an arbitrary field. Let `G` be a connected
+reductive group over `k` and `P = V(I)` a parabolic `k`-subgroup, a smooth closed subgroup whose
+base change to `k̄` contains a Borel subgroup. The `k`-unipotent radical `U` of `P` is the
+descended geometric unipotent radical, and `P` has a Levi `k`-subgroup `L` with `P = L ⋉ U`
+(Conrad–Feng, *Reductive Groups over Fields*, §H.1 and Example H.1.2, p. 238). In coordinates, as
+in Layer 6A's complement: with `I_u` the defining Hopf ideal of `U`, `O(P/U)` is the subalgebra of
+right `I_u`-coinvariants of `O(P)`, and `L` is cut out by a Hopf ideal `J` of `O(P)` for which the
+composite `O(P/U) → O(P) → O(P)/J = O(L)` is bijective. No characteristic hypothesis is needed,
+unlike Layer 6A: parabolic subgroups of reductive groups are the dynamic subgroups `P_G(λ)`, with
+Levi factor `Z_G(λ)`. -/
+theorem exists_levi_complement_of_isParabolic {k : Type v} [Field k]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
+    (hG : TauCeti.reductiveCommHopfAlgProperty k H)
+    {I : TauCeti.HopfIdeal k H.obj} (hP : TauCeti.HopfIdeal.IsParabolic k H.obj I) :
+    ∃ J : TauCeti.HopfIdeal k (TauCeti.FiniteTypeCommHopfAlgCat.quotient H I),
+      Function.Bijective
+        ((Ideal.Quotient.mkₐ k J.toIdeal).comp
+          (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal
+            (TauCeti.FiniteTypeCommHopfAlgCat.quotient H I)).coinvariants.val) := by
   sorry
 
 /-! ## Layer 7a: finite-field Lang surjectivity -/

@@ -1,0 +1,15 @@
+TauCeti.Algebra.Group.PowMonoidHom
+TauCeti.FieldTheory.Trace
+TauCeti.NumberTheory.EffectiveBounds.ClassNumber.Basic
+TauCeti.NumberTheory.EffectiveBounds.Discriminant.Basic
+TauCeti.NumberTheory.EffectiveBounds.HermiteCount.Basic
+TauCeti.NumberTheory.EffectiveBounds.IdealCount.Basic
+TauCeti.NumberTheory.EffectiveBounds.Regulator
+TauCeti.NumberTheory.EffectiveBounds.UnitHeight
+TauCeti.NumberTheory.EffectiveBounds.UnitSquares.Basic
+TauCeti.NumberTheory.EffectiveBounds.WorkedExamples
+TauCeti.NumberTheory.GeometryOfNumbers.Doubling
+TauCeti.NumberTheory.GeometryOfNumbers.RankTwoDoubling
+TauCeti.NumberTheory.Multiquadratic.MinusFive.ClassNumber
+TauCeti.NumberTheory.NumberField.Quadratic.RingOfIntegers
+TauCeti.NumberTheory.NumberField.Units.Log.Covolume
