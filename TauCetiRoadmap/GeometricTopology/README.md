@@ -13,8 +13,9 @@ decompositions and the statement of geometrization (Layer 8); Heegaard splitting
 (Layer 11). Each layer is a reusable library in its own right. The end theorems are the
 resolved problems of Kirby's list that these primitives make statable: the Smale conjecture
 and its four-dimensional failure, the annulus theorem, Freedman's topological slice theorem,
-Mostow rigidity, Agol's virtual fibering and virtual Haken theorems, the JSJ theorem,
-geometrization and the Poincaré conjecture, Li's rank-versus-genus examples, the minimality
+Levine's theorem that a knot in a homology sphere bounding a contractible manifold need not be
+homology concordant to a knot in `S³`, Mostow rigidity, Agol's virtual fibering and virtual
+Haken theorems, the JSJ theorem, geometrization and the Poincaré conjecture, Li's rank-versus-genus examples, the minimality
 of the Weeks manifold, Property P and Manolescu's non-triangulable manifolds, together with
 Alexander's sphere theorem, the knot-group theorem and the Gordon–Luecke theorem.
 `Suggested.lean` states all of these against the pinned libraries, together with Property R, the
@@ -52,9 +53,14 @@ This roadmap owns the following, by layer.
   Jones, HOMFLY and Kauffman polynomials, Fox colourings and the determinant, the knot and
   proper-link Arf invariant, fourth-root evaluations and the integral W quotient; the finite
   nonsingular `F₂` quadratic Arf algebra and its Seifert-form dictionary (Layer 4.3.1; consumed
-  by TangentialBordism and FourManifolds); the even-Clifford model of the Temperley–Lieb algebra
-  at `δ = √2` with its scalar trace, radical quotient, braid phases and the Jones–Arf comparison
-  (Layer 4.5.3, which TemperleyLiebOperatorAlgebras consumes); positive-trace kernel and
+  by TangentialBordism and FourManifolds); the finite algebraic even-Clifford model of the
+  Temperley–Lieb algebra at `δ = √2` (the even Clifford algebra `Cl_m⁰` with its ordered-monomial
+  basis, the scalar trace `s_m`, the surjection `F_m` from `TL_m` with kernel the trace radical
+  and the induced radical quotient, the coordinate inclusions and the braid phases) and the
+  Jones–Arf comparison built on it (Layer 4.5.3); TemperleyLiebOperatorAlgebras §1.7 consumes
+  this finite model and adds the analytic adjoint, the identification with Subfactors §3.3's
+  positive Jones quotient `Q_n`, the matrix blocks, the tower and the order of the braid image;
+  positive-trace kernel and
   braid-index certificates (Layer 4.5.6, which consumes Jones's positivity theorem, the trace
   radical and the positive Jones quotients from Subfactors §§3.1–3.3 and adds only the
   faithfulness of the trace on all of `TL_n` at `δ = 2cos(π/k)` for `k ≥ n + 2`), and the
@@ -76,7 +82,9 @@ This roadmap owns the following, by layer.
   chirality, the signature bound on the unknotting number, Conway mutation and the statement
   that it does not preserve smooth concordance, the statement of Levine's theorem on
   winding-number-one satellite operators with the proof of its reduction to knots in homology
-  spheres bounding no PL disc (Layer 6.4), and the statement of Freedman's theorem.
+  spheres bounding no disc with conical singularities, hence to the pinned
+  `TauCeti.LevineHomologyConcordanceTheorem`, and, assuming the PL smoothing input stated there,
+  bounding no PL disc (Layer 6.4), and the statement of Freedman's theorem.
 - **Layer 7.** Hyperbolic manifolds, Mostow rigidity and the finite-volume Mostow–Prasad
   theorem in dimension three with their volume and isometry-group consequences, the
   Margulis and cusp theory, the hyperbolicity of the pinned Weeks manifold and the statement of
@@ -86,8 +94,9 @@ This roadmap owns the following, by layer.
   Waldhausen's theorem on homotopy equivalences of closed Haken manifolds, the Seifert
   fibration API, and the statements of the Gordon–Luecke theorem, the JSJ theorem,
   geometrization and the Poincaré conjecture, the statement of the relative JSJ theorem
-  for compact manifolds with torus boundary (Layer 8.5.1), and the rigidity of prime-knot
-  groups (Layer 8.5.2).
+  for compact manifolds with torus boundary (Layer 8.5.1), and the reduction of the rigidity of
+  prime-knot groups to that relative JSJ theorem and the cyclic surgery theorem of Layer 5.4
+  (Layer 8.5.2).
 - **Layer 9.** The existence, gluing-map description and stabilization of the pinned Heegaard
   splittings, the Reidemeister–Singer theorem, Waldhausen's theorem on splittings of `S³`, the
   genus-zero and genus-one classifications and the additivity of the Heegaard genus under
@@ -116,7 +125,8 @@ This roadmap leaves the following to other roadmaps.
   the disc theorem, connected sums with their independence of the balls, prime manifolds,
   knot and link exteriors, Dehn fillings and surgery on framed spheres, the cosmetic-surgery
   predicates, the Weeks manifold, handlebodies, Heegaard splittings and the Heegaard genus with
-  the rank bound, the topological slice genus, the Euler class of a foliation, Sard's theorem in its flat and its
+  the rank bound, the topological slice genus, homology cobordisms and the homology concordance
+  of knots in homology spheres, the Euler class of a foliation, Sard's theorem in its flat and its
   boundaryless-manifold forms, the Jordan curve theorem and the Schoenflies theorem in the
   plane and on the `2`-sphere, slopes and framed boundary tori, the CW structure of a
   simplicial realization and its transport along homeomorphisms, the PL structure of a
@@ -126,8 +136,8 @@ This roadmap leaves the following to other roadmaps.
   decompositions, Haken and virtually Haken manifolds, mapping tori, the PL groupoid,
   simplicial realization, combinatorial manifolds, collapse, triangulability, and the
   propositions naming the Smale conjecture, Cerf's theorem, Watanabe's theorem, the annulus
-  conjecture, Freedman's theorem, Mostow rigidity, the virtual fibering and virtual Haken
-  conjectures, the JSJ theorem, geometrization, Kneser's and Milnor's prime decomposition
+  conjecture, Freedman's theorem, Levine's homology-concordance theorem, Mostow rigidity, the
+  virtual fibering and virtual Haken conjectures, the JSJ theorem, geometrization, Kneser's and Milnor's prime decomposition
   theorems, Mathieu's first chirally cosmetic pair, the theorem of Gabai, Meyerhoff and Milley,
   Li's theorem, the triangulation conjecture and Zeeman's conjecture. None
   of these is planned again here; each is cited by name where it is used.
@@ -178,7 +188,9 @@ This roadmap leaves the following to other roadmaps.
   11.2). It also owns the developments that consume roadmaps downstream of this one: the torus
   trick and the high-dimensional proof of the annulus theorem (surgery on homotopy tori and
   the Kirby–Siebenmann obstruction), topological microbundles, the TOP/PL
-  comparison and the smoothing theory beyond dimension three; the Lee deformation of Khovanov
+  comparison and the smoothing theory beyond dimension three, including the smoothing of
+  collared PL discs in smooth `4`-manifolds to discs with conical singularities stated in
+  Layer 6.4; the Lee deformation of Khovanov
   homology and Rasmussen's invariant with the Conway-knot and zero-shake-genus applications;
   the connected-sum and descent adapter for the grid invariant of CombinatorialHeegaardFloer;
   the proof of Levine's theorem on satellite operators stated in Layer 6.4, through Hom's `ε`
@@ -255,7 +267,8 @@ This roadmap leaves the following to other roadmaps.
   its independence of the metric is Mostow rigidity, a theorem, not a definition.
 - **Combinatorial manifolds.** Dimension `0` is the case of a discrete complex with empty
   vertex links; for `n + 1` every vertex link is a combinatorial `n`-sphere or `n`-ball. This
-  is Tau Ceti's `TauCeti.IsCombinatorialManifold`, by pattern matching on the dimension.
+  is Tau Ceti's `PreAbstractSimplicialComplex.IsCombinatorialManifold`, by pattern matching on the
+  dimension.
 - **Named hypotheses.** A *Hypothesis k.n* records a finite identification or computation about
   a specific diagram, surface, braid word or presentation (that a marked diagram is a given
   tabulated knot, that a given surface has a given Seifert matrix), or a value of a specific
@@ -441,7 +454,13 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   reverse mirror image
   (`TauCeti.SmoothCircleEmbedding.isTopologicallySlice_connectedSum_reverseMirror`) (`Slice/`),
   and the proposition
-  `TauCeti.FreedmanSliceTheorem` (`Slice/Freedman.lean`); solid-torus neighbourhoods
+  `TauCeti.FreedmanSliceTheorem` (`Slice/Freedman.lean`); integral homology cobordisms
+  `TauCeti.IsHomologyCobordism` (`Geometry/Manifold/HomologyCobordism.lean`), homology
+  concordance of smooth embeddings `TauCeti.SmoothEmbedding.HomologyConcordant`
+  (`Geometry/Manifold/SmoothEmbedding/HomologyConcordance.lean`) and the proposition
+  `TauCeti.LevineHomologyConcordanceTheorem`, that some knot in the boundary of a smooth compact
+  contractible `4`-manifold is homology concordant to no knot in `S³`
+  (`KnotTheory/HomologyConcordance.lean`); solid-torus neighbourhoods
   `TauCeti.IsSolidTorusNeighborhood` and its
   `TauCeti.IsSolidTorusNeighborhood.exteriorFrontierHomeomorph`, identifying the frontier
   of the complement of the open solid torus with its boundary torus in a Hausdorff ambient
@@ -531,8 +550,11 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   `FundamentalGroup/VanKampen/Presentation/`, `Topology/Homotopy/`):
   `TauCeti.isPushout_fundamentalGroup` (the pushout square of fundamental groups for an
   open cover by two sets with path-connected intersection, used for punctured discs),
-  `TauCeti.vanKampen_hom_ext`, and `TauCeti.homeomorphMulEquivOfEq` (the isomorphism of
-  homotopy groups induced by a homeomorphism).
+  `TauCeti.vanKampen_hom_ext`, `FundamentalGroup.homeomorphMulEquivOfEq` and
+  `HomotopyGroup.homeomorphMulEquivOfEq` (the isomorphisms of fundamental and higher homotopy
+  groups induced by a homeomorphism carrying one base point to the other;
+  `AlgebraicTopology/FundamentalGroup/Homeomorph.lean`,
+  `Topology/Homotopy/HomotopyGroup/Homeomorph.lean`).
 - **Irreducibility, incompressibility, Haken manifolds** (`Geometry/Manifold/`,
   `AlgebraicTopology/FundamentalGroup/Incompressible.lean`): `TauCeti.IsSphereBoundsBall`,
   `TauCeti.IsIncompressible` (embedding and injective on `π₁` at every base point),
@@ -565,7 +587,14 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   `TauCeti.hypVolumeOfMetric_eq_of_mostow` (`Hyperbolic/Volume.lean`);
   `TauCeti.HyperbolicMetric.HasFiniteVolume`, `TauCeti.IsFiniteVolumeHyperbolic`
   (`Hyperbolic/FiniteVolume.lean`); `TauCeti.IsMostowRigid`, `TauCeti.MostowRigidity`
-  (`Hyperbolic/Mostow.lean`); the upper half space `TauCeti.UpperHalfSpace E`
+  (`Hyperbolic/Mostow.lean`); the simplicial volume of a closed oriented manifold
+  `TauCeti.HomologicalOrientation.simplicialVolume`, the `ℓ¹`-seminorm `SSet.homologyL1Seminorm`
+  of its real fundamental class, with its homotopy invariance
+  `TauCeti.HomologicalOrientation.simplicialVolume_eq_of_homotopyEquiv` and its vanishing
+  `TauCeti.HomologicalOrientation.simplicialVolume_eq_zero_of_one_lt_abs` under a self-map of
+  degree of absolute value at least two (`AlgebraicTopology/Singular/LocalHomology/SimplicialVolume.lean`,
+  `AlgebraicTopology/SimplicialSet/Homology/L1Norm.lean`), the proportionality with hyperbolic
+  volume not being proved there; the upper half space `TauCeti.UpperHalfSpace E`
   (`Hyperbolic/UpperHalfSpace/Basic.lean`) with its complete metric of curvature `−1`,
   `TauCeti.UpperHalfSpace.hyperbolicMetric` and `TauCeti.UpperHalfSpace.isHyperbolic`
   (`UpperHalfSpace/Metric.lean`); `TauCeti.riemannianVolume` and
@@ -693,7 +722,7 @@ Layers 8 and 9. The smooth structure of the pinned exterior in Layer 5.1, built 
 4.4, 5.1 and 11.2, precede the cyclic surgery theorem of Layer 5.4 and the finite-volume theory of
 Layer 7.3. With these edges the graph of targets is acyclic. Otherwise Layers 2 and 3 are
 independent of each other and of Layer 4; Layer 6 (concordance) needs Layers 1, 2 and 4, and
-the reduction of Levine's theorem in Layer 6.4 also Layers 5.2 and 11.3; Layer 7
+the reduction of Levine's theorem in Layer 6.4 also Layer 5.2, and its PL form Layer 11.3; Layer 7
 needs Layer 1 and the Riemannian suppliers, and for its finite-volume part the Dehn filling of
 Layer 5.2 and the irreducibility of Layer 8.2; Layer 9 (Heegaard splittings) needs Layers 1, 7, 8
 and 11; and Layer 10 (foliations) needs Layers 1, 5, 7, 8 and 9. Each layer ends with its examples
@@ -2101,7 +2130,7 @@ embedded smooth 1-manifold meeting the faces exactly in the marked points, strai
 collars; a relative isotopy is an ambient isotopy fixed on the side wall and both faces. Prove that
 geometric braids relatively isotopic as tangles, through tangles that need not be monotone, are
 isotopic as braids: the isotopy, extended to fix the whole cylinder boundary, induces a complement
-isomorphism (`TauCeti.FundamentalGroup.homeomorphMulEquivOfEq`, with its opposite-group adapter)
+isomorphism (`FundamentalGroup.homeomorphMulEquivOfEq`, with its opposite-group adapter)
 respecting the b and t markings, so the pullback monodromies agree and Artin.F applies. The
 blackboard framing (along the first disc coordinate) is compatible with braid isotopy, stacking and
 juxtaposition, so the same holds for framed and for unoriented relative tangles.
@@ -6400,26 +6429,53 @@ Prove here the reduction from Levine's theorem to knots in homology spheres (Lev
 Proposition 1.3 and Remark 1.5). For a winding-number-one pattern `P`, let `X_P` be `S¹ × D³`
 with a `2`-handle attached along `P ⊂ S¹ × S²` with the framing induced by the Seifert framing
 of `P(unknot)`; `X_P` is a compact contractible smooth `4`-manifold, `Y_P = ∂X_P` an integral
-homology sphere, and `J_P = S¹ × {pt} ⊂ Y_P`. Prove: if no `P(K)` bounds a smooth disc in a
-smooth rational homology `4`-ball with boundary `S³`, then `J_P` bounds no piecewise-linear
-disc in any smooth rational homology `4`-ball `X` with `∂X = Y_P`, for the PL structure of
-Layer 11.3. Route (Levine, proof of Proposition 1.3): a PL disc may be taken smooth away from
-finitely many interior points at which it is the cone on a knot `K₁, …, K_n`, so tubing these
-points to the boundary along arcs of the disc makes `J_P # −K` smoothly slice in `X`, where
-`K = K₁ # ⋯ # K_n`; a `0`-framed `2`-handle along it gives `W`, a rational homology `S² × D²`
-whose boundary is the `0`-surgery on `P(−K)` (cut-and-paste of solid tori and exteriors,
-Layers 4.11 and 5.2); surgery
+homology sphere, and `J_P = S¹ × {pt} ⊂ Y_P`. A *disc with conical singularities* in a smooth
+`4`-manifold `X` is a compact disc `Δ ⊂ X` with `Δ ∩ ∂X = ∂Δ` a smooth knot, which is a smooth
+submanifold away from finitely many interior points `p₁, …, p_n`, each `p_i` having a smooth
+chart `φ_i : U_i → ℝ⁴` with `φ_i(p_i) = 0` that carries `Δ ∩ U_i` onto the radial cone
+`{t x : 0 ≤ t < 1, x ∈ K_i}` on a smooth knot `K_i` in the unit sphere `S³`; a smooth disc is the
+case `n = 0`. Prove: if no `P(K)` bounds a smooth disc in a smooth rational homology `4`-ball
+with boundary `S³`, then `J_P` bounds no disc with conical singularities in any smooth rational
+homology `4`-ball `X` with `∂X = Y_P`. Route (Levine, proof of Proposition 1.3, from its third
+sentence on): tubing the singular points to the boundary along arcs of the disc makes
+`J_P # −K` smoothly slice in `X`, where `K = K₁ # ⋯ # K_n`; a `0`-framed `2`-handle along it
+gives `W`, a rational homology `S² × D²` whose boundary is the `0`-surgery on `P(−K)`
+(cut-and-paste of solid tori and exteriors, Layers 4.11 and 5.2); surgery
 (`TauCeti.SphereSurgery`) on the sphere formed by the slice disc and the core, whose normal
 bundle is trivial, gives a rational homology `S¹ × D³`, and a `0`-framed `2`-handle along the
 core of the surgery torus gives a smooth rational homology `4`-ball with boundary `S³` in which
-the cocore is a smooth slice disc for `P(−K)`. Concordance of knots in homology spheres is an
-annulus in a smooth homology cobordism between the ambient manifolds, specializing to Layer 6.1
-for `S³ × [0, 1]`; a knot in a homology sphere `Y` homology concordant to a knot `K' ⊂ S³`
-bounds a PL disc in the homology ball obtained by capping the cobordism with `D⁴`, the annulus
-followed by the cone on `K'`. Assuming Levine's theorem, for his pattern `P` the knot `J_P` in
-the homology sphere `Y_P` bounds no PL disc in any rational homology ball with boundary `Y_P`,
-the contractible `X_P` included, and is homology concordant to no knot in `S³` (Levine,
-Theorem 1.1, first part; Kirby's Problem 1.31).
+the cocore is a smooth slice disc for `P(−K)`.
+
+Concordance of knots in homology spheres is an annulus in a smooth homology cobordism between
+the ambient manifolds (`TauCeti.SmoothEmbedding.HomologyConcordant` over `ℤ`, in a
+`TauCeti.IsHomologyCobordism`), specializing to Layer 6.1 for `S³ × [0, 1]`. A knot in a
+homology sphere `Y` homology concordant to a knot `K' ⊂ S³` bounds a disc with one conical
+singularity in the homology ball obtained by capping the cobordism with `D⁴`: the annulus
+followed by the radial cone on `K'`, glued along collars. Assuming Levine's theorem, for his
+pattern `P` the knot `J_P` in the homology sphere `Y_P` therefore bounds no disc with conical
+singularities in any rational homology ball with boundary `Y_P`, the contractible `X_P`
+included, and is homology concordant to no knot in `S³`. This is the pinned proposition
+`TauCeti.LevineHomologyConcordanceTheorem` (Levine, Theorem 1.1, first part, in the
+homology-concordance form of Remark 1.5; Kirby's Problem 1.31), which `Suggested.lean` states
+as `levine_homology_concordance_theorem`; its proof here is this reduction, Levine's theorem
+being GeometricTopology, Part II's. Neither the reduction nor this consequence uses the
+smoothing input below.
+
+**PL discs.** Levine states Proposition 1.3 for piecewise-linear discs, and his proof begins by
+making a PL disc smooth away from finitely many cone points (Levine, proof of Proposition 1.3,
+second sentence). State that input: every compact PL disc `Δ` in a smooth `4`-manifold `X`, for
+the PL structure of Layer 11.3, with `Δ ∩ ∂X = ∂Δ` a smooth knot along which `Δ` is collared, is
+isotopic, by an ambient isotopy fixed on `∂X`, to a disc with conical singularities. The collar
+costs nothing: attaching the exterior collar `∂X × [0, 1]` to `X` and `∂Δ × [0, 1]` to `Δ`
+turns a knotted arc at a boundary vertex into an interior cone point. Its combinatorial half is
+proved here: in a triangulation of `X` in which `Δ` is a subcomplex, the link pairs of the
+interior edges and triangles of `Δ` are the unknotted pairs `(S², S⁰)` and `(S¹, ∅)`, so `Δ` is
+locally flat at every interior point that is not a vertex, and at an interior vertex `v` the
+link pair is a PL knot `(S³, K_v)`. Its other half, smoothing a locally flat PL surface in a
+smooth `4`-manifold away from finitely many cone points, is four-dimensional smoothing theory,
+whose proof is GeometricTopology, Part II's. Assuming the input, the reduction gives Levine's
+Proposition 1.3 as he states it: `J_P` bounds no PL disc in any smooth rational homology
+`4`-ball with boundary `Y_P`.
 
 **Hypothesis 6.4 (the Whitehead double of the trefoil).** The positive-clasped untwisted
 Whitehead double `W = W_(+,0)(T)` of 4.11.3, with `T = T(2,3)` the right-handed trefoil of 4.11,
@@ -6442,6 +6498,12 @@ negative-clasped double `W_(−,0)(T)`, the mirror of `W_(+,0)` of the left-hand
 - *Clasp and handedness.* By Hedden's formula, `τ` of the positive-clasped `t`-twisted double of
   `K` is `1` exactly when `t < 2τ(K)`: with `τ(T) = 1`, `W_(+,0)(T)` has `τ = 1`, while
   `W_(+,0)(mirror T)` and `W_(−,0)(T)`, its mirror, have `τ = 0` (by evaluation).
+- *Cone points.* The radial cone in `D⁴` on a smooth trefoil in `S³` is a disc with one conical
+  singularity: `(t, x) ↦ t x` is an embedding for `t > 0` with injective differential, since it
+  sends `∂_t` to `x`, normal to `S³`, and is injective on the tangent line of the knot; and it is
+  not locally flat at `0`, its link there being the trefoil, whose group `⟨x, y | xyx = yxy⟩`
+  is not `ℤ`. The radial cone on a great circle is the flat disc `P ∩ D⁴` of a `2`-plane `P`,
+  smooth at `0` as well, so a cone point on the unknot is no singularity (by evaluation).
 - *Trivial and Mazur patterns.* For the core pattern `S¹ × {0}` the two handles of `X_P` cancel,
   `Y_P` is the `(0, 0)`-surgery on the Hopf link, `S³` by 5.2, and `J_P`, a `0`-framed push-off
   of the surgery curve, bounds a disc: no contradiction, since the reduction's hypothesis fails
@@ -6453,8 +6515,11 @@ negative-clasped double `W_(−,0)(T)`, the mirror of `W_(+,0)` of the left-hand
 `TauCeti.SmoothCircleEmbedding.HasPerfectCommutatorSubgroup`, `TauCeti.IsTopologicallySlice`,
 `TauCeti.SphereSurgery`; Layer 4.4, Layer 6.1, Layer 6.2 for Freedman's theorem; Layer 1.3
 (gluing and `2`-handles), Layer 1.5 (tubes), Layer 4.11 (satellites and their Seifert framing),
-Layer 5.2 (fillings and surgery), Layer 11.3 (smooth triangulations and PL structures) and
-Mathlib singular homology for the reduction; Levine's theorem as stated, for its consequence.
+Layer 5.2 (fillings and surgery) and Mathlib singular homology for the reduction; Tau Ceti
+`TauCeti.IsHomologyCobordism`, `TauCeti.SmoothEmbedding.HomologyConcordant` and
+`TauCeti.LevineHomologyConcordanceTheorem`, Layer 1.1 (collars) and Levine's theorem as stated,
+for the homology-concordance consequence; Layer 11.3 (smooth triangulations, PL structures and
+the link pairs of a subcomplex) and the smoothing input as stated, for the PL statement only.
 
 ### Examples
 
@@ -6468,7 +6533,8 @@ the right-handed trefoil, topologically slice by Freedman's theorem and, assumin
 
 Tau Ceti's concordance and slice carriers and matrix signatures; Layer 4 (knots, Seifert
 matrices, polynomials), Layer 1.3 (gluing concordances), Layer 2 (locally flat discs); for the
-reduction of Levine's theorem in 6.4, Layer 5.2 (surgery) and Layer 11.3 (PL structures).
+reduction of Levine's theorem in 6.4, Layer 5.2 (surgery), and for its PL form Layer 11.3 (PL
+structures).
 
 ## Layer 7: hyperbolic structures, volume and rigidity
 
@@ -6524,38 +6590,83 @@ HopfRinow Layers 1–3; DifferentialGeometry Layer 12.
 Prove the pinned proposition `TauCeti.MostowRigidity`: for closed connected hyperbolic manifolds
 of dimension `n ≥ 3`, any two hyperbolic metrics on the same manifold are related by an
 isometry; more strongly, a homotopy equivalence between closed hyperbolic manifolds of dimension
-`n ≥ 3` is homotopic
-to an isometry (Mostow, *Quasi-conformal mappings in n-space and the rigidity of hyperbolic
-space forms*, Publ. Math. IHÉS 34 (1968); Ratcliffe, *Foundations of Hyperbolic Manifolds*,
-3rd ed., Theorem 11.8.5). `Suggested.lean` states it as `mostow_rigidity`; its proof is a
-target of this layer. The proof route is Gromov–Thurston's for `n = 3` (Thurston, Chapter 6):
-the lift of the
-homotopy equivalence extends to a quasi-conformal homeomorphism of the sphere at infinity, and
-straightening of singular chains with the maximal volume of the regular ideal simplex shows
-that it carries regular ideal simplices to regular ideal simplices almost everywhere, hence is
-Möbius; in dimension `n ≥ 4` it is Mostow's quasi-conformal boundary argument (Ratcliffe,
-Chapter 11). Deduce, through `TauCeti.hypVolumeOfMetric_eq_of_mostow`, that `TauCeti.hypVolume`
-is metric independent and a topological invariant, and that the full isometry group is finite
-and isomorphic to `Out(π₁)`: an isometry homotopic to the identity lifts, after a deck
-adjustment, to an isometry centralizing the lattice, whose limit set is the whole sphere, so the
-lift is trivial; the normalizer of the lattice is discrete and contains it with finite index by
-the covolume formula.
+`n ≥ 3` is homotopic to an isometry (Mostow, *Quasi-conformal mappings in n-space and the
+rigidity of hyperbolic space forms*, Publ. Math. IHÉS 34 (1968); Ratcliffe, *Foundations of
+Hyperbolic Manifolds*, 3rd ed., Theorem 11.8.5). `Suggested.lean` states it as `mostow_rigidity`;
+its proof is a target of this layer. The route is Gromov's, through the simplicial volume, in
+every dimension `n ≥ 3` (Thurston, *The Geometry and Topology of Three-Manifolds*, §§6.1–6.3;
+the opening of §6.3 notes that the three-dimensional argument works in every dimension once the
+simplices of maximal volume are known). It needs no quasi-conformal analysis, and its inputs are
+targets of this section:
 
-- The volume of a closed hyperbolic `3`-manifold is the simplicial volume times the volume
-  `v₃ = 1.0149…` of the regular ideal tetrahedron.
+- *Boundary extension.* For closed hyperbolic `n`-manifolds `M₁`, `M₂` with `n ≥ 2` and a
+  homotopy equivalence `f : M₁ → M₂`, a lift `f̃ : ℍⁿ → ℍⁿ` may be chosen to be a quasi-isometry
+  (Thurston, Lemma 5.9.1); it carries each geodesic to within bounded distance of a unique
+  geodesic (Proposition 5.9.2, the Morse lemma in `ℍⁿ`); and it extends to a homeomorphism
+  `∂f̃` of the sphere at infinity `Sⁿ⁻¹`, equivariant for the two deck actions, whose inverse is
+  the extension of a lift of a homotopy inverse (Corollaries 5.9.3 and 5.9.5).
+- *Proportionality.* For a closed connected oriented hyperbolic `n`-manifold `M` with `n ≥ 2`,
+  `vol(M) = v_n ‖M‖`, where `‖M‖` is the pinned simplicial volume
+  `TauCeti.HomologicalOrientation.simplicialVolume`, the `ℓ¹`-seminorm `SSet.homologyL1Seminorm`
+  of the real fundamental class, and `v_n` is the supremum of the volumes of straight
+  `n`-simplices in `ℍⁿ`, finite for `n ≥ 2` (Thurston, Proposition 6.1.4 and Theorem 6.2):
+  straightening singular simplices gives `vol(M) ≤ v_n ‖M‖`, and smearing a large straight
+  simplex over `Isom(ℍⁿ)` with its Haar measure gives the reverse inequality. With the pinned
+  homotopy invariance `TauCeti.HomologicalOrientation.simplicialVolume_eq_of_homotopyEquiv`,
+  homotopy equivalent closed hyperbolic manifolds have equal volume (Thurston, Lemma 6.3.1).
+- *Simplices of maximal volume.* For `n ≥ 2`, a geodesic `n`-simplex in `ℍⁿ`, ideal vertices
+  allowed, has volume at most that of the regular ideal `n`-simplex, with equality exactly for
+  the regular ideal ones, so `v_n` is that volume (Haagerup–Munkholm, *Simplices of maximal volume
+  in hyperbolic n-space*, Acta Math. 147 (1981), the theorem of the introduction; for `n = 3`,
+  Milnor's computation, Thurston §6.1 and Chapter 7).
+- *Regular simplices and the Möbius conclusion.* For `n ≥ 3`, `∂f̃` carries the vertices of
+  every positively oriented regular ideal `n`-simplex to the vertices of a positively oriented
+  regular ideal `n`-simplex (Thurston, Lemma 6.3.2 for `n = 3`, by smearing, from the equality of
+  volumes, proportionality and the uniqueness of the maximal simplices; the same argument in
+  every dimension). A positively oriented regular ideal `n`-simplex is determined by `n` of its
+  vertices, and the vertices of the images of one such simplex under the group generated by the
+  reflections in its faces are dense in `Sⁿ⁻¹` (Thurston, end of §6.3, for `n = 3`; the density
+  in every dimension `n ≥ 3` is a target here). So `∂f̃` agrees on a dense set, hence
+  everywhere, with the boundary map of an isometry of `ℍⁿ`, which conjugates one deck group to
+  the other and descends to an isometry homotopic to `f`.
+
+Deduce, through `TauCeti.hypVolumeOfMetric_eq_of_mostow`, that `TauCeti.hypVolume` is metric
+independent and a topological invariant, and that the full isometry group is finite and
+isomorphic to `Out(π₁)`: an isometry homotopic to the identity lifts, after a deck adjustment, to
+an isometry centralizing the lattice, whose limit set is the whole sphere, so the lift is
+trivial; the normalizer of the lattice is discrete and contains it with finite index by the
+covolume formula.
+
+- The volume of a closed hyperbolic `n`-manifold is `v_n` times its simplicial volume, by the
+  proportionality input; for `n = 3`, `v₃ = 1.0149…` is the volume of the regular ideal
+  tetrahedron.
 
 **Checks.**
 - *Dimension two.* A closed surface of genus `g ≥ 2` has a `(6g − 6)`-dimensional space of
   hyperbolic metrics up to isotopy, and genus-two metrics with different systoles are not
   isometric, so `n ≥ 3` is necessary.
+- *Where the route fails at n = 2.* Every ideal triangle is regular, so the maximal-simplex input
+  constrains nothing: two vertices of a positively oriented ideal triangle leave the third free
+  on an arc of `S¹`, and the boundary map need not be Möbius, as the moduli above require. In
+  `ℍ³` the three vertices `0, 1, ∞` of a regular ideal tetrahedron fix the fourth, `e^(iπ/3)` for
+  one orientation and `e^(−iπ/3)` for the other (by evaluation).
 - *Closedness.* The figure-eight knot complement is not closed, so the closed theorem does not
   apply to it directly; its rigidity is the finite-volume theorem of Layer 7.3.
 - *Volumes.* `TauCeti.hypVolumeOfMetric_eq_of_mostow` turns rigidity for a given `M` into the
   equality of the volumes of any two hyperbolic metrics on `M`, the form `hypVolume` needs.
+- *Simplicial volume.* A genus-two surface has hyperbolic area `4π` and `v₂ = π`, so its
+  simplicial volume is `4 = 2|χ|`; the sphere and torus carry self-maps of degree `2`, so the
+  pinned `TauCeti.HomologicalOrientation.simplicialVolume_eq_zero_of_one_lt_abs` gives them
+  simplicial volume `0`, consistent with their carrying no hyperbolic metric (by evaluation).
 
 *Needs:* Tau Ceti `TauCeti.MostowRigidity`, `TauCeti.IsMostowRigid`,
-`TauCeti.HyperbolicMetric.Isometry`, `TauCeti.hypVolumeOfMetric_eq_of_mostow`; Layer 7.1;
-Mathlib singular homology, measure theory.
+`TauCeti.HyperbolicMetric.Isometry`, `TauCeti.hypVolumeOfMetric_eq_of_mostow`,
+`TauCeti.HomologicalOrientation.simplicialVolume`,
+`TauCeti.HomologicalOrientation.simplicialVolume_eq_of_homotopyEquiv`,
+`TauCeti.HomologicalOrientation.simplicialVolume_eq_zero_of_one_lt_abs`,
+`SSet.homologyL1Seminorm`; Layer 7.1 (the isometry group, its transitivity on frames, the
+volume form and the fundamental-domain volume); Mathlib singular homology, Haar measure on the
+locally compact group of isometries of `ℍⁿ` (`MeasureTheory.Measure.haar`) and measure theory.
 
 ### 7.3 Finite-volume hyperbolic 3-manifolds
 
@@ -6670,8 +6781,16 @@ its multi-cusp Table 2 pictures use sequential expansion, with cutoff `α=1/10`.
   lengths `1` and `2`, so the product metric on `UnitAddTorus (Fin 2)` is not the induced one
   (by evaluation).
 - *Swapping periods.* Swapping the two periods inverts the raw ratio (`−i ↦ i`) and leaves the
-  lattice and its `PGL(2, ℤ)` orbit unchanged; conjugating the ratio changes the oriented class
-  but not the unoriented one (by evaluation).
+  lattice and its `PGL(2, ℤ)` orbit unchanged. For this square lattice conjugation also fixes the
+  orbit: the conjugate ratio `i = 1/(−i)` is the image of `−i` under `[[0, 1], [1, 0]]`, the
+  lattice `ℤ[i]` being stable under complex conjugation (by evaluation).
+- *Conjugation separates the two classes.* For periods `(1/3 + 2i, 1)`, with ratio
+  `τ = 1/3 + 2i`, the conjugate `τ̄` lies in the `PGL(2, ℤ)` orbit of `τ` only if
+  `−τ̄ = −1/3 + 2i` lies in the `SL(2, ℤ)` orbit of `τ` (an element of determinant `−1` is one
+  of determinant `1` followed by `z ↦ −z`); both points satisfy `|Re z| = 1/3 < 1/2` and
+  `|z|² = 37/9 > 1`, so they are distinct interior points of the standard fundamental domain and
+  not equivalent. Conjugation therefore changes the oriented class of this lattice while
+  leaving its unoriented class fixed (by evaluation).
 
 *Needs:* this layer's finite-volume cusp decomposition, native hyperbolic metric
 and Riemannian measure; SuccessiveMinima Layer 1 (1.5
@@ -6724,10 +6843,11 @@ figure-eight and Whitehead link complements; the Weeks manifold.
 
 ### Dependencies
 
-Tau Ceti's hyperbolic metrics, volumes, isometries, geometric structures and the Mostow,
-virtual fibering and virtual Haken propositions; HopfRinow (geodesics, exponential map);
-DifferentialGeometry Layer 12 (metrics and densities); Layer 5.2 (Dehn filling), Layer 8.2
-(irreducibility).
+Tau Ceti's hyperbolic metrics, volumes, isometries, geometric structures, the simplicial
+volume with its homotopy invariance, and the Mostow, virtual fibering and virtual Haken
+propositions; Mathlib's Haar measure and singular homology (Layer 7.2's proportionality);
+HopfRinow (geodesics, exponential map); DifferentialGeometry Layer 12 (metrics and densities);
+Layer 5.2 (Dehn filling), Layer 8.2 (irreducibility).
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
 The decomposition theorems of `3`-manifold topology are statable against Tau Ceti's
@@ -6772,9 +6892,9 @@ for every nontrivial tame knot K in `S³` and every slope r on its compact exter
 `X_K(r) ≅ S³` implies `r = μ_K`, with no primality hypothesis; the meridian filling gives the
 converse. Its proof (punctured planar surfaces, filling caps, intersection graphs) is
 GeometricTopology, Part II's, and it is consumed here as stated; the cyclic-surgery distance bound
-alone does not give it. Prove the extension theorem: for nontrivial K, J and a homeomorphism
-`h : X_K ≃ₜ X_J` of exteriors, `X_J(h_*μ_K) ≅ S³` by transport, so `h_*μ_K = μ_J`, and this `h`
-itself extends, by 5.2's marked solid-torus extension after adjusting collars, to a homeomorphism
+alone does not give it. Assuming it, prove the extension theorem: for nontrivial K, J and a
+homeomorphism `h : X_K ≃ₜ X_J` of exteriors, `X_J(h_*μ_K) ≅ S³` by transport, so
+`h_*μ_K = μ_J`, and this `h` itself extends, by 5.2's marked solid-torus extension after adjusting collars, to a homeomorphism
 of `S³` carrying one core knot onto the other, with its orientation and core-parametrization
 laws. The filling and slope comparisons are 5.2's. The unknot has other `S³` fillings, so
 nontriviality cannot be dropped. The proof does not use 8.5.2. Reference: [Gordon–Luecke,
@@ -6957,10 +7077,13 @@ torus `TauCeti.SolidTorus` with `TauCeti.SolidTorus.fiberSetoid p q`), `TauCeti.
   its Seifert invariants: the genus and orientability of the base, the number of boundary
   components, the orientation character of the fibres along loops of the base, the normalized
   pairs `(α₁, β₁), …, (αₖ, βₖ)` of the exceptional fibres up to permutation, and the Euler
-  obstruction `b` when the base is closed (Seifert, Acta Math. 60 (1933); Scott, *The geometries
+  obstruction `e` when the base is closed (Seifert, Acta Math. 60 (1933); Scott, *The geometries
   of 3-manifolds*, Bull. London Math. Soc. 15 (1983), §3); for an orientable total space the
   orientation character is determined by the base and the invariants reduce to Hatcher's
-  `M(±g, b; α₁/β₁, …, αₖ/βₖ)`, the sign recording orientability of the base;
+  `M(±g, b; α₁/β₁, …, αₖ/βₖ)` (Hatcher, §2.1, p. 33), in which `g` is the genus of the base, the
+  sign is `+` exactly when the base is orientable, `b` is the number of boundary components of
+  the base, and the Euler obstruction is not a separate symbol but is carried by the fractions
+  `αᵢ/βᵢ`, a fraction with `βᵢ = 1` recording a regular fibre;
 - in a compact connected irreducible Seifert fibred space every essential surface (a connected
   compact properly embedded surface that is incompressible, in Hatcher's sense of Layer 8.2, and
   `∂`-incompressible, or a sphere not bounding a ball, or a disc that is not `∂`-parallel) is
@@ -6972,12 +7095,14 @@ torus `TauCeti.SolidTorus` with `TauCeti.SolidTorus.fiberSetoid p q`), `TauCeti.
   fibre-preserving homeomorphism except for those of Hatcher, Theorem 2.3: the model fibrations
   of `S¹ × D²`, two fibrations each of `S¹ ×̃ S¹ ×̃ [0, 1]` and of `S¹ ×̃ S¹ ×̃ S¹`, the fibrations
   of `S³`, `S¹ × S²` and the lens spaces over the sphere with at most two exceptional fibres, and
-  the family `M(0, 0; 1/2, −1/2, α/β) = M(−1, 0; β/α)`.
+  the family `M(0, 0; 1/2, −1/2, α/β) = M(−1, 0; β/α)` for `α, β ≠ 0` (Hatcher, Theorem 2.3,
+  p. 37).
 
 **Checks.**
 - *Orientation character.* The circle bundles `T³ → T²` and `K × S¹ → T²` (`K` the Klein bottle
   fibred over a circle factor) both have base of genus one, a section and no exceptional fibres,
-  and differ only in the orientation character; genus, `b` and exceptional pairs miss this.
+  and differ only in the orientation character; the genus, the boundary count, the Euler
+  obstruction `e` and the exceptional pairs miss this.
 - *Essential surfaces.* In `T³ = S¹ × T²` a small sphere bounding a ball is injective on `π₁` but
   neither vertical nor horizontal (Euler characteristic `2`, not `0`); it is not essential.
 - *Knot exteriors.* The trefoil exterior is Seifert fibred with exceptional fibres of
@@ -7027,7 +7152,7 @@ characteristic torus family, its Seifert pieces and atoroidal interiors, and pro
 uniqueness up to ambient isotopy relative to the external boundary and that every homeomorphism
 carries one characteristic family to the other up to such isotopy (existence and uniqueness up
 to isotopy of a minimal family for compact irreducible orientable `3`-manifolds, boundary allowed:
-Hatcher, *Notes on Basic 3-Manifold Topology*, Theorem 1.9, p. 15; Jaco–Shalen; Johannson, as in
+Hatcher, *Notes on Basic 3-Manifold Topology*, Theorem 1.9, p. 18; Jaco–Shalen; Johannson, as in
 8.5). The proof belongs to the
 normal-surface and characteristic-annulus prefix of GeometricTopology, Part II, which extends
 8.5's Kneser, characteristic-Seifert and annulus arguments to boundary collars from 8.1–8.4 and
@@ -7051,8 +7176,11 @@ isotopy classification. 8.5.2 consumes the statement.
 
 ### 8.5.2 Prime-knot groups and exterior rigidity
 
-Prove: for nontrivial prime tame knots `K, J ⊂ S³`, primeness being 4.9's, an abstract group
-isomorphism `π₁(X_K) ≃* π₁(X_J)` implies that their compact exteriors are homeomorphic. Here
+Assuming the relative JSJ theorem of 8.5.1 and the cyclic surgery theorem of 5.4, both stated
+in this roadmap and both proved in GeometricTopology, Part II, prove: for nontrivial prime tame
+knots `K, J ⊂ S³`, primeness being 4.9's, an abstract group isomorphism `π₁(X_K) ≃* π₁(X_J)`
+implies that their compact exteriors are homeomorphic. This roadmap owns the reduction of the
+rigidity of prime-knot groups to these two theorems. Here
 `X_K = S³ \ int ν(K)` is 5.1's exterior of the native `SmoothCircleEmbedding`, with its boundary
 torus and collar, the groups are the native `KnotGroup`, not presentations, and the output carries
 no orientation or meridian marking. The unknot, with group `ℤ`, is 8.1's knot-group theorem.
@@ -7091,8 +7219,9 @@ and recover an external peripheral system, consuming the relative JSJ statement 
 Applying 8.3.1's group-to-pair realization to ψ gives the exterior homeomorphism, with its
 basepoint comparison; it need not realize the original isomorphism.
 
-**Knot equivalence and sharp scope.** By 8.1's meridian uniqueness the chosen exterior
-homeomorphism sends the source meridian to the target meridian, and 8.1's extension theorem
+**Knot equivalence and sharp scope.** Assuming in addition 8.1's Gordon–Luecke filling theorem
+(proved in GeometricTopology, Part II), the chosen exterior homeomorphism sends the source
+meridian to the target meridian (8.1's meridian uniqueness), and 8.1's extension theorem
 extends it over the meridional fillings, so K and J are carried onto each other by a homeomorphism
 of `S³`, allowing reflection and reversal of the knot orientation; conversely such a homeomorphism
 gives the group isomorphism. The equivalence holds in this coarse quotient; smooth ambient
@@ -7111,9 +7240,10 @@ compact-exterior formulation, with the meridian and longitude orientation laws i
 - *Unknot.* The unknot has group `ℤ` and a solid-torus exterior; it is covered by 8.1's unknot
   criterion, separately from the prime rigidity.
 
-*Needs:* 4.1, 4.3.4, 4.4, 4.9, 4.11; 5.1–5.2 and 5.4; 6.2; 8.1–8.5.1 and 11.2, with 8.3.1's
-relative Haken and peripheral realization. Neither geometrization nor closed hyperbolization is a
-premise.
+*Needs:* 4.1, 4.3.4, 4.4, 4.9, 4.11; 5.1–5.2 and 5.4 (the cyclic surgery theorem as stated);
+6.2; 8.1 (the Gordon–Luecke filling theorem as stated, for the knot-equivalence consequence only),
+8.2–8.5 and 8.5.1 (the relative JSJ theorem as stated) and 11.2, with 8.3.1's relative Haken and
+peripheral realization. Neither geometrization nor closed hyperbolization is a premise.
 
 ### 8.6 Geometrization and the Poincaré conjecture
 
@@ -7618,8 +7748,10 @@ for Layer 11.2.1; Mathlib CW complexes.
   and owns the four-dimensional theorems this roadmap states (the dimension-four annulus theorem
   and Freedman's theorem).
 - **TemperleyLiebOperatorAlgebras** consumes Layer 4.5.3's finite algebraic
-  Clifford map, scalar trace, radical quotient and braid phases, and Layer 4's Jones
-  polynomial of braid closures.
+  Clifford map, scalar trace, radical quotient, coordinate inclusions and braid phases, and
+  Layer 4's Jones polynomial of braid closures; its §1.7 adds the analytic adjoint, the
+  comparison with Subfactors §3.3's positive quotient `Q_n`, the blocks and the tower on top of
+  that finite model.
 - **TangentialBordism** consumes Layer 1's gluing, Layer 4.3.1's finite quadratic
   Arf algebra and Layer 11.3's smooth triangulations; its Spin-surface
   refinement and Spin bordism classification remain its own constructions.
@@ -7639,8 +7771,8 @@ for Layer 11.2.1; Mathlib CW complexes.
 
 - R. Kirby (ed.), *Problems in Low-Dimensional Topology*, in *Geometric Topology* (Athens,
   GA, 1993), AMS/IP Stud. Adv. Math. 2.2 (1997): Problems 1.15 (Property P), 1.16 (Property
-  R), 1.31 (concordance in homology spheres), 1.36 (Alexander polynomial one), 1.53
-  (mutation and concordance), 1.81 (cosmetic surgery), 3.45 (geometrization), 3.51 (virtual
+  R), 1.31 (concordance in homology spheres), 1.36 (Alexander polynomial one), 1.45
+  (winding-number-one satellite operators), 1.53 (mutation and concordance), 1.81 (cosmetic surgery), 3.45 (geometrization), 3.51 (virtual
   fibering), 3.60 (minimal volume), 4.34 (Smale conjecture), 4.126 (four-dimensional Smale
   conjecture), 5.2 (Zeeman's conjecture).
 - A. Hatcher, *Notes on Basic 3-Manifold Topology*, https://pi.math.cornell.edu/~hatcher/3M/3Mfds.pdf:

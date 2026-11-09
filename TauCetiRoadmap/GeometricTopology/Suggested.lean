@@ -6,6 +6,7 @@ public import TauCeti.Geometry.Manifold.LocallyFlat.Annulus
 public import TauCeti.Geometry.Manifold.Irreducible
 public import TauCeti.Geometry.Manifold.Haken
 public import TauCeti.KnotTheory.Slice.Freedman
+public import TauCeti.KnotTheory.HomologyConcordance
 public import TauCeti.KnotTheory.SmoothLink.Isotopy
 public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.Mostow
 public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.VirtualFibering
@@ -31,9 +32,11 @@ roadmap's layers make statable. Every carrier used here exists at the pins; no d
 Of these, the proofs of Mostow rigidity (Layer 7.2), Alexander's theorem, the sphere theorem and
 the knot-group theorem (Layer 8.1), the Kneser–Milnor theorem (Layer 8.2), Waldhausen's theorem
 (Layer 8.3), Radó's triangulation theorem (Layer 11.2.1) and Moise's triangulation theorem
-(Layer 11.2) are targets of this roadmap. The proofs of the Smale conjecture (Layer 3), the
-cyclic surgery theorem (Layer 5.4), the Gordon–Luecke theorem and the JSJ theorem (Layer 8) are
-GeometricTopology, Part II's, which starts from these statements. The annulus theorem is proved here in dimension at most three;
+(Layer 11.2) are targets of this roadmap. Levine's homology-concordance theorem (Layer 6.4) is
+reduced here to Levine's satellite theorem, whose proof is GeometricTopology, Part II's. The
+proofs of the Smale conjecture (Layer 3), the cyclic surgery theorem (Layer 5.4), the
+Gordon–Luecke theorem and the JSJ theorem (Layer 8) are GeometricTopology, Part II's, which
+starts from these statements. The annulus theorem is proved here in dimension at most three;
 its higher-dimensional proof is GeometricTopology, Part II's, and its four-dimensional proof
 is FourManifolds'. Geometrization, the Poincaré conjecture, Freedman's theorem, Watanabe's
 theorem, Agol's theorems and Manolescu's theorem are stated here as the end theorems the
@@ -49,6 +52,12 @@ library lemma beside `smale_conjecture`; the tubular neighbourhood theorem of La
 at the pin (`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`).
 
 Not statable at the pins:
+* Levine's satellite theorem (Layer 6.4; Kirby's Problem 1.45), that some winding-number-one
+  pattern in the solid torus has no satellite bounding a smooth disc in a rational homology
+  `4`-ball: the pins have no satellite of a knot along a pattern in the solid torus;
+* the statement that Conway mutation does not preserve smooth concordance (Layer 6.3; Kirby's
+  Problem 1.53): the pins have no Conway mutation of a knot, and neither the Conway knot nor the
+  Kinoshita–Terasaka knot as a smooth circle embedding;
 * Kondo's theorem (Layer 4.13): the pinned unknotting number is that of grid links
   (`TauCeti.GridLink.unknottingNumber`), and there is no Alexander polynomial of a grid link or
   of a geometric knot to compare it with;
@@ -159,6 +168,14 @@ theorem cyclic_surgery_theorem
 /-- Freedman's theorem: a knot in `S³` whose knot group has perfect commutator subgroup, that
 is, whose Alexander polynomial is one, is topologically slice (Kirby's Problem 1.36). -/
 theorem freedman_slice_theorem : TauCeti.FreedmanSliceTheorem := by
+  sorry
+
+/-- Levine's homology-concordance theorem (Levine, *Non-surjective satellite operators and
+piecewise-linear concordance*, Forum Math. Sigma 4 (2016), Theorem 1.1, first part, in the
+homology-concordance form of Remark 1.5; Kirby's Problem 1.31), the pinned proposition: some
+knot in the boundary of a smooth compact contractible `4`-manifold is not integrally homology
+concordant to any knot in `S³`. -/
+theorem levine_homology_concordance_theorem : TauCeti.LevineHomologyConcordanceTheorem := by
   sorry
 
 /-! ## Layer 7: hyperbolic structures -/
