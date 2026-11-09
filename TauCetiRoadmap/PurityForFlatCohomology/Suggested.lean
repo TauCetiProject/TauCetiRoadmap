@@ -87,8 +87,7 @@ The following headline theorems are not statable at the pinned libraries.
   of small-étale cohomology along a morphism of schemes.
 * Purity for groups of multiplicative type and for tori (Theorems 7.2.8–7.2.9; Česnavičius,
   Theorems 1.4 and 6.1; §§7.14, 7.15, 8.3, 8.6): groups of multiplicative type and tori over a base
-  scheme are in the pins only over a field (GroupSchemesOverABase §2.1 defines them over a base; README
-  §7.12c), and the pins have no functor
+  scheme are in the pins only over a field (README §7.12c defines them), and the pins have no functor
   from group schemes over `X` to abelian sheaves on the small étale or the big fppf site of `X`, as
   in the first two items. The degree-two torsion clause of Theorem 7.2.8(b) for `T = 𝔾_m`, which the
   source states separately as Theorem 1.1.4, is `etaleCohomology_two_gm_torsion_purity`.
