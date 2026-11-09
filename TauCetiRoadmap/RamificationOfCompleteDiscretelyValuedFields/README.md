@@ -936,7 +936,8 @@ subring lying over `A`, every `D_M` is all of `Gal(M/K)` and `O ∩ M` is the in
   `p > 0`, `P_K` is pro-`p`, `TauCeti.IsProP p P_K` for the subspace topology, and when `p = 0`,
   `P_K` is trivial;
 - on a nonarchimedean local field `K`, with each finite level `M` carrying the local-field
-  structure of `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`, the image of `G_K^u`
+  structure of `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField` and the valuative
+  extension over `K` of `TauCeti.finiteIntermediateField_valuativeExtension`, the image of `G_K^u`
   in `Gal(M/K) = M ≃ₐ[K] M` is `TauCeti.LocalFieldsRamification.upperRamificationGroup K M u` for
   every `u ≥ −1`, so `G_K^u` is the set of `σ` whose every finite restriction lies in the
   completed roadmap's upper group; and `G_K^0` and `G_K^(0+)` are Tau Ceti's
@@ -1261,7 +1262,9 @@ whose residue field is an algebraic closure of `k`.)
 *Proof.* The residue field of `E` is finite, hence perfect, so a finite subextension of
 `AlgebraicClosure E` has `e = 1` over `E` exactly when it is unramified. With the local-field
 structure that the completed roadmap puts on a finite intermediate field
-(`TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`), Tau Ceti's
+(`TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`, with
+`TauCeti.finiteIntermediateField_valuativeExtension` for the valuative extension over `E`), Tau
+Ceti's
 `IntermediateField.le_maximalUnramifiedExtension_iff` says that such a subextension of a separably
 closed field lies in `TauCeti.maximalUnramifiedExtension` exactly when it is unramified. Every
 element of either compositum lies in a finite unramified subextension, so the two fields coincide.
@@ -1272,7 +1275,8 @@ depends on the characteristic of `E`.
 *Needs:* the preceding target of this section (valuation, residue field and `e(K′/K) = 1` of
 `K′`); 3a.1 (unique prolongation of the valuation); the completed roadmap's Tau Ceti declarations
 `TauCeti.finiteIntermediateField_isNonarchimedeanLocalField` (the local-field structure of a finite
-extension) and `TauCeti.maximalUnramifiedExtension`; Tau Ceti
+extension), `TauCeti.finiteIntermediateField_valuativeExtension` (its valuative extension over
+`E`) and `TauCeti.maximalUnramifiedExtension`; Tau Ceti
 `IntermediateField.le_maximalUnramifiedExtension_iff`; ReductiveGroupsPartII §RG2.0.4 (`Breve E`);
 Mathlib `UniformSpace.Completion`.
 
@@ -1297,7 +1301,8 @@ and `ψ_(L/K)` must return the completed roadmap's finite-level values; `Frac W(
 ### Dependencies
 
 Layer 3a; the completed roadmap, through the Tau Ceti declarations for the local-field structure
-of finite extensions, `TauCeti.maximalUnramifiedExtension`, `TauCeti.inertiaSubgroup` and
+of finite extensions and their valuative extension over the base,
+`TauCeti.maximalUnramifiedExtension`, `TauCeti.inertiaSubgroup` and
 `TauCeti.wildInertiaSubgroup` with the closedness, normality, inclusion and pro-`p` theorems
 listed in the supplier contract; Tau Ceti's restriction isomorphism
 `TauCeti.absoluteGaloisGroupRestrictEquiv`, the compactness of `Field.absoluteGaloisGroup K` and
