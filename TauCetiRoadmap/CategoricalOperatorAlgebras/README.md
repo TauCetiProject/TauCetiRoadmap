@@ -2354,11 +2354,12 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
 - Henriques–Penneys–Tener, [*Unitary anchored planar algebras*](https://arxiv.org/abs/2301.11114),
   Definitions 3.1–3.6, 4.3–4.5 and Theorem A (p. 3), for states,
   pointings, reflected pairings and category equivalence.
-- Katsura, [*On C*-algebras associated with C*-correspondences*](https://arxiv.org/abs/math/0309088),
+- Katsura, [*On C*-algebras associated with C*-correspondences*](https://arxiv.org/abs/math/0309088v3),
   J. Funct. Anal. 217 (2004), Definitions 3.2 and 3.4, Theorem 6.4,
   Propositions 8.1–8.2, Definition 8.3, Theorem 8.6 and Appendices B–C,
   for the ideal `J_X`, covariance, gauge-invariant uniqueness and the
-  six-term sequence for every C*-correspondence in CA7.
+  six-term sequence for every C*-correspondence in CA7 (numbering, and
+  the printed page numbers CA7 cites, of the linked arXiv v3).
 - Hartglass–Penneys, *C*-algebras from planar algebras*,
   [Part I](https://arxiv.org/abs/1401.2485), §§2–5, with Notation 2.11
   (p. 8), Definitions 5.17–5.18 and Theorems 5.19–5.20 (pp. 35–38), Lemma 5.21,
@@ -2385,13 +2386,14 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   representation existence/uniqueness, absorbing objects, positive
   representations and Morita transport.
 - Masuda–Tomatsu 2007, [*Classification of minimal actions of a compact
-  Kac algebra with amenable dual*](https://arxiv.org/abs/math/0604348),
+  Kac algebra with amenable dual*](https://arxiv.org/abs/math/0604348v2),
   Comm. Math. Phys. 274 (2007), Definition 8.1 and Lemma 8.2 (Appendix,
   p. 64) and Lemma 8.3 (p. 65), for the equivalence of proper central
   nontriviality and strong outerness, and of central nontriviality and
-  proper central nontriviality for irreducible maps.
+  proper central nontriviality for irreducible maps (numbering and
+  printed page numbers of the linked arXiv v2).
 - Masuda–Tomatsu 2009, [*Approximate innerness and central triviality of
-  endomorphisms*](https://arxiv.org/abs/0802.0344), Adv. Math. 220 (2009),
+  endomorphisms*](https://arxiv.org/abs/0802.0344v1), Adv. Math. 220 (2009),
   §2.4 (p. 5), Definitions 2.1, 2.4, 3.1, Theorem 3.15 and
   Corollary 3.16(3)–(4) (p. 29), Definition 4.1 (p. 30), Theorem 4.6
   (p. 31), Lemma 4.7 (p. 32), Propositions 4.8–4.9 and §4.2 (p. 33),
@@ -2403,14 +2405,15 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   non-triviality of inclusions, and the II∞/III₁ characterization of
   centrally trivial endomorphisms; Lemma 4.10(3) and Theorem 4.16 are
   recalled there from Izumi 2003 and Izumi 1993, and Theorem 4.18 extends
-  Popa's theorem from centrally free to centrally non-trivial subfactors.
-- Izumi, [*Canonical extension of endomorphisms of type III factors*](https://arxiv.org/abs/math/0104228),
+  Popa's theorem from centrally free to centrally non-trivial subfactors
+  (numbering and printed page numbers of the linked arXiv v1).
+- Izumi, [*Canonical extension of endomorphisms of type III factors*](https://arxiv.org/abs/math/0104228v1),
   Amer. J. Math. 125 (2003), 1–56, Theorem 2.4 (p. 5), Definition 3.1
   (p. 7), Theorem 3.3 (p. 9) and Remark 3.8 (p. 17), for the canonical
   extension of a finite-index endomorphism of a type III factor, modular
   endomorphisms and their classification by unitary cocycles on the flow
   of weights, whose III_λ case is Masuda–Tomatsu 2009, Lemma 4.10(3)
-  (printed page numbers of the arXiv version).
+  (numbering and printed page numbers of the linked arXiv v1).
 - Izumi, [*On type II and type III principal graphs of subfactors*](https://doi.org/10.7146/math.scand.a-12473),
   Math. Scand. 73 (1993), 307–319, Theorem 3.5, for the comparison of the
   relative commutants of an endomorphism of a type III₁ factor and of its
