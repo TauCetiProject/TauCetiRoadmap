@@ -862,13 +862,28 @@ Hurwitz; the different theorem computes the exponents.
   `TauCeti.Divisor.different_eq_conorm_add` — reconciled with Mathlib's
   `differentIdeal_eq_differentIdeal_mul_differentIdeal`).
 - **The Hurwitz genus formula** (Thm. 3.4.13 — no perfectness consumed):
-  for `F′/F` finite **separable** with constant fields `k′/k`, in the
-  **cross-multiplied form of record** (no division):
-  `[k′ : k] * (2g′ − 2) = [F′ : F] * (2g − 2) + [k′ : k] * deg Diff(F′/F)`;
-  the quotient-valued restatement through the geometric degree `n(F′/F)` is available
-  exactly where Layer 6's integrality milestone applies (same-constant-field case
-  included: there `[k′ : k] = 1` and the formula is the familiar
-  `2g′ − 2 = n(2g − 2) + deg Diff`);
+  for `F′/F` finite **separable**, `k` the exact constant field of `F` and `k′` that of
+  `F′`, in the **cross-multiplied form of record** (no division):
+  `[k′ : k] * (2g′ − 2) = [F′ : F] * (2g − 2) + [k′ : k] * deg Diff(F′/F)`.
+  The pinned `TauCeti.hurwitz_genus_formula`, and with it
+  `TauCeti.two_mul_genus_sub_two_eq_iff_forall_isTame` and `TauCeti.genus_le_genus` below,
+  also take `k′/k` finite and separable as instance arguments; both follow from the
+  hypotheses just stated, so the pinned form loses no generality. Finiteness is the pinned
+  `TauCeti.IsFunctionField.finiteDimensional_baseExtension`. Separability is a milestone
+  of this layer: for `a ∈ k′` (algebraic over `k` by finiteness) exactness of `k` in `F`
+  makes the minimal polynomial of `a` over `k`, mapped to `F`, the minimal polynomial of
+  `a` over `F` (`TauCeti.minpoly.map_algebraMap_of_isIntegrallyClosedIn`), which is
+  separable because `F′/F` is, and separability descends along the map
+  (`Polynomial.separable_map`). Both inputs are needed: with `k = 𝔽_p(t)` and
+  `s^p = t`, the purely inseparable `F′ = 𝔽_p(s, x)` over `F = k(x)`, and the identity
+  extension of `F = 𝔽_p(s, x)` viewed over `k` (where `k` is not exact in `F`), both
+  have the inseparable `k′ = 𝔽_p(s)` as upper constant field. Consequently the quotient-valued
+  restatement through the geometric degree `n(F′/F)` holds under the same hypotheses
+  (`TauCeti.hurwitz_genus_formula_geometricDegree`; same-constant-field case included:
+  there `[k′ : k] = 1` and the formula is the familiar `2g′ − 2 = n(2g − 2) + deg Diff`),
+  because separable `k′/k` and exactness of `k` in `F` give `[F k′ : F] = [k′ : k]`
+  (`TauCeti.finrank_constantCompositum_eq_finrank_of_isSeparable`), the hypothesis of
+  Layer 6's integrality milestone;
   the `F/k(x)` normalization `2g − 2 = −2[F : k(x)] + deg Diff(F/k(x))` (Cor. 3.4.14;
   `TauCeti.hurwitz_genus_formula_ratFunc`, via Cotr of Layer 5's `η`). Tame corollary: the
   inequality form
