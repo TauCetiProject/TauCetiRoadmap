@@ -3765,7 +3765,25 @@ and item 1's tensor and shift comparison enter only the graded determinant reado
 chains (Proposition 4.11), evaluation maps (Proposition 4.13) and the equation for `b_{x,y}`
 (Proposition 4.14); the finite-dimensional reduction (Lemma 4.15); and the chain map `Ψ̃ʳ`
 (Proposition 4.16). The map is an isomorphism by comparison of index spectral sequences, whose
-`E²` map is item 2. *Needs:* items 1–2, Layer 8 item 7, Layer 5 item 6, Tau Ceti
+`E²` map is item 2; the bounded-below hypothesis makes both spectral sequences converge
+(`bdho-cotangent` lines 3763–3767).
+
+Then extend the isomorphism to every DG local system `𝓕` on `𝓛Q`, with no hypothesis on
+`H_*(𝓕)`. The loop chains `C_*(Ω𝓛Q)` sit in degrees `≥ 0`, so for every integer `k` the good
+truncation `τ_{≥k}𝓕`, equal to `𝓕_j` in degrees `j > k`, to the cycles `Z_k(𝓕)` in degree `k`
+and to `0` below, is a sub-DG module: acting by a chain of positive degree raises degree `k`
+above `k`, and a chain `c` of degree `0` has `dc = 0`, so it sends a cycle to a cycle. Its
+homology is `H_j(𝓕)` for `j ≥ k` and `0` below, which is bounded below, and `𝓕` is the directed
+union of the `τ_{≥k}𝓕` as `k → −∞`. Prove that the twisted Floer and Morse complexes, the
+continuation maps and the chain maps `Ψ̃ʳ` are natural in the DG module for fixed auxiliary data,
+and send a directed union of sub-DG modules to the directed union of the corresponding
+subcomplexes. Homology commutes with directed colimits of modules, and directed colimits
+commute with the colimits over `H` and over `r`, so `Ψ̃` for `𝓕` is the directed colimit of the
+isomorphisms `Ψ̃` for the `τ_{≥k}𝓕` and is an isomorphism. The source proves Theorem K for
+bounded-below `H_*(𝓕)` (lines 688–689) and applies it to an arbitrary `𝓕` in Corollary 4.17
+(line 3772); item 4 and Layer 10 items 2–3 use this extension. The description of `Ψ̃` as the
+limit of an isomorphism of convergent spectral sequences is claimed only for bounded-below
+`H_*(𝓕)`. *Needs:* items 1–2, Layer 8 item 7, Layer 5 item 6, Tau Ceti
 `TauCeti.TwistingCocycle.indexSpectralSequence` and `TauCeti.MooreFreeLoopSpace`,
 AlgebraicTopology Stage 4.8.
 
@@ -3785,9 +3803,21 @@ AlgebraicTopology Stage 4.8.
   `≤ L` onto the unit-speed ones would be false, since in a flat torus the unit-speed loops
   `(sin 2πnt, 1 − cos 2πnt)/(2πn)` of duration `1` converge to the constant loop of duration `1`,
   whose unit-speed representative has duration `0` (conventions).
-- The bounded-below hypothesis on `H_*(𝓕)` is used in the spectral-sequence comparison: for
-  `𝓕` the chains on a fibre of a Hurewicz fibration it holds, and for an unbounded-below `𝓕`
-  the index spectral sequences need not converge.
+- The bounded-below hypothesis enters only the spectral-sequence step. For `𝓕` the chains on a
+  fibre of a Hurewicz fibration it holds, since chains sit in degrees `≥ 0`. For `Q = S³`, where
+  `η₀` is trivial and `𝓛S³ ≃ ΩS³ × S³` gives `H_p(𝓛S³; ℤ) = ℤ` for `p = 0` and every `p ≥ 2`
+  (and `0` for `p = 1`), take `𝓕 = ⊕_{k ∈ ℤ} ℤ[k]` with the loop chains acting through the
+  augmentation. Then `E²_{p,q} = H_p(𝓛S³; ℤ)` for every `q`, so each line `p + q = n` meets
+  infinitely many nonzero terms and the source's dimensional convergence argument does not
+  apply. Theorem K still holds: both twisted complexes are `𝓕` tensored with the classical ones,
+  so both sides are `⊕_{p ≥ 0} H_p(𝓛S³; ℤ)` in each degree, matched by the classical Viterbo
+  isomorphism, and the truncations `τ_{≥m}𝓕 = ⊕_{k ≥ m} ℤ[k]` exhibit this as the colimit of
+  the extension.
+- The truncation has to be from below. The elements `𝓕_{≤k}` of degree `≤ k` also form a
+  subcomplex, since the differential lowers degree, but not a sub-DG module: for `C_*(ΩS³)`
+  acting on itself, whose homology is `ℤ` in every even degree `≥ 0`, and `k ∈ {0, 1}`, the
+  unit, of degree `0`, lies in `𝓕_{≤k}`, and acting on it by a cycle `c` of degree `2`
+  representing the generator of `H₂(ΩS³)` gives `c`, of degree `2 > k`.
 
 ### 9.4 The zero-energy part and the transfer of local systems
 
@@ -3797,8 +3827,11 @@ Construct the zero-energy part of Theorem K (the source's Proposition 4.1), incl
 `SH_k^{=0} ≅ H_{k+n}(D*Q, S*Q; π^*i_Q^*𝓕)`. Identify the first map with the orientation-twisted
 zero-section Thom map of Layer 5 item 3, and prove its inverse and compatibility with the
 tautological map to full `SH`. Construct the transfer of DG local systems `𝓛Q → 𝓛T*Q`
-(Corollary 4.17) with the same `η₀` normalization. *Needs:* items 1–3, Layer 8 item 7, Layer 5
-item 3.
+(Corollary 4.17, `bdho-cotangent` lines 3772–3786) with the same `η₀` normalization, for every
+DG local system `𝓕` on `𝓛Q`: its local system on `𝓛T*Q` is `Π^*(𝓕 ⊗ η₀)` (line 3787), and
+its right-hand map `Ψ̃` is an isomorphism by item 3's extension of Theorem K to every `𝓕`. The
+source states the corollary for every `𝓕` and proves it from Theorem K, which it proves for
+bounded-below `H_*(𝓕)`. *Needs:* items 1–3, Layer 8 item 7, Layer 5 item 3.
 
 **Checks.**
 - For `Q = S¹` the zero-energy diagram matches worked example 7.
@@ -3858,10 +3891,14 @@ existence property holds in `W`. Prove it through the capacity bound `c°_HZ(W) 
 (Proposition 6.6, lines 4394–4396). Prove its cotangent form, Proposition 6.7 (lines 4429–4432):
 for a closed manifold `Q`, a DG local system `𝓕` on `𝓛₀Q` and `α ∈ H_*(Q; i_Q^*𝓕)` with
 `j_!(α) ≠ 0` in `H_{*−n}(𝓕 ⊗ |Q|)` and `i_{Q*}(α) = 0`, `c°_HZ(D*Q) < ∞`; this includes the
-nonorientable form, with the orientation twist `|Q|` of Layer 5 item 5. Irie's finiteness
+nonorientable form, with the orientation twist `|Q|` of Layer 5 item 5. Its route is the
+source's, Theorem M for `W = D*Q` through Corollary 4.17 (lines 4436–4437): the step from
+`i_{Q*}(α) = 0` to the vanishing of `i_{(D*Q)*}` on the Thom image of `α` uses that `Ψ̃` is
+injective, which Layer 9 item 3 supplies for every `𝓕`, so no hypothesis on `H_*(𝓕)` is
+needed. Irie's finiteness
 of the ordinary `c_HZ(D*Q)` and the local-system finiteness of Albers–Frauenfelder–Oancea are
 earlier results of the same type and are consumed by nothing here. *Needs:* Layer 8 items 6–7,
-Layer 9 item 4, Layer 6 item 5, Layer 5 item 5.
+Layer 9 items 3–4, Layer 6 item 5, Layer 5 item 5.
 
 **Checks.**
 - For `W = D*Q` with `Q` a torus the hypothesis of Theorem M fails (no class with
@@ -3890,10 +3927,13 @@ existence property. No hypothesis places the zero section in `U`. The route appl
 system on `𝓛T*Q` transferred from `𝓕` (Layer 9 item 4, the source's Corollary 4.17): `π_{U!}` is
 the Thom isomorphism `π_! : H_*(Q; i_Q^*𝓕) ≅ H_{*+n}(D*Q, S*Q; π^*i_Q^*𝓕)` followed by the
 codimension-zero shriek map `j_{U!}` of `U ⊂ D*Q`, which is defined for every such `U`, and the
-zero-energy diagram of Layer 9 item 4 with Theorem K identifies `i_{(D*Q)*}` with `i_{Q*}`
-(`bdho-cotangent` lines 4118–4137). For non-orientable `Q` the same criterion holds for the DG
-local systems `𝓕 ⊗ ℤ/2`, which is the form item 5 uses for Theorem 5.15 (`bdho-cotangent` lines
-4299–4302). *Needs:* item 1, Layer 9 items 3–4, Layer 5 item 3 (shriek maps of manifold pairs).
+zero-energy diagram of Layer 9 item 4 identifies `i_{(D*Q)*}` with `i_{Q*}` (`bdho-cotangent`
+lines 4118–4137). That identification of kernels uses that `Ψ̃` is injective, so the route
+needs Theorem K for the given `𝓕`, which Layer 9 item 3 supplies for every DG local system;
+the criterion carries no hypothesis on `H_*(𝓕)`. For non-orientable `Q` the same criterion holds
+for the DG local systems `𝓕 ⊗ ℤ/2`, which is the form item 5 uses for Theorem 5.15
+(`bdho-cotangent` lines 4299–4302). *Needs:* item 1, Layer 9 items 3–4, Layer 5 item 3 (shriek
+maps of manifold pairs).
 
 **Checks.**
 - For `Q = S²` and the unit disc bundle the criterion applies with the class of worked example
