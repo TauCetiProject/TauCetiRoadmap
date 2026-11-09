@@ -14,12 +14,16 @@ The local holomorphic, analytic-order, meromorphic and compact-convergence carri
 Mathlib; contour cycles, winding and primitive/logarithm results are in Tau Ceti, and so is
 the compact-open algebra `holomorphicFunctions U` of holomorphic functions on an open set,
 with its closedness in `C(U,ℂ)`, its completeness, its continuous restrictions and its finite
-jets. Tau Ceti owns the Wirtinger operators, the compact-support Cauchy transform with its ∂̄
-identity and reconstruction, the filled-in predicate with the filled compact exhaustion of an
-open set, generic manifold forms with their exterior derivative, paired wedge and Leibniz rule,
-the coordinate forms dz and dz̄ on the plane, the de Rham complex of real smooth forms with
-its cohomology `deRhamCohomology`, and the winding-weighted Green theorem for
-contour cycles; none of these is a target here, and DifferentialGeometry is not a supplier.
+jets, and so is the algebra `holomorphicGerms s` of germs near a set `s` of functions
+holomorphic on a neighborhood of `s`, with its evaluations, restrictions and the germ map from
+`holomorphicFunctions U`. Tau Ceti owns the Wirtinger operators, the compact-support
+Cauchy transform with its ∂̄ identity and reconstruction, the filled-in predicate, the
+filledness of a closed ball minus a thickening of the complement and the existence of a filled
+compact exhaustion of an open set, generic manifold forms with their exterior derivative,
+paired wedge and Leibniz rule, the coordinate forms dz and dz̄ on the plane, the de Rham
+complex of real smooth forms with its cohomology `deRhamCohomology`, and the
+winding-weighted Green theorem for contour cycles; none of these is a target here, and
+DifferentialGeometry is not a supplier.
 Layer 7.2 proves the vanishing `H²_dR(U;ℝ)=0` of a plane domain on Tau Ceti's
 `deRhamCohomology`, from its real two-form exactness.
 ConformalMapping L5 owns Jordan separation and filled-hull topology. Layer 7.2 here owns
@@ -42,10 +46,14 @@ identities of the primary factors of every genus. These are extensions of the st
 not a reassignment of their genus-one special case; ZerosOfLFunctions and
 AnalyticNumberTheoryPartI are suppliers, not consumers.
 
-The filled compact exhaustion of an open subset of a proper real normed space is Tau Ceti's
-(`IsOpen.exists_isFilledIn_compact_exhaustion`), and Layer 2 consumes its plane instance as
-the Runge exhaustion. Layer 2 owns the holomorphic hull of a compact subset of a plane domain,
-its equality with the filled set, and the Runge equivalences on it. Hyperfunctions consumes
+Tau Ceti proves that `closedBall a r \ thickening δ Ωᶜ` is filled in an open Ω
+(`IsOpen.isFilledIn_closedBall_sdiff_thickening`) and that every open subset of a proper real
+normed space has some filled compact exhaustion (`IsOpen.exists_isFilledIn_compact_exhaustion`,
+whose statement does not name its stages). Layer 2.1 proves the nesting and the union of the
+explicit stages `closedBall 0 (n+1) \ thickening (n+1)⁻¹ Ωᶜ`, the Runge exhaustion that the
+comparison metric and the boundary-zero construction use. Layer 2 owns the holomorphic hull
+of a compact subset of a plane domain, its equality with the filled set, and the Runge
+equivalences on it. Hyperfunctions consumes
 this roadmap's one-variable results and is downstream, so nothing of it is an input here.
 ComplexKahlerGeometry K2 owns parameter-dependent solvers, and K5a owns the complex-coefficient
 de Rham comparison; they consume this roadmap's scalar results and complex two-form exactness.
@@ -119,7 +127,11 @@ the empty cases here follow directly from the definitions.
 - `SmoothPartitionOfUnity.exists_isSubordinate` in
   `Mathlib/Geometry/Manifold/PartitionOfUnity.lean` applies on a finite-dimensional,
   Hausdorff, σ-compact smooth manifold to an open cover of a closed set.
-  `contMDiff_inclusion` handles open-subtype inclusions.
+  `contMDiff_inclusion` handles open-subtype inclusions; `contMDiffAt_subtype_iff` in
+  `Mathlib/Geometry/Manifold/ContMDiff/Basic.lean` reads smoothness of a restriction to an open
+  subtype at a point as smoothness of the ambient map there, and `contMDiffOn_iff_contDiffOn`
+  in `Mathlib/Geometry/Manifold/ContMDiff/NormedSpace.lean` compares manifold and normed-space
+  smoothness on a subset of a normed space.
 - `Complex.volume_preserving_equiv_real_prod` fixes area normalization.
   The low-regularity route uses locally compact Baire, product Fubini,
   `MeasureTheory.integral_eq_of_hasDerivAt_off_countable_of_le`,
@@ -159,18 +171,32 @@ supported `Cⁿ` datum for `n ≥ 1`, and `Complex.locallyIntegrable_inv` from
 Use `TauCeti.IsFilledIn` from `TauCeti/Topology/FilledIn.lean`, no connected component of
 `Ω \ K` relatively compact in `Ω`, and `IsOpen.exists_isFilledIn_compact_exhaustion` from
 `TauCeti/Analysis/Normed/Module/Exhaustion.lean`: for an open subset `Ω` of a proper real
-normed space, compact stages `K n ⊆ interior (K (n + 1))` with union `Ω`, each filled in `Ω`;
-the stages it constructs are `closedBall 0 (n + 1) \ thickening (n + 1)⁻¹ Ωᶜ`.
+normed space, there exist compact stages `K n ⊆ interior (K (n + 1))` with union `Ω`, each
+filled in `Ω`. The statement is existential: the stages its proof builds are not exported, so it
+is cited only where an unspecified exhaustion suffices. From the same file use
+`IsOpen.isFilledIn_closedBall_sdiff_thickening`: for open `Ω`, a centre `a`, `0 ≤ r` and
+`0 < δ`, the set `closedBall a r \ thickening δ Ωᶜ` is filled in `Ω`.
 Use the smooth-form carrier of `TauCeti/Geometry/Manifold/DifferentialForm/`: `RoughForm` and
 `RoughForm.ofFunction` (`Basic.lean`), `IsSmoothForm` and `SmoothForm` (`Smooth.lean`),
-`mextDeriv` and `mextDeriv_ofFunction` (`ExtDeriv.lean`), `mextDeriv_mextDeriv` for a `C²`
-bundle form (`Squared.lean`), the paired wedge `RoughForm.wedgeWith` with
+`mextDeriv` and `mextDeriv_ofFunction` (`ExtDeriv.lean`), `isSmoothForm_ofFunction_iff` (the
+degree-zero form of a function is a `Cⁿ` form exactly when the function is `Cⁿ`, for
+`[IsManifold I 1 M]`) and `isSmoothForm_mextDeriv` (the exterior derivative of a `Cᵖ` form is
+`Cⁿ` when `n + 1 ≤ p`, for `[IsManifold I 2 M]`) (`Regularity.lean`), `mextDeriv_mextDeriv`
+for a `C²` bundle form (`Squared.lean`), the paired wedge `RoughForm.wedgeWith` with
 `wedgeWith_apply_one_one` and `wedgeWith_flip` (`Wedge/Basic.lean`), the Leibniz rule
 `mextDeriv_wedgeWith` at a point where both forms are differentiable (`Wedge/Leibniz.lean`),
 `mpullback` along a smooth map with `mpullback_apply` (`Pullback/Basic.lean`,
-`Pullback/Smooth.lean`), `mpullback_inclusion_apply`, `RoughForm.extendByZero` and
-`IsSmoothForm.extendByZero` for open subsets (`Opens.lean`), and the plane forms `SmoothForm.complexDz` and
-`SmoothForm.complexDzBar`, both of type `SmoothForm 𝓘(ℝ, ℂ) ℂ ℂ 1` (`Plane/Complex.lean`).
+`Pullback/Smooth.lean`), `mpullback_mextDeriv_ofFunction_apply` (at a point where `f` is
+differentiable and `g` is differentiable at `f x`, the pullback by `f` of `d g` is `d (g ∘ f)`)
+and its global form `mpullback_mextDeriv_ofFunction` (`Naturality.lean`),
+`mpullback_inclusion_apply`, `RoughForm.extendByZero` and `IsSmoothForm.extendByZero` for open
+subsets (`Opens.lean`), and the plane forms `SmoothForm.complexDz` and
+`SmoothForm.complexDzBar`, both of type `SmoothForm 𝓘(ℝ, ℂ) ℂ ℂ 1`, with their evaluations
+`SmoothForm.complexDz_apply` and `SmoothForm.complexDzBar_apply` and the Wirtinger pullback
+formula `mpullback_complexDz` (`Plane/Complex.lean`): for every `f : ℂ → ℂ` and `z`, with no
+regularity hypothesis, the pullback of `dz` by `f` at `z` is
+`wirtingerDeriv f z 1 • dz + conjWirtingerDeriv f z 1 • dz̄`, evaluated on a tangent vector by
+`mpullback_complexDz_apply`.
 Use the real de Rham complex of `TauCeti/Geometry/Manifold/DeRham/Basic.lean`, for a manifold
 `M` modelled on `I` with `[IsManifold I 2 M]`: `closedForms I M k` and `exactForms I M k`, the
 submodules of `SmoothForm I M ℝ k` of forms with vanishing `mextDeriv` and of exterior
@@ -194,6 +220,14 @@ topology inherited from compact convergence (`Basic.lean`); `mem_holomorphicFunc
 `exists_finiteDimensional_quotient_norm_le` (`RestrictionEstimate.lean`): on the kernel of the
 `(n+1)`-jet at the centre of a disc of radius `R` inside `U`, a bound `M` on that disc gives the
 bound `M (r/R)^(n+1)` on the closed disc of radius `r < R`.
+Use the holomorphic germ algebra of `TauCeti/Analysis/Complex/Germ/Algebra.lean`:
+`holomorphicGerms s : Subalgebra ℂ (Germ (𝓝ˢ s) ℂ)` for any `s : Set ℂ`, the germs near `s`
+of functions analytic at every point of `s`, equivalently holomorphic on an open neighborhood
+of `s` (`mem_holomorphicGerms_iff_exists_open`), with no compactness or nonemptiness assumed
+(at `s = ∅` it is the zero algebra); the algebra homomorphisms `holomorphicGerms.eval x hx`
+to ℂ at points `x ∈ s` and `holomorphicGerms.restrict` along `t ⊆ s`, with
+`holomorphicGerms.eval_restrict`; and `HolomorphicFunctions.toGerm`, the algebra homomorphism
+from `holomorphicFunctions U` to `holomorphicGerms s` for `s ⊆ U` (`HolomorphicFunctions/Germ.lean`).
 Use `TauCeti.Contour.Cycle.green_winding` from `TauCeti/Analysis/Green/Cycle.lean`: for a
 cycle with trace in an open `U`, null-homologous in `U`, and real `C¹` fields `P, Q` on `U`,
 the integer-weighted circulation equals the integral over `U` of the winding-weighted curl.
@@ -802,21 +836,31 @@ Empty infima are ∞, covering K=∅ and Ω=ℂ. For nonempty K and nonempty com
 deduce the ordinary distance equality to ∂Ω. Prove also `K̂_Ω⊆conv(K)`, using
 `sup_{w∈K} ℓ(w)` for each continuous real-linear functional ℓ to separate points from the
 ordinary convex hull; exponential holomorphic functions realize these real support bounds.
-The Runge exhaustion is the native filled compact exhaustion
-`IsOpen.exists_isFilledIn_compact_exhaustion` applied to Ω: compact stages
-`K_n=closedBall 0 (n+1) \ thickening (n+1)⁻¹ Ωᶜ` with `K_n⊆int K_(n+1)`, union Ω, and each
-`K_n` filled in Ω (`IsFilledIn (K n) Ω`: no component of Ω∖K_n is relatively compact in Ω).
-Prove its compact cofinality: a compact subset of Ω is covered by the open interiors and so
-lies in one stage. Prove also that the hull of any compact K is filled in Ω: a component of
+The Runge exhaustion of Ω is the explicit sequence
+`K_n=closedBall 0 (n+1) \ thickening (n+1)⁻¹ Ωᶜ` for n∈ℕ. Each stage is compact, as a closed
+ball minus an open set (`isCompact_closedBall`, `isOpen_thickening`); it lies in Ω, since
+every point of Ωᶜ lies in its own thickening; and it is filled in Ω
+(`IsFilledIn (K n) Ω`: no component of Ω∖K_n is relatively compact in Ω) by Tau Ceti's
+`IsOpen.isFilledIn_closedBall_sdiff_thickening` with r=n+1 and δ=(n+1)⁻¹. Prove the nesting
+`K_n⊆int K_(n+1)`: a point of K_n has norm at most n+1 and extended distance at least
+(n+1)⁻¹ to Ωᶜ, so it lies in the open set `ball 0 (n+2) \ cthickening (n+2)⁻¹ Ωᶜ`, which is
+contained in K_(n+1). Prove `⋃ₙ K_n=Ω`: a point z of the open set Ω has positive extended
+distance to the closed set Ωᶜ (∞ when Ωᶜ is empty), so z∈K_n as soon as ‖z‖≤n+1 and (n+1)⁻¹
+is at most that distance. Prove its compact cofinality: a compact subset of Ω is covered by
+the open interiors and so lies in one stage. Tau Ceti's
+`IsOpen.exists_isFilledIn_compact_exhaustion` asserts only that some filled compact
+exhaustion exists; Layers 3.1, 3.2, 4.1 and 7.1, which need no stage formula, may use it,
+while 2.2 and 3.3 use the explicit stages and the nesting, union and cofinality proved here.
+Prove also that the hull of any compact K is filled in Ω: a component of
 Ω∖K̂ with compact closure in Ω would lie in the hull of K̂, which is K̂ itself, by the
 maximum-principle inclusion and idempotence (Rainer, Lemma 11.3, items (1), (2) and (4),
-pp. 27–28, and the construction in the proof of Theorem 12.1, p. 31). The comparison metric
-of 2.2 uses the same native stages.
+pp. 27–28, and the construction in the proof of Theorem 12.1, p. 31).
 
 The hull API includes compactness, extensivity, monotonicity, idempotence, the
 maximum-principle inclusion of relatively compact complementary components, and the
-distance and convex-hull comparisons. The exhaustion API has nested interiors, compact
-cofinality and filledness of every stage.
+distance and convex-hull comparisons. The exhaustion API has nested interiors, union Ω and
+compact cofinality, proved here, with the compactness and filledness of every stage from the
+native theorems above.
 These are Rainer, Lemma 11.3, pp. 27–28 (rainer line 1437), apart from its item (3), which
 is the hull equality of 2.5; the exhaustion is its recursive compact-cofinal consequence.
 
@@ -827,10 +871,14 @@ is the hull equality of 2.5; the exhaustion is its recursive compact-cofinal con
 - For K={2≤|z|≤3} in Ω={|z|<4}, the hull is {|z|≤3}; the common distance to Ωᶜ is 1.
 - For the same K in Ω={1<|z|<4}, the hull is K. The function 1/z excludes |z|<2;
   filling this ambient hole would be wrong.
-- In Ω=ℂ the complement is empty and its thickening is empty, so the native stage K_n is
+- In Ω=ℂ the complement is empty and its thickening is empty, so the stage K_n is
   the closed ball of radius n+1, which is its own hull.
+- For Ω the open unit disk, the thickening of radius 1 of {|z|≥1} is {z≠0}, so K_0={0},
+  K_1={|z|≤1/2} and K_2={|z|≤2/3}; 0 lies in int K_1, as nesting requires. Reading the
+  thickening radius as n+1 instead of (n+1)⁻¹ would remove the whole disk from every stage.
 
-*Needs:* Tau Ceti's filled compact exhaustion; Mathlib connected components; the maximum
+*Needs:* Tau Ceti's `IsOpen.isFilledIn_closedBall_sdiff_thickening`; Mathlib compact closed
+balls, open thickenings, extended distances and connected components; the maximum
 principle and the elementary separating functions z, 1/(z−ζ) and exp(az). No later
 subsection is used.
 
@@ -860,13 +908,13 @@ its countable-generation instance on a locally compact σ-compact source supplie
 metrizability; and `ContinuousMap.tendsto_iff_tendstoLocallyUniformly` identifies convergence.
 Construct the following explicit comparison metric for that same uniformity. Keep the
 comparison distance on `C(U,ℂ)` as an explicit definition and prove that it induces the native
-uniformity; install no metric instance on `C(U,ℂ)` or on `H(U)`. Use the native filled
-exhaustion of 2.1, for integers n≥1 and Ω the underlying set of U,
+uniformity; install no metric instance on `C(U,ℂ)` or on `H(U)`. Use the explicit filled
+exhaustion of 2.1, reindexed by integers n≥1, with Ω the underlying set of U,
 
 `K_n = closedBall 0 n \ thickening (1/n) Ωᶜ = {z : ℂ | ‖z‖ ≤ n ∧ Metric.infEDist z Ωᶜ ≥ ENNReal.ofReal (1/n)}`.
 
-Its compactness and `K_n ⊆ int K_(n+1)` are native; use the cofinality among compact subsets
-of Ω proved in 2.1.
+Its compactness is native; the nesting `K_n ⊆ int K_(n+1)` and the cofinality among compact
+subsets of Ω are proved in 2.1.
 For Ω=ℂ the extended distance to its empty complement is ∞; only the radius cutoff remains.
 For Ω=∅ every K_n is empty. The metric construction uses no Runge
 theorem and no normal-family theorem. Any cofinal nested compact exhaustion gives the same
@@ -922,16 +970,27 @@ The function-space API is:
 The metric and derivative-continuity targets are Rainer, §11, equation (11.2) and
 Exercises 19–20, p. 25 (rainer lines 1313, 1329); completeness is Tau Ceti's.
 *Needs:* Tau Ceti's `holomorphicFunctions` contract; Mathlib compact-convergence uniformity,
-compact exhaustions and the locally uniform derivative theorem; Layer 2.1's native exhaustion
-stages; no Runge or Montel theorem is needed.
+compact exhaustions and the locally uniform derivative theorem; Layer 2.1's explicit exhaustion
+stages with their nesting and cofinality; no Runge or Montel theorem is needed.
 
 ### 2.3 Neighborhood-holomorphic restrictions on a compact set
 
-For compact K⊆ℂ, define O(K) as the complex subspace of native `C(K,ℂ)` consisting of
-restrictions of functions holomorphic on some open neighborhood of K. Neighborhoods may depend
-on the function. Prove the subspace laws by intersecting two neighborhoods, and express Runge
-approximation as density of the restriction image of H(Ω) in O(K), with its inherited sup-norm
-topology. Distinguish this space from functions merely holomorphic on the interior of K.
+For compact K⊆ℂ, the germs near K of functions holomorphic on some open neighborhood of K
+form Tau Ceti's `holomorphicGerms K`; neighborhoods may depend on the function, and the
+algebra laws, the evaluations at points of K, the restriction to a smaller set and the germ map
+`HolomorphicFunctions.toGerm` from `holomorphicFunctions U` for open U⊇K are native. Define
+the value map from `holomorphicGerms K` to native `C(K,ℂ)`, sending a germ g to
+`x ↦ holomorphicGerms.eval x x.2 g`; it is continuous on K because a representative is
+holomorphic on a neighborhood of K, and it is a complex algebra homomorphism because each
+evaluation is. Define O(K) as its range, a complex subalgebra of `C(K,ℂ)`. The value map need not be
+injective: for K={0} the germs of z and of 0 have the same value, so O({0})=ℂ while
+`holomorphicGerms {0}` is infinite-dimensional; for the closed unit disk it is injective, by
+the identity theorem on a connected neighborhood. Restriction of continuous maps to a smaller
+compact K′⊆K carries O(K) into O(K′), by `holomorphicGerms.eval_restrict`, and the
+restriction to K of `holomorphicFunctions U` for open U⊇K lands in O(K) through
+`HolomorphicFunctions.toGerm`. Express Runge approximation as density of the restriction
+image of H(Ω) in O(K), with its inherited sup-norm topology. Distinguish this space from
+functions merely holomorphic on the interior of K.
 
 Prove by explicit examples that O(K) need not be open or closed in C(K,ℂ). For the closed
 unit disk, small nonzero multiples of `conj z` tend to zero in norm but cannot extend
@@ -943,20 +1002,24 @@ extension near the closed disk would have bounded derivative near 1, a contradic
 Thus O(K) is not closed. These are counterexamples to a general open/closed assertion;
 for finite K, O(K)=C(K,ℂ) by polynomial interpolation, including empty K.
 
-The neighborhood-restriction API includes complex subspace operations, restriction to smaller
-compacts, the continuous restriction from H(Ω), and its dense image under the Runge condition.
+The neighborhood-restriction API is the value map with its range O(K), the examples of its
+kernel, finite interpolation and the dense image of H(Ω) under the Runge condition; the
+algebra operations, evaluation and restriction are the native germ algebra's.
 The carrier is Rainer, §11, p. 25 (rainer line 1333); the examples are derived using power series.
 
 **Checks.**
 
 - For K=∅, both O(K) and C(K,ℂ) contain exactly one function.
 - For K={0,1}, a+(b−a)z realizes arbitrary values (a,b), so O(K)=C(K,ℂ).
+- For K={0}, the germs of z and of 0 both have value 0, and O({0})=ℂ is one-dimensional;
+  taking O(K) to be the germ algebra itself would make it infinite-dimensional.
 - On the closed unit disk, εz̄ has norm |ε| and is not in O(K) for ε≠0, whereas 0 is.
 - For Σzⁿ/(n+1)² the uniform coefficient tail tends to 0, but at radius 1 its formal
   derivative sum Σₙ≥₁ n/(n+1)² diverges, excluding a neighborhood extension.
 
-*Needs:* Mathlib continuous-map subspaces, polynomial interpolation and power-series differentiation;
-Layer 2.5 for the density conclusion only.
+*Needs:* Tau Ceti's `holomorphicGerms`, `holomorphicGerms.eval`, `holomorphicGerms.eval_restrict` and
+`HolomorphicFunctions.toGerm`; Mathlib continuous maps on compact sets, polynomial interpolation
+and power-series differentiation; Layer 2.5 for the density conclusion only.
 
 ### 2.4 Contour integration and compact-open closure
 
@@ -1004,7 +1067,7 @@ contains one of finitely many disks disjoint from K that cover ∂W. Prove that 
 relatively compact component, so (Ω,K̃) is a Runge pair, and apply the point-separation
 direction of the scalar equivalence to K̃: every a∈Ω∖K̃ has an f∈H(Ω) with
 |f(a)|>sup_K̃|f|≥sup_K|f|, so a∉K̂_Ω. Hence K̂_Ω=K holds exactly when Ω∖K has no
-relatively compact component; in particular every stage of 2.1's native exhaustion, being
+relatively compact component; in particular every stage of 2.1's explicit exhaustion, being
 filled in Ω, is its own hull. Specialize to polynomial
 approximation on compact `K ⊂ ℂ` iff `ℂ \ K` is connected. Include the rational approximation
 variant with a specified pole set meeting every component of the complement in the sphere.
@@ -1273,8 +1336,9 @@ to this larger-domain claim. For Ω=ℂ there is no strict larger plane domain.
 
 For nonempty proper Ω use GH1's prescribed-zero theorem with multiplicity one. Choose a countable dense sequence
 `a_j` in the nonempty boundary, allowing repetitions. For n≥1 and j≤n choose pairwise distinct
-`z_(n,j) ∈ Ω∩B(a_j,1/n) \ D_n`, using exactly the native filled exhaustion stages
-`D_n = closedBall 0 n \ thickening (1/n) Ωᶜ` of Layer 2.1, as indexed in 2.2. The intersection with
+`z_(n,j) ∈ Ω∩B(a_j,1/n) \ D_n`, using the explicit filled exhaustion stages
+`D_n = closedBall 0 n \ thickening (1/n) Ωᶜ` of Layer 2.1, as indexed in 2.2, with the nesting and
+cofinality proved there. The intersection with
 the ball is infinite, and every point of D_n has distance at least 1/n from a_j∈Ωᶜ.
 Let E be the set of these points. Every D_m meets only finitely many levels n<m, so E is
 relatively closed and discrete in Ω. For each fixed j the chosen points converge to a_j;
@@ -1302,7 +1366,8 @@ shell-cover construction above supplies the stronger meromorphic branchwise theo
 
 This is the whole-overlap consequence of Layer 3.2; its alternative zero construction uses
 the same identity-theorem argument as Rainer, Theorem 15.5, p. 39 (rainer line 2086).
-*Needs:* Layer 3.1, the native exhaustion stages of Layer 2.1, separability of the boundary and the identity theorem.
+*Needs:* Layer 3.1, the explicit exhaustion stages of Layer 2.1 with their nesting and
+cofinality, separability of the boundary and the identity theorem.
 
 
 
@@ -1343,7 +1408,12 @@ finite-principal-part specialization.
 The singularity API includes uniqueness modulo H(Ω), restriction, translation/scaling and
 finite principal-part specialization. The holomorphic quotient consequence retains equality
 on the codiscrete nonzero-denominator locus, not arbitrary assigned pole values.
-This is Rainer, Theorem 12.1, p. 31 and Theorem 15.6, p. 39 (rainer lines 1603, 2116).
+The finite-principal-part theorem is Rainer, Theorem 12.1, p. 31 (rainer line 1603), whose
+singular parts are given on the whole punctured plane; the isolated-singularity theorem, with
+singular germs given on punctured neighborhoods, is Rainer, Theorem 15.7, pp. 39–40 (rainer
+line 2126), which in addition prescribes a vanishing order of f−φ_a at a, and which the route
+above reaches from Theorem 12.1 through the negative Laurent part; the quotient is Rainer,
+Theorem 15.6, p. 39 (rainer line 2116).
 
 **Checks.**
 
@@ -1351,6 +1421,9 @@ This is Rainer, Theorem 12.1, p. 31 and Theorem 15.6, p. 39 (rainer lines 1603, 
 - At a=0, the principal part 2/z is realized by f=2/z with zero holomorphic remainder.
 - The punctured germ exp(1/z) is allowed by the isolated-singularity theorem and excluded
   by finite-pole data; its remainder can again be 0.
+- With E={0}, U_0 the ball of radius 1/2 about 0 and φ_0(z)=1/z+1/(z−1/2), the datum is
+  admissible although φ_0 is not holomorphic on ℂ∖{0}; f=1/z realizes it, with remainder
+  −1/(z−1/2), holomorphic at 0. A hypothesis of global singular parts would exclude it.
 - Altering a total meromorphic function at its pole changes no punctured germ: at 0 the
   assigned value can be 7 while the quotient representation agrees away from 0.
 
@@ -1856,19 +1929,21 @@ The inclusion `ι : M → ℂ` induces a smooth identification of the tangent bu
 trivial bundle of fibre ℂ: at `z : M`, `mfderiv I I ι z : TangentSpace I z →L[ℝ] ℂ` and its
 inverse are the mutually inverse coordinate tangent maps. Write `e_z : ℂ ≃L[ℝ] TangentSpace I z`
 for the inverse identification. For every ambient `u : ℂ → ℂ`, prove the restriction comparison
-`ContDiffOn ℝ ∞ u (U : Set ℂ) ↔ ContMDiff I I ∞ (fun z : M => u z)`, using the native
-open-subtype smoothness API, and the same comparison for real-valued functions with the
-target model `𝓘(ℝ, ℝ)`. Throughout, `d v` for a smooth coefficient function `v` with values
-in ℝ or in ℂ means `mextDeriv (RoughForm.ofFunction I v)` on Tau Ceti's carrier. Prove that the
-degree-zero form of a smooth function on `M` is a smooth form, `IsSmoothForm`, by its
-chartwise definition, and that `d v` is smooth; `mextDeriv_ofFunction` evaluates `d v` as
+`ContDiffOn ℝ ∞ u (U : Set ℂ) ↔ ContMDiff I I ∞ (fun z : M => u z)` from Mathlib's
+`contMDiffOn_iff_contDiffOn` and `contMDiffAt_subtype_iff` on the open set U, and the same
+comparison for real-valued functions with the target model `𝓘(ℝ, ℝ)`. Throughout, `d v` for a smooth coefficient function `v` with values
+in ℝ or in ℂ means `mextDeriv (RoughForm.ofFunction I v)` on Tau Ceti's carrier. The
+degree-zero form of a smooth function on `M` is a smooth form by `isSmoothForm_ofFunction_iff`,
+and `d v` is then smooth by `isSmoothForm_mextDeriv`; `mextDeriv_ofFunction` evaluates `d v` as
 `mfderiv`.
 
 Define the real coordinate differentials `dx = d(Re ∘ ι)` and `dy = d(Im ∘ ι)`, real-valued
 one-forms, and the complex coordinate differentials `dz` and `dz̄` as the pullbacks
 `mpullback` of the native plane forms `SmoothForm.complexDz` and `SmoothForm.complexDzBar`
 along the smooth inclusion `ι`; prove `dz = d ι` and `dz̄ = d(conj ∘ ι)`, where `conj` is
-`starRingEnd ℂ`, by `mpullback_apply` and `mextDeriv_ofFunction`. All four are
+`starRingEnd ℂ`: on ℂ the plane forms are `d id` and `d conj` at every point, by
+`mextDeriv_ofFunction` with `SmoothForm.complexDz_apply` and `SmoothForm.complexDzBar_apply`,
+and `mpullback_mextDeriv_ofFunction` along the smooth `ι` gives the pullbacks. All four are
 exterior derivatives of smooth coordinate functions, so `d(dx)=d(dy)=d(dz)=d(dz̄)=0` by
 `mextDeriv_mextDeriv`, whose `C²` bundle-form hypothesis the degree-zero form of a smooth
 function satisfies. A product of a smooth coefficient function with a form means the
@@ -1879,12 +1954,22 @@ coefficient space is changed anywhere: a real-valued form is never regarded as
 complex-valued, and no postcomposition of a form by a linear map is used.
 
 For smooth `u : M → ℂ`, define its real coordinate derivatives by evaluating `mfderiv`
-on `e_z 1` and `e_z i`. Put `∂z u=(∂x u−i*∂y u)/2` and `∂barz u=(∂x u+i*∂y u)/2`, and prove
-`du=(∂z u) dz+(∂barz u) dbarz` as an identity of complex-valued one-forms: both sides are
-the real-linear map `v ↦ ∂x u·Re v+∂y u·Im v` at every tangent vector. For ambient
-smooth-on-`U` functions, prove these derivatives of the restriction agree with the ambient
-derivatives used by GH5, `conjWirtingerDeriv u z 1` and `wirtingerDeriv u z 1`. By the
-determinant wedge evaluation `wedgeWith_apply_one_one`,
+on `e_z 1` and `e_z i`, and put `∂z u=(∂x u−i*∂y u)/2` and `∂barz u=(∂x u+i*∂y u)/2`. The
+decomposition `du=(∂z u) dz+(∂barz u) dbarz` of complex-valued one-forms is assembled from
+native identities. Let `ũ : ℂ → ℂ` be smooth on `U` with `u = ũ ∘ ι`, for instance the zero
+extension of `u`, smooth on `U` by the restriction comparison. At each point `x` of `M`,
+`mpullback_mextDeriv_ofFunction_apply` gives `du = ι^*(dũ)` at `x` and `dũ = ũ^*(d id)` at
+`ι x`; the pointwise form is the one that applies, since `ũ` is differentiable only on `U`.
+The form `d id` is the plane form `SmoothForm.complexDz`, as above, and `mpullback_complexDz`
+writes `ũ^*dz = (wirtingerDeriv ũ (ι x) 1) dz + (conjWirtingerDeriv ũ (ι x) 1) dz̄` with no
+regularity hypothesis. Pulling back along `ι` is linear at each point (`mpullback_apply`), so
+`du = (wirtingerDeriv ũ (ι x) 1) dz + (conjWirtingerDeriv ũ (ι x) 1) dz̄` on `M`. What is
+proved here is the comparison of coefficients: `∂z u(x) = wirtingerDeriv ũ (ι x) 1` and
+`∂barz u(x) = conjWirtingerDeriv ũ (ι x) 1`, the ambient derivatives used by GH5, whatever
+representative `ũ` is chosen, since two representatives agree on the open set `U`. For a
+smooth real-valued `v : M → ℝ`, prove `dv=(∂x v) dx+(∂y v) dy` directly: at `x`, both sides
+send `e_x w` to `∂x v(x)·Re w+∂y v(x)·Im w`; the real case below uses this identity.
+By the determinant wedge evaluation `wedgeWith_apply_one_one`,
 `dz∧dz̄` takes the value `1·(−i)−i·1=−2i` on `(e_z 1,e_z i)`, and `dx∧dy` takes the value
 `1·1−0·0=1` there. A real-alternating two-form on the two-dimensional real space ℂ is
 determined by its value on the pair `(1,i)`, so every smooth complex-valued two-form `η`
@@ -1920,13 +2005,16 @@ on each component at once. CKG K5a consumes the complex exactness on this same o
 carrier and owns its complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
 
 The coordinate-form API includes the tangent trivialization, the ambient/restricted
-smoothness comparison for real and complex values, smoothness of degree-zero forms, dx, dy,
-dz and dz̄ as exterior derivatives of coordinate functions with their evaluations and
-vanishing exterior derivatives, the decomposition of du, unique coefficient extraction for
+smoothness comparison for real and complex values, dx, dy, dz and dz̄ as exterior
+derivatives of coordinate functions with their evaluations and vanishing exterior
+derivatives, the identification of the coefficients of du with the ambient Wirtinger
+derivatives, the decomposition of dv for real-valued v, unique coefficient extraction for
 real and complex two-forms, the form-level closed completion, real and complex exactness,
-and the real degree-two de Rham vanishing. These are direct consequences of the native
-exterior derivative, Leibniz rule, determinant wedge convention and de Rham complex together
-with Layer 7.1, not an additional generic form carrier or a generic operation on forms.
+and the real degree-two de Rham vanishing. Smoothness of degree-zero forms and of their
+exterior derivatives, and the Wirtinger decomposition of a pulled-back dz, are native. These
+are direct consequences of the native exterior derivative, pullback naturality, Leibniz rule,
+determinant wedge convention and de Rham complex together with Layer 7.1, not an additional
+generic form carrier or a generic operation on forms.
 
 **Checks.**
 
@@ -1947,11 +2035,15 @@ with Layer 7.1, not an additional generic form carrier or a generic operation on
   ℝ; the vanishing here rests on the exactness theorem, not on closedness alone.
 
 *Needs:* Layers 7.1 and 0.1; Tau Ceti's `RoughForm`, `RoughForm.ofFunction`, `IsSmoothForm`,
-`SmoothForm`, `mextDeriv`, `mextDeriv_ofFunction`, `mextDeriv_mextDeriv`, `RoughForm.wedgeWith`,
+`SmoothForm`, `isSmoothForm_ofFunction_iff`, `isSmoothForm_mextDeriv`, `mextDeriv`,
+`mextDeriv_ofFunction`, `mextDeriv_mextDeriv`, `RoughForm.wedgeWith`,
 `wedgeWith_apply_one_one`, `mextDeriv_wedgeWith`, `mpullback`, `mpullback_apply`,
-`SmoothForm.complexDz`, `SmoothForm.complexDzBar`, `closedForms`, `exactForms`,
-`mem_closedForms_of_finrank_le`, `deRhamCohomology`, `deRhamCohomology.mk_surjective` and
-`deRhamCohomology.mk_eq_zero_iff`; native open-subtype tangent and smoothness comparisons,
+`mpullback_mextDeriv_ofFunction`, `mpullback_mextDeriv_ofFunction_apply`,
+`SmoothForm.complexDz`, `SmoothForm.complexDzBar`, `SmoothForm.complexDz_apply`,
+`SmoothForm.complexDzBar_apply`, `mpullback_complexDz`, `mpullback_complexDz_apply`,
+`closedForms`, `exactForms`, `mem_closedForms_of_finrank_le`, `deRhamCohomology`,
+`deRhamCohomology.mk_surjective` and `deRhamCohomology.mk_eq_zero_iff`; Mathlib
+`contMDiffAt_subtype_iff`, `contMDiffOn_iff_contDiffOn`, the open-subtype tangent maps,
 `Complex.reCLM`, `Complex.imCLM` and `starRingEnd ℂ`.
 
 ### 7.3 Coordinate worked examples
@@ -2056,8 +2148,8 @@ remains an earlier supplier.
   Proposition 10.1 and Theorems 10.2–10.3, pp. 23–24; §11, equation (11.2), Exercises 19–20,
   Theorem 11.1, Lemma 11.3 and Theorem 11.7, pp. 25–29; Theorems 12.1–12.4,
   pp. 31–32; Propositions 14.1–14.2 and Theorem 14.3, pp. 34–36;
-  Proposition 15.2, Theorem 15.3, Remark 15.4 and Theorems 15.5–15.6, pp. 36–39.
-  Locators use printed pages, not PDF page numbers; rainer lines 1189–2130.
+  Proposition 15.2, Theorem 15.3, Remark 15.4 and Theorems 15.5–15.7, pp. 36–40.
+  Locators use printed pages, not PDF page numbers; rainer lines 1189–2136.
 - J. D. Gray and S. A. Morris, *When Is a Function That Satisfies the Cauchy–Riemann
   Equations Analytic?*, American Mathematical Monthly 85 (1978), 246–256.
   [Legal author copy](https://www.sidneymorris.net/Morris51.pdf).

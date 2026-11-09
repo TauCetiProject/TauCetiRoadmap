@@ -204,7 +204,8 @@ theorem exists_holomorphic_no_meromorphic_boundary_germ {Ω : Set ℂ} (hΩ : Is
 /-! ## Layer 4: Mittag–Leffler and isolated singularities -/
 
 /-- **GH2, Mittag–Leffler.** Meromorphic germs with finite principal parts on a relatively
-closed discrete subset can be realized simultaneously by one meromorphic function. -/
+closed discrete subset can be realized simultaneously by one meromorphic function (Rainer,
+Theorem 12.1, p. 31). -/
 theorem exists_meromorphic_prescribed_principal_parts
     {Ω : Set ℂ} (hΩ : IsOpen Ω) {E : Set ℂ} (hEΩ : E ⊆ Ω) (hE : Eᶜ ∈ codiscreteWithin Ω)
     (P : E → ℂ → ℂ) (hP : ∀ a : E, MeromorphicAt (P a) a.val) :
@@ -215,7 +216,8 @@ theorem exists_meromorphic_prescribed_principal_parts
   sorry
 
 /-- **GH2, isolated singularities.** Prescribed holomorphic germs on punctured neighborhoods
-may have essential singularities. The difference extends holomorphically at each marked point. -/
+may have essential singularities. The difference extends holomorphically at each marked point
+(Rainer, Theorem 15.7, pp. 39–40, which also prescribes a vanishing order of the difference). -/
 theorem exists_holomorphic_prescribed_isolated_singularities
     {Ω : Set ℂ} (hΩ : IsOpen Ω) {E : Set ℂ} (hEΩ : E ⊆ Ω) (hE : Eᶜ ∈ codiscreteWithin Ω)
     (U : E → Set ℂ) (P : E → ℂ → ℂ)
@@ -228,7 +230,7 @@ theorem exists_holomorphic_prescribed_isolated_singularities
 
 /-- **GH1, GH2 corollary.** Every meromorphic function on an open plane set is a quotient
 of two holomorphic functions, interpreted on the codiscrete set where the denominator is
-nonzero. -/
+nonzero (Rainer, Theorem 15.6, p. 39). -/
 theorem exists_holomorphic_quotient {Ω : Set ℂ} (hΩ : IsOpen Ω) {F : ℂ → ℂ} (hF : MeromorphicOn F Ω) :
     ∃ f g : ℂ → ℂ, DifferentiableOn ℂ f Ω ∧ DifferentiableOn ℂ g Ω ∧
       (∀ᶠ z in codiscreteWithin Ω, g z ≠ 0 ∧ F z = f z / g z) := by
