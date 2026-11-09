@@ -14,10 +14,11 @@ residue field it then builds the absolute upper filtration of the absolute Galoi
 inertia and wild inertia as its terms at `0` and `0+`, the transition function `ψ_(L/K)` of a
 finite separable extension with the open-subgroup identity, and the comparison with the
 completed maximal unramified extension. On a nonarchimedean local field the objects of a finite
-Galois extension and the inertia and wild inertia subgroups are the completed roadmap's, the
-absolute upper filtration is ClassFieldTheory Layer 7's and the completed maximal unramified
-extension is ReductiveGroupsPartII's `Breve E`; the agreements with these are targets here, and
-the function `ψ_(L/K)` of a finite separable extension that is not Galois is this roadmap's there.
+Galois extension and the inertia and wild inertia subgroups are the completed roadmap's and the
+completed maximal unramified extension is ReductiveGroupsPartII's `Breve E`, and the agreements
+with these are targets here; the absolute upper filtration, whose finite images there are the
+completed roadmap's upper groups, and the function `ψ_(L/K)` of a finite separable extension that
+is not Galois are this roadmap's there.
 The package is the ramification theory that `p`-adic Hodge theory, integral `p`-adic Hodge
 theory, the conductors of Galois representations and Serre's geometric local class field theory
 consume over bases such as `F̄_p((t))` and `Frac W(F̄_p)`.
@@ -109,19 +110,20 @@ finite-isogeny fundamental group, reciprocity map and Sen tower estimates. Reduc
 `E`, its extended arithmetic Frobenius and its fixed-field results; §4a.3 proves that this
 roadmap's `K′` is `Breve E` on such a field.
 
-On a nonarchimedean local field, the absolute upper filtration taken directly from the completed
-roadmap's finite upper groups, at each depth `u ≥ −1` the set of `σ ∈ G_K` whose restriction to
-every finite Galois `M` lies in `TauCeti.LocalFieldsRamification.upperRamificationGroup K M u`, is
-ClassFieldTheory Layer 7's; ClassFieldTheory precedes this roadmap and takes no input from it.
-§4a.1 owns the filtration relative to a valuation subring over every complete discretely valued
-field with perfect residue field, and its fourth bullet proves that on a nonarchimedean local
-field, for the valuation subring lying over `𝒪[K]`, this filtration is that set at every
-`u ≥ −1`, so the two agree. One object of nonarchimedean local fields is this roadmap's, because
-the completed roadmap's Herbrand functions assume `IsGalois K L`: the function `ψ_(L/K)` of a
-finite separable, not necessarily Galois, extension of nonarchimedean local fields, with its
-independence of the Galois closure, its tower law, the finite-level subgroup identity and the
-integral formula, is §4a.2's, read through §3a.2's agreement. A roadmap that uses this function
-on local fields cites §4a.2 and does not define it a second time.
+Two objects of nonarchimedean local fields are this roadmap's, because the completed roadmap's
+upper ramification groups are those of finite Galois extensions and its Herbrand functions
+assume `IsGalois K L`. The absolute upper filtration `G_K^u` of a nonarchimedean local field, at
+every real depth `u ≥ −1`, is §4a.1's: it is the filtration relative to a valuation subring that
+§4a.1 defines over every complete discretely valued field with perfect residue field, taken for
+the valuation subring lying over `𝒪[K]`, and §4a.1's fourth bullet proves that it is the set of
+`σ ∈ G_K` whose restriction to every finite Galois `M` lies in
+`TauCeti.LocalFieldsRamification.upperRamificationGroup K M u`. The filtration taken directly
+from the completed roadmap's finite upper groups is therefore this one, and is not defined a
+second time. The function `ψ_(L/K)` of a finite separable, not necessarily Galois, extension of
+nonarchimedean local fields, with its independence of the Galois closure, its tower law, the
+finite-level subgroup identity and the integral formula, is §4a.2's, read through §3a.2's
+agreement. A roadmap that uses either object on local fields cites §4a.1 or §4a.2 and does not
+define it a second time.
 
 ## Conventions
 
@@ -1147,12 +1149,14 @@ perfect residue field, in both characteristics. PadicExtensionFamilies consumes 
 extension of nonarchimedean local fields, with its independence of the Galois closure, tower law,
 finite-level subgroup identity and integral formula) for the breaks of a separable extension in
 its Layer 2 and its polygon-to-break theorem. FilteredLocalGaloisGroups and FieldOfNorms consume
-§4a.2 on nonarchimedean local fields (`ψ_(L/K)` with its tower law, the open-subgroup identity
-`G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` and the integral formula), reading `G_K^u` there as
-ClassFieldTheory Layer 7's absolute upper filtration through §4a.1's local-field agreement, the
-first for the upper filtration of the absolute Galois group and of its solvable quotients, the
-second for arithmetically profinite extensions and their fields of norms. Integral `p`-adic
-Hodge theory reaches the package through PadicPeriodRings.
+§§4a.1–4a.2 on nonarchimedean local fields (the absolute upper filtration with its finite
+projections and inertia, `ψ_(L/K)` with its tower law, the open-subgroup identity
+`G_K^u ∩ G_L = G_L^(ψ_(L/K)(u))` and the integral formula), the first for the upper filtration of
+the absolute Galois group and of its solvable quotients, the second for arithmetically profinite
+extensions and their fields of norms. ClassFieldTheory consumes §4a.1 on nonarchimedean local
+fields (the absolute upper filtration with its finite projections and its term at `0`) for the
+absolute form of unit-filtration reciprocity. Integral `p`-adic Hodge theory reaches the package
+through PadicPeriodRings.
 
 ## References
 
