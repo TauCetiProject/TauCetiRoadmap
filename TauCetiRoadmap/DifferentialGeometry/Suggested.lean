@@ -47,8 +47,9 @@ half-space (5.3) and for smooth faces and corners (5.5b) lack the integral of a 
 manifold and the outward-first boundary orientation, constructions whose bodies are themselves
 theorems (5.1–5.2), and the corner version also lacks the smooth face structure with its abstract
 boundary (5.5b); the face-structured divergence theorem (12.5) lacks the same face structure; the
-equivalences of 2.4 lack the topology and smooth structure of the orientation double cover
-(2.3–2.4); the homotopy-operator identity (5.4) lacks the homotopy operator; agreement of
+equivalences of 2.4 lack the orientation double cover with its topology (2.4), from which Tau
+Ceti's `IsLocalHomeomorph.chartedSpaceComap` (2.3) would give its smooth structure; the
+homotopy-operator identity (5.4) lacks the homotopy operator; agreement of
 densities with the integral of top forms (5.5a) and of the Riemannian volume form with the
 Riemannian density (12.4) lack those integrals and the volume form; Cartan's formula (1.4) lacks
 the Lie derivative of forms; the finite type-I/type-II division theorems (5.6.2) lack the oriented
