@@ -65,15 +65,16 @@ Adjacent roadmaps with a different object: TangentialBordism §2.1 proves parame
 to a closed embedded submanifold with a dense set of good parameters, and relative Whitney
 approximation into a manifold; Layer 5 here is transversality of a family to an arbitrary smooth
 map `j : N → V` into a vector space, with a Haar-null exceptional set, and §2.5 here prescribes
-boundary collar data for fillings into a vector space.
+boundary collar data for fillings into a vector space. ComplexKahlerGeometry K5a owns the
+complex-coefficient de Rham comparison and the punctured-plane computation
+`H¹_dR(ℂ ∖ {0}; ℂ) ≅ ℂ` for smooth forms; Layer 1 here integrates continuous forms through local
+potentials.
 
 The relative smooth chain comparison (§2.4), the relative form complex of an open pair, relative
 integration and the relative de Rham isomorphism (§§3.1–3.3), and the compact-support integration
 formula (§4.1) have a single owner, this roadmap. §§2.4 and 3.1–3.3 hold over every real model
 with corners, which §4.2 needs for compact manifolds with boundary, and §4.1 carries the
-interior-embedding formula that §4.2 uses. The open-pair comparison and compact-support formula
-that ComplexKahlerGeometry K6.1 uses for analytic cycles are their boundaryless instances,
-consumed from §§2.4, 3.1–3.3 and 4.1 (*Downstream consumers*).
+interior-embedding formula that §4.2 uses.
 
 DifferentialGeometry 8.3 states, and owns, the absolute smoothing equivalence for every Hausdorff
 σ-compact finite-dimensional manifold over any real model with corners; §§2.4 and 3.3 import it as
@@ -689,19 +690,6 @@ parabola family `x² + p` has the single bad parameter `0`.
   potentials; local potentials are the hypothesis of Layer 1.
 - **"Transverse parameters are dense, hence the bad set is null."** Density is Tau Ceti's meagre
   statement; nullness needs Sard on the incidence manifold (§5.2).
-
-## Downstream consumers
-
-- ComplexKahlerGeometry K6.1 (analytic cycles) consumes the boundaryless instances of §§2.4,
-  3.1–3.3 and 4.1: the relative form complex of an open pair, its integration map to relative
-  singular cohomology and the relative de Rham isomorphism, with naturality for smooth maps of open
-  pairs, enlargement of `W` and the absolute image of `(α, 0)` (§§3.1–3.3); the relative
-  smooth/continuous chain comparison (§2.4); and the compact-support integration formula with its
-  compact absolute case, dimension-zero sign, independence of `K` and open embeddings (§4.1). K6.1
-  names these as DifferentialGeometry 8.4's, 8.3's and 9.3's; DifferentialGeometry 8.3, 8.4 and 9.3
-  plan the absolute theory only. Citations of these targets as DR.3.8 and DR.4.4 refer to
-  §§3.1–3.3 and §4.1 here. Its K5a owns the complex-coefficient de Rham comparison and the
-  punctured-plane computation `H¹_dR(ℂ ∖ {0}; ℂ) ≅ ℂ` for smooth forms.
 
 ## Prior work
 
