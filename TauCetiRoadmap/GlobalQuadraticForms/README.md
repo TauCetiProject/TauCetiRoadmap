@@ -219,7 +219,7 @@ conclusion to a model of `K` in `Type`.
 All paths are under `TauCeti/`.
 
 - Localization (`NumberTheory/QuadraticForm/Global/Localization.lean`, `Operations.lean`,
-  `Discriminant.lean`, `CompletionTower.lean`, `Classification.lean`): `QuadraticForm.atFinitePlace`,
+  `Discriminant.lean`, `CompletionTower.lean`): `QuadraticForm.atFinitePlace`,
   `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
   `HeightOneSpectrum.unitAtFinitePlace` and `TauCeti.unitAtRealPlace`; the transport of
   isometry, representation and regularity (`QuadraticMap.Equivalent.atFinitePlace`,
