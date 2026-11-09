@@ -393,11 +393,14 @@ primes `p` (a nilpotent normal subgroup is the product of its Sylow subgroups, e
 prove: `F(G)` is the intersection of the centralizers `C_G(s_{i+1} ⧸ s_i)` of the factors of a
 chief series `s` of `G` from `⊥` to `⊤` (FiniteGroupInvariants §0.2, `ChiefSeries`, with the
 endpoint hypothesis `s.head = ⊥ ∧ s.last = ⊤` of its `chiefFactors_eq`; the carrier itself
-admits series with other endpoints) (Proposition 1.2; math-comp `Fitting_stab_chief` and
-`chief_stab_sub_Fitting`, MC-BGsection1 lines 169–215, prove the nontrivial inclusions of its
-two equalities in relative form, for `G' ⊴ G`, with the intersection taken over all chief
-factors of `G` rather than over one series);
-`C_G(F(G)) ≤ F(G)` (Proposition 1.3, due to P. Hall); and, for `A` acting on `G` with
+admits series with other endpoints) (Proposition 1.2; math-comp works over chief factors of `G`
+rather than over one series, in relative form for solvable `G` and `G' ⊴ G`, MC-BGsection1
+lines 162–163: `Fitting_stab_chief`, lines 169–170 and 174–186, proves `F(G') ≤ ⋂ C_G(U ⧸ V)`
+over all chief factors `U ⧸ V` of `G`, and `chief_stab_sub_Fitting`, lines 171–172 and 188–215,
+proves `G' ⊓ ⋂ C_G(U ⧸ V) ≤ F(G')` over only those chief factors `U ⧸ V` of `G` with
+`U ≤ F(G')`); `C_G(F(G)) ≤ F(G)` (Proposition 1.3, due to P. Hall; math-comp `cent_sub_Fitting`,
+MC-BGsection1 lines 219–227, applies `chief_stab_sub_Fitting` with `G' = G`, since `C_G(F(G))`
+centralizes every chief factor `U ⧸ V` with `U ≤ F(G)`); and, for `A` acting on `G` with
 `gcd(|A|, |G|) = 1`, `C_A(G) = 1` implies `C_A(F(G)) = 1` (Proposition 1.4). *Needs:* §1.1,
 InverseGaloisAndArithmeticFundamentalGroups IG.4.3 (*The Fitting subgroup*, *Fitting
 supplements for solvable groups*), FiniteGroupInvariants §0.2 (chief series) and §0.3 (minimal
