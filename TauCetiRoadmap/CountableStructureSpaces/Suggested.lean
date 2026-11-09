@@ -1,5 +1,20 @@
-import Mathlib
-import Completed.InfinitaryLogic.Suggested
+module
+
+public import Mathlib
+public import TauCeti.Combinatorics.SimpleGraph.RelationalConfiguration
+public import TauCeti.ModelTheory.BackAndForth.AtomicType
+public import TauCeti.ModelTheory.BackAndForth.Equivalence
+public import TauCeti.ModelTheory.Interpolation.PCClass
+public import TauCeti.ModelTheory.RelationalConfiguration.BackAndForth
+public import TauCeti.ModelTheory.RelationalConfiguration.Isomorphism
+public import TauCeti.ModelTheory.RelationalConfiguration.ModelsOf
+public import TauCeti.ModelTheory.RelationalConfiguration.Structure
+public import TauCeti.ModelTheory.RelationalConfiguration.Topology
+public import TauCeti.ModelTheory.Scott.Height
+public import TauCeti.ModelTheory.Scott.Rank
+public import TauCeti.ModelTheory.Scott.Sentence
+public import TauCeti.ModelTheory.Scott.Stabilization
+public import TauCeti.Topology.Algebra.Group.Perm
 
 /-!
 # Spaces of countable structures and the López–Escobar theorem: suggested signatures
@@ -11,14 +26,20 @@ Lean `sorry`-forms (allowed in this human-owned roadmap library) for *particular
 that contributors and reviewers converge on names and signatures; discharging every statement here
 neither finishes a layer nor the roadmap.
 
-The infinitary syntax, back-and-forth relation and Scott analysis are imported from the
-InfinitaryLogic roadmap's prototype (`TauCetiRoadmap.InfinitaryLogic`), whose Tau Ceti
-implementation lives under `TauCeti/ModelTheory/{Infinitary,BackAndForth,Scott}`. Two declarations
-below, `PCMem` and `pcSeparation`, are stand-ins for the InfinitaryModelExistence roadmap, marked
-with their owner and the owner's revision they were checked against. The PC sentence of a tree is recorded by its specification
-(`exists_pcSentence`); the README gives its explicit construction. Names and namespaces are
-provisional.
+Everything is stated over the pinned Tau Ceti library: the infinitary syntax and satisfaction
+(`FirstOrder.Language.BoundedFormulaInf`, `Sentenceω`, `SentenceInf.Realize`), back-and-forth
+equivalence and the Scott analysis (`TauCeti.BFEquiv`, `TauCeti.scottSentence`,
+`TauCeti.SelfStabilizesCompletely`, `TauCeti.scottHeight`), the coding space
+`TauCeti.RelationalConfiguration` with its topology, decoding, logic action, model classes and
+isomorphism and back-and-forth setoids, the permutation-group topology, and projective classes
+(`FirstOrder.Language.LHom.PCMem`). Milestones the pin already proves are stated in the roadmap's
+form and proved by the library's theorem. One declaration below, `pcSeparation`, is a stand-in for
+the InfinitaryModelExistence roadmap, which owns it, marked with the owner's revision it was checked
+against. The PC sentence of a tree is recorded by its specification (`exists_pcSentence`); the
+README gives its explicit construction. Names and namespaces are provisional.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -27,241 +48,165 @@ universe u v w w' u' v' u₁ v₁ u₂ v₂
 namespace TauCetiRoadmap.CountableStructureSpaces
 
 open FirstOrder FirstOrder.Language FirstOrder.Language.Structure MeasureTheory Topology
-open TauCetiRoadmap.InfinitaryLogic Descriptive
+open TauCeti TauCeti.RelationalConfiguration Descriptive
 open scoped Pointwise
 
-/-! ## Layer 0: the coding space -/
+/-! ## Layer 0: the coding space
 
-/-- A relation query on the carrier `α`: a relation symbol together with a tuple of its arity. -/
-def RelQueryOn (L : FirstOrder.Language.{u, v}) (α : Type w) : Type (max v w) :=
-  Σ R : (Σ l, L.Relations l), Fin R.1 → α
-
-/-- **Layer 0, the coding space on a carrier.** A code says, for every relation query, whether the
-relation holds on that tuple. A type synonym, so that the logic action below is an instance on
-this type and never on an arbitrary function type. -/
-def StructureSpaceOn (L : FirstOrder.Language.{u, v}) (α : Type w) : Type (max v w) :=
-  RelQueryOn L α → Bool
-
-/-- **Layer 0, the space of countable structures**: codes of `L`-structures on `ℕ`. -/
-abbrev StructureSpace (L : FirstOrder.Language.{u, v}) : Type v := StructureSpaceOn L ℕ
+The coding space on a carrier `α` is `RelationalConfiguration L α`: a code says, for every atom
+`atom R x` (a relation symbol with a tuple of its arity), whether the relation holds there. It is
+a type synonym for `Atom L α → Bool`, with the product topology and σ-algebra for every language
+and carrier, and is compact, Polish and standard Borel once the relation symbols of each arity and
+the carrier are countable. -/
 
 variable {L : FirstOrder.Language.{u, v}} {α : Type w}
 
-instance [Countable (Σ l, L.Relations l)] [Countable α] : Countable (RelQueryOn L α) := by
-  unfold RelQueryOn; infer_instance
+example [∀ n, Countable (L.Relations n)] : StandardBorelSpace (RelationalConfiguration L ℕ) :=
+  inferInstance
 
-/-- The product topology, with `Bool` discrete. Defined for every language and carrier. -/
-instance : TopologicalSpace (StructureSpaceOn L α) := Pi.topologicalSpace
-
-/-- The product σ-algebra, generated by the coordinate cylinders. Defined for every language and
-carrier. -/
-instance : MeasurableSpace (StructureSpaceOn L α) := MeasurableSpace.pi
-
-instance : CompactSpace (StructureSpaceOn L α) :=
-  inferInstanceAs (CompactSpace (RelQueryOn L α → Bool))
-
-instance [Countable (Σ l, L.Relations l)] [Countable α] :
-    TopologicalSpace.MetrizableSpace (StructureSpaceOn L α) :=
-  inferInstanceAs (TopologicalSpace.MetrizableSpace (RelQueryOn L α → Bool))
-
-instance [Countable (Σ l, L.Relations l)] [Countable α] :
-    SecondCountableTopology (StructureSpaceOn L α) :=
-  inferInstanceAs (SecondCountableTopology (RelQueryOn L α → Bool))
-
-/-- **Layer 0.** For countably many relation symbols and a countable carrier the coding space is
-Polish (a countable product of copies of `Bool`). -/
-instance [Countable (Σ l, L.Relations l)] [Countable α] : PolishSpace (StructureSpaceOn L α) := by
-  have : TopologicalSpace.IsCompletelyMetrizableSpace (StructureSpaceOn L α) :=
-    inferInstanceAs (TopologicalSpace.IsCompletelyMetrizableSpace (RelQueryOn L α → Bool))
-  exact PolishSpace.mk
-
-/-- **Layer 0.** The product σ-algebra is the Borel σ-algebra, so the coding space is standard
-Borel (Mathlib's `standardBorel_of_polish`). -/
-instance [Countable (Σ l, L.Relations l)] [Countable α] : BorelSpace (StructureSpaceOn L α) :=
-  inferInstanceAs (BorelSpace (RelQueryOn L α → Bool))
-
-example [Countable (Σ l, L.Relations l)] : StandardBorelSpace (StructureSpace L) := inferInstance
-
-example [Countable (Σ l, L.Relations l)] :
-    StandardBorelSpace (StructureSpace L × StructureSpace L) := inferInstance
-
-namespace StructureSpaceOn
-
-/-- **Layer 0, decoding.** The `L`-structure on `α` named by a code; relational languages only. -/
-@[instance_reducible]
-noncomputable def toStructure [L.IsRelational] (c : StructureSpaceOn L α) : L.Structure α where
-  funMap f := isEmptyElim f
-  RelMap {l} R v := c ⟨⟨l, R⟩, v⟩ = true
-
-@[simp]
-theorem relMap_toStructure [L.IsRelational] (c : StructureSpaceOn L α) {l : ℕ}
-    (R : L.Relations l) (v : Fin l → α) :
-    @RelMap L α c.toStructure l R v ↔ c ⟨⟨l, R⟩, v⟩ = true :=
-  Iff.rfl
-
-/-- **Layer 0, encoding.** The code of a structure on `α` (its function symbols are forgotten). -/
-noncomputable def ofStructure (S : L.Structure α) : StructureSpaceOn L α := by
-  classical
-  exact fun q => decide (@RelMap L α S q.1.1 q.1.2 q.2)
+example [∀ n, Countable (L.Relations n)] :
+    StandardBorelSpace (RelationalConfiguration L ℕ × RelationalConfiguration L ℕ) :=
+  inferInstance
 
 /-- **Layer 0 milestone.** Decoding then encoding is the identity on codes. -/
-theorem ofStructure_toStructure [L.IsRelational] (c : StructureSpaceOn L α) :
-    ofStructure c.toStructure = c := by
-  sorry
+theorem ofStructure_toStructure [L.IsRelational] (c : RelationalConfiguration L α) :
+    @ofStructure L α c.toStructure = c :=
+  RelationalConfiguration.ofStructure_toStructure c
 
 /-- **Layer 0 milestone.** Encoding then decoding is the identity on structures of a relational
 language. -/
 theorem toStructure_ofStructure [L.IsRelational] (S : L.Structure α) :
-    (ofStructure S).toStructure = S := by
-  sorry
+    (@ofStructure L α S).toStructure = S :=
+  RelationalConfiguration.toStructure_ofStructure S
 
-/-- **Layer 0, transport.** The code on `α` of a structure on `M`, pushed forward along a
-bijection. -/
-noncomputable def encodeVia {M : Type*} [L.Structure M] (e : M ≃ α) : StructureSpaceOn L α :=
-  ofStructure (e.inducedStructure)
-
-/-- **Layer 0 milestone.** The transported code names a structure isomorphic to the source. -/
+/-- **Layer 0 milestone.** The code transported along a bijection names a structure isomorphic to
+the source. -/
 theorem nonempty_equiv_encodeVia [L.IsRelational] {M : Type*} [L.Structure M] (e : M ≃ α) :
-    Nonempty (@Language.Equiv L M α _ (encodeVia e).toStructure) := by
-  sorry
+    Nonempty (@Language.Equiv L M α _ (e.encodeVia (L := L)).toStructure) :=
+  e.nonempty_equiv_encodeVia
 
 /-- **Layer 0 milestone.** The basic cylinders are clopen. -/
-theorem isClopen_setOf_apply (q : RelQueryOn L α) :
-    IsClopen {c : StructureSpaceOn L α | c q = true} := by
-  sorry
-
-end StructureSpaceOn
+theorem isClopen_setOf_eval (a : Atom L α) :
+    IsClopen {c : RelationalConfiguration L α | c.eval a = true} :=
+  RelationalConfiguration.isClopen_setOf_eval a true
 
 /-- **Layer 0, the query code.** The coordinates of a code read along a fixed enumeration of the
-relation queries, padded with `false`; the embedding of the coding space into Cantor space. -/
-noncomputable def queryCode [Countable (Σ l, L.Relations l)] (c : StructureSpace L) :
+atoms, padded with `false`; the embedding of the coding space into Cantor space. -/
+noncomputable def queryCode [∀ n, Countable (L.Relations n)] (c : RelationalConfiguration L ℕ) :
     ℕ → Bool := by
-  letI : Encodable (RelQueryOn L ℕ) := Encodable.ofCountable _
-  exact fun n => (Encodable.decode n : Option (RelQueryOn L ℕ)).elim false c
+  letI : Encodable (Atom L ℕ) := Encodable.ofCountable _
+  exact fun n => (Encodable.decode n : Option (Atom L ℕ)).elim false c.eval
 
 /-- **Layer 0 milestone.** The query code is a closed embedding into Cantor space. -/
-theorem isClosedEmbedding_queryCode [Countable (Σ l, L.Relations l)] :
+theorem isClosedEmbedding_queryCode [∀ n, Countable (L.Relations n)] :
     IsClosedEmbedding (queryCode (L := L)) := by
   sorry
 
 /-- **Layer 0 milestone.** A coding space on a countable carrier has at most continuum many
 points. -/
-theorem mk_structureSpaceOn_le_continuum [Countable (Σ l, L.Relations l)] [Countable α] :
-    Cardinal.mk (StructureSpaceOn L α) ≤ Cardinal.continuum := by
-  sorry
-
-/-- **Layer 0, graph example.** The code of a simple graph on `ℕ`. -/
-noncomputable def graphCode (G : SimpleGraph ℕ) : StructureSpace Language.graph :=
-  StructureSpaceOn.ofStructure G.structure
+theorem mk_le_continuum [∀ n, Countable (L.Relations n)] [Countable α] :
+    Cardinal.mk (RelationalConfiguration L α) ≤ Cardinal.continuum :=
+  RelationalConfiguration.mk_le_continuum L α
 
 /-- **Layer 0 graph example.** Coding is a measurable embedding of Mathlib's measurable space of
 graphs on `ℕ`. -/
-theorem measurableEmbedding_graphCode : MeasurableEmbedding graphCode := by
-  sorry
+theorem measurableEmbedding_graphCode :
+    MeasurableEmbedding (SimpleGraph.toRelationalConfiguration : SimpleGraph ℕ → _) :=
+  SimpleGraph.measurableEmbedding_toRelationalConfiguration
 
-/-! ## Layer 1: the logic action of `S∞` -/
+/-! ## Layer 1: the logic action of `S∞`
 
-/-- **Layer 1, the topology of pointwise convergence** on the permutations of a discrete space,
-induced by `σ ↦ (σ, σ⁻¹)`. For `α = ℕ` this is `S∞`. -/
-instance instTopologicalSpacePerm [TopologicalSpace α] [DiscreteTopology α] :
-    TopologicalSpace (Equiv.Perm α) :=
-  TopologicalSpace.induced
-    (fun σ : Equiv.Perm α => ((σ : α → α), ((σ⁻¹ : Equiv.Perm α) : α → α))) inferInstance
+`Equiv.Perm α` carries the topology of pointwise convergence (induced by `σ ↦ (σ, σ⁻¹)`), and acts
+on `RelationalConfiguration L α` by relabelling, for every language. -/
 
 section PermTopology
 
 variable [TopologicalSpace α] [DiscreteTopology α]
 
 /-- **Layer 1 acceptance lemma.** The pointwise stabilizers of finite sets form a neighbourhood
-basis of the identity, so the induced topology is the pointwise one. -/
+basis of the identity, so the induced topology is the pointwise one. The library states it indexed
+by finite sets (`Equiv.Perm.hasBasis_nhds_one_fixingSubgroup`). -/
 theorem hasBasis_nhds_one_fixingSubgroup :
     (𝓝 (1 : Equiv.Perm α)).HasBasis (fun _ : Finset α => True)
       (fun s => (fixingSubgroup (Equiv.Perm α) (s : Set α) : Set (Equiv.Perm α))) := by
   sorry
 
 /-- **Layer 1 milestone.** The permutation group of a discrete space is a topological group. -/
-theorem isTopologicalGroup_perm : IsTopologicalGroup (Equiv.Perm α) := by
-  sorry
+theorem isTopologicalGroup_perm : IsTopologicalGroup (Equiv.Perm α) :=
+  inferInstance
 
 /-- **Layer 1 milestone.** The permutation group of a countable discrete space is Polish; for
 `α = ℕ` this is `S∞`. -/
-theorem polishSpace_perm [Countable α] : PolishSpace (Equiv.Perm α) := by
-  sorry
+theorem polishSpace_perm [Countable α] : PolishSpace (Equiv.Perm α) :=
+  inferInstance
 
 end PermTopology
 
-/-- Permutations act on relation queries by acting on the tuple. -/
-instance : MulAction (Equiv.Perm α) (RelQueryOn L α) where
-  smul σ q := ⟨q.1, σ ∘ q.2⟩
-  one_smul _ := rfl
-  mul_smul _ _ _ := rfl
-
-/-- **Layer 1, the logic action**: Mathlib's `arrowAction` for the action on queries, so
-`(σ • c) ⟨R, v⟩ = c ⟨R, σ⁻¹ ∘ v⟩`. -/
-instance : MulAction (Equiv.Perm α) (StructureSpaceOn L α) :=
-  arrowAction (G := Equiv.Perm α) (A := RelQueryOn L α) (B := Bool)
-
-@[simp]
-theorem smul_apply (σ : Equiv.Perm α) (c : StructureSpaceOn L α) (R : Σ l, L.Relations l)
-    (v : Fin R.1 → α) : (σ • c) ⟨R, v⟩ = c ⟨R, ⇑σ⁻¹ ∘ v⟩ :=
+/-- **Layer 1, the logic action**: `(σ • c)` holds of `R` on `x` exactly when `c` holds of `R` on
+`σ⁻¹ ∘ x`. -/
+theorem eval_smul_atom (σ : Equiv.Perm α) (c : RelationalConfiguration L α) {n : ℕ}
+    (R : L.Relations n) (x : Fin n → α) :
+    (σ • c).eval (atom R x) = c.eval (atom R (⇑σ⁻¹ ∘ x)) := by
+  rw [eval_perm_smul, Atom.map_atom]
   rfl
 
 /-- **Layer 1 milestone.** The logic action is jointly continuous, for every language. -/
-theorem continuousSMul_structureSpaceOn [TopologicalSpace α] [DiscreteTopology α] :
-    ContinuousSMul (Equiv.Perm α) (StructureSpaceOn L α) := by
+theorem continuousSMul_relationalConfiguration [TopologicalSpace α] [DiscreteTopology α] :
+    ContinuousSMul (Equiv.Perm α) (RelationalConfiguration L α) := by
   sorry
 
 /-- **Layer 1 milestone, orbits are isomorphism classes.** -/
-theorem orbitRel_iff_nonempty_equiv [L.IsRelational] (c d : StructureSpaceOn L α) :
-    (MulAction.orbitRel (Equiv.Perm α) (StructureSpaceOn L α)) c d ↔
+theorem orbitRel_iff_nonempty_equiv [L.IsRelational] (c d : RelationalConfiguration L α) :
+    (MulAction.orbitRel (Equiv.Perm α) (RelationalConfiguration L α)) c d ↔
       Nonempty (@Language.Equiv L α α c.toStructure d.toStructure) := by
-  sorry
+  rw [← isoSetoid_eq_orbitRel]
+  exact isoSetoid_apply
 
 /-- **Layer 1 milestone, stabilizers are automorphism groups.** -/
-theorem mem_stabilizer_iff [L.IsRelational] (σ : Equiv.Perm α) (c : StructureSpaceOn L α) :
+theorem mem_stabilizer_iff [L.IsRelational] (σ : Equiv.Perm α) (c : RelationalConfiguration L α) :
     σ ∈ MulAction.stabilizer (Equiv.Perm α) c ↔
       ∀ {l : ℕ} (R : L.Relations l) (v : Fin l → α),
         @RelMap L α c.toStructure l R (σ ∘ v) ↔ @RelMap L α c.toStructure l R v := by
   sorry
 
-/-- **Action invariance** of a class of codes. -/
-def ActionInvariant (B : Set (StructureSpaceOn L α)) : Prop :=
+/-- **Action invariance** of a class of codes. Isomorphism invariance is the library's
+`RelationalConfiguration.IsomorphismInvariant`. -/
+def ActionInvariant (B : Set (RelationalConfiguration L α)) : Prop :=
   ∀ σ : Equiv.Perm α, (σ • ·) ⁻¹' B = B
-
-/-- **Isomorphism invariance** of a class of codes. -/
-def IsomorphismInvariant [L.IsRelational] (B : Set (StructureSpaceOn L α)) : Prop :=
-  ∀ c d : StructureSpaceOn L α,
-    Nonempty (@Language.Equiv L α α c.toStructure d.toStructure) → (c ∈ B ↔ d ∈ B)
 
 /-- **Layer 1 milestone.** The two invariance notions coincide. -/
 theorem actionInvariant_iff_isomorphismInvariant [L.IsRelational]
-    (B : Set (StructureSpaceOn L α)) :
+    (B : Set (RelationalConfiguration L α)) :
     ActionInvariant B ↔ IsomorphismInvariant B := by
   sorry
 
 /-- **Layer 1 milestone, the invariant σ-algebra.** Measurability for the infimum over `σ` of
 Mathlib's `MeasurableSpace.invariants (σ • ·)` is measurability together with action
 invariance. -/
-theorem measurableSet_iInf_invariants_iff (B : Set (StructureSpaceOn L α)) :
+theorem measurableSet_iInf_invariants_iff (B : Set (RelationalConfiguration L α)) :
     MeasurableSet[⨅ σ : Equiv.Perm α,
-        MeasurableSpace.invariants (fun c : StructureSpaceOn L α => σ • c)] B ↔
+        MeasurableSpace.invariants (fun c : RelationalConfiguration L α => σ • c)] B ↔
       MeasurableSet B ∧ ActionInvariant B := by
   sorry
 
-/-- **Layer 1 milestone.** The saturation of an analytic class is analytic. -/
-theorem analyticSet_iUnion_smul [Countable (Σ l, L.Relations l)] {A : Set (StructureSpace L)}
-    (hA : AnalyticSet A) : AnalyticSet (⋃ σ : Equiv.Perm ℕ, σ • A) := by
+/-- **Layer 1 milestone.** The saturation of an analytic class is analytic, for every language.
+The library proves the relational case (`RelationalConfiguration.analyticSet_iUnion_smul`). -/
+theorem analyticSet_iUnion_smul [∀ n, Countable (L.Relations n)]
+    {A : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A) :
+    AnalyticSet (⋃ σ : Equiv.Perm ℕ, σ • A) := by
   sorry
 
 open Set in
 /-- **Layer 1.** The orbit relation of the logic action, as a subset of the square, is analytic: it
-is the image of the Polish space `Perm ℕ × StructureSpace L` under a continuous map. -/
-theorem analyticSet_orbitRel_graph [Countable (Σ l, L.Relations l)] :
-    AnalyticSet {p : StructureSpace L × StructureSpace L |
-      MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L) p.1 p.2} := by
-  have : PolishSpace (Equiv.Perm ℕ) := polishSpace_perm
-  have : ContinuousSMul (Equiv.Perm ℕ) (StructureSpace L) := continuousSMul_structureSpaceOn
-  have h : Continuous fun q : Equiv.Perm ℕ × StructureSpace L => (q.1 • q.2, q.2) :=
+is the image of the Polish space `Perm ℕ × RelationalConfiguration L ℕ` under a continuous map. The
+library proves the relational case for the isomorphism setoid
+(`RelationalConfiguration.analyticSet_setOf_isoSetoid`). -/
+theorem analyticSet_orbitRel_graph [∀ n, Countable (L.Relations n)] :
+    AnalyticSet {p : RelationalConfiguration L ℕ × RelationalConfiguration L ℕ |
+      MulAction.orbitRel (Equiv.Perm ℕ) (RelationalConfiguration L ℕ) p.1 p.2} := by
+  have : ContinuousSMul (Equiv.Perm ℕ) (RelationalConfiguration L ℕ) :=
+    continuousSMul_relationalConfiguration
+  have h : Continuous fun q : Equiv.Perm ℕ × RelationalConfiguration L ℕ => (q.1 • q.2, q.2) :=
     continuous_smul.prodMk continuous_snd
   convert analyticSet_range_of_polishSpace h using 1
   ext ⟨c, d⟩
@@ -271,51 +216,49 @@ theorem analyticSet_orbitRel_graph [Countable (Σ l, L.Relations l)] :
   · rintro ⟨σ, rfl⟩; exact ⟨σ, d, rfl, rfl⟩
   · rintro ⟨σ, d', h1, rfl⟩; exact ⟨σ, h1⟩
 
-/-! ## Layer 2: satisfaction and model classes -/
+/-! ## Layer 2: satisfaction and model classes
+
+The model class of an infinitary sentence is the library's `RelationalConfiguration.modelsOf`. -/
 
 /-- The codes in which a bounded formula holds at the given assignments. -/
-def modelsOfBounded [L.IsRelational] {β : Type u'} {n : ℕ} (φ : BoundedFormulaω L β n)
-    (v : β → α) (xs : Fin n → α) : Set (StructureSpaceOn L α) :=
+def modelsOfBounded [L.IsRelational] {β : Type u'} {n : ℕ} (φ : L.BoundedFormulaω β n)
+    (v : β → α) (xs : Fin n → α) : Set (RelationalConfiguration L α) :=
   {c | letI : L.Structure α := c.toStructure; φ.Realize v xs}
-
-/-- **Layer 2, the model class** `Mod(φ)` of a sentence: the codes of its models on `α`. -/
-def modelsOf [L.IsRelational] (φ : Sentenceω L) : Set (StructureSpaceOn L α) :=
-  {c | letI : L.Structure α := c.toStructure; φ.Realize α}
 
 /-- **Layer 2 milestone, satisfaction is Borel**: measurable for the product σ-algebra, for every
 relational language and countable carrier. -/
 theorem measurableSet_modelsOfBounded [L.IsRelational] [Countable α] {β : Type u'} {n : ℕ}
-    (φ : BoundedFormulaω L β n) (v : β → α) (xs : Fin n → α) :
-    MeasurableSet (modelsOfBounded φ v xs) := by
-  sorry
+    (φ : L.BoundedFormulaω β n) (v : β → α) (xs : Fin n → α) :
+    MeasurableSet (modelsOfBounded φ v xs) :=
+  RelationalConfiguration.measurableSet_setOf_realize φ v xs
 
 /-- **Layer 2 milestone.** -/
-theorem measurableSet_modelsOf [L.IsRelational] [Countable α] (φ : Sentenceω L) :
-    MeasurableSet (modelsOf φ : Set (StructureSpaceOn L α)) := by
-  sorry
+theorem measurableSet_modelsOf [L.IsRelational] [Countable α] (φ : L.Sentenceω) :
+    MeasurableSet (modelsOf φ : Set (RelationalConfiguration L α)) :=
+  RelationalConfiguration.measurableSet_modelsOf φ
 
 /-- **Layer 2 milestone.** Model classes are isomorphism invariant. -/
-theorem isomorphismInvariant_modelsOf [L.IsRelational] (φ : Sentenceω L) :
-    IsomorphismInvariant (modelsOf φ : Set (StructureSpaceOn L α)) := by
+theorem isomorphismInvariant_modelsOf [L.IsRelational] (φ : L.Sentenceω) :
+    IsomorphismInvariant (modelsOf φ : Set (RelationalConfiguration L α)) := by
   sorry
 
 /-- **Layer 2 milestone.** A model class is standard Borel in the subspace σ-algebra. -/
-theorem standardBorelSpace_modelsOf [L.IsRelational] [Countable (Σ l, L.Relations l)]
-    (φ : Sentenceω L) : StandardBorelSpace (modelsOf φ : Set (StructureSpace L)) := by
-  sorry
+theorem standardBorelSpace_modelsOf [L.IsRelational] [∀ n, Countable (L.Relations n)]
+    (φ : L.Sentenceω) : StandardBorelSpace (modelsOf φ : Set (RelationalConfiguration L ℕ)) :=
+  inferInstance
 
 /-- **Layer 2 milestone.** For a first-order `∀∃` sentence the model class is Gδ: the matrix is
 clopen, an existential quantifier gives a countable union, a universal one a countable
 intersection. -/
 theorem isGδ_modelsOf_toInf_alls [L.IsRelational] {n : ℕ} (ψ : L.BoundedFormula Empty n)
     (hψ : ψ.IsExistential) :
-    IsGδ (modelsOf (toInf (ι := ℕ) ψ.alls) : Set (StructureSpace L)) := by
+    IsGδ (modelsOf (ψ.alls.toInf (ι := ℕ)) : Set (RelationalConfiguration L ℕ)) := by
   sorry
 
 /-- **Layer 2 graph example.** Satisfaction of an `Lω₁ω` sentence is a measurable event on
 graphs on `ℕ`. -/
-theorem measurableSet_setOf_realize_graph (φ : Sentenceω Language.graph) :
-    MeasurableSet {G : SimpleGraph ℕ | letI := G.structure; φ.Realize ℕ} := by
+theorem measurableSet_setOf_realize_graph (φ : Language.graph.Sentenceω) :
+    MeasurableSet {G : SimpleGraph ℕ | letI := G.structure; SentenceInf.Realize φ ℕ} := by
   sorry
 
 /-! ## Layer 3: trees, the analytic tree representation and boundedness -/
@@ -366,8 +309,8 @@ theorem exists_tree_of_analyticSet_cantor {A : Set (ℕ → Bool)} (hA : Analyti
 
 /-- **Layer 3 milestone, the tree representation of analytic classes of codes**, through the
 query code. -/
-theorem exists_tree_of_analyticSet [Countable (Σ l, L.Relations l)] {B : Set (StructureSpace L)}
-    (hB : AnalyticSet B) :
+theorem exists_tree_of_analyticSet [∀ n, Countable (L.Relations n)]
+    {B : Set (RelationalConfiguration L ℕ)} (hB : AnalyticSet B) :
     ∃ T : tree (Bool × ℕ), ∀ c, c ∈ B ↔ ∃ g : ℕ → ℕ, (fun n => (queryCode c n, g n)) ∈ body T := by
   sorry
 
@@ -383,135 +326,74 @@ theorem wellFounded_kbLT_iff (T : tree ℕ) :
     WellFounded (fun x y : T => KBLT x y) ↔ body T = ∅ := by
   sorry
 
-/-! ## Layer 4: back-and-forth, isomorphism and Scott height on codes -/
+/-! ## Layer 4: back-and-forth, isomorphism and Scott height on codes
+
+Isomorphism of codes is the library's `RelationalConfiguration.isoSetoid L α`, back-and-forth
+equivalence of the empty tuples at level `β` is `RelationalConfiguration.bfEquivSetoid L α β`
+(assembled from `TauCeti.BFEquiv.refl`, `symm` and `trans`), and external stabilization and the
+Scott height are `TauCeti.StabilizesCompletely` and `TauCeti.scottHeight`, which test against
+countable structures in `Type`. -/
 
 /-- **Layer 4, back-and-forth equivalence on the pair space**, at fixed tuples. -/
 def bfEquivSet [L.IsRelational] (β : Ordinal.{0}) (n : ℕ) (a b : Fin n → ℕ) :
-    Set (StructureSpace L × StructureSpace L) :=
-  {p | @BFEquiv L ℕ ℕ p.1.toStructure p.2.toStructure β n a b}
+    Set (RelationalConfiguration L ℕ × RelationalConfiguration L ℕ) :=
+  {p | @BFEquiv L _ ℕ ℕ p.1.toStructure p.2.toStructure β n a b}
 
 /-- **Layer 4 milestone.** Back-and-forth equivalence at a countable level is Borel. -/
-theorem measurableSet_bfEquivSet [L.IsRelational] [Countable (Σ l, L.Relations l)]
+theorem measurableSet_bfEquivSet [L.IsRelational] [∀ n, Countable (L.Relations n)]
     {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1) (n : ℕ) (a b : Fin n → ℕ) :
-    MeasurableSet (bfEquivSet (L := L) β n a b) := by
-  sorry
-
-/-- **Layer 4, the isomorphism relation on codes on a carrier**: the decoded structures are
-isomorphic. For countable `α` this is the relation the counting of models uses on `ℕ` and on each
-`Fin n`. -/
-def structureIsoSetoidOn (L : FirstOrder.Language.{u, v}) [L.IsRelational] (α : Type w) :
-    Setoid (StructureSpaceOn L α) where
-  r c d := Nonempty (@Language.Equiv L α α c.toStructure d.toStructure)
-  iseqv :=
-    { refl := fun c => ⟨@Language.Equiv.refl L α c.toStructure⟩
-      symm := fun {c d} ⟨e⟩ => ⟨@Language.Equiv.symm L α α c.toStructure d.toStructure e⟩
-      trans := fun {c d e} ⟨f⟩ ⟨g⟩ =>
-        ⟨@Language.Equiv.comp L α α c.toStructure d.toStructure α e.toStructure g f⟩ }
-
-/-- **Layer 4, the ambient isomorphism relation** on codes on `ℕ`. -/
-abbrev structureIsoSetoid (L : FirstOrder.Language.{u, v}) [L.IsRelational] :
-    Setoid (StructureSpace L) :=
-  structureIsoSetoidOn L ℕ
+    MeasurableSet (bfEquivSet (L := L) β n a b) :=
+  RelationalConfiguration.measurableSet_setOf_bfEquiv hβ a b
 
 /-- **Layer 4 milestone.** On every carrier, isomorphism is the orbit relation of the logic
 action. -/
-theorem structureIsoSetoidOn_eq_orbitRel [L.IsRelational] :
-    structureIsoSetoidOn L α = MulAction.orbitRel (Equiv.Perm α) (StructureSpaceOn L α) := by
-  sorry
+theorem isoSetoid_eq_orbitRel [L.IsRelational] :
+    isoSetoid L α = MulAction.orbitRel (Equiv.Perm α) (RelationalConfiguration L α) :=
+  RelationalConfiguration.isoSetoid_eq_orbitRel
 
-/-- **Layer 4 milestone.** The isomorphism relation is the orbit relation of the logic action. -/
-theorem structureIsoSetoid_eq_orbitRel [L.IsRelational] :
-    structureIsoSetoid L = MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L) := by
-  sorry
-
-/-! ### Stand-ins for the equivalence laws of `BFEquiv`
-
-Owner: the InfinitaryLogic roadmap, Layer 1, which lists symmetry among the `BFEquiv` laws. Tau
-Ceti implements all three as `TauCeti.BFEquiv.refl`, `TauCeti.BFEquiv.symm` and
-`TauCeti.BFEquiv.trans` (`TauCeti/ModelTheory/BackAndForth/Equivalence.lean` at revision
-`85f3eb5`), later than this repository's Tau Ceti pin. These statements are prototype
-scaffolding with admitted proofs; `bfEquivSetoid` is assembled from them, so its equivalence
-proof is exactly these three obligations. -/
-
-/-- Stand-in: every tuple is back-and-forth equivalent to itself. -/
-theorem _root_.TauCetiRoadmap.InfinitaryLogic.BFEquiv.refl {M : Type w} [L.Structure M]
-    (β : Ordinal.{u'}) {n : ℕ} (a : Fin n → M) : BFEquiv (L := L) β n a a := by
-  sorry
-
-/-- Stand-in: back-and-forth equivalence is symmetric, across structure universes. -/
-theorem _root_.TauCetiRoadmap.InfinitaryLogic.BFEquiv.symm {M : Type w} {N : Type w'}
-    [L.Structure M] [L.Structure N] {β : Ordinal.{u'}} {n : ℕ} {a : Fin n → M} {b : Fin n → N}
-    (h : BFEquiv (L := L) β n a b) : BFEquiv (L := L) β n b a := by
-  sorry
-
-/-- Stand-in: back-and-forth equivalence is transitive across three structures. -/
-theorem _root_.TauCetiRoadmap.InfinitaryLogic.BFEquiv.trans {M : Type w} {N : Type w'}
-    {P : Type v'} [L.Structure M] [L.Structure N] [L.Structure P] {β : Ordinal.{u'}} {n : ℕ}
-    {a : Fin n → M} {b : Fin n → N} {c : Fin n → P} (hab : BFEquiv (L := L) β n a b)
-    (hbc : BFEquiv (L := L) β n b c) : BFEquiv (L := L) β n a c := by
-  sorry
-
-/-- **Layer 4, back-and-forth equivalence of the empty tuples** at level `β`, an equivalence
-relation on codes coarser than isomorphism. -/
-def bfEquivSetoid [L.IsRelational] (β : Ordinal.{0}) : Setoid (StructureSpace L) where
-  r c d := @BFEquiv L ℕ ℕ c.toStructure d.toStructure β 0 Fin.elim0 Fin.elim0
-  iseqv :=
-    { refl := fun c => @BFEquiv.refl L ℕ c.toStructure β 0 Fin.elim0
-      symm := fun {c d} h => @BFEquiv.symm L ℕ ℕ c.toStructure d.toStructure β 0 _ _ h
-      trans := fun {c d e} h₁ h₂ =>
-        @BFEquiv.trans L ℕ ℕ ℕ c.toStructure d.toStructure e.toStructure β 0 _ _ _ h₁ h₂ }
-
-/-- **Layer 4 milestone.** At a countable level, the relation is Borel. -/
-theorem measurableSet_bfEquivSetoid [L.IsRelational] [Countable (Σ l, L.Relations l)]
+/-- **Layer 4 milestone.** At a countable level, back-and-forth equivalence of codes is Borel. -/
+theorem measurableSet_bfEquivSetoid [L.IsRelational] [∀ n, Countable (L.Relations n)]
     {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1) :
-    MeasurableSet {p : StructureSpace L × StructureSpace L | (bfEquivSetoid β) p.1 p.2} := by
-  sorry
+    MeasurableSet {p : RelationalConfiguration L ℕ × RelationalConfiguration L ℕ |
+      (bfEquivSetoid L ℕ β) p.1 p.2} :=
+  RelationalConfiguration.measurableSet_setOf_bfEquivSetoid hβ
 
 /-- **Layer 4 milestone.** Isomorphism refines every back-and-forth level. -/
-theorem structureIsoSetoid_le_bfEquivSetoid [L.IsRelational] (β : Ordinal.{0}) :
-    structureIsoSetoid L ≤ bfEquivSetoid β := by
-  sorry
+theorem isoSetoid_le_bfEquivSetoid [L.IsRelational] (β : Ordinal.{0}) :
+    isoSetoid L ℕ ≤ bfEquivSetoid L ℕ β :=
+  RelationalConfiguration.isoSetoid_le_bfEquivSetoid β
 
 /-- **Layer 4 milestone, isomorphism classes are Borel**: the class of a code is the model class
 of the Scott sentence of the structure it names. -/
-theorem setOf_iso_eq_modelsOf_scottSentence [L.IsRelational] [Countable (Σ l, L.Relations l)]
-    (c : StructureSpace L) :
-    {d | (structureIsoSetoid L) c d} =
+theorem setOf_iso_eq_modelsOf_scottSentence [L.IsRelational] [∀ n, Countable (L.Relations n)]
+    (c : RelationalConfiguration L ℕ) :
+    {d | (isoSetoid L ℕ) c d} =
       modelsOf (letI : L.Structure ℕ := c.toStructure; scottSentence (L := L) ℕ) := by
   sorry
 
-/-- **Layer 4, external stabilization.** At level `β`, back-and-forth equivalence of every tuple
-of `M` with every tuple of every countable structure upgrades one step. Countable structures in
-`Type` represent the countable structures of every universe. -/
-def StabilizesCompletely [L.IsRelational] (M : Type w) [L.Structure M] (β : Ordinal.{w}) :
-    Prop :=
-  ∀ (N : Type) [L.Structure N] [Countable N] (n : ℕ) (a : Fin n → M) (b : Fin n → N),
-    BFEquiv (L := L) β n a b → BFEquiv (L := L) (Order.succ β) n a b
-
-/-- **Layer 4, the Scott height**: the least externally stabilizing level. -/
-noncomputable def scottHeight [L.IsRelational] (M : Type w) [L.Structure M] : Ordinal.{w} :=
-  sInf {β | StabilizesCompletely (L := L) M β}
-
 /-- **Layer 4 milestone, upward closure.** External stabilization persists at every higher
 level. -/
-theorem StabilizesCompletely.mono [L.IsRelational] {M : Type w} [L.Structure M]
+theorem stabilizesCompletely_mono [L.IsRelational] {M : Type w} [L.Structure M]
     {β γ : Ordinal.{w}} (h : StabilizesCompletely (L := L) M β) (hβγ : β ≤ γ) :
-    StabilizesCompletely (L := L) M γ := by
-  sorry
+    StabilizesCompletely (L := L) M γ :=
+  h.mono hβγ
 
 /-- **Layer 4 milestone, the infimum is attained.** -/
 theorem stabilizesCompletely_scottHeight [L.IsRelational] (M : Type w) [L.Structure M] :
-    StabilizesCompletely (L := L) M (scottHeight (L := L) M) := by
-  sorry
+    StabilizesCompletely (L := L) M (scottHeight (L := L) M) :=
+  TauCeti.stabilizesCompletely_scottHeight M
 
 /-- **Layer 4 milestone.** Scott height is an isomorphism invariant. -/
 theorem scottHeight_congr [L.IsRelational] {M N : Type w} [L.Structure M] [L.Structure N]
-    (e : M ≃[L] N) : scottHeight (L := L) M = scottHeight (L := L) N := by
-  sorry
+    (e : M ≃[L] N) : scottHeight (L := L) M = scottHeight (L := L) N :=
+  e.scottHeight_eq
 
 /-- **Layer 4 milestone, the constant-chain bound.** If `M` stabilizes internally at `β`, then
 back-and-forth equivalence at `β + ω` between a tuple of `M` and a tuple of any structure `N`, of
-any cardinality and in any universe, implies equivalence at every level. -/
+any cardinality and in any universe, implies equivalence at every level. The library has the
+countable case (`SelfStabilizesCompletely.stabilizesCompletely_add_omega0`, testing countable
+`N : Type`) and the single step at a limit level for any `N`
+(`SelfStabilizesCompletely.bfEquiv_add_one_of_isSuccLimit`). -/
 theorem bfEquiv_of_selfStabilizesCompletely [L.IsRelational] {M : Type w} {N : Type w'}
     [L.Structure M] [L.Structure N] {β : Ordinal.{w}}
     (h : SelfStabilizesCompletely (L := L) M β) {n : ℕ} {a : Fin n → M} {b : Fin n → N}
@@ -524,13 +406,13 @@ stabilization at `β + ω`: the case of `bfEquiv_of_selfStabilizesCompletely` wi
 and the next level. -/
 theorem stabilizesCompletely_add_omega0 [L.IsRelational] {M : Type w} [L.Structure M]
     {β : Ordinal.{w}} (h : SelfStabilizesCompletely (L := L) M β) :
-    StabilizesCompletely (L := L) M (β + Ordinal.omega0) := by
-  sorry
+    StabilizesCompletely (L := L) M (β + Ordinal.omega0) :=
+  h.stabilizesCompletely_add_omega0
 
 /-- **Layer 4 milestone.** -/
 theorem scottHeight_lt_omega_one [L.IsRelational] (M : Type w) [L.Structure M] [Countable M] :
-    scottHeight (L := L) M < Ordinal.omega 1 := by
-  sorry
+    scottHeight (L := L) M < Ordinal.omega 1 :=
+  TauCeti.scottHeight_lt_omega_one M
 
 /-- **Layer 4 milestone, comparison with internal stabilization.** -/
 theorem selfStabilizationOrdinal_le_scottHeight [L.IsRelational] (M : Type w) [L.Structure M]
@@ -541,8 +423,8 @@ theorem selfStabilizationOrdinal_le_scottHeight [L.IsRelational] (M : Type w) [L
 /-- **Layer 4 milestone.** -/
 theorem scottHeight_le_selfStabilizationOrdinal_add_omega0 [L.IsRelational] (M : Type w)
     [L.Structure M] :
-    scottHeight (L := L) M ≤ selfStabilizationOrdinal (L := L) M + Ordinal.omega0 := by
-  sorry
+    scottHeight (L := L) M ≤ selfStabilizationOrdinal (L := L) M + Ordinal.omega0 :=
+  TauCeti.scottHeight_le_selfStabilizationOrdinal_add_omega0 M
 
 /-- **Layer 4 milestone, comparison with `internalScottRank`.** -/
 theorem internalScottRank_le_succ_scottHeight [L.IsRelational] (M : Type w) [L.Structure M]
@@ -553,32 +435,33 @@ theorem internalScottRank_le_succ_scottHeight [L.IsRelational] (M : Type w) [L.S
 /-- **Layer 4 milestone.** -/
 theorem scottHeight_le_internalScottRank_add_omega0 [L.IsRelational] (M : Type w)
     [L.Structure M] :
-    scottHeight (L := L) M ≤ internalScottRank (L := L) M + Ordinal.omega0 := by
-  sorry
+    scottHeight (L := L) M ≤ internalScottRank (L := L) M + Ordinal.omega0 :=
+  TauCeti.scottHeight_le_internalScottRank_add_omega0 M
 
 /-- **Layer 4 milestone, the height comparison.** Back-and-forth equivalence of the empty tuples
-at a level at least the Scott height of one side is isomorphism, between countable structures. -/
+at a level at least the Scott height of one side is isomorphism, between countable structures. The
+library allows `N` in another universe. -/
 theorem nonempty_equiv_of_bfEquiv_of_scottHeight_le [L.IsRelational] {M N : Type w}
     [L.Structure M] [L.Structure N] [Countable M] [Countable N] {β : Ordinal.{w}}
     (hβ : scottHeight (L := L) M ≤ β)
     (h : BFEquiv (L := L) β 0 (Fin.elim0 : Fin 0 → M) (Fin.elim0 : Fin 0 → N)) :
-    Nonempty (M ≃[L] N) := by
-  sorry
+    Nonempty (M ≃[L] N) :=
+  TauCeti.nonempty_equiv_of_bfEquiv_of_scottHeight_le hβ h
 
 /-- **Layer 4 milestone, isomorphism is Borel under bounded Scott height.** -/
 theorem measurableSet_iso_inter_of_scottHeight_le [L.IsRelational]
-    [Countable (Σ l, L.Relations l)] {φ : Sentenceω L} {β : Ordinal.{0}}
+    [∀ n, Countable (L.Relations n)] {φ : L.Sentenceω} {β : Ordinal.{0}}
     (hβ : β < Ordinal.omega 1)
-    (hbound : ∀ c ∈ (modelsOf φ : Set (StructureSpace L)),
+    (hbound : ∀ c ∈ (modelsOf φ : Set (RelationalConfiguration L ℕ)),
       (letI : L.Structure ℕ := c.toStructure; scottHeight (L := L) ℕ) ≤ β) :
-    MeasurableSet ({p : StructureSpace L × StructureSpace L | (structureIsoSetoid L) p.1 p.2} ∩
-      (modelsOf φ ×ˢ modelsOf φ)) := by
+    MeasurableSet ({p : RelationalConfiguration L ℕ × RelationalConfiguration L ℕ |
+        (isoSetoid L ℕ) p.1 p.2} ∩ (modelsOf φ ×ˢ modelsOf φ)) := by
   sorry
 
 /-- **Layer 4 milestone, internal strata are Borel.** -/
 theorem measurableSet_setOf_selfStabilizationOrdinal_le [L.IsRelational]
-    [Countable (Σ l, L.Relations l)] {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1) :
-    MeasurableSet {c : StructureSpace L |
+    [∀ n, Countable (L.Relations n)] {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1) :
+    MeasurableSet {c : RelationalConfiguration L ℕ |
       (letI : L.Structure ℕ := c.toStructure; selfStabilizationOrdinal (L := L) ℕ) ≤ β} := by
   sorry
 
@@ -601,84 +484,76 @@ def bfRight (s : List ℕ) (j : Fin s.length) : ℕ :=
 /-- **Layer 4, the forced back-and-forth tree** of a pair of codes: step `2 i` answers element `i`
 of the left structure, step `2 i + 1` element `i` of the right one, and a node is in the tree when
 the two finite tuples it decodes (and those of its prefixes) have the same atomic type. -/
-def bfTree [L.IsRelational] (c d : StructureSpace L) : tree ℕ :=
+def bfTree [L.IsRelational] (c d : RelationalConfiguration L ℕ) : tree ℕ :=
   prefixTree fun s =>
-    @SameAtomicType L s.length ℕ ℕ c.toStructure d.toStructure (bfLeft s) (bfRight s)
+    @SameAtomicType L s.length ℕ ℕ c.toStructure d.toStructure _ (bfLeft s) (bfRight s)
 
 /-- **Layer 4 milestone.** The forced tree has a branch exactly when the codes are isomorphic. -/
-theorem body_bfTree_nonempty_iff [L.IsRelational] (c d : StructureSpace L) :
-    (body (bfTree c d)).Nonempty ↔ (structureIsoSetoid L) c d := by
+theorem body_bfTree_nonempty_iff [L.IsRelational] (c d : RelationalConfiguration L ℕ) :
+    (body (bfTree c d)).Nonempty ↔ (isoSetoid L ℕ) c d := by
   sorry
 
 /-- **Layer 4 milestone.** Node conditions of the forced tree are closed in the pair space. -/
 theorem isClosed_setOf_mem_bfTree [L.IsRelational] (s : List ℕ) :
-    IsClosed {p : StructureSpace L × StructureSpace L | s ∈ bfTree p.1 p.2} := by
+    IsClosed {p : RelationalConfiguration L ℕ × RelationalConfiguration L ℕ |
+      s ∈ bfTree p.1 p.2} := by
   sorry
 
 /-- **Layer 4 milestone.** Back-and-forth equivalence of the empty tuples bounds the height of the
 forced tree from below. -/
-theorem lt_treeHeight_bfTree [L.IsRelational] {c d : StructureSpace L}
+theorem lt_treeHeight_bfTree [L.IsRelational] {c d : RelationalConfiguration L ℕ}
     (hT : body (bfTree c d) = ∅) {β : Ordinal.{0}}
-    (h : @BFEquiv L ℕ ℕ c.toStructure d.toStructure β 0 Fin.elim0 Fin.elim0) :
+    (h : @BFEquiv L _ ℕ ℕ c.toStructure d.toStructure β 0 Fin.elim0 Fin.elim0) :
     β < treeHeight (bfTree c d) hT := by
   sorry
 
 /-- **Layer 4 milestone, uniform back-and-forth separation.** An analytic set of non-isomorphic
 pairs is separated at one countable back-and-forth level. -/
 theorem exists_uniform_bfSeparation [L.IsRelational]
-    {A : Set (StructureSpace L × StructureSpace L)} (hA : AnalyticSet A)
-    (hiso : ∀ p ∈ A, ¬ (structureIsoSetoid L) p.1 p.2) :
+    {A : Set (RelationalConfiguration L ℕ × RelationalConfiguration L ℕ)} (hA : AnalyticSet A)
+    (hiso : ∀ p ∈ A, ¬ (isoSetoid L ℕ) p.1 p.2) :
     ∃ β < (Ordinal.omega 1 : Ordinal.{0}), ∀ p ∈ A,
-      ¬ @BFEquiv L ℕ ℕ p.1.toStructure p.2.toStructure β 0 Fin.elim0 Fin.elim0 := by
+      ¬ @BFEquiv L _ ℕ ℕ p.1.toStructure p.2.toStructure β 0 Fin.elim0 Fin.elim0 := by
   sorry
 
 /-- **Layer 4 milestone.** Isomorphism on a model class is Borel exactly when one countable
 back-and-forth level decides it there. -/
 theorem measurableSet_iso_inter_iff_exists_bfLevel [L.IsRelational]
-    [Countable (Σ l, L.Relations l)] (φ : Sentenceω L) :
-    MeasurableSet ({p : StructureSpace L × StructureSpace L | (structureIsoSetoid L) p.1 p.2} ∩
-        (modelsOf φ ×ˢ modelsOf φ)) ↔
-      ∃ β < (Ordinal.omega 1 : Ordinal.{0}), ∀ c ∈ (modelsOf φ : Set (StructureSpace L)),
-        ∀ d ∈ (modelsOf φ : Set (StructureSpace L)),
-          ((structureIsoSetoid L) c d ↔ (bfEquivSetoid β) c d) := by
+    [∀ n, Countable (L.Relations n)] (φ : L.Sentenceω) :
+    MeasurableSet ({p : RelationalConfiguration L ℕ × RelationalConfiguration L ℕ |
+        (isoSetoid L ℕ) p.1 p.2} ∩ (modelsOf φ ×ˢ modelsOf φ)) ↔
+      ∃ β < (Ordinal.omega 1 : Ordinal.{0}),
+        ∀ c ∈ (modelsOf φ : Set (RelationalConfiguration L ℕ)),
+        ∀ d ∈ (modelsOf φ : Set (RelationalConfiguration L ℕ)),
+          ((isoSetoid L ℕ) c d ↔ (bfEquivSetoid L ℕ β) c d) := by
   sorry
 
-/-! ## Layer 5: the López–Escobar theorem -/
+/-! ## Layer 5: the López–Escobar theorem
 
-/-! ### Stand-ins owned by InfinitaryModelExistence
+Projective classes are the library's `FirstOrder.Language.LHom.PCMem`. -/
 
-Owner: the InfinitaryModelExistence roadmap (TauCetiRoadmap #1315), Layer 7. Declarations: `PCMem`,
-`pcSeparation`. Checked against revision 6da153fb of that roadmap. These copies are prototype
-scaffolding, so that this file compiles without the owner's prototype; the owner's declarations are
-authoritative and are the only ones Tau Ceti implements. -/
+/-! ### Stand-in owned by InfinitaryModelExistence
 
-/-- **Stand-in for `PCMem` of the InfinitaryModelExistence roadmap** (Marker's `PC_{ω₁ω}`
-classes): `M` itself, on the same carrier, expands along `g` to a model of `Θ`. For
-`g = LHom.sumInl : L →ᴸ L.sum L₁`, `M` is the `L`-reduct of a model of `Θ`, whose auxiliary symbols
-from `L₁` are chosen existentially. For a countable relational language, on the space of structures
-with carrier `ℕ`, these projective classes are exactly the isomorphism-invariant analytic sets
-(`analyticSet_iff_exists_pc`); Lω₁ω model classes are exactly the isomorphism-invariant Borel sets
-(`lopezEscobar_iff`). The definition itself is for arbitrary languages. -/
-def PCMem {L : FirstOrder.Language.{u, v}} {L' : FirstOrder.Language.{u', v'}} (g : L →ᴸ L')
-    (Θ : Sentenceω L') (M : Type w) [L.Structure M] : Prop :=
-  ∃ S : L'.Structure M, @LHom.IsExpansionOn L L' g M _ S ∧ @SentenceInf.Realize L' ℕ Θ M S
+Owner: the InfinitaryModelExistence roadmap, Layer 7. Declaration: `pcSeparation`, over the pinned
+infinitary syntax. Checked against revision <IME_REV> of that roadmap (TauCetiRoadmap #1615). The
+copy is prototype scaffolding; the owner's statement is authoritative. -/
 
 /-- **Stand-in for `pcSeparation` of the InfinitaryModelExistence roadmap** (its Craig
 interpolation layer), stated as there. Two projective classes with no common countable nonempty
 member are separated by a single `L`-sentence on nonempty structures; no language is assumed
 countable. For a countable relational language, on the space of structures with carrier `ℕ`, it
-plays the role of Lusin separation. Each `PCMem` carries its own expansion, so the theorem applies
-with `L₁ = L₂`. This roadmap consumes the theorem and does not prove it; Layer 5 applies it to the
-PC sentences of trees for `B` and its complement. -/
+plays the role of Lusin separation. Each `LHom.PCMem` carries its own expansion, so the theorem
+applies with `L₁ = L₂`. This roadmap consumes the theorem and does not prove it; Layer 5 applies it
+to the PC sentences of trees for `B` and its complement. -/
 theorem pcSeparation {L : FirstOrder.Language.{u, v}} {L₁ : FirstOrder.Language.{u₁, v₁}}
     {L₂ : FirstOrder.Language.{u₂, v₂}}
-    (Θ₁ : Sentenceω (L.sum L₁)) (Θ₂ : Sentenceω (L.sum L₂))
+    (Θ₁ : (L.sum L₁).Sentenceω) (Θ₂ : (L.sum L₂).Sentenceω)
     (h : ∀ (M : Type) [L.Structure M] [Nonempty M] [Countable M],
-      PCMem LHom.sumInl Θ₁ M → ¬ PCMem LHom.sumInl Θ₂ M) :
-    ∃ θ : Sentenceω L,
-      (∀ (M : Type w) [L.Structure M] [Nonempty M], PCMem LHom.sumInl Θ₁ M →
+      LHom.PCMem LHom.sumInl Θ₁ M → ¬ LHom.PCMem LHom.sumInl Θ₂ M) :
+    ∃ θ : L.Sentenceω,
+      (∀ (M : Type w) [L.Structure M] [Nonempty M], LHom.PCMem LHom.sumInl Θ₁ M →
         SentenceInf.Realize θ M) ∧
-      (∀ (M : Type w) [L.Structure M] [Nonempty M], PCMem LHom.sumInl Θ₂ M →
+      (∀ (M : Type w) [L.Structure M] [Nonempty M], LHom.PCMem LHom.sumInl Θ₂ M →
         ¬ SentenceInf.Realize θ M) := by
   sorry
 
@@ -715,59 +590,63 @@ the numerals together with `g` is a branch of `T`); the two conjuncts below are 
 Completeness: the standard witness on `ℕ` of a branch is a model. Soundness: every model is
 enumerated by a bijection with `ℕ` along which its code, with some branch, lies in the body of
 `T`; no invariance is used. -/
-theorem exists_pcSentence [L.IsRelational] [Countable (Σ l, L.Relations l)]
+theorem exists_pcSentence [L.IsRelational] [∀ n, Countable (L.Relations n)]
     (T : tree (Bool × ℕ)) :
-    ∃ ψ : Sentenceω (L.sum pcWitnessLanguage),
-      (∀ (c : StructureSpace L) (g : ℕ → ℕ), (fun n => (queryCode c n, g n)) ∈ body T →
+    ∃ ψ : (L.sum pcWitnessLanguage).Sentenceω,
+      (∀ (c : RelationalConfiguration L ℕ) (g : ℕ → ℕ),
+        (fun n => (queryCode c n, g n)) ∈ body T →
         letI : L.Structure ℕ := c.toStructure
         letI : pcWitnessLanguage.Structure ℕ := standardWitness g
-        ψ.Realize ℕ) ∧
-      (∀ (M : Type w) [L.Structure M] [pcWitnessLanguage.Structure M], ψ.Realize M →
+        SentenceInf.Realize ψ ℕ) ∧
+      (∀ (M : Type w) [L.Structure M] [pcWitnessLanguage.Structure M], SentenceInf.Realize ψ M →
         ∃ e : M ≃ ℕ, ∃ g : ℕ → ℕ,
-          (fun n => (queryCode (StructureSpaceOn.encodeVia (L := L) e) n, g n)) ∈ body T) := by
+          (fun n => (queryCode (e.encodeVia (L := L)) n, g n)) ∈ body T) := by
   sorry
 
 /-- **Layer 5, the López–Escobar theorem, hard direction.** -/
-theorem lopez_escobar [L.IsRelational] [Countable (Σ l, L.Relations l)]
-    {B : Set (StructureSpace L)} (hB : MeasurableSet B) (hinv : IsomorphismInvariant B) :
-    ∃ φ : Sentenceω L, B = modelsOf φ := by
+theorem lopez_escobar [L.IsRelational] [∀ n, Countable (L.Relations n)]
+    {B : Set (RelationalConfiguration L ℕ)} (hB : MeasurableSet B)
+    (hinv : IsomorphismInvariant B) :
+    ∃ φ : L.Sentenceω, B = modelsOf φ := by
   sorry
 
 /-- **Layer 5 headline, the López–Escobar theorem.** -/
-theorem lopezEscobar_iff [L.IsRelational] [Countable (Σ l, L.Relations l)]
-    {B : Set (StructureSpace L)} :
-    (MeasurableSet B ∧ IsomorphismInvariant B) ↔ ∃ φ : Sentenceω L, B = modelsOf φ := by
+theorem lopezEscobar_iff [L.IsRelational] [∀ n, Countable (L.Relations n)]
+    {B : Set (RelationalConfiguration L ℕ)} :
+    (MeasurableSet B ∧ IsomorphismInvariant B) ↔ ∃ φ : L.Sentenceω, B = modelsOf φ := by
   sorry
 
 /-- **Layer 5 headline, action form.** -/
-theorem lopezEscobar_action_iff [L.IsRelational] [Countable (Σ l, L.Relations l)]
-    {B : Set (StructureSpace L)} :
-    (MeasurableSet B ∧ ActionInvariant B) ↔ ∃ φ : Sentenceω L, B = modelsOf φ := by
+theorem lopezEscobar_action_iff [L.IsRelational] [∀ n, Countable (L.Relations n)]
+    {B : Set (RelationalConfiguration L ℕ)} :
+    (MeasurableSet B ∧ ActionInvariant B) ↔ ∃ φ : L.Sentenceω, B = modelsOf φ := by
   sorry
 
 /-- **Layer 5 headline, the invariant σ-algebra is the definable one.** -/
 theorem measurableSet_iInf_invariants_iff_exists_modelsOf [L.IsRelational]
-    [Countable (Σ l, L.Relations l)] (B : Set (StructureSpace L)) :
+    [∀ n, Countable (L.Relations n)] (B : Set (RelationalConfiguration L ℕ)) :
     MeasurableSet[⨅ σ : Equiv.Perm ℕ,
-        MeasurableSpace.invariants (fun c : StructureSpace L => σ • c)] B ↔
-      ∃ φ : Sentenceω L, B = modelsOf φ := by
+        MeasurableSpace.invariants (fun c : RelationalConfiguration L ℕ => σ • c)] B ↔
+      ∃ φ : L.Sentenceω, B = modelsOf φ := by
   sorry
 
 /-- **Layer 5 milestone, invariant analytic classes are PC classes.** -/
-theorem analyticSet_iff_exists_pc [L.IsRelational] [Countable (Σ l, L.Relations l)]
-    {B : Set (StructureSpace L)} (hinv : IsomorphismInvariant B) :
-    AnalyticSet B ↔ ∃ ψ : Sentenceω (L.sum pcWitnessLanguage),
-      B = {c | letI : L.Structure ℕ := c.toStructure; PCMem LHom.sumInl ψ ℕ} := by
+theorem analyticSet_iff_exists_pc [L.IsRelational] [∀ n, Countable (L.Relations n)]
+    {B : Set (RelationalConfiguration L ℕ)} (hinv : IsomorphismInvariant B) :
+    AnalyticSet B ↔ ∃ ψ : (L.sum pcWitnessLanguage).Sentenceω,
+      B = {c | letI : L.Structure ℕ := c.toStructure; LHom.PCMem LHom.sumInl ψ ℕ} := by
   sorry
 
 /-! ## Layer 6: separation and the well-order class -/
 
 open Set in
 /-- **Layer 6.** Saturation for the orbit relation, in the form of invariant Lusin separation for
-analytic equivalence relations, is `ActionInvariant`. -/
-theorem saturated_iff_actionInvariant {B : Set (StructureSpace L)} :
-    Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L)) ⁻¹'
-        (Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L)) '' B) = B ↔
+analytic equivalence relations, is `ActionInvariant`, for every language. The library proves the
+relational case for the isomorphism setoid
+(`RelationalConfiguration.isomorphismInvariant_iff_preimage_image_quotientMk`). -/
+theorem saturated_iff_actionInvariant {B : Set (RelationalConfiguration L ℕ)} :
+    Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (RelationalConfiguration L ℕ)) ⁻¹'
+        (Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (RelationalConfiguration L ℕ)) '' B) = B ↔
       ActionInvariant B := by
   constructor
   · intro h σ
@@ -778,8 +657,10 @@ theorem saturated_iff_actionInvariant {B : Set (StructureSpace L)} :
       rw [← h]
       exact ⟨σ • x, hx, Quotient.sound (MulAction.mem_orbit x σ)⟩
     · intro hx
-      have : σ • x ∈ Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L)) ⁻¹'
-          (Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (StructureSpace L)) '' B) :=
+      have : σ • x ∈
+          Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (RelationalConfiguration L ℕ)) ⁻¹'
+            (Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (RelationalConfiguration L ℕ)) ''
+              B) :=
         ⟨x, hx, Quotient.sound (MulAction.mem_orbit_iff.mpr ⟨σ⁻¹, inv_smul_smul σ x⟩)⟩
       rwa [h] at this
   · intro h
@@ -791,82 +672,85 @@ theorem saturated_iff_actionInvariant {B : Set (StructureSpace L)} :
       rwa [h g] at this
     · intro hx; exact ⟨x, hx, rfl⟩
 
-/-- **Layer 6 milestone, invariant analytic separation.** -/
-theorem invariant_analytic_separation [Countable (Σ l, L.Relations l)]
-    {A B : Set (StructureSpace L)} (hA : AnalyticSet A) (hB : AnalyticSet B)
+/-- **Layer 6 milestone, invariant analytic separation**, for every language. The route through
+the library's `Setoid.exists_invariant_measurableSet_separating` and
+`RelationalConfiguration.analyticSet_setOf_isoSetoid` covers relational languages. -/
+theorem invariant_analytic_separation [∀ n, Countable (L.Relations n)]
+    {A B : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A) (hB : AnalyticSet B)
     (hinv : ActionInvariant B) (hd : Disjoint A B) :
     ∃ C, A ⊆ C ∧ Disjoint B C ∧ MeasurableSet C ∧ ActionInvariant C := by
   sorry
 
 /-- **Layer 6 milestone.** A sentence separates an analytic class from a disjoint invariant
 analytic class. -/
-theorem exists_sentence_separating [L.IsRelational] [Countable (Σ l, L.Relations l)]
-    {A B : Set (StructureSpace L)} (hA : AnalyticSet A) (hB : AnalyticSet B)
+theorem exists_sentence_separating [L.IsRelational] [∀ n, Countable (L.Relations n)]
+    {A B : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A) (hB : AnalyticSet B)
     (hinv : ActionInvariant B) (hd : Disjoint A B) :
-    ∃ θ : Sentenceω L, A ⊆ modelsOf θ ∧ Disjoint B (modelsOf θ) := by
+    ∃ θ : L.Sentenceω, A ⊆ modelsOf θ ∧ Disjoint B (modelsOf θ) := by
   sorry
 
 /-- The relation a code assigns to a distinguished binary symbol. -/
-def codeRel [L.IsRelational] (lt : L.Relations 2) (c : StructureSpace L) (x y : ℕ) : Prop :=
+def codeRel [L.IsRelational] (lt : L.Relations 2) (c : RelationalConfiguration L ℕ) (x y : ℕ) :
+    Prop :=
   @RelMap L ℕ c.toStructure 2 lt ![x, y]
 
 /-- **Layer 6, the coded well-order class** `WO`. -/
-def wellOrderClass [L.IsRelational] (lt : L.Relations 2) : Set (StructureSpace L) :=
+def wellOrderClass [L.IsRelational] (lt : L.Relations 2) : Set (RelationalConfiguration L ℕ) :=
   {c | IsWellOrder ℕ (codeRel lt c)}
 
 /-- **Layer 6 milestone.** Every countably infinite ordinal is the order type of a code in `WO`. -/
 theorem exists_mem_wellOrderClass_type_eq [L.IsRelational] (lt : L.Relations 2)
     {β : Ordinal.{0}} (hω : Ordinal.omega0 ≤ β) (hβ : β < Ordinal.omega 1) :
-    ∃ c : StructureSpace L, ∃ h : IsWellOrder ℕ (codeRel lt c),
+    ∃ c : RelationalConfiguration L ℕ, ∃ h : IsWellOrder ℕ (codeRel lt c),
       @Ordinal.type ℕ (codeRel lt c) h = β := by
   sorry
 
 /-- **Layer 6 milestone.** `WO` is coanalytic. -/
-theorem analyticSet_compl_wellOrderClass [L.IsRelational] [Countable (Σ l, L.Relations l)]
+theorem analyticSet_compl_wellOrderClass [L.IsRelational] [∀ n, Countable (L.Relations n)]
     (lt : L.Relations 2) : AnalyticSet (wellOrderClass lt)ᶜ := by
   sorry
 
 /-- **Layer 6, the tree of descending sequences** of a code: the finite sequences strictly
 decreasing for the distinguished relation. -/
-def descTree [L.IsRelational] (lt : L.Relations 2) (c : StructureSpace L) : tree ℕ :=
+def descTree [L.IsRelational] (lt : L.Relations 2) (c : RelationalConfiguration L ℕ) : tree ℕ :=
   prefixTree fun s => ∀ (i : ℕ) (h : i + 1 < s.length), codeRel lt c s[i + 1] s[i]
 
 /-- **Layer 6 milestone, boundedness for analytic classes of well-orders.** -/
-theorem analytic_type_bounded [L.IsRelational] [Countable (Σ l, L.Relations l)]
-    (lt : L.Relations 2) {A : Set (StructureSpace L)} (hA : AnalyticSet A)
+theorem analytic_type_bounded [L.IsRelational] [∀ n, Countable (L.Relations n)]
+    (lt : L.Relations 2) {A : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A)
     (hAW : A ⊆ wellOrderClass lt) :
     ∃ β < (Ordinal.omega 1 : Ordinal.{0}), ∀ c (hc : c ∈ A),
       @Ordinal.type ℕ (codeRel lt c) (hAW hc) < β := by
   sorry
 
 /-- **Layer 6 headline.** `WO` is not analytic. -/
-theorem not_analyticSet_wellOrderClass [L.IsRelational] [Countable (Σ l, L.Relations l)]
+theorem not_analyticSet_wellOrderClass [L.IsRelational] [∀ n, Countable (L.Relations n)]
     (lt : L.Relations 2) : ¬ AnalyticSet (wellOrderClass lt) := by
   sorry
 
 /-- **Layer 6 headline.** `WO` is not Borel. -/
-theorem not_measurableSet_wellOrderClass [L.IsRelational] [Countable (Σ l, L.Relations l)]
+theorem not_measurableSet_wellOrderClass [L.IsRelational] [∀ n, Countable (L.Relations n)]
     (lt : L.Relations 2) : ¬ MeasurableSet (wellOrderClass lt) := by
   sorry
 
 /-- **Layer 6 milestone, coded undefinability.** No `Lω₁ω` sentence has exactly the coded
 well-orders as its coded models. -/
-theorem not_exists_modelsOf_eq_wellOrderClass [L.IsRelational] [Countable (Σ l, L.Relations l)]
-    (lt : L.Relations 2) : ¬ ∃ φ : Sentenceω L, modelsOf φ = wellOrderClass lt := by
+theorem not_exists_modelsOf_eq_wellOrderClass [L.IsRelational] [∀ n, Countable (L.Relations n)]
+    (lt : L.Relations 2) : ¬ ∃ φ : L.Sentenceω, modelsOf φ = wellOrderClass lt := by
   sorry
 
 /-! ## Worked examples -/
 
 /-- **Worked example.** A pure set of `m` elements has Scott height `m + 1`, although its internal
 Scott rank is `1`. -/
-theorem scottHeight_fin_pureSet (m : ℕ) [Language.empty.Structure (Fin m)] :
-    scottHeight (L := Language.empty) (Fin m) = (m : Ordinal.{0}) + 1 := by
+theorem scottHeight_fin_pureSet (m : ℕ) :
+    @scottHeight Language.empty _ (Fin m) Language.emptyStructure = (m : Ordinal.{0}) + 1 := by
   sorry
 
 /-- **Worked example.** The countably infinite pure set has Scott height `ω`, so the `+ ω` in
 `scottHeight_le_internalScottRank_add_omega0` is attained. -/
-theorem scottHeight_nat_pureSet [Language.empty.Structure ℕ] :
-    scottHeight (L := Language.empty) ℕ = Ordinal.omega0 := by
+theorem scottHeight_nat_pureSet :
+    @scottHeight Language.empty _ ℕ Language.emptyStructure = Ordinal.omega0 := by
   sorry
 
 end TauCetiRoadmap.CountableStructureSpaces
