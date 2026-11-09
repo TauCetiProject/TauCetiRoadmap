@@ -315,19 +315,20 @@ Work under the following hypotheses. Use the pairing data above. W is topologica
 
 #### AL.0.1.4 Openness of a compact subgroup annihilator
 
-Suppose V,W are topological spaces, U is compact as a subset of V, and `(v,w)↦ψ(L(v,w))` is jointly locally constant. Then `U⊥` is open in W.
+Suppose V,W are topological spaces, U is compact as a subset of V, and `(v,w)↦ψ(L(v,w))` is jointly continuous on `V×W`. Then `U⊥` is open in W. For `w₀∈U⊥` the open set `{(v,w) | Re ψ(L(v,w))>0}` contains `U×{w₀}`, so the tube lemma gives an open `B∋w₀` with `U×B` inside it. For `w∈B` the homomorphism `u↦ψ(L(u,w))` maps U into the open right half-plane, and the only subgroup of the circle in that half-plane is trivial: if `z=exp(iθ)` with `0<|θ|<π/2`, the least `k≥1` with `k|θ|≥π/2` has `k|θ|<π`, so `Re(zᵏ)≤0`. Hence `B⊆U⊥`. No group topology on W is used. A jointly locally constant pairing, the case at finite places, is continuous.
 
-Work under the following hypotheses. Use the pairing data above. V,W are topological; U is compact; the joint circle-valued pairing is IsLocallyConstant.
+Work under the following hypotheses. Use the pairing data above. V,W are topological; U is compact; the joint circle-valued pairing is continuous.
 
 **Checks.**
 
 - For U zero the annihilator is all of W and is open.
 - At an unramified finite place the annihilator of O is the open subgroup O.
-- The real multiplication pairing is continuous but not locally constant; its annihilator of `ℤ·1` is not open.
+- Over ℝ with `ψ(x)=exp(2πix)`, the multiplication pairing is continuous and `U=ℤ·1` is closed but not compact; its annihilator is `ℤ·1` (AL.0.1.3), which is not open, so compactness of U cannot be dropped.
+- For `R=V=W=Z/2` with the ZMod.toCircle character, the multiplication pairing, V discrete, W indiscrete and `U=V` compact, the map `w↦ψ(L(1,w))=(−1)^w` is not continuous and `U⊥={0}` is not open in W; joint continuity cannot be dropped.
 
-(Source: Mathlib `IsLocallyConstant`, compactness and the finite-subcover argument applied to the character pairing.)
+(Source: Mathlib `generalized_tube_lemma` applied to the character pairing; the circle has no nontrivial subgroup in the open right half-plane by the argument above.)
 
-*Needs:* Membership in the character annihilator (AL.0.1.2); Mathlib `IsLocallyConstant.isOpen_fiber`; Mathlib `generalized_tube_lemma`.
+*Needs:* Membership in the character annihilator (AL.0.1.2); Mathlib `isOpen_lt`; Mathlib `generalized_tube_lemma`; Mathlib `IsLocallyConstant.continuous`.
 
 #### AL.0.1.5 Fourier vanishing from a nontrivial period
 
@@ -427,15 +428,15 @@ Work under the following hypotheses. Use the pairing data above. V has a measura
 
 #### AL.0.1.11 Local constancy of the Fourier transform
 
-Suppose V is topological, W is a topological additive group, U is compact, the joint character pairing is locally constant, and `support(f)⊆U`. Then Ff is locally constant.
+Suppose V is topological, W is a topological additive group, U is compact, the joint character pairing is continuous, and `support(f)⊆U`. Then Ff is locally constant: `U⊥` is open by AL.0.1.4, Ff is constant on each coset `w+U⊥` by AL.0.1.10, and these cosets are open because translation is a homeomorphism of W.
 
-Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions. W is an IsTopologicalAddGroup; U is compact in V; the joint pairing is locally constant.
+Work under the following hypotheses. Use the pairing data above. V has a measurable-space structure; `μ` is a measure on V; f takes values in C. All Fourier expressions use the existing native Bochner integral, including its totalized convention for nonintegrable functions. W is an IsTopologicalAddGroup; U is compact in V; the joint pairing is continuous.
 
 **Checks.**
 
 - At a finite place the transform of a Schwartz–Bruhat function is locally constant.
 - Support in O at an unramified place gives a transform constant on O-cosets.
-- A real Gaussian has nonconstant transform; continuity cannot replace local constancy of the pairing.
+- Over ℝ with `ψ(x)=exp(2πix)`, the multiplication pairing and Lebesgue measure, the Gaussian `e^(−πx²)` has support ℝ, which lies in no compact subgroup of ℝ (the only one is {0}), and its transform `e^(−πy²)` takes the values 1 at 0 and `e^(−π)≈0.0432` at 1 and is constant on no neighborhood of 0; the pairing is continuous and W is a topological group, so the compact-support hypothesis cannot be dropped.
 
 (Source: Mathlib `VectorFourier.fourierIntegral`; translation of the frequency by the open annihilator of the compact support subgroup.)
 
@@ -998,11 +999,11 @@ local-field unit group and ramified-character hypotheses stated above.
 
 #### AL.1.3.5 Explicit local `ε`-factors
 
-Compare the normalized-distribution scalar with ArithmeticGaloisRepresentations §2.7, [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations): `finiteStandardEvaluation` and `tateLocalConstant` supply the finite formulas at finite extensions of `ℚ_p`, while `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex` supply the archimedean values. In positive characteristic prove (i) and (ii) below here, by evaluating (3.27) on the standard vectors `1_O` and `ω^{−1}1_(O^×)` with the Gauss-sum transform (3.31). Use their standard-vector evaluations and local uniqueness to identify their scalars with the action on the full eigenline. The real measures agree; the complex vector and factor both differ by π in Kudla's convention, leaving epsilon unchanged. (i) F nonarchimedean, `ω` unramified, `ν(ψ) = ν`: `ε(s, ω, ψ) = ω(ϖ^ν)q^{(1/2−s)ν}`. (ii) `ω` ramified with conductor c: `ε(s, ω, ψ) = ω(ϖ^{ν+c})q^{(1/2−s)(ν+c)}𝔤(ω, ψ)`. Identify these formulas with the normalized-distribution epsilon scalar. (iii) `F = ℝ, ω(x) = x^{−a}, a ∈ {0, 1}, ψ = e`: the supplied `t=−a` evaluation gives `ε(s, ω, ψ) = i^a`. (iv) `F = ℂ, ω(z) = z^(−a)z̄^(−b), a,b∈ℕ, min(a,b)=0, ψ=e(z+z̄)`: the supplied `k=b−a, t=−(a+b)/2` evaluation gives `ε(s,ω,ψ)=i^|k|=i^max(a,b)`. At completions of number fields, in Tate's normalisation (`ψ` with conductor `𝔡^{−1}`, so `ν = ord 𝔡`), the supplied finite formulas give `ρ(|·|^s) = N𝔡^{s−1/2}(1 − q^{s−1})/(1 − q^{−s})` and `ρ(c|·|^s) = N(𝔡𝔣)^{s−1/2}ρ₀(c)` for ramified c with conductor `𝔣` and `c(π) = 1`.
+Compare the normalized-distribution scalar with ArithmeticGaloisRepresentations §2.7, [Standard-test-function evaluations](../ArithmeticGaloisRepresentations/README.md#standard-test-function-evaluations): `finiteStandardEvaluation` and `tateLocalConstant` supply the finite formulas at finite extensions of `ℚ_p`, while `archimedeanStandardEvaluation_real` and `archimedeanStandardEvaluation_complex` supply the archimedean values. In positive characteristic prove (i) and (ii) below here, by evaluating (3.27) on the standard vectors `1_O` and `ω^{−1}1_(O^×)` with the Gauss-sum transform (3.31). Use their standard-vector evaluations and local uniqueness to identify their scalars with the action on the full eigenline. The real measures agree; the complex vector and factor both differ by π in Kudla's convention, leaving epsilon unchanged. (i) F nonarchimedean, `ω` unramified, `ν(ψ) = ν`: `ε(s, ω, ψ) = ω(ϖ^ν)q^{(1/2−s)ν}`. (ii) `ω` ramified with conductor c: `ε(s, ω, ψ) = ω(ϖ^{ν+c})q^{(1/2−s)(ν+c)}𝔤(ω, ψ)`. Identify these formulas with the normalized-distribution epsilon scalar. (iii) `F = ℝ, ω(x) = x^{−a}, a ∈ {0, 1}, ψ = e`: the supplied `t=−a` evaluation gives `ε(s, ω, ψ) = i^a`. (iv) `F = ℂ, ω(z) = z^(−a)z̄^(−b), a,b∈ℕ, min(a,b)=0, ψ=e(z+z̄)`: the supplied `k=b−a, t=−(a+b)/2` evaluation gives `ε(s,ω,ψ)=i^|k|=i^max(a,b)`. At completions of number fields, in Tate's normalisation (`ψ` with conductor `𝔡^{−1}`, so `ν = ord 𝔡`), the supplied finite formulas give Tate's constant `ρ(ω|·|^s) = γ(s, ω, ψ)^{−1}` as `ρ(|·|^s) = N𝔡^{s−1/2}(1 − q^{s−1})/(1 − q^{−s})` and, by (ii), `ρ(ω|·|^s) = N(𝔡𝔣)^{s−1/2}ρ₀(ω)` with `ρ₀(ω) = 𝔤(ω, ψ)^{−1}` for a ramified character `ω` of conductor `𝔣 = P^c` normalized by `ω(ϖ) = 1`, hence unitary.
 
 Work under the following hypotheses. F is a local field: `ℝ`, `ℂ`, or a nonarchimedean local field of either characteristic. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`. `ψ` standard at `ℝ, ℂ` as in (3.30); at a finite place (3.28) and (3.29) reduce to `ν = 0` and a fixed `ω`.
 
-**Checks.** An unramified conductor-zero character gives 1; a ramified character with `c=ν=1` gives `ω(ϖ²)q^(1−2s)𝔤`, agreeing with the canonical local comparison; at `ℝ` the odd normal-form constituent gives i; at `ℂ` the trivial constituent gives 1, while both angular weights `k=1` and `k=−1` give i with the conjugate standard vectors specified by the supplier.
+**Checks.** An unramified conductor-zero character gives 1; a ramified character with `c=ν=1` gives `ω(ϖ²)q^(1−2s)𝔤`, agreeing with the canonical local comparison; at `ℝ` the odd normal-form constituent gives i; at `ℂ` the trivial constituent gives 1, while both angular weights `k=1` and `k=−1` give i with the conjugate standard vectors specified by the supplier. For the quadratic unit character of `ℚ₃` with `ω(3)=1`, `ν=0` and the standard negative finite character, `𝔤=3^(−1/2)(e^(−2πi/3)−e^(−4πi/3))=−i` and Tate's constant is `ρ(ω|·|^s)=i·3^(s−1/2)=3^(s−1/2)𝔤⁻¹`, the inverse of the value `ε=−i·3^(1/2−s)` of AL.1.3.2; taking `ρ₀=𝔤` instead gives `−i·3^(s−1/2)`.
 
 (Source: ArithmeticGaloisRepresentations §2.7, **Arithmetic character constants** and **Standard-test-function evaluations**; Chenevier–Taïbi, §2.1, p.274, footnote 6, for the positive-character archimedean convention; Humphries, archimedean newforms, (2.18), p.8, displays `i^(−κ)` and is not used for the epsilon sign.)
 
@@ -1208,7 +1209,7 @@ Require the following API.
 - For Satake roots `α_i, L(s,π)=∏_i(1−α_i q^(−s))^(−1)`.
 - `L(s,π⊗|det|^t)=L(s+t,π)`.
 
-The theorem `AL2.godementJacquetLocal` states the finite-place assertions of this target and of The Godement–Jacquet functional equation (AL.2.1.5) in every rank, for every irreducible smooth admissible `π` on a native representation carrier: a polynomial `P_π` with `P_π(0)=1` such that, for every smooth matrix coefficient `β` and every locally constant compactly supported `Φ`, the integral converges on a half-plane `Re(s)>c`, continues meromorphically, and `Z(s,β,Φ)·P_π(q^(−s))` is a Laurent polynomial in `q^(−s)`, with one such product nonzero at every `s₀`; this is the fractional-ideal statement, since the Laurent polynomials `Z·P_π` then generate the unit ideal of `C[q^s,q^(−s)]`, and it determines `P_π`. The rank-one theorem `TateZeta.localZetaIntegral_functionalEquation` is its `n=1` case. The archimedean assertion is a prose target: its Casselman–Wallach carrier has no native counterpart.
+The theorem `AL2.godementJacquetLocal` states the finite-place assertions of this target and of The Godement–Jacquet functional equation (AL.2.1.5) in every rank, for every irreducible smooth admissible `π` on a native representation carrier: a polynomial `P_π` with `P_π(0)=1` such that, for every smooth matrix coefficient `β` and every locally constant compactly supported `Φ`, the integral converges on a half-plane `Re(s)>c`, continues meromorphically, and `Z(s,β,Φ)·P_π(q^(−s))` is a Laurent polynomial in `q^(−s)`, with one such product nonzero at every `s₀`; this is the fractional-ideal statement, since the Laurent polynomials `Z·P_π` then generate the unit ideal of `C[q^s,q^(−s)]`, and it determines `P_π`. At `n=1` it gives the functional equation of the rank-one theorem `TateZeta.localZetaIntegral_functionalEquation`, with the continuations identified with the integrals only on `Re(s)>c`; that theorem also fixes the convergence half-planes `Re(s)>−r` and `Re(s)>r`, which the abscissa c does not, and this one adds `P_π` and the monomial ε, so neither statement implies the other. The archimedean assertion is a prose target: its Casselman–Wallach carrier has no native counterpart.
 
 **Checks.**
 
@@ -1860,7 +1861,7 @@ For `f : ℂ→ℂ`, define boundedness of f on finite vertical strips by: for e
 
 **Checks.** The constant function 1 is bounded with C=1 on every strip. `exp(s²)` is bounded on each finite vertical strip, since its modulus is `exp(Re(s)²−Im(s)²)`. `exp(−s²)` has finite strip order but is unbounded on the imaginary axis. An actual pole at 1 excludes boundedness on any strip containing a neighborhood of 1.
 
-(Source: Cogdell, converse theorems, §1 Theorem 1.1 and §2, pp.5–6; Cogdell, Fields lectures, Lecture 9 §5, pp.72–73, for the completed Rankin–Selberg bounds.)
+(Source: Cogdell, converse theorems, §1 Theorem 1.1 and §2, pp.5–6; Cogdell, Fields lectures, Lecture 9 §5, pp.72–73, for the completed Rankin–Selberg bounds when the ranks are equal or adjacent; Gelbart–Shahidi, Corollary 4.2, p.88, for those bounds in all ranks.)
 
 *Needs:* Mathlib complex norm and real-part API; the continued functions of The global standard L-function (AL.2.4.1) and Continuation and the Rankin–Selberg pole criterion (AL.3.6.1) for automorphic applications.
 
@@ -1884,7 +1885,7 @@ Construct the following instances and their local-factor comparisons; every nice
 
 **Checks.** An odd finite-order Hecke character has its odd gamma shift and the root number fixed by the supplied Gauss-sum formula; a nonzero imaginary norm character is nontrivial but still fails entire niceness. For arithmetic GL₂ roots α,β with `a=α+β`, `qs=αβ`, the untwisted unitary dual polynomial is `1−a q^h/(qs) T+q^(2h)/(qs) T²`; at `h=1/2` this becomes `1−a/(√q s) T+s⁻¹T²`. Inverting coefficients term by term, or applying the primal normalization twist to reciprocal roots, gives the wrong polynomial. For a spherical GL₂ representation twisted by a ramified character, both finite Euler polynomials become 1 and the conductor changes. A self-pair `π×π∨` has a pole and supplies data but no pinned niceness; a cuspidal pair of unequal ranks has no such pole obstruction. Equal or adjacent ranks use finite K-finite test realization, while a `GL₄×GL₂` pair uses the completed tensor realization and the same canonical completed Euler product; replacing it by the finite Dirichlet series loses the completed-function strip bound.
 
-(Source: AnalyticNumberTheoryPartI §2.3a for the character instance; Cogdell, Fields lectures, §§7–9, especially Lecture 9 §5, pp.72–73, for the completed-tensor integral estimates; Gelbart–Shahidi, [*Boundedness of automorphic L-functions in vertical strips*](https://doi.org/10.1090/S0894-0347-00-00351-9), JAMS 14 (2001), Theorem 4.1 and Corollary 4.2, pp.87–88; Humphries, §2.4; AutomorphicFormsOnReductiveGroups §§5.8 and 7.3 for eigensystems and normalization.)
+(Source: AnalyticNumberTheoryPartI §2.3a for the character instance; Cogdell, Fields lectures, Lectures 7–9 for the unramified computation, the archimedean local factors and the global integrals, and Lecture 9 §5, pp.72–73, for the strip bound through finite K-finite realizations when the ranks are equal or differ by one and for the outline of the completed-tensor extension when they differ by more, which that text does not carry out: the completed-tensor integral estimates are this roadmap's own argument; Gelbart–Shahidi, [*Boundedness of automorphic L-functions in vertical strips*](https://doi.org/10.1090/S0894-0347-00-00351-9), JAMS 14 (2001), Theorem 4.1 and Corollary 4.2, pp.87–88, for the strip bound of the completed pair L-function in all ranks; Humphries, §2.4; AutomorphicFormsOnReductiveGroups §§5.8 and 7.3 for eigensystems and normalization.)
 
 *Needs:* Niceness with specified root number and conductor (AL.3.9.3); GL₂ parameter coordinates and archimedean factors (AL.1.4.4); **AnalyticNumberTheoryPartI**, §2.3a, Hecke continuation and functional equation; The global standard L-function (AL.2.4.1); The global Rankin–Selberg functional equation (AL.3.6.2); Archimedean realization (AL.3.3.3); AutomorphicFormsOnReductiveGroups §§5.8 and 7.3; ArithmeticGaloisRepresentations §2.7 for the finite-order Hecke normalization and Gauss-sum root-number comparisons.
 
@@ -2319,7 +2320,7 @@ Work under the following hypotheses. At infinity use the archimedean `GLₙ` par
 
 (Source: Borel, §12.1–12.2, p.48 (conditional general parametrization; established GL_n cases distinguished).)
 
-*Needs:* The unramified L-group Euler factor (AL.4.1.1); The standard local L-factor (AL.2.1.4); The Rankin–Selberg local L-factor (AL.3.2.3); Archimedean GLₙ parameters (AL.R.2); **ArithmeticGaloisRepresentations**, §2.4, Arithmetic Weil–Deligne adapter; **ArithmeticGaloisRepresentations**, §2.5, Local factors; **ArithmeticGaloisRepresentations**, §2.7, Local constants; AL.4 conditional classical weight-k normalization comparison; AL.4 conditional Hilbert normalization comparison.
+*Needs:* The unramified L-group Euler factor (AL.4.1.1); The standard local L-factor (AL.2.1.4); The Rankin–Selberg local L-factor (AL.3.2.3); Archimedean GLₙ parameters (AL.R.2); **ArithmeticGaloisRepresentations**, §2.4, Arithmetic Weil–Deligne adapter; **ArithmeticGaloisRepresentations**, §2.5, Local factors; **ArithmeticGaloisRepresentations**, §2.7, Local constants.
 
 #### AL.4.2.2 Functorial operations on unramified factors
 
