@@ -515,9 +515,17 @@ as explained in C5.1); the two names denote the same target.
   (a `MorphismProperty`), `IsLocallyNoetherian`; `QuasiCompact`, `CompactSpace`,
   `QuasiSeparatedSpace`, `IsSchemeTheoreticallyDominant`, `Scheme.Hom.ker`, `Flat`,
   `CategoryTheory.Over` and scheme pullbacks for compactification geometry.
-- Points and components (C4.5): `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace` (a scheme
-  locally of finite type over a Jacobson space is a Jacobson space), `nonempty_inter_closedPoints`
-  (in a Jacobson space every nonempty locally closed subset contains a closed point),
+- Points and components (§C-1.1, C0.4, C1.9, C4.5):
+  `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace` (a scheme locally of finite type over a
+  Jacobson space is a Jacobson space), `nonempty_inter_closedPoints` (in a Jacobson space every
+  nonempty locally closed subset contains a closed point),
+  `AlgebraicGeometry.pointEquivClosedPoint` (for `X` locally of finite type over an algebraically
+  closed field `K`, the sections `Spec K → X` of the structure morphism correspond bijectively to
+  the closed points of `X`, a section going to the image of the point of `Spec K`; it needs
+  `IsAlgClosed K`), `Complex.isAlgClosed`, `IsAlgClosed.of_exists_root` (a field over which every
+  monic irreducible polynomial has a root is algebraically closed) and `ULift.ringEquiv` (Mathlib
+  has no `IsAlgClosed (ULift.{u} ℂ)` instance, and `IsAlgClosed.of_ringEquiv` requires both fields
+  in one universe, so §C-1.1 proves that instance for every `u`),
   `ConnectedComponents` with `Continuous.connectedComponentsMap` (the map on connected components
   induced by a continuous map), `ConnectedSpace` (which includes nonemptiness) and `IrreducibleSpace`,
   used on the scheme side only; `AnalyticOnNhd.eqOn_zero_of_preconnected_of_eventuallyEq_zero`
@@ -1037,6 +1045,8 @@ Its universal property is the bijection `Hom_an(A,X^an) ≃ Hom_{lrs,ℂ}(A,X)`,
 
 The analytification identifies the underlying topological space with `X(ℂ)` equipped with the classical topology: on each affine chart this is the zero-locus subspace topology in `ℂⁿ`, and these topologies glue along the algebraic opens. It supplies natural isomorphisms of analytic spaces for open restrictions, closed quotients by the extended coherent ideal, and `X×_Z Y`, for locally finite-type complex schemes `X,Y,Z`. These isomorphisms commute with `φ` and the defining inclusions and projections. It identifies `(X_red)^an` with `(X^an)_red`; the underlying topological spaces agree, while `X^an` itself keeps the full analytic ring sheaf. (SGA 1 XII, 1.1(a), 1.2 and Proposition 2.1, retyped pp. 240–242.)
 
+On points, `φ_X` sends a complex point, a section `p : Spec ℂ → X` of the structure morphism, to the image under `p` of the point of `Spec ℂ`; on an affine chart this is `a ↦ (x₁ − a₁, …, xₙ − aₙ)`, the polynomial evaluation above. Prove that the image of `φ_X` is `closedPoints X`, the set of closed points of `X`, and that `φ_X` is injective on points. Both follow from Mathlib's `AlgebraicGeometry.pointEquivClosedPoint`, the bijection, for `X` locally of finite type over an algebraically closed field `K`, between the sections of the structure morphism and the closed points, applied with `K = ULift.{u} ℂ`. That `ULift.{u} ℂ` is algebraically closed is proved here: Mathlib has `Complex.isAlgClosed` and no instance for `ULift.{u} ℂ`, and `IsAlgClosed.of_ringEquiv` transports algebraic closedness only between two fields of the same universe, so map a monic irreducible polynomial over `ULift.{u} ℂ` to `ℂ` along `ULift.ringEquiv`, take a root there and map it back (`IsAlgClosed.of_exists_root`). The finite-type hypothesis is needed: the `Spec ℂ(t)` Check below has a closed point and no complex point.
+
 It turns an étale morphism into a local biholomorphism of analytic ringed spaces, by the analytic inverse theorem on a standard étale presentation and gluing. The analytic inverse is supplied by `AnalyticAt.exists_openPartialHomeomorph` in Tau Ceti’s `TauCeti.Analysis.Analytic.Inverse`. It identifies analytification of a smooth morphism locally with a projection from a product of an analytic open in the base with an open polydisc. This is an isomorphism of analytic ringed spaces even when the base is singular or nonreduced; for a smooth complex scheme it gives complex manifold charts. It proves that separated `X` has Hausdorff `X^an`, by the closed diagonal and the product comparison. It carries finite and proper morphisms, respectively, to finite and proper analytic morphisms. Here relative separatedness means that the analytic diagonal is a closed immersion. A proper analytic morphism is relatively separated and, over every Hausdorff analytic open chart of the base, has compact inverse images of compact subsets; a finite analytic morphism is proper with finite fibres. These chart conditions do not require the whole base to be Hausdorff. The schemes need only be locally of finite type over `ℂ`; finite and proper algebraic morphisms are themselves of finite type, as required for this comparison. All these comparisons use the same functor and ring sheaf. (SGA 1 XII, Propositions 3.1–3.2, retyped pp. 244–247, original pp. 321–325.)
 
 This roadmap owns the analytic local models, their category, arbitrary open gluing and
@@ -1061,11 +1071,13 @@ countability, tangent/derivation, toric, group and gauge comparisons belong to F
 The coherent-module and connection adapters use C0.4 and C5.1–C5.2's prefix;
 none of these constructions uses proper GAGA.
 
-*Needs:* ComplexKahlerGeometry K3–K4; Mathlib `AlgebraicGeometry.LocallyRingedSpace`, sheaves of modules, `AnalyticAt ℂ`, analytic power-series and local-ring APIs; Tau Ceti `AnalyticAt.exists_openPartialHomeomorph` in `TauCeti.Analysis.Analytic.Inverse`.
+*Needs:* ComplexKahlerGeometry K3–K4; Mathlib `AlgebraicGeometry.LocallyRingedSpace`, sheaves of modules, `AnalyticAt ℂ`, analytic power-series and local-ring APIs; Mathlib `AlgebraicGeometry.pointEquivClosedPoint`, `Complex.isAlgClosed`, `IsAlgClosed.of_exists_root` and `ULift.ringEquiv` (complex points are the closed points); Tau Ceti `AnalyticAt.exists_openPartialHomeomorph` in `TauCeti.Analysis.Analytic.Inverse`.
 
 **Checks.**
 
 - The analytified affine line admits `exp(z)` as a holomorphic section and its classical topology is the usual topology on `ℂ`.
+- On `A¹`, the complex point `a` goes to the closed point `(z − a)`, so `φ` maps `ℂ` bijectively onto the closed points. The generic point is not in the image: a section `ℂ[z] → ℂ` sends `z` to some `a` and so has the nonzero kernel `(z − a)`. A map whose image missed a closed point `b` would pull the nonempty locally closed subset `{b}` back to the empty set, which the C4.5 route excludes.
+- `Spec ℂ(t)` is not locally of finite type over `ℂ`: its only point is closed, with residue field `ℂ(t) ≠ ℂ`, and `Spec ℂ(t)` has no complex point, because a `ℂ`-algebra map `ℂ(t) → ℂ` would send the unit `t − a` to `0`, where `a` is the image of `t`. So the closed-point clause needs the finite-type hypothesis.
 - The dual-number point has one topological point, while its identity and the map `ε↦0` induce different ring-sheaf maps.
 - The smooth affine line over `Spec ℂ[ε]/(ε²)` has analytic product charts retaining `ε` in the base ring sheaf.
 - On `G_m`, the identity on complex points identifies F2.4's smooth charts with these
@@ -1204,7 +1216,8 @@ ComplexKahlerGeometry K3–K4; RealAnalyticGeometry R3.2 item 0; AlgebraicModuli
 Layer 3, §6.1 and §§7.6.1/7.7; SchemeAndStackFoundations Layer 1 (§§1.4–1.5/1.14);
 ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2 and 6.4; Mathlib locally ringed spaces,
 sheaves of modules, `smoothSheafCommRing`, analytic power series, local rings, Noetherian
-completion and flatness, and the analytic inverse APIs cited in §C-1.4; Tau Ceti
+completion and flatness, the analytic inverse APIs cited in §C-1.4, and closed points of schemes
+over an algebraically closed field (`AlgebraicGeometry.pointEquivClosedPoint`); Tau Ceti
 `TauCeti.holomorphicSheaf`, `AnalyticAt.exists_openPartialHomeomorph` and
 `TauCeti.ContDiffOn.exists_openPartialHomeomorph`.
 
@@ -1391,15 +1404,17 @@ change of frame, including locally varying rank; it needs no properness assumpti
 Prove `coherentAnalytification_faithful`: for `X` locally of finite type over `ℂ`, coherent
 analytification is faithful and reflects isomorphisms and zero objects. A nonzero coherent module
 has a closed point in its support (finite type over `ℂ` is Jacobson), closed points are complex
-points, and at a complex point `O_{X,x} → O_{X^an,x}` is a flat local homomorphism, hence faithfully
-flat, so the stalk of the analytification is nonzero; apply this to kernels, cokernels and images
+points (§C-1.1, by `AlgebraicGeometry.pointEquivClosedPoint`), and at a complex point
+`O_{X,x} → O_{X^an,x}` is a flat local homomorphism, hence faithfully flat, so the stalk of the
+analytification is nonzero; apply this to kernels, cokernels and images
 (SGA 1, XII, Proposition 1.3.1 and its proof, printed pp. 241–242). The functor is not full when `X`
 is not proper: on `A¹` multiplication by `exp(z)` is an endomorphism of `O_{A¹,an}` that is not
 algebraic (Serre, *GAGA*, n° 12, Remarque 1, printed p. 20, notes that the comparison theorems fail
 for affine varieties).
 *Needs:* `CoherentAnalytification`; §C-1.2
 `completedAnalyticStalkComparison` (flatness); Mathlib (a flat local homomorphism of local rings is
-faithfully flat); Mathlib `JacobsonSpace` (schemes locally of finite type over a field).
+faithfully flat); Mathlib `JacobsonSpace` (schemes locally of finite type over a field); §C-1.1
+(the image of `φ_X` is the set of closed points) with Mathlib `AlgebraicGeometry.pointEquivClosedPoint`.
 
 Prove `coherentPullbackOperations`: analytification commutes, by the canonical maps, with tensor
 products and internal Hom of coherent modules, with dual and determinant of finite locally free
@@ -2036,7 +2051,8 @@ Riemann surface `T_C` is compact and connected, with `IsManifold 𝓘(ℂ) ω T_
 `TauCeti.RiemannSurface.MeromorphicFunction.order x` at each point, computed in any chart of the
 maximal atlas, and the order system `TauCeti.RiemannSurface.MeromorphicFunction.orderSystem T_C`;
 none of these is redefined. The codimension-one points of `C` are its closed points, which are
-its complex points, which are the points of `T_C` (§C-1.1): write `p ↦ p^an` for this bijection
+its complex points (§C-1.1, by `AlgebraicGeometry.pointEquivClosedPoint`), which are the points of
+`T_C` (§C-1.1): write `p ↦ p^an` for this bijection
 `TauCeti.AlgebraicGeometry.CodimensionOnePoint C ≃ T_C`, and `D ↦ D^an` for the transport of a
 `SchemeWeilDivisor C` along it to a `TauCeti.AlgebraicGeometry.WeilDivisor T_C`.
 
@@ -2109,7 +2125,8 @@ and not its definition; C5.4 proves it on complex manifolds for its exponential 
 as the existence of an isomorphism: consumers use the named maps and their inverses. (SGA 1,
 Exposé XII, Theorem 4.4 and its proof, retyped pp. 249–250, for GAGA; the function-field, order
 and divisor statements follow by the arguments given.) *Needs:* riemannSurfaceAtlas C and
-riemannSurfaceComparison C (above); §C-1.1 `complexSchemeAnalytification` (the points of `T_C`);
+riemannSurfaceComparison C (above); §C-1.1 `complexSchemeAnalytification` (the points of `T_C`,
+and the closed points as the complex points, by Mathlib `AlgebraicGeometry.pointEquivClosedPoint`);
 `properSchemeGagaPushforward`; `properSchemeGagaEquivalence`; `CoherentAnalytification`;
 `coherentPullbackOperations`; C0.3 (`holomorphicBundleDictionary`); §C-1.2
 `completedAnalyticStalkComparison`; Tau Ceti `TauCeti.RiemannSurface.MeromorphicFunction` (with
@@ -2848,9 +2865,10 @@ The route has three steps.
 
 - *Algebraic side.* `X` is a Jacobson space (`AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace`,
   the base ring `ULift ℂ` being a field), so every nonempty locally closed subset of `X` contains a
-  closed point (`nonempty_inter_closedPoints`), and the closed points are the complex points, the
-  image of `φ_X` (§C-1.1). Hence a decomposition of `X` into two disjoint nonempty open subsets pulls
-  back to one of `T_X`; every connected component of `X`, open because `X` is locally Noetherian,
+  closed point (`nonempty_inter_closedPoints`), and the closed points of `X` are exactly the image
+  of `φ_X` (`AlgebraicGeometry.pointEquivClosedPoint`, with §C-1.1's identification of the points
+  of `T_X` with the complex points of `X`). Hence a decomposition of `X` into two disjoint nonempty
+  open subsets pulls back to one of `T_X`; every connected component of `X`, open because `X` is locally Noetherian,
   meets the image of `φ_X`, so the map of item 1 is surjective; and a decomposition `X = X₁ ∪ X₂`
   into proper closed subsets gives `T_X = T_{X₁} ∪ T_{X₂}`, where the closed analytic subsets
   `T_{Xᵢ}` (analytifications of the reduced closed subschemes, §C-1.1) differ from `T_X`. This
@@ -2877,8 +2895,10 @@ The route has three steps.
   analyticSubsetComplementConnected makes `T_W = T_Y ∖ T_Z` connected and every closed analytic
   subset of `T_W` other than `T_W` nowhere dense. Two such subsets cannot cover `T_W`, since a union
   of two closed sets with empty interior has empty interior, so `T_W` is analytically irreducible.
-  The restriction `W → X` of `π` is surjective, and surjective on complex points because each
-  nonempty fibre over a complex point is of finite type over `ℂ` and has a closed point; so
+  The restriction `W → X` of `π` is surjective, and surjective on complex points: the fibre over a
+  complex point `x` is nonempty and of finite type over `κ(x) = ℂ`, so it has a closed point, which
+  is a complex point of the fibre (`AlgebraicGeometry.pointEquivClosedPoint`, §C-1.1) and hence a
+  complex point of `W` over `x`; so
   `T_X = π^an(T_W)` is connected. Inverse images of closed analytic subsets are closed analytic
   (§C0.2's pullback of ideals), so a cover `T_X = A ∪ B` pulls back to a cover of `T_W`, one member
   of which is `T_W`, and `T_X` lies in `A` or in `B`; likewise a closed analytic subset of `T_X` with
@@ -2890,12 +2910,13 @@ the analytification of a normal scheme and the extension theorem on normal analy
 route above replaces these by the projective closure and resolution of
 ResolutionOfSingularitiesCharacteristicZero, a supplier of §C-1.4 as well, and by
 analyticSubsetComplementConnected. *Needs:* §C-1.1 (`complexSchemeAnalytification`: complex
-points, open and closed subspaces, reduction, smooth charts, properness); §C0.2
+points and their identification with the closed points, open and closed subspaces, reduction,
+smooth charts, properness); §C0.2
 `CoherentAnalyticIdeal`; §C1.9 `properSchemeGagaPushforward`; analyticSubsetComplementConnected;
 ResolutionOfSingularitiesCharacteristicZero §6.1 (projective closure) and §5.5 (local-isomorphism
 resolution); Mathlib `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace`,
-`nonempty_inter_closedPoints`, `ConnectedComponents`, `Continuous.connectedComponentsMap` and
-`IrreducibleSpace`.
+`nonempty_inter_closedPoints`, `AlgebraicGeometry.pointEquivClosedPoint`, `ConnectedComponents`,
+`Continuous.connectedComponentsMap` and `IrreducibleSpace`.
 
 **Checks.**
 
@@ -2938,7 +2959,8 @@ SchemeAndStackFoundations Layer 1 and §0.9; EtaleCohomologyFoundations §§G.1�
 StableReduction Layer 4 and SchemeAndStackFoundations §4.11 for compactification geometry;
 TauCetiRoadmap.AlgebraicCurves (Layers 2 and 12B–12C); ResolutionOfSingularitiesCharacteristicZero
 §§5.5 and 6.1 and ComplexKahlerGeometry K3 (extension across nowhere dense analytic subsets) for
-C4.5; Mathlib schemes, Jacobson spaces, connected components and manifolds.
+C4.5; Mathlib schemes, Jacobson spaces, closed points (`AlgebraicGeometry.pointEquivClosedPoint`),
+connected components and manifolds.
 
 ## Layer C5: de Rham–Betti comparison, Hodge theory and logarithmic comparison
 
