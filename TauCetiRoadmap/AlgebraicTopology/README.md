@@ -69,7 +69,9 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   homotopy equivalences, the Euler characteristic of spaces of finite CW type with its
   homotopy invariance and product, covering, Mayer–Vietoris and standard values, the field
   and hereditary-ring Künneth theorems, the hereditary-ring universal coefficient sequence,
-  and the integral local homology system, homological orientations and integral fundamental
+  the local homology system of a manifold, Hatcher's Lemma 3.27 and the description of the
+  top homology of a compact manifold by transport-invariant local classes with module
+  coefficients over any ring, and integral homological orientations and integral fundamental
   classes of closed manifolds. The supplier contracts name each declaration and file; the
   layers below build only what those files lack.
 - The [universal-covers roadmap](../../Completed/UniversalCovers/README.md) owns universal-cover
@@ -423,12 +425,29 @@ named in this section is cited as it is at those revisions.
   Proper homotopy equivalences are `ContinuousMap.HasProperHomotopyInverse`
   (`Topology.Homotopy.Proper`: a proper map with a proper homotopy inverse and both homotopies
   proper on the whole cylinder).
-- Local homology and orientations in `AlgebraicTopology.Singular.LocalHomology`: the integral
-  local homology system of a topological manifold with its transport along paths, local
-  orientations, `TauCeti.HomologicalOrientation M E n`, and for a compact oriented manifold its
-  integral fundamental class `TauCeti.HomologicalOrientation.fundamentalClass`, the unique class
-  with the given local images. Layer 6.3 consumes these for boundaryless manifolds and integral
-  coefficients.
+- Local homology and orientations in `AlgebraicTopology.Singular.LocalHomology`, for a
+  Hausdorff space M modelled on a real normed space E of finite dimension n (a manifold
+  without boundary), M and E in one universe. In `System`: the local homology system
+  `TauCeti.localHomologySystem`, the groups H_k(M,M∖{x};R) with their transport
+  `TauCeti.localHomologyTransport` along path classes, for coefficients R in any abelian
+  category with coproducts; with values in `ModuleCat S` it is a
+  `TauCeti.LocalCoefficientSystem`. In `Compact`, for a compact subset A and coefficients in
+  a module N over any ring: vanishing of H_k(M,M∖A;N) for k>n
+  (`TauCeti.isZero_localHomology_of_isCompact`, Hatcher Lemma 3.27(b)), detection of a
+  degree-n class by its local images (`TauCeti.eq_zero_of_forall_localHomologyRestriction_eq_zero`)
+  and the unique gluing of locally represented families of local classes
+  (`TauCeti.existsUnique_localHomologyRestriction_eq_of_isCompact`, Hatcher Lemma 3.27(a)),
+  with the transport-invariant form `TauCeti.existsUnique_localHomologyRestriction_eq_of_invariant`
+  in `Section`. In `TopHomology`, for compact M and module coefficients: H_n(M;N) is the
+  limit of the local homology system (`TauCeti.isLimitLocalHomologySystemCone`), and for
+  compact connected M restriction to a point is injective
+  (`TauCeti.localHomologySystemCone_π_app_injective`) with image the local classes fixed by
+  transport along every loop (`TauCeti.mem_range_localHomologySystemCone_π_app_iff`).
+  Integrally: local orientations, `TauCeti.HomologicalOrientation M E n`, and for a compact
+  oriented manifold its integral fundamental class
+  `TauCeti.HomologicalOrientation.fundamentalClass`, the unique class with the given local
+  images. Layer 6.3 consumes all of these for boundaryless manifolds and constant module
+  coefficients, and builds only the twisted-coefficient, boundary and corner extensions.
 - Tau Ceti's native `FundamentalGroupoid.cechDiagram`, `cechCocone` and
   `isColimitCechCocone` in `FundamentalGroupoid.Cech.Diagram`/`Colimit`, using
   the `Grpd` category and native nonempty finite-intersection `CechIndex`.
@@ -649,7 +668,9 @@ Consume native groupoid and fundamental-group two-open-set pushouts and the base
 
 Consume the native groupoid calculation on a circle covered by two arcs with disconnected intersection and
    on a wedge of circles.  The first check must use more than one basepoint and the second must
-   consume the native wedge-of-circles free-group equivalence and recover its presentation maps.
+   consume the native wedge-of-circles free-group equivalence and recover its presentation maps
+   (Brown, 6.7.5, p.248, for π₁(S¹) from the two-arc cover with the two basepoints ±1; Brown,
+   §6.7, Exercise 2, p.249, and Hatcher, Example 1.21, p.43, for wedges of circles).
 
 ### 1.6 Fundamental groups of topological groups
 
@@ -716,10 +737,10 @@ Consume native relative singular chains on `TopPair`, obtained by applying the `
 *Needs:* Native pair/triple short exact sequences and their connecting maps.
 
 Consume the native short exact sequence of chain complexes for a pair and its natural long
-   exact sequence, with its connecting morphism (the class of the boundary of a relative
-   cycle) and naturality square (Hatcher, §2.1, p.117).  Do the same for triples
-   `B subset A subset X`, from the short exact sequence `0 → C_n(A,B) → C_n(X,B) → C_n(X,A) → 0`
-   (Hatcher, §2.1, p.118).
+   exact sequence, with its connecting morphism, the class of the boundary of a relative
+   cycle (Hatcher, §2.1, p.117), and naturality square (Hatcher, §2.1, p.127).  Do the same
+   for triples `B subset A subset X`, from the short exact sequence
+   `0 → C_n(A,B) → C_n(X,B) → C_n(X,A) → 0` (Hatcher, §2.1, p.118; naturality p.128).
 ### 2.4 Homology axioms
 
 *Needs:* Native singular homology pretheory and the absolute/empty-pair comparison in the supplier contracts.
@@ -1990,17 +2011,22 @@ Use Alexander--Whitney to define cup products and Eilenberg--Zilber to compare t
 
 ### 6.3 Homological orientation and fundamental classes
 
-*Needs:* §§2.5–2.6, 3.3–3.4, 4.4 and 6.1; DifferentialGeometry Layers 2 and 5.1; native local manifold charts and collars; Tau Ceti's local homology system, local orientations, `TauCeti.HomologicalOrientation` and integral fundamental class.
+*Needs:* §§2.5–2.6, 3.3–3.4, 4.4 and 6.1; DifferentialGeometry Layers 2 and 5.1; native local manifold charts and collars; Tau Ceti's local homology system with its compact-set and top-homology lemmas, local orientations, `TauCeti.HomologicalOrientation` and integral fundamental class.
 
-For boundaryless manifolds and integral coefficients, the local homology system with its
-   transport along paths, local orientations and their chart generators,
+For boundaryless manifolds the local homology system with its transport along paths, for
+   coefficients in any abelian category and so for modules over every ring, Hatcher's
+   Lemma 3.27 for compact subsets and the top homology of a compact manifold as the
+   transport-invariant families of local classes, both with constant module coefficients over
+   every ring, and integrally the local orientations and their chart generators,
    `TauCeti.HomologicalOrientation M E m`, and the integral fundamental class
    `TauCeti.HomologicalOrientation.fundamentalClass` of a compact oriented manifold are Tau
-   Ceti's (supplier contracts); the constructions below consume them and add the local
-   system as a coefficient system for Layer 2.6, arbitrary coefficient rings, boundary and
-   corners, and the compact-support class factory.
-   On a boundaryless m-manifold U define the integral orientation local
-   system by `or_U(x)=H_m(U,U\{x};ℤ)`, with the excision transport below.
+   Ceti's (supplier contracts). The native system with values in `ModuleCat S` is already a
+   `TauCeti.LocalCoefficientSystem` and is used directly as a Layer 2.6 coefficient system.
+   The constructions below consume these and add twisted (non-constant) coefficient
+   systems, boundary and corners, and the compact-support class factory.
+   On a boundaryless m-manifold U the integral orientation local system
+   `or_U(x)=H_m(U,U\{x};ℤ)` is the native `TauCeti.localHomologySystem` in degree m with
+   integral coefficients, with its native transport.
    Own the boundaryless interior construction for every finite-dimensional real model
    with corners I on E, with `finrank ℝ E=m`. Use Mathlib's `I.interior M` and
    `ModelWithCorners.isOpen_interior`. Choose a continuous linear equivalence
@@ -2038,7 +2064,9 @@ For boundaryless manifolds and integral coefficients, the local homology system 
    For every boundaryless m-manifold U and R-module system L construct the
    local top-homology functor `T_L:FundamentalGroupoid U→ModuleCat R`, with
    fibre `H_m(U,U\{x};L)` and transport defined by excision on coordinate
-   balls. Prove independence of balls, path-homotopy invariance and gluing,
+   balls; for constant L it is the native `TauCeti.localHomologySystem`, and the
+   construction is needed only for twisted L. Prove independence of balls, path-homotopy
+   invariance and gluing, agreement with the native system for constant L,
    and construct its natural identification `T_L≃L⊗_ℤ or_U`, using the
    R-action on L. Pin the inverse comparison to the coefficient-extension
    map `ℓ⊗[c]↦[c·ℓ]`: trivialize L on a coordinate ball about x by transport
@@ -2063,14 +2091,19 @@ For boundaryless manifolds and integral coefficients, the local homology system 
    natural transformations from the constant rank-one R-module functor.
    For L=or_U the canonical section is the preimage of 1 under the composite
    `T_or≃or_U⊗or_U≃ℤ`; it makes no choice of orientation.
-   Before duality, prove the local-coefficient compact-support local-homology
-   lemma: for boundaryless m-manifold U, compact K⊂U and every module-valued
-   local system L, `H_i(U,U\K;L)=0` for i>m, and the degree-m group injects
-   into its local images at points of K. Prove existence as well: every
-   section satisfying this ball-local condition over a neighborhood of K
-   comes from exactly one relative class with those local images at K. Prove this
-   compact-support lemma by trivialization on coordinate balls, Layer 3's twisted
-   excision/Mayer–Vietoris and compact finite-cover induction, as in Hatcher Lemma 3.27.
+   Before duality, extend the compact-support local-homology lemma to twisted
+   coefficients. For constant module coefficients over any ring it is Tau Ceti's
+   `TauCeti.isZero_localHomology_of_isCompact`,
+   `TauCeti.eq_zero_of_forall_localHomologyRestriction_eq_zero` and
+   `TauCeti.existsUnique_localHomologyRestriction_eq_of_isCompact` (supplier contracts),
+   consumed as stated. Prove the twisted case: for a boundaryless m-manifold U, compact K⊂U
+   and a module-valued local system L that need not be constant, `H_i(U,U\K;L)=0` for i>m,
+   and the degree-m group injects into its local images at points of K. Prove existence as
+   well: every section satisfying this ball-local condition over a neighborhood of K
+   comes from exactly one relative class with those local images at K. Prove it by
+   trivializing L on coordinate balls, where the native constant-coefficient lemma applies,
+   then Layer 3's twisted excision/Mayer–Vietoris and compact finite-cover induction, as in
+   Hatcher Lemma 3.27, p.236.
    Compare this homological system with DG Layer 2's
    tangent orientation via chart local generators and Jacobian signs. Prove the
    converse as an equivalence: smooth orientations correspond bijectively to
@@ -2367,8 +2400,14 @@ With R=ℤ and μ the native `TauCeti.HomologicalOrientation.fundamentalClass` t
 oriented integral form. `poincareDuality_twoTorsionCoefficients` is the case of a ring with
 2=0 and M connected, where no orientation datum is needed: every manifold is R-orientable
 for such R (Hatcher, p.235), so a fundamental class exists (Hatcher, Theorem 3.26, p.236) and
-the existential selects it. The twisted, boundary and compact-triad forms below are prose
-targets.
+the existential selects it. The class comes from Tau Ceti's
+`TauCeti.mem_range_localHomologySystemCone_π_app_iff` (supplier contracts): a loop at x acts
+on H_n(M,M∖{x};R)≅R through the integral transport, by ±1, and −1=1 when 2=0, so every local
+class at x is the restriction of a global class; for a generator at x the global class has
+as local image at each y the transport of that generator along a path, again a generator, so
+it is a fundamental class. That lemma takes the model space in the universe of M, so for M
+outside `Type` the route lifts `EuclideanSpace ℝ (Fin n)` by `ULift`. The twisted, boundary
+and compact-triad forms below are prose targets.
 
 *Needs:* §§6.1–6.3; boundary collars and excisive Mayer–Vietoris; native `TopCat.singularCap`.
 
@@ -2527,8 +2566,11 @@ The Euler characteristic of a finite CW complex is Tau Ceti's alternating cell c
    (`TauCeti.eulerChar_eq_finsum_finrank_singularHomology`). The original space need not be
    Hausdorff to have such a model. Consume these; no second cellular Euler invariant is
    defined. Extend the Euler–Poincaré equality to the relative alternating sums of finite CW
-   pairs and to local systems of finite rank, χ(X;L)=rank(L)·χ(X), by the cellular chains of
-   §4.3, whose degree-p module is a sum of c_p copies of the fibre.
+   pairs and to local systems of finite rank, χ(X;L)=rank(L)·χ(X), by the
+   cellular chains of §4.3, whose degree-p module is a sum of c_p copies of the fibre. The
+   argument is the algebraic one of Hatcher, Theorem 2.44, p.146 (a finite chain complex and
+   its homology have the same alternating sum of ranks), applied to §4.3's relative and
+   twisted cellular chains, which are this roadmap's construction.
 
 **Checks.**
 
@@ -2552,7 +2594,8 @@ and `TauCeti.eulerChar_pi` (supplier contracts).
 `finsum_finrank_singularHomology_fiberBundle` states the bundle formula: for a fibre bundle
 with base B and fibre F of finite CW type and any field k, the alternating sum of the
 dimensions of H_i(E;k) for the total space E is χ(B)χ(F), with no hypothesis on the monodromy
-and no finite CW model of E assumed. Derive it from §5.5's homological Serre sequence over k,
+and no finite CW model of E assumed (Klein–Malkiewich–Ramzi, pp.1–2, for fibration sequences
+of finite complexes; their Theorem A, p.2, extends it to finitely dominated F and B). Derive it from §5.5's homological Serre sequence over k,
 applied to the bundle projection, a Serre fibration by Tau Ceti's
 `TauCeti.TopCat.mem_serreFibrations_proj`: on a finite CW model of each base component, the
 cellular chain group with coefficients in the local system H_q(F;k) has dimension
@@ -2576,11 +2619,14 @@ the left side is `TauCeti.eulerChar E` by §7.1.
 
 *Needs:* §7.1.
 
-Finite-cover multiplicativity χ(X̃)=dχ(X) and the open-cover formula
-χ(U∪V)+χ(U∩V)=χ(U)+χ(V) (Hatcher, Theorem 2.44, p.146, with Section 2.2, Exercises 21 and
-22, p.157) are Tau Ceti's `TauCeti.cwEulerChar_preimage_of_card_fiber`,
-`TauCeti.eulerChar_eq_mul_of_isCoveringMap` and `TauCeti.eulerChar_union_add_eulerChar_inter`,
-and the subcomplex formulas of `Cellular.EulerCharacteristic.Subcomplex` (supplier contracts).
+Finite-cover multiplicativity χ(X̃)=dχ(X) (Hatcher, §2.2, Exercise 22, p.157), the
+subcomplex formula χ(X)=χ(A)+χ(B)−χ(A∩B) for subcomplexes A, B of a finite CW complex
+X=A∪B (Exercise 21, p.157) and the open-cover formula χ(U∪V)+χ(U∩V)=χ(U)+χ(V), which
+follows from the Mayer–Vietoris sequence (Hatcher, §2.2, p.149) and Theorem 2.44, p.146,
+are Tau Ceti's `TauCeti.cwEulerChar_preimage_of_card_fiber`,
+`TauCeti.eulerChar_eq_mul_of_isCoveringMap`, the subcomplex formulas of
+`Cellular.EulerCharacteristic.Subcomplex` and `TauCeti.eulerChar_union_add_eulerChar_inter`
+(supplier contracts).
 Prove cellular-stratification additivity from the relative cellular filtration: for a
 finite filtration of a finite CW complex by subcomplexes, χ is the sum of the relative
 alternating cell counts of the successive pairs.
@@ -2793,6 +2839,21 @@ g∘incl≃id_A on I×A and incl∘g≃id_X on I×X.
 - For X=I and A={0}, r(x)=0 and H(t,x)=(1−t)x fix A, with H(0,x)=x and H(1,x)=0.
 - For X=ℝ and A={0}, the constant retraction has preimage ℝ of {0}, which is
   noncompact; an ordinary contraction is not a proper inverse.
+- `HasProperHomotopyExtensionProperty ∅` holds: K(t,x)=f(x) is f composed with the
+  projection I×X→X, proper because I is compact, so K is proper, and there is no
+  condition on A×I.
+- `HasProperHomotopyExtensionProperty X` (A=X) holds with K(t,x)=H(t,x), proper because
+  I×X and I×A are homeomorphic.
+- For X=I and A={0} the predicate holds with K(t,x)=H(t−x,0) for x≤t and K(t,x)=f(x−t)
+  for x≥t: both pieces give H(0,0)=f(0) on the diagonal, K(0,x)=f(x) and K(t,0)=H(t,0);
+  each piece is the composite of a map from a compact set to a Hausdorff space with f or H,
+  so it is proper, and a map proper on each set of a finite closed cover is proper.
+- Negative control: for X=I and A={0,1,1/2,1/3,…}, A is closed but the predicate fails.
+  Take Y=I×{0}∪A×I⊂I×I, f(x)=(x,0) and H(t,a)=(a,t); both are proper (compact source,
+  Hausdorff target) and H(0,a)=f(a). A proper extension K would make (x,t)↦K(t,x) a
+  retraction of I×I onto Y, and there is none (Hatcher, Chapter 0, p.14). A predicate
+  asking only for closedness of A, or for an ordinary homotopy extension, is excluded by
+  the same example.
 
 *Needs:* §§4.5 and 8.3–8.4; Tau Ceti's Whitehead theorem, `TauCeti.CWType`,
 `TauCeti.SimplyConnectedAtInfinity` and `ContinuousMap.HasProperHomotopyInverse`; proper version
@@ -2892,11 +2953,14 @@ Ordinary Whitehead is Tau Ceti's `ContinuousMap.IsWeakHomotopyEquivalence.homoto
    manifold duality. Own the proper cellular approximation
    and proper homotopy-extension theorem on strongly locally finite CW pairs,
    including the product pair (I×X, (∂I×X)∪(I×A)) and its relative
-   cylinder comparisons. Export `properStrongDeformationRetract_of_inverse`:
-   for a closed strongly locally finite CW subcomplex A⊂X, a proper inverse
+   cylinder comparisons. Export `properStrongDeformationRetract_of_inverse` at the
+   generality of its statement: for a subspace A of a locally compact Hausdorff space X
+   with `HasProperHomotopyExtensionProperty A` and proper inclusion, a proper inverse
    of its inclusion, with joint proper inverse homotopies as in
    `ContinuousMap.HasProperHomotopyInverse`, yields a proper retraction r:X→A and a joint
-   proper homotopy id_X≃inclusion∘r stationary on A. Rectify the inverse on
+   proper homotopy id_X≃inclusion∘r stationary on A. A subcomplex A of a strongly locally
+   finite CW complex X is the instance: proper homotopy extension for the pair
+   (FTW, Theorem 1.6) is `HasProperHomotopyExtensionProperty A`. Rectify the inverse on
    A by proper extension, then use proper extension on the displayed product
    pair to make the inverse homotopy stationary; retain both extension maps
    and their proper controls. Prove the proper cylinder-boundary extension
@@ -2991,13 +3055,20 @@ Prove that every finite-dimensional Hausdorff second-countable smooth manifold
 **Checks.**
 
 - For `n=0` a compact 0-manifold is a finite discrete set and its model has that many
-  0-cells; the empty manifold has the empty model. A model built from the triangulation of
-  a noncompact manifold (ℝ with its integer-vertex triangulation) is countable but not
-  finite, which is why compactness is a hypothesis.
-- For the closed interval with the half-space model the finite model has two 0-cells and
-  one 1-cell, and for the closed disk it is the point: the boundary form is not the
-  closed form, since the open disk (Euclidean model, noncompact) has the point as a model
-  but no finite triangulation.
+  0-cells; the empty manifold has the empty model.
+- Compactness cannot be dropped. ℕ with the discrete topology is a noncompact Hausdorff
+  second-countable smooth 0-manifold whose H₀(ℕ;ℤ) is free of infinite rank, while a finite
+  CW complex has finitely generated homology, so ℕ has no finite CW type; in dimension 2,
+  ℝ²∖(ℤ×{0}) is an open subset of ℝ² whose H₁ is free of infinite rank, one generator for
+  a small circle about each removed point, so it has none either. A noncompact manifold
+  can still have finite CW type: ℝ and the open disk are contractible and have the point as
+  a model although neither has a finite triangulation, so compactness is sufficient, not
+  necessary.
+- For the closed interval with the half-space model the triangulation model has two
+  0-cells and one 1-cell, with χ=2−1=1, and the closed disk with the half-space model is
+  compact with a finite model of χ=1, homotopy equivalent to the point; a model that
+  forgot the boundary and used the interior would be the open disk, which is not compact
+  and lies outside both theorems.
 - For the recognition corollary, `S^n` itself with the identity model satisfies the
   hypotheses and the conclusion is the identity equivalence. The Poincaré homology sphere
   has the integral homology of `S^3` but fundamental group of order 120, so simple
@@ -3227,45 +3298,49 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
 
 `finiteSourceMappingCWType` states the absolute compact-source conclusion of Milnor
 Theorem 3, p.276: for compact Hausdorff X and any space Y with a homotopy equivalence to a CW
-complex C⊆K in a Hausdorff space K, the compact-open space C(X,Y) is homotopy equivalent to a
+complex Z⊆K in a Hausdorff space K, the compact-open space C(X,Y) is homotopy equivalent to a
 CW complex in a Hausdorff space of the same universe; hypothesis and conclusion are the
 condition `TauCeti.CWType`. Milnor states Theorem 3 for a
-compact n-ad with no separation axiom; the Hausdorff hypothesis on X is kept because the
-proof's function-space steps (continuity of evaluation and the exponential law carrying
-homotopies into C(X,Y)) are available for compact Hausdorff sources (Hatcher, Appendix,
-Propositions A.14–A.16, pp.530–531). No separation axiom is imposed on Y: the model's
-carrier K is a Hausdorff CW complex, postcomposition with the model equivalence and its
-inverse is continuous on compact-open spaces for every Y, and the homotopies between
-their composites and the identities induce homotopies C(X,Y)×I→C(X,Y) and
-C(X,K)×I→C(X,K) as adjoints of (f,t,x)↦H(t,f(x)), which needs only continuity of
-evaluation on C(X,Y)×X; so C(X,Y)≃C(X,K) and Milnor's theorem applies to K. For Y the
-Sierpiński space the conclusion holds with K a point. The relative n-ad and based-loop
-forms below retain the relative data.
+compact n-ad with no separation axiom and no metrizability; the Hausdorff hypothesis on X is
+kept because the proof's function-space steps (continuity of evaluation and the exponential
+law carrying homotopies into C(X,Y)) are available for compact Hausdorff sources (Hatcher,
+Appendix, Propositions A.14–A.16, pp.530–531). No separation axiom is imposed on Y: the model
+is the CW complex Z with the subspace topology of the Hausdorff space K, postcomposition with
+the model equivalence and its inverse is continuous on compact-open spaces for every Y, and
+the homotopies between their composites and the identities induce homotopies
+C(X,Y)×I→C(X,Y) and C(X,Z)×I→C(X,Z) as adjoints of (f,t,x)↦H(t,f(x)), which needs only
+continuity of evaluation on C(X,Y)×X and C(X,Z)×X; so C(X,Y)≃C(X,Z), and 8.11a's
+compact-source theorem applies to Z. The ambient space K is not a substitute for Z. For
+Y the Sierpiński space the conclusion holds with Z a point. The relative n-ad and
+based-loop forms below retain the relative data.
 
 *Needs:* §4.8 and §4.5 for mapping-space CW type; §§8.5 and 8.10, DGFloer Layer 1 item 2 and Layer 2 item 3 for EM loops.
 
 **Mapping-space CW type and ordinary EM loops.**
     **8.11a. Mapping-space and based-loop CW type.** This independent block uses the earlier CW/pair
     foundations and Layer 4.8 only; it has no input from 8.10 or 8.11b.
-    Prove the finite-CW-source pair specialization
-    of Milnor 1959 Theorem 3 and Corollary 3, p.276, for n-ads: mapping spaces from a finite CW pair
-    into a Hausdorff CW pair, with prescribed relative/basepoint values,
+    Prove the compact-source theorem, the absolute form of Milnor 1959 Theorem 3, p.276:
+    for every compact Hausdorff X, metrizable or not, and every CW complex Z in a Hausdorff
+    space, the compact-open space C(X,Z) has CW type. Prove the finite-CW-source pair
+    specialization of Theorem 3 and Corollary 3, p.276, for n-ads: mapping spaces from a
+    finite CW pair into a Hausdorff CW pair, with prescribed relative/basepoint values,
     have based CW type in the compact-open/Kelley topology. Own the full inputs
     in their relative n-ad forms. Replace any CW n-ad by the weak realization
     K_w of a native abstract simplicial n-ad, with actual homotopy equivalences,
-    using skeletal simplicial approximation and mapping cylinders. Construct
+    using skeletal simplicial approximation and mapping cylinders (Hatcher, Theorem 2C.5,
+    p.182, in the absolute case). Construct
     the metric realization K_m on the same finite-support barycentric points
     with distance d(a,b)=Σ_v |a_v−b_v|, bounded by 2, and prove Dowker's
     K_w≃K_m comparison, relative to the subcomplexes (Milnor, proof of
     Theorem 2, pp.274–276). A metric absolute neighborhood retract (ANR) Y
-    means that every closed embedding Y→Z into a metric space has an open
+    means that every closed embedding Y→T into a metric space has an open
     neighborhood N of its image and a retraction N→Y restricting to the
     inverse embedding on that image. A metric absolute neighborhood extensor
     (ANE) Y means that every continuous map A→Y from a closed subset A of a
-    metric space Z extends to some open neighborhood of A in Z. Develop
+    metric space T extends to some open neighborhood of A in T. Develop
     their APIs without a separability assumption. Own the Kuratowski–Wojdysławski closed
-    embedding of every metric space Z into the convex hull of its image in the Banach space of
-    bounded continuous real functions on Z (Dugundji, *An extension of Tietze's theorem*,
+    embedding of every metric space T into the convex hull of its image in the Banach space of
+    bounded continuous real functions on T (Dugundji, *An extension of Tietze's theorem*,
     Pacific J. Math. 1 (1951), §7, p.363); keep the convex-hull carrier rather than imposing
     completeness or separability. Own Dugundji's extension theorem for continuous maps from
     closed subsets of metric spaces into convex subsets of normed spaces, with values in the
@@ -3278,19 +3353,37 @@ forms below retain the relative data.
     global distance bound. Prove homeomorphism invariance, open-
     neighborhood and finite-product properties, and relative finite n-ad forms.
     Prove K_m is a metric ANR by its star/nerve extension construction. Prove
-    maps from a compact metric source into a metric ANR have metric ANR type
-    using the compact-open/uniform metric and the tube lemma to curry
-    neighborhood extensions; include finite-CW subcomplex constraints,
-    prescribed values and the constant map. Construct domination of metric
-    ANRs by native simplicial complexes using numerable open covers and nerves.
+    that maps from a compact source into a metric ANR form a metric ANR: for
+    every compact space X, with no metrizability or separation axiom on X, and
+    every metric ANR Y, the compact-open space C(X,Y), whose topology is that of
+    the sup metric sup_x d(f(x),g(x)), is a metric ANR. Route: embed Y by the
+    Kuratowski–Wojdysławski embedding as a closed subset of a convex set H in a
+    normed space E, and let r:U→Y retract an open neighborhood U of Y in H (the
+    ANR property). The maps X→H form a convex subset C(X,H) of the normed space
+    of maps X→E with the sup norm, so every map from a closed subset of a metric
+    space into C(X,H) extends to the whole space (Dugundji, Corollary 4.2,
+    p.358). Because X is compact, the maps into U form an open subset C(X,U) of
+    C(X,H), and postcomposition with r is a continuous retraction of C(X,U) onto
+    C(X,Y). Hence a map from a closed subset A of a metric space into C(X,Y)
+    extends into C(X,H), restricts to an extension on the open preimage of
+    C(X,U), and postcomposition with r returns it to C(X,Y): C(X,Y) is a metric
+    ANE, so a metric ANR. For a compact metric source prove the relative
+    forms, with finite-CW subcomplex constraints, prescribed values and the
+    constant map, by currying neighborhood extensions through the tube lemma.
+    Construct domination of metric ANRs by native simplicial complexes using
+    numerable open covers and nerves (Dugundji, Theorem 7.5, p.365, applied to
+    the identity map of the ANR).
     Domination of X by K consists of maps u:X→K and v:K→X with a
     specified homotopy v∘u≃id_X, relative to the marked subspaces for n-ads;
     no homotopy u∘v≃id_K is required. Prove invariance under homotopy
     equivalences, composition of dominations, and restriction to the marked
     subspaces. Finally prove that domination by a CW complex implies CW type
     by the homotopy-idempotent mapping telescope (Hatcher, Proposition A.11,
-    p.528), retaining these maps and relative homotopies. These inputs establish the function-space CW-type theorem
-    independently of any weak-equivalence upgrade.
+    p.528), retaining these maps and relative homotopies. These inputs establish the
+    compact-source theorem independently of any weak-equivalence upgrade: for compact
+    Hausdorff X, postcomposition with the homotopy equivalences Z≃K_w≃K_m gives
+    C(X,Z)≃C(X,K_w)≃C(X,K_m) through the exponential law for homotopies; C(X,K_m) is a
+    metric ANR, hence dominated by a simplicial complex, hence of CW type.
 
     Apply it to (I,{0,1})→(X,{x₀}) with x₀ a 0-cell to obtain
     CW type of the based loop space; compare native fixed-interval loops with the Kelley
@@ -3322,7 +3415,7 @@ forms below retain the relative data.
   {−1,1}→ℝ with values −1,1 extends by t↦t on ℝ. Convexity and the
   stated extension theorem give the all-ambient ANE assertion for ℝ.
 - S¹⊂ℝ² retracts from 1/2<‖z‖<3/2 by z↦z/‖z‖: 1↦1 and i↦i.
-  For any map f:A→S¹ with A closed in a metric Z, extend into ℝ² and
+  For any map f:A→S¹ with A closed in a metric T, extend into ℝ² and
   restrict to the open set 1/2<‖F‖<3/2 before normalizing. This gives an
   ANE witness; extending normalization to z=0 would require division by 0.
 - The Cantor set C⊂[0,1] is neither ANR nor ANE. Any neighborhood of 0
@@ -3330,6 +3423,11 @@ forms below retain the relative data.
   would send the connected interval [0,c] to a connected subset containing
   both 0 and c, impossible since connected subsets of C are singletons.
   An extension of id_C to a neighborhood would be that same retraction.
+- Maps from a non-metrizable compact source: C(βℕ,[0,1]) with the sup metric is the set of
+  bounded sequences with values in [0,1], a convex subset of ℓ^∞, hence an absolute
+  extensor by Dugundji's corollary and an ANR; it is not separable (the 0–1 sequences are
+  pairwise at distance 1 and uncountable), so an ANR API that assumed separability would
+  not apply to it.
 
 **Domination.**
 
@@ -3418,6 +3516,14 @@ forms below retain the relative data.
 - For X=∅, C(X,Y) is a point even when Y=∅, so the resulting CW model has one 0-cell.
 - Based loops in S¹ have components indexed by winding number ℤ; the constant loop lies
   in component 0, while the once-positive loop lies in component 1. A connected model loses this distinction.
+- For X=βℕ, compact Hausdorff and not metrizable, and Y=S⁰, the space C(βℕ,S⁰) is discrete,
+  since X is compact and S⁰ discrete, with one point for each clopen subset of βℕ, that is
+  for each subset of ℕ: its model is a CW complex with 2^ℵ₀ 0-cells. The compact-source
+  theorem covers it; a route through compact metric sources only would not, and no model
+  with countably many cells exists.
+- For Z=S¹⊂K=ℝ² and X=S¹, C(S¹,Z) has components indexed by degree, ℤ, while C(S¹,K) is
+  contractible: the model is Z with its subspace topology, and replacing it by the ambient
+  Hausdorff space changes the answer.
 
 
 ### 8.12 Classical EM comparisons
@@ -3533,6 +3639,15 @@ headline theorems, so each former name maps to the section that carries its obje
   the EM loop comparison and the cohomology suspension.
 - `projectiveEMComparisons` (GeneralizedCohomology): §8.12, the identification of `RP^∞` and
   `CP^∞` as `K(ℤ/2,1)` and `K(ℤ,2)` with their comparison maps.
+- `poincareDualityMap_isIso` (the homotopy-sphere roadmap): §6.4,
+  `poincareDuality_of_isFundamentalClass`, bijectivity of cap with a fundamental class.
+- `relativeHurewicz` (the homotopy-sphere roadmap): §8.4, Tau Ceti's relative Hurewicz map
+  `TauCeti.RelHomotopyGroup.hurewicz` and §8.4's theorem that it is an isomorphism for a
+  simply connected subspace.
+- `finiteCWEulerCharacteristic` (FuchsianOrbifolds): §7.1, Tau Ceti's
+  `TauCeti.eulerChar` of a space of finite CW type.
+- `normalizedLSCategory` (MorseTheory): §6.2, Tau Ceti's `TauCeti.lsCategoryCount` minus one
+  on nonempty spaces.
 
 ### Dependency order
 
@@ -3636,11 +3751,12 @@ downstream comparison theorem as input.
 ## References
 
 - Ronald Brown, *Topology and Groupoids*, 3rd ed., Booksurge, 2006, Theorem 6.7.2 (p.240),
-  §6.7 Exercise 6 (p.250) and the Lebesgue covering lemma 3.6.4 (p.91).
+  6.7.5 (p.248), §6.7 Exercises 2 (p.249) and 6 (p.250) and the Lebesgue covering lemma
+  3.6.4 (p.91).
 - Samuel Eilenberg and Norman Steenrod, *Foundations of Algebraic Topology*, Princeton
   University Press, 1952, Chapters I--III.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
-  Chapter 0, Sections 1.2, 2.1--2.3, 3.1--3.3, 3.B, 3.C, 3.G--3.H, 4.1--4.3, and the Appendix.
+  Chapter 0, Sections 1.2, 2.1--2.3, 2.C, 3.1--3.3, 3.B, 3.C, 3.G--3.H, 4.1--4.3, and the Appendix.
 - Allen Hatcher, [*Spectral Sequences in Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/SSAT/SSch1.pdf),
   Chapter 1, Theorem 1.3 (p.8) and the local-coefficient version (p.17).
 - Allen Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
@@ -3676,12 +3792,17 @@ downstream comparison theorem as input.
   Mathematica Scandinavica 22 (1968), 130–142, Theorem 6 (p.135).
 - James Dugundji, [*An extension of Tietze's theorem*](https://msp.org/pjm/1951/1-3/pjm-v1-n3-p04-s.pdf),
   Pacific Journal of Mathematics 1 (1951), 353–367, Theorem 4.1 (p.357), Corollary 4.2
-  (p.358), §7 (p.363) for the Kuratowski–Wojdysławski embedding, and Theorem 7.1 (p.363).
+  (p.358), §7 (p.363) for the Kuratowski–Wojdysławski embedding, Theorem 7.1 (p.363), and
+  Theorem 7.5 (p.365) for the factorization of maps into an ANR through a polytope.
 - F. Thomas Farrell, Laurence R. Taylor and John B. Wagoner, [*The Whitehead theorem in the
   proper category*](https://www.numdam.org/item/CM_1973__27_1_1_0.pdf), Compositio Mathematica
   27 (1973), 1–23, §§1–4, Theorem 4.2 and Corollary 4.9.
 - Michael H. Freedman and Frank Quinn, *Topology of 4-Manifolds*, Princeton University Press,
   1990, §7.7.
 - John Milnor, [On Spaces Having the Homotopy Type of a CW-Complex](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/milnorcw.pdf), Theorem 2, p.273, for the n-ad CW-type comparison, and Theorem 3 and Corollary 3, p.276, for function-space and based-loop CW type; its countable class W₀ is distinct from the general class W used here.
+- John R. Klein, Cary Malkiewich and Maxime Ramzi, [*On the multiplicativity of the Euler
+  characteristic*](https://arxiv.org/abs/2211.04992v2), arXiv:2211.04992v2 (2023),
+  Introduction, pp.1–2, for fibration sequences of finite complexes, and Theorem A, p.2, for
+  finitely dominated fibre and base; page numbers are those of the arXiv version.
 
 - Anthony Conway, Stefan Friedl and Gerrit Herrmann, [*Linking forms revisited*](https://intlpress.com/site/pub/files/_fulltext/journals/pamq/2016/0012/0004/PAMQ-2016-0012-0004-a003.pdf), Pure and Applied Mathematics Quarterly 12 (2016), 493–515, Proposition 1.2, p.494, Lemma 2.5, p.502, and Lemma 2.6, pp.503–504.

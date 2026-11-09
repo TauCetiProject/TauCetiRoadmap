@@ -47,7 +47,8 @@ topological Milnor comparison needs the skeletal restriction-tower adapter and i
 comparison; the generic tower algebra is Tau Ceti's. The normalized representability and
 EM-loop headlines need the supplier's functorial normalized EM family and its universal class.
 The obstruction extension criteria need the cellular obstruction and difference cochains with
-their transport. Proper Whitehead needs the supported cellular/singular comparison. Of the
+their transport. Proper Whitehead needs compactly supported singular cohomology with pullback
+along proper maps, the carrier of its hypothesis, which neither pinned library has. Of the
 smooth-manifold CW-type headlines, the boundary-pair and marked-point forms need a homotopy
 equivalence of pairs, and the countable locally finite CW type of a noncompact manifold needs a
 local-finiteness predicate on CW models. These constructions remain README targets, not
@@ -153,8 +154,10 @@ theorem poincareDuality_twoTorsionCoefficients (n : ℕ) (M : Type u) [Topologic
 
 /-- The Euler characteristic is multiplicative in fibre bundles: for a fibre bundle with base `B`
 and fibre `F` of finite CW type, the alternating sum of the dimensions of the singular homology
-of the total space over any field `k` is `χ(B)·χ(F)`, with no hypothesis on the monodromy; the
-route is the Serre spectral sequence of the bundle projection. -/
+of the total space over any field `k` is `χ(B)·χ(F)`, with no hypothesis on the monodromy
+(Klein–Malkiewich–Ramzi, *On the multiplicativity of the Euler characteristic*, pp.1–2, and
+Theorem A, p.2, for finitely dominated fibre and base); the route is the Serre spectral
+sequence of the bundle projection. -/
 theorem finsum_finrank_singularHomology_fiberBundle (k : Type u) [Field k]
     {B F : Type u} [TopologicalSpace B] [TopologicalSpace F] (E : B → Type u)
     [TopologicalSpace (Bundle.TotalSpace F E)] [∀ b, TopologicalSpace (E b)] [FiberBundle F E]
@@ -232,18 +235,20 @@ theorem nonempty_homotopyEquiv_sphere_of_homologySphere (n : ℕ) (hn : 2 ≤ n)
   sorry
 
 /-- A compact Hausdorff source and a target of CW type have a mapping space of CW
-type (Milnor, Theorem 3, p.276); the topology is compact-open. Milnor's statement
-carries no separation axiom on the compact source, but the function-space steps of
-its proof (continuity of evaluation, the exponential law for homotopies into the
-mapping space) are available for compact Hausdorff sources; the Hausdorff hypothesis
-on `X` is kept for that reason. No separation axiom is needed on `Y`: the model's
-carrier is a Hausdorff CW complex `C`, and postcomposition with the model equivalence
-and its homotopies, transported through the exponential law for the compact Hausdorff
-source, makes `C(X, Y)` homotopy equivalent to `C(X, C)`. The conclusion is CW type in the
+type (Milnor, Theorem 3, p.276); the topology is compact-open and no metrizability of the
+source is assumed. Milnor's statement carries no separation axiom on the compact source,
+but the function-space steps of its proof (continuity of evaluation, the exponential law
+for homotopies into the mapping space) are available for compact Hausdorff sources; the
+Hausdorff hypothesis on `X` is kept for that reason. No separation axiom is needed on `Y`:
+the model is a CW complex `Z` in a Hausdorff space `K`, and postcomposition with the model
+equivalence and its homotopies, transported through the exponential law for the compact
+Hausdorff source, makes `C(X, Y)` homotopy equivalent to `C(X, Z)`. The route makes the
+maps from `X` into the metric realization of a simplicial model a metric absolute
+neighbourhood retract, which is dominated by a CW complex. The conclusion is CW type in the
 shape of Tau Ceti's `TauCeti.CWType`. -/
 theorem finiteSourceMappingCWType {X Y : Type u}
     [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space X]
-    {K : Type u} [TopologicalSpace K] [T2Space K] (C : Set K) [CWComplex C] (e : Y ≃ₕ C) :
+    {K : Type u} [TopologicalSpace K] [T2Space K] (Z : Set K) [CWComplex Z] (e : Y ≃ₕ Z) :
     ∃ (L : Type u) (_ : TopologicalSpace L) (_ : T2Space L) (D : Set L) (_ : CWComplex D),
       Nonempty (C(X, Y) ≃ₕ D) := by
   sorry
