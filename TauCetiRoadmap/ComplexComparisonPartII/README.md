@@ -782,6 +782,10 @@ as explained in C5.1); the two names denote the same target.
   on analytic-space quotient charts; C1 transports its weighted and coherent conclusions.
 - **ComplexManifolds.** Milestones 7.1–7.3 supply native holomorphic gluing to
   ComplexKahlerGeometry K4; Milestone 1 supplies C5.2's functorial realification.
+- **ReductiveGroups.** Layer 3A.5: for a smooth affine group scheme `G` of finite type over `ℂ`,
+  the classical topology on `G(ℂ)`, its smooth charts and its complex Lie group structure, which
+  C-1.1 identifies with the underlying space and smooth charts of `G^an` by the identity on
+  `G(ℂ)`. The analytification of schemes locally of finite type over `ℂ` is C-1.1's.
 - **CharacteristicClasses.** C1.2b supplies, inside `cechSingularCWTypeComparison`, the
   locally acyclic constant singular-cochain sheaf resolution on Hausdorff CW representatives.
   C5.1 identifies its nesting-small extension with this resolution, preserving
@@ -1059,7 +1063,10 @@ complex schemes and forgetting the analytic ring sheaf gives the classical topol
 Coherent and topological consumers take the ring sheaf and topological carrier from this same
 analytic space, respectively; its locally finite-type domain
 includes infinite affine covers, and its analytic ring sheaf retains nilpotents on singular and
-nonseparated schemes.
+nonseparated schemes. For a smooth affine group scheme `G` of finite type over `ℂ`, the classical
+topology on `G(ℂ)`, its smooth charts and its complex Lie group structure are ReductiveGroups
+§3A.5's; the identity on `G(ℂ)` identifies them with the underlying space and smooth charts of
+`G^an`, to which this section adds the analytic ring sheaf.
 
 FormalConnectionsOpers F2.4 takes this functor's complex-points, open-subspace, fibre-product, smooth-chart and
 étale-local-isomorphism comparisons on separated smooth finite-type
