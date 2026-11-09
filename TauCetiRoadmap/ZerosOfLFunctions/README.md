@@ -182,6 +182,8 @@ not the roadmap.
 - `Complex.Gamma`, `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
   `Complex.differentiable_one_div_Gamma`, `Complex.differentiable_Gammaℝ_inv`,
   `Complex.differentiable_Gammaℂ_inv` (the reciprocal gamma functions are entire);
+- `Complex.Gammaℝ_ne_zero_of_re_pos` and `differentiableAt_completedZeta` (`Gammaℝ` has no zero on
+  `Re s > 0`, and `completedRiemannZeta` is analytic off `0, 1`; for confinement in 7.4);
 - `Complex.Gamma_eq_integral`, `Real.Gamma_eq_integral`, `Real.convexOn_Gamma`,
   `Complex.Gamma_conj`, `Complex.Gammaℝ_conj`, `Complex.Gammaℂ_conj`, `deriv_conj_conj`,
   `Complex.digamma_one_sub`, `Complex.digamma_two_mul`, `completedRiemannZeta_one_sub`,
@@ -325,7 +327,8 @@ uses finite order as an explicit hypothesis in generic convexity and completed s
 Jensen's formula, without contour integrals; Layer 5 is Hadamard's factorization, general and then
 for the families. Layer 6 proves the zero-free regions, Layer 7 the exact count by the argument
 principle on a rectangle, and Layer 8 the explicit formulas and the effective prime counts. Layer
-9 needs only Layers 0 and 4 and can be built early.
+9 needs Layers 0 and 4, and 7.2 for its bridge to the contour integral; everything in it except
+that bridge can be built early.
 
 ## Layer 0: growth predicates and the entire completion
 
@@ -1255,8 +1258,16 @@ Define *IsExceptionalZero* `χ β`, for a primitive character `χ` (the trivial 
 For `χ` a primitive finite-order ray-class character of conductor `𝔣`: if `χ` is not real,
 `L(χ, ·)` has no zero in the region; if `χ` is real it has at most one, real and simple. The constant
 depends on `n = [K:ℚ]` alone and is chosen before `K` and `χ`. At `K = ℚ` this is
-`dirichletLFunction_zeroFreeRegion`. No source proves the statement at this generality; it is
-assembled from six targets.
+`dirichletLFunction_zeroFreeRegion`. For every `K` and every Hecke character, with an absolute
+constant `R₄` and the conductor entering through `A(χ) = |d_K| 𝔑𝔣`, the region
+`Re s > 1 − 1/(R₄ (log A(χ) + n log (|Im s| + 2)))` with at most one zero is
+Lagarias–Montgomery–Odlyzko, Lemma 2.3 (cited by locator; Kadiri §1, (1.5)–(1.6), reports it).
+For `0 < c < 1/R₄` their region contains this one, since the archimedean factors of
+`analyticConductorAt d (iγ)` are `n` in number, each at least `|γ| + 3` because the shifts of a
+finite-order character are real, so that
+`log analyticConductorAt d (iγ) ≥ log A(χ) + n log (|γ| + 2)`. That a zero in the region is real
+and simple and occurs only for a real character is proved here, by (4c) and (4f). The route
+assembles the statement from six targets.
 
 - **(4a)** 6.1.
 - **(4b) Imprimitive characters.** Consume `heckeLFunctionC_eq_primitive`. The zeros of
@@ -1442,11 +1453,21 @@ not an ordinate.
 `N(T) = (T/2π) log (T/(2πe)) + O(log T)` for every `T ≥ 2`: `riemannVonMangoldt` (Titchmarsh,
 §§9.2–9.4, Theorem 9.4). Route: 7.2 on `Icc (−1) 2 ×ℂ Icc 0 T` applied to `zetaEntireCompletion`
 (the poles of `Λ` lie on the bottom edge), 4.2 to pass back to `Λ`, confinement of the zeros to the
-critical strip, the main term from 1.5 and the error from 3.4 and 7.3. For `T` the ordinate of a
-zero, the formula follows from the case of non-ordinates by right-continuity of `N` (4.5) and
-discreteness of the ordinates, the main term moving by `O(η log T)` over an interval of length `η`.
+critical strip, the main term from 1.5 and the error from 3.4 and 7.3. Confinement is the first
+clause of 5.6a; for `ζ` it also follows directly: `riemannZeta_ne_zero_of_one_le_re`,
+`riemannZeta_def_of_ne_zero` and `Complex.Gammaℝ_ne_zero_of_re_pos` give `Λ(s) ≠ 0` for
+`Re s ≥ 1`, `s ≠ 1`, hence order `0` there since `Λ` is analytic off `0, 1`
+(`differentiableAt_completedZeta`), and `completedRiemannZeta_one_sub` carries this to `Re s ≤ 0`,
+`s ≠ 0`, so the rectangle `Icc (−1) 2 ×ℂ Icc 0 T` and the strip `Icc 0 1 ×ℂ Icc 0 T` contain the
+same zeros.
+For `T` the ordinate of a zero, the formula follows from the case of non-ordinates by
+right-continuity of `N` (4.5) and discreteness of the ordinates, the main term moving by
+`O(η log T)` over an interval of length `η`.
 
-*Needs:* 7.2, 7.3, 1.5, 3.4, 4.2, 4.5, 6.5.
+*Needs:* 7.2, 7.3, 1.5, 3.4, 4.2, 4.5, 6.5; for confinement, 5.6a or Mathlib
+`riemannZeta_ne_zero_of_one_le_re`, `riemannZeta_def_of_ne_zero`,
+`Complex.Gammaℝ_ne_zero_of_re_pos`, `differentiableAt_completedZeta` and
+`completedRiemannZeta_one_sub`.
 
 ### 7.5 Uniformity in the conductor
 
@@ -1465,9 +1486,10 @@ the zeros of the entire completion to the closed strip, besides continuation, fu
 and growth: the record with completed function `1`, `gammaR = {0}` and empty polar divisor has no
 zeros and a main term of order `T log T`, and is rejected only by Dirichlet agreement; the record
 `ζ(s)(1 + 5·2^{−s} + 2·4^{−s})` of conductor `4` has its extra zeros on `Re s ≈ 2.19` and
-`Re s ≈ −1.19`, and is rejected only by confinement.
+`Re s ≈ −1.19`, and is rejected only by confinement. For the two families confinement is the first
+clause of 5.6a.
 
-*Needs:* 7.4, 4.4, 4.5, 1.5, 2.2, 6.5; L-functions Layers 3, 5.
+*Needs:* 7.4, 4.4, 4.5, 1.5, 2.2, 5.6a, 6.5; L-functions Layers 3, 5.
 
 ### 7.6 Corollaries
 
@@ -1491,7 +1513,10 @@ of 7.5. In the averaged statement, translating the integral gives
 
 ### Dependencies
 
-Tau Ceti contour integration. Layers 1.5, 3.4, 4, 6.5. L-functions Layers 3, 5.
+Tau Ceti contour integration. Layers 1.5, 2.2, 3.4, 4, 5.6a, 6.5. Mathlib
+`riemannZeta_ne_zero_of_one_le_re`, `riemannZeta_def_of_ne_zero`,
+`Complex.Gammaℝ_ne_zero_of_re_pos`, `differentiableAt_completedZeta`,
+`completedRiemannZeta_one_sub`. L-functions Layers 3, 5.
 
 ## Layer 8: the explicit formula and effective prime counts
 
@@ -1581,7 +1606,8 @@ absolutely summable by 4.5 against that decay, stronger than Lang's symmetric li
 is `∑'`: the summand family has infinite support in general, and the finsum would be the junk `0`.
 At `K = ℚ` this is `riemannZeta_weilExplicitFormula`.
 
-*Needs:* 8.2, 4.5, 1.4; Mathlib `mellin`, `mellinInv_mellin_eq`; L-functions Layer 8.
+*Needs:* 8.2, 4.5, 1.4, 1.4a (the reflection of `Λ_K'/Λ_K`); Mathlib `mellin`,
+`mellinInv_mellin_eq`; L-functions Layer 3 `completedDedekindZeta_one_sub`; L-functions Layer 8.
 
 **Checks** for the test class and the formula.
 
@@ -1783,8 +1809,8 @@ asymptotic bounds for the remainder integral.
 ### Dependencies
 
 Arithmetic Dirichlet Series §§2.3, 6.1–6.4; Global Number Fields Layers 2, 3E, 9;
-Number Field Arithmetic §2.3; Chebotarev Layers 11, 13–14. Mathlib Mellin transform. Layers 1.4, 1.5, 4.5, 5.6, 6, 7.2. L-functions Layers 2, 3,
-5, 8. Class Field Theory Layer 12 (8.8).
+Number Field Arithmetic §2.3; Chebotarev Layers 11, 13–14. Mathlib Mellin transform. Layers 1.4,
+1.4a, 1.5, 4.5, 5.6, 6, 7.2. L-functions Layers 2, 3, 5, 8. Class Field Theory Layer 12 (8.8).
 
 ## Layer 9: certified zeros
 
@@ -1866,11 +1892,8 @@ Layer 4.1; Layer 0 for *entireCompletion*; Layer 7.2 for the bridge. Mathlib `Ri
   conventions of Layer 4 rather than a preimage of `{0}`.
 - The Stirling and reciprocal-gamma statements of Layer 1 and Hadamard's theorem of Layer 5 are
   general complex analysis for any consumer.
-- AnalyticNumberTheoryPartI takes Layers 0–8 as stated for a general field, the exceptional-zero
-  alternative of 6.3–6.4 included, and proves from them the exclusion of Landau–Siegel zeros (its
-  §0.34) and the exception-free forms over `ℚ` (its §§0.1, 0.6, 0.9, 0.18, 0.32): the region for
-  Dirichlet L-functions without exception, Siegel's theorem and the prime count in a progression
-  uniform in the modulus are stated there, not here.
+- AnalyticNumberTheoryPartI consumes Layers 0–8 as stated for a general field, the
+  exceptional-zero alternative of 6.3–6.4 included.
 
 ## Provenance
 
@@ -1922,6 +1945,10 @@ the two differ exactly at the ordinates.
   analytic conductor (5.7)) and §5.2 (convexity). Cited by locator.
 - J. C. Lagarias, A. M. Odlyzko, *Effective versions of the Chebotarev density theorem*, in
   *Algebraic Number Fields* (1977) — effective counting in a fixed Galois extension.
+- J. C. Lagarias, H. L. Montgomery, A. M. Odlyzko, *A bound for the least prime ideal in the
+  Chebotarev density theorem*, Invent. Math. 54 (1979), 271–296, doi:10.1007/BF01390234 —
+  Lemma 2.3 (the region for Hecke L-functions with at most one zero and a constant independent of
+  `K`, as Kadiri §1 reports it; the region of 6.4). Cited by locator.
 - NIST Digital Library of Mathematical Functions, equations 5.5.3 (reflection), 5.6.6
   (`|Γ(x + iy)| ≤ |Γ(x)|`), 5.11.1 (Stirling for `log Γ`), 5.11.2 (digamma), 5.11.9 (gamma on
   bounded real-part intervals), and §5.11(ii) (remainder bounds).
