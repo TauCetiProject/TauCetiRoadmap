@@ -1,7 +1,9 @@
 module
 
 public import Mathlib
+public import TauCeti.Algebra.Module.ZLattice.Quotient
 public import TauCeti.AlgebraicTopology.Cohomology.IntegralCup
+public import TauCeti.Geometry.Manifold.Algebra.Quotient
 public import TauCeti.Geometry.Manifold.Complex.AlmostComplexStructure
 public import TauCeti.Geometry.Manifold.DeRham.Wedge
 public import TauCeti.Geometry.Manifold.DifferentialForm.AlmostComplexType
@@ -36,7 +38,9 @@ Hodge-diamond symmetry on a compact complex manifold (K5b.1); and, on a compact 
 manifold, the `∂∂̄`-lemma, the Hodge decomposition in its dimension form, Hodge symmetry, the
 evenness of the odd Betti numbers and the Hard Lefschetz theorem (K6.1); the Hodge numbers, the
 Betti numbers and the integral cohomology ring of `ℂPⁿ`, on Tau Ceti's sphere-quotient model
-`TauCeti.ComplexProjectiveSpace n` with its homogeneous-coordinate complex atlas, and the genus
+`TauCeti.ComplexProjectiveSpace n` with its homogeneous-coordinate complex atlas, the Hodge
+numbers `h^(p,q) = C(n,p) C(n,q)` of a complex torus `E / L`, on Tau Ceti's lattice quotient
+`AddAction.orbitRel.Quotient L E` with its complex Lie group structure, and the genus
 dictionary `h^(0,1) = h^(1,0)`, `b₁ = 2 h^(1,0)` of a compact Riemann surface (K7); and the
 Frölicher inequality `b_k ≤ ∑_(p+q=k) h^(p,q)` on a compact complex manifold (K8).
 
@@ -82,8 +86,11 @@ Not statable at the pins, so nothing is stated in their place:
 * the sections of `O(k)` on `ℂPⁿ` and the incidence blowup (K7.2): the pins have no
   tautological line bundle on either model of `ℂPⁿ`; the Fubini–Study normalizations (K7.2):
   the Fubini–Study form is itself a K7.2 construction, glued from its chart formulas;
-* the Hodge numbers of complex tori, the Hopf surface and the elliptic flat lines (K7): the pins
-  have no complex torus `ℂⁿ/Λ` and no Hopf surface with a complex atlas;
+* the Hodge diamond of the primary Hopf surface (K7): the pins have no Hopf surface, that is, no
+  free properly discontinuous action of the dilations `z ↦ 2^m z` on `ℂ² ∖ {0}` with its
+  quotient complex manifold; the lattice-character lines `L_ρ` on an elliptic curve and their
+  cohomology (K7.FlatDegreeZero): the pins have no holomorphic line bundle descended from a
+  factor of automorphy and no Dolbeault cohomology with coefficients in a holomorphic bundle;
 * the Frölicher spectral sequence, its pages and its degeneration criterion, and the
   Iwasawa-manifold computation (K8): Tau Ceti has the spectral sequence of a filtered cochain
   complex (`CochainComplex.spectralSequence`), but the filtered type complex (the type forms with
@@ -98,7 +105,7 @@ namespace TauCetiRoadmap.ComplexKahlerGeometry
 open scoped Manifold ContDiff Topology TauCeti.ComplexManifold
 open TauCeti TauCeti.SmoothAlmostComplexStructure
 
-/-! ## Layer K1: Complex structures and type calculus -/
+/-! ## Layer 1: complex structures and type calculus (K1) -/
 
 /-- **The Newlander–Nirenberg theorem**, local form (Webster, Math. Z. 201 (1989), 303–316).
 On a boundaryless real manifold of dimension `2n`, a smooth almost complex structure `J` with
@@ -116,7 +123,7 @@ theorem newlander_nirenberg
       ∃ U ∈ 𝓝 x, IsPseudoholomorphicOn J (ofComplexManifold (Fin n → ℂ) (Fin n → ℂ)) φ U := by
   sorry
 
-/-! ## Layer K2: Dolbeault calculus and the local lemmas -/
+/-! ## Layer 2: Dolbeault calculus and the local lemmas (K2) -/
 
 /-- The open polydisc in `ℂⁿ` with centre `c` and polyradius `r`, as an open subset, hence an open
 complex submanifold of `Fin n → ℂ`. It is empty when some `r k ≤ 0`. -/
@@ -166,7 +173,7 @@ theorem exists_mixed_parameter_dbar_solution
           f ((p, q), z)) := by
   sorry
 
-/-! ## Layer K3: Analytic germs and subvarieties -/
+/-! ## Layer 3: analytic germs and subvarieties (K3) -/
 
 section Germs
 
@@ -305,7 +312,7 @@ theorem hartogs_extension_across_point
 
 end Germs
 
-/-! ## Layer K5a: Real and complex-coefficient analysis on real manifolds -/
+/-! ## Layer 5: the real Hodge theorem (5.7, K5a) -/
 
 section RealHodge
 
@@ -331,7 +338,7 @@ theorem hodge_theorem_deRham {E H M : Type*} [NormedAddCommGroup E] [NormedSpace
 
 end RealHodge
 
-/-! ## Layer K5b: Compact Dolbeault Hodge theory -/
+/-! ## Layer 5: Dolbeault cohomology (2.4), its finiteness and Serre duality (5.10, K5b.1) -/
 
 section Dolbeault
 
@@ -377,7 +384,7 @@ theorem finrank_dolbeaultCohomology_serre [T2Space M] [CompactSpace M] {p q : �
 
 end Dolbeault
 
-/-! ## Layer K6.0: Local Kähler and curvature identities -/
+/-! ## Layer 6: the Kähler condition (6.1, K6.0) -/
 
 section KahlerCondition
 
@@ -393,7 +400,7 @@ def IsKahler (form : SmoothTwoForm I M) (J : SmoothAlmostComplexStructure I M) :
 
 end KahlerCondition
 
-/-! ## Layer K6.1: Compact Kähler Hodge theory -/
+/-! ## Layer 6: compact Kähler Hodge theory (6.3, K6.1) -/
 
 section CompactKahlerComplex
 
@@ -463,7 +470,7 @@ theorem hard_lefschetz {n : ℕ} (hdim : Module.finrank ℝ E = 2 * n) (form : S
 
 end CompactKahlerReal
 
-/-! ## Layer K7: Projective, torus, and Hopf examples -/
+/-! ## Layer 7: projective, torus, Riemann-surface and Hopf examples (K7) -/
 
 section ProjectiveSpace
 
@@ -505,6 +512,21 @@ theorem integralCohomology_complexProjectiveSpace (n : ℕ) :
 
 end ProjectiveSpace
 
+/-- **The Hodge numbers of a complex torus.** Let `L` be a full lattice in a finite-dimensional
+complex vector space `E` of dimension `n`; the complex torus `E / L` is Tau Ceti's orbit space
+`AddAction.orbitRel.Quotient L E`, a compact complex Lie group whose charts are local inverses of
+the projection. Then `h^(p,q) = C(n,p) C(n,q)`: a constant positive Hermitian form is a flat
+Kähler metric on `E / L` (Demailly, Chapter VI, (4.5), p. 297), and its harmonic `(p,q)`-forms
+are the translation-invariant forms `dz_I ∧ dz̄_J` with `|I| = p`, `|J| = q`; the computation is
+this roadmap's own. For `n = 0` the torus is a point and `h^(0,0) = 1`; for `p > n` both sides
+vanish. -/
+theorem finrank_dolbeaultCohomology_complexTorus
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L] (p q : ℕ) :
+    Module.finrank ℂ (DolbeaultCohomology E (AddAction.orbitRel.Quotient L E) p q) =
+      (Module.finrank ℂ E).choose p * (Module.finrank ℂ E).choose q := by
+  sorry
+
 /-- **The genus dictionary of a compact Riemann surface** (Demailly, Chapter VI, (10.1)–(10.2)).
 On a compact complex manifold of complex dimension one, `h^(0,1) = h^(1,0)`, the geometric genus
 `g`, and the first Betti number is `2g`. No Kähler form is assumed: on a curve every positive
@@ -518,7 +540,7 @@ theorem finrank_dolbeaultCohomology_riemannSurface
         2 * Module.finrank ℂ (DolbeaultCohomology ℂ M 1 0) := by
   sorry
 
-/-! ## Layer K8: The Frölicher spectral sequence and non-Kähler comparison -/
+/-! ## Layer 8: the Frölicher spectral sequence and non-Kähler comparison (K8) -/
 
 /-- **The Frölicher inequality** (Demailly, Chapter VI, (11.2)). On a compact complex manifold,
 with no Kähler hypothesis, the `k`-th real Betti number is at most the sum of the Hodge numbers
