@@ -33,9 +33,6 @@ Stated here:
   their degree, and the topological Riemann–Hurwitz formula (§0.0g);
 * the topological and PL mapping class groups with the PL comparison (§0.0h), and the mapping
   class groups of the sphere and the torus, through `O(3)` and `GL₂(ℤ)` (§5.4a);
-* the projective model of the hyperbolic isometry group (Layer 0, §0.4a): Mathlib's action of
-  `GL (Fin 2) ℝ` on `ℍ`, with negative-determinant matrices acting through complex conjugation,
-  induces an isomorphism from `GL (Fin 2) ℝ` modulo its centre onto the isometry group of `ℍ`;
 * the Dehn–Nielsen–Baer theorem (Layer 5): the mapping class group of a closed orientable surface
   of genus at least one is the outer automorphism group of its fundamental group, with its smooth
   based realization half, every automorphism of `π₁` of a closed orientable surface being induced
@@ -81,7 +78,7 @@ Not statable at the pins:
 
 namespace TauCetiRoadmap.TeichmullerGeometry
 
-open scoped Manifold ContDiff UpperHalfPlane TauCeti.DiffeomorphWeakWhitney Topology
+open scoped Manifold ContDiff TauCeti.DiffeomorphWeakWhitney Topology
 
 open Topology
 
@@ -527,19 +524,6 @@ theorem MappingClassGroupPL.toTop_bijective (s : PLStructure M) :
   sorry
 
 end MappingClassGroups
-
-/-! ## Layer 0: the projective model of `Isom(ℍ)` (§0.4a) -/
-
-/-- **The isometry group of the hyperbolic plane is `PGL₂(ℝ)`.** Mathlib's action of
-`GL (Fin 2) ℝ` on the upper half-plane (Möbius transformations for positive determinant, their
-composition with complex conjugation for negative determinant) is by isometries of the hyperbolic
-distance; every distance-preserving bijection of `ℍ` arises, no differentiability being assumed;
-and its kernel is the centre, the nonzero scalar matrices. Together: an isomorphism
-`GL(2, ℝ)/Z ≃* Isom(ℍ)` compatible with the action (§0.4a). -/
-theorem exists_mulEquiv_isometryEquiv_glAction :
-    ∃ e : (GL (Fin 2) ℝ ⧸ Subgroup.center (GL (Fin 2) ℝ)) ≃* (ℍ ≃ᵢ ℍ),
-      ∀ (g : GL (Fin 2) ℝ) (z : ℍ), e (QuotientGroup.mk g) z = g • z := by
-  sorry
 
 /-! ## Layer 4: the outer automorphism group (§4.2) -/
 
