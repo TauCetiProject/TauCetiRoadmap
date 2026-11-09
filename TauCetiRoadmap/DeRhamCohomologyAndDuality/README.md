@@ -335,8 +335,12 @@ installed on a manifold. In addition:
   orientation at a point selected by a tangent orientation of a Hausdorff boundaryless manifold
   over `𝓘(ℝ, E′)`, `E′` an inner-product space of dimension `m ≥ 1`,
   `TauCeti.localOrientationOfManifoldOrientation` (`LocalHomology/Orientation/Chart.lean`), which
-  pulls the zero-sphere generator `[−b₀] − [b₀]` (`TauCeti.reducedSingularHomologySphereIso_inv_ι`,
-  `AlgebraicTopology/Singular/Sphere.lean`) back through the connecting map and radial projection.
+  pulls back, through the preferred chart, the connecting map and radial projection, the generator
+  of `H̃_{m−1}(S^{m−1})` selected by an orthonormal basis `b` of `E′` positive for the chart
+  orientation (`TauCeti.reducedSingularHomologySphereIsoOfOrientation`, the same file); for
+  `m ≥ 2` this is a class in positive degree, and only for `m = 1` is it the zero-sphere class
+  `[−b₀] − [b₀]` (`TauCeti.reducedSingularHomologySphereIso_inv_ι`,
+  `AlgebraicTopology/Singular/Sphere.lean`).
   In dimension `1` it is the class of a decreasing path in an oriented chart, as Tau Ceti records
   for the interval (`TauCeti.singularHomologyCubeBoundaryPairIso_one_inv`,
   `AlgebraicTopology/Singular/IntervalGenerator.lean`), the negative of AlgebraicTopology 6.3's
@@ -974,6 +978,8 @@ images of chart-simplex classes).
   `[γ(1)] − [γ(0)]`. AlgebraicTopology 6.3's point generator at `0` is the path from `−1` to `1`.
   A homological orientation built from the former has `[ℝ]_K` represented by `t ↦ 2 − 4t`, and the
   formula would read `1 = −1` on the `ψ dx` above and `2π = −2π` on the counterclockwise `S¹`.
+
+### 4.2 Smooth-boundary compatibility
 
 For compact Hausdorff oriented `M` over `𝓡∂ m`, `m > 0` (second countable by
 `ChartedSpace.secondCountable_of_sigmaCompact`, so that AlgebraicTopology 6.3's relative class
