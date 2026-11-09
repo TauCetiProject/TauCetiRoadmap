@@ -86,7 +86,9 @@ Mathlib supplies restricted-product carriers and topologies, finite and probabil
 measures, Haar uniqueness, the modular character, fundamental-domain integration, double cosets,
 and action groupoids. Tau Ceti supplies convolution groups of Hopf-algebra points,
 their coefficient maps, concrete `GL_n` and `G_m` comparisons, algebraic centres, geometric
-characters and cotangent/adjoint constructions. This roadmap extends those objects rather than
+characters, cotangent/adjoint constructions, principal congruence subgroups of points, the Weil
+restriction of affine group schemes with its point isomorphism and point homeomorphism, and the
+adelic base change `𝔸_F ⊗_F E ≃ 𝔸_E`. This roadmap extends those objects rather than
 defining substitutes. In particular, an algebraic equivalence does not by itself supply a
 homeomorphism or an identity of pushed measures.
 
@@ -97,11 +99,11 @@ comodule/tensor dictionary (layer 1), closed subgroups and quotients with affine
 reductive `H` (layer 3; the closed-orbit embedding `H\G ↪ V` is derived in AA.3.3 from layers 1
 and 3), character lattices of groups of multiplicative type (layer 4), the centre, derived group
 and simply connected covers (layer 6), rational parabolics, Levi decompositions and relative
-roots (layer 7). ReductiveGroupsPartII supplies, in RG2.0, the congruence subgroups of integral
-models and the local analytic chart/cotangent/Haar-Jacobian bridge specified in the supplier
-contracts below; in RG2.0a, coefficient-natural Weil restriction, its
-tower maps and tensor comparison; in RG2.1, the valuation map of the maximal split central torus
-at the finite places (the torus itself is ReductiveGroups, layers 6–7); in RG2.3, reductive
+roots (layer 7). ReductiveGroupsPartII supplies, in RG2.0, the local analytic
+chart/cotangent/Haar-Jacobian bridge specified in the supplier contracts below (the congruence
+subgroups of points and the Weil restriction of affine groups are Tau Ceti's); in RG2.1, the
+valuation map of the maximal split central torus at the finite places (the torus itself is
+ReductiveGroups, layers 6–7); in RG2.3, reductive
 integral models, hyperspecial subgroups and Lang's theorem with Hensel lifting; in RG2.4, the
 local decompositions and integration, the Iwasawa decomposition `G(F_v) = K_v P(F_v)` with
 `K_v ∩ P(F_v) = P(𝒪_v)` for an arbitrary parabolic and a hyperspecial `K_v`
@@ -201,10 +203,13 @@ remain here, which add only the adelic or measure clause: `restrictedProductCong
 local compactness and functoriality, `TauCeti.CommHopfAlgCat.centerPointsSubgroup_eq_center`, and
 the `G_a`, `G_m`, `GL_n` homeomorphisms `TauCeti.PointTopology.polynomialHomeomorph`,
 `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv` and
-`TauCeti.GeneralLinear.pointsContinuousMulEquiv`, at `R = 𝔸_F` (AA.1); the Weil-restriction point
-adjunction of RG2.0a with GlobalNumberFields'
-`adeleBaseChangeEquiv` (AA.1.4); local unimodularity and the local Iwasawa factorization and
-integration formula of RG2.4.4 (AA.1.5, AA.3.1); the modulus character of a local parabolic,
+`TauCeti.GeneralLinear.pointsContinuousMulEquiv`, at `R = 𝔸_F` (AA.1); Tau Ceti's Weil-restriction
+point isomorphism `TauCeti.Algebra.WeilRestriction.pointsMulEquiv` and point homeomorphism
+`TauCeti.Algebra.WeilRestriction.homHomeomorph` with the adelic base change
+`TauCeti.GlobalNumberFields.adeleBaseChangeEquiv` (AA.1.4); Tau Ceti's principal congruence
+subgroups `TauCeti.HopfAlgebra.congruenceSubgroup` with their membership, monotonicity, coefficient
+functoriality and openness (AA.1.5, AA.5.2); local unimodularity and the local Iwasawa factorization
+and integration formula of RG2.4.4 (AA.1.5, AA.3.1); the modulus character of a local parabolic,
 RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus` (AA.2.2); Mathlib's `QuotientGroup` instances and
 `inducedMeasure` for normal subgroups, and `QuotientGroup.integral_eq_integral_automorphize` for
 discrete ones (AA.2.2–AA.2.3); Tau Ceti `exists_isFundamentalDomain_of_properlyDiscontinuousSMul`
@@ -312,6 +317,9 @@ one, and a single weight of multiplicity two contributes the square.
 | Homogeneous quotient sheaf | `CommHopfAlgCat.fppfHomogeneousQuotient`; `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean` | The affine quotients of AA.3.3 add an affine faithfully flat realization with exact scheme fibres. Inversion identifies the supplier’s `G/H` convention with `H\G` here. |
 | Point topology | `TauCeti.PointTopology.instTopologicalSpaceWithConv`, `TauCeti.PointTopology.continuous_eval_ofConv`, `TauCeti.PointTopology.continuous_withConv_iff`, `TauCeti.PointTopology.isTopologicalGroup`, `AlgHom.continuous_mapValue`, `BialgHom.continuous_mapDomain`, `TauCeti.PointTopology.instT2SpaceWithConv`, `TauCeti.PointTopology.instSecondCountableTopologyWithConv`, `TauCeti.PointTopology.instLocallyCompactSpaceWithConv`, `TauCeti.PointTopology.locallyCompactSpace_of_finiteType`, `TauCeti.PointTopology.isClosedEmbedding_eval_generators`, `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective`, `TauCeti.PointTopology.tensorProductHomeomorph`, `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`, `TauCeti.PointTopology.isCompact_range_mapValue_integer`; `TauCeti/Topology/Algebra/PointTopology/{Basic,Functoriality,Group,Separation,IntegralPoints}.lean` | The topology of AA.1.1 on `G(R)` for `R = 𝔸_F, 𝔸_{F,f}, F_∞, F_v`: the coarsest topology making every evaluation `x ↦ x(h)` continuous, induced from `R^H`. Coefficient maps along continuous algebra maps are continuous homomorphisms; the Hausdorff instance needs `R` Hausdorff, second countability needs `R` second countable and `H` of finite type, local compactness needs `R` locally compact and T1 and `H` of finite type. `Suggested.lean` uses this instance; AA adds the restricted-product comparison and the adelic clauses. |
 | Concrete point homeomorphisms | `TauCeti.PointTopology.polynomialHomeomorph`; `TauCeti/Topology/Algebra/PointTopology/Basic.lean`. `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv`; `TauCeti/Algebra/AlgebraicGroup/MultiplicativeGroup/Topology.lean`. `TauCeti.GeneralLinear.pointsContinuousMulEquiv`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Topology.lean` | The topological identifications of `G_a(R)` with `R`, of `G_m(R)` with `Rˣ` and of `GL_n(R)` with `GL (Fin n) R`, each unit group carrying the topology induced by `g ↦ (g, g⁻¹)`, at `R = 𝔸_F` in AA.1.4; AA adds the diagonal and restricted-product clauses. |
+| Weil restriction | `TauCeti.Algebra.WeilRestriction`, `TauCeti.Algebra.WeilRestriction.homEquiv`; `TauCeti/RingTheory/WeilRestriction/Basic.lean`. `TauCeti.Algebra.WeilRestriction.instHopfAlgebra`, `TauCeti.Algebra.WeilRestriction.pointsMulEquiv`, `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_naturality`, `TauCeti.Algebra.WeilRestriction.mapBialgHom`, `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_mapDomain_mapBialgHom`; `TauCeti/Algebra/HopfAlgebra/WeilRestriction.lean`. `TauCeti.Algebra.WeilRestriction.compAlgEquiv`, `TauCeti.Algebra.WeilRestriction.homEquiv_compAlgEquiv`; `TauCeti/RingTheory/WeilRestriction/Composition.lean`. `TauCeti.Algebra.WeilRestriction.homHomeomorph`; `TauCeti/Topology/Algebra/PointTopology/WeilRestriction.lean` | `Res_{E/F}` of a finitely presented Hopf `E`-algebra along a finite projective `F → E`: the Hopf structure for which `(Res G)(T) ≃* G(E ⊗_F T)` is a group isomorphism natural in `T` and in `G`, the tower isomorphism `Res_{E/F} Res_{L/E} ≃ Res_{L/F}` fixed by its effect on points, and the point homeomorphism when `E ⊗_F T` carries its `T`-module topology. AA.1.4 adds the adelic comparison `exists_weilRestriction_adelicPointsEquiv`, its local factors and its integral clauses. |
+| Adelic base change | `TauCeti.GlobalNumberFields.adeleBaseChangeAlgEquiv`, `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv`, `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv_tower`; `TauCeti/NumberTheory/NumberField/Global/Adeles/BaseChange.lean` | The `𝔸_F`-algebra isomorphism `𝔸_F ⊗_F E ≃ 𝔸_E`, a homeomorphism for the `𝔸_F`-module topology on the source, and its compatibility with towers: the coefficient half of AA.1.4. |
+| Congruence subgroups | `TauCeti.HopfAlgebra.congruenceSubgroup`, `TauCeti.HopfAlgebra.mem_congruenceSubgroup_iff`, `TauCeti.HopfAlgebra.congruenceSubgroup_mono`, `TauCeti.HopfAlgebra.congruenceSubgroup_top`, `TauCeti.HopfAlgebra.congruenceSubgroup_bot`, `TauCeti.HopfAlgebra.congruenceSubgroup_le_comap_mapValue`; `TauCeti/Algebra/AlgebraicGroup/CongruenceSubgroup/Basic.lean`. `TauCeti.HopfAlgebra.isOpen_congruenceSubgroup`, `TauCeti.HopfAlgebra.hasBasis_nhds_one_congruenceSubgroup`; `TauCeti/Algebra/AlgebraicGroup/CongruenceSubgroup/Topology.lean`. `TauCeti.GeneralLinear.mem_congruenceSubgroup_iff`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/CongruenceSubgroup.lean`. `IsDedekindDomain.FiniteAdeleRing.integralAdeles`, `IsDedekindDomain.FiniteAdeleRing.isOpen_integralAdeles`, `IsDedekindDomain.FiniteAdeleRing.isCompact_integralAdeles`; `TauCeti/RingTheory/DedekindDomain/FiniteAdeleRing/Basic.lean` | The kernel `G(R)_I` of reduction `G(R) → G(R/I)` for an ideal `I` of any commutative coefficient ring `R`: membership tested against the identity point, monotone in `I`, all of `G(R)` at `I = R` and trivial at `I = 0`, carried along coefficient maps sending `I` into `J`, open for an open level and finite-type `H`, and entrywise for `GL_n`. AA.5.2 takes `R = Ô_F` (the integral finite adeles) and `I = NÔ_F`; AA.1.5 and AA.5.2 add `K₀(N)`, `K₁(N)`, the completed-ideal comparison and the local product formulas. |
 | Matrix points | `TauCeti.GeneralLinear.pointsMulEquiv`, `BialgHom.mapDomain`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/FunctorOfPoints.lean`, `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean` | The matrix points of a rational representation in AA.3.3 are their composition for a specified coordinate representation, not a separate point construction. |
 | Quaternion reduced norm | `QuaternionAlgebra.normForm`, `QuaternionAlgebra.normForm_apply`, `QuaternionAlgebra.normForm_mul`; `TauCeti/Algebra/Quaternion/NormForm.lean`. `QuaternionAlgebra.normForm_eq_of_algEquiv`; `TauCeti/Algebra/Quaternion/AlgEquiv.lean`. `TauCeti.QuaternionAlgebra.baseChange`; `TauCeti/Algebra/Quaternion/BaseChange.lean` | The norm-image theorems use this quadratic form directly. For a presentation `D ≃ ℍ[F,a,b]` and a commutative `F`-algebra `A`, the unit norm `Nrd_A : (D ⊗[F] A)^× → A^×` is `normForm` over `A` transported along `baseChange`; it is multiplicative by `normForm_mul` and independent of the presentation by `normForm_eq_of_algEquiv`, since `2` is invertible in `F`. AA.4.6 (*quaternion-norm-images*) owns its naturality in `A` and the determinant comparison under a splitting. |
 | Idele norm | `TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.continuous_ideleNorm`, `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Basic.lean` | `H_G` takes the real logarithm of this norm; multiplicativity and positivity come from the supplier's homomorphism into positive units. |
@@ -473,6 +481,12 @@ Point topology: `TauCeti.PointTopology.instTopologicalSpaceWithConv` with the in
 integral-point theorems of the supplier table, and the concrete homeomorphisms
 `TauCeti.PointTopology.polynomialHomeomorph`, `TauCeti.MultiplicativeGroup.pointsContinuousMulEquiv`
 and `TauCeti.GeneralLinear.pointsContinuousMulEquiv`.
+Weil restriction and adelic base change: `TauCeti.Algebra.WeilRestriction` with the Hopf structure,
+point isomorphism, tower isomorphism and point homeomorphism of the supplier table, and
+`TauCeti.GlobalNumberFields.adeleBaseChangeEquiv`. Congruence subgroups:
+`TauCeti.HopfAlgebra.congruenceSubgroup` with the membership, monotonicity, functoriality and
+openness theorems of the supplier table, and the integral finite adeles
+`IsDedekindDomain.FiniteAdeleRing.integralAdeles`.
 Parabolics: `TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.unipotent`,
 `TauCeti.Cocharacter.leviDecompositionMulEquiv`. Their modules are
 `Algebra/AlgebraicGroup/Dynamic/Parabolic.lean` and
@@ -482,8 +496,8 @@ Parabolics: `TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.unipotent`,
 `TauCeti.splitTorusCommHopfAlgProperty` comes from
 `Algebra/AlgebraicGroup/SplitTorus/Basic.lean`; `RootPairing` is Mathlib's abstract root carrier.
 AA.3.1 adds its realization in counit derivations, with characters and the rational normalizer
-quotient of the specified maximal split torus. `ReductiveGroupsPartII` supplies the point
-and Weil-restriction carriers; its abstract valued root data, apartments and parahorics remain
+quotient of the specified maximal split torus. Tau Ceti supplies the point and Weil-restriction
+carriers; ReductiveGroupsPartII's abstract valued root data, apartments and parahorics remain
 local suppliers, rather than replacements for this adjoint realization.
 These are point-functor decompositions. The algebraic Levi data of AA.3.1 additionally
 specify closed subgroup schemes by Hopf ideals and their unipotence and reductivity.
@@ -514,10 +528,10 @@ geometrically reduced, is a standing input of that roadmap and is assumed here w
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
-RG2.0 (the local analytic charts, *smooth-group-analytic-charts*, and the congruence subgroups
-of RG2.0.3; the point topology itself, its local compactness and functoriality and the compact
-open integral points are Tau Ceti's); RG2.0a (coefficient-natural Weil restriction with its
-point adjunction, tower maps and tensor comparison); RG2.1 (the valuation map of the maximal split
+RG2.0 (the local analytic charts, *smooth-group-analytic-charts*; the point topology itself,
+its local compactness and functoriality, the compact open integral points, the congruence
+subgroups of points and the Weil restriction of affine groups with its point isomorphism, tower
+isomorphism and point homeomorphism are Tau Ceti's); RG2.1 (the valuation map of the maximal split
 central torus at the finite
 places); RG2.3 (reductive integral models, `reductive-model`, which is local over a discrete
 valuation ring and gives that a group with a reductive `𝒪_v`-model is unramified, hence
@@ -1244,9 +1258,16 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
 - **Discreteness in the finite adeles alone.** For finitely generated `H`, prove that `G(F)` is
   discrete in `G(𝔸_{F,f})` if and only if `G(F) ∩ U` is finite for one (equivalently every)
   compact open subgroup `U ⊂ G(𝔸_{F,f})`. In particular `G_a(F) = F` is not discrete in
-  `𝔸_{F,f}`, `SL_2(ℚ)` is not discrete in `SL_2(𝔸_{ℚ,f})` because `SL_2(ℤ)` is infinite, and `ℚ^×`
-  is discrete in `𝔸_{ℚ,f}^×` because `ℚ^× ∩ ∏_p ℤ_p^× = {±1}` ([Borel], §1.8, p. 9). *Needs:*
-  AA.1.3; AA.1.2.
+  `𝔸_{F,f}` because `F ∩ Ô_F = 𝒪_F` is infinite, `SL_2(ℚ)` is not discrete in `SL_2(𝔸_{ℚ,f})`
+  because `SL_2(ℤ)` is infinite, and `ℚ^×` is discrete in `𝔸_{ℚ,f}^×` because
+  `ℚ^× ∩ ∏_p ℤ_p^× = {±1}`. The equivalence is this roadmap's deduction from a fact about any
+  subgroup `Γ` of a Hausdorff topological group with a compact open subgroup `U`: a discrete `Γ` is
+  closed (Mathlib `Subgroup.isClosed_of_isDiscrete`), so `Γ ∩ U` is compact and discrete, hence
+  finite; conversely, if `Γ ∩ U` is finite, then `U` minus its finitely many nonidentity points is
+  an open neighbourhood of `1` meeting `Γ` only in `1` (Mathlib
+  `discreteTopology_iff_isOpen_singleton_one`). [Borel], §1.8, p. 9, is the companion statement
+  for the `S`-component: the image of the `S`-integral rational points in `G_S` is discrete.
+  *Needs:* AA.1.3; AA.1.2 (compact open subgroups exist and `G(𝔸_{F,f})` is Hausdorff).
   *Lean:* none; specified in the README only.
 - **Functoriality of adelic points.** For finitely generated `H` and a homomorphism of affine
   algebraic groups `φ : G → G′` over `F` (a Hopf algebra map `φ* : H′ → H`), define
@@ -1295,40 +1316,65 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   `Res` correspond to `∏_{w|v} 𝓗_E(𝒪_w)`. The Weil restriction and the completion/adelic
   base-change maps are the natural adjunction and canonical tensor-product maps; arbitrary point
   equivalences are excluded, and the integral generic-fibre identifications are Hopf
-  isomorphisms ([Borel], §1.4, p. 8). *Needs:* AA.1.4; GlobalNumberFields, layer 8;
-  ReductiveGroupsPartII, RG2.0a.
+  isomorphisms ([Borel], §1.4, p. 8). *Needs:* AA.1.4 *base-change-adelic*; GlobalNumberFields,
+  layer 8; Tau Ceti `TauCeti.Algebra.WeilRestriction.homEquiv` (read at `T = F_v` and, for the
+  integral clause, at `T = 𝒪_v` for a model over `𝒪_{F,S}` restricted along the finite
+  projective `𝒪_{F,S} → 𝒪_{E,S'}`) and `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_naturality`.
   *Lean:* none; specified in the README only.
 - **Naturality of adelic restriction of scalars.** Let `k ⊆ F ⊆ E` be number fields with `E/F`
   and `F/k` finite, `G_E` an affine algebraic group over `E` (a finite-type commutative Hopf
-  `E`-algebra) with morphisms `G_E → G′_E` over `E`, `Res_{E/F}` with its natural point adjunction
-  `Res_{E/F}G(R) ≃ G(E ⊗_F R)` from RG2.0a, and the canonical continuous isomorphism
+  `E`-algebra) with morphisms `G_E → G′_E` over `E`, `Res_{E/F}` with its natural point isomorphism
+  `Res_{E/F}G(R) ≃* G(E ⊗_F R)` (Tau Ceti `TauCeti.Algebra.WeilRestriction.pointsMulEquiv`), and
+  the canonical continuous isomorphism
   `E ⊗_F 𝔸_F ≅ 𝔸_E` with its local factors from GlobalNumberFields layer 8. Prove that the adelic
   comparison commutes with every algebraic group morphism, the diagonal `F → 𝔸_F`, projections
   to `F_v`, and the canonical tensor associator for towers `E/F/k` ([Conrad], Examples 2.4 and
-  4.2, pp. 3 and 9–10). *Needs:* AA.1.4; ReductiveGroupsPartII, RG2.0a; GlobalNumberFields,
-  layer 8.
+  4.2, pp. 3 and 9–10). *Needs:* AA.1.4; Tau Ceti
+  `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_naturality`,
+  `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_mapDomain_mapBialgHom`,
+  `TauCeti.Algebra.WeilRestriction.homEquiv_compAlgEquiv`; GlobalNumberFields, layer 8, with Tau
+  Ceti `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv_tower`.
   *Lean:* none; specified in the README only.
-- **Restriction of scalars on adelic points.** (*base-change-adelic*) For a finite extension
-  `E/F` of number fields and an affine algebraic group `G_E` over `E`, with `Res = Res_{E/F} G_E`,
-  define an isomorphism of topological groups `Res(𝔸_F) ≃ₜ* G_E(𝔸_E)`,
-  and prove that it carries the diagonal of `Res(F) = G_E(E)` to the
-  diagonal of `G_E(E)`, that it is natural in homomorphisms
-  `G_E → G′_E`, and that in a tower `F ⊂ E ⊂ L` the isomorphism for `L/F`
-  is the composite of those for `L/E` and `E/F`. The Weil restriction and the completion/adelic
-  base-change maps are the natural adjunction and canonical tensor-product maps; arbitrary point
-  equivalences are excluded, and the integral generic-fibre identifications are Hopf
-  isomorphisms ([Conrad], Example 4.2, p. 10; [Arthur], §2, p. 11).
-  The general commutative-ring tower interface retains finite/projective instances for
-  `k′/k`, `k″/k′`, and `k″/k` (the last follows mathematically by transitivity).
-  The Hopf isomorphism `Res_{E/F} Res_{L/E} H ≃ Res_{L/F} H` used in the tower clause is
-  fixed by its effect on points: on `R`-points both sides give the same
-  `L`-algebra map out of `H`, through `L ⊗_E (E ⊗_F R) ≃ L ⊗_F R` (Mathlib
-  `Algebra.TensorProduct.cancelBaseChange`). A Hopf isomorphism twisted by an automorphism of the
-  group (inversion on `G_m`) satisfies every other clause but would make the tower clause false.
-  *Needs:* AA.1.1; ReductiveGroupsPartII, RG2.0a (`WeilRestriction.functor`,
-  `WeilRestriction.functor_isCorepresentable`); GlobalNumberFields, layer 8; Mathlib
+- **Restriction of scalars on adelic points.** (*base-change-adelic*) Let `E/F` be a finite
+  extension of number fields and `G_E = Spec H_E` an affine algebraic group over `E` (`H_E` of
+  finite type, equivalently of finite presentation, over the field `E`), and let
+  `Res = Res_{E/F} G_E` be the Tau Ceti Weil restriction `TauCeti.Algebra.WeilRestriction F E H_E`
+  with its Hopf structure `TauCeti.Algebra.WeilRestriction.instHopfAlgebra`. Prove that the point
+  isomorphism `TauCeti.Algebra.WeilRestriction.pointsMulEquiv`, `Res(𝔸_F) ≃* G_E(E ⊗_F 𝔸_F)`,
+  followed by post-composition with the coefficient isomorphism `E ⊗_F 𝔸_F ≃ 𝔸_F ⊗_F E ≃ 𝔸_E`
+  (Mathlib `Algebra.TensorProduct.comm`, then Tau Ceti
+  `TauCeti.GlobalNumberFields.adeleBaseChangeAlgEquiv`), is an isomorphism of topological groups
+  `Res(𝔸_F) ≃ₜ* G_E(𝔸_E)`; that it carries the diagonal of `Res(F) = G_E(E)` to the diagonal of
+  `G_E(E)`; that it is natural in homomorphisms `G_E → G′_E`; and that in a tower `F ⊂ E ⊂ L` the
+  isomorphism for `L/F` is the composite of those for `L/E` and `E/F`. The coefficient map is
+  `E`-linear because `adeleBaseChangeAlgEquiv` sends `1 ⊗ x` to the diagonal `x`, so
+  post-composition with it sends `E`-algebra maps `H_E → E ⊗_F 𝔸_F` to `E`-algebra maps
+  `H_E → 𝔸_E` and is a group isomorphism for convolution. Continuity in both directions:
+  `TauCeti.Algebra.WeilRestriction.homHomeomorph` with `E ⊗_F 𝔸_F` in its `𝔸_F`-module topology,
+  the `𝔸_F`-linear swap of factors, and `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv`, a
+  homeomorphism for that module topology, with `AlgHom.continuous_mapValue` for post-composition.
+  Arbitrary point equivalences are excluded, and the integral generic-fibre identifications are
+  Hopf isomorphisms ([Conrad], Example 4.2, pp. 9–10, the affine case through Example 2.4, p. 3;
+  [Arthur], §2, p. 11). The isomorphism `Res_{E/F} Res_{L/E} H ≃ Res_{L/F} H` used in the tower
+  clause is Tau Ceti `TauCeti.Algebra.WeilRestriction.compAlgEquiv` (its finite and projective
+  instances for `L/F` default to transitivity), fixed by its effect on points,
+  `TauCeti.Algebra.WeilRestriction.homEquiv_compAlgEquiv`: on `R`-points both sides give the
+  same `L`-algebra map out of `H`, through `L ⊗_E (E ⊗_F R) ≃ L ⊗_F R` (Mathlib
+  `Algebra.TensorProduct.cancelBaseChange`). It is a Hopf isomorphism, by Yoneda, because on
+  `R`-points it is the composite of the group isomorphisms `pointsMulEquiv` and post-composition
+  with an `L`-algebra isomorphism. A Hopf isomorphism twisted by an automorphism of the group
+  (inversion on `G_m`) satisfies every other clause but would make the tower clause false.
+  *Needs:* AA.1.1; Tau Ceti `TauCeti.Algebra.WeilRestriction.instHopfAlgebra`,
+  `TauCeti.Algebra.WeilRestriction.pointsMulEquiv`,
+  `TauCeti.Algebra.WeilRestriction.pointsMulEquiv_mapDomain_mapBialgHom`,
+  `TauCeti.Algebra.WeilRestriction.homHomeomorph`, `TauCeti.Algebra.WeilRestriction.compAlgEquiv`,
+  `TauCeti.Algebra.WeilRestriction.homEquiv_compAlgEquiv`, `AlgHom.continuous_mapValue`;
+  GlobalNumberFields, layer 8, with Tau Ceti `TauCeti.GlobalNumberFields.adeleBaseChangeAlgEquiv`,
+  `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv` and
+  `TauCeti.GlobalNumberFields.adeleBaseChangeEquiv_tower`; Mathlib `Algebra.TensorProduct.comm`,
   `Algebra.TensorProduct.cancelBaseChange`.
-  *Lean:* none; specified in the README only.
+  *Lean:* `exists_weilRestriction_adelicPointsEquiv` (the isomorphism with its coefficient formula;
+  the diagonal, naturality and tower clauses are specified here).
 
   **Checks.**
   - For `G_E = G_m`, the isomorphism is `(E ⊗ 𝔸_F)^× ≃ 𝔸_E^×`.
@@ -1338,6 +1384,12 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   - For the tower `ℚ ⊂ ℚ ⊂ ℚ` and `G_m`, the tower isomorphism is the identity on points up to the
     unit equivalences; the inversion-twisted isomorphism sends the
     point `2` to `1/2` and fails.
+  - For `E = ℚ(i)`, `F = ℚ` and `G_E = G_a`, the diagonal image in `Res(𝔸_ℚ)` of
+    `i ∈ Res(ℚ) = ℚ(i)` is, under `pointsMulEquiv`, the point `t ↦ i ⊗ 1` of `G_a(ℚ(i) ⊗ 𝔸_ℚ)`; the
+    swap sends `i ⊗ 1` to `1 ⊗ i` and the base change sends that to the diagonal
+    `i ∈ 𝔸_{ℚ(i)}`. The Galois-conjugate coefficient map `x ⊗ a ↦ x̄ a` would give `−i`; it is
+    `ℚ`-linear but not `ℚ(i)`-linear, so it does not send points over `ℚ(i)` to points over
+    `ℚ(i)`.
 
 - **The additive group.** (*ga-adelic*) For `G = G_a` (`H = F[T]` with `T` primitive), the
   evaluation at `T` is a homeomorphism `G(𝔸_F) → 𝔸_F` by Tau Ceti
@@ -1462,7 +1514,9 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   *Needs:* AA.1.2; AA.5.2 *number-field-congruence-levels*; GlobalNumberFields, layer 4; Tau Ceti
   `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`,
   `TauCeti.PointTopology.isCompact_range_mapValue_integer` (compact open integral points);
-  ReductiveGroupsPartII, RG2.0.3 (congruence kernels).
+  Tau Ceti `TauCeti.HopfAlgebra.congruenceSubgroup` and
+  `TauCeti.GeneralLinear.mem_congruenceSubgroup_iff` (congruence kernels and their entrywise
+  form).
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -1483,9 +1537,10 @@ over `ℚ` has closed image of infinite index that is not open. `Res_{ℚ(i)/ℚ
 
 ### Dependencies
 
-Layer AA.0; Tau Ceti's Hopf-algebra points, point topology and concrete-group comparisons;
-ReductiveGroupsPartII, RG2.0 (congruence kernels), RG2.0a, RG2.1 and RG2.4; GlobalNumberFields,
-layers 4, 5, 6 and 8; RepresentationTheory/LieGroups, layers 2 and 9; ReductiveGroups, layers 1 and 7.
+Layer AA.0; Tau Ceti's Hopf-algebra points, point topology, concrete-group comparisons, Weil
+restriction, adelic base change and congruence subgroups; ReductiveGroupsPartII, RG2.1 and RG2.4;
+GlobalNumberFields, layers 4, 5, 6 and 8; RepresentationTheory/LieGroups, layers 2 and 9;
+ReductiveGroups, layers 1 and 7.
 
 ## Layer 2: characters, quotient measures and Tamagawa measures
 
@@ -2314,9 +2369,9 @@ subgroup orbit maps.
     nontrivial involution, the special unitary group of the antidiagonal Hermitian form
     has roots `±α, ±2α`, multiplicities `2,1`, and Weyl group of order two. This includes
     an unramified quadratic extension of a nonarchimedean local field. Its carrier is cut
-    out inside `Res_{E/F} GL₃` by `det A = 1` and `τ(A)ᵀ J A = J`, using the sibling
-    roadmap's coefficient-natural Weil restriction. The identity, a diagonal element and the
-    exclusion of a nonidentity scalar distinguish this group from all of `Res GL₃`.
+    out inside `Res_{E/F} GL₃` by `det A = 1` and `τ(A)ᵀ J A = J`, using Tau Ceti's Weil restriction
+    `TauCeti.Algebra.WeilRestriction` with its Hopf structure. The identity, a diagonal element and
+    the exclusion of a nonidentity scalar distinguish this group from all of `Res GL₃`.
 
   **Checks for the realization maps.** The zero character gives the constant unit,
   the negative of a character gives reciprocal evaluation, and every nonzero character is
@@ -5173,24 +5228,41 @@ preceding layers; each item is a target with its own locator.
   be an integral ideal of `𝒪_F`. Define `NÔ_F` as the image of `N ⊗[𝒪_F] Ô_F`.
   Prove `NÔ_F = ∏_v N𝒪_v` and the diagonal ring isomorphism
   `𝒪_F/N ≃ Ô_F/NÔ_F`, using ideal factorization and the Chinese remainder theorem.
-  Thus the quotient is finite. Define the principal level `K(N)`, the level `K₀(N)` and the
-  level `K₁(N)` as subgroups of `GL₂(𝔸_{F,f})` inside `GL₂(Ô_F)`, with respectively
-  `g − I₂ ∈ M₂(NÔ_F)`, `c ∈ NÔ_F`, and `c ∈ NÔ_F, d−1 ∈ NÔ_F`.
+  Thus the quotient is finite. Take `Ô_F` to be Tau Ceti's integral finite adeles
+  `IsDedekindDomain.FiniteAdeleRing.integralAdeles (𝓞 F) F`, an open compact subring of
+  `𝔸_{F,f}`. Define the principal level `K(N)` as the image in `GL₂(𝔸_{F,f})`, along
+  `TauCeti.GeneralLinear.pointsContinuousMulEquiv` (an isomorphism of topological groups onto
+  `GL₂(Ô_F)` with its units topology) and the inclusion `Ô_F ⊂ 𝔸_{F,f}`, of Tau Ceti's
+  congruence subgroup `TauCeti.HopfAlgebra.congruenceSubgroup 𝒪_F
+  (TauCeti.GeneralLinear.coordinateHopfAlgebra 𝒪_F 2) (NÔ_F)` of the `Ô_F`-points of `GL₂`, so
+  that `K(N) = {g ∈ GL₂(Ô_F) : g − I₂ ∈ M₂(NÔ_F)}`; define `K₀(N)` and `K₁(N)` as the subgroups of
+  `GL₂(Ô_F) ⊂ GL₂(𝔸_{F,f})` with `c ∈ NÔ_F`, respectively `c ∈ NÔ_F, d − 1 ∈ NÔ_F`.
   Express membership entrywise: integral entries, integral inverse entries, and the stated
-  congruence conditions on all entries, on `c`, and on `c` and `d − 1` respectively. Prove
-  equivalence with the subgroup membership predicates. Ring maps
+  congruence conditions on all entries, on `c`, and on `c` and `d − 1` respectively, and prove
+  equivalence with the subgroup membership predicates; for `K(N)` the congruence condition is
+  Tau Ceti `TauCeti.GeneralLinear.mem_congruenceSubgroup_iff`. Ring maps
   `Ô_F → R` carrying `NÔ_F` into an ideal `J` carry these entry conditions to their
-  counterparts modulo `J`. Prove compactness, openness, the inclusions
-  `K(N) ≤ K₁(N) ≤ K₀(N)`, the inclusion of each `M`-level in the
+  counterparts modulo `J`; for `K(N)` this is
+  `TauCeti.HopfAlgebra.congruenceSubgroup_le_comap_mapValue`. Prove compactness, openness, the
+  inclusions `K(N) ≤ K₁(N) ≤ K₀(N)`, the inclusion of each `M`-level in the
   corresponding `N`-level whenever `M ⊆ N`,
-  and the local comap and product formulas of AA.1.5. No generator of `N` is chosen.
+  and the local comap and product formulas of AA.1.5. For `K(N)`, openness in `GL₂(Ô_F)` is
+  `TauCeti.HopfAlgebra.isOpen_congruenceSubgroup`, `NÔ_F` being open in `Ô_F` for `N ≠ 0`
+  (it is `∏_v N𝒪_v`, with `N𝒪_v = 𝒪_v` for the cofinitely many `v ∤ N`), and `K(M) ≤ K(N)` for
+  `M ⊆ N` is
+  `TauCeti.HopfAlgebra.congruenceSubgroup_mono`; `K₀(N)`, `K₁(N)`, the completed-ideal comparison
+  and the local formulas are this roadmap's. No generator of `N` is chosen.
   These levels extend the congruence-subgroup convention of [Milne], §4, p. 42, and
   the product-level topology of [Borel], §1.7, p. 8.
   *Needs:* GlobalNumberFields, layer 4, finite adeles; Mathlib ideal factorization and
   `Ideal.quotientInfRingEquivPiQuotient`; AA.1.2; AA.0.3's single-place factor splitting; Tau
   Ceti `TauCeti.PointTopology.isOpenEmbedding_mapValue_integer`,
-  `TauCeti.PointTopology.isCompact_range_mapValue_integer` (integral points); ReductiveGroupsPartII,
-  RG2.0.3 (congruence kernels).
+  `TauCeti.PointTopology.isCompact_range_mapValue_integer` (integral points); Tau Ceti
+  `IsDedekindDomain.FiniteAdeleRing.integralAdeles`,
+  `TauCeti.GeneralLinear.pointsContinuousMulEquiv`, `TauCeti.HopfAlgebra.congruenceSubgroup`,
+  `TauCeti.GeneralLinear.mem_congruenceSubgroup_iff`,
+  `TauCeti.HopfAlgebra.congruenceSubgroup_le_comap_mapValue`,
+  `TauCeti.HopfAlgebra.isOpen_congruenceSubgroup`, `TauCeti.HopfAlgebra.congruenceSubgroup_mono`.
   *Lean:* none; specified in the README only.
 
   **Checks.**

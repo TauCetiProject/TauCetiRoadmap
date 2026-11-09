@@ -6,7 +6,9 @@ import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.BaseChange
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.FunctorOfPoints
+import TauCeti.Algebra.HopfAlgebra.WeilRestriction
 import TauCeti.Algebra.Quaternion.NormForm
+import TauCeti.NumberTheory.NumberField.Global.Adeles.BaseChange
 import TauCeti.NumberTheory.NumberField.Global.Adeles.LocallyCompact
 import TauCeti.NumberTheory.NumberField.Global.Ideles.Norm.Basic
 import TauCeti.Topology.Algebra.PointTopology.Group
@@ -19,25 +21,27 @@ import TauCeti.Topology.Algebra.PointTopology.Separation
 `README.md`. These statements suggest Lean forms for headline milestones; discharging them
 finishes neither a layer nor the roadmap. The declarations follow the README layers.
 
-The targets are convergent Haar products (AA.0), the integral-model restricted product
-comparison (AA.1), the norm-one subgroup (AA.2), real reduction and general arithmetic covolume,
-class-number, finite-volume and compactness theorems (AA.3), semisimple weak and strong
-approximation, neat levels and their covering maps, quaternion norm images and compact abelian
-Fourier limits (AA.4), and GL₁ logarithmic tori and the upper-half-plane decomposition of the GL₂
-level space (AA.5). Restricted products of Haar measures and quotient measures are stated in
-AnalyticNumberTheoryPartII; the comment lines at their places below name those declarations.
+The targets are convergent Haar products (AA.0), the integral-model restricted product comparison
+and restriction of scalars on adelic points (AA.1), the norm-one subgroup (AA.2), real reduction and
+general arithmetic covolume, class-number, finite-volume and compactness theorems (AA.3), semisimple
+weak and strong approximation, neat levels and their covering maps, quaternion norm images and
+compact abelian Fourier limits (AA.4), and GL₁ logarithmic tori and the upper-half-plane
+decomposition of the GL₂ level space (AA.5). Restricted products of Haar measures and quotient
+measures are stated in AnalyticNumberTheoryPartII; the comment lines at their places below name
+those declarations.
 The auxiliary definitions have real bodies on Mathlib's and Tau Ceti's point, character, measure,
-matrix and quotient carriers. Adelic, local and archimedean points carry Tau Ceti's point topology
-with its topological-group, Hausdorff, second-countable and locally compact instances
-(`TauCeti.PointTopology`). The norm-one subgroup is the intersection of character-norm
+matrix and quotient carriers. Adelic, finite adelic, archimedean and local points carry Tau Ceti's
+point topology (`TauCeti.PointTopology.instTopologicalSpaceWithConv`), under which they are
+Hausdorff topological groups, locally compact for finite-type `H`. Their second countability
+(through that of the coefficient rings, AA.0.4 for the adele rings) is a README statement, not an
+instance at these imports. The norm-one subgroup is the intersection of character-norm
 kernels, so no Harish-Chandra logarithm is needed to state it.
 
 The following headlines are not stated here, because their objects are not carried by the pins:
-Tamagawa normalization and restriction of scalars (local gauge measures and the finite-image
-Artin L-functions of AnalyticNumberTheoryPartI §2.18a); Siegel covering, finite overlap, cusps
-and Orr–Schnell containment (compatible rational parabolic, relative-root and Cartan–Siegel
-data); Weil-restriction transport (the
-coefficient-natural Weil-restriction interface); the disconnected finite-volume criterion (the
+Tamagawa normalization and its invariance under restriction of scalars (local gauge measures and
+the finite-image Artin L-functions of AnalyticNumberTheoryPartI §2.18a); Siegel covering, finite
+overlap, cusps and Orr–Schnell containment (compatible rational parabolic, relative-root and
+Cartan–Siegel data); the disconnected finite-volume criterion (the
 number-field geometric identity-component subgroup); the torsor Hasse principle (the affine/fppf
 torsor-class and scalar-extension comparison); the GL₁ component-class and cohomology
 identifications (the ray-class comparison and torus cohomology interfaces); and the GL₂
@@ -151,6 +155,21 @@ def infiniteProjection : AdelicPoints F H →* InfinitePoints F H :=
   AlgHom.mapValue (AlgHom.fst F _ _)
 
 end AdelicPoints
+
+/-- Restriction of scalars on adelic points (*base-change-adelic*): for a finite extension `E/F`
+of number fields and an affine group `G_E = Spec H_E` of finite type over `E`, the point
+isomorphism of the Weil restriction, `Res_{E/F}(G_E)(𝔸_F) ≃ G_E(E ⊗_F 𝔸_F)`, followed by the
+adelic base change `E ⊗_F 𝔸_F ≃ 𝔸_F ⊗_F E ≃ 𝔸_E`, is an isomorphism of topological groups
+`Res_{E/F}(G_E)(𝔸_F) ≃ₜ* G_E(𝔸_E)` ([Conrad], Example 4.2, pp. 9–10, the affine case through
+Example 2.4, p. 3). -/
+theorem exists_weilRestriction_adelicPointsEquiv (E : Type) [Field E] [NumberField E]
+    [Algebra F E] (HE : Type) [CommRing HE] [HopfAlgebra E HE] [Algebra.FinitePresentation E HE] :
+    ∃ e : AdelicPoints F (TauCeti.Algebra.WeilRestriction F E HE) ≃ₜ* AdelicPoints E HE,
+      ∀ x h, (e x).ofConv h =
+        TauCeti.GlobalNumberFields.adeleBaseChangeAlgEquiv F E
+          (Algebra.TensorProduct.comm F E (NumberField.AdeleRing (𝓞 F) F)
+            ((TauCeti.Algebra.WeilRestriction.pointsMulEquiv F E HE _ x).ofConv h)) := by
+  sorry
 
 /-- `𝒪_{F,S}`: the elements of `F` integral at every finite place outside `S`. -/
 abbrev SIntegers (F : Type) [Field F] [NumberField F]
