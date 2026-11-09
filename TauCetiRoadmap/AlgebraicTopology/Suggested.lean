@@ -239,18 +239,25 @@ theorem isWeakHomotopyEquivalence_of_isIso_singularHomologyMap
 
 /-! ## Stage 8.7: finite CW type of compact smooth manifolds -/
 
-/-- **Compact smooth manifolds have finite CW type** (Stage 8.7, boundaryless case): a compact
-Hausdorff smooth manifold modelled on `EuclideanSpace ℝ (Fin n)` is homotopy equivalent to a
-finite CW complex, through GeometricTopology's smooth triangulation and the pinned
-`TauCeti.IsTriangulable.finiteCWType`. -/
+/-- **Compact smooth manifolds have finite CW type** (Stage 8.7, boundaryless case; Milnor,
+*Morse Theory*, Theorem 3.5): a compact Hausdorff smooth manifold modelled on
+`EuclideanSpace ℝ (Fin n)` is homotopy equivalent to a finite CW complex. Milnor's theorem gives
+one cell of dimension `λ` for each critical point of index `λ` of a Morse function, and on a
+compact manifold a Morse function has finitely many critical points. The route through
+GeometricTopology's smooth triangulation uses the pinned `TauCeti.IsTriangulable.finiteCWType`,
+a triangulation of a compact space having finitely many simplices (Hatcher, Appendix,
+Proposition A.1). -/
 theorem finiteCWType_of_compactSpace_of_isManifold (n : ℕ) (M : Type u) [TopologicalSpace M]
     [T2Space M] [CompactSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
     [IsManifold (𝓡 n) ∞ M] : TauCeti.FiniteCWType M := by
   sorry
 
-/-- **Compact smooth manifolds with boundary have finite CW type** (Stage 8.7, half-space model):
-the same statement for a compact Hausdorff smooth manifold with boundary modelled on
-`EuclideanHalfSpace n`. -/
+/-- **Compact smooth manifolds with boundary have finite CW type** (Stage 8.7, half-space model;
+Milnor, *Morse Theory*, Theorem 3.5, applied to the interior): the same statement for a compact
+Hausdorff smooth manifold with boundary modelled on `EuclideanHalfSpace n`. A collar makes the
+interior homotopy equivalent to `M`, and a Morse function on the interior equal to `-log t` in an
+inward collar coordinate `t` near the boundary has compact sublevel sets and finitely many
+critical points. The triangulation route of the boundaryless case applies as well. -/
 theorem finiteCWType_of_compactSpace_of_isManifold_halfSpace (n : ℕ) [NeZero n] (M : Type u)
     [TopologicalSpace M] [T2Space M] [CompactSpace M] [ChartedSpace (EuclideanHalfSpace n) M]
     [IsManifold (𝓡∂ n) ∞ M] : TauCeti.FiniteCWType M := by

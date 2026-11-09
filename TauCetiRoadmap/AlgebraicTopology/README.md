@@ -113,8 +113,11 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   owns the connected-map homology comparison, the cohomology and pair forms of
   weak-equivalence invariance, and CW approximation of pairs and of spaces that
   are not path-connected, consuming the pinned homology invariance and CW
-  approximation of path-connected spaces; Stage 5.0 owns the generic spectral sequence of a filtered
-  chain complex; Stage 5.5 owns the fibration homotopy long exact sequence on
+  approximation of path-connected spaces; Stage 5.0 owns the homological
+  regrading of the pinned spectral sequence of a filtered complex, its
+  classical convergence for filtrations bounded below and exhaustive in each
+  degree, and the complete convergence of decreasing cochain filtrations;
+  Stage 5.5 owns the fibration homotopy long exact sequence on
   native `TauCeti.TopCat.serreFibrations`, the fixed-interval path-space
   fibrations and the homological and cohomological Serre spectral sequences on
   singular chains, over CW and arbitrary bases; Stage 8.8c owns the single
@@ -412,6 +415,32 @@ The development starts from these APIs of the pinned libraries.
   group on Milnor's model, `TauCeti.natCard_nsmul_classifyingSpace_singularHomology_eq_zero`,
   `TauCeti.isAddTorsion_classifyingSpace_singularHomology` and
   `TauCeti.isKilledBySomePower_classifyingSpace_singularHomology` (`ClassifyingSpace/Torsion.lean`).
+- Pinned spectral sequence of a filtered complex, consumed in Stages 5.0 and 5.5 (Tau Ceti files
+  under `TauCeti/Algebra/Homology/SpectralSequence/Filtered/` unless another path is given): for
+  an increasing filtration `F : ℤ → Subobject K` of a cochain complex in an abelian category,
+  the functor `CochainComplex.filtrationFunctor`, the spectral object
+  `CochainComplex.spectralObject` with its maps `CochainComplex.spectralObjectMap`, the spectral
+  sequence `CochainComplex.spectralSequence` and its first page
+  `CochainComplex.spectralSequenceFirstPageXIsoCokernel` (`SpectralObject.lean`), the first
+  differential `CochainComplex.spectralSequence_first_page_d_eq` (`FirstPage.lean`); the
+  abutment `CochainComplex.filtrationAbutmentIso`, its image filtration
+  `CochainComplex.toFiltrationAbutmentFiltration_comp_filtrationAbutmentIso_hom` and strong
+  convergence for a finite filtration
+  `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite` (`Convergence.lean`), with
+  the graded pieces of the abutment filtration as limit objects,
+  `CategoryTheory.Abelian.SpectralObject.EInftyIsoCokernel`
+  (`TauCeti/Algebra/Homology/SpectralObject/Abutment.lean`); for complexes of modules over a
+  ring, exhaustiveness of the abutment filtration
+  `CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι`, strong convergence on a page
+  `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive` and the comparison
+  theorem `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`
+  (`Exhaustive.lean`); the comparison theorem for finite filtrations
+  `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page` (`Comparison.lean`); the map
+  of filtration functors of a map of filtered complexes `CochainComplex.filtrationFunctorMap`
+  (`Naturality.lean`); and the instance on singular chains, `TauCeti.singularChainFiltration`,
+  `TauCeti.filteredSpaceSpectralSequence`, `TauCeti.filteredSpaceSpectralSequenceFirstPageXIso`,
+  `TauCeti.filteredSpaceSpectralSequence_first_page_d_eq` and `TauCeti.filteredSpaceAbutmentIso`
+  (`TauCeti/AlgebraicTopology/Singular/FilteredSpace.lean`).
 - Mathlib's compact-generation API (`Topology/Compactness/CompactlyGeneratedSpace.lean`,
   `Topology/Compactness/DeltaGeneratedSpace.lean`, `Topology/Convenient/Category.lean`): the
   `u`-compactly generated topology `TopologicalSpace.compactlyGenerated`, the instances
@@ -1078,33 +1107,76 @@ sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.  It
 homological algebra on native filtered complexes and consumes no topology; Stage 6.0's lim¹
 sequence supplies its complete-convergence form.
 
-0. **Spectral sequence of a filtered complex.** Reuse the native
-   `CochainComplex.spectralObject`, `filtrationFunctor`, `spectralSequence`
-   and mapping-cone/cokernel first-page comparisons in
-   [`Filtered/SpectralObject.lean`](https://github.com/TauCetiProject/TauCeti/blob/720bf8c135bd2c354a15d55a73f2fc2c3d7aa358/TauCeti/Algebra/Homology/SpectralSequence/Filtered/SpectralObject.lean),
-   with the reindexing and convergence comparisons specified here. For an
-   increasing filtration of a module chain complex over a ring, assume
-   degreewise filtration lower bounds `∀ n, ∃ s(n), F_(s(n)) C_n=0` and
-   exhaustion `⋃_p F_p C_n=C_n`. Construct the sequence
-   `E¹_(p,q)=H_(p+q)(F_p C/F_(p−1) C)` as an instance of Mathlib's
-   `SpectralObject` and prove natural strong convergence: the induced
-   filtration `F_p H_n=im(H_n(F_p C)→H_n(C))` is exhaustive and bounded below,
-   hence separated and complete in its lower direction, and
-   `E∞_(p,q)≃F_p H_(p+q)/F_(p−1) H_(p+q)` naturally. No finite upper
-   filtration bound is required; this is Weibel's Classical Convergence
-   Theorem 5.5.1(2), and the lower bound concerns the filtration in each chain
-   degree, not merely the degrees in which the complex is nonzero. Regrade
-   C^(−n)=C_n with the same differential, pull native
-   `HomotopyCategory.spectralObjectMappingCone` back along the EInt-indexed
-   increasing filtration functor, with 0 and C at its infinite endpoints, and
-   compose with the degreewise cohomology homological functor. Use native
-   `coreE₂Cohomological`: the homological E_r^(p,q) is its page r+1 at
-   native bidegree (a,b)=(1−2p−q,p−1), so deg=a+b=−(p+q), i₁=p−1 and i₂=p.
-   For a decreasing cochain filtration F^p use the increasing functor
-   G_t=F^(−t); its cohomological E_r^(p,q) is native page r+1 at
-   (a,b)=(2p+q+1,−p−1), so deg=p+q, i₁=−p−1 and i₂=−p. Prove the
-   quotient-page identifications and the representative-boundary
-   differential formula, retaining the mapping-cone/reindexing signs. Own the
+0. **Spectral sequence of a filtered complex.** The construction, its first
+   page and its convergence under the bounds stated below are pinned (Tau Ceti
+   `TauCeti/Algebra/Homology/SpectralSequence/Filtered/`, listed in the
+   Inventory); consume them. For an increasing filtration
+   `F : ℤ → Subobject K` of a cochain complex in an abelian category the pin
+   has the `EInt`-indexed functor `CochainComplex.filtrationFunctor` (with `⊥`
+   and `K` at the infinite ends), the spectral object
+   `CochainComplex.spectralObject` (mapping cones in the homotopy category
+   followed by cohomology) and the spectral sequence
+   `CochainComplex.spectralSequence` for Mathlib's `coreE₂Cohomological`,
+   whose first page, numbered 2, is `H^(p+q)(F_(q+1)/F_q)` at `(p,q)`
+   (`CochainComplex.spectralSequenceFirstPageXIsoCokernel`), with first
+   differential to `(p+2,q−1)` the connecting map of
+   `F_q/F_(q−1)→F_(q+1)/F_(q−1)→F_(q+1)/F_q`
+   (`CochainComplex.spectralSequence_first_page_d_eq`). Its abutment is
+   `H^n(K)` (`CochainComplex.filtrationAbutmentIso`), filtered by
+   `F_q H^n=im(H^n(F_q)→H^n(K))`
+   (`CochainComplex.toFiltrationAbutmentFiltration_comp_filtrationAbutmentIso_hom`),
+   with graded pieces the limit objects `E∞`
+   (`CategoryTheory.Abelian.SpectralObject.EInftyIsoCokernel`). For complexes
+   of modules over a ring the pin proves that an exhaustive filtration has an
+   exhaustive abutment filtration
+   (`CochainComplex.exists_mem_range_filtrationAbutmentFiltrationι`); that the
+   page-r object at `(p,q)`, `n=p+q`, is the graded piece
+   `F_(q+1)H^n/F_q H^n` when `H^(n+1)(F_(q−r+2))=0` and the graded pieces
+   `F_(i+1)/F_i` have vanishing `H^(n−1)` for every `i≥q+r−1`
+   (`CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive`);
+   and the comparison theorems for exhaustive and for finite filtrations
+   (`CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive`,
+   `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`).
+   Naturality along a map of filtered complexes is
+   `CochainComplex.filtrationFunctorMap` with
+   `CochainComplex.spectralObjectMap`. This item owns three additions, all
+   homological algebra without topology.
+   The first is the homological regrading. For an increasing filtration
+   `F_s C` of a chain complex of modules over a ring, regrade `C^(−n)=C_n`
+   with the same differential (Mathlib's `HomologicalComplex.extend` along
+   `ComplexShape.embeddingDownNat`, as the pinned singular-chain instance of
+   item 5 does) and export the dictionary: the homological `E^r_(s,t)`, with
+   `E¹_(s,t)=H_(s+t)(F_s C/F_(s−1) C)` and `d^r:E^r_(s,t)→E^r_(s−r,t+r−1)`,
+   is native page r+1 at bidegree `(a,b)=(1−2s−t,s−1)`, so `a+b=−(s+t)`, with
+   graded piece between `i₁=s−1` and `i₂=s`. For a decreasing cochain
+   filtration `F^p` use the increasing `G_t=F^(−t)`; its cohomological
+   `E_r^(p,q)` is native page r+1 at `(a,b)=(2p+q+1,−p−1)`, so `a+b=p+q`,
+   `i₁=−p−1` and `i₂=−p`. Prove the quotient-page identification
+   `E^r_s=Z^r_s/(Z^(r−1)_(s−1)+d Z^(r−1)_(s+r−1))` with
+   `Z^r_s={c∈F_s C : dc∈F_(s−r) C}` in these coordinates, and the
+   representative-boundary differential formula `d^r[c]=[dc]`, retaining the
+   mapping-cone and reindexing signs.
+   The second is classical convergence without the pinned vanishing of the
+   graded pieces in high filtration. Assume only degreewise filtration lower
+   bounds `∀ n, ∃ s(n), F_(s(n)) C_n=0` and exhaustion `⋃_s F_s C_n=C_n`.
+   Prove Weibel's Classical Convergence Theorem 5.5.1(2) in limit-page form:
+   at each `(s,t)` the outgoing differentials vanish from some page on, the
+   later pages form a sequence of surjections, and its colimit `E∞_(s,t)` is
+   identified, naturally in maps of filtered complexes, with the graded piece
+   `F_s H_(s+t)/F_(s−1) H_(s+t)` of the pinned image filtration, which is
+   exhaustive by the pin and vanishes below `s(n)` in degree n. The pinned
+   page-r theorem needs the graded pieces to have vanishing homology in the
+   adjacent degree from some filtration on; here they need not, and the
+   incoming differentials need not stop on a finite page. The lower bound
+   concerns the filtration in each chain degree, not merely the degrees in
+   which the complex is nonzero, and no finite upper filtration bound is
+   required. Check: for `C₀=ℤx`, `C₁=⊕_(s≥1)ℤe_s` with `de_s=x`,
+   `F_s C₀=ℤx` for s≥0 and `F_s C₁=⟨e_1,…,e_s⟩`, every graded piece with s≥1
+   has `H₁=ℤ`, so the pinned hypothesis fails at `(0,0)` on every page, while
+   the limit page is `E∞_(0,0)=0=F_0 H_0/F_(−1) H_0`, killed by `d¹e_1=x`,
+   and `E∞_(s,1−s)=ℤ` for s≥2, spanned by the class of `e_s−e_1`, the graded
+   piece of `H₁(C)=⊕_(s≥2)ℤ(e_s−e_1)`.
+   The third is the
    cohomological form of Weibel's Complete Convergence Theorem 5.5.10 for
    complete exhaustive decreasing cochain filtrations with regular spectral
    sequence: prove weak convergence with its induced cohomology
@@ -1114,7 +1186,7 @@ sequence supplies its complete-convergence form.
    and degreewise bounded. Cup pairings come from actual filtered cochain
    maps, independently of convergence. Item 5's Serre sequences,
    ComplexKahlerGeometry K8's column-filtration adapter and DGFloer Layer 1's
-   cubical transports consume this single construction.
+   cubical transports consume the pinned construction with these additions.
 1. Consume native Alexander--Whitney, shuffle and Eilenberg--Zilber chain-homotopy
    equivalences for singular chains. Extend their natural/local-coefficient and relative APIs.  Over every commutative
    ring `R`, construct the first-quadrant Kunneth spectral sequence
@@ -1240,13 +1312,26 @@ sequence supplies its complete-convergence form.
    convenient-category replacements; no second lifting construction is built.
    Own the homological Serre spectral sequence for every path-connected CW
    base B, using Stages 1–4 and the actual filtration `E_p=p⁻¹(B^(p))`, with
-   `E_(−1)` empty. Prove that singular chains are exhausted by this
-   filtration using compact simplex images and cellular filtration
-   comparison; apply item 0's filtered-complex construction; identify
+   `E_p` empty for p<0. Its spectral sequence is the pinned spectral sequence
+   of a filtered space `TauCeti.filteredSpaceSpectralSequence` for this
+   family, the filtration of the singular chains of E by those of the `E_p`
+   (`TauCeti.singularChainFiltration`, `Singular/FilteredSpace.lean`), whose
+   first page is `H_n(E_p,E_(p−1);R)`
+   (`TauCeti.filteredSpaceSpectralSequenceFirstPageXIso`), whose first
+   differential is the connecting map of the triple `(E_p,E_(p−1),E_(p−2))`
+   (`TauCeti.filteredSpaceSpectralSequence_first_page_d_eq`) and whose
+   abutment is `H_n(E;R)` (`TauCeti.filteredSpaceAbutmentIso`); consume them
+   with item 0's homological regrading. Prove that singular chains are
+   exhausted by this filtration using compact simplex images and cellular
+   filtration comparison; prove `H_k(E_p,E_(p−1);R)=0` for k<p and identify
    `E²_(p,q)=H_p(B;H_q(F;R))` with the actual path-transport monodromy local
-   system `H_q(F;R)`, and prove convergence to `H_(p+q)(E;R)`: in each total
-   degree the first-quadrant filtration is finite, exhaustive and separated,
-   with graded pieces E∞ and their extension data. No finite-type or
+   system `H_q(F;R)`. Convergence to `H_(p+q)(E;R)` is then the pinned
+   page-r theorem `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfExhaustive`,
+   whose inputs are this exhaustion, the empty stage `E_(−1)` and that
+   vanishing (at `(p,q)` every page `E^r` with `r≥max(p+1,q+2)` is the
+   graded piece, native page r+1 in item 0's dictionary):
+   in each total degree the first-quadrant filtration is finite, exhaustive
+   and separated, with graded pieces E∞ and their extension data. No finite-type or
    dimension bound is imposed on B or F. Prove naturality under maps of
    fibrations and coefficient maps, and the componentwise version.
    Own the cohomological Serre spectral sequence on the same skeletal
@@ -1256,9 +1341,15 @@ sequence supplies its complete-convergence form.
    has `E₂^(p,q)=H^p(B;H^q(F;M))` with path-transport local coefficients and
    converges to H^(p+q)(E;M). Prove first-quadrant strong convergence, with
    finite, exhaustive and separated abutment filtration in each total degree
-   and E∞ its actual graded module, completeness of the cochain inverse
-   filtration and vanishing of the inverse-limit obstruction, with the same
-   absence of finite-type or dimension restriction, and the coefficient and
+   and E∞ its actual graded module, by the pinned page-r theorem for item
+   0's increasing reindexing `G_t=F^(−t)` of the cochain filtration, which
+   is the whole cochain complex for t≥0; its remaining input is
+   `H^k(E,E_p;M)=0` for k≤p, which follows from `H_k(E,E_p;R)=0` for k≤p
+   (the exhaustion and graded vanishing above) because relative singular
+   chains are degreewise free. Prove also the completeness of the cochain
+   inverse filtration and the vanishing of its inverse-limit obstruction,
+   with the same absence of finite-type or dimension restriction, and the
+   coefficient and
    fibration naturality and componentwise forms. For a commutative ring R and
    local-system pairing M⊗_R N→P own the multiplicative comparison: consume
    Stage 4.5's CW structure on k(B×B), its product-cell filtration
@@ -1794,7 +1885,9 @@ homology with one copy of the coefficient ring also assumes connectedness.
    identifications `or_U|_V≃or_V` for opens
    V and `or_U|_K≃or_K` for codimension-0 compact submanifolds K with boundary.
    In RP² compare these local generators with Stage 4.6's sign system, using
-   DG2.4's outward-first S² orientation. Transport Stage 6.1's independent sign-system
+   DG5.1's outward-first boundary orientation of S² as the boundary of the
+   closed unit ball of ℝ³ and Stage 4.6's determinant calculation for the
+   outward-first bases at x and −x. Transport Stage 6.1's independent sign-system
    cohomology calculation across this identification to obtain
    `H⁰(RP²;or)=0`, `H¹(RP²;or)=ℤ/2` and `H²(RP²;or)=ℤ`.
    For the following smooth-boundary classes take the standard half-space model
@@ -2321,8 +2414,19 @@ items 1–7 are independent of those later constructions.
    smoothing-and-triangulation comparison item1 and its realization homeomorphism.
    The compact case has finite CW type (`finiteCWType_of_compactSpace_of_isManifold`
    for the Euclidean model and `finiteCWType_of_compactSpace_of_isManifold_halfSpace`
-   for the half-space model, through the pinned
-   `TauCeti.IsTriangulable.finiteCWType`); include the boundary-pair forms and
+   for the half-space model), through the pinned
+   `TauCeti.IsTriangulable.finiteCWType`, since a triangulation of a compact
+   space has finitely many simplices (Hatcher, Appendix, Proposition A.1).
+   Independently of triangulations, both follow from Milnor, *Morse Theory*,
+   Theorem 3.5: a manifold without boundary carrying a Morse function whose
+   sublevel sets are compact has the homotopy type of a CW complex with one
+   cell of dimension λ for each critical point of index λ. On a compact
+   manifold without boundary a Morse function (Milnor, *Morse Theory*, §6)
+   has finitely many critical points, its critical points being isolated. In
+   the half-space case apply the theorem to the interior, which a collar
+   makes homotopy equivalent to M, with a Morse function equal to `−log t` in
+   an inward collar coordinate t near the boundary, so that its sublevel
+   sets are compact and its critical points lie in a compact set. Include the boundary-pair forms and
    finitely many prescribed interior marked points outside the relative boundary locus. As a reusable corollary, prove that a simply connected integral homology
    `n`-sphere, `n>=2`, is homotopy equivalent to the standard `S^n`.
 
@@ -2646,7 +2750,12 @@ items 1–7 are independent of those later constructions.
     **Checks.**
     - `continuousHomotopySetoid`: on S¹ the identity and the antipodal map are
       related, by rotation through half a turn, while the identity and a
-      constant map are not, since they induce different maps on H₁.
+      constant map are not, since they induce different maps on H₁; as maps
+      [0,1]→S¹ the loop t↦e^(2πit) and the constant map at 1 are related, the
+      source being contractible, although they are not homotopic rel
+      endpoints, so the relation is free homotopy and not Mathlib's
+      `Path.Homotopic`; for Y=S⁰ the two constant maps from a point are not
+      related, so the relation is not the total one.
     - `continuousHomotopyClasses`: for X empty there is exactly one class, the
       empty map; `[S¹,S¹]` is in bijection with ℤ by the degree; for X a point
       and Y=S⁰ there are two classes, one for each point, so free classes are
@@ -2834,11 +2943,11 @@ supplement or the categorical LS supplement unless named explicitly.
 | 3 subdivision/excision | 2 | 1 and 6.0 tower algebra |
 | 4 CW/cellular and raw quotient comparisons | 2--3, native cochain algebra, 4.5's compact-generation coreflection for kified CW products and raw quotient/k-counit comparisons; 2.5 supplies sphere reference shuffles; general cohomological product/suspension compatibility belongs to 8.11b | 1 |
 | 4.8 connected maps/weak equivalences/CW approximation | 2--4, native homotopy groups and 4.5's mapping-cylinder/cofibration API | 1 |
-| 5.0 filtered-complex spectral sequence | native filtered spectral-object algebra; 6.0's Milnor/lim¹ sequence for complete convergence | 1--4, 6.0 |
+| 5.0 filtered-complex spectral sequence | the pinned spectral sequence of a filtered complex, its abutment and its exhaustive and finite convergence; 6.0's Milnor/lim¹ sequence for complete convergence | 1--4, 6.0 |
 | 5 product maps (item 1) | 2 | 1, 3, 4 |
-| 5 bundles/covers/finite covers | 2--4; native Serre carrier/bundle API; homotopy LES, path fibrations and homology SS from 1–4, 4.8 and 5.0; cohomology SS additionally from independent 6.0–6.2 | 1 |
+| 5 bundles/covers/finite covers | 2--4; native Serre carrier/bundle API; homotopy LES, path fibrations and homology SS from 1–4, 4.8, 5.0 and the pinned spectral sequence of a filtered space; cohomology SS additionally from independent 6.0–6.2 | 1 |
 | 6.0 tower algebra | native module/category/complex algebra | 1--8 |
-| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, DG2.4 sphere and DG5.1 outward-first boundary conventions, native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; Stage 4 for cellular comparisons/RP² | 1 |
+| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, DG5.1's outward-first boundary orientation (for S², of the closed unit ball of ℝ³), native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; Stage 4 for cellular comparisons/RP² | 1 |
 | categorical-cover/cup-length supplement after6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
 | supported-cellular comparison after ordinary6.2 | ordinary4 cellular data, ordinary6.1–6.2, CharacteristicClasses C1.2a S0–S4; proves countability and finite-support cellular/singular comparison. CharacteristicClasses C1.2a S5 compatibility is a separate check | ordinary6.3–6.5, Stage7 and ordinary8 proceed independently; proper8.5 uses the needed support interfaces |
 | 6.5 linking/degree consequences | 2--4 and ordinary6.1--6.4; DG10's smooth mapping-degree comparison only after the independent AT6.3 classes | 1 |
@@ -2952,7 +3061,7 @@ Earlier names of targets of this roadmap, for the roadmaps that cite them:
   Theorems 3.30 and 3.43; Theorem 4.3, Lemma 4.6, Theorem 4.8, Corollary 4.12, Propositions 4.13,
   4.15, 4.17 and 4.18, Examples 4.14 and 4.16 and Corollary 4.19;
   Example 4.29, Proposition 4.30, Lemma 4.31, Corollary 4.33, Example 4.35 and Theorem 4.37;
-  Theorem 4.57; Proposition A.3 and Theorem A.6).
+  Theorem 4.57; Propositions A.1 and A.3 and Theorem A.6).
 - George W. Whitehead, *Elements of Homotopy Theory*, Springer GTM 61, 1978,
   Chapters II--VII.
 - Albrecht Dold, *Lectures on Algebraic Topology*, Springer, 1972, Chapters VII--VIII.
@@ -2979,7 +3088,8 @@ Earlier names of targets of this roadmap, for the roadmaps that cite them:
 
 - John Milnor, [On Spaces Having the Homotopy Type of a CW-Complex](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/milnorcw.pdf), Transactions of the AMS 90 (1959), Section 2 and Theorem 3, for arbitrary-CW and n-ad function-space CW type; its countable class W₀ is distinct from the general class W used here.
 - John Milnor, *Morse Theory*, Annals of Mathematics Studies 51, Princeton University Press,
-  1963, Lemmas 3.6–3.7, for the homotopy equivalences of attachments along homotopic maps.
+  1963, Lemmas 3.6–3.7, for the homotopy equivalences of attachments along homotopic maps, and
+  Theorem 3.5 with the Morse functions of §6, for the finite CW type of compact smooth manifolds.
 - Arne Strøm, *Note on cofibrations II*, Mathematica Scandinavica 22 (1968), 130–142,
   Theorem 6, for the product of a closed cofibration with the interval pair.
 - Tammo tom Dieck, *Algebraic Topology*, EMS Textbooks in Mathematics, 2008, 9.5.1, for the
