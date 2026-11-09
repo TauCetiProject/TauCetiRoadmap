@@ -15,7 +15,7 @@ finite dimensional, with a chosen smooth positive-definite Riemannian metric.
 Compact domains with boundary sit inside this ambient manifold. Integration sources
 may be compact oriented smooth manifolds with boundary or corners. Relative
 homology also includes the closed neighborhood-retract subsets specified in G3.
-Use [HopfRinow L0](../HopfRinow/README.md)'s induced-distance and native
+Use [HopfRinow L0](../../Completed/HopfRinow/README.md)'s induced-distance and native
 `IsRiemannianManifold` interfaces. No orientation, connectedness, completeness
 or compactness of M is assumed unless
 a theorem needs it. Use native `ModelWithCorners`, `ChartedSpace`, `IsManifold`,
