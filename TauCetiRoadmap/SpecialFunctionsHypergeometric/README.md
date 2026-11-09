@@ -27,7 +27,9 @@ The roadmap covers:
 - the Euler, loop, Mellin–Barnes and fractional integral representations;
 - the quadratic and cubic transformations and the special values that follow from them;
 - the Chebyshev, Legendre-polynomial and elliptic cases, the Mellin transform, the expansion
-  15.15.1 and the product formulas of §15.16.
+  15.15.1 and the product formulas of §15.16;
+- the integrals of DLMF Chapter 8 that are Gauss functions, 8.14.6, 8.17.9 and 8.19.25, where
+  their hypergeometric argument leaves the unit disk.
 
 **This roadmap is most of DLMF Chapter 15, not all of it.** The formula ranges are in the table
 under [Scope and ownership](#scope-and-ownership). The rest of the chapter is listed in
@@ -36,10 +38,14 @@ continued fractions of §15.7, the relations of §15.9 to Jacobi, Gegenbauer and
 polynomials and to the Jacobi, Gegenbauer and Legendre functions, the large-parameter
 asymptotics of §15.12, the zeros of §15.13 and the applications and computation sections.
 
-The roadmap rests on Mathlib, on Tau Ceti and, for the Mellin–Barnes integrals alone, on the
-Gamma function on vertical strips from [ZerosOfLFunctions](../ZerosOfLFunctions/README.md). It
-needs no other special-function roadmap: the theory of the hypergeometric equation it uses is
-the elementary one of Abel's identity for Wronskians, proved here for this equation.
+The roadmap rests on Mathlib and Tau Ceti, and on two roadmaps. For Dougall's sum and the
+Mellin–Barnes integrals alone it consumes the Gamma function on vertical strips from
+[ZerosOfLFunctions](../ZerosOfLFunctions/README.md). For the Chapter 8 integrals alone (9.4) it
+consumes the incomplete Gamma function, the generalized exponential integral and the incomplete
+Beta function from
+[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md).
+The theory of the hypergeometric equation it uses is the elementary one of Abel's identity for
+Wronskians, proved here for this equation.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Hypergeometric/`, beside Tau Ceti's
 `TauCeti/Analysis/SpecialFunctions/OrdinaryHypergeometric.lean`, which this roadmap extends.
@@ -59,7 +65,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
 7. **Quadratic transformations** (DLMF §15.8(iii)–(iv), 15.4.26–15.4.30).
 8. **Cubic transformations** (DLMF §15.8(v), 15.4.31–15.4.34).
 9. **Polynomial and elliptic cases, integrals, sums and products** (DLMF 15.9.5–15.9.7, 15.9.26,
-   §§15.14–15.16).
+   §§15.14–15.16), and the Chapter 8 integrals 8.14.6, 8.17.9 and 8.19.25 off the unit disk.
 
 The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
 
@@ -78,6 +84,7 @@ specified in the layers:
 | 15.8.13–15.8.30, 15.4.26–15.4.30 | Quadratic transformations and their special values (Layer 7). |
 | 15.8.31–15.8.33, 15.4.31–15.4.34 | Cubic transformations and their special values (Layer 8). |
 | 15.9.5–15.9.7, 15.9.26, 15.14.1, 15.15.1, 15.16.1–15.16.5 | Chebyshev and Legendre polynomials, `D(k)`, Mellin transform, sums and products (Layer 9). |
+| 8.14.6, 8.17.9, 8.19.25 where the hypergeometric argument is off the unit disk | Integrals of DLMF Chapter 8 that are Gauss functions (9.4). |
 
 Cases of these formulas that Mathlib or Tau Ceti already proves are inputs, not targets; the
 targets are the remaining cases. The inputs are:
@@ -88,6 +95,16 @@ targets are the remaining cases. The inputs are:
   `legendreK_eq_ordinaryHypergeometric` and `legendreEc_eq_ordinaryHypergeometric`
   (DLMF 19.5.1–19.5.2, from [EllipticIntegrals](../EllipticIntegrals/README.md)).
 
+Two roadmaps on main own special cases of targets here. This roadmap neither consumes them nor
+restates them:
+- [ConformalMappingPartII](../ConformalMappingPartII/README.md) §4.1 owns 15.10.1 for Mathlib's
+  series on the unit disk, and §4.6 owns 15.8.10 at `m = 0`, `b = a`,
+  the continuation of `₂F₁(a, a; 2a; ·)` across the slit disk around `z = 1`. 3.1 and 5.2 are
+  their general cases, on the cut plane and for all parameters.
+- [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+  owns 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the hypergeometric argument lies in the unit disk
+  (its 3.4, 15.2 and 7.5). 9.4 owns the rest of their range.
+
 It also owns the following auxiliary results, which the layers need and which neither Mathlib nor
 Tau Ceti provides:
 
@@ -96,11 +113,12 @@ Tau Ceti provides:
 | Euler's integral converges for `1 − z ∈ slitPlane` and `Re c > Re b > 0`, and is holomorphic in `(a, b, c, z)` there | 1.1 |
 | Uniqueness: two functions entire in `b` and in `c` at every fixed `z` of the cut plane that agree with Euler's integral where `Re c > Re b > 0` agree on the cut plane | 1.2 |
 | The shift relations in `c` and in `b`, and the existence of the continuation by iterating them down to Euler's integral | 1.2 |
+| The shift construction with fixed counts: holomorphy on its region, agreement with Euler's integral, and compatibility of different counts | 1.2 |
 | The identity principle on the cut plane: an identity between functions holomorphic on the cut plane that holds on a nonempty open subset of the unit disk holds on the cut plane | 1.4 |
 | Abel's identity for the hypergeometric equation, and the resulting criterion: if `f₁`, `f₂` solve 15.10.1 on a connected open set with nonvanishing Wronskian, every solution there is a combination of them | 3.1 |
-| The shift construction with fixed counts: holomorphy on its region, agreement with Euler's integral, and compatibility of different counts | 1.2 |
 | The logarithmic solutions continued to `slitPlane ∩ {1 − z ∈ slitPlane}` as parameter derivatives of the regularized pair | 3.3 |
 | Dougall's series: convergence and holomorphy in `d`, the recurrence, the integer values, the growth bound, and the periodic Carlson lemma | 4.2 |
+| The cubic transformation behind 15.4.31, which DLMF's note to 15.4.31 takes from Erdélyi et al. (1953a, Eq. 2.11(41)) | 8.1 |
 | The Mellin–Barnes integral of `(1 + u)^{−a}`, independence of the separating contour, and Barnes's first lemma (DLMF 5.13.3) | 6.3 |
 
 **What it does not own:**
@@ -108,14 +126,21 @@ Tau Ceti provides:
   elliptic integrals `K`, `E` with 15.9.24–15.9.25 (Tau Ceti).
 - The Gamma function on vertical strips (ZerosOfLFunctions 1.3), consumed for 15.4.25 and
   15.6.6–15.6.7.
+- The incomplete Gamma function `Γ(a, x)`, the generalized exponential integral `E_p(x)` and the
+  incomplete Beta function `B_x(a, b)`, consumed from SpecialFunctionsEiLiErfIncompleteGamma for
+  9.4, and 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the hypergeometric argument lies in the unit
+  disk, which that roadmap owns.
+- 15.10.1 on the unit disk and 15.8.10 at `m = 0`, `b = a` in the forms of ConformalMappingPartII
+  §§4.1 and 4.6.
 - The continued fractions of §15.7, and the relations 15.9.1–15.9.4 and 15.9.8–15.9.23 to the
   Jacobi, Gegenbauer, Krawtchouk, Meixner and Meixner–Pollaczek polynomials and to the Jacobi,
   Gegenbauer and Legendre functions.
 - The large-parameter asymptotics of §15.12, the zeros of §15.13, branches off the principal
   sheet and the monodromy of §15.17(v), and the applications and computation sections.
-- The formulas of other DLMF chapters through the continued Gauss function, which other
-  roadmaps leave to this chapter: they belong to roadmaps that consume this one (see
-  [Downstream consumers](#downstream-consumers)).
+- The formulas of DLMF Chapters 10 and 13 through the continued Gauss function, which
+  SpecialFunctionsBessel and SpecialFunctionsConfluent leave to a Chapter 15 roadmap. They relate
+  `F` to functions of those roadmaps, both of which come after this one, and they belong to
+  SpecialFunctionsHypergeometricPartII, which consumes all three.
 
 See the last section for these.
 
@@ -124,7 +149,9 @@ cut plane for all parameters and everything in DLMF Chapter 15 stated through it
 functions, `Γ`, `ψ`, Mathlib's Chebyshev and Legendre polynomials and Tau Ceti's complete
 elliptic integrals, except the continued fractions, the orthogonal polynomials and functions of
 §15.9 beyond Chebyshev and Legendre polynomials, the large-parameter asymptotics, the zeros and
-the applications; it consumes the Gamma function on vertical strips from ZerosOfLFunctions.
+the applications, together with the Chapter 8 integrals that are Gauss functions off the unit
+disk; it consumes the Gamma function on vertical strips from ZerosOfLFunctions and the
+incomplete Gamma and Beta functions and `E_p` from SpecialFunctionsEiLiErfIncompleteGamma.
 
 ## Conventions
 
@@ -199,6 +226,17 @@ E(a, b, c, z) = (Γ(b) Γ(c − b))⁻¹ ∫₀¹ t^{b−1} (1 − t)^{c−b−1
   the growth bounds in Dougall's sum (4.2). It is not used for contours whose real part tends to
   infinity, and none is closed that way.
 
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- [Its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions):
+  `TauCeti.Complex.upperIncompleteGamma` (`Γ(a, z)`), `TauCeti.expIntegralE` (`E_p(z)`) and
+  `TauCeti.incompleteBeta` (`B_x(a, b)` for `a, b > 0` and `0 ≤ x ≤ 1`, with real powers).
+- Its 1.3: `Γ(a, x) = ∫_x^∞ t^{a−1} e^{−t} dt` for `x > 0`. Its 7.1 (DLMF 8.19.3):
+  `E_p(x) = ∫_1^∞ e^{−xt} t^{−p} dt` for `x > 0`. 9.4 uses these forms of the integrands.
+- Its 3.4, 15.2 and 7.5: 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the hypergeometric argument lies
+  in the unit disk, with Mathlib's `ordinaryHypergeometric`. 9.4 extends them by the identity
+  theorem.
+
 ### From Tau Ceti
 
 - **Gauss series.** `one_le_radius_ordinaryHypergeometricSeries` and
@@ -272,8 +310,7 @@ For `1 − z ∈ slitPlane`, `t ∈ [0, 1]` gives `1 − zt ∈ slitPlane`, so `
 holomorphic in `(a, z)` and continuous in `t`. Prove:
 - for `0 < Re b < Re c`, the integrand of `E(a, b, c, z)` is integrable on `[0, 1]`;
 - `(a, b, c, z) ↦ ∫₀¹ t^{b−1} (1 − t)^{c−b−1} (1 − zt)^{−a} dt` is holomorphic on
-  `{0 < Re b < Re c} × {1 − z ∈ slitPlane}`, as a function on `ℂ × ℂ × ℂ × ℂ`, and so is `E`
-  (`differentiableOn_eulerIntegral`);
+  `{0 < Re b < Re c} × {1 − z ∈ slitPlane}`, as a function on `ℂ × ℂ × ℂ × ℂ`, and so is `E`;
 - for `0 < Re b < Re c` and `‖z‖ < 1`, `E(a, b, c, z) = 𝐅(a, b; c; z)` as Mathlib's series
   (`regularizedGaussHGFun a b c z`), by the binomial series of `(1 − zt)^{−a}`, termwise
   integration and `Complex.Gamma_mul_Gamma_eq_betaIntegral`.
@@ -296,14 +333,14 @@ holomorphic in `(a, z)` and continuous in `t`. Prove:
 
   (the regularized forms of 15.5.15 and 15.5.16_5; `regularizedGaussHypergeometric_shift_c`,
   `regularizedGaussHypergeometric_shift_b`);
-- **the shift construction with fixed counts** (`shiftConstruction p q`): for `p, q : ℕ`,
+- **the shift construction with fixed counts** `S_{p,q}`: for `p, q : ℕ`,
   `S_{0,0} = E`,
   `S_{0,q+1}(a, b, c, z) = (c − a) S_{0,q}(a, b, c + 1, z) + a S_{0,q}(a + 1, b, c + 1, z)`
   and `S_{p+1,q}(a, b, c, z) = S_{p,q}(a, b + 1, c, z) − a z S_{p,q}(a + 1, b + 1, c + 1, z)`, the
   right-hand sides of the shift relations. The targets are:
   - `S_{p,q}` is holomorphic in `(a, b, c, z)` on the open set
-    `R_{p,q} = {Re b > −p, Re(c − b) > p − q} × {1 − z ∈ slitPlane}`
-    (`differentiableOn_shiftConstruction`), by induction, since each step only reads `S_{p,q}`
+    `R_{p,q} = {Re b > −p, Re(c − b) > p − q} × {1 − z ∈ slitPlane}`, by induction, since each
+    step only reads `S_{p,q}`
     at parameters that lie in the region of the previous step;
   - `S_{p,q} = E` on the region of Euler's integral, because `E` satisfies the shift relations
     there (proved on the disk from the series, 1.3, and extended by the identity theorem);
@@ -314,11 +351,21 @@ holomorphic in `(a, z)` and continuous in `t`. Prove:
   equals one `S_{p,q}` with fixed counts on a neighbourhood, so it is holomorphic in `(a, b, c, z)`
   and in particular entire in `b` and in `c`. The counts `⌈1 − Re b⌉₊` and `⌈1 + p − Re(c − b)⌉₊`
   are not locally constant, which is why the fixed-count functions and their compatibility are
-  separate targets. Then `regularizedGaussHypergeometric = S_{p,q}` on `R_{p,q}`
-  (`regularizedGaussHypergeometric_eq_shiftConstruction`), by uniqueness;
+  separate targets. Then `regularizedGaussHypergeometric = S_{p,q}` on `R_{p,q}`, by uniqueness;
 - `regularizedGaussHypergeometric a b c z = E(a, b, c, z)` for `0 < Re b < Re c` and
   `1 − z ∈ slitPlane` (15.6.1, `regularizedGaussHypergeometric_eq_eulerIntegral`), and
   `regularizedGaussHypergeometric a b c z = 0` when `1 − z ∉ slitPlane`.
+
+**Checks.**
+- `𝐅(0.3, 0.7; −1; 0.4) = 0.10640 71000 2…` by 15.2.3_5, while
+  `gaussHypergeometric 0.3 0.7 (−1) 0.4 = 0`. This excludes defining `𝐅` as `F/Γ(c)` with Lean's
+  junk values at the poles of `Γ`.
+- `𝐅(1, −½; −½; ½) = (1 − ½)⁻¹/Γ(−½) = −0.56418 95835 4…` (15.4.6), while
+  `eulerIntegral 1 (−½) (−½) ½ = 0`, since its prefactor is `(Γ(−½) Γ(0))⁻¹`. This excludes
+  reading Euler's integral outside `0 < Re b < Re c` as `𝐅`.
+- `F(0.3, 0.7; 1.9; 2 − i) = 1.03476 57242 8… − 0.30761 56787 97… i`, the conjugate of the value
+  at `2 + i` (Layer 1 Examples). This excludes a branch continued across the cut `[1, ∞)` from
+  the upper half-plane.
 
 *Needs:* 1.1; Mathlib `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`,
 `DifferentiableOn.analyticOnNhd`.
@@ -360,7 +407,7 @@ DLMF §15.2(ii) for the principal branch:
 - `F = Γ(c) 𝐅` is holomorphic in `(a, b, c, z)` on `{c ∉ {0, −1, −2, …}}` times the cut plane,
   and as a function of `c` has at most simple poles at `c ∈ {0, −1, −2, …}`;
 - symmetry `𝐅(a, b; c; z) = 𝐅(b, a; c; z)` (`regularizedGaussHypergeometric_comm`), the value
-  `𝐅(a, b; c; 0) = Γ(c)⁻¹` (`regularizedGaussHypergeometric_zero`), and
+  `𝐅(a, b; c; 0) = Γ(c)⁻¹`, and
   `𝐅(ā, b̄; c̄; z̄) = conj 𝐅(a, b; c; z)` (`regularizedGaussHypergeometric_conj`), so that `𝐅` is
   real for real parameters and real `z < 1`;
 - the identity principle on the cut plane: if `f`, `g` are holomorphic on the cut plane and agree
@@ -420,7 +467,16 @@ degenerate. At `a = b = c = 1` the pair is `1/(1 − z)`, `1/(1 − z)²` (times
 ### Examples
 
 - 15.5.11 at `(a, b, c, z) = (0.3, 0.7, 1.9, 2 + i)`, off the disk.
-- 15.5.18 at `c = 1`, where its first term vanishes and it reduces to a two-term relation.
+- 15.5.18 in regularized form, for all parameters:
+
+```text
+(z − 1) 𝐅(a, b; c − 1; z) + (c − 1 − (2c − a − b − 1) z) 𝐅(a, b; c; z)
+    + (c − a)(c − b) z 𝐅(a, b; c + 1; z) = 0.
+```
+
+  At `c = 1` its first term is `(z − 1) a b z F(a + 1, b + 1; 2; z)` by 15.2.3_5, not `0`; at
+  `(a, b, z) = (0.3, 0.7, 0.4)` the three terms are `−0.08819 16794 6…`, `0` and
+  `0.08819 16794 6…`.
 
 ### Dependencies
 
@@ -437,17 +493,17 @@ Layer 1.
   `1`, `𝒲{f, g}′ = −((c − (a + b + 1)z)/(z(1 − z))) 𝒲{f, g}`; hence on a connected open
   `U ⊆ slitPlane ∩ {1 − z ∈ slitPlane}` the Wronskian is a constant multiple of
   `z^{−c} (1 − z)^{c−a−b−1}`;
-- the span criterion (`exists_eqOn_combination_of_wronskian_ne_zero`): if `f₁`, `f₂` solve 15.10.1
-  on a connected open `U` and `𝒲{f₁, f₂}` has no zero on `U`, every solution on `U` is `α f₁ + β f₂`
-  with constants `α`, `β` (by Abel's identity, `𝒲{w, f₂}/𝒲{f₁, f₂}` and `𝒲{f₁, w}/𝒲{f₁, f₂}` are
-  constant, and a solution whose Wronskians with `f₁` and `f₂` vanish is `0`).
+- the span criterion: if `f₁`, `f₂` solve 15.10.1 on a connected open `U` and `𝒲{f₁, f₂}` has no
+  zero on `U`, every solution on `U` is `α f₁ + β f₂` with constants `α`, `β` (by Abel's identity,
+  `𝒲{w, f₂}/𝒲{f₁, f₂}` and `𝒲{f₁, w}/𝒲{f₁, f₂}` are constant, and a solution whose Wronskians with
+  `f₁` and `f₂` vanish is `0`).
 
 *Needs:* Layers 1–2; Mathlib `IsOpen.is_const_of_deriv_eq_zero`.
 
 ### 3.2 Fundamental solutions
 
 DLMF 15.10.2–15.10.7 on `U₀ = slitPlane ∩ {1 − z ∈ slitPlane}` (for the pairs at `0` and at
-`1`) and on `U∞ = {z | z ∈ slitPlane ∧ z − 1 ∈ slitPlane} = ℂ \ (−∞, 1]` (for the pair at `∞`,
+`1`) and on `U∞ = {z | z − 1 ∈ slitPlane} = ℂ \ (−∞, 1]` (for the pair at `∞`,
 with `z^{−a}`, `z^{−b}` and `(z − 1)^{c−a−b−1}` principal as printed):
 - each function of the pairs 15.10.2, 15.10.4 and 15.10.6 solves 15.10.1 where its third
   parameter is not a nonpositive integer;
@@ -476,8 +532,9 @@ of radius `1`, which diverge elsewhere: in 15.10.8 at `n = 1`, `a = b = 2` the s
 `2(k + 1) zᵏ`, which does not tend to `0` at `z = 2i ∈ U₀`, and Lean's `tsum` of a divergent
 series is not a continuation. So the targets are local, with a separate continuation:
 - for `c = n ∈ {1, 2, …}`, the functions 15.10.8 and 15.10.9 solve 15.10.1 on
-  `U₀ ∩ {‖z‖ < 1}` under the hypotheses printed with them, and 15.10.10, whose sums are finite, on
-  all of `U₀`; with `F(a, b; n; z)` each forms a fundamental pair there, with Wronskian
+  `U₀ ∩ {‖z‖ < 1}` under the hypotheses printed with them (for 15.10.8,
+  `hypergeometricEquation_log_solution_15_10_8`), and 15.10.10, whose sums are finite, on all of
+  `U₀`; with `F(a, b; n; z)` each forms a fundamental pair there, with Wronskian
   `z^{−n} (1 − z)^{n−a−b−1}` times a nonzero constant computed here; the case (a) holds with the
   interpretation 15.2.5;
 - the continuation to `U₀`: with the regularized pair `f₁ = 𝐅(a, b; c; ·)`,
@@ -509,7 +566,8 @@ The symbols `a`, `b` are interchangeable in 15.10.9–15.10.10.
     solves Riemann's equation if and only if
     `((z − α)/(z − γ))^{−a₁} ((z − β)/(z − γ))^{−b₁} w(z)` is `u(ζ)` with `u` a solution of 15.10.1
     with `a = a₁ + b₁ + c₁`, `b = a₁ + b₁ + c₂`, `c = 1 + a₁ − a₂` and
-    `ζ = (z − α)(β − γ)/((z − γ)(β − α))`;
+    `ζ = (z − α)(β − γ)/((z − γ)(β − α))`; the direction from `u` to `w` is
+    `riemannEquation_of_hypergeometricEquation`;
   - 15.11.8: on `slitPlane ∩ {1 − z ∈ slitPlane}`, multiplication by `z^λ (1 − z)^μ` maps the
     solutions with exponents `{a₁, a₂}, {b₁, b₂}, {c₁, c₂}` at `0, 1, ∞` onto those with exponents
     `{a₁ + λ, a₂ + λ}, {b₁ + μ, b₂ + μ}, {c₁ − λ − μ, c₂ − λ − μ}`.
@@ -578,7 +636,9 @@ elementary side is holomorphic, which gives the following.
   as `z → 1` in the cut plane. The continued function itself is not evaluated at `z = 1`, where
   its value is the junk `0`;
 - 15.4.21–15.4.23: the limits as `z → 1−` for `c = a + b`, for `Re(c − a − b) = 0` with
-  `c ≠ a + b`, and for `Re(c − a − b) < 0`, with DLMF's right-hand sides;
+  `c ≠ a + b`, and for `Re(c − a − b) < 0`, with DLMF's right-hand sides and with the third
+  parameter outside `{0, −1, −2, …}` (`tendsto_gaussHypergeometric_div_neg_log`,
+  `tendsto_cpow_mul_gaussHypergeometric_sub`, `tendsto_gaussHypergeometric_div_cpow_one_sub`);
 - 15.4.24 (Chu–Vandermonde, `ordinaryHypergeometric_neg_nat_one`): `₂F₁ (−n) b c 1 = (c − b)ₙ/(c)ₙ`
   for `n : ℕ` and `c` with `(c)ₙ ≠ 0`;
 - 15.4.25 (Dougall, `hasSum_dougall`): for `Re(c + d − a − b) > 1` and `a, b ∉ ℤ`, the
@@ -606,7 +666,7 @@ auxiliary targets:
   `|sin πd| ≤ e^{π|Im d|}`;
 - **the periodic Carlson lemma**: a `1`-periodic function holomorphic on a neighbourhood of
   `Re w ≥ 0`, bounded by `C (1 + |Im w|)^K e^{σ|Im w|}` with `σ < π` on `0 ≤ Re w ≤ 1` and vanishing
-  at `0`, vanishes on `Re w ≥ 0` (`eq_zero_of_periodic_of_bound`). Its proof is the classical
+  at `0`, vanishes on `Re w ≥ 0`. Its proof is the classical
   one: divide by `sin πw`, which is bounded below by `e^{π|Im w|}/C′` away from the integers; the
   quotient is entire, periodic and `o(1)` as `|Im w| → ∞`, hence `0` by Liouville's theorem.
 
@@ -622,7 +682,9 @@ series of `₂F₁ a b c z` (with `c ∉ {0, −1, −2, …}`) converges absolu
 converges for `z ≠ 1` but not absolutely if `−1 < Re(c − a − b) ≤ 0`, and diverges if
 `Re(c − a − b) ≤ −1`. On `|z| = 1`, `z ≠ 1`, where the series converges, its sum is the limit of
 `gaussHypergeometric a b c (r z)` as `r → 1−`, which is `gaussHypergeometric a b c z` (Abel's
-theorem); at `z = 1` this is 4.2.
+theorem); at `z = 1` this is 4.2. The three cases are `summable_norm_gaussTerm_of_re_pos`,
+`tendsto_sum_gaussTerm_of_re_nonpos` (with the sum) and
+`not_tendsto_sum_gaussTerm_of_re_le_neg_one`, with the terms written out.
 
 The proof uses `|(a)ₛ (b)ₛ/((c)ₛ s!)| ∼ C s^{Re(a+b−c)−1}` (from
 `Complex.Gamma_add_nat_div_Gamma_eq` and the ratio of Gamma functions at large argument along the
@@ -640,7 +702,7 @@ integers) and summation by parts.
 
 ### Dependencies
 
-Layers 1–2.
+Layers 1–2; ZerosOfLFunctions 1.3.
 
 ## Layer 5: linear transformations and connection formulas
 
@@ -676,7 +738,11 @@ is 15.8.4 composed with 15.8.1. 15.2.3 is 15.8.4 at `1 − x ± iε`.
   `b = −ℓ`;
 - 15.8.8–15.8.9 (`b − a = m ∈ ℕ`) and 15.8.10–15.8.11 (`c − a − b = m ∈ ℕ`) on the regions printed
   with them, with `ψ(x)/Γ(x)` written as pinned; the finite sums are over `Finset.range m`,
-  empty at `m = 0`; the case `b − a ∈ −ℕ` by interchanging `a` and `b`;
+  empty at `m = 0`; the case `b − a ∈ −ℕ` by interchanging `a` and `b`. 15.8.10
+  (`regularizedGaussHypergeometric_log_15_8_10`) is stated for `a, b ∉ {0, −1, −2, …}`, where
+  its digamma terms are finite. At `a = −n` with `n ≥ m` every term of its right side carries
+  `1/Γ(a)` or `1/Γ(a + m)`, so the Lean right side is `0`, while `𝐅(0, b; b; z) = 1/Γ(b)` at
+  `n = m = 0`; DLMF sends these cases to 15.8.7;
 - 15.8.12 on the cut plane, for all parameters.
 
 The logarithmic cases are the limits of 15.8.2 and 15.8.4 as `b − a`, respectively `c − a − b`,
@@ -697,7 +763,8 @@ following domains, with principal powers:
   `e^{−aπi} z^{−a}` are `(−z)^{−a}` on `Im z > 0` and `Im z < 0` respectively, so the first
   expression of `w₅` is `(−z)^{−a} F(a, a − c + 1; a − b + 1; 1/z)` on both half-planes.
 
-Each `wⱼ` solves 15.10.1 on its domain, by Layer 3 and 15.8.1.
+Each `wⱼ` solves 15.10.1 on its domain, by Layer 3 and 15.8.1. The four expressions of `w₅` on
+`Im z > 0` are `gaussHypergeometric_kummer_w5_of_im_pos`.
 
 *Needs:* 5.1; Layer 3.
 
@@ -737,7 +804,10 @@ Layers 1–4.
 - 15.6.2_5: for `0 < Re b < Re c` and `1 − z ∈ slitPlane`, the half-line integral as printed, from
   15.6.1 by `t ↦ t/(t + 1)`;
 - 15.6.8 and 15.6.9 (the latter for every `λ ∈ ℂ`) for `0 < Re d < Re c` and
-  `1 − z ∈ slitPlane`, with all functions in the integrands principal.
+  `1 − z ∈ slitPlane`, with all functions in the integrands principal
+  (`regularizedGaussHypergeometric_eq_integral_15_6_8`,
+  `regularizedGaussHypergeometric_eq_integral_15_6_9`). For `t ∈ [0, 1)` the arguments `zt` and
+  `(1 − t)z/(1 − zt)` lie in the cut plane when `z` does.
 
 *Needs:* Layers 1, 5.
 
@@ -783,7 +853,9 @@ whose real part tends to infinity. The targets and their route:
   `Γ(a + c) Γ(a + d) Γ(b + c) Γ(b + d)/Γ(a + b + c + d)`,
   proved by inserting the Mellin–Barnes integral of `(1 + u)^{−(b + d)}` into a Beta integral and
   using Fubini;
-- **15.6.7** for `|z| < 1` and the line conditions printed: expand `(1 − z)^t` by the binomial
+- **15.6.7** (`regularizedGaussHypergeometric_eq_mellinBarnes_one_sub`, on a line `Re t = σ` with
+  `max(−Re a, −Re b) < σ < min(0, Re(c − a − b))`, which separates the two families of poles)
+  for `|z| < 1` and the line conditions printed: expand `(1 − z)^t` by the binomial
   series, integrate termwise (dominated convergence, from the decay of the integrand) and
   evaluate each term by Barnes's first lemma, which gives the Gauss series; then extend to
   `1 − z ∈ slitPlane` by 1.4, since the integral is holomorphic in `z` there.
@@ -859,7 +931,25 @@ Layers 1–5.
 - 15.8.31 for `Re z < 8/9` (`gaussHypergeometric_cubic_15_8_31`);
 - 15.8.32 for `|z| > 1` and `|ph(−z)| < π/3`, with `ζ` as printed and all powers principal;
 - 15.8.33 (Ramanujan, `gaussHypergeometric_ramanujan`) for `z` in the intersection of the disks
-  `|z − ¼ ± (√3/4) i| < √3/2`, which is `|ph((1 − z)/(1 + 2z))| < π/3`.
+  `|z − ¼ ± (√3/4) i| < √3/2`, which is `|ph((1 − z)/(1 + 2z))| < π/3`;
+- the cubic transformation behind 15.4.31, for which DLMF's note to 15.4.31 cites Erdélyi et al.
+  (1953a, Eq. 2.11(41)), in the form (`gaussHypergeometric_cubic_three_halves`)
+
+```text
+F(a, a + ½; 3/2 − 2a; x) = (1 − x)^{1−4a} (1 − 9x)^{2a−2/3} F(⅓ − a, 5/6 − a; 3/2 − 2a; ψ(x)),
+ψ(x) = −27x (1 − x)²/(1 − 9x)²,   1 − ψ(x) = (1 + 3x)³/(1 − 9x)²,
+```
+
+  for `3/2 − 2a ∉ {0, −1, −2, …}` and `x ≠ −1/3` with `1 − 9x ∈ slitPlane` and
+  `|3 arg(1 + 3x) − 2 arg(1 − 9x)| < π`, all powers principal. That set is a lens with
+  vertices `−1/3` and `1/9`, symmetric about the real axis, and `ψ(x)` stays off `[1, ∞)` on it;
+  its real points are the interval `(−1/3, 1/9)`, and `ψ(x) → 1` as `x → −1/3`. The proof is
+  that of the other cubic transformations: in `x = 1 − z`,
+  `x^{½−2a} F(a, a + ½; 3/2 − 2a; x)` is the solution with exponent `½ − 2a` at `z = 1` of the
+  equation of the left side of 15.8.31 with `a − ⅙` in place of `a`, and the cubic map of
+  15.8.31 carries it to the solution with that exponent at `0` of the equation of
+  `F(a − ⅙, a + ⅓; 2a + ½; ·)`. The two sides agree to first order at `x = 0`, and the identity
+  extends over the lens by the identity theorem.
 
 Each is proved like 7.1: both sides solve the same equation after the cubic change of variable,
 they agree to first order at a common point, and the identity extends by 1.4; for 15.8.32 the
@@ -870,20 +960,35 @@ Layer 5.
 
 ### 8.2 Special values from cubic transformations
 
-DLMF 15.4.31–15.4.34, from 15.8.31 at `z = −1/3`-type points and from 15.8.32 at
-`e^{iπ/3}`, with Gauss's sum 15.4.20 and the duplication formula; 15.4.33 and 15.4.34 at the
-point `e^{iπ/3}` of the unit circle, which lies in the cut plane; and with the interpretation
-15.2.6 at the excluded values of `a` printed after 15.4.34, stated as the limit in `a`.
+DLMF 15.4.31–15.4.34, with the interpretation 15.2.6 at the excluded values of `a` printed after
+15.4.34, stated as the limit in `a`:
+- 15.4.31 (`gaussHypergeometric_neg_one_third`) from the cubic transformation of 8.1 as
+  `x → −1/3` along `(−1/3, 0)`: its argument `ψ(x)` tends to `1` from below, and
+  `F(⅓ − a, 5/6 − a; 3/2 − 2a; ·)` has `Re(c − a − b) = ⅓ > 0`, so Gauss's sum 15.4.20 (4.2)
+  applies; the duplication formula 5.5.5 for `Γ(⅔ − a) Γ(7/6 − a)` gives DLMF's form;
+- 15.4.32 from 15.8.30 at `z = ½` (7.2), where `(z/(2 − z))² = 1/9`, and 15.4.28 (7.3), with the
+  duplication and triplication formulas 5.5.5 and 5.5.6;
+- 15.4.33 as the limit `z → −∞` in 15.8.32, where `ζ⁻¹ → e^{iπ/3}`, the left side tends to
+  `1/(Γ(a + ⅔) Γ(⅔))`, and 5.5.5 gives DLMF's form; `e^{iπ/3}` lies in the cut plane;
+- 15.4.34 from the next term of the same expansion at `z = ∞`: both sides of 15.8.32, with
+  `a − ⅓` in place of `a`, are holomorphic in `u = 1/z` at `u = 0`, and their coefficients of
+  `u` give the derivative of `F(a, 3a − 1; 2a; ·)` at `e^{iπ/3}`. 15.4.33 at `a − ⅓` gives its
+  value, and 15.5.3 at `n = 1` with `a` and `b` interchanged,
+  `(z d/dz + b) F(a, b; c; z) = b F(a, b + 1; c; z)` (2.1), combines them into 15.4.34.
 
-*Needs:* 8.1; Layer 4.
+*Needs:* 8.1, 7.2–7.3; Layer 4.
 
 ### Examples
 
 - 15.8.33 at `z = 0.3`: both sides of Ramanujan's transformation at the point and its image.
+- 15.4.31 at `a = 0.2`: both sides are `0.96326 23832 8…`, and so is the right side of the cubic
+  transformation of 8.1 at `x = −1/3`, with Gauss's sum in place of its `F`.
+- 15.4.32 at `a = 0.2`: `F(0.2, 0.7; 29/30; 1/9) = 1.01709 43121…`, which is also
+  `(3/4)^{0.4} F(0.4, 7/15; 14/15; ½)` (15.8.30 at `z = ½`).
 
 ### Dependencies
 
-Layers 1–5.
+Layers 1–5, 7.
 
 ## Layer 9: polynomial and elliptic cases, integrals, sums and products
 
@@ -927,15 +1032,70 @@ integrals.
 
 ### 9.3 Products
 
-DLMF 15.16.1–15.16.5: 15.16.1–15.16.2 (with `A_s` defined by the generating function 15.16.2) and
-15.16.3 on the disks printed, 15.16.4 as an identity of power series on `|z| < 1` for
-`c ∉ ℤ`, and 15.16.5 (the generalized Legendre relation) on `slitPlane ∩ {1 − z ∈ slitPlane}`
-under the conditions that make its Gamma factors finite.
+DLMF 15.16.1–15.16.5:
+- 15.16.1–15.16.2 (with `A_s` defined by the generating function 15.16.2) and 15.16.3 on the
+  disks printed;
+- 15.16.4 on the cut plane for `c ∉ ℤ` (`gaussHypergeometric_product_15_16_4`). As in DLMF's
+  note, 15.8.2 and 15.8.4, combined with 15.8.1, show that the left side continues to an entire
+  function of `z`, which is constant by Liouville's theorem; its value at `z = 0` is `1`;
+- 15.16.5 (the generalized Legendre relation, Elliott's identity) on
+  `slitPlane ∩ {1 − z ∈ slitPlane}`, for `1 + λ + μ, 1 + ν + μ ∉ {0, −1, −2, …}`, with right
+  side `Γ(1 + λ + μ) Γ(1 + ν + μ)/(Γ(λ + μ + ν + 3/2) Γ(½ + μ))`
+  (`gaussHypergeometric_legendreRelation`). DLMF prints `Γ(½ + ν)` in the last factor, which is
+  a misprint: the left side does not depend on `z`, and at `(λ, μ, ν) = (0, 0.3, 0)` it is
+  `0.74280 22469 7…`, the value with `Γ(½ + μ)`, against `0.48790 68907 2…` with `Γ(½ + ν)`. At
+  `λ = μ = ν = 0` both read `2/π`, which is Legendre's relation 19.7.1.
 
 **Checks.**
-- 15.16.4 at `(a, b, c, z) = (0.3, 0.45, 0.8, 0.35)`: the left side is `1` to working precision.
+- 15.16.4 at `(a, b, c, z) = (0.3, 0.45, 0.8, 0.35)`: the left side is `1` to working precision,
+  and so it is at `z = 3 + 2i`, `−5` and `2 − i`, off the disk.
+- 15.16.5 at `(λ, μ, ν) = (0.3, 0.2, 0.45)`: the left side is `0.47853 63147 7…` at every `z`
+  tried, which is the corrected right side.
 
-*Needs:* Layers 1–5.
+*Needs:* 1.4; Layers 1–5; Mathlib `Differentiable.apply_eq_apply_of_bounded`.
+
+### 9.4 Integrals of DLMF Chapter 8 off the unit disk
+
+SpecialFunctionsEiLiErfIncompleteGamma states 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the
+hypergeometric argument lies in the unit disk, with Mathlib's series. The targets here are the
+same formulas with `gaussHypergeometric` on the rest of DLMF's range, where the argument lies in
+the cut plane but not in the disk. The integrals converge absolutely.
+- 8.14.5 leaves nothing here: for `Re s > 0`, `|1 + s| > 1`, so `1/(1 + s)` lies in the unit disk
+  on all of DLMF's range, and SpecialFunctionsEiLiErfIncompleteGamma 3.4 owns it in full.
+- 8.14.6 for `Re s > −1`, `Re a > 0` and `Re(a + b) > 0`
+  (`integral_cpow_mul_exp_mul_upperIncompleteGamma`):
+  `∫₀^∞ x^{a−1} e^{−sx} Γ(b, x) dx = Γ(a + b)/(a (1 + s)^{a+b}) F(1, a + b; 1 + a; s/(1 + s))`.
+  For `Re s > −1`, `1 − s/(1 + s) = 1/(1 + s)` has positive real part, so the argument lies in
+  the cut plane; it lies in the unit disk exactly when `Re s > −½`.
+- 8.17.9 for `a, b > 0` and `0 ≤ x < 1` (`incompleteBeta_eq_gaussHypergeometric`):
+  `B_x(a, b) = x^a (1 − x)^{b−1}/a · F(1, 1 − b; a + 1; x/(x − 1))`. The argument lies in
+  `(−∞, 0]`, and in the unit disk exactly when `x < ½`.
+- 8.19.25 for `Re a > −1`, `Re b > 0` and `Re(p + b) > 1`
+  (`integral_exp_mul_cpow_mul_expIntegralE_of_re_gt_neg_one`):
+  `∫₀^∞ e^{−at} t^{b−1} E_p(t) dt = Γ(b) (1 + a)^{−b}/(p + b − 1) F(1, b; p + b; a/(1 + a))`, with
+  the hypothesis `Re b > 0` of SpecialFunctionsEiLiErfIncompleteGamma 7.5, which DLMF omits. The
+  argument `a/(1 + a)` is placed as in 8.14.6.
+
+8.17.9 is 8.17.7 composed with the Pfaff transformation 15.8.1 (5.1), and
+SpecialFunctionsEiLiErfIncompleteGamma 15.2 owns 8.17.7 for `0 ≤ x < 1`. For 8.14.6 and 8.19.25
+both sides are holomorphic in `s`, respectively `a`, on the half-plane `Re > −1`. The left sides
+are holomorphic by differentiation under the integral sign, since `Γ(b, x)` and `E_p(x)` decay
+like `e^{−x}` times a power, and the right sides by 1.4. They agree where `Re > −½`, by
+SpecialFunctionsEiLiErfIncompleteGamma 3.4 and 7.5 with 1.3, and the identity theorem gives the
+rest. In `Suggested.lean` the integrands are written through
+`Γ(b, x) = ∫_x^∞ u^{b−1} e^{−u} du` and `E_p(t) = ∫_1^∞ e^{−tu} u^{−p} du` for real `x, t > 0`, and
+`B_x(a, b)` as its defining integral, which are SpecialFunctionsEiLiErfIncompleteGamma's
+definitions or theorems there.
+
+**Checks.**
+- 8.14.6 at `(a, b, s) = (1.5, 0.5, −0.7)`, where `s/(1 + s) = −7/3`: both sides are
+  `2.69597 75155 3…`.
+- 8.17.9 at `(a, b, x) = (0.7, 1.6, 0.8)`, where `x/(x − 1) = −4`: both sides are
+  `0.94456 69837 1…`.
+- 8.19.25 at `(a, b, p) = (−0.7, 1, 2)`, where `a/(1 + a) = −7/3`: both sides are
+  `1.02851 59271 9…`.
+
+*Needs:* 1.3–1.4, 5.1; SpecialFunctionsEiLiErfIncompleteGamma 1.3, 3.4, 7.1, 7.5 and 15.2.
 
 ### Examples
 
@@ -944,18 +1104,23 @@ under the conditions that make its Gamma factors finite.
 
 ### Dependencies
 
-Layers 1–6; Tau Ceti elliptic integrals.
+Layers 1–6; Tau Ceti elliptic integrals; SpecialFunctionsEiLiErfIncompleteGamma.
 
 ## Downstream consumers
 
 - A roadmap for the Legendre functions (DLMF Chapter 14), whose definitions 14.3.1–14.3.10 are
   continued Gauss functions, consumes Layers 1–7; DLMF 15.9.16–15.9.23 belong there.
-- The formulas that other roadmaps leave to a Chapter 15 roadmap are relations between the
-  continued Gauss function and the functions of those roadmaps, and belong to roadmaps that
-  consume both: DLMF 8.14.5–8.14.6, 8.17.9 and 8.19.25 outside the unit disk
-  (SpecialFunctionsEiLiErfIncompleteGamma), 13.4.8, 13.4.12, 13.4.15, 13.10.3, 13.10.7, 13.16.9
-  and 13.23.4 (SpecialFunctionsConfluent), and the formulas through the Gauss function in
-  SpecialFunctionsBessel's list of DLMF 10.16.6–10.43.26.
+- [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) 8.2 consumes 1.2–1.4 for
+  10.22.49 on its full domain: its Gauss function on `ℂ \ [1, ∞)` is
+  `𝐅((μ + ν)/2, (μ + ν + 1)/2; ν + 1; ·)` of this roadmap, holomorphic there by 1.4 and equal to
+  Mathlib's series on the unit disk by 1.3, and it is the only such function because the cut
+  plane is connected.
+- SpecialFunctionsHypergeometricPartII consumes this roadmap, SpecialFunctionsConfluent and
+  SpecialFunctionsBessel. It owns the formulas that those two roadmaps leave to a Chapter 15
+  roadmap, which relate `F` to their functions: DLMF 13.4.8, 13.4.12, 13.4.15, 13.10.3, 13.10.7,
+  13.16.9 and 13.23.4, and the formulas through the Gauss function in SpecialFunctionsBessel's
+  list of DLMF 10.16.6–10.43.26. The Chapter 8 formulas that
+  SpecialFunctionsEiLiErfIncompleteGamma leaves to this chapter are 9.4 here.
 - A roadmap for the large-parameter asymptotics of §15.12 consumes Layers 1–6 with
   AsymptoticExpansions and SpecialFunctionsBessel.
 - Roadmaps for the generalized hypergeometric functions (DLMF Chapter 16) and the orthogonal
@@ -963,14 +1128,13 @@ Layers 1–6; Tau Ceti elliptic integrals.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
-The following material completes DLMF Chapter 15. It is recorded only to fix the boundary.
-Contributors should not attempt it under this roadmap.
+The following material lies outside this roadmap: the rest of DLMF Chapter 15, and the
+formulas of other chapters that this chapter's function relates to their functions. It is
+recorded only to fix the boundary. Contributors should not attempt it under this roadmap.
 
-**Planned for follow-up roadmaps.**
 - **Continued fractions** (DLMF §15.7, 15.7.1–15.7.6). Their convergence rests on Pincherle's
-  theorem for minimal solutions of three-term recurrences, which the
-  SpecialFunctionsEiLiErfIncompleteGamma roadmap (an open pull request) owns, and on the
-  contiguous relations of Layer 2.
+  theorem for minimal solutions of three-term recurrences, which
+  SpecialFunctionsEiLiErfIncompleteGamma 4.1 owns, and on the contiguous relations of Layer 2.
 - **Orthogonal polynomials and functions of §15.9**: the Jacobi and Gegenbauer polynomials
   15.9.1–15.9.4 and the Krawtchouk, Meixner and Meixner–Pollaczek polynomials 15.9.8–15.9.10,
   for a future roadmap on the orthogonal polynomials of DLMF Chapter 18; the
@@ -979,10 +1143,9 @@ Contributors should not attempt it under this roadmap.
 - **Large-parameter asymptotics** (DLMF §15.12): 15.12.1–15.12.13. They need the expansion API,
   Watson's lemma and the saddle-point method of
   [AsymptoticExpansions](../AsymptoticExpansions/README.md), and the Bessel-function
-  approximations of §15.12(iii) need the SpecialFunctionsBessel roadmap (an open pull
-  request).
-
-**Deferred, with no planned roadmap.**
+  approximations of §15.12(iii) need the SpecialFunctionsBessel roadmap.
+- **Formulas of DLMF Chapters 10 and 13 through the continued function**, which belong to
+  SpecialFunctionsHypergeometricPartII (see [Downstream consumers](#downstream-consumers)).
 - **Zeros** (DLMF §15.13): the count 15.13.1 of the zeros in the cut plane for real parameters.
 - **Other branches and monodromy**: values off the principal sheet and the monodromy groups of
   §15.17(v).

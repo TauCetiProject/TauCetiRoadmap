@@ -7,22 +7,28 @@ public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Hypergeometric
 # The Gauss hypergeometric function: target signatures
 
 This file states the headline theorems of the roadmap against the pinned Mathlib and Tau Ceti,
-one or more per layer. The definitive document is `README.md`, which states every target; this
-file states a selection of them, and discharging it finishes neither a layer nor the roadmap.
+one or more per layer and per item of the Summary of `README.md`, which is the definitive
+document and states every target. One headline is not stated: the loop integrals 15.6.2–15.6.5
+of 6.2. Their integrands are continued along the loop, so that each power carries a different
+branch on each piece, and the pinned Tau Ceti contour API (`TauCeti/Analysis/Contour/`)
+integrates single-valued functions over paths; it has no integral of a function continued along
+its path.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins. In Tau Ceti
-they live in `Complex`, beside Mathlib's `Complex.regularizedGaussHGFun`; here they live in this
-file's `Complex` subnamespace. They are stated with their intended bodies so that the conventions
-are checked by the compiler: Euler's integral as an `intervalIntegral` with principal powers, the
-definition of `𝐅` by Euler's integral and uniqueness (`Classical.choose`, with the junk value `0`
-off the cut plane), `F = Γ(c) 𝐅`, reciprocal Gamma factors, and the cut plane written as
-`1 - z ∈ slitPlane`. Theorems are stated with `sorry`.
+they live in `Complex`, beside Mathlib's `Complex.regularizedGaussHGFun`. They are stated with
+their intended bodies so that the conventions are checked by the compiler: Euler's integral as an
+`intervalIntegral` with principal powers, the definition of `𝐅` by Euler's integral and
+uniqueness (`Classical.choose`, with the junk value `0` off the cut plane), `F = Γ(c) 𝐅`,
+reciprocal Gamma factors, and the cut plane written as `1 - z ∈ slitPlane`. Theorems are stated
+with `sorry`.
 
 The construction of the continuation by contiguous shifts is a theorem
-(`exists_isEulerContinuation`, with the shift relations and the fixed-count `shiftConstruction`),
-not the definition. Where the README pins a domain or a removable point, the prototypes state it:
-the pair at `∞` on `ℂ \ (−∞, 1]`, 15.4.1 with its denominator cleared, 15.4.7 with the domain of
-its argument `z²`, and the coefficients of 15.15.1 as Mathlib's terminating series.
+(`exists_isEulerContinuation`, with the shift relations), not the definition. Where the README
+pins a domain or a removable point, the prototypes state it: the pair at `∞` on `ℂ \ (−∞, 1]`,
+15.4.1 with its denominator cleared, 15.4.7 with the domain of its argument `z²`, and the
+coefficients of 15.15.1 as Mathlib's terminating series. The Chapter 8 integrals of 9.4 write
+`Γ(b, x)`, `E_p(t)` and `B_x(a, b)` of SpecialFunctionsEiLiErfIncompleteGamma through their
+integrals on the positive axis.
 -/
 
 @[expose] public section
@@ -38,8 +44,6 @@ open scoped Real Nat ComplexConjugate
 local notation "poch(" a ", " n ")" => Polynomial.eval a (ascPochhammer ℂ n)
 
 /-! ### Definitions -/
-
-namespace Complex
 
 /-- Euler's integral `(Γ(b) Γ(c − b))⁻¹ ∫₀¹ t^{b−1} (1 − t)^{c−b−1} (1 − zt)^{−a} dt`
 (DLMF 15.6.1), with principal powers. It is `𝐅(a, b; c; z)` for `0 < Re b < Re c` and
@@ -70,48 +74,16 @@ def regularizedGaussHypergeometric (a b c z : ℂ) : ℂ :=
 (DLMF 15.2.1); the value `0` at `c ∈ {0, −1, −2, …}` is Mathlib's junk value of `Γ`. -/
 def gaussHypergeometric (a b c z : ℂ) : ℂ := Gamma c * regularizedGaussHypergeometric a b c z
 
-/-- The shift construction with fixed counts (auxiliary): `p` shifts in `b`, then `q` shifts in
-`c`, ending in Euler's integral. It is holomorphic on `Re b > −p`, `Re (c − b) > p − q` times the
-cut plane, and the existence proof glues these functions. -/
-def shiftConstruction : ℕ → ℕ → ℂ → ℂ → ℂ → ℂ → ℂ
-  | 0, 0, a, b, c, z => eulerIntegral a b c z
-  | 0, q + 1, a, b, c, z =>
-      (c - a) * shiftConstruction 0 q a b (c + 1) z + a * shiftConstruction 0 q (a + 1) b (c + 1) z
-  | p + 1, q, a, b, c, z =>
-      shiftConstruction p q a (b + 1) c z - a * z * shiftConstruction p q (a + 1) (b + 1) (c + 1) z
-
-end Complex
-
-open Complex
 
 /-- `𝐅(a, b; c; z)`. -/
 local notation "𝐅" => regularizedGaussHypergeometric
 
 /-! ### Layer 1: definition and analytic properties -/
 
-/-- **1.1** Euler's integral is holomorphic in `(a, b, c, z)` on `0 < Re b < Re c` times the cut
-plane. -/
-theorem differentiableOn_eulerIntegral :
-    DifferentiableOn ℂ (fun p : ℂ × ℂ × ℂ × ℂ => eulerIntegral p.1 p.2.1 p.2.2.1 p.2.2.2)
-      (univ ×ˢ {q : ℂ × ℂ × ℂ | 0 < q.1.re ∧ q.1.re < q.2.1.re} ∩
-        {p | 1 - p.2.2.2 ∈ slitPlane}) := sorry
-
 /-- **1.2** Uniqueness: two continuations of Euler's integral agree on the cut plane. -/
 theorem IsEulerContinuation.eq {G₁ G₂ : ℂ → ℂ → ℂ → ℂ → ℂ} (h₁ : IsEulerContinuation G₁)
     (h₂ : IsEulerContinuation G₂) {a b c z : ℂ} (hz : 1 - z ∈ slitPlane) :
     G₁ a b c z = G₂ a b c z := sorry
-
-/-- **1.2** The shift construction with fixed counts is holomorphic on its region. -/
-theorem differentiableOn_shiftConstruction (p q : ℕ) :
-    DifferentiableOn ℂ (fun x : ℂ × ℂ × ℂ × ℂ => shiftConstruction p q x.1 x.2.1 x.2.2.1 x.2.2.2)
-      {x | -(p : ℝ) < x.2.1.re ∧ (p : ℝ) - q < (x.2.2.1 - x.2.1).re ∧
-        1 - x.2.2.2 ∈ slitPlane} := sorry
-
-/-- **1.2** On its region the shift construction is `𝐅`; in particular constructions with
-different counts agree where their regions overlap. -/
-theorem regularizedGaussHypergeometric_eq_shiftConstruction (p q : ℕ) {a b c z : ℂ}
-    (hb : -(p : ℝ) < b.re) (hbc : (p : ℝ) - q < (c - b).re) (hz : 1 - z ∈ slitPlane) :
-    𝐅 a b c z = shiftConstruction p q a b c z := sorry
 
 /-- **1.2** Existence: a continuation of Euler's integral exists, constructed by iterating the
 shift relations in `b` and in `c` down to the region of Euler's integral. -/
@@ -151,9 +123,6 @@ theorem differentiableOn_regularizedGaussHypergeometric :
 /-- **1.4** Symmetry in `a` and `b`. -/
 theorem regularizedGaussHypergeometric_comm (a b c z : ℂ) : 𝐅 a b c z = 𝐅 b a c z := sorry
 
-/-- **1.4** The value at `z = 0`. -/
-theorem regularizedGaussHypergeometric_zero (a b c : ℂ) : 𝐅 a b c 0 = (Gamma c)⁻¹ := sorry
-
 /-- **1.4** Conjugation. -/
 theorem regularizedGaussHypergeometric_conj (a b c z : ℂ) :
     𝐅 (conj a) (conj b) (conj c) (conj z) = conj (𝐅 a b c z) := sorry
@@ -179,16 +148,6 @@ theorem regularizedGaussHypergeometric_hypergeometricEquation (a b c : ℂ) {z :
     z * (1 - z) * deriv (deriv (𝐅 a b c)) z + (c - (a + b + 1) * z) * deriv (𝐅 a b c) z -
       a * b * 𝐅 a b c z = 0 := sorry
 
-/-- **3.1** The span criterion: two solutions of 15.10.1 with nonvanishing Wronskian on a
-connected open set span the solutions there. -/
-theorem exists_eqOn_combination_of_wronskian_ne_zero {a b c : ℂ} {U : Set ℂ} (hU : IsOpen U)
-    (hUc : IsConnected U) {f₁ f₂ w : ℂ → ℂ}
-    (hsol : ∀ f ∈ ({f₁, f₂, w} : Set (ℂ → ℂ)), DifferentiableOn ℂ f U ∧
-      ∀ z ∈ U, z * (1 - z) * deriv (deriv f) z + (c - (a + b + 1) * z) * deriv f z -
-        a * b * f z = 0)
-    (hW : ∀ z ∈ U, f₁ z * deriv f₂ z - deriv f₁ z * f₂ z ≠ 0) :
-    ∃ α β : ℂ, EqOn w (fun z => α * f₁ z + β * f₂ z) U := sorry
-
 /-- **3.2** DLMF 15.10.3: the Wronskian of the pair 15.10.2 at `0`, in regularized form. -/
 theorem wronskian_regularizedGaussHypergeometric_zero (a b c : ℂ) {z : ℂ}
     (hz₀ : z ∈ slitPlane) (hz₁ : 1 - z ∈ slitPlane) :
@@ -200,10 +159,44 @@ theorem wronskian_regularizedGaussHypergeometric_zero (a b c : ℂ) {z : ℂ}
 /-- **3.2** DLMF 15.10.7: the Wronskian of the pair at `∞`, with the printed principal powers, on
 `ℂ \ (−∞, 1]`; the principal `z ^ (-a)` jumps across the negative real axis. -/
 theorem wronskian_gaussHypergeometric_infty {a b c z : ℂ} (hab : ∀ n : ℤ, a - b ≠ n)
-    (hz₀ : z ∈ slitPlane) (hz₁ : z - 1 ∈ slitPlane) :
+    (hz : z - 1 ∈ slitPlane) :
     let f₁ := fun ζ : ℂ => ζ ^ (-a) * gaussHypergeometric a (a - c + 1) (a - b + 1) ζ⁻¹
     let f₂ := fun ζ : ℂ => ζ ^ (-b) * gaussHypergeometric b (b - c + 1) (b - a + 1) ζ⁻¹
     f₁ z * deriv f₂ z - deriv f₁ z * f₂ z = (a - b) * z ^ (-c) * (z - 1) ^ (c - a - b - 1) :=
+  sorry
+
+/-- **3.3** DLMF 15.10.8: for `c = n ≥ 1` and `a, b ∉ {n − 1, n − 2, …}`, the logarithmic function
+solves 15.10.1 on the slit unit disk, where its series converges. -/
+theorem hypergeometricEquation_log_solution_15_10_8 {a b : ℂ} {n : ℕ} (hn : 1 ≤ n)
+    (ha : ∀ k : ℤ, k ≤ (n : ℤ) - 1 → a ≠ k) (hb : ∀ k : ℤ, k ≤ (n : ℤ) - 1 → b ≠ k) :
+    let w : ℂ → ℂ := fun z => gaussHypergeometric a b n z * Complex.log z -
+      ∑ k ∈ Finset.Ico 1 n, (((n - 1)! * (k - 1)! : ℕ) : ℂ) /
+        (((n - k - 1)! : ℂ) * poch(1 - a, k) * poch(1 - b, k)) * ((-z) ^ k)⁻¹ +
+      ∑' k : ℕ, poch(a, k) * poch(b, k) / (poch((n : ℂ), k) * (k ! : ℂ)) * z ^ k *
+        (digamma (a + k) + digamma (b + k) - digamma (1 + k) - digamma (n + k))
+    DifferentiableOn ℂ w {z | z ∈ slitPlane ∧ ‖z‖ < 1} ∧
+      ∀ z, z ∈ slitPlane → ‖z‖ < 1 →
+        z * (1 - z) * deriv (deriv w) z + (n - (a + b + 1) * z) * deriv w z - a * b * w z = 0 :=
+  sorry
+
+/-- **3.4** DLMF 15.11.7, from a solution `u` of the hypergeometric equation to a solution `w` of
+Riemann's equation 15.11.1 with singular points `α, β, γ` and exponents `{a₁, a₂}`, `{b₁, b₂}`,
+`{c₁, c₂}` (condition 15.11.2), on an open set where the two quotients are in the slit plane. -/
+theorem riemannEquation_of_hypergeometricEquation {α β γ a₁ a₂ b₁ b₂ c₁ c₂ : ℂ} (hαβ : α ≠ β)
+    (hβγ : β ≠ γ) (hαγ : α ≠ γ) (hsum : a₁ + a₂ + b₁ + b₂ + c₁ + c₂ = 1) {U V : Set ℂ}
+    (hU : IsOpen U) (hV : IsOpen V)
+    (hUs : ∀ z ∈ U, (z - α) / (z - γ) ∈ slitPlane ∧ (z - β) / (z - γ) ∈ slitPlane)
+    (hUV : ∀ z ∈ U, (z - α) * (β - γ) / ((z - γ) * (β - α)) ∈ V) {u : ℂ → ℂ}
+    (hu : DifferentiableOn ℂ u V)
+    (hu' : ∀ ζ ∈ V, ζ * (1 - ζ) * deriv (deriv u) ζ +
+      (1 + a₁ - a₂ - ((a₁ + b₁ + c₁) + (a₁ + b₁ + c₂) + 1) * ζ) * deriv u ζ -
+        (a₁ + b₁ + c₁) * (a₁ + b₁ + c₂) * u ζ = 0) :
+    let w : ℂ → ℂ := fun z => ((z - α) / (z - γ)) ^ a₁ * ((z - β) / (z - γ)) ^ b₁ *
+      u ((z - α) * (β - γ) / ((z - γ) * (β - α)))
+    DifferentiableOn ℂ w U ∧ ∀ z ∈ U, deriv (deriv w) z +
+      ((1 - a₁ - a₂) / (z - α) + (1 - b₁ - b₂) / (z - β) + (1 - c₁ - c₂) / (z - γ)) * deriv w z +
+        ((α - β) * (α - γ) * a₁ * a₂ / (z - α) + (β - α) * (β - γ) * b₁ * b₂ / (z - β) +
+          (γ - α) * (γ - β) * c₁ * c₂ / (z - γ)) / ((z - α) * (z - β) * (z - γ)) * w z = 0 :=
   sorry
 
 /-! ### Layer 4: elementary functions and unit argument -/
@@ -241,13 +234,46 @@ theorem hasSum_dougall {a b c d : ℂ} (ha : ∀ n : ℤ, a ≠ n) (hb : ∀ n :
         ((Gamma (c - a))⁻¹ * (Gamma (d - a))⁻¹ * (Gamma (c - b))⁻¹ * (Gamma (d - b))⁻¹)) :=
   sorry
 
-/-- **4.2** The periodic Carlson lemma (auxiliary, for Dougall's sum). -/
-theorem eq_zero_of_periodic_of_bound {f : ℂ → ℂ} {δ : ℝ} (hδ : 0 < δ)
-    (hf : DifferentiableOn ℂ f {w : ℂ | -δ < w.re})
-    (hper : ∀ w : ℂ, 0 ≤ w.re → f (w + 1) = f w) {C σ : ℝ} {K : ℕ} (hσ : σ < π)
-    (hb : ∀ w : ℂ, 0 ≤ w.re → w.re ≤ 1 →
-      ‖f w‖ ≤ C * (1 + |w.im|) ^ K * Real.exp (σ * |w.im|))
-    (h0 : f 0 = 0) : ∀ w : ℂ, 0 ≤ w.re → f w = 0 := sorry
+/-- **4.2** DLMF 15.4.21. -/
+theorem tendsto_gaussHypergeometric_div_neg_log {a b : ℂ} (hc : ∀ k : ℕ, a + b ≠ -k) :
+    Tendsto (fun x : ℝ => gaussHypergeometric a b (a + b) x / -Complex.log (1 - (x : ℂ)))
+      (𝓝[<] 1) (𝓝 (Gamma (a + b) * ((Gamma a)⁻¹ * (Gamma b)⁻¹))) := sorry
+
+/-- **4.2** DLMF 15.4.22. -/
+theorem tendsto_cpow_mul_gaussHypergeometric_sub {a b c : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
+    (h : (c - a - b).re = 0) (hne : c ≠ a + b) :
+    Tendsto (fun x : ℝ => (1 - (x : ℂ)) ^ (a + b - c) * (gaussHypergeometric a b c x -
+        Gamma c * Gamma (c - a - b) * ((Gamma (c - a))⁻¹ * (Gamma (c - b))⁻¹)))
+      (𝓝[<] 1) (𝓝 (Gamma c * Gamma (a + b - c) * ((Gamma a)⁻¹ * (Gamma b)⁻¹))) := sorry
+
+/-- **4.2** DLMF 15.4.23. -/
+theorem tendsto_gaussHypergeometric_div_cpow_one_sub {a b c : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
+    (h : (c - a - b).re < 0) :
+    Tendsto (fun x : ℝ => gaussHypergeometric a b c x / (1 - (x : ℂ)) ^ (c - a - b)) (𝓝[<] 1)
+      (𝓝 (Gamma c * Gamma (a + b - c) * ((Gamma a)⁻¹ * (Gamma b)⁻¹))) := sorry
+
+/-- **4.3** §15.2(i): on `|z| = 1` the series converges absolutely when `Re(c − a − b) > 0`. -/
+theorem summable_norm_gaussTerm_of_re_pos {a b c z : ℂ} (hc : ∀ k : ℕ, c ≠ -k) (hz : ‖z‖ = 1)
+    (h : 0 < (c - a - b).re) :
+    Summable fun s : ℕ => ‖poch(a, s) * poch(b, s) / (poch(c, s) * (s ! : ℂ)) * z ^ s‖ := sorry
+
+/-- **4.3** §15.2(i): on `|z| = 1`, `z ≠ 1`, the nonterminating series converges, but not
+absolutely, when `−1 < Re(c − a − b) ≤ 0`, and its sum is the principal branch. -/
+theorem tendsto_sum_gaussTerm_of_re_nonpos {a b c z : ℂ} (ha : ∀ k : ℕ, a ≠ -k)
+    (hb : ∀ k : ℕ, b ≠ -k) (hc : ∀ k : ℕ, c ≠ -k) (hz : ‖z‖ = 1) (hz₁ : z ≠ 1)
+    (h₁ : -1 < (c - a - b).re) (h₂ : (c - a - b).re ≤ 0) :
+    Tendsto (fun N => ∑ s ∈ Finset.range N,
+        poch(a, s) * poch(b, s) / (poch(c, s) * (s ! : ℂ)) * z ^ s) atTop
+      (𝓝 (gaussHypergeometric a b c z)) ∧
+    ¬ Summable fun s : ℕ => ‖poch(a, s) * poch(b, s) / (poch(c, s) * (s ! : ℂ)) * z ^ s‖ :=
+  sorry
+
+/-- **4.3** §15.2(i): on `|z| = 1` the nonterminating series diverges when
+`Re(c − a − b) ≤ −1`. -/
+theorem not_tendsto_sum_gaussTerm_of_re_le_neg_one {a b c z : ℂ} (ha : ∀ k : ℕ, a ≠ -k)
+    (hb : ∀ k : ℕ, b ≠ -k) (hc : ∀ k : ℕ, c ≠ -k) (hz : ‖z‖ = 1) (h : (c - a - b).re ≤ -1) :
+    ¬ ∃ L : ℂ, Tendsto (fun N => ∑ s ∈ Finset.range N,
+        poch(a, s) * poch(b, s) / (poch(c, s) * (s ! : ℂ)) * z ^ s) atTop (𝓝 L) := sorry
 
 /-! ### Layer 5: linear transformations and connection formulas -/
 
@@ -280,6 +306,28 @@ theorem tendsto_regularizedGaussHypergeometric_jump (a b c : ℂ) {x : ℝ} (hx 
       (𝓝 (2 * π * I * (Gamma a * Gamma b)⁻¹ * ((x : ℂ) - 1) ^ (c - a - b) *
         𝐅 (c - a) (c - b) (c - a - b + 1) (1 - x))) := sorry
 
+/-- **5.2** DLMF 15.8.10 (`c − a − b = m`) on `|z − 1| < 1` in the cut plane, for
+`a, b ∉ {0, −1, −2, …}`: the logarithmic series sums to `𝐅` minus the finite sum. -/
+theorem regularizedGaussHypergeometric_log_15_8_10 {a b z : ℂ} (m : ℕ) (ha : ∀ k : ℕ, a ≠ -k)
+    (hb : ∀ k : ℕ, b ≠ -k) (hz₁ : ‖z - 1‖ < 1) (hz : 1 - z ∈ slitPlane) :
+    HasSum (fun k : ℕ => -((z - 1) ^ m * ((Gamma a)⁻¹ * (Gamma b)⁻¹) *
+        (poch(a + m, k) * poch(b + m, k) / ((k ! : ℂ) * ((k + m)! : ℂ))) * (1 - z) ^ k *
+        (Complex.log (1 - z) - digamma ((k : ℂ) + 1) - digamma ((k : ℂ) + m + 1) +
+          digamma (a + k + m) + digamma (b + k + m))))
+      (𝐅 a b (a + b + m) z - (Gamma (a + m))⁻¹ * (Gamma (b + m))⁻¹ *
+        ∑ k ∈ Finset.range m,
+          poch(a, k) * poch(b, k) * ((m - k - 1)! : ℂ) / (k ! : ℂ) * (z - 1) ^ k) := sorry
+
+/-- **5.3** DLMF 15.10.15: the four expressions of Kummer's solution `w₅` agree on `Im z > 0`. -/
+theorem gaussHypergeometric_kummer_w5_of_im_pos {a b c z : ℂ} (hab : ∀ k : ℕ, a - b + 1 ≠ -k)
+    (hz : 0 < z.im) :
+    let w := cexp (a * π * I) * z ^ (-a) * gaussHypergeometric a (a - c + 1) (a - b + 1) z⁻¹
+    w = cexp ((c - b) * π * I) * z ^ (b - c) * (1 - z) ^ (c - a - b) *
+        gaussHypergeometric (1 - b) (c - b) (a - b + 1) z⁻¹ ∧
+      w = (1 - z) ^ (-a) * gaussHypergeometric a (c - b) (a - b + 1) (1 - z)⁻¹ ∧
+      w = cexp ((c - 1) * π * I) * z ^ (1 - c) * (1 - z) ^ (c - a - 1) *
+        gaussHypergeometric (1 - b) (a - c + 1) (a - b + 1) (1 - z)⁻¹ := sorry
+
 /-- **5.4** DLMF 15.10.25 on the upper half-plane, as printed. -/
 theorem gaussHypergeometric_eq_w5_w6_of_im_pos {a b c z : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
     (hab : ∀ n : ℤ, a - b ≠ n) (hz : 0 < z.im) :
@@ -303,6 +351,19 @@ theorem gaussHypergeometric_eq_w5_w6_of_im_neg {a b c z : ℂ} (hc : ∀ k : ℕ
 
 /-! ### Layer 6: integral representations -/
 
+/-- **6.1** DLMF 15.6.8, a fractional integral. -/
+theorem regularizedGaussHypergeometric_eq_integral_15_6_8 (a b : ℂ) {c d z : ℂ} (hd : 0 < d.re)
+    (hdc : d.re < c.re) (hz : 1 - z ∈ slitPlane) :
+    𝐅 a b c z = (Gamma (c - d))⁻¹ *
+      ∫ t in (0 : ℝ)..1, 𝐅 a b d (z * t) * (t : ℂ) ^ (d - 1) * (1 - (t : ℂ)) ^ (c - d - 1) := sorry
+
+/-- **6.1** DLMF 15.6.9, for every `λ` (here `lam`). -/
+theorem regularizedGaussHypergeometric_eq_integral_15_6_9 (a b lam : ℂ) {c d z : ℂ}
+    (hd : 0 < d.re) (hdc : d.re < c.re) (hz : 1 - z ∈ slitPlane) :
+    𝐅 a b c z = ∫ t in (0 : ℝ)..1, (t : ℂ) ^ (d - 1) * (1 - (t : ℂ)) ^ (c - d - 1) *
+      (1 - z * t) ^ (-(a + b - lam)) * 𝐅 (lam - a) (lam - b) d (z * t) *
+        𝐅 (a + b - lam) (lam - d) (c - d) ((1 - t) * z / (1 - z * t)) := sorry
+
 /-- **6.3** DLMF 15.6.6 (Mellin–Barnes), on the line `Re t = σ` with
 `−min(Re a, Re b) < σ < 0`. -/
 theorem regularizedGaussHypergeometric_eq_mellinBarnes (a b c : ℂ) {z : ℂ}
@@ -319,11 +380,20 @@ theorem integral_Gamma_mul_Gamma_mul_Gamma_mul_Gamma {a b c d : ℂ} (ha : 0 < a
       Gamma (a + c) * Gamma (a + d) * Gamma (b + c) * Gamma (b + d) / Gamma (a + b + c + d) :=
   sorry
 
+/-- **6.3** DLMF 15.6.7 on the cut plane, on a line `Re t = σ` that separates the poles of
+`Γ(a + t) Γ(b + t)` from those of `Γ(c − a − b − t) Γ(−t)`. -/
+theorem regularizedGaussHypergeometric_eq_mellinBarnes_one_sub (a b c : ℂ) {z : ℂ}
+    (hz : 1 - z ∈ slitPlane) {σ : ℝ} (hσ : σ < 0) (hσc : σ < (c - a - b).re) (haσ : -a.re < σ)
+    (hbσ : -b.re < σ) :
+    𝐅 a b c z = (2 * π * Gamma a * Gamma b * Gamma (c - a) * Gamma (c - b))⁻¹ *
+      ∫ y : ℝ, Gamma (a + (σ + y * I)) * Gamma (b + (σ + y * I)) *
+        Gamma (c - a - b - (σ + y * I)) * Gamma (-(σ + y * I)) * (1 - z) ^ (σ + y * I) := sorry
+
 /-! ### Layer 7: quadratic transformations -/
 
 /-- **7.1** DLMF 15.8.13 on the cut plane. -/
 theorem gaussHypergeometric_quadratic_15_8_13 (a : ℂ) {b z : ℂ} (hb : ∀ k : ℕ, 2 * b ≠ -k)
-    (hb' : ∀ k : ℕ, b + 1 / 2 ≠ -k) (hz : 1 - z ∈ slitPlane) :
+    (hz : 1 - z ∈ slitPlane) :
     gaussHypergeometric a b (2 * b) z =
       (1 - z / 2) ^ (-a) *
         gaussHypergeometric (a / 2) (a / 2 + 1 / 2) (b + 1 / 2) ((z / (2 - z)) ^ 2) :=
@@ -344,8 +414,8 @@ theorem gaussHypergeometric_half {a b : ℂ} (hc : ∀ k : ℕ, (a + b + 1) / 2 
 /-! ### Layer 8: cubic transformations -/
 
 /-- **8.1** DLMF 15.8.31 on `Re z < 8/9`. -/
-theorem gaussHypergeometric_cubic_15_8_31 {a z : ℂ} (h₁ : ∀ k : ℕ, 4 * a + 2 / 3 ≠ -k)
-    (h₂ : ∀ k : ℕ, 2 * a + 5 / 6 ≠ -k) (hz : z.re < 8 / 9) :
+theorem gaussHypergeometric_cubic_15_8_31 {a z : ℂ} (h : ∀ k : ℕ, 4 * a + 2 / 3 ≠ -k)
+    (hz : z.re < 8 / 9) :
     gaussHypergeometric (3 * a) (3 * a + 1 / 2) (4 * a + 2 / 3) z =
       (1 - 9 / 8 * z) ^ (-(2 * a)) *
         gaussHypergeometric a (a + 1 / 2) (2 * a + 5 / 6)
@@ -358,6 +428,23 @@ theorem gaussHypergeometric_ramanujan {z : ℂ}
       ‖z - (1 / 4 - Real.sqrt 3 / 4 * I)‖ < Real.sqrt 3 / 2) :
     gaussHypergeometric (1 / 3) (2 / 3) 1 (1 - ((1 - z) / (1 + 2 * z)) ^ 3) =
       (1 + 2 * z) * gaussHypergeometric (1 / 3) (2 / 3) 1 (z ^ 3) := sorry
+
+/-- **8.1** The cubic transformation behind 15.4.31 (DLMF's note cites Erdélyi et al. 1953a,
+Eq. 2.11(41)), on the lens between `−1/3` and `1/9` where `ψ(x) = −27x(1 − x)²/(1 − 9x)²` stays off
+`[1, ∞)`. -/
+theorem gaussHypergeometric_cubic_three_halves {a x : ℂ} (hc : ∀ k : ℕ, 3 / 2 - 2 * a ≠ -k)
+    (hx : x ≠ -1 / 3) (hx₉ : 1 - 9 * x ∈ slitPlane)
+    (harg : |3 * arg (1 + 3 * x) - 2 * arg (1 - 9 * x)| < π) :
+    gaussHypergeometric a (a + 1 / 2) (3 / 2 - 2 * a) x =
+      (1 - x) ^ (1 - 4 * a) * (1 - 9 * x) ^ (2 * a - 2 / 3) *
+        gaussHypergeometric (1 / 3 - a) (5 / 6 - a) (3 / 2 - 2 * a)
+          (-27 * x * (1 - x) ^ 2 / (1 - 9 * x) ^ 2) := sorry
+
+/-- **8.2** DLMF 15.4.31. -/
+theorem gaussHypergeometric_neg_one_third {a : ℂ} (hc : ∀ k : ℕ, 3 / 2 - 2 * a ≠ -k) :
+    gaussHypergeometric a (1 / 2 + a) (3 / 2 - 2 * a) (-1 / 3) =
+      (8 / 9 : ℂ) ^ (-(2 * a)) * Gamma (4 / 3) * Gamma (3 / 2 - 2 * a) *
+        ((Gamma (3 / 2))⁻¹ * (Gamma (4 / 3 - 2 * a))⁻¹) := sorry
 
 /-! ### Layer 9: polynomial and elliptic cases, integrals, sums and products -/
 
@@ -391,6 +478,52 @@ theorem hasSum_regularizedGaussHypergeometric_inv {a b c z z₀ : ℂ} (hz₀ : 
         ((1 - z / z₀)⁻¹) ^ s)
       ((1 - z₀ / z) ^ a * 𝐅 a b c z⁻¹) := sorry
 
+/-- **9.3** DLMF 15.16.4 on the cut plane. -/
+theorem gaussHypergeometric_product_15_16_4 {a b c z : ℂ} (hc : ∀ n : ℤ, c ≠ n)
+    (hz : 1 - z ∈ slitPlane) :
+    gaussHypergeometric a b c z * gaussHypergeometric (-a) (-b) (-c) z +
+      a * b * (a - c) * (b - c) / (c ^ 2 * (1 - c ^ 2)) * z ^ 2 *
+        gaussHypergeometric (1 + a) (1 + b) (2 + c) z *
+          gaussHypergeometric (1 - a) (1 - b) (2 - c) z = 1 := sorry
+
+/-- **9.3** DLMF 15.16.5 (Elliott's generalized Legendre relation), with `Γ(½ + μ)` in place of
+DLMF's misprinted `Γ(½ + ν)`; `lam`, `mu`, `nu` are DLMF's `λ`, `μ`, `ν`. -/
+theorem gaussHypergeometric_legendreRelation {lam mu nu z : ℂ}
+    (h₁ : ∀ k : ℕ, 1 + lam + mu ≠ -k) (h₂ : ∀ k : ℕ, 1 + nu + mu ≠ -k) (hz₀ : z ∈ slitPlane)
+    (hz₁ : 1 - z ∈ slitPlane) :
+    gaussHypergeometric (1 / 2 + lam) (-1 / 2 - nu) (1 + lam + mu) z *
+        gaussHypergeometric (1 / 2 - lam) (1 / 2 + nu) (1 + nu + mu) (1 - z) +
+      gaussHypergeometric (1 / 2 + lam) (1 / 2 - nu) (1 + lam + mu) z *
+        gaussHypergeometric (-1 / 2 - lam) (1 / 2 + nu) (1 + nu + mu) (1 - z) -
+      gaussHypergeometric (1 / 2 + lam) (1 / 2 - nu) (1 + lam + mu) z *
+        gaussHypergeometric (1 / 2 - lam) (1 / 2 + nu) (1 + nu + mu) (1 - z) =
+      Gamma (1 + lam + mu) * Gamma (1 + nu + mu) *
+        ((Gamma (lam + mu + nu + 3 / 2))⁻¹ * (Gamma (1 / 2 + mu))⁻¹) := sorry
+
+/-- **9.4** DLMF 8.14.6 for `Re s > −1`, with `Γ(b, x) = ∫_x^∞ u^{b−1} e^{−u} du`. -/
+theorem integral_cpow_mul_exp_mul_upperIncompleteGamma {a b s : ℂ} (ha : 0 < a.re)
+    (hab : 0 < (a + b).re) (hs : -1 < s.re) :
+    ∫ x in Ioi (0 : ℝ), (x : ℂ) ^ (a - 1) * cexp (-(s * x)) *
+        (∫ u in Ioi x, (u : ℂ) ^ (b - 1) * cexp (-(u : ℂ))) =
+      Gamma (a + b) / (a * (1 + s) ^ (a + b)) *
+        gaussHypergeometric 1 (a + b) (1 + a) (s / (1 + s)) := sorry
+
+/-- **9.4** DLMF 8.17.9 for `0 ≤ x < 1`, with `B_x(a, b)` as its integral. -/
+theorem incompleteBeta_eq_gaussHypergeometric {a b x : ℝ} (ha : 0 < a) (hb : 0 < b)
+    (hx₀ : 0 ≤ x) (hx₁ : x < 1) :
+    (((∫ t in (0 : ℝ)..x, t ^ (a - 1) * (1 - t) ^ (b - 1)) : ℝ) : ℂ) =
+      (x : ℂ) ^ (a : ℂ) * (1 - (x : ℂ)) ^ ((b : ℂ) - 1) / a *
+        gaussHypergeometric 1 (1 - (b : ℂ)) ((a : ℂ) + 1) ((x : ℂ) / ((x : ℂ) - 1)) := sorry
+
+/-- **9.4** DLMF 8.19.25 for `Re a > −1`, with `E_p(t) = ∫_1^∞ e^{−tu} u^{−p} du` and the
+hypothesis `Re b > 0`. -/
+theorem integral_exp_mul_cpow_mul_expIntegralE_of_re_gt_neg_one {a b p : ℂ} (ha : -1 < a.re)
+    (hb : 0 < b.re) (hpb : 1 < (p + b).re) :
+    ∫ t in Ioi (0 : ℝ), cexp (-(a * t)) * (t : ℂ) ^ (b - 1) *
+        (∫ u in Ioi (1 : ℝ), cexp (-((t : ℂ) * u)) * (u : ℂ) ^ (-p)) =
+      Gamma b * (1 + a) ^ (-b) / (p + b - 1) * gaussHypergeometric 1 b (p + b) (a / (1 + a)) :=
+  sorry
+
 #check @_root_.Complex.regularizedGaussHGFun
 #check @_root_.Complex.arctan
 #check @_root_.Differentiable.apply_eq_apply_of_bounded
@@ -399,6 +532,7 @@ theorem hasSum_regularizedGaussHypergeometric_inv {a b c z z₀ : ℂ} (hz₀ : 
 #check @_root_.Complex.starConvex_one_slitPlane
 #check @_root_.Complex.Gamma_mul_Gamma_eq_betaIntegral
 #check @_root_.Complex.digamma
+#check @_root_.Complex.arg
 #check @_root_.Polynomial.Chebyshev.T_complex_cos
 #check @_root_.Polynomial.shiftedLegendre
 #check @_root_.Polynomial.coeff_shiftedLegendre
