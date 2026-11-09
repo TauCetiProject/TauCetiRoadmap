@@ -46,7 +46,8 @@ It uses, and does not redevelop:
   regularity of CrystallineCohomology §§CR.5:log-algebra.1–CR.5:log-algebra.4, and the
   logarithmic differential module of §CR.5.1; 0.10 builds purity-specific equivariant
   modifications, actions and quotients on those objects;
-- the logarithm of a unipotent automorphism, Grothendieck's monodromy theorem for local fields, and the monodromy
+- the nilpotent exponential and the finite logarithm of a unipotent from SmoothRepresentationsOfLocalGroups
+  SR.5.2 (*nilpotent-exp-log*); Grothendieck's monodromy theorem for local fields and the monodromy
   filtration of a nilpotent endomorphism of a finite-dimensional vector space with its tensor and dual rules from
   ArithmeticGaloisRepresentations Layer 2 (§§2.4, 2.6); function-field Chebotarev from its Layer 5 (§5.13);
 - the inertia group and tame character of a nonarchimedean local field from TauCetiRoadmap LocalFieldsRamification
@@ -62,9 +63,6 @@ It uses, and does not redevelop:
   `𝔰𝔩₂`-modules from TauCetiRoadmap RepresentationTheory and Completed IntegralLattices; abelian Chebotarev from
   TauCetiRoadmap Chebotarev Layer 9; mixed Hodge structures and strictness from Completed HodgeStructures (layer L2) and
   Tau Ceti's `TauCeti.Hodge.MixedHodgeStructure`;
-- the `𝔰𝔩₂` triple of a Lefschetz structure from LefschetzStructures §0.4, which 1.4 applies to `gr^M`; the
-  even-rank unit criterion for quadratic forms on free modules from QuadraticFormsOverABase §2.2, to which
-  2.2 localizes (the statements over locally free modules in 2.1–2.2 stay here);
 - curve/Jacobian comparison, finite-coefficient and rational constructible trace formulas,
   and constant-sheaf point counts from InverseGaloisAndArithmeticFundamentalGroups
   §§IG.0.T1–IG.0.T4, on the domains specified in F.10;
@@ -209,12 +207,9 @@ It leaves to other roadmaps:
 - **AdelicAlgebraicGroups** Layer 4, §4.2 (closed subgroups of `p`-adic Lie groups, their Lie algebras, openness).
 - **TauCetiRoadmap OrthogonalSpinGroups** Layers 0 and 2 (orthogonal groups over a general field and over `ℚ_p`, their
   topology and closedness).
-- **QuadraticFormsOverABase** §2.2 (the even-rank unit criterion), read through §2.1, in 2.2; contract
-  below.
 - **TauCetiRoadmap Chebotarev** Layer 9 (abelian Chebotarev).
 - **TauCetiRoadmap RepresentationTheory**: CharacterTheory Layer 4, LieHighestWeight Layer 0 (`𝔰𝔩₂`-modules,
   Clebsch–Gordan), RootSystems Layer 5 (the Cartan–Killing classification, whose simply laced types are A, D and E).
-- **LefschetzStructures** §0.1 (Lefschetz structures) and §0.4 (their `𝔰𝔩₂` triple), in 1.4; contract below.
 - **Completed IntegralLattices** Layer 1 and **Completed HodgeStructures** layer L2 (mixed Hodge structures and
   strictness).
 - **CrystallineCohomology** §§CR.5:log-algebra.1–CR.5:log-algebra.4: monoids,
@@ -248,9 +243,11 @@ It leaves to other roadmaps:
   comparison, finite-coefficient and rational constructible trace formulas, and constant-sheaf
   point counts); Layer IG.1 (§IG.1.2 tame fundamental groups of curves;
   §IG.1.3 tame specialization).
+- **SmoothRepresentationsOfLocalGroups** SR.5.2 (*nilpotent-exp-log*: the nilpotent exponential and the finite
+  logarithm of a unipotent in a `ℚ`-algebra, inverse to each other and independent of the vanishing bound), in 1.2.
 - **ArithmeticGaloisRepresentations** Layer 2 (§2.1a local-field specialization of the general-trait
-  tame character, §2.3 tame characters of local fields, §2.4 unipotent logarithm and
-  Grothendieck's monodromy theorem for local fields, §2.6 monodromy filtration of a nilpotent on a vector space) and
+  tame character, §2.3 tame characters of local fields, §2.4 Grothendieck's monodromy theorem for local
+  fields, §2.6 monodromy filtration of a nilpotent on a vector space) and
   Layer 5 (§5.13 Chebotarev for function fields of curves over finite fields).
 - **DerivedModuleAlgebra** §1.T.1 (towers, inverse limits, `lim¹` and Milnor sequences).
 - **ArithmeticGaloisDuality** Layers R02.1 (continuous cochains and lattices) and R02.2 (Hochschild–Serre).
@@ -268,20 +265,6 @@ It leaves to other roadmaps:
   supplies Galois/cohomology conversion.
 - **TauCetiRoadmap AlgebraicTopology** Stage 5 item 2 (mapping-torus Wang sequence) and Stage 6
   item 4 (Poincaré–Lefschetz duality), adapted to cohomology and singular-fibre supports in 7b.6.
-
-### From TauCetiRoadmap.LefschetzStructures
-
-§0.4, on the Lefschetz structures of §0.1: over a field of characteristic zero, the unique `𝔰𝔩₂` triple
-`(L, h, f)` of a Lefschetz structure of weight `2n`, with `h` acting on `H^i` by `i − n` and its formula for
-`f` on powers of `L` applied to primitive classes. Item 3 of 1.4 applies it to `gr^M X` with `L = N` and
-owns only that application.
-
-### From TauCetiRoadmap.QuadraticFormsOverABase
-
-§2.2, `isSmooth_iff_isUnit_det`: a form of even rank on `Fin n → R` is `IsSmooth` exactly when its polar
-determinant is a unit, read through the §2.1 comparison of `IsSmooth` with ordinarity in the sense of 2.1
-here. 2.2 localizes to it for the equivalence of ordinarity in positive even rank with a bijective polar
-map.
 
 ## How to read the build
 
@@ -945,10 +928,11 @@ operator `N : V → V(−1)` and its compatibilities with Frobenius, finite exte
 builds the monodromy filtration of a nilpotent endomorphism of an object of an abelian category with
 its primitive decomposition and the relative variant, and computes the filtered nearby complex of a
 regular semistable scheme with two components. It ends with the semisimple trace of Frobenius on
-nearby cycles. The logarithm of a unipotent automorphism and the monodromy filtration of a nilpotent
-endomorphism of a finite-dimensional vector space, with its uniqueness and tensor and dual rules, are
-ArithmeticGaloisRepresentations Layer 2 (§2.4, the nilpotent exp/log calculus; §2.6
-`WeilDeligneRep.monodromyFiltration`); this layer uses them and adds what the geometric applications need.
+nearby cycles. The finite logarithm of a unipotent automorphism is SmoothRepresentationsOfLocalGroups
+SR.5.2 (*nilpotent-exp-log*); Grothendieck's monodromy theorem for local fields and the monodromy filtration
+of a nilpotent endomorphism of a finite-dimensional vector space, with its uniqueness and tensor and dual
+rules, are ArithmeticGaloisRepresentations Layer 2 (§2.4; §2.6 `WeilDeligneRep.monodromyFiltration`); this
+layer uses them and adds what the geometric applications need.
 
 ### 1.1 The geometric local monodromy theorem
 
@@ -1041,7 +1025,8 @@ Let `ρ : G → GL(V)` be a quasi-unipotent representation on a finite-dimension
 instance the geometric cohomology of 1.1). There is a unique nilpotent `N : V → V(−1)` such that
 `ρ(σ) = exp(t_ℓ(σ) N)` for `σ` in every open subgroup of `I` on which `ρ` is unipotent; here
 `t_ℓ(σ) N` means `N` followed by evaluation of the twist on `t_ℓ(σ) ∈ ℤ_ℓ(1)`, and the exponential and
-logarithm are the nilpotent exp/log calculus used by ArithmeticGaloisRepresentations Layer 2, §2.4 (the
+logarithm are the nilpotent exp/log calculus of SmoothRepresentationsOfLocalGroups SR.5.2
+(*nilpotent-exp-log*), the one used by ArithmeticGaloisRepresentations Layer 2, §2.4 (the
 logarithm of a unipotent `T` is the finite sum `Σ_{1≤j<d} (−1)^{j+1}(T − 1)^j/j` for `(T − 1)^d = 0`,
 independent of `d` and inverse to `IsNilpotent.exp`). Call this `N` the
 monodromy operator of `ρ`. Prove:
@@ -1066,7 +1051,8 @@ prime to `ℓ`, so its image is finite and unipotent, hence trivial; thus `ρ|_{
 `exp`/`log`. Equivariance is the conjugation rule `t_ℓ(gσg⁻¹) = χ_ℓ(g) t_ℓ(σ)`; geometric Frobenius acts
 on `ℚ_ℓ(−1)` by `q`. The ramified extension uses `t_ℓ|_{I'} = e t'_ℓ`. (Illusie 1994, 1.5 and
 (1.5.1)–(1.5.4), pp. 12–13; Weil II, 1.6.14 and 1.7.2, pp. 169–172.) *Needs:* EtaleCohomologyFoundations §F.3a, 1.1;
-ArithmeticGaloisRepresentations Layer 2, §2.4; EtaleCohomologyFoundations §F.0 (Tate twists).
+SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*); ArithmeticGaloisRepresentations Layer 2,
+§2.4; EtaleCohomologyFoundations §F.0 (Tate twists).
 
 **Checks.**
 
@@ -1146,15 +1132,14 @@ For each `r ≥ 0`, the subobject equalities
 3. (The `sl₂` realization.) For an untwisted nilpotent endomorphism of a finite-dimensional vector space
    over a field `k` of characteristic zero, `gr^M X` carries a canonical ordinary `𝔰𝔩₂` action, expressed
    as a Lie algebra homomorphism `sl (Fin 2) k →ₗ⁅k⁆ Module.End k (gr^M X)` and its induced `LieModule`.
-   It is the `𝔰𝔩₂` triple of a Lefschetz structure (LefschetzStructures §0.4) applied to `gr^M X`: if
-   `N^{d+1} = 0`, placing `gr_i` in degree `d − i` makes `gr^M X` with `L = N` a Lefschetz structure of
-   weight `2d` (LefschetzStructures §0.1), whose hard Lefschetz bijections are the opposite isomorphisms
-   `N^r : gr_r ≅ gr_{−r}`. For the triple `(N, h, f)` of §0.4 there, `(H, X, Y) = (−h, f, N)`; for
-   `N ≠ 0` this is Mathlib's `IsSl2Triple.symm` of `IsSl2Triple h N f`.
    The induced graded `N` is the lowering operator `Y` and `H` acts by the weight `i` on `gr_i`; the raising
-   operator `X` is given on the primitive decomposition by `X(N^a u) = a(j − a + 1) N^{a−1} u` for
-   `u = (N^j)^{−1} p`, `p ∈ P_{−j}`, `1 ≤ a ≤ j`, with the endpoint value `X(u) = 0`: this is the formula
-   of LefschetzStructures §0.4 for the primitive class `u` of degree `d − j`, with `a = k + 1`.
+   operator `X` is defined on the primitive decomposition by `X(N^a u) = a(j − a + 1) N^{a−1} u` for
+   `u = (N^j)^{−1} p`, `p ∈ P_{−j}`, `1 ≤ a ≤ j`, with the endpoint value `X(u) = 0`. The action is the
+   unique `𝔰𝔩₂` action on `gr^M X` whose lowering operator is `N` and whose weight operator is `H`; for
+   `N ≠ 0` its values along the string of a nonzero `u` are the ones the bracket relations force (Mathlib's
+   `IsSl2Triple.HasPrimitiveVectorWith.lie_e_pow_succ_toEnd_f` for the triple `(H, X, Y)`, the primitive
+   vector `u` and the weight `μ = j` reads `X(N^{k+1} u) = (k + 1)(j − k) N^k u`, the displayed formula at
+   `a = k + 1`).
    These operators satisfy `[X,Y] = H`, `[H,X] = 2X` and `[H,Y] = −2Y`, including when `N = 0`,
    where the action is trivial. If `N ≠ 0`, they also satisfy Mathlib's `IsSl2Triple H X Y`:
    a string of length at least two has a nonzero weight, so `H ≠ 0`. Each `N`-string through a primitive
@@ -1174,13 +1159,18 @@ item 3 they follow from the Clebsch–Gordan rule, and `Sym^d` of the two-block 
 
 *Proof sketch.* Split each graded piece into the primitive kernel and the image of the next power of
 `N` using the opposite isomorphisms; iterate; strictness follows by graded surjectivity and injectivity.
-In characteristic zero, item 3 takes the triple of LefschetzStructures §0.4 on the Lefschetz structure
-`gr^M X` and reverses it to `(−h, f, N)`; its bracket relations give the homomorphism even for the
-trivial action, the uniqueness in §0.4 makes it canonical and independent of `d`, and for `N ≠ 0` a
-nontrivial string supplies the nonzero weight operator required by the native triple.
+In characteristic zero define `X` on the primitive decomposition by the displayed formula and check the
+three bracket relations on each string: `[H, X] = 2X` and `[H, Y] = −2Y` because `X` raises and `N` lowers
+the weight by two, and `[X, Y] N^a u = ((a + 1)(j − a) − a(j − a + 1)) N^a u = (j − 2a) N^a u = H N^a u`,
+the endpoint `a = j` using `N^{j+1} u = N p = 0`. This gives the homomorphism even for the trivial action;
+for `N ≠ 0`, a nontrivial string supplies the nonzero weight operator required by the native triple. For
+the uniqueness, the difference `D` of two raising operators with the same `H` and `N` commutes with `N`
+and raises the weight by two, so `D u` has weight `j + 2` and is killed by `N^{j+1}`; since
+`N^{j+2} : gr_{j+2} ≅ gr_{−j−2}` is the opposite isomorphism of 1.3 and factors through `N^{j+1}`, the
+latter is injective on `gr_{j+2}`, so `D u = 0`, and `D N^a u = N^a D u = 0` on the whole string.
 (Weil II, 1.6.3–1.6.8 and 1.6.10–1.6.12, pp. 165–168.)
-*Needs:* 1.3; Mathlib `LieHom`, `LieModule` and `IsSl2Triple`; LefschetzStructures §§0.1 and 0.4
-(Lefschetz structures and their `𝔰𝔩₂` triple); TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0
+*Needs:* 1.3; Mathlib `LieHom`, `LieModule`, `IsSl2Triple` and
+`IsSl2Triple.HasPrimitiveVectorWith.lie_e_pow_succ_toEnd_f`; TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0
 (finite-dimensional `𝔰𝔩₂`-modules and Clebsch–Gordan); ArithmeticGaloisRepresentations Layer 2, §2.6.
 
 **Checks.**
@@ -1444,12 +1434,12 @@ p. 212.) *Needs:* 1.1, 1.2; 0.8 (the nearby-cycle stalks it is applied to); Etal
 
 ### Dependencies
 
-Layer LPV.0; ArithmeticGaloisRepresentations Layer 2 (§2.4 logarithm and Grothendieck's monodromy
+Layer LPV.0; SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, the finite logarithm of a
+unipotent); ArithmeticGaloisRepresentations Layer 2 (§2.4 Grothendieck's monodromy
 theorem for local fields; §2.6 the vector-space monodromy filtration with its tensor and dual rules);
 the smooth-stage trait descent of 1.1;
 PurityOfBranchLocus §§2.1–2.2; InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3; EtaleCohomologyFoundations §§F.1–F.2, EtaleCohomologyFoundations §F.6; EtaleCohomologyFoundations §F.1;
 EtaleCohomologyFoundations §F.0 (Tate twists); Stacks Project 0BMB; SGA 1 XIII 5.3;
-LefschetzStructures §§0.1 and 0.4;
 TauCetiRoadmap RepresentationTheory/LieHighestWeight Layer 0; Mathlib (`IsSl2Triple`, abelian categories);
 Tau Ceti (`LinearMap.GeneralLinearGroup.IsUnipotent`).
 
@@ -1548,10 +1538,12 @@ the Lagrangian idempotent and the discriminant cover, and prove:
 - Over a field, `e(W₁) = e(W₂) ↔ Even (finrank (W₁ ⧸ W₁ ⊓ W₂))`.
 - `Z(X) → S` for a smooth quadric of even dimension, with `e : Gén(X) → Z(X)` the Stein factorisation.
 
-*Proof sketch.* Ordinarity and bijectivity of the polar map are both Zariski-local on `Spec A`; where `V`
-is free of rank `2m`, their equivalence is the even-rank unit criterion `isSmooth_iff_isUnit_det` of
-QuadraticFormsOverABase §2.2 (a unit polar determinant is a bijective `polarBilin`), whose `IsSmooth` is
-ordinarity in the sense of 2.1 by its §2.1 comparison. Étale locally `Q` is split; for
+*Proof sketch.* Ordinarity and bijectivity of the polar map `V → V*` are both Zariski-local on `Spec A`
+and both are tested on the fibres: ordinarity by the fibre criterion of 2.1, and a map between locally
+free modules of the same finite rank is bijective exactly when it is so on every fibre (surjective by
+Nakayama, then bijective because a surjection between free modules of the same finite rank is an
+isomorphism). Over a field of even rank `2m > 0`, 2.1 gives that `Q` is ordinary exactly when `Φ` is
+nondegenerate, that is when `V → V*` is bijective. Étale locally `Q` is split; for
 `V = W_1 ⊕ W_2` with both summands totally isotropic, `C(Q) ≅ End(ΛW_1)` as graded algebras, so
 `C⁺(Q) ≅ End(ΛW_1)⁺ × End(ΛW_1)⁻` has centre `A × A`; descent gives the étale rank-two centre and the
 Azumaya property. The idempotent `e(W_1, W_2)` depends only on `W_1` by connectedness of the affine space
@@ -1560,7 +1552,6 @@ formula `e(W_1 ⊕ W_2) = e(W_1)e(W_2) + (1 − e(W_1))(1 − e(W_2))` to dimens
 `C⁺` of the ambient form descends; generatrices disjoint from a given one form an affine space, so
 `Gén(X)` is smooth, and its geometric fibres over `Z(X)` are connected by reduction to `P¹ × P¹`. (SGA 7
 II, Exposé XII, Proposition 1.5, p. 5; Proposition 1.12, p. 8; Proposition 2.8, p. 13.) *Needs:* 2.1;
-QuadraticFormsOverABase §2.2 (the even-rank unit criterion, with its §2.1 comparison);
 Mathlib `CliffordAlgebra.even`, `Subalgebra.center`; Tau Ceti `CliffordAlgebra.adjoinRootEquivCenterEven` (the field
 case with two invertible); SchemeAndStackFoundations Layers 0 (§0.8, étale localization) and 1 (§1.1, descent of
 quasi-coherent modules). *Lean:* `Suggested.lean` states this algebraic theorem as
@@ -2283,7 +2274,6 @@ pp. 287–288.) *Needs:* the Picard–Lefschetz formula, the local description o
 Layers LPV.0 and LPV.1; Mathlib (quadratic forms, Clifford algebras, smoothness and the
 Jacobian criterion); Tau Ceti (the centre of the even Clifford algebra when two is invertible);
 AlgebraicModuliForArithmeticGeometry Layers 1 and 6; SchemeAndStackFoundations Layers 0 and 3;
-QuadraticFormsOverABase §§2.1–2.2 (in 2.2);
 TauCetiRoadmap ModularCurves Layer 4D; EtaleCohomologyFoundations §§F.1–F.7;
 InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4 (point counting);
 ComplexComparisonPartII §§C6.0–C6.6 and the nearby–Betti adapter 0.8a.
@@ -4404,6 +4394,9 @@ Layer C5; Completed HodgeStructures (layer L2) and Tau Ceti `TauCeti.Hodge.Mixed
 - **EndoscopicTransferAndUnitaryTraceComparison** uses nearby-cycle duality and perversity (6.1–6.2).
 - **AutomorphicGaloisRepresentations** uses the specialization sequence of a proper curve (0.6, 7a.2) for Carayol's
   vanishing-cycle filtration; the semisimple trace of 1.10 is the one used for local models of Shimura varieties.
+- **QuadraticFormsOverABase** §2.1 compares its smoothness predicate for forms on `Fin n → R` with ordinarity
+  (2.1) and its polar criterion with the even-rank statement of 2.2; its Layer 4 uses the even Clifford centre and
+  the Azumaya property (2.2).
 
 ## References
 
