@@ -72,8 +72,10 @@ item 3:
   regular form of positive rank is `QuadraticForm.isAdmissible_globalInvariants`, in `Type`.
 - 4.4, the localized product formula, resolves to `TauCeti.hilbertSymbol_productFormula`, in
   `Type`.
-- 4.4, the real symbol, resolves to `TauCeti.hilbertSymbol_real` and
-  `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`.
+- 4.4, the archimedean symbol, resolves to `TauCeti.hilbertSymbol_real` and
+  `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff` at a real place, and, at a complex
+  place, to `TauCeti.hilbertSymbol_completion_eq_one_of_isComplex` (every symbol over the
+  completion is `1`).
 - 4.4, sign prescription with a prescribed second argument, resolves to
   `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite`, in `Type`.
 - 4.4, sign prescription for a pair, cited under the name exists_hilbertSymbol_eq_neg_one_iff_pair,
@@ -280,6 +282,8 @@ All paths are under `TauCeti/`.
   `NumberTheory/QuadraticForm/Global/ArchimedeanSymbol.lean`, `HilbertSymbol.lean`,
   `ProductFormula.lean`, `SignPrescription.lean`): `TauCeti.hilbertSymbol`,
   `TauCeti.hilbertSymbol_real`, `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`,
+  `TauCeti.hilbertSymbol_completion_eq_one_of_isComplex` (at a complex place every symbol over
+  the completion is `1`),
   `TauCeti.hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace` (the finite symbols of
   `a, b ∈ Kˣ` are `1` at almost every finite place), `TauCeti.hilbertSymbol_productFormula` (their
   product `∏ᶠ` over the finite places times the product over the real places is `1`),
