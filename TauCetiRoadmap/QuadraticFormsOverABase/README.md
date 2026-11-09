@@ -55,10 +55,13 @@ quadratic algebras over `R`, or about binary forms of formal degree `n` over `R`
 
 **Supplied at the pins.** Mathlib's `QuadraticForm`, `QuadraticMap.toBilin`, `polarBilin`,
 `radical`, `QuadraticMap.Nondegenerate`, isometries, `CliffordAlgebra.even`, `IsAzumaya`,
-`QuadraticAlgebra` with its involution `QuadraticAlgebra.starAlgEquiv`, `Polynomial.resultant` and
-`Polynomial.discr`; Tau Ceti's coordinate Hopf algebra of `GLₙ`, its generic matrix, its points,
-`HopfIdeal`, the orthogonal group `TauCeti.QuadraticMap.orthogonalGroup` of a quadratic map with its
-coordinate embedding `QuadraticMap.orthogonalToGeneralLinear`, the étale criterion
+`QuadraticAlgebra` with its involution `QuadraticAlgebra.starAlgEquiv`, `Polynomial.resultant`,
+`Polynomial.discr`, and the discriminant `QuadraticForm.discr'` of a form when `2` is invertible
+(`halfDisc` is `discr'` up to `2^(n−1)` and needs no unit `2`); Tau Ceti's congruence modulo `4`
+and square property of skew determinants, its polar-matrix identities, its coordinate Hopf algebra
+of `GLₙ`, its generic matrix, its points, `HopfIdeal`, the orthogonal group
+`TauCeti.QuadraticMap.orthogonalGroup` of a quadratic map with its coordinate embedding
+`QuadraticMap.orthogonalToGeneralLinear` and coordinate criterion, the étale criterion
 `QuadraticAlgebra.etale_iff_isUnit_discr` for free quadratic algebras, and the discriminant
 criteria `Polynomial.Monic.isUnit_discr_iff` and `Polynomial.Monic.etale_adjoinRoot_iff`. They are
 consumed by name; no second carrier is built.
@@ -148,7 +151,10 @@ consumed by name; no second carrier is built.
   `QuadraticMap.radical_eq_ker_polarBilin` and `QuadraticMap.Nondegenerate`
   (`QuadraticForm/Radical.lean`),
   `QuadraticMap.IsometryEquiv`, `QuadraticForm.baseChange` (`QuadraticForm/TensorProduct.lean`,
-  under `Invertible (2 : R)`), `TensorProduct.piScalarRight`.
+  under `Invertible (2 : R)`), `TensorProduct.piScalarRight`; the discriminant
+  `QuadraticForm.discr'` with `QuadraticForm.discr'_comp`, `QuadraticForm.discr'_smul` and
+  `QuadraticForm.discr_eq_discr'` (`QuadraticForm/Basic.lean`, under `Invertible (2 : R)`),
+  compared with `halfDisc` in 1.2.
 - Matrices: `LinearMap.toMatrix₂'`, `Matrix.toLinearMap₂'`, `Matrix.toLin'`, `Matrix.det`,
   `Matrix.mulVec`, `Matrix.GeneralLinearGroup`.
 - Polynomials: `MvPolynomial`, `MvPolynomial.eval₂Hom`, `Polynomial.resultant`,
@@ -188,7 +194,19 @@ consumed by name; no second carrier is built.
   (`TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean`):
   `TauCeti.QuadraticMap.orthogonalGroup`, the `Q`-preserving linear automorphisms, and its
   coordinate embedding `QuadraticMap.orthogonalToGeneralLinear` into `GL n R`, whose range is
-  `orthogonalGroup Q A` in 3.1.
+  `orthogonalGroup Q A` in 3.1, with `QuadraticMap.coe_orthogonalToGeneralLinear` (its matrix is
+  `LinearMap.toMatrix'` of the automorphism); and its coordinate criterion
+  `TauCeti.QuadraticMap.mem_orthogonalGroup_iff_toMatrix`
+  (`…/QuadraticForm/OrthogonalGroup/Coordinate.lean`, under `Invertible (2 : R)`:
+  `g ∈ orthogonalGroup Q ↔ Aᵀ (Q.toMatrix b) A = Q.toMatrix b`), used in 3.1.
+- **The polar matrix** (`TauCeti/LinearAlgebra/QuadraticForm/Matrix.lean`, under
+  `Invertible (2 : R)`): `QuadraticForm.toMatrix_polarBilin` (the polar matrix is
+  `2 • Q.toMatrix b`), used in 3.1, and `QuadraticForm.det_toMatrix_polarBilin`, used in 1.2.
+- **Skew-symmetric determinants** (`TauCeti/LinearAlgebra/Matrix/Determinant/Skew.lean`):
+  `Matrix.four_dvd_neg_one_pow_mul_det_add_transpose_sub_det_sub_transpose` (for `S` of size `2k`
+  over a commutative ring, `4 ∣ (−1)^k det(S + Sᵀ) − det(S − Sᵀ)`) and
+  `Matrix.isSquare_det_of_transpose_eq_neg_of_diag_eq_zero` (over a field, a skew matrix with zero
+  diagonal has square determinant), used in 1.4.
 - **Quadratic étale algebras** (`TauCeti/Algebra/QuadraticAlgebra/Etale.lean`):
   `QuadraticAlgebra.etale_iff_isUnit_discr`, used in 2.4 and 5.1.
 - **Discriminants** (`TauCeti/RingTheory/Polynomial/Resultant/Discriminant.lean` and
@@ -342,8 +360,15 @@ Define `halfDisc Q = evalMatrix (coeffMatrix Q) (univHalfDisc n)`. Prove `two_mu
 any bilinear form `B` on `Fin n → R` with `B.toQuadraticMap = Q`, evaluating `univHalfDisc n` at
 the matrix of `B` gives `δ'(Q)`. Route for the second: two such `B` differ by an alternating
 matrix `A`, and `det(U + A + (U + A)ᵀ) = det(U + Uᵀ)` in `ℤ[U, A]`, which has no `2`-torsion.
+When `Invertible (2 : R)` and `n` is odd, `two_mul_halfDisc`, Tau Ceti's
+`QuadraticForm.det_toMatrix_polarBilin` in the standard basis and Mathlib's
+`QuadraticForm.discr_eq_discr'` give `2 δ'(Q) = 2ⁿ QuadraticForm.discr' Q`, so
+`δ'(Q) = 2^(n−1) discr' Q`, and the rules of 1.3 restrict to Mathlib's `QuadraticForm.discr'_comp`
+(factor `(det g)²`) and `QuadraticForm.discr'_smul` (factor `aⁿ`).
 
-*Needs:* 0.1, 1.1; Mathlib `LinearMap.BilinMap.toQuadraticMap_surjective`, `eval₂Hom`.
+*Needs:* 0.1, 1.1; Mathlib `LinearMap.BilinMap.toQuadraticMap_surjective`, `eval₂Hom`,
+`QuadraticForm.discr'`, `QuadraticForm.discr_eq_discr'`; Tau Ceti
+`QuadraticForm.det_toMatrix_polarBilin`.
 
 **Checks.**
 
@@ -354,6 +379,9 @@ matrix `A`, and `det(U + A + (U + A)ᵀ) = det(U + Uᵀ)` in `ℤ[U, A]`, which 
   `!![1, 0, 0; 0, 0, 0; 0, 1, 0]` (the `y z` term placed below the diagonal), evaluation of
   `univHalfDisc 3` at `B` is again `−1`; over `𝔽₂` the polar determinant of this form is `0`
   and cannot be halved there.
+- Against Mathlib's `discr'` at `q₃ = standard 3` over `ℚ`:
+  `discr' q₃ = det !![0, ½, 0; ½, 0, 0; 0, 0, 1] = −1/4` and `2² · (−1/4) = −1 = δ'(q₃)`; reading
+  `δ'` as `discr'` would give `−1/4`, and as half of `discr'`, `−1/8`.
 
 ### 1.3 Transformation rules
 
@@ -380,22 +408,26 @@ Define the universal hafnian `univHafnian n`: the sum, over the perfect matching
 (involutions without fixed points), of `∏_{i < σ i} (U_{i σ i} + U_{σ i i})`, the off-diagonal
 entries of `U + Uᵀ`. Prove `four_dvd_univSignedDisc_sub_sq`: for `n` even, `4` divides
 `(−1)^(n/2) det(U + Uᵀ) − B²` in `ℤ[U]`, `B = univHafnian n`. Route, without Pfaffians: with
-`P = U + Uᵀ` and `K = U − Uᵀ = P − 2Uᵀ`, the first-order term of `det(P − t Uᵀ)` gives
-`det K ≡ (1 − n) det P (mod 4)`; `det K` is a square `r²` in `ℤ[U]` (an alternating matrix of even
-size over a field of characteristic `≠ 2` has square determinant, and `ℤ[U]` is integrally closed);
-modulo `2`, the determinant of a symmetric matrix with zero diagonal is the square of its matching
-sum, so `r ≡ B (mod 2)` and `det K ≡ B² (mod 4)`; finally `(−1)^(n/2) ≡ 1 − n (mod 4)`. For an
-integer symmetric matrix with even diagonal and `4 ∣ n` the congruence is Auel–Biesel–Voight 2023,
-Proposition 3.20 (arXiv numbering), with the Pfaffian of `K`, which is `B` modulo `2`, in place of
-`B`; its Proposition 3.10 and Lemma 3.21 are the first-order step of the route. The universal form
-over `ℤ[U]`, the case `n ≡ 2 (mod 4)` and the sign are proved by the route. Define
+`P = U + Uᵀ` and `K = U − Uᵀ`, Tau Ceti's
+`Matrix.four_dvd_neg_one_pow_mul_det_add_transpose_sub_det_sub_transpose` at `S = U`, `k = n/2`,
+gives `(−1)^(n/2) det P ≡ det K (mod 4)` in `ℤ[U]`; Tau Ceti's
+`Matrix.isSquare_det_of_transpose_eq_neg_of_diag_eq_zero` over the fraction field of `ℤ[U]` makes
+`det K` a square there, hence a square `r²` in `ℤ[U]`, which is integrally closed; modulo `2`, the
+determinant of a symmetric matrix with zero diagonal is the square of its matching sum, so
+`r ≡ B (mod 2)` and `det K ≡ B² (mod 4)`. For an integer symmetric matrix with even diagonal and
+`4 ∣ n` the congruence is Auel–Biesel–Voight 2023, Proposition 3.20 (arXiv numbering), with the
+Pfaffian of `K`, which is `B` modulo `2`, in place of `B`; its Proposition 3.10 and Lemma 3.21
+prove, for an integer `U` and `4 ∣ n`, the case of Tau Ceti's congruence used here. The hafnian
+step (`r ∈ ℤ[U]`, `r ≡ B (mod 2)`) is proved by the route. Define
 `univDiscConst n`, the coefficients of `(−1)^(n/2) det(U + Uᵀ) − B²` divided by `4`, and
 `discAlgebra Q`, the free quadratic algebra `QuadraticAlgebra R C B` at the values `C`, `B` of these
 polynomials at `coeffMatrix Q`. Prove `discr_discAlgebra`: for `n` even, its discriminant `B² + 4C`
 is `(−1)^(n/2) det(polarMatrix Q)`, by the divisibility above, evaluated at `coeffMatrix Q`.
 
 *Needs:* 0.1, 1.1; Mathlib `Matrix.det_transpose`, `Equiv.Perm`, `QuadraticAlgebra`,
-`QuadraticAlgebra.discr`, `IsIntegrallyClosed` of `MvPolynomial` over `ℤ`.
+`QuadraticAlgebra.discr`, `FractionRing`, `IsIntegrallyClosed` of `MvPolynomial` over `ℤ`; Tau Ceti
+`Matrix.four_dvd_neg_one_pow_mul_det_add_transpose_sub_det_sub_transpose`,
+`Matrix.isSquare_det_of_transpose_eq_neg_of_diag_eq_zero`.
 
 **Checks.**
 
@@ -428,8 +460,10 @@ is `(−1)^(n/2) det(polarMatrix Q)`, by the divisibility above, evaluated at `c
 
 ### Dependencies
 
-Layer 0; Mathlib `Matrix.det`, `MvPolynomial`, `QuadraticAlgebra`;
-GeometryOfNumbersAndQuadraticArithmetic §6.8 (Examples).
+Layer 0; Mathlib `Matrix.det`, `MvPolynomial`, `QuadraticAlgebra`, `QuadraticForm.discr'`; Tau
+Ceti `Matrix.four_dvd_neg_one_pow_mul_det_add_transpose_sub_det_sub_transpose`,
+`Matrix.isSquare_det_of_transpose_eq_neg_of_diag_eq_zero`,
+`QuadraticForm.det_toMatrix_polarBilin`; GeometryOfNumbersAndQuadraticArithmetic §6.8 (Examples).
 
 ## Layer 2: smooth forms
 
@@ -537,9 +571,11 @@ are the odd-rank step, the passage to one algebra and the converse; the even-ran
 
 **Checks.**
 
-- Over `𝔽₂(t)`, `t x²` is smooth and not isometric to `x²` over any étale `𝔽₂(t)`-algebra (that
-  needs `√t`), but it is over `𝔽₂(√t)`, finite flat: the étale statement needs `n` even or
-  `2 ∈ Rˣ`.
+- Over `𝔽₂(t)`, `t x²` is smooth and not isometric to `x²` over any nonzero étale
+  `𝔽₂(t)`-algebra `S`: an isometry is multiplication by a unit `u` of `S` with `u² = t`, so every
+  factor field of `S`, separable over `𝔽₂(t)`, would contain the inseparable `√t`. It is isometric
+  to `x²` over `𝔽₂(√t)`, finite flat: the étale statement needs `n` even or `2 ∈ Rˣ`. (Over the
+  zero algebra, which is étale but not faithfully flat, both forms live on the zero module.)
 - Over `ℝ`, `x² + y²` becomes `x y` over `ℂ`, which is étale over `ℝ`.
 - The zero form on `Fin 2 → R` is not smooth, and over any nonzero `S` it is not isometric to
   `x y`, which takes the value `1`.
@@ -583,9 +619,11 @@ point `h ∈ GLₙ(A)` satisfies `h C hᵀ = C` at `C = polarMatrix Q` exactly w
 some `g ∈ orthogonalGroup Q A`, so that `g ↦ (gᵀ)⁻¹` is an isomorphism from `O(Q)` onto the group
 scheme of `TauCeti.ConstantForm` at the polar matrix. This is the transport `M ↦ M⁻ᵀ` between the
 column convention `gᵀ C g = C` and the row convention `M C Mᵀ = C` that
-OrthogonalTamagawaAndLatticeMass records in its Conventions. Route: when `2` is invertible,
-`Q_A(x) = ½ polar Q_A(x, x)`, so `g` preserves `Q_A` exactly when `gᵀ C g = C`, that is
-`g⁻ᵀ C g⁻¹ = C` (`TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`). Layer 3 extends both
+OrthogonalTamagawaAndLatticeMass records in its Conventions. Route: Tau Ceti's
+`TauCeti.QuadraticMap.mem_orthogonalGroup_iff_toMatrix` in the standard basis
+(`QuadraticMap.coe_orthogonalToGeneralLinear`) and Tau Ceti's `QuadraticForm.toMatrix_polarBilin`,
+with `2` a unit, give `g ∈ O(Q)(A) ↔ gᵀ C g = C`; then put `h = g⁻ᵀ` and apply
+`TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`. Layer 3 extends both
 groups to an arbitrary base. No source is named for the two comparisons; the routes are their
 proofs.
 
@@ -593,7 +631,9 @@ proofs.
 `pointsMulEquiv`, `HopfIdeal`, `HopfIdeal.ofSpan`, `TauCeti.QuadraticMap.orthogonalGroup`,
 `QuadraticMap.orthogonalToGeneralLinear`, `TauCeti.ConstantForm.definingHopfIdeal`,
 `TauCeti.CommHopfAlgCat.quotientPointsSubgroup`,
-`TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`;
+`TauCeti.ConstantForm.mem_definingPointsSubgroup_iff`,
+`TauCeti.QuadraticMap.mem_orthogonalGroup_iff_toMatrix`,
+`QuadraticMap.coe_orthogonalToGeneralLinear`, `QuadraticForm.toMatrix_polarBilin`;
 OrthogonalTamagawaAndLatticeMass §0.1 and §0.1a.
 
 **Checks.**
@@ -723,9 +763,10 @@ bijection; the route is its proof.
 
 ### Dependencies
 
-Layers 0–2; Tau Ceti `GeneralLinear`, `HopfIdeal`, `RootsOfUnity`,
-`TauCeti.QuadraticMap.orthogonalGroup`; OrthogonalTamagawaAndLatticeMass §0.1a;
-SchemeAndStackFoundations §§1.1, 1.15, 2.3.
+Layers 0–2; Tau Ceti `GeneralLinear`, `HopfIdeal`, `ConstantForm`, `RootsOfUnity`,
+`TauCeti.QuadraticMap.orthogonalGroup` and its coordinate criterion
+`TauCeti.QuadraticMap.mem_orthogonalGroup_iff_toMatrix` with `QuadraticForm.toMatrix_polarBilin`;
+OrthogonalTamagawaAndLatticeMass §§0.1, 0.1a; SchemeAndStackFoundations §§1.1, 1.15, 2.3.
 
 ## Layer 4: even Clifford algebras
 
