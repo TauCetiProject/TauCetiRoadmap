@@ -4,7 +4,11 @@ public import Mathlib
 public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
 public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.Sectional
 public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.Ricci
+public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.ExteriorSquare
 public import TauCeti.Geometry.Manifold.Riemannian.Geodesic.HopfRinow
+public import TauCeti.Geometry.Manifold.Riemannian.Jacobi.Basic
+public import TauCeti.Analysis.SpecialFunctions.Trigonometric.Curvature
+public import TauCeti.Geometry.Manifold.DeRham.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 public import TauCeti.Geometry.Manifold.Riemannian.Isometry.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.Sphere.Basic
@@ -17,40 +21,45 @@ public import TauCeti.RingTheory.MvPolynomial.Harmonic
 
 **This file is not the roadmap.** The roadmap is `README.md`; this file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, with only
-the simple Jacobi-field, comparison-model and paraboloid definitions those headlines need: the
-Jacobi predicate `IsJacobiFieldOn`, the model function `modelSine` and model ball volume
-`modelBallVolume`, and the graph parametrization `paraboloidGraph`.
+the two simple definitions those headlines need: the model ball volume `modelBallVolume` and the
+graph parametrization `paraboloidGraph`. Jacobi fields are Tau Ceti's
+`TauCeti.Manifold.IsJacobiFieldOn` and the comparison model is Tau Ceti's `TauCeti.curvatureSine`.
 
-Statable at the pins and stated here: the mixed polarization of the sectional numerator (R1,
-§1.1 item 4), existence of Jacobi fields with prescribed initial data on a compact geodesic
-interval (R2), the integral homology of the based loop space of a round sphere (R3.3), the Rauch
-comparison under an upper sectional bound (R4.1), Günther's volume comparison under an upper
-sectional bound (R4.1), the Bishop–Gromov relative-volume monotonicity against the model of
-curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the finiteness
-of the fundamental group (R4.5), Synge's theorem in its even-dimensional and odd-dimensional forms
-(R4.6), the three cases of the Killing–Hopf classification of simply connected space forms (R4.7),
-two distinct fixed-interval geodesics between distinct points of a connected closed
-positive-dimensional manifold (R4.8), the three simple closed geodesic images on a smooth
-two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3), the smooth-function
-duality for the Riemannian distance (R7.8) and the irreducibility of the complex harmonic
-polynomials of each degree under `SO(N)` for `N ≥ 3` (R8.3).
+Statable at the pins and stated here: existence of Jacobi fields with prescribed initial data on
+a compact geodesic interval (R2), the integral homology of the based loop space of a round sphere
+(R3.3), the Rauch comparison under an upper sectional bound (R4.1), Günther's volume comparison
+under an upper sectional bound (R4.1), the Bishop–Gromov relative-volume monotonicity against the
+model of curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the
+finiteness of the fundamental group (R4.5), Synge's theorem in its even-dimensional and
+odd-dimensional forms (R4.6), the three cases of the Killing–Hopf classification of simply
+connected space forms (R4.7), two distinct fixed-interval geodesics between distinct points of a
+connected closed positive-dimensional manifold (R4.8), the three simple closed geodesic images on
+a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3), Bochner's
+vanishing of the first de Rham cohomology under positive Ricci curvature (R7.6), the vanishing of
+de Rham cohomology in every interior degree under a positive curvature operator (R7.7), the
+smooth-function duality for the Riemannian distance (R7.8) and the irreducibility of the complex
+harmonic polynomials of each degree under `SO(N)` for `N ≥ 3` (R8.3).
 
 Not restated here, because Tau Ceti proves them and the README cites the declarations: the
-characterization of constant sectional curvature, Schur's theorem and the constancy of the
-Einstein factor (R1), uniqueness of Jacobi fields from initial data and the absence of
-endpoint-zero Jacobi fields under nonpositive sectional curvature (R2), the scalar Bochner
-identity and the Lichnerowicz eigenvalue bound (R7.0), and the Fischer decomposition of
-homogeneous polynomials (R8.1).
+characterization of constant sectional curvature, Schur's theorem, the constancy of the Einstein
+factor and the completeness of left-invariant metrics on Lie groups (R1); smoothness of geodesics
+up to the ends of their parameter sets, uniqueness of Jacobi fields from initial data, conjugate
+multiplicity and its bound `n − 1`, and the absence of endpoint-zero Jacobi fields under
+nonpositive sectional curvature (R2, R3); the norm-nondecreasing exponential differential under
+nonpositive sectional curvature (R4.4); the almost-everywhere Morse property of the squared
+distance from a point along an immersion and its properness along a closed embedding (R6); the
+scalar Bochner identity and the Lichnerowicz eigenvalue bound (R7.0); and the Fischer
+decomposition of homogeneous polynomials (R8.1).
 
 Not statable at the pins, hence not stated: the Morse index theorem (R3) and its focal-point
 version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM`, which
-has no carrier at the pin; the Gauss, Codazzi and Ricci
-equations and the first and second variation of volume (R5a, R5b), which need the second
-fundamental form of an isometric immersion between manifolds, hence the pullback ambient
-connection, absent at the pin; the Bochner vanishing theorems (R7.6, R7.7), which need the
-Weitzenböck curvature term on `p`-forms, absent at the pin, and whose Ricci case `b₁ = 0` needs
-the de Rham cohomology of a manifold, absent at the pin; and Takahashi's eigenmap theorem (R8.4),
-which needs the mean curvature of an isometric immersion into a round sphere, absent at the pin.
+has no carrier at the pin; the Gauss, Codazzi and Ricci equations and the first and second
+variation of volume (R5a, R5b), which need the second fundamental form of an isometric immersion
+between manifolds, hence the pullback ambient connection, absent at the pin; the vanishing of de
+Rham cohomology under a positive Weitzenböck term `ℛ_p` and the parallelism of harmonic forms
+under a nonnegative one (R7.6), which need the Weitzenböck curvature term on `p`-forms, absent at
+the pin; and Takahashi's eigenmap theorem (R8.4), which needs the mean curvature of an isometric
+immersion into a round sphere, absent at the pin.
 -/
 
 @[expose] public section
@@ -62,31 +71,6 @@ namespace TauCetiRoadmap.RiemannianGeometry
 open Set Bundle
 open scoped Manifold ContDiff
 
-/-! ## Layer 1: Mixed polarization of the sectional numerator -/
-
-section Polarization
-
-variable {R V : Type*} [CommRing R] [AddCommGroup V] [Module R V]
-
-/-- R1, §1.1 item 4: the mixed polarization of the sectional numerator `Q(a, b) = T(a, b, b, a)`.
-For a four-linear form skew in its first pair and in its last pair of arguments and satisfying
-the first Bianchi identity (the hypotheses of Tau Ceti's
-`LinearMap.six_mul_apply_eq_of_cyclic_eq_zero`), `24 T(x, y, z, w) = B_Q(x, w; y, z) −
-B_Q(y, w; x, z)`, where `B_Q(x, w; y, z) = Q(x + w, y + z) − Q(x + w, y − z) − Q(x − w, y + z) +
-Q(x − w, y − z)`. It holds over every commutative ring. For an orthonormal pair `x, y` in constant
-curvature `1`, with `z = y` and `w = x`, the two mixed terms are `16` and `−8`. -/
-theorem twentyFour_mul_apply_eq_of_cyclic_eq_zero {T : V →ₗ[R] V →ₗ[R] V →ₗ[R] V →ₗ[R] R}
-    (h₁ : ∀ x y z w, T x y z w = -T y x z w) (h₂ : ∀ x y z w, T x y z w = -T x y w z)
-    (h₃ : ∀ x y z w, T x y z w + T y z x w + T z x y w = 0) (x y z w : V) :
-    24 * T x y z w =
-      (T (x + w) (y + z) (y + z) (x + w) - T (x + w) (y - z) (y - z) (x + w) -
-          T (x - w) (y + z) (y + z) (x - w) + T (x - w) (y - z) (y - z) (x - w)) -
-        (T (y + w) (x + z) (x + z) (y + w) - T (y + w) (x - z) (x - z) (y + w) -
-          T (y - w) (x + z) (x + z) (y - w) + T (y - w) (x - z) (x - z) (y - w)) := by
-  sorry
-
-end Polarization
-
 /-! ## Layer 2: Jacobi fields -/
 
 section Intrinsic
@@ -97,50 +81,27 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [RiemannianBundle (fun x : M => TangentSpace I x)]
   [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
 
-/-- R2: a Jacobi field along the geodesic `γ` on the parameter set `s`: a `C²` section of `γ*TM`
-(its lift to the tangent bundle is `C²` on `s`) satisfying `D_t²X + R(X,γ′)γ′ = 0` on `s`, with
-the covariant derivative along `γ` taken within `s` by the Levi-Civita connection. The geodesic
-predicate carries the `UniqueDiffOn` hypothesis on `s`. These are the three clauses of Tau Ceti's
-Jacobi predicate, cited by the README. -/
-def IsJacobiFieldOn (γ : ℝ → M) (X : ∀ t, TangentSpace I (γ t)) (s : Set ℝ) : Prop :=
-  TauCeti.Manifold.IsGeodesicCurveOn I γ s ∧
-  ContMDiffOn 𝓘(ℝ, ℝ) I.tangent 2
-    (fun t => (⟨γ t, X t⟩ : TangentBundle I M)) s ∧
-  ∀ t ∈ s,
-    (CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ
-      ((CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ X s) s t +
-      (CovariantDerivative.leviCivitaConnection I M).curvatureTensor (γ t)
-        (X t) (TauCeti.Manifold.curveVelocityWithin I γ s t)
-        (TauCeti.Manifold.curveVelocityWithin I γ s t) = 0
-
 /-- R2: along a geodesic on `[a, b]`, every initial value and initial covariant derivative at `a`
 is attained by a Jacobi field on `[a, b]`. -/
 theorem exists_jacobi_initial_data {γ : ℝ → M} {a b : ℝ} (hab : a < b)
     (hγ : TauCeti.Manifold.IsGeodesicCurveOn I γ (Icc a b))
     (u v : TangentSpace I (γ a)) :
     ∃ X : ∀ t, TangentSpace I (γ t),
-      IsJacobiFieldOn (I := I) γ X (Icc a b) ∧ X a = u ∧
+      TauCeti.Manifold.IsJacobiFieldOn I γ X (Icc a b) ∧ X a = u ∧
       (CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ X (Icc a b) a = v := by
   sorry
 
 /-! ## Layer 4: Rauch comparison -/
 
-/-- R4.1: the model function `s_κ`, the solution of `s'' + κ s = 0` with `s(0) = 0` and
-`s'(0) = 1`: `sin(√κ t)/√κ` for `κ > 0`, `t` for `κ = 0` and `sinh(√(−κ) t)/√(−κ)` for `κ < 0`.
-Its first positive zero is `π/√κ` when `κ > 0`; it has none otherwise. This is the three-case
-body of Tau Ceti's model sine, cited by the README. -/
-def modelSine (κ t : ℝ) : ℝ :=
-  if 0 < κ then Real.sin (Real.sqrt κ * t) / Real.sqrt κ
-  else if κ = 0 then t
-  else Real.sinh (Real.sqrt (-κ) * t) / Real.sqrt (-κ)
-
 /-- R4.1, Rauch comparison under an upper sectional bound: along a unit-speed geodesic `γ` on
 `[0, b]`, a Jacobi field `X` with `X 0 = 0` and `D_tX(0)` orthogonal to `γ′(0)` satisfies
-`s_κ(t)·|D_tX(0)| ≤ |X t|` on `[0, b]` whenever every sectional curvature of `M` is at most `κ`
+`s_κ(t)·|D_tX(0)| ≤ |X t|` on `[0, b]`, with `s_κ` Tau Ceti's model sine
+`TauCeti.curvatureSine κ` (`sin(√κ t)/√κ`, `t` or `sinh(√(−κ) t)/√(−κ)` according to the sign of
+`κ`), whenever every sectional curvature of `M` is at most `κ`
 (`⟨R(u,v)v,u⟩ ≤ κ(|u|²|v|² − ⟨u,v⟩²)` for all `u, v`) and, when `κ > 0`, `b` is less than the
 first positive zero `π/√κ` of the model. -/
 theorem rauch_norm_ge_of_sectional_le {γ : ℝ → M} {X : ∀ t, TangentSpace I (γ t)} {b κ : ℝ}
-    (hb : 0 < b) (hX : IsJacobiFieldOn (I := I) γ X (Icc 0 b))
+    (hb : 0 < b) (hX : TauCeti.Manifold.IsJacobiFieldOn I γ X (Icc 0 b))
     (hunit : ∀ t ∈ Icc 0 b, ‖TauCeti.Manifold.curveVelocityWithin I γ (Icc 0 b) t‖ = 1)
     (h0 : X 0 = 0)
     (hnormal : inner ℝ ((CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ X
@@ -149,7 +110,7 @@ theorem rauch_norm_ge_of_sectional_le {γ : ℝ → M} {X : ∀ t, TangentSpace 
       inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor x u v v) u ≤
         κ * (‖u‖ ^ 2 * ‖v‖ ^ 2 - (inner ℝ u v) ^ 2))
     (hmodel : 0 < κ → b < Real.pi / Real.sqrt κ) :
-    ∀ t ∈ Icc 0 b, modelSine κ t *
+    ∀ t ∈ Icc 0 b, TauCeti.curvatureSine κ t *
       ‖(CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ X (Icc 0 b) 0‖ ≤
         ‖X t‖ := by
   sorry
@@ -212,13 +173,14 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
   [IsRiemannianManifold I M]
 
-/-- R4.1: the model ball volume up to the constant `ω_{n−1}`: `V_κ(r) = ∫₀ʳ s_κ(t)^(n−1) dt`,
+/-- R4.1: the model ball volume up to the constant `ω_{n−1}`: `V_κ(r) = ∫₀ʳ s_κ(t)^(n−1) dt`, with
+`s_κ` Tau Ceti's model sine `TauCeti.curvatureSine κ`,
 the volume of the ball of radius `r` in the `n`-dimensional space form of curvature `κ` divided
 by the volume of the unit `(n−1)`-sphere, for `0 ≤ r`, and `r < π/√κ` when `κ > 0`. For `n = 1`
 the exponent is `0` and the value is `r`; for `n = 0` the natural-number exponent `n − 1` is
 again `0`, and the value is again `r`. -/
 def modelBallVolume (κ : ℝ) (n : ℕ) (r : ℝ) : ℝ :=
-  ∫ t in (0 : ℝ)..r, modelSine κ t ^ (n - 1)
+  ∫ t in (0 : ℝ)..r, TauCeti.curvatureSine κ t ^ (n - 1)
 
 /-- R4.1, Günther's volume comparison: on a connected complete manifold of dimension `n` whose
 sectional curvatures are at most `κ` (`⟨R(u,v)v,u⟩ ≤ κ(|u|²|v|² − ⟨u,v⟩²)` for all `u, v`), let
@@ -229,7 +191,9 @@ volume of the ball of radius `r` in the `n`-dimensional model of curvature `κ`,
 injectivity hypothesis holds exactly when `r ≤ inj(p)`: past the cut time in a direction `v`, the
 point `exp_p(tv)` is also `exp_p(w)` for a strictly shorter minimizing vector `w`. So the
 statement needs no injectivity-radius carrier. On the unit two-sphere with `κ = 1` both sides are
-`2π(1 − cos r)`; for `n = 1` both sides are `2r`. -/
+`2π(1 − cos r)`; for `n = 1` both sides are `2r`. The route integrates the polar volume-density
+bound `F ≥ s_κ^(n−1)` of Kwong, *Quantitative comparison theorems in Riemannian and Kähler
+geometry*, Theorem 10(2), p. 27. -/
 theorem guenther [ConnectedSpace M] [CompleteSpace M]
     [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
     [IsContinuousRiemannianBundle E (fun x : M => TangentSpace I x)] (p : M) {κ r : ℝ}
@@ -447,6 +411,51 @@ theorem paraboloid_vertex_pole
   sorry
 
 end Paraboloid
+
+/-! ## Layer 7: Bochner vanishing -/
+
+section Bochner
+
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [I.Boundaryless] [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M => TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
+
+/-- R7.6, Bochner's theorem: on a compact boundaryless Riemannian manifold whose Ricci curvature
+is positive (`0 < Ric(v,v)` for every nonzero tangent vector `v`), the first de Rham cohomology
+`TauCeti.deRhamCohomology I M 1` vanishes, so `b₁ = 0` (Nicolaescu, *Lectures on the Geometry of
+Manifolds*, Theorem 12.2.5(b), p. 661, there for connected oriented `M`). The statement is
+componentwise, and a nonorientable `M` reduces to its orientation double cover, so neither
+connectedness nor orientability is assumed. The flat circle (`Ric = 0`, `b₁ = 1`) shows that
+strict positivity is needed; the round two-sphere with two points removed (`Ric = g`, `b₁ = 1`)
+shows that compactness is needed. -/
+theorem subsingleton_deRhamCohomology_one_of_ricciTensor_pos [CompactSpace M]
+    (hRic : ∀ x (v : TangentSpace I x), v ≠ 0 →
+      0 < (CovariantDerivative.leviCivitaConnection I M).ricciTensor x v v) :
+    Subsingleton (TauCeti.deRhamCohomology I M 1) := by
+  sorry
+
+/-- R7.7, Meyer and Gallot–Meyer: on a compact boundaryless Riemannian manifold of dimension `n`
+whose curvature operator on bivectors is positive definite at every point
+(`0 < ⟪Rop β, β⟫` for every nonzero `β ∈ Λ²T_xM`, for Tau Ceti's
+`CovariantDerivative.curvatureEndomorphism`, normalized by `⟪Rop(u∧v), w∧z⟫ = ⟪R(u,v)z,w⟫`, so
+that the unit sphere has `Rop = Id`), the de Rham cohomology vanishes in every degree `p` with
+`0 < p < n`. For `n ≥ 3` this is the case `l = ⌈n/2⌉` of Petersen–Wink, *New curvature
+conditions for the Bochner technique*, Corollary, p. 1, a positive operator being `l`-positive for
+every `l`; for `n = 2` it is the case `p = 1` of Bochner's theorem, `Rop > 0` meaning `K > 0`; for
+`n ≤ 1` no degree qualifies. It contains `b₂ = 0` for `n ≥ 3`. The product `S² × S²`
+(`Rop ≥ 0` with kernel the mixed bivectors, `b₂ = 2`) shows that positivity is needed, and the
+round `n`-sphere with two points removed (`Rop = Id`, `b_(n−1) = 1`) that compactness is. -/
+theorem subsingleton_deRhamCohomology_of_curvatureEndomorphism_pos [CompactSpace M]
+    (hRop : ∀ x (β : ⋀[ℝ]^2 (TangentSpace I x)), β ≠ 0 →
+      0 < inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureEndomorphism
+        (CovariantDerivative.isMetricCompatible_leviCivitaConnection I) x β) β)
+    {p : ℕ} (hp : 0 < p) (hpn : p < Module.finrank ℝ E) :
+    Subsingleton (TauCeti.deRhamCohomology I M p) := by
+  sorry
+
+end Bochner
 
 /-! ## Layer 7: Smooth-function duality for the distance -/
 

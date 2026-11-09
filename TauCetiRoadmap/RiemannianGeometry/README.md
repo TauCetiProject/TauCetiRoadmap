@@ -24,19 +24,22 @@ This roadmap extends the curvature, Jacobi, comparison, immersion and Bochner
 programme on its existing carriers. HopfRinow Layers 0–4 own connections,
 geodesics, exponential maps and completeness. SmoothBundlesConnections B5.1
 owns reconstruction from smooth transport, including its inverse dictionary on
-differentiable germs. GeometricTopology Layer 1 and its smoothing-and-triangulation
-item 1 own normal bundles, tubular neighbourhoods and smooth triangulation;
-R5a owns the metric orthogonal-to-quotient comparison and R3.2 the finite marked-point
+differentiable germs. GeometricTopology Layer 1 owns normal bundles and tubular
+neighbourhoods, and [GeometricTopology](../GeometricTopology/README.md)'s smooth-triangulation
+theorem (Whitehead: every smooth manifold admits a smooth triangulation) owns smooth
+triangulation; R5a owns the metric orthogonal-to-quotient comparison and R3.2 the finite marked-point
 refinement. ComplexKahlerGeometry K5a owns the bundle analytic and Hodge theory;
 PseudodifferentialOperators P1.0 owns the smooth differential-operator, jet,
 symbol, density-transpose, formal-adjoint, Laplace-type and canonical
 Bochner-connection core on finite-rank bundles. R7 consumes that core for
 geometric curvature identities and vanishing consequences; its one variant,
 R7.3's Laplace-type theorem for D*D, differs from P1.0's Dirac-type
-theorem only in allowing D:E→F between bundles of different ranks. R4.7 owns
-the free properly discontinuous isometric quotient construction, which
-PseudodifferentialOperators P7a consumes; R4.7 uses no PseudodifferentialOperators
-target, so P1.0 → R7 and R4.7 → P7a form no cycle. UnboundedOperators §4.7
+theorem only in allowing D:E→F between bundles of different ranks. R4.7 owns the
+completeness of the quotient of a complete Riemannian manifold by a free properly
+discontinuous group of isometries, built on the library's quotient manifold, quotient
+metric and curvature naturality, and the space-form quotients; PseudodifferentialOperators P7a consumes
+these; R4.7 uses no PseudodifferentialOperators target, so P1.0 → R7 and R4.7 → P7a form
+no cycle. UnboundedOperators §4.7
 owns general closed-form representation, and VariationalMethods §§2.3, 5.1–5.2
 its energy-space and compact-pair specializations; R5b owns the normal-Jacobi
 geometric form and its boundary-domain identification.
@@ -47,16 +50,35 @@ characterization of constant sectional curvature by the curvature tensor,
 Schur's theorem, the constancy of the Einstein factor, the parallel-curvature
 characterization of locally symmetric surfaces, the conformal-change laws for
 curvature, Ricci and scalar curvature, and the connection and curvature of an
-ad-invariant left-invariant metric (R1); the Jacobi predicate with uniqueness
-from initial data, the Wronskian, the constant-curvature solutions, the absence
-of endpoint-zero Jacobi fields under nonpositive sectional curvature, the
-finite-dimensional solution space and conjugate multiplicity (R2); the model
-sine and cosine (R4.1); the Laplace–Beltrami operator, the pointwise scalar
-Bochner identity and the Lichnerowicz eigenvalue bound (R7.0); the polynomial
+ad-invariant left-invariant metric, the left-invariant metric of an inner
+product on the Lie algebra with its bi-invariance for an Ad-invariant product and
+the completeness of every left-invariant metric, completeness of homogeneous
+Riemannian manifolds, and the pointwise curvature operator on bivectors with its
+symmetry, Rayleigh quotients and isometry naturality (R1); smoothness of geodesics
+of a smooth metric up to the ends of their parameter sets, the Jacobi predicate
+with uniqueness from initial data, the Wronskian, the constant-curvature
+solutions, the absence of endpoint-zero Jacobi fields under nonpositive sectional
+curvature, and the finite-dimensional solution space (R2); conjugacy, conjugate
+multiplicity, its positivity criterion and its bound n−1 (R3); the model sine and
+cosine (R4.1); pullback metrics along immersions, the smooth atlas of the
+based-path universal cover with its local-diffeomorphism projection, the bijection
+of its basepoint fibre with the fundamental group and the finiteness of the
+fundamental group when the universal cover is compact (R4.3); the
+norm-nondecreasing exponential differential under nonpositive sectional curvature
+(R4.4); the quotient manifold of a free properly discontinuous smooth action and
+the descended invariant metric, and the naturality of the curvature tensor,
+sectional, Ricci and scalar curvature under local Riemannian isometries (R4.3,
+R4.7); properness of the squared distance from a
+point along a closed embedding and its almost-everywhere nondegeneracy and Morse
+property along an immersion (R6); the Laplace–Beltrami operator, the pointwise
+scalar Bochner identity and the Lichnerowicz eigenvalue bound (R7.0); the de Rham
+cohomology of a manifold (R7.6, R7.7); the polynomial
 Laplacian, the Fischer decomposition, the dimension of the harmonic
 polynomials, their orthogonal-group action and their injective restriction to
 the unit sphere (R8.1); chartwise null sets and Sard's theorem in equal
-dimensions. Real Lipschitz extension is already in Mathlib. The exact
+dimensions. Real Lipschitz extension, and the charted space and quotient covering
+of the orbit space of a free properly discontinuous action, are already in
+Mathlib. The exact
 declarations are in the supplier contracts. These are inputs, not
 construction targets; each section below owns only what goes beyond them.
 R4.6 owns the transfer of chartwise nullity to the Riemannian volume, which R6
@@ -122,6 +144,12 @@ For the path-space topology use `TopologicalSpace.compactlyGenerated`,
 `Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean`.
 In particular metrizable path spaces retain their topology under k-ification;
 no categorical coreflector or unrestricted exponential law is an input here.
+For R4.7 use `MulAction.instChartedSpaceQuotient` in
+`Mathlib/Geometry/Manifold/Instances/Quotient.lean`, the charts of the orbit space of a
+free properly discontinuous action pushed forward along the orbit projection, and
+`isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul` in
+`Mathlib/Topology/Covering/Quotient.lean`, that the orbit projection of such an action
+is a quotient covering map.
 
 ### From Tau Ceti
 
@@ -184,6 +212,34 @@ In `TauCeti/Geometry/Manifold/Riemannian/LieGroup/BiInvariant.lean`,
 ∇_(X_a)X_b=½X_[a,b] and `CovariantDerivative.IsLeviCivitaConnection.curvatureTensor_one`
 gives R(a,b)c=−¼[[a,b],c] at the identity, for a left-invariant metric whose inner
 product at the identity is ad-invariant.
+In `TauCeti/Geometry/Manifold/Riemannian/LieGroup/LeftInvariant.lean`, for a
+finite-dimensional Lie group G and a symmetric positive-definite form b on T₁G:
+`TauCeti.leftInvariantMetric`, the metric whose value at x is b on the
+translates to the identity by L_(x⁻¹), C^m on a C^n Lie group when m+1≤n;
+`TauCeti.leftInvariantMetric_inner_mfderiv_mul_left`, left translations are
+isometries of it; `TauCeti.leftInvariantMetric_inner_mfderiv_mul_right`, for an
+Ad-invariant b right translations are isometries too, so the metric is
+bi-invariant; `TauCeti.completeSpace_of_inner_mulInvariantVectorField`, every
+Riemannian metric on G in which the left-invariant fields have constant inner
+products is complete for its Riemannian distance, with no compactness; and
+`TauCeti.completeSpace_leftInvariantMetric`, the same for the metric of b. In
+`TauCeti/Geometry/Manifold/Riemannian/Homogeneous.lean`,
+`TauCeti.completeSpace_of_isPretransitive_isom_of_finiteDimensional`: a
+finite-dimensional Riemannian manifold whose isometry group acts transitively is
+complete. For the curvature operator, in
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/ExteriorSquare.lean`,
+for a metric-compatible connection on the tangent bundle:
+`CovariantDerivative.curvatureEndomorphism`, the pointwise endomorphism Rop of
+Mathlib's Gram exterior square ⋀²T_xM with `⟨Rop(u∧v),w∧z⟩=⟨R(u,v)z,w⟩`;
+`CovariantDerivative.isSymmetric_curvatureEndomorphism`, its symmetry for a
+torsion-free connection; `CovariantDerivative.sectionalCurvature_eq_curvatureEndomorphism`,
+sectional curvature as its Rayleigh quotient on simple bivectors; and
+`CovariantDerivative.hasSectionalCurvatureAt_iff_curvatureEndomorphism_eq_smul_id`,
+constant sectional curvature κ at a point exactly when Rop=κ Id there. In
+`TauCeti/Geometry/Manifold/Riemannian/Isometry/ExteriorSquare.lean`,
+`TauCeti.IsLocalRiemannianIsometry.map_curvatureEndomorphism`: the exterior square
+of the differential of a local Riemannian isometry intertwines the two curvature
+operators on all bivectors.
 For R1's mixed polarization (§1.1 item 4), in
 `TauCeti/LinearAlgebra/Multilinear/SectionalPolarization.lean`, over every
 commutative ring and for a four-linear form T skew in its first pair and in its
@@ -202,28 +258,100 @@ geodesic on a parameter set satisfying `D_t²J+R(J,γ′)γ′=0`, with no bound
 hypothesis, and its constant Wronskian `wronskian_eq` (`Basic.lean`);
 `eq_of_eq_of_alongCurveWithin_eq` (`Uniqueness.lean`), two Jacobi fields on a
 preconnected parameter set with equal value and covariant derivative at one
-parameter agree on that set;
+parameter agree on that set; `TauCeti.Manifold.IsGeodesicCurveOn.contMDiffOn_infty`
+(`TauCeti/Geometry/Manifold/Riemannian/Geodesic/Smoothness.lean`), a geodesic of a
+smooth metric on a boundaryless manifold, required only to be C², is C^∞ on its
+whole parameter set when that set has unique derivatives, a nondegenerate closed
+interval up to its endpoints included;
 `eq_zero_of_endpoints_eq_zero_of_sectionalCurvature_nonpos` (`Convexity.lean`),
 under nonpositive sectional curvature on independent pairs along γ, a Jacobi
 field vanishing at two distinct parameters of a preconnected parameter set
 vanishes on it; `TauCeti.Manifold.jacobiFieldSpace` and `finrank_jacobiFieldSpace_le`
 (`Space.lean`), the solution space and its dimension bound 2n;
-`TauCeti.Manifold.conjugateMultiplicity` (`Conjugate.lean`), the dimension of the
-Jacobi fields vanishing at both parameters; and
+in `Conjugate.lean`, `TauCeti.Manifold.IsConjugateOn`, two distinct parameters
+of the set at which a Jacobi field nonzero somewhere on the set vanishes,
+`TauCeti.Manifold.conjugateMultiplicity`, the dimension of the Jacobi fields
+vanishing at both parameters, `TauCeti.Manifold.conjugateMultiplicity_pos_iff`,
+the multiplicity is positive exactly at conjugate parameters of a preconnected set,
+`TauCeti.Manifold.conjugateMultiplicity_le`, it is at most n−1 when the velocity at
+the initial parameter is nonzero, and
+`TauCeti.Manifold.not_isConjugateOn_of_sectionalCurvature_nonpos`, no conjugate
+parameters under nonpositive sectional curvature; and
 `exists_eq_curvatureCosine_smul_add_curvatureSine_smul` (`Model.lean`), the normal
 Jacobi fields in constant curvature κ as model cosine and sine multiples of
 parallel fields. `TauCeti.Manifold.IsKillingField` restricts to a Jacobi field along every
 geodesic (`TauCeti/Geometry/Manifold/Riemannian/Killing.lean`), and
 `Jacobi/Exponential.lean` proves that t↦d(exp_p)_(tv)(tw) is a Jacobi field along
 the radial geodesic.
-`IsJacobiFieldOn` in `Suggested.lean` writes out the same three clauses (geodesic,
-C² lift, Jacobi equation).
 
 For R4.1, `TauCeti.curvatureSine` and `TauCeti.curvatureCosine` in
 `TauCeti/Analysis/SpecialFunctions/Trigonometric/Curvature.lean` are the solutions
 of y″+κy=0 with initial data (0,1) and (1,0), for every sign of κ, with their
-derivatives and smoothness; `modelSine` in `Suggested.lean` has the same
-three-case definition as `TauCeti.curvatureSine`.
+derivatives and smoothness.
+
+For R4.3, `Bundle.ContMDiffRiemannianMetric.pullback` and
+`Bundle.ContMDiffRiemannianMetric.pullback_inner` in
+`TauCeti/Geometry/Manifold/Riemannian/Pullback/Basic.lean`: the C^n metric
+(v,w)↦g(df(v),df(w)) pulled back along a C^(n+1) map with injective differential,
+in particular along a local diffeomorphism. In
+`TauCeti/Geometry/Manifold/Instances/UniversalCover.lean`, for a locally
+path-connected, semilocally simply connected charted space X:
+`TauCeti.UniversalCover.instChartedSpace` and `TauCeti.UniversalCover.instIsManifold`,
+the charts of X pulled back along the based-path universal cover, a C^n manifold
+when X is one, and `TauCeti.UniversalCover.isLocalDiffeomorph_proj`, the projection
+is a C^n local diffeomorphism. `TauCeti.UniversalCover.fiberEquivFundamentalGroup`
+in `TauCeti/AlgebraicTopology/UniversalCover/Basic.lean` is the bijection, not a
+group isomorphism, of the basepoint fibre with the fundamental group, and
+`TauCeti.UniversalCover.finite_fundamentalGroup_of_compactSpace` in
+`TauCeti/AlgebraicTopology/UniversalCover/Compact.lean` gives a finite fundamental
+group when the universal cover of a space with closed points is compact.
+
+For R4.4, `TauCeti.Manifold.norm_le_norm_mfderiv_riemannianExp_of_sectionalCurvature_nonpos`
+in `TauCeti/Geometry/Manifold/Riemannian/Jacobi/Comparison.lean`: on a boundaryless
+manifold, for v in `expDomain` at p with nonpositive sectional curvature at every
+point of the radial segment t↦exp_p(tv), 0≤t≤1, every w∈T_pM has
+`|w|≤|d(exp_p)_v(w)|`; completeness, unit speed and orthogonality are not assumed.
+
+For R4.7, `TauCeti.instIsManifoldQuotient` and `TauCeti.isLocalDiffeomorph_quotientMk`
+in `TauCeti/Geometry/Manifold/Instances/Quotient.lean`: the orbit space of a free
+properly discontinuous action by C^n maps on a C^n manifold is a C^n manifold, and
+the orbit projection is a C^n local diffeomorphism. In
+`TauCeti/Geometry/Manifold/Riemannian/Pullback/Descent.lean`:
+`Bundle.ContMDiffRiemannianMetric.quotient`, the smooth metric on the orbit space of
+a free properly discontinuous smooth action by isometries of g, with
+`Bundle.ContMDiffRiemannianMetric.quotient_inner_mfderiv`, its value on the images of
+two tangent vectors is their g-inner product;
+`Bundle.ContMDiffRiemannianMetric.isLocalRiemannianIsometry_descend`, the projection
+is a local Riemannian isometry onto the descended metric; and
+`Bundle.ContMDiffRiemannianMetric.scalarCurvature_quotient`, the descended metric has
+the scalar curvature of g. For R4.3 and R4.7, in
+`TauCeti/Geometry/Manifold/Riemannian/Isometry/Curvature.lean`, for a local Riemannian
+isometry f between Hausdorff manifolds:
+`TauCeti.IsLocalRiemannianIsometry.mfderiv_curvatureTensor`,
+`df_x(R(u,v)w)=R(df_x u,df_x v)(df_x w)`;
+`TauCeti.IsLocalRiemannianIsometry.sectionalCurvature_mfderiv` and
+`TauCeti.IsLocalRiemannianIsometry.ricciTensor_mfderiv`, f preserves sectional and Ricci
+curvature; and `TauCeti.IsLocalRiemannianIsometry.scalarCurvature_map`, likewise scalar
+curvature.
+
+For R6, `TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` in
+`TauCeti/Geometry/Manifold/Morse/SquaredDistance.lean`: for a C² map i:M→V with
+injective differential from a second-countable boundaryless C² manifold modelled on
+a finite-dimensional space into a finite-dimensional real inner-product space, for
+almost every a∈V for every Haar measure, every critical point of `x↦|i(x)−a|²` is
+nondegenerate; `TauCeti.ae_isMorse_norm_sq_sub_comp`, for a smooth such i this
+function is `TauCeti.IsMorse` for almost every a; and
+`TauCeti.isProperMap_norm_sq_sub_comp` in
+`TauCeti/Topology/Maps/Proper/Metric.lean`: along a closed embedding of a
+topological space into a proper normed group, `x↦|i(x)−a|²` is a proper map for
+every a. Neither genericity statement needs closedness of i.
+
+For R7.6 and R7.7, `TauCeti.deRhamCohomology` in
+`TauCeti/Geometry/Manifold/DeRham/Basic.lean`: the cohomology of the complex of
+smooth real differential forms of a C² manifold under the exterior derivative,
+Mathlib's categorical homology, with its class map from closed forms; b_p is its
+dimension in degree p. The curvature operator is
+`CovariantDerivative.curvatureEndomorphism` (the R1 contract above).
 
 For R7.0, in `TauCeti/Geometry/Manifold/Riemannian/`:
 `TauCeti.Manifold.laplaceBeltrami` (`Laplacian.lean`), Δ=div grad on functions;
@@ -288,7 +416,8 @@ The following contracts specify each supplier and section consumed.
   comparison on this supplied normal bundle.
   Layer 8 owns the eight three-dimensional model geometries; R4.7 compares its
   constant-curvature models with their native `ModelGeometry.Space` instances.
-  Its smoothing-and-triangulation item 1 supplies smooth triangulation.
+  Its smooth-triangulation theorem (Whitehead: every smooth manifold admits a
+  smooth triangulation) supplies smooth triangulation.
   R3.2 constructs the finite marked-point refinement and its marked-pair identification.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a: real/complex
   bundle Sobolev/Rellich, distributional regularity and global estimates for
@@ -465,8 +594,7 @@ use the comparison or path-space theorems.
    24 r(x,y,z,w) = B_Q(x,w;y,z) − B_Q(y,w;x,z)
    ```
 
-   (`twentyFour_mul_apply_eq_of_cyclic_eq_zero`) for every four-linear form over
-   a commutative ring that is skew in its first pair and in its last pair and
+   for every four-linear form over a commutative ring that is skew in its first pair and in its last pair and
    satisfies the first Bianchi identity, the hypotheses of Tau Ceti's six-term
    identity `LinearMap.six_mul_apply_eq_of_cyclic_eq_zero`, and specialize it
    pointwise to `CovariantDerivative.riemannCurvatureTensor` of a
@@ -513,7 +641,12 @@ characterization along every smooth path, and the locally constant Gaussian
 curvature characterization in dimension two. The parallel-transport
 characterization is the general statement that a tensor field is parallel
 exactly when every parallel transport preserves it, proved from the
-along-curve derivative of SmoothBundlesConnections B5.0 applied to R. The
+along-curve derivative of SmoothBundlesConnections B5.0 applied to R: parallel
+transport along a path solves the linear initial-value problem `∇_(d/dt)u=0`, so
+the restriction of a section to a path is the transport of its initial value
+exactly when its covariant derivative along the path vanishes, by uniqueness for
+that problem (Nicolaescu, *Lectures on the Geometry of Manifolds*, §3.3.2,
+equation (3.3.7), pp. 103–104). The
 dimension-two statement is Tau Ceti's
 `CovariantDerivative.hasParallelCurvature_iff_isLocallyConstant_scalarCurvature_of_finrank_eq_two`
 (supplier contract), which writes R in the constant-curvature form of §1.1
@@ -541,10 +674,12 @@ limits are in Layer 2.
 
 ### 1.3 Metric changes, Lie groups and submersions
 Use Mathlib's tensor, Gram, continuous-linear-map and finite-dimensional spectral
-APIs. Consume SBC B2's exterior-square smooth bundle Λ²TM; supply its Gram inner
-product and pin its musical isometry with K5a’s
-degree-2 real Gram form bundle, and define self-adjoint Rop on that shared
-identified carrier. No second unconnected exterior bundle is used. Metric
+APIs. Consume SBC B2's exterior-square smooth bundle Λ²TM, whose fibre at x is
+Mathlib's Gram exterior square ⋀²T_xM, and pin its musical isometry with K5a’s
+degree-2 real Gram form bundle. The curvature operator Rop is Tau Ceti's pointwise
+`CovariantDerivative.curvatureEndomorphism` on these fibres (supplier contract);
+R1 proves that it is a smooth section of End(Λ²TM) on that shared identified
+carrier. No second unconnected exterior bundle is used. Metric
 scaling, products, pullbacks, conformal changes and warped products get full
 connection/curvature transformation laws, including scalar/Ricci contractions;
 a constant scaling c>0 preserves the connection and scales K by 1/c.
@@ -557,20 +692,23 @@ theorems of the supplier contract (written there with Δ=div grad=−Δ⁺), con
 here.
 
 For a supplied positive Ad-invariant inner product on a finite-dimensional
-real Lie algebra, construct the corresponding bi-invariant metric on the
-native Lie-group carrier and prove invariance and completeness by
-`TauCeti.completeSpace_ofRiemannianMetric_of_isPretransitive_isom`,
-proving the transitive isometry action on its Riemannian-distance carrier.
-This applies in every finite dimension, including noncompact homogeneous
-metrics. On left-invariant fields, ∇_X Y=½[X,Y] and R(X,Y)Z=−¼[[X,Y],Z] under
+real Lie algebra, the bi-invariant metric on the native Lie-group carrier is
+Tau Ceti's `TauCeti.leftInvariantMetric`, with its left and right invariance
+(`TauCeti.leftInvariantMetric_inner_mfderiv_mul_left`,
+`TauCeti.leftInvariantMetric_inner_mfderiv_mul_right`) and its completeness
+(`TauCeti.completeSpace_leftInvariantMetric`); every finite-dimensional
+left-invariant metric, compact or not, is complete by
+`TauCeti.completeSpace_of_inner_mulInvariantVectorField` (supplier contract).
+These are consumed here. On left-invariant fields, ∇_X Y=½[X,Y] and R(X,Y)Z=−¼[[X,Y],Z] under
 the curvature convention above are Tau Ceti's
 `CovariantDerivative.IsLeviCivitaConnection.apply_mulInvariantVectorField` and
 `CovariantDerivative.IsLeviCivitaConnection.curvatureTensor_one` (supplier
 contract), consumed here (Andrews, *Lectures on Differential Geometry*,
 Lecture 16, Corollary 16.8.5, p. 162, whose curvature tensor has the opposite
-sign, so that his `R_ijkl=¼c_ijp c_klp` is −¼[[X,Y],Z] here). Prove every
-finite-dimensional left-invariant Riemannian metric, and every invariant
-Riemannian metric on a homogeneous quotient, is complete. An Ad-invariant
+sign, so that his `R_ijkl=¼c_ijp c_klp` is −¼[[X,Y],Z] here). For a closed
+subgroup H≤G, prove that every G-invariant Riemannian metric on G/H is complete:
+the left action of G is a transitive action by isometries, so Tau Ceti's
+`TauCeti.completeSpace_of_isPretransitive_isom_of_finiteDimensional` applies. An Ad-invariant
 product exists when the adjoint image has compact closure; its existence is
 a separate hypothesis for an arbitrary Lie group.
 For a smooth Riemannian submersion build its horizontal/vertical projections
@@ -595,10 +733,15 @@ carrier or normal-coordinate jet theorem.
 
 The curvature-operator API comprises:
 
-- Its pairing is the curvature pairing on the Gram exterior square, with
-  self-adjointness given by pair interchange.
-- Restriction and isometries intertwine the operators on the identified exterior squares.
-- Its contractions recover Ricci and scalar curvature with the standing sign.
+- Its pairing with simple bivectors, its symmetry for the Levi-Civita connection,
+  sectional curvature as its Rayleigh quotient and the constant-curvature
+  characterization Rop=κ Id are Tau Ceti's (supplier contract); R1 proves that
+  x↦Rop_x is a smooth section of End(Λ²TM).
+- Restriction to open submanifolds intertwines the operators on the identified
+  exterior squares; isometry naturality is Tau Ceti's
+  `TauCeti.IsLocalRiemannianIsometry.map_curvatureEndomorphism`.
+- Its contractions recover Ricci and scalar curvature with the standing sign:
+  `Ric(u,u)=Σ_i⟨Rop(e_i∧u),e_i∧u⟩` and `Scal=2 tr Rop` for an orthonormal basis (e_i).
 
 **Checks.**
 
@@ -732,7 +875,9 @@ recovers s′+as, fixing the supplier convention.
 
 R1 connection algebra uses HopfRinow Layer 0, SmoothBundlesConnections B2–B5
 and finite-dimensional tensor algebra. Its homogeneous metrics use LieGroups
-L0–L2 and SmoothBundlesConnections B1.4–B1.5. The projective examples additionally
+L0–L2, SmoothBundlesConnections B1.4–B1.5 and Tau Ceti's left-invariant metrics
+and homogeneous completeness; its curvature operator is Tau Ceti's pointwise
+curvature endomorphism. The projective examples additionally
 use ComplexKahlerGeometry K7.1, GeneralizedCohomology G4.0b,
 TopologicalKTheory T6.6 and the direct round-model calculation in R4.7.
 
@@ -740,9 +885,11 @@ TopologicalKTheory T6.6 and the direct round-model calculation in R4.7.
 
 ### R2. General Jacobi fields and exponential derivatives
 
-First upgrade native C² `IsGeodesicCurveOn` solutions for a smooth metric to
-C^∞ on the interval interior by bootstrapping the coordinate geodesic ODE;
-give the endpoint version when the geodesic extends to an open interval.
+Native C² `IsGeodesicCurveOn` solutions for a smooth metric are C^∞ on their whole
+parameter set, closed-interval endpoints included, by Tau Ceti's
+`TauCeti.Manifold.IsGeodesicCurveOn.contMDiffOn_infty` (supplier contract); R2
+consumes this and owns no geodesic-regularity statement.
+
 ### 2.1 Jacobi fields and their initial data
 
 Jacobi fields are Tau Ceti's `TauCeti.Manifold.IsJacobiFieldOn` (supplier
@@ -750,8 +897,8 @@ contract): for a geodesic γ on a parameter set, a C² section X of γ*TM with
 `D_t²X+R(X,γ′)γ′=0`. Its C² lift to the tangent bundle and the parameter-set
 unique-derivative hypothesis are part of the definition, and the predicate
 needs no boundaryless model; the initial-data and geometric theorems below use
-the standing boundaryless hypothesis. `IsJacobiFieldOn` in `Suggested.lean`
-writes out the same three clauses. On a compact interval [a,b], require a<b for
+the standing boundaryless hypothesis, and `exists_jacobi_initial_data` and
+`rauch_norm_ge_of_sectional_le` are stated on this predicate. On a compact interval [a,b], require a<b for
 the initial-data theorems. Tau Ceti supplies linearity, restriction, overlap
 uniqueness, affine reparametrization, smooth-isometry transport, smoothness of
 Jacobi fields of a smooth metric, uniqueness from initial data
@@ -843,7 +990,10 @@ exp_p(B). Prove it is parallel along every radial geodesic and deduce
 identities. The coordinate frame `d(exp_p)_v(e_i)` and this transported
 frame have the same value at p; they are not identified away from p.
 Derive the vanishing covariant derivatives from radial parallelism, rather
-than assuming d exp is parallel transport.
+than assuming d exp is parallel transport (Bishop, *Riemannian Geometry*, §6.11,
+p. 41, for this canonical frame, the normal-coordinate basis at p translated in
+parallel along the radial geodesics, and Problem 6.12, p. 41, for its
+second-order expansion, whose connection forms vanish at p).
 
 The transported-frame API comprises:
 
@@ -913,7 +1063,15 @@ radius and smooth dependence of the exponential map on its base point;
 constants depend on g and C, and sectional-curvature bounds alone do not
 supply the higher-derivative bounds. Identify the sectional curvature of g_j
 with λ_j⁻² times that of g by R1's constant-scaling law (§1.3), and
-check that a Euclidean metric is unchanged by the construction.
+check that a Euclidean metric is unchanged by the construction. The
+coefficients of g_j at x in the basis (e_a) are those of exp_(p_j)*g on (E_j e_a)
+at E_j(x)/λ_j, so the limit is driven by the normal-coordinate expansion of §2.2,
+`exp_p*g(e_a,e_b)=δ_ab−⅓⟨R(e_a,v)v,e_b⟩+O(|v|³)` (Bishop, *Riemannian Geometry*,
+Theorem 6.11, p. 41, in his index notation): at v=E_j(x)/λ_j the correction is
+O(λ_j⁻²), and each derivative in x adds a factor λ_j⁻¹. Its first-order case is the
+vanishing of the first derivatives of g at the centre (Nicolaescu, *Lectures on
+the Geometry of Manifolds*, Proposition 4.1.25, p. 151). The uniformity in the
+centre and the frame is the content owned here.
 
 *Needs:* the R1.4 jets (§2.2); SmoothBundlesConnections B6.0 (uniform normal
 radius on compact sets and the variable-base exponential map); R1's
@@ -961,11 +1119,16 @@ owns the wider free-loop Morse theory. Give the smooth-density/approximation com
 piecewise C¹ and H¹ fields.
 
 Prove integration by parts, symmetry and the endpoint-Jacobi kernel criterion.
-Define conjugacy by a **nonzero** Jacobi field vanishing at both endpoints;
-multiplicity is the dimension of that solution subspace. Prove equivalence with
-the singular differential of exp and nullity of the endpoint index form, with
-radial direction excluded for a nonconstant geodesic. Multiplicity≤n−1; prove it also equals `dim ker(d exp_(bv))` with the
-initial-time/velocity rescaling explicit.
+Conjugacy and its multiplicity are Tau Ceti's `TauCeti.Manifold.IsConjugateOn`
+(a Jacobi field nonzero somewhere on the parameter set vanishing at two distinct
+parameters) and `TauCeti.Manifold.conjugateMultiplicity` (the dimension of that
+solution subspace), with `TauCeti.Manifold.conjugateMultiplicity_pos_iff` and the
+bound n−1 for nonzero velocity, `TauCeti.Manifold.conjugateMultiplicity_le`
+(supplier contract); they are consumed here. Prove the equivalence of conjugacy
+with the singular differential of exp and with nullity of the endpoint index form,
+with the radial direction excluded for a nonconstant geodesic, and prove that the
+multiplicity equals `dim ker(d exp_(bv))` with the initial-time/velocity rescaling
+explicit.
 
 Use a finite subdivision into strongly convex normal neighborhoods. Split
 endpoint-zero fields into piecewise Jacobi interpolation and fields zero at all
@@ -1142,9 +1305,10 @@ loops with its Kelley mapping carrier and its relative interval-product
 homotopy comparison. The native sequential-space instance and
 `eq_compactlyGenerated` identify k-ification with the original topology on
 these metrizable path spaces. R3 constructs its sphere suspension range from
-its Morse filtration. The smooth-triangulation item 1 in
-[GeometricTopology's smoothing-and-triangulation comparison](../GeometricTopology/README.md#the-smoothing-and-triangulation-comparison-far-horizon)
-supplies a smooth triangulation. Construct here its finite marked-point
+its Morse filtration.
+[GeometricTopology](../GeometricTopology/README.md)'s smooth-triangulation theorem
+(Whitehead: every smooth manifold admits a smooth triangulation) supplies a smooth
+triangulation. Construct here its finite marked-point
 refinement: for every finite set F of distinct points of M, refine the locally
 finite triangulation so that each point of F is a vertex. In the simplex whose
 relative interior contains a chosen point, stellar subdivision at that point,
@@ -1167,7 +1331,7 @@ transport through MorseTheory M1's smooth model-change atlas equivalence.
 - Two distinct points inside one edge give three subedges and two distinct
   marked vertices; identifying them would change the marked pair.
 
-*Needs:* GeometricTopology, smoothing-and-triangulation item 1; AlgebraicTopology
+*Needs:* GeometricTopology's smooth-triangulation theorem (Whitehead); AlgebraicTopology
 Stage 4.1 (CW pairs); the finite stellar subdivision constructed here.
  Use the endpoint-change equivalence
 below to obtain CW type for paths p→q, then AT's Whitehead comparison
@@ -1370,8 +1534,8 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
 1. Prove the index comparison/minimizing lemma for Jacobi fields with fixed
    endpoint values. The model sine `s_κ(t)=sin(√κt)/√κ`, t, or
    `sinh(√(−κ)t)/√(−κ)` according to the sign of κ is Tau Ceti's
-   `TauCeti.curvatureSine` (supplier contract; `modelSine` in `Suggested.lean`
-   has the same definition). For unit-speed γ and
+   `TauCeti.curvatureSine` (supplier contract), on which `rauch_norm_ge_of_sectional_le`
+   and `modelBallVolume` are stated. For unit-speed γ and
    normal Jacobi J with J(0)=0, prove `K≤κ ⇒ |J(t)|≥s_κ(t)|D_tJ(0)|`
    before the first positive model zero (`rauch_norm_ge_of_sectional_le`:
    the data live on [0,b] with b>0, the bound
@@ -1423,7 +1587,12 @@ uses the pinned compact-generation results and AlgebraicTopology §8.11a.
    Vol_g(B(p,r))≥Vol_κ(B_κ(r)) in the model of the same dimension. The headline
    `guenther` states it with the hypothesis that exp_p is injective on the
    tangent ball of radius r, which on a complete manifold holds exactly when
-   r≤inj(p), so the statement needs no injectivity-radius carrier. Treat the
+   r≤inj(p), so the statement needs no injectivity-radius carrier (Kwong,
+   *Quantitative comparison theorems in Riemannian and Kähler geometry*,
+   Theorem 10(2), p. 27: under K≤κ, for r below the first positive zero of s_κ,
+   the volume density in geodesic polar coordinates is at least s_κ(r)^(n−1),
+   which integrated over the ball inside the injectivity radius is Günther's
+   inequality, cited there as Gray, *Tubes*, Theorem 3.17). Treat the
    low-dimensional cases directly. For radial comparisons beyond this full-ball
    range retain the actual cut-time-truncated polar domain; cut-locus nullity
    does not remove its radial truncation. Distinguish Bishop–Gromov global
@@ -1489,27 +1658,33 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    compute the punctured-line→circle example.
    **Complete pullback metrics and the universal covering manifold.**
 
-   Let p:E→M be a surjective topological covering of connected finite-dimensional Hausdorff second-countable boundaryless smooth real manifolds, with E carrying the smooth atlas pulled back from M, so p is a local diffeomorphism. For a smooth positive Riemannian g on M, define g_E(v,w)=g(dp(v),dp(w)). In each covering chart dp is invertible; hence this is smooth and positive. Prove the projection is a local Riemannian isometry, lengths/energy and Levi–Civita connection/Jacobi/curvature tensors are preserved in each sheet, and local curvature/Ricci inequalities pull back with their exact constants and dimension.
+   Let p:E→M be a surjective topological covering of connected finite-dimensional Hausdorff second-countable boundaryless smooth real manifolds, with E carrying the smooth atlas pulled back from M, so p is a local diffeomorphism. For a smooth positive Riemannian g on M, the metric g_E(v,w)=g(dp(v),dp(w)) is Tau Ceti's `Bundle.ContMDiffRiemannianMetric.pullback` along p (supplier contract), smooth and positive because dp is injective; it is consumed here. Prove the projection is a local Riemannian isometry and that lengths, energy, the Levi–Civita connection and Jacobi fields are preserved in each sheet; the curvature tensor, sectional and Ricci curvature are preserved by Tau Ceti's naturality theorems for local Riemannian isometries (supplier contract), so local curvature and Ricci inequalities pull back with their exact constants and dimension.
 
    If M is complete, prove E is complete without assuming it. A base geodesic extends for every real time by Hopf–Rinow. Lift its restrictions on compact intervals from a given sheet point; covering uniqueness makes these lifts compatible on overlaps, and the native smooth-lift/local-isometry comparison makes the glued lift a geodesic with the chosen initial velocity. Thus E is geodesically complete. On each connected component the converse Hopf–Rinow gives completeness for the induced finite length metric. For connected E this is the required metric, with unchanged manifold topology. A disconnected cover is treated componentwise; no finite cross-component distance is installed.
 
-   For the based-path universal cover, consume Tau Ceti's `TauCeti.UniversalCover` carrier and projection, its covering theorem for locally path-connected and semilocally simply connected spaces, simple connectivity and path connectivity. The native covering theorem permits empty fibres outside the based component; connected manifolds are path connected, giving surjectivity here. Small coordinate balls provide the local hypotheses. Construct its smooth atlas by Tau Ceti's `IsLocalHomeomorph.chartedSpaceComap` and Mathlib's `IsLocalDiffeomorph`, never an alternative total-space topology.
+   For the based-path universal cover, consume Tau Ceti's `TauCeti.UniversalCover` carrier and projection, its covering theorem for locally path-connected and semilocally simply connected spaces, simple connectivity and path connectivity. The native covering theorem permits empty fibres outside the based component; connected manifolds are path connected, giving surjectivity here. Small coordinate balls provide the local hypotheses. Its smooth atlas, pulled back along the projection, and the local-diffeomorphism property of the projection are Tau Ceti's `TauCeti.UniversalCover.instChartedSpace`, `TauCeti.UniversalCover.instIsManifold` and `TauCeti.UniversalCover.isLocalDiffeomorph_proj` (supplier contract); no alternative total-space topology is used.
 
-   The fibre over the basepoint is in bijection with endpoint-fixed based loop homotopy classes by the explicit `TauCeti.UniversalCover` endpoint/class structure; prove the maps and casts are inverse. Only a cardinal bijection is needed here; no convention-incorrect group isomorphism is asserted. SmoothBundlesConnections B5.2 makes π₁ countable for connected,
+   The bijection of the basepoint fibre with the fundamental group is Tau Ceti's `TauCeti.UniversalCover.fiberEquivFundamentalGroup` (supplier contract), a bijection and not a group isomorphism, which is all that is needed here. SmoothBundlesConnections B5.2 makes π₁ countable for connected,
    second-countable, locally path-connected, locally simply connected spaces;
-   coordinate balls verify the last two hypotheses here. Over a countable evenly covered basis, there are countably many sheets (each fibre is in bijection with the basepoint fibre by path lifting); their chart bases give second countability of the universal cover. Prove Hausdorffness using either distinct base neighborhoods or disjoint sheets over the same point. This establishes the actual standing manifold hypotheses before applying Riemannian results upstairs.
+   coordinate balls verify the last two hypotheses here. Over a countable evenly covered basis, there are countably many sheets (each fibre is in bijection with the basepoint fibre by path lifting); their chart bases give second countability of the universal cover. Prove Hausdorffness using either distinct base neighborhoods or disjoint sheets over the same point. This establishes the actual standing manifold hypotheses before applying Riemannian results upstairs; R4.3 owns this second countability and Hausdorffness and the completeness of the pullback metric below.
 
-   Export the conditional conclusion: if the connected universal-cover manifold constructed above is compact, its fibre is closed by continuity and the T1 property of the base, and discrete by the covering theorem; compactness of that closed fibre then implies finiteness. The fibre/loop-class bijection proves π₁ finite. Myers's theorem (R4.5) supplies the compactness hypothesis only after applying its sine-index diameter bound upstairs. The cover construction neither invokes Myers to construct or complete the cover nor assumes finite π₁; this separates the early construction from the R4.5 conclusion. This argument does not use cover classification, K(G,1), higher homotopy or a finite-π₁ hypothesis in constructing the cover. Pullback metrics along cover morphisms and base isometries have the expected functoriality.
+   The conditional conclusion, that π₁ is finite when the universal cover is compact, is Tau Ceti's `TauCeti.UniversalCover.finite_fundamentalGroup_of_compactSpace` (supplier contract), which needs only closed points of the base: the basepoint fibre is closed, discrete by the covering theorem and so finite, and the fibre bijection transfers finiteness. Myers's theorem (R4.5) supplies the compactness hypothesis only after applying its sine-index diameter bound upstairs. The cover construction neither invokes Myers to construct or complete the cover nor assumes finite π₁; this separates the early construction from the R4.5 conclusion. This argument does not use cover classification, K(G,1), higher homotopy or a finite-π₁ hypothesis in constructing the cover. Pullback metrics along cover morphisms and base isometries have the expected functoriality.
 
 4. Cartan–Hadamard (`cartanHadamard_isCoveringMap`): on connected M, K≤0 and completeness imply exp_p is a covering from T_pM (Nicolaescu, *Lectures on the Geometry of Manifolds*, Theorem 6.2.6, p. 238).
-   Establish its nonsingular/expanding differential by R2/comparison and apply
-   the preceding covering criterion. The simply connected specialization gives
+   Its norm-nondecreasing differential, `|w|≤|d(exp_p)_v(w)|` for every v in
+   `expDomain` and every w, is Tau Ceti's
+   `TauCeti.Manifold.norm_le_norm_mfderiv_riemannianExp_of_sectionalCurvature_nonpos`
+   (supplier contract); completeness makes `expDomain` all of T_pM, so exp_p is a
+   local diffeomorphism from the complete flat T_pM satisfying the hypothesis of the
+   preceding covering criterion, which gives the covering. The simply connected specialization gives
    a global smooth exponential diffeomorphism, a unique geodesic between any
    two points at fixed affine parametrization (which is minimizing), and
    contractibility; a general connected manifold has Euclidean universal-cover
    topology and is aspherical. State nonemptiness and the basepoint explicitly.
-   *Needs:* R2 (Jacobi fields), R3 (no conjugate points under K≤0), R4.3
-   (covering criterion), HopfRinow (Completed) Layer 4 (completeness).
+   *Needs:* Tau Ceti
+   `TauCeti.Manifold.norm_le_norm_mfderiv_riemannianExp_of_sectionalCurvature_nonpos`
+   (norm-nondecreasing exponential differential), R4.3 (covering criterion),
+   HopfRinow (Completed) Layer 4 (completeness).
 5. Bonnet–Myers (`bonnetMyers_distance`): for connected complete n≥2 and
    `Ric(v,v)≥λ|v|²` with λ>0, prove diameter≤π√((n−1)/λ), compactness and finite
    fundamental group at every basepoint (`myers_finite_fundamentalGroup`)
@@ -1650,12 +1825,24 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    Barzen–Leymann, *Mathematics of Spacetime*, Theorem 9, p. 60, with the
    hyperboloid sheet as the model of curvature −1) and the quotient
    description by free properly discontinuous discrete smooth isometries.
-   Construct the quotient atlas, descended metric and covering for a free properly
-   discontinuous discrete group of smooth isometries on any Riemannian manifold;
-   this construction does not require constant curvature. Prove completeness and
-   curvature descend when the source has those properties. Specialize this generic
-   construction to the preceding space-form classification and to free finite-group
-   actions on closed manifolds used by PDO P7a.
+   For a free properly discontinuous group of smooth isometries of any Riemannian
+   manifold, none of the following needs constant curvature: the quotient atlas is
+   Mathlib's `MulAction.instChartedSpaceQuotient` and the orbit projection is a
+   covering by Mathlib's `isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul`;
+   the quotient is a smooth manifold with the projection a local diffeomorphism by
+   Tau Ceti's `TauCeti.instIsManifoldQuotient` and `TauCeti.isLocalDiffeomorph_quotientMk`;
+   and the descended metric, for which the projection is a local Riemannian isometry,
+   is Tau Ceti's `Bundle.ContMDiffRiemannianMetric.quotient` with
+   `Bundle.ContMDiffRiemannianMetric.isLocalRiemannianIsometry_descend` (supplier
+   contracts). Curvature, sectional and Ricci curvature, and so their pointwise
+   bounds, descend because the projection is a local Riemannian isometry, by Tau Ceti's
+   `TauCeti.IsLocalRiemannianIsometry.mfderiv_curvatureTensor`,
+   `TauCeti.IsLocalRiemannianIsometry.sectionalCurvature_mfderiv` and
+   `TauCeti.IsLocalRiemannianIsometry.ricciTensor_mfderiv`. R4.7 consumes these and owns
+   what goes beyond them: completeness of the quotient metric when the source is
+   complete. Specialize this generic quotient to the preceding
+   space-form classification and to free finite-group actions on closed manifolds
+   used by PDO P7a.
    Local isometries of a connected source are determined by value and tangent
    map at one point. Identify round-sphere isometries with O(n+1), and classify
    even-dimensional spherical space forms as the sphere and real projective
@@ -2055,7 +2242,12 @@ compactness in the two-geodesic theorem cannot be dropped.
 ### Dependencies
 
 The direct round-model part of R4.7 uses R1 and HopfRinow only. Comparison
-uses R2–R3; R4.3 uses SmoothBundlesConnections B5.2 before applying Myers.
+uses R2–R3; Cartan–Hadamard uses Tau Ceti's norm-nondecreasing exponential
+differential and R4.3's covering criterion, not R3. R4.3 uses Tau Ceti's
+universal-cover manifold, fibre bijection and pullback metric, and
+SmoothBundlesConnections B5.2, before applying Myers. R4.7's quotients use
+Mathlib's quotient atlas and covering and Tau Ceti's quotient manifold,
+descended metric and curvature naturality.
 R4.6 supplies cut-locus integration to R4.1. R4.8 uses R3 and the topological
 contracts named there; R4.9 uses its separately stated planar, parabolic and
 finite-relative-homology inputs, never its own minimax conclusion.
@@ -2556,21 +2748,21 @@ This extension is a direct consequence of that calculation, not an additional
 claim of Lemma 6.9. Compare with actual
 `TauCeti.manifoldMorseIndex` in `Morse/Index.lean`.
 
-Own the squared-distance exhaustion and genericity theorems here; no supplier
-states them. For a C² embedding f:M→ℝⁿ with closed image prove that h_q is
-proper for every q: a sublevel set is the preimage of a closed ball meeting
-the closed image, compact because f is a homeomorphism onto its image. Prove
-that h_q has a degenerate critical point at p exactly when q−f(p) is normal
-at p and (p,q−f(p)) is a critical point of the normal map (p,v)↦f(p)+v, so
-the set of q for which some critical point of h_q is degenerate is the image
-of the focal set; prove it Lebesgue null by `TauCeti.isNullSet_image_criticalPoints`
-for this C¹ map from the second-countable n-manifold νM to ℝⁿ, where chartwise
-nullity for the identity chart of ℝⁿ is Lebesgue nullity. Hence for every C² closed embedding and Lebesgue-almost every
-q, h_q is proper with only nondegenerate critical points, and for a smooth
-closed embedding h_q is a proper Morse function for almost every q (the
-almost-everywhere nondegeneracy is Milnor, *Morse Theory*, §6, Theorem 6.6).
-An arbitrary nonclosed embedding does not give a proper exhaustion: the open
-unit disc in ℝ² with q=(2,0) has no minimum of h_q. Own the two chart lemmas
+The squared-distance exhaustion and genericity theorems are Tau Ceti's and are
+consumed here (supplier contract): `TauCeti.isProperMap_norm_sq_sub_comp` makes
+h_q proper for every q along a closed embedding;
+`TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` makes
+every critical point of h_q nondegenerate for almost every q along a C² immersion,
+for every Haar measure; and `TauCeti.ae_isMorse_norm_sq_sub_comp` makes h_q a
+`TauCeti.IsMorse` function for almost every q along a smooth immersion (Milnor,
+*Morse Theory*, §6, Theorem 6.6). Hence for a smooth closed embedding, h_q is a
+proper Morse function for Lebesgue-almost every q. R6 owns the identification of
+the exceptional set: h_q has a degenerate critical point at p exactly when q−f(p)
+is normal at p and (p,q−f(p)) is a critical point of the normal map
+(p,v)↦f(p)+v, so the q for which some critical point of h_q is degenerate form
+the image of the focal set. An arbitrary nonclosed embedding does not give a
+proper exhaustion: the open unit disc in ℝ² with q=(2,0) has no minimum of h_q.
+Own the two chart lemmas
 these use: in a chart x↦f(x) of a C² embedding,
 `∂_i∂_j h_q=2(⟨∂_i f,∂_j f⟩+⟨∂_i∂_j f,f−q⟩)`, and for a C¹ normal field ν
 along f, `⟨∂_i∂_j f,ν⟩=−⟨∂_i f,∂_j ν⟩`. Compare these chart second
@@ -2590,8 +2782,11 @@ for smooth embeddings, and compactness supplies a uniform radius. These
 Euclidean constructions are independent of R1–R4; the focal/Jacobi/index
 consequences follow from R2–R4.
 
-*Needs:* Tau Ceti `TauCeti.isNullSet_image_criticalPoints` (Sard in equal
-dimensions, on manifolds), with Mathlib
+*Needs:* Tau Ceti `TauCeti.isProperMap_norm_sq_sub_comp`,
+`TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` and
+`TauCeti.ae_isMorse_norm_sq_sub_comp` (properness and genericity of h_q),
+Tau Ceti `TauCeti.isNullSet_image_criticalPoints` (Sard in equal dimensions, on
+manifolds, for the focal set), with Mathlib
 `MeasureTheory.addHaar_image_eq_zero_of_det_fderivWithin_eq_zero` as its
 chart-level form, R4.6 (transfer of chartwise nullity to the Riemannian
 volume), GeometricTopology Layer 1 (normal bundle, tubular neighbourhood),
@@ -2609,8 +2804,11 @@ t=1/2,1,2 the Hessian values are 1,0,−2 and the index/nullity pairs are
 ### Dependencies
 
 The Euclidean focal calculation uses R5a and the normal-bundle comparison;
-its genericity uses the pinned equal-dimension Sard theorem and R4.6's
-null-set transfer.
+the properness and genericity of the squared distance are Tau Ceti's
+`TauCeti.isProperMap_norm_sq_sub_comp`,
+`TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` and
+`TauCeti.ae_isMorse_norm_sq_sub_comp`, and the nullity of the focal set uses the
+pinned equal-dimension Sard theorem and R4.6's null-set transfer.
 General focal/index theory also uses R2–R3 and R4.2 moving-endpoint variation.
 No finite fundamental group or global space-form theorem enters the Euclidean proof.
 
@@ -2752,7 +2950,14 @@ and has no positive eigenvalue.
    implies every harmonic p-form is parallel and b_p≤binomial(n,p). Prove
    evaluation injectivity for parallel forms, and compute equality on the flat
    torus with the de Rham/singular comparison. In particular positive Ricci
-   kills b_1. The statements are componentwise without connectedness.
+   kills b_1 (`subsingleton_deRhamCohomology_one_of_ricciTensor_pos`: on a compact
+   boundaryless M with Ric(v,v)>0 for every nonzero tangent vector,
+   `TauCeti.deRhamCohomology I M 1` is trivial; Nicolaescu, *Lectures on the
+   Geometry of Manifolds*, Theorem 12.2.5(b), p. 661, for connected oriented M,
+   a nonorientable M reducing to its orientation double cover). The statements
+   are componentwise without connectedness. The flat circle (Ric=0, b_1=1) and
+   the round two-sphere with two points removed (Ric=g, b_1=1) show that strict
+   positivity and compactness are both needed.
 7. For Ricci lower bound λ and Rop upper eigenvalue bound Λ, prove
    `⟨ℛ_pω,ω⟩≥p(λ−(p−1)Λ)|ω|²` by genuine spectral diagonalization of the
    whole curvature operator. Develop its exterior Lie-algebra action/sum-of-
@@ -2765,7 +2970,17 @@ and has no positive eigenvalue.
    all interior Betti numbers on closed oriented connected
    n≥2 manifolds. Identify the rational homology sphere with coefficient
    comparison. The stronger result that any positive Rop kills all interior
-   Betti numbers follows separately from the sum-of-squares bound above. Diagonal values on basis wedges
+   Betti numbers follows separately from the sum-of-squares bound above, a
+   positive Rop being bounded below by some ε>0 on the compact manifold
+   (`subsingleton_deRhamCohomology_of_curvatureEndomorphism_pos`: on a compact
+   boundaryless M of dimension n with `⟨Rop_xβ,β⟩>0` for every nonzero bivector β,
+   Rop being `CovariantDerivative.curvatureEndomorphism`,
+   `TauCeti.deRhamCohomology I M p` is trivial for 0<p<n; Petersen–Wink, *New
+   curvature conditions for the Bochner technique*, Corollary, p. 1, for n≥3, a
+   positive operator being ⌈n/2⌉-positive, and Bochner's theorem for n=2, where
+   Rop>0 means K>0). The unit S²×S² (Rop≥0 with the four mixed bivectors in its
+   kernel, b_2=2) and the round n-sphere with two points removed (Rop=Id,
+   b_(n−1)=1) show that positivity and compactness are both needed. Diagonal values on basis wedges
    alone never establish positivity of a general endomorphism.
 8. On every connected smooth Riemannian manifold prove bounded Lipschitz
    functions admit bounded smooth approximations: for continuous
@@ -2812,7 +3027,8 @@ may choose g=0 and both the approximation error and derivative bound are zero.
 
 R7 uses R1 tensor curvature, DifferentialGeometry exterior calculus and
 integration, SmoothBundlesConnections B2–B4, PseudodifferentialOperators P1.0
-and ComplexKahlerGeometry K5a. The scalar local identity precedes the global
+and ComplexKahlerGeometry K5a; its vanishing theorems are stated on Tau Ceti's
+de Rham cohomology and curvature endomorphism. The scalar local identity precedes the global
 analytic realization. R7.8 uses Mathlib real Lipschitz extension and owns
 the quantitative smooth gluing and Clifford-module norm comparison.
 
@@ -3062,16 +3278,17 @@ input. R1.5 (§2.3) follows the R1.4 jets (§2.2), R1's constant-scaling law and
 SBC B6.0. The Surfaces
 sub-roadmap uses HopfRinow, R1, R2, R3, R4.2, R4.9.6a's signed planar turning
 theorem and R6, and supplies nothing to this roadmap. R6's Euclidean comparison follows R5a and
-owns its chart Hessian/normal-derivative pairing, squared-distance exhaustion
-and genericity theorems, consuming GT Layer 1 only for the normal bundle and
-tubular neighbourhood theorem. General
+owns its chart Hessian/normal-derivative pairing and the identification of the
+degenerate squared distances with the focal set, consuming Tau Ceti's
+squared-distance properness and genericity theorems and GT Layer 1 only for the
+normal bundle and tubular neighbourhood theorem. General
 R6 focal/Jacobi/index theory then uses R2–R3/R5a and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, PseudodifferentialOperators P1.0 and K5a;
 R8 uses R5a/R7, R4.7’s RP² quotient, and K5a/classical groups.
 TopK T6.6 precedes R1's projective comparison; CC C2.0, GT's smooth triangulation and AT's §8.11a mapping-CW targets
 precede R3's finite marked-point refinement and path-space comparison. Spin
 G1.2/G2.2/G3.4 precede R7's Clifford/de Rham calculations, while the later
 Spin Dirac/index consumers follow R7.8.
-The speed metric in R3.1 gives the H¹ topology but is not assumed complete; H¹ charts are constructed independently. R3.3a's lacunary proof for n ≥ 3 and R3.3b's lifting proof for n = 1 precede R3.3c's Hopf homology calculation. Only their conjunction supplies the all-dimensional path result. R4.3 constructs the smooth universal-cover manifold, its second countability and complete pullback metric before R4.5 applies the sine-test bound upstairs; finite π₁ is a conclusion after compactness, not a hypothesis of that construction. R4.1's Ricci-volume comparison uses R4.6's cut-truncated polar/nullity interface, and its global equality conclusion has its own complete-cover/no-identification argument. R7.0's local scalar Bochner identity, from Tau Ceti, precedes Hodge, Spin and cohomology; its integrated and equality consequences require n ≥ 2. R8.1's finite harmonic-polynomial restriction, uniqueness of the iterated Fischer decomposition and dimension require no K5a spectral completeness or highest-weight classification; R8.2–R8.4 retain those later suppliers. The round real projective example in R4.7 consumes the antipodal quotient/projectivization atlas and the native π₁ branches without a global space-form classification premise.
+The speed metric in R3.1 gives the H¹ topology but is not assumed complete; H¹ charts are constructed independently. R3.3a's lacunary proof for n ≥ 3 and R3.3b's lifting proof for n = 1 precede R3.3c's Hopf homology calculation. Only their conjunction supplies the all-dimensional path result. R4.3 consumes Tau Ceti's smooth universal-cover manifold and pullback metric and proves its second countability, Hausdorffness and the completeness of the pullback metric before R4.5 applies the sine-test bound upstairs; finite π₁ is a conclusion after compactness, not a hypothesis of that construction. R4.1's Ricci-volume comparison uses R4.6's cut-truncated polar/nullity interface, and its global equality conclusion has its own complete-cover/no-identification argument. R7.0's local scalar Bochner identity, from Tau Ceti, precedes Hodge, Spin and cohomology; its integrated and equality consequences require n ≥ 2. R8.1's finite harmonic-polynomial restriction, uniqueness of the iterated Fischer decomposition and dimension require no K5a spectral completeness or highest-weight classification; R8.2–R8.4 retain those later suppliers. The round real projective example in R4.7 consumes the antipodal quotient/projectivization atlas and the native π₁ branches without a global space-form classification premise.
 
 
 The smooth normal-variation order is immersion geometry → R5a.1 density calculus
@@ -3114,10 +3331,23 @@ minimization nor GeometricCurrents regularity enters R5b.
   Scal/n and is constant in dimension at least three),
   Theorem 5.2.26, p. 220 (Myers: diameter bound and compactness), Theorem 6.2.6,
   p. 238 (Cartan–Hadamard) and Example 6.2.29, p. 243 (compactness of the universal
-  cover under a positive Ricci lower bound).
+  cover under a positive Ricci lower bound), §3.3.2, equation (3.3.7), pp. 103–104
+  (parallel transport as the solution of `∇_(d/dt)u=0`, used by §1.2) and
+  Theorem 12.2.5(b), p. 661 (Bochner: positive Ricci curvature kills b_1, used by R7.6).
 - R. L. Bishop, [Riemannian Geometry](https://arxiv.org/abs/1303.5390), lecture
   notes, arXiv:1303.5390v2 (2013), Theorem 7.9, p. 50 (Synge's theorem in even
-  dimension) and Problem 7.11, p. 50 (orientability in odd dimension), used by R4.6.
+  dimension) and Problem 7.11, p. 50 (orientability in odd dimension), used by R4.6;
+  Theorem 6.11, p. 41 (normal-coordinate expansion of the metric, used by R1.5),
+  and §6.11 with Problem 6.12, p. 41 (the canonical frame by radial parallel
+  translation, used by R1.4).
+- K.-K. Kwong, [Quantitative comparison theorems in Riemannian and Kähler geometry](https://arxiv.org/abs/1904.08595),
+  arXiv:1904.08595v1 (2019), Theorem 10(2), p. 27: the polar volume-density lower
+  bound under an upper sectional curvature bound, integrated to Günther's volume
+  comparison by R4.1.
+- P. Petersen and M. Wink, [New curvature conditions for the Bochner technique](https://arxiv.org/abs/1908.09958),
+  Invent. Math. 224 (2021), 33–54, arXiv:1908.09958v4, Corollary, p. 1: vanishing of
+  the interior Betti numbers of a closed manifold of dimension n≥3 whose curvature
+  operator is ⌈n/2⌉-positive, used by R7.7.
 - J.-H. Eschenburg, [Comparison Theorems in Riemannian Geometry](https://myweb.rz.uni-augsburg.de/~eschenbu/comparison.pdf),
   lecture notes (Trento 1994), §3, Theorem 3.3, p. 13, and Rauch I, p. 14: the
   Jacobi-field norm comparison under an upper sectional bound, used by R4.1.
