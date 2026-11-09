@@ -61,9 +61,8 @@ The type-A coordinate-path comparison
 and tableau applications are downstream consumers of the general path theory.
 The transverse complex Grassmannian incidence count (TensorProductCombinatorics
 §6.3) and the ordinary puzzle rule (its Layer 6) are not targets here. Nor is
-the general Betti cycle-class map of complex varieties, which
-AlgebraicVectorBundles (Successor roadmaps, §3) describes for a further
-roadmap: S7.3 constructs only the flag comparison.
+the general Betti cycle-class map of complex varieties, which is not a target
+here: S7.3 constructs only the flag comparison.
 
 ## Conventions
 
@@ -110,6 +109,28 @@ as the carrier of the associated lines; no chosen trivialization, linearization
 or tensor structure is assumed of it. The pinned library has no flag or
 Bott–Samelson scheme, Frobenius-splitting carrier, algebraic K-ring of a
 scheme or complex analytic space; those carriers are targets of the layers below.
+
+The sheaf operations on finite locally free sheaves of a scheme X are native,
+each with its pullback comparison along every morphism of schemes: the dual
+`TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.dual`
+(`TauCeti/AlgebraicGeometry/VectorBundle/Dual/Basic.lean`) with
+`FiniteLocallyFreeSheaf.pullbackDualIso` (`VectorBundle/Dual/Pullback.lean`);
+the exterior powers `FiniteLocallyFreeSheaf.exteriorPower`
+(`VectorBundle/ExteriorPower/Basic.lean`) with
+`FiniteLocallyFreeSheaf.pullbackExteriorPowerIso`
+(`VectorBundle/ExteriorPower/Pullback.lean`); the determinant
+`FiniteLocallyFreeSheaf.det` at locally constant rank
+(`VectorBundle/Determinant/LocallyConstantRank.lean`) with
+`FiniteLocallyFreeSheaf.pullbackDetIso` (`VectorBundle/Determinant/Pullback.lean`);
+and the tensor product of module sheaves on X, whose pullback comparison
+`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent`
+(`TauCeti/AlgebraicGeometry/Modules/Pullback/Quasicoherent.lean`) is invertible
+when a factor is quasi-coherent. S1.1, S1.4 and S3.1 use these and assume
+nothing beyond their functoriality under pullback. The graded quasi-coherent
+algebra `TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra`
+(`TauCeti/AlgebraicGeometry/Modules/Quasicoherent/GradedAlgebra/Basic.lean`)
+is the carrier on which StableReduction Layer 2 builds relative Proj; S5.6 and
+S6.1 use it only through that relative Proj.
 
 The Grassmannian of a module M over a commutative ring R is a scheme over
 Spec R. `Module.Grassmannian.scheme R M q`
@@ -484,18 +505,11 @@ constructions are not redefined here.
 ### From TauCetiRoadmap.StableReduction
 
 [StableReduction Layer 2](../StableReduction/README.md) supplies relative Proj
-using AlgebraicVectorBundles L2A's single graded quasicoherent algebra and
-affine-ring interfaces; with Layer 4 it supplies the Rees blowup construction
+on the native graded quasi-coherent algebra
+`TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra` (From Tau Ceti); with
+Layer 4 it supplies the Rees blowup construction
 used in the worked blowup example. S5.6 and S6.1 consume the relative Proj and
 do not rebuild it.
-
-### From TauCetiRoadmap.AlgebraicVectorBundles
-
-[AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md) supplies, in
-L2A, the graded quasicoherent algebra and affine-ring interfaces on which
-StableReduction's relative Proj is built, and its tensor, dual, exterior and
-determinant sheaves with their pullbacks, used by S1.1, S1.4 and S3.1. Nothing
-beyond their functoriality under pullback is assumed.
 
 ### From TauCetiRoadmap.TopologicalKTheory
 
@@ -644,7 +658,8 @@ For a finite locally free E/S and a strictly increasing admissible rank list, co
 
 *Needs:* ModularCurves §0G; the native `Module.Grassmannian.scheme`,
 `Module.Grassmannian.schemeHomEquiv` and `Module.Grassmannian.isProper_toSpec`
-over affine bases; AlgebraicVectorBundles tensor/dual sheaves;
+over affine bases; the native tensor product and
+`FiniteLocallyFreeSheaf.dual` with their pullback comparisons (From Tau Ceti);
 SchemeAndStackFoundations Layer 1 closed immersions and base change.
 
 ### 1.2 Root-cell dictionary (S1.2)
@@ -693,7 +708,7 @@ Construct the determinantal rank-condition schemes relative to an actual complet
 - A minor size exceeding either matrix dimension contributes no generators, hence ideal 0 rather than the unit ideal.
 - For the identity complete flag in k², the closed Schubert locus is its specified line and the longest Schubert locus is all ℙ¹.
 
-*Needs:* S1.1–1.3; SchemeAndStackFoundations Layer 1 closed immersions and AlgebraicVectorBundles exterior powers; S5.6 only for the Schubert-closure comparison. The determinantal functor follows from vanishing of exterior powers of the universal maps.
+*Needs:* S1.1–1.3; SchemeAndStackFoundations Layer 1 closed immersions and the native `FiniteLocallyFreeSheaf.exteriorPower` with `FiniteLocallyFreeSheaf.pullbackExteriorPowerIso` (From Tau Ceti); S5.6 only for the Schubert-closure comparison. The determinantal functor follows from vanishing of exterior powers of the universal maps.
 
 ### 1.5 Symplectic isotropic flags (S1.5)
 
@@ -831,7 +846,7 @@ Construct subword closed embeddings, the 2^r T-fixed sections and the image of e
 - For Q=i, the two tangent weights are α_i and −α_i; the line fibres are λ and s_iλ.
 - For Q=ii, δ(Q)=s_i and the image dimension is 1, while the ordinary product is e of length 0; the four fixed sections map to e,s_i,s_i,e.
 
-*Needs:* S2.2; the native `CoxeterSystem.exchangeCondition`, `CoxeterSystem.deletionCondition`, `CoxeterSystem.BruhatLE` and `CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq`, applied to `TauCeti.weylCoxeterSystem`; S5.6 for the actual reduced closures and their base change. The reduced-word charts are the route to the subword comparison.
+*Needs:* S2.2; the native `CoxeterSystem.exchangeCondition`, `CoxeterSystem.deletionCondition`, `CoxeterSystem.BruhatLE` and `CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq`, applied to `TauCeti.weylCoxeterSystem`; S5.6 for the actual reduced closures and their base change. The reduced-word charts are the route to the subword comparison. The element δ(Q) is the Bruhat-maximal product of a subword of Q, written w_max(i) and characterised as the product of a longest reduced subword (LLM §3.1, p. 312, LLM lines 804–806); that the images of the initial segments of an arbitrary word form a weakly increasing chain of Schubert varieties, growing exactly at the letters that increase the length, is the related result of KnutsonBottSamelson §4, p. 4 (lines 141–148). The identification of the scheme-theoretic image with X(δ(Q)), with its base change, is the target.
 
 ### 2.4 Parabolic words and refinements (S2.4)
 
@@ -923,7 +938,7 @@ Construct L(λ) on the supplied quotient by descent, with its actual linearizati
 - On a torus flag, characters 0 and 1 give the same underlying one-dimensional line and different torus actions.
 - A GL₂ determinant character restricts to degree 0 on the flag, while the weight-one SL₂ character has degree 1.
 
-*Needs:* S1's quotient charts; ReductiveGroups rational characters and descent; AlgebraicVectorBundles line, tensor and dual sheaves. The fibre equivalence follows from quotient descent. The rank-one degree ⟨λ,α_i∨⟩ is the value of BrionFlags Proposition 1.4.3, p. 16 (BrionFlags lines 613–625 and 636–639), degree λ_i−λ_j on the Schubert curves of the type-A flag G/B+, transported to G/B− by the Chevalley involution, which exchanges B+ and B− and acts by −1 on X: it carries L(λ) to the B+-homogeneous line whose sections satisfy f(gb)=λ(b)f(g). For GL₂ and λ=(1,0), the sections of L(λ) on G/B− are spanned by the two entries of the first row of g⁻¹, and their pullbacks are the two entries of the first column of g, the coordinates of the vector ge₁, which are sections of O(1) on the projective line of lines ge₁, of degree +1=λ₁−λ₂. Brion's displayed action b(g,t)=(gb⁻¹,λ(b)t) on G×ℂ (BrionFlags line 593), read literally, has the opposite sign and gives no sections for this λ, so the comparison is made with the degree of Proposition 1.4.3, and the SL₂ Check above fixes the sign independently.
+*Needs:* S1's quotient charts; ReductiveGroups rational characters and descent; the native `TauCeti.AlgebraicGeometry.InvertibleSheaf`, tensor product and `FiniteLocallyFreeSheaf.dual` with their pullback comparisons (From Tau Ceti). The fibre equivalence follows from quotient descent. The rank-one degree ⟨λ,α_i∨⟩ is the value of BrionFlags Proposition 1.4.3, p. 16 (BrionFlags lines 613–625 and 636–639), degree λ_i−λ_j on the Schubert curves of the type-A flag G/B+, transported to G/B− by the Chevalley involution, which exchanges B+ and B− and acts by −1 on X: it carries L(λ) to the B+-homogeneous line whose sections satisfy f(gb)=λ(b)f(g). For GL₂ and λ=(1,0), the sections of L(λ) on G/B− are spanned by the two entries of the first row of g⁻¹, and their pullbacks are the two entries of the first column of g, the coordinates of the vector ge₁, which are sections of O(1) on the projective line of lines ge₁, of degree +1=λ₁−λ₂. Brion's displayed action b(g,t)=(gb⁻¹,λ(b)t) on G×ℂ (BrionFlags line 593), read literally, has the opposite sign and gives no sections for this λ, so the comparison is made with the degree of Proposition 1.4.3, and the SL₂ Check above fixes the sign independently.
 
 ### 3.2 Sections and extremal spans (S3.2)
 
