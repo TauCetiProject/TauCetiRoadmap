@@ -180,7 +180,7 @@ them by name and section (see the supplier contracts) and does not restate them.
 | The `Sp(2, ℝ)` polar factorization `A = PU ↦ P^{1−t}U` and its symplectic polar factors | CotangentLagrangian C2.0–C2.1 | not consumed here |
 | Period-controlled Novikov completions, finite-below convolution, total quotient rings and based torsion | MorseNovikov N1 and N4 | consumed by Layers 7.C and 7.T; N6's finite-dimensional bifurcation theorem is not a Floer theorem and is not consumed |
 | Singular and twisted chains, CW pairs, Eilenberg–Zilber and Künneth, fundamental classes and duality, relative Hurewicz and Whitehead, the Hurewicz map of Stage 8.3, the bar construction of Stage 8.8 | AlgebraicTopology Stages 2–8 | consumed by Layers 0–1 and 5 |
-| Collars and tubular neighbourhoods, `Diff(M)` with its `C^∞` topology and the smooth-families map, Riemannian structures | GeometricTopology Layers 1, 3 and 7 | consumed by Layer 1 items 5–6 and Layer 11 item 2; the group `Diff(M)` with its `C^∞` topology is the pinned `TauCeti.Diff`, and the local triviality of evaluation `Diff(M) → O` is Layer 1 item 6 |
+| Collars and tubular neighbourhoods | GeometricTopology Layer 1 | consumed by Layer 1 item 5 and Layer 11 item 2; `Diff(M)` with its `C^∞` topology and the smooth-families map, which GeometricTopology Layer 3 plans, and the flow diffeotopies of complete vector fields on boundaryless finite-dimensional manifolds are already in Tau Ceti (`TauCeti.Diff`, `Diffeomorph.ofSmoothFamily`, `TauCeti.globalFlowDiffeotopy`), and the local triviality of evaluation `Diff(M) → O` is Layer 1 item 6 |
 | Jacobi fields, the index form and the finite broken-geodesic carriers | RiemannianGeometry R2–R3 | consumed by Layer 5 item 6 |
 | Compact Lie theory: Lie's third theorem and the integration of homomorphisms out of simply connected groups, universal covers and their central kernels, the `Ad`-invariant inner product with the orthogonal splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]`, the semisimplicity of `[𝔤, 𝔤]` and its negative-definite Killing form, maximal tori, the compact real roots and their rank-one representatives `SU(2) → G`, the Haar probability measure and averaging | LieGroups Layers 4, 5, 5A and 6, CompactGroups Layer 0 | consumed by Layer 11; the negative semidefinite Killing form of `𝔤` with kernel `𝔷`, the Cartan 3-form argument and the finite cover are Layer 11 items 1–2 |
 | Covering spaces and their induced maps on homotopy groups | UniversalCovers (completed) | consumed by Layer 11 item 2 |
@@ -444,8 +444,16 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   (`TauCeti/Geometry/Manifold/PontryaginThom/`). The group `TauCeti.Diff` of a compact manifold
   with the weak Whitney topology `Diffeomorph.weakWhitneyTopology`, a topological group with
   continuous evaluation, and its transitivity on a connected manifold by diffeotopies
-  (`TauCeti/Geometry/Diffeomorphism/`). The Milnor `lim¹` sequence of a tower of complexes,
-  `TauCeti.ComplexTower` (`TauCeti/Algebra/Category/ModuleCat/Tower/Milnor/`).
+  (`TauCeti/Geometry/Diffeomorphism/`). The smooth-families map
+  `ContMDiff.continuous_diffeomorphWeakWhitney`, bundled as `Diffeomorph.ofSmoothFamily`
+  (`TauCeti/Geometry/Diffeomorphism/Topology.lean`): for a compact source `M` and a parameter
+  manifold `P`, a family `P → Diff(M)` that is jointly `C^n` on `P × M` is continuous for the
+  weak Whitney topology; the converse is not claimed. The flow diffeotopy
+  `TauCeti.globalFlowDiffeotopy` of a complete `C^n` vector field, `1 ≤ n`, on a Hausdorff
+  boundaryless manifold with finite-dimensional model, possibly noncompact, whose motion is the
+  maximal integral curve at the rescaled time
+  (`TauCeti/Geometry/Diffeomorphism/Diffeotopy/Flow.lean`). The Milnor `lim¹` sequence of a
+  tower of complexes, `TauCeti.ComplexTower` (`TauCeti/Algebra/Category/ModuleCat/Tower/Milnor/`).
 - Moore paths (`TauCeti/Topology/PathSpace/Moore.lean` and `TauCeti/Topology/PathSpace/Moore/`):
   `TauCeti.MoorePath`, topologized in `ℝ≥0 × C(ℝ≥0, X)`, with strictly associative and unital
   concatenation `TauCeti.MoorePath.trans`, the paths from `A` to `B`
@@ -783,10 +791,7 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   derivative `mextDeriv`, the Cartan calculus; item 0.4's migration of `SmoothTwoForm` onto the
   generic form carrier, which this roadmap uses. Layer 3: flows of vector fields.
 - **GeometricTopology.** Layer 1: manifolds with boundary, collars, tubular neighbourhoods,
-  connected sum. Layer 3: `Diff(M)` as a topological group with the `C^∞` topology, the
-  smooth-families map and the inclusion `O(n+1) → Diff(Sⁿ)`; the local triviality of evaluation
-  `Diff(M) → O` onto an orbit is Layer 1 item 6, not a Layer 3 input. Layer 7: Riemannian
-  structures.
+  connected sum.
 - **UniversalCovers** (completed): covering spaces and their induced maps on homotopy groups.
 - **LieGroups** Layers 4–6: Layer 4's Lie's third theorem and the bijection between Lie-group
   homomorphisms out of a simply connected group and Lie-algebra homomorphisms; Layer 5's
@@ -1078,9 +1083,12 @@ sequences over CW and arbitrary bases on the same skeletal filtration, using the
 cochain complex and its relative quotients, including the cellular and singular filtration
 comparison; cohomology pages are not identified by naive duality of homology pages. The
 cohomological sequence has `E₂^{p,q} = H^p(B; H^q(F; M))`, with path-transport local
-coefficients, and converges to `H^{p+q}(E; M)` (Hatcher Theorem 1.14, `hatcher-ssat` lines
-1414–1419). Prove first-quadrant strong convergence: the
-induced abutment filtration in each total degree is finite, exhaustive and separated, with
+coefficients, and converges to `H^{p+q}(E; M)`. Hatcher's Theorem 1.14 states it when `π₁(B)`
+acts trivially on `H^*(F; M)` (`hatcher-ssat` lines 1414–1419); the local-coefficient form is
+this item's, by the modification of the filtration argument that Hatcher's local-coefficient
+remark describes for homology (lines 984–994) and that his multiplicative discussion invokes for
+cohomology (lines 1539–1541). Prove first-quadrant strong convergence: the induced abutment
+filtration in each total degree is finite, exhaustive and separated, with
 `E_∞` its graded module. Prove completeness of the cochain inverse filtration and vanishing of
 the relevant inverse-limit obstruction; retain the absence of finite-type or dimension
 restrictions. Construct coefficient and fibration naturality, arbitrary-base pullback comparison
@@ -1430,13 +1438,19 @@ AlgebraicTopology Stage 6 (fundamental classes, cap products, Poincaré duality)
 
 For a closed smooth manifold `M` with a chosen point `x₀` consume Tau Ceti's `TauCeti.Diff` with
 the weak Whitney (`C^∞`) topology `Diffeomorph.weakWhitneyTopology`, a topological group with
-continuous evaluation, and GeometricTopology Layer 3's smooth-families map, which turns a
-smooth family of diffeomorphisms into a continuous map into `Diff(M)`. Own the local triviality
+continuous evaluation, and its smooth-families map `ContMDiff.continuous_diffeomorphWeakWhitney`,
+which turns a family of diffeomorphisms of the compact `M`, jointly smooth on the product with a
+parameter manifold, into a continuous map into `Diff(M)`. Own the local triviality
 of evaluation at `x₀`, the point case of Palais's local triviality of the restriction map of
 embeddings (Palais 1960): let `O` be the orbit of `x₀` and `H = {g | g(x₀) = x₀}`. Construct
-local sections from coordinate-ball motions: the time-one flows of compactly supported smooth
-vector fields in a chart around a point `y` of `O` carry `y` to every point `z` of a
-neighbourhood of `y`, continuously in `z` by the smooth-families map. If `g(x₀) = y`, compose
+local sections from coordinate-ball motions: in a chart around a point `y` of `O`, the field
+`v_z = ρ · (z − y)`, for a compactly supported bump function `ρ` equal to `1` on a convex ball
+`U` around `y`, is compactly supported, and its flow line from `y` is the segment
+`t ↦ y + t(z − y)` inside `U`, so its time-one flow carries `y` to `z` for every `z ∈ U`.
+Run Tau Ceti's `TauCeti.globalFlowDiffeotopy` on the manifold `U × M` for the complete field
+`(z, x) ↦ (0, v_z(x))`: its time-one map is `(z, x) ↦ (z, φ_z(x))`, jointly smooth, with each
+`φ_z` a diffeomorphism of `M` (inverse the time-minus-one map), so `z ↦ φ_z` is continuous into
+`Diff(M)` by the smooth-families map with parameter manifold `U`. If `g(x₀) = y`, compose
 the local motion taking `y` to `z` with `g` to obtain a continuous local section
 `s : U → Diff(M)` over an open neighbourhood `U` of `y` in `O`. Export evaluation
 `Diff(M) → O` as a locally trivial principal
@@ -1449,9 +1463,9 @@ diffeomorphism (for a closed manifold, the components diffeomorphic to the compo
 with the component-swap extensions constructed). It is an open-and-closed submanifold. State a
 bundle over all `M` only with explicit transitivity data; otherwise fibres outside `O` are
 empty. Retain the zero-dimensional and finite-component cases. A merely continuous family into
-`Diff` is not identified with a jointly smooth family. *Needs:* Tau Ceti `TauCeti.Diff` and
-`TauCeti.exists_diffeotopy_final_apply_eq`, GeometricTopology Layer 3 (the smooth-families
-map), DifferentialGeometry Layer 3 (flows of compactly supported fields).
+`Diff` is not identified with a jointly smooth family. *Needs:* Tau Ceti `TauCeti.Diff`,
+`ContMDiff.continuous_diffeomorphWeakWhitney`, `TauCeti.globalFlowDiffeotopy` and
+`TauCeti.exists_diffeotopy_final_apply_eq`.
 
 **Checks.**
 - `M = S¹`: evaluation `Diff(S¹) → S¹` is the bundle with fibre `Diff(S¹, 1)`, and the section
@@ -1475,12 +1489,13 @@ singular homology, `LocalCoefficientSystem`, `IsEilenbergMacLaneSpaceOne`, the d
 Hurewicz isomorphism, CW approximation, weak-equivalence invariance, the Serre classes, the
 cell-killing construction and the mod-2 coefficient sequence, the Serre- and Hurewicz-fibration
 predicates with their lifting API, the mapping-path carriers, the filtered-complex and
-filtered-space spectral sequences, the Pontryagin–Thom collapse, `TauCeti.Diff`, and the
-cubical–simplicial comparison. AlgebraicTopology Stages 1–6 and 8.1–8.8; GeometricTopology
-Layers 1 and 3; DifferentialGeometry Layer 3. Source: Hatcher, *Algebraic Topology*, §§2.A,
-3.3, 4.1–4.3, 4.D, 4.J; Hatcher, *Spectral Sequences*, Chapter 1 and Serre, *Homologie singulière
-des espaces fibrés*, Chapter II (item 2); BDHO §§9.2 and 11.3 (item 5); Weibel §5.5; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais, *Local triviality of
-the restriction map for embeddings*.
+filtered-space spectral sequences, the Pontryagin–Thom collapse, `TauCeti.Diff` with its
+smooth-families map and flow diffeotopies, and the cubical–simplicial comparison.
+AlgebraicTopology Stages 1–6 and 8.1–8.8; GeometricTopology Layer 1. Source: Hatcher,
+*Algebraic Topology*, §§2.A, 3.3, 4.1–4.3, 4.D, 4.J; Hatcher, *Spectral Sequences*, Chapter 1 and
+Serre, *Homologie singulière des espaces fibrés*, Chapter II (item 2); BDHO §§9.2 and 11.3 (item
+5); Weibel §5.5; Serre, *Groupes d'homotopie et classes de groupes abéliens*; Palais, *Local
+triviality of the restriction map for embeddings*.
 ## Layer 2: path spaces, mapping spaces, and their fibrations
 
 The Moore paths, Moore loops and free Moore loops, the Moore lifting functions, the Moore-path
@@ -1765,7 +1780,11 @@ DGAInfinity Layer 5 (semi-free modules, derived tensor products).
   `π₁`-action; its augmentation is a quasi-isomorphism, since `H_*(P_{b}S¹) = 0` in positive
   degrees.
 - The zero-cocycle two-generator complex `R·e₀ ⊕ R·e₁` with `de₁ = 0` is rejected as a
-  resolution: its augmentation has `H₁ = H₁(ΩS¹) ⊗ … ≠ 0`, unwanted positive homology.
+  resolution: since `ΩS¹` is homotopy discrete, `H_*(R) = A[t, t⁻¹]` in degree `0`, so the
+  complex has homology `A[t, t⁻¹]·e₀` in degree `0` and `H₀(ΩS¹)·e₁ = A[t, t⁻¹]·e₁` in degree
+  `1`; the degree-`1` class comes from `H₀(ΩS¹)`, since `H₁(ΩS¹) = 0`. The augmentation to `A` is
+  therefore not a quasi-isomorphism: it has positive homology, and in degree `0` the map `t ↦ 1`
+  has kernel `(t − 1)`.
 - `B = pt`: `P_B = R = C_*(Ω pt) ≃ A`, and `𝓕 ⊗_R P_B = 𝓕`.
 - `B = S²` with cells in degrees `0` and `2`: `de₂ = a·e₀` for the degree-`1` generator `a` of
   `H_1(ΩS²)` (a cycle), and `H_*(𝓕 ⊗_R P_B)` for `𝓕 = R` is `A` in degree `0`.
@@ -2511,10 +2530,22 @@ operators (HeegaardFloer F1); prove the gluing sign `(−1)^{dim V₂ · ind D�
 Define the complex, continuation maps and homotopies (Salamon §3.2, Theorem 3.5 for `∂² = 0`
 and Theorem 3.6 for the continuation isomorphisms, and §3.4, Lemmas 3.10–3.11 for the
 continuation chain maps and their composition rule, `salamon-lectures` lines 1162, 1202–1205
-and 1343–1395); prove that the action filtration is preserved by monotone homotopies and
-shifted by at most the one-sided bound `∫₀¹ max_x (H₊ − H₋) dt + ε`, for every `ε > 0`, by
-general ones (the source's Proposition 3.22 and Corollaries 3.24–3.25, `bdho-cotangent` lines
-2131–2191, the classical estimate read with classical coefficients).
+and 1343–1395). Let `FC^{<b}(H)` be the subcomplex spanned by the orbits of action `< b`; it is a
+subcomplex because the differential decreases `𝒜_H` (7.1). Prove the action estimate for the
+continuation map `FC(H₋) → FC(H₊)` of a homotopy `H_s` from `H₋` at `s = −∞` to `H₊` at
+`s = +∞`: by the continuation form of 7.1's energy identity,
+`𝒜_{H₊}(x₊) = 𝒜_{H₋}(x₋) − E(u) − ∫∫ ∂_s H_s(u) ds dt`, it maps `FC^{<b}(H₋)` into
+`FC^{<b+c}(H₊)` for every `b`, with `c = 0` when `∂_s H_s ≥ 0` everywhere, with
+`c = ∫ max_{X × S¹}(−∂_s H_s) ds` for an arbitrary homotopy, and with
+`c = ∫₀¹ max_{x, ϑ}(−∂_ϑ K_ϑ^t(x)) dt` when `H_s = K_{β(s)}` for a path `K_ϑ` from `H₋` to `H₊`
+and a nondecreasing `β` from `0` to `1`. Hence, for every `ε > 0`, a homotopy whose path satisfies
+`∂_ϑ K_ϑ ≥ H₊ − H₋ − ε` pointwise, for instance one `ε`-close in `C¹` to the linear path
+`H₋ + ϑ(H₊ − H₋)`, has `c ≤ ∫₀¹ max_x (H₋ − H₊)(t, x) dt + ε`; this is a property of the chosen
+homotopy, not of every homotopy between the same ends. These are the source's Proposition 3.22
+and Corollaries 3.24–3.25 (`bdho-cotangent` lines 2125–2194), read with classical coefficients
+and under `s ↦ −s`: the source's continuation map goes from its positive end to its negative end,
+so its `H₊` and `H₋` are this item's `H₋` and `H₊`, its monotonicity `∂_s H_s ≤ 0` is this item's
+`∂_s H_s ≥ 0`, and its Corollary 3.25 asserts the bound for some homotopy, as here.
 For closed aspherical `X` in the contractible sector, construct `FH_*(X) ≅ H_{*+n}(X)` by the
 common module-comparison construction specified in 7.C.5b on `Γ = 0`: its inputs are the
 independent Morse complex, raw capped and reflected cylinder and PSS carriers, conditional
@@ -2531,13 +2562,21 @@ module comparison does not replace it. *Needs:* items 1–3, 7.C.5b, Layer 6 ite
   and `H_2(T²)`. `S²` is not aspherical and is not an instance: it is the capped branch's
   monotone example, with the `ℤ/4`-graded cyclic formula of 7.C.5b.
 - The continuation map for a constant homotopy is the identity.
-- The action filtration shift: for `H_s = H + ε(s)` with `ε` nondecreasing from `0` at
-  `s = −∞` to `δ` at `s = +∞`, the ends are `H_− = H` and `H_+ = H + δ`, so
-  `𝒜_{H_+} = 𝒜_H − δ` on the same orbits and the continuation map, the identity on generators,
-  shifts the filtration by exactly `δ`, which is `∫₀¹ max (H₊ − H₋) dt`, while the Hofer norm
-  of the constant `H₊ − H₋ = δ` is `0`: the general bound is one-sided, not a Hofer-norm bound.
-  A bump `ε` with `ε(±∞) = 0` has equal ends and shifts it by `0`, whatever its integral: the
-  shift is `ε(+∞) − ε(−∞)`, not `∫ ε`.
+- The action filtration shift, lowering instance: for `H_s = H + ε(s)` with `ε` nondecreasing
+  from `0` at `s = −∞` to `δ > 0` at `s = +∞`, the ends are `H₋ = H` and `H₊ = H + δ`, and
+  `X_{H_s} = X_H`, so for an `s`-independent `J` the rigid continuation cylinders are the
+  stationary ones and the continuation map is the identity on generators. Since
+  `𝒜_{H₊} = 𝒜_H − δ` on the same orbits, it lowers every action by exactly `δ`. The estimate
+  gives `c = 0` from `∂_s H_s = ε′ ≥ 0`, and `c = ∫ max(−ε′) ds = −δ` from the general bound,
+  which equals `∫₀¹ max_x (H₋ − H₊) dt = −δ` and is attained.
+- The action filtration shift, raising instance: for `H_s = H − ε(s)` with the same `ε`, the ends
+  are `H₋ = H` and `H₊ = H − δ`, the map is again the identity on generators and raises every
+  action by exactly `δ`, which is the bound `∫₀¹ max_x (H₋ − H₊) dt = δ`. The source's expression
+  `∫₀¹ max (H₊ − H₋) dt = −δ`, read without exchanging the ends, would forbid this rise. The Hofer
+  norm of the constant `H₊ − H₋ = ±δ` is `0` in both instances, so the estimate is one-sided, not a
+  Hofer-norm bound.
+- A bump `ε` with `ε(±∞) = 0` has equal ends, and `H + ε(s)` changes every action by `0`, whatever
+  the integral of `ε`: the change is `ε(−∞) − ε(+∞)`, not `−∫ ε`.
 
 ### 7.5 Symplectic homology
 
@@ -2850,11 +2889,14 @@ Consume HeegaardFloer F2.1’s tame/compatible contraction fixing a compatible s
 - In dimension `2` every `ω`-tame `J` is compatible: `J² = −1` forces `det J = 1`, so
   `J ∈ SL(2, ℝ) = Sp(2, ℝ)` and `ω(Jv, Jw) = ω(v, w)`; the tame lane differs from the
   compatible one only in dimension `≥ 4`.
-- A tame non-compatible structure on `(ℝ⁴, ω₀ ⊕ ω₀)`: `J_ε = A J₀ A⁻¹` with
-  `A = [[I, B], [0, I]]`, `B = diag(1, −1)`, that is `J_ε = [[J₀, εC], [0, J₀]]` with
-  `C = [[0, −2], [−2, 0]]`. Then `ω(v, J_ε v) = |v₁|² + |v₂|² + ε ω₀(v₁, Cv₂) ≥ (1 − |ε|)|v|²`, so
-  `J_ε` is tame for `|ε| < 1`, while `ω(J_ε e₃, J_ε e₄) = 1 − 4ε² ≠ 1 = ω(e₃, e₄)` for `ε ≠ 0`, so
-  it is not compatible and `−J_ε(γ̇ − X_H)` is not the `g_{J_ε}^sym`-gradient of `A_H`.
+- A tame non-compatible structure on `(ℝ⁴, ω₀ ⊕ ω₀)`: `J_ε = A_ε J₀ A_ε⁻¹` with
+  `A_ε = [[I, εB], [0, I]]`, `B = diag(1, −1)` and `J₀ = j ⊕ j` for `j = [[0, −1], [1, 0]]`, that
+  is `J_ε = [[j, εC], [0, j]]` with `C = Bj − jB = [[0, −2], [−2, 0]]`; the unscaled
+  `A = [[I, B], [0, I]]` gives the member `ε = 1`, which is not tame
+  (`ω(v, J₁v) = 1 + 1 − 2 = 0` at `v = (e_q, e_q)`). Then
+  `ω(v, J_ε v) = |v₁|² + |v₂|² + ε ω₀(v₁, Cv₂) ≥ (1 − |ε|)|v|²`, since `|Cv₂| = 2|v₂|`, so `J_ε`
+  is tame for `|ε| < 1`, while `ω(J_ε e₃, J_ε e₄) = 1 − 4ε² ≠ 1 = ω(e₃, e₄)` for `ε ≠ 0`, so it is
+  not compatible and `−J_ε(γ̇ − X_H)` is not the `g_{J_ε}^sym`-gradient of `A_H`.
 - The energy `E = ∫ ω(u_s, J_t u_s) = ∫ g_J^sym(u_s, u_s)` is nonnegative for every tame `J` and
   vanishes exactly on stationary cylinders, so with `u_t − X_H = J_t u_s` every solution has
   `A_H(x̃₊) ≥ A_H(x̃₋)`, with equality only when `x̃₊ = x̃₋`.
@@ -3670,21 +3712,25 @@ Construct representing chain systems for continuation moduli spaces (Proposition
 Definition 3.15) and their uniqueness (Proposition 3.16); continuation cocycles (Definition 3.17,
 Propositions 3.18 and 3.19); the continuation map (Definition 3.21) and its filtration estimate
 (Proposition 3.22), including the functions that correct the action along continuation
-cylinders; the monotone and Hofer-norm corollaries (Corollaries 3.24 and 3.25); uniqueness up to
-homotopy (Proposition 3.26); the identity (Proposition 3.27, Corollary 3.28) and composition
-(Proposition 3.29). *Needs:* items 1–3, Layer 7 items 2 and 4, Tau Ceti `TauCeti.ContinuationCocycle`.
+cylinders; the monotone and one-sided corollaries (Corollaries 3.24 and 3.25, in the standing
+direction as 7.4 states them); uniqueness up to homotopy (Proposition 3.26); the identity
+(Proposition 3.27, Corollary 3.28) and composition (Proposition 3.29). *Needs:* items 1–3,
+Layer 7 items 2 and 4, Tau Ceti `TauCeti.ContinuationCocycle`.
 
 **Checks.**
 - A constant continuation datum gives the identity cocycle and the identity map.
 - In the standing direction of 7.1 (negative-end input, so the continuation map goes
   `FC(H₋) → FC(H₊)` and `𝒜_{H₊}(x₊) = 𝒜_{H₋}(x₋) − E(u) − ∫∫ ∂_s H_s(u) ds dt`), a monotone
   homotopy with `∂_s H ≥ 0` preserves the action filtration, and a general homotopy raises it by
-  at most `∫ max_{X × S¹}(−∂_s H_s) ds`, a bound that is positive as soon as `∂_s H < 0`
-  somewhere. The source's Corollary 3.24 reads `∂_s H ≤ 0` because its continuation map goes
-  `FC(H₊) → FC(H₋)` (`bdho-cotangent` lines 2131–2138 and 2180–2184); the two correspond under
-  `s ↦ −s`. For `H_s = H + ε(s)` with `ε` nondecreasing from `0` to `δ`, the bound is `0` and
-  the shift is `−δ`, as in 7.4's Check; reading the source's `∂_s H ≤ 0` in the standing
-  direction would predict a rise of `δ`.
+  at most `∫ max_{X × S¹}(−∂_s H_s) ds`. The source's Corollary 3.24 reads `∂_s H ≤ 0` because
+  its continuation map goes `FC(H₊) → FC(H₋)` (`bdho-cotangent` lines 2131–2138 and 2180–2184);
+  the two correspond under `s ↦ −s`. For `H_s = H + ε(s)` with `ε` nondecreasing from `0` to `δ`,
+  the monotone bound is `0`, the general bound `∫ max(−ε′) ds = −δ` is attained, and every action
+  falls by `δ`, as in 7.4's lowering Check. For `H − ε(s)` the general bound is `+δ`, attained by
+  the rise of 7.4's raising Check, while the source's `∫₀¹ max (H₊ − H₋) dt = −δ`, read without
+  exchanging the ends, would forbid that rise. The sign of the bound is not that of `∂_s H` at a
+  point: for `H + ε(s)` with `ε` rising from `0` to `2δ` and then falling to `δ`, `∂_s H < 0` on
+  the fall, yet the bound is `ε(−∞) − ε(+∞) = −δ`.
 - The composition of two continuation cocycles is a continuation cocycle for the composed
   homotopy, up to a parametrized cocycle.
 
@@ -4406,7 +4452,7 @@ Numbers follow arXiv version 3 of the source paper.
 | Props 3.4, 3.6, Def 3.5 | 8.1 |
 | Def 3.7, Props 3.8, 3.9 | 8.2 |
 | Def 3.12, Prop 3.13 | 8.3 |
-| Props 3.14, 3.16, Defs 3.15, 3.17, 3.21, Props 3.18, 3.19, 3.22, Cors 3.24, 3.25, Props 3.26, 3.27, Cor 3.28, Prop 3.29 | 8.4 |
+| Props 3.14, 3.16, Defs 3.15, 3.17, 3.21, Props 3.18, 3.19, 3.22, Cors 3.24, 3.25, Props 3.26, 3.27, Cor 3.28, Prop 3.29 | 8.4 (Prop 3.22 and Cors 3.24–3.25 also 7.4, with classical coefficients and the ends exchanged) |
 | Prop 3.30, Def 3.31, Prop 3.32, Def 3.35 | 8.5 |
 | Prop 3.36, Thm 3.37, Def 3.38, Thm 3.39 | 8.6 (the filtration is Tau Ceti's index filtration) |
 | Lem 3.41 | Tau Ceti `TauCeti.isAspherical_iff_doubleLoopSpace_singularHomology`, consumed by 10.4 |
@@ -4482,7 +4528,7 @@ Tau Ceti's Mathlib and conventions.
   item 5 and Layer 10 item 3), §4.J.
 - A. Hatcher, *Spectral Sequences*, Chapter 1 (the author's online text): Theorem 1.3 with its
   local-coefficient form and its reduction to CW bases, Theorem 1.14 and the multiplicative
-  structure following it: Layer 1 item 2.
+  structure following it (both for trivial monodromy): Layer 1 item 2.
 - C. Weibel, *An Introduction to Homological Algebra*, Cambridge University Press, 1994,
   Theorems 5.5.1 and 5.5.10: Layer 1 item 3.
 - G. W. Whitehead, *Elements of Homotopy Theory*, GTM 61, Springer, 1978, Chapter I: Layer 2.
