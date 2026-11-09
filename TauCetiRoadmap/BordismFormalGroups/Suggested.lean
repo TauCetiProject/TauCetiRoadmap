@@ -3,6 +3,9 @@ module
 public import Mathlib
 public import TauCeti.RingTheory.FormalGroup.Hom
 public import TauCeti.RingTheory.FormalGroup.Height.Basic
+public import TauCeti.RingTheory.FormalGroup.Height.Ideal
+public import TauCeti.RingTheory.FormalGroup.LazardRing.Basic
+public import TauCeti.RingTheory.FormalGroup.CoordinateChange.Lazard
 
 /-!
 # Bordism, formal groups and chromatic operations: target signatures
@@ -14,35 +17,52 @@ with `sorry`.
 Statable at the pins, and stated below: Lazard's classification of
 one-dimensional commutative formal groups over a separably closed field of
 characteristic `p` by their height (F1), on Tau Ceti's bundled isomorphisms
-`TauCeti.FormalGroupIso` and height `FormalGroup.height`. The rest of F1
-(the `n`-series, the Lazard ring with its universality and polynomial
-theorem, the symmetric cocycle lemma, the coordinate-change Hopf algebroid,
-the invariant differential, logarithm and exponential, the exponent-two
+`TauCeti.FormalGroupIso` and height `FormalGroup.height`; Landweber's
+classification of the homogeneous invariant prime ideals of the Lazard ring
+under its coordinate-change Hopf algebroid (F5), on `TauCeti.LazardRing`,
+its grading, its right unit and the height ideals `FormalGroup.heightIdeal`
+of the universal law; and the Lubin–Tate theorem on the universal
+deformation of a formal group of finite height over a perfect field (F5),
+on Mathlib's `WittVector` and `MvPowerSeries`. The rest of F1 (the
+`n`-series, the Lazard ring with its universality and polynomial theorem,
+the symmetric cocycle lemma, the coordinate-change Hopf algebroid, the
+invariant differential, logarithm and exponential, the exponent-two
 normalized logarithm and its universal ring) consists of theorems of the
 pinned Tau Ceti, consumed by the README and stated nowhere here.
 
-Not statable at the pins, and stated nowhere in this file: the Lubin–Tate
-universal deformation theorem (no deformations of formal groups over
-complete local rings and no universal deformation ring); Quillen's theorem
-`L ≅ MU_*` and Thom's computation of `π_*MO` (no spectra, no `MU`, `MO` or
-Eilenberg–MacLane spectra); the Conner–Floyd and graded Eilenberg–MacLane
-comparisons for `MO` (no `MO`, no graded Eilenberg–MacLane spectrum
-`H(MO_*)`, no represented homology theories); the Landweber exact functor
-theorem (no `MU_*MU`-comodules); the Devinatz–Hopkins–Smith nilpotence
-theorem and the Hopkins–Smith thick-subcategory classification and
-periodicity theorem (no stable homotopy category, no finite `p`-local
-spectra, no Morava `K(n)`); the Hopkins–Ravenel smashing theorem, the
-chromatic fracture square and the `K(n)`-local completion formula (no
-homological Bousfield localizations of spectra, no `E(n)`- or `K(n)`-local
-categories, no homotopy limits of spectra); the Greenlees–Sadofsky/Kuhn
-Tate vanishing (no Morava `K(n)`, no Tate construction); and the torus
-Euler cancellation of F6.6 (no `MU`-module families over `BT`, no
-Thom-cocone Euler maps).
+Not statable at the pins, and stated nowhere in this file: Milnor's
+theorem on the dual Steenrod algebra and the Serre–Cartan computation of
+`H^*(K(ℤ/p,n);𝔽_p)` (no stable mod-`p` Steenrod operations, no Steenrod
+algebra or its dual); Quillen's theorem `L ≅ MU_*` and Thom's computation
+of `π_*MO` (no spectra, no `MU`, `MO` or Eilenberg–MacLane spectra); the
+Conner–Floyd and graded Eilenberg–MacLane comparisons for `MO` (no `MO`, no
+graded Eilenberg–MacLane spectrum `H(MO_*)`, no represented homology
+theories); `BP_* ≅ ℤ_(p)[v₁,v₂,…]`, the Hopf algebroid `BP_*BP`, Wilson's
+results on the spaces of `BP⟨n⟩` and the Adams-summand splitting of
+`ku_(p)` (no spectra, no `BP` or `BP⟨n⟩`, and no `p`-typical formal group
+laws for the algebraic shadow); the Adams–Novikov `E₂`-term and the
+synthetic Moss theorem (no spectra, no comodules over a Hopf algebroid, no
+`Ext` of comodules); the Landweber filtration theorem (no comodules over
+the Hopf algebroid `(L, L[b₁,b₂,…])` or `(BP_*, BP_*BP)`); the Landweber
+exact functor theorem (no `MU_*MU`-comodules); the Devinatz–Hopkins–Smith
+nilpotence theorem and the Hopkins–Smith thick-subcategory classification
+and periodicity theorem (no stable homotopy category, no finite `p`-local
+spectra, no Morava `K(n)`); the existence of homological Bousfield
+localizations, the Hopkins–Ravenel smashing theorem, the chromatic fracture
+square and the `K(n)`-local completion formula (no homological Bousfield
+localizations of spectra, no `E(n)`- or `K(n)`-local categories, no
+homotopy limits of spectra); the Greenlees–Sadofsky/Kuhn Tate vanishing (no
+Morava `K(n)`, no Tate construction); and the torus Euler cancellation of
+F6.6 with its module-extension nullhomotopies of F6.7 (no `MU`-module
+families over `BT`, no Thom-cocone Euler maps).
 -/
 
 @[expose] public section
 
 noncomputable section
+
+universe u
+
 namespace TauCetiRoadmap.BordismFormalGroups
 
 /-! ## F1: formal-group algebra and universality -/
@@ -56,6 +76,50 @@ the finite-height converse needs the separable closure. -/
 theorem nonempty_formalGroupIso_iff_height_eq {k : Type*} [Field k] [IsSepClosed k]
     (p : ℕ) [Fact p.Prime] [CharP k p] (F G : FormalGroup k) [F.IsComm] [G.IsComm] :
     Nonempty (TauCeti.FormalGroupIso F G) ↔ F.height p = G.height p := by
+  sorry
+
+/-! ## F5: exact functors, deformations and elliptic inputs -/
+
+/-- F5 (Landweber): a homogeneous ideal `I` of the Lazard ring `L` is prime and invariant under
+the coordinate-change Hopf algebroid `(L, L[b₁, b₂, …])`, meaning that its extensions along the
+right unit `η_R` and the left unit `η_L = C` agree, exactly when for some prime `p` it is a height
+ideal `I_(p,n)` of the universal formal group law (the ideal generated by the coefficients of
+`[p]_F` below degree `pⁿ`, so `I_(p,0) = 0` and `I_(p,1) = (p)`) or their union `I_(p,∞)`
+(Ravenel, *Complex Cobordism*, Theorem 1.3.16(iv) for `L` and Theorem 4.3.2(iv) for `BP_*`).
+Homogeneity cannot be dropped: `(2, a₁₁ - 1)` is an invariant prime that is not homogeneous. -/
+theorem isPrime_and_invariant_iff_eq_heightIdeal {I : Ideal TauCeti.LazardRing}
+    (hI : I.IsHomogeneous TauCeti.LazardRing.grading) :
+    (I.IsPrime ∧ I.map TauCeti.LazardRing.rightUnit = I.map MvPolynomial.C) ↔
+      ∃ p : ℕ, p.Prime ∧
+        ((∃ n : ℕ, I = TauCeti.LazardRing.formalGroup.heightIdeal p n) ∨
+          I = ⨆ n, TauCeti.LazardRing.formalGroup.heightIdeal p n) := by
+  sorry
+
+/-- F5 (Lubin–Tate): let `Φ` be a commutative formal group of finite height `h` over a perfect
+field `k` of characteristic `p`. There is a commutative formal group `Γ` over
+`W(k)[[u₁, …, u_(h-1)]]` reducing to `Φ` such that, for every complete noetherian local
+`W(k)`-algebra `A` whose residue map `π : A → k` restricts to the reduction `W(k) → k`, and every
+commutative formal group `G` over `A` lifting `Φ`, there is exactly one `W(k)`-algebra map `ψ`
+sending each `uᵢ` into the maximal ideal for which `G` is ⋆-isomorphic to the specialisation
+`ψ_* Γ`, and then exactly one ⋆-isomorphism, an isomorphism whose series reduces to `X`
+(Lubin–Tate 1966, Theorem 3.1, with Proposition 1.1 for `Γ`). The uniqueness of the
+⋆-isomorphism is the pinned `TauCeti.FormalGroupIso.eq_of_map_residue_eq`. -/
+theorem exists_lubinTate_universalLift {k : Type u} [Field k] (p : ℕ) [Fact p.Prime]
+    [CharP k p] [PerfectRing k p] (Φ : FormalGroup k) [Φ.IsComm] (h : ℕ)
+    (hΦ : Φ.height p = h) :
+    ∃ Γ : FormalGroup (MvPowerSeries (Fin (h - 1)) (WittVector p k)),
+      Γ.IsComm ∧
+      Γ.map (WittVector.constantCoeff.comp MvPowerSeries.constantCoeff) = Φ ∧
+      ∀ (A : Type u) [CommRing A] [IsLocalRing A] [IsNoetherianRing A]
+        [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
+        [Algebra (WittVector p k) A] (π : A →+* k),
+        RingHom.ker π = IsLocalRing.maximalIdeal A →
+        π.comp (algebraMap (WittVector p k) A) = WittVector.constantCoeff →
+        ∀ (G : FormalGroup A) [G.IsComm], G.map π = Φ →
+          ∃! ψ : MvPowerSeries (Fin (h - 1)) (WittVector p k) →ₐ[WittVector p k] A,
+            (∀ i, ψ (MvPowerSeries.X i) ∈ IsLocalRing.maximalIdeal A) ∧
+            ∃! e : TauCeti.FormalGroupIso G (Γ.map ψ.toRingHom),
+              PowerSeries.map π e.toHom.toPowerSeries = PowerSeries.X := by
   sorry
 
 end TauCetiRoadmap.BordismFormalGroups
