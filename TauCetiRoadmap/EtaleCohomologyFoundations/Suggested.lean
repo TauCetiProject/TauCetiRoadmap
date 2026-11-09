@@ -16,10 +16,10 @@ Stated here:
 * `nagataCompactification` (§G.2): every separated finite-type morphism to a quasi-compact
   quasi-separated scheme has a compactification, on Tau Ceti's carrier
   `TauCeti.Compactification`.
-* `arithmeticExactSequence` (§F.0.A2): for a quasi-compact geometrically connected scheme over a
-  field, the étale fundamental groups `EtaleFundamentalGroup` of Tau Ceti's geometric fibre
-  functors form the exact sequence `1 → π₁(X_k̄) → π₁(X) → π₁(Spec k) → 1` under the maps
-  `EtaleFundamentalGroup.map` induced by morphisms of schemes.
+* `arithmeticExactSequence` (§F.0.A2): for a quasi-compact quasi-separated geometrically
+  connected scheme over a field, the étale fundamental groups `EtaleFundamentalGroup` of Tau
+  Ceti's geometric fibre functors form the exact sequence `1 → π₁(X_k̄) → π₁(X) → π₁(Spec k) → 1`
+  under the maps `EtaleFundamentalGroup.map` induced by morphisms of schemes.
 * `VanishingCycles.etaleCohomologicalDimension` (§F.3.0): étale cohomology of a finite-type
   scheme over a separably closed field with prime-to-characteristic torsion coefficients vanishes
   above twice the dimension.
@@ -111,15 +111,18 @@ def EtaleFundamentalGroup.map {T S : Scheme.{u}} (f : T ⟶ S) {Ω : Type u} [Fi
 
 /-! ## F.0.A2 The arithmetic fundamental-group sequence -/
 
-/-- **The arithmetic fundamental-group exact sequence** (SGA 1, Exposé IX, Théorème 6.1,
-p. 195). Let `X` be a quasi-compact scheme over a field `k` that is geometrically connected, that
-is `X_k̄ = X ×_k k̄` is connected for an algebraic closure `k̄` of `k`, and let `x` be a geometric
-point of `X_k̄`. The maps on étale fundamental groups induced by the projection `X_k̄ → X` and by
-the structure morphism `X → Spec k` form an exact sequence
-`1 → π₁(X_k̄, x) → π₁(X, x) → π₁(Spec k, x) → 1`. -/
+/-- **The arithmetic fundamental-group exact sequence** (Stacks, Lemma 58.14.3, tag 0BTX; SGA 1,
+Exposé IX, Théorème 6.1, p. 195). Let `X` be a quasi-compact quasi-separated scheme over a field
+`k` that is geometrically connected, that is `X_k̄ = X ×_k k̄` is connected for an algebraic
+closure `k̄` of `k`, and let `x` be a geometric point of `X_k̄`. The maps on étale fundamental
+groups induced by the projection `X_k̄ → X` and by the structure morphism `X → Spec k` form an
+exact sequence `1 → π₁(X_k̄, x) → π₁(X, x) → π₁(Spec k, x) → 1`. Injectivity uses that every
+finite étale cover of `X_k̄` descends to `X_k'` for a finite extension `k'/k`, which holds for
+qcqs `X` (Stacks, Lemma 58.14.1, tag 0BTV); for a quasi-compact `X` that is not quasi-separated
+it can fail, and with it injectivity (README §F.0.A2, Checks). -/
 theorem arithmeticExactSequence {k : Type u} [Field k] (kbar : Type u) [Field kbar]
     [Algebra k kbar] [IsAlgClosure k kbar] {X : Scheme.{u}} (p : X ⟶ Spec (.of k))
-    [CompactSpace X]
+    [CompactSpace X] [QuasiSeparatedSpace X]
     [ConnectedSpace ↥(pullback p (Spec.map (CommRingCat.ofHom (algebraMap k kbar))))]
     {Ω : Type u} [Field Ω] [IsSepClosed Ω]
     (x : Spec (.of Ω) ⟶ pullback p (Spec.map (CommRingCat.ofHom (algebraMap k kbar)))) :
