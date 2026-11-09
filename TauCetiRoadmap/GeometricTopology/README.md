@@ -145,9 +145,12 @@ This roadmap leaves the following to other roadmaps.
   Li's theorem, the triangulation conjecture and Zeeman's conjecture. None
   of these is planned again here; each is cited by name where it is used.
 - **DifferentialGeometry** owns faces of manifolds with corners, flows, involutive
-  distributions and the Frobenius theorem, integration of forms, Riemannian metrics and the
-  existence of a smooth metric. **HopfRinow** owns the Levi-Civita connection, geodesics, the
-  exponential map, normal neighbourhoods and the Hopf–Rinow theorem.
+  distributions and the Frobenius theorem, integration of forms, smooth singular chains with the
+  smoothing theorem comparing them with singular chains, Stokes' formula for smooth simplices
+  and chains, Riemannian metrics and the existence of a smooth metric. Layer 7.2 keeps only the
+  `ℓ¹` norm estimates for that smoothing which Löh's isometric comparison needs. **HopfRinow**
+  owns the Levi-Civita connection, geodesics, the exponential map, normal neighbourhoods and the
+  Hopf–Rinow theorem.
 - The handle calculus of compact cobordisms (the ordered handle decomposition of a Morse
   function as a structure, reordering, creation and cancellation of handle pairs, handle
   slides and the same-index basis change, the local Whitney move, and Whitney discs in
@@ -164,11 +167,12 @@ This roadmap leaves the following to other roadmaps.
   homeomorphism with diffeomorphism classes through Layer 11.2.1. MordellLawrenceVenkatesh's
   positive twist turns left, which is `T_c⁻¹` in Layer 1.7.2's convention (a Check there).
   **TypeAHeckeAlgebras** owns the Hecke algebras and the Ocneanu trace. **TemperleyLieb** owns the
-  Temperley–Lieb algebras over a commutative ring, their diagram basis, the uniqueness of the
-  Markov trace and the cellular semisimplicity theory; **Subfactors** owns the analytic adjoint
-  of `TL_n(ℂ, δ)`, Jones's positivity theorem, the trace radical and the positive Jones quotients
-  with their C*-tower (§§3.1–3.3). **SuccessiveMinima** owns
-  the successive minima of a discrete full lattice for a convex body and their attainment by a
+  Temperley–Lieb diagram category and linear category, the Temperley–Lieb algebras over a
+  commutative ring, their diagram basis, the uniqueness of the Markov trace, the cellular
+  semisimplicity theory and the Jones–Wenzl projections with their recursion and traces;
+  **Subfactors** owns the analytic adjoint of `TL_n(ℂ, δ)`, Jones's positivity theorem, the trace
+  radical and the positive Jones quotients with their C*-tower (§§3.1–3.3). **SuccessiveMinima**
+  owns the successive minima of a discrete full lattice for a convex body and their attainment by a
   real basis of lattice vectors; Layer 7.3.1 uses the first two minima of a cusp lattice for the
   closed unit disc of `ℂ` and adds only the two-dimensional facts that the two witnesses form a
   `ℤ`-basis and the treatment of ties.
@@ -604,7 +608,8 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   `TauCeti.uniqueDiffOn_fullSimplex` (`Geometry/Convex/FullSimplex.lean`), and the integral of a
   `k`-form over a smooth `k`-simplex `TauCeti.SmoothSimplex.integral`, linear and natural under
   smooth maps (`Geometry/Manifold/SmoothSingular/Integral.lean`), with no topology on the
-  simplices, no comparison with singular homology and no Stokes formula there; the upper half
+  simplices, no comparison with singular homology and no Stokes formula there (the last two are
+  DifferentialGeometry Layers 8.3 and 8.4); the upper half
   space `TauCeti.UpperHalfSpace E`
   (`Hyperbolic/UpperHalfSpace/Basic.lean`) with its complete metric of curvature `−1`,
   `TauCeti.UpperHalfSpace.hyperbolicMetric` and `TauCeti.UpperHalfSpace.isHyperbolic`
@@ -657,6 +662,18 @@ theorem and leaves (Layer 4); integration of densities and forms (Layer 5); exis
 smooth Riemannian metric on a paracompact manifold and the comparison of densities with
 `TauCeti.riemannianVolume` (Layer 12).
 
+Layer 8.3: the smooth singular chains, whose simplices are the pinned `TauCeti.SmoothSimplex`,
+and the smoothing theorem: for a Hausdorff σ-compact smooth manifold modelled on a
+finite-dimensional space, the inclusion of the smooth singular chains into the real singular
+chains is a chain homotopy equivalence, with a chosen homotopy inverse and both chain homotopies;
+for a manifold without boundary it is built by relative Whitney approximation inductively over
+faces, a singular simplex whose faces are smooth being homotopic relative to its boundary to a
+smooth simplex with the same faces. Layer 8.4: Stokes' formula for a smooth simplex, the integral
+of `dω` over a smooth `(p + 1)`-simplex being the alternating sum `Σᵢ (−1)ⁱ` of the integrals of
+the `C¹` form `ω` over its faces, and for smooth chains by linearity. Layer 7.2 consumes Layer 8.3
+for Löh's Propositions 5.3 and 5.5 and Layer 8.4 for Stokes' formula on measure chains; nothing
+is assumed of them beyond these statements and, without boundary, the face-by-face construction.
+
 ### From TauCetiRoadmap.HopfRinow
 
 The Levi-Civita connection and its regularity, the geodesic flow, the exponential map and its
@@ -671,14 +688,23 @@ Jones/Burau block comparisons; it owns the geometric closure and native-matrix a
 
 ### From TauCetiRoadmap.TemperleyLieb
 
-Layer 4: the comparison of the native `TauCeti.TemperleyLieb R δ n` with the diagram algebra, its
+Layer 2: the Temperley–Lieb diagram category, composition gluing along the middle boundary and
+counting the closed circles formed; Layer 3: the linear category `TL(R, δ)` over a commutative
+ring, a circle evaluating to `δ`, with the diagram bases of its hom-modules; Layer 4: the
+comparison of the native `TauCeti.TemperleyLieb R δ n` with the diagram algebra, its
 diagram basis `exists_basis_planarMatching` (free of rank `catalan n` over every commutative ring),
 the strand inclusions, the closure trace and `existsUnique_isMarkovTrace` (exactly one Markov
 family at every `δ`, equal to the native `markovTrace q hδ` when `δ = −(q + q⁻¹)`); Layer 5: cell
 modules, Gram determinants and the semisimplicity criteria `isSemisimpleRing_of_qInt_ne_zero` and
-`isSemisimpleRing_iff_of_charZero`. Layers 4.5.1, 4.5.3 and 4.5.6 consume them for the diagram
-basis, base change, algebraic Markov uniqueness and generic blocks; nothing is assumed of them
-beyond their statements.
+`isSemisimpleRing_iff_of_charZero`; Layer 6: the Jones–Wenzl projections, with
+`existsUnique_jonesWenzl` (when the quantum integers `[1], …, [n]` are units there is exactly one
+idempotent `f_n` of augmentation `1` killed on both sides by every `e_i`), the Wenzl recursion
+`f_(n+1) = f_n − ([n]/[n+1]) f_n e_n f_n`, the partial trace of `f_(n+1)` equal to
+`([n+2]/[n+1]) f_n`, and `IsMarkovTrace.apply_jonesWenzl` (every Markov trace takes the value
+`[n+1]` on `f_n`). Layers 4.5.1, 4.5.3 and 4.5.6 consume Layers 4–5 for the diagram basis, base
+change, algebraic Markov uniqueness and generic blocks; Layer 4.8.1 consumes Layers 2–4 and 6
+for the colored cabling, over `ℚ(A)` at `δ = −A² − A⁻²`, where every `[k]` with `k ≥ 1` is
+nonzero. Nothing is assumed of them beyond their statements.
 
 ### From TauCetiRoadmap.Subfactors
 
@@ -4736,8 +4762,9 @@ preserves adequacy, and crossing number is additive on adequate knots.
 
 *Needs:* earlier realized plane diagrams, Reidemeister/Markov comparison, tubular neighbourhoods
 and marked connected sums; native PD state permutations/counts, `Graph`, `Setoid` join,
-`LaurentPolynomial.degree`, `.coeff` and `.invert`; native Chebyshev S and TemperleyLieb's generic
-diagram/Jones–Wenzl theory. Compare the cabling with
+`LaurentPolynomial.degree`, `.coeff` and `.invert`; native Chebyshev S; TemperleyLieb Layers 2–4
+and 6 (the diagram and linear categories, the closure trace, `existsUnique_jonesWenzl`, the Wenzl
+recursion and `IsMarkovTrace.apply_jonesWenzl`). Compare the cabling with
 [Dasbach–Lin, Theorem 3.1](https://arxiv.org/abs/math/0604230) and the degree normalization with
 [Kalfagianni, §2 and Theorem 3.2](https://arxiv.org/html/1601.03307#S2) (Jones color r+1,
 t = A⁻⁴), whose sign-normalized polynomial is `(-1)^r F_r`.
@@ -5831,10 +5858,11 @@ trivial Alexander polynomial; the square and granny knots, with equal Alexander 
 
 Layer 1 (surfaces, tubes, connected sums), Layer 2.2 (Schoenflies), Layer 3.3 (isotopy
 extension), Layer 5.1 (the exterior); Tau Ceti's knot-theory carriers; Mathlib's quandles and
-braid words; TypeAHeckeAlgebras H1, H2; ReductiveGroups §11A (strand systems and the native
-braid group, for Layer 4.2.8). The signature statements about torus knots and unknotting numbers
-are Layer 6.2's and the surgery-theoretic unknotting-number theorems are Layer 5.4's; both
-consume this layer.
+braid words; TypeAHeckeAlgebras H1, H2; TemperleyLieb Layers 2–6 (Layers 4–5 for 4.5.1, 4.5.3
+and 4.5.6, Layers 2–4 and 6 for 4.8.1); Subfactors §§3.1–3.3 (for 4.5.6); ReductiveGroups §11A
+(strand systems and the native braid group, for Layer 4.2.8). The signature statements about torus
+knots and unknotting numbers are Layer 6.2's and the surgery-theoretic unknotting-number theorems
+are Layer 5.4's; both consume this layer.
 ## Layer 5: Dehn surgery
 
 Dehn surgery removes a tubular neighbourhood of a knot and reglues a solid torus along a
@@ -6678,18 +6706,21 @@ targets of this section:
   isometrically isomorphic*, Math. Z. 253 (2006), numbered as in arXiv math/0504103v2,
   Definitions 5.1, 5.2 and 5.6). Integrating a `k`-form `ω` along a measure chain `μ`,
   `∫ (∫_σ ω) dμ(σ)` with the inner integral the pinned `TauCeti.SmoothSimplex.integral`, is
-  defined because the inner integral is continuous for the `C¹` topology, and it satisfies
-  Stokes' formula `∫_(∂μ) ω = ∫_μ dω`; so for a closed form (`dω = 0`) it depends on cycles only
-  through their class. Every `n`-form on an `n`-manifold is closed, and for an `n`-form `ω` on a
-  closed oriented `n`-manifold `M` the integral along any measure cycle representing the image of
-  the real fundamental class is `∫_M ω`; this top-degree case is the only one the proportionality
-  and Möbius steps use. Prove Löh's comparison: for a connected Hausdorff second-countable
-  smooth manifold `M` without boundary, the inclusion of smooth singular chains into all
-  singular chains and the inclusion `σ ↦ δ_σ` induce an isomorphism
-  `H_*(M; ℝ) ≅ H^s_*(M)` that is isometric for `SSet.homologyL1Seminorm` and `‖·‖_sm` (Löh,
-  Theorem 1.2, proved as Proposition 5.3 and Theorems 5.7 and 5.9 through the duality with
-  bounded cohomology), so for a closed connected oriented smooth `M` the simplicial volume `‖M‖`
-  is the measure seminorm `‖[M]‖_sm` of the fundamental class (Löh, Corollary 6.2).
+  defined because the inner integral is continuous for the `C¹` topology, and for a `C¹` form it
+  satisfies Stokes' formula `∫_(∂μ) ω = ∫_μ dω`, by integrating DifferentialGeometry Layer 8.4's
+  Stokes formula for a smooth simplex against `μ`, the faces acting by push-forward; so for a closed
+  form (`dω = 0`) it depends on cycles only through their class. Every `n`-form on an `n`-manifold
+  is closed, and for an `n`-form `ω` on a closed oriented `n`-manifold `M` the integral along any
+  measure cycle representing the image of the real fundamental class is `∫_M ω`; this top-degree
+  case is the only one the proportionality and Möbius steps use. Prove Löh's comparison: for a
+  connected Hausdorff second-countable smooth manifold `M` without boundary, the inclusion of smooth
+  singular chains into all singular chains and the inclusion `σ ↦ δ_σ` induce an isomorphism
+  `H_*(M; ℝ) ≅ H^s_*(M)` that is isometric for `SSet.homologyL1Seminorm` and `‖·‖_sm` (Löh, Theorem
+  1.2, proved as Proposition 5.3 and Theorems 5.7 and 5.9 through the duality with bounded
+  cohomology; Proposition 5.3 is DifferentialGeometry Layer 8.3's smoothing theorem together with
+  the norm estimates listed under *Needs* below), so for a closed connected oriented smooth `M` the
+  simplicial volume `‖M‖` is the measure seminorm `‖[M]‖_sm` of the fundamental class (Löh,
+  Corollary 6.2).
 - *Proportionality.* For a closed connected oriented hyperbolic `n`-manifold `M` with `n ≥ 2`,
   `vol(M) = v_n ‖M‖`, where `‖M‖` is the pinned simplicial volume
   `TauCeti.HomologicalOrientation.simplicialVolume`, the `ℓ¹`-seminorm `SSet.homologyL1Seminorm`
@@ -6788,7 +6819,9 @@ covolume formula.
 `SSet.homologyL1Seminorm`, the smooth singular simplices and chains `TauCeti.SmoothSimplex` and
 `TauCeti.smoothSingularSubcomplex` (`Geometry/Manifold/SmoothSingular/Basic.lean`) with
 `TauCeti.uniqueDiffOn_fullSimplex`, and the integral of forms over smooth simplices
-`TauCeti.SmoothSimplex.integral` (`Geometry/Manifold/SmoothSingular/Integral.lean`); Layer 7.1
+`TauCeti.SmoothSimplex.integral` (`Geometry/Manifold/SmoothSingular/Integral.lean`);
+DifferentialGeometry Layer 8.3 (the smoothing theorem and its face-by-face relative Whitney
+approximation step) and Layer 8.4 (Stokes' formula for a smooth simplex); Layer 7.1
 (the isometry group, its transitivity on frames, the volume form and the fundamental-domain
 volume); Layer 11.3 (smooth triangulations, through which Löh's Theorem 3.5, by his Remark 3.6,
 and the comparison behind his Theorem 5.7 apply to `M`); Mathlib singular homology, the
@@ -6797,23 +6830,31 @@ compact-open topology, Haar measure on the locally compact group of isometries o
 (`MeasureTheory.SignedMeasure`, `MeasureTheory.SignedMeasure.totalVariation`) and measure
 theory. The measure chains, Löh's `C¹`
 topology and Löh's comparison are targets of this section, and so are the inputs of Löh's
-route: the isometric isomorphism between smooth singular and singular homology by Whitney
-smoothing (Löh, Proposition 5.3) and its dual for bounded cohomology (Löh, Proposition 5.5); the
-bounded cohomology of spaces with its duality principle for the `ℓ¹` seminorm (Löh, Theorem 3.3);
-the Kronecker product of measure chains with bounded Borel cochains and the duality principle of
-measure homology it gives (Löh, Definitions 3.7–3.9, Lemmas 3.10 and 3.11), in their smooth form
-(Löh, §5.4); the isometric isomorphism from the cohomology of the bounded invariant continuous
-functions on the powers of the universal cover of a connected locally finite CW complex to its
-bounded cohomology (Löh, Theorem 3.5), which rests on the comparison of strong relatively
-injective resolutions of the trivial Banach module `ℝ` (Monod, *Continuous bounded cohomology of
-locally compact groups*, Lecture Notes in Math. 1758 (2001), Theorem 7.4.5 and Lemma 7.2.6); a
-Borel section of the map that the universal covering induces on singular simplices (Löh, Theorem
-4.1, proved in the Appendix), Borel also on smooth simplices since the `C¹` topology is finer
-than the compact-open one; and the algebraic isomorphism between smooth singular and smooth
-measure homology (Löh, Theorem 5.7), from the Eilenberg–Steenrod axioms for measure homology
-carried over to `C¹` simplices on a triangulated manifold (Zastrow, *On the (non)-coincidence of
-Milnor–Thurston homology theory with singular homology theory*, Pacific J. Math. 186 (1998),
-Theorem 3.4).
+route: the `ℓ¹` estimates that make DifferentialGeometry Layer 8.3's smoothing isometric. Built, for
+`M` without boundary, by induction over faces from that layer's relative Whitney approximation step
+and the homotopy extension property of `(Δᵏ, ∂Δᵏ)`, with a homotopy `H_σ` from each singular simplex
+`σ` to its smoothing, compatible with faces and chosen constant when `σ` is already smooth, the
+smoothing `s` sends each singular simplex to a single smooth simplex and fixes the smooth ones, so
+`s ∘ j = id` and `‖s(c)‖₁ ≤ ‖c‖₁` for the inclusion `j` of smooth chains; and the prism operator of
+the `H_σ` is a chain homotopy `j ∘ s ≃ id` sending each singular `k`-simplex to a chain of `ℓ¹` norm
+at most `k + 1`. Every homotopy inverse of `j` induces `H(j)⁻¹` on homology, so the conclusion does
+not depend on the inverse that layer chooses. These give the isometric isomorphism between smooth
+singular and singular homology (Löh, Proposition 5.3) and, through the dual of the bounded homotopy,
+its dual for bounded cohomology (Löh, Proposition 5.5); the bounded cohomology of spaces with its
+duality principle for the `ℓ¹` seminorm (Löh, Theorem 3.3); the Kronecker product of measure chains
+with bounded Borel cochains and the duality principle of measure homology it gives (Löh, Definitions
+3.7–3.9, Lemmas 3.10 and 3.11), in their smooth form (Löh, §5.4); the isometric isomorphism from the
+cohomology of the bounded invariant continuous functions on the powers of the universal cover of a
+connected locally finite CW complex to its bounded cohomology (Löh, Theorem 3.5), which rests on the
+comparison of strong relatively injective resolutions of the trivial Banach module `ℝ` (Monod,
+*Continuous bounded cohomology of locally compact groups*, Lecture Notes in Math. 1758 (2001),
+Theorem 7.4.5 and Lemma 7.2.6); a Borel section of the map that the universal covering induces on
+singular simplices (Löh, Theorem 4.1, proved in the Appendix), Borel also on smooth simplices since
+the `C¹` topology is finer than the compact-open one; and the algebraic isomorphism between smooth
+singular and smooth measure homology (Löh, Theorem 5.7), from the Eilenberg–Steenrod axioms for
+measure homology carried over to `C¹` simplices on a triangulated manifold (Zastrow, *On the
+(non)-coincidence of Milnor–Thurston homology theory with singular homology theory*, Pacific J.
+Math. 186 (1998), Theorem 3.4).
 
 ### 7.3 Finite-volume hyperbolic 3-manifolds
 
@@ -7003,7 +7044,9 @@ volume with its homotopy invariance, the Mostow, virtual fibering and virtual Ha
 propositions, and its smooth singular simplices with the integral of forms over them;
 Mathlib's Haar measure, signed measures, the compact-open topology and singular homology
 (Layer 7.2's measure chains, their comparison with singular chains and the proportionality);
-HopfRinow (geodesics, exponential map); DifferentialGeometry Layer 12 (metrics and densities);
+HopfRinow (geodesics, exponential map); DifferentialGeometry Layer 12 (metrics and densities)
+and Layers 8.3–8.4 (the smoothing of singular chains and Stokes' formula for smooth simplices,
+for Layer 7.2); SuccessiveMinima (the successive minima of a cusp lattice, for Layer 7.3.1);
 Layer 5.2 (Dehn filling), Layer 8.2 (irreducibility), Layer 11.3 (smooth triangulations, for
 Löh's comparison).
 ## Layer 8: decompositions of 3-manifolds and geometrization
@@ -7211,9 +7254,15 @@ supplier of 8.5.2; it uses neither hyperbolization nor a finite knot table.
   boundary tori, so σ and the conjugators are not determined by the group isomorphism.
 - *Solid torus.* A solid torus is not sufficiently large, its boundary being compressible, so
   the hypotheses exclude it; the hierarchy induction needs an incompressible boundary to begin.
-- *Figure-eight exterior.* A self-homotopy equivalence of the figure-eight knot exterior that is
-  the identity on the boundary torus and induces the identity on `π₁` is homotopic relative to
-  the boundary to the identity, by item 2.
+- *Figure-eight exterior.* A self-homotopy equivalence `f` of the figure-eight knot exterior that
+  is the identity on the boundary torus and induces the identity on `π₁` at a boundary basepoint is
+  homotopic relative to the boundary to the identity, by item 1's asphericity: two maps from a CW
+  complex into an aspherical space that agree on a connected subcomplex and induce the same
+  homomorphism of `π₁` at a basepoint in it are homotopic relative to that subcomplex, the
+  obstructions lying in `π₁`, on which the two maps agree, and in `π_k = 0` for `k ≥ 2`. Item 2
+  alone gives only some homeomorphism `h` equal to the identity on the boundary with `f ≃ h`
+  relative to it; that `h` is homotopic to the identity relative to the boundary is again the
+  asphericity argument.
 
 *Needs:* 8.1–8.2 and 8.3's Haken and normal-surface prefix, not its closed rigidity conclusion;
 11.1–11.2 for finite relative CW and PL models; collars, gluing and supported isotopy from Layers
@@ -7233,15 +7282,20 @@ torus `TauCeti.SolidTorus` with `TauCeti.SolidTorus.fiberSetoid p q`), `TauCeti.
   fibres of multiplicities `p` and `q`, and lens spaces are Seifert fibred;
 - a compact connected Seifert fibred space is determined up to fibre-preserving homeomorphism by
   its Seifert invariants: the genus and orientability of the base, the number of boundary
-  components, the orientation character of the fibres along loops of the base, the normalized
-  pairs `(α₁, β₁), …, (αₖ, βₖ)` of the exceptional fibres up to permutation, and the Euler
-  obstruction `e` when the base is closed (Seifert, Acta Math. 60 (1933); Scott, *The geometries
-  of 3-manifolds*, Bull. London Math. Soc. 15 (1983), §3); for an orientable total space the
+  components, the orientation character of the fibres along loops of the base, Seifert's
+  normalized pairs `(m₁, ν₁), …, (mₖ, νₖ)` of the exceptional fibres up to permutation, with
+  `mᵢ ≥ 2` the multiplicity of the fibre and `0 < νᵢ < mᵢ` coprime to it, measured in an orientation
+  of a neighbourhood of the fibre (reversing it replaces `νᵢ` by `mᵢ − νᵢ`), and the Euler
+  obstruction `e` when the base is closed (Seifert, Acta Math. 60 (1933); Scott, *The geometries of
+  3-manifolds*, Bull. London Math. Soc. 15 (1983), §3); for an orientable total space the
   orientation character is determined by the base and the invariants reduce to Hatcher's
   `M(±g, b; α₁/β₁, …, αₖ/βₖ)` (Hatcher, §2.1, p. 33), in which `g` is the genus of the base, the
-  sign is `+` exactly when the base is orientable, `b` is the number of boundary components of
-  the base, and the Euler obstruction is not a separate symbol but is carried by the fractions
-  `αᵢ/βᵢ`, a fraction with `βᵢ = 1` recording a regular fibre;
+  sign is `+` exactly when the base is orientable, `b` is the number of boundary components of the
+  base, and the Euler obstruction is not a separate symbol but is carried by the fractions `αᵢ/βᵢ`.
+  In Hatcher's notation the multiplicity of a fibre is the denominator `βᵢ` of its fraction, the
+  meridian disc of its fibred solid torus meeting each nearby fibre `βᵢ` times, so the fibre of
+  Seifert's pair `(mᵢ, νᵢ)` has a fraction with denominator `mᵢ`, and a fraction with `βᵢ = 1`
+  records a regular fibre;
 - in a compact connected irreducible Seifert fibred space every essential surface (a connected
   compact properly embedded surface that is incompressible, in Hatcher's sense of Layer 8.2, and
   `∂`-incompressible, or a sphere not bounding a ball, or a disc that is not `∂`-parallel) is
@@ -7261,6 +7315,10 @@ torus `TauCeti.SolidTorus` with `TauCeti.SolidTorus.fiberSetoid p q`), `TauCeti.
   fibred over a circle factor) both have base of genus one, a section and no exceptional fibres,
   and differ only in the orientation character; the genus, the boundary count, the Euler
   obstruction `e` and the exceptional pairs miss this.
+- *Two notations.* A fibre of multiplicity `2` has Seifert's normalized pair `(2, 1)` and a
+  Hatcher fraction with denominator `2`, such as `1/2`, while Hatcher's fraction `2/1` records a
+  regular fibre; reading Seifert's pair `(m, ν)` as Hatcher's fraction `m/ν` would make the
+  multiplicity-`2` fibre regular (by evaluation).
 - *Essential surfaces.* In `T³ = S¹ × T²` a small sphere bounding a ball is injective on `π₁` but
   neither vertical nor horizontal (Euler characteristic `2`, not `0`); it is not essential.
 - *Knot exteriors.* The trefoil exterior is Seifert fibred with exceptional fibres of
