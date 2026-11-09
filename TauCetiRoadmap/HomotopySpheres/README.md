@@ -3249,9 +3249,10 @@ compact smooth recognition theorem of Layer 10.
 - Michel Kervaire and John Milnor,
   [*Groups of Homotopy Spheres: I*](https://doi.org/10.2307/1970128), Annals of Mathematics
   77 (1963), 504--537: Theorem 1.1 and the orders of Θₙ for n ≤ 18, p.504; Lemmas 2.1–2.4,
-  pp.505–507; Theorem 3.1, its proof and Bott's table of `π_(n−1)(SO)`, p.508; §4, Lemmas
-  4.2–4.5 and the Remarks after Theorem 4.1, pp.510–512; the table of the stable groups Πₙ for
-  n ≤ 8, p.512; §§5–6 (spherical modifications), pp.512–526.
+  pp.505–507; Theorem 3.1 and Bott's table of `π_(n−1)(SO)`, p.508, with the proof of
+  Theorem 3.1, pp.508–509; §4, Lemmas 4.2–4.5 and the Remarks after Theorem 4.1,
+  pp.510–512; the table of the stable groups Πₙ for n ≤ 8, p.512; §§5–6 (spherical
+  modifications), pp.512–526.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
   2002, §4.2, p.387 and Exercise 39, p.392 (Toda brackets); §4.J, pp.474–475
   (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem);
