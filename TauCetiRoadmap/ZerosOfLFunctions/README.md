@@ -1686,9 +1686,17 @@ assembles the statement from six targets.
   trivial character: at `K = ℚ`, `t = 0`, `σ = 1 + u`, the left side is `1/u + O(1)` while the
   right side stays bounded as `u → 0⁺`. Both bounds use `Re b(χ) = −∑_ρ Re (1/ρ)`, which is 5.6
   for every `χ`, real or not. The
-  discriminant term in the `ζ_K` bound is needed: for `K = ℚ(√D)` with `D` a prime
-  `≡ 1 (mod 8 ∏_{p ≤ B} p)` every `p ≤ B` splits, which pushes `−ζ'_K/ζ_K(σ)` above
-  `2/(σ − 1) − O(1)` for `σ` near `1` and defeats any degree-two constant.
+  discriminant term in the `ζ_K` bound is needed, and the witness chooses `σ` before the field.
+  Without that term the bound would give `−(logDeriv ζ_K)(σ) ≤ 1/(σ − 1) + C` for every quadratic
+  `K` and `1 < σ ≤ 2`, with `C` absolute, because the subtracted zero terms are positive. Since
+  `−(ζ'/ζ)(σ) = 1/(σ − 1) − γ_E + O(σ − 1)` as `σ → 1⁺`, first fix `σ ∈ (1, 2]` with
+  `2(−ζ'/ζ)(σ) > 1/(σ − 1) + C + 1`; then fix `B` with `2 ∑_{p^j > B} log p · p^{−jσ} < 1`; then
+  take `K = ℚ(√D)` with `D` a prime `≡ 1 (mod 8 ∏_{p ≤ B} p)` (Dirichlet), so that `d_K = D`
+  and every `p ≤ B` splits. Every term of `−(logDeriv ζ_K)(σ) = ∑_𝔞 Λ_K(𝔞) 𝔑𝔞^{−σ}` is
+  nonnegative, and a split `p` contributes `2 log p · p^{−jσ}` at norm `p^j` (from `𝔭^j` and `𝔭'^j`), so
+  `−(logDeriv ζ_K)(σ) ≥ 2 ∑_{p^j ≤ B} log p · p^{−jσ} > 1/(σ − 1) + C`. No single field is a
+  witness: for fixed `D`, `ζ_K = ζ · L(·, χ_D)` with `χ_D` the quadratic character of `K` and
+  `L(1, χ_D) ≠ 0`, so `−(logDeriv ζ_K)(σ) = 1/(σ − 1) + O_D(1)` as `σ → 1⁺`.
 
   *Off the real axis.* For every `t₀ > 1` there is `C`, depending on `n` and `t₀` alone, such that
   for `0 < δ ≤ 1` and `|t| ≥ t₀`: `−Re (logDeriv ζ_K)(1 + δ + 2it) ≤ ½ log |d_K| + C log |t|`;
@@ -1765,6 +1773,13 @@ Mathlib `DirichletCharacter.LFunction_changeLevel`, `DirichletCharacter.changeLe
   `1 + 2^{−s}`, since that character takes `−1` at `2`, and its zeros `iπ(2k + 1)/log 2` are not
   real; the smallest in absolute value, at height `π/log 2 ≈ 4.532`, enters the region at `q = 6`
   once `c ≥ log 45.19 ≈ 3.811`, where the reality clause would fail.
+- The discriminant term of the `ζ_K` bound of (4d), at `σ = 1.1`: `−(ζ'/ζ)(1.1) ≈ 9.4410`, so
+  `2(−ζ'/ζ)(1.1) − 1/(σ − 1) ≈ 8.882`, and at `B = 10⁶` the sum `2 ∑_{p^j ≤ B} log p · p^{−1.1 j}`
+  is `≈ 13.858`. Every prime `D ≡ 1 (mod 8 ∏_{p ≤ 10⁶} p)` therefore gives
+  `−(logDeriv ζ_K)(1.1) > 10 + 3.85` for `K = ℚ(√D)`, which refutes a bound without `½ log |d_K|`
+  for every constant `C < 3.85`, while it leaves `1/(σ − 1) + ½ log |d_K| + O(1)` (the bound with
+  its zero terms dropped) untouched, since `½ log D > ½ ϑ(10⁶) ≈ 4.99 · 10⁵`. At `B = 10` the
+  least such prime is `3361`: `3361 ≡ 1 (mod 8)` and `(3361/p) = 1` for `p = 3, 5, 7`.
 
 ### 6.5 The edges
 
