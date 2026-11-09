@@ -533,8 +533,9 @@ end MappingClassGroups
 /-- **The isometry group of the hyperbolic plane is `PGL₂(ℝ)`.** Mathlib's action of
 `GL (Fin 2) ℝ` on the upper half-plane (Möbius transformations for positive determinant, their
 composition with complex conjugation for negative determinant) is by isometries of the hyperbolic
-distance; every isometry of `ℍ` arises; and its kernel is the centre, the nonzero scalar
-matrices. Together: an isomorphism `GL(2, ℝ)/Z ≃* Isom(ℍ)` compatible with the action. -/
+distance; every distance-preserving bijection of `ℍ` arises, no differentiability being assumed;
+and its kernel is the centre, the nonzero scalar matrices. Together: an isomorphism
+`GL(2, ℝ)/Z ≃* Isom(ℍ)` compatible with the action (§0.4a). -/
 theorem exists_mulEquiv_isometryEquiv_glAction :
     ∃ e : (GL (Fin 2) ℝ ⧸ Subgroup.center (GL (Fin 2) ℝ)) ≃* (ℍ ≃ᵢ ℍ),
       ∀ (g : GL (Fin 2) ℝ) (z : ℍ), e (QuotientGroup.mk g) z = g • z := by
