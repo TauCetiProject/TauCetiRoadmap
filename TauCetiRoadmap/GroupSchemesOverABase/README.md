@@ -1434,21 +1434,32 @@ ModularCurves 0C; SchemeAndStackFoundations §0.6, §3.4.
 
 ## Downstream consumers
 
+- EllipticCurveModularityPartII (its contract *From TauCetiRoadmap.GroupSchemesOverABase*)
+  consumes 4.5, Cartier's theorem `smooth_of_charZero`, for the intersection of two abelian
+  subvarieties.
 - FlagVarieties (Scope) names this roadmap, as GS7, for the relative scheme `Bor(G)`; that scheme
   is ReductiveGroups Layer 9D's, and this roadmap's share is the line bundles on it and its Picard
   group (Layer 6).
-- NeronModelsAndSemistableAbelianVarieties names 4.2, as GS4.2, as the owner of Chevalley's
-  theorem for noncommutative groups and of its comparison with its own 2.3, and consumes nothing
-  from it.
-- PurityForFlatCohomology §§7.12a–7.12e consume 0.1, 1.1–1.4, 2.1–2.3 and 2.7 (`D_S(M)`, groups
-  of multiplicative type and tori, `X*(H)`, subgroups, quotients and `Hᵗᵒʳ`) for its purity
-  results.
+- HeightsRationalPointsAndObstructions (its contract *From TauCetiRoadmap.GroupSchemesOverABase*)
+  consumes 6.2, as GSOB §6.2, the Picard groups of a connected split reductive group and of its
+  flag variety over a field.
+- NeronModelsAndSemistableAbelianVarieties consumes 0.2, 4.6 and 4.8 (the identity component over
+  a base and over a field, and `π₀(G/k)`) for the identity component and the component group of a
+  Néron model, and names 4.2, as GS4.2, as the owner of Chevalley's theorem for noncommutative
+  groups and of its comparison with its own 2.3.
+- PurityForFlatCohomology §§7.12a–7.12e treat, for its purity results, the material of 0.1,
+  1.1–1.5, 2.1–2.3 and 2.7 here, at the same generality: `D_S(M)` over an arbitrary base with its
+  homomorphisms and, for finite `M`, its Cartier duality; smoothness, étaleness, kernels and
+  exactness; groups of multiplicative type and tori, with fppf covers on which `M_i` may vary and
+  torsion-free `M_i` for tori; `X*(H)` and the anti-equivalence; subgroups, quotients,
+  cocharacters and `Hᵗᵒʳ`.
 - SpringerResolutionAndCharacteristicCycles (Scope) names 7.6, as GS8.5 or §7.6, for the
   Grothendieck–Springer space `G̃ ⊆ G × Bor(G)`, distinct from its own additive `g̃`, and consumes
   nothing from it.
 
-The identifiers used in those roadmaps resolve here as follows: GS4.2 is 4.2; GS7 is, for
-`Bor(G)`, ReductiveGroups Layer 9D and, for the line bundles on it, Layer 6; GS8.5 is 7.6.
+The identifiers used in those roadmaps resolve here as follows: GSOB §6.2 is 6.2; GS4.2 is 4.2;
+GS7 is, for `Bor(G)`, ReductiveGroups Layer 9D and, for the line bundles on it, Layer 6; GS8.5 is
+7.6.
 
 ## Research context
 
