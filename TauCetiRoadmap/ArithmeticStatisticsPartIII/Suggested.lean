@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Data.Nat.Prime.Basic
 import TauCeti.RingTheory.MvPolynomial.LinearSubst
 
 /-!
@@ -213,7 +214,6 @@ def padicMass {ι : Type*} [Fintype ι] (p : ℕ) [Fact p.Prime]
 /-- The local solubility probability on the full integral coefficient lattice. -/
 def hypersurfacePadicDensity (n d : ℕ) (p : Nat.Primes) : ℝ := by
   classical
-  letI : Fact p.val.Prime := ⟨p.property⟩
   exact padicMass p.val (fun a : Sym (Fin (n + 1)) d → PadicInt p.val =>
     if HasProjectiveZero (hypersurfaceForm (fun m => (a m : ℚ_[p.val]))) then 1 else 0)
 
@@ -225,8 +225,7 @@ def hypersurfaceClasses (n d : ℕ) (A : ℝ) (locallySoluble : Bool) :
     (∑ m, (a m : ℝ) ^ 2) ≤ A ^ 2 ∧
     (locallySoluble = true →
       HasProjectiveZero (hypersurfaceForm (fun m => (a m : ℝ))) ∧
-      ∀ p : Nat.Primes, letI : Fact p.val.Prime := ⟨p.property⟩
-        HasProjectiveZero (hypersurfaceForm (fun m => (a m : ℚ_[p.val]))))}
+      ∀ p : Nat.Primes, HasProjectiveZero (hypersurfaceForm (fun m => (a m : ℚ_[p.val]))))}
 
 /-- Section 2.1: the quantitative geometric sieve for a compact dilate and an integral closed
 subscheme, expressed by its coordinate ideal. -/
@@ -304,11 +303,11 @@ theorem odd_binary_summed_tail (n : ℕ) (hn : 3 ≤ n) (hodd : Odd n)
 /-- Section 2.23: the smooth rational point bound, uniform in the finite field and all
 geometrically integral degree-d hypersurfaces. -/
 theorem degree_uniform_hypersurface_smooth_points (n d : ℕ) (hn : 2 ≤ n) (hd : 2 ≤ d) :
-    ∃ C : ℝ, 0 < C ∧ ∀ (F : Type) [Field F] [Fintype F]
+    ∃ C : ℝ, 0 < C ∧ ∀ (F : Type) [Field F] [Finite F]
       (f : MvPolynomial (Fin (n + 1)) F), f.IsHomogeneous d →
       Irreducible (MvPolynomial.map (algebraMap F (AlgebraicClosure F)) f) →
-      (Fintype.card F : ℝ) ^ (n - 1) - C *
-        ((Fintype.card F : ℝ) ^ ((n : ℝ) - 3 / 2) + (Fintype.card F : ℝ) ^ (n - 2)) ≤
+      (Nat.card F : ℝ) ^ (n - 1) - C *
+        ((Nat.card F : ℝ) ^ ((n : ℝ) - 3 / 2) + (Nat.card F : ℝ) ^ (n - 2)) ≤
           ((smoothHypersurfacePoints f).ncard : ℝ) := by
   sorry
 
@@ -381,42 +380,34 @@ theorem binary_fixed_modulus_sieve (n N : ℕ) (hn : 3 ≤ n) (hN : 1 ≤ N)
 
 /-- Acceptability on the coefficient lattice, with integral substitution invariance. -/
 def AcceptableBinaryWeight (n twist : ℕ)
-    (φ : (p : Nat.Primes) → letI : Fact p.val.Prime := ⟨p.property⟩
-      (Fin (n + 1) → PadicInt p.val) → ℝ) : Prop :=
-  (∀ p : Nat.Primes, letI : Fact p.val.Prime := ⟨p.property⟩
-    ∀ a, 0 ≤ φ p a ∧ φ p a ≤ 1) ∧
-  (∀ p : Nat.Primes, letI : Fact p.val.Prime := ⟨p.property⟩
+    (φ : (p : Nat.Primes) → (Fin (n + 1) → PadicInt p.val) → ℝ) : Prop :=
+  (∀ p : Nat.Primes, ∀ a, 0 ≤ φ p a ∧ φ p a ≤ 1) ∧
+  (∀ p : Nat.Primes,
     ∀ (γ : Matrix.GeneralLinearGroup (Fin 2) ℤ) (a : Fin (n + 1) → PadicInt p.val),
       φ p (fun i => binaryCoeff (((Matrix.GeneralLinearGroup.det γ : ℤ) : PadicInt p.val) ^ twist •
         MvPolynomial.linearSubst ((γ.val.map (Int.castRingHom (PadicInt p.val))).transpose)
           (binaryForm a)) n i.val) = φ p a) ∧
-  (∀ p : Nat.Primes, letI : Fact p.val.Prime := ⟨p.property⟩
+  (∀ p : Nat.Primes,
     letI : MeasurableSpace (PadicInt p.val) := borel _
     letI : BorelSpace (PadicInt p.val) := ⟨rfl⟩
     ∃ E : Set (Fin (n + 1) → PadicInt p.val), IsClosed E ∧ Measure.addHaar E = 0 ∧
       ∀ a ∉ E, ∀ᶠ b in 𝓝 a, φ p b = φ p a) ∧
-  (∃ P : ℕ, ∀ p : Nat.Primes, letI : Fact p.val.Prime := ⟨p.property⟩
-    P < p.val → ∀ a : Fin (n + 1) → PadicInt p.val,
+  (∃ P : ℕ, ∀ p : Nat.Primes, P < p.val → ∀ a : Fin (n + 1) → PadicInt p.val,
       ¬ (p.val : PadicInt p.val) ^ 2 ∣ binaryDiscriminant a → φ p a = 1)
 
 /-- The global coefficient weight uses the actual infinite product of local factors. -/
 def binaryWeight (n : ℕ)
-    (φ : (p : Nat.Primes) → letI : Fact p.val.Prime := ⟨p.property⟩
-      (Fin (n + 1) → PadicInt p.val) → ℝ) (f : MvPolynomial (Fin 2) ℤ) : ℝ :=
-  ∏' p : Nat.Primes, letI : Fact p.val.Prime := ⟨p.property⟩
-    φ p (fun i => ((binaryCoeff f n i.val : ℤ) : PadicInt p.val))
+    (φ : (p : Nat.Primes) → (Fin (n + 1) → PadicInt p.val) → ℝ) (f : MvPolynomial (Fin 2) ℤ) : ℝ :=
+  ∏' p : Nat.Primes, φ p (fun i => ((binaryCoeff f n i.val : ℤ) : PadicInt p.val))
 
 /-- Normalized local Haar integrals of the coefficient weights. -/
 def binaryLocalMass (n : ℕ)
-    (φ : (p : Nat.Primes) → letI : Fact p.val.Prime := ⟨p.property⟩
-      (Fin (n + 1) → PadicInt p.val) → ℝ) (p : Nat.Primes) : ℝ := by
-  letI : Fact p.val.Prime := ⟨p.property⟩
-  exact padicMass p.val (φ p)
+    (φ : (p : Nat.Primes) → (Fin (n + 1) → PadicInt p.val) → ℝ) (p : Nat.Primes) : ℝ :=
+  padicMass p.val (φ p)
 
 /-- Section 2.5: the weighted infinite sieve for irreducible quartic classes. -/
 theorem quartic_acceptable_sieve (r : ℕ) (hr : r = 0 ∨ r = 2 ∨ r = 4)
-    (φ : (p : Nat.Primes) → letI : Fact p.val.Prime := ⟨p.property⟩
-      (Fin 5 → PadicInt p.val) → ℝ) (hφ : AcceptableBinaryWeight 4 0 φ) :
+    (φ : (p : Nat.Primes) → (Fin 5 → PadicInt p.val) → ℝ) (hφ : AcceptableBinaryWeight 4 0 φ) :
     Multipliable (binaryLocalMass 4 φ) ∧
       (fun X : ℝ =>
         (∑' q : ↥(quarticClasses r X), binaryWeight 4 φ (Quotient.out q.val)) -
@@ -426,8 +417,7 @@ theorem quartic_acceptable_sieve (r : ℕ) (hr : r = 0 ∨ r = 2 ∨ r = 4)
 
 /-- Section 2.7: the weighted infinite sieve for irreducible cubic classes. -/
 theorem cubic_acceptable_sieve (positive : Bool)
-    (φ : (p : Nat.Primes) → letI : Fact p.val.Prime := ⟨p.property⟩
-      (Fin 4 → PadicInt p.val) → ℝ) (hφ : AcceptableBinaryWeight 3 1 φ) :
+    (φ : (p : Nat.Primes) → (Fin 4 → PadicInt p.val) → ℝ) (hφ : AcceptableBinaryWeight 3 1 φ) :
     Multipliable (binaryLocalMass 3 φ) ∧
       (fun X : ℝ =>
         (∑' q : ↥(cubicClasses positive X), binaryWeight 3 φ (Quotient.out q.val)) -

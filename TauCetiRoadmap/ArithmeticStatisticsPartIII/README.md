@@ -33,7 +33,7 @@ Every arithmetic conjecture is a proposition, not an axiom or an unconditional d
 
 ### From Mathlib and Tau Ceti
 
-Use Mathlib's `Northcott` and `Northcott.comp_of_finite_fibers` for finite height fibres; finite sets and quotient/orbit types; `Polynomial.discr`, resultants, separability and `Squarefree`; `ClassGroup` and `NumberField.discr`; `p`-adic fields and integers; Haar measures, integrals, filters, infinite sums and products; matrices, ranks, subspaces and Smith normal form. `Polynomial.resultant_eq_zero_iff` is used over a field, and `Polynomial.card_roots'` bounds roots by natural degree. The finite-field hypersurface estimate is `MvPolynomial.schwartz_zippel_totalDegree` for a nonzero polynomial. `hensels_lemma` in `Mathlib.NumberTheory.Padics.Hensel` supplies the simple-root `p`-adic lifting step.
+Use Mathlib's `Northcott` and `Northcott.comp_of_finite_fibers` for finite height fibres; finite sets and quotient/orbit types; `Polynomial.discr`, resultants, separability and `Squarefree`; `ClassGroup` and `NumberField.discr`; `p`-adic fields and integers; Haar measures, integrals, filters, infinite sums and products; matrices, ranks, subspaces and Smith normal form. `Polynomial.resultant_eq_zero_iff` is used over a field, and `Polynomial.card_roots'` bounds roots by natural degree. The finite-field hypersurface estimate is `MvPolynomial.schwartz_zippel_totalDegree` for a nonzero polynomial. `hensels_lemma` in `Mathlib.NumberTheory.Padics.Hensel` supplies the simple-root `p`-adic lifting step. Tau Ceti's `Nat.Primes.instFactPrime`, in `TauCeti.Data.Nat.Prime.Basic`, is the global instance `Fact (p : ℕ).Prime` for `p : Nat.Primes`; the prime-indexed families of `p`-adic weights, local masses and solubility conditions below use it, so no statement carries a local primality instance.
 
 `Chebyshev.eventually_primeCounting_le` in `Mathlib.NumberTheory.Chebyshev` states that, for every `ε>0`, eventually `π(⌊x⌋)≤(log 4+ε)x/log x`. The all-range bound here uses `Chebyshev.theta_le_log4_mul_x` and `Chebyshev.theta_eq_sum_primesLE`; weighted prime tails follow by partial summation.
 
@@ -47,7 +47,7 @@ OperatorTheory, PolarDecomposition Part `C`, targets PD-`C09`–PD-`C18` supply 
 
 ### From TauCetiRoadmap.QuadraticFormsOverABase
 
-§1.1 supplies the universal half-discriminant `univHalfDisc n` over `ℤ[U]`, homogeneous of degree `n`, with `2·univHalfDisc n=det(U+Uᵀ)` for odd `n`. §1.2 supplies the half-discriminant `δ'(Q)` of a form `Q` on `Fin n → R` over any commutative ring, its independence of the bilinear representative at which `univHalfDisc n` is evaluated, and `δ'(Q)=2^(n−1)·QuadraticForm.discr' Q` when 2 is invertible. §1.3 supplies `halfDisc_mapCoeffs` (compatibility with every ring homomorphism), `halfDisc_comp` (factor `(det g)²` for every matrix `g`, odd `n`) and `δ'(aQ)=aⁿδ'(Q)`. None of these divides by 2. §2.8 uses them at `n=3` for `Counting.ternaryDet4` and the variable-change law of `Counting.pairResolvent`.
+§1.1 supplies the universal half-discriminant `univHalfDisc n` over `ℤ[U]`, homogeneous of degree `n`, with `2·univHalfDisc n=det(U+Uᵀ)` for odd `n`. §1.2 supplies the half-discriminant `δ'(Q)` of a form `Q` on `Fin n → R` over any commutative ring; for odd `n`, its independence of the bilinear representative at which `univHalfDisc n` is evaluated, and `δ'(Q)=2^(n−1)·QuadraticForm.discr' Q` when 2 is invertible. §1.3 supplies `halfDisc_mapCoeffs` (compatibility with every ring homomorphism), `halfDisc_comp` (factor `(det g)²` for every matrix `g`, odd `n`) and `δ'(aQ)=aⁿδ'(Q)`. None of these divides by 2. §2.8 uses them at `n=3` for `Counting.ternaryDet4` and the variable-change law of `Counting.pairResolvent`.
 
 ### From AdelicAlgebraicGroups
 
@@ -1582,7 +1582,7 @@ For the proof, Separate the rational-root case and other proper Galois-group sub
 
 **Checks.**
 
-- At degree 2 the exceptional locus contains only `Q`-reducible polynomials; quadratic conjugate factors are included only for even degrees at `least4`.
+- At degree 2 the exceptional locus contains only `Q`-reducible polynomials; quadratic conjugate factors are included only for even degrees at least `4`.
 
 **Weighted distinguished Selberg sieve.** Let a finite nonnegative weighted multiset of integer vectors have total comparison mass `V`. Outside a fixed finite prime set, let forbidden residue sets have proportions `g(p)` with `c≤g(p)≤1−c` for one fixed `c>0`. For squarefree `d` put `g(d)=∏_(p|d)g(p)`. Suppose the mass satisfying all forbidden conditions at `p|d` is `V g(d)+r_d`, with `|r_d|≤C_ε E d^(1+ε)` uniformly. Then for `L≥2` the mass avoiding every forbidden set at primes `p≤√L` is `O_ε(V L^(−1/2+ε)+E L^(2+ε))`. Constants depend on `c`, the finite exceptional set and the displayed remainder constants. This applies to an averaged torus count only after the same remainder bound has been integrated against its positive Haar weight.
 
@@ -1925,7 +1925,7 @@ For the proof, For a fixed finite prime set the full weight is at most its trunc
 
 - With constant factor `1/2` at every prime, each normalized local integral is positive but the product and the full weight are zero. The upper bound is zero after taking the height limit and then the prime limit.
 
-**Large coefficient family tail.** Let a coefficient family `F⊂Z^(n+1)` have local complements, outside finitely many primes, contained in the reduction of a fixed closed subscheme `S0⊂A_Z^(n+1)` of codimension at least2. For `M` beyond those exceptional primes, the number of vectors with `H(f)<X` failing `F_p` at some `p>M` is `O_F(X^(n+1)/M+X^n)`. This is a coefficient-vector tail, not a symmetric-pencil orbit tail.
+**Large coefficient family tail.** Let a coefficient family `F⊂Z^(n+1)` have local complements, outside finitely many primes, contained in the reduction of a fixed closed subscheme `S0⊂A_Z^(n+1)` of codimension at least `2`. For `M` beyond those exceptional primes, the number of vectors with `H(f)<X` failing `F_p` at some `p>M` is `O_F(X^(n+1)/M+X^n)`. This is a coefficient-vector tail, not a symmetric-pencil orbit tail.
 
 For the proof, Embed every bad reduction into the fixed codimension-two envelope and apply the geometric sieve to the coefficient cube. Enlarge the constant for the finitely many exceptional primes if a statement for every `M>=1` is needed. Do not substitute this coefficient count for the required orbit-tail bound.
 
@@ -1945,7 +1945,7 @@ For the proof, Use the `SL3` finite-cover domain, normalized Jacobian and strong
 
 **Ternary cubic prime tail.** For `W_p={f:p^2 divides Delta(f)}`, every truncation `epsilon>0` admits constants `C_epsilon,C` such that `N_±(union_{p>M} W_p;X)<=C_epsilon(X^(5/6)/(M log M)+X^(3/4))+C epsilon X^(5/6)`, for `X,M>=2`, on strongly irreducible orbits. The final `epsilon` is a compact-domain truncation error, not a loss in an exponent.
 
-For the proof, On a compact fundamental-domain truncation apply the geometric sieve to the strong locus; the cusp contributes `C epsilon X^(5/6)`. Use the discriminant-preserving weak-to-strong map with at `most3` orbit preimages. Treat the finite bad primes separately.
+For the proof, On a compact fundamental-domain truncation apply the geometric sieve to the strong locus; the cusp contributes `C epsilon X^(5/6)`. Use the discriminant-preserving weak-to-strong map with at most `3` orbit preimages. Treat the finite bad primes separately.
 
 *Needs:* ternary cubic finite count (§2.18), quantitative ekedahl geometric sieve (§2.1), strongly and weakly divisible values (§2.1).
 
@@ -1971,7 +1971,7 @@ For the proof, Use the integral half-Gram convention and the correct determinant
 
 **Quaternary prime tail.** For `W_p={v:p^2 divides Delta(v)}`, strongly irreducible real-type-`i` orbit counts satisfy `N_i(union_{p>M} W_p;X)<=C_epsilon(X^(5/6)/(M log M)+X^(19/24))+C epsilon X^(5/6)`, for each `epsilon>0` and `X,M>=2`.
 
-For the proof, Compact truncation of the 20-dimensional height slice gives the strong term and projection exponent `19/24`. For `p>2` move weakly divisible pairs to strongly divisible pairs without changing discriminant, with at `most2` orbit preimages. Include `p=2` in the finite initial conditions.
+For the proof, Compact truncation of the 20-dimensional height slice gives the strong term and projection exponent `19/24`. For `p>2` move weakly divisible pairs to strongly divisible pairs without changing discriminant, with at most `2` orbit preimages. Include `p=2` in the finite initial conditions.
 
 *Needs:* quaternary finite count (§2.19), quantitative ekedahl geometric sieve (§2.1), strongly and weakly divisible values (§2.1).
 
@@ -1999,7 +1999,7 @@ For the proof, Use the 50-dimensional height slice, Jacobian `J` and real stabil
 
 **Quinary prime tail.** The BS5 strongly irreducible counts have `N_±(union_{p>M} W_p;X)<=C_epsilon(X^(5/6)/(M log M)+X^(49/60))+C epsilon X^(5/6)`, for `W_p={v:p^2 divides Delta(v)}, epsilon>0` and `X,M>=2`.
 
-For the proof, Apply the strong geometric sieve on the compact 50-dimensional slice, giving projection exponent `49/60`. Use the discriminant-preserving weak-to-strong transformation with at `most2` orbit preimages. Retain the strongly irreducible restriction in both counts.
+For the proof, Apply the strong geometric sieve on the compact 50-dimensional slice, giving projection exponent `49/60`. Use the discriminant-preserving weak-to-strong transformation with at most `2` orbit preimages. Retain the strongly irreducible restriction in both counts.
 
 *Needs:* quinary finite count (§2.20), quantitative ekedahl geometric sieve (§2.1), strongly and weakly divisible values (§2.1).
 
@@ -2096,7 +2096,7 @@ Prove degree-uniform Lang–Weil by induction on dimension: the curve case uses 
 
 **Hypersurface local tail.** For degree `d>=2` hypersurfaces in `P^n, n>=2,(n,d)!=(2,2)`, with `N=binomial(n+d,d)` coefficients, local insolubility at some `p>M` is confined, for `M` beyond a finite threshold, to reduction in a fixed codimension-two geometrically reducible locus. In the coefficient ball of radius A the count is `O_{n,d}(A^N/(M log M)+A^(N−1)), A,M>=2`. The same upper bound holds after restriction to primitive vectors.
 
-For the proof, Uniform Lang–Weil gives an `F_p`-point on geometrically integral hypersurfaces at all sufficiently large `p`; choose a smooth point, lift in a univariate transverse chart by Hensel. Except plane conics, the geometrically reducible coefficient locus has codimension at least2. Apply the geometric sieve to the Euclidean unit ball; primitive restriction decreases the numerator. Use the degree-uniform smooth-point estimate and the multiplication-image codimension calculation above.
+For the proof, Uniform Lang–Weil gives an `F_p`-point on geometrically integral hypersurfaces at all sufficiently large `p`; choose a smooth point, lift in a univariate transverse chart by Hensel. Except plane conics, the geometrically reducible coefficient locus has codimension at least `2`. Apply the geometric sieve to the Euclidean unit ball; primitive restriction decreases the numerator. Use the degree-uniform smooth-point estimate and the multiplication-image codimension calculation above.
 
 *Needs:* quantitative ekedahl geometric sieve (§2.1), degree-uniform hypersurface smooth points (§2.23), `hensels_lemma` (Mathlib), SchemeAndStackFoundations Layer 0, uniform bound for points of a subscheme modulo p (§2.1).
 
