@@ -53,7 +53,9 @@ not the roadmap.
 - the analytic records, their duals, the continuation and functional-equation predicates, the
   continued Dedekind zeta and Hecke L-functions and their completions, the presentation-versus-
   conductor apparatus for ray-class characters, the partial zeta functions, and the average
-  coefficient growth predicate: the [L-functions roadmap](../LFunctions/README.md), Layers 0–8;
+  coefficient growth predicate: the [L-functions roadmap](../LFunctions/README.md), Layers 0–8,
+  whose Layer 0 records, Layer 4 Dirichlet record and Layer 5 presented Hecke L-functions are
+  declarations of the Tau Ceti pin (Exact supplier contracts);
 - the residue calculus — winding numbers, null-homology, residues, the argument principle for a
   null-homologous closed piecewise-`C¹` curve, the continuous argument lift, and the
   winding-number form of `∮ f'/f` — as Tau Ceti realizes the
@@ -61,7 +63,7 @@ not the roadmap.
 - ideal arithmetic functions, the ideal von Mangoldt function, Abel and truncated Perron
   summation, the offset logarithmic integral and the prime-number-theorem transfer, from the
   [Arithmetic Dirichlet Series roadmap](../../Completed/ArithmeticDirichletSeries/README.md),
-  Layers 0–3, 5, 6 and 9–10; these are roadmap contracts, including when absent from the library pin;
+  Layers 0–3, 5, 6 and 9–10, as Tau Ceti realizes them;
 - moduli, ray class groups, ray-class characters and the class of an ideal prime to a modulus, from the
   [Global Number Fields roadmap](../../Completed/GlobalNumberFields/README.md), Layers 2 and 9;
 - the Artin symbol, from the
@@ -114,8 +116,8 @@ not the roadmap.
   `z` miss `0`: the function equal to `1` near `z` except for the value `0` at `z` has order `0`
   everywhere and divisor `0`. Germ-level order is the hypothesis for a count (Layers 4 and 9);
   anything evaluated pointwise (the argument principle and the argument lift of Layer 7) takes
-  `AnalyticAt ℂ f z` and `f z ≠ 0`, written out. For a record of the L-functions roadmap the
-  analyticity is its `HasMeromorphicContinuation.regular_away`.
+  `AnalyticAt ℂ f z` and `f z ≠ 0`, written out. For a record the analyticity off the polar
+  divisor is the field `HasMeromorphicContinuation.analyticAt`.
 - **The two counts.** *divisorCount* `f U R : ℤ` is `∑ᶠ ρ ∈ R, MeromorphicOn.divisor f U ρ`, in
   which poles count negatively, and is what a contour integral computes. `zeroCount f U R : ℕ`
   sums the positive part, `(MeromorphicOn.divisor f U ρ).toNat`, and is what `N(T)`, the
@@ -179,7 +181,9 @@ not the roadmap.
   `Complex.differentiable_one_div_Gamma`, `Complex.differentiable_Gammaℝ_inv`,
   `Complex.differentiable_Gammaℂ_inv` (the reciprocal gamma functions are entire);
   `Complex.digamma_one_half`, `Complex.digamma_apply_add_one` (the half-integer values of
-  digamma) and `Real.eulerMascheroniConstant`;
+  digamma) and `Real.eulerMascheroniConstant`; `Complex.Gamma_ofReal`, `Real.convexOn_log_Gamma`
+  (`log ∘ Γ` is convex on `(0, ∞)`) and `ConvexOn.monotoneOn_deriv` (the real digamma is
+  monotone);
 - `completedRiemannZeta`, `completedRiemannZeta₀`, `riemannZeta`, `riemannZeta_zero`,
   `riemannZeta_def_of_ne_zero`, `riemannZetaZeros`, `isDiscrete_riemannZetaZeros`,
   `IsCompact.inter_riemannZetaZeros_finite`, `RiemannHypothesis`;
@@ -191,117 +195,154 @@ not the roadmap.
   `DirichletCharacter.norm_LFunction_product_ge_one`; `analyticOrderNatAt` (the multiplicity
   of a zero of an analytic function, `0` at a non-zero and for the zero function);
 - `mellin`, `mellinInv`, `mellinInv_mellin_eq` (Mellin transform and inversion);
-- `Chebyshev.psi`, `ArithmeticFunction.vonMangoldt`, `NumberField.dedekindZeta`,
-  `NumberField.dedekindZeta_residue`, `Ideal.absNorm`.
+- `Chebyshev.psi`, `ArithmeticFunction.vonMangoldt`, `NumberField.dedekindZeta` (the Dirichlet
+  series of `ζ_K`, a junk value off `Re s > 1`), `NumberField.dedekindZeta_residue`,
+  `NumberField.discr`, `Ideal.absNorm`, `IsAbelianGalois`.
 
 ### From Tau Ceti
 
-Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
+Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`, grouped by the
+roadmap that planned them:
 
+- canonical continuation (`Analysis/Meromorphic/Continuation.lean`):
+  `TauCeti.meromorphicContinuation σ f`, the function in Mathlib's meromorphic normal form on `ℂ`
+  that agrees with `f` on `Re s > σ`, and `0` when there is none, with
+  `TauCeti.meromorphicNFOn_meromorphicContinuation`, `TauCeti.meromorphicContinuation_eqOn`
+  (agreement on the half-plane once a continuation exists) and
+  `TauCeti.eq_of_meromorphic_of_eqOn_halfPlane`. This is the L-functions roadmap's continuation
+  convention: the continued Dedekind zeta function `dedekindZetaC K` of its Layer 3 is
+  `TauCeti.meromorphicContinuation 1 (NumberField.dedekindZeta K)`;
 - piecewise-`C¹` curves (`Analysis/Calculus/ContDiff/PiecewiseC1On.lean`):
   `TauCeti.IsPiecewiseC1On`;
-- contour integration (`Analysis/Contour/`): `TauCeti.Contour.windingNumber` and
+- contour integration (`Analysis/Contour/`), as Tau Ceti realizes the contour integration
+  roadmap: `TauCeti.Contour.windingNumber` and
   `TauCeti.Contour.IsNullHomologous` with `TauCeti.Contour.isNullHomologous_iff`
   (`Winding/Number/Basic.lean`); `TauCeti.Contour.argumentPrinciple_nullHomologous`
   (`Argument/Cycle.lean`), which for `f` analytic and nonvanishing on `U` off a finite set `S`,
   meromorphic at the points of `S` with integer orders `ord`, and a closed piecewise-`C¹`
   null-homologous curve in `U` avoiding `S`, evaluates `∫ γ' · (f'/f)(γ)` as
-  `2πi ∑_{z ∈ S} windingNumber γ z · ord z`; `TauCeti.Contour.residue_logDeriv_eq_meromorphicOrderAt`;
+  `2πi ∑_{z ∈ S} windingNumber γ z · ord z`; `TauCeti.Contour.residue_logDeriv_eq_meromorphicOrderAt`
+  (`Residue/LogDeriv.lean`);
   `TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv` (`LogDerivFTC.lean`), the winding
   number of the image curve `f ∘ γ` about `0`; and
   `TauCeti.Contour.exists_continuousOn_arg_lift_with_partition` (`Argument/Lift.lean`), the
   continuous argument lift of a curve avoiding a point;
-- Dirichlet L-functions (`NumberTheory/LFunctions/Dirichlet/Basic.lean`):
+- analytic records, L-functions Layer 0 (`NumberTheory/LFunctions/Data/Basic.lean`,
+  `Data/Normalization.lean`, `Data/RiemannZeta.lean`): `TauCeti.LFunctions.AnalyticLFunctionData`
+  with fields `coeff`, `conductor`, `gammaR`, `gammaC`, `rootNumber`, `completed`, `polarOrder`;
+  `AnalyticLFunctionData.degree`, `AnalyticLFunctionData.gammaFactor`,
+  `AnalyticLFunctionData.dual`, whose completed function is `s ↦ conj Λ(conj s)`
+  (`AnalyticLFunctionData.dual_completed_apply`), and `AnalyticLFunctionData.gammaFactor_dual`; the
+  predicates `AnalyticLFunctionData.HasDirichletAgreement` (fields `coeff_one`, `degree_pos` and
+  `completed_eq`, the last being `Λ(s) = N^(s/2) γ(s) LSeries coeff s` on `Re s > 1`),
+  `AnalyticLFunctionData.HasMeromorphicContinuation` (fields `meromorphic`;
+  `meromorphicOrderAt_eq`, the order `−polarOrder p` at each point `p` of the polar support; and
+  `analyticAt`, analyticity at every other point) and
+  `AnalyticLFunctionData.HasFunctionalEquation` (fields `norm_rootNumber`,
+  `polarOrder_one_sub_conj` and `completed_eq`, the last being `Λ(s) = ε Λ_dual(1 − s)` at points
+  `s` with `polarOrder s = 0` and `polarOrder (1 − conj s) = 0`);
+  `AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq` (the same equation as punctured germs
+  at every point), `AnalyticLFunctionData.HasDirichletAgreement.dual`,
+  `AnalyticLFunctionData.HasMeromorphicContinuation.dual` and
+  `AnalyticLFunctionData.HasFunctionalEquation.dual`; `TauCeti.LFunctions.ArithmeticLFunctionData`
+  and `TauCeti.LFunctions.NormalizationTranslation` (fields `weight`, `coeff_eq`, `conductor_eq`,
+  `gammaR_eq`, `gammaC_eq`, `rootNumber_eq`, `completed_eq`, `polarOrder_eq`);
+  `TauCeti.LFunctions.riemannZetaData`;
+- Dirichlet L-functions, L-functions Layer 4 (`NumberTheory/LFunctions/Dirichlet/Basic.lean`):
   `TauCeti.LFunctions.dirichletData χ hχ`, the analytic record of a primitive character `χ`
-  modulo `q` (the implementation of L-functions Layer 4), with `dirichletData_conductor`
+  modulo `q`, with `dirichletData_conductor`
   (conductor `q`), `dirichletData_gammaR` (one real gamma shift, `0` for even and `1` for odd
   `χ`), `dirichletData_completed` (the completed function is
   `q^(s/2) · χ.completedLFunction s`), `dirichletData_polarOrder` (zero for `q ≠ 1`),
   `dirichletData_hasDirichletAgreement`, `dirichletData_hasMeromorphicContinuation` and
-  `dirichletData_hasFunctionalEquation`.
-
-### From TauCetiRoadmap.ArithmeticDirichletSeries
-
-The contracts are those of [Arithmetic Dirichlet Series](../../Completed/ArithmeticDirichletSeries/README.md)
-and its discharged target signatures, rather than declarations of the Tau Ceti pin:
-
-- Layers 0–2: `IdealArithmeticFunction` and `normCoeff`; `IdealArithmeticFunction.vonMangoldt`
-  is supported on prime powers with value `log (Ideal.absNorm P)` at `P^k`, `k ≥ 1`;
-- Layers 3 and 5: `EulerProductData`, `abscissaOfAbsConv_normCoeff_one` and the ideal-count bounds;
-- §6.1: `idealSummatory_mul_eq_sub_integral_mul`, with inclusive norm cutoffs;
-- §6.2: `TauCeti.Real.logIntegral x = ∫ t in 2..x, (Real.log t)⁻¹` and
-  `logIntegral_isEquivalent_div_log`;
-- §§6.3–6.4: `truncatedPerronKernel_one`, `truncatedPerron_LSeries`,
-  `norm_truncatedPerron_LSeries_sub_sum_le` and `perronFormula`; absolute convergence on the
-  integration line is required, and the finite-height endpoint is `π⁻¹ arctan(T/c)`, not `1/2`;
-- Layers 9–10: `wienerIkehara` and `primeNumberTheoremTransfer`, with the exact
-  nonnegative von Mangoldt coefficient and boundary remainder specified there.
-
-### From TauCetiRoadmap.GlobalNumberFields
-
-[Global Number Fields](../../Completed/GlobalNumberFields/README.md), Layer 2, supplies `Modulus`,
-`Modulus.support`, `Modulus.one`, `RayClassGroup`, `integralIdealsPrimeTo`, `idealClass` and
-`finite_rayClassGroup`: the ideal-class map has domain the nonzero integral ideals prime to the
-modulus. Layer 9 supplies `RayClassCharacter`. Layer 3E supplies `rayClassIdealMainTerm_eq`, whose
-Euler factors belong to the all-ideal count, not the prime count. These are roadmap contracts;
-qualified uses below refer to their `TauCeti.GlobalNumberFields` namespace.
-
-### From TauCetiRoadmap.NumberFieldArithmetic
-
-[Number Field Arithmetic](../../Completed/NumberFieldArithmetic/README.md), §2.3, supplies
-`artinSymbol`, the conjugacy class of arithmetic Frobenius at an unramified nonzero prime. The
-unramifiedness proof is an argument. The qualified name below is `NumberField.artinSymbol`.
-
-### From TauCetiRoadmap.Chebotarev
-
-[Chebotarev](../../Completed/Chebotarev/README.md), Layer 2, supplies `frobeniusPrimeSet`; Layer 11
-supplies `frobeniusVonMangoldtCoeff`, `frobeniusPsi` and `frobeniusTheta`; Layers 13–14 supply
-`frobeniusPrimeCount`, `tendsto_frobeniusPrimeCount` and `hasNaturalDensity_frobeniusPrimeSet`.
-Their namespace is `NumberField.Chebotarev`. Prime powers are selected by the power of the Artin
-class, and ramified primes are excluded. No second ideal weight or Frobenius carrier is defined here.
+  `dirichletData_hasFunctionalEquation`;
+- presented Hecke L-functions, L-functions Layers 2 and 5 in part
+  (`NumberTheory/LFunctions/Hecke/Primitive.lean`, `Hecke/Basic.lean`,
+  `DedekindZeta/PartialZeta.lean`): `TauCeti.LFunctions.PrimitiveRayClassCharacter` (fields
+  `conductor`, `character`, `isPrimitive`), `PrimitiveRayClassCharacter.of`, its unit `1` of
+  conductor `Modulus.one K` (`PrimitiveRayClassCharacter.conductor_one`) and its inverse `ψ⁻¹`
+  at the same conductor (`PrimitiveRayClassCharacter.character_inv`,
+  `PrimitiveRayClassCharacter.of_inv`);
+  `TauCeti.GlobalNumberFields.RayClassCharacter.eulerCorrection` and
+  `RayClassCharacter.eulerCorrection_one`; `TauCeti.LFunctions.heckeLFunctionC χ`, the
+  canonical continuation from `Re s > 1` of the series of a character presented at its modulus,
+  with `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive` (values on `Re s > 1`) and
+  `heckeLFunctionC_eventuallyEq_primitive` (punctured germs at every point); and
+  `TauCeti.LFunctions.finiteEulerCorrection`;
+- arithmetic Dirichlet series, from
+  [Arithmetic Dirichlet Series](../../Completed/ArithmeticDirichletSeries/README.md)
+  (`NumberTheory/ArithmeticDirichletSeries/`): Layers 0–2, `TauCeti.IdealArithmeticFunction`
+  (`Basic.lean`), `TauCeti.normCoeff` (`NormCoeff.lean`) and
+  `TauCeti.IdealArithmeticFunction.vonMangoldt` (`VonMangoldt.lean`), supported on prime powers
+  with value `log (Ideal.absNorm P)` at `P^k`, `k ≥ 1`; Layers 3 and 5,
+  `TauCeti.EulerProductData` (`EulerProduct/Data.lean`) and
+  `TauCeti.abscissaOfAbsConv_normCoeff_one` (`Estimates.lean`); §6.1,
+  `TauCeti.idealSummatory_mul_eq_sub_integral_mul` (`AbelSummation.lean`), with inclusive norm
+  cutoffs; §6.2, `TauCeti.Real.logIntegral x = ∫ t in 2..x, (Real.log t)⁻¹`,
+  `TauCeti.Real.logIntegral_eq_div_log_sub_add` and `TauCeti.Real.logIntegral_isEquivalent_div_log`
+  (`Analysis/SpecialFunctions/LogIntegral.lean`); §§6.3–6.4, `TauCeti.truncatedPerronKernel_one`
+  (`Perron/Basic.lean`), `TauCeti.truncatedPerron_LSeries` and
+  `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` (`Perron/Formula.lean`) and
+  `TauCeti.perronFormula` (`Perron/Ideal.lean`), where absolute convergence on the integration
+  line is required and the finite-height endpoint is `π⁻¹ arctan(T/c)`, not `1/2`; Layers 9–10,
+  `TauCeti.LSeries.wienerIkehara` (`NumberTheory/LSeries/WienerIkehara/SharpCutoff.lean`) and
+  `TauCeti.primeNumberTheoremTransfer` (`Prime/Boundary.lean`), with the exact nonnegative von
+  Mangoldt coefficient and boundary remainder specified there;
+- moduli and ray classes, from [Global Number Fields](../../Completed/GlobalNumberFields/README.md)
+  Layers 2, 3E and 9 (`NumberTheory/NumberField/Global/RayClass/`):
+  `TauCeti.GlobalNumberFields.Modulus`, `Modulus.support`, `Modulus.one` and
+  `integralIdealsPrimeTo` (`Modulus.lean`), `RayClassGroup` and `idealClass` (`Basic.lean`),
+  `finite_rayClassGroup` (`Finite.lean`), `RayClassCharacter` (`Character/Basic.lean`), and
+  `rayClassIdealMainTerm` with `rayClassIdealMainTerm_eq` (`MainTerm.lean`), whose Euler factors
+  belong to the all-ideal count, not the prime count; the ideal-class map has domain the nonzero
+  integral ideals prime to the modulus;
+- the Artin symbol, from [Number Field Arithmetic](../../Completed/NumberFieldArithmetic/README.md)
+  §2.3: `NumberField.artinSymbol` (`NumberTheory/NumberField/ArtinSymbol.lean`), the conjugacy
+  class of arithmetic Frobenius at a nonzero prime, with its unramifiedness proof as an argument;
+- Frobenius counts, from [Chebotarev](../../Completed/Chebotarev/README.md) Layers 2, 11 and 13–14
+  (`NumberTheory/Chebotarev/`): `NumberField.Chebotarev.frobeniusPrimeSet`
+  (`FrobeniusPrimeSet.lean`); `frobeniusVonMangoldtCoeff`, `frobeniusPsi`, `frobeniusTheta` and
+  `frobeniusPrimeCount` (`PrimeCounting/VonMangoldt.lean`), for `L/K` Galois; and
+  `tendsto_frobeniusPrimeCount` and `hasNaturalDensity_frobeniusPrimeSet`
+  (`PrimeCounting/FrobeniusPrimeCount.lean`). Prime powers are selected by the power of the Artin
+  class, and ramified primes are excluded. No second ideal weight or Frobenius carrier is defined
+  here;
+- the ray-class Artin map, from [Class Field Theory](../ClassFieldTheory/README.md) Layer 12
+  (`NumberTheory/ClassFieldTheory/Global/AdmissibleModulus/`):
+  `TauCeti.ClassFieldTheory.rayClassArtinMap`,
+  `rayClassArtinMap_idealClass` (the splitting law at an admissible modulus) and
+  `rayClassArtinMap_surjective` (`Reciprocity.lean`, for `L/K` abelian over `K L : Type`), and
+  `IsAdmissibleModulus`, `abelianConductor` and `isAdmissibleModulus_iff_abelianConductor_dvd`
+  (`Basic.lean`). They discharge the reciprocity hypothesis of 8.8 and are not used elsewhere.
 
 ### From TauCetiRoadmap.LFunctions
 
-- Layer 0: `AnalyticLFunctionData` with fields `coeff`, `conductor`, `gammaR`, `gammaC`,
-  `rootNumber`, `completed`, `polarOrder`; `AnalyticLFunctionData.degree`,
-  `AnalyticLFunctionData.gammaFactor`, `AnalyticLFunctionData.dual`,
-  `AnalyticLFunctionData.dualCompleted`, `AnalyticLFunctionData.reflectedPoint`,
-  `AnalyticLFunctionData.dual_gammaFactor`; the predicates `AnalyticLFunctionData.HasDirichletAgreement`
-  (fields `coeff_one`, `degree_pos`, `completes`), `AnalyticLFunctionData.HasMeromorphicContinuation`
-  (fields `meromorphic`, `exact_pole_order`, `regular_away`) and
-  `AnalyticLFunctionData.HasFunctionalEquation` (fields `norm_rootNumber`, `polarOrder_reflect`,
-  `eq_away`, the last being `Λ(s) = ε Λ_dual(1 − s)` at points `s` with `polarOrder s = 0` and
-  `polarOrder (reflectedPoint s) = 0`); `AnalyticLFunctionData.hasFunctionalEquation_eventuallyEq`,
-  `AnalyticLFunctionData.dual_hasDirichletAgreement`,
-  `AnalyticLFunctionData.dual_hasMeromorphicContinuation`; `ArithmeticLFunctionData` and
-  `NormalizationTranslation` (fields `gammaR_eq`, `gammaC_eq`, `completed_eq`, `polarOrder_eq`,
-  `conductor_eq`, `rootNumber_eq`); `riemannZetaData`. From Layer 0 also the
-  average-coefficient-growth predicate, which that roadmap states in prose: what is consumed is
-  that it makes `LSeries d.coeff` absolutely convergent on `Re s > 1` and bounded on every
-  half-plane `Re s ≥ 1 + δ`, `δ > 0`, by a constant depending on `δ`.
+The [L-functions roadmap](../LFunctions/README.md) targets that are not declarations of the Tau Ceti
+pin:
+
+- Layer 0: the average-coefficient-growth predicate, which that roadmap states in prose: what is
+  consumed is that it makes `LSeries d.coeff` absolutely convergent on `Re s > 1` and bounded on
+  every half-plane `Re s ≥ 1 + δ`, `δ > 0`, by a constant depending on `δ`.
 - Layer 3: `dedekindZetaC`, `dedekindZetaC_eq`, `meromorphic_dedekindZetaC`,
   `analyticAt_dedekindZetaC`, `meromorphicOrderAt_dedekindZetaC_one`,
   `tendsto_sub_one_mul_dedekindZetaC`, `completedDedekindZeta`, `completedDedekindZeta_eq`,
   `meromorphic_completedDedekindZeta`, `meromorphicOrderAt_completedDedekindZeta_zero`,
   `meromorphicOrderAt_completedDedekindZeta_one`, `analyticAt_completedDedekindZeta`,
   `tendsto_sub_one_mul_completedDedekindZeta`, `tendsto_mul_completedDedekindZeta_zero`,
-  `completedDedekindZeta_one_sub`, `eq_of_meromorphic_of_eqOn_halfPlane`, `dedekindZetaData`,
+  `completedDedekindZeta_one_sub`, `dedekindZetaData`,
   `dedekindZetaData_hasContinuation`, `dedekindZetaData_hasFunctionalEquation`; also
   `mellinKernel`, `mellinConstant`, `continuousOn_mellinKernel`, `mellinKernel_inv`,
   `mellinKernel_sub_const_isBigO`, `completedPartialZeta_eq_mellin` and
   `completedDedekindZeta_eq_sum_completedPartialZeta`, for the split Mellin estimate; from Layer 2,
-  `partialZeta`, `partialZeta_eq_lSeries`, `finiteEulerCorrection`, `sum_partialZeta`.
-- Layer 4: `dirichletData`, `dedekindZetaC_quadratic`, `dedekindZetaC_cyclotomic`.
-- Layer 5: `PrimitiveRayClassCharacter` (fields `conductor`, `character`, `isPrimitive`),
-  `PrimitiveRayClassCharacter.of`, `PrimitiveRayClassCharacter.inv`, `heckeLFunctionC`,
-  `heckeLFunctionC_eq`, `eulerCorrection`, `eulerCorrection_one`, `heckeLFunctionC_induced`,
-  `heckeLFunctionC_eq_primitive` (a half-plane equality of values and an equality of germs at
-  every point), `partialZeta_eq_sum_heckeLFunctionC`, `heckeData`, `completedHeckeLFunction`,
+  `partialZeta`, `partialZeta_eq_lSeries`, `sum_partialZeta`.
+- Layer 4: `dedekindZetaC_quadratic`, `dedekindZetaC_cyclotomic`.
+- Layer 5: `heckeLFunctionC_eq`, `partialZeta_eq_sum_heckeLFunctionC`, `heckeData`,
+  `completedHeckeLFunction`,
   `differentiable_completedHeckeLFunction` (for a nontrivial character),
   `exists_mellin_completedHeckeLFunction`, `heckeRootNumber`, `norm_heckeRootNumber`,
-  `completedHeckeLFunction_one_sub` (for a nontrivial character, against
-  `PrimitiveRayClassCharacter.inv`), `completedHeckeLFunction_one_sub_eventuallyEq` (the germ
-  form, which covers the trivial character).
+  `completedHeckeLFunction_one_sub` (for a nontrivial character `χ`, against `χ⁻¹`),
+  `completedHeckeLFunction_one_sub_eventuallyEq` (the germ form, which covers the trivial
+  character).
 - Layer 6: `Grossencharacter.heckeMellinTotal`, `Grossencharacter.heckeMellinConstant`,
   `Grossencharacter.continuousOn_heckeMellinTotal`, `Grossencharacter.heckeMellinTotal_inv`,
   `Grossencharacter.heckeMellinTotal_sub_const_isBigO`, `completedHeckeLFunction_eq_mellin`
@@ -314,12 +355,6 @@ class, and ramified primes are excluded. No second ideal weight or Frobenius car
 Nothing here is polymorphic over an Artin record: the two families are Dedekind zeta functions and
 L-functions of finite-order ray-class characters, which is why 8.7 is stated on the ray-class side
 and nonabelian Chebotarev is not owned here.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-- Layer 12: `rayClassArtinMap`, `rayClassArtinMap_idealClass` (the splitting law at an admissible
-  modulus) and `rayClassArtinMap_surjective`. They discharge the reciprocity hypothesis of 8.8 and
-  are not used elsewhere.
 
 ## How to read the build
 
@@ -361,7 +396,7 @@ the pointwise product `P · Λ` with the clearing polynomial `P(s) = ∏_p (s �
 pole the total representative of `Λ` is junk, and for the `ζ` record the product is `0` at `0` and
 `1`, fake zeros exactly where poles are meant to be cleared. Define *entireCompletion* `d` as the
 analytic extension of `P · Λ` across the finite set `polarOrder.support`, where each point is a
-removable singularity of order `0` by `exact_pole_order`.
+removable singularity of order `0` by `HasMeromorphicContinuation.meromorphicOrderAt_eq`.
 
 - *entireCompletion* `d` is entire and agrees with `P · Λ` off `polarOrder.support`.
 - `meromorphicOrderAt (entireCompletion d) z = meromorphicOrderAt Λ z + polarOrder z` for every
@@ -497,16 +532,20 @@ This additive form composes over products.
 `logDeriv Gammaℝ s = digamma (s/2)/2 − (log π)/2` and `logDeriv Gammaℂ s = digamma s − log (2π)`
 at every `s` off the poles (DLMF 5.11.2 and differentiation of the defining gamma factors).
 
-For real `x > 0`, `(Complex.digamma x).im = 0`, and `x ↦ (Complex.digamma (x : ℂ)).re` is
-strictly increasing on `Ioi 0`, since its derivative is the positive convergent series
-`ψ′(x) = ∑_{k ≥ 0} (k + x)⁻²` (DLMF 5.15.1; the convergence and the termwise differentiation
-are part of the target). The values `ψ(1/2) = −γ_E − 2 log 2` and `ψ(3/2) = 2 − γ_E − 2 log 2`
-are `Complex.digamma_one_half` and the recurrence `Complex.digamma_apply_add_one`
-(DLMF 5.4.13, 5.4.15 and 5.5.2). These real-variable inputs give the bound on the gamma term
-of the direct Dirichlet exports of 6.4a.
+For real `x > 0`, `(Complex.digamma x).im = 0` and
+`(Complex.digamma x).re = deriv (Real.log ∘ Real.Gamma) x`: `Complex.digamma` is
+`logDeriv Complex.Gamma`, `Complex.Gamma_ofReal` identifies `Γ` on the positive reals with the
+positive function `Real.Gamma`, and `log ∘ Real.Gamma` is differentiable there. Hence
+`x ↦ (Complex.digamma (x : ℂ)).re` is monotone on `Ioi 0`, by `ConvexOn.monotoneOn_deriv` applied
+to Mathlib's Bohr–Mollerup convexity `Real.convexOn_log_Gamma`. Strict monotonicity, which the
+positive series `ψ′(x) = ∑_{k ≥ 0} (k + x)⁻²` (DLMF 5.15.1) would give, is not used. The values
+`ψ(1/2) = −γ_E − 2 log 2` and `ψ(3/2) = 2 − γ_E − 2 log 2` are `Complex.digamma_one_half` and the
+recurrence `Complex.digamma_apply_add_one` (DLMF 5.4.13, 5.4.15 and 5.5.2). These real-variable
+inputs give the bound on the gamma term of the direct Dirichlet statements of 6.4a.
 
 *Needs:* 1.2; Mathlib `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
-`Complex.digamma_one_half`, `Complex.digamma_apply_add_one`.
+`Complex.digamma_one_half`, `Complex.digamma_apply_add_one`, `Complex.Gamma_ofReal`,
+`Real.convexOn_log_Gamma`, `ConvexOn.monotoneOn_deriv`.
 
 ### 1.5 The gamma factor of a record
 
@@ -565,20 +604,20 @@ while `ζ(0) = −1/2` (`riemannZeta_def_of_ne_zero` carries `s ≠ 0` for this 
 - `meromorphicOrderAt (continuedL d) z = meromorphicOrderAt Λ z − meromorphicOrderAt γ z` for
   every `z`, so the trivial zeros are the poles of `γ` at which `Λ` is regular and nonzero.
 - `0 ≤ meromorphicOrderAt (continuedL d) z` implies `AnalyticAt ℂ (continuedL d) z`, from
-  `regular_away` and the removable extension.
-- `continuedL d s = LSeries d.coeff s` for `1 < Re s`, from `HasDirichletAgreement.completes`;
+  `HasMeromorphicContinuation.analyticAt` and the removable extension.
+- `continuedL d s = LSeries d.coeff s` for `1 < Re s`, from `HasDirichletAgreement.completed_eq`;
   at the finitely many poles of `γ` in that half-plane by the identity theorem.
 - `Λ(s) = N^{s/2} γ(s) continuedL d s` as an equality of germs at every `s`; pointwise only where
   `γ` is regular, since at a pole of `γ` the product multiplies the junk value `0` by a zero.
 - The functional equation against the dual record, as germs at every `s`:
   `γ(s) continuedL d s = ε N^{1/2 − s} γ_dual(1 − s) continuedL d.dual (1 − s)`, from
-  `hasFunctionalEquation_eventuallyEq`. Pointwise it holds at `s` when `γ` is regular at `s`,
-  `γ_dual` is regular at `1 − s`, `polarOrder s = 0` and `polarOrder (reflectedPoint s) = 0`.
+  `HasFunctionalEquation.eventuallyEq`. Pointwise it holds at `s` when `γ` is regular at `s`,
+  `γ_dual` is regular at `1 − s`, `polarOrder s = 0` and `polarOrder (1 − conj s) = 0`.
 - `continuedL riemannZetaData = riemannZeta`, `continuedL (dedekindZetaData K) = dedekindZetaC K`
   and `continuedL (heckeData χ) = heckeLFunctionC χ.character`.
 
 *Needs:* *invGammaFactor*; L-functions Layer 0 `HasDirichletAgreement`,
-`HasMeromorphicContinuation`, `hasFunctionalEquation_eventuallyEq`, `AnalyticLFunctionData.dual`,
+`HasMeromorphicContinuation`, `HasFunctionalEquation.eventuallyEq`, `AnalyticLFunctionData.dual`,
 Layers 3 and 5 for the family comparisons; Mathlib `riemannZeta`, `riemannZeta_zero`.
 
 **Checks.**
@@ -708,14 +747,14 @@ Layer 3 `completedPartialZeta_eq_mellin`, `completedDedekindZeta_eq_sum_complete
 
 If `g` is holomorphic on a neighbourhood of a closed strip, of finite order there, and bounded by
 `C(1 + |t|)^a` and `C(1 + |t|)^b` on the two edges, then it is bounded by `C'(1 + |t|)^{ℓ(σ)}` on
-the strip, `ℓ` the linear interpolation. Consume `Complex.PhragmenLindelof.vertical_strip`; the
+the strip, `ℓ` the linear interpolation. Consume `PhragmenLindelof.vertical_strip`; the
 work is its growth hypothesis: a finite-order bound `exp(C(1+‖s‖)^A)` on the strip is
 `O(exp(B exp(c|Im s|)))` for any `0 < c < π/(σ₂−σ₁)`, where `[σ₁,σ₂]`, `σ₁ < σ₂`,
 is the strip.
 Normalize the polynomial edge bounds before applying the pinned theorem. It is never applied to
 a function with a pole in the strip, and edge bounds alone do not imply finite order.
 
-*Needs:* Mathlib `Complex.PhragmenLindelof.vertical_strip`.
+*Needs:* Mathlib `PhragmenLindelof.vertical_strip`.
 
 ### 3.3 The two edges
 
@@ -723,7 +762,9 @@ For `δ > 0`: on `Re s = 1 + δ`, `‖continuedL d s‖ ≤ C(δ)` by the averag
 `Re s = −δ`, `‖continuedL d s‖ ≤ C(δ) analyticConductorAt d s ^ (1/2 + δ)` by the functional
 equation of 1.6 against `d.dual` together with the gamma-quotient estimate
 `log ‖γ_dual(1 − s)/γ(s)‖ = (n/2)(1 + 2δ) log |t| + O(1)`, in which the two exponentials cancel
-because conjugating the shifts changes no real part. That cancellation is a named sub-target.
+because conjugating the shifts changes no real part (DLMF 5.11.9, as in 1.5: each `Gammaℝ` factor
+contributes `(1 + 2δ)/2` and each `Gammaℂ` factor `1 + 2δ`). That cancellation is a named
+sub-target.
 
 *Needs:* 1.5, 1.6, 2.2; L-functions Layer 0 average coefficient growth.
 
@@ -769,7 +810,8 @@ coefficient bound and *IsFiniteOrder* `d`. Then for every `δ > 0` and every non
 polynomial `P` as above there is `C` with
 `‖poleClearedContinuedL d P s‖ ≤ C (1 + |Im s|)^{deg P} analyticConductorAt d s ^ ((1/2 + δ)(1 + δ − σ)/(1 + 2δ))`
 for `σ = Re s ∈ [−δ, 1 + δ]`. The arithmetic-conductor powers `N^{1/2+δ}` and `N^0` at the edges are
-carried by hand, not interpolated, and reassembled with 2.2. Corollaries:
+carried by hand, not interpolated, and reassembled with 2.2 (Iwaniec–Kowalski §5.2; Titchmarsh
+§5.1 at `ζ`). Corollaries:
 
 - **central-line convexity**: at `σ = 1/2` the exponent is `1/4 + δ/2`, so for every `ε > 0`,
   `‖continuedL d (1/2 + it)‖ ≤ C analyticConductorAt d (1/2 + it)^{1/4 + ε}` for a record whose
@@ -801,7 +843,7 @@ large height it is bounded with exponent `A = 0`, with constants depending on `b
 There is no completed bound uniform in unbounded real part.
 
 *Needs:* 3.4; 1.5; Layer 0 growth predicates; L-functions Layer 0
-`HasDirichletAgreement.completes` and the average coefficient bound.
+`HasDirichletAgreement.completed_eq` and the average coefficient bound.
 
 **Checks.**
 
@@ -821,7 +863,7 @@ There is no completed bound uniform in unbounded real part.
 
 ### Dependencies
 
-Mathlib `Complex.PhragmenLindelof.vertical_strip`. Layers 0, 1.5, 1.6, 2. L-functions Layers 0,
+Mathlib `PhragmenLindelof.vertical_strip`. Layers 0, 1.5, 1.6, 2. L-functions Layers 0,
 3, 5, 6 (the kernel inputs for 3.1).
 
 ## Layer 4: zero counting
@@ -853,9 +895,20 @@ Define *divisorCount* `f U R : ℤ` and `zeroCount f U R : ℕ` as in the conven
 
 ### 4.2 The zero divisor of a record
 
-For a record satisfying `HasMeromorphicContinuation`, `divisor Λ U` is nonnegative off
-`polarOrder.support` and equals `−polarOrder` on it, and
-`divisor (entireCompletion d) univ = divisor Λ univ + polarOrder`.
+For a record satisfying `HasMeromorphicContinuation` and any `U`, `divisor Λ U` is nonnegative
+off `polarOrder.support`, equals `−polarOrder` at the points of `U ∩ polarOrder.support`, and is
+`0` off `U` (Mathlib's junk value); at `U = univ` it is `−polarOrder` on the whole polar support,
+and `divisor (entireCompletion d) univ = divisor Λ univ + polarOrder`.
+
+**Checks.**
+
+- For the `ζ` record and `U = ∅`, `divisor Λ U 1 = 0` while `−polarOrder 1 = −1`: the restriction
+  to `U` is needed.
+- For the `ζ` record and `U = univ`, the divisor is `−1` at `0` and at `1`, `0` at the trivial
+  zeros `−2, −4, …` (where `Λ` is regular and nonzero), and positive exactly at the nontrivial
+  zeros.
+- For a nontrivial primitive Dirichlet character the polar support is empty, so the divisor of
+  `Λ` and of *entireCompletion* agree.
 
 *Needs:* Layer 0; L-functions Layer 0.
 
@@ -1073,9 +1126,13 @@ products run over the same primes. It is a statement about convergent series on 
 There is `c > 0`, depending only on `n = [K:ℚ]`, such that `ζ_K` has at most one zero `ρ` with
 `Re ρ ≥ 1 − c/log analyticConductorAt d (i Im ρ)`, and such a zero is real and simple (Kadiri,
 Theorem 1.1, gives explicit regions for `|Im s| ≥ 1` and `|Im s| ≤ 1` when `d_K` is large; the
-passage to all fields of degree `n` is 6.4e). It is the trivial-character case of 6.4. At `K = ℚ`
-this is `riemannZeta_zeroFreeRegion`, where no exceptional zero occurs because `ζ` has no real zero
-in `(0, 1)`.
+passage to all fields of degree `n` is 6.4e). It is the trivial-character case of 6.4. By the
+two-sided comparison of 2.2 the analytic conductor may be replaced by `|d_K| (|Im ρ| + 3)^n` at the
+cost of a constant depending on `n`; in that form, with `ζ_K` the canonical continuation
+`TauCeti.meromorphicContinuation 1 (NumberField.dedekindZeta K)` and zeros read through
+`meromorphicOrderAt`, it is `dedekindZeta_zeroFreeRegion`, the constant chosen before `K`. At
+`K = ℚ` this is `riemannZeta_zeroFreeRegion`, where no exceptional zero occurs because `ζ` has no
+real zero in `(0, 1)`.
 
 Define the **region constant** *heckeZeroFreeConstant* `n` as the minimum of the constant chosen
 from 6.4 and `log 3/2`.
@@ -1123,18 +1180,22 @@ Define *IsExceptionalZero* `χ β`, for a primitive character `χ` (the trivial 
 
 For `χ` a primitive finite-order ray-class character of conductor `𝔣`: if `χ` is not real,
 `L(χ, ·)` has no zero in the region; if `χ` is real it has at most one, real and simple. The constant
-depends on `n = [K:ℚ]` alone and is chosen before `K` and `χ`. At `K = ℚ` this is
-`dirichletLFunction_zeroFreeRegion`. No source proves the statement at this generality; it is
-assembled from six targets.
+depends on `n = [K:ℚ]` alone and is chosen before `K` and `χ`. With `L(χ, ·)` read as Tau Ceti's
+`TauCeti.LFunctions.heckeLFunctionC χ.character`, the canonical continuation of the series of `χ`
+presented at its conductor, and the analytic conductor replaced by `|d_K| 𝔑𝔣 (|Im ρ| + 3)^n`
+(2.2), this is `heckeLFunction_zeroFreeRegion`; at the trivial character it is
+`dedekindZeta_zeroFreeRegion`. At `K = ℚ` this is `dirichletLFunction_zeroFreeRegion`. No source
+proves the statement at this generality; it is assembled from six targets.
 
 - **(4a)** 6.1.
 - **(4b) Imprimitive characters.** Consume `heckeLFunctionC_eq_primitive`. The zeros of
   `eulerCorrection` lie on `Re s = 0`, since `1 − w 𝔑𝔭^{−s} = 0` with `‖w‖ = 1` forces
   `𝔑𝔭^{−Re s} = 1`; `‖logDeriv eulerCorrection s‖ ≤ 2 log 𝔑𝔣` for `Re s > 1`; and for the trivial
   character the presented series is `dedekindZetaC K` times `finiteEulerCorrection`.
-- **(4c) The real and non-real split.** `χ` is real iff `χ² = 1` iff
-  `PrimitiveRayClassCharacter.inv χ = χ`. If `χ² ≠ 1` the third term of 6.1 is regular at `1`; if
-  `χ² = 1` it carries the pole of `ζ_K`, which confines a surviving zero to the real axis.
+- **(4c) The real and non-real split.** `χ` is real iff `χ² = 1` iff `χ⁻¹ = χ`, the inverse
+  being Tau Ceti's primitive inverse at the same conductor
+  (`PrimitiveRayClassCharacter.character_inv`). If `χ² ≠ 1` the third term of 6.1 is regular at
+  `1`; if `χ² = 1` it carries the pole of `ζ_K`, which confines a surviving zero to the real axis.
 - **(4d) Conductor dependence.** For a nontrivial primitive `χ` and `1 < σ ≤ 2`,
   `−Re (logDeriv L_χ)(σ + it) ≤ ½ log analyticConductorAt d (it) + O(1) − ∑_ρ Re (1/(σ + it − ρ))`,
   the sum over the zeros of `Λ(χ, ·)` with multiplicity, each summand positive by 5.6; and for the
@@ -1145,8 +1206,8 @@ assembled from six targets.
   character only, the pole terms `1/s + 1/(s − 1)` (Kadiri §2.1.2). The first bound fails at the
   trivial character: at `K = ℚ`, `t = 0`, `σ = 1 + u`, the left side is `1/u + O(1)` while the
   right side stays bounded as `u → 0⁺`. For a non-real `χ`, `Re b(χ) = −∑_ρ Re (1/ρ)` is proved
-  here: the functional equation against `PrimitiveRayClassCharacter.inv χ` (`completedHeckeLFunction_one_sub`)
-  gives `b(χ) + b(χ⁻¹) = −∑_ρ (1/ρ + 1/(1 − ρ))`, conjugation `Λ(χ⁻¹, s) = conj Λ(χ, conj s)` gives
+  here: the functional equation against `χ⁻¹` (`completedHeckeLFunction_one_sub`) gives
+  `b(χ) + b(χ⁻¹) = −∑_ρ (1/ρ + 1/(1 − ρ))`, conjugation `Λ(χ⁻¹, s) = conj Λ(χ, conj s)` gives
   `b(χ⁻¹) = conj b(χ)`, and the composite `ρ ↦ 1 − conj ρ` permutes the zeros of `Λ(χ, ·)`. The
   discriminant term in the `ζ_K` bound is needed: for `K = ℚ(√D)` with `D` a prime
   `≡ 1 (mod 8 ∏_{p ≤ B} p)` every `p ≤ B` splits, which pushes `−ζ'_K/ζ_K(σ)` above
@@ -1159,9 +1220,10 @@ assembled from six targets.
   over the zeros in the region with multiplicity, using nonnegativity of `Λ_K(𝔞)(1 + χ(𝔞))`; two
   zeros and one double zero are refuted by the same inequality. This is per character.
 
-*Needs:* 6.1; 5.6; 2.2; Layer 4; L-functions Layers 5 and 7 `heckeLFunctionC_eq_primitive`,
-`eulerCorrection`, `finiteEulerCorrection`, `PrimitiveRayClassCharacter.inv`,
-`completedHeckeLFunction_one_sub`, `norm_heckeRootNumber`; Global Number Fields Layer 2
+*Needs:* 6.1; 5.6; 2.2; Layer 4; Tau Ceti (L-functions Layer 5) `heckeLFunctionC_eq_primitive`,
+`heckeLFunctionC_eventuallyEq_primitive`, `RayClassCharacter.eulerCorrection`,
+`finiteEulerCorrection`, `PrimitiveRayClassCharacter.character_inv`; L-functions Layers 5 and 7
+`completedHeckeLFunction_one_sub`, `norm_heckeRootNumber`; Tau Ceti (Global Number Fields Layer 2)
 `TauCeti.GlobalNumberFields.finite_rayClassGroup`.
 
 ### 6.4a Direct primitive Dirichlet exports of 6.4d–e
@@ -1186,12 +1248,26 @@ regular and nonzero there; for `Re s > 1`,
 real `σ`. The multiplicity comparison needs `0 < Re s`: for even `χ` at `s = 0`, `L(0, χ) = 0`
 while the completion is nonzero, because `Gammaℝ` has a pole there.
 
-**Growth, strip and order inputs.** From the native continuation and functional equation derive
-the polynomial vertical-strip bounds, the order bound `completed_orderLE_one` (the record's
-completed function is entire of order at most one), the location of the completed zeros in
-`0 < Re s < 1`, and the edge nonvanishing of 6.5 for this family, so that the entire-completion,
-Jensen, canonical-product, entire-logarithm and order-one factorization targets of Layers 0–5
-apply to the record with their hypotheses proved rather than assumed.
+**Order, zero location and the real-part identity.** These are the Dirichlet instances of 3.1,
+6.5 and the second clause of 5.6, proved here from the record and Mathlib, so that 6.4a does not
+pass through the Hecke family.
+
+- `completed_orderLE_one`: for primitive `χ ≠ 1` the record's completed function is entire of
+  order at most one. Route (Davenport §12): partial summation bounds `L(s, χ)` by `2q‖s‖` on
+  `Re s ≥ 1/2`, Stirling (1.2) bounds `Gammaℝ (s + κ)` by `exp(C ‖s‖ log ‖s‖)` there for
+  `‖s‖ ≥ 2`, and `dirichletData_hasFunctionalEquation` with `dirichletData_dual` (the dual record
+  is that of `χ⁻¹`) carries the bound to `Re s ≤ 1/2`.
+- The zeros of the completed function lie in `0 < Re s < 1`: on `Re s ≥ 1` by
+  `DirichletCharacter.LFunction_ne_zero_of_one_le_re`, the conductor power and `Gammaℝ (s + κ)`
+  being regular and nonzero there, and on `Re s ≤ 0` by the functional equation against the
+  record of `χ⁻¹`. In particular the completed function is nonzero at `0`, so 5.5 applies to it:
+  `logDeriv Λ s = B(χ) + ∑_ρ m_ρ (1/(s − ρ) + 1/ρ)`, and `Re (1/(σ − ρ)) > 0` for every zero `ρ`
+  and real `σ > 1`.
+- `Re B(χ) = −∑_ρ m_ρ Re (1/ρ)` (Montgomery–Vaughan, Corollary 10.18, (10.37)–(10.38),
+  pp. 352–353): the functional equation against the record of `χ⁻¹`, whose completed function is
+  `s ↦ conj Λ(conj s)`, gives `B(χ) + conj B(χ) = −∑_ρ m_ρ (1/ρ + 1/(1 − ρ))`, and
+  `ρ ↦ 1 − conj ρ` permutes the zeros with their multiplicities, so the two real parts on the
+  right are equal. Reality of `χ` is not used.
 
 **The gamma constant.** Define `gammaLogDerivBound`, written `C_Γ`, as
 `½ (|−γ_E − 2 log 2| + |2 − γ_E − 2 log 2| + |log π|)`: Euler's constant and elementary
@@ -1201,10 +1277,11 @@ logarithms only, so that the bound is effective without a numerical computation.
   `2` by the recurrence `ψ(3/2) = ψ(1/2) + 2` (1.4), and `log π > 0`.
 - `0 ≤ C_Γ`.
 - `‖logDeriv Gammaℝ s‖ ≤ C_Γ` for real `1 ≤ s ≤ 3`: by 1.4,
-  `logDeriv Gammaℝ s = ψ(s/2)/2 − (log π)/2` with `ψ` increasing on `(0, ∞)`, so `ψ(s/2)` lies
+  `logDeriv Gammaℝ s = ψ(s/2)/2 − (log π)/2` with `ψ` monotone on `(0, ∞)`, so `ψ(s/2)` lies
   between `ψ(1/2)` and `ψ(3/2)`, and the triangle inequality gives the bound. The interval
   `[1, 3]` covers both parity shifts `σ + κ` with `1 < σ ≤ 2` and `κ ∈ {0, 1}`.
-- On `[1, 3]` the gamma term itself is negative, between `−1.5542` and `−0.5542`, so `C_Γ` is a
+- On `[1, 3]` the gamma term itself is negative, between `−1.5542` and `−0.5541` (its values at
+  the ends are `−1.554120` and `−0.554120`), so `C_Γ` is a
   two-sided bound and not the sharp one-sided one; the two-sided form is what the
   complex-argument inequality of 6.4d needs.
 
@@ -1215,12 +1292,14 @@ logarithms only, so that the bound is effective without a numerical computation.
 - The tight end: `‖logDeriv Gammaℝ 1‖ = |ψ(1/2)/2 − (log π)/2| ≈ 1.55412 ≤ 1.57236`; the
   definition without `|log π|` fails here, since `1 < 1.55412`.
 - The other end: `‖logDeriv Gammaℝ 3‖ = |ψ(3/2)/2 − (log π)/2| ≈ 0.55412`; the function is
-  increasing on `[1, 3]`, so the norm is largest at `s = 1`.
+  monotone and negative on `[1, 3]`, so the norm is largest at `s = 1`. An interval ending at
+  `−0.5542` would exclude this value.
 - A definition that used `ψ(1) = −γ_E` in place of `ψ(1/2)` would give
   `½ (0.57722 + 0.03649 + 1.14473) ≈ 0.87922 < 1.55412`, and fails at `s = 1`.
 
 **The retained-zero inequalities.** For a primitive nonprincipal real `χ` of conductor `q ≥ 3`,
-a real zero `0 < β < 1` of `L(·, χ)` and `1 < σ ≤ 2`, prove `one_zero_le_logDeriv`:
+a real zero `0 < β < 1` of `L(·, χ)` and `1 < σ ≤ 2`, prove the one-zero inequality
+*one_zero_le_logDeriv*:
 
     1/(σ − β) ≤ Re (logDeriv L_χ)(σ) + ½ log q + C_Γ,
 
@@ -1239,7 +1318,7 @@ gamma term is at most `C_Γ` by the bound above. A selected real zero may have a
 multiplicity. The principal character is excluded: its expansion carries the pole terms
 `1/s + 1/(s − 1)`.
 
-**The finite-family radius.** For every `Q : ℕ`, prove `bounded_level_zero_free`: one `δ_Q > 0`
+**The finite-family radius.** For every `Q : ℕ`, prove *bounded_level_zero_free*: one `δ_Q > 0`
 such that every nonprincipal character `χ` modulo `q` with `1 ≤ q ≤ Q` has `L(s, χ) ≠ 0` on
 `‖s − 1‖ < δ_Q`. Primitivity and reality are not needed. The route is
 `DirichletCharacter.LFunction_apply_one_ne_zero`, continuity at `1` of each `L(·, χ)` with
@@ -1265,15 +1344,19 @@ here.
 - The hypothesis `0 < Re ρ` on `S`: for even `χ` the trivial zero `ρ = 0` of `L(·, χ)` is not a
   zero of the completion; admitting it would add `1/σ` to the left side, and admitting all
   trivial zeros `−2n` would make the sum `∑_n 1/(σ + 2n)` diverge.
-- `bounded_level_zero_free` at `Q = 0` and `Q = 1`: the family is empty (`q = 1` carries only
+- *bounded_level_zero_free* at `Q = 0` and `Q = 1`: the family is empty (`q = 1` carries only
   the principal character) and `δ = 1` serves; at `Q = 4` the family is `χ_{−3}` and `χ_{−4}`,
   with `L(1, χ_{−3}) = π/(3√3) ≈ 0.6046` and `L(1, χ_{−4}) = π/4 ≈ 0.7854`. A model that chose
   the radius after `χ` would not be a single `δ_Q`.
 
-*Needs:* 1.4; 1.6; 5.5; 5.6; 6.4d; 6.5; L-functions Layer 4 `dirichletData`; Mathlib
+*Needs:* Layer 0 `OrderLE` and *entireCompletion*; 1.2 and 1.4; 1.6 (*continuedL*, for the
+comparison only); 5.5; Tau Ceti `TauCeti.LFunctions.dirichletData` with `dirichletData_conductor`,
+`dirichletData_gammaR`, `dirichletData_completed`, `dirichletData_polarOrder`, `dirichletData_dual`,
+`dirichletData_hasMeromorphicContinuation` and `dirichletData_hasFunctionalEquation`; Mathlib
 `DirichletCharacter.LFunction`, `DirichletCharacter.completedLFunction`,
 `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`,
 `DirichletCharacter.differentiable_completedLFunction`,
+`DirichletCharacter.LFunction_ne_zero_of_one_le_re`,
 `DirichletCharacter.LFunction_apply_one_ne_zero`, `analyticOrderNatAt`,
 `Complex.digamma_one_half`, `Complex.digamma_apply_add_one`, `Real.eulerMascheroniConstant`.
 
@@ -1305,7 +1388,7 @@ Layer 5 `completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
 - `dirichletLFunction_zeroFreeRegion`, with the exceptional zero allowed for real characters and
   the cap `c ≤ log 3/2`.
 - For a real character neither branch of the disjunction follows from the other targets.
-- `one_zero_le_logDeriv` for `χ_{−4}` at `σ = 2`, with `κ = 1`: the gamma term is
+- *one_zero_le_logDeriv* for `χ_{−4}` at `σ = 2`, with `κ = 1`: the gamma term is
   `logDeriv Gammaℝ 3 ≈ −0.554`, inside `[−C_Γ, C_Γ]`, and the conductor term is `½ log 4`.
 
 ### Dependencies
@@ -1326,14 +1409,14 @@ it.
 For a valid rectangle `R = Icc σ₁ σ₂ ×ℂ Icc t₁ t₂`, define *rectBoundary* `R : ℝ → ℂ` on `[0, 4]`,
 traversing the four edges counterclockwise with breakpoints `1, 2, 3`.
 
-- `TauCeti.Contour.IsPiecewiseC1On (rectBoundary R) 0 4` and `rectBoundary R 0 = rectBoundary R 4`.
+- `TauCeti.IsPiecewiseC1On (rectBoundary R) 0 4` and `rectBoundary R 0 = rectBoundary R 4`.
 - Its image is the topological boundary `∂R` when `R` is nondegenerate (`σ₁ < σ₂`, `t₁ < t₂`).
 - `TauCeti.Contour.windingNumber (rectBoundary R) 0 4 z = 1` for `z` in the interior of `R`, and
   `0` for `z ∉ R`.
 - `TauCeti.Contour.IsNullHomologous (rectBoundary R) 0 4 U` for every open `U ⊇ R`, since `R` is
   convex.
 
-*Needs:* Tau Ceti `TauCeti.Contour.IsPiecewiseC1On`, `TauCeti.Contour.windingNumber`,
+*Needs:* Tau Ceti `TauCeti.IsPiecewiseC1On`, `TauCeti.Contour.windingNumber`,
 `TauCeti.Contour.IsNullHomologous`.
 
 **Checks.**
@@ -1356,8 +1439,9 @@ the right side to `∑_{s ∈ S ∩ R} ord_s f`. The sum over all of `S` is fals
 
 The divisor form: for `f` meromorphic on `U` with `∀ z ∈ U, 0 ≤ meromorphicOrderAt f z →
 AnalyticAt ℂ f z` (the canonical-representative condition, which L-functions records satisfy by
-`regular_away` and *entireCompletion* and *continuedL* inherit), and a valid rectangle `R ⊆ U` with
-`meromorphicOrderAt f z = 0` on `∂R`, the normalized integral equals *divisorCount* `f U R`. Its
+`HasMeromorphicContinuation.analyticAt` and *entireCompletion* and *continuedL* inherit), and a
+valid rectangle `R ⊆ U` with `meromorphicOrderAt f z = 0` on `∂R`, the normalized integral
+equals *divisorCount* `f U R`. Its
 hypotheses are local: apply the first form on a connected relatively compact open neighbourhood
 `V` of `R` with `closure V ⊆ U`; finite order on `closure V` follows from a boundary point of order
 `0` and `MeromorphicOn.meromorphicOrderAt_ne_top_of_isPreconnected`; then
@@ -1419,11 +1503,27 @@ For `Λ_K` of degree `n`,
 `N±_K(T) = (T/π) log(|d_K| (T/(2πe))^n) + O(log(|d_K| T^n))` for `T ≥ 2`, with the implied constant
 depending only on `n` and chosen before `K`; and for `Λ(χ, ·)` the same with `|d_K| 𝔑𝔣` in place of
 `|d_K|`. The one-sided form halves the whole main term, `(T/2π) log(|d_K|(T/(2πe))^n)`; halving
-inside the logarithm (`|d_K|^{1/2}`) is false. The degree-one instance for a primitive Dirichlet
-character modulo `q`, uniform in `q`, is `riemannVonMangoldt_dirichlet` (Trudgian, Theorem 1, for
-`χ` nonprincipal, with absolute constants; Theorem 2 is the Dedekind case; Davenport §16). The
-Hecke case over a general `K` is the argument of 7.4 run on *entireCompletion*, with 4.4–4.5 for
-the error.
+inside the logarithm (`|d_K|^{1/2}`) is false. Both statements are the argument of 7.4 run on
+*entireCompletion*, with 4.4–4.5 for the error; this route is the proof. Trudgian, Theorem 2,
+states the Dedekind count with this main term and explicit constants, but Bennett, Martin,
+O'Bryant and Rechnitzer (§1, p. 2) report that the proofs of Trudgian's
+Theorems 1 and 2 are incomplete (a parameter inequality is wrongly treated as redundant), so that
+paper is cited for the shape of the main term only.
+
+In the open strip `0 < Re s < 1` the zeros of `Λ_K` are those of the continued `ζ_K`, with the
+same multiplicities, because the conductor power and the gamma factor are analytic and nonzero
+there; and neither completion has a zero on `Re s = 0` or `Re s = 1` (6.5). So `N±_K(T)` is
+`zeroCount` of `TauCeti.meromorphicContinuation 1 (NumberField.dedekindZeta K)` over
+`Ioo 0 1 ×ℂ Icc (−T) T`; the open strip leaves out the trivial zero of `ζ_K` at `0`, of order
+`r₁ + r₂ − 1`. In this form the Dedekind statement is `riemannVonMangoldt_dedekindZeta` and the
+statement for a primitive finite-order ray-class character, with
+`TauCeti.LFunctions.heckeLFunctionC χ.character`, is `riemannVonMangoldt_heckeLFunction`, each
+constant chosen before `K` and `χ`. The degree-one instance for a primitive Dirichlet character
+modulo `q`, uniform in `q`, is `riemannVonMangoldt_dirichlet` (Davenport §16; for conductor
+`q > 1` and `T ≥ 5/7`, with explicit constants,
+`|N(T, χ) − (T/π) log(qT/(2πe))| ≤ 0.298 log(qT) + 4.358`, Bennett–Martin–O'Bryant–Rechnitzer,
+Corollary 1.2, p. 2, in the arXiv v1 numbering; at `q = 1` it is twice the
+count of 7.4).
 
 A generic-record form needs Dirichlet agreement, the average coefficient bound and confinement of
 the zeros of the entire completion to the closed strip, besides continuation, functional equation
@@ -1432,7 +1532,8 @@ zeros and a main term of order `T log T`, and is rejected only by Dirichlet agre
 `ζ(s)(1 + 5·2^{−s} + 2·4^{−s})` of conductor `4` has its extra zeros on `Re s ≈ 2.19` and
 `Re s ≈ −1.19`, and is rejected only by confinement.
 
-*Needs:* 7.4, 4.4, 4.5, 1.5, 2.2, 6.5; L-functions Layers 3, 5.
+*Needs:* 7.4, 4.4, 4.5, 1.5, 2.2, 6.5; L-functions Layers 3, 5; Tau Ceti
+`TauCeti.meromorphicContinuation` and `TauCeti.LFunctions.heckeLFunctionC` for the two statements.
 
 ### 7.6 Corollaries
 
@@ -1615,14 +1716,22 @@ zero data occur; they do not assert the existence of an exceptional zero.
 - If only a non-real character is tested, its exceptional set is empty by 6.3 and both
   contributions are `0`; taking the real part of an arbitrary complex zero would give a false term.
 
-For fixed `K` and `𝔪` there is `c₀ > 0` with
+There is `c₀ > 0` depending only on `n = [K:ℚ]` (absolute at `K = ℚ`) such that for every `K` of
+degree `n`, every modulus `𝔪` and every class `c`, as `x → ∞`,
 
 ```text
 rayClassPsi 𝔪 c x = x/#Cl_𝔪 − exceptionalRayClassTerm 𝔪 c x + O(x exp(−c₀ √log x)),
 ```
 
 and the number of prime ideals prime to `𝔪`, of norm at most `x`, in the class `c` is
-`Li x/#Cl_𝔪 − exceptionalRayClassPrimeCountTerm 𝔪 c x + O(x exp(−c₀ √log x))`. The trivial
+`Li x/#Cl_𝔪 − exceptionalRayClassPrimeCountTerm 𝔪 c x + O(x exp(−c₀ √log x))`; the implied
+constant, the threshold and the exceptional terms depend on `K` and `𝔪`. The width `c₀` comes
+from the region constant of 6.4, which depends on `n` alone: with the height
+`T = exp(√log x)`, `log(|d_K| 𝔑𝔣 T^n) ≤ 2n √log x` once `x` is large in terms of `K` and `𝔪`.
+For fixed `K` and `𝔪` the exceptional terms are `O(x^β)` with `β < 1`, which the error absorbs;
+`rayClassPrimeCount_effective` is the prime count in that form, the main term `Li x/#Cl_𝔪` with
+`Li = TauCeti.Real.logIntegral` and the count over the prime ideals in
+`TauCeti.GlobalNumberFields.integralIdealsPrimeTo 𝔪` of class `c`. The trivial
 character gives the main term `x/#Cl_𝔪` through 8.5. The finite Euler correction at the primes of
 `𝔪` does **not** enter the main coefficient: deleting those Euler factors changes the logarithmic
 derivative by a function regular at `s = 1`, and changes the prime-power sum by
@@ -1634,7 +1743,8 @@ character enters through 8.6 after 6.4b replaces it by its primitive source; the
 the prime count is Abel summation, `x^β/β` becoming `Li(x^β) − Li(2^β)` under `u = t^β`, legitimate
 because `β ≥ 1/2` (6.3). `x/log x` is not an admissible main term: `Li x − x/log x ∼ x/log² x`,
 which is not `O(x exp(−c √log x))`. At `K = ℚ` and `𝔪 = (q)∞` this is
-`primeCounting_progression_effective` (Davenport §20), with main term `Li x/φ(q)`.
+`primeCounting_progression_effective` (Davenport §20), with main term `Li x/φ(q)` and one
+absolute constant for all `q`.
 
 *Needs:* 8.5, 8.6, 6.3, 6.4b; L-functions Layers 2, 5 `partialZeta_eq_sum_heckeLFunctionC`,
 `PrimitiveRayClassCharacter.of`; Global Number Fields Layers 2, 3E, 9 `RayClassGroup`,
@@ -1660,7 +1770,8 @@ For `L/K` finite Galois and `C : ConjClasses (L ≃ₐ[K] L)`, the theorem is 8.
 `NumberField.artinSymbol 𝔭 hur = ConjClasses.mk (Φ (idealClass 𝔪 𝔭))` for every prime `𝔭` prime to
 `𝔪` and unramified in `L`. The dictionary forces `Gal(L/K)` abelian, and Class Field Theory's
 `rayClassArtinMap` with `rayClassArtinMap_idealClass` and `rayClassArtinMap_surjective`
-discharges it at an admissible modulus. For fixed `L/K` there is `c₀ > 0` with
+discharges it at an admissible modulus, for instance `abelianConductor K L`
+(`isAdmissibleModulus_iff_abelianConductor_dvd`). For fixed `L/K` there is `c₀ > 0` with
 
 ```text
 frobeniusPsi C x = (#C/#G) x − exceptionalChebotarevTerm C x + O(x exp(−c₀ √log x)),
@@ -1677,15 +1788,21 @@ the dictionary, since two dictionaries induce the same primitive characters; wit
 term would be opaque and the estimate unfalsifiable. *exceptionalChebotarevPrimeCountTerm* is the
 same with `Li(x^β)`. Then `NumberField.Chebotarev.tendsto_frobeniusPrimeCount` and
 `NumberField.Chebotarev.hasNaturalDensity_frobeniusPrimeSet` are recovered by discarding the error
-through `Li x ∼ x/log x`, as consistency theorems. The effective Chebotarev estimate for a
+through `Li x ∼ x/log x`, as consistency theorems. For `L/K` abelian, with the dictionary
+discharged in this way and the exceptional term absorbed for fixed `L/K` as in 8.7, the prime count
+is `frobeniusPrimeCount_effective_abelian`: `frobeniusPrimeCount C x = (#C/#G) Li x +
+O(x exp(−c₀ √log x))`, stated for `K L : Type`, the universe of the pinned reciprocity map. The
+effective Chebotarev estimate for a
 general Galois `L/K`, through Artin L-functions, is due to Lagarias–Odlyzko and is cited as
 attribution only; the nonabelian case is not owned here.
 
 *Needs:* 8.7; Number Field Arithmetic §2.3 `NumberField.artinSymbol`;
 Chebotarev Layers 11, 13–14 `NumberField.Chebotarev.frobeniusPsi`,
 `NumberField.Chebotarev.frobeniusPrimeCount`, `NumberField.Chebotarev.tendsto_frobeniusPrimeCount`,
-`NumberField.Chebotarev.hasNaturalDensity_frobeniusPrimeSet`; Class Field Theory Layer 12 to
-discharge the hypothesis.
+`NumberField.Chebotarev.hasNaturalDensity_frobeniusPrimeSet`; Class Field Theory Layer 12
+`TauCeti.ClassFieldTheory.rayClassArtinMap`, `rayClassArtinMap_idealClass`,
+`rayClassArtinMap_surjective` and `isAdmissibleModulus_iff_abelianConductor_dvd` to discharge the
+hypothesis.
 
 **Checks.**
 
@@ -1698,14 +1815,16 @@ discharge the hypothesis.
 
 ### 8.9 The logarithmic integral
 
-For `Li = TauCeti.Real.logIntegral` of Arithmetic Dirichlet Series §6.2 and `x ≥ 2`, prove
-`Li x = x/log x − 2/log 2 + ∫_2^x (log t)^(−2) dt` by integration by parts.
-The denominator never vanishes on `[2,x]`. A second integration by parts gives
-`Li x − x/log x = x/log² x + O(x/log³ x)`, hence `Li x − x/log x ∼ x/log² x`.
-These are calculus adapters of the supplied integral definition, not extra library assumptions.
+For `Li = TauCeti.Real.logIntegral` of Arithmetic Dirichlet Series §6.2 and `x ≥ 2`, the first
+integration by parts `Li x = x/log x − 2/log 2 + ∫_2^x (log t)^(−2) dt` is Tau Ceti's
+`TauCeti.Real.logIntegral_eq_div_log_sub_add`, and `TauCeti.Real.isLittleO_integral_inv_log_sq`
+makes the remainder `o(x/log x)`. Prove the second-order form: a second integration by parts of
+the remainder gives `Li x − x/log x = x/log² x + O(x/log³ x)`, hence `Li x − x/log x ∼ x/log² x`.
+The denominator never vanishes on `[2,x]`.
 
-*Needs:* Arithmetic Dirichlet Series §6.2 `TauCeti.Real.logIntegral`; Mathlib
-`intervalIntegral.integral_mul_deriv_eq_deriv_mul`, elementary logarithm derivatives and
+*Needs:* Tau Ceti (Arithmetic Dirichlet Series §6.2) `TauCeti.Real.logIntegral`,
+`TauCeti.Real.logIntegral_eq_div_log_sub_add`, `TauCeti.Real.isLittleO_integral_inv_log_sq`;
+Mathlib `intervalIntegral.integral_mul_deriv_eq_deriv_mul`, elementary logarithm derivatives and
 asymptotic bounds for the remainder integral.
 
 **Checks.**
@@ -1823,10 +1942,14 @@ Layer 4.1; Layer 0 for *entireCompletion*; Layer 7.2 for the bridge. Mathlib `Ri
   (2012); arXiv:1106.1868 — Theorem 1.1 (regions for `|Im s| ≥ 1` and `|Im s| ≤ 1` when `d_K` is
   large) and §2.1.2 (the explicit formula behind 6.4d).
 - T. S. Trudgian, *An improved upper bound for the error in the zero-counting formulae for
-  Dirichlet L-functions and Dedekind zeta-functions*, Math. Comp. 84 (2015), 1439–1450 —
-  Theorem 1 (primitive nonprincipal `χ`, zeros with `0 < β < 1` and `|γ| ≤ T`, main term
-  `(T/π) log(kT/2πe)`, error `C₁ log kT + C₂` with absolute constants) and Theorem 2 (the Dedekind
-  case, main term `(T/π) log(d_K (T/2πe)^{n_K})`).
+  Dirichlet L-functions and Dedekind zeta-functions*, Math. Comp. 84 (2015); arXiv:1206.1844 —
+  Theorem 2 (the Dedekind count, main term `(T/π) log(d_K (T/2πe)^{n_K})`), cited for the shape of
+  the main term only: its proof, like that of Theorem 1, is reported incomplete in the next entry.
+- M. A. Bennett, G. Martin, K. O'Bryant, A. Rechnitzer, *Counting zeros of Dirichlet
+  L-functions*, Math. Comp. 90 (2021); arXiv:2005.02989 — Corollary 1.2 in the arXiv v1 numbering
+  (characters of conductor `q > 1`, zeros with `0 < β < 1` and `|γ| ≤ T`, `T ≥ 5/7`, main term
+  `(T/π) log(qT/2πe)`, error at most `0.298 log qT + 4.358`), and §1 on the gap in Trudgian's
+  proofs.
 - S. Lang, *Algebraic Number Theory*, 2nd ed., GTM 110 — XVII §3, Theorems 3.1 and 3.2 (Weil's
   explicit formula and `Λ'/Λ` as a limit over zeros); XVII §§1–2; XV §§4–5. Cited by locator.
 - H. Iwaniec, E. Kowalski, *Analytic Number Theory*, AMS Colloquium Publications 53 — §5.1 (the
