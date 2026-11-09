@@ -66,10 +66,19 @@ Layer 7.4. The one-variable case is owned here, not taken from HF2: HF2's harmon
 uses ComplexKahlerGeometry K5a's compact-distribution dual, K5a consumes the complex two-form
 exactness of Layer 7.2, and Layer 7.2 is proved from Layer 7.1, so supplying Layer 7.1 from
 HF2 would be circular.
+RealAnalyticGeometry R3.2 (item 1) owns scalar Cousin I and the vanishing of `H^k(X,𝒪)`, k>0,
+on every Stein manifold X, which for X an open subset of ℂ is Layer 7.4. Its route consumes
+ComplexKahlerGeometry K2's sheaf, Čech and Dolbeault comparison, which K2 builds on its
+parameter solver, and that solver consumes Layers 0.3, 2.1 and 2.5 here, so taking Layer 7.4
+from RealAnalyticGeometry would be circular; the one-variable case is owned here.
 ComplexKahlerGeometry K2 owns parameter-dependent solvers, and K5a owns the complex-coefficient
-de Rham comparison; they consume this roadmap's scalar results and complex two-form exactness.
-K3 owns the comparison of meromorphic germs with the fraction field of the holomorphic stalk
-and consumes the local Laurent decomposition of Layer 0.4.
+de Rham comparison; they consume this roadmap's scalar results (the compact-support formula of
+Layer 0.3, the exhaustion of Layer 2.1 and the finite-rank Runge operator of Layer 2.5) and the
+complex two-form exactness of Layer 7.2.
+K3 owns the comparison of meromorphic germs with the fraction field of the holomorphic stalk,
+including the identification of the negative Laurent coefficients of a finite-pole germ, and so
+of the coefficients of its finite principal part, with the circle coefficients of Layer 0.4; it
+consumes the local Laurent decomposition of Layer 0.4, and nothing here consumes that comparison.
 
 Tau Ceti owns the circle Laurent coefficients `TauCeti.circleLaurentCoeff` with their radius
 independence on an annulus, monomial values and Cauchy estimate, the two-circle Cauchy formula
@@ -271,16 +280,7 @@ the two-circle Cauchy formula
 (for `0 < r`, a countable `s`, `w` with `r < |w − c| < R`, and `f` continuous on the closed
 annulus and complex-differentiable off `s` in the open one, `f(w)` is `(2πi)⁻¹` times the
 integral of `(z − w)⁻¹ f(z)` over the circle of radius `R` minus that over the circle of
-radius `r`, even for `w ∈ s`). Use the finite principal part of a meromorphic germ:
-`TauCeti.meromorphicGerms.principalPart` (`TauCeti/Analysis/Meromorphic/PrincipalPart.lean`),
-the additive map from the germs at `a` of functions meromorphic at `a` to polynomials without
-constant term such that the germ minus the principal part evaluated at `(z − a)⁻¹` is analytic
-at `a`, and `TauCeti.meromorphicGerms.coeff_principalPart_succ_eq_circleIntegral`
-(`TauCeti/Analysis/Contour/Residue/PrincipalPart.lean`: for a representative `f`, the
-coefficient of `X^(k+1)` is `(2πi)⁻¹ ∮_{|z−a|=ρ} (z − a)^k f(z) dz` for every sufficiently small
-`ρ > 0`), with the canonical finite Laurent data
-`TauCeti.Contour.exists_laurent_data_of_meromorphicAt` of
-`TauCeti/Analysis/Contour/MeromorphicLaurent.lean`.
+radius `r`, even for `w ∈ s`).
 Use `TauCeti.hasSum_cotTerm_two_mul` from
 `TauCeti/Analysis/SpecialFunctions/Trigonometric/TanhSeries.lean`: for `z` in the integer
 complement `ℂ_ℤ`, the odd-pole terms `cotTerm z (2n) = 1/(z−(2n+1)) + 1/(z+(2n+1))`, `n : ℕ`, have
@@ -293,6 +293,14 @@ filled in `Ω`. The statement is existential: the stages its proof builds are no
 is cited only where an unspecified exhaustion suffices. From the same file use
 `IsOpen.isFilledIn_closedBall_sdiff_thickening`: for open `Ω`, a centre `a`, `0 ≤ r` and
 `0 < δ`, the set `closedBall a r \ thickening δ Ωᶜ` is filled in `Ω`.
+Use the polynomial hull of `TauCeti/Analysis/Complex/PolynomialHull/Basic.lean`, for
+`K ⊆ ι → ℂ`: `TauCeti.polynomialHull K`, the points `z` with `‖p(z)‖ ≤ c` for every
+`p : MvPolynomial ι ℂ` and every real `c` bounding `‖p‖` on `K`; `TauCeti.IsPolynomiallyConvex K`,
+the inclusion of that hull in `K`; `TauCeti.polynomialHull_empty`,
+`TauCeti.polynomialHull_polynomialHull` (idempotence) and `TauCeti.isPolynomiallyConvex_closedBall`
+(closed sup-norm polydiscs, so closed discs when `ι = Fin 1`, are polynomially convex). For
+`ι = Fin 1` and unbounded `K` only constant polynomials are bounded on `K`, so the hull is the
+whole space.
 Use the smooth-form carrier of `TauCeti/Geometry/Manifold/DifferentialForm/`: `RoughForm` and
 `RoughForm.ofFunction` (`Basic.lean`), `IsSmoothForm` and `SmoothForm` (`Smooth.lean`),
 `mextDeriv` and `mextDeriv_ofFunction` (`ExtDeriv.lean`), `isSmoothForm_ofFunction_iff` (the
@@ -770,7 +778,12 @@ integral of radius zero vanishes. Write `f₊(z) = Σ_{n≥0} a_n (z − c)^n` a
   `two_pi_I_inv_smul_circleIntegral_sub_inv_smul_sub_of_differentiable_on_annulus_off_countable`
   with empty exceptional set writes `f(w)` as `(2πi)⁻¹` times the outer minus the inner
   integral of `(ζ − w)⁻¹ f(ζ)`, which are `f₊(w)` and `f₋(w)` by the two items above (Rainer,
-  Theorem 7.4 and Corollary 7.5, p. 15, rainer lines 716 and 754).
+  Theorem 7.4 and Corollary 7.5, p. 15, rainer lines 716 and 754). The headline
+  `exists_laurent_decomposition` states these three items together, with the coefficients
+  taken at one radius `ρ`, `r₁ < ρ < r₂`: the power series `Σ_{n≥0} a_n (z − c)^n` has sum `f₊(z)`
+  at every `z` of the disc `|z − c| < r₂`, where `f₊` is holomorphic; the series
+  `Σ_{k≥1} a_(−k) (z − c)^(−k)` has sum `f₋(z)` at every `z` with `|z − c| > r₁`, where `f₋` is
+  holomorphic, and `f₋` tends to `0` along the cocompact filter; and `f = f₊ + f₋` on `A`.
 - Uniqueness of the coefficients: if `Σ_{n≥0} b_n (z − c)^n` and `Σ_{k≥1} b_(−k) (z − c)^(−k)`
   both converge at every point of `A` with sum `f`, then `b_n = a_n` for every `n ∈ ℤ`. Each
   series converges uniformly on every circle `|z − c| = ρ` in `A`, since it converges at points
@@ -794,12 +807,9 @@ integral of radius zero vanishes. Write `f₊(z) = Σ_{n≥0} a_n (z − c)^n` a
   `MeromorphicAt f c` with `meromorphicOrderAt f c = −m` holds exactly when `a_(−m) ≠ 0` and
   `a_(−k) = 0` for `k > m`; and `f` is not meromorphic at `c` exactly when infinitely many
   negative coefficients are nonzero (Rainer, Theorem 7.6, p. 16, rainer line 790). When `f` is
-  meromorphic at `c`, `f₋` is the native finite principal part:
-  `TauCeti.meromorphicGerms.coeff_principalPart_succ_eq_circleIntegral` gives the coefficient
-  of `X^(k+1)` in `TauCeti.meromorphicGerms.principalPart` of the germ of `f` as the circle
-  integral defining `a_(−k−1)` at every small radius, which is `a_(−k−1)` by radius
-  independence, so `f₋(z)` is that polynomial evaluated at `(z − c)⁻¹`. The finite splitting
-  itself (`TauCeti.Contour.exists_laurent_data_of_meromorphicAt`) is native and not a target.
+  meromorphic at `c` with `meromorphicOrderAt f c = −m`, `m ≥ 1`, the negative part is
+  therefore the finite sum `f₋(z) = Σ_{k=1..m} a_(−k) (z − c)^(−k)`, holomorphic on `ℂ∖{c}`;
+  this is the form in which Layer 4.1 uses finite principal parts.
 
 **Checks.**
 
@@ -821,16 +831,17 @@ integral of radius zero vanishes. Write `f₊(z) = Σ_{n≥0} a_n (z − c)^n` a
 - For `f = 1/z`, the derivative `−1/z²` has degree `−2` coefficient `(−1)·a_(−1) = −1` and
   degree `−1` coefficient `0·a_0 = 0`; the law `n a_n` in place of `(n + 1) a_(n+1)` would put
   `−1` in degree `−1`.
-- For `f(z) = (z + 1)/z²` on `ℂ∖{0}`, `a_(−2) = a_(−1) = 1` and every other coefficient is `0`;
-  `meromorphicOrderAt f 0 = −2`, the principal part of the germ of `f` at `0` is `X² + X`, and
-  its value at `1/z` is `f₋ = f`.
+- For `f(z) = (z + 1)/z²` on `ℂ∖{0}`, `a_(−2) = a_(−1) = 1` and every other coefficient is `0`,
+  so `f₊ = 0`, `f₋ = f` is the finite sum of two terms and `meromorphicOrderAt f 0 = −2`. For
+  `f(z) = z^(−3) + z` only `a_(−3)` and `a_1` are nonzero and the order is `−3`: the order is the
+  lowest degree with a nonzero coefficient, not minus the number of nonzero negative
+  coefficients, which is `1` here.
 
 *Needs:* Tau Ceti's `TauCeti.circleLaurentCoeff` with `circleLaurentCoeff_natCast`,
 `circleLaurentCoeff_add`, `circleLaurentCoeff_smul`, `norm_circleLaurentCoeff_le`,
 `circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable`,
-`circleLaurentCoeff_sub_zpow_smul` and the two-circle formula, and
-`TauCeti.meromorphicGerms.principalPart` with `coeff_principalPart_succ_eq_circleIntegral`;
-Mathlib's `cauchyPowerSeries`, `hasFPowerSeriesOn_cauchy_integral`,
+`circleLaurentCoeff_sub_zpow_smul` and the two-circle formula; Mathlib's `cauchyPowerSeries`,
+`hasFPowerSeriesOn_cauchy_integral`,
 `Complex.differentiableOn_tsum_of_summable_norm`, `Complex.hasSum_deriv_of_summable_norm`,
 `Differentiable.apply_eq_of_tendsto_cocompact`, `meromorphicOrderAt` and circle integrals.
 No other layer is an input.
@@ -842,8 +853,8 @@ For z and z̄ the operator pairs are (1,0) and (0,1); a unit radial cutoff has w
 ### Dependencies
 
 Native real/complex calculus and measure theory; Tau Ceti's Wirtinger derivatives, Cauchy
-transform, Morera, circle Laurent coefficients, two-circle Cauchy formula and principal parts
-of meromorphic germs; Mathlib's Cauchy power series and Liouville theorem. No later layer
+transform, Morera, circle Laurent coefficients and two-circle Cauchy formula; Mathlib's Cauchy
+power series and Liouville theorem. No later layer
 supplies an input.
 
 ## Layer 1: preparatory locally uniform products
@@ -1129,10 +1140,24 @@ Prove also that the hull of any compact K is filled in Ω: a component of
 Ω∖K̂ with compact closure in Ω would lie in the hull of K̂, which is K̂ itself, by the
 maximum-principle inclusion and idempotence (Rainer, Lemma 11.3, items (1), (2) and (4),
 pp. 27–28, and the construction in the proof of Theorem 12.1, p. 31).
+For Ω=ℂ the hull is Tau Ceti's polynomial hull: for compact K⊆ℂ, prove that `holomorphicHull`
+of K in Ω=ℂ is the preimage of `TauCeti.polynomialHull (e '' K)` under the identification
+`e z = (fun _ => z)` of ℂ with `Fin 1 → ℂ` (the inverse of Mathlib's
+`ContinuousLinearEquiv.funUnique`). A polynomial in one variable is entire, which gives the
+inclusion of the hull in the preimage. Conversely, if an entire g satisfies |g|≤B on K and
+|g(z)|>B, the Taylor polynomials of g at 0 converge to g uniformly on the compact set K∪{z},
+so one of them also separates z from K (`Differentiable.hasFPowerSeriesOnBall` gives the power
+series on the ball of infinite radius, and `HasFPowerSeriesOnBall.tendstoUniformlyOn` the
+uniform convergence on each closed ball of finite radius). Hence K is its own hull in ℂ
+exactly when `TauCeti.IsPolynomiallyConvex (e '' K)`. Compactness is needed for the
+comparison: for the closed unbounded set ℝ the polynomial hull of `e '' ℝ` is all of
+`Fin 1 → ℂ`, while e^(iz) and e^(−iz) are bounded by 1 on ℝ and cut the hull of ℝ in ℂ down
+to ℝ.
 
 The hull API includes compactness, extensivity, monotonicity, idempotence, the
-maximum-principle inclusion of relatively compact complementary components, and the
-distance and convex-hull comparisons. The exhaustion API has nested interiors, union Ω and
+maximum-principle inclusion of relatively compact complementary components, the
+distance and convex-hull comparisons, and, for Ω=ℂ and compact K, the equality with Tau Ceti's
+polynomial hull. The exhaustion API has nested interiors, union Ω and
 compact cofinality, proved here, with the compactness and filledness of every stage from the
 native theorems above.
 These are Rainer, Lemma 11.3, pp. 27–28 (rainer line 1437), apart from its item (3), which
@@ -1152,10 +1177,18 @@ is the hull equality of 2.5; the exhaustion is its recursive compact-cofinal con
   thickening radius as n+1 instead of (n+1)⁻¹ agrees at n=0 (K_0={0}) but empties every
   stage with n≥1, since a thickening of radius n+1≥2 of {|z|≥1} is all of ℂ; the union is
   then {0}, not the disk.
+- For K the unit circle and Ω=ℂ, the hull and the polynomial hull of `e '' K` are both the
+  closed unit disk: the polynomial z has |z|≤1 on K and value 1.5>1 at 1.5, which is excluded,
+  and the maximum principle keeps 0.5. Reading the hull as K itself would exclude 0.5.
+- For the unbounded set ℝ, the polynomial hull of `e '' ℝ` is all of `Fin 1 → ℂ`, while
+  |e^(iz)|=e^(−Im z) and |e^(−iz)|=e^(Im z) are at most 1 on ℝ and equal e>1 at z=−i and z=i;
+  so −i and i are outside the hull of ℝ in ℂ, and the comparison needs a compact K.
 
-*Needs:* Tau Ceti's `IsOpen.isFilledIn_closedBall_sdiff_thickening`; Mathlib compact closed
-balls, open thickenings, extended distances and connected components; the maximum
-principle and the elementary separating functions z, 1/(z−ζ) and exp(az). No later
+*Needs:* Tau Ceti's `IsOpen.isFilledIn_closedBall_sdiff_thickening` and, for Ω=ℂ,
+`TauCeti.polynomialHull`; Mathlib compact closed balls, open thickenings, extended distances
+and connected components, `ContinuousLinearEquiv.funUnique`,
+`Differentiable.hasFPowerSeriesOnBall` and `HasFPowerSeriesOnBall.tendstoUniformlyOn`; the
+maximum principle and the elementary separating functions z, 1/(z−ζ) and exp(az). No later
 subsection is used.
 
 ### 2.2 Holomorphic functions with compact-open convergence
@@ -1310,9 +1343,8 @@ whose cycle integral is the difference of the two integrals by
 `TauCeti.Contour.Cycle.integral_add` and `TauCeti.Contour.Cycle.integral_smul` with the
 scalar −1; the length there weights each generator by the absolute value of its coefficient.
 Derive continuity of integration under uniform convergence on the trace, for curves and for
-cycles. Supply the rectangle/wedge-integral comparison to this contour API. Compact-open
-closedness of the holomorphic functions is Tau Ceti's `isClosed_holomorphicFunctions` and is
-not proved again here.
+cycles. Compact-open closedness of the holomorphic functions is Tau Ceti's
+`isClosed_holomorphicFunctions` and is not proved again here.
 
 **Checks.**
 
@@ -1350,9 +1382,16 @@ relatively compact component, so (Ω,K̃) is a Runge pair, and apply the point-s
 direction of the scalar equivalence to K̃: every a∈Ω∖K̃ has an f∈H(Ω) with
 |f(a)|>sup_K̃|f|≥sup_K|f|, so a∉K̂_Ω. Hence K̂_Ω=K holds exactly when Ω∖K has no
 relatively compact component; in particular every stage of 2.1's explicit exhaustion, being
-filled in Ω, is its own hull. Specialize to polynomial
-approximation on compact `K ⊂ ℂ` iff `ℂ \ K` is connected. Include the rational approximation
-variant with a specified pole set meeting every component of the complement in the sphere.
+filled in Ω, is its own hull. Specialize to Ω=ℂ: for compact `K ⊂ ℂ` prove that `ℂ \ K` is
+connected iff `TauCeti.IsPolynomiallyConvex (e '' K)`, with `e` the identification of 2.1, iff
+every function holomorphic on a neighbourhood of K is a uniform limit on K of polynomials. The
+first equivalence is `holomorphicHull_eq_fill` for Ω=ℂ, where the relatively compact components
+of `ℂ \ K` are its bounded ones and exactly one component is unbounded, together with the
+comparison of 2.1; the second is the scalar equivalence for Ω=ℂ followed by uniform
+approximation of entire functions on K by their Taylor polynomials (Rainer, Theorem 11.1, p. 25,
+with U=ℂ). For the unit circle all three fail: `ℂ \ K` has the bounded component {|z|<1}, the
+hull is the closed disk, and 1/z has circle period 2πi, which no polynomial has. Include the
+rational approximation variant with a specified pole set meeting every component of the complement in the sphere.
 Develop pole-pushing on nested compacta, rather than treating a picture or a single pole move as
 the theorem. In the one-pole geometric-series step, assume `dist(a,K), dist(b,K) > 2δ` and
 `|a−b|<δ`; then the expansion ratio is below `1/2`. For arbitrary `f∈H(ℂ\{a})` and compact
@@ -1420,7 +1459,9 @@ are the explicit cutoff/quadrature and Hermite-interpolation consequences above.
 uniform truncation of the negative part on the punctured plane (for the arbitrary-`f` pole
 pushing), Cauchy estimates, finite pole-pushing and compact connected-component arguments;
 native polynomial CRT for finite jets.
-The hull equality uses Layer 2.1's hull API after the scalar equivalence is proved.
+The hull equality uses Layer 2.1's hull API after the scalar equivalence is proved; the
+polynomial specialization uses Layer 2.1's comparison with `TauCeti.polynomialHull` and
+Tau Ceti's `TauCeti.IsPolynomiallyConvex`.
 
 
 
@@ -1986,9 +2027,9 @@ pieces. Prescribe values `1,-1,0` there.
 Prove `ℂ\K_n` is connected and choose polynomial `P_n` with each piece's error at most `1/n`.
 For each fixed point, membership eventually lies in the appropriate piece, giving pointwise limit
 `1` above the real axis, `-1` below, and `0` on it; this is not uniform convergence on `ℂ`.
-This is Rainer, Exercise 22, p. 30 (rainer line 1592), after the substitution `z↦−iz`, which
-carries the right and left half-planes and the imaginary axis to the upper and lower half-planes
-and the real axis.
+This is Rainer, Exercise 22, p. 30 (rainer line 1592), with `P_n(z)=p_n(−iz)` for Rainer's
+polynomials `p_n`: the map `z↦−iz` carries the upper and lower half-planes and the real axis
+onto the right and left half-planes and the imaginary axis (at `z=i`, `−iz=1`).
 
 For the point-value constrained example, for each integer n≥1 define five compact pieces and
 pairwise disjoint open neighborhoods by
@@ -2158,7 +2199,11 @@ residue one; the regularized series is `1/z+Σ_{n≥1}2z/(z²-n²)`, Mathlib's `
 with its symmetric pairing and the local-uniform convergence of 6.1; no value is assigned to an
 unpaired bilateral sum.
 The same rule applies to shifted lattices and logarithmic derivatives of products. Preserve the
-local pole exclusions and verify residues directly.
+local pole exclusions and verify residues directly: at a zero of order `m` of a meromorphic `f`
+the logarithmic derivative `f′/f` has a simple pole with residue `m`, and at a pole of order `m`
+one with residue `−m`, since `f(z)=(z−a)^m g(z)` with `g` holomorphic and nonzero near `a` gives
+`f′/f = m/(z−a) + g′/g` (Rainer, Theorem 8.2 and its proof, pp. 18–19, rainer lines 941 and
+963). The cotangent case is `f(z)=sin(πz)`, whose logarithmic derivative is `π cot(πz)`.
 
 For arbitrary-domain boundary noncontinuation, consume
 GH1’s branchwise meromorphic noncontinuation theorem
@@ -2175,7 +2220,6 @@ logarithmic-derivative calculations.
   with residue 1 and none at the integers.
 
 *Needs:* Layers 1 and 3, AnalyticNumberTheoryPartI §0.15a, the native paired cotangent formula and local meromorphic orders.
-These are the explicit local-pole calculations for the preceding examples.
 
 
 
@@ -2325,7 +2369,9 @@ completion of that extension, restricted to `M`; the Leibniz rule with `d(dz)=d(
 `d(g dz+f dz̄)=dg∧dz+df∧dz̄=((∂z g) dz+(∂barz g) dz̄)∧dz+((∂z f) dz+(∂barz f) dz̄)∧dz̄
 =(∂z f−∂barz g) dz∧dz̄=0`, using `dz∧dz=dz̄∧dz̄=0` and `dz̄∧dz=−dz∧dz̄`.
 
-For the complex case, `exists_mextDeriv_eq_complex_two_form`: apply GH5 to `h`, obtaining `u`
+For the complex case, `exists_mextDeriv_eq_complex_two_form`: apply GH5 to `h` (Rainer,
+Theorem 12.2, p. 31, rainer line 1630, the scalar solver used here for `h` and below for
+`h/2`; the passage from it to two-forms is the coefficient extraction above), obtaining `u`
 with `∂barz u=h`, restrict to `M`, and use the `mextDeriv_wedgeWith` Leibniz rule with
 `d(dz)=0` to obtain `d(−u dz)=−du∧dz=(∂barz u) dz∧dbarz=η`, since `dz∧dz=0`; the one-form
 `−u dz` is smooth by `IsSmoothForm` of a paired wedge of smooth forms. For the real case,
@@ -2475,10 +2521,9 @@ transform, whose derivative transfer and parameter smoothness are Tau Ceti's, an
 finite-rank Runge operators and the planar exhaustion for its parameter solver; K5a consumes GH5.1's complex
 two-form exactness for its complex de Rham comparison. Layer 7.2 proves `H²_dR(U;ℝ)=0` for
 an open `U⊆ℂ` on Tau Ceti's `deRhamCohomology`, available to every consumer.
-ComplexKahlerGeometry K3 consumes the local Laurent decomposition of Layer 0.4, which it cites
-within GH2, for its comparison of meromorphic germs with the fraction field of the stalk; the
-finite-pole splitting that comparison makes explicit is Tau Ceti's
-`TauCeti.meromorphicGerms.principalPart`.
+ComplexKahlerGeometry K3 consumes the local Laurent decomposition and coefficients of Layer 0.4,
+which it cites within GH2, and owns their comparison with the finite principal parts of
+meromorphic germs and with the fraction field of the stalk.
 Hyperfunctions consumes Layer 0.3's compact-support Cauchy–Green formula as its one-variable
 input; the case n = 1 of its HF2 MalgrangeTopVanishing, and the vanishing of `H¹(U,𝒪)` on
 open `U⊆ℂ` that its one-dimensional gluing uses, are Layers 7.1 and 7.4.

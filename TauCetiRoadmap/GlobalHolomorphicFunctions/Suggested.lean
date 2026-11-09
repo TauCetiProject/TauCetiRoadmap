@@ -4,14 +4,16 @@ import TauCeti.Topology.FilledIn
 import TauCeti.Geometry.Manifold.DifferentialForm.Plane.Complex
 import TauCeti.Geometry.Manifold.DifferentialForm.Wedge.Basic
 import TauCeti.Geometry.Manifold.DeRham.Basic
+import TauCeti.Analysis.Complex.Laurent.Basic
 
 /-!
 # Global holomorphic functions of one complex variable: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti APIs: Looman–Menchoff, the sharp
-finite-product bound, weighted genus-one products, holomorphic hulls and Runge, divisor and
-isolated-singularity realization, boundary noncontinuation, Cauchy–Pompeiu on a cycle, global
+theorems against the pinned Mathlib and Tau Ceti APIs: Looman–Menchoff, the Laurent
+decomposition on an annulus, the sharp finite-product bound, weighted genus-one products,
+holomorphic hulls and Runge, divisor and isolated-singularity realization, boundary
+noncontinuation, Cauchy–Pompeiu on a cycle, global
 smooth ∂̄ solvability with closed completion in scalar and in form-level form, exactness of
 every smooth two-form on an open subset of ℂ with the vanishing of its real degree-two de Rham
 cohomology, and Cousin I.
@@ -43,7 +45,7 @@ namespace TauCetiRoadmap.GlobalHolomorphicFunctions
 open Filter Set Topology MeasureTheory
 open scoped ContDiff Manifold
 
-/-! ## Layer 0: real-plane calculus -/
+/-! ## Layer 0: real-plane calculus, compact-support Cauchy–Green and local Laurent decomposition -/
 
 /-- **Preparatory Looman–Menchoff.** Continuity and the two everywhere real-direction
 complex derivatives satisfying CR imply holomorphicity. No real Fréchet derivative or
@@ -55,6 +57,27 @@ theorem differentiableOn_complex_of_continuous_real_lineDerivatives_cr
       HasLineDerivAt ℝ f fy z Complex.I ∧
       fy = Complex.I * fx) :
     DifferentiableOn ℂ f Ω := by
+  sorry
+
+/-- **Laurent decomposition on an annulus.** Let `f` be holomorphic on the annulus
+`r₁ < |z - c| < r₂` with `0 ≤ r₁` and `r₂ ≤ ∞`, and let `r₁ < ρ < r₂`. With the circle
+coefficients `aₙ = circleLaurentCoeff f c ρ n`, the series `∑_{n ≥ 0} aₙ (z - c)ⁿ` converges on
+the disc `|z - c| < r₂` to a holomorphic `f₊`, the series `∑_{k ≥ 1} a₋ₖ (z - c)⁻ᵏ` converges on
+`|z - c| > r₁` to a holomorphic `f₋` tending to zero at infinity, and `f = f₊ + f₋` on the
+annulus (Rainer, Theorem 7.4 and Corollary 7.5, p. 15). -/
+theorem exists_laurent_decomposition {f : ℂ → ℂ} {c : ℂ} {r₁ ρ : ℝ} {r₂ : ENNReal}
+    (hr₁ : 0 ≤ r₁) (hρ₁ : r₁ < ρ) (hρ₂ : ENNReal.ofReal ρ < r₂)
+    (hf : DifferentiableOn ℂ f {z | r₁ < ‖z - c‖ ∧ edist z c < r₂}) :
+    ∃ fp fm : ℂ → ℂ,
+      DifferentiableOn ℂ fp (Metric.eball c r₂) ∧
+      DifferentiableOn ℂ fm {z | r₁ < ‖z - c‖} ∧
+      Tendsto fm (cocompact ℂ) (𝓝 0) ∧
+      (∀ z ∈ Metric.eball c r₂,
+        HasSum (fun n : ℕ => TauCeti.circleLaurentCoeff f c ρ n * (z - c) ^ n) (fp z)) ∧
+      (∀ z, r₁ < ‖z - c‖ →
+        HasSum (fun k : ℕ => TauCeti.circleLaurentCoeff f c ρ (-((k : ℤ) + 1)) *
+          (z - c) ^ (-((k : ℤ) + 1))) (fm z)) ∧
+      ∀ z, r₁ < ‖z - c‖ → edist z c < r₂ → f z = fp z + fm z := by
   sorry
 
 /-! ## Layer 1: locally uniform products -/
