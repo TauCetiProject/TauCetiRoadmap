@@ -164,8 +164,8 @@ theorem nonempty_homeomorph_sphere_of_two_euclidean_opens
 /-- A compact manifold of dimension `m` carrying a smooth function with exactly two critical
 points is homeomorphic to `S^m`, with no nondegeneracy, connectedness or dimension
 hypothesis: for `m > 0` compose the two-Euclidean-open cover with the two-open-cell
-recognition (compare Milnor 1959, Theorem 1(3) and Corollary 1, p. 442), and for `m = 0`
-the manifold has exactly two points and is `S^0` (README §4.4). -/
+recognition (compare Milnor 1959, Theorem 1(3), p. 440, and Corollary 1, p. 442), and for
+`m = 0` the manifold has exactly two points and is `S^0` (README §4.4). -/
 theorem nonempty_homeomorph_sphere_of_two_criticalPoints [CompactSpace M]
     (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
     (hcrit : {x : M | mvfderiv I f x = 0}.encard = 2) :
