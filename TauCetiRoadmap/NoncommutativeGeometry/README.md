@@ -52,7 +52,13 @@ C*-algebra `A_θ=C(𝕋)⋊_αℤ` for every real θ, built on the crossed
 products of OperatorAlgebraDynamics D1–D2: its universal presentation by
 two unitaries with `uv=exp(2πiθ)vu`, the injectivity of its coordinate
 copy of C(𝕋) and its faithful tracial state `τ=∫_𝕋∘E`, which
-OperatorKTheory's Pimsner–Voiculescu computation consumes. N6 replaces
+OperatorKTheory's Pimsner–Voiculescu computation consumes. N6 builds
+no twisted group C*-algebra: the identification of A_θ with the twisted
+group C*-algebra of ℤ² for the factor set
+`c((m,n),(m′,n′))=exp(2πiθnm′)`, the phase
+`TauCeti.SmoothNoncommutativeTorus.twist θ` of the pinned smooth torus,
+sending `U₁^mU₂^n` to the canonical unitary `W_(m,n)`, is
+OperatorKTheory 7.5's. N6 replaces
 each idempotent matrix over the smooth torus 𝒜_θ by a similar projection
 inside `M_n(𝒜_θ)` itself, by its spectral invariance, and N7 computes the
 trace and the Chern pairing of the two K₀ classes it constructs.
@@ -1485,11 +1491,13 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   HilbertModules/HeisenbergImprimitivity consumes N6's rotation algebra
   A_θ with its smooth subalgebra and trace and N7's Heisenberg module with
   its frames and Powers–Rieffel projection, for its comparison §6.3.
-- OperatorKTheory consumes N6's rotation C*-algebra A_θ, its universal
-  presentation, the injectivity of its coordinate copy of C(𝕋) and its
-  faithful trace τ; its Pimsner–Voiculescu computation of `K_*(A_θ)`,
-  its Powers–Rieffel generator built from continuous circle functions
-  and the trace range `ℤ+θℤ` are its own.
+- OperatorKTheory 7.4 consumes N6's rotation C*-algebra A_θ, its
+  universal presentation, the injectivity of its coordinate copy of C(𝕋)
+  and its faithful trace τ; its Pimsner–Voiculescu computation of
+  `K_*(A_θ)`, its Powers–Rieffel generator built from continuous circle
+  functions and the trace range `ℤ+θℤ` (7.4), and the identification of
+  A_θ with the twisted group C*-algebra of ℤ² for the factor set
+  `exp(2πiθnm′)` (7.5), are its own.
 
 ## References
 
