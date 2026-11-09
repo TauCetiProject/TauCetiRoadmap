@@ -36,11 +36,12 @@ Suggested homes:
 ## Scope and ownership
 
 **In scope.** The source paper's Theorem B (Theorem 5.14) with the Theorem B forms of
-Corollaries D and E, every numbered statement of its §§6.3–6.4 and §7, and the carriers,
-comparisons and explicit maps those statements consume. The [source coverage](#source-coverage)
-section assigns each of them to a layer. The base roadmap, cited as **DGFloer** by layer and
-item, owns every other numbered statement of the source and its standing conventions; an
-unqualified "Layer `k`" or "`k.n`" refers to this roadmap.
+Corollaries D and E, every numbered statement of its §§6.3–6.4 and §7, its Remark 6.2 for the
+finite coverings of a closed manifold (4.2), which the base roadmap does not state, and the
+carriers, comparisons and explicit maps those statements consume. The
+[source coverage](#source-coverage) section assigns each of them to a layer. The base roadmap,
+cited as **DGFloer** by layer and item, owns every other numbered statement of the source and its
+standing conventions; an unqualified "Layer `k`" or "`k.n`" refers to this roadmap.
 
 **Owned here.** This roadmap owns everything it states that the table below does not assign
 elsewhere. In particular it owns:
@@ -71,7 +72,8 @@ elsewhere. In particular it owns:
   Milnor's Clifford chain of iterated minimal centrioles with its minimal geodesics (4.2b), and
   the index bounds of its non-minimal geodesics, the Bott maps, real Bott periodicity and the
   stable homotopy groups of `O` and `SO` (4.2c);
-- abundance, fibered families of 2-spheres, covering by diffeomorphisms, the torsion group
+- abundance, fibered families of 2-spheres with the descent of the capacity along a finite
+  covering, covering by diffeomorphisms, the torsion group
   `π_(n−1)(SO(n))` of Lemma 6.35 with its low-rank values, Proposition 6.31 for compact
   connected Lie groups other than tori, homogeneous spaces, the projective applications,
   Theorems H and I, knotted hypersurfaces and Theorem G (Layer 4).
@@ -113,7 +115,7 @@ them by name and section (see the supplier contracts) and does not restate them.
   periodicity, the comparison of the Grassmannian members `Ω₃` and `Ω₇` of the chain with
   classifying spaces of stable quaternionic and real vector bundles, and the comparison of the
   Bott maps with Clifford-module `K`-theory are not part of this roadmap, and nothing here uses
-  them (see Downstream consumers).
+  them.
 
 ## Conventions
 
@@ -185,6 +187,10 @@ target of this roadmap or of the named supplier, never a "native" API.
   continuous section of the bundle of bilinear forms): the real vector bundles with continuous
   fibre metric whose unit-sphere bundles carry the sphere-bundle statements of 4.2 in
   `Suggested.lean`.
+- `IsCoveringMap.existsUnique_continuousMap_lifts` (`Mathlib/Topology/Homotopy/Lifting.lean`): a
+  continuous map from a simply connected, locally path-connected space lifts uniquely through a
+  covering map once the lift of one point is prescribed. 4.2 lifts the spheres of a fibered
+  family to the covering of the base by the components of the fibres.
 - Generated spaces (`Mathlib/Topology/Convenient/`): for a family `X` of topological spaces, the
   predicate `Topology.IsGeneratedBy` (the topology is coinduced by all continuous maps from
   members of `X`), with the closure of `X`-generated spaces under quotients, sums and sigma types
@@ -1239,8 +1245,10 @@ through the DG Morse fibration theorem and the classes living over the fundament
 DGFloer Layer 5 items 4–5 and the cotangent form of Theorem M, Proposition 6.7, of DGFloer
 Layer 10 item 2: when `deg α = n` replace `α` by `α − σ_* ev_* α` with `σ` the constant-sphere
 section, so that `i_(Q*)` of the new class vanishes while its reduced shriek is unchanged.
-Prove stability under products (Proposition 6.13): if `M` is abundant and `N` is closed
-oriented, `M × N` is abundant through `α × [N]` under `Map(S², M × N) ≅ Map(S², M) × Map(S², N)`.
+Prove stability under products (Proposition 6.13): if `M` is abundant and `N` is closed,
+connected and oriented, `M × N` is abundant through `α × [N]` under
+`Map(S², M × N) ≅ Map(S², M) × Map(S², N)`. The source asks only that `N` be closed and oriented;
+connectedness keeps `M × N` within the definition.
 *Needs:* DGFloer Layer 2 (the constant-sphere section), Layer 5 items 4–5, Layer 10 item 2,
 AlgebraicTopology Stage 6 (fundamental classes).
 
@@ -1253,31 +1261,74 @@ AlgebraicTopology Stage 6 (fundamental classes).
   Theorem C concerns nonorientable `Q` and gives nothing here.
 - Products: if `deg α = dim M` with nonzero reduced shriek, then `deg(α × [N]) = dim(M × N)` and
   the shriek of `α × [N]` to the fibre is `j_!α × 1`, again nonzero; if `deg α > dim M` then
-  `deg(α × [N]) > dim(M × N)`. A definition without condition (ii) would wrongly count
-  `σ_*[Q]`, the constant spheres, whose reduced shriek is zero.
+  `deg(α × [N]) > dim(M × N)`. For `N = S⁰`, a closed oriented `0`-manifold, `M × S⁰ = M ⊔ M`
+  is not connected, so abundance is not defined for it and Proposition 6.13 needs `N` connected.
+  A definition without condition (ii) would wrongly count `σ_*[Q]`, the constant spheres, whose
+  reduced shriek is zero.
 
 ### 4.2 Fibered families of 2-spheres
 
 Define a *fibered family of 2-spheres* on a closed connected oriented `Q` (Definition 6.14): a
-fibre bundle `π : Σ → Q`, locally trivial with fibre `Σ_p` a closed oriented manifold of positive
+fibre bundle `π : Σ → Q`, locally trivial with fibre `Σ_p` a closed manifold of positive
 dimension, whose total space `Σ` is a closed oriented manifold, and a map `σ : Σ → Map(S², Q)`
 over `Q`, `σ(x)(s₀) = π(x)`, with `(σ_p)_*[Σ_p] ≠ 0` in `H_*(Ω²Q)`, where `Ω²Q` is the fibre
-`{f | f(s₀) = p}` of evaluation at `s₀` and `σ_p` is the restriction of `σ` to the fibre over the
-base point `p`. The source asks for a smooth fibration and leaves the orientability of `Σ`
-implicit; the proof uses only local triviality, and the criterion it rests on, Corollary 2.13,
-takes the total space closed and orientable (`bdho-cotangent` lines 1237–1239). Prove
-Proposition 6.15: `α = σ_*[Σ]` lives over the fundamental class, by Corollary 2.13 (DGFloer Layer
-5 item 5) for the two Hurewicz fibrations `π` and evaluation `Map(S², Q) → Q` (DGFloer Layer 2
-item 2: a locally trivial bundle over the compact manifold `Q`, and restriction along the closed
-cofibration `{s₀} ⊆ S²`), and has degree `dim Q + dim Σ_p > dim Q`, so `Q` is abundant. With
-Theorem H, `c°_HZ(D*Q) < ∞` for every Riemannian metric (4.5). In `Suggested.lean` this is
-`contractibleHZCapacity_codiscBundle_lt_top_of_fiberedFamily`: the bundle is a map `p : S → Q`
-with a Mathlib `Bundle.Trivialization` of fibre `F` around every point, the orientations of `Q`,
-`S` and `F` are Tau Ceti `HomologicalOrientation`s, `σ` is a continuous map into the compact-open
-`C(S², Q)`, and the fibre class is `j_*[F]` (`HomologicalOrientation.mapFundamentalClass`) for the
-map `j` from `F` into the based mapping space `{f ∈ C(S², Q) | f(s₀) = q₀}` that reads `σ` on the
-fibre over `q₀` through a trivialization at `q₀`. The sign of `j_*[F]` depends on that
-trivialization and its vanishing does not.
+`{f | f(s₀) = p}` of evaluation at `s₀`, `σ_p` is the restriction of `σ` to the fibre over the
+base point `p`, and `Σ_p` carries the orientation that those of `Σ` and `Q` induce, the one for
+which the shriek of `[Σ]` to the fibre is `[Σ_p]` (the source paper, Remark 2.10, p. 28). For
+connected `Σ_p` every orientation gives the same condition, the two classes differing by a sign;
+for disconnected `Σ_p` they do not (the Check on disconnected fibres below). The source asks for
+a smooth fibration and leaves the orientability of `Σ` and the orientation of `Σ_p` implicit; the
+proof uses only local triviality, and the criterion it rests on, Corollary 2.13, takes the total
+space closed and orientable and the fibre with the induced orientation (the source paper,
+Corollary 2.13 and Remark 2.10, pp. 28–29). Prove Proposition 6.15: `α = σ_*[Σ]` lives over the
+fundamental class, by Corollary 2.13 (DGFloer Layer 5 item 5) for the two Hurewicz fibrations `π`
+and evaluation `Map(S², Q) → Q` (DGFloer Layer 2 item 2: a locally trivial bundle over the
+compact manifold `Q`, and restriction along the closed cofibration `{s₀} ⊆ S²`), and has degree
+`dim Q + dim Σ_p > dim Q`, so `Q` is abundant. With Theorem H, `c°_HZ(D*Q) < ∞` for every
+Riemannian metric (4.5).
+
+In `Suggested.lean` this is `contractibleHZCapacity_codiscBundle_lt_top_of_fiberedFamily`: the
+bundle is a map `p : S → Q` with a Mathlib `Bundle.Trivialization` of fibre `F` around every
+point, the orientations of `Q`, `S` and `F` are Tau Ceti `HomologicalOrientation`s, `σ` is a
+continuous map into the compact-open `C(S², Q)`, and the fibre class is `j_*[F]`
+(`HomologicalOrientation.mapFundamentalClass`) for the map `j` from `F` into the based mapping
+space `{f ∈ C(S², Q) | f(s₀) = q₀}` that reads `σ` on the fibre over `q₀` through a
+trivialization `e₀` at `q₀`. The orientation `oF` of `F` and the trivialization `e₀` are
+arbitrary. For connected `F` another choice changes `j_*[F]` by a sign. For disconnected `F` it
+can change which components cancel, and `oF` need not be the orientation that `oS` and `oQ`
+induce on the fibre, which is the one Corollary 2.13 uses; so the statement is stronger than
+Proposition 6.15 with Theorem H, and its route first reduces to one component of the fibre.
+
+- **A component with nonzero class.** `F` is compact and locally connected, so it has finitely
+  many components and `[F]` is the sum of their fundamental classes; some component `F₁` of the
+  fibre over `q₀` has `j_*[F₁] ≠ 0`, for either orientation of `F₁`.
+- **The covering by fibre components.** The components of the fibres of `p` form a finite
+  covering of `Q`, isomorphic to `U × π₀(F)` over each connected trivializing set `U`. Let
+  `ρ : Q̃ → Q` be its connected component through `F₁`, a closed connected
+  manifold with the pulled-back smooth structure, orientation and metric. The points of `S`
+  whose fibre component lies in `Q̃` form an open and closed subset `S₁ ⊆ S`, a closed manifold
+  oriented by `oS`, and `S₁ → Q̃` is locally trivial with fibre `F₁`.
+- **Lifting the family.** Lift each `σ(x)`, `x ∈ S₁`, to the map `S² → Q̃` that sends `s₀` to the
+  fibre component of `x` (Mathlib `IsCoveringMap.existsUnique_continuousMap_lifts`, `S²` being
+  simply connected and locally path-connected), and prove that the lift depends continuously on
+  `x`. Composition with the covering is a homeomorphism from the based mapping space of `Q̃` onto
+  that of `Q`, by the same unique lifting, and carries the lifted fibre map to `j` on `F₁`. As
+  `F₁` is connected, Proposition 6.15 applies on `Q̃` with fibre class `±j_*[F₁] ≠ 0`, and Theorem
+  H gives `c°_HZ(D*Q̃) < ∞` for the lifted metric.
+- **Descent along a finite covering** (the source paper, Remark 6.2, p. 100, for the finite
+  coverings used here). For a surjective finite covering `ρ : Q̃ → Q` of closed manifolds and the
+  lifted metric, prove `c°_HZ(D*Q) ≤ c°_HZ(D*Q̃)`; `ρ` is surjective when `Q` is connected and
+  `Q̃` is not empty. The cotangent lift `ρ̂ : T*Q̃ → T*Q` of `ρ` is a local symplectomorphism and a
+  surjective finite covering, under which `D*Q̃` is the preimage of `D*Q`. An admissible
+  Hamiltonian `H` for `D*Q` pulls back to `H ∘ ρ̂`, smooth with compact support in the interior of
+  `D*Q̃` because the covering is finite, vanishing on a nonempty open set and attaining the same
+  maximum on a nonempty open set, these preimages being nonempty because `ρ̂` is surjective. Its
+  Hamiltonian field covers that of `H`, so a nonconstant `T`-periodic orbit, `0 < T ≤ 1`,
+  contractible in `D*Q̃`, projects to a nonconstant `T`-periodic orbit of `H` contractible in
+  `D*Q`. Hence `H ∘ ρ̂` is admissible with the maximum of `H`, which proves the inequality; with
+  the previous step, `c°_HZ(D*Q) < ∞`.
+
+The source's fibered families are the following.
 
 - **Even spheres** (Example 6.16, Propositions 6.17–6.18). `Σ = Stiefel₂(Sⁿ)`, with `Σ_p` the
   ordered orthonormal 2-frames of `T_pSⁿ`, of dimension `2n − 3`; `σ(p, u, v)` is the round
@@ -1342,11 +1393,13 @@ trivialization and its vanishing does not.
   orthogonal to `x` and linearly independent.
 
 *Needs:* 1.2, 1.3, 1.4, 4.1, DGFloer Layer 1 items 2 and 4, Layer 2, Layer 5 items 2–5,
-AlgebraicTopology Stages 2, 6 and 8, SmoothBundlesConnections B2.2 and B2.5 (the unit-sphere
-bundle of a metrized vector bundle with `O(n+1)` reduction), GeneralAlgebraicKTheoryPartII
-§4.30b through 1.2, Tau Ceti `TauCeti.MooreLoopSpace.doubleFirstHomologySphereAddEquiv`
-(`n = 3` in Proposition 6.21) and `TauCeti.HomologicalOrientation`, Mathlib
-`Bundle.Trivialization`, `FiberBundle`, `VectorBundle` and `IsContinuousRiemannianBundle`;
+Layer 6 item 5 (the capacity, for the covering descent), AlgebraicTopology Stages 2, 6 and 8,
+SmoothBundlesConnections B2.2 and B2.5 (the unit-sphere bundle of a metrized vector bundle with
+`O(n+1)` reduction), GeneralAlgebraicKTheoryPartII §4.30b through 1.2, Tau Ceti
+`TauCeti.MooreLoopSpace.doubleFirstHomologySphereAddEquiv` (`n = 3` in Proposition 6.21),
+`TauCeti.HomologicalOrientation` and `TauCeti.SmoothTwoForm.contractibleHZCapacity`, Mathlib
+`Bundle.Trivialization`, `FiberBundle`, `VectorBundle`, `IsContinuousRiemannianBundle` and
+`IsCoveringMap.existsUnique_continuousMap_lifts`;
 Hatcher, *Algebraic Topology*, Proposition 4.48.
 
 **Checks.**
@@ -1380,6 +1433,21 @@ Hatcher, *Algebraic Topology*, Proposition 4.48.
 - Orientability of `Σ`: `α = σ_*[Σ]` is the image of an integral fundamental class, which a
   nonorientable total space does not have; every example here has a simply connected base and
   an orientable fibre, so its total space is orientable.
+- Disconnected fibres. Over `Q = S² = SO(3)/SO(2)`, with `s₀ = q₀ = e₃`, let `Σ = SO(3) ⊔ SO(3)`
+  map to `S²` by `g ↦ g·e₃` on each copy, with fibre `F = SO(2) ⊔ SO(2)` over `e₃`, and put
+  `σ(g) = (s ↦ g·s)` on each copy (Example 6.37). On either fibre circle `σ` is the `SO(2)` family
+  of the identity, of class `α′ ≠ 0` in the torsion-free group `H₁(Ω²S²; ℤ)` of the degree-one
+  component (4.4). Orient both circles as `SO(2)` and read them through the product
+  trivialization: `j_*[F] = 2α′`. Composing that trivialization with the fibre homeomorphism that
+  swaps the two circles and reverses one gives `j_*[F] = α′ − α′ = 0`, so the vanishing of
+  `j_*[F]` depends on the trivialization. Give the two copies of `SO(3)` opposite orientations:
+  the orientation they induce on the fibre reverses the second circle and `σ_*[Σ] = 0`, so
+  `σ_*[Σ]` does not live over the fundamental class, although `j_*[F] = 2α′ ≠ 0` with both circles
+  oriented as `SO(2)`. Proposition 6.15 with an arbitrary fibre orientation would be false here;
+  the reduction of the `Suggested.lean` statement picks `F₁ = SO(2)`, with `Q̃ = S²` and fibre class
+  `±α′ ≠ 0`. The trivial bundle `S² × (S¹ ⊔ S¹)` carries no such family: on `S² × {θ}` it would be
+  a section of evaluation on the degree-one maps `S² → S²`, that is a map `S² × S² → S²` of
+  bidegree `(1, 1)`, which the nonzero Whitehead product `[ι₂, ι₂] = 2η` in `π₃(S²)` excludes.
 - The sphere-bundle statements at `B` a point: `S(V)` is `Sⁿ`, and they agree with 4.5's
   statement for spheres; for the odd case at `n = 3`, `u(x) = ix` and `w(x) = jx` in `ℍ = ℝ⁴`
   are orthogonal to `x` and independent. At `n = 0` the hypotheses hold for the trivial line
@@ -1816,13 +1884,13 @@ is **Theorem I** within the scope boundary: spheres, sphere bundles over highly 
 compact connected Lie groups other than tori, manifolds that are not aspherical and are covered
 by diffeomorphisms (Proposition 6.29) or are `ℓ`-covered with `π₂ ≠ 0` or with a first nonzero
 `π_k`, `k ≥ 3`, that is not `ℓ`-torsion (Proposition 6.33), `CPᵈ`, `HPᵈ`, and products of any
-of these with a closed oriented manifold (Proposition 6.13, 4.1). Proposition 6.36 (4.4) adds
-the orientable homogeneous spaces satisfying its hypothesis, which the source's Theorem I does
-not list. Every manifold on these lists has `c°_HZ(D*Q) < ∞` by Theorem H, for every Riemannian
-metric: for two metrics, `D*Q` of the first lies in a fibrewise dilate `λ·D*Q` of the second,
-both retract onto the zero section, so a loop in the first that is contractible in the second is
-contractible in the first and the capacity of the first is at most that of the second, and the
-dilation by `λ` pulls the symplectic form back to `λ·ω`
+of these with a closed connected oriented manifold (Proposition 6.13, 4.1). Proposition 6.36
+(4.4) adds the orientable homogeneous spaces satisfying its hypothesis, which the source's
+Theorem I does not list. Every manifold on these lists has `c°_HZ(D*Q) < ∞` by Theorem H, for
+every Riemannian metric: for two metrics, `D*Q` of the first lies in a fibrewise dilate
+`λ·D*Q` of the second, both retract onto the zero section, so a loop in the first that is
+contractible in the second is contractible in the first and the capacity of the first is at most
+that of the second, and the dilation by `λ` pulls the symplectic form back to `λ·ω`
 (`TauCeti.CotangentBundle.mpullback_vectorBundleScalarDiffeomorph_symplecticForm`), so that
 `c°_HZ(λ·D*Q) = λ·c°_HZ(D*Q)` by the invariance and conformality of the capacity
 (`TauCeti.SmoothTwoForm.IsNondegenerate.contractibleHZCapacity_image`,
@@ -1973,8 +2041,9 @@ Layer 1 (hypersurfaces, collars), AlgebraicTopology Stage 6, Tau Ceti
 
 ### Dependencies
 
-Layers 1–3; DGFloer Layer 1 items 1–2, 5–6, Layers 2–3, Layer 5 items 2–5, Layer 10 items 2–5,
-Layer 11; GeometricTopology Layers 1 and 3; GeneralAlgebraicKTheoryPartII §4.30b (through 1.2);
+Layers 1–3; DGFloer Layer 1 items 1–2, 5–6, Layers 2–3, Layer 5 items 2–5, Layer 6 item 5,
+Layer 10 items 2–5, Layer 11; GeometricTopology Layers 1 and 3; GeneralAlgebraicKTheoryPartII
+§4.30b (through 1.2);
 AlgebraicTopology Stages 2, 6, 8.1–8.7, Stage 4 item 5 and Stage 8 items 7 and 11a;
 GeneralizedCohomology G4.0b;
 RiemannianGeometry R1–R3 and MorseTheory M5 (4.2c);
@@ -1990,19 +2059,18 @@ capacity statements of 4.5,
 `TauCeti.SmoothEmbedding.tangentRange` and `TauCeti.SmoothEmbedding.NormalSpace` (4.6); Mathlib
 `HomotopyGroup.Pi`, `IsOfFinOrder`, `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
 `Matrix.unitaryGroup`, `Bundle.RiemannianBundle`, `Bundle.Trivialization` (4.2, 4.6), `FiberBundle`,
-`VectorBundle` and `IsContinuousRiemannianBundle` (4.2). Sources: the source paper §§6.3–6.4 and §7;
+`VectorBundle`, `IsContinuousRiemannianBundle` and `IsCoveringMap.existsUnique_continuousMap_lifts`
+(4.2). Sources: the source paper §§6.3–6.4 and §7, with Remark 6.2 for finite coverings (4.2);
 Milnor, *Morse Theory*, §§22–24; Bott, *The stable homotopy of the classical groups*;
 Crowley, Schick, Steimle, proof of Lemma 2.2; Hatcher, *Algebraic Topology*, §4.2 and Proposition 4.48.
 
 ## Downstream consumers
 
-- TopologicalKTheory can consume 4.2a–4.2c in T7, its real `K`-theory: the stable `O` for its
-  loop comparison `ΩBO ≃ O`, the Grassmannian member `Ω₇` with its stabilization for its
-  comparison with `ℤ × BO`, and the eight stable Bott maps with real Bott periodicity for the
-  periodicity of `KO`. Those comparisons with `BO` are TopologicalKTheory's, and nothing in this
-  roadmap uses them. It cannot consume 4.2a–4.2c in T1.5–T1.6 or in T2's `K` and `KO` groups:
-  GeneralizedCohomology G4.0a–G4.0b consume those sections, and 4.2a–4.2b consume G4.0b for
-  `Sp(r)` and the quaternionic Grassmannians of the Clifford chain.
+- TopologicalKTheory consumes nothing from this roadmap, in any section. It precedes this
+  roadmap in the direction of supply: GeneralizedCohomology G4.0a–G4.0b consume its T1.5–T1.6,
+  and 1.3, 4.2a and 4.2b consume G4.0b. The stable orthogonal groups, the Clifford chain and real
+  Bott periodicity of 4.2a–4.2c serve Lemma 6.35 in 4.3 (its stable term and the range in which
+  stabilization applies) and nothing else.
 - The base roadmap consumes nothing from this one.
 
 ## Worked examples
@@ -2037,6 +2105,7 @@ Numbers follow arXiv:2404.07953v3.
 | Thm I | 4.1–4.5, without `CaP²`; the homogeneous spaces of Prop 6.36 added in 4.4 |
 | Thm 5.14 | 3.2 |
 | Def 6.11, Thm 6.12, Prop 6.13 | 4.1 |
+| Rem 6.2, for finite coverings of closed manifolds | 4.2 (descent of the capacity, for disconnected fibres) |
 | Def 6.14, Props 6.15, 6.17, 6.18, 6.21, 6.23 | 4.2 (degree computation 1.4; the James ring 1.2) |
 | Defs 6.26, 6.32, Props 6.29, 6.33 | 4.3 (evaluation fibration DGFloer Layer 1 item 6) |
 | Prop 6.31 | 4.3, from the finite cover and torus criterion of DGFloer Layer 11 |

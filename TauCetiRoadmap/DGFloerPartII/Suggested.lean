@@ -155,7 +155,12 @@ trivialization `e₀` at `q₀`, `σ` restricts to a map `j` from `F` into the b
 `{f | f(s₀) = q₀}`, the double loop space `Ω²Q`, with `j_*[F] ≠ 0`. Then for every smooth
 Riemannian metric the unit codisc bundle `D*Q` has finite `π₁`-sensitive Hofer–Zehnder capacity.
 The source asks for a smooth fibration and leaves the orientability of `S` implicit; its
-Corollary 2.13, through which Proposition 6.15 runs, needs it and uses only local triviality. -/
+Corollary 2.13, through which Proposition 6.15 runs, needs it and uses only local triviality.
+The orientation `oF` and the trivialization `e₀` are arbitrary, so for a disconnected fibre the
+hypothesis is weaker than that of Definition 6.14, whose fibre carries the orientation induced by
+`oS` and `oQ`: the proof first passes to a component of the fibre with nonzero class, on the
+finite covering of `Q` by the components of the fibres, and descends the finiteness of the
+capacity from that covering (the source's Remark 6.2). -/
 theorem contractibleHZCapacity_codiscBundle_lt_top_of_fiberedFamily {E Q ES S EF F : Type}
     [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace Q]
     [T2Space Q] [ChartedSpace E Q] [IsManifold 𝓘(ℝ, E) ∞ Q] [CompactSpace Q] [ConnectedSpace Q]
