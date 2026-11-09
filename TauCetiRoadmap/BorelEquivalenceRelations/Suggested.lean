@@ -15,7 +15,11 @@ Every definition below has an actual mathematical body; no proposition-valued pl
 for an unstated condition. The roadmap has no model-theoretic dependency, so this file imports
 Mathlib and, for Alexandrov's converse, one Tau Ceti topology module. Names and namespaces are provisional: implementations put general topology and
 measure theory lemmas in Mathlib's namespaces (`MeasureTheory.AnalyticSet.prod`,
-`IsGδ.polishSpace`, ...) and the descriptive-set-theoretic objects in a shared namespace.
+`IsGδ.polishSpace`, ...) and the descriptive-set-theoretic objects in a shared namespace. Tau Ceti
+already declares `Set.Countable.isMeagre`, `IsGδ.standardBorelSpace`, `AnalyticSet.inter`,
+`AnalyticSet.prod`, `AnalyticSet.offDiag`, `MeasurableSet.exists_nat_bool_injection_of_not_countable`
+and `Perfect.mk_eq_continuum` under those root names at the pin, so they are stated here in the
+roadmap namespace, and the file can be imported beside Tau Ceti.
 -/
 
 set_option autoImplicit false
@@ -41,7 +45,7 @@ theorem perfectSpace_pi {ι : Type u} {π : ι → Type v} [∀ i, TopologicalSp
   sorry
 
 /-- In a perfect `T₁` space every countable set is meagre. -/
-theorem _root_.Set.Countable.isMeagre {X : Type u} [TopologicalSpace X] [T1Space X]
+theorem Set.Countable.isMeagre {X : Type u} [TopologicalSpace X] [T1Space X]
     [PerfectSpace X] {s : Set X} (hs : s.Countable) : IsMeagre s := by
   sorry
 
@@ -80,7 +84,7 @@ theorem _root_.TopologicalSpace.IsCompletelyMetrizableSpace.isGδ {X : Type u}
     (hs : TopologicalSpace.IsCompletelyMetrizableSpace s) : IsGδ s :=
   TauCeti.isGδ_of_isCompletelyMetrizableSpace
 
-theorem _root_.IsGδ.standardBorelSpace {X : Type u} [TopologicalSpace X] [PolishSpace X]
+theorem IsGδ.standardBorelSpace {X : Type u} [TopologicalSpace X] [PolishSpace X]
     [MeasurableSpace X] [BorelSpace X] {s : Set X} (hs : IsGδ s) : StandardBorelSpace s := by
   sorry
 
@@ -90,15 +94,15 @@ section Analytic
 
 variable {X : Type u} [TopologicalSpace X]
 
-theorem _root_.MeasureTheory.AnalyticSet.inter [T2Space X] {A B : Set X}
+theorem AnalyticSet.inter [T2Space X] {A B : Set X}
     (hA : AnalyticSet A) (hB : AnalyticSet B) : AnalyticSet (A ∩ B) := by
   sorry
 
-theorem _root_.MeasureTheory.AnalyticSet.prod {Y : Type v} [TopologicalSpace Y] {A : Set X}
+theorem AnalyticSet.prod {Y : Type v} [TopologicalSpace Y] {A : Set X}
     {B : Set Y} (hA : AnalyticSet A) (hB : AnalyticSet B) : AnalyticSet (A ×ˢ B) := by
   sorry
 
-theorem _root_.MeasureTheory.AnalyticSet.offDiag [T2Space X] {A : Set X} (hA : AnalyticSet A) :
+theorem AnalyticSet.offDiag [T2Space X] {A : Set X} (hA : AnalyticSet A) :
     AnalyticSet A.offDiag := by
   sorry
 
@@ -117,7 +121,7 @@ theorem analyticSet_graph_iff_measurable {Y : Type v} [PolishSpace X] [Measurabl
 
 /-- The perfect set theorem for Borel sets. Mathlib has only the closed case,
 `IsClosed.exists_nat_bool_injection_of_not_countable`. -/
-theorem _root_.MeasurableSet.exists_nat_bool_injection_of_not_countable [PolishSpace X]
+theorem MeasurableSet.exists_nat_bool_injection_of_not_countable [PolishSpace X]
     [MeasurableSpace X] [BorelSpace X] {s : Set X} (hs : MeasurableSet s)
     (hunc : ¬ s.Countable) :
     ∃ f : (ℕ → Bool) → X, Set.range f ⊆ s ∧ Continuous f ∧ Injective f := by
@@ -127,7 +131,7 @@ end Analytic
 
 section Cardinality
 
-theorem _root_.Perfect.mk_eq_continuum {X : Type u} [TopologicalSpace X] [PolishSpace X]
+theorem Perfect.mk_eq_continuum {X : Type u} [TopologicalSpace X] [PolishSpace X]
     {C : Set X} (hC : Perfect C) (hne : C.Nonempty) : #C = 𝔠 := by
   sorry
 
