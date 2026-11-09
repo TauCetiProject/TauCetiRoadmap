@@ -14,7 +14,8 @@ these pins with only simple definitions on existing carriers:
 * Layer 2: intrinsic Hamiltonian lifting and the prequantum commutator need a
   real principal connection on the prequantum circle bundle and the
   dual-character associated complex line with its induced connection. The
-  pinned smooth principal bundles carry no principal connection and no smooth
+  pinned smooth principal bundles (`TauCeti.PrincipalBundle` with
+  `TauCeti.ContMDiffFiberBundle`) carry no principal connection and no smooth
   line bundle associated to a character, and native smooth two-forms and
   `CovariantDerivative` do not supply this dictionary.
 * Layer 2: complete-flow unitary quantization and essential self-adjointness need

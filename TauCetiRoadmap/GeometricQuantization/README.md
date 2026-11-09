@@ -630,7 +630,7 @@ action, and conversely put a=dt−⟨μ₀,θ_left⟩/ℏ on G×Circle. Prove it
 basic for the principal character λ⁻¹, descends to the associated principal
 bundle, has curvature ω/ℏ and has Q2's lifted moment value. Prove uniqueness
 of this invariant connection at fixed λ and fixed μ₀ by transitivity. Use
-the Maurer–Cartan equation with its factor1/2 and explicitly compare the
+the Maurer–Cartan equation with its factor 1/2 and explicitly compare the
 quotient tangent map, HR's positive left fundamental fields and Q2's signs.
 
 For compact connected K use HR R2's connected coadjoint centralizer H and
@@ -649,7 +649,7 @@ root orientation, given by the negative-Borel complex flag; for a Levi root,
 μ₀(α∨)=0, the rank-one subalgebra lies in Lie(H), the orbit map is constant
 and the period is zero. For a noncollapsed positive root curve C_α prove
 
-∫_(C_α) ω/(2πℏ)=μ₀(ι(α∨))/ℏ=⟨λ|_T,α∨⟩
+`∫_(C_α) ω/(2πℏ)=μ₀(ι(α∨))/ℏ=⟨λ|_T,α∨⟩`
 
 when λ exists. Establish the integral formula directly in the actual compact
 rank-one subgroup and transport its quotient sphere, tangent map and
@@ -763,12 +763,12 @@ cover D_sc×Z₀→K, its finite kernel F, the induced stabilizer maps and the
 isomorphism of flag manifolds. This is a finite quotient, not a direct-product
 decomposition of K. The ordinary full-flag Picard lattice is the weight
 lattice P=Hom(Q∨,ℤ) of the simply connected derived group; the equivariant
-lattice is X^*(T). The forgetful map is restriction/pairing X^*(T)→P. Its
+lattice is `X^*(T)`. The forgetful map is restriction/pairing `X^*(T)→P`. Its
 kernel is the restriction of characters of K. Its image consists exactly of
 those p∈P for which there exists a character ν of Z₀ such that (p,ν) is
 trivial on F. Prove this using actual characters and the quotient map,
 including F∩D_sc and the mixed central gluing. For a partial flag with Levi
-simple roots I replace P by P_I={p:⟨p,α_i∨⟩=0 for i∈I} and X^*(T) by
+simple roots I replace P by P_I={p:⟨p,α_i∨⟩=0 for i∈I} and `X^*(T)` by
 characters extending to H; prove the analogous maps and rank r−|I|, r=|Δ| the semisimple rank, for
 the ordinary lattice. Section 3.3 proves the ordinary holomorphic Picard comparison;
 the character/descent calculation here does not assume Borel–Weil. It is a
@@ -777,15 +777,15 @@ VI §9.1, equation (9.1), p. 314), with the central-kernel restriction proved he
 
 For semisimple K the forgetful map is injective, surjective for simply
 connected K, and has image the root lattice for adjoint K. A torus has point
-flags, ordinary Picard group0, equivariant Picard group X^*(K) and zero
+flags, ordinary Picard group 0, equivariant Picard group `X^*(K)` and zero
 forgetful map. A point orbit at central μ₀ has an ordinary trivial
 prequantization, but the prescribed moment still requires a character with
-the prescribed derivative. Include the trivial group, rank0, full-Levi point
+the prescribed derivative. Include the trivial group, rank 0, full-Levi point
 case, products and finite central quotients; do not use a positive-dimensional
-sphere formula at radius0.
+sphere formula at radius 0.
 
-For SO(3) fix HR's unit rotation generator Z with period2π. Its radius-r>0
-orbit has area4πr, so ordinary prequantization requires k=2r/ℏ∈ℤ.
+For SO(3) fix HR's unit rotation generator Z with period 2π. Its radius-r>0
+orbit has area 4πr, so ordinary prequantization requires k=2r/ℏ∈ℤ.
 Identify the same oriented flag with ℂP¹ and O(k). Construct the actual
 SU(2)→SO(3) and SU(2)/T→S² maps. In the negative-Borel base line [e₂],
 diag(z,z⁻¹) acts on the fibre of O(k) by z^k, so −I acts by (−1)^k.
@@ -793,8 +793,8 @@ Thus every integer k gives an SU(2) lift and an SO(3) lift exists exactly
 when k is even. Prove necessity for every possible lift, not just failure
 of one chosen construction. Compare d p(diag(i,−i)) with twice the chosen
 SO(3) generator (fixing the pole/orientation sign in the actual map), and
-with HR's period4π Pauli basis; this accounts for the factor2. O(1) on
-S² is an ordinary prequantum line for area2πℏ, but is not SO(3)-linearized.
+with HR's period 4π Pauli basis; this accounts for the factor 2. O(1) on
+S² is an ordinary prequantum line for area 2πℏ, but is not SO(3)-linearized.
 For negative k retain the dual-line and orientation-reversal calculation;
 with the fixed positive symplectic orientation require k>0. At k=0 distinguish
 the degree-zero line calculation from the point coadjoint orbit.
@@ -816,7 +816,7 @@ projectivization, not an asserted ℂP^(−1) line classification.
 
 **Checks.**
 
-- For SO(3), X*(T)→P is a↦2a: kernel 0, image 2ℤ; for SU(2) it is a↦a.
+- For SO(3), `X^*(T)→P` is a↦2a: kernel 0, image 2ℤ; for SU(2) it is a↦a.
 - For U(2) at [e₂], (a,b)↦a−b sends (1,1) to 0 and (0,−1) to 1;
   the latter line has central SU(2) phase −1 and does not descend to PU(2).
 - For U(3), O(1) has central phase exp(−2πi/3), while O(3) has phase 1.
@@ -1471,7 +1471,7 @@ multiplicity identity. Write a_j∈Λ for the coordinate-vector weights in that
 projective representation. On a fixed nonzero fibre vector ℓ∈E^m_x construct
 the real potential
 
-κ_x(a)=−log‖exp(ia)·ℓ‖²+log‖ℓ‖²,   a∈𝔱.
+`κ_x(a)=−log‖exp(ia)·ℓ‖²+log‖ℓ‖²,  a∈𝔱`.
 
 Prove independence of the chosen nonzero ℓ, κ_x(0)=0, the additive orbit
 cocycle identity, and the tensor-power, character-twist and base-change formulas.
@@ -1483,28 +1483,28 @@ potential is log(Σ_j |z_j|² exp(−2⟨a_j,a⟩))−log(Σ_j |z_j|²).
 The difference of the two potentials is bounded, because the ratio of the two
 smooth Hermitian metrics is a globally defined positive function on compact M.
 This comparison does not assume the Kodaira embedding is a symplectic isometry.
-Use K7's O(1) Chern normalization: if ω_FS has integral1 on a projective
+Use K7's O(1) Chern normalization: if ω_FS has integral 1 on a projective
 line, its angular curvature form is 2πω_FS. The coordinate O(1) fibre weight
 is −a_j, so this potential has fixed-fibre moment values −a_j; the actual
 E^m moment is mn(μ−ξ). Keep these scale and dual-action signs explicit.
 
-Prove the finite-support criterion: x is semistable exactly when0 lies in the
+Prove the finite-support criterion: x is semistable exactly when 0 lies in the
 convex hull of the a_j with z_j≠0. Construct the orbit-closure limits for its
-faces and the critical point on each minimal0-containing face. On the
+faces and the critical point on each minimal 0-containing face. On the
 quotient by its infinitesimal stabilizer the potential is proper and strictly
 convex, hence attains its minimum; on stabilizer directions the fixed-fibre
 character and Kostant equation give zero shifted moment. This supplies an
 actual point of Z_ξ in the orbit closure, not only a combinatorial label.
 Conversely a separating cocharacter and the bounded metric comparison exclude
-such a point when0 lies outside that hull. The unstable set is the finite
+such a point when 0 lies outside that hull. The unstable set is the finite
 union of the unstable-support coordinate projective subspaces intersected
 with the Kodaira image. Prove it is closed analytic in M. If Z_ξ is nonempty,
 this subset is proper and nowhere dense on connected M.
 
-At a regular value show every semistable support has0 in its full-dimensional
+At a regular value show every semistable support has 0 in its full-dimensional
 interior: a proper minimal face would give a point in Z_ξ with a
 positive-dimensional stabilizer, contradicting surjectivity of dμ. The
-potential is then proper and strictly convex on𝔱. Its unique critical point
+potential is then proper and strictly convex on 𝔱. Its unique critical point
 proves Mss_ξ=T_C·Z_ξ, and each such complex orbit meets Z_ξ in exactly one
 T-orbit. Construct the actual map T_C×_T Z_ξ→Mss_ξ and its inverse, including
 smoothness from the positive Hessian/implicit-function comparison. Prove that
@@ -1572,18 +1572,18 @@ K3/K4/K7; HamiltonianReduction R3; Orbifolds O1/O2/O4.
 ### 6.7 Shifted Kostant bound and global extension
 
  Choose any positive inner
-product on𝔱 and an orthonormal basis a. Set η=μ−ξ and f=‖η‖². Derive the
+product on 𝔱 and an orthonormal basis a. Set η=μ−ξ and f=‖η‖². Derive the
 infinitesimal section action from the declared positive-left lift:
 a·s=−∇_(X_a)s+i(nμ_a−λ_a)s on E. Thus a T-invariant holomorphic section
 on Mss_ξ satisfies
 
-∇_(X_a)s=inη_a s,   ∇_(JX_a)s=i∇_(X_a)s=−nη_a s.
+`∇_(X_a)s=inη_a s,  ∇_(JX_a)s=i∇_(X_a)s=−nη_a s`.
 
 The convention g(u,v)=ω(u,Jv), dμ_a=ι_(X_a)ω gives grad μ_a=JX_a and
 −grad f=−2Σ_a η_a JX_a. Metric compatibility therefore gives, along its
 negative-gradient flow φ_t,
 
-d/dt ‖s(φ_t x)‖²=4n‖μ(φ_t x)−ξ‖²‖s(φ_t x)‖²≥0.
+`d/dt ‖s(φ_t x)‖²=4n‖μ(φ_t x)−ξ‖²‖s(φ_t x)‖²≥0`.
 
 Construct this flow using ConvexityToric T3's translated moment-square
 semiflow and prove that its stable locus for Z_ξ is exactly Mss_ξ. In the
@@ -1594,7 +1594,7 @@ convergence to the critical imaginary parameter. Compare with T3's actual
 single-point limit and stratum topology. Consequently φ_t x converges to
 z∈Z_ξ and
 
-‖s(x)‖ ≤ sup_(z∈Z_ξ) ‖s(z)‖.
+`‖s(x)‖ ≤ sup_(z∈Z_ξ) ‖s(z)‖`.
 
 The right side is finite by compactness of Z_ξ (Sjamaar, arXiv v1,
 Theorem 2.15 and its proof, pp. 27–28; the factor 4n is the angular
@@ -1615,10 +1615,9 @@ extensions agree on Mss_ξ and hence on M. This argument includes an analytic
 divisor in the complement; no unbounded codimension-two Hartogs assertion
 is substituted. Construct the actual isomorphisms
 
-H⁰(M,L^n)_λ ≃ H⁰(M,E)^T ≃ H⁰(Mss_ξ,E)^T
-               ≃ H⁰_orb(R_ξ,L_(n,λ,ξ)).
+`H⁰(M,L^n)_λ ≃ H⁰(M,E)^T ≃ H⁰(Mss_ξ,E)^T ≃ H⁰_orb(R_ξ,L_(n,λ,ξ))`.
 
-The first map tensors with the specified unit vector inℂ_(−λ); the middle
+The first map tensors with the specified unit vector in ℂ_(−λ); the middle
 map is restriction and its inverse is the unique bounded extension; the last
 map and its inverse are the full-isotropy descent just constructed. Prove all
 inverse, naturality and integer-power/character-translation identities. The
@@ -1635,7 +1634,7 @@ M by zero spaces, and rank-zero T by Mss_ξ=M and the identity comparisons.
 For a positive-dimensional action kernel use the T′ and character-twist
 transport specified below before the regular locally-free theorem; no
 ambient regular-level hypothesis is imposed on a lower-dimensional moment
-support. OnℂP¹ at an interior level, verify the saturation isℂ× and its two
+support. On ℂP¹ at an interior level, verify the saturation is ℂ× and its two
 missing fixed points illustrate the bounded extension across a divisor.
 
 - Restriction and bounded extension are inverse complex-linear maps and commute with
