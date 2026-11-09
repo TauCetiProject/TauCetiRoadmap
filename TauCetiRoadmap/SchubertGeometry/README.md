@@ -30,9 +30,12 @@ here; S2 owns the
 integral word models and S5.6 their Schubert closure and base-change theory.
 S9.0 owns the coherent analytic foundations required for S9, including
 nonreduced analytification and proper GAGA. These are prerequisites of the
-base programme. No layer here constructs or consumes a holomorphic Picard
-group: S3.1's forgetful map lands in the Picard group of the scheme G/P−,
-S5's vanishing theorems are algebraic coherent cohomology, and S9.8 retains
+base programme. The classical topology on complex points, the holomorphic
+charts of smooth complex schemes and the biholomorphic identification of a
+closed orbit with G(ℂ)/H(ℂ) belong to ReductiveGroups §3A.5; S9 applies them
+to the flags, their groups and the word schemes and does not rebuild them.
+No layer here constructs or consumes a holomorphic Picard group: S3.1's
+forgetful map lands in the Picard group of the scheme G/P−, S5's vanishing theorems are algebraic coherent cohomology, and S9.8 retains
 only the algebraic-to-holomorphic equivariant-line adapter, with specified
 transition functions and fibre maps. The generic holomorphic Picard group
 Pic_hol(M)≃H¹(M,𝒪^×) of a complex manifold and its exponential sequence are
@@ -343,6 +346,20 @@ component, character or tensor theorems; those are S4's targets.
 
 [ReductiveGroups](../ReductiveGroups/README.md) Layers 7–10 (structure theory, field Bruhat theory and algebraic parabolics, classification, the pinned Chevalley–Demazure group schemes over ℤ, rational representations and highest weights) own Hopf/scheme/point and rational-comodule dictionaries, group/root/pinning/central-isogeny structure, and field Bruhat theory. Its integral-distribution/rational-representation extension supplies full-lattice divided-power PBW/Dist(G), Δ/∇/L, induction, pinned extremal vectors and contravariant duality. The algebraic Steinberg input is the simple module Δ((p−1)ρ)=L((p−1)ρ)=∇((p−1)ρ) on the derived simply connected cover, with dimension p^|Φ+| and normalized PBW/extremal pairing. These algebraic constructions do not consume flag splitting or SMT.
 
+[ReductiveGroups §3A.5](../ReductiveGroups/README.md) supplies, for every
+scheme X locally of finite type over ℂ, the classical topology on X(ℂ) with its
+functoriality: open and closed immersions give open and closed embeddings,
+separated X has Hausdorff points, finite-type X has second-countable points and
+proper X has compact Hausdorff points. For smooth X it supplies the holomorphic
+charts, under which regular maps are holomorphic and étale maps are local
+biholomorphisms. For a closed orbit of a smooth affine group acting on a proper
+scheme it supplies the holomorphic orbit submersion, its holomorphic local
+sections and the biholomorphism G(ℂ)/H(ℂ)≃O_x(ℂ), H being the scheme
+stabilizer. S9.1 applies it to the G-action on G/P− at eP−, and S9.0 identifies
+the underlying space of its analytification with these points and charts.
+§3A.5 constructs no ringed analytification, no structure sheaf with nilpotents
+and no GAGA; those are S9.0's.
+
 ### From TauCetiRoadmap.GroebnerGeometry
 
 [GroebnerGeometry G5](../GroebnerGeometry/README.md) owns polynomial minor/shuffle/straightening/Gröbner statements, flag-minor algebra and its GT initial algebra. S6 supplies the scheme, homogeneous coordinate, section and restriction identifications. The original flag algebra is not identified with its toric initial algebra.
@@ -386,7 +403,7 @@ compares these with the algebraic models; it does not rebuild their carriers.
 [LieGroups Layer 8](../RepresentationTheory/LieGroups/README.md) (Borel–Weil,
 flag manifolds and Bruhat) supplies the compact full and partial flags K/T and
 K/K_μ with their homogeneous complex comparisons, used by S2.5, S7.3 and
-S9.1–S9.8. S9 compares these with the algebraic models; it does not rebuild
+S9.1–S9.7. S9 compares these with the algebraic models; it does not rebuild
 their carriers.
 
 ### From TauCetiRoadmap.ComplexKahlerGeometry
@@ -738,7 +755,7 @@ Compare the complex scheme with the compact model using the actual rank-one grou
 - A one-letter complex word is ℙ¹ and its compact model is SU₂/U₁≃S².
 - The map SU₂×U₁→U₂ has kernel {(I,1),(−I,−1)} of size 2; treating it as a direct-product isomorphism would give kernel size 1.
 
-*Needs:* S2.2; LieGroups Layer 8 and S9.0–9.1 for the complex realization; TopologicalKTheory T1.5 for the type-A characteristic maps.
+*Needs:* S2.2; LieGroups Layer 8, ReductiveGroups §3A.5 and S9.0–9.1 for the complex realization; TopologicalKTheory T1.5 for the type-A characteristic maps.
 
 ### Examples
 
@@ -1498,12 +1515,13 @@ complex vector spaces, with the quotient sheaf, not just the reduced zero set.
 Allow non-Hausdorff spaces for gluing. Construct their morphisms, open and closed
 subspaces, fibre products and gluing. For every locally finite-type complex
 scheme X, construct its analytification a_X:Xᵃⁿ→X by its representing property
-for morphisms of locally ringed ℂ-spaces from analytic spaces. Prove independence
-of affine presentations, open gluing and compatibility with fibre products.
-The underlying points are X(ℂ); separated finite-type X gives a Hausdorff,
-second-countable space. Identify smooth charts with their holomorphic charts;
-this does not construct the additional fixed-model tangent/connection interfaces
-(SGA1, Exposé XII, Theorem 1.1 and §§2–3, retyped pp. 239–247).
+for morphisms of locally ringed ℂ-spaces from analytic spaces (SGA1, Exposé XII,
+Theorem 1.1, retyped p. 239). Prove independence of affine presentations, open
+gluing and compatibility with fibre products. Prove that the underlying space of
+Xᵃⁿ is ReductiveGroups §3A.5's classical point space X(ℂ), naturally in X, and
+that for smooth X the reduced analytic space is §3A.5's complex manifold with the
+same charts. The point topology, its separation, countability and compactness
+properties and the smooth charts are consumed from §3A.5, not rebuilt here.
 
 - At a complex point, the algebraic-to-analytic local-ring map is faithfully
   flat and induces an isomorphism on completed local rings.
@@ -1518,14 +1536,16 @@ this does not construct the additional fixed-model tangent/connection interfaces
 
 **Checks.**
 
-- Affine n-space for n=0,1,2 gives a point, ℂ and ℂ², with coordinate maps
-  the identity; the completed stalk at the origin is ℂ, ℂ[[z]], ℂ[[z₁,z₂]].
+- For affine n-space with n=0,1,2, the identification with §3A.5's points is
+  the identity of a point, ℂ and ℂ²; the completed stalk at the origin is ℂ,
+  ℂ[[z]], ℂ[[z₁,z₂]].
 - Spec ℂ[ε]/(ε²) has one analytic point but a two-dimensional structure ring:
   ε²=0 and ε≠0 on both sides. Reduction would give dimension 1 instead.
 - The nodal curve xy=0 has completed local ring ℂ[[x,y]]/(xy), with nonzero
   x and y but xy=0; a manifold-only construction cannot model this stalk.
 
-*Needs:* ComplexKahlerGeometry K3–K4 (holomorphic germs, Weierstrass division
+*Needs:* ReductiveGroups §3A.5 (classical complex points and smooth charts);
+ComplexKahlerGeometry K3–K4 (holomorphic germs, Weierstrass division
 and sheaves); SchemeAndStackFoundations Layers 1–2 (locally ringed spaces,
 module sheaves, gluing and derived cohomology); RealAnalyticGeometry R3.2
 (native coherence and coherent kernels). Extend coherence from ambient
@@ -1588,23 +1608,19 @@ specialization and uses no Schubert vanishing or standard monomial theorem.
 
 ### 9.1 Flag and word specializations (S9.1)
 
-Over ℂ compare the actual algebraic flag, Schubert and word schemes with their analytic/topological carriers, actions, tautological/associated bundles and maps. Use S9.0’s analytification and projective coherent GAGA at the actual objects. Identify the compact homogeneous flag model and its rank-one factors through LieGroups, and compare typeA subspace/quotient/Plücker models with ModularCurves §0G and TopologicalKTheory T1.5. Ordinary relative forms and field changes retain their actual algebraic hypotheses; the complex comparison is not their substitute.
+Over ℂ the group G(ℂ), the flag (G/P−)(ℂ), its Schubert varieties and the word schemes carry ReductiveGroups §3A.5's classical topology and, where smooth, its holomorphic charts; multiplication and the action are holomorphic, being regular maps between smooth schemes. Apply §3A.5's closed-orbit theorem to the G-action on the proper flag at eP−. Its orbit model is the smooth scheme G/P− itself, since each fibre of G→G/P− over a complex point is a P−-torsor over ℂ and so has a complex point, and its scheme stabilizer is P−. This gives the holomorphic submersion G(ℂ)→(G/P−)(ℂ), its holomorphic local sections and the biholomorphism G(ℂ)/P−(ℂ)≃(G/P−)(ℂ), compact by properness; these are consumed, not rebuilt. S9.1 owns what is specific to the Schubert models: S1.0's root cells and charts, S2's word towers and multiplication, and the tautological and associated bundles. Use S9.0’s analytification and projective coherent GAGA at the actual objects. Identify the compact homogeneous flag model and its rank-one factors through LieGroups, and compare typeA subspace/quotient/Plücker models with ModularCurves §0G and TopologicalKTheory T1.5. Ordinary relative forms and field changes retain their actual algebraic hypotheses; the complex comparison is not their substitute.
 
-   For the flag and word models, compare their homogeneous root charts,
-   equivariant actions and associated-line transitions with the corresponding
-   analytic charts. These are the specified flag and word comparisons of S9.1.
-
-- The comparison preserves root charts, their transition maps and quotient actions.
-- Tautological and associated bundles have the same fibre maps and transition functions.
+- S1.0's root-cell charts are holomorphic charts of §3A.5's flag manifold with the same transition maps, and each cell C(w)(ℂ) is a locally closed submanifold biholomorphic to ℂ^ℓ(w).
+- Tautological and associated bundles have the same fibre maps and transition functions after analytification.
 - Tower maps, multiplication and Schubert restriction commute with analytification.
 
 **Checks.**
 
 - The empty word analytifies to a point, and a one-letter word to ℙ¹(ℂ).
-- On the rank-one affine chart, the regular coordinate z becomes the same holomorphic coordinate z; its derivative is 1.
-- Over the dual-number base ℂ[ε]/(ε²), the corresponding chart retains ε≠0; passage to the reduced space would make the bundle comparison lose its base ring.
+- For SL₂/B−, S1.0's root coordinate z on the open cell is the holomorphic coordinate z of §3A.5's chart, with derivative 1, and its complement in the compact ℙ¹(ℂ) is the closed cell {eB−}.
+- Over the dual-number base ℂ[ε]/(ε²), the rank-one open-cell chart retains ε≠0; passage to the reduced space would make the bundle comparison lose its base ring.
 
-*Needs:* S1–S2 and S3.1; S9.0; LieGroups Layer 8 and TopologicalKTheory T1.5. This is the specialization of SGA1 XII.1.1 and XII.4.2 to these models.
+*Needs:* S1–S2 and S3.1; S9.0; ReductiveGroups §3A.5 (classical points, smooth charts and the closed-orbit biholomorphism); LieGroups Layer 8 and TopologicalKTheory T1.5. This is the specialization of SGA1 XII.1.1 and XII.4.2 to these models.
 
 ### 9.5 Type-A path specialization (S9.5)
 
@@ -1669,8 +1685,10 @@ Construct the compact moment-Morse comparison with [HamiltonianReduction R2a](..
 
 For a complex reductive G and parabolic P−, specialize S9.1's tensor-compatible
 analytification of locally free sheaves to S3.1's algebraic associated lines.
-Construct the holomorphic associated-line model by the same fibre character
-and compare its transition functions, fibre at eP− and G action with the
+Construct the holomorphic associated-line model G(ℂ)×^(P−(ℂ))ℂ_λ by the same
+fibre character over ReductiveGroups §3A.5's biholomorphism
+G(ℂ)/P−(ℂ)≃(G/P−)(ℂ), trivialized by §3A.5's holomorphic local sections, and
+compare its transition functions, fibre at eP− and G action with the
 analytification. Prove that the algebraic fibre/associated-line unit and counit
 become the holomorphic ones, naturally for equivariant isomorphisms, tensor,
 dual and parabolic pullback. This is the algebraic-to-holomorphic adapter;
@@ -1688,8 +1706,8 @@ it does not reconstruct the ordinary Picard group or the compact character-to-de
   line but distinct equivariant fibres, so forgetting the action cannot be an equivariant inverse.
 
 *Needs:* S3.1's algebraic equivariant-line equivalence; S9.1's locally free
-GAGA comparison; LieGroups
-Layer 8's homogeneous complex flag.
+GAGA comparison; ReductiveGroups §3A.5's homogeneous identification
+G(ℂ)/P−(ℂ)≃(G/P−)(ℂ) and its holomorphic local sections.
 
 ### Examples
 
@@ -1697,7 +1715,7 @@ For the proper dual-number point, algebraic and analytic H⁰ both retain ℂ[ε
 
 ### Dependencies
 
-S1–S8 at the targets that use them; S9.0 for coherent analytification and proper GAGA; LieGroups Layer 8; HamiltonianReduction R2a; AlgebraicTopology Stage 5, item 3 (finite-covering transfer) and MorseTheory M2.
+S1–S8 at the targets that use them; S9.0 for coherent analytification and proper GAGA; ReductiveGroups §3A.5 for classical complex points, smooth charts and the homogeneous flag biholomorphism; LieGroups Layer 8; HamiltonianReduction R2a; AlgebraicTopology Stage 5, item 3 (finite-covering transfer) and MorseTheory M2.
 
 ## Worked examples
 
