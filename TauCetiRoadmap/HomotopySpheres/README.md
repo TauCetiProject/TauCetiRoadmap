@@ -391,10 +391,10 @@ every dimension 4k and identifies their middle intersection form with it.
 **From TauCetiRoadmap.GeometricTopology.** Layer 1 supplies collars, boundary gluing,
 normal tubes, connected sum and handle attachment; §1.4 consumes Tau Ceti's
 `TauCeti.ConnectedSum` and `TauCeti.OrientedConnectedSum`, proves that the native sum of
-connected oriented summands is associative up to diffeomorphism, and compares the native sum
-with the gluing model along the boundary spheres; Layer 5 supplies surgery on a framed
-embedded sphere in general dimension; the smoothing-and-triangulation comparison, item 1,
-supplies smooth triangulation. Oriented cobordisms in general dimension are the
+connected oriented summands is associative up to orientation-preserving diffeomorphism, and
+compares the native sum with the gluing model along the boundary spheres; Layer 5 supplies
+surgery on a framed embedded sphere in general dimension; the smoothing-and-triangulation
+comparison, item 1, supplies smooth triangulation. Oriented cobordisms in general dimension are the
 TangentialBordism B1.1–B1.2 witnesses below.
 
 **Oriented specialization of TangentialBordism B1.1–B1.2.** Use its collared
@@ -734,11 +734,11 @@ there for the native sum `TauCeti.ConnectedSum` of connected oriented summands; 
 instantiated carrier by `TauCeti.OrientedConnectedSum.nonempty_diffeomorph_connectedSum`, which
 identifies the oriented sum of connected Hausdorff summands with `TauCeti.ConnectedSum` along any
 two balls that, for one orientation of ℝⁿ, preserve and reverse the orientations at their
-centres. The pinned theorems and §1.4's associativity assert only that diffeomorphisms exist;
-prove that in each case one can be chosen to carry `TauCeti.ConnectedSum.orientation` of the
-first sum to that of the second, the identification of the balls preserving orientation at the
-centres. Together these are Kervaire–Milnor, Lemma 2.1, p.505, at the level of oriented
-diffeomorphism.
+centres. The pinned theorems assert only that diffeomorphisms exist; prove that in each case
+one can be chosen to carry `TauCeti.ConnectedSum.orientation` of the first sum to that of the
+second, the identification of the balls preserving orientation at the centres. §1.4 states
+associativity up to orientation-preserving diffeomorphism, and it is consumed in that form.
+Together these are Kervaire–Milnor, Lemma 2.1, p.505, at the level of oriented diffeomorphism.
 
 Prove descent to h-cobordism classes for n ≥ 3. Let Σ₁, Σ₁′ and Σ₂ be oriented homotopy
 n-spheres, n ≥ 3, hence closed and simply connected, and let W₁ be an oriented h-cobordism
@@ -2333,7 +2333,7 @@ parallelizable manifolds.  Prove it is precisely the image of the boundary map a
 closure under connected sum and orientation reversal.
 
 Kervaire–Milnor §4, pp.510–512, defines the parallelizable-boundary subgroup and
-proves its framing-coset criterion; §§5–6, pp.512–521, supply the surgery inputs.
+proves its framing-coset criterion; §§5–6, pp.512–526, supply the surgery inputs.
 The almost-framed and filling quotient presentations and their exact sequence in 6C.2
 are comparison targets here, with the actual deletion, extension and gluing witnesses
 of 6A–6B, rather than quotations of a sequence written in those sections.
@@ -3249,7 +3249,9 @@ compact smooth recognition theorem of Layer 10.
 - Michel Kervaire and John Milnor,
   [*Groups of Homotopy Spheres: I*](https://doi.org/10.2307/1970128), Annals of Mathematics
   77 (1963), 504--537: Theorem 1.1 and the orders of Θₙ for n ≤ 18, p.504; Lemmas 2.1–2.4,
-  pp.505–507; the table of the stable groups Πₙ for n ≤ 8, p.512.
+  pp.505–507; Theorem 3.1, its proof and Bott's table of `π_(n−1)(SO)`, p.508; §4, Lemmas
+  4.2–4.5 and the Remarks after Theorem 4.1, pp.510–512; the table of the stable groups Πₙ for
+  n ≤ 8, p.512; §§5–6 (spherical modifications), pp.512–526.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
   2002, §4.2, p.387 and Exercise 39, p.392 (Toda brackets); §4.J, pp.474–475
   (integral metastable EHP), Corollary 4J.4, p.474 (the first sphere stem);
