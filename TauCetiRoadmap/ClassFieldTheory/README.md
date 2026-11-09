@@ -89,9 +89,10 @@ are the theorems stated in `Suggested.lean`.
    (Layers 6 and 7): Tau Ceti's. **Open targets** (Layer 7): the cyclotomic normalization at a
    unit for every finite `ℚ_p`-algebra structure, without Tau Ceti's compatibility hypothesis on
    the valuations; and, in every characteristic, the upper-numbering theorem identifying the image
-   of `U(K,n)` under reciprocity with that of `G(L/K)^n`, its absolute form on the local-field filtration constructed in Layer 7, and the
-   comparison of reciprocity character conductors with Artin conductors. The local sum and
-   maximum formulas follow from that comparison and the native ramification theorems.
+   of `U(K,n)` under reciprocity with that of `G(L/K)^n`, and its absolute form on the
+   local-field filtration constructed in Layer 7. The comparison of the reciprocity conductor of
+   a character with its Artin conductor is Tau Ceti's `conductorExponent_fixedField_ker`, and the
+   local sum and maximum formulas follow from it and the native ramification theorems (Layer 7).
 4. Local existence for a finite **abelian** layer, uniqueness of that layer, and the local
    class-field correspondence with its quotient isomorphism and degree equality, in full in
    characteristic zero and in the prime-to-residue-characteristic range in every characteristic
@@ -200,9 +201,14 @@ are the theorems stated in `Suggested.lean`.
   `TauCeti.hilbertSymbol_productFormula`, which Tau Ceti derives from `hilbertProductFormula`
   (Layer 14);
 - `QuadraticFormInvariants` owns the norm-equation and quaternion presentations of local
-  Hilbert symbols and proves that they agree with Tau Ceti's cohomological `localSymbol` and with
-  the Hilbert invariants `finiteHilbertInvariantAt` and `infiniteHilbertInvariantAt`
-  (Layers 5 and 14).
+  Hilbert symbols. The agreement of the norm-equation symbol with Tau Ceti's cohomological
+  `localSymbol` and with the Hilbert invariants `finiteHilbertInvariantAt` and
+  `infiniteHilbertInvariantAt` (Layers 5 and 14) is proved in Tau Ceti, as
+  `TauCeti.hilbertSymbol_eq_cohomological`, `TauCeti.hilbertSymbol_unitAtFinitePlace_eq_hilbertSign`
+  and `TauCeti.hilbertSymbol_unitAtRealPlace_eq_hilbertSign`, and so is the sign form of the
+  product formula, `TauCeti.hilbertSymbol_productFormula`, derived from `hilbertProductFormula`;
+  QuadraticFormInvariants consumes these comparisons, under its own names where it re-exports
+  them, and does not prove them a second time.
 
 Consequently this roadmap defines no modulus, ray-class carrier, idele carrier, Hecke character,
 order, Picard group, local quadratic-form invariant, or global quadratic form, and it has no
@@ -244,6 +250,9 @@ Citations of this roadmap by section number read as follows:
 - **§2.1–§2.7**, the conventions, are Conventions C.1–C.7: **§2.4** is C.4 (Tate's theorem and its
   Tate–Nakayama generalization) and **§2.6** is C.6 (the Frobenius convention);
 - **§4**, the build, is Layers 0–14, and **§4 Layer k** is Layer k;
+- **Layer 0, item 4**, the list of generic Tate-cohomology suppliers, is the Layer 0 bullets from
+  *The operations* to *Primary components*; Tate–Nakayama with a free coefficient lattice is the
+  bullet *The Tate–Nakayama theorem*, which rests on the bullet *The theorem of Nakayama and Rim*;
 - **§5.1–§5.8**, the worked examples, are W.1–W.8.
 
 Other roadmaps cite the following statements under the names in the left column; each is the
@@ -252,6 +261,7 @@ declaration in the middle column, at the pinned Tau Ceti or in `Suggested.lean`.
 | Name used elsewhere | Declaration | Difference |
 |---|---|---|
 | H n F i A | Mathlib's `continuousCohomology i A` | none |
+| TateCohomology.isZero_res_of_projective, TateCohomology.projective_of_isZero_res, TateCohomology.projective_ker_of_isZero_res, TateCohomology.isZero_res_of_exact | `Rep.isZero_res_of_projective`, `Rep.projective_of_isZero_res`, `Rep.projective_ker_of_isZero_res`, `Rep.isZero_res_of_exact` | in the namespace `Rep` rather than `TateCohomology`; `Rep.projective_ker_of_isZero_res` has the same hypotheses, `Rep.projective_of_isZero_res` assumes `k` a domain of characteristic zero without the principal-ideal hypothesis and `A` projective rather than free over `k`, and `Rep.isZero_res_of_projective` and `Rep.isZero_res_of_exact` do not assume `G` finite, the latter taking `d` and `q` implicitly |
 | kummerEquiv_mixed | `kummerEquivOfCharZero` | assumes `[CharZero F]` instead of a finite `ℚ_p`-algebra structure |
 | h2FpEquivZMod_of_mu | `h2EquivZModOfMuNRepIso` | assumes `IsUnit (n : F)` and an isomorphism `muNRep n F ≅ T`, needs no root of unity, and returns the equivalence rather than its existence |
 | muNRep_ρ_eq_self | `muNRep_ρ_apply_eq_self` | none |
@@ -263,7 +273,7 @@ declaration in the middle column, at the pinned Tau Ceti or in `Suggested.lean`.
 | restrictAbsolute ι | `AlgHom.restrictNormalHom ι` after `absoluteGaloisGroupRestrictEquiv K`, the restriction of `artinMap_restrict` | none |
 | cd_p_absoluteGaloisGroup_eq_two, scd_p_absoluteGaloisGroup_eq_two | `cohomologicalDimensionAt_absoluteGaloisGroup_eq_two`, `strictCohomologicalDimensionAt_absoluteGaloisGroup_eq_two` | assume `[CharZero K]` instead of a finite `ℚ_p`-algebra structure |
 | eq_zero_of_localInv_eq_zero | `brLocalization_injective` | stated as injectivity of `Br K → ⨁_v Br(K_v)` |
-| sumLocalInv_eq_zero | `sumLocalInv_brLocalization_eq_zero` | none |
+| sumLocalInv_eq_zero | `sumLocalInv_brLocalization_eq_zero` | stated on `brLocalization K x`: Tau Ceti's `sumLocalInv` takes the family of localizations of a class, not the class `x : Br K` |
 | gal_ringClassField_equiv_pic | `ringClassArtinEquiv` | every order of every number field, with no degree hypothesis, and an explicit isomorphism `Pic O ≃* Gal(ringClassField O / K)` |
 | map_unitFiltration_normResidue | `normResidue_map_unitFiltration` | none |
 | closure_map_artinMap_unitFiltration | `closure_map_artinMap_unitFiltration_eq_upper` | the absolute upper group is the constructed `localAbsoluteUpperRamificationGroup`, not an argument with a defining hypothesis |
@@ -658,22 +668,23 @@ different exponents. For Galois `L/K` this sum is `g_v f_v d_v = g_v δ(L_w/K_v)
 | the cyclotomic normalization at a unit, for every finite `ℚ_p`-algebra structure | `cyclotomicCharacter_artinMap` |
 | the upper-numbering theorem | `normResidue_map_unitFiltration` |
 | absolute unit-filtration reciprocity, on the absolute upper filtration of a local field | `localAbsoluteUpperRamificationGroup`, `closure_map_artinMap_unitFiltration_eq_upper` |
-| the reciprocity conductor equals the Artin conductor | `galoisCharacterConductorExp`, `galoisCharacterConductorExp_eq_artinConductorExponent` |
 | the principal ideal theorem | `isPrincipal_map_hilbertClassField` |
 | the global conductor–discriminant formula, product and lcm | `count_relDiscr_eq_finsum_abelianConductor_exponent`, `abelianConductor_eq_lcm` |
 
 `Suggested.lean` is the roadmap's acceptance test. It states these theorems, each with `sorry`,
-against the pinned Mathlib and Tau Ceti. Its two simple definitions with real bodies are
+against the pinned Mathlib and Tau Ceti. Its one simple definition, with a real body, is
 `localAbsoluteUpperRamificationGroup`, the intersection of the inverse images of all finite upper
-groups, and `galoisCharacterConductorExp`, the least unit-filtration level contained in the kernel
-of a Galois character read through `normResidue`. Its imports are `Mathlib` and individual Tau
+groups. Its imports are `Mathlib` and individual Tau
 Ceti modules; it imports no roadmap. Its module docstring lists the headline results Tau Ceti
 proves at the pin, by layer. It does not contain a restatement of anything Tau Ceti proves at the
 pin (the material of From Tau Ceti above), including a weaker specialization of it; a definition
 whose body is `sorry`, or a statement that mentions one; or an existence statement whose witness
 is not pinned: the principal ideal theorem is stated on Tau Ceti's `hilbertClassField`, not on an
-existential field. Every open headline is statable at the pins using these two definitions,
-including absolute unit-filtration reciprocity on the native absolute Galois group.
+existential field. Every open headline is statable at the pins using this definition,
+including absolute unit-filtration reciprocity on the native absolute Galois group. The
+comparison of the reciprocity conductor of a character with its Artin conductor is not among
+them: it is Tau Ceti's `conductorExponent_fixedField_ker`, read through the kernel identity of
+Layer 7.
 
 ⚠ **The correspondence runs in one direction on subgroups and the opposite direction on fields.**
 Inclusion of open normal subgroups of `G_K` is *reverse* inclusion of the fields they cut out, so a
@@ -748,9 +759,10 @@ The routes use the following inputs in this order:
     and every field of characteristic zero), a cohomologically trivial representation whose
     underlying `k`-module is projective — in particular free, of any rank — is projective over
     `k[G]`;
-  - `Rep.projective_ker_of_isZero_res`: for the same `k`, every surjection onto a cohomologically
-    trivial `A` from a projective `k[G]`-module has projective kernel, with no finiteness
-    hypothesis on `A`, so `A` has a projective resolution of length one;
+  - `Rep.projective_ker_of_isZero_res`: for `G` finite and the same `k`, assumed in addition to be
+    a principal ideal domain (as `ℤ`, `ℤ_[p]`, `ℤ_(p)` and fields are), every surjection onto a
+    cohomologically trivial `A` from a projective `k[G]`-module has projective kernel, with no
+    finiteness hypothesis on `A`, so `A` has a projective resolution of length one;
   - `Rep.isZero_res_of_exact`: conversely, `A` is cohomologically trivial when
     `0 → P₁ → P₀ → A → 0` is exact with `P₀` and `P₁` projective, for every commutative ring `k`.
 - **Freeness of submodules**, `Submodule.free_of_isPrincipalIdealRing`
@@ -1000,7 +1012,8 @@ The interface is in `TauCeti/NumberTheory/ClassFieldTheory/` (`MuNRep`, `Brauer/
 `Local/EulerCharacteristic/`), and consumed here under Tau Ceti's names; this roadmap restates none
 of it. The contract:
 
-- **Coefficients.** `GalRep n F` is `ProfiniteCohomology.TopRep (ZMod n) G_F`, and its cohomology
+- **Coefficients.** `GalRep n F` is Mathlib's `TopRep (ZMod n) (Field.absoluteGaloisGroup F)`,
+  the carrier of ProfiniteCohomology Layer 1, and its cohomology
   is Mathlib's `continuousCohomology`. The coefficient objects are Tau Ceti's discrete modules read
   through `ofDiscreteModule`, with `G_F` acting through `absoluteGaloisGroupRestrictEquiv`:
   `muNRep n F` is `KummerCoeff F n` and `unitsRep F` is `UnitsCoeff F`. Kummer classes are Tau
@@ -1175,8 +1188,7 @@ consumed here under Tau Ceti's names. The contract:
   (`conductorExponent_fixedField_ker`).
 
 The **open targets** of this layer are the unit normalization for every finite `ℚ_p`-algebra
-structure, finite and absolute unit-filtration reciprocity, and the comparison of the
-reciprocity conductor with the Artin conductor in every characteristic:
+structure, and finite and absolute unit-filtration reciprocity in every characteristic:
 
 - **The unit normalization without a compatibility hypothesis** `cyclotomicCharacter_artinMap`:
   for a prime `p`, a nonarchimedean local field `F` with a finite `ℚ_p`-algebra structure,
@@ -1216,33 +1228,44 @@ reciprocity conductor with the Artin conductor in every characteristic:
   `artinMap_quotient`; `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`;
   `LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
   in `TauCeti/NumberTheory/LocalField/Herbrand/UpperQuotient.lean`.
-- **The character-conductor comparison** `galoisCharacterConductorExp_eq_artinConductorExponent`:
-  for a finite abelian Galois valued extension `L/K` of nonarchimedean local fields in either
-  characteristic and every `ψ : Gal(L/K) → ℂˣ`, the reciprocity conductor equals
-  `LocalFieldsRamification.artinConductorExponent K L ψ` (Serre, *Local Fields*, XV §2,
-  Theorem 2). Define `galoisCharacterConductorExp K L ψ` as the infimum in `ℕ` of the unit depths
-  killed by `ψ` after `Kˣ → Kˣ/N(Lˣ) → Gal(L/K)^ab → ℂˣ`. The definition itself permits any
-  finite Galois extension; the comparison assumes abelianity and compatible local valuations.
-  *Needs:* finite unit-filtration reciprocity in this layer; Tau Ceti’s
-  `LocalFieldsRamification.artinConductorExponent` and
-  `LocalFieldsRamification.artinConductorExponent_le_iff` in
-  `TauCeti/NumberTheory/LocalField/Herbrand/ArtinConductor.lean`.
+**Character conductors, as consequences of the contract.** Let `L/K` be a finite abelian
+Galois extension of nonarchimedean local fields, in either characteristic, with compatible local
+valuations, let `ψ : Gal(L/K) → ℂˣ` be a character, and let `F = L^{ker ψ}`, with the
+finite-intermediate-field structures named below. The *reciprocity conductor* of `ψ` is the least
+`n` such that `ψ` kills the image of `U(K,n)` under `Kˣ → Kˣ/N_{L/K}(Lˣ) ≃ Gal(L/K)^ab`; it is
+`conductorExponent K F`, by the following **kernel identity**. For `x ∈ Kˣ` and a lift
+`σ ∈ G_K` of `artinMap K x`, `artinMap_restrict` computes the Artin symbol of `x` in
+`Gal(L/K)^ab` as the class of the restriction of `σ` to `L` along an embedding `ι` of `L` into
+`Kˢ`, and its symbol in `Gal(F/K)` as the restriction along `ι` restricted to `F`, which is the
+restriction to `F` of the former (`AlgHom.restrictNormalHom_restrictNormalHom`). Since
+`ker ψ = Gal(L/F)`, `ψ` kills the first symbol exactly when the second is trivial, which by
+`normResidue_mk` and `normResidue_mk_eq_one_iff` happens exactly when `x ∈ N_{F/K}(Fˣ)`. Tau
+Ceti's `conductorExponent_fixedField_ker` then identifies `conductorExponent K F` with
+`LocalFieldsRamification.artinConductorExponent K L ψ`, the least `n` with `G^n ⊆ ker ψ`
+(Serre, *Local Fields*, XV §2, Theorem 2). This comparison is consumed under Tau Ceti's name and
+is not restated in `Suggested.lean`, and neither are its two consequences (Serre, *Local
+Fields*, VI §2):
 
-The conductor definition has the following API:
-
-- The defining set is nonempty, the infimum is attained, and its value is at most `n` exactly
-  when `ψ` kills the image of `U(K,n)`; norm subgroups are open and contained in this kernel.
-- The value is zero exactly when `ψ` is unramified, and is zero for the trivial character.
-- Pullback through a quotient Galois group preserves the conductor, by the restriction law for
-  reciprocity; pointwise multiplication has conductor at most the maximum of the two conductors.
-- For an abelian extension, the discriminant exponent is the sum of these conductors and the
-  extension conductor is their maximum. The sum follows from the comparison and
+- the discriminant exponent `δ(L/K)` is the sum of the conductors of the characters of
+  `Gal(L/K)`: Tau Ceti's
   `LocalFieldsRamification.finsum_artinConductorExponent_eq_discriminantExponent`
-  (`TauCeti/NumberTheory/LocalField/Discriminant/Conductor.lean`); the maximum follows from
-  `conductorExponent_le_iff_upperRamificationGroup_eq_bot`,
-  `conductorExponent_fixedField_ker` and separation by finite abelian characters
-  (`TauCeti/NumberTheory/ClassFieldTheory/Local/Conductor/UpperNumbering.lean`).
-  These are consequences, not separate acceptance declarations (Serre, *Local Fields*, VI §2).
+  (`TauCeti/NumberTheory/LocalField/Discriminant/Conductor.lean`), read through the comparison;
+- `conductorExponent K L` is their maximum: by
+  `conductorExponent_le_iff_upperRamificationGroup_eq_bot` it is at most `n` exactly when
+  `G^n = 1`; a nontrivial element of `G^n` is moved by some character of the finite abelian group
+  `Gal(L/K)` (Mathlib's `CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity` in
+  `Mathlib/GroupTheory/FiniteAbelian/Duality.lean`), so `G^n = 1` exactly when
+  `LocalFieldsRamification.artinConductorExponent K L ψ ≤ n` for every `ψ`
+  (`LocalFieldsRamification.artinConductorExponent_le_iff`).
+
+*Needs:* `artinMap_restrict`, `normResidue_mk`, `normResidue_mk_eq_one_iff`,
+`AlgHom.restrictNormalHom_restrictNormalHom` (`TauCeti/FieldTheory/Galois/Restriction.lean`);
+`conductorExponent_fixedField_ker` and
+`conductorExponent_le_iff_upperRamificationGroup_eq_bot`
+(`TauCeti/NumberTheory/ClassFieldTheory/Local/Conductor/UpperNumbering.lean`);
+`LocalFieldsRamification.artinConductorExponent_le_iff`
+(`TauCeti/NumberTheory/LocalField/Herbrand/ArtinConductor.lean`) and the sum theorem above;
+`CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity`.
 
 **The absolute upper filtration of a local field.** For every nonarchimedean local field `K`
 in either characteristic and every real `v ≥ −1`, define
@@ -1874,12 +1897,14 @@ with that of the fixed field `L^{ker ψ}`):
   over the characters `ψ : Gal(L/K) → ℂˣ` of the `v`-exponents of
   `abelianConductor K (L^{ker ψ})`, so the discriminant is the **product** of the finite parts of
   the character conductors;
-  *Needs:* the character-conductor comparison and sum consequence of Layer 7;
+  *Needs:* the kernel identity of Layer 7 with `conductorExponent_fixedField_ker`, and the local
+  sum `LocalFieldsRamification.finsum_artinConductorExponent_eq_discriminantExponent`;
   NumberFieldArithmetic §§4.2, 5.9–5.10; `globalArtinMap_local`; `abelianConductor`;
 - `abelianConductor_eq_lcm`: the `v`-exponent of `abelianConductor K L` is the **maximum** of
   those exponents and a real place divides it exactly when it divides one of them, so the
   conductor is their **lcm**.
-  *Needs:* the character-conductor comparison and maximum consequence of Layer 7;
+  *Needs:* the kernel identity of Layer 7 with `conductorExponent_fixedField_ker`, and the local
+  maximum consequence there;
   `globalArtinMap_local`, `infiniteArtinAt`, and the minimality of `abelianConductor`.
 
 The route is local. `relDiscr` localizes (NumberFieldArithmetic §4.2); completed
@@ -1955,9 +1980,12 @@ comes from the archimedean package of Layer 10; both are supported on the finite
 at the finite places. Hilbert reciprocity is `hilbertProductFormula`, in additive cohomological
 form: the sum of the local `ZMod 2` invariants is zero, which is the Layer 10 sum formula
 `sumLocalInv_brLocalization_eq_zero` applied to the Brauer class of the quaternion symbol, not an
-independent computation. The multiplicative form is `∏_v (a,b)_v = 1`. `QuadraticFormInvariants`
-proves that its norm-equation and quaternion symbols agree with these invariants and inherits the
-product formula.
+independent computation. The multiplicative form `∏_v (a,b)_v = 1`, for the norm-equation
+symbols, is Tau Ceti's `TauCeti.hilbertSymbol_productFormula`, derived from
+`hilbertProductFormula` through the placewise comparisons
+`TauCeti.hilbertSymbol_unitAtFinitePlace_eq_hilbertSign` and
+`TauCeti.hilbertSymbol_unitAtRealPlace_eq_hilbertSign`; `QuadraticFormInvariants` consumes these
+comparisons and the product formula.
 
 Quadratic reciprocity for `ℚ` is Mathlib's `legendreSym.quadratic_reciprocity`, and is not a
 target. Its derivation from `hilbertProductFormula`, with the real and dyadic factors, is the
@@ -1990,8 +2018,8 @@ equal-characteristic unit-filtration comparisons are imported from Layer 7, as t
 characteristic-`p` cases of `normResidue_map_unitFiltration` and
 `closure_map_artinMap_unitFiltration_eq_upper`, and are not proved a second time there.
 GlobalQuadraticForms §4.2 consumes the first fundamental inequality of Layer 10 and §4.3 the
-quadratic Hasse norm theorem of Layer 13. QuadraticFormInvariants compares its quadratic-form invariants with
-the cohomological Hilbert symbol. PadicPeriodRings and LocalAnabelianGeometry use the absolute
+quadratic Hasse norm theorem of Layer 13. QuadraticFormInvariants consumes the cohomological
+Hilbert symbol of Layer 5 and Tau Ceti's comparisons of its norm-equation symbol with it. PadicPeriodRings and LocalAnabelianGeometry use the absolute
 unit-filtration comparison; none supplies an input to this roadmap.
 
 ## Worked examples

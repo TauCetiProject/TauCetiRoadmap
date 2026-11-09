@@ -4,7 +4,7 @@ import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Basic
 import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Reciprocity
 import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
-import TauCeti.NumberTheory.LocalField.Herbrand.ArtinConductor
+import TauCeti.NumberTheory.LocalField.Herbrand.Basic
 import TauCeti.NumberTheory.LocalField.UnitFiltration.Basic
 import TauCeti.RingTheory.DedekindDomain.Discriminant.Basic
 
@@ -13,8 +13,8 @@ import TauCeti.RingTheory.DedekindDomain.Discriminant.Basic
 
 The roadmap is `README.md`; this file is not the roadmap. It gives suggested forms of the
 roadmap's open headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, and
-the two simple definitions they need, `localAbsoluteUpperRamificationGroup` and
-`galoisCharacterConductorExp`; it is not an exhaustive checklist.
+the one simple definition they need, `localAbsoluteUpperRamificationGroup`; it is not an
+exhaustive checklist.
 
 Tau Ceti proves the following headline results at the pin, in
 `TauCeti/NumberTheory/ClassFieldTheory/` and `TauCeti/RepresentationTheory/Homological/`, so none
@@ -29,8 +29,10 @@ of them is restated here; the roadmap consumes them under Tau Ceti's names
   nonarchimedean local field of characteristic zero,
   `cohomologicalDimensionAt_absoluteGaloisGroup_eq_two` and
   `strictCohomologicalDimensionAt_absoluteGaloisGroup_eq_two` (Layer 6);
-* the absolute local Artin map, its cyclotomic normalization, and the conductor in the upper
-  numbering, `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot` (Layer 7);
+* the absolute local Artin map, its cyclotomic normalization, the conductor in the upper
+  numbering, `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`, and the equality of
+  the conductor exponent of the fixed field of `ker χ` with the Artin conductor exponent of `χ`,
+  `conductorExponent_fixedField_ker` (Layer 7);
 * local existence and the local class-field correspondence in characteristic zero and in the
   prime-to-residue-characteristic range, `localAbelianExistence`,
   `localAbelianExistence_primeToResidueCharacteristic` (Layer 8);
@@ -48,8 +50,7 @@ of them is restated here; the roadmap consumes them under Tau Ceti's names
 The open headline theorems stated below are:
 
 * the cyclotomic normalization at a unit for every finite `ℚ_p`-algebra structure, the form that
-  `LocalGaloisGroups` consumes, finite and absolute unit-filtration reciprocity, and the comparison of the
-  reciprocity character conductor with the native Artin conductor (Layer 7);
+  `LocalGaloisGroups` consumes, and finite and absolute unit-filtration reciprocity (Layer 7);
 * the principal ideal theorem in the Hilbert class field, and the global conductor–discriminant
   formula, with the discriminant the product and the conductor the lcm of the conductors of the
   characters (Layer 13).
@@ -64,7 +65,7 @@ namespace TauCetiRoadmap.ClassFieldTheory
 open IsDedekindDomain NumberField TauCeti TauCeti.ClassFieldTheory TauCeti.GlobalNumberFields
 open scoped ValuativeRel
 
-/-! ## Layer 7: the cyclotomic normalization, the upper-numbering theorem and conductors -/
+/-! ## Layer 7: the cyclotomic normalization and unit-filtration reciprocity -/
 
 /-- **The cyclotomic normalization at a unit, for every finite `ℚ_p`-algebra structure.** Let `F`
 be a nonarchimedean local field that is a finite `ℚ_p`-algebra, `u` a unit of its valuation ring,
@@ -127,32 +128,6 @@ theorem closure_map_artinMap_unitFiltration_eq_upper
     ((unitFiltration K n).map (artinMap K)).topologicalClosure =
       (localAbsoluteUpperRamificationGroup K ⟨n, Nat.cast_mem_ramificationIndexDomain n⟩).map
         (QuotientGroup.mk' (commutator (Field.absoluteGaloisGroup K)).topologicalClosure) :=
-  sorry
-
-/-- **The conductor exponent of a Galois character** `χ : Gal(L/K) → ℂˣ` of a finite Galois
-extension of nonarchimedean local fields: the least `n` such that the unit group `U_K^(n)` lies in
-the kernel of `χ` read on `Kˣ` through the norm residue isomorphism. It is `0` exactly for
-unramified `χ`. Tau Ceti's `characterConductorExp` is the same minimum for a continuous character
-of `Kˣ`; this one takes a character of the finite Galois group. -/
-noncomputable def galoisCharacterConductorExp
-    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-    (L : Type) [Field L] [Algebra K L] [Module.Finite K L] [IsGalois K L]
-    (χ : (L ≃ₐ[K] L) →* ℂˣ) : ℕ :=
-  sInf {n : ℕ | unitFiltration K n ≤
-    ((Abelianization.lift χ).comp
-      ((normResidue K L).toMonoidHom.comp (QuotientGroup.mk' (normGroup K L)))).ker}
-
-/-- **The reciprocity conductor equals the Artin conductor.** For a finite abelian valued
-extension `L/K` of nonarchimedean local fields and a character `χ` of its Galois group, the
-least unit depth killed by `χ` through reciprocity equals the least upper ramification depth
-killed by `χ` (Serre, *Local Fields*, XV §2, Theorem 2). -/
-theorem galoisCharacterConductorExp_eq_artinConductorExponent
-    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-    (L : Type) [Field L] [ValuativeRel L] [TopologicalSpace L] [IsNonarchimedeanLocalField L]
-    [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] [IsGalois K L]
-    [IsMulCommutative (L ≃ₐ[K] L)] (χ : (L ≃ₐ[K] L) →* ℂˣ) :
-    galoisCharacterConductorExp K L χ =
-      LocalFieldsRamification.artinConductorExponent K L χ :=
   sorry
 
 /-! ## Layer 13: the principal ideal theorem and the global conductor–discriminant formula -/
