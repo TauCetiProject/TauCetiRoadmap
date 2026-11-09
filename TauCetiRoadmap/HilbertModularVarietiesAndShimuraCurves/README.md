@@ -1740,7 +1740,7 @@ Its API:
 
 ### R18.1.9 Torus bridge for quaternionic towers
 
-**Comparison.** Let `Ψ=Φ₁∩Φ₂` and Y/F′ be the zero-dimensional CM torus Shimura tower for `Res_{E/ℚ}G_m` with `h_Ψ(z)=(1, z⁻¹,…, z⁻¹)`. The product datum map induces `X×_FY→X″` over F′, and the tower comparison `(X×_FY)/Δ(A_{F, f}×)≅X″` uses the twisted `diagonalz↦(z, z⁻¹)`. At finite levels use the image U″ of `U×J` and the induced surjective map; an identical finite quotient description at all levels is not automatic. For `g=1`, `Ψ=∅`, the torus cocharacter is trivial and Y has reflex field `ℚ`, so this product comparison is over `ℚ`. The Tate-module tensor and integral extensions belong to R18.2.
+**Comparison.** Let `Ψ=Φ₁∩Φ₂` and Y/F′ be the zero-dimensional CM torus Shimura tower for `Res_{E/ℚ}G_m` with `h_Ψ(z)=(1, z⁻¹,…, z⁻¹)`. The product datum map induces `X×_FY→X″` over F′, and the tower comparison `(X×_FY)/Δ(A_{F,f}×)≅X″` uses the twisted diagonal `z↦(z, z⁻¹)`. At finite levels use the image U″ of `U×J` and the induced surjective map; an identical finite quotient description at all levels is not automatic. For `g=1`, `Ψ=∅`, the torus cocharacter is trivial and Y has reflex field `ℚ`, so this product comparison is over `ℚ`. The Tate-module tensor and integral extensions belong to R18.2.
 
 *Proof route.* Apply the generic torus datum/canonical-model supplier to `Ψ` and form the product over the common reflex field. Compute the kernel of `B××E×→G″` as the twisted diagonal `F×` and compare the complex tower quotients including central closures. Check finite-level image groups separately; pass the specific map to R18.2 for the Tate/p-divisible tensor comparison.
 
@@ -1833,7 +1833,7 @@ Its API:
 - For `q=2` each component meets three branches in the full model.
 - For `e=2, xy=π′²` is a singular total-space local ring; regularity is not preserved.
 
-(Source: [CDN20](#references) §1.2, pp.12–13; [BC91](#references) Part I §3, pp.53–56.)
+(Source: [CDN20](#references) §1.2, pp.12–13; [BC91](#references) Part I §3, pp.53–55.)
 
 *Needs:* [R18.5.2 Affinoid exhaustion and tree reduction](#r1852-affinoid-exhaustion-and-tree-reduction); [AdicSpacesPartIII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdicSpacesPartIII/README.md) `R2.5`; Tau Ceti roadmap [StableReduction, layer 1 nodes normalization and dual graphs](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/StableReduction/README.md#layer-1-nodes-normalization-and-dual-graphs).
 
@@ -1859,7 +1859,7 @@ Its API:
 - Multiplication by π has relative isogeny height four and absolute isogeny height `4[k:𝔽_p]`; for ramified K this differs from the group’s absolute height.
 - An `O_D`-module whose `Lie O₂` action has ranks (2,0) is not special.
 
-(Source: [BC91](#references) Part II §§2, 5.16, Definition 8.1, pp.79–84, 97–98, 107; [BZ22](#references) §5, pp.38–39, (5.18)–(5.20).)
+(Source: [BC91](#references) Part II §2, pp.73–77, with special modules at (2.1), p.73; (5.16), p.98; Definition 8.1, p.107; [BZ22](#references) §5, pp.38–39, (5.18)–(5.20).)
 
 *Needs:* [FiniteFlatGroupsAndIntegralPadicHodgeTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) `R07.1`, `R07.2`.
 
@@ -1903,7 +1903,7 @@ Strict special modules, fixed frame and arrow convention as above.
 - Valuation-zero elements preserve the parity of vertices; their displacements are even.
 - Shrinking a tame level gives finite-index subgroups, while cocompactness does not itself exclude torsion.
 
-(Source: [BZ22](#references) §6, proof of Proposition 6.6, pp.47–48; [BC91](#references) Part III §§5.1–5.3, pp.139–142.)
+(Source: [BZ22](#references) §6, proof of Proposition 6.6, pp.47–48; [BC91](#references) Part III §§5.1–5.3.2, pp.139–142.)
 
 *Needs:* [R18.5.6 Height action and Frobenius descent](#r1856-height-action-and-frobenius-descent); AdelicAlgebraicGroups §§3.4, 4.2–4.3; ReductiveGroupsPartII RG2.2.
 
@@ -1962,13 +1962,13 @@ Its API:
 
 ### R18.5.10 Very free arithmetic stabilizers at small tame level
 
-**Theorem.** In the setting of [R18.5.7a Arithmetic stabilizers and finite components](#r1857a-arithmetic-stabilizers-and-finite-components) (B/F with `B_v` division, B̌ totally definite and split at `v, U_v = O_B,v^×`), fix a tame level `U^v_0`. There is an open compact `U^v_1 ⊂ U^v_0` such that for every open compact `U^v ⊂ U^v_1` and every g in the finite adelic group away from v, the image in `PGL₂(F_v)` of `Γ_g = {b ∈ B̌^× ∩ gU^v g⁻¹ : ord_v Nrd b = 0}` acts very freely on the Bruhat–Tits tree: every nonidentity element moves every vertex a distance greater than 2. Since `ord_v Nrd b = 0`, these displacements are even, so the condition says that no nonidentity element has displacement 0 or 2.
+**Theorem.** In the setting of [R18.5.7a Arithmetic stabilizers and finite components](#r1857a-arithmetic-stabilizers-and-finite-components) (B/F with `B_v` division, B̌ totally definite and split at v, `U_v = O_{B,v}^×`), fix a tame level `U^v_0`. There is an open compact `U^v_1 ⊂ U^v_0` such that for every open compact `U^v ⊂ U^v_1` and every g in the finite adelic group away from v, the image in `PGL₂(F_v)` of `Γ_g = {b ∈ B̌^× ∩ gU^v g⁻¹ : ord_v Nrd b = 0}` acts very freely on the Bruhat–Tits tree: every nonidentity element moves every vertex a distance greater than 2. Since `ord_v Nrd b = 0`, these displacements are even, so the condition says that no nonidentity element has displacement 0 or 2.
 
 F totally real; B/F split at exactly one real place and division at v above p; B̌ exchanges the invariants at that real place and at v; the fixed away-v identification of B̌ with B.
 
 `Γ_g` is projected to `PGL₂(F_v)` after removing the central kernel; the tree is the imported Bruhat–Tits tree of `PGL₂(F_v)` with edge-count distance.
 
-*Proof route.* Let J be the adjoint group of B̌. It is anisotropic at every real place, so J(F) is discrete in `J(A_F,f)`, and the image of each `Γ_g` in `J(F_v)` is discrete and cocompact (BZ, proof of Proposition 6.6, p.48). For the finitely many double-coset representatives at level `U^v_0` and a finite set of vertex representatives modulo each image, the elements moving some representative vertex by at most 2 lie in a compact subset of `J(F_v)`, hence form a finite set S by discreteness. Every nonidentity element of S is nontrivial in `J(A^v_F,f)`, because `J(F) → J(A^v_F,f)` is injective; choose `U^v_1` normal in `U^v_0` whose images avoid the finitely many elements of S other than 1. Every double coset at a smaller level `U^v ⊂ U^v_1` is represented by `δgk` with `δ` in `B̌^×, g a` representative at level `U^v_0` and k in `U^v_0`; `Γ_{gk}` at level `U^v` lies in `Γ_g` at level `U^v_1` because `U^v_1` is normal in `U^v_0`, and conjugation by `δ` is an isometry of the tree, so the bound persists for all of them.
+*Proof route.* Let J be the adjoint group of B̌. It is anisotropic at every real place, so J(F) is discrete in `J(A_{F,f})`, and the image of each `Γ_g` in `J(F_v)` is discrete and cocompact (BZ, proof of Proposition 6.6, p.48). For the finitely many double-coset representatives at level `U^v_0` and a finite set of vertex representatives modulo each image, the elements moving some representative vertex by at most 2 lie in a compact subset of `J(F_v)`, hence form a finite set S by discreteness. Every nonidentity element of S is nontrivial in `J(A^v_{F,f})`, because `J(F) → J(A^v_{F,f})` is injective; choose `U^v_1` normal in `U^v_0` whose images avoid the finitely many elements of S other than 1. Every double coset at a smaller level `U^v ⊂ U^v_1` is represented by `δgk` with `δ` in `B̌^×`, g a representative at level `U^v_0` and k in `U^v_0`; `Γ_{gk}` at level `U^v` lies in `Γ_g` at level `U^v_1` because `U^v_1` is normal in `U^v_0`, and conjugation by `δ` is an isometry of the tree, so the bound persists for all of them.
 
 **Checks.**
 
@@ -1995,13 +1995,13 @@ The effective `Γ` action satisfies very free action on Drinfeld charts. Constru
 - The unramified local charts have thickness one.
 - For `q=2` the dualizing degree on each normalized rational component is one; without an ample line the conditional F0.8 algebraization theorem cannot be applied.
 
-(Source: [BC91](#references) Part I §§2–3, pp.51–56; Part III §5.3.1, pp.141–142 (Standard vertex and edge charts and the sufficient smallness condition for gluing their quotient); [CDN20](#references) §1.2, pp.12–13 (The blow-up union has reduced tree-indexed rational components and original node charts))
+(Source: [BC91](#references) Part I §§2–3, pp.51–55; Part III §5.3.1, pp.141–142 (Standard vertex and edge charts and the sufficient smallness condition for gluing their quotient); [CDN20](#references) §1.2, pp.12–13 (The blow-up union has reduced tree-indexed rational components and original node charts))
 
 *Needs:* [R18.5.9 Very free action on Drinfeld charts](#r1859-very-free-action-on-drinfeld-charts), [R18.5.3 Standard Drinfeld formal model](#r1853-standard-drinfeld-formal-model); [AdicSpacesPartIII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdicSpacesPartIII/README.md) `R2`, `F0.8`; Tau Ceti roadmap [StableReduction, layer 1 nodes normalization and dual graphs](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/StableReduction/README.md#layer-1-nodes-normalization-and-dual-graphs); Tau Ceti roadmap [StableReduction, layer 5 regular and minimal models](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/StableReduction/README.md#layer-5-regular-and-minimal-models).
 
 ### R18.5.7 Arithmetic Drinfeld quotient
 
-**Construction.** For B/F division split at `τ` only and division at v, let B̌ exchange invariants at `{τ, v}`, so it is totally definite and split at v. For compact level U with `U_v=O_B, v×` and small `U^v`, form `B̌×\ [(Ω̂⊗O_Fv O_Fv̌)×B_f×/U]`, using fixed away-v identifications; `B̌_v×` acts by homography and the local valuation component `ord_v` Nrd. Its finite component decomposition uses `Γ_g={b∈B̌×∩gU^v g⁻¹:ord_v det b=0}`, projected to `PGL₂(F_v)`. These projected groups are discrete cocompact and become torsion-free with sufficiently small tame level.
+**Construction.** For B/F division split at `τ` only and division at v, let B̌ exchange invariants at `{τ, v}`, so it is totally definite and split at v. For compact level U with `U_v=O_{B,v}×` and small `U^v`, form `B̌×\ [(Ω̂⊗O_Fv O_Fv̌)×B_f×/U]`, using fixed away-v identifications; `B̌_v×` acts by homography and the local valuation component `ord_v` Nrd. Its finite component decomposition uses `Γ_g={b∈B̌×∩gU^v g⁻¹:ord_v det b=0}`, projected to `PGL₂(F_v)`. These projected groups are discrete cocompact and become torsion-free with sufficiently small tame level.
 
 Global `B/F, τ, v` and level as stated; effective central quotient and finite component representatives fixed.
 
@@ -2020,7 +2020,7 @@ Its API:
 - At free level an edge orbit has node chart `xy=π`.
 - A quotient with a nontrivial effective vertex stabiliser cannot use the free-action regularity argument.
 
-(Source: [BZ22](#references) §1, pp.1–3; §6, pp.45–50; [BC91](#references) Part III §§5.1–5.3, pp.139–142.)
+(Source: [BZ22](#references) §1, pp.1–3; §6, pp.45–50; [BC91](#references) Part III §§5.1–5.3.2, pp.139–142.)
 
 *Needs:* arithmetic stabilizers and finite components (§R18.5.7a), very free arithmetic stabilizers at small tame level (§R18.5.10), separated Drinfeld quotient charts (§R18.5.11); [R18.5.6 Height action and Frobenius descent](#r1856-height-action-and-frobenius-descent); [AdelicAlgebraicGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md) `Layer 3`, `Layer 4`; [AdicSpacesPartIII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdicSpacesPartIII/README.md) `R2`; Tau Ceti roadmap [StableReduction, layer 5 regular and minimal models](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/StableReduction/README.md#layer-5-regular-and-minimal-models).
 
@@ -2116,7 +2116,7 @@ Consume the formal isomorphism of §R18.5.12c, whose deformation, polarized isog
 **Checks.**
 
 - A geometric component isomorphism alone does not prove surjectivity onto all canonical components.
-- A raw inclusion of B̌ times in `I(ℚ)` is insufficient without the inverse-diagonal central kernel.
+- A raw inclusion of `B̌×` in `I(ℚ)` is insufficient without the inverse-diagonal central kernel.
 - The division-prime theorem uses no bridge determinant comparison at ramified places.
 
 (Source: [BZ22](#references) §6, Proposition 6.2 and Theorem 6.3, pp.43–45; (6.22), p.45; (6.29)–(6.31), p.46; Definition 6.5, Proposition 6.6 and Theorem 6.7 with its proof, pp.47–51 (Source-specific quaternionic inclusion, central-kernel injectivity, complete component coverage, and descent transport))
@@ -2158,7 +2158,7 @@ Fix the auxiliary CM extension, the trace lattice and the effective central kern
 
 ### R18.2.1 Quaternionic auxiliary PEL instance
 
-**Construction.** For `E=F(√λ), λ<0` rational with p split in `Q(√λ)`, specialize the shared PEL datum to `B′=B⊗F E, V′=B′, ψ′(x, y)=Tr_{E/ℚ} Trd_B′/E(γ′xȳ)`, and involution `b*=γ′⁻¹ b̄γ′`. At p use `O_B′, p=O_B, p*⊕O_B, p` and the self-dual lattice `O_B, p^∨⊕O_B, p`. Verify the special `O_B, v` Lie condition and zero Lie component away from v. This full regular representation has abelian dimension `4[F:ℚ]`; the Morita-reduced E-representation has dimension `2[F:ℚ]`. Generic PEL moduli and representability are imports.
+**Construction.** For `E=F(√λ), λ<0` rational with p split in `Q(√λ)`, specialize the shared PEL datum to `B′=B⊗_F E, V′=B′, ψ′(x, y)=Tr_{E/ℚ} Trd_{B′/E}(γ′xȳ)`, and involution `b*=γ′⁻¹ b̄γ′`. At p use `O_{B′,p}=O_{B,p}^*⊕O_{B,p}` and the self-dual lattice `O_{B,p}^∨⊕O_{B,p}`. Verify the special `O_{B,v}` Lie condition and zero Lie component away from v. This full regular representation has abelian dimension `4[F:ℚ]`; the Morita-reduced E-representation has dimension `2[F:ℚ]`. Generic PEL moduli and representability are imports.
 
 `γ′` chosen with the required positivity; sufficiently small tame level; integral trace/different factors retained.
 
@@ -2175,7 +2175,7 @@ Its API:
 
 - For `F=ℚ` the full B′ regular representation yields abelian dimension 4, not 2.
 - For `F=ℚ` the Morita-reduced E-instance yields abelian dimension 2.
-- If the trace lattice is not self-dual, `O_B, p⊕O_B, p` fails the perfect-pairing test; replacing the first factor by its dual passes.
+- If the trace lattice is not self-dual, `O_{B,p}⊕O_{B,p}` fails the perfect-pairing test; replacing the first factor by its dual passes.
 
 (Source: [YZ18](#references) §§3.1–3.2, pp.551–555.)
 
@@ -2195,7 +2195,7 @@ Compact curve hypothesis; principal level `N≥3`.
 
 ### R18.2.3 Quaternionic p-divisible sheaf
 
-**Definition.** On the pro-level canonical curve define `H_n=(B_p/O_B, p×X)/U_p(n)`, with `U_p(n)=(1+n O_B, p)^×` acting on the fibre by right multiplication and n supported above p. For each fixed torsion level m, shrink tame level until `U_p(1)/U_p(m)` acts freely; `H_n[m]` then descends as a finite étale `O_B, p`-module on that finite generic level. Do not assert a common finite tame level for the entire p-divisible group without proof.
+**Definition.** On the pro-level canonical curve define `H_n=(B_p/O_{B,p}×X)/U_p(n)`, with `U_p(n)=(1+n O_{B,p})^×` acting on the fibre by right multiplication and n supported above p. For each fixed torsion level m, shrink tame level until `U_p(1)/U_p(m)` acts freely; `H_n[m]` then descends as a finite étale `O_{B,p}`-module on that finite generic level. Do not assert a common finite tame level for the entire p-divisible group without proof.
 
 The local pro-level action is free, and its lift to coefficients retains the central scalar representation; n may be 1. An effective action on the base alone does not define the coefficient action.
 
@@ -2203,7 +2203,7 @@ The local pro-level action is free, and its lift to coefficients retains the cen
 
 Its API:
 
-- `H_n[m]` has fibre `m⁻¹O_B, p/O_B, p`.
+- `H_n[m]` has fibre `m⁻¹O_{B,p}/O_{B,p}`.
 - Pullback along n′-level to n-level identifies `H_n` with `H_n′`.
 - At split v, `e11H_v` identifies with Carayol `E∞`.
 - For each m a sufficiently small tame level supports its descended finite étale sheaf.
@@ -2299,11 +2299,11 @@ Carayol assumes `[F:ℚ]>1`; for Q use the modular or fake-elliptic supplier sep
 
 ### R18.2.7 Torus bridge and Tate coefficients
 
-**Comparison.** Import the canonical torus Y and datum morphism `(X×Y)/Δ(A_F, f×)≅X″` from R18.1, with `Δ(z)=(z, z⁻¹)` and effective rational-central closures. On `X₁×Y₁`, identify `f₁*T(H″)` with `π₁*T(H)⊗O_E, p π₂*T(I)`, where `I=(E_p/O_E, p×Y)/O_E, p×`. The two centre actions cancel and `H″|X′=H′`.
+**Comparison.** Import the canonical torus Y and datum morphism `(X×Y)/Δ(A_{F,f}×)≅X″` from R18.1, with `Δ(z)=(z, z⁻¹)` and effective rational-central closures. On `X₁×Y₁`, identify `f₁*T(H″)` with `π₁*T(H)⊗_{O_{E,p}}π₂*T(I)`, where `I=(E_p/O_{E,p}×Y)/O_{E,p}×`. The two centre actions cancel and `H″|X′=H′`.
 
-E embeds in B; the maximal order contains `O_E, p`, not merely its units; prescribed nearby CM types.
+E embeds in B; the maximal order contains `O_{E,p}`, not merely its units; prescribed nearby CM types.
 
-*Proof route.* Apply the imported torus bridge to the actual coefficient actions `x(b,e)=exb`. Compute the three Tate lattices and tensor over `O_E,p`. Check diagonal centre cancellation and finite-torsion descent.
+*Proof route.* Apply the imported torus bridge to the actual coefficient actions `x(b,e)=exb`. Compute the three Tate lattices and tensor over `O_{E,p}`. Check diagonal centre cancellation and finite-torsion descent.
 
 (Source: [YZ18](#references) §5.1, pp.571–573, Proposition 5.1.)
 
@@ -2323,7 +2323,7 @@ Apply the local Drinfeld construction with the exact global level and descent co
 
 ### R18.5.15 Čerednik–Drinfeld uniformisation
 
-**Theorem.** For totally real F, B split at exactly τ among the real places and division at the finite place v, `U_v=O_B, v×` and the other p-adic factors and tame level as in BZ (6.31), the completion of the canonical integral Shimura curve over `O_Eν` identifies with `B̌×\ [(Ω̂_Fv⊗O_Fv O_Eν̌)×B_f×/U]`. Here `E=τ(F), E_ν=F_v`. It is compatible with level transitions and Hecke operators at the permitted levels. With `τ_c=Spf τ⁻¹`, natural descent corresponds on the quotient to `id_Ω×R_s×τ_c`, where `s=z_π_vΠ⁻¹` and `π_v=Nrd(Π)`, as in §R18.1.1a. The BZ quotient is first twisted by this central reciprocity cocycle; all finite Hecke labels and levels remain the same. For small tame level the model is regular semistable and stable. At the division prime the proof runs through the basic PEL uniformisation transfer of [R18.5.13 Quaternionic transfer from basic PEL uniformisation](#r18513-quaternionic-transfer-from-basic-pel-uniformisation); it does not use the split-place field comparison. The theorem uses the local formal-quotient and PEL-uniformisation targets. One is the separated formal Drinfeld quotient with its dualizing ample line, constructed here in §R18.5.11 and assembled arithmetically in §R18.5.7; AdicSpacesPartIII F0.8 supplies algebraization conditional on that line. The other is basic PEL uniformisation for the auxiliary datum, constructed here in §§R18.5.12a–R18.5.12c.
+**Theorem.** For totally real F, B split at exactly τ among the real places and division at the finite place v, `U_v=O_{B,v}×` and the other p-adic factors and tame level as in BZ (6.31), the completion of the canonical integral Shimura curve over `O_Eν` identifies with `B̌×\ [(Ω̂_Fv⊗O_Fv O_Eν̌)×B_f×/U]`. Here `E=τ(F), E_ν=F_v`. It is compatible with level transitions and Hecke operators at the permitted levels. With `τ_c=Spf τ⁻¹`, natural descent corresponds on the quotient to `id_Ω×R_s×τ_c`, where `s=z_π_vΠ⁻¹` and `π_v=Nrd(Π)`, as in §R18.1.1a. The BZ quotient is first twisted by this central reciprocity cocycle; all finite Hecke labels and levels remain the same. For small tame level the model is regular semistable and stable. At the division prime the proof runs through the basic PEL uniformisation transfer of [R18.5.13 Quaternionic transfer from basic PEL uniformisation](#r18513-quaternionic-transfer-from-basic-pel-uniformisation); it does not use the split-place field comparison. The theorem uses the local formal-quotient and PEL-uniformisation targets. One is the separated formal Drinfeld quotient with its dualizing ample line, constructed here in §R18.5.11 and assembled arithmetically in §R18.5.7; AdicSpacesPartIII F0.8 supplies algebraization conditional on that line. The other is basic PEL uniformisation for the auxiliary datum, constructed here in §§R18.5.12a–R18.5.12c.
 
 All local factors match BZ (6.31); sufficiently small `U^v` for the final stable/regular claim.
 
@@ -2531,13 +2531,13 @@ where the map to the dual lattice is the thickness-weighted monodromy map. The g
 
 ### R18.5.20 Compatible Drinfeld level structures on the uniformized tower
 
-**Comparison.** For sufficiently small tame level in the CDN20 global division-prime setup, pullback of the quaternionic special formal `O_D`-module under uniformisation agrees, with its action and framing convention, with the universal Drinfeld module. Therefore its finite generic-fibre torsion-level functors are the Drinfeld covers `M_n` in the CDN congruence convention, and the quotient identifies the entire inverse system `Sh_n(U)^an` with `B̌ times \ [M_n times B̌(A_f^v) times/U]` for n at least 1. These identifications commute with forgetting local level, shrinking tame level and away-v Hecke correspondences, and carry the full central-twisted Weil action of §R18.1.1a. At higher level both the exact Frobenius translation and the unit inertia correction are retained. This contract refers to an actual module comparison; unrelated isomorphisms of the base curves do not induce it. It makes no semistability or regularity assertion for all integral higher-level covers.
+**Comparison.** For sufficiently small tame level in the CDN20 global division-prime setup, pullback of the quaternionic special formal `O_D`-module under uniformisation agrees, with its action and framing convention, with the universal Drinfeld module. Therefore its finite generic-fibre torsion-level functors are the Drinfeld covers `M_n` in the CDN congruence convention, and the quotient identifies the entire inverse system `Sh_n(U)^an` with `B̌×\[M_n×B̌(A_f^v)×/U]` for n at least 1. These identifications commute with forgetting local level, shrinking tame level and away-v Hecke correspondences, and carry the full central-twisted Weil action of §R18.1.1a. At higher level both the exact Frobenius translation and the unit inertia correction are retained. This contract refers to an actual module comparison; unrelated isomorphisms of the base curves do not induce it. It makes no semistability or regularity assertion for all integral higher-level covers.
 
 Translate CDN's B (definite) to this document's B̌, CDN's B̌ (indefinite) to B, and CDN's local F to K. Use its exact division congruence subgroup `Ǧ_n=1+ϖ_Dⁿ O_D` for n at least 1, where `ϖ_D` is a division-algebra uniformizer.
 
 At each actual finite moduli level take a fine tame cover on which the universal special formal module exists. Quotient equivariance of this module is part of the theorem, not assumed from a coarse universal family.
 
-*Proof route.* Use the uniformisation with the universal special formal module in BC Part III Theorem 5.2 and the BZ moduli-compatible construction (6.2)–(6.7), transported to the quaternionic selected components. Pull back the module along §R18.1.1a's geometric central-twist comparison, transporting its fibre descent by the central cocycle, and identify it with §R18.2.3's module before applying any torsion-level functor. Identify the canonical-model tower at v with torsion-level spaces of the generic p-divisible group H of [R18.2.3 Quaternionic p-divisible sheaf](#r1823-quaternionic-p-divisible-sheaf). Its ideal-indexed levels `U_p(n) = 1 + nO_B,p` give, at v, only the levels `1 + πᵐ O_D = 1 + Π^{2m} O_D`; the odd division levels `Ǧ_{2m+1}` need the Π-torsion `X[Π^{2m+1}]` of the module itself. Apply the same finite torsion-level functor on both actual modules and the exact `Ǧ_n` division congruence convention. The forgetful maps commute because they are restrictions of compatible trivializations. Descend along the effective arithmetic action and compare with CDN Proposition 5.4. Keep rigid generic fibres throughout the higher-level conclusion.
+*Proof route.* Use the uniformisation with the universal special formal module in BC Part III Theorem 5.2 and the BZ moduli-compatible construction (6.2)–(6.7), transported to the quaternionic selected components. Pull back the module along §R18.1.1a's geometric central-twist comparison, transporting its fibre descent by the central cocycle, and identify it with §R18.2.3's module before applying any torsion-level functor. Identify the canonical-model tower at v with torsion-level spaces of the generic p-divisible group H of [R18.2.3 Quaternionic p-divisible sheaf](#r1823-quaternionic-p-divisible-sheaf). Its ideal-indexed levels `U_p(n) = 1 + nO_{B,p}` give, at v, only the levels `1 + πᵐ O_D = 1 + Π^{2m} O_D`; the odd division levels `Ǧ_{2m+1}` need the Π-torsion `X[Π^{2m+1}]` of the module itself. Apply the same finite torsion-level functor on both actual modules and the exact `Ǧ_n` division congruence convention. The forgetful maps commute because they are restrictions of compatible trivializations. Descend along the effective arithmetic action and compare with CDN Proposition 5.4. Keep rigid generic fibres throughout the higher-level conclusion.
 
 **Checks.**
 
@@ -2796,13 +2796,13 @@ Use AdelicAlgebraicGroups §5.3, *quaternion-class-sets* and *definite-quaternio
 
 ### R18.3.1 Definite quaternionic class set
 
-**Definition.** Form the central quotient of the class set `Cl(U)=D×\D_f×/U` of GL2AutomorphicRepresentationsAndTransfer §R17.3.8b, `C_U=D×\D_f×/(U A_F, f×)`. Its effective stabiliser at t is `Γ_t=(U A_F, f×∩t⁻¹D×t)/F×`. Use the quotient by the rational centre before asserting finiteness. Changing t by dtu z transports the stabiliser and its coefficient action by conjugation.
+**Definition.** Form the central quotient of the class set `Cl(U)=D×\D_f×/U` of GL2AutomorphicRepresentationsAndTransfer §R17.3.8b, `C_U=D×\D_f×/(U A_{F,f}×)`. Its effective stabiliser at t is `Γ_t=(U A_{F,f}×∩t⁻¹D×t)/F×`. Use the quotient by the rational centre before asserting finiteness. Changing t by dtu z transports the stabiliser and its coefficient action by conjugation.
 
 *Construction.* Map the class set `D×\\D_f×/U`, finite for every open U by GL2AutomorphicRepresentationsAndTransfer §R17.3.8b and AdelicAlgebraicGroups §5.3, *quaternion-class-sets*, onto `C_U` by the right adelic centre action. Its finiteness descends to this quotient. Consume the finiteness of compact stabilizers modulo their central units, AdelicAlgebraicGroups §5.3, *definite-quaternion-stabilizers*; the extra central-quotient stabilizers are controlled by the finite unit and ideal square classes in KW §7.2. For a dyadic full-division level, choose a compact sublevel U⁰ with `UZ/U⁰Z` finite, using division valuation parity, and apply the same argument. Transport the representative-change maps of GL2AutomorphicRepresentationsAndTransfer §R17.3.8b and compute the effective coefficient action of §R18.3.3; no second class-set or compact-stabilizer theory is constructed.
 
 Its API:
 
-- The carrier is DoubleCoset.Quotient `D× (U A_F, f×)`.
+- The carrier is Mathlib's `DoubleCoset.Quotient` of `D×` and `U·A_{F,f}×` in `D_f×`.
 - For definite D and admissible U the class set is finite.
 - At t the acting finite group is `(UZ∩t⁻¹D×t)/F×`.
 - Equivalent representatives give conjugate stabilisers and canonically transported invariant modules.
@@ -2811,7 +2811,7 @@ Its API:
 
 - For a real quadratic F, quotienting by `F×` removes its infinite central units; the unquotiented arithmetic group is not finite.
 - A class with `Γ_t=1` contributes exactly W, with no averaging denominator.
-- Two representatives agree exactly when `t′=dtu z` for `d∈D×, u∈U` and `z∈A_F, f×`.
+- Two representatives agree exactly when `t′=dtu z` for `d∈D×, u∈U` and `z∈A_{F,f}×`.
 - For `F=ℚ` and D ramified at `{p,∞}`, the central class set and evaluation apply although the field degree is odd.
 
 (Source: [KW09](#references) §7 (opening), pp.57–59, display (5); §7.2, pp.61–62.)
@@ -2933,7 +2933,7 @@ For D/F totally definite and compact open H with hyperspecial `H_w` at the split
 
 ### R18.3.8 Definite Ihara lemma over an arbitrary totally real field
 
-**Theorem.** Let F be any totally real field and D/F a totally definite quaternion algebra, with associated group G, unramified at a finite place w. For a compact open `H⊂G(A_F,f)` unramified at w, write `Y_H=G(F)\G(A_F,f)/H` for the finite definite set, `H⁰(Y_H,F_l)` for `F_l`-valued functions on it, and S for a finite set of places containing those above l, the infinite places, w and every place where H or D ramifies. The anaemic Hecke algebra `T^S` acts by the double-coset operators `T_v` and `S_v` at the split places `v∉S`, and its central part acts through the effective central quotient `Z(A_F,f)/(F×(H∩Z(A_F,f)))`. For every non-Eisenstein maximal ideal m of `T^S⊗ℤ_l` the map `π₁*+π₂*: H⁰(Y_H,F_l)_m⊕H⁰(Y_H,F_l)_m→H⁰(Y_{H₀(w)},F_l)_m` is injective, and dually the two trace maps `H₀(Y_{H₀(w)},F_l)_m→H₀(Y_H,F_l)_m²` form a surjection. No parity condition on `[F:ℚ]` and no condition that l be unramified in F is imposed.
+**Theorem.** Let F be any totally real field and D/F a totally definite quaternion algebra, with associated group G, unramified at a finite place w. For a compact open `H⊂G(A_{F,f})` unramified at w, write `Y_H=G(F)\G(A_{F,f})/H` for the finite definite set, `H⁰(Y_H,F_l)` for `F_l`-valued functions on it, and S for a finite set of places containing those above l, the infinite places, w and every place where H or D ramifies. The anaemic Hecke algebra `T^S` acts by the double-coset operators `T_v` and `S_v` at the split places `v∉S`, and its central part acts through the effective central quotient `Z(A_{F,f})/(F×(H∩Z(A_{F,f})))`. For every non-Eisenstein maximal ideal m of `T^S⊗ℤ_l` the map `π₁*+π₂*: H⁰(Y_H,F_l)_m⊕H⁰(Y_H,F_l)_m→H⁰(Y_{H₀(w)},F_l)_m` is injective, and dually the two trace maps `H₀(Y_{H₀(w)},F_l)_m→H₀(Y_H,F_l)_m²` form a surjection. No parity condition on `[F:ℚ]` and no condition that l be unramified in F is imposed.
 
 D is totally definite and split at w; H is compact open and unramified at w; l is any prime; m is non-Eisenstein in the sense of [R18.3.7 Norm-factor forms and Eisenstein support](#r1837-norm-factor-forms-and-eisenstein-support), applied to the Hecke algebra away from S.
 
@@ -2956,7 +2956,7 @@ The theorem has constant F_l coefficients and needs no central-character extract
 
 **Theorem.** At a finite place `w∉Σ` (so D is split at w), with w added to S for the Hecke algebra, compact U with hyperspecial `U_w` and a finite-dimensional residual coefficient module `W̄_τ` over k on which `U_w` acts trivially, the degeneracy map `S_{W̄_τ, ψ̄}(U, k)²→S_{W̄_τ, ψ̄}(U₀(w), k), (f₁, f₂)↦f₁+diag(1, π_w) f₂`, has kernel supported on the norm-factor Eisenstein branch. Hence it is injective after non-Eisenstein localization (KW Lemma 7.1). This theorem supplies the residual input to KW Corollary 7.5; arbitrary coefficient-algebra base change and an integral indefinite Ihara theorem are not consequences of Lemma 7.1.
 
-F is totally real of even degree, p is unramified in F, and D/F is totally definite, with finite ramification set `Σ` as in KW §7. U is compact open. `W̄_τ` is a finite-dimensional continuous representation over the finite residue field k, with `ψ̄:A_F, f×/F×→k×` and `τ̄(z)=ψ̄(z)⁻¹` on `U∩A_F, f×`. The residual action factors through a finite quotient. `w∉Σ, U_w=GL₂(O_w), U_w` acts trivially on `W̄_τ`, and the smaller level changes only its w-component to the Iwahori `U₀(w)`. The Hecke algebra omits w.
+F is totally real of even degree, p is unramified in F, and D/F is totally definite, with finite ramification set `Σ` as in KW §7. U is compact open. `W̄_τ` is a finite-dimensional continuous representation over the finite residue field k, with `ψ̄:A_{F,f}×/F×→k×` and `τ̄(z)=ψ̄(z)⁻¹` on `U∩A_{F,f}×`. The residual action factors through a finite quotient. `w∉Σ`, `U_w=GL₂(O_w)`, `U_w` acts trivially on `W̄_τ`, and the smaller level changes only its w-component to the Iwahori `U₀(w)`. The Hecke algebra omits w.
 
 *Proof route.* Pass to an open subgroup that kills the finite residual coefficient action. A kernel relation then forces `f₁` to be invariant under `U·SL₂(F_w)`. Use generation by the two conjugate maximal compact subgroups at w, and apply strong approximation for the norm-one quaternion group. The resulting function factors through Nrd and is killed by non-Eisenstein localization. The integral control theorem [R18.4.3 Integral torsion and reduction criteria](#r1843-integral-torsion-and-reduction-criteria) uses this residual injectivity together with its separate equal-rank and characteristic-zero comparisons.
 
@@ -2966,7 +2966,7 @@ F is totally real of even degree, p is unramified in F, and D/F is totally defin
 
 ### R18.3.10 Quaternionic isotropy exponent bound
 
-**Theorem.** For an auxiliary split place w∤p with hyperspecial local control, write `N_w=|GL₂(k_w)|`. The Sylow-p subgroups of all `Γ_t` have exponent dividing `2N_w` in the compact-level case and `4N_w` in KW’s allowed noncompact dyadic division-factor case. For compact U the reduced norm on `Γ_t(U)` maps to `T=((A_F, f×)²V∩F×)/(F×)²`, where `V=∏_{v<∞}O_v×`; this map need not be surjective. In the allowed noncompact case this norm sequence is asserted for `Γ_t(U⁰)` only, where U⁰ is the compact sublevel. Its target has exact sequence `0→O_F×/(O_F×)²→target→Cl(O_F)[2]→0`. Only finite p-subgroups, not the entire finite norm-one group, inject through reduction at the auxiliary place of residue characteristic different from p. The reduction kernel is pro-residue-characteristic. The norm sequence is left exact, with no surjectivity assertion onto its final square-class term.
+**Theorem.** For an auxiliary split place w∤p with hyperspecial local control, write `N_w=|GL₂(k_w)|`. The Sylow-p subgroups of all `Γ_t` have exponent dividing `2N_w` in the compact-level case and `4N_w` in KW’s allowed noncompact dyadic division-factor case. For compact U the reduced norm on `Γ_t(U)` maps to `T=((A_{F,f}×)²V∩F×)/(F×)²`, where `V=∏_{v<∞}O_v×`; this map need not be surjective. In the allowed noncompact case this norm sequence is asserted for `Γ_t(U⁰)` only, where U⁰ is the compact sublevel. Its target has exact sequence `0→O_F×/(O_F×)²→target→Cl(O_F)[2]→0`. Only finite p-subgroups, not the entire finite norm-one group, inject through reduction at the auxiliary place of residue characteristic different from p. The reduction kernel is pro-residue-characteristic. The norm sequence is left exact, with no surjectivity assertion onto its final square-class term.
 
 U, V and the distinguished w satisfy KW §7.2. In the noncompact case `Γ_t(U⁰)` is normal in `Γ_t(U)` with elementary-two quotient, induced by `UZ/U⁰Z`; this gives the extra factor two in the exponent bound.
 
@@ -3333,7 +3333,7 @@ The dyadic norm-twist hypotheses and compatible local diamond lifts.
 
 **Theorem.** For an irreducible unramified principal series of `GL₂(L)` with normalized inducing characters `χ₁,χ₂`, its Iwahori fixed space has dimension two, with `U_v` eigenvalues `a=q^{1/2}χ₁(π), b=q^{1/2}χ₂(π)`. The spherical Hecke polynomial is `(X−a)(X−b)=X²−T_v X+q_v S_v`. When `a−b` is a unit in the local integral Hecke algebra, the selected root summand is separated integrally. In the right-translation convention the map `ξ_v(f)=A_v f−R_diag(1,π)f` lands in the summand reducing to `α_v`, where `A_v≡α_v` and `α_v≠β_v`.
 
-v∤p, D split at `v, U_v=GL₂(O_v)`, and coefficients trivial at v.
+v∤p, D split at v, `U_v=GL₂(O_v)`, and coefficients trivial at v.
 
 The coefficient field contains the square root used for normalized induction; statements of T,S,U are independent of this auxiliary choice.
 
@@ -3406,7 +3406,7 @@ Its API:
 
 - Constant rational coefficients on a connected genus-two curve give dimension 4.
 - The identity correspondence acts as the identity.
-- For a finite étale cover of degree `d, trace∘pullback=d` on cohomology.
+- For a finite étale cover of degree d, `trace∘pullback=d` on cohomology.
 
 (Source: [CDN20](#references) §5.2.1, proof of Proposition 5.2, pp.41–42.)
 
@@ -3427,7 +3427,7 @@ O is the ring of integers of a finite extension of `ℚ_l`, and the algebraic co
 - At `l=2` a rank-one sign monodromy becomes trivial modulo two; characteristic-zero H⁰ vanishing alone does not supply the residual criterion.
 - A good-place eigensystem `(T_v,S_v)=(1,2)` over `F₇` has adjoint `(4,4)`. These maximal ideals differ, so vanishing of the dual group at m cannot replace its vanishing at m*.
 
-(Source: [CDN20](#references) §5.2.1, p.41; [NT16](#references) Proposition 3.7(3), pp.31–32, for inverse-double-coset adjoints.)
+(Source: [MS19](#references) §§2.9–2.10, Propositions 2.3–2.4 and their proofs, pp.9–10, for the Eisenstein property of `H⁰` and `H²` with coefficients, the curve duality `H²(X,A)≅H⁰(X,A∨)∨` and the adjoints `S_v*=S_v⁻¹`, `T_v*=S_v⁻¹T_v`; [NT16](#references) Proposition 3.7(3), pp.31–32, for inverse-double-coset adjoints. The freeness of `H¹`, the vanishing of `H²` and the reduction isomorphism follow from the coefficient sequence as in the proof route.)
 
 *Needs:* [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology); [ArithmeticLocallySymmetricSpaces, ALS.5a.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md#als5a4-hecke-adjoints-inverse-double-cosets-and-restrictioncorestriction); [EtaleCohomologyFoundations, §§F.0–F.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EtaleCohomologyFoundations/README.md); [ClassicalAdicEtaleCohomology, §§1.1–1.5, 9.2–9.7, 11.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassicalAdicEtaleCohomology/README.md); [ComplexComparisonPartII, §§C6.3–C6.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md).
 
@@ -3437,7 +3437,7 @@ O is the ring of integers of a finite extension of `ℚ_l`, and the algebraic co
 
 *Proof route.* Apply generic smooth proper curve duality and the coefficient evaluation map. Compare to Betti cup product and oriented fundamental class. Reverse the correspondence and invoke the integral torsion criterion when asserting perfection over O.
 
-(Source: [CDN20](#references) §5.2.1, pp.41–42.)
+(Source: [NT16](#references) Proposition 3.7(1)–(3), pp.31–32, for the derived Verdier duality and its exchange of `[UgU]` with the transpose of `[Ug⁻¹U]`; [MS19](#references) §2.9, proof of Proposition 2.3, p.10, for the curve duality and the adjoints `S_v*=S_v⁻¹`, `T_v*=S_v⁻¹T_v`.)
 
 *Needs:* [R18.4.3 Integral torsion and reduction criteria](#r1843-integral-torsion-and-reduction-criteria); [ArithmeticLocallySymmetricSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md) `ALS.3`, `ALS.5a`; [EtaleCohomologyFoundations, §§F.0–F.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EtaleCohomologyFoundations/README.md); [ClassicalAdicEtaleCohomology, §§1.1–1.5, 9.2–9.7, 11.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassicalAdicEtaleCohomology/README.md); [ComplexComparisonPartII, §§C6.3–C6.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md).
 
@@ -3638,7 +3638,7 @@ Identifying a derived O-adic realization with ordinary nonconstant O-cochains ad
 
 ### R18.4.14 GL₂ degeneracy Gram operator
 
-**Definition.** For a commutative Hecke coefficient algebra A acting on an A-module `M, q∈N, T∈A` and `S∈A×`, define `G_(q,T,S)` on `M⊕M` by `(x,y)↦((q+1)x+S⁻¹Ty,Tx+(q+1)y)`. Put `Δ=(q+1)²−S⁻¹T²` and `J(x,y)=((q+1)x−S⁻¹Ty,−Tx+(q+1)y)`. Then `GJ=JG=Δ` id. The chosen ordering corresponds to `T=π₂,*π₁*`.
+**Definition.** For a commutative Hecke coefficient algebra A acting on an A-module `M, q∈N, T∈A` and `S∈A×`, define `G_(q,T,S)` on `M⊕M` by `(x,y)↦((q+1)x+S⁻¹Ty,Tx+(q+1)y)`. Put `Δ=(q+1)²−S⁻¹T²` and `J(x,y)=((q+1)x−S⁻¹Ty,−Tx+(q+1)y)`. Then `GJ=JG=Δ` id. The chosen ordering corresponds to `T=π_{2,*}π₁*`.
 
 All scalar operations use the actual commuting Hecke image; S is a unit, not tacitly one.
 
@@ -3657,8 +3657,8 @@ Its API:
 **Checks.**
 
 - With `T=0` the matrix is (q+1) times identity, and `Δ=(q+1)²`.
-- Over `Q, q=2, T=3, S=2` gives `G(0,1)=(3/2,3)`; removing `S⁻¹` fails.
-- For `q=2,T=3,S=1` over `Q, Δ=0` and `G(1,−1)=0`.
+- Over `ℚ`, `q=2, T=3, S=2` gives `G(0,1)=(3/2,3)`; removing `S⁻¹` fails.
+- For `q=2,T=3,S=1` over `ℚ`, `Δ=0` and `G(1,−1)=0`.
 
 (Source: [MS19](#references) §§2.6–2.7 and §2.11, pp.8,10–11 (Right-level maps and double cosets determine the two trace-pullback entries; the matrix is derived here with the central adjoint retained))
 
@@ -3666,13 +3666,13 @@ Its API:
 
 ### R18.4.15 Geometric degeneracy Gram identity
 
-**Theorem.** At a split hyperspecial prime w, take `ω=diag(π_w,1), K_0(w)` with lower-left entry divisible by `π_w, π₁=ρ_1` and `π₂=ρ_(ω⁻¹)`. Both maps `X_(K_0(w))→X_K` have degree `q_w+1`. For coefficients acted on away from `w, δ=π₁*+π₂*:M²→M_0` and `δ†=(π₁,*,π₂,*)`. With `T_w=π₂,*π₁*` and `S_w` the central scalar double coset, `δ†δ=G_(q_w,T_w,S_w)`.
+**Theorem.** At a split hyperspecial prime w, take `ω=diag(π_w,1)`, `K_0(w)` with lower-left entry divisible by `π_w`, `π₁=ρ_1` and `π₂=ρ_(ω⁻¹)`. Both maps `X_(K_0(w))→X_K` have degree `q_w+1`. For coefficients acted on away from w, `δ=π₁*+π₂*:M²→M_0` and `δ†=(π_{1,*},π_{2,*})`. With `T_w=π_{2,*}π₁*` and `S_w` the central scalar double coset, `δ†δ=G_(q_w,T_w,S_w)`.
 
 Use the maps and coefficient identifications of the [R18.4.5 Cohomological degeneracy maps](#r1845-cohomological-degeneracy-maps).
 
 All cohomology is localized at an away Hecke ideal compatible with these maps; integral traces have their unnormalized degree convention.
 
-*Proof route.* Count cosets for both maps, obtaining diagonal trace-pullback `q_w+1`. The composite `π₂,*π₁*` is the `diag(π_w,1)` double coset in the stipulated right-action convention. The reverse composite is its inverse double coset, centrally translated by `S_w⁻¹`. Substitute the four entries in [R18.4.14 GL₂ degeneracy Gram operator](#r18414-gl₂-degeneracy-gram-operator).
+*Proof route.* Count cosets for both maps, obtaining diagonal trace-pullback `q_w+1`. The composite `π_{2,*}π₁*` is the `diag(π_w,1)` double coset in the stipulated right-action convention. The reverse composite is its inverse double coset, centrally translated by `S_w⁻¹`. Substitute the four entries in [R18.4.14 GL₂ degeneracy Gram operator](#r18414-gl₂-degeneracy-gram-operator).
 
 **Checks.**
 
@@ -3816,7 +3816,7 @@ The following three targets use the same totally real F, odd prime l, residual r
 
 (Source: [MS19](#references) §4.2, Lemma 4.10, pp.22–24.)
 
-**Theorem.** For the large-image residual representation and exceptional `l=5` condition of [R18.4.32 Large-image residual Ihara lemma](#r18432-large-image-residual-ihara-lemma), fix finite S and local conditions as above. With `Σ` the framed finite places, `j=4|Σ|−1`, there exist integers r,g and sets `Q_n` outside `S, |Q_n|=r`, with `Nv≡1 mod lⁿ` and two distinct residual Frobenius eigenvalues at `v∈Q_n`. Choose one eigenvalue at each v. The framed fixed-determinant global ring `R_(S∪Q_n)^□,θ` admits a surjection `R_loc[[x₁,…,x_g]]→R_(S∪Q_n)^□,θ`. The unframed ring represents strict-equivalence deformations with the same determinant `θ`, and framing is formally smooth of relative dimension j. Set `R_∞=R_loc[[x₁,…,x_g]]` and `S_∞=O[[y₁,…,y_r,w₁,…,w_j]]`; `dim R_loc=r+j−g+1` and `dim R_∞=dim S_∞=r+j+1`.
+**Theorem.** For the large-image residual representation and exceptional `l=5` condition of [R18.4.32 Large-image residual Ihara lemma](#r18432-large-image-residual-ihara-lemma), fix finite S and local conditions as above. With `Σ` the framed finite places, `j=4|Σ|−1`, there exist integers r,g and sets `Q_n` outside S, `|Q_n|=r`, with `Nv≡1 mod lⁿ` and two distinct residual Frobenius eigenvalues at `v∈Q_n`. Choose one eigenvalue at each v. The framed fixed-determinant global ring `R_(S∪Q_n)^□,θ` admits a surjection `R_loc[[x₁,…,x_g]]→R_(S∪Q_n)^□,θ`. The unframed ring represents strict-equivalence deformations with the same determinant `θ`, and framing is formally smooth of relative dimension j. Set `R_∞=R_loc[[x₁,…,x_g]]` and `S_∞=O[[y₁,…,y_r,w₁,…,w_j]]`; `dim R_loc=r+j−g+1` and `dim R_∞=dim S_∞=r+j+1`.
 
 `ρ̄|_(G_F(ζ_l))` absolutely irreducible; for `l=5` with projective image `PGL₂(F₅), ker` proj `ρ̄` is not contained in `G_F(ζ₅)`.
 
