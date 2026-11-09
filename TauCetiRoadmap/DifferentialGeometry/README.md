@@ -46,10 +46,16 @@ The smooth structure on the total space of a covering map is Tau Ceti's
 it and its API and plans nothing.
 
 Already in the library, at the Tau Ceti revision the content repository pins (*From Tau Ceti*,
-the de Rham modules): all of layer 6 and 7.1–7.3, the carriers of 8.3, the integral over a
+the de Rham and orientation-cover modules): the orientation double cover of 2.4 with its smooth
+structure, its canonical orientation and its fixed-point-free, orientation-reversing deck
+involution, the equivalence of orientability with a continuous section and, for connected `M`,
+with disconnectedness of the cover, the π₁ criterion, and the averaging operators of forms with
+the descent criterion; all of layer 6 and 7.1–7.3, the carriers of 8.3, the integral over a
 simplex of 8.4, the pairing of 9.1, the regular values of 10.1, the equal-dimensional case of
 Sard (10.2) and the signed fibre count of 10.3. Those subsections name the declarations, keep
-the ids and the names under which consumers cite them, and plan nothing again; the targets of
+the ids and the names under which consumers cite them, and plan nothing again. What remains of
+2.4 is the triviality of the cover, the commutation of the averaging operators with `d` and the
+outward orientation of `Sⁿ` with the sign of its antipodal map; the targets of
 layers 6–11 are what remains: the Mayer–Vietoris induction principle (7.4), the smoothing
 theorem (8.3), Stokes for chains and the de Rham homomorphism (8.4), the de Rham theorem (8.5),
 top cohomology and Poincaré duality (9.2–9.3), Sard in all dimensions (10.2), the degree with
@@ -245,8 +251,8 @@ Checked against the pin; re-grep before citing anything in code.
 `Suggested.lean` imports the existing APIs consumed by these layers; none is rebuilt.
 
 - **Covering-space theory** (universal-covers roadmap): `TauCeti/AlgebraicTopology/UniversalCover/`
-  — universal cover, π₁-action, deck groups and the classification; 2.4 consumes the
-  two-sheeted case.
+  — universal cover, π₁-action, deck groups and the classification; the π₁ criterion of 2.4 is
+  the two-sheeted case.
 - **Smooth structures on covers**: `Geometry/Manifold/Instances/Comap.lean` —
   `IsLocalHomeomorph.chartedSpaceComap`, the charts of the base pulled back along a local
   homeomorphism, with `IsLocalHomeomorph.isManifold_chartedSpaceComap`,
@@ -312,7 +318,8 @@ Checked against the pin; re-grep before citing anything in code.
   volumes with density `chartVolumeDensity`, orientation-free, characterized by
   `eq_riemannianVolume_iff`, locally finite; 12.4 connects densities and form integration to it.
 
-- **De Rham cohomology, smooth chains, null sets, Sard and the degree** (cited at Tau Ceti
+- **De Rham cohomology, smooth chains, null sets, Sard, the degree and the orientation double
+  cover** (cited at Tau Ceti
   `2fd255d9`, the revision the content repository's `lake-manifest.json` pins; these modules
   postdate the revision `358314d4` that this folder's `Suggested.lean` is written against, which
   is why its de Rham, duality and degree headlines and the equivalences of 2.4 are listed there as
@@ -322,12 +329,13 @@ Checked against the pin; re-grep before citing anything in code.
   `Geometry/Manifold/{Measure,RegularValue}.lean`, `Geometry/Manifold/Sard/{EqualDimension,Meagre}.lean`,
   `Geometry/Manifold/Degree/Basic.lean`, `Geometry/Manifold/Orientation/Sign.lean`,
   `Geometry/Manifold/Orientation/Cover/{Basic,Smooth,Descent,FundamentalGroup}.lean`,
+  `Topology/VectorBundle/Orientation/Cover.lean`,
   `Geometry/Manifold/ContMDiff/OnSubset.lean`,
-  `Geometry/Manifold/DifferentialForm/{HomotopyOperator,Poincare}.lean`,
+  `Geometry/Manifold/DifferentialForm/{HomotopyOperator,Poincare,Involution}.lean`,
   `Geometry/Manifold/DifferentialForm/Integration/{TopForm,Stokes,BoundarylessStokes,Path}.lean`,
   `Geometry/Convex/FullSimplex.lean`, `Geometry/Manifold/Exhaustion.lean` and
-  `Analysis/Calculus/DifferentialForm/Poincare.lean`. Layers 6–11 consume them by name. The
-  carriers they are built on — `TauCeti.RoughForm`, `TauCeti.SmoothForm`, `TauCeti.mextDeriv`,
+  `Analysis/Calculus/DifferentialForm/Poincare.lean`. 2.4 and layers 6–11 consume them by
+  name. The carriers they are built on — `TauCeti.RoughForm`, `TauCeti.SmoothForm`, `TauCeti.mextDeriv`,
   `TauCeti.closedForms`, `TauCeti.Manifold.OrientationLift`, `TauCeti.Manifold.Orientation`,
   `TauCeti.integralTopForm`, `TauCeti.homotopyOperator`, `TauCeti.fullSimplex` — realize the
   targets of layers 0–2 and 5 that `Suggested.lean` states against the earlier revision; a
@@ -920,36 +928,89 @@ Geometric Topology.
   that name stands for `hp.isLocalHomeomorph.chartedSpaceComap (H := H)`.
 - **2.4 The orientation double cover.** The cover of pairs of a point and an orientation of its
   tangent space, with its projection, a topology that is ⚠ not the sigma topology (pinned by the
-  covering property of the projection), the smooth structure induced through 2.3, the canonical orientation
-  and the orientation-reversing, fixed-point-free deck involution flipping the orientation. For
-  connected `M`: orientable ↔ the cover is disconnected ↔ it has a section ↔ it is trivial, and
-  `M` is orientable when `π₁` has no index-2 subgroup (`orientable_of_forall_index_ne_two`)
-  [Lee, Thm. 15.41–15.43]. At the Tau Ceti revision the content repository pins, the cover is
-  `TauCeti.Manifold.OrientationCover I M`, its charts are pulled back along the projection by
-  2.3's `IsLocalHomeomorph.chartedSpaceComap` (`Orientation/Cover/Smooth.lean`), and two of these
-  equivalences are proved for a `C¹` manifold `M` modelled on a finite-dimensional space:
-  `TauCeti.Orientable I M` holds exactly when the projection has a continuous section
-  (`TauCeti.Manifold.OrientationCover.orientable_iff_exists_section`), and, for connected `M`,
-  exactly when the cover is not connected
-  (`TauCeti.Manifold.OrientationCover.orientable_iff_not_connectedSpace`, both in
-  `Orientation/Cover/Basic.lean`); 2.4 consumes them by name there. The **descent API** — the
-  invariant and anti-invariant parts
-  `(1 ± τ^*)/2` of a form under an involution `τ`, which sum to the form, commute with `d` for a
-  `C²` involution and preserve compact support for a proper one, and the descent criterion (a form
-  on the cover is a pullback from `M` exactly when it is deck-invariant) — is
-  what 9.2's top-cohomology computation for nonorientable manifolds consumes. *Acceptance:* `Set.Icc x y` and spheres are orientable; the open Möbius band is
-  not. Construct the outward orientation of Mathlib's native smooth unit sphere
-  `S^n ⊂ ℝ^(n+1)`: a tangent basis `(b₁,…,bₙ)` is positive exactly when the ambient
-  ordered basis `(x,dιₓ b₁,…,dιₓ bₙ)` has positive determinant in the standard coordinates.
-  Consume `contMDiff_coe_sphere`, `range_mvfderiv_subtypeVal` and
+  covering property of the projection), the smooth structure induced through 2.3, the canonical
+  orientation and the orientation-reversing, fixed-point-free deck involution flipping the
+  orientation. `M` is orientable ↔ the cover has a continuous section ↔ it is trivial, and for
+  connected `M` also ↔ the cover is disconnected; a connected `M` is orientable when `π₁` has no
+  index-2 subgroup (`orientable_of_forall_index_ne_two`) [Lee, Thm. 15.41–15.43]. At the Tau
+  Ceti revision the content repository pins, all of this except the triviality is proved for a
+  `C¹` manifold `M` modelled on a finite-dimensional space, and 2.4 consumes it by name there:
+  - the cover `TauCeti.Manifold.OrientationCover I M`, with its topology read in the
+    trivializations of the tangent bundle, and the covering property of its projection
+    (`TauCeti.Manifold.OrientationCover.isCoveringMap_proj`, `Orientation/Cover/Basic.lean`);
+  - its charts, pulled back along the projection by 2.3's `IsLocalHomeomorph.chartedSpaceComap`,
+    for which the projection is a local diffeomorphism
+    (`TauCeti.Manifold.OrientationCover.isLocalDiffeomorph_proj`), and its canonical orientation
+    `TauCeti.Manifold.OrientationCover.canonicalOrientation`, which the derivative of the
+    projection at `(x, o)` carries to `o` (`Orientation/Cover/Smooth.lean`);
+  - the deck involution `TauCeti.VectorBundleOrientationCover.deck`, which has no fixed point
+    (`TauCeti.VectorBundleOrientationCover.deck_ne_self`,
+    `Topology/VectorBundle/Orientation/Cover.lean`) and is a `C^n` diffeomorphism for every `n`
+    (`TauCeti.Manifold.OrientationCover.deckDiffeomorph`) reversing the canonical orientation
+    (`TauCeti.Manifold.OrientationCover.isOrientationReversingAt_deck`);
+  - `TauCeti.Orientable I M` holds exactly when the projection has a continuous section
+    (`TauCeti.Manifold.OrientationCover.orientable_iff_exists_section`), and, for connected `M`,
+    exactly when the cover is not connected
+    (`TauCeti.Manifold.OrientationCover.orientable_iff_not_connectedSpace`);
+  - the π₁ criterion for connected `M`, with no separation hypothesis
+    (`TauCeti.Manifold.orientable_of_forall_index_ne_two`,
+    `Orientation/Cover/FundamentalGroup.lean`); `orientable_of_forall_index_ne_two` in
+    `Suggested.lean` states it, with the same hypotheses, against the Tau Ceti revision that file
+    is built on, which lacks the cover;
+  - the averaging operators `TauCeti.invariantPart τ φ = (φ + τ^*φ)/2` and
+    `TauCeti.antiInvariantPart τ φ = (φ − τ^*φ)/2` of a form `φ` under a self-map `τ`, which sum
+    to `φ` for every `τ` (`TauCeti.invariantPart_add_antiInvariantPart`), are fixed and negated
+    by `τ^*` when `τ` is a differentiable involution, and have compact support when `φ` has and
+    `τ` is proper (`TauCeti.isCompact_tsupport_invariantPart`,
+    `TauCeti.isCompact_tsupport_antiInvariantPart`; `DifferentialForm/Involution.lean`);
+  - the descent criterion: a form on the cover is the pullback of a form on `M` exactly when it
+    is deck-invariant (`TauCeti.Manifold.OrientationCover.exists_mpullback_proj_eq_iff`, and
+    `TauCeti.Manifold.OrientationCover.exists_smoothForm_mpullback_proj_eq_iff` for smooth forms
+    on a smooth `M`), so the invariant part of every form descends
+    (`TauCeti.Manifold.OrientationCover.exists_mpullback_proj_eq_invariantPart`;
+    `Orientation/Cover/Descent.lean`). This is what 9.2's top-cohomology computation for
+    nonorientable manifolds consumes.
+
+  The targets of 2.4 are what remains. Prove that `M` is orientable exactly when its cover is
+  trivial, that is when some homeomorphism `M × Fin 2 → TauCeti.Manifold.OrientationCover I M`
+  commutes with the projections. No connectedness is needed: a continuous section `s` gives
+  `(x, 0) ↦ s x` and `(x, 1) ↦ deck (s x)`, a bijection because each fibre is `{p, deck p}` with
+  `p ≠ deck p`, whose two images are open because a section of a covering map agrees near each
+  point with a local inverse of the projection. Prove that `d` commutes with
+  `TauCeti.invariantPart τ` and `TauCeti.antiInvariantPart τ` on `C¹` forms for a `C²` self-map
+  `τ` of a `C²` manifold, from the naturality `d(τ^*φ) = τ^*(dφ)` of 1.2 and the linearity of `d`
+  on `C¹` forms of 1.1; involutivity is not needed. *Acceptance:* `Set.Icc x y` and spheres are
+  orientable; the open Möbius band is not. Construct the outward orientation of Mathlib's native
+  smooth unit sphere `S^n ⊂ ℝ^(n+1)`: a tangent basis `(b₁,…,bₙ)` is positive exactly when the
+  ambient ordered basis `(x,dιₓ b₁,…,dιₓ bₙ)` has positive determinant in the standard
+  coordinates. Consume `contMDiff_coe_sphere`, `range_mvfderiv_subtypeVal` and
   `injective_mvfderiv_subtypeVal_sphere` to construct this orientation and prove the criterion.
   Include n=0, with positive point +1 and negative point −1. Prove the antipodal map has
   orientation sign `(-1)^(n+1)`, hence reverses this orientation exactly for even n.
   These tangent-orientation constructions precede AT6.3's homological comparison. *Needs:*
-  2.1–2.3; Tau Ceti's universal-cover classification (`AlgebraicTopology/UniversalCover/`) for
-  `orientable_of_forall_index_ne_two`; 0.3 and 1.2 for the descent API; Mathlib's
-  `contMDiff_coe_sphere`, `range_mvfderiv_subtypeVal` and `injective_mvfderiv_subtypeVal_sphere`
-  for the orientation of `Sⁿ`.
+  2.1–2.3 and the declarations above; for `orientable_of_forall_index_ne_two`,
+  `TauCeti.Manifold.orientable_of_forall_index_ne_two` at the content repository's pin; 0.3, 1.1
+  and 1.2 for the commutation with `d`; Mathlib's `contMDiff_coe_sphere`,
+  `range_mvfderiv_subtypeVal` and `injective_mvfderiv_subtypeVal_sphere` for the orientation of
+  `Sⁿ`.
+  **Checks.**
+  - Triviality and sections need no connectedness, disconnectedness does: for `M = S¹ ⊔ S¹` the
+    cover has four components and a section on each circle makes it trivial, and `M` is
+    orientable; for `M = S¹ ⊔ B`, with `B` the open Möbius band, the cover has three components
+    (two circles over `S¹` and a connected cylinder over `B`), so it is disconnected, yet it has
+    no section over `B` and is not trivial, and `M` is not orientable.
+  - Involutivity is not needed for the commutation with `d`: for the constant self-map `τ ≡ c`
+    of `ℝ` and a `C¹` function `f`, the invariant part of `f` is `(f + f(c))/2`, whose
+    derivative is `df/2`, and the invariant part of `df` is `(df + τ^*df)/2 = df/2`, since
+    `τ^*` kills `1`-forms (`dτ = 0`).
+  - The antipodal sign: the antipodal map carries `x` to `−x` and `b` to `−b`, and
+    `det(−x, −b₁, …, −bₙ) = (−1)^(n+1) det(x, b₁, …, bₙ)`. For `n = 0` it swaps the positive
+    point `+1` and the negative point `−1` (sign `−1`); for `n = 1` it is the rotation of `S¹` by
+    `π`, sign `+1`, as in 2.2's Check; for `n = 2` the sign is `−1`. The sign does not see the
+    convention, which is pinned separately: at `x = (1, 0)` the outward orientation of `S¹`
+    contains `b = (0, 1)`, since `det(x, b) = 1`, so it is the counterclockwise one, while the
+    normal-last convention `(b, x)` gives `det = −1` there, and the inward-first convention
+    `(−x, b)` would make `−1` the positive point of `S⁰`.
 
 ### Layer 3: flows
 

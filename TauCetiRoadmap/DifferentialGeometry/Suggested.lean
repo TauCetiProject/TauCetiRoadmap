@@ -758,11 +758,14 @@ variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSp
   {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M] [ChartedSpace H M]
   [FiniteDimensional ℝ E]
 
-/-- **Layer 2.4** [Lee, Thm. 15.43]: if `π₁(M, x)` has no subgroup of index `2`, `M` is
-orientable; in particular simply connected manifolds are orientable. The route is the
-orientation double cover of 2.4 with Tau Ceti's covering-space classification. -/
-theorem orientable_of_forall_index_ne_two [IsManifold I 1 M] [T2Space M] [ConnectedSpace M]
-    [LocallyPathConnectedSpace M] (x : M)
+/-- **Layer 2.4** [Lee, Thm. 15.43]: if `M` is connected and `π₁(M, x)` has no subgroup of
+index `2`, `M` is orientable; in particular simply connected manifolds are orientable. No
+separation hypothesis is needed, and local path-connectedness comes from the charts. The route is
+the orientation double cover of 2.4: if it were connected, it would be a connected two-sheeted
+cover, whose subgroup of `π₁` has index `2`. Tau Ceti proves it, with these hypotheses and for
+its class `TauCeti.Orientable`, at the revision the content repository pins
+(`TauCeti.Manifold.orientable_of_forall_index_ne_two`). -/
+theorem orientable_of_forall_index_ne_two [IsManifold I 1 M] [ConnectedSpace M] (x : M)
     (h : ∀ K : Subgroup (FundamentalGroup M x), K.index ≠ 2) : Orientable I M :=
   sorry
 
