@@ -58,7 +58,7 @@ A finite-group action is a coherent functor from BG, not merely an action on hom
 
 ## Exact supplier contracts
 
-The development starts from these pinned APIs, read at the revisions the content repository's manifest records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Every declaration, module and file named in this section, in the Scope paragraph on native carriers, and in the §4.3 route is cited as it is at those revisions.
+Every declaration, module and file named in this section, in the Scope paragraph on native carriers and in the §4.3 route is cited as it is at Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
 
 ### From Mathlib
 
