@@ -449,7 +449,8 @@ localization. Hopf and linear algebra: `AlgHom.prod`, `GroupLike`, `GroupLike.in
 `IsGroupLikeElem.map`, the convolution monoid on `WithConv (C →ₐc[R] A)`,
 `AddMonoidAlgebra.mapDomainBialgHom`, `Algebra.TensorProduct.cancelBaseChange`,
 `Ideal.Cotangent`, `Bialgebra.counitAlgHom`, `exteriorPower.ιMulti`, `exteriorPower.map`,
-`Module.evalEquiv`, `TensorProduct.lid`, `Subgroup.index_prod`, `Subgroup.isClosed_of_isDiscrete`.
+`Module.evalEquiv`, `TensorProduct.lid`, `Subgroup.index_prod`, `Subgroup.isClosed_of_isDiscrete`,
+`Subgroup.isClosed_of_discreteTopology`.
 Double cosets, actions and quotients: `DoubleCoset.Quotient`, `DoubleCoset.eq`,
 `CategoryTheory.ActionCategory`, `CategoryTheory.ActionCategory.stabilizerIsoEnd`, `ProperlyDiscontinuousSMul`, `isOpenMap_quotient_mk'_mul`,
 `isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul`,
@@ -1897,9 +1898,14 @@ restriction of scalars.
   discrete subgroup acting on `T` by left multiplication. Suppose that some
   measurable fundamental domain `D` of this action has `μ(D) < ∞`; this holds whenever `Λ\T` is
   compact. Prove that `T` is unimodular: Mathlib's modular character `Δ_T` is identically `1`.
-  Consequently `Δ_T` restricted to `Λ` equals `Δ_Λ = 1` (the counting measure of the discrete
-  group `Λ` is invariant on both sides), so *quotient-measure* (AA.2.2) applies to `Λ ≤ T` and,
-  with the counting measure on `Λ`, gives a `T`-invariant measure on `Λ\T` of total mass `μ(D)`.
+  Consequently `μ` is also right invariant, `Λ` is closed in `T` (a discrete subgroup of a
+  Hausdorff group: Mathlib `Subgroup.isClosed_of_discreteTopology`), and `Δ_T` restricted to `Λ`
+  equals `Δ_Λ = 1` (the counting measure of the discrete group `Λ` is invariant on both sides).
+  So *quotient-measure* (AA.2.2) applies to `Λ ≤ T` with `dg = μ` and `dh` the counting measure
+  on `Λ`, and gives a `T`-invariant measure `dġ` on `Λ\T` of total mass `μ(D)`: the integration
+  formula of AnalyticNumberTheoryPartII §5.3k for the nonnegative Borel function `1_D` has inner
+  sum `Σ_λ 1_D(λt)`, which equals `1` off a `Λ`-invariant `μ`-null set, and the image of such a
+  set in `Λ\T` is `dġ`-null by the same formula.
   This is this roadmap's deduction; [Witte Morris], Proposition 4.1.18, pp. 46–47, argues through
   a strict fundamental domain in the same way, for Lie groups and for lattices that carry a
   finite invariant measure by definition (Definition 4.1.16, p. 46). `Λ` is countable,
@@ -1910,8 +1916,11 @@ restriction of scalars.
   `Λ\T` is compact, *Compact sets lift to a closed homogeneous quotient* (AA.2.2) gives a compact
   `K ⊆ T` with `ΛK = T`, and the Borel fundamental domain `D` of *Borel fundamental domains for
   countable discrete subgroups* satisfies `μ(D) ≤ Σ_λ μ(λK ∩ D) = μ(K) < ∞`.
-  *Needs:* AA.2.2 (*Compact sets lift to a closed homogeneous quotient*); AA.2.3 (*Borel
+  *Needs:* AA.2.2 (*Compact sets lift to a closed homogeneous quotient*; *quotient-measure*, for
+  the invariant measure on `Λ\T`); AnalyticNumberTheoryPartII §5.3k (the integration formula for
+  nonnegative Borel functions, for its total mass `μ(D)`); AA.2.3 (*Borel
   fundamental domains for countable discrete subgroups*); Mathlib
+  `Subgroup.isClosed_of_discreteTopology` (closedness of `Λ`, which both AA.2.2 targets assume),
   `MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`,
   `MeasureTheory.Measure.modularCharacter`,
   `MeasureTheory.IsFundamentalDomain.measure_ne_zero`,
@@ -1939,6 +1948,10 @@ restriction of scalars.
     domain is `ℝ` up to a null set, of infinite measure, although `ℝ` is unimodular; for `Λ = 1`
     and compact `T` it is `T` up to a null set, and the statement is the unimodularity of compact
     groups.
+  - The normalization of the total mass: in the finite group `T = S₃` with counting measure `μ`
+    and `Λ = A₃`, the set `D = {1, (12)}` meets each of the two cosets `Λt` once, so `μ(D) = 2`.
+    With the counting measure on `Λ` the integration formula for `f = 1` reads `6 = 3 · dġ(Λ\T)`,
+    giving total mass `2 = μ(D)`; the normalized counting measure on `Λ` would give `6`.
 - **Fundamental domains for rational points.** For `G = Spec H` affine algebraic over `F` with
   `H` finitely generated, prove that `G(F)` acting on `G(𝔸_F)` (or `G(𝔸_F)^1`) by left
   translation admits a Borel fundamental domain for left Haar measure. When the ambient group
@@ -1975,7 +1988,9 @@ restriction of scalars.
   satisfy `dx(A · (H_G|_{A_G(ℝ)^0})⁻¹(E)) = vol([A]) · λ(E)` ([Borel], Theorem 5.8, p. 22;
   [Arthur], §3, p. 16).
   Invariance and linearity in `dx` also hold for `c(G) · vol` with a constant depending only on
-  `G`; the normalization fixes the constant. *Needs:* AA.2.1; AA.2.2; AA.2.3; AA.1.5.
+  `G`; the normalization fixes the constant. *Needs:* AA.2.1; AA.2.2; AA.2.3; AA.1.5; AA.1.3
+  (*Rational points are discrete in the full adeles*: `G(F)` is discrete and closed in `G(𝔸_F)`,
+  hence in the closed subgroup `G(𝔸_F)^1` containing it, as *quotient-measure* requires).
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -3297,7 +3312,9 @@ in the standard integral level.
   finite Haar measure, as in the Lean statement) makes `G(𝔸_F)^1` unimodular by
   *finite-covolume-unimodular* (AA.2.3), which is the modular-character hypothesis of
   *quotient-measure* (AA.2.2) for the discrete subgroup `G(F)`.
-  *Needs:* AA.3.4; AA.2.3; AA.2.1; AA.2.2; AA.3.1.
+  *Needs:* AA.3.4; AA.2.3; AA.2.1; AA.2.2; AA.3.1; AA.1.3 (*Rational points are discrete in the
+  full adeles*: `G(F)` is discrete and closed, as *finite-covolume-unimodular* and
+  *quotient-measure* require).
   *Lean:* `Reduction.exists_fundamentalDomain_normOne_lt_top` (connected linear algebraic groups).
 - **Tamagawa numbers are finite.** For connected reductive `G`, prove that the Tamagawa number
   `τ(G)` of AA.2.4 is finite and positive ([Rosengarten], §1, p. 3). *Needs:* AA.3.4; AA.2.4.
@@ -5210,7 +5227,9 @@ quaternion norms and compact abelian Fourier limits.
   of the closed subgroup `π(T)` ([Khayutin], Definition 3.1, arXiv v3 p. 22; Annals p. 169).
   *Needs:* AA.2.3 (*finite-covolume-unimodular*: compactness of `Λ\T` makes `T` unimodular);
   AA.2.2 (*quotient-measure*, which then gives the invariant probability measure `ν` on the
-  compact quotient `Λ\T`); Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`.
+  compact quotient `Λ\T`); Mathlib `Subgroup.isClosed_of_discreteTopology` (`Λ` is closed in
+  the Hausdorff group `T`, as *quotient-measure* requires),
+  `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`.
   *Lean:* none; specified in the README only.
   **Checks.**
   - For `G_m/ℚ`, the quotient by the algebraic centre is trivial, but
