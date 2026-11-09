@@ -20,8 +20,10 @@ is semisimple, with coefficients in the reductions `V/ϖʳV` of a finite free
 lattice over a discrete valuation ring finite over `ℤ_p`: the degree-one form,
 with no hypothesis on invariants, and the all-degree form, whose hypothesis that
 `V ⊗ ℚ_p` has no Lie-algebra invariants is stated in its equivalent group form,
-that no open subgroup fixes a nonzero vector of `V`. The reductions, with their
-discrete topology and induced action, are the only definitions this file makes.
+that no open subgroup fixes a nonzero vector of `V`. The Lie algebra the source's
+hypothesis refers to is Lazard's, which README §4.4 identifies with `GroupLieAlgebra`.
+The reductions, with their discrete topology and induced action, are the only
+definitions this file makes.
 
 The following headline theorems are not statable at the pins:
 * Controlled G-valued finite-level towers: the fixed-quotient arithmetic lifting
@@ -116,7 +118,8 @@ end ModPow
 /-- README §4.4, degree one (FKP19 Lemma B.1, p.64; Lazard65 V (2.2.2.3), (2.2.3.1) and
 Theorem (2.4.10)). Let `G` be a compact group with a `ℚ_p`-analytic manifold structure of dimension `d`
 and analytic group operations, whose Lie algebra, the tangent space at the identity with the
-bracket of left-invariant vector fields, is semisimple over `ℚ_p`. Let `O` be a discrete
+bracket of left-invariant vector fields, is semisimple over `ℚ_p`; README §4.4 identifies it with
+Lazard's Lie algebra, to which the source's hypothesis refers. Let `O` be a discrete
 valuation ring finite over `ℤ_p`, `ϖ` an irreducible element of `O`, `V` a finite free
 `O`-module with a representation `ρ` of `G` that is continuous on every reduction `V/ϖʳV`
 for the discrete topology. Then one power of `p`, independent of `r`, kills the first
@@ -136,9 +139,10 @@ theorem uniformTorsion_H1 {p : ℕ} [Fact p.Prime] {d : ℕ} {G : Type*} [Topolo
 /-- README §4.4, all degrees (FKP19 Lemma B.1, p.64, with degree zero added as in README §4.4).
 Let `G`, `O`, `ϖ`, `V` and `ρ` be as in `uniformTorsion_H1`, with `G` and `V` in one universe,
 and assume that no open subgroup of `G` fixes a nonzero vector of `V`. For a free lattice this
-is equivalent to the absence of invariants of the Lie algebra of `G` in `V ⊗ ℚ_p`, because the
-rational invariants of every sufficiently small open subgroup are exactly the Lie-algebra
-invariants (Lazard65 V Theorem (2.4.10)). Then one power of `p`, independent of the degree `n`
+is equivalent to the absence of invariants in `V ⊗ ℚ_p` under the derived action of Lazard's Lie
+algebra of `G`, because the rational invariants of every sufficiently small open subgroup are
+exactly the Lie-algebra invariants (Lazard65 V Theorem (2.4.10)); README §4.4 identifies that Lie
+algebra with `GroupLieAlgebra`. Then one power of `p`, independent of the degree `n`
 and of `r`, kills the continuous cohomology `Hⁿ(G, V/ϖʳV)` for every `n` and every `r`. -/
 theorem uniformTorsion {p : ℕ} [Fact p.Prime] {d : ℕ} {G : Type u} [TopologicalSpace G]
     [ChartedSpace (Fin d → ℚ_[p]) G] [Group G] [IsTopologicalGroup G] [CompactSpace G]
