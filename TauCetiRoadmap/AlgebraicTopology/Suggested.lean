@@ -5,57 +5,61 @@ public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWTyp
 public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
 public import TauCeti.AlgebraicTopology.Cohomology.Cup
 public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+public import TauCeti.AlgebraicTopology.Homotopy.Hurewicz.Basic
+public import TauCeti.AlgebraicTopology.Homotopy.Relative.Hurewicz
 public import TauCeti.AlgebraicTopology.Singular.Relative
+public import TauCeti.Topology.CWComplex.Classical.CWType
 public import TauCeti.Topology.CWComplex.Classical.FiniteCWType
+public import TauCeti.Topology.Homotopy.LusternikSchnirelmann
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs. The headlines are the cup-length bound
-for categorical covers; Poincaré duality by cap with a fundamental class and its twisted,
-boundary and compact-triad Poincaré–Lefschetz forms; the product-ball intersection theorem
-(§6.6); the bundle formula for the Euler
-characteristic; homological Whitehead; finite CW type of compact smooth manifolds and the
+for the Lusternik–Schnirelmann count; Poincaré duality by cap with a fundamental class and its
+twisted, boundary and compact-triad Poincaré–Lefschetz forms; the product-ball intersection
+theorem (§6.6); the bundle formula for the Euler characteristic; absolute Hurewicz in every
+universe and relative Hurewicz for a simply connected subspace; homological Whitehead for
+spaces of CW type; proper Whitehead; finite CW type of compact smooth manifolds and the
 homology-sphere recognition corollary; CW type of mapping spaces from compact sources; the
 nerve model of K(G,1); rectification of a proper homotopy inverse to a proper strong
-deformation retraction; absolute Hurewicz in every universe and relative Hurewicz for a simply
-connected subspace; proper Whitehead; the Künneth, Wang, Cartan–Leray and Serre spectral
-sequences; the topological restriction-tower comparisons; ordinary representability with the
-EM loop comparison; relative obstruction theory; the transverse circle classifying map of an
-integral degree-one class (§8.13); and the non-freeness of `C_p × C_p` actions on spheres
-(§8.15).
+deformation retraction; the Künneth and Cartan–Leray spectral sequences; the topological
+restriction-tower comparisons; ordinary representability with the EM loop comparison;
+relative obstruction theory; the transverse circle classifying map of an integral degree-one
+class (§8.13); and the non-freeness of `C_p × C_p` actions on spheres (§8.15).
 
 Results that Tau Ceti proves are consumed through the README's supplier contracts and not
-restated here: Brouwer's fixed-point theorem, the chain transfer of a
-finite covering, Lusternik–Schnirelmann categorical covers and their count, ordinary Whitehead
-and spaces of CW type, the Euler characteristic of spaces of finite CW type with its homotopy
-invariance, product, covering and Mayer–Vietoris formulas, the field and hereditary-ring
-Künneth theorems, the universal coefficient sequence, based pairs with their relative homotopy
-groups and Hurewicz maps, and proper homotopy equivalences. The statements below use only
-declarations present in the Tau Ceti this file is built against, so the cup-length bound is
-stated for every categorical cover rather than through the native count, and spaces of CW type
-are given by an explicit Hausdorff CW model and a homotopy equivalence to it.
+restated here: Brouwer's fixed-point theorem, the chain transfer of a finite covering,
+Lusternik–Schnirelmann categorical covers and their count, the Wang sequence of a mapping torus
+of a homeomorphism, the homology of tori as exterior powers, the ordered Čech double complex of
+an open cover with its quasi-isomorphism to singular chains and its spectral sequence, the
+coefficient Bockstein, the laws of the constant-coefficient cup and cap products, ordinary
+Whitehead and spaces of CW type, the Euler characteristic of spaces of finite CW type with its
+homotopy invariance, product, covering and Mayer–Vietoris formulas, the field and
+hereditary-ring Künneth theorems, the universal coefficient sequence, based pairs with their
+relative homotopy groups and Hurewicz maps, absolute Hurewicz for spaces in `Type`, relative
+Hurewicz when the subspace and the space are both highly connected, the local homology system
+of a manifold, which is a local coefficient system, and proper homotopy equivalences.
 
-Not stated, with the missing carriers: relative Hurewicz for a simply connected subspace and the
-universe-general absolute Hurewicz theorem need based pairs, relative homotopy groups and the
-relative and absolute Hurewicz maps (`TauCeti.BasedTopPair`, `TauCeti.RelHomotopyGroup`,
-`TauCeti.RelHomotopyGroup.hurewicz`, `HomotopyGroup.hurewicz`), which the Tau Ceti revision this
-file is built against does not have. The twisted, boundary and
-compact-triad duality forms need the homological orientation local system as a local
-coefficient system, direct local-system cochains, relative fundamental classes of manifolds with
-boundary and the local-coefficient cap operation. The Künneth spectral sequence and the Wang,
-Cartan–Leray and Serre sequences need their canonical chain maps and abutment filtrations. The
-topological Milnor comparison needs the skeletal restriction-tower adapter and its limit
-comparison; the generic tower algebra is Tau Ceti's. The normalized representability and
-EM-loop headlines need the supplier's functorial normalized EM family and its universal class.
-The obstruction extension criteria need the cellular obstruction and difference cochains with
-their transport. Proper Whitehead needs compactly supported singular cohomology with pullback
-along proper maps, the carrier of its hypothesis, which neither pinned library has. Of the
-smooth-manifold CW-type headlines, the boundary-pair and marked-point forms need a homotopy
-equivalence of pairs, and the countable locally finite CW type of a noncompact manifold needs a
-local-finiteness predicate on CW models. These constructions remain README targets, not
-admitted data here.
+Not stated, with the missing carriers. The twisted, boundary and compact-triad duality forms
+need direct local-system cochains (the pinned twisted cochains are Hom of twisted chains, which
+computes cochains of the dual system), the local-coefficient cap product and relative
+fundamental classes of manifolds with boundary; the pinned fundamental classes are those of
+boundaryless manifolds. The Künneth spectral sequence over a general ring needs the filtration
+of the tensor product of chain complexes whose second page is `Tor`, and the Cartan–Leray
+spectral sequence needs the double complex of the deck action with its group-homology second
+page; neither pinned library has them. The topological Milnor comparison needs the skeletal
+restriction tower of cohomology modules of a CW complex and its limit comparison; the generic
+tower algebra is Tau Ceti's. The normalized representability and EM-loop headlines need the
+supplier's functorial normalized K(A,n) family and its universal class; the pins have only
+K(G,1) spaces. The obstruction extension criteria need the cellular obstruction and difference
+cochains with their transport. Proper Whitehead needs compactly supported singular cohomology
+with pullback along proper maps, the carrier of its hypothesis, which neither pinned library
+has. Of the smooth-manifold CW-type headlines, the boundary-pair and marked-point forms need a
+homotopy equivalence of pairs, and the countable locally finite CW type of a noncompact
+manifold needs a local-finiteness predicate on CW models. These constructions remain README
+targets, not admitted data here.
 -/
 
 public section
@@ -97,16 +101,13 @@ noncomputable def lsCupLength (X : TopCat.{u}) (R : Type u) [CommRing R] : ℕ�
     ∃ d : ℕ, ∃ a : singularCohomology R X d,
       a ≠ 0 ∧ LSPositiveCupProduct X R r ⟨d, a⟩}
 
-/-- A cover of a nonempty space by `n` open sets, each with nullhomotopic inclusion into the
-space, has more members than the cup length, over every commutative coefficient ring (the zero
-ring included). Taking the infimum over such covers bounds the unnormalized
-Lusternik–Schnirelmann count: `lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X Set.univ`. -/
-theorem lsCupLength_add_one_le_of_categoricalCover (X : TopCat.{u}) [Nonempty X]
-    (R : Type u) [CommRing R] (n : ℕ) (U : Fin n → TopologicalSpace.Opens X)
-    (hcover : ∀ x : X, ∃ i, x ∈ U i)
-    (hnull : ∀ i,
-      (⟨Subtype.val, continuous_subtype_val⟩ : C({x : X // x ∈ U i}, X)).Nullhomotopic) :
-    lsCupLength X R + 1 ≤ n := by
+/-- The cup length bounds the unnormalized Lusternik–Schnirelmann count: on a nonempty space
+`X`, over every commutative coefficient ring `R` (the zero ring included),
+`lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X Set.univ`. Equivalently, every cover of `X` by
+`n` open sets, each with nullhomotopic inclusion into `X`, has `n > lsCupLength X R`. -/
+theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
+    (R : Type u) [CommRing R] :
+    lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X Set.univ := by
   sorry
 
 /-- A fundamental class of a space `M` of dimension `n` with coefficients in a commutative ring
@@ -193,30 +194,42 @@ theorem finsum_finrank_singularHomology_fiberBundle (k : Type u) [Field k]
       TauCeti.eulerChar B * TauCeti.eulerChar F := by
   sorry
 
-/-! ## Layer 8: Whitehead, classifying spaces and proper deformation -/
+/-! ## Layer 8: Hurewicz, Whitehead, CW type, classifying spaces and proper deformation -/
 
-/-- A map between simply connected CW complexes which induces isomorphisms on integral singular
-homology is itself the forward map of a homotopy equivalence. -/
-theorem homologicalWhitehead
-    {X Y : Type u} [TopologicalSpace X] [TopologicalSpace Y]
-    [T2Space X] [T2Space Y]
-    [SimplyConnectedSpace X] [SimplyConnectedSpace Y]
-    [CWComplex (Set.univ : Set X)] [CWComplex (Set.univ : Set Y)]
-    (f : C(X, Y))
-    (_hf : ∀ n : ℕ,
-      IsIso (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
-        (ModuleCat.of ℤ (ULift.{u} ℤ))).map (TopCat.ofHom f))) :
-    ∃ e : X ≃ₕ Y, e.toFun = f := by
+/-- **Absolute Hurewicz in every universe.** If `πₖ(X, x)` is trivial for every `k < n + 2`,
+then the Hurewicz map `πₙ₊₂(X, x) → Hₙ₊₂(X; ℤ)`, sending a class to the image of the cube
+generator, is bijective (Hatcher, Theorem 4.32, p.366). The space lives in an arbitrary universe
+`u`, and `ℤ` is lifted to it; Tau Ceti's `HomotopyGroup.bijective_hurewicz` is the case of
+spaces in `Type`. -/
+theorem hurewicz_bijective {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ)
+    (hX : ∀ k < n + 2, Subsingleton (HomotopyGroup (Fin k) X x)) :
+    Function.Bijective fun a : HomotopyGroup (Fin (n + 2)) X x ↦
+      (HomotopyGroup.hurewicz (ModuleCat.of ℤ (ULift.{u} ℤ)) (n + 1) a).hom 1 := by
   sorry
 
-/-- Homological Whitehead for simply connected spaces of CW type: `X` and `Y` are homotopy
-equivalent to CW complexes `C ⊆ K` and `D ⊆ L` in Hausdorff spaces of the same universe, the
-shape of Tau Ceti's `TauCeti.CWType`, and no CW structure is assumed on `X` or `Y`. -/
-theorem homologicalWhitehead_cwType {X Y : Type u}
+/-- **Relative Hurewicz for a simply connected subspace.** Let `(X, A, a₀)` be a based pair,
+in any universe, with `A` simply connected, every point of `X` joined by a path to a point of
+`A` (every path component of `X` meets `A`), and `π_{k+1}(X, A, a₀)` trivial for `k < n + 1`.
+Then the relative Hurewicz map `πₙ₊₂(X, A, a₀) → Hₙ₊₂(X, A; ℤ)` is bijective (Hatcher,
+Theorem 4.32, p.366). `TauCeti.RelHomotopyGroup (Fin k) X` is `π_{k+1}(X, A, a₀)`. Nothing is
+assumed of `πₖ(A)` for `k ≥ 2` or of `πₖ(X)`: for `(D³, S²)` with `n = 1` the map is
+`π₃(D³, S²) ≅ π₂(S²) = ℤ → H₃(D³, S²) = ℤ`, outside Tau Ceti's
+`TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`. -/
+theorem relativeHurewicz_bijective (X : TauCeti.BasedTopPair.{u}) (n : ℕ)
+    [SimplyConnectedSpace X.pair.snd]
+    (h₀ : ∀ y : X.pair.fst, ∃ a : X.pair.snd, Joined y (X.pair.map a))
+    (h : ∀ k < n + 1, Subsingleton (TauCeti.RelHomotopyGroup (Fin k) X)) :
+    Function.Bijective fun a : TauCeti.RelHomotopyGroup (Fin (n + 1)) X ↦
+      (TauCeti.RelHomotopyGroup.hurewicz (ModuleCat.of ℤ (ULift.{u} ℤ)) (n + 1) a).hom 1 := by
+  sorry
+
+/-- **Homological Whitehead.** A map between simply connected spaces of CW type (Tau Ceti's
+`TauCeti.CWType`) which induces isomorphisms on integral singular homology in every degree is
+the forward map of a homotopy equivalence (Hatcher, Corollary 4.33, p.367). No CW structure is
+assumed on `X` or `Y`; a Hausdorff CW complex has CW type. -/
+theorem homologicalWhitehead {X Y : Type u}
     [TopologicalSpace X] [TopologicalSpace Y]
-    [SimplyConnectedSpace X] [SimplyConnectedSpace Y]
-    {K L : Type u} [TopologicalSpace K] [TopologicalSpace L] [T2Space K] [T2Space L]
-    (C : Set K) (D : Set L) [CWComplex C] [CWComplex D] (eX : X ≃ₕ C) (eY : Y ≃ₕ D)
+    [SimplyConnectedSpace X] [SimplyConnectedSpace Y] [TauCeti.CWType X] [TauCeti.CWType Y]
     (f : C(X, Y))
     (hf : ∀ n : ℕ, IsIso (((AlgebraicTopology.singularHomologyFunctor
       (ModuleCat.{u} ℤ) n).obj (ModuleCat.of ℤ (ULift.{u} ℤ))).map (TopCat.ofHom f))) :
@@ -242,15 +255,13 @@ theorem compactManifoldWithBoundaryFiniteCWType (n : ℕ) [NeZero n] (M : Type u
     TauCeti.FiniteCWType M := by
   sorry
 
-/-- A simply connected space of CW type whose integral singular homology vanishes in every
-degree other than `0` and `n` and is `ℤ` in degree `n ≥ 2` is homotopy equivalent to the
-standard sphere `Sⁿ`: Hurewicz gives a map `Sⁿ → X` inducing an isomorphism on homology
-(Hatcher, Theorem 4.32, p.366) and homological Whitehead makes it a homotopy equivalence
-(Hatcher, Corollary 4.33, p.367). CW type is an explicit CW model `C ⊆ K` with a homotopy
-equivalence `X ≃ₕ C`. -/
+/-- A simply connected space of CW type (Tau Ceti's `TauCeti.CWType`) whose integral singular
+homology vanishes in every degree other than `0` and `n` and is `ℤ` in degree `n ≥ 2` is
+homotopy equivalent to the standard sphere `Sⁿ`: Hurewicz gives a map `Sⁿ → X` inducing an
+isomorphism on homology (Hatcher, Theorem 4.32, p.366) and homological Whitehead makes it a
+homotopy equivalence (Hatcher, Corollary 4.33, p.367). -/
 theorem nonempty_homotopyEquiv_sphere_of_homologySphere (n : ℕ) (hn : 2 ≤ n)
-    (X : Type u) [TopologicalSpace X] [SimplyConnectedSpace X]
-    {K : Type u} [TopologicalSpace K] [T2Space K] (C : Set K) [CWComplex C] (e : X ≃ₕ C)
+    (X : Type u) [TopologicalSpace X] [SimplyConnectedSpace X] [TauCeti.CWType X]
     (hvanish : ∀ k : ℕ, k ≠ 0 → k ≠ n →
       IsZero (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) k).obj
         (ModuleCat.of ℤ (ULift.{u} ℤ))).obj (TopCat.of X)))
@@ -260,22 +271,19 @@ theorem nonempty_homotopyEquiv_sphere_of_homologySphere (n : ℕ) (hn : 2 ≤ n)
   sorry
 
 /-- A compact Hausdorff source and a target of CW type have a mapping space of CW
-type (Milnor, Theorem 3, p.276); the topology is compact-open and no metrizability of the
-source is assumed. Milnor's statement carries no separation axiom on the compact source,
-but the function-space steps of its proof (continuity of evaluation, the exponential law
-for homotopies into the mapping space) are available for compact Hausdorff sources; the
-Hausdorff hypothesis on `X` is kept for that reason. No separation axiom is needed on `Y`:
-the model is a CW complex `Z` in a Hausdorff space `K`, and postcomposition with the model
-equivalence and its homotopies, transported through the exponential law for the compact
-Hausdorff source, makes `C(X, Y)` homotopy equivalent to `C(X, Z)`. The route makes the
+type, Tau Ceti's `TauCeti.CWType` for the compact-open topology on `C(X, Y)` (Milnor,
+Theorem 3, p.276); no metrizability of the source is assumed. Milnor's statement carries no
+separation axiom on the compact source, but the function-space steps of its proof (continuity
+of evaluation, the exponential law for homotopies into the mapping space) are available for
+compact Hausdorff sources; the Hausdorff hypothesis on `X` is kept for that reason. No
+separation axiom is needed on `Y`: postcomposition with the equivalence to a CW model `Z` in a
+Hausdorff space and with its homotopies, transported through the exponential law for the
+compact Hausdorff source, makes `C(X, Y)` homotopy equivalent to `C(X, Z)`. The route makes the
 maps from `X` into the metric realization of a simplicial model a metric absolute
-neighbourhood retract, which is dominated by a CW complex. The conclusion is CW type in the
-shape of Tau Ceti's `TauCeti.CWType`. -/
+neighbourhood retract, which is dominated by a CW complex. -/
 theorem finiteSourceMappingCWType {X Y : Type u}
-    [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space X]
-    {K : Type u} [TopologicalSpace K] [T2Space K] (Z : Set K) [CWComplex Z] (e : Y ≃ₕ Z) :
-    ∃ (L : Type u) (_ : TopologicalSpace L) (_ : T2Space L) (D : Set L) (_ : CWComplex D),
-      Nonempty (C(X, Y) ≃ₕ D) := by
+    [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space X] [TauCeti.CWType Y] :
+    TauCeti.CWType C(X, Y) := by
   sorry
 
 open scoped Simplicial in
