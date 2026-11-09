@@ -1,7 +1,9 @@
-import Mathlib
-import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.Scalar
-import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
-import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
+module
+
+public import Mathlib
+public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.Scalar
+public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
+public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 
 /-!
 # Asymptotically Euclidean geometry and positive mass: target signatures
@@ -23,12 +25,14 @@ Not statable at the pins:
   on a Riemannian manifold, that is no `Spin(n)` lift of the oriented orthonormal frame bundle;
   the pins have the algebraic spin group only.
 * P3.1's torus obstruction (a closed oriented `d`-manifold, `3 ≤ d ≤ 7`, with a nonzero-degree
-  map to `T^d` carries no metric of positive scalar curvature): the degree of a map between
-  closed oriented manifolds is absent.
+  map to `T^d` carries no metric of positive scalar curvature): only the signed count at a
+  regular value exists (`TauCeti.degreeAtRegularValue`), without its independence of the value.
 * P1's weighted Fredholm theorems, P1.3's round spinor spectrum and P6.1's Callias solvability:
   weighted Sobolev spaces of sections of a bundle over a manifold, and the spinor bundle with
   its Dirac operator, are absent.
 -/
+
+@[expose] public section
 
 noncomputable section
 

@@ -51,9 +51,9 @@ It leaves to other roadmaps:
 - gradient, divergence, Laplace–Beltrami, Green identities, orientation cover and
   Sard: DifferentialGeometry 2, 10, 12.2–12.5;
 - Euclidean weak spaces, maximum principles, elliptic existence and regularity:
-  PDE Lanes A, C–E;
+  PDE Layer 1 (A1–A7), Layer 3 (C12–C15), Layer 4 (D16–D19), Layer 5 (E20–E26);
 - the form-domain self-adjoint realization and its compact specialization:
-  UnboundedOperators UO-D06 and VariationalMethods V2.3, V5.1;
+  OperatorTheory/UnboundedOperators UO-D06 and VariationalMethods V2.3, V5.1;
 - bundle distributions, local elliptic regularity and compact Sobolev comparisons:
   ComplexKahlerGeometry K5a;
 - Spin lifts, spinor bundles, the Dirac operator and the Schrödinger–Lichnerowicz
@@ -145,7 +145,7 @@ compact-support and two-sidedness hypotheses, and the normal-Jacobi Dirichlet
 realization. R7.8: smooth Lipschitz approximation of distance functions. R8.1–R8.2:
 scalar spherical harmonics and their completeness in the compact L² realization.
 
-### From TauCetiRoadmap.RiemannianGeometry.Surfaces
+### From TauCetiRoadmap.RiemannianGeometry.Surfaces (on main)
 
 S3: Gauss–Bonnet for compact disks with piecewise smooth boundary, reflex corners
 included and cusps excluded; the boundary term against local connection forms;
@@ -163,19 +163,22 @@ Section 10: Sard, used for regular exhaustion boundaries.
 
 ### From TauCetiRoadmap.PDE (on main)
 
-Lanes A, C–E: Euclidean weak spaces, local and boundary estimates, maximum and
-Harnack principles, scalar Dirichlet theory. Euclidean scalar estimates do not by
-themselves supply the weighted bundle and boundary inverses built here.
+Layer 1 (A1–A7), Layer 3 (C12–C15), Layer 4 (D16–D19) and Layer 5 (E20–E26):
+Euclidean weak spaces, local and boundary estimates, maximum and Harnack principles,
+scalar Dirichlet theory; the strong maximum principle is 3.2 (C13). Euclidean scalar
+estimates do not by themselves supply the weighted bundle and boundary inverses built
+here.
 
-### From TauCetiRoadmap.VariationalMethods and TauCetiRoadmap.UnboundedOperators
+### From TauCetiRoadmap.VariationalMethods and TauCetiRoadmap.OperatorTheory.UnboundedOperators
 
-VariationalMethods V2.3: realification, the complex `Complex.I` tests and the
-complex-linear forcing map. UnboundedOperators UO-D06: for a dense continuous
-injection `j:V→H` and a bounded Hermitian shifted-coercive form a, the operator with
-`Dom A = {j u : ∃h, ∀v, a(u,v)=⟨h, j v⟩}` and `A(j u)=h`, self-adjoint over
+UnboundedOperators UO-D06: the coercive solution map of a shifted Hermitian form over
+`RCLike 𝕜`, obtained from the real case by realification and the `I • v` test; and, for a
+dense continuous injection `j:V→H` and a bounded Hermitian shifted-coercive form a, the
+operator with `Dom A = {j u : ∃h, ∀v, a(u,v)=⟨h, j v⟩}` and `A(j u)=h`, self-adjoint over
 `RCLike 𝕜`, with both adjoint inclusions and the shifted resolvent. VariationalMethods
-V5.1: the shifted inverse is the V2 form solution operator, compact when the
-inclusion is compact. This is the only form-realization engine used here.
+V2.3: the `𝕜`-linear forcing map `S_α : H → V`, `a_α(S_α h, v) = ⟨h, j v⟩`.
+VariationalMethods V5.1: the shifted inverse is `j ∘ S_α`, compact when the inclusion is
+compact. This is the only form-realization engine used here.
 
 ### From TauCetiRoadmap.ComplexKahlerGeometry (on main)
 
@@ -236,7 +239,7 @@ Definition 2.3, p. 6, without boundary). The spin theorem with arbitrary other
 ends uses one end only and no finite-ended hypothesis. Cecchini–Zeidler's
 Definition 2.1 also makes integrability of the scalar curvature on the end part of
 an AE end; here it is a separate hypothesis, stated wherever a mass is asserted
-(0.2, 0.4, 2.1–2.2, 3.3, 4.2, 5.2, 6.2, 7.1, 8.1–8.3), so `AsymptoticallyEuclideanEnd`
+(0.2, 0.4, 2.1–2.2, 3.2–3.3, 4.2, 5.2, 6.2, 7.1, 8.1–8.3), so `AsymptoticallyEuclideanEnd`
 is the decay condition alone.
 
 - An end image is connected and open, and the end radius `|x|∘φ⁻¹` is a proper
@@ -426,7 +429,7 @@ the boundary elliptic estimate; the Hilbert instance is `H¹_δ(S;χ)`.
   the first-order analogue. Avoiding an indicial weight does not replace a boundary
   condition. Model end inverses are localized parametrix inputs.
 
-*Needs:* PDE Lanes A, C–E; ComplexKahlerGeometry K5a; DifferentialGeometry 12.2–12.5;
+*Needs:* PDE Layers 1, 3–5; ComplexKahlerGeometry K5a; DifferentialGeometry 12.2–12.5;
 Layer 0 (0.1, 0.3); Mathlib `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`.
 
 **Checks.**
@@ -553,7 +556,7 @@ positivity and the leading harmonic expansions on harmonically flat ends; Kelvin
 removability and the positive leading coefficient used in 3.2 belong here. On
 arbitrary complete ends only local theory is used.
 
-*Needs:* 1.1–1.3; PDE Lanes C–E; Layer 0 (0.3).
+*Needs:* 1.1–1.3; PDE Layers 3–5; Layer 0 (0.3).
 
 **Checks.**
 
@@ -571,7 +574,7 @@ weights `{k} ∪ {1−n−k}`; the round `S²` Dirac spectrum `±(k+1)` with mul
 
 ### Dependencies
 
-Layer 0; PDE Lanes A, C–E; ComplexKahlerGeometry K5a; SpinGeometry G3–G6;
+Layer 0; PDE Layers 1, 3–5; ComplexKahlerGeometry K5a; SpinGeometry G3–G6;
 RiemannianGeometry R5a, R8.1–R8.2; DifferentialGeometry 12.2–12.5; Mathlib
 `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`; Tau Ceti `TauCeti.W1p0.sobolevEmbeddingL`.
 
@@ -668,12 +671,12 @@ VariationalMethods V5.1 with ComplexKahlerGeometry K5a's closed-base domain
 comparison. Prove that its lowest eigenvalue λ₁ is the infimum of the Rayleigh
 quotient, simple, with a smooth eigenfunction that can be chosen positive: a
 minimizer u gives the minimizer |u|, smooth by K5a's regularity, and positive by
-PDE Lane C's strong maximum principle. For k≥3, if λ₁(a_k Δ⁺ + Scal) > 0 with positive
-eigenfunction φ, then by 0.4 the metric `φ^(4/(k−2)) g` has scalar curvature
+the strong maximum principle of PDE 3.2 (C13). For k≥3, if λ₁(a_k Δ⁺ + Scal) > 0 with
+positive eigenfunction φ, then by 0.4 the metric `φ^(4/(k−2)) g` has scalar curvature
 `λ₁ φ^(−4/(k−2)) > 0` (Lee–Parker, Theorem 2.6, Theorem 4.1 and its proof).
 
 *Needs:* UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1;
-ComplexKahlerGeometry K5a; PDE Lane C; 0.4.
+ComplexKahlerGeometry K5a; PDE 3.2 (C13); 0.4.
 
 **Checks.**
 
@@ -759,10 +762,11 @@ comparison, item 1; AlgebraicTopology Stage 7; DifferentialGeometry 2, 12.2–12
 
 ### 3.2 Negative mass to a compact contradiction
 
-Starting with a negative chosen mass, apply 2.1 while preserving strict negativity,
-Scal≥0 and all completeness and end hypotheses; the end scalar curvature is then 0.
-On the finite-ended harmonically flat metric solve, by 1.4's end-value theory, for a
-g-harmonic U tending to 1 on the chosen end and 0 on the others, with 0<U≤1 and
+In the setting of 2.1 (finite-ended AE of order t>(n−2)/2, Scal≥0, integrable scalar
+curvature), start with a negative chosen mass and apply 2.1 while preserving strict
+negativity, Scal≥0 and all completeness and end hypotheses; the end scalar curvature is
+then 0. On the finite-ended harmonically flat metric solve, by 1.4's end-value theory,
+for a g-harmonic U tending to 1 on the chosen end and 0 on the others, with 0<U≤1 and
 differentiated expansions. At the chosen end `U = 1 + b r^(2−n) + o_2(r^(2−n))` with b≤0,
 so by 0.4 the conformal mass is `m + 2b < 0`. On another end write `g = w^(4/(n−2)) δ`;
 then `Uw = c r^(2−n) + O_2(r^(1−n))` with c>0. Because Scal_g=0 there, 0.4 converts
@@ -775,11 +779,13 @@ chosen end and Scal≥0.
 In the remaining end write `g = h^(4/(n−2)) δ` with h positive harmonic and
 `h = 1 + (m_cap/2) r^(2−n) + O_2(r^(1−n))`, `m_cap = m + 2b < 0`. Choose R₀ with h<1 for r≥R₀,
 s₀ the maximum of h on R₀≤r≤R₀+1, s₀<s₁<1, and a smooth positive nondecreasing concave
-F with F(s)=s for 0<s≤s₀ and F constant for s≥s₁; choose R₁ with h>s₁ for r≥R₁. Then
-`Δ_Eucl F(h) = F″(h)|dh|² ≤ 0`, strictly negative somewhere, so the modified metric has
-Scal≥0, positive somewhere, and is exactly Euclidean outside a compact set after
-constant rescaling (Schoen–Yau 2017, Proposition 5.4; Lohkamp, Proposition 6.1). No
-spin obstruction is used.
+F with F(s)=s for 0<s≤s₀ and F constant for s≥s₁; choose R₁ with h>s₁ for r≥R₁. Replace
+h by F(h) only on the part r≥R₀ of this end and leave the metric unchanged elsewhere.
+Since h≤s₀ on R₀≤r≤R₀+1, F(h)=h on that collar, so the two pieces agree there and the
+modified metric is smooth. Then `Δ_Eucl F(h) = F″(h)|dh|² ≤ 0`, strictly negative
+somewhere, so the modified metric has Scal≥0, positive somewhere, and is exactly
+Euclidean outside a compact set after constant rescaling (Schoen–Yau 2017,
+Proposition 5.4; Lohkamp, Proposition 6.1). No spin obstruction is used.
 
 Replace a ball in a large flat `T^n` by the compact interior of this metric across the
 Euclidean collar. The result is a closed oriented manifold with Scal≥0, positive
@@ -843,7 +849,7 @@ Layers 0–2; GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b;
 RiemannianGeometry/Surfaces S3; AlgebraicTopology Stages 2–3, 6–7; DifferentialGeometry
 2, 10, 12.2–12.5; GeometricTopology, smoothing-and-triangulation comparison, item 1;
 UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1; ComplexKahlerGeometry K5a;
-PDE Lane C.
+PDE 3.2 (C13).
 
 ## Layer 4: spinors at infinity and the boundary mass identity
 
@@ -927,7 +933,7 @@ Green's formula and prove self-adjointness of the closure. Compare the mean
 curvature with R5b's `A(X,Y) = ⟨B(X,Y),ν⟩` and fix its sign in the Green identity
 before translating a source's H.
 
-*Needs:* SpinGeometry G3–G6; ComplexKahlerGeometry K5a; PDE Lanes D–E;
+*Needs:* SpinGeometry G3–G6; ComplexKahlerGeometry K5a; PDE Layers 4–5;
 RiemannianGeometry R5b; 1.1.
 
 **Checks.**
@@ -974,7 +980,7 @@ The flat unit ball with the chiral condition: H = 1 and `η_0 = (n−1)/2 > 0`.
 
 ### Dependencies
 
-Layers 0–1; Layer 4; SpinGeometry G3–G6; ComplexKahlerGeometry K5a; PDE Lanes D–E;
+Layers 0–1; Layer 4; SpinGeometry G3–G6; ComplexKahlerGeometry K5a; PDE Layers 4–5;
 RiemannianGeometry R5b.
 
 ## Layer 6: weighted solvability and finite-ended spin positivity
@@ -1000,8 +1006,9 @@ is not inferred from injectivity alone.
 
 **Checks.**
 
-- Flat ℝⁿ with ψ=0: `𝓓` is injective on `H¹_(−q)` (a harmonic spinor decaying like
-  `r^(1−n)` or faster vanishes), so index 0 gives an isomorphism.
+- Flat ℝⁿ with ψ=0: `𝓓` is injective on `H¹_(−q)` by Liouville: a harmonic spinor on ℝⁿ
+  in `H¹_(−q)` vanishes, because that space excludes the constants (0.3 Checks). So
+  index 0 gives an isomorphism.
 - Flat torus with the empty end family: a parallel spinor is in the kernel and the
   weighted Poincaré estimate fails; nonemptiness is required.
 - In the small-negative-part estimate, `θ_ψ⁻ = λ|df|` with `‖df‖_(L^∞_(−2))` fixed gives
