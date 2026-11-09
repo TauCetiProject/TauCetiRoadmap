@@ -18,8 +18,14 @@ Mathlib supplies the ambient descriptive set theory: `PolishSpace`, `StandardBor
 (`Descriptive.tree`), group actions (`MulAction.orbitRel`, `fixingSubgroup`, `arrowAction`) and
 `MeasurableSpace.invariants`. The [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md),
 implemented in Tau Ceti, supplies Lω₁ω, back-and-forth equivalence, Karp's theorem, Scott
-sentences and the internal Scott rank. Nothing in Mathlib or Tau Ceti puts a topology on
-`Equiv.Perm ℕ`, codes structures as points of a space, or relates Lω₁ω to Borel sets.
+sentences and the internal Scott rank. At this repository's Tau Ceti pin (2fd255d99), Tau Ceti also
+has the coding space `RelationalConfiguration` with decoding, encoding, transport, its topology
+and Polish structure; the pointwise topology on `Equiv.Perm α` with S∞ as a Polish group; the logic
+action; model classes with Borel satisfaction; the isomorphism and back-and-forth setoids with
+Borel back-and-forth levels; and most of the external Scott height. Those declarations are
+consumed here (see [ownership](#existing-library-and-ownership)) and the remaining targets are
+stated over them. Neither Mathlib nor Tau Ceti has the tree material of Layer 3, López–Escobar's
+theorem or the results on the well-order class.
 
 The reusable material is part of the specification: the coding space on an arbitrary carrier;
 the permutation group of a countable discrete set as a Polish group; measurable satisfaction;
@@ -35,7 +41,7 @@ milestones and an acceptance check that compiles without later layers.
 
 | Layer | Construction and endpoint | Inputs |
 | --- | --- | --- |
-| 0 | The coding space `StructureSpaceOn L α`: decoding, encoding, transport, topology, Polish and standard Borel structure, the query code, graph codes | Mathlib |
+| 0 | The coding space `RelationalConfiguration L α` (Tau Ceti): decoding, encoding, transport, topology, Polish and standard Borel structure, the query code, graph codes | Mathlib; Tau Ceti |
 | 1 | The pointwise topology on `Equiv.Perm α`, S∞ as a Polish group, the logic action, orbits = isomorphism classes, invariance and the invariant σ-algebra | 0; Mathlib group actions; BorelEquivalenceRelations (products of analytic sets) |
 | 2 | Satisfaction and model classes `modelsOf φ`: Borel, invariant, standard Borel; Gδ model classes | 0–1; InfinitaryLogic Layer 0; BorelEquivalenceRelations (Gδ subspaces) |
 | 3 | Trees: bodies, well-foundedness, heights, Kleene–Brouwer, the boundedness theorem, tree representations of analytic sets | 0; Mathlib analytic sets and `Descriptive.tree` |
@@ -52,23 +58,24 @@ Layer 5; the well-order results use Layers 0–3 and the easy direction of Lópe
 ## Conventions
 
 1. **Languages.** The core is relational languages `L : FirstOrder.Language.{u, v}` in arbitrary
-   universes. Carry `[L.IsRelational]` and `[Countable (Σ l, L.Relations l)]` as separate,
-   explicit instance arguments, and only where a statement needs them; there is no bundled
+   universes. Carry `[L.IsRelational]` and `[∀ n, Countable (L.Relations n)]` (Tau Ceti's form,
+   equivalent to countability of `Σ l, L.Relations l`) as separate, explicit instance arguments, and only where a statement needs them; there is no bundled
    countable-language class. Decoding a code needs `[L.IsRelational]`. The topology and the
    σ-algebra of the coding space exist for every language; Polishness, standard Borelness and
    the passage from Borel to analytic sets need countably many relation symbols and a countable
    carrier. Measurability of satisfaction needs only a relational language and a countable carrier.
-2. **Codes.** `RelQueryOn L α := Σ R : (Σ l, L.Relations l), Fin R.1 → α`, and the coding space
-   `StructureSpaceOn L α` is a type synonym (a `def`) for `RelQueryOn L α → Bool`, with its
-   instances declared on the synonym. `StructureSpace L` is the abbreviation
-   `StructureSpaceOn L ℕ`. Finite carriers `Fin n` are instances of the same construction, not a
-   second one.
-3. **The logic action.** `Equiv.Perm α` acts on queries through the tuple, and on codes by
-   Mathlib's `arrowAction`, so `(σ • c) ⟨R, v⟩ = c ⟨R, σ⁻¹ ∘ v⟩`. With this convention `σ` is an
+2. **Codes.** The coding space is Tau Ceti's `RelationalConfiguration L α`, a type synonym (a
+   `def`) for `Atom L α → Bool`, where `Atom L α := Σ n, L.Relations n × (Fin n → α)` and
+   `atom R x` is the atom of `R` on `x`; a code is read with `c.eval (atom R x)`. Its instances are
+   declared on the synonym. There is no abbreviation for the carrier `ℕ`; write
+   `RelationalConfiguration L ℕ`. Finite carriers `Fin n` are instances of the same construction,
+   not a second one.
+3. **The logic action.** `Equiv.Perm α` acts on codes by Tau Ceti's relabelling action
+   (`σ • c = c.restrict σ⁻¹`), so `(σ • c).eval (atom R v) = c.eval (atom R (σ⁻¹ ∘ v))`. With this convention `σ` is an
    isomorphism from the structure named by `c` to the one named by `σ • c`, and orbits are
    isomorphism classes. Fix the inverse before building any invariance or measurability API on it.
 4. **Topology on permutations.** For `[TopologicalSpace α] [DiscreteTopology α]`, `Equiv.Perm α`
-   carries the topology induced by `σ ↦ (σ, σ⁻¹)` into `(α → α) × (α → α)`. This is the topology
+   carries Tau Ceti's topology, induced by `σ ↦ (σ, σ⁻¹)` into `(α → α) × (α → α)`. This is the topology
    of pointwise convergence; the inverse coordinate adds no open sets (Layer 1 acceptance lemma)
    but makes the embedding closed. S∞ is the case `α = ℕ`. No other topology is put on
    `Equiv.Perm α`.
@@ -76,8 +83,8 @@ Layer 5; the well-order results use Layers 0–3 and the easy direction of Lópe
    hypotheses the `BorelSpace` instance identifies it with the Borel σ-algebra of the Polish
    topology; state results as `MeasurableSet` and let the instance do the identification.
 6. **Invariance.** `ActionInvariant B` means `(σ • ·) ⁻¹' B = B` for every `σ`.
-   `IsomorphismInvariant B` means that isomorphic decoded structures have the same membership. The
-   two coincide (Layer 1). The invariant σ-algebra is
+   `IsomorphismInvariant B` is Tau Ceti's `RelationalConfiguration.IsomorphismInvariant`:
+   membership passes to every code naming an isomorphic structure. The two coincide (Layer 1). The invariant σ-algebra is
    `⨅ σ, MeasurableSpace.invariants (σ • ·)`, Mathlib's single-map construction taken over the
    group; there is no new σ-algebra constructor.
 7. **Ordinals.** `ω₁` is `Ordinal.omega 1`. Back-and-forth levels and tree heights for codes live
@@ -86,20 +93,23 @@ Layer 5; the well-order results use Layers 0–3 and the easy direction of Lópe
 8. **External Scott height.** `StabilizesCompletely M β` holds when for every countable structure
    `N : Type`, every `n` and all `a : Fin n → M`, `b : Fin n → N`, `BFEquiv β n a b` implies
    `BFEquiv (succ β) n a b`. Then `scottHeight M := sInf {β | StabilizesCompletely M β}` in
-   `Ordinal.{w}`. Finite `N` are included, and this matters: a countably infinite pure set has
+   `Ordinal.{w}`. Both are Tau Ceti's (`TauCeti.StabilizesCompletely`, which writes `β + 1` and
+   allows the level in any ordinal universe, and `TauCeti.scottHeight`). Finite `N` are included, and this matters: a countably infinite pure set has
    height `ω`, but would have height `0` if only infinite `N` were allowed. Taking `N` in `Type`
    is no restriction, since every countable structure is isomorphic to one in `Type` and
    `BFEquiv` is invariant under isomorphism; Layer 4 records this as a lemma.
    The internal objects `SelfStabilizesCompletely`, `selfStabilizationOrdinal` (written s(M)) and
-   `internalScottRank` (written SR(M)) are those of the InfinitaryLogic roadmap, unchanged.
+   `internalScottRank` (written SR(M)) are Tau Ceti's implementations of the InfinitaryLogic
+   roadmap's, unchanged. Like Tau Ceti's `BFEquiv`, they are defined for relational languages.
 9. **Trees.** A tree is Mathlib's `Descriptive.tree A`. Its body is the set of `x : ℕ → A` all of
    whose initial segments lie in it, named and stated as in Mathlib #41946 (`initialSegment`,
    `body`). A tree is well-founded when its body is empty. Its height is the strict supremum of the
    ranks of its nodes under strict extension, so the empty tree has height `0` and the root alone
    height `1`.
-10. **Sentences.** Sentences are the InfinitaryLogic roadmap's `Sentenceω L`, satisfaction is
-   `SentenceInf.Realize`, and the model class of `φ` on the carrier `α` is
-   `modelsOf φ : Set (StructureSpaceOn L α)`, written Mod(φ).
+10. **Sentences.** Sentences are Tau Ceti's `L.Sentenceω`, satisfaction is
+   `SentenceInf.Realize φ M` (dot notation does not elaborate on `L.Sentenceω`), and the model class
+   of `φ` on the carrier `α` is Tau Ceti's `modelsOf φ : Set (RelationalConfiguration L α)`
+   (stated there for sentences with any index type), written Mod(φ).
 
 ## Existing library and ownership
 
@@ -113,15 +123,19 @@ The following are suppliers, not requests to rebuild their objects.
 | Mathlib group actions | `Equiv.Perm.applyMulAction`, `arrowAction`, `MulAction.orbitRel`, `MulAction.stabilizer`, `fixingSubgroup`, `IsTopologicalGroup`, `ContinuousSMul` |
 | Mathlib measurable spaces | `MeasurableSpace.pi`, `MeasurableSpace.invariants`, `MeasurableSpace.measurableSet_iInf`, the measurable space on `SimpleGraph V` (`Mathlib/MeasureTheory/Constructions/SimpleGraph.lean`) |
 | Mathlib model theory | `Structure`, `Language.Equiv`, `Equiv.inducedStructure`, `Language.sum` with `sumStructure`, `BoundedFormula.IsQF`, `IsUniversal`, `IsExistential`, `BoundedFormula.alls`, `Language.graph` with `SimpleGraph.structure`, `Language.order` with `FirstOrder.Language.dlo` (for `[L.IsOrdered]`, here `Language.order.dlo`) |
-| [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0, in `TauCeti/ModelTheory/Infinitary/` | `BoundedFormulaω`, `Sentenceω`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, the connectives, `iInfAlong`/`iSupAlong`, `IndexCoding.ofEncodableWith`, `toInf` with `realize_toInf`, realization invariance under isomorphism |
-| InfinitaryLogic, Layer 1, in `TauCeti/ModelTheory/BackAndForth/` | `BFEquiv` with `refl`, `symm`, `trans` (across three structures), `mono`, `comp`, the successor and limit laws, `Language.Equiv.bfEquiv`, `potentialIso_iff_bfEquiv_all`, `countable_potentialIso_iff_iso` |
-| InfinitaryLogic, Layers 2–3, in `TauCeti/ModelTheory/Scott/` | `SelfStabilizesCompletely` with `bfEquiv_of_le`, `exists_complete_self_stabilization`, `selfStabilizationOrdinal` with its attainment and its bound below `ω₁`, `scottFormula` with `realize_scottFormula_iff_bfEquiv`, `scottSentence` with `realize_scottSentence_iff` and `scott_isomorphism` ([Tau Ceti #18977](https://github.com/TauCetiProject/TauCeti/pull/18977)), `orbitRank`, `internalScottRank`, `selfStabilizationOrdinal_le_internalScottRank`, `internalScottRank_le_succ_selfStabilizationOrdinal`, `internalScottRank_pureSet` |
-| BorelEquivalenceRelations | Layer 0.2: `IsGδ.polishSpace` and `IsGδ.standardBorelSpace` (a Gδ subset of a Polish space is Polish, resp. standard Borel, in the subspace structures; the shape of Mathlib #42693). Layer 0.3: `MeasureTheory.AnalyticSet.prod`. Layer 2.2: `exists_invariant_measurableSet_separating` (for an analytic equivalence relation `E` on a Polish Borel space, an analytic `A` and an analytic `E`-saturated `B` disjoint from it, some `E`-saturated Borel `C` contains `A` and is disjoint from `B`). Nothing else |
-| InfinitaryModelExistence, PC classes and Craig interpolation | `PCMem` and the single theorem `pcSeparation` stated below; nothing else |
+| Tau Ceti at the pin, `ModelTheory/Infinitary/` (InfinitaryLogic Layer 0) | `L.BoundedFormulaω`, `L.Sentenceω`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, the connectives, `iInfAlong`/`iSupAlong`, `IndexCoding.ofEncodableWith`, `BoundedFormula.toInf` with `realize_toInf`, realization invariance under isomorphism, `BoundedFormulaInf.freeVarSupport` |
+| Tau Ceti, `ModelTheory/BackAndForth/` (InfinitaryLogic Layer 1) | `TauCeti.BFEquiv` (for relational `L`) with `refl`, `symm`, `trans` (across three structures), `mono`, `comp`, the successor and limit laws `add_one` and `limit`, `Language.Equiv.bfEquiv`, `potentialIso_iff_bfEquiv_all`, `countable_potentialIso_iff_iso`, `SameAtomicType` |
+| Tau Ceti, `ModelTheory/Scott/` (InfinitaryLogic Layers 2–3) | `SelfStabilizesCompletely` with `bfEquiv_of_le`, `exists_complete_self_stabilization`, `selfStabilizationOrdinal` with its attainment and its bound below `ω₁`, `scottFormula` with `realize_scottFormula_iff_bfEquiv`, `scottSentence` with `realize_scottSentence_iff` and `scott_isomorphism`, `orbitRank`, `internalScottRank`, `selfStabilizationOrdinal_le_internalScottRank`, `internalScottRank_le_succ_selfStabilizationOrdinal`, `internalScottRank_empty` |
+| Tau Ceti, `ModelTheory/Scott/Height.lean` (most of Layer 4.2 here) | `StabilizesCompletely` with `bfEquiv_of_le` and `mono`; `scottHeight` with `stabilizesCompletely_scottHeight`, `scottHeight_lt_omega_one`, `Language.Equiv.scottHeight_eq`, `scottHeight_le_selfStabilizationOrdinal_add_omega0`, `scottHeight_le_internalScottRank_add_omega0` and `nonempty_equiv_of_bfEquiv_of_scottHeight_le` (with `N` in any universe); the countable constant-chain case `SelfStabilizesCompletely.stabilizesCompletely_add_omega0` |
+| Tau Ceti, `ModelTheory/RelationalConfiguration/` (most of Layers 0, 1.2, 2 and 4.1 here) | `RelationalConfiguration` with `Atom`, `atom` and `eval`, its topology, σ-algebra, compactness and, for countably many relation symbols and a countable carrier, its Polish and Borel instances, `isClopen_setOf_eval`, `mk_le_continuum`; `toStructure` and `ofStructure` with both round trips; `Equiv.encodeVia` with `nonempty_equiv_encodeVia`, `encodeVia_trans` and `realize_encodeVia`; the action of `Equiv.Perm α` with `eval_perm_smul`; `isoSetoid` with `isoSetoid_eq_orbitRel` and `analyticSet_setOf_isoSetoid`; `IsomorphismInvariant` with its lattice API and `analyticSet_iUnion_smul`; `modelsOf` with its constructor equations, `measurableSet_setOf_realize`, `measurableSet_modelsOf` and `standardBorelSpace_modelsOf`; `measurableSet_setOf_bfEquiv`; `bfEquivSetoid` with `measurableSet_setOf_bfEquivSetoid` and `isoSetoid_le_bfEquivSetoid`. In `Combinatorics/SimpleGraph/RelationalConfiguration.lean`: `SimpleGraph.toRelationalConfiguration` with `measurableEmbedding_toRelationalConfiguration`. The orbit, saturation and isomorphism-invariance results there assume `[L.IsRelational]`; the targets here that are stated for every language stay targets |
+| Tau Ceti, `Topology/Algebra/Group/Perm.lean` (most of Layer 1.1 here) | the topology on `Equiv.Perm α`, `Equiv.Perm.hasBasis_nhds_one_fixingSubgroup` (indexed by finite sets), the topological-group instance and, for countable `α`, the Polish instance |
+| BorelEquivalenceRelations, as implemented at the pin | `IsGδ.polishSpace` (now in Mathlib) and `IsGδ.standardBorelSpace` (a Gδ subset of a Polish space is Polish, resp. standard Borel, in the subspace structures), `MeasureTheory.AnalyticSet.prod`, and `Setoid.exists_invariant_measurableSet_separating` (for an analytic equivalence relation `E` on a Hausdorff space whose open sets are measurable, and analytic `A`, `B` with disjoint `E`-saturations, some `E`-saturated Borel `C` contains `A` and is disjoint from `B`; for `B` saturated, disjointness of the saturations is disjointness of `A` and `B`). Nothing else |
+| InfinitaryModelExistence, PC classes and Craig interpolation | `LHom.PCMem`, Tau Ceti's implementation of that roadmap's projective-class predicate (`ModelTheory/Interpolation/PCClass.lean`), and the single theorem `pcSeparation` stated below, which is that roadmap's contract and is not at the pin; nothing else |
 
 **The dependency on InfinitaryModelExistence.** Layer 5 consumes exactly the following theorem
 of that roadmap, which proves it from sentence-level Craig interpolation for Lω₁ω, together with
-its projective-class membership predicate `PCMem`: `PCMem g Θ M` holds when `M` itself, on the
+its projective-class membership predicate, implemented in Tau Ceti as `LHom.PCMem`:
+`LHom.PCMem g Θ M` holds when `M` itself, on the
 same carrier, expands along `g` to a model of `Θ`. With `g = LHom.sumInl : L →ᴸ L.sum L₁`, `M` is
 the `L`-reduct of a model of `Θ`, the symbols of `L₁` being auxiliary relations chosen
 existentially; Layer 5 uses them to describe a branch through a tree. For a countable relational
@@ -130,59 +144,50 @@ isomorphism-invariant analytic sets (`analyticSet_iff_exists_pc`); Lω₁ω mode
 the isomorphism-invariant Borel sets (`lopezEscobar_iff`). There `pcSeparation` plays the role of
 Lusin separation, turning the two analytic descriptions of `B` and its complement into one
 sentence. A countable carrier alone does not give this correspondence: it needs the countable
-language. `PCMem` and `pcSeparation` themselves are for arbitrary languages. For languages `L`,
-`L₁`, `L₂` in arbitrary universes and `Θ₁ : Sentenceω (L.sum L₁)`, `Θ₂ : Sentenceω (L.sum L₂)`: if
-no countable nonempty `L`-structure in `Type` lies in both projective classes, some
-`θ : Sentenceω L` holds in every nonempty member of the first class and fails in every nonempty
+language. `LHom.PCMem` and `pcSeparation` themselves are for arbitrary languages. For languages
+`L`, `L₁`, `L₂` in arbitrary universes and `Θ₁ : (L.sum L₁).Sentenceω`,
+`Θ₂ : (L.sum L₂).Sentenceω`: if no countable nonempty `L`-structure in `Type` lies in both
+projective classes, some `θ : L.Sentenceω` holds in every nonempty member of the first class and fails in every nonempty
 member of the second, in every universe.
 
 ```lean
-def PCMem {L' : FirstOrder.Language.{u', v'}} (g : L →ᴸ L') (Θ : Sentenceω L') (M : Type w)
-    [L.Structure M] : Prop :=
-  ∃ S : L'.Structure M, @LHom.IsExpansionOn L L' g M _ S ∧ @SentenceInf.Realize L' ℕ Θ M S
+-- Tau Ceti, `FirstOrder.Language.LHom.PCMem`
+def PCMem (g : L →ᴸ L') (Θ : L'.Sentenceω) (M : Type w) [L.Structure M] : Prop :=
+  ∃ S : L'.Structure M, @IsExpansionOn L L' g M _ S ∧ @SentenceInf.Realize L' ℕ Θ M S
 
+-- InfinitaryModelExistence, Layer 7
 theorem pcSeparation {L : FirstOrder.Language.{u, v}} {L₁ : FirstOrder.Language.{u₁, v₁}}
     {L₂ : FirstOrder.Language.{u₂, v₂}}
-    (Θ₁ : Sentenceω (L.sum L₁)) (Θ₂ : Sentenceω (L.sum L₂))
+    (Θ₁ : (L.sum L₁).Sentenceω) (Θ₂ : (L.sum L₂).Sentenceω)
     (h : ∀ (M : Type) [L.Structure M] [Nonempty M] [Countable M],
-      PCMem LHom.sumInl Θ₁ M → ¬ PCMem LHom.sumInl Θ₂ M) :
-    ∃ θ : Sentenceω L,
-      (∀ (M : Type w) [L.Structure M] [Nonempty M], PCMem LHom.sumInl Θ₁ M →
+      LHom.PCMem LHom.sumInl Θ₁ M → ¬ LHom.PCMem LHom.sumInl Θ₂ M) :
+    ∃ θ : L.Sentenceω,
+      (∀ (M : Type w) [L.Structure M] [Nonempty M], LHom.PCMem LHom.sumInl Θ₁ M →
         SentenceInf.Realize θ M) ∧
-      (∀ (M : Type w) [L.Structure M] [Nonempty M], PCMem LHom.sumInl Θ₂ M →
+      (∀ (M : Type w) [L.Structure M] [Nonempty M], LHom.PCMem LHom.sumInl Θ₂ M →
         ¬ SentenceInf.Realize θ M)
 ```
 
-Each `PCMem` carries its own expansion, so the theorem applies with `L₁ = L₂`, which is how
+Each `LHom.PCMem` carries its own expansion, so the theorem applies with `L₁ = L₂`, which is how
 Layer 5 uses it. Layer 5 needs nothing else from that roadmap: no Löwenheim–Skolem theorem, no
 fragment-elementary substructures, no graph translation and no boundedness of well-ordered
 models. Its PC sentences are relational, and every model of them is countable by construction.
 
-**Ownership.** This roadmap owns the coding space, the topology on permutation groups of discrete
-spaces, the logic action, model classes, Borelness of back-and-forth equivalence and isomorphism,
-the external Scott height and its comparison with the internal rank, the tree material of Layer 3,
-the forms of López–Escobar in Layers 5 and 6.1 (a relative form belongs to the
-[CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) roadmap), separation by invariant Borel sets and sentences for the logic
-action, and the well-order class. It proves no perfect-set, Silver, `G₀` or Borel-reducibility
-theorem, and none of the general Polish-space lemmas listed above; those belong to the
-BorelEquivalenceRelations roadmap. It counts no models; that belongs to the
-CountableModelCounting roadmap, which consumes the following interface from here: `StructureSpaceOn`
-on `ℕ` and on `Fin n` with its instances, `toStructure`, `ofStructure` and
-`mk_structureSpaceOn_le_continuum`; `encodeVia` and `nonempty_equiv_encodeVia`; `modelsOf` with
-`measurableSet_modelsOf`, `isomorphismInvariant_modelsOf` and `standardBorelSpace_modelsOf`; the
-action on every carrier with `orbitRel_iff_nonempty_equiv`, `structureIsoSetoidOn` with
-`structureIsoSetoidOn_eq_orbitRel`, `structureIsoSetoid` with `structureIsoSetoid_eq_orbitRel`,
-`ActionInvariant`, `IsomorphismInvariant`, `actionInvariant_iff_isomorphismInvariant` and
-`analyticSet_iUnion_smul`; `bfEquivSetoid` with `measurableSet_bfEquivSetoid` and
-`structureIsoSetoid_le_bfEquivSetoid`; `scottHeight` with `scottHeight_lt_omega_one`,
-`scottHeight_congr`, `scottHeight_le_internalScottRank_add_omega0` and
-`nonempty_equiv_of_bfEquiv_of_scottHeight_le`; `exists_sentence_separating`; and
-`exists_uniform_bfSeparation`. This roadmap owns that interface. The CountableModelCounting
-prototype reproduces its definitions as marked stand-ins, each recording the revision of this
-roadmap it was checked against. The copies are prototype scaffolding, not authorization to
-implement a parallel API in Tau Ceti. Changes to the interface here are propagated to the copies
-and rechecked by substituting these declarations for them, until the consumer imports them
-directly.
+**Ownership.** This roadmap owns the targets of Layers 0–6: the coding space, the topology on
+permutation groups of discrete spaces, the logic action, model classes, Borelness of
+back-and-forth equivalence and isomorphism, the external Scott height and its comparison with the
+internal rank, the tree material of Layer 3, the forms of López–Escobar in Layers 5 and 6.1 (a
+relative form belongs to the [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) roadmap), separation by invariant Borel sets and sentences for the logic
+action, and the well-order class. Where Tau Ceti at the pin already implements a target (the
+supplier rows above that name layers of this roadmap), the implementation is the interface: the
+remaining targets are stated over it, and `Suggested.lean` states the implemented milestones in
+the roadmap's form and proves them by the library's theorems. It proves no perfect-set, Silver,
+`G₀` or Borel-reducibility theorem, and none of the general Polish-space lemmas listed above; those
+belong to the BorelEquivalenceRelations roadmap. It counts no models; that belongs to the
+CountableModelCounting roadmap, which uses the Tau Ceti declarations above directly and consumes,
+from the remaining targets here, `ActionInvariant` with
+`actionInvariant_iff_isomorphismInvariant`, `isomorphismInvariant_modelsOf`,
+`exists_sentence_separating` and `exists_uniform_bfSeparation`.
 
 The following Mathlib proposal fixes the shape of targets here. Those targets are built in Tau
 Ceti now, named and stated as the proposal does, and replaced by Mathlib's declarations when it
@@ -193,72 +198,83 @@ lands.
 
 Suggested homes:
 
+Layers 0, 1, 2 and 4.1 extend the existing files under `TauCeti/ModelTheory/RelationalConfiguration/`
+and `TauCeti/Topology/Algebra/Group/Perm.lean`, and Layer 4.2 extends
+`TauCeti/ModelTheory/Scott/Height.lean`. The rest:
+
 ```text
-TauCeti/ModelTheory/Descriptive/StructureSpace.lean     -- Layer 0
-TauCeti/Topology/Algebra/Group/Perm.lean                -- Layer 1, permutation groups
-TauCeti/ModelTheory/Descriptive/LogicAction.lean        -- Layer 1, the action
-TauCeti/ModelTheory/Descriptive/Satisfaction.lean       -- Layer 2
 TauCeti/SetTheory/Descriptive/WellFoundedTree.lean      -- Layer 3, trees and heights
 TauCeti/SetTheory/Descriptive/KleeneBrouwer.lean        -- Layer 3
 TauCeti/SetTheory/Descriptive/Boundedness.lean          -- Layer 3
-TauCeti/ModelTheory/Descriptive/BackAndForth.lean       -- Layer 4
-TauCeti/ModelTheory/Descriptive/ScottHeight.lean        -- Layer 4
+TauCeti/ModelTheory/RelationalConfiguration/BFTree.lean -- Layer 4.3–4.4
 TauCeti/ModelTheory/Descriptive/LopezEscobar.lean       -- Layer 5
 TauCeti/ModelTheory/Descriptive/WellOrder.lean          -- Layer 6
 ```
 
 ## Layer 0 — The coding space
 
-Build, for every language `L` and carrier `α`:
+**At the pin.** Tau Ceti's `RelationalConfiguration` provides the coding space, decoding and
+encoding with both round trips, transport with `nonempty_equiv_encodeVia`, composition and
+realization, the topology and σ-algebra with clopen and measurable cylinders, compactness, the
+Polish and Borel instances, the cardinality bound and the graph coding as a measurable embedding.
+Still to build: the finite-cylinder basis, continuity of decoding in each relation and the
+coordinatewise continuity criterion, the query code, the equality case of the cardinality bound
+and the range of the graph coding.
 
-- `RelQueryOn L α`, `StructureSpaceOn L α` and `StructureSpace L` as in the conventions, with
-  `Countable (RelQueryOn L α)` from countable relation symbols and a countable carrier;
-- **decoding** `StructureSpaceOn.toStructure c : L.Structure α` for relational `L` (function
-  symbols eliminated by `IsRelational`, `RelMap R v ↔ c ⟨⟨l, R⟩, v⟩ = true`), with its `simp`
-  lemma, and **encoding** `StructureSpaceOn.ofStructure : L.Structure α → StructureSpaceOn L α`
-  for every `L`; both round trips, `ofStructure c.toStructure = c` and, for relational `L`,
+The specification, for every language `L` and carrier `α`:
+
+- `Atom L α`, `RelationalConfiguration L α` and the carrier `ℕ` as in the conventions, with
+  `Countable (Atom L α)` from countable relation symbols and a countable carrier;
+- **decoding** `RelationalConfiguration.toStructure c : L.Structure α` for relational `L`
+  (function symbols eliminated by `IsRelational`, `RelMap R v ↔ c.eval (atom R v) = true`), with
+  its `simp` lemma, and **encoding** `RelationalConfiguration.ofStructure L α` (for the structure
+  on `α`) for every `L`; both round trips, `ofStructure c.toStructure = c` and, for relational `L`,
   `(ofStructure S).toStructure = S` as an equality of structures (`Structure.ext`), so that
   decoding is a bijection between codes and structures on `α`;
-- **transport** `encodeVia (e : M ≃ α)`, the code of `Equiv.inducedStructure e`, with
+- **transport** `Equiv.encodeVia (e : M ≃ α)`, the code of `Equiv.inducedStructure e`, with
   `nonempty_equiv_encodeVia`, its compatibility with composition of bijections, and realization
   of every Lω₁ω sentence along it. Every countable structure therefore has a code on `ℕ` (if
   infinite) or on `Fin n` (if of size `n`);
 - **topology and measure**: the product topology with `Bool` discrete and the product σ-algebra,
-  for every `L` and `α`; the basic cylinders `{c | c q = true}` clopen and measurable; the finite
-  cylinders `{c | ∀ q ∈ s, c q = f q}` (`s` a `Finset`) a basis of clopen sets; `CompactSpace`;
-  and, under `[Countable (Σ l, L.Relations l)] [Countable α]`, `MetrizableSpace`,
+  for every `L` and `α`; the basic cylinders `{c | c.eval a = true}` clopen and measurable; the
+  finite cylinders `{c | ∀ a ∈ s, c.eval a = f a}` (`s` a `Finset`) a basis of clopen sets;
+  `CompactSpace`; and, under `[∀ n, Countable (L.Relations n)] [Countable α]`, `MetrizableSpace`,
   `SecondCountableTopology`, `PolishSpace`, `BorelSpace` and hence `StandardBorelSpace`, for the
   space and for its square;
 - **decoding is continuous in each relation**: for fixed `R` and `v` the map
   `c ↦ RelMap R v` is locally constant, and a map into a coding space is continuous exactly when
   each coordinate is;
-- the **query code** `queryCode : StructureSpace L → (ℕ → Bool)`, reading at `n` the coordinate
-  of the query that `Encodable.decode` (for `Encodable.ofCountable`) returns at `n`, and `false`
+- the **query code** `queryCode : RelationalConfiguration L ℕ → (ℕ → Bool)`, reading at `n` the
+  coordinate of the atom that `Encodable.decode` (for `Encodable.ofCountable`) returns at `n`, and `false`
   where decoding fails, with `isClosedEmbedding_queryCode`. That decoder need not be injective on
   the indices where it succeeds, so the range is the closed set of sequences that are `false`
-  where decoding fails and agree at any two indices decoding to the same query;
-- **cardinality**: under `[Countable (Σ l, L.Relations l)] [Countable α]`,
-  `mk_structureSpaceOn_le_continuum`, and equality with the continuum when moreover `α` is
+  where decoding fails and agree at any two indices decoding to the same atom;
+- **cardinality**: under `[∀ n, Countable (L.Relations n)] [Countable α]`, `mk_le_continuum`, and
+  equality with the continuum when moreover `α` is
   infinite and `L` has a relation symbol of positive arity. Without these hypotheses the space
-  has cardinality `2 ^ #(RelQueryOn L α)`: one unary predicate on `ℝ` already gives `2 ^ 𝔠`;
-- the **graph coding** `graphCode : SimpleGraph ℕ → StructureSpace Language.graph`,
-  `G ↦ ofStructure G.structure`, a measurable embedding for Mathlib's σ-algebra on graphs, whose
+  has cardinality `2 ^ #(Atom L α)`: one unary predicate on `ℝ` already gives `2 ^ 𝔠`;
+- the **graph coding** `SimpleGraph.toRelationalConfiguration`, `G ↦ ofStructure` of
+  `G.structure`, a measurable embedding for Mathlib's σ-algebra on graphs, whose
   range is the closed set of codes of symmetric irreflexive relations.
 
 **Acceptance check.** Decoding the code of `(ℕ, ≤)` in Mathlib's `Language.order` (with
-`orderStructure`) gives back `(ℕ, ≤)`, and the cylinder `{c | c ⟨⟨2, leSymb⟩, ![0, 1]⟩ = true}` is
-clopen.
+`orderStructure`) gives back `(ℕ, ≤)`, and the cylinder `{c | c.eval (atom leSymb ![0, 1]) = true}`
+is clopen.
 
-⚠ **API warning.** Do not make `StructureSpaceOn L α` an `abbrev` of the function type. The
-action of Layer 1 is an instance on the coding space; on a bare function type it would be a global
-instance on `RelQueryOn L α → Bool` and would compete with Mathlib's pointwise instances on Pi
-types.
+⚠ **API warning.** `RelationalConfiguration L α` is a `def`, not an `abbrev` of the function
+type, so the action of Layer 1 is an instance on the coding space rather than a global instance
+on `Atom L α → Bool` competing with Mathlib's pointwise instances on Pi types. Keep new instances
+on the synonym.
 
 ## Layer 1 — Permutation groups and the logic action
 
 ### 1.1 The permutation group of a discrete space
 
-For `[TopologicalSpace α] [DiscreteTopology α]`, build the topology of Convention 4 and prove:
+**At the pin.** Tau Ceti provides the topology of Convention 4, the basis lemma indexed by finite
+`Set`s, `IsTopologicalGroup` and, for countable `α`, `PolishSpace`. The roadmap's statements below
+are checked against them.
+
+For `[TopologicalSpace α] [DiscreteTopology α]`, the topology of Convention 4 satisfies:
 
 - the evaluations `σ ↦ σ a` and `σ ↦ σ⁻¹ a` are continuous, and `σ ↦ (σ, σ⁻¹)` is a closed
   embedding, its range being the pairs of mutually inverse maps;
@@ -276,14 +292,13 @@ is locally constant. It gives the closed range, continuity of multiplication
 
 ### 1.2 The logic action
 
-- The action of `Equiv.Perm α` on `RelQueryOn L α` through the tuple, and on
-  `StructureSpaceOn L α` by `arrowAction`, with the `simp` lemma
-  `(σ • c) ⟨R, v⟩ = c ⟨R, σ⁻¹ ∘ v⟩`.
-- `continuousSMul_structureSpaceOn`: the action is jointly continuous, for every language. Under
+- The relabelling action of `Equiv.Perm α` on `RelationalConfiguration L α` (Tau Ceti's), with
+  `eval_smul_atom`: `(σ • c).eval (atom R v) = c.eval (atom R (σ⁻¹ ∘ v))`.
+- `continuousSMul_relationalConfiguration`: the action is jointly continuous, for every language. Under
   the countability hypotheses the coding space on `ℕ` is therefore a Polish S∞-space.
 - **Orbits are isomorphism classes.** `σ` is an isomorphism from `c.toStructure` to
   `(σ • c).toStructure`, and every isomorphism between decoded structures is of this form:
-  `orbitRel_iff_nonempty_equiv`.
+  `orbitRel_iff_nonempty_equiv`, from Tau Ceti's `isoSetoid_eq_orbitRel`.
 - **Stabilizers are automorphism groups**: `mem_stabilizer_iff`, and stabilizers are closed
   subgroups.
 - **Invariance**: `ActionInvariant` and `IsomorphismInvariant` with
@@ -293,10 +308,11 @@ is locally constant. It gives the closed range, continuity of multiplication
   `⨅ σ, MeasurableSpace.invariants (σ • ·)` is measurability together with action invariance. It
   is coarser than the product σ-algebra.
 - **Saturations**: for countable relation symbols, the saturation `⋃ σ, σ • A` of an analytic
-  set is analytic (`analyticSet_iUnion_smul`), as the image of `univ ×ˢ A` under the continuous
+  set is analytic (`analyticSet_iUnion_smul`, for every language; Tau Ceti proves the relational
+  case), as the image of `univ ×ˢ A` under the continuous
   action, using `AnalyticSet.prod` (BorelEquivalenceRelations). The isomorphism relation, as a
   subset of the square, is analytic for the same reason (`analyticSet_orbitRel_graph`: the image of
-  `Perm ℕ × StructureSpace L` under `(σ, c) ↦ (σ • c, c)`).
+  `Perm ℕ × RelationalConfiguration L ℕ` under `(σ, c) ↦ (σ • c, c)`).
 
 **Acceptance check.** In the language of one unary predicate `P`, let `σ` be the 3-cycle
 `0 ↦ 1 ↦ 2 ↦ 0` and `τ` the transposition of `0` and `1`. Then `σ` sends the code of `P = {0}` to
@@ -310,11 +326,17 @@ Keep those hypotheses off the action itself.
 
 ## Layer 2 — Satisfaction and model classes
 
-Build, for relational `L`:
+**At the pin.** Tau Ceti provides `modelsOf` (for sentences with any index type) with `mem_modelsOf`
+and the constructor equations, measurability of satisfaction (`measurableSet_setOf_realize`,
+`measurableSet_modelsOf`) and `standardBorelSpace_modelsOf`, all on every countable carrier, and
+`Language.Equiv.mem_modelsOf_iff` across carriers. Still to build: the named sets `modelsOfBounded`,
+locality, `isomorphismInvariant_modelsOf`, clopenability, the Gδ model classes and the graph events.
 
-- `modelsOfBounded φ v xs : Set (StructureSpaceOn L α)` for `φ : BoundedFormulaω L β n` and
-  assignments `v : β → α`, `xs : Fin n → α`, and `modelsOf φ` for `φ : Sentenceω L`, with
-  `mem_modelsOf_iff` (membership is `SentenceInf.Realize` in the decoded structure);
+The specification, for relational `L`:
+
+- `modelsOfBounded φ v xs : Set (RelationalConfiguration L α)` for `φ : L.BoundedFormulaω β n` and
+  assignments `v : β → α`, `xs : Fin n → α`, and `modelsOf φ` for `φ : L.Sentenceω`, with
+  `mem_modelsOf` (membership is `SentenceInf.Realize` in the decoded structure);
 - the **constructor equations**: `modelsOf ⊥ = ∅`, `modelsOf ⊤ = univ`, negation is complement,
   binary and countable conjunction and disjunction are intersection and union (`iInf`, `iSup`,
   and the coded forms `iInfAlong`, `iSupAlong`), and the quantifier steps are the intersection and
@@ -336,9 +358,9 @@ Build, for relational `L`:
   a quantifier-free matrix gives clopen sets, a universal sentence (`IsUniversal`) a closed set,
   and a `∀∃` sentence (`ψ.alls` with `ψ.IsExistential`) a Gδ set (`isGδ_modelsOf_toInf_alls`);
 - **graph events**: `measurableSet_setOf_realize_graph`, satisfaction of every Lω₁ω sentence is a
-  measurable event on `SimpleGraph ℕ`, through `graphCode`.
+  measurable event on `SimpleGraph ℕ`, through `SimpleGraph.toRelationalConfiguration`.
 
-**Acceptance check.** `modelsOf (⊥ : Sentenceω L) = ∅`, and for a binary relation symbol `R` the
+**Acceptance check.** `modelsOf (⊥ : L.Sentenceω) = ∅`, and for a binary relation symbol `R` the
 codes satisfying `∀ x, ∃ y, R(x, y)` form a Gδ set, hence a Polish space.
 
 ⚠ **API warning.** A model class need not be Gδ, so do not install a `PolishSpace` instance on
@@ -390,6 +412,11 @@ relation symbols.
 
 ### 4.1 Borel back-and-forth equivalence and isomorphism
 
+**At the pin.** Tau Ceti provides the measurability of back-and-forth equivalence below `ω₁`,
+`isoSetoid` with `isoSetoid_eq_orbitRel` and (relational, countable) analyticity of its graph, and
+`bfEquivSetoid` with its measurability and `isoSetoid_le_bfEquivSetoid`. Still to build: the named
+pair sets `bfEquivSet` and `setOf_iso_eq_modelsOf_scottSentence`.
+
 - `bfEquivSet β n a b`, the code pairs whose decoded structures satisfy `BFEquiv β n a b`, and
   `measurableSet_bfEquivSet` for `β < ω₁` and countable relation symbols, by induction on `β`:
   at `0` a countable intersection over atomic indices; at a successor the previous level and the
@@ -398,23 +425,27 @@ relation symbols.
   a tuple `a` of `M` and `b : Fin n → ℕ`, the codes `d` with `BFEquiv β n a b` (comparing `M` with
   the structure named by `d`) form `modelsOfBounded (scottFormula a β) Empty.elim b`, by
   `realize_scottFormula_iff_bfEquiv`.
-- `structureIsoSetoidOn L α`, the isomorphism relation on `StructureSpaceOn L α` (the decoded
+- `isoSetoid L α`, the isomorphism relation on `RelationalConfiguration L α` (the decoded
   structures are isomorphic), for every carrier and in particular for `ℕ` and each `Fin n`, with
-  `structureIsoSetoidOn_eq_orbitRel` (it is the orbit relation of the logic action) and, for
-  countable `α` and countably many relation symbols, analyticity of its graph.
-  `structureIsoSetoid L` abbreviates `structureIsoSetoidOn L ℕ`, with
-  `structureIsoSetoid_eq_orbitRel`.
-- `bfEquivSetoid β`, back-and-forth equivalence of the empty tuples as an equivalence relation on
-  codes, assembled from the parent's `BFEquiv.refl`, `BFEquiv.symm` and `BFEquiv.trans` (Layer 1
-  of InfinitaryLogic), with `measurableSet_bfEquivSetoid` for `β < ω₁` and
-  `structureIsoSetoid_le_bfEquivSetoid`.
+  `isoSetoid_eq_orbitRel` (it is the orbit relation of the logic action) and, for countable `α`
+  and countably many relation symbols, analyticity of its graph.
+- `bfEquivSetoid L α β`, back-and-forth equivalence of the empty tuples as an equivalence relation
+  on codes, assembled from `TauCeti.BFEquiv.refl`, `symm` and `trans`, with
+  `measurableSet_bfEquivSetoid` for `β < ω₁` and `isoSetoid_le_bfEquivSetoid`.
 - **Isomorphism classes are Borel**: `setOf_iso_eq_modelsOf_scottSentence`, the class of `c` is
   the model class of the Scott sentence of the structure `c` names, by `realize_scottSentence_iff`;
   hence each orbit is Borel and invariant.
 
 ### 4.2 The external Scott height
 
-Define `StabilizesCompletely` and `scottHeight` as in Convention 8, and prove:
+`StabilizesCompletely` and `scottHeight` are Tau Ceti's (Convention 8). Tau Ceti also proves
+`bfEquiv_of_le`, `mono`, `stabilizesCompletely_scottHeight`, `scottHeight_lt_omega_one`,
+`scottHeight_congr` (as `Language.Equiv.scottHeight_eq`), the countable case
+`stabilizesCompletely_add_omega0`, `scottHeight_le_selfStabilizationOrdinal_add_omega0`,
+`scottHeight_le_internalScottRank_add_omega0` and the height comparison. Still to build:
+`stabilizesCompletely_iff_univ`, the constant-chain bound for arbitrary `N`,
+`selfStabilizationOrdinal_le_scottHeight`, `internalScottRank_le_succ_scottHeight` and
+`orbitRank_le_scottHeight`. The statements:
 
 - `StabilizesCompletely.bfEquiv_of_le` and `StabilizesCompletely.mono`: external stabilization at
   `β` makes `BFEquiv β` imply `BFEquiv γ` for every `γ ≥ β`, and persists at every `γ ≥ β`, by
@@ -457,7 +488,7 @@ Define `StabilizesCompletely` and `scottHeight` as in Convention 8, and prove:
 
 - `measurableSet_iso_inter_of_scottHeight_le`: if every code in `modelsOf φ` has Scott height at
   most `β < ω₁`, then isomorphism restricted to `modelsOf φ` is Borel, namely
-  `bfEquivSetoid β` restricted to `modelsOf φ`.
+  `bfEquivSetoid L ℕ β` restricted to `modelsOf φ`.
 - `measurableSet_setOf_selfStabilizationOrdinal_le`: for `β < ω₁` the codes with
   `s(c) ≤ β` form a Borel set, because `s(c) ≤ β` is self-stabilization at `β` (attainment and
   upward propagation), a countable intersection over pairs of tuples of conditions read off
@@ -478,12 +509,12 @@ Define `StabilizesCompletely` and `scottHeight` as in Convention 8, and prove:
   one level `β < ω₁`, by the boundedness theorem applied to the forced trees. Its form for two
   analytic classes `B`, `C` with no element of `B` isomorphic to an element of `C`.
 - `measurableSet_iso_inter_iff_exists_bfLevel`: isomorphism restricted to `modelsOf φ` is Borel
-  exactly when some `β < ω₁` makes `bfEquivSetoid β` agree with isomorphism on `modelsOf φ`. The
+  exactly when some `β < ω₁` makes `bfEquivSetoid L ℕ β` agree with isomorphism on `modelsOf φ`. The
   forward direction applies uniform separation to the complement, which is Borel and hence
   analytic; the converse is `measurableSet_bfEquivSetoid`.
 
 **Acceptance check.** In the language of one unary predicate, the codes of `P = 2ℕ` and
-`P = 3ℕ` are isomorphic, and `bfEquivSetoid β` relates them for every `β`.
+`P = 3ℕ` are isomorphic, and `bfEquivSetoid L ℕ β` relates them for every `β`.
 
 ⚠ **API warning.** Borelness of the external strata `{c | scottHeight c ≤ β}` is not claimed: the
 definition quantifies over all countable structures. Stratify by the internal ordinal `s(c)`,
@@ -498,7 +529,7 @@ height is the right parameter for the height comparison.
 
 ### 5.1 The easy direction
 
-`lopezEscobar_easy`: for every `φ : Sentenceω L`, `modelsOf φ` is Borel and isomorphism
+`lopezEscobar_easy`: for every `φ : L.Sentenceω`, `modelsOf φ` is Borel and isomorphism
 invariant. This is Layer 2.
 
 ### 5.2 The PC sentence of a tree
@@ -506,9 +537,9 @@ invariant. This is Layer 2.
 Let `W = pcWitnessLanguage` be the relational vocabulary with a unary `zero`, a binary `succ` and
 a binary `branch`. For `k : ℕ` let `νₖ(x)` be the first-order numeral formula: `ν₀(x) := zero(x)`
 and `νₖ₊₁(x) := ∃ y, νₖ(y) ∧ succ(y, x)`. For `i : ℕ` let `χᵢ` be the sentence "the `i`-th
-query holds at the numerals": if the enumeration of queries sends `i` to `⟨R, v⟩`, then
+atom holds at the numerals": if the enumeration of atoms sends `i` to `atom R v`, then
 `χᵢ := ∃ y₀ … y_{l-1}, ⋀ⱼ ν_{v j}(yⱼ) ∧ R(y₀, …, y_{l-1})`, and otherwise `χᵢ := ⊥` (matching the
-padding of `queryCode`). For a tree `T` on `Bool × ℕ`, `pcSentence T : Sentenceω (L.sum W)` is
+padding of `queryCode`). For a tree `T` on `Bool × ℕ`, `pcSentence T : (L.sum W).Sentenceω` is
 the conjunction of:
 
 1. `zero` has exactly one element; `succ` is the graph of an injective total function whose range
@@ -527,7 +558,7 @@ statements together as `exists_pcSentence`):
   model;
 - `exists_code_of_realize_pcSentence`: every model `M`, of any cardinality and in any universe,
   is countably infinite, and the numeral bijection `e : M ≃ ℕ` satisfies: the code
-  `encodeVia e`, together with the function read off `branch`, is a branch of `T`. No invariance
+  `e.encodeVia`, together with the function read off `branch`, is a branch of `T`. No invariance
   is used.
 
 Hence, for a tree representation `T` of an analytic class `B`, the codes of models of
@@ -535,21 +566,21 @@ Hence, for a tree representation `T` of an analytic class `B`, the codes of mode
 
 ### 5.3 The hard direction
 
-`lopez_escobar`: for countable relation symbols, if `B ⊆ StructureSpace L` is Borel and
-isomorphism invariant then `B = modelsOf φ` for some `φ : Sentenceω L`. Proof:
+`lopez_escobar`: for countable relation symbols, if `B ⊆ RelationalConfiguration L ℕ` is Borel and
+isomorphism invariant then `B = modelsOf φ` for some `φ : L.Sentenceω`. Proof:
 
 1. `B` and its complement are Borel, hence analytic (`MeasurableSet.analyticSet`); take tree
    representations `T₀` of `B` and `T₁` of `Bᶜ` (Layer 3).
 2. **Disjointness.** No nonempty `L`-structure `M`, countable or not, lies in both
-   `PCMem LHom.sumInl (pcSentence T₀)` and `PCMem LHom.sumInl (pcSentence T₁)`. Otherwise
+   `LHom.PCMem LHom.sumInl (pcSentence T₀)` and `LHom.PCMem LHom.sumInl (pcSentence T₁)`. Otherwise
    `exists_code_of_realize_pcSentence`, applied to the `W`-part of each expansion (its reduct along
    `LHom.sumInr`), gives two bijections `e₀, e₁ : M ≃ ℕ` with
-   `encodeVia e₀ ∈ B` and `encodeVia e₁ ∈ Bᶜ`; both codes name structures isomorphic to `M`, so
+   `e₀.encodeVia ∈ B` and `e₁.encodeVia ∈ Bᶜ`; both codes name structures isomorphic to `M`, so
    invariance of `B` gives a contradiction. This is the only use of invariance. The step uses
    `sumStructure_reducts`: an `(L.sum W)`-structure on `M` is the `sumStructure` of its reducts
    along `LHom.sumInl` and `LHom.sumInr`, and when it is an expansion of `M` along `LHom.sumInl` its
    `L`-reduct is `M`'s own structure (extensionality, with `propext` for relations).
-3. `pcSeparation` (InfinitaryModelExistence) gives `θ : Sentenceω L` true in every nonempty member
+3. `pcSeparation` (InfinitaryModelExistence) gives `θ : L.Sentenceω` true in every nonempty member
    of the projective class of `pcSentence T₀` and false in every nonempty member of that of
    `pcSentence T₁`.
 4. If `c ∈ B`, `realize_pcSentence_standardWitness` for `T₀` puts `ℕ` with `c.toStructure` in the
@@ -564,11 +595,11 @@ isomorphism invariant then `B = modelsOf φ` for some `φ : Sentenceω L`. Proof
 - `measurableSet_iInf_invariants_iff_exists_modelsOf`: the invariant σ-algebra is exactly the
   collection of model classes, `{B | MeasurableSet[⨅ σ, invariants (σ • ·)] B} = range modelsOf`;
 - `analyticSet_iff_exists_pc`: an isomorphism-invariant class of codes is analytic exactly when it
-  is the class of codes `c` with `PCMem LHom.sumInl ψ ℕ` (for `c.toStructure`) for a single
-  `ψ : Sentenceω (L.sum W)`. The
+  is the class of codes `c` with `LHom.PCMem LHom.sumInl ψ ℕ` (for `c.toStructure`) for a single
+  `ψ : (L.sum W).Sentenceω`. The
   forward direction is 5.2 with invariance; the converse projects the Borel set
-  `modelsOf ψ ⊆ StructureSpace (L.sum W)` along the continuous reduct map onto
-  `StructureSpace L`.
+  `modelsOf ψ ⊆ RelationalConfiguration (L.sum W) ℕ` along the continuous reduct map onto
+  `RelationalConfiguration L ℕ`.
 
 **Acceptance check.** In the empty language every class of codes is `∅` or `univ`, and
 `lopezEscobar_iff` is witnessed by `⊥` or `⊤`.
@@ -586,7 +617,8 @@ presentation.
 
 - `invariant_analytic_separation`: if `A` and `B` are analytic, `B` is action invariant and `A`
   and `B` are disjoint, there is an invariant Borel `C ⊇ A` disjoint from `B`. This is
-  `exists_invariant_measurableSet_separating` (BorelEquivalenceRelations) for the orbit relation,
+  `Setoid.exists_invariant_measurableSet_separating` (BorelEquivalenceRelations, implemented in
+  Tau Ceti) for the orbit relation,
   whose graph is analytic (`analyticSet_orbitRel_graph`, Layer 1), once `ActionInvariant` is
   identified with saturation for the orbit relation (`saturated_iff_actionInvariant`).
 - `exists_sentence_separating`: by López–Escobar, the separator is `modelsOf θ` for a single
@@ -628,8 +660,8 @@ for arbitrary `L`. Counting statements belong to the CountableModelCounting road
 
 Discharge these alongside the layers; they check that the API describes real spaces.
 
-1. **The empty language.** `RelQueryOn Language.empty ℕ` is empty, so `StructureSpace` is a
-   single point; every class of codes is invariant and is `∅` or `univ`. The pure sets test the
+1. **The empty language.** `Atom Language.empty ℕ` is empty, so
+   `RelationalConfiguration Language.empty ℕ` is a single point; every class of codes is invariant and is `∅` or `univ`. The pure sets test the
    height comparison. Take tuples with the same equality type and `d` distinct entries in pure
    sets of sizes `m` and `m'` (finite or `ℵ₀`), and let `r = m - d`, `r' = m' - d` be the numbers
    of remaining elements. Then `BFEquiv k` holds exactly when `r = r'` or both `r` and `r'` are at
@@ -638,7 +670,7 @@ Discharge these alongside the layers; they check that the API describes real spa
    (`scottHeight_nat_pureSet`; at a finite level `k` compare with a set of size `d + k`). All of
    them have internal Scott rank `1`: the infinite one attains `SH ≤ SR + ω`, and the finite ones
    show that no bound `SH ≤ SR + n` with finite `n` holds.
-2. **One unary predicate.** The map `c ↦ (n ↦ c ⟨P, ![n]⟩)` is a homeomorphism onto Cantor space,
+2. **One unary predicate.** The map `c ↦ (n ↦ c.eval (atom P ![n]))` is a homeomorphism onto Cantor space,
    and the action permutes coordinates. The orbits are classified by the pair
    `(|P|, |¬P|)` with `|P| + |¬P| = ℵ₀`, so there are countably many, each Borel and each the model
    class of an explicit sentence ("exactly `k` elements satisfy `P`", "infinitely many do and
@@ -650,14 +682,14 @@ Discharge these alongside the layers; they check that the API describes real spa
    single orbit (Cantor's theorem, through Mathlib's DLO back-and-forth), hence a Polish space
    on which S∞ acts transitively. In a language with a strict order symbol the well-ordered codes
    are coanalytic, not analytic, and an analytic set of them has bounded order types.
-4. **Graphs.** Through `graphCode`, the satisfaction event of every Lω₁ω graph sentence is
+4. **Graphs.** Through `SimpleGraph.toRelationalConfiguration`, the satisfaction event of every Lω₁ω graph sentence is
    measurable on `SimpleGraph ℕ`, and the isomorphism class of any fixed countable graph is a
    Borel set of graphs. For the Rado graph this class is the model class of the conjunction of the
    simple-graph axioms and the extension axioms (those of the InfinitaryLogic random-graph worked
    example), a Gδ set.
 5. **Orbits as back-and-forth classes.** For a code `c`, its orbit is
    `modelsOf (scottSentence ℕ)` for the structure `c` names, and it is also the
-   `bfEquivSetoid β`-class of `c` for every `β ≥ scottHeight` of that structure, by the height
+   `bfEquivSetoid L ℕ β`-class of `c` for every `β ≥ scottHeight` of that structure, by the height
    comparison.
 
 ## Completion criteria
@@ -666,7 +698,7 @@ Each introduced definition comes with its rewriting, transport and boundary-case
 stated examples. The headline theorems are assembled from these APIs, with no hypothesis asserting
 measurability, analyticity, stabilization, separation or definability that the roadmap is meant to
 prove. The statements consumed from sibling roadmaps are exactly those listed under ownership:
-`pcSeparation` with `PCMem`, and four general lemmas of BorelEquivalenceRelations.
+`pcSeparation` with `LHom.PCMem`, and four general lemmas of BorelEquivalenceRelations.
 
 The following chains must be visible in the exported results:
 
@@ -718,28 +750,27 @@ These belong to separate roadmaps.
 
 - **InfinitaryLogic.** The syntax, back-and-forth relation and Scott analysis are the Tau Ceti
   implementation of the [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md), under
-  `TauCeti/ModelTheory/{Infinitary,BackAndForth,Scott}`; Scott's isomorphism theorem is
-  [Tau Ceti #18977](https://github.com/TauCetiProject/TauCeti/pull/18977). The external Scott
-  height, excluded there, is specified here and leaves the internal objects unchanged. The
-  free-variable support `freeVarSupport` of
-  [Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547) is used in Layer 2. The
-  random-graph worked example
-  ([Tau Ceti #18726](https://github.com/TauCetiProject/TauCeti/pull/18726)) supplies the
-  extension axioms of worked example 4.
-- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)). The single dependency is `pcSeparation`, with `PCMem`, as stated
-  under ownership. That roadmap owns both; `Suggested.lean` carries copies of its current proposed
-  declarations as stand-ins, which are prototype scaffolding only. Its application here uses relational PC sentences whose models are countable by
+  `TauCeti/ModelTheory/{Infinitary,BackAndForth,Scott}` at the pin. The external Scott height,
+  excluded there, is specified here; Tau Ceti's `Scott/Height.lean` implements most of it and
+  leaves the internal objects unchanged. The free-variable support
+  `BoundedFormulaInf.freeVarSupport` is used in Layer 2. Tau Ceti's random-graph file
+  (`ModelTheory/Scott/RandomGraph.lean`) supplies the extension axioms of worked example 4.
+- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)). The single dependency is `pcSeparation`, with `LHom.PCMem`, as stated
+  under ownership. That roadmap owns both. Tau Ceti implements the predicate as `LHom.PCMem`;
+  `pcSeparation` is not at the pin, and `Suggested.lean` carries a copy of that roadmap's statement
+  as a marked stand-in, which is prototype scaffolding only. Its application here uses relational PC sentences whose models are countable by
   construction, so it needs neither Löwenheim–Skolem, nor graph translation, nor that roadmap's
   boundedness of well-ordered models.
 - **[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)). This roadmap consumes exactly four general results of that
-  roadmap: `IsGδ.polishSpace` and `IsGδ.standardBorelSpace` (its Layer 0.2),
-  `AnalyticSet.prod` (Layer 0.3) and `exists_invariant_measurableSet_separating` (Layer 2.2).
+  roadmap, all implemented at the pin: `IsGδ.polishSpace` and `IsGδ.standardBorelSpace` (its
+  Layer 0.2), `AnalyticSet.prod` (Layer 0.3) and `exists_invariant_measurableSet_separating`
+  (Layer 2.2).
   That roadmap consumes nothing from this one.
-- **[CountableModelCounting](../CountableModelCounting/README.md)** ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) consumes the interface listed under ownership.
+- **[CountableModelCounting](../CountableModelCounting/README.md)** ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) uses the Tau Ceti declarations directly and the targets of this roadmap listed under ownership.
 - **Mathlib.** [#41946](https://github.com/leanprover-community/mathlib4/pull/41946) (bodies of
   trees) fixes the shape of the corresponding targets; build them here now and replace them by
   imports when it lands. [#42693](https://github.com/leanprover-community/mathlib4/pull/42693)
-  (Gδ subsets of Polish spaces) is followed by BorelEquivalenceRelations. Opening an upstream PR
+  (Gδ subsets of Polish spaces) has landed as `IsGδ.polishSpace`. Opening an upstream PR
   is not a target of this roadmap.
 
 ## Provenance
@@ -754,8 +785,8 @@ checkpoint.
 
 | Layer | Source files | Differences from this specification |
 | --- | --- | --- |
-| 0 | `Descriptive/{StructureSpace, Topology, Measurable, Polish, QueryCode, CodeTransport}.lean` | `StructureSpace` is a `def` with bridging instances and `StructureSpaceOn` an `abbrev`; here the reverse |
-| 1 | `Descriptive/{PermTopology, PermPolishGroup, PolishAction, LogicAction, InvariantMeasurableSpace, InvariantMeasurableModels}.lean` | the source topologizes only `Equiv.Perm ℕ`, works in `Language.{0, 0}` and defines its own invariant σ-algebra; here any discrete carrier, any universes, `arrowAction` and `MeasurableSpace.invariants` |
+| 0 | `Descriptive/{StructureSpace, Topology, Measurable, Polish, QueryCode, CodeTransport}.lean` | `StructureSpace` is a `def` with bridging instances and `StructureSpaceOn` an `abbrev`; here Tau Ceti's `RelationalConfiguration` is the `def`, on every carrier |
+| 1 | `Descriptive/{PermTopology, PermPolishGroup, PolishAction, LogicAction, InvariantMeasurableSpace, InvariantMeasurableModels}.lean` | the source topologizes only `Equiv.Perm ℕ`, works in `Language.{0, 0}` and defines its own invariant σ-algebra; here any discrete carrier, any universes, Tau Ceti's relabelling action and `MeasurableSpace.invariants` |
 | 2 | `Descriptive/{SatisfactionBorel, SatisfactionBorelOn, ModelClassStandardBorel, ModelsOfGDelta, LopezEscobarEasy}.lean` | names `ModelsOf`, `ModelsOfOn`; here one `modelsOf` on every carrier. The source's `GDeltaPolish.lean` and `AnalyticClosure.lean` map to BorelEquivalenceRelations |
 | 3 | `Descriptive/{KleeneBrouwer, AnalyticTreeBoundedness, AnalyticTree, TreeCodes}.lean` | the source states the tree representation level by level and has no `body`; here Mathlib #41946's vocabulary |
 | 4 | `Descriptive/{BFEquivBorel, IsomorphismBorel, StructureIsoSetoid, BFTree, BFSeparation}.lean`, `Scott/Height/{Defs, RankBounds}.lean`, `Scott/RefinementCount.lean`, `Scott/InternalRankBounds.lean` | the source's `scottHeight` lives in `Ordinal.{0}`, ranges over countable `N` in the universe of `M`, and is compared with the internal rank through `Ordinal.lift`; here `Ordinal.{w}`, `N : Type`, and no lifts. The constant-chain argument is `RefinementCount.lean`'s proof of `countableRefinementHypothesis`, stated there for countable `N`; `bfEquiv_of_selfStabilizesCompletely` is its adaptation to arbitrary `N`, which the argument permits |
