@@ -277,9 +277,10 @@ theorem exists_genusClasses_equiv_doubleCoset {V : Type u} [AddCommGroup V] [Mod
 lattice `L` on `V`, there is a bijection from the proper classes in the genus of `L` (Tau Ceti's
 `genusProperClasses`) onto `SO(V)(ℚ) \ SO(V)(𝔸_f) / ∏_p K_p⁺(L)`, which sends the proper class of
 every lattice `M` on `V` with the form of `L` to the double coset of every adele `g` in
-`SO(V)(𝔸_f)` carrying `L` to `M`. In positive rank every `K_p(L)` contains a reflection, of
-determinant `−1`, so every such `M` is reached by an adele in `SO(V)(𝔸_f)`. For the genus of
-`!![4,1;1,6]` both sides have three points, against two classes. -/
+`SO(V)(𝔸_f)` carrying `L` to `M`. In positive rank every `K_p(L)`, `p = 2` included, contains an
+element of determinant `−1`, the reflection in a vector of `L_p` whose norm generates the norm
+ideal of `L_p` (README N0), so every such `M` is reached by an adele in `SO(V)(𝔸_f)`. For the
+genus of `!![4,1;1,6]` both sides have three points, against two classes. -/
 theorem exists_genusProperClasses_equiv_doubleCoset {V : Type u} [AddCommGroup V] [Module ℚ V]
     [FiniteDimensional ℚ V] (L : IntegralLattice V) [L.IsNondegenerate] :
     ∃ e : L.genusProperClasses ≃
