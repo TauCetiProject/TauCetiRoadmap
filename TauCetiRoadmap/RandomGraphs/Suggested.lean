@@ -271,6 +271,9 @@ def graphRelationsEquiv : (Σ l, Language.graph.Relations l) ≃ Unit where
 
 instance : Encodable (Σ l, Language.graph.Relations l) := Encodable.ofEquiv _ graphRelationsEquiv
 
+/-- The finite graph signature, needed by Tau Ceti's `TauCeti.firstOrderAtomicDiagram`. -/
+instance : Finite (Σ l, Language.graph.Relations l) := Finite.of_equiv _ graphRelationsEquiv.symm
+
 /-- The symbol alphabet of Mathlib's list encoding of graph formulas over `α`. -/
 abbrev GraphAlphabet (α : Type) :=
   (Σ k, Language.graph.Term (α ⊕ Fin k)) ⊕ ((Σ l, Language.graph.Relations l) ⊕ ℕ)

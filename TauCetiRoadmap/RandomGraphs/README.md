@@ -446,7 +446,9 @@ closure of this axiom set is $`\mathrm{Th}(R)`$.
 Prove quantifier elimination for actual first-order formulas, including formulas with
 free variables. The meaning of a tuple's diagram is Tau Ceti's atomic-diagram semantics:
 `AtomicIdx.toFormula`, `firstOrderAtomicDiagram` and
-`realize_firstOrderAtomicDiagram_iff_sameAtomicType`. That diagram is a classical finite
+`realize_firstOrderAtomicDiagram_iff_sameAtomicType`, applied to the graph language through the
+instance `Finite (Σ l, Language.graph.Relations l)`, which is a target of this milestone. That
+diagram is a classical finite
 conjunction and is noncomputable, so it supplies the semantics but not the algorithm. Build:
 
 - an **effective coding of graph formulas** as the input and output format of the procedures:
