@@ -1238,9 +1238,14 @@ Lemme 6.13, p. 523). *Needs:* Mathlib `Matrix.trace_eq_neg_charpoly_coeff`.
 `k` has characteristic `p > d`, semisimple `V, W` of dimension `d` with equal traces are isomorphic
 (in characteristic `0` this is Tau Ceti's
 `Representation.nonempty_equiv_of_character_eq_of_isSemisimpleRepresentation`, for every dimension
-and every monoid); and that for `Γ` a group, `k = F₂` and `d = 2` equal traces also give `V ≅ W`
-(DDT, Prop. 2.6, pp. 53–54; Ribet 1976, §2, p. 154; DS, proof of Lemme 6.13, p. 523). *Needs:*
-Mathlib `LinearMap.charpoly_baseChange`.
+and every monoid); and that for `Γ` a group, `k = F₂` and `d = 2` equal traces also give `V ≅ W`.
+For a monoid over an algebraically closed field the first assertion is Chenevier's: by Amitsur's
+formula the characteristic polynomials at the elements of `Γ` determine the determinant of
+`k[Γ]` (Chenevier, formula (1.5) and Cor. 1.14, pp. 14–15), and that determinant determines the
+semisimple representation (Chenevier, Thm 2.12 and Cor. 2.13, pp. 28–31); over a general `k` it
+follows by the descent target above. For a group over a finite field it is DDT, Prop. 2.6(b),
+pp. 53–54 (for `G_ℚ`), and DS, proof of Lemme 6.13, p. 523; see also Ribet 1976, §2, p. 154.
+*Needs:* Mathlib `LinearMap.charpoly_baseChange`.
 
 *Lean:* `ContinuousRep.iso_of_charpoly_eq`.
 
@@ -1434,8 +1439,15 @@ exactly when their orbit closures intersect. Invariant closed subsets have close
 disjoint invariant closed subsets have disjoint images. Invariants commute with flat base
 change. The map from the special-fibre quotient to the special fibre of the integral quotient
 is bijective on algebraically closed points; an isomorphism of invariant algebras under
-non-flat reduction is not asserted (BHKT, Proposition 3.2, p. 8, and Proposition 3.10,
-pp. 10–11 of arXiv:1609.03491v2, using Seshadri's geometric reductivity over a base).
+non-flat reduction is not asserted. Over a field these are BHKT, the paragraph before
+Proposition 3.2 and Proposition 3.2, p. 8, of arXiv:1609.03491v2, proved there by Seshadri 1977,
+Theorem 3. Over a DVR, BHKT, Proposition 3.10 and the remark after its proof, pp. 10–11, states
+them for the ring of integers of a finite extension of `ℚ_ℓ`. Its proof uses only that `O` is an
+excellent DVR, hence universally Japanese, together with three results of Seshadri 1977 as BHKT
+applies them: Theorem 3 (finite generation of the invariants and the quotient properties),
+Proposition 3 (every finite subset of `O[X]` lies in a `G`-stable submodule finite over `O`) and
+Lemma 2 (invariants commute with flat base change). The same proof gives the statement for every
+excellent DVR.
 For `X = H` a connected reductive group over a field acting on itself by conjugation, write
 `Conj_H = H//H = Spec O(H)^H` and `χ_H : H → Conj_H` for the quotient map. `χ_H` is conjugation
 invariant: `χ_H(g h g⁻¹) = χ_H(h)` for all `g, h ∈ H(K')` and every field `K'` over the base,
@@ -3493,9 +3505,11 @@ topological field `E`, `ρ_i : Γ → GL(V_i)` continuous `n`-dimensional over `
 gives `W₁^ss ≅ W₂^ss`, and `W₁ ≅ W₂` when both are semisimple; that for `Γ = G_K`, if both are
 unramified at every `v` of a set of density one and their Frobenius polynomials agree there,
 `W₁^ss ≅ W₂^ss`, with no finiteness of the ramification sets assumed; and that if `n!` is invertible
-in `E` and `tr ρ₁ = tr ρ₂` on a dense `D`, `W₁^ss ≅ W₂^ss` (Darmon–Diamond–Taylor 2007, Prop. 2.6 with
-(b), pp. 53–54; Deligne–Serre 1974, Lemme 3.2 with proof and footnote (1), p. 513; Chenevier, Ex.
-2.31, p. 38). *Needs:* §1.2, §1.7, §1.8; §2.2; §5.1.
+in `E` and `tr ρ₁ = tr ρ₂` on a dense `D`, `W₁^ss ≅ W₂^ss`. For `Γ = G_ℚ` with complex, finite or
+`ℓ`-adic coefficients these are Darmon–Diamond–Taylor 2007, Prop. 2.6 with (b), pp. 53–54, and
+Deligne–Serre 1974, Lemme 3.2 with proof and footnote (1), p. 513; in general they follow from
+continuity on the dense `D` (Chenevier, Ex. 2.31, p. 38), the density of Frobenius elements of
+§5.1, and §1.8 over `E`. *Needs:* §1.2, §1.7, §1.8; §2.2; §5.1.
 *Lean:* `GaloisRep.iso_of_frobenius_charpoly_eq` (the semisimple Frobenius statement
 over two coefficient fields in a common Hausdorff field).
 
@@ -5115,8 +5129,12 @@ dimension `n ≥ 1`, `p ∤ n` (BLGG, Rem. A.1.2, p. 29). *Needs:* Mathlib
 `V ⊗ Sym^{r−1}V ≅ Sym^r V ⊕ det ⊗ Sym^{r−2}V` naturally (multiplication split by `r⁻¹Δ`); this fails
 over `F₂` for `r = 2` (§7.1). Prove that for `a ≥ b` and `(a + b)!` invertible,
 `Sym^a V ⊗ Sym^b V ≅ ⊕_{i ≤ b} det^i ⊗ Sym^{a+b−2i}V`, so
-`End(Sym^{n−1}V) ≅ ⊕_{i<n} Sym^{2i}V ⊗ det^{−i}` when `(2n − 2)!` is invertible, for every group (CHT,
-proof of Lemma 2.5.2, p. 56).
+`End(Sym^{n−1}V) ≅ ⊕_{i<n} Sym^{2i}V ⊗ det^{−i}` when `(2n − 2)!` is invertible, for every group. The
+route is induction on `b`: split `Sym^a V ⊗ V ⊗ Sym^{b−1}V` by Pieri on either side and cancel the
+common summand `det ⊗ Sym^a V ⊗ Sym^{b−2}V` by Krull–Schmidt; then
+`(Sym^{n−1}V)^∨ ≅ Sym^{n−1}V ⊗ det^{1−n}` gives the formula for `End`. CHT, proof of Lemma 2.5.2,
+p. 56, states the resulting
+decomposition of `ad Sym^{n−1}` as an `SL₂(F_ℓ)`-module for primes `ℓ > 2n − 1`.
 
 **Modulo `p`.** For `V` two-dimensional over `k ⊇ F_p` perfect and `0 < r < p`, construct the
 natural exact sequence
@@ -5129,8 +5147,10 @@ nonsplit as a rational representation of the algebraic group `SL₂` over `k` fo
 the standard action of the finite group `SL₂(F_p)` it is nonsplit when `p > 2` and splits when `p = 2`.
 Restriction to a subgroup can split it. The polynomial action and submodule calculation are
 Jantzen, *Representations of Algebraic Groups*, II.2.16, equations (4)–(7), pp. 185–186.
-Prove also `(End Sym^{n−1}V)^ss ≅ ⊕_{i<n} (Sym^{2i}V ⊗ det^{−i})^ss` for all `n`, with an actual
-isomorphism for `char k = 0` or `p > 2n − 2` (CHT, proof of Lemma 2.5.2, p. 56).
+Prove also `(End Sym^{n−1}V)^ss ≅ ⊕_{i<n} (Sym^{2i}V ⊗ det^{−i})^ss` for all `n` and every acting
+group: at an element with eigenvalues `α, β` on `V`, both sides have characteristic polynomial
+`∏_{|d| < n} (X − (β/α)^d)^{n−|d|}`, so §1.8 applies. The isomorphism holds before
+semisimplification when `char k = 0` or `p > 2n − 2`, by **Pieri and Clebsch–Gordan** above.
 
 **Checks.**
 - For `p > 2`, a transvection on `Sym^p V` has Jordan blocks of sizes `p,1`; a complement to
@@ -5141,21 +5161,53 @@ isomorphism for `char k = 0` or `p > 2n − 2` (CHT, proof of Lemma 2.5.2, p. 56
 - A trivial acting group splits the sequence as vector spaces; the semisimplified formula
   holds without a nonsplitting hypothesis.
 
-**Irreducibility and one-dimensional constituents.** Prove that `Sym^a(F̄_p²)` is absolutely
-irreducible for `SL₂(F)`, `0 ≤ a ≤ p − 1` (not `a = p`), so for `SL₂(F_p) ⊆ r̄(Γ)` and `1 ≤ n ≤ p`
-every twist of `Sym^{n−1}r̄` is absolutely irreducible; that for `p ≥ 5` the one-dimensional
-constituents of `Sym^{2i}`, `0 ≤ i ≤ p − 1`, have multiplicity `≤ 1` and occur only for `i = 0`,
-`2i = p + 1` (`F = F_p` only: `V ⊗ V ⊇ ∧²V`) and `2i = 2p − 2`; and that for `p > 3`,
-`r̄ : G_ℚ → GL₂(F̄_p)` with `SL₂(F_p) ⊆ r̄(G_ℚ)` and `ρ̄ = Sym^{n−1}r̄ ⊗ ψ`, every one-dimensional
-constituent `χ` of `(ad ρ̄)^ss` has `χ² = 1`, so `H⁰(G_ℚ, M(1)) = 0` for every subquotient `M` of
-`ad ρ̄` or its dual, in particular for `(𝔤⁰_n)^*`, `𝔤⁰_n = sp_n, so_n` (CHT, proof of Lemma 2.5.2, p.
-56).
+**Irreducibility and one-dimensional constituents.** Let `F` be a finite field of characteristic
+`p`. Prove that `Sym^a(F̄_p²)` is absolutely irreducible for `SL₂(F)`, `0 ≤ a ≤ p − 1` (not `a = p`),
+so for `SL₂(F_p) ⊆ r̄(Γ)` and `1 ≤ n ≤ p` every twist of `Sym^{n−1}r̄` is absolutely irreducible
+(CHT, proof of Lemma 2.5.2, p. 56, for the even `a` and `F = F_p`; in general, for `a < p` the
+vectors of `Sym^a` fixed by `(1 1; 0 1)` are the multiples of `x^a`, and the lower unitriangular
+matrices carry `x^a` to a spanning set because `#F ≥ a + 1` and the binomial coefficients `C(a, j)`
+are units).
+
+Prove that for `p ≥ 5` the one-dimensional constituents of `Sym^{2i}` for `SL₂(F)`,
+`0 ≤ i ≤ p − 1`, have multiplicity `≤ 1` and occur only for `i = 0`, `2i = p + 1` (`F = F_p` only:
+`V ⊗ V ⊇ ∧²V`) and `2i = 2p − 2`. This is proved here from **Modulo `p`** and Pieri. `SL₂(F)` is
+perfect (Mathlib `Matrix.SL2.commutator_eq_top`), so such a constituent is trivial, and a trivial
+constituent for `SL₂(F)` stays trivial on `SL₂(F_p)`. For `2i ≤ p − 1`, `Sym^{2i}` is irreducible.
+For `2i = p + r − 1`, `r` even with `2 ≤ r ≤ p − 1`, the constituents are those of
+`Frob V ⊗ Sym^{r−1}V` and of `Sym^{p−r−1}V`, and the second is trivial exactly when `r = p − 1`.
+On `SL₂(F_p)`, `Frob V ≅ V`, and Pieri gives `V ⊗ Sym^{r−1}V ≅ Sym^r V ⊕ Sym^{r−2}V`, with a
+trivial constituent exactly when `r = 2`. For `F ≠ F_p`, `diag(t, t^{−1})` with `t` a generator of
+`F^×` has the eigenvalues `t^{±p±1}` on `Frob V ⊗ V`, none equal to `1` because
+`#F − 1 ≥ p² − 1 > p + 1`; so `2i = p + 1` gives no trivial constituent.
+
+Prove that for `p > 3`, `r̄ : G_ℚ → GL₂(F̄_p)` continuous with `SL₂(F_p) ⊆ r̄(G_ℚ)` and
+`ρ̄ = Sym^{n−1}r̄ ⊗ ψ`, every one-dimensional constituent `χ` of `(ad ρ̄)^ss` has `χ² = 1`, so
+`H⁰(G_ℚ, M(1)) = 0` for every subquotient `M` of `ad ρ̄` or its dual, in particular for
+`(𝔤⁰_n)^*`, `𝔤⁰_n = sp_n, so_n`. This is proved here. Scalars act trivially on `ad ρ̄`, so `χ`
+factors through the projective image `π(r̄(G_ℚ))`, which is finite and contains `PSL₂(F_p)`; by
+§4.4 it is conjugate to `PSL₂(F_0)` or `PGL₂(F_0)` with `F_0 ⊇ F_p`. `PSL₂(F_0)` is simple for
+`#F_0 ≥ 4` (Mathlib `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple`) and has index at most
+`2` in `PGL₂(F_0)`, so every character of the projective image has square `1`. A nonzero
+`H⁰(G_ℚ, M(1))` would make `ε̄⁻¹` or `ε̄` such a `χ`, while `ε̄` maps `G_ℚ` onto `F_p^×` (Mathlib
+`IsCyclotomicExtension.Rat.galEquivZMod`), which has an element of order `p − 1 > 2`.
+*Needs:* **Pieri and Clebsch–Gordan**, **Modulo `p`**, §1.8, §4.4; Mathlib
+`Matrix.SL2.commutator_eq_top`, `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple`,
+`IsCyclotomicExtension.Rat.galEquivZMod`.
 
 **Checks.**
 - For `p > 2`, `Sym^p V` for `SL₂(F_p)` contains `Frob V = ⟨x^p, y^p⟩` without a complement.
   For `p = 2` it splits as in the preceding Checks.
 - For `p = 3`, `Sym³(F̄_3²) ⊇ ⟨x³, y³⟩` is reducible, so the bound `a ≤ p − 1` is sharp.
 - Over `F₂`, `V ⊗ V ≇ Sym²V ⊕ ∧²V` (§7.1), so Pieri needs `r` invertible.
+- At `p = 5` for `SL₂(F_5)`: `Sym⁶V` (`2i = p + 1`) has the constituents `Sym²V`, the trivial
+  `∧²V` and `Sym²V` again (dimensions `3 + 1 + 3 = 7`), and `Sym⁸V` (`2i = 2p − 2`) has `Sym⁴V`,
+  `Sym²V` and the trivial `det⁴` (`5 + 3 + 1 = 9`), while `Sym²V` and `Sym⁴V` are irreducible: one
+  trivial constituent at each of `i = 0, 3, 4` and none at `i = 1, 2`.
+- The bound `p > 3` is needed for the `H⁰` clause: at `p = 3`, for `r̄` with image `GL₂(F_3)` and
+  `det r̄ = ε̄` (the `3`-torsion of an elliptic curve over `ℚ` with surjective mod-`3`
+  representation) and `n = 3`, the constituent `∧²V ⊗ det⁻²` of `Sym⁴V ⊗ det⁻²` in `(ad ρ̄)^ss` is
+  `det⁻¹ = ε̄⁻¹`; its square is `1`, but it is a subquotient `M` with `H⁰(G_ℚ, M(1)) ≠ 0`.
 
 ### 7.9 Adequate subgroups
 
@@ -5702,6 +5754,8 @@ globalisation.
 - J.-P. Serre, *Sur les représentations modulaires de degré 2 de `Gal(ℚ̄/ℚ)`*, Duke Math. J. 54 (1987),
   179–230.
 - J.-P. Serre, J. Tate, *Good reduction of abelian varieties*, Ann. of Math. 88 (1968), 492–517.
+- C. S. Seshadri, *Geometric reductivity over arbitrary base*, Adv. Math. 26 (1977), 225–274,
+  Theorem 3, Proposition 3 and Lemma 2.
 - J. H. Silverman, *The Arithmetic of Elliptic Curves*, 2nd ed., Graduate Texts in Math. 106, Springer,
   2009.
 - J. H. Silverman, *Advanced Topics in the Arithmetic of Elliptic Curves*, Graduate Texts in Math. 151,

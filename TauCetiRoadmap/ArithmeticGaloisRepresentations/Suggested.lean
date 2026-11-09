@@ -85,7 +85,9 @@ theorem exists_integral_conj_GL {Γ : Type*} [Group Γ] [TopologicalSpace Γ]
   sorry
 
 /-- Brauer–Nesbitt (§1.8), in every characteristic and for any monoid: semisimple representations
-with identical characteristic polynomials are isomorphic (DDT, Proposition 2.6). -/
+with identical characteristic polynomials are isomorphic (Chenevier, Cor. 1.14 and Cor. 2.13, over an
+algebraically closed field, then descent; DDT, Proposition 2.6(b), for `G_ℚ` over a finite
+field). -/
 theorem iso_of_charpoly_eq {k Γ V W : Type*} [Field k] [Monoid Γ]
     [AddCommGroup V] [Module k V] [FiniteDimensional k V]
     [AddCommGroup W] [Module k W] [FiniteDimensional k W]
@@ -180,8 +182,9 @@ namespace GaloisRep
 
 /-- Chebotarev recognition (§5.3) over different coefficient fields: comparison takes place in a
 common Hausdorff field, with joint continuity on each original carrier. Agreement is at all
-arithmetic lifts above a density-one set, without a finite ramification assumption
-(DDT, Proposition 2.6(b); Deligne–Serre, Lemma 3.2). -/
+arithmetic lifts above a density-one set, without a finite ramification assumption (DDT,
+Proposition 2.6(b), and Deligne–Serre, Lemma 3.2, for `G_ℚ` with complex, finite or `ℓ`-adic
+coefficients; in general from Frobenius density and Brauer–Nesbitt over `E`). -/
 theorem iso_of_frobenius_charpoly_eq {F E₁ E₂ E V₁ V₂ : Type*} [Field F] [NumberField F]
     [Field E₁] [TopologicalSpace E₁] [IsTopologicalRing E₁]
     [Field E₂] [TopologicalSpace E₂] [IsTopologicalRing E₂]
