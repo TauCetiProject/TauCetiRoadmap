@@ -35,19 +35,20 @@ of the conjugate equations, standard solutions with their uniqueness up to
 unitary transport, and intrinsic dimension as the minimal norm product; the
 unitary dual functor of standard solutions with its pivotal and spherical
 structure; signed self-dualities; and unitary fiber functors. Section 0.2 owns
-the comparison functor Φ_R of a signed cup, the sign map
-s:TL_n(−d)→TL_n(d) over ℂ with its adjoint and trace compatibilities, and the
-identification of Subfactors 3.2's trace radical with the degree-n part of
-TemperleyLieb Layer 6's negligible ideal at the loop parameters ±d of the cup.
+the comparison functor Φ_R of a signed cup; the sign map
+s:TL_n(k,−δ)→TL_n(k,δ), for every commutative ring k and every δ∈k, with its
+strand, involution and Markov-trace compatibilities; and, at every complex
+loop parameter, the identification of the trace radical of Subfactors 3.2's
+closure trace with the degree-n part of TemperleyLieb Layer 6's negligible
+ideal, carried by s from −δ to δ.
 CategoricalOperatorAlgebras CA1a–CA2a and TemperleyLiebOperatorAlgebras 1.3
 and 2.1 come later in the build and consume these objects from §§0.1–0.2
 rather than construct them a second time. Left to those roadmaps, with nothing
 imported from them here: W*-categories, C*-bicategories and the classification
 of unitary dual functors on multitensor categories by positive characters of
-the universal grading groupoid (CategoricalOperatorAlgebras); the sign map over
-every commutative coefficient ring and every loop parameter, the radical
-identification at every real loop parameter, the positivity classification at
-negative loop parameters and the unitary Temperley–Lieb category
+the universal grading groupoid (CategoricalOperatorAlgebras); the structure of
+the trace radical at δ=2cos(π/m), the positivity classification at negative
+loop parameters and the unitary Temperley–Lieb category
 (TemperleyLiebOperatorAlgebras 1.3, 2.1 and Layer 3).
 TemperleyLieb Layers 0–7 supplies the algebraic diagrams, trace, negligible
 ideal, Jones–Wenzl objects, algebraic envelopes and fusion rules; Subfactors
@@ -119,7 +120,7 @@ the underlying vector space. These can differ.
 | [CStarAlgebras C1–C5,C8](../CStarAlgebras/README.md) | C1.CommutativeMultiplierMorphisms: continuous pullbacks, nondegeneracy, properness and strict composition; C2 state extension, C3 matrix norms, C4 CP positivity and multiplicative domains, C5 minimal tensors and slice maps; C8's Toeplitz extension for Q7. Q5 owns the bounded universal presentations used here. |
 | [VonNeumannAlgebras Layers 0,1,3,4,10,11](../VonNeumannAlgebras/README.md) | Layer 0 state space and Hilbert GNS; Layer 1 operator topologies, the bicommutant theorem and Kaplansky density; Layer 3 finite-dimensional algebras with their commutants and multiplicities; V4.Core, V4.PositivePredual and V4.Normality for the trace-class predual, normal functionals and vector states; V10.ModularTheory and V10.KMS for the modular group and KMS uniqueness of a faithful normal state; Layer 11 for full left Hilbert algebras, their full closure, Tomita's theorem and the canonical weight. Section 3.4 identifies the Haar Tomita algebra with these constructions. |
 | [HilbertModules H1–H3](../HilbertModules/README.md) | H1 completions, Hilbert direct sums and the free module H⊗A; H2 adjointable and compact module operators, `L_A(E)≅M(K_A(E))` with the strict topology on bounded sets, `K_A(H⊗A)≅K(H)⊗min A` and `L_A(H⊗A)≅M(K(H)⊗min A)`; H3 interior tensor products with associators and unitors. Layer 2 builds coactions on these carriers. |
-| [TemperleyLieb Layers 0–7](../TemperleyLieb/README.md) | Algebraic diagrams and reflections, the linear universal property `TLCat.lift` of Layer 2, the Markov trace with its uniqueness and its comparison with Tau Ceti's `markovTrace` (Layer 4), Jones–Wenzl objects and the negligible ideal (Layer 6), and the Karoubi envelope with its simple objects, Clebsch–Gordan rule and root-of-unity quotient (Layer 7). |
+| [TemperleyLieb Layers 0–7](../TemperleyLieb/README.md) | Algebraic diagrams and reflections, the linear universal property `TLCat.lift` of Layer 2, the comparison `presentedTLEquiv` of Tau Ceti's presented algebra with the diagram algebra, the closure trace tr̂ with its uniqueness and its comparison with Tau Ceti's `markovTrace` (Layer 4), Jones–Wenzl objects and the negligible ideal (Layer 6), and the Karoubi envelope with its simple objects, Clebsch–Gordan rule and root-of-unity quotient (Layer 7). |
 | [Subfactors 3.1–3.3](../Subfactors/README.md) | Analytic adjoint on TL_n, closure trace, trace radical, Jones's positivity theorem `markovTrace_nonneg_iff` with `jonesLoopParameters` and its pullback criterion, positive path models, the quotients Q_n and their finite C*-norms. |
 | [OperatorTheory/SelfAdjointSpectralTheory Part B](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Spectral projections of the averaged compact self-adjoint operators of §2.2. |
 | [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) | Classical Peter–Weyl, compact Haar integration and the SU(2) representation calculation used for comparisons. |
@@ -174,7 +175,14 @@ that functor (`CategoryTheory/Monoidal/Pivotal/Basic.lean`), its traces
 `TauCeti.quantumInteger` with `IsGenericQuantumParameter`,
 `TauCeti.IsLocallyFiniteModule`, `TauCeti.FiniteHopfModuleCat`, and
 `TauCeti.OreExtension` with `TauCeti.SigmaDerivation` and
-`skewPolynomialEquiv` for §8.1's δ=0 comparison.
+`skewPolynomialEquiv` for §8.1's δ=0 comparison. Section 0.2's sign map
+consumes the presented algebra `TauCeti.TemperleyLieb` with
+`TauCeti.TemperleyLieb.lift`, `TauCeti.TemperleyLieb.hom_ext` and
+`TauCeti.TemperleyLieb.strandIncl` (`Algebra/TemperleyLieb/Basic.lean`), and
+the Markov-trace predicate `TauCeti.TemperleyLieb.IsMarkovTrace` with its
+uniqueness `TauCeti.TemperleyLieb.IsMarkovTrace.unique`, which holds over every
+commutative semiring and at every loop parameter
+(`Algebra/TemperleyLieb/Trace.lean`).
 
 ## How to read the build
 
@@ -184,8 +192,12 @@ completions. Layers 5–7 build the universal examples, reconstruct compact
 quantum groups from fiber data and identify their representations. Layer 8
 builds the algebraic rank-one theory independently through §8.5, then compares
 it with the compact examples in §8.6 and with classical Lie modules in §8.7.
-The labels Q1–Q8 refer to these same layers. Local *Needs:* lines distinguish
-the statement's carriers from inputs used by the specified proof route.
+The labels Q1–Q8 refer to these same layers, and item k of Q8 is §8.k for
+k=1,…,7: Q8 item 1 is §8.1, the presentation, PBW basis and Hopf structure of
+U_q(sl₂), and Q8 item 5 is §8.5, the finite Hopf-module category
+`TauCeti.FiniteHopfModuleCat` with its monoidal structure and duals. Local
+*Needs:* lines distinguish the statement's carriers from inputs used by the
+specified proof route.
 
 ## Layer 0: Categorical foundations
 
@@ -244,7 +256,7 @@ The analytic-category and duality interfaces have the following API.
 - On ℂ², J(z₁,z₂)=(−conj z₂,conj z₁) satisfies J²=−I; ordinary conjugation squares to I. Both are antiunitary, so antiunitarity alone does not choose the sign.
 - The forgetful functor of SU(2) sends the invariant cup e₀⊗e₁−e₁⊗e₀, of zigzag sign −1, to a cup of sign −1 on ℂ². The symmetric cup e₀⊗e₀+e₁⊗e₁ of Hilb_f has sign +1 and is not SU(2)-invariant, so it cannot replace the image.
 
-*Needs:* HilbertModules H2 for the module-category example; Mathlib `CategoryTheory.Category`, `CategoryTheory.Linear`, `CategoryTheory.MonoidalCategory`, `CategoryTheory.Karoubi` and native rigid pairings; PivotalSpherical Layers 0–2,7. Longo–Roberts §§2–3 and Appendix; Neshveyev–Tuset §2.2; signed equations also follow by transporting the two conjugate equations, and sign preservation by applying τ to the zigzag equation.
+*Needs:* HilbertModules H2 for the module-category example; Mathlib `CategoryTheory.Category`, `CategoryTheory.Linear`, `CategoryTheory.MonoidalCategory`, `CategoryTheory.Idempotents.Karoubi` and native rigid pairings; PivotalSpherical Layers 0–2,7. Longo–Roberts §§2–3 and Appendix; Neshveyev–Tuset §2.2; signed equations also follow by transporting the two conjugate equations, and sign preservation by applying τ to the zigzag equation.
 
 ### 0.2 Temperley–Lieb comparison for self-dual objects
 
@@ -267,29 +279,47 @@ Closing x∈TL_n with the nested cups R_n of X^⊗n gives
 R_n*(Φ_R(x)⊗1)R_n=ε^n T_n(x), so ε^n T_n(x†x)=‖(Φ_R(x)⊗1)R_n‖²≥0, with
 equality only when Φ_R(x)=0.
 
-For the sign ε=−1 define the sign map s:TL_n(−d)→TL_n(d) by s(e_i)=−e_i. It
-respects the three defining relations. For e_i²=(−d)e_i in TL_n(−d),
-s(e_i)²=e_i²=d·e_i=(−d)·s(e_i). In e_ie_j=e_je_i (|i−j|≥2) both sides have
+For every commutative ring k, every δ∈k and every n, define the sign map
+s:`TauCeti.TemperleyLieb k (−δ) n`→`TauCeti.TemperleyLieb k δ n` by
+s(e_i)=−e_i through `TauCeti.TemperleyLieb.lift`. It respects the three
+defining relations. For e_i²=(−δ)e_i in the source,
+s(e_i)²=e_i²=δ·e_i=(−δ)·s(e_i). In e_ie_j=e_je_i (|i−j|≥2) both sides have
 degree 2, and in e_ie_(i±1)e_i=e_i they have degrees 3 and 1; in each case the
 two degrees have the same parity, so s multiplies both sides by the same sign.
-The same formula in the other direction inverts s, so s is an algebra
-isomorphism, and it commutes with the adjoint since e_i†=e_i; a diagram with
-k generators whose closure has c loops satisfies k+c≡n (mod 2), since each generator joins
-or splits one closed loop, hence T_n^(d)(s x)=(−1)^n T_n^(−d)(x) and s
-preserves the normalized traces. Thus the positive form ε^n T_n(x†x) on
-TL_n(εd) is, for either sign, the pullback of Subfactors 3.2's form
-T_n(y†y) on TL_n(d), through the identity or through s. Deduce that d lies in
-`jonesLoopParameters` by Subfactors 3.2's pullback criterion, that the kernel
-of Φ_R on TL_n(εd) is the trace radical, carried through s when ε=−1, that
-this trace radical is the degree-n part of TemperleyLieb Layer 6's negligible
-ideal by TemperleyLieb Layer 4's uniqueness of the Markov trace, which
-identifies Subfactors 3.2's closure trace T_n with the trace tr̂ defining that
-ideal, and that Φ_R induces injective *-homomorphisms
-Q_n→End(X^⊗n), compatible with strand inclusions and precomposed with s⁻¹
-when ε=−1. Both presentations send the normalized projection p_i=e_i/(εd) to
-1^⊗(i−1)⊗RR*/d⊗1^⊗(n−i−1); the signed generator is εd·p_i and the positive
-one d·p_i (Neshveyev–Tuset §2.5, pp.52–54, for the signed cup–cap
-projections).
+The same construction at −δ inverts s by `TauCeti.TemperleyLieb.hom_ext`, so s
+is a k-algebra isomorphism. It commutes with `TauCeti.TemperleyLieb.strandIncl`
+and with every product-reversing involution that fixes the generators on both
+sides: TemperleyLieb Layer 4's k-linear reflection, transported by
+`presentedTLEquiv`, and, over ℂ at real δ, Subfactors 3.1's conjugate-linear
+adjoint. For Markov families tr at δ and tr' at −δ in the sense of
+`TauCeti.TemperleyLieb.IsMarkovTrace`, prove tr_n(s x)=(−1)^n tr'_n(x) for x
+in TL_n(k,−δ): the family y↦(−1)^n tr'_n(s⁻¹y) on TL_n(k,δ) takes the value
+(−1)^n(−δ)^n=δ^n at 1, is tracial, gains the factor (−1)(−δ)=δ under strand
+inclusion and keeps the Markov property because s⁻¹ sends strandIncl(y)·e_last
+to −strandIncl(s⁻¹y)·e_last, so it is tr by
+`TauCeti.TemperleyLieb.IsMarkovTrace.unique`. Diagrammatically, a word of
+length ℓ in the generators whose closure has c loops satisfies ℓ+c≡n (mod 2),
+since each generator joins or splits one closed loop. For the closure traces,
+TemperleyLieb Layer 4's tr̂ and, over ℂ, Subfactors 3.2's T_n, this gives
+T_n^(δ)(s x)=(−1)^n T_n^(−δ)(x), and for invertible δ the map s preserves the
+normalized traces δ^(−n)T_n. Over ℂ, at every δ, s therefore carries the trace
+radical {x : T_n(xy)=0 for all y} of TL_n(ℂ,−δ) onto that of TL_n(ℂ,δ). At
+every δ∈ℂ this radical, which for real δ is Subfactors 3.2's R_n, is the
+degree-n part of TemperleyLieb Layer 6's negligible ideal: `presentedTLEquiv`
+carries it onto the negligible endomorphisms f of n, those with tr̂(f∘g)=0 for
+every g:n→n, because TemperleyLieb Layer 4's uniqueness of the Markov trace
+identifies T_n with tr̂ through `presentedTLEquiv`.
+
+Return to the cup. The positive form ε^n T_n(x†x) on TL_n(εd) is, for either
+sign, the pullback of Subfactors 3.2's form T_n(y†y) on TL_n(d), through the
+identity or through s. Deduce that d lies in `jonesLoopParameters` by
+Subfactors 3.2's pullback criterion, that the kernel of Φ_R on TL_n(εd) is the
+trace radical, carried through s when ε=−1, and that Φ_R induces injective
+*-homomorphisms Q_n→End(X^⊗n), compatible with strand inclusions and
+precomposed with s⁻¹ when ε=−1. Both presentations send the normalized
+projection p_i=e_i/(εd) to 1^⊗(i−1)⊗RR*/d⊗1^⊗(n−i−1); the signed generator is
+εd·p_i and the positive one d·p_i (Neshveyev–Tuset §2.5, pp.52–54, for the
+signed cup–cap projections).
 
 If Φ_R is full, prove for either sign that X is simple, R is standard with
 d(X)=d, and the ranges of the projections Φ_R(f_r), for the Jones–Wenzl
@@ -308,7 +338,7 @@ and for ε=−1 no monoidal functor from TL(ℂ,d) sends its cup to R.
 The comparison interfaces have the following API.
 
 - A cup of zigzag sign ε gives a monoidal functor from TL(ℂ,εd) that is a *-homomorphism on endomorphism algebras with the trace radical as kernel; d is a Jones loop parameter.
-- The sign map identifies the algebras, adjoints and normalized traces at loop parameters ±d and carries Jones–Wenzl projections to Jones–Wenzl projections, while the cup stays signed.
+- Over every commutative ring and at every loop parameter δ, the sign map identifies the algebras at −δ and δ, commutes with strand inclusions and the generator-fixing involutions, multiplies Markov traces by (−1)^n and carries Jones–Wenzl projections to Jones–Wenzl projections; over ℂ it carries trace radicals onto trace radicals, each the degree-n part of the negligible ideal, while the cup stays signed.
 - A full comparison carries the Jones–Wenzl ranges to all simple subobjects of the tensor powers, with dimensions [r+1] and the fusion rules of TemperleyLieb Layer 7.
 
 **Checks.**
@@ -316,10 +346,11 @@ The comparison interfaces have the following API.
 - In Hilb_f with X=ℂ and R=1, ε=1 and d=1. Then Φ_R(e)=1 and Φ_R(f₂)=Φ_R(1−e)=0: the kernel on TL₂ is the trace radical ℂf₂ and Q₂=ℂ. This Φ_R is not full, since TL has no morphism 1→0 while Hom(X,1)=ℂ; accordingly the ranges ℂ of f₀ and f₁ are isomorphic, and inequivalence needs fullness.
 - In Hilb_f with X=ℂ² and R=e₀⊗e₁−e₁⊗e₀, ε=−1 and d=2, the loop value δ=−2 of SU(2) at q=1. Then Φ_R(e)=−RR* satisfies e²=−2e, while p=RR*/2 is the projection onto ℂR in both presentations. The evaluation R* instead of −R* has zigzag −1, so `TLCat.lift` does not apply to it.
 - On one strand s is the identity and T_1^(d)(1)=d=−T_1^(−d)(1); on two strands T_2^(d)(s e)=−d=T_2^(−d)(e) and T_2^(d)(1)=d²=T_2^(−d)(1). Omitting the factor (−1)^n would give the wrong sign on one strand. At δ=−5/2, signed e=−(5/2)p and positive e=(5/2)p both give e²=δe in their own parameter and normalized trace 4/25 of p.
+- Over 𝔽₂, or any coefficient ring with 2=0, −δ=δ and −e_i=e_i, so s is the identity of TL_n(𝔽₂,δ) and the factor (−1)^n is 1. Over ℤ at δ=1 the generator-fixing assignment e↦e is not an algebra map TL₂(ℤ,−1)→TL₂(ℤ,1): it would force e²=−e, hence 2e=0, while e acts on the two-strand representation as [[0,0],[1,1]] and 2e as [[0,0],[2,2]]≠0. At δ=0 the relation reads (−e_i)²=e_i²=0=0·(−e_i).
 - At d=3/2 the quantum integers [2]=3/2, [3]=5/4, [4]=3/8 are positive and T₄(f₄)=[5]=−11/16<0. So no object of a C*-tensor category has a cup with ‖R‖²=3/2 and zigzag sign ±1; 3/2 lies between 2cos(π/4)=√2 and 2cos(π/5)=(1+√5)/2.
 - In Rep(SU(2)) with the cup above, T_r(f_r) at δ=−2 is 1,−2,3 for r=0,1,2, while the ranges of Φ_R(f_r) have intrinsic dimensions 1,2,3=ε^r T_r(f_r). The signed closure traces are not dimensions.
 
-*Needs:* §0.1; TemperleyLieb Layer 2 (`TLCat.lift`, `TLCat.lift_unique`), Layer 4 (trace comparison), Layer 6 (Jones–Wenzl objects, negligible ideal) and Layer 7 (envelope, simple objects and fusion); Subfactors 3.1–3.3. Neshveyev–Tuset §2.5; the closure formula, the sign map and the fusion transfer are the displayed computations.
+*Needs:* §0.1; Tau Ceti `TauCeti.TemperleyLieb.lift`, `TauCeti.TemperleyLieb.hom_ext`, `TauCeti.TemperleyLieb.strandIncl` and `TauCeti.TemperleyLieb.IsMarkovTrace.unique` for the sign map; TemperleyLieb Layer 2 (`TLCat.lift`, `TLCat.lift_unique`), Layer 4 (`presentedTLEquiv`, the reflection, trace comparison), Layer 6 (Jones–Wenzl objects, negligible ideal) and Layer 7 (envelope, simple objects and fusion); Subfactors 3.1–3.3. Neshveyev–Tuset §2.5; the closure formula, the sign map and the fusion transfer are the displayed computations.
 
 ### Examples
 
@@ -330,7 +361,8 @@ comparison interfaces.
 ### Dependencies
 
 Section 0.1 uses native category theory, HilbertModules H2 and PivotalSpherical
-Layers 0–2,7; §0.2 adds TemperleyLieb Layers 2, 4, 6 and 7 and Subfactors
+Layers 0–2,7; §0.2 adds Tau Ceti's presented Temperley–Lieb algebra with its
+Markov-trace uniqueness, TemperleyLieb Layers 2, 4, 6 and 7 and Subfactors
 3.1–3.3. None consumes Layers 1–8 or quantum-group reconstruction.
 
 ## Layer 1: C*-bialgebras, cancellation and Haar integration
@@ -1547,7 +1579,7 @@ inverse left dual and named `RigidCategory` data are `TauCeti.FiniteHopfModuleCa
 `TauCeti.FiniteHopfModuleCat.rigidCategory`, installed locally
 in every statement using its left duals, pivot, pivotal traces,
 dimensions or dual-compatible Clebsch–Gordan and 6j maps. For g:H with native
-[`IsGroupLikeElem k g`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Coalgebra/GroupLike.lean)
+`IsGroupLikeElem k g` (Mathlib `RingTheory/Coalgebra/GroupLike.lean`)
 and S²=Ad(g), consume
 `GroupLike.toUnits k ⟨g,hg⟩` and native antipode/inverse laws.
 Such a g makes S bijective,
@@ -1709,8 +1741,9 @@ Hopf-module construction in HopfologicalAlgebra §2.1 consume Layer 8.
 CategoricalOperatorAlgebras CA1a–CA2a consume §0.1's C*-categories and their
 Karoubi completion, Hilb_f, the Hilbert-module C*-category, standard solutions,
 intrinsic dimension, the unitary dual functor and signed self-dualities.
-TemperleyLiebOperatorAlgebras 1.3 and 2.1 consume §0.2's sign map and its
-identification of the trace radical with the negligible ideal.
+TemperleyLiebOperatorAlgebras 1.3 and 2.1 consume §0.2's sign map over every
+commutative ring with its Markov-trace relation, and the identification of the
+trace radical with the negligible ideal at every complex loop parameter.
 
 ## References
 
@@ -1771,4 +1804,4 @@ identification of the trace radical with the negligible ideal.
   proves faithful normal forms, associativity and the universal property
   for σ=id over a noncommutative coefficient ring (the declarations
   rightMul_assoc_of_ring and oreLift). Q8 requires general σ-derivations; it
-  extends this mathematical scope and compares the σ=id specialization.
+  extends this mathematical scope.
