@@ -48,9 +48,10 @@ including K7.2's complex characteristic cells, and is not a supplier here; K4.P 
 smooth and continuous complex lines itself through the two exponential sheaf sequences, a
 rank-one statement that differs from TopologicalKTheory's arbitrary-rank smoothing of
 continuous bundles by partitions and matrix models.
-[ComplexComparisonPartII](../ComplexComparisonPartII/README.md) C−1.1, C0.3, C1.9 and
-C5.4 supply K4.P's holomorphic Picard inputs, listed under
-*From TauCetiRoadmap.ComplexComparisonPartII* below. [PDE](../PDE/README.md)
+K4.P owns, on every complex manifold, the unit sheaf, `Pic_hol`, the holomorphic
+exponential segment, the conditional `c₁` isomorphism and `F_M`; ComplexComparisonPartII
+C5.4, K3Surfaces 1.1 and GeometricQuantization §3.3 consume them, and this roadmap
+cites no section of theirs. [PDE](../PDE/README.md)
 supplies scalar real-domain Sobolev, embedding, Rellich and elliptic estimates, not system
 estimates. [PseudodifferentialOperators P1.0](../PseudodifferentialOperators/README.md#p10-differential-operator-core)
 supplies differential-operator carriers, jets, symbols and formal density adjoints
@@ -101,17 +102,6 @@ dual-character line in SmoothBundlesConnections and GeometricQuantization.
 Hodge Laplacians are the nonnegative operators `Δ_d=dd*+d*d` and `Δ_∂̄=∂̄∂̄*+∂̄*∂̄`. On
 functions the real one is the negative of DifferentialGeometry's `div grad`
 Laplace–Beltrami operator. Do not use one sign for both without the comparison theorem.
-
-### From TauCetiRoadmap.ComplexComparisonPartII
-
-- **C−1.1** identifies its holomorphic structure sheaf on a complex manifold with K3–K4's.
-- **C0.3** supplies `holomorphicBundleDictionary` with its tensor, dual and pullback
-  comparisons; K4.P uses it in rank one.
-- **C1.9** supplies `analyticPicardGroup`, the group of invertible analytic modules.
-- **C5.4** supplies, as their single owner on every complex manifold, the frame-torsor
-  bijection onto `H¹(M,O_M^×)`, the holomorphic exponential sequence and the
-  identification of its connecting map with the integral first Chern class. K4.P
-  consumes these without restating them.
 
 ## K1. Complex structures and type calculus
 
@@ -218,6 +208,40 @@ iteration/bootstrapping. These analytic prerequisites belong here, consuming PDE
 Hölder/Schauder tools. A fixed-Hölder contraction using polydisc Cauchy–Green alone does
 not give the required derivative control. This is not a consequence of real Frobenius
 alone.
+
+**Checks.**
+
+- Complex orientation: the chart change `z↦2z` of ℂ has real determinant `4=|2|²`, as
+  `LinearMap.det_restrictScalars` and `Algebra.norm_complex_eq` give for every
+  complex-linear map, so its chart sign is positive; `z↦z̄` has real determinant `−1` and
+  is no chart of the complex structure. On `ℂ=ℝ²` the complex orientation is that of
+  `dx∧dy`; the biholomorphism `z↦iz`, real determinant `1`, preserves it, while the
+  antiholomorphic diffeomorphism `z↦z̄` reverses it.
+- Holomorphy criterion: `φ(z)=z̄` has `φ_z=0`, `φ_z̄=1` and `φ*dz=dz̄`, of type `(0,1)`,
+  so the criterion rejects it; `φ(z)=z²` has `φ_z̄=0` and `φ*dz=2z dz`; `φ(z)=|z|²` has
+  `φ_z̄=z`, zero only at `0`, so the criterion holds at the single point `0` and on no
+  open set. For `φ(z)=z̄` the real derivative `ℓ=Dφ(z)` has `ℓ(i)=−i` and `i·ℓ(1)=i`, so
+  `ℓ` is not complex-linear.
+- Implicit map: `G(z,v)=v²−z` at `(z₀,v₀)=(1,1)` has `G(1,1)=0` and `∂_vG=2v=2≠0`; the
+  implicit map near `(1,0)` is `F(z,w)=√(z+w)` on the branch with `F(1,0)=1`, and
+  `G(z,F(z,w))=(z+w)−z=w`; the other branch `−√(z+w)` solves the equation but not
+  `F(1,0)=1`, which is what local uniqueness pins. At `(0,0)`, `∂_vG=0` and no such map
+  exists, since `w↦√w` is not holomorphic near `0`.
+- Submanifolds: `{w=z²}⊂ℂ²` is the graph of a holomorphic function and a holomorphic
+  submanifold whose normal line is trivialised by `w−z²`, with `d(w−z²)=dw−2z dz≠0`
+  everywhere; `{z²=w³}` is the zero set of a function whose differential `2z dz−3w² dw`
+  vanishes at `0` and the image of `t↦(t³,t²)`, whose derivative `(3t²,2t)` vanishes at
+  `t=0`, so neither regularity criterion applies there, and it is not a holomorphic
+  submanifold at `0` (K3's Checks compute `Sing={0}`); the circle `{|z|=1}⊂ℂ` is a real
+  submanifold whose tangent line at `1` is spanned by `∂_y`, and `J∂_y=−∂_x` is not
+  tangent, so its tangent spaces are not `J`-invariant.
+- Eigenbundles: on ℂ with `J=i`, `J∂_x=∂_y`, and `u=∂_x` has
+  `u^(1,0)=(∂_x−i∂_y)/2=∂_z`, the `+i` eigenvector (`J∂_z=(∂_y+i∂_x)/2=i∂_z`); the
+  convention `(u+iJu)/2` would give `∂_z̄`, the `−i` eigenvector. Coefficient conjugation
+  sends `i dz` to `−i dz̄`, exchanging the types `(1,0)` and `(0,1)`, which no
+  complex-linear coefficient map does. For a complex atlas every bracket of the
+  coordinate fields `∂_z`, `∂_z̄` vanishes, so `N_J=0` and both eigenbundles are
+  involutive, as the Newlander–Nirenberg converse requires.
 
 ## K2. Dolbeault calculus and the local lemmas
 
@@ -736,50 +760,59 @@ B3 rather than new connection objects.
 ### K4.P. Holomorphic Picard groups and the exponential comparison
 
 On K1–K3's complex manifolds, construct the sheaf of units 𝒪× of the actual
-holomorphic-function sheaf, with its multiplicative group operations and
-restriction maps. Use native sheaves of abelian groups (applying `Additive` to
-𝒪× for cohomology), native sheaf cohomology and its connecting maps.
-[ComplexComparisonPartII C−1.1](../ComplexComparisonPartII/README.md) identifies
-its holomorphic structure sheaf on a complex manifold with K3–K4's; identify
-C5.4's `O_M^×` with 𝒪× through it.
-`CommRing.Pic` alone classifies invertible modules over a ring and does not
-identify line bundles on an arbitrary space.
+holomorphic-function sheaf, its multiplicative group operations, restriction and
+local logarithms. Use native sheaves of abelian groups (applying `Additive` to
+𝒪× for cohomology), native sheaf cohomology and its connecting maps. This is
+the sheaf Picard construction; `CommRing.Pic` alone classifies invertible
+modules over a ring and does not identify line bundles on an arbitrary space.
 
-ComplexComparisonPartII C5.4 is the single owner, on every complex manifold, of
-three objects that K4.P consumes and does not restate: the frame-torsor
-bijection from holomorphic line-bundle classes onto `H¹(M,𝒪×)`, with its
-tensor, dual and pullback laws; the holomorphic exponential sequence
-0→ℤ→𝒪→𝒪×→1, with f↦exp(2πif), ℤ the constant sheaf, and its connecting map;
-and the identification of that connecting map with the integral first Chern
-class of the underlying smooth line. K4's frame convention e_j=e_i g_ij is
-C5.4's, with g_ij changing j-coordinates to i-coordinates. The normalization is
-one and the same in the two conventions in use: `c₁(O(1))·[ℂP¹]=+1` for
+K4.P owns, on every complex manifold, the holomorphic exponential sequence, the
+isomorphism `Pic_hol(M)≃H¹(M,𝒪×)` and the identification of its connecting map
+with the integral first Chern class of the underlying smooth line. It supplies this
+segment and its `c₁` identification to ComplexComparisonPartII C5.4 (for its
+analytic-space and cycle comparisons), to K3Surfaces 1.1 and to
+GeometricQuantization §3.3, which are its consumers. The normalization is one and
+the same in the two conventions in use: `c₁(O(1))·[ℂP¹]=+1` for
 SmoothBundlesConnections B6.2's dual-character Hopf line, equivalently
-`c₁(O(−1))·[ℂP¹]=−1` as C5.4 writes it, both against K1's complex orientation.
+`c₁(O(−1))·[ℂP¹]=−1` as ComplexComparisonPartII writes it, both against K1's
+complex orientation.
 
 Define Pic_hol(M) as holomorphic isomorphism classes of K4's rank-one locally
 free 𝒪-modules, equivalently holomorphic line bundles: a commutative group under
 tensor product, with the trivial line as unit and the dual as inverse, and with
 pullback homomorphisms f*:Pic_hol(M)→Pic_hol(N) for holomorphic f:N→M,
-functorial in f and compatible with restriction to open subsets.
-ComplexComparisonPartII C0.3's `holomorphicBundleDictionary` carries K4's
-rank-one bundles to the invertible analytic modules on M regarded as an analytic
-space. Prove that it induces a group isomorphism from Pic_hol(M) onto C1.9's
-`analyticPicardGroup` of M, compatible with pullback, from C0.3's tensor, dual
-and pullback comparisons. This is the domain of C5.4's bijection, so the
-composite is a group isomorphism Pic_hol(M)≃H¹(M,𝒪×) on K4's own classes.
-Relate Pic_hol(M) to K4's kernel-of-∂̄ sheaf and, through K4's comparison with
-SmoothBundlesConnections B2, to the underlying smooth line of B1/B6; do not
-introduce a second bundle carrier.
+functorial in f and compatible with restriction to open subsets. Construct the
+frame 𝒪×-torsor and its inverse by gluing trivial lines, including the actual
+overlap cocycles, coboundary changes of frames and refinement maps, in the frame
+convention e_j=e_i g_ij, so that g_ij carries j-coordinates to i-coordinates.
+Prove the group isomorphism Pic_hol(M)≃H¹(M,𝒪×), with tensor, dual, trivial-line
+and pullback laws (Demailly, Chapter V, (8.2), p. 264, is the smooth statement;
+the holomorphic one is the same gluing with holomorphic cocycles). Relate this
+construction to K4's kernel-of-∂̄ sheaf and, through K4's comparison with
+SmoothBundlesConnections B2, to the underlying smooth line of B1/B6, its
+unit-circle reduction, connection and Čech constructions; do not introduce a
+second bundle carrier.
 
-The native long exact sequence (`Sheaf.H.δ`) of C5.4's exponential sequence,
-read through this isomorphism, places Pic_hol(M) in the exact segment
+Prove exactness, including stalkwise surjectivity by a local holomorphic
+logarithm, of 0→ℤ→𝒪→𝒪×→1, with f↦exp(2πif) and ℤ the constant sheaf.
+Construct its long exact sequence using the native `Sheaf.H.δ` API and prove
+its naturality in M. In particular retain the complete segment
 
-H¹(M,ℤ)→H¹(M,𝒪)→Pic_hol(M)→H²(M,ℤ)→H²(M,𝒪),
+H¹(M,ℤ)→H¹(M,𝒪)→Pic_hol(M)→H²(M,ℤ)→H²(M,𝒪)
 
-whose middle map is the integral first Chern class c₁ of the underlying smooth
-line by C5.4. Prove that H¹(M,𝒪)=H²(M,𝒪)=0 makes c₁:Pic_hol(M)→H²(M,ℤ) an
-isomorphism.
+(Demailly, Chapter VI, §9.1, (9.1), p. 314, writes it for a compact connected
+Kähler manifold; the segment on an arbitrary complex manifold is this roadmap's
+own statement). Identify the middle connecting map with the integral first Chern
+class of the underlying smooth line, through the explicit exponential/Čech maps
+and SBC B6.1's sheaf/singular comparison on manifolds, and check the signs
+against B6's dual associated line and its principal-circle transitions rather
+than equating a frame cocycle with its inverse. Verify on K7's positively
+oriented ℂP¹ that O(1) has Chern number 1 and that the Chern connection has
+c₁=[iF/(2π)] (Demailly, Chapter V, (9.5), p. 265). Construct compatibility with
+curvature and the real de Rham comparison, including torsion invisible to
+curvature, tensor powers and conjugate/dual signs.
+
+Prove that H¹(M,𝒪)=H²(M,𝒪)=0 makes c₁:Pic_hol(M)→H²(M,ℤ) an isomorphism.
 
 On the underlying smooth manifold, Hausdorff and second-countable hence paracompact,
 write Pic_sm(M) and Pic_cont(M) for smooth and continuous complex-line
@@ -818,7 +851,7 @@ identifies this class with the integral singular c₁ fixed above.
 Compose Pic_hol(M)→Pic_sm(M)→[F_M]Pic_cont(M). Prove that it is the ordinary
 forgetful map on underlying lines and respects tensor, dual and holomorphic
 pullback. Under H¹(M,𝒪)=H²(M,𝒪)=0, the conditional c₁ isomorphism above,
-C5.4's identification of c₁ with the class of the underlying smooth line and
+its identification of c₁ with the class of the underlying smooth line and
 SBC B2/B6's smooth complex-line classification make the first map an
 isomorphism; F_M then gives each **continuous** complex-line isomorphism
 class exactly one holomorphic isomorphism class. This asserts neither a
@@ -830,10 +863,10 @@ global holomorphic units are constants; identify automorphisms of a
 holomorphic line with those units. Give the disconnected componentwise
 version without replacing componentwise constants by one global scalar.
 
-This generic construction uses ComplexComparisonPartII C−1.1, C0.3, C1.9 and
-C5.4 as cited above, K2's Čech/derived comparison, K3's function sheaf and K4's
-line bundles. SBC B6.1 owns the manifold good-cover/sheaf/singular comparison;
-consume SBC B6's smooth line classification through it.
+This generic construction uses K2's local ∂̄/Dolbeault resolution and
+Čech/derived comparison, K3's function sheaf and K4's line bundles.
+SBC B6.1 owns the manifold good-cover/sheaf/singular comparison; consume
+SBC B6's smooth line classification and curvature comparisons through it.
 AlgebraicTopology supplies singular cochains and their coefficient exact
 sequences, not a second manifold sheaf/singular bridge. The continuous-line
 corollary additionally uses K2's fine-implies-acyclic theorem, continuous partitions of
@@ -841,30 +874,32 @@ unity and the covering-space logarithm specified above. These are its explicit l
 inputs. Its conditional Picard isomorphism uses supplied vanishing and does
 not assume Borel–Weil, Kodaira embedding, flag cohomology or K7's section
 dimension calculations. K4.P owns, on every complex manifold, the unit sheaf
-𝒪×, the group `Pic_hol(M)` and its identification with C1.9's analytic Picard
-group, the conditional `c₁` isomorphism, `F_M`, the composite forgetful map and
-the global-unit and automorphism statements. K3Surfaces 1.1 and
-GeometricQuantization §3.3 use the group `Pic_hol(M)` for their K3 and
-compact-flag applications; GeometricQuantization §3.3 owns the compact-flag
-vanishing and root-degree basis. SchubertGeometry S5's vanishing on Schubert
+𝒪×, the group `Pic_hol(M)` and its frame-torsor description in `H¹(M,𝒪×)`,
+the exponential segment, the conditional `c₁` isomorphism, `F_M`, the composite
+forgetful map and the global-unit and automorphism statements.
+ComplexComparisonPartII C5.4, K3Surfaces 1.1 and GeometricQuantization §3.3
+consume the segment and its `c₁` identification; GeometricQuantization §3.3
+owns the compact-flag application, proving `H^q(K/H,𝒪)=0` for q>0 by K5/K6
+harmonic theory and the actual isotropy weights, deducing
+`Pic_hol(K/H)≃H²(K/H;ℤ)` from the generic segment, and identifying its
+root-degree basis. SchubertGeometry S5's vanishing on Schubert
 varieties is algebraic coherent cohomology; it uses no holomorphic Picard group
 and is neither an input nor a consumer of K4.P.
 
-*Needs:* ComplexComparisonPartII C−1.1 (structure-sheaf identification), C0.3
-(`holomorphicBundleDictionary`), C1.9 (`analyticPicardGroup`) and C5.4 (frame-torsor
-bijection, holomorphic exponential sequence and its `c₁` identification); K2's
-Čech/derived comparison and fine-implies-acyclic theorem; K3's function
-sheaf; K4's line bundles; SmoothBundlesConnections B6.1–B6.2; AlgebraicTopology's
-singular cochains; Mathlib `Sheaf.H.δ`, `Additive`, `PartitionOfUnity.exists_isSubordinate`,
+*Needs:* K2's local ∂̄/Dolbeault resolution, Čech/derived comparison and
+fine-implies-acyclic theorem; K3's function sheaf; K4's line bundles;
+SmoothBundlesConnections B6.1–B6.2; AlgebraicTopology's singular cochains;
+Mathlib `Sheaf.H.δ`, `Additive`, `PartitionOfUnity.exists_isSubordinate`,
 `Complex.isCoveringMap_exp` and `IsCoveringMap.existsUnique_continuousMap_lifts`.
 
 **Checks.**
 
 - On a point, `𝒪=ℂ`, `𝒪×=ℂ×`, `H¹` vanishes, `Pic_hol` is trivial and the segment
-  is `0→0→0→0→0`.
+  is `0→0→0→0→0`; the exponential `exp(2πi·)` is surjective onto `ℂ×` with kernel
+  `ℤ`, which a map `f↦exp(f)` would fail (kernel `2πiℤ`).
 - On `ℂP¹`, `H¹(𝒪)=H²(𝒪)=0` and `c₁:Pic_hol(ℂP¹)→H²(ℂP¹;ℤ)≃ℤ` is an isomorphism with
-  `c₁(O(1))·[ℂP¹]=+1` and `c₁(O(−1))·[ℂP¹]=−1`; an identification of `Pic_hol` with
-  C1.9's group through dual modules would give `−1` for `O(1)`.
+  `c₁(O(1))·[ℂP¹]=+1` and `c₁(O(−1))·[ℂP¹]=−1`; the inverse frame cocycle would give
+  `−1` for `O(1)`.
 - On a complex torus of dimension one, `H¹(𝒪)≃ℂ` is nonzero, the kernel of `c₁` is
   the group of degree-zero lines of K7.FlatDegreeZero (unitary characters), and
   `c₁` is not injective; a wrong "unrestricted `Pic_hol≃H²`" would claim it is.
@@ -2612,10 +2647,12 @@ structure and additive groups are Tau Ceti's on the sphere-quotient model, trans
 K7.1's comparison; its cup calculation uses AT Stage 6 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
 and the generic spectral-sequence machinery. K4.P follows K2's Čech/derived comparison
-and fine-implies-acyclic theorem, K3's function sheaf, K4's line bundles, SBC
-B6.1–B6.2 and ComplexComparisonPartII C−1.1, C0.3, C1.9 and C5.4's
-exponential-sequence description, none of which uses K4.P; its ℂP¹
-normalization check uses K7.1's charts, and K7.FlatDegreeZero consumes it. Its
+and fine-implies-acyclic theorem, K3's function sheaf, K4's line bundles and SBC
+B6.1–B6.2, none of which uses K4.P; it owns the unit sheaf, `Pic_hol`, the
+exponential segment, the conditional `c₁` isomorphism and `F_M`, which
+ComplexComparisonPartII C5.4, K3Surfaces 1.1 and GeometricQuantization §3.3
+consume; its ℂP¹ normalization check uses K7.1's charts, and K7.FlatDegreeZero
+consumes it. Its
 continuous-line corollary uses the continuous exponential sequence and
 no TopologicalKTheory input; TopologicalKTheory consumes K5–K7, including K7.2's
 complex characteristic cells.
@@ -2649,7 +2686,9 @@ supplies the compatible triangulation in K6.
 - Griffiths and Harris, *Principles of Algebraic Geometry*, chapter 0, for
   local analytic geometry, Dolbeault/Hermitian and Kähler foundations.
 - [Demailly, *Complex Analytic and Differential Geometry*](https://www-fourier.ujf-grenoble.fr/~demailly/manuscripts/agbook.pdf),
-  for analytic germs, bundle connections, elliptic theory and Kähler identities.
+  for analytic germs, bundle connections, elliptic theory and Kähler identities;
+  Chapter V, (8.2), p. 264, (9.2) and (9.5), pp. 264–265, and Chapter VI, §9.1, (9.1),
+  p. 314, for the exponential sequences and first Chern classes of K4.P.
 - Webster, *A new proof of the Newlander–Nirenberg theorem*, Math. Z. 201 (1989), 303–316, for the convex-domain homotopy and rapidly converging iteration route.
 - [Sakane, *On compact complex parallelisable solvmanifolds*](https://ir.library.osaka-u.ac.jp/repo/ouka/all/5964/ojm13_01_13.pdf), Theorem 1 and the nilpotent case, for the invariant Dolbeault comparison.
 - Wells, *Differential Analysis on Complex Manifolds*, for Dolbeault, elliptic

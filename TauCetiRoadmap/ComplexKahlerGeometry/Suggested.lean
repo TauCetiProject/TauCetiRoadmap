@@ -53,12 +53,10 @@ Not statable at the pins, so nothing is stated in their place:
 * the flat-connection and local-system equivalences (K4): the pins have covariant derivatives
   and their curvature, but no category of holomorphic vector bundles with connection and
   connection-preserving bundle maps, the source of these equivalences;
-* the holomorphic Picard group `Pic_hol(M)`, its conditional Chern-class isomorphism and the
-  smooth/continuous comparison `F_M` (K4.P): the pins have no tensor product of vector bundles,
-  and Tau Ceti's `holomorphicStructureSheaf` is a sheaf of commutative rings with no sheaf of
-  units, hence no `H¹(M,𝒪×)`. The exponential sequence, the frame-torsor bijection onto
-  `H¹(M,𝒪×)` and the Chern-class identification are ComplexComparisonPartII C5.4's
-  statements, which K4.P consumes; they are not restated here;
+* the exponential sequence, `Pic_hol(M) ≃ H¹(M,𝒪×)`, the Chern-class identification and the
+  smooth/continuous comparison `F_M` (K4.P): Tau Ceti's `holomorphicStructureSheaf` is a sheaf
+  of commutative rings, and the pins have no sheaf of its units and hence no `H¹(M,𝒪×)`, and
+  no tensor product of vector bundles for the group law of `Pic_hol(M)`;
 * the LF space of compactly supported smooth bundle sections, its dual space of bundle
   distributions, the localized Sobolev scale on a compact manifold and the complexification and
   conjugation of real bundle distributions (K5a): the pins have no inductive-limit topology on
