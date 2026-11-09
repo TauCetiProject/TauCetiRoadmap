@@ -1391,6 +1391,24 @@ theorem model_nonorientable_homeomorph_sdiff_discs (k : ℕ) (hk : 0 < k) (b : �
 
 The conventions the theorem statements use: for oriented surfaces, Dehn twists and Lickorish's theorem concern orientation-preserving mapping classes, with orientations the data of `PlanarTopology` layer 6; for surfaces with boundary, homeomorphisms and isotopies fix the boundary pointwise. The full mapping class group is stated separately. Everything is stated topologically and proved in the piecewise-linear category, which `PlanarTopology` layers 5 and 8 say is the same thing.
 
+**Essential curves.** A simple closed curve is **disc-bounding** if its carrier
+is the boundary of an embedded closed disc in `M`. It is **boundary-parallel**
+if it cobounds an embedded closed annulus with a component of the original
+boundary of `M`; the annulus meets that boundary exactly in its other boundary
+circle. Define `IsEssential c` to mean that neither condition holds. There is
+no two-sidedness requirement and no additional exclusion for bounding a Möbius
+band. Every one-sided simple closed curve is essential: boundaries of embedded
+discs and curves parallel to an original boundary circle are two-sided.
+
+Prove invariance under circle reparametrization, homeomorphisms of the surface
+and ambient isotopy. After PL straightening and subdivision, the conjunction
+`IsEssential c ∧ IsTwoSided c` agrees with the realization of
+`SurfaceModel.EssentialCurve` in `FreeGroupsAndLimitGroups §6.0d`: neither side
+of the cut is a disc piece or an annulus piece adjoining an original boundary.
+Two-sidedness remains a separate hypothesis for a Dehn twist; essentiality is
+not required, so boundary twists and the annulus base case are included.
+`IsSeparating c` means that the complement of its carrier in `M` is disconnected.
+
 **Twist, intersection and matrix conventions.** In an annular collar with coordinates
 `([θ], t) ∈ (ℝ/ℤ) × [0,1]` and orientation `dθ ∧ dt`, the positive twist is
 `T([θ], t) = ([θ + t], t)`, extended by the identity outside the collar. It fixes
@@ -1434,7 +1452,9 @@ def SimpleClosedCurve (M : Type*) [TopologicalSpace M] : Type*
     an arc whose interior touches a boundary circle is not an `Arc`, so cutting along one and
     straightening one by twists never meet that case. -/
 def Arc (M : Type*) [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] : Type*
+/-- Neither disc-bounding nor boundary-parallel; one-sided curves are allowed. -/
 def IsEssential (c : SimpleClosedCurve M) : Prop
+/-- The complement of the carrier in the connected surface is disconnected. -/
 def IsSeparating (c : SimpleClosedCurve M) : Prop
 def IsTwoSided (c : SimpleClosedCurve M) : Prop
 
@@ -1479,7 +1499,8 @@ theorem mcg_sphere_plus (o : Surface.Orientation Sphere2) : MappingClassGroupPlu
 theorem mcg_sphere_full : MappingClassGroupFull Sphere2 ≃* Multiplicative (ZMod 2)
 
 /-- The positive Dehn twist in an oriented annular collar: ([θ],t) ↦ ([θ+t],t).
-    The annulus class is +1; on a positive torus basis it sends b to b+a. -/
+    The annulus class is +1; on a positive torus basis it sends b to b+a.
+    The curve need not be essential: boundary-parallel curves give boundary twists. -/
 def dehnTwist (o : Surface.Orientation M) (c : SimpleClosedCurve M) (hc : IsTwoSided c) :
     MappingClassGroupPlus M o
 /-- Conjugation by an element of the group: `f` preserves `o` and is the identity on the boundary.
@@ -1555,6 +1576,13 @@ theorem exists_dehnTwist_generatingSet_card (o : Surface.Orientation M) (hb : (�
 - Target Lickorish's generating set of `3g − 1` twists. Humphries' minimal `2g + 1` set and its minimality proof are a separate theorem and remain out of scope.
 - Do not write "of finite type" for compact surfaces. In this literature the phrase normally signals punctures as well as boundary components, leading to the Birman exact sequence and point-pushing, which are out of scope.
 
+**Essentiality checks.** An interior circle bounding a disc is not essential.
+The annulus core is boundary-parallel and not essential, while a torus meridian
+is essential and two-sided. The Möbius-band core is essential and one-sided;
+it has no annular collar and does not enter the Dehn-twist construction. Check
+these conclusions against the finite cut models, including the two-sided
+comparison with `FreeGroupsAndLimitGroups §6.0d`.
+
 **Examples and mathematical checks.** On the positive torus basis the twist images
 are exactly `A` and `B` above, both of determinant one, with
 `ABA = BAB = [[0,1],[-1,0]]`. The inverse twist sends `[b]` to `[b]-[a]`,
@@ -1571,7 +1599,7 @@ powers fail to reduce the initial count. This tests the need for signed words wi
 asserting a unique reducing power.
 
 
-**Natural intermediate results.** (i) simple closed curves, essentiality, separation, and two-sidedness; (ii) cutting along curves and along proper arcs, and the invariants; (iii) the full, rel-boundary, and orientation-preserving mapping class groups, and the forgetful isomorphisms; (iv) the base cases; (v) Dehn twists, conjugation, and isotopy invariance; (vi) Lickorish's Lemma 2, for curves and arcs; (vii) the change-of-coordinates principle; (viii) the action on `H₁` and the torus; (ix) Lickorish's generation theorem rel boundary, by the double induction; (x) the `3g − 1` set.
+**Natural intermediate results.** (i) simple closed curves, disc-bounding and boundary-parallel curves, essentiality and its invariance and finite-model comparison, separation, and two-sidedness; (ii) cutting along curves and along proper arcs, and the invariants; (iii) the full, rel-boundary, and orientation-preserving mapping class groups, and the forgetful isomorphisms; (iv) the base cases; (v) Dehn twists, conjugation, and isotopy invariance; (vi) Lickorish's Lemma 2, for curves and arcs; (vii) the change-of-coordinates principle; (viii) the action on `H₁` and the torus; (ix) Lickorish's generation theorem rel boundary, by the double induction; (x) the `3g − 1` set.
 
 **Consequences.** `GeometricTopology` layer 9.
 
