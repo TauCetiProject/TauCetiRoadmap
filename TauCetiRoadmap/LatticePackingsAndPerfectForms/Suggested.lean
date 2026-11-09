@@ -29,12 +29,14 @@ The integral-lattice tensor construction and its decomposition API in README §�
 require a bundled integral-lattice tensor product absent at the pins; Kitaoka's minimum
 headline is stated on the form-side Kronecker Gram matrix. The perfect-class counts use
 the existing similarity quotient and need no chosen representative families. The Leech
-covering radius `μ(Λ₂₄) = √2` (README §3.4) is a statement about Tau Ceti's
-`TauCeti.leechLattice` and `TauCeti.isPosDef_leechLattice`, from the module
-`TauCeti.LinearAlgebra.IntegralLattice.Rank24.Leech.Basic`, which is not among this file's
-imports; README §3.4 states it for the Gram form of any `ℤ`-basis. The classification of the
-Leech holes is the route README §3.4 takes to that value and is a README target, not a headline.
-All other API, local checks and examples are in README.md.
+covering radius `μ(Λ₂₄) = √2` (README §3.4) is not stated: its carrier, Tau Ceti's
+`TauCeti.leechLattice` with `TauCeti.isPosDef_leechLattice` in the module
+`TauCeti.LinearAlgebra.IntegralLattice.Rank24.Leech.Basic`, is absent from the Tau Ceti revision
+this file is elaborated against. With that module the headline reads
+`(gramForm TauCeti.isPosDef_leechLattice b).coveringRadius = √2` for every `ℤ`-basis `b` of
+`Λ₂₄` indexed by `Fin 24`. The classification of the Leech holes is the route README §3.4 takes
+to that value and is a README target, not a headline. All other API, local checks and examples
+are in README.md.
 
 The form carrier uses native Matrix.PosDef. Metric statements use FormSpace A, whose squared
 norm is xᵀAx. Harmonic polynomials evaluated in integral coordinates use the inverse-Gram
