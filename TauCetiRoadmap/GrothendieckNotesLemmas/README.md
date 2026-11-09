@@ -409,10 +409,17 @@ converse holds because a direct summand of a flat module is flat (`Module.Flat.o
 - `ℤ × ℤ ⁄ 2` is not flat over `ℤ`, because its factor `ℤ ⁄ 2` is not (multiplication by `2` is
   injective on `ℤ` but becomes `0` on `ℤ ⁄ 2 ⊗ ℤ`).
 - `ι` empty: the product is the zero module, which is flat, and the right side holds vacuously.
-- Finiteness is needed for the direction from the factors: by Chase's theorem (Chase 1960,
-  Theorem 2.1) every product of flat modules over `R` is flat only when `R` is coherent, so over a
-  non-coherent ring some power `R ^ A`, for an index set `A` depending on `R`, is not flat although
-  `R` is.
+- Finiteness is needed for the direction from the factors: over `R = k[x, y₁, y₂, …] ⁄ (x yᵢ)`,
+  `k` a field, the annihilator of `x` is `(y₁, y₂, …)`, which is not finitely generated, so the
+  ideal `(x)` is not finitely presented, `R` is not coherent, and some power `R ^ A`, for an index
+  set `A` depending on `R`, is not flat although `R` is (Stacks, Tag 05CZ).
+
+Not a target: arbitrary products. For a commutative ring `R`, every product of flat `R`-modules is
+flat if and only if every power `R ^ A` is flat, if and only if `R` is coherent, that is every
+finitely generated ideal is finitely presented (Chase 1960; Stacks, Tag 05CZ). In particular all
+products of flat modules are flat over a Noetherian ring (Stacks, Tag 05CY). The direction from
+coherence is 2.2 applied to the finitely generated ideals; stating the theorem needs coherent rings,
+which this roadmap does not define.
 
 ### 2.2 Tensor products with products
 
@@ -886,9 +893,10 @@ PCurvature (Layers 1.1 and 1.4) consumes 3.2: `Derivation.lie_mulLeft` and
   Noetherian ring every finite module is finitely presented), Tag 00PF (Algebra, the lemma on the
   finite length of `M ⁄ xM` for a submodule `M` of `K ^ r` over a Noetherian domain of dimension
   `1`), Tag 059K (Algebra, the proposition on finitely presented modules and tensor products with
-  products), Tag 08XW (Dualizing complexes, the lemma on torsion submodules of injective modules
-  over a Noetherian ring), Tag 031K (Algebra, the split first fundamental sequence for a formally
-  smooth map).
+  products), Tag 05CY (Algebra, the lemma that a Noetherian ring is coherent), Tag 05CZ (Algebra,
+  the proposition characterising coherent rings by products of flat modules), Tag 08XW
+  (Dualizing complexes, the lemma on torsion submodules of injective modules over a Noetherian
+  ring), Tag 031K (Algebra, the split first fundamental sequence for a formally smooth map).
 - L. J. Mordell, « On sums of four cubes of polynomials », *Acta Arith.* 16 (1970), 365–370.
   doi:10.4064/aa-16-4-365-370.
 - J. P. May, *A Concise Course in Algebraic Topology*, Chicago Lectures in Mathematics, University
