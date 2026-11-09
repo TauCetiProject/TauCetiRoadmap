@@ -140,7 +140,9 @@ the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
   `Bimod` (`Monoidal/Bimod.lean`), bimodules between monoid objects, with
   their tensor product `Bimod.tensorBimod`, the coequalizer of the two
   actions on `X⊗Y`, and the bicategory `Bimod.monBicategory`, both for a
-  monoidal category with coequalizers preserved by tensoring on either side.
+  monoidal category with coequalizers in which tensoring on either side
+  preserves small colimits (`PreservesColimitsOfSize.{0,0}` for
+  `tensorLeft X` and `tensorRight X`), not only coequalizers.
   They are used as stated at the pin; the analytic
   structure of this roadmap is added to these carriers, never a second copy
   of them.
@@ -770,13 +772,30 @@ dagger functor in each variable and whose module associator and unitor
 are unitary; C is one through `selfRightAction`. It is pivotal when it
 carries a module trace compatible with C's chosen pivotal traces. Module
 functors are dagger functors with `Functor.RightLinear` structure whose
-lineators are unitary. Develop unitary module natural transformations,
+lineators are unitary. Neither library carries a right-linear structure
+across the monoidal opposite, so construct that passage first. For a
+functor F between categories with right C-actions, both regarded as
+categories with left `Cᴹᵒᵖ`-actions by
+`MonoidalLeftAction.monoidalOppositeLeftAction`, construct the bijection
+between `Functor.RightLinear` structures on F for C and
+`Functor.LeftLinear` structures on F for `Cᴹᵒᵖ`: the left lineator
+`mop c⊙F(d)→F(mop c⊙d)` is the right lineator `F(d)⊙c→F(d⊙c)`, the two
+actions having the same objects and morphisms, and the associativity and
+unit laws of one structure are those of the other because the opposite
+action's associator and unitor are the right action's. Prove that the
+bijection preserves unitarity of the lineators, sends the identity
+structure to the identity structure, and that the left-linear structure
+of a composite given by Tau Ceti's
+`CategoryTheory.Functor.LeftLinear.comp` has lineator
+`G(μ_F)∘μ_G`. Define a module natural transformation between right-linear
+functors as a natural transformation that is
+`CategoryTheory.NatTrans.IsLeftLinear` for `Cᴹᵒᵖ` and the transported
+structures, which says that it commutes with the right lineators. With
+this passage, develop unitary module natural transformations,
 finite sums, subobjects and generation by a chosen object, taking
 composition of module functors, module natural transformations and the
 restriction of the action to a full subcategory closed under it from Tau
-Ceti's left-linear API, through Mathlib's passage
-(`MonoidalLeftAction.monoidalOppositeLeftAction`) from right C-actions to
-left `Cᴹᵒᵖ`-actions. For the generated 2-by-2 category of a subfactor planar algebra,
+Ceti's left-linear API. For the generated 2-by-2 category of a subfactor planar algebra,
 prove the correspondence between connected right planar modules of
 Subfactors 7.2 and indecomposable pivotal right module C*-categories with a
 simple basepoint m=m⊗1₊ with Tr_m(id_m)=1, generating under the
@@ -804,6 +823,12 @@ equivalence.
 - In the shaded TL planar algebra with modulus δ, the Gram matrix of
   `P_(2,+)` in the basis `{1,e}` is `[[δ²,δ],[δ,δ²]]`, with determinant
   `δ²(δ²−1)>0` for δ>1.
+- For the identity functor of C with `selfRightAction`, the opposite
+  action is `mop c⊙d=d⊗c`, the right lineator `d⊗c→d⊗c` is the identity,
+  and so is the transported left lineator; the composite of two such
+  structures again has identity lineator. A passage through the left
+  regular action `c⊗d` instead compares the objects `c⊗d` and `d⊗c`,
+  which differ in `Hilb(G)` for a nonabelian group G (`δ_g⊗δ_h=δ_(gh)`).
 - For a subfactor planar algebra regarded as a right planar module over
   itself, the basepoint is `1₊` with `Tr(id)=1` and the fusion graph of the
   strand action is the principal graph.
@@ -885,16 +910,17 @@ idempotence and balancedness, then split it unitarily inside the original
 Hom category using the standing local unitary Cauchy-completeness
 hypothesis. Show the
 range is the balanced coequalizer, independent of the splitting. In the
-one-object case, when C has coequalizers preserved by tensoring on either
-side, as a unitary multitensor category does (it is semisimple, hence
-abelian, and rigidity makes tensoring on either side a left adjoint),
+one-object case, when C has coequalizers and tensoring on either side
+preserves small colimits, as in a unitary multitensor category (it is
+semisimple, hence abelian, and rigidity makes tensoring on either side a
+left adjoint, which preserves every colimit),
 identify the range with the coequalizer underlying Mathlib's
 `Bimod.tensorBimod` by the unique isomorphism compatible with the two
 quotient maps from X⊗Y, and show that it intertwines the actions.
 Construct its left/right actions, regular-Q units and unitors,
 associators from the splittings, and prove all bicategory coherences.
 Build QSys(C) and its canonical fully faithful hom-wise inclusion. In
-the one-object case with the coequalizer hypothesis above, prove that
+the one-object case with the colimit hypothesis above, prove that
 these identifications carry the associators and unitors built here to
 those of Mathlib's `Bimod.monBicategory`, giving a pseudofunctor from
 QSys(C) to `Bimod.monBicategory` that is the identity on Q-systems,
