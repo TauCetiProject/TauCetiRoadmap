@@ -54,7 +54,13 @@ interior tensor products, imprimitivity bimodules, linking algebras and
 the Rieffel correspondence are HilbertModules H1–H3; CA1a and CA1b
 assemble them into a C*-category and a correspondence bicategory. The
 Cuntz algebras `O_n` are OperatorAlgebraDynamics D6; CA7's general
-Pimsner construction does not rebuild them.
+Pimsner construction does not rebuild them. The rigid, linear, abelian,
+pivotal and spherical structures of the native Drinfeld centre
+`Center C`, its Hom-finiteness and its simple unit are in Tau Ceti at the
+pin, and the finite semisimplicity, finitely many simple classes and
+global dimension of the centre of a fusion category are PivotalSpherical
+Layer 11; CA6 and CA10 add unitary half-braidings, the relative centre
+and the analytic structure of the unitary centre.
 
 ## Conventions
 
@@ -117,8 +123,10 @@ the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
   `TauCeti.CategoryTheory.Monoidal.Rigid.Functor` (strong-monoidal images of
   duals) and `TauCeti.CategoryTheory.Monoidal.Rigid.DoubleDual` (closed
   braided double duals, not used for the pivotal comparison). Tau Ceti's
-  implementation of PivotalSpherical Layers 0–2, 5, 6 and 9 and of the
-  Frobenius–Schur indicators of Layer 8 is consumed as
+  implementation of PivotalSpherical Layers 0–2, 5, 6 and 9, of the
+  Frobenius–Schur indicators of Layer 8, of the canonical rigid, linear,
+  abelian and pivotal structures of the centre of Layer 10, and of the
+  Hom-finiteness and simple unit of the centre of Layer 11 is consumed as
   stated at the pin; its pivotal classes are stated over `[RigidCategory C]`
   with no braiding, and carry finiteness or semisimplicity only where named:
   - `TauCeti.CategoryTheory.Monoidal.Rigid.DualFunctor`: the strong monoidal
@@ -174,19 +182,48 @@ the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
     `TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim`, there is
     at most one such structure; and
     `TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`, under
-    pseudo-unitarity there is exactly one, and it is spherical.
+    pseudo-unitarity there is exactly one, and it is spherical;
+  - `TauCeti.CategoryTheory.Monoidal.Center.Preadditive`,
+    `TauCeti.CategoryTheory.Monoidal.Center.Abelian`,
+    `TauCeti.CategoryTheory.Monoidal.Center.Rigid`,
+    `TauCeti.CategoryTheory.Monoidal.Center.Pivotal` and
+    `TauCeti.CategoryTheory.Monoidal.Center.Simple`, the canonical
+    structures on Mathlib's `Center C`: the induced preadditive and linear
+    structure with `CategoryTheory.Center.instFiniteDimensionalHom`, each
+    Hom space of the centre finite-dimensional over a division ring k when
+    the underlying Hom space of C is; `CategoryTheory.Center.instAbelian`,
+    the centre of an abelian monoidal category whose tensor products are
+    additive and exact on both sides is abelian, with kernels and cokernels
+    computed in C; `CategoryTheory.HalfBraiding.rightDual`, the half-braiding
+    on a right dual `X′` of X whose component at U is the mate of the
+    inverse of the half-braiding of X at U, for left rigid C, and
+    `CategoryTheory.Center.rigidCategory`, the centre of a rigid category is
+    rigid with right duals, evaluations, coevaluations and mates computed in
+    C; `CategoryTheory.Center.pivotalCategory`, the pivotal structure on the
+    centre of a pivotal category whose component at X is
+    `TauCeti.pivotalIsoApp X.1`, with traces and dimensions computed in C
+    (`CategoryTheory.Center.leftDim_f`), and
+    `CategoryTheory.Center.sphericalCategory`, the centre of a spherical
+    category is spherical; and `CategoryTheory.Center.instSimpleUnit`, the
+    unit of the centre is simple when the unit of C is simple and the
+    forgetful functor preserves monomorphisms, as it does when C has finite
+    limits preserved by tensoring on both sides.
 
   CA2a builds its unitary duality on these declarations and does not
-  restate them.
+  restate them; CA6 and CA10 add unitary half-braidings to the centre's
+  canonical structures and do not restate those.
 - [PivotalSpherical](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md)
   Layers 0–6 and 9 supply general pivotal/spherical, rigidity, finite
   semisimple, Frobenius–Perron, pseudo-unitarity and grading theory, Layer 8
   supplies the Frobenius–Schur indicators, and Layer 11 supplies finite
-  semisimplicity, finitely many simple classes and simple unit of the
-  centre `Center C` of a fusion category in characteristic 0, with
-  `dim Z(C)=(dim C)²`. CA2a adds analytic unitary choices and their
-  classification, and CA10 adds unitary half-braidings and the tube
-  algebra; neither duplicates that categorical API.
+  semisimplicity and finitely many simple classes of the centre `Center C`
+  of a fusion category in characteristic 0, with `dim Z(C)=(dim C)²`. The
+  centre's canonical rigid, linear, abelian and pivotal structures
+  (Layer 10) and its Hom-finiteness and simple unit (Layer 11) are consumed
+  from Tau Ceti's implementation at the pin, listed above. CA2a adds
+  analytic unitary choices and their classification, and CA10 adds
+  unitary half-braidings and the tube algebra; neither duplicates that
+  categorical API.
 - [CStarAlgebras C1–C5](../CStarAlgebras/README.md) supplies C* order,
   representations and CP/CB maps.
 - [HilbertModules H1–H3](../HilbertModules/README.md) supplies right
@@ -1053,13 +1090,27 @@ duality comparison.
 Define the unitary relative center Z_C(E) for a dagger tensor functor
 α:C→E: objects are X∈E with unitary natural half-braidings
 `X⊗α(c)≃α(c)⊗X`, with the tensor hexagon and unit equation;
-morphisms intertwine them. Use Mathlib's `HalfBraiding` orientation,
-construct dagger/tensor and duality by mates, and identify
-`Z†(C)=Z_C(C)` for α=id as the full subcategory of the native
-`Center` whose half-braiding components are unitary. Native
+morphisms intertwine them. Use Mathlib's `HalfBraiding` orientation and
+construct the dagger, the tensor product and duality by mates: on a
+dual `X′` of X in E, the half-braiding at c is the mate of the inverse
+of the half-braiding of X at c, invertible through the images under α
+of the left duals of C. At α=id this is the pinned construction,
+`CategoryTheory.HalfBraiding.rightDual` on the right duals of
+`CategoryTheory.Center.rigidCategory`, and it is not built again.
+Identify `Z†(C)=Z_C(C)` for α=id as the full subcategory of the native
+`Center C` whose half-braiding components are unitary. Native
 `HalfBraiding` supplies invertible components; the unitary condition is
-an additional property. Prove dagger, tensor and duality by mates
-preserve that condition before installing the analytic center structure.
+an additional property. Prove that the dagger of an intertwiner,
+Mathlib's tensor product of half-braidings and, for the right duals
+given by C's chosen unitary dual functor, the pinned dual half-braiding
+`CategoryTheory.HalfBraiding.rightDual` preserve that condition, before
+installing the analytic center structure. For the dual: at a right dual
+`Uᘁ` the induced half-braiding is the dual morphism of the half-braiding
+at U between the tensorators
+(`CategoryTheory.HalfBraiding.rightDualβHom_rightDual`), which is
+unitary because the dual functor satisfies `(f∨)†=(f†)∨` and has unitary
+tensorator, and naturality along the unitary pivotal component
+`V≅Vᘁᘁ` of CA2a, with `U=Vᘁ`, gives unitarity at every V.
 
 Prove the equivalence between these pointed state-bearing categories
 and unitary anchored planar algebras, and its spherical refinement below
@@ -1103,19 +1154,41 @@ category, and prove the tensor-power criterion for the real generator.
 - For `V=C=Hilb_fd` with Φ the identity and generator `x=ℂ^k`, `Tr_V` is
   the identity functor and `P[n]=Tr_V(x^⊗n)=(ℂ^k)^⊗n` has dimension `k^n`;
   boxes taken as `End(x^⊗n)` would have dimension `k^(2n)`.
+- In `Hilb(ℤ/3)` with trivial associator, a half-braiding on the simple
+  object `δ_g` is a character χ, acting by the scalar `χ(h)` at `δ_h`.
+  The mate of the inverse gives the dual `δ_(g⁻¹)` the character `χ⁻¹`,
+  so the tensor half-braiding on `δ_(g⁻¹)⊗δ_g` is `χ⁻¹χ=1` and the
+  evaluation is a morphism of the centre. For `χ(h)=ω^h` with
+  `ω=exp(2πi/3)` the dual carries `ω^(−h)`, of modulus one, so it stays
+  unitary. Giving the dual the same character χ would make the tensor
+  half-braiding `χ(1)²=ω²≠1`, and the evaluation would not intertwine.
+- In `Hilb(ℤ)`, the unit with half-braiding `χ(h)=2^h` at `δ_h` is an
+  object of the native `Center` that is not in Z†(C): its components have
+  modulus `2^h≠1` for h≠0, and an isomorphism to the unit with another
+  half-braiding is a scalar, which forces the same character. Its dual
+  carries `2^(−h)`, again not unitary. So for this C, with infinitely many
+  simple objects, the inclusion of Z†(C) in `Center C` is not essentially
+  surjective; CA10 proves that it is for unitary fusion C.
 
-*Needs:* CA1a, CA2a; Mathlib `HalfBraiding`, `Center`, `Functor.Monoidal`.
+*Needs:* CA1a, CA2a; Mathlib `HalfBraiding`, `Center`, `Functor.Monoidal`;
+Tau Ceti `CategoryTheory.HalfBraiding.rightDual`,
+`CategoryTheory.HalfBraiding.rightDualβHom_rightDual` and
+`CategoryTheory.Center.rigidCategory`.
 
 ### Examples
 
 The Checks compute the representability criterion for `Hilb(ℤ)` against
 `Hilb(ℤ/2)`, the absence of a real structure on the ε=−1 object, the box
-inner product forced by the pairing axiom, and the box dimensions `k^n` for
-the generator `ℂ^k`.
+inner product forced by the pairing axiom, the box dimensions `k^n` for
+the generator `ℂ^k`, the dual half-braiding `χ⁻¹` in `Hilb(ℤ/3)`, and a
+half-braiding of the unit of `Hilb(ℤ)` that is not unitary.
 
 ### Dependencies
 
-CA1a and CA2a; Mathlib `HalfBraiding`, `Center` and `Functor.Monoidal`.
+CA1a and CA2a; Mathlib `HalfBraiding`, `Center` and `Functor.Monoidal`;
+Tau Ceti `CategoryTheory.HalfBraiding.rightDual`,
+`CategoryTheory.HalfBraiding.rightDualβHom_rightDual` and
+`CategoryTheory.Center.rigidCategory`.
 
 ## CA7. Pimsner and free-graph C*-constructions
 
@@ -2147,9 +2220,10 @@ fusion subcategory prove its canonical unitary comparison with the
 bi-involution induced by CA2's spherical dual functor, and transport r
 through that comparison before applying CA6. Require X dualizable and define finite depth by finitely many simple
 classes in the full finite-sum, subobject-closed tensor category of C′
-generated by X. Construct the mate half-braiding on any Bim(R)-dual
-of X, prove its conjugate equations in C′, and prove dualizability in
-C′ equivalent to finite statistical dimension of the underlying bimodule.
+generated by X. Give any Bim(R)-dual of X the mate half-braiding of
+CA6's relative duality by mates, with E=Bim(R) and α the fixed
+embedding of C, prove its conjugate equations in C′, and prove
+dualizability in C′ equivalent to finite statistical dimension of the underlying bimodule.
 Define conjugacy of these
 structured objects by invertible U∈C′ and unitary Y≃U⊗X⊗U⁻¹
 transporting the real structure through the tensor/duality coherence.
@@ -2172,14 +2246,29 @@ half-braiding, apply `1_k̄⊗h⊗1_k` then `1_k̄⊗t`, and close
 Prove this respects the displayed tube multiplication and *. This
 action is contravariant in z, so its module category is identified
 with Z(C)^op; right/dual module conventions are compared explicitly.
-Finite semisimplicity, Hom-finiteness, finitely many simple classes and
-simple unit of the native `Center C` are PivotalSpherical Layer 11, with
-`dim Z(C)=(dim C)²`, and are consumed here. Recover the unitary
+The abelian structure, Hom-finiteness and simple unit of the native
+`Center C` are Tau Ceti's `CategoryTheory.Center.instAbelian`,
+`CategoryTheory.Center.instFiniteDimensionalHom` and
+`CategoryTheory.Center.instSimpleUnit`, and its finite semisimplicity
+and finitely many simple classes are PivotalSpherical Layer 11, with
+`dim Z(C)=(dim C)²`; all are consumed here. Recover the unitary
 half-braiding from these simple modules, prove every object of
 `Center C` isomorphic to one with unitary half-braiding, so that the
 unitary centre Z†(C) is equivalent to `Center C`, and construct its
 dagger, unitary associators and canonical spherical unitary dual
-functor, making Z(C) unitary fusion.
+functor, making Z(C) unitary fusion. Prove that the pivotal structure
+this dual functor induces (CA2a), transported to the right duals of
+`CategoryTheory.Center.rigidCategory`, which lie in Z†(C) by CA6, is the
+restriction of `CategoryTheory.Center.pivotalCategory` formed from the
+pivotal structure of C's canonical spherical unitary dual functor, so
+that dimensions in Z(C) are those of the underlying objects in C
+(`CategoryTheory.Center.leftDim_f`) and the structure is spherical
+(`CategoryTheory.Center.sphericalCategory`). Route: under that
+restriction every nonzero object has the positive dimension of its
+underlying object, so it is pseudounitary, and a unitary fusion category
+has exactly one pseudounitary pivotal structure (CA2a, through
+`TauCeti.SplitK0.eq_frobeniusPerronChar` and
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim`).
 Develop the relative tube version for a fully faithful fusion inclusion
 C⊆E, proving Z_C(E) finite semisimple. The reversed braiding retains
 these dagger/duality structures.
@@ -2285,18 +2374,49 @@ CA6 category equivalence supplying the required morphism comparisons.
   unit coherences, so `E=Hilb_fd⊠_(Hilb_fd)M≃M`; every object of E
   half-braids uniquely with `Hilb_fd`, so `Z_C(E)=E` and the centralizing
   functor `M→Z_C(E)` is an equivalence, not only fully faithful.
+- For `C=Hilb(ℤ/2)` with the pivotal structure of its unitary dual
+  functor, the pivotal structure of the centre with the components of C
+  gives each of the four simple objects `(δ_g,χ)` of Z(C) the dimension
+  `dim(δ_g)=1`, positive, with `Σ dim²=4=(dim C)²`; for `Hilb(S₃)` it gives the eight simple
+  objects the dimensions `1,1,2,3,3,2,2,2` of their underlying objects.
+  Formed instead from the pivotal structure of `Hilb(ℤ/2)` twisted by
+  `χ(g)=−1`, it gives the two simple objects over the generator the
+  dimension −1. The sum of squares is still 4, so the dimension formula
+  does not detect the twist, but the negative dimensions show that this
+  structure is not the one induced by the unitary dual functor of Z(C).
 
-*Needs:* CA2a, CA6, CA9; PivotalSpherical Layer 11.
+*Needs:* CA2a, CA6, CA9; PivotalSpherical Layer 11; Tau Ceti
+`CategoryTheory.Center.instAbelian`,
+`CategoryTheory.Center.instFiniteDimensionalHom`,
+`CategoryTheory.Center.instSimpleUnit`,
+`CategoryTheory.Center.rigidCategory`,
+`CategoryTheory.Center.pivotalCategory`,
+`CategoryTheory.Center.leftDim_f`,
+`CategoryTheory.Center.sphericalCategory`,
+`TauCeti.SplitK0.eq_frobeniusPerronChar` and
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim`.
 
 ### Examples
 
 The Checks compute the tube algebras and centres `Z(−)` of `Hilb_fd`,
 `Hilb(ℤ/2)`, `Hilb(ℤ/3)` and `Hilb(S₃)`, the two conjugate real structures
-on the unit object, and the centralizer equivalence for `C=Hilb_fd`.
+on the unit object, the centralizer equivalence for `C=Hilb_fd`, and the
+dimensions of the simple objects of `Z(Hilb(ℤ/2))` and `Z(Hilb(S₃))`
+under the pivotal structure of the centre, with the twisted structure as
+a negative control.
 
 ### Dependencies
 
-CA2a, CA6 and CA9; PivotalSpherical Layer 11.
+CA2a, CA6 and CA9; PivotalSpherical Layer 11; Tau Ceti
+`CategoryTheory.Center.instAbelian`,
+`CategoryTheory.Center.instFiniteDimensionalHom`,
+`CategoryTheory.Center.instSimpleUnit`,
+`CategoryTheory.Center.rigidCategory`,
+`CategoryTheory.Center.pivotalCategory`,
+`CategoryTheory.Center.leftDim_f`,
+`CategoryTheory.Center.sphericalCategory`,
+`TauCeti.SplitK0.eq_frobeniusPerronChar` and
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim`.
 
 ## Downstream consumers
 
