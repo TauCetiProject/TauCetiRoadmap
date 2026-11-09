@@ -26,16 +26,6 @@ find it for a general continuous map. On schemes the internal-Hom base-change co
 Ceti's `pullbackIhomComparison`, and the determinant and Picard group are Tau Ceti's
 `FiniteLocallyFreeSheaf.det` and `LineBundleClass`.
 
-The following are Tau Ceti declarations at the pin and are consumed, not restated: the
-dualizability criterion `QuasicoherentSheaf.nonempty_hasLeftDual_iff_isFiniteLocallyFree`, on every
-scheme; quasi-coherence of internal Hom `isQuasicoherent_ihom_of_isFinitePresentation`; the ranks
-of powers `FiniteLocallyFreeSheaf.rank_symmetricPower_apply` and
-`FiniteLocallyFreeSheaf.rank_exteriorPower_apply`; the determinant `FiniteLocallyFreeSheaf.det`
-and its pullback comparison `FiniteLocallyFreeSheaf.pullbackDetIso`; the relative-Spec
-anti-equivalence `relativeSpecEquiv` and its base change `relativeSpecBaseChangeIso`; the
-linear-scheme equivalence `linearSpecEquiv`; the geometric-bundle equivalence `totalSpaceEquiv`;
-and the section-valued universal property `totalSpaceHomEquiv`.
-
 The names `isFiniteLocallyFree`, `FiniteLocallyFreeSheaf`, `isFiniteLocallyFreeOfRank` and
 `determinantObj` are Tau Ceti notions under this roadmap's namespace (the last is Tau Ceti's
 `FiniteLocallyFreeSheaf.det`), kept because consumers build on them under these names.

@@ -31,12 +31,15 @@ The roadmap owns:
 - the stalk `(f^* G)_y = 𝒪_{Y,y} ⊗ G_{f(y)}` of a pulled-back module and the strong symmetric
   monoidal structure on module pullback over all module sheaves, with its identity and composition
   coherences, for every morphism of ringed spaces (Layer 1);
-- exactness of pullback along a flat morphism of ringed spaces on all module sheaves, the
-  internal-Hom base-change comparison for every morphism of ringed spaces, and its invertibility
-  along flat morphisms from a finitely presented source into an arbitrary target (Layer 2);
+- exactness of pullback along a flat morphism of ringed spaces on all module sheaves, finite
+  presentation of the pullback of a finitely presented module along every morphism of ringed
+  spaces, the internal-Hom base-change comparison for every morphism of ringed spaces, and its
+  invertibility along flat morphisms from a finitely presented source into an arbitrary target
+  (Layer 2);
 - the stalks of sheaf symmetric and exterior powers, and the invertibility of the pullback
   comparisons of these powers at every module sheaf, for every morphism of ringed spaces, with their
-  degree-zero and multiplicative compatibilities (Layer 3);
+  degree-zero and multiplicative compatibilities, and the exterior multiplication
+  `∧ᵃ M ⊗ ∧ᵇ M → ∧ᵃ⁺ᵇ M` on `X.Modules` (Layer 3);
 - the determinant of a short exact sequence of finite locally free sheaves on a scheme, with its
   naturality, associativity and pullback compatibility, the direct sum with its Koszul sign as the
   split case, and the comparison on affine opens of the sheaf determinant with the ring-level
@@ -76,8 +79,8 @@ to `TauCeti/AlgebraicGeometry/`):
   and a quasi-coherent target, `Scheme.Hom.isIso_pullbackIhomComparison_app`
   (Modules/Pullback/InternalHom/Flat.lean); `Hom(E, 𝒪_X) ⊗ N ≅ Hom(E, N)` for locally free `E` of
   finite type, `Scheme.Modules.isIso_dualTensorIhom_of_isLocallyFree` (Modules/Dual.lean);
-- the ranks of powers, `FiniteLocallyFreeSheaf.rank_symmetricPower_apply` and
-  `FiniteLocallyFreeSheaf.rank_exteriorPower_apply` (VectorBundle/SymmetricPower/Basic.lean,
+- the ranks of powers of a finite locally free `E` at a point `x`, `(rank E x).multichoose n` for
+  `Symⁿ E` and `(rank E x).choose n` for `∧ⁿ E`, as simp lemmas (VectorBundle/SymmetricPower/Basic.lean,
   VectorBundle/ExteriorPower/Basic.lean); the canonical comparisons
   `Scheme.Modules.pullbackSymmetricPowerComparison` and
   `Scheme.Modules.pullbackExteriorPowerComparison` on all modules
@@ -222,8 +225,15 @@ At Mathlib `1b1ccf4b`:
 `Scheme.Modules.pullbackComp` (Mathlib/AlgebraicGeometry/Modules/Sheaf.lean);
 `Scheme.Hom.toRingCatSheafHom` (Mathlib/AlgebraicGeometry/Modules/Presheaf.lean);
 `SheafOfModules.pullback`, `SheafOfModules.pushforward`,
-`SheafOfModules.pullbackPushforwardAdjunction`, `SheafOfModules.pullbackId` and
-`SheafOfModules.pullbackComp` (Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean);
+`SheafOfModules.pullbackPushforwardAdjunction`, `SheafOfModules.pullbackId`,
+`SheafOfModules.pullbackComp` and the description `SheafOfModules.pullbackIso` of pullback as the
+sheafified presheaf pullback (Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean);
+`SheafOfModules.Presentation.map`, a presentation carried along a colimit-preserving functor that
+preserves the unit (Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean);
+`SheafOfModules.toSheaf`, faithful and preserving finite limits, and
+`CategoryTheory.ShortComplex.exact_map_iff_of_faithful`;
+`TopCat.Sheaf.exact_iff_stalkFunctor_map_exact` (Mathlib/Topology/Sheaves/Abelian.lean),
+exactness of a complex of sheaves on a space checked on stalks;
 `Functor.sheafPushforwardContinuous`, `TopologicalSpace.Opens.map`;
 `TopCat.Presheaf.isIso_iff_stalkFunctor_map_iso` (Mathlib/Topology/Sheaves/Stalks.lean),
 invertibility of a morphism of sheaves on a space checked on stalks; `Module.FinitePresentation.isBaseChange_map`
@@ -235,8 +245,10 @@ presented module; `CategoryTheory.ShortComplex.ShortExact`; `SheafOfModules.IsQu
 `AlgebraicGeometry.tilde` and `AlgebraicGeometry.tildeEquiv`; `IsAffineHom`, `AffineSpace`,
 `AffineSpace.homOverEquiv`; `Functor.OplaxMonoidal.δ`, `CommMon`, `MonObj`, `ModObj`, `AddGrpObj`,
 `GradedObject`, `HasLeftDual`, `ExactPairing`; `SymmetricAlgebra`, `Module.Basis.exteriorPower`,
-`LinearMap.det`, `Nat.multichoose`. `SheafOfModules.IsLocallyFree` alone allows infinite and
-chart-dependent index types; finite presentation is what makes it finite.
+`LinearMap.det`, `Nat.multichoose`, and the wedge product of exterior powers
+`exteriorPower.wedge` (Mathlib/LinearAlgebra/ExteriorPower/WedgePairing.lean).
+`SheafOfModules.IsLocallyFree` alone allows infinite and chart-dependent index types; finite
+presentation is what makes it finite.
 
 ### From Tau Ceti
 
@@ -259,8 +271,11 @@ At Tau Ceti `2fd255d9`, besides the declarations listed under Scope and ownershi
   `TauCeti.SheafOfModules.pullback_comp_η` and `TauCeti.SheafOfModules.pullback_comp_δ`
   (TauCeti/Algebra/Category/ModuleCat/Sheaf/TensorProduct/Pushforward.lean); the stalk module
   `SheafOfModules.stalkModule` and the invariance of stalks under sheafification
-  `PresheafOfModules.sheafificationStalkEquiv` (…/Sheaf/Stalk.lean); scalar extension of
-  powers `IsBaseChange.symmetricPowerEquiv` and `IsBaseChange.exteriorPowerEquiv`
+  `PresheafOfModules.sheafificationStalkEquiv` (…/Sheaf/Stalk.lean); exactness of forgetting the
+  module structure, `TauCeti.SheafOfModules.preservesFiniteColimits_toSheaf` (…/Sheaf/Exactness.lean);
+  sheafification as a braided monoidal functor, `TauCeti.SheafOfModules.sheafificationMonoidal`
+  and `TauCeti.SheafOfModules.sheafificationBraided` (…/Sheaf/TensorProduct/Monoidal.lean); scalar
+  extension of powers `IsBaseChange.symmetricPowerEquiv` and `IsBaseChange.exteriorPowerEquiv`
   (TauCeti/LinearAlgebra/SymmetricAlgebra/Localization.lean,
   TauCeti/LinearAlgebra/ExteriorPower/Localization.lean);
 - internal Hom: `pullbackIhomComparison`, its description `pullbackIhomComparison_app_eq_curry` as
@@ -275,7 +290,9 @@ At Tau Ceti `2fd255d9`, besides the declarations listed under Scope and ownershi
 - powers: `SheafOfModules.symmetricPower` and `SheafOfModules.exteriorPower`, the sheafifications of
   the sectionwise powers, with `SheafOfModules.symmetricPowerZeroIso`,
   `SheafOfModules.symmetricPowerOneIso`, `SheafOfModules.exteriorPowerZeroIso`,
-  `SheafOfModules.exteriorPowerOneIso` and the multiplication `SheafOfModules.symmetricPowerMul`
+  `SheafOfModules.exteriorPowerOneIso`, the defining identification `SheafOfModules.exteriorPowerIso`,
+  the extensionality principle `TauCeti.SheafOfModules.exteriorPower_hom_ext` and the
+  multiplication `SheafOfModules.symmetricPowerMul`
   (TauCeti/Algebra/Category/ModuleCat/Sheaf/SymmetricPower/, ExteriorPower/); the comparisons and
   their degree-one laws `Scheme.Modules.pullbackSymmetricPowerComparison_app_comp_symmetricPowerOneIso`
   and `Scheme.Modules.pullbackExteriorPowerComparison_app_comp_exteriorPowerOneIso`;
@@ -287,8 +304,9 @@ At Tau Ceti `2fd255d9`, besides the declarations listed under Scope and ownershi
   (TauCeti/AlgebraicGeometry/VectorBundle/); `FiniteLocallyFreeSheaf.finiteProjectiveEquiv`, the
   affine comparison with finite projective modules (VectorBundle/Affine/Basic.lean);
   `SheafOfModules.isInvertible`, `InvertibleSheaf`, `InvertibleSheaf.tensorProduct`,
-  `InvertibleSheaf.tensorProductComm`, `InvertibleSheaf.fixedRankOneEquiv` and
-  `LineBundleClass.mk_eq_mk_iff` (TauCeti/AlgebraicGeometry/LineBundle/);
+  `InvertibleSheaf.tensorProductComm`, `InvertibleSheaf.fixedRankOneEquiv`,
+  `LineBundleClass.mk_eq_mk_iff` and `LineBundleClass.mk_tensorProduct`
+  (TauCeti/AlgebraicGeometry/LineBundle/);
 - linear schemes: `QuasicoherentLinearScheme`, `QuasicoherentLinearScheme.degreeOne`, `linearSpec`,
   `linearSpecEquiv`, `GradedAffineSchemeOver`, `gradedSymmetricAlgebraAdjunction`,
   `addGrpObjRelativeSpecSymmetricAlgebra` and `modObjRelativeSpecSymmetricAlgebra`, as listed under
@@ -314,8 +332,9 @@ label, with Tau Ceti paths relative to `TauCeti/AlgebraicGeometry/`:
 
 - L0A (sheaves of modules) is Layer 1 for stalks of pullback and strong monoidal pullback; the
   symmetric monoidal closed structure on `X.Modules` is Tau Ceti's Modules/TensorProduct.lean.
-- L0B (quasi-coherent and finite locally free sheaves) is Layer 2 for exactness of flat pullback
-  and flat base change of internal Hom into an arbitrary target; the rest is Tau Ceti's
+- L0B (quasi-coherent and finite locally free sheaves) is Layer 2 for exactness of flat pullback,
+  finite presentation of pullback along morphisms of ringed spaces and flat base change of
+  internal Hom into an arbitrary target; the rest is Tau Ceti's
   VectorBundle/ and Modules/InternalHom/, Modules/Pullback/InternalHom/, as listed under Scope and
   ownership.
 - L0C (polynomial operations) is Layer 3; ranks, the determinant and its functoriality and pullback
@@ -340,9 +359,10 @@ label, with Tau Ceti paths relative to `TauCeti/AlgebraicGeometry/`:
 Layers 1–3 work along an arbitrary morphism of ringed spaces, with schemes as the instance the
 pinned comparisons are stated for. Layer 1 computes the stalks of a pulled-back module and makes
 pullback strong symmetric monoidal on all module sheaves. Layer 2 proves exactness of flat pullback
-on all module sheaves, constructs the internal-Hom base-change comparison and proves flat base
-change of internal Hom into an arbitrary target. Layer 3 computes the stalks of symmetric and exterior
-powers, proves that these powers commute with pullback on all module sheaves, constructs on schemes
+on all module sheaves and finite presentation of pullback, constructs the internal-Hom base-change
+comparison and proves flat base change of internal Hom into an arbitrary target. Layer 3 computes
+the stalks of symmetric and exterior powers, proves that these powers commute with pullback on all
+module sheaves, constructs the exterior multiplication of sheaf exterior powers and, on schemes,
 the determinant of a short exact sequence of vector bundles, with the direct sum and its sign as the
 split case, and compares the sheaf determinant with the graded-line determinant on affine opens.
 Layer 4 constructs the weight grading of an affine scheme with an action of `𝔸¹_X` and recognises
@@ -358,12 +378,13 @@ construct the `𝒪_{Y,y}`-linear map `𝒪_{Y,y} ⊗_{𝒪_{X,f(y)}} G_{f(y)} �
 `a ⊗ germ(m) ↦ a · germ(η_G(m))`, where `m` is a section of `G` on a neighbourhood `U` of `f(y)`
 and `η_G(m)` is its image on `f⁻¹(U)` under the unit of `SheafOfModules.pullbackPushforwardAdjunction φ`,
 and the tensor product is taken along the stalk map of `φ`. Prove that it is an isomorphism,
-natural in `G` (Stacks Project, Tag 0098). Route: `f^* G` is the sheafification of a presheaf whose
-stalk at `y` is the colimit, over neighbourhoods `U` of `f(y)` and `V ⊆ f⁻¹(U)` of `y`, of
-`𝒪_Y(V) ⊗_{𝒪_X(U)} G(U)`, which is `𝒪_{Y,y} ⊗_{𝒪_{X,f(y)}} G_{f(y)}` because these colimits are
-filtered; sheafification does not change stalks. *Needs:* Mathlib `SheafOfModules.pullback`,
-`SheafOfModules.pullbackPushforwardAdjunction`; Tau Ceti `SheafOfModules.stalkModule`,
-`PresheafOfModules.sheafificationStalkEquiv`.
+natural in `G` (Stacks Project, Tag 0098). Route: `f^* G` is the sheafification of the presheaf
+pullback (`SheafOfModules.pullbackIso`), whose stalk at `y` is the colimit, over neighbourhoods
+`U` of `f(y)` and `V ⊆ f⁻¹(U)` of `y`, of `𝒪_Y(V) ⊗_{𝒪_X(U)} G(U)`, which is
+`𝒪_{Y,y} ⊗_{𝒪_{X,f(y)}} G_{f(y)}` because these colimits are filtered; sheafification does not
+change stalks. *Needs:* Mathlib `SheafOfModules.pullback`,
+`SheafOfModules.pullbackPushforwardAdjunction`, `SheafOfModules.pullbackIso`; Tau Ceti
+`SheafOfModules.stalkModule`, `PresheafOfModules.sheafificationStalkEquiv`.
 
 **Checks.**
 - `G = 𝒪_X`: both sides are `𝒪_{Y,y}`, and the map is `a ⊗ b ↦ a · φ_y(b)`, the stalk of the
@@ -440,9 +461,15 @@ Prove that for a flat morphism of ringed spaces `(f, φ) : X → Y` the functor
 `SheafOfModules.pullback φ` is exact on all `𝒪_Y`-modules, not only between quasi-coherent sheaves
 (Stacks Project, Tag 02N4); for schemes this extends Tau Ceti's
 `Scheme.Hom.exact_map_pullback_of_flat`. Route: exactness of a sequence of module sheaves is
-checked on stalks (Stacks Project, Tag 01AG), and by §1.1 the stalk of the pullback at `x` is
-extension of scalars along the flat stalk map `𝒪_{Y,f(x)} → 𝒪_{X,x}`, applied to the stalk at
-`f(x)`. *Needs:* §1.1; Mathlib `SheafOfModules.pullback`, `AlgebraicGeometry.Flat` for schemes.
+checked on the underlying sheaves of abelian groups, since `SheafOfModules.toSheaf` is faithful and
+preserves finite limits and finite colimits (`CategoryTheory.ShortComplex.exact_map_iff_of_faithful`,
+`TauCeti.SheafOfModules.preservesFiniteColimits_toSheaf`), and there on stalks (Stacks Project,
+Tag 01AG; `TopCat.Sheaf.exact_iff_stalkFunctor_map_exact`); by §1.1 the stalk of the pullback at
+`x` is extension of scalars along the flat stalk map `𝒪_{Y,f(x)} → 𝒪_{X,x}`, applied to the stalk
+at `f(x)`, which is exact. *Needs:* §1.1; Mathlib `SheafOfModules.pullback`,
+`SheafOfModules.toSheaf`, `CategoryTheory.ShortComplex.exact_map_iff_of_faithful`,
+`TopCat.Sheaf.exact_iff_stalkFunctor_map_exact`, `AlgebraicGeometry.Flat` for schemes; Tau Ceti
+`TauCeti.SheafOfModules.preservesFiniteColimits_toSheaf`.
 
 **Checks.**
 - `f : Spec k[t]_(t) → 𝔸¹_k` the flat localization at the origin and `j_! 𝒪_U ↪ 𝒪` for
@@ -454,6 +481,34 @@ extension of scalars along the flat stalk map `𝒪_{Y,f(x)} → 𝒪_{X,x}`, ap
 
 ### 2.2 Base change of internal Hom
 
+Prove that for every morphism of ringed spaces `(f, φ) : X → Y` and every finitely presented
+`𝒪_Y`-module `M` (Mathlib `SheafOfModules.IsFinitePresentation`), the pullback `f^* M` is finitely
+presented (Stacks Project, Tag 01BQ); on schemes this is Tau Ceti's
+`Scheme.Modules.isFinitePresentation_pullback`. Route: cover `Y` by opens `V` on which `M|_V` has
+a finite presentation `𝒪_V^a → 𝒪_V^b → M|_V → 0`. Restriction to an open is pullback along its
+inclusion, so `SheafOfModules.pullbackComp`, applied to the two factorisations of `f⁻¹(V) → Y`,
+identifies the restriction of `f^* M` to `f⁻¹(V)` with the pullback of `M|_V` along
+`f_V : f⁻¹(V) → V`. That pullback is a left adjoint, so it preserves colimits, and it sends `𝒪_V`
+to `𝒪_{f⁻¹(V)}` through `SheafOfModules.pullbackObjUnitToUnit`, an isomorphism because
+`Opens.map f_V` sends the top open to the top open and is therefore final; hence
+`SheafOfModules.Presentation.map` carries the presentation of `M|_V` to a presentation of the
+restriction of `f^* M` with the same finite index sets, and the opens `f⁻¹(V)` cover `X`.
+*Needs:* Mathlib `SheafOfModules.IsFinitePresentation`, `SheafOfModules.Presentation.map`,
+`SheafOfModules.pullbackObjUnitToUnit`, `SheafOfModules.pullbackComp`,
+`SheafOfModules.pullbackPushforwardAdjunction`.
+
+**Checks.**
+- `M = 𝒪_Y/(t)` on `Y = 𝔸¹_k`, pulled back to the origin: the presentation `𝒪 —t→ 𝒪 → M → 0`
+  becomes `k —0→ k → k → 0`, so `f^* M = k`, presented by one generator and one zero relation,
+  in agreement with the stalk `k ⊗_{k[t]_(t)} k = k` of §1.1.
+- `M = 𝒪_Y^n`: the presentation with no relations pulls back to `𝒪_X^n`, by
+  `SheafOfModules.pullbackObjUnitToUnit` on each summand.
+- Coherence is not preserved: for `A = k[x, y₁, y₂, …]/(x y₁, x y₂, …)` and `f : Spec A → Spec k`,
+  the coherent `𝒪_{Spec k}` pulls back to `𝒪_{Spec A}`, which is finitely presented but not
+  coherent, because the kernel of multiplication by `x` on `A` is the ideal `(y₁, y₂, …)`, whose
+  image in `A/(x) = k[y₁, y₂, …]` is not finitely generated. The target is about finite
+  presentation, and its analogue for coherent modules is false.
+
 For a morphism of ringed spaces `(f, φ) : X → Y` and `𝒪_Y`-modules `M` and `N`, construct the
 comparison `c_{M,N} : f^* Hom(M, N) → Hom(f^* M, f^* N)` as the curry of
 `f^*(ev) ∘ δ⁻¹ : f^* M ⊗ f^* Hom(M, N) → f^* N`, where `ev : M ⊗ Hom(M, N) → N` is evaluation and
@@ -462,11 +517,13 @@ and compatible with `SheafOfModules.pullbackComp`. On a scheme with `M` quasi-co
 is Tau Ceti's `(pullbackIhomComparison M f).app N` (`pullbackIhomComparison_app_eq_curry`). Prove
 that `c_{M,N}` is an isomorphism when `f` is flat and `M` is finitely presented, for every `N`
 (Stacks Project, Tag 0C6I). Route (the stalk proof of Tag 0C6I): `f^* M` is finitely presented
-(Stacks Project, Tag 01BQ); at `x ∈ X`, §1.1 and `SheafOfModules.ihomStalkEquiv` (finitely
-presented source, arbitrary target) identify the stalk of `c_{M,N}` with the map
+by the first statement of this section; at `x ∈ X`, §1.1 and `SheafOfModules.ihomStalkEquiv`
+(finitely presented source, arbitrary target), applied to `M` and to `f^* M`, identify the stalk
+of `c_{M,N}` with the map
 `𝒪_{X,x} ⊗ Hom(M_{f(x)}, N_{f(x)}) → Hom(𝒪_{X,x} ⊗ M_{f(x)}, 𝒪_{X,x} ⊗ N_{f(x)})`, which is
 bijective for the flat `𝒪_{Y,f(x)} → 𝒪_{X,x}` and the finitely presented `M_{f(x)}`
-(`Module.FinitePresentation.isBaseChange_map`).
+(`Module.FinitePresentation.isBaseChange_map`); stalks detect isomorphisms
+(`TopCat.Presheaf.isIso_iff_stalkFunctor_map_iso`).
 
 Prove `isIso_pullbackIhomComparison_app_of_flat`: for a flat morphism of schemes `f : X ⟶ Y`, a
 finitely presented `M : Y.Modules` and an arbitrary `N : Y.Modules`, the pinned comparison
@@ -482,13 +539,14 @@ presentation `𝒪^a → 𝒪^b → M → 0`, left exactness of `Hom(−, N)` gi
 `Hom(M, N) = ker(N^b → N^a)`, flat pullback preserves this kernel by §2.1, `f^* M` has the
 pulled-back presentation, and the comparisons for `𝒪^a` and `𝒪^b` are invertible by
 `isIso_pullbackIhomComparison_of_exactPairing`. *Needs:* §1.1 and §1.2 (the comparison and the
-stalk route), §2.1 (the scheme route only); Tau Ceti `SheafOfModules.ihomStalkEquiv`,
-`pullbackIhomComparison`, `pullbackIhomComparison_app_eq_curry`,
-`Scheme.Modules.isFinitePresentation_pullback`, `Scheme.Modules.isIso_iff_of_isOpenCover`,
+stalk route), the finite presentation of `f^* M` above (the stalk route), §2.1 (the scheme route
+only); Tau Ceti `SheafOfModules.ihomStalkEquiv`, `pullbackIhomComparison`,
+`pullbackIhomComparison_app_eq_curry`, `Scheme.Modules.isFinitePresentation_pullback` (the scheme
+route only), `Scheme.Modules.isIso_iff_of_isOpenCover`,
 `Scheme.Opens.isIso_pullbackIhomComparison_app`,
 `Scheme.Hom.isIso_pullbackIhomComparison_app_comp_iff`,
 `isIso_pullbackIhomComparison_of_exactPairing`; Mathlib `Module.FinitePresentation.isBaseChange_map`,
-`AlgebraicGeometry.Flat`.
+`TopCat.Presheaf.isIso_iff_stalkFunctor_map_iso`, `AlgebraicGeometry.Flat`.
 
 - On schemes, with `M` quasi-coherent, the naturality of the comparison in `M` and `N` and its
   compatibility with `Scheme.Modules.pullbackComp` are at the pin.
@@ -519,8 +577,9 @@ stalk route), §2.1 (the scheme route only); Tau Ceti `SheafOfModules.ihomStalkE
 
 ### Dependencies
 
-Layer 1; Tau Ceti stalks of internal Hom, the internal-Hom comparison on schemes and finite free
-duality.
+Layer 1; Mathlib presentations of sheaves of modules and their transport along pullback, and
+exactness on stalks; Tau Ceti stalks of internal Hom, the internal-Hom comparison on schemes,
+exactness of forgetting the module structure and finite free duality.
 
 ## Layer 3: symmetric and exterior powers, determinant
 
@@ -574,8 +633,30 @@ symmetric comparison carries `f^*` of `SheafOfModules.symmetricPowerMul` to
 ### 3.2 The determinant of an extension
 
 Construct the sheaf exterior multiplication `∧ᵃ M ⊗ ∧ᵇ M → ∧ᵃ⁺ᵇ M` on `X.Modules`, the
-sheafification of the sectionwise wedge product, natural in `M`, associative and graded
-commutative with the sign `(−1)^(ab)`.
+sheafification of the sectionwise wedge product, natural in `M`, associative, unital through
+`∧⁰ M ≅ 𝒪_X` and graded commutative with the sign `(−1)^(ab)` (Stacks Project, Tags 01CF and
+01CG). Route: as for Tau Ceti's `SheafOfModules.symmetricPowerMul`, take the wedge product
+`exteriorPower.wedge` over the ring of sections on each open, sheafify it, and precompose with the
+tensor comparison of the monoidal functor sheafification
+(`TauCeti.SheafOfModules.sheafificationMonoidal`); naturality, associativity, the unit law
+(`SheafOfModules.exteriorPowerZeroIso`) and graded commutativity hold on sections and pass to the
+sheafification, which is braided monoidal (`TauCeti.SheafOfModules.sheafificationBraided`), since
+maps out of `∧ⁿ M` are determined on sheafified wedges of local sections
+(`TauCeti.SheafOfModules.exteriorPower_hom_ext`). *Needs:* Mathlib `exteriorPower.wedge`; Tau Ceti
+`SheafOfModules.exteriorPower`, `SheafOfModules.exteriorPowerIso`,
+`SheafOfModules.exteriorPowerZeroIso`, `TauCeti.SheafOfModules.sheafificationMonoidal`,
+`TauCeti.SheafOfModules.sheafificationBraided`, `TauCeti.SheafOfModules.exteriorPower_hom_ext`.
+
+**Checks.**
+- On `𝒪_X²` with basis `e₁, e₂`: `e₁ · e₂ = e₁ ∧ e₂` and `e₂ · e₁ = −e₁ ∧ e₂`, the sign
+  `(−1)^(1·1)`, where a commutative product would give `+e₁ ∧ e₂`; and `e₁ · e₁ = 0`. Over `𝔽₂`
+  the sign is `+1`, and `e₁ · e₁ = 0` is what separates the product from the symmetric
+  multiplication, where `e₁ · e₁ = e₁²` is a basis vector of `Sym²`.
+- On `𝒪_X³`: `(e₂ ∧ e₃) · e₁ = e₂ ∧ e₃ ∧ e₁ = e₁ ∧ e₂ ∧ e₃ = e₁ · (e₂ ∧ e₃)`, the sign
+  `(−1)^(2·1) = +1`; the rule `(−1)^(a+b)` would give `−1`.
+- `a = 0`: through `SheafOfModules.exteriorPowerZeroIso`, multiplication by `∧⁰ M = 𝒪_X` is the
+  module action. For an invertible `L`, `∧¹ L ⊗ ∧¹ L → ∧² L = 0` is zero, while the symmetric
+  multiplication `L ⊗ L → Sym² L` is an isomorphism.
 
 For a short exact sequence `0 → E′ → E → E″ → 0` in `X.Modules` with `E′` and `E″` finite locally
 free (then `E` is finite locally free of rank `rank E′ + rank E″`, being locally a direct sum),
@@ -606,13 +687,17 @@ the unit `det 0 ≅ 𝒪_X`.
 
 Prove `mk_determinantObj_of_shortExact`: for a short exact sequence `0 → E′ → E → E″ → 0` of
 `𝒪_X`-modules whose three terms are finite locally free, the class of `det E` in the Picard group
-`LineBundleClass X` is the product of the classes of `det E′` and `det E″`. It is the class of `γ`
-(`LineBundleClass.mk_eq_mk_iff`), and it makes the determinant additive on the Grothendieck group
-of finite locally free sheaves. *Needs:* Tau Ceti `FiniteLocallyFreeSheaf.det`,
+`LineBundleClass X` is the product of the classes of `det E′` and `det E″`. It is the class of `γ`:
+`LineBundleClass.mk_eq_mk_iff` turns `γ` into
+`mk (InvertibleSheaf.tensorProduct (det E′) (det E″)) = mk (det E)`, and
+`LineBundleClass.mk_tensorProduct` rewrites the left side as `mk (det E′) * mk (det E″)`. It makes
+the determinant additive on the Grothendieck group of finite locally free sheaves. *Needs:* the
+exterior multiplication above (for `γ`); Tau Ceti `FiniteLocallyFreeSheaf.det`,
 `FiniteLocallyFreeSheaf.rankLocus`, biproducts of finite locally free sheaves,
 `InvertibleSheaf.tensorProduct`, `InvertibleSheaf.tensorProductComm`,
 `FiniteLocallyFreeSheaf.pullbackDetIso`, `LineBundleClass.mk`, `LineBundleClass.mk_eq_mk_iff`,
-`TauCeti.exteriorPower.wedgeTensor`; Mathlib `CategoryTheory.ShortComplex.ShortExact`.
+`LineBundleClass.mk_tensorProduct`, `TauCeti.exteriorPower.wedgeTensor`; Mathlib
+`CategoryTheory.ShortComplex.ShortExact`.
 
 **Checks.**
 - The Euler sequence `0 → 𝒪(−1) → 𝒪² → 𝒪(1) → 0` on `ℙ¹_k` does not split, since
@@ -676,8 +761,9 @@ direct-sum statement only.
 
 ### Dependencies
 
-Layer 1 (§1.1 for the stalk route of §3.1, §1.2 for its multiplicative compatibility); Tau Ceti
-power functors and comparisons, rank, rank loci, determinant and the Picard group;
+Layer 1 (§1.1 for the stalk route of §3.1, §1.2 for its multiplicative compatibility); Mathlib's
+wedge product of exterior powers; Tau Ceti power functors and comparisons, sheafification as a
+braided monoidal functor, rank, rank loci, determinant and the Picard group;
 PadicMeasuresIwasawaAlgebras §5.1.
 
 ## Layer 4: linear schemes as module schemes
@@ -731,6 +817,12 @@ SchemeAndStackFoundations builds its Grothendieck group of finite locally free s
 `FiniteLocallyFreeSheaf` and `isFiniteLocallyFreeOfRank` and its determinant `K0.det` on
 `determinantObj`; the additivity of `K0.det` on short exact sequences is
 `mk_determinantObj_of_shortExact`, and relative Proj and Chern classes are its own.
+KTheoryLowDegrees §4.1 takes the determinant of a short exact sequence of finite locally free
+sheaves, with its naturality, pullback compatibility, split case and filtration coherence, from
+§3.2, and the comparison of the sheaf determinant with the ring-level determinant of
+PadicMeasuresIwasawaAlgebras §5.1, with the ordered direct sum and its Koszul sign, from §3.3. Its
+convention puts the subsheaf first, as `γ` does, and its `ℙ¹` example is the Euler-sequence Check
+of §3.2.
 AdicSpacesPartIII F0.8, *internal-hom-sheaf-of-modules*, parts (a) and (b), are §1.2 and §2.2 on
 the ringed spaces of that layer (formal schemes and adic spaces with their structure sheaves), and
 the flat pullback it takes from L0B is §2.1. FaltingsFinitenessAndIsogenyTheorems and
@@ -743,7 +835,7 @@ label lines of How to read the build say where each label resolves.
 ## References
 
 - The Stacks Project, Sheaves on Spaces (Tag 0098), Sheaves of Modules (Tags 01AG, 01BQ, 01CD,
-  01CH, 01CI, 02N3, 02N4, 0C6I), Schemes (Tag 01I8), More on Algebra (Tags 0FJB, 0FJC, 0FJD,
-  0FJE), Constructions of Schemes (Tags 01M1, 062M, 062N), Groupoids (Tag 0EKK).
+  01CF, 01CG, 01CH, 01CI, 02N3, 02N4, 0C6I), Schemes (Tag 01I8), More on Algebra (Tags 0FJB,
+  0FJC, 0FJD, 0FJE), Constructions of Schemes (Tags 01M1, 062M, 062N), Groupoids (Tag 0EKK).
 - R. Hartshorne, *Algebraic Geometry*, Graduate Texts in Mathematics 52, Springer, 1977, II,
   Exercise 5.16.
