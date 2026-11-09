@@ -54,8 +54,9 @@ This roadmap owns:
 - the conventions for finite exact constants, valuation and idele degrees, and arithmetic
   versus geometric Frobenius (Layer 0);
 - the reduced-basis description of `L(D)` relative to a polynomial subring `k[x] ⊆ F` (Layer 1);
-- divisor lattices in the completed adeles, the self-dual measure of a rational differential and
-  the Fourier transforms of lattice indicators (Layer 2);
+- divisor lattices in the completed adeles, their volumes for the self-dual measure of
+  AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 and the Fourier transforms of their indicators
+  (Layer 2);
 - Artin–Schreier–Witt theory of fields of characteristic `p`, reduced representatives over
   `k((T))` and the conductor formula (Layer 3);
 - the torsion of Lubin–Tate formal modules in equal characteristic, its ramification and the
@@ -92,8 +93,13 @@ It leaves the following to the roadmaps that state them, and states none of them
   ideles above, the valuation-divisor map with kernel `∏_v O_vˣ` and quotient `Pic(X)`, the
   discrete cocompact diagonal with quotient volume `q^(g−1)` for local integral volume one,
   compact rational unipotent quotients with integration in stages, the residue character of a
-  differential with its conductor, self-dual measures and Poisson summation); §AL.R.3
-  *Restricted tensor realizations* (the complex `GLₙ` automorphic spaces compared in §6.2);
+  differential with its conductor, self-dual measures and Poisson summation, the comparison of the
+  self-dual measures with the integral ones and quotient volume, and their compatibility with
+  `ω ↦ fω`); §AL.0.3.1 *The local Schwartz–Bruhat space `S(F)`, its `F^×`-action and tempered
+  distributions* (in positive characteristic: the conductor `ν(ψ)` with `ν(ψ_b) = ν(ψ) + ord b`,
+  the lattice duality `(P^m)^∨ = P^(−ν−m)` and the self-dual volume `vol(O) = q^(−ν/2)`);
+  §§AL.0.1.7–AL.0.1.8 *Fourier transform of a subgroup indicator* and *Fourier transform of a
+  coset indicator*; §AL.R.3 *Restricted tensor realizations* (the complex `GLₙ` automorphic spaces compared in §6.2);
   Layer AL.3: §AL.3.10.2 *Rank-one unramified reciprocity* (the zero-modulus Picard and
   Lang-cover comparison, including the constant-field direction); §AL.3.10.4 *Ramified rank-one
   curve reciprocity* (the finite-field generalized Picard objects for every effective modulus,
@@ -240,11 +246,37 @@ for an effective divisor and an explicit function-field hypothesis);
 `TauCeti.Divisor.finite_ker_degreeClass`, `TauCeti.Divisor.classNumber`,
 `TauCeti.Divisor.classNumber_pos`; `TauCeti.weilDifferentialSpace`,
 `TauCeti.degree_weilDifferentialDivisor` (a nonzero Weil differential over exact constants has
-divisor degree `2g − 2`); `TauCeti.ReductiveAffineGroupSchemeCat` and `TauCeti.AlgHom.instGroup`
-(convolution points of a Hopf algebra form a group). Tau Ceti also has
-`TauCeti.Place.Completion := P.valuation.Completion` with `completionEmbedding` and
-`completionIntegersEquivPowerSeries` at a rational place, the AlgebraicCurves Layer 5 and 9
-completion and expansion targets; this roadmap uses those names.
+divisor degree `2g − 2`); `TauCeti.ReductiveAffineGroupSchemeCat`; and `AlgHom.convGroupOfSemiring`
+(`TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean`: for a Hopf algebra `H` over `R` and a
+commutative `R`-algebra `A`, the convolution points `WithConv (H →ₐ[R] A)` form a group).
+Tau Ceti also has `TauCeti.Place.Completion := P.valuation.Completion` with
+`completionEmbedding`, the AlgebraicCurves Layer 5 completion target, and the AlgebraicCurves
+Layer 9 expansions at a place `P` of any degree: in
+`TauCeti/FieldTheory/FunctionField/Place/Expansion/Laurent/CoefficientField.lean`,
+`TauCeti.Place.completionEquivLaurentSeriesOfSection`, the ring isomorphism
+`P.Completion ≃+* LaurentSeries P.ResidueField` determined by a coefficient-field section of the
+completed valuation ring lifting the residue map and a uniformizer sent to `T`, which preserves
+the valuation (`TauCeti.Place.valuation_completionEquivLaurentSeriesOfSection`), and
+`TauCeti.Place.completionEquivLaurentSeriesResidueField`, a `k`-algebra isomorphism under
+`[Algebra.IsSeparable k P.ResidueField]`, which holds over a finite (perfect) `k`; in
+`TauCeti/FieldTheory/FunctionField/Place/Expansion/CoefficientField.lean`, their integral forms
+`TauCeti.Place.completionIntegersEquivPowerSeriesOfSection` and
+`TauCeti.Place.completionIntegersEquivPowerSeriesResidueField` onto
+`PowerSeries P.ResidueField`. The older `TauCeti.Place.completionIntegersEquivPowerSeries` is the
+rational-place case, onto `PowerSeries k`. This roadmap uses those names.
+
+The point topology on adelic and local points is pinned in
+`TauCeti/Topology/Algebra/PointTopology/`, for every topological coefficient algebra `R`:
+`TauCeti.PointTopology.instTopologicalSpaceWithConv` (`Basic.lean`), the coarsest topology on
+`WithConv (A →ₐ[k] R)` making every evaluation continuous;
+`TauCeti.PointTopology.isTopologicalGroup` (`Group.lean`), the convolution points of a Hopf
+algebra form a topological group when `R` is a topological semiring;
+`BialgHom.continuous_mapDomain` (`Group.lean`), a bialgebra map induces a continuous
+homomorphism of points; `TauCeti.PointTopology.instLocallyCompactSpaceWithConv`
+(`Separation.lean`), the points of a finite-type algebra over a locally compact `T1`
+topological ring are locally compact; and `TauCeti.PointTopology.tensorProductHomeomorph`
+(`Functoriality.lean`), the points of `A ⊗[k] B` are homeomorphic to the product of the point
+spaces.
 
 Local ramification is consumed from Tau Ceti directly, for finite extensions of any
 `IsNonarchimedeanLocalField`, equal characteristic included. In
@@ -356,8 +388,21 @@ completed adeles `𝔸_K`, the residue
 character `ψ_ω(a) = ψ₀(Σ_v Tr_{κ(v)/k} res_v(a_v ω))` of a nonzero rational differential `ω`
 and a nontrivial `ψ₀ : 𝔽_q → ℂˣ`, the conductor exponent `n_v = ord_v(ω)` (triviality on
 `π_v^(−n_v) O_v`, nontriviality on `π_v^(−n_v−1) O_v`), self-dual measures and Poisson
-summation, together with the compact rational unipotent quotients and integration in stages.
-Layers 0, 2, 6 and 7 use exactly these objects. Its §AL.3.10.4 *Ramified rank-one curve
+summation, together with the compact rational unipotent quotients and integration in stages;
+it compares the self-dual measures with the integral local Haar measures and the quotient
+volume `q^(g−1)`, and makes the self-dual measures compatible with `ω ↦ fω`. Its §AL.0.3.1
+*The local Schwartz–Bruhat space `S(F)`, its `F^×`-action and tempered distributions* gives, on
+every nonarchimedean local field of positive characteristic with a nontrivial continuous additive
+character `ψ`, the conductor `ν(ψ)` (`ψ` trivial on `P^(−ν)`, nontrivial on `P^(−ν−1)`) with
+`ν(ψ_b) = ν(ψ) + ord b` for `ψ_b(x) = ψ(bx)`, the dual lattice `(P^m)^∨ = P^(−ν−m)` for the
+pairing `ψ(xy)` and the self-dual Haar measure, with `vol(O) = q^(−ν/2)`. At `K_v` with
+`ψ = ψ_{ω,v}` the conductor is `ν = n_v`, so the local self-dual measure `μ_{ω,v}` gives `O_v`
+volume `q_v^(−n_v/2)` and `O_v` has annihilator `π_v^(−n_v) O_v`. Its §§AL.0.1.7–AL.0.1.8
+*Fourier transform of a subgroup indicator* and *Fourier transform of a coset indicator* give, for
+any bilinear character pairing `L` and a translation-invariant measure `μ`,
+`F(1_U) = μ(U) · 1_(U⊥)` and `F(1_(a+U))(w) = ψ(−L(a,w)) · μ(U) · 1_(U⊥)(w)`, in the
+negative-kernel convention of Mathlib's `VectorFourier.fourierIntegral`.
+Layers 0, 2, 4, 6 and 7 use exactly these objects. Its §AL.3.10.4 *Ramified rank-one curve
 reciprocity* supplies the finite-field objects and comparisons consumed in §§4.5 and 4.8–4.10,
 including every positive modulus. Its convention is `χ(a)=ρ(Art_ar(a)⁻¹)` for a
 rank-one local system; the deck action on a Lang torsor below instead records
@@ -467,9 +512,10 @@ Section 4.9 uses its commutative form `Frob_q − id` on a generalized Jacobian,
 unipotent part. RG2.0a supplies affine restriction of scalars along finite locally free
 maps, so `Res_{m/k} 𝔾_m` includes nonreduced finite `m`.
 
-ReductiveGroupsPartII RG2.0 supplies affine point topologies, their functoriality and the
-topological group of points over every topological base algebra, including the adeles.
-Section 6.1 adds the function-field restricted-product comparison.
+ReductiveGroupsPartII RG2.0 plans affine point topologies, their functoriality and the
+topological group of points over every topological base algebra; the pinned declarations it
+names are listed under *From Tau Ceti*. Section 6.1 uses them at the adeles and adds the
+function-field restricted-product comparison.
 
 ### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
 
@@ -526,15 +572,18 @@ comparison from these interfaces, for the odd-characteristic global branch of La
 
 Layer 0 fixes the setting and conventions and transports F. K. Schmidt's theorem to divisors.
 Layers 1–3 are independent of each other: Layer 1 is the polynomial-lattice description of
-`L(D)`, Layer 2 the additive adelic volumes, Layer 3 Artin–Schreier–Witt theory. Layer 4 needs
-Layer 3 for the Schmid–Witt symbol, Layer 2 for the local-coordinate comparison and Layer 0 for
-the valuation degree and the degree-one divisors used in §4.5.
+`L(D)`, Layer 2 the volumes and Fourier transforms of divisor lattices, Layer 3
+Artin–Schreier–Witt theory. Layer 4 needs Layer 3 for the Schmid–Witt symbol and Layer 0 for
+the valuation degree and the degree-one divisors used in §4.5; its local-coordinate comparison
+uses the residue conductor and the local self-dual volume of AutomorphicLFunctionsAndLocalFactors
+§§AL.0.3.1 and AL.0.6.1.
 Its geometric branch (§§4.6–4.10) uses the supplied rigidified Picard spaces and
 finite-field Lang covers, curve Riemann–Roch and compatible finite Artin reciprocity. It does not
 depend on Layer 5's Chebotarev estimate or on the higher-rank automorphic results.
 Layer 5 needs Layer 0 and AlgebraicCurves Layers 3–5. Layer 6
-needs Layer 2 (unipotent quotient volumes) and Layer 0. Layer 7 needs Layers 0, 2, 5 and 6; it
-uses Layer 5 only through §§5.1–5.5, to continue the good Euler product of §7.6. The worked
+needs Layer 2 (divisor-lattice volumes, for the integrality of unipotent volumes) and Layer 0.
+Layer 7 needs Layers 0, 5 and 6; it uses Layer 5 only through §§5.1–5.5, to continue the good
+Euler product of §7.6, and takes its additive measures from §§AL.0.3.1 and AL.0.6.1. The worked
 examples after Layer 7 use Layers 0, 3 and 5.
 
 ## Layer 0: finite constant fields, degrees and normalisations
@@ -776,10 +825,11 @@ AlgebraicCurves Layers 2, 3 and 4; Tau Ceti `riemannRochSpace`, `genus`.
 Here `k = 𝔽_q` with exact constants; write `K=F` for the function field. The completed adeles `𝔸_K`, the residue character `ψ_ω` of a
 nonzero rational differential `ω`, its conductor exponents `n_v = ord_v(ω)`, the self-dual
 measures and Poisson summation are those of AutomorphicLFunctionsAndLocalFactors §AL.0.6.1,
-*Curve additive analysis*; they are not constructed again. This layer adds the lattice-level statements
-that make Riemann–Roch visible in that adelic picture and pins the volume normalisations used by
-Layers 6 and 7. Only the definitions of the additive character, the self-dual measure and the
-adelic Fourier transform are used; no theorem of Tate's thesis is stated or cited.
+*Curve additive analysis*, and the local lattice duality and self-dual volumes are its §AL.0.3.1;
+they are not constructed again. This layer adds the divisor-lattice statements that make
+Riemann–Roch visible in that adelic picture, among them the divisor-lattice volumes used by
+Layer 6. Only the additive character, the self-dual measures, the adelic Fourier transform and
+those supplier statements are used; no zeta integral occurs.
 
 ### 2.1 Divisor lattices
 
@@ -818,41 +868,49 @@ AlgebraicCurves Layers 4 and 5; Tau Ceti `riemannRochSpace`.
 - The index formula weights by `d_v`: for a single place `v` of degree `2`,
   `[A([v]) : A(0)] = q²`, not `q`.
 
-### 2.2 The self-dual measure of a differential and its volumes
+### 2.2 Volumes of divisor lattices for the self-dual measure
 
 For a nonzero rational differential `ω` with local conductor exponents `n_v = ord_v(ω)` (so
 `Σ_v n_v d_v = 2g − 2` by `TauCeti.degree_weilDifferentialDivisor`), let `μ_{ω,v}` be the Haar
-measure on `K_v` that is self-dual for the pairing `(a, b) ↦ ψ_{ω,v}(ab)`, and `μ_ω` their
-restricted product on `𝔸_K` (AdelicAlgebraicGroups Layer AA.0). Prove selfDual_local_volume:
-`μ_{ω,v}(O_v) = q_v^(−n_v/2)`; and selfDual_global_volumes:
+measure on `K_v` that is self-dual for the pairing `(a, b) ↦ ψ_{ω,v}(ab)` (AutomorphicLFunctionsAndLocalFactors
+§AL.0.3.1, with conductor `ν = n_v` by §AL.0.6.1), and `μ_ω` their restricted product on `𝔸_K`
+(AdelicAlgebraicGroups Layer AA.0), the self-dual measure of §AL.0.6.1. The local volume
+`μ_{ω,v}(O_v) = q_v^(−n_v/2)`, the annihilator `π_v^(−n_v) O_v` of `O_v`, the behaviour under
+`ω ↦ fω`, the comparison with the measure `μ_int` giving every `O_v` volume one and the quotient
+volume `μ_ω(𝔸_K/K) = 1` are those supplier statements. Prove selfDual_global_volumes: for every
+divisor `D`,
 
 ```text
-μ_ω(∏_v O_v) = q^(1−g),   μ_ω(A(D)) = q^(deg D + 1 − g),   μ_ω(𝔸_K/K) = 1.
+μ_ω(A(D)) = q^(deg D + 1 − g).
 ```
 
-The measure and annihilator API is:
+By Riemann–Roch the exponent is `ℓ(D) − i(D)`, so `μ_ω(A(D)) = q^(ℓ(D))` exactly when `i(D) = 0`.
 
-- For `f ∈ Kˣ`, `μ_{fω,v} = |f|_v^(1/2) μ_{ω,v}` at each place and `μ_{fω} = μ_ω`
-  globally by the product formula.
-- The annihilator of `O_v` under `ψ_{ω,v}` is `π_v^(−n_v) O_v`.
-- The measures satisfy `μ_ω = q^(1−g) · μ_int`, where `μ_int` gives each `O_v` volume one.
+*Proof sketch.* At `D = 0`, `A(0) = ∏_v O_v` and the local volumes of §AL.0.3.1 multiply to
+`q^(−Σ_v n_v d_v / 2) = q^(1−g)`. For general `D`, let `D₀` be the placewise minimum of `D` and
+`0`; the index formula of 2.1 gives `μ_ω(A(D)) = q^(deg D − deg D₀) μ_ω(A(D₀))` and
+`μ_ω(A(0)) = q^(−deg D₀) μ_ω(A(D₀))`, so `μ_ω(A(D)) = q^(deg D) μ_ω(A(0))`. (Parshin, §2.2,
+p. 10, the volume formulas before (9) and formula (10); see the remark on source corrections
+below.)
 
-*Proof sketch.* Self-duality forces `μ_{ω,v}(O_v) · μ_{ω,v}(O_v^⊥) = 1`, and
-`O_v^⊥ = π_v^(−n_v) O_v` has `μ_{ω,v}`-volume `q_v^(n_v) μ_{ω,v}(O_v)`. The product over `v` is
-`q^(−Σ n_v d_v / 2) = q^(1−g)`. The lattice volume follows from the index in 2.1. §AL.0.6.1 gives
-`μ_int(𝔸_K/K) = q^(g−1)`, so `μ_ω(𝔸_K/K) = q^(1−g) q^(g−1) = 1`. (Parshin, §2.2, pp. 9–10,
-formulas (9)–(10); see the remark on source corrections below.)
-
-*Needs:* Layer 2.1; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*;
-AdelicAlgebraicGroups Layer AA.0; Tau Ceti `degree_weilDifferentialDivisor`, `Divisor.degree_principal`.
+*Needs:* Layer 2.1; AutomorphicLFunctionsAndLocalFactors §§AL.0.3.1 and AL.0.6.1;
+AdelicAlgebraicGroups Layer AA.0; Tau Ceti `degree_weilDifferentialDivisor`.
 
 **Checks.**
 
-- On `𝔽_q(t)` with `ω = dt`, `(ω) = −2∞`, so `n_∞ = −2`, `μ_{ω,∞}(O_∞) = q` and
-  `μ_ω(∏ O_v) = q = q^(1−0)`, not `1`.
-- At a place with `n_v = 2`, `μ_{ω,v}(O_v) = q_v^(−1)`.
-- Replacing `ω` by `t·ω` on `𝔽_q(t)` changes the local factors at `0` and `∞` by inverse powers
-  of `q^(1/2)` and leaves `μ_ω` unchanged.
+- On `𝔽_q(t)` with `ω = dt`, `(ω) = −2∞`: `μ_ω(A(0)) = μ_ω(∏_v O_v) = q^(0+1−0) = q`, the
+  whole factor `q^(−n_∞/2) = q` coming from `∞`; the integral normalization would give `1`.
+- On `𝔽_q(t)` with `ω = dt` and `D = −2∞`: `μ_ω(A(−2∞)) = q^(−2+1) = q^(−1)`. Here `ℓ(D) = 0`
+  and `i(D) = ℓ(0) = 1`, so the volume is `q^(ℓ(D) − i(D))`, not `q^(ℓ(D)) = 1`.
+- The exponent weights places by degree: for a place `v` of degree `2`,
+  `μ_ω(A([v])) = q² μ_ω(A(0)) = q^(3−g)`; counting `[v]` as degree `1` would give `q^(2−g)`.
+- For every `D`, `μ_ω(A(D)) · μ_ω(A((ω) − D)) = q^(deg D + 1 − g) · q^(2g − 2 − deg D + 1 − g) = 1`,
+  as self-duality requires of a compact open subgroup and its annihilator (2.3); the measure
+  `c · μ_ω` would give `c²`.
+- Replacing `ω` by `t·ω` on `𝔽_q(t)` moves `n_0` from `0` to `1` and `n_∞` from `−2` to `−3`,
+  so the local volumes of `O_0` and `O_∞` change by `q^(−1/2)` and `q^(1/2)` (§AL.0.3.1,
+  `ν(ψ_b) = ν(ψ) + ord b`), and `μ_ω(A(D))` is unchanged, as the formula, which does not involve
+  `ω`, requires.
 
 ### 2.3 Fourier transforms of lattice indicators
 
@@ -869,13 +927,17 @@ Prove testFunctions_span_translates: the locally constant compactly supported fu
 unshifted indicators `1_{A(D)}` alone do not span.
 
 *Proof sketch.* The indicator of a compact open subgroup has Fourier transform equal to its volume
-times the indicator of its annihilator; the annihilator of `A(D)` under `ψ_ω` is
-`A((ω) − D)` by 2.2's local annihilator statement. A test function is constant on
+times the indicator of its annihilator (§AL.0.1.7; the sign of the kernel does not matter for a
+subgroup), and the volume is 2.2. The annihilator of `A(D)` under `ψ_ω` is `A((ω) − D)`: testing
+against adeles supported at one place reduces it to the local duality
+`(P_v^m)^∨ = P_v^(−n_v−m)` of §AL.0.3.1 with `m = −D_v`, and `−n_v + D_v = −((ω) − D)_v`. The
+translate formula is §AL.0.1.8, whose phase `ψ(−L(c,b))` for the negative kernel becomes
+`ψ_ω(cb)` for the positive kernel used here. A test function is constant on
 cosets of some `A(D)` and supported on finitely many cosets of a larger one.
 (Parshin, §2.1, p. 7, and §2.2, pp. 9–10.)
 
-*Needs:* Layers 2.1–2.2; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive
-analysis*.
+*Needs:* Layers 2.1–2.2; AutomorphicLFunctionsAndLocalFactors §§AL.0.1.7–AL.0.1.8, §AL.0.3.1
+and §AL.0.6.1 *Curve additive analysis*.
 
 **Checks.**
 
@@ -900,8 +962,9 @@ On `𝔽_q(t)`, `ω = dt`: `μ_ω(A(m∞)) = q^(m+1)`, which for `m ≥ 0` is `q
 
 ### Dependencies
 
-AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*; AdelicAlgebraicGroups
-Layer AA.0; AlgebraicCurves Layers 4 and 5; Tau Ceti `degree_weilDifferentialDivisor`.
+AutomorphicLFunctionsAndLocalFactors §§AL.0.1.7–AL.0.1.8, §AL.0.3.1 and §AL.0.6.1 *Curve additive
+analysis*; AdelicAlgebraicGroups Layer AA.0; AlgebraicCurves Layers 4 and 5; Tau Ceti
+`degree_weilDifferentialDivisor`.
 
 ## Layer 3: Artin–Schreier–Witt theory
 
@@ -1129,9 +1192,11 @@ Ceti (`TauCeti.ClassFieldTheory.artinMap`, `TauCeti.ClassFieldTheory.conductorEx
 `TauCeti.ClassFieldTheory.localAbelianExistence` and
 `TauCeti.ClassFieldTheory.localAbelianExistence_primeToResidueCharacteristic`); its scope section
 excludes Lubin–Tate theory and `p`-primary existence in equal characteristic, which this layer
-supplies. The completion `F_v` of a function field over `𝔽_q` at a place is such a field
-(AlgebraicCurves Layer 9; Tau Ceti `Place.completionIntegersEquivPowerSeries` at a
-rational place), so every statement applies at the places of Layers 0–7.
+supplies. The completion `F_v` of a function field over `𝔽_q` at a place of any degree is such
+a field: it is `κ(v)((T))` by the pinned `TauCeti.Place.completionEquivLaurentSeriesOfSection`
+(§4.5), and `κ(v)((T))` is a nonarchimedean local field by
+`TauCeti.LaurentSeries.isNonarchimedeanLocalField` (AlgebraicCurves Layer 9 is the planning
+owner); so every statement applies at the places of Layers 0–7.
 
 ### 4.1 Lubin–Tate formal modules
 
@@ -1198,7 +1263,8 @@ unramified extensions); Tau Ceti `TauCeti.LocalFieldsRamification.lowerRamificat
 `TauCeti.LocalFieldsRamification.herbrand` and
 `TauCeti.LocalFieldsRamification.upperRamificationGroup` (lower groups, Herbrand function and
 upper numbering);
-AlgebraicCurves Layer 9 (the expansion of a completed place).
+AlgebraicCurves Layer 9 (the expansion of a completed place, pinned as
+`TauCeti.Place.completionEquivLaurentSeriesOfSection`).
 
 **Checks.**
 
@@ -1502,11 +1568,18 @@ The local wild cyclic parts use §§3.2 and 4.3–4.4; the prime-to-`p` parts us
 Kosters–Wan, Proposition 4.14, pp. 22–23, for the wild conductor;
 Conrad, *Geometric global class field theory*, §2, pp. 1–3, for the ray-class interpretation.)
 
-For an actual normalized place `v`, consume the local expansion isomorphism
-`ι : F_v ≃ κ(v)((T))` from AlgebraicCurves Layer 9, specified by a coefficient-field section
-`κ(v) → O_v` and a uniformizer sent to `T`. Prove schmidWitt_localCoordinates: transporting
-through `ι` preserves normalized valuations, unit filtrations, the residue conductor and the
-self-dual volume of the differential used in Layer 2. Prove schmidWitt_changeParameter:
+For an actual normalized place `v` of any degree, consume the local expansion isomorphism
+`ι : F_v ≃ κ(v)((T))` of the pinned Tau Ceti, `TauCeti.Place.completionEquivLaurentSeriesOfSection`
+(`TauCeti/FieldTheory/FunctionField/Place/Expansion/Laurent/CoefficientField.lean`), specified by a
+coefficient-field section `κ(v) → O_v` lifting the residue map and a uniformizer sent to `T`; it
+carries the valuation of `v` to the `T`-adic one
+(`TauCeti.Place.valuation_completionEquivLaurentSeriesOfSection`), hence unit filtrations to unit
+filtrations. Over a finite constant field `κ(v)/k` is separable, so the `k`-linear form
+`TauCeti.Place.completionEquivLaurentSeriesResidueField` (same file) applies. AlgebraicCurves Layer 9 is
+the planning owner of these expansions. Prove schmidWitt_localCoordinates: transporting
+through `ι` preserves the residue conductor `n_v` and the local self-dual volume
+`q_v^(−n_v/2)` of `O_v` (AutomorphicLFunctionsAndLocalFactors §AL.0.3.1) for a nonzero rational
+differential `ω` and its residue character (§AL.0.6.1). Prove schmidWitt_changeParameter:
 changing the uniformizer and coefficient section changes reduced representatives and lifts,
 but the transported Artin symbol and conductor are unchanged. Both are comparison statements
 on the supplied completion, not an identification of the global field with its Laurent-series
@@ -1515,11 +1588,19 @@ characterization uses every uniformizer; Yoshida, Appendix I, §7, p. 434, for l
 
 Prove localCoordinates_truncation: for every `N ≥ 1`, the integral-coordinate map induces
 a ring isomorphism `O_v/𝔭_v^N ≃ κ(v)[T]/(T^N)`, compatible with the projections for
-`N′ ≤ N`; for `N = 0` both sides are the zero ring. This is the quotient of the supplied
-integral expansion isomorphism by the corresponding powers of the maximal ideals
-(AlgebraicCurves Layer 9; Yoshida, Appendix I, §7, p. 434).
+`N′ ≤ N`; for `N = 0` both sides are the zero ring. This is the quotient of the pinned integral
+expansion isomorphism `TauCeti.Place.completionIntegersEquivPowerSeriesOfSection`
+(`TauCeti/FieldTheory/FunctionField/Place/Expansion/CoefficientField.lean`; its `k`-linear form
+`TauCeti.Place.completionIntegersEquivPowerSeriesResidueField`) by the corresponding powers of the
+maximal ideals, which it matches by
+`TauCeti.Place.mem_filtration_iff_le_order_completionIntegersEquivPowerSeriesOfSection`
+(Yoshida, Appendix I, §7, p. 434).
 
-*Needs:* §§0.1–0.2, 2.1–2.2, 3.1–3.2 and 4.1–4.4; AlgebraicCurves Layer 9; ArithmeticGaloisDuality §R02.3.2;
+*Needs:* §§0.1–0.2, 3.1–3.2 and 4.1–4.4; AutomorphicLFunctionsAndLocalFactors §§AL.0.3.1 and
+AL.0.6.1 (residue conductor and local self-dual volume); Tau Ceti
+`TauCeti.Place.completionEquivLaurentSeriesOfSection`,
+`TauCeti.Place.completionIntegersEquivPowerSeriesOfSection` and their `k`-linear forms;
+AlgebraicCurves Layer 9; ArithmeticGaloisDuality §R02.3.2;
 AlgebraicCurves Layers 3 and 5 (approximation and finite degree-zero classes);
 Mathlib finite abelian groups and characters.
 
@@ -1543,6 +1624,10 @@ Mathlib finite abelian groups and characters.
 - For `F = 𝔽_q(t)`, `v = ∞` and `π_v = t⁻¹`, the local coordinate sends `π_v` to `T`
   and `dt` to `−T⁻² dT`, giving conductor exponent `−2` and `μ(O_v) = q`.
   Sending `t` to `T` reverses the valuation and fails the comparison.
+- At the degree-two place `t² + 1` of `𝔽_3(t)` (irreducible, since `−1` is not a square
+  modulo `3`), `κ(v) = 𝔽_9` and `ι` identifies `F_v` with `𝔽_9((T))`, `T ↦ t² + 1`, `𝔽_3`-linearly.
+  A comparison with `𝔽_3((T))`, the form available at rational places only, would have residue
+  field `𝔽_3` and lose `d_v = 2`.
 - Modulo `T²`, `(1+T)² = 1+2T`; in characteristic two it is `1`.
   Keeping the quadratic coefficient gives the wrong precision-two multiplication.
 
@@ -1871,14 +1956,16 @@ therefore realize all finite ray-character data for this modulus, including the 
 
 ### Dependencies
 
-Layers 0, 2 and 3; LubinTateFormalModulesAndQuasiCanonicalLifts §§0.1–0.2, 1.1–1.4 and
-2.1–2.5; ClassFieldTheory Layers 4–8; Tau Ceti's local ramification, reciprocity, conductor and
-formal-group declarations listed under *From Tau Ceti* (among them
+Layers 0 and 3; LubinTateFormalModulesAndQuasiCanonicalLifts §§0.1–0.2, 1.1–1.4 and
+2.1–2.5; AutomorphicLFunctionsAndLocalFactors §§AL.0.3.1 and AL.0.6.1 (§4.5's local-coordinate
+comparison); ClassFieldTheory Layers 4–8; Tau Ceti's local ramification, reciprocity, conductor and
+formal-group and local-expansion declarations listed under *From Tau Ceti* (among them
 `TauCeti.LocalFieldsRamification.hasseArf`,
 `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
 `TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`,
 `TauCeti.ClassFieldTheory.artinMap`, `TauCeti.ClassFieldTheory.localNormSubgroup`,
-`TauCeti.ClassFieldTheory.conductorExponent` and `TauCeti.FormalGroupHom`);
+`TauCeti.ClassFieldTheory.conductorExponent`, `TauCeti.FormalGroupHom` and
+`TauCeti.Place.completionEquivLaurentSeriesOfSection`);
 AlgebraicCurves Layers 3, 5 and 9; ArithmeticGaloisDuality §R02.3.2; Mathlib `FormalGroup`.
 The geometric branch also uses AlgebraicCurves Layers 8 and 12, JacobianChallenge Layers
 A–C, SchemeAndStackFoundations §1.1, §§3.3, 3.6–3.7, Tau Ceti's affine descent
@@ -2291,9 +2378,14 @@ AutomorphicSpectralTheory's function-field branch.
 ### 6.1 Adelic points of affine groups over a function field
 
 For a finitely generated commutative Hopf algebra `H` over `K` (an affine group scheme `G` of
-finite type), define `G(𝔸) := WithConv (H →ₐ[K] 𝔸)` (a group by
-`TauCeti.AlgHom.instGroup`), with the affine point topology supplied by ReductiveGroupsPartII
-RG2.0. The additional function-field target adelicPoints_restrictedProduct compares these
+finite type), define `G(𝔸) := WithConv (H →ₐ[K] 𝔸)`, a group by `AlgHom.convGroupOfSemiring`,
+with the point topology `TauCeti.PointTopology.instTopologicalSpaceWithConv`, for which it is a
+topological group (`TauCeti.PointTopology.isTopologicalGroup`); ReductiveGroupsPartII RG2.0 plans
+this topology under these names. Since `𝔸` is a locally compact Hausdorff topological ring
+(§AL.0.6.1), `G(𝔸)` is locally compact (`TauCeti.PointTopology.instLocallyCompactSpaceWithConv`),
+and a morphism of Hopf algebras induces a continuous homomorphism of adelic points
+(`BialgHom.continuous_mapDomain`); these are the pinned statements at `R = 𝔸` and are not
+targets here. The additional function-field target adelicPoints_restrictedProduct compares these
 points with the restricted product over the completed global places:
 for a finite nonempty set `S` of places and a flat affine group scheme model `𝒢` of finite type over the `S`-integers
 `O_S`, the natural map
@@ -2308,14 +2400,15 @@ adelicPoints_diagonal_discrete: `G(K) → G(𝔸)` is a closed embedding onto a 
 adelicPoints_finite_stabilizer: for `U ⊆ G(𝔸)` compact open and `g ∈ G(𝔸)`, `g G(K) g⁻¹ ∩ U` is
 finite. The adelic-point API is:
 
-- Morphisms of Hopf algebras induce the corresponding continuous group homomorphisms on points.
-- The adelic point group is locally compact.
-- The construction commutes with products of groups.
+- For the tensor-product Hopf algebra of `G₁ × G₂`, the homeomorphism
+  `TauCeti.PointTopology.tensorProductHomeomorph` is a group isomorphism
+  `(G₁ × G₂)(𝔸) ≅ G₁(𝔸) × G₂(𝔸)`, so the construction commutes with products of groups.
 - For `G=𝔾_m` it is ArithmeticGaloisDuality §R02.3.2's idele group, with the topology
   controlling both a unit and its inverse.
 - For `G=𝔾_a` it is the additive group `𝔸`.
 
-*Proof sketch.* Use the embedding-independent point topology of ReductiveGroupsPartII RG2.0;
+*Proof sketch.* Use the embedding-independent point topology
+`TauCeti.PointTopology.instTopologicalSpaceWithConv` (ReductiveGroupsPartII RG2.0);
 continuity and openness of the restricted-product comparison maps follow from writing
 `𝔸` as the direct limit of the open subrings `∏_{v∈S} K_v × ∏_{v∉S} O_v`. Discreteness of `G(K)`
 follows from the discreteness of `K` in `𝔸` (§AL.0.6.1). This is the function-field counterpart of
@@ -2326,9 +2419,11 @@ potentially automorphic*, Proposition 8.1, p. 34, stated for `G` split semisimpl
 its proof uses only that `G` is affine.)
 
 *Needs:* AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*; Tau Ceti
-`AlgHom.instGroup`, `ReductiveAffineGroupSchemeCat`; ReductiveGroupsPartII RG2.0;
-Mathlib `RestrictedProduct`,
-`RestrictedProduct.unitsEquiv`.
+`AlgHom.convGroupOfSemiring`, `ReductiveAffineGroupSchemeCat`,
+`TauCeti.PointTopology.instTopologicalSpaceWithConv`, `TauCeti.PointTopology.isTopologicalGroup`,
+`TauCeti.PointTopology.instLocallyCompactSpaceWithConv`, `BialgHom.continuous_mapDomain` and
+`TauCeti.PointTopology.tensorProductHomeomorph`; ReductiveGroupsPartII RG2.0;
+Mathlib `RestrictedProduct`, `RestrictedProduct.unitsEquiv`.
 
 **Checks.**
 
@@ -2416,9 +2511,11 @@ Ciubotaru–Harris, *On the generalized Ramanujan and Arthur conjectures over fu
 p. 8, for semisimple `G`; Morris, *Eisenstein series for reductive
 groups over global function fields I*, §4, Proposition on the compactness of `N(F)∖N°`, p. 102.)
 
-*Needs:* Layer 6.2; Layer 2.2 (the covolume-one measure gives `∏_v O_v` volume `q^(1−g)`, so
-`μ(J) ∈ ℤ[1/p]`); AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*
-(compactness of `K∖𝔸`, rational unipotent quotients and integration in stages);
+*Needs:* Layer 6.2; Layer 2.2 (for the covolume-one measure `μ_ω` of §AL.0.6.1 every divisor
+lattice has volume `q^(deg D + 1 − g)`, and every compact open subgroup of `𝔸` lies between two
+divisor lattices with `p`-power indices, so `μ(J) ∈ ℤ[1/p]`); AutomorphicLFunctionsAndLocalFactors
+§AL.0.6.1 *Curve additive analysis* (compactness of `K∖𝔸`, the covolume-one self-dual measure,
+rational unipotent quotients and integration in stages);
 AdelicAlgebraicGroups Layer AA.0;
 ReductiveGroupsPartII Layer RG2.4 (parabolic subgroups and decompositions).
 
@@ -2657,7 +2754,8 @@ operator at `∞` acts by `1`.
 Layers 0.1–0.2 and 2; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1, §AL.R.3, §§AL.3.4.1–AL.3.4.2
 and §AL.3.14.1; ArithmeticGaloisDuality §R02.3.2;
 AdelicAlgebraicGroups Layer AA.0; ReductiveGroupsPartII Layer RG2.4; SmoothRepresentationsOfLocalGroups
-§SR.4.1; Tau Ceti `AlgHom.instGroup`, `ReductiveAffineGroupSchemeCat`, `degree_weilDifferentialDivisor`.
+§SR.4.1; Tau Ceti `AlgHom.convGroupOfSemiring`, `ReductiveAffineGroupSchemeCat`, the point-topology
+declarations of §6.1 and `degree_weilDifferentialDivisor`.
 
 ## Layer 7: unitary Siegel–Eisenstein series and their nonsingular coefficients
 
@@ -2913,14 +3011,18 @@ E_T(g, s, Φ) = q^(−n²(g_X − 1)) ∏_v W_{T,v}(g_v, s, Φ_v),
 where `q^(−n²(g_X − 1))` is the ratio of the volume-one quotient measure to the product of the local
 integral-volume-one measures; each `W_{T,v}` continues analytically in `s`.
 
-*Proof sketch.* The duality is Layer 2's residue duality on the `n²`-dimensional `F`-space
+*Proof sketch.* The duality is the residue duality of §AL.0.6.1, with the local lattice duality
+of §AL.0.3.1 for the trace pairing, on the `n²`-dimensional `F`-space
 `Herm_n`; the trace pairing is unimodular on `Herm_n(O_{F′_v})` at every unramified
 place, split or inert. Each diagonal coordinate pairs by ordinary multiplication; each
 off-diagonal pair uses the unimodular trace form of the unramified quadratic étale
 algebra. In the split case it is the matrix trace pairing on `M_n(O_v)`. This step uses
 no restriction on `p`. Unfold the Eisenstein series in the convergence region: for nonsingular `T` only the big
 Bruhat cell contributes, and the integral factorizes. The measure ratio is
-`μ_int(N(F)∖N(𝔸)) = q^(n²(g_X−1))` (Layer 2.2 applied to each of the `n²` coordinates). For
+`μ_int(N(F)∖N(𝔸)) = q^(n²(g_X−1))`: §AL.0.6.1's quotient volume `q^(g_X−1)` for local integral
+volume one, for each of the `n` diagonal coordinates in `F`, and its square `q^(2(g_X−1))`, the
+covolume of the unramified quadratic étale algebra `F′` in its adeles, for each of the
+`n(n−1)/2` off-diagonal coordinates in `F′`. For
 rational `α` use left automorphy and change variables on the compact quotient. For local `α`
 use the section's transformation law in the Whittaker integral; its Jacobian contributes
 `|det α|_{F′_v}^n`, giving exponent `−s+n/2`. Multiplying these local identities gives the
@@ -2934,8 +3036,9 @@ above have explicit domains. The latter is FYZ (2.3); together with (2.2) it sup
 adelic nonsingular calculation needed in §7.6. The full, possibly singular global coefficient
 is not assigned the local Whittaker transformation law.
 
-*Needs:* Layers 2.2 and 7.2; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive
-analysis*.
+*Needs:* Layer 7.2; AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive
+analysis* (residue duality, quotient volume and self-dual measures) and §AL.0.3.1 (local lattice
+duality for the trace pairing).
 
 **Checks.**
 
@@ -2946,8 +3049,9 @@ analysis*.
   In the split matrix model the matrix units pair by `Tr(E_ij E_kl)=δ_jk δ_il`.
   Thus neither case introduces a factor `2` in the dual lattice.
 - For `det T = 0` the factorization is not asserted: further Bruhat cells contribute.
-- If the local integrals are taken with the local self-dual measures of 2.2 instead of `N_n(O_v)` of
-  volume one, the prefactor disappears, since `μ_ω(𝔸/K) = 1`; the factor `q^(−n²(g_X − 1))`
+- If the local integrals are taken with the local self-dual measures of §AL.0.3.1 instead of
+  `N_n(O_v)` of volume one, the prefactor disappears, since the self-dual measure gives the
+  quotient volume one (§AL.0.6.1); the factor `q^(−n²(g_X − 1))`
   belongs to the integral-volume-one normalization, and the two must not be mixed.
 - With `n = 1`, `T = 0` and generic `s`, the full constant coefficient has both `s` and `−s`
   exponents. A single local Whittaker exponent gives a false adelic transformation law for it.
@@ -3269,8 +3373,8 @@ For `n = 1`, `X = ℙ¹`, `F′ = F × F` and `(𝓔, a)` self-dual, the formula
 
 ### Dependencies
 
-Layers 0, 2, 5 (§§5.1–5.5) and 6; ArithmeticGaloisDuality §R02.3.2;
-AutomorphicLFunctionsAndLocalFactors §AL.0.6.1;
+Layers 0, 5 (§§5.1–5.5) and 6; ArithmeticGaloisDuality §R02.3.2;
+AutomorphicLFunctionsAndLocalFactors §§AL.0.3.1 and AL.0.6.1;
 ReductiveGroupsPartII Layers RG2.3–RG2.4; SmoothRepresentationsOfLocalGroups
 §§SR.2.1–SR.2.3, SR.4.1 and SR.4.4;
 GeometryOfNumbersAndQuadraticArithmetic §§3.1–3.2; MetaplecticAutomorphicForms §§2.5, 3.2a, 3.3 and 3.3b; SchemeAndStackFoundations
@@ -3319,21 +3423,31 @@ wrong; each is a test of the layers cited.
 
 ## Downstream consumers
 
-- **GlobalShtukasAndFunctionFieldLanglands**: automorphic function modules with
-  integral coefficients, cusp modules, Harder finiteness and the unramified Hecke action
-  (Layer 6) for V. Lafforgue's excursion construction, and the Feng–Yun–Zhang coefficients
-  (Layer 7) for the higher Siegel–Weil formula; the generalized Picard and ramified rank-one
-  Lang-cover comparison, with the constant-field direction and least conductor (§§4.6–4.10).
-- **ExcursionOperatorsAndSpectralAction**: Layer 6 and the equal-characteristic local theory of
-  Layer 4.
-- **HigherLocalFieldsAndHigherClassFieldTheory** and **DrinfeldModulesAndTModules**:
-  the conventions of Layer 0 and the equal-characteristic local
-  class field theory and Artin–Schreier–Witt theory of Layers 3–4.
-- **CountingBundlesAndHallAlgebrasOfCurves**, **FiniteFieldsAndCharacterSums** and
-  **GlobalGaloisDeformationsPartII**: the zeta functions and `L`-polynomials of Layer 5.
-- **CurvesOverFiniteFields**: Layer 5, including the predicate `IsLPolynomialData` and the
-  uniqueness lemma IsLPolynomialData.unique of §5.6 for virtual point counts.
-- **ExoticMonoidalStructuresAndAbstractAutomorphicity**: Layers 4–6.
+- **GlobalShtukasAndFunctionFieldLanglands**: divisor classes and Picard points (§0.3), the
+  divisor-lattice volumes for the self-dual measure (§2.2), the zeta function (§§5.1 and 5.3),
+  degree-sensitive Chebotarev (§5.8), and the adelic points, automorphic function modules,
+  constant terms, cusp modules and Harder's finiteness theorem (§§6.1–6.4), for V. Lafforgue's
+  excursion construction.
+- **GlobalShtukasAndFunctionFieldLanglandsPartII**: degree-sensitive Chebotarev (§5.8) and the
+  cusp modules, Harder finiteness, integral coefficient models and the unramified Hecke action
+  with its Satake normalization (§§6.2–6.6).
+- **FunctionFieldArithmeticPartII**: the conventions of §0.1, the completed adelic divisor
+  lattices of §2.1, the equal-characteristic local Artin and norm-quotient comparisons of
+  §§4.1–4.2 and 4.5, and the ray characters, rigidified Picard objects and finite covers of
+  §§4.5–4.10.
+- **ExoticMonoidalStructuresAndAbstractAutomorphicity**: §§0.1–0.3 and 2.1–2.3, the ray
+  geometry of §§4.8–4.10, degree-sensitive Chebotarev (§5.8) and the adelic points and
+  automorphic function modules of §§6.1–6.4.
+- **DrinfeldModulesAndTModulesPartII**: the global function fields and curve arithmetic of
+  Layers 0–5, which its scope section takes from this roadmap.
+- **CountingBundlesAndHallAlgebrasOfCurves**: degree-one divisors and Picard points (§§0.2–0.3)
+  and the zeta functions and `L`-polynomials of §§5.1–5.4.
+- **CurvesOverFiniteFields**: Layer 5 (§§5.1 and 5.3–5.6), including the predicate
+  `IsLPolynomialData` and the uniqueness lemma IsLPolynomialData.unique of §5.6 for virtual
+  point counts.
+- **AbelianVarietiesOverFiniteFields** (§§5.3–5.4) and **HyperellipticCurves** (§§5.1, 5.3 and
+  5.6): the zeta functions, point counts and `L`-polynomials of Layer 5.
+- **GlobalGaloisDeformationsPartII**: degree-sensitive Chebotarev (§5.8).
 
 ## References
 
