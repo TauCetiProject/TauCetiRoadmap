@@ -12,12 +12,19 @@ over a space, and a spectral isomorphism does not supply an explicit filling.
 three-manifold parallelization headline, the zero entries ΩO_1=ΩO_3=0 and
 ΩSO_1=ΩSO_2=ΩSO_3=0 of the B3.1 tables as nullbordism theorems, and B1.6's
 relative smoothing into compact targets and its Sard theorem in unequal
-dimensions for boundaryless and half-space sources, and B6.3's absolute
-integral realization theorems on the pinned fundamental class: every
+dimensions for boundaryless and half-space sources, and B6.3's
+realization theorems. On the pinned fundamental class every integral
 class of degree at most six is realized (`exists_mapFundamentalClass_eq`),
 one positive multiple of every class of a given degree is
 (`exists_pos_forall_mapFundamentalClass_eq_nsmul`), and some class of
-degree seven is not (`exists_not_mapFundamentalClass_eq_seven`), against
+degree seven is not (`exists_not_mapFundamentalClass_eq_seven`); every
+mod-2 class in every degree is realized by a closed manifold, orientable
+or not (`exists_modTwoFundamentalClass_map_eq`); on pairs (X,A) in
+degrees n≥1 the integral range, the multiplicative theorem and the mod-2
+theorem hold for compact manifolds with boundary carrying ∂M into A
+(`exists_relFundamentalClass_map_eq`,
+`exists_pos_forall_relFundamentalClass_map_eq_nsmul`,
+`exists_modTwoRelFundamentalClass_map_eq`). All are stated against
 the pinned APIs; its docstring identifies the missing carriers for the geometric and spectral headlines. Implementation homes
 include `TauCeti/Geometry/Manifold/Bordism/` and
 `TauCeti/AlgebraicTopology/Bordism/`.
@@ -315,11 +322,34 @@ is the unique class of H_n(M;ℤ) restricting to o at every point, and
 image f_*[M] in H_n(X;ℤ) under a continuous f:M→X, for X in `Type`;
 reversing o negates it
 (`TauCeti.HomologicalOrientation.mapFundamentalClass_neg`). The absolute
-realization targets of 10.1 are stated on these. The pin has no relative
-fundamental class of a compact manifold with boundary
-(`TauCeti.HomologicalOrientation.fundamentalClassOn` is the class along a
-compact subset of a boundaryless manifold) and no mod-2 fundamental
-class of a non-orientable closed manifold.
+integral realization targets of 10.1 are stated on these. The pin names
+no mod-2 fundamental class and no relative fundamental class of a compact
+manifold with boundary (`TauCeti.HomologicalOrientation.fundamentalClassOn`
+is the class along a compact subset of a boundaryless manifold), but both
+are determined by their local images, and the remaining 10.1 targets are
+stated through them. Use
+`TauCeti.existsUnique_singularHomology_localHomologyRestriction_eq_of_invariant`
+from `TauCeti/AlgebraicTopology/Singular/LocalHomology/Section.lean`,
+stated for every coefficient module: for F2 coefficients every path
+transport fixes the nonzero local class, so a compact Hausdorff M charted
+on a real vector space of finite dimension n has exactly one class of
+H_n(M;F2) whose image under `TauCeti.localHomologyRestriction` (from
+`TauCeti/AlgebraicTopology/Singular/LocalHomology/System.lean`) in every
+local group H_n(M,M∖{x};F2) is nonzero. That class is the mod-2
+fundamental class [M]₂ (Hatcher, §3.3, Theorem 3.26 and the definition
+after it, p.236), AlgebraicTopology 6.4's fundamental class for the
+coefficient ring F2. For a compact M with boundary, `TauCeti.localHomology`
+of Mathlib's `ModelWithCorners.interior` is H_n(M,∂M), because
+`ModelWithCorners.compl_interior` identifies the complement of the
+interior with the boundary. A relative fundamental class is a class of
+it whose image in H_n(M,M∖{x}) generates at every interior point x
+(Hatcher, §3.3, p.253): AlgebraicTopology 6.3 characterizes its
+compact-boundary class [M,∂M] in the same way. With integral coefficients
+such a class exists exactly when M is orientable, and it is then [M,∂M]
+for the orientation it induces on the interior. The push-forward along
+f:(M,∂M)→(X,A) is `TopPair.singularHomologyMap` from
+`TauCeti/AlgebraicTopology/Singular/Relative.lean` of
+`TopPair.ofSubsetMap` from `TauCeti/Topology/Category/TopPair.lean`.
 Use `AbstractSimplicialComplex.realizationCWComplex` from
 `TauCeti/AlgebraicTopology/SimplicialComplex/Realization/CWComplex/Basic.lean`
 as the CW structure on the realization |K| of a simplicial complex. It is
@@ -1788,7 +1818,12 @@ with the coefficient isomorphism above, G3.3's arbitrary-CW comparison
 theorem gives the natural group isomorphisms
 `Ω^ξ_n(X,A)≃π_n(Mξ∧Σ∞(X/A))` on all CW pairs, with the
 preceding products, units, suspension, boundary/MV and forgetting
-squares; no separate cell induction is carried out here.
+squares; no separate cell induction is carried out here. For absolute
+X and a stable normal structure given by a fibration over BO this is
+Thom's isomorphism Ω^G_n(X)≅π_n(MG∧X₊) as Miller states it, with the
+proof left to the reader along the lines of his Chapter 1 (Chapter 2,
+§1, Theorem 1.4, p.41); the pair form, the fixed-rank inverse and the
+morphism of theories are the targets owned here.
 Transport through the specified singular CW/homotopy-cofiber replacement
 for arbitrary spaces/pairs. Construct the tangent–normal comparison
 M(−θ) with the O/SO/Spin spectra on these actual transformations.
@@ -2989,9 +3024,45 @@ for every topological space X in `Type`, CW or not, and closed smooth M in
   f (`exists_not_mapFundamentalClass_eq_seven`); V=L×L with the class z
   above is the witness.
 
-Pass from pairs to these statements at A=∅ and from CW targets to every
-space through singular CW approximation, which induces isomorphisms on
-singular homology. In the third statement the quantifier over
+The mod-2 statement and the statements on pairs need no bordism group
+either. A class z of H_n(X;F2) lies in the image of ΩO_n(X)→H_n(X;F2)
+exactly when z=f_*[M]₂ for a closed smooth n-manifold M, orientable or
+not, and a continuous f:M→X, with [M]₂ the class of H_n(M;F2) whose
+image in every local group H_n(M,M∖{x};F2) is nonzero (supplier
+contracts, From Tau Ceti).
+For a pair (X,A) of a space and an arbitrary subset, a class z of
+H_n(X,A;Z) or H_n(X,A;F2) lies in the image of the orientation map
+exactly when z=f_*μ for a compact smooth n-manifold M with boundary, a
+continuous f:M→X with f(∂M)⊆A, and a relative fundamental class μ of
+H_n(M,∂M): integrally one whose image generates H_n(M,M∖{x};Z) at every
+interior point x, which exists exactly when M is orientable and is then
+[M,∂M] for the orientation it induces on the interior; mod 2 the one
+whose image in H_n(M,M∖{x};F2) is nonzero at every interior point. The
+half-space model needs n≥1; in degree zero the pair statements follow
+from the absolute ones, since H_0(X)→H_0(X,A) is onto. So the mod-2 and
+pair statements are four more targets, for every topological space X in
+`Type`, every subset A⊆X and compact smooth M in `Type`, empty and
+disconnected M allowed:
+
+- in every degree n every z∈H_n(X;F2) is f_*[M]₂ for a closed smooth
+  n-manifold M and a continuous f
+  (`exists_modTwoFundamentalClass_map_eq`);
+- for 1≤n≤6 every z∈H_n(X,A;Z) is f_*μ for a compact smooth n-manifold
+  M with boundary, a relative fundamental class μ of M and a continuous
+  f with f(∂M)⊆A (`exists_relFundamentalClass_map_eq`);
+- for each n≥1 there is N≥1 such that for every pair (X,A) and every
+  z∈H_n(X,A;Z) the class N·z is such an f_*μ
+  (`exists_pos_forall_relFundamentalClass_map_eq_nsmul`);
+- in every degree n≥1 every z∈H_n(X,A;F2) is f_*μ for a compact smooth
+  n-manifold M with boundary, orientable or not, its relative mod-2
+  fundamental class μ and a continuous f with f(∂M)⊆A
+  (`exists_modTwoRelFundamentalClass_map_eq`).
+
+Pass from CW pairs to every pair (X,A) of a space and a subset through
+singular CW approximation of the pair, which induces isomorphisms on the
+singular homology of X and of A and so, by the five lemma, of (X,A); the
+absolute statements are the case A=∅. In
+`exists_not_mapFundamentalClass_eq_seven` the quantifier over
 homological orientations ranges over the orientations of M and no more:
 by AlgebraicTopology 6.3 every homological orientation of a smooth M
 comes from exactly one smooth orientation.
@@ -3003,6 +3074,9 @@ comes from exactly one smooth orientation.
 - Two positive points over one point realize 2 in H₀(pt;ℤ); a version requiring M connected would realize only ±1 there, so the absolute statements must allow disconnected M.
 - For m=3 the positive even cyclic-group homology is ker(3:ℤ→ℤ)=0, whereas odd homology is ℤ/3; reversing these parities would not kill the asserted d₅ target test.
 - In the degree-seven example the product coefficient is −1=2 modulo three, not zero, so the obstruction genuinely evaluates nontrivially.
+- The identity of RP² realizes the nonzero class of H₂(RP²;F₂)=F₂, whereas H₂(RP²;ℤ)=0: the mod-2 statement is not the reduction of an integral one, and a version requiring orientable M would miss this class.
+- On (X,A)=([0,1],{0,1}) the identity of the interval, with μ the relative class of H₁([0,1],{0,1};ℤ)=ℤ generating at every interior point, realizes a generator, and its endpoints map into A; a version allowing only closed M would realize only 0 there, since H₁([0,1];ℤ)=0.
+- For the Möbius band B, H₂(B,∂B;F₂)=F₂ while H₂(B,∂B;ℤ)=0, because the boundary circle is twice the core in H₁(B;ℤ)=ℤ. The identity of B realizes the nonzero mod-2 class; no compact orientable surface does, since its mod-2 push-forward is the reduction of its integral push-forward, which lies in H₂(B,∂B;ℤ)=0.
 - In degree seven the multiplicative integer is divisible by 3. The class z of V is the Poincaré dual of an integral Bockstein, so 3z=0; N≡1 or 2 modulo 3 would give N·z=z or −z, neither of which is realized, whereas 3z=0 is realized by the empty manifold. In degrees at most six N=1 is allowed.
 
 The realization theorems for finite polyhedra are Thom, Théorèmes III.2
@@ -3017,7 +3091,7 @@ finite polyhedra, for pairs and arbitrary CW targets, and the operation
 identities of the lens-space example are proved by the explicit
 operation calculations above.
 
-*Needs:* B2.4, B4.4, B4.7, B5.4, B5.7 and B6.1–B6.2; ClassifyingSpaces Stage 4; Mathlib `Rep.FiniteCyclicGroup.groupHomologyIsoEven`; Tau Ceti `TauCeti.HomologicalOrientation.mapFundamentalClass` and `TauCeti.HomologicalOrientation.mapFundamentalClass_neg`; AlgebraicTopology Layers 4 and 6 (6.3's bijection between smooth and homological orientations); GeneralizedCohomology G3.8 connective covers.
+*Needs:* B2.4, B4.4, B4.7, B5.4, B5.7 and B6.1–B6.2; ClassifyingSpaces Stage 4; Mathlib `Rep.FiniteCyclicGroup.groupHomologyIsoEven`, `ModelWithCorners.interior` and `ModelWithCorners.compl_interior`; Tau Ceti `TauCeti.HomologicalOrientation.mapFundamentalClass`, `TauCeti.HomologicalOrientation.mapFundamentalClass_neg`, `TauCeti.existsUnique_singularHomology_localHomologyRestriction_eq_of_invariant`, `TauCeti.localHomology`, `TauCeti.localHomologyRestriction`, `TopPair.singularHomologyMap` and `TopPair.ofSubsetMap`; AlgebraicTopology Layers 4 and 6 (6.3's bijection between smooth and homological orientations and its compact-boundary fundamental class, 6.4's fundamental classes over a coefficient ring); GeneralizedCohomology G3.8 connective covers.
 
 ### 10.2 Associated-family transfers (B6.4)
 

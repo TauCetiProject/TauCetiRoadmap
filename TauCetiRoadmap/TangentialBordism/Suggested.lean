@@ -27,11 +27,17 @@ target, which 8.13 does not state.
 The finite quadratic Arf algebra consumed by Layer 1 is GeometricTopology Layer 4.3.1's and is
 not stated here.
 Parallelization uses native tangent bundles and a chosen native oriented atlas.
-For the absolute integral case of B6.3 (Layer 10) it states Thom's realization theorems on
-the pinned fundamental class `f_*[M]` of a closed homologically oriented smooth manifold: every
-class of `Hₙ(X; ℤ)` with `n ≤ 6` is some `f_*[M]`, in each degree `n` one positive multiple
-`N • z` of every class of every space is, and some class of degree seven of a compact space is
-not.
+For B6.3 (Layer 10) it states Thom's realization theorems. For absolute classes, on the pinned
+fundamental class `f_*[M]` of a closed homologically oriented smooth manifold: every class of
+`Hₙ(X; ℤ)` with `n ≤ 6` is some `f_*[M]`, in each degree `n` one positive multiple `N • z` of
+every class of every space is, and some class of degree seven of a compact space is not; and
+every class of `Hₙ(X; ℤ/2)`, in every degree, is `f_*[M]₂` for the mod-2 fundamental class of a
+closed smooth manifold, orientable or not, the class whose image in every local homology group
+`Hₙ(M, M ∖ {x}; ℤ/2)` is nonzero (Hatcher, Theorem 3.26 and the definition after it, p.236).
+For pairs `(X, A)` in degrees `n ≥ 1` it states the integral range `n ≤ 6`, the multiplicative
+theorem and the mod-2 theorem on compact smooth manifolds with boundary carrying `∂M` into `A`, the
+relative fundamental class in `Hₙ(M, ∂M)` being the class whose image in `Hₙ(M, M ∖ {x})`
+generates at every interior point `x` (Hatcher, §3.3, p.253).
 
 The other headline theorems are not statable at the pins:
 - Sard's theorem in unequal dimensions for sources with corners carrying DifferentialGeometry
@@ -54,13 +60,6 @@ The other headline theorems are not statable at the pins:
 - the ABS genus and its Dirac comparison (B3.0), Rokhlin-type consequences (B3.4) and the
   transfer kernel `ker(ΩSpin_n → KO_n) = im(ΩSpin_(n−8)(BPSp3) → ΩSpin_n)` (B6.6): there is
   no `KO` spectrum;
-- the realization theorems of B6.3 on pairs `(X, A)`: the pins have no relative fundamental
-  class `[M, ∂M]` of a compact manifold with boundary
-  (`TauCeti.HomologicalOrientation.fundamentalClassOn` is the class along a compact subset of a
-  boundaryless manifold);
-- the mod-2 realization theorem of B6.3, `ΩO_n(X) → H_n(X; F2)` onto in every degree: the
-  pinned fundamental class is integral and needs an orientation, and there is no mod-2
-  fundamental class of a non-orientable closed manifold;
 - the unoriented/oriented projective-transfer image theorems (B6.5): there are no geometric
   bordism groups or associated-family transfer maps;
 - the Cayley-plane theorems (B3.6–B3.9): the compact Albert algebra is not at the pins.
@@ -244,6 +243,103 @@ theorem exists_not_mapFundamentalClass_eq_seven :
         [IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin 7)) ∞ M]
         (o : TauCeti.HomologicalOrientation M (EuclideanSpace ℝ (Fin 7)) 7) (f : C(M, X)),
         o.mapFundamentalClass finrank_euclideanSpace_fin f ≠ z := by
+  sorry
+
+/-- Thom's mod-2 realization theorem (B6.3 for `A = ∅`; Thom, Théorème III.2, p.59, for finite
+polyhedra): for every topological space `X` and every `n`, every class `z ∈ Hₙ(X; ℤ/2)` is
+`f_*[M]₂` for a closed smooth `n`-manifold `M`, orientable or not, and a continuous `f : M → X`.
+The mod-2 fundamental class `[M]₂` is the class `μ ∈ Hₙ(M; ℤ/2)` whose image in every local
+homology group `Hₙ(M, M ∖ {x}; ℤ/2)` is nonzero (Hatcher, §3.3, Theorem 3.26 and the definition
+after it, p.236); every closed `M` has exactly one, by the pinned
+`TauCeti.existsUnique_singularHomology_localHomologyRestriction_eq_of_invariant` with
+coefficients `ℤ/2`. The identity of `RP²` realizes `[RP²]₂ ≠ 0`, although `H₂(RP²; ℤ) = 0`. -/
+theorem exists_modTwoFundamentalClass_map_eq (n : ℕ) (X : Type) [TopologicalSpace X]
+    (z : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj
+      (ModuleCat.of ℤ (ZMod 2))).obj (TopCat.of X)) :
+    ∃ (M : Type) (_ : TopologicalSpace M) (_ : T2Space M) (_ : CompactSpace M)
+      (_ : ChartedSpace (EuclideanSpace ℝ (Fin n)) M)
+      (_ : IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ M)
+      (μ : ((TopCat.toSSet.obj (TopCat.of M)).homology (ModuleCat.of ℤ (ZMod 2)) n :
+        ModuleCat.{0} ℤ)) (f : C(M, X)),
+      (∀ x : M, TauCeti.localHomologyRestriction (ModuleCat.of ℤ (ZMod 2))
+          (Set.subset_univ {x}) n
+          (((TopPair.ofSubset ((Set.univ : Set (TopCat.of M))ᶜ)).singularHomologyπ
+            (C := ModuleCat.{0} ℤ) (ModuleCat.of ℤ (ZMod 2)) n).hom μ) ≠ 0) ∧
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj
+        (ModuleCat.of ℤ (ZMod 2))).map (TopCat.ofHom f)).hom μ = z := by
+  sorry
+
+/-- Thom's integral realization on pairs in degrees `1 ≤ n ≤ 6` (B6.3; Thom, Théorème III.3,
+p.59, and Corollaire III.7, p.62, for `A = ∅` and finite polyhedra): for every topological space
+`X`, every subset `A ⊆ X` and every `z ∈ Hₙ(X, A; ℤ)` there are a compact smooth `n`-manifold
+`M` with boundary, a relative fundamental class `μ` of `M` and a continuous `f : M → X` carrying
+the boundary `∂M` into `A` with `f_* μ = z`. The class `μ` lies in
+`Hₙ(M, M ∖ int M; ℤ) = Hₙ(M, ∂M; ℤ)`; it is a relative fundamental class when its image in the
+local homology group `Hₙ(M, M ∖ {x}; ℤ)` generates that group at every interior point `x`
+(Hatcher, §3.3, p.253). Such a class exists exactly when `M` is orientable, and it is then
+`[M, ∂M]` for the orientation of the interior that it determines. Degree zero is
+`exists_mapFundamentalClass_eq` followed by the surjection `H₀(X; ℤ) → H₀(X, A; ℤ)`. -/
+theorem exists_relFundamentalClass_map_eq (n : ℕ) [NeZero n] (hn : n ≤ 6)
+    (X : Type) [TopologicalSpace X] (A : Set X)
+    (z : (TopPair.ofSubset (X := TopCat.of X) A).singularHomology (C := ModuleCat.{0} ℤ)
+      (ModuleCat.of ℤ (ULift.{0} ℤ)) n) :
+    ∃ (M : Type) (_ : TopologicalSpace M) (_ : T2Space M) (_ : CompactSpace M)
+      (_ : ChartedSpace (EuclideanHalfSpace n) M) (_ : IsManifold (𝓡∂ n) ∞ M)
+      (μ : (TauCeti.localHomology (ModuleCat.of ℤ (ULift.{0} ℤ)) ((𝓡∂ n).interior M) n :
+        ModuleCat.{0} ℤ))
+      (f : C(M, X)) (hf : Set.MapsTo f ((𝓡∂ n).interior M)ᶜ A),
+      (∀ x (hx : x ∈ (𝓡∂ n).interior M), Submodule.span ℤ
+          {TauCeti.localHomologyRestriction (ModuleCat.of ℤ (ULift.{0} ℤ))
+            (Set.singleton_subset_iff.2 hx) n μ} = ⊤) ∧
+      (TopPair.singularHomologyMap (C := ModuleCat.{0} ℤ)
+        (TopPair.ofSubsetMap (TopCat.ofHom f) hf) (ModuleCat.of ℤ (ULift.{0} ℤ)) n).hom μ = z := by
+  sorry
+
+/-- Thom's multiplicative realization theorem on pairs (B6.3; Thom, Théorème III.4, p.59, for
+`A = ∅` and finite polyhedra): in each degree `n ≥ 1` there is one positive integer `N`,
+independent of the pair and of the class, such that for every topological space `X`, every
+`A ⊆ X` and every `z ∈ Hₙ(X, A; ℤ)` the multiple `N • z` is `f_* μ` for a compact smooth
+`n`-manifold `M` with boundary, a relative fundamental class `μ ∈ Hₙ(M, ∂M; ℤ)` and a continuous
+`f : M → X` carrying `∂M` into `A`, as in `exists_relFundamentalClass_map_eq`. -/
+theorem exists_pos_forall_relFundamentalClass_map_eq_nsmul (n : ℕ) [NeZero n] :
+    ∃ N : ℕ, 0 < N ∧ ∀ (X : Type) [TopologicalSpace X] (A : Set X)
+      (z : (TopPair.ofSubset (X := TopCat.of X) A).singularHomology (C := ModuleCat.{0} ℤ)
+        (ModuleCat.of ℤ (ULift.{0} ℤ)) n),
+      ∃ (M : Type) (_ : TopologicalSpace M) (_ : T2Space M) (_ : CompactSpace M)
+        (_ : ChartedSpace (EuclideanHalfSpace n) M) (_ : IsManifold (𝓡∂ n) ∞ M)
+        (μ : (TauCeti.localHomology (ModuleCat.of ℤ (ULift.{0} ℤ)) ((𝓡∂ n).interior M) n :
+          ModuleCat.{0} ℤ))
+        (f : C(M, X)) (hf : Set.MapsTo f ((𝓡∂ n).interior M)ᶜ A),
+        (∀ x (hx : x ∈ (𝓡∂ n).interior M), Submodule.span ℤ
+            {TauCeti.localHomologyRestriction (ModuleCat.of ℤ (ULift.{0} ℤ))
+              (Set.singleton_subset_iff.2 hx) n μ} = ⊤) ∧
+        (TopPair.singularHomologyMap (C := ModuleCat.{0} ℤ)
+          (TopPair.ofSubsetMap (TopCat.ofHom f) hf) (ModuleCat.of ℤ (ULift.{0} ℤ)) n).hom μ =
+          N • z := by
+  sorry
+
+/-- Thom's mod-2 realization theorem on pairs (B6.3; Thom, Théorème III.2, p.59, for `A = ∅`
+and finite polyhedra): in every degree `n ≥ 1`, for every topological space `X`, every `A ⊆ X`
+and every `z ∈ Hₙ(X, A; ℤ/2)` there are a compact smooth `n`-manifold `M` with boundary,
+orientable or not, its relative mod-2 fundamental class `μ ∈ Hₙ(M, ∂M; ℤ/2)` and a continuous
+`f : M → X` carrying `∂M` into `A` with `f_* μ = z`. The class `μ` is the one whose image in
+`Hₙ(M, M ∖ {x}; ℤ/2)` is nonzero at every interior point `x` (Hatcher, §3.3, p.253, with
+coefficients `ℤ/2`, for which every manifold is orientable). For the Möbius band `B` the
+identity realizes the nonzero class of `H₂(B, ∂B; ℤ/2)`, which no compact orientable surface
+realizes because `H₂(B, ∂B; ℤ) = 0`. -/
+theorem exists_modTwoRelFundamentalClass_map_eq (n : ℕ) [NeZero n]
+    (X : Type) [TopologicalSpace X] (A : Set X)
+    (z : (TopPair.ofSubset (X := TopCat.of X) A).singularHomology (C := ModuleCat.{0} ℤ)
+      (ModuleCat.of ℤ (ZMod 2)) n) :
+    ∃ (M : Type) (_ : TopologicalSpace M) (_ : T2Space M) (_ : CompactSpace M)
+      (_ : ChartedSpace (EuclideanHalfSpace n) M) (_ : IsManifold (𝓡∂ n) ∞ M)
+      (μ : (TauCeti.localHomology (ModuleCat.of ℤ (ZMod 2)) ((𝓡∂ n).interior M) n :
+        ModuleCat.{0} ℤ))
+      (f : C(M, X)) (hf : Set.MapsTo f ((𝓡∂ n).interior M)ᶜ A),
+      (∀ x (hx : x ∈ (𝓡∂ n).interior M), TauCeti.localHomologyRestriction
+          (ModuleCat.of ℤ (ZMod 2)) (Set.singleton_subset_iff.2 hx) n μ ≠ 0) ∧
+      (TopPair.singularHomologyMap (C := ModuleCat.{0} ℤ)
+        (TopPair.ofSubsetMap (TopCat.ofHom f) hf) (ModuleCat.of ℤ (ZMod 2)) n).hom μ = z := by
   sorry
 
 end TauCetiRoadmap.TangentialBordism
