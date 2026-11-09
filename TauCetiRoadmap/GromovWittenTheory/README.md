@@ -77,7 +77,7 @@ Outside this roadmap: the Chow-correspondence condition of Kontsevich–Manin 2.
 ### From TauCetiRoadmap.AnalyticStableMaps
 
 - §1.1–§1.2: prestable maps, their retained-arrow groupoid, the class of a map and the stability theorem. A stable map may have nonconstant unmarked spheres or tori; finiteness of the map automorphism group is the stability condition.
-- §0.1: the energy–area identity `E(u) = ∫u*ω = ⟨[ω], u_*[Σ]⟩` on closed components for the metric `g_J(v, w) = (ω(v, Jw) + ω(w, Jv))/2`, and the uniform comparison of Dirichlet energy and symplectic area over a compact family of tame structures on compact `X`. §0.3 and §4.1: the closed Cauchy–Riemann index and the nodal augmented index, whose value is `d_(g,n,A)`.
+- §0.1: the energy–area identity `E(u) = ∫u*ω = ⟨[ω], u_*[Σ]⟩` on closed components for the metric `g_J(v, w) = (ω(v, Jw) + ω(w, Jv))/2`; the uniform comparison of Dirichlet energy and symplectic area over a compact family of tame structures on compact `X`; and the signed virtual dimension `2((m − 3)(1 − g) + ⟨c₁(TX, J), β⟩ + n)` of genus `g`, `n` marks and class `β`, which is `d_(g,n,A)` for `β = A`. §0.2: the closed Cauchy–Riemann index `m(2 − 2g) + 2⟨c₁(TX, J), u_*[Σ]⟩` of a map `u` from a connected closed surface `Σ` of genus `g`. §4.1: the nodal augmented index, assembled from the component indices of §0.2, whose value is the virtual dimension of §0.1.
 - §3.7: all-genus Gromov compactness of the coarse stable-map space for fixed `(g, n, A)` and a compact family of tame structures.
 - §4.3: finite-dimensional real equivariant obstruction spaces supported away from nodes and marks. §6.2–§6.3: fixed-evaluation complements, right inverses and the uniform quadratic estimate. §7.3: projection charts and topological regularity.
 - §9.2: the rational dual-Čech virtual functional `Φ_(g,n,A)` on the compact coarse stable-map space, with coefficients in the virtual orientation sheaf.
@@ -437,7 +437,7 @@ Construct the relabelling action of `S_n` on the stable-map groupoid and on `M̄
 
 ### 4.3 Grading
 
-Consume the nodal augmented index of AnalyticStableMaps §4.1, equal to `d_(g,n,A)`, and prove its compatibility with the pairing construction of §2.2, giving `deg I_(g,n,A)(γ₁, …, γ_n) = Σ_i deg γ_i + 2(K_J · A) + (2g − 2)m` (Kontsevich–Manin 2.2.2, equation (2.2), p. 4).
+Consume the nodal augmented index of AnalyticStableMaps §4.1, whose value is the virtual dimension of its §0.1, equal to `d_(g,n,A)`, and prove its compatibility with the pairing construction of §2.2, giving `deg I_(g,n,A)(γ₁, …, γ_n) = Σ_i deg γ_i + 2(K_J · A) + (2g − 2)m` (Kontsevich–Manin 2.2.2, equation (2.2), p. 4).
 
 **Checks.**
 
@@ -445,7 +445,7 @@ Consume the nodal augmented index of AnalyticStableMaps §4.1, equal to `d_(g,n,
 - Lines in `ℂP²`, `(0, 4, ℓ)`: `deg I = s − 6 − 4 = s − 10`, a top class exactly when `s = 12`.
 - `(1, 1, 0)`: `deg I(γ) = deg γ`, so `I_(1,1,0)(1)` is in degree `0` and `I_(1,1,0)(δ)` for `deg δ = 2` is in degree `2 = dim_ℝ M̄_(1,1)`.
 
-*Needs:* §2.2; AnalyticStableMaps §4.1.
+*Needs:* §2.2; AnalyticStableMaps §0.1, §4.1.
 
 ### Examples
 
@@ -454,7 +454,7 @@ Consume the nodal augmented index of AnalyticStableMaps §4.1, equal to `d_(g,n,
 
 ### Dependencies
 
-Layers 0–2; AnalyticStableMaps §1.1, §4.1, §11.1; ComplexCurveModuli D7.
+Layers 0–2; AnalyticStableMaps §0.1, §1.1, §4.1, §11.1; ComplexCurveModuli D7.
 
 ## Layer 5: Fundamental class, divisor and degree zero (G5)
 
@@ -493,7 +493,7 @@ For non-basic `I_(g,n,A)` and a degree-two last insertion `δ` prove the class-v
 **Checks.**
 
 - `ℂP²`: `⟨I_(0,4,ℓ)(pt, pt, H, H)⟩ = (ℓ · H) ⟨I_(0,3,ℓ)(pt, pt, H)⟩ = 1 · 1 = 1`, degrees `4 + 4 + 2 + 2 = 12 = d_(0,4,ℓ)`.
-- `ℂP²`: `⟨I_(0,3,ℓ)(pt, pt, H)⟩ = 1 · ⟨pt, pt⟩_(0,2,ℓ) = 1`, where the right side is the numerical operation of §2.2 on the pointed-unstable signature `(0, 2)`, of dimension `8 = 4 + 4`.
+- `ℂP²`, conics: `⟨I_(0,6,2ℓ)(pt, pt, pt, pt, pt, H)⟩ = ⟨2ℓ, H⟩ ⟨I_(0,5,2ℓ)(pt, pt, pt, pt, pt)⟩ = 2 · 1 = 2`, with insertion degrees `22 = d_(0,6,2ℓ)` and `20 = d_(0,5,2ℓ)`, both classes of codimension zero, the right factor counting the single conic through five general points. A model in which the factor is `1` for every nonzero `A` passes the line Check above and gives `1` here.
 - `A = 0`: `⟨0, δ⟩ = 0`, so `π_* I_(g,n,0)(…, δ) = 0`, consistent with §5.4 where the `δ`-insertion is pulled back from `X` and integrates to zero along the fibre.
 
 *Needs:* §5.1, §2.1–§2.2; ComplexCurveModuli D7 items 1–2; Orbifolds O5 item 5.
@@ -561,7 +561,7 @@ Let `ξ : M̄_(g−1,n+2) → M̄_(g,n)` be the self-clutching map of D7 item 3 
 **Checks.**
 
 - `ξ : M̄_(0,3) → M̄_(1,1)`, `A = 0`, insertion `1`: the right side is `Σ g^(ab) ∫_X Δ_a Δ_b = χ(X)`, equal to the restriction of `I_(1,1,0)(1) = χ(X) · 1` of §3.4 to the boundary point; on `T²` both sides are `0`.
-- `ξ : M̄_(0,4) → M̄_(1,2)`, `A = 0`, insertions `γ₁, γ₂` with `deg γ₁ + deg γ₂ = 2`: the right side is `Σ g^(ab) (∫ γ₁γ₂Δ_aΔ_b) · 1` on `M̄_(0,4)` by §5.4, so the degree-two class `I_(1,2,0)(γ₁, γ₂)` restricts to the boundary divisor as a multiple of `1` determined by the cup product on `X`.
+- `ξ : M̄_(0,4) → M̄_(1,2)`, `A = 0`, insertions `γ₁, γ₂` with `deg γ₁ + deg γ₂ = 2`: `g^(ab) ≠ 0` only when `deg Δ_a + deg Δ_b = 2m`, so every term on the right has insertion degree `2m + 2`, vanishes by §5.4, and the right side is `0`. On the left, the Hodge–Euler formula of §5.4 with the expansion of §3.4 keeps only the term `k = 1`: `I_(1,2,0)(γ₁, γ₂) = −(∫_X c_(m−1)(TX) ⌣ γ₁ ⌣ γ₂) λ₁` with `λ₁ = c₁(𝔼₁)`. Moreover `ξ^* λ₁ = 0`. On a fibre over `M̄_(0,4)` the residue-matched differentials of §3.2 form a line, and the residue at the first glued branch does not vanish on it, since a differential with zero residues there would be one on a genus-zero curve, hence `0`. So that residue trivializes `ξ^* 𝔼₁`, and both sides are `0`. On `ℂP¹` with insertions `pt, 1` the left side is `−ξ^* λ₁`. A model with `ψ̄₁` in place of `λ₁` would give `−ξ^* ψ̄₁ = −ψ̄₁`, of integral `−1` over `M̄_(0,4)` (§8.1), and is excluded.
 - Genus one with `(g − 1, n + 2) = (0, 2)`, i.e. `n = 0`: the source is unstable and the identity is not stated; `I_(1,0,A)` is itself outside the stable range.
 
 *Needs:* §6.1, §6.4–§6.6, §3.4; ComplexCurveModuli D7 item 3.
@@ -748,6 +748,7 @@ with `γ_i^((j)) = δ ⌣ γ_j` for `i = j` and `γ_i` otherwise. Derive them fr
 - `X = pt`, `n = 5`: the string equation gives `⟨τ₂τ₀τ₀τ₀τ₀⟩₀ = ⟨τ₁τ₀τ₀τ₀⟩₀ = 1` and `⟨τ₁τ₁τ₀τ₀τ₀⟩₀ = 2⟨τ₁τ₀τ₀τ₀⟩₀ = 2`, the values `∫ ψ̄₁² = 1` and `∫ ψ̄₁ψ̄₂ = 2` of §8.1; the dilaton equation with `n = 3` gives `⟨τ₁τ₀τ₀τ₀⟩₀ = (0 − 2 + 3) · 1 = 1`.
 - `ℂP¹`: dilaton with `n = 1`, `⟨τ₁(1) τ₀(pt)⟩_(0,ℓ) = (−2 + 1) ⟨τ₀(pt)⟩_(0,ℓ) = −1`, agreeing with the direct computation of §8.2; a dilaton coefficient `2g − 2 + n + 1` would give `0`.
 - `ℂP¹`: divisor with `δ = pt`, `⟨τ₀(pt) τ₁(pt) τ₀(pt)⟩_(0,ℓ) = (ℓ · pt) ⟨τ₁(pt) τ₀(pt)⟩_(0,ℓ) + ⟨τ₀(pt ⌣ pt) τ₀(pt)⟩_(0,ℓ) = 0 + 0`, consistent with the degree count `2 + 4 + 2 = 8 ≠ 6`.
+- `ℂP²`, `A = ℓ`, all `k_i = 0`: the divisor equation for the map-level forgetful map `M̄_(0,3)(ℂP², ℓ) → M̄_(0,2)(ℂP², ℓ)` of §5.2 gives `⟨τ₀(H) τ₀(pt) τ₀(pt)⟩_(0,ℓ) = (ℓ · H) ⟨τ₀(pt) τ₀(pt)⟩_(0,ℓ) = 1 · 1 = 1`, with insertion degrees `2 + 4 + 4 = 10 = d_(0,3,ℓ)` and `4 + 4 = 8 = d_(0,2,ℓ)`. By §8.3 the left side is the three-point number `⟨I_(0,3,ℓ)(pt, pt, H)⟩ = 1` of §2.2 and the right side is the numerical operation of §2.2 on the pointed-unstable signature `(0, 2)`. The class `I_(0,3,ℓ)` is basic, so this is an instance of the equation here and not of §5.3.
 
 *Needs:* §8.3, §8.1–§8.2, §5.1–§5.3; AnalyticStableMaps §11.1, §12.2; ComplexCurveModuli D7 items 1–2.
 
