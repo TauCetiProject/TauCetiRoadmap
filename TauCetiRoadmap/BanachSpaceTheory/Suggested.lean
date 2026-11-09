@@ -54,10 +54,20 @@ variable {𝕜 : Type*} [RCLike 𝕜] {E : Type*} [NormedAddCommGroup E] [Normed
 
 /-! ## Layer 2: weak compactness and reflexivity -/
 
-/-- James (Layer 2): a Banach space is reflexive iff every continuous functional attains its norm
-on the closed unit ball. Reflexivity is surjectivity of the canonical map into the continuous
-bidual. -/
-theorem james [CompleteSpace E] :
+/-- James's theorem (Layer 2): a nonempty norm-closed bounded convex subset `A` of a real or
+complex Banach space is weakly compact iff every continuous linear functional `f` attains the
+supremum of `Re f` on `A` (James, *Weakly compact sets*, 1964, Theorems 4–5). Convexity is real
+convexity. -/
+theorem james [CompleteSpace E] [Module ℝ E] [IsScalarTower ℝ 𝕜 E] (A : Set E)
+    (hne : A.Nonempty) (hc : IsClosed A) (hb : Bornology.IsBounded A) (hconv : Convex ℝ A) :
+    IsCompact (toWeakSpace 𝕜 E '' A) ↔
+      ∀ f : StrongDual 𝕜 E, ∃ a ∈ A, ∀ b ∈ A, RCLike.re (f b) ≤ RCLike.re (f a) := by
+  sorry
+
+/-- James's reflexivity theorem (Layer 2): a Banach space is reflexive iff every continuous
+functional attains its norm on the closed unit ball (Megginson, §2.9). Reflexivity is
+surjectivity of the canonical map into the continuous bidual. -/
+theorem surjective_inclusionInDoubleDual_iff_forall_exists_norm_apply_eq [CompleteSpace E] :
     Function.Surjective (NormedSpace.inclusionInDoubleDual 𝕜 E) ↔
       ∀ f : StrongDual 𝕜 E, ∃ x : E, ‖x‖ ≤ 1 ∧ ‖f x‖ = ‖f‖ := by
   sorry
@@ -248,6 +258,15 @@ the range of a projection of norm at most `√n`. -/
 theorem kadec_snobar (F : Submodule 𝕜 E) [FiniteDimensional 𝕜 F] :
     ∃ P : E →L[𝕜] E, LinearMap.range P.toLinearMap = F ∧ (∀ x ∈ F, P x = x) ∧
       ‖P‖ ≤ Real.sqrt (Module.finrank 𝕜 F) := by
+  sorry
+
+/-- Garling–Gordon (Layer 7): for every `ε > 0`, a closed subspace `M` of finite codimension `n`
+of a normed space over `ℝ` or `ℂ` is the kernel of a projection of norm at most `√n + ε`
+(Garling–Gordon 1971), by John's decomposition on the dual of the quotient. -/
+theorem garling_gordon (M : Submodule 𝕜 E) (hM : IsClosed (M : Set E))
+    [FiniteDimensional 𝕜 (E ⧸ M)] {ε : ℝ} (hε : 0 < ε) :
+    ∃ P : E →L[𝕜] E, P.comp P = P ∧ LinearMap.ker P.toLinearMap = M ∧
+      ‖P‖ ≤ Real.sqrt (Module.finrank 𝕜 (E ⧸ M)) + ε := by
   sorry
 
 /-- Dvoretzky's theorem, quantitative form (Layer 7): for every `k` and `ε > 0` there is `N` such
