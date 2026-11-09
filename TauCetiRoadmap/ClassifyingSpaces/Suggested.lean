@@ -117,8 +117,9 @@ representation `A ∘ Ψ` of `π₁(X, x)` is Mathlib's group homology of `A`. F
 the local system of the orbit map this is the pinned
 `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`; the headline is stated for the local
 system `TauCeti.LocalCoefficientSystem.ofRepresentation` of the monodromy representation, on any
-such space. Asphericity cannot be dropped: for `X = S² ∨ S¹`, `G = ℤ` and `A` trivial the two
-sides differ in degree two. -/
+such space. Asphericity cannot be dropped: for `X = S² ∨ S¹`, `G = ℤ`, `k = ℤ` and `A = ℤ`
+trivial, `H₂(X; ℤ) = ℤ` while `H₂(ℤ, ℤ) = 0`. Over the zero ring, which `[CommRing k]` allows,
+both sides vanish, so the control needs `1 ≠ 0` in `k`. -/
 theorem nonempty_twistedHomology_iso_groupHomology
     (k : Type u) [CommRing k] (G : Type u) [Group G]
     {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]

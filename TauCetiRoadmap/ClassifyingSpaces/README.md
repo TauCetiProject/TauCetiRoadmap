@@ -74,7 +74,7 @@ What this roadmap leaves to others, by object:
   with `TauCeti.PresentationComplex.isEmpty_cell`), not acceptance tests of this roadmap.
 - **The nerve model** of `G`, the realization of the nerve of `G` as a one-object category, and
   its comparison with the two pinned models normalised to the identity on `G`, belong to the
-  [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8 items 8a and 8b. The
+  [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, items 8.8a and 8.8b. The
   models that comparison is normalised against are the pinned `TauCeti.classifyingSpace G` and
   `TauCeti.cellularClassifyingSpace R`, with the pinned identifications of their fundamental
   groups; the pointed maps from the nerve model into the pinned models and their uniqueness up
@@ -277,16 +277,24 @@ and by the heading of Stage 2, the cellular model. Each cited number resolves as
 ### From Mathlib
 
 - `groupHomology`, `groupCohomology`, `groupHomology.map`, `groupCohomology.map`,
-  `groupHomology.δ`, `groupCohomology.δ`, `Rep.trivial`, `Rep.ihom`, `Rep.standardComplex`,
-  `Rep.standardResolution` and `classifyingSpaceUniversalCover`
-  (`Mathlib/RepresentationTheory/Homological/`): the algebraic side of every comparison. Nothing
-  is assumed beyond their definitions and the functoriality Mathlib proves.
+  `groupHomology.δ`, `groupCohomology.δ`, `groupHomologyIso`, `groupHomology.H1AddEquivOfIsTrivial`,
+  `Rep.standardComplex`, `Rep.standardResolution`, `Rep.barComplex` and
+  `classifyingSpaceUniversalCover` (`Mathlib/RepresentationTheory/Homological/`), with
+  `Rep.trivial` and `Rep.ihom` (`Mathlib/RepresentationTheory/Rep/Basic.lean`) and
+  `Rep.coinvariantsTensorFreeLEquiv` (`Mathlib/RepresentationTheory/Coinvariants.lean`): the
+  algebraic side of every comparison. Nothing is assumed beyond their definitions and the
+  functoriality Mathlib proves. Two conventions fix the signs of Layer 2: the bar differential in
+  degree one is `d[g] = g·[] − []`, and `Rep.coinvariantsTensorFreeLEquiv` sends the class of
+  `a ⊗ g·[x]` to `g⁻¹ • a` at `x`, which is `a` at `x` for trivial coefficients.
 - `PresentedGroup`, `FreeGroup`, `Group.Presentation`, `Group.Presentation.ofFreeGroupHom` and
   `Group.Presentation.presentedGroupEquiv` (`Mathlib/GroupTheory/`): presentations, and the
   tautological presentation of a group by its own elements, which is why no finiteness
   hypothesis appears anywhere.
 - `IsQuotientCoveringMap` (`Mathlib/Topology/Covering/Quotient.lean`), `FundamentalGroup`,
-  `FundamentalGroup.mapOfEq`, `FundamentalGroup.mul_def`, `ContinuousMap.HomotopyEquiv`,
+  `FundamentalGroup.mapOfEq`, `FundamentalGroup.mul_def`,
+  `FundamentalGroup.fundamentalGroupMulEquivOfPath` (the change of base point along a path,
+  `Mathlib/AlgebraicTopology/FundamentalGroupoid/FundamentalGroup.lean`),
+  `ContinuousMap.HomotopyEquiv`,
   `ContinuousMap.HomotopicRel`, `Topology.CWComplex`, `Topology.RelCWComplex.skeletonLT`,
   `Topology.CWComplex.cell` and `AlgebraicTopology.singularHomologyFunctor`.
 - `Path.Homotopic.map_trans_evalAt`
@@ -387,7 +395,8 @@ file:
   and determined by `e` up to pointed homotopy
   (`TauCeti.homotopicRel_cellularHomotopyEquivClassifyingSpace_toFun`); the standing hypotheses of
   the cellular model, `TauCeti.instSemilocallySimplyConnectedSpaceCellularClassifyingSpace` and,
-  through `TauCeti.instDeltaGeneratedSpaceOfCWComplexUniv`, local path-connectedness, packaged
+  through `TauCeti.instDeltaGeneratedSpaceOfCWComplexUniv`
+  (`TauCeti/Topology/CWComplex/Classical/DeltaGenerated.lean`), local path-connectedness, packaged
   with existence in `TauCeti.exists_isEilenbergMacLaneSpaceOne_cellularClassifyingSpace`; and the
   uniqueness theorems `TauCeti.IsAspherical.exists_homotopyEquiv` (aspherical spaces of CW type
   are homotopy equivalent by an equivalence realizing a prescribed isomorphism of fundamental
@@ -427,7 +436,13 @@ file:
   (`TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality`,
   `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`); and in
   degree one `TauCeti.classifyingSpaceFirstHomologyAddEquiv : H₁(BG; ℤ) ≃+ Gᵃᵇ` through Hurewicz,
-  with `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology` to Mathlib's `H₁(G, ℤ)`.
+  with `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology` to Mathlib's `H₁(G, ℤ)`,
+  which sends the Hurewicz class of a loop `γ` to the `1`-cycle
+  `classifyingSpaceFundamentalGroupMulEquiv G γ`
+  (`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology_hurewiczHomologyAddEquiv`). It is
+  not the degree-one case of `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology ℤ G 1`,
+  which sends that class to the `1`-cycle of the inverse element (2.1); the two differ by
+  negation.
 - **Examples** (`Circle.lean`, `WedgeCircles.lean`, `Torus.lean`, `FiniteCyclic.lean`,
   `Torsion.lean`): `TauCeti.circleHomotopyEquivClassifyingSpace` with a pointed forward map
   inducing the identity of `ℤ`
@@ -476,14 +491,25 @@ with the homotopy extension property, so has `{0, 1} × X ∪ I × A ⊆ I × X`
 (`TauCeti/Topology/Homotopy/HomotopyGroup/WeakHomotopyEquivalence.lean`) and
 `TauCeti.isAspherical_iff` (`TauCeti/AlgebraicTopology/EilenbergMacLane/Basic.lean`), with
 Mathlib's `Homeomorph.ulift`, for moving a target to another universe;
-`FundamentalGroup.fundamentalGroupMulEquivOfPath`,
-`FundamentalGroup.map_fundamentalGroupMulEquivOfPath` (induced maps commute with the change of
-base point along a path), `ContinuousMap.Homotopy.fundamentalGroupMulEquivOfPath_evalAt_map` and
+`FundamentalGroup.map_fundamentalGroupMulEquivOfPath` (induced maps commute with Mathlib's
+change of base point along a path), `ContinuousMap.Homotopy.fundamentalGroupMulEquivOfPath_evalAt_map` and
 `ContinuousMap.Homotopy.exists_path_fundamentalGroupMulEquivOfPath_map_comp`
 (`TauCeti/AlgebraicTopology/FundamentalGroup/BasepointChange.lean`);
 `ContinuousMap.HomotopyEquiv.singularHomologyIso` and
 `ContinuousMap.singularHomologyMap_eq_of_homotopic` (homotopic maps induce the same map on
 singular homology) (`TauCeti/AlgebraicTopology/Singular/Homotopy/Invariance.lean`);
+`TauCeti.singularChains_d_pathChain` (the chain of a path has boundary its end point minus its
+start point) and `TauCeti.singularChains_map_f_pathChain` (pushing the chain of a path forward
+gives the chain of the composite) (`TauCeti/AlgebraicTopology/Singular/ModuleChains/Basic.lean`);
+`IsQuotientCoveringMap.singularHomologyIsoGroupHomology` (the comparison for the base of a
+contractible free quotient cover, of which the pinned comparison for Milnor's model is the
+instance) and
+`IsQuotientCoveringMap.singularChainsRepCoinvariantsTensorIso_hom_f_coinvariantsTensorMk` (the
+class of `a ⊗ c` in `(k ⊗ C(E))_G` goes to `a • p_* c`)
+(`TauCeti/AlgebraicTopology/Singular/ModuleChains/GroupHomology.lean`);
+`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` and
+`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv_ofMul_of_mk` (the Hurewicz class of a loop is the
+class of its chain) (`TauCeti/AlgebraicTopology/Homotopy/Hurewicz/One/Basic.lean`);
 `TopCat.isIso_singularCohomologyMap` (for a map with a homotopy inverse, both homotopies given)
 and `TopCat.Homotopy.congr_singularCohomologyMap` (homotopic maps induce the same map on singular
 cohomology) (`TauCeti/AlgebraicTopology/Cohomology/HomotopyInvariance.lean`);
@@ -883,9 +909,37 @@ coefficients in `M` as Brown defines it (Brown, Chapter III, Section 1). Its API
 - Changing `Ψ` by an automorphism `α` of `G` changes the comparison by
   `groupHomology.map α` on the trivial module, which is the identity of `Hₙ(G, k)` only when `α`
   acts trivially on homology; the comparison is a function of `Ψ`, not of `X` alone.
-- In degree one, the composite with the Hurewicz isomorphism is the abelianization of `Ψ`,
-  followed by Mathlib's `H₁(G, ℤ) ≅ Gᵃᵇ`; for `X = BG` this is the pinned
-  `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`.
+- In degree one the comparison sends the homology class of the chain of a loop `γ` at `x` to the
+  class of the `1`-cycle `(Ψ γ)⁻¹` with coefficient `1`, which is minus the class of the
+  `1`-cycle `Ψ γ`. For `k = ℤ` and `G : Type`, the Hurewicz isomorphism
+  `π₁(X, x)ᵃᵇ ≅ H₁(X; ℤ)` (`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`) sends the class of `γ`
+  to the class of its chain (`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv_ofMul_of_mk`), so its
+  composite with the comparison is the
+  abelianization of `Ψ`, followed by negation and Mathlib's `H₁(G, ℤ) ≅ Gᵃᵇ ⊗ ℤ`
+  (`groupHomology.H1AddEquivOfIsTrivial`). For `X = BG` and `Ψ` the pinned identification the
+  comparison is the negative of the pinned
+  `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`, which sends the Hurewicz class of
+  `γ` to the `1`-cycle `classifyingSpaceFundamentalGroupMulEquiv G γ`
+  (`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology_hurewiczHomologyAddEquiv`); the two
+  pinned isomorphisms differ by this sign, and the pin has no lemma relating them. Route. The
+  chain of `γ` goes under `c_X` to the chain of the loop `c_X ∘ γ`
+  (`TauCeti.singularChains_map_f_pathChain`), which `classifyingSpaceFundamentalGroupMulEquiv G`
+  sends to `Ψ γ` by the normalisation of `c_X`, so it suffices to treat `X = BG`, a loop `γ` at
+  `b₀` and `g := classifyingSpaceFundamentalGroupMulEquiv G γ`. The lift `Γ` of `γ` starting at
+  `e₀ := TauCeti.universalGSpaceBasepoint G` ends at `g⁻¹ • e₀`
+  (`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`), so the chain of `Γ` has
+  boundary `g⁻¹ • e₀ − e₀` (`TauCeti.singularChains_d_pathChain`) and maps to the chain of `γ`.
+  The pinned comparison is `IsQuotientCoveringMap.singularHomologyIsoGroupHomology` for the orbit
+  map: it identifies the chains of `BG` with `(k ⊗ C(EG))_G`, the class of `a ⊗ c` going to
+  `a • (p_G)_* c` with no inversion
+  (`IsQuotientCoveringMap.singularChainsRepCoinvariantsTensorIso_hom_f_coinvariantsTensorMk`),
+  and then applies Mathlib's `groupHomologyIso`, which is induced by any map of resolutions over
+  the identity of `k` from the singular chains of `EG` to Mathlib's `Rep.barComplex`. Mathlib's bar
+  differential is `d[h] = h·[] − []`, so such a map can be chosen to send each point `h • e₀` to
+  `h·[]` and the chain of `Γ` to `[g⁻¹]`, and `Rep.coinvariantsTensorFreeLEquiv` sends the class
+  of `1 ⊗ [g⁻¹]` to the `1`-cycle `g⁻¹`. With trivial coefficients the inhomogeneous boundary of
+  `(h, h')` is `[h'] − [h h'] + [h]`; for `(g, g⁻¹)` and `(1, 1)` this gives `[g⁻¹] = −[g]` in
+  homology.
 
 The existence statement, for any Hausdorff CW `K(G, 1)` and every `n`, is a theorem of the pin by
 transport: `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv` gives some homotopy
@@ -897,13 +951,26 @@ acceptance test; the content of this item is the canonical choice and its natura
 `MonoidHom.classifyingSpaceMap_basepoint`,
 `MonoidHom.classifyingSpaceFundamentalGroupMulEquiv_mapOfEq`,
 `MonoidHom.classifyingSpaceSingularHomologyIsoGroupHomology_hom_naturality`,
-`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`; Mathlib
-`AlgebraicTopology.singularHomologyFunctor`, `groupHomology.map`.
+`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`,
+`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology_hurewiczHomologyAddEquiv`,
+`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`,
+`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv_ofMul_of_mk`, `TauCeti.singularChains_d_pathChain`,
+`TauCeti.singularChains_map_f_pathChain`, `TauCeti.universalGSpaceBasepoint`,
+`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`,
+`IsQuotientCoveringMap.singularHomologyIsoGroupHomology`,
+`IsQuotientCoveringMap.singularChainsRepCoinvariantsTensorIso_hom_f_coinvariantsTensorMk`; Mathlib
+`AlgebraicTopology.singularHomologyFunctor`, `groupHomology.map`, `groupHomologyIso`,
+`Rep.barComplex`, `Rep.coinvariantsTensorFreeLEquiv`, `groupHomology.H1AddEquivOfIsTrivial`.
 
 **Checks.**
-- `X` the circle, `Ψ` the degree, `k = ℤ`, `n = 1`: the class of the counterclockwise loop goes
-  to the class of the `1`-chain `1 ∈ ℤ` in `H₁(ℤ, ℤ)`, that is, to `1` under `H₁(ℤ, ℤ) ≅ ℤ`; a
-  comparison built through `Ψ⁻¹` sends it to `−1`.
+- `X` the circle, `Ψ` the degree, `k = ℤ`, `n = 1`, `ℤ` written additively: `c_X` carries the
+  counterclockwise loop to a loop `γ` with `classifyingSpaceFundamentalGroupMulEquiv ℤ γ = 1`,
+  whose lift from the base vertex `(0, 0)` ends at `(0, −1)` (the `ℤ` Check of the Conventions).
+  So the class of the counterclockwise loop goes to the class of the `1`-cycle `−1 ∈ ℤ` in
+  `H₁(ℤ, ℤ)`, that is, to `−1` under `H₁(ℤ, ℤ) ≅ ℤ`. The Hurewicz-normalised pinned
+  `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`, applied after `c_X`, gives `+1`,
+  and so does a comparison whose `c_X` is normalised through `Ψ⁻¹` and has degree `−1`; a
+  degree-one clause without the negation fails here.
 - `G = ℤ/m` with `m ≥ 2`, `k = ℤ`: in degree two both sides are zero (pinned
   `TauCeti.subsingleton_classifyingSpace_singularHomology_int_of_even` on the left; on the right
   the two-periodic resolution, whose maps `ℤ[G] → ℤ[G]` are alternately multiplication by `t − 1`
@@ -955,8 +1022,16 @@ acceptance test. *Needs:* (1.3); Tau Ceti `TopCat.isIso_singularCohomologyMap`,
 Mathlib `groupCohomology.map`, `groupCohomology.δ`.
 
 **Checks.**
-- `X` the circle, `M = k`: `H¹(X; k) ≅ H¹(ℤ, k) = Hom(ℤ, k) = k`, the generator going to the
-  homomorphism `1 ↦ 1`; through `Ψ⁻¹` it would go to `1 ↦ −1`.
+- `X` the circle, `Ψ` the degree, `M = k`, `ℤ` written additively:
+  `H¹(X; k) ≅ H¹(ℤ, k) = Hom(ℤ, k) = k`, and the class taking the value `1` on the
+  counterclockwise loop goes to the homomorphism `1 ↦ −1`. Mathlib's inhomogeneous cochains read
+  a cochain on the bar generator `[1]`, and a map of resolutions over the identity of `k` from
+  the bar resolution to the singular chains of `EG` sends `[1]` to a path from the base vertex
+  `(0, 0)` to `(0, 1)`. That path lifts a loop `γ` with
+  `classifyingSpaceFundamentalGroupMulEquiv ℤ γ = −1` (the `ℤ` Check of the Conventions), on which
+  the class takes the value `−1`. The Hurewicz normalisation, which sends the class of a loop to
+  `Ψ` of it, would give `1 ↦ 1`; the two differ as soon as `2 ≠ 0` in `k`, so this Check is run
+  with `k = ℤ`.
 - `G = ℤ/2`, `k = ℤ`, `M = ℤ/2`: `Hⁿ(G, ℤ/2) = ℤ/2` in every degree, so the comparison is
   nonzero in every degree, and the Bockstein of the short exact sequence of `ℤ`-modules
   `0 → ℤ/2 → ℤ/4 → ℤ/2 → 0` is an isomorphism `H¹(G, ℤ/2) → H²(G, ℤ/2)`: in the long exact
@@ -1079,6 +1154,11 @@ form of that resolution. Prove:
   `H₂(ℤ/2, A) = ℤ/2`, the opposite parity pattern from the trivial coefficients
   (`H₁ = ℤ/2`, `H₂ = 0`); a definition confusing `A` with the trivial representation is detected
   in degree one.
+- Negative control on asphericity: `X = S² ∨ S¹`, a Hausdorff CW complex with one `0`-cell, one
+  `1`-cell and one `2`-cell, has `π₁ = ℤ` but `π₂ ≠ 0`. With `G = ℤ`, `k = ℤ` and `A = ℤ`
+  trivial, `H₂(X; ℤ) = ℤ` while `H₂(ℤ, ℤ) = 0`, so the homology isomorphism fails without
+  asphericity. Over the zero ring every module vanishes and both sides agree, so the control
+  needs `1 ≠ 0` in `k`.
 - `G = S₃`, `A = k` with the sign character: the monodromy of `L_A` along a loop representing a
   transposition is `−1`; a definition through `Ψ⁻¹` gives the same monodromy, since
   characters factor through the abelianization, so the direction is tested by the `S₃` Check of
@@ -1101,7 +1181,7 @@ invariance of singular and twisted (co)homology, all named above. No other roadm
 
 ## Downstream consumers
 
-- The [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8 item 8b, compares
+- The [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, item 8.8b, compares
   its nerve model with the pinned models `TauCeti.classifyingSpace G` and
   `TauCeti.cellularClassifyingSpace R`, normalised to the identity on `G`. Its inputs from this
   roadmap are Layer 1: item 1.1 for the pointed map from the nerve model, based at its vertex,
