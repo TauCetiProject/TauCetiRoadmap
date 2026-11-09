@@ -10,6 +10,8 @@ public import TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial
 public import TauCeti.RingTheory.DividedPowerAlgebra.Homogeneous
 public import TauCeti.Algebra.Category.ModuleCat.SymmetricPower.Basic
 public import TauCeti.Algebra.Homology.Monoidal.KFlat.Basic
+public import TauCeti.Algebra.Homology.DerivedCategory.DerivedHom
+public import TauCeti.Algebra.Homology.ModuleCat.KInjective
 
 /-!
 # DerivedModuleAlgebra: target signatures
@@ -18,9 +20,9 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few real-bodied
 definitions those statements need. The README carries every target, API list and Check.
 
-Headline results that the pinned Tau Ceti already provides are not restated: Roby representability
-and the augmentation theory of §§0.DP.1–0.DP.3 (`DividedPowerAlgebra.homogeneousLawEquiv`,
-`DividedPowerAlgebra.augmentationIdeal_eq_span`,
+Headline results that the pinned Mathlib and Tau Ceti already provide are not restated: Roby
+representability and the augmentation theory of §§0.DP.1–0.DP.3
+(`DividedPowerAlgebra.homogeneousLawEquiv`, `DividedPowerAlgebra.augmentationIdeal_eq_span`,
 `DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul`); the Koszul complex of §0.K.1
 with its functoriality, tensor decomposition, homotopy, zeroth homology and acyclicity for weakly
 regular sequences (`TauCeti.koszulComplex`, `TauCeti.koszulComplex.map`,
@@ -30,7 +32,9 @@ regular sequences (`TauCeti.koszulComplex`, `TauCeti.koszulComplex.map`,
 (`CochainComplex.exists_quasiIso_isKInjective`, `TauCeti.kInjectiveReplacement`); the K-flat
 replacement of §0.2 with flat terms (`CochainComplex.kFlatResolution` with its instances
 `CochainComplex.kFlatResolution.quasiIso_π`, `CochainComplex.isKFlat_kFlatResolution` and
-`CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X`); Lazard's theorem of §0.2.1
+`CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X`); derived restriction of
+scalars along a ring map in §0.2, which needs no deriving because restriction is exact (Mathlib's
+`Functor.mapDerivedCategory` of `ModuleCat.restrictScalars`); Lazard's theorem of §0.2.1
 (`TauCeti.flatModuleFilteredFree`); the natural Alexander–Whitney maps of §0.2.2
 (`CategoryTheory.SimplicialObject.alexanderWhitney`,
 `CategoryTheory.SimplicialObject.diagAlexanderWhitney`); the convergence of the spectral sequence
@@ -48,13 +52,23 @@ the injective hulls, completion action, finite-length biduality and Artinian cri
 
 Headline theorems that are not statable at the pins, and the carrier each lacks:
 
-* the unbounded module derived tensor `⊗^L` on `D(R)` (§0.2) and the
-  derived scalar extension and restriction functors with their adjunction (§1.E.0): no derived
-  tensor bifunctor or derived extension of scalars on `DerivedCategory (ModuleCat R)` exists at
-  the pin. Derived Nakayama (§1.3), the ordinary-quotient comparisons (§1.5), the cohomological
-  bound of complete Tor-amplitude (§1.8) and the preservation of perfection by derived scalar
-  extension (§1.E.0) are stated below on models whose termwise tensor product computes the derived
-  one: a K-flat model for the first three, a bounded-above finite-free model for the fourth;
+* the exactness in each variable and the symmetric monoidal structure with unit `R[0]` of the
+  unbounded derived tensor `⊗^L` of §0.2: these are laws of the shift-commutation and monoidal
+  structures that `⊗^L` inherits from the tensor product of complexes, and the pins construct
+  neither structure for a left derived functor: Mathlib builds the shift-commutation of a derived
+  functor (`Functor.IsRightDerivedFunctor.commShift`) for right derived functors only and puts no
+  monoidal structure on `DerivedCategory (ModuleCat R)`. The existence of `⊗^L` and of derived
+  extension of scalars, as Mathlib's `Functor.HasLeftDerivedFunctor₂` and
+  `Functor.HasLeftDerivedFunctor`, the adjunction of derived extension with restriction of scalars,
+  and the tensor–Hom adjunction of §1.1.1 are stated below, the adjunctions for every left derived
+  functor. Derived Nakayama
+  (§1.3), the ordinary-quotient comparisons (§1.5), the cohomological bound of complete
+  Tor-amplitude (§1.8) and the preservation of perfection by derived scalar extension (§1.E.0)
+  are stated below on models whose termwise tensor product computes the derived one, a K-flat
+  model for the first three and a bounded-above finite-free model for the fourth. These forms
+  need no chosen derived functor and cover every object, since every complex has a K-flat model
+  (`CochainComplex.exists_quasiIso_isKFlat_moduleCat`) and every perfect complex a bounded-above
+  finite-free one (`isPerfect_isPseudoCoherent`);
 * the cohomological first-quadrant spectral sequence, its edge morphisms and the five-term and
   extended exact sequences (§S.1): the pinned spectral sequence of a bicomplex is the homological
   one of `HomologicalComplex₂ C (down ℕ) (down ℕ)`, no column filtration of the total complex of a
@@ -69,8 +83,6 @@ Headline theorems that are not statable at the pins, and the carrier each lacks:
   (§§0.3 and 0.14–0.17): these functors are constructions of §§0.3 and 0.14–0.16; the resolution
   independence that makes `LF` well defined (§0.3) and both décalage equivalences for a flat
   module in degree zero (§0.17) are stated below;
-* the tensor–Hom adjunction of §1.1.1: it pairs the pinned derived Hom with the derived tensor
-  above; the exactness of the pinned derived limit (§1.1) is stated below;
 * the Koszul completion tower (§1.4): the tower `n ↦ K(f₁ⁿ, …, f_rⁿ)` of cochain Koszul
   complexes, with transitions `e_i ↦ f_i e_i` and the identity in degree zero, as a complex of
   strict towers to be tensored with a K-flat model, is a construction of §1.4; Tau Ceti's
@@ -91,8 +103,10 @@ Headline theorems that are not statable at the pins, and the carrier each lacks:
   functors, both constructions of §1.E.0; the residue-field criterion and the unit reflection on
   which effectivity rests are stated below.
 
-Derived categories of modules are `DerivedCategory (ModuleCat.{u} R)` with the standard instance
-`HasDerivedCategory.{u+1}`; towers are indexed by `ℕ` with transitions from `n + 1` to `n`.
+Derived categories of modules are `DerivedCategory (ModuleCat.{u} R)`, with the standard instance
+`HasDerivedCategory.{u+1}` from the derived completeness statements of Layer 3 on and an arbitrary
+instance, taken as a hypothesis, before them; towers are indexed by `ℕ` with transitions from
+`n + 1` to `n`.
 -/
 
 @[expose] public section
@@ -109,6 +123,58 @@ universe u v w w'
 /-! ## Layer 1: replacements, tensor products and simplicial comparisons -/
 
 namespace DerivedDeRham
+
+/-- **The derived tensor product exists** (README 0.2; Stacks, Definition 15.60.13, Tag 064M,
+with Lemmas 15.60.10 and 15.60.12, Tags 06Y4 and 064L). For a commutative ring `R`, the termwise
+tensor product of cochain complexes of `R`-modules followed by the localization `Q` to `D(R)` has
+a left derived bifunctor with respect to quasi-isomorphisms in both variables: a right Kan
+extension along `Q × Q`, in the sense of Mathlib's `Functor.HasLeftDerivedFunctor₂`. This is the
+derived tensor product `⊗^L` on unbounded complexes; the route resolves one variable by a K-flat
+complex, which every complex has, and tensoring with a K-flat complex preserves
+quasi-isomorphisms. -/
+theorem hasLeftDerivedFunctor₂_tensor (R : Type u) [CommRing R]
+    [HasDerivedCategory.{w} (ModuleCat.{u} R)] :
+    (MonoidalCategory.curriedTensor (CochainComplex (ModuleCat.{u} R) ℤ) ⋙
+      (Functor.whiskeringRight _ _ _).obj
+        (DerivedCategory.Q (C := ModuleCat.{u} R))).HasLeftDerivedFunctor₂
+      (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ))
+      (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)) := by
+  sorry
+
+/-- Ordinary scalar extension applied to every term and differential of a complex. -/
+abbrev complexBaseChange {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) :
+    CochainComplex (ModuleCat.{u} R) ℤ ⥤ CochainComplex (ModuleCat.{u} S) ℤ :=
+  (ModuleCat.extendScalars f).mapHomologicalComplex (ComplexShape.up ℤ)
+
+/-- **Derived extension of scalars exists** (README 0.2; Stacks, Lemma 15.61.1, Tag 06Y6, with
+Lemmas 15.60.10 and 15.60.12, Tags 06Y4 and 064L). For a map `f : R → S` of commutative rings,
+termwise scalar extension of complexes followed by the localization to `D(S)` has a left derived
+functor with respect to quasi-isomorphisms of complexes of `R`-modules, in the sense of Mathlib's
+`Functor.HasLeftDerivedFunctor`. This is `− ⊗^L_R S : D(R) ⥤ D(S)`. -/
+theorem hasLeftDerivedFunctor_extendScalars {R S : Type u} [CommRing R] [CommRing S]
+    (f : R →+* S) [HasDerivedCategory.{w} (ModuleCat.{u} S)] :
+    (complexBaseChange f ⋙ DerivedCategory.Q (C := ModuleCat.{u} S)).HasLeftDerivedFunctor
+      (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)) := by
+  sorry
+
+/-- **Derived extension of scalars is left adjoint to restriction** (README 0.2; Stacks,
+Lemma 15.61.3, Tag 0GMT). Let `f : R → S` be a map of commutative rings and `G : D(R) ⥤ D(S)`
+any left derived functor of termwise scalar extension, with its comparison `α`. Then `G` is left
+adjoint to restriction of scalars on derived categories, Mathlib's `Functor.mapDerivedCategory`
+of the exact functor `ModuleCat.restrictScalars f`. All left derived functors of one functor are
+isomorphic, so the statement concerns `− ⊗^L_R S`; `hasLeftDerivedFunctor_extendScalars` provides
+one. Deriving is needed: along `ℤ → F_p` the termwise extension of the complex `F_p[0]` is
+`F_p[0]`, and `Hom(F_p[0], F_p[1]) = 0` in `D(F_p)`, while the adjunction requires
+`Ext¹_ℤ(F_p, F_p) = F_p`, which the summand `F_p[1]` of `F_p ⊗^L_ℤ F_p` supplies. -/
+theorem nonempty_derivedExtendRestrictScalarsAdj {R S : Type u} [CommRing R] [CommRing S]
+    (f : R →+* S) [HasDerivedCategory.{w} (ModuleCat.{u} R)]
+    [HasDerivedCategory.{w'} (ModuleCat.{u} S)]
+    (G : DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} S))
+    (α : DerivedCategory.Q ⋙ G ⟶ complexBaseChange f ⋙ DerivedCategory.Q)
+    (hG : G.IsLeftDerivedFunctor α
+      (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ))) :
+    Nonempty (G ⊣ (ModuleCat.restrictScalars.{u} f).mapDerivedCategory) := by
+  sorry
 
 /-- **The second page of a first-quadrant bicomplex** (README S.1, homological form; Stacks,
 Lemma 12.25.1, Tag 0130, in cohomological indexing). Let `K` be a first-quadrant bicomplex with
@@ -239,6 +305,29 @@ theorem derivedLimit_isTriangulated (R : Type u) [Ring R]
     [HasDerivedCategory.{w} (TauCeti.ModuleTower.{u} R)]
     [HasDerivedCategory.{w'} (ModuleCat.{u} R)] :
     (TauCeti.ModuleTower.derivedLimit R).IsTriangulated := by
+  sorry
+
+/-- **The derived tensor–Hom adjunction** (README 1.1.1; Stacks, §15.75, Tag 0A5W, formula
+(15.75.0.1), Tag 0A63). Let `A` be a commutative ring and `T : D(A) ⥤ D(A) ⥤ D(A)` any left
+derived bifunctor of the termwise tensor product of complexes, with its comparison `α`
+(`hasLeftDerivedFunctor₂_tensor` provides one; all are isomorphic). For every `L ∈ D(A)` the
+functor `K ↦ K ⊗^L_A L` is left adjoint to `M ↦ RHom_A(L, M)`, Tau Ceti's derived Hom, so that
+`Hom(K ⊗^L_A L, M) ≃ Hom(K, RHom_A(L, M))` naturally in `K` and `M`. No boundedness or
+perfectness of `L` is assumed. Deriving the tensor product is needed: for `A = ℤ`,
+`K = L = F_p` and `M = ℤ[2]` both sides are `F_p`, through the summand `F_p[1]` of
+`F_p ⊗^L_ℤ F_p`, while the underived `F_p ⊗ F_p = F_p` gives `Ext²_ℤ(F_p, ℤ) = 0`. -/
+theorem nonempty_derivedTensorHomAdj (A : Type u) [CommRing A]
+    [HasDerivedCategory.{w} (ModuleCat.{u} A)]
+    (T : DerivedCategory (ModuleCat.{u} A) ⥤ DerivedCategory (ModuleCat.{u} A) ⥤
+      DerivedCategory (ModuleCat.{u} A))
+    (α : (((Functor.whiskeringLeft₂ _).obj DerivedCategory.Q).obj DerivedCategory.Q).obj T ⟶
+      MonoidalCategory.curriedTensor (CochainComplex (ModuleCat.{u} A) ℤ) ⋙
+        (Functor.whiskeringRight _ _ _).obj (DerivedCategory.Q (C := ModuleCat.{u} A)))
+    (hT : T.IsLeftDerivedFunctor₂ α
+      (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ))
+      (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ)))
+    (L : DerivedCategory (ModuleCat.{u} A)) :
+    Nonempty (T.flip.obj L ⊣ (TauCeti.derivedHom A (ModuleCat.{u} A)).obj (Opposite.op L)) := by
   sorry
 
 /-- The standard derived-category instance for modules over `R`, local to these signatures. -/
@@ -464,11 +553,6 @@ theorem isCompletelyFlatModule_of_isAdicComplete (A : Type u) [CommRing A] (p : 
   sorry
 
 /-! ## Layer 4: perfect complexes, finite models and effectivity -/
-
-/-- Ordinary scalar extension applied to every term and differential of a complex. -/
-abbrev complexBaseChange {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S) :
-    CochainComplex (ModuleCat.{u} R) ℤ ⥤ CochainComplex (ModuleCat.{u} S) ℤ :=
-  (ModuleCat.extendScalars f).mapHomologicalComplex (ComplexShape.up ℤ)
 
 /-- A finite-free complex with a specified upper bound, allowing an infinite left tail. -/
 def IsFiniteFreeModel (R : Type u) [Ring R]
