@@ -40,8 +40,10 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
   indefinite; and the comparison of these predicates with the abstract local division criterion.
 - **Lattices and orders in `ℍ[F,a,b]`** (Layer 1): the comparison with generic multiplier orders, the trace discriminant and
   determinant reduced discriminant of a lattice, and the cubic discriminant of an order, the trace dual and codifferent, maximal orders and the
-  criterion `discrd O = disc B`, the local structure of maximal orders, Eichler orders and their
-  level, hereditary orders, the unit group `O^×` and the norm-one group `O¹`, products of
+  criterion `discrd O = disc B`, the discriminant data of local maximal orders, the statements on
+  Eichler orders beyond their consumed local and local–global form (locality over every Dedekind
+  base, the normalizer of `O_0(𝔭^e)`, superorders, the genus, local norm-maximality, the vertex
+  path of 1.11), hereditary orders, the unit group `O^×` and the norm-one group `O¹`, products of
   lattices and the definitions of principal and invertible lattices, and the Hurwitz order of
   `ℍ[ℚ,-1,-1]` with its maximality, its unit group of order `24` and the principality of its
   right ideals (1.13).
@@ -50,8 +52,9 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
   conductor, Bass orders, the Eichler symbol and the local unit counts.
 - **Ideals, class sets and types** (Layer 3): invertible and locally principal lattices, the right
   class set `Cls O`, the type set `Typ O`, connecting ideals and genera, the quaternion reading of
-  the idelic dictionary (`Cls O` as the idele double cosets of classical arithmetic completion 7.78,
-  with the reduced-norm identity and the comparisons with the two definite class sets), finiteness
+  the idelic dictionary for every order (`Cls O` as the idele double cosets of classical arithmetic
+  completion 7.78, with the reduced-norm identity and the comparisons with the two definite class
+  sets), the transport of class sets under isomorphism and level change (3.9), finiteness
   of class and type sets, the class number one of the Hurwitz order (3.8), two-sided ideals,
   `Pic_R(O)`, the normalizer and the Atkin–Lehner group `AL(O)`.
 - **Eichler's theorems for indefinite algebras** (Layer 4), as stated theorems whose
@@ -61,8 +64,9 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
 - **Optimal embeddings and embedding numbers** (Layer 6): the trace formula, the local embedding
   numbers for maximal and Eichler orders, the Eichler class number formula, and the type number
   formula of Deuring.
-- **Brandt matrices** (Layer 7): definition, their arithmetic, commutativity, self-adjointness, the
-  Eichler trace formula, and the theta-series interpretation over `ℚ`.
+- **Brandt matrices** (Layer 7): `T(𝔫)` for every order and every nonzero integral ideal `𝔫`,
+  their arithmetic, multiplicativity, the Hecke algebra with its commutativity and semisimplicity,
+  the adjoint identity, the Eichler trace formula, and the theta-series interpretation over `ℚ`.
 - **Shimura curves `X_0(D;N)` over `ℚ`** (Layer 8): the index `ψ(N)` and area of the Eichler-order
   group, its elliptic points as embedding numbers, the genus formula, the Atkin–Lehner involutions
   and the quotients `X_0(D;N)/⟨w_m⟩` and `X^*(D;N)`, and CM points as optimal embeddings.
@@ -100,6 +104,25 @@ Suggested home: `TauCeti/NumberTheory/Quaternion/`, with subdirectories `Ramific
   an Eichler order over `ℚ` (4.6), and the Eichler index `ψ(N)` with the area `(π/3)φ(D)ψ(N)` of
   `X_0(D;N)` (8.2). The lattice tree, adjacency, tree theorem and group action belong to
   ReductiveGroupsPartII RG2.2.4, “sl2-tree”.
+- **Eichler orders, their right ideal classes and the neighbour Brandt matrices** are Hilbert
+  modular varieties and Shimura curves §§R18.5.16a–R18.5.16c: the local form of an Eichler order
+  over every discrete valuation ring (conjugate to `O_0(𝔭^e)` for a unique `e`, iff it contains a
+  conjugate of the diagonal, and the intersection of a unique pair of maximal orders, the ends of a
+  path of length `e`), its local–global form over a number field with the level `𝔐` prime to `disc B` and
+  `discrd O = disc B·𝔐`, the completed levels with the local indices
+  `[GL₂(O_v) : O_0(𝔭_v^e)^×] = q_v^{e−1}(q_v + 1)`, the identification of the idele double cosets
+  with the locally principal right ideals, the left orders, their unit groups as stabilizers and the
+  definite weights (§R18.5.16a); the fibres `Γ_x\U/U′` of the refinement maps of double-coset
+  spaces (§R18.5.16b); and, at a place `v` where `B` splits and which does not divide the level, the
+  `v`-neighbours of a right ideal and the Brandt matrix `B(v)` with its independence of
+  representatives, row sums `q_v + 1`, commutativity and weighted symmetry (§R18.5.16c). Layers 1,
+  3, 5 and 7 consume these and add: locality of the Eichler property over every Dedekind base, the
+  normalizer of `O_0(𝔭^e)`, superorders and the hereditary criterion (1.8); the genus and local
+  norm-maximality of an Eichler order (1.9); the converse and superorder statements of the vertex
+  path (1.11); the idelic dictionary for every order and the transport of class sets (3.4, 3.9); the
+  mass of every order (5.1); and `T(𝔫)` for composite `𝔫`, for `𝔫` meeting the level and for orders
+  that are not Eichler, with the element count, multiplicativity, the Hecke algebra and its
+  semisimplicity (7.1–7.3). In the column convention of this roadmap `T(𝔭) = B(v)ᵗ`.
 - **Quaternionic modular forms**: the coefficient modules, level forms and classical forms in
   weight with their Hecke operators are GL₂ transfer R17.3.8a–R17.3.8d and Hilbert modular
   varieties and Shimura curves R18.3; slopes and families are AutomorphicGaloisRepresentations
@@ -183,8 +206,8 @@ The roadmaps consumed are: [quadratic form invariants](../QuadraticFormInvariant
 [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
 (R17.1.5, R17.3, R17.3.8d) and
 [Hilbert modular varieties and Shimura curves](../HilbertModularVarietiesAndShimuraCurves/README.md)
-(R18.1, R18.3.1, R18.5.17a). Each consumed object is listed with its milestone under *Scope and
-ownership*.
+(R18.1, R18.3.1, §§R18.5.16a–R18.5.16c, R18.5.17a). Each consumed object is listed with its
+milestone under *Scope and ownership*.
 
 - **From Mathlib:** `QuaternionAlgebra` and its star, `QuaternionAlgebra.Basis` and `liftHom`,
   `swapEquiv`; `Submodule.IsLattice`; `Subalgebra`; `IsDedekindDomain`, `HeightOneSpectrum`,
@@ -220,9 +243,22 @@ ownership*.
   `ℍ` (`Analysis/Complex/UpperHalfPlane/PSL/Action.lean`), fundamental domains and `IsCofinite`
   (`Analysis/Complex/Fuchsian/Covolume.lean`), cyclic stabilizers (`Fuchsian/Stabilizer.lean`),
   the coarse quotient and compactified quotient as Riemann surfaces
-  (`Fuchsian/CoarseQuotient.lean`, `Fuchsian/Compactification/{Basic,Manifold}.lean`), elliptic
-  ramification indices (`Fuchsian/Elliptic/Ramification.lean`), and the degree of a finite
-  holomorphic map (`Analysis/Complex/RiemannSurface/Degree.lean`). At the pin, `TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff`
+  (`Fuchsian/CoarseQuotient.lean`, `Fuchsian/Compactification/{Basic,Manifold}.lean`; the
+  topology of `Subgroup.CompactifiedQuotient Γ` is defined for discrete `Γ`), elliptic
+  ramification indices (`Fuchsian/Elliptic/Ramification.lean`), the degree of a finite
+  holomorphic map (`Analysis/Complex/RiemannSurface/Degree.lean`), the class `TauCeti.FiniteCWType`
+  of spaces homotopy equivalent to a finite CW complex (`Topology/CWComplex/Classical/FiniteCWType.lean`)
+  and the Euler characteristic `TauCeti.eulerChar` of such a space
+  (`AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean`), and the covolume scaling
+  `MeasureTheory.covolume_eq_card_mul_covolume` (`MeasureTheory/Group/FundamentalDomain.lean`).
+  Orders, maximal orders and left orders are Tau Ceti's `TauCeti.IntegralOrder.IsOrder` (an
+  `R`-subalgebra that is an `R`-lattice), `TauCeti.IntegralOrder.IsMaximalOrder` (maximal among
+  them) and `Submodule.leftOrder` (`RingTheory/IntegralOrder/{Basic,Maximal,LeftOrder}.lean`), the
+  carriers of classical arithmetic completion 7.4, 7.20 and 7.21: the bundle `QuatOrder` of
+  `Suggested.lean` is a subalgebra with the lattice property of `IsOrder`, `IsMax` in its
+  inclusion order is `IsMaximalOrder`, and `leftOrderSubalgebra I` has the carrier of
+  `Submodule.leftOrder I`; Tau Ceti has no right order, and `rightOrderSubalgebra` is its mirror
+  image. At the pin, `TauCeti.BrauerGroup.invMap_brauerGroupEquivBr_quaternionClass_eq_half_iff`
   in `NumberTheory/LocalField/Quaternion/Invariant.lean` (line 79) identifies Hilbert symbol −1
   with local invariant 1/2 for a nonarchimedean local field with 2 invertible;
   `quaternionSubgroup_eq_twoTorsion` in the same file identifies the quaternion subgroup with Br(K)[2].
@@ -252,6 +288,25 @@ ownership*.
 - **From Hilbert modular varieties and Shimura curves:** R18.1 (the canonical curve
   `Sh_U(G_B, X_B)` over `ℚ` and its complex uniformization), which is the algebraic curve whose
   complex points Layer 8 and Layer 9 describe as `Γ \ ℍ`; R18.3.1 (the central quotient of the class set `Cl(U)` by the finite ideles of the centre);
+  §R18.5.16a (for an Eichler order `R` of level `𝔑` in a quaternion algebra over a number field,
+  with orders and maximal orders Tau Ceti's `TauCeti.IntegralOrder.IsOrder` and
+  `TauCeti.IntegralOrder.IsMaximalOrder`: item 1, over every discrete valuation ring `A`, an
+  `A`-order of `M₂(K)` is the intersection of two maximal orders iff it is conjugate to some
+  `O_0(𝔭^e)` iff it contains a conjugate of `A × A`, with `e` and the pair of maximal orders unique,
+  the ends of the path of length `e`; item 2, `R` is Eichler iff every completion is, the level is
+  prime to `disc B` and `discrd R = disc B·𝔑`; items 3–4, the completed levels and the indices
+  `[GL₂(O_v) : O_0(𝔭_v^e)^×] = q_v^{e−1}(q_v + 1)`; item 6, `x ↦ B ∩ xR̂` identifies
+  `B^×\B̂^×/R̂^×` with the locally principal right fractional `R`-ideals modulo `B^×`; item 7, the
+  left order of `B ∩ xR̂` is `B ∩ xR̂x⁻¹`, with unit group the stabilizer at `x`; item 8, for
+  totally definite `B` the weight `[O_L(I)^× : O_F^×]` is finite and depends only on the class);
+  §R18.5.16b (for a group `G`, a subgroup `Γ` and subgroups `U′ ≤ U`, the refinement map
+  `Γ\G/U′ → Γ\G/U` is surjective and its fibre over `ΓxU` is in bijection with `Γ_x\U/U′`,
+  `Γ_x = U ∩ x⁻¹Γx`, compatibly with a change of representative `x ↦ γxu`); §R18.5.16c (at a place
+  `v` where `B` splits and which does not divide `𝔑`: the `v`-neighbours of a locally principal
+  right ideal, `q_v + 1` of them, and the Brandt matrix `B(v)`, whose entry `B(v)_{ij}` counts the
+  neighbours of `I_i` in the class of `I_j`, independent of the representatives, with rows summing
+  to `q_v + 1`, `B(v)B(w) = B(w)B(v)`, and `w_j B(v)_{ij} = w_i B(v)_{j,s_v(i)}`; in the column
+  convention of Layer 7, `T(𝔭_v) = B(v)ᵗ`);
   R18.5.17a (the definite class-set graph at a split prime and its integral Brandt matrices).
   R18.1.3 supplies uniformization, and R18.1.7–8 supplies an auxiliary PEL bridge. Neither
   supplies the enhanced integral Galois representation. Sections 9.7–9.8 own its comparisons
@@ -271,8 +326,13 @@ ownership*.
   level change for a definite algebra over ℚ. Layer 3 identifies `Cls O` with `Cl(Ô^×)`. The Hurwitz order's maximality, its
   `24` units, its single class and its mass `1/12` are proved here (1.7, 1.13, 3.8, 5.6), not
   consumed.
-- **From Fuchsian orbifolds:** Layers 0–5 supply the effective action, coarse quotient,
-  compactification, genus, Riemann–Hurwitz, and covolume scaling for finite-index subgroups.
+- **From Fuchsian orbifolds:** Layers 0–5 supply the effective action, the elliptic points and
+  coarse quotient (Layer 1), measurable fundamental domains, covolume and cofiniteness (Layer 2,
+  item 1), the compactification (Layer 4), and the genus through `χ = 2 − 2g` and Riemann–Hurwitz
+  (Layer 5). The scaling of covolume along a subgroup of finite index is Tau Ceti's
+  `MeasureTheory.covolume_eq_card_mul_covolume` (`MeasureTheory/Group/FundamentalDomain.lean`):
+  for a measure invariant under `Γ` and `Δ ≤ Γ`, with `Γ` countable and admitting a fundamental
+  domain, the covolume of `Δ` is the index `[Γ : Δ]`, counted in `ℕ∞`, times that of `Γ`.
 - **From ReductiveGroupsPartII RG2.2.4, “sl2-tree”:** the homothety-class lattice graph,
   its adjacency, `BTTree.isTree`, its q+1 neighbors at each vertex and the GL₂(F) action
   through PGL₂(F), for a nonarchimedean local field F. Section 1.11 compares vertices,
@@ -321,9 +381,8 @@ ownership*.
 - **From global number fields:** Layer 1 (weak approximation), Layer 6 (ideles and the idele class
   group), Layer 11 (`NumberFieldOrder`, `Pic`, the conductor).
 
-The native bundle instances `instSetLikeQuatOrder`, `instPartialOrderQuatOrder` and
-`instIsLatticeRightIdeal` expose order membership, inclusion and ideal fullness;
-`instNormalScalars` supplies the central scalar quotient of §9.2.
+The native bundle instances `instSetLikeQuatOrder` and `instPartialOrderQuatOrder` expose order
+membership and inclusion; `instNormalScalars` supplies the central scalar quotient of §9.2.
 
 ### From Mathlib: native carriers
 
@@ -353,7 +412,7 @@ The arithmetic constructions below use these native algebra, module and group ca
 
 ### From Tau Ceti: quaternion and analytic carriers
 
-Listed under *Consumed, not redefined* with module paths. Three points deserve emphasis.
+Listed under *From Tau Ceti at the pin* above, with module paths. Three points deserve emphasis.
 First, the whole field-theoretic layer (norm form, splitting criterion, symbol relations,
 naturality under equivalences, base change) is supplied by the pinned modules, so Layer 0 is a specialization and never
 reproves a splitting statement. Second, the Hilbert symbol has its localizations at the
@@ -391,7 +450,7 @@ The signatures use `trd` for this trace and `nrd` for the native norm form.
 Define `trd x = 2·re x` and specialize the native norm form as `nrd`. The additional
 arithmetic input is the trace pairing on the symbol basis: for a characteristic-zero field
 and nonzero a,b, prove its Gram matrix is diag(2,2a,2b,−2ab), with determinant −16a²b²,
-hence it is nondegenerate ([V, 15.2.10], p. 235).
+hence it is nondegenerate ([V, 15.2.10], p. 236).
 
 Its API:
 
@@ -546,11 +605,12 @@ Pinned quaternion/Hilbert-symbol theory; ArithmeticFuchsianGroups §1.2; Quadrat
 
 ### 1.1 Lattices, left and right orders
 
-The acceptance bundle `QuatOrder` carries the native subalgebra and lattice property; `QuatOrder.toSubmodule` is its underlying module. The predicates `leftOrderSubalgebra` and `rightOrderSubalgebra` express the two multiplier orders on native subalgebras.
+The acceptance bundle `QuatOrder` carries the native subalgebra and lattice property; `QuatOrder.toSubmodule` is its underlying module. The predicates `leftOrderSubalgebra` and `rightOrderSubalgebra` express the two multiplier orders on native subalgebras. The lattice property is Tau Ceti's `TauCeti.IntegralOrder.IsOrder`, maximality in the inclusion order of the bundle is `TauCeti.IntegralOrder.IsMaximalOrder`, and `leftOrderSubalgebra I` has the carrier of `Submodule.leftOrder I` (supplier contracts).
 
 Using the generic lattice-order and multiplier-order carriers in the supplier contracts, prove
-the quaternion-specific comparison O_L(star I) = star O_R(I) and its right-handed version,
-with conjugation acting by α on the left order of αI ([V, 16.3]). Prove
+the quaternion-specific comparison O_L(star I) = star O_R(I) and its right-handed version
+(`[V, 16.6.7]`, p. 261), with conjugation acting by α on the left order of αI, O_L(αI) =
+αO_L(I)α⁻¹ for α ∈ Bˣ (`[V, Exercise 10.14(b)]`, p. 158, is the case I = O). Prove
 that `R⟨i,j⟩ = R ⊕ Ri ⊕ Rj ⊕ Rk` is an order when `a, b ∈ R` (`[V, 10.2.4]`), that its elements have trd α, nrd α ∈ R (`[V, 10.3.3, 10.3.6]`); conversely a spanning subring all of whose elements
 have `trd, nrd ∈ R` is an order (`[V, 10.3.7]`). Orders are stable under `star`
 (`star α = trd α − α`). *Needs:* 0.1; Mathlib `Submodule.IsLattice`; CAC 7.4, 7.20.
@@ -574,9 +634,10 @@ Its API:
 
 The signature definitions `units` and `normOne` realize these two groups as subgroups of Bˣ.
 
-Define `O^× ` (the units of the subalgebra) and `O¹ = {γ ∈ O^× : nrd γ = 1}`, a subgroup of `Bˣ`
+Define `O^×` (the units of the subalgebra) and `O¹ = {γ ∈ O^× : nrd γ = 1}`, a subgroup of `Bˣ`
 (closure under products is `normForm_mul`, inverses are `star`); `O¹` is ArithmeticFuchsianGroups
-§1.1's norm-one group `O ∩ B¹` (`B¹` Mathlib's `unitary`), realized here as a subgroup of `Bˣ`. Prove `nrd(O^×) ⊆ R^×`, that
+§1.1's norm-one group `O ∩ B¹` (`B¹` Mathlib's `unitary`), realized here as a subgroup of `Bˣ`. Prove
+that `γ ∈ O` is a unit of `O` iff `nrd γ ∈ R^×` (`[V, Exercise 10.15]`, p. 158), so `nrd(O^×) ⊆ R^×`, that
 `O¹ ⊴ O^×` with `O^×/O¹ ↪ R^×`, and that for `R = ℤ`, `O^×/O¹` has order `1` or `2` according
 as `O` has no unit of norm `−1` or has one. *Needs:* 1.1; ArithmeticFuchsianGroups §1.1 for the comparison.
 
@@ -709,14 +770,17 @@ examples of 0.7: the Hurwitz order `ℤ⟨i, j, (1+i+j+k)/2⟩ ⊂ ℍ[ℚ,-1,-1
 
 The predicate `IsEichler` records precisely this intersection property.
 
-Define Eichler orders as pinned. Prove (`[V, 23.4.2–23.4.3]`): being Eichler is local; over a DVR
-with `B = M₂(F)`, `O` is Eichler iff it is conjugate to the standard order
+Define Eichler orders as pinned. The local form is Hilbert modular varieties §R18.5.16a item 1,
+consumed: over a DVR with `B = M₂(F)`, `O` is Eichler iff it is conjugate to the standard order
 `O_0(𝔭^e) = [[R, R],[𝔭^e, R]]` for a unique `e ≥ 0`, iff it contains a conjugate of the diagonal
-`R × R`; the standard order has `discrd = 𝔭^e`, is the intersection of the two maximal orders
-`M₂(R)` and `[[R,𝔭^{-e}],[𝔭^e,R]]`, and for `e ≥ 1` has `N_{B^×}(O_0(𝔭^e))/(F^×O^×) ≅ ℤ/2`
-generated by `[[0,1],[ϖ^e,0]]` (`[V, 23.4.14]`). Every superorder of an Eichler order is Eichler
-(`[V, 23.4.10]`); hereditary orders are Eichler; an order is hereditary iff `discrd O` is squarefree
-(`[V, 23.3.18]`). *Needs:* 1.6, 1.7.
+`R × R`; the standard order has `discrd = 𝔭^e` and is the intersection of the two maximal orders
+`M₂(R)` and `[[R,𝔭^{-e}],[𝔭^e,R]]` and of no other pair (`[V, 23.4.2–23.4.3]`). Over a number field, being
+Eichler is local by item 2 of the same section. Prove here: being Eichler is local over every
+Dedekind domain `R` of this layer (`[V, 23.4.2]`); for `e ≥ 1`,
+`N_{B^×}(O_0(𝔭^e))/(F^×O^×) ≅ ℤ/2` generated by `[[0,1],[ϖ^e,0]]` (`[V, 23.4.14]`); every
+superorder of an Eichler order is Eichler (`[V, 23.4.10]`); hereditary orders are Eichler; an
+order is hereditary iff `discrd O` is squarefree (`[V, 23.3.18]`). *Needs:* 1.6, 1.7;
+HilbertModularVarietiesAndShimuraCurves §R18.5.16a.
 
 Its API:
 
@@ -734,16 +798,18 @@ Its API:
 
 The signature definition `level` is discrdNat(O)/D; D is positive and divides discrdNat(O) for Eichler orders. The arithmetic function `psi` is used only at positive levels.
 
-For `R = 𝓞 F` and `O` Eichler: at `𝔭 | disc B`, `O_𝔭` is the unique maximal order; at `𝔭 ∤ disc B`,
-`O_𝔭 ≅ O_0(𝔭^e)` with `e = ord_𝔭 discrd O`. Hence `discrd O = disc B · 𝔐` with `𝔐` coprime to
-`disc B`, the **level**, and the pair `(disc B, 𝔐)` determines the genus of `O` (`[V, 23.4.19]`).
-Over `ℚ`: `discrd O = DN` with `gcd(D,N) = 1`. Prove the index of unit groups at a split place
-`[GL₂(R_𝔭) : O_0(𝔭^e)^×] = N𝔭^{e-1}(N𝔭 + 1)` for `e ≥ 1`, so that
-`[O(1)^× : O^×]` for a maximal `O(1) ⊇ O` locally at every `𝔭 | 𝔐` is `ψ(𝔐) = N𝔐 ∏_{𝔭|𝔐}(1 + 1/N𝔭)`,
-and the same for the norm-one groups. Prove that every Eichler order is locally norm-maximal:
+For `R = 𝓞 F` and `O` Eichler, the local–global form, the level and the local unit indices are
+Hilbert modular varieties §R18.5.16a items 2–4, consumed: at `𝔭 | disc B`, `O_𝔭` is the unique
+maximal order; at `𝔭 ∤ disc B`, `O_𝔭 ≅ O_0(𝔭^e)` with `e = ord_𝔭 discrd O`; `discrd O = disc B · 𝔐`
+with the **level** `𝔐` coprime to `disc B`; and `[GL₂(R_𝔭) : O_0(𝔭^e)^×] = N𝔭^{e-1}(N𝔭 + 1)` for
+`e ≥ 1`, so that `[O(1)^× : O^×]` for a maximal `O(1) ⊇ O`, locally at every `𝔭 | 𝔐`, is
+`ψ(𝔐) = N𝔐 ∏_{𝔭|𝔐}(1 + 1/N𝔭)`. Prove here: the pair `(disc B, 𝔐)` determines the genus of `O`
+(`[V, 23.4.19]`); over `ℚ`, `discrd O = DN` with `gcd(D,N) = 1`; the local indices of the norm-one
+groups are the same `ψ(𝔐)`, by the norm-maximality below. Prove that every Eichler order is locally norm-maximal:
 `nrd(O_𝔭^×) = R_𝔭^×` for all `𝔭` (`[V, 28.5.16]`) — at the `𝔭` where `O_𝔭` is maximal this is
 classical arithmetic completion 7.60, consumed, and what is proved here is the case `𝔭 | 𝔐`,
-`O_𝔭 ≅ O_0(𝔭^e)` with `e ≥ 1`. *Needs:* 1.6–1.8; CAC 7.60.
+`O_𝔭 ≅ O_0(𝔭^e)` with `e ≥ 1`. *Needs:* 1.6–1.8; HilbertModularVarietiesAndShimuraCurves
+§R18.5.16a; CAC 7.60.
 
 Its API:
 
@@ -784,12 +850,14 @@ from the vertices of the lattice tree of ReductiveGroupsPartII RG2.2.4, “sl2-t
 orders of `M₂(F)`, equivariant for the `GL₂(F)` action and conjugation; adjacent vertices meet in
 an Eichler order of level `𝔭`; the stabilizer of `L` is `End_R(L)^×`, the stabilizer of `[L]` is
 the normalizer `F^×End_R(L)^×`, and the setwise stabilizer of an edge is the normalizer of its
-Eichler order (`[V, 23.5.2, 23.5.5]`, pp. 376–377, are the source statements). Prove here the
-statement at distance `e`: two vertices at distance `e` have intersection an Eichler order of
-level `𝔭^e`; every Eichler order of level `𝔭^e` is the intersection of the maximal orders of
-exactly one unordered pair of vertices at distance `e`, the vertices whose maximal order contains
-it forming the path between them; and the maximal orders of the path's vertices cut out, with a
-fixed endpoint, its superorders of levels `𝔭^{e−1}, …, 𝔭, 1` (`[V, 23.5.15]`, p. 379).
+Eichler order (`[V, 23.5.2, 23.5.5]`, pp. 376–377, are the source statements). That every
+Eichler order of level `𝔭^e` is the intersection of the maximal orders of exactly one unordered
+pair of vertices, the ends of a path of length `e`, is Hilbert modular varieties §R18.5.16a
+item 1, consumed. Prove here the converse and the path: two vertices at distance `e` have
+intersection an Eichler order of level `𝔭^e`; the vertices whose maximal order contains that
+order are exactly the vertices of the path between them; and the maximal orders of the path's
+vertices cut out, with a fixed endpoint, its superorders of levels `𝔭^{e−1}, …, 𝔭, 1`
+(`[V, 23.5.15]`, p. 379).
 
 Its API:
 
@@ -798,7 +866,8 @@ Its API:
 - Distance zero gives a maximal order, and distance one gives local level `𝔭`, in agreement with
   the supplier's adjacency statement.
 
-*Needs:* 1.6, 1.8, 1.9; ArithmeticFuchsianGroups §1.2; ReductiveGroupsPartII RG2.2.4, “sl2-tree”.
+*Needs:* 1.6, 1.8, 1.9; ArithmeticFuchsianGroups §1.2; HilbertModularVarietiesAndShimuraCurves
+§R18.5.16a; ReductiveGroupsPartII RG2.2.4, “sl2-tree”.
 
 **Checks.**
 
@@ -884,7 +953,7 @@ Lipschitz and Hurwitz have reduced discriminants 4 and 2; O₆ has 6. Distance-t
 
 ### Dependencies
 
-Layer 0; the generic orders of ClassicalArithmeticCompletion §§7.4, 7.20, 7.21, 7.56; ArithmeticFuchsianGroups §§1.1–1.2; ReductiveGroupsPartII RG2.2.4, “sl2-tree”; elementary divisors over a DVR.
+Layer 0; the generic orders of ClassicalArithmeticCompletion §§7.4, 7.20, 7.21, 7.56; ArithmeticFuchsianGroups §§1.1–1.2; HilbertModularVarietiesAndShimuraCurves §R18.5.16a (Eichler orders in 1.8, 1.9, 1.11); ReductiveGroupsPartII RG2.2.4, “sl2-tree”; elementary divisors over a DVR.
 
 ## Layer 2: Gorenstein and Bass orders, the ternary form, the Eichler symbol
 
@@ -1012,10 +1081,33 @@ Its API:
 
 ### 2.6 Classification of local orders by their symbol
 
-Prove the trichotomy used by the LMFDB's order labels: a Gorenstein order over a complete DVR
-is maximal, or residually split (Eichler of level `𝔭^e`, `e ≥ 1`), or residually inert, or
-residually ramified (`(O|𝔭) = 0`), and record which are Bass and which are hereditary.
-*Needs:* 2.2–2.5.
+Let `R` be a complete discrete valuation ring with residue field `k`. Every `R`-order `O` has
+exactly one Eichler symbol `(O|𝔭) ∈ {∗, 1, −1, 0}` (2.4; `[V, 24.3.1–24.3.2]`, p. 388). Prove
+what each value says about `O`:
+
+- `(O|𝔭) = ∗` iff `rad O = 𝔭O`, and when `k` is finite iff `O ≅ M₂(R)` (`[V, 24.3.5]`, p. 389).
+- `(O|𝔭) = 1` iff `O` is Eichler and not maximal, that is `O ≅ O_0(𝔭^e)` with `e ≥ 1`: an order
+  is Eichler iff it is maximal or residually split (`[V, 24.3.6]`, p. 389), a maximal order has
+  symbol `∗` or `−1`, and the local form is 1.8's.
+- `(O|𝔭) = −1` implies that `O` is Bass (`[V, 24.5.4]`, p. 394).
+- An order that is not Bass has `(O|𝔭) = 0` (`[V, 24.5.5]`, p. 395); the symbol `0` decides
+  neither the Bass nor the Gorenstein property.
+- Separately from the symbol, `O` is hereditary iff `discrd O` is squarefree (`[V, 23.3.18]`; 1.8).
+
+*Needs:* 1.8, 2.2–2.5.
+
+**Checks.**
+
+- `M₂(ℤ₂)`: `rad = 2M₂(ℤ₂)`, symbol `∗`, reduced discriminant `(1)`, hereditary.
+- `O_0(4) ⊂ M₂(ℤ₂)`: the quotient by its radical is `𝔽₂ × 𝔽₂`, symbol `1`; Eichler, hence Bass;
+  reduced discriminant `(4)`, so not hereditary.
+- In `M₂(ℤ₂)`, the order `ℤ₂[ω] + 2M₂(ℤ₂)` (with `ω ↦ [[0,−1],[1,−1]]`, a root of `x² + x + 1`)
+  has radical `2M₂(ℤ₂)` and quotient `𝔽₄`, symbol `−1`; it is Bass by 24.5.4, has index `4` in
+  `M₂(ℤ₂)`, hence reduced discriminant `(4)`, and is neither maximal, Eichler nor hereditary: the
+  symbol `−1` does not force maximality.
+- At `2`, the Lipschitz order `ℤ₂⟨i,j⟩` and the order `ℤ₂ + 2O` (`O` the maximal order of the
+  division algebra over `ℚ₂`) both have symbol `0`, with residue quotients `𝔽₂`; the first is Bass
+  (2.5), the second has conductor `(2)` (2.3) and is not Gorenstein.
 
 ### 2.7 Worked orders
 
@@ -1118,11 +1210,13 @@ classical arithmetic completion 7.78 at `Λ = O` (its `U(O)` contains the archim
 completions is its 7.72; both are consumed. Prove the quaternion reading: a right `O`-lattice is
 locally free of rank one over O iff it is a proper invertible lattice (3.1), so that 7.78 reads
 `Cls O ≃ B^× \ B̂^× / Ô^×` (`[V, 27.6.8]`, bijection (27.6.9)), and the reduced-norm identity
-`nrd(B ∩ α̂Ô) = F ∩ nrd(α̂)R̂`. This is the comparison with adelic algebraic groups AA.5.3's class
+`nrd(B ∩ α̂Ô) = F ∩ nrd(α̂)R̂`. At an Eichler order `O` this identification is Hilbert modular
+varieties §R18.5.16a item 6, consumed; the statement here is for every order. This is the comparison with adelic algebraic groups AA.5.3's class
 set `Cl(U)` (*quaternion-class-sets*) at `U = Ô^×` and, for totally definite `B`, with Hilbert
 modular varieties R18.3.1's central quotient of `Cl(U)` by the finite ideles of the centre; this milestone states
 the comparison and proves it, and it is the only place a second description of `Cls O` appears.
-*Needs:* 3.1, 3.2; global number fields Layers 4, 6; CAC 7.72, 7.78; AA.5.3.
+*Needs:* 3.1, 3.2; global number fields Layers 4, 6; CAC 7.72, 7.78; AA.5.3;
+HilbertModularVarietiesAndShimuraCurves §R18.5.16a for the Eichler case.
 
 ### 3.5 Finiteness of class and type sets
 
@@ -1207,13 +1301,16 @@ groups of orders `4` and `6`, `# Cls = 3` for `37` with all unit groups `{±1}`,
 
 For orders over the ring of integers of a number field, prove that an algebra isomorphism
 O ≅ O′ induces Cls O ≃ Cls O′. For O′ ⊆ O, extension [I] ↦ [IO] gives a surjection
-Cls O′ → Cls O by AdelicAlgebraicGroups §4.4, “Nested-level map on double cosets”. Put U = Ôˣ, U′ = Ô′ˣ. For g ∈ B̂ˣ representing a target class,
-its fibre is Γ_g\U/U′, with Γ_g = (g⁻¹Bˣg) ∩ U acting by left multiplication on U/U′.
-This follows by restricting the double-coset bijection of §3.4 to gU
-([V, 27.6.8–9], p. 457); it is an orbit-set theorem, with bound
-1 ≤ #fibre ≤ [U:U′], agreeing with AdelicAlgebraicGroups §4.4, “Finite-index bound for level changes”. The local compact-open index is finite.
-If g′ = bgu₀ with b ∈ Bˣ and u₀ ∈ U, then Γ_g′ = u₀⁻¹Γ_g u₀ and
-uU′ ↦ u₀⁻¹uU′ gives the representative-independence comparison on orbit sets.
+Cls O′ → Cls O; under 3.4 it is the refinement map of double cosets of AdelicAlgebraicGroups §4.4,
+“Nested-level map on double cosets”. Put U = Ôˣ, U′ = Ô′ˣ. The fibre description is Hilbert
+modular varieties §R18.5.16b at G = B̂ˣ and Γ = Bˣ, consumed: for g ∈ B̂ˣ representing a target
+class, its fibre is Γ_g\U/U′, with Γ_g = (g⁻¹Bˣg) ∩ U acting by left multiplication on U/U′, so
+1 ≤ #fibre ≤ [U:U′], agreeing with AdelicAlgebraicGroups §4.4, “Finite-index bound for level
+changes”; and if g′ = bgu₀ with b ∈ Bˣ and u₀ ∈ U, then Γ_g′ = u₀⁻¹Γ_g u₀ and uU′ ↦ u₀⁻¹uU′
+compares the orbit sets. The local compact-open index is finite. Prove here the reading in
+ideals: for I = B ∩ gÔ, whose left order has the completions g_𝔭O_𝔭g_𝔭⁻¹ (CAC 7.72),
+conjugation by g carries Γ_g onto O_L(I)ˣ (for O Eichler this is §R18.5.16a item 7), so the fibre
+over [I] is the set of orbits of O_L(I)ˣ on gUg⁻¹/gU′g⁻¹ ([V, 27.6.8–9], p. 457).
 
 **Checks.**
 
@@ -1223,7 +1320,8 @@ uU′ ↦ u₀⁻¹uU′ gives the representative-independence comparison on orb
 - For indefinite rational Eichler orders at levels 1 and 2 in the split algebra, both
   class sets have size 1, although the local coset set has size ψ(2) = 3: the single orbit has size 3.
 
-*Needs:* 3.2, 3.4; AdelicAlgebraicGroups §4.4, the two named level-change targets; 1.9 for Eichler local index examples.
+*Needs:* 3.2, 3.4; AdelicAlgebraicGroups §4.4, the two named level-change targets;
+HilbertModularVarietiesAndShimuraCurves §§R18.5.16a–R18.5.16b; CAC 7.72; 1.9 for Eichler local index examples.
 
 ### 3.10 Ideals of a given norm
 
@@ -1253,7 +1351,7 @@ D = 11 has two ideal classes and two types; D = 37 has three classes and two typ
 
 ### Dependencies
 
-Layer 1; ClassicalArithmeticCompletion §§7.72, 7.78; AdelicAlgebraicGroups §§3.4, 5.3; ArithmeticFuchsianGroups §§1.2, 1.4; GlobalNumberFields Layers 4 and 6.
+Layer 1; ClassicalArithmeticCompletion §§7.72, 7.78; AdelicAlgebraicGroups §§3.4, 5.3; ArithmeticFuchsianGroups §§1.2, 1.4; HilbertModularVarietiesAndShimuraCurves §§R18.5.16a–R18.5.16b (3.4, 3.9); GlobalNumberFields Layers 4 and 6.
 
 ## Layer 4: indefinite algebras — Eichler's theorems from strong approximation
 
@@ -1363,8 +1461,10 @@ Prove `O^×/R^×` finite (`[V, 26.5.1]`; over `ℚ`, `O^× = O¹` is finite, `[V
 `mass(Cls O) = ∑_{[J] ∈ Cls O} 1/w_J` with `w_J = #O_L(J)^×/2`, where `J` is any representative of its
 class (conjugate left orders have isomorphic unit groups, so `w_J` is a function on `Cls O`); and
 prove it is constant on
-the genus and that `mass(Cls O) ≤ # Cls O` with equality iff every `O_L(J)^× = R^×`.
-*Needs:* 3.2, 3.5.
+the genus and that `mass(Cls O) ≤ # Cls O` with equality iff every `O_L(J)^× = R^×`. For an
+Eichler order the finiteness of the weight and its independence of the representative are Hilbert
+modular varieties §R18.5.16a item 8, consumed; the statements here are for every order.
+*Needs:* 3.2, 3.5; HilbertModularVarietiesAndShimuraCurves §R18.5.16a for the Eichler case.
 
 Its API:
 
@@ -1457,7 +1557,7 @@ Hurwitz has mass 1/12; D = 11 has mass 5/6; level 7 in D = 2 has mass 2/3.
 
 ### Dependencies
 
-Layers 2 and 3; AdelicAlgebraicGroups §5.3. The class-number classification route additionally uses §6.6, which uses the mass formula but not §5.5.
+Layers 2 and 3; AdelicAlgebraicGroups §5.3; HilbertModularVarietiesAndShimuraCurves §R18.5.16a (the weights of Eichler orders in 5.1). The class-number classification route additionally uses §6.6, which uses the mass formula but not §5.5.
 
 ## Layer 6: optimal embeddings, embedding numbers, class and type number formulas
 
@@ -1624,7 +1724,13 @@ that A(𝔫) has matrix T(𝔫)ᵗ in the characteristic-function basis and that
 representatives (`[V, 41.2.5]`). Prove the element count
 `T(𝔫)_{ij} = #{α ∈ I_jI_i^{-1} : nrd(α)R = 𝔫_{ij}}/O_i^×` with `𝔫_{ij} = 𝔫·nrd(I_j)/nrd(I_i)`, equal to
 `(1/w_i)#{α : nrd(α)R = 𝔫_{ij}}/R^×` (`[V, 41.2.7]`). Define the `𝔫`-Brandt graph and prove
-`T(𝔫)` is its adjacency matrix (`[V, 41.2.12]`). *Needs:* 3.2, 3.5, 3.10.
+`T(𝔫)` is its adjacency matrix (`[V, 41.2.12]`). For `O` Eichler and `𝔫 = 𝔭_v` at a place `v` where
+`B` splits and `𝔭_v ∤ 𝔑`, the subideals of `I_j` of norm `𝔭_v nrd(I_j)` are the `v`-neighbours of
+Hilbert modular varieties §R18.5.16c, whose Brandt matrix `B(v)` counts in the class of `I_j` the
+neighbours of `I_i`: so `T(𝔭_v) = B(v)ᵗ`, `A(𝔭_v)` is its operator on functions, and the
+independence of the representatives and the count of `q_v + 1` neighbours at such `𝔭_v` (items
+1–2) are consumed. The statements here are for every nonzero integral `𝔫` and every order.
+*Needs:* 3.2, 3.5, 3.10; HilbertModularVarietiesAndShimuraCurves §R18.5.16c for the prime case.
 
 Its API:
 
@@ -1639,13 +1745,18 @@ Its API:
 - `D = 37`: `T(2) = [[1,1,1],[1,0,2],[1,2,0]]`.
 - (convention) Columns index the source class: the column sums of `T(p)` are `p + 1`, while the row
   sums of `T(2)` for `D = 11` are `4` and `2`.
+- (supplier convention) For `D = 11`, the row-indexed matrix of §R18.5.16c is
+  `B(2) = T(2)ᵗ = [[1,2],[3,0]]`, with row sums `3, 3`; its weighted symmetry with weights `(2,3)`
+  reads `w₂B(2)₁₂ = 3·2 = 6 = w₁B(2)₂₁ = 2·3`, whereas `w₂T(2)₁₂ = 3·3 = 9 ≠ w₁T(2)₂₁ = 2·2 = 4`.
 
 ### 7.2 Column sums and multiplicativity
 
 Prove the column sums of `T(𝔫)` are constant, equal to `∑_{𝔡|𝔫} N𝔡` for `𝔫` coprime to `𝔑`, and
-`T(𝔪𝔫) = T(𝔪)T(𝔫)` for coprime `𝔪, 𝔫` (`[V, 41.3.1]`); for `𝔭 ∤ 𝔑`,
+`T(𝔪𝔫) = T(𝔪)T(𝔫)` for coprime `𝔪, 𝔫` (`[V, 41.3.1]`; at `𝔫 = 𝔭_v` and `O` Eichler the column
+sum `q_v + 1` is §R18.5.16c item 2's row sum, consumed); for `𝔭 ∤ 𝔑`,
 `T(𝔭^r)T(𝔭^s) = ∑_{i ≤ min(r,s)} N𝔭^i T(𝔭^{r+s−2i})P(𝔭)^i` with `P(𝔭)` the permutation matrix of
-`[I] ↦ [I𝔭]` (`[V, 41.3.6]`). *Needs:* 7.1, 3.10.
+`[I] ↦ [I𝔭]` (`[V, 41.3.6]`). *Needs:* 7.1, 3.10; HilbertModularVarietiesAndShimuraCurves
+§R18.5.16c.
 
 **Checks.**
 
@@ -1657,11 +1768,14 @@ Prove the column sums of `T(𝔫)` are constant, equal to `∑_{𝔡|𝔫} N𝔡
 ### 7.3 The Hecke algebra and its semisimplicity
 
 Define `𝕋(O) ⊆ M_h(ℤ)` generated by the `T(𝔫)` with `𝔫` coprime to `𝔑`; prove it commutative
-(`[V, 41.3.15]`); with the divisor pairing ⟨x,y⟩ = ∑ᵢ wᵢxᵢyᵢ prove T(𝔫)* = P(𝔫⁻¹)T(𝔫).
+(`[V, 41.3.15]`); with the divisor pairing ⟨x,y⟩ = ∑ᵢ wᵢxᵢyᵢ prove T(𝔫)* = P(𝔫⁻¹)T(𝔫). For `O`
+Eichler and `𝔫 = 𝔭_v` as in 7.1, the commutativity of two such generators and the adjoint
+identity, in the transposed form `w_j B(v)_{ij} = w_i B(v)_{j,s_v(i)}`, are §R18.5.16c items 3–4,
+consumed.
 On functions use ⟨f,g⟩ = ∑ᵢ f(Iᵢ)g(Iᵢ)/wᵢ and the transpose identity for A(𝔫),
 so `T(𝔫)` is normal and self-adjoint for `𝔫` narrowly principal, and `𝕋(O) ⊗ ℚ` is semisimple with
 a common eigenbasis and real eigenvalues for narrowly principal `𝔫` (`[V, 41.4.3, 41.4.10]`).
-*Needs:* 7.2.
+*Needs:* 7.2; HilbertModularVarietiesAndShimuraCurves §R18.5.16c.
 
 Its API:
 
@@ -1773,12 +1887,14 @@ For D = 11, T(2) = [[1,3],[2,0]] on divisors and its transpose acts on functions
 
 ### Dependencies
 
-Layers 3, 5 and 6; GL2AutomorphicRepresentationsAndTransfer R17.3 and R17.3.8d; HilbertModularVarietiesAndShimuraCurves R18.5.17a; ThetaSeries Layer 7.
+Layers 3, 5 and 6; GL2AutomorphicRepresentationsAndTransfer R17.3 and R17.3.8d; HilbertModularVarietiesAndShimuraCurves §R18.5.16c (the prime-to-level Brandt matrices of Eichler orders in 7.1–7.3) and R18.5.17a; ThetaSeries Layer 7.
 
 ## Layer 8: Shimura curves `X_0(D;N)` over `ℚ`
 
 `B = ℍ[ℚ,a,b]` is indefinite of discriminant `D > 1`, `O` an Eichler order of level `N`, and
-`ι_∞ : B → M₂(ℝ)` a real splitting.
+`ι_∞ : B → M₂(ℝ)` a real splitting. The index, area and elliptic-point statements of 8.2–8.3 hold
+for `D = 1` as well, where `Γ¹(O)` is conjugate to the image of `Γ₀(N)` and they are the classical
+values; the curves `X_0(1;N)` themselves, which have cusps, are the modular-forms roadmap's.
 
 ### 8.1 The arithmetic Fuchsian group
 
@@ -1787,7 +1903,10 @@ A real splitting `ι_∞ : B → M₂(ℝ)` is ArithmeticFuchsianGroups §1.1's 
 exactly when `B` is indefinite (0.5), consumed; so are `det(ι_∞ x) = nrd x` and the fact that two
 real splittings differ by conjugation in `GL₂(ℝ)`, so that every invariant of Layers 8–9 is
 independent of `ι_∞`. Define `Γ¹(O) ≤ PSL₂(ℝ)` as the image of `O¹`: it is that roadmap's
-`Γ(O) = normOneImage ι_∞ O`, for `O` read as an `𝓞_ℚ`-order through `Rat.ringOfIntegersEquiv`. Its
+`Γ(O) = normOneImage ι_∞ O`, for `O` read as an `𝓞_ℚ`-order through `Rat.ringOfIntegersEquiv`.
+The signature definition `gammaOne ι O` takes for `ι` any `ℚ`-algebra map `B → M₂(ℝ)`: it extends
+to an isomorphism `B ⊗ ℝ ≃ M₂(ℝ)`, so it exists exactly when `B` is indefinite and satisfies
+`det ∘ ι = nrd`, and `gammaOne ι O` is the subgroup generated by the images of `O¹`. Its
 discreteness and finite covolume (`isCofinite_normOneImage`), its cocompactness exactly when `B`
 is division (`cocompact_normOneImage_iff_anisotropic`; `B` is division iff `D > 1`, 0.4 and 0.5)
 and the finiteness of `[Γ¹(O) : Γ¹(O')]` for `O' ⊆ O` (§1.2) are consumed. Prove here the
@@ -1812,7 +1931,7 @@ Its API:
 
 ### 8.2 Index and area
 
-The acceptance theorem `relindex_normOne_eq_psi` states the norm-one subgroup index with the smaller subgroup as the first relative-index argument.
+The acceptance theorem `relindex_normOne_eq_psi` states the norm-one subgroup index with the smaller subgroup as the first relative-index argument, and `covolume_gammaOne` states the area: the covolume of `gammaOne ι O` for Mathlib's `volume` on `UpperHalfPlane` is `(π/3)φ(D)ψ(N)` for every Eichler order `O`.
 
 Prove `[Γ¹(O(1)) : Γ¹_0(D;N)] = ψ(N)` for a maximal `O(1) ⊇ O`, from 4.3 (surjectivity of
 `O(1)¹ → (O(1)/NO(1))¹`) and the local index of 1.9. The area of the maximal-order quotient is
@@ -1822,8 +1941,9 @@ ArithmeticFuchsianGroups §1.2's covolume formula at `k = ℚ`, consumed: with `
 `dedekindZeta ℚ` with `riemannZeta` is proved here from their Dirichlet series, the ideals of `ℤ`
 being the positive integers. Finite-index scaling (§1.2 of the same roadmap, through Tau Ceti's
 `MeasureTheory.covolume_eq_card_mul_covolume`) with the index `ψ(N)` gives
-`area(X₀(D;N)) = (π/3)φ(D)ψ(N)` (`[V, 39.1.2, 39.1.13]`). *Needs:* 8.1, 1.9, 4.3;
-ArithmeticFuchsianGroups §1.2; FuchsianOrbifolds Layer 1 covolume scaling; Mathlib
+`area(X₀(D;N)) = (π/3)φ(D)ψ(N)` (`[V, 39.1.2, 39.1.13]`; Theorem 39.1.2 includes `D = 1`).
+*Needs:* 8.1, 1.9, 4.3; ArithmeticFuchsianGroups §1.2; FuchsianOrbifolds Layer 2 item 1
+(covolume); Tau Ceti `MeasureTheory.covolume_eq_card_mul_covolume`; Mathlib
 `riemannZeta_two` in `Mathlib/NumberTheory/LSeries/HurwitzZetaValues.lean` for `ζ(2) = π²/6` and
 `NumberField.dedekindZeta`.
 
@@ -1831,10 +1951,17 @@ ArithmeticFuchsianGroups §1.2; FuchsianOrbifolds Layer 1 covolume scaling; Math
 
 - `area(X_0(6;1)) = 2π/3`.
 - `area(X_0(6;5)) = (π/3)·2·6 = 4π`, with `ψ(5) = 6`.
+- (boundary) `D = 1`, `N = 1`: `Γ¹(M₂(ℤ))` is `PSL₂(ℤ)`, of covolume `π/3 = (π/3)φ(1)ψ(1)`; at
+  `N = 2` the image of `Γ₀(2)` has covolume `π = (π/3)·ψ(2)`.
 - (reject) For `B` definite the index formula fails: in `ℍ[ℚ,-1,-1]` the Eichler orders of level
   `7` have `[O(1)¹ : O¹] = 4 ≠ ψ(7) = 8`.
 
 ### 8.3 Elliptic points are embedding numbers
+
+The signature definition `ellipticCount Γ q` is `ν_q(Γ)` of Conventions, the number of `Γ`-orbits
+in `ℍ` whose stabilizer has order `q`; `ellipticCount_gammaOne_two` and
+`ellipticCount_gammaOne_three` state `ν₂(Γ¹(O)) = m(ℤ[i],O;O^×)` and `ν₃(Γ¹(O)) = m(ℤ[ω],O;O^×)`
+for every Eichler order `O`.
 
 Prove that a point `τ ∈ ℍ` with stabilizer of order `q ≥ 2` in `Γ¹(O)` gives a maximal finite
 cyclic subgroup `⟨γ⟩ ≤ O¹` of order `2q`, that `ℚ(γ) = ℚ(ζ_{2q})` is imaginary quadratic (so
@@ -1843,13 +1970,16 @@ cyclic subgroup `⟨γ⟩ ≤ O¹` of order `2q`, that `ℚ(γ) = ℚ(ζ_{2q})` 
 (`[V, 39.4.3–39.4.4]`). Hence `ν_q(Γ¹(O)) = (1/2)∑_S m(S,O;O¹)` and, by 6.1 and 4.4,
 `ν₂(Γ¹(O)) = m(ℤ[i],O;O^×)`, `ν₃(Γ¹(O)) = m(ℤ[ω],O;O^×)`, `ν_q = 0` for `q ∉ {2,3}`; with 6.5 these
 are the LMFDB's `nu2`, `nu3` of `X(D,M;1)`. *Needs:* 8.1, 6.1, 6.5, 4.4; Tau Ceti
-`Fuchsian/Stabilizer`.
+`Fuchsian/Stabilizer`, `UpperHalfPlane/PSL/Action`.
 
 **Checks.**
 
 - `X_0(6;1)`: `ν₂ = ν₃ = 2`.
 - `X_0(10;1)`: `ν₂ = 0`, `ν₃ = 4`.
 - `X_0(6;5)`: `ν₂ = 4`, `ν₃ = 0`; X₀(15;4): ν₂ = ν₃ = 0 and genus 5; (D,N) = (6,4) is inadmissible since gcd(6,4) = 2.
+- (boundary) `D = 1`, `N = 1`: `PSL₂(ℤ)` has `ν₂ = ν₃ = 1`, the orbits of `i` and of
+  `ρ = e^{2πi/3}`, and `m(ℤ[i], M₂(ℤ); GL₂(ℤ)) = m(ℤ[ω], M₂(ℤ); GL₂(ℤ)) = 1`, the empty products of
+  6.5; the `O¹`-count `m(ℤ[i], M₂(ℤ); SL₂(ℤ)) = 2` would double `ν₂`.
 - (reject) `ν_q(Γ¹(O)) = 0` for `q ∉ {2, 3}`: stabilizers of order `4` and `6` occur only in larger
   groups (8.7).
 
@@ -1858,14 +1988,25 @@ are the LMFDB's `nu2`, `nu3` of `X(D,M;1)`. *Needs:* 8.1, 6.1, 6.5, 4.4; Tau Cet
 Let `X_0(D;N) = Γ¹_0(D;N)\ℍ`, a compact Riemann surface (Tau Ceti `Fuchsian/CoarseQuotient`,
 equal to its compactification since there are no cusps). Prove, from Fuchsian orbifolds' orbifold
 Euler characteristic formula (Layer 4.5, 5.6) with 8.2 and 8.3,
-`g(X_0(D;N)) = 1 + φ(D)ψ(N)/12 − ν₂/4 − ν₃/3` (`[V, 39.4.20]`). *Needs:* 8.2, 8.3;
-FO Layers 1, 4, 5.
+`g(X_0(D;N)) = 1 + φ(D)ψ(N)/12 − ν₂/4 − ν₃/3` (`[V, 39.4.20]`). The acceptance theorem
+`eulerChar_compactifiedQuotient_gammaOne` states it for the Euler characteristic `χ = 2 − 2g` of
+`Subgroup.CompactifiedQuotient (gammaOne ι O)`, the genus of Fuchsian orbifolds Layer 5 item 1:
+`χ = −φ(D)ψ(N)/6 + ν₂/2 + 2ν₃/3` with `ν₂, ν₃` the Kronecker products of 6.5, for `D > 1`. Its two
+instance hypotheses are the ones the carriers require: `Γ¹(O)` is discrete, which defines the
+topology of the compactified quotient and is ArithmeticFuchsianGroups §1.1's theorem; and the
+compactified quotient has finite CW type, which every compact surface has (the finite CW model
+consumed by Fuchsian orbifolds Layer 5 item 1). *Needs:* 8.2, 8.3, 6.5;
+ArithmeticFuchsianGroups §1.1; FO Layers 1, 4, 5; Tau Ceti `TauCeti.eulerChar`,
+`TauCeti.FiniteCWType`.
 
 **Checks.**
 
 - `g(X_0(6;1)) = 0` (`ν₂ = ν₃ = 2`), `g(X_0(10;1)) = 0` (`ν₂ = 0`, `ν₃ = 4`).
 - `g(X_0(14;1)) = 1`, `g(X_0(26;1)) = 2`, `g(X_0(35;1)) = 3`.
-- `g(X_0(6;5)) = 1` (`ν₂ = 4`), `g(X_0(6;11)) = 3`.
+- `g(X_0(6;5)) = 1` (`ν₂ = 4`), `g(X_0(6;11)) = 3`; in Euler-characteristic form
+  `χ(X_0(6;5)) = −12/6 + 4/2 + 0 = 0` and `χ(X_0(15;4)) = −48/6 + 0 + 0 = −8`, genus `5`.
+- (reject) For `D = 1`, `N = 1` the compactified quotient `X(1)` has `χ = 2`, while the formula gives
+  `−1/6 + 1/2 + 2/3 = 1`: its cusp contributes the missing `1`, so the theorem needs `D > 1`.
 
 ### 8.5 Atkin–Lehner involutions
 
@@ -1967,7 +2108,7 @@ X₀(6;1) has area 2π/3 and genus zero; X₀(15;4) has genus five.
 
 ### Dependencies
 
-Layers 4 and 6; ArithmeticFuchsianGroups §§1.1–1.2; FuchsianOrbifolds Layers 1, 4 and 5; HilbertModularVarietiesAndShimuraCurves R18.1.
+Layers 4 and 6; ArithmeticFuchsianGroups §§1.1–1.2; FuchsianOrbifolds Layers 1, 2, 4 and 5; HilbertModularVarietiesAndShimuraCurves R18.1; Tau Ceti `MeasureTheory.covolume_eq_card_mul_covolume`, `TauCeti.eulerChar`.
 
 ## Layer 9: polarized orders, `Aut_{±μ}(O)`, enhanced groups and the curves `X_H`
 
@@ -1981,9 +2122,10 @@ Define `IsPolarization O μ` and `deg μ` as pinned. Prove: `deg μ` is well def
 `μ² ∈ −discrd(O)·(ℚ^×)²`; a polarization of degree `δ` exists iff `ℚ(√−δ·DM)` embeds in `B`, iff
 no prime `p | D` splits in `ℚ(√−δDM)` (0.6, 6.1); in particular `exists_principal_polarization` states that every maximal order in an
 indefinite rational algebra (including the split algebra) has a principal polarization μ ∈ O with μ² = −D (`[V, 43.6.6]`); for such a principal polarization, `μ ∈ D·O^♯` (`[V, 43.6.7]`). Prove that
-for `δ | DM` squarefree, whenever a degree-`δ` polarization exists, it can be chosen in `O` with `μ² = −δ·DM` (the
-LMFDB's stored `mu`, whose coordinates are in the stored basis of `O`; its stored `nrdmu` is the
-reduced norm of the primitive element of `ℚ^×μ ∩ O`, so `6.2` has `mu² = −12` and `nrdmu = 3`).
+for `δ | DM` squarefree, whenever a degree-`δ` polarization exists, it can be chosen in `O` with `μ² = −δ·DM`;
+then `nrd(μ)/discrd(O) = δ` is an integer, the normalization in which the LMFDB knowl
+`shimcurve.nrdmu` reads the degree as the squarefree part of the integer `nrd(μ)/discrd(O)` (for
+`D = 6`, `δ = 2`: `μ² = −12` and `12/6 = 2`).
 Isomorphism of polarized orders is conjugation by `N_{B^×}(O)` carrying `μ ↦ μ'` (`[V, 43.6.5]`).
 Prove that, with `μ` normalized by `μ² = −δ·DM`, the isomorphism classes of polarized orders
 `(O, μ)` of degree `δ` with `O` fixed are the orbits of `N_{B^×}(O)/ℚ^×O^×` (4.5) on
@@ -2239,7 +2381,8 @@ Its API:
 Prove, for `D = 6`, `O` maximal, `deg μ = 1` (`Aut_{±μ}(O) ≅ (ℤ/2)²`): `K = {(±1, 1)}`, so at
 level `1` the gerbiness `#ρ_1(K)` and the aut-gerbiness are both `1`; `X(6;1)` (`H = 1`): index `4`,
 Fuchsian index `4`, `ν₂ = ν₃ = 2`, genus `0`, label prefix `6.1.1.4.0`; `X^*(6;1)`
-(`H = Aut_{±μ}(O)`): index `1`, Fuchsian index `1`, genus `0`, prefix `6.1.1.1.0`; `X(6,5;1)`:
+(`H = Aut_{±μ}(O)`): index `1`, Fuchsian index `1`, `(ν₂, ν₃, ν₄, ν₆) = (1, 0, 1, 1)`, signature
+`(0; 2, 4, 6)`, area `(2π/3)/4 = π/6`, genus `0`, prefix `6.1.1.1.0`; `X(6,5;1)`:
 index `4`, `ν₂ = 4`, genus `1`, prefix `6.30.1.1.4.1` (with `d = 30`); `X(6,11;1)`: index `2`
 (`#Aut_{±μ}(O) = 2` for this Eichler order), genus `3`, prefix `6.66.1.1.2.3`; `X(10;1)`: index `4`,
 `ν₃ = 4`, genus `0`; `X(14;1)`: index `2`, `ν₂ = 2`, genus `1`; `X(26;1)`: index `2`, genus `2`;
@@ -2248,7 +2391,9 @@ index `4`, `ν₂ = 4`, genus `1`, prefix `6.30.1.1.4.1` (with `d = 30`); `X(6,1
 **Checks.**
 
 - `X(6;1)`: index `4`, Fuchsian index `4`, `ν₂ = ν₃ = 2`, genus `0`.
-- `X^*(6;1)`: index `1`, genus `0`.
+- `X^*(6;1)`: index `1`, genus `0`, `(ν₂, ν₃, ν₄, ν₆) = (1, 0, 1, 1)`; 9.6 gives
+  `g = 1 + 1·(1/4)·(2/12) − (1/2)(1/2 + 3/4 + 5/6) = 1 + 1/24 − 25/24 = 0`, and the area
+  `2π(−2 + 1/2 + 3/4 + 5/6) = π/6` is a quarter of `area(X_0(6;1)) = 2π/3`.
 - `X(6,5;1)`: index `4`, `ν₂ = 4`, genus `1`; `X(6,11;1)`: index `2`, genus `3`.
 - `X(10;1)`: index `4`, `ν₃ = 4`, genus `0`; `X(26;1)`: index `2`, genus `2`.
 
@@ -2333,8 +2478,14 @@ schema or the contents of a stored record.
 
 ### 10.3 The worked suite
 
-The curves of 9.9 and the orders of 2.7, 5.6, 7.6 exercise every column of the first thirteen
-rows. Their values are the Checks of the milestones named; `Suggested.lean` states only the
+The worked objects give values for the rows of 10.2 as follows: the algebra, `discB`, the basis
+and `discO` by 0.7, 1.10 and 2.7; the area by 8.2 and 9.9; the polarization and its degree by
+9.1; the automorphism group by 9.3 and 9.4; the level, index, Fuchsian index, gerbiness and
+coarseness by 9.5 and 9.9; `nu2`, `nu3`, `nu4`, `nu6` and the genus by 8.3, 8.4 and 9.9 (`nu4`
+and `nu6` by `X^*(6;1)`); `torsion` by the fixed module of 9.7; `autmuO_norms` and `is_split` by
+9.8, and `galEnd` by 9.8 under its comparison hypotheses; the CM discriminant `−4` of `X_0(6;1)`
+by 8.9; the names by 9.5. The generators of `H` are presentation data and have no worked value.
+These values are the Checks of the milestones named; `Suggested.lean` states only the
 carriers and theorems expressible over Mathlib and the pinned Tau Ceti, and the worked objects are
 specified in this README only.
 
@@ -2460,8 +2611,9 @@ untwisted, one pair for each `S`: two classes, the LMFDB's `39.1` being the pair
 ### Off-hypothesis checks
 
 - `ℍ[ℚ,1,7]` and `ℍ[ℚ,5,5]` are split: `D = 1`, every order is conjugate to a suborder of `M₂(ℤ)`,
-  and Layer 8 is not applicable (`X_0(1;N)` is the modular curve, which has cusps; it is the
-  modular-forms roadmap's).
+  and the compactness and genus statements of Layer 8 do not apply (`X_0(1;N)` is the modular
+  curve, which has cusps; it is the modular-forms roadmap's); the index, area and elliptic counts
+  of 8.2–8.3 specialize to those of `Γ₀(N)`.
 - A finite set of odd cardinality, such as `{5}` with `∞` split, is not a ramification set (0.3).
 - `ℤ + 2O_6` is an order with `discrd = 48` that is neither Eichler nor Gorenstein (2.3, 2.7); the
   genus formula of 8.4 does not apply to it, and `Γ¹(ℤ + 2O_6)` has index `[O_6¹ : (ℤ+2O_6)¹]` in
@@ -2484,19 +2636,22 @@ untwisted, one pair for each `S`: two classes, the LMFDB's `39.1` being the pair
 - **Layer 0** (ramification, discriminant) rests on Tau Ceti, the consumed classification and
   ArithmeticFuchsianGroups §1.2's ramification set; it is independent of the other layers and can start at once.
 - **Layer 1** (orders) rests on Mathlib's `IsLattice` and 0.1; 1.6 and 1.11 consume
-  ArithmeticFuchsianGroups §§1.1–1.2; 1.7 and 1.9 need 0.4, 1.9 needs CAC 7.60; 1.11 uses
-  elementary divisors over a DVR; 1.13 needs 0.7, 1.7 and 1.12.
+  ArithmeticFuchsianGroups §§1.1–1.2; 1.8, 1.9 and 1.11 consume HilbertModularVarietiesAndShimuraCurves
+  §R18.5.16a; 1.7 and 1.9 need 0.4, 1.9 needs CAC 7.60; 1.11 uses elementary divisors over a DVR;
+  1.13 needs 0.7, 1.7 and 1.12.
   **Layer 2** (Gorenstein, Bass) needs Layer 1 only and is independent of Layer 3.
 - **Layer 3** (ideals, class sets, idelic dictionary, finiteness) needs Layer 1; 3.4 needs CAC
   7.72, 7.78, global number fields Layers 4–6 and AA.5.3; 3.5 needs AA.3.4, AA.5.3 and
-  ArithmeticFuchsianGroups §1.4; 3.6 and 4.6 consume ArithmeticFuchsianGroups §1.2; 3.8 needs
-  1.13.
+  ArithmeticFuchsianGroups §1.4; 3.4 and 3.9 consume HilbertModularVarietiesAndShimuraCurves
+  §§R18.5.16a–R18.5.16b; 3.6 and 4.6 consume ArithmeticFuchsianGroups §1.2; 3.8 needs 1.13.
 - **Layer 4** (indefinite) needs Layer 3, AA.4.2, AA.4.6 and CAC 7.44, 7.60, 7.98. **Layer 5** (mass)
-  needs Layer 3, 2.4 and AA.5.3; Layers 4 and 5 are independent of each other.
+  needs Layer 3, 2.4, AA.5.3 and, for the weights of Eichler orders in 5.1,
+  HilbertModularVarietiesAndShimuraCurves §R18.5.16a; Layers 4 and 5 are independent of each other.
 - **Layer 6** (embeddings) needs Layers 1, 3; 6.4 needs 3.5; 6.5 needs 4.3 in the indefinite
   case; 6.6 needs Layer 5.
-- **Layer 7** (Brandt) needs Layers 3, 5, 6.4 and, for 7.7, theta series Layer 7.
-- **Layer 8** (Shimura curves) needs Layers 4, 6, ArithmeticFuchsianGroups §§1.1–1.2 and FuchsianOrbifolds Layers 1, 4, 5.
+- **Layer 7** (Brandt) needs Layers 3, 5, 6.4, HilbertModularVarietiesAndShimuraCurves
+  §R18.5.16c and, for 7.7, theta series Layer 7.
+- **Layer 8** (Shimura curves) needs Layers 4, 6, ArithmeticFuchsianGroups §§1.1–1.2 and FuchsianOrbifolds Layers 1, 2, 4, 5.
 - **Layer 9** (enhanced groups) needs Layers 4, 6 and 8. **Layer 10** needs 9.
 - Parallel tracks: {0}, {1 → 2}, {1 → 3 → 4}, {1 → 3 → 5}, {3 → 6 → 7}, {4, 6 → 8 → 9 → 10}.
 
