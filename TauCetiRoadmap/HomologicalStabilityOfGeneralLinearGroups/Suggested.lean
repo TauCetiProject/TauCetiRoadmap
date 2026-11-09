@@ -121,14 +121,14 @@ theorem elementaryHomology_stabilization_of_isSemisimpleRing
       Function.Bijective (groupHomology.map (elementaryStabilization R n) φ m)) := by
   sorry
 
-/-- **2.3.** For a connected semilocal ring whose residue fields are all infinite, the
-stabilization induces a bijection on `H_m(-; ℤ)` for `m ≤ n`: the relative groups
+/-- **2.3.** For a semilocal ring whose residue fields are all infinite, the stabilization
+induces a bijection on `H_m(-; ℤ)` for `m ≤ n`. For connected rings the relative groups
 `H_d(GL_n(R), GL_{n-1}(R); ℤ)` vanish for `d < n` and `H_n(GL_n(R)) → H_n(GL_n(R), GL_{n-1}(R))`
 is onto (Galatius–Kupers–Randal-Williams 2025, Theorem 9.4 and its proof; Nesterenko–Suslin
-1989, Theorems 2.7 and 3.25; Guin 1989, Théorème 2). -/
+1989, Theorems 2.7 and 3.25; Guin 1989, Théorème 2); a semilocal ring is a finite product of
+connected ones, and the Künneth theorem gives the general case. -/
 theorem homology_stabilization_of_infinite_residueFields [Finite (MaximalSpectrum R)]
-    [ConnectedSpace (PrimeSpectrum R)] [∀ 𝔪 : MaximalSpectrum R, Infinite (R ⧸ 𝔪.asIdeal)]
-    (m n : ℕ)
+    [∀ 𝔪 : MaximalSpectrum R, Infinite (R ⧸ 𝔪.asIdeal)] (m n : ℕ)
     (φ : Rep.trivial ℤ (Matrix.GeneralLinearGroup (Fin n) R) ℤ ⟶
       Rep.res (TauCeti.stabilizeGL R (Nat.le_succ n))
         (Rep.trivial ℤ (Matrix.GeneralLinearGroup (Fin (n + 1)) R) ℤ))

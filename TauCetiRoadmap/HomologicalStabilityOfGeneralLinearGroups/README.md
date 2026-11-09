@@ -11,7 +11,7 @@ Nesterenko–Suslin property), which gives Suslin's spectral sequence (Layer 1).
 `g ↦ diag(g, 1)` induces a surjection `H_m(E_n(R); ℤ) → H_m(E_(n+1)(R); ℤ)` for `n ≥ 2m + e − 1`
 and a bijection for `n ≥ 2m + e`, on Mathlib's hypotheses for a noetherian ring of Krull dimension
 at most `d` (`sdim = d`) and for a ring whose quotient by its Jacobson radical is semisimple
-(`sdim = 0`); for a connected semilocal ring with all residue fields infinite,
+(`sdim = 0`); for a semilocal ring with all residue fields infinite,
 `H_m(GL_n(R); ℤ) → H_m(GL_(n+1)(R); ℤ)` is bijective for `m ≤ n`; and for `m ≥ 1`,
 `π_m(BGL_n(R)⁺) ≅ K_m(R)` for `n ≥ max(3, 2m + e + 1)`. Layer 3 treats twisted coefficients: van
 der Kallen's stability for strongly central coefficient systems of finite degree, after Dwyer, with
@@ -28,19 +28,16 @@ and the transitivity of these actions, and the spectral sequence of such an acti
 coefficient module, with its `d¹` differentials (1.1–1.2); the Nesterenko–Suslin property of
 semilocal rings with infinite residue fields and Suslin's spectral sequence of `GL_n` acting on the
 whole frame complex (1.3); van der Kallen's stability theorem for the elementary subgroups `E_n(R)`
-with its specializations (2.1–2.2); stability for connected semilocal rings with infinite residue
-fields in the range `m ≤ n` (2.3); the comparison of the stable range with `BGL_n(R)⁺` and with
+with its specializations (2.1–2.2); stability for semilocal rings with infinite residue fields in
+the range `m ≤ n` (2.3); the comparison of the stable range with `BGL_n(R)⁺` and with
 `K_m(R)` (2.4); coefficient systems in van der Kallen's sense, their degree, the relative spectral
 sequence of a pair of groups with coefficients, and stability with coefficients in a strongly
-central coefficient system of finite degree (Layer 3). A search of the roadmaps on main, of the
-open pull requests and of the maintainers' packages for homological stability, stable rank,
-unimodular sequences or frames, partial bases, van der Kallen, Maazen, Charney, Nesterenko, Dwyer
-and twisted coefficients finds one other owner, SchemeKTheoryOperations §6.7 (below):
-AlgebraicKTheory (Layer 4) owns stable range and the stability of `K₁`, not of homology;
-ArithmeticKTheory §3.2 states rank-filtration bounds and says that they are not homological
-stability bounds for `GL_m`; InverseGaloisAndArithmeticFundamentalGroupsPartII owns homological
-stability for Hurwitz spaces and MotivicStructuresInModuliOfCurves §3.4 for mapping class groups,
-for other families of groups.
+central coefficient system of finite degree (Layer 3). One other roadmap owns part of this
+subject, SchemeKTheoryOperations §6.7 (below). AlgebraicKTheory (Layer 4) owns stable range and
+the stability of `K₁`, not of homology; ArithmeticKTheory §3.2 states rank-filtration bounds and
+says that they are not homological stability bounds for `GL_m`;
+InverseGaloisAndArithmeticFundamentalGroupsPartII owns homological stability for Hurwitz spaces and
+MotivicStructuresInModuliOfCurves §3.4 for mapping class groups, for other families of groups.
 
 **Left to SchemeKTheoryOperations.** Section 6.7 of SchemeKTheoryOperations owns, over any ring
 satisfying `SR_(s+2)`: the group hyperhomology `H_n(G; C)` of a complex of `G`-modules, with its
@@ -68,9 +65,11 @@ block-diagonal homomorphism `TauCeti.fromBlocksGL`, and the stable group
 `TauCeti.StableGeneralLinearGroup` (supplier contracts below).
 
 **Left to StableHomotopyKTheory and GeneralAlgebraicKTheory.** Classifying spaces and the comparison
-of their homology with group homology (StableHomotopyKTheory 1.30 and 1.32), the plus construction
-with respect to a perfect normal subgroup and its universal property (StableHomotopyKTheory
-3.25–3.27), the H-space `BGL(R)⁺` (StableHomotopyKTheory 4.14), Quillen's `K_m(R)`
+of their homology with group homology (StableHomotopyKTheory 1.30 and 1.32), homotopy groups of
+filtered colimits (1.14), the relative Hurewicz theorem (3.16), the plus construction with respect
+to a perfect normal subgroup, its homology and its universal property (StableHomotopyKTheory 3.12,
+3.25–3.27), the universal cover `BP⁺` of `BG⁺` (3.31), the H-space `BGL(R)⁺` (StableHomotopyKTheory
+4.14), Quillen's `K_m(R)`
 (GeneralAlgebraicKTheory 3.2) and the identification `π_m(BGL(R)⁺) ≅ K_m(R)` for `m ≥ 1`
 (GeneralAlgebraicKTheory 3.14).
 
@@ -141,7 +140,9 @@ for the theorems here.
    `R ⧸ Ring.jacobson R` is semisimple. "All residue fields infinite" is
    `∀ 𝔪 : MaximalSpectrum R, Infinite (R ⧸ 𝔪.asIdeal)`, and "connected" is
    `ConnectedSpace (PrimeSpectrum R)`. Witness: `ℤ_(2)` is local with residue field `𝔽₂`, not
-   infinite; `ℚ × ℚ` is semilocal with infinite residue fields and not connected.
+   infinite; `ℚ⟦t⟧` is local with residue field `ℚ`, infinite; the zero ring has no maximal ideal,
+   so it is semilocal with all residue fields infinite, and it is not connected, its spectrum
+   being empty.
 
 ## Exact supplier contracts
 
@@ -179,9 +180,11 @@ the unimodular frames, the complexes `F_n^δ` and `F_n^δ(u)` for columns and fo
 **From AlgebraicKTheory.** 4.1 (`HasStableRangeLE`, its monotonicity and `injective_stability`),
 4.2 (`hasStableRangeLE_of_ringKrullDim_le`, `hasStableRangeLE_one_of_isSemisimpleRing`).
 
-**From StableHomotopyKTheory.** 1.30 and 1.32 (`H_*(BG) ≅ H_*(G)`), 3.25–3.27 (the plus construction
-with respect to a perfect normal subgroup, its universal property and functoriality), 4.14
-(`BGL(R)⁺` and its H-space structure).
+**From StableHomotopyKTheory.** 1.14 (homotopy groups commute with filtered colimits), 1.30 and
+1.32 (`H_*(BG) ≅ H_*(G)`), 3.12 (the plus construction is an integral homology isomorphism), 3.16
+(the relative Hurewicz theorem with trivial `π₁`-action), 3.25–3.27 (the plus construction with
+respect to a perfect normal subgroup, its universal property and functoriality), 3.31 (`BP⁺` is the
+universal cover of `BG⁺`), 4.14 (`BGL(R)⁺` and its H-space structure).
 
 **From GeneralAlgebraicKTheory.** 3.2 (Quillen's `K_m(R)`) and 3.14 (`π_m(BGL(R)⁺) ≅ K_m(R)` for
 `m ≥ 1`).
@@ -194,8 +197,8 @@ builds the spectral sequence of each action from §6.7's hyperhomology and Shapi
 of the stabilisers of frames with that of smaller general linear groups, which gives Suslin's
 spectral sequence. Layer 2 proves van der Kallen's theorem for the elementary subgroups by his
 induction on the degree (the case of `GL_n(R)` being §6.7's), states it on Mathlib's hypotheses,
-proves the range `m ≤ n` for connected semilocal rings with infinite residue fields by Suslin's
-spectral sequence, and passes to K-theory through the plus construction. Layer 3 repeats the
+proves the range `m ≤ n` for semilocal rings with infinite residue fields by Suslin's spectral
+sequence, and passes to K-theory through the plus construction. Layer 3 repeats the
 argument of Layer 2 with coefficient systems and the relative spectral sequence of a pair of
 groups.
 
@@ -213,7 +216,10 @@ summand, in an affine subspace, of row vectors, of mixed type), that complex is 
 2.6(i)–(ii), p. 274; Remark 2.7.1 there notes that parts (iii)–(iv) serve only the proof), the
 action is transitive on frames of each length `k + 1 ≤ d + ε + 1`, with `ε = 0` when `P = Q` and
 `ε = 1` otherwise (van der Kallen 1980, 3.4 and Examples 3.5, pp. 279–280), and the stabiliser of
-the standard frame of length `k + 1` is a group `G_n^(P',Q')` with `|P' ∪ Q'| = t + k + 1`.
+the standard frame of length `k + 1` is a group `G_n^(P',Q')` with `|P' ∪ Q'| = t + k + 1 − ε`:
+it is `G_n^(P(k),Q)` with `P(k) = P ∪ [t + 1, t + k + 1]` when `P = Q`, and `G_n^(P(k),Q)` or
+`G_n^(P,Q(k))` with `P(k) = P ∪ [t, t + k]`, `Q(k) = Q ∪ [t, t + k]` otherwise (van der Kallen
+1980, Examples 3.5.1–3.5.4).
 *Needs:* SchemeKTheoryOperations §6.7 (frames, `F_n^δ`, `F_n^δ(u)`, row vectors, exactness);
 AlgebraicKTheory 4.1; Mathlib `Matrix.GeneralLinearGroup`.
 
@@ -241,6 +247,11 @@ API:
   the stably free, non-free module of tangent fields.
 - The stabiliser of `(e₁, …, e_n)` in `GL_n(R)` is trivial: `G_n^([1,n],∅) = 1`, which ends the
   induction.
+- The count `t + k + 1 − ε` loses one in the non-square case. For `P = ∅`, `Q = {1}`, `n = 2`
+  (Example 3.5.2 with `t = 1`), `G = {(1 0; a u)}` acts on the affine line `e₁ + Re₂`, `σ₀ = (e₁)`,
+  and `Stab(σ₀) = {(1 0; 0 u)} = G₂^({1},{1}) ≅ GL₁(R)`, with `|P' ∪ Q'| = 1 = t + k + 1 − ε`,
+  not `t + k + 1 = 2`: the stabiliser fixes the column `e₁` and the row `e₁*` and nothing more,
+  and over `𝔽₃` it has order `2`, while `G₂^([1,2],[1,2])` and `G₂^([1,2],{1})` are trivial.
 
 ### 1.2 The spectral sequence
 
@@ -421,20 +432,28 @@ Theorem B) and Quillen's computation at the odd primes give bijectivity for
 `n ≥ ⌊3(m + 1)/2⌋ + 1`, which is `n ≥ 8` for `m = 4` and below `2m + 1` from `m = 4` on. The same
 holds for SchemeKTheoryOperations §6.7's semilocal form for `GL_n(𝔽₂)`.
 
-### 2.3 Connected semilocal rings with infinite residue fields
+### 2.3 Semilocal rings with infinite residue fields
 
-Prove `homology_stabilization_of_infinite_residueFields`: for a connected semilocal ring `R` whose
-residue fields are all infinite (Convention 7), the map
+Prove `homology_stabilization_of_infinite_residueFields`: for a semilocal ring `R` whose residue
+fields are all infinite (Convention 7), the map
 `groupHomology.map (TauCeti.stabilizeGL R (Nat.le_succ n)) φ m`, with `φ` the identity of `ℤ`, is
-bijective for `m ≤ n`. Its content is the vanishing of the relative groups
+bijective for `m ≤ n`. For connected `R` its content is the vanishing of the relative groups
 `H_d(GL_n(R), GL_(n−1)(R); ℤ)` for `d < n`, with the surjectivity of
 `H_n(GL_n(R); ℤ) → H_n(GL_n(R), GL_(n−1)(R); ℤ)` (Galatius–Kupers–Randal-Williams 2025, Theorem 9.4
 and its proof in §9.2, where the map from `n`-fold products of units onto the relative group factors
 through `H_n(GL_n(R))`; for local rings Nesterenko–Suslin 1989, Theorems 2.7 and 3.25; for connected
 semilocal rings Guin 1989, Théorème 2), and the exact sequence of Convention 5: the first gives
-surjectivity for `m ≤ n` and injectivity for `m < n`, the second injectivity for `m = n`. Route:
+surjectivity for `m ≤ n` and injectivity for `m < n`, the second injectivity for `m = n`; the
+connectedness in Galatius–Kupers–Randal-Williams 2025, Theorem 9.4, serves the identification of
+the relative group with Milnor K-theory, which is out of scope here. Route: for connected `R`,
 Nesterenko and Suslin's induction on `n` through Suslin's spectral sequence of 1.3, as in Suslin's
-proof for infinite fields (K3BlochGroups 4.8).
+proof for infinite fields (K3BlochGroups 4.8). In general, `R` is a finite product of connected
+semilocal rings `R₁ × ⋯ × R_l` with infinite residue fields, each connected component of its
+spectrum being clopen and containing a closed point; `GL_n(R) = GL_n(R₁) × ⋯ × GL_n(R_l)`,
+compatibly with the stabilization, and the natural Künneth sequence for a product of two groups,
+with terms `H_i ⊗ H_j` (`i + j = m`) and `Tor(H_i, H_j)` (`i + j = m − 1`), all with `i, j ≤ n`,
+gives bijectivity by the five lemma and induction on `l`; for `l = 0`, the zero ring, all groups
+are trivial.
 *Needs:* 1.3; Tau Ceti `TauCeti.stabilizeGL`; Mathlib `MaximalSpectrum`, `PrimeSpectrum`,
 `ConnectedSpace`, `Rep.trivial`, `Rep.res`, `groupHomology.map`.
 
@@ -450,6 +469,13 @@ proof for infinite fields (K3BlochGroups 4.8).
   through the determinant, bijective as claimed; this is the case `m = n`, which the vanishing of
   the relative groups alone does not give.
 - `m = n = 0`: `GL₀(R) = 1 → GL₁(R)` induces the identity of `H₀ = ℤ`.
+- Connectedness is not needed: `ℚ × ℚ` is semilocal with infinite residue fields and not
+  connected, and `GL_n(ℚ × ℚ) = GL_n(ℚ) × GL_n(ℚ)`. For `m ≤ n` the Künneth terms
+  `H_i(GL_n(ℚ)) ⊗ H_j(GL_n(ℚ))` (`i + j = m`) and `Tor(H_i, H_j)` (`i + j = m − 1`) have
+  `i, j ≤ n`, where both factors are bijective, so the five lemma gives bijectivity; for
+  `m = n = 1`, `H₁ = ℚˣ × ℚˣ → ℚˣ × ℚˣ` through the two determinants.
+- The zero ring satisfies the hypotheses vacuously: `GL_n(0)` is trivial and every map in the
+  statement is the identity of `ℤ` (`m = 0`) or of `0`.
 
 ### 2.4 The plus construction and K-theory
 
@@ -457,15 +483,20 @@ Prove: under `SR_(sdim+2)`, with `e = max(1, sdim)`, for `m ≥ 1`,
 `π_m(BGL_n(R)⁺) → π_m(BGL_(n+1)(R)⁺)` is onto for `n ≥ max(3, 2m + e − 1)` and injective for
 `n ≥ 2m + e + 1`, where `BGL_n(R)⁺` is the plus construction with respect to the normal closure of
 the perfect group `E_n(R)`, `n ≥ 3` (van der Kallen 1980, Corollary 4.12, p. 289); hence
-`π_m(BGL_n(R)⁺) → K_m(R)` is bijective for `n ≥ max(3, 2m + e + 1)`. Route: `BE_n(R)⁺` is the
-universal cover of `BGL_n(R)⁺` and `H_*(BE_n(R)⁺) = H_*(E_n(R))`, so 2.1 and the relative Hurewicz
-theorem give the first claim (van der Kallen 1980, proof of Corollary 4.12); for the second, the
-mapping telescope of the `BGL_n(R)⁺` is a plus construction of `BGL(R)`, with
+`π_m(BGL_n(R)⁺) → K_m(R)` is bijective for `n ≥ max(3, 2m + e + 1)`. Route: `E_n(R)` is normal in
+`GL_n(R)` for `n ≥ sdim + 2` (AlgebraicKTheory 4.1), so in the range used `BE_n(R)⁺` is the
+universal cover of `BGL_n(R)⁺` (StableHomotopyKTheory 3.31) and
+`H_*(BE_n(R)⁺) = H_*(E_n(R))` (StableHomotopyKTheory 1.30, 1.32 and 3.12); 2.1 and the relative
+Hurewicz theorem (StableHomotopyKTheory 3.16) give the first claim (van der Kallen 1980, proof of
+Corollary 4.12), and for `m = 1` the injective stability of `K₁` (AlgebraicKTheory 4.1); for the
+second, the mapping telescope of the `BGL_n(R)⁺` is a plus construction of `BGL(R)`, with
 `GL(R) = TauCeti.StableGeneralLinearGroup R` (StableHomotopyKTheory 3.25), its homotopy groups are
-the colimits of the `π_m(BGL_n(R)⁺)`, and `K_m(R) ≅ π_m(BGL(R)⁺)` (GeneralAlgebraicKTheory 3.14).
-*Needs:* 2.1; Tau Ceti `TauCeti.commutator_elementarySubgroup_self`,
-`TauCeti.StableGeneralLinearGroup`, `TauCeti.StableGeneralLinearGroup.of`; StableHomotopyKTheory
-1.30, 1.32, 3.25–3.27, 4.14; GeneralAlgebraicKTheory 3.2, 3.14.
+the colimits of the `π_m(BGL_n(R)⁺)` (StableHomotopyKTheory 1.14), and `K_m(R) ≅ π_m(BGL(R)⁺)`
+(GeneralAlgebraicKTheory 3.14).
+*Needs:* 2.1; AlgebraicKTheory 4.1 (`injective_stability`, normality of `E_n(R)`); Tau Ceti
+`TauCeti.commutator_elementarySubgroup_self`, `TauCeti.StableGeneralLinearGroup`,
+`TauCeti.StableGeneralLinearGroup.of`; StableHomotopyKTheory 1.14, 1.30, 1.32, 3.12, 3.16,
+3.25–3.27, 3.31, 4.14; GeneralAlgebraicKTheory 3.2, 3.14.
 
 **Checks.**
 
@@ -492,9 +523,9 @@ the colimits of the `π_m(BGL_n(R)⁺)`, and `K_m(R) ≅ π_m(BGL(R)⁺)` (Gener
 Layer 1; SchemeKTheoryOperations §6.7 (for comparison in Examples and in Scope); AlgebraicKTheory
 4.1–4.2; Tau Ceti `TauCeti.stabilizeGL`, `TauCeti.elementarySubgroup`,
 `TauCeti.map_stabilizeGL_elementarySubgroup_le`, `TauCeti.commutator_elementarySubgroup_self`,
-`TauCeti.StableGeneralLinearGroup`; StableHomotopyKTheory 1.30, 1.32, 3.25–3.27, 4.14 and
-GeneralAlgebraicKTheory 3.2, 3.14 for 2.4. Within the layer, 2.2 and 2.4 use 2.1, and 2.3 uses
-Layer 1 only.
+`TauCeti.StableGeneralLinearGroup`; StableHomotopyKTheory 1.14, 1.30, 1.32, 3.12, 3.16, 3.25–3.27,
+3.31, 4.14 and GeneralAlgebraicKTheory 3.2, 3.14 for 2.4. Within the layer, 2.2 and 2.4 use 2.1,
+and 2.3 uses Layer 1 only.
 
 ## Layer 3: twisted coefficients
 
@@ -506,17 +537,19 @@ stabilization `TauCeti.stabilizeGL`; central when the image of `ρ_n` in `ρ_(n+
 `s_(n+2)`, where `s_n(e_i) = e_i` for `i ≤ n − 2`, `s_n(e_(n−1)) = e_n`, `s_n(e_n) = e_(n−1)` (the
 choice `γ = 1` of van der Kallen 1980, 5.2, available for `GL`); strongly central when that image
 is also fixed by the elementary matrix `e_(n+1,n+2)`; the shifted system `Σρ` (restriction along the
-lower inclusion), the map `τ : ρ → Σρ`, and the degree: `ρ` has degree `< 0` when it is zero, and
-degree `k ≥ 0` when `Σρ` splits as `τ(ρ) ⊕ coker τ` with `coker τ` strongly central of degree
-`k − 1`. Define the relative groups `Rel_m^n(ρ) = H_m(GL_(n+1)(R), GL_n(R); ρ_(n+1), ρ_n)`
-(Convention 5).
+lower inclusion), the map `τ : ρ → Σρ`, and the degree: `Σρ` splits when `τ` is injective and
+`Σρ = τ(ρ) ⊕ ρ'` for a subsystem `ρ'`, so that `ρ' ≅ coker τ`; `ρ` has degree `< 0` when it is
+zero, and degree `k ≥ 0` when `Σρ` splits and `coker τ` is strongly central of degree `k − 1`
+(van der Kallen 1980, 5.5, p. 290). Define the relative groups
+`Rel_m^n(ρ) = H_m(GL_(n+1)(R), GL_n(R); ρ_(n+1), ρ_n)` (Convention 5).
 *Needs:* Tau Ceti `TauCeti.stabilizeGL`; Mathlib `Rep`, `Rep.res`, `groupHomology.chainsMap`.
 
 API:
 
 - Coefficient systems and their morphisms, with the predicates central and strongly central.
 - The shift `Σρ`, the natural map `τ : ρ → Σρ`, `ker τ` and `coker τ` as coefficient systems.
-- The degree, `< 0` exactly for the zero system, with `deg(ρ ⊕ ρ') ≤ max(deg ρ, deg ρ')`.
+- The degree, `< 0` exactly for the zero system; a system of degree `k` also has degree `k + 1`,
+  and `deg ρ` is the least such `k`, with `deg(ρ ⊕ ρ') ≤ max(deg ρ, deg ρ')`.
 - The relative groups `Rel_m^n(ρ)` and their long exact sequence (Convention 5).
 
 **Checks.**
@@ -530,6 +563,11 @@ API:
   Kallen 1980, 5.5).
 - The system `ρ_n = Rⁿ` with `F_n = 0`, over `R ≠ 0`, is central and has no degree: `τ` is zero,
   so `Σρ` never splits off a copy of `ρ` through `τ`.
+- Injectivity of `τ` is part of the splitting. Over a field (`sdim = 0`) let `ρ_n = A ≠ 0` with
+  trivial action for `n ≤ 2`, `ρ_n = 0` for `n ≥ 3`, `F_n = id` for `n < 2`: it is strongly
+  central, and `τ` is onto, so `Σρ = τ(ρ) ⊕ 0`; but `τ_2 : A → 0` is not injective, and `ρ` has no
+  degree. A degree `0` would make 3.3 claim `Rel_1^2(ρ) = 0` at `n = 2 ≥ 2m + sdim + k = 2`, while
+  the exact sequence of Convention 5 gives `Rel_1^2(ρ) = H₁(GL₃, GL₂; 0, A) ≅ H₀(GL₂; A) = A`.
 
 ### 3.2 The relative spectral sequence
 
@@ -642,7 +680,7 @@ Layers 1–2; SchemeKTheoryOperations §6.7 (hyperhomology); AlgebraicKTheory 4.
 
 ## Downstream consumers
 
-No roadmap on main or in an open pull request consumes a target of this one. SchemeKTheoryOperations
+No roadmap consumes a target of this one. SchemeKTheoryOperations
 names this roadmap as a later consumer of its §6.7, which supplies the hyperhomology, the frame
 complexes and the constant-coefficient theorem for `GL_n(R)` here. K3BlochGroups names it in its
 scope; over an infinite field the spectral sequence and the stability range of its §4.8 are the
