@@ -1,1406 +1,972 @@
-# Self-adjoint spectral theory: the Borel functional calculus, unbounded operators, and Stone's theorem
-
-## Introduction
-
-Self-adjoint spectral theory links unitary evolution, functional calculus, resolvents, and spectral
-measures. A strongly continuous one-parameter unitary group determines a self-adjoint generator.
-For bounded normal operators, bounded Borel functions act through a functional calculus and
-indicator functions produce projection-valued measures. For unbounded self-adjoint operators, the
-resolvent and Cayley transform provide bounded objects from which the spectral measure and generated
-unitary group can be reconstructed.
-
-The roadmap develops these connections in five layers. Part A develops the one-parameter-group
-carrier and its generator calculus, consuming Tau Ceti's implemented Stone theorem for the native
-`LinearPMap` generator and proving the carrier-specific comparison used here. Part B develops the
-bounded Borel functional calculus and projection-valued measures. Part C supplies the domain, graph,
-perturbation, and transport calculus for partial operators. Part D develops resolvents, spectral gaps,
-and the Cayley transform. Part E constructs the spectral measure of an unbounded self-adjoint
-operator and proves its compatibility with the already implemented Stone correspondence, including
-the Yosida construction.
-
-Suggested homes:
-
-```text
-TauCeti/Analysis/InnerProductSpace/OneParameterUnitaryGroup/
-TauCeti/Analysis/InnerProductSpace/BorelCalculus/
-TauCeti/Analysis/InnerProductSpace/ProjValMeasure/
-TauCeti/Analysis/InnerProductSpace/LinearPMap/
-TauCeti/Analysis/CStarAlgebra/SelfAdjointGapInverse.lean
-TauCeti/MeasureTheory/
-```
-
-## Notation and terminology
-
-- **Scalars and Hilbert spaces.** `H` denotes a Hilbert space. Domain, graph, transport, relative
-  bound, Sylvester, and elementary resolvent statements use `𝕜 = ℝ` or `ℂ` according to their
-  formulas. The unitary-group and complex Borel-calculus layers use complex Hilbert spaces.
-- **Partial operators and domains.** `A : H →ₗ.[𝕜] H` denotes a partial linear operator and
-  `dom A` its domain. A bounded operator `T` is regarded as a total partial operator on `⊤` when it
-  enters the partial-operator theory.
-- **Symmetry and self-adjointness.** A partial operator is *symmetric* when it is formally
-  self-adjoint on its domain. It is *self-adjoint* when its adjoint has the same domain and action,
-  equivalently `A† = A` in the bundled partial-operator sense.
-- **Shifted operators.** `A-z` denotes the partial operator `A-zI` on `dom A`. The shifts `A±i`
-  are used in von Neumann's self-adjointness criterion. Thus `A-z=-(zI-A)`; norm lower bounds may
-  be written using either shift, while the resolvent convention below is always `zI-A`.
-- **Resolvent and spectrum.** `ρ(A)` denotes the resolvent set, `σ(A)` its complement in the scalar
-  field, and `R_A(z)` or `R(z)` the bounded two-sided inverse of `zI-A` for `z ∈ ρ(A)`.
-- **One-parameter unitary groups.** `U(t)` denotes a strongly continuous unitary representation of
-  `(ℝ,+)`. The generator convention is `U(t)=e^{itA}`, with generator difference quotient
-  `(U(t)ψ-ψ)/(it)` at `t=0`.
-- **Bounded Borel functional calculus.** For a normal bounded operator `a`, `f(a)` denotes the
-  operator assigned to a bounded Borel symbol `f` on the spectrum. Indicator functions give the
-  associated spectral projections.
-- **Projection-valued measures.** `P(B)` denotes the orthogonal projection assigned to a measurable
-  set `B`. For a vector `ξ`, the diagonal measure is
-  `μ_ξ(B) := ⟪ξ,P(B)ξ⟫`; polarized matrix elements are recovered from these diagonal measures.
-- **Extended norms and infinite sums.** `‖x‖ₑ ∈ ℝ≥0∞` denotes the extended norm, and `∑'`
-  denotes an infinite `tsum`. These forms are used for countable spectral-grid decompositions and
-  block reassembly.
-- **Semibounds.** A lower semibound `c` for `A` means `c‖x‖² ≤ Re⟪Ax,x⟫` on `dom A`; an upper
-  semibound is defined with the reversed inequality.
-- **Graph norm and cores.** The graph norm on `dom A` is
-  `‖x‖_A := sqrt(‖x‖²+‖Ax‖²)`. A *core* is a subspace of the domain that is dense for this graph
-  norm.
-- **Relative boundedness.** A partial map `V` is relatively `A`-bounded with coefficients `(a,b)`
-  when `‖Vx‖ ≤ a‖x‖+b‖Ax‖` on `dom A`.
-- **Cayley transform.** For complex self-adjoint `A`,
-  `U_A := 1+2iR_A(-i) = (A-i)(A+i)⁻¹` denotes the Cayley transform. The inverse Cayley coordinate is
-  `w ↦ i(1+w)/(1-w)` away from the point `w=1`.
-- **Spectral measure of an unbounded operator.** `P_A` denotes the real spectral PVM obtained from
-  the Cayley spectral measure. The corresponding scalar spectral measure for `ξ` is denoted
-  `μ^A_ξ`.
-- **Yosida approximants.** For `n≥1`,
-  `A_n^+ := -n²R_A(in)-inI`, `A_n^- := -n²R_A(-in)+inI`, and
-  `S_n := ½(A_n^+ + A_n^-)`. The bounded self-adjoint operators `S_n` generate the approximating
-  unitary groups.
-
-## What Mathlib and Tau Ceti already have (consume)
-
-- **`LinearPMap`** with `domain`, `graph`, `adjoint`, `IsFormalAdjoint`, `IsSelfAdjoint`,
-  `IsSelfAdjoint.dense_domain`, `IsSelfAdjoint.isClosed`, and closure/core material — the
-  canonical carrier of Parts C and D and the partial-operator carrier used by Part E.
-- **`ContinuousLinearMap`** with operator norms, adjoints, `IsSelfAdjoint`, `unitary`, and
-  the exponential `exp` with `hasDerivAt_exp_smul_const` — the bounded side of Parts A and B.
-- **The continuous functional calculus**: `cfcHom` / `cfc` of an `IsStarNormal` element, its
-  multiplicativity, positivity and norm control — the input Part B extends.
-- **`spectrum` and `resolvent` for algebra elements**, including
-  `spectrum.isOpen_resolventSet` — the bounded theory Part D's notions must bridge to, never
-  duplicate.
-- **Vector measures**: native `VectorMeasure.variation`, `VectorMeasure.integral`
-  and its norm/simple-function identities; scalar complex integration uses
-  the existing real-bilinear multiplication pairing.
-- **Measure theory**: `Measure`, `IsFiniteMeasure`, regularity, Riesz–Markov–Kakutani for
-  positive functionals, `StieltjesFunction`, dominated convergence, `Lp`.
-- **BanachSpaceTheory B5's scalar-measure layer**: B5.ScalarIntegral (scalar
-  vector-integral linearity and signed parts), B5.ScalarDensity (integral against a
-  scalar density), B5.AbsContRegular (absolute-continuity regularity),
-  B5.ScalarUniqueness (scalar-measure uniqueness on continuous tests) and
-  B5.BoundedApprox (bounded continuous approximation in L¹) — Part B consumes
-  these and constructs no second scalar-measure integral.
-- **Topology and analysis**: `Submodule.topologicalClosure`, orthogonal projections and
-  `HasOrthogonalProjection`, Neumann series, `Tendsto` filters.
-
-**Tau Ceti already ships the semigroup layer.** `TauCeti/Analysis/Semigroups/` contains
-roughly 130 declarations: `StronglyContinuousSemigroup` and `ContractionSemigroup`,
-`.generator` with its domain, `.resolvent` with the growth-bound API, `expShift`,
-`ofBounded`, and the abstract Cauchy problem as `IsClassicalSolution` / `IsMildSolution`.
-This implements Part A of the
-[one-parameter semigroups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md).
-
-Tau Ceti provides the `TauCeti.LinearPMap` resolvent core in
-`TauCeti.Analysis.Normed.Operator.Resolvent.Unbounded`, already stated over a nontrivially normed
-scalar field with the `zI-A` convention. Part D consumes it and builds the self-adjoint spectral
-theory on top, rather than restating it.
-
-Tau Ceti also implements the unbounded Stone characterization in
-`TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`. Its declarations
-`LinearPMap.isSelfAdjoint_iff_exists_isUnitary_complexGenerator_eq_I_smul` and
-`IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul` apply to the native
-`LinearPMap` complex generator of a strongly continuous unitary group. SAST consumes these
-results with their normalization: if A is the SAST difference-quotient generator and G is the
-native complex generator of the same group, SA-A22 proves equality of domains and
-G = i • A, equivalently A = (−i) • G. SA-E43 identifies the spectral-PVM/Yosida
-group with this same native group. SAST does not duplicate the native Stone theorem.
-
----
-
-## What is missing (build here)
-
-* The SAST-specific one-parameter-group and difference-quotient generator interface, including
-  its identification with Tau Ceti's implemented `LinearPMap` Stone theorem and the exact domain
-  comparison. Do not duplicate the native Stone proof.
-* The bounded Borel functional calculus of a normal operator as a star-algebra homomorphism
-  on bundled bounded Borel symbols, and intrinsic projection-valued measures with derived
-  diagonal scalar measures.
-* Cyclic multiplication models for unital representations of C(K,ℂ), their normal-
-  operator specialization, and separable measure-class/multiplicity
-  classification, including nondegenerate C₀(X) representations (`SA-B85`).
-* The closed-operator layer on `LinearPMap`: domain-aware perturbation, the rectangular
-  Sylvester equation as a structure, and the quadratic-form bounds with their spectral
-  bridges.
-* The partial-operator spectrum over the supplied `TauCeti.LinearPMap` resolvent
-  core, self-adjoint resolvent estimates and the Cayley transform.
-* The spectral measure of an unbounded self-adjoint operator, its spectral projections, the
-  carrier-specific compatibility/uniqueness comparison with native Stone, and the imaginary-shift
-  Yosida approximants.
-
-## The build, in layers
-
-The labels in Parts A–E form the complete mathematical obligation set for this roadmap.
-Each label names one construction or theorem with its stated companion API.
-Milestones record construction order, and acceptance examples cite these
-labels. `Suggested.lean` cites the labels represented by its sample declarations.
-
-### Part A — one-parameter unitary groups and Stone's theorem
-
-`SA-A01`–`SA-A14`, `SA-A17`–`SA-A21` and `SA-A23`–`SA-A24` use Mathlib and
-preceding targets here. `SA-A22` additionally consumes Tau Ceti's implemented
-`TauCeti.Analysis.Semigroups.Group.Stone.Unbounded` theorem. `SA-A15`–`SA-A16`
-consume the general contraction-semigroup API from
-[`OneParameterSemigroups`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md).
-
-**Objects.** A one-parameter unitary group is a strongly continuous homomorphism from
-`(ℝ,+)` to the unitary operators on a complex Hilbert space. Its generator is the partial
-operator whose domain consists of vectors with a convergent difference quotient
-`(U(t)ψ-ψ)/(it)` as `t → 0` through nonzero real times, with value given by that limit.
-
-#### Unitary groups and generators
-
-Strong continuity and the unitary group law determine a partial generator through the difference
-quotient at `0`. Domain invariance, symmetry, and commutant transport provide the generator
-calculus used by Stone theory.
-
-- **SA-A01 — One-parameter unitary group.** Define a family `U(t)` of bounded operators
-  satisfying `U(0)=1`, `U(s+t)=U(s)U(t)`, preservation of the inner product, and strong
-  continuity of `t ↦ U(t)ψ` for every `ψ`.
-- **SA-A02 — Generator.** Define the generator `A` on the vectors `ψ` for which
-  `(U(t)ψ-ψ)/(it)` converges as `t → 0`, with `Aψ` equal to the limit.
-- **SA-A03 — Adjoint time reversal.** For every `t`, `U(-t)=U(t)†`.
-- **SA-A04 — Norm preservation.** For every `t` and `ψ`, `‖U(t)ψ‖=‖ψ‖`.
-- **SA-A05 — Operator norm of the group.** On a nontrivial Hilbert space,
-  `‖U(t)‖=1` for every `t`.
-- **SA-A06 — Time-reversed group.** The family `t ↦ U(-t)` is a one-parameter unitary
-  group.
-- **SA-A07 — Additivity of the generator difference quotient.** The difference quotient
-  defining the generator is additive in the vector variable.
-- **SA-A08 — Complex homogeneity of the generator difference quotient.** The difference
-  quotient defining the generator is `ℂ`-homogeneous in the vector variable.
-- **SA-A09 — Generator-domain characterization.** Membership in the generator domain is
-  equivalent to convergence of the defining difference quotient.
-- **SA-A10 — Invariance of the generator domain.** For every `s`, `U(s)` maps the generator
-  domain into itself.
-- **SA-A11 — Generator covariance.** For every generator-domain vector `ψ`,
-  `A(U(s)ψ)=U(s)(Aψ)`.
-- **SA-A12 — Formal self-adjointness of the generator.** The generator is symmetric on its
-  domain.
-- **SA-A13 — Commutant preserves the generator domain.** If a bounded operator `T` commutes
-  with every `U(t)`, then `T` maps the generator domain into itself.
-- **SA-A14 — Commutant preserves the generator action.** Under the hypotheses of `SA-A13`,
-  `A(Tψ)=T(Aψ)` on the generator domain.
-
-#### Semigroup and exponential bridges
-
-The positive-time restriction connects unitary groups with the strongly continuous contraction
-semigroup API. Bounded self-adjoint exponentials provide the model groups and the Duhamel
-estimate used by Yosida approximation.
-
-- **SA-A15 — Contraction-semigroup restriction.** Restricting `U(t)` to `t ≥ 0` and viewing
-  the complex Hilbert space as a real Banach space gives a strongly continuous contraction
-  semigroup.
-- **SA-A16 — Generator relation for the semigroup restriction.** Under the convention
-  `U(t)=exp(itA)`, the generator of the semigroup in `SA-A15` equals `iA` as a partial
-  operator.
-- **SA-A17 — Bounded self-adjoint exponential group.** For every bounded self-adjoint `S`,
-  `t ↦ exp(t iS)` is a one-parameter unitary group.
-- **SA-A18 — Norm preservation of bounded self-adjoint exponentials.** For every `t` and
-  `ψ`, `‖exp(t iS)ψ‖=‖ψ‖`.
-- **SA-A19 — Derivative of a bounded exponential.** For bounded `B`,
-  `d/dt exp(tB)ψ = exp(tB)Bψ`.
-- **SA-A20 — Commuting Duhamel estimate.** If bounded self-adjoint `Sₘ,Sₙ` commute, then
-  `‖exp(itSₘ)ψ-exp(itSₙ)ψ‖ ≤ |t| ‖(iSₘ-iSₙ)ψ‖`.
-
-#### Self-adjointness and Stone's theorem
-
-Von Neumann's shifted-surjectivity criterion converts symmetry into self-adjointness. For the native complex generator, consume the implemented Stone characterization
-`LinearPMap.isSelfAdjoint_iff_exists_isUnitary_complexGenerator_eq_I_smul` from
-`TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`. This roadmap proves the stated
-difference-quotient/`LinearPMap` carrier comparison and the PVM compatibility below; it does not
-re-prove the native Stone theorem.
-
-- **SA-A21 — von Neumann criterion.** A symmetric partial operator for which `A+i` and
-  `A-i` are surjective is self-adjoint.
-- **SA-A22 — Difference-quotient generator comparison.** Construct mutually inverse
-  conversions between the SAST unitary-group carrier and a native
-  `TauCeti.Semigroups.StronglyContinuousGroup` with its `IsUnitary` witness,
-  preserving the action at every real time. For that same group, let A be the
-  SAST generator from `(U(t)ψ−ψ)/(it)` and G the native `complexGenerator`.
-  Prove equality of their domains and `G = Complex.I • A`, equivalently
-  `A = (−Complex.I) • G`; the underlying-real native generator is
-  `(Complex.I • A).restrictScalars ℝ`. Compare the native right-hand limit
-  `(U(t)ψ−ψ)/t` as `t → 0+` with the two-sided punctured SAST limit: the group
-  identity gives the negative-time quotient as U(−s) applied to the
-  positive-time quotient at s>0, and strong continuity and unitarity give
-  the same limiting value. Apply
-  `LinearPMap.isSelfAdjoint_iff_exists_isUnitary_complexGenerator_eq_I_smul`
-  from `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded` to obtain
-  self-adjointness of A. For `U(t)=exp(it)I`, explicitly recover `A=I` and
-  `G=iI`.
-- **SA-A23 — Generator of a bounded exponential group.** The generator of
-  `t ↦ exp(itS)` for bounded self-adjoint `S` is `S` viewed as a total partial operator.
-- **SA-A24 — Norm-continuity criterion.** A one-parameter unitary group is norm-continuous
-  exactly when its generator domain is the whole Hilbert space.
-
-**Milestone A1 — unitary groups and generator calculus.** `SA-A01`–`SA-A20`.
-
-**Milestone A2 — von Neumann and Stone.** `SA-A21`–`SA-A24`.
-
-### Part B — the Borel functional calculus and projection-valued measures
-
-Part B depends on Mathlib, with the two supplier extensions below.
-SA-B85 uses VonNeumannAlgebras V4.0.Fields' independent measurable-field/direct-
-integral construction; SA-B86 follows the PVM and multiplication-model lane.
-The bidual/Goldstine comparison SA-B63 and SA-B65 also consumes
-[BanachSpaceTheory B1 and B5](../../BanachSpaceTheory/README.md)'s Goldstine
-theorem and normed regular scalar-measure dual of `C(K)`. These targets
-retain the same `ProjValMeasure` and bounded-Borel symbol carriers.
-
-**Objects.** Bounded Borel symbols on the spectrum of a normal bounded operator form a
-pointwise star algebra. Their Borel calculus is a star-algebra homomorphism. A
-projection-valued measure on a measurable space assigns an orthogonal projection to each
-measurable set and is strongly countably additive. Scalar diagonal measures are derived from
-the projection-valued measure.
-
-#### Bounded Borel calculus
-
-Bounded measurable symbols on the spectrum form a pointwise star algebra, and the Borel calculus
-extends the continuous calculus to this algebra. Matrix-element integration supplies the norm,
-algebra, commutation, and almost-everywhere invariance properties.
-
-- **SA-B01 — Bounded Borel symbols.** For a measurable space `X`, define the star algebra of
-  measurable functions `f : X → ℂ` admitting a uniform norm bound. Construct
-  pullback homomorphism `BoundedBorelFunction Y →⋆ₐ[ℂ] BoundedBorelFunction X` along
-  every measurable κ:X→Y, with pointwise evaluation, identity and composition laws. Bundle the
-  pointwise function as `pullbackHom`; its norm bound belongs to SA-B37.
-  For compact K,L and continuous measurable φ:K→L, SA-B38 proves
-  `pullbackHom φ hφ (ofContinuousMap g)=ofContinuousMap (g.comp φ)`.
-- **SA-B02 — Simultaneous continuous approximation.** Specialize SA-B58 to a compact
-  metric space: a bounded
-  Borel symbol admits continuous approximants arbitrarily close in `L¹` for any prescribed
-  finite sum of finite Borel measures; consume the native regularity
-  instance for finite measures on a compact metric space.
-- **SA-B03 — Diagonal Riesz identification.** Specialize SA-B59/60 to
-  `cfcHom ha`: `(ofRepresentation (cfcHom ha)).diagMeasure ξ` is the
-  regular Riesz measure of its diagonal positive functional.
-- **SA-B04 — Polarized pairing.** Prove
-  `⟪ξ,borelCalculus ha f ψ⟫=¼Σ_(k=0..3)i^(−k)∫f dμ_(ξ+i^kψ)`
-  for a bounded Borel symbol, using SA-B21's diagonal measures of the
-  SA-B30 PVM, as a consequence of SA-B40/43/45.
-- **SA-B05 — Borel functional calculus.** For normal bounded `a`, define
-  `borelCalculus a` as the integral against
-  `ProjValMeasure.ofRepresentation (cfcHom ha)` from SA-B59/44. SA-B03
-  and SA-B04 describe its scalar measures/pairings; they do not construct
-  a second Borel calculus.
-- **SA-B06 — Agreement with the continuous calculus.** On continuous symbols, the Borel
-  calculus equals the continuous functional calculus.
-- **SA-B07 — Linearity of the Borel calculus.** The Borel calculus preserves addition and
-  scalar multiplication.
-- **SA-B08 — Multiplicativity of the Borel calculus.** For bounded Borel symbols `f,g`,
-  `B(fg)=B(f)B(g)`.
-- **SA-B09 — Star preservation.** For every bounded Borel symbol `f`, `B(f⋆)=B(f)†`.
-- **SA-B10 — Commutation with the original operator.** Every value `B(f)` commutes with
-  `a`.
-- **SA-B11 — Pairwise commutation of calculus values.** For bounded Borel symbols `f,g`,
-  `B(f)B(g)=B(g)B(f)`.
-- **SA-B12 — Vector norm bound.** If `‖f(x)‖ ≤ M` on the spectrum, then
-  `‖B(f)ξ‖ ≤ M‖ξ‖`.
-- **SA-B13 — Almost-everywhere invariance.** If two bounded Borel symbols agree almost
-  everywhere for every diagonal measure of `a`, their Borel-calculus operators are equal.
-
-#### Projection-valued measures
-
-Indicator symbols turn the Borel calculus into orthogonal projections. Strong countable
-additivity packages these projections into a projection-valued measure, with diagonal scalar
-measures recording vectorwise mass.
-
-- **SA-B14 — Projection-valued measure.** For a measurable space `X`, define a map from
-  measurable sets to orthogonal projections with `P(X)=1` and strong countable additivity on
-  pairwise-disjoint measurable families.
-- **SA-B15 — Idempotence of PVM values.** For every measurable `B`, `P(B)²=P(B)`.
-- **SA-B16 — Positivity of PVM values.** For every measurable `B`, the projection `P(B)` is
-  positive.
-- **SA-B17 — Monotonicity of PVM values.** If `B ⊆ C`, then the range projection `P(B)` is
-  below `P(C)`.
-- **SA-B18 — Finite additivity of a PVM.** For disjoint measurable `B,C`,
-  `P(B∪C)=P(B)+P(C)`.
-- **SA-B19 — PVM contraction bound.** For every measurable `B` and vector `ξ`,
-  `‖P(B)ξ‖ ≤ ‖ξ‖`.
-- **SA-B20 — Extensionality from projection fields.** Two projection-valued measures with
-  equal projection fields on all measurable sets are equal.
-- **SA-B21 — Diagonal scalar measure.** For a projection-valued measure `P` and vector `ξ`,
-  derive the finite scalar measure `μξ` with `μξ(B)=⟪ξ,P(B)ξ⟫` on measurable sets,
-  including its `IsFiniteMeasure` instance.
-- **SA-B22 — Diagonal-mass identity.** For measurable `B`,
-  `⟪ξ,P(B)ξ⟫ = μξ(B)` under the canonical real-to-complex embedding.
-- **SA-B23 — Extensionality from diagonal measures.** Two projection-valued measures with
-  equal diagonal scalar measures for every vector are equal.
-- **SA-B24 — Orthogonal countable splitting.** For a measurable partition `(Bₖ)`,
-  `∑'ₖ ‖P(Bₖ)ξ‖ₑ² = ‖ξ‖ₑ²`.
-- **SA-B25 — Measurable reindexing.** A measurable map `κ : X → Y` transports a PVM on
-  `X` to a PVM on `Y` by inverse images.
-
-#### Spectral PVM of a bounded operator
-
-For a normal bounded operator, indicator calculus supplies its spectral projection-valued
-measure. Reindexing along the real coordinate gives the bounded self-adjoint real spectral
-measure and its half-line form-bound projections.
-
-- **SA-B26 — Indicator spectral projection.** For normal bounded `a`, the Borel calculus of
-  an indicator symbol is an orthogonal projection.
-- **SA-B27 — Indicator idempotence.** The indicator-calculus operator satisfies `P(B)²=P(B)`.
-- **SA-B28 — Indicator self-adjointness.** The indicator-calculus operator satisfies
-  `P(B)†=P(B)`.
-- **SA-B29 — Intersection/composition law.** For measurable `B,C`,
-  `P(B)P(C)=P(B∩C)`.
-- **SA-B30 — Spectral PVM of a normal bounded operator.** Use
-  `ProjValMeasure.ofRepresentation (cfcHom ha)` on `spectrum ℂ a`.
-  Indicator calculus agrees with its projection field by SA-B46;
-  SA-B26–29 are the corresponding projection-law corollaries.
-- **SA-B31 — Real spectral PVM of a bounded self-adjoint operator.** For bounded
-  self-adjoint `T`, measurable reindexing by the real coordinate gives a PVM on `ℝ`.
-- **SA-B32 — Lower half-line form criterion.** For bounded self-adjoint `T`, vanishing of
-  the spectral projection on `(-∞,c)` is equivalent to the lower form bound
-  `c‖x‖² ≤ Re⟪Tx,x⟫` for every `x`.
-- **SA-B33 — Upper half-line form criterion.** For bounded self-adjoint `T`, vanishing of
-  the spectral projection on `(c,∞)` is equivalent to the upper form bound
-  `Re⟪Tx,x⟫ ≤ c‖x‖²` for every `x`.
-- **SA-B34 — Uniqueness of the bounded spectral PVM.** Every normalized
-  PVM on `spectrum ℂ a` whose integral agrees with `cfcHom ha` on continuous
-  symbols equals the SA-B30 PVM. Apply SA-B62 with native regularity of
-  finite Borel measures on this compact metrizable spectrum,
-  `Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`.
-- **SA-B35 — Bounded spectral theorem.** A bounded self-adjoint operator is
-  the integral of the restricted coordinate against its compact spectral PVM,
-  using SA-B38/44/55. Against SA-B31's reindexed real PVM use SA-B51 and
-  the bounded symbol `x↦x` on `[−‖T‖,‖T‖]` and zero outside.
-- **SA-B36 — Multiplication-operator model.** For finite positive ν and
-  bounded measurable h:X→ℂ, let M_h act on `Lp ℂ 2 ν`. Prove its spectral
-  PVM on ℂ, obtained from the compact spectral PVM by SA-B25’s
-  inclusion pushforward and SA-B51’s change of variables; `P(B)` is
-  multiplication by the indicator of h⁻¹(B). For bounded Borel g:ℂ→ℂ,
-  `g(M_h)=M_(g∘h)`, where g(M_h) uses its restriction to σ(M_h).
-  Prove `spectrum ℂ M_h=(ν.map h).support` with native `Measure.support`,
-  including the zero measure. This target covers finite ν.
-
-#### Abstract PVM integration
-
-- **SA-B37 — Sup norm of bounded Borel symbols.** Equip the existing
-  `BoundedBorelFunction X` with its supremum norm, zero when X is empty,
-  and complete normed star-algebra structure. Prove pointwise evaluation
-  bounds and the C*-identity; require nonempty X for the norm-one unit.
-- **SA-B38 — Continuous-symbol embedding.** For compact X with
-  `OpensMeasurableSpace X`, construct the unital star-algebra homomorphism
-  `BoundedBorelFunction.ofContinuousMap` from C(X,ℂ), with pointwise
-  evaluation and norm equality. SA-B06 uses this embedding.
-- **SA-B39 — Uniform finite-range approximation.** Every bounded measurable
-  complex symbol admits measurable finite-range simple functions converging
-  uniformly. Construct a finite mesh of its bounded range, measurable
-  disjoint preimages and error bounds; pointwise `SimpleFunc.approxOn`
-  alone is insufficient.
-- **SA-B40 — Polarized complex measure.** For the existing normalized
-  `ProjValMeasure X H`, construct native `MeasureTheory.ComplexMeasure X`
-  with its conjugate-linear/linear dependence on (ξ,ψ).
-- **SA-B41 — Scalar measure evaluation.** Prove
-  `μ_(ξ,ψ)(B)=⟪ξ,P(B)ψ⟫` for measurable B and the conjugate-first convention.
-- **SA-B42 — Scalar variation bound.** Prove
-  `|μ_(ξ,ψ)|(X)≤‖ξ‖‖ψ‖` by orthogonal disjoint ranges and finite-partition
-  Cauchy–Schwarz; derive `IsFiniteMeasure μ_(ξ,ψ).variation`.
-- **SA-B43 — Diagonal integral comparison.** Identify
-  `μ_(ξ,ξ)=μ_ξ.withDensityᵥ (fun _=>1)` and prove
-  `∫ᵛ f dμ_(ξ,ξ)=∫x,f(x) dμ_ξ` for every bounded measurable complex f,
-  with μ_ξ SA-B21's finite positive diagonal measure. Consume native
-  `VectorMeasure.integral` with the ℝ-bilinear
-  multiplication pairing `ContinuousLinearMap.mul ℝ ℂ`. Supply the needed
-  generic complex homogeneity and measure-linearity comparisons from
-  BanachSpaceTheory B5.ScalarIntegral and B5.ScalarDensity. Do not construct
-  another scalar-measure integral.
-- **SA-B44 — Abstract operator integral.** Construct `P.integral` as a
-  unital star-algebra homomorphism on the same bounded-Borel algebra, by
-  disjoint simple functions and uniform approximation, independent of
-  partitions and approximants. The vector measure B↦P(B)ξ need not have
-  finite variation and is not the scalar-integration carrier.
-- **SA-B45 — Integral matrix elements.** Prove
-  `⟪ξ,(P.integral f)ψ⟫=∫ᵛ f dμ_(ξ,ψ)` with the native multiplication pairing.
-
-- **SA-B46 — Indicator recovery.** The integral of a measurable indicator
-  equals its PVM projection. Derive the constant-symbol identity from the
-  unital homomorphism.
-- **SA-B47 — Integral norm bound.** For explicit M≥0 and `∀x,‖f(x)‖≤M`,
-  prove `‖P.integral f‖≤M`, including empty X.
-- **SA-B48 — Simple-symbol norm.** The norm of the integral of a disjoint
-  simple symbol is the maximum coefficient norm on nonzero projection
-  pieces, zero if none; null pieces do not contribute.
-- **SA-B49 — PVM null filter.** Construct `P.ae : Filter X` whose
-  eventual predicates hold almost everywhere for every diagonal measure.
-  Prove this defining equivalence and that, for measurable B, P(B)=0 iff
-  every diagonal measure vanishes on B, equivalently its complement belongs
-  to P.ae. Prove measurable P-null sets form a σ-ideal by disjointification.
-- **SA-B50 — Almost-everywhere integral invariance.** Symbols equal
-  P-almost-everywhere have the same integral.
-- **SA-B51 — Integral change of variables.** For measurable κ:X→Y,
-  prove the integral against SA-B25's `P.map κ` equals the integral of
-  SA-B01's pullback symbol against P. Prove
-  `(P.map κ).diagMeasure ξ=(P.diagMeasure ξ).map κ`.
-- **SA-B52 — Vector norm-square identity.** Prove
-  `‖(P.integral f)ξ‖²=∫|f|² dμ_ξ`.
-- **SA-B53 — Bounded sequential convergence.** For f_n indexed by ℕ,
-  a common uniform norm bound, and pointwise (or P-almost-everywhere)
-  convergence to f, prove `P.integral f_n→P.integral f` strongly by
-  dominated convergence. No bounded pointwise-net theorem is asserted.
-- **SA-B54 — Normal Borel-calculus identification.** SA-B05 is
-  integration against SA-B30's spectral PVM by definition.
-- **SA-B55 — Normal identity recovery.** For normal a, prove
-  `a=P.integral (ofContinuousMap z)`, where z is the restricted continuous
-  coordinate on σ(a); derive this from SA-B06 and `cfcHom_id`.
-- **SA-B56 — Full spectral support.** Every nonempty relatively open U
-  in σ(a) has P(U)≠0.
-- **SA-B57 — Spectral commutant equality.** A bounded operator commutes
-  with normal a iff it commutes with every P(B), equivalently every bounded
-  Borel integral. Consume `fuglede_putnam_rosenblum`, `Commute.cfcHom` and
-  `Commute.cfc`; then apply SA-B79's representation commutant comparison.
-
-#### Compact-Hausdorff representation comparison
-
-- **SA-B58 — General compact-space approximation.** On compact Hausdorff
-  Borel K, for any `RCLike 𝕜`, a finite family of finite regular
-  positive measures ν_j and a measurable f:K→𝕜 with `∀ x, ‖f x‖≤M`,
-  M≥0, and ε>0, construct g∈C(K,𝕜) with the same bound and
-  `∫‖f−g‖dν_j<ε` simultaneously. Apply BanachSpaceTheory
-  B5.BoundedApprox to Σν_j, using native finite-sum regularity. Scalar-measure
-  variation tests are the instances ν_j=|μ_j|. For each fixed finite
-  test family construct a sequence with L¹ errors tending to zero.
-- **SA-B59 — Representation PVM.** For unital
-  `π:C(K,ℂ)→⋆ₐ[ℂ]B(H)`, with K compact Hausdorff and Borel, construct
-  `ProjValMeasure.ofRepresentation π` on the same normalized carrier.
-  Derive π's contractivity from the C*-algebra API. Use diagonal positive
-  Riesz measures, polarization, Hilbert Riesz and SA-B58's approximation.
-  Set `Λ_ξ:C_c(K,ℝ)→ₚ[ℝ]ℝ`,
-  `Λ_ξ(f)=Re⟪ξ,π(f_ℂ)ξ⟫`, where `f_ℂ` is the continuous
-  complex function obtained by composing f with ℝ→ℂ, and prove positivity and the compact-space
-  continuous/compactly-supported comparison. Use these maps
-  to prove the indicator laws, multiplicativity and strong countable
-  additivity. Prove measure-level sesquilinearity and conjugate symmetry
-  by BanachSpaceTheory B5.ScalarUniqueness on continuous tests. Before
-  applying it, prove `|μ_(ξ,ψ)|≤¼Σ_(k=0..3) μ_(ξ+i^kψ)`, hence
-  finite regular variation by positive RMK regularity and BanachSpaceTheory
-  B5.AbsContRegular. Use
-  this domination in the subsequent approximations.
-  Name the intermediate operator map `representationBorelOperator π f`
-  on all bounded Borel symbols: with `continuousLinearMapOfBilin`'s
-  convention `⟪B♯v,w⟫=B(v,w)`, take `(B♯)†`. Prove contractivity and
-  the weighted matrix-element identity
-  `μ_(ξ,representationBorelOperator π g ψ)=μ_(ξ,ψ).withDensity g (mul ℝ ℂ)`:
-  first for continuous g using π and BanachSpaceTheory B5.ScalarUniqueness on continuous tests,
-  then for bounded Borel g by SA-B58 approximation and SA-B64's
-  change-of-density identity. Use this to prove multiplicativity before
-  defining the indicator projections,
-  and prove `P.integral f=representationBorelOperator π f` by SA-B45.
-  Pin `P.diagMeasure ξ=RealRMK.rieszMeasure Λ_ξ`. This construction depends
-  on Mathlib and preceding B targets.
-- **SA-B60 — Regularity.** Every diagonal measure of `ofRepresentation π`
-  has native `Measure.Regular`, consuming `RealRMK.regular_rieszMeasure`.
-  Consume BanachSpaceTheory B5.AbsContRegular's finite absolute-continuity regularity theorem;
-  consume SA-B59’s polarization/domination proof of regular scalar variation. No private
-  complex-regularity predicate is introduced.
-- **SA-B61 — Representation recovery.** Prove
-  `P.integral (ofContinuousMap f)=π(f)` for all continuous f.
-- **SA-B62 — Regular uniqueness.** A normalized PVM with regular diagonal
-  measures and SA-B61's recovery equals `ofRepresentation π`. Consume
-  native `Measure.ext_of_integral_eq_on_compactlySupported`;
-  regularity is an explicit hypothesis.
-- **SA-B63 — Borel bidual embedding.** By integration against BanachSpaceTheory B5's normed
-  finite regular measure dual of C(K), embed bounded Borel functions
-  isometrically in C(K)**. Point Dirac measures prove the reverse norm bound.
-  This is an embedding, not a surjectivity assertion.
-- **SA-B64 — Weighted regular measures.** On a compact Hausdorff Borel
-  space, for a native complex measure μ of finite regular variation and
-  bounded Borel g, use
-  `μ.withDensity g (ContinuousLinearMap.mul ℝ ℂ)` for g·μ. Consume
-  `VectorMeasure.variation_withDensity` and `variation_transpose_eq` to
-  obtain `|g·μ|=|μ|.withDensity (fun x=>‖g x‖ₑ)`. Prove finite regular variation
-  by BanachSpaceTheory B5.AbsContRegular and the bound `|g·μ|≤‖g‖∞|μ|`. Own the change-of-density
-  formula `∫ᵛ f d(g·μ)=∫ᵛ f·g dμ`, first for simple f then bounded
-  Borel f by uniform approximation; prove `(gh)·μ=g·(h·μ)`, constants and
-  native `VectorMeasure.withDensity_congr` for a.e.-independence.
-- **SA-B65 — Goldstine limit comparison.** BanachSpaceTheory B1's Goldstine theorem gives
-  uniformly norm-bounded continuous nets converging against every regular
-  measure to the Borel bidual image. Prove their π-images converge weakly
-  to `ofRepresentation π`.integral f.
-  There is one representation PVM construction, not a second Goldstine PVM.
-- **SA-B66 — Essential-subspace completeness.** For
-  `π:C(K,ℂ)→⋆ₙₐ[ℂ]B(H)`, prove π(1) is an orthogonal projection with closed
-  range and equip its range with the induced complete Hilbert structure.
-- **SA-B67 — Degenerate representation field.** Apply SA-B59 on that
-  essential subspace and extend operators by zero on its orthogonal
-  complement. Name `representationProjection π B=J P₀(B) J†` and
-  `representationIntegral π f=J P₀.integral f J†`, where J includes
-  range π(1). Prove `representationIntegral π (ofContinuousMap f)=π(f)`
-  and the projection-field laws with total projection π(1).
-  This field is a function with proved laws; its
-  normalized essential PVM is `ProjValMeasure`, not a second carrier.
-  Include zero representations and empty K; the essential subspace is
-  then zero, and H is zero if π is unital.
-- **SA-B68 — Regular pushforward.** A continuous pushforward between
-  compact Hausdorff spaces preserves regular diagonal measures, using
-  `Measure.InnerRegular.map_of_continuous` and the native finite
-  inner-regular/regular instances on compact Hausdorff spaces.
-- **SA-B69 — Representation-map naturality.** For continuous φ:K→L,
-  composition of π with f↦f∘φ corresponds to the pushforward `P.map φ`,
-  consuming SA-B01, SA-B51, SA-B62 and SA-B68.
-- **SA-B70 — Unitary transport.** For every Hilbert isometry equivalence
-  `U:H≃ₗᵢ[ℂ]H′`, set
-  `π′=U.conjStarAlgEquiv.toStarAlgHom.comp π`, P=`ofRepresentation π`
-  and P′=`ofRepresentation π′`. Prove
-  `P′.proj B=U.conjStarAlgEquiv (P.proj B)` and the analogous
-  integral equation, including H≠H′.
-- **SA-B71 — Reducing restriction.** Restricting a representation to a
-  closed subspace invariant under every π(f) and its adjoint restricts
-  its PVM and integrals accordingly, using native submodules/projections
-  and SA-B79 to prove invariance under every PVM projection.
-- **SA-B72 — Direct sums.** On native `lp (fun i => H i) 2`, the representation direct sum has
-  componentwise projection fields and integral action. Construct the
-  direct-sum representation using SA-B80 and π_i's contractivity. Define its PVM by
-  SA-B59, so regularity follows from SA-B60, then apply SA-B71 to the
-  reducing coordinate summands, identified via SA-B70 and native
-  `lp.single`, and prove `P(B)x=(P_i(B)x_i)_i` and the integral analogue.
-- **SA-B73 — Planar reduction.** For compact K⊆ℂ and unital π set
-  T=π(z), prove σ(T)⊆K, and prove the homomorphism equality
-  `π=(cfcHom hT).comp (restriction along σ(T)⊆K)`. Consume
-  `spectrum_apply_subset`, `ContinuousMap.spectrum_eq_range` and
-  `ContinuousMap.starAlgHom_ext_map_X` with their actual hypotheses.
-- **SA-B74 — Planar concentration.** Use SA-B69 on the inclusion σ(T)↪K,
-  SA-B73 and SA-B60's regularity: the PVM on K vanishes on K∖σ(T);
-  a relatively open U⊆K has P(U)≠0 when it meets σ(T), using SA-B56's
-  full support and SA-B69. This does not assert
-  full support on a larger K.
-- **SA-B75 — Finite diagonal example.** Compute every projection and
-  integral for a finite diagonal normal operator, merging repeated eigenvalues.
-- **SA-B76 — Lebesgue multiplication example.** On L²[0,1], compute the
-  PVM as multiplication by indicators and its integral as multiplication
-  by the symbol, using the actual almost-everywhere quotient.
-- **SA-B77 — Accumulating diagonal example.** On ℓ²(ℕ) compute the PVM
-  for diag(1/(n+1)); its spectrum includes 0 although P({0})=0.
-- **SA-B78 — Failure of norm additivity.** Infinite orthogonal coordinate
-  projections give countable strong additivity whose partial sums do not
-  converge in operator norm.
-
-- **SA-B79 — Representation commutant comparison.** A bounded operator
-  commutes with every π(f), f continuous, iff it commutes with every
-  projection of `ofRepresentation π`, iff it commutes with every bounded
-  Borel integral. Compare μ_(ξ,Tψ) with μ_(T†ξ,ψ) first on continuous
-  tests, then use SA-B58, SA-B60's regularity and SA-B59's diagonal domination to pass to
-  Borel symbols. This precedes reducing restriction and direct sums.
-- **SA-B80 — Hilbert direct-sum operators.** Construct ⊕T_i on native
-  `lp (fun i => H i) 2` for every uniformly bounded family of operators,
-  with coordinate evaluation, norm bound, identity, addition, scalar multiplication, composition
-  and adjoint laws. Use native `single`, `evalCLM` and `IsHilbertSum`;
-  the coordinate bound `‖T_i x_i‖≤M‖x_i‖` lands directly in ℓ².
-  This precedes the direct-sum representation.
-
-- **SA-B85 — Cyclic multiplication models and multiplicity.** For a unital
-  π:C(K,ℂ)→⋆ₐ[ℂ]B(H), K compact metrizable with its Borel structure,
-  use SA-B59–60's representation PVM P and finite regular diagonal measures.
-  For nonzero ξ construct the unitary L²(K,μ_ξ)→H_ξ,
-  H_ξ=closure{π(f)ξ:f∈C(K,ℂ)}, from the continuous-function integral norm
-  identity and L² density. Prove it intertwines π(f) with M_f and every
-  P(B) with the indicator multiplier. The cyclic subspace is reducing;
-  orthogonal complements and maximality give H=⨁_j H_(ξ_j) for arbitrary H,
-  using SA-B70–72/80, without countability. In separable H take a countable
-  orthogonal cyclic decomposition with nonzero generators ξ_j and
-  μ_j=μ_(ξ_j). Choose w_j>0 with Σ_j w_j μ_j(K)<∞. Give Ω=⨿_j K
-  measure w_j μ_j on piece j and coordinate z:Ω→K. The unitary
-  ⨁_j L²(K,μ_j)→L²(Ω) sends (f_j) to (w_j^(-1/2)f_j) and
-  intertwines every π(f) with M_(f∘z), for this general compact K.
-  Consume [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) for its independent measurable-field/direct-integral construction.
-  For μ=Σ_j w_j μ_j choose measurable r_j=dμ_j/dμ and set
-  m(x)=Σ_j 1[r_j(x)>0]∈ℕ∪{∞}, μ-a.e. The RN-fibre unitary has domain
-  ⨁_j L²(K,μ_j) and sends (f_j) to (√r_j(x)f_j(x))_j in
-  ℓ²({j:r_j(x)>0}); its inverse divides by √r_j on active coordinates.
-  Prove norm preservation, surjectivity, measurability of the inverse and
-  enumeration of active coordinates, obtaining standard m(x)-dimensional
-  fibres and intertwining every π(f) with diagonal multiplication by f.
-  For each Borel B, prove μ(B)=0 iff P(B)=0: positive weights give
-  μ_j(B)=‖P(B)ξ_j‖²=0 for all j; SA-B61/B79 give commutation
-  of P(B) with π(C(K)), so it
-  kills every cyclic summand and hence H. The converse follows from SA-B49.
-  If π₂(f)=Vπ₁(f)V⁻¹ for all f, transport its representation PVM by
-  SA-B70; no normal-operator CFC comparison is needed in this general case.
-  Thus V preserves PVM-null sets and the controls are equivalent BEFORE
-  any RN transport. Consume V4.0.Fields' change-of-measure unitary
-  U_(μ→ν):L²(μ;fibres)→L²(ν;fibres), f↦√(dμ/dν)f, for equivalent μ,ν.
-  It transports every spectral indicator multiplier. Uniform essential-norm
-  approximation by simple symbols extends this to L∞. Fields' rectangular
-  decomposable-map criterion and fibrewise unitarity then force equality of
-  multiplicities a.e.; conversely equivalent controls and equal multiplicity
-  construct a unitary from this measure change and active-coordinate maps.
-  This proves classification of representations of the same C(K).
-  Apply it to the identity intertwiner of a fixed representation presented
-  by two sets of choices: its transported PVM gives equivalent controls,
-  and Fields' rectangular/fibrewise-unitary comparison identifies the
-  multiplicities. This derives independence of cyclic decompositions,
-  vectors, positive weights, density versions and enumerations modulo
-  the corresponding null sets.
-  Specialize to cfcHom for normal bounded T, K=σ(T), to intertwine T with
-  M_z. For V T=S V, first transport the CFC representation and its PVM
-  by SA-B70 and SA-B34/B62; regard the controls as measures on ℂ by inclusion
-  and extend m by zero off K. The preceding null-set argument gives equal
-  measure classes on ℂ, and the fibre argument proves that two separable
-  normal operators are unitarily equivalent iff these classes and
-  multiplicities agree a.e. Ω need not be a subset of ℂ: scalar
-  multiplication on ℂ² must retain multiplicity 2.
-  For nondegenerate star-homomorphisms π:C₀(X)→⋆ₙₐ[ℂ]B(H), separable H
-  and fixed second-countable locally compact Hausdorff X, construct compact
-  metrizable X⁺ with its Borel structure and X its open standard-Borel
-  subspace. Prove π⁺(f)=π((f−f(∞))|X)+f(∞)I is a unital star-homomorphism
-  C(X⁺,ℂ)→⋆ₐ[ℂ]B(H), and apply the general compact construction above.
-  Its infinity projection kills π(C₀(X))H, so nondegeneracy gives P({∞})=0.
-  Restrict P, cyclic and control measures and the diagonal model along
-  X↪X⁺. The resulting base is X, with z:Ω→X and π(f)=M_(f∘z).
-  Own the contractive approximate-identity argument showing that C₀(X)-cyclic
-  and C(X⁺)-cyclic subspaces coincide. Classify representations of the same
-  C₀(X) by control measure class and multiplicity, using the preceding
-  PVM-null and unitary-transport argument for π⁺. Transport SA-B79 through
-  π⁺ and the zero-infinity restriction to the full diagonal L∞(X) action.
-  For two such representations use their direct sum and off-diagonal corner;
-  set λ=μ^(1)+μ^(2), where μ^(i) is the ith representation's control.
-  Consume Fields' measure-change/zero-extension equivalence from
-  L²(μ^(i);fibres) ONTO the transported λ-field: multiply by
-  √(dμ^(i)/dλ) and put the fibre equal to zero off the density's support.
-  Apply
-  Fields' rectangular criterion over λ without assuming equivalent controls.
-  V4.0.Decomposition and OperatorAlgebraDynamics D5 consume this diagonal
-  C₀(X) representation. Include H=0, zero operators and empty cyclic sums
-  with zero control/multiplicity. Empty X forces H=0 by nondegeneracy and
-  X⁺={∞} carries the zero representation on H. For arbitrary H retain the
-  actual orthogonal cyclic sum, without a separable multiplicity assertion.
-
-- **SA-B86 — Essentially bounded PVM symbols.** Consume SA-B49's P-nullity by P(B)=0
-  and the quotient of measurable symbols bounded outside a P-null set. Prove
-  independence of bounded representatives, star/algebra laws, completeness and
-  norm equal to the P-essential supremum, using SA-B37's uniform scalar
-  integral bounds and SA-B49's null-ideal calculus. Extend the Borel
-  calculus to this quotient and compare, in SA-B85's separable model, with
-  native L∞ for a control measure. Give the kernel/null-ideal and cyclic/direct-
-  sum comparisons; an arbitrary pointwise Borel function is not a bounded
-  symbol merely because its integral is suggested.
-
-**Milestone B1 — symbols and scalar integration.** SA-B01, SA-B37–39,
-SA-B64 and SA-B58, all independent of PVMs, consuming BanachSpaceTheory
-B5.ScalarIntegral–B5.BoundedApprox.
-
-**Milestone B2 — abstract PVMs and integration.** SA-B14–25 and SA-B40–53.
-
-**Milestone B3 — compact-space representation PVMs.** SA-B59–62, SA-B79–80
-and SA-B66–72,
-after B1–B2.
-
-**Milestone B4 — normal spectral calculus and examples.** SA-B02–13, SA-B26–36,
-SA-B54–57 and SA-B73–78, after B3.
-
-**Milestone B5 — bidual comparison.** SA-B63 and SA-B65 after B3, additionally
-consuming BanachSpaceTheory B1/B5.
-
-**Milestone B6 — multiplication models and essential symbols.** SA-B85–86
-after B3–B4, with V4.0.Fields' independent measurable-field construction.
-
-### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
-
-Part C supplies the domain geometry and perturbation vocabulary for partial operators over
-`[RCLike 𝕜]`. The bounded restriction/form-bound bridge uses Mathlib's
-`Module.End.invtSubmodule`, `LinearMap.IsSymmetric.restrict_invariant`, and
-`LinearMap.IsSymmetric.orthogonalComplement_mem_invtSubmodule`, together with the
-reducing-subspace definition `OG-15` and projected-subspace completeness `OG-18`.
-
-**Objects.** Domain relations, reducing restrictions, transport constructions, graph norms
-and graph cores, relative boundedness, perturbations, real spectral predicates, rectangular
-Sylvester equations, and quadratic-form bounds.
-
-#### Domain relations and reducing restrictions
-
-Domain relations make comparison and extension of partial operators explicit. Reducing
-restrictions carry self-adjoint operators to invariant subspaces together with the density,
-closedness, symmetry, and self-adjointness inherited there.
-
-- **SA-C01 — Same-domain relation.** Define equality of domains for two partial operators.
-- **SA-C02 — Reflexivity of same-domain.** Every partial operator has the same domain as
-  itself.
-- **SA-C03 — Symmetry of same-domain.** If `A` and `B` have the same domain, then `B` and
-  `A` have the same domain.
-- **SA-C04 — Transitivity of same-domain.** Same-domain relations compose transitively.
-- **SA-C05 — Domain transport relation.** For partial operators `A,B` and bounded `X`, define
-  the condition `X(dom B) ⊆ dom A`.
-- **SA-C06 — Identity domain transport.** The identity operator transports the domain of a
-  partial operator to itself.
-- **SA-C07 — Composition of domain transports.** Compatible domain-transport relations
-  compose with the bounded transport maps.
-- **SA-C08 — Extension relation.** Define extension of `A` by `B` by the conditions
-  `dom A ⊆ dom B` and `Bx=Ax` for every `x ∈ dom A`.
-- **SA-C09 — Reflexivity of extension.** Every partial operator extends itself.
-- **SA-C10 — Transitivity of extension.** Extensions of partial operators compose
-  transitively.
-- **SA-C11 — Invariant subspace for a partial operator.** Define invariance by
-  `A(dom A ∩ U) ⊆ U`.
-- **SA-C12 — Reducing subspace for a partial operator.** Define reduction by domain
-  preservation under the two orthogonal projections together with invariance of `U` and
-  `U⊥`.
-- **SA-C13 — Reduced restriction.** For a reducing subspace `U`, define the partial
-  operator obtained by restricting the domain and action of `A` to `U`.
-- **SA-C14 — Domain of a reduced restriction.** A vector `x : U` lies in the reduced
-  domain exactly when its ambient vector lies in `dom A`.
-- **SA-C15 — Action of a reduced restriction.** On its reduced domain, the restricted
-  operator acts by the ambient operator `A`.
-- **SA-C16 — Density of a reduced restriction.** A densely defined partial operator has a
-  densely defined reduced restriction.
-- **SA-C17 — Closedness of a reduced restriction.** A closed partial operator has a closed
-  reduced restriction.
-- **SA-C18 — Symmetry of a reduced restriction.** A symmetric partial operator has a
-  symmetric reduced restriction.
-- **SA-C19 — Self-adjointness of a reduced restriction.** A self-adjoint partial operator
-  has a self-adjoint reduced restriction.
-
-#### Transport constructions
-
-Pullback, unitary conjugation, and direct sum transport partial operators together with their
-domains between Hilbert spaces. Density, closedness, symmetry, and self-adjointness pass through
-these constructions.
-
-- **SA-C20 — Pullback by a continuous linear equivalence.** For a continuous linear
-  equivalence `e`, define the partial operator `e⁻¹Ae` with its pulled-back domain.
-- **SA-C21 — Pullback-domain characterization.** A vector `x` lies in the pullback domain
-  exactly when `ex ∈ dom A`.
-- **SA-C22 — Pullback action.** On the pullback domain, the transported operator satisfies
-  `(e⁻¹Ae)x = e⁻¹(A(ex))`.
-- **SA-C23 — Density under pullback.** Pullback along a continuous linear equivalence
-  preserves density of the domain.
-- **SA-C24 — Closedness under pullback.** Pullback along a continuous linear equivalence
-  preserves closedness.
-- **SA-C25 — Unitary conjugation.** For a linear isometric equivalence `U`, define the
-  partial operator `UAU⁻¹` with the transported domain.
-- **SA-C26 — Unitary-conjugation domain.** A vector `x` lies in `dom(UAU⁻¹)` exactly when
-  `U⁻¹x ∈ dom A`.
-- **SA-C27 — Unitary-conjugation action.** On its domain,
-  `(UAU⁻¹)x = U(A(U⁻¹x))`.
-- **SA-C28 — Self-adjointness under unitary conjugation.** Unitary conjugation preserves
-  self-adjointness.
-- **SA-C29 — Direct sum of partial operators.** Define `A ⊕ B` on the Hilbert
-  product `WithLp 2 (E × F)`, with domain given by the product of the two operator domains
-  transported through the `WithLp` identification. The notation `(x,y)` in `SA-C30` and
-  `SA-C31` uses this identification.
-- **SA-C30 — Direct-sum domain.** A pair `(x,y)` lies in `dom(A⊕B)` exactly when
-  `x ∈ dom A` and `y ∈ dom B`.
-- **SA-C31 — Direct-sum action.** On the direct-sum domain,
-  `(A⊕B)(x,y)=(Ax,By)`.
-- **SA-C32 — Density of direct sums.** The direct sum of densely defined partial operators
-  is densely defined.
-- **SA-C33 — Closedness of direct sums.** The direct sum of closed partial operators is
-  closed.
-
-#### Graph norm and graph cores
-
-The graph norm measures ambient and image size simultaneously on `dom A`. Sequential graph
-cores package the two convergences used to extend identities through closedness.
-
-- **SA-C34 — Graph norm.** On `dom A`, define
-  `‖x‖_A = √(‖x‖²+‖Ax‖²)`.
-- **SA-C35 — Nonnegativity of the graph norm.** For every domain vector,
-  `0 ≤ ‖x‖_A`.
-- **SA-C36 — Graph-norm square identity.** For every domain vector,
-  `‖x‖_A² = ‖x‖²+‖Ax‖²`.
-- **SA-C37 — Ambient norm controlled by graph norm.** For every domain vector,
-  `‖x‖ ≤ ‖x‖_A`.
-- **SA-C38 — Image norm controlled by graph norm.** For every domain vector,
-  `‖Ax‖ ≤ ‖x‖_A`.
-- **SA-C39 — Graph core.** Define a graph core `D ⊆ dom A` by sequential approximation of
-  every domain vector both in ambient norm and after application of `A`.
-- **SA-C40 — Full domain as graph core.** The full operator domain is a graph core.
-- **SA-C41 — Closed-graph characterization.** For a partial operator `A`, closedness of `A`,
-  closedness of its graph, and the sequential closed-graph condition are equivalent.
-- **SA-C42 — Extension from a graph core.** For a closed target relation, an operator
-  identity valid on a graph core extends to the whole domain through graph convergence.
-- **SA-C43 — Bounded graph-norm equivalence.** For a bounded total operator, the graph norm
-  and the ambient norm are equivalent on the whole space.
-
-#### Relative boundedness and perturbations
-
-Relative boundedness compares a domain-defined perturbation with the ambient and graph terms
-of the base operator. The perturbation constructors keep the base domain explicit and support
-bounded and Kato–Rellich self-adjointness theorems.
-
-- **SA-C44 — Relative boundedness.** For a partial linear operator A over 𝕜
-  and a linear map `V : A.domain →ₗ[𝕜] E`, define the estimate
-  `‖Vx‖ ≤ a‖x‖ + b‖Ax‖` on `dom A`, with `a,b ≥ 0`.
-- **SA-C45 — Zero relative perturbation.** The zero perturbation is relatively bounded with
-  zero constants.
-- **SA-C46 — Monotonicity of relative bounds.** Increasing either admissible coefficient
-  preserves relative boundedness.
-- **SA-C47 — Addition of relatively bounded maps.** Relative bounds add under addition of
-  perturbations.
-- **SA-C48 — Scalar multiplication of relatively bounded maps.** Relative bounds scale by
-  the scalar norm under scalar multiplication.
-- **SA-C49 — Negation of relatively bounded maps.** Negation preserves the same relative
-  bounds.
-- **SA-C50 — Subtraction of relatively bounded maps.** Relative bounds combine under
-  subtraction as under addition.
-- **SA-C51 — Restriction of a bounded perturbation to the domain.** A bounded ambient
-  operator `V` restricts to a relatively bounded map on `dom A` with coefficients
-  `(‖V‖,0)`.
-- **SA-C52 — Domain-defined perturbation.** For a linear map
-  `V : A.domain →ₗ[𝕜] E`, define the partial linear operator `A+V` on
-  `dom A` by `(A+V)x=Ax+Vx`.
-- **SA-C53 — Bounded perturbation as a domain map.** A bounded ambient operator restricts to
-  the domain-defined perturbation in `SA-C52`.
-- **SA-C54 — Bounded Kato–Rellich theorem.** A bounded self-adjoint perturbation of a
-  self-adjoint partial operator is self-adjoint on the same domain.
-- **SA-C55 — Kato–Rellich theorem.** If `A` is self-adjoint and a symmetric perturbation `V`
-  is relatively `A`-bounded with relative coefficient `b<1`, then `A+V` is self-adjoint on
-  `dom A`.
-- **SA-C56 — Bounded self-adjoint operators as total partial operators.** A bounded
-  self-adjoint operator, viewed as a partial operator on the full space, is self-adjoint.
-
-#### Real spectral separation
-
-The shared `TauCeti.LinearPMap` core in `SA-D01`–`SA-D02` supplies the resolvent and spectrum.
-For a partial operator over `RCLike 𝕜`, its real spectral points are the preimage of
-`TauCeti.LinearPMap.spectrum A` under `ℝ → 𝕜`. Real spectral separation uses subsets of
-this preimage. The shared core precedes `SA-C62`–`SA-C65`.
-
-- **SA-C62 — Separation of real spectral sets.** Define separation by a positive lower
-  bound on pairwise distances between specified subsets of the real spectra of two partial
-  operators.
-- **SA-C63 — Symmetry of real spectral separation.** Swapping the two operators and
-  spectral sets preserves the separation condition.
-- **SA-C64 — Monotonicity in the gap.** Separation by `δ > 0` implies separation by
-  every `δ'` with `0 < δ' ≤ δ`.
-- **SA-C65 — Monotonicity in the spectral sets.** Passing to smaller selected spectral sets
-  preserves separation.
-
-#### Domain-aware Sylvester equations
-
-The rectangular Sylvester equation packages `AX-XB=C` together with domain transport between
-possibly different Hilbert spaces. Its linear structure provides the interface consumed by
-quantitative Sylvester estimates.
-
-- **SA-C66 — Rectangular Sylvester equation.** For partial operators `A,B` and bounded maps
-  `X,C`, define the domain-aware equation by `X(dom B) ⊆ dom A` and
-  `AXx-XBx=Cx` for every `x ∈ dom B`.
-- **SA-C67 — Bounded Sylvester specialization.** For bounded everywhere-defined `A,B`, the
-  ordinary bounded Sylvester equation gives the domain-aware equation `SA-C66`.
-- **SA-C68 — Zero solution.** The zero unknown solves the Sylvester equation with zero
-  right-hand side.
-- **SA-C69 — Addition of Sylvester equations.** Solutions are closed under addition, with
-  right-hand sides added.
-- **SA-C70 — Negation of Sylvester equations.** Solutions are closed under negation.
-- **SA-C71 — Subtraction of Sylvester equations.** Solutions are closed under subtraction.
-- **SA-C72 — Scalar multiplication of Sylvester equations.** Solutions are closed under
-  scalar multiplication.
-
-#### Quadratic-form bounds
-
-Lower and upper form bounds are the order language for spectral location on a subspace. The
-bounded spectral-restriction bridge converts selected spectrum into the corresponding quadratic
-form inequalities.
-
-- **SA-C76 — Lower form bound on a subspace.** Define
-  `c‖x‖² ≤ Re⟪Ax,x⟫` for every `x ∈ U`.
-- **SA-C77 — Upper form bound on a subspace.** Define
-  `Re⟪Ax,x⟫ ≤ c‖x‖²` for every `x ∈ U`.
-- **SA-C78 — Lower-bound monotonicity in the constant.** A lower form bound at `c` implies
-  every lower form bound at `c'≤c`.
-- **SA-C79 — Lower-bound restriction to subspaces.** A lower form bound on `U` restricts to
-  every `U'≤U`.
-- **SA-C80 — Upper-bound monotonicity in the constant.** An upper form bound at `c` implies
-  every upper form bound at `c'≥c`.
-- **SA-C81 — Upper-bound restriction to subspaces.** An upper form bound on `U` restricts to
-  every `U'≤U`.
-- **SA-C82 — Positivity gives the zero lower bound.** A positive bounded operator has lower
-  form bound `0` on the whole space.
-- **SA-C83 — Zero lower bound characterizes positivity.** A symmetric bounded operator with
-  lower form bound `0` on the whole space is positive.
-- **SA-C84 — Lower form bound from restriction spectrum.** For a bounded symmetric complex
-  operator preserving `U`, if the Banach-algebra spectrum of the restriction lies in
-  `[c,∞)`, then `c‖x‖² ≤ Re⟪Ax,x⟫` for every `x ∈ U`.
-- **SA-C85 — Upper form bound from restriction spectrum.** Under the corresponding upper
-  spectral inclusion `spectrum(A|_U) ⊆ (-∞,c]`,
-  `Re⟪Ax,x⟫ ≤ c‖x‖²` for every `x ∈ U`.
-
-- **SA-C86 — Compact normal spectral decomposition.** For a compact normal
-  bounded operator T on a complete complex Hilbert space, build the
-  orthogonal projections P_λ onto each nonzero eigenspace and prove
-  `H=ker T ⊕ closure(⊕_{λ≠0} eigenspace T λ)`. Give norm convergence
-  of `∑_{λ∈F}λP_λ` to T as finite F exhaust the nonzero spectrum, and
-  the tail estimate `‖T−∑_{λ∈F}λP_λ‖=sup_{λ∉F}|λ|` (zero for an
-  empty tail). Supply eigenbasis, multiplicity, kernel and finite-rank
-  approximation comparisons, including finite and zero spectra. Consume
-  [BanachAlgebras A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces)'s countability/finiteness and Tau Ceti's compact
-  self-adjoint eigenbasis API. Construct the simultaneous diagonalization
-  of the commuting compact self-adjoint real and imaginary parts of T:
-  diagonalize the second on each finite nonzero eigenspace of the first,
-  consuming Mathlib JointEigenspace's
-  `iSup_eigenspace_inf_eigenspace_of_commute` and
-  `orthogonalFamily_eigenspace_inf_eigenspace`, and use the native compact
-  self-adjoint eigenbasis theorem on its kernel. This does not assume a representation PVM.
-
-**Milestone C1 — domain geometry and transport.** `SA-C01`–`SA-C43`.
-
-**Milestone C2 — perturbation, spectral separation, and Sylvester vocabulary.**
-`SA-C44`–`SA-C56`, `SA-C62`–`SA-C72`.
-
-**Milestone C3 — form-bound vocabulary and spectral bridges.** `SA-C76`–`SA-C85`.
-
-**Milestone C4 — compact normal operators.** `SA-C86`, with [BanachAlgebras A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces).
-
-- **SA-C87 — Finite Euclidean operator norms.** For every complex finite
-  matrix compare its Euclidean CLM norm with the largest eigenvalue of T†T:
-  `‖T‖²=max spectrum(T†T)`, with the zero-dimensional case separate.
-  Construct the singular-value/attaining-vector comparison using native
-  finite-dimensional spectral theory. On ℂ⁵, compute the matrix
-  `[[3,8,0,-10,2],[-3,4,1,0,-7],[3,-4,1,0,7],`
-  `[3,4,0,15,-3],[3,-4,0,-5,-13]]`, prove
-  T†T=diag(45,128,2,350,280), norm=√350, attained at the fourth
-  coordinate vector. This is the Euclidean operator norm, distinct from
-  BanachAlgebras A3's entrywise matrix norm. This finite-dimensional lane
-  uses native matrix theory and does not require SA-C86 or BanachAlgebras A8.
-
-**Milestone C5 — finite matrix norms.** SA-C87, using native matrix theory.
-
-### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
-
-This Part builds on the scalar-generic API in
-`TauCeti.Analysis.Normed.Operator.Resolvent.Unbounded`.
-
-**Objects.** The spectrum of a partial operator, and the Cayley transform of a complex
-self-adjoint partial operator, over the existing scalar-generic `TauCeti.LinearPMap` resolvent
-core.
-
-#### Resolvent algebra
-
-The resolvent set records shifts `zI-A` with bounded two-sided inverses into the domain. The
-resolvent identity, commutation, openness, and spectral mapping form the algebraic layer for the
-self-adjoint estimates.
-
-- **SA-D01 — Resolvent core of a partial operator.** Already supplied by
-  `TauCeti.Analysis.Normed.Operator.Resolvent.Unbounded` and
-  `TauCeti.Analysis.Normed.Operator.Resolvent.Analytic`, over
-  `[NontriviallyNormedField 𝕜]`: `IsResolventAt` and its bijectivity lemmas, `resolventSet`, the
-  named `resolvent` and its inverse and domain laws, `eq_of_le_of_mem_resolventSet`, operator and
-  resolvent commutation, the first resolvent identity and resolvent commutation, Neumann
-  perturbation and openness, and the bounded-operator conversions. The algebraic
-  inverse/domain identities hold on normed spaces; Neumann perturbation,
-  openness, the local Ring.inverse formula and analyticity additionally
-  require `[CompleteSpace X]`. Consume these declarations
-  under their existing names; do not restate them here.
-- **SA-D02 — Spectrum of a partial operator.** In the setting of `SA-D01`, define
-  `TauCeti.LinearPMap.spectrum A` as the complement of `TauCeti.LinearPMap.resolventSet A`,
-  in the same namespace and with dot notation `A.spectrum`.
-- **SA-D03 — Named resolvent.** Supplied by `resolvent`; consume this API. Over a nontrivially normed field on a normed space, at `z` in the
-  resolvent set, `TauCeti.LinearPMap.resolvent A z` is the bounded two-sided inverse `R(z)`.
-- **SA-D04 — Uniqueness of the resolvent.** Supplied by `IsResolventAt.unique`; consume this API. Two bounded operators satisfying the two-sided
-  inverse laws for `zI-A` are equal.
-- **SA-D05 — Left inverse law.** Supplied by `resolvent_smul_sub_apply`; consume this API. For `x ∈ dom A`, `R(z)(zI-A)x=x`.
-- **SA-D06 — Range in the domain.** Supplied by `resolvent_mem_domain`; consume this API. For every ambient vector `y`, `R(z)y ∈ dom A`.
-- **SA-D07 — Right inverse law.** Supplied by `smul_sub_apply_resolvent`; consume this API. For every ambient vector `y`, `(zI-A)R(z)y=y`.
-- **SA-D08 — First resolvent identity.** Supplied by `resolvent_sub_resolvent`; consume this API. Over a nontrivially normed field on a normed space, for
-  common resolvent points `w,z`, `R(w)-R(z)=(z-w)R(w)R(z)`.
-- **SA-D09 — Commutation of resolvents.** Supplied by `resolvent_comm`; consume this API. For common resolvent points `w,z`,
-  `R(w)R(z)=R(z)R(w)`.
-- **SA-D10 — Resolvent spectral mapping in the exclusion direction.** At z∈ρ(A), if `μ ≠ 0` and
-  `z-μ⁻¹` lies in the resolvent set of `A`, then `μ` lies outside the Banach-algebra
-  spectrum of the bounded operator `R(z)`.
-- **SA-D11 — Openness of the resolvent set.** Supplied by `isOpen_resolventSet`; consume this API. On a Banach space, the resolvent set of a partial operator
-  is open.
-- **SA-D12 — Closedness of the spectrum.** On a Banach space, the spectrum
-  of a partial operator is closed.
-- **SA-D13 — Measurability of the real spectrum.** The real spectrum of a complex
-  self-adjoint partial operator is a Borel subset of `ℝ`.
-
-#### Self-adjoint resolvent estimates
-
-Symmetry gives the off-real lower bound, and self-adjointness upgrades it to surjectivity and
-the sharp resolvent norm estimate. Real spectral gaps give the corresponding shifted inverse
-bounds.
-
-- **SA-D14 — Off-real lower bound.** For symmetric complex `A`,
-  `‖(A-z)x‖ ≥ |Im z| ‖x‖` for every `x ∈ dom A`.
-- **SA-D15 — Closed range off the real axis.** For self-adjoint `A` and `Im z ≠ 0`, the
-  range of `A-z` is closed.
-- **SA-D16 — Dense range off the real axis.** Under the hypotheses of `SA-D15`, the range of
-  `A-z` is dense.
-- **SA-D17 — Nonreal points are resolvent points.** If `A` is self-adjoint and `Im z ≠ 0`,
-  then `z` belongs to the resolvent set.
-- **SA-D18 — Reality of the spectrum.** The spectrum of a complex self-adjoint partial
-  operator is contained in the real axis.
-- **SA-D19 — Quantitative resolvent bound.** If `A` is self-adjoint and `Im z ≠ 0`, then
-  `‖R(z)‖ ≤ |Im z|⁻¹`.
-- **SA-D20 — Adjoint of the resolvent.** For self-adjoint `A` and z∈ρ(A),
-  `R(z)†=R(conj z)`.
-- **SA-D21 — Real resolvents are self-adjoint.** At a real resolvent point of self-adjoint
-  `A`, the bounded operator `R(z)` is self-adjoint.
-- **SA-D22 — Real-point resolvent from a lower bound.** Let `A` be a self-adjoint
-  partial operator on a complete Hilbert space over `RCLike 𝕜`, and let `z : ℝ`.
-  If `c > 0` and `c‖x‖ ≤ ‖Ax-zx‖` for every `x ∈ dom A`, then `z` belongs to
-  the resolvent set and its resolvent has norm at most `c⁻¹`.
-- **SA-D23 — Shifted inverse across a spectral gap.** If the spectrum is disjoint from
-  `(c-s,c+s)` and `s>0`, then the shifted operator `A-c` has a bounded two-sided inverse
-  with norm at most `s⁻¹`.
-
-#### Cayley transform and C-star gap inverse
-
-The Cayley transform converts an unbounded self-adjoint operator into a bounded unitary. The
-C-star interval and gap-inverse statements provide bounded spectral estimates for this
-conversion and for spectral restrictions.
-
-- **SA-D24 — Cayley transform.** For self-adjoint `A`, define
-  `U=1+2iR(-i)`, the bounded form of `(A-i)(A+i)⁻¹`.
-- **SA-D25 — Cayley norm preservation.** For every `x`, `‖Ux‖=‖x‖`.
-- **SA-D26 — Cayley surjectivity.** The Cayley transform is surjective.
-- **SA-D27 — Cayley unitarity.** The Cayley transform is unitary.
-- **SA-D28 — Cayley normality.** The Cayley transform is star-normal.
-- **SA-D29 — Norm/spectrum interval characterization.** For a self-adjoint element `a` of a
-  C-star algebra and `r≥0`, `‖a‖≤r` exactly when `spectrum(a) ⊆ [-r,r]`.
-- **SA-D30 — C-star spectral-gap inverse.** If the spectrum of a self-adjoint C-star
-  algebra element avoids `(-r,r)` with `r>0`, the element is a unit and its inverse has norm
-  at most `r⁻¹`.
-
-#### Intertwining
-
-Domain-aware intertwining passes through resolvents, Cayley transforms, and their continuous
-functional calculi. This makes bounded functional-calculus transport available from a
-partial-operator relation.
-
-- **SA-D31 — Domain-aware intertwining relation.** For partial operators `A,B` and bounded
-  `X`, formulate `XA ⊆ BX` by domain transport together with equality on `dom A`.
-- **SA-D32 — Resolvent intertwining.** A domain-aware intertwiner of `A` and `B` intertwines
-  their resolvents at common resolvent points.
-- **SA-D33 — Cayley intertwining.** An intertwiner of self-adjoint `A,B` intertwines their
-  Cayley transforms.
-- **SA-D34 — Continuous-calculus intertwining.** Under the hypotheses of `SA-D33`, the
-  intertwiner commutes through the continuous functional calculus of the two Cayley
-  transforms for matching continuous symbols.
-
-#### Completion statements
-
-The characterization and analyticity statements complete the general resolvent interface.
-Bounded and multiplication-operator bridges connect it to standard Banach-algebra and model
-examples.
-
-- **SA-D35 — Resolvent characterization.** A point `z` belongs to the resolvent set exactly
-  when `zI-A` is injective, has closed dense range, and its inverse on the range extends to a
-  bounded operator on the whole space.
-- **SA-D36 — Analyticity of the resolvent.** Supplied by `LinearPMap.analyticOnNhd_resolvent`; consume this API. On a Banach space, the operator-valued map `z ↦ R(z)` is analytic
-  on the resolvent set.
-- **SA-D37 — Bounded-operator resolvent-set bridge.** Supplied by `mem_resolventSet_toPMap_top_iff`; consume this API. For a bounded operator viewed as a
-  total partial operator, the partial-operator resolvent set agrees with the complement of
-  Mathlib's Banach-algebra spectrum.
-- **SA-D38 — Bounded-operator resolvent bridge.** Supplied by `resolvent_toPMap_top`; consume this API. Under `SA-D37`, the named partial-operator
-  resolvent agrees with the bounded Banach-algebra resolvent.
-- **SA-D39 — Neumann-series resolvent formula.** On a Banach space, in
-  a Neumann neighborhood of a
-  resolvent point w, prove
-  `R(z)=R(w)·∑_{n≥0}((w−z)•R(w))^n` when `‖w−z‖‖R(w)‖<1`.
-  Consume Tau Ceti’s `resolvent_eq_mul_inverse_one_sub` and Mathlib’s
-  `geom_series_eq_inverse`; the explicit convergent-series identity is
-  the target, not a second construction of the supplied Ring.inverse formula.
-
-**Milestone D1 — resolvent algebra and quantitative real spectrum.**
-Build SA-D02, SA-D10, SA-D12–34, consuming the supplied D01, D03–09
-and D11 interfaces.
-
-**Milestone D2 — characterization and bounded models.** Build SA-D35
-and the explicit-series SA-D39 target, consuming supplied D36–38.
-
-### Part E — the spectral measure of an unbounded self-adjoint operator and Stone compatibility
-
-Needs Parts A, B and D, together with Part C's reduced-restriction API
-SA-C12–19 for spectral subspaces.
-
-**Objects.** For self-adjoint `A : H →ₗ.[ℂ] H`, the spectral PVM is obtained from the
-Borel calculus of the Cayley transform by measurable reindexing along the inverse Cayley
-map. Its ranges give spectral subspaces. The Yosida approximants at the two imaginary shifts
-produce bounded self-adjoint approximants and the generated unitary group.
-
-#### Spectral measure and reduction
-
-The inverse Cayley map transfers the bounded spectral PVM to a real spectral measure for `A`.
-The resolvent formula characterizes it, while spectral restrictions and support convert
-projection data into self-adjoint reductions and form bounds.
-
-- **SA-E01 — Spectral PVM of an unbounded self-adjoint operator.** Define a measurable
-  coordinate `κ : ℂ → ℝ` by `κ(1)=0` and
-  `κ(w)=Re(i(1+w)/(1-w))` for `w≠1`, and reindex the Cayley PVM along `κ`. The chosen
-  value at `w=1` is immaterial by `SA-E02`.
-- **SA-E02 — Zero mass at the Cayley singular point.** Every diagonal measure of the Cayley
-  spectral PVM assigns mass zero to `{1}`.
-- **SA-E03 — Spectral projection.** For a Borel set `B ⊆ ℝ`, define the spectral projection
-  `P_A(B)` as the corresponding value of the spectral PVM.
-- **SA-E04 — Spectral subspace.** Define the spectral subspace for `B` as `range P_A(B)`.
-- **SA-E05 — Resolvent formula.** For `Im z ≠ 0`,
-  `⟪ξ,R(z)ξ⟫ = ∫ (z-s)⁻¹ dμξ(s)`.
-- **SA-E06 — Spectral projections commute with resolvents.** For Borel `B` and resolvent
-  point `z`, `P_A(B)R(z)=R(z)P_A(B)`.
-- **SA-E07 — Spectral projections preserve the domain.** For Borel `B`, `P_A(B)` maps
-  `dom A` into itself.
-- **SA-E08 — Spectral support on the spectrum.** If a Borel set `B` consists of resolvent
-  points, then `P_A(B)=0`.
-- **SA-E09 — Self-adjoint spectral restriction.** Prove that each spectral subspace
-  reduces A using SA-E06–07, then apply SA-C12–19's reduced restriction and
-  self-adjointness theorem. This specializes that shared partial-operator
-  construction to spectral subspaces.
-- **SA-E10 — Gap resolvent for a spectral restriction.** If a spectral subspace is supported
-  away from a real point `λ` by a positive gap, then `λ` belongs to the resolvent set of the
-  restricted operator.
-- **SA-E11 — Lower form bound from spectral support.** If `P_A((−∞,c))=0`, then
-  `c‖x‖² ≤ Re⟪Ax,x⟫` for every `x ∈ dom A`.
-- **SA-E12 — Upper form bound from spectral support.** If `P_A((c,∞))=0`, then
-  `Re⟪Ax,x⟫ ≤ c‖x‖²` for every `x ∈ dom A`.
-- **SA-E13 — Two-sided form bounds on a spectral range.** If `B ⊆ [β,α]`, then on
-  `range P_A(B)` the quadratic form of `A` lies between `β‖x‖²` and `α‖x‖²`.
-
-#### Yosida approximation and generated group
-
-The two imaginary-shift resolvents produce bounded approximants, and symmetrization makes
-them self-adjoint. Their unitary exponentials converge strongly to the generated group, and
-maximality identifies its generator with `A`.
-
-- **SA-E14 — Positive-shift Yosida approximant.** For `n≥1`, define
-  `A_n^+ = -n²R(in)-inI`.
-- **SA-E15 — Negative-shift Yosida approximant.** Define
-  `A_n^- = -n²R(-in)+inI`.
-- **SA-E16 — Symmetrized Yosida approximant.** Define
-  `S_n = ½(A_n^+ + A_n^-)`.
-- **SA-E17 — Boundedness of the raw approximants.** Each `A_n^+` and `A_n^-` is bounded.
-- **SA-E18 — Strong convergence of raw approximants on the domain.** For every
-  `x ∈ dom A`, `A_n^+x → Ax` and `A_n^-x → Ax`.
-- **SA-E19 — Resolvent contraction at the positive shift.** `‖nR(in)‖ ≤ 1`.
-- **SA-E20 — Resolvent contraction at the negative shift.** `‖nR(-in)‖ ≤ 1`.
-- **SA-E21 — Self-adjointness of the symmetrized approximant.** Every `S_n` is
-  self-adjoint.
-- **SA-E22 — Yosida unitary group.** For each `n`, `t ↦ exp(itS_n)` is a one-parameter
-  unitary group.
-- **SA-E23 — Commutation of Yosida approximants.** The operators `S_m` and `S_n` commute for
-  all `m,n`.
-- **SA-E24 — Uniform compact-time Cauchy estimate.** For every vector, the Yosida unitary
-  groups form a Cauchy family uniformly for `t` in compact intervals.
-- **SA-E25 — Strong limit group.** The pointwise strong limit of the Yosida unitary groups
-  is a one-parameter unitary group.
-- **SA-E26 — Generated group.** Define the unitary group generated by `A` as the strong
-  limit in `SA-E25`.
-- **SA-E27 — Strong convergence to the generated group.** For every `t` and `ψ`,
-  `exp(itS_n)ψ → U_A(t)ψ`.
-- **SA-E28 — Maximality of self-adjoint operators.** If self-adjoint partial operators
-  satisfy `A ≤ B`, then `A=B`.
-- **SA-E29 — Stone uniqueness.** The generator of the group `U_A` in `SA-E26` is `A`.
-- **SA-E30 — Spectral projections commute with the generated group.** For every Borel set
-  `B` and time `t`, `P_A(B)U_A(t)=U_A(t)P_A(B)`.
-- **SA-E31 — Strong convergence of interval cutoffs.** Spectral projections of increasing
-  bounded intervals exhausting `ℝ` converge strongly to the identity.
-
-#### Spectral block tools
-
-Spectral grid cells decompose vectors into orthogonal frequency blocks. Cut operators, gap
-inverses, and reassembly translate local spectral support into quantitative operator bounds.
-
-- **SA-E32 — Spectral grid cells.** For `ε>0` and integer `k`, define
-  `I_k=[kε,(k+1)ε)`.
-- **SA-E33 — Disjointness of spectral grid cells.** Distinct grid cells are disjoint.
-- **SA-E34 — Covering by spectral grid cells.** The union of all grid cells is `ℝ`.
-- **SA-E35 — Norm splitting across the grid.** For `ε>0`, every `v∈H` satisfies
-  `∑' k : ℤ, ‖P_A(I_k)v‖ₑ² = ‖v‖ₑ²`.
-- **SA-E36 — Spectral cut operator.** Let self-adjoint `A : H →ₗ.[ℂ] H`, let `B ⊆ ℝ` be
-  measurable, and let `c,r ∈ ℝ` satisfy `0≤r` and `|s-c|≤r` for every `s∈B`. Define the bounded
-  spectral cut operator with truncated symbol `(s-c)1_B(s)`.
-- **SA-E37 — Spectral cut bounds, domain, and action.** Under `SA-E36`, the cut operator `C`
-  satisfies `‖C‖≤r`; the spectral range `P_A(B)H` is contained in `dom A`; and for every
-  `y∈P_A(B)H`, `Cy=Ay-cy`, with `Ay` evaluated using that domain membership. The radius
-  hypothesis in `SA-E36` also gives `|s|≤|c|+r` on `B`, which supplies the bounded-spectral-range
-  domain inclusion.
-- **SA-E38 — Spectral-gap inverse.** For `δ>0`, define the bounded spectral multiplier
-  obtained from the reciprocal symbol on `|s|≥δ` and zero on `|s|<δ`.
-- **SA-E39 — Spectral-gap inverse equation.** If the diagonal spectral measure of `ξ`
-  assigns zero mass to `(-δ,δ)`, then the spectral-gap inverse of `ξ` belongs to `dom A` and
-  applying `A` to it gives `ξ`.
-- **SA-E40 — Spectral-gap inverse norm bound.** Under the hypotheses of `SA-E39`, the
-  spectral-gap inverse satisfies `‖G_δ ξ‖ ≤ δ⁻¹‖ξ‖`.
-- **SA-E41 — Reassembly of block lower bounds.** Let `(Qᵢ)_{i∈I}` be bounded operators on a
-  complex inner-product space and let `c∈ℝ≥0∞`. If
-  `∑' i, ‖Qᵢf‖ₑ² = ‖f‖ₑ²` for every `f` and
-  `c ‖Qᵢx‖ₑ ≤ ‖Qᵢy‖ₑ` for every `i`, then `c ‖x‖ₑ ≤ ‖y‖ₑ`.
-
-#### Packaged spectral theorems
-
-These declarations package the roadmap-level Stone correspondence in its `LinearPMap`/PVM carriers, spectral-measure uniqueness, and compatibility with bounded and multiplication-operator models. The underlying one-parameter Stone theorem is implemented by the cited Tau Ceti declarations; SA-E43 owns the carrier adapter and compatibility theorem.
-
-- **SA-E43 — Packaged Stone interface.** Consume
-  `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul` from
-  `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`, using SA-A22's inverse
-  group conversions and exact domain/scalar relation `G = Complex.I • A`.
-  Prove that the PVM/Yosida group `genToGroup A` is the converted unique
-  native group with complex generator `i • A`, that its SAST generator is A,
-  and that generating a group from the SAST generator of any unitary group
-  recovers that group. Retain the PVM and bounded-model compatibility of
-  this correspondence; consume the native uniqueness theorem.
-- **SA-E44 — Uniqueness of the spectral measure.** A real projection-valued measure whose
-  diagonal measures satisfy the resolvent formula `SA-E05` equals the spectral PVM
-  `SA-E01`.
-- **SA-E45 — Bounded spectral-measure compatibility.** For bounded self-adjoint `T` viewed
-  as a total partial operator, the PVM `SA-E01` agrees with the real bounded spectral PVM
-  `SA-B31`.
-- **SA-E46 — Bounded generated-group compatibility.** For bounded self-adjoint `T`, the
-  generated group is `t ↦ exp(itT)`.
-- **SA-E47 — Multiplication-operator spectral projections.** For a multiplication operator,
-  its spectral projections act by multiplication by indicator functions of the selected
-  spectral sets.
-
-**Milestone E1 — spectral measure and reduction.** `SA-E01`–`SA-E13`.
-
-**Milestone E2 — Yosida construction and Stone uniqueness.** `SA-E14`–`SA-E31`.
-
-**Milestone E3 — spectral block tools and packaged theorems.** `SA-E32`–`SA-E41`, `SA-E43`–`SA-E47`.
-
-## Worked examples (acceptance criteria)
-
-### Part A — one-parameter unitary groups and Stone's theorem
-
-**Acceptance examples.** The bounded exponential model is `SA-A23`; the full-domain
-norm-continuity criterion is `SA-A24`.
-
-### Part B — the Borel functional calculus and projection-valued measures
-
-**Acceptance examples.** The multiplication-operator model is `SA-B36`; half-line spectral
-projections and form bounds are `SA-B32`–`SA-B33`. SA-B85 retains multiplicity 2
-for scalar multiplication on ℂ², checks the weighted cyclic and RN-fibre norm
-identities and control-null/PVM-null equivalence, and covers zero H, zero control,
-empty cyclic sums and the zero-H/empty-X C₀ representation. SA-B86 identifies
-essential symbols without choosing pointwise values on null sets.
-
-### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
-
-**Acceptance examples.** Total bounded self-adjoint operators are `SA-C56`; graph-norm
-equivalence for bounded maps is `SA-C43`; the full domain is a graph core by `SA-C40`.
-
-### Part D — resolvents of self-adjoint `LinearPMap` operators, and semiboundedness
-
-**Acceptance examples.** Quantitative off-real bounds, real lower-bound
-resolvents and Cayley unitarity are `SA-D19`, `SA-D22` and `SA-D27`.
-The explicit Neumann-series comparison is `SA-D39`.
-
-### Part E — the spectral measure of an unbounded self-adjoint operator, Stone uniqueness, Yosida
-
-**Acceptance examples.** Bounded spectral-measure compatibility is `SA-E45`; bounded
-generated-group compatibility is `SA-E46`; multiplication-operator spectral projections are
-`SA-E47`.
-
----
-
-## Ordering
-
-**Internal.** Part B's SA-B85 consumes V4.0.Fields' independent measurable-field
-construction after the representation PVM and normal spectral calculus.
-SA-B63 and SA-B65 consume
-BanachSpaceTheory B1/B5 for the bidual/Goldstine comparison; the scalar-integration
-targets SA-B43, SA-B58–60 and SA-B64 consume BanachSpaceTheory
-B5.ScalarIntegral–B5.BoundedApprox. Construct symbols/approximation, then abstract PVM integration, then the
-compact-space representation PVM before specializing it to cfcHom.
-SA-B05 and SA-B30 use that same construction, and SA-B54 is definitional.
-SA-B35 uses the bounded compact-spectrum coordinate and SA-B51's reindexing.
-The representation PVM and examples use no bidual comparison as an input. Part D consumes Tau Ceti’s supplied scalar-generic `TauCeti.LinearPMap`
-resolvent core; its remaining obligations build on that existing API. Part A uses Mathlib,
-the `OneParameterSemigroups` bridge in `SA-A15`–`SA-A16`, and the native
-`TauCeti.Analysis.Semigroups.Group.Stone.Unbounded` theorem in `SA-A22`. Part C's SA-C86 additionally consumes [BanachAlgebras A8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/45ed9e66a8bbfbf702e9d4ecdafebe6a904ccd04/TauCetiRoadmap/BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces). Part C consumes
-[`OrthogonalGeometry`](../OrthogonalGeometry/README.md); its real spectral-separation targets
-`SA-C62`–`SA-C65` also use the shared core `SA-D01`–`SA-D02`. Part E is the confluence
-and consumes the Cayley transform and resolvent bounds from D, the Borel
-calculus and `ProjValMeasure` from B, and the unitary-group vocabulary, von Neumann
-criterion and Duhamel estimate from A. Spectral restriction SA-E09 also consumes
-Part C's SA-C12–19 reduced-restriction API, after SA-E06–07 establishes its
-reducing hypotheses. Parts C, D and E share the native `LinearPMap` carrier. Within Part E the Yosida and maximality material precedes the
-construction.
-
-**External.** [VonNeumannAlgebras V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) supplies SA-B85
-with independent measurable Hilbert fields, rectangular decomposable maps,
-fibrewise unitarity and measure change. [`OrthogonalGeometry`](../OrthogonalGeometry/README.md) supplies the
-reducing-subspace definition and completeness of projected subspaces. Mathlib supplies invariant
-subspaces and symmetric restrictions for Part C's form bounds.
-
-The [one-parameter semigroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OneParameterSemigroups/README.md)
-roadmap owns the general dynamical layer: strongly continuous semigroups, their generators,
-the generator/Laplace-resolvent bridge, Hille–Yosida, Lumer–Phillips, and real-shift Yosida
-approximation. The scalar-generic `TauCeti.LinearPMap` resolvent core is shared infrastructure
-and is consumed in Part D here. This roadmap also owns the unitary/self-adjoint specialization
-and the carrier-specific Stone correspondence. Consume Tau Ceti's one-parameter Stone theorem, with native complex generator `G=i•A`, and prove the `LinearPMap`/PVM bridge in SA-E43. The bridge is `OneParameterUnitaryGroup.toSemigroup` together with the exact generator relation
-for the convention `U t = exp (i t A)`: the semigroup generator is `i A`. The two roadmaps share
-that bridge rather than duplicating semigroup or generator theory.
-
-**Downstream.** VonNeumannAlgebras V4.0.Decomposition and
-OperatorAlgebraDynamics D5 consume SA-B85’s separable diagonal C₀(X)
-representation, multiplicity and measure-change theorem. V10.ClosedOperators
-consumes the cyclic decomposition and summable reweighting;
-NQS.M2.ParameterizedRefinement applies SA-B85's general compact model to
-its NQS-owned joint representation of C(K′×K). NQS owns that representation,
-its full-centre generating comparison and joint measurability.
-`SpectralSubspacePerturbation` consumes Part A's unitary/Stone vocabulary,
-Part C's domain-aware `SylvesterEquation` and form-bound vocabulary, Part D's `LinearPMap`
-resolvent/spectrum API, and Part E's spectral-measure/intertwining results.
-`MatrixSpectralStatistics` consumes Mathlib's Hermitian continuous-functional-calculus
-continuity directly rather than depending on this roadmap.
-
-## Definitions
-
-**D1 (`SA-A02`).** Domain `{ψ : (U(t)ψ-ψ)/(it) converges as t → 0}`, with value the
-limit — the generator of a one-parameter unitary group.
-
-**D2 (`SA-B05`).** `borelCalculus ha :=
-(ProjValMeasure.ofRepresentation (cfcHom ha)).integral`.
-SA-B04 gives the polarized matrix-element formula with the conjugate-first convention.
-
-**D3 (`SA-C52`).** `(A+V)ψ=Aψ+Vψ` on `dom A` — perturbation by a linear map
-`V : A.domain →ₗ[𝕜] E`.
-
-**D4 (`SA-D03`–`SA-D07`).** The bounded two-sided inverse of `zI-A` — the resolvent at a
-point of the resolvent set.
-
-**D5 (`SA-E01`).** The spectral PVM of the Cayley transform, relabelled along the total
-coordinate `κ(1)=0` and `κ(w)=Re(i(1+w)/(1-w))` for `w≠1` — the spectral measure of an
-unbounded self-adjoint operator.
-
-**D6 (`SA-E26`–`SA-E27`).** `t ↦ e^{itA}`, defined as the strong limit of the Yosida
-unitary groups — the generated unitary group.
-
-**D7 (`SA-E14`–`SA-E16`, `SA-E21`).** `A_n^+=-n²R(in)-inI` and
-`A_n^-=-n²R(-in)+inI`, with `S_n=½(A_n^++A_n^-)` — the two raw Yosida approximants and
-their self-adjoint symmetrization.
+# Roadmap: self-adjoint spectral theory
+
+**Summary.** This roadmap completes the spectral theory of normal and self-adjoint operators on
+complex Hilbert spaces on top of three implemented or planned foundations: Tau Ceti's
+projection-valued measures with their bounded Borel integral, its theory of partial operators
+(resolvents, the Cayley transform, von Neumann's criterion, Kato–Rellich, reducing subspaces) and
+its unitary C₀-groups with Stone's theorem; and the bounded Borel calculus and the
+Cayley-transform spectral measure that VonNeumannAlgebras builds in V2.BorelCalculus and
+V10.ClosedOperators. Layer 1 proves that the regular spectral measure of a
+representation of `C(K)` is unique and follows it through degenerate representations, pushforward,
+unitary transport, reduction, direct sums, planar reduction and the Borel bidual. Layer 2 proves
+the spectral theorem for compact normal operators. Layer 3 characterises the spectral measure of an
+unbounded self-adjoint operator by its resolvent and develops spectral subspaces, the spectral
+criterion for a lower bound and spectral truncations. Layer 4 represents the unitary group
+generated by a self-adjoint operator through its spectral measure and approximates it by the
+bounded exponentials of the Yosida approximants. The headline theorems are
+`projValMeasure_eq_of_regular_of_integral_eq`,
+`exists_hilbertBasis_forall_hasEigenvector_of_isStarNormal`, `existsUnique_isSpectralMeasure`,
+`forall_le_re_inner_iff_proj_Iio_eq_zero`, `inner_apply_eq_integral_exp` and
+`tendsto_ofBoundedExp_yosidaApproximant`.
+
+## Scope and ownership
+
+This roadmap owns, and states in its layers:
+
+- the uniqueness of a projection-valued measure with regular diagonal measures among those with
+  the same integrals on continuous functions; the essential subspace and spectral field of a
+  possibly degenerate representation of `C(K)`; regular pushforward and naturality along
+  continuous maps; unitary transport, reducing restriction and Hilbert direct sums of
+  representations, with the Hilbert direct sum of a uniformly bounded family of operators;
+  planar reduction and spectral concentration for representations of `C(K)` with `K ⊆ ℂ`; the
+  isometric Borel bidual embedding and the Goldstine limit comparison (Layer 1);
+- the Hilbert basis of eigenvectors of a compact normal operator, its eigenprojections and the
+  norm-convergent eigen-expansion with its tail estimate (Layer 2);
+- the resolvent characterisation of the spectral measure of a self-adjoint partial operator and
+  its uniqueness; spectral projections commuting with resolvents, spectral subspaces as reducing
+  subspaces with self-adjoint restrictions, spectral support and gap resolvents; the spectral
+  criterion for lower and upper form bounds, in the unbounded, bounded and invariant-subspace
+  forms; spectral truncations, cut operators, the spectral-gap inverse, grid decompositions and
+  the reassembly of block bounds; the comparison with bounded and multiplication operators
+  (Layer 3);
+- the spectral representation of the unitary group generated by a self-adjoint operator and its
+  commutation with spectral projections; the imaginary-shift Yosida approximants and their
+  laws; the commuting Duhamel estimate; and the Yosida approximation of the Stone group
+  (Layer 4).
+
+Already in the library at the pins, consumed and not restated (the supplier contracts give the
+names and files):
+
+- From Tau Ceti, unitary groups: strongly continuous groups and their unitarity, the complex and
+  Stone generators with their domain, covariance, symmetry and commutant laws, the restriction to
+  a contraction semigroup, bounded exponential groups, the norm-continuity criterion, and Stone's
+  theorem in its existence, uniqueness and characterisation forms.
+- From Tau Ceti, projection-valued measures: the carrier with its diagonal measures and laws,
+  strong countable additivity, extensionality, the null filter, reindexing along measurable maps,
+  the polarised complex measures with their variation bound, the bounded Borel symbol algebra with
+  its continuous and simple-function embeddings and its pullbacks, the integral as a star-algebra
+  homomorphism with its matrix elements, norm bound, vector identity, almost-everywhere
+  invariance, change of variables and dominated convergence; the diagonal and polarised measures
+  and Borel operator of a representation of `C(K)`; the scalar-measure integration layer;
+  bounded continuous approximation in `L¹`; Goldstine's theorem.
+- From Tau Ceti, partial operators: the resolvent set, spectrum and resolvent with the
+  `z • 1 - A` convention, their algebra, Neumann series, openness, analyticity, closedness and
+  real measurability of the spectrum, the resolvent characterisation and the bounded-operator
+  comparison; the self-adjoint off-axis and lower-bound resolvent estimates, the spectral-gap
+  bound and the resolvent adjoint; the Cayley transform with its unitarity, normality and
+  intertwining laws; intertwining, invariant and reducing subspaces with restriction; unitary
+  conjugation, `ℓ²` products, domain-defined perturbation, relative bounds and Kato–Rellich; von
+  Neumann's criterion; maximality of self-adjoint operators; Sylvester equations; spectral
+  separation; graph cores; the C*-algebra norm–spectrum interval and gap inverse; the eigenbasis
+  of a compact self-adjoint operator.
+- From Mathlib: `LinearPMap` with its adjoint, self-adjointness and cores, the continuous
+  functional calculus, joint eigenspaces of commuting symmetric operators, the Riesz–Markov–
+  Kakutani measures and their uniqueness for regular measures.
+
+Left to named owners and consumed by section:
+
+- [VonNeumannAlgebras](../../VonNeumannAlgebras/README.md) owns the bounded Borel calculus and
+  projection-valued measure of a unital representation of `C(K)` and of a normal operator, with
+  the null filter, vector identity, essential norm, bounded convergence and commutant law
+  (V2.BorelCalculus); the cyclic multiplication models, control measures, measurable multiplicity,
+  essentially bounded symbol quotient and the classification of representations of `C(K)` and
+  `C₀(X)` (V4.0.Multiplication); and the construction of the spectral measure of a self-adjoint
+  partial operator from its Cayley transform with the multiplier-form spectral theorem
+  (V10.ClosedOperators). This roadmap consumes V2.BorelCalculus and V10.ClosedOperators; the
+  multiplication models and multiplicity theory of V4.0.Multiplication are not used here.
+- [BanachSpaceTheory](../../BanachSpaceTheory/README.md) §5.4 owns the Banach space `M(K)` of
+  finite regular measures and the Riesz isometry with `C(K)*`, consumed by §1.6.
+- [BanachAlgebras](../../BanachAlgebras/README.md) §8.1 owns the compact spectral decomposition
+  on Banach spaces, consumed by §2.1.
+- [OneParameterSemigroups](../../../Completed/OneParameterSemigroups/README.md) owns C₀
+  semigroups and groups in general; Layer 4 consumes their implementation at the Tau Ceti pin.
+- [SpectralSubspacePerturbation](../SpectralSubspacePerturbation/README.md) owns the solvability
+  and a-priori estimates of Sylvester equations, Rosenblum's theorem and the Davis–Kahan
+  theorems.
+
+The roadmaps that cite this one by its former SA ids follow the table in
+[Former SA numbering](#former-sa-numbering).
+
+## Conventions
+
+- `H`, `H′`, `H_i` are complete complex inner product spaces, in arbitrary universes. The inner
+  product `⟪ξ, η⟫` is conjugate-linear in `ξ` and linear in `η`, as in Mathlib.
+- A partial operator is `A : H →ₗ.[ℂ] H` with domain `A.domain`. Self-adjointness is Mathlib's
+  `IsSelfAdjoint A`: `A` equals its adjoint, domains included. A bounded `T` enters the
+  partial-operator theory as the total partial operator `(T : H →ₗ[ℂ] H).toPMap ⊤`.
+- The resolvent is Tau Ceti's `LinearPMap.resolvent A z`, written `R(z)`, the bounded two-sided
+  inverse of `z • 1 - A` for `z` in the resolvent set; the spectrum `LinearPMap.spectrum A` is the
+  complement of the resolvent set. Teschl writes `R_A(z) = (A - z)⁻¹`, the negative of `R(z)`.
+- A projection-valued measure is Tau Ceti's `TauCeti.ProjValMeasure X H` on a measurable space
+  `X`: projections `P(B)` on measurable sets `B`, finite diagonal measures `μ_ξ` with
+  `μ_ξ(B) = ⟪ξ, P(B) ξ⟫`, `P(X) = 1` and `P(B ∩ C) = P(B) P(C)`. The polarised measure is
+  `μ_(ξ,η)(B) = ⟪ξ, P(B) η⟫`, and `f(P)` is the integral of a bounded Borel symbol `f`. The
+  measurable structures on `ℝ`, `ℂ` and a compact Hausdorff `K` are the Borel σ-algebras.
+- The spectral measure of a self-adjoint `A` is the projection-valued measure `P_A` on `ℝ` with
+  `IsSpectralMeasure A P_A`, the resolvent formula of §3.1; `μ^A_ξ` is its diagonal measure.
+- A unitary group is a Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup H` (real-linear
+  operators `U(t)`) satisfying `IsUnitary`. Its complex generator `G` is the limit of
+  `(U(t) x - x) / t`; its Stone generator is `-i G`. A self-adjoint `A` generates the group with
+  `G = i A`, written `U(t) = exp(i t A)`. Teschl writes `exp(-i t A)`.
+- The Cayley transform is Tau Ceti's `LinearPMap.cayley A = 1 + 2 i R(-i)`, the bounded form of
+  `(A - i)(A + i)⁻¹`; the inverse Cayley map is `w ↦ i (1 + w) / (1 - w)` off `w = 1`.
+
+## Exact supplier contracts
+
+**From Mathlib.**
+
+- `LinearPMap`, `LinearPMap.adjoint`, `IsSelfAdjoint` for partial operators, `LinearMap.toPMap`,
+  `LinearPMap.HasCore`; assumed as defined, with no extra hypotheses.
+- `cfcHom`, `cfc`, `IsStarNormal`, `algebraMap_le_iff_le_spectrum`, `AlgHom.spectrum_apply_subset`,
+  `ContinuousMap.spectrum_eq_range`, `ContinuousMap.starAlgHom_ext_map_X`,
+  `ContinuousMap.compStarAlgHom'`, `IsStarProjection`, `LinearIsometryEquiv.conjStarAlgEquiv`.
+- `IsCompactOperator`, `HilbertBasis`, `Module.End.HasEigenvector`,
+  `ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot` (compact symmetric operators),
+  `LinearMap.IsSymmetric.iSup_eigenspace_inf_eigenspace_of_commute` and
+  `LinearMap.IsSymmetric.orthogonalFamily_eigenspace_inf_eigenspace` (joint eigenspaces).
+- `MeasureTheory.Measure.Regular`, `MeasureTheory.Measure.ext_of_integral_eq_on_compactlySupported`
+  (two regular measures with the same integrals on compactly supported continuous functions are
+  equal), `MeasureTheory.Measure.InnerRegular.map_of_continuous`,
+  `MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` (locally finite
+  measures on σ-compact pseudometrizable spaces are regular), `RealRMK.rieszMeasure`.
+- `lp`, `lp.single`, `IsHilbertSum`, `NormedSpace.inclusionInDoubleDual`, `NormedSpace.exp`.
+
+**From Tau Ceti.**
+
+- Unitary groups (`TauCeti/Analysis/Semigroups/Group/Basic.lean`, `Generator.lean`,
+  `Unitary.lean`, `Stone/Basic.lean`, `Stone/Unbounded.lean`):
+  `TauCeti.Semigroups.StronglyContinuousGroup`, `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary`,
+  `TauCeti.Semigroups.StronglyContinuousGroup.complexGenerator`,
+  `TauCeti.Semigroups.StronglyContinuousGroup.stoneGenerator`,
+  `TauCeti.Semigroups.StronglyContinuousGroup.isSelfAdjoint_stoneGenerator`,
+  `TauCeti.Semigroups.StronglyContinuousGroup.eq_of_complexGenerator_eq`,
+  `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary.complexGenerator_commute`,
+  `TauCeti.Semigroups.StronglyContinuousGroup.ofBoundedExp` (with
+  `ofBoundedExp S t = exp(t • (i • S))`, real-linear),
+  `TauCeti.Semigroups.StronglyContinuousGroup.isUnitary_ofBoundedExp`,
+  `TauCeti.Semigroups.StronglyContinuousGroup.ofBoundedExp_generator`, and Stone's theorem
+  `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`.
+- Projection-valued measures (`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/`):
+  `TauCeti.ProjValMeasure` with `TauCeti.ProjValMeasure.ext_of_diag`,
+  `TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint`,
+  `TauCeti.ProjValMeasure.tsum_enorm_sq_proj`, `TauCeti.ProjValMeasure.diag_real_univ`,
+  `TauCeti.ProjValMeasure.map`, `TauCeti.ProjValMeasure.map_diag`,
+  `TauCeti.ProjValMeasure.integral_map`, `TauCeti.ProjValMeasure.ae`,
+  `TauCeti.ProjValMeasure.proj_eq_zero_iff_forall_diag_apply_eq_zero`,
+  `TauCeti.ProjValMeasure.polarizedComplexMeasure`, `TauCeti.ProjValMeasure.integral`,
+  `TauCeti.ProjValMeasure.integral_diag_eq_inner_integral`,
+  `TauCeti.ProjValMeasure.integral_polarizedComplexMeasure_eq_inner_integral`,
+  `TauCeti.ProjValMeasure.integral_indicator`, `TauCeti.ProjValMeasure.norm_sq_integral_apply`,
+  `TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence`; the
+  representation measures `StarAlgHom.representationDiagMeasure` and
+  `StarAlgHom.representationBorelOperator`
+  (`ProjValMeasure/Representation/`). Each is assumed on an arbitrary measurable space and complex
+  Hilbert space, as stated at the pin.
+- Bounded Borel symbols (`TauCeti/MeasureTheory/Function/BoundedBorel.lean`):
+  `TauCeti.BoundedBorelFunction` (a commutative C*-algebra under the supremum norm),
+  `TauCeti.BoundedBorelFunction.ofContinuousMap` (compact `X` with measurable open sets),
+  `TauCeti.BoundedBorelFunction.compStarAlgHom'`, `TauCeti.BoundedBorelFunction.denseRange_ofSimpleFunc`.
+- Scalar measures and approximation: `TauCeti/MeasureTheory/VectorMeasure/ScalarIntegral.lean`,
+  `WithDensity.lean`, `Uniqueness.lean`, `TauCeti/MeasureTheory/Measure/Regular.lean`,
+  `TauCeti/MeasureTheory/Function/ContinuousApproximation.lean`
+  (`MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le`), and Goldstine's
+  theorem `NormedSpace.closure_image_inclusionInDoubleDualWeak_closedBall`
+  (`TauCeti/Analysis/Normed/Module/Dual/Goldstine.lean`).
+- Partial operators: `LinearPMap.resolvent`, `LinearPMap.spectrum`, `LinearPMap.resolvent_comm`
+  (`TauCeti/Topology/Algebra/Module/LinearPMap/Resolvent/Basic.lean`); the self-adjoint
+  estimates `IsSelfAdjoint.norm_resolvent_le`, `IsSelfAdjoint.adjoint_resolvent` and
+  `IsSelfAdjoint.norm_resolvent_le_of_spectrum_gap`
+  (`TauCeti/Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`, `SpectralGap.lean`);
+  `LinearPMap.cayley` (`TauCeti/Analysis/Normed/Operator/LinearPMap/Cayley.lean`);
+  `LinearPMap.IsReducing` and `LinearPMap.IsReducing.isSelfAdjoint_restrict`
+  (`TauCeti/Analysis/InnerProductSpace/LinearPMap/Reducing.lean`); the remaining partial-operator
+  declarations listed in [Former SA numbering](#former-sa-numbering), each in the file named
+  there.
+- Compact operators: `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
+  (`TauCeti/Analysis/InnerProductSpace/Spectrum.lean`), a Hilbert basis of eigenvectors for a
+  compact symmetric operator. Exponentials: `ContinuousLinearMap.exp_smul_apply_sub_eq_intervalIntegral`
+  (`TauCeti/Analysis/Normed/Operator/Exponential.lean`).
+
+**From TauCetiRoadmap.VonNeumannAlgebras.**
+
+- [V2.BorelCalculus](../../VonNeumannAlgebras/README.md#layer-2-elementary-algebra-corners-and-tensors):
+  for compact Hausdorff `K` and a unital star homomorphism `π : C(K, ℂ) →⋆ₐ[ℂ] (H →L[ℂ] H)`, a
+  projection-valued measure `P_π` on `K`, assumed on the carrier `TauCeti.ProjValMeasure K H`,
+  whose diagonal measures are the regular Riesz measures of `f ↦ ⟪ξ, π(f) ξ⟫` and whose integral
+  extends `π`; its vector identity, null filter, essential norm, bounded convergence and commutant
+  law; and for normal bounded `a` the case `K = σ(a)`, `π = cfcHom`, with `a = ∫ z dP_a`.
+- [V10.ClosedOperators](../../VonNeumannAlgebras/README.md#layer-10-affiliated-operators-and-tomitatakesaki-theory):
+  for self-adjoint `A`, the projection-valued measure on `ℝ` obtained from the spectral measure of
+  the Cayley transform by the inverse Cayley map, with `⟪ξ, A η⟫ = ∫ t dμ_(ξ,η)(t)` for `η` in the
+  domain and the domain equal to `{ξ : ∫ t² dμ_ξ(t) < ∞}`; assumed on the carrier
+  `TauCeti.ProjValMeasure ℝ H`.
+
+**From TauCetiRoadmap.BanachSpaceTheory.**
+[§5.4](../../BanachSpaceTheory/README.md#54-finite-regular-measures-and-the-dual-of-ck): the Banach
+space `M(K)` of finite regular complex measures on compact Hausdorff `K` and the linear isometric
+equivalence of `C(K, ℂ)*` with `M(K)` given by integration.
+
+**From TauCetiRoadmap.BanachAlgebras.**
+[§8.1](../../BanachAlgebras/README.md#81-compact-spectral-decomposition): for a compact operator on
+a complex Banach space, the nonzero spectrum consists of eigenvalues, finitely many of modulus at
+least `ε` for each `ε > 0`, each with a finite-dimensional eigenspace.
+
+## How to read the build
+
+Layer 1 needs V2.BorelCalculus and Tau Ceti's projection-valued measures; Layer 2 needs
+BanachAlgebras §8.1 and Tau Ceti's compact self-adjoint eigenbasis. The two are independent of
+each other and of Layers 3–4. Layer 3 needs V10.ClosedOperators for the existence of the spectral
+measure and Tau Ceti's resolvent theory for everything it proves; its bounded comparison in §3.5
+uses §1.1. Layer 4 needs Layer 3 and Tau Ceti's Stone theorem. Each layer delivers its headline
+theorems: Layer 1 the uniqueness of the regular spectral measure, Layer 2 the compact normal
+eigenbasis, Layer 3 the resolvent characterisation and the lower-bound criterion, Layer 4 the
+spectral representation and the Yosida approximation of the Stone group.
+
+## Layer 1: Spectral measures of representations of `C(K)`
+
+Throughout, `K` is a compact Hausdorff space with its Borel σ-algebra, `π` is a star
+homomorphism from `C(K, ℂ)` to the bounded operators on `H`, unital unless §1.2 says otherwise,
+and `P_π` is its projection-valued measure from V2.BorelCalculus.
+
+### 1.1 Uniqueness of the regular spectral measure
+
+Prove `projValMeasure_eq_of_regular_of_integral_eq`: if two projection-valued measures `P`, `Q` on
+`K` have regular diagonal measures and `P.integral` and `Q.integral` agree on every continuous
+function, then `P = Q` (Conway1990, Theorem IX.1.14). The route takes real continuous `f`: the
+diagonal measures of `P` and `Q` at `ξ` have the same integral `⟪ξ, f(P) ξ⟫` of `f`, so they are
+equal regular measures, and the projection-valued measures agree by extensionality from their
+diagonal measures. With V2.BorelCalculus this makes `P_π` the only projection-valued measure with
+regular diagonal measures whose integral extends `π`. For metrizable `K` every finite Borel
+measure is regular, so `P_π` is unique among all projection-valued measures extending `π`; in
+particular, for normal bounded `a`, the spectral measure on `σ(a)` is the only projection-valued
+measure on `σ(a)` whose integral extends `cfcHom`.
+
+*Needs:* Tau Ceti `TauCeti.ProjValMeasure.integral_diag_eq_inner_integral`,
+`TauCeti.ProjValMeasure.ext_of_diag`, `TauCeti.BoundedBorelFunction.ofContinuousMap`; Mathlib
+`MeasureTheory.Measure.ext_of_integral_eq_on_compactlySupported`,
+`MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`; V2.BorelCalculus
+for the existence clause.
+
+**Checks.**
+
+- For `K` a point, both measures equal the identity at the point; the hypothesis on integrals is
+  then `P(K) = Q(K) = 1` and carries no further information.
+- For `K = {0, 1}` and `π(f) = diag(f(0), f(1))` on `ℂ²`, `P_π({0}) = e₁₁` and `P_π({1}) = e₂₂`. The
+  projection-valued measure with the two projections swapped integrates the indicator of `{0}`
+  to `e₂₂ ≠ π(1_{0})`, so the integral clause fixes the labelling.
+- Regularity is needed. On the ordinal space `K = [0, ω₁]` the Dieudonné measure `μ_D` (mass 1 on
+  Borel sets containing a closed unbounded subset of `[0, ω₁)`, 0 otherwise) is `{0,1}`-valued, so
+  `B ↦ μ_D(B) · 1` is a projection-valued measure on `ℂ`. Every continuous function on `K` is
+  eventually constant with value `f(ω₁)`, so its integral is `f(ω₁)`, the same as for the point
+  mass at `ω₁`; yet the two measures give `{ω₁}` the projections `0` and `1`.
+
+### 1.2 Degenerate representations
+
+For a star homomorphism `π : C(K, ℂ) →⋆ₙₐ[ℂ] (H →L[ℂ] H)`, not necessarily unital, define the
+essential subspace `H_π` as the range of `π(1)`, the essential representation `π₀` on `H_π` by
+restriction, and the spectral field `P_π(B) = J P_{π₀}(B) J*` with integral `f ↦ J f(P_{π₀}) J*`,
+where `J : H_π → H` is the inclusion and `P_{π₀}` is the spectral measure of the unital
+representation `π₀`.
+
+- `π(1)` is an orthogonal projection, since `π(1)² = π(1)` and `π(1)* = π(1)`, so `H_π` is closed and
+  complete; `π(f) = π(1) π(f) = π(f) π(1)` for every `f`.
+- `π₀` is a unital star homomorphism into the bounded operators on `H_π`, and `π(f) = J π₀(f) J*`.
+- Each `P_π(B)` is an orthogonal projection, `P_π(K) = π(1)`, `P_π(B ∩ C) = P_π(B) P_π(C)`, and
+  `B ↦ P_π(B)` is strongly countably additive.
+- The integral `f ↦ J f(P_{π₀}) J*` is a star homomorphism from the bounded Borel functions on `K`,
+  equal to `π(f)` on continuous `f` and to `P_π(B)` on the indicator of `B`.
+- A projection field with these laws whose diagonal measures are regular is `P_π` (by §1.1 on `H_π`).
+
+*Needs:* §1.1; V2.BorelCalculus; Mathlib `IsStarProjection`.
+
+**Checks.**
+
+- For `π = 0`, `H_π = 0` and the field is zero.
+- For `K = [0, 1]` and `π(f) = f(0) e₁₁` on `ℂ²`, `π(1) = e₁₁`, `H_π = ℂ e₁` and `P_π(B) = 1_B(0) e₁₁`;
+  the total projection `P_π(K) = e₁₁` is `π(1)`, not the identity.
+- For unital `π`, `H_π = H` and the field is the spectral measure of V2.BorelCalculus.
+- For empty `K`, `C(K, ℂ) = 0`, so `π = 0` and `H_π = 0`; a unital `π` then forces `H = 0`, since
+  `1 = 0` in `C(∅, ℂ)`.
+
+### 1.3 Regular pushforward and naturality
+
+For a continuous map `φ : K → L` of compact Hausdorff spaces, prove that the pushforward
+`P.map φ` of a projection-valued measure with regular diagonal measures again has regular diagonal
+measures, since `(P.map φ)` has diagonal measures `(μ_ξ).map φ` and a finite inner regular measure
+on a compact Hausdorff space is regular. Prove naturality: the spectral measure of
+`π ∘ φ*`, where `φ*(g) = g ∘ φ`, is `P_π.map φ`, because both have regular diagonal measures and
+the change of variables gives `g(P_π.map φ) = (g ∘ φ)(P_π) = π(g ∘ φ)` for continuous `g`, so
+§1.1 applies.
+
+*Needs:* §1.1; Tau Ceti `TauCeti.ProjValMeasure.map`, `TauCeti.ProjValMeasure.map_diag`,
+`TauCeti.ProjValMeasure.integral_map`, `TauCeti.BoundedBorelFunction.compStarAlgHom'`; Mathlib
+`MeasureTheory.Measure.InnerRegular.map_of_continuous`, `ContinuousMap.compStarAlgHom'`.
+
+**Checks.**
+
+- For `φ` constant with value `l₀`, `π ∘ φ*` is `g ↦ g(l₀) · 1` and `P_π.map φ` is the point mass at
+  `l₀` times the identity, whatever `π` is.
+- For `φ` the identity, `P_π.map φ = P_π`.
+- For the inclusion `{0, 1} → [0, 1]` and `π(f) = diag(f(0), f(1))`, the pushforward vanishes on
+  `(0, 1)` and gives `{0}` the projection `e₁₁`.
+
+### 1.4 Unitary transport, reducing subspaces and direct sums
+
+For a family `(H_i)_{i ∈ I}` and operators `T_i` on `H_i` with `‖T_i‖ ≤ M` for all `i`, define their
+Hilbert direct sum `⊕ T_i` on `lp (fun i => H i) 2` by `(⊕ T_i x)_i = T_i x_i`.
+
+- `⊕ T_i` is a bounded operator with `‖⊕ T_i‖ = sup_i ‖T_i‖`, since `‖T_i x_i‖ ≤ M ‖x_i‖` keeps the
+  image in `ℓ²`.
+- `⊕ T_i` sends the single vector `v` at `i` to the single vector `T_i v` at `i`.
+- `⊕ 1 = 1`, and `⊕` is additive, homogeneous and multiplicative in the family, with
+  `(⊕ T_i)* = ⊕ T_i*`.
+
+Prove unitary transport: for a linear isometric equivalence `U : H ≃ₗᵢ[ℂ] H′` and
+`π′ = U.conjStarAlgEquiv ∘ π`, `P_{π′}(B) = U P_π(B) U⁻¹` and `f(P_{π′}) = U f(P_π) U⁻¹`. Prove reducing
+restriction: if a closed subspace `V` is invariant under every `π(f)`, then it is invariant under
+every `P_π(B)`, and the spectral measure of the restricted representation is the restriction of
+`P_π`. Prove direct sums: for unital `π_i` on `H_i`, the direct sum `(⊕ π_i)(f) = ⊕ π_i(f)` is a
+unital star homomorphism (`‖π_i(f)‖ ≤ ‖f‖`), its spectral measure is `B ↦ ⊕ P_{π_i}(B)` and its
+integral is `f ↦ ⊕ f(P_{π_i})`.
+
+*Needs:* §1.1; V2.BorelCalculus (commutant law, for reducing restriction); Mathlib `lp`,
+`lp.single`, `IsHilbertSum`, `LinearIsometryEquiv.conjStarAlgEquiv`.
+
+**Checks.**
+
+- For `T_i = i · 1` on `ℂ`, `i ∈ ℕ`, the family is not uniformly bounded, and the coordinatewise map
+  sends `(1/(i+1))_i ∈ ℓ²` to `(i/(i+1))_i ∉ ℓ²`: the bound hypothesis is needed.
+- For two summands `ℂ ⊕ ℂ` with `T_1 = 1`, `T_2 = 2`, `⊕ T_i = diag(1, 2)` has norm `2`; for
+  `T_1 = i · 1` the adjoint is `-i · 1` on that summand.
+- For an empty index set, `ℓ² = 0` and `⊕ T_i = 0`.
+- For `π(f) = diag(f(0), f(1))` on `ℂ²` and `U` the coordinate swap, `P_{π′}({0}) = e₂₂`. The
+  subspace `ℂ e₁` reduces `π`, and the restricted spectral measure gives `{0}` the identity and
+  `{1}` zero. The direct sum of `f ↦ f(0)` and `f ↦ f(1)` on `ℂ ⊕ ℂ` is `π`.
+
+### 1.5 Planar reduction and concentration
+
+For compact `K ⊆ ℂ` and unital `π`, let `T = π(z)` with `z` the coordinate. Prove that `T` is normal,
+`σ(T) ⊆ K`, and `π = cfcHom(T) ∘ ρ`, where `ρ : C(K, ℂ) → C(σ(T), ℂ)` is restriction; the two star
+homomorphisms agree on the coordinate and are continuous. Prove concentration: `P_π(K \ σ(T)) = 0`,
+by §1.3 applied to the inclusion `σ(T) → K`; and a relatively open `U ⊆ K` meeting `σ(T)` has
+`P_π(U) ≠ 0`, since a continuous `f` with values in `[0, 1]`, supported in `U`, with `f(λ) = 1` at some
+`λ ∈ σ(T)` has `‖f(T)‖ = 1` by isometry of the continuous calculus but `f(P_π) = 0` if `P_π(U) = 0`. Full support
+of the spectral measure of a normal operator on its spectrum is the case `K = σ(T)`; on a larger
+`K` the support is `σ(T)`, not `K`.
+
+*Needs:* §1.3; V2.BorelCalculus; Mathlib `AlgHom.spectrum_apply_subset`,
+`ContinuousMap.spectrum_eq_range`, `ContinuousMap.starAlgHom_ext_map_X`, `cfcHom`.
+
+**Checks.**
+
+- For `K` the closed unit disc, `H = ℂ` and `π(f) = f(z₀)` with `|z₀| < 1`, `T = z₀`, `σ(T) = {z₀}` and
+  `P_π(K \ {z₀}) = 0`: the measure does not have full support on `K`.
+- For `K = {0, 1}` and `π(f) = diag(f(0), f(1))`, `T = diag(0, 1)` and `σ(T) = K`.
+- For `K` the unit circle and `π` the multiplication representation on `L²` of the circle, `T` is
+  the bilateral shift, `σ(T)` is the circle and every nonempty relatively open arc has nonzero
+  projection.
+
+### 1.6 The Borel bidual embedding
+
+Define the Borel bidual embedding `ι` from the bounded Borel functions on `K` to the bidual
+`C(K, ℂ)**` by `ι(f)(Λ) = ∫ f dμ_Λ`, where `μ_Λ` is the measure of BanachSpaceTheory §5.4 representing
+the functional `Λ`.
+
+- `ι` is linear and isometric for the supremum norm: `|f(x)| = |ι(f)(δ_x)|` with `‖δ_x‖ = 1` gives the
+  lower bound, and `|∫ f dμ| ≤ sup |f| · ‖μ‖` the upper.
+- On continuous `g`, `ι(g)` is the canonical image `NormedSpace.inclusionInDoubleDual` of `g`.
+- `ι` is not onto in general; the Checks give a functional on `M([0, 1])` outside its range.
+
+Prove the Goldstine limit comparison: for bounded Borel `f` there is a net `g_α` of continuous
+functions with `‖g_α‖ ≤ sup |f|` and `∫ g_α dμ → ∫ f dμ` for every finite regular `μ` (Goldstine's
+theorem applied to `ι(f)`), and then `π(g_α) → f(P_π)` in the weak operator topology, because
+`⟪ξ, π(g_α) η⟫ = ∫ g_α dμ_(ξ,η)` and the polarised measures of `P_π` are finite and regular.
+
+*Needs:* §1.1; BanachSpaceTheory §5.4; Tau Ceti
+`NormedSpace.closure_image_inclusionInDoubleDualWeak_closedBall`; V2.BorelCalculus; Mathlib
+`NormedSpace.inclusionInDoubleDual`.
+
+**Checks.**
+
+- For `K` a point, `C(K, ℂ) = ℂ`, the bounded Borel functions are `ℂ` and `ι` is the identity.
+- On `K = [0, 1]` the functional `μ ↦ Σ_x μ({x})` (the atomic part) is bounded on `M(K)` but is not
+  `ι(f)`: evaluating at point masses would force `f = 1`, while `ι(1)` sends Lebesgue measure to `1`
+  and the atomic part sends it to `0`.
+- For `π` the multiplication representation on `L²[0, 1]` and `f = 1_[0,1/2]`, continuous `g_α`
+  converge weakly to `f(P_π)`, but never in norm: `sup |g − f| ≥ 1/2` for every continuous `g`, and
+  the operator norm of a multiplication operator is the essential supremum.
+
+### Examples
+
+- For a finite diagonal normal operator `a = diag(λ_1, …, λ_n)`, `P_a({λ})` is the projection onto
+  the span of the `e_i` with `λ_i = λ` (repeated eigenvalues merged), and `f(a) = diag(f(λ_i))`.
+- On `L²[0, 1]` with `a` the multiplication by `t`, `P_a(B)` is multiplication by `1_B` on almost
+  everywhere classes and `f(a)` is multiplication by `f`.
+- On `ℓ²(ℕ)` with `a = diag(1/(n+1))`, `P_a({1/(n+1)}) = e_nn` and `P_a({0}) = 0`, although `0 ∈ σ(a)`.
+- For the same `a`, the partial sums `Σ_{n<N} e_nn` converge strongly to `1` but not in norm
+  (`‖1 − Σ_{n<N} e_nn‖ = 1`): countable additivity is strong, not uniform.
+
+### Dependencies
+
+- §1.1 needs V2.BorelCalculus and Tau Ceti's projection-valued measures; §1.2–§1.4 need §1.1;
+  §1.5 needs §1.3; §1.6 needs §1.1 and BanachSpaceTheory §5.4.
+
+## Layer 2: Compact normal operators
+
+### 2.1 The eigenbasis and the eigen-expansion
+
+Prove `exists_hilbertBasis_forall_hasEigenvector_of_isStarNormal`: a compact normal operator `T`
+on a complex Hilbert space has a Hilbert basis of eigenvectors (Teschl2009, Theorem 6.6, p. 136,
+line 5757, for the self-adjoint case). The route writes `T = X + i Y` with `X = (T + T*)/2` and
+`Y = (T − T*)/(2i)`, commuting compact self-adjoint operators; each eigenspace of `X` is invariant
+under `Y`; on each nonzero eigenspace of `X`, finite-dimensional by BanachAlgebras §8.1,
+diagonalise `Y`; on the kernel of `X` apply the compact self-adjoint eigenbasis to the restriction
+of `Y`; the eigenspaces of `X` span a dense subspace, and joint eigenvectors of `X` and `Y` are
+eigenvectors of `T`.
+
+Then define, for each nonzero eigenvalue `λ` of `T`, the eigenprojection `P_λ` onto the
+eigenspace of `λ`, and prove:
+
+- the eigenspaces of distinct eigenvalues are orthogonal, `T* x = conj(λ) x` whenever `T x = λ x`,
+  and `H` is the orthogonal sum of the kernel of `T` and the closure of the sum of the nonzero
+  eigenspaces;
+- the nonzero eigenvalues are countable, have finite multiplicity and accumulate only at `0`;
+- `Σ_{λ ∈ F} λ P_λ → T` in operator norm as the finite set `F` exhausts the nonzero eigenvalues,
+  with `‖T − Σ_{λ ∈ F} λ P_λ‖ = sup_{λ ∉ F} |λ|` (the supremum over an empty tail being `0`).
+
+*Needs:* Tau Ceti `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`; Mathlib
+`ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot`,
+`LinearMap.IsSymmetric.iSup_eigenspace_inf_eigenspace_of_commute`,
+`LinearMap.IsSymmetric.orthogonalFamily_eigenspace_inf_eigenspace`, `HilbertBasis`,
+`IsCompactOperator`; BanachAlgebras §8.1.
+
+**Checks.**
+
+- On `ℂ⁵` let `T` have rows `(3, 8, 0, −10, 2)`, `(−3, 4, 1, 0, −7)`, `(3, −4, 1, 0, 7)`,
+  `(3, 4, 0, 15, −3)`, `(3, −4, 0, −5, −13)`. Its columns are orthogonal with squared norms
+  `45, 128, 2, 350, 280`, so `T*T = diag(45, 128, 2, 350, 280)`: the standard basis is an eigenbasis
+  of the compact normal `T*T`, and `‖T‖ = √350` by `‖T‖² = ‖T*T‖`, attained at `e₄`.
+- The Jordan block with rows `(0, 1)`, `(0, 0)` on `ℂ²` is compact but not normal, and its only
+  eigenvectors are multiples of `e₁`: normality is needed.
+- Multiplication by `t` on `L²[0, 1]` is normal (self-adjoint) but not compact and has no
+  eigenvectors: compactness is needed.
+- The rotation with rows `(0, −1)`, `(1, 0)` is normal and not self-adjoint, with eigenvalues `±i` and
+  eigenvectors `(1, ∓i)/√2`: the theorem goes beyond the self-adjoint case.
+- For `diag(1/(n+1))` on `ℓ²`, the tail after the first `N` eigenvalues has norm `1/(N+1)`, `0` is in
+  the spectrum but is not an eigenvalue, and the kernel is `0`.
+
+### Examples
+
+- For the zero operator every Hilbert basis is an eigenbasis, with all eigenvalues `0`, and the
+  eigen-expansion is the empty sum.
+- For a finite-rank orthogonal projection `Q`, the eigenvalues are `0` and `1` with `P_1 = Q`.
+
+### Dependencies
+
+- §2.1 needs BanachAlgebras §8.1 and the compact self-adjoint eigenbasis at the Tau Ceti pin; it
+  needs nothing from Layer 1.
+
+## Layer 3: The spectral measure of an unbounded self-adjoint operator
+
+Throughout, `A : H →ₗ.[ℂ] H` is self-adjoint and `P` is a projection-valued measure on `ℝ`.
+
+### 3.1 The resolvent characterisation
+
+Define `IsSpectralMeasure A P` to hold when `⟪ξ, R(z) ξ⟫ = ∫ (z − s)⁻¹ dμ_ξ(s)` for every `z` with
+nonzero imaginary part and every `ξ`. The integrand is bounded by `|Im z|⁻¹`, so the right side is
+the Borel transform of the finite measure `μ_ξ` up to sign (Teschl2009, (3.40), p. 94, line 3881).
+
+- `IsSpectralMeasure A P` gives the polarised identity `⟪ξ, R(z) η⟫ = ∫ (z − s)⁻¹ dμ_(ξ,η)(s)` and the
+  operator identity `R(z) = r_z(P)` with the bounded Borel symbol `r_z(s) = (z − s)⁻¹`.
+- Conversely, `R(z) = r_z(P)` for all nonreal `z` implies `IsSpectralMeasure A P`.
+- With `IsSpectralMeasure A P`, `⟪ξ, A η⟫ = ∫ s dμ_(ξ,η)(s)` for `η` in the domain, and the domain is
+  `{ξ : ∫ s² dμ_ξ(s) < ∞}`.
+
+Prove `existsUnique_isSpectralMeasure`: a self-adjoint `A` has exactly one projection-valued
+measure on `ℝ` satisfying the resolvent formula (Teschl2009, Theorem 3.7, p. 96, line 3983;
+Schmudgen2012, Theorem 5.7). Existence takes V10.ClosedOperators' measure and proves the formula by
+checking that `r_z(P)` inverts `z • 1 − A`, using V10's description of `A` and its domain. Uniqueness:
+the Borel transform of a finite measure on `ℝ` determines the measure (Stieltjes inversion,
+Teschl2009, Theorem 3.21, p. 108, line 4497), so two such measures have the same diagonal
+measures and are equal by extensionality.
+
+*Needs:* V10.ClosedOperators; Tau Ceti `LinearPMap.resolvent`,
+`IsSelfAdjoint.norm_resolvent_le`, `TauCeti.ProjValMeasure.ext_of_diag`,
+`TauCeti.ProjValMeasure.polarizedComplexMeasure`,
+`TauCeti.ProjValMeasure.integral_polarizedComplexMeasure_eq_inner_integral`.
+
+**Checks.**
+
+- For `A = a · 1` on `ℂ` with `a ∈ ℝ`, `P(B) = 1_B(a) · 1` and `μ_ξ = |ξ|² δ_a`; both sides equal
+  `|ξ|²/(z − a)`. Teschl's convention `(A − z)⁻¹` gives `−|ξ|²/(z − a)` and fails the formula, so the
+  formula pins the sign of the resolvent.
+- For `A = diag(0, 1)` on `ℂ²` and `ξ = (1, 1)`, `μ_ξ = δ₀ + δ₁` and both sides equal `1/z + 1/(z − 1)`.
+- For `A = 0` on `ℂ`, the measure `B ↦ 1_B(1) · 1` gives `1/(z − 1) ≠ 1/z`: a projection-valued measure
+  not tied to `A` fails the formula.
+- For `H = 0` every diagonal measure is zero, both sides are `0`, and the unique measure is the zero
+  field.
+- For multiplication by `t` on `L²(ℝ)`, `μ_ξ` has density `|ξ(t)|²` and both sides equal
+  `∫ |ξ(t)|²/(z − t) dt`.
+
+### 3.2 Spectral subspaces and spectral support
+
+Let `P = P_A`. Prove:
+
+- `P(B)` commutes with `R(z)` for every Borel `B` and nonreal `z`, maps the domain of `A` into itself,
+  and `A P(B) x = P(B) A x` there; both follow from `R(z) = r_z(P)` and commutativity of the integral.
+- The range of `P(B)` reduces `A` in the sense of `LinearPMap.IsReducing`, and the restriction of
+  `A` to it is self-adjoint.
+- The spectrum is the support of `P`: every nonreal number is a resolvent point, and a real `λ`
+  lies in `LinearPMap.spectrum A` exactly when `P((λ − ε, λ + ε)) ≠ 0` for every `ε > 0`
+  (Teschl2009, Theorem 3.8, p. 97, line 4015); in particular a Borel set of real resolvent points
+  has `P(B) = 0`.
+- If `B ∩ (λ − δ, λ + δ) = ∅` for real `λ` and `δ > 0`, then `λ` is a resolvent point of the
+  restriction of `A` to the range of `P(B)`, with resolvent norm at most `δ⁻¹`.
+- For bounded `B`, the range of `P(B)` lies in the domain of `A` and `‖A x‖ ≤ sup_{s ∈ B} |s| · ‖x‖`
+  there.
+
+*Needs:* §3.1; Tau Ceti `LinearPMap.IsReducing`, `LinearPMap.IsReducing.isSelfAdjoint_restrict`,
+`LinearPMap.spectrum`.
+
+**Checks.**
+
+- For `A = diag(0, 1)`, `P((−∞, 1/2)) = e₁₁`; the restriction to `ℂ e₁` is `0`, and with `λ = 1`,
+  `δ = 1/2` its resolvent at `1` is `1 ≤ δ⁻¹ = 2`.
+- For multiplication by `t` on `L²(ℝ)`, `P({t₀}) = 0` for every `t₀` although `σ(A) = ℝ`: the support
+  is not the set of atoms.
+- For `A = 0` on `H ≠ 0`, `P = δ₀ · 1`, `σ(A) = {0}` and `P(ℝ \ {0}) = 0`.
+
+### 3.3 Semiboundedness from spectral support
+
+Prove `forall_le_re_inner_iff_proj_Iio_eq_zero`: for self-adjoint `A` with spectral measure `P` and
+real `c`, `c ‖x‖² ≤ Re ⟪x, A x⟫` for every `x` in the domain exactly when `P((−∞, c)) = 0`
+(Teschl2009, Theorem 3.8, p. 97, line 4015, with the quadratic form `⟪x, A x⟫ = ∫ s dμ_x(s)`). Prove
+the upper form, `Re ⟪x, A x⟫ ≤ c ‖x‖²` on the domain exactly when `P((c, ∞)) = 0`, and the two-sided
+form: if `B ⊆ [β, α]`, then `β ‖x‖² ≤ Re ⟪x, A x⟫ ≤ α ‖x‖²` on the range of `P(B)`. For bounded
+self-adjoint `T` with the spectral measure of §3.5, the lower bound `c` is equivalent to
+`σ(T) ⊆ [c, ∞)` and to `c ≤ T` in the order of Mathlib's continuous functional calculus. For
+bounded symmetric `T` and a closed subspace `U` with `T U ⊆ U`, `σ(T|_U) ⊆ [c, ∞)` implies
+`c ‖x‖² ≤ Re ⟪T x, x⟫` on `U`, and `σ(T|_U) ⊆ (−∞, c]` implies the reverse bound, by applying the
+bounded case to `T|_U`. A lower bound `c` on a subspace persists for every smaller constant and on
+every smaller subspace, an upper bound for every larger constant, and for a symmetric bounded
+operator the lower bound `0` on the whole space is positivity in the sense of Mathlib's
+`ContinuousLinearMap.IsPositive`.
+
+*Needs:* §3.1, §3.2; Mathlib `algebraMap_le_iff_le_spectrum`; for the bounded case §3.5.
+
+**Checks.**
+
+- For `A = diag(0, 1)` and `c = 0` the bound holds and `P((−∞, 0)) = 0`; for `c = 1/2` it fails at `e₁`
+  and `P((−∞, 1/2)) = e₁₁ ≠ 0`.
+- For the same `A` and `c = 0`, `P((−∞, 0]) = e₁₁ ≠ 0` although the bound holds: the criterion is
+  stated with the open half-line.
+- Multiplication by `|t|` on `L²(ℝ)` has lower bound `0` and `P((−∞, 0)) = 0`; multiplication by `t`
+  has no lower bound, and `P((−∞, c))` is multiplication by `1_(−∞,c) ≠ 0` for every `c`.
+- For `H = 0` both sides hold for every `c`.
+
+### 3.4 Spectral truncation, cut operators and the spectral-gap inverse
+
+Prove that `P([−n, n]) → 1` strongly as `n → ∞` and that its range lies in the domain of `A`.
+
+Define the spectral cut operator: for Borel `B ⊆ ℝ`, `c ∈ ℝ` and `r ≥ 0` with `|s − c| ≤ r` on `B`, let
+`C_{B,c}` be the integral of the bounded symbol `s ↦ (s − c) 1_B(s)`.
+
+- `‖C_{B,c}‖ ≤ r`; the range of `P(B)` lies in the domain of `A` (since `|s| ≤ |c| + r` on `B`), and
+  `C_{B,c} y = A y − c y` for `y` in that range.
+- `C_{B,c}` commutes with every `P(B′)` and every `R(z)`.
+
+Define the spectral-gap inverse: for `δ > 0`, `G_δ` is the integral of `s ↦ 1_{|s| ≥ δ}(s) s⁻¹`.
+
+- `‖G_δ‖ ≤ δ⁻¹`, `G_δ ξ` lies in the domain of `A` and `A G_δ ξ = P({|s| ≥ δ}) ξ`.
+- If `μ_ξ((−δ, δ)) = 0`, then `A G_δ ξ = ξ` and `‖G_δ ξ‖ ≤ δ⁻¹ ‖ξ‖`.
+
+Prove the grid decomposition: for `ε > 0` the cells `I_k = [k ε, (k+1) ε)`, `k ∈ ℤ`, partition `ℝ`, and
+`Σ_k ‖P(I_k) v‖² = ‖v‖²` for every `v`. Prove the reassembly lemma: if bounded operators `(Q_i)_{i ∈ I}` on
+a complex inner product space satisfy `Σ_i ‖Q_i f‖² = ‖f‖²` for every `f`, and
+`c ‖Q_i x‖ ≤ ‖Q_i y‖` for every `i` with `c ∈ [0, ∞]`, then `c ‖x‖ ≤ ‖y‖` (in extended norms).
+
+*Needs:* §3.1, §3.2; Tau Ceti `TauCeti.ProjValMeasure.tsum_enorm_sq_proj`,
+`TauCeti.ProjValMeasure.norm_sq_integral_apply`, `TauCeti.ProjValMeasure.integral_indicator`,
+`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence`.
+
+**Checks.**
+
+- For multiplication by `t` on `L²(ℝ)`, `B = [−1, 1]`, `c = 0` and `r = 1`, `C_{B,c}` is multiplication
+  by `t 1_[−1,1]` with norm `1`; `‖1 − P([−n, n])‖ = 1` for every `n`, so truncation converges
+  strongly, not in norm.
+- For the same `A` and `δ = 1`, `G_δ` is multiplication by `1_{|t| ≥ 1} t⁻¹` with norm `1 = δ⁻¹`; for
+  `ξ = 1_[0,1/2]` the gap hypothesis fails and `A G_δ ξ = 0 ≠ ξ`.
+- For `A = diag(0, 1)` and `ε = 1`, `P([0, 1)) = e₁₁`, `P([1, 2)) = e₂₂`, all other cells give `0`, and
+  `‖P([0,1)) v‖² + ‖P([1,2)) v‖² = ‖v‖²`.
+- With `Q_1` the projection onto `ℂ e₁` in `ℂ²` alone, `x = e₂` and `y = 0`, every block bound holds but
+  `c ‖x‖ ≤ ‖y‖` fails for `c > 0`: the norm-partition hypothesis is needed.
+
+### 3.5 Bounded operators and multiplication operators
+
+Prove bounded compatibility: for bounded self-adjoint `T`, the spectral measure of its total
+partial operator is the pushforward of the spectral measure `P_T` of V2.BorelCalculus on
+`σ(T) ⊆ ℂ` along the real part, `B ↦ P_T({λ ∈ σ(T) : Re λ ∈ B})`, because the resolvent is the continuous calculus of `(z − s)⁻¹` and §3.1's uniqueness
+applies; in particular `⟪ξ, T ξ⟫ = ∫ s dμ_ξ(s)` and `T` is the integral of the bounded coordinate. Prove
+the multiplication-operator form: for a σ-finite measure `ν` on `X` and real measurable `h`, the
+multiplication by `h` on `L²(ν)` with domain `{g : h g ∈ L²(ν)}` is self-adjoint, its spectral measure
+is `P(B) = ` multiplication by `1_{h⁻¹(B)}`, and its spectrum is the essential range of `h`; for finite
+`ν` the essential range is the support of `ν.map h`. For bounded complex `h`, the spectral measure of
+the normal operator `M_h` on `σ(M_h)` sends `B` to multiplication by `1_{h⁻¹(B)}` and `g(M_h) = M_{g ∘ h}`
+for bounded Borel `g`.
+
+*Needs:* §1.1, §3.1; V2.BorelCalculus; Mathlib `MeasureTheory.Lp`.
+
+**Checks.**
+
+- For `T = diag(0, 1)` as a total operator, the spectral measure is `δ₀ e₁₁ + δ₁ e₂₂`, the restriction
+  of the bounded spectral measure.
+- For multiplication by `t` on `L²[0, 1]`, `P(B)` is multiplication by `1_{B ∩ [0,1]}` and `σ = [0, 1]`,
+  the support of Lebesgue measure on `[0, 1]`.
+- For `ν = 0`, `L²(ν) = 0`, and the spectrum is empty, the support of the zero measure.
+- For `h = 1_[0,1/2]` on `L²[0, 1]`, `σ(M_h) = {0, 1}` and `P({1})` is multiplication by `1_[0,1/2]`.
+
+### Examples
+
+- For `A = −d²/dx²` realised as multiplication by `ξ²` after the Fourier transform on `L²(ℝ)`,
+  `P((−∞, 0)) = 0`, so `A ≥ 0` by §3.3, and `P([0, 1])` is the Fourier multiplier `1_{|ξ| ≤ 1}`.
+- For `A = diag(λ_n)` on `ℓ²` with real `λ_n`, `P(B)` is the coordinate projection onto
+  `{n : λ_n ∈ B}`, and `μ_ξ = Σ_n |ξ_n|² δ_{λ_n}`.
+
+### Dependencies
+
+- §3.1 needs V10.ClosedOperators and Tau Ceti's resolvent and projection-valued measures; §3.2
+  needs §3.1; §3.3 needs §3.1–§3.2 and, in the bounded case, §3.5; §3.4 needs §3.1–§3.2; §3.5 needs
+  §1.1, §3.1 and V2.BorelCalculus.
+
+## Layer 4: The unitary group of a self-adjoint operator
+
+Throughout, `A` is self-adjoint with spectral measure `P` (§3.1), and `U` is the unitary group with
+complex generator `i • A`, unique by Tau Ceti's `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`.
+
+### 4.1 Spectral representation of the Stone group
+
+Prove `inner_apply_eq_integral_exp`: `⟪ξ, U(t) ξ⟫ = ∫ exp(i t s) dμ_ξ(s)` for every `t` and `ξ`
+(Teschl2009, Theorem 5.1, p. 123, line 5183, and Theorem 5.2, p. 124, line 5232, written there for
+`exp(−i t A)`). The route defines `V(t)` as the integral of `s ↦ exp(i t s)`: it is a unitary group
+because the integral is a star homomorphism, and strongly continuous by dominated convergence. For
+`x` in the domain of `A`, `(V(t) x − x)/t → i A x` by dominated convergence, since
+`|exp(i t s) − 1| ≤ |t s|` and `∫ s² dμ_x(s) < ∞`; so `A` is contained in the Stone generator of `V`,
+both are self-adjoint, maximality makes them equal, and Stone uniqueness gives `V = U`. Consequences: `P(B)` commutes with every `U(t)`; for bounded
+self-adjoint `T`, `U` is `ofBoundedExp T`, so `⟪ξ, exp(i t T) ξ⟫ = ∫ exp(i t s) dμ_ξ(s)`.
+
+*Needs:* §3.1, §3.2; Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.eq_of_complexGenerator_eq`,
+`TauCeti.Semigroups.StronglyContinuousGroup.isSelfAdjoint_stoneGenerator`,
+`LinearPMap.eq_of_le_of_isSelfAdjoint`,
+`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence`,
+`TauCeti.Semigroups.StronglyContinuousGroup.ofBoundedExp_generator`.
+
+**Checks.**
+
+- For `A = a · 1` on `ℂ`, `U(t) = exp(i t a)` and both sides equal `exp(i t a) |ξ|²`; at `a = 1`,
+  `t = π/2` the value is `i |ξ|²`, while Teschl's `exp(−i t A)` gives `−i |ξ|²`.
+- For `A = diag(0, 1)` and `ξ = (1, 1)`, both sides equal `1 + exp(i t)`.
+- For multiplication by `t` on `L²(ℝ)`, `U(t)` is multiplication by `exp(i t s)` and both sides equal
+  `∫ exp(i t s) |ξ(s)|² ds`.
+- At `t = 0` both sides equal `‖ξ‖²`, the total mass of `μ_ξ`.
+
+### 4.2 The Yosida approximants
+
+Define the raw Yosida approximants `A_n^+ = −n² R(i n) − i n` and `A_n^- = −n² R(−i n) + i n`, and
+`yosidaApproximant A n`, the symmetrised approximant `S_n = (A_n^+ + A_n^-)/2 = −(n²/2) (R(i n) + R(−i n))`.
+For self-adjoint `A` and `n ≥ 1`:
+
+- `A_n^+` and `A_n^-` are bounded; for `x` in the domain, `A_n^+ x = i n R(i n) A x` and
+  `A_n^- x = −i n R(−i n) A x`, and both converge to `A x`.
+- `‖n R(± i n)‖ ≤ 1`.
+- `S_n` is self-adjoint, since `R(i n)* = R(−i n)`, with `S_n = s_n(P)` for `s_n(s) = n² s/(n² + s²)`, so
+  `‖S_n‖ ≤ n/2`.
+- `S_m` and `S_n` commute for all `m, n`, and `S_n x → A x` for `x` in the domain.
+- `S_0 = 0`.
+
+*Needs:* §3.1; Tau Ceti `LinearPMap.resolvent`, `LinearPMap.resolvent_comm`,
+`IsSelfAdjoint.norm_resolvent_le`, `IsSelfAdjoint.adjoint_resolvent`.
+
+**Checks.**
+
+- For `A = 1` on `ℂ` and `n = 1`, `R(i) = 1/(i − 1)`, `R(−i) = 1/(−i − 1)`, their sum is `−1`, so
+  `S_1 = 1/2 = n² a/(n² + a²)`.
+- For the same `A`, `A_1^+ = (1 − i)/2` is not real: the raw approximant is not self-adjoint, the
+  symmetrised one is.
+- For `A = 0`, `S_n = 0` for every `n`.
+- For multiplication by `t` on `L²(ℝ)`, `S_n` is multiplication by `n² t/(n² + t²)`, whose supremum
+  `n/2` is attained at `t = n`.
+
+### 4.3 Yosida approximation of the Stone group
+
+Prove the commuting Duhamel estimate: for commuting bounded self-adjoint `S`, `T`,
+`‖exp(i t S) ψ − exp(i t T) ψ‖ ≤ |t| ‖(S − T) ψ‖`. Prove `tendsto_ofBoundedExp_yosidaApproximant`:
+`exp(i t S_n) ψ → U(t) ψ` for every `t` and `ψ`. One route: `S_n → A` in the strong resolvent sense by
+§4.2 (Teschl2009, Lemma 6.36, p. 155, line 6655, with core the domain of `A`), and strong resolvent
+convergence gives strong convergence of `exp(i t S_n)` (Teschl2009, Theorem 6.31, p. 154, line 6602).
+Another: `S_n` commutes with `U(t)` by §4.1, the Duhamel estimate between `exp(i t S_n)` and `U(t)` gives
+`‖exp(i t S_n) ψ − U(t) ψ‖ ≤ |t| ‖(S_n − A) ψ‖` for `ψ` in the domain, and density with the uniform bound
+`1` gives all `ψ`, uniformly for `t` in compact intervals. Each `ofBoundedExp S_n` is unitary, and its
+complex generator is `i S_n`.
+
+*Needs:* §4.1, §4.2; Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.ofBoundedExp`,
+`TauCeti.Semigroups.StronglyContinuousGroup.isUnitary_ofBoundedExp`,
+`ContinuousLinearMap.exp_smul_apply_sub_eq_intervalIntegral`.
+
+**Checks.**
+
+- For `A = a · 1`, `exp(i t n² a/(n² + a²)) → exp(i t a)`; at `a = t = n = 1` the approximant is
+  `exp(i/2)`.
+- For multiplication by `t` on `L²(ℝ)`, `sup_s |exp(i t n² s/(n² + s²)) − exp(i t s)|` does not tend to
+  `0` (at `s = n` the phases differ by `t n/2`), so the convergence is strong and not in norm.
+- The commutation hypothesis is needed: for `S` with rows `(0, 1)`, `(1, 0)` and `T` with rows
+  `(0, 1)`, `(1, −1)`, `(S − T) e₁ = 0`, but `S² e₁ = e₁` and `T² e₁ = (1, −1)`, so `exp(i t S) e₁ ≠ exp(i t T) e₁`
+  for small `t ≠ 0` while the right side of the estimate is `0`.
+- At `t = 0` both sides equal `ψ`.
+
+### Examples
+
+- For bounded self-adjoint `T`, `exp(i t S_n) → exp(i t T)` in operator norm, since
+  `‖S_n − T‖ ≤ ‖T‖³/n²`.
+- For `A = diag(λ_k)` on `ℓ²`, `U(t) = diag(exp(i t λ_k))` and `exp(i t S_n)` acts on `e_k` by
+  `exp(i t n² λ_k/(n² + λ_k²))`.
+
+### Dependencies
+
+- §4.1 needs §3.1–§3.2 and Tau Ceti's Stone theorem; §4.2 needs §3.1; §4.3 needs §4.1–§4.2.
+
+## Downstream consumers
+
+- SpectralSubspacePerturbation consumes the partial-operator spectrum and resolvent and the
+  domain-aware Sylvester equation at the Tau Ceti pin, and Layer 3's spectral measure.
+- BanachAlgebras §8.1 names Layer 2's compact normal decomposition as its consumer.
+- UnboundedOperators, VariationalMethods, QuantumFoundations, CongruenceSpectralGap and
+  HeegaardFloer consume Layer 3 (the spectral measure, spectral subspaces and the lower-bound
+  criterion) and Layer 4 (the spectral representation of the Stone group).
+- GeometricQuantization consumes von Neumann's criterion, Stone's theorem and graph cores at the
+  Tau Ceti pin.
+- OperatorAlgebraDynamics, AutomorphicSpectralTheory, NoncompactQuantumSymmetry and
+  SpectralManifolds consume the multiplication models and multiplicity classification, which are
+  VonNeumannAlgebras V4.0.Multiplication's, and Layer 1's transport and degenerate-representation
+  results.
+
+## Former SA numbering
+
+The SA ids of this roadmap's earlier numbering are cited by other roadmaps. Each former id is
+listed with where its content lives: a section here, a VonNeumannAlgebras target, or a declaration
+at the Tau Ceti or Mathlib pin.
+
+| Former SA id | Location |
+| --- | --- |
+| SA-A01 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup` with `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary` (`Analysis/Semigroups/Group/Basic.lean`, `Unitary.lean`) |
+| SA-A02 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.stoneGenerator` and `TauCeti.Semigroups.StronglyContinuousGroup.complexGenerator` (`Unitary.lean`) |
+| SA-A03–SA-A06 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary.inner_map_map`, `TauCeti.Semigroups.StronglyContinuousGroup.map_neg_apply_map_apply`, `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary.norm_map`, `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary.opNorm_le_one`, `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary.reflect` |
+| SA-A07–SA-A11 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.mem_domain_iff_tendsto`, `TauCeti.Semigroups.StronglyContinuousGroup.map_mem_domain`, `TauCeti.Semigroups.StronglyContinuousGroup.generator_map` (`Group/Generator.lean`) |
+| SA-A12 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary.complexGenerator_isFormalAdjoint_neg` |
+| SA-A13, SA-A14 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary.complexGenerator_commute` |
+| SA-A15 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.toSemigroup` with `TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary.hasGrowthBound_zero_one` |
+| SA-A16 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.complexGenerator_restrictScalars` |
+| SA-A17, SA-A18 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.ofBoundedExp`, `TauCeti.Semigroups.StronglyContinuousGroup.isUnitary_ofBoundedExp` (`Group/Stone/Basic.lean`) |
+| SA-A19 | Mathlib `hasDerivAt_exp_smul_const` |
+| SA-A20 | §4.3 (commuting Duhamel estimate) |
+| SA-A21 | Tau Ceti `LinearPMap.isSelfAdjoint_of_surjective_addSub` (`Analysis/InnerProductSpace/LinearPMap/SelfAdjoint.lean`) |
+| SA-A22 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.isSelfAdjoint_stoneGenerator` and Stone's theorem in `Group/Stone/Unbounded.lean` |
+| SA-A23 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.ofBoundedExp_generator` |
+| SA-A24 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousSemigroup.continuous_iff_domain_eq_top` (`Analysis/Semigroups/UniformlyContinuous.lean`) applied to both half-lines |
+| SA-B01 | Tau Ceti `TauCeti.BoundedBorelFunction` and `TauCeti.BoundedBorelFunction.compStarAlgHom'` |
+| SA-B02 | Tau Ceti `MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le` |
+| SA-B03, SA-B04 | VonNeumannAlgebras V2.BorelCalculus, on Tau Ceti `ContinuousLinearMap.diagMeasure` and `ContinuousLinearMap.pair` (`Analysis/InnerProductSpace/BorelCalculus/`) |
+| SA-B05 | VonNeumannAlgebras V2.BorelCalculus |
+| SA-B06–SA-B13 | VonNeumannAlgebras V2.BorelCalculus |
+| SA-B14 | Tau Ceti `TauCeti.ProjValMeasure` (`Analysis/InnerProductSpace/ProjValMeasure/Basic.lean`) |
+| SA-B15 | Tau Ceti `TauCeti.ProjValMeasure.proj_idem` |
+| SA-B16 | Tau Ceti `TauCeti.ProjValMeasure.isPositive_proj` |
+| SA-B17 | Tau Ceti `TauCeti.ProjValMeasure.proj_range_mono` |
+| SA-B18 | Tau Ceti `TauCeti.ProjValMeasure.proj_union` |
+| SA-B19 | Tau Ceti `TauCeti.ProjValMeasure.norm_proj_apply_le` |
+| SA-B20 | Tau Ceti `TauCeti.ProjValMeasure.ext` |
+| SA-B21 | Tau Ceti `TauCeti.ProjValMeasure` (its diagonal measures) with `TauCeti.ProjValMeasure.instIsFiniteMeasureDiag` |
+| SA-B22 | Tau Ceti `TauCeti.ProjValMeasure` (its diagonal-mass field) |
+| SA-B23 | Tau Ceti `TauCeti.ProjValMeasure.ext_of_diag` |
+| SA-B24 | Tau Ceti `TauCeti.ProjValMeasure.tsum_enorm_sq_proj` |
+| SA-B25 | Tau Ceti `TauCeti.ProjValMeasure.map` |
+| SA-B26 | VonNeumannAlgebras V2.BorelCalculus |
+| SA-B27 | VonNeumannAlgebras V2.BorelCalculus |
+| SA-B28 | VonNeumannAlgebras V2.BorelCalculus |
+| SA-B29 | VonNeumannAlgebras V2.BorelCalculus |
+| SA-B30 | VonNeumannAlgebras V2.BorelCalculus |
+| SA-B31 | §3.5 (bounded compatibility) |
+| SA-B32 | §3.3 |
+| SA-B33 | §3.3 |
+| SA-B34 | §1.1 |
+| SA-B35 | VonNeumannAlgebras V2.BorelCalculus; §3.5 for the real form |
+| SA-B36 | §3.5 |
+| SA-B37 | Tau Ceti `TauCeti.BoundedBorelFunction` with `TauCeti.BoundedBorelFunction.norm_eq_iSup_norm` |
+| SA-B38 | Tau Ceti `TauCeti.BoundedBorelFunction.ofContinuousMap` |
+| SA-B39 | Tau Ceti `TauCeti.BoundedBorelFunction.denseRange_ofSimpleFunc` |
+| SA-B40 | Tau Ceti `TauCeti.ProjValMeasure.polarizedComplexMeasure` |
+| SA-B41 | Tau Ceti `TauCeti.ProjValMeasure.polarizedComplexMeasure_apply` |
+| SA-B42 | Tau Ceti `TauCeti.ProjValMeasure.polarizedComplexMeasure_variation_univ_le` |
+| SA-B43 | Tau Ceti `TauCeti.ProjValMeasure.polarizedComplexMeasure_self_eq_withDensityᵥ` and `TauCeti.ProjValMeasure.integral_polarizedComplexMeasure_self` |
+| SA-B44 | Tau Ceti `TauCeti.ProjValMeasure.integral` |
+| SA-B45 | Tau Ceti `TauCeti.ProjValMeasure.integral_polarizedComplexMeasure_eq_inner_integral` |
+| SA-B46 | Tau Ceti `TauCeti.ProjValMeasure.integral_indicator` |
+| SA-B47 | Tau Ceti `TauCeti.ProjValMeasure.norm_integral_le` |
+| SA-B48 | VonNeumannAlgebras V2.BorelCalculus (essential norm) |
+| SA-B49 | Tau Ceti `TauCeti.ProjValMeasure.ae`, `TauCeti.ProjValMeasure.eventually_ae_iff`, `TauCeti.ProjValMeasure.proj_eq_zero_iff_forall_diag_apply_eq_zero`, `TauCeti.ProjValMeasure.proj_iUnion_eq_zero` |
+| SA-B50 | Tau Ceti `TauCeti.ProjValMeasure.integral_congr_ae` |
+| SA-B51 | Tau Ceti `TauCeti.ProjValMeasure.integral_map` and `TauCeti.ProjValMeasure.map_diag` |
+| SA-B52 | Tau Ceti `TauCeti.ProjValMeasure.norm_sq_integral_apply` |
+| SA-B53 | Tau Ceti `TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence` |
+| SA-B54 | VonNeumannAlgebras V2.BorelCalculus |
+| SA-B55 | VonNeumannAlgebras V2.BorelCalculus |
+| SA-B56 | §1.5 |
+| SA-B57 | VonNeumannAlgebras V2.BorelCalculus (commutant law) |
+| SA-B58 | Tau Ceti `MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le` and `MeasureTheory.exists_seq_continuous_norm_le_tendsto_integral_norm_sub` |
+| SA-B59 | VonNeumannAlgebras V2.BorelCalculus, on Tau Ceti `StarAlgHom.representationDiagMeasure` and `StarAlgHom.representationBorelOperator` |
+| SA-B60 | VonNeumannAlgebras V2.BorelCalculus; Tau Ceti `StarAlgHom.regular_representationDiagMeasure` |
+| SA-B61 | VonNeumannAlgebras V2.BorelCalculus; Tau Ceti `StarAlgHom.representationBorelOperator_ofContinuousMap` |
+| SA-B62 | §1.1 |
+| SA-B63 | §1.6 |
+| SA-B64 | VonNeumannAlgebras V2.BorelCalculus (multiplicativity through weighted measures) |
+| SA-B65 | §1.6 |
+| SA-B66, SA-B67 | §1.2 |
+| SA-B68, SA-B69 | §1.3 |
+| SA-B70–SA-B72 | §1.4 |
+| SA-B73, SA-B74 | §1.5 |
+| SA-B75–SA-B78 | Layer 1, Examples |
+| SA-B79 | VonNeumannAlgebras V2.BorelCalculus (commutant law) |
+| SA-B80 | §1.4 (Hilbert direct sum of operators) |
+| SA-B81 | Tau Ceti `TauCeti/MeasureTheory/VectorMeasure/ScalarIntegral.lean` |
+| SA-B82 | Tau Ceti `MeasureTheory.VectorMeasure.integral_mul_withDensityᵥ` (`MeasureTheory/VectorMeasure/WithDensity.lean`) |
+| SA-B83 | Tau Ceti `TauCeti/MeasureTheory/Measure/Regular.lean` and `TauCeti/MeasureTheory/VectorMeasure/Variation/Regular.lean` |
+| SA-B84 | Tau Ceti `MeasureTheory.VectorMeasure.ext_of_integral_eq_on_compactlySupported` (`MeasureTheory/VectorMeasure/Uniqueness.lean`) |
+| SA-B85 | VonNeumannAlgebras V4.0.Multiplication |
+| SA-B86 | VonNeumannAlgebras V4.0.Multiplication (essentially bounded symbol quotient) |
+| SA-C01–SA-C04 | equality of the domains `A.domain` of Mathlib `LinearPMap` |
+| SA-C05–SA-C07 | Tau Ceti `LinearPMap.Intertwines` and `LinearPMap.Intertwines.comp` (`Topology/Algebra/Module/LinearPMap/Intertwining.lean`) |
+| SA-C08–SA-C10 | the order `≤` on Mathlib `LinearPMap` |
+| SA-C11 | Tau Ceti `LinearPMap.IsInvariant` (`LinearAlgebra/LinearPMap/Restrict.lean`) |
+| SA-C12 | Tau Ceti `LinearPMap.IsReducing` (`Analysis/InnerProductSpace/LinearPMap/Reducing.lean`) |
+| SA-C13–SA-C15 | Tau Ceti `LinearPMap.restrict`, `LinearPMap.mem_restrict_domain`, `LinearPMap.coe_restrict_apply` |
+| SA-C16 | Tau Ceti `LinearPMap.IsReducing.dense_restrict_domain` |
+| SA-C17 | Tau Ceti `LinearPMap.IsClosed.restrict` |
+| SA-C18 | Tau Ceti `LinearPMap.IsFormalAdjoint.restrict` |
+| SA-C19 | Tau Ceti `LinearPMap.IsReducing.isSelfAdjoint_restrict` |
+| SA-C20–SA-C24 | Mathlib `LinearPMap.comp` with `LinearMap.toPMap` on the pulled-back domain; Tau Ceti `LinearPMap.unitaryConj` for isometric equivalences |
+| SA-C25–SA-C28 | Tau Ceti `LinearPMap.unitaryConj`, `LinearPMap.mem_unitaryConj_domain_iff`, `LinearPMap.unitaryConj_apply`, `LinearPMap.isSelfAdjoint_unitaryConj` (`Analysis/InnerProductSpace/LinearPMap/Constructions.lean`) |
+| SA-C29–SA-C33 | Tau Ceti `LinearPMap.withLpProdMap`, `LinearPMap.mem_withLpProdMap_domain`, `LinearPMap.withLpProdMap_apply_fst`, `LinearPMap.withLpProdMap_apply_snd`, `LinearPMap.dense_withLpProdMap_domain`, `LinearPMap.IsClosed.withLpProdMap` (`Analysis/Normed/Operator/LinearPMap/ProdLp.lean`) |
+| SA-C34–SA-C38 | the norm of `(x, A x)` in the `ℓ²` product, Mathlib `LinearPMap.graph` |
+| SA-C39 | Mathlib `LinearPMap.HasCore` |
+| SA-C40 | Mathlib `LinearPMap.HasCore` |
+| SA-C41 | Mathlib `LinearPMap.IsClosed`; Tau Ceti `LinearPMap.IsClosed.mem_domain_of_tendsto` (`Topology/Algebra/Module/LinearPMap/GraphCore.lean`) |
+| SA-C42 | Tau Ceti `LinearPMap.HasCore.graph_subset_of_isClosed`, `LinearPMap.HasCore.of_graph_subset_closure` |
+| SA-C43 | Mathlib `ContinuousLinearMap.le_opNorm` |
+| SA-C44–SA-C51 | Tau Ceti `LinearPMap.IsRelativelyBounded` with its `mono`, `add`, `neg`, `sub` and `smul` laws, `LinearPMap.isRelativelyBounded_zero`, `ContinuousLinearMap.isRelativelyBounded_toPMap` (`Analysis/Normed/Operator/LinearPMap/RelativeBound.lean`) |
+| SA-C52, SA-C53 | Tau Ceti `LinearPMap.perturb` (`LinearAlgebra/LinearPMap/Perturbation.lean`) |
+| SA-C54 | Tau Ceti `LinearPMap.isSelfAdjoint_perturb_bounded` |
+| SA-C55 | Tau Ceti `IsSelfAdjoint.add_of_isRelativelyBounded` (`Analysis/InnerProductSpace/LinearPMap/KatoRellich.lean`) |
+| SA-C56 | Tau Ceti `LinearPMap.isSelfAdjoint_toPMap_top` |
+| SA-C62–SA-C65 | Tau Ceti `LinearPMap.SpectralSetsSeparated` with `LinearPMap.SpectralSetsSeparated.symm`, `LinearPMap.SpectralSetsSeparated.mono_gap`, `LinearPMap.SpectralSetsSeparated.mono_sets` (`Analysis/InnerProductSpace/LinearPMap/SpectralSeparation.lean`) |
+| SA-C66–SA-C72 | Tau Ceti `LinearPMap.SylvesterEquation` with `LinearPMap.SylvesterEquation.ofBounded`, `zero`, `add`, `neg`, `sub` and `smul` (`Analysis/InnerProductSpace/LinearPMap/Sylvester.lean`) |
+| SA-C76 | §3.3 |
+| SA-C77 | §3.3 |
+| SA-C78 | §3.3 |
+| SA-C79 | §3.3 |
+| SA-C80 | §3.3 |
+| SA-C81 | §3.3 |
+| SA-C82 | §3.3 |
+| SA-C83 | §3.3 |
+| SA-C84 | §3.3 |
+| SA-C85 | §3.3 |
+| SA-C86 | §2.1 |
+| SA-C87 | §2.1, Checks |
+| SA-D01 | Tau Ceti `LinearPMap.IsResolventAt`, `LinearPMap.resolventSet`, `LinearPMap.resolvent` (`Topology/Algebra/Module/LinearPMap/Resolvent/Basic.lean`) |
+| SA-D02 | Tau Ceti `LinearPMap.spectrum` |
+| SA-D03 | Tau Ceti `LinearPMap.resolvent` |
+| SA-D04 | Tau Ceti `LinearPMap.IsResolventAt.unique` |
+| SA-D05 | Tau Ceti `LinearPMap.resolvent_smul_sub_apply` |
+| SA-D06 | Tau Ceti `LinearPMap.resolvent_mem_domain` |
+| SA-D07 | Tau Ceti `LinearPMap.smul_sub_apply_resolvent` |
+| SA-D08 | Tau Ceti `LinearPMap.resolvent_sub_resolvent` |
+| SA-D09 | Tau Ceti `LinearPMap.resolvent_comm` |
+| SA-D10 | Tau Ceti `Topology/Algebra/Module/LinearPMap/Resolvent/SpectralMapping.lean` (a nonzero `μ` lies outside the spectrum of `R(z)` exactly when `z − μ⁻¹` is a resolvent point) |
+| SA-D11 | Tau Ceti `LinearPMap.isOpen_resolventSet` (`Analysis/Normed/Operator/Resolvent/Unbounded.lean`) |
+| SA-D12 | Tau Ceti `LinearPMap.isClosed_spectrum` (`Analysis/Normed/Operator/Resolvent/Spectrum.lean`) |
+| SA-D13 | Tau Ceti `LinearPMap.measurableSet_preimage_ofReal_spectrum` (`Analysis/Normed/Operator/Resolvent/RealSpectrum.lean`) |
+| SA-D14 | Tau Ceti `LinearPMap.IsFormalAdjoint.abs_im_mul_norm_le_norm_smul_sub` (`Analysis/InnerProductSpace/LinearPMap/SelfAdjoint.lean`) |
+| SA-D15 | Tau Ceti `LinearPMap.IsFormalAdjoint.isClosed_range_smul_sub` |
+| SA-D16 | Tau Ceti `IsSelfAdjoint.denseRange_smul_sub` |
+| SA-D17 | Tau Ceti `IsSelfAdjoint.mem_resolventSet_of_im_ne_zero` (`Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`) |
+| SA-D18 | Tau Ceti `IsSelfAdjoint.spectrum_subset_im_eq_zero` |
+| SA-D19 | Tau Ceti `IsSelfAdjoint.norm_resolvent_le` |
+| SA-D20 | Tau Ceti `IsSelfAdjoint.adjoint_resolvent` |
+| SA-D21 | Tau Ceti `IsSelfAdjoint.isSelfAdjoint_resolvent` |
+| SA-D22 | Tau Ceti `IsSelfAdjoint.mem_resolventSet_of_norm_le` and `IsSelfAdjoint.norm_resolvent_le_of_norm_le` |
+| SA-D23 | Tau Ceti `IsSelfAdjoint.norm_resolvent_le_of_spectrum_gap` and `IsSelfAdjoint.mul_norm_le_norm_smul_sub_of_spectrum_gap` (`SpectralGap.lean`) |
+| SA-D24 | Tau Ceti `LinearPMap.cayley` (`Analysis/Normed/Operator/LinearPMap/Cayley.lean`) |
+| SA-D25–SA-D28 | Tau Ceti `IsSelfAdjoint.norm_cayley_apply`, `IsSelfAdjoint.cayley_surjective`, `IsSelfAdjoint.cayley_mem_unitary`, `IsSelfAdjoint.isStarNormal_cayley` (`Analysis/InnerProductSpace/LinearPMap/Cayley.lean`) |
+| SA-D29, SA-D30 | Tau Ceti `IsSelfAdjoint.norm_le_iff_spectrum_subset_Icc` and `IsSelfAdjoint.isUnit_and_norm_ringInverse_le` (`Analysis/CStarAlgebra/SelfAdjointGapInverse.lean`) |
+| SA-D31 | Tau Ceti `LinearPMap.Intertwines` |
+| SA-D32 | Tau Ceti `LinearPMap.intertwines_iff_comp_resolvent_eq` (`Resolvent/Intertwining.lean`) |
+| SA-D33 | Tau Ceti `LinearPMap.Intertwines.comp_cayley_eq` |
+| SA-D34 | Tau Ceti `LinearPMap.Intertwines.comp_cfc_cayley_eq` |
+| SA-D35 | Tau Ceti `LinearPMap.mem_resolventSet_iff_isClosed_denseRange_norm_le` (`Analysis/Normed/Operator/Resolvent/Characterization.lean`) |
+| SA-D36 | Tau Ceti `TauCeti/Analysis/Normed/Operator/Resolvent/Analytic.lean` |
+| SA-D37 | Tau Ceti `ContinuousLinearMap.mem_resolventSet_toPMap_top_iff` |
+| SA-D38 | Tau Ceti `ContinuousLinearMap.resolvent_toPMap_top` |
+| SA-D39 | Tau Ceti `LinearPMap.hasSum_resolvent` and `LinearPMap.resolvent_eq_tsum` (`Analysis/Normed/Operator/Resolvent/NeumannSeries.lean`) |
+| SA-E01 | VonNeumannAlgebras V10.ClosedOperators (construction); §3.1 (characterisation) |
+| SA-E02 | VonNeumannAlgebras V10.ClosedOperators |
+| SA-E03 | §3.1 (the projections of the spectral measure) |
+| SA-E04 | §3.2 |
+| SA-E05 | §3.1 |
+| SA-E06 | §3.2 |
+| SA-E07 | §3.2 |
+| SA-E08 | §3.2 |
+| SA-E09 | §3.2 |
+| SA-E10 | §3.2 |
+| SA-E11 | §3.3 |
+| SA-E12 | §3.3 |
+| SA-E13 | §3.3 |
+| SA-E14–SA-E16 | §4.2 (`yosidaApproximant` and the raw approximants) |
+| SA-E17–SA-E21 | §4.2 |
+| SA-E22 | §4.3 |
+| SA-E23 | §4.2 |
+| SA-E24, SA-E25 | §4.3 |
+| SA-E26 | Tau Ceti `IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`; §4.1 and §4.3 |
+| SA-E27 | §4.3 |
+| SA-E28 | Tau Ceti `LinearPMap.eq_of_le_of_isSelfAdjoint` (`Analysis/InnerProductSpace/LinearPMap/SelfAdjointMaximal.lean`) |
+| SA-E29 | Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.eq_of_complexGenerator_eq` |
+| SA-E30 | §4.1 |
+| SA-E31 | §3.4 |
+| SA-E32–SA-E35 | §3.4 (grid decomposition) |
+| SA-E36–SA-E41 | §3.4 |
+| SA-E43 | §4.1 |
+| SA-E44 | §3.1 |
+| SA-E45 | §3.5 |
+| SA-E46 | §4.1 |
+| SA-E47 | §3.5 |
 
 ## References
 
-- M. Reed, B. Simon, *Methods of Modern Mathematical Physics I: Functional Analysis*
-  (rev. ed. 1980) — VII (the spectral theorem, bounded and unbounded), VIII.3–4 (Stone's
-  theorem, the Cayley transform, von Neumann's criterion).
-- K. Schmüdgen, *Unbounded Self-adjoint Operators on Hilbert Space* (GTM 265, 2012) — graph
-  norms, cores, resolvents, semibounded operators, the spectral measure via the Cayley
-  transform.
-- W. Rudin, *Functional Analysis* (2nd ed. 1991), Ch. 12–13 — the Borel functional calculus
-  and projection-valued measures for normal operators.
-- T. Kato, *Perturbation Theory for Linear Operators* (2nd ed. 1976) — relative boundedness,
-  Kato–Rellich, resolvent perturbation.
-- J. Weidmann, *Linear Operators in Hilbert Spaces* (GTM 68, 1980) — closed operators, form
-  bounds, spectral representation.
-- K.-J. Engel, R. Nagel, *One-Parameter Semigroups for Linear Evolution Equations* (GTM 194,
-  2000) — the semigroup side of Stone's theorem and the Yosida approximation.
-
-## Acknowledgements
-
-An Apache-2.0 implementation of much of the material in Parts A–E exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
-(Kitware, Inc.), in namespaces `TauCeti.*` and `LinearPMap.*`.
-
-Part of the unitary-group material was adapted from the Spectra Formalization Project
-(Apache-2.0, Adam Bornemann), with per-file provenance headers. The DKPS spectral-measure
-implementation uses the Cayley transform and the Borel calculus.
+- Teschl2009: G. Teschl, *Mathematical Methods in Quantum Mechanics, with Applications to
+  Schrödinger Operators*, 2009. Theorem 3.7 (spectral theorem), p. 96, line 3983; the Borel
+  transform (3.40), p. 94, line 3881; Theorem 3.8 (spectrum as support), p. 97, line 4015;
+  Theorem 3.21 (Stieltjes inversion), p. 108, line 4497; Theorems 5.1 and 5.2 (Stone), pp. 123–124,
+  lines 5183 and 5232; Theorem 6.6 (compact self-adjoint operators), p. 136, line 5757; strong
+  resolvent convergence (6.47), p. 153, line 6588, Theorem 6.31, p. 154, line 6602, and Lemma 6.36,
+  p. 155, line 6655.
+- Conway1990: J. B. Conway, *A Course in Functional Analysis*, 2nd ed., Graduate Texts in
+  Mathematics 96. Theorem IX.1.14 (the spectral measure of a representation of `C(X)`).
+- Schmudgen2012: K. Schmüdgen, *Unbounded Self-adjoint Operators on Hilbert Space*, Graduate Texts
+  in Mathematics 265. Theorem 5.7 (spectral theorem for self-adjoint operators).
