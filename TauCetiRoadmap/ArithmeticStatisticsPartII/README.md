@@ -1841,7 +1841,7 @@ The interface exposes:
 
 *Needs:* ArithmeticStatisticsPartI, binary quartic invariants (§0.3), TauCetiRoadmap.EllipticCurves Layer 5.
 
-([16], §1.2, pp.3–4, and §3.1, p.13; the polynomial identities follow by substitution.)
+([16], §1.3, p.4, and §3.1, p.13; the polynomial identities follow by substitution.)
 
 **Checks.**
 
@@ -1879,7 +1879,7 @@ For the proof, the first bullet is Cauchy–Binet for minors together with a mul
 
 *Needs:* quartic monicization (§1.12), marked quartic Selmer embedding (§1.12), ArithmeticStatisticsPartI, symmetric pencil (§0.22), `Matrix.det` (Mathlib), `Matrix.submatrix` (Mathlib), `Matrix.adjugate` (Mathlib), `PadicInt` (Mathlib).
 
-([16], §1.3, p.5, for the squarefree criterion; §2.4, Theorem 2.3 conditions (a)–(b) and the invariance and congruence remarks after it, pp.9–10; §4.2, the definition of specialness, its two listed properties and Theorem 4.2, p.20, with proof pp.20–21.)
+([16], §1.3, p.5, for the squarefree criterion; §2.4, Theorem 2.3 conditions (a)–(b) and the invariance and congruence remarks after it, pp.9–10; §4.2, the definition of specialness, its two listed properties and Theorem 4.2, p.20, with proof pp.20–22.)
 
 **Checks.**
 
