@@ -18,10 +18,11 @@ Not statable at the pins, and therefore not stated here:
 * the structure theorems of 0.1 (Spin of an arbitrary nondegenerate form is a semisimple simply
   connected central μ₂-cover of SO for rank at least three): Tau Ceti has the form-preserving
   and standard special orthogonal group schemes, but no Spin group scheme attached to an arbitrary nondegenerate form;
-* the measure identities of 1.1–1.3 (the decomposition of the orthogonal quotient into lattice
-  classes, the gauge and Jacobian transport, and the identity of the full genus mass with
-  `τ(SO)/(2 v_∞ ∏_p v_p)`): there is no adelic orthogonal quotient with its Tamagawa measure.
-  The numerical form of 1.3 is stated below as `genusMass_eq`;
+* the measure identities of 1.2–1.3 (the gauge and Jacobian transport, and the identity of the
+  full genus mass with `τ(SO)/(2 v_∞ ∏_p v_p)`): no Haar or Tamagawa measure is put on an adelic
+  orthogonal group or its rational quotient. Section 1.1 transports the proper mass identity of
+  GeometryOfNumbersAndQuadraticArithmetic §3.3.4 to native lattice classes and has no headline
+  of its own. The numerical form of 1.3 is stated below as `genusMass_eq`;
 * the quadratic residue-group comparison of 0.1a: the symmetric-bilinear equation schemes
   do not supply the quadratic-preserving scheme and its reduction in characteristic two;
 * Cho's smooth dyadic model and density formula of 2.1–2.2: there is no smooth integral model
