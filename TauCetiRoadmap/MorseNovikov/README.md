@@ -27,39 +27,46 @@ DifferentialGeometry Layers 0–3, 5–6, 8, 10 and 12 own forms, flows, integra
 period comparison, degree and metrics. AlgebraicTopology Stages 1–7 and
 GeometricTopology Layers 1, 3–5 and 11 own the topological and smooth suppliers
 specified below. Their generic constructions are consumed, not rebuilt.
+CharacteristicClasses C2.3 proves the oriented Euler-class form of the vector-field
+count, Σ ind = ⟨e(TM),[M]⟩ = χ(M) on a closed oriented manifold, through Thom
+classes; §7.1 proves the count without an orientation, through a parameter
+cobordism to a Morse gradient, §7.3 states it as `poincare_hopf`, and neither
+consumes anything from C2.3.
 
 The pinned libraries supply group algebras, localization, singular homology,
 manifold derivatives, Morse indices and local flow APIs. The pinned Tau Ceti already
 has, and this roadmap consumes as the supplier contracts below specify: the
 period-controlled completion with its topology, functoriality, Laurent and Hahn
-comparisons, domain theorem, exponential, logarithm and Euler products (Layer 1);
+comparisons, domain theorem, field criterion, exponential, logarithm and Euler products,
+and the irrational-period example with an infinite period kernel (Layer 1);
 completed orbit modules and their supported kernel maps (§1.5 and the linear algebra
 of §3.1); Morse closed one-forms and the periods of closed one-forms (§§2.1–2.2); the
 equivariant cellular chains of a covering and the degree-one Hurewicz isomorphism
 (§§2.2 and 3.3); based torsion over a field with its basis-change, exact-sequence,
 mapping-cone, square-minor, homology-basis, componentwise and minor-chart continuity
-laws (§§4.1, 4.3 and 4.5); nonzerodivisors, reducedness and Artinian total quotients of
-the completion, and finite-index coset bases, traces and the logarithmic norm identity
-(§§4.2 and 4.4); closed orbits with multiplicities, the iterate-sign formula and the
-algebraic orbit zeta function with its integral Euler product (§§5.2–5.3); and
-nondegenerate fixed points with their finiteness (§6.5). The closed-one-form cutoff
-moduli, the Novikov complex of a closed one-form and its comparisons, the field
-decomposition and topology of the total quotients, the cover norms of torsion, the
-flow zeta function, the local fixed-point index, the dynamical/cellular equality and
-the Euler torsor are constructions of this roadmap. No Floer complex, nonabelian
-torsion, analytic Ray–Singer torsion or gauge invariant is an input.
+laws (§§4.1, 4.3 and 4.5); the decomposition of the total quotient of ℤ[H] into
+finitely many characteristic-zero fields, nonzerodivisors, reducedness and Artinian
+total quotients of the completion, and finite-index coset bases, traces and the
+logarithmic norm identity (§§4.2 and 4.4); closed orbits with multiplicities, the
+iterate-sign formula and the algebraic orbit zeta function with its integral Euler
+product (§§5.2–5.3); and nondegenerate fixed points with their finiteness (§6.5). The
+closed-one-form cutoff moduli, the Novikov complex of a closed one-form and its
+comparisons, the field decomposition of the total quotient of Nov(ℤ,H,N), the
+cyclotomic description and topology of the total quotients, the cover norms of
+torsion, the flow zeta function, the local fixed-point index, the dynamical/cellular
+equality and the Euler torsor are constructions of this roadmap. No Floer complex,
+nonabelian torsion, analytic Ray–Singer torsion or gauge invariant is an input.
 
 Existing work includes [Dongryul Kim's Novikov-series development](https://github.com/dongryul-kim/lean4-novikov),
 with its coefficient/support carrier in Novikov/Series/Basic.lean (revision
 d5e705bd46bca9cb1622a260425388500d7697c2, coefficient and support definitions).
 It treats real additive-submonoid exponents and, in several variables,
-finiteness for every positive weight vector. N1 instead permits an arbitrary
-abelian exponent group with a specified, possibly noninjective period map.
-For injective N, construct the coefficient-preserving comparison with the
-one-variable carrier on the image of N, including convolution and the period
-topology. For noninjective N, retain the finite ties in each period fiber and
-compare through the supplied kernel splitting below. This general construction
-and its comparison are independent of the descent theorem in that project.
+finiteness for every positive weight vector. The pinned `TauCeti.NovikovSeries`
+consumed by N1 instead permits an arbitrary abelian exponent group with a
+specified, possibly noninjective period map; for injective N its reindexing onto
+the image of N is `TauCeti.NovikovSeries.continuousDomCongr`, and for
+noninjective N its comparison through a kernel splitting is §1.4's
+`TauCeti.NovikovSeries.hahnSeriesEquiv`.
 Coordinate with its authors before code integration and follow the repository's
 licensing and reuse requirements for any copying or adaptation.
 
@@ -165,7 +172,13 @@ topological form `TauCeti.NovikovSeries.toLaurentSeriesUniformEquiv` over a fiel
 (LaurentSeries.lean); `TauCeti.NovikovSeries.PeriodKernelSplitting`,
 `TauCeti.NovikovSeries.toHahnSeries` and `TauCeti.NovikovSeries.hahnSeriesEquiv`
 (HahnSeries.lean); `TauCeti.NovikovSeries.leadingTerm` and
-`TauCeti.NovikovSeries.isDomain_of_fg` (LeadingTerm.lean); for a finite-index subgroup,
+`TauCeti.NovikovSeries.isDomain_of_fg` (LeadingTerm.lean); the field criterion
+`TauCeti.NovikovSeries.isField_iff`, that Nov is a field exactly when R is a field and N is
+injective (Field.lean); the irrational-period example on ℤ³,
+`TauCeti.NovikovSeries.IrrationalExample.period`, `TauCeti.NovikovSeries.IrrationalExample.ker_period`,
+`TauCeti.NovikovSeries.IrrationalExample.series`,
+`TauCeti.NovikovSeries.IrrationalExample.leadingTerm_series` and
+`TauCeti.NovikovSeries.IrrationalExample.eventually_period_ge` (Examples/Irrational.lean); for a finite-index subgroup,
 `TauCeti.NovikovSeries.cosetBasis`, `TauCeti.NovikovSeries.finrank_eq_index` and
 `TauCeti.NovikovSeries.trace_eq_index_smul_comap` (FiniteIndex.lean) and
 `TauCeti.NovikovSeries.log_normNonnegSubring` (Norm.lean); for finitely generated H,
@@ -174,7 +187,14 @@ topological form `TauCeti.NovikovSeries.toLaurentSeriesUniformEquiv` over a fiel
 divisors (NonZeroDivisors.lean), `TauCeti.NovikovSeries.isReduced_iff` (Reduced.lean),
 and `TauCeti.NovikovSeries.isArtinianRing_of_isFractionRing` and
 `TauCeti.NovikovSeries.charZero_quotient_of_isFractionRing` over a domain
-(TotalQuotient.lean); and `TauCeti.NovikovSeries.orbitLog`, `TauCeti.NovikovSeries.orbitZeta`,
+(TotalQuotient.lean); for the group ring, the reducedness instance
+`AddMonoidAlgebra.isReduced_of_isFormallyReal` over a formally real coefficient ring
+(Algebra/MonoidAlgebra/Reduced.lean) and, for finitely generated H over a formally real
+Noetherian coefficient ring such as ℤ, the decomposition of its total quotient into finitely
+many characteristic-zero fields `AddMonoidAlgebra.exists_ringEquiv_pi_field_of_isFractionRing`
+(Algebra/MonoidAlgebra/TotalQuotient.lean); the reducedness of every localization of a reduced
+ring `IsLocalization.isReduced` (RingTheory/Localization/Reduced.lean); and
+`TauCeti.NovikovSeries.orbitLog`, `TauCeti.NovikovSeries.orbitZeta`,
 `TauCeti.NovikovSeries.isUnit_orbitZeta`, `TauCeti.NovikovSeries.orbitZeta_sub_one_mem_periodFiltration`,
 `TauCeti.NovikovSeries.orbitZeta_eq_eulerProduct`
 and `TauCeti.NovikovSeries.orbitZeta_eq_mapRingHom_eulerProduct` (OrbitZeta.lean), whose
@@ -294,8 +314,8 @@ Euler carrier before using it to refine Layer 6. Generic ordinary Morse homology
 not proved using the dynamical torsion theorem, and the Novikov homology comparison
 is not used to infer torsion invariance without its based comparison factor. The two
 native headline signatures are in Suggested.lean; its docstring names the pinned
-declarations that already prove the algebraic headlines and the carriers missing for
-the others.
+declarations that prove the algebraic headlines and the carriers missing for the
+others.
 
 ## Layer 1: Period-controlled completed group rings and modules
 
@@ -440,7 +460,10 @@ splitting and ordered period group are data, and this comparison is not the
 definition. For finitely generated torsion-free H and a domain R, Nov is a domain by
 `TauCeti.NovikovSeries.isDomain_of_fg`, through the leading coefficients
 `TauCeti.NovikovSeries.leadingTerm` in the group ring, which retain finite ties in N
-(LeadingTerm.lean).
+(LeadingTerm.lean). For every abelian H, Nov is a field exactly when R is a field and N
+is injective (`TauCeti.NovikovSeries.isField_iff`, Field.lean), dense period groups
+included: over a nonzero R, a nonzero kernel element h makes 1−e^h a nonunit, since
+pushforward along N sends it to 0.
 
 The cyclic case is rt3 Example 1.3, p. 211; the leading-coefficient domain argument is in the proof of Lemma A.4, p. 240.
 
@@ -449,14 +472,16 @@ Later layers use:
 - The cyclic comparison preserves each coefficient; over a field it also identifies the period topology with the X-adic topology.
 - The split-kernel comparison retains finite group-ring coefficients in each period fiber.
 - For finitely generated torsion-free H and a domain R the least-period coefficient proves the product of two nonzero series is nonzero.
+- Over a coefficient field, an injective period map, discrete or dense, makes Nov a field.
 
 **Checks.**
 
 - The Laurent element t⁻²+3+t³ has minimum exponent −2 on both sides of the comparison.
 - For N(a,b,c)=a+√2b, 1+e^(0,0,1) has two leading terms of period 0; collapsing them to one exponent loses a coefficient.
 - For H=ℤ/2 and R=ℤ, (1−g)(1+g)=0 with both factors nonzero; the domain theorem must exclude torsion.
+- Over ℚ with H=ℤ, N(k)=k gives the field ℚ((t)), where 1−t has inverse Σ(k≥0)t^k; N=0 gives ℚ[t,t⁻¹], where 1−t is not a unit, so the field criterion cannot drop injectivity.
 
-*Needs:* §§1.1–1.3; Tau Ceti RingTheory/NovikovSeries/LaurentSeries.lean, HahnSeries.lean and LeadingTerm.lean; Mathlib `LaurentSeries`, `HahnSeries` and group algebras.
+*Needs:* §§1.1–1.3; Tau Ceti RingTheory/NovikovSeries/LaurentSeries.lean, HahnSeries.lean, LeadingTerm.lean and Field.lean; Mathlib `LaurentSeries`, `HahnSeries` and group algebras.
 
 ### 1.5 Completed orbit modules
 
@@ -494,7 +519,16 @@ Later layers use:
 
 ### Examples
 
-Use the irrational period N(a,b,c)=a+√2b with a nontrivial kernel, not only discrete injective periods.
+The irrational period N(a,b,c)=a+√2b on ℤ³ with coefficients ℤ is
+`TauCeti.NovikovSeries.IrrationalExample.period`, whose kernel is generated by (0,0,1)
+(`TauCeti.NovikovSeries.IrrationalExample.ker_period`). Its series
+`TauCeti.NovikovSeries.IrrationalExample.series`, the product of 1+e^(0,0,1) with Σ(n≥0)e^(n,0,0),
+keeps both tied exponents in its leading term
+(`TauCeti.NovikovSeries.IrrationalExample.leadingTerm_series`), and along its infinite support
+the periods exceed every cutoff
+(`TauCeti.NovikovSeries.IrrationalExample.eventually_period_ge`). It is the coefficient
+example with nonintegral and noninjective periods that the later layers' algebra is held
+against, alongside the discrete injective periods of the circle.
 
 ### Dependencies
 
@@ -855,14 +889,18 @@ generated abelian H, consume that the group-ring inclusion sends nonzerodivisors
 nonzerodivisors and induces an injective total-quotient map
 (`TauCeti.NovikovSeries.ofAddMonoidAlgebra_mem_nonZeroDivisors`,
 `TauCeti.NovikovSeries.map_ofAddMonoidAlgebra_injective`, RingTheory/NovikovSeries/NonZeroDivisors.lean),
-that Nov(ℤ,H,N) is reduced because ℤ[H] is (`TauCeti.NovikovSeries.isReduced_iff`), and
-that the total quotient of Nov over a domain is Artinian, with characteristic-zero
+that the total quotient of ℤ[H] is a finite product of characteristic-zero fields
+(`AddMonoidAlgebra.exists_ringEquiv_pi_field_of_isFractionRing`,
+Algebra/MonoidAlgebra/TotalQuotient.lean), that Nov(ℤ,H,N) is reduced because ℤ[H] is
+(`TauCeti.NovikovSeries.isReduced_iff` with `AddMonoidAlgebra.isReduced_of_isFormallyReal`),
+and that the total quotient of Nov over a domain is Artinian, with characteristic-zero
 residue fields when the coefficients have no additive torsion
 (`TauCeti.NovikovSeries.isArtinianRing_of_isFractionRing`,
 `TauCeti.NovikovSeries.charZero_quotient_of_isFractionRing`, TotalQuotient.lean). Prove
-that the total quotient rings of ℤ[H] and Nov(ℤ,H,N) are finite products of
-characteristic-zero fields, through Mathlib's `IsArtinianRing.equivPi` once reducedness
-passes to the localization. Construct the finite-torsion/free splitting and cyclotomic
+that the total quotient of Nov(ℤ,H,N) is a finite product of characteristic-zero
+fields: reducedness passes to the localization by `IsLocalization.isReduced`, and
+Mathlib's `IsArtinianRing.equivPi` presents the reduced Artinian total quotient as the
+product of its residue fields. Construct the finite-torsion/free splitting and cyclotomic
 components and the componentwise field/localization statements; show the answer is
 independent of that splitting. Prove the injective total-quotient map is compatible
 with the field components. In the
@@ -883,14 +921,16 @@ The API includes:
 - For H=ℤ/2 and N=0, Q(ℤ[H])=ℚ×ℚ with g↦(1,−1); 1−g maps to (0,2).
 - Over 𝔽₂, (1+g)²=0 with 1+g≠0, so the characteristic-zero component statement cannot be exported unchanged.
 
-*Needs:* Layer 1 leading coefficients; Tau Ceti RingTheory/NovikovSeries/NonZeroDivisors.lean, Reduced.lean and TotalQuotient.lean; Mathlib `Localization`, `nonZeroDivisors` and `IsArtinianRing.equivPi`; finite abelian groups and cyclotomic fields.
+*Needs:* Layer 1 leading coefficients; Tau Ceti RingTheory/NovikovSeries/NonZeroDivisors.lean, Reduced.lean and TotalQuotient.lean, Algebra/MonoidAlgebra/Reduced.lean and TotalQuotient.lean, and RingTheory/Localization/Reduced.lean; Mathlib `Localization`, `nonZeroDivisors` and `IsArtinianRing.equivPi`; finite abelian groups and cyclotomic fields.
 
 ### 4.3 Total-quotient topology and continuity
 
 Construct the period-order topology on each total-quotient field component:
-after a free/torsion and period-kernel splitting, embed it into the Novikov
-field with coefficients in the fraction field of the corresponding
-characteristic-zero kernel group algebra. Define O(C) by order>C and prove
+after a free/torsion and period-kernel splitting H≅ker N⊕H′, embed it into the
+Novikov ring over H′ with coefficients in the fraction field of the corresponding
+characteristic-zero kernel group algebra. That ring is a field by §1.4's criterion
+`TauCeti.NovikovSeries.isField_iff`, since its coefficients form a field and N is
+injective on H′. Define O(C) by order>C and prove
 independence of the splitting, continuity of addition/multiplication and
 inversion at nonzero elements. The total quotient has the product topology
 over its finitely many field components; completeness of Nov alone is not a
@@ -915,7 +955,7 @@ The API includes:
 - In the two components (0,2), the zero component remains zero under a perturbation confined to the second component, whose torsion tends to 1/2.
 - At a=0 the zero-extended two-term torsion is 0 but for a=t^m it is t^(−m); continuity across the acyclic/nonacyclic change is false.
 
-*Needs:* §4.2; Layer 1 period filtration; §4.1 minor formula; Tau Ceti Algebra/Homology/ReidemeisterTorsion/Topology.lean.
+*Needs:* §4.2; Layer 1 period filtration and field criterion; §4.1 minor formula; Tau Ceti RingTheory/NovikovSeries/Field.lean and Algebra/Homology/ReidemeisterTorsion/Topology.lean.
 
 ### 4.4 Finite cyclic norms and traces
 
@@ -1258,8 +1298,8 @@ for `z=x^((-1)^i)y`, prove the e^(kh) coefficient of
 `log Norm_(ν_k)(z)` vanishes. Perturb the ν_k pullback family relative to
 endpoints below a sufficiently large cutoff. Lifted slides with k not dividing
 the lift-index difference are distinct-point slides, which preserve I; a
-first self-slide in class kh has no linear term by the already proved chain
-and geometric leading-coefficient identities. Thus the cover changes I by
+first self-slide in class kh has no linear term by the chain identity
+`d₊=A_p(x)⁻¹d₋A_p(x)` and the leading-coefficient identity `b₁=(−1)^(i+1)a₁` above. Thus the cover changes I by
 `1+O(e^(2kh))`, without assuming full event invariance in that cover.
 Cancel in a nonzero cover component using N4's norm lemma and prove the
 injectivity of one-variable series in e^(kh) in that component. Use
@@ -1410,7 +1450,7 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   representing the generator has this value in the correctly directed completion.
   Verify the unknot and right-handed trefoil, including t↦t⁻¹ and lift changes.
 
-Use rt3 Examples 1.7–1.9, pp. 215–216 for the circle and mapping torus, and rt2 Example 1.4, p. 372 for zero surgery. The chain adapters and local-index proof below supply the comparisons.
+Use rt3 Examples 1.7–1.9, pp. 215–216 for the circle and mapping torus, and rt2 Example 1.4, p. 372 for zero surgery. The finite-triangulation chain adapter built in the mapping-torus item and §5.2's local fixed-point index supply the comparisons; §6.5 states the resulting Lefschetz formula.
 
 The API includes:
 
@@ -1617,18 +1657,17 @@ K3SurfacesAndSymplecticBoundedness consume N6's Lefschetz comparison. These cons
 
 ## Worked examples
 
-Acceptance requires all three circle chain calculations, an irrational-period
-noninjective-kernel completion example with finite tied leading coefficients,
+Acceptance requires all three circle chain calculations,
 a deck group with finite torsion and partially acyclic total-quotient components,
 return-map iterate signs in both dimension parities (the three circle calculations supply odd dimension): an attracting and a
 repelling orbit on a surface, and the orientation-reversing circle mapping
 torus (Klein bottle) with homological ζ=(1+t)/(1−t). Check period doubling algebraically
 by (1+x)/(1−x²)=1/(1−x), and the algebraic cyclic-cover norm/self-slide identities for
-H=ℤ⊕ℤ/2 and h=(2,1), using divisibility 2 in H/T. For the
-irrational noninjective example fix H=ℤ³ and N(a,b,c)=a+√2b,
-with coefficient ring ℤ and kernel generated by (0,0,1); verify finite tied
-leading supports and an infinite series whose periods escape each cutoff.
-For partial acyclicity use the algebraic two-term complex over H=ℤ/2,
+H=ℤ⊕ℤ/2 and h=(2,1), using divisibility 2 in H/T. The irrational
+noninjective completion example, H=ℤ³ and N(a,b,c)=a+√2b over ℤ with kernel
+generated by (0,0,1), finite tied leading supports and an infinite series whose
+periods escape each cutoff, is the pinned one of Layer 1's Examples
+(`TauCeti.NovikovSeries.IrrationalExample.series`). For partial acyclicity use the algebraic two-term complex over H=ℤ/2,
 N=0, differential 1−g from degree 1 to degree 0: its two rational components have differential 0 and 2,
 so its torsion components are 0 and 1/2. This is explicitly an algebraic
 acceptance example, not an asserted geometric fibred example. Include the mapping-

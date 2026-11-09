@@ -9,7 +9,7 @@ The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: the nondegenerate Lefschetz fixed-point
 formula and the nondegenerate vector-field Poincaré–Hopf theorem.
 
-Several algebraic headlines are already proved at the pinned Tau Ceti and are consumed,
+Several algebraic headlines are proved at the pinned Tau Ceti and are consumed,
 not restated: Layer 1's completion `TauCeti.NovikovSeries`, its universal property
 `TauCeti.NovikovSeries.completionPkg`, its functoriality `TauCeti.NovikovSeries.mapRingHom`
 and its domain theorem `TauCeti.NovikovSeries.isDomain_of_fg`; Layer 4's based torsion
@@ -26,9 +26,17 @@ inequalities lack Novikov homology of a closed one-form: the pins have no comple
 from signed trajectory counts of a closed one-form on an abelian cover. Layer 5's flow
 zeta function and cover-norm theorem lack the periodic-orbit data of a closed one-form:
 the deck classes of the closed orbits of its negative dual flow and their return-map
-signs. Layer 6's dynamical torsion invariance, its equality with cellular torsion and the
-mapping-torus and knot-surgery torsion formulas lack both carriers. Layer 7's refined
-equality lacks, in addition, the Euler-structure torsor. None is replaced by admitted data.
+signs. Layer 6's dynamical torsion invariance and its equality with cellular torsion lack
+both carriers, and the mapping-torus formula for the flow zeta function lacks the
+periodic-orbit data. The cellular torsion formulas for the mapping torus and the zero surgery
+lack a based cellular torsion of an abelian cover of a finite CW complex: the pinned
+equivariant cellular chains `TauCeti.cellularChainComplexRep` and the componentwise torsion
+`HomologicalComplex.componentwiseReidemeisterTorsion` are not joined by a basis of lifted
+cells and a scalar extension to the total quotient ring. The zero-surgery formula lacks, in
+addition, the Alexander polynomial of a knot in the 3-sphere: the pinned
+`TauCeti.KnotTheory.alexander` is defined on a Seifert matrix, and no pinned declaration
+produces a Seifert matrix from a knot. Layer 7's refined equality lacks both carriers of
+Layer 6 and, in addition, the Euler-structure torsor. None is replaced by admitted data.
 -/
 
 @[expose] public section
