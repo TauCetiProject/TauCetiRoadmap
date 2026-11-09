@@ -3258,13 +3258,14 @@ in the merge order or already on main.
 
 - FourManifolds consumes 3C, 4B, the E₈ plumbing of 6B in its dimension-four branch, 6C,
   7A–7C and Layer 9.
-- PositiveScalarCurvature consumes 1.2–1.6 (ordered handle decompositions, cancellation and
-  the Whitney moves), Layer 2 (homotopy spheres and Θₙ), 3C, Layers 6–8 and, from 9A.1, the
-  complex e-invariant with the seventh-stem value.
-- On main, GeneralizedCohomology consumes 3A.2–3A.4 (mapping cones and Puppe sequences, the
-  stable stems and the Freudenthal comparison) and 4B, for the low homotopy groups of stable
-  BSpin; BordismFormalGroups consumes the James stages of 3B in F6.2 and the Toda brackets
-  of 3C.3 in F4; GeneralAlgebraicKTheoryPartII consumes the stable James splitting of 3B.6;
+- GeneralAlgebraicKTheoryPartII consumes the reduced stable James splitting
+  `Σ∞ΩΣW ≃ ⋁_(r≥1) Σ∞W^∧r` of 3B.6 in its §§4.33 and 7.7.
+- On main, PositiveScalarCurvature consumes 1.2–1.6 (ordered handle decompositions,
+  cancellation and the Whitney moves), Layer 2 (homotopy spheres and Θₙ), 3C, Layers 6–8 and,
+  from 9A.1, the complex e-invariant with the seventh-stem value; GeneralizedCohomology
+  consumes 3A.2–3A.4 (mapping cones and Puppe sequences, the stable stems and the Freudenthal
+  comparison) and 4B, for the low homotopy groups of stable BSpin; BordismFormalGroups
+  consumes the James stages of 3B in F6.2 and the Toda brackets of 3C.3 in F4;
   DGFloer consumes 3B.3–3B.4 (the James map and the homology of ΩΣX) and 4A–4B, and the
   framed collapse it cites from Layer 5 is TangentialBordism B5.2's; CharacteristicClasses
   consumes the quaternion-conjugation homeomorphism SO(3) ≅ S³/{±1} of 4A; MorseTheory and
@@ -3279,7 +3280,7 @@ Layer 5 separated from the stable Bott comparison.
 | --- | --- | --- |
 | 1 h-cobordism | geometric topology, DifferentialGeometry orientations, Tau Ceti and TangentialBordism B1.6 Sard, HF Morse data, algebraic topology | 2, 10; PositiveScalarCurvature |
 | 2 small skeleton and `Theta_n` | 1, triangulation, geometric connected sum | 6, 9--10; PositiveScalarCurvature |
-| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9; FourManifolds, PositiveScalarCurvature, GeneralizedCohomology, BordismFormalGroups, DGFloer |
+| 3 James/EHP/stable stems | algebraic topology including its compactly generated substrate (Stage 4 item 8), GeneralizedCohomology G2 items 4–5 for the stable James splitting | 5, 8--9; FourManifolds, PositiveScalarCurvature, GeneralizedCohomology, BordismFormalGroups, DGFloer, GeneralAlgebraicKTheoryPartII |
 | 3C.5 Hopf exclusion and sphere frames | 3A.2, AlgebraicTopology cup/cross/relative products, TopologicalKTheory T2.5/T3–T4, CharacteristicClasses C6.2–3/C7.3, SpinRepresentations L7 | standard-sphere parallelizability |
 | 4 `SO`/`BSO`/Bott/`J` | AlgebraicTopology Stage 4 item 8 convenient substrate, TopologicalKTheory T1.5–T1.6 classifiers, bundles, Lie groups | 5--6, 8--9, TopologicalKTheory T1.6d and T7, FourManifolds, GeneralizedCohomology, DGFloer, CharacteristicClasses, MorseTheory, GeometricCurrents |
 | 5 smooth PT comparisons | TangentialBordism B1/B3.2/B5.2; StringOrientation S2.2–S2.3; 3A and 4A; 4C for the J action | 6, 8--9 |
