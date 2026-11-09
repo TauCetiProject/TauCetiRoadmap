@@ -1451,6 +1451,19 @@ which `V` is not. So `φ(s) = 0`, contradicting `h(s_x) ≠ 0`. Hence every stal
   neighbourhood of `o`.
 - The key vanishing: for `V = (−1, 1)` and `N = (−2, 2)`, `ℤ_V(N) = 0`, while `ℤ_V(V) = ℤ`.
 
+Not a target: which spaces `X` have enough projective abelian sheaves. The route of 9.5 shows that
+every projective has zero stalk at a closed point `x` with a basis of connected open neighbourhoods
+and no smallest open neighbourhood (for instance `X` is `T₁` and `x` is not isolated): inside every
+connected open `N ∋ x` there is then a connected open `V ∋ x` with `V ≠ N`. The last hypothesis is
+needed: at the closed point of the Sierpiński space, `ℤ` is projective with stalk `ℤ`. In the
+other direction, call a basis of opens *disjointly refinable* if every open cover of a member has a
+refinement by pairwise disjoint opens. Then `ℤ_U = j_!ℤ` is projective for every member `U`
+(`Hom(ℤ_U, F) = F(U)`; lift a section locally, refine to a disjoint cover, glue), and these
+generate, so there are enough projectives. The space `ℝ × C`, `C` the Cantor space, has no
+connected neighbourhoods, but the same argument with `N = I × K` and `V = I′ × K`, for `K ⊆ C`
+clopen and open intervals with `closure I′ ⊆ I`, applied slice by slice, shows that it has no
+nonzero projective; hence it has no disjointly refinable basis either.
+
 ### Examples
 
 - For `E = Type u` and the étale morphism of a set `X`, abelian sheaves on `E/X` are `X`-indexed
