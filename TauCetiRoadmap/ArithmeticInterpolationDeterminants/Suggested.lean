@@ -5,22 +5,25 @@ import TauCeti.Algebra.MvPolynomial.HasseDeriv.Basic
 # Polynomial interpolation and arithmetic determinants: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, each with `sorry` and against
-the pinned Mathlib and Tau Ceti, the roadmap's four end theorems (`hermiteJet_bijective`,
-`det_confluentVandermonde`, `exists_nonzero_ordinary_jet_on_frobenius_graph`,
-`det_gram_matrix_smul`) and the main statements of Layers 0–4 on which they and their consumers
-rest: the Frobenius substitution identities for every power `q = p ^ e` of the characteristic
-(Layer 0), the kernel of the unrestricted jet map (Layer 1), extended-ideal coordinates (Layer 2),
-row ideals, the Gram change of family and ideal powers of derivatives of products (Layer 3), and
-the row-dependent determinant and derivative bounds (Layer 4). It defines only the three objects
+the pinned Mathlib and Tau Ceti, the roadmap's end theorems (`hermiteJet_bijective`,
+`det_confluentVandermonde`, the Frobenius-graph nonvanishing test in its Hasse form
+`exists_nonzero_hasse_jet_on_frobenius_graph` and its ordinary form
+`exists_nonzero_ordinary_jet_on_frobenius_graph`, and `det_gram_matrix_smul`) and the main
+statements of Layers 0, 1, 3 and 4 on which they and their consumers rest: the Frobenius
+substitution identities for every power `q = p ^ e` of the characteristic (Layer 0), the kernel of
+the unrestricted jet map (Layer 1), row ideals, the Gram change of family and ideal powers of
+derivatives of products (Layer 3), and the row-dependent determinant bound for an arbitrary
+absolute value and the evaluated derivative bound (Layer 4). It defines only the three objects
 these statements need, `powerSubstitution`, `hermiteJet` and `confluentVandermonde`, all with real
-bodies on native carriers. Every headline theorem of the roadmap is statable at the pins. The
-maximal-minor criterion for independent rows and the behaviour of minors under left
-multiplication are Tau Ceti's (`Matrix.linearIndependent_row_iff_exists_det_submatrix_ne_zero`,
-`Matrix.det_submatrix_mul_left`), so the transport of minors along ring maps (README 2.1) and the
-unitriangular row changes (README 3.2), a few lines from them, are README targets only. The norm
-statements of Layer 5 are short consequences of Mathlib's `Algebra.norm_algebraMap`, the
-multiplicativity of `Algebra.norm` and `Algebra.norm_eq_prod_embeddings`, and are README targets
-only.
+bodies on native carriers. Every headline theorem of the roadmap is statable at the pins. Layer 2
+has no statement here: the extended-ideal coordinate criterion is Tau Ceti's
+(`Ideal.mem_map_algebraMap_iff` with `Module.Basis.mem_smul_top_iff`), and the transport of
+minors along ring maps (README 2.1) takes a few lines from Mathlib's `RingHom.map_det` and Tau
+Ceti's `Matrix.linearIndependent_row_iff_exists_det_submatrix_ne_zero`, so it is a README target
+only. So are the unitriangular row changes of Layer 3 (README 3.2), a few lines from Tau Ceti's
+`Matrix.det_submatrix_mul_left` and `Matrix.IsUpperUnitriangular.det_eq_one`. The norm statements
+of Layer 5 are short consequences of Mathlib's `Algebra.norm_algebraMap`, the multiplicativity of
+`Algebra.norm` and `Algebra.norm_eq_prod_embeddings`, and are README targets only.
 -/
 
 noncomputable section
@@ -74,13 +77,27 @@ section FrobeniusTest
 
 variable {K : Type*} [Field K] {p : ℕ} [Fact p.Prime] [CharP K p]
 
-/-- **The Frobenius-graph nonvanishing test** (README 0.6). For `q = p ^ e` with `0 < e`, a nonzero
-bivariate `F` of `Z`-degree below `q` whose Frobenius substitution has degree below
-`#S · (m + 1)`, with `m < p`, has a nonzero ordinary `Z`-jet of order at most `m` at some point
+/-- **The Frobenius-graph nonvanishing test, Hasse form** (README 0.6). For `q = p ^ e`, every
+`e ≥ 0`, a nonzero bivariate `F` of `Z`-degree below `q` whose Frobenius substitution has degree
+below `#S · (m + 1)`, with `m < q`, has a nonzero Hasse `Z`-jet of order at most `m` at some point
 `(a, a ^ q)` with `a ∈ S`. Route: the root-count inequality over an arbitrary field for
 `F(X, X ^ q)`, from Tau Ceti's `Polynomial.eval_hasseDeriv_rootMultiplicity_ne_zero` and Mathlib's
-`Polynomial.card_roots'`, the Hasse identity `hasseDeriv_powerSubstitution` at `k ≤ m < p ≤ q`,
-and the unit `k!` for `k < p`. At `e = 0` it fails: `F = W`, `S = {0}`, `m = 1` over `ZMod 2`. -/
+`Polynomial.card_roots'`, then the Hasse identity `hasseDeriv_powerSubstitution` at `k ≤ m < q`
+(Iwaniec–Kowalski, Lemma 11.17, `k < q`). -/
+theorem exists_nonzero_hasse_jet_on_frobenius_graph {e : ℕ}
+    (F : MvPolynomial (Fin 2) K) (hF : F ≠ 0) (hZ : F.degreeOf 0 < p ^ e)
+    (S : Finset K) (m : ℕ) (hm : m < p ^ e)
+    (hdeg : (powerSubstitution (p ^ e) F).natDegree < S.card * (m + 1)) :
+    ∃ a ∈ S, ∃ k ≤ m,
+      MvPolynomial.eval ![a, a ^ p ^ e] (MvPolynomial.hasseDeriv (Finsupp.single 0 k) F) ≠ 0 := by
+  sorry
+
+/-- **The Frobenius-graph nonvanishing test, ordinary form** (README 0.6). For `q = p ^ e` with
+`0 < e` and an order bound `m < p`, the same hypotheses give a nonzero ordinary `Z`-jet of order
+at most `m` at some `(a, a ^ q)` with `a ∈ S`: the Hasse form applies since `m < p ≤ q`, and
+`k!` is a unit for `k ≤ m < p`. At `e = 0` it fails (`F = W`, `S = {0}`, `m = 1` over
+`ZMod 2`), and for `m ≥ p` it fails (`p = 2`, `e = 2`, `F = Z ^ 2`, `S = {0}`, `m = 2`: the
+ordinary jets of orders `0, 1, 2` at `(0, 0)` are `0, 0, 2 = 0`). -/
 theorem exists_nonzero_ordinary_jet_on_frobenius_graph {e : ℕ} (he : 0 < e)
     (F : MvPolynomial (Fin 2) K) (hF : F ≠ 0) (hZ : F.degreeOf 0 < p ^ e)
     (S : Finset K) (m : ℕ) (hm : m < p)
@@ -147,20 +164,6 @@ theorem det_confluentVandermonde (a : Fin r → R) (m : Fin r → ℕ) :
 
 end Vandermonde
 
-/-! ## Layer 2: minors under ring maps and coefficient coordinates -/
-
-section Coordinates
-
-/-- **Extended-ideal coordinates** (README 2.2): for a commutative algebra `A` with a finite basis
-`b` over `R`, an element lies in the extended ideal `J A` iff each of its coordinates lies in `J`.
-The criterion concerns extended ideals only. -/
-theorem coordinates_mem_extended_ideal {R A ι : Type*} [CommRing R] [CommRing A]
-    [Algebra R A] [Fintype ι] (b : Basis ι R A) (J : Ideal R) (a : A) :
-    a ∈ J.map (algebraMap R A) ↔ ∀ i, b.repr a i ∈ J := by
-  sorry
-
-end Coordinates
-
 /-! ## Layer 3: ideal divisibility and changes of rows -/
 
 section Divisibility
@@ -204,15 +207,18 @@ theorem hasseDeriv_prod_mem_ideal_pow {ι : Type*} [Fintype ι]
       J ^ Fintype.card ι := by
   sorry
 
-/-- **Partial derivatives of a bivariate product in an ideal power** (README 3.4): the `∂_Z`
-specialisation of the ordinary statement on `MvPolynomial (Fin 2) R`, evaluated at a point. -/
-theorem pderiv_prod_mem_ideal_pow {ι : Type*} [Fintype ι]
-    (f : ι → MvPolynomial (Fin 2) R) (g : MvPolynomial (Fin 2) R)
-    (a : Fin 2 → R) (J : Ideal R) (K : ℕ)
+/-- **Partial derivatives of a product in an ideal power** (README 3.4): for polynomials in an
+arbitrary set of variables `σ`, a variable `s` and a point `a : σ → R`, if every iterated partial
+derivative `∂_s ^ k` of order `≤ K` of each of the `card ι` factors evaluates into `J` at `a`, so
+does every such derivative of the product with an arbitrary cofactor, into `J ^ card ι`. The
+bivariate `∂_Z` form is `σ = Fin 2`, `s = 0`. -/
+theorem pderiv_prod_mem_ideal_pow {σ ι : Type*} [Fintype ι] (s : σ)
+    (f : ι → MvPolynomial σ R) (g : MvPolynomial σ R)
+    (a : σ → R) (J : Ideal R) (K : ℕ)
     (hf : ∀ i k, k ≤ K →
-      MvPolynomial.eval a ((MvPolynomial.pderiv (0 : Fin 2))^[k] (f i)) ∈ J) :
+      MvPolynomial.eval a ((MvPolynomial.pderiv s)^[k] (f i)) ∈ J) :
     ∀ k, k ≤ K →
-      MvPolynomial.eval a ((MvPolynomial.pderiv (0 : Fin 2))^[k] (g * ∏ i, f i)) ∈
+      MvPolynomial.eval a ((MvPolynomial.pderiv s)^[k] (g * ∏ i, f i)) ∈
         J ^ Fintype.card ι := by
   sorry
 
@@ -222,12 +228,15 @@ end Divisibility
 
 section Size
 
-/-- **The row-dependent determinant bound** (README 4.1): if the entries of row `i` have modulus
-at most `B i ≥ 0`, then `‖det A‖ ≤ n! ∏ i, B i`; the row-dependent refinement of Mathlib's
-uniform `Matrix.det_le`. -/
-theorem norm_det_le_factorial_prod {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ)
-    (B : Fin n → ℝ) (hB : ∀ i, 0 ≤ B i) (hA : ∀ i j, ‖A i j‖ ≤ B i) :
-    ‖A.det‖ ≤ (n.factorial : ℝ) * ∏ i, B i := by
+/-- **The row-dependent determinant bound** (README 4.1): for an absolute value `abv` on a
+commutative ring with values in an ordered commutative ring, if the entries of row `i` have
+absolute value at most `B i`, then `abv (det A) ≤ n! ∏ i, B i`; the row-dependent refinement of
+Mathlib's uniform `Matrix.det_le`. The complex modulus and the modulus after a complex embedding
+of a number field are instances. -/
+theorem abv_det_le_factorial_prod {R S : Type*} [CommRing R] [CommRing S] [LinearOrder S]
+    [IsStrictOrderedRing S] (abv : AbsoluteValue R S) {n : ℕ} (A : Matrix (Fin n) (Fin n) R)
+    (B : Fin n → S) (hA : ∀ i j, abv (A i j) ≤ B i) :
+    abv A.det ≤ (n.factorial : S) * ∏ i, B i := by
   sorry
 
 /-- **The evaluated Hasse derivative bound** (README 4.3): for `natDegree f ≤ d`, coefficients of
