@@ -1,15 +1,17 @@
 # Roadmap: elliptic functions, periods and complex multiplication
 
 **Summary.** Build the complex-analytic theory of a lattice `Λ ⊂ ℂ` that the transcendence of
-elliptic periods needs, on Mathlib's `PeriodPair` and Weierstrass `℘`: elliptic functions and
-their Laurent algebra, the Weierstrass `ζ` function, the dictionary with Mathlib's Eisenstein
+elliptic periods needs, on Mathlib's `PeriodPair` and Weierstrass `℘` and Tau Ceti's Weierstrass
+`ζ`: elliptic functions and their Laurent algebra, the meromorphy, Laurent expansion and scaling
+of `ζ` and of its quasi-periods, the dictionary with Mathlib's Eisenstein
 series `E₂, E₄, E₆`, the period matrix and the period field `ℚ(ω₁, ω₂, η₁, η₂)`, and complex
 multiplication of lattices. Prove the unconditional bounds: the period field has transcendence
 degree at most `4`; when `g₂, g₃` are algebraic it is at least `2` (Chudnovsky's theorem, derived
 from DiophantineApproximationAndTranscendence's `nesterenko`) and, with complex multiplication, at
 most `2`, so exactly `2` in the CM case. Without algebraic invariants the lower bound fails: for
-`Λ = π·ℤ[i]` the period field is `ℚ(π, i)`, of transcendence degree `1`. The `σ` function, the
-quasi-period map and Legendre's relation are consumed from ModularCurvesPartII.
+`Λ = π·ℤ[i]` the period field is `ℚ(π, i)`, of transcendence degree `1`. The series `ζ`, the
+quasi-period map and the rescaling action of `ℂˣ` are Tau Ceti's; the `σ` function and Legendre's
+relation are consumed from ModularCurvesPartII.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Elliptic/` (mirroring Mathlib's
 `Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`) for Layers 0–2 and 4, and
@@ -25,12 +27,10 @@ them. This roadmap owns:
   balance over a period parallelogram, even elliptic functions as rational functions of `℘` and
   the descent of their coefficients, `4X³ − g₂X − g₃ = 4∏(X − e_i)`, the Laurent expansion of
   `℘` and the polynomiality of `G_{2k}` in `g₂, g₃`;
-- the homogeneity `G_k(cΛ) = c⁻ᵏ G_k(Λ)` for all `k` (0.1), whose weights `4` and `6` are the
-  homotheties of `g₂`, `g₃` in ModularCurvesPartII §1.3 and ModularForms §10D;
-- the Weierstrass `ζ` function as a series and the map `quasiPeriod` read off from it, with
-  their identification with `σ′/σ` and `latticeQuasiPeriod` (Layer 2). The quasi-period map and
-  Legendre's relation are ModularCurvesPartII §1.4a's: `quasiPeriod` is the form of
-  `latticeQuasiPeriod` in which Layers 3–5 are written, not a second owner;
+- what the pinned Tau Ceti lacks about its Weierstrass `ζ` and quasi-period map (Layer 2):
+  meromorphy with residue `1` at `Λ`, the Laurent expansion, `ζ_{cΛ}(cz) = c⁻¹ ζ_Λ(z)`,
+  `quasiPeriod_smul` and `quasiPeriod_congr`, and the identification of `ζ` with `σ′/σ` and of
+  `PeriodPair.quasiPeriod` with ModularCurvesPartII §1.4a's `latticeQuasiPeriod` (2.3);
 - the dictionary between the quasi-period `η(1)` of `ℤ + ℤτ` and Mathlib's
   `EisensteinSeries.E2`, and the scaled dictionary for a positive period pair (Layer 2); the
   comparison `g₂ = (4π⁴/3)E₄`, `g₃ = (8π⁶/27)E₆` for
@@ -50,10 +50,15 @@ them. This roadmap owns:
 - *The residue theorem on null-homologous cycles and winding numbers of polygonal curves*:
   [ContourIntegration](../../Completed/ContourIntegration/README.md), implemented in Tau Ceti
   (`TauCeti.Contour.classicalResidueTheorem_nullHomologous`, `TauCeti.Contour.residue`).
+- *The rescaling action `c • L` of `ℂˣ` on `PeriodPair` and the homogeneity of `G_k`, `g₂`,
+  `g₃` and `℘`, with `PeriodPair.G_smul` for every `k`; the series `PeriodPair.weierstrassZeta`,
+  `ζ′ = −℘`, its oddness, the quasi-period map `PeriodPair.quasiPeriod` and the
+  quasi-periodicity of `ζ`*: Tau Ceti, consumed here (Exact supplier contracts). ModularCurvesPartII
+  §1.3 and ModularForms §10D state the cases `k = 4, 6` of `PeriodPair.G_smul`.
 - *The `σ` function, the quasi-period map `latticeQuasiPeriod` and Legendre's relation; the
-  Laurent leading terms of `℘` and `℘′`, the half-period values and `g₂³ − 27g₃² ≠ 0`; the
-  homotheties of `g₂`, `g₃` and `℘`*: ModularCurvesPartII §§1.4a, 1.1 and 1.3, consumed here
-  (Exact supplier contracts); this roadmap constructs none of them.
+  Laurent leading terms of `℘` and `℘′`, the half-period values and `g₂³ − 27g₃² ≠ 0`*:
+  ModularCurvesPartII §§1.4a and 1.1, consumed here (Exact supplier contracts); this roadmap
+  constructs none of them.
 - *Complex tori `ℂ/Λ` and their maps*: [ComplexTori](../ComplexTori/README.md); abelian-variety
   uniformisation and the analytic–algebraic `Hom` comparison: AbelianSchemesAndArithmeticModuli,
   A5.1, with ModularCurvesPartII's Weierstrass specialisation. The multiplier ring of a rank-two
@@ -73,26 +78,29 @@ The boundary in one sentence: if a statement is about a lattice in `ℂ` and fun
 numbers attached to it, it is here; if it is about a Weierstrass equation over a field, it is
 in EllipticCurves; if it is about modular values, it is in DiophantineApproximationAndTranscendence.
 
-## Standing conventions
+## Conventions
 
 - **The object is a `PeriodPair`.** No new lattice structure. Statements that depend only on
   the lattice are proved invariant under change of `PeriodPair` with the same `lattice` (for `℘`
-  and `G_k` in Layer 0, then `quasiPeriod_congr`, `periodField_congr`).
+  in Layer 0, for `G_k` by Tau Ceti's `PeriodPair.G_eq_of_lattice_eq`, then `quasiPeriod_congr`,
+  `periodField_congr`).
 - **Orientation.** A `PeriodPair` is unoriented. A basis is *positive* when
   `0 < (L.ω₂ / L.ω₁).im`; this hypothesis is written out where needed, never wrapped in a
   predicate. `ofUpperHalfPlane τ = (1, τ)` is positive.
-- **Quasi-periods.** `ζ(z) = 1/z + ∑'_{l ≠ 0} (1/(z − l) + 1/l + z/l²)` (DLMF 23.2.5), so
-  `ζ′ = −℘` and `ζ` is odd; `ζ = σ′/σ` with ModularCurvesPartII's `latticeSigma`.
-  `quasiPeriod L l = ζ(ω₁/2 + l) − ζ(ω₁/2)`, read at the base point `ω₁/2 ∉ Λ`
-  (`ω₁_div_two_notMem_lattice`); for `l ∈ Λ` it is `latticeQuasiPeriod` at `l`, and
-  `ζ(z + l) = ζ(z) + η(l)` for `z ∉ Λ`: the quasi-period of the *full* period `l`. DLMF writes
+- **Quasi-periods.** `ζ` is Tau Ceti's `PeriodPair.weierstrassZeta`,
+  `ζ(z) = 1/z + ∑'_{l ≠ 0} (1/(z − l) + 1/l + z/l²)` (DLMF 23.2.5), so `ζ′ = −℘` and `ζ` is odd;
+  `ζ = σ′/σ` (DLMF 23.2.8) with ModularCurvesPartII's `latticeSigma`. `η` is Tau Ceti's
+  `PeriodPair.quasiPeriod : L.lattice →+ ℂ`, `η(l) = ζ(ω₁/2 + l) − ζ(ω₁/2)`, read at the base
+  point `ω₁/2 ∉ Λ` (`ω₁_div_two_notMem_lattice`); it is `latticeQuasiPeriod` (2.3), and
+  `ζ(z + l) = ζ(z) + η(l)`: the quasi-period of the *full* period `l`. DLMF writes
   the lattice as `2ω₁ℤ + 2ω₃ℤ` and `η_j = ζ(ω_j)`, so its `η_j` is half of `η(2ω_j)` here.
 - **Legendre** (ModularCurvesPartII, `latticeQuasiPeriod_legendre`). For a positive basis,
   `η(ω₁) ω₂ − η(ω₂) ω₁ = 2πi` (DLMF 23.2.14 in full-period form). Reversing the basis changes
   the sign. In matrix form: the period matrix `P = [[ω₁, ω₂], [η(ω₁), η(ω₂)]]` has
   `det P = −2πi`.
-- **Scaling.** `c • L = (cω₁, cω₂)` for `c : ℂˣ`. Then `G_k(cΛ) = c⁻ᵏ G_k(Λ)`,
-  `℘_{cΛ}(cz) = c⁻² ℘_Λ(z)`, `ζ_{cΛ}(cz) = c⁻¹ ζ_Λ(z)`, `η_{cΛ}(cl) = c⁻¹ η_Λ(l)`.
+- **Scaling.** `c • L = (cω₁, cω₂)` for `c : ℂˣ`, Tau Ceti's action. Then `G_k(cΛ) = c⁻ᵏ G_k(Λ)`
+  and `℘_{cΛ}(cz) = c⁻² ℘_Λ(z)` (Tau Ceti), `ζ_{cΛ}(cz) = c⁻¹ ζ_Λ(z)` (2.1) and
+  `η_{cΛ}(cl) = c⁻¹ η_Λ(l)` (2.2).
 - **Algebraic.** "Algebraic" is `IsAlgebraic ℚ` inside `ℂ`; "algebraic invariants" is the pair
   of hypotheses `IsAlgebraic ℚ L.g₂`, `IsAlgebraic ℚ L.g₃`, written out. Transcendence degrees
   are `Algebra.trdeg ℚ` of an `IntermediateField ℚ ℂ`; since `ℚ̄/ℚ` is algebraic this is the
@@ -101,7 +109,8 @@ in EllipticCurves; if it is about modular values, it is in DiophantineApproximat
 - **Complex multiplication.** `HasCM L` means `∃ α : ℂ, α.im ≠ 0 ∧ ∀ l ∈ L.lattice, α * l ∈
   L.lattice`. It depends only on the lattice and is invariant under scaling. A *multiplier* is
   any `α` with `α * l ∈ L.lattice` for all `l ∈ L.lattice`, real or not.
-- **Junk values.** As in Mathlib, `℘`, `ζ` take junk values at lattice points; statements about
+- **Junk values.** As in Mathlib, `℘`, `ζ` take junk values at lattice points (Tau Ceti's
+  `PeriodPair.weierstrassZeta_coe`: `ζ(l) = η(l)`); statements about
   values carry `z ∉ L.lattice`, and identities between elliptic functions hold
   `∀ᶠ z in Filter.codiscrete ℂ`.
 
@@ -143,6 +152,22 @@ in EllipticCurves; if it is about modular values, it is in DiophantineApproximat
 - **Dimension.** The dimension–transcendence-degree comparison `TauCeti.ringKrullDim_eq_toNat_trdeg`
   (`TauCeti/RingTheory/KrullDimension/FiniteType.lean`) used by
   DiophantineApproximationAndTranscendence.
+- **The Weierstrass `ζ` and its quasi-periods**
+  (`TauCeti/Analysis/SpecialFunctions/Elliptic/WeierstrassZeta.lean`). `PeriodPair.weierstrassZeta`
+  (the series of the conventions), `PeriodPair.hasSumLocallyUniformly_weierstrassZeta`,
+  `PeriodPair.hasDerivAt_weierstrassZeta` (`ζ′ = −℘` off `Λ`), `PeriodPair.weierstrassZeta_neg`,
+  `PeriodPair.quasiPeriod : L.lattice →+ ℂ` (`ζ(ω₁/2 + l) − ζ(ω₁/2)`), additive by `map_add`,
+  `PeriodPair.weierstrassZeta_coe`, `PeriodPair.weierstrassZeta_add_coe` (`ζ(z + l) = ζ(z) + η(l)`
+  for every `z`), `PeriodPair.quasiPeriod_eq_intCast_mul_add` and
+  `PeriodPair.quasiPeriod_eq_two_mul_weierstrassZeta` (`η(l) = 2ζ(l/2)` for every `l ∈ Λ`).
+- **Rescaling** (`TauCeti/Analysis/Complex/UpperHalfPlane/PeriodPair.lean`). The action
+  `PeriodPair.instSMulUnitsComplex`, `c • (ω₁, ω₂) = (cω₁, cω₂)`, with its laws
+  `PeriodPair.instMulActionUnitsComplex`; `PeriodPair.lattice_smul` (the lattice of `c • L` is
+  `cΛ`), `PeriodPair.latticeSMulEquiv` (multiplication by `c` from `Λ` to `cΛ`),
+  `PeriodPair.G_smul : (c • L).G n = L.G n / c ^ n` for every `n`, `PeriodPair.g₂_smul`,
+  `PeriodPair.g₃_smul`, `PeriodPair.weierstrassP_smul : ℘[c • L] (c * z) = ℘[L] z / c ^ 2` and
+  `PeriodPair.G_eq_of_lattice_eq`; `UpperHalfPlane.periodPair` and
+  `PeriodPair.exists_lattice_eq_smul_periodPair` (compared in 0.2).
 
 ### From ModularCurvesPartII
 
@@ -151,13 +176,11 @@ in EllipticCurves; if it is about modular values, it is in DiophantineApproximat
   `latticeQuasiPeriod_legendre` (`η(ω₁)ω₂ − η(ω₂)ω₁ = 2πi` for a positive basis).
 - §1.1: the Laurent leading terms of `℘` and `℘′`, the distinct half-period values and
   `g₂³ − 27g₃² ≠ 0`.
-- §1.3: `g₂(uΛ) = u⁻⁴g₂(Λ)`, `g₃(uΛ) = u⁻⁶g₃(Λ)` and the reindexing of the `℘` series under
-  `z ↦ uz`.
 
 The dependence is one-way: ModularCurvesPartII's lattice analysis first, this roadmap after it;
 its uniformisation, Weierstrass coordinates and level structures consume nothing from here. Here
-`quasiPeriod L` (2.2) is defined from `ζ` and proved equal to `latticeQuasiPeriod` on `Λ` (2.3),
-so the two names denote one map, written `η`.
+Tau Ceti's `PeriodPair.quasiPeriod` is proved equal to `latticeQuasiPeriod` on `Λ` (2.3), so the
+two names denote one map, written `η`.
 
 ### From ModularForms
 
@@ -181,13 +204,14 @@ statements need; the API around each definition and the Checks are fixed here. E
 gives its contract, a *Needs:* line (earlier targets as `k.n`, and the suppliers above) and a
 Checks list; each layer ends with Examples and its Dependencies.
 
-What is built here: neither library has the Weierstrass `ζ` or the quasi-periods, an
-elliptic-function theory on `PeriodPair` (Liouville, residue balance, the structure theorem and
-its descent, the Laurent recursion), the connection between `PeriodPair.G` and the modular-forms
-library (Mathlib's `Weierstrass.lean` leaves it open; Layer 2 supplies it), the period matrix and
-period field, or complex multiplication for lattices.
+What is built here: neither library has an elliptic-function theory on `PeriodPair`
+(Liouville, residue balance, the structure theorem and its descent, the Laurent recursion), the
+meromorphy, Laurent expansion and scaling of Tau Ceti's `ζ` and the scaling of its quasi-periods,
+the connection between `PeriodPair.G` and the modular-forms library (Mathlib's `Weierstrass.lean`
+leaves it open; Layer 2 supplies it), the period matrix and period field, or complex
+multiplication for lattices.
 
-The order is the dependency order: ModularCurvesPartII (§§1.1, 1.3, 1.4a) → Layer 0 → Layer 1 →
+The order is the dependency order: ModularCurvesPartII (§§1.1, 1.4a) → Layer 0 → Layer 1 →
 Layer 2 → Layer 3 → Layer 4 → Layer 5. Within Layer 1, the residue balance (1.3) precedes the
 structure theorem (1.4), and the Laurent algebra (1.6) precedes the descent (1.7); within Layer 2,
 Legendre (2.3) precedes the dictionary for `η(τ)` (2.4); within Layer 4, the algebraicity of
@@ -195,47 +219,41 @@ Legendre (2.3) precedes the dictionary for `η(τ)` (2.4); within Layer 4, the a
 Layer 5 needs Layers 2–4 and DiophantineApproximationAndTranscendence §5.6. Every item below is a
 target.
 
-## Layer 0: period pairs — scaling and the upper half-plane
+## Layer 0: period pairs — lattice invariance and the upper half-plane
 
-### 0.1 Scaling
+The rescaling action `c • L` of `ℂˣ`, `PeriodPair.G_smul`, `PeriodPair.g₂_smul`,
+`PeriodPair.g₃_smul` and `PeriodPair.weierstrassP_smul` are Tau Ceti's (Exact supplier
+contracts) and are consumed, not restated.
 
-The action `SMul ℂˣ PeriodPair` (defined in `Suggested.lean`), with the lattice of `c • L` equal
-to `c · L.lattice`, the laws of a `MulAction ℂˣ PeriodPair`, and `G_smul` for all `k`, owned
-here: its cases `k = 4, 6` are the homotheties of `g₂`, `g₃` in ModularCurvesPartII §1.3 and
-ModularForms §10D. The homothety of `℘` is ModularCurvesPartII §1.3 and is not restated.
+### 0.1 Lattice invariance
 
-*Needs:* Mathlib `PeriodPair`, `PeriodPair.G`.
+`℘` depends only on `L.lattice` (immediate from the definition as a sum over the lattice; state
+it so that later layers never unfold). For `G_k` this is Tau Ceti's
+`PeriodPair.G_eq_of_lattice_eq`.
 
-**Checks.**
-
-- `(2 : ℂˣ) • L` has `G 4` divided by `16`.
-- For odd `k` both sides of `G_smul` are `0` (`G_eq_zero_of_odd`).
-- `(−1 : ℂˣ) • L` has the lattice `−Λ = Λ`, and `G_smul` gives `G k` multiplied by `(−1)ᵏ`,
-  consistent with the vanishing for odd `k`.
-
-### 0.2 Lattice invariance
-
-`℘` and every `G_k` depend only on `L.lattice` (immediate from the definitions as sums over the
-lattice; state them so that later layers never unfold).
-
-*Needs:* Mathlib `PeriodPair.weierstrassP`, `PeriodPair.G`.
+*Needs:* Mathlib `PeriodPair.weierstrassP`; Tau Ceti `PeriodPair.G_eq_of_lattice_eq`.
 
 **Checks.**
 
-- `L` and the pair `(ω₂, ω₁)` obtained by exchanging the periods (0.3) have the same `℘` and the
+- `L` and the pair `(ω₂, ω₁)` obtained by exchanging the periods (0.2) have the same `℘` and the
   same `G k`.
-- For `L = ofUpperHalfPlane I`, `I • L` has the same lattice (0.3, Checks), so lattice
-  invariance and `G_smul` at `c = I`, `k = 6` give `G 6 = −G 6`: `g₃ = 0`.
-- At `c = I`, `k = 4`, the same argument gives `G 4 = G 4`, no constraint: `g₂ ≠ 0` is
-  compatible (1.5, Checks).
+- For `L = ofUpperHalfPlane I`, `I • L` has the same lattice (0.2, Checks), so lattice
+  invariance and Tau Ceti's `PeriodPair.G_smul` at `c = I`, `k = 6` give
+  `G 6 = G 6 / I⁶ = −G 6`: `g₃ = 0`.
+- At `c = I`, `k = 4`, the same argument gives `G 4 = G 4 / I⁴ = G 4`, no constraint: `g₂ ≠ 0`
+  is compatible (1.5, Checks).
 
-### 0.3 The upper half-plane
+### 0.2 The upper half-plane
 
 `ofUpperHalfPlane τ = (1, τ)`; every positive `L` has the lattice of
 `L.ω₁ • ofUpperHalfPlane (L.ω₂ / L.ω₁)`, and the pair `(ω₂, ω₁)` obtained by exchanging the
-periods has the same lattice as `L`.
+periods has the same lattice as `L`. Tau Ceti's `UpperHalfPlane.periodPair z = (z, 1)` and
+`PeriodPair.exists_lattice_eq_smul_periodPair` give the same lattices with the opposite
+orientation, since `(1/z).im < 0`; the dictionary of 2.4 is written for the positive basis
+`(1, τ)`.
 
-*Needs:* 0.1; Mathlib `UpperHalfPlane`.
+*Needs:* Tau Ceti `PeriodPair.instMulActionUnitsComplex`, `PeriodPair.lattice_smul`; Mathlib
+`UpperHalfPlane`.
 
 **Checks.**
 
@@ -246,14 +264,15 @@ periods has the same lattice as `L`.
 
 ### Examples
 
-- `(2 : ℂˣ) • L` has `G 4` divided by `16` (0.1, Checks).
-- `ofUpperHalfPlane I` and `I • ofUpperHalfPlane I` have the same lattice (0.3, Checks), hence
-  `g₃(ℤ[i]) = 0` (0.2, Checks).
+- `(2 : ℂˣ) • L` has `G 4` divided by `16` (Tau Ceti's `PeriodPair.G_smul`).
+- `ofUpperHalfPlane I` and `I • ofUpperHalfPlane I` have the same lattice (0.2, Checks), hence
+  `g₃(ℤ[i]) = 0` (0.1, Checks).
 
 ### Dependencies
 
-Mathlib only. Within the layer, 0.3 uses the action of 0.1, and the Checks of 0.2 use 0.1 and
-0.3.
+Mathlib; Tau Ceti `TauCeti/Analysis/Complex/UpperHalfPlane/PeriodPair.lean` (the action,
+`PeriodPair.G_smul`, `PeriodPair.G_eq_of_lattice_eq`). Within the layer, the Checks of 0.1 use
+0.2.
 
 ## Layer 1: elliptic functions for a period pair
 
@@ -337,7 +356,7 @@ oddness. (DLMF 23.3.4.)
 **Checks.**
 
 - For `Λ = ℤ[i]`, `g₃ = 0` and `g₂ ≠ 0`; for `Λ = ℤ[e^{2πi/3}]`, `g₂ = 0` and `g₃ ≠ 0`.
-- For `Λ = ℤ[i]`, `℘(iz) = −℘(z)` (0.2 and ModularCurvesPartII §1.3) gives the value `0` at
+- For `Λ = ℤ[i]`, `℘(iz) = −℘(z)` (0.1 and `PeriodPair.weierstrassP_smul`) gives the value `0` at
   `(1 + i)/2` and opposite values `±e` at `1/2` and `i/2`, so
   `4X³ − g₂X − g₃ = 4X(X − e)(X + e)` with `g₂ = 4e²`.
 - With these roots `16∏_{i<j}(e_i − e_j)² = 16 · e² · 4e² · e² = 64e⁶ = g₂³`, as the discriminant
@@ -399,55 +418,62 @@ precedes 1.4, and 1.6 precedes 1.7.
 
 ### 2.1 The Weierstrass `ζ` function
 
-`weierstrassZeta L` as in the conventions: locally uniform convergence off `Λ` (the summand is
-`O(|l|⁻³)` on compacts, as Mathlib does for `℘`), meromorphy with simple poles of residue `1` at
-`Λ` (`meromorphic_weierstrassZeta`), oddness (`weierstrassZeta_neg`),
-`hasDerivAt_weierstrassZeta : ζ′ = −℘` off `Λ`, the Laurent expansion
+Tau Ceti's `PeriodPair.weierstrassZeta` is the series of the conventions (DLMF 23.2.5), with
+its locally uniform convergence, `ζ′ = −℘` off `Λ` and its oddness
+(`PeriodPair.hasSumLocallyUniformly_weierstrassZeta`, `PeriodPair.hasDerivAt_weierstrassZeta`,
+`PeriodPair.weierstrassZeta_neg`), consumed. Prove here: meromorphy with simple poles of residue
+`1` at `Λ` (`meromorphic_weierstrassZeta`), the Laurent expansion
 `ζ(z) = 1/z − ∑_{k≥1} G_{2k+2} z^{2k+1}`, the scaling `ζ_{cΛ}(cz) = c⁻¹ ζ_Λ(z)` and the
 dependence of `ζ` on `L.lattice` only. It is the series form of the logarithmic derivative
-`σ′/σ` of ModularCurvesPartII §1.4a, identified in 2.3.
+`σ′/σ` of ModularCurvesPartII §1.4a (DLMF 23.2.8), identified in 2.3.
 
-*Needs:* Layer 0; 1.6; Mathlib `PeriodPair.weierstrassP`; Tau Ceti `TauCeti.Contour.residue`;
-ModularCurvesPartII §1.4a (`latticeSigma`, compared in 2.3). (DLMF 23.2.5.)
+*Needs:* Layer 0; 1.6; Mathlib `PeriodPair.weierstrassP`; Tau Ceti `PeriodPair.weierstrassZeta`,
+`PeriodPair.hasDerivAt_weierstrassZeta`, `PeriodPair.latticeSMulEquiv`,
+`TauCeti.Contour.residue`. (DLMF 23.2.5.)
 
 **Checks.**
 
-- The summand `1/(z − l) + 1/l + z/l²` equals `z²/(l²(z − l))`, hence `O(|l|⁻³)` on compacts.
-- The scaling at `c = −1`, with `−Λ = Λ`, is the oddness `ζ(−z) = −ζ(z)`.
-- Differentiating the Laurent expansion gives `−z⁻² − 3G₄z² − ⋯`, which is `−℘` by 1.6.
+- The residue at `0` is `1`: in Tau Ceti's series the term `l = 0` is `1/z` (Lean's `1/0 = 0`),
+  and every other term is analytic near `0`; by quasi-periodicity the residue is `1` at every
+  `l ∈ Λ`, not `0` or `−1`.
+- The scaling at `c = −1`, with `−Λ = Λ`, is the oddness `ζ(−z) = −ζ(z)`; at `c = 2` it gives
+  `ζ_{2Λ}(2z) = ζ_Λ(z)/2`, excluding the weight `c` in place of `c⁻¹`.
+- Differentiating the Laurent expansion gives `−z⁻² − 3G₄z² − ⋯`, which is `−℘` by 1.6, as
+  `PeriodPair.hasDerivAt_weierstrassZeta` requires.
 
 ### 2.2 Quasi-periods
 
-The quasi-period map is ModularCurvesPartII §1.4a's `latticeQuasiPeriod`, consumed here;
-`quasiPeriod` is its form read off the series `ζ` of 2.1, in which Layers 3–5 are written, and
-2.3 identifies the two on `Λ`. Define `quasiPeriod L l = ζ(ω₁/2 + l) − ζ(ω₁/2)`. For
-`l ∈ Λ`, `z ↦ ζ(z + l) − ζ(z)` has derivative `0` on the connected open set `ℂ ∖ Λ` (by
-`hasDerivAt_weierstrassZeta` and the periodicity of `℘`), so it is constant there, equal to its
-value at `ω₁/2`:
-`weierstrassZeta_add_coe : ζ(z + l) = ζ(z) + quasiPeriod L l` for `z ∉ Λ`. Hence
-`quasiPeriod_add`, `η(ω) = 2ζ(ω/2)` for `ω ∈ Λ ∖ 2Λ` (oddness at `z = −ω/2`),
-`quasiPeriod_smul`, `quasiPeriod_congr`.
+Tau Ceti's `PeriodPair.quasiPeriod : L.lattice →+ ℂ` is read off the series `ζ` at the base point
+`ω₁/2`, with the quasi-periodicity `PeriodPair.weierstrassZeta_add_coe : ζ(z + l) = ζ(z) + η(l)`
+for every `z`, its additivity (`map_add`) and `PeriodPair.quasiPeriod_eq_two_mul_weierstrassZeta :
+η(l) = 2ζ(l/2)` for every `l ∈ Λ`, consumed; ModularCurvesPartII's `latticeQuasiPeriod` is
+consumed in 2.3, which identifies the two maps. Prove here the scaling
+`quasiPeriod_smul : η_{cΛ}(cl) = c⁻¹ η_Λ(l)`, stated through `PeriodPair.latticeSMulEquiv` and
+proved from the scaling of `ζ` (2.1), and the lattice dependence `quasiPeriod_congr`.
 
-*Needs:* 2.1; Mathlib `weierstrassP_add_coe`, `ω₁_div_two_notMem_lattice`; ModularCurvesPartII
-§1.4a (`latticeQuasiPeriod`, the owner of the quasi-period map, compared in 2.3).
+*Needs:* 2.1; Tau Ceti `PeriodPair.quasiPeriod`, `PeriodPair.weierstrassZeta_add_coe`,
+`PeriodPair.latticeSMulEquiv`.
 
 **Checks.**
 
-- `quasiPeriod L 0 = 0` from the definition.
-- For `L = ofUpperHalfPlane I`, `ζ(iz) = −iζ(z)` (from `iΛ = Λ` and homogeneity), so
+- At `c = −1`, with `−Λ = Λ`, `quasiPeriod_smul` and `quasiPeriod_congr` give `η(−l) = −η(l)`,
+  as additivity requires.
+- For `L = ofUpperHalfPlane I` and `c = I`, `I • L` has the same lattice (0.2, Checks), so
+  `quasiPeriod_smul` and `quasiPeriod_congr` give `η(i l) = −i η(l)`; at `l = 1`,
   `η(i) = −i η(1)`.
-- `η(−l) = −η(l)` for `l ∈ Λ`, from `quasiPeriod_add` at `l' = −l` and `quasiPeriod L 0 = 0`.
+- At `c = 2` and `Λ = ℤ[i]`, `η_{2Λ}(2) = η_Λ(1)/2 = π/2` (2.3, Checks), not `2π`.
 
 ### 2.3 Compatibility with ModularCurvesPartII
 
-`ζ = σ′/σ` off `Λ`, hence `quasiPeriod L l` equals `latticeQuasiPeriod` at `l` for every `l ∈ Λ`.
-Not statable in Suggested.lean until ModularCurvesPartII's `latticeSigma` exists at the pins; the
-identification is fixed here only. Through this identity Legendre is
-ModularCurvesPartII's `latticeQuasiPeriod_legendre`, not reproved; its corollaries used here:
-`η(ω₁), η(ω₂)` are not both `0`, and `ω ↦ η(ω)` is not `ℂ`-linear on `Λ`.
+`ζ = σ′/σ` off `Λ` (DLMF 23.2.8), hence Tau Ceti's `PeriodPair.quasiPeriod` equals
+`latticeQuasiPeriod` at every `l ∈ Λ`. ModularCurvesPartII's `latticeSigma` is not in the pinned
+libraries, so the identification is stated here and not in Suggested.lean. Through this
+identity Legendre is ModularCurvesPartII's `latticeQuasiPeriod_legendre`, not reproved; its
+corollaries used here: `η(ω₁), η(ω₂)` are not both `0`, and `ω ↦ η(ω)` is not `ℂ`-linear on `Λ`.
 
-*Needs:* 2.2; ModularCurvesPartII §1.4a (`latticeSigma`, `latticeQuasiPeriod`,
-`latticeSigma_quasiPeriod`, `latticeQuasiPeriod_legendre`). (DLMF 23.2.12–23.2.14.)
+*Needs:* 2.1, 2.2; Tau Ceti `PeriodPair.weierstrassZeta`, `PeriodPair.quasiPeriod`;
+ModularCurvesPartII §1.4a (`latticeSigma`, `latticeQuasiPeriod`, `latticeSigma_quasiPeriod`,
+`latticeQuasiPeriod_legendre`). (DLMF 23.2.8, 23.2.12–23.2.14.)
 
 **Checks.**
 
@@ -471,7 +497,8 @@ is absolutely convergent, hence equal to the symmetric sum defining `G2`. Then
 `g₂ = ω₁⁻⁴(4π⁴/3)E₄(τ)`, `g₃ = ω₁⁻⁶(8π⁶/27)E₆(τ)`, `η(ω₁) = ω₁⁻¹(π²/3)E₂(τ)` (the scaled
 dictionary).
 
-*Needs:* 0.1, 0.3, 2.2, 2.3; ModularForms §10D; Mathlib `EisensteinSeries.G2`, `E2`,
+*Needs:* 0.2, 2.2, 2.3; Tau Ceti `PeriodPair.g₂_smul`, `PeriodPair.g₃_smul`; ModularForms §10D;
+Mathlib `EisensteinSeries.G2`, `E2`,
 `ModularForm.E₄`, `E₆`,
 `riemannZeta_two`, `riemannZeta_four`, `riemannZeta_two_mul_nat` (for `ζ(6)`). (DLMF 23.8.5;
 Silverman, ATAEC, ch. I.)
@@ -495,11 +522,12 @@ Silverman, ATAEC, ch. I.)
 
 ### Dependencies
 
-Layers 0–1; ModularCurvesPartII §1.4a; ModularForms §10D; Tau Ceti
-`TauCeti.Contour.classicalResidueTheorem_nullHomologous`; Mathlib `EisensteinSeries.G2`, `E2`,
-`ModularForm.E₄`, `E₆`, `riemannZeta_two`, `riemannZeta_four`, `riemannZeta_two_mul_nat` (for
-`ζ(6)`). (DLMF 23.2.5–23.2.14, 23.8.5; Silverman, ATAEC, ch. I.) Within the layer, 2.3 precedes
-the dictionary for `η(τ)` in 2.4.
+Layers 0–1; ModularCurvesPartII §1.4a (through 2.3); ModularForms §10D; Tau Ceti
+`TauCeti/Analysis/SpecialFunctions/Elliptic/WeierstrassZeta.lean`, `PeriodPair.g₂_smul`,
+`PeriodPair.g₃_smul`, `TauCeti.Contour.classicalResidueTheorem_nullHomologous`; Mathlib
+`EisensteinSeries.G2`, `E2`, `ModularForm.E₄`, `E₆`, `riemannZeta_two`, `riemannZeta_four`,
+`riemannZeta_two_mul_nat` (for `ζ(6)`). (DLMF 23.2.5–23.2.14, 23.8.5; Silverman, ATAEC, ch. I.)
+Within the layer, 2.3 precedes the dictionary for `η(τ)` in 2.4.
 
 ## Layer 3: the period matrix and the period field
 
@@ -513,7 +541,8 @@ ComplexComparisonPartII and PeriodsAndSpecialValues, and is not built here.
 `det_periodMatrix : det P = −2πi` for a positive basis (Legendre). Change of basis of the same
 lattice by `γ ∈ GL₂(ℤ)` multiplies `P` on the right by `γ`.
 
-*Needs:* 2.2, 2.3; ModularCurvesPartII §1.4a (`latticeQuasiPeriod_legendre`).
+*Needs:* 2.3; Tau Ceti `PeriodPair.quasiPeriod`; ModularCurvesPartII §1.4a
+(`latticeQuasiPeriod_legendre`).
 
 **Checks.**
 
@@ -530,7 +559,8 @@ lattice by `γ ∈ GL₂(ℤ)` multiplies `P` on the right by `γ`.
 lattice-invariant (`periodField_congr`), containing `2πi` (`two_pi_I_mem_periodField`); hence `π`
 is algebraic over it.
 
-*Needs:* 2.2 (`quasiPeriod_add`, `quasiPeriod_congr`), 3.1; Mathlib `IntermediateField.adjoin`.
+*Needs:* 2.2 (`quasiPeriod_congr`), 3.1; Tau Ceti `PeriodPair.quasiPeriod` and its additivity
+(`map_add`), `PeriodPair.quasiPeriod_eq_intCast_mul_add`; Mathlib `IntermediateField.adjoin`.
 
 **Checks.**
 
@@ -557,12 +587,12 @@ is algebraic over it.
 
 `periodIdeal L`, the kernel of evaluation `ℚ[X₁₁, X₁₂, X₂₁, X₂₂] → ℂ` at `P`, is prime, and
 `ringKrullDim_periodIdeal : dim ℚ[X]/periodIdeal = trdeg (periodField L)`, through Tau Ceti's
-`TauCeti.ringKrullDim_eq_toNat_trdeg`. Equivalences (`trdeg_periodField_eq_four_iff`): `trdeg = 4` iff
-the four entries are algebraically independent iff `periodIdeal L = ⊥` iff `ω₁, ω₂, η(ω₁), π`
-are algebraically independent.
+`TauCeti.ringKrullDim_eq_toNat_trdeg`. Equivalences (`trdeg_periodField_eq_four_iff`):
+`trdeg = 4` iff the four entries are algebraically independent iff `periodIdeal L = ⊥` iff
+`ω₁, ω₂, η(ω₁), π` are algebraically independent.
 
-*Needs:* 3.1, 3.2, 3.3; Tau Ceti `TauCeti.ringKrullDim_eq_toNat_trdeg`; Mathlib `MvPolynomial.aeval`,
-`RingHom.ker`, `isTranscendenceBasis_of_le_trdeg_of_finite`.
+*Needs:* 3.1, 3.2, 3.3; Tau Ceti `TauCeti.ringKrullDim_eq_toNat_trdeg`; Mathlib
+`MvPolynomial.aeval`, `RingHom.ker`, `isTranscendenceBasis_of_le_trdeg_of_finite`.
 
 **Checks.**
 
@@ -581,11 +611,12 @@ are algebraically independent.
 a ratio of algebraic numbers). So the transcendence degree is an invariant of the curve
 `y² = 4x³ − g₂x − g₃` over `ℚ̄`, not of the chosen lattice.
 
-*Needs:* 2.2 (`quasiPeriod_smul`), 3.2; ModularCurvesPartII §1.1 and §1.3.
+*Needs:* 2.2 (`quasiPeriod_smul`), 3.2; ModularCurvesPartII §1.1; Tau Ceti `PeriodPair.g₂_smul`,
+`PeriodPair.g₃_smul`.
 
 **Checks.**
 
-- At `c = I` and `L = ofUpperHalfPlane I`, `c • L` has the same lattice (0.3, Checks), hence the
+- At `c = I` and `L = ofUpperHalfPlane I`, `c • L` has the same lattice (0.2, Checks), hence the
   same period field.
 - Both cases of the proof occur: for `ℤ[i]`-type lattices `g₃ = 0` and `c⁴` is the ratio of the
   `g₂`, for `ℤ[e^{2πi/3}]`-type lattices `g₂ = 0` and `c⁶` is the ratio of the `g₃` (1.5,
@@ -601,7 +632,8 @@ a ratio of algebraic numbers). So the transcendence degree is an invariant of th
 
 ### Dependencies
 
-Layers 0–2; ModularCurvesPartII §1.4a (Legendre, through 2.3); Tau Ceti
+Layers 0–2; ModularCurvesPartII §§1.1 and 1.4a (Legendre, through 2.3); Tau Ceti
+`PeriodPair.quasiPeriod`, `PeriodPair.g₂_smul`, `PeriodPair.g₃_smul`,
 `TauCeti.ringKrullDim_eq_toNat_trdeg`.
 
 ## Layer 4: complex multiplication
@@ -704,7 +736,7 @@ Eisenstein dictionary, `E₄(τ) = (3g₂/4)(l/π)⁴`, `E₆(τ) = (27g₃/8)(l
 report, §2.A, Theorem 3 (`π/ω` and `η/ω` algebraically independent for any period `ω` and its
 quasi-period `η`), under the report's standing hypothesis (§0) that `g₂, g₃` are algebraic.
 
-*Needs:* 0.3, 2.2, 2.4 (the scaled dictionary); DiophantineApproximationAndTranscendence §5.6
+*Needs:* 0.2, 2.2, 2.4 (the scaled dictionary); DiophantineApproximationAndTranscendence §5.6
 (`nesterenko`).
 
 **Checks.**
@@ -723,7 +755,7 @@ the three displayed identities put `E₂, E₄, E₆` in `ℚ(g₂, g₃, l/π, 
 `g₂, g₃`. (Chudnovsky, ICM 1978, §2.A, display (4), stated as the case of Theorem 3 without
 algebraic invariants; Waldschmidt, arXiv math/0502582, §3, the statement following Theorem 3.1.)
 
-*Needs:* 5.1 (its proof); 0.3, 2.2, 2.4; DiophantineApproximationAndTranscendence §5.6
+*Needs:* 5.1 (its proof); 0.2, 2.2, 2.4; DiophantineApproximationAndTranscendence §5.6
 (`nesterenko`).
 
 **Checks.**
@@ -807,14 +839,14 @@ statements only. Within the layer, 5.2 repeats the proof of 5.1, and 5.3–5.5 f
   Legendre's relation to the lattice roadmaps, this one among them (its Ownership and
   dependencies section, under the old name GrothendieckPeriodConjecture).
 - EllipticCurvePeriodsAndModularParametrizations states, in its §1.1, the lattice invariance
-  of `G_k` and the scaled dictionary, which are 0.2 and 2.4 here (and ModularForms §10D for
+  of `G_k` and the scaled dictionary, which are Tau Ceti's `PeriodPair.G_eq_of_lattice_eq` and
+  2.4 here (and ModularForms §10D for
   `ℤ + ℤτ`), to be cited from there rather than restated.
 
 ModularCurvesPartII's lattice analysis consumes nothing from here (Exact supplier contracts).
 ModularCurvesPartII §1.3 and ModularForms §10D state the homotheties `g₂(uΛ) = u⁻⁴g₂(Λ)` and
-`g₃(uΛ) = u⁻⁶g₃(Λ)`, the cases `k = 4, 6` of `G_smul` (0.1), which owns the statement for all
-`k`; both precede this roadmap in the dependency order, so this is a comparison of statements,
-not a dependency edge.
+`g₃(uΛ) = u⁻⁶g₃(Λ)`, the cases `k = 4, 6` of Tau Ceti's `PeriodPair.G_smul`, which this
+roadmap consumes in place of either.
 
 ## Research context
 
@@ -826,13 +858,13 @@ curves (Corollaries 3.9 and 3.10), and gives no algebraic-independence statement
 periods.
 
 Schneider's theorem (1937), that a nonzero period of a lattice with algebraic `g₂, g₃` is
-transcendental, follows from the Schneider–Lang criterion for meromorphic functions of finite order (Lang,
-*Introduction to Transcendental Numbers*, 1966, Ch. IV §1, Theorem 1; Waldschmidt, *Diophantine
-Approximation on Linear Algebraic Groups*, Theorem 4.1 states the entire case and its footnote 10
-the meromorphic one); no roadmap owns
-that form of the criterion.
-Grothendieck's notes name it as the first visible case of the conjecture for curves without complex
-multiplication (Montpellier fonds, folder 18, pp. 10–12, https://grothendieck.umontpellier.fr/18.pdf).
+transcendental, follows from the Schneider–Lang criterion for meromorphic functions of finite
+order (Lang, *Introduction to Transcendental Numbers*, 1966, Ch. IV §1, Theorem 1; Waldschmidt,
+*Diophantine Approximation on Linear Algebraic Groups*, Theorem 4.1 states the entire case and
+its footnote 10 the meromorphic one); no roadmap owns that form of the criterion. Grothendieck's
+notes name it as the first visible case of the conjecture for curves without complex
+multiplication (Montpellier fonds, folder 18, pp. 10–12,
+https://grothendieck.umontpellier.fr/18.pdf).
 
 Without complex multiplication, the transcendence of `ω₁²/π` for algebraic `g₂, g₃` with
 `g₂ g₃ ≠ 0` is open: by Siegel's relation between `j′` and `ω₁²/π`, it is Lang's conjecture on
