@@ -3,9 +3,10 @@
 **Summary.** Build global one-variable approximation, prescribed isolated singularities and
 divisors, and weighted genus-one products from the local complex-analysis and contour
 libraries and AnalyticNumberTheoryPartI's primary products and factorization. Develop the
-comparison metric on Tau Ceti's compact-open holomorphic function algebra, Cauchy–Green, global
-smooth ∂̄ solvability, Cousin I, exactness of planar two-forms and the vanishing of the real
-degree-two de Rham cohomology of arbitrary open subsets of ℂ.
+comparison metric on Tau Ceti's compact-open holomorphic function algebra, Cauchy–Green, the
+local Laurent decomposition on annuli, global smooth ∂̄ solvability, Cousin I, exactness of
+planar two-forms and the vanishing of the real degree-two de Rham cohomology of arbitrary open
+subsets of ℂ.
 
 ## Scope and ownership
 
@@ -58,8 +59,26 @@ comparison metric and the boundary-zero construction use. Layer 2 owns the holom
 of a compact subset of a plane domain, its equality with the filled set, and the Runge
 equivalences on it. Hyperfunctions consumes
 this roadmap's one-variable results and is downstream, so nothing of it is an input here.
+Hyperfunctions HF2's MalgrangeTopVanishing also covers n = 1: for n ≥ 1 it makes the
+top-degree smooth Dolbeault operator onto on every open subset of ℂⁿ, which for n = 1 is the
+global ∂̄ solver of Layer 7.1, and its vanishing of `H¹(Ω,𝒪)` is the Cousin I theorem of
+Layer 7.4. The one-variable case is owned here, not taken from HF2: HF2's harmonic Runge step
+uses ComplexKahlerGeometry K5a's compact-distribution dual, K5a consumes the complex two-form
+exactness of Layer 7.2, and Layer 7.2 is proved from Layer 7.1, so supplying Layer 7.1 from
+HF2 would be circular.
 ComplexKahlerGeometry K2 owns parameter-dependent solvers, and K5a owns the complex-coefficient
 de Rham comparison; they consume this roadmap's scalar results and complex two-form exactness.
+K3 owns the comparison of meromorphic germs with the fraction field of the holomorphic stalk
+and consumes the local Laurent decomposition of Layer 0.4.
+
+Tau Ceti owns the circle Laurent coefficients `TauCeti.circleLaurentCoeff` with their radius
+independence on an annulus, monomial values and Cauchy estimate, the two-circle Cauchy formula
+on an annulus, and the finite principal part `TauCeti.meromorphicGerms.principalPart` of a
+meromorphic germ with its circle-integral coefficients. Layer 0.4 owns the Laurent expansion of
+a function holomorphic on an annulus, whose negative part may be an infinite series: the
+convergence of its positive part on the outer disc and of its negative part off the inner disc,
+the splitting of the function as their sum, and the uniqueness of the coefficients and of the
+splitting. Layers 2.5 and 4.1 consume it.
 
 The native sine product, the paired cotangent series and the exponential finite-product
 majorant are supplied results; Layers 1 and 6 consume them and do not prove them again. The
@@ -164,6 +183,16 @@ the empty cases here follow directly from the definitions.
   `Complex.log` is complex-differentiable at every point of `Complex.slitPlane`
   (`Complex.differentiableAt_log` in `Mathlib/Analysis/SpecialFunctions/Complex/LogDeriv.lean`),
   and `Complex.exp_log` inverts it at every nonzero argument.
+- `cauchyPowerSeries` and `hasFPowerSeriesOn_cauchy_integral` in
+  `Mathlib/MeasureTheory/Integral/CircleIntegral.lean`: for `f` circle-integrable on the circle
+  of radius `R > 0` about `c`, the outer Cauchy integral
+  `w ↦ (2πi)⁻¹ ∮_{|z−c|=R} (z − w)⁻¹ f(z) dz` has the power series `cauchyPowerSeries f c R`
+  on the open disc of radius `R`. `Complex.differentiableOn_tsum_of_summable_norm` and
+  `Complex.hasSum_deriv_of_summable_norm` in `Mathlib/Analysis/Complex/LocallyUniformLimit.lean`:
+  a series of functions holomorphic on an open set, dominated there by a summable family of
+  constants, has a holomorphic sum, differentiable term by term. Liouville's theorem in the form
+  `Differentiable.apply_eq_of_tendsto_cocompact` (`Mathlib/Analysis/Complex/Liouville.lean`): an
+  entire function with a limit along the cocompact filter is equal to that limit.
 - `Complex.volume_preserving_equiv_real_prod` fixes area normalization.
   The low-regularity route uses locally compact Baire, product Fubini,
   `MeasureTheory.integral_eq_of_hasDerivAt_off_countable_of_le`,
@@ -223,6 +252,34 @@ fixed compact set for `p` in an open parameter set `s` and jointly `Cⁿ` on `s 
 `TauCeti/Analysis/Complex/Wirtinger/Potential.lean`, a `Cⁿ` `∂̄`-primitive of a compactly
 supported `Cⁿ` datum for `n ≥ 1`, and `Complex.locallyIntegrable_inv` from
 `TauCeti/Analysis/Complex/CauchyKernel.lean`.
+Use the circle Laurent coefficients of `TauCeti/Analysis/Complex/Laurent/Basic.lean`, for
+`f : ℂ → E` into a complex normed space: `TauCeti.circleLaurentCoeff f c R n`, the vector
+`(2πi)⁻¹ ∮_{|z−c|=R} (z − c)^(−n−1) f(z) dz` for `n ∈ ℤ`;
+`TauCeti.circleLaurentCoeff_natCast` (for `n ≥ 0` it is the `n`-th coefficient of Mathlib's
+`cauchyPowerSeries f c R`, for every `R`); `TauCeti.circleLaurentCoeff_add` (additive in
+circle-integrable functions) and `TauCeti.circleLaurentCoeff_smul`;
+`TauCeti.norm_circleLaurentCoeff_le` (for `0 ≤ R` and `‖f‖ ≤ M` on the circle, the coefficient
+of degree `n` has norm at most `M R^(−n)`, negative degrees included);
+`TauCeti.circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable` (for `0 < r ≤ R`, a
+countable set `s`, `f` continuous on `closedBall c R \ ball c r` and complex-differentiable at
+every point of `(ball c R \ closedBall c r) \ s`, the coefficients at radii `R` and `r` agree in
+every degree); and, for complete `E`, `TauCeti.circleLaurentCoeff_sub_zpow_smul` (for `0 < R`,
+the coefficient of degree `n` of `z ↦ (z − c)^m • a` is `a` if `n = m` and `0` otherwise) and
+the two-circle Cauchy formula
+`TauCeti.two_pi_I_inv_smul_circleIntegral_sub_inv_smul_sub_of_differentiable_on_annulus_off_countable`
+(for `0 < r`, a countable `s`, `w` with `r < |w − c| < R`, and `f` continuous on the closed
+annulus and complex-differentiable off `s` in the open one, `f(w)` is `(2πi)⁻¹` times the
+integral of `(z − w)⁻¹ f(z)` over the circle of radius `R` minus that over the circle of
+radius `r`, even for `w ∈ s`). Use the finite principal part of a meromorphic germ:
+`TauCeti.meromorphicGerms.principalPart` (`TauCeti/Analysis/Meromorphic/PrincipalPart.lean`),
+the additive map from the germs at `a` of functions meromorphic at `a` to polynomials without
+constant term such that the germ minus the principal part evaluated at `(z − a)⁻¹` is analytic
+at `a`, and `TauCeti.meromorphicGerms.coeff_principalPart_succ_eq_circleIntegral`
+(`TauCeti/Analysis/Contour/Residue/PrincipalPart.lean`: for a representative `f`, the
+coefficient of `X^(k+1)` is `(2πi)⁻¹ ∮_{|z−a|=ρ} (z − a)^k f(z) dz` for every sufficiently small
+`ρ > 0`), with the canonical finite Laurent data
+`TauCeti.Contour.exists_laurent_data_of_meromorphicAt` of
+`TauCeti/Analysis/Contour/MeromorphicLaurent.lean`.
 Use `TauCeti.IsFilledIn` from `TauCeti/Topology/FilledIn.lean`, no connected component of
 `Ω \ K` relatively compact in `Ω`, and `IsOpen.exists_isFilledIn_compact_exhaustion` from
 `TauCeti/Analysis/Normed/Module/Exhaustion.lean`: for an open subset `Ω` of a proper real
@@ -351,7 +408,9 @@ Cauchy–Green or global ∂̄ solver.
 
 ## How to read the build
 
-Layer 0 develops real-plane calculus and compact-support Cauchy–Green. Layer 1 develops
+Layer 0 develops real-plane calculus, compact-support Cauchy–Green and the local Laurent
+decomposition on annuli, all from native inputs; the Laurent decomposition precedes both the
+pole pushing of Layer 2.5 and the singular representatives of Layer 4.1. Layer 1 develops
 summable products, building on AnalyticNumberTheoryPartI's primary products. Layer 2 (GH0)
 supplies hulls, the comparison metric on Tau Ceti's compact-open holomorphic algebra, and
 Runge; Layer 3 (GH1) realizes divisors and boundary noncontinuation; Layer 4 (GH2) realizes
@@ -364,7 +423,7 @@ lists its own inputs; Layer 7's scalar solver does not use Layer 6's Green theor
 Suggested.lean states the headline theorems on pinned carriers; the form-level statements of
 Layer 7.2 are on Tau Ceti's smooth-form carrier and its de Rham cohomology.
 
-## Layer 0: real-plane calculus and compact-support Cauchy–Green
+## Layer 0: real-plane calculus, compact-support Cauchy–Green and local Laurent decomposition
 
 ### 0.1 Wirtinger operators
 
@@ -673,16 +732,114 @@ The quadrature estimate is derived from uniform continuity and area additivity a
 real-plane Lebesgue integration, smooth cutoffs, and uniform continuity on compact products
 for the Riemann-sum lemma. No manifold Stokes theorem is an input.
 
+### 0.4 Local Laurent decomposition on annuli
 
+Fix `c ∈ ℂ` and radii `0 ≤ r₁ < r₂ ≤ ∞`, and let `A = {z : r₁ < |z − c| < r₂}`; `r₁ = 0` gives
+a punctured disc, and `r₁ = 0`, `r₂ = ∞` the punctured plane `ℂ∖{c}`. For `f : ℂ → ℂ` with
+`DifferentiableOn ℂ f A`, the Laurent coefficients of `f` on `A` are Tau Ceti's circle
+coefficients `a_n = circleLaurentCoeff f c ρ n = (2πi)⁻¹ ∮_{|z−c|=ρ} (z − c)^(−n−1) f(z) dz`,
+`n ∈ ℤ`, for any radius `ρ` with `r₁ < ρ < r₂`. Two such radii give the same coefficients by
+`TauCeti.circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable` with empty
+exceptional set, since the closed annulus between them lies in `A`. The radius is positive and
+inside the open annulus: at `ρ = 0` every circle coefficient is zero, because the circle
+integral of radius zero vanishes. Write `f₊(z) = Σ_{n≥0} a_n (z − c)^n` and
+`f₋(z) = Σ_{k≥1} a_(−k) (z − c)^(−k)`. Prove:
+
+- Positive part: `f₊` converges absolutely and locally uniformly on the disc `|z − c| < r₂`
+  and is holomorphic there; on `|z − c| < R`, for each `R` with `r₁ < R < r₂`, it is the outer
+  Cauchy integral `(2πi)⁻¹ ∮_{|ζ−c|=R} (ζ − z)⁻¹ f(ζ) dζ`. For one `R` this is native:
+  `circleLaurentCoeff_natCast` identifies `a_n`, `n ≥ 0`, with the coefficients of
+  `cauchyPowerSeries f c R`, which `hasFPowerSeriesOn_cauchy_integral` sums to the outer
+  integral on the open disc of radius `R`. The target is the gluing over all `R < r₂`.
+- Negative part: for every `ρ` with `r₁ < ρ < r₂`, `TauCeti.norm_circleLaurentCoeff_le` gives
+  `‖a_(−k)‖ ≤ M_ρ ρ^k`, with `M_ρ` the maximum of `|f|` on the circle of radius `ρ`. Hence
+  `f₋` converges absolutely and uniformly on `|z − c| ≥ s` for every `s > r₁`, is holomorphic on
+  `|z − c| > r₁`, and tends to zero at infinity: for `|z − c| ≥ 2ρ` it has modulus at most
+  `2 M_ρ ρ / |z − c|`. On `|z − c| > r`, for each `r` with `r₁ < r < r₂`, it is the inner
+  integral `−(2πi)⁻¹ ∮_{|ζ−c|=r} (ζ − z)⁻¹ f(ζ) dζ`: expand
+  `(ζ − z)⁻¹ = −Σ_{k≥0} (ζ − c)^k (z − c)^(−k−1)`, uniformly for `ζ` on the circle since
+  `r < |z − c|`, and integrate term by term. This expansion of the inner kernel is a target;
+  the native power-series theorem treats only the outer kernel.
+- Splitting: `f = f₊ + f₋` on `A`. For `w ∈ A` choose `r₁ < r < |w − c| < R < r₂`; the
+  two-circle formula
+  `two_pi_I_inv_smul_circleIntegral_sub_inv_smul_sub_of_differentiable_on_annulus_off_countable`
+  with empty exceptional set writes `f(w)` as `(2πi)⁻¹` times the outer minus the inner
+  integral of `(ζ − w)⁻¹ f(ζ)`, which are `f₊(w)` and `f₋(w)` by the two items above (Rainer,
+  Theorem 7.4 and Corollary 7.5, p. 15, rainer lines 716 and 754).
+- Uniqueness of the coefficients: if `Σ_{n≥0} b_n (z − c)^n` and `Σ_{k≥1} b_(−k) (z − c)^(−k)`
+  both converge at every point of `A` with sum `f`, then `b_n = a_n` for every `n ∈ ℤ`. Each
+  series converges uniformly on every circle `|z − c| = ρ` in `A`, since it converges at points
+  of `A` inside and outside that circle, and integrating term by term against
+  `(z − c)^(−n−1)` with the monomial values `circleLaurentCoeff_sub_zpow_smul` extracts `b_n`
+  (Rainer, Lemma 7.1 and Corollary 7.2, p. 14, and Lemma 7.3, pp. 14–15, rainer lines 674, 682
+  and 692).
+- Uniqueness of the splitting: if `f = g₊ + g₋` on `A` with `g₊` holomorphic on
+  `|z − c| < r₂`, `g₋` holomorphic on `|z − c| > r₁` and `g₋(z) → 0` as `|z| → ∞`, then
+  `g₊ = f₊` and `g₋ = f₋`. The functions `g₊ − f₊` on the disc and `f₋ − g₋` off the closed
+  inner disc agree on `A`, so they glue to an entire function with limit zero along the
+  cocompact filter, which vanishes by `Differentiable.apply_eq_of_tendsto_cocompact`.
+- Laws: on a subannulus `r₁ ≤ r₁′ < r₂′ ≤ r₂` the coefficients, and `f₊`, `f₋` on their
+  domains, are unchanged; the coefficients are complex-linear in `f`
+  (`circleLaurentCoeff_add`, `circleLaurentCoeff_smul`); the derivative `f′` is holomorphic on
+  `A` with coefficients `(n + 1) a_(n+1)`, so its coefficient of degree `−1` is zero, by
+  term-by-term differentiation (`Complex.hasSum_deriv_of_summable_norm`) and uniqueness of the
+  coefficients.
+- Isolated singularities: for `r₁ = 0`, `f` agrees on a punctured neighbourhood of `c` with a
+  function analytic at `c` exactly when `a_(−k) = 0` for every `k ≥ 1`; for `m ≥ 1`,
+  `MeromorphicAt f c` with `meromorphicOrderAt f c = −m` holds exactly when `a_(−m) ≠ 0` and
+  `a_(−k) = 0` for `k > m`; and `f` is not meromorphic at `c` exactly when infinitely many
+  negative coefficients are nonzero (Rainer, Theorem 7.6, p. 16, rainer line 790). When `f` is
+  meromorphic at `c`, `f₋` is the native finite principal part:
+  `TauCeti.meromorphicGerms.coeff_principalPart_succ_eq_circleIntegral` gives the coefficient
+  of `X^(k+1)` in `TauCeti.meromorphicGerms.principalPart` of the germ of `f` as the circle
+  integral defining `a_(−k−1)` at every small radius, which is `a_(−k−1)` by radius
+  independence, so `f₋(z)` is that polynomial evaluated at `(z − c)⁻¹`. The finite splitting
+  itself (`TauCeti.Contour.exists_laurent_data_of_meromorphicAt`) is native and not a target.
+
+**Checks.**
+
+- For `f(z) = 1/z` on `ℂ∖{0}`, every radius `ρ > 0` gives `a_(−1) = 1` and all other
+  coefficients `0`, so `f₊ = 0` and `f₋ = 1/z`; at the excluded radius `ρ = 0` every circle
+  coefficient is `0`, so admitting `ρ = r₁` would erase the pole.
+- For `f(z) = 1/(z(z − 1))` about `0`, the annulus `0 < |z| < 1` gives `a_(−1) = −1` and
+  `a_n = −1` for `n ≥ 0`, while `1 < |z| < ∞` gives `a_(−k) = 1` for `k ≥ 2` and `0` otherwise.
+  At `z = 1/2` the first expansion sums to `−2 − 2 = −4 = f(1/2)`; at `z = 2` the second sums to
+  `Σ_{k≥2} 2^(−k) = 1/2 = f(2)`. The coefficients depend on the annulus, not only on `f` and `c`.
+- For `f(z) = e^(1/z)` on `ℂ∖{0}`, `a_(−k) = 1/k!` for `k ≥ 1`, `a_0 = 1` and `a_n = 0` for
+  `n ≥ 1`, so `f₊ = 1` and `f₋ = e^(1/z) − 1`, which tends to `0` at infinity. Infinitely many
+  negative coefficients are nonzero, so `f` is not meromorphic at `0`. On `|z| = 1`, keeping
+  five negative terms leaves an error of at most `Σ_{k≥6} 1/k! ≈ 0.0016152`, attained at
+  `z = 1`; this uniform truncation is the input of Layer 2.5's pole pushing.
+- On `ℂ∖{0}`, `1/z = 0 + 1/z = 1 + (1/z − 1)`: the second splitting has an entire part and a
+  part holomorphic off `0`, but that part tends to `−1`, so the splitting is unique only with
+  the limit condition at infinity.
+- For `f = 1/z`, the derivative `−1/z²` has degree `−2` coefficient `(−1)·a_(−1) = −1` and
+  degree `−1` coefficient `0·a_0 = 0`; the law `n a_n` in place of `(n + 1) a_(n+1)` would put
+  `−1` in degree `−1`.
+- For `f(z) = (z + 1)/z²` on `ℂ∖{0}`, `a_(−2) = a_(−1) = 1` and every other coefficient is `0`;
+  `meromorphicOrderAt f 0 = −2`, the principal part of the germ of `f` at `0` is `X² + X`, and
+  its value at `1/z` is `f₋ = f`.
+
+*Needs:* Tau Ceti's `TauCeti.circleLaurentCoeff` with `circleLaurentCoeff_natCast`,
+`circleLaurentCoeff_add`, `circleLaurentCoeff_smul`, `norm_circleLaurentCoeff_le`,
+`circleLaurentCoeff_eq_of_differentiable_on_annulus_off_countable`,
+`circleLaurentCoeff_sub_zpow_smul` and the two-circle formula, and
+`TauCeti.meromorphicGerms.principalPart` with `coeff_principalPart_succ_eq_circleIntegral`;
+Mathlib's `cauchyPowerSeries`, `hasFPowerSeriesOn_cauchy_integral`,
+`Complex.differentiableOn_tsum_of_summable_norm`, `Complex.hasSum_deriv_of_summable_norm`,
+`Differentiable.apply_eq_of_tendsto_cocompact`, `meromorphicOrderAt` and circle integrals.
+No other layer is an input.
 
 ### Examples
 
-For z and z̄ the operator pairs are (1,0) and (0,1); a unit radial cutoff has weak kernel integral −1. The subsection Checks fix the detailed conventions.
+For z and z̄ the operator pairs are (1,0) and (0,1); a unit radial cutoff has weak kernel integral −1. On ℂ∖{0}, e^(1/z) has positive part 1 and negative part e^(1/z)−1. The subsection Checks fix the detailed conventions.
 
 ### Dependencies
 
 Native real/complex calculus and measure theory; Tau Ceti's Wirtinger derivatives, Cauchy
-transform and Morera. No later layer supplies an input.
+transform, Morera, circle Laurent coefficients, two-circle Cauchy formula and principal parts
+of meromorphic germs; Mathlib's Cauchy power series and Liouville theorem. No later layer
+supplies an input.
 
 ## Layer 1: preparatory locally uniform products
 
@@ -1193,9 +1350,11 @@ approximation on compact `K ⊂ ℂ` iff `ℂ \ K` is connected. Include the rat
 variant with a specified pole set meeting every component of the complement in the sphere.
 Develop pole-pushing on nested compacta, rather than treating a picture or a single pole move as
 the theorem. In the one-pole geometric-series step, assume `dist(a,K), dist(b,K) > 2δ` and
-`|a−b|<δ`; then the expansion ratio is below `1/2`. For arbitrary `f∈H(ℂ\{a})`, first
-truncate its Laurent series on a neighborhood of `K`, then push the finitely many pole terms. State
-the uniform error on `K` and the finite chain hypotheses explicitly. Prove the finite-jet interpolation refinement: for a finite subset of K and
+`|a−b|<δ`; then the expansion ratio is below `1/2`. For arbitrary `f∈H(ℂ\{a})` and compact
+`K` not containing `a`, Layer 0.4 on the punctured plane writes `f=f₊+f₋` with `f₊` entire and
+`f₋` holomorphic off `a`, the partial sums of `f₋` converging uniformly on `K`; keep `f₊`,
+truncate `f₋` to finitely many pole terms `c_k (z−a)^(−k)` within the error budget, and push
+those terms. State the uniform error on `K` and the finite chain hypotheses explicitly. Prove the finite-jet interpolation refinement: for a finite subset of K and
 prescribed finite jet orders, the approximants may match the given neighborhood function’s
 jets exactly while retaining arbitrary uniform approximation error on K. Build a finite
 Hermite interpolation polynomial P matching those jets, using the Chinese remainder theorem
@@ -1252,8 +1411,10 @@ are the explicit cutoff/quadrature and Hermite-interpolation consequences above.
 - For K=∅, choose L=∅ and N=0; the finite-rank estimate has no evaluation points and is vacuous.
   For f=0, B=0, both sides of every nonempty-K estimate are 0.
 
-*Needs:* Layer 0.3's cutoff reconstruction and uniform quadrature, Cauchy estimates, finite
-pole-pushing and compact connected-component arguments; native polynomial CRT for finite jets.
+*Needs:* Layer 0.3's cutoff reconstruction and uniform quadrature, Layer 0.4's splitting and
+uniform truncation of the negative part on the punctured plane (for the arbitrary-`f` pole
+pushing), Cauchy estimates, finite pole-pushing and compact connected-component arguments;
+native polynomial CRT for finite jets.
 The hull equality uses Layer 2.1's hull API after the scalar equivalence is proved.
 
 
@@ -1264,7 +1425,8 @@ The annulus hull is the closed radius-3 disk in the disk ambient domain and the 
 
 ### Dependencies
 
-Layer 0 for scalar Runge; native compact-convergence and topology for function spaces. Within this layer, 2.1's hull API precedes 2.5, and 2.5's hull equality follows its scalar equivalence.
+Layer 0 for scalar Runge, with Layer 0.4's Laurent splitting for pole pushing of arbitrary
+functions holomorphic off one point; native compact-convergence and topology for function spaces. Within this layer, 2.1's hull API precedes 2.5, and 2.5's hull equality follows its scalar equivalence.
 
 ## Layer 3: prescribed zeros and divisor realization (GH1)
 
@@ -1559,19 +1721,21 @@ version: for each a∈E let U_a be an open neighborhood of a and φ_a holomorphi
 on Ω\E such that f−φ_a has a holomorphic extension near a. This includes essential
 singularities; the finite-principal-part meromorphic theorem is its pole-only
 specialization. State equality of singular germs modulo holomorphic germs, uniqueness
-modulo a holomorphic function on Ω, and restriction compatibility. Build the local
-Laurent decomposition into its holomorphic part and punctured negative part, allowing
-an infinite negative Laurent series in the general theorem.
+modulo a holomorphic function on Ω, and restriction compatibility. The local Laurent
+decomposition into a holomorphic part and a punctured negative part, with an infinite
+negative Laurent series allowed, is Layer 0.4; this subsection owns the global patching.
 
-Proof route: first prove that the negative Laurent part of a germ holomorphic on
-a punctured disk converges on the whole punctured plane, giving a global singular
+Proof route: by Layer 0.4 on a punctured disc `{0<|z−a|<ρ_a}` inside `U_a`, the negative Laurent
+part of φ_a is holomorphic on the whole punctured plane `ℂ∖{a}`, tends to zero at infinity and
+differs from φ_a near a by a function with a removable singularity; it is a global singular
 representative for each isolated singularity, including essential ones. Order the
 closed discrete data in finite batches along the Runge exhaustion. Approximate each
 batch's singular representatives on the preceding compact by functions holomorphic
 on Ω and subtract those approximants. Enforce summable errors on preceding compacta;
 prove locally uniform convergence away from E and holomorphic extension of the
-difference at each marked point. Prove Laurent-coefficient extraction and the
-finite-principal-part specialization.
+difference at each marked point. Derive the finite-principal-part theorem as the case in
+which every negative part is the finite sum `p_a`, which by Layer 0.4 is the case of germs
+meromorphic at a.
 
 The singularity API includes uniqueness modulo H(Ω), restriction, translation/scaling and
 finite principal-part specialization. The holomorphic quotient consequence retains equality
@@ -1580,7 +1744,7 @@ The finite-principal-part theorem is Rainer, Theorem 12.1, p. 31 (rainer line 16
 singular parts are given on the whole punctured plane; the isolated-singularity theorem, with
 singular germs given on punctured neighborhoods, is Rainer, Theorem 15.7, pp. 39–40 (rainer
 line 2126), which in addition prescribes a vanishing order of f−φ_a at a, and which the route
-above reaches from Theorem 12.1 through the negative Laurent part; the quotient is Rainer,
+above reaches from Theorem 12.1 through Layer 0.4's negative Laurent part; the quotient is Rainer,
 Theorem 15.6, p. 39 (rainer line 2116).
 
 **Checks.**
@@ -1595,8 +1759,9 @@ Theorem 15.6, p. 39 (rainer line 2116).
 - Altering a total meromorphic function at its pole changes no punctured germ: at 0 the
   assigned value can be 7 while the quotient representation agrees away from 0.
 
-*Needs:* Layers 1–3, native Laurent decomposition and local analytic/meromorphic orders,
-Runge exhaustion corrections and locally uniform convergence away from the discrete support.
+*Needs:* Layers 1–3, Layer 0.4's Laurent decomposition with its negative part on the
+punctured plane, native local analytic/meromorphic orders, Runge exhaustion corrections and
+locally uniform convergence away from the discrete support.
 
 
 
@@ -1606,7 +1771,8 @@ The prescribed germs 2/z and exp(1/z) distinguish poles from essential singulari
 
 ### Dependencies
 
-Layers 1–3, Laurent decomposition, Runge corrections and holomorphic local-uniform closure.
+Layers 1–3, Layer 0.4's Laurent decomposition, Runge corrections and holomorphic local-uniform
+closure.
 
 ## Layer 6: products, approximation, and contour examples (GH4)
 
@@ -2058,7 +2224,8 @@ The solver API is:
 
 The solver is Rainer, Theorem 12.2, p. 31 (rainer line 1630); the affine solution space and
 closed completion follow by subtracting solutions and applying the operator to ∂z f.
-*Needs:* Layers 0 and 2, native smooth partition of unity, the stated shell support and
+*Needs:* Layers 0.1 and 0.3, Layer 2's Runge exhaustion and finite-rank Runge operator,
+native smooth partition of unity, the stated shell support and
 extension-by-zero adapters, and holomorphic Cauchy derivative estimates. Closed completion
 uses the scalar solver and Layer 0.1; no Layer 6 input is needed.
 
@@ -2268,7 +2435,7 @@ The constant two-set cocycle has coboundary (1,0), and d((x dy−y dx)/2)=dx∧d
 
 ### Dependencies
 
-Layers 0 and 2 for the scalar solver; Tau Ceti's smooth-form carrier and de Rham complex for the form consequences. ComplexKahlerGeometry is a consumer only.
+Layers 0.1, 0.3 and 2 for the scalar solver; Tau Ceti's smooth-form carrier and de Rham complex for the form consequences. ComplexKahlerGeometry is a consumer only.
 
 ## Downstream consumers
 
@@ -2277,7 +2444,13 @@ transform, whose derivative transfer and parameter smoothness are Tau Ceti's, an
 finite-rank Runge operators and the planar exhaustion for its parameter solver; K5a consumes GH5.1's complex
 two-form exactness for its complex de Rham comparison. Layer 7.2 proves `H²_dR(U;ℝ)=0` for
 an open `U⊆ℂ` on Tau Ceti's `deRhamCohomology`, available to every consumer.
-Hyperfunctions HF2 uses the one-variable input through those analytic layers.
+ComplexKahlerGeometry K3 consumes the local Laurent decomposition of Layer 0.4, which it cites
+within GH2, for its comparison of meromorphic germs with the fraction field of the stalk; the
+finite-pole splitting that comparison makes explicit is Tau Ceti's
+`TauCeti.meromorphicGerms.principalPart`.
+Hyperfunctions consumes Layer 0.3's compact-support Cauchy–Green formula as its one-variable
+input; the case n = 1 of its HF2 MalgrangeTopVanishing, and the vanishing of `H¹(U,𝒪)` on
+open `U⊆ℂ` that its one-dimensional gluing uses, are Layers 7.1 and 7.4.
 ConformalMapping's compactness criterion is stated on ambient families and consumes nothing
 here; its Jordan curve and Jordan index theorems (§§5.3, 5.6) are inputs only to Layer 6.4's
 boundary adapter. ZerosOfLFunctions
@@ -2287,11 +2460,12 @@ remains an earlier supplier.
 
 - Armin Rainer, *Advanced Complex Analysis*, 112-page institutional version hosted in 2025,
   based on the Vienna 2016–2017 course. [Legal institutional text](https://www.tuwien.at/mg/arainer/wp-content/uploads/2025/03/advanced-complex-analysis.pdf).
-  Proposition 10.1 and Theorems 10.2–10.3, pp. 23–24; §11, equation (11.2), Exercises 19–20,
+  Lemma 7.1, Corollary 7.2, Lemma 7.3, Theorem 7.4, Corollary 7.5 and Theorem 7.6, pp. 14–16
+  (rainer lines 674–790); Proposition 10.1 and Theorems 10.2–10.3, pp. 23–24; §11, equation (11.2), Exercises 19–20,
   Theorem 11.1, Lemma 11.3 and Theorem 11.7, pp. 25–29; Theorems 12.1–12.4,
   pp. 31–32; Propositions 14.1–14.2 and Theorem 14.3, pp. 34–36;
   Proposition 15.2, Theorem 15.3, Remark 15.4 and Theorems 15.5–15.7, pp. 36–40.
-  Locators use printed pages, not PDF page numbers; rainer lines 1211–2136.
+  Locators use printed pages, not PDF page numbers; rainer lines 674–2136.
 - F. W. J. Olver, A. B. Olde Daalhuis, D. W. Lozier, B. I. Schneider, R. F. Boisvert,
   C. W. Clark, B. R. Miller, B. V. Saunders, H. S. Cohl and M. A. McClain (eds.), *NIST Digital
   Library of Mathematical Functions*, release of 2026-09-15. Open text:
