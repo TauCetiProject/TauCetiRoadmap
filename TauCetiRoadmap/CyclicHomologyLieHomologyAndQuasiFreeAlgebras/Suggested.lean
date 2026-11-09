@@ -14,7 +14,7 @@ carriers. The API around each target, the special cases and the Checks stay in t
 Headlines stated, with their README targets:
 
 * 2.2 `mem_range_permTensorActionAlgHom_of_commute_glAction`;
-* 4.1 `IsQuasiFree.exists_lift_of_nilpotent`;
+* 4.1 `IsQuasiFree.exists_lift_of_nilpotent` and `isQuasiFree_iff_hasProjectiveDimensionLE_one`;
 * 4.2 `isQuasiFree_freeAlgebra` and `not_isQuasiFree_mvPolynomial_fin_two`.
 
 Headline owned elsewhere and not restated: 2.2's faithfulness threshold, that the permutations
@@ -37,9 +37,9 @@ Headlines not stated, with the carrier each lacks at the pins:
 * 2.2's coinvariant form `(𝔤𝔩_r(k)^{⊗p})_{𝔤𝔩_r(k)} ≅ k[Σ_p]`: Mathlib has coinvariants of group
   representations only (`Representation.Coinvariants`), not of Lie modules, and no Lie module
   structure on `PiTensorProduct` powers.
-* 4.1's characterisations (`Ext²_{A^e}(A, −) = 0`, `Ω¹A` projective over `A^e`, right
-  connections): Mathlib has no `A ⊗ Aᵐᵒᵖ`-module structure on `A ⊗ A` and no tensor product over
-  a noncommutative ring, so neither `A^e`-modules nor `Ω¹A ⊗_A Ω¹A`.
+* 4.1's characterisations by `Ω¹A` (`Ω¹A` projective over `A^e`, right connections): Mathlib
+  has no `A^e`-module structure on `Ω¹A = ker(A ⊗ A → A)` and no tensor product over a
+  noncommutative ring, so no `Ω¹A ⊗_A Ω¹A`.
 * 5.1–5.3 (H-unitality, Wodzicki's excision, rational excision in K-theory): the bar complex
   `(A^⊗•, b′)` tensored with an arbitrary module (RefinedTraceMethods §1.2 has `b′` on cyclic
   modules only), Hochschild and cyclic homology (KTheoryFiniteLocalFields §4.0), and the K-theory
@@ -105,6 +105,21 @@ theorem IsQuasiFree.exists_lift_of_nilpotent (hA : IsQuasiFree k A) {R S : Type 
     (hn : ∀ l : List R, l.length = n → (∀ x ∈ l, π x = 0) → l.prod = 0)
     (f : A →ₐ[k] S) : ∃ g : A →ₐ[k] R, π.comp g = f := by
   sorry
+
+section Hochschild
+
+attribute [local instance] instModuleTensorProductMop
+
+/-- **4.1.** Over a field `K`, a `K`-algebra `A` is quasi-free if and only if `A`, as a module over
+`A^e = A ⊗[K] Aᵐᵒᵖ` (Mathlib's `instModuleTensorProductMop`), has projective dimension at most
+one, that is, Hochschild cohomological dimension at most one. -/
+theorem isQuasiFree_iff_hasProjectiveDimensionLE_one (K : Type u) [Field K] (A : Type u)
+    [Ring A] [Algebra K A] :
+    IsQuasiFree K A ↔
+      CategoryTheory.HasProjectiveDimensionLE (ModuleCat.of (A ⊗[K] Aᵐᵒᵖ) A) 1 := by
+  sorry
+
+end Hochschild
 
 variable (k)
 
