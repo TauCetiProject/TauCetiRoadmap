@@ -6,16 +6,17 @@ totally real number field that splits at exactly one real place it builds the la
 that it is discrete of finite covolume, cocompact exactly in the division case, and computes its
 covolume `8π|d_k|^(3/2)ζ_k(2)(4π²)^(−n)∏(N𝔭−1)` from Tamagawa number one for the norm-one group. It
 recovers the quaternion algebra of an arbitrary finitely generated nonelementary subgroup from its
-squared traces, proves Odlyzko's discriminant estimate (5) for every signature and the sharp
-totally real bound `|d_k|≥a₀R₀ⁿ`, and proves Takeuchi's theorem that only finitely many arithmetic
-lattices have a given signature. Layer 2 proves Margulis' commensurator criterion in `PSL₂(ℝ)`: a
-lattice is arithmetic exactly when its commensurator is dense, and otherwise the commensurator is
-a discrete group containing the lattice with finite index; the criterion then passes to
-`PGL₂(ℝ)`. Layer 3 identifies the isometries of the hyperbolic plane with `PGL₂(ℝ)` and combines the
-criterion with an explicit pair of almost-conjugate, nonconjugate subgroups of an affine group of
-order 32, giving a pair of nonisometric isospectral degree-eight covers of every closed hyperbolic
-surface of genus at least three whose uniformizing group is nonarithmetic and maximal among
-discrete subgroups of `PGL₂(ℝ)`.
+squared traces, proves Odlyzko's discriminant estimate (5) for every signature and the sharp totally
+real bound `|d_k|≥a₀R₀ⁿ`, proves Borel's theorem that up to conjugacy only finitely many arithmetic
+lattices have covolume at most a given bound, and deduces Takeuchi's theorem that only finitely many
+have a given signature. Layer 2 proves Margulis' commensurator criterion in `PSL₂(ℝ)`: a lattice is
+arithmetic exactly when its commensurator is dense, and otherwise the commensurator is a discrete
+group containing the lattice with finite index; the criterion then passes to `PGL₂(ℝ)`. Layer 3
+identifies the distance-preserving bijections of the hyperbolic plane with `PGL₂(ℝ)` and combines
+the criterion with an explicit pair of almost-conjugate, nonconjugate subgroups of an affine group
+of order 32, giving a pair of nonisometric isospectral degree-eight covers of every closed
+hyperbolic surface of genus at least three whose uniformizing group is nonarithmetic and maximal
+among discrete subgroups of `PGL₂(ℝ)`.
 
 Suggested home: `TauCeti/NumberTheory/Quaternion/Fuchsian/` for Layers 1 and 2 and
 `TauCeti/Geometry/Hyperbolic/Isospectral/` for Layer 3.
@@ -26,28 +27,35 @@ not the roadmap.
 
 ### Owned here
 
-- real splittings of a quaternion algebra over a totally real field at exactly one real place,
-  quaternion orders and maximal orders of `ℍ[k,a,b]` over `𝓞_k`, the norm-one group `O¹`, its
-  projective image `Γ(O)`, the arithmetic predicate, the lattice property of `Γ(O)` and its
-  cocompactness criterion (§1.1);
+- real splittings of a quaternion algebra over a totally real field at exactly one real place, the
+  existence of a maximal order of `ℍ[k,a,b]` over `𝓞_k` containing a given order and the local
+  structure of maximal orders, the norm-one group `O¹`, its projective image `Γ(O)`, the arithmetic
+  predicate, the lattice property of `Γ(O)` and its cocompactness criterion (§1.1);
 - the finite ramification set of `ℍ[k,a,b]`, the covolume formula for maximal orders, the
   quaternionic local volumes and the conversion of Haar measure to hyperbolic area, the positive
   normalizer `N_B⁺(O)`, the local order-to-tree adapter at split finite places with its local
-  normalizer indices, and finite-index covolume scaling (§1.2);
+  normalizer indices, and the indices `[N_B⁺(O) : Γ(O)]` and `[Γ(O) : Γ(O′)]` (§1.2);
 - the squared-trace field and trace envelope of a finitely generated nonelementary subgroup of
   `PSL₂(ℝ)`, their finite-index and commensurability invariance, integral trace lattices and the
   trace integrality of arithmetic groups (§1.3);
 - Odlyzko's estimate (5) for number fields of every signature (§1.3b), finiteness of maximal-order
-  type classes and Takeuchi's fixed-signature finiteness (§1.4), and the sharp totally real
-  discriminant bound (§1.5);
+  type classes, the finiteness up to conjugacy of arithmetic lattices of bounded covolume and
+  Takeuchi's fixed-signature finiteness (§1.4), and the sharp totally real discriminant bound
+  (§1.5);
 - the commensurator dichotomy and the dense-commensurator arithmeticity criterion for lattices of
   `PSL₂(ℝ)`, with the specialized boundary-map, characteristic-map and extension lemmas they use,
   and the passage to `PGL₂(ℝ)` (Layer 2);
-- the identification of the isometries of the hyperbolic plane with `PGL₂(ℝ)` (§3.1), the concrete
+- the identification of the distance-preserving bijections of the hyperbolic plane with `PGL₂(ℝ)`
+  (§3.1), the concrete
   order-32 Gassmann pair (§3.2) and the resulting nonisometric isospectral covers (§§3.3–3.5).
 
 ### Consumed, not redefined
 
+- Orders and maximal orders of a finite-dimensional algebra over the fraction field of a domain,
+  and cofinite Fuchsian groups with their covolume: Tau Ceti's `TauCeti.IntegralOrder.IsOrder`,
+  `TauCeti.IntegralOrder.IsMaximalOrder` and `Subgroup.IsCofinite`, with Mathlib's
+  `MeasureTheory.covolume`, as listed under Exact supplier contracts. This roadmap adds only the
+  quaternionic statements about them.
 - Tamagawa number one for `SL₁(B)`: EndoscopicTransferAndUnitaryTraceComparison §6.2 proves
   `τ(S)=1` for every simply connected semisimple group over a number field, inner forms included,
   with the measure of AdelicAlgebraicGroups §2.4 (AA.2.4). GeometryOfNumbersAndQuadraticArithmetic
@@ -70,8 +78,8 @@ not the roadmap.
   sections to Odlyzko's Table 4 kernel.
 - The geometric theory of Fuchsian groups (topology of `PSL₂(ℝ)`, the `PGL₂(ℝ)` action, proper
   discontinuity, the hyperbolic metric and area, Dirichlet polygons, signatures, Gauss–Bonnet, the
-  area minima and Riemann–Hurwitz): FuchsianOrbifolds, by the items listed under Exact supplier
-  contracts.
+  area minima, Riemann–Hurwitz and the orbifold area formula): FuchsianOrbifolds, by the items
+  listed under Exact supplier contracts.
 - Completed Dedekind zeta functions and their functional equation: LFunctions Layer 3. Digamma
   asymptotics, finite order, strip growth and Hadamard factorization: ZerosOfLFunctions §1.4,
   §3.1, §§3.4–3.5 and Layer 5.
@@ -81,8 +89,8 @@ not the roadmap.
   RG2.2.1, RG2.2.2 and RG2.2.4.
 - Generic almost conjugacy and permutation-representation equivalence: InductionRestriction Layer
   2.1. The quotient-`L²` adapter: NoncompactQuantumSymmetry M1. Finite-deck scalar-Laplacian
-  transplantation: PseudodifferentialOperators P7a (Layer 8). Quotient Riemannian metrics and the
-  determination of a local isometry by its 1-jet: RiemannianGeometry R4 item 7. The closed-subgroup
+  transplantation: PseudodifferentialOperators P7a (Layer 8). Quotient Riemannian metrics and their
+  Riemannian coverings: RiemannianGeometry R4 item 7. The closed-subgroup
   theorem: LieGroups. The double-centralizer theorem: SemisimpleAlgebras Layer 3.
 
 ### Outside this roadmap
@@ -103,16 +111,23 @@ arithmetic lattices by covolume.
 - Hyperbolic area is Mathlib's `volume` on `UpperHalfPlane`, with density `y⁻²`
   (`UpperHalfPlane.volume_def`); hyperbolic distance is Mathlib's metric (`UpperHalfPlane.dist_eq`).
   FuchsianOrbifolds L2.1 identifies both with the Riemannian ones.
-- A lattice is a discrete subgroup `Γ ≤ PSL₂(ℝ)` admitting a measurable fundamental domain of finite
-  hyperbolic area (`IsLattice`); its covolume is the area of any such domain. Cocompactness means
-  that the translates of one compact set cover `ℍ`.
+- A lattice is a cofinite subgroup `Γ ≤ PSL₂(ℝ)` in Tau Ceti's sense (`Subgroup.IsCofinite`): `Γ` is
+  discrete and its covolume `MeasureTheory.covolume Γ ℍ` is finite. A discrete `Γ` has a measurable
+  fundamental domain (`Subgroup.exists_isFundamentalDomain`), and the covolume is the hyperbolic
+  area of any such domain (`MeasureTheory.IsFundamentalDomain.covolume_eq_volume`). Cocompactness
+  means that the translates of one compact set cover `ℍ`.
 - Signatures are FuchsianOrbifolds Layer 4 item 5's `(g; m₁, …, m_r; c)` with `m_j ≥ 2`, and the
   area of a signature is `A = 2π(2g − 2 + Σ_j (1 − 1/m_j) + c)`.
 - Quaternion algebras are presented as `B = ℍ[k,a,b]` with `a, b ≠ 0`, so `i² = a`, `j² = b`,
   `ij = −ji`. The reduced norm is Tau Ceti's `QuaternionAlgebra.normForm a 0 b`,
   `x₀² − a x₁² − b x₂² + ab x₃²`; the reduced trace is `x + x̄ = 2 x₀`; `B¹` is Mathlib's
   `unitary B`. `B` is a division algebra exactly when its norm form is anisotropic (Tau Ceti
-  `QuaternionAlgebra.nonempty_algEquiv_matrix_iff_not_anisotropic_normForm`).
+  `QuaternionAlgebra.anisotropic_normForm_iff`), and otherwise `B ≃ M₂(k)` (Tau Ceti
+  `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_iff_not_anisotropic_normForm`, for unit
+  structure constants over a field in which `2` is invertible).
+- Orders of `B` are the `𝓞_k`-subalgebras `O` with `TauCeti.IntegralOrder.IsOrder k O`: `O` is an
+  `𝓞_k`-lattice in `B` (`Submodule.IsLattice`), finitely generated with `k`-span `B`. Maximal orders
+  are those with `TauCeti.IntegralOrder.IsMaximalOrder k O`, maximal among orders for inclusion.
 - The arithmetic data are a totally real field `k` of degree `n`, a quaternion algebra `B` over `k`
   and a `RealSplitting`: a real place `v₀` at which `B` splits, every other real place ramified,
   and a ring homomorphism `B → M₂(ℝ)` restricting to `v₀` on `k`. Conjugacy of lattices is stated
@@ -136,15 +151,21 @@ arithmetic lattices by covolume.
   `MulAction PGL(2, ℝ) UpperHalfPlane` instance (`Analysis/Complex/UpperHalfPlane/MoebiusAction.lean`)
   and its `FaithfulSMul` instance (`Analysis/Complex/UpperHalfPlane/FixedPoints.lean`);
 - `UpperHalfPlane.volume_def` (`Analysis/Complex/UpperHalfPlane/Measure.lean`),
-  `UpperHalfPlane.dist_eq` and the metric instance (`Analysis/Complex/UpperHalfPlane/Metric.lean`),
-  `MeasureTheory.IsFundamentalDomain`;
+  `UpperHalfPlane.dist_eq`, `UpperHalfPlane.cosh_dist` (`cosh d(z,w) = 1 + |z − w|²/(2 Im z Im w)`)
+  and the metric instance (`Analysis/Complex/UpperHalfPlane/Metric.lean`),
+  `UpperHalfPlane.isPretransitiveSL2R` (`Analysis/Complex/UpperHalfPlane/MoebiusAction.lean`);
+- `MeasureTheory.IsFundamentalDomain`, `MeasureTheory.covolume` (the measure of any fundamental
+  domain, `0` when there is none) and `MeasureTheory.IsFundamentalDomain.covolume_eq_volume`
+  (`MeasureTheory/Group/FundamentalDomain.lean`);
 - `QuaternionAlgebra`, `unitary`, `NumberField.RingOfIntegers`, `NumberField.discr`,
   `NumberField.IsTotallyReal`, `NumberField.InfinitePlace.nrRealPlaces`, `nrComplexPlaces`,
   `NumberField.dedekindZeta` (`NumberTheory/NumberField/DedekindZeta.lean`),
   `IsDedekindDomain.HeightOneSpectrum.adicCompletion`, `Ideal.absNorm`;
 - `NumberField.finite_of_discr_bdd` (`NumberTheory/NumberField/Discriminant/Basic.lean`), on
   finite-dimensional intermediate fields of one fixed extension of `ℚ`, and
-  `Ideal.finite_setOf_absNorm_le` (`RingTheory/Ideal/Norm/AbsNorm.lean`);
+  `Ring.HasFiniteQuotients.finite_absNorm_heightOneSpectrum_le` (`RingTheory/Ideal/Norm/AbsNorm.lean`:
+  a Dedekind domain with finite quotients, such as `𝓞_k`, has finitely many height-one primes of
+  bounded absolute norm);
 - `Subgroup.Commensurable`, `Subgroup.Commensurable.commensurator` (`GroupTheory/Commensurable.lean`),
   `Subgroup.IsFiniteRelIndex`, `Group.IsSolvable`, `Group.FG`;
 - `jacobson_density` and `Module.Finite.toModuleEnd_moduleEnd_surjective`
@@ -155,9 +176,24 @@ arithmetic lattices by covolume.
 
 ### From Tau Ceti
 
-- `QuaternionAlgebra.normForm` (`TauCeti/Algebra/Quaternion/NormForm.lean`) and
-  `QuaternionAlgebra.nonempty_algEquiv_matrix_iff_not_anisotropic_normForm`
-  (`TauCeti/Algebra/Quaternion/SplittingCriterion.lean`);
+- `QuaternionAlgebra.normForm` and `QuaternionAlgebra.anisotropic_normForm_iff` (a quaternion
+  algebra over a field is a division algebra exactly when its norm form is anisotropic)
+  (`TauCeti/Algebra/Quaternion/NormForm.lean`), and
+  `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_iff_not_anisotropic_normForm` (for `a, b ∈ Kˣ`
+  over a field `K` in which `2` is invertible, `ℍ[K,a,b] ≃ M₂(K)` exactly when the norm form is
+  isotropic) (`TauCeti/Algebra/Quaternion/SplittingCriterion.lean`);
+- `TauCeti.IntegralOrder.IsOrder` (`TauCeti/RingTheory/IntegralOrder/Basic.lean`: an `R`-subalgebra
+  whose underlying submodule is an `R`-lattice in the `F`-algebra, `Submodule.IsLattice F`) and
+  `TauCeti.IntegralOrder.IsMaximalOrder` (`TauCeti/RingTheory/IntegralOrder/Maximal.lean`: `Maximal`
+  for `IsOrder`, with `IsMaximalOrder.isOrder`); used with `R = 𝓞_k`, `F = k`, `E = ℍ[k,a,b]`;
+- `Subgroup.IsCofinite` (discrete, with `MeasureTheory.covolume Γ ℍ ≠ ∞`),
+  `Subgroup.exists_isFundamentalDomain`, `Subgroup.IsCofinite.volume_ne_top`,
+  `MeasureTheory.IsFundamentalDomain.isCofinite_of_volume_ne_top`,
+  `Subgroup.isCofinite_iff_isCofinite_and_finiteIndex` and `Subgroup.isCofinite_conjAct_smul_iff`
+  (`TauCeti/Analysis/Complex/Fuchsian/Covolume.lean`); `MeasureTheory.covolume_pos` (positivity),
+  `MeasureTheory.covolume_conjAct_smul` (conjugation invariance) and
+  `MeasureTheory.covolume_eq_card_mul_covolume` (for `Δ ≤ Γ`, the covolume of `Δ` is the index times
+  the covolume of `Γ`) (`TauCeti/MeasureTheory/Group/FundamentalDomain.lean`);
 - `UpperHalfPlane.instMulActionPSL2`, `UpperHalfPlane.toPGL_smul`, and the `FaithfulSMul` and
   `SMulInvariantMeasure` instances for `PSL(2, ℝ)` on `(ℍ, volume)`
   (`TauCeti/Analysis/Complex/UpperHalfPlane/PSL/Action.lean`);
@@ -180,9 +216,11 @@ distance and area comparison with Mathlib's, the isometric actions, covolume thr
 fundamental domains, Gauss–Bonnet), items 4 and 5 (Dirichlet polygons, and the signature and
 standard presentation read off a polygon); Layer 4 item 5 (the orbifold signature and its area);
 Layer 4a (the compact minimum `π/21`, and the cusped minimum `π/3`, its named target
-`minimum_area_finite_area_orbifold`); Layer 5 items 4 and 5 (Riemann–Hurwitz for finite-index
-quotient maps, and the identification of the signature genus with the genus of the compact
-quotient).
+`minimum_area_finite_area_orbifold`); Layer 5 item 5 (the compactified quotient map `X(Γ′) → X(Γ)`
+of a finite-index inclusion as a finite holomorphic map of degree the index), item 6 (the Fuchsian
+Riemann–Hurwitz formula) and item 7 (the genus bridge between the polygon genus and the genus of
+the compactified quotient, and the orbifold area formula
+`covolume Γ = 2π(2g − 2 + Σₑ(1 − 1/mₑ) + c)`, its `covolume_eq_two_pi_mul_signature`).
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
@@ -246,8 +284,7 @@ permutation representations).
 ### From TauCetiRoadmap.RiemannianGeometry, NoncompactQuantumSymmetry and PseudodifferentialOperators
 
 RiemannianGeometry R4 item 7 (the quotient atlas, descended metric and covering for a free properly
-discontinuous group of smooth isometries, and the determination of a local isometry of a connected
-manifold by its value and tangent map at one point). NoncompactQuantumSymmetry M1 (the finite-index
+discontinuous group of smooth isometries). NoncompactQuantumSymmetry M1 (the finite-index
 lattice-quotient `L²` adapter for induced representations). PseudodifferentialOperators P7a, Layer
 8 (finite-deck scalar-Laplacian transplantation, on P7's compact-resolvent spectral theory).
 
@@ -258,18 +295,18 @@ their covolumes from Tamagawa number one and builds the normalizers and the loca
 adapter; §1.3 develops the squared-trace field and the trace envelope of an arbitrary finitely
 generated nonelementary subgroup and needs only FuchsianOrbifolds Layer 0 and the algebraic
 suppliers, so it proceeds in parallel with §§1.1–1.2. §1.3b and §1.5 are the two discriminant
-bounds, built from the analytic suppliers alone and in parallel with the rest; §1.4 combines §§1.1–1.3
-with §1.3b into fixed-signature finiteness. Layer 2 proves the commensurator criterion from Layer 1
-and the Lie-theoretic and boundary-theoretic inputs, and passes to `PGL₂(ℝ)`. Layer 3 identifies the
-isometries of `ℍ`, verifies the finite order-32 pair, which depends on nothing in Layers 1 and 2,
-and assembles the isospectral covers from Layer 2's maximality consequence and the analytic
-transplantation suppliers.
+bounds, built from the analytic suppliers alone and in parallel with the rest; §1.4 combines
+§§1.1–1.3 with §1.3b into the finiteness of arithmetic lattices of bounded covolume and of a fixed
+signature. Layer 2 proves the commensurator criterion from Layer 1 and the Lie-theoretic and
+boundary-theoretic inputs, and passes to `PGL₂(ℝ)`. Layer 3 identifies the isometries of `ℍ`,
+verifies the finite order-32 pair, which depends on nothing in Layers 1 and 2, and assembles the
+isospectral covers from Layer 2's maximality consequence and the analytic transplantation suppliers.
 
 ## Layer 1: quaternion orders, arithmetic lattices and discriminant bounds
 
 This layer constructs and classifies arithmetic Fuchsian lattices, including the noncocompact
-split examples. The fixed-signature theorem assumes arithmeticity; no finiteness is claimed for all
-lattices of a signature.
+split examples. The finiteness theorems of §1.4 assume arithmeticity; no finiteness is claimed for
+all lattices of a signature or of bounded covolume.
 
 ### 1.1 Real splittings, orders and the lattices `Γ(O)`
 
@@ -301,9 +338,8 @@ scalar matrix `place(x)`. For a number field the last field induces an isomorphi
   condition fails for either choice of `place`; a definition that only asked for one split place
   would accept it, and `Γ(O)` would then not be discrete in `PSL₂(ℝ)`.
 
-Define `IsQuaternionOrder a b O` for an `𝓞_K`-subalgebra `O ⊆ ℍ[K,a,b]`: `O` is finitely generated as
-an `𝓞_K`-module and its `K`-span is the whole algebra. Define `IsMaximalQuaternionOrder a b O`: `O`
-is an order and every order containing `O` equals `O`.
+Orders and maximal orders of `ℍ[k,a,b]` are Tau Ceti's `TauCeti.IntegralOrder.IsOrder k O` and
+`TauCeti.IntegralOrder.IsMaximalOrder k O` for an `𝓞_k`-subalgebra `O` (Conventions). Prove for them:
 
 - Every order is contained in a maximal order (Noetherian induction on the reduced discriminant).
 - At a finite place where `B` is a division algebra, the valuation ring of `B_v` is the unique
@@ -324,21 +360,24 @@ Define `normOneImage S O`, written `Γ(O)`: the subgroup of `PSL₂(ℝ)` genera
 one because the determinant of the splitting is the reduced norm read through `place`. Define
 `IsArithmetic Γ`: for some totally real number field `k`, quaternion algebra `ℍ[k,a,b]` with a real
 splitting `S`, order `O` and `c ∈ PSL₂(ℝ)`, the conjugate `cΓc⁻¹` is commensurable with `Γ(O)`.
-Finite-index subgroups and nonmaximal orders are included. Define `IsLattice Γ`: `Γ` is discrete and
-admits a measurable fundamental domain of finite hyperbolic area.
+Finite-index subgroups and nonmaximal orders are included. Lattices are the cofinite subgroups
+`Subgroup.IsCofinite` of Tau Ceti (Conventions).
 
-- `isLattice_normOneImage`: for a totally real number field `k`, a real splitting `S` of
-  `ℍ[k,a,b]` and an order `O`, `Γ(O)` is a lattice. Route: AA.3.4's finiteness of arithmetic quotients
-  for `SL₁(B)` over `k`; the factors of `SL₁(B)(k ⊗ ℝ)` at the ramified real places are compact, so
-  projection to the distinguished factor `SL₂(ℝ)` gives a discrete subgroup of finite covolume
-  (Voight, Proposition 38.3.8 for discreteness).
+- `isCofinite_normOneImage`: for a totally real number field `k`, a real splitting `S` of `ℍ[k,a,b]`
+  and an order `O`, `Γ(O)` is a lattice: discrete, with finite covolume. Route: AA.3.4's finiteness
+  of arithmetic quotients for `SL₁(B)` over `k`; the factors of `SL₁(B)(k ⊗ ℝ)` at the ramified real
+  places are compact, so projection to the distinguished factor `SL₂(ℝ)` gives a discrete subgroup
+  of finite covolume (Voight, Proposition 38.3.8 for discreteness).
 - `cocompact_normOneImage_iff_anisotropic`: under the same hypotheses, the translates of one compact
   set cover `ℍ` exactly when the norm form of `ℍ[k,a,b]` is anisotropic, that is, when `B` is a
   division algebra. The division case is AA.3.4's anisotropic compactness (Voight, Main Theorem
   38.4.3); in the split case `k = ℚ`, `B = M₂(ℚ)`, and `Γ(O)` is commensurable up to conjugacy with
   `PSL₂(ℤ)` and contains parabolic elements, so the quotient has a cusp.
 - Every arithmetic group is a lattice, and every finite-index subgroup of an arithmetic group is
-  arithmetic.
+  arithmetic. Route: if `cΓc⁻¹` is commensurable with `Γ(O)`, the intersection is cofinite by
+  `Subgroup.isCofinite_iff_isCofinite_and_finiteIndex`; a group containing a discrete subgroup with
+  finite index is discrete, so the same lemma makes `cΓc⁻¹` cofinite, and
+  `Subgroup.isCofinite_conjAct_smul_iff` passes back to `Γ`.
 
 **Checks.**
 
@@ -353,15 +392,20 @@ admits a measurable fundamental domain of finite hyperbolic area.
 - `IsArithmetic` holds for `PSL₂(ℤ)` and for every finite-index subgroup of it; it fails for the
   trivial group, which is not commensurable with an infinite `Γ(O)`, and for the Hecke group
   `G₅ = ⟨z ↦ −1/z, z ↦ z + φ⟩`, `φ = (1+√5)/2`: it has a cusp, so an arithmetic structure would
-  have `k = ℚ`, but `tr(ST)² = φ² = φ + 1 ∉ ℚ` contradicts the trace integrality and field
-  identification of §1.3.
-- `IsLattice` fails for `⟨z ↦ z + 1⟩`, which is discrete with the strip `0 < Re z < 1` of infinite
-  area as fundamental domain, and for the image of `GL₂(ℚ)⁺` (`TauCeti.ratPosToPSL2R`), which is
-  not discrete.
+  have `k = ℚ`, but `tr(ST)² = φ² = φ + 1 ∉ ℚ` contradicts the field identification `K₀ = k` of
+  §1.3. Trace integrality alone does not exclude it: `tr(ST) = φ` is an algebraic integer, and
+  every trace of `G₅` lies in `ℤ[φ]`.
+- The lattice property fails for `⟨z ↦ z + 1⟩`, which is discrete with the strip `0 < Re z < 1` of
+  infinite area as fundamental domain, so its covolume is `∞`, and for the image of `GL₂(ℚ)⁺`
+  (`TauCeti.ratPosToPSL2R`), which is not discrete.
 
 *Needs:* Mathlib `QuaternionAlgebra`, `unitary`, `NumberField.IsTotallyReal`,
-`MeasureTheory.IsFundamentalDomain`; Tau Ceti `UpperHalfPlane.instMulActionPSL2`,
-`QuaternionAlgebra.normForm`, `TauCeti.skolemNoether`; AdelicAlgebraicGroups AA.3.4;
+`MeasureTheory.IsFundamentalDomain`, `MeasureTheory.covolume`; Tau Ceti
+`UpperHalfPlane.instMulActionPSL2`, `QuaternionAlgebra.normForm`,
+`QuaternionAlgebra.anisotropic_normForm_iff`, `TauCeti.skolemNoether`,
+`TauCeti.IntegralOrder.IsOrder`, `TauCeti.IntegralOrder.IsMaximalOrder`, `Subgroup.IsCofinite`,
+`Subgroup.isCofinite_iff_isCofinite_and_finiteIndex`, `Subgroup.isCofinite_conjAct_smul_iff`;
+AdelicAlgebraicGroups AA.3.4;
 GL2AutomorphicRepresentationsAndTransfer R17.1.5; FuchsianOrbifolds Layer 0 items 1–3 and L2.1.
 (Voight, Proposition 38.3.8 and Main Theorem 38.4.3; Borel 1981, §§3–4.)
 
@@ -384,9 +428,10 @@ GL2AutomorphicRepresentationsAndTransfer R17.1.5.
   ramifies exactly at the two real places, so the set depends on the field and not only on `a, b`.
 
 `covolume_normOneImage`: for a totally real field `k` of degree `n`, a real splitting `S` of
-`B = ℍ[k,a,b]`, a maximal order `O` and a measurable fundamental domain `s` of `Γ(O)`,
+`B = ℍ[k,a,b]` and a maximal order `O`, the covolume of `Γ(O)`, the area of any measurable
+fundamental domain, is
 
-    area(s) = 8π |d_k|^(3/2) ζ_k(2) (4π²)^(−n) ∏_(𝔭 ∈ Ram_f(B)) (N𝔭 − 1).
+    covol(Γ(O)) = 8π |d_k|^(3/2) ζ_k(2) (4π²)^(−n) ∏_(𝔭 ∈ Ram_f(B)) (N𝔭 − 1).
 
 The formula covers the division case and the split case `k = ℚ`, `B = M₂(ℚ)`, `O ≃ M₂(ℤ)`, where it
 reads `π/3`. Route, in four steps:
@@ -425,7 +470,9 @@ positivity of the reduced norm is well defined modulo scalars. Define
   the image of the global points in the adelic normalizer double coset; the global class
   constraint is part of the computation, which is not a product of independent local quotients.
 - Finite-index covolume scaling: `area(N_B⁺(O)\ℍ) = area(Γ(O)\ℍ)/[N_B⁺(O) : Γ(O)]`, and for an order
-  `O′ ⊆ O`, `area(Γ(O′)\ℍ) = [Γ(O) : Γ(O′)] area(Γ(O)\ℍ)`.
+  `O′ ⊆ O`, `[Γ(O) : Γ(O′)]` is finite and `area(Γ(O′)\ℍ) = [Γ(O) : Γ(O′)] area(Γ(O)\ℍ)`; the index
+  formula itself is Tau Ceti's `MeasureTheory.covolume_eq_card_mul_covolume`, and what is proved
+  here is the finiteness of the two indices.
 - The local order-to-tree adapter at a split finite place `v`: `[L] ↦ End_(𝒪_v)(L)` is a bijection
   from vertices of the tree of `PGL₂(k_v)` (RG2.2.2, RG2.2.4) to maximal orders of `M₂(k_v)`; adjacent
   vertices correspond to maximal orders meeting in an Eichler order of level `v`; conjugation of
@@ -584,66 +631,97 @@ sum `f₂ ≥ 0` dropped). The route is Odlyzko's.
 (Odlyzko 1977, Theorem 1 p. 210, (7)–(8) p. 212, (9)–(12) p. 213, (13) and its reduction p. 214, the
 estimate-(5) table p. 215.)
 
-### 1.4 Fixed-signature finiteness
+### 1.4 Finiteness for bounded covolume and for a fixed signature
 
-For each signature with `g, c ≥ 0`, `r ≥ 0` and `m_j ≥ 2`, put `A = 2π(2g − 2 + Σ_j(1 − 1/m_j) + c)`.
-If `A ≤ 0`, no lattice has this signature (Gauss–Bonnet). For `A > 0` put `r₀ = 2g + r + c` and
-`C_sig = 2^(r₀) A`. Prove that only finitely many `PSL₂(ℝ)`-conjugacy classes of arithmetic lattices
-have the given signature, with the splitting quantified (Takeuchi 1983, Theorem 2.1; Borel 1981,
-Theorem 8.2; Maclachlan–Reid, Theorem 11.3.1). The steps are named targets.
+`finite_conj_isArithmetic_covolume_le`: for every real `C` there are finitely many subgroups
+`Δ₁, …, Δ_q` of `PSL₂(ℝ)` such that every arithmetic lattice of covolume at most `C` is
+`PSL₂(ℝ)`-conjugate to one of them (Borel 1981, Theorem 8.2, p. 26). Borel states it up to
+`PGL₂(ℝ)`-conjugacy; since `PSL₂(ℝ)` has index two in `PGL₂(ℝ)`, a `PGL₂(ℝ)`-class of subgroups of
+`PSL₂(ℝ)` is the union of at most two `PSL₂(ℝ)`-classes. For `C` below the minimum covolume `π/21`
+(FuchsianOrbifolds Layer 4a) no lattice qualifies and the family is empty.
 
-- A lattice of the signature has at most `r₀` generators, so `[Γ : Γ^(2)] ≤ 2^(r₀)` and
-  `area(Γ^(2)\ℍ) ≤ C_sig`.
+Takeuchi's fixed-signature finiteness is the corollary for `C = A`. For a signature
+`(g; m₁, …, m_r; c)` with `g, c, r ≥ 0` and `m_j ≥ 2` put `A = 2π(2g − 2 + Σ_j(1 − 1/m_j) + c)`. If
+`A ≤ 0`, no lattice has this signature (Gauss–Bonnet); otherwise every lattice of this signature
+has covolume `A` by the orbifold area formula (FuchsianOrbifolds Layer 5 item 7), so only finitely
+many `PSL₂(ℝ)`-conjugacy classes of arithmetic lattices have it (Takeuchi 1983, Theorem 2.1;
+Maclachlan–Reid, Theorem 11.3.1). The splitting is quantified throughout. The bounded-covolume form
+is the stronger statement: the signatures `(0; 2, 3, m)`, `m ≥ 7`, are pairwise distinct, each of
+covolume `2π(1/6 − 1/m) < π/3`.
+
+Route, for `C > 0`, with `d_C = ⌊C/π⌋ + 4` and `C′ = 2^(d_C) C`; write `covol(Γ)` for
+`MeasureTheory.covolume Γ ℍ`. The steps are named targets.
+
+- Generators: a lattice `Γ` of covolume `A ≤ C` has a signature with `2g + r + c ≤ A/π + 4`, since
+  each `1 − 1/m_j ≥ 1/2` gives `A ≥ π(4g − 4 + r + 2c)` (Borel 1981, Lemma 8.1). Its standard
+  presentation (FuchsianOrbifolds Layer 2 items 4–5, with the genus identified by Layer 5 item 7)
+  has at most `d_C` generators, so `Γ/Γ^(2)`, an elementary abelian 2-group on at most `d_C`
+  generators, has order at most `2^(d_C)`, and `covol(Γ^(2)) ≤ C′` by
+  `MeasureTheory.covolume_eq_card_mul_covolume`.
 - Containment in a maximal-order group: for arithmetic `Γ`, §1.3 gives integral traces on `Γ^(2)`
   and identifies the trace envelope with `B`; the norm-one preimage `H_Γ` of `Γ^(2)` contains both
   central signs, spans `B` and has integral reduced traces, so `integral_trace_lattice_order` and
-  extension to a maximal order give `Γ^(2) ≤ Λ = Γ(O)` and `area(Λ\ℍ) ≤ C_sig`.
+  extension to a maximal order give `Γ^(2) ≤ Λ = Γ(O)` and `covol(Λ) ≤ C′`.
 - Field and discriminant bound: `ζ_k(2) ≥ 1` (`TauCeti.dedekindZeta_eulerProduct_hasProd` at `s = 2`)
-  and `∏(N𝔭 − 1) ≥ 1` turn the covolume formula into `8π |d_k|^(3/2)/(4π²)^n ≤ C_sig`, so
-  `|d_k| ≤ (C_sig (4π²)^n/(8π))^(2/3)`; with §1.3b's weakening,
-  `C_sig ≥ 8π · 10^(−51) (58.6^(3/2)/(4π²))^n ≥ 24 · 10^(n−51)`, which bounds `n`. Then
+  and `∏(N𝔭 − 1) ≥ 1` turn the covolume formula into `8π |d_k|^(3/2)/(4π²)^n ≤ C′`, so
+  `|d_k| ≤ (C′ (4π²)^n/(8π))^(2/3)`; with §1.3b's weakening,
+  `C′ ≥ 8π · 10^(−51) (58.6^(3/2)/(4π²))^n ≥ 24 · 10^(n−51)`, which bounds `n`. Then
   `NumberField.finite_of_discr_bdd`, after embedding the fields in `ℂ`, leaves finitely many fields
   up to isomorphism.
-- Ramification: `∏_(𝔭 ∈ Ram_f)(N𝔭 − 1) ≤ M_ram = C_sig (4π²)^n/(8π)`, so every ramified prime has
-  `N𝔭 ≤ 1 + M_ram`; `Ideal.finite_setOf_absNorm_le` leaves finitely many ramification sets, and by
-  GL2AutomorphicRepresentationsAndTransfer R17.1.5 each set determines at most one algebra up to
-  isomorphism.
+- Ramification: `∏_(𝔭 ∈ Ram_f)(N𝔭 − 1) ≤ M_ram = C′ (4π²)^n/(8π)`, so every ramified prime has
+  `N𝔭 ≤ 1 + M_ram`; `Ring.HasFiniteQuotients.finite_absNorm_heightOneSpectrum_le` leaves finitely
+  many ramification sets, and by GL2AutomorphicRepresentationsAndTransfer R17.1.5 each set
+  determines at most one algebra up to isomorphism.
 - Maximal-order types: for a maximal order `O` put `G = PGL₁(B)` and let `U ≤ G(𝔸_(k,f))` be the image
   of the normalizer of the adelic completion of `O`; `U` is compact open, local maximal orders are
   conjugate, and an order is determined by its localizations, so `G(k)\G(𝔸_(k,f))/U` is in bijection
   with the maximal orders modulo `B^×`-conjugacy, a finite set by AA.3.4 (`Reduction.finite_classes`).
   The split case is handled by its own covolume formula and contributes only cusped signatures.
-- Bounded index: each candidate `Λ` has a presentation with `d = 2g_Λ + r_Λ + c_Λ ≤ C_sig/π + 4`
-  generators, since each `1 − 1/m ≥ 1/2`; `[Λ : Γ^(2)] ≤ M_Λ = ⌊C_sig/area(Λ\ℍ)⌋`, and a group on `d`
-  generators has at most `m · (m!)^d` subgroups of index `m`, through the coset action and a
-  distinguished coset. So only finitely many `K = Γ^(2)` occur.
+- Bounded index: each candidate `Λ` has covolume at most `covol(Γ^(2)) ≤ C′`, so by the generator
+  step it has a presentation with `d = 2g_Λ + r_Λ + c_Λ ≤ C′/π + 4` generators;
+  `[Λ : Γ^(2)] ≤ M_Λ = ⌊C′/covol(Λ)⌋`, and a group on `d` generators has at most `m · (m!)^d`
+  subgroups of index `m`, through the coset action and a distinguished coset. So only finitely many
+  `K = Γ^(2)` occur.
 - Overgroups: for each such `K` the normalizer `N(K)` in `PSL₂(ℝ)` is discrete, since a nonelementary
-  lattice has trivial centralizer, and its quotient has area at least `π/21` (FuchsianOrbifolds
-  Layer 4a, with the cusped minimum `π/3`); so `[N(K) : K] ≤ 21 area(K\ℍ)/π`, and since `K ◁ Γ` with
-  `[Γ : K] ≤ 2^(r₀)`, only finitely many `Γ` occur. Maximal-lattice counts are converted between
+  lattice has trivial centralizer, and its covolume is at least `π/21` (FuchsianOrbifolds Layer 4a,
+  with the cusped minimum `π/3`); so `[N(K) : K] ≤ 21 covol(K)/π`, and since `K ◁ Γ` with
+  `[Γ : K] ≤ 2^(d_C)`, only finitely many `Γ` occur. Maximal-lattice counts are converted between
   `PSL₂(ℝ)` and `PGL₂(ℝ)` by the index-two map of §2.3.
 
-The statement is not formalized in `Suggested.lean`: the signature of a Fuchsian group has no
-carrier at the pins.
+For a fixed signature the same steps run with the signature's own generator count
+`r₀ = 2g + r + c` in place of `d_C` and with `C_sig = 2^(r₀) A` in place of `C′`.
 
 **Checks.**
 
-- Signature `(0; 2, 3, 7)`: `A = π/21`, `r₀ = 3`, `C_sig = 8π/21`; the discriminant bound
-  `((4π²)³/21)^(2/3) ≈ 204.6` admits `d_k = 49`, and `d = 3 ≤ 1/21 + 4`.
+- `C = π/21`, the covolume of the `(2, 3, 7)` triangle group: `d_C = 4` and `C′ = 16π/21`, and for
+  `n = 3` the discriminant bound `(2(4π²)³/21)^(2/3) ≈ 325.0` admits `d_k = 49`. With the signature's
+  own count `r₀ = 3` for `(0; 2, 3, 7)`, `C_sig = 8π/21`, the bound `((4π²)³/21)^(2/3) ≈ 204.8` still
+  admits `d_k = 49`, and `d = 3 ≤ C_sig/π + 4 = 8/21 + 4`.
+- The covolume bound cannot be dropped: the images of the principal congruence subgroups `Γ(N)` are
+  arithmetic lattices whose covolumes `[PSL₂(ℤ) : Γ̄(N)] · π/3` (`2π` for `N = 2`, `4π` for `N = 3`)
+  tend to infinity, and conjugate lattices have equal covolume (`MeasureTheory.covolume_conjAct_smul`),
+  so they lie in infinitely many conjugacy classes.
+- Signatures `(0; 2, 3, 7)` and `(0; 2, 3, 8)` have covolumes `π/21` and `π/12`, both below `π/3`, and
+  the family `(0; 2, 3, m)` is infinite: the theorem bounds conjugacy classes of arithmetic lattices,
+  not signatures, and a statement counting signatures of bounded covolume would be false.
 - Signature `(1; −)` has `A = 0` and signature `(0; 2, 2, 2, 2)` has `A = 0`; neither is the signature
   of a lattice, which is why `A ≤ 0` is discharged before any covolume bound is used.
-- Signature `(2; −)`: `A = 4π`, `r₀ = 4`, `C_sig = 64π`; the cocompact genus-two arithmetic surfaces
-  come from finitely many quaternion algebras.
+- Signature `(2; −)`: `A = 4π`, `r₀ = 4` and `C_sig = 64π`, while the bounded-covolume constants are
+  `d_C = 8` and `C′ = 1024π`; the cocompact genus-two arithmetic surfaces come from finitely many
+  quaternion algebras.
 - A group on `d` generators has at most `(m!)^d/(m−1)!` subgroups of index `m` (homomorphisms to
   `S_m` up to relabellings fixing the marked coset), so `m · (m!)^d` is a valid bound; for the
   infinite cyclic group, `m = 2`, it gives `4 ≥ 1`.
 
-*Needs:* §§1.1–1.3b; FuchsianOrbifolds Layer 2 items 4–5, Layer 4 item 5 and Layer 4a;
-AdelicAlgebraicGroups AA.3.4; GL2AutomorphicRepresentationsAndTransfer R17.1.5;
-ReductiveGroupsPartII RG2.2.2; Mathlib `NumberField.finite_of_discr_bdd`,
-`Ideal.finite_setOf_absNorm_le`. (Takeuchi 1983, Theorem 2.1; Borel 1981, §7.1, Lemma 8.1 and
-Theorem 8.2; Maclachlan–Reid, Theorems 11.2.1 and 11.3.1; Belolipetsky–Gelander–Lubotzky–Shalev,
-§§2–5, for the counting of subgroups by generators and covolume.)
+*Needs:* for the statement, §1.1 (`IsArithmetic`), Tau Ceti `Subgroup.IsCofinite` and Mathlib
+`MeasureTheory.covolume`; for the route, §§1.1–1.3b, FuchsianOrbifolds Layer 2 items 4–5, Layer 4
+item 5, Layer 4a and Layer 5 item 7, AdelicAlgebraicGroups AA.3.4,
+GL2AutomorphicRepresentationsAndTransfer R17.1.5, ReductiveGroupsPartII RG2.2.2, Tau Ceti
+`MeasureTheory.covolume_eq_card_mul_covolume` and `MeasureTheory.covolume_conjAct_smul`, and Mathlib
+`NumberField.finite_of_discr_bdd` and `Ring.HasFiniteQuotients.finite_absNorm_heightOneSpectrum_le`.
+(Borel 1981, §7.1, Lemma 8.1 and Theorem 8.2; Takeuchi 1983, Theorem 2.1; Maclachlan–Reid,
+Theorems 11.2.1 and 11.3.1; Belolipetsky–Gelander–Lubotzky–Shalev, §§2–5, for the counting of
+subgroups by generators and covolume.)
 
 ### 1.5 The sharp totally real discriminant bound
 
@@ -729,15 +807,17 @@ kernel in the explicit formula of SmallRamificationAndAbelianVarietyBaseCases §
 - The Shimura-curve group of discriminant 6 is cocompact of area `2π/3`, with normalizer the `(2,4,6)`
   triangle group of area `π/6`.
 - The `(2,3,7)` triangle group is `Γ(O)` for the Hurwitz order over `ℚ(cos 2π/7)`, of area `π/21`; it
-  is the smallest compact orbifold, and §1.4 finds it from `C_sig = 8π/21`.
+  is the smallest compact orbifold, and §1.4 finds it from `C = π/21`, or from the signature
+  constant `C_sig = 8π/21`.
 
 ### Dependencies
 
-FuchsianOrbifolds Layers 0, 2, 4 (item 5) and 4a. EndoscopicTransferAndUnitaryTraceComparison §6.2.
-AdelicAlgebraicGroups AA.2.4, AA.3.4, AA.4.2. GL2AutomorphicRepresentationsAndTransfer R17.1.5.
-ClassicalArithmeticCompletion §7.60. ReductiveGroupsPartII RG2.2.1, RG2.2.2, RG2.2.4. SemisimpleAlgebras
-Layer 3. LFunctions Layer 3. ZerosOfLFunctions §1.4, §3.1, §§3.4–3.5, Layer 5.
-SmallRamificationAndAbelianVarietyBaseCases §§1.0, 1.6.
+FuchsianOrbifolds Layers 0, 2, 4 (item 5), 4a and 5 (item 7).
+EndoscopicTransferAndUnitaryTraceComparison §6.2. AdelicAlgebraicGroups AA.2.4, AA.3.4, AA.4.2.
+GL2AutomorphicRepresentationsAndTransfer R17.1.5. ClassicalArithmeticCompletion §7.60.
+ReductiveGroupsPartII RG2.2.1, RG2.2.2, RG2.2.4. SemisimpleAlgebras Layer 3. LFunctions Layer 3.
+ZerosOfLFunctions §1.4, §3.1, §§3.4–3.5, Layer 5. SmallRamificationAndAbelianVarietyBaseCases §§1.0,
+1.6.
 
 ## Layer 2: the arithmetic commensurator criterion and the PGL passage
 
@@ -910,13 +990,25 @@ every such `Γ₀`, and uses only these hypotheses.
 
 ### 3.1 Isometries of the hyperbolic plane
 
-`existsUnique_pgl_smul_eq_isometryEquiv`: every isometry `f` of `ℍ` for its hyperbolic metric is
-`z ↦ c · z` for exactly one `c ∈ PGL₂(ℝ)`. Route: `PGL₂(ℝ)` acts transitively and isometrically
-(FuchsianOrbifolds Layer 0 item 2 and L2.1); the stabilizer of `i` in `PSL₂(ℝ)` acts on `T_iℍ` by every
-rotation and `z ↦ −z̄` by a reflection, so some `c` makes `c⁻¹f` fix `i` with identity differential;
-RiemannianGeometry R4 item 7's theorem that a local isometry of a connected manifold is determined by
-its value and tangent map at one point gives `f = c`. Uniqueness is faithfulness of the action. This
-is the identification TeichmullerGeometry §0.4a consumes.
+`existsUnique_pgl_smul_eq_isometryEquiv`: every distance-preserving bijection `f` of `ℍ` for
+Mathlib's hyperbolic distance, no differentiability being assumed, is `z ↦ c · z` for exactly one
+`c ∈ PGL₂(ℝ)`. The route uses only the distance (Voight, Theorem 33.5.5, whose proof is metric):
+
+- `PGL₂(ℝ)` acts by isometries (FuchsianOrbifolds Layer 0 item 2), and `PSL₂(ℝ)` moves any two
+  points `z ≠ z′` to `i` and `iy` with `y > 1` (Voight, Lemma 33.4.11, followed by a diagonal matrix
+  and, if needed, `z ↦ −1/z`, which fixes `i` and sends `iy` to `i/y`). Applied to `f(i)` and
+  `f(2i)`, at distance `log 2`, this gives `c₁ ∈ PSL₂(ℝ)` with `c₁f` fixing `i` and `2i`.
+- For `z = x + iy`, `UpperHalfPlane.cosh_dist` gives `cosh d(z, i) = (x² + y² + 1)/(2y)` and
+  `cosh d(z, 2i) = (x² + y² + 4)/(4y)`, so `4 cosh d(z, 2i) − 2 cosh d(z, i) = 3/y` determines `y`
+  and then `x²`. Hence `c₁f(z) ∈ {z, −z̄}` for every `z`.
+- If `c₁f(1 + i) = −1 + i`, compose with `z ↦ −z̄`, the class of `diag(−1, 1)`, which fixes `i` and
+  `2i`; this gives `c ∈ PGL₂(ℝ)` with `c⁻¹f` fixing `i`, `2i` and `1 + i`. For `z` off the imaginary
+  axis, `d(−z̄, 1 + i) = d(z, −1 + i) ≠ d(z, 1 + i)`, since `|z − (1 + i)|² − |z − (−1 + i)|² = −4x`;
+  so `c⁻¹f(z) = z` for every `z`, and `f = c`.
+- Uniqueness is faithfulness of the action (Mathlib's `FaithfulSMul PGL(2, ℝ) ℍ`).
+
+The statement applies to the lifts of isometries between quotient surfaces in §§3.3–3.4 once they
+are shown to preserve Mathlib's distance there.
 
 **Checks.**
 
@@ -926,9 +1018,12 @@ is the identification TeichmullerGeometry §0.4a consumes.
   `diag(√2, 1/√2)`.
 - A Möbius map with negative determinant applied without conjugation, `z ↦ −z`, leaves `ℍ`; the
   convention `(a z̄ + b)/(c z̄ + d)` is forced.
+- Two fixed points do not determine an isometry: `z ↦ −z̄` fixes `i` and `2i` and sends `1 + i` to
+  `−1 + i`, at distance `arcosh 3` from `1 + i` (`cosh d = 1 + 4/2`), which is why the route fixes the
+  third point `1 + i` off the imaginary axis.
 
-*Needs:* FuchsianOrbifolds Layer 0 item 2 and L2.1; RiemannianGeometry R4 item 7; Mathlib
-`UpperHalfPlane.dist_eq` and the `PGL(2, ℝ)` action. (Voight, Theorem 33.5.5.)
+*Needs:* FuchsianOrbifolds Layer 0 item 2; Mathlib `UpperHalfPlane.cosh_dist`, the `PGL(2, ℝ)`
+action and its `FaithfulSMul` instance. (Voight, Lemma 33.4.11 and Theorem 33.5.5.)
 
 ### 3.2 The finite pair
 
@@ -957,8 +1052,13 @@ generic equivalence between almost conjugacy and equivalence of permutation repr
 
 §2.1 makes `Comm_PSL(Γ₀)` discrete; §2.3 makes `Comm_PGL(Γ₀)` discrete, with positive-determinant part
 `Comm_PSL(Γ₀)` of index at most two; maximality then gives `Comm_PGL(Γ₀) = Γ₀` (§2.4). A conformal or
-anticonformal isometry of `S₀` lifts by §3.1 and the lifting criterion to an element of the normalizer
-of `Γ₀` in `PGL₂(ℝ)`, which lies in `Comm_PGL(Γ₀) = Γ₀`; so `S₀` has trivial isometry group.
+anticonformal isometry `h` of `S₀` lifts through the covering `p : ℍ → S₀`, by the lifting criterion,
+to a continuous `F : ℍ → ℍ` with `p ∘ F = h ∘ p`. With compatible base points the lift of `h⁻¹` is
+its inverse, so `F` is a bijection; it is a local isometry of the Riemannian metric, because `p` is
+one (RiemannianGeometry R4 item 7), so it preserves the lengths of curves and hence Mathlib's
+distance, which is the Riemannian distance (FuchsianOrbifolds L2.1). By §3.1, `F` is an element of
+`PGL₂(ℝ)`; it normalizes `Γ₀`, so it lies in `Comm_PGL(Γ₀) = Γ₀`, and `S₀` has trivial isometry
+group.
 
 **Checks.**
 
@@ -966,22 +1066,25 @@ of `Γ₀` in `PGL₂(ℝ)`, which lies in `Comm_PGL(Γ₀) = Γ₀`; so `S₀` 
   preserves all of them.
 - The `(2,3,7)` group is excluded twice: it has torsion and it is arithmetic.
 
-*Needs:* §§2.1, 2.3, 2.4, 3.1; Mathlib `IsCoveringMap.existsUnique_continuousMap_lifts`.
+*Needs:* §§2.1, 2.3, 2.4, 3.1; FuchsianOrbifolds L2.1; RiemannianGeometry R4 item 7; Mathlib
+`IsCoveringMap.existsUnique_continuousMap_lifts`.
 
 ### 3.4 The covers and their nonisometry
 
-FuchsianOrbifolds Layer 2 items 4–5 give `Γ₀` the presentation `⟨a₁, b₁, …, a_g, b_g | ∏[a_i, b_i]⟩`.
-For every surjection `φ : Γ₀ → Q` (one exists for `g ≥ 3`: send `a₁, a₂, a₃` to `(1,1), (3,0), (5,0)`
-and the other generators to `1`) put `Γ = ker φ` and `Γ_i = φ⁻¹(H_i)`. Then `Γ ◁ Γ₀`, `Γ_i/Γ ≃ H_i`,
-`[Γ₀ : Γ_i] = 8`, and the covers `S_i = ℍ/Γ_i → S₀` are unbranched of genus `8g − 7` (FuchsianOrbifolds
-Layer 5). The quotient `X = ℍ/Γ` is a closed connected surface with the descended metric (RiemannianGeometry
-R4 item 7); `Q` acts freely on `X` by isometries, and for every `H ≤ Q` the map induced by the identity
-of `ℍ` is an isometry `X/H ≃ ℍ/φ⁻¹(H)`, and `X → X/H` is the finite regular covering with deck group
-`H`.
+FuchsianOrbifolds Layer 2 items 4–5 give `Γ₀` the presentation
+`⟨a₁, b₁, …, a_g, b_g | ∏[a_i, b_i]⟩`, the polygon genus being `g` by Layer 5 item 7. For every
+surjection `φ : Γ₀ → Q` (one exists for `g ≥ 3`: send `a₁, a₂, a₃` to `(1,1), (3,0), (5,0)` and the
+other generators to `1`) put `Γ = ker φ` and `Γ_i = φ⁻¹(H_i)`. Then `Γ ◁ Γ₀`, `Γ_i/Γ ≃ H_i`,
+`[Γ₀ : Γ_i] = 8`, and the covers `S_i = ℍ/Γ_i → S₀` are unbranched of degree `8` (FuchsianOrbifolds
+Layer 5 item 5) and genus `8g − 7` (Layer 5 item 6, the Fuchsian Riemann–Hurwitz formula with no
+ramification). The quotient `X = ℍ/Γ` is a closed connected surface with the descended metric (RiemannianGeometry R4 item 7); `Q` acts
+freely on `X` by isometries, and for every `H ≤ Q` the map induced by the identity of `ℍ` is an
+isometry `X/H ≃ ℍ/φ⁻¹(H)`, and `X → X/H` is the finite regular covering with deck group `H`.
 
 Nonisometry: if `f : S₁ → S₂` is an isometry, orientation-preserving or not, the lifting criterion
-(`IsCoveringMap.existsUnique_continuousMap_lifts`) lifts `f ∘ p₁` through `p₂ : ℍ → S₂` to an isometry
-of `ℍ`, which is some `c ∈ PGL₂(ℝ)` by §3.1, with `c Γ₁ c⁻¹ = Γ₂`; then `c ∈ Comm_PGL(Γ₀) = Γ₀`, and
+(`IsCoveringMap.existsUnique_continuousMap_lifts`) lifts `f ∘ p₁` through `p₂ : ℍ → S₂` to a bijection
+of `ℍ` preserving Mathlib's distance, by the argument of §3.3, which is some `c ∈ PGL₂(ℝ)` by §3.1,
+with `c Γ₁ c⁻¹ = Γ₂`; then `c ∈ Comm_PGL(Γ₀) = Γ₀`, and
 `φ(c)` conjugates `H₁` to `H₂`, contradicting §3.2.
 
 **Checks.**
@@ -989,8 +1092,8 @@ of `ℍ`, which is some `c ∈ PGL₂(ℝ)` by §3.1, with `c Γ₁ c⁻¹ = Γ�
 - Genus: `2h − 2 = 8(2g − 2)` gives `h = 8g − 7`, so `h = 17` for `g = 3`.
 - The covers `S_i → S₀` need not be normal; the common cover `X → S₀` is.
 
-*Needs:* §§3.1–3.3; FuchsianOrbifolds Layer 2 items 4–5 and Layer 5 items 4–5; RiemannianGeometry R4
-item 7; Mathlib `IsCoveringMap.existsUnique_continuousMap_lifts`.
+*Needs:* §§3.1–3.3; FuchsianOrbifolds Layer 2 items 4–5, L2.1 and Layer 5 items 5–7; RiemannianGeometry
+R4 item 7; Mathlib `IsCoveringMap.existsUnique_continuousMap_lifts`.
 
 ### 3.5 Representation equivalence and isospectrality
 
@@ -1026,13 +1129,16 @@ InductionRestriction Layer 2.1. NoncompactQuantumSymmetry M1. Pseudodifferential
 ## Downstream consumers
 
 - TeichmullerGeometry takes §1.1 and §1.4 (cited there as Layer 1 items 1 and 4) for its arithmetic
-  locus, and §3.1 for its §0.4a identification of `Isom(ℍ)` with `PGL₂(ℝ)`. Surfaces in its Layer 11
+  locus, and §3.1, for distance-preserving bijections with no differentiability assumed, for its
+  §0.4a identification of `Isom(ℍ)` with `PGL₂(ℝ)`. Surfaces in its Layer 11
   common generic locus satisfy the hypotheses of Layer 3; the order-32 pairs in every genus `g ≥ 3` over
   that locus belong to the later roadmap named in TeichmullerGeometry's Downstream consumers section.
 - QuaternionArithmetic, which consumes the arithmetic lattice theorem of §1.1 and so comes after this
-  roadmap, takes from here the orders and maximal orders of `ℍ[k,a,b]`, the norm-one group `O¹`, the
-  local order-to-tree adapter, the normalizers, the covolume formula (§§1.1–1.2) and the finiteness of
-  maximal-order types (§1.4), for its §§1.2, 1.7, 1.12, 3.5, 3.6 and 8.2.
+  roadmap, takes from here the existence of a maximal order containing a given order and the local
+  structure of maximal orders, the norm-one group `O¹`, the local order-to-tree adapter, the
+  normalizers, the covolume formula (§§1.1–1.2) and the finiteness of maximal-order types (§1.4), for
+  its §§1.2, 1.7, 1.12, 3.5, 3.6 and 8.2; orders and maximal orders themselves are Tau Ceti's
+  `TauCeti.IntegralOrder.IsOrder` and `TauCeti.IntegralOrder.IsMaximalOrder`.
 
 ## References
 

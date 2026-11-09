@@ -1,6 +1,8 @@
 import Mathlib
 import TauCeti.Algebra.Quaternion.NormForm
+import TauCeti.Analysis.Complex.Fuchsian.Covolume
 import TauCeti.Analysis.Complex.UpperHalfPlane.PSL.Action
+import TauCeti.RingTheory.IntegralOrder.Maximal
 
 /-!
 # Arithmetic Fuchsian groups, commensurators and isospectral covers: target signatures
@@ -12,24 +14,27 @@ statements need.
 `PSL(2,ℝ)` acts on the upper half-plane by Tau Ceti's `UpperHalfPlane.instMulActionPSL2`, which
 agrees with Mathlib's `PGL(2,ℝ)` action along `Matrix.ProjectiveSpecialLinearGroup.toPGL`
 (`UpperHalfPlane.toPGL_smul`). Hyperbolic area is Mathlib's `volume` on `UpperHalfPlane`, with
-density `y⁻²`, and hyperbolic distance is Mathlib's metric on `UpperHalfPlane`. Quaternion
-algebras are presented as `ℍ[k,a,b]`; the reduced norm is Tau Ceti's `QuaternionAlgebra.normForm`,
-the reduced trace is `x + star x = 2 * x.re`, and the reduced-norm-one group is Mathlib's
-`unitary`.
+density `y⁻²`, and hyperbolic distance is Mathlib's metric on `UpperHalfPlane`. Lattices are Tau
+Ceti's cofinite subgroups `Subgroup.IsCofinite` (discrete, of finite covolume
+`MeasureTheory.covolume Γ ℍ`). Quaternion algebras are presented as `ℍ[k,a,b]`; the reduced norm
+is Tau Ceti's `QuaternionAlgebra.normForm`, the reduced trace is `x + star x = 2 * x.re`, the
+reduced-norm-one group is Mathlib's `unitary`, and orders and maximal orders are Tau Ceti's
+`TauCeti.IntegralOrder.IsOrder` and `TauCeti.IntegralOrder.IsMaximalOrder` over `𝓞 k`.
 
-The following headline theorems are not statable at the pins, and nothing is stated in their
-place.
+Takeuchi's fixed-signature finiteness (§1.4) is the case `C = A` of
+`finite_conj_isArithmetic_covolume_le`, since a signature determines the covolume `A`
+(FuchsianOrbifolds Layer 5 item 7). The following headline theorems are not statable at the pins,
+and nothing is stated in their place.
 
-* Takeuchi's fixed-signature finiteness (§1.4): the signature of a Fuchsian group
-  (FuchsianOrbifolds Layer 4 item 5) has no carrier in Mathlib or Tau Ceti.
 * The maximality consequence `Comm_PGL(Γ) = Γ` (§2.4): `PGL(2,ℝ)` is `Matrix.ProjGenLinGroup`, a
   `def` carrying no topology at the pins, so "maximal among discrete subgroups of `PGL(2,ℝ)`" has
   no meaning there.
-* The isospectral covers of Layer 3: besides the same maximality hypothesis, the conclusion needs
-  the compact quotient surface `Γᵢ\ℍ` as a Riemannian manifold and the multiplicities of the
-  eigenvalues of its Laplacian. Tau Ceti has the pointwise operator `laplaceBeltrami` and the
-  carrier `TauCeti.HyperbolicMetric`, but neither the quotient surface of a Fuchsian group nor a
-  Laplace spectrum with multiplicities.
+* The isospectral covers of Layer 3: besides the same maximality hypothesis, the conclusion
+  compares the multiplicities of the eigenvalues of the Laplacian of the compact quotient surfaces
+  `Γᵢ\ℍ`. Tau Ceti has the Riemann surface `Γ\ℍ` (`Subgroup.instIsManifoldOrbitRelQuotient`), the
+  descent of an invariant metric to an orbit space (`Bundle.ContMDiffRiemannianMetric.quotient`),
+  the pointwise operator `laplaceBeltrami` and the carrier `TauCeti.HyperbolicMetric`, but no
+  Laplace spectrum with multiplicities of a compact Riemannian manifold.
 -/
 
 namespace TauCetiRoadmap.ArithmeticFuchsianGroups
@@ -54,19 +59,6 @@ structure RealSplitting (k : Type*) [Field k] (a b : k) where
   splitting_algebraMap :
     ∀ x : k, splitting (algebraMap k ℍ[k, a, b] x) = Matrix.scalar (Fin 2) (place x)
 
-/-- An order of `(a,b)_K` (§1.1): an `𝓞 K`-subalgebra that is finitely generated as an
-`𝓞 K`-module and spans the algebra over `K`. -/
-structure IsQuaternionOrder {K : Type*} [Field K] (a b : K) (O : Subalgebra (𝓞 K) ℍ[K, a, b]) :
-    Prop where
-  fg : (Subalgebra.toSubmodule O).FG
-  span_eq_top : Submodule.span K (O : Set ℍ[K, a, b]) = ⊤
-
-/-- A maximal order (§1.1): an order contained in no strictly larger order. -/
-def IsMaximalQuaternionOrder {K : Type*} [Field K] (a b : K)
-    (O : Subalgebra (𝓞 K) ℍ[K, a, b]) : Prop :=
-  IsQuaternionOrder a b O ∧
-    ∀ O' : Subalgebra (𝓞 K) ℍ[K, a, b], IsQuaternionOrder a b O' → O ≤ O' → O' = O
-
 /-- The projection `SL(2,ℝ) → PSL(2,ℝ)`. -/
 abbrev projSL : SL(2, ℝ) →* PSL(2, ℝ) := QuotientGroup.mk' (Subgroup.center SL(2, ℝ))
 
@@ -83,26 +75,23 @@ field split at exactly one real place. -/
 def IsArithmetic (Γ : Subgroup PSL(2, ℝ)) : Prop :=
   ∃ (k : Type) (_ : Field k) (_ : NumberField k), NumberField.IsTotallyReal k ∧
     ∃ (a b : k) (S : RealSplitting k a b) (O : Subalgebra (𝓞 k) ℍ[k, a, b]),
-      IsQuaternionOrder a b O ∧ ∃ c : PSL(2, ℝ), (MulAut.conj c • Γ).Commensurable (normOneImage S O)
-
-/-- A lattice of `PSL(2,ℝ)` (§1.1): a discrete subgroup admitting a measurable fundamental domain
-of finite hyperbolic area for its action on `ℍ`. -/
-def IsLattice (Γ : Subgroup PSL(2, ℝ)) : Prop :=
-  DiscreteTopology Γ ∧ ∃ s : Set UpperHalfPlane, IsFundamentalDomain Γ s volume ∧ volume s < ⊤
+      TauCeti.IntegralOrder.IsOrder k O ∧
+        ∃ c : PSL(2, ℝ), (MulAut.conj c • Γ).Commensurable (normOneImage S O)
 
 /-- **`Γ(O)` is a lattice** (§1.1): the projective image of the norm-one group of an order of a
 quaternion algebra over a totally real field, split at exactly one real place, is a discrete
 subgroup of `PSL(2,ℝ)` of finite covolume. -/
-theorem isLattice_normOneImage {k : Type*} [Field k] [NumberField k] [IsTotallyReal k] {a b : k}
-    (S : RealSplitting k a b) {O : Subalgebra (𝓞 k) ℍ[k, a, b]} (hO : IsQuaternionOrder a b O) :
-    IsLattice (normOneImage S O) := by
+theorem isCofinite_normOneImage {k : Type*} [Field k] [NumberField k] [IsTotallyReal k] {a b : k}
+    (S : RealSplitting k a b) {O : Subalgebra (𝓞 k) ℍ[k, a, b]}
+    (hO : TauCeti.IntegralOrder.IsOrder k O) :
+    (normOneImage S O).IsCofinite := by
   sorry
 
 /-- **Cocompactness** (§1.1): `Γ(O)\ℍ` is compact, that is, the translates of one compact set cover
 `ℍ`, exactly when `(a,b)_k` is a division algebra, that is, when its norm form is anisotropic. -/
 theorem cocompact_normOneImage_iff_anisotropic {k : Type*} [Field k] [NumberField k]
     [IsTotallyReal k] {a b : k} (S : RealSplitting k a b) {O : Subalgebra (𝓞 k) ℍ[k, a, b]}
-    (hO : IsQuaternionOrder a b O) :
+    (hO : TauCeti.IntegralOrder.IsOrder k O) :
     (∃ K : Set UpperHalfPlane, IsCompact K ∧ ∀ z, ∃ γ ∈ normOneImage S O, γ • z ∈ K) ↔
       (QuaternionAlgebra.normForm a 0 b).Anisotropic := by
   sorry
@@ -115,15 +104,16 @@ def finiteRamification {k : Type*} [Field k] [NumberField k] (a b : k) :
       (algebraMap k (v.adicCompletion k) b)).Anisotropic}
 
 /-- **The covolume formula** (§1.2): for a maximal order `O` of a quaternion algebra `(a,b)_k` over
-a totally real field `k` of degree `n`, split at exactly one real place, a fundamental domain of
-`Γ(O)` has hyperbolic area `8π |d_k|^(3/2) ζ_k(2) (4π²)^(-n) ∏_{𝔭 ∈ Ram_f} (N𝔭 - 1)`. -/
+a totally real field `k` of degree `n`, split at exactly one real place, the covolume of `Γ(O)`,
+the hyperbolic area of any of its measurable fundamental domains, is
+`8π |d_k|^(3/2) ζ_k(2) (4π²)^(-n) ∏_{𝔭 ∈ Ram_f} (N𝔭 - 1)`. -/
 theorem covolume_normOneImage {k : Type*} [Field k] [NumberField k] [IsTotallyReal k] {a b : k}
     (S : RealSplitting k a b) {O : Subalgebra (𝓞 k) ℍ[k, a, b]}
-    (hO : IsMaximalQuaternionOrder a b O) {s : Set UpperHalfPlane}
-    (hs : IsFundamentalDomain (normOneImage S O) s volume) :
-    volume s = ENNReal.ofReal (8 * Real.pi * |(discr k : ℝ)| ^ ((3 : ℝ) / 2) *
-      (dedekindZeta k 2).re / (4 * Real.pi ^ 2) ^ Module.finrank ℚ k *
-      ∏ᶠ (v) (_ : v ∈ finiteRamification a b), ((Ideal.absNorm v.asIdeal : ℝ) - 1)) := by
+    (hO : TauCeti.IntegralOrder.IsMaximalOrder k O) :
+    covolume (normOneImage S O) UpperHalfPlane =
+      ENNReal.ofReal (8 * Real.pi * |(discr k : ℝ)| ^ ((3 : ℝ) / 2) *
+        (dedekindZeta k 2).re / (4 * Real.pi ^ 2) ^ Module.finrank ℚ k *
+        ∏ᶠ (v) (_ : v ∈ finiteRamification a b), ((Ideal.absNorm v.asIdeal : ℝ) - 1)) := by
   sorry
 
 /-- The full preimage of `Γ` in `SL(2,ℝ)` (§1.3): both determinant-one lifts of every element. -/
@@ -167,8 +157,8 @@ theorem invariant_squared_trace_data_commensurable {Γ Δ : Subgroup PSL(2, ℝ)
     (hΓ : IsNonelementary Γ) :
     squaredTraceField Δ = squaredTraceField Γ ∧
       (traceEnvelope Γ : Set (Matrix (Fin 2) (Fin 2) ℝ)) =
-        (fun X ↦ (c : Matrix (Fin 2) (Fin 2) ℝ) * X * ((c⁻¹ : SL(2, ℝ)) : Matrix (Fin 2) (Fin 2) ℝ)) ''
-          traceEnvelope Δ := by
+        (fun X ↦ (c : Matrix (Fin 2) (Fin 2) ℝ) * X *
+          ((c⁻¹ : SL(2, ℝ)) : Matrix (Fin 2) (Fin 2) ℝ)) '' traceEnvelope Δ := by
   sorry
 
 /-- **Integral trace lattices** (§1.3): a subgroup of the norm-one group whose `K`-span is the
@@ -182,7 +172,8 @@ theorem integral_trace_lattice_order {K : Type*} [Field K] [NumberField K] {a b 
     ∃ R : Subalgebra (𝓞 K) ℍ[K, a, b],
       Subalgebra.toSubmodule R = Submodule.span (𝓞 K)
         ((fun h : unitary ℍ[K, a, b] ↦ (h : ℍ[K, a, b])) '' (H : Set (unitary ℍ[K, a, b]))) ∧
-        IsQuaternionOrder a b R ∧ ∃ O, IsMaximalQuaternionOrder a b O ∧ R ≤ O := by
+        TauCeti.IntegralOrder.IsOrder K R ∧
+          ∃ O, TauCeti.IntegralOrder.IsMaximalOrder K O ∧ R ≤ O := by
   sorry
 
 /-- **Trace integrality of arithmetic groups** (§1.3): every element of an arithmetic group has
@@ -202,6 +193,16 @@ theorem discr_ge_odlyzko_five (k : Type*) [Field k] [NumberField k] :
       |(discr k : ℝ)| := by
   sorry
 
+/-- **Arithmetic lattices of bounded covolume** (§1.4; Borel 1981, Theorem 8.2): for every real
+`C`, finitely many subgroups of `PSL(2,ℝ)` represent, up to conjugacy in `PSL(2,ℝ)`, all arithmetic
+lattices of covolume at most `C`. In particular finitely many conjugacy classes of arithmetic
+lattices have a given signature, which fixes the covolume (Takeuchi 1983, Theorem 2.1). -/
+theorem finite_conj_isArithmetic_covolume_le (C : ℝ) :
+    ∃ F : Finset (Subgroup PSL(2, ℝ)), ∀ Γ : Subgroup PSL(2, ℝ), Γ.IsCofinite → IsArithmetic Γ →
+      covolume Γ UpperHalfPlane ≤ ENNReal.ofReal C →
+        ∃ Δ ∈ F, ∃ c : PSL(2, ℝ), MulAut.conj c • Γ = Δ := by
+  sorry
+
 /-- **The sharp totally real discriminant bound** (§1.5): every totally real number field of
 degree `n` satisfies `|d_k| ≥ a₀ R₀ⁿ` with `a₀ = 2439/10⁷` and `R₀ = 29.099`. -/
 theorem discr_ge_totallyReal (k : Type*) [Field k] [NumberField k] [IsTotallyReal k] :
@@ -212,13 +213,13 @@ theorem discr_ge_totallyReal (k : Type*) [Field k] [NumberField k] [IsTotallyRea
 
 /-- **Margulis' commensurator criterion in `PSL(2,ℝ)`** (§2.1): a lattice is arithmetic exactly
 when its commensurator is dense. -/
-theorem isArithmetic_iff_dense_commensurator {Γ : Subgroup PSL(2, ℝ)} (hΓ : IsLattice Γ) :
+theorem isArithmetic_iff_dense_commensurator {Γ : Subgroup PSL(2, ℝ)} (hΓ : Γ.IsCofinite) :
     IsArithmetic Γ ↔ Dense (Subgroup.Commensurable.commensurator Γ : Set PSL(2, ℝ)) := by
   sorry
 
 /-- **The discrete alternative** (§2.1): the commensurator of a nonarithmetic lattice is discrete
 and contains the lattice with finite index. -/
-theorem commensurator_discrete_of_not_isArithmetic {Γ : Subgroup PSL(2, ℝ)} (hΓ : IsLattice Γ)
+theorem commensurator_discrete_of_not_isArithmetic {Γ : Subgroup PSL(2, ℝ)} (hΓ : Γ.IsCofinite)
     (hna : ¬ IsArithmetic Γ) :
     DiscreteTopology (Subgroup.Commensurable.commensurator Γ) ∧
       Γ.IsFiniteRelIndex (Subgroup.Commensurable.commensurator Γ) := by
@@ -227,13 +228,14 @@ theorem commensurator_discrete_of_not_isArithmetic {Γ : Subgroup PSL(2, ℝ)} (
 /-- **Algebraicity of the squared-trace field** (§2.2): a lattice with dense commensurator has a
 number field as squared-trace field. -/
 theorem dense_commensurator_squared_trace_field_is_number_field {Γ : Subgroup PSL(2, ℝ)}
-    (hΓ : IsLattice Γ) (hdense : Dense (Subgroup.Commensurable.commensurator Γ : Set PSL(2, ℝ))) :
+    (hΓ : Γ.IsCofinite) (hdense : Dense (Subgroup.Commensurable.commensurator Γ : Set PSL(2, ℝ))) :
     FiniteDimensional ℚ (squaredTraceField Γ) := by
   sorry
 
 /-! ## Layer 3: isometries of the hyperbolic plane and the order-32 Gassmann covers -/
 
-/-- **Isometries of the hyperbolic plane** (§3.1): every isometry of `ℍ` for its hyperbolic metric is
+/-- **Isometries of the hyperbolic plane** (§3.1; Voight, Theorem 33.5.5): every distance-preserving
+bijection of `ℍ` for Mathlib's hyperbolic distance, no differentiability being assumed, is
 `z ↦ c • z` for exactly one `c ∈ PGL(2,ℝ)`, acting by Möbius maps for positive determinant and by
 their composites with `z ↦ -z̄` for negative determinant. -/
 theorem existsUnique_pgl_smul_eq_isometryEquiv (f : UpperHalfPlane ≃ᵢ UpperHalfPlane) :
