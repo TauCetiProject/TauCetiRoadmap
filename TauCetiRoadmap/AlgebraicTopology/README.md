@@ -93,10 +93,17 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   spaces; neither development introduces a second version of the other's objects.
 - [ClassifyingSpaces](../ClassifyingSpaces/README.md) consumes Stage 8.8a's
   native nerve/bar model, with its CW structure, K(π,1) property and π₁
-  identification, and owns the Milnor and presentation models, their pointed
-  CW-type uniqueness, the cellular/bar projective-resolution comparisons and
-  the identity-on-π₁ normalized comparison of the nerve/bar model with those
-  models; no stage here consumes those models or that comparison. Stage8.8a
+  identification, and Stage 8.8b's identity-on-π₁ normalized comparison
+  c_G. Milnor's model `TauCeti.classifyingSpace`, the cellular model
+  `TauCeti.cellularClassifyingSpace` built from the presentation complex
+  `TauCeti.PresentationComplex`, their comparison, their projective
+  resolutions and the uniqueness of aspherical spaces of CW type up to a
+  change of base point `TauCeti.IsAspherical.exists_homotopyEquiv` are
+  pinned in Tau Ceti. ClassifyingSpaces owns the pointed uniqueness of
+  aspherical Hausdorff CW complexes with arbitrary base points, the
+  specialization of c_G to the Milnor and cellular models and the agreement
+  under it of the (co)homology and resolution comparisons; no stage here
+  consumes those. Stage8.8a
   owns the raw nerve/bar construction; Stage8.8b owns the classification of
   pointed maps from a connected Hausdorff CW complex into an aspherical
   space (every homomorphism of fundamental groups is induced by a pointed
@@ -2478,11 +2485,12 @@ items 1–7 are independent of those later constructions.
    pointed homotopy and the induced naturality on cohomology. Keep the
    existing bar-label inversion below.
    The raw bar supplies the object used by 8.8c's abelian
-   specialization. ClassifyingSpaces consumes 8.8a's bar model and owns its
-   normalized comparison with the Milnor and presentation models, the
-   resulting identification of the local-coefficient cohomology comparisons
-   and the comparison of the augmentation-preserving resolution maps; no
-   item here consumes those.
+   specialization. ClassifyingSpaces consumes 8.8a's bar model and c_G, and
+   owns the specialization of c_G to the pinned Milnor model
+   `TauCeti.classifyingSpace` and cellular model
+   `TauCeti.cellularClassifyingSpace`, the resulting agreement of the
+   local-coefficient cohomology comparisons and of the augmentation-preserving
+   resolution maps; no item here consumes those.
    Item 8.8c aliases the abelian specialization as K(A,1);
    the generic CW/cover proof is supplied only here. Own the classification
    of pointed maps into an aspherical space,
