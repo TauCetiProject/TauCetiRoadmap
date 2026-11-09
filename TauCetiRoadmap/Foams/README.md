@@ -46,6 +46,10 @@ and KH4 (formal surfaces, 7.4), using these contracts. The general Frobenius
 theory and evaluated nilvalent categories are developed here. The exact
 remaining ownership boundaries appear in the supplier contracts below.
 
+Foams also constructs the unsigned symmetric monoidal structure on modules
+over an internally graded commutative coefficient ring, using the native
+graded-module category. Its circle algebras are monoid objects in this category.
+
 The compiler interprets handcrafted abstract generators. Its inputs carry
 finite incidence data. Crossing complexes, Reidemeister equivalences, movie
 functoriality, embedded foam geometry, quantum-group representations, geometric
@@ -54,8 +58,8 @@ roadmap. The canopolis comparison concerns these concrete foam categories.
 
 Suggested home is `TauCeti/KnotTheory/Foam/`, with reusable categorical results
 under `TauCeti/CategoryTheory/`. The README specifies the mathematics.
-[Suggested.lean](Suggested.lean) states the expressible Frobenius-reconstruction
-and integral graded-freeness headlines as acceptance tests.
+[Suggested.lean](Suggested.lean) states the expressible Frobenius-reconstruction,
+integral graded-freeness and circle-algebra Schur-basis headlines as acceptance tests.
 
 ## Conventions
 
@@ -196,11 +200,25 @@ the nonequivariant specialization sends them to zero.
   stability for the foam ideal using TemperleyLieb's contract below.
   [Morphism ideals and quotients][tc-ideal]
 - The graded-module category and its shifts supply internally graded modules
-  with degree-preserving maps. Its projectivity interface transfers underlying
+  with degree-preserving maps. Use `TauCeti.GradedModuleCat.shiftFunctor`,
+  `TauCeti.GradedModuleCat.shiftFunctorZeroIso` and
+  `TauCeti.GradedModuleCat.shiftFunctorAddIso` for shifts and their comparisons.
+  Its abelian structure supplies finite biproducts, constructed from
+  `TauCeti.GradedModuleCat.directSumObj`. Its projectivity interface transfers underlying
   projectivity to categorical projectivity. Its bounded-below graded Nakayama
   theorem supplies generation from the positive-degree quotient. Sections 0.10
   and 2.8 specify the additional tensor and homogeneous-basis results needed
-  here. [Graded modules][tc-graded] · [Projectivity][tc-projective] · [Nakayama][tc-nakayama]
+  here. [Graded modules][tc-graded] · [Shifts][tc-graded-shift] · [Finite sums][tc-graded-abelian]
+  · [Projectivity][tc-projective] · [Nakayama][tc-nakayama]
+- `TauCeti.InternalGrading.tensorProduct` supplies the total grading of a tensor
+  product over a degree-zero base, with `TauCeti.InternalGrading.tmul_mem_tensorProduct`
+  and `TauCeti.InternalGrading.isHomogeneous_assoc_symm` for pure tensors and
+  reassociation. Section 0.10 constructs the balanced tensor over a graded base
+  and its unsigned symmetric monoidal structure. [Graded tensor products][tc-graded-tensor]
+- `LinearMap.IsFrobeniusFunctional` means that the trace pairing is nondegenerate.
+  Section 0.8 requires a perfect pairing over a commutative ring.
+  `LinearMap.IsFrobeniusFunctional.isPerfPair` identifies these conditions for
+  finite-dimensional algebras over a field. [Frobenius functionals][tc-frobenius]
 - `TauCeti.hsymm_mul_diagramSchurPoly` and `TauCeti.hsymm_mul_schurPoly`
   give the complete-symmetric Pieri rule. The elementary-symmetric rule is the
   separate SchurWeyl contract below. [Complete-symmetric Pieri][tc-pieri]
@@ -218,11 +236,7 @@ the nonequivariant specialization sends them to zero.
 | [TemperleyLieb, Layer 2 and Layers 6–7][tl] | Ordinary presentations, categorical tensor ideals, additive/monoidal envelopes and quotient descent | Verify the foam ideals and higher-operation compatibility |
 | [SurfaceTopology, Layer 2][surface] | Finite-map/permutation-triple/bipartite-ribbon-graph comparisons and Euler counts | Adapt trivalent rotations and vertex-free circles, prove fixed-rotation planarity |
 | [PlanarTopology, Layers 6–7][planar] | Euler/orientation results and Schoenflies and interior-arc isotopy theorems | Relative-boundary disk diagrams, collar transport and insertion in Layer 7 |
-| [RepresentationTheory/SchurWeyl, Layer 7][schur] | Young-diagram identities, Schur bases and both horizontal- and vertical-strip Pieri rules | Decoration substitutions, integral circle pairing and foam decomposition maps |
-| [DGAInfinity, Layers 0–1][dga] | Graded module presentations and the total grading/universal property of balanced tensor products | Central commutative coefficient instances in 0.10 |
-| [ZigzagPreprojective, Layer 8][zigzag] | Graded endobimodule tensor and its generic associator/unit coherence within the braid-complex development | Unsigned symmetry, coherent shifts and homogeneous scalar extension in 0.10 |
-| [AlgebraicVectorBundles, Layer 2A][bundles] | Packaging homogeneous unit and multiplication as a monoid object under the requisite convolution/coproduct hypotheses | Apply the constructor to the circle algebras with their actual grading |
-| [GrothendieckEulerForms, Layer 3: finite resolutions and the resolution theorem][euler] | Free internally graded modules with specified generator degrees | Prove finite homogeneous freeness of weighted integral retracts in 2.8 |
+| [RepresentationTheory/SchurWeyl, Layer 7][schur] | Young-diagram identities, Schur bases, dual Jacobi–Trudi and both horizontal- and vertical-strip Pieri rules | Decoration substitutions, integral circle pairing and foam decomposition maps |
 
 The general constructions in these supplier contracts retain their owners.
 Closed-web planarity uses the finite-map interfaces. Layer 7 additionally
@@ -511,7 +525,11 @@ symmetric-polynomial scalar extension.
 For a commutative ring R and a finite free commutative R-algebra A, a
 Frobenius trace is an R-linear map ε such that a ↦ (b ↦ ε(ab)) is an
 isomorphism A ≅ Hom_R(A,R). Use the native perfect-pairing and
-Coalgebra.IsFrobenius interfaces. From a basis and its ε-dual basis,
+Coalgebra.IsFrobenius interfaces. This implies the nondegeneracy expressed by
+`LinearMap.IsFrobeniusFunctional`; the converse holds for finite-dimensional
+algebras over a field by `LinearMap.IsFrobeniusFunctional.isPerfPair`.
+Over a general commutative ring, retain the perfect-pairing hypothesis.
+From a basis and its ε-dual basis,
 construct Δ, prove independence of the basis, and prove the counit,
 coassociativity and Frobenius identities. Compare this trace presentation
 with a coalgebra structure having counit ε and satisfying those identities.
@@ -541,7 +559,7 @@ does not replace the finite-free theory for general A.
 - For A=ℤ[X]/(X²), ε(1)=0 and ε(X)=1, the pairing matrix in (1,X) is [[0,1],[1,0]]; Δ(1)=1⊗X+X⊗1 and
   Δ(X)=X⊗X.
 - Replacing ε(X)=1 by ε(X)=2 gives determinant −4. The resulting pairing over ℤ is not perfect, so
-  it does not satisfy the hypothesis.
+  it does not satisfy the hypothesis, although it is nondegenerate.
 - For the first trace, h=mΔ(1)=2X, ε(h)=2 and h²=0. With deg(X)=2, ε has degree −2 and Δ has degree 2.
 
 The finite-free reconstruction and transport package is developed here from Mathlib’s
@@ -596,13 +614,11 @@ maps. Its individual degree pieces are 𝕜₀-modules; they need not be
 M_(d-a) with zero, addition and inverse comparison maps.
 
 Construct the symmetric monoidal structure on this category with tensor product
-over 𝕜 and unit 𝕜. Consume DGAInfinity's graded balanced tensor and
-ZigzagPreprojective's associator, unit and endobimodule coherence contracts.
-Supply the specialization in which left and right 𝕜-actions agree and the
-comparison with ModuleCat 𝕜's ordinary tensor product after forgetting
+over 𝕜 and unit 𝕜, with the canonical right action m·r=r·m.
+Construct its associator and unitors, prove naturality and the pentagon and
+triangle laws, and supply the comparison with ModuleCat 𝕜's ordinary tensor product after forgetting
 grading. Prove that the swap m ⊗ n ↦ n ⊗ m is well-defined and graded, and
-prove its naturality, hexagon and symmetry laws. A general bimodule tensor
-category does not itself supply this symmetry.
+prove its naturality, hexagon and symmetry laws.
 
 Specify the total-degree pieces as generated by homogeneous pure tensors
 of degree p+q and prove the universal property for homogeneous 𝕜-balanced
@@ -630,8 +646,8 @@ sums in Layer 2. The higher-category extension is a separate target in Layer 3.
 Composition in C^(sh) carries no Koszul sign; this distinguishes it from Tau
 Ceti's differential graded DGShiftClosure.
 
-- Supply graded tensor and scalar-extension universal properties, pure-tensor formulas, unsigned
-  symmetry and coherent shift comparisons.
+- Supply graded tensor and scalar-extension universal properties, pure-tensor formulas, the
+  associator and unitors with their coherence laws, unsigned symmetry and coherent shift comparisons.
 - Supply the ordinary formal-shift closure and its extension property for graded functors.
 
 **Checks.**
@@ -643,12 +659,15 @@ Ceti's differential graded DGShiftClosure.
   degree-3 map X→Y.
 - Specialization e₁↦1 in degree-zero ℤ is not graded; sending every positive-degree e_i to 0 is graded.
 
-These are Foams specializations of the exact supplier contracts above. The formal-shift construction
-uses the declared grading convention, independently of cochain signs.
+Construct the balanced tensor over the graded ring and its coherence here.
+Compare its degree-zero-base specialization with the native internally graded
+tensor product. The formal-shift construction uses the declared grading convention,
+independently of cochain signs.
 
 *Needs:* Statement: the native graded-module category and ordinary tensor/shift interfaces. Proof:
-DGAInfinity Layers 0–1 and ZigzagPreprojective Layer 8 for balanced total grading and bimodule
-coherence; unsigned symmetry and scalar-change comparisons are proved here.
+the ordinary balanced tensor universal property, homogeneous module decompositions,
+native degree-zero-base total grading and shift comparisons. Construct the graded-base
+tensor, its associator/unitors, unsigned symmetry and scalar-change comparisons here.
 
 
 ### Examples
@@ -660,7 +679,7 @@ In 0.10, moving shifts 2 and −3 across a tensor gives total shift −1 with co
 
 Sections 0.1–0.7 build incidence, categories and decorations in order. Section 0.8 is an independent
 algebraic branch. Section 0.9 uses the raw web data and ordinary planar suppliers. Section 0.10 uses
-the graded module, DGAInfinity and ZigzagPreprojective contracts, independently of foam evaluation.
+the native graded-module, tensor-product and shift interfaces, independently of foam evaluation.
 
 ## Layer 1: closed-foam evaluations
 
@@ -848,7 +867,8 @@ odd-degree circle states; cochain signs are outside this construction.
 - m(1⊗1)=1 lowers degree from 2 to 1; Δ(1)=1⊗X+X⊗1 lowers degree from 1 to 0. Both maps have degree −1.
 
 This comparison is owned here. Use [Bar-Natan v2, Definition 7.1 and Proposition 7.2, p. 1470][bn]
-to identify the conventions of the K2 contract.
+to identify the conventions of the K2 contract. Bar-Natan writes ǫ for the unit and η for
+the counit; this roadmap uses η and ε respectively.
 
 *Needs:* Statement: 0.8, 1.3 and KhovanovHomology K2. Proof: its explicit four maps and the shift
 formulas of 0.10.
@@ -1150,15 +1170,20 @@ of switches exposing a reduction. This includes all remaining square
 orientation patterns. The existence and termination argument must accompany the local
 relations.
 
-For the cyclic switch, number six boundary points 0,…,5 cyclically with
-even points incoming, odd points outgoing, all of label 1. Let H_L be the
-clockwise directed hexagon with successive edge labels 2,1,2,1,2,1, and
-H_R the counterclockwise hexagon with labels 1,2,1,2,1,2 on those same
-edges. Let Q_01 be the arc (01) and the four-vertex square on 2,3,4,5;
-its cycle is counterclockwise, with labels 1,2,1,2 on the successive edges
-in the listed clockwise order. Let Q_34 be the arc (34) and the clockwise
-square on 0,1,2,5, with successive labels 2,1,2,1. All arcs run from even
-to odd endpoints.
+For the cyclic switch, number six boundary points 0,…,5 clockwise with
+even points incoming, odd points outgoing, all of label 1. Write v_i for
+the internal vertex incident to boundary point i, when present. Specify
+the directed cycles and edge labels as follows; every unlisted edge has label 1.
+Cycle entries i refer to v_i, while (ij) denotes an arc between boundary points.
+
+| Web | Directed cycle | Internal edges of label 2 | Detached arc |
+| --- | --- | --- | --- |
+| H_L | 0→1→2→3→4→5→0 | v₀v₁, v₂v₃, v₄v₅ | None |
+| H_R | 0→5→4→3→2→1→0 | v₁v₂, v₃v₄, v₅v₀ | None |
+| Q_01 | 2→5→4→3→2 | v₂v₅, v₃v₄ | (01) |
+| Q_34 | 0→1→2→5→0 | v₀v₁, v₂v₅ | (34) |
+
+All detached and resolution arcs run from even to odd endpoints.
 For N≥4 construct the stable isomorphism
 
     H_R ⊕ [N−3] Q_01 ≅ H_L ⊕ [N−3] Q_34.
@@ -1175,6 +1200,10 @@ zero erasure; at N=1 use the vanishing of label 2.
 
 With P_R=(01)(23)(45), P_L=(05)(12)(34), R₀=(01)(25)(34), also prove
 Q_01 ≅ P_R ⊕ [N−2]R₀ and Q_34 ≅ P_L ⊕ [N−2]R₀ for N≥2.
+In Q_01 the square resolutions are (23)(45) with coefficient 1 and
+(25)(34) with coefficient [N−2], both with detached arc (01).
+In Q_34 they are (05)(12) with coefficient 1 and (01)(25) with coefficient
+[N−2], both with detached arc (34).
 Retain common summands in the resulting stable hexagon relation;
 categorical cancellation is not a prerequisite. These are local web
 relations; no separate four-valent graph theory is required.
@@ -1214,6 +1243,9 @@ spanning.
 
 - The coefficient [N−3] in the displayed stable hexagon relation is 1 at N=4 and 0 at N=3. Ranks 2
   and 1 require their separate label-vanishing cases.
+- At q=1, N=4 and boundary colours (0,0,0,1,1,0), Q_01 has 2 colourings, P_R has 0 and R₀ has 1:
+  the square decomposition reads 2=0+(4−2)·1. Its internal 1-edges share either of the two colours
+  different from 0,1. Interchanging the square's 1- and 2-edge positions gives 1 colouring instead.
 - At N=4, cycle complement sends labels 1,2 to 3,2, respectively; treating both as unchanged would
   give the wrong square labels.
 - If u:W→P and v:P→W satisfy vu=id_W, then p=uv satisfies p²=p. No cancellation of a common direct
@@ -1233,9 +1265,9 @@ contextual relations and maximal-label induction.
 ### 2.8 Integral freeness and decomposition into shifted empty webs
 
 Prove the algebra lemma needed for this coefficient ring: every graded retract
-of a finite sum of shifts of Λ_N, with deg(e_i)=2i, is finite graded free. Use
-GrothendieckEulerForms' free graded module contract and Tau Ceti's
-bounded-below graded Nakayama theorem. For a degree-zero idempotent p on a
+of a finite sum of shifts of Λ_N, with deg(e_i)=2i, is finite graded free. Form
+these finite sums using the native graded-module shifts and biproducts, and use
+Tau Ceti's bounded-below graded Nakayama theorem. For a degree-zero idempotent p on a
 finite sum of shifts, require a finite basis of its image with homogeneous
 basis vectors. This is the theorem
 `exists_homogeneous_basis_range_idempotent` in Suggested.lean. Reduce the image
@@ -1246,6 +1278,9 @@ and applying Nakayama to that kernel proves injectivity. The algebraic theorem
 also allows N=0.
 Supply the integral degree-zero basis lifting and homogeneous splitting; a field
 hypothesis or an ungraded freeness theorem is not a substitute.
+
+In Suggested.lean, Λ_N is `EquivariantRing N`, with `MvPolynomial.X i` the generator e_(i+1),
+and its grading is `EquivariantRing.grading N`, with deg(e_(i+1))=2(i+1).
 
 For the idempotent u ∘ v on P_W, construct a finite shifted free module D_W
 and homogeneous matrices ι_W : D_W → P_W, π_W : P_W → D_W with ι_W ∘ π_W =
@@ -1266,9 +1301,9 @@ biproduct identities.
 - For N≥1, shifts (2,0) and p(x,y)=(x,e₁x), p²=p and the image basis is (1,e₁) of degree 2. The
   second coordinate has degree 2−0, checking the shift sign.
 
-The weighted integral freeness theorem is proved here. GrothendieckEulerForms Layer 3 supplies
-general graded-free infrastructure; none of its semisimple or Koszul hypotheses is imposed on this
-theorem. Compare the planar conclusion with [Robert–Wagner v3, Theorem 3.30, pp. 27–28][rw].
+The weighted integral freeness theorem is proved here using the native shift and
+finite-sum constructions. Compare the planar conclusion with
+[Robert–Wagner v3, Theorem 3.30, pp. 27–28][rw].
 
 *Needs:* Statement: weighted polynomial homogeneous pieces, shifted finite free modules, linear
 idempotents and native Module.Basis. Proof: positive-degree reduction, degreewise projectivity over
@@ -1361,6 +1396,19 @@ from equal ranks alone. Use Wu, §2.3, Theorem 2.10 and Remark 2.11, and
 Proposition 3.13 for the circle identification; prove the integral versions
 of these polynomial identities over Λ_N.
 
+The acceptance statement `exists_circle_schur_basis` uses `CirclePolynomial`
+for the polynomial ring, `circleIdeal` for the displayed relations,
+`CircleAlgebra` for their quotient and `RectanglePartition` for the native Young
+diagrams contained in the rectangle. Its `circleSchurPolynomial` specifies s_λ(c)
+by the dual Jacobi–Trudi determinant det(c_(λ′_i−i+j)), with rows and columns
+indexed by 0≤i,j<N−a. Here λ′_i is column i's length, and
+`elementaryCoefficient` supplies c₀=1 and c_r=0 for r<0 or r>a.
+All index subtractions occur in ℤ. The polynomial is defined over ℤ and mapped
+to the quotient over Λ_N. Require the prescribed Schur classes themselves to
+form a basis, the number of rectangle diagrams to be binomial(N,a), and each
+representative to be weighted homogeneous of degree 2|λ|. Use SchurWeyl Layer 7's
+dual Jacobi–Trudi identity to identify this determinant with its Schur polynomial.
+
 Write ζ_a for the Λ_N-linear coefficient of the top rectangular Schur basis
 element: it is 1 there and zero on the other basis elements. Identify it with
 Wu's Sylvester functional. For a coefficient map Λ_N→R, use the algebra
@@ -1380,10 +1428,11 @@ Sylvester pairing; the additional sign is a foam normalization convention.
 Identify opening, closing and saddle foams with the unit, trace,
 multiplication and comultiplication; prove their laws and perfect pairing
 from the explicit circle decomposition. Multiplication and unit have degree
-zero on A_(a,N), and the trace has degree −2a(N−a). Package the homogeneous algebra multiplication
-using the
-AlgebraicVectorBundles Layer 2A contract, checking its convolution tensor and
-coproduct hypotheses. Transport the other Frobenius maps through the circle
+zero on A_(a,N), and the trace has degree −2a(N−a). Construct A_(a,N) as a monoid
+object in the symmetric monoidal category GrMod_(Λ_N) from 0.10, using its
+homogeneous unit and balanced multiplication. Prove the monoid laws in that
+category and compatibility with forgetting the grading and coefficient change.
+Transport the other Frobenius maps through the circle
 shift with their stated degrees. Export
 decoration actions, dual-basis neck-cutting and coefficient-change formulas.
 Include a=0,N, the specialization e_i=0, and the zero state space for a>N.
@@ -1411,6 +1460,8 @@ coefficient change, with trace
 - Its trace pairing is [[0,σ],[σ,σe₁]], with dual basis (σ⁻¹(x−e₁),σ⁻¹). The determinant is −σ², a unit.
 - At a=0 the algebra and trace are Λ_N and id. At a=N the algebra is Λ_N but the trace is
   multiplication by (−1)^(N(N−1)/2)σ^N.
+- For a=N the Jacobi–Trudi matrix is empty and its determinant is 1. In the 2×2 rectangle,
+  s_(2)=c₁²−c₂, s_(1,1)=c₂ and s_(2,1)=c₁c₂, of degrees 4,4,6 respectively.
 - The complementary-partition sign (−1)^(a(a−1)/2) is 1,1,−1,−1 for a=0,1,2,3; the consecutive trace
   ratio contributes (−1)^aσ.
 
@@ -1419,7 +1470,8 @@ Use [Wu v2, Theorem 2.10 and Remark 2.11, p. 9, Proposition 3.13, p. 13 and proo
 pairing here. The extra sign is from [Ehrig–Tubbenhauer–Wedrich v2, Example 2.5, p. 6, Remark 2.24,
 p. 14][etw], not attributed to Wu.
 
-*Needs:* Statement: 0.8, 1.2 and 2.10 with 0≤a≤N. Proof: SchurWeyl Layer 7, integral
+*Needs:* Statement: polynomial quotients and Young diagrams for the algebraic acceptance statement;
+0.8, 0.10, 1.2 and 2.10 for the foam comparisons, with 0≤a≤N throughout. Proof: SchurWeyl Layer 7, integral
 symmetric-polynomial pairing identities and contextual circle/neck-cutting relations from 2.6.
 
 ### 2.12 Bar-Natan state spaces and circle decompositions
@@ -1979,8 +2031,8 @@ For each fixed gl(N) parameter σ use its canonical construction; the
 unparameterized notation refers to σ=1.
 Then construct them on all three main instances NFoam, BN_A^→, BN_A of
 Layer 4: object duals, units and counits, adjoints for 1-morphisms, the two
-duality operations (−)^∗ and # (# acting on 1-morphisms by the left mate
-#W), triangulator ▽_s and comparison cells Δ_W : #W ⟶ W^# to the right
+duality operations (−)^∗ and # (with #W the left mate of W), triangulator ▽_s
+and comparison cells Δ_W : #W ⟶ W^# to the right
 mate (Goertz–Marino–Wedrich, Construction 4.10, Theorem 4.35 and its proof),
 stated in the ungraded view Hom^u together with the degrees of these cells,
 and the spatial compatibility equations. Record the variance of each operation
@@ -2721,6 +2773,10 @@ extending a cited result are assigned explicitly in the relevant topic.
 [ml-symmetric]: https://leanprover-community.github.io/mathlib4_docs/Mathlib/RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.html
 [tc-ideal]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/Preadditive/MorphismIdeal/Basic.lean
 [tc-graded]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Basic.lean
+[tc-graded-shift]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Shift.lean
+[tc-graded-abelian]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Abelian.lean
+[tc-graded-tensor]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Module/GradedModule/TensorProduct.lean
+[tc-frobenius]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Algebra/Frobenius/Basic.lean
 [tc-projective]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Projective.lean
 [tc-nakayama]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Module/GradedModule/Nakayama.lean
 [tc-pieri]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/Pieri.lean
@@ -2732,10 +2788,6 @@ extending a cited result are assigned explicitly in the relevant topic.
 [surface]: https://github.com/mccorvie/TauCetiRoadmap/blob/add-planar-surface-topology-roadmaps/TauCetiRoadmap/SurfaceTopology/README.md#layer-2-presentations-and-comparison-theorems
 [planar]: https://github.com/mccorvie/TauCetiRoadmap/blob/add-planar-surface-topology-roadmaps/TauCetiRoadmap/PlanarTopology/README.md#layer-7-the-schoenflies-theorem-and-tameness
 [schur]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk
-[dga]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/DGAInfinity/README.md#layer-0-signed-graded-multilinear-and-tensor-coalgebra-infrastructure
-[zigzag]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ZigzagPreprojective/README.md#layer-8-braid-complexes-and-spherical-twist-comparisons
-[bundles]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AlgebraicVectorBundles/README.md#l2a--structured-linear-schemes
-[euler]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GrothendieckEulerForms/README.md#layer-3-finite-resolutions-and-the-resolution-theorem
 
 ## Contributors
 
