@@ -20,10 +20,12 @@ Its high points are:
 `[Invertible (2 : K)]`, in mod-2 Galois cohomology of degrees one and two. Every layer is
 implemented in Tau Ceti, and the supplier contracts below name the native declaration and file
 for each one. The layers state each milestone and cite the declaration that discharges it; a
-contributor extends the native files rather than building a second copy. `Suggested.lean` states
-the five headline theorems as examples proved by Tau Ceti and declares, as aliases proved from Tau
-Ceti, the three names that a roadmap on main imports from this namespace: `hilbertSymbol`,
-`localHasse` and `hasseInvariant_eq_localHasse`, which `OrthogonalSpinGroups` imports.
+contributor extends the native files rather than building a second copy. The five headline
+theorems are proved in Tau Ceti, so `Suggested.lean` names the declaration that proves each and does
+not restate it. It declares the three names that a roadmap on main imports from this namespace,
+`hilbertSymbol`, `localHasse` and `hasseInvariant_eq_localHasse`, which `OrthogonalSpinGroups`
+imports: a reducible alias of Tau Ceti's symbol, the pairwise product on a diagonal tuple, and a
+theorem proved from Tau Ceti.
 
 Every other name that a roadmap cites from this namespace is a Tau Ceti declaration, and this
 roadmap declares no copy of it. One line per cited name or section, old → new:
@@ -59,7 +61,8 @@ roadmap declares no copy of it. One line per cited name or section, old → new:
   `TauCeti.ClassFieldTheory.hilbertProductFormula` read through `TauCeti.hilbertSign`, with
   `TauCeti.hilbertSign_add` and `TauCeti.hilbertSign_sum`;
 - hilbertSymbol_eq_cohomological → `TauCeti.hilbertSymbol_eq_cohomological`, stated over every
-  field in which `2` is invertible rather than over a nonarchimedean local field (6C, item 13);
+  field in which `2` is invertible, for an identification `H²(G_K, μ₂) ≃+ ZMod 2` taken as an
+  argument, rather than over a nonarchimedean local field (6C, item 13);
 - serreEps → `TauCeti.serreEps`, read off `u mod 8` and stated on units `u : ℤ_[2]ˣ` rather than
   on `ℤ_[2]` (6C, item 10);
 - serreOmega → `TauCeti.serreOmega`, read off `u mod 8` and stated on units `u : ℤ_[2]ˣ` rather
@@ -382,13 +385,15 @@ Layer 7B and Class Field Theory's Layer 5, and is stated in 6E but built after L
 the comparison of the symbol with the cohomological pairing in 6C is built after Layer 7C.
 
 Layer 7A depends on Layer 0 and on 6A; Layer 7B on Layers 5 and 7A and on the semisimple-algebras
-roadmap's Layer 6; Layer 7C on Layers 2 and 7B. Layer 8 depends on Layer 7. Layer 9 splits: the
+roadmap's Layer 6; Layer 7C on Layers 2 and 7B, and on 6C's definition of the symbol for its
+five-fold criterion and its local identification. Layer 8 depends on Layer 7. Layer 9 splits: the
 transfer half needs Layers 1 to 4, and the relative-formula half needs Layers 7C and 8 and the
 index-two Evens norm.
 
 Each milestone below states what it is, which Tau Ceti declaration discharges it, and what it
-needs. `Suggested.lean` states the five headline theorems (Layers 2, 6D, 7C and twice 9) as
-examples proved by Tau Ceti, and the aliases that `OrthogonalSpinGroups` imports.
+needs. `Suggested.lean` names the Tau Ceti declarations that prove the five headline theorems
+(Layers 2, 6D, 7C and twice 9), without restating them, and declares the three names that
+`OrthogonalSpinGroups` imports.
 
 ## Layer 0: square classes, diagonal calculus, and chain equivalence
 
@@ -743,8 +748,8 @@ Tau Ceti's, in `TauCeti/Algebra/Quaternion/`, and the later layers consume it as
 - **The four-fold splitting criterion** (Lam III.2.7 and III.4.2, Serre *CiA* III.1.1–1.2,
   Gille–Szamuely 1.1.9), the main theorem of the layer and a headline of this roadmap; Tau
   Ceti's `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae`
-  (`TauCeti/Algebra/Quaternion/SplittingCriterion.lean`), stated as an example in
-  `Suggested.lean`. For `a, b ∈ Kˣ` the following are equivalent:
+  (`TauCeti/Algebra/Quaternion/SplittingCriterion.lean`), which `Suggested.lean` cites as proved
+  at the pin. For `a, b ∈ Kˣ` the following are equivalent:
   1. `ℍ[K,a,b]` splits, that is `≃ₐ[K] Matrix (Fin 2) (Fin 2) K`;
   2. `b` is a norm from the quadratic algebra `K(√a)`, that is
      `∃ z : QuadraticAlgebra K a 0, z.norm = b`;
@@ -1624,8 +1629,13 @@ Milestones, in this order, each Tau Ceti's:
     `TauCeti.ClassFieldTheory.localSymbol` at the Kummer cup pairing of `(a)` and `(b)`:
     `TauCeti.hilbertSymbol_eq_cohomological`, from the vanishing comparison
     `TauCeti.localSymbol_eq_zero_iff_cup` (`TauCeti/FieldTheory/GaloisCohomology/MuTwo/LocalSymbol.lean`),
-    over every field in which `2` is invertible. The comparison runs through Layer 7C's cup-norm
-    theorem; 6E derives the same sign from the Hasse invariant.
+    over every field in which `2` is invertible and for every identification
+    `tr : H²(G_K, μ₂) ≃+ ZMod 2` on which `localSymbol` is built. Such a `tr` exists exactly when
+    `H²(G_K, μ₂)` has two elements: over a nonarchimedean local field it is
+    `TauCeti.ClassFieldTheory.h2MuEquivZMod`, and over `ℝ` the group is `ℤ/2`, while over a finite
+    field, where the group is `0`, and over a number field, where it is infinite, the statement has
+    no instance. The comparison runs through Layer 7C's cup-norm theorem; 6E derives the same sign
+    from the Hasse invariant.
 14. **The global product formula.** Over a number field the symbols at the finite places, read in
     the completions, and at the real places multiply to `1`: Tau Ceti's
     `TauCeti.hilbertSymbol_productFormula` (`TauCeti/NumberTheory/QuadraticForm/Global/ProductFormula.lean`),
@@ -1642,7 +1652,8 @@ it one.
 
 *Needs:* 6A and 6B; Layer 2's four-fold criterion; Layer 0's descent principle and Layer 3's
 chain-induction lemmas and binary quaternion lemma; Mathlib's `legendreSym` and
-`TauCeti/NumberTheory/LegendreSymbol/SquareClass.lean` for item 9; TauCetiRoadmap.ClassFieldTheory
+`TauCeti/NumberTheory/LegendreSymbol/SquareClass.lean` for item 9; Layer 7C's cup-norm theorem and
+its identification with Class Field Theory's local symbol, for item 13; TauCetiRoadmap.ClassFieldTheory
 Layers 5 and 14 for the local symbol of item 13 and the reciprocity of item 14.
 
 ### 6D. The classification and its corollaries
@@ -1732,17 +1743,24 @@ uniqueness of the quaternion division algebra.
 normalized invariant `TauCeti.ClassFieldTheory.h2MuEquivZMod` on `H²(G_K, μ₂)` sends that class to `1`
 exactly when `(a,b)_K = −1` (`TauCeti.BrauerGroup.h2MuEquivZMod_eq_one_iff_hilbertSymbol_eq_neg_one`).
 So, as an equality of signs and not only an equivalence of vanishings,
-`(a,b)_K = hilbertSign (localSymbol (a) (b))`, which is `TauCeti.hilbertSymbol_eq_cohomological`, and
-in Brauer form `TauCeti.hilbertSymbol_eq_hilbertSign_kummerBrauerClass`. The equality is what is
-stated: the vanishing statement `localSymbol (a) (b) = 0 ↔ (a,b)_K = +1`
+`(a,b)_K = hilbertSign (localSymbol (a) (b))` for the local symbol built on any identification
+`H²(G_K, μ₂) ≃+ ZMod 2`, `h2MuEquivZMod` among them, which is
+`TauCeti.hilbertSymbol_eq_cohomological`. ⚠ Tau Ceti's
+`TauCeti.hilbertSymbol_eq_hilbertSign_kummerBrauerClass` reads the sign through an injective additive
+map `Br K →+ ZMod 2`, and over `K` there is none, because `invMap` identifies `Br K` with the infinite
+group `ℚ/ℤ`; it is the form for a field whose Brauer group has at most two elements, such as `ℝ` or
+a finite field, and not a form of this milestone, whose Brauer-side statement is the invariant-map
+form above. The equality is what is stated: the vanishing statement
+`localSymbol (a) (b) = 0 ↔ (a,b)_K = +1`
 (`TauCeti.localSymbol_eq_zero_iff_hilbertSymbol_eq_one`) determines the sign only once one knows the
 target has two elements, and a consumer that needs the sign should not have to reprove that.
 Tau Ceti states the three declarations of this milestone, like `TauCeti.ClassFieldTheory.invMap`
 itself, for a local field `K : Type` in universe `0`, the universe of the whole development of
 TauCetiRoadmap.ClassFieldTheory (its Conventions); Milestone 1, the cup compatibility below and
 `TauCeti.hilbertSymbol_eq_cohomological` are universe-polymorphic. A consumer whose field lives in
-a higher universe takes the sign identity from `TauCeti.hilbertSymbol_eq_cohomological` and
-restates the invariant-map form of this milestone there; Layer 7B item 5's
+a higher universe takes the sign identity from `TauCeti.hilbertSymbol_eq_cohomological`, with an
+identification `H²(G_K, μ₂) ≃+ ZMod 2` of its own since `h2MuEquivZMod` is stated in universe `0`,
+and restates the invariant-map form of this milestone there; Layer 7B item 5's
 `TauCeti.brauerCohomologyEquiv_uliftEquiv` is the compatibility of the Brauer side with the
 universe lift.
 
@@ -1756,9 +1774,12 @@ anywhere in Layers 6 to 9.
 This second milestone is the one place in Layers 0 to 6 that uses cohomology, and it comes after
 Layer 7B in the build order.
 
-*Needs:* Milestone 1; Layer 7B's comparison `Br(K)[2] ≅ H²(G_K, μ₂)`; TauCetiRoadmap.ClassFieldTheory
-Layer 5 for the local invariant `TauCeti.ClassFieldTheory.invMap`, its comparison
-`TauCeti.ClassFieldTheory.brauerGroupEquivBr` with Brauer classes, and the local symbol.
+*Needs:* Milestone 1; Layer 7B's comparison `Br(K)[2] ≅ H²(G_K, μ₂)` with its value
+`ι [(a,b)] = (a) ∪ (b)` (milestones 4 and 6), and item 3's transport
+`TauCeti.ClassFieldTheory.brauerGroupEquivBr` of the comparison onto Class Field Theory's carrier
+`Br K`; TauCetiRoadmap.ClassFieldTheory Layer 5 for `Br K`, the local invariant
+`TauCeti.ClassFieldTheory.invMap`, the normalized invariant `TauCeti.ClassFieldTheory.h2MuEquivZMod`
+and the local symbol.
 
 ### Examples
 
@@ -1806,7 +1827,8 @@ Tau Ceti's `TauCeti/NumberTheory/LocalField/` (`Uniformizer`, `Squares`, `Square
 `SquareClasses`, `UnitFiltration/`, `QuadraticForm/`, `Quaternion/`, `AlgebraicExtension/`,
 `FiniteExtension/`), `TauCeti/NumberTheory/HilbertSymbol/`, `TauCeti/NumberTheory/Padics/SerreSigns.lean`
 and `TauCeti/FieldTheory/GaloisCohomology/MuTwo/LocalSymbol.lean`; Layers 0 to 5 of this roadmap,
-with 6E's second milestone after Layer 7B; TauCetiRoadmap.LocalFieldsRamification Layers 0 to 2;
+with 6E's second milestone after Layer 7B and 6C's item 13 after Layer 7C; no other part of Layer 6
+needs Layer 7; TauCetiRoadmap.LocalFieldsRamification Layers 0 to 2;
 TauCetiRoadmap.ClassFieldTheory Layers 5 and 14.
 
 ## Layer 7: the Brauer group in Galois cohomology
@@ -2056,9 +2078,15 @@ The crossed-product theory and the comparison built from it are Tau Ceti's
    consistent, because both sides descend to cohomology classes (items 2.2 and 2.8) and both are
    unchanged by refining `L` (items 2.5 and 2.8); and it is rigid, because every Brauer class is a
    crossed-product class (item 2.6), which is `TauCeti.brauerCohomologyEquiv_unique`. A named
-   equivalence carrying no such equation is not this milestone.
+   equivalence carrying no such equation is not this milestone. Its transport onto Class Field
+   Theory's carrier `Br K = H²(G_K, (Kˢ)ˣ)` is `TauCeti.ClassFieldTheory.brauerGroupEquivBr`
+   (`TauCeti/NumberTheory/ClassFieldTheory/Brauer/CentralSimple/Basic.lean`), defined as
+   `TauCeti.brauerExplicitH2Equiv` followed by the change of model
+   `TauCeti.ClassFieldTheory.unitsRepH2Equiv`; 6E's second milestone reads the local invariant of a
+   quaternion class through it.
 
-   *Needs:* milestone 2.
+   *Needs:* milestone 2; TauCetiRoadmap.ClassFieldTheory Layer 5 for the carrier `Br K` of the
+   transport.
 
 4. **The 2-torsion comparison** `ι : Br(K)[2] ≃ H²(G_K, μ₂)` (EKM Example 99.1(4), p. 394, at
    `m = 2`). The 2-torsion subgroup is `TauCeti.BrauerGroup.twoTorsion` and `ι` is
@@ -2163,7 +2191,9 @@ local hypothesis, and none excludes the dyadic case.
 
   *Needs:* the cup-norm theorem; Layer 2's splitting criterion; Layer 6C's symbol.
 - **The identification with Class Field Theory's local symbol.** Over every field in which `2` is
-  invertible the cohomological local symbol `TauCeti.ClassFieldTheory.localSymbol` at the Kummer cup pairing
+  invertible, and for every identification `tr : H²(G_K, μ₂) ≃+ ZMod 2` (one exists exactly when
+  that group has two elements, as over a nonarchimedean local field or `ℝ`; see 6C item 13), the
+  cohomological local symbol `TauCeti.ClassFieldTheory.localSymbol` built on `tr` at the Kummer cup pairing
   `TauCeti.ClassFieldTheory.kummerCupPairing` vanishes exactly when `(a) ∪ (b)` does
   (`TauCeti.localSymbol_eq_zero_iff_cup`), so the norm-equation symbol is the sign of the
   cohomological one (`TauCeti.hilbertSymbol_eq_cohomological`), both in
@@ -2194,12 +2224,14 @@ local hypothesis, and none excludes the dyadic case.
 
 ### Dependencies
 
-Layers 0, 2 and 5; Layer 6A for the square-class dictionary; Layer 6C for the local
-identification only. Tau Ceti's `TauCeti/FieldTheory/GaloisCohomology/`,
+Layers 0, 2 and 5; Layer 6A for the square-class dictionary; from Layer 6C only the definition of
+the symbol (item 1), for 7C's five-fold criterion and local identification. Tau Ceti's
+`TauCeti/FieldTheory/GaloisCohomology/`,
 `TauCeti/Algebra/CrossedProduct/`, `TauCeti/Algebra/CentralSimple/` and
 `TauCeti/RepresentationTheory/Homological/ContCohomology/`. TauCetiRoadmap.ProfiniteCohomology
 Layers 0 to 4, 9, 10, 12 and 13; TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras Layers 4
-to 6; TauCetiRoadmap.ClassFieldTheory Layer 5 for the local identification.
+to 6; TauCetiRoadmap.ClassFieldTheory Layer 5 for the carrier `Br K` of 7B item 3 and for the local
+identification.
 
 ## Layer 8: Stiefel-Whitney classes
 

@@ -1,62 +1,42 @@
 import Mathlib
 import TauCeti.Algebra.Quaternion.BrauerClass
-import TauCeti.Algebra.Quaternion.SplittingCriterion
-import TauCeti.FieldTheory.GaloisCohomology.MuTwo.CupNorm
-import TauCeti.FieldTheory.QuadraticForm.StiefelWhitney.Evens.Kummer.Value
-import TauCeti.FieldTheory.QuadraticForm.StiefelWhitney.QuadraticExtension
-import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Discriminant
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse.Basic
 import TauCeti.NumberTheory.HilbertSymbol.Basic
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Brauer
-import TauCeti.NumberTheory.LocalField.QuadraticForm.Classification
 
 /-!
 # Quadratic forms and cohomological invariants: target signatures
 
-**This file is not the roadmap.** The roadmap is `README.md`. This file states the roadmap's five
-headline theorems against the pinned Mathlib and Tau Ceti, as examples: the four-fold splitting
-criterion of Layer 2, the classification of local forms by `(dim, d, s)` of Layer 6D, the cup-norm
-theorem of Layer 7C, and, in Layer 9, the value of the Evens norm on a Kummer class and the
-degree-two relative Stiefel–Whitney formula. Every headline is statable at the pins, and each is
-discharged by the Tau Ceti declaration that its docstring names.
+**This file is not the roadmap.** The roadmap is `README.md`. This file is the test of the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti. All five are statable at the pins, and
+the pinned Tau Ceti proves each of them, so they are cited here and not restated:
 
-The file also declares the three names that a roadmap on main imports from this namespace:
+- Layer 2, the four-fold splitting criterion for `ℍ[K,a,b]`:
+  `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae`;
+- Layer 6D, the classification of regular forms over a nonarchimedean local field by dimension,
+  discriminant and local Hasse invariant:
+  `QuadraticForm.equivalent_iff_finrank_eq_and_discr_eq_and_localHasse_eq`;
+- Layer 7C, the cup-norm theorem, `(a) ∪ (b) = 0` in `H²(G_K, 𝔽₂)` exactly when `b = x² − a y²`
+  is solvable: `TauCeti.cup_kummerClass_eq_zero_iff`;
+- Layer 9, the value of the Evens norm on a Kummer class: `TauCeti.galoisEvens2_kummerClass`;
+- Layer 9, the relative Stiefel–Whitney formula in degree two for a quadratic extension:
+  `TauCeti.sw2Class_formClass_traceTransfer_smul_sq`.
+
+No headline theorem is unstatable at the pins.
+
+The file declares the three names that a roadmap on main imports from this namespace:
 `OrthogonalSpinGroups` imports `hilbertSymbol`, `localHasse` (Layer 6C) and
 `hasseInvariant_eq_localHasse` (Layer 6E). `hilbertSymbol` is a reducible alias of Tau Ceti's
 symbol, `localHasse` is the pairwise product on a diagonal tuple `Fin n → Kˣ`, and
 `hasseInvariant_eq_localHasse` is proved from Tau Ceti with no admitted step. Every other name
 that a roadmap cites from this namespace is Tau Ceti's, and the README's scope section gives the
-Tau Ceti name for each. The carrier of isometry classes of regular forms and the class of a form
-are Tau Ceti's `TauCeti.RegularFormClass` and `TauCeti.formClass`, written with their Tau Ceti
-names below.
+Tau Ceti name for each. The carrier of isometry classes of regular forms is Tau Ceti's
+`TauCeti.RegularFormClass`, written with its Tau Ceti name below.
 -/
 
 namespace TauCetiRoadmap.QuadraticFormInvariants
 
-open QuadraticMap
-open scoped Quaternion
-
-universe u v w
-
-/-! ## Layer 2: quaternion algebras and the four-fold splitting criterion -/
-
-section Layer2
-
-variable {K : Type u} [Field K]
-
-/-- **Layer 2, the four-fold splitting criterion** (Lam III.2.7, Serre *CiA* III.1.1–1.2),
-Tau Ceti's `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae`: `ℍ[K,a,b]` splits, `b` is a
-norm from `K[√a]`, `b = x² − a y²` is solvable, `⟨1, −a, −b⟩` is isotropic, and the norm form
-`⟨⟨a,b⟩⟩` is isotropic, are equivalent. -/
-example [Invertible (2 : K)] (a b : Kˣ) :
-    [Nonempty (ℍ[K, (a : K), (b : K)] ≃ₐ[K] Matrix (Fin 2) (Fin 2) K),
-      ∃ z : QuadraticAlgebra K (a : K) 0, z.norm = b,
-      ∃ x y : K, (b : K) = x ^ 2 - a * y ^ 2,
-      ¬ (weightedSumSquares K ![1, -(a : K), -(b : K)]).Anisotropic,
-      ¬ (QuaternionAlgebra.normForm (a : K) 0 (b : K)).Anisotropic].TFAE :=
-  TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae a b
-
-end Layer2
+universe u
 
 /-! ## Layer 6C: the Hilbert symbol and the local Hasse invariant -/
 
@@ -147,62 +127,5 @@ theorem hasseInvariant_eq_localHasse [ValuativeRel K] [TopologicalSpace K]
   exact this
 
 end Layer6E
-
-/-! ## Layer 7C: the cup-norm theorem -/
-
-section Layer7C
-
-variable {K : Type u} [Field K]
-
-/-- **Layer 7C, the cup-norm theorem** (Serre, *Local Fields* XIV §2, Props. 4–5;
-Gille–Szamuely 4.7), Tau Ceti's `TauCeti.cup_kummerClass_eq_zero_iff`: over every field in which
-`2` is invertible, `(a) ∪ (b) = 0` in `H²(G_K, 𝔽₂)` exactly when `b = x² − a y²` is solvable. -/
-example [Invertible (2 : K)] (a b : Kˣ) :
-    (TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1
-        (TauCeti.kummerClass a) (TauCeti.kummerClass b) = 0 ↔
-      ∃ x y : K, (b : K) = x ^ 2 - a * y ^ 2 :=
-  TauCeti.cup_kummerClass_eq_zero_iff a b
-
-end Layer7C
-
-/-! ## Layer 9: transfer and the relative Stiefel-Whitney formula -/
-
-section Layer9
-
-variable {K : Type u} [Field K] {L : Type u} [Field L] [Algebra K L]
-
-/-- **Layer 9, the value of the Evens norm on a Kummer class** (Kahn, Lemme II.2.1), Tau Ceti's
-`TauCeti.galoisEvens2_kummerClass`: for `L = K(x)` with `x² = d` and `a ∈ Lˣ` of trace `t ≠ 0`,
-`N^Ev((a)) = (t) ∪ (−d · N a) + (2) ∪ (d)`. -/
-example [Invertible (2 : K)] [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    [Invertible (2 : L)] (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
-    (d : Kˣ) {x : L} (hx : x ∉ Set.range (algebraMap K L))
-    (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ) (t : Kˣ)
-    (ht : (t : K) = Algebra.trace K L (a : L)) :
-    TauCeti.galoisEvens K L σ hdeg (TauCeti.kummerClass a) =
-      (TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1
-          (TauCeti.kummerClass t)
-          (TauCeti.kummerClass (-(d * Units.map (Algebra.norm K : L →* K) a))) +
-        (TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1
-          (TauCeti.kummerClass (unitOfInvertible (2 : K))) (TauCeti.kummerClass d) :=
-  TauCeti.galoisEvens2_kummerClass σ hdeg d hx hx2 a t ht
-
-/-- **Layer 9, the relative Stiefel–Whitney formula in degree two** (Kahn, Théorème 2 in degree
-two), Tau Ceti's `TauCeti.sw2Class_formClass_traceTransfer_smul_sq`: for a quadratic extension
-`L/K` and `a ∈ Lˣ`,
-`w₂(Tr_*⟨a⟩) = w₂(Tr_*⟨1⟩) + N^Ev((a)) + w₁(Tr_*⟨1⟩) ∪ cor (a)`. -/
-example [Invertible (2 : K)] [FiniteDimensional K L] [Invertible (2 : L)]
-    (σ : L →ₐ[K] SeparableClosure K) (hfin : Module.finrank K L = 2) (a : Lˣ)
-    (ha : (((a : L) • QuadraticMap.sq (R := L) (A := L)).traceTransfer K).Nondegenerate)
-    (h1 : ((QuadraticMap.sq (R := L) (A := L)).traceTransfer K).Nondegenerate) :
-    TauCeti.sw2Class (TauCeti.formClass _ ha) =
-      TauCeti.sw2Class (TauCeti.formClass _ h1) +
-          TauCeti.galoisEvens K L σ hfin (TauCeti.kummerClass a) +
-        (TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1
-          (TauCeti.sw1Class (TauCeti.formClass _ h1))
-          (TauCeti.galoisCor K L σ 1 (TauCeti.kummerClass a)) :=
-  TauCeti.sw2Class_formClass_traceTransfer_smul_sq σ hfin a ha h1
-
-end Layer9
 
 end TauCetiRoadmap.QuadraticFormInvariants
