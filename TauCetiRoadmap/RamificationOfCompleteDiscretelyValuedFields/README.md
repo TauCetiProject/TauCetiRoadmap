@@ -13,10 +13,10 @@ residue-enlargement, proalgebraic-unit and graded-norm targets its proof needs. 
 residue field it then builds the absolute upper filtration of the absolute Galois group, with
 inertia and wild inertia as its terms at `0` and `0+`, the transition function `ψ_(L/K)` of a
 finite separable extension with the open-subgroup identity, and the comparison with the
-completed maximal unramified extension. On a nonarchimedean local field each object is the
-completed roadmap's, and the agreement is a target here. The package is the ramification theory
-that `p`-adic Hodge theory, integral `p`-adic Hodge theory, the conductors of Galois
-representations and the unit-filtration form of local class field theory consume over bases such
+completed maximal unramified extension. On a nonarchimedean local field each finite-level object
+is the completed roadmap's, and the agreement is a target here. The package is the ramification
+theory that `p`-adic Hodge theory, integral `p`-adic Hodge theory, the conductors of Galois
+representations and Serre's geometric local class field theory consume over bases such
 as `F̄_p((t))` and `Frac W(F̄_p)`.
 
 | Layer | Title | What it builds |
@@ -106,15 +106,19 @@ finite-isogeny fundamental group, reciprocity map and Sen tower estimates. Reduc
 `E`, its extended arithmetic Frobenius and its fixed-field results; §4a.3 proves that this
 roadmap's `K′` is `Breve E` on such a field.
 
-Two objects of nonarchimedean local fields are this roadmap's, because the completed roadmap stops
-at finite Galois levels and at the tame quotient. The absolute upper ramification groups `G_K^u`
-of a nonarchimedean local field, at every real depth `u ≥ −1` and in particular at the integers,
-are §4a.1's; §4a.1 proves that their image at each finite Galois level `M` is the completed
-roadmap's `TauCeti.LocalFieldsRamification.upperRamificationGroup K M u`. The function `ψ_(L/K)`
-of a finite separable, not necessarily Galois, extension of nonarchimedean local fields, with its
+On a nonarchimedean local field, the absolute upper filtration taken directly from the completed
+roadmap's finite upper groups, at each depth `u ≥ −1` the set of `σ ∈ G_K` whose restriction to
+every finite Galois `M` lies in `TauCeti.LocalFieldsRamification.upperRamificationGroup K M u`, is
+ClassFieldTheory Layer 7's; ClassFieldTheory precedes this roadmap and takes no input from it.
+§4a.1 owns the filtration relative to a valuation subring over every complete discretely valued
+field with perfect residue field, and its fourth bullet proves that on a nonarchimedean local
+field, for the valuation subring lying over `𝒪[K]`, this filtration is that set at every
+`u ≥ −1`, so the two agree. One object of nonarchimedean local fields is this roadmap's, because
+the completed roadmap's Herbrand functions assume `IsGalois K L`: the function `ψ_(L/K)` of a
+finite separable, not necessarily Galois, extension of nonarchimedean local fields, with its
 independence of the Galois closure, its tower law, the finite-level subgroup identity and the
-integral formula, is §4a.2's, read through §3a.2's agreement. A roadmap that uses either object
-on local fields cites §4a.1 or §4a.2 and does not define it a second time.
+integral formula, is §4a.2's, read through §3a.2's agreement. A roadmap that uses this function
+on local fields cites §4a.2 and does not define it a second time.
 
 ## Conventions
 
@@ -136,9 +140,12 @@ The lower filtration is Tau Ceti's filtration of a group acting on a local ring:
 under quotients, `G^(φ(u)) = G_u`, and jumps are the `u` with `G^v ≠ G^u` for every `v > u`.
 Arithmetic Frobenius is primary and geometric Frobenius is its inverse. `G_K` is Mathlib's
 `Field.absoluteGaloisGroup K` with the Krull topology, and its finite levels are the
-`M : FiniteGaloisIntermediateField K (AlgebraicClosure K)`. `K^ur` is the compositum of the finite
-subextensions of the algebraic closure with `e = 1`, `I_K` its fixing subgroup and `P_K` the
-inverse limit of the finite groups `G_1`; `K′` is the completion of `K^ur`.
+`M : FiniteGaloisIntermediateField K (AlgebraicClosure K)`. Over the perfect residue field of
+Layer 4a, `K^ur` is the compositum of the finite subextensions of the algebraic closure with
+`e = 1`, `I_K` its fixing subgroup and `P_K` the inverse limit of the finite groups `G_1`; `K′` is
+the completion of `K^ur`. These four objects are used only in Layer 4a: over an imperfect residue
+field a compositum of extensions with `e = 1` can be ramified, as `s^(1/p)` and `(s + t)^(1/p)`
+over `F_p(s)((t))` generate `t^(1/p)`.
 
 ## Exact supplier contracts
 
@@ -350,8 +357,8 @@ and `TauCeti.IsLocalRing.ramificationGroup_eq_top_of_le_neg_one`, the groups `G_
 kernel of the action on `IsLocalRing.ResidueField B`; by
 `TauCeti.IsLocalRing.exists_forall_ramificationGroup_eq_bot`, which uses that `B` is Noetherian
 and that the finite group `G` acts faithfully, `G_i = 1` for all large `i`; and by
-`TauCeti.IsLocalRing.subgroupOf_ramificationGroup`, `H_i = H ∩ G_i` for a subgroup
-`H = Gal(L/K′)`. For separable residue extension and a uniformizer `π_L`, reduction of
+`TauCeti.IsLocalRing.subgroupOf_ramificationGroup`, `H_i = H ∩ G_i` for every subgroup `H` of
+`G`, acting on `B` by restriction. For separable residue extension and a uniformizer `π_L`, reduction of
 `σ(π_L)/π_L` embeds `G_0/G_1` in `(IsLocalRing.ResidueField B)ˣ`, and for `i ≥ 1` reduction of
 `(σ(π_L) − π_L)/π_L^(i+1)` embeds `G_i/G_(i+1)` in the additive residue field. The ratio first
 gives a uniformizer-independent map to `U(L,i)/U(L,i+1)`, where `U(L,i) = 1 + 𝔪_B^i`; identifying
@@ -437,14 +444,14 @@ identities; and `G^(φ(u)) = G_u`. In the setting of 3a.1, with `S = B` and `φ_
 for these functions, prove:
 
 - `ψ` carries the jumps of the upper filtration to those of the lower one;
-- when the residue extension of `L/K` is separable (a hypothesis the residue extensions of
-  `L/K′` and `K′/K` inherit for every intermediate field `K′`), Herbrand's theorem: for `H`
-  normal in `G` and `v ≥ −1`, `(G/H)^v = G^v H/H`, and its field form through Mathlib's
-  `IsGalois.normalAutEquivQuotient` for `K′ = L^H`. Here `G/H` acts by Mathlib's quotient action
-  on the fixed ring `B^H = FixedPoints.subalgebra A B H`, the integer ring of `K′`. It is a
-  discrete valuation ring: by 3a.1 for the Galois extension `K′/K`, and, without completeness, as
-  the valuation ring of the restriction of `v_L` to `K′`, whose value group is a nonzero subgroup
-  of `ℤ`. The statement is `upperRamificationGroup_quotient_eq_map` in `Suggested.lean`, for
+- when the residue extension of `L/K` is separable (a hypothesis inherited by the residue
+  extensions of both steps of every tower `K ⊆ F ⊆ L` of intermediate fields), Herbrand's
+  theorem: for `H` normal in `G` and `v ≥ −1`, `(G/H)^v = G^v H/H`, and its field form through
+  Mathlib's `IsGalois.normalAutEquivQuotient` for the fixed field `L^H`. Here `G/H` acts by
+  Mathlib's quotient action on the fixed ring `B^H = FixedPoints.subalgebra A B H`, the integer
+  ring of `L^H`. It is a discrete valuation ring: by 3a.1 for the Galois extension `L^H/K`, and,
+  without completeness, as the valuation ring of the restriction of `v_L` to `L^H`, whose value
+  group is a nonzero subgroup of `ℤ`. The statement is `upperRamificationGroup_quotient_eq_map` in `Suggested.lean`, for
   discrete valuation rings `A` and `B` with `Algebra.IsInvariant A B G`, `FaithfulSMul G B` and
   separable residue extension, without completeness of `A`; the local-ring structure of `B^H`,
   which the pinned libraries do not infer, is a hypothesis there and is discharged by the
@@ -479,12 +486,12 @@ local-ring carrier, and agreement holds because
 `TauCeti.LocalFieldsRamification.lowerRamificationGroup` is defined as the local-ring filtration.
 Integrality of `ψ(n)` is the finite-sum formula together with Lagrange's theorem, as in
 `TauCeti.LocalFieldsRamification.coe_psiNat`. For Herbrand's theorem, the lower index of a class
-`s ∈ G/H` is `(1/e(L/K′)) Σ_(σ ∈ s) lowerIndex B σ`, computed at generators of `B` over `A` and
-of the integer ring of `K′` over `A`, which exist because the residue extensions are separable
+`s ∈ G/H` is `(1/e(L/L^H)) Σ_(σ ∈ s) lowerIndex B σ`, computed at generators of `B` over `A` and
+of the integer ring of `L^H` over `A`, which exist because the residue extensions are separable
 (3a.1); this is where the separability hypothesis enters, and the Check below shows the class
 formula and all three statements fail without it. The truncated count
 `TauCeti.IsLocalRing.sum_min_lowerIndex_natCast` turns this into Herbrand's lemma
-`(G/H)_(φ_(L/K′)(u)) = G_u H/H`. Comparing the slopes of both sides of the lemma gives tower
+`(G/H)_(φ_(L/L^H)(u)) = G_u H/H`. Comparing the slopes of both sides of the lemma gives tower
 transitivity, and the lemma with transitivity gives the theorem in upper numbering. The
 intersection formula follows from `H_i = H ∩ G_i` of 3a.1 and transitivity.
 
@@ -671,7 +678,7 @@ an Eisenstein polynomial. Let `A′` be the completion of a flat local `A_0`-alg
 integer ring of `K_0`, whose maximal ideal is generated by `𝔪_(A_0)` and whose residue field is
 an algebraic closure of `k`; it exists by EGA (10.3.1) and is a complete discrete valuation ring
 with the same uniformizer. The Eisenstein polynomial stays Eisenstein over `A′`, so
-`L′ = K′(π_L)` is a totally ramified Galois extension of `K′ = Frac A′` with group `G_0`, integer
+`L̃ = K̃(π_L)` is a totally ramified Galois extension of `K̃ = Frac A′` with group `G_0`, integer
 ring `A′[π_L]` and the same values `v_L(σπ_L − π_L)`: the lower filtration, hence the upper one,
 is unchanged. The proalgebraic and graded-norm targets give `π₀(V) ≅ G_0` in the abelian case.
 Its order, together with the bound on `#π₀(V_0)`, forces `G_(ψ(s)+1) = G_(ψ(s+1))` for every
@@ -1133,9 +1140,7 @@ and 4a.1–4a.3 directly (Hilbert's different formula, Herbrand functions and to
 Hasse–Arf, the absolute upper filtration with `G_K^0` inertia and `G_K^(0+)` wild inertia, the
 transition functions on open subgroups and the completed maximal unramified comparison) for
 representation breaks and Swan conductors over complete discretely valued fields with arbitrary
-perfect residue field, in both characteristics. ClassFieldTheory consumes §4a.1 (the absolute
-upper filtration with its finite projections) for the reciprocity–filtration compatibilities over
-a perfect residue field. PadicExtensionFamilies consumes §4a.2 (`ψ_(L/K)` of a finite separable
+perfect residue field, in both characteristics. PadicExtensionFamilies consumes §4a.2 (`ψ_(L/K)` of a finite separable
 extension of nonarchimedean local fields, with its independence of the Galois closure, tower law,
 finite-level subgroup identity and integral formula) for the breaks of a separable extension in
 its Layer 2 and its polygon-to-break theorem. FilteredLocalGaloisGroups and FieldOfNorms consume
