@@ -575,6 +575,20 @@ InverseGaloisAndArithmeticFundamentalGroups IG.0.4.
 - Over the infinite chain of copies of `𝔸¹`, the connected étale `ℤ`-torsor, the torus is split.
 - With the identity matrix instead, the gluing gives `𝔾_m²`, which is split.
 
+**Linearity (not a target).** Call an `S`-group `G` linear when there is a monomorphism of
+`S`-groups `G → GL(E)` for a locally free `𝒪_S`-module `E` of finite rank. A group of
+multiplicative type, of finite type and of constant type, is linear iff it is isotrivial (Gille
+2022, Theorem 3.3, over any base; SGA 3, Exp. XI, Remarque 4.6, for `S` locally noetherian and
+connected). So the torus of 2.6 is not linear, while over a connected, locally noetherian, normal
+base every group of multiplicative type of finite type is linear (2.5). A reductive `S`-group is
+linear iff its radical, the largest central subtorus, is isotrivial, and over an affine `S` the
+representation can then be taken to be a closed immersion into `GLₙ` (Gille 2022, Theorem 1.1).
+Over a separated noetherian base with the resolution property, an affine one for instance,
+linearity of a reductive group is equivalent to Thomason's equivariant resolution property (Gille
+2022, Theorem 6.2); so the torus of 2.6 does not have it, and neither does the non-isotrivial
+torus of rank two over the local ring of a curve at a double point, which answers a question of
+Thomason (Gille 2022, Remark 6.3).
+
 ### 2.7 Cocharacters, subtori, quotients
 
 For a torus `T`, `X_*(T)` is the dual of `X*(T)`, and tori correspond to locally constant sheaves
@@ -1459,6 +1473,15 @@ A.1.3). Over a strictly henselian local base all maximal tori of a reductive gro
 (the same, proof of Proposition 6.4.4, from Theorem 3.2.6). In the smooth affine case the
 étale-local statement is SGA 3, Exp. XII, 1.7 c).
 
+For a regular local ring `R` with fraction field `K` and a reductive `R`-group `G`, the
+Grothendieck–Serre conjecture predicts that `H¹(R, G) → H¹(K, G)` is injective: no nontrivial
+`G`-torsor over `R` becomes trivial over `K` (Česnavičius 2022, Conjecture 3.1.1). It is known when
+`G` is a torus, by Colliot-Thélène and Sansuc, which covers the tori of Layer 2 (for split tori it
+is 1.6, since `Pic` of a local ring is `0`); when `dim R ≤ 1`, and when `R` is Henselian; when `R`
+contains a field; and, in mixed characteristic, when `R` is unramified and `G` has a Borel
+`R`-subgroup (ibid., §3.1.4 (1)–(4)). It remains open in mixed characteristic, especially over
+ramified regular local rings, those with `p ∈ m²` (ibid., end of §3.1.4).
+
 ## References
 
 - M. Demazure, A. Grothendieck et al., *Schémas en groupes* (SGA 3), LNM 151–153 (1970); re-edition
@@ -1467,13 +1490,19 @@ A.1.3). Over a strictly henselian local base all maximal tori of a reductive gro
   1.3.2, 2.1.1, 2.3.1, 2.4, 2.4.1, 3.2, 5.5.1, 6.5–6.7, 6.9; Exp. VI_B 1.2.2, 1.4, 1.4.2, 1.4.3,
   1.6, 1.6.1, 3.9, 3.10, 5.2, 5.6.4, 12.10.1; Exp. VII_A 6.1, 7.2, 7.4, 8.1.2; Exp. VIII 1.5, 1.6,
   2.1, 3.1, 3.2, 6.3–6.5; Exp. IX 1.1, 1.5, 2.1, 2.7, 2.11, 3.3, 3.6, 4.7, 4.8, 5.1, 5.3, 6.8; Exp.
-  X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3, 8.7; Exp. XI 2.4, 4.2, 5.3, 5.3 bis, 5.9, 6.1,
-  6.2, 6.4; Exp. XII 1.5, 1.7, 1.10, 7.1.
+  X 1.2, 1.4, 1.6, 2.1, 4.5, 5.1, 5.6–5.9, 5.16, 8.3, 8.7; Exp. XI 2.4, 4.2, 4.6, 5.3, 5.3 bis, 5.9,
+  6.1, 6.2, 6.4; Exp. XII 1.5, 1.7, 1.10, 7.1.
 - B. Conrad, « A modern proof of Chevalley's theorem on algebraic groups », *J. Ramanujan Math.
   Soc.* 17 (2002), 1–18, Thm. 1.1.
 - B. Conrad, « Reductive group schemes », in *Autour des schémas en groupes* I, Panoramas et
   Synthèses 42–43, SMF (2014), Lemma B.3.1; Theorem 3.2.6, Proposition 6.4.4 and Remark A.1.3, in
   the numbering of the author's version.
+- K. Česnavičius, « Problems about torsors over regular rings », with an appendix by Y. Zhao,
+  *Acta Math. Vietnam.* 47 (2022), 39–107, Conjecture 3.1.1 and §3.1.4 (numbering of
+  arXiv:2201.06424v4). doi:10.1007/s40306-022-00477-y.
+- P. Gille, « When is a reductive group scheme linear? », *Michigan Math. J.* 72 (2022), 439–448,
+  Theorems 1.1, 3.3 and 6.2, Remark 6.3 (numbering of arXiv:2103.07305v3).
+  doi:10.1307/mmj/20217208.
 - J. S. Milne, *Algebraic groups: the theory of group schemes of finite type over a field*,
   Cambridge Stud. Adv. Math. 170, Cambridge University Press (2017), doi:10.1017/9781316711736:
   Propositions 1.22, 1.26, 1.29–1.31, 1.34 and 2.37, Example 1.27, Remarks 1.33 and 3.28,
