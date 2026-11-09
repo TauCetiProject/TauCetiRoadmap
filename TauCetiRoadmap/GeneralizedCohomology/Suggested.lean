@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Topology.Homotopy.HurewiczFibration.Basic
 import TauCeti.AlgebraicTopology.Homotopy.Hurewicz.Basic
+import TauCeti.AlgebraicTopology.SimplicialSet.WeakEquivalence
 
 /-!
 # Generalized cohomology, spectra and orientations: target signatures
@@ -11,6 +12,13 @@ the acceptance test of the finished roadmap.
 
 Statable at the pins, and stated below:
 
+* the Kan–Quillen model structure on simplicial sets (G2.1), as its two weak factorization
+  systems, on Mathlib's scoped cofibrations and fibrations of `SSet.modelCategoryQuillen` and
+  Tau Ceti's scoped weak equivalences
+  `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences` (realization-defined weak
+  homotopy equivalences); with Tau Ceti's two-out-of-three instance for these weak equivalences
+  and Mathlib's finite limits and colimits of `SSet`, `HomotopicalAlgebra.ModelCategory.mk'`
+  turns the two systems into a model category with exactly these classes;
 * the Hurewicz–Dold theorem for numerable locally trivial maps (G2.10), on Tau Ceti's
   `TauCeti.IsHurewiczFibration` and Mathlib's `Bundle.Trivialization` and `PartitionOfUnity`;
 * the comparison theorem for extraordinary homology theories on CW complexes (G3.3, homology
@@ -21,10 +29,10 @@ Statable at the pins, and stated below:
 
 Headline theorems of the roadmap that are not statable at the pins, with the missing carrier:
 
-* the Kan–Quillen model structure on simplicial sets and the Quillen equivalence of
-  realization and `Sing` (G2.1): Mathlib has the generating classes
-  `SSet.modelCategoryQuillen.I` and `J` with their cofibrations and fibrations, but no class of
-  weak equivalences of simplicial sets and no `ModelCategory SSet`;
+* the Quillen equivalence of realization and `Sing` (G2.1): there is no model structure on
+  `TopCat` (Tau Ceti has the weak homotopy equivalences `TauCeti.TopCat.weakEquivalences` and
+  the Serre fibrations `TauCeti.TopCat.serreFibrations`, but no cofibrations of spaces) and no
+  notion of a Quillen adjunction or Quillen equivalence;
 * the stable model structure on symmetric spectra and the stable homotopy category (G2.3,
   G2.4): Tau Ceti has `TauCeti.SymmetricSpectrum` with its point-set smash product, but no
   stable equivalences;
@@ -45,13 +53,38 @@ Headline theorems of the roadmap that are not statable at the pins, with the mis
   homotopy category and no generalized cohomology theory represented by a spectrum.
 -/
 
-open CategoryTheory
+open CategoryTheory HomotopicalAlgebra
+
+open scoped SSet.modelCategoryQuillen
 
 universe u w
 
 namespace TauCetiRoadmap.GeneralizedCohomology
 
 /-! ## Layer 2: a concrete spectral model and represented theories -/
+
+/-- **Kan–Quillen model structure: trivial cofibrations and Kan fibrations.** On simplicial
+sets, take the monomorphisms as cofibrations, the Kan fibrations (the maps with the right
+lifting property against every horn inclusion) as fibrations, and the maps whose geometric
+realization is a weak homotopy equivalence as weak equivalences. Then the trivial cofibrations
+and the Kan fibrations form a weak factorization system: each class is exactly the class with
+the lifting property against the other, and every map factors as a trivial cofibration followed
+by a Kan fibration (Quillen, *Homotopical Algebra*, Chapter II, Section 3). README G2.1. -/
+theorem kanQuillen_isWeakFactorizationSystem_trivialCofibrations_fibrations :
+    MorphismProperty.IsWeakFactorizationSystem (trivialCofibrations SSet.{u})
+      (fibrations SSet.{u}) := by
+  sorry
+
+/-- **Kan–Quillen model structure: monomorphisms and trivial Kan fibrations.** For the same
+classes, the monomorphisms and the Kan fibrations that are weak equivalences form a weak
+factorization system: a map has the right lifting property against every monomorphism exactly
+when it is a Kan fibration whose realization is a weak homotopy equivalence, and every map
+factors as a monomorphism followed by such a map (Quillen, *Homotopical Algebra*, Chapter II,
+Section 3). README G2.1. -/
+theorem kanQuillen_isWeakFactorizationSystem_cofibrations_trivialFibrations :
+    MorphismProperty.IsWeakFactorizationSystem (cofibrations SSet.{u})
+      (trivialFibrations SSet.{u}) := by
+  sorry
 
 /-- **Hurewicz–Dold theorem for numerable locally trivial maps.** A map `p : Z → B` that is
 trivial, with fibre `F`, over the base sets of a family of local trivializations admitting a
@@ -101,11 +134,12 @@ theorem stableStem_isOfFinOrder (n k : ℕ) (hk : n + 3 ≤ k)
   sorry
 
 /-- **Unstable rational Hurewicz theorem.** Let `X` be a pointed space with `π_j(X, x)` trivial
-for `j < k` (so `X` is path connected, and `(k - 1)`-connected). The Hurewicz map
-`π_(n+1)(X, x) → H_(n+1)(X; ℚ)` is a rational isomorphism in degrees `n + 1 ≤ 2k - 2`: its
-kernel consists of elements of finite order and its image spans the rational homology; and it is
-rationally surjective in degree `2k - 1`. For `k ≤ 1` only the degree-one surjectivity is
-asserted. The route is Freudenthal and the stable rational Hurewicz isomorphism, after CW
+for `j < k` (so for `k ≥ 1` the space `X` is path connected and `(k - 1)`-connected). The
+Hurewicz map `π_(n+1)(X, x) → H_(n+1)(X; ℚ)` is a rational isomorphism in degrees
+`n + 1 ≤ 2k - 2`: its kernel consists of elements of finite order and its image spans the
+rational homology; and it is rationally surjective in degree `2k - 1`. For `k = 1` only the
+degree-one surjectivity is asserted, and for `k = 0`, where `X` need not be path connected,
+nothing is (both ranges are empty in natural-number arithmetic). The route is Freudenthal and the stable rational Hurewicz isomorphism, after CW
 approximation. README G5.6. -/
 theorem rationalHurewicz {X : Type} [TopologicalSpace X] (x : X) (k : ℕ)
     (hconn : ∀ j < k, Subsingleton (HomotopyGroup (Fin j) X x)) (n : ℕ) :

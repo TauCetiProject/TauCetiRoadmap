@@ -12,8 +12,8 @@ localization and completion (G3); generalized Leray–Hirsch, Thom and Euler the
 complex and quaternionic orientations (G4); and finite Spanier–Whitehead duality, Thom spectra,
 the canonical ring spectra and orientations, and rational Hurewicz theorems (G5). The pointed
 simplicial sets, symmetric sequences and symmetric spectra are Tau Ceti's; the CW, homotopy-group
-and ordinary-homology substrate is AlgebraicTopology's. The headline theorems are the stable
-model structure and its comparisons, Freudenthal suspension, Brown representability, the
+and ordinary-homology substrate is AlgebraicTopology's. The headline theorems are the Kan–Quillen
+model structure on simplicial sets, the stable model structure and its comparisons, Freudenthal suspension, Brown representability, the
 comparison theorem, the Milnor sequence, the Thom isomorphism, Spanier–Whitehead duality, the
 Hurewicz–Dold theorem for numerable bundles, and the stable and unstable rational Hurewicz
 theorems. [Suggested.lean](Suggested.lean) is the acceptance test: it states the headline
@@ -54,7 +54,21 @@ equivalences of arbitrary symmetric spectra.
   `SSet.Edge.IsEquivalence` and the core `SSet.core`. G2.11 owns the model structures,
   straightening and the theorems about these objects, not the objects.
 - Mathlib's quotient topology on `Projectivization` over a division ring, used for quaternionic
-  projective space in G4.0.
+  projective space in G4.0, and Mathlib's simplex Reedy structure `SimplexCategory.reedyStructure`,
+  used in G2.11.
+- The Kan–Quillen classes of maps of simplicial sets: Mathlib's scoped cofibrations
+  (monomorphisms) and fibrations (Kan fibrations) of `SSet.modelCategoryQuillen`, and Tau Ceti's
+  scoped weak equivalences `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences`, the maps
+  whose realization is a weak homotopy equivalence, with two out of three, retract stability and
+  the trivial-fibration characterization `SSet.rlp_monomorphisms_iff`. G2.1 owns the model axioms
+  for these classes, not the classes.
+- Tau Ceti's real Hilbert-space functional calculus: the `L²` complexification
+  `WithLp 2 (TauCeti.Complexification H)`, the complexification of bounded operators
+  `ContinuousLinearMap.complexifyL2` with its isometric ⋆-embedding, the continuous functional
+  calculus `ContinuousLinearMap.instContinuousFunctionalCalculusRealIsSelfAdjoint` for bounded
+  self-adjoint operators on a real Hilbert space, and the star order
+  `ContinuousLinearMap.instStarOrderedRingRCLike` registered as an instance. G5.5 owns only the
+  closed-operator descent and the finite-Clifford extensions.
 
 **Owned here and consumed elsewhere.** G2.1's Kan–Quillen model structure and G2.11's enriched,
 quasicategorical, straightening, coherent-diagram, stable and operadic foundations are owned
@@ -80,6 +94,10 @@ versions. The G2.1, G2.2 and G2.10 carriers below are Tau Ceti's.
 
 - G2.1 realizationProductKelleyComparison → AlgebraicTopology Stage 4.5, simplicial-realization
   product comparison.
+- G2.9's GL_k(ℝ) polar deformation to O(k), its low-rank homotopy table, the semidirect-product
+  group structures and the stabilization maps → G4.0c “Low-rank homotopy of the orthogonal and
+  general linear groups”; G2.9 keeps the general classifiers, bar models, gauge maps and
+  clutching.
 - G2.10 IsHurewiczFibration, MappingPathSpace and MappingPathFiber → Tau Ceti
   `TauCeti.IsHurewiczFibration`, `TauCeti.MappingPathSpace` and `TauCeti.MappingPathFiber`.
 - G2.10 mappingPathFiberConstHomeomorphPath and mappingPathFiberConstHomeomorphLoopSpace → Tau Ceti
@@ -89,17 +107,20 @@ versions. The G2.1, G2.2 and G2.10 carriers below are Tau Ceti's.
 - G2.1 and G2.2 pointed simplicial sets, finite bijections, symmetric sequences and symmetric spectra
   → Tau Ceti `TauCeti.PointedSSet`, `TauCeti.FiniteBijection`, `TauCeti.SymmetricSequence` and
   `TauCeti.SymmetricSpectrum`.
-- BordismFormalGroups F6.5 “Categorical model and functor spaces” → G2.11 “Categorical model and
-  functor spaces”.
-- BordismFormalGroups F6.5 “Enriched diagram foundations before straightening” → G2.11 “Enriched
-  diagram foundations before straightening”.
-- BordismFormalGroups F6.5 “Unmarked straightening and the categorical model” → G2.11 “Unmarked
-  straightening and the categorical model”.
-- BordismFormalGroups F6.5 “Marked fibrations and Kan extensions” → G2.11 “Marked fibrations and
-  Kan extensions”.
+- BordismFormalGroups F6.5 “Categorical model and functor spaces” → G2.11.1 “Categorical model
+  and functor spaces”.
+- BordismFormalGroups F6.5 “Enriched diagram foundations before straightening” → G2.11.2
+  “Enriched diagram foundations before straightening”, with its internal-hom, localization and
+  homotopy-limit parts in G2.11.3–2.11.4.
+- BordismFormalGroups F6.5 “Unmarked straightening and the categorical model” → G2.11.5
+  “Unmarked straightening and the categorical model”, with the Joyal model in G2.11.6.
+- BordismFormalGroups F6.5 “Marked fibrations and Kan extensions” → G2.11.7 “Marked fibrations
+  and marked straightening” and G2.11.10 “Kan extensions, adjunctions and presheaf
+  localizations”.
 - BordismFormalGroups F6.5 “Coherent model diagrams and stable enhancements”, including Sp∞ and the
-  monoidal, LM-fibre, quotient and Ind sub-lanes → G2.11 “Coherent model diagrams and stable
-  enhancements”.
+  monoidal, LM-fibre, quotient and Ind sub-lanes → G2.11.8 “Coherent model diagrams and stable
+  enhancements”, with Sp∞ in G2.11.9, the monoidal lane in G2.11.11, the quotient and Ind lane in
+  G2.11.12, the relative adjoints in G2.11.13 and the LM fibres in G2.11.14.
 
 ## Conventions
 
@@ -181,10 +202,17 @@ versions. The G2.1, G2.2 and G2.10 carriers below are Tau Ceti's.
 
 - `SSet`, `SSet.boundary`, `SSet.horn`, `SSet.KanComplex`, `SSet.Quasicategory`, the inner
   fibrations and the internal hom of simplicial sets; `SSet.modelCategoryQuillen.I` and
-  `SSet.modelCategoryQuillen.J` with their cofibration and fibration classes
-  (`AlgebraicTopology/SimplicialSet/CategoryWithFibrations.lean`). Mathlib has no class of weak
-  equivalences of simplicial sets and no `ModelCategory SSet`; G2.1 builds them.
-- `HomotopicalAlgebra.ModelCategory`, `HomotopicalAlgebra.ReedyStructure`, categorical
+  `SSet.modelCategoryQuillen.J` with their scoped cofibration (monomorphism) and fibration
+  (`J.rlp`) classes, and `SSet.rlp_monomorphisms`, the equality of the right lifting class of
+  the monomorphisms with `I.rlp` (`AlgebraicTopology/SimplicialSet/CategoryWithFibrations.lean`);
+  the realization adjunction `sSetTopAdj : SSet.toTop ⊣ TopCat.toSSet`
+  (`AlgebraicTopology/SingularSet.lean`). Mathlib has no weak equivalences of simplicial sets (Tau
+  Ceti supplies them) and no `ModelCategory SSet`.
+- `HomotopicalAlgebra.ModelCategory` with its constructor `HomotopicalAlgebra.ModelCategory.mk'`
+  from two weak factorization systems (`AlgebraicTopology/ModelCategory/Basic.lean`),
+  `MorphismProperty.IsWeakFactorizationSystem`, `HomotopicalAlgebra.ReedyStructure` and the simplex
+  Reedy structure `SimplexCategory.reedyStructure`
+  (`AlgebraicTopology/Reedy/SimplexCategory.lean`), categorical
   localization, `HasShift`, `Pretriangulated` and `IsTriangulated`; `CategoryTheory.Under`,
   `Action`, `Mon`, `Mod`, `CommMon`, `DayFunctor`, `EnrichedCat`, `EnrichedFunctor`,
   `ForgetEnrichment`, `CategoryTheory.SimplicialCategory`, `SimplicialThickening` and
@@ -198,7 +226,10 @@ versions. The G2.1, G2.2 and G2.10 carriers below are Tau Ceti's.
   and the carrier of the homology form of the comparison theorem in G3.3.
 - `FormalGroup` and `FormalGroup.IsComm` (`RingTheory/FormalGroup/Basic.lean`), `CliffordAlgebra`,
   `Quaternion`, `Projectivization` with its quotient topology over a division ring,
-  `CStarModule`, `WithCStarModule`, `LinearPMap` and the continuous functional calculus classes.
+  `CStarModule`, `WithCStarModule`, `LinearPMap` and the continuous functional calculus classes;
+  the Loewner order `ContinuousLinearMap.instLoewnerPartialOrder`, `IsPositive.spectrumRestricts`
+  and `ContinuousLinearMap.instStarOrderedRingRCLike` (`Analysis/InnerProductSpace/StarOrder.lean`),
+  and `nonneg_iff_isSelfAdjoint_and_quasispectrumRestricts`.
 
 ### From Tau Ceti
 
@@ -241,6 +272,17 @@ versions. The G2.1, G2.2 and G2.10 carriers below are Tau Ceti's.
   (`SimplicialSet/Slice.lean`); `SSet.Edge.IsCartesian` and `SSet.CartesianFibration`
   (`Quasicategory/Cartesian.lean`); `SSet.Edge.IsEquivalence` and `SSet.core`
   (`Quasicategory/Core.lean`).
+- Kan–Quillen weak equivalences: the scoped instance
+  `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences`, the maps whose geometric
+  realization is a weak homotopy equivalence, with `SSet.modelCategoryQuillen.weakEquivalence_iff`,
+  `SSet.modelCategoryQuillen.weakEquivalences_eq` (the inverse image of
+  `TauCeti.TopCat.weakEquivalences` under realization), the two-out-of-three, composition and
+  retract instances, and `SSet.modelCategoryQuillen.weakEquivalence_of_stdSimplex`
+  (`AlgebraicTopology/SimplicialSet/WeakEquivalence.lean`); the weak homotopy equivalences
+  `TauCeti.TopCat.weakEquivalences` of `TopCat` with the same closure instances
+  (`Topology/Category/TopCat/WeakEquivalence.lean`); and the trivial-fibration characterization
+  `SSet.rlp_monomorphisms_iff`, a map lifts against every monomorphism exactly when it is a Kan
+  fibration with a shrinking (`AlgebraicTopology/SimplicialSet/TrivialFibration.lean`).
 - Homotopy: `HomotopyGroup.hurewiczHom` (`AlgebraicTopology/Homotopy/Hurewicz/Basic.lean`), the
   Hurewicz homomorphism `π_(n+1)(X,x) → (R ⟶ H_(n+1)(X;R))`; the pointed homotopy category
   `TauCeti.PointedHomotopyCat` of based spaces `TauCeti.BasedTopologicalSpace`, with pointed
@@ -248,9 +290,25 @@ versions. The G2.1, G2.2 and G2.10 carriers below are Tau Ceti's.
   and the wedge sum `TauCeti.WedgeSum` of an arbitrary family of pointed spaces with its inclusions
   and universal property `TauCeti.WedgeSum.lift` (`Topology/WedgeSum.lean`). Tau Ceti puts a CW
   structure on a wedge of circles only (`Topology/CWComplex/Classical/WedgeCircles.lean`).
-- Clifford and Lie data for G4.0 and G5.5: `TauCeti.Complexification`, `TauCeti.realCliffordForm`,
+- Clifford and Lie data for G4.0a, G4.0b and G5.5: `TauCeti.Complexification`, `TauCeti.realCliffordForm`,
   `TauCeti.realSpinFourEquivQuaternionUnitaryProd`, `TauCeti.Lie.EmbeddedLieSubgroupData` and the
   embedded-unitary Lie subgroup data.
+- Real Hilbert spaces for G5.5: the `L²` complexification `WithLp 2 (TauCeti.Complexification H)`
+  with `WithLp.instComplexificationInnerProductSpace`, `WithLp.complexification_norm_sq_eq` and
+  `WithLp.instComplexificationCompleteSpace`
+  (`Analysis/InnerProductSpace/Complexification.lean`); `ContinuousLinearMap.complexifyL2` with
+  `ContinuousLinearMap.eq_complexifyL2_iff`, `ContinuousLinearMap.norm_complexifyL2`,
+  `ContinuousLinearMap.complexifyL2_comp`, `ContinuousLinearMap.adjoint_complexifyL2`,
+  `ContinuousLinearMap.complexifyL2StarAlgHom` and
+  `ContinuousLinearMap.isSelfAdjoint_complexifyL2_iff`; and the real calculus
+  `ContinuousLinearMap.instContinuousFunctionalCalculusRealIsSelfAdjoint` with
+  `ContinuousLinearMap.spectrum_complexifyL2` and `ContinuousLinearMap.complexifyL2_cfc`, which
+  also registers Mathlib's `ContinuousLinearMap.instStarOrderedRingRCLike` as an instance
+  (`Analysis/InnerProductSpace/ContinuousFunctionalCalculus.lean`).
+- Riemannian metrics for G5.7: `TauCeti.nonempty_contMDiffRiemannianMetric`, a `C^n` Riemannian
+  metric on every `C^n` real vector bundle with finite-dimensional fibres over a σ-compact
+  Hausdorff manifold modelled on a finite-dimensional space
+  (`Geometry/Manifold/VectorBundle/Riemannian/Existence.lean`).
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
@@ -321,8 +379,8 @@ versions. The G2.1, G2.2 and G2.10 carriers below are Tau Ceti's.
 
 - SpinRepresentations Layer 7: real Clifford algebras and the native Spin(3) data.
 - LieGroups Layer 2: the closed-subgroup theorem, making the classical matrix groups embedded Lie
-  subgroups of the general linear group. The sphere fibrations of these groups are built in G2.9
-  and G4.0a, not taken from LieGroups.
+  subgroups of the general linear group. The sphere fibrations of these groups are built in G4.0a
+  and G4.0c, not taken from LieGroups.
 - CompactGroups Layer 0: normalized Haar measure and averaging.
 
 ### From TauCetiRoadmap.SpinGeometry
@@ -334,9 +392,12 @@ versions. The G2.1, G2.2 and G2.10 carriers below are Tau Ceti's.
 
 ### From TauCetiRoadmap.GeometricTopology
 
-- Layer 1: smooth embeddings and tubular neighbourhoods, finite-dimensional normal bundles, tubes
-  and the collapse comparison, and the smoothing-and-triangulation comparison with its relative
-  collar extension.
+- Layer 1 (1.1 collars, 1.5 tubular neighbourhoods): smooth embeddings and tubular
+  neighbourhoods, finite-dimensional normal bundles, tubes and the collapse comparison, and
+  collars of manifolds with boundary.
+- Layer 11.3: smooth triangulations, so that a compact smooth manifold, and with Layer 1.1's
+  collars a compact collared pair, has a finite CW model (smooth implies PL). GeometricTopology's
+  map of its former anchors sends item 1 of the smoothing-and-triangulation comparison here.
 
 ### From TauCetiRoadmap.HilbertModules
 
@@ -364,7 +425,7 @@ spaces and the mapping-path replacements, and closes with the quasicategorical a
 foundations of G2.11 that G5.7 and the downstream equivariant roadmaps instantiate. G3 proves
 Brown representability and the infinite comparisons, using G1 for the axioms and G2 for the
 spectra. G4 proves the generalized Leray–Hirsch and Thom theorems from G1 and G3, with the
-quaternionic adapters of G4.0 built first. G5 constructs duality, Thom spectra, the canonical
+quaternionic adapters of G4.0–4.0c built first. G5 constructs duality, Thom spectra, the canonical
 ring spectra and their orientations, and the rational comparisons, from G2–G4. Each layer ends
 with its examples and its dependencies.
 
@@ -472,8 +533,9 @@ and change-of-ring/theory maps on these actual carriers.
 
 Prove the cofiber sequence
 `X∨Y → X×Y → X∧Y` for well-pointed CW models, together with its
-natural split on theory groups and after stable suspension, and its extension by derived
-replacement. The product class restricts to zero on the wedge. Prove the
+natural split on theory groups and after stable suspension (for CW complexes
+`Σ(X×Y) ≃ ΣX ∨ ΣY ∨ Σ(X∧Y)`: Hatcher, *Algebraic Topology*, Proposition 4I.1, p. 467), and its
+extension by derived replacement. The product class restricts to zero on the wedge. Prove the
 collapse pullback is injective using the Puppe continuation and the split
 surjectivity on the preceding groups; consequently the external class is
 the unique lift of the pullback-and-cup class. A vanishing wedge restriction
@@ -488,6 +550,7 @@ do not identify disjoint basepoint addition with this compactification.
 
 - For X = Y = S¹ and ordinary cohomology, `H̃²(S¹×S¹) = ℤ`, `H̃²(S¹∨S¹) = 0`, and the collapse S¹×S¹ → S² induces an isomorphism on `H̃²`, so the lift of a×b is unique.
 - For U = V = ℝ, `(U×V)⁺ = (ℝ²)⁺ = S² = U⁺∧V⁺`, whereas `(ℝ²)₊` with a disjoint basepoint is not compact.
+- The split exists only after suspension: `Σ(S¹×S¹) ≃ S² ∨ S² ∨ S³` (Hatcher, *Algebraic Topology*, Proposition 4I.1, p. 467), while S¹×S¹ is not homotopy equivalent to S¹∨S¹∨S², since the cup product of the two degree-one generators is nonzero on the torus and zero on the wedge.
 
 ### 1.6 Boundary module identities (G1.6)
 
@@ -496,23 +559,31 @@ For `a∈Eᵖ(X)` and `b∈Eᑫ(A)` prove
 `δ(b∪i* a)=δb∪a`, with the absolute/relative actions displayed. Give the
 analogous two-variable relative/external formulas on their correctly typed
 triples. Do not state an untyped derivation law whose factors inhabit
-incompatible absolute or relative groups.
+incompatible absolute or relative groups. In ordinary cohomology both identities are the
+cochain rule `δ(φ∪ψ) = δφ∪ψ + (−1)^p φ∪δψ` applied to a cocycle φ and an extension of ψ
+(Hatcher, *Algebraic Topology*, Lemma 3.6, p. 206); for a general multiplicative theory they
+follow from the suspension laws of G1.4 and the pair-to-mapping-cone comparison.
 
 *Needs:* 1.4.
 
 **Checks.**
 
-- For the pair (D¹, S⁰), degree p = 0 and a = 1, the identity reads `δ(i*1 ∪ b) = δb`, with sign `(−1)⁰ = 1`.
+- For the pair (D¹, S⁰), degree p = 0 and a = 1, the identity reads `δ(i*1 ∪ b) = δb`, with sign `(−1)⁰ = 1`; this case does not distinguish the signed rule from the unsigned one.
+- For p = 1 take (X, A) = (S¹×D¹, S¹×S⁰), a = α×1 with α the generator of `H¹(S¹;ℤ)`, and b ∈ `H⁰(S¹×S⁰)` equal to 1 on S¹×{1} and 0 on S¹×{−1}. With θ ∈ `H¹(D¹,S⁰)` the boundary of the class that is 1 at the point 1, δb = 1×θ and `δ(i*a ∪ b) = δ(α×(b|S⁰)) = −α×θ = (−1)¹ a∪δb` in `H²(S¹×(D¹,S⁰)) ≅ ℤ`, generated by α×θ; the unsigned rule would give +α×θ.
+- In the same example the right action has no sign: `δ(b ∪ i*a) = −α×θ`, and `δb ∪ a = (1×θ)∪(α×1) = (−1)^(1·1) α×θ = −α×θ`; a rule with (−1)^p on the right action too would give +α×θ.
 
 ### 1.7 Sphere and circle tests (G1.7)
 
 Suspension identifies
-`Ẽⁿ(S^r) ≃ E^(n−r)(*)` for r≥0. Construct the suspension-of-unit class
+`Ẽⁿ(S^r) ≃ E^(n−r)(*)` for r≥0, by iterating the suspension isomorphism
+`Ẽ^q(X) ≅ Ẽ^(q+1)(ΣX)` (Cohen, *Bundles, Manifolds, and Homotopy*,
+Lemma 10.17, p. 291). Construct the suspension-of-unit class
 σ in `E¹(S¹)` and prove
 `Eⁿ(S¹) ≃ Eⁿ(*) ⊕ E^(n−1)(*)` as graded coefficient modules and rings,
 with the second summand a square-zero ideal. Prove σ²=0 by the nullhomotopy
-of the reduced diagonal `S¹→S¹∧S¹`; odd-degree graded commutativity alone
-proves only 2σ²=0. Prove the bimodule/Koszul action on the shifted summand.
+of the reduced diagonal `S¹→S¹∧S¹`, the argument by which cup products of positive-degree
+classes vanish on a suspension in ordinary cohomology (Hatcher, *Algebraic Topology*, Section
+4.L, p. 489); odd-degree graded commutativity alone proves only 2σ²=0. Prove the bimodule/Koszul action on the shifted summand.
 
 *Needs:* 1.1–1.6.
 
@@ -542,14 +613,34 @@ comparison with simplicial objects in `Pointed`, the degreewise smash product (t
 of X×Y by X∨Y) with unit S⁰ and its symmetric monoidal closed structure, the simplicial
 tensors and cotensors, the simplicial circle Δ[1]/∂Δ[1] with its boundary collapsed to the
 chosen point, and the suspension–loop adjunction. Build their homotopy theory here.
-First build the unpointed Kan–Quillen model structure on `SSet` from Mathlib's boundary and
-horn generating classes `SSet.modelCategoryQuillen.I` and `SSet.modelCategoryQuillen.J`.
-Define a simplicial weak equivalence to mean that its realization induces a bijection on
-path components and isomorphisms on all based homotopy groups; prove the equivalent
-Kan-group criterion after fibrant replacement. Follow the design of Riou's topcat
-model-category project. Supply the lifting, smallness, factorization and model axioms and
-the induced pointed model structure on `Under Δ[0]`. On topological spaces use the
-weak-homotopy (Serre) model with its explicit compactly generated adapter.
+The three Kan–Quillen classes are at the pins: Mathlib's scoped cofibrations (the
+monomorphisms) and fibrations (the Kan fibrations, `J.rlp` for the horn class
+`SSet.modelCategoryQuillen.J`), with `SSet.rlp_monomorphisms` identifying the maps that lift
+against every monomorphism with `I.rlp` for the boundary class `SSet.modelCategoryQuillen.I`;
+and Tau Ceti's scoped weak equivalences
+`SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences`, the maps whose realization
+induces a bijection on path components and isomorphisms on all based homotopy groups
+(`SSet.modelCategoryQuillen.weakEquivalence_iff`), with two out of three and retract stability,
+and Tau Ceti's characterization `SSet.rlp_monomorphisms_iff` of the maps lifting against every
+monomorphism as the Kan fibrations with a shrinking. Consume these; define no second class.
+Prove the model axioms for them as two weak factorization systems:
+`kanQuillen_isWeakFactorizationSystem_trivialCofibrations_fibrations`, the trivial cofibrations
+against the Kan fibrations, and
+`kanQuillen_isWeakFactorizationSystem_cofibrations_trivialFibrations`, the monomorphisms against
+the Kan fibrations that are weak equivalences; each system says that each class is exactly the
+lifting class of the other and that every map factors through it (Quillen, *Homotopical
+Algebra*, Chapter II, Section 3). With Tau Ceti's two-out-of-three instance and Mathlib's
+finite limits and colimits of `SSet`, Mathlib's `HomotopicalAlgebra.ModelCategory.mk'` then gives
+the model category with exactly these classes. A route: the factorizations by the small-object
+argument on `J` and `I`; a map lifting against every monomorphism is a shrinkable Kan fibration,
+hence a simplicial homotopy equivalence over its target and a weak equivalence; a Kan fibration
+that is a weak equivalence lifts against every boundary inclusion, through the Serre-fibration
+property of the realization of a Kan fibration and its homotopy exact sequence, or through
+minimal fibrations; and a trivial cofibration is a retract of a `J`-cell complex by the retract
+argument. Prove the equivalent Kan-group criterion for weak equivalences after fibrant
+replacement, and the induced pointed model structure on `Under Δ[0]`. On topological spaces use
+the weak-homotopy (Serre) model, with Tau Ceti's `TauCeti.TopCat.weakEquivalences` and
+`TauCeti.TopCat.serreFibrations` and its explicit compactly generated adapter.
 Consume AlgebraicTopology Stage 4.7's realization CW structure, Stage 8.2's Kan property of
 simplicial groups, Moore comparison and Kan realization-unit comparison,
 and CharacteristicClasses C1.2's weak equivalence |Sing X|→X; AlgebraicTopology Stage 4.8
@@ -562,10 +653,12 @@ versions |X∧Y| ≃ k(|X|∧|Y|) and the monoidal and cofiber diagrams. This po
 only AlgebraicTopology Stages 4, 4.5 and 8.2; it does not depend on HA, G3 Brown or the
 other G2 targets.
 
-*Needs:* Tau Ceti `TauCeti.PointedSSet`; Mathlib `SSet.modelCategoryQuillen`; AlgebraicTopology Stages 4.5, 4.7, 4.8 and 8.2; CharacteristicClasses C1.2.
+*Needs:* for the model axioms, Mathlib `SSet.modelCategoryQuillen`, `SSet.rlp_monomorphisms` and `HomotopicalAlgebra.ModelCategory.mk'`, Tau Ceti `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences` and `SSet.rlp_monomorphisms_iff`; for the Quillen equivalence, AlgebraicTopology Stages 4.7, 4.8 and 8.2, CharacteristicClasses C1.2 and Tau Ceti `TauCeti.TopCat.serreFibrations`; for the pointed substrate and its smash adapters, Tau Ceti `TauCeti.PointedSSet` and AlgebraicTopology Stages 4, 4.5 and 8.2.
 
 **Checks.**
 
+- The vertex inclusion Δ[0] → Δ[1] is the horn inclusion Λ¹₀ → Δ[1], hence a trivial cofibration lifting against every Kan fibration; ∅ → Δ[0] is a monomorphism that is not a weak equivalence (its realization misses a path component), and it does not lift against the Kan fibration ∅ → Δ[0], which is vacuously Kan since every horn is nonempty. Declaring every monomorphism a trivial cofibration would contradict the first weak factorization system at this pair.
+- Δ[1] → Δ[0] is a weak equivalence that is not a trivial fibration: it does not lift against the monomorphism ∂Δ[1] → Δ[1] for the square sending the vertices 0 and 1 of ∂Δ[1] to 1 and 0 of Δ[1], since Δ[1] has no edge from 1 to 0; this agrees with the second weak factorization system, whose right class must exclude it.
 - Δ[1] → Δ[0] is a weak equivalence although Δ[1] is not a Kan complex: the horn `Λ²₀ → Δ[1]` sending the vertices 0, 1, 2 to 0, 1, 0 has no filler, since its missing edge would go from 1 to 0.
 - ∂Δ[1] → Δ[0] is not a weak equivalence: its realization has two path components.
 - ∂Δ[2] → Δ[2] is a cofibration but not a weak equivalence, since |∂Δ[2]| is a circle with π₁ = ℤ; the inner horn Λ²₁ → Δ[2] is a trivial cofibration.
@@ -604,7 +697,7 @@ Construct the level model structures and the
 stable projective model structure using the native `ModelCategory` and
 small-object/localization machinery. Prove smallness, the generating
 factorizations, lifting/retract/two-out-of-three properties, and the stable
-existence theorem. Define the weak-equivalence class before stable
+existence theorem (Hovey, Shipley and Smith, *Symmetric spectra*, Theorem 3.4.4, p. 35). Define the weak-equivalence class before stable
 localization: use level-projective cofibrant replacements and require the
 induced derived level-mapping simplicial sets into every level-fibrant
 Ω-spectrum to be weak equivalences. Define Ω-spectra by Kan levels and
@@ -842,12 +935,17 @@ spectra to pointed SSet by G2.5's single SingSp comparison. Construct its prolon
 assembly maps and associated symmetric spectrum, with actual permutation
 actions. Special means its n-to-1 Segal maps are weak equivalences;
 very special adds a group-valued π₀. Prove group completion, the Ω-spectrum
-theorem and natural/model-invariant comparison with G2's connective
+theorem (Segal, *Categories and cohomology theories*, §§1–4; McDuff and Segal, *Homology
+fibrations and the group-completion theorem*, §4) and natural/model-invariant comparison with G2's connective
 symmetric spectra. Develop the topologically enriched nerve/realization
 and permutative-category input: coherent ⊕, zero and symmetry induce the
 Segal maps, with the actual group-completion universal property. For
 bipermutative inputs with ⊗, unit and both distributivity coherences,
-construct the multiplicative machine and its unital E∞ multiplication.
+construct the multiplicative machine and its unital E∞ multiplication: a bipermutative
+structure on a small permutative category is the same as a multifunctor from the
+Barratt–Eccles-type operad EΣ∗ (Elmendorf and Mandell, *Rings, modules, and algebras in
+infinite loop space theory*, Theorem 3.7, p. 16), and the K-theory multifunctor carries it to a
+multiplicative spectrum (ibid., Theorems 1.1–1.4).
 Construct its Barratt–Eccles operad from the nerves of permutation
 translation categories, with free actions, contractible terms and actual
 block-substitution/unit equations. Build the corresponding algebra/free-
@@ -901,62 +999,21 @@ that frame quotients by the π₀G conjugation action. For S¹ use conjugacy
 classes in π₀G. For path-connected G identify this with unbased [S^n,G];
 for disconnected G distinguish its component choices and π₁ action
 from the bundle-clutching quotient. Prove all normalization, gauge,
-homotopy and based/unbased comparison maps.
-For G=GL_k(ℝ), use polar/Gram–Schmidt deformation to O(k), retaining
-determinant components, and prove this complete low-rank table for the
-identity basepoint (π₀ is a group here):
-
-| k | π₀ | π₁ | π₂ | π₃ |
-| --- | --- | --- | --- | --- |
-| 0 | 0 | 0 | 0 | 0 |
-| 1 | ℤ/2 | 0 | 0 | 0 |
-| 2 | ℤ/2 | ℤ | 0 | 0 |
-| 3 | ℤ/2 | ℤ/2 | 0 | ℤ |
-| 4 | ℤ/2 | ℤ/2 | 0 | ℤ⊕ℤ |
-| k≥5 | ℤ/2 | ℤ/2 | 0 | ℤ |
-
-Construct the first-column fibrations SO(k−1)→SO(k)→S^(k−1), g↦g e₀,
-for k≥2 as principal SO(k−1)-bundles by SmoothBundlesConnections B1.4's
-proper free-action quotient applied to the closed subgroup SO(k−1)
-(LieGroups Layer 2), with the quotient identified with the sphere by the
-first column. Prove the table from these fibrations, the sphere groups and
-G4.0's calibrated native Spin(3)/Spin(4) quaternionic homeomorphisms
-and vector-action equations. Pin Spin(4)'s generators by (q_L,q_R):v↦q_L v q_R^−1.
-A determinant-negative component acts on π₁ at k=2 by negation,
-on π₃ at k=4 by swapping these factors, and trivially on the other
-displayed nonzero higher groups. For n≥1 and k≥1 identify unbased
-[S^n,GL_k(ℝ)] with ℤ/2×π_nSO(k) AS SETS. For pointwise multiplication
-construct its group isomorphism with π_nSO(k)⋊_αℤ/2 instead: split the
-determinant components by the constant reflection
-r_k=diag(−1,1,…,1), and let α be conjugation by r_k on the based
-homotopy group. In the convention (a,ε) represented by h·r_k^ε,
-prove (a,ε)(b,η)=(a+α^ε(b),ε+η), including identification of
-pointwise multiplication in the based kernel with the π_n group law.
-Use the displayed conjugation actions to compute the infinite dihedral
-group for [S¹,GL_2(ℝ)] and the factor-swap semidirect product
-(ℤ⊕ℤ)⋊ℤ/2 for [S³,GL_4(ℝ)]; the other displayed higher-group cases
-have trivial action. Compare choices of reflection and basepoint by
-their actual homotopies/conjugation maps. For S⁰, pointwise multiplication
-gives (π₀GL_k(ℝ))², hence four classes for k≥1, whereas unframed
-clutching over S¹ gives only the two conjugacy classes in π₀GL_k(ℝ).
-Retain the trivial k=0 case. Prove the stabilization maps: on π₁,
-SO(2)→SO(3) is reduction modulo2; on π₃, SO(3)→SO(4) is the
-diagonal ℤ→ℤ⊕ℤ and SO(4)→SO(5) is addition, with these Spin
-generators. Subsequent displayed stable maps are isomorphisms. Derive the unframed sphere-bundle
-sets by those orbit actions; unbased maps into GL_k have two target
-components for connected spheres when k≥1 and are not that orbit set.
-Include S⁰ separately (two component choices) and the trivial k=0
-branch. The general classifier/bar construction precedes the table;
-its low-rank computations consume G4.0's Sp/Spin/sphere comparisons.
-
-*Needs:* CharacteristicClasses C1.1b; TopologicalKTheory T1.5–T1.6; G4.0a; RepresentationTheory LieGroups Layer 2; SmoothBundlesConnections B1.4.
+homotopy and based/unbased comparison maps. The sources state the special cases: Milnor's join
+is a universal bundle for a topological group that is a CW complex (Cohen, *Bundles,
+Manifolds, and Homotopy*, Theorem 5.23, p. 150), the bar construction is one for every group
+whose identity is a nondegenerate basepoint (May, *A Concise Course in Algebraic Topology*,
+Chapter 23, Section 8, p. 200), and principal G-bundles over Sⁿ with a chosen fibre frame
+correspond to π_(n−1)(G, e) (Cohen, Theorem 5.4, p. 129). The low-rank homotopy of the
+orthogonal and general linear groups is 4.0c, after the quaternionic calibration of G4.0a.
+*Needs:* CharacteristicClasses C1.1b (the numerable join carrier and universal bundle); Mathlib `Bundle.Trivialization`, `FiberBundleCore` and `PartitionOfUnity`; AlgebraicTopology Stage 4.5 for the convenient-category realization comparison.
 
 **Checks.**
 
-- k = 1: ℝˣ has two contractible components, so π₀ = ℤ/2 and π₁ = 0; k = 2: SO(2) = S¹ gives π₁ = ℤ and π₃ = 0.
-- k = 3: SO(3) ≅ RP³ gives π₁ = ℤ/2 and π₃ = ℤ; k = 4: SO(4) ≅ (S³×S³)/±1 gives π₃ = ℤ⊕ℤ, and the reflection r₄ conjugates v ↦ q_L v q_R⁻¹ to v ↦ q_R v q_L⁻¹, swapping the factors.
-- On π₃, SO(3) → SO(4) is the diagonal and SO(4) → SO(5) is addition, so the composite is multiplication by 2; `[S¹, GL₂(ℝ)] ≅ ℤ ⋊ ℤ/2`, the infinite dihedral group.
-- The first-column map SO(1) → S⁰ has image {e₀} only and is not a fibration onto S⁰, so the sphere fibrations start at k = 2; for k = 2 the map SO(2) → S¹ is a homeomorphism with trivial fibre SO(1).
+- Clutching with a chosen frame: principal U(1)-bundles over S² correspond to `π₁(U(1)) = ℤ`, the first Chern number of the line bundle; forgetting the frame changes nothing, since U(1) is connected.
+- Forgetting the frame quotients by conjugation: for the discrete group G = ℤ/2 and the base S¹, principal bundles correspond to the two conjugacy classes of π₀G = ℤ/2, the trivial double cover and the connected one.
+- Trivializations are maps, not classes: for the trivial S¹-bundle over a point the actual trivializations form the circle C(*, S¹) = S¹, while their homotopy classes form the single point [*, S¹].
+- For a discrete group the bar model is K(G, 1): for G = ℤ/2 it is RP∞, with π₁ = ℤ/2 and no higher homotopy.
 
 ### 2.10 Mapping-path replacements and homotopy fibres (G2.10)
 
@@ -1007,7 +1064,7 @@ contractible fibre.
 
 **Checks.**
 
-- A product projection B×F → B satisfies the hypothesis of `numerableFiberBundle_hurewicz` with one trivialization and the constant partition of unity 1.
+- A product projection B×F → B satisfies the hypothesis of the Hurewicz–Dold theorem with one trivialization and the constant partition of unity 1.
 - The Möbius band over the circle is trivial over two open arcs carrying a two-function partition of unity, so its projection is a Hurewicz fibration.
 - The inclusion {0, 1} → [0, 1] is not locally trivial and is not a Hurewicz fibration: the path from 0 to 1 has no lift starting at 0.
 
@@ -1021,8 +1078,11 @@ explicit nested universes and prove change-of-universe comparisons
 for the small and accessible models. BordismFormalGroups F6.5 and
 EllipticCohomology consume these targets in their stated shapes; G5.7
 instantiates them on its specified G2 models.
+The subsections 2.11.1–2.11.14 build them in this order, each with its own inputs.
 
-**Categorical model and functor spaces.** Reuse native
+### 2.11.1 Categorical model and functor spaces
+
+Reuse native
 `EnrichedCat SSet`, `EnrichedFunctor`, `ForgetEnrichment`,
 `CategoryTheory.SimplicialCategory`, `SimplicialThickening`,
 `SimplicialNerve`, `SSet.Quasicategory`, inner fibrations,
@@ -1048,7 +1108,7 @@ by the enriched word filtration of pushouts of free cells and
 filtered unions. Establish the following invertibility property
 before characterizing these fibrations locally.
 For the fixed Cartesian Kan–Quillen base prove the properties
-of HTTA.3.2's excellent-base criterion: combinatoriality, product
+of HTT §A.3.2's excellent-base criterion: combinatoriality, product
 stability of monomorphism cofibrations, filtered-colimit stability
 of weak equivalences and the monoidal model axiom. Prove also
 the Dwyer–Kan invertibility property: if i:[1]→C is a
@@ -1067,7 +1127,18 @@ Include Bergner's characterization for the fixed Kan base without
 assuming the target is fibrant, by the enriched interval lifting
 argument and free-cell tests.
 
-**Enriched diagram foundations before straightening.** For every
+*Needs:* G2.1 (the Kan–Quillen model as enrichment base); Mathlib `EnrichedCat`, `EnrichedFunctor`, `ForgetEnrichment`, `CategoryTheory.SimplicialCategory`, `SimplicialThickening`, `SimplicialNerve` and `SSet.Quasicategory`.
+
+**Checks.**
+
+- The functor [0] → J into the walking isomorphism, whose four mapping spaces are points, is a Dwyer–Kan equivalence; a definition demanding a bijection on objects would reject it.
+- The inclusion of the discrete one-object simplicial category into the discrete two-object one is fully faithful but not essentially surjective on π₀, so it is not a Dwyer–Kan equivalence: both conditions are needed.
+- Rigidification of the 2-simplex has `𝔠[Δ[2]](0,2) = Δ[1]`, the nerve of the poset of subsets of {0,1,2} containing 0 and 2; it is contractible, so the counit `𝔠[Δ[2]] → [2]` is a Dwyer–Kan equivalence, whereas a rigidification with discrete mapping sets would have to choose between the composite and the direct edge.
+- The coherent nerve of the one-object category with discrete endomorphism group ℤ is the ordinary nerve of ℤ, a Kan complex with π₁ = ℤ, as the theorem for locally Kan categories requires.
+
+### 2.11.2 Enriched diagram foundations before straightening
+
+For every
 combinatorial simplicial model category M and small simplicial
 category C, construct its enriched projective and injective diagram
 models, with free/evaluation and enriched Kan-extension adjunctions,
@@ -1076,7 +1147,7 @@ For ordinary indices reuse native
 `Enriched.FunctorCategory.enrichedHom`, `enrichedHomπ` and
 `homEquiv`, with their native end construction. Extend it to
 simplicial enriched indices and prove agreement on the ordinary
-specialization. Use the preceding fixed Kan-base properties in HTTA.3.3. Construct
+specialization. Use the preceding fixed Kan-base properties in HTT §A.3.3. Construct
 projective generators by free/evaluation adjunctions. For injective
 structures prove the objectwise cofibrations have a small weakly
 saturated generating set by the accessible enriched-functor-category
@@ -1117,7 +1188,17 @@ internal-hom and localization tests. This is enriched Yoneda;
 the later space-valued infinity-categorical Yoneda comparison
 is derived from it after coherent rectification.
 
-Prove the Joyal-free internal-hom comparison of HTTA.3.4 in
+*Needs:* 2.11.1; G2.1; Mathlib `Enriched.FunctorCategory.enrichedHom`, `enrichedHomπ` and `homEquiv`.
+
+**Checks.**
+
+- For the discrete index category on two objects the projective and injective diagram models of M are both M × M with the componentwise structure.
+- Over the index [1] with M the Kan–Quillen model, the diagram Δ[1] → Δ[0] is injectively cofibrant (objectwise monomorphisms from ∅) but not projectively cofibrant, since projective cofibrancy over [1] requires X₀ → X₁ to be a monomorphism: the two models differ.
+- Enriched Yoneda at the terminal index: the mapping simplicial set from the representable Δ[0] to X is X itself.
+
+### 2.11.3 Internal homs, localization and homotopy colimits
+
+Prove the Joyal-free internal-hom comparison of HTT §A.3.4 in
 the Bergner homotopy category. Construct the actual enriched
 evaluation map from (U^C)^cf×C to U^cf and prove the natural
 bijections
@@ -1151,7 +1232,7 @@ the diagram, with native `CategoryTheory.Grothendieck` on the
 underlying Cat-valued diagram, including object/base/fiber,
 transport and restriction maps. Invert the arrows
 (a,x)→(b,p_ab x). Prove this localized
-total category models hocolim_A C_a (HTTA.3.5): build an A-filtered
+total category models hocolim_A C_a (HTT §A.3.5): build an A-filtered
 free-cell cofibrant replacement, and compare each initial-segment
 localization with its terminal C_a by the categorical mapping
 cylinder. Prove that localization commutes with product by a fixed
@@ -1163,11 +1244,19 @@ Hom_Ho sets. Deduce product by D
 preserves these poset-indexed homotopy colimits. This is a derived
 comparison, not a monoidal model assertion about the Bergner product.
 
+*Needs:* 2.11.1–2.11.2; Mathlib `CategoryTheory.Grothendieck`.
+
+**Checks.**
+
+- Localizing [1] at its non-identity arrow gives the walking isomorphism, Dwyer–Kan equivalent to [0].
+- Localizing the one-object category of the free monoid ℕ at its generator gives, up to Dwyer–Kan equivalence, the one-object category of the group ℤ: the classifying space of ℕ is the circle, whose loop space is ℤ.
+- For A = [1] and a functor p : C₀ → C₁ the Grothendieck category has mapping spaces `C₁(p x, y)` from (0,x) to (1,y) and none back, and inverting the arrows (0,x) → (1, p x) gives a model of hocolim over [1], which is the terminal value C₁.
+
+### 2.11.4 Reedy frames, mapping spaces and homotopy limits
+
 Use native `HomotopicalAlgebra.ReedyStructure` and its
-`HomotopicalAlgebra.ReedyStructure.op` construction for opposite structures.
-Construct the simplex Reedy structure from native simplex epi/mono
-factorization, following the design of
-[`SimplexCategory.reedyStructure`](https://github.com/leanprover-community/mathlib4/blob/1e75e9dd53d483fa01eff9ac7d4ea0472ce9d1fa/Mathlib/AlgebraicTopology/Reedy/SimplexCategory.lean).
+`HomotopicalAlgebra.ReedyStructure.op` construction for opposite structures, and use native
+`SimplexCategory.reedyStructure`, the simplex Reedy structure from the epi/mono factorization.
 Construct their Reedy model structures, latching/matching objects
 and functorial frames on the Bergner model and its ordinary
 projective diagram models, with objectwise latching/matching
@@ -1217,7 +1306,7 @@ product/localization homotopies. The same proof applies on the
 compatible chunks and their projective diagram models, before
 using these comparisons in the following evaluation spans.
 
-Prove the enriched diagram homotopy-limit theorem of HTTA.3.6.
+Prove the enriched diagram homotopy-limit theorem of HTT §A.3.6.
 Let A=A₀∪{∞} be a small poset with largest element ∞ and
 let a↦C_a be a cofibrantly replaced diagram whose value C_∞
 presents hocolim_(A₀)C_a. Choose a common small chunk U of M
@@ -1296,10 +1385,20 @@ localization, homotopy-limit and index-invariance inputs to the
 straightening proofs; none uses Joyal, marked models, Cat∞ colimits
 or the later coherent-diagram rectification.
 
+*Needs:* 2.11.1–2.11.3; Mathlib `HomotopicalAlgebra.ReedyStructure` and `SimplexCategory.reedyStructure`.
+
+**Checks.**
+
+- The cosimplicial standard simplex Δ^• is Reedy cofibrant: its latching object at [n] is ∂Δ[n] and `∂Δ[n] → Δ[n]` is a monomorphism.
+- The constant cosimplicial object at Δ[0] is not Reedy cofibrant: its latching object at [1] is Δ[0] ⊔ Δ[0], whose map to Δ[0] is not a monomorphism, so it is not a cosimplicial frame.
+- For A₀ empty the homotopy-limit theorem says that C_∞, which then presents the empty homotopy colimit, gives Z_∞ the terminal object: the homotopy limit of the empty diagram.
+
+### 2.11.5 Unmarked straightening and the categorical model
+
 Define a simplicial-set map to be a categorical equivalence
 exactly when its rigidification is a Dwyer–Kan equivalence.
 
-**Unmarked straightening and the categorical model.** Build
+Build
 unmarked left/right fibration models over a simplicial set.
 Use monomorphism cofibrations and weak equivalences defined by
 Dwyer–Kan equivalences of the rigidified left-cone pushouts over
@@ -1326,7 +1425,7 @@ Thus K×Un(F)→Un(F⊠K) is an actual tensor strength.
 A K-parametrized F⊠K→G induces Un(F)×K→Un(G);
 prove these maps preserve identities and composition by the
 product/unit laws, giving actual maps of enriched hom objects.
-This is the construction of HTT 2.2's simfun, not a claim that
+This is the construction of HTT Remark 2.2.2.12, not a claim that
 straightening is strictly simplicial. The source slice model has
 every object cofibrant; no such condition is imposed on the
 projective diagram target.
@@ -1348,7 +1447,7 @@ Prove that F⊣G is then a Quillen equivalence exactly when G on bifibrant enric
 categories is a Dwyer–Kan equivalence, by the actual derived
 mapping comparison, unit/counit and essential image. Verify this
 enriched right-functor/strength structure on unstraightening and
-use the criterion (HTT's weakcompatequiv), with this typed mate.
+use the criterion (HTT Proposition A.3.1.10), with this typed mate.
 Prove it is a Quillen equivalence (HTT 2.2.1.2), first over simplices
 by the explicit rigidification contraction and index invariance,
 then over all bases by pushout and filtered-union induction using
@@ -1368,6 +1467,16 @@ and inner-anodyne replacement to prove
 `C[S×T]→C[S]×C[T]` is a Dwyer–Kan equivalence for all S,T.
 The extension to arbitrary S,T uses the native inner-anodyne
 pushout-product/horn filtration, not diagram rectification.
+
+*Needs:* 2.11.1–2.11.4; G2.1; Mathlib's inner-anodyne pushout-product and horn filtrations.
+
+**Checks.**
+
+- The vertex inclusion {1} → Δ[1] is a left fibration, with straightening the functor 0 ↦ ∅, 1 ↦ Δ[0]; the vertex inclusion {0} → Δ[1] is a right fibration but not a left one, since the edge 0 → 1 has no lift starting at 0.
+- For the nerve of an ordinary category the right mapping spaces are the discrete hom-sets and `𝔠[N C] → C` is a Dwyer–Kan equivalence.
+- For S = T = Δ[1] the mapping space of `𝔠[Δ[1]×Δ[1]]` from (0,0) to (1,1) is two copies of Δ[1] glued at the vertex of the diagonal edge, contractible like the point mapping space of `𝔠[Δ[1]]×𝔠[Δ[1]]`, as the product comparison requires.
+
+### 2.11.6 The Joyal model, slices and cores
 
 From the preceding mapping-space comparison prove that a map
 between quasicategories is a categorical equivalence exactly
@@ -1423,7 +1532,18 @@ the simplicial category of small quasicategories with these core
 functor spaces. Its colimits are constructed below through the
 marked categorical simplicial model and general diagram comparison.
 
-**Marked fibrations and Kan extensions.** Consume Tau Ceti's marked
+*Needs:* 2.11.5; Tau Ceti `SSet.join`, `SSet.slice`, `SSet.Edge.IsCartesian`, `SSet.CartesianFibration`, `SSet.Edge.IsEquivalence` and `SSet.core`; Mathlib `SSet.Quasicategory`.
+
+**Checks.**
+
+- The nerve of the poset [1] is a quasicategory but not a Kan complex; its only equivalence edges are the identities, so its core is the discrete simplicial set on two vertices.
+- Over Δ[0] the Cartesian edges are exactly the equivalences: in the nerve of a groupoid every edge is Cartesian over Δ[0].
+- In the nerve of [1] the edge 0 → 1 is not an equivalence, and the horn Λ²₀ with first edge 0 → 1 and second edge the identity of 0 has no filler, as HTT Proposition 1.2.4.3 predicts.
+- Λ²₁ → Δ[2] is a categorical equivalence, while Λ²₀ → Δ[2] is a Kan–Quillen trivial cofibration that is not one (the homotopy category of Λ²₀ has no arrow 1 → 2), and Δ[0] ⊔ Δ[0] → Δ[1] is a monomorphism that is not one; the nerve of the walking isomorphism is categorically equivalent to Δ[0].
+
+### 2.11.7 Marked fibrations and marked straightening
+
+Consume Tau Ceti's marked
 simplicial sets `TauCeti.MarkedSSet`, whose marked 1-simplices contain
 the degenerate ones, with mark-preserving maps, limits, colimits and
 the mapping functors `TauCeti.MarkedSSet.mapFlat` and
@@ -1466,7 +1586,7 @@ projections followed by the point comparison T_Q(K^♯)→K^♯.
 Verify markings and the unit/associativity laws on the actual
 mapping simplices, and prove the comparison is a weak equivalence
 by the marked product-cell filtration and the images of basic
-marked anodyne cells (HTT spek3–spek5). Adjunction gives the
+marked anodyne cells (HTT Proposition 3.2.1.13 and Corollary 3.2.1.15). Adjunction gives the
 strength K^♯×Un⁺(F)→Un⁺(F⊠K^♯): explicitly use the
 tensor comparison, the counit St⁺Un⁺F→F and a K-parametrized
 map F⊠K^♯→G to obtain Un⁺F×K^♯→Un⁺G. Verify the
@@ -1485,7 +1605,17 @@ identifies the fibration model with the strict enriched diagram
 model, naturally under base change. Construct the remaining model
 diagram comparison before identifying its coherent functor category.
 
-**Coherent model diagrams and stable enhancements.** Prove
+*Needs:* 2.11.4–2.11.6; Tau Ceti `TauCeti.MarkedSSet`, `TauCeti.MarkedSSet.mapFlat` and `TauCeti.MarkedSSet.mapSharp`.
+
+**Checks.**
+
+- The nerve of [1] marked at its identities only and the nerve of the walking isomorphism marked at every edge are fibrant in the marked categorical model, and the latter is weakly equivalent to Δ[0].
+- The nerve of [1] with its edge 0 → 1 marked is not fibrant over Δ[0]: fibrant objects mark exactly the equivalences, and 0 → 1 is not one.
+- For a quasicategory X the projection Δ[1]×X → Δ[1] is a Cartesian and a coCartesian fibration whose marked edges are those with an equivalence as X-component; its straightening is the constant functor at X.
+
+### 2.11.8 Coherent model diagrams and stable enhancements
+
+Prove
 `C[S×Δ[n]]→C[S]×C[Δ[n]]` is a Dwyer–Kan equivalence,
 using the already constructed mapping-space/Joyal product comparison.
 Together with the Bergner/Joyal Quillen equivalence this gives,
@@ -1544,6 +1674,16 @@ of relative diagrams. Prove Δ[0]/Δ[1] generate Cat∞ under small
 colimits by spines, finite cell attachment and filtered unions;
 construct the slice colimits and their model comparisons.
 
+*Needs:* 2.11.4–2.11.7; G2.3–2.4 (spectra as a combinatorial simplicial model).
+
+**Checks.**
+
+- For the index [0] and S = Δ[0] the rectification `N((M^C)^cf) ≃ Fun(S, N(M^cf))` is the identity of N(M^cf).
+- The ∞-category of spaces is not pointed: Δ[0] is terminal and ∅ is initial; the limit of the empty diagram is a terminal object and its colimit an initial one.
+- Spaces is not stable: the pushout of * ← S¹ → * is S² and the pullback of * → S² ← * is ΩS², and S¹ → ΩS² is not an equivalence since `π₂ΩS² = π₃S² = ℤ` while π₂S¹ = 0.
+
+### 2.11.9 Dwyer–Kan localization, Sp∞ and straightening comparisons
+
 Construct the enriched Dwyer–Kan localization by hammock mapping
 spaces and composition, with simplicial-category fibrant replacement.
 Prove its coherent nerve has the localization universal property
@@ -1583,6 +1723,16 @@ pullback. Together with Δ[0]/Δ[1] generation and localization's
 colimit property this supplies the actual base-descent theorem
 used in the monoidal localization below.
 
+*Needs:* 2.11.7–2.11.8; G2.3–2.5.
+
+**Checks.**
+
+- The hammock localization of [1] at its arrow is Dwyer–Kan equivalent to [0], agreeing with the cell-inversion localization of 2.11.3.
+- In Sp∞ the zero spectrum is a zero object, Σ is an equivalence with inverse Ω, and `π₀Map(S, S) = ℤ`; for the trivial group, Fun(BG, Sp∞) is Sp∞.
+- A right fibration with contractible fibres is an equivalence, and the hypothesis is needed: the right fibration {0} → Δ[1] has fibre a point over 0 and empty fibre over 1, and is not an equivalence.
+
+### 2.11.10 Kan extensions, adjunctions and presheaf localizations
+
 Using the preceding slice/join cone and (co)limit definitions,
 define left/right Kan extensions by their functor-space universal
 properties. Prove the pointwise comma-category
@@ -1598,6 +1748,16 @@ inverting the unit maps, including higher natural transformations
 presheaf localizations by cell inversion of a small set of maps,
 with the objectwise local mapping-space criterion; establish the
 cardinal bounds and accessible adjoints needed below.
+
+*Needs:* 2.11.6–2.11.9.
+
+**Checks.**
+
+- Left Kan extension along K → Δ[0] is the colimit, and right Kan extension the limit.
+- Left Kan extension along a fully faithful functor restricts back to the original diagram, by the pointwise formula: the comma category over an object in the image has a terminal object.
+- The inclusion of the discrete spaces into all spaces is fully faithful with left adjoint π₀, so π₀ exhibits sets as the localization of spaces at the maps inducing bijections on π₀.
+
+### 2.11.11 Infinity operads and monoidal enhancements
 
 Construct the following monoidal/fibration sub-lane before using
 the quotient product. Work on native simplicial sets and nerves;
@@ -1673,6 +1833,17 @@ Thus the earlier exact projective/coherent comparison is monoidal,
 naturally in group restriction, before BordismFormalGroups F6.5's
 Tate lane consumes it.
 
+*Needs:* 2.11.7–2.11.10; G2.4 (the monoidal model and its unit axiom); G2.9 (the free contractible bar carrier EG); Mathlib `Pointed`.
+
+**Checks.**
+
+- In Fin_* the map ⟨2⟩ → ⟨1⟩ sending 1 and 2 to 1 is active and ρ¹ : ⟨2⟩ → ⟨1⟩ sending 1 to 1 and 2 to the basepoint is inert; the map ⟨3⟩ → ⟨1⟩ sending 1 and 3 to 1 and 2 to the basepoint factors as the inert map deleting 2 followed by the active map ⟨2⟩ → ⟨1⟩.
+- For a monoidal enhancement C^⊗ the fibre over ⟨0⟩ is a point and over ⟨n⟩ is Cⁿ, by the Segal condition.
+- The diagonal action of G = ℤ/2 on G×G is free: k·(g,h) = (kg,kh) fixes no point for k ≠ e, so pushout products of free G-cells are free.
+- The trivial-action unit S is not projectively cofibrant for G = ℤ/2: maps out of S compute strict fixed points while maps out of EG₊∧S compute homotopy fixed points, and for HZ with trivial action `π₋₂(HZ^(hℤ/2)) = H²(ℤ/2;ℤ) = ℤ/2` while the strict fixed points are HZ, with π₋₂ = 0.
+
+### 2.11.12 Stable quotients, Ind and Day convolution
+
 For a small stable enhancement C and full stable D, construct the
 quotient C/D at maps whose cofibers belong to D. Prove exactness,
 replacement invariance, the exact-functor universal property, and
@@ -1729,6 +1900,16 @@ is characterized by that universal property (HA Proposition 4.8.1.10 and
 Corollary 4.8.1.14; Remark 4.8.1.13 for Day convolution on presheaves).
 This proves all higher
 coherence as a coCartesian construction, not an objectwise formula.
+
+*Needs:* 2.11.8–2.11.11; G2.4.
+
+**Checks.**
+
+- C/0 ≃ C and C/C ≃ 0; in the filtered mapping formula with D = C the index category has the terminal object id_Y, whose cofibre is 0, so every mapping space of C/C is contractible.
+- The zero object of Ind_κ(C) is the representable y(0), with y(0)(X) = Map(X, 0) a point for every X, not the empty presheaf, which is initial among presheaves but not terminal.
+- Day convolution of representables is representable: on presheaves over the discrete monoidal category (ℕ, +), y(m) ⊗ y(n) = y(m + n).
+
+### 2.11.13 Relative adjoints and parametrized lax refinements
 
 Construct relative adjunctions over a simplicial base from the
 marked comma fibrations representing the fiberwise mapping-space
@@ -1802,6 +1983,16 @@ therefore contractible (HTT 3.3.1.8,2.4.2.4,2.1.3.4). This
 constructs the actual parameterized refinement and its total space,
 including higher transformations and base change.
 
+*Needs:* 2.11.7 and 2.11.11–2.11.12.
+
+**Checks.**
+
+- Over the base Δ[0] a relative adjunction is an ordinary adjunction, with the same unit and counit.
+- Rationalization L = (−) ∧ S_ℚ is a symmetric monoidal localization whose fully faithful right adjoint, the inclusion of rational spectra, is strong monoidal since `S_ℚ ∧ S_ℚ ≃ S_ℚ`.
+- The forgetful functor from HZ-modules to spectra is lax but not strong monoidal: its unit map S → HZ is an isomorphism on π₀ but not on π₁, where `π₁S = ℤ/2` and π₁HZ = 0.
+
+### 2.11.14 The left-module operad and module rectification
+
 Construct the two-colored associative algebra/module operad, whose
 lax images are the unital actions BordismFormalGroups F6.5 consumes
 for Tate. Construct its ordered input profiles explicitly: an A-output
@@ -1855,23 +2046,23 @@ strict/coherent associative data, not to an arbitrary homotopy ring.
 This is the reusable coherent-module API consumed by
 Elliptic E2's finite-action towers.
 
-*Needs:* 2.1–2.5 and 2.9; Tau Ceti's marked simplicial sets, joins, slices, Cartesian edges and cores; Mathlib `SSet.Quasicategory`, `EnrichedCat` and `HomotopicalAlgebra.ReedyStructure`.
+*Needs:* 2.11.11–2.11.13; G2.4 (the stable projective model with its pushout-product and monoid axioms).
 
 **Checks.**
 
-- The nerve of the poset [1] is a quasicategory but not a Kan complex; its only equivalence edges are the identities, so its core is the discrete simplicial set on two vertices.
-- Over Δ[0] the Cartesian edges are exactly the equivalences: in the nerve of a groupoid every edge is Cartesian over Δ[0].
-- In the nerve of [1] the edge 0 → 1 is not an equivalence, and the horn Λ²₀ with first edge 0 → 1 and second edge the identity of 0 has no filler, as HTT Proposition 1.2.4.3 predicts.
+- The operations of LM with inputs (a, a, m) and output m are the two orderings of the a-inputs, permuted freely by Σ₂, and there is no operation with two m-inputs: a module is not a ring.
+- For A = S the module fibre of Alg_LM(Sp∞) over S is Sp∞ itself: every spectrum is uniquely an S-module.
+- The sphere F₀(S⁰) is cofibrant in the stable projective model but not in the positive-flat model, whose cofibrations are isomorphisms in level 0, while level 0 of the sphere is S⁰ rather than a point.
 
 ### Examples
 
 - The sphere spectrum, HA, F₁S¹ and the map λ : F₁S¹ → F₀S⁰ distinguish naive and derived homotopy.
 - Freudenthal on S¹ and S², and the stabilized sphere colimit.
-- The low-rank homotopy table of GL_k(ℝ) and the numerable Möbius band.
+- The numerable Möbius band, and the bar model RP∞ of the discrete group ℤ/2.
 
 ### Dependencies
 
-G2.1 uses Tau Ceti's pointed simplicial sets, Mathlib's generating classes of simplicial sets, AlgebraicTopology Stages 4.5, 4.7, 4.8 and 8.2 and CharacteristicClasses C1.2. G2.2 uses Tau Ceti's symmetric spectra. G2.3 and G2.4 use G2.1–2.2. G2.5 uses G2.1–2.4 and AlgebraicTopology Stages 4.4, 4.5 and 8.11b. G2.6 uses G2.3–2.5. G2.7 uses G2.10's homotopy-fibre comparison and AlgebraicTopology Stages 4.5, 5.5 and 8.8c. G2.8 uses G2.1–2.4. G2.9 uses CharacteristicClasses C1.1b, TopologicalKTheory T1.5–T1.6, RepresentationTheory LieGroups Layer 2 and G4.0a. G2.10 uses G2.1, Tau Ceti's path theory and AlgebraicTopology Stage 5.5. G2.11 uses G2.1–2.5 and G2.9 and precedes G5.7.
+G2.1 uses Mathlib's Kan–Quillen cofibrations and fibrations, Tau Ceti's Kan–Quillen weak equivalences and pointed simplicial sets, AlgebraicTopology Stages 4.5, 4.7, 4.8 and 8.2 and CharacteristicClasses C1.2. G2.2 uses Tau Ceti's symmetric spectra. G2.3 and G2.4 use G2.1–2.2. G2.5 uses G2.1–2.4 and AlgebraicTopology Stages 4.4, 4.5 and 8.11b. G2.6 uses G2.3–2.5. G2.7 uses G2.10's homotopy-fibre comparison and AlgebraicTopology Stages 4.5, 5.5 and 8.8c. G2.8 uses G2.1–2.4. G2.9 uses CharacteristicClasses C1.1b and AlgebraicTopology Stage 4.5; the low-rank orthogonal and general linear table built on it is G4.0c, after G4.0a. G2.10 uses G2.1, Tau Ceti's path theory and AlgebraicTopology Stage 5.5. G2.11.1–2.11.14 build in order on G2.1, G2.3–2.5 and G2.9, and precede G5.7.
 
 ## G3. Brown representation, arbitrary CW and infinite comparisons
 
@@ -1941,6 +2132,7 @@ given only on spaces/representing levels.
 
 - The Ω-spectrum levels of KU alternate ℤ×BU and U, and those of HZ are the K(ℤ, n).
 - A sequential spectrum needs actual maps ΣE_n → E_(n+1); for HZ these are adjoint to the equivalences K(ℤ,n) ≃ ΩK(ℤ,n+1).
+- The structure maps themselves are not equivalences: ΣK(ℤ,1) = ΣS¹ = S² while K(ℤ,2) = CP∞, and `π₃S² = ℤ ≠ 0 = π₃CP∞`; only the adjoints are, so an Ω-spectrum is not a suspension spectrum.
 
 ### 3.3 Arbitrary-CW comparison theorem (G3.3)
 
@@ -1965,7 +2157,7 @@ Neither finite generation of the cell set nor connectivity of E is assumed.
 
 **Checks.**
 
-- On compact metric spaces, the natural map from singular to Steenrod homology is an isomorphism on a point but not on the Warsaw circle, which is not a CW complex: the CW hypothesis of `homologyComparison` is needed.
+- On compact metric spaces, the natural map from singular to Steenrod homology is an isomorphism on a point but not on the Warsaw circle, which is not a CW complex: the CW hypothesis of the comparison theorem is needed.
 - The coefficient map HZ → HQ is not an isomorphism on a point, and indeed `H₁(S¹;ℤ) → H₁(S¹;ℚ)` is not one.
 - For the empty CW complex both sides vanish by additivity over the empty family.
 
@@ -2025,11 +2217,19 @@ piece complexity, not a finite-CW hypothesis on those opens.
 
 *Needs:* 3.4; G1.3.
 
+**Checks.**
+
+- For X = ℝ with U_i = (−i, i) every U_i is contractible, so the telescope is contractible like ℝ, and a compact image [−a, a] of a sphere lies in U_i once i > a.
+- For compact X an increasing open cover is eventually constant, U_i = X for large i, and the comparison reduces to the cofinal-shift equivalence of the telescope.
+- Openness is needed: [0, 1] is the increasing union of the closed sets A_i = {0} ∪ [1/i, 1], each with two path components joined by inclusions, so the telescope has two path components while [0, 1] has one.
+
 ### 3.6 Phantom and mapping-spectrum control (G3.6)
 
 For a countable CW-spectrum
 filtration `P_i→P_(i+1)` by the G2 CW-spectrum cells prove
-`0→lim¹[ΣP_i,E]→[hocolim P_i,E]→lim[P_i,E]→0` with natural group maps.
+`0→lim¹[ΣP_i,E]→[hocolim P_i,E]→lim[P_i,E]→0` with natural group maps (the telescope
+argument of May, *A Concise Course in Algebraic Topology*, Chapter 19, Section 4, Theorem,
+p. 148, with lim¹ the cokernel of 1 − shift as in its Lemma there).
 Identify the kernel as stagewise phantom maps. When P_i are finite and
 exhaust all compact subobjects, compare it with vanishing on every finite
 spectrum. For an arbitrary CW spectrum define phantom maps by restrictions
@@ -2040,7 +2240,8 @@ unstable maps. Prove sufficient Mittag–Leffler/surjectivity conditions for
 vanishing. Construct the nonzero phantom
 `S_ℚ=Tel(S --2→ S --3→ S --4→ ⋯) → ΣHZ`: its restriction groups
 [S,ΣHZ] vanish, while the lim¹ term of [ΣS,ΣHZ] is identified with
-Ext¹_ℤ(ℚ,ℤ)≠0. Exhibit the constant-one class in the tower's coker:
+Ext¹_ℤ(ℚ,ℤ)≠0, which is `(∏_p ℤ_p)/ℤ` (Hatcher, *Algebraic Topology*, Section 3.F, p. 318).
+Exhibit the constant-one class in the tower's coker:
 a hypothetical preimage forces factorial residue congruences incompatible
 with a fixed integer. Prove this Ext/lim¹ identification and nonvanishing and
 show the map is intrinsically phantom by compactness.
@@ -2051,6 +2252,7 @@ show the map is intrinsically phantom by compactness.
 
 - `[S, ΣHZ] = π₋₁HZ = 0`, while the lim¹ term of `[ΣS, ΣHZ]` along multiplication by 2, 3, 4, … is `Ext¹(ℚ, ℤ) ≠ 0`, so the map `S_ℚ → ΣHZ` is a nonzero phantom.
 - For a finite spectrum P every phantom map out of P is zero, since P is compact.
+- With rational coefficients there is no phantom: the tower `[ΣS, ΣHQ] = ℚ` along multiplication by 2, 3, 4, … consists of isomorphisms, so its lim¹ vanishes and `[S_ℚ, ΣHQ] = 0`; the phantom of `S_ℚ → ΣHZ` depends on the integral coefficients.
 
 ### 3.7 Continuity and finite-source formulas (G3.7)
 
@@ -2058,7 +2260,8 @@ Finite cell spectra are compact:
 stable maps out of them commute with filtered homotopy colimits. Prove the
 corresponding homology filtered-colimit theorem and the finite-CW
 suspension-spectrum mapping formula `colim_k[Σ^kX,E_(n+k)]` for finite
-pointed CW X and a sequential spectrum E, or a symmetric spectrum after
+pointed CW X (Hatcher, *Algebraic Topology*, Section 4.F, pp. 454–455: this colimit is a
+cohomology theory on finite CW complexes and fails the wedge axiom on infinite ones) and a sequential spectrum E, or a symmetric spectrum after
 semistable/Ω replacement, with k chosen so n+k≥0 and the groups are in
 their abelian range. On infinite sources use the preceding mapping
 LES, not that finite-source formula without phantom corrections. Prove
@@ -2066,6 +2269,12 @@ finite-skeleton and completion comparisons for projective/Thom examples;
 no general canonical splitting of a Milnor short exact sequence is claimed.
 
 *Needs:* 3.6; G2.6.
+
+**Checks.**
+
+- For X = S⁰, E = HZ and n = 0 the formula gives `colim_k [S^k, K(ℤ,k)] = ℤ = H̃⁰(S⁰;ℤ)`.
+- For X = S¹ and E = KU it gives `K̃Uⁿ(S¹) = KU^(n−1)(*)`, which is ℤ for n odd and 0 for n even.
+- The filtered-colimit theorem is homological: `H₁(∨_ℕ S¹;ℤ) = ⊕_ℕ ℤ` is the colimit over the finite subwedges, while `H¹(∨_ℕ S¹;ℤ) = ∏_ℕ ℤ` is their limit and is not the colimit of the groups ℤⁿ.
 
 ### 3.8 Spectral homotopy limits and Postnikov covers (G3.8)
 
@@ -2160,7 +2369,9 @@ Ho-natural, without an asserted strictly natural point-set map R→HA.
 Prove spectrumPostnikovConvergence: E→holim_(k→∞)τ_(<k)E
 is an equivalence by eventual π-stability and the above Milnor sequence.
 Likewise hocolim_(k→∞)τ_(≥−k)E→E is an equivalence. Neither statement
-assumes E bounded below. Generic constructors precede specialized
+assumes E bounded below: they are the left and right completeness of the t-structure on spectra
+(Lurie, *Higher Algebra*, Proposition 1.4.3.6, p. 151), whose truncations and connective covers
+are the functors above. Generic constructors precede specialized
 KO covers, ABP characteristic maps and String/bordism coefficients.
 
 *Needs:* G2.4, G2.7 and G2.8; 3.4; AlgebraicTopology Stage 6.0.
@@ -2169,7 +2380,7 @@ KO covers, ABP characteristic maps and String/bordism coefficients.
 
 - `τ_(≥0)KU = ku` with `π_* ku = ℤ[β]`, |β| = 2.
 - For HA, `τ_(≥k)HA = HA` for k ≤ 0 and 0 for k > 0.
-- The map `τ_(≥k)E → E` is an isomorphism on π_n for n ≥ k and `π_n τ_(≥k)E = 0` for n < k.
+- `τ_(<1)S = τ_(≤0)S ≃ HZ`, with `S → τ_(<1)S` the unit and π₀ = ℤ; an off-by-one truncation τ_(≤1) would keep `π₁S = ℤ/2`.
 
 ### 3.9 Integral localization and derived prime completion (G3.9)
 
@@ -2228,7 +2439,11 @@ extension property and G2.10's mapping-path carriers. The same
 statement holds with a specified fixed restriction on A; use the
 relative skeleta A∪(relative cells of dimension≤m) for that branch.
 Construct the pointed-set π0 Milnor sequence, proving surjectivity
-onto compatible component families. Over a chosen coherent reference
+onto compatible component families. For a tower of fibrations Hatcher proves the surjectivity
+of π_i of the limit onto the compatible families, and injectivity when the maps of π_(i+1) are
+eventually surjective (Hatcher, *Algebraic Topology*, Proposition 4.67, p. 410); the
+description of the whole fibre by the nonabelian lim¹ below is this roadmap's extension of that
+lifting argument. Over a chosen coherent reference
 family, identify the fibre by the nonabelian lim¹ of the groups
 π1 Map(X^m,Y) in those components: it is the orbit set of
 `(g_m)·(h_m)=(g_m h_m r_m(g_(m+1))^(-1))` on their product.
@@ -2242,7 +2457,13 @@ use these unstable maps; the spectral/cohomological Milnor sequences
 alone do not supply them. This sublane uses only the earlier
 convenient-space/CW foundations, before Brown or stable Spin data.
 
-*Needs:* G2.10; AlgebraicTopology Stages 4–5.
+*Needs:* G2.10; AlgebraicTopology Stages 4–5 and 6.0.
+
+**Checks.**
+
+- For a constant tower of groups, with every r_m the identity, the orbit set is a point: any (h_m) is the image of the trivial family under g₁ = 1 and g_(m+1) = g_m h_m.
+- For a tower of surjections the orbit set is a point: choose g_(m+1) with r_m(g_(m+1)) = g_m h_m inductively.
+- For the abelian tower ℤ ← ℤ ← ℤ ← ⋯ with every r_m multiplication by 2 the action becomes h ↦ h + (1 − shift)g, and the orbit set is `coker(1 − shift) = ℤ₂/ℤ ≠ 0`, the 2-adic integers modulo ℤ.
 
 ### Examples
 
@@ -2259,8 +2480,9 @@ G3.4's telescope and Milnor construction uses G1 and AlgebraicTopology Stage 6.0
 ### 4.0 Quaternionic bundle and manifold adapters (G4.0)
 
 The topological block
-G4.0a and the smooth finite-dimensional block G4.0b below are separate
-exports; spectral/classifier consumers need only G4.0a. G4.0a: Use native `Quaternion ℝ` with
+G4.0a of this subsection and the smooth finite-dimensional block G4.0b of 4.0b are separate
+exports; spectral/classifier consumers need only G4.0a, and 4.0c computes the low-rank homotopy
+of the orthogonal and general linear groups from G4.0a's calibrated Spin comparisons. G4.0a: Use native `Quaternion ℝ` with
 continuous multiplication/conjugation and its Euclidean norm. Fibres are
 finite-dimensional **right** ℍ-modules, expressed as left modules over
 `(Quaternion ℝ)ᵐᵒᵖ`; transition maps commute with the right action. Use
@@ -2282,7 +2504,7 @@ finite-dimensional real compactness then give compactness. Its Lie charts are
 the separate G4.0b target below.
 Construct the first-column fibration Sp(r−1)→Sp(r)→S^(4r−1),
 prove Sp(r) connected and simply connected for r≥1, and use covering
-lifting/uniqueness to construct the Spin homomorphism below. For G2.9's
+lifting/uniqueness to construct the Spin homomorphism below. For 4.0c's
 low-dimensional compact Spin comparisons consume native
 TauCeti.realSpinThreeEquivQuaternionUnitary and its actual quaternion
 conjugation action theorem, and
@@ -2302,7 +2524,7 @@ This includes inner conjugations as well as swapping the factors. Prove it inter
 Clifford multiplication and vector projection, testing all coordinate
 generator pairs; a factor swap alone fails already on ι(e₀)ι(e₁).
 Compare the corresponding homomorphisms/homeomorphisms; those calibrated factors pin
-the G2.9 diagonal/addition/swap generators.
+the diagonal/addition/swap generators of 4.0c.
 Do not use the commutative-scalar
 `Matrix.unitaryGroup` alias or algebraic Sp(2r,ℝ).
 Build quaternionicFrameBundle and quaternionic Stiefel spaces. Define
@@ -2405,6 +2627,17 @@ the actual additive natural maps to TopK's K/KO groups. No quaternionic
 tensor product is asserted to supply a commutative unital bundle K-ring.
 This substrate uses the ordinary bundle/CW suppliers and precedes G4's
 generalized orientation proofs and G5's Thom models.
+
+*Needs:* G2.9 (the general classifier and clutching); CharacteristicClasses C1.1b; TopologicalKTheory T1 and T1.5–T1.6 (finite embeddings, graph charts and Grassmannian classifiers); AlgebraicTopology Stages 2.5 and 4.4 (the sup-ball-to-disk homeomorphism and the disk-quotient sphere); RepresentationTheory SpinRepresentations Layer 7 (Spin(3)); SpinGeometry G4.1 (the Spin-cover frame and form adapters); Tau Ceti's Spin(3), Spin(4) and quaternionic data, including `TauCeti.realSpinFourEquivQuaternionUnitaryProd_action`; Mathlib `Projectivization.instTopologicalSpace`, `OnePoint.equivProjectivization` and `onePointHyperplaneHomeoUnitSphere`.
+
+**Checks.**
+
+- Sp(1), the unit quaternions, is S³ ≅ SU(2), compact and simply connected.
+- HP¹ ≃ S⁴, and HP⁰ is a point.
+- With Spin(4) acting by v ↦ q_L v q_R⁻¹, the reflection v ↦ −v̄ conjugates the pair (q_L, q_R) to (q_R, q_L).
+- The calibration identity Ψ(v) = −u·Φ(v)‾·u with u = (1+j)/√2 and u² = j: at e₀, Ψ(e₀) = −j and −u·1·u = −j; at e₂, Ψ(e₂) = −1 and −u·(−j)·u = u j u = −1. The unsigned identity Ψ(v) = u·Φ(v)‾·u fails already at e₀, where it gives +j; the sign cancels in the conjugations, so (q_L, q_R) is unchanged.
+
+### 4.0b Smooth quaternionic carriers (G4.0b)
 
 G4.0b: construct smooth real manifold structures on the same finite
 carriers. Choose the actual complement and identity slice chart supplied by
@@ -2510,14 +2743,71 @@ consumes these carriers/submersions for normalized round Hopf quotient
 metrics, O'Neill and curvature/comparison theorems; DGFloer consumes
 the same HP carrier rather than constructing another one.
 
-*Needs:* TopologicalKTheory T1.5–T1.6; Tau Ceti's Spin(4) and embedded-unitary Lie data, including `TauCeti.realSpinFourEquivQuaternionUnitaryProd_action`; SmoothBundlesConnections B1.4; ComplexKahlerGeometry K7.
+*Needs:* G4.0a; TopologicalKTheory T1.5 (the smooth graph-chart upgrade); Tau Ceti's embedded-unitary Lie data and `TauCeti.Lie.exists_isSliceChart_of_isClosed_subgroup`; SmoothBundlesConnections B1.4; ComplexKahlerGeometry K7.1 and AlgebraicTopology Stage 4.4 for the comparison sphere adapters.
 
 **Checks.**
 
-- Sp(1), the unit quaternions, is S³ ≅ SU(2), and Sp(N) has real dimension N(2N + 1): 3 for N = 1 and 10 for N = 2.
-- HP¹ ≃ S⁴, and HP⁰ is a point.
-- With Spin(4) acting by v ↦ q_L v q_R⁻¹, the reflection v ↦ −v̄ conjugates the pair (q_L, q_R) to (q_R, q_L).
-- The calibration identity Ψ(v) = −u·Φ(v)‾·u with u = (1+j)/√2 and u² = j: at e₀, Ψ(e₀) = −j and −u·1·u = −j; at e₂, Ψ(e₂) = −1 and −u·(−j)·u = u j u = −1. The unsigned identity Ψ(v) = u·Φ(v)‾·u fails already at e₀, where it gives +j; the sign cancels in the conjugations, so (q_L, q_R) is unchanged.
+- Sp(N) has real dimension N(2N + 1): 3N diagonal imaginary-quaternion coordinates and 4 for each of the N(N − 1)/2 strict upper entries, so 3 for N = 1 and 10 for N = 2.
+- The orthonormal r-frames Sp(N)/Sp(N − r) have dimension r(4N − 2r + 1): for r = 1 this is 4N − 1, the sphere S^(4N−1), and for r = N it is N(2N + 1) = dim Sp(N).
+- Gr_ℍ(r, N) has dimension 4r(N − r), so HPⁿ = Gr_ℍ(1, n + 1) has dimension 4n, and the Hopf quotient S^(4n+3) → HPⁿ has fibre Sp(1) = S³ of dimension 4n + 3 − 4n = 3.
+
+### 4.0c Low-rank homotopy of the orthogonal and general linear groups (G4.0c)
+
+For G=GL_k(ℝ), use polar/Gram–Schmidt deformation to O(k), retaining
+determinant components, and prove this complete low-rank table for the
+identity basepoint (π₀ is a group here):
+
+| k | π₀ | π₁ | π₂ | π₃ |
+| --- | --- | --- | --- | --- |
+| 0 | 0 | 0 | 0 | 0 |
+| 1 | ℤ/2 | 0 | 0 | 0 |
+| 2 | ℤ/2 | ℤ | 0 | 0 |
+| 3 | ℤ/2 | ℤ/2 | 0 | ℤ |
+| 4 | ℤ/2 | ℤ/2 | 0 | ℤ⊕ℤ |
+| k≥5 | ℤ/2 | ℤ/2 | 0 | ℤ |
+
+Construct the first-column fibrations SO(k−1)→SO(k)→S^(k−1), g↦g e₀,
+for k≥2 as principal SO(k−1)-bundles by SmoothBundlesConnections B1.4's
+proper free-action quotient applied to the closed subgroup SO(k−1)
+(LieGroups Layer 2), with the quotient identified with the sphere by the
+first column. Prove the table from these fibrations, the sphere groups and
+G4.0a's calibrated native Spin(3)/Spin(4) quaternionic homeomorphisms
+and vector-action equations. Pin Spin(4)'s generators by (q_L,q_R):v↦q_L v q_R^−1.
+A determinant-negative component acts on π₁ at k=2 by negation,
+on π₃ at k=4 by swapping these factors, and trivially on the other
+displayed nonzero higher groups. For n≥1 and k≥1 identify unbased
+[S^n,GL_k(ℝ)] with ℤ/2×π_nSO(k) AS SETS. For pointwise multiplication
+construct its group isomorphism with π_nSO(k)⋊_αℤ/2 instead: split the
+determinant components by the constant reflection
+r_k=diag(−1,1,…,1), and let α be conjugation by r_k on the based
+homotopy group. In the convention (a,ε) represented by h·r_k^ε,
+prove (a,ε)(b,η)=(a+α^ε(b),ε+η), including identification of
+pointwise multiplication in the based kernel with the π_n group law.
+Use the displayed conjugation actions to compute the infinite dihedral
+group for [S¹,GL_2(ℝ)] and the factor-swap semidirect product
+(ℤ⊕ℤ)⋊ℤ/2 for [S³,GL_4(ℝ)]; the other displayed higher-group cases
+have trivial action. Compare choices of reflection and basepoint by
+their actual homotopies/conjugation maps. For S⁰, pointwise multiplication
+gives (π₀GL_k(ℝ))², hence four classes for k≥1, whereas unframed
+clutching over S¹ gives only the two conjugacy classes in π₀GL_k(ℝ).
+Retain the trivial k=0 case. Prove the stabilization maps: on π₁,
+SO(2)→SO(3) is reduction modulo2; on π₃, SO(3)→SO(4) is the
+diagonal ℤ→ℤ⊕ℤ and SO(4)→SO(5) is addition, with these Spin
+generators. Subsequent displayed stable maps are isomorphisms. Derive the unframed sphere-bundle
+sets by those orbit actions; unbased maps into GL_k have two target
+components for connected spheres when k≥1 and are not that orbit set.
+Include S⁰ separately (two component choices) and the trivial k=0
+branch. G2.9's general classifier, bar construction and clutching precede this table, and
+its low-rank computations consume G4.0a's Sp/Spin/sphere comparisons.
+
+*Needs:* G2.9 (clutching and the based and unbased comparisons); G4.0a (the calibrated Spin(3) and Spin(4) homeomorphisms); SmoothBundlesConnections B1.4; RepresentationTheory LieGroups Layer 2.
+
+**Checks.**
+
+- k = 1: ℝˣ has two contractible components, so π₀ = ℤ/2 and π₁ = 0; k = 2: SO(2) = S¹ gives π₁ = ℤ and π₃ = 0.
+- k = 3: SO(3) ≅ RP³ gives π₁ = ℤ/2 and π₃ = ℤ; k = 4: SO(4) ≅ (S³×S³)/±1 gives π₃ = ℤ⊕ℤ, and the reflection r₄ conjugates v ↦ q_L v q_R⁻¹ to v ↦ q_R v q_L⁻¹, swapping the factors.
+- On π₃, SO(3) → SO(4) is the diagonal and SO(4) → SO(5) is addition, so the composite is multiplication by 2; `[S¹, GL₂(ℝ)] ≅ ℤ ⋊ ℤ/2`, the infinite dihedral group.
+- The first-column map SO(1) → S⁰ is not surjective, so it is not a principal SO(0)-bundle over S⁰ (as a map into a discrete space it is a Hurewicz fibration, with empty fibre over −e₀); the principal sphere fibrations start at k = 2, where SO(2) → S¹ is a homeomorphism with trivial fibre SO(1).
 
 ### 4.1 Relative Leray–Hirsch (G4.1)
 
@@ -2526,7 +2816,12 @@ pairs `(F,F₀)→(V,V₀)→B`, a chosen finite homogeneous free basis of
 `E*(F,F₀)` over E*(*) and classes u_i in `E^{d_i}(V,V₀)` restricting to
 that basis on every fibre, prove the graded module isomorphism
 `⊕_i E^{q−d_i}(B) → E^q(V,V₀)`,
-`(a_i)↦Σ π*a_i∪u_i` for every integer q.
+`(a_i)↦Σ π*a_i∪u_i` for every integer q (Hatcher, *Algebraic Topology*, Theorem 4D.1,
+p. 432, for ordinary cohomology with each Hⁿ(F;R) finitely generated and free; Hatcher, *Vector
+Bundles and K-Theory*, Theorem 2.25, p. 68, for K-theory over compact Hausdorff bases when the
+base is a finite cell complex or the fibre a finite complex with only even cells). The statement here,
+for every theory E, relative fibres and arbitrary CW-type bases, extends these by the same
+Mayer–Vietoris induction over trivializing opens and the Milnor passage of G3.4–3.5.
 Construct its inverse and naturality under pullback, pair maps, change of
 basis and maps of theories. Prove the trivial-product step, compatibility
 of comparison maps with MV/connecting maps, finite-CW induction and
@@ -2543,6 +2838,8 @@ throughout; freeness or a finite basis is not inferred from numerability.
 
 - For the trivial bundle X×CPⁿ → X and ordinary cohomology, `H*(X×CPⁿ) ≅ H*(X) ⊗ ℤ[x]/(x^(n+1))`, a free H*(X)-module on 1, x, …, xⁿ.
 - For the empty base both sides vanish.
+- The fibrewise basis hypothesis is needed: for the Hopf bundle S¹ → S³ → S², `H¹(S³;ℤ) = 0`, so the generator of `H¹(S¹;ℤ)` extends to no class on the total space, and indeed `H*(S³) ≇ H*(S²) ⊗ H*(S¹)`.
+- For K-theory and the projective bundle of a complex bundle E of rank n over a compact Hausdorff base X, `K*(P(E))` is free over `K*(X)` on 1, L, …, L^(n−1) with L the canonical line bundle (Hatcher, *Vector Bundles and K-Theory*, Example 2.26, p. 70), the case E = KU of the statement.
 
 ### 4.2 Thom spaces and their comparisons (G4.2)
 
@@ -2551,7 +2848,9 @@ disc/sphere quotient of the native bundle total space, with TopologicalKTheory
 supplying its metric finite-bundle data. Prove the comparison with TopK T5's
 compact-support/Koszul model, using that one quotient carrier; prove its convenient/simplicial cofiber adapter,
 `D(ξ)/S(ξ)` versus deleted-vector relative theory, and
-`Th(ε^r⊕ξ)≃S^r∧Th ξ=Σ^rTh ξ`. Include the zero-rank convention `Th(0_B)=B₊`.
+`Th(ε^r⊕ξ)≃S^r∧Th ξ=Σ^rTh ξ` (for r = 1 with `Th(ζ×ξ) ≃ Th ζ ∧ Th ξ`: May, *A Concise Course in
+Algebraic Topology*, Chapter 23, Section 6, p. 196; for the product bundle `Th(B×Dⁿ) = Σⁿ(B₊)`:
+Hatcher, *Algebraic Topology*, Section 4.D, Exercise 8, p. 447). Include the zero-rank convention `Th(0_B)=B₊`.
 For compact Hausdorff B prove the bundle-total-space one-point
 compactification comparison; for noncompact B keep the disc/sphere quotient
 and distinguish support conditions. External bundles satisfy
@@ -2569,9 +2868,17 @@ and distinguish support conditions. External bundles satisfy
 
 For a rank-r real bundle ξ an
 E-orientation is a chosen `U∈E^r(Dξ,Sξ)` whose restriction to each fibre,
-after a chosen local trivialization, is a unit in E⁰(*); the Thom
-isomorphism below is Cohen, *Bundles, Manifolds, and Homotopy*,
-Theorem 10.40, p. 330. State the local
+after a chosen local trivialization, is a unit in E⁰(*). Cohen, *Bundles, Manifolds, and
+Homotopy*, Theorem 10.40, p. 330, proves the Thom isomorphism below for a connective ring
+spectrum E and a connected base, with orientations as sections of the cover of units of π₀E
+(his Definition 10.27, also for connective E); for E = KU and complex bundles over compact
+Hausdorff bases see Hatcher, *Vector Bundles and K-Theory*, Section 4.1, p. 113, and for
+ordinary cohomology Hatcher, *Algebraic Topology*, Corollary 4D.9 and Theorem 4D.10,
+pp. 441–442. The statement here, for every ring spectrum E (KU and KO are not connective:
+π₋₂KU = ℤ) and every numerable CW-type base, connected or not, is this roadmap's extension:
+Cohen's proof is the Mayer–Vietoris induction over trivializing opens of his Theorem 6.10, which
+uses no connectivity once an orientation is defined, as here, by fibrewise units of E⁰(*), and
+a disconnected base is the disjoint union of its components. State the local
 transition compatibility and the relevant orientation local system; an
 untwisted orientation is not automatic for arbitrary real bundles.
 Prove `a↦π*a∪U` is an isomorphism
@@ -2741,7 +3048,7 @@ The power-series tensor Euler laws and coefficient universality belong to
 BordismFormalGroups; a chosen orientation is not its universal coefficient
 theorem or an unspecified equivalence of categories.
 
-*Needs:* 4.0–4.4.
+*Needs:* G4.0a (quaternionicProjectiveInfinity and quaternionicHopfSphereHomeomorph); 4.1–4.4; CharacteristicClasses C1.5 and C1.5a (the RP∞ and CP∞ line models and the map f_h).
 
 **Checks.**
 
@@ -2752,12 +3059,13 @@ theorem or an unspecified equivalence of categories.
 ### Examples
 
 - HP¹ ≃ S⁴ and the quaternionic Hopf line.
+- The low-rank homotopy table of GL_k(ℝ) of 4.0c, with `[S¹, GL₂(ℝ)]` the infinite dihedral group.
 - The Möbius bundle, HZ-nonorientable and HF₂-orientable, and the Euler class of TS².
 - `E*(KPⁿ) = E*[x]/(x^(n+1))` for K = ℝ, ℂ, ℍ.
 
 ### Dependencies
 
-G4.0a uses TopologicalKTheory T1.5–T1.6 and Tau Ceti's Spin(4) and quaternionic data and precedes G2.9's computations. G4.0b adds SmoothBundlesConnections B1.4, the embedded-unitary Lie data, TopologicalKTheory T1.5's smooth Grassmannian upgrade and ComplexKahlerGeometry K7's sphere adapter. G4.1–4.4 use G1 and G3 for the cell and cover proofs and G2 for the concrete examples; G4.2 uses CharacteristicClasses C2.1.
+G4.0a uses G2.9's general classifier, CharacteristicClasses C1.1b, TopologicalKTheory T1 and T1.5–T1.6, AlgebraicTopology Stages 2.5 and 4.4, SpinRepresentations Layer 7, SpinGeometry G4.1 and Tau Ceti's Spin(4) and quaternionic data. G4.0c uses G2.9, G4.0a, SmoothBundlesConnections B1.4 and LieGroups Layer 2. G4.0b adds SmoothBundlesConnections B1.4, the embedded-unitary Lie data, TopologicalKTheory T1.5's smooth Grassmannian upgrade and ComplexKahlerGeometry K7's sphere adapter. G4.1–4.4 use G1 and G3 for the cell and cover proofs and G2 for the concrete examples; G4.2 uses CharacteristicClasses C2.1.
 
 ## G5. Finite duality, Thom spectra and rational Hurewicz
 
@@ -2779,8 +3087,7 @@ product-preserving bar carrier for every finite rank, with its associated
 real rank-n universal bundle and comparison to CC C1's numerable join
 classifier; prove continuity and coherent stabilization of the maps and
 bundle isomorphisms. Prove these Lie groups well-pointed via actual
-unit-neighbourhood cofibrations, use item1 of GT's
-[smoothing-and-triangulation comparison](../GeometricTopology/README.md#the-smoothing-and-triangulation-comparison-far-horizon)
+unit-neighbourhood cofibrations, use GeometricTopology Layer 11.3's smooth triangulations
 for compact-manifold finite CW type for the finite Spin groups/products, and prove the
 proper bar realization has CW type via its degeneracy cofibrations and finite-product CW
 comparison. Supply compatible CW models/cellular approximations of
@@ -2861,7 +3168,7 @@ Projecting that inverse at (x,*) constructs the BO inverse and its
 cancellation homotopies; the BSO map is its based covering lift.
 These maps are constructed before any coefficient or Bott-table
 calculation. Lift its composition with
-stableBSpinToBSO using CC's actual Spin obstruction and
+stableBSpinToBSO using CharacteristicClasses C3.5's actual Spin obstruction and
 stableSpinClassifierEquiv: `w2(−ξ)=w2(ξ)+w1(ξ)^2`, so it vanishes
 for this oriented Spin class. Fix the unit lift. Prove the based lift
 space contractible on the3-connected universal source. Derive BSO's
@@ -2900,12 +3207,13 @@ this supplement neither defines λ nor presumes String's connected
 cover theorem. It precedes those String calculations and does not
 use MSpin/ko coefficient or ABS conclusions as a Bott proof.
 
-*Needs:* G2.9; TopologicalKTheory T1.6, T7.0 and T7 item 1; CharacteristicClasses' Spin obstruction.
+*Needs:* G2.9 (the bar classifiers); G3.10 (the unstable mapping-space Milnor comparison); G4.0a, G4.0c and G4.5 (the quaternionic Hopf line, the low-rank sphere fibrations and the (1,i,j,k) orientation); SpinGeometry G4.1 (the native Spin covers); AlgebraicTopology Stage 4.5 (the k-CW product); GeometricTopology Layer 11.3 (finite CW type of the compact Spin groups); TopologicalKTheory T1.6, T7.0 and T7 item 1; CharacteristicClasses C1.1b (the numerable join classifier) and C3.5 (the universal Spin obstruction).
 
 **Checks.**
 
 - π_i of stable BSpin for i = 1, …, 8 is 0, 0, 0, ℤ, 0, 0, 0, ℤ, as stableBSpin_homotopyGroupsThroughEight states; BSpin is 3-connected.
 - `w2(−ξ) = w2(ξ) + w1(ξ)²`, which vanishes for an oriented Spin class.
+- The map stableBSpinToBSO is not an equivalence: `π₂BSO = π₁SO = ℤ/2` while `π₂` of stable BSpin is 0, and on π_i for i ≥ 3 the map is an isomorphism; Spin(3) = Sp(1) = S³ gives the bottom value `π₄BSpin(3) = π₃S³ = ℤ`.
 
 ### 5.1 Finite spectra and Spanier–Whitehead duality (G5.1)
 
@@ -2953,6 +3261,7 @@ Thom collapse and stabilized embedding/normal comparison for duality.
 
 - For M a point, `Th(−TM) = S = D(M₊)`.
 - For M = Sⁿ with stably trivial tangent bundle, `D(Sⁿ₊) ≃ Σ⁻ⁿΣ∞Sⁿ₊ ≃ S ∨ S⁻ⁿ`.
+- Independence of the embedding dimension: S¹ ⊂ ℝ² and S¹ ⊂ ℝ³ have normal bundles ε¹ and ε², and `Σ⁻²Σ∞Th(ε¹) ≃ Σ⁻³Σ∞Th(ε²)` because `Th(ε²) = ΣTh(ε¹)`; both are `S⁰ ∨ S⁻¹ = D(S¹₊)`.
 
 ### 5.3 Thom spectra from diagrams (G5.3)
 
@@ -3006,7 +3315,7 @@ o↦sgn(σ)(1⊗P_σ)_*o. Prove its unit equivariance and block-swap
 commutativity; transporting the plane orientation without this twist
 fails those equations for odd permutations.
 Compare these models and bundles with CC/TopK's O/SO/U carriers and
-G4.0's Sp carrier. For Spin use G5.0's already designated finite-rank
+G4.0a's Sp carrier. For Spin use G5.0's already designated finite-rank
 product-preserving bar models, associated real bundles, stabilization
 maps and stable classifier comparisons. The canonical MSpin ring uses the native Spin(0)={1} and
 MSpin₀=S⁰; for n≥1 use the chosen double-cover groups. Retain the
@@ -3120,7 +3429,7 @@ quaternionic-bundle comparison, not just coefficient matches; they send
 [ℍ] to 4 and 2 respectively. Retain the Bott/Morita adapters before
 comparing a positive-Clifford model to this named negative-Clifford a.
 Build its quaternionic-bundle comparison on
-finite CW pairs with G4.0's bundle groups; it is not declared an
+finite CW pairs with G4.0a's bundle groups; it is not declared an
 independent unital ring under quaternionic tensor product.
 
 *Needs:* 5.3; G2.5; G2.8; G3.8; TopologicalKTheory T4 and T7 item 1.
@@ -3213,8 +3522,19 @@ coefficient-model maps in the derived comparison square. The target
 suspension lowers homology degree by 2r. Include r=0/Euler1, empty
 bases, all components, naturality and relative cofibers.
 
+*Needs:* G5.4 (the commutative Thom model MU); G2.5 (the interleaved complex coordinates); G2.7 (ordinary homology); G3.8 (the Postnikov refinement P0); G4.3–4.5; TopologicalKTheory T1.5 and T1.6a (the finite and fixed-rank complex Grassmannians); CharacteristicClasses C3.2 (the top-Chern/Euler comparison) and its canonical complex real orientation.
+
+**Checks.**
+
+- For r = 1 the Schubert cells of CP∞ have pivots τ₀ = 0, 1, 2, …, complex dimensions τ₀ and Thom-desuspended degrees 2τ₀ = 0, 2, 4, …: MU has its bottom cell in degree 0 and the unit cofibre starts in degree 2, so π₀MU = ℤ and MU is connective.
+- The grouped-coordinate sign ε_r = (−1)^(r(r−1)/2) is 1, −1, −1, 1 for r = 1, 2, 3, 4, and satisfies the Whitney rule `ε_(r+s) = ε_r ε_s (−1)^(rs)`: for r = s = 1, ε₂ = −1 = 1·1·(−1), and for r = 1, s = 2, ε₃ = −1 = 1·(−1)·1.
+- Under complexThomOrientation_to_HZ the class `x_MU = e_MU(γ*)` goes to `−e_HZ(γ) = h_AT`, the generator pairing +1 with the complex-oriented CP¹; a map sending x_MU to +e_HZ(γ) would pair −1.
+- For E = S the base change reads `Hℤ ⊗_MU^L MU ≃ Hℤ ∧^L S = Hℤ`, the unit case of freeMU_HZ_baseChange.
+
+### 5.5.1 ABS orientation and the graded Clifford conventions
+
 **G5.5-ABS: bundle ABS orientation.** Construct the KO Thom orientation
-for a real spin bundle by the actual
+for a real spin bundle (Atiyah, Bott and Shapiro, *Clifford modules*, §11) by the actual
 real graded Clifford-module/Koszul family, with local Spin equivariance,
 stabilization, product and the Bott unit. Consume TopK T7's algebraic ABS
 coefficient comparison and supply this missing bundle/spectrum refinement
@@ -3276,9 +3596,24 @@ two-odd-factor period reduction Cl₁⊗̂Cl₁→Cl₂, e⊗1↦e₂ and 1⊗e�
 sign adapter (−1)^(pq) to the unswapped reduction and to the ordered
 geometric Clifford coordinates and Bott class. Build the real and
 finite-Clifford extensions here.
+
+*Needs:* 5.5; G4.0a (the direct standard-orientation lift Sp → Spin); G4.3; G5.4 (MSpin); TopologicalKTheory T7 (the algebraic ABS coefficient comparison); HilbertModules H1–H4; CStarAlgebras C5; Mathlib `CliffordAlgebra`.
+
+**Checks.**
+
+- The matrices `e₁ = [[0,1],[1,0]]` and `e₂ = [[0,i],[−i,0]]` are self-adjoint with `e₁² = e₂² = 1` and `e₁e₂ = diag(−i, i) = −e₂e₁`, and both are odd for conjugation by diag(1, −1).
+- The swap sign at p = q = 1: in Cl₁⊗̂Cl₁, `(e⊗1)(1⊗e) = e⊗e` and `(1⊗e)(e⊗1) = −e⊗e`. The swapped reduction e⊗1 ↦ e₂, 1⊗e ↦ e₁ sends e⊗e to `e₂e₁ = diag(i, −i)`, the unswapped reduction e⊗1 ↦ e₁, 1⊗e ↦ e₂ sends it to `e₁e₂ = diag(−i, i)`, and they differ by `(−1)^(pq) = −1`; a sign-free adapter would identify the two reductions.
+- For r = 1 the element x = e₃ ∈ Pin⁺(4) has twisted adjoint the reflection F₁ = diag(1,1,1,−1), of determinant −1, and U_KO^c = −U_KO^std; for r = 2, F₂ has determinant +1 and the two classes agree, as `(−1)^r` predicts.
+- Native `CliffordAlgebra` star negates the generator of Cl(1,0), while the operator C*-model makes the positive generator self-adjoint: the two involutions differ already for n = 1, which is why the C*-model lives on its own type synonym.
+
+### 5.5.2 Operator classifying spaces
+
 **G5.5-Classifiers: operator classifying spaces.** Define
 K_op,n=Hom_gr,𝕜,*(C₀(ℝ;𝕜),Cl_𝕜(n,0) graded-⊗_𝕜 K(H_n)),
-with point-norm topology and zero homomorphism as basepoint. For ℂ
+with point-norm topology and zero homomorphism as basepoint (Joachim, *A symmetric ring
+spectrum representing KO-theory*, §§2–4; these are the levels of the symmetric K-theory
+spectrum, positive fibrant, recalled in Hebestreit and Sagave, *Homotopical and operator
+algebraic twisted K-theory*, §7.1). For ℂ
 prove Cl_ℝ(n,0) graded-⊗̂_ℝ K(H_n)≅Cl_ℂ(n,0) graded-⊗̂_ℂ K(H_n),
 respecting conjugation⊗reversion and the given scalar action. Build the
 remaining graded compact-operator/spatial-tensor and odd self-adjoint
@@ -3319,15 +3654,13 @@ Clifford/compact/adjointable synonyms. Identify it with the pullback of
 the complex spectral order and construct their `PartialOrder` and
 nonnegative-spectrum interfaces. Construct their `StarOrderedRing`
 instances after the descended square root and real CFC below. On native real
-Hilbert operators H→L[ℝ]H retain `ContinuousLinearMap.instLoewnerPartialOrder`
-and the existing `NonnegSpectrumClass ℝ`; prove spectral positivity
-equivalent to native `IsPositive`, using `IsPositive.spectrumRestricts`
-and realHilbertContinuousFunctionalCalculus's descended square root
-for the converse, after the Hilbert complexification/bounded transport
-below. After the real CFC is built, install the named global
-realHilbertOperatorStarOrderedRing instance using native
-`ContinuousLinearMap.instStarOrderedRingRCLike` and the existing
-Loewner order.
+Hilbert operators H→L[ℝ]H nothing is built: Mathlib's Loewner order
+`ContinuousLinearMap.instLoewnerPartialOrder`, its `NonnegSpectrumClass ℝ` and the star order
+`ContinuousLinearMap.instStarOrderedRingRCLike`, which Tau Ceti registers as an instance
+together with the real calculus
+`ContinuousLinearMap.instContinuousFunctionalCalculusRealIsSelfAdjoint`, already make spectral
+positivity equivalent to native `IsPositive`, by Mathlib's
+`nonneg_iff_isSelfAdjoint_and_quasispectrumRestricts`.
 Use the specified real algebra order for module pairing positivity.
 Give the actual graded compact operators, tensor/multiplier and continuous
 functional-calculus constructors. For signature addition pin the
@@ -3344,6 +3677,18 @@ to vacuum with sign +1. Its reference-volume formula accounts for the
 coordinate shuffle once, without an extra scalar in the index product.
 Test Cl(1,1) graded-⊗Cl(1,1): the volume shuffle has determinant −1,
 while the exterior vacuum tensor map still has sign +1.
+
+*Needs:* 5.5.1; HilbertModules H2 and H4–H6; CStarAlgebras C5; TopologicalKTheory T7 (the KO coefficients and ABS classes); Tau Ceti `TauCeti.realCliffordForm`; Mathlib `CliffordAlgebra`.
+
+**Checks.**
+
+- K_op,0 consists of the graded ⋆-homomorphisms C₀(ℝ) → 𝕜 with H₀ = L²(ℝ⁰) = 𝕜 even: these are 0 and evaluation at 0, so `K_op,0 = S⁰` has two components and is not the KO⁰ classifier; the zero-signature mixed classifier realMixedCliffordOperatorClassifier 0 0, on the ample universe with both parities, has `π₀ = KO⁰(*) = ℤ` by the graded index.
+- `π₀K_op,1 = KO¹(*) = KO₇ = 0` and `π₀K_op,4 = KO⁴(*) = KO₄ = ℤ` in the real case, by eightfold periodicity.
+- In Cl(1,1) the positive generator e is self-adjoint with e² = 1 and the negative generator f is skew-adjoint with f² = −1, so `f*f = −f² = 1` is positive; making f self-adjoint would give `f*f = −1`, violating the C*-identity.
+- For signature addition with p = q = p′ = q′ = 1 the shuffle (x,y,x′,y′) ↦ (x,x′,y,y′) is one transposition, of determinant (−1)^(p′q) = −1, while the exterior vacuum map of Λ(ℝ)⊗Λ(ℝ) ≃ Λ(ℝ²) has sign +1.
+
+### 5.5.3 Finite-Clifford modules and real Hilbert foundations
+
 **G5.5-Transfer: finite-Clifford modules.** Construct the real finite-Clifford
 Hilbert-module interface on native
 complete normed real vector spaces, with right A-action expressed through
@@ -3382,8 +3727,8 @@ the uniform equivalent-norm/completion comparisons.
 Construct realFiniteCliffordContinuousFunctionalCalculus for these finite
 Clifford algebras and their compact/multiplier/adjointable operator
 algebras. Their trace-induced real Hilbert spaces consume the single
-native-operator instance realHilbertContinuousFunctionalCalculus
-constructed below. Complexify the algebra with its actual C*-norm and
+native-operator instance, Tau Ceti's
+`ContinuousLinearMap.instContinuousFunctionalCalculusRealIsSelfAdjoint`. Complexify the algebra with its actual C*-norm and
 conjugation; use the single complex-module construction below to compare
 the real module with its fixed points. Descend conjugation-commuting
 real-valued functions from native complex CFC. Install the native real
@@ -3392,30 +3737,24 @@ and nonunital interfaces on the designated real models, extending the
 preceding spectral order to their compact/multiplier/adjointable models
 and proving norm, positivity, composition and tensor/compact compatibility.
 **G5.5-RealHilbert: scalar Hilbert foundations.** For a complete real
-inner-product space H construct
-RealHilbertComplexification H as a separate synonym of
-native `TauCeti.Complexification H`, retaining its complex linear
-structure but installing the Hilbert inner product
-⟨x+iy,x′+iy′⟩=(x,x′)+(y,y′)+i((x,y′)−(y,x′)), with norm
-√(‖x‖²+‖y‖²). Do not install this norm on the native Taylor-norm carrier.
-Prove the real embedding is isometric, conjugation J(x+iy)=x−iy is an
-antilinear isometry, and this space is complete. Construct the identity
-complex continuous-linear equivalence with the native Taylor model,
-proving ‖z‖_T≤‖z‖_H≤√2·‖z‖_T. Transport native
-`ContinuousLinearMap.complexify` through it for bounded maps, retaining
-composition and adjoints, and prove equality of operator norms from
-the Hilbert formula. Then construct realHilbertContinuousFunctionalCalculus
-on native H→L[ℝ]H for every complete real inner-product space H:
-transport bounded operators to this Hilbert complexification, use native
-complex CFC and conjugation descent, and install one native real
-isometric CFC instance. Prove a bounded complex-linear S is T_C for
-a unique bounded real T exactly when S commutes with J. For self-adjoint
-T prove `(spectrum ℝ T).image Complex.ofReal = spectrum ℂ T_C`,
-using conjugation-fixed inverses at real scalars and the real spectrum
-of complex self-adjoint operators; retain the zero Hilbert space case. It precedes the native positivity converse
-and `instStarOrderedRingRCLike` above; all trace-induced real Hilbert
-spaces use this same instance. For a densely defined real `LinearPMap` D define D_C(x+iy)=Dx+iDy on the actual
-complexified domain; prove graph/closure transport and
+inner-product space H consume Tau Ceti's bounded theory: the Hilbert complexification
+`WithLp 2 (TauCeti.Complexification H)` with the inner product
+⟨x+iy,x′+iy′⟩=(x,x′)+(y,y′)+i((x,y′)−(y,x′)) and norm √(‖x‖²+‖y‖²), kept off the
+Taylor-norm carrier, and its completeness; the complexification `ContinuousLinearMap.complexifyL2`
+of bounded maps, the unique complex-linear extension, isometric and compatible with composition
+and adjoints; the isometric ⋆-embedding `ContinuousLinearMap.complexifyL2StarAlgHom`; the real
+continuous functional calculus `ContinuousLinearMap.instContinuousFunctionalCalculusRealIsSelfAdjoint`
+on H→L[ℝ]H, pulled back along that embedding, with `ContinuousLinearMap.spectrum_complexifyL2`
+(complexification preserves the real spectrum of a self-adjoint operator) and
+`ContinuousLinearMap.complexifyL2_cfc`. All trace-induced real Hilbert spaces use this same
+instance. Build here only what these lack: the conjugation J(x+iy)=x−iy as an antilinear
+isometry of the Hilbert complexification whose fixed space is the image of H; the identity
+complex continuous-linear equivalence with the native Taylor model, with
+‖z‖_T≤‖z‖_H≤√2·‖z‖_T; the theorem that a bounded complex-linear S is T_C for a unique bounded
+real T exactly when S commutes with J; and, for self-adjoint T, the complex-spectrum form
+`(spectrum ℝ T).image Complex.ofReal = spectrum ℂ T_C`, from `spectrum_complexifyL2` and the
+real spectrum of the self-adjoint T_C, retaining the zero Hilbert space case. For a densely
+defined real `LinearPMap` D define D_C(x+iy)=Dx+iDy on the actual complexified domain; prove graph/closure transport and
 (D_C)†=(D†)_C, including equality of domains. For closed self-adjoint D
 this supplies the complex Hilbert operator used below.
 On this Hilbert synonym pin H1–2's transported scalar structure:
@@ -3449,6 +3788,18 @@ operators are exactly K_A(E). Finite-rank A-operators have finite real
 rank; in the converse average real finite-rank approximants over the
 finite signed Clifford-monomial unitary group and use finite A-module
 Parseval frames to express the averages as sums of θ_(x,y).
+
+*Needs:* 5.5.2; SpinGeometry G1.3 (`cliffordScalarTrace` and its regular-trace formula); HilbertModules H1 and H6; OperatorTheory SelfAdjointSpectralTheory SA-D15–D17; Tau Ceti `ContinuousLinearMap.complexifyL2` and `ContinuousLinearMap.instContinuousFunctionalCalculusRealIsSelfAdjoint`; Mathlib `CStarModule`, `WithCStarModule`, `LinearPMap` and `nonneg_iff_isSelfAdjoint_and_quasispectrumRestricts`.
+
+**Checks.**
+
+- For A = Cl(1,0) with normalized trace τ(1) = 1, τ(e) = 0, the projection a = (1+e)/2 has `τ(a*a) = τ(a) = 1/2 = |a_∅|² + |a_e|²`, positive as the trace positivity requires.
+- For orthogonal unit vectors x, y of H the Hilbert norm of x + iy is √2 while its Taylor norm is 1, the extreme case of `‖z‖_T ≤ ‖z‖_H ≤ √2·‖z‖_T`.
+- Multiplication by i is a bounded complex-linear operator on the complexification that anticommutes with J, since J(iz) = −iJ(z), so it is not T_C for any real T; every T_C commutes with J.
+- On the zero Hilbert space every operator has empty spectrum, and both sides of the complex-spectrum identity are empty.
+
+### 5.5.4 Regular operators and stabilization
+
 **G5.5-Regularity: real/complex regular operators.** Define the real
 A-module adjoint of a densely defined A-linear D on
 its actual A-invariant domain: y lies in dom(D*) exactly when there is
@@ -3514,6 +3865,17 @@ conjugation of compacts in point norm and stabilization of the
 functional-calculus essential support. These generic targets precede
 geometric section modules; Spin constructs its own A-valued L² section
 pairing and consumes these comparisons and stabilization afterward.
+
+*Needs:* 5.5.3; HilbertModules H4 (stabilization), H5 (strong-topology contractibility) and H6 (regular operators).
+
+**Checks.**
+
+- For A = ℝ (p = q = 0) the module adjoint is the Hilbert adjoint, and a closed densely defined self-adjoint D is regular since (1 + D²)⁻¹ is bounded with range the domain of D².
+- The elementary action `(k⊗a)(u⊗c) = (−1)^(|a||u|) ku⊗ac` has sign −1 for odd a and odd u; a sign-free action would not be a module action of the graded tensor product, whose multiplication `(k⊗a)(k′⊗a′) = (−1)^(|a||k′|) kk′⊗aa′` carries the same sign.
+- The graded flip k⊗a ↦ (−1)^(|k||a|) a⊗k has sign −1 exactly when k and a are both odd.
+
+### 5.5.5 Bott transport, index classification and the configuration model
+
 The zero-signature classifier represents KO⁰ and is not the sphere-
 module's separate unit level K_op,0=S⁰. First construct
 realMixedCliffordBottTransport: let d=p−q and choose k with
@@ -3640,6 +4002,18 @@ commutative localization universal property, and prove the resulting
 localized map is a stable equivalence. This supplies the commutative-ring
 equivalence between the chosen Γ/Bott KU/KO and K_op, before transporting
 ABS. Retain finite CW pairs and then use G3 for arbitrary CW.
+
+*Needs:* 5.5.2–5.5.4; G2.8 (the Γ machine, the Barratt–Eccles operad and commutative localization); G5.4; TopologicalKTheory T7 (b ∈ KO₈ and the coefficient generators); HilbertModules H5; Mathlib `Polynomial.hermite`.
+
+**Checks.**
+
+- Bott transport at (p, q) = (0, 1): d = −1, k = 1, r = 7, and both `KO⁷(*) = KO₁` and `KO^(−1)(*) = KO₁` are ℤ/2, identified by multiplication by b.
+- The calibrations agree with TopologicalKTheory's coefficient ring: the free graded Cl(0,1)-module gives η ∈ KO₁ = ℤ/2, its graded square η² ∈ KO₂ = ℤ/2, and a, b satisfy a² = 4b.
+- The normalized Hermite function h₀(x) = π^(−1/4)exp(−x²/2) has ∫h₀² = 1, and every h_(2α) is even, so the embedding U_n → H_n lands in the even part.
+- On CP¹, [γ*] − 1 = −β: since `([γ] − 1)² = 0` in K(S²), `[γ*] = [γ]⁻¹ = 1 − β`.
+
+### 5.5.6 Orientation normalizations and ring maps
+
 Compare the real orientation's necessary condition 2·1=0, the complex-line
 spin obstruction and the quaternionic lift with the given ordinary/K-theory
 conventions. For MU/KU's quaternionic orientations multiply the pulled-back
@@ -3665,13 +4039,13 @@ an additive orientation from those coherence hypotheses. The geometric bordism-t
 its low-degree/rational image, ABS α comparison, MO/MSO/MU coefficient
 rings and formal-group universal theorems remain with their named consumers.
 
-*Needs:* 5.4; G4.3–4.5; HilbertModules H2, H4–H6; CStarAlgebras C5; SpinGeometry G1.3; OperatorTheory SelfAdjointSpectralTheory Parts C–D.
+*Needs:* 5.5–5.5.5; G4.0a and G4.5 (the quaternionic coordinate conventions); G5.4; G2.7 (coefficient change Hℤ → HA); TopologicalKTheory T7.
 
 **Checks.**
 
-- The matrices `e₁ = [[0,1],[1,0]]` and `e₂ = [[0,i],[−i,0]]` are self-adjoint with `e₁² = e₂² = 1` and `e₁e₂ = diag(−i, i) = −e₂e₁`, and both are odd for conjugation by diag(1, −1).
-- The sign adapter is coherent: `pq + (p+q)r` and `qr + p(q+r)` both equal pq + pr + qr modulo 2 for p, q, r ∈ {0, 1}.
-- For n = 0 the operator classifier has the zero homomorphism as basepoint and represents KO⁰ of a point, ℤ.
+- A real orientation for all bundles requires 2·1 = 0: HF₂ has one and HZ has none, since the Möbius line has no integral Thom class.
+- The quaternionic renormalization (−1)^r of MU and KU is −1 for r = 1 and +1 for r = 2.
+- The complex line O(2) over CP¹ has w₂ = c₁ mod 2 = 0 and is spin, so it has a KO Thom class, while the tautological line over CP² has w₂ ≠ 0 and receives none from the spin orientation.
 
 ### 5.6 Rational spectral Hurewicz (G5.6)
 
@@ -3708,9 +4082,9 @@ reduce by CW approximation (AlgebraicTopology Stage 4.8) to a
 (k−1)-connected pointed CW space and combine G2.5's general Freudenthal
 comparison with this stable theorem to prove that the Hurewicz map
 π_i(X)⊗ℚ→H_i(X;ℚ) is an isomorphism for 1≤i≤2k−2 (trivially for i=1)
-and a surjection at i=2k−1, with the stabilization/Hurewicz diagram;
-for k≤1 only the degree-one surjectivity of the Hurewicz theorem
-remains. This is `rationalHurewicz`, stated on Tau Ceti's
+and a surjection at i=2k−1, with the stabilization/Hurewicz diagram.
+For k=1 only the degree-one rational surjectivity is asserted, and for k=0, where X need not
+be path connected, nothing is: both degree ranges are then empty. This is `rationalHurewicz`, stated on Tau Ceti's
 `HomotopyGroup.hurewiczHom` as a kernel of finite-order elements and a
 rationally spanning image. In the Freudenthal stable range k≥n+3 the
 same comparison makes π_(k+n+1)(S^k) a torsion group:
@@ -3723,8 +4097,9 @@ Manifolds, and Homotopy*, Theorem 10.19, p. 294).
 **Checks.**
 
 - For X = S² and k = 2, `π₂S² ⊗ ℚ = ℚ → H₂(S²;ℚ) = ℚ` is an isomorphism, and in degree 3 = 2k − 1 the map `π₃S² ⊗ ℚ = ℚ → H₃ = 0` is onto but not injective.
-- For X = S³ and k = 3, `π₄S³ = ℤ/2` is torsion and `H₄(S³;ℚ) = 0`; in the stable range `π_(k+n+1)(Sᵏ)` is torsion, as `stableStem_isOfFinOrder` states, while `π₃S² = ℤ` lies outside that range.
+- For X = S³ and k = 3, `π₄S³ = ℤ/2` is torsion and `H₄(S³;ℚ) = 0`; in the stable range `π_(k+n+1)(Sᵏ)` is torsion, as Serre's theorem states, while `π₃S² = ℤ` lies outside that range.
 - `H*(K(ℤ,3);ℚ)` is exterior on a degree-3 class and `H*(K(ℤ,2);ℚ) = ℚ[x]` with |x| = 2.
+- Negative control at k = 0: for X = pt ⊔ S¹ based at the point, π₁(X) = 1 while `H₁(X;ℚ) = ℚ`, so degree-one surjectivity fails without path-connectedness, and the unstable rational Hurewicz theorem asserts nothing there.
 
 ### 5.7 Coherent module families, Borel cochains and oriented supports (G5.7)
 
@@ -3750,7 +4125,17 @@ tensor, unit, restriction and colimit maps. Verify each model hypothesis
 used by these constructions rather than treating LM fibres alone as
 symmetric monoidal.
 
-**Continuous action adapter.** Put T=(Circle)^ℓ, including ℓ=0.
+*Needs:* G2.4 (derived function modules); G2.11.11–2.11.13 (the unit-adjoined monoidal localization and relative adjoints); G5.5 (the MU → Hℤ representative).
+
+**Checks.**
+
+- Over the point, A_R(*) is Mod_R∞ and the mapping object is F_R itself.
+- Over the empty base, A_R(∅) = Fun(∅, Mod_R∞) is the category with one object.
+- Φ_* sends the unit MU to the unit Hℤ: it is an isomorphism on π₀, ℤ → ℤ, but not an equivalence, since `π₂MU = ℤ` while π₂Hℤ = 0.
+
+### 5.7.1 Torus actions and total-space comparisons
+
+Put T=(Circle)^ℓ, including ℓ=0.
 Use native `ContAction TopCat T` for continuous unbased T-spaces and
 equivariant maps, with CW-type convenient models for geometric comparisons
 and specified equivariant NDR/cylinder pair replacements. Within this
@@ -3862,7 +4247,18 @@ sending Y to `P_R(Y)=R∧ᴸΣ∞Y₊` with that coherent action. Retain
 equivariant NDR-pair and mapping-cylinder cofibers, products, sums,
 model invariance and the actual fibre/associated-bundle comparisons.
 
-**Borel cochains and finite-base coefficient change.** For an equivariant
+*Needs:* G2.1 (the Kan–Quillen geometric and singular comparison); G2.11.1, 2.11.5–2.11.8 (Bergner fibrancy, unmarked and marked straightening, rectification); AlgebraicTopology Stages 5.5 and 8.2; CharacteristicClasses C1.5 (the finite principal bundles E_n → B_n); Mathlib `ContAction`, `TopCat.toSSet` and `SimplicialNerve`.
+
+**Checks.**
+
+- For ℓ = 0 the torus is trivial and the coherent family reduces to the nonequivariant module of G2.
+- For the free circle action on S¹ itself, the homotopy quotient is a point.
+- For ℓ = 1 the finite stages E_n = S^(2n+1) → CPⁿ have colimit S∞ → CP∞ = BT, and since T is connected, `hS ≃ π₀C_G` is the trivial group, so S is connected.
+- For F a point the associated object is Y = X with Y/G ≅ Sing(P ×_T *) = Sing(B), the principal case.
+
+### 5.7.2 Borel cochains and finite-base coefficient change
+
+For an equivariant
 pair (Y,A) use the cofiber of Σ∞A₊→Σ∞Y₊, comparing with Y/A under
 the stated NDR hypotheses. Define `D_R(Y,A)=F_R(P_R(Y,A),R)`, with
 contragredient transport. Construct fibrewiseHZ_functionSpectrum_borelComparison
@@ -3882,7 +4278,17 @@ when P has a specified dual pair, including finite-cell/retract modules.
 Combine these for finite B_n mapping spectra; retain naturality on
 cofiber triangles and actual maps, not just homotopy groups.
 
-**Coherent Thom and Euler family.** For R=MU,Hℤ and a locally trivial
+*Needs:* 5.7.1; G2.7 (the ordinary Borel cochains); G5.1 (dual pairs); G5.5 (the fibrewise MU → Hℤ comparison).
+
+**Checks.**
+
+- For Y a point with trivial action, `Γ_BT D_R(*) ≃ F(Σ∞BT₊, R)`, which for R = Hℤ and ℓ = 1 has homotopy `H*(CP∞;ℤ) = ℤ[x]` in nonpositive degrees.
+- For Y = T with the free action, ET ×_T T = ET is contractible, so `Γ_BT D_R(T) ≃ R`.
+- Over the finite stage B_n = CPⁿ the same object gives `H*(CPⁿ;ℤ) = ℤ[x]/(x^(n+1))`, and the restriction maps of the tower are surjective.
+
+### 5.7.3 Coherent Thom and Euler family
+
+For R=MU,Hℤ and a locally trivial
 complex vector bundle ν→C of rank m, specify a continuous T-action by
 complex-linear bundle maps covering the action on C. Form its Borel bundle
 `ET×_T ν→ET×_T C` and retain the induced maps. Construct its sphere-module
@@ -3903,7 +4309,17 @@ homotopy to the finite tower. The standard coordinate character uses
 CC's tautological O(−1) convention, with Hℤ Euler class −h_i.
 Include m=0, empty C, pullback, products and relative maps.
 
-**Compact support objects and excision.** Consume CC C1.2's ordinary
+*Needs:* 5.7.1–5.7.2; G4.3–4.5 and G5.4–5.5 (the normalized Thom cocone and the orientation map); CharacteristicClasses C1.5 (the O(−1) convention).
+
+**Checks.**
+
+- For m = 0 the Thom family is the constant family R and e_ν is the identity.
+- For ℓ = 1, C a point and ν = ℂ with the standard character, the Borel bundle over BT = CP∞ is the tautological line O(−1), whose Hℤ Euler class is −h, as the convention above states.
+- For C empty, P_R(∅) = 0 and e_ν = 0.
+
+### 5.7.4 Compact support objects and excision
+
+Consume CC C1.2's ordinary
 compact-support pair package and identify the Hℤ refinement with
 that same ordinary theory. For locally compact paracompact T-spaces
 define C_c,R(U) by the homotopy colimit, over invariant compact K⊂U,
@@ -3911,9 +4327,8 @@ of the R-module cochains of the actual relative cofiber (U,U\K).
 Prove invariant supports cofinal by compact T-saturation.
 For a smooth T-manifold U use specified smooth T-action data, and nested
 compact T-invariant collared domains L_j with interiors covering U and
-finite CW boundary-pair models obtained from GeometricTopology's
-**The smoothing-and-triangulation comparison**, item1 **Smooth implies PL**,
-including the relative collar extension for these compact pieces. Use [SmoothBundlesConnections B1.4](../SmoothBundlesConnections/README.md)
+finite CW boundary-pair models obtained from GeometricTopology Layer 11.3's smooth
+triangulations, with Layer 1.1's collars for these compact pieces. Use [SmoothBundlesConnections B1.4](../SmoothBundlesConnections/README.md)
 for proper free-action smooth quotients and submersion comparisons, and
 TopK T1.5 and [ComplexKahlerGeometry K7.1](../ComplexKahlerGeometry/README.md)
 for the actual smooth projective-space stage charts; these are inputs,
@@ -3939,7 +4354,17 @@ subspaces, and extend through compatible compact exhaustions.
 Include corners/rounded compact-pair models, connecting maps and their
 suspension signs. The geometry supplying such presentations is data.
 
-**Vertical support duality.** Specify an equivariant complex bundle V of
+*Needs:* 5.7.1–5.7.3; CharacteristicClasses C1.2 (ordinary compact supports); GeometricTopology Layers 1.1 and 11.3 (collars and smooth triangulations); SmoothBundlesConnections B1.4; TopologicalKTheory T1.5; ComplexKahlerGeometry K7.1; AlgebraicTopology Stage 6.4; Mathlib `OnePoint`.
+
+**Checks.**
+
+- For compact U the support system has the terminal member K = U with U \ K empty, so C_c,R(U) is the ordinary R-cochain object of U.
+- For U = ℝⁿ with trivial action, `C_c,R(ℝⁿ) ≃ F(Σ∞Sⁿ, R) = Σ⁻ⁿR`, the compactly supported cohomology of ℝⁿ.
+- The localization triangle for K = [0, 1], A empty and L = {0}, so V = [0, 1], Z = {0} and U = (0, 1], reads `C_c,R((0,1]) → C_c,R([0,1]) → C_c,R({0})` with values 0, R and R: the half-open interval has no compactly supported cohomology.
+
+### 5.7.5 Vertical support duality
+
+Specify an equivariant complex bundle V of
 complex rank `(d+a)/2` over U and an equivariant real bundle isomorphism
 `TU⊕ε^a_ℝ≃V_ℝ`, with trivial T-action on the ordered trivial summand.
 Include the induced Borel construction and maps as part of the bundle data.
@@ -3955,7 +4380,7 @@ for R=MU and its ordinary coefficient change. Extend G5.2's geometric
 adapter to compact collared boundary pairs by smooth doubling, relative
 normal collapse and the specified Thom orientation on the original pair.
 Obtain the finite CW models of these compact doubled families from the
-same GT smooth-triangulation item1 and relative collar extension. For each
+same GeometricTopology Layer 11.3 triangulations and Layer 1.1 collars. For each
 finite-stage proper smooth submersion with compact fibres, consume
 CC C2.5's graph embedding and fibrewise tube. Own only the stabilized relative extension over the tower and compact
 parameter simplices, and its spectral collapse comparison. Construct the
@@ -3974,7 +4399,8 @@ data on V restricts under `TV|_U≃TU⊕ν` to the data on U and ν, with its
 Thom-line orientation coherence. For proper T-equivariant smooth embeddings of finite-dimensional Hausdorff
 second-countable manifolds with a specified coherent
 R-Thom orientation of the normal bundle, construct equivariantNormalTube:
-choose a smooth positive-definite ambient metric from DG12.1, average its pullbacks
+choose a smooth positive-definite ambient metric by Tau Ceti's
+`TauCeti.nonempty_contMDiffRiemannianMetric`, average its pullbacks
 with RepresentationTheory/CompactGroups Layer0's normalized Haar measure,
 and prove smoothness and positive definiteness in bundle charts. Apply
 GT's metric-dependent normal-exponential tube and diffeomorphism
@@ -3993,7 +4419,17 @@ on their support colimit. For finite B_n identify sections with supported
 cochains of E_n×_T U using compactness and the cofinal domain exhaustion,
 and prove the filtered-colimit comparison.
 
-**Tower and mapping interfaces.** Construct the actual restriction
+*Needs:* 5.7.4; G5.2 (the geometric duality adapter); G5.5 (the interleaved complex convention); CharacteristicClasses C2.4 and C2.5 (graph embeddings and fibrewise tubes); GeometricTopology Layers 1.5 and 11.3; Tau Ceti `TauCeti.nonempty_contMDiffRiemannianMetric`; RepresentationTheory CompactGroups Layer 0 (Haar averaging); Mathlib `EMetricSpace.ofRiemannianMetric`.
+
+**Checks.**
+
+- For U a point, d = 0 and compactSupportModuleDuality reads `C_c,R(*) ≃ P_R(*) = R`.
+- For U = ℂ with its complex structure, d = 2 and a = 0: `C_c,R(ℂ) ≃ Σ⁻²R ≃ Σ⁻²P_R(ℂ)`, since ℂ is contractible and its compactly supported cohomology sits in degree 2.
+- The block-order sign (−1)^((N−d)d) is −1 for N = 2, d = 1 and +1 for N = 3, d = 1, so it cannot be dropped.
+
+### 5.7.6 Towers, mapping interfaces and extensions
+
+Construct the actual restriction
 towers of sections and mapping spectra over B_n, and prove their
 homotopy limits compute those over BT by the classifier colimit and
 coherent-diagram comparison. For supported objects retain the order
@@ -4026,12 +4462,13 @@ dependence on the path, pullback/coefficient compatibility and its
 finite filtered-diagram form with compatible paths and finite direct sums
 formed within one common filtration level. These maps and paths use the full coherent mapping space.
 
-*Needs:* G2.11; G3.6 and G3.8; G4.3; 5.1–5.5; CharacteristicClasses C1.2, C1.5, C2.4 and C2.5; GeometricTopology Layer 1; SmoothBundlesConnections B1.4; RepresentationTheory CompactGroups Layer 0.
+*Needs:* 5.7.1–5.7.5; G3.6 (the mapping-tower phantom kernel); G3.8 (the Milnor sequence).
 
 **Checks.**
 
-- For ℓ = 0 the torus is trivial and the coherent family reduces to the nonequivariant module of G2.
-- For the free circle action on S¹ itself, the homotopy quotient is a point.
+- For Q = Hℤ constant and C a T-fixed point, the mapping tower over the B_n = CPⁿ has surjective transition maps, so its lim¹ vanishes and the limit is `H*(CP∞;ℤ)` in each degree.
+- For a split triangle A → A ⊕ C → C, δ = 0 and the sections over id_C form the based loops on Map(C, ΣA) at 0, equivalently Map(C, A): sections differ by maps C → A.
+- For the triangle Hℤ → Hℤ → Hℤ/2 → ΣHℤ of multiplication by 2, δ is the Bockstein, nonzero in `[Hℤ/2, ΣHℤ] = ℤ/2`, so there is no path to 0 and no section; indeed `Hℤ ≄ Hℤ ⊕ Hℤ/2`, since their π₀ are ℤ and ℤ ⊕ ℤ/2.
 
 ### Examples
 
@@ -4041,7 +4478,7 @@ formed within one common filtration level. These maps and paths use the full coh
 
 ### Dependencies
 
-G5.0 uses G2.9 and TopologicalKTheory T1.6, T7.0 and T7 item 1. G5.1–5.3 use G2–G4 and GeometricTopology Layer 1. G5.4 uses G2.5, G2.8, G3.8 and TopologicalKTheory T4 and T7 item 1. G5.5 uses G4.3–4.5, HilbertModules H2 and H4–H6, CStarAlgebras C5, SpinGeometry G1.3 and OperatorTheory SelfAdjointSpectralTheory Parts C–D. G5.6 uses G2.5, G2.7 and AlgebraicTopology Stages 5.5 and 8.8d. G5.7 uses G2.11, G3.6, G3.8, G4.3, G5.1–5.5, CharacteristicClasses C1.2, C1.5, C2.4 and C2.5, GeometricTopology Layer 1, SmoothBundlesConnections B1.4, TopologicalKTheory T1.5, ComplexKahlerGeometry K7.1 and RepresentationTheory CompactGroups Layer 0.
+G5.0 uses G2.9, G3.10, G4.0a, G4.0c, G4.5, SpinGeometry G4.1, AlgebraicTopology Stage 4.5, GeometricTopology Layer 11.3, TopologicalKTheory T1.6, T7.0 and T7 item 1 and CharacteristicClasses C1.1b and C3.5. G5.1–5.3 use G2–G4 and GeometricTopology Layer 1. G5.4 uses G2.5, G2.8, G3.8 and TopologicalKTheory T4 and T7 item 1. G5.5 and 5.5.1–5.5.6 use G4.3–4.5, G5.4, HilbertModules H1–H6, CStarAlgebras C5, SpinGeometry G1.3, OperatorTheory SelfAdjointSpectralTheory Parts C–D, TopologicalKTheory T7 and Tau Ceti's real Hilbert-space calculus. G5.6 uses G2.5, G2.7 and AlgebraicTopology Stages 5.5 and 8.8d. G5.7 and 5.7.1–5.7.6 use G2.1, G2.11, G3.6, G3.8, G4.3–4.5, G5.1–5.5, AlgebraicTopology Stages 5.5, 6.4 and 8.2, CharacteristicClasses C1.2, C1.5, C2.4 and C2.5, GeometricTopology Layers 1 and 11.3, SmoothBundlesConnections B1.4, TopologicalKTheory T1.5, ComplexKahlerGeometry K7.1, RepresentationTheory CompactGroups Layer 0 and Tau Ceti's Riemannian metrics.
 
 ## Downstream consumers
 
@@ -4054,9 +4491,12 @@ G5.0 uses G2.9 and TopologicalKTheory T1.6, T7.0 and T7 item 1. G5.1–5.3 use G
 - DGFloer consumes G2.10's homotopy-fibre comparison (its Layer 1 item 4 and Layer 2) and G4.0b's
   smooth HP carrier.
 - RiemannianGeometry consumes G4.0b's carriers and submersions in R1.
-- SpinGeometry consumes G5.5's real Hilbert and finite-Clifford functional calculus, regularity,
-  stabilization and negative-Clifford family index in its G5.0 and G6.0; G5.5 uses only SpinGeometry
-  G1.3, which precedes them.
+- SpinGeometry consumes G5.5's closed real-Hilbert descent and finite-Clifford functional
+  calculus, regularity, stabilization and negative-Clifford family index in its G5.0 and G6.0, and
+  takes the bounded real-Hilbert calculus and star order from Tau Ceti
+  (`ContinuousLinearMap.instContinuousFunctionalCalculusRealIsSelfAdjoint`,
+  `ContinuousLinearMap.instStarOrderedRingRCLike`); G5.5 uses only SpinGeometry G1.3, which
+  precedes them.
 - TangentialBordism consumes G5's compatible bundle-diagram interface (bundles, stabilization
   isomorphisms, coherent block-sum and permutation maps and their universal classifier adapters)
   for ξ-normal structures, the mapping-path carrier for normal-classifier lifting, the
