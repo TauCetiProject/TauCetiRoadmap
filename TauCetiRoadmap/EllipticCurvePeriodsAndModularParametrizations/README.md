@@ -281,6 +281,12 @@ number-field equation; finiteness and nonvanishing theorems require ellipticity.
   over the level-one domain, and `CuspForm.peterssonInnerCosets`, the pairing over a fundamental
   domain of a finite-index subgroup assembled from coset translates, with
   `peterssonInnerCosets_definite` (`NumberTheory/ModularForms/Petersson/`); `Newform N k`.
+- `HeckeRing.GL2.Newform.analyticRank f hk`, the order of the entire `L`-function
+  `ModularForm.L hk f.toCuspForm` of a newform at the central point `k / 2`, with
+  `analyticRank_eq_analyticOrderNatAt` (any entire function agreeing with the coefficient series
+  on `Re s > k/2 + 1` computes it) and `analyticOrderAt_L_ne_top`
+  (`NumberTheory/ModularForms/Newforms/AnalyticInvariants.lean`). Over `ℚ`, 3.4 proves its
+  analytic rank equal to this one for the newform attached to `E`.
 - `TauCeti.ModularSymbols`: `degreeZero`, the homological module `ModularSymbols R Γ w`, the
   Manin symbols, `rawPairing`, `periodMap R Γ hk : CuspForm → (𝕄 →ₗ[R] ℂ)` with `periodMap_mk`
   (`{α, β} ⊗ P ↦ ∫_β^α f(z) P(z, 1) dz`) and `periodMap_injective`
@@ -911,7 +917,16 @@ For `h : IsContinuation W U F`:
   half-plane and `1`), equal to `F` near `1` by 3.3; hence all derivatives of `F` at `1` are real.
   No sign is claimed: positivity of `L^{(r)}(E/K, 1)/r!` is not a theorem in this generality;
 - `analyticRank_congr`, `leadingCoefficient_congr`: two continuations give the same rank and
-  coefficient (3.3's uniqueness on a neighbourhood of `1`).
+  coefficient (3.3's uniqueness on a neighbourhood of `1`);
+- `analyticRank_eq_newform_analyticRank`, over `ℚ`: for `f : HeckeRing.GL2.Newform N 2` whose
+  `q`-expansion coefficients are the Dirichlet coefficients `E.LFunction n` (EllipticCurveModularity
+  R29.3 attaches such an `f` to `E`, of level the conductor, and R29.4 gives the coefficient
+  identity), `analyticRank E h = f.analyticRank two_pos` for every continuation `h`. The right side
+  is Tau Ceti's analytic rank of the newform, the order of `ModularForm.L` at `k/2 = 1`. Proof:
+  the entire continuation `F` of 3.3 (`isContinuation_of_modularity`) equals `E.LSeries`, hence the
+  newform's coefficient series, on `Re s > 2`, so `Newform.analyticRank_eq_analyticOrderNatAt`
+  gives `f.analyticRank two_pos = analyticOrderNatAt F 1`, the analytic rank of that continuation,
+  and `analyticRank_congr` passes to every other.
 
 Over `ℚ` with the continuation of 3.3, `analyticRank` is the LMFDB `analytic_rank`; the sign of
 the functional equation and the parity statement are EllipticCurveModularity R29.6's and are not
@@ -923,7 +938,9 @@ analytic germ is `analyticOrderAt` (Mathlib `AnalyticAt.meromorphicOrderAt_eq`),
 coefficient of a holomorphic germ of order `r` is `L^{(r)}(0)/r!`.
 
 *Needs:* 3.2, 3.3; Mathlib `analyticOrderAt`, `iteratedDeriv`; PeriodsAndSpecialValues PS.3.3
-(the comparison only).
+(the comparison only); Tau Ceti `HeckeRing.GL2.Newform.analyticRank`,
+`analyticRank_eq_analyticOrderNatAt` and EllipticCurveModularity R29.3–R29.4 (the `ℚ`
+identification only).
 
 
 **Checks.**

@@ -6,6 +6,7 @@ import TauCeti.AlgebraicGeometry.EllipticCurve.MinimalModel.Reduced
 import TauCeti.AlgebraicGeometry.EllipticCurve.GlobalMinimalModel
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Differential
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Degree
+import TauCeti.NumberTheory.ModularForms.Newforms.AnalyticInvariants
 
 /-!
 # Periods of elliptic curves and modular parametrizations: target signatures
@@ -302,6 +303,16 @@ theorem analyticRank_congr {U' : Set ℂ} {F' : ℂ → ℂ} (h : IsContinuation
 (`README.md`, Layer 3, 3.4). -/
 theorem leadingCoefficient_congr {U' : Set ℂ} {F' : ℂ → ℂ} (h : IsContinuation W U F)
     (h' : IsContinuation W U' F') : leadingCoefficient W h = leadingCoefficient W h' := sorry
+
+/-- **3.4** Over `ℚ` the analytic rank is Tau Ceti's `HeckeRing.GL2.Newform.analyticRank`, the
+order of the newform's entire `L`-function at the central point `k / 2 = 1`, for a weight-two
+newform whose `q`-expansion coefficients are the Dirichlet coefficients of `L(E, s)`; the
+modularity roadmap's R29.3–R29.4 attach one to `E` (`README.md`, Layer 3, 3.4). -/
+theorem analyticRank_eq_newform_analyticRank (E : WeierstrassCurve ℚ) [E.IsElliptic] {N : ℕ}
+    [NeZero N] (f : HeckeRing.GL2.Newform N 2)
+    (hf : ∀ n : ℕ, n ≠ 0 →
+      (UpperHalfPlane.qExpansion 1 ⇑f.toCuspForm).coeff n = (E.LFunction n : ℂ))
+    (h : IsContinuation E U F) : analyticRank E h = f.analyticRank two_pos := sorry
 
 end Layer3
 
