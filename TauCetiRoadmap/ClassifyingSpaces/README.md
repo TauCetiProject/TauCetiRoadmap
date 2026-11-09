@@ -176,7 +176,9 @@ below:
 - **Base points of CW complexes are `0`-cells.** A vertex of a CW complex `X` is a point of its
   `0`-skeleton `Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1`, which is discrete
   (`TauCeti.zeroSkeletonDiscreteTopology`). The base point of the source in Layer 1 and of the
-  `K(G, 1)` in Layer 2 is a vertex, as in Hatcher's proof of Proposition 1B.9 (pp. 90–91; on
+  `K(G, 1)` in items 2.1 and 2.2 and in the constructions of 2.3 is a vertex; the two headlines
+  of 2.3 hold at every base point, by a reduction to a vertex along a path (item 2.3, its first
+  bullet). The vertex is the base point of Hatcher's proof of Proposition 1B.9 (pp. 90–91; on
   p. 91 the base point is a `0`-cell of the maximal tree): the routes move base points by a homotopy
   prescribed on the discrete `0`-skeleton and extended by the homotopy extension property of
   the `0`-skeleton, and the pinned uniqueness criterion
@@ -291,7 +293,21 @@ below:
   path-connected space every path component is open and closed),
   `Topology.CWComplex.Subcomplex.mk'` (a union of open cells that contains the closure of each
   of them is a subcomplex) and `Topology.CWComplex.Subcomplex.instCWComplex` (a subcomplex is a CW
-  complex), `Mathlib/Topology/CWComplex/Classical/`.
+  complex), `Mathlib/Topology/CWComplex/Classical/`, and `Topology.CWComplex.mapsTo` (the
+  characteristic map of an `n`-cell sends the boundary sphere into finitely many closed cells of
+  lower dimension, `Mathlib/Topology/CWComplex/Classical/Basic.lean`).
+- `Rep.barComplex.d_single` (`Mathlib/RepresentationTheory/Homological/Resolution.lean`: in degree
+  one the bar differential sends the basis vector `[g]` to `g − 1`),
+  `Rep.coinvariantsTensorFreeToFinsupp_mk_tmul_single`
+  (`Mathlib/RepresentationTheory/Coinvariants.lean`: the class of `a ⊗ [g₁, …, gₙ]` in the
+  coinvariants of the bar resolution is the inhomogeneous chain supported at `(g₁, …, gₙ)` with
+  value `a`) and
+  `groupHomology.H1AddEquivOfIsTrivial`
+  (`Mathlib/RepresentationTheory/Homological/GroupHomology/LowDegree.lean`: `H₁(G, A) ≅ Gᵃᵇ ⊗ A`
+  for a trivial `A`), which fix the sign of the degree-one comparison of item 2.1; and
+  `HomologicalComplex.HomologySequence.δ_naturality`
+  (`Mathlib/Algebra/Homology/HomologySequenceLemmas.lean`: a morphism of short exact sequences of
+  complexes commutes with their connecting maps), which transports the connecting maps of 2.3.
 
 ### From Tau Ceti
 
@@ -436,7 +452,11 @@ file:
   (`TauCeti.twistedCohomologyBockstein_comp_classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom`,
   `TauCeti/AlgebraicTopology/ClassifyingSpace/LocalCoefficients.lean`); and in
   degree one `TauCeti.classifyingSpaceFirstHomologyAddEquiv : H₁(BG; ℤ) ≃+ Gᵃᵇ` through Hurewicz,
-  with `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology` to Mathlib's `H₁(G, ℤ)`.
+  with `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology` to Mathlib's `H₁(G, ℤ)`, which
+  sends the class of a loop to the class of the `1`-chain of the group element the loop
+  represents (`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology_loopClass`) and is
+  therefore the negative of `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology ℤ G 1`
+  (item 2.1, its degree-one bullet).
 - **Examples** (`Circle.lean`, `WedgeCircles.lean`, `Torus.lean`, `FiniteCyclic.lean`,
   `Torsion.lean`): `TauCeti.circleHomotopyEquivClassifyingSpace` with a pointed forward map
   inducing the identity of `ℤ`
@@ -465,7 +485,12 @@ lifts through a weak homotopy equivalence up to homotopy, Hatcher, Proposition 4
 `ContinuousMap.IsWeakHomotopyEquivalence.homotopyEquiv_toFun`
 (`TauCeti/AlgebraicTopology/Homotopy/Whitehead.lean`); `TauCeti.CWType` and
 `TauCeti.CWType.of_cwComplex_univ` (`TauCeti/Topology/CWComplex/Classical/CWType.lean`);
-`TauCeti.zeroSkeletonDiscreteTopology` (`TauCeti/Topology/CWComplex/Classical/Zero.lean`);
+`TauCeti.zeroSkeletonDiscreteTopology` and `TauCeti.zeroCellEquiv` (the `0`-cells are the points
+of the `0`-skeleton) (`TauCeti/Topology/CWComplex/Classical/Zero.lean`);
+`TauCeti.smul_universalGSpaceBasepoint` (`TauCeti/AlgebraicTopology/ClassifyingSpace/Action.lean`:
+`g` translates the base vertex `(0, 1)` of the join to `(0, g)`) and
+`TauCeti.singularChains_d_pathChain` (`TauCeti/AlgebraicTopology/Singular/ModuleChains/Basic.lean`:
+the boundary of the `1`-simplex of a path is its end point minus its starting point);
 `TauCeti.hasHomotopyExtensionProperty_skeletonLT`
 (`TauCeti/Topology/Homotopy/Extension/CWComplex.lean`);
 `TauCeti.instDeltaGeneratedSpaceOfCWComplexUniv` (a Hausdorff CW complex is delta-generated,
@@ -487,10 +512,24 @@ inverse, both homotopies given);
 `TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation` and
 `TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso`
 (`TauCeti/AlgebraicTopology/LocalCoefficient/Representation.lean`);
-`TauCeti.LocalCoefficientSystem.pullbackHomotopyIso` and
+`TauCeti.LocalCoefficientSystem.pullbackHomotopyIso`,
 `TauCeti.LocalCoefficientSystem.pullback_monodromyRepresentation` (the monodromy of a pullback is
-the monodromy at the image point composed with the induced map of fundamental groups)
-(`TauCeti/AlgebraicTopology/LocalCoefficient.lean`);
+the monodromy at the image point composed with the induced map of fundamental groups) and
+`TauCeti.LocalCoefficientSystem.basepointChangeEquiv` (transport along a path `p` from `x` to `y`
+is an isomorphism from the monodromy at `x` to the monodromy at `y` composed with the change of
+base point along `p`) (`TauCeti/AlgebraicTopology/LocalCoefficient.lean`);
+`TauCeti.LocalCoefficientSystem.twistedHomologyCoefficientMap`
+(`TauCeti/AlgebraicTopology/Singular/Twisted/Basic.lean`) and
+`TauCeti.LocalCoefficientSystem.twistedCohomologyCoefficientIso`
+(`TauCeti/AlgebraicTopology/Cohomology/Twisted/Basic.lean`), the maps induced on twisted homology
+and cohomology by a morphism or an isomorphism of local systems;
+`CategoryTheory.ShortComplex.ShortExact.twistedHomologyδ` and
+`CategoryTheory.ShortComplex.ShortExact.twistedHomologyδ_naturality`
+(`TauCeti/AlgebraicTopology/Singular/Twisted/Coefficients.lean`: the connecting map of a short
+exact sequence of local systems on one space, and its naturality in morphisms of such sequences)
+and `TauCeti.LocalCoefficientSystem.twistedCohomologyBockstein_eq_δ`
+(`TauCeti/AlgebraicTopology/Cohomology/Twisted/Bockstein.lean`: the Bockstein is the connecting
+map of the short exact sequence of twisted cochain complexes);
 `IsQuotientCoveringMap.associatedLocalSystemFiberIso` (a point of the fibre identifies the fibre
 of the local system of a quotient covering and a representation `A` with `A`;
 `TauCeti/AlgebraicTopology/LocalCoefficient/QuotientCovering/Exact.lean`);
@@ -766,9 +805,11 @@ above. No other roadmap.
 
 ## Layer 2: group homology and cohomology of a CW `K(G, 1)`
 
-Throughout, `(X, x)` is a Hausdorff CW `K(G, 1)` with base point a vertex and chosen
-identification `Ψ : π₁(X, x) ≃* G`, `c_X : X → BG` is its pointed comparison map of 1.3, and `k`
-is a commutative ring in the universe of `G` and `X`.
+Throughout, `(X, x)` is a Hausdorff CW `K(G, 1)` with chosen identification
+`Ψ : π₁(X, x) ≃* G`, and `k` is a commutative ring in the universe of `G` and `X`. In 2.1, 2.2
+and in the constructions of 2.3 the base point `x` is a vertex and `c_X : X → BG` is the pointed
+comparison map of 1.3; the two headlines of 2.3 hold at every base point, by the reduction to a
+vertex that opens the proof list of 2.3.
 
 ### 2.1 Homology with trivial coefficients
 
@@ -793,9 +834,25 @@ the universal cover being one). Its API:
 - Changing `Ψ` by an automorphism `α` of `G` changes the comparison by
   `groupHomology.map α` on the trivial module, which is the identity of `Hₙ(G, k)` only when `α`
   acts trivially on homology; the comparison is a function of `Ψ`, not of `X` alone.
-- In degree one, the composite with the Hurewicz isomorphism is the abelianization of `Ψ`,
-  followed by Mathlib's `H₁(G, ℤ) ≅ Gᵃᵇ`; for `X = BG` this is the pinned
-  `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`.
+- In degree one, the class in `H₁(X; k)` of the `1`-simplex of a loop `γ` at `x` goes to the
+  class of the `1`-chain `Ψ(γ)⁻¹` with coefficient `1`. For `k = ℤ`, composed with the Hurewicz
+  isomorphism and followed by Mathlib's `H₁(G, ℤ) ≅ Gᵃᵇ` (`groupHomology.H1AddEquivOfIsTrivial`),
+  the comparison is `γ ↦ −[Ψ(γ)]`, the abelianization of `Ψ` followed by negation. For `X = BG`
+  it is therefore the negative of the pinned
+  `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`, which sends the class of `γ` to the
+  class of the `1`-chain `Ψ(γ)` (`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology_loopClass`);
+  the two agree when `Gᵃᵇ` has exponent at most two. Route, on `BG` with `Φ` the pinned
+  identification: the lift of a loop `γ` at `b₀` from the vertex `e₀ = (0, 1)` ends at the vertex
+  `(0, m) = m • e₀` with `m = Φ(γ)⁻¹`
+  (`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`,
+  `TauCeti.smul_universalGSpaceBasepoint`), so the lifted `1`-simplex has boundary `m • e₀ − e₀`
+  (`TauCeti.singularChains_d_pathChain`). The pinned comparison sends the class of `γ` to the class
+  of `1 ⊗` that lifted simplex and then applies the comparison of the singular resolution with
+  the bar resolution, which preserves the augmentations. Taking `e₀` to the basis vector of the
+  bar resolution in degree zero, whose differential sends `[m]` to `m − 1`
+  (`Rep.barComplex.d_single`), the lifted simplex goes to `[m]` plus a cycle of the bar
+  resolution, which is a boundary since the bar resolution is exact; on coinvariants `1 ⊗ [m]` is
+  the `1`-chain `m` (`Rep.coinvariantsTensorFreeToFinsupp_mk_tmul_single`).
 
 The existence statement, for any Hausdorff CW `K(G, 1)` and every `n`, is a theorem of the pin by
 transport: `TauCeti.IsEilenbergMacLaneSpaceOne.nonempty_homotopyEquiv` gives some homotopy
@@ -804,13 +861,19 @@ acceptance test; the content of this item is the canonical choice and its natura
 (1.3); Tau Ceti `ContinuousMap.HomotopyEquiv.singularHomologyIso`,
 `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology`,
 `MonoidHom.classifyingSpaceSingularHomologyIsoGroupHomology_hom_naturality`,
-`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`; Mathlib
-`AlgebraicTopology.singularHomologyFunctor`, `groupHomology.map`.
+`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`,
+`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology_loopClass`,
+`TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`,
+`TauCeti.smul_universalGSpaceBasepoint`, `TauCeti.singularChains_d_pathChain`; Mathlib
+`AlgebraicTopology.singularHomologyFunctor`, `groupHomology.map`, `Rep.barComplex.d_single`,
+`Rep.coinvariantsTensorFreeToFinsupp_mk_tmul_single`, `groupHomology.H1AddEquivOfIsTrivial`.
 
 **Checks.**
 - `X` the circle, `Ψ` the degree, `k = ℤ`, `n = 1`: the class of the counterclockwise loop goes
-  to the class of the `1`-chain `1 ∈ ℤ` in `H₁(ℤ, ℤ)`, that is, to `1` under `H₁(ℤ, ℤ) ≅ ℤ`; a
-  comparison built through `Ψ⁻¹` sends it to `−1`.
+  to the class of the `1`-chain `−1 ∈ ℤ` in `H₁(ℤ, ℤ)`, that is, to `−1` under
+  `H₁(ℤ, ℤ) ≅ ℤ`, while the pinned `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`
+  composed with the map induced by `c_X` sends it to `1`; a comparison built through `Ψ⁻¹` sends
+  it to `1`. The Check is taken over `ℤ`: over `ℤ/2` the two signs agree.
 - `G = ℤ/m`, `m ≥ 2`, `k = ℤ`: in degree two both sides are zero (pinned
   `TauCeti.subsingleton_classifyingSpace_singularHomology_int_of_even` on the left, the
   two-periodic resolution on the right), and in degree one both are `ℤ/m`; a comparison that
@@ -843,8 +906,14 @@ theorem of the pin by transport and is not an acceptance test. *Needs:* (1.3); T
 and its three naturality theorems; Mathlib `groupCohomology.map`, `groupCohomology.δ`.
 
 **Checks.**
-- `X` the circle, `M = k`: `H¹(X; k) ≅ H¹(ℤ, k) = Hom(ℤ, k) = k`, the generator going to the
-  homomorphism `1 ↦ 1`; through `Ψ⁻¹` it would go to `1 ↦ −1`.
+- `X` the circle, `Ψ` the degree, `k = M = ℤ`: `H¹(X; ℤ) ≅ H¹(ℤ, ℤ) = Hom(ℤ, ℤ) = ℤ`, and the
+  class taking the value `1` on the counterclockwise loop goes to the homomorphism `1 ↦ −1`. The
+  pinned comparison pulls cochains back to the countable join and precomposes with a comparison
+  of the bar resolution into the singular resolution (the resolution of 2.1), which sends `[m]`
+  to a simplex from `e₀` to `m • e₀`; its image in `BG` is a loop with `Φ`-image `m⁻¹`, that is
+  `−m` in additive notation, homotopic to the image under `c_X` of the loop of degree `−m`, so the
+  cocycle is `m ↦ −m`. Through `Ψ⁻¹` it would go to `1 ↦ 1`. The Check is taken over `ℤ`: over `ℤ/2` the two
+  signs agree.
 - `G = ℤ/2`, `k = ℤ`, `M = ℤ/2`: `Hⁿ(G, ℤ/2) = ℤ/2` in every degree, so the comparison is
   nonzero in every degree, and the Bockstein of the short exact sequence of `ℤ`-modules
   `0 → ℤ/2 → ℤ/4 → ℤ/2 → 0` is an isomorphism `H¹(G, ℤ/2) → H²(G, ℤ/2)`: in the long exact
@@ -882,12 +951,32 @@ representation; the pin does not provide this, and it is owned here:
 
 Prove:
 
+- Reduction to a vertex. The two headlines below hold at an arbitrary base point `x`; the
+  constructions are made at a vertex. A nonempty CW complex has a vertex: a cell of least
+  dimension has dimension `0`, because the characteristic map of an `n`-cell with `n ≥ 1` sends
+  the nonempty sphere `Sⁿ⁻¹` into closed cells of lower dimension (`Topology.CWComplex.mapsTo`),
+  and the `0`-cells are the points of the `0`-skeleton (`TauCeti.zeroCellEquiv`). Choose a vertex
+  `v` and, `X` being path-connected, a path `p` from `v` to `x`, and put
+  `Ψ_v := (FundamentalGroup.fundamentalGroupMulEquivOfPath p).trans Ψ : π₁(X, v) ≃* G`; `X` is
+  aspherical at `v` (`TauCeti.IsAspherical.of_basepoint`). Transport along `p` is an isomorphism
+  of representations from the monodromy of `L_A` at `v` to its monodromy at `x`, which is `A ∘ Ψ`,
+  composed with the change of base point along `p`, that is to `A ∘ Ψ_v`
+  (`TauCeti.LocalCoefficientSystem.basepointChangeEquiv`,
+  `TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation`). The functoriality
+  above, at the base point `v`, turns it into an isomorphism
+  `ofRepresentation v (monodromy of L_A at v) ≅ ofRepresentation v (A ∘ Ψ_v)`, and
+  `TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso` identifies the left side with
+  `L_A`. So `L_A` is isomorphic to the local system of `A` built at the vertex `v` with the
+  identification `Ψ_v`, and this isomorphism of local systems induces isomorphisms on twisted
+  homology and cohomology (`TauCeti.LocalCoefficientSystem.twistedHomologyCoefficientMap`,
+  `TauCeti.LocalCoefficientSystem.twistedCohomologyCoefficientIso`): the headlines at `(x, Ψ)`
+  follow from those at `(v, Ψ_v)`.
 - `Hₙ(X; L_A) ≅ Hₙ(G, A)` for every `n` (the headline
   `nonempty_twistedHomology_iso_groupHomology`), and for a `k`-module `N`,
   `Hⁿ(X; L_A, N) ≅ Hⁿ(G, Homₖ(A, N))`, `N` with the trivial action (the headline
-  `nonempty_twistedCohomology_iso_groupCohomology`). Route: write `L` for the pinned local system
-  `TauCeti.classifyingSpaceLocalSystem k A` on `BG` and `c_X^* L` for its pullback along `c_X`.
-  The monodromy of `c_X^* L` at `x` is the monodromy of `L` at `b₀ = c_X x` composed with
+  `nonempty_twistedCohomology_iso_groupCohomology`). Route, for `x` a vertex: write `L` for the
+  pinned local system `TauCeti.classifyingSpaceLocalSystem k A` on `BG` and `c_X^* L` for its
+  pullback along `c_X`. The monodromy of `c_X^* L` at `x` is the monodromy of `L` at `b₀ = c_X x` composed with
   `π₁(c_X)` (`TauCeti.LocalCoefficientSystem.pullback_monodromyRepresentation`). The fibre of `L`
   at `b₀` is `(A ⊗ k[p_G⁻¹ b₀])_G`, which the sheet through the vertex `(0, 1)` identifies with the
   module of `A` (`IsQuotientCoveringMap.associatedLocalSystemFiberIso`); under this identification
@@ -909,12 +998,18 @@ Prove:
   above to `groupHomology.map (MonoidHom.id G) f`. A short exact sequence
   `0 → A₁ → A₂ → A₃ → 0` of representations gives a short exact sequence of local systems
   `0 → L_{A₁} → L_{A₂} → L_{A₃} → 0`, fibrewise the given sequence, and the isomorphisms carry
-  its connecting map to `groupHomology.δ`. Route: the pinned
+  its connecting map `CategoryTheory.ShortComplex.ShortExact.twistedHomologyδ` to
+  `groupHomology.δ`. Route: the pinned
   `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality` and
   `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom` on `BG`,
-  transported along `c_X` and the isomorphisms `L_{Aᵢ} ≅ c_X^* L`, which are natural in `A` by
-  construction, with the naturality of connecting maps of short exact sequences of chain
-  complexes.
+  transported in two steps. The isomorphisms `L_{Aᵢ} ≅ c_X^* L_i`, with `L_i` the pinned local
+  system of `Aᵢ` on `BG`, are natural in `A` by construction, so they form an isomorphism of short
+  exact sequences of local systems on `X`, and
+  `CategoryTheory.ShortComplex.ShortExact.twistedHomologyδ_naturality` carries one connecting map
+  to the other. The map `c_X` induces maps of twisted chain complexes
+  `C(X; c_X^* L_i) → C(BG; L_i)`, natural in the coefficients, hence a morphism of short exact
+  sequences of chain complexes, and `HomologicalComplex.HomologySequence.δ_naturality` makes the
+  induced maps on homology commute with the two connecting maps.
 - Cohomology, naturality and connecting maps. The coefficient `Homₖ(A, N)` is contravariant in
   `A` and `Homₖ(−, N)` is not exact, so a short exact sequence of representations gives no short
   exact sequence of coefficients; the connecting maps on this side come from a short exact
@@ -928,15 +1023,25 @@ Prove:
   `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_left`,
   `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_right` and
   `TauCeti.twistedCohomologyBockstein_comp_classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom`
-  on `BG`, transported as for homology; the Bockstein commutes with the maps induced by `c_X`
-  and by `L_A ≅ c_X^* L` by the naturality of connecting maps of short exact sequences of
-  cochain complexes.
+  on `BG`, transported as for homology. The Bockstein is the connecting map of the short exact
+  sequence of twisted cochain complexes with values in `N₁ → N₂ → N₃`
+  (`TauCeti.LocalCoefficientSystem.twistedCohomologyBockstein_eq_δ`), defined on `X` because the
+  fibres of `c_X^* L` and of `L_A` are isomorphic to the module of `A`, hence projective; the
+  maps induced by `c_X` and by
+  `L_A ≅ c_X^* L` are morphisms of these short exact sequences of cochain complexes, and
+  `HomologicalComplex.HomologySequence.δ_naturality` makes them commute with the Bocksteins.
 - For the trivial representation `A = Rep.trivial k G k`, `L_A` is the constant system and the
   isomorphism is that of 2.1 through `TauCeti.LocalCoefficientSystem.twistedHomologyConstantIso`;
   likewise for cohomology through `TauCeti.LocalCoefficientSystem.twistedCohomologyConstantIso`
   (Hatcher, Example 3H.1, p. 329).
 
 *Needs:* (1.3), (2.1), (2.2); Tau Ceti `TauCeti.LocalCoefficientSystem.ofRepresentation`,
+`TauCeti.LocalCoefficientSystem.basepointChangeEquiv`, `TauCeti.IsAspherical.of_basepoint`,
+`TauCeti.zeroCellEquiv`, `TauCeti.LocalCoefficientSystem.twistedHomologyCoefficientMap`,
+`TauCeti.LocalCoefficientSystem.twistedCohomologyCoefficientIso`,
+`CategoryTheory.ShortComplex.ShortExact.twistedHomologyδ`,
+`CategoryTheory.ShortComplex.ShortExact.twistedHomologyδ_naturality`,
+`TauCeti.LocalCoefficientSystem.twistedCohomologyBockstein_eq_δ`,
 `TauCeti.LocalCoefficientSystem.ofRepresentation_map_apply`,
 `TauCeti.LocalCoefficientSystem.monodromyRepresentation_ofRepresentation`,
 `TauCeti.LocalCoefficientSystem.ofRepresentationMonodromyIso`,
@@ -957,10 +1062,18 @@ Prove:
 `TopCat.Homotopy.twistedCohomologyMap_eq_comp`,
 `TauCeti.LocalCoefficientSystem.twistedHomologyConstantIso`,
 `TauCeti.LocalCoefficientSystem.twistedCohomologyConstantIso`; Mathlib `Rep.ihom`, `Rep.trivial`,
-`groupHomology.map`, `groupHomology.δ`, `groupCohomology.map`, `groupCohomology.δ`.
+`groupHomology.map`, `groupHomology.δ`, `groupCohomology.map`, `groupCohomology.δ`,
+`FundamentalGroup.fundamentalGroupMulEquivOfPath`, `Topology.CWComplex.mapsTo`,
+`HomologicalComplex.HomologySequence.δ_naturality`.
 
 **Checks.**
 - `A` trivial: recovers 2.1 and 2.2.
+- A base point that is not a vertex: `X` the circle with its single vertex at `1`, `x = i`, `Ψ`
+  the degree at `i`. The reduction takes `v = 1` and `p` the counterclockwise quarter arc from `1`
+  to `i`; changing the base point along `p` carries the counterclockwise loop at `1` to the
+  counterclockwise loop at `i`, so `Ψ_v` is again the degree, and both sides are `Hₙ(ℤ, A)`, for
+  instance `k/(u − 1)k` in degree zero when the generator acts on `A = k` by a unit `u`. A
+  headline that required a vertex base point would say nothing at `i`.
 - `G = ℤ`, `X` the circle, `A = k` with the generator acting by a unit `u`: `H₀(X; L_A)` is the
   coinvariants `k/(u − 1)k` (`TauCeti.LocalCoefficientSystem.twistedHomology₀IsoCoinvariants`)
   and `H₁` is the kernel of `u − 1`, which agree with `H₀(ℤ, A)` and `H₁(ℤ, A)` computed from
@@ -975,6 +1088,13 @@ Prove:
   transposition is `−1`; a definition through `Ψ⁻¹` gives the same monodromy, since
   characters factor through the abelianization, so the direction is tested by the `S₃` Check of
   the Conventions on `c_X`, not here.
+- The homology connecting map is tested by a nonzero map: `G = ℤ/2`, `k = ℤ`, and the sequence
+  `0 → ℤ → ℤ → ℤ/2 → 0` (multiplication by `2`, then reduction) of trivial representations. In
+  its long exact sequence `H₂(G, ℤ) = 0 → H₂(G, ℤ/2) = ℤ/2 → H₁(G, ℤ) = ℤ/2 → H₁(G, ℤ)`, the last
+  map is multiplication by `2`, which is zero, so `δ : H₂(G, ℤ/2) → H₁(G, ℤ)` is an isomorphism
+  of groups of order two, and the twisted connecting map `H₂(X; L_{ℤ/2}) → H₁(X; L_ℤ)` must be
+  carried to it. In degree one the same sequence gives `δ : H₁(G, ℤ/2) → H₀(G, ℤ) = ℤ`, which is
+  zero on both sides and tests nothing.
 - The connecting maps of cohomology come from the values, not from the representation. With
   `k = ℤ`, `G = 1`, `X` a point and `N = ℤ`, the short exact sequence `0 → ℤ → ℤ → ℤ/2 → 0`
   (multiplication by `2`, then reduction) taken in `A` gives under `Homℤ(−, ℤ)` the sequence

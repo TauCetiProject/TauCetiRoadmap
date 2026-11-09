@@ -49,9 +49,10 @@ Headline theorems that are theorems of the pinned Tau Ceti, and therefore not st
 The nerve model of the algebraic-topology roadmap and its comparison with the pinned models
 belong to that roadmap and are not stated here.
 
-The base point of a CW complex is a vertex throughout, a point of the `0`-skeleton
-`Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1`, as in Hatcher's proof; the base point
-of an aspherical target is arbitrary. The two Layer 1 headlines keep the source and the target
+The base point of the CW source in the two Layer 1 headlines is a vertex, a point of the
+`0`-skeleton `Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1`, as in Hatcher's proof; the
+base point of an aspherical target is arbitrary, and so is the base point of the CW `K(G, 1)` in
+the two local-coefficient headlines. The two Layer 1 headlines keep the source and the target
 in one universe, the universe in which the pinned `TauCeti.exists_mapOfEq_cellularClassifyingSpace`
 keeps a presentation and the target of its map. The local-coefficient headlines are stated with
 coefficients in a commutative ring `k` in the universe of `G` and `X`, because Mathlib's
@@ -107,35 +108,34 @@ theorem exists_homotopyEquiv_of_isAspherical
 /-! ## Layer 2: group homology and cohomology of a CW `K(G, 1)` -/
 
 /-- **Homology with local coefficients** (Layer 2 item 2.3): for an aspherical Hausdorff CW
-complex `X` whose fundamental group at a vertex `x` is identified with `G` by `Ψ`, and a representation
-`A` of `G` over `k`, the homology of `X` with coefficients in the local system of the
-representation `A ∘ Ψ` of `π₁(X, x)` is Mathlib's group homology of `A`. For the Milnor model and
-the local system of the orbit map this is the pinned
+complex `X` whose fundamental group at a point `x`, not necessarily a vertex, is identified with
+`G` by `Ψ`, and a representation `A` of `G` over `k`, the homology of `X` with coefficients in the
+local system of the representation `A ∘ Ψ` of `π₁(X, x)` is Mathlib's group homology of `A`. For
+the Milnor model and the local system of the orbit map this is the pinned
 `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`; the headline is stated for the local
 system `TauCeti.LocalCoefficientSystem.ofRepresentation` of the monodromy representation, on any
-such space. Asphericity cannot be dropped: for `X = S² ∨ S¹`, `G = ℤ` and `A` trivial the two
-sides differ in degree two. -/
+such space and at any base point. Asphericity cannot be dropped: for `X = S² ∨ S¹`, `G = ℤ` and
+`A` trivial the two sides differ in degree two. -/
 theorem nonempty_twistedHomology_iso_groupHomology
     (k : Type u) [CommRing k] (G : Type u) [Group G]
     {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
-    [PathConnectedSpace X] {x : X} (_hx : x ∈ Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1)
-    (_hX : IsAspherical X x) (Ψ : FundamentalGroup X x ≃* G)
+    [PathConnectedSpace X] {x : X} (_hX : IsAspherical X x) (Ψ : FundamentalGroup X x ≃* G)
     (A : Rep k G) (n : ℕ) :
     Nonempty (groupHomology A n ≅
       LocalCoefficientSystem.twistedHomology
         (LocalCoefficientSystem.ofRepresentation (X := TopCat.of X) x
           (A.ρ.comp Ψ.toMonoidHom)) n) := sorry
 
-/-- **Cohomology with local coefficients** (Layer 2 item 2.3): with `X`, `Ψ` and `A` as in
-`nonempty_twistedHomology_iso_groupHomology` and a `k`-module `N`, the cohomology of `X` with
-coefficients in the local system of `A ∘ Ψ` and values in `N` is Mathlib's group cohomology of
-the internal hom `Homₖ(A, N)`, `N` carrying the trivial action. For the Milnor model this is the
-pinned `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`. -/
+/-- **Cohomology with local coefficients** (Layer 2 item 2.3): with `X`, `x`, `Ψ` and `A` as in
+`nonempty_twistedHomology_iso_groupHomology`, the base point again arbitrary, and a `k`-module
+`N`, the cohomology of `X` with coefficients in the local system of `A ∘ Ψ` and values in `N` is
+Mathlib's group cohomology of the internal hom `Homₖ(A, N)`, `N` carrying the trivial action. For
+the Milnor model this is the pinned `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`.
+-/
 theorem nonempty_twistedCohomology_iso_groupCohomology
     (k : Type u) [CommRing k] (G : Type u) [Group G]
     {X : Type u} [TopologicalSpace X] [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
-    [PathConnectedSpace X] {x : X} (_hx : x ∈ Topology.RelCWComplex.skeletonLT (Set.univ : Set X) 1)
-    (_hX : IsAspherical X x) (Ψ : FundamentalGroup X x ≃* G)
+    [PathConnectedSpace X] {x : X} (_hX : IsAspherical X x) (Ψ : FundamentalGroup X x ≃* G)
     (A : Rep k G) (N : Type u) [AddCommGroup N] [Module k N] (n : ℕ) :
     Nonempty (groupCohomology ((Rep.ihom A).obj (Rep.trivial k G N)) n ≅
       (LocalCoefficientSystem.ofRepresentation (X := TopCat.of X) x
