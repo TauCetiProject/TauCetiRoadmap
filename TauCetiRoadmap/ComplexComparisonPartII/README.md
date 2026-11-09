@@ -106,8 +106,8 @@ for separated finite-type maps over qcqs bases, in namespace `TauCeti.AlgebraicG
 C4.3 uses this geometry with coherent coefficients. The étale support functors are
 EtaleCohomologyFoundations §§0.7–0.8's constructions.
 
-C6 owns the noncompact and algebraic-gluing extensions of AffineMorseLefschetz Layer 5
-(A4.1) §5.1's finite marked-family triangulation of compact semialgebraic sets. It owns finite locally constant
+C6 owns the algebraic-gluing extension of StratifiedSpacesAndTameTopology §4.3's marked
+triangulation of semialgebraic sets, compact or not, to complex algebraic schemes. It owns finite locally constant
 module sheaves and their fibre-preserving equivalence with the finite-stalk full subcategory
 of the native `TauCeti.LocalCoefficientSystem`, constructible topological coefficients,
 their sheaf–cochain comparisons, Riemann existence,
@@ -160,6 +160,7 @@ The analytic ownership and stage order are:
 | Native coherent analytic module predicate, finite-presentation comparison and manifold calculus | RealAnalyticGeometry R3.2 item 0, over ComplexKahlerGeometry K4's ring sheaf | K3 retains primitive Oka relations and ideal generators; K3/K4 use R3.2's native predicate. C0.1–C0.3 uses the supplied predicate and its finite-presentation equivalence, descends it through analytic quotient charts, and identifies open/over-site, section/stalk/germ and bundle transports with C-1's analytic-space carriers |
 | Complete-metric weighted theorem, graph-domain density, weighted regularity, Stein criteria and approximation; coherent manifold Cartan A/B | RealAnalyticGeometry R3.1–R3.2 | C1.4 transports the positive-definite `(n,k)` theorem to C0.3's bundle/sheaf dictionary and scalar forms; C1.5 uses the supplied Stein criteria, complete metrics, approximation and coherent Cartan package to obtain strongly 1-complete analytic-space A/B, retaining nilpotents. Real-analytic complexification, p-functions and neighborhood constructions remain in R3–R5 |
 | Coherent analytification on algebraic spaces | ComplexComparisonPartII C0.7 | C1.9 uses its exact functor, coherent operations and canonical cohomology/exchange maps; C3 gives the derived upgrade |
+| Marked triangulation of semialgebraic sets, compact or not | StratifiedSpacesAndTameTopology §4.3 `exists_triangulation_semialgebraic`; AffineMorseLefschetz Layer 5 (A4.1) §5.1 (compatible subdivisions and dimension comparison) | C6.0 applies §4.3 on affine algebraic charts marked by the strata and adds common refinements, gluing along algebraic coordinate changes to separated complex schemes, and the local topology and finiteness of `T_X`. The triangulation theorem, including its noncompact case, is §4.3's and is not restated |
 
 Thus ComplexKahlerGeometry K2/K3/K4 → RealAnalyticGeometry R3.2 item 0 → C-1/C0.
 K5a's local regularity, K5b.0 and K6.0 supply RealAnalyticGeometry R3.1's
@@ -294,11 +295,16 @@ here uses no stage of this roadmap.
   compact-support sheaf/singular bridge on finite-dimensional locally finite Hausdorff CW
   pairs, with its augmentations, coefficient maps and boundary signs; the general locally
   proper lower shriek and the constructible comparisons are C6.1's.
+- *StratifiedSpacesAndTameTopology, §4.3 `exists_triangulation_semialgebraic`.* The marked
+  triangulation of a semialgebraic set, bounded or not, compatible with finitely many
+  semialgebraic subsets, as stated in *Exact supplier contracts*. C6.0 applies it on affine
+  algebraic charts.
 - *AffineMorseLefschetz, Layer 5 (A4.1), §5.1 `finite_semialgebraic_triangulation`.* The finite
   triangulation of a compact semialgebraic set compatible with finitely many semialgebraic
   subsets, which need not be closed: each marked subset is a union of open-simplex images, and
   closed marks are subcomplexes; with restrictions, compatible subdivisions and the dimension
-  API. C6.0 constructs the bounded embedding of noncompact sets, the separated algebraic chart
+  API. C6.0 uses its compatible subdivisions and dimension API on the compact ambient
+  realizations of the triangulations above, and constructs the separated algebraic chart
   gluing, common refinements and the finiteness consequences. Only this section is consumed,
   not the locally finite duality of Layer 4 (A4.0) or the Lefschetz applications.
 - *RealAlgebraicGeometry (completed roadmap), Layers 3 and 6.* Semialgebraic descriptions by
@@ -658,9 +664,9 @@ as explained in C5.1); the two names denote the same target.
   continuous surjection `g` between Fréchet spaces.
 - `TauCeti.IsSemialgebraic`, `TauCeti.IsSemialgebraicOn`, `TauCeti.IsSemialgebraicMap` in
   `TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic` and `.Function`: polynomial sign sets,
-  finite Boolean operations, polynomial inverse images and graph-defined maps. C6.0 extends
-  AffineMorseLefschetz Layer 5 (A4.1) §5.1's compact marked-family triangulations using these
-  carriers.
+  finite Boolean operations, polynomial inverse images and graph-defined maps. C6.0 uses these
+  carriers for its algebraic charts and overlap maps, as do the triangulations of
+  StratifiedSpacesAndTameTopology §4.3 and AffineMorseLefschetz Layer 5 (A4.1) §5.1.
 - Curves, Weil divisors and line bundles, used by C1.9's curve maps:
   `AlgebraicGeometry.Scheme.IsCurveOver k` in `TauCeti.AlgebraicGeometry.Curves.Basic` (integral,
   proper and one-dimensional over a field `k : Type u`); `TauCeti.AlgebraicGeometry.LineBundleClass X`
@@ -849,10 +855,11 @@ as explained in C5.1); the two names denote the same target.
   compact semialgebraic `S ⊂ ℝⁿ` and finitely many semialgebraic subsets of `S`, closed or not,
   a finite simplicial complex `K` and a semialgebraic homeomorphism `|K| ≅ S` under which each
   marked subset is a union of open-simplex images (closed marks being subcomplexes), with
-  restrictions, compatible subdivisions and dimension comparison. C6.0 extends that model to
-  noncompact sets and owns its comparison with separated complex algebraic charts. Neither the
-  locally finite duality of Layer 4 (A4.0) nor any Lefschetz theorem is an input to these
-  extensions.
+  restrictions, compatible subdivisions and dimension comparison. C6.0 uses the compatible
+  subdivisions and the dimension comparison on the compact ambient realizations of
+  StratifiedSpacesAndTameTopology §4.3's triangulations, and owns their comparison with
+  separated complex algebraic charts. Neither the locally finite duality of Layer 4 (A4.0) nor
+  any Lefschetz theorem is an input to this comparison.
 - **PDE.** Lane A: Sobolev spaces and Rellich compactness on bounded Euclidean domains; Lane D:
   Gårding's inequality, Lax–Milgram and the Fredholm alternative for scalar elliptic operators;
   Lane E: interior regularity. Scalar and Euclidean only; ComplexKahlerGeometry K5a owns the local and compact bundle extensions.
@@ -961,8 +968,19 @@ as explained in C5.1); the two names denote the same target.
   on locally path-connected, semilocally simply connected spaces, with deck groups and
   basepoint-change transport. **RealAlgebraicGeometry Layers 3, 6** supply the
   polynomial-sign, cell decomposition and projection theory; **AlgebraicTopology** supplies
-  simplicial/CW topology and ordinary constant singular coefficients. C6.0 adds triangulation;
-  C6.1 adds local and stratified cochains on these existing foundations.
+  simplicial/CW topology and ordinary constant singular coefficients. C6.0 adds the
+  triangulation of complex algebraic schemes from the semialgebraic one below; C6.1 adds local
+  and stratified cochains on these existing foundations.
+
+### From TauCetiRoadmap.StratifiedSpacesAndTameTopology
+
+- **§4.3 `exists_triangulation_semialgebraic`.** For a semialgebraic `A ⊆ Fin n → ℝ`, bounded or
+  not, and finitely many semialgebraic subsets of `A`, closed or not: a finite simplicial complex
+  in the same ambient space, a set `T` of its faces and a homeomorphism of `A` onto the union of
+  the open simplices of `T`, semialgebraic on `A` (`TauCeti.IsSemialgebraicOn`), carrying each
+  marked subset onto a union of open simplices. For compact `A` the faces `T` form a subcomplex.
+  C6.0 applies it on affine charts of `X` in `ℂⁿ = ℝ²ⁿ`, marked by the strata. Only §4.3 is
+  consumed, and it uses no stage of this roadmap.
 
 ## How to read the build
 
@@ -4691,23 +4709,21 @@ coefficients, and is homotopy equivalent to a finite CW complex. Finite CW type 
 homotopy equivalence, not compactness of `T_X`.
 
 Use `TauCeti.IsSemialgebraic` and its Boolean, product and polynomial inverse-image API,
-and `TauCeti.IsSemialgebraicOn` for maps. Consume RealAlgebraicGeometry's cell and projection
-theory and AffineMorseLefschetz Layer 5 (A4.1), §5.1 `finite_semialgebraic_triangulation`:
-for a compact semialgebraic `S` and finitely many semialgebraic subsets of `S`, closed or not,
-its output is a finite simplicial complex `K` and a semialgebraic homeomorphism `|K| ≅ S` under
-which each marked subset is a union of open-simplex images. Its compatible subdivision maps
-realize the identity on `S` and preserve the marked unions. The dimension comparison is that
-section's API; no locally finite duality or Lefschetz application is consumed.
+and `TauCeti.IsSemialgebraicOn` for maps, with RealAlgebraicGeometry's cell and projection
+theory. The marked triangulation of a semialgebraic set, bounded or not, is
+StratifiedSpacesAndTameTopology §4.3 `exists_triangulation_semialgebraic` (*Exact supplier
+contracts*). From AffineMorseLefschetz Layer 5 (A4.1), §5.1 `finite_semialgebraic_triangulation`
+consume its compatible subdivision maps, which realize the identity on a compact semialgebraic
+set and preserve the marked unions, and its dimension comparison; no locally finite duality or
+Lefschetz application is consumed.
 
-Construct here the extension to noncompact semialgebraic sets with finitely many locally
-closed strata. Embed the set by a bounded semialgebraic homeomorphism onto its image (for
-example `x ↦ x/√(1+|x|²)` on `ℝᴺ`), take the compact closure of the image, and apply §5.1 to
-it with the image and each stratum as marked subsets, so that each is a union of open
-simplices. Retain the ambient finite complex and the selected open
-simplices, rather than asserting that this union is compact. Construct common compatible
-refinements, with realization homeomorphisms over the original space and subdivision maps
-on cochains commuting with stratum restrictions. Pass from affine algebraic charts in
-`ℂⁿ = ℝ²ⁿ` to separated schemes by finite gluing: identify chart-overlap maps with the
+Construct here what is specific to complex algebraic schemes. Apply §4.3 to each affine
+algebraic chart in `ℂⁿ = ℝ²ⁿ` with each stratum as a marked subset, and retain the ambient
+finite complex and the selected open simplices, rather than asserting that their union is
+compact. Construct common compatible refinements of two such triangulations through §5.1's
+compatible subdivisions of the compact ambient realization, with realization homeomorphisms
+over the original space and subdivision maps on cochains commuting with stratum restrictions.
+Pass from affine algebraic charts to separated schemes by finite gluing: identify chart-overlap maps with the
 algebraic coordinate changes, refine on the overlaps, and prove that the resulting realization
 maps glue to a homeomorphism over `T_X`. Prove cover/refinement independence and the finite
 CW and finite-cohomological-dimension consequences used by Artin comparison. For arbitrary finite-type `X`
@@ -4720,11 +4736,11 @@ finiteness package are asserted for separated `X`.
 165–185; Bochnak–Coste–Roy, *Real Algebraic Geometry*, §9.2, Theorem 9.2.1
 (triangulation compatible with a finite family); SGA 1 XII §§1–3 for analytification's
 local topology and separatedness.
-*Needs:* §C-1.1; the pinned semialgebraic carriers;
-RealAlgebraicGeometry Layers 3, 6; AffineMorseLefschetz Layer 5 (A4.1), §5.1
-`finite_semialgebraic_triangulation`; AlgebraicTopology's simplicial and CW topology. The
-bounded embedding of noncompact sets, algebraic chart gluing, common refinements and
-finiteness consequences just specified are constructed here.
+*Needs:* §C-1.1; the pinned semialgebraic carriers; StratifiedSpacesAndTameTopology §4.3
+`exists_triangulation_semialgebraic`; RealAlgebraicGeometry Layers 3, 6; AffineMorseLefschetz
+Layer 5 (A4.1), §5.1 `finite_semialgebraic_triangulation`; AlgebraicTopology's simplicial and
+CW topology. The algebraic chart gluing, common refinements and finiteness consequences just
+specified are constructed here.
 
 **Checks.**
 
@@ -5221,9 +5237,10 @@ EtaleCohomologyFoundations §§G.1–G.3 supply compactification geometry. C6.0�
 and Leray from SchemeAndStackFoundations §§2.1–2.2, and the enhancement/support functors
 of EnhancedDerivedSheaves §§0.1–0.4 and EtaleCohomologyFoundations §§0.7–0.8. C6.6 additionally uses §F.4's adic
 realizations and EnhancedDerivedSheaves’ generic derived limits/completion. UniversalCovers Stages 0–2,
-RealAlgebraicGeometry Layers 3, 6, AffineMorseLefschetz Layer 5 (A4.1) §5.1
-and AlgebraicTopology Stages 2.6 and 6.1 supply the specified topology. C6.1’s
-`FiniteModuleLocalSystem` restricts the native functor carrier to finite fibres.
+RealAlgebraicGeometry Layers 3, 6, StratifiedSpacesAndTameTopology §4.3,
+AffineMorseLefschetz Layer 5 (A4.1) §5.1 and AlgebraicTopology Stages 2.6 and 6.1 supply the
+specified topology. C6.1’s `FiniteModuleLocalSystem` restricts the native functor carrier to
+finite fibres.
 LefschetzPencilsAndVanishingCycles §0.8a consumes C6 for its nearby-cycle/inertia application.
 
 ## Worked examples
