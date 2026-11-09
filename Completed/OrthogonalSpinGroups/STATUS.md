@@ -1,0 +1,36 @@
+<!--tauceti-status:v1 {"roadmap":"OrthogonalSpinGroups","to_sha":"271e1af4dd54c50b9192cf3e213b7686843a0b3a","ts":"2026-10-24T23:22:30Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"}],"readme_sha":"4490ab4a95c3fbb1f14c0ba9b46a2e246cfbe688bbffe0ac6584fa72d36f21a3","roadmap":"OrthogonalSpinGroups","to_sha":"271e1af4dd54c50b9192cf3e213b7686843a0b3a"}-->
+# Status: OrthogonalSpinGroups
+
+This file documents the status of the OrthogonalSpinGroups roadmap up until `271e1af` (2026-10-24T23:22:30Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** All four layers are done. The last open milestones landed together: the symplectic reading of dimension five, the points away from a finite set of places, discreteness of the rational points in the full adeles with its finite-adelic counterexample, and the double cosets. What remains of this subject is owned by the named successors, not by this roadmap.
+
+### Named results
+
+- **The image of Spin is the spinor kernel** — for a nondegenerate form over a field of characteristic not two, the image of `Spin(Q) → SO(Q)` is exactly the kernel of the spinor norm ([`range_spinToSpecialOrthogonal_eq_ker_spinorNorm`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/SpinorNorm/Basic.html#CliffordAlgebra.range_spinToSpecialOrthogonal_eq_ker_spinorNorm)).
+- **Spin is the even unitary group up to dimension five, and not beyond** — for `1 ≤ dim V ≤ 5`, Spin(Q) = U(C₀, σ) ([`evenUnitaryGroup_le_lipschitzGroup`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/LowRank/Five.html#CliffordAlgebra.evenUnitaryGroup_le_lipschitzGroup)). The inclusion is strict from dimension six on, and for three hyperbolic planes Spin is SL₄ ([`hyperbolicSixSpinEquivSpecialLinear`](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/LowRank/Six/SpecialLinear.html#TauCeti.hyperbolicSixSpinEquivSpecialLinear)) inside an even unitary group that is GL₄.
+- **Spin₅ is a form of Sp₄** — in dimension five, reversal is a symplectic involution of the even Clifford algebra. Spin(Q) is Sp₄(K) when that algebra splits ([`exists_spinGroupEquivSymplecticGroup_of_finrank_eq_five`](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/LowRank/Symplectic.html#CliffordAlgebra.exists_spinGroupEquivSymplecticGroup_of_finrank_eq_five)), and in general it is a twisted form of Sp₄ that splits over a separably closed extension ([`exists_injective_spinGroup_symplecticGroup_of_finrank_eq_five`](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/CliffordAlgebra/Spin/LowRank/Symplectic.html#CliffordAlgebra.exists_injective_spinGroup_symplecticGroup_of_finrank_eq_five)).
+- **The compactness criterion** — over a locally compact field such as ℝ or `ℚ_p`, O(Q) is compact exactly when Q is anisotropic ([`isCompact_orthogonalGroup_iff`](https://taucetiproject.org/docs/TauCeti/Topology/Algebra/QuadraticForm/OrthogonalGroup/Compact/Basic.html#TauCeti.QuadraticMap.isCompact_orthogonalGroup_iff)). The same holds for SO and, because `Spin → SO` is proper, for Spin.
+- **Rational points are discrete in the full adeles, not in the finite adeles** — for every compatible compact-open tuple, the rational points of O, SO and Spin are discrete in `G(𝔸)` ([`discreteTopology_range_fullAdelicSpinDiagonal`](https://taucetiproject.org/docs/TauCeti/NumberTheory/QuadraticForm/OrthogonalGroup/Diagonal/Discrete.html#TauCeti.QuadraticMap.OrthogonalCompactOpens.discreteTopology_range_fullAdelicSpinDiagonal)). For an isotropic space of dimension at least three, factorial powers of a rational transvection accumulate at the identity in `G(𝔸_f)` ([`not_discreteTopology_range_finiteAdelicSpecialOrthogonalDiagonal`](https://taucetiproject.org/docs/TauCeti/NumberTheory/QuadraticForm/OrthogonalGroup/Diagonal/NonDiscrete/Basic.html#TauCeti.QuadraticMap.OrthogonalCompactOpens.not_discreteTopology_range_finiteAdelicSpecialOrthogonalDiagonal)).
+
+### Notable definitions and infrastructure
+
+- The adelic point groups, finite, full ([`fullAdelicSpin`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/QuadraticForm/OrthogonalGroup/FullAdelic.html#TauCeti.QuadraticMap.OrthogonalCompactOpens.fullAdelicSpin)) and away from S ([`awayAdelicSpin`](https://taucetiproject.org/docs/TauCeti/NumberTheory/QuadraticForm/OrthogonalGroup/AwayAdelic.html#TauCeti.QuadraticMap.OrthogonalCompactOpens.awayAdelicSpin)), for each of O, SO and Spin. Rational diagonals map into them, and they come with the componentwise maps Spin → SO → O and transport along rational isometries. These are the carriers the successor's approximation and measure statements will be about.
+- `adelicSpinorNorm`, the continuous spinor norm on finite adelic SO, whose p-component is the local spinor norm. Adelic Spin maps into its kernel, which is where the closure of the rational spin image is meant to land.
+- The class sets `G(ℚ) \ G(𝔸_f) / U`, such as [`finiteAdelicSpinDoubleCoset`](https://taucetiproject.org/docs/TauCeti/NumberTheory/QuadraticForm/OrthogonalGroup/DoubleCoset/Basic.html#TauCeti.QuadraticMap.OrthogonalCompactOpens.finiteAdelicSpinDoubleCoset). Each has three separate comparisons: a surjection for an inclusion of compact opens, a bijection for conjugate ones, and transport along a componentwise equivalence of tuples. Genus and spinor-genus counting will be stated on these.
+
+### Roadmap coverage
+
+**Layers 0 to 3 are all done.** In Layer 1, 1F now covers every dimension from three to six over a general field. That includes the split and nonsplit quaternary cases, the rational sum of three squares (whose quaternion image is only the spinor kernel), and the symplectic reading of dimension five. That reading names the twisted forms through a splitting extension, not through an intrinsic `Sp(C₀, σ)` carrier, which belongs to `AlgebrasWithInvolution`. In Layer 3, 3C to 3G are done. The finite-adelic counterexample is proved for every isotropic space of dimension at least three, which is more general than the split one the README asks for. Finiteness of the class sets is outside scope by design.
+
+## The frontier
+
+- **`OrthogonalTamagawaAndLatticeMass`** — strong approximation for Spin, the theorem that the closure of the rational spin image in adelic SO is the adelic spinor kernel, and the Tamagawa numbers and mass formula. All of these consume this roadmap's exports. They wait on an algebraic-group point functor from Reductive Groups and on generic strong-approximation and Tamagawa suppliers, none of which this roadmap imports.
+- **`AlgebrasWithInvolution`** — `Spin ≅ SU(C₀, σ)` in dimension six, and an intrinsic `Sp(C₀, σ)` in dimension five. Both need the reduced norm of a central simple algebra, which no carrier here supplies.
+- **Finiteness of the class sets** — `G(ℚ) \ G(𝔸_f) / U` is defined with its comparisons, but the README deliberately does not claim it is finite. That needs reduction theory, which belongs downstream.
