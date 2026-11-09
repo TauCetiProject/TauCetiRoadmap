@@ -44,14 +44,6 @@ Headline theorems that are not statable at the pins, and what each lacks:
   together they are a long encoding rather than a few simple definitions.
 * §5.8: Grothendieck–Riemann–Roch. The pins have no Chern character, Todd class or proper
   pushforward on `K_0` of a scheme.
-* §5.10: the Hodge index theorem. Tau Ceti's `LineBundleClass.intersectionNumber` pairs a
-  line-bundle class with a scheme `C ⟶ S` over the field (the Euler-characteristic degree of the
-  class restricted to `C`), and `LineBundleClass.IsAmple` is ampleness of a class; the pins have
-  no pairing of two classes on `Pic(S)` of a projective surface `S` (§5.9's
-  `deg(c_1(L) ∩ c_1(M) ∩ [S])`, or the Euler-characteristic form
-  `χ(O_S) − χ(L⁻¹) − χ(M⁻¹) + χ(L⁻¹ ⊗ M⁻¹)` on `Scheme.Modules.eulerCharBelow k S _ 3`), no
-  numerical equivalence and no `Num S`; the intersection matrices of numerical types are
-  combinatorial data, not this pairing.
 -/
 
 universe u
@@ -486,8 +478,10 @@ theorem artinSchreier_vanishing (p : ℕ) [Fact p.Prime] (X : Scheme.{u}) [IsAff
     [CharP Γ(X, ⊤) p] (q : ℕ) (hq : 2 ≤ q) : Subsingleton ((constZMod X p).H q) := by
   sorry
 
-/-- Tsen: the function field of a curve over an algebraically closed field has trivial Brauer
-group. Stacks, Theorems 59.67.8 (03RC) and 59.67.10 (03RD). -/
+/-- Tsen: a field `K` algebraic over `k(t)`, for `t` transcendental over an algebraically closed
+field `k`, has trivial Brauer group; the function field of a curve over `k` is the main case. `K` is
+the directed union of its subfields finite over `k(t)`, function fields of curves and so `C_1` by
+Stacks, Theorem 59.67.10 (03RD); hence `K` is `C_1`, and Theorem 59.67.8 (03RC) applies. -/
 theorem brauer_functionField_curve_trivial (k K : Type u) [Field k] [IsAlgClosed k] [Field K]
     [Algebra k K] (t : K) (ht : Transcendental k t)
     (halg : Algebra.IsAlgebraic (IntermediateField.adjoin k {t}) K)
@@ -659,10 +653,11 @@ abbrev cohomologyDim (X : Scheme.{u}) [X.Over (Spec (.of k))] (M : X.Modules) (i
 /-- The structure sheaf as a module over itself. -/
 abbrev structureModule (X : Scheme.{u}) : X.Modules := _root_.SheafOfModules.unit X.ringCatSheaf
 
-/-- A curve is affine and not proper, or proper and not affine. Stacks, Lemmas 0A27 and 0A26. -/
+/-- A curve (integral, separated, of finite type and of dimension one over `k`) is affine and not
+proper, or proper and not affine. Stacks, Lemmas 0A27 and 0A26. -/
 theorem isAffine_or_isProper (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsIntegral X]
     [IsSeparated (X ↘ Spec (.of k))] [LocallyOfFiniteType (X ↘ Spec (.of k))]
-    (hdim : topologicalKrullDim X = 1) :
+    [QuasiCompact (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1) :
     (IsAffine X ∧ ¬ IsProper (X ↘ Spec (.of k))) ∨
       (¬ IsAffine X ∧ IsProper (X ↘ Spec (.of k))) := by
   sorry
@@ -1169,7 +1164,40 @@ theorem CH_coprod (I : Type u) (X : I → Scheme.{u})
       ∀ i, ∃ β ∈ RatEquiv κ (X i) k, ∀ x : X i, β.val x = α.val (Sigma.ι X i x) := by
   sorry
 
+/-! ### §5.9 The intersection pairing on a surface -/
+
+/-- The intersection number `(L · M) = χ(O_S) − χ(L⁻¹) − χ(M⁻¹) + χ(L⁻¹ ⊗ M⁻¹)` of two
+invertible sheaves on a scheme `S` over `k`, with `χ = Σ_{i<3} (−1)ⁱ dim_k Hⁱ` (Tau Ceti's
+`Scheme.Modules.eulerCharBelow k S _ 3`). For `S` proper over `k` of dimension at most two it is
+the coefficient of `n₁n₂` in the numerical polynomial `χ(S, L^{⊗n₁} ⊗ M^{⊗n₂})`, the intersection
+number `(L · M · S)` of Stacks, Definition 33.45.3 (0BEP), with Lemma 33.45.1 (0BEM). -/
+def intersectionNumber (k : Type u) [Field k] (S : Scheme.{u}) [S.Over (Spec (.of k))]
+    (L M : TauCeti.AlgebraicGeometry.InvertibleSheaf S) : ℤ :=
+  Scheme.Modules.eulerCharBelow k S (TauCeti.AlgebraicGeometry.InvertibleSheaf.trivial S).obj 3 -
+    Scheme.Modules.eulerCharBelow k S L.dual.obj 3 -
+    Scheme.Modules.eulerCharBelow k S M.dual.obj 3 +
+    Scheme.Modules.eulerCharBelow k S (L.dual.tensorProduct M.dual).obj 3
+
 end Chow
+
+/-! ### §5.10 The Hodge index theorem -/
+
+/-- **Hodge index theorem.** On a smooth projective integral surface `S` over an algebraically
+closed field, let `H` be an invertible sheaf with `H² > 0` and `D` one with `D · H = 0`. Then
+`D² ≤ 0`, with equality iff `D` is numerically trivial (`D · M = 0` for every `M`). An ample `H`
+has `H² > 0` (Stacks, Lemma 33.45.9 (0BEV)), so this contains Hartshorne, *Algebraic Geometry*,
+V, Theorem 1.9, from which it follows in turn by testing against an ample class: it is the
+hyperplane form of the signature `(1, ρ − 1)` of Remark 1.9.1. -/
+theorem hodge_index (k : Type u) [Field k] [IsAlgClosed k] (S : Scheme.{u})
+    [S.Over (Spec (.of k))] [IsIntegral S] [SmoothOfRelativeDimension 2 (S ↘ Spec (.of k))]
+    (hS : Formal.DeJong.IsProjectiveOverSpec k (S ↘ Spec (.of k)))
+    (H D : TauCeti.AlgebraicGeometry.InvertibleSheaf S)
+    (hH : 0 < Chow.intersectionNumber k S H H) (hDH : Chow.intersectionNumber k S D H = 0) :
+    Chow.intersectionNumber k S D D ≤ 0 ∧
+      (Chow.intersectionNumber k S D D = 0 ↔
+        ∀ M : TauCeti.AlgebraicGeometry.InvertibleSheaf S,
+          Chow.intersectionNumber k S D M = 0) := by
+  sorry
 
 /-! ### §5.11 The Weil bound -/
 

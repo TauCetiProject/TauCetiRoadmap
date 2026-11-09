@@ -500,7 +500,7 @@ the base, the algebra and the indexing category) with `flat`, `baseChange`, `loc
 nonempty directed preorder), `Ideal.henselianRing_radical`, `Ideal.henselianRing_of_le`
 (`TauCeti/RingTheory/Henselian/`); and the declarations cited by name, file and
 line in §§0.1–0.5, 0.7, 0.10, 0.16–0.18, 0.20, 0.21, 0.23, 0.24, 0.27, 0.29, 0.30, 1.1, 1.3, 2.1, 2.3,
-2.5, 2.6, 2.9, 2.17, 3.1, 3.2, 3.3, 4.1, 4.11, 4.13 and 5.1,
+2.5, 2.6, 2.9, 2.17, 3.1, 3.2, 3.3, 4.1, 4.11, 4.13, 5.1 and 5.9,
 with the hypotheses stated there. In particular, scheme Frobenius takes characteristic `p` as
 `(p : Γ(X, ⊤)) = 0` with `[Fact p.Prime]` and has absolute and relative maps with distinct codomains;
 normality is stalkwise; the ramification index at a point is Mathlib's `Ideal.ramificationIdx` of the
@@ -595,9 +595,9 @@ quasi-compact and quasi-separated by `AlgebraicGeometry.Scheme.Modules.isQuasico
 26.24.1 (01LC)), and for `f` affine it is the object of `TauCeti.AlgebraicGeometry.affineFunctions`
 (`TauCeti/AlgebraicGeometry/RelativeSpec/AffineFunctions.lean:65`) by definition; citations of
 *pushforwardAlgebra* and *pushforwardAlgebra_affine* to §0.1 resolve to these. Prove
-`pushforwardAlgebra_baseChange`: for a flat `g : S' → S` with base change
-`f' : X' → S'`, the base change map `g^* f_* O_X → f'_* O_{X'}` is an isomorphism of
-`O_{S'}`-algebras (Stacks, Lemma 30.5.2 (02KH), the case `i = 0`).
+`pushforwardAlgebra_baseChange`: for `f : X → S` quasi-compact and quasi-separated and a flat
+`g : S' → S` with base change `f' : X' → S'`, the base change map `g^* f_* O_X → f'_* O_{X'}` is an
+isomorphism of `O_{S'}`-algebras (Stacks, Lemma 30.5.2 (02KH), p. 2591, the case `i = 0`).
 *Needs:* Tau Ceti `QuasicoherentAlgebra`, `CommMon.sectionsPresheaf`; AlgebraicVectorBundles L1A;
 Mathlib `QuasiCompact`, `QuasiSeparated`.
 
@@ -622,6 +622,12 @@ Mathlib `QuasiCompact`, `QuasiSeparated`.
   `1 ≤ n ≤ N`, `f_*O` is quasi-coherent and `t^N` kills the whole global product,
   whose localization at `t` is zero, agreeing with the sections on `D(t)`.
   This includes the empty family `N=0`.
+- Base change needs `f` quasi-compact. Over a field `k`, take `f : ⨿_{n≥0} Spec k → Spec k`
+  (separated, not quasi-compact) and the flat `g : Spec k(s) → Spec k`, with `k(s)` the rational
+  function field. Then `g^* f_* O = (∏_n k) ⊗_k k(s)` and `f'_* O = ∏_n k(s)`. The tuple `(sⁿ)_n`
+  is not in the image: an element `Σ_{i≤m} a_i ⊗ c_i` maps to a tuple whose coordinates lie in the
+  `k`-span of `c_1, …, c_m`, and `1, s, s², …` span an infinite-dimensional `k`-subspace. For the
+  finite family `⨿_{n≤N} Spec k`, both sides are `k(s)^{N+1}` and the map is the identity.
 
 These localization comparisons use the affine quasi-coherence criterion
 ([Stacks, §26.7 (01I6)](https://stacks.math.columbia.edu/tag/01I6)); the qcqs
@@ -1204,8 +1210,8 @@ henselian pairs (Stacks, Lemmas 15.11.2–15.11.4, 15.11.7–15.11.16). Permanen
 non-filtered colimits: the coproduct `(ℤ_p ⊗_ℤ ℤ_p, p)` of two copies of `(ℤ_p, (p))` is not
 henselian (Example 15.11.14 (0FWU)). Prove
 *henselian_finiteEtale_equivalence*: for a henselian pair `(R, I)`, base change is an equivalence
-from finite étale `R`-algebras to finite étale `R/I`-algebras (Stacks, Lemmas 15.13.1 (0D4A), 15.13.2
-(09ZL)). Prove *henselian_local_finite_algebras*: for a henselian local ring `R`, every finite
+from finite étale `R`-algebras to finite étale `R/I`-algebras (Stacks, Lemma 15.13.2 (09ZL),
+p. 1229). Prove *henselian_local_finite_algebras*: for a henselian local ring `R`, every finite
 `R`-algebra is a product of local rings, every quasi-finite `R`-algebra is a product of a finite
 algebra and an algebra with empty closed fibre, and the three implications (8)⇒(10), (8)⇒(11),
 (10)⇒(1) of Stacks, Lemma 10.153.3 (04GG), items (1), (8), (10), (11), (13). Prove
@@ -3940,10 +3946,10 @@ ProfiniteCohomology Layers 9–10.
 ### 2.16 Tsen's theorem, `𝔾_m` on curves and proper hypercoverings
 
 Prove `tsen_theorem`: for `k` algebraically closed and `K` a function field of transcendence degree
-one over `k`, `K` is `C_1`, every central simple `K`-algebra is split, `Br(K) = 0` (Tau Ceti's
-`BrauerGroup K` is trivial) and `H^q(G_K, K^{s×}) = 0` for `q ≥ 2` (Stacks, Proposition 59.67.4,
-Definition 59.67.5, Theorems 59.67.8, 59.67.10, Lemmas 59.67.11–59.67.12 (0A2M)). Prove
-`curve_Gm_cohomology`: for a smooth curve `X` over an algebraically closed field,
+one over `k`, `K` is `C_1`, every central simple `K`-algebra is split, `Br(K) = 0` (Mathlib's
+`BrauerGroup K`, a group by Tau Ceti's `TauCeti.BrauerGroup.instCommGroup`, is trivial) and
+`H^q(G_K, K^{s×}) = 0` for `q ≥ 2` (Stacks, Proposition 59.67.4, Definition 59.67.5, Theorems
+59.67.8, 59.67.10, Lemmas 59.67.11–59.67.12 (0A2M)). Prove `curve_Gm_cohomology`: for a smooth curve `X` over an algebraically closed field,
 `H^q(X_ét, 𝔾_m) = 0` for `q ≥ 2`, `H¹ = Pic(X)`, `H⁰ = Γ(X, O)^×` (Stacks, §59.68 (03RH), Theorem 59.68.1, Lemmas
 59.68.2–59.68.4, Theorem 59.68.5 (03RM), and the long exact sequence after it, pp. 4874–4875); for a
 proper smooth curve the degree sequence `0 → Pic⁰(X) → Pic(X) → ℤ → 0` (§59.69 (03RN), p. 4875); and
@@ -3966,7 +3972,12 @@ sheaf `F` on `X_ét`, with the descent spectral sequence (Stacks, Lemmas 85.36.4
   spectral sequence computes `H¹(C, ℤ/n) = ℤ/n` from `ℙ¹` and the two preimages of the node.
 
 *Lean:* `Etale.brauer_functionField_curve_trivial` (the statement `Br(K) = 0` of `tsen_theorem`,
-for `K` algebraic over `k(t)`).
+for `K` algebraic over `k(t)` with `t` transcendental over `k`). This is wider than a function field
+only in that `K` need not be finitely generated over `k`, and the theorem reduces to that case: `K` is
+the directed union of its subfields finite over `k(t)`, each the function field of a curve over `k`
+and hence `C_1` (Theorem 59.67.10 (03RD)); a form of degree `d < n` in `n` variables has finitely
+many coefficients, all in one such subfield, which gives it a nontrivial zero, so `K` is `C_1` and
+`Br(K) = 0` by Theorem 59.67.8 (03RC).
 
 ### 2.17 Pro-étale site foundations: replete topoi, w-contractible covers, left-completeness
 
@@ -4703,6 +4714,9 @@ is the smooth connected case. *Needs:* §0.7, §2.6; Tau Ceti `Scheme.Modules.Co
 
 **Checks.**
 - `𝔸¹` is affine, `ℙ¹` is proper.
+- The affine line with doubled origin is integral, of finite type and of dimension one over `k`,
+  and is neither affine nor proper (its two origins are not separated, and a proper scheme is
+  separated); the separatedness in the definition of a curve is what excludes it.
 - `ℙ¹_k` has genus `0` over every `K`.
 - For `k = 𝔽_p(t)` and `X` the regular projective model of
   `y² = x^p − t` (`p` odd), `X_{k(t^{1/p})}` is reduced but not normal; the genus is still `(p − 1)/2`, and the
@@ -4712,8 +4726,8 @@ is the smooth connected case. *Needs:* §0.7, §2.6; Tau Ceti `Scheme.Modules.Co
   dimension `[L : k] > 1` over `L`, so the conclusion `H⁰(X_K) = K` fails without `H⁰ = k`.
 
 *Lean:* `Curve.cohomologyDim`, `Curve.structureModule`, `Curve.isAffine_or_isProper` (the
-dichotomy; projectivity of proper curves is specified here
-only), `Curve.baseChange`, `Curve.genus_baseChange`.
+dichotomy, with finite type written as `LocallyOfFiniteType` together with `QuasiCompact`;
+projectivity of proper curves is specified here only), `Curve.baseChange`, `Curve.genus_baseChange`.
 
 ### 3.2 Riemann–Hurwitz for schemes, the projective line, genus one, degree bounds
 
@@ -6572,9 +6586,13 @@ normal-crossings boundary (de Jong, §§4.22–4.28; the split resolution as in 
   `φ` a modification.
 - The quadric cone in `𝔸³` with `Z` the vertex: the blow-up at the vertex is
   a resolution with SNC exceptional divisor.
-- Over an imperfect field the alteration need not be generically
-  étale (`y² = x^p − t` admits no generically étale alteration to a smooth curve with the same
-  function field).
+- For `p` odd, `k = 𝔽_p(t)` and the curve `C : y² = x^p − t`, the theorem asks for `X̄_1`
+  regular, not smooth over `k`. At the points with `y = 0` the maximal ideal is `(y)`, since
+  `x^p − t = y²` there, so `C` and its regular projective model are regular, and the identity
+  alteration with that model as `X̄_1` satisfies the theorem; being birational it is generically
+  étale. Over `k(t^{1/p})` the curve becomes `y² = u^p` with `u = x − t^{1/p}`, singular at
+  `u = y = 0`, so no smooth `X̄_1` with the same function field exists: a version of the theorem
+  asking for smooth `X̄_1` would need a non-birational alteration here.
 
 Define `IsProjectiveOverSpec R g`, for a commutative ring `R` and `g : X → Spec R`: for some `n`
 there is a closed immersion `i : X → ℙⁿ_R` over `Spec R`, where `ℙⁿ_R` is Mathlib's `Proj` of
@@ -7319,9 +7337,20 @@ Provides the divisor/curve intersection on a smooth projective surface over any 
 characteristic, as the degree of the restricted line bundle, together with the local-length and
 arithmetic formulas below.
 
-Define `Chow.intersectionNumber C D := deg(c_1(O(C)) ∩ c_1(O(D)) ∩ [S]) ∈ ℤ` for `S` smooth
-projective over a field `k` and `C`, `D` divisors (through `Pic(S)`, §5.3), and prove
-that it is the unique symmetric bilinear form on `Pic(S)` with `C · D = Σ_{P ∈ C ∩ D} [κ(P) : k]` for transversal smooth curves, and `C · D = Σ_P [κ(P) : k] · length O_{S,P}/(f, g)` for curves without common components (Hartshorne 1977, V.1, Theorem 1.1).
+Define `Chow.intersectionNumber k S L M := χ(O_S) − χ(L⁻¹) − χ(M⁻¹) + χ(L⁻¹ ⊗ M⁻¹) ∈ ℤ` for
+invertible sheaves `L`, `M` on a scheme `S` over a field `k`, with Tau Ceti's
+`InvertibleSheaf.dual` and `InvertibleSheaf.tensorProduct`
+(`TauCeti/AlgebraicGeometry/LineBundle/Dual.lean:44`, `LineBundle/TensorProduct.lean:65`) and
+`χ = Σ_{i<3} (−1)^i dim_k H^i`, Tau Ceti's `Scheme.Modules.eulerCharBelow k S _ 3`; for divisors
+`C`, `D` it is read on `O(C)`, `O(D)` through `Pic(S)` (§5.3), and `L · M` abbreviates it. For `S`
+proper over `k` of dimension at most two, `H^i` of a coherent sheaf is finite-dimensional
+(§2.6) and vanishes for `i ≥ 3` (Stacks, Proposition 20.20.7 (02UZ)), so the sum is the Euler
+characteristic; `(n₁, n₂) ↦ χ(S, L^{⊗n₁} ⊗ M^{⊗n₂})` is a numerical polynomial of total degree at
+most two (Lemma 33.45.1 (0BEM)), and the alternating sum is its second mixed difference at the
+origin, which is the coefficient of `n₁n₂`: Stacks' intersection number `(L · M · S)`
+(Definition 33.45.3 (0BEP); Hartshorne 1977, V.1, Exercise 1.1). For `S` smooth projective over
+`k`, prove that it equals `deg(c_1(L) ∩ c_1(M) ∩ [S])` (Stacks, Lemma 42.41.4 (0BFI)) and that it
+is the unique symmetric bilinear form on `Pic(S)` with `C · D = Σ_{P ∈ C ∩ D} [κ(P) : k]` for transversal smooth curves, and `C · D = Σ_P [κ(P) : k] · length O_{S,P}/(f, g)` for curves without common components (Hartshorne 1977, V.1, Theorem 1.1).
 For integral `C`, prove that `C · D` is §3.3's residue-weighted Euler degree
 `deg_C(O(D)|_C)`, over every field and in every characteristic (Hartshorne 1977, V.1,
 Proposition 1.4).
@@ -7387,6 +7416,23 @@ comparison; StableReduction Layer 4 for arithmetic intersections and blow-ups; T
 - The trivial line bundle has degree zero on every vertical component. Inverting a line
   bundle negates its degree: on the exceptional curve above, `O(-E)|_E ≅ O(1)` gives
   `χ(O(1)) − χ(O) = 2 − 1 = 1`, the negative of `E²`.
+- On `ℙ¹ × ℙ¹`, with `χ(O(a, b)) = (a + 1)(b + 1)`, the Euler-characteristic form gives
+  `O(a, b) · O(c, d) = 1 − (1 − a)(1 − b) − (1 − c)(1 − d) + (1 − a − c)(1 − b − d) = ad + bc`; so
+  `O(1, 0) · O(0, 1) = 1`, `O(1, 0)² = 0` and `O(1, 1)² = 2`. On `ℙ²`, `O(1)² = χ(O) − 2χ(O(−1)) +
+  χ(O(−2)) = 1 − 0 + 0 = 1`, two lines meeting once.
+- The `H²` term is needed: `χ(O(−2, −2)) = 1` on `ℙ¹ × ℙ¹` comes from `H² ≅ H⁰(O)^∨`, so truncating
+  `χ` at `H¹` (the curve formula `eulerCharBelow k S _ 2`) gives `O(1, 1)² = 1 − 0 − 0 + 0 = 1`
+  instead of `2`. A degree-type formula `χ(L ⊗ M) − χ(O)` gives `3` for `O(1, 0)`, `O(0, 1)`
+  instead of `1`.
+- Agreement with Tau Ceti's `LineBundleClass.intersectionNumber` (the Euler-characteristic degree
+  of a class restricted to a curve `ι : C → S`): for `S` proper over `k` of dimension two and an
+  effective Cartier divisor `C` on `S`, `O(C) · M = deg(M|_C)` (Stacks, Lemma 33.45.8 (0BEU)).
+  For a conic `C ⊂ ℙ²` and `M = O(1)`, `O(2) · O(1) = 2` and
+  `deg(O(1)|_C) = χ(O_{ℙ¹}(2)) − χ(O_{ℙ¹}) = 3 − 1 = 2`.
+
+*Lean:* `Chow.intersectionNumber` (the Euler-characteristic form on Tau Ceti's invertible
+sheaves). Its comparison with `c_1 ∩ c_1 ∩ [S]`, the local-length formula and the relative
+pairing over a Dedekind base are specified in this README only.
 
 ### 5.10 Adjunction, Riemann–Roch on surfaces, Noether's formula, numerical equivalence, Hodge index
 
@@ -7405,7 +7451,8 @@ and `ℓ` invertible in `k`. Noether's algebraic formula here uses §5.8 indepen
 **Numerical equivalence.** *Chow.NumericallyEquivalent* / *Num*
 Provides one numerical divisor quotient and its induced pairing for smooth projective surfaces
 `S` over algebraically closed fields of any characteristic (Fulton 1998, §19.1).
-This subsection owns `Chow.NumericallyEquivalent D D' := ∀ C, D · C = D' · C` on `Pic(S)` and
+This subsection owns *Chow.NumericallyEquivalent*, `D ≡ D'` iff `D · C = D' · C` for every `C`, on
+`Pic(S)`, and
 `Num S := Pic(S)/≡`, with the descended pairing. Testing on all divisor classes agrees with
 testing on integral curves, since on a smooth surface these curves are Cartier divisors and
 generate the divisor group. The definitions do not depend on characteristic, and both
@@ -7423,15 +7470,29 @@ V, the note to Exercise 1.7).
 Combine this with torsion-freeness to obtain `Num.free_finiteRank`: `Num S` is free abelian of
 finite rank, the Picard number `ρ`; `hodge_index` does not use this finiteness input.
 
-Prove `hodge_index`: for `H` ample and `D` with `D · H = 0`, `D² ≤ 0`, with
-equality iff `D ≡ 0`; hence on the real span of any finite set of classes orthogonal to `H` the
-form is negative definite. Prove `hodge_index_signature`, which takes `Num.free_finiteRank` as an
+Prove `hodge_index`: for invertible sheaves `H` and `D` on `S` (smooth projective and integral over
+the algebraically closed `k`) with `H² > 0` and `D · H = 0`, `D² ≤ 0`, with equality iff `D ≡ 0`;
+the pairing is §5.9's `Chow.intersectionNumber`. Hence the form is negative semidefinite on the
+real span of any finite set of classes orthogonal to `H`, and negative definite on its image in
+`Num S ⊗ ℝ`. An ample `H` has `H² > 0` (Stacks, Lemma 33.45.9 (0BEV)), so this contains
+Hartshorne's form with `H` ample (Hartshorne 1977, V.1, Theorem 1.9). Conversely the form with
+`H² > 0` follows from the ample one, applied to an ample `A` on `S` (which projectivity provides).
+If `D · H = 0` and `D² > 0`: the ample form applied to `H` gives `H · A ≠ 0`, and
+`E = (D · A)H − (H · A)D` has `E · A = 0` and `E² = (D · A)²H² + (H · A)²D² > 0`, which the ample
+form excludes. If `D² = 0` and `D · M ≠ 0` for some `M`: `M' = H²M − (M · H)H` has `M' · H = 0` and
+`D · M' = H²(D · M) ≠ 0`, and for an integer `t` with the sign of `D · M'` and `|t|` large,
+`(tD + M') · H = 0` while `(tD + M')² = 2t(D · M') + M'² > 0`, contradicting the first part. This is
+the hyperplane form of the signature in Hartshorne's Remark 1.9.1. Prove
+`hodge_index_signature`, which takes `Num.free_finiteRank` as an
 input: on `Num S ⊗ ℝ` the intersection form has signature `(1, ρ − 1)`. Proof inputs:
 `surface_riemann_roch` with Serre duality, giving `h⁰(nD) + h⁰(K − nD) ≥ ½ n² D² + O(n)`, and the
 ample-section estimate of Lemma 1.7 controlling the duality term `H⁰(K − nD)`.
 For `D · H = 0`, `(K − nD) · H = K · H` is constant, so growing `n` does not
 justify a vanishing claim (Hartshorne 1977, V.1, Lemma 1.7, Corollary 1.8, Theorem 1.9); the Hodge
-inequality `(D · H)² ≥ D² H²` for `H` ample follows (Exercise 1.9).
+inequality `(D · H)² ≥ D² H²` for `H` ample follows (Exercise 1.9). *Needs:* for the statement,
+§5.9's `Chow.intersectionNumber` and §4.19's `Formal.DeJong.IsProjectiveOverSpec`, with Mathlib's
+`SmoothOfRelativeDimension` and `IsIntegral`; for the route, `surface_riemann_roch` with Serre
+duality (§2.20) and an ample class from the projective embedding (StableReduction Layer 2).
 
 **Nakai–Moishezon.** *nakai_moishezon*
 Provides the Nakai–Moishezon ampleness criterion on smooth projective surfaces over algebraically
@@ -7465,6 +7526,22 @@ StableReduction Layer 2's notion ("some power is very ample"); it is not an inpu
   trivial inverse, whereas any nonzero pairing detects failure of numerical triviality
   (Fulton, §19.1). Together with the vanishing of all intersections of a principal divisor, these
   test numerical equivalence.
+- `hodge_index` needs `H² > 0`, not `H² ≥ 0`: on `ℙ¹ × ℙ¹` the fibre class `H = O(1, 0)` has
+  `H² = 0`, and `D = O(1, 0)` has `D · H = 0` and `D² = 0` but `D · O(0, 1) = 1`, so `D ≢ 0`. With
+  `H² < 0` the inequality fails: `H = O(1, −1)` has `H² = −2`, and `D = O(1, 1)` has
+  `D · H = 1 − 1 = 0` and `D² = 2 > 0`.
+- `hodge_index` needs `S` integral (connected): on `S = ℙ² ⊔ ℙ²`, where `χ` and the pairing add
+  over the two components, `H = (O(1), O(1))` has `H² = 2`, and `D = (O(1), O(−1))` has
+  `D · H = 1 − 1 = 0` and `D² = 1 + 1 = 2 > 0`.
+- `hodge_index` covers classes with `H² > 0` that are not ample. On the blow-up of `ℙ²` at a point,
+  with `Pic = ℤL ⊕ ℤE`, `L² = 1`, `E² = −1` and `L · E = 0`, the class `H = 2L + E` has `H² = 3` but
+  `H · E = −1`, so it is not ample; `D = L + 2E` has `D · H = 2 − 2 = 0` and `D² = 1 − 4 = −3 < 0`,
+  as the theorem says.
+
+*Lean:* `hodge_index`, with `S` projective in the sense of `Formal.DeJong.IsProjectiveOverSpec`,
+smooth of relative dimension two and integral, and `D ≡ 0` written as `∀ M, D · M = 0`. Adjunction,
+surface Riemann–Roch, Noether's formula, `Num S`, `hodge_index_signature` and Nakai–Moishezon are
+specified in this README only.
 
 ### 5.11 The Weil bound via surfaces
 
