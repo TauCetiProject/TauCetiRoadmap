@@ -37,9 +37,11 @@ milestone below is stated on such an object, the declaration it names is Tau Cet
 qualified name. `Suggested.lean` is the acceptance test: it states the headline theorems that the
 pinned libraries do not yet prove (Layer 11's universe independence of the dimension invariants),
 and its module docstring names the one headline that is not statable at the pins, the general Evens
-norm of Layer 13. It also declares, under this roadmap's names, the declarations that the roadmaps
-importing it read; Downstream consumers lists them, each a Mathlib or Tau Ceti declaration or a
-short definition on their carriers.
+norm of Layer 13. Laws of Tau Ceti's norm with `𝔽₂` coefficients (`OpenSubgroup.evensNorm`), such as
+transitivity and multiplicativity, are statable at the pins, but each is the case `A = 𝔽₂` of a law
+of 13.2 (milestone 7), so none is stated in place of that headline. It also declares, under this
+roadmap's names, the declarations that the roadmaps importing it read; Downstream consumers lists
+them, each a Mathlib or Tau Ceti declaration or a short definition on their carriers.
 
 ---
 
@@ -466,20 +468,21 @@ cited in Layer 7.
 
 The library declarations, modules and files named in this README and in `Suggested.lean` (in this
 section, in Scope and ownership, in the layers, on the *Needs:* lines, in Downstream consumers and
-in the imports of `Suggested.lean`) are cited as they are at the revisions the content repository's
-manifest records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib
-`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. At those revisions two statements that `Suggested.lean`
-carries with `sorry` under this roadmap's names are theorems of Tau Ceti, and each is closed by the
-Tau Ceti theorem: `abelianizationProPClass_generates` by
-`TauCeti.abelianizationProPClass_generates`
-(`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/ClassModule/Sylow.lean`)
-and `galoisEvens_galoisRes` by `TauCeti.galoisEvens_galoisRes`
-(`TauCeti/FieldTheory/GaloisCohomology/EvensNorm.lean`). The two universe-independence theorems of
-11.2 are the only statements of `Suggested.lean` that those revisions do not prove.
+in the imports of `Suggested.lean`) are cited as they are at Tau Ceti
+`2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`;
+"the pin", "the pinned Tau Ceti" and "the pinned Mathlib" in this README mean these two revisions.
+At these revisions two statements that `Suggested.lean` carries with `sorry` under this roadmap's
+names are statements of Tau Ceti theorems, which prove them: `abelianizationProPClass_generates` is
+the statement of `TauCeti.abelianizationProPClass_generates`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/ClassModule/Sylow.lean`),
+with the primality of `p` supplied as a `Fact`, and `galoisEvens_galoisRes` is the statement of
+`TauCeti.galoisEvens_galoisRes` (`TauCeti/FieldTheory/GaloisCohomology/EvensNorm.lean`). The two
+universe-independence theorems of 11.2 are the only statements of `Suggested.lean` that these
+revisions do not prove.
 
 ### From Mathlib
 
-All paths at the pinned Mathlib.
+All paths at the pinned Mathlib, `1b1ccf4b`.
 
 - **Discrete group cohomology, the model API:**
   `Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.lean` (`groupCohomology`,

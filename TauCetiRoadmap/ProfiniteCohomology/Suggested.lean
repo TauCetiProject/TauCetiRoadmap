@@ -36,7 +36,7 @@ and Tau Ceti, the headline theorems of the roadmap that the libraries do not pro
 `README.md` cites them at ("Exact supplier contracts": Tau Ceti `2fd255d9`, Mathlib `1b1ccf4b`),
 each with `sorry`.
 
-Most headline theorems of the roadmap are already proved at the Tau Ceti pin, and `README.md`
+Most headline theorems of the roadmap are already proved at Tau Ceti `2fd255d9`, and `README.md`
 cites them by name in its supplier contracts instead of restating them here: the comparison
 isomorphisms between the explicit and the canonical model, the finite-quotient colimit, the long
 exact and five-term sequences, Shapiro's lemma in every degree, dimension shifting, all-degree
