@@ -3,10 +3,11 @@
 **Summary.** This roadmap develops the arithmetic theory of lattices in `PSL₂(ℝ)` on top of the
 geometric theory of the FuchsianOrbifolds roadmap. From an order `O` in a quaternion algebra over a
 totally real number field that splits at exactly one real place it builds the lattice `Γ(O)`, proves
-that it is discrete of finite covolume, cocompact exactly in the division case, and computes its
-covolume `8π|d_k|^(3/2)ζ_k(2)(4π²)^(−n)∏(N𝔭−1)` from Tamagawa number one for the norm-one group. It
-recovers the quaternion algebra of an arbitrary finitely generated nonelementary subgroup from its
-squared traces, proves Odlyzko's discriminant estimate (5) for every signature and an explicit
+that it is discrete of finite covolume, cocompact exactly in the division case, and, for a maximal
+order `O`, computes its covolume `8π|d_k|^(3/2)ζ_k(2)(4π²)^(−n)∏(N𝔭−1)` from Tamagawa number one
+for the norm-one group; a smaller order `O′ ⊆ O` multiplies it by the finite index
+`[Γ(O) : Γ(O′)]`. It recovers the quaternion algebra of an arbitrary finitely generated
+nonelementary subgroup from its squared traces, proves Odlyzko's discriminant estimate (5) for every signature and an explicit
 totally real bound `|d_k|≥a₀R₀ⁿ`, proves the standard presentation of a lattice of given signature
 and Borel's theorem that up to conjugacy only finitely many arithmetic lattices have covolume at
 most a given bound, and deduces Takeuchi's theorem that only finitely many have a given signature.
@@ -182,6 +183,8 @@ arithmetic lattices by covolume.
 - `MeasureTheory.IsFundamentalDomain`, `MeasureTheory.covolume` (the measure of any fundamental
   domain, `0` when there is none) and `MeasureTheory.IsFundamentalDomain.covolume_eq_volume`
   (`MeasureTheory/Group/FundamentalDomain.lean`);
+- `QuaternionAlgebra.lift` (`Algebra/QuaternionBasis.lean`: elements `i, j` of an `R`-algebra
+  satisfying the relations of `ℍ[R,a,b]` define an `R`-algebra map from `ℍ[R,a,b]`);
 - `QuaternionAlgebra`, `unitary`, `NumberField.RingOfIntegers`, `NumberField.discr`,
   `NumberField.IsTotallyReal`, `NumberField.InfinitePlace.nrRealPlaces`, `nrComplexPlaces`,
   `NumberField.dedekindZeta` (`NumberTheory/NumberField/DedekindZeta.lean`),
@@ -227,8 +230,15 @@ arithmetic lattices by covolume.
   (`TauCeti/Analysis/Complex/UpperHalfPlane/PSL/Action.lean`);
 - `TauCeti.ratPosToPSL2R` (`TauCeti/Analysis/Complex/UpperHalfPlane/RatPSLAction.lean`), the map
   from `GL₂(ℚ)⁺` to `PSL₂(ℝ)`;
-- `TauCeti.skolemNoether` (`TauCeti/Algebra/CentralSimple/SkolemNoether.lean`): two algebra maps
-  from a central simple algebra to a finite-dimensional simple algebra are conjugate by a unit;
+- `TauCeti.skolemNoether` (`TauCeti/Algebra/CentralSimple/SkolemNoether.lean`): over a field `K`,
+  two `K`-algebra maps from a central simple `K`-algebra to a simple `K`-algebra that is
+  finite-dimensional over `K` are conjugate by a unit; it is applied over `ℝ` to real splittings
+  (§1.1), never over `k` with target `M₂(ℝ)`, and over `K₀(Γ)` to the four-dimensional trace
+  envelope (§2.2);
+- `TauCeti.QuaternionAlgebra.instIsCentral` and `TauCeti.QuaternionAlgebra.instIsSimpleRing`
+  (`TauCeti/Algebra/Quaternion/CentralSimple.lean`): over a commutative ring `K` in which `2` is
+  invertible, `ℍ[K,a,b]` is central over `K` when `b` is a unit, and over such a field it is a simple
+  ring when `a` and `b` are units;
 - `TauCeti.dedekindZeta_eulerProduct_hasProd`
   (`TauCeti/NumberTheory/ArithmeticDirichletSeries/EulerProduct/Analytic.lean`), the Euler product
   of `ζ_k` on `Re s > 1`;
@@ -351,7 +361,8 @@ lattice-quotient `L²` adapter for induced representations). PseudodifferentialO
 ## How to read the build
 
 Layer 1 is arithmetic. §1.1 builds orders, real splittings and the lattices `Γ(O)`; §1.2 computes
-their covolumes from Tamagawa number one and builds the normalizers and the local order-to-tree
+the covolume of `Γ(O)` for a maximal order `O` from Tamagawa number one, proves the finiteness of
+`[Γ(O) : Γ(O′)]` for a smaller order `O′`, and builds the normalizers and the local order-to-tree
 adapter; §1.3 develops the squared-trace field and the trace envelope of an arbitrary finitely
 generated nonelementary subgroup. The envelope and invariance targets of §1.3 need only
 FuchsianOrbifolds Layer 0 and the algebraic suppliers and proceed in parallel with §§1.1–1.2; its
@@ -380,8 +391,17 @@ homomorphism `σ : k → ℝ`, and a ring homomorphism `ℍ[k,a,b] → M₂(ℝ)
 scalar matrix `place(x)`. For a number field the last field induces an isomorphism
 `ℍ[k,a,b] ⊗_(k,place) ℝ ≃ M₂(ℝ)`, so `B` splits at `place` and ramifies at every other real place.
 
-- Two real splittings with the same place differ by conjugation by an element of `GL₂(ℝ)`
-  (`TauCeti.skolemNoether`), so every construction below is defined up to `PGL₂(ℝ)`-conjugacy.
+- Two real splittings `S₁, S₂` with the same place differ by conjugation by an element `u` of
+  `GL₂(ℝ)`, unique up to `ℝ^×`, so every construction below is defined up to `PGL₂(ℝ)`-conjugacy.
+  The comparison is made over `ℝ`: `M₂(ℝ)` is infinite-dimensional over `k`, so
+  `TauCeti.skolemNoether` does not apply to `S₁, S₂` over `k`. For each `m`, `S_m(i)` and `S_m(j)`
+  satisfy the relations of `ℍ[ℝ, place(a), place(b)]`, so Mathlib's `QuaternionAlgebra.lift` gives
+  an `ℝ`-algebra map `f_m : ℍ[ℝ, place(a), place(b)] → M₂(ℝ)` with `S_m = f_m ∘ ι`, where `ι` applies
+  `place` to the four coordinates (this is the base change along `place`). Since `place(a)` and
+  `place(b)` are nonzero, `ℍ[ℝ, place(a), place(b)]` is central simple over `ℝ` (Tau Ceti
+  `TauCeti.QuaternionAlgebra.instIsCentral` and `TauCeti.QuaternionAlgebra.instIsSimpleRing`), and
+  `M₂(ℝ)` is simple and four-dimensional over `ℝ`; so `TauCeti.skolemNoether` over `ℝ` gives `u` with
+  `f₂ = u f₁ u⁻¹`, hence `S₂ = u S₁ u⁻¹`. As `f₁` is onto, `u` is unique up to the centre `ℝ^×`.
 - If `k` is totally real of degree `n`, a real splitting exists exactly when `B` ramifies at the
   `n − 1` real places other than `place` and splits at `place`; the ramification set then has
   `n − 1` real places and, by GL2AutomorphicRepresentationsAndTransfer R17.1.5, an even total
@@ -463,10 +483,11 @@ Finite-index subgroups and nonmaximal orders are included. Lattices are the cofi
   infinite area as fundamental domain, so its covolume is `∞`, and for the image of `GL₂(ℚ)⁺`
   (`TauCeti.ratPosToPSL2R`), which is not discrete.
 
-*Needs:* Mathlib `QuaternionAlgebra`, `unitary`, `NumberField.IsTotallyReal`,
-`MeasureTheory.IsFundamentalDomain`, `MeasureTheory.covolume`; Tau Ceti
+*Needs:* Mathlib `QuaternionAlgebra`, `QuaternionAlgebra.lift`, `unitary`,
+`NumberField.IsTotallyReal`, `MeasureTheory.IsFundamentalDomain`, `MeasureTheory.covolume`; Tau Ceti
 `UpperHalfPlane.instMulActionPSL2`, `QuaternionAlgebra.normForm`,
 `QuaternionAlgebra.anisotropic_normForm_iff`, `TauCeti.skolemNoether`,
+`TauCeti.QuaternionAlgebra.instIsCentral`, `TauCeti.QuaternionAlgebra.instIsSimpleRing`,
 `TauCeti.IntegralOrder.IsOrder`, `TauCeti.IntegralOrder.IsMaximalOrder`, `Subgroup.IsCofinite`,
 `Subgroup.isCofinite_iff_isCofinite_and_finiteIndex`, `Subgroup.isCofinite_conjAct_smul_iff`;
 AdelicAlgebraicGroups AA.3.4;
@@ -508,11 +529,14 @@ reads `π/3`. Route, in four steps:
   `dx dy dθ/(2y²)`, and the stabilizer angle has period `π` in `PSL₂(ℝ)`, giving `(π/2)` times
   hyperbolic area; at each of the other `n − 1` real places `vol(SL₁(ℍ)) = 4π²` from the
   reduced-trace self-dual measure and the coarea formula on the unit sphere of `ℝ⁴`.
-- (c) Finite places of residue cardinality `q`: in the gauge `vol(𝒪_v) = 1` the maximal-order unit
-  fraction is `1 − q⁻²` at a split place, and at a division place the maximal order has volume `q⁻¹`,
-  so its norm-one volume is `(1 − q⁻²)/(q − 1)` after dividing by the reduced-norm image `𝒪_v^×` of
-  volume `1 − q⁻¹` (ClassicalArithmeticCompletion §7.60); the product over all finite places is
-  `ζ_k(2)⁻¹ ∏_(𝔭 ∈ Ram_f)(N𝔭 − 1)⁻¹` by `TauCeti.dedekindZeta_eulerProduct_hasProd` at `s = 2`.
+- (c) Finite places of residue cardinality `q`: in the gauge `vol(𝒪_v) = 1`, at a split place the
+  maximal order `M₂(𝒪_v)` has volume `1` and unit fraction `|GL₂(𝔽_q)|/q⁴ = (1 − q⁻¹)(1 − q⁻²)`,
+  and at a division place the maximal order has volume `q⁻¹` and unit fraction `1 − q⁻²`, its
+  residue ring being `𝔽_(q²)`. At every finite place, dividing the volume of the units by the volume
+  `1 − q⁻¹` of their reduced-norm image `𝒪_v^×` (ClassicalArithmeticCompletion §7.60) gives the
+  norm-one volume: `1 − q⁻²` at a split place and `(1 − q⁻²)/(q − 1)` at a division place. The
+  product over all finite places is `ζ_k(2)⁻¹ ∏_(𝔭 ∈ Ram_f)(N𝔭 − 1)⁻¹` by
+  `TauCeti.dedekindZeta_eulerProduct_hasProd` at `s = 2`.
 - (d) Strong approximation for `SL₁(B)`, noncompact at `v₀` (AA.4.2), identifies the adelic quotient
   with `Γ(O)\SL₂(ℝ)` times the compact local factors; with the global multiplier `|d_k|^(−3/2)`,
   `1 = |d_k|^(−3/2) (π/2) area(Γ(O)\ℍ) (4π²)^(n−1) ζ_k(2)⁻¹ ∏(N𝔭 − 1)⁻¹`, which rearranges to the
@@ -561,6 +585,23 @@ positivity of the reduced norm is well defined modulo scalars. Define
 - For the Hurwitz order over `k = ℚ(cos 2π/7)`, `d_k = 49`, `n = 3`, `Ram_f = ∅` and
   `ζ_k(2) = 8π⁶/(21 · 343)`, so the formula gives `8π · 343 · ζ_k(2)/(4π²)³ = π/21`, the area of the
   `(2, 3, 7)` triangle group; omitting the `(4π²)^(−n)` factor or using `|d_k|^(1/2)` would not.
+- The local volumes of (c) at `q = 3`: at a split place `|GL₂(𝔽₃)|/3⁴ = 48/81 = 16/27` and
+  `(16/27)/(2/3) = 8/9 = 1 − 3⁻²`; at a division place `3⁻¹ · (8/9) = 8/27` and
+  `(8/27)/(2/3) = 4/9 = (1 − 3⁻²)/(3 − 1)`. (At `q = 2` both norm-one volumes are `3/4`, so `q = 2`
+  does not separate the two cases.) Reading `1 − q⁻²` as the split unit fraction and dividing it by
+  `1 − q⁻¹` would give `1 + q⁻¹`, whose product over the primes diverges instead of giving `ζ_k(2)⁻¹`.
+- For `M₂(ℤ)`, `diag(−1, 1)` normalizes the order and has reduced norm `−1`, negative at `v₀ = ∞`, so
+  the positivity condition excludes it; without that condition it would act as `z ↦ −z̄`, which is
+  not in `PSL₂(ℝ)`. The scalar `2I` is trivial in `B^×/k^×` and `ν([2I]) = [4] = [1]`, while
+  `Nrd(2I) = 4`: the reduced norm is a function on classes only modulo squares.
+- For the Hurwitz order over `ℚ(cos 2π/7)`, `N_B⁺(O) = Γ(O)` and `im ν` is trivial: `N_B⁺(O)` is
+  discrete and contains the `(2, 3, 7)` group `Γ(O)` with finite index, so its covolume
+  `(π/21)/[N_B⁺(O) : Γ(O)]` is at least the compact minimum `π/21` (FuchsianOrbifolds Layer 4a) and
+  the index is one. Consistently, the units `−1`, `2cos(2π/7)` and `2cos(4π/7)` have signs
+  `(−,−,−)`, `(+,−,−)` and `(−,−,+)` at the three real places, which generate all eight sign
+  patterns, so every totally positive unit is a square, and so is the reduced norm of every unit of
+  `O` lying in `N_B⁺(O)` (it is positive at `v₀` by definition and at the two ramified places because
+  the norm form is definite there).
 - A level-2 Eichler order of `M₂(ℤ)` gives `Γ₀(2)`, of index `3` in `PSL₂(ℤ)` and area `π`, matching
   finite-index scaling; it is the intersection of the two maximal orders at adjacent vertices of the
   tree at `2`.
@@ -614,13 +655,27 @@ equivalently `Γ` has no finite orbit on `ℍ ∪ ∂ℍ`.
   the field: if `K₀ ⊊ k`, an embedding of `K₀` extends to the split real place and to a ramified one;
   the two complex representations of the norm-one preimage of `Γ(O)^(2)` then have equal characters,
   are absolutely irreducible, hence isomorphic, which would place the noncompact lattice inside the
-  compact group `SL₁(ℍ)`. Real splittings are compared in `PGL₂(ℝ)` by `TauCeti.skolemNoether`, and
-  the two possible `PSL₂(ℝ)`-conjugacy classes are treated separately.
+  compact group `SL₁(ℍ)`. Real splittings with the same place are compared over `ℝ` as in §1.1,
+  `TauCeti.skolemNoether` being applied to the induced `ℝ`-algebra maps
+  `ℍ[ℝ, place(a), place(b)] → M₂(ℝ)` and not to the splittings over `k`; the conjugating element is
+  determined in `PGL₂(ℝ)`, and the two possible `PSL₂(ℝ)`-conjugacy classes are treated separately.
 
 **Checks.**
 
-- `liftSL` of the trivial group is the centre `{±I}`; `Γ^(2)` of `PSL₂(ℤ) ≃ C₂ ∗ C₃` has index 2, the
-  kernel of the map to `C₂`; `Γ^(2)` of a group of order two is trivial.
+- `liftSL` of the trivial group is the centre `{±I}`, not the trivial group.
+- `liftSL` of the group of order two generated by the class of `S = (0 −1; 1 0)` is `{±I, ±S}`,
+  cyclic of order four since `S² = −I`; a choice of one lift per element, `{I, S}`, is not a
+  subgroup.
+- `liftSL` of the image of `Γ₁(4)` (lower-left entry divisible by `4`, diagonal entries `≡ 1 mod 4`)
+  is `±Γ₁(4)`, which contains `Γ₁(4)` with index two because `−I ∉ Γ₁(4)`: the full preimage of the
+  image of a subgroup `H ≤ SL₂(ℝ)` is `{±I} H`, not `H`.
+- `Γ^(2)` of `PSL₂(ℤ) ≃ C₂ ∗ C₃` has index 2, the kernel of the map to `C₂`, since the
+  abelianization `ℤ/6` has a quotient of exponent two of order two.
+- `Γ^(2)` of a group of order two is trivial, while the group is not: the square map is not onto.
+- For `Γ̄(2)`, free on `a : z ↦ z + 2` and `b : z ↦ z/(2z + 1)`, `Γ^(2)` is the kernel of the map
+  onto `(ℤ/2)²`, of index four, so the bound `2^r` is attained at `r = 2`. The set of squares is not
+  a subgroup: `a²b²` is a product of two squares, but it is cyclically reduced of length four, so
+  `w² = a²b²` would need a cyclically reduced `w = xy` with `xyxy = aabb`, which is impossible.
 - `K₀(PSL₂(ℤ)) = ℚ` and `A = M₂(ℚ)`; for the `(2, 3, 7)` triangle group `K₀ = ℚ(cos 2π/7)`, of degree
   three, and `A` is the quaternion algebra over it ramified at the two non-identity real places;
   for the Hecke group `G₅`, `tr((ST)²) = φ² − 2 = φ − 1`, so `K₀ ⊇ ℚ(√5)`.
@@ -1010,9 +1065,11 @@ commensurable theorem to the common finite-index intersection for each commensur
   `ρ : Γ^(2) → PGL₂(K)`, `ρ` extends to a continuous homomorphism `PSL₂(ℝ) → PGL₂(K)`, uniquely once
   its restriction to a finite-index subgroup is fixed, and nontrivially exactly when the image is
   unbounded. For `c ∈ Comm(Γ)`, §1.3 gives `c A_Γ c⁻¹ = A_Γ` fixing `K₀` pointwise; Skolem–Noether over
-  `K₀` (`TauCeti.skolemNoether`) gives `b_c ∈ A_Γ^×`, unique modulo `K₀^×`, with `Ad(b_c) = Ad(c)` on
-  `A_Γ`, and `c ↦ [b_c]` is a homomorphism `T_ext` into `PGL₁(A_Γ)(K₀)`. Lifts of a projective
-  representation to a subgroup `Δ` differ by a character `Δ → {±1}` that vanishes on `Δ^(2)`.
+  `K₀` (`TauCeti.skolemNoether`, with source and target `A_Γ`, central simple and four-dimensional
+  over `K₀` by §1.3's envelope theorem) gives `b_c ∈ A_Γ^×`, unique modulo `K₀^×`, with
+  `Ad(b_c) = Ad(c)` on `A_Γ`, and `c ↦ [b_c]` is a homomorphism `T_ext` into `PGL₁(A_Γ)(K₀)`.
+  Lifts of a projective representation to a subgroup `Δ` differ by a character `Δ → {±1}` that
+  vanishes on `Δ^(2)`.
 - The boundary pair: for `G = PSL₂(ℝ)` and its lattices, `∂₊ = ∂₋ = G/P ≃ ∂ℍ` with the Lebesgue class
   is amenable, and the diagonal action on `∂₋ × ∂₊` is isometrically ergodic: the generic orbit is
   `G/A′` with `A′` the centralizer of a split torus, Mautner contraction gives the stabilizer

@@ -219,7 +219,7 @@ theorem discr_ge_totallyReal (k : Type*) [Field k] [NumberField k] [IsTotallyRea
     (2439 / 10 ^ 7 : ℝ) * (29099 / 1000 : ℝ) ^ Module.finrank ℚ k ≤ |(discr k : ℝ)| := by
   sorry
 
-/-! ## Layer 2: the arithmetic commensurator criterion -/
+/-! ## Layer 2: the arithmetic commensurator criterion and the PGL passage -/
 
 /-- **Margulis' commensurator criterion in `PSL(2,ℝ)`** (§2.1): a lattice is arithmetic exactly
 when its commensurator is dense. -/
@@ -267,7 +267,7 @@ theorem commensurator_pgl_eq_of_maximal {Γ : Subgroup PSL(2, ℝ)} (hΓ : Γ.Is
       Γ.map ProjectiveSpecialLinearGroup.toPGL := by
   sorry
 
-/-! ## Layer 3: isometries of the hyperbolic plane and the order-32 Gassmann covers -/
+/-! ## Layer 3: the order-32 Gassmann covers -/
 
 /-- **Isometries of the hyperbolic plane** (§3.1; Voight, Theorem 33.5.5): every distance-preserving
 bijection of `ℍ` for Mathlib's hyperbolic distance, no differentiability being assumed, is
