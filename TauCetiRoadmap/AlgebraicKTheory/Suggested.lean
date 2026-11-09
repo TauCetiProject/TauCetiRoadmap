@@ -18,17 +18,18 @@ stable group `GL(R)` and `K₁(R)` are README targets.
 
 Headline theorems of the roadmap that are not statable at the pins:
 
-* The Milnor patching theorem and the full Milnor exact sequence of A6: the patching theorem
-  needs the category of patching triples, and the `K₁` terms and the boundary need the stable
-  group `GL(R)` and `K₁(R)`, README targets that neither library has. The `K₀` end of the
-  sequence is stated below, with the `K₀` map of a ring homomorphism `kZeroMap`, which is
-  `TauCeti.SplitK0.map` of the pinned extension-of-scalars functor on finitely generated
-  projective modules.
-* The torsion class `[M(2)] − [D]` of 7.2: the patched module `M(2)` is a finitely generated
-  projective module only by the patching theorem, so its class cannot be written without a
-  sorry'd proof inside the term. The kernels `ker f₀ ≅ ℤ/2` and `ker f₀ ≅ ℤ/5` of 7.2, which
-  mention only `kZeroMap`, are stated below inside the two values of `K₀`: the kernel of `f₀` is
-  the preimage of the torsion factor under the stated decomposition.
+* The full Milnor exact sequence of A6: its `K₁` terms and its boundary need the stable group
+  `GL(R)` and `K₁(R)`, README targets that neither library has. Its `K₀` end is stated below,
+  with the `K₀` map of a ring homomorphism `kZeroMap`, which is `TauCeti.SplitK0.map` of the
+  pinned extension-of-scalars functor on finitely generated projective modules. The patching
+  equivalence of A6 is stated below as `milnor_patching`: the category of patching triples is
+  Mathlib's categorical pullback of two such functors, and the comparison functor is built from
+  the pinned adjunction `TauCeti.BalancedExtension.adjunction` by uniqueness of left adjoints.
+* The identification of the torsion class of 7.2 with `[M(2)] − [D]`: it needs the patched module
+  `M(u) = {(a, b) | u π₁(a) = π₂(b)}` of 6.2 and 6.3 as a right `D`-module, which neither library
+  has. The kernels `ker f₀ ≅ ℤ/2` and `ker f₀ ≅ ℤ/5` of 7.2, which mention only `kZeroMap`, are
+  stated below inside the two values of `K₀`: the kernel of `f₀` is the preimage of the torsion
+  factor under the stated decomposition.
 * The identification of the patched modules of 7.1 with glued bundles: this needs the section
   modules of continuous bundles, which neither library has.
 * The real tangent-section module's nonfreeness, stable splitting and K₀ class (0.5)
@@ -54,7 +55,7 @@ Headline theorems of the roadmap that are not statable at the pins:
 
 namespace TauCetiRoadmap.AlgebraicKTheory
 
-open Matrix
+open CategoryTheory Matrix
 
 universe u v
 
@@ -76,6 +77,53 @@ Example 2.8.1, chapter p. 13). The pinned functor takes `R` and `S` in one unive
 noncomputable def kZeroMap {R S : Type u} [Ring R] [Ring S] (f : R →+* S) :
     KZero R →+ KZero S :=
   TauCeti.SplitK0.map (RingHom.op f).finiteProjectiveModulesExtendScalars
+
+/-- Tau Ceti's extension-of-scalars functor on finitely generated projective modules followed by
+the inclusion into all modules is the inclusion followed by the balanced extension of scalars
+`P ↦ S ⊗_R P` on all modules: the natural isomorphism whose components are the identifications
+`RingHom.finiteProjectiveModulesExtendScalars_obj_obj`. -/
+noncomputable def extendScalarsιIso {R S : Type u} [Ring R] [Ring S] (f : R →+* S) :
+    f.finiteProjectiveModulesExtendScalars ⋙ (TauCeti.finiteProjectiveModules S).ι ≅
+      (TauCeti.finiteProjectiveModules R).ι ⋙ TauCeti.BalancedExtension.functor.{u, u, u} f :=
+  NatIso.ofComponents (fun P => eqToIso (f.finiteProjectiveModulesExtendScalars_obj_obj P))
+    (fun {X Y} g => by
+      dsimp only [eqToIso, Functor.comp_map, ObjectProperty.ι_map]
+      rw [RingHom.finiteProjectiveModulesExtendScalars_map_hom, Category.assoc, Category.assoc]
+      erw [eqToHom_trans, eqToHom_refl, Category.comp_id]
+      rfl)
+
+/-- Extension of scalars of finitely generated projective modules along the two sides of a
+commuting square `g₁ ∘ f₁ = g₂ ∘ f₂` of ring homomorphisms, as a natural isomorphism between the
+two composite functors. On all modules the composite adjunctions `E(f₁) ⋙ E(g₁) ⊣ Res(g₁) ⋙ Res(f₁)`
+and `E(f₂) ⋙ E(g₂) ⊣ Res(g₂) ⋙ Res(f₂)` of `TauCeti.BalancedExtension.adjunction` have right
+adjoints that `ModuleCat.restrictScalarsComp'` identifies with `Res(g₁ ∘ f₁)`, so
+`Adjunction.leftAdjointUniq` identifies their left adjoints compatibly with the units: the
+component sends `1 ⊗ (1 ⊗ p)` to `1 ⊗ (1 ⊗ p)`. Full faithfulness of the inclusion of finitely
+generated projective modules carries it to the functors of
+`RingHom.finiteProjectiveModulesExtendScalars`. Applied along opposite rings it is the composition
+isomorphism of right-module extension (`(P ⊗ B) ⊗ D ≅ P ⊗ D ≅ (P ⊗ C) ⊗ D`). -/
+noncomputable def extendScalarsCompIso {A B C D : Type u} [Ring A] [Ring B] [Ring C] [Ring D]
+    (f₁ : A →+* B) (g₁ : B →+* D) (f₂ : A →+* C) (g₂ : C →+* D) (h : g₁.comp f₁ = g₂.comp f₂) :
+    f₁.finiteProjectiveModulesExtendScalars ⋙ g₁.finiteProjectiveModulesExtendScalars ≅
+      f₂.finiteProjectiveModulesExtendScalars ⋙ g₂.finiteProjectiveModulesExtendScalars :=
+  ((TauCeti.finiteProjectiveModules D).fullyFaithfulι.whiskeringRight _).preimageIso
+    (Functor.associator _ _ _ ≪≫
+      Functor.isoWhiskerLeft _ (extendScalarsιIso g₁) ≪≫
+      (Functor.associator _ _ _).symm ≪≫
+      Functor.isoWhiskerRight (extendScalarsιIso f₁) _ ≪≫
+      Functor.associator _ _ _ ≪≫
+      Functor.isoWhiskerLeft (TauCeti.finiteProjectiveModules A).ι
+        (((TauCeti.BalancedExtension.adjunction.{u, u, u} f₁).comp
+            (TauCeti.BalancedExtension.adjunction.{u, u, u} g₁)).leftAdjointUniq
+          (((TauCeti.BalancedExtension.adjunction.{u, u, u} f₂).comp
+            (TauCeti.BalancedExtension.adjunction.{u, u, u} g₂)).ofNatIsoRight
+              ((ModuleCat.restrictScalarsComp' f₂ g₂ (g₁.comp f₁) h).symm ≪≫
+                ModuleCat.restrictScalarsComp' f₁ g₁ (g₁.comp f₁) rfl))) ≪≫
+      (Functor.associator _ _ _).symm ≪≫
+      Functor.isoWhiskerRight (extendScalarsιIso f₂).symm _ ≪≫
+      Functor.associator _ _ _ ≪≫
+      Functor.isoWhiskerLeft _ (extendScalarsιIso g₂).symm ≪≫
+      (Functor.associator _ _ _).symm)
 
 /-- `K₀` of a division ring is `ℤ`, with the class of the free module of rank one going to `1`
 (Weibel, *The K-book*, Chapter II, §2, the division-ring example before Lemma 2.1). -/
@@ -222,6 +270,42 @@ theorem hasStableRangeLE_continuousMap_real_iff (X : Type u) [TopologicalSpace X
   sorry
 
 /-! ## Layer A6: Milnor patching and the boundary -/
+
+/-- The category of patching triples of ring homomorphisms `π₁ : A₁ → Q` and `π₂ : A₂ → Q`:
+Mathlib's categorical pullback of the two extension-of-scalars functors on finitely generated
+projective right modules. Its objects are triples `(P₁, P₂, α)` with `Pⱼ` a finitely generated
+projective right `Aⱼ`-module and `α : P₁ ⊗ Q ≅ P₂ ⊗ Q` a `Q`-linear isomorphism; its morphisms
+are pairs of module maps compatible with the isomorphisms. -/
+abbrev PatchingTriples {A₁ A₂ Q : Type u} [Ring A₁] [Ring A₂] [Ring Q]
+    (π₁ : A₁ →+* Q) (π₂ : A₂ →+* Q) :=
+  Limits.CategoricalPullback (RingHom.op π₁).finiteProjectiveModulesExtendScalars
+    (RingHom.op π₂).finiteProjectiveModulesExtendScalars
+
+/-- The patching functor of the square of `π₁ : A₁ → Q` and `π₂ : A₂ → Q`, with `D = A₁ ×_Q A₂`
+Mathlib's `RingHom.pullback` and `p₁, p₂` its projections: it sends a finitely generated
+projective right `D`-module `P` to the triple `(P ⊗_D A₁, P ⊗_D A₂, α_P)`, where
+`α_P : (P ⊗_D A₁) ⊗ Q ≅ (P ⊗_D A₂) ⊗ Q` is the component of `extendScalarsCompIso` for the
+square `π₁ ∘ p₁ = π₂ ∘ p₂`, the canonical isomorphism through `P ⊗_D Q`. -/
+noncomputable def patchingFunctor {A₁ A₂ Q : Type u} [Ring A₁] [Ring A₂] [Ring Q]
+    (π₁ : A₁ →+* Q) (π₂ : A₂ →+* Q) :
+    FiniteProjectiveRight (π₁.pullback π₂) ⥤ PatchingTriples π₁ π₂ :=
+  (Limits.CategoricalPullback.CatCommSqOver.toFunctorToCategoricalPullback _ _ _).obj
+    { fst := (RingHom.op (π₁.pullbackFst π₂)).finiteProjectiveModulesExtendScalars
+      snd := (RingHom.op (π₁.pullbackSnd π₂)).finiteProjectiveModulesExtendScalars
+      iso := extendScalarsCompIso _ _ _ _
+        (congrArg RingHom.op (RingHom.pullback_comm_sq π₁ π₂)) }
+
+/-- **Milnor patching**: for unital maps `π₁ : A₁ → Q` and `π₂ : A₂ → Q` one of which is
+surjective, the patching functor from finitely generated projective right modules over
+`D = A₁ ×_Q A₂` to patching triples is an equivalence of categories (Weibel, *The K-book*,
+Chapter I, Milnor Patching Theorem 2.7, chapter p. 12; for commutative rings in this categorical
+form, Stacks Project, Tag 0D2J). Without a surjective leg it fails: for `ℤ → ℚ ← ℤ` the triple
+`(ℤ, ℤ, 2)` is not isomorphic to the image `(ℤ, ℤ, 1)` of `D = ℤ`. -/
+theorem milnor_patching {A₁ A₂ Q : Type u} [Ring A₁] [Ring A₂] [Ring Q]
+    (π₁ : A₁ →+* Q) (π₂ : A₂ →+* Q)
+    (h : Function.Surjective π₁ ∨ Function.Surjective π₂) :
+    (patchingFunctor π₁ π₂).IsEquivalence := by
+  sorry
 
 /-- The `K₀` end of the Mayer–Vietoris sequence of a Milnor square: for unital maps
 `π₁ : A₁ → Q`, `π₂ : A₂ → Q` one of which is surjective, with `D = A₁ ×_Q A₂` Mathlib's
