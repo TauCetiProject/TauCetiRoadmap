@@ -57,12 +57,13 @@ quantifies over the same coefficient universe.
 
 One headline theorem is not statable at the pins. The general Evens norm
 `H^{2q}(U, A) → H^{2lq}(G, A)` of an open subgroup `U` of index `l` with coefficients in a discrete
-commutative `G`-ring `A`, its characteristic-two form in every degree, and their multiplicativity,
-transitivity, double-coset, inflation and expansion laws (Layer 13) all need the norm map itself.
-That map is the multiplicative transfer, built from tensor induction at the level of resolutions.
-Tau Ceti has tensor induction of representations (`Subgroup.tensorInductionFunctor`) but no
-cohomological norm built from it, and the map is a construction, not a short definition on native
-carriers.
+commutative `G`-ring `A`, its characteristic-two form in every degree when `2 = 0` in `A`, and
+their multiplicativity, transitivity, double-coset, inflation and expansion laws (Layer 13) all
+need the norm map for such `A`. That map is the multiplicative transfer, built from tensor
+induction at the level of resolutions; it is a construction, not a short definition on native
+carriers. Tau Ceti has tensor induction of representations (`Subgroup.tensorInductionFunctor`) and
+the norm for the trivial coefficients `𝔽₂` alone (`OpenSubgroup.evensNorm`), and laws stated for
+`𝔽₂` alone would be a special case standing in for these headlines, so none is stated here.
 
 The comparison isomorphism between the two canonical cohomology objects that underlies the
 remaining family is likewise a construction (a chain isomorphism of homogeneous cochain complexes
