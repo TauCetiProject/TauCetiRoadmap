@@ -18,18 +18,23 @@ Stated here:
 * the independently owned Bott base entries in degrees two through eight, in their stable
   ranges (Section 4B); TopologicalKTheory T1.5a supplies components and degree one;
 * the seventh stable stem, `π_{n+7}(S^n) ≅ ℤ/240` for `n ≥ 9` (Layer 9A);
+* exotic spheres in every dimension `4k + 3`, `k ≥ 1`: a smooth manifold homeomorphic but not
+  diffeomorphic to `S^(4k+3)`, realised by the boundary of the negative E8 plumbing
+  (Sections 6B and 9A.4);
 * vanishing of the fourth and fifth stable stems for `n ≥ 6` and `n ≥ 7` respectively
   (Layer 9);
 * the sixth stable stem, in its unstable form `π_{n+6}(S^n) ≅ ℤ/2` for `n ≥ 8` (Layer 9);
 * the standard sphere `S^n`, `n ≥ 1`, is smoothly parallelizable exactly for `n ∈ {1, 3, 7}`
   (Section 3C.5);
-* smooth recognition in dimension six, oriented (Layer 10) and unoriented.
+* smooth recognition in dimension six, oriented (Layer 10), and unoriented as Mathlib's
+  `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere` at `n = 6` for compact
+  second-countable `M`.
 
 The group isomorphisms among these are stated as existence (`nonempty_*`): the canonical maps
 that the README makes isomorphisms (the Bott periodicity map, the generators `ν²` and `σ` of the
 sixth and seventh stems, the Bott clutching generators) are not available at the pins. The
 unoriented recognition theorem is an existence statement by nature, the corollary of the
-oriented one.
+oriented one; so is the exotic-sphere theorem, whose witness is the plumbing boundary.
 
 Not statable at the pins:
 
@@ -53,10 +58,12 @@ Not statable at the pins:
   (Layers 6 to 8): these need framed and almost-framed bordism and Wall forms and formations,
   none of which exists at the pins;
 * `Theta_7 ≅ ℤ/28`, the Eells–Kuiper comparison of the negative E8 boundary with the
-  quaternionic sphere-bundle model, and nonstandardness of every E8 boundary in dimension
-  `4k-1`, `k > 1` (Layer 9A): these need the homotopy-sphere bordism quotient, plumbing
-  and collared Spin fillings with their relative characteristic-number pairings. The pins
-  do not supply those carriers; the seventh-stem statement below does not replace them.
+  quaternionic sphere-bundle model, and nonstandardness of the E8 plumbing boundary itself in
+  dimension `4k-1`, `k > 1`, as a statement about that boundary (Layer 9A): these need the
+  homotopy-sphere bordism quotient, the plumbed manifolds and collared Spin fillings with their
+  relative characteristic-number pairings. The pins do not supply those carriers; the
+  seventh-stem statement below does not replace them. Their existence consequence needs none of
+  them and is stated below.
 -/
 
 open scoped ContDiff Manifold
@@ -209,6 +216,21 @@ theorem nonempty_sphere_homotopyGroup_seventhStem (n : ℕ) (hn : 9 ≤ n) (x : 
     Nonempty (HomotopyGroup.Pi (n + 7) (Sphere n) x ≃* Multiplicative (ZMod 240)) := by
   sorry
 
+/-- Exotic spheres in every dimension `4k + 3` with `k ≥ 1`: there is a smooth manifold
+homeomorphic but not diffeomorphic to `S^(4k+3)`. The witness is the boundary of the negative E₈
+plumbing of dimension `4k + 4`; it is homeomorphic to the sphere by the h-cobordism theorem and the
+radial Alexander trick, and no diffeomorphism to the sphere exists because capping the plumbing
+by a disc along one would give a closed almost-parallelizable manifold of signature `-8`
+(Milnor, *Lectures on the h-cobordism theorem*, remark after Proposition B, p.109, in dimension
+seven; README Sections 6B and 9A.4). The hypothesis `k ≥ 1` excludes dimension three, where the
+E₈ boundary is a homology sphere with nontrivial fundamental group and so no witness. -/
+theorem exists_homeomorph_isEmpty_diffeomorph_sphere (k : ℕ) (hk : 1 ≤ k) :
+    ∃ (M : Type) (_ : TopologicalSpace M)
+      (_ : ChartedSpace (EuclideanSpace ℝ (Fin (4 * k + 3))) M)
+      (_ : IsManifold (𝓡 (4 * k + 3)) ∞ M) (_ : M ≃ₜ Sphere (4 * k + 3)),
+      IsEmpty (M ≃ₘ⟮𝓡 (4 * k + 3), 𝓡 (4 * k + 3)⟯ Sphere (4 * k + 3)) := by
+  sorry
+
 /-! ## Layer 10: smooth recognition in dimension six -/
 
 /-- Smooth recognition of `S⁶`, oriented: a compact Hausdorff second-countable boundaryless smooth
@@ -228,14 +250,17 @@ theorem smoothPoincareSix_oriented
     ∃ f : M ≃ₘ⟮𝓡 6, 𝓡 6⟯ Sphere 6, PreservesOrientedAtlases f A B := by
   sorry
 
-/-- Smooth recognition of `S⁶`, unoriented: a compact Hausdorff second-countable boundaryless
-smooth six-manifold homotopy equivalent to `S⁶` is diffeomorphic to `S⁶` (Milnor, *Lectures on the
-h-cobordism theorem*, §9, Proposition B, p.109; README Section 10.4). -/
+/-- Smooth recognition of `S⁶`, unoriented, as Mathlib's smooth Poincaré predicate in dimension
+six: if a compact Hausdorff second-countable space `M` is homotopy equivalent to `S⁶`, every
+boundaryless smooth six-dimensional structure on `M` admits a diffeomorphism onto `S⁶`
+(Milnor, *Lectures on the h-cobordism theorem*, §9, Proposition B, p.109; README Section 10.4).
+For a Hausdorff space with a six-dimensional chart structure, compactness and second
+countability already follow from the homotopy equivalence (Hatcher, *Algebraic Topology*,
+Proposition 3.29, p.239); they are hypotheses because the route of Sections 10.1–10.3 uses
+them. -/
 theorem nonempty_diffeomorph_sphere_six
-    (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M] [CompactSpace M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin 6)) M] [IsManifold (𝓡 6) ∞ M]
-    (h : ContinuousMap.HomotopyEquiv M (Sphere 6)) :
-    Nonempty (M ≃ₘ⟮𝓡 6, 𝓡 6⟯ Sphere 6) := by
+    (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
+    ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 6 := by
   sorry
 
 end TauCetiRoadmap.HomotopySpheres
