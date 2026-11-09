@@ -105,10 +105,30 @@ SchemeAndStackFoundations contracts below.
 `TauCeti/AlgebraicGeometry/LineBundle/Basic.lean`, is the full subcategory of
 module sheaves cut out by the locally-free-of-rank-one predicate
 `TauCeti.AlgebraicGeometry.SheafOfModules.isInvertible`. S3.1 and S9.8 use it
-as the carrier of the associated lines; no chosen trivialization, linearization
-or tensor structure is assumed of it. The pinned library has no flag or
+as the carrier of the associated lines; no chosen trivialization or
+linearization is assumed of it. The pinned library has no flag or
 Bott–Samelson scheme, Frobenius-splitting carrier, algebraic K-ring of a
 scheme or complex analytic space; those carriers are targets of the layers below.
+
+The Picard group of a scheme X is native.
+`TauCeti.AlgebraicGeometry.LineBundleClass X`
+(`TauCeti/AlgebraicGeometry/LineBundle/Class.lean`) is the type of isomorphism
+classes of invertible sheaves on X, a commutative group whose product is
+induced by `InvertibleSheaf.tensorProduct` (`LineBundle/TensorProduct.lean`),
+whose inverse is induced by `InvertibleSheaf.dual` (`LineBundle/Dual.lean`,
+the internal Hom into 𝒪_X) and whose unit is the class of 𝒪_X.
+`LineBundleClass.pullbackHom` (`LineBundle/Functoriality.lean`) is pullback of
+classes along a morphism of schemes, as a group homomorphism, and
+`InvertibleSheaf.pullback` (`LineBundle/Pullback.lean`) is pullback of the
+sheaves themselves. Ampleness is the native predicate
+`LineBundleClass.IsAmple` (`LineBundle/Ample.lean`) on classes: X is
+quasi-compact and every point lies in an affine nonvanishing locus of a global
+section of some line bundle in the class of a positive power. Global generation
+is the native predicate `InvertibleSheaf.IsGloballyGenerated`
+(`LineBundle/GlobalGeneration.lean`): at every point some global section does
+not vanish. S3.1's forgetful map lands in `LineBundleClass` of G/P−, its
+ampleness and global-generation statements are these two predicates, and S3.5
+consumes the latter through S3.1.
 
 The sheaf operations on finite locally free sheaves of a scheme X are native,
 each with its pullback comparison along every morphism of schemes: the dual
@@ -122,10 +142,12 @@ the exterior powers `FiniteLocallyFreeSheaf.exteriorPower`
 `FiniteLocallyFreeSheaf.det` at locally constant rank
 (`VectorBundle/Determinant/LocallyConstantRank.lean`) with
 `FiniteLocallyFreeSheaf.pullbackDetIso` (`VectorBundle/Determinant/Pullback.lean`);
-and the tensor product of module sheaves on X, whose pullback comparison
-`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent`
-(`TauCeti/AlgebraicGeometry/Modules/Pullback/Quasicoherent.lean`) is invertible
-when a factor is quasi-coherent. S1.1, S1.4 and S3.1 use these and assume
+and the tensor product of module sheaves on X, whose pullback comparison is
+invertible when either factor is quasi-coherent: the left case is
+`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent` and the right case is
+`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent_right`
+(`TauCeti/AlgebraicGeometry/Modules/Pullback/Quasicoherent.lean`). S1.0, S1.1
+and S1.4 use these sheaf operations and S3.1 the tensor comparison, assuming
 nothing beyond their functoriality under pullback. The graded quasi-coherent
 algebra `TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra`
 (`TauCeti/AlgebraicGeometry/Modules/Quasicoherent/GradedAlgebra/Basic.lean`)
@@ -633,7 +655,11 @@ S5.6 proves closure base change without using it as a premise here.
   nonzero although each geometric fibre is reduced.
 
 *Needs:* ReductiveGroups Layers 7–9 (parabolics, relative descent and split
-pinned groups); SchemeAndStackFoundations Layer 1 (scheme gluing and descent).
+pinned groups); SchemeAndStackFoundations Layer 1 (scheme gluing and descent);
+for the line det(Lie(P_univ))* and its change of base, the native
+`FiniteLocallyFreeSheaf.det`, `FiniteLocallyFreeSheaf.pullbackDetIso`,
+`FiniteLocallyFreeSheaf.dual` and `FiniteLocallyFreeSheaf.pullbackDualIso`
+(From Tau Ceti).
 
 ### 1.1 Finite-locally-free flags and incidence (S1.1)
 
@@ -658,8 +684,13 @@ For a finite locally free E/S and a strictly increasing admissible rank list, co
 
 *Needs:* ModularCurves §0G; the native `Module.Grassmannian.scheme`,
 `Module.Grassmannian.schemeHomEquiv` and `Module.Grassmannian.isProper_toSpec`
-over affine bases; the native tensor product and
-`FiniteLocallyFreeSheaf.dual` with their pullback comparisons (From Tau Ceti);
+over affine bases; the native tensor product with its pullback comparisons
+`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent` and
+`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent_right`, and
+`FiniteLocallyFreeSheaf.dual`, `FiniteLocallyFreeSheaf.exteriorPower` and
+`FiniteLocallyFreeSheaf.det` with `FiniteLocallyFreeSheaf.pullbackDualIso`,
+`FiniteLocallyFreeSheaf.pullbackExteriorPowerIso` and
+`FiniteLocallyFreeSheaf.pullbackDetIso` (From Tau Ceti);
 SchemeAndStackFoundations Layer 1 closed immersions and base change.
 
 ### 1.2 Root-cell dictionary (S1.2)
@@ -846,7 +877,7 @@ Construct subword closed embeddings, the 2^r T-fixed sections and the image of e
 - For Q=i, the two tangent weights are α_i and −α_i; the line fibres are λ and s_iλ.
 - For Q=ii, δ(Q)=s_i and the image dimension is 1, while the ordinary product is e of length 0; the four fixed sections map to e,s_i,s_i,e.
 
-*Needs:* S2.2; the native `CoxeterSystem.exchangeCondition`, `CoxeterSystem.deletionCondition`, `CoxeterSystem.BruhatLE` and `CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq`, applied to `TauCeti.weylCoxeterSystem`; S5.6 for the actual reduced closures and their base change. The reduced-word charts are the route to the subword comparison. The element δ(Q) is the Bruhat-maximal product of a subword of Q, written w_max(i) and characterised as the product of a longest reduced subword (LLM §3.1, p. 312, LLM lines 804–806); that the images of the initial segments of an arbitrary word form a weakly increasing chain of Schubert varieties, growing exactly at the letters that increase the length, is the related result of KnutsonBottSamelson §4, p. 4 (lines 141–148). The identification of the scheme-theoretic image with X(δ(Q)), with its base change, is the target.
+*Needs:* S2.2; the native `CoxeterSystem.exchangeCondition`, `CoxeterSystem.deletionCondition`, `CoxeterSystem.BruhatLE` and `CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq`, applied to `TauCeti.weylCoxeterSystem`; S5.6 for the actual reduced closures and their base change. The reduced-word charts are the route to the subword comparison. The element δ(Q) is the Bruhat-maximal product of a subword of Q, written w_max(i) and characterised as the product of a longest reduced subword (LLM §3.1, p. 312, LLM lines 804–806); that the images of the initial segments of an arbitrary word form a weakly increasing chain of Schubert varieties, growing exactly at the letters at which δ increases, is the first step of the proof in KnutsonBottSamelson §4, p. 4 (lines 141–145) of the subword statement there, that every word for v contains a reduced subword for v (lines 137–138). That proof then takes the letters at which the image grows as a reduced subword with the product of the word (lines 144–148), but those letters multiply to δ(Q), which differs from the product of the word for some nonreduced words: for Q=(i,i) they give s_i while the product is e (for Q=(i,i,i) both are s_i). Only the chain is used here. The identification of the scheme-theoretic image with X(δ(Q)), with its base change, is the target.
 
 ### 2.4 Parabolic words and refinements (S2.4)
 
@@ -893,7 +924,7 @@ S1.0–2 and ReductiveGroups Layers 7–9 for rank-one parabolics; scheme fibre 
 
 ### 3.1 Associated lines and their fibres (S3.1)
 
-Construct L(λ) on the supplied quotient by descent, with its actual linearization, local transition functions and sections. Prove tensor L(λ+μ), dual, pullback, associated-bundle and field/base-change laws. Characterize descent to P− by the Levi pairings and its actual group characters. Prove ampleness for strict positivity on the complementary simple roots and global generation for dominance; a character not in the original lattice is handled only after the specified cover/flag comparison.
+Construct L(λ) on the supplied quotient by descent, with its actual linearization, local transition functions and sections. Prove tensor L(λ+μ), dual, pullback, associated-bundle and field/base-change laws. Characterize descent to P− by the Levi pairings and its actual group characters. Over an affine base, prove that the class of L(λ) is ample in the sense of the native `LineBundleClass.IsAmple` when λ is strictly positive on the complementary simple roots, and that L(λ) satisfies the native `InvertibleSheaf.IsGloballyGenerated` when λ is dominant; over a general base both statements are made on the preimage of every affine open; a character not in the original lattice is handled only after the specified cover/flag comparison.
    **Equivariant lines and the fibre inverse.** Over the stated field k,
    construct the equivalence between the groupoid of G-linearized invertible
    sheaves on G/B− (with G-equivariant isomorphisms) and the groupoid of
@@ -918,8 +949,8 @@ Construct L(λ) on the supplied quotient by descent, with its actual linearizati
    characters of P−, and compare restriction to T with precisely the zero
    Levi-coroot-pairing condition already specified above.
 
-   Construct the forgetful map to the ordinary Picard group and its tensor
-   laws. Prove that two G-linearizations on the same underlying line differ
+   Construct the forgetful map to the ordinary Picard group, the native
+   `LineBundleClass` of G/P−, and its tensor laws. Prove that two G-linearizations on the same underlying line differ
    by a unique character of G: use H⁰(G/P−,O)=k and the linearization cocycle
    to identify their fibrewise ratio, and prove its regular dependence on G.
    In particular identify the kernel of forgetting with the restrictions
@@ -937,8 +968,9 @@ Construct L(λ) on the supplied quotient by descent, with its actual linearizati
 - On SL₂/B− the weight-one line has degree +1; reversing the character would give −1.
 - On a torus flag, characters 0 and 1 give the same underlying one-dimensional line and different torus actions.
 - A GL₂ determinant character restricts to degree 0 on the flag, while the weight-one SL₂ character has degree 1.
+- On SL₂/B− over a field, λ=0 gives 𝒪 on ℙ¹, which is globally generated but not ample because ℙ¹ is proper of dimension 1 and so not quasi-affine, while λ=ω gives O(1), which is ample; granting ampleness to every dominant λ would make the zero class ample. For a torus over an affine base the flag is the base, every character is vacuously strictly positive, and its class is the trivial class, ample because an affine scheme is quasi-affine.
 
-*Needs:* S1's quotient charts; ReductiveGroups rational characters and descent; the native `TauCeti.AlgebraicGeometry.InvertibleSheaf`, tensor product and `FiniteLocallyFreeSheaf.dual` with their pullback comparisons (From Tau Ceti). The fibre equivalence follows from quotient descent. The rank-one degree ⟨λ,α_i∨⟩ is the value of BrionFlags Proposition 1.4.3, p. 16 (BrionFlags lines 613–625 and 636–639), degree λ_i−λ_j on the Schubert curves of the type-A flag G/B+, transported to G/B− by the Chevalley involution, which exchanges B+ and B− and acts by −1 on X: it carries L(λ) to the B+-homogeneous line whose sections satisfy f(gb)=λ(b)f(g). For GL₂ and λ=(1,0), the sections of L(λ) on G/B− are spanned by the two entries of the first row of g⁻¹, and their pullbacks are the two entries of the first column of g, the coordinates of the vector ge₁, which are sections of O(1) on the projective line of lines ge₁, of degree +1=λ₁−λ₂. Brion's displayed action b(g,t)=(gb⁻¹,λ(b)t) on G×ℂ (BrionFlags line 593), read literally, has the opposite sign and gives no sections for this λ, so the comparison is made with the degree of Proposition 1.4.3, and the SL₂ Check above fixes the sign independently.
+*Needs:* S1's quotient charts; ReductiveGroups rational characters and descent; the native `TauCeti.AlgebraicGeometry.InvertibleSheaf` with `InvertibleSheaf.tensorProduct`, `InvertibleSheaf.dual` and `InvertibleSheaf.pullback`, the tensor pullback comparisons `Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent` and `Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent_right`, the Picard group `TauCeti.AlgebraicGeometry.LineBundleClass` with `LineBundleClass.pullbackHom`, and the predicates `LineBundleClass.IsAmple` and `InvertibleSheaf.IsGloballyGenerated` (From Tau Ceti). The fibre equivalence follows from quotient descent. The rank-one degree ⟨λ,α_i∨⟩ is the value of BrionFlags Proposition 1.4.3, p. 16 (BrionFlags lines 613–625 and 636–639), degree λ_i−λ_j on the Schubert curves of the type-A flag G/B+, transported to G/B− by the Chevalley involution, which exchanges B+ and B− and acts by −1 on X: it carries L(λ) to the B+-homogeneous line whose sections satisfy f(gb)=λ(b)f(g). For GL₂ and λ=(1,0), the sections of L(λ) on G/B− are spanned by the two entries of the first row of g⁻¹, and their pullbacks are the two entries of the first column of g, the coordinates of the vector ge₁, which are sections of O(1) on the projective line of lines ge₁, of degree +1=λ₁−λ₂. Brion's displayed action b(g,t)=(gb⁻¹,λ(b)t) on G×ℂ (BrionFlags line 593), read literally, has the opposite sign and gives no sections for this λ, so the comparison is made with the degree of Proposition 1.4.3, and the SL₂ Check above fixes the sign independently.
 
 ### 3.2 Sections and extremal spans (S3.2)
 
