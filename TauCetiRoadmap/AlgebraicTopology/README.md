@@ -716,10 +716,9 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
 - **[GeometricTopology](../GeometricTopology/README.md)**: 11.3 (the Cairns–Whitehead smooth
   triangulation of smooth manifolds, in the Euclidean and the half-space model, so with or
   without boundary) and 11.1 (the realization and its CW structure), consumed by Stage 8.7, and
-  1.1 (smooth collars), 1.3 (gluing along the boundary and along faces, with its rounding of
-  corners) and 1.5 (tubular neighbourhoods of compact submanifolds), consumed by Stage 6.4's
-  codimension-zero excision and compact triad duality. Of 11.3 only the triangulation is
-  consumed: the finite CW type of compact smooth manifolds is Stage 8.7's.
+  1.1 (smooth collars) and 1.5 (tubular neighbourhoods of compact submanifolds), consumed by
+  Stage 6.4's codimension-zero excision and compact triad duality. Of 11.3 only the
+  triangulation is consumed: the finite CW type of compact smooth manifolds is Stage 8.7's.
 - **[DifferentialGeometry](../DifferentialGeometry/README.md)**: the tangent-orientation API of
   Layer 2 with the orientation double cover of 2.4, the outward-normal-first boundary orientation
   of Layer 5.1, consumed by Stages 6.3–6.4, and the smooth mapping degree of Layer 10, compared
@@ -2661,10 +2660,17 @@ homology with one copy of the coefficient ring also assumes connectedness.
    and agreement with `or_U|_K≃or_K`; there is no direct pair map
    `(K,∂K)→(U,U\K)`.
    Also own the compact-triad Poincaré–Lefschetz duality: for a compact m-manifold K
-   with boundary faces ∂₀K,∂₁K covering ∂K, with their actual compatible
-   collars and common codimension-two edge (rounded as in GeometricTopology 1.3),
-   cap with [K,∂K] gives H^k(K,∂₁K;L)≃H_(m−k)(K,∂₀K;L⊗or_K),
-   and the swapped-face form, for every module-valued local system L.
+   in the half-space model `𝓡∂ m`, with boundary faces ∂₀K,∂₁K that are compact
+   codimension-zero submanifolds of ∂K covering it, with common boundary
+   ∂(∂₀K)=∂(∂₁K)=∂₀K∩∂₁K, the edge, a closed (m−2)-manifold (empty for m=1)
+   along which K has no corner, and with their actual compatible collars (each
+   face collared in K, the collar restricting on the other face to a collar of
+   the edge), cap with [K,∂K] gives H^k(K,∂₁K;L)≃H_(m−k)(K,∂₀K;L⊗or_K),
+   and the swapped-face form, for every module-valued local system L
+   (Hatcher, Theorem 3.43, for R-orientable K and constant coefficients). A cut
+   whose edge is a corner, modelled near the edge on the quadrant, which has no
+   half-space chart, is outside this class until its edge is rounded; that
+   rounding is AffineMorseLefschetz 4.5's.
    Derive the excisive boundary triad from its face collars: choose open
    neighborhoods deformation retracting onto the faces, with intersection
    deformation retracting onto their common edge and union deformation
@@ -2679,7 +2685,11 @@ homology with one copy of the coefficient ring also assumes connectedness.
    outward face/edge orientation and local-system transport. This is
    Hatcher Theorem 3.43's five-lemma route; the local-system extension is
    proved here with these transports. Include restriction to compact face
-   pairs, nested rounded cuts,
+   pairs, naturality along a nested pair K⊆K′ of such triads with ∂₀K⊆∂₀K′
+   and ∂₁K′∩K⊆∂₁K (the nested cuts of AffineMorseLefschetz 4.5), through the
+   inclusion (K,∂₀K)→(K′,∂₀K′) in homology, the collar excision
+   `H^k(K,∂₁K;L)≃H^k(K′,K′∖(K∖∂₁K);L)` followed by restriction to (K′,∂₁K′)
+   in cohomology, and the restriction of [K′,∂K′] to [K,∂K] by excision,
    coefficient change and boundary connecting diagrams. AffineMorseLefschetz A4.0 consumes
    this single compact triad theorem in its collar exhaustion; it does not
    infer it from only the two absolute/whole-boundary forms.
@@ -2724,6 +2734,13 @@ Collars fix the boundary sign; orientation is never reconstructed from a hand-wr
   `H_2(RP²;ℤ)=0`; with `ℤ/2` coefficients both are `ℤ/2`, as `poincareDuality_zmodTwo` requires.
   For the circle, capping the generator of `H^1(S^1;ℤ)` with the fundamental class gives a
   generator of `H_0(S^1;ℤ)`, and capping `1∈H^0` gives the fundamental class itself.
+- Compact triad duality with a nonempty edge: take the solid torus `K=S¹×D²` (m=3), with ∂₁K
+  a closed disc in the boundary torus and ∂₀K the complementary punctured torus, meeting in
+  a circle. `H^k(K,∂₁K;ℤ)` is ℤ for k=1 and 0 otherwise, since the disc is contractible;
+  `H_(3−k)(K,∂₀K;ℤ)` is ℤ for k=1 and 0 otherwise, since `H_2(K,∂₀K;ℤ)` is the kernel of
+  `H_1(∂₀K;ℤ)=ℤ²→H_1(K;ℤ)=ℤ`, spanned by the meridian, and `H_1(K,∂₀K;ℤ)=0`. Pairing the
+  same face on both sides would give `H_(3−k)(K,∂₁K;ℤ)=H̃_(3−k)(K;ℤ)`, which is ℤ for k=2
+  and 0 for k=1, so the faces are exchanged as stated.
 - The tower difference map, six-term sequence, Mittag--Leffler vanishing,
   integer-graded Milnor sequences and cofinal shifts satisfy their naturality
   diagrams. The derived-limit cone compares with ordinary limits of degreewise
@@ -2736,7 +2753,7 @@ Collars fix the boundary sign; orientation is never reconstructed from a hand-wr
 | Stage | Depends on | Can proceed alongside |
 | --- | --- | --- |
 | 6.0 tower algebra | native module/category/complex algebra | 1--8 |
-| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, the DG2.4 orientation double cover and the DG5.1 outward-first boundary convention, native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; GeometricTopology 1.1 collars, 1.3 corner rounding and 1.5 tubular neighbourhoods for 6.4's codimension-zero excision and compact triads; Stage 4 for cellular comparisons/RP² | 1 |
+| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, the DG2.4 orientation double cover and the DG5.1 outward-first boundary convention, native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; GeometricTopology 1.1 collars and 1.5 tubular neighbourhoods for 6.4's codimension-zero excision and compact triads; Stage 4 for cellular comparisons/RP² | 1 |
 | categorical-cover/cup-length supplement after 6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary 6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
 | supported-cellular comparison after ordinary 6.2 | ordinary 4 cellular data, ordinary 6.1–6.2; owns the compactly supported local-coefficient cochains, proves countability and the finite-support cellular/singular comparison | ordinary 6.3–6.5, Stage 7 and ordinary 8 proceed independently; proper 8.5 uses the needed support interfaces |
 | 6.5 linking/degree consequences | 2--4 and ordinary 6.1--6.4; DG10's smooth mapping-degree comparison only after the independent AT6.3 classes | 1 |
