@@ -164,9 +164,10 @@ not the roadmap.
   `meromorphicTrailingCoeffAt` (divisors, local finiteness, identity theorem, normal form);
 - `MeromorphicOn.circleAverage_log_norm`, `AnalyticOnNhd.sum_divisor_le` (Jensen's formula and
   the disc zero bound), with `AnalyticAt.analyticOrderAt_eq_natCast` (the factorization
-  `f = (z − c)^m g`, `g c ≠ 0`, at a zero of finite order) and
-  `Complex.norm_le_of_forall_mem_frontier_norm_le` with `frontier_ball` (the maximum principle on a
-  ball) for the trailing-coefficient form of 4.3;
+  `f = (z − c)^m g`, `g c ≠ 0`, at a zero of finite order),
+  `AnalyticAt.meromorphicTrailingCoeffAt_of_ne_zero_of_eq_nhdsNE` (the value `g c` is the trailing
+  coefficient of `f` at `c`) and `Complex.norm_le_of_forall_mem_frontier_norm_le` with
+  `frontier_ball` (the maximum principle on a ball) for the trailing-coefficient form of 4.3;
 - `ValueDistribution.logCounting`, `ValueDistribution.log_counting_zero_sub_logCounting_top`,
   `Function.locallyFinsuppWithin.logCounting_divisor_eq_circleAverage_sub_const` (Nevanlinna
   counting, for the comparison of 4.6);
@@ -946,9 +947,10 @@ since otherwise `f` vanishes on the sphere and hence, by the maximum principle, 
 against the finiteness of `m`. Applying the first form to `g` itself would need `1 ≤ M/R^m`.
 
 *Needs:* Mathlib `AnalyticOnNhd.sum_divisor_le`, `meromorphicTrailingCoeffAt`,
-`AnalyticAt.analyticOrderAt_eq_natCast` (the factorization `f = (z − c)^m g` with `g c ≠ 0`, which
-makes `g` analytic at `c` with `g c = a`), `Complex.norm_le_of_forall_mem_frontier_norm_le` and
-`frontier_ball` (the maximum principle on `ball c R`, for `M > 0`).
+`AnalyticAt.analyticOrderAt_eq_natCast` (the factorization `f = (z − c)^m g` near `c`, with `g`
+analytic at `c` and `g c ≠ 0`), `AnalyticAt.meromorphicTrailingCoeffAt_of_ne_zero_of_eq_nhdsNE`
+(`g c = a`), `Complex.norm_le_of_forall_mem_frontier_norm_le` and `frontier_ball` (the maximum
+principle on `ball c R`, for `M > 0`).
 
 **Checks.**
 
