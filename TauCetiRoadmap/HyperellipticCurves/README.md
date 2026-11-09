@@ -404,7 +404,7 @@ At the pin (`.lake/packages/TauCeti`):
   `Place.one_lt_ramificationIdx_iff_of_sq_eq`, the different degree
   `degree_different_ratFunc_of_sq_eq`, exactness of constants `isIntegrallyClosedIn_of_sq_eq`,
   the genus `genus_eq_of_sq_eq` (`g = ⌊(deg f − 1)/2⌋`), and
-  `TauCeti.isHyperellipticFunctionField_of_sq_eq` (`…/Hyperelliptic/Genus.lean`).
+  `TauCeti.isHyperellipticFunctionField_of_sq_eq` (`…/Hyperelliptic/Genus/Basic.lean`).
 - Branch places `branchPlaces` with `card_branchPlaces` (`2g + 2` over an algebraically closed
   field), `smul_mem_branchPlaces`, the degree of the different `degree_different_adjoin`
   (`…/Hyperelliptic/BranchPlaces.lean`); the uniqueness of the index-2 subfield
@@ -459,7 +459,7 @@ At the pin (`.lake/packages/TauCeti`):
   defect ideal and the Weierstrass class (its Layers 4, 4.5a, 4.5b). Layer 3 here is the
   higher-genus analogue and is stated so that at `g = 1` it specialises to those declarations
   through the Layer 0 bridge; it introduces no second elliptic theory.
-- From the [local fields and ramification roadmap](../LocalFieldsRamification/README.md): local
+- From the [local fields and ramification roadmap](../../Completed/LocalFieldsRamification/README.md): local
   fields, their finite extensions, the normalised valuation and its unique extension, ramification
   index and residue degree, inertia and the tame quotient, the lower ramification filtration
   (`LocalFieldsRamification.lowerRamificationGroup`), and the different. Layer 4 uses them to say
@@ -1521,7 +1521,7 @@ the depth of a cluster `𝔰` of size `> 1` is `d_𝔰 = min w(r − r')` over d
 it is a cluster picture. Prove the Galois action of `G_K` (and of `I_K`) on
 `ℛ` permutes clusters preserving depth.
 *Needs:* Mathlib `Finset`, `Polynomial.rootSet`, `SplittingField`; the
-[local fields and ramification roadmap](../LocalFieldsRamification/README.md) Layer 0 (the unique
+[local fields and ramification roadmap](../../Completed/LocalFieldsRamification/README.md) Layer 0 (the unique
 extension of `v`), Layer 3 (inertia).
 
 The API includes:
@@ -1619,7 +1619,7 @@ formulations of Appendix C are proved as corollaries. Prove Theorem 1.8 (4): `C`
 for `p > 2g + 1`; this is `tame_reduction`.
 *Needs:* 4.2, 4.3; [stable reduction roadmap](../StableReduction/README.md) Layers 3, 7;
 [Néron models roadmap](../NeronModelsAndSemistableAbelianVarieties/README.md) §3.1, §3.10;
-[local fields and ramification roadmap](../LocalFieldsRamification/README.md) Layer 3.
+[local fields and ramification roadmap](../../Completed/LocalFieldsRamification/README.md) Layer 3.
 
 
 The API includes:
@@ -1845,7 +1845,7 @@ types (DDMM Theorem 18.8 and its proof). The one-component case has `c = 1`.
 Prove DDMM Theorem 1.20 (= Theorem 11.3, Corollary 9.4) for the conductor exponent
 `n_C = n_{tame} + n_{wild}` of the Néron models roadmap §5.4: (i)
 `n_{wild} = Σ_{r ∈ S} (v(Δ_{K(r)/K}) − [K(r) : K] + f_{K(r)/K})` over representatives of the `G_K`-orbits of `ℛ`, the
-discriminant and residue degree being those of the [local fields roadmap](../LocalFieldsRamification/README.md)
+discriminant and residue degree being those of the [local fields roadmap](../../Completed/LocalFieldsRamification/README.md)
 Layers 0 and 3 and the completed number-field roadmap's Layer 5 for a global prime; (ii)
 `n_{tame} = 2g − dim H¹(C)^{I_K}` with `dim H¹^{I_K} = #(I_K\U) − #(I_K\V) − [|ℛ| and v(c_f) even]`
 where `U={𝔰⊊ℛ odd : ξ_{P(𝔰)}(λ̃_{P(𝔰)})≤ξ_{P(𝔰)}(d_{P(𝔰)})}`

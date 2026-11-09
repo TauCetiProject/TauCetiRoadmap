@@ -2,7 +2,6 @@ module
 
 public import Mathlib
 public import TauCeti.FieldTheory.FunctionField.Hyperelliptic.Basic
-public import TauCeti.FieldTheory.FunctionField.Hyperelliptic.Genus.Basic
 public import TauCeti.AlgebraicGeometry.EllipticCurve.QuadraticTwist.Basic
 public import TauCeti.RingTheory.Localization.AtPrime
 public import TauCeti.RingTheory.DedekindDomain.LocalizationAtPrime
