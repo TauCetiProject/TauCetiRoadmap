@@ -2622,7 +2622,7 @@ Neither project supplies code for this roadmap.
 - [Optimal transport](../OptimalTransport/README.md) owns Gaussian Brenier/W₂ formulas, interpolation, barycenters, their positive-definite square-root/geometric-mean identities, and quantile construction/measurability/uniform pushforward.
   This roadmap owns distributional densities, conditionals, affine laws, Cholesky, upper-quantile reflection, distribution formulas, parameter measurability, inverse-function specializations, and the scalar stochastic-order comparisons in §7.13.
   Optimal couplings and Wasserstein quantile identities remain there.
-- [One-parameter semigroups](../OneParameterSemigroups/README.md) owns positive-definite functions and Bochner theory; there are no shared targets or dependencies.
+- [One-parameter semigroups](../../Completed/OneParameterSemigroups/README.md) owns positive-definite functions and Bochner theory; there are no shared targets or dependencies.
   This roadmap computes named characteristic functions and constructs scalar stable laws internally.
 
 Also excluded are general Lévy–Khintchine classification, domains of attraction, general phase-type theory, Brownian arcsine theorems, and random-matrix semicircle limits.
