@@ -1181,7 +1181,7 @@ The image-containment predicate has the following API.
 
 ### 5.1 The CM prime-isogeny exceptions
 
-For each r∈{19,43,67,163}, prove that the noncuspidal rational point set Y₀(r)(ℚ) on the smooth projective X₀(r) consists of exactly one point P_r, with the following j-invariant and full geometric endomorphism-order discriminant. These are four point-exhaustion targets, in addition to the degree-membership theorem of §4.7. (mazur-1977, Introduction, table p.40 and its column definitions p.41, mazur-1977 lines 300–574; mazur-1978, Introduction, table and CM explanation, p.129, mazur-1978 lines 14–29.)
+For each r∈{19,43,67,163}, prove that Y₀(r)(ℚ), the set of noncuspidal rational points of the smooth projective X₀(r), consists of exactly one point P_r, with the following j-invariant and full geometric endomorphism-order discriminant. These are four point-exhaustion targets, in addition to the degree-membership theorem of §4.7. (mazur-1977, Introduction, table p.40 and its column definitions p.41, mazur-1977 lines 300–574; mazur-1978, Introduction, table and CM explanation, p.129, mazur-1978 lines 14–29.)
 
 | r | Y₀(r)(ℚ) | j(P_r) | CM discriminant |
 | --- | --- | --- | --- |
@@ -1272,7 +1272,7 @@ A proof route uses the difference of the two p-isogeny maps to the finite Eisens
 
 ### 5.3c The explicit Runge inequality
 
-For every prime p>3 and integral noncuspidal point P∈Y_s⁺(p)(ℤ), prove h(j(P))≤2π√p+6log p+21(log p)²/√p, where h is the absolute logarithmic Weil height. This includes CM points and, for j∈ℤ, h(j)=log max(1,|j|). (bilu-parent-rebolledo, Theorem 3.1, p.964, bilu-parent-rebolledo lines 328–330; proof, pp.968–970, bilu-parent-rebolledo lines 560–622.)
+For every prime p>3 and every P∈Y_s⁺(p)(ℤ), the set of noncuspidal rational points of X_s⁺(p) with integral j-invariant, prove h(j(P))≤2π√p+6log p+21(log p)²/√p, where h is the absolute logarithmic Weil height. This includes CM points and, for j∈ℤ, h(j)=log max(1,|j|). (bilu-parent-rebolledo, Theorem 3.1, p.964, bilu-parent-rebolledo lines 328–330; proof, pp.968–970, bilu-parent-rebolledo lines 560–622.)
 
 A proof route imports the Siegel functions of ImaginaryQuadraticClassNumber H3.2 with their exact transformation law, finite exponent-product modularity criterion and integrality over ℤ[j], forms the split-Cartan orbit products of these functions at level p, computes their cusp divisors, and bounds their two cusp expansions on a fundamental domain. The product formula at an integral point and the explicit tail estimates give the displayed constants. This arithmetic estimate is a target here on the supplied modular curve.
 
