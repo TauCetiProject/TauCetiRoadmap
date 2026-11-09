@@ -48,8 +48,9 @@ Pimsner–Voiculescu computation of `K_*(A_θ)` with its trace range
 smooth algebra and on the pinned algebraic K-groups; N3 defines its
 Hilbert-space Fredholm modules directly and takes the index of a
 compression from Mathlib's Fredholm theory. N6 alone owns the rotation
-C*-algebra `A_θ=C(𝕋)⋊_αℤ` for every real θ, built on the crossed
-products of OperatorAlgebraDynamics D1–D2: its universal presentation by
+C*-algebra `A_θ=C(𝕋)⋊_αℤ` for every real θ, built on Tau Ceti's full
+crossed product and rotation action, with OperatorAlgebraDynamics D1's
+universal property and D2's expectation: its universal presentation by
 two unitaries with `uv=exp(2πiθ)vu`, the injectivity of its coordinate
 copy of C(𝕋) and its faithful tracial state `τ=∫_𝕋∘E`, which
 OperatorKTheory's Pimsner–Voiculescu computation consumes. N6 builds
@@ -306,6 +307,39 @@ rebuild them.
   relation `U₂U₁=exp(2πiθ)U₁U₂`, the ordered multiplier `exp(2πiθnm′)`
   and the faithful trace `trace` (`NoncommutativeGeometry/SmoothTorus/Basic`);
   it carries no topology and no derivations at the pin.
+- Crossed products (N6): the pullback `TauCeti.CStarAction.comp` of an
+  action along a continuous homomorphism (`Analysis/CStarAlgebra/Action/Basic`);
+  the rotation action `TauCeti.CStarAction.rotation` of the real line
+  on `C(Circle, ℂ)`, with `TauCeti.CStarAction.rotation_apply_apply`,
+  `rotation t f z = f(exp(it)⁻¹z)` (`…/Action/ContinuousMap`), and the
+  coordinate unitary `Circle.coordinate` with
+  `Circle.coordinate_mem_unitary` (`Analysis/Complex/Circle`); for a
+  point-norm continuous action α of a locally compact group with a left
+  Haar measure μ, the full crossed product
+  `TauCeti.CStarAction.FullCrossedProduct α μ`, the completion of the
+  twisted convolution algebra `(f⋆g)(s)=∫f(r)α_r(g(r⁻¹s))dμ(r)` on
+  compactly supported continuous functions in the supremum of the norms
+  of the integrated forms of covariant Hilbert-space representations, a
+  nonunital C*-algebra, with the dense map
+  `TauCeti.CStarAction.FullCrossedProduct.of`, its injectivity
+  `TauCeti.CStarAction.FullCrossedProduct.of_injective` when the
+  coefficients have a faithful representation and μ is inner regular,
+  uniqueness `TauCeti.CStarAction.FullCrossedProduct.starAlgHom_ext`,
+  the extension `TauCeti.CStarAction.FullCrossedProduct.lift` of
+  *-homomorphisms bounded by that supremum, and the integrated forms
+  `TauCeti.CStarAction.CovariantRepresentation.integratedFull` of
+  covariant pairs on Hilbert spaces (`…/Action/CrossedProduct/Full`);
+  the coefficient map i_A,
+  `TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier`, and the
+  unitary group map i_G,
+  `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`, into the
+  multiplier algebra, acting on the left by `(i_A(a)f)(s)=a·f(s)` and
+  `(i_G(r)f)(s)=α_r(f(r⁻¹s))`, with the covariance
+  `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier_mul_coefficientMultiplier`,
+  `i_G(r)i_A(a)=i_A(α_r a)i_G(r)` (`…/CrossedProduct/Multiplier`). The
+  pin has no unit for a discrete group, no universal property for
+  covariant pairs in an arbitrary C*-algebra, no reduced crossed product
+  or conditional expectation and no dual action.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -317,7 +351,7 @@ rebuild them.
 | [NoncommutativeIntegration §1.3–§1.6, §2.1](../NoncommutativeIntegration/README.md) | At M=B(H) with its usual trace Tr, where `μ_t(T)=a_⌊t⌋(T)` with the zero-indexed approximation numbers (§1.5): the Schatten quasi-ideals S_p for 0<p<1 as Lp(B(H),Tr), with the p-triangle inequality `‖S+T‖_p^p≤‖S‖_p^p+‖T‖_p^p`, the ideal bound `‖ATB‖_p≤‖A‖‖T‖_p‖B‖`, adjoint invariance and completeness of the p-metric (§1.3, §1.5); Hölder's inequality `‖ST‖_r≤‖S‖_p‖T‖_q` with constant one for p,q,r>0 and 1/r=1/p+1/q, and the log-submajorization of the singular values of a product (§1.4); the weak Schatten classes `sup_j(j+1)^(1/p)μ_j(T)<∞`, with the weak trace class `S_(1,∞)` at p=1, and their quasi-norm, adjoint and ideal bounds (§1.6); the cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1, 1≤p<∞ (§2.1). N3 consumes the quasi-ideals, Hölder and the cyclicity for its characters, N4 Hölder and the weak classes. |
 | [VonNeumannAlgebras V4.Core](../VonNeumannAlgebras/README.md) | The canonical trace `Tr(T)=Σ_j⟨e_j,Te_j⟩` on the trace class S₁(H) of OI-B29–B30, its independence of the orthonormal basis, `Tr|T|=‖T‖₁`, the cyclicity of trace-class products against bounded operators and of Hilbert–Schmidt pairings, and the isometric identification of B(H) with the dual of S₁(H) under `(x,h)↦Tr(xh)`, so that the ultraweakly continuous functionals on B(H) are the `T↦Tr(ρT)` with ρ trace class. N3 consumes the trace for its characters, N4 for the Tauberian bridge and the singularity of Dixmier traces. |
 | [BanachSpaceTheory B4](../BanachSpaceTheory/README.md) | The completed Banach projective tensor over ℝ and ℂ and its universal property, consumed by N1.Tensor. |
-| [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | Rotation crossed products, Fourier coefficient maps and the dual circle action. N6 constructs the two-torus gauge action. |
+| [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | D1's universal property of the full crossed product for nondegenerate covariant pairs in multiplier algebras, hence in any unital C*-algebra; D2's generator formulas for G=ℤ, the equality of full and reduced crossed products for amenable groups and the faithful conditional expectation of a discrete crossed product with its Fourier coefficient maps; D4's dual action of the circle. The full crossed product, its canonical multipliers and the rotation action are Tau Ceti's; N6 constructs the two-torus gauge action. |
 
 ## How to read the build
 
@@ -337,7 +371,7 @@ pinned logarithmic ideal and builds the linear Dixmier trace on that
 ideal and the Tauberian bridge. N5
 builds spectral triples, their Borel calculus and bounded transform on the
 pinned eigenbasis, and the Hochschild-class theorem. N6 builds the
-rotation C*-algebra from the crossed product, the Fréchet topology,
+rotation C*-algebra on Tau Ceti's full crossed product, the Fréchet topology,
 derivations and differential calculus of the pinned smooth two-torus
 and its cyclic cohomology, and N7 its
 Fourier spectral triple, Heisenberg module and index computations. Each
@@ -1198,17 +1232,47 @@ bounded D=diag(1−1/(j+1)) without compact resolvent.
 
 ## N6. Smooth noncommutative two-tori and differential calculus
 
-For every real θ define the rotation C*-algebra `A_θ=C(𝕋)⋊_αℤ` as
-OperatorAlgebraDynamics D1's full crossed product of the rotation
-`α(f)(z)=f(exp(2πiθ)z)`, with v the coordinate function z and u the
-unitary implementing α, so that `uv=exp(2πiθ)vu`; set `U₁=v`, `U₂=u`.
+For every real θ let α be the action of ℤ, with its discrete topology,
+on `C(Circle, ℂ)=C(𝕋)` obtained from the pinned rotation by
+`TauCeti.CStarAction.comp` along the continuous homomorphism `n↦−2πθn`
+into the real line; by `TauCeti.CStarAction.rotation_apply_apply` the
+generator acts by `α(f)(z)=f(exp(−2πiθ)⁻¹z)=f(exp(2πiθ)z)`. Fix a Haar
+measure μ on ℤ, so μ is c times counting measure with `c=μ({0})>0`, and
+define the rotation C*-algebra `A_θ=C(𝕋)⋊_αℤ` as the pinned
+`TauCeti.CStarAction.FullCrossedProduct α μ`. Let v be the image of
+`Circle.coordinate` under the coefficient map i_A,
+`TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier`, and u
+the image of the generator 1 under the group map i_G,
+`TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`; the pinned
+covariance gives `uvu*=α(v)=exp(2πiθ)v`, so that `uv=exp(2πiθ)vu`;
+set `U₁=v`, `U₂=u`. At the pin A_θ is a nonunital C*-algebra and u, v
+are unitary multipliers of it. Prove that A_θ is unital, by D2's
+generator formulas for G=ℤ on the pinned carrier: the image under
+`TauCeti.CStarAction.FullCrossedProduct.of` of `c⁻¹` times the point
+mass at 0 with value 1 is a two-sided unit, and the image of `c⁻¹`
+times the point mass at n with value `z^m` is `v^m u^n`, since left
+convolution by that function is the left action of the multiplier
+`i_A(z^m)i_G(n)`. Hence the canonical map of A_θ into its multiplier
+algebra is a *-isomorphism, u and v are unitaries of A_θ, and A_θ is a
+unital C*-algebra (Mathlib's `CStarAlgebra`).
 Prove, with no irrationality restriction, that A_θ is universal for
-pairs of unitaries satisfying this relation: a unitary V gives a
-representation of C(𝕋) by Mathlib's `cfc`, a unitary U with
-`UVU*=exp(2πiθ)V` makes the pair covariant, and D1's universal property
-integrates it; since ℤ is amenable the full and reduced products agree
-(D2), so D2's faithful expectation E onto C(𝕋) gives the injectivity
-of the coordinate copy. Define the trace `τ=∫_𝕋∘E` and prove it is a
+pairs of unitaries satisfying this relation: a unitary V of a unital
+C*-algebra B gives a representation of C(𝕋) by Mathlib's `cfc`, a
+unitary U of B with `UVU*=exp(2πiθ)V` makes the pair covariant, and
+D1's universal property integrates it to a unital *-homomorphism
+`A_θ→B` sending u to U and v to V, unique by
+`TauCeti.CStarAction.FullCrossedProduct.starAlgHom_ext`. The pinned
+`TauCeti.CStarAction.FullCrossedProduct.lift` and
+`TauCeti.CStarAction.CovariantRepresentation.integratedFull` give this
+extension only for homomorphisms already bounded by the full seminorm
+and for covariant pairs on Hilbert spaces. The coordinate copy
+`f↦i_A(f)` of C(𝕋) is injective by
+`TauCeti.CStarAction.FullCrossedProduct.of_injective`, applied to the
+GNS representation (Mathlib's `gnsStarAlgHom`) of the Haar state of
+C(𝕋), which is faithful because Haar measure charges every nonempty
+open set. Since ℤ is amenable the full and reduced products agree (D2),
+so D2's faithful conditional expectation gives `E:A_θ→C(𝕋)` with
+`E(f u^n)=δ_(n0)f`. Define the trace `τ=∫_𝕋∘E` and prove it is a
 faithful tracial state.
 Construct the commuting coordinate-rotation and D4 dual actions, giving
 `β_(z₁,z₂)(U_j)=z_j U_j`, and prove their joint strong continuity.
@@ -1286,6 +1350,15 @@ identification with an integer Fredholm index; cyclicity alone does not.
   Fourier series. Evaluation at 1∈𝕋 after E is a state but not a trace
   for θ∉ℤ: it takes the value `exp(2πiθ)` on `uvu*=exp(2πiθ)v` and 1 on
   `vu*u=v`.
+- The direction of the rotation: pulled back along `n↦−2πθn`, the
+  pinned `rotation t f z=f(exp(it)⁻¹z)` sends the coordinate function
+  to `exp(2πiθ)` times itself, so `uvu*=exp(2πiθ)v`, which is `iv` at
+  θ=1/4. Pulling back along `n↦2πθn` instead gives `uvu*=−iv` at θ=1/4,
+  the algebra `A_(−θ)`; the two agree only for θ∈½ℤ.
+- The unit of A_θ: for the point mass δ₀ at 0 with value 1,
+  `(c⁻¹δ₀⋆g)(s)=c·c⁻¹·g(s)=g(s)` and
+  `(g⋆c⁻¹δ₀)(s)=c·g(s)·α_s(c⁻¹)=g(s)`, while `δ₀⋆δ₀=cδ₀`, so δ₀ itself
+  is c times the unit and is not idempotent unless c=1.
 - `τδ_j=0`: `δ_j(U₁^mU₂^n)=2πin_jU₁^mU₂^n` has zero (0,0)-coefficient
   unless `(m,n)=(0,0)`, where `n_j=0`; so `τδ_j=0` on every monomial and,
   by continuity, on 𝒜_θ. The functional `a↦a_(1,0)` is not killed by
@@ -1326,7 +1399,8 @@ Do not apply the Diophantine hypothesis to the periodic result.
 ### Examples
 
 The multiplier witness `U₂U₁=exp(2πiθ)U₁U₂` at `(m,n)=(0,1)`,
-`(m′,n′)=(1,0)`; the trace at θ=1/2 with both products equal to −1 on
+`(m′,n′)=(1,0)`; the rotation direction `uvu*=iv` at θ=1/4 and the
+unit `c⁻¹δ₀` of A_θ; the trace at θ=1/2 with both products equal to −1 on
 `U₁U₂·U₁⁻¹U₂⁻¹`; the seminorm witness `1+U₁` at θ=0 with `Q₀=1`, `P₀=2`;
 the torus character φ as `(2πi)⁻¹` times the pinned trace–derivation
 2-cocycle of τ, δ₁, δ₂; the idempotent `[[1,a],[0,0]]` replaced by the
@@ -1334,7 +1408,7 @@ projection diag(1,0), both of trace 1.
 
 ### Dependencies
 
-*Needs:* N1.Cyclic, N2; OperatorAlgebraDynamics D1–D2, D4; Mathlib `cfc` and `CStarMatrix`; Tau Ceti `SmoothNoncommutativeTorus`, `traceDerivationCocycle`, `traceDerivationPairCocycle` and `derivationLieAlgebra ℂ A`.
+*Needs:* N1.Cyclic, N2; OperatorAlgebraDynamics D1–D2, D4; Mathlib `cfc`, `CStarMatrix`, `CStarAlgebra` and `gnsStarAlgHom`; Tau Ceti `SmoothNoncommutativeTorus`, `traceDerivationCocycle`, `traceDerivationPairCocycle` and `derivationLieAlgebra ℂ A`; Tau Ceti `TauCeti.CStarAction.comp`, `TauCeti.CStarAction.rotation`, `TauCeti.CStarAction.rotation_apply_apply`, `Circle.coordinate`, `TauCeti.CStarAction.FullCrossedProduct` with `TauCeti.CStarAction.FullCrossedProduct.of`, `TauCeti.CStarAction.FullCrossedProduct.of_injective`, `TauCeti.CStarAction.FullCrossedProduct.starAlgHom_ext`, `TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier`, `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier` and `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier_mul_coefficientMultiplier`.
 
 ## N7. Fourier spectral triples and Heisenberg indices
 
@@ -1561,7 +1635,8 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   `Algebra/Lie/Derivation/Basic` supplies the noncommutative derivation
   carrier and its Leibniz/inner/conjugation API; its
   `RingTheory/CyclicCohomology`, `NoncommutativeGeometry/UniversalDifferential`,
-  `NoncommutativeGeometry/SmoothTorus`, `Analysis/OperatorIdeal/Family`,
+  `NoncommutativeGeometry/SmoothTorus`, `Analysis/CStarAlgebra/Action`,
+  `Analysis/Complex/Circle`, `Analysis/OperatorIdeal/Family`,
   `Analysis/Normed/Order/GeneralizedLimit`,
   `Analysis/InnerProductSpace/LinearPMap`,
   `Analysis/Normed/Module/PiTensorProduct` and
