@@ -73,9 +73,11 @@ Ownership against the other roadmaps, by section:
 - The [geometric-topology roadmap](../GeometricTopology/README.md) owns smooth and PL
   triangulations, manifold boundaries and collars, gluing, connected sum, cobordism carriers,
   and geometric surgery.  This roadmap owns algebraic topology of CW pairs and proves results
-  about any space of CW type. The finite-dimensional Hausdorff second-countable
-  smooth-manifold CW comparison consumes geometric topology's smooth triangulation;
-  compact manifolds have finite CW type.
+  about any space of CW type. Stage 8.7 owns the CW comparison for finite-dimensional
+  Hausdorff second-countable smooth manifolds, with or without boundary, and the theorem that
+  compact ones have finite CW type (`compactManifoldFiniteCWType`,
+  `compactManifoldWithBoundaryFiniteCWType`); of geometric topology they consume only the
+  smooth triangulation (its 11.3) and the realization with its CW structure (its 11.1).
 - The [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
   Mathlib-compatible manifold orientation and degree API (its layers 2 and 10),
   and the outward-normal-first boundary orientation of Layer 5.1, which the
@@ -711,12 +713,13 @@ Tau Ceti's native carriers and theorems at the pin, which the stages consume and
 - **[UniversalCovers](../../Completed/UniversalCovers/README.md)** (completed): universal-cover
   construction, deck transformations, quotient covers, basepoint change and induced maps on
   homotopy groups, consumed by Stage 8.
-- **[GeometricTopology](../GeometricTopology/README.md)**: 12.1 (Whitehead's smooth
-  triangulation of smooth manifolds, with or without boundary) and Layer 11 (the realization
-  homeomorphism and CW structure of a triangulation), consumed by Stage 8.7, and 1.1 (smooth collars),
-  1.2 (gluing along faces, with its rounding of corners) and 1.3 (tubular neighbourhoods of
-  compact submanifolds), consumed by Stage 6.4's codimension-zero excision and compact triad
-  duality.
+- **[GeometricTopology](../GeometricTopology/README.md)**: 11.3 (the Cairns–Whitehead smooth
+  triangulation of smooth manifolds, in the Euclidean and the half-space model, so with or
+  without boundary) and 11.1 (the realization and its CW structure), consumed by Stage 8.7, and
+  1.1 (smooth collars), 1.3 (gluing along the boundary and along faces, with its rounding of
+  corners) and 1.5 (tubular neighbourhoods of compact submanifolds), consumed by Stage 6.4's
+  codimension-zero excision and compact triad duality. Of 11.3 only the triangulation is
+  consumed: the finite CW type of compact smooth manifolds is Stage 8.7's.
 - **[DifferentialGeometry](../DifferentialGeometry/README.md)**: the tangent-orientation API of
   Layer 2 with the orientation double cover of 2.4, the outward-normal-first boundary orientation
   of Layer 5.1, consumed by Stages 6.3–6.4, and the smooth mapping degree of Layer 10, compared
@@ -2495,7 +2498,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    smaller-width restrictions and deformation retraction of U onto ∂M.
    These class comparisons use a topological global collar and smooth local
    charts; GeometricTopology 1.1 owns the stronger global smooth collar and
-   1.2 the gluing API.
+   1.3 the gluing API.
    On the half-space ambient carrier, define `or_M` exactly once, by groupoid
    transport from the fresh Euclidean interior. All boundary restrictions and coefficient
    comparisons are restrictions or pullbacks of this same system. First prove that
@@ -2648,7 +2651,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    with-boundary structure and smooth embedding. Use the pair-map zigzag
    `(K,∂K)→(U,U\int K)←(U,U\K)`, with the two isomorphisms proved by
    excision and a two-sided tube around the boundaryless compact ∂K in U from
-   GeometricTopology 1.3 (tubular neighbourhoods of a compact submanifold of a
+   GeometricTopology 1.5 (tubular neighbourhoods of a compact submanifold of a
    boundaryless manifold). Trivialize its normal line by DG5.1's outward-pointing field;
    use half-space charts and compactness of ∂K to shrink the tube to a
    uniform positive radius before proving that its positive/negative sides
@@ -2659,7 +2662,7 @@ homology with one copy of the coefficient ring also assumes connectedness.
    `(K,∂K)→(U,U\K)`.
    Also own the compact-triad Poincaré–Lefschetz duality: for a compact m-manifold K
    with boundary faces ∂₀K,∂₁K covering ∂K, with their actual compatible
-   collars and common codimension-two edge (rounded as in GeometricTopology 1.2),
+   collars and common codimension-two edge (rounded as in GeometricTopology 1.3),
    cap with [K,∂K] gives H^k(K,∂₁K;L)≃H_(m−k)(K,∂₀K;L⊗or_K),
    and the swapped-face form, for every module-valued local system L.
    Derive the excisive boundary triad from its face collars: choose open
@@ -2733,7 +2736,7 @@ Collars fix the boundary sign; orientation is never reconstructed from a hand-wr
 | Stage | Depends on | Can proceed alongside |
 | --- | --- | --- |
 | 6.0 tower algebra | native module/category/complex algebra | 1--8 |
-| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, the DG2.4 orientation double cover and the DG5.1 outward-first boundary convention, native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; GeometricTopology 1.1 collars, 1.2 corner rounding and 1.3 tubular neighbourhoods for 6.4's codimension-zero excision and compact triads; Stage 4 for cellular comparisons/RP² | 1 |
+| 6.1--6.4 cohomology/duality | 6.0 for 6.1 skeletal limits; 2--3, Stage 5 item 1 product maps, DG2 tangent orientations, the DG2.4 orientation double cover and the DG5.1 outward-first boundary convention, native smooth local boundary charts plus the compact-domain Brown topological collar, and Stage 4.4's εₙ/radial native-sphere bridge used by 6.3; GeometricTopology 1.1 collars, 1.3 corner rounding and 1.5 tubular neighbourhoods for 6.4's codimension-zero excision and compact triads; Stage 4 for cellular comparisons/RP² | 1 |
 | categorical-cover/cup-length supplement after 6.2 | native opens/homotopies/ENat; 2–3, 5.1 and ordinary 6.1–6.2, plus the direct point-chain contraction; no manifold duality or Morse input | 6.3–6.5 |
 | supported-cellular comparison after ordinary 6.2 | ordinary 4 cellular data, ordinary 6.1–6.2; owns the compactly supported local-coefficient cochains, proves countability and the finite-support cellular/singular comparison | ordinary 6.3–6.5, Stage 7 and ordinary 8 proceed independently; proper 8.5 uses the needed support interfaces |
 | 6.5 linking/degree consequences | 2--4 and ordinary 6.1--6.4; DG10's smooth mapping-degree comparison only after the independent AT6.3 classes | 1 |
@@ -3094,8 +3097,8 @@ items 1–7 are independent of those later constructions.
    to the positive first-coordinate pole and export the boundary-generator comparison.
 7. Prove that every finite-dimensional Hausdorff second-countable smooth manifold
    with the Euclidean or half-space model, with or without boundary, has
-   countable locally finite CW type by consuming GeometricTopology 12.1 (Whitehead's smooth
-   triangulation) and Layer 11's realization homeomorphism and CW structure.
+   countable locally finite CW type by consuming GeometricTopology 11.3 (the Cairns–Whitehead
+   smooth triangulation, with its half-space form) and 11.1 (the realization and its CW structure).
    The compact case has finite CW type, `compactManifoldFiniteCWType` on the Euclidean
    model and `compactManifoldWithBoundaryFiniteCWType` on the half-space model `𝓡∂ n`,
    n≥1, both stated on the native class `TauCeti.FiniteCWType` and proved through the native

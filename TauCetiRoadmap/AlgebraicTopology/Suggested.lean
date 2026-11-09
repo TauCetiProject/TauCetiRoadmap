@@ -590,7 +590,7 @@ theorem properStrongDeformationRetract_of_inverse
 
 open scoped Manifold ContDiff in
 /-- Stage 8.7: a compact Hausdorff second-countable smooth manifold has finite CW type, in the
-native sense `TauCeti.FiniteCWType`, through GeometricTopology 12.1 (Whitehead's smooth
+native sense `TauCeti.FiniteCWType`, through GeometricTopology 11.3 (the Cairns–Whitehead smooth
 triangulation) and the native `TauCeti.IsTriangulable.finiteCWType`. Its Euler characteristic is then the native
 `TauCeti.eulerChar`. -/
 theorem compactManifoldFiniteCWType (n : ℕ)
@@ -602,8 +602,8 @@ theorem compactManifoldFiniteCWType (n : ℕ)
 
 open scoped Manifold ContDiff in
 /-- Stage 8.7 with boundary: a compact Hausdorff smooth manifold with boundary, modelled on the
-half-space `𝓡∂ n` with `n ≥ 1`, has finite CW type, through GeometricTopology 12.1 (Whitehead's
-smooth triangulation of manifolds with boundary) and the native
+half-space `𝓡∂ n` with `n ≥ 1`, has finite CW type, through GeometricTopology 11.3 (the Cairns–Whitehead
+smooth triangulation, in its half-space form) and the native
 `TauCeti.IsTriangulable.finiteCWType`. -/
 theorem compactManifoldWithBoundaryFiniteCWType (n : ℕ) [NeZero n]
     (M : Type u) [TopologicalSpace M] [T2Space M] [CompactSpace M]
