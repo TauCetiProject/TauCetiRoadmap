@@ -1547,8 +1547,9 @@ Layer 5 for Hamiltonian critical submanifolds and equivariant perfection.
 - Hirsch, *Differential Topology* (1976), Chapter 2, §1
   (strong topologies), and Chapter 6, Theorem 1.2 (strong Morse density),
   DOI 10.1007/978-1-4684-9449-5.
+- Lee, *Introduction to Smooth Manifolds*, 2nd ed. (2012), Corollary 5.14
+  and Proposition 5.38, for the regular-fibre atlas consumed in §2.1,
+  DOI 10.1007/978-1-4419-9982-5.
 - Weber, [*Conley pairs in geometry – Lusternik–Schnirelmann theory and more*](https://www.math.stonybrook.edu/~joa/PUBLICATIONS/conblock.pdf),
   author version of arXiv:1709.05010: Theorem 1.1, p. 2, and its finite-cover
   proof, pp. 2–3. Numbering here refers to this author version.
-- Thomas Mark, *Math240 Riemannian Geometry* (2001), Homework 11 (Morse–Bott examples).
-  Bibliographic attribution only; the mathematical targets use the references above.
