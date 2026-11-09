@@ -6,6 +6,7 @@ public import TauCeti.AlgebraicTopology.Singular.LocalHomology.FundamentalClass
 public import TauCeti.Geometry.Diffeomorphism.Topology
 public import TauCeti.Geometry.Manifold.Instances.ComplexProjectiveSpace
 public import TauCeti.Geometry.Manifold.Instances.QuaternionicProjectiveSpace
+public import TauCeti.Geometry.Manifold.Instances.Stiefel
 public import TauCeti.Geometry.Manifold.IsManifold.RestrictScalars
 public import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Topology
 public import TauCeti.Geometry.Symplectic.Capacity.HoferZehnder
@@ -45,8 +46,10 @@ Stated here:
   the block inclusion `SO(n) → SO(n+1)` (README 4.2a), through Tau Ceti's induced map
   `HomotopyGroup.map`; real Bott periodicity and the stable homotopy groups of `SO` (README 4.2c),
   in the finite ranks where `π_i(SO(n))` is already stable; and the torsion group
-  `π_(n−1)(SO(n))` of Lemma 6.35 (README 4.3), with its seven low-rank values and the torsion
-  statement for every odd `n ≥ 3`;
+  `π_(n−1)(SO(n))` of Lemma 6.35 (README 4.3), with its seven low-rank values, the
+  stable-plus-Stiefel splitting for odd `n ≥ 17`, its stable term read in the finite rank
+  `SO(n+1)` and its Stiefel term on Tau Ceti's `TauCeti.stiefel`, and the torsion statement for
+  every odd `n ≥ 3`;
 * Theorem G, Theorem 7.1 of the source (README 4.6), on the carriers of Theorem B, with the
   embedded sphere and the transverse submanifold given by Tau Ceti's `TauCeti.SmoothEmbedding`,
   transversality by their tangent ranges `TauCeti.SmoothEmbedding.tangentRange`, and the
@@ -65,10 +68,10 @@ Not statable at the pins, and stated in the README only:
   itself, and neither library has that fibration. The homogeneous spaces of Proposition 6.36
   (README 4.4) need the smooth structure of `G/H` for a closed subgroup `H`, absent at the pins.
 * The stable orthogonal group `O` of README 4.2a, a colimit of the `O(r)` in compactly generated
-  spaces, has no named carrier at the pins, so neither its Bott equivalences (README 4.2c) nor the
-  stable-plus-Stiefel splitting `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))` behind
-  Lemma 6.35 for `n ≥ 17` (README 4.3) is stated here. The Clifford chain and the index bounds of
-  README 4.2b–4.2c need the energy on its path spaces, which neither library has.
+  spaces, has no named carrier at the pins, so its Bott equivalences (README 4.2c) are not stated
+  here; its homotopy groups are stated in the finite ranks where they are already stable. The
+  Clifford chain and the index bounds of README 4.2b–4.2c need the energy on its path spaces,
+  which neither library has.
 -/
 
 @[expose] public section
@@ -316,10 +319,21 @@ theorem nonempty_pi12_SO13_mulEquiv :
 theorem nonempty_pi14_SO15_mulEquiv :
     Nonempty (π_ 14 (SO 15) 1 ≃* Multiplicative (ZMod 2)) := sorry
 
-/-- Lemma 6.35: for every odd `n ≥ 3`, written `n = k + 3`, the group `π_(n−1)(SO(n))` is torsion.
-The stable-plus-Stiefel splitting `π_(n−1)(SO(n)) ≅ π_(n−1)(O) ⊕ π_n(V_(n+2,2)(ℝ))` behind it, for
-`n ≥ 17`, needs the stable orthogonal group and the Stiefel carrier of the README and is stated
-there (README 4.3). -/
+/-- The stable-plus-Stiefel splitting behind Lemma 6.35 for odd `n = k + 3 ≥ 17` (README 4.3):
+`π_(n−1)(SO(n)) ≅ π_(n−1)(O) × π_n(V_(n+2,2)(ℝ))`, with the stable term read in the finite rank
+`SO(n+1)`, where `π_(n−1)` is already stable by the range of README 4.2a, and `V_(n+2,2)(ℝ)` Tau
+Ceti's Stiefel manifold `TauCeti.stiefel` of orthonormal `2`-frames in `ℝⁿ⁺²`, at any base frame
+`v`. The Stiefel term is `ℤ/2`, the Euler number of `Sⁿ⁺¹` being `2`; the stable term is `ℤ/2` for
+`n ≡ 1 (mod 8)` and trivial for the other odd `n`. -/
+theorem nonempty_pi_SO_mulEquiv_prod_stiefel (k : ℕ) (hk : Odd (k + 3)) (h : 14 ≤ k)
+    (v : stiefel (EuclideanSpace ℝ (Fin (k + 5))) 2) :
+    Nonempty (π_ (k + 2) (SO (k + 3)) 1 ≃*
+      π_ (k + 2) (SO (k + 4)) 1 × π_ (k + 3) (stiefel (EuclideanSpace ℝ (Fin (k + 5))) 2) v) :=
+  sorry
+
+/-- Lemma 6.35: for every odd `n ≥ 3`, written `n = k + 3`, the group `π_(n−1)(SO(n))` is torsion:
+for `n ≤ 15` by the seven low-rank values, and for `n ≥ 17` by
+`nonempty_pi_SO_mulEquiv_prod_stiefel`, both of whose factors are finite (README 4.3). -/
 theorem isOfFinOrder_pi_SO (k : ℕ) (hk : Odd (k + 3))
     (x : π_ (k + 2) (SO (k + 3)) 1) : IsOfFinOrder x := sorry
 
