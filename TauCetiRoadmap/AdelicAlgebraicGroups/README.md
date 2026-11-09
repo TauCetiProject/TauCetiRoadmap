@@ -330,6 +330,7 @@ one, and a single weight of multiplicity two contributes the square.
 | Restricted-product coordinate maps | `TauCeti.restrictedProductCongr_apply`; `TauCeti/Topology/Algebra/RestrictedProduct/Congr/Basic.lean`. `TauCeti.awayDecomposition_fst`, `TauCeti.awayDecomposition_snd`, `TauCeti.awayDecomposition_symm_apply_of_mem`, `TauCeti.awayDecomposition_symm_apply_of_notMem`; `TauCeti/Topology/Algebra/RestrictedProduct/Away/Decomposition.lean` | Supply the coordinate formulas of the bundled topological equivalences. |
 | Modular character under conjugation | `MeasureTheory.Measure.modularCharacter`; `Mathlib/MeasureTheory/Group/ModularCharacter.lean`, with `map_mul` and `map_inv` | Its commutative codomain makes conjugation invariance a general homomorphism identity. |
 | Measurable fundamental domains | `MeasureTheory.Measure.exists_isFundamentalDomain_of_properlyDiscontinuousSMul`; `TauCeti/MeasureTheory/Group/ProperlyDiscontinuous.lean` | Apply to the countable discrete rational subgroup acting freely by translation; its Borel domain supplies the existence statement directly. |
+| Right translation of Haar measure | `MeasureTheory.Measure.quasiMeasurePreserving_mul_right_of_regular`, `MeasureTheory.Measure.measure_preimage_mul_right_eq_modularCharacter_mul_of_regular`; `TauCeti/MeasureTheory/Group/ModularCharacter.lean`. `MeasureTheory.IsFundamentalDomain.measure_ne_zero`, `MeasureTheory.IsFundamentalDomain.image_of_equiv`, `MeasureTheory.IsFundamentalDomain.measure_eq`, `MeasureTheory.IsFundamentalDomain.measure_eq_tsum`; `Mathlib/MeasureTheory/Group/FundamentalDomain.lean` | For a regular left Haar measure `μ`, right translation by `g` preserves null sets and satisfies `μ(S g⁻¹) = Δ(g) μ(S)` for every set `S`; a fundamental domain of a countable group acting with an invariant measure has nonzero measure, its images under commuting quasi-measure-preserving bijections are fundamental domains, any two have equal measure, and `μ(K) = Σ_g μ(gK ∩ D)` for a fundamental domain `D` and every set `K`. AA.2.3 (*finite-covolume-unimodular*) combines these. |
 | Exponential tail integral | `integral_exp_mul_Ioi`; `Mathlib/Analysis/SpecialFunctions/ImproperIntegrals.lean` | Finite-product integration gives the relative-chamber integral. |
 | Change of double-coset level | `DoubleCoset.quotientMapOfLELeft`; `TauCeti/GroupTheory/DoubleCoset/Map.lean` | The level map here changes the right subgroup; its defining equation sends the class of `g` to the class of the same `g`. |
 
@@ -428,6 +429,9 @@ Restricted products: `RestrictedProduct.topologicalSpace_eq_iSup`,
 `MeasureTheory.Measure.map_right_mul_eq_modularCharacterFun_smul`,
 `MeasureTheory.Subgroup.index_mul_measure`,
 `MeasureTheory.IsFundamentalDomain`, `MeasureTheory.IsFundamentalDomain.quotientMeasure_eq`,
+`MeasureTheory.IsFundamentalDomain.measure_eq`, `MeasureTheory.IsFundamentalDomain.measure_ne_zero`,
+`MeasureTheory.IsFundamentalDomain.image_of_equiv`, `MeasureTheory.IsFundamentalDomain.measure_eq_tsum`,
+`MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`,
 `MeasureTheory.QuotientMeasureEqMeasurePreimage`, `QuotientGroup.integral_eq_integral_automorphize`,
 `MeasureTheory.Measure.ext_of_integral_eq_on_compactlySupported`,
 `MeasureTheory.Lp`, `MonoidHom.isOpenMap_of_sigmaCompact`, and the general theory of locally
@@ -515,7 +519,10 @@ Global number fields:
 `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`. Reduction and levels: `TauCeti.cholesky`,
 `TauCeti.cholesky_mul_transpose`, `HeckeCoset.degree_eq_relIndex`,
 `DoubleCoset.quotientMapOfLELeft`, `IsQuotientCoveringMap.isCoveringMap_of_comp`,
-`exists_isFundamentalDomain_of_properlyDiscontinuousSMul`, `log_unitFiltration_injective`,
+`exists_isFundamentalDomain_of_properlyDiscontinuousSMul`,
+`MeasureTheory.Measure.quasiMeasurePreserving_mul_right_of_regular`,
+`MeasureTheory.Measure.measure_preimage_mul_right_eq_modularCharacter_mul_of_regular`,
+`log_unitFiltration_injective`,
 `awayDecomposition`, `InfiniteAdeleRing.homeomorphMixedSpace`.
 
 ### From TauCetiRoadmap.ReductiveGroups
@@ -1547,7 +1554,9 @@ ReductiveGroups, layers 1 and 7.
 ## Layer 2: characters, quotient measures and Tamagawa measures
 
 The character lattice separates the positive split centre from the norm-one subgroup. Apply the
-right-Haar quotient integration of AnalyticNumberTheoryPartII §5.3k to rational quotients. Gauge forms
+right-Haar quotient integration of AnalyticNumberTheoryPartII §5.3k to rational quotients; a
+discrete subgroup with a fundamental domain of finite Haar measure forces unimodularity, which is
+the modular-character hypothesis of those quotient measures. Gauge forms
 and convergence factors then fix a global normalization which respects the product formula and
 restriction of scalars.
 
@@ -1881,6 +1890,55 @@ restriction of scalars.
   free-locus hypothesis is automatic. With the Borel sigma algebra, the supplied measurable
   domain is Borel. The construction by first occurrence in a countable cover meets every orbit.
   *Lean:* none; specified in the README only.
+- **Finite covolume forces unimodularity.** (*finite-covolume-unimodular*) Let `T` be a second
+  countable locally compact Hausdorff group, `μ` a left Haar measure on its Borel sigma algebra
+  (regular, since `T` is σ-compact and metrizable: Mathlib
+  `MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`) and `Λ ≤ T` a
+  discrete subgroup acting on `T` by left multiplication. Suppose that some
+  measurable fundamental domain `D` of this action has `μ(D) < ∞`; this holds whenever `Λ\T` is
+  compact. Prove that `T` is unimodular: Mathlib's modular character `Δ_T` is identically `1`.
+  Consequently `Δ_T` restricted to `Λ` equals `Δ_Λ = 1` (the counting measure of the discrete
+  group `Λ` is invariant on both sides), so *quotient-measure* (AA.2.2) applies to `Λ ≤ T` and,
+  with the counting measure on `Λ`, gives a `T`-invariant measure on `Λ\T` of total mass `μ(D)`.
+  This is this roadmap's deduction; [Witte Morris], Proposition 4.1.18, pp. 46–47, argues through
+  a strict fundamental domain in the same way, for Lie groups and for lattices that carry a
+  finite invariant measure by definition (Definition 4.1.16, p. 46). `Λ` is countable,
+  being discrete in a second countable space, so countably many translates `λD` cover `T` and
+  `μ(D) > 0`. For `t ∈ T`, right multiplication by `t` commutes with the left `Λ`-action and
+  preserves `μ`-null sets, so `Dt` is again a fundamental domain and has the measure of `D`; right
+  translation also gives `μ(Dt) = Δ_T(t)⁻¹ μ(D)`, and `0 < μ(D) < ∞` forces `Δ_T(t) = 1`. When
+  `Λ\T` is compact, *Compact sets lift to a closed homogeneous quotient* (AA.2.2) gives a compact
+  `K ⊆ T` with `ΛK = T`, and the Borel fundamental domain `D` of *Borel fundamental domains for
+  countable discrete subgroups* satisfies `μ(D) ≤ Σ_λ μ(λK ∩ D) = μ(K) < ∞`.
+  *Needs:* AA.2.2 (*Compact sets lift to a closed homogeneous quotient*); AA.2.3 (*Borel
+  fundamental domains for countable discrete subgroups*); Mathlib
+  `MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure`,
+  `MeasureTheory.Measure.modularCharacter`,
+  `MeasureTheory.IsFundamentalDomain.measure_ne_zero`,
+  `MeasureTheory.IsFundamentalDomain.image_of_equiv`, `MeasureTheory.IsFundamentalDomain.measure_eq`,
+  `MeasureTheory.IsFundamentalDomain.measure_eq_tsum`; Tau Ceti
+  `MeasureTheory.Measure.quasiMeasurePreserving_mul_right_of_regular`,
+  `MeasureTheory.Measure.measure_preimage_mul_right_eq_modularCharacter_mul_of_regular`.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `ℤ ≤ ℝ` and `D = [0, 1)`, every right translate `[t, t + 1)` is again a fundamental
+    domain of Lebesgue measure `1`, and `Δ = 1`.
+  - A nonabelian case: in the Heisenberg group of matrices `[[1, x, z], [0, 1, y], [0, 0, 1]]`
+    with Haar measure `dx dy dz`, the integral points act on the left by
+    `(a, b, c)·(x, y, z) = (a + x, b + y, c + z + a y)`, and `[0, 1)³` is a fundamental domain
+    of measure `1`; the group is unimodular, as it must be.
+  - Negative control: in the `ax + b` group `{[[a, b], [0, 1]] : a > 0}` with left Haar measure
+    `da db/a²`, `Λ` generated by `(2, 0)` acts by `(a, b) ↦ (2a, 2b)`, the strip `[1, 2) × ℝ` is a
+    fundamental domain of mass `∫_1^2 ∫_ℝ db da/a² = ∞`, and `Λ\T ≅ (ℝ_{>0}/2^ℤ) × ℝ` through
+    `(a, b) ↦ (a mod 2^ℤ, b/a)` is not compact. Here `Δ(2, 0) = 2`, so the finiteness
+    hypothesis cannot be dropped.
+  - The direction of the scaling: in the same group `[1, 2) × [0, 1)` has mass `1/2` and its right
+    translate by `(2, 0)` is `[2, 4) × [0, 1)`, of mass `1/4 = Δ(2, 0)⁻¹ · 1/2`.
+  - The hypothesis is sufficient, not necessary: for `Λ = 1` and `T = ℝ` every fundamental
+    domain is `ℝ` up to a null set, of infinite measure, although `ℝ` is unimodular; for `Λ = 1`
+    and compact `T` it is `T` up to a null set, and the statement is the unimodularity of compact
+    groups.
 - **Fundamental domains for rational points.** For `G = Spec H` affine algebraic over `F` with
   `H` finitely generated, prove that `G(F)` acting on `G(𝔸_F)` (or `G(𝔸_F)^1`) by left
   translation admits a Borel fundamental domain for left Haar measure. When the ambient group
@@ -2310,9 +2368,9 @@ the idele normalization by `1 − p⁻¹`, `τ_{G_a}` of `[0,1) × ℤ̂` for `G
 
 Layers AA.0 and AA.1; Mathlib's group-like elements, modular character,
 fundamental domains, `L²` spaces, exterior powers and Dedekind zeta residues; Tau Ceti's geometric
-characters with their Galois action, cotangent spaces, adjoint representation, dynamic parabolics
-and Euler product; ReductiveGroups, layers 4, 5 and 7; ReductiveGroupsPartII,
-RG2.0, RG2.1, RG2.3 (Lang's theorem) and RG2.4 (adjoint-modulus comparison);
+characters with their Galois action, cotangent spaces, adjoint representation, dynamic parabolics,
+Euler product, measurable fundamental domains and right translation of regular Haar measures;
+ReductiveGroups, layers 4, 5 and 7; ReductiveGroupsPartII, RG2.0, RG2.1, RG2.3 (Lang's theorem) and RG2.4 (adjoint-modulus comparison);
 GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4;
 AnalyticNumberTheoryPartI §2.18a (finite-image Artin L-functions); AnalyticNumberTheoryPartII
 §5.3f (restricted products of Haar measures, for the Tamagawa measure) and §5.3k (quotient
@@ -3234,7 +3292,12 @@ in the standard integral level.
   the compactness of the adelic quotient of a unipotent group, and product
   integration as owned inputs. The general statement is the existence of a finite invariant
   measure on the norm-one quotient; the reductive case
-  retains the specified normalization. *Needs:* AA.3.4; AA.2.3; AA.2.1; AA.2.2; AA.3.1.
+  retains the specified normalization. For a non-reductive `G` that measure is not given in
+  advance: the Haar form of the conclusion (a fundamental domain for `G(F)` in `G(𝔸_F)^1` of
+  finite Haar measure, as in the Lean statement) makes `G(𝔸_F)^1` unimodular by
+  *finite-covolume-unimodular* (AA.2.3), which is the modular-character hypothesis of
+  *quotient-measure* (AA.2.2) for the discrete subgroup `G(F)`.
+  *Needs:* AA.3.4; AA.2.3; AA.2.1; AA.2.2; AA.3.1.
   *Lean:* `Reduction.exists_fundamentalDomain_normOne_lt_top` (connected linear algebraic groups).
 - **Tamagawa numbers are finite.** For connected reductive `G`, prove that the Tamagawa number
   `τ(G)` of AA.2.4 is finite and positive ([Rosengarten], §1, p. 3). *Needs:* AA.3.4; AA.2.4.
@@ -3338,6 +3401,9 @@ in the standard integral level.
   compactness of `ker p` forces all factors but one to be compact
   ([Milne], §3, pp. 33–35; [Borel], §8, pp. 26–30). *Needs:* AA.1.1; AA.1.2 (*Archimedean
   points are a Lie group with finitely many components*); AA.1.4 (restriction of scalars);
+  AA.1.5 (*The modular character on compact and central elements*: the modular characters of
+  `𝐇(ℝ)⁰` and of the compact `ker p` are both trivial on `ker p`, as the quotient-measure
+  identity requires);
   AnalyticNumberTheoryPartII §5.3k (quotient measures); AA.2.3; AA.3.4 (`Reduction.IsSArithmetic`, model independence
   and commensurability preserving arithmeticity, *S-arithmetic subgroups are lattices*); Mathlib
   `MeasureTheory.IsFundamentalDomain`, `MonoidHom.isOpenMap_of_sigmaCompact`.
@@ -5130,16 +5196,21 @@ quaternion norms and compact abelian Fourier limits.
     `−1` is not a square in `ℚ₃`, and a principal factor
     with even finite valuations and positive real component is a rational square.
 
-- **Pushforward of a homogeneous measure to a compact abelian quotient.** Let `C` be a compact
+- **Pushforward of a homogeneous measure to a compact abelian quotient.** Let `G` be a second
+  countable locally compact Hausdorff group, `C` a compact
   Hausdorff, second countable abelian group with its Borel sigma algebra, so that Mathlib's Haar
   uniqueness `isMulLeftInvariant_eq_smul` applies, `π : G → C` a
   continuous surjective homomorphism, `T ≤ G` a closed subgroup with `Λ ≤ T` discrete, `Λ\T`
-  compact (for example, `T(F)\T(𝔸_F)` for an `F`-anisotropic torus `T`) and `π(Λ) = 1`, and `μ` the
-  `T`-invariant probability measure on `Λ\T g`. Prove that `π_*μ` is the Haar probability
-  measure of the coset `π(T)·π(g)` of the closed subgroup `π(T)` ([Khayutin], Definition 3.1,
-  arXiv v3 p. 22; Annals p. 169). *Needs:* AA.2.2 (*quotient-measure*, for the invariant
-  probability measure on the compact quotient `Λ\T`); Mathlib
-  `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`.
+  compact (for example, `T(F)\T(𝔸_F)` for an `F`-anisotropic torus `T`) and `π(Λ) = 1`, and
+  `g ∈ G`. Let `ν` be the `T`-invariant probability measure on `Λ\T` and `μ` its image under the
+  continuous injection `Λt ↦ Λtg` of `Λ\T` onto the orbit `Λ\Tg ⊆ Λ\G`; `μ` is invariant under
+  right translation by `g⁻¹Tg`, hence under `T` when `g` normalizes `T`, but not in general.
+  Prove that the image `π_*μ`
+  under the map `Λ\G → C` induced by `π` is the Haar probability measure of the coset `π(T)·π(g)`
+  of the closed subgroup `π(T)` ([Khayutin], Definition 3.1, arXiv v3 p. 22; Annals p. 169).
+  *Needs:* AA.2.3 (*finite-covolume-unimodular*: compactness of `Λ\T` makes `T` unimodular);
+  AA.2.2 (*quotient-measure*, which then gives the invariant probability measure `ν` on the
+  compact quotient `Λ\T`); Mathlib `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`.
   *Lean:* none; specified in the README only.
   **Checks.**
   - For `G_m/ℚ`, the quotient by the algebraic centre is trivial, but
@@ -5157,6 +5228,11 @@ quaternion norms and compact abelian Fourier limits.
     gives mass `1/2` at each of `1,3` and zero off that coset.
     All three tests use the orbit quotient, its Borel sigma algebra and its normalized counting
     measure. The two-point sigma-algebra non-example above explains the Borel hypothesis.
+  - The invariance group is `g⁻¹Tg`, not `T`: in `G = S₃` with `Λ = 1`, `T = {1, (12)}`,
+    `g = (13)` and `π` the sign onto `C = {±1}`, right translation by `g⁻¹Tg = {1, (23)}` fixes
+    the orbit `Tg`, while `(12)` carries it to the disjoint set `Tg(12)` because `g` does not
+    commute with `(12)`; so `μ` is not `T`-invariant. Still `π_*μ` gives mass `1/2` to each of
+    `±1`, the Haar probability of the coset `π(T)π(g) = {±1}`.
   - Hausdorffness is necessary for the closed-image assertion: take discrete `G = C₂`,
     indiscrete `C = C₂`, the identity homomorphism `π`, and `T = Λ = {1}`, `g = 1`.
     The singleton orbit is compact and carries its probability measure, but `π(T) = {1}`
