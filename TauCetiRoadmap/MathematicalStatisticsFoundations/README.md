@@ -11,21 +11,21 @@ measure theory, Markov kernels and decision-theoretic risk:
 - decision theory: minimax and Bayes rules, complete classes, admissibility, equivariance and
   Blackwell's comparison of experiments.
 
-It also builds the **common vocabulary of the other statistics roadmaps**:
+It also builds a **starting vocabulary for later statistics roadmaps**:
 - convergence in probability and in law, and their stochastic algebra;
 - i.i.d. sequences, the laws of large numbers and the central limit theorem for statistics;
 - contiguity;
 - empirical distributions and the elementary estimators, distances and procedures of
-  asymptotic, nonparametric, Bayesian, linear-model and time-series statistics.
+  asymptotic, nonparametric, Bayesian, linear-model, time-series and survival statistics.
 
 The material is the standard graduate content of Lehmann–Casella, Lehmann–Romano, Brown and
 Ferguson (see [References](#references)).
 
-**This roadmap is a base.** The roadmaps for asymptotic and robust statistics, nonparametric and
-high-dimensional statistics, Bayesian statistics and stochastic computation, linear models and
-design, and dependent data each cite this roadmap. None of them needs another of them. Every
-definition that two of those areas share is a target here, in Layer 9, together with its basic
-theory.
+**This roadmap is a base.** Layers 8 and 9 provide vocabulary for later roadmaps on five areas:
+asymptotic and robust statistics; nonparametric and high-dimensional statistics; Bayesian
+statistics and stochastic computation; linear models and design; and dependent data, stochastic
+models and survival analysis. The aim is that each such roadmap needs this one and none of the
+others. Layer 9 is a closed list, stated by its own rule (see [Layer 9](#layer-9-shared-vocabulary)).
 
 Suggested home: `TauCeti/Statistics/`, with one subdirectory per layer.
 
@@ -58,7 +58,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
    convergence in law and in measure, Slutsky's lemma without separability, the delta method,
    i.i.d. sequences with their laws of large numbers and central limit theorem, and contiguity.
 9. **Shared vocabulary.** Empirical distributions, quantiles and U-statistics; Kolmogorov and
-   total variation distances; the Huber score; kernel density estimators; sparsity and the
+   total variation distances; the Huber score; kernel density estimators; sparse vectors and the
    restricted isometry property; the Benjamini–Hochberg count; the Poisson likelihood,
    Metropolis–Hastings and leapfrog maps and the normal-location posterior; sample means,
    scatter matrices and the Gaussian likelihood; simple random sampling and Latin squares; weak
@@ -78,8 +78,10 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   statistic, the joint density of uniform order statistics, and the chamber formula
   `map_orderStatistics_pi`. Layer 5 builds only what StandardDistributions excludes: the joint
   and marginal densities for a general density, and the law of the ranks;
-- Markov chain theory beyond the one-step transition matrix
-  ([MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md)).
+- Markov chain theory, including invariance, detailed balance in Mathlib's `Kernel.IsReversible`
+  form and its finite-matrix adapters
+  ([MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md), Layer 3). 9.4 only checks that
+  the Metropolis–Hastings kernel is reversible.
 
 Asymptotic theory beyond the stochastic algebra of Layer 8, and every result that is not listed
 in a layer, belongs to the [boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
@@ -159,6 +161,8 @@ These are fixed for every target. A statement that departs from them is a differ
   separation (`geometric_hahn_banach_*`), and the inverse function theorem
   (`HasStrictFDerivAt.toPartialHomeomorph`).
 - **Sorting:** `Tuple.sort` and `Function.FactorsThrough`.
+- **Markov kernels and sparsity:** `Kernel.IsReversible`, `Kernel.IsReversible.invariant`,
+  `Kernel.ofFunOfCountable`, `hammingNorm` and `hammingDist_triangle`.
 
 ### From Tau Ceti
 
@@ -310,9 +314,13 @@ Mathlib only.
 - **Factorization theorem** `isSufficientStatistic_iff_exists_factorization`, on a standard Borel
   `X` and a nonempty parameter type.
 - **Minimal sufficiency of the likelihood ratio**
-  (`isMinimalSufficientStatistic_likelihoodRatio`): for a countable family with everywhere
-  positive densities and a reference parameter `θ₀`, the statistic
-  `x ↦ (θ ↦ f θ x / f θ₀ x) : X → (Θ → ℝ)` is minimal sufficient.
+  (`isMinimalSufficientStatistic_likelihoodRatio`): let `X` be a nonempty standard Borel space,
+  `Θ` countable, and `P θ` probability laws with everywhere positive densities `f θ` with respect
+  to a σ-finite `μ`. For a reference parameter `θ₀`, the statistic
+  `x ↦ (θ ↦ f θ x / f θ₀ x) : X → (Θ → ℝ)` is minimal sufficient. Its sufficiency is
+  `isSufficientStatistic_of_factorization`, which is where `X` standard Borel is used; its
+  minimality is `exists_factorization_of_isSufficientStatistic` applied to every sufficient
+  statistic.
 
 ### 2.3 Basu's theorem
 
@@ -449,8 +457,13 @@ with statistic `x ↦ WithLp.toLp 2 (T x, S x)` and natural parameter `WithLp.to
 
 - `exists_exponential_family_of_monotone_sufficient_statistics`. The hypotheses:
   - the `P θ` are mutually absolutely continuous with a probability `P₀`;
-  - for an infinite set of sample sizes `n` containing `1`, the density of `(P θ)ⁿ` with respect
-    to `P₀ⁿ` is a nondecreasing function of a real statistic `Tₙ`.
+  - for an infinite set of sample sizes `n` containing `1` there is one measurable statistic
+    `Tₙ : (Fin n → X) → ℝ`, not depending on `θ`, such that for every `θ` the density of
+    `(P θ)ⁿ` with respect to `P₀ⁿ` is `H_{n,θ} ∘ Tₙ` for a nondecreasing `H_{n,θ} : ℝ → ℝ`.
+
+  The order of quantifiers matters. If `Tₙ` could depend on `θ`, the density itself would serve,
+  and the Cauchy location family would satisfy the hypotheses without being an exponential
+  family.
 
   Then there are a real statistic `T` and constants with `dP θ / dP₀ = C(θ) exp (a(θ) T)`. The
   proof:
@@ -612,8 +625,9 @@ Layer 1.
 ### 6.1 Threshold tests
 
 - `integral_thresholdTest`: the size of `thresholdTest T c γ` is `P(T > c) + γ P(T = c)`.
-- `exists_integral_thresholdTest_eq`: every size in `(0, 1)` is attained, with `c` the
-  `(1 - β)`-quantile of the law of `T`.
+- `exists_integral_thresholdTest_eq`: for a probability `P` and a real statistic `T`, every size
+  `β ∈ (0, 1)` is the size under `P` of a threshold test `thresholdTest T c γ` with `γ ∈ [0, 1]`
+  and `c` the `(1 - β)`-quantile of the law of `T` under `P`.
 
 ### 6.2 The Neyman–Pearson lemma
 
@@ -948,8 +962,14 @@ Mathlib, and Tau Ceti's `chiSquaredMeasure` for the instance of 8.1.
 
 ## Layer 9: shared vocabulary
 
-Each definition comes with the listed basic theory. The other statistics roadmaps cite these
-definitions and do not redefine them.
+**The rule for this layer.** Layer 9 is a closed list: the objects below, each with its
+definition and the elementary theory listed with it, which consists of finite-sample identities,
+inequalities and measurability, with no limit theorems. They are the objects with which the five
+areas named in the Summary start. Some serve one area only, such as the leapfrog map, the
+sampling designs or the restricted isometry property; they are here so that each later roadmap
+can start from definitions fixed in the conventions of this roadmap without depending on another
+later roadmap. An object not on the list belongs to the roadmap of its area, even if it is
+elementary: for example the Hodges–Lehmann estimator, a Gibbs sampler, or the log-rank test.
 
 ### 9.1 Empirical objects
 
@@ -1011,13 +1031,16 @@ definitions and do not redefine them.
   - `integral_finiteKernelDensityEstimator`: it integrates to `∫ K` for integrable `K`;
   - it is the density of the convolution of the empirical distribution with the law of density
     `K_h`, for a probability density `K`.
-- `restrictedL1Norm S x = ∑_{j ∈ S} |xⱼ|`, `sparsity x = #{j | xⱼ ≠ 0}` and
-  `bestSparseL1Error s x = inf {‖x - y‖₁ | sparsity y ≤ s}`. The targets:
-  - `bestSparseL1Error_eq_zero_iff`: it is `0` iff `sparsity x ≤ s`;
+- The number of nonzero coordinates of `x : EuclideanSpace ℝ (Fin p)` is Mathlib's
+  `hammingNorm (WithLp.ofLp x)`; no separate sparsity is defined. Also
+  `restrictedL1Norm S x = ∑_{j ∈ S} |xⱼ|` and
+  `bestSparseL1Error s x = inf {‖x - y‖₁ | hammingNorm y ≤ s}`. The targets:
+  - `bestSparseL1Error_eq_zero_iff`: it is `0` iff `hammingNorm x ≤ s`;
   - it is antitone in `s` and at most `‖x‖₁`;
   - `bestSparseL1Error_eq_sum_compl`: it equals `restrictedL1Norm Sᶜ x` for a set `S` of `s`
     largest coordinates of `|x|`, so the infimum is attained;
-  - `sparsity_add_le`.
+  - `hammingNorm_add_le`: `hammingNorm (x + y) ≤ hammingNorm x + hammingNorm y`, from
+    `hammingDist_triangle`.
 - `HasRestrictedIsometry A s δ`: `(1 - δ)‖x‖² ≤ ‖A x‖² ≤ (1 + δ)‖x‖²` for every `s`-sparse `x`.
   It passes to smaller orders and larger constants, and `HasRestrictedIsometry.injOn` shows that
   for `δ < 1` and order `2s`, `A` is injective on `s`-sparse vectors.
@@ -1031,12 +1054,19 @@ definitions and do not redefine them.
 - `poissonMass θ x = e^{-θ} θˣ / x!` for real `θ`. `poissonMass_coe` identifies it with
   `poissonMeasure` on singletons for `θ ≥ 0`, and `hasSum_poissonMass` gives
   `∑ₓ poissonMass θ x = 1` for every real `θ`.
-- `metropolisAcceptance π q x y = min 1 (π y q y x / (π x q x y))`, equal to `1` when
-  `π x q x y = 0`, and `metropolisTransition π q`. For positive `π` and a row-stochastic
-  nonnegative `q`:
-  - `metropolisTransition` is row-stochastic and nonnegative;
-  - `metropolisTransition_detailed_balance`: `π x M x y = π y M y x`;
-  - `π` is invariant.
+- On a finite state space `ι` with the discrete measurable structure, for weights `π : ι → ℝ`
+  and a proposal `q : ι → ι → ℝ`: `metropolisAcceptance π q x y = min 1 (π y q y x / (π x q x y))`,
+  equal to `1` when `π x q x y = 0`, and `metropolisKernel π q : Kernel ι ι`, which moves from `x`
+  to `y ≠ x` with probability `q x y · metropolisAcceptance π q x y` and stays at `x` with the
+  remaining probability. Write `weightMeasure π = ∑ x, π x • δ_x`. For positive `π` and a
+  nonnegative `q` with rows summing to `1`:
+  - `isMarkovKernel_metropolisKernel`;
+  - `isReversible_metropolisKernel`: Mathlib's
+    `Kernel.IsReversible (metropolisKernel π q) (weightMeasure π)`. This is the computation that
+    the acceptance rule gives detailed balance.
+
+  Invariance is then Mathlib's `Kernel.IsReversible.invariant`, not a target. Further chain
+  theory is MarkovChainsAndRenewal's.
 - `leapfrogStep g h z`, one leapfrog step with identity mass matrix, and
   `momentumFlip (x, p) = (x, -p)`. The targets:
   - `leapfrogStep_reversible`: the composite
@@ -1080,7 +1110,7 @@ definitions and do not redefine them.
   - `orthogonalLatinSquares_add_mul`: for prime `s`, with `Fin s` identified with `ZMod s`, the
     squares `(i, j) ↦ i + a j` for distinct nonzero `a` are Latin and mutually orthogonal.
 
-### 9.6 Dependent-data objects
+### 9.6 Dependent-data and survival objects
 
 - `IsWeaklyStationary 𝕜 X`: `⟪X s, X t⟫ = ⟪X 0, X (t - s)⟫` for `X : ℤ → H` in an inner product
   space over `𝕜`. The targets:
@@ -1088,8 +1118,8 @@ definitions and do not redefine them.
   - `.inner_neg`: the autocovariance `γ h = ⟪X 0, X h⟫` has `γ (-h) = conj (γ h)`;
   - `.posSemidef`: the matrix `(γ (j - i))_{i, j ∈ s}` is positive semidefinite for every finite
     set `s` of indices.
-- `IsIIDNoise μ Z σ²`: an i.i.d. family indexed by `ℤ` (8.5) with mean `0` and second moment
-  `σ² > 0`. The targets:
+- `IsIIDNoise μ Z σ²`, for a probability measure `μ`: an i.i.d. family indexed by `ℤ` (8.5),
+  integrable with mean `0`, and with second moment `σ² > 0`. The targets:
   - `memLp_two`, `integral_eq_zero'`, `integral_sq'` and `identDistrib` at every index;
   - `IsIIDNoise.isWeaklyStationary`: in `L²`, the centred noise is weakly stationary with
     `γ h = σ² 1_{h = 0}`;
@@ -1121,7 +1151,8 @@ definitions and do not redefine them.
 ### Examples
 
 - The empirical distribution function of `(0.3, 0.1)` at `0.2` is `1/2`.
-- The Metropolis chain for a symmetric proposal accepts with probability `min 1 (π y / π x)`.
+- The Metropolis–Hastings kernel for a symmetric proposal accepts with probability
+  `min 1 (π y / π x)`.
 
 ### Dependencies
 
@@ -1161,8 +1192,8 @@ under this roadmap.
   - total variation bounds for tests.
 - **Asymptotic theory**: consistency and asymptotic normality of M- and Z-estimators, local
   asymptotic normality, Le Cam's lemmas, efficiency and the bootstrap.
-- **Nonparametric, Bayesian, linear-model and time-series theory** beyond the vocabulary of
-  Layer 9.
+- **Nonparametric, Bayesian, linear-model, time-series and survival theory** beyond the
+  vocabulary of Layer 9, and every object not listed in Layer 9.
 
 ## Prior formalization
 

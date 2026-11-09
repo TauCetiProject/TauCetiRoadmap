@@ -166,6 +166,13 @@ theorem isSufficientStatistic_iff_exists_factorization [StandardBorelSpace X] [N
       (∀ θ, Measurable (g θ) ∧ ∀ s, 0 ≤ g θ s) ∧ Measurable h ∧ (∀ x, 0 ≤ h x) ∧
       ∀ θ, ∀ᵐ x ∂μ, f θ x = g θ (T x) * h x := sorry
 
+/-- **2.2** Minimal sufficiency of the likelihood ratio for a countable family. -/
+theorem isMinimalSufficientStatistic_likelihoodRatio [StandardBorelSpace X] [Nonempty X]
+    [Countable Θ] (P : Θ → Measure X) [∀ θ, IsProbabilityMeasure (P θ)] (μ : Measure X)
+    [SigmaFinite μ] (f : Θ → X → ℝ) (hf : ∀ θ, HasDensity (P θ) μ (f θ))
+    (hpos : ∀ θ x, 0 < f θ x) (θ₀ : Θ) :
+    IsMinimalSufficientStatistic P (fun x θ ↦ f θ x / f θ₀ x) := sorry
+
 /-- **2.3** Basu's theorem. -/
 theorem indepFun_of_isSufficientStatistic_of_isBoundedlyCompleteStatistic
     (P : Θ → Measure X) [∀ θ, IsProbabilityMeasure (P θ)] (T : X → S) (A : X → V)
@@ -265,6 +272,17 @@ theorem exists_isMaxOn_logLikelihood_iff_mem_interior_convexHull_support (ν : M
       t ∈ interior (convexHull ℝ ν.support) := sorry
 
 end Layer3
+
+/-- **3.8** The Pitman–Koopman–Darmois theorem. For each sample size in `N`, one statistic `T`
+serves every `θ`; only the monotone function `H` depends on `θ`. -/
+theorem exists_exponential_family_of_monotone_sufficient_statistics {Θ X : Type*}
+    [MeasurableSpace X] (P : Θ → Measure X) [∀ θ, IsProbabilityMeasure (P θ)] (P₀ : Measure X)
+    [IsProbabilityMeasure P₀] (heq : ∀ θ, P θ ≪ P₀ ∧ P₀ ≪ P θ) (N : Set ℕ) (hN : N.Infinite)
+    (h1 : 1 ∈ N)
+    (hmon : ∀ n ∈ N, ∃ T : (Fin n → X) → ℝ, Measurable T ∧ ∀ θ, ∃ H : ℝ → ℝ, Monotone H ∧
+      HasDensity (Measure.pi fun _ : Fin n ↦ P θ) (Measure.pi fun _ : Fin n ↦ P₀) (H ∘ T)) :
+    ∃ T : X → ℝ, Measurable T ∧ ∀ θ, ∃ C > 0, ∃ a : ℝ,
+      HasDensity (P θ) P₀ (fun x ↦ C * Real.exp (a * T x)) := sorry
 
 /-- **3.4** Completeness of the natural statistic. -/
 theorem isCompleteStatistic_withDensity_exp_inner {X : Type*} [MeasurableSpace X] {d : ℕ}
@@ -660,14 +678,11 @@ def huberScore (k x : ℝ) : ℝ := max (-k) (min k x)
 def finiteKernelDensityEstimator {n : ℕ} (K : ℝ → ℝ) (h : ℝ) (x : Fin n → ℝ) (t : ℝ) : ℝ :=
   (∑ i, K ((t - x i) / h)) / ((n : ℝ) * h)
 
-/-- **9.3** The number of nonzero coordinates. -/
-def sparsity {p : ℕ} (x : EuclideanSpace ℝ (Fin p)) : ℕ :=
-  (Finset.univ.filter fun j ↦ x j ≠ 0).card
-
 /-- **9.3** The restricted isometry property of order `s` with constant `δ`. -/
 def HasRestrictedIsometry {p n : ℕ}
     (A : EuclideanSpace ℝ (Fin p) →L[ℝ] EuclideanSpace ℝ (Fin n)) (s : ℕ) (δ : ℝ) : Prop :=
-  ∀ x, sparsity x ≤ s → (1 - δ) * ‖x‖ ^ 2 ≤ ‖A x‖ ^ 2 ∧ ‖A x‖ ^ 2 ≤ (1 + δ) * ‖x‖ ^ 2
+  ∀ x, hammingNorm (WithLp.ofLp x) ≤ s →
+    (1 - δ) * ‖x‖ ^ 2 ≤ ‖A x‖ ^ 2 ∧ ‖A x‖ ^ 2 ≤ (1 + δ) * ‖x‖ ^ 2
 
 /-- **9.3** The Benjamini–Hochberg rejection count. -/
 def benjaminiHochbergCount {m : ℕ} (p : Fin m → ℝ) (α : ℝ) : ℕ :=
@@ -683,19 +698,29 @@ theorem card_benjaminiHochberg_rejections {m : ℕ} (p : Fin m → ℝ) {α : �
 def poissonMass (θ : ℝ) (x : ℕ) : ℝ := Real.exp (-θ) * θ ^ x / x.factorial
 
 /-- **9.4** The Metropolis–Hastings acceptance probability. -/
-def metropolisAcceptance {ι : Type*} (π : ι → ℝ) (q : Matrix ι ι ℝ) (x y : ι) : ℝ :=
+def metropolisAcceptance {ι : Type*} (π : ι → ℝ) (q : ι → ι → ℝ) (x y : ι) : ℝ :=
   if π x * q x y = 0 then 1 else min 1 (π y * q y x / (π x * q x y))
 
-/-- **9.4** The Metropolis–Hastings transition matrix. -/
-def metropolisTransition {ι : Type*} [Fintype ι] [DecidableEq ι] (π : ι → ℝ)
-    (q : Matrix ι ι ℝ) : Matrix ι ι ℝ :=
-  fun x y ↦ q x y * metropolisAcceptance π q x y +
-    if x = y then 1 - ∑ z, q x z * metropolisAcceptance π q x z else 0
+/-- **9.4** The Metropolis–Hastings kernel on a finite discrete state space: move from `x` to
+`y ≠ x` with probability `q x y · metropolisAcceptance π q x y`, and stay otherwise. -/
+def metropolisKernel {ι : Type*} [Fintype ι] [DecidableEq ι] [MeasurableSpace ι]
+    [MeasurableSingletonClass ι] (π : ι → ℝ) (q : ι → ι → ℝ) : Kernel ι ι :=
+  Kernel.ofFunOfCountable fun x ↦
+    (∑ y ∈ Finset.univ.erase x,
+      ENNReal.ofReal (q x y * metropolisAcceptance π q x y) • Measure.dirac y) +
+    ENNReal.ofReal (1 - ∑ y ∈ Finset.univ.erase x, q x y * metropolisAcceptance π q x y) •
+      Measure.dirac x
 
-/-- **9.4** Detailed balance of the Metropolis–Hastings chain. -/
-theorem metropolisTransition_detailed_balance {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (π : ι → ℝ) (hπ : ∀ x, 0 < π x) (q : Matrix ι ι ℝ) (hq : ∀ x y, 0 ≤ q x y) (x y : ι) :
-    π x * metropolisTransition π q x y = π y * metropolisTransition π q y x := sorry
+/-- **9.4** The finite measure with weights `π`. -/
+def weightMeasure {ι : Type*} [Fintype ι] [MeasurableSpace ι] (π : ι → ℝ) : Measure ι :=
+  ∑ x, ENNReal.ofReal (π x) • Measure.dirac x
+
+/-- **9.4** Detailed balance of the Metropolis–Hastings kernel, in Mathlib's form. Invariance
+then follows from `Kernel.IsReversible.invariant`. -/
+theorem isReversible_metropolisKernel {ι : Type*} [Fintype ι] [DecidableEq ι]
+    [MeasurableSpace ι] [MeasurableSingletonClass ι] (π : ι → ℝ) (hπ : ∀ x, 0 < π x) (q : ι → ι → ℝ)
+    (hq : ∀ x y, 0 ≤ q x y) (hq1 : ∀ x, ∑ y, q x y = 1) :
+    (metropolisKernel π q).IsReversible (weightMeasure π) := sorry
 
 /-- **9.4** One leapfrog step with identity mass matrix. -/
 def leapfrogStep {d : ℕ} (g : EuclideanSpace ℝ (Fin d) → EuclideanSpace ℝ (Fin d)) (h : ℝ)
@@ -768,10 +793,12 @@ def IsWeaklyStationary (𝕜 : Type*) {H : Type*} [RCLike 𝕜] [NormedAddCommGr
   ∀ s t, inner 𝕜 (X s) (X t) = inner 𝕜 (X 0) (X (t - s))
 
 /-- **9.6** Centred i.i.d. noise on `ℤ` with variance `σ² > 0`. -/
-structure IsIIDNoise {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω) (Z : ℤ → Ω → ℝ)
-    (σsq : ℝ) : Prop where
+structure IsIIDNoise {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
+    (Z : ℤ → Ω → ℝ) (σsq : ℝ) : Prop where
   /-- The noise is i.i.d. with the law of `Z 0`. -/
   iid : IsIndependentIdenticallyDistributed μ Z (μ.map (Z 0))
+  /-- The noise is integrable. -/
+  integrable : Integrable (Z 0) μ
   /-- The noise is centred. -/
   integral_eq_zero : ∫ ω, Z 0 ω ∂μ = 0
   /-- The noise has second moment `σ²`. -/
