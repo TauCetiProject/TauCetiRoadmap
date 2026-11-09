@@ -37,13 +37,11 @@ that other roadmaps import from this one.
 `TauCeti/NumberTheory/ClassFieldTheory/`, and is consumed there by name (README, *Exact supplier
 contracts*). The open targets are:
 
-* the uniqueness of a rank-one henselian valuation on a field that is not separably closed,
-  `isEquiv_of_henselian`, and the comparison `valuativeExtension_of_finite`: for nonarchimedean
-  local fields `K` and `F`, every finite `K`-algebra structure on `F` preserves and reflects the
-  valuative relation (README, Layer 5);
-* the principal ideal theorem `isPrincipal_map_hilbertClassField`, the conductor–discriminant
-  formula `relDiscr_eq_finprod_abelianConductor`, and the splitting criterion for the Hilbert
-  class field `ncard_primesOver_hilbertClassField_eq_finrank_iff` (README, Layer 13).
+* the comparison `valuativeExtension_of_finite`: for nonarchimedean local fields `K` and `F`,
+  every finite `K`-algebra structure on `F` preserves and reflects the valuative relation (README,
+  Layer 5);
+* the principal ideal theorem `isPrincipal_map_hilbertClassField` and the conductor–discriminant
+  formula `relDiscr_eq_finprod_abelianConductor` (README, Layer 13).
 
 The local Euler characteristic `eulerCharacteristic_mixed`, its `𝔽_p`-rank form
 `eulerCharacteristic_finrank_fp` and the cyclotomic normalization `cyclotomicCharacter_artinMap`
@@ -53,12 +51,11 @@ the compatibility, so the route is checked by elaboration and the open input is 
 
 No headline of the roadmap is unstatable at the pins.
 
-**Names imported by other roadmaps.** `LocalGaloisGroups`, `QuadraticFormInvariants` and
-`GlobalQuadraticForms` cite the remaining declarations of this file as this roadmap's (README,
-*Consumers, and the names they import*). Each is an abbreviation of a Tau Ceti declaration, a
-definition built from Tau Ceti's, or a theorem closed by Tau Ceti's theorem; most of the theorems
-restate a Tau Ceti theorem under the same hypotheses and are kept because a consumer cites them
-under this roadmap's name, so a consumer's statement is about Tau Ceti's object.
+**Names imported by other roadmaps.** The Lean files of `LocalGaloisGroups` and
+`GlobalQuadraticForms` import this file and use the remaining declarations under this roadmap's
+name (README, §6). They are not headlines. Each is an abbreviation of a Tau Ceti declaration, a
+definition built from Tau Ceti's, or a theorem closed by Tau Ceti's theorem under Tau Ceti's
+hypotheses or a specialization of them, so a consumer's statement is about Tau Ceti's object.
 
 Everything except the valuation comparison is stated in universe `0`, as Tau Ceti's formations
 are: Mathlib's `tateCohomology` requires the group and the coefficient ring `ℤ` to live in one
@@ -177,25 +174,6 @@ noncomputable abbrev absoluteGaloisGroupComparison (F : Type) [Field F] :
 noncomputable abbrev muNRep (n : ℕ) (F : Type) [Field F] : GalRep n F :=
   TauCeti.ClassFieldTheory.muNRep n F
 
-/-- The dictionary between Tau Ceti's Kummer coefficient `KummerCoeff F n` and `muNRep n F`:
-Tau Ceti's `TauCeti.ClassFieldTheory.kummerCoeffEquivMuNRep`. -/
-noncomputable abbrev muNRepCoeffDictionary (n : ℕ) (F : Type) [Field F] :
-    TauCeti.KummerCoeff F n ≃+ (muNRep n F).V :=
-  TauCeti.ClassFieldTheory.kummerCoeffEquivMuNRep n F
-
-/-- The dictionary is continuous: Tau Ceti's `continuous_kummerCoeffEquivMuNRep`. -/
-theorem muNRepCoeffDictionary_continuous (n : ℕ) (F : Type) [Field F] :
-    Continuous (muNRepCoeffDictionary n F) :=
-  TauCeti.ClassFieldTheory.continuous_kummerCoeffEquivMuNRep n F
-
-/-- The dictionary is equivariant, `G_F` acting on `KummerCoeff F n` through
-`absoluteGaloisGroupComparison`: Tau Ceti's `kummerCoeffEquivMuNRep_smul`. -/
-theorem muNRepCoeffDictionary_equivariant (n : ℕ) (F : Type) [Field F]
-    (g : Field.absoluteGaloisGroup F) (x : TauCeti.KummerCoeff F n) :
-    muNRepCoeffDictionary n F (absoluteGaloisGroupComparison F g • x)
-      = (muNRep n F).ρ g (muNRepCoeffDictionary n F x) :=
-  TauCeti.ClassFieldTheory.kummerCoeffEquivMuNRep_smul n F g x
-
 /-- `μ_n(Fˢ)` is smooth, as an instance argument: Tau Ceti's `isSmoothDiscrete_muNRep`. It is how
 the smoothness hypothesis of local duality and the Euler characteristic is found at `muNRep n F`. -/
 instance instFactIsSmoothDiscreteMuNRep (n : ℕ) (F : Type) [Field F] :
@@ -220,42 +198,14 @@ theorem muNRep_ρ_eq_self {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
     (muNRep n F).ρ g x = x :=
   TauCeti.ClassFieldTheory.muNRep_ρ_apply_eq_self hζ g x
 
-/-- **The Kummer class of `a ∈ Fˣ` in `H¹(G_F, μ_n)`**: Tau Ceti's
-`TauCeti.ClassFieldTheory.kummerClass`, the transport of the Kummer map `TauCeti.kummerMap`, when
-`n` is invertible in `F`. Where it is not there is no Kummer sequence and the value is `0`; every
-theorem that uses the class makes `n` invertible. -/
-noncomputable def kummerClass (n : ℕ) (F : Type) [Field F] (a : Fˣ) : H n F 1 (muNRep n F) := by
-  classical
-  exact if hn : IsUnit (n : F) then TauCeti.ClassFieldTheory.kummerClass F hn a else 0
-
-/-- **The Kummer class on cocycles**: for an `n`-th root `α ∈ Fˢ` of `a`, the class of `a` is the
-class of the Kummer cocycle `g ↦ g α / α`, transported by Tau Ceti's `muNRepH1Equiv`. Tau Ceti's
-`kummerClass_eq_muNRepH1Equiv_kummerCocycleClass`. -/
-theorem kummerClass_eq_kummerCocycleClass {n : ℕ} {F : Type} [Field F] (hn : IsUnit (n : F))
-    {a : Fˣ} {α : (SeparableClosure F)ˣ}
-    (hα : α ^ n = Units.map (algebraMap F (SeparableClosure F)).toMonoidHom a) :
-    kummerClass n F a =
-      TauCeti.ClassFieldTheory.muNRepH1Equiv n F (TauCeti.kummerCocycleClass hα) := by
-  rw [kummerClass, dite_eq_left_of_eq_true (eq_true hn)]
-  exact TauCeti.ClassFieldTheory.kummerClass_eq_muNRepH1Equiv_kummerCocycleClass F hn hα
-
 /-- **Kummer theory over a finite extension of `ℚ_p`**, valid for every `n ≠ 0`, including
-multiples of `p`: the Kummer class on power classes. Tau Ceti's `kummerEquivOfCharZero`. -/
+multiples of `p`: Tau Ceti's `kummerEquivOfCharZero`, which sends the power class of `a` to the
+Kummer class `TauCeti.ClassFieldTheory.kummerClass F _ a` (`kummerEquivOfCharZero_ofMul_mk`). -/
 noncomputable def kummerEquiv_mixed (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
     [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (n : ℕ) (hn : n ≠ 0) :
     Additive (Fˣ ⧸ (powMonoidHom n : Fˣ →* Fˣ).range) ≃+ H n F 1 (muNRep n F) :=
   haveI : CharZero F := charZero_of_injective_algebraMap (algebraMap ℚ_[p] F).injective
   TauCeti.ClassFieldTheory.kummerEquivOfCharZero F hn
-
-/-- `kummerEquiv_mixed` sends the power class of `a` to the Kummer class of `a`: Tau Ceti's
-`kummerEquivOfCharZero_ofMul_mk`. -/
-theorem kummerEquiv_mixed_mk (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
-    [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (n : ℕ) (hn : n ≠ 0) (a : Fˣ) :
-    kummerEquiv_mixed p F n hn (Additive.ofMul (QuotientGroup.mk a)) = kummerClass n F a := by
-  have : CharZero F := charZero_of_injective_algebraMap (algebraMap ℚ_[p] F).injective
-  have hu : IsUnit (n : F) := (Nat.cast_ne_zero.mpr hn).isUnit
-  rw [kummerClass, dite_eq_left_of_eq_true (eq_true hu)]
-  exact TauCeti.ClassFieldTheory.kummerEquivOfCharZero_ofMul_mk F hn a
 
 /-- **The invariant `H²(G_F, μ_n) ≃ ℤ/n` for a finite extension of `ℚ_p`**, every `n ≠ 0`: Tau
 Ceti's `TauCeti.ClassFieldTheory.h2MuEquivZMod`, normalized by the local invariant
@@ -359,19 +309,6 @@ end Duality
 
 /-! ## Layer 5: the comparison of valuations on finite extensions of local fields -/
 
-/-- **Open target: a field that is not separably closed has at most one rank-one henselian
-valuation** (F. K. Schmidt's theorem, Jahnke–Koenigsmann, *Definable henselian valuations*,
-Theorem 2.1, read in rank one): two rank-one valuations of `K` whose valuation rings are henselian
-are equivalent. Both hypotheses are needed: `ℚ` with `v₂` and `v₃` is not henselian for either,
-and on an algebraic closure of `ℚ` the extensions of `v₂` and `v₃` are henselian but
-inequivalent. -/
-theorem isEquiv_of_henselian {K : Type*} [Field K] (hK : ¬ IsSepClosed K)
-    {Γ₁ Γ₂ : Type*} [LinearOrderedCommGroupWithZero Γ₁] [LinearOrderedCommGroupWithZero Γ₂]
-    (v₁ : Valuation K Γ₁) (v₂ : Valuation K Γ₂) [v₁.RankOne] [v₂.RankOne]
-    [HenselianLocalRing v₁.valuationSubring] [HenselianLocalRing v₂.valuationSubring] :
-    v₁.IsEquiv v₂ :=
-  sorry
-
 /-- **Open target: every finite algebra structure between nonarchimedean local fields is
 compatible with the valuations**: for nonarchimedean local fields `K` and `F` and a finite
 `K`-algebra structure on `F`, `algebraMap K F a ≤ᵥ algebraMap K F b ↔ a ≤ᵥ b`. No continuity of
@@ -390,22 +327,23 @@ theorem valuativeExtension_of_finite (K : Type*) [Field K] [ValuativeRel K] [Top
 
 section LocalDuality
 
-/-- **`H⁰`, `H¹` and `H²` of a finite smooth discrete module are finite**: Tau Ceti's
-`TauCeti.ClassFieldTheory.finite_H`, which needs only `(n : F) ≠ 0`. -/
-theorem finite_H (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
-    [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F]
-    [Module.Finite ℚ_[p] F] (n : ℕ) (hn : n ≠ 0) (A : GalRep n F) (hA : Finite A.V)
-    [DiscreteTopology A.V]
-    [Fact (TauCeti.IsSmoothDiscrete (ZMod n) A)] (i : ℕ) (hi : i ≤ 2) :
+/-- **`H⁰`, `H¹` and `H²` of a finite smooth discrete module are finite** over a nonarchimedean
+local field in which the exponent `n` is nonzero (Milne, *Arithmetic Duality Theorems*, I
+Corollary 2.3): Tau Ceti's `TauCeti.ClassFieldTheory.finite_H`, under its hypotheses. Over
+`𝔽₃((t))` it applies at `n = 2`; over `𝔽₂((t))` at `n = 2` it does not, and there `H¹` of the
+trivial module `𝔽₂` is infinite. -/
+theorem finite_H (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] (n : ℕ) (hn : (n : F) ≠ 0) (A : GalRep n F)
+    (hA : Finite A.V) [Fact (TauCeti.IsSmoothDiscrete (ZMod n) A)] (i : ℕ) (hi : i ≤ 2) :
     Finite (H n F i A) :=
-  haveI : CharZero F := charZero_of_injective_algebraMap (algebraMap ℚ_[p] F).injective
-  TauCeti.ClassFieldTheory.finite_H (Nat.cast_ne_zero.mpr hn) A Fact.out hi
+  TauCeti.ClassFieldTheory.finite_H hn A Fact.out hi
 
-/-- **Local Tate duality** for a finite extension of `ℚ_p` and a finite smooth discrete module:
-the pairing `tateDualityPairing` is perfect. Tau Ceti's `tateDualityPairing_perfect_mixed`. -/
-theorem tateDualityPairing_perfect_mixed (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
-    [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F]
-    [Module.Finite ℚ_[p] F] (n : ℕ) (hn : n ≠ 0) (A : GalRep n F)
+/-- **Local Tate duality** for a nonarchimedean local field of characteristic zero and a finite
+smooth discrete module of exponent `n ≠ 0`: the pairing `tateDualityPairing` is perfect. Tau
+Ceti's `TauCeti.ClassFieldTheory.tateDualityPairing_perfect_mixed`, under its hypotheses. -/
+theorem tateDualityPairing_perfect_mixed (F : Type) [Field F] [CharZero F]
+    [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F]
+    (n : ℕ) (hn : n ≠ 0) (A : GalRep n F)
     (tr : H n F 2 (muNRep n F) ≃+ ZMod n) (hA : Finite A.V)
     [DiscreteTopology A.V] [Fact (TauCeti.IsSmoothDiscrete (ZMod n) A)]
     (i j : ℕ) (hij : i + j = 2) :
@@ -413,7 +351,6 @@ theorem tateDualityPairing_perfect_mixed (p : ℕ) [Fact p.Prime] (F : Type) [Fi
         (∀ y : H n F j A, tateDualityPairing A tr i j hij x y = 0) → x = 0) ∧
       (∀ φ : H n F j A →+ ZMod n, ∃ x : H n F i (tateDual A),
         ∀ y : H n F j A, tateDualityPairing A tr i j hij x y = φ y) :=
-  haveI : CharZero F := charZero_of_injective_algebraMap (algebraMap ℚ_[p] F).injective
   TauCeti.ClassFieldTheory.tateDualityPairing_perfect_mixed F n hn A tr hA i j hij
 
 /-- **The local Euler-characteristic formula** for every finite extension `F/ℚ_p` and every finite
@@ -457,17 +394,11 @@ variable (K : Type) [Field K] (L : Type) [Field L] [Algebra K L]
 
 /-- **Restriction of the absolute Galois group to a finite Galois extension** embedded by `iota`:
 Tau Ceti's `AlgHom.restrictNormalHom iota` after `absoluteGaloisGroupComparison`. It is
-characterized by `iota_restrictAbsolute_apply`. -/
+characterized by `iota (restrictAbsolute K L iota σ x) = absoluteGaloisGroupComparison K σ (iota x)`
+for every `x ∈ L`, which is Tau Ceti's `AlgHom.restrictNormalHom_commutes`. -/
 noncomputable def restrictAbsolute [IsGalois K L] (iota : L →ₐ[K] SeparableClosure K) :
     Field.absoluteGaloisGroup K →* (L ≃ₐ[K] L) :=
   iota.restrictNormalHom.comp (absoluteGaloisGroupComparison K).toMulEquiv.toMonoidHom
-
-/-- The characterizing equation of `restrictAbsolute`: Tau Ceti's
-`AlgHom.restrictNormalHom_commutes`. -/
-theorem iota_restrictAbsolute_apply [IsGalois K L] (iota : L →ₐ[K] SeparableClosure K)
-    (σ : Field.absoluteGaloisGroup K) (x : L) :
-    iota (restrictAbsolute K L iota σ x) = absoluteGaloisGroupComparison K σ (iota x) :=
-  iota.restrictNormalHom_commutes _ x
 
 /-- **The absolute Galois group of a finite extension inside that of `K`**, along `iota`: Tau
 Ceti's `TauCeti.absoluteGaloisGroupExtend`, whose image is the open subgroup
@@ -485,7 +416,8 @@ variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchim
 
 /-- **`scd_ℓ G_K = 2`** for every prime `ℓ` and every finite extension `K/ℚ_p` (NSW (7.2.5)), on
 Tau Ceti's `TauCeti.strictCohomologicalDimensionAt`: Tau Ceti's
-`strictCohomologicalDimensionAt_absoluteGaloisGroup_eq_two`, which needs only `CharZero K`. -/
+`strictCohomologicalDimensionAt_absoluteGaloisGroup_eq_two`, which needs only `CharZero K`; the
+`ℚ_p`-algebra structure is the form in which `LocalGaloisGroups` applies it, at `ℓ = p`. -/
 theorem scd_p_absoluteGaloisGroup_eq_two (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
     [Module.Finite ℚ_[p] K] (ℓ : ℕ) [Fact ℓ.Prime] :
     TauCeti.strictCohomologicalDimensionAt.{0} ℓ (Field.absoluteGaloisGroup K) = 2 :=
@@ -558,7 +490,7 @@ section CyclotomicNormalization
 /-- **The cyclotomic normalization at the uniformizer of `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(p)) = 1`. Tau
 Ceti's `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_padic_uniformizer`. -/
 theorem cyclotomicCharacter_artinMap_padic_uniformizer (p : ℕ) [Fact p.Prime]
-    [IsNonarchimedeanLocalField ℚ_[p]] (σ : Field.absoluteGaloisGroup ℚ_[p])
+    (σ : Field.absoluteGaloisGroup ℚ_[p])
     (hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
       = artinMap ℚ_[p]
           (Units.mk0 (p : ℚ_[p]) (Nat.cast_ne_zero.mpr (Fact.out : p.Prime).ne_zero))) :
@@ -568,7 +500,7 @@ theorem cyclotomicCharacter_artinMap_padic_uniformizer (p : ℕ) [Fact p.Prime]
 /-- **The cyclotomic normalization at `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(u)) = u⁻¹` for `u ∈ ℤ_pˣ`. Tau
 Ceti's `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_padic`. -/
 theorem cyclotomicCharacter_artinMap_padic (p : ℕ) [Fact p.Prime]
-    [IsNonarchimedeanLocalField ℚ_[p]] (u : ℤ_[p]ˣ) (σ : Field.absoluteGaloisGroup ℚ_[p])
+    (u : ℤ_[p]ˣ) (σ : Field.absoluteGaloisGroup ℚ_[p])
     (hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
       = artinMap ℚ_[p] (Units.map (algebraMap ℤ_[p] ℚ_[p]).toMonoidHom u)) :
     cyclotomicCharacter (AlgebraicClosure ℚ_[p]) p σ.toRingEquiv = u⁻¹ :=
@@ -660,15 +592,6 @@ Tau Ceti has its class-formation form,
 -/
 theorem isPrincipal_map_hilbertClassField (I : Ideal (𝓞 K)) :
     (I.map (algebraMap (𝓞 K) (𝓞 (TauCeti.ClassFieldTheory.hilbertClassField K)))).IsPrincipal :=
-  sorry
-
-/-- **Open target: splitting in the Hilbert class field.** A finite prime of `K` splits completely
-in the Hilbert class field exactly when it is principal (Milne, *Class Field Theory*, V §1,
-p. 154, and V Example 3.9, p. 159). -/
-theorem ncard_primesOver_hilbertClassField_eq_finrank_iff (v : HeightOneSpectrum (𝓞 K)) :
-    (v.asIdeal.primesOver (𝓞 (TauCeti.ClassFieldTheory.hilbertClassField K))).ncard =
-        Module.finrank K (TauCeti.ClassFieldTheory.hilbertClassField K) ↔
-      v.asIdeal.IsPrincipal :=
   sorry
 
 /-- **Open target: the conductor–discriminant formula** (Milne, *Class Field Theory*, V Theorem
