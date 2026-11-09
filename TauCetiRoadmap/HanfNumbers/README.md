@@ -70,11 +70,12 @@ only through the upper bound and the existence of a global Hanf bound.
    symbols occurring in the sentence with dummy symbols added, extended by Skolem functions.
    Ehrenfeucht–Mostowski models over `J : Type w` then live in `Type w`. Results are stated over the
    original `L` and carriers in `Type w`.
-2. **Formulas.** Lω₁ω is the parent's `BoundedFormulaω L`, with `Sentenceω L` its sentences and
-   `BoundedFormulaInf.Realize`, `SentenceInf.Realize` its semantics. Formulas used as properties of
-   tuples are `BoundedFormulaω L Empty n`, with the tuple in the `n` bound positions, as in the
-   parent's tuple-indexed constructions. A set of such formulas of varying arity is a
-   `Set (Σ n, BoundedFormulaω L Empty n)`.
+2. **Formulas.** Lω₁ω is the parent's `L.BoundedFormulaω`, with `L.Sentenceω` its sentences and
+   `BoundedFormulaInf.Realize`, `SentenceInf.Realize` its semantics, as implemented in Tau Ceti
+   (`FirstOrder.Language.BoundedFormulaω`); a sentence is evaluated as `SentenceInf.Realize φ M`.
+   Formulas used as properties of tuples are `L.BoundedFormulaω Empty n`, with the tuple in the
+   `n` bound positions, as in the parent's tuple-indexed constructions. A set of such formulas of
+   varying arity is a `Set (Σ n, L.BoundedFormulaω Empty n)`.
 3. **Tuples from a linear order.** An increasing `n`-tuple from a linear order `J` is an order
    embedding `Fin n ↪o J`. In a linear order these are the same as `n`-element subsets, and
    `Finset.orderEmbOfFin` converts between them. Homogeneity, indiscernibility and templates are
@@ -126,48 +127,66 @@ The following are suppliers, not requests to rebuild their objects.
 | Mathlib von Neumann hierarchy | `ZFSet.vonNeumann` (`V_`), `ZFSet.vonNeumann_add_one`, `ZFSet.mem_vonNeumann`, `ZFSet.isTransitive_vonNeumann`, `ZFSet.vonNeumann_subset_of_le`, `ZFSet.card_vonNeumann` (`card (V_ o) = preBeth o`), `ZFSet.card` |
 | Mathlib ordered fields | `HahnSeries` with the lexicographic order `Lex R⟦Γ⟧` and its `IsStrictOrderedRing` instance (`RingTheory/HahnSeries/Lex.lean`), `Subfield.closure`, `Subfield.cardinalMk_closure_le_max` |
 | Mathlib first-order logic | `FirstOrder.Language`, `Structure`, `Term`, `Term.realize`, `LHom` (`→ᴸ`) and `LHom.reduct`, `Language.sum`, `M ≃[L] N`, `Substructure.closure`; the first-order Skolem language `Language.skolem₁` fixes the shape of the Skolem functions of Layer 2 |
-| [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0 | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, `Realize` and its simp lemmas, `IndexCoding` and the coded connectives `iInfAlong`/`iSupAlong`, `subst`, `relabel`, `mapBound`, `castLE`, and the finitary embedding `toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); implemented in Tau Ceti as `TauCeti/ModelTheory/Infinitary/{Syntax, Semantics, CodedConnectives, Substitution, Operations}.lean` (Tau Ceti PRs [#17407](https://github.com/TauCetiProject/TauCeti/pull/17407), [#17576](https://github.com/TauCetiProject/TauCeti/pull/17576), [#17885](https://github.com/TauCetiProject/TauCeti/pull/17885)) |
+| [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0 | `FirstOrder.Language.BoundedFormulaInf` with `L.BoundedFormulaω` and `L.Sentenceω`, `BoundedFormulaInf.Realize` and `SentenceInf.Realize` with their simp lemmas, `TauCeti.IndexCoding` and the coded connectives `BoundedFormulaInf.iInfAlong`/`iSupAlong`, `TauCeti.BoundedFormulaInf.subst` and `relabel`, `BoundedFormulaInf.mapBound` and `castLE`, and the finitary embedding `BoundedFormula.toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); Tau Ceti at this repository's pin (2fd255d99), [`ModelTheory/Infinitary/`](https://github.com/TauCetiProject/TauCeti/tree/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Infinitary)`{Syntax, Semantics, IndexCoding, CodedConnectives, Substitution, Operations}.lean` (Tau Ceti PRs [#17407](https://github.com/TauCetiProject/TauCeti/pull/17407), [#17576](https://github.com/TauCetiProject/TauCeti/pull/17576), [#17885](https://github.com/TauCetiProject/TauCeti/pull/17885)) |
 | InfinitaryLogic, Layers 1–3 | `TauCeti.BFEquiv` and `TauCeti.PotentialIso`, and the following Tau Ceti declarations at this repository's pin (Tau Ceti 2fd255d99): `TauCeti.scottSentence`, `TauCeti.realize_scottSentence_self` and `TauCeti.bfEquiv_of_realize_scottSentence` ([`Scott/Sentence.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/Sentence.lean)), the last for a model of any cardinality in any universe; `TauCeti.potentialIso_iff_bfEquiv_all` ([`BackAndForth/AllLevels.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/AllLevels.lean)); and the forward Karp direction `TauCeti.PotentialIso.infEquivAt` ([`BackAndForth/Karp.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Karp.lean), [#18194](https://github.com/TauCetiProject/TauCeti/pull/18194)). They are built on the parent's contracts as Tau Ceti implements them at the pin: Layer 3's `scottSentenceAt`, `realize_scottSentenceAt_self` and `isTupleBFSystem_of_realize_scottSentenceAt` (in any model `N`), as `TauCeti.scottSentenceAt`, `TauCeti.realize_scottSentenceAt_self` and `TauCeti.isTupleBFSystem_of_realize_scottSentenceAt` in `Scott/Sentence.lean`; and Layer 1's `potentialIso_iff_exists_isTupleBFSystem` and Karp theorem, as `TauCeti.potentialIso_iff_exists_isTupleBFSystem` ([`BackAndForth/Presentation.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Presentation.lean)) and `TauCeti.karp_theorem` (`BackAndForth/Karp.lean`). Except `PotentialIso` and `scottSentenceAt`, all of these assume `[L.IsRelational]`, as Layer 5.4 does |
 
 **From the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) roadmap** (IME)
 this roadmap consumes exactly the following, cited by IME layer and section, and nothing else of
-it:
+it. Each item closes with its implementation in Tau Ceti at this repository's pin (2fd255d99),
+with names in `FirstOrder.Language` and paths under [`TauCeti/ModelTheory/`](https://github.com/TauCetiProject/TauCeti/tree/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory); the three
+parts marked "not at the pin" remain IME targets.
 
 - **IME Layer 0.1, language maps.** `onBoundedFormulaInf (g : L →ᴸ L')` with
   `realize_onBoundedFormulaInf` (realization under `g.IsExpansionOn M`), the functor laws, its
   commutation with `mapBound` and the coded connectives, and injectivity for injective `g`; and,
   from IME 0.4, its commutation with bound substitution `onBoundedFormulaInf_substBounds`. Layers 2,
-  3 and 5 move formulas between a language, its Skolem extensions and its reducts.
+  3 and 5 move formulas between a language, its Skolem extensions and its reducts. At the pin:
+  `LHom.onBoundedFormulaInf`, written `g.onBoundedFormulaInf φ`, with
+  `LHom.realize_onBoundedFormulaInf`, `LHom.id_onBoundedFormulaInf`,
+  `LHom.comp_onBoundedFormulaInf`, `LHom.onBoundedFormulaInf_mapBound`,
+  `LHom.onBoundedFormulaInf_iInfAlong` and `_iSupAlong` (`Infinitary/LanguageMap.lean`), and
+  `LHom.onBoundedFormulaInf_substBounds` (`Infinitary/SubstBounds.lean`); injectivity is not at the
+  pin.
 - **IME Layer 0.2, occurrences and locality.** `functionsIn`, `relationsIn`,
   `functionsIn_countable`, `relationsIn_countable`, and symbol locality
-  `realize_congr_of_agreeOn`.
+  `realize_congr_of_agreeOn`. At the pin: the same names in `BoundedFormulaInf`
+  (`Infinitary/Symbols.lean`).
 - **IME Layer 0.3, sublanguages.** `symbSublang F R` with `symbSublangIncl F R`, `restrictSymbols`
   and its round trip through `onBoundedFormulaInf (symbSublangIncl F R)`, the countable symbol
   sublanguage of a sentence, and the small presentation `smallPresentation L : Language.{0, 0}` of a
   language with countably many symbols, with `smallPresentationEquiv L : L ≃ᴸ smallPresentation L`
   and `realize_smallPresentation`. Layers 3 and 5 reduce an arbitrary language to the countably many
-  symbols of `φ`.
+  symbols of `φ`. At the pin: `symbSublang`, `symbSublangIncl` (`Sublanguage.lean`),
+  `BoundedFormulaInf.restrictSymbols`, `BoundedFormulaInf.onBoundedFormulaInf_restrictSymbols`
+  (`Infinitary/Sublanguage.lean`), `smallPresentation`, `smallPresentationEquiv`,
+  `realize_smallPresentation` (`Infinitary/SmallPresentation.lean`); the countable symbol
+  sublanguage of a sentence is not at the pin as a named declaration.
 - **IME Layer 0.4, substitution for bound positions.** `substBounds` with `realize_substBounds`,
   `mapBound f = substBounds (var ∘ Sum.inr ∘ f)`, and `onBoundedFormulaInf_substBounds`. Layer 2
-  substitutes Skolem terms for bound positions.
+  substitutes Skolem terms for bound positions. At the pin: `BoundedFormulaInf.substBounds`,
+  `BoundedFormulaInf.realize_substBounds`, `BoundedFormulaInf.mapBound_eq_substBounds`
+  (`Infinitary/SubstBounds.lean`).
 - **IME Layer 1.1, theories.** `Theoryω`, `Theoryω.Model`, and `Theoryω.conjunction` with
-  `realize_conjunction_iff`. Layer 3 uses them for the countable-theory corollary.
+  `realize_conjunction_iff`. Layer 3 uses them for the countable-theory corollary. At the pin: the
+  same names, with `Theoryω.realize_conjunction_iff` (`Infinitary/Theory.lean`).
 - **IME Layer 1.2, fragments.** `Fragment`, `Fragment.generated`, `Fragment.generated_countable`
-  (over any language). The formula set `Γ*` of Layer 2 is a `Fragment` of the Skolem language.
+  (over any language). The formula set `Γ*` of Layer 2 is a `Fragment` of the Skolem language. At
+  the pin: the same names (`Infinitary/Fragment.lean`).
 - **IME Layer 2, fragment elementarity and Löwenheim–Skolem.** `AElementary`,
   `aElementary_of_tarskiVaught` (2.2), and `exists_countable_aElementary_substructure` (2.3).
   Layer 2 uses the Tarski–Vaught test for Skolem-closed substructures; Layer 5 uses the countable
-  substructure theorem for countable companions and for countable models of complete sentences.
+  substructure theorem for countable companions and for countable models of complete sentences. At
+  the pin: the same names (`ModelExistence/AElementary.lean`, `ModelExistence/LowenheimSkolem.lean`);
+  the substructure theorem assumes countably many function symbols only, which a relational
+  language has.
 - **IME Layer 4.1, types.** `infinitaryType M a` (the complete Lω₁ω-type: all formulas of
-  `BoundedFormulaω L Empty n` true of `a`, not a fragment type), `realizedTypes M n`, the realized
+  `L.BoundedFormulaω Empty n` true of `a`, not a fragment type), `realizedTypes M n`, the realized
   type isolators `exists_isolatingFormula`, and the countable seed of isolators and their
-  one-variable existential closures. Layer 5 uses all of them.
+  one-variable existential closures. Layer 5 uses all of them. At the pin: `infinitaryType`,
+  `realizedTypes` and `exists_isolatingFormula` (`ModelExistence/Types.lean`), with no countability
+  or relational hypothesis; the packaged isolator seed is not at the pin.
 
-IME owns all of these. `Suggested.lean` copies the current proposed declarations of
-`onBoundedFormulaInf`, `infinitaryType` and `realizedTypes` as marked stand-ins, recording the IME
-revision they were checked against. The copies are prototype scaffolding, not authorization to
-implement a parallel API in Tau Ceti: Tau Ceti implements IME's declarations and this roadmap
-imports them.
+IME owns all of these. `Suggested.lean` imports the declarations at the pin and has no stand-ins.
 
 IME's model existence (Layer 3), omitting types (Layer 4.2), Morleyization (Layer 5), graph
 translation (Layer 6), interpolation (Layer 7) and well-ordering (Layer 8) are not consumed. The
@@ -307,7 +326,7 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/EM/{Indiscernible, Template}.lea
 ### 1.1 Indiscernibility
 
 For a linear order `J`, a structure `M`, a sequence `a : J → M` and a set
-`Δ : Set (Σ n, BoundedFormulaω L Empty n)`:
+`Δ : Set (Σ n, L.BoundedFormulaω Empty n)`:
 
 - `IsIndiscernibleOn a Δ`: for every `⟨n, ψ⟩ ∈ Δ` and all `s t : Fin n ↪o J`,
   `ψ.Realize Empty.elim (a ∘ s) ↔ ψ.Realize Empty.elim (a ∘ t)`.
@@ -325,7 +344,7 @@ sequence's increasing tuples realize the same equality pattern.
 
 ### 1.2 Templates
 
-- `EMTemplate L`: for each arity `n`, a set of formulas `BoundedFormulaω L Empty n` declared true
+- `EMTemplate L`: for each arity `n`, a set of formulas `L.BoundedFormulaω Empty n` declared true
   of increasing tuples.
 - `templateOf a`: the formulas true at every increasing tuple of `a`.
 - `EMTemplate.RealizesOn Φ a Δ`: for each `⟨n, ψ⟩ ∈ Δ` and each `t : Fin n ↪o J`, `ψ` holds at
@@ -341,7 +360,7 @@ indiscernible on `Δ`.
 
 ### 1.3 The Morley seed
 
-`disEq : BoundedFormulaω L Empty 2` is `¬(x₀ = x₁)`, and `morleySeed φ = {⟨0, φ⟩, ⟨2, disEq⟩}`.
+`disEq : L.BoundedFormulaω Empty 2` is `¬(x₀ = x₁)`, and `morleySeed φ = {⟨0, φ⟩, ⟨2, disEq⟩}`.
 `isIndiscernibleOn_morleySeed`: every injective sequence in a model of `φ` is indiscernible for
 the Morley seed, since the sentence ignores the tuple and `x₀ ≠ x₁` holds at every increasing pair.
 If `b : J → N` realizes the template of such a sequence on the seed, then `N ⊨ φ` and `b` is
@@ -550,7 +569,7 @@ and a model of the image restricts to a model of `φ` on the same carrier.
 
 ### 3.2 Reduction to a countable Skolemized setting
 
-Given `φ : Sentenceω L` satisfying the Morley–Hanf hypothesis:
+Given `φ : L.Sentenceω` satisfying the Morley–Hanf hypothesis:
 
 - let `L_φ = (symbSublang (functionsIn φ) (relationsIn φ)).sum D`, where `D` has one dummy
   function symbol and one dummy relation symbol of each arity; it has countably many symbols of
@@ -919,7 +938,7 @@ results:
 ## Coordination
 
 - **InfinitaryLogic.** The syntax, semantics, back-and-forth relations, Karp's forward direction and
-  Scott sentences are the parent roadmap's, implemented in Tau Ceti under
+  Scott sentences are the parent roadmap's, implemented in Tau Ceti at this repository's pin under
   `TauCeti/ModelTheory/{Infinitary, BackAndForth, Scott}`; the free-variable support of
   [Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547) is not needed here. The
   Scott sentence used in Layer 5 is the parent's internal one, so no external Scott-height
