@@ -301,7 +301,9 @@ skeletal filtration is a filtered spectrum in the sense of §§7.21–7.24.)
 Sections 2.1–2.6 supply exact categories, the genuine Q-construction and
 functorial K-groups; §4.3 additivity; §4.8 dévissage; §4.14 Serre localization;
 §§7.4–7.8 products, finite-projective transfer and projection/base-change
-formulas; §§8.12–8.13 the DVR boundary and its right-module identity.
+formulas; §§8.12–8.13 the DVR boundary and its right-module identity; §13.8c the
+finite-field groups K₀(𝔽_q)=ℤ, K_(2i)(𝔽_q)=0 and K_(2i−1)(𝔽_q)≅ℤ/(qⁱ−1) for
+i≥1, the vanishing used by §§2.4, 3.3 and 5.5.
 Section 2.1 constructs finite-coefficient localization by smashing this triangle
 with StableHomotopyKTheory §7.2's S/m. It retains §7.7's coefficient reductions
 and §7.3's Bocksteins, and proves the signed localization–Bockstein identity
@@ -450,7 +452,8 @@ degree four is not used for classical degrees zero through three.
 
 ### From TauCetiRoadmap.KTheoryFiniteLocalFields
 
-Sections 1.1–1.6 supply normalized finite-field K-groups and Bott classes;
+Sections 1.1–1.6 normalize the finite-field K-groups supplied by
+GeneralAlgebraicKTheory §13.8c and supply the Bott classes and finite-field transfers;
 §§3.1–3.5 supply Moore's K₂ theorem; §§6.2–6.9 and 7.3 supply higher local
 groups, cohomological quotients and completion compatibilities. Section 3.0a
 supplies `motivicCycles` and `motivicToK` on their shared cycle and Milnor
@@ -971,7 +974,8 @@ after it, p. 409; V.6.8, pp. 412–413.)
   p=2), so the even-degree argument gives no odd injectivity; a statement
   claiming residue vanishing in every degree n≥2 fails here.
 
-*Needs:* §2.1; KTheoryFiniteLocalFields §§1.1–1.6 for K_n(𝔽_q)=0 at even n≥2;
+*Needs:* §2.1; GeneralAlgebraicKTheory §13.8c for K_n(𝔽_q)=0 at even n≥2;
+KTheoryFiniteLocalFields §§1.1–1.6 for its normalized classes and transfers;
 K2SymbolsBrauer §§12.1–12.3 only for the degree-two comparison with the tame-kernel sequence.
 
 ### Examples
@@ -984,8 +988,8 @@ residue ranks by f. These two tests distinguish both directions simultaneously.
 ### Dependencies
 
 Layer 1; SchemeKTheoryOperations §§3.6–3.7; GeneralAlgebraicKTheory §§4.8 and 4.14;
-KTheoryLowDegrees; K2SymbolsBrauer §§9.2–9.6 and 12.1–12.3; finite-field K-theory in
-KTheoryFiniteLocalFields §§1.1–1.6; Mathlib's ramification-index tower and residue
+KTheoryLowDegrees; K2SymbolsBrauer §§9.2–9.6 and 12.1–12.3; finite-field K-groups from
+GeneralAlgebraicKTheory §13.8c, normalized in KTheoryFiniteLocalFields §§1.1–1.6; Mathlib's ramification-index tower and residue
 filtration API. No global arithmetic finite generation is needed yet.
 
 ## Layer 3: finite generation, ranks and hermitian consequences
@@ -1392,7 +1396,8 @@ The basic laws are:
 - At F=ℚ,n=2 the rational space is zero although K₂(ℤ)=ℤ/2.
   Vanishing after tensoring never asserts integral vanishing.
 
-*Needs:* §3.2; §2.1; KTheoryFiniteLocalFields §§1.1–1.6; GeneralAlgebraicKTheory §§7.4–7.8 for
+*Needs:* §3.2; §2.1; GeneralAlgebraicKTheory §13.8c for the finiteness and even vanishing of
+the residue groups; KTheoryFiniteLocalFields §§1.1–1.6; GeneralAlgebraicKTheory §§7.4–7.8 for
 naturality and transfer.
 
 
@@ -2339,8 +2344,8 @@ The basic laws are:
   it lies in roots of unity, and at S=∅ the finite-prime construction
   still applies.
 
-*Needs:* §§4.1–4.3/5.2–5.4; KTheoryFiniteLocalFields §§0.5/1.1–1.6 for stable transfers,
-finite-field K-groups and Bott normalization; StableHomotopyKTheory §§7.1–7.8/7.28 for coefficients.
+*Needs:* §§4.1–4.3/5.2–5.4; GeneralAlgebraicKTheory §13.8c for the finite-field K-groups;
+KTheoryFiniteLocalFields §§0.5/1.1–1.6 for stable transfers and Bott normalization; StableHomotopyKTheory §§7.1–7.8/7.28 for coefficients.
 
 ### Examples
 
