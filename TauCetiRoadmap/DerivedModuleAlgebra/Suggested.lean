@@ -110,8 +110,9 @@ universe u v w w'
 
 namespace DerivedDeRham
 
-/-- **The second page of a first-quadrant bicomplex** (README S.1, homological form; NSW,
-Proposition 2.1.1). Let `K` be a first-quadrant bicomplex with homological differentials in an
+/-- **The second page of a first-quadrant bicomplex** (README S.1, homological form; Stacks,
+Lemma 12.25.1, Tag 0130, in cohomological indexing). Let `K` be a first-quadrant bicomplex with
+homological differentials in an
 abelian category, `K.X p` its columns. In the spectral sequence of its column filtration, whose
 page numbered `2` is the vertical homology, with `H_k(K.X p)` at `(-k - 2p, p)`, the page numbered
 `3`, the classical `E²`, has at that position the horizontal homology `H_p(H_k^II(K))` of the

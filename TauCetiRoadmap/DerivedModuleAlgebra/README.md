@@ -44,6 +44,7 @@ the section, or the pinned declaration, in the right column.
 | `moduleKInjectiveReplacement` | §0.I.1: Tau Ceti `CochainComplex.exists_quasiIso_isKInjective` and `TauCeti.kInjectiveReplacement` |
 | `Algebra.CotangentComplex.PolynomialResolution`, `Algebra.CotangentComplex.PolynomialResolution.comparison`, `Algebra.CotangentComplex.PolynomialResolution.toQuasiIso` | §0.1 |
 | `DerivedDeRham.derivedTensor`, `derivedTensor_flatModel`, `derivedTensor_triangulated`, `derivedTensor_kFlatColimit`, `derivedTensor_kFlatRealization` | §0.2: the bifunctor, its bounded-above flat model, its exactness, and K-flatness of filtered colimits and of totalizations |
+| `test_derived_tensor_unbounded_flat` | §0.2: the Check on the bi-infinite `ℤ/4` complex with every differential multiplication by `2`, acyclic and termwise free but not K-flat |
 | `DerivedDeRham.leftDerivedNonadditive` | §0.3 |
 | `Algebra.CotangentComplex.homologyZeroIso`, `Algebra.CotangentComplex.arrowFunctor`, `arrowResolution`, `resolutionRings`, `resolutionRingMap`, `resolutionRingMap_identity`, `resolutionRingMap_composition`, `resolutionRingMap_zero_target`, `arrowModel`, `arrowModelMap`, `arrowModelMap_tmul`, `termIso`, `face_tmul`, `cotangent_model_test_two_faces` | §0.4: the full cotangent complex, its arrow-category model and its Checks |
 | `Algebra.CotangentComplex.SquareZeroExtension`, `Algebra.CotangentComplex.extensionCategory`, `Algebra.CotangentComplex.extensionCategory_zero`, `Algebra.CotangentComplex.extensionCategory_polynomial`, `extensionSetoid`, `Algebra.CotangentComplex.extensionClass`, `Algebra.CotangentComplex.extensionClass_mk`, `Algebra.CotangentComplex.exal_add_representative`, `Algebra.CotangentComplex.morphismObstruction`, `Algebra.CotangentComplex.morphismObstruction_cocycle`, `derivationZero`, `derivationPostcompose` | §0.5 |
@@ -61,6 +62,7 @@ the section, or the pinned declaration, in the right column.
 | `CompactCoefficients.Tower`, `CompactCoefficients.Tower.toModuleFunctor`, `CompactCoefficients.Tower.limComparison`, `CompactCoefficients.Tower.limOneComparison` | Tau Ceti `TauCeti.ModuleTower` over `ℤ`, with `TauCeti.ModuleTower.lim` and `TauCeti.ModuleTower.limOne` |
 | `CompactCoefficients.Tower.lim`, `CompactCoefficients.Tower.limOne`, `CompactCoefficients.Tower.shift`, `ModuleTower.Product`, `ModuleTower.lim`, `ModuleTower.limOne`, `ModuleTower.shift`, `ModuleTower.productMap`, `ModuleTower.limMap`, `ModuleTower.limOneMap` | Tau Ceti `TauCeti.ModuleTower.lim`, `TauCeti.ModuleTower.limOne`, the product `TauCeti.ModuleTower.Product` of the terms, the difference map `TauCeti.ModuleTower.shift` on it, and the maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap` induced by a map of towers; over `ℤ` for the `CompactCoefficients` names |
 | `CompactCoefficients.Tower.isMittagLeffler_of_finite` | Tau Ceti `TauCeti.ModuleTower.isMittagLeffler_of_isArtinian` (finite abelian groups are Artinian `ℤ`-modules) |
+| `CompactCoefficients.Tower.limOne_subsingleton_of_isMittagLeffler`, `CompactCoefficients.Tower.limOne_exact` | Tau Ceti `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; for a levelwise short exact sequence of towers, `TauCeti.ModuleTower.exact_limOneMap` (exactness at the middle `lim¹`) with `TauCeti.ModuleTower.limOneMap_surjective`; over `ℤ` |
 | `DerivedDeRham.derivedLimit` | Tau Ceti `TauCeti.ModuleTower.derivedLimit` |
 | `derivedLimit_surjective`, `derivedLimit_milnor`, `limOne_mul_p` | §1.1: the degreewise-surjective model with its Milnor maps, and the multiplication-by-`p` Check |
 | `DerivedDeRham.moduleDerivedHom` | Tau Ceti `TauCeti.derivedHom` (§1.1.1) |
@@ -73,6 +75,8 @@ the section, or the pinned declaration, in the right column.
 | `DerivedDeRham.boundedTorsionCriterion` | §1.8; for modules, `DerivedDeRham.isAdicComplete_of_isCompletelyFlatModule` and `DerivedDeRham.isCompletelyFlatModule_of_isAdicComplete` |
 | `DerivedDeRham.completeFlatDescent` | §1.9 |
 | `PerfectComplex.IsPerfect`, `isPerfect_baseChange` | §1.E.0: `DerivedDeRham.IsPerfect` and `DerivedDeRham.isPerfect_baseChange`, perfection under derived extension of scalars, stated on a bounded-above finite-free model |
+| `HasTorAmplitude`, `finiteFreeBaseChangeModel` | §1.E.0: Tor amplitude `[a, b]` over a commutative ring, and the finite-free base-change comparison, by which the termwise scalar extension `DerivedDeRham.complexBaseChange` of a bounded-above finite-free model computes derived base change |
+| `PerfectSystem`, `FiniteFreeSystemModel` | §1.E.0, *Compatible finite-free models*: a compatible perfect system over a ring tower with its specified derived reductions, and its compatible bounded-above finite-free models |
 | `DerivedDeRham.perfectInverseSystemEffectivity` | §1.E.1 |
 
 The sheaf enhancement, point-site and affine comparisons belong to EnhancedDerivedSheaves
@@ -109,7 +113,7 @@ the headline theorems that are statable against the pinned libraries, with the f
 | Supplier | Exact input |
 | --- | --- |
 | From TauCetiRoadmap.AlgebraicTopology, Stage 6, item 0 (*Countable inverse-system algebra*) | The maps of homotopy limits induced by maps of towers of complexes whose squares commute up to specified homotopies, with their composition law and the homotopies induced by compatible second homotopies; see the subsection below. Used in §1.1. |
-| From Tau Ceti module towers | In `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower` (`ℕᵒᵖ ⥤ ModuleCat R` over any `[Ring R]`), the product `TauCeti.ModuleTower.Product` of its terms, its difference map `TauCeti.ModuleTower.shift` on that product, `δ(x)_n = x_n − φ_n(x_(n+1))`, with kernel `TauCeti.ModuleTower.lim` and cokernel `TauCeti.ModuleTower.limOne`, the induced maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap`; the six-term connecting map `TauCeti.ModuleTower.connecting` with `TauCeti.ModuleTower.exact_limMap_connecting`, `TauCeti.ModuleTower.exact_connecting_limOneMap` and `TauCeti.ModuleTower.connecting_naturality`; `TauCeti.ModuleTower.IsMittagLeffler` with `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; the Milnor sequences of towers of complexes `TauCeti.ComplexTower` under degreewise surjectivity of the difference map, `TauCeti.ComplexTower.limOneToHomology_injective`, `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim` and `TauCeti.ComplexTower.homologyToLim_surjective`, natural by `TauCeti.ComplexTower.homologyToLim_naturality` and `TauCeti.ComplexTower.limOneToHomology_naturality`; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`, `TauCeti.ModuleTower.limOneSubsequenceEquiv` and `TauCeti.ComplexTower.limComplexSubsequenceIso`; and, in `Tower.DerivedLimit`, the homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`, the derived limit `TauCeti.ModuleTower.derivedLimit` with `TauCeti.ModuleTower.derivedLimitFactors` (`Q ⋙ Rlim ≅ holim ⋙ Q`), its `Functor.CommShift ℤ` instance, the projections `TauCeti.ModuleTower.derivedLimitπ`, the comparison `TauCeti.ModuleTower.homotopyLimitLift` and `TauCeti.ModuleTower.derivedLimitIsoLimComplex` (`Rlim K ≅ lim K` when every term has vanishing `lim¹`); in `Tower.Reduction`, the reduction functor `TauCeti.ModuleTower.reductionFunctor I` sending a module `M` to its tower `n ↦ M/I^(n+1)M` with the quotient maps as transitions. Used in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
+| From Tau Ceti module towers | In `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower` (`ℕᵒᵖ ⥤ ModuleCat R` over any `[Ring R]`), the product `TauCeti.ModuleTower.Product` of its terms, its difference map `TauCeti.ModuleTower.shift` on that product, `δ(x)_n = x_n − φ_n(x_(n+1))`, with kernel `TauCeti.ModuleTower.lim` and cokernel `TauCeti.ModuleTower.limOne`, the induced maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap`; the six-term connecting map `TauCeti.ModuleTower.connecting` with `TauCeti.ModuleTower.exact_limMap_connecting`, `TauCeti.ModuleTower.exact_connecting_limOneMap`, `TauCeti.ModuleTower.exact_limOneMap`, `TauCeti.ModuleTower.limOneMap_surjective` and `TauCeti.ModuleTower.connecting_naturality`; `TauCeti.ModuleTower.IsMittagLeffler` with `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; the Milnor sequences of towers of complexes `TauCeti.ComplexTower` under degreewise surjectivity of the difference map, `TauCeti.ComplexTower.limOneToHomology_injective`, `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim` and `TauCeti.ComplexTower.homologyToLim_surjective`, natural by `TauCeti.ComplexTower.homologyToLim_naturality` and `TauCeti.ComplexTower.limOneToHomology_naturality`; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`, `TauCeti.ModuleTower.limOneSubsequenceEquiv` and `TauCeti.ComplexTower.limComplexSubsequenceIso`; and, in `Tower.DerivedLimit`, the homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`, the derived limit `TauCeti.ModuleTower.derivedLimit` with `TauCeti.ModuleTower.derivedLimitFactors` (`Q ⋙ Rlim ≅ holim ⋙ Q`), its `Functor.CommShift ℤ` instance, the projections `TauCeti.ModuleTower.derivedLimitπ`, the comparison `TauCeti.ModuleTower.homotopyLimitLift` and `TauCeti.ModuleTower.derivedLimitIsoLimComplex` (`Rlim K ≅ lim K` when every term has vanishing `lim¹`); in `Tower.Reduction`, the reduction functor `TauCeti.ModuleTower.reductionFunctor I` sending a module `M` to its tower `n ↦ M/I^(n+1)M` with the quotient maps as transitions. Used in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
 | From Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs, on which the Tau Ceti divided-power declarations below are built. |
 | From Tau Ceti polynomial laws and divided powers | In `TauCeti.RingTheory.PolynomialLaw`: `PolynomialLaw.IsHomogeneousOfDegree`, `PolynomialLaw.IsMultiplicative` and `PolynomialLaw.algHomEquiv`. In `TauCeti.RingTheory.DividedPowerAlgebra`: `DividedPowerAlgebra.homogeneousSubmodule`, `DividedPowerAlgebra.mapHomogeneousSubmodule`, `DividedPowerAlgebra.isInternal_homogeneousSubmodule`, the universal law `DividedPowerAlgebra.gamma` with `DividedPowerAlgebra.gamma_toFun_sum_tmul`, `DividedPowerAlgebra.homogeneousLawEquiv`, `DividedPowerAlgebra.baseChangeHomogeneousEquiv`, `DividedPowerAlgebra.homogeneousTensorMap`, `DividedPowerAlgebra.RobyAlgebra` with `DividedPowerAlgebra.RobyAlgebra.algHomEquiv`, `DividedPowerAlgebra.symmetricTensorEquiv`, and the augmentation theory `DividedPowerAlgebra.augmentation`, `DividedPowerAlgebra.augmentationIdeal`, `DividedPowerAlgebra.augmentationIdeal_eq_span`, `DividedPowerAlgebra.augmentationSplitting`, `DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul` and `DividedPowerAlgebra.dp_two_not_mem_span_dp_one`. These formalise §§0.DP.1–0.DP.3. |
 | From Tau Ceti replacements, derived Hom and flat modules | `CochainComplex.exists_quasiIso_isKInjective` (`TauCeti.Algebra.Homology.ModuleCat.KInjective`, any `[Ring R]`); the replacement functor `TauCeti.kInjectiveReplacement`, right adjoint to `DerivedCategory.Qh` by `TauCeti.kInjectiveReplacementAdjunction`, and `CochainComplex.IsKInjective.exists_homotopyEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.KInjective`); the derived Hom `TauCeti.derivedHom` with `TauCeti.derivedHomHomologyLinearEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.DerivedHom`); `CochainComplex.IsKFlat` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Basic`) and `CochainComplex.exists_quasiIso_isKFlat_moduleCat` (`TauCeti.Algebra.Homology.ModuleCat.KFlat`); the cell-attachment resolution `CochainComplex.kFlatResolution` built from epimorphisms `E X → X`, with its instances `CochainComplex.kFlatResolution.quasiIso_π`, `CochainComplex.isKFlat_kFlatResolution` and `CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Resolution`), read through Mathlib's `Module.Flat.iff_preservesFiniteLimits_tensorLeft`; Lazard's theorem `TauCeti.flatModuleFilteredFree` on the filtered category `TauCeti.FiniteFreeOver` (`TauCeti.Algebra.Category.ModuleCat.Flat.FilteredFree`, any `[Ring R]`); `ModuleCat.isZero_Tor_succ_of_flat` (`TauCeti.Algebra.Category.ModuleCat.Monoidal.Tor`). These formalise the K-injective replacement of §0.I.1, the derived Hom of §1.1.1 without its tensor adjunction, the K-flat replacement of §0.2 with flat terms, §0.2.1, and, with Mathlib's `Module.Flat.baseChange`, the complete flatness of flat modules in §1.7. `CochainComplex.IsKFlat` with `CochainComplex.exists_quasiIso_isKFlat_moduleCat` also carries the K-flat models on which §§1.3, 1.5 and 1.8 state derived Nakayama, the ordinary-quotient comparisons and the amplitude bound. |
@@ -878,7 +882,8 @@ the reductions to finite free modules in §§0.14–0.16 and the filtered-colimi
 ### S.1 The spectral sequence of a first-quadrant double complex
 
 **The spectral sequence of a first-quadrant double complex.** Let `A^{••}` be a first-quadrant
-double complex of abelian groups (or of modules over a ring): `A^{pq} = 0` for `p < 0` or `q < 0`,
+double complex in an abelian category (abelian groups or modules over a ring in the uses of
+§§0.2.2 and 0.9): `A^{pq} = 0` for `p < 0` or `q < 0`,
 with anticommuting differentials `d′` (in `p`) and `d″` (in `q`). The column filtration
 `FᵖTotⁿ = ⊕_{i≥p} A^{i,n−i}` of the total complex is biregular and gives a cohomological spectral
 sequence
@@ -910,7 +915,7 @@ naturality. In the homological form the second-page identification is the headli
 whose first page carries Mathlib's number `2`, the page numbered `3` is the classical `E²`, and its
 object at `(−k − 2p, p)` is `H_p` of the complex `t ↦ H_k(C_(t,•))` of vertical homologies.
 
-**Homological form.** For a first-quadrant chain double complex `C_(p,q)`, the same
+**Homological form.** For a first-quadrant chain double complex `C_(p,q)` in the same abelian category, the same
 filtered-complex construction uses the increasing column filtration
 `F_p Tot_n = ⊕_(i≤p) C_(i,n−i)`. It gives `E¹_(p,q) = H_q(C_(p,•))`,
 `E²_(p,q) = H_p(H_q(C))` and `d_r : E^r_(p,q) → E^r_(p−r,q+r−1)`, abutting to
@@ -959,7 +964,10 @@ anticommuting differentials become the commuting differentials of Mathlib's `Hom
 after a sign depending on the degree; its totalisation uses `ComplexShape.TensorSigns`, and the
 pages and edge maps are transported through the same convention ([NSW],
 Chapter II, §1, Proposition 2.1.1, printed p. 99 (PDF p. 116); Chapter II, §2, Lemma 2.2.4,
-printed p. 105 (PDF p. 122)). *Needs:* Tau Ceti
+printed p. 105 (PDF p. 122)). In an arbitrary abelian category the second-page identification,
+the convergence of a double complex with finitely many nonzero terms in each total degree, and
+the comparison of an exact augmentation with the total complex are [StacksHom], §12.25,
+Lemmas 12.25.1, 12.25.3 and 12.25.4, Tags 0130, 0132 and 0133, pp.67–69. *Needs:* Tau Ceti
 `CochainComplex.spectralSequence`, `CochainComplex.filtrationAbutmentIso`,
 `CochainComplex.filtrationSpectralSequencePageXIsoEInfty`,
 `HomologicalComplex₂.columnFiltrationSpectralSequence` and
@@ -1500,7 +1508,7 @@ If `J ⊂ P` is generated by a finite regular sequence `f₁, …, f_r` and `B =
 `L_(B/A)` is the two-term complex `[J/J² → Ω¹_(P/A) ⊗_P B]` with `f_i ↦ df_i` in degrees `−1, 0`.
 Flatness of `B` over `A` is not needed for this computation.
 
-[StacksCt], §14, Lemma 14.2 and Proposition 14.4; Tags 08SJ, 08SL, pp.29–31.
+[StacksCt], §14, Lemma 14.2 and Proposition 14.4; Tags 08SJ, 08SL, p.29.
 
 *Needs:* §0.4 (The full cotangent complex); §0.8 (The cotangent transitivity triangle); §0.12 (The smooth cotangent computation); §0.K.1 (Koszul resolution of a
 regular sequence).
@@ -2730,6 +2738,7 @@ the author corrections [IllusieI] and [IllusieII].
 - **StacksCt**: The Stacks Project Authors, *The Cotangent Complex* (Chapter 92).
 - **StacksDefos**: The Stacks Project Authors, *Deformation Theory* (Chapter 91).
 - **StacksDPA**: The Stacks Project Authors, *Divided Power Algebra* (Chapter 23).
+- **StacksHom**: The Stacks Project Authors, *Homological Algebra* (Chapter 12).
 - **StacksMA**: The Stacks Project Authors, *More on Algebra* (Chapter 15).
 - **StacksSimp**: The Stacks Project Authors, *Simplicial Methods* (Chapter 14).
 - **StacksSites**: The Stacks Project Authors, *Cohomology on Sites* (Chapter 21).
@@ -2754,6 +2763,7 @@ the author corrections [IllusieI] and [IllusieII].
 [StacksCt]: https://stacks.math.columbia.edu/download/cotangent.pdf
 [StacksDefos]: https://stacks.math.columbia.edu/download/defos.pdf
 [StacksDPA]: https://stacks.math.columbia.edu/download/dpa.pdf
+[StacksHom]: https://stacks.math.columbia.edu/download/homology.pdf
 [StacksMA]: https://stacks.math.columbia.edu/download/more-algebra.pdf
 [StacksSimp]: https://stacks.math.columbia.edu/download/simplicial.pdf
 [StacksSites]: https://stacks.math.columbia.edu/download/sites-cohomology.pdf
