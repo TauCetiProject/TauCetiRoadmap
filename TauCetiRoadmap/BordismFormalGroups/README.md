@@ -60,16 +60,16 @@ input here. The ordinary-operation items of TangentialBordism's Layer 4
 and its additive MO splitting are F2 targets, which TangentialBordism
 consumes, one line each:
 
-- TangentialBordism B4.1, the Steenrod squares Sq^i → F2, **Steenrod
+- TangentialBordism B4.1, the Steenrod squares Sq^i → F2.2, **Steenrod
   algebras and mod-p Adams towers** (the operations by the extended-power
   construction; a cup-i model of them is a comparison with these);
 - TangentialBordism B4.2, the Steenrod algebra with its admissible basis
   and dual, the transgression with Kudo's and Borel's theorems, and
-  HF_p-Adams convergence → F2, the same paragraph;
+  HF_p-Adams convergence → F2.2, the same section;
 - TangentialBordism B4.7, the odd-prime operations P^i and β and Borel's
-  theorem for p-simple systems → F2, the same paragraph;
-- TangentialBordism B4.4, the additive splitting MO≃⋁_α Σ^(|α|)HF₂ → F2,
-  **Unoriented coefficients**.
+  theorem for p-simple systems → F2.2, the same section;
+- TangentialBordism B4.4, the additive splitting MO≃⋁_α Σ^(|α|)HF₂ →
+  F2.5, **Unoriented coefficients**.
 
 StringOrientation consumes F3–F5, including F3's Adams-summand splitting
 of ko_(p) for its own space-level splitting of BO⟨d⟩_(p), and owns the
@@ -152,7 +152,10 @@ choices, with explicit comparison maps between choices.
   includes Hausdorffness: it extends `IsHausdorff` and `IsPrecomplete`),
   and Witt vectors `WittVector` with the residue map
   `WittVector.constantCoeff` (`Mathlib/RingTheory/WittVector/Basic.lean`)
-  for the standard coefficient ring.
+  for the standard coefficient ring. For F5's invariant prime ideals:
+  `Ideal.IsHomogeneous` for a `GradedRing`
+  (`Mathlib/RingTheory/GradedAlgebra/Homogeneous/Ideal.lean`), `Ideal.map`,
+  `Ideal.IsPrime` and `MvPolynomial.C`.
 - **From Tau Ceti:** the formal-group tree `TauCeti.RingTheory.FormalGroup`:
   the bundled homomorphisms `TauCeti.FormalGroupHom` and isomorphisms
   `TauCeti.FormalGroupIso` (strict ones through
@@ -173,6 +176,15 @@ choices, with explicit comparison maps between choices.
   (modules `Height.Basic`, `Height.Ideal`), the Frobenius factorization
   (module `Frobenius.Factorization`) and the obstruction and
   leading-difference lemmas (modules `Obstruction`, `LeadingDifference`).
+  For F5: the invariance of the height ideals of the Lazard ring,
+  `TauCeti.LazardRing.map_rightUnit_heightIdeal` (module
+  `CoordinateChange.HopfAlgebroid`), their presentation
+  `FormalGroup.heightIdeal_eq_span` (module `Height.Ideal`), and Lubin–Tate
+  rigidity `TauCeti.FormalGroupIso.eq_of_map_residue_eq` (module
+  `Rigidity`): over a local ring Hausdorff for its maximal ideal, with
+  residue field of characteristic p, two isomorphisms between commutative
+  formal groups with the same reduction are equal when the reduction of
+  the source has finite height.
   F1 names each consumed declaration where it is used; the height is
   defined over a field, and the classification's separable closure is a
   hypothesis of this roadmap's target, not of the library's height. For
@@ -278,7 +290,9 @@ theorem of the pinned Tau Ceti, in the modules of
 remaining target, Lazard's classification over separably closed fields, is
 the layer's only headline.
 
-**n-series, inverses, homomorphisms and points.** The n-series [n]_F is
+### F1.1. n-series, inverses, homomorphisms and points
+
+The n-series [n]_F is
 `FormalGroup.nsmulSeries` (module `NSMul.Basic`), the value of n times the
 coordinate point `FormalGroup.tautologicalPoint` of `FormalGroup.Point F Unit`
 (module `AddInv`); `nsmulSeries_zero` and `nsmulSeries_succ` are the
@@ -332,7 +346,9 @@ continuous homomorphisms `toTopNilpotentPointHom` and equivalences
 `toTopNilpotentPointContinuousAddEquiv` (modules `TopNilpotentPoint.Hom`
 and `TopNilpotentPoint.Topology`).
 
-**Lazard ring, cocycle lemma and Hopf algebroid.** `TauCeti.LazardRing`
+### F1.2. Lazard ring, cocycle lemma and Hopf algebroid
+
+`TauCeti.LazardRing`
 (module `LazardRing.Basic`) is the quotient of ℤ[a_ij : i,j≥1] by the
 commutativity and associativity relations `LazardRing.relations` of
 X+Y+Σa_ij X^iY^j; `LazardRing.formalGroup` is the universal commutative
@@ -377,7 +393,8 @@ are graded (modules `CoordinateChange.Homogeneous` and
 `CoordinateChange.Coproduct`). F2 identifies this Hopf algebroid with
 (MU_*, MU_*MU).
 
-**Invariant differential, logarithm and exponential.**
+### F1.3. Invariant differential, logarithm and exponential
+
 `FormalGroup.invariantDifferential` (module `Logarithm.Basic`) is
 P(T)=F_X(0,T)⁻¹ for every formal group over every ring, with P(0)=1
 (`constantCoeff_invariantDifferential`), the invariance
@@ -406,18 +423,23 @@ coordinate change (`log_smul`: the logarithm of φ•F is φ'(0)·log_F(φ⁻¹X
 and `exp_smul`) are in module `Logarithm.Naturality`; the logarithm of a
 rescaled law over rings without ℚ is module `Logarithm.Rescale`; the
 examples `log_𝔾ₐ`, `exp_𝔾ₐ`, `log_𝔾ₘ`, `exp_𝔾ₘ` give T, T, log(1+T)
-and e^T−1. Checks, as values that must agree with these declarations: for
-the additive group P=1, log=T and exp=T; for the multiplicative group
-X+Y+XY, P=(1+T)⁻¹, log_F=Σ_(n≥1)(−1)^(n+1)T^n/n and exp_F=e^T−1, and
-P(F(X,Y))·F_X(X,Y)=(1+Y)/((1+X)(1+Y))=P(X), whereas the un-inverted
-series 1+T fails invariance since (1+F(X,Y))(1+Y)≠1+X; over a ℚ-algebra
-the additive series along the additive group are exactly the multiples
-c·T, so T² is not additive, whereas X² is additive along X+Y precisely
-over rings with 2=0, since (X+Y)²−X²−Y²=2XY, the setting of the
-exponent-two paragraph below. The exponent-two construction below is a
-separate integral argument; the ℚ-algebra logarithm does not apply there.
+and e^T−1. The exponent-two construction of F1.4 is a separate integral
+argument; the ℚ-algebra logarithm does not apply there.
 
-**Exponent two.** For a commutative F over any ring R with [2]_F=0 (which
+**Checks.** Values that must agree with these declarations:
+- for the additive group P=1, log=T and exp=T;
+- for the multiplicative group X+Y+XY, P=(1+T)⁻¹,
+  log_F=Σ_(n≥1)(−1)^(n+1)T^n/n and exp_F=e^T−1, and
+  P(F(X,Y))·F_X(X,Y)=(1+Y)/((1+X)(1+Y))=P(X), whereas the un-inverted
+  series 1+T fails invariance since (1+F(X,Y))(1+Y)≠1+X;
+- over a ℚ-algebra the additive series along the additive group are
+  exactly the multiples c·T, so T² is not additive, whereas X² is additive
+  along X+Y precisely over rings with 2=0, since (X+Y)²−X²−Y²=2XY, the
+  setting of F1.4.
+
+### F1.4. Exponent two
+
+For a commutative F over any ring R with [2]_F=0 (which
 forces 2=0 in R, `natCast_eq_zero_of_nsmulSeries_eq_zero`), the normalized
 strict logarithm g_F(X)=X+Σ_(i≥1)a_iX^(i+1) with a_(2^k−1)=0 for every
 k≥1 and g_F(F(X,Y))=g_F(X)+g_F(Y) is `FormalGroup.exponentTwoLog` (module
@@ -466,7 +488,9 @@ algebroid with `rightUnit`, `counit` and `coordinateChangeLift` is module
 `ExponentTwo.CoordinateChange`. F2 identifies this ring with MO_* for the
 degree-one real orientation.
 
-**Height and Lazard's classification.** Over a field K,
+### F1.5. Height and Lazard's classification
+
+Over a field K,
 `FormalGroup.height F p` (module `Height.Basic`) is ⊤ when [p]_F=0 and
 otherwise log_p of the order of [p]_F (`height_eq_top_iff`); for a
 commutative F over a field of characteristic p, `height_eq_natCast_iff`
@@ -521,19 +545,23 @@ and for f the identity series, whose defect is F−G, this is
 Frobenius, obstruction and leading-difference APIs named above; for
 Ravenel's route also F3's p-typical coordinates and Hazewinkel
 generators, which are a route input, not an input of the statement.
-Checks: the additive and multiplicative groups over an algebraic closure
-of 𝔽_p have heights ∞ and 1 (`height_𝔾ₐ`, `height_𝔾ₘ`) and are not
-isomorphic, which the statement forbids and a definition of height that
-returned 0 for the additive group would not; for F=G the identity series
-X is the isomorphism and the heights agree trivially; over 𝔽_p itself the
-forward direction holds but the converse fails: the multiplicative group
-and its nontrivial Galois twists have height one and are not isomorphic
-over 𝔽_p, since an 𝔽_p-isomorphism commutes with the Frobenius
-endomorphism X^p, which these twists send to different elements of the
-common endomorphism ring ℤ_p, so separable closure is needed. This
-supplies ModularCurves' height-classification application. EllipticCurves
-Layer1 owns the elliptic logarithm/exponential instances; it consumes the
-pinned generic API.
+This supplies ModularCurves' height-classification application.
+EllipticCurves Layer 1 owns the elliptic logarithm/exponential instances;
+it consumes the pinned generic API.
+
+**Checks.**
+- The additive and multiplicative groups over an algebraic closure of
+  𝔽_p have heights ∞ and 1 (`height_𝔾ₐ`, `height_𝔾ₘ`) and are not
+  isomorphic, which the statement forbids and a definition of height that
+  returned 0 for the additive group would not.
+- For F=G the identity series X is the isomorphism and the heights agree
+  trivially.
+- Over 𝔽_p itself the forward direction holds but the converse fails: the
+  multiplicative group and its nontrivial Galois twists have height one
+  and are not isomorphic over 𝔽_p, since an 𝔽_p-isomorphism commutes with
+  the Frobenius endomorphism X^p, which these twists send to different
+  elements of the common endomorphism ring ℤ_p; so separable closure is
+  needed.
 
 ### Examples
 
@@ -555,6 +583,8 @@ classification also uses F3's p-typical coordinates; the statement does
 not.
 
 ## Layer 2: F2. Complex orientations and Quillen's theorem
+
+### F2.1. Complex orientations and their formal laws
 
 Consume G4's chosen complex orientation and finite projective-bundle theorem.
 Own the two-variable comparison: iterated finite CP^m×CP^n projective-bundle
@@ -580,8 +610,29 @@ complex-induced class by (−1)^r in quaternionic rank r. State the
 higher-rank splitting, Whitney and naturality laws separately for these
 orientations and use the standard normalization for e_Sp.
 Do not impose this normalization on an arbitrary independent E orientation.
+*Needs:* GeneralizedCohomology G4 (the chosen complex orientation, the
+finite projective-bundle theorem and the two quaternionic orientations)
+and G3.8 (the Milnor sequence); TopologicalKTheory's Conventions (the Bott
+class); Mathlib `FormalGroup` and `FormalGroup.𝔾ₘ`, and F1.1's
+`TauCeti.FormalCoordinate` for the comparison of two orientations.
 
-**Steenrod algebras and mod-p Adams towers.** For every prime p construct
+**Checks.**
+- With x_K(L)=u⁻¹([L⁻¹]−1), write [L⁻¹]=1+ux; then
+  x_K(L⊗L′)=u⁻¹((1+ux)(1+uy)−1)=x+y+uxy, and on CP¹ the restriction of
+  x_K(O(1)) is u⁻¹([O(−1)]−1)=u⁻¹u=1. The variant u⁻¹([L]−1) has the same
+  law but restricts to −1, because [O(1)]−1=−β on S² (β²=0 and
+  [O(1)][O(−1)]=1), so it violates the normalization.
+- The dual line has x_K(L⁻¹)=[−1]_(F_K)(x)=−x/(1+ux): indeed
+  x+(−x/(1+ux))+ux·(−x/(1+ux))=(x+ux²−x−ux²)/(1+ux)=0, so the inverse
+  dual-line formula is not x↦−x for K-theory.
+- For ordinary cohomology, with the additive law, γ_H restricted to CP∞ is
+  L⊕L⁻¹ as a complex bundle, of top Chern class t·(−t)=−t², the value of
+  e^c(γ_H)|CP∞=t[−1]_F(t); the standard class is t², and the two differ by
+  (−1)^r with r=1, as stated.
+
+### F2.2. Steenrod algebras and mod-p Adams towers
+
+For every prime p construct
 the stable mod-p Steenrod operations on AlgebraicTopology's ordinary
 cohomology, Sq^i at p=2 and P^i with the Bockstein β at odd p, by the
 extended-power construction over the cyclic group of order p and the mod-p
@@ -639,13 +690,22 @@ Q_(i+1)=[P^(p^i),Q_i] (at p=2, [Sq^(2^(i+1)),Q_i]), of degree 2p^i−1
 (2^(i+1)−1 at p=2), dual to τ_i at odd p and to ξ_(i+1) in the Milnor
 basis at p=2; prove Q_i²=0 and Q_iQ_j=Q_jQ_i, that E=E(Q₀,Q₁,…) is an
 exterior sub-Hopf algebra, that A_p is free as a left and as a right
-E-module by the Milnor basis, and that the quotient A//E is dual to
-`P_*=𝔽_p[ξ₁,ξ₂,…]` at odd p and to `𝔽₂[ξ₁²,ξ₂²,…]` at p=2 (Ravenel,
-Theorem 3.1.1 and Lemma 3.1.4). Prove the change-of-rings isomorphism
-Ext_(A_*)(𝔽_p,P_*⊗C)≅Ext_(E_*)(𝔽_p,C) for an E_*-comodule C (Ravenel,
-Corollaries A1.1.18 and A1.3.13) at every prime; the mod-2 statement uses
-the squares ξ_i² and is constructed here, not transported from the
-odd-prime one. Construct the HF_p-based Adams tower of a spectrum X from
+E-module by the Milnor basis, and that the quotient A//E is dual to the
+sub-Hopf algebra `P_*=𝔽_p[ξ₁,ξ₂,…]` at odd p and `𝔽₂[ξ₁²,ξ₂²,…]` at p=2
+of A_*, so that the dual E_* of E is the quotient Hopf algebra
+A_*⊗_(P_*)𝔽_p, the exterior algebra `E(τ₀,τ₁,…)` at odd p and
+`E(ξ₁,ξ₂,…)` at p=2 (Ravenel, Theorem 3.1.1, Lemma 3.1.6 for P_*, and
+Lemma 3.1.8, p. 64, for E_*). Prove that A_*≅P_*⊗E_* as left P_*-modules
+and right E_*-comodules (Ravenel, Corollary A1.1.20, for the surjection
+A_*→E_*). Prove the change-of-rings isomorphism
+Ext_(A_*)(𝔽_p,A_*□_(E_*)C)≅Ext_(E_*)(𝔽_p,C) for every left E_*-comodule C
+(Ravenel, Corollary A1.3.13), where A_*□_(E_*)C≅P_*⊗C as graded vector
+spaces by the preceding splitting, and its comodule-algebra form
+Ext_(A_*)(𝔽_p,P_*⊗N)≅Ext_(E_*)(𝔽_p,N) for an A_*-comodule algebra N, with
+P_*⊗N carrying the tensor-product coaction and N its restricted
+E_*-coaction (Ravenel, Lemma 3.1.8, p. 64), at every prime; the mod-2
+statements use the squares ξ_i² and are constructed here, not transported
+from the odd-prime ones. Construct the HF_p-based Adams tower of a spectrum X from
 G2's cofiber sequences of the unit S→HF_p smashed with X, an E-Adams
 resolution (Ravenel, Definition 2.2.1), its exact couple and spectral
 sequence with E₂^(s,t)=Ext_(A_*)^(s,t)(𝔽_p,H_*(X;𝔽_p)) and d_r of bidegree
@@ -655,14 +715,28 @@ convergence to the homotopy of the HF_p-nilpotent completion, identified
 for bounded-below X with G3.9's derived p-completion (Bousfield, §6,
 Theorem 6.6), which is π_*(X)⊗ℤ_p when the homotopy groups of X are
 finitely generated (Ravenel, Theorem 2.1.1(ii)); control
-lim¹ and keep this completion distinct from p-localization. Checks: on the
-degree-one class a of RP^∞, Sq¹a=a² and Sq²a=0, so an instability bound
-with strict inequality would lose the top square; at p=2, |ξ₂|=3 and
-|Q₁|=3, and at p=3, |ξ₁|=4, |τ₀|=1, |τ₁|=5 and |Q₁|=5; d₂ sends
-(s,t)=(1,2) to (3,3), lowering t−s from 1 to 0, not raising it; the Moore
-spectrum of ℤ/2^∞ has classical 2-completion zero but derived
-2-completion with π₁=ℤ₂, so the tensor form needs finite generation.
+lim¹ and keep this completion distinct from p-localization.
 TangentialBordism consumes these operations, algebras and towers.
+*Needs:* AlgebraicTopology's ordinary cohomology with cup products, Stage
+5.5's cohomological Serre spectral sequence and Stage 8.8–8.10's
+Eilenberg–MacLane models, universal classes and representability;
+GeneralizedCohomology G2's cofiber sequences, G2.7's HF_p, G3.8's Milnor
+sequence and G3.9's derived p-completion. Hatcher, Miller, Ravenel,
+Guillou–Weibel and Bousfield are cited sources, not suppliers.
+
+**Checks.**
+- On the degree-one class a of RP^∞, Sq¹a=a² and Sq²a=0, so an instability
+  bound with strict inequality would lose the top square.
+- At p=2, |ξ₂|=3 and |Q₁|=3, and at p=3, |ξ₁|=4, |τ₀|=1, |τ₁|=5 and
+  |Q₁|=5; the Poincaré series of P_*⊗E_* at p=2,
+  ∏(1−t^(2(2^i−1)))⁻¹·∏(1+t^(2^i−1)), equals that of A_*,
+  ∏(1−t^(2^i−1))⁻¹, as the splitting A_*≅P_*⊗E_* requires.
+- d₂ sends (s,t)=(1,2) to (3,3), lowering t−s from 1 to 0, not raising
+  it.
+- The Moore spectrum of ℤ/2^∞ has classical 2-completion zero but derived
+  2-completion with π₁=ℤ₂, so the tensor form needs finite generation.
+
+### F2.3. Quillen's theorem and the homotopy of MU
 
 Construct the map L→MU_* from MU's orientation and prove it is an
 isomorphism. Supply the complete coefficient proof from the Adams towers
@@ -684,8 +758,14 @@ H_*(MU;𝔽_p), so that by graded Nakayama the monomials in the lifts form a
 C-basis and the multiplication map from C⊗𝔽_p[lifts] is an isomorphism of
 algebras (not of comodules); comparing indecomposables and Poincaré
 series, C is polynomial on generators u_i of degree 2i for i+1 not a
-power of p, each a unit multiple of b_i modulo decomposables of
-H_*(MU;𝔽_p) (Ravenel, Lemma 3.1.7). Only the comodule isomorphism enters the Ext computation.
+power of p (Ravenel, Lemma 3.1.7, p. 63); by the same count, since the
+indecomposables of H_*(MU;𝔽_p)=𝔽_p[b₁,b₂,…] are spanned by b_i in degree 2i
+and the algebra isomorphism embeds the indecomposables of C, each u_i is a
+unit multiple of b_i modulo decomposables. Only the comodule isomorphism
+enters the Ext computation: C has the trivial coaction, so
+H_*(MU;𝔽_p)≅P_*⊗C≅A_*□_(E_*)C as A_*-comodules, and the change of rings
+above gives Ext_(A_*)(𝔽_p,H_*(MU;𝔽_p))=Ext_(E_*)(𝔽_p,𝔽_p)⊗C (Ravenel,
+Lemma 3.1.8 and its proof).
 Prove the change-of-rings
 decomposition E₂=Ext_(E_*)(𝔽_p,C)=𝔽_p[a₀,a₁,…]⊗C with a_i of bidegree
 (1,2p^i−1) (Ravenel, Corollary 3.1.10), at p=2 with E(Q₀,Q₁,…) and
@@ -709,15 +789,37 @@ of the orientation with Lazard's generators and prove that L→MU_* is an
 isomorphism (Ravenel, Theorem 4.1.6; Miller, Chapter 2, Theorem 3.5 and
 Proposition 8.3; Quillen 1969, Theorem 2). Prove MU_* is polynomial
 in degrees 2n and identify the coproduct/strict-coordinate interpretation of
-MU_*MU≅MU_*[b₁,b₂,…], including grading and left/right units. Checks:
-modulo decomposables h(x₁), h(x₂), h(x₃), h(x₄), h(x₅), h(x₆) are unit
-multiples of 2b₁, 3b₂, 2b₃, 5b₄, b₅, 7b₆, since 2, 3, 4, 5, 7 are prime
-powers and 6 is not; π₂MU=ℤ on x₁ and π₄MU=ℤ² on x₁², x₂, while a
-wrong collapse argument allowing odd t−s would have to account for
-π₁MU=π₃MU=0.
+MU_*MU≅MU_*[b₁,b₂,…], including grading and left/right units.
+
+Construct the Landweber–Novikov operations from these cooperations, their
+composition, Cartan, naturality and Thom/Gysin formulas, and their agreement
+with coordinate changes. Supply duality/completion hypotheses for infinite
+families; a graded dual is not an unqualified algebraic dual.
+*Needs:* F2.2 (the HF_p-Adams towers, Milnor primitives and change of
+rings); GeneralizedCohomology G4 (projective-bundle comparison) and
+G5.3–G5.4 (Thom model of MU and Thom product); F1.2's pinned
+`TauCeti.LazardRing.lift`, `TauCeti.LazardRing.mvPolynomialEquiv` and
+Hopf-algebroid structure maps for the comparison with L and with
+(L,L[b₁,b₂,…]).
+
+**Checks.**
+- Modulo decomposables h(x₁), h(x₂), h(x₃), h(x₄), h(x₅), h(x₆) are unit
+  multiples of 2b₁, 3b₂, 2b₃, 5b₄, b₅, 7b₆, since 2, 3, 4, 5, 7 are prime
+  powers and 6 is not.
+- π₂MU=ℤ on x₁ and π₄MU=ℤ² on x₁², x₂, while a wrong collapse argument
+  allowing odd t−s would have to account for π₁MU=π₃MU=0.
+- In the normalization in which the total Landweber–Novikov operation
+  sends the orientation x to x+Σt_ix^(i+1), the form of F1.2's
+  `TauCeti.FormalCoordinate.universalStrictCoordinate` under t_i↦b_i,
+  s_(1)(x)=x², and by multiplicativity s_(1)(x²)=2x³, the coefficient of
+  t₁ in (x+t₁x²+⋯)², not x⁴; normalizing by the inverse series instead
+  gives s_(1)(x)=−x², which is why the comparison with coordinate changes
+  fixes the normalization.
+
+### F2.4. Real orientations and the exponent-two law
 
 For a chosen real orientation use G4's RP∞ projective comparisons to
-construct the real-line tensor Euler law F(x,y) in degree1. Own the
+construct the real-line tensor Euler law F(x,y) in degree 1. Own the
 two-variable real projective comparison: on RP^m×RP^n identify
 E^* with E^*[x,y]/(x^(m+1),y^(n+1)), compatibly with restriction
 and both Euler classes. Pass to RP∞×RP∞ through the two finite-stage
@@ -732,9 +834,25 @@ computed below and Quillen's unoriented operation proof
 (Quillen 1969, Theorem 3), and prove the orientation/change-of-coordinate
 universal property of MO.
 TangentialBordism consumes these real formal laws; its geometric cycles
-and manifold representatives are not inputs here.
+and manifold representatives are not inputs here. *Needs:*
+GeneralizedCohomology G4 (real projective comparisons and Euler classes)
+and G3.8 (Milnor sequence); F1.4's pinned `TauCeti.ExponentTwoLazardRing`,
+`ExponentTwoLazardRing.lift` and `ExponentTwoLazardRing.gradedLift`; F2.5's
+π_*MO.
 
-**Unoriented coefficients.** Own Thom's computation of π_*MO
+**Checks.**
+- For HF₂ with x_H=w₁ the real-line law is additive, since
+  w₁(L⊗L′)=w₁(L)+w₁(L′); it satisfies 2·1=0 and F(x,x)=0.
+- The law X+Y+XY over 𝔽₂ has F(x,x)=x²≠0, so it is not the law of any
+  real orientation: F(x,x)=0 is forced by the triviality of L⊗L, and is
+  the exponent-two condition [2]_F=0.
+- `TauCeti.ExponentTwoLazardRing` has no generator in degree 1 (1+1=2 is
+  a power of two) and one in degree 2 (2+1=3 is not), matching π₁MO=0 and
+  π₂MO=𝔽₂ in F2.5.
+
+### F2.5. Unoriented coefficients
+
+Own Thom's computation of π_*MO
 homotopically. From G5.3–G5.4's Thom model of MO, G4.3's Thom isomorphism
 and CharacteristicClasses C3's `H^*(BO(n);𝔽₂)=𝔽₂[w₁,…,w_n]` with the
 Whitney formula, identify H^*(MO;𝔽₂) with the free H^*(BO;𝔽₂)-module on
@@ -773,12 +891,23 @@ which proves it; Miller, Chapter 1, Section 13, states it and omits the
 proof). This ring is the MO_* of the Conner–Floyd
 comparison below. TangentialBordism's geometric multiplication and its
 manifold generators are matched against these x_d on its side and are
-not inputs. Checks: π₁MO=π₃MO=0 and π₂MO=𝔽₂ on x₂, since 1 and 3 are of
-the form 2^k−1; π₄MO has basis x₄, x₂², rank 2, where counting only
-indecomposables gives 1; in degree 5 the ranks of H_*(MO;𝔽₂), A_* and P
-are 7, 2 and 1, and the Künneth count
-1·1+1·2+1·0+2·1+2·0+2·1=7 of A_*⊗P agrees, whereas replacing A_* by the
-polynomial algebra on all ξ_k and ξ_k² would overcount.
+not inputs. *Needs:* GeneralizedCohomology G5.3–G5.4 (Thom model of MO
+and Thom product) and G4.3 (Thom isomorphism); CharacteristicClasses C3;
+F2.2 (Steenrod algebra, Milnor's dual and the comodule-algebra
+splitting); AlgebraicTopology Stage 8.3's Hurewicz theorem with
+GeneralizedCohomology G2.5's sphere/space comparison for the stable
+Hurewicz step.
+
+**Checks.**
+- π₁MO=π₃MO=0 and π₂MO=𝔽₂ on x₂, since 1 and 3 are of the form 2^k−1.
+- π₄MO has basis x₄, x₂², rank 2, where counting only indecomposables
+  gives 1.
+- In degree 5 the ranks of H_*(MO;𝔽₂), A_* and P are 7, 2 and 1, and the
+  Künneth count 1·1+1·2+1·0+2·1+2·0+2·1=7 of A_*⊗P agrees, whereas
+  replacing A_* by the polynomial algebra on all ξ_k and ξ_k² would
+  overcount.
+
+### F2.6. Real-oriented theories, graded Eilenberg–MacLane models and the Conner–Floyd comparison
 
 Specify the category of real-oriented multiplicative cohomology theories:
 an object includes its unital homotopy-commutative ring-spectrum model and
@@ -812,7 +941,7 @@ Construct the ring comparison `H_*(HR;𝔽₂)≃A_*⊗_(𝔽₂)R`
 and the Künneth comparison for HR∧HR, identifying H_*(μ) with
 multiplication on both factors. Use the commutative dual Steenrod algebra
 `A_*=𝔽₂[ξ₁,ξ₂,…]` constructed above; the sphere-twist signs
-(−1)^(ab) are trivial mod2.
+(−1)^(ab) are trivial mod 2.
 No strict commutative DGA or E∞ structure is inferred. Prove the chosen
 HR model semistable and compare its model homotopy groups with G2.6's
 true π_* before applying the stable weak-equivalence criterion.
@@ -847,11 +976,21 @@ Deduce freeness and identify h_* naturally with
 `H_*(X,A;𝔽₂)⊗_(𝔽₂)R`. Exactness follows by tensoring over the field,
 including the boundary maps; termwise freeness alone is not an exactness
 argument. This works for every commutative graded MO_*-algebra R.
+*Needs:* GeneralizedCohomology G2.4 (symmetric spectral model), G2.6 (true
+homotopy groups) and G2.7 (HF₂ and module spectra); F2.2's dual Steenrod
+algebra; F2.4's real laws and F2.5's MO_*; F1.4's pinned
+`FormalGroup.exponentTwoExp` and `ExponentTwoLazardRing.lift`.
 
-Construct the Landweber–Novikov operations from these cooperations, their
-composition, Cartan, naturality and Thom/Gysin formulas, and their agreement
-with coordinate changes. Supply duality/completion hypotheses for infinite
-families; a graded dual is not an unqualified algebraic dual.
+**Checks.**
+- For R=𝔽₂ through the augmentation of MO_*, h_*(X,A)=H_*(X,A;𝔽₂) and
+  HR=HF₂ with the additive law; the comparison h_*→HR_* is the identity.
+- π_*HR=R with R_d in degree d: for R=MO_*, π₂HR=𝔽₂x₂, whereas the
+  ungraded Eilenberg–MacLane spectrum of the underlying ring would put
+  all of R in degree 0 and give π₂=0.
+- For R=MO_* the Thom map MO→H(MO_*) induces the identity on
+  coefficients, so the Conner–Floyd comparison gives
+  MO_*(pt)=MO_*⊗H_*(pt;𝔽₂)=MO_*, and MO_*(RP²) has rank 1+1+1 over MO_*
+  in degrees 0, 1, 2 from H_*(RP²;𝔽₂).
 
 ### Examples
 
@@ -864,21 +1003,44 @@ families; a graded dual is not an unqualified algebraic dual.
 
 ### Dependencies
 
-F1; AlgebraicTopology's ordinary cohomology, Stage 5.5 and Stages
-8.8–8.10; CharacteristicClasses C3; TopologicalKTheory's Conventions;
-GeneralizedCohomology G2.4, G2.6, G2.7, G3.8, G3.9, G4 (with G4.3) and
-G5.3–G5.4.
+F1; AlgebraicTopology's ordinary cohomology, Stage 5.5, Stage 8.3 and
+Stages 8.8–8.10; CharacteristicClasses C3; TopologicalKTheory's
+Conventions; GeneralizedCohomology G2.4, G2.5, G2.6, G2.7, G3.8, G3.9, G4
+(with G4.3) and G5.3–G5.4.
 
 ## Layer 3: F3. p-typical and Brown–Peterson theories
+
+### F3.1. p-typicalization and Brown–Peterson theory
 
 For each prime p, construct the p-typicalization idempotent on MU_(p),
 prove its multiplicative comparison, and split it to obtain BP. Pin
 BP_*≅ℤ_(p)[v₁,v₂,…] using specified Hazewinkel generators and prove the
 logarithm recursion and conversion to other p-typical coordinates.
 Construct BP_*BP≅BP_*[t₁,t₂,…] and the full Hopf-algebroid structure;
-identify its strict p-typical coordinate-change functor.
+identify its strict p-typical coordinate-change functor. *Needs:* F2.3
+(MU, MU_*MU and Quillen's theorem); GeneralizedCohomology G2.4
+(localization and splitting of idempotents of spectra); F1.2's pinned
+Lazard ring and coordinate changes for Cartier's p-typicalization of
+formal groups.
 
-**The height-n Honda law.** For 1≤n<∞ define the height-n Honda law H_n
+**Checks.**
+- At p=2, |v₁|=2 and |v₂|=6, so BP₂=ℤ_(2)v₁, BP₄=ℤ_(2)v₁² and
+  BP₆=ℤ_(2){v₁³,v₂}, whereas π₄MU_(2) has rank 2 on x₁², x₂: the
+  idempotent kills the generator x₂, as 2+1=3 is not a power of 2, and BP
+  is a proper summand.
+- The Hazewinkel recursion pℓ_n=Σ_(0≤i<n)ℓ_i v_(n−i)^(p^i), ℓ₀=1, gives
+  ℓ₁=v₁/p; Araki's recursion, which also has the term ℓ_n v₀^(p^n) with
+  v₀=p, gives ℓ₁=v₁/(p−p^p); the two v₁ differ by the factor 1−p^(p−1),
+  congruent to 1 modulo p, as F3.2 uses.
+- For the Hazewinkel generators η_R(v₁)=v₁+pt₁ in BP_*BP, from
+  η_R(ℓ₁)=ℓ₁+t₁ (Ravenel, Theorem A2.1.27(iv)) and v₁=pℓ₁; for Araki's,
+  η_R(v₁)=v₁+p(1−p^(p−1))t₁. Either way v₁ is primitive modulo p but not
+  integrally; a right unit equal to the left unit would make every ideal
+  invariant in F5.1.
+
+### F3.2. The height-n Honda law
+
+For 1≤n<∞ define the height-n Honda law H_n
 over 𝔽_p as the p-typical law classified by the ring map BP_*→𝔽_p with
 v_n↦1 and v_i↦0 for every i≠n, Ravenel's standard law F_n (Definition
 A2.2.11, p. 367), and H_∞ as the additive law; over an 𝔽_p-algebra, in
@@ -895,6 +1057,10 @@ Theorem A2.2.3, p. 364), so the two choices classify the same law over
 - over a separably closed field of characteristic p every commutative
   law of height n is isomorphic to H_n, by F1's classification.
 
+*Needs:* F3.1's BP_* with its classifying property for p-typical laws;
+Mathlib `FormalGroup` and the pinned `FormalGroup.height`; F1.5's
+classification for the second API bullet.
+
 **Checks.**
 - At n=1 the p-series is x^p, which is also the p-series (1+x)^p−1=x^p
   of the multiplicative law X+Y+XY over 𝔽_p (Ravenel, Example
@@ -906,6 +1072,8 @@ Theorem A2.2.3, p. 364), so the two choices classify the same law over
 - Classifying v_n↦1 and v_(n+1)↦1, the other v_i↦0, gives p-series
   x^(p^n)+_F x^(p^(n+1)), again of height n but a different law; the
   condition v_i↦0 for every i≠n, not only for i<n, pins H_n.
+
+### F3.3. BP⟨n⟩, E(n), K(n) and the Adams summands
 
 Build BP⟨n⟩ and E(n) for n≥0, with the specified ordered spectral cofibres by v_(n+1),v_(n+2),… and localization at v_n for n≥1. Define E(0)=Hℚ.
 Prove the homotopy groups, canonical maps, connective-cover comparisons
@@ -933,6 +1101,10 @@ for its own space-level splitting of BO⟨d⟩_(p). The API of these spectra:
 - π_*K(n)=𝔽_p[v_n^(±1)], and K(n) is the v_n-localization of the
   connective k(n), whose coefficients are 𝔽_p[v_n].
 
+*Needs:* F3.1; GeneralizedCohomology G2.4 (cofibers and localization of
+spectra), G3.8 (connective covers), G4.5 (complex orientations) and G5.4
+(KU, KO and their connective covers ku, ko).
+
 **Checks.**
 - n=0: BP⟨0⟩≃Hℤ_(p) has π_*=ℤ_(p) in degree 0, and E(0)=Hℚ has π_*=ℚ in
   degree 0, the localization of ℤ_(p) at v₀=p; a definition of E(0) as
@@ -950,6 +1122,8 @@ for its own space-level splitting of BO⟨d⟩_(p). The API of these spectra:
   as for BP⟨j⟩ in F6.3), whereas the unlocalized k(n) has nonzero mod-p
   homology.
 
+### F3.4. Ω-spectrum spaces and Hopf rings
+
 Construct the designated Ω-spectrum spaces BP⟨n⟩_k, their multiplication,
 additive infinite-loop structure, suspension, coefficient elements and
 homology orientations. Prove Wilson's torsion-free polynomial-space results
@@ -966,6 +1140,9 @@ cellular ranks alone do not determine the ring. Within F4 construct the
 BP-homology AHSS first from the cellular filtration of G2.4's CW-spectrum approximation, using only the F3 spectrum/
 orientation construction; its collapse/presentation then completes this
 F3 space-homology sublane before the F4 Adams–Novikov application.
+*Needs:* F3.3; AlgebraicTopology Stages 8.8–8.10 (Eilenberg–MacLane
+models); F4.5's BP-homology Atiyah–Hirzebruch spectral sequence; Wilson's
+range theorems as cited source.
 
 **Checks.**
 - The spaces of an Ω-spectrum satisfy π_i(BP⟨n⟩_k)=π_(i−k)BP⟨n⟩ for
@@ -991,10 +1168,14 @@ F3 space-homology sublane before the F4 Adams–Novikov application.
 ### Dependencies
 
 F1 and F2 (MU, its orientation and cooperations); GeneralizedCohomology
-G2.4 (cofibers and localization of spectra) and G4.5 (complex
-orientations).
+G2.4 (cofibers and localization of spectra), G3.8 (connective covers),
+G4.5 (complex orientations) and G5.4 (KU, KO, ku and ko);
+AlgebraicTopology Stages 8.8–8.10; F4.5's BP-homology
+Atiyah–Hirzebruch spectral sequence for F3.4.
 
 ## Layer 4: F4. Comodules and Adams–Novikov comparisons
+
+### F4.1. Three-fold Toda brackets
 
 Own the three-fold Toda brackets of pointed spaces. For pointed CW
 complexes and composable pointed maps h:W→X, g:X→Y, f:Y→Z with chosen
@@ -1011,11 +1192,7 @@ the right; and naturality in each of the four spaces. Prove the
 suspension comparison Σ⟨f,g,h⟩⊂−⟨Σf,Σg,Σh⟩: suspending a value puts the
 suspension coordinate after the cone coordinate, the bracket of the
 suspended maps puts it before, and the two differ by the swap of the two
-circle coordinates of S¹∧S¹, of degree −1. Checks: the swap of the two
-circle factors of S² has degree (−1)^(1·1)=−1, so reading the two
-constructions as the same map is wrong; stably ⟨2,η,2⟩=η² in π₂^s=ℤ/2
-with indeterminacy 2π₂^s+π₂^s·2=0, so a bracket convention that makes
-every bracket with a repeated entry vanish is wrong. Construct the passage
+circle coordinates of S¹∧S¹, of degree −1. Construct the passage
 of these brackets through suspension and G2.5's sphere/space comparison
 to stable spectral Toda brackets, preserving composition, signs and
 indeterminacy. Construct
@@ -1035,7 +1212,22 @@ identify left-multiplication maps with π_*R and state
 `⟨a,b,c⟩⊆π_(|a|+|b|+|c|+1)R`, with indeterminacy
 `a·π_(|b|+|c|+1)R+π_(|a|+|b|+1)R·c`, retaining the chosen
 graded suspension/composition convention. The sphere case R=S gives
-ordinary stable brackets.
+ordinary stable brackets. *Needs:* pointed CW complexes and their
+homotopy classes from AlgebraicTopology; GeneralizedCohomology G2.4
+(strict associative ring spectra and transferred module model structures)
+and G2.5 (sphere/space comparison); Toda is a cited source.
+
+**Checks.**
+- The swap of the two circle factors of S² has degree (−1)^(1·1)=−1, so
+  reading the two suspension constructions as the same map is wrong.
+- Stably ⟨2,η,2⟩=η² in π₂^s=ℤ/2 with indeterminacy 2π₂^s+π₂^s·2=0, so a
+  bracket convention that makes every bracket with a repeated entry vanish
+  is wrong.
+- ⟨η,η,2⟩ is empty: η∘2=2η=0 in π₁^s=ℤ/2, but η∘η=η²≠0 in π₂^s, and the
+  bracket needs both adjacent composites null; a definition requiring only
+  one of them would produce a value.
+
+### F4.2. Higher Toda operations
 
 Construct higher Toda operations for every finite arity r≥3 in these
 same enriched stable spectral and right-module models, and in supplied
@@ -1043,7 +1235,7 @@ stable symmetric monoidal models with the corresponding derived mapping
 spaces. Construct the operations before passage to the triangulated
 homotopy category. For X_r→⋯→X_0 use coherent
 iterated-cofiber defining systems with value in [Σ^(r−2)X_r,X_0],
-comparing with Carrick–Davies–van Nigtevecht Definitions3.3/3.7 on Picard
+comparing with Carrick–Davies–van Nigtevecht Definitions 3.3 and 3.7 on Picard
 objects. Extend their Picard-object construction to the general objects
 specified here and determine the suspension signs from the chosen model;
 the reference leaves these only up to units. Compare the r=3 normalization
@@ -1067,13 +1259,29 @@ construct reversal through duality and its suspension/sign comparisons;
 specialize to Picard-graded E₂-ring classes. Construct nested-system
 substitution and the resulting bracket-of-brackets juggling inclusions,
 tracking the inner choices, proper-subinterval vanishing hypotheses and
-full outer indeterminacy. Include the forms in Bauer Lemma8.6 and
-Corollary8.7 as applications in EllipticCohomology, not additional generic
+full outer indeterminacy. Include the forms in Bauer Lemma 8.6 and
+Corollary 8.7 as applications in EllipticCohomology, not additional generic
 definitions. A ring map carries a
 chosen system and its value to the image system and value; lifting a
 bracket requires lifting its coherent system, not just its entries.
+*Needs:* F4.1's models and triple convention; GeneralizedCohomology G2.4
+and G2.11 (enriched stable models and derived mapping spaces);
+Carrick–Davies–van Nigtevecht is a cited source.
 
-Consume DGAInfinity Layer8’s matric/higher Massey defining systems over
+**Checks.**
+- At r=3 the value degree Σ_i|a_i|+r−2 is Σ_i|a_i|+1, the degree of
+  F4.1's ⟨a,b,c⟩; a convention adding r−1 would put ⟨2,η,2⟩ in π₃^s
+  instead of π₂^s∋η².
+- The fourfold bracket ⟨2,η,2,η⟩ has no defining system although every
+  adjacent product 2η and η·2 vanishes: its inner triple ⟨2,η,2⟩={η²} does
+  not contain zero. So adjacent vanishing is not a defining system.
+- For a four-term system the value lies in [Σ²X₄,X₀], in stem
+  Σ_i|a_i|+2 for ring classes: ⟨a₁,a₂,a₃,a₄⟩ of four classes of stem 0 has
+  stem 2, as for r=4 in the formula.
+
+### F4.3. Massey and Toda comparisons on cobar complexes
+
+Consume DGAInfinity Layer 8’s matric/higher Massey defining systems over
 the coefficient rings in use. Its field-dependent transferred-operation
 comparison is not used for integral or p-local MU/BP cobars. Own the
 specialization of its Massey definitions to the normalized
@@ -1112,9 +1320,26 @@ generic Massey-product owner. Construct the following distinct comparisons.
    and computes the corresponding detection and full indeterminacy.
 [Carrick–Davies–van Nigtevecht §3](https://arxiv.org/abs/2412.01640v2)
 supplies the chosen higher-cone/naturality/shuffling convention; its
-displayed Moss theorem3.16 is threefold. Lemma3.9 and Propositions3.14–15
+displayed Moss Theorem 3.16 is threefold. Lemma 3.9 and Propositions 3.14–3.15
 give the forward exact-functor and truncation comparisons; they do not
-assert a Massey-to-Toda converse for arbitrary arity.
+assert a Massey-to-Toda converse for arbitrary arity. *Needs:* DGAInfinity
+Layer 8; F4.2's defining systems; F2.2's HF_p-based towers and F4.4's
+MU/BP cobar complexes and Adams–Novikov tower.
+
+**Checks.**
+- In the cobar complex of A_* at p=2, h₀=[ξ₁] and h₁=[ξ₁²] satisfy
+  d[ξ₂]=[ξ₁²|ξ₁] and d[ξ₂+ξ₁³]=[ξ₁|ξ₁²], and the Massey value
+  [ξ₂+ξ₁³|ξ₁]+[ξ₁|ξ₂] differs from h₁²=[ξ₁²|ξ₁²] by d[ξ₁ξ₂]; so
+  ⟨h₀,h₁,h₀⟩=h₁² with zero indeterminacy (Ext^(1,3)=0), the class
+  detecting F4.1's ⟨2,η,2⟩=η².
+- Likewise ⟨h₁,h₀,h₁⟩ has value [ξ₂|ξ₁²]+[ξ₁²|ξ₂+ξ₁³], which differs from
+  h₀h₂=[ξ₁|ξ₁⁴] by d[ξ₁²ξ₂]+d[ξ₁⁵]; it is nonzero, consistent with
+  ⟨η,2,η⟩, for which juggling gives 2⟨η,2,η⟩=⟨2,η,2⟩η=η³≠0.
+- A threefold Massey product of classes in Ext^(s_i,t_i) lies in
+  Ext^(s₁+s₂+s₃−1,t₁+t₂+t₃), so its stem is the sum of the stems plus 1,
+  matching the Toda value degree: ⟨h₀,h₁,h₀⟩ lies in (2,4), stem 2.
+
+### F4.4. Comodules and the Adams–Novikov spectral sequence
 
 Develop graded comodules over the flat MU and BP Hopf algebroids, cofree
 comodules, the normalized cobar complex, Ext, change of rings and base
@@ -1129,7 +1354,22 @@ unit/cofiber maps, its exact couple and Adams–Novikov spectral sequence.
 For the BP version, prove E₂^(s,t)=Ext_(BP_*BP)^(s,t)(BP_*,BP_*X)
 using BP_*BP's proved flatness and the comodule cobar comparison,
 with the completion/convergence hypotheses below; do not add an
-unnecessary flatness hypothesis on BP_*X.
+unnecessary flatness hypothesis on BP_*X. *Needs:* F2.3's (MU_*,MU_*MU)
+and F3.1's (BP_*,BP_*BP) with their flatness; GeneralizedCohomology G2.4
+(cofiber sequences and smash products).
+
+**Checks.**
+- E₂^(0,*)=Ext⁰_(BP_*BP)(BP_*,BP_*)=ℤ_(p) in degree 0 (Ravenel, Theorem
+  4.3.2(ii)), matching π₀S_(p)=ℤ_(p).
+- At odd p, t₁ is primitive (Δt₁=t₁⊗1+1⊗t₁), so [t₁] is a class
+  α₁∈Ext^(1,2p−2), in stem 2p−3; at p=3 it is in stem 3, where
+  π₃S_(3)=ℤ/3.
+- BP_*/p is finitely presented, by BP_*→BP_* multiplication by p, but its
+  underlying module is not projective, so it is not dualizable; a
+  definition by finite presentation instead of finitely generated
+  projective modules would wrongly make it dualizable.
+
+### F4.5. Convergence and the BP-homology Atiyah–Hirzebruch spectral sequence
 
 Construct the filtration on the appropriate completion of π_(t−s)X,
 edge/Hurewicz maps, multiplicative and naturality laws, lim¹ obstruction,
@@ -1148,7 +1388,21 @@ BP-homology from the cellular filtration of G2.4's CW-spectrum approximation and
 convergence and extension criteria. Supply the free/even/comodule comparisons
 used in StringOrientation's Hovey calculation. F2's HF_p-based Adams tower is a
 different tower from this BP-based one; neither is substituted for the
-other.
+other. *Needs:* F4.4; GeneralizedCohomology G2.4 (CW-spectrum
+approximation and cellular filtration), G3.8 (Milnor sequence) and G3.9
+(derived p-completion); F3.1's BP.
+
+**Checks.**
+- For X=S the BP-based tower converges to S_(p), with π₀=ℤ_(p), while the
+  BP/p-based tower converges to the p-completion, with π₀=ℤ_p≠ℤ_(p): the
+  two limits differ.
+- The fibre F of S_(p)→BP has π_iF=0 for i≤0, from π₀S_(p)≅π₀BP=ℤ_(p) and
+  π₁BP=0, so F^(∧s) is (s−1)-connected and the connectivity of the tower
+  terms tends to infinity.
+- For CP^n the BP-homology Atiyah–Hirzebruch spectral sequence has
+  E²=H_*(CP^n;BP_*) in even total degrees only and collapses, so
+  BP_*(CP^n) is free on n+1 classes; for the Moore spectrum S/p it gives
+  BP_*/p in filtration 0, as Tor(ℤ/p,BP_*)=0.
 
 ### Examples
 
@@ -1160,10 +1414,13 @@ other.
 
 ### Dependencies
 
-F2 (HF_p- and MU-Adams towers) and F3 (BP and BP_*BP); GeneralizedCohomology
-G2.4, G2.5 and G3; DGAInfinity Layer 8.
+F2 (HF_p- and MU-Adams towers, MU_*MU) and F3 (BP and BP_*BP);
+GeneralizedCohomology G2.4, G2.5, G2.11 and G3; DGAInfinity Layer 8;
+AlgebraicTopology's pointed CW complexes and homotopy classes.
 
 ## Layer 5: F5. Exact functors, deformations and elliptic inputs
+
+### F5.1. Invariant prime ideals
 
 For each prime p use F3's graded flat Hopf algebroid
 (A,Γ)=(BP_*,BP_*BP). Define invariance of a homogeneous ideal through
@@ -1175,6 +1432,9 @@ their strict inclusion order and the quotient presentations, including
 A/I_∞=𝔽_p. The homogeneity hypothesis is essential: the ungraded
 invariant prime (p,v₁−1), using η_R(v₁)=v₁+p t₁, is not in this list.
 Compare these ideals under the chosen p-typical coordinate changes.
+*Needs:* F3.1's Hopf algebroid with its right-unit formulas; F5.2's
+computation of Ext⁰_Γ(A,A/I_n); Ravenel, Theorem 4.3.2, is the cited
+source.
 
 **Checks.**
 - I₁=(p) is invariant because η_R(p)=p, and A/I₁=𝔽_p[v₁,v₂,…] is a
@@ -1190,6 +1450,67 @@ Compare these ideals under the chosen p-typical coordinate changes.
   invariant, since η_R(v₁)=v₁+pt₁ and pt₁∉(v₁)Γ; the inclusions
   I_n⊊I_(n+1) are strict because v_n is a nonzero element of
   A/I_n=𝔽_p[v_n,v_(n+1),…] for n≥1 and p≠0 in A/I₀=A.
+
+Prove Landweber's classification on the Lazard Hopf algebroid
+(L,L[b₁,b₂,…]) of F1, at all primes at once: for a homogeneous ideal I of
+the pinned `TauCeti.LazardRing` for `LazardRing.grading`, I is prime and
+invariant, that is, its extensions along the right unit
+`LazardRing.rightUnit` and along the left unit `MvPolynomial.C` agree,
+exactly when there is a prime p such that I is a height ideal
+I_(p,n)=`FormalGroup.heightIdeal p n` of `LazardRing.formalGroup` for some
+n≥0, with I_(p,0)=0, or their union I_(p,∞)=`⨆ n, heightIdeal p n`
+(`isPrime_and_invariant_iff_eq_heightIdeal`; Ravenel, Theorem 1.3.16(i) and
+(iv), p. 17, which state it for L, and Theorem 4.3.2(iv), p. 121, with its
+proof, for BP_*). Invariance of each I_(p,n) is the pinned
+`TauCeti.LazardRing.map_rightUnit_heightIdeal`, and
+I_(p,n)=(p,v₁,…,v_(n−1)), v_i the coefficient of X^(p^i) in [p], is the
+pinned `FormalGroup.heightIdeal_eq_span`. A route: a homogeneous invariant
+prime I meeting ℤ in 0 lies in positive degrees, and the strict coordinate
+change by the logarithm over L⊗ℚ (F1's `FormalGroup.log`) carries the
+universal law to the additive law, classified by the augmentation, which
+kills positive degrees; comparing the two units along it gives I⊗ℚ=0, so
+I=0 because L is torsion-free. If I meets ℤ in (p), it contains I_(p,1)=(p);
+if it properly contains I_(p,n) for a finite n≥1, its lowest-degree
+homogeneous element outside I_(p,n) is invariant modulo I_(p,n), hence a
+nonzero multiple of a power of v_n, because Ext⁰_Γ(L,L/I_(p,n))=𝔽_p[v_n]
+(Ravenel, Theorem 1.3.16(iii)), and primality puts v_n in I. If I contains
+I_(p,∞), the same comparison over L/I_(p,∞), where [p]=0 and the pinned
+`FormalGroup.existsUnique_logarithm_of_nsmulSeries_eq_zero` gives a strict
+coordinate change to the additive law, shows I=I_(p,∞). Unlike
+BP_*/I_∞=𝔽_p, the quotient L/I_(p,∞) is a polynomial ring over 𝔽_p on
+generators in the degrees 2i with i+1 not a power of p, so I_(p,∞) is not
+maximal and the last step needs this argument instead of maximality.
+*Needs:* the pinned `TauCeti.LazardRing`, `LazardRing.grading`,
+`LazardRing.rightUnit`, `LazardRing.formalGroup`, `FormalGroup.heightIdeal`,
+`TauCeti.LazardRing.map_rightUnit_heightIdeal` and
+`FormalGroup.heightIdeal_eq_span`; Mathlib `Ideal.IsHomogeneous`,
+`Ideal.map` and `MvPolynomial.C`; for the route, the pinned polynomial
+theorem `TauCeti.LazardRing.mvPolynomialEquiv`, `FormalGroup.log`,
+`FormalGroup.existsUnique_logarithm_of_nsmulSeries_eq_zero` and
+`TauCeti.LazardRing.coordinateChangeLift`, and the computation of
+Ext⁰_Γ(L,L/I_(p,n))=𝔽_p[v_n], from F5.2's Ext⁰_Γ(A,A/I_n)=𝔽_p[v_n]
+through F5.3's p-typical comparison.
+
+**Checks.**
+- At p=2, [2](X)=F(X,X)=2X+a₁₁X²+2a₁₂X³+⋯, so `heightIdeal 2 1`=(2) and
+  `heightIdeal 2 2`=(2,a₁₁), with v₁=a₁₁; both are listed, and both are
+  prime, since a₁₁ spans L in degree 2, so that L/(2)≅𝔽₂[x₁,x₂,…] and
+  L/(2,a₁₁)≅𝔽₂[x₂,x₃,…] are domains.
+- (a₁₁) is homogeneous and prime, L/(a₁₁)≅ℤ[x₂,x₃,…], but not invariant:
+  for the action φ•F=φ(F(φ⁻¹X,φ⁻¹Y)) of `CoordinateChange.Basic` and the
+  universal strict coordinate φ=X+Σb_iX^(i+1), the XY coefficient of φ•F
+  is a₁₁+2b₁, so η_R(a₁₁)=a₁₁+2b₁, and 2b₁ is not in (a₁₁)L[b₁,b₂,…]; a
+  classification that admitted every homogeneous prime generated by
+  coefficients of [p] would wrongly list it.
+- (2,a₁₁−1) is prime, L/(2,a₁₁−1)≅𝔽₂[x₂,x₃,…], and invariant, since
+  η_R(a₁₁−1)=a₁₁−1+2b₁ lies in its extension and the conjugation exchanges
+  the two units, but it is not homogeneous and is not in the list: the
+  homogeneity hypothesis cannot be dropped.
+- n=0 gives `heightIdeal p 0`=⊥ for every prime p, and ⊥ is prime because
+  L is a polynomial ring over ℤ; (4) is homogeneous and invariant but not
+  prime, and is correctly not listed.
+
+### F5.2. Primitives and the Landweber filtration
 
 Construct the primitive and invariant calculations needed for the proof:
 η_R(v_n)≡v_n mod I_n and
@@ -1219,6 +1540,22 @@ construct the direct filtered finite-cell/retract presentation and
 BP_*X≃colim_αBP_*X_α, with each finite-stage homology finitely
 presented. Use these colimit comparisons in the later class identities;
 vanishing of a colimit does not assert that some finite stage is acyclic.
+*Needs:* F3.1's Hopf algebroid; F4.4's comodules, dualizable comodules
+and Adams generation; GeneralizedCohomology G2.4 for the finite-cell
+presentations of spectra.
+
+**Checks.**
+- v₁ is primitive modulo p, since η_R(v₁)=v₁+pt₁, so 𝔽_p[v₁] lies in
+  Ext⁰_Γ(A,A/I₁); v₂ is not, since η_R(v₂)≡v₂+v₁t₁^p−v₁^p t₁ modulo p.
+- A/(p²) is a comodule, η_R(p²)=p², with Landweber filtration
+  0⊂pA/p²A⊂A/p², both subquotients A/I₁; the filtration factors are
+  shifts of A/I_n with n finite, as stated.
+- A/I_∞=𝔽_p is not finitely presented, its only subcomodules are 0 and
+  itself, and the union of its finitely presented subcomodules is 0: the
+  filtered presentation must be a colimit of comodules mapping to it, not
+  a union of subcomodules.
+
+### F5.3. The p-typical comparison and the height ideals of MU
 
 Transport the exactness theorem to MU through the actual p-typical
 Hopf-algebroid comparison. Construct the weak equivalence between the
@@ -1230,7 +1567,23 @@ coordinate change by `heightIdeal_smul`, and compare them with the
 p-typical ideals. Prove independence of lifts of v_i modulo preceding
 height ideals and of the specified coordinate changes. This identifies
 the criterion on an MU_*-module without pretending the quotient
-MU_(p)*→BP_* is a flat map of coefficient rings.
+MU_(p)*→BP_* is a flat map of coefficient rings. *Needs:* F3.1's
+p-typicalization and BP_*BP; F2.3's MU_*MU; the pinned
+`FormalGroup.heightIdeal`, `heightIdeal_smul` and
+`FormalGroup.heightIdeal_eq_span`.
+
+**Checks.**
+- I_(p,1) in MU_(p)* is (p), by `FormalGroup.heightIdeal_one`, and maps to
+  I₁=(p) in BP_*.
+- At p=2, [2](X)=2X+a₁₁X²+⋯ for the universal law, so v₁ is the class of
+  a₁₁ in degree 2, which maps to v₁∈BP₂ modulo I₁ under the p-typical
+  comparison.
+- At odd p, x₁ maps to 0 in BP₂=0, while multiplication by x₁ is
+  injective on the domain MU_(p)*: the quotient MU_(p)*→BP_* is not flat,
+  which is why the comparison is a weak equivalence of Hopf algebroids and
+  not a flat base change.
+
+### F5.4. Landweber's exact functor theorem
 
 Prove Landweber's exact functor theorem for a graded MU_*-module M:
 for every prime p, p and successive v_i act injectively on its successive
@@ -1256,8 +1609,27 @@ algebra, retaining their coherence hypotheses. Distinguish a
 multiplicative represented theory from a specified commutative
 spectral-ring realization. Prove the coordinate-independent criterion
 and height-stratum flatness formulation used for elliptic curves.
+*Needs:* F5.1–F5.3; F4.4's comodules and dualizable generators;
+GeneralizedCohomology G2.4 (finite spectra, cofibers and filtered
+colimits) and G5.1 (finite duality); G3.1 is consumed only for
+cohomological representability, which this homology argument does not
+replace.
 
-**Lubin–Tate deformations.** Fix a field k of characteristic p, a
+**Checks.**
+- M=ℤ through the classifying map of the additive law fails the
+  criterion: p acts injectively on ℤ, but v₁ acts by zero on ℤ/p≠0, so
+  MU_*(X)⊗_(MU_*)ℤ is not a homology theory in general, as expected for
+  ordinary homology.
+- M=ℤ[u^(±1)] through the law x+y+uxy: [p](x)=((1+ux)^p−1)/u, so p acts
+  injectively, and modulo p, [p](x)=u^(p−1)x^p, so v₁=u^(p−1) is a unit,
+  injective on 𝔽_p[u^(±1)], and M/(p,v₁)=0 makes the remaining conditions
+  vacuous; this is the Conner–Floyd form of K-theory.
+- M=ℚ: p acts invertibly and M/p=0, so the criterion holds and gives
+  rational homology.
+
+### F5.5. Lubin–Tate deformations
+
+Fix a field k of characteristic p, a
 surjective ring homomorphism ρ:R→k and a commutative one-dimensional
 formal group F₀ over k of finite height h; F1's `one_le_height` gives
 h≥1. For a ring homomorphism π:A→k, a ⋆-isomorphism relative to π is an
@@ -1272,7 +1644,16 @@ Lubin–Tate 1966, p. 49). Its API:
   along π, the reduced series X being an isomorphism between the
   reductions;
 - base change along a ring homomorphism A→A′ compatible with the maps to
-  k carries ⋆-isomorphisms to ⋆-isomorphisms.
+  k carries ⋆-isomorphisms to ⋆-isomorphisms;
+- rigidity: if A is a local ring, Hausdorff for its maximal ideal 𝔪, and π
+  is surjective onto a field of characteristic p with kernel 𝔪, then two
+  ⋆-isomorphisms G→H between commutative formal groups are equal when the
+  reduction of G along π has finite height. Both reduce to X, and π is the
+  residue map followed by an isomorphism of fields, so this is the pinned
+  `TauCeti.FormalGroupIso.eq_of_map_residue_eq` (module `Rigidity`), with
+  `height_map` for the change of residue field (Lubin–Tate 1966,
+  Proposition 2.4, p. 52, last clause, in its stepwise form modulo
+  successive powers of 𝔪).
 
 **Checks.**
 - Over ℤ_p with π the reduction modulo p, the automorphism
@@ -1286,6 +1667,10 @@ Lubin–Tate 1966, p. 49). Its API:
   multiplicative law by x↦ux, since u(X+Y+uXY)=uX+uY+(uX)(uY) and ux
   reduces to x; for u≢1 modulo p the same series is an isomorphism and not
   a ⋆-isomorphism, and the reductions differ.
+- Rigidity needs finite height: over 𝔽_p[ε], ε²=0, the series x+εx^p is
+  an automorphism of the additive law, since (X+Y)^p=X^p+Y^p, with inverse
+  x−εx^p, and it reduces to x; so the additive law, of infinite height,
+  has two distinct ⋆-automorphisms.
 
 Prove the Lubin–Tate theorem (Lubin–Tate 1966, Theorem 3.1, p. 56, with
 the generic law of Proposition 1.1, p. 50, and the functorial form of
@@ -1296,8 +1681,12 @@ with a surjection π:A→k whose kernel is the maximal ideal and with
 π∘(structure map)=ρ, and every commutative formal group G over A reducing
 to F₀ along π, there is exactly one R-algebra map
 θ:R[[t₁,…,t_(h−1)]]→A with every θ(t_i) in the maximal ideal of A for
-which Γ base-changed along θ is ⋆-isomorphic to G, and for that θ exactly
-one ⋆-isomorphism (`lubinTate_universal_deformation`). The base ring R is
+which Γ base-changed along θ is ⋆-isomorphic to G
+(`lubinTate_universal_deformation`). For that θ the ⋆-isomorphism is
+unique, by the rigidity bullet of the `IsStarIso` API (Lubin–Tate 1966,
+Theorem 3.1, last sentence): the statement asserts the uniqueness of θ
+among all maps admitting some ⋆-isomorphism, and the pinned rigidity
+supplies the uniqueness of the ⋆-isomorphism. The base ring R is
 arbitrary, as in the source (a ring with a maximal ideal J and R/J≅k);
 the standard form is k perfect, R=W(k) and ρ=`WittVector.constantCoeff`,
 for which R[[t₁,…,t_(h−1)]]=W(k)[[t₁,…,t_(h−1)]] is the Lubin–Tate ring.
@@ -1317,7 +1706,8 @@ from A/m^r to A/m^(r+1) is cancelled by a unique correction of θ and of the
 `IsLocalRing`, `IsNoetherianRing`, `IsAdicComplete`; Tau Ceti
 `TauCeti.FormalGroupIso`, `FormalGroup.height`; F1's cocycle lemma and
 obstruction API (`TauCeti.existsUnique_eq_smul_lazardCocycle` and module
-`Obstruction`).
+`Obstruction`); for the uniqueness of the ⋆-isomorphism and of θ in the
+induction, the pinned rigidity `TauCeti.FormalGroupIso.eq_of_map_residue_eq`.
 
 **Checks.**
 - h=1, F₀ the multiplicative law over a perfect k, R=W(k): there are no
@@ -1354,6 +1744,9 @@ there.
 ### Examples
 
 - I₁=(p) is an invariant prime and (v₁) is not, since η_R(v₁)=v₁+pt₁.
+- In the Lazard ring at p=2, (2) and (2,a₁₁) are the invariant primes
+  I_(2,1) and I_(2,2), while (a₁₁) is a homogeneous prime that is not
+  invariant, since η_R(a₁₁)=a₁₁+2b₁.
 - π_*E(n)=ℤ_(p)[v₁,…,v_(n−1),v_n^(±1)] satisfies Landweber's criterion:
   v_i acts injectively for i≤n, and E(n)_*⊗BP_*/I_i=0 for i>n (Ravenel,
   Section 4.2, p. 118).
@@ -1364,9 +1757,12 @@ there.
 
 ### Dependencies
 
-F1 (cocycle lemma, obstruction API, height), F3 (BP_*BP) and F4
-(comodules); Mathlib's power series, complete noetherian local rings and
-Witt vectors.
+F1 (the Lazard ring with its grading and Hopf algebroid, the invariance
+and presentation of the height ideals, the logarithms, the cocycle lemma,
+the obstruction API, the height and Lubin–Tate rigidity), F2 (MU_*MU), F3
+(BP_*BP) and F4 (comodules); GeneralizedCohomology G2.4 and G5.1;
+Mathlib's power series, complete noetherian local rings, homogeneous
+ideals and Witt vectors.
 
 ## Layer 6: F6. Chromatic localization and fracture
 
@@ -1391,7 +1787,11 @@ not assume that G2's stable-model existence already proves arbitrary
 homological localization. Include all integer shifts in any mapping-space locality criterion. Compare G3's
 integer localization and derived p-completion under their actual
 hypotheses; these do not supply chromatic localization or its smashing
-theorems.
+theorems. *Needs:* GeneralizedCohomology G2.3–G2.4 (the stable symmetric
+spectral model, its small-object constructions, derived smash products
+and function spectra) and G3.9 (integer localization and derived
+p-completion, for the comparison); F3.3's spectra for the examples;
+Bousfield 1979 is the cited source.
 
 **Checks.**
 - L_S is the identity: only the zero spectrum is S-acyclic, so every
@@ -1522,12 +1922,18 @@ homology spanned by 1,b,…,b^j, and the quotients J_j/J_(j−1)=S^(2rj).
 Prove functoriality in Y and compatibility of the filtration with the
 monoid product. These are the stages of item 1 and the sources and
 targets of the James–Hopf maps of item 3.
-Checks: J₁(S²)=S², J₂(S²)/J₁(S²)=S⁴ and H₂(J₂(S²);ℤ)=ℤ on b, whereas a
-construction with J₂/J₁=S²×S² would add two classes in degree 2; for
-Y=S⁰ the James map is not an equivalence: J(S⁰) is the discrete monoid
-ℕ while ΩS¹ has components ℤ, so the map misses the negative components
-and the path-connectedness hypothesis is not removable. The proof has the
-following constructions and estimates.
+
+**Checks.**
+- J₁(S²)=S², J₂(S²)/J₁(S²)=S⁴ and H₂(J₂(S²);ℤ)=ℤ on b, whereas a
+  construction with J₂/J₁=S²×S² would add two classes in degree 2.
+- For Y=S⁰ the James map is not an equivalence: J(S⁰) is the discrete
+  monoid ℕ while ΩS¹ has components ℤ, so the map misses the negative
+  components and the path-connectedness hypothesis is not removable.
+- For Y=S¹, J(S¹)≃ΩS², and the tensor algebra on H̃_*(S¹;𝔽) has one class
+  in each degree j≥0, matching H_*(ΩS²;𝔽); the James stage J_j(S¹) carries
+  exactly the classes of degree at most j.
+
+The proof has the following constructions and estimates.
 
 1. Pull the fibration ΩSU(r)→ΩSU(r+1)→ΩS^(2r+1) back over
    the James stages J_jS^(2r) constructed above. Construct their
@@ -1580,13 +1986,13 @@ following constructions and estimates.
    squares and p-local fibre sequence
    F′_(p^k−1)→F′_(p^(k+1)−1)→J_(p−1)S^(2r p^k).
    Apply the Thom construction to these squares to identify the
-   consecutive G_k. Construct DHS Proposition3.27's actual extension:
+   consecutive G_k. Construct DHS Proposition 3.27's actual extension:
    E′=ΩSU(r+1) with its projection followed by h_k to
    ΩS^(2m+1), m=rp^k. Its pullback over J_(p−1)S^(2m)
    is E=F′_(p^(k+1)−1) p-locally. Use the stabilized classifying
    map E′→BU extending the Thom bundle on E. Derive the Ω²S^(2m+1) fibre action from
    this extension; it is not an extra assumed action. Own DHS
-   Lemma3.35/Proposition3.33 here p-locally; no integral fibre-sequence
+   Lemma 3.35 and Proposition 3.33 here p-locally; no integral fibre-sequence
    assertion is inferred from a mod-p calculation.
    Construct the coherent Thom diagonal and maps θ_j on these James
    stages, their binomial composition laws, filtration-quotient
@@ -1617,10 +2023,18 @@ following constructions and estimates.
    and all p-local homotopy groups. Compactness detects
    a zero MU-Hurewicz class at one finite X(r) stage. Descend to X(1)
    to prove the core connective finite-type ring theorem. Negative
-   degrees vanish by connectivity; degree0 uses the isomorphism
+   degrees vanish by connectivity; degree 0 uses the isomorphism
    π₀R→π₀(MU∧R) before the positive-degree argument. Then apply
    the preceding reductions. Keep the multiplication telescope distinct
    from an inverse limit or an arbitrary BP completion.
+
+*Needs:* GeneralizedCohomology G2.4 (derived smash products and ring
+spectra), G2.9 (loop/bar comparison), G5.1 (finite duality), G5.3
+(numerable bundle and Thom diagrams) and G5.4 (strict MU and the complex
+Bott equivalence); AlgebraicTopology Stage 5.5 (Serre fibrations); F4.1's
+derived right-module category over a strict ring spectrum; F2.2's mod-p
+homology operations at odd p and their prime-2 modifications constructed
+here; Devinatz–Hopkins–Smith, Hatcher and James are cited sources.
 
 ### F6.3. Finite height, periodicity and telescopes
 
@@ -1675,7 +2089,7 @@ including ties: `r_F(v^E)≡0 mod I_n` if
 `r_(σ^nE)(v^E)≡v_n^(Σe_i) mod I_n`. In each fixed
 connective degree this is a finite triangular matrix with the displayed
 powers of v_n on its diagonal. After inverting v_n the normalization
-v_n^(c_E−b_E) makes that diagonal1. Construct its lower-finite
+v_n^(c_E−b_E) makes that diagonal 1. Construct its lower-finite
 triangular inverse on the localized module and compare the fixed-degree
 connective blocks; do not invert these diagonal entries before localization.
 This proves the coefficient isomorphism.
@@ -1771,7 +2185,7 @@ BP-smashed map to a null MU_(p)-smashed map. It does not assert
 an A∞ structure on BP.
 
 Construct Smith's idempotent toolkit before its finite-spectrum
-applications. Consume SchurWeyl Layers0,2,5's native Young-diagram,
+applications. Consume SchurWeyl Layers 0, 2 and 5's native Young-diagram,
 row/column, rational symmetrizer and hook-length APIs. Form the same
 row-symmetrizer times column-antisymmetrizer finite sum over ℤ, prove
 its quasi-idempotent equation by the injective rational comparison,
@@ -1784,7 +2198,7 @@ graded tensor powers with Koszul signs. For V=V⁺⊕V⁻ put
  k_V=(p−1)binom(a_V+1,2) and e_V=e_(a_V).
 Prove its nonzero-image and subspace-annihilation tests, and the
 free-summand criterion for the local finite Hopf algebras used in
-Ravenel AppendixC.2.2. Construct their image/splitting and homology
+Ravenel Appendix C.2.2. Construct their image/splitting and homology
 base-change comparisons on finite p-local smash powers, splitting each
 idempotent by its mapping telescope in G2.4's stable category. These
 p-local/graded constructions do not
@@ -1892,7 +2306,7 @@ Carry these choices/comparisons through composition.
   requirement keeps out of the definition for n≥1.
 
 Construct nonzero finite type-n spectra for every n≥1 by the following
-Smith/Margolis construction, separate from the torsion-free type0 CP
+Smith/Margolis construction, separate from the torsion-free type 0 CP
 summands used above. Own the finite Steenrod sub-Hopf algebras,
 Margolis homology, free-module criteria and associated Adams estimates;
 consume F2's mod-p Steenrod algebras and Adams towers and construct these
@@ -2008,7 +2422,7 @@ start with BP⟨0⟩=Hℤ_(p). For j≥1 use the actual cofiber
 Prove v_j acts by zero on mod-p cohomology, from its BP-action
 and zero mod-p Hurewicz image. The cohomology LES therefore gives
 `0→Σ^(2p^j−1)H^*BP⟨j⟩→H^*BP⟨j−1⟩→H^*BP⟨j⟩→0`.
-Identify the connecting primitive of degree2p^j−1 with Q_j.
+Identify the connecting primitive of degree 2p^j−1 with Q_j.
 Prove connectivity and finite type before the Poincaré-series count,
 and use this sequence to prove the cyclic-module identification
 inductively. Compare the regular-quotient models with these maps,
@@ -2033,8 +2447,8 @@ self-map across finite cofiber/retract constructions in a thick
 subcategory, yielding Hopkins–Smith periodicity for every type-n
 finite spectrum, n≥1.
 
-Include Adams' v₁ maps on the mod-p Moore spectrum, of degree2p−2 for odd p and
-degree8 at p=2, constructing their K-theory/Adams-operation detection
+Include Adams' v₁ maps on the mod-p Moore spectrum, of degree 2p−2 for odd p and
+degree 8 at p=2, constructing their K-theory/Adams-operation detection
 and α₁/e-invariant comparison rather than deducing their minimal
 degrees from the general existence theorem.
 
@@ -2164,6 +2578,14 @@ no telescope comparison is inferred from periodicity or thick
 classification. The Thom spectra X(r) above and these telescopes have
 separate definitions and notation.
 
+*Needs:* F3.3 (BP, BP⟨n⟩, E(n), K(n) and their products); F5.1–F5.2
+(height ideals, primitives and the Landweber filtration); F6.1
+(localization and Bousfield classes); F6.2 (nilpotence and the
+finite-MU-cell ghost bound); F2.2 (Steenrod and Margolis structure for
+type examples); RepresentationTheory SchurWeyl Layers 0, 2 and 5 (Smith
+idempotents); GeneralizedCohomology G2.4 and G5.1 (cofibers and finite
+duality).
+
 ### F6.4. Johnson–Wilson classes, smashing and fracture
 
 For each prime p construct the p-typical polynomial coefficient isomorphism, using F3's
@@ -2188,7 +2610,7 @@ and their map-level quotient/transition equivalences. The class comparisons
 precede finite-height nilpotence and periodicity; the Moore systems are
 constructed after periodicity and before this item.
 Prove K(i)∧K(j)≃0 for distinct finite heights, including rational
-height0, on the actual spectra. No identity of a finite localization
+height 0, on the actual spectra. No identity of a finite localization
 with L_n is inferred.
 
 Set L_n=L_(E(n)) and C_nX=fib(X→L_nX) for the acyclic fiber,
@@ -2196,7 +2618,7 @@ distinct from F6.3's thick subcategories C_n. Prove the Hopkins–Ravenel smashi
 natural unit-compatible equivalence `L_n X≃L_nS∧X` for every
 p-local spectrum X and finite n≥0 (Ravenel, Nilpotence and Periodicity,
 Theorem 7.5.6, p. 87). Construct its proof through
-[Ravenel, Chapter8 §§1–5](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf),
+[Ravenel, Chapter 8, §§1–5](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf),
 with the following intermediate APIs before invoking smashing.
 
 1. Construct the spectral chromatic resolution using F6.3's finite
@@ -2391,7 +2813,7 @@ with the following intermediate APIs before invoking smashing.
    These specialized constructions are owned here; they are not
    assigned to ProfiniteCohomology.
    Handle the full/extended groups by their indicated quotient actions
-   and treat height0 rationally. ProfiniteCohomology supplies the
+   and treat height 0 rationally. ProfiniteCohomology supplies the
    carrier and generic resolutions, not these analytic-group theorems.
 4. Apply F6.3's Smith idempotents to tensor/smash powers of a finite
    torsion-free W: nontrivial actions
@@ -2419,7 +2841,7 @@ with the following intermediate APIs before invoking smashing.
    that a general characteristic-two K(m) ring is homotopy commutative.
    Construct the simultaneous-height spectrum from the finite family
    of fixed-height summands by their smash product. Prove each summand
-   has nonzero torsion-free homology and hence type0, so its FK(i)
+   has nonzero torsion-free homology and hence type 0, so its FK(i)
    homology is nonzero at every finite height. Prove the diagonal
    tensor of a free 𝔽_(p^m)[H]-module with any representation is
    free, using the regular-module tensor comparison; then prove the
@@ -2456,6 +2878,24 @@ lower-right corner. Prove functoriality in X, comparisons with the
 chromatic tower L_n→L_(n−1), the fibre/Mayer–Vietoris sequences on
 true π_*, and product/module comparisons with the actual derived
 localized structures.
+
+*Needs:* F6.3 (class comparisons, Moore systems and telescopes); F3.1 and
+F3.3; F5.2–F5.4 (Landweber filtration and exactness); F6.1; F6.2's ghost
+bound; ProfiniteCohomology (continuous cohomology of the stabilizer
+groups); RepresentationTheory SchurWeyl Layers 0, 2 and 5;
+GeneralizedCohomology G2.4, G3.8 and G5.1.
+
+**Checks.**
+- n=1, X=Hℚ: L₁Hℚ=Hℚ, L_(K(1))Hℚ=0 since K(1)∧Hℚ=0, L₀Hℚ=Hℚ and the
+  lower-right corner is 0; the square has rows Hℚ→0 and Hℚ→0 and is
+  cartesian.
+- n=1, X=S/p: L₀(S/p)=S/p∧Hℚ=0, and L₀L_(K(1))(S/p)=0 because the
+  homotopy of L_(K(1))(S/p) is killed by p²; the square says
+  L₁(S/p)≃L_(K(1))(S/p), as it must for a type-1 finite spectrum.
+- n=1, X=S_(p), p odd: π₀ of the corners is ℤ_p for L_(K(1))S, ℚ for L₀S
+  and ℚ_p for L₀L_(K(1))S, and the pullback has π₀=ℚ×_(ℚ_p)ℤ_p=ℤ_(p); a
+  square without the lower-right corner, a product of L₀X and L_(K(1))X,
+  would give ℚ×ℤ_p instead.
 
 ### F6.5. Local group actions and completion comparisons
 
@@ -2619,13 +3059,13 @@ the following prerequisites and finite-height descent.
    The filtration is still used for K(n)-nilpotence; locality alone
    does not provide that filtration.
 
-   Use F6.4's finite type0 L_nBP-prenilpotent Y. Its localized
+   Use F6.4's finite type 0 L_nBP-prenilpotent Y. Its localized
    model L_nY is built in finitely many stages from L_nBP-modules.
    For each such module N, use the unit/action retraction
    N∧M→L_nBP∧N∧M→N∧M and smash the preceding finite
    filtration with N. Thus L_n(Y∧M) is K(n)-nilpotent.
    This argument requires no multiplication on M.
-   The Tate functor kills these finite constructions, using item2
+   The Tate functor kills these finite constructions, using item 2
    and the unital module action, even when the generating modules
    are infinite spectra. Thus for F=Y∧M, a finite type-n spectrum,
    `(L_nF)^(tG)≃0`. Thick classification and finite dualizability
@@ -2634,7 +3074,7 @@ the following prerequisites and finite-height descent.
    structure. Use the finite type tower F₀=S_(p),
    F_(i+1)=cofib(v_i), and F6.3's telescopes T(i), with v₀=p
    and the rational comparison T(0)=S_(p)[1/p]≃Hℚ. Its top term
-   R_G∧F_n vanishes by item4 and finite-smash/Tate comparison.
+   R_G∧F_n vanishes by item 4 and finite-smash/Tate comparison.
    The remaining Bousfield terms R_G∧T(i), i<n, lie below K(i):
    use ⟨L_nS⟩=⟨E(n)⟩ and
    `⟨E(n)∧T(i)⟩=⟨K(i)⟩`, proved by field Künneth and the
@@ -2656,7 +3096,7 @@ For fixed p and n≥1 use F6.3’s cofinal generalized-Moore tower M_i
 with its coherent quotient/unit maps and its already proved finite
 pro-recovery and independence comparisons. Use finite duality and the
 localization
-universal property, as in Hovey–Strickland Proposition7.10(e), to
+universal property, as in Hovey–Strickland Proposition 7.10(e), to
 prove the model-level comparison
 `L_(K(n))X≃holim_i(L_nX∧M_i)`
 for every p-local spectrum X. Construct the map from X and prove the
@@ -2692,6 +3132,22 @@ Morava E∞ realizations, completed stabilizer cooperations and θ-algebra
 obstruction theory are EllipticCohomology E2 targets; this layer supplies their
 local categories and fracture functors.
 
+*Needs:* GeneralizedCohomology G2 (simplicial model of spectra and
+projective BG-diagrams), G2.11 (enriched, quasicategorical and monoidal
+foundations), G3.8 (Milnor sequence) and G3.9 (derived p-completion);
+F6.1 (Bousfield localization); F3.3 (K(n) and E(n)); F6.4 (smashing, the
+chromatic tower and the finite-height prenilpotent seed); Greenlees–Sadofsky,
+Kuhn, Clausen–Mathew and Nikolaus–Scholze are cited sources.
+
+**Checks.**
+- For the trivial group the norm E_(h1)→E^(h1) is the identity, so
+  E^(t1)=0 for every E, with no hypothesis on E.
+- For E=K(n) with trivial C_p-action, K(n)^*(BC_p)=K(n)^*[[x]]/(v_n x^(p^n))
+  has nilpotent Euler class x, so inverting it gives K(n)^(tC_p)≃0.
+- For Hℤ with trivial C_p-action, π_(−2k)Hℤ^(tC_p)=Ĥ^(2k)(C_p;ℤ)=ℤ/p≠0,
+  so integral Tate vanishing is false; this does not contradict the
+  theorem, because K(n)∧Hℤ=0 makes L_(K(n))Hℤ=0 for n≥1.
+
 ### F6.6. Torus Euler cancellation on finite MU pieces
 
 Use G5.4's single MU spectrum and G4.5's complex orientation, F1–F3's formal group and
@@ -2702,7 +3158,7 @@ their specified finite CW and compact-oriented duality models, with D
 equidimensional of real dimension d_D. Treat different-dimensional connected
 components of D by the finite-sum comparison, with their individual shifts.
 Obtain the smooth finite CW models from GeometricTopology's
-**The smoothing-and-triangulation comparison**, item1 **Smooth implies PL**,
+**The smoothing-and-triangulation comparison**, item 1 **Smooth implies PL**,
 using the locally finite smooth triangulation and compactness, followed by
 the pinned `TauCeti.IsTriangulable.finiteCWType` (a compact triangulable space
 has finite CW type). Transport the bundle,
@@ -2755,13 +3211,13 @@ Prove tower and multiplication compatibility, and identify this instance's
 mapping-spectrum Milnor sequence. Finite truncations have their own kernels;
 prove cancellation on the full completed groups.
 
-Consume RepresentationTheory/CompactGroups Layers1–2, **unitarizability**
+Consume RepresentationTheory/CompactGroups Layers 1–2, **unitarizability**
 and **complete reducibility**, and its **circle S¹ and Fourier series** engine
 for integer characters of AddCircle 1. Construct the finite-product circle characters:
 continuous characters of T=(Fin ℓ→Circle) are uniquely
 χ_m(z)=∏_i z_i^(m_i), m∈Z^ℓ, by coordinate restriction and finite-product
 multiplication. Use Mathlib's AddCircle.homeomorphCircle and toCircle_addChar
-at period1; toCircle_zsmul identifies the circle engine with z↦z^n.
+at period 1; toCircle_zsmul identifies the circle engine with z↦z^n.
 For a finite-dimensional continuous T-representation, apply the compact-group
 decomposition and abelian Schur lemma to obtain its finite character list.
 Construct only the pointwise fibre/Euler adapter: at one vertex of each
@@ -2821,7 +3277,7 @@ proof. Construct also the normalized Thom/Euler unit
 `i_*(e_BP(ν))=u(ν)e_MU(ν)`, with `u(L)=c_F(x_MU(L))/x_MU(L)`
 on lines, multiplicativity and the splitting-injection comparison on bundles.
 Prove the unit and inverse are compatible on the finite Borel/flag models
-and their completed tower, including rank0/unit1. Transfer the finite
+and their completed tower, including rank 0 and unit 1. Transfer the finite
 Landweber filtration and Euler calculation through these finite-X and
 scalar-coordinate comparisons. The full-bundle Thom unit is a separate
 compatible orientation API. Consume the map, polynomial basis and p-typical
@@ -2836,6 +3292,31 @@ and maps of mapping towers/Milnor sequences to these objects. Prove their
 compatibility with the torus finite-cell mapping Euler comparison, its cup action
 and the finite-X/completed comparisons. This gives the corresponding
 coefficient maps on Euler and extension classes.
+
+*Needs:* GeneralizedCohomology G3.8 (Milnor sequence), G4 (projective
+bundles and Thom multiplicativity), G4.5 (complex orientation), G5.1
+(finite duality), G5.4 (MU), G5.5 (the MU→Hℤ coefficient square) and G5.7
+(torus actions, Thom families, mapping towers); F1–F3 (formal group and
+p-typicalization); F5.1–F5.2 (quotients A/I_h and the finite Landweber
+filtration); F6.3's p-typical ring comparison and F6.4's polynomial
+coefficient isomorphism; CharacteristicClasses' Conventions;
+RepresentationTheory CompactGroups Layers 1–2; GeometricTopology's
+smoothing-and-triangulation comparison and the pinned
+`TauCeti.IsTriangulable.finiteCWType`.
+
+**Checks.**
+- ℓ=1 and χ=[2]: Π(x)=[2]_F(x)=2x+a₁₁x²+⋯ is regular on
+  MU^*(BT)=MU^*[[x]], its linear coefficient 2 being a nonzero divisor in
+  MU^*; on the factor BP_*/I₁ at p=2, [2](x)≡v₁x²+⋯ modulo 2, with
+  lowest coefficient v₁, a nonzero divisor in the domain 𝔽₂[v₁,v₂,…].
+  Over HF₂, whose law is additive, [2](x)=0 and the cancellation fails,
+  so the height-h argument is needed.
+- A zero weight is excluded: for χ=0, [0]_F(x)=0, the Euler class of the
+  corresponding line vanishes and precomposition with it is not
+  injective.
+- The identity eν·Σ_(i=1)^q Π^(q−i)n^(i−1)=Π^q telescopes from
+  eν=Π−n and n^q=0: for q=2 it reads (Π−n)(Π+n)=Π²−n²=Π², and for r=0,
+  eν=1 is the unit and injectivity is trivial.
 
 ### F6.7. Euler cancellation and module-extension nullhomotopies
 
@@ -2867,6 +3348,18 @@ the full integral MU-module moment-filtration application, including torsion
 in fixed-component homology. T2's ordinary rational perfection and its
 even/torsion-qualified integral cases precede this separate construction.
 Send the resulting chosen path through G5.5's fixed MU→HZ scalar extension.
+*Needs:* F6.6; GeneralizedCohomology G5.7 (module-family category,
+mapping-space fibres and the extension classification, with its filtered
+form) and G5.5 (the MU→Hℤ scalar extension).
+
+**Checks.**
+- The proof skeleton: δq~0 and qj~⊕_C eν_C give δ∘(⊕_C eν_C)~δqj~0, and
+  F6.6's injectivity of precomposition with each eν_C gives [δ]=0; for a
+  zero weight, where eν=0, the first identity gives no information.
+- Empty family: Q=0, δ:0→ΣA is null, and A≃B; empty A: the triangle is
+  0→B→Q→0 and B≃Q with δ=0.
+- Rank zero: r_C=0 gives eν_C=1, so q has the section j up to homotopy
+  and δ=δqj~0 directly, without F6.6.
 
 ### Examples
 
@@ -2879,7 +3372,7 @@ Send the resulting chosen path through G5.5's fixed MU→HZ scalar extension.
 
 ### Dependencies
 
-F1–F5; GeneralizedCohomology G2.4–G2.11, G3, G4, G5.1 and G5.3–G5.7;
+F1–F5; GeneralizedCohomology G2.3–G2.11, G3, G4, G5.1 and G5.3–G5.7;
 AlgebraicTopology Stages 5.5 and 8.8; CharacteristicClasses' Conventions;
 ProfiniteCohomology; RepresentationTheory SchurWeyl Layers 0, 2 and 5 and
 CompactGroups Layers 1–2; GeometricTopology's smoothing-and-triangulation
@@ -2905,11 +3398,11 @@ module-extension nullhomotopy on its moment-map stratification.
 
 - Quillen, [*Elementary proofs of some results of cobordism theory using Steenrod operations*](https://people.math.rochester.edu/faculty/doug/otherpapers/QuillenElem.pdf).
 - Adams, *Stable Homotopy and Generalised Homology*, for orientations and cooperations.
-- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions (Lemmas 3.1.4 and 3.1.7, Theorem 3.1.5, Corollary 3.1.10, Section 4.2, p. 118, and Theorem 4.3.2 with its proof, pp. 120–121), Corollary A1.1.18 for the splitting of a comodule algebra as a module and comodule, and Appendix 2 (Theorems A2.1.6, A2.1.18, A2.2.3, A2.2.6 and A2.2.12, Lemmas A2.1.9 and A2.2.7, Definitions A2.1.24–A2.1.25, A2.2.8 and A2.2.11, Example A2.2.10 and equations (A2.2.4) and (A2.2.13)) for the formal-group logarithm, p-series, height, the Honda laws and the height classification over separably closed fields.
+- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions (Theorem 1.3.16, p. 17, for the invariant prime ideals of L; Lemmas 3.1.4, 3.1.6, 3.1.7 and 3.1.8, Theorem 3.1.5, Corollary 3.1.10, Section 4.2, p. 118, and Theorem 4.3.2 with its proof, pp. 120–121), Corollaries A1.1.18 and A1.1.20 for the splitting of a comodule algebra and of a Hopf algebra as a module and comodule, Corollary A1.3.13 for the change of rings, and Appendix 2 (Theorems A2.1.6, A2.1.18, A2.1.27, A2.2.3, A2.2.6 and A2.2.12, Lemmas A2.1.9 and A2.2.7, Definitions A2.1.24–A2.1.25, A2.2.8 and A2.2.11, Example A2.2.10 and equations (A2.2.4) and (A2.2.13)) for the formal-group logarithm, p-series, height, the Honda laws and the height classification over separably closed fields.
 - Bousfield, [*The localization of spectra with respect to homology*](https://doi.org/10.1016/0040-9383(79)90018-1), Topology 18 (1979), §6, Theorem 6.6, for the identification of the HF_p-nilpotent completion of a bounded-below spectrum with its derived p-completion.
 - Landweber–Ravenel–Stong, [*Periodic cohomology theories defined by elliptic curves*](https://people.math.rochester.edu/faculty/doug/mypapers/lrs.pdf), for exactness and elliptic examples.
 - Wilson, *The Ω-spectrum for Brown–Peterson cohomology II*, and Hovey, [*The homotopy of MString and MU⟨6⟩ at large primes*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Hovey-bpbp1.pdf), for the Hopf-ring interfaces.
-- Lubin–Tate, [*Formal moduli for one-parameter formal Lie groups*](https://www.numdam.org/item/BSMF_1966__94__49_0.pdf), Bull. Soc. Math. France 94 (1966), 49–59: the ⋆-isomorphisms (p. 49), Proposition 1.1 (p. 50), Proposition 2.6 (p. 54), Theorem 3.1 (p. 56), §3.2 and Proposition 3.3 (p. 57) and §§3.4–3.5 (p. 58), for the universal deformation theorem, its automorphism action and the height-two elliptic example.
+- Lubin–Tate, [*Formal moduli for one-parameter formal Lie groups*](https://www.numdam.org/item/BSMF_1966__94__49_0.pdf), Bull. Soc. Math. France 94 (1966), 49–59: the ⋆-isomorphisms (p. 49), Proposition 1.1 (p. 50), Proposition 2.4 (p. 52) for rigidity, Proposition 2.6 (p. 54), Theorem 3.1 (p. 56), §3.2 and Proposition 3.3 (p. 57) and §§3.4–3.5 (p. 58), for the universal deformation theorem, its automorphism action and the height-two elliptic example.
 - Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Section 4.J for the James construction and Section 4.L for the Steenrod operations, Adem relations and the admissible basis.
 - Miller, [*Notes on Cobordism*](https://math.mit.edu/~hrm/papers/cobordism.pdf), Chapter 1, Sections 9–13, for the Steenrod algebra, Milnor's theorem on its dual (Theorem 11.2), the Milnor–Moore freeness criterion (Proposition 10.4), the freeness of H^*MO and the splitting of MO (Theorems 12.1–12.4), with Section 13 stating the ring π_*MO without proof; Chapter 2, Theorem 3.5 and Proposition 8.3, for Quillen's theorem and the Hurewicz embedding.
 - Guillou–Weibel, [*Unstable operations in étale and motivic cohomology*](https://arxiv.org/abs/1301.0872), Definition 6.1, Theorem 6.2 and Theorem 6.5, for the algebraic forms of Borel's and Kudo's transgression theorems.
@@ -2920,15 +3413,15 @@ module-extension nullhomotopy on its moment-map stratification.
 
 - Devinatz–Hopkins–Smith, [*Nilpotence and stable homotopy theory I*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/dhs-ocr.pdf), for the three nilpotence scopes and the Thom/James/vanishing-line proof.
 - Hopkins–Smith, [*Nilpotence and stable homotopy theory II*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/HS.pdf), for finite support, thick classification and periodicity.
-- Ravenel, [*Nilpotence and Periodicity in Stable Homotopy Theory*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf), §§3.3,7.3,7.5, Chapters6–8 and AppendixC, for invariant primes, Bousfield classes, periodicity (§6.2: the operations P_t^s for t>s≥0, p. 63, Definition 6.2.3 of strong type and Theorem 6.2.4, pp. 64–65), the smash product theorem (Theorem 7.5.6, p. 87), the Hopkins–Ravenel smashing proof and Smith idempotents.
+- Ravenel, [*Nilpotence and Periodicity in Stable Homotopy Theory*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf), §§3.3, 7.3 and 7.5, Chapters 6–8 and Appendix C, for invariant primes, Bousfield classes, periodicity (§6.2: the operations P_t^s for t>s≥0, p. 63, Definition 6.2.3 of strong type and Theorem 6.2.4, pp. 64–65), the smash product theorem (Theorem 7.5.6, p. 87), the Hopkins–Ravenel smashing proof and Smith idempotents.
 - Hovey–Strickland, [*Morava K-Theories and Localisation*](https://doi.org/10.1090/memo/0666), for generalized Moore systems, their local categories and completion comparisons.
 - Greenlees–Sadofsky, [*The Tate spectrum of v_n-periodic complex oriented theories*](https://people.math.rochester.edu/faculty/doug/otherpapers/greenlees-sadofsky.pdf), and Kuhn, [*Tate cohomology and periodic localization of polynomial functors*](https://arxiv.org/abs/math/0307173), for the stated local Tate comparisons.
 
 - Hovey–Sadofsky, [*Tate Cohomology Lowers Chromatic Bousfield Classes*](https://doi.org/10.1090/S0002-9939-96-03495-8), for the finite-height prenilpotence/Tate descent.
-- Johnson–Wilson, *BP-operations and Morava’s extraordinary K-theories*, Math. Z. 144 (1975), 55–75, Proposition4.14, for the operation-defined comparison, and Würgler, [*Cobordism theories of unitary manifolds with singularities and formal group laws*](https://doi.org/10.1007/BF01221149), Theorem2.16 and Remark6.19, for quotient operations and the stable homology comparison; the countable-cell/Milnor realization is the additional spectral adapter specified here.
+- Johnson–Wilson, *BP-operations and Morava’s extraordinary K-theories*, Math. Z. 144 (1975), 55–75, Proposition 4.14, for the operation-defined comparison, and Würgler, [*Cobordism theories of unitary manifolds with singularities and formal group laws*](https://doi.org/10.1007/BF01221149), Theorem 2.16 and Remark 6.19, for quotient operations and the stable homology comparison; the countable-cell/Milnor realization is the additional spectral adapter specified here.
 - Clausen–Mathew, [*A short proof of telescopic Tate vanishing*](https://arxiv.org/html/1608.02063), §2, for the unit/transfer and arbitrary-action module criteria.
 
-- Symonds, [*Permutation complexes for profinite groups*](https://ems.press/content/serial-article-files/43113), §5 Theorem5.2, Proposition5.4, Corollary5.5 and §7, for finite signed weak permutation resolutions and complete cohomology; the uniform-vcd comparison is constructed in F6.4.
-- Nikolaus–Scholze, [*On topological cyclic homology*](https://arxiv.org/abs/1707.01799), §I.3 and AppendixA, for the induced-object ideal, coherent stable quotient/Ind construction and lax symmetric monoidal Tate functor.
+- Symonds, [*Permutation complexes for profinite groups*](https://ems.press/content/serial-article-files/43113), §5, Theorem 5.2, Proposition 5.4, Corollary 5.5 and §7, for finite signed weak permutation resolutions and complete cohomology; the uniform-vcd comparison is constructed in F6.4.
+- Nikolaus–Scholze, [*On topological cyclic homology*](https://arxiv.org/abs/1707.01799), §I.3 and Appendix A, for the induced-object ideal, coherent stable quotient/Ind construction and lax symmetric monoidal Tate functor.
 
-- Lurie, [*Higher Topos Theory*](https://www.math.ias.edu/~lurie/papers/HTT.pdf), §§1.2.4,1.2.9,2.1.2,2.2.1–2.2.5,2.4.5–2.4.6,3.1–3.3,4.2.4,4.3,5.2.7,5.3.5,A.2.6,A.3.2–A.3.6, and [*Higher Algebra*](https://www.math.ias.edu/~lurie/papers/HA.pdf), §§4.1.8,4.3.3,4.8.1,7.3.2, for the categorical models, natural marked straightening, model-diagram rectification and (co)limit comparison, Kan extensions, Ind, operadic rectification, monoidal Ind and relative adjoints that F6.5 consumes from GeneralizedCohomology G2.11 and applies to Borel actions.
+- Lurie, [*Higher Topos Theory*](https://www.math.ias.edu/~lurie/papers/HTT.pdf), §§1.2.4, 1.2.9, 2.1.2, 2.2.1–2.2.5, 2.4.5–2.4.6, 3.1–3.3, 4.2.4, 4.3, 5.2.7, 5.3.5, A.2.6 and A.3.2–A.3.6, and [*Higher Algebra*](https://www.math.ias.edu/~lurie/papers/HA.pdf), §§4.1.8, 4.3.3, 4.8.1 and 7.3.2, for the categorical models, natural marked straightening, model-diagram rectification and (co)limit comparison, Kan extensions, Ind, operadic rectification, monoidal Ind and relative adjoints that F6.5 consumes from GeneralizedCohomology G2.11 and applies to Borel actions.
