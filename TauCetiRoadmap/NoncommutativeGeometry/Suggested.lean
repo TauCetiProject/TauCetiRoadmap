@@ -39,9 +39,11 @@ Headline theorems of the README that are not statable at the pins:
   each fixed degree;
 * the Hochschild computation for Diophantine θ in N6 lacks continuous Hochschild cohomology
   with coefficients in the continuous dual of the smooth torus;
-* the Heisenberg-module index and the trace/Chern values `(θ, 1)` of N7 lack the Heisenberg
-  module with its Hilbert-module completions over the rotation algebra, and the derivations of
-  `SmoothNoncommutativeTorus` that define the torus cocycle φ.
+* the Heisenberg-module index and the trace/Chern values `(θ, 1)` of N7 lack the completion and
+  the interior tensor product of Hilbert C⋆-modules (the pins have Mathlib's `CStarModule` class
+  with neither), hence the completed Heisenberg module over the rotation algebra and its
+  localization at the trace, and the derivations of `SmoothNoncommutativeTorus` that define the
+  torus cocycle φ.
 -/
 
 namespace TauCetiRoadmap.NoncommutativeGeometry

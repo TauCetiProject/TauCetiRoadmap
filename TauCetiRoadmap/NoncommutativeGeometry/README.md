@@ -69,13 +69,19 @@ homomorphisms; the structure theory of C*-algebras (ideals, approximate
 units, the Calkin algebra, multipliers) belongs to CStarAlgebras and is
 not an input here.
 
-The general theory of adjointable and regular module
-operators, the bounded transform of a regular operator on a Hilbert
-C*-module and module tensor products belong to HilbertModules, which is
-not an input here: N5's bounded transform of a self-adjoint operator with
-compact resolvent is an instance of N5's own Borel calculus, and N7's
-Heisenberg module carries its inner product and completion on Mathlib's
-carriers. The canonical trace Tr on the trace-class operators of B(H),
+N7 consumes HilbertModules H1–H3 for the generic Hilbert-module
+constructions on its Heisenberg module: the completion of a pre-Hilbert
+module over a dense *-subalgebra (H1), finite Parseval frames with their
+Gram-matrix projection (H2), and the induced Hilbert space of a module
+tensored with a representation, which at the GNS representation of a
+state is the localization of the module at that state (H3). N7 owns the
+Heisenberg module itself: its inner product with its positivity, its
+smooth frames and Powers–Rieffel projection of trace θ, its connections
+and the identification of its localization at τ with the scalar L²(ℝ)
+model. The regular unbounded module operators of HilbertModules H6 and
+their bounded transform are not an input here: N5's bounded transform of
+a self-adjoint operator with compact resolvent is an instance of N5's own
+Borel calculus. The canonical trace Tr on the trace-class operators of B(H),
 with its basis independence, `Tr|T|=‖T‖₁`, its cyclicity against
 bounded operators and the trace-class duality of B(H), is
 VonNeumannAlgebras V4.Core's and is consumed in N3–N4. Tracial Lp
@@ -307,6 +313,15 @@ rebuild them.
   relation `U₂U₁=exp(2πiθ)U₁U₂`, the ordered multiplier `exp(2πiθnm′)`
   and the faithful trace `trace` (`NoncommutativeGeometry/SmoothTorus/Basic`);
   it carries no topology and no derivations at the pin.
+- Resolvent integrals (N6): for an element a of a complex Banach algebra,
+  f holomorphic on an open U and cycles Γ₁, Γ₂ in U∖σ(a), null-homologous
+  in U, with the same winding number about every point of σ(a), the
+  integrals `∫_Γ f(z)(z1−a)⁻¹dz` over Γ₁ and Γ₂ agree,
+  `TauCeti.Contour.Cycle.integral_smul_resolvent_eq_of_windingNumber_eq`
+  (`Analysis/Normed/Algebra/HolomorphicFunctionalCalculus/Cycle`). The
+  pin has no theorem producing such a cycle around a compact set, and no
+  holomorphic calculus as an algebra homomorphism; BanachAlgebras A2
+  supplies both.
 - Crossed products (N6): the pullback `TauCeti.CStarAction.comp` of an
   action along a continuous homomorphism (`Analysis/CStarAlgebra/Action/Basic`);
   the rotation action `TauCeti.CStarAction.rotation` of the real line
@@ -345,11 +360,12 @@ rebuild them.
 
 | Supplier | Interface consumed here |
 | --- | --- |
-| [BanachAlgebras A1–A4,A6](../BanachAlgebras/README.md) | Banach-valued holomorphic calculus, spectra, bounded Hochschild cochains and the A4 dual-bimodule convention. N1 owns its resolution comparisons. |
+| [BanachAlgebras A2, A4, A6](../BanachAlgebras/README.md) | A2's holomorphic functional calculus of a unital Banach algebra, `f(a)=(2πi)⁻¹∫_Γ f(z)(z1−a)⁻¹dz` for f holomorphic near σ(a), with the existence of cycles Γ in U∖σ(a) null-homologous in U and winding once around σ(a), consumed by N6 for `M_n(A_θ)`; A6's bounded Hochschild cochains and the A4 dual-bimodule convention, consumed by N1.Cyclic. N1 owns its resolution comparisons. |
 | [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) | Native `LinearPMap` closed operators, adjoints, spectral calculus and graph norms. N5 constructs the compact-resolvent/summability consequences. |
 | [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md) | Compact operators, singular values with their mixed-index sum and product inequalities (OI-A17, OI-A22), the two-sided ideal inequality (OI-A20) and adjoint invariance `aₙ(T†)=aₙ(T)` (OI-A30), Schatten spaces S_p for 1≤p≤∞ and the trace-class norm. N3 adds the B(H) inclusions of the quasi-ideals into the Schatten scale; N4 the singular traces. |
 | [NoncommutativeIntegration §1.3–§1.6, §2.1](../NoncommutativeIntegration/README.md) | At M=B(H) with its usual trace Tr, where `μ_t(T)=a_⌊t⌋(T)` with the zero-indexed approximation numbers (§1.5): the Schatten quasi-ideals S_p for 0<p<1 as Lp(B(H),Tr), with the p-triangle inequality `‖S+T‖_p^p≤‖S‖_p^p+‖T‖_p^p`, the ideal bound `‖ATB‖_p≤‖A‖‖T‖_p‖B‖`, adjoint invariance and completeness of the p-metric (§1.3, §1.5); Hölder's inequality `‖ST‖_r≤‖S‖_p‖T‖_q` with constant one for p,q,r>0 and 1/r=1/p+1/q, and the log-submajorization of the singular values of a product (§1.4); the weak Schatten classes `sup_j(j+1)^(1/p)μ_j(T)<∞`, with the weak trace class `S_(1,∞)` at p=1, and their quasi-norm, adjoint and ideal bounds (§1.6); the cyclicity `Tr(ST)=Tr(TS)` for S∈S_p, T∈S_q with 1/p+1/q=1, 1≤p<∞ (§2.1). N3 consumes the quasi-ideals, Hölder and the cyclicity for its characters, N4 Hölder and the weak classes. |
 | [VonNeumannAlgebras V4.Core](../VonNeumannAlgebras/README.md) | The canonical trace `Tr(T)=Σ_j⟨e_j,Te_j⟩` on the trace class S₁(H) of OI-B29–B30, its independence of the orthonormal basis, `Tr|T|=‖T‖₁`, the cyclicity of trace-class products against bounded operators and of Hilbert–Schmidt pairings, and the isometric identification of B(H) with the dual of S₁(H) under `(x,h)↦Tr(xh)`, so that the ultraweakly continuous functionals on B(H) are the `T↦Tr(ρT)` with ρ trace class. N3 consumes the trace for its characters, N4 for the Tauberian bridge and the singularity of Dixmier traces. |
+| [HilbertModules H1–H3](../HilbertModules/README.md) | In Mathlib's right-module convention `CStarModule Aᵐᵒᵖ E`: H1's completion of a pre-Hilbert module, including a module over a dense *-subalgebra whose positivity and norm are measured in its C*-completion, with the extension of the action to that completion; H2's rank-one operators `z↦x⟨y,z⟩`, finite Parseval frames `Σ_i x_i⟨x_i,z⟩=z` with their analysis and synthesis maps and Gram-matrix projection `(⟨x_i,x_j⟩)_(i,j)` in `M_n(A)`, and, for unital A, the existence of a finite Parseval frame on a complete module exactly when it is finitely generated projective; H3's induced Hilbert space `E⊗_A H_π` of a nondegenerate representation π, and for a state ω its identification with the completion of E modulo `{x:ω(⟨x,x⟩)=0}` and with `E⊗_A H_ω`. N7 consumes them at A=A_θ and ω=τ for the Heisenberg module. |
 | [BanachSpaceTheory B4](../BanachSpaceTheory/README.md) | The completed Banach projective tensor over ℝ and ℂ and its universal property, consumed by N1.Tensor. |
 | [OperatorAlgebraDynamics D1–D2,D4](../OperatorAlgebraDynamics/README.md) | D1's universal property of the full crossed product for nondegenerate covariant pairs in multiplier algebras, hence in any unital C*-algebra; D2's generator formulas for G=ℤ, the equality of full and reduced crossed products for amenable groups and the faithful conditional expectation of a discrete crossed product with its Fourier coefficient maps; D4's dual action of the circle. The full crossed product, its canonical multipliers and the rotation action are Tau Ceti's; N6 constructs the two-torus gauge action. |
 
@@ -374,7 +390,9 @@ pinned eigenbasis, and the Hochschild-class theorem. N6 builds the
 rotation C*-algebra on Tau Ceti's full crossed product, the Fréchet topology,
 derivations and differential calculus of the pinned smooth two-torus
 and its cyclic cohomology, and N7 its
-Fourier spectral triple, Heisenberg module and index computations. Each
+Fourier spectral triple, the product of two circle Hardy classes at θ=0,
+its Heisenberg module on HilbertModules' completions and the index
+computations. Each
 section ends with its examples and with the sections and suppliers it
 needs; the sections are cited as N1–N7.
 
@@ -548,20 +566,20 @@ totalization of the stabilized (b,B) bicomplex: representatives have
 finitely many nonzero components. Pin the scalar comparison: the cyclic
 degree-2m class represented by `σ_m(a₀,…,a_(2m))=m!∏_j a_j` on ℂ maps to
 the degree-zero functional z↦z in this totalization. Prove its
-compatibility with S and N2's pairing. For a normalized cyclic
-n-cocycle the homogeneous column comparison has scalar
-`c_(2m)=(−1)^m/(2m)!` and
-`c_(2k+1)=(−1)^k/((1+i)sqrt(π)(2k+1)!)`.
+compatibility with S. The homogeneous column comparison sends a
+normalized cyclic n-cocycle φ to `c_nφ`, with the scalars
+`c_(2m)=(−1)^m/(2m)!` in even degree and
+`c_(2k+1)=(−1)^k/((1+i)sqrt(π)(2k+1)!)` in odd degree.
 Prove these maps agree with the full cyclic-bicomplex comparison,
-including its lower unit columns, and with N2's closed periodic
-Chern chains and both pairings. This pins every odd degree as well as
-the degree-one circle class. Prove naturality and periodic homotopy invariance for
+including its lower unit columns; the scalars `c_n` fix the comparison
+in every degree, odd ones included. Prove naturality and periodic homotopy invariance for
 polynomial algebra homotopies, and for continuous homomorphisms
 `A→C^∞([0,1],B)` in the locally convex theory, with continuous derivatives
 and the smooth-function seminorms; construct their transgressions.
 Prove matrix Morita invariance: for a unital algebra A over a
 commutative ℚ-algebra R, coefficients in an R-module M and a nonempty
-finite index set ι, the pinned matrix extension `φ↦φ#Tr` of N2 induces
+finite index set ι, the pinned matrix extension `φ↦φ#Tr`
+(`cyclicCohomology.matrixExtension`) induces
 a bijection `HC^n(A;M)→HC^n(M_ι(A);M)` in every degree n
 (`bijective_matrixExtension`). Connes 1985, Part II, Corollary 24,
 p. 113, applied to the bimodule ℰ=A^ι, is the case R=M=ℂ: Part II works
@@ -727,13 +745,14 @@ versions and invariance under stabilization and homotopy. Pair a
 finite-support periodic cochain with these chains by the finite sum,
 and prove the cyclic-to-mixed comparison gives exactly the displayed
 N2 pairings.
-For a normalized cyclic cocycle, pin the degree-2k component of
-its mixed image to `(−1)^k φ/(2k)!`, and its degree-(2k+1)
-component to `(−1)^k φ/((2k+1)!(1+i)sqrt(π))`.
-For full cyclic cochains construct the lower components using the
-unit/degeneracy comparison; the scalar σ_m class retains the
-degree-zero component specified in N1. Prove that evaluating on
-the displayed Chern chains gives N2's factorial/Gamma factors.
+The mixed image of a normalized cyclic n-cocycle φ is `c_nφ`, with
+N1.Cyclic's column scalars `c_n`; full cyclic cochains use
+N1.Cyclic's comparison with its lower unit columns, and the scalar σ_m
+class keeps the degree-zero component fixed there. Prove that
+evaluating `c_nφ` on the displayed Chern chains gives the factors
+`(m!)⁻¹` and `(1+i)⁻¹2^(−n)Γ(n/2+1)⁻¹` of the pinned pairings: in
+even degree `c_(2m)·(−1)^m(2m)!/m!=1/m!`, and in odd degree n=2k+1
+`c_(2k+1)·(−1)^k k!=k!/((1+i)sqrt(π)(2k+1)!)=(1+i)⁻¹2^(−n)Γ(k+3/2)⁻¹`.
 In odd parity calibrate on the circle cocycle
 `ψ(a₀,a₁)=(2πi)⁻¹∫_(S¹)a₀ da₁`: its normalized mixed image
 has degree-one component `ψ/((1+i)sqrt(π))`, so its pairing with
@@ -951,40 +970,7 @@ identity and its perturbation/finite-kernel argument before proving
 integrality; the index is Mathlib's `LinearMap.index` of the
 compression, and its compact-perturbation and homotopy invariance are
 the pinned Fredholm perturbation theorems of the Tau Ceti contract.
-Construct both ordered reductions of the external product of the two smooth circle
-Fredholm modules in the Clifford model `e₁=σ₁`, `e₂=−σ₂` of Cl₂ on ℂ²
-with grading σ₃. Write x⊠_u y for the unswapped Clifford tensor/Morita
-reduction `e⊗1↦e₁`, `1⊗e↦e₂`, and x⊠_s y for the swapped period
-reduction `e⊗1↦e₂`, `1⊗e↦e₁`. Represent each Hardy class by the unbounded circle
-operator `D_j=−iδ_j` on ℓ²(ℤ), with eigenvalue 2πm on e_m, whose phase
-with the zero mode sent to +1 is `2P_Hardy−1`. With these matrices
-on ℓ²(ℤ)⊗ℓ²(ℤ)⊗ℂ², x⊠_u y is represented by
-`D₁⊗1⊗σ₁−1⊗D₂⊗σ₂=−i(σ₁δ₁−σ₂δ₂)` with grading σ₃, which is N7's D,
-and x⊠_s y by `−D₁⊗1⊗σ₂+1⊗D₂⊗σ₁` with grading σ₃. The odd
-self-adjoint unitary `(σ₁−σ₂)/√2` conjugates σ₁ to −σ₂ and σ₂ to −σ₁,
-so it carries the second operator to the first with grading −σ₃.
-The bounded tensor `F₁⊗1⊗σ₁−1⊗F₂⊗σ₂` is not a Fredholm module for
-C(𝕋²): its commutator with z₁ is `[F₁,z₁]⊗1⊗σ₁`, rank one tensored
-with the identity of ℓ²(ℤ), hence not compact; the product is formed
-from the unbounded operators and their bounded transform. For the Hardy classes, each with circle index −1,
-identify x⊠_u y with N7's Fourier Dirac operator at θ=0 and x⊠_s y
-with its reversed grading. Prove `Ch(x⊠_u y)=Ch(x)#Ch(y)` and
-`Ch(x⊠_s y)=−Ch(x)#Ch(y)`, distinguishing the two reductions
-throughout the graded index-interchange comparison. For N2's fixed
-positive ordered smooth Bott class q*β of the torus, calculate the pairings +1
-and −1 respectively; the positive N7 Dirac has the first value.
-The arithmetic is: `τ₁=2ψ` on the circle and `λ₁=−(1+i)sqrt(π)/2`, so
-`Ch(x)=−(1+i)sqrt(π)ψ₁`; N2's value `1/(2πi)` of ψ₁#ψ₂ on q*β gives
-`⟨q*β,Ch(x)#Ch(y)⟩=((1+i)sqrt(π))²/(2πi)=+1`. Directly,
-`Tr₂(σ₃[D,a][D,b])=2i(δ₁aδ₂b−δ₂aδ₁b)`, and N5 with λ₂=−1 and N7's
-spin factor 1/(4π) gives the Hochschild class `(−1)(2i)/(4π)·τ(⋯)=φ`,
-which pairs +1 with q*β.
-The matrices e₁=σ₁, e₂=−σ₂, the two reductions and N2's Bott
-orientation are the conventions used here. Point factors contribute no
-additional adapter sign. These
-computations concern the explicitly finitely summable point/circle
-products. A general KK product is not assumed to have a finitely
-summable representative on the given smooth algebra. Work out point
+Work out point
 cycles, among them the even module ℂ²⊕ℂ² over M₂(ℂ) with π=id⊕0, γ=diag(1,−1) and F the
 swap of the two summands, on which the idempotent `e=[[1,a],[0,0]]`,
 a≠0, compresses from the line eℂ² to π(e)H⁻=0 with index 1, equal to
@@ -999,8 +985,7 @@ the whole C*-completion.
 
 The point cycle, with the idempotent `[[1,a],[0,0]]` of M₂(ℂ) of
 compression index 1; the circle Hardy compression with
-`ind(P_Hardy u P_Hardy)=−1` and `⟨[u],Ch₁⟩=−1`; the product of two Hardy classes, pairing +1 with q*β
-under the unswapped reduction and −1 under the swapped one; a nonsummable
+`ind(P_Hardy u P_Hardy)=−1` and `⟨[u],Ch₁⟩=−1`; a nonsummable
 compact-commutator cycle. On B(H): `diag((j+1)^(−3))` in S_p exactly for
 p>1/3, `diag(1/(j+1))²` in S_r exactly for r>1/2, `diag((j+1)^(−2))` in
 S₁ but not in S_(1/2), Hölder attained on `I₂`, the weighted shifts in
@@ -1296,8 +1281,20 @@ absolute summability of `(1+|r|+|s|)^(−3)` over ℤ². These establish the
 same Fréchet topology, not equality of individual seminorms: at θ=0,
 a=1+U₁ gives Q_0=1 and P_0=2. Prove spectral invariance in all matrix
 levels by differentiating inverses, `δ_j(a⁻¹)=−a⁻¹δ_j(a)a⁻¹` and its
-iterates, so that `M_n(𝒜_θ)` is closed under inversion and holomorphic
-functional calculus in `M_n(A_θ)` (Mathlib's `CStarMatrix`).
+iterates, so that `M_n(𝒜_θ)` is closed under inversion in `M_n(A_θ)`
+(Mathlib's `CStarMatrix`) and inversion is continuous on its invertible
+elements for the Fréchet topology. Deduce that `M_n(𝒜_θ)` is closed
+under the holomorphic functional calculus of the unital Banach algebra
+`M_n(A_θ)` (BanachAlgebras A2): for a∈M_n(𝒜_θ), f holomorphic on an open
+U⊇σ(a) and a cycle Γ in U∖σ(a), null-homologous in U and winding once
+around each point of σ(a), the resolvent `z↦(z1−a)⁻¹` is a continuous
+map of the trace of Γ into `M_n(𝒜_θ)`, so `(2πi)⁻¹∫_Γ f(z)(z1−a)⁻¹dz`
+converges in the complete algebra `M_n(𝒜_θ)`, and its image in `M_n(A_θ)`
+is the pinned resolvent integral, independent of Γ by
+`TauCeti.Contour.Cycle.integral_smul_resolvent_eq_of_windingNumber_eq`.
+Completeness is used: the restrictions to 𝕋 of rational functions with
+poles off 𝕋 form an inverse-closed subalgebra of C(𝕋) that contains z
+and not its holomorphic image `exp(z)`.
 Deduce the projection replacement inside `M_n(𝒜_θ)`. For an idempotent
 e there put `z=1+(e−e*)*(e−e*)`; since z≥1 it is invertible in
 `M_n(A_θ)`, hence in `M_n(𝒜_θ)`. Prove `ez=ze=ee*e`, so that z commutes
@@ -1408,7 +1405,7 @@ projection diag(1,0), both of trace 1.
 
 ### Dependencies
 
-*Needs:* N1.Cyclic, N2; OperatorAlgebraDynamics D1–D2, D4; Mathlib `cfc`, `CStarMatrix`, `CStarAlgebra` and `gnsStarAlgHom`; Tau Ceti `SmoothNoncommutativeTorus`, `traceDerivationCocycle`, `traceDerivationPairCocycle` and `derivationLieAlgebra ℂ A`; Tau Ceti `TauCeti.CStarAction.comp`, `TauCeti.CStarAction.rotation`, `TauCeti.CStarAction.rotation_apply_apply`, `Circle.coordinate`, `TauCeti.CStarAction.FullCrossedProduct` with `TauCeti.CStarAction.FullCrossedProduct.of`, `TauCeti.CStarAction.FullCrossedProduct.of_injective`, `TauCeti.CStarAction.FullCrossedProduct.starAlgHom_ext`, `TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier`, `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier` and `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier_mul_coefficientMultiplier`.
+*Needs:* N1.Cyclic, N2; OperatorAlgebraDynamics D1–D2, D4; BanachAlgebras A2; Mathlib `cfc`, `CStarMatrix`, `CStarAlgebra` and `gnsStarAlgHom`; Tau Ceti `SmoothNoncommutativeTorus`, `traceDerivationCocycle`, `traceDerivationPairCocycle` and `derivationLieAlgebra ℂ A`; Tau Ceti `TauCeti.CStarAction.comp`, `TauCeti.CStarAction.rotation`, `TauCeti.CStarAction.rotation_apply_apply`, `Circle.coordinate`, `TauCeti.CStarAction.FullCrossedProduct` with `TauCeti.CStarAction.FullCrossedProduct.of`, `TauCeti.CStarAction.FullCrossedProduct.of_injective`, `TauCeti.CStarAction.FullCrossedProduct.starAlgHom_ext`, `TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier`, `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier` and `TauCeti.CStarAction.FullCrossedProduct.groupMultiplier_mul_coefficientMultiplier`; Tau Ceti `TauCeti.Contour.Cycle.integral_smul_resolvent_eq_of_windingNumber_eq`.
 
 ## N7. Fourier spectral triples and Heisenberg indices
 
@@ -1437,21 +1434,60 @@ Use N5's
 λ₂=−1 and this orientation to compute the Hochschild character φ;
 compare the periodic character using N6's basis and its value on [1].
 
+At θ=0, construct both ordered reductions of the external product of two
+copies of N3's smooth circle Hardy module in the Clifford model
+`e₁=σ₁`, `e₂=−σ₂` of Cl₂ on ℂ² with grading σ₃. Write x⊠_u y for the
+unswapped Clifford tensor/Morita reduction `e⊗1↦e₁`, `1⊗e↦e₂`, and
+x⊠_s y for the swapped period reduction `e⊗1↦e₂`, `1⊗e↦e₁`. Represent
+each Hardy class by the unbounded circle operator `D_j=−iδ_j` on ℓ²(ℤ),
+with eigenvalue 2πm on e_m, whose phase with the zero mode sent to +1 is
+`2P_Hardy−1`. With these matrices on ℓ²(ℤ)⊗ℓ²(ℤ)⊗ℂ², x⊠_u y is
+represented by `D₁⊗1⊗σ₁−1⊗D₂⊗σ₂=−i(σ₁δ₁−σ₂δ₂)` with grading σ₃, which
+is D above at θ=0, and x⊠_s y by `−D₁⊗1⊗σ₂+1⊗D₂⊗σ₁` with grading σ₃.
+The odd self-adjoint unitary `(σ₁−σ₂)/√2` conjugates σ₁ to −σ₂ and σ₂
+to −σ₁, so it carries the second operator to the first with grading
+−σ₃. The bounded tensor `F₁⊗1⊗σ₁−1⊗F₂⊗σ₂` is not a Fredholm module for
+C(𝕋²): its commutator with z₁ is `[F₁,z₁]⊗1⊗σ₁`, rank one tensored with
+the identity of ℓ²(ℤ), hence not compact; the product is formed from
+the unbounded operators and N5's bounded transform. For the Hardy
+classes, each with circle index −1, identify x⊠_u y with the Fourier
+triple at θ=0 and x⊠_s y with its reversed grading. Prove
+`Ch(x⊠_u y)=Ch(x)#Ch(y)` and `Ch(x⊠_s y)=−Ch(x)#Ch(y)`, distinguishing
+the two reductions throughout the graded index-interchange comparison.
+For N2's fixed positive ordered smooth Bott class q*β of the torus,
+calculate the pairings +1 and −1 respectively; the positive Fourier
+Dirac operator has the first value. The arithmetic is: `τ₁=2ψ` on the
+circle and N3's `λ₁=−(1+i)sqrt(π)/2`, so `Ch(x)=−(1+i)sqrt(π)ψ₁`; N2's
+value `1/(2πi)` of ψ₁#ψ₂ on q*β gives
+`⟨q*β,Ch(x)#Ch(y)⟩=((1+i)sqrt(π))²/(2πi)=+1`. Directly,
+`Tr₂(σ₃[D,a][D,b])=2i(δ₁aδ₂b−δ₂aδ₁b)`, and N5's λ₂=−1 with the spin
+factor 1/(4π) above gives the Hochschild class
+`(−1)(2i)/(4π)·τ(⋯)=φ`, which pairs +1 with q*β. The matrices
+e₁=σ₁, e₂=−σ₂, the two reductions and N2's Bott orientation are the
+conventions of this computation, and a point factor contributes no
+additional sign. It concerns these explicitly finitely summable circle
+products: a general KK product is not assumed to have a finitely
+summable representative on the given smooth algebra.
+
 For 0<θ<1 construct the smooth Heisenberg right module on 𝒮(ℝ) with
 `(ξU₁)(s)=ξ(s+θ)` and `(ξU₂)(s)=exp(2πis)ξ(s)` (Connes IV.6, pp. 356–357,
 where θ ranges over ]0,1]).
 Build its A_θ-valued inner product `⟨ξ,η⟩`, conjugate-linear in ξ and
 right A_θ-linear in η, and prove its positivity and definiteness, so that
 with `op(a)•ξ=ξa` the module is a `CStarModule` over the opposite algebra
-of A_θ in Mathlib's convention `⟪ξ,a•η⟫=a⟪ξ,η⟫`; complete it for the
-module norm `‖⟨ξ,ξ⟩‖^(1/2)`. Build finite smooth projective frames and the
-identification with a smooth Powers–Rieffel projection of trace θ. Prove the frame/trace dictionary:
+of A_θ in Mathlib's convention `⟪ξ,a•η⟫=a⟪ξ,η⟫`; its inner products lie
+in 𝒜_θ, and HilbertModules H1 completes it for the module norm
+`‖⟨ξ,ξ⟩‖^(1/2)` measured in A_θ, to a Hilbert A_θ-module E. Build finite
+Parseval frames of E with Schwartz entries (HilbertModules H2) and the
+identification of their Gram-matrix projection with a smooth
+Powers–Rieffel projection of trace θ. Prove the frame/trace dictionary:
 the trace `τ(Tr e)` of a frame projection e is θ, independent of the
 frame. Construct
 `∇₁ξ=−2πis ξ/θ`, `∇₂ξ=dξ/ds` (Connes IV.6, p. 357), prove the right Leibniz and
-Hermitian laws, and curvature `2πi/θ`. Complete the module after
-tensoring with L²(A_θ,τ), identify it with the scalar L²(ℝ) model
-with its correct norm, and construct the closed coupled Dirac operator.
+Hermitian laws, and curvature `2πi/θ`. Form the localization
+`E⊗_(A_θ)L²(A_θ,τ)` of E at τ (HilbertModules H3), identify it with the
+scalar L²(ℝ) model with its correct norm, and construct the closed
+coupled Dirac operator on its tensor product with ℂ².
 Its chiral part is `−i(∇₁−i∇₂)=−d/ds−2πs/θ`. Prove its
 Gaussian kernel is one-dimensional, adjoint kernel zero and range
 closed using the harmonic-oscillator estimates. Thus its index is +1.
@@ -1536,14 +1572,16 @@ computation is restricted to irrational θ.
 ### Examples
 
 The Fourier triple with |D|-multiplicities `2,8,8,16,24` at
-`r²=0,1,2,5,25`, `ind(D⁺)=0` and `Tr_ω(|D|⁻²)=1/(2π)`; the Heisenberg
+`r²=0,1,2,5,25`, `ind(D⁺)=0` and `Tr_ω(|D|⁻²)=1/(2π)`; at θ=0 the product
+of two Hardy classes, pairing +1 with q*β under the unswapped reduction
+and −1 under the swapped one; the Heisenberg
 module with curvature `2πi/θ` and chiral index +1; the two odd modules on
 ℓ²(ℤ) with S compressed to index +1 and V_± to index 0; the matrix units
 `e₁₂`, `e₁₁` separating the two inner-product conventions.
 
 ### Dependencies
 
-*Needs:* N2–N6; Tau Ceti `ExactK0`, `evenPairingK0`, `AlgebraicK1` and `AlgebraicK1.oddPairing`, and the Fredholm perturbation theorems of the Tau Ceti contract; Mathlib `PositiveLinearMap.GNS`, `gnsStarAlgHom`, `CStarModule` and `LinearMap.index`.
+*Needs:* N2–N6; HilbertModules H1–H3; Tau Ceti `ExactK0`, `evenPairingK0`, `AlgebraicK1` and `AlgebraicK1.oddPairing`, and the Fredholm perturbation theorems of the Tau Ceti contract; Mathlib `PositiveLinearMap.GNS`, `gnsStarAlgHom`, `CStarModule` and `LinearMap.index`.
 
 ## Downstream consumers
 
@@ -1638,6 +1676,7 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   `NoncommutativeGeometry/SmoothTorus`, `Analysis/CStarAlgebra/Action`,
   `Analysis/Complex/Circle`, `Analysis/OperatorIdeal/Family`,
   `Analysis/Normed/Order/GeneralizedLimit`,
+  `Analysis/Normed/Algebra/HolomorphicFunctionalCalculus`,
   `Analysis/InnerProductSpace/LinearPMap`,
   `Analysis/Normed/Module/PiTensorProduct` and
   `Analysis/Fredholm/{SmallPerturbation,CompactPerturbation,ContinuousFamily}`
