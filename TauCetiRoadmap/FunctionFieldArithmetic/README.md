@@ -126,12 +126,15 @@ It leaves the following to the roadmaps that state them, and states none of them
   mixed-characteristic Lubin–Tate construction, torsion and arithmetic Artin comparison.
   Section 4.1 adds the equal-characteristic construction on these same carriers.
 - **ClassFieldTheory** (Tau Ceti): class formations and Tate's theorem (Layers 1–4), local
-  invariants (Layer 5), the local class formation and reciprocity (Layers 6–7), unit-filtration
-  reciprocity in either characteristic (Layer 7) and the prime-to-`p` local existence theorem
-  of Layer 8. Its scope section excludes Lubin–Tate theory, Artin–Schreier–Witt theory and
-  `p`-primary existence in equal characteristic; those are Layers 3–4 here.
-- **LocalFieldsRamification** (Tau Ceti), Layer 3: lower and upper numbering, Herbrand functions
-  and Hasse–Arf.
+  invariants (Layer 5), the local class formation, finite and absolute reciprocity and
+  conductors (Layers 6–7) and the prime-to-`p` local existence theorem of Layer 8. Its scope
+  section excludes Lubin–Tate theory, Artin–Schreier–Witt theory and `p`-primary existence in
+  equal characteristic; those are Layers 3–4 here.
+- **Already in the library**: the lower and upper ramification groups, Herbrand functions,
+  Herbrand's theorem for quotients, Hasse–Arf and the upper-numbering form of the norm-group
+  conductor are proved in the pinned Tau Ceti for every nonarchimedean local field, equal
+  characteristic included (exact names under *From Tau Ceti*). Unit-filtration reciprocity
+  follows from these and ClassFieldTheory Layers 6–7 (§4.2) and is not a target here.
 - **ReductiveGroupsPartII**: §RG2.3.7 Lang's theorem, Layer RG2.4 Iwasawa and Cartan
   decompositions. **SmoothRepresentationsOfLocalGroups**: §SR.4.1 the Satake transform and
   isomorphism, §SR.4.4 unramified unitary groups. **AdelicAlgebraicGroups**: Layer AA.0
@@ -231,6 +234,23 @@ divisor degree `2g − 2`); `TauCeti.ReductiveAffineGroupSchemeCat` and `TauCeti
 `completionIntegersEquivPowerSeries` at a rational place, the AlgebraicCurves Layer 5 and 9
 completion and expansion targets; this roadmap uses those names.
 
+Local ramification is consumed from Tau Ceti directly, for finite extensions of any
+`IsNonarchimedeanLocalField`, equal characteristic included. In
+`TauCeti/NumberTheory/LocalField/`: `TauCeti.LocalFieldsRamification.lowerRamificationGroup`
+(`RamificationGroup.lean`); `TauCeti.LocalFieldsRamification.herbrand` and
+`TauCeti.LocalFieldsRamification.upperRamificationGroup`, with `G^v = G_{ψ(v)}`
+(`Herbrand/Basic.lean`); Herbrand's theorem in the upper numbering,
+`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`: for a tower
+`M/L/K` with `L/K` and `M/K` finite Galois, restriction carries `Gal(M/K)^v` onto `Gal(L/K)^v`
+(`Herbrand/UpperQuotient.lean`); and Hasse–Arf, `TauCeti.LocalFieldsRamification.hasseArf`:
+every upper break of a finite abelian extension is an integer (`Herbrand/HasseArf/Abelian.lean`).
+In `TauCeti/NumberTheory/ClassFieldTheory/Local/Conductor/UpperNumbering.lean`,
+`TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`
+states, for a finite abelian `M/K` and `v : ℕ`, that `U(K,v) ⊆ N_{M/K}(Mˣ)` exactly when
+`Gal(M/K)^v = 1`, in either characteristic. Here
+`TauCeti.unitFiltration K v` is `O_Kˣ` at `v = 0` and `1 + 𝔭_K^v` for `v ≥ 1`, and
+`TauCeti.normGroup K M` is the image of the norm on units.
+
 ### From TauCetiRoadmap.AlgebraicCurves
 
 AlgebraicCurves Layers 0–12 provide intrinsic function fields and the chosen-generator
@@ -281,10 +301,11 @@ ClassFieldTheory Layers 1–4 provide class formations and Tate's theorem; Layer
 provide local invariants, unramified extensions and arithmetic local reciprocity.
 Layer 8 supplies local existence for finite extensions of `ℚ_p` and the prime-to-residue-
 characteristic existence theorem in equal characteristic. These are the domains used here.
-Layer 7's conductors are minima of unit-kernel depths. Layer 7 also supplies unit-filtration
-reciprocity for every nonarchimedean local field, equal characteristic included:
-`map_unitFiltration_normResidue` at each finite abelian level and its absolute form
-`closure_map_artinMap_unitFiltration`. Section 4.4 consumes both.
+Layer 7's conductors are minima of unit-kernel depths. Two of these statements carry the
+unit-filtration argument of §4.2: Layer 6's finite reciprocity map has kernel the norm group,
+and Layer 7's `artinMap_restrict` makes each finite map the restriction of the absolute one.
+Together with the Tau Ceti conductor criterion above they give unit-filtration reciprocity in
+both characteristics, consumed by §4.4.
 
 ### From TauCetiRoadmap.LubinTateFormalModulesAndQuasiCanonicalLifts
 
@@ -307,11 +328,6 @@ algebraic torsion points. LT.1 targets *admissible-series*, *interpolation*, *lt
 and *lt-coordinate-comparison*, and LT.2 targets *primitive-division*, *lt-character*
 and *reciprocity-comparison*, supply the mixed-characteristic construction, torsion
 and arithmetic Artin comparison; §4.1 adds the equal-characteristic construction.
-
-### From TauCetiRoadmap.LocalFieldsRamification
-
-LocalFieldsRamification Layer 3 provides lower and upper ramification groups, Herbrand
-functions, compatibility with quotients and Hasse–Arf.
 
 ### From TauCetiRoadmap.DeligneWeightsAndPurity
 
@@ -804,10 +820,12 @@ AA.0; AlgebraicCurves Layers 4 and 5; Tau Ceti `degree_weilDifferentialDivisor`.
 
 ## Layer 3: Artin–Schreier–Witt theory
 
-`F` is any field of characteristic `p`. The tame and Kummer theory of covers, the general
-ramification filtrations and Hasse–Arf are AlgebraicCurves Layers 6–8 and LocalFieldsRamification
-Layer 3; the length-one Artin–Schreier conductor is ArithmeticGaloisRepresentations §3.7 and the
-Artin–Schreier genus formula is AlgebraicCurves Layer 10. This layer supplies the cyclic
+`F` is any field of characteristic `p`. The tame and Kummer theory of covers is AlgebraicCurves
+Layers 6–8, and the general ramification filtrations and Hasse–Arf are Tau Ceti's
+`TauCeti.LocalFieldsRamification.upperRamificationGroup` and
+`TauCeti.LocalFieldsRamification.hasseArf`; the length-one Artin–Schreier conductor is
+ArithmeticGaloisRepresentations §3.7 and the Artin–Schreier genus formula is AlgebraicCurves
+Layer 10. This layer supplies the cyclic
 `p`-power theory of every length, which none of those layers states.
 
 ### 3.1 The Artin–Schreier–Witt operator and cyclic `p`-power extensions
@@ -849,7 +867,7 @@ on Witt length.
   `[y]=(y,0)` is `(1,t)`, an invariant vector. Summing the coordinates separately
   would give `(1,0)`, so the trace must use Witt addition.
 
-Prove `artinSchreierWitt_galois`: (i) every cyclic extension `L/F` of degree `p^n` inside `F^sep`
+Prove artinSchreierWitt_galois: (i) every cyclic extension `L/F` of degree `p^n` inside `F^sep`
 is `F(℘⁻¹a)` for some `a ∈ W_n(F)` whose image in `Q_1(F) = F/℘F` is nonzero (`n ≥ 1`);
 the length-zero case is the trivial extension; (ii) for every
 `a`, `F(℘⁻¹a)/F` is cyclic of degree equal to the additive order of the class of `a` in `Q_n(F)`
@@ -862,12 +880,18 @@ pairings. This inverse-limit duality is the meaning of perfectness at infinite l
 not a pairing into the Pontryagin dualizing group `ℚ_p/ℤ_p`. (iv) two classes generate the same subfield exactly when they
 generate the same cyclic subgroup of `Q_n(F)`.
 
-The finite-length underlying group equivalence is `artinSchreierWitt_galois`;
-its infinite-length counterpart is `artinSchreierWitt_infiniteCharacters`, for every
-prime `p` and every field `F` of characteristic `p`, without a perfectness assumption.
-The latter identifies `W(F)/℘W(F)` with continuous characters from the absolute Galois
-group to the additive group of `ℤ_p` with its p-adic topology. Both equivalences arise
-from the solution pairing above, and reduction modulo `p^n` agrees with Witt truncation
+The group isomorphisms in (iii) are `exists_addEquiv_aswQuotient_characters` at length `n`
+and `exists_addEquiv_aswQuotient_padicCharacters` at infinite length, for every prime `p` and
+every field `F` of characteristic `p`, without a perfectness assumption. Each asserts an
+additive equivalence onto the continuous characters of the absolute Galois group, with values
+in `ℤ/p^n` and in the additive group of `ℤ_p` with its `p`-adic topology respectively, together
+with the equation that fixes it as the solution pairing: if `℘y = x` with `y` a Witt vector over
+the algebraic closure, `σ` is a Galois automorphism and `m` is an integer whose length-`k`
+truncation is that of `σy − y`, then the character of the class of `x` takes at `σ` a value
+congruent to `m` modulo `p^k` (at the fixed length `k = n` for the first, at every length `k`
+for the second). Solutions `y` exist because `℘` is onto over an algebraically closed field,
+and `σy − y` lies in `W(𝔽_p) = ℤ_p` and does not depend on the choice of `y`, so the equation
+determines the equivalence. Reduction modulo `p^n` therefore agrees with Witt truncation
 (Kosters–Wan, Theorem 3.4 and its inverse-limit argument, pp. 8–9).
 
 The operator and quotient have the following API:
@@ -1011,8 +1035,7 @@ for a discrete valuation with finite residue field
 LubinTateFormalModulesAndQuasiCanonicalLifts LT.1–LT.2 and ClassFieldTheory; this layer
 adds the equal-characteristic construction and combines the two cases. ClassFieldTheory
 Layers 5–8 supply the local invariant, the local class formation, the absolute local Artin map
-`Art_K : Kˣ → Gal(K^ab/K)` (arithmetic normalization), its conductors, unit-filtration
-reciprocity in both characteristics (Layer 7), and local existence for
+`Art_K : Kˣ → Gal(K^ab/K)` (arithmetic normalization), its conductors, and local existence for
 finite extensions of `ℚ_p` and for norm subgroups of index prime to `p`; its scope section
 excludes Lubin–Tate theory and `p`-primary existence in equal characteristic, which this layer
 supplies. The completion `F_v` of a function field over `𝔽_q` at a place is such a field
@@ -1078,7 +1101,10 @@ Appendix II, Proposition 8.1, p. 436; Proposition 6.14 and its proof, p. 433.)
 *Needs:* LubinTateFormalModulesAndQuasiCanonicalLifts LT.0 targets *formal-hom*,
 *formal-module* and *adic-points*; Mathlib `FormalGroup`,
 `PowerSeries`; ClassFieldTheory Layer 5 (local fields and their
-unramified extensions); LocalFieldsRamification Layer 3 (lower groups and Herbrand functions);
+unramified extensions); Tau Ceti `TauCeti.LocalFieldsRamification.lowerRamificationGroup`,
+`TauCeti.LocalFieldsRamification.herbrand` and
+`TauCeti.LocalFieldsRamification.upperRamificationGroup` (lower groups, Herbrand function and
+upper numbering);
 AlgebraicCurves Layer 9 (the expansion of a completed place).
 
 **Checks.**
@@ -1116,12 +1142,24 @@ Prove lubinTate_artin: `Art_K(π)` is trivial on `K_π` and acts as `φ` on `K^u
 conductor_existence_all: the norm subgroup of an abelian extension of conductor exponent `n`
 contains `U^(n)` and not `U^(n−1)` (for `n ≥ 1`), in every characteristic.
 
-Write `U_K^(0)=Oˣ` and `U_K^(r)=1+𝔭^r` for `r≥1`. Unit-filtration reciprocity,
-`Art_{L/K}(U_K^(r)) = Gal(L/K)^r` for finite abelian `L/K` and `r ≥ 0`, and its absolute form
-are consumed from ClassFieldTheory Layer 7 (`map_unitFiltration_normResidue` and
-`closure_map_artinMap_unitFiltration`), which states them in either characteristic. Since
-inversion preserves `U_K^(r)`, lubinTate_artin restricts `Art_K(U_K^(r))` on `K_{π,m}` to the
-image of `U_K^(r)` under the unit-class isomorphism `(O/𝔭^m)ˣ ≅ Gal(K_{π,m}/K)` of §4.1.
+Write `U_K^(0)=Oˣ` and `U_K^(r)=1+𝔭^r` for `r≥1` (Tau Ceti's `TauCeti.unitFiltration K r`).
+Unit-filtration reciprocity, `Art_{L/K}(U_K^(r)) = Gal(L/K)^r` for finite abelian `L/K` with
+group `G` and integers `r ≥ 0`, holds in either characteristic; it is derived from suppliers as
+follows and is not a target here. For a subgroup `H ≤ G` with fixed field `M`, the
+restriction of `Art_{L/K}(x)` to `M` is `Art_{M/K}(x)` (ClassFieldTheory Layer 7,
+`artinMap_restrict`), whose kernel is `N_{M/K}(Mˣ)` (Layer 6). Hence `Art_{L/K}(U_K^(r)) ⊆ H`
+exactly when `U_K^(r) ⊆ N_{M/K}(Mˣ)`, exactly when `Gal(M/K)^r = 1`
+(`TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`,
+`M/K` being abelian), exactly when `G^r ⊆ H` (the image of `G^r` in `G/H` is `Gal(M/K)^r`,
+`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`). Taking
+`H = Art_{L/K}(U_K^(r))` and then `H = G^r` gives the equality. For an infinite abelian `E/K`,
+with `Gal(E/K)^r` the inverse limit of the groups `Gal(L/K)^r` of its finite subextensions, the
+image of `U_K^(r)` under `u ↦ Art_K(u)|_E` is `Gal(E/K)^r`: by the same Tau Ceti criterion each
+finite-level norm group contains `U_K^(v)` once `G^v = 1`, so this map is continuous on the
+compact group `U_K^(r)`; its image is closed, and a closed subgroup is the inverse limit of its
+finite images. Since inversion preserves `U_K^(r)`, lubinTate_artin restricts
+`Art_K(U_K^(r))` on `K_{π,m}` to the image of `U_K^(r)` under the unit-class isomorphism
+`(O/𝔭^m)ˣ ≅ Gal(K_{π,m}/K)` of §4.1.
 
 These extend, without restating, ClassFieldTheory Layer 8's `localAbelianExistence`,
 `injective_artinMap` and `localClassFieldCorrespondence` (there stated for finite extensions of
@@ -1132,7 +1170,8 @@ Proposition 5.10, using the relative formal modules for an element `x` of positi
 place of `π`); combined with the unramified extensions they realize every open subgroup of finite
 index, and the base-change property (Theorem 5.15) shows the resulting map
 `Kˣ → Gal(K_LT/K)` is compatible with norms from finite separable extensions. Local
-Kronecker–Weber follows from the Hasse–Arf theorem (LocalFieldsRamification Layer 3) as in
+Kronecker–Weber follows from the Hasse–Arf theorem (Tau Ceti
+`TauCeti.LocalFieldsRamification.hasseArf`) as in
 Yoshida §6. The map so constructed satisfies the two characterizing properties of the Artin map
 (action on `K^ur` and triviality on norms), so it is ClassFieldTheory's `Art_K` up to the
 normalization: Yoshida uses geometric Frobenius, and his `Art_K(x)` is the inverse of
@@ -1140,7 +1179,10 @@ ClassFieldTheory's. (Yoshida, Theorem A, pp. 411–412; Definition 4.10, p. 422;
 p. 425; Theorem 5.15 and Corollary 5.16, p. 427; the existence theorem in §5.3(iv), p. 428;
 Theorems 6.11 and 6.15, pp. 432–433.)
 
-*Needs:* Layer 4.1; ClassFieldTheory Layers 4, 6, 7 and 8; LocalFieldsRamification Layer 3.
+*Needs:* Layer 4.1; ClassFieldTheory Layers 4, 6, 7 and 8; Tau Ceti
+`TauCeti.LocalFieldsRamification.hasseArf`,
+`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup` and
+`TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`.
 
 **Checks.**
 
@@ -1155,9 +1197,8 @@ Theorems 6.11 and 6.15, pp. 432–433.)
 - With Yoshida's normalization substituted for ClassFieldTheory's, lubinTate_artin would read
   `[u]_f` instead of `[u⁻¹]_f`; the sign check is the action of `Art_K(π)` on `K^ur`.
 - In `K_{π,2}/K` for `Q=3`, lubinTate_artin gives images of `U_K^(0),U_K^(1),U_K^(2)` of
-  orders `6,3,1`. These are the upper group orders of §4.1, as ClassFieldTheory Layer 7's
-  `map_unitFiltration_normResidue` requires; the lower group orders `6,3,3,1` would
-  disagree at depth `2`.
+  orders `6,3,1`. These are the upper group orders of §4.1, as unit-filtration reciprocity
+  requires; the lower group orders `6,3,3,1` would disagree at depth `2`.
 - Every `Art_K(u)` with `u ∈ Oˣ` is trivial on the unramified `ℤ_p`-extension. On the
   tower `⋃_m K_{π,m}` the image of `U_K^(r)`, `r≥1`, is `1+𝔭^r` inside
   `lim_m (O/𝔭^m)ˣ = Oˣ`, its finite images being `U_K^(r)/U_K^(m)` for `m≥r`.
@@ -1252,11 +1293,10 @@ The conductor API is:
 - A constant-only class has conductor zero, in agreement with
   ArithmeticGaloisRepresentations §3.7.
 
-*Proof sketch.* ClassFieldTheory Layer 7's `map_unitFiltration_normResidue` identifies
-`Art_{L/K}(U_K^(r))` with `Gal(L/K)^r` at every finite abelian level, and its absolute form
-`closure_map_artinMap_unitFiltration`, restricted to `K(℘⁻¹x)`, does so on the tower. This is
-the input used in Kosters–Wan §4.5.1 immediately before Theorem 4.12, p. 21. The image of
-`U^(r)` under the Schmid–Witt symbol is computed from the explicit
+*Proof sketch.* Unit-filtration reciprocity (§4.2) identifies `Art_{L/K}(U_K^(r))` with
+`Gal(L/K)^r` at every finite abelian level, and its inverse-limit form does so on the tower
+`K(℘⁻¹x)`. This is the input used in Kosters–Wan §4.5.1 immediately before Theorem 4.12,
+p. 21. The image of `U^(r)` under the Schmid–Witt symbol is computed from the explicit
 formula of 4.3 on the topological generators `(1 − aT^i)^(p^j)` of the principal units, which lie
 in `U^(r)` exactly when `ip^j ≥ r`, with `j ≥ 0`; thus the least allowed `j` is
 `max(0, ⌈log_p(r/i)⌉)`. This nonnegative bound must be retained when passing to a character
@@ -1271,10 +1311,9 @@ as does the expression for `φ₁(U^r)` in Theorem 4.12.
 The unit generators preceding Theorem 4.12 have nonnegative indices; negative powers of `p`
 cannot supply additional units. The conductor formula itself is unchanged.
 
-*Needs:* Layers 3.2 and 4.3; LocalFieldsRamification Layer 3 (quotient compatibility);
-ClassFieldTheory Layer 7 (the Artin map, unit-defined conductors, and unit-filtration
-reciprocity `map_unitFiltration_normResidue` with its absolute form
-`closure_map_artinMap_unitFiltration`).
+*Needs:* Layers 3.2, 4.2 (unit-filtration reciprocity) and 4.3; Tau Ceti
+`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup` (quotient
+compatibility); ClassFieldTheory Layer 7 (the Artin map and unit-defined conductors).
 
 **Checks.**
 
@@ -1695,7 +1734,10 @@ therefore realize all finite ray-character data for this modulus, including the 
 ### Dependencies
 
 Layers 0, 2 and 3; LubinTateFormalModulesAndQuasiCanonicalLifts LT.0–LT.2;
-ClassFieldTheory Layers 4–8; LocalFieldsRamification Layer 3;
+ClassFieldTheory Layers 4–8; Tau Ceti's local ramification and conductor declarations listed
+under *From Tau Ceti* (`TauCeti.LocalFieldsRamification.hasseArf`,
+`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
+`TauCeti.ClassFieldTheory.unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`);
 AlgebraicCurves Layers 3, 5 and 9; ArithmeticGaloisDuality §R02.3.2; Mathlib `FormalGroup`.
 The geometric branch also uses AlgebraicCurves Layers 8 and 12, JacobianChallenge Layers
 A–C, SchemeAndStackFoundations §1.1, §§3.3, 3.6–3.7, ReductiveGroupsPartII RG2.0a and RG2.3.7,

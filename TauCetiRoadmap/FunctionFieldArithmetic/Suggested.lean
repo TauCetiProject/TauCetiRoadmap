@@ -111,25 +111,47 @@ theorem witt_additiveHilbert90 {L : Type*} [Field L] [CharP L p] [Algebra F L]
       Set.range TW = Set.range iW := by
   sorry
 
-/-- The finite-length Artin–Schreier–Witt quotient classifies continuous characters of the
-absolute Galois group with values in `ℤ/p^n` (README 3.1; Kosters–Wan, Theorem 3.4).
-This signature asserts the underlying group equivalence; the solution pairing and its
-functorial and topological characterizations are specified in the README. -/
-theorem artinSchreierWitt_galois (n : ℕ) :
-    Nonempty (aswQuotient p F n ≃+
-      Additive (ContinuousMonoidHom (Field.absoluteGaloisGroup F) (Multiplicative (ZMod (p ^ n))))) := by
+/-- **Artin–Schreier–Witt duality at length `n`** (README 3.1; Kosters–Wan, Theorem 3.4,
+pp. 8–9). The solution pairing is an isomorphism of `Q_n(F)` with the continuous characters of
+the absolute Galois group with values in `ℤ/p^n`: if `℘ y = x` for a Witt vector `y` over the
+algebraic closure, the class of `x` goes to the character `σ ↦ σ y − y`. That difference lies in
+`W(𝔽_p) = ℤ_p`, and it is read in `ℤ/p^n` through any integer with the same length-`n`
+truncation. The equation fixes the equivalence, so its negative (the geometric convention) and
+its other unit multiples are excluded. -/
+theorem exists_addEquiv_aswQuotient_characters (n : ℕ) :
+    ∃ e : aswQuotient p F n ≃+
+        Additive (ContinuousMonoidHom (Field.absoluteGaloisGroup F)
+          (Multiplicative (ZMod (p ^ n)))),
+      ∀ (x : WittVector p F) (y : WittVector p (AlgebraicClosure F)),
+        WittVector.frobenius y - y = WittVector.map (algebraMap F (AlgebraicClosure F)) x →
+        ∀ (σ : Field.absoluteGaloisGroup F) (m : ℤ),
+          WittVector.truncate n
+              (WittVector.map (σ : AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F).toRingHom y -
+                y) =
+            WittVector.truncate n (m : WittVector p (AlgebraicClosure F)) →
+          Multiplicative.toAdd (Additive.toMul (e (QuotientAddGroup.mk x)) σ) =
+            (m : ZMod (p ^ n)) := by
   sorry
 
-/-- The infinite-length Artin–Schreier–Witt quotient classifies continuous characters of the
-absolute Galois group with values in the additive group of the p-adic integers
-(README 3.1; Kosters–Wan, Theorem 3.4, pp. 8–9). This asserts the underlying group equivalence;
-the solution pairing, inverse-limit topology and reduction compatibility are specified in
-the README. No perfectness assumption on the field is needed. -/
-theorem artinSchreierWitt_infiniteCharacters
-    (p : ℕ) [Fact p.Prime] (F : Type*) [Field F] [CharP F p] :
-    Nonempty ((WittVector p F ⧸ (artinSchreierWitt p F).range) ≃+
-      Additive (ContinuousMonoidHom (Field.absoluteGaloisGroup F)
-        (Multiplicative (PadicInt p)))) := by
+/-- **Artin–Schreier–Witt duality at infinite length** (README 3.1; Kosters–Wan, Theorem 3.4
+and its inverse-limit argument, pp. 8–9). The solution pairing is an isomorphism of
+`W(F) / ℘ W(F)` with the continuous characters of the absolute Galois group with values in the
+additive group of `ℤ_p`: the class of `x = ℘ y` goes to `σ ↦ σ y − y ∈ W(𝔽_p) = ℤ_p`, pinned by
+its reductions modulo every `p^n`. No perfectness assumption on the field is needed. -/
+theorem exists_addEquiv_aswQuotient_padicCharacters :
+    ∃ e : (WittVector p F ⧸ (artinSchreierWitt p F).range) ≃+
+        Additive (ContinuousMonoidHom (Field.absoluteGaloisGroup F)
+          (Multiplicative (PadicInt p))),
+      ∀ (x : WittVector p F) (y : WittVector p (AlgebraicClosure F)),
+        WittVector.frobenius y - y = WittVector.map (algebraMap F (AlgebraicClosure F)) x →
+        ∀ (σ : Field.absoluteGaloisGroup F) (n : ℕ) (m : ℤ),
+          WittVector.truncate n
+              (WittVector.map (σ : AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F).toRingHom y -
+                y) =
+            WittVector.truncate n (m : WittVector p (AlgebraicClosure F)) →
+          PadicInt.toZModPow n
+              (Multiplicative.toAdd (Additive.toMul (e (QuotientAddGroup.mk x)) σ)) =
+            (m : ZMod (p ^ n)) := by
   sorry
 
 end ArtinSchreierWitt
