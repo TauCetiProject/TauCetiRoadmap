@@ -231,10 +231,8 @@ All paths are under `TauCeti/`.
   (`QuadraticForm.atFinitePlace_smul`, `QuadraticForm.atRealPlace_smul`: the localization of
   `c • Q` is the image of `c` times the localization of `Q`); diagonal forms (the isometries
   `QuadraticForm.atFinitePlaceWeightedSumSquares` and `QuadraticForm.atRealPlaceWeightedSumSquares`
-  from the localization of `⟨a₁, …, aₙ⟩` to the diagonal form of the images of the `aᵢ`); the form
-  class of a localization (`QuadraticForm.formClass_atFinitePlace`,
-  `QuadraticForm.formClass_atRealPlace`: the class of `Q_v` is the scalar extension of the class of
-  `Q`); the localized discriminant
+  from the localization of `⟨a₁, …, aₙ⟩` to the diagonal form of the images of the `aᵢ`); the
+  localized discriminant
   (`QuadraticForm.discr_atFinitePlace`: the discriminant of `Q_v` is the image of that of `Q`); and
   `QuadraticForm.IsLocallyIsotropic.baseChange` for a finite extension of number fields.
 - Local predicates (`NumberTheory/QuadraticForm/Global/Predicates.lean`):
@@ -389,9 +387,12 @@ All paths are under `TauCeti/`.
   `a • Q` is `⟨a⟩` times the class of `Q`),
   `TauCeti.formClass_presentedForm` (every class of regular forms is the class of the diagonal form
   `TauCeti.presentedForm p` of one of its presentations),
-  `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff`, `TauCeti.WittRing`,
-  `TauCeti.wittClass_surjective` (every element of `W(K)` is the Witt class of a class of regular
-  forms), `TauCeti.wittClass_eq_zero_iff` (a class has Witt class zero exactly when its anisotropic
+  `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff`,
+  `QuadraticForm.formClass_atFinitePlace_eq_nsmul_hyperbolicClass` and
+  `QuadraticForm.formClass_atRealPlace_eq_nsmul_hyperbolicClass` (a regular form whose class over
+  `K` is `m` times the hyperbolic class has that class at every finite and every real place),
+  `TauCeti.WittRing`, `TauCeti.wittClass_surjective` (every element of `W(K)` is the Witt class of
+  a class of regular forms), `TauCeti.wittClass_eq_zero_iff` (a class has Witt class zero exactly when its anisotropic
   part is zero), `TauCeti.RegularFormClass.wittDecomposition` (a class is a multiple of the
   hyperbolic class plus its anisotropic part), `TauCeti.RegularFormClass.add_neg_one_mul` (`q ⊥ -q`
   is `dim q` hyperbolic planes), `TauCeti.WittRing.baseChange`, `TauCeti.WittRing.globalToLocal`
@@ -1034,11 +1035,14 @@ Prove that a regular form which is hyperbolic at every finite and every real pla
 over `K` (Milne, VIII, Theorem 6.3, p. 252, applied to the form and to `m · H`; the Witt-class
 statement below follows from the same theorem by Witt cancellation, Proposition 6.2, p. 251).
 Route: by `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff` the rank is even, `2m`,
-and every localization has the class `m • H`. That is the class of the localizations of the global
-sum `m · H` of hyperbolic planes (`QuadraticForm.formClass_atFinitePlace`,
-`QuadraticForm.formClass_atRealPlace`), and forms with the same class are isometric
-(`TauCeti.formClass_eq_iff`), so the form is locally isometric to `m · H`, and 6.3 makes it
-isometric to `m · H`.
+and every localization has the class `m • H`. Take for the global sum `m · H` of hyperbolic planes
+the diagonal form of a presentation of the class `m • H` over `K`, which is regular and has that
+class (`TauCeti.formClass_presentedForm`, `TauCeti.nondegenerate_presentedForm`). A regular form
+of class `m • H` over `K` has class `m • H` at every finite and every real place
+(`QuadraticForm.formClass_atFinitePlace_eq_nsmul_hyperbolicClass`,
+`QuadraticForm.formClass_atRealPlace_eq_nsmul_hyperbolicClass`), and forms with the same class are
+isometric (`TauCeti.formClass_eq_iff`), so the form is locally isometric to `m · H`, and 6.3 makes
+it isometric to `m · H`.
 
 Prove the corresponding statement for Witt classes: two regular forms `Q` and `R` whose
 localizations have the same Witt class at every finite and every real place have the same Witt
@@ -1055,7 +1059,9 @@ therefore zero. A class has Witt class zero exactly when it is a sum of hyperbol
 is part of the proofs of these Tau Ceti lemmas.
 
 *Needs:* 6.3; Tau Ceti `QuadraticForm.locally_formClass_eq_nsmul_hyperbolicClass_iff`,
-`QuadraticForm.formClass_atFinitePlace`, `QuadraticForm.formClass_atRealPlace`,
+`TauCeti.formClass_presentedForm`, `TauCeti.nondegenerate_presentedForm`,
+`QuadraticForm.formClass_atFinitePlace_eq_nsmul_hyperbolicClass`,
+`QuadraticForm.formClass_atRealPlace_eq_nsmul_hyperbolicClass`,
 `TauCeti.formClass_eq_iff`, `TauCeti.WittRing`, `QuadraticMap.nondegenerate_smul_iff`,
 `QuadraticMap.Nondegenerate.prod`, `TauCeti.formClass_prod`, `TauCeti.formClass_smul`,
 `TauCeti.RegularFormClass.add_neg_one_mul`, `QuadraticForm.atFinitePlaceProd`,
