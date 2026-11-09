@@ -922,8 +922,9 @@ sequence of Witt rings.
 ### 8.4 The form-theoretic `SO` kernel consequence
 
 Export the statement consumed by the orthogonal-group roadmaps: regular forms that are isometric
-at every finite and every real place are isometric (`equivalent_of_locallyEquivalent`, the reverse
-direction of 6.3; Milne, VIII, Theorem 6.3, p. 252). Identifying the classes of
+at every finite and every real place are isometric (Milne, VIII, Theorem 6.3, p. 252). This is
+the reverse direction of `hasseMinkowski_equivalent` and is not a separate declaration; Integral
+Lattices cites it under the name equivalent_of_locallyEquivalent. Identifying the classes of
 `H¹(K, SO(Q))` with the twists of `Q` of the same discriminant and deducing from 8.4 that the
 localization kernel is trivial is the translation that Orthogonal and Spin Groups, in its consumer
 contract, assigns to Orthogonal Tamagawa and Lattice Mass; this roadmap defines no `H¹`.
@@ -968,8 +969,9 @@ Layer 8 uses 6.3 and Layer 7, and Tau Ceti's Witt ring and hyperbolicity criteri
   translation of 6.3, and so of its corollary 8.4, into the triviality of the localization kernel
   of `H¹(K, SO(Q))`.
 - Orthogonal and Spin Groups consumes 4.3 and 6.1.
-- Integral Lattices consumes `hasseMinkowski_equivalent` and `equivalent_of_locallyEquivalent` and
-  owns integral localizations, genera and spinor genera.
+- Integral Lattices consumes `hasseMinkowski_equivalent` and its reverse direction 8.4, which it
+  cites under the name equivalent_of_locallyEquivalent, and owns integral localizations, genera
+  and spinor genera.
 - Classical Arithmetic Completion consumes Layer 4's real symbol and localized product formula,
   which the section map above resolves to Tau Ceti.
 
