@@ -82,9 +82,12 @@ This roadmap does not own, and cites:
 - weak approximation, adeles and ideles: Global Number Fields;
 - completions and their towers: Number Field Arithmetic;
 - the Hasse norm theorem, reciprocity and the idele-class norm index: Class Field Theory;
-- nonabelian cohomology, `H¹(K, SO(Q))`, torsors and Tate–Shafarevich sets: Orthogonal Tamagawa
-  and Lattice Mass, to which Orthogonal and Spin Groups, in its consumer contract for that roadmap,
-  assigns the translation of 6.3 and of its corollary 8.4 into a statement about `H¹(K, SO(Q))`;
+- nonabelian cohomology and the localization kernel of `H¹(K, SO(Q))`: this roadmap defines no
+  `H¹`. The pointed set `H¹(G, A)` of continuous cocycles is Tau Ceti's `TauCeti.NonabelianH1`
+  (`RepresentationTheory/Homological/ContCohomology/Nonabelian/Basic.lean`). Orthogonal and Spin
+  Groups, in its consumer contract for Orthogonal Tamagawa and Lattice Mass, assigns to that
+  roadmap the translation of 6.3, and so of its corollary 8.4, into the triviality of the kernel
+  of `H¹(K, SO(Q)) → ∏_v H¹(K_v, SO(Q))`;
 - integral lattices, genera, spinor genera and mass formulae: Integral Lattices;
 - quadratic forms in characteristic two and over global function fields.
 
@@ -205,6 +208,8 @@ All paths are under `TauCeti/`.
   `QuadraticForm.IsLocallyIsotropic`, `QuadraticForm.LocallyRepresentsScalar`,
   `QuadraticForm.LocallyRepresents`, `QuadraticForm.LocallyEquivalent`, each a conjunction over
   every finite and every real place; `QuadraticForm.isLocallyIsotropic_of_not_anisotropic`,
+  `QuadraticForm.QuadraticMap.Equivalent.isLocallyIsotropic_iff` (isometric forms are locally
+  isotropic together),
   `QuadraticForm.LocallyEquivalent.of_equivalent`, `QuadraticForm.LocallyRepresents.of_isRepresentedBy`,
   `QuadraticForm.LocallyEquivalent.finrank_eq`, `QuadraticForm.LocallyRepresents.finrank_le`,
   `QuadraticForm.LocallyRepresentsScalar.of_represents` (a scalar represented by `Q` over `K` is
@@ -279,6 +284,7 @@ All paths are under `TauCeti/`.
   `Witt/Extension.lean`, `RegularFormClass/Discriminant.lean`, `RegularFormClass/LowRank.lean`,
   `NumberTheory/LocalField/QuadraticForm/Hasse.lean`, `Classification.lean`, `Realization.lean`):
   `QuadraticMap.Represents`, `QuadraticMap.IsRepresentedBy`,
+  `QuadraticMap.Equivalent.anisotropic_iff` (isometric forms are anisotropic together),
   `QuadraticMap.not_anisotropic_prod_of_represents_neg`,
   `QuadraticMap.represents_of_nondegenerate_of_not_anisotropic` (a regular isotropic form is
   universal), `TauCeti.equivalent_of_equivalent_prod` (Witt cancellation),
@@ -297,12 +303,15 @@ All paths are under `TauCeti/`.
   `NumberTheory/QuadraticForm/Global/Quaternary.lean`, `HigherRank.lean`, `ApproximateValue.lean`,
   `LocalValues.lean`): `QuadraticForm.not_anisotropic_of_not_anisotropic_baseChange_quaternary`
   (O'Meara 58:7), `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary` (a locally
-  isotropic regular quaternary form is isotropic, given the ternary case over every number field),
+  isotropic regular quaternary form is isotropic, given the ternary case over every number field
+  in the universe of `K`),
   `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_of_five_le_finrank` (the same in rank
-  `n ≥ 5`, given rank `n - 1`; both state the lower-rank case for the diagonal forms
-  `TauCeti.presentedForm p` of `LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`, regular by
-  `TauCeti.nondegenerate_presentedForm`, to which every regular form is isometric by
-  `TauCeti.exists_presentedForm_equivalent`), `QuadraticForm.exists_apply_ne_zero_locallyRepresentsScalar_neg`
+  `n ≥ 5`, given rank `n - 1` over `K`; both state the lower-rank case only for the diagonal forms
+  `TauCeti.presentedForm p` on `Fin p.1 → L`, which are regular by
+  `TauCeti.nondegenerate_presentedForm` and to which every regular form is isometric by
+  `TauCeti.exists_presentedForm_equivalent`, all three in
+  `LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`),
+  `QuadraticForm.exists_apply_ne_zero_locallyRepresentsScalar_neg`
   (for `U ≠ 0` and regular `W` anisotropic at finitely many finite places, with matching local
   values where `W` is anisotropic, a global `x` with `U x ≠ 0` and `-U x` locally represented by
   `W`), and `QuadraticForm.exists_atFinitePlace_ne_zero_eq_neg`.
@@ -555,7 +564,10 @@ a local square both conditions hold; local isotropy therefore gives local repres
 and 4.3 gives global representation.
 
 With the ternary case, `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary` becomes
-unconditional: a locally isotropic regular quaternary form over a number field is isotropic.
+unconditional: a locally isotropic regular quaternary form over a number field is isotropic. Its
+hypothesis asks for the ternary case over every number field `L` in the universe of `K`, for the
+diagonal forms `TauCeti.presentedForm p` with `p.1 = 3`; the ternary case applies to them because
+they are regular (`TauCeti.nondegenerate_presentedForm`, `2` being invertible in `L`).
 
 *Needs:*
 
@@ -567,7 +579,8 @@ unconditional: a locally isotropic regular quaternary form over a number field i
 - the ternary case: 4.3; Mathlib
   `QuadraticForm.equivalent_weightedSumSquares_units_of_nondegenerate'` (diagonalization);
 - the unconditional quaternary consequence: the ternary case, over every number field in the
-  universe of `K`, and Tau Ceti `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary`.
+  universe of `K`, and Tau Ceti `QuadraticForm.not_anisotropic_of_isLocallyIsotropic_quaternary`,
+  `TauCeti.presentedForm` and `TauCeti.nondegenerate_presentedForm`.
 
 **Checks.**
 
@@ -586,8 +599,14 @@ Prove that a regular form over `K` is isotropic exactly when it is isotropic at 
 every real place (`hasseMinkowski_isotropic`; O'Meara 66:1). The forward direction is
 `QuadraticForm.isLocallyIsotropic_of_not_anisotropic`. For the reverse, ranks zero and one are
 anisotropic globally and locally; ranks two and three are 5.1; rank four is the quaternary theorem
-of 5.1; rank `n ≥ 5` follows by strong induction from
-`QuadraticForm.not_anisotropic_of_isLocallyIsotropic_of_five_le_finrank`.
+of 5.1; rank `n ≥ 5` follows by strong induction on `n` from
+`QuadraticForm.not_anisotropic_of_isLocallyIsotropic_of_five_le_finrank`. That step asks for rank
+`n - 1` only on the diagonal forms `TauCeti.presentedForm p` over `K`, which live on `Fin p.1 → K`
+in the universe of `K` rather than that of `V`. So run the induction on these forms, which are
+regular (`TauCeti.nondegenerate_presentedForm`), and carry the result to a form on any `V`
+through `TauCeti.exists_presentedForm_equivalent`: isometry preserves anisotropy
+(`QuadraticMap.Equivalent.anisotropic_iff`) and local isotropy
+(`QuadraticForm.QuadraticMap.Equivalent.isLocallyIsotropic_iff`).
 
 The higher-rank step splits `Q = U ⊥ W` with `U` binary and `W` of rank at least three, so that
 `W` is anisotropic at only finitely many places (`QuadraticForm.finite_setOfPred_anisotropic_atFinitePlace`).
@@ -600,8 +619,11 @@ with `W(y) = -1`. Approximating the scalar `b` directly in prescribed local squa
 of the vector `x`, shows only that `-b` is represented by `W`, not that `b` is represented by `U`.
 
 *Needs:* 5.1 (the binary, ternary and quaternary cases); Tau Ceti
-`QuadraticForm.isLocallyIsotropic_of_not_anisotropic` and
-`QuadraticForm.not_anisotropic_of_isLocallyIsotropic_of_five_le_finrank`. The lemmas of the
+`QuadraticForm.isLocallyIsotropic_of_not_anisotropic`,
+`QuadraticForm.not_anisotropic_of_isLocallyIsotropic_of_five_le_finrank`,
+`TauCeti.presentedForm`, `TauCeti.nondegenerate_presentedForm`,
+`TauCeti.exists_presentedForm_equivalent`, `QuadraticMap.Equivalent.anisotropic_iff` and
+`QuadraticForm.QuadraticMap.Equivalent.isLocallyIsotropic_iff`. The lemmas of the
 higher-rank step discussed above, `QuadraticForm.exists_apply_ne_zero_locallyRepresentsScalar_neg`
 and `QuadraticForm.finite_setOfPred_anisotropic_atFinitePlace`, are inputs of the Tau Ceti proof of
 that step, not of this target.
@@ -896,10 +918,10 @@ sequence of Witt rings.
 
 Export the statement consumed by the orthogonal-group roadmaps: regular forms that are isometric
 at every finite and every real place are isometric (`equivalent_of_locallyEquivalent`, the reverse
-direction of 6.3; Milne, VIII, Theorem 6.3, p. 252). Identifying the classes of `H¹(K, SO(Q))`
-with twists of `Q` and deducing that the localization kernel is trivial is the work of Orthogonal
-Tamagawa and Lattice Mass, to which Orthogonal and Spin Groups assigns it; this roadmap defines no
-`H¹`.
+direction of 6.3; Milne, VIII, Theorem 6.3, p. 252). Identifying the classes of
+`H¹(K, SO(Q))` with the twists of `Q` of the same discriminant and deducing from 8.4 that the
+localization kernel is trivial is the translation that Orthogonal and Spin Groups, in its consumer
+contract, assigns to Orthogonal Tamagawa and Lattice Mass; this roadmap defines no `H¹`.
 
 *Needs:* 6.3.
 
@@ -936,9 +958,10 @@ Layer 8 uses 6.3 and Layer 7, and Tau Ceti's Witt ring and hyperbolicity criteri
 
 ## Downstream consumers
 
-- Orthogonal Tamagawa and Lattice Mass is directed to `hasseMinkowski_equivalent` (6.3), with its
-  corollary 8.4, by the consumer contract of Orthogonal and Spin Groups, and owns their translation
-  into a statement about `H¹(K, SO(Q))`, the triviality of the localization kernel.
+- Orthogonal Tamagawa and Lattice Mass: the consumer contract of Orthogonal and Spin Groups for
+  that roadmap lists `hasseMinkowski_equivalent` (6.3) among its imports and assigns to it the
+  translation of 6.3, and so of its corollary 8.4, into the triviality of the localization kernel
+  of `H¹(K, SO(Q))`.
 - Orthogonal and Spin Groups consumes 4.3 and 6.1.
 - Integral Lattices consumes `hasseMinkowski_equivalent` and `equivalent_of_locallyEquivalent` and
   owns integral localizations, genera and spinor genera.
