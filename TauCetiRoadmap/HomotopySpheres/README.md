@@ -1382,7 +1382,7 @@ Adams and Atiyah, [*K-theory and the Hopf invariant*](https://doi.org/10.1093/qm
 Quarterly Journal of Mathematics 17 (1966), 31–38, supplies the integral Adams-operation
 exclusion. Hatcher, [*Vector Bundles and K-Theory*, §2.3](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
 gives the sphere-framing/H-space and K-theory route: Theorem 2.16(b), p.59, restricts the
-parallelizable spheres S^(m−1) to m = 1, 2, 4, 8, and §1.1, p.9, frames S¹, S³ and S⁷ by
+parallelizable spheres S^(m−1) to m = 1, 2, 4, 8, and §1.1, p.5, frames S¹, S³ and S⁷ by
 complex, quaternionic and octonionic multiplication. The positive Adams-operation
 and complex Bott constructions precede this application; they use neither its
 Hopf exclusion nor its tangent classification.
@@ -2616,18 +2616,24 @@ normalization independent and compatible with addition before using connected `A
 *Needs:* 4A clutching; 4C J; 5.1 PT; 6A defect traces.
 
 Construct the extension obstruction `A_n → π_(n-1)(SO)` from the framing on the defect
-sphere, with its orientation and stabilization conventions. Prove the exact sequence
+sphere, with its orientation and stabilization conventions (Kervaire–Milnor, proof of
+Theorem 3.1, p.508: for a homotopy sphere the obstruction to trivializing `τ ⊕ ε` is a class
+in `H^n(Σ; π_(n−1)(SO)) ≅ π_(n−1)(SO)`). Prove the exact sequence
 `π_n(SO) →^J π_n^S → A_n → π_(n-1)(SO)` at its intermediate terms. A cycle in the
 obstruction kernel admits an extension across its defect; only for such cycles apply PT
 to the resulting closed framing. Changing that extension changes its stable class by
-`im J_n`, so the canonical inverse lands in `coker J_n`. Prove the resulting canonical
-isomorphism `coker J_n ≅ ker(A_n → π_(n-1)(SO))`.
+`im J_n`, so the canonical inverse lands in `coker J_n` (Kervaire–Milnor, Lemma 4.5 and
+the Remarks after Theorem 4.1, pp.511–512: the stable classes of the framings of a homotopy
+sphere form a single coset of `im J_n`). Prove the resulting canonical
+isomorphism `coker J_n ≅ ker(A_n → π_(n-1)(SO))`; its statement for all almost-framed
+cycles, not only for homotopy spheres, is a target of this section.
 
 ### 8.3 The cokernel comparison
 
 *Needs:* 8.2; the hypothesis πₙ₋₁SO=0; 6C exactness.
 
-If `π_(n-1)(SO)=0`, identify all of `A_n` with that kernel and hence with `coker J_n`.
+If `π_(n-1)(SO)=0`, identify all of `A_n` with that kernel and hence with `coker J_n`
+(Kervaire–Milnor, p.508, Case 1: `π_(n−1)(SO) = 0` exactly for `n ≡ 3, 5, 6, 7 (mod 8)`).
 Transport Layer 6's exact segment through this isomorphism and identify both boundary
 images with the corresponding `bP` subgroups. The sixth-dimensional application uses
 the independently proved `π_5(SO)=0`; no arbitrary almost-framed cycle receives a
@@ -3284,7 +3290,7 @@ compact smooth recognition theorem of Layer 10.
   odd Hopf invariant used in 3C.5.
 - Allen Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
   version 2.2, 2017: Introduction, pp.1–2, and Proposition 1.14, p.25 (clutching and the
-  stable orthogonal table); §1.1, p.9 (frames on S¹, S³, S⁷); §2.3, Theorem 2.16(b), p.59
+  stable orthogonal table); §1.1, p.5 (frames on S¹, S³, S⁷); §2.3, Theorem 2.16(b), p.59
   (parallelizable spheres).
 - John Milnor, *Morse Theory*, Annals of Mathematics Studies 51, Princeton University Press,
   1963: the path-space Morse theory and Bott periodicity argument cited in 4B.9.

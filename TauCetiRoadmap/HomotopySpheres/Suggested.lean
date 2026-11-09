@@ -112,7 +112,7 @@ theorem exists_diffeomorph_prod_Icc_of_hCobordism (n : ℕ) (hn : 5 ≤ n)
 
 /-- The standard sphere `S^n` with `n ≥ 1` admits `n` smooth tangent vector fields that are
 linearly independent at every point exactly when `n ∈ {1, 3, 7}` (Hatcher, *Vector Bundles and
-K-Theory*, §1.1, p.9, for the frames on `S^1`, `S^3` and `S^7`, and Theorem 2.16(b), p.59, for
+K-Theory*, §1.1, p.5, for the frames on `S^1`, `S^3` and `S^7`, and Theorem 2.16(b), p.59, for
 the converse, applied to `S^(m-1)` with `m = n + 1`; README Section 3C.5). -/
 theorem sphere_parallelizable_iff (n : ℕ) (hn : 0 < n) :
     (∃ v : Fin n → (x : Sphere n) → TangentSpace (𝓡 n) x,
