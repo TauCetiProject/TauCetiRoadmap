@@ -12,6 +12,11 @@ public import TauCeti.Algebra.AlgebraicGroup.Torus.Maximal
 public import TauCeti.Algebra.AlgebraicGroup.Borel.Basic
 public import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 public import TauCeti.Algebra.AlgebraicGroup.Parabolic.Basic
+public import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
+public import TauCeti.Algebra.AlgebraicGroup.Torus.Basic
+public import TauCeti.Algebra.AlgebraicGroup.Semisimple.Basic
+public import TauCeti.Algebra.AlgebraicGroup.Isogeny.Basic
+public import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
 public import TauCeti.GroupTheory.TitsSystem.Basic
 public import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 public import TauCeti.GroupTheory.Coxeter.Artin
@@ -30,8 +35,10 @@ flatness over them); Layer 6A's characteristic-zero Levi complement, as a Hopf i
 quotient restricts to an isomorphism from the right coinvariants of the unipotent radical's
 defining ideal; Layer 7's conjugacy of any two maximal tori of a finite-type affine group over
 an algebraically closed field, its Bruhat decomposition in Tits-system form for a reductive
-group over an algebraically closed field, and its Levi complement of a parabolic subgroup of a
-reductive group over every field, in the same coinvariant form; Layer 7a's Lang surjectivity
+group over an algebraically closed field, its Levi complement of a parabolic subgroup of a
+reductive group over every field, in the same coinvariant form, Nagata's theorem over every
+field of positive characteristic, and the simply connected cover of a semisimple group over
+every field; Layer 7a's Lang surjectivity
 for smooth geometrically connected groups over finite fields; Layer 11A's plane-configuration
 fundamental-group/braid-group equivalence; and Layer 11B's finite Weyl-arrangement theorem
 `π₁(V_reg/W) ≃ ArtinGroup`.
@@ -58,6 +65,10 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   functors with comodules. The native Hopf/points dictionary, the embedding theorem
   (`TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`) and the Tannakian
   reconstruction of the points functor are supplied, so Layer 1 states no theorem here.
+* Layer 6: `G = R(G)·G_der`, that multiplication `R(G) × G_der → G` is a central isogeny. The
+  missing carrier is that multiplication as a morphism of coordinate Hopf algebras: the pinned
+  product interface identifies the points of a product group, but no pinned declaration supplies
+  the multiplication homomorphism of two commuting closed subgroups.
 * Layer 7: the equivalence of the complete-quotient and Borel-containing parabolic notions,
   and the root datum extracted from a group. The parabolic predicate
   (`TauCeti.HopfIdeal.IsParabolicOverAlgClosed`, `IsParabolic`), the represented dynamic
@@ -79,15 +90,22 @@ Not statable at the pins, hence not stated, with the missing carrier named:
   permutation bimodules `Λ[G^F/U^F]` and `Λ[U^F\G^F]`, built on the finite point groups of
   `P`, `U` and `L` inside `G^F`; no pinned declaration supplies them, and Layer 7c constructs
   them.
-* Layer 9E: Lang–Steinberg surjectivity for a Steinberg endomorphism. The missing carrier is an
-  `𝔽_q′`-structure on the group whose `q′`-Frobenius is a positive power of the endomorphism;
-  the pinned `TauCeti.FiniteField.frobeniusPoints` gives only the `q^n`-Frobenius of the points
-  of a fixed Hopf algebra over a finite field, not an endomorphism with such a power.
 * Layer 9: a pinned reductive group with its extracted root datum; the full-root-datum
   Chevalley realization and its ordered PBW family (the native Kostant subring alone does not
   specify these); signed ADE cover Lie algebras and their folded fixed algebras. The pinned
   `TauCeti.Pinning` carries a Borel and simple-root trivializations over a connected base, not
   a constant root datum.
+* Layer 9D: the isomorphism and existence theorems, split reductive groups over a nonempty base
+  corresponding to root data (Conrad, Reductive Group Schemes, Theorems 6.1.16–6.1.17,
+  pp. 196–197), and the classification of split semisimple groups by Dynkin diagrams up to
+  central isogeny (Milne, Algebraic Groups, Theorem 23.58, p. 501). The missing carrier is the
+  root datum of a split reductive group: the pinned `TauCeti.SplitMaximalTorus` supplies the
+  split torus and its character lattice, not its roots and coroots as a root datum, and root
+  data are pinned only for specific matrix groups.
+* Layer 9E: Lang–Steinberg surjectivity for a Steinberg endomorphism. The missing carrier is an
+  `𝔽_q′`-structure on the group whose `q′`-Frobenius is a positive power of the endomorphism;
+  the pinned `TauCeti.FiniteField.frobeniusPoints` gives only the `q^n`-Frobenius of the points
+  of a fixed Hopf algebra over a finite field, not an endomorphism with such a power.
 * Layer 10: rational highest-weight modules, Weyl and induced modules, and their distribution
   actions on the constructed group.
 * Layer 11: the regular-semisimple Lie locus, its Weyl quotient and the comparison with based
@@ -149,7 +167,8 @@ theorem exists_levi_complement {k : Type v} [Field k] [CharZero k]
           (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal H).coinvariants.val) := by
   sorry
 
-/-! ## Layer 7: maximal tori, the Bruhat decomposition and Levi complements of parabolics -/
+/-! ## Layer 7: maximal tori, the Bruhat decomposition, Levi complements of parabolics,
+Nagata's theorem and simply connected covers -/
 
 /-- Over an algebraically closed field, any two maximal tori of a finite-type affine group are
 conjugate by a rational point (Milne, Algebraic Groups, Theorem 17.10, p. 354, for a connected
@@ -170,9 +189,9 @@ geometrically connected) over an algebraically closed field `k`, `B` a Borel sub
 by `I` and `T ⊆ B` a maximal torus cut out by `J`, so `I ≤ J`. Then the group `G(k)` carries a
 Tits system whose subgroup `B` is the group `B(k)` of rational points of `B` and whose subgroup
 `N` is the normalizer of `T(k)` in `G(k)`; its Weyl group is `N_G(T)(k)/T(k)` (Milne, Algebraic
-Groups, Theorem 21.45, p. 438). Through `TauCeti.TitsSystem.bruhatCells_eq_univ` and
-`TauCeti.TitsSystem.bruhatCell_injective` this gives `G(k) = ⨆_{w ∈ W} B(k) w B(k)` with
-distinct cells. Connectedness is needed: in the normalizer of the diagonal torus of `GL₂`, whose
+Groups, Proposition 21.75, p. 448, for the quadruple of Example 21.47, p. 439). Through
+`TauCeti.TitsSystem.bruhatCells_eq_univ` and `TauCeti.TitsSystem.bruhatCell_injective` this gives
+`G(k) = ⨆_{w ∈ W} B(k) w B(k)` with distinct cells (Milne, Theorem 21.45, p. 438). Connectedness is needed: in the normalizer of the diagonal torus of `GL₂`, whose
 Borel subgroup is the normal subgroup `T`, no simple reflection can conjugate `B` off itself,
 while `W` has order two. -/
 theorem exists_titsSystem {k : Type v} [Field k] [IsAlgClosed k]
@@ -206,6 +225,38 @@ theorem IsParabolic.exists_levi_complement {k : Type v} [Field k]
         ((Ideal.Quotient.mkₐ k J.toIdeal).comp
           (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal
             (TauCeti.FiniteTypeCommHopfAlgCat.quotient H I)).coinvariants.val) := by
+  sorry
+
+/-- Nagata's theorem. Over a field `k` of characteristic `p > 0`, a smooth geometrically
+connected affine group of finite type is linearly reductive exactly when it is a torus (Milne,
+Algebraic Groups, Remark 12.56, p. 249, after Proposition 12.54, p. 248, the commutative case).
+Nagata's argument is over an algebraically closed field; both sides are unchanged by extension
+to an algebraic closure, through `TauCeti.linearlyReductiveCommHopfAlgProperty_baseChange_iff`
+and `TauCeti.torusCommHopfAlgProperty.of_baseChange`. Smoothness is needed: `μ_p` is connected
+and linearly reductive but not a torus. Positive characteristic is needed: `SL₂` over `ℚ` is
+linearly reductive and not a torus. The torus need not be split: the norm-one torus of
+`𝔽_{q²}/𝔽_q` is included. -/
+theorem linearlyReductive_iff_torus {k : Type v} [Field k] (p : ℕ) [Fact p.Prime] [CharP k p]
+    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
+    (hsm : Algebra.Smooth k H)
+    (hconn : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj) :
+    TauCeti.linearlyReductiveCommHopfAlgProperty k H.obj ↔
+      TauCeti.torusCommHopfAlgProperty k H := by
+  sorry
+
+/-- The simply connected cover. Every semisimple group `G` over a field `k` admits a central
+isogeny `G̃ → G` from a simply connected semisimple group `G̃` (Milne, Algebraic Groups,
+Theorem 18.25, p. 393, for split groups, and Remark 18.27, p. 393, for all semisimple groups).
+In Hopf coordinates the arrow reverses: the cover is a morphism `O(G) ⟶ O(G̃)` of semisimple
+coordinate algebras making `O(G̃)` finite and faithfully flat over `O(G)` with central kernel.
+Milne's multiplicative isogenies between semisimple groups are exactly these central isogenies.
+For `G = PGL₂` the cover is `SL₂ → PGL₂`, with kernel `μ₂`, infinitesimal in characteristic
+`2`; on rational points it need not be onto. -/
+theorem exists_simplyConnected_centralIsogeny {k : Type v} [Field k]
+    (G : TauCeti.SemisimpleCommHopfAlgCat.{v} k) :
+    ∃ (G' : TauCeti.SemisimpleCommHopfAlgCat.{v} k) (f : G ⟶ G'),
+      TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty k G' ∧
+        TauCeti.CommHopfAlgCat.IsCentralIsogeny f.hom.hom := by
   sorry
 
 /-! ## Layer 7a: finite-field Lang surjectivity -/
@@ -291,10 +342,13 @@ abbrev WeylQuotient {ι κ : Type*} (P : RootPairing ι ℂ (κ → ℂ) (κ →
 pairing `P` on `ℂ^κ` with a base `b`, the fundamental group of the quotient by the Weyl group of
 the complement of the root hyperplanes in the coroot space, at the class of any regular point, is
 isomorphic to the Artin group of the Coxeter matrix of `b` (Brieskorn, Sur les groupes de
-tresses, Séminaire Bourbaki exposé 401, Proposition 1, p. 25, for finite real reflection
-groups; on the spans of its roots and coroots `P` is the complexification of a rational root
-system, and the subspace on which every root vanishes is a `W`-fixed contractible factor). For
-the root pairing `±2`, `±1` on `ℂ` the quotient is `ℂ*/±1 ≅ ℂ*` and both sides are `ℤ`. -/
+tresses, Séminaire Bourbaki exposé 401, Proposition 1, p. 25, for finite irreducible real
+reflection groups; on the spans of its roots and coroots `P` is the complexification of a
+rational root system, the subspace on which every root vanishes is a `W`-fixed contractible
+factor, and a reducible `P` is an orthogonal sum whose Weyl quotient is the product of the
+summands' quotients, while the Artin group of a block-diagonal Coxeter matrix with `2` between
+blocks is the product of the blocks' Artin groups). For the root pairing `±2`, `±1` on `ℂ` the
+quotient is `ℂ*/±1 ≅ ℂ*` and both sides are `ℤ`; for `A₁ × A₁` on `ℂ²` both sides are `ℤ²`. -/
 theorem nonempty_weylQuotient_artin {ι κ : Type*} [Finite κ]
     (P : RootPairing ι ℂ (κ → ℂ) (κ → ℂ)) [Finite ι] [P.IsCrystallographic] [P.IsReduced]
     (b : P.Base) (x : RegularSet P) :

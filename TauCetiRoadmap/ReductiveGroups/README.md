@@ -26,13 +26,16 @@ these comparisons. Layer 11A owns the based comparison between the fundamental
 group of the plane configuration space and the native braid group. Layer 9B owns the
 special isogenies in characteristics two and three and the three explicit toral-closure
 carriers it specifies. ReductiveGroupsPartII extends this roadmap and consumes it;
-nothing here is imported from it. ReductiveGroupsPartII RG2.3.7 states Lang's theorem
-again under its own name; it is a consumer of Layer 7a, not a second supplier of it.
-IntegralHeckeAndGaloisDeterminants §0.7 states the rational cohomology and induction of
-Layer 1.1, and ComplexComparisonPartII C-1.1 states the complex-point comparisons and smooth
-charts of Layer 3A.5; each is a consumer of the layer named, and neither is imported here.
-AdelicAlgebraicGroups AA.3.1 states the characteristic-zero Levi decomposition of Layer 6A
-again, for closed subgroups, and is a consumer of Layer 6A.
+nothing here is imported from it. Its RG2.3.7 *lang-theorem* is the case
+`K = AlgebraicClosure F` of Layer 7a's `StructureAcceptance.lang_surjective`, and Layer 7a,
+earlier in the order of supply, is the owner of that theorem. Three roadmaps also state
+objects owned here: IntegralHeckeAndGaloisDeterminants §0.7 the rational cohomology and
+cotensor induction of Layer 1.1; ComplexComparisonPartII C-1.1 the separated, proper and
+smooth-chart comparisons of Layer 3A.5 for schemes locally of finite type over ℂ, read on the
+underlying space of its analytification; and AdelicAlgebraicGroups AA.3.1 the
+characteristic-zero Levi decomposition of Layer 6A, for closed subgroups. Layers 1.1, 3A.5
+and 6A are the owners of these objects, and nothing here is imported from those three
+roadmaps.
 
 Generic fpqc descent of quasi-coherent modules and sheaves belongs to
 SchemeAndStackFoundations §1.1; its §§1.5, 1.13–1.15 supply quotient sheaves,
@@ -66,7 +69,7 @@ its hypotheses, and Layers 3–8 and 9D keep as targets only what those contract
 unconditional conjugacy of maximal tori, root data and the Bruhat decomposition, the
 all-field Levi complement of a parabolic, the full Nagata theorem, `G = R(G)·G_der` and the
 simply connected cover, imperfect-field descents, Lang's theorem, the base change of a
-pinning and the constant-root-datum pinning on a disconnected base, and the perfect-field
+pinning and pinnings of the constant root datum over a disconnected base, and the perfect-field
 and separable-extension facts of pseudo-reductivity). The relative Hopf reductivity predicate, its isomorphism
 invariance and arbitrary base change, and the diagonalizable group-scheme anti-equivalence
 and closed-subgroup stability of diagonalizability are also supplied by Tau Ceti;
@@ -635,7 +638,11 @@ and 9D; `k` is a field and `H : FiniteTypeCommHopfAlgCat.{u, u} k` unless stated
   `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty` (every central isogeny onto the
   group is an isomorphism). For Nagata's theorem, `Solvable/LinearlyReductive.lean` proves
   `linearlyReductiveCommHopfAlgProperty_iff_torus_of_isSolvable` for reduced connected
-  solvable groups over an algebraically closed field, `Reductive/Solvable.lean`
+  solvable groups over an algebraically closed field, `LinearlyReductive.lean`
+  `linearlyReductiveCommHopfAlgProperty_baseChange_iff` (linear reductivity is unchanged by
+  every field extension), `MultiplicativeType/LinearlyReductive.lean`
+  `torusCommHopfAlgProperty.linearlyReductive` (a torus over any field, split or not, is
+  linearly reductive), `Reductive/Solvable.lean`
   `torus_of_geometricallySolvable` for reductive groups over any field, and
   `LinearlyReductive/AdditiveSubgroup.lean` that a linearly reductive finite-type group whose
   rational points contain the additive group of `k` lives in characteristic zero;
@@ -747,6 +754,10 @@ and 9D; `k` is a field and `H : FiniteTypeCommHopfAlgCat.{u, u} k` unless stated
   `0, 1, 2, 3`. Mathlib's `RootPairing.coreflection` gives the reflections of the coroot
   space, and `RootPairing.weylGroupCorootRep` the coroot representation, a representation
   of the opposite group of `RootPairing.weylGroup`.
+  `AlgebraicTopology/FundamentalGroup/Product.lean` defines
+  `TauCeti.FundamentalGroup.prodMulEquiv`, the isomorphism of the fundamental group of a
+  product of two topological spaces with the product of their fundamental groups, given by the
+  two coordinate projections; 11B's product step consumes it.
 - **Lie highest-weight inputs** (Layers 9A and 11C, consumed through LieHighestWeight).
   `Algebra/Lie/HighestWeight/FiniteDimensional.lean` proves
   `TauCeti.finiteDimensional_iff_isDominantIntegral_of_isHighestWeightVector`: over a field
@@ -1695,7 +1706,8 @@ exponential of a nilpotent element.
   Reductive Group Schemes, Theorem 3.3.4, p. 98, over a field; the native
   `MultiplicativeType/Normal.lean` is the converse, that a normal multiplicative-type
   subgroup is central); and the existence of the simply connected
-  cover of a semisimple group (the native predicate says what it is, not that it exists).
+  cover of a semisimple group (the native predicate says what it is, not that it exists),
+  which needs the Borel subgroups and flag variety of Layer 7 and is stated there.
   *Needs:* Layer 5's radicals; the native radical, centre, derived and isogeny declarations;
   Layer 4's tori and multiplicative type; Layer 3's quotients.
 - **Alternative characterization, linearly reductive:** every f.d. representation is completely
@@ -1714,10 +1726,11 @@ exponential of a nilpotent element.
   groups (Milne, Theorem 22.42, p. 477; the supplier contract). The targets that remain
   are its corollary that an arbitrary affine group of finite type in characteristic 0 is
   linearly reductive iff `G°` is reductive (Milne, Corollary 22.43, p. 478; the native
-  equivalence assumes geometric connectedness). Nagata's theorem, that over an
-  algebraically closed field of characteristic `p` a smooth connected affine group is
-  linearly reductive iff it is a torus, needs the root subgroups of a reductive group and
-  is a Layer 7 target; its solvable case is native here
+  equivalence assumes geometric connectedness). Nagata's theorem, that over a field of
+  characteristic `p > 0` a smooth geometrically connected affine group is linearly reductive
+  iff it is a torus, needs the root subgroups of a reductive group and is a Layer 7 target,
+  `StructureAcceptance.linearlyReductive_iff_torus`; its solvable case over an algebraically
+  closed field is native here
   (`linearlyReductiveCommHopfAlgProperty_iff_torus_of_isSolvable`). Provide both
   definitions and the char-0 equivalence so downstream work can pick either. *Needs:*
   Layer 1's comodules; Layer 5's unipotent groups; the supplied implication and its
@@ -1999,9 +2012,11 @@ representability.
   `I` and `J` each lie in a conjugate of `D`; that
   any two Borel subgroups of a connected reductive group contain a common maximal torus;
   and the Bruhat decomposition `G(k) = ⨆_{w∈W} B(k) w B(k)` with the double-coset
-  identification `B\G/B ≃ W` (Milne, §21.h, p. 446; Theorem 21.45, p. 438, for Tits
-  systems). The Bruhat decomposition is stated in Tits-system form as
-  `StructureAcceptance.exists_titsSystem`: for a reductive `G`
+  identification `B\G/B ≃ W` (Milne, §21.h, p. 446; Theorem 21.45, p. 438, for the
+  decomposition attached to any Tits system). The Bruhat decomposition is stated in
+  Tits-system form as `StructureAcceptance.exists_titsSystem` (Milne, Proposition 21.75,
+  p. 448, with the quadruple of Example 21.47, p. 439, for a split reductive group): for a
+  reductive `G`
   (`TauCeti.reductiveCommHopfAlgProperty`, which includes smoothness and geometric
   connectedness) over an algebraically closed field `k`, a Borel subgroup `B` cut out by `I`
   (`TauCeti.HopfIdeal.IsBorelOverAlgClosed`) and a maximal torus `T ⊆ B` cut out by `J ≥ I`
@@ -2060,10 +2075,16 @@ representability.
   p. 435); the group `N_G(T)(k)/Z_G(T)(k)` acting on `X*(T)`, its finiteness and its
   action on the adjoint weights are the native `BialgHom.weylGroup` of the supplier
   contract, so the target is the reflection generation and the identification with the
-  Weyl group of the extracted datum. Prove here, from the root subgroups, Nagata's theorem:
-  over an algebraically closed field of characteristic `p`, a smooth connected affine
-  group is linearly reductive iff it is a torus (Milne, Proposition 12.54 and Remark 12.56,
-  pp. 248–249); its native inputs are the solvable case
+  Weyl group of the extracted datum. Prove here, from the root subgroups, Nagata's theorem
+  `StructureAcceptance.linearlyReductive_iff_torus`: over a field `k` of characteristic
+  `p > 0`, a smooth geometrically connected affine group of finite type is linearly reductive
+  iff it is a torus (Milne, Remark 12.56, p. 249, after Proposition 12.54, p. 248, the
+  commutative case). Nagata's argument is over an algebraically closed field; a general `k`
+  reduces to `k̄`, since linear reductivity is unchanged by every field extension (the native
+  `linearlyReductiveCommHopfAlgProperty_baseChange_iff`), a torus over `k̄` is split, and a
+  group split over `k̄` is a torus over `k` (the native `torusCommHopfAlgProperty.of_baseChange`),
+  while a torus is linearly reductive over every field (the native
+  `torusCommHopfAlgProperty.linearlyReductive`). Over `k̄` its native inputs are the solvable case
   `linearlyReductiveCommHopfAlgProperty_iff_torus_of_isSolvable`, the reductive solvable
   case `torus_of_geometricallySolvable`, the supplied implication from linear reductivity
   to reductivity, and `charZero_of_isLinearlyReductive_of_injective_additiveHom` (a
@@ -2075,8 +2096,30 @@ representability.
   group of a diagonalizable subgroup; Layer 6's linear-reductivity facts; RootSystems
   Layers 1–3 and the native root, chamber and longest-element declarations of its
   supplier contract; Mathlib's `RootPairing`.
-- **Bruhat decomposition** and **BN-pairs / Tits systems** (Milne, Theorem 21.45,
-  p. 438), in the form `StructureAcceptance.exists_titsSystem` above. Keep the **dynamic** approach
+- **Simply connected cover.** Prove `StructureAcceptance.exists_simplyConnected_centralIsogeny`:
+  for every semisimple group `G` over a field `k` (`TauCeti.SemisimpleCommHopfAlgCat`) there
+  are a simply connected semisimple `G̃` (`TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`)
+  and a central isogeny `G̃ → G`, in coordinates a morphism `O(G) ⟶ O(G̃)` satisfying
+  `TauCeti.CommHopfAlgCat.IsCentralIsogeny` (Milne, Theorem 18.25, p. 393, for split groups,
+  and Remark 18.27, p. 393, for every semisimple group over every field). Milne's covering is
+  a multiplicative isogeny; between semisimple groups these are the central isogenies, since
+  a normal subgroup of multiplicative type of a connected group is central (the native
+  `MultiplicativeType/Normal.lean`) and a central subgroup of a reductive group is of
+  multiplicative type (Layer 6). Route, for split `G` with a split Borel `B` (Milne, §18.d,
+  pp. 392–393): the Picard group of `G/B` is generated by finitely many line
+  bundles with nonzero sections; pulling `SL_V → PGL_V` back along the projective
+  representations on those sections gives a multiplicative isogeny `G̃ → G` with
+  `Pic(G̃) = 0`, and `Pic(G̃) = 0` with no characters makes `G̃` simply connected. A nonsplit
+  `G` splits over a finite Galois extension, and the cover descends by its uniqueness
+  (Milne, Proposition 18.8, p. 389, for semisimple, hence perfect, `G`).
+  *Needs:* Layer 6's semisimple, centre and isogeny declarations; the Borel subgroups and
+  the completeness of `G/B` above; Layer 4's characters and multiplicative type; Layer 3's
+  quotients; line bundles and Weil divisor classes on smooth varieties; Galois descent of
+  morphisms (SchemeAndStackFoundations §1.1).
+- **Bruhat decomposition** and **BN-pairs / Tits systems**: the Tits system of a split
+  reductive group (Milne, Proposition 21.75, p. 448, with Example 21.47, p. 439), in the form
+  `StructureAcceptance.exists_titsSystem` above, and its disjoint decomposition
+  `G(k) = ⨆_{w∈W} B(k) w B(k)` (Milne, Theorem 21.45, p. 438). Keep the **dynamic** approach
   to parabolics/Levi/unipotent radical as a route that avoids full root data,
   useful for consumers that require only a BN-pair. *Needs:* the Borel and root-datum
   targets above; Layer 7C's ordered root coordinates for the cells.
@@ -2124,13 +2167,32 @@ representability.
   `α = 2e`, the coroot is the identity cocharacter and `⟨α, α∨⟩ = 2`; for `PGL₂` the root
   `α` generates `X*` and `α∨` is twice a generator of `X_*`. The two root data have the
   same Dynkin diagram `A₁` and are not isomorphic.
+- Nagata's hypotheses: in characteristic `p`, `μ_p` is geometrically connected and linearly
+  reductive but `k[t]/(t^p − 1) = k[t]/((t − 1)^p)` is not reduced, so it is not smooth and
+  not a torus; `𝔾_a` is smooth and connected, not linearly reductive (the representation
+  `[[1,a],[0,1]]` has the invariant line `k·e₁` with no invariant complement) and not a
+  torus; `SL₂` over `ℚ` is linearly reductive and not a torus, so positive characteristic is
+  needed; the constant group `ℤ/2` over `𝔽₃` is smooth and linearly reductive, not connected
+  and not a torus.
+- Over `𝔽_q` the norm-one torus of `𝔽_{q²}/𝔽_q` has `q + 1` rational points, a split
+  one-dimensional torus `q − 1`: it is a torus that is not split, and it is linearly
+  reductive, as Nagata's theorem over a nonclosed field requires. A version with "split
+  torus" in the conclusion fails on it.
+- The cover of `PGL₂` is `SL₂ → PGL₂`, with kernel `μ₂`. In characteristic `2` the kernel is
+  infinitesimal; the coordinate map is still finite and faithfully flat of degree `2` with
+  central kernel, so it is a central isogeny, and a notion of isogeny demanding an étale
+  kernel would leave `PGL₂` without a cover there. On rational points the map is not onto:
+  `SL₂(ℚ) → PGL₂(ℚ)` misses the class of `diag(2, 1)`, whose determinant `2` is not a square,
+  so the theorem concerns group schemes, not rational points. `SL₂` and the trivial group
+  are their own covers, through the identity, which is a central isogeny.
 
 ### Dependencies
 
 Layers 2–6 and 3A; Layer 7C for the ordered coordinates of the cells; RootSystems
 Layers 1–3 and its native chamber and longest-element contract; Tau Ceti's Borel, torus,
-parabolic, Weyl-group, reductive and dynamic interfaces; Mathlib's root pairings
-and Coxeter groups.
+parabolic, Weyl-group, reductive, dynamic, linear-reductivity, semisimple, isogeny and
+simply connected interfaces; SchemeAndStackFoundations §1.1 for the Galois descent of the
+simply connected cover; Mathlib's root pairings and Coxeter groups.
 
 ## Layer 7C: ordered unipotent factors and the contraction proof of Bruhat coordinates
 
@@ -2730,9 +2792,21 @@ spectrum, as a pinning (the native `Pinning.rootSpaceBaseChangeEquiv` identifies
 scalar-extended simple root spaces; the base change of the Borel ideal and of the
 reductivity datum, and the matching of simple roots, are to be proved), the comparison of
 the native Borel-determined positive system with a positive system chosen in the constant
-root datum, and on a disconnected base the pinning of the constant root datum as the
-family of native pinnings over the connected components. Existence and classification are
-Layer 9D's targets.
+root datum, and pinnings over a disconnected base. Over an arbitrary nonempty affine base
+`Spec R` a pinning is defined directly as in Conrad's Definition 6.1.1: a positive system
+`Φ⁺ ⊂ Φ` of the constant root datum and a trivializing section `X_a ∈ 𝔤_a(R)` for each
+simple root `a`, with no reduction to connected components. When `R ≅ R₁ × ⋯ × R_n` is a
+finite product of rings whose spectra are connected and nonempty, prove that restriction to
+the factors is a bijection from the pinnings of the split datum over `R` to the families of
+native pinnings `TauCeti.Pinning Rᵢ …` of the base-changed split data whose Borel-determined
+positive systems, read in the fixed lattice `M` through `T ≃ D_S(M)`, are one and the same
+`Φ⁺` (Conrad, Remark 6.1.2, p. 186, from Proposition 5.2.3, p. 152, and
+Corollary 5.2.7(2), p. 155, for the bijection between positive systems and Borel subgroups
+containing `T` over a connected base). Both
+hypotheses are needed: without the common `Φ⁺` a family of native pinnings need not come
+from a pinning over `R`, and with infinitely many components the components need not be
+open and sections over them need not glue (the last two Checks). Existence and
+classification are Layer 9D's targets.
 
 **API.**
 - A pinned isomorphism preserves the torus, Borel and every labelled simple-root parameter
@@ -2745,9 +2819,16 @@ Layer 9D's targets.
 - For SL₂, x_α(t)=[[1,t],[0,1]] has tangent E₁₂; over ℤ/4 it still has tangent E₁₂.
 - Over ℚ, x_α(2t) has tangent 2E₁₂ and gives a different pinning.
 - For a torus the simple-root index set is empty; a pinning adds no root vectors.
-- Over Spec(k×k), taking B⁺ on one SL₂ component and B⁻ on the other gives signs
-  (+,−), not a single constant positive system; such a Borel is not a pinning of the
-  fixed constant root datum.
+- Over Spec(k×k), taking B⁺ on one SL₂ component and B⁻ on the other gives native pinnings
+  with positive systems {α} and {−α}, not a single constant positive system; this family is
+  not the restriction of any pinning of the fixed constant root datum over k×k.
+- Over `R = ∏_{n∈ℕ} 𝔽₃` the connected components of `Spec R` are its points, and a
+  nonprincipal ultrafilter `U` is a component that is not open, with residue ring `𝔽₃`. For
+  `SL₂` with the diagonal torus, take the root vector `E₁₂` at every principal point and
+  `−E₁₂` at `U`, all with the positive system {α}. A trivializing section of `𝔤_α(R)` is
+  `uE₁₂` with `u ∈ Rˣ = ∏_n {±1}`; the principal points force `u = 1`, whose value at `U` is
+  `1 ≠ −1` in `𝔽₃`. So this family of native pinnings over the components comes from no
+  pinning over `R`, and the finite-product hypothesis is needed.
 
 ### Examples
 
@@ -4178,8 +4259,23 @@ relations are targets. This gives a generator-characterized based isomorphism
 with explicit basepoint-change transport for any other basepoint (Brieskorn,
 *Sur les groupes de tresses*, Proposition 1, p. 25, for the complete presentation;
 Salvetti, Part Two, pp. 611–616, for the two-skeleton presentation route).
-The source presentation is for finite real reflection groups; this layer uses
-its crystallographic subclass. A W-fixed central summand is a contractible factor.
+The source presentation is for finite irreducible real reflection groups (Brieskorn,
+pp. 24–25); this layer uses its crystallographic subclass and reaches reducible root
+pairings by the product step below. A W-fixed central summand is a contractible factor.
+
+Prove the product step. Let `P = P₁ ⊕ P₂` be the orthogonal sum of two finite root pairings
+on `V₁ ⊕ V₂`, with roots and coroots those of each summand placed in its own factor, and
+`W = W₁ × W₂`. A root of `P₁` vanishes on all of `V₂`, so `V_reg = V₁,reg × V₂,reg` and
+`V_reg/W ≅ V₁,reg/W₁ × V₂,reg/W₂` as topological spaces, the quotient map of a product of
+free finite actions being the product of the quotient maps; the native
+`TauCeti.FundamentalGroup.prodMulEquiv` identifies the fundamental group of the product with
+the product of the fundamental groups. A base of `P` is the union of bases of `P₁` and `P₂`, its
+Coxeter matrix is block diagonal with `m_ij = 2` for `i` and `j` in different blocks, and the
+Artin group of such a matrix is the direct product of the Artin groups of the blocks: the
+relation `g_i g_j = g_j g_i` makes the two generating sets commute and adds no other
+relation. Every finite reduced crystallographic root pairing is the orthogonal sum of its
+irreducible components and of a summand with no roots, so the theorem follows from the
+irreducible case.
 
 In standard coordinates the carriers are, for a root pairing `P` on `ℂ^κ`:
 `WeylArrangementAcceptance.corootWeylGroup P`, the subgroup of linear automorphisms of the
@@ -4214,6 +4310,12 @@ the isomorphism; its generator characterization at a chamber point is the target
   `ℂ*`, so `π₁ = ℤ`, the Artin group of `A₁` (one generator, no relation). Without the
   regularity condition the quotient `ℂ/±1 ≅ ℂ` is contractible, and the Coxeter group in
   place of the Artin group would give `ℤ/2`; both disagree with `ℤ`.
+- Type `A₁ × A₁` on `ℂ²` with roots `±2e₁`, `±2e₂` and coroots `±e₁`, `±e₂`: the Weyl group
+  is `{±1}²` acting by signs on the coordinates, the regular set is `(ℂ*)²`, and
+  `(z₁, z₂) ↦ (z₁², z₂²)` identifies the quotient with `(ℂ*)²`, so `π₁ = ℤ²`. The Coxeter
+  matrix has `m₁₂ = 2`, and its Artin group `⟨g₁, g₂ | g₁g₂ = g₂g₁⟩` is `ℤ²`, as the product
+  step requires; dropping the relation `m₁₂ = 2` would give the free group on two
+  generators, which is not abelian.
 - Type `A₂` on `ℂ³` with roots and coroots `e_i − e_j` under the dot product: the
   coreflections are the coordinate transpositions, the regular set is 11A's ordered
   configuration space `PConf₃(ℂ)` and the quotient is `Conf₃(ℂ)`, so the theorem gives the
@@ -4352,7 +4454,8 @@ infinite or affine Weyl arrangements, or arbitrary complex reflection groups. Th
 carriers and hypotheses are different. In particular a list of all braid lengths 3 is
 not the full B3 presentation, whose short/long pair has length 4.
 
-The finite-reflection presentation is Brieskorn, Proposition 1, p. 25; the
+The finite-reflection presentation is Brieskorn, Proposition 1, p. 25, for an irreducible
+group, extended to reducible ones by the product step of 11B; the
 face/chamber comparison is Salvetti, Part One, pp. 608–611, Theorem 1, with the
 reflection-equivariant statement in Callegaro, §2.2, Theorems 2.4–2.5, p. 272.
 Birman–Brendle, §§1.1–1.2, pp. 4–5, fixes the configuration-space convention;
@@ -4380,7 +4483,8 @@ construction targets until proved; references are not replacements for those pro
 Layers 2, 3A, 7, 8 and 9; RootSystems §2.1; LieHighestWeight Layer 7;
 ReflectionInvariantTheory; AlgebraicTopology; DGFloer Layer 1.2; LieGroups Layer 8;
 SmoothBundlesConnections B1.4; Mathlib's covering-map, fundamental-group and
-inverse-function theorems; Tau Ceti's braid and Artin groups.
+inverse-function theorems; Tau Ceti's braid and Artin groups and the product isomorphism
+`TauCeti.FundamentalGroup.prodMulEquiv`.
 
 ## Worked examples
 
@@ -4457,20 +4561,22 @@ those points: [CFSGStatement](../CFSGStatement/README.md) consumes Layer 9's pin
 the special isogenies and the three explicit carriers of 9B, which its carrier plan
 designates; its supplier contract asks for full constructions rather than existence witnesses,
 and its Layers 1 and 3 build on them.
-ReductiveGroupsPartII extends this roadmap and consumes Layers 0–9, in particular Layer 7a's
-Lang theorem and fixed-coset lifting. FormalConnectionsOpers consumes Layers 0–9 and 6B's
+ReductiveGroupsPartII extends this roadmap and consumes Layers 0–9; its RG2.3.7
+*lang-theorem* is Layer 7a's Lang theorem at `K = AlgebraicClosure F` (Scope and
+ownership). FormalConnectionsOpers consumes Layers 0–9 and 6B's
 coset affineness; InverseGaloisAndArithmeticFundamentalGroups consumes Layers 0, 3 and 6;
 NilpotentOrbits and SchubertGeometry consume Layer 3A's orbit theorems and Layer 7's
 structure theory.
 
 
-The rational-cohomology and cotensor-induction interfaces of Layer 1.1 are outputs
-for IntegralHeckeAndGaloisDeterminants §0.7. The complex-point comparisons on the native
-topology `TauCeti.SchemePointTopology.topology`, the smooth charts and the separated/proper
-comparisons of Layer 3A.5 are outputs for ComplexComparisonPartII C-1.1. The latter's analytic ring sheaf and coherent
-comparisons extend this topological interface, retaining nilpotents; the carrier
-identification is the identity on X(ℂ), compatible with maps, restrictions and
-fibre products.
+ComplexComparisonPartII C-1.1 consumes Layer 3A.5 for a smooth affine group `G` of finite
+type over ℂ: the classical topology on `G(ℂ)`, its smooth charts and its complex Lie group
+structure, which it identifies with the underlying space and charts of `G^an` by the identity
+on `G(ℂ)`; the analytic ring sheaf and the coherent comparisons are its own. Its general
+separated, proper and smooth-chart comparisons, the rational cohomology and induction of
+IntegralHeckeAndGaloisDeterminants §0.7 and the Levi decomposition of AdelicAlgebraicGroups
+AA.3.1 state objects of Layers 3A.5, 1.1 and 6A, whose ownership is settled under Scope and
+ownership.
 
 
 ## References
