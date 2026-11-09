@@ -796,8 +796,11 @@ finitely supported permutations; do not claim invariance under all relabelings.
 
 ## Milestone 10 — Infinitary distinctions with actual sentences
 
-Use the existing $`L_{\omega_1,\omega}`$ syntax, native FO embedding and realization API.
-Construct both of the following sentences and prove their stated semantics.
+Use the existing $`L_{\omega_1,\omega}`$ syntax, native FO embedding and realization API:
+`Language.graph.Sentenceω` with `BoundedFormulaInf.iInf` and `iSup`, `BoundedFormula.toInf`,
+`SentenceInf.Realize` and `Sentence.realize_toInf` (Tau Ceti
+`ModelTheory/Infinitary/{Syntax,Semantics}.lean` at `2fd255d99`), evaluated under
+`SimpleGraph.structure`. Construct both of the following sentences and prove their stated semantics.
 
 1. $`\Theta_R=\bigwedge_{r,s\in\mathbb N}E_{r,s}`$ has probability $`1`$ under
    $`G(\mathbb N,p)`$ for $`0\lt p\lt 1`$, and probability $`0`$ on every finite carrier.

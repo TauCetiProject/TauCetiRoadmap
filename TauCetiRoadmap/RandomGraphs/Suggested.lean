@@ -6,6 +6,7 @@ public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Infinite
 public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.AlmostSure.Basic
 public import TauCeti.Combinatorics.SimpleGraph.ExtensionProperty
 public import TauCeti.ModelTheory.Scott.RandomGraph
+public import TauCeti.ModelTheory.Infinitary.Semantics
 
 /-!
 # Random graphs, Fraïssé limits, and first-order asymptotic laws: suggested signatures
@@ -545,6 +546,57 @@ theorem binomialRandom_singular_separator (p q : I) (hpq : p ≠ q) :
     ∃ S : Set (SimpleGraph ℕ), MeasurableSet S ∧
       SimpleGraph.binomialRandom ℕ p S = 1 ∧
       SimpleGraph.binomialRandom ℕ q S = 0 := by
+  sorry
+
+/-! ## Infinitary distinctions (Milestone 10)
+
+The sentences are Tau Ceti's `L_{ω₁,ω}` sentences `Language.graph.Sentenceω`, with first-order
+conjuncts and disjuncts embedded by `BoundedFormula.toInf`. -/
+
+/-- Realization of an `L_{ω₁,ω}` graph sentence, using the existing graph structure. -/
+def SatisfiesInf (G : SimpleGraph V) (φ : Language.graph.Sentenceω) : Prop :=
+  letI : Language.graph.Structure V := G.structure
+  SentenceInf.Realize φ V
+
+/-- `Θ_R`, the countable conjunction of all extension axioms `E_{r,s}`. -/
+noncomputable def radoSentenceInf : Language.graph.Sentenceω :=
+  BoundedFormulaInf.iInf fun k => (extensionSentence k.unpair.1 k.unpair.2).toInf
+
+theorem satisfiesInf_radoSentenceInf_iff (G : SimpleGraph V) :
+    SatisfiesInf G radoSentenceInf ↔ G.HasExtensionProperty := by
+  sorry
+
+theorem binomialRandom_radoSentenceInf (p : I) (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1) :
+    SimpleGraph.binomialRandom ℕ p {G | SatisfiesInf G radoSentenceInf} = 1 := by
+  sorry
+
+/-- On a finite carrier `Θ_R` has probability zero, for every `p`. -/
+theorem binomialRandom_radoSentenceInf_of_finite [Finite V] (p : I) :
+    SimpleGraph.binomialRandom V p {G | SatisfiesInf G radoSentenceInf} = 0 := by
+  sorry
+
+/-- `CardEq m`: the carrier has exactly `m` elements. -/
+def cardEq (m : ℕ) : Language.graph.Sentence :=
+  Sentence.cardGe Language.graph m ⊓ (Sentence.cardGe Language.graph (m + 1)).not
+
+theorem satisfies_cardEq_iff (G : SimpleGraph V) (m : ℕ) :
+    Satisfies G (cardEq m) ↔ Cardinal.mk V = m := by
+  sorry
+
+/-- `Θ_even`, the countable disjunction of `CardEq (2 m)`. -/
+def evenSentenceInf : Language.graph.Sentenceω :=
+  BoundedFormulaInf.iSup fun m => (cardEq (2 * m)).toInf
+
+theorem binomialRandom_evenSentenceInf (p : I) (n : ℕ) :
+    SimpleGraph.binomialRandom (Fin n) p {G | SatisfiesInf G evenSentenceInf} =
+      if Even n then 1 else 0 := by
+  sorry
+
+/-- The finite probabilities of `Θ_even` have no limit. -/
+theorem not_tendsto_binomialRandom_evenSentenceInf (p : I) (l : ℝ) :
+    ¬ Tendsto (fun n =>
+        (SimpleGraph.binomialRandom (Fin n) p {G | SatisfiesInf G evenSentenceInf}).toReal)
+      atTop (𝓝 l) := by
   sorry
 
 /-! ## Concrete FO formulas and Poisson endpoints (Milestones 8, 11) -/
