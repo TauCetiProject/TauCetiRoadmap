@@ -31,8 +31,9 @@ headline is stated on the form-side Kronecker Gram matrix. The perfect-class cou
 the existing similarity quotient and need no chosen representative families. The Leech
 covering radius `μ(Λ₂₄) = √2` (README §3.4) is not stated: its carrier, Tau Ceti's
 `TauCeti.leechLattice` with `TauCeti.isPosDef_leechLattice` in the module
-`TauCeti.LinearAlgebra.IntegralLattice.Rank24.Leech.Basic`, is absent from the Tau Ceti revision
-this file is elaborated against. With that module the headline reads
+`TauCeti.LinearAlgebra.IntegralLattice.Rank24.Leech.Basic`, exists at the Tau Ceti revision
+`2fd255d997f47c0b5d834ee416c7015d55444ce5` that README.md cites and is absent from the earlier
+revision this file is elaborated against. With that module the headline reads
 `(gramForm TauCeti.isPosDef_leechLattice b).coveringRadius = √2` for every `ℤ`-basis `b` of
 `Λ₂₄` indexed by `Fin 24`. The classification of the Leech deep holes is the route README §3.4 takes
 to that value and is a README target, not a headline. All other API, local checks and examples

@@ -279,6 +279,11 @@ LMFDB has no rank-zero lattice. Positive definiteness is in the type of a form a
 Every milestone rests on Mathlib at the pin, on Tau Ceti at the pin, on an earlier milestone of
 this roadmap, or on a cited milestone of one of the following roadmaps.
 
+The pins are Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Every Tau Ceti and Mathlib declaration, module and
+file named in this README, in *Scope and ownership*, in the supplier tables and on the *Needs:*
+lines, is cited as it is at those revisions.
+
 - [Integral quadratic forms and lattices](../IntegralLattices/README.md) (IL): 0F orthogonal sums
   and unit-norm splittings, 2C the automorphism group `O(L)` and its finiteness, and 1C–1D the
   discriminant group `A_L` with `b_L` and `q_L` (labels IL gives to native Tau Ceti declarations,
