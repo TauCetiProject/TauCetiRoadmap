@@ -112,7 +112,8 @@ those proofs are targets of the sections that use them, except for the named sup
   `thetaFormOfLevel_mem_modFormCharSpace` and `discChar` (*Layer 7*). Layer 2 below states the
   odd-rank theorem on the same `thetaSeries L` and proves it by dividing the even-rank theorem for
   `L ⊕ A₁` by `θ` and taking the square root of the one for `L ⊕ L`; no second theta series, no
-  second Poisson summation and no second Gauss sum appear here.
+  second Poisson summation and no second Gauss sum appear here. The Tau Ceti names under which
+  part of this material has landed on Tau Ceti main are listed in *Exact supplier contracts*.
 - From GeometryOfNumbersAndQuadraticArithmetic §4.3 (*Half-integral cusp forms and the ternary
   specialization*, *Half-integral coefficient estimate*): the theta multiplier `j(γ, z) = θ(γz)/θ(z)`
   on `Γ₀(4)`, the nonvanishing of `θ`, the identification of `j` with Shimura's
@@ -345,6 +346,27 @@ some of them differently from the sources.
 - `hurwitzClassNumber` (examples of Layers 2 and 4; `r₃(n) = 12(H(4n) − 2H(n))` is a check, not a
   target). `IntegralLattice.*` through the theta-series roadmap's bridge: `typeARootLattice`,
   `typeE₈RootLattice`, `checkerboardLattice` for `A₁`, `A₃`, `D₅`, `E₇`.
+- From Tau Ceti main, cited by module path and not declared here: the landed part of the
+  theta-series roadmap that Layers 0–3 consume, under its Tau Ceti names.
+  `ZLattice.thetaSeries`, `ZLattice.thetaCoset` and `ZLattice.thetaCoset_add_mem`
+  (`TauCeti/NumberTheory/ModularForms/ThetaSeries/Basic.lean`) are that roadmap's `thetaSeries`,
+  `thetaCoset` and `thetaCoset_add_mem`; `ZLattice.thetaCosetClass`
+  (`…/ThetaSeries/DiscriminantGroup.lean`) is its `thetaCosetClass`; `ZLattice.IsEven.hasSum_thetaSeries_qParam` and
+  `ZLattice.IsEven.qExpansion_thetaSeries_coeff` (`…/ThetaSeries/QExpansion.lean`) are its
+  `hasSum_thetaSeries` and `qExpansion_thetaSeries_coeff`, with the translation laws in
+  `…/ThetaSeries/Translation.lean` and the boundedness and limits at `i∞` in
+  `…/ThetaSeries/Cusp.lean`;
+  `ZLattice.representationNumber` and `ZLattice.cosetRepresentationNumber`
+  (`TauCeti/Algebra/Module/ZLattice/Shell.lean`) are its `repNum` and `cosetRepNum`;
+  `ZLattice.DiscriminantGroup` (`…/ZLattice/Determinant.lean`) is its `discGroup`; and
+  `TauCeti.kroneckerSym` and `TauCeti.kroneckerChar`
+  (`TauCeti/NumberTheory/LegendreSymbol/KroneckerSymbol.lean`) are its `kroneckerSym` and
+  `kroneckerChar`. For `θ` itself, `TauCeti.tendsto_jacobiTheta_comap_im_atTop` and
+  `TauCeti.jacobiTheta_I_mul` (`…/ModularForms/JacobiTheta/OneVariable.lean`) give the limit `1` at
+  `i∞` and the inversion law on the imaginary axis, and `TauCeti.sum_range_cexp_two_pi_I_sq_div`
+  (`…/JacobiTheta/GaussSum.lean`) is Gauss's evaluation of the quadratic Gauss sum. None of these is
+  an odd-rank modularity theorem or a vector-valued inversion law; Layer 2 owns the odd-rank
+  theorem.
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
@@ -1415,10 +1437,10 @@ The lift headline is `HalfIntegralForm.kohnenLift`: for `k ≥ 1`, a fundamental
 equivariance and the eigenform identity `Sh_D⁺(g) = c(|D|) f` remain targets. Its Kronecker
 symbol `(D/d)` for `d ≥ 1` is `HalfIntegralForm.kroneckerSymNat`: `(D/2)^{v₂(d)} (D/d')` with `d'`
 the odd part of `d`, `(D/2) = χ₈(D)` (`1` for `D ≡ ±1`, `−1` for `D ≡ ±3 (mod 8)`, `0` for
-even `D`) and `(D/d')` the Jacobi symbol. It is the theta-series roadmap's `kroneckerSym` at a
-positive second argument, written with this closed formula only so that the headline elaborates
-at the pins; prove that the two agree for `d ≥ 1`, so that the lift is stated through the
-consumed symbol.
+even `D`) and `(D/d')` the Jacobi symbol. It is the theta-series roadmap's `kroneckerSym`
+(`TauCeti.kroneckerSym` on Tau Ceti main) at a positive second argument, written with this
+closed formula only so that the headline elaborates at the pins; prove that the two agree for
+`d ≥ 1`, so that the lift is stated through the consumed symbol.
 
 ### 5.4 Kohnen's plus space at level `4N`
 
