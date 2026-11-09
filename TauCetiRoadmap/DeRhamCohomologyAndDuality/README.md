@@ -310,8 +310,11 @@ installed on a manifold. In addition:
   (`MappingCocone/Basic.lean`); neither compares connecting maps.
 - Smooth singular simplices: `TauCeti.smoothSingularSubcomplex`, the subcomplex of
   `TopCat.toSSet.obj M` of simplices that near every point of the full-dimensional simplex agree
-  with a smooth map on a neighbourhood in `ℝᵏ`, defined on any charted space;
-  `TauCeti.SmoothSimplex` and the induced maps `TauCeti.smoothSingularSubcomplexMap` of smooth maps
+  with a map into `M` that is smooth on a neighbourhood in `ℝᵏ` (so a simplex meeting the boundary
+  of a manifold with boundary meets it tangentially), defined on any charted space;
+  `TauCeti.SmoothSimplex` and the induced maps `TauCeti.smoothSingularSubcomplexMap` of smooth maps,
+  which restrict the maps of singular simplices (`TauCeti.smoothSingularSubcomplexMap_ι`) and are
+  functorial (`TauCeti.smoothSingularSubcomplexMap_id`, `TauCeti.smoothSingularSubcomplexMap_comp`)
   (`Geometry/Manifold/SmoothSingular/Basic.lean`); `TauCeti.SmoothSimplex.integral`
   (`SmoothSingular/Integral.lean`); `TauCeti.fullSimplex` and `TauCeti.simplexFace`
   (`Geometry/Convex/FullSimplex.lean`). The inclusion of smooth chains into singular chains is
@@ -654,7 +657,9 @@ smooth chains, which is a hypothesis exactly as `s` is; no homotopy `r ∘ j ~ i
 after `HomotopyCategory.quotient`, these data make the inclusion for `M` a retract
 (`CategoryTheory.RetractArrow`) of the inclusion for `N`, through `r_*` and then `j_*` on both
 complexes, the retraction identities being the images of the two homotopies
-(`HomotopyCategory.eq_of_homotopy`); isomorphisms are stable under retracts
+(`HomotopyCategory.eq_of_homotopy`) once `(j ∘ r)_*` is rewritten as `r_*` followed by `j_*`, by
+functoriality of singular chains and, on smooth chains, by
+`TauCeti.smoothSingularSubcomplexMap_comp`; isomorphisms are stable under retracts
 (`CategoryTheory.MorphismProperty.IsStableUnderRetracts.isomorphisms`), with inverse the image of
 `j_* ∘ s ∘ r_*`, and `HomotopyCategory.homotopyOfEq` turns the two inverse identities into chain
 homotopies. Two homotopy inverses of one map are homotopic (`s ~ s ≫ i ≫ t ~ t`), so the
@@ -665,20 +670,26 @@ deformation to `[0, 1] × M`; the equivalence for `M` itself is DifferentialGeom
 imported as stated. The algebra is Mathlib's stability of isomorphisms under retracts; its
 instance on smooth and singular chains is this roadmap's. *Needs:* Tau Ceti
 `TauCeti.smoothSingularSubcomplex`, `TauCeti.smoothSingularSubcomplexMap`,
-`TauCeti.smoothSingularSubcomplexMap_ι`; Mathlib
+`TauCeti.smoothSingularSubcomplexMap_ι`, `TauCeti.smoothSingularSubcomplexMap_comp`; Mathlib
 `TopCat.Homotopy.singularChainComplexFunctorObjMap`, `HomotopyCategory.quotient`,
 `HomotopyCategory.eq_of_homotopy`, `HomotopyCategory.homotopyOfEq`, `CategoryTheory.RetractArrow`,
 `CategoryTheory.MorphismProperty.IsStableUnderRetracts.isomorphisms`.
 
 **Checks.**
 
-- `N = M`, `j = r = id`, the constant homotopy and `H = 0`: the transferred inverse is `s` itself,
-  and the two inverse identities are the given ones.
+- `N = M`, `j = r = id`, the constant homotopy and `H = 0`, a homotopy from `(id)_*`, which is the
+  identity of the smooth chains, to the identity: the transferred inverse is `s` itself, and the
+  two inverse identities are the given ones.
 - `M = [0, ∞)`, `N = (0, ∞)`, `r(x) = x + 1`, `Φ(t, x) = x + (1 − t)²` on `[0, 1] × M` (the
   witness of §2.2): the point cycle `[0]` goes to `[1]`, then to a smooth `0`-chain of total
-  coefficient `1` supported in `(0, ∞)`, which is homologous to `[0]` in `M` through the smooth
-  `1`-simplex `t ↦ t` with boundary `[1] − [0]`; a transfer that applied `r` on smooth chains and
-  `j` on singular chains would land in the wrong complex.
+  coefficient `1` supported in `(0, ∞)`, which is homologous to `[1]` through affine `1`-simplices
+  in `(0, ∞)`, and `[1]` is homologous to `[0]` in `M` through the smooth `1`-simplex `t ↦ t²`, the
+  restriction of the smooth map `ℝ → [0, ∞)`, `t ↦ t²`, with boundary `[1] − [0]`; a transfer that
+  applied `r` on smooth chains and `j` on singular chains would land in the wrong complex. The
+  affine `1`-simplex `t ↦ t` is no smooth simplex of `[0, ∞)`: a smooth map from a neighbourhood of
+  `0` in `ℝ` into `[0, ∞)` that vanishes at `0` has a minimum there, so its derivative at `0` is
+  `0`, while `t ↦ t` has one-sided derivative `1` at `0`. A notion of smooth simplex read only on
+  the simplex, with values in the model space, would accept it.
 - The homotopies are necessary: for `N` a point, `M = S¹`, `r` constant and `j` the inclusion of a
   point, `j ∘ r` is not homotopic to `id_M`, and `j_* ∘ s ∘ r_*` is zero on `H₁(S¹) ≅ ℝ` while the
   inclusion of smooth chains is an isomorphism there, so the composite is no inverse.
