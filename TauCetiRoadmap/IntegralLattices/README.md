@@ -55,6 +55,13 @@ In scope: the arithmetic of integral lattices over `ℤ` and `ℤ_p`, as listed 
 below. The Jordan theory over a discrete valuation ring and the dyadic Jordan combinatorics that
 3B and 3I record are Tau Ceti's, at that generality; this roadmap consumes them.
 
+Many milestones of the layers below are proved in Tau Ceti at the pin, and this roadmap consumes
+them rather than restating them: 1H, 1I, 1L, 2F, 2G, 3A, 3B, 3C, 3F, 4E, 4F, 4G, 6B, 6C, 6D, 6G,
+6H, 7A and 9B in full, 7G in ranks 0 and 1, and a part of each of 1G, 3D, 3I, 4A, 5J, N0, 7C and
+7E. The rows of §*From Tau Ceti* name the declarations that supply each of them, and the
+paragraph after that table says which part of each partly native milestone is native; the rest
+of such a milestone is its target here.
+
 The arithmetic dependencies are `GlobalQuadraticForms`, `RestrictedProducts`,
 `OrthogonalSpinGroups` and `RepresentationTheory/RootSystems`. What this roadmap uses of
 `QuadraticFormInvariants` (the local classification and the Hilbert symbol with its product
@@ -510,12 +517,13 @@ is unimodularity and not nondegeneracy.
 The labels 0A–0G, 1A–1F, 1J, 1K and 2A–2E name the native declarations in the rows above:
 the archived foundation roadmap and Tau Ceti own them, they are not targets here, and a later
 prerequisite row that cites one of these labels cites Tau Ceti. The milestones 1H, 1I, 1L,
-2F, 2G, 3A, 3B, 3C, 3F, 4A, 4E, 4F, 4G, 6B, 6C, 6D, 6G, 6H, 7A, 7G in ranks 0 and 1 and 9B are
+2F, 2G, 3A, 3B, 3C, 3F, 4E, 4F, 4G, 6B, 6C, 6D, 6G, 6H, 7A, 7G in ranks 0 and 1 and 9B are
 likewise native in the rows above, as are the relations and the odd-prime quadratic
 classification of 1G, the unimodular case of 3D, all of 3I but its dictionary to the 2-adic
-symbol, the stabilizer comparison of N0, the definition, stabilization, odd-prime values and
-convergent Euler products of 7C, and the volume half of 7E: each milestone names what it
-consumes and keeps as a target only what the pin lacks. One comparison is not native and
+symbol, the class sets, class numbers and their relations of 4A, the necessity half of 5J, the
+stabilizer comparison of N0, the definition, stabilization, odd-prime values and convergent
+Euler products of 7C, and the volume half of 7E: each milestone names what it consumes and
+keeps as a target only what the pin lacks. One comparison is not native and
 is not stated: the equality of the native `successiveMinimum` with the real-length minima of
 the realization in `ℝⁿ` is needed by no milestone. 3A starts
 from `TauCeti.IntegralLattice.localIntegralForm` and `TauCeti.IntegralLattice.localizationToCompletion`
@@ -3499,9 +3507,9 @@ of Layers 2, 6 or 7, and of Layer 4 only N0. Their uniqueness statements are
 
 - `OrthogonalTamagawaAndLatticeMass` consumes Layers 0–4, 5A, 6C–6E, 6G, 7A, 7C, 7E, 7G, B1–B8
   and 9B, and owns Eichler's theorem, the mass formula and the dyadic smooth model. Where a
-  milestone it cites is native (2G, 3A–3C, 3F, all of 3I but its dictionary, 4A, 6C, 6D, 6G, 7A,
-  the native parts of 7C, 7G in ranks 0 and 1, the volume half of 7E, 9B), the milestone names
-  the Tau Ceti declaration it should consume directly.
+  milestone it cites is native (2G, 3A–3C, 3F, all of 3I but its dictionary, the class sets and
+  class numbers of 4A, 6C, 6D, 6G, 7A, the native parts of 7C, 7G in ranks 0 and 1, the volume
+  half of 7E, 9B), the milestone names the Tau Ceti declaration it should consume directly.
 - `IntegralLatticesPartII` consumes Layers 1, 3, 4 and 5 here and OTM §0.3 for Nikulin's
   uniqueness, splitting and surjectivity theorems.
 - [Theta Series](../ThetaSeries/README.md) consumes Layer 8's exports.
