@@ -293,6 +293,9 @@ here uses no stage of this roadmap.
   API. C6.0 constructs the bounded embedding of noncompact sets, the separated algebraic chart
   gluing, common refinements and the finiteness consequences. Only this section is consumed,
   not the locally finite duality of Layer 4 (A4.0) or the Lefschetz applications.
+- *RealAlgebraicGeometry (completed roadmap), Layers 3 and 6.* Semialgebraic descriptions by
+  polynomial sign conditions (Layer 3) and cylindrical cell decompositions of `ℝⁿ` with their
+  projection theory (Layer 6). C6.0 uses them with the triangulation above.
 - *UniversalCovers.* Fundamental-groupoid transport, covering classification, lifting and deck
   transformations for C6's finite topological covers and local systems.
 - *ModularCurves, §0B.* Cartier duality on finite locally free commutative group schemes over an
@@ -311,7 +314,9 @@ here uses no stage of this roadmap.
   `sheafified_grothendieck_duality`), used for the Hodge-cohomology retraction in C5.3;
   Chow's lemma (§4.12).
 
-**Tau Ceti roadmaps this roadmap builds on.** AlgebraicVectorBundles (general sheaf-module tensor
+**Further Tau Ceti roadmaps this roadmap builds on.** The ownership table and the list above cite
+suppliers by section, and *Exact supplier contracts* states what is consumed from every supplier.
+This roadmap also builds on AlgebraicVectorBundles (general sheaf-module tensor
 product, internal Hom, finite local freeness, exterior powers, duals and determinants); DifferentialGeometry (smooth differential forms on
 manifolds, wedge product, exterior derivative, integration and Stokes, the de Rham theorem, Poincaré
 duality, the Laplace–Beltrami operator; smooth de Rham cohomology itself and its wedge product are
@@ -322,7 +327,7 @@ Euclidean domains); JacobianChallenge (relative coherent cohomology and base cha
 Layers 12B–12C; C4.5 constructs the affine completion immersion); StableReduction (coherent curve
 theory); and the completed HodgeStructures roadmap
 (abstract pure Hodge structures, implemented in Tau Ceti as `TauCeti.Hodge.HodgeStructureOn` and
-`TauCeti.Hodge.Conjugation`). None of these is re-planned; where this roadmap needs holomorphic submersion adapters or geometric comparison
+`TauCeti.Hodge.Conjugation`). No supplier is re-planned; where this roadmap needs holomorphic submersion adapters or geometric comparison
 compatibilities, the additional target is stated here with its exact relation to the supplier.
 Shared manifold Hodge and Chern constructions come from ComplexKahlerGeometry.
 
@@ -758,6 +763,19 @@ as explained in C5.1); the two names denote the same target.
   by C5.4. C1.2a S0–S5 supplies compact-relative singular cochains with local coefficients on
   locally compact Hausdorff closed pairs, their enlargement, cofinality, proper pullback,
   open extension, jointly proper homotopy invariance and support excision, consumed by C6.1.
+- **GeometricCurrents.** G1: on a smooth manifold, real test forms transported from
+  ComplexKahlerGeometry K5a's real bundle tests, real dimension-graded currents as their
+  continuous duals, the boundary dual to the exterior derivative with `∂² = 0`, support and comass
+  mass. C5.4's `realComplexCurrentComparison` identifies these tests with K5a's real
+  exterior-dual/density specialization and extends currents to complex coefficients with the
+  grading sign; rectifiability, integral currents and minimizing currents stay with the supplier.
+- **Hyperfunctions.** HF3a, “Conic sheaves and geometric derived functors”: for sheaves of
+  `ℂ`-modules on finite-dimensional locally compact Hausdorff spaces, extension by zero along open
+  inclusions, closed-inclusion direct image, the proper-support direct image `f_!` derived through
+  c-soft resolutions with their acyclicity and resolution independence, the support localization
+  triangle, proper base change and the projection formula. C6.1 states the variant for module
+  sheaves over an arbitrary commutative ring without finite-dimensionality and identifies the two
+  on the common domain.
 - **AlgebraicVectorBundles.** L0A: the closed symmetric monoidal category of sheaves of modules,
   internal Hom (an isomorphism on stalks for finitely presented sources), strong monoidal pullback;
   L0B: finite locally free sheaves, duals, `Hom(E, F) ≅ E^∨ ⊗ F`; L0C: symmetric and exterior powers
@@ -815,6 +833,20 @@ as explained in C5.1); the two names denote the same target.
   dualities above along their base-change isomorphisms, with evaluation, biduality, preservation of
   rank, arbitrary base change and `((ℤ/n)_S)ᴰ ≅ μ_n`. C3.2d.5 consumes it on scheme bases; its
   extension to algebraic-space bases by étale charts is part of C3.2d.5.
+- **DerivedDeRhamCohomology.** Layer 2, §§2.1–2.19: for an algebra `B` over an arbitrary
+  commutative ring `A`, the ordinary algebraic de Rham complex `DeRham.complex A B`, its
+  differential with `DeRham.d_squared` and the graded Leibniz rule `DeRham.d_leibniz`, the
+  pullback `DeRham.pullback` along algebra maps and the induced map of complexes
+  `DeRham.complexMap`. C5.1 sheafifies this affine core on schemes and analytifies it; the
+  affine differential and its functoriality are the supplier's.
+- **CrystallineCohomology.** CR.1.3, “Modules with integrable connection and their de Rham
+  complexes”: connections on modules over an arbitrary ring map, integrability, the coefficient de
+  Rham complex, base change, tensor product and Hom, used by C5.2 in the ordinary
+  Kähler-differential case. CR.5:log-algebra.1–.4 and CR.5.1: prelog rings, étale log structures,
+  charts and fine and saturated monoids, log fibre products, log smoothness with the Kato chart
+  criterion, divisorial log structures, logarithmic differentials and log de Rham complexes, on
+  which C5.5 builds `logAnalytification`. No divided-power or quasi-nilpotence hypothesis enters
+  the complex comparison.
 - **Completed HodgeStructures.** Abstract pure, polarized and mixed Hodge structures, Tate twists and
   morphisms, implemented as the Tau Ceti declarations above.
 
@@ -5159,5 +5191,5 @@ an instance of the named targets, not a separate theorem.
   Hodge loci*, J. Amer. Math. Soc. 33 (2020), 917–939.
 - A. Caraiani and P. Scholze, *On the generic part of the cohomology of compact unitary Shimura
   varieties*, Ann. of Math. 186 (2017); arXiv:1511.02418v1.
-- TauCetiRoadmap: AlgebraicVectorBundles, DifferentialGeometry, AlgebraicTopology, PDE,
-  JacobianChallenge, StableReduction, AlgebraicCurves and the completed HodgeStructures roadmap, as cited in *Exact supplier contracts*.
+- TauCetiRoadmap: every supplier roadmap named in *Exact supplier contracts*, at the sections
+  and targets cited there.
