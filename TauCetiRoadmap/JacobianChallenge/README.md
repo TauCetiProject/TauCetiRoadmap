@@ -87,9 +87,10 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
 
 - **Standing curve.** `X` is smooth, proper and geometrically connected of relative dimension
   one over a field `k` (`SmoothOfRelativeDimension 1`, `IsProper`, `GeometricallyConnected` for
-  the structure morphism). Such a curve is geometrically integral (smoothness gives geometric
-  reducedness and geometric normality; a connected Noetherian normal scheme is integral), and
-  this is A.3's first statement, never assumed. Over imperfect fields every hypothesis is a
+  the structure morphism). Such a curve is geometrically integral by Tau Ceti's instance
+  `Smooth.geometricallyIntegral` (a smooth, geometrically connected morphism is geometrically
+  integral), applied through Mathlib's `SmoothOfRelativeDimension.smooth`; this is never
+  assumed. Over imperfect fields every hypothesis is a
   geometric adjective ("geometrically connected", "geometrically integral"), never bare
   connectedness.
 - **The rational point.** A `k`-rational point `x₀`, a morphism `𝟙_(Over (Spec k)) ⟶ X`, is a
@@ -138,11 +139,13 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
   `IsSeparated`, `Flat`, `LocallyOfFiniteType`, `LocallyOfFinitePresentation`,
   `IsClosedImmersion`, `Etale`, stable under base change and composition, with their instances
   on `pullback.snd`.
-- `GeometricallyConnected`, `GeometricallyReduced`, `GeometricallyIrreducible` and
-  `GeometricallyIntegral` in `Mathlib/AlgebraicGeometry/Geometrically/*.lean`, with
-  `GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible`, which assembles
-  geometric integrality from geometric reducedness and geometric irreducibility (A.3 applies it
-  to the standing curve).
+- `GeometricallyConnected` and `GeometricallyIntegral` in
+  `Mathlib/AlgebraicGeometry/Geometrically/{Connected,Integral}.lean`, with
+  `GeometricallyIntegral.isIntegral_of_subsingleton`: a scheme geometrically integral over a
+  field is integral. `SmoothOfRelativeDimension.smooth`
+  (`Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`), a lemma rather than an instance, turns the
+  standing curve's `SmoothOfRelativeDimension 1` into the `Smooth` hypothesis of the Tau Ceti
+  results below.
 - `AlgebraicGeometry.isCommMonObj_of_isProper_of_geometricallyIntegral`
   (`Mathlib/AlgebraicGeometry/Group/Abelian.lean`; Stacks
   [0BFD](https://stacks.math.columbia.edu/tag/0BFD) is the same theorem, stated for abelian
@@ -172,6 +175,23 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/`, with supporting t
   (`TauCeti/AlgebraicGeometry/CartierDivisor/ClassGroup.lean`); `LineBundleClass`;
   `SchemeWeilDivisor` with `SchemeWeilDivisor.relativeDegree` and the Weil/Cartier comparison;
   `InvertibleSheaf.eulerDegree`, `χ(L) − χ(𝒪_X)`.
+- The standing curve's structure. A smooth, geometrically connected morphism is geometrically
+  integral, the instance `Smooth.geometricallyIntegral`
+  (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/GeometricallyIntegral.lean`). A universally
+  closed, geometrically integral scheme over `k` has only constant global functions,
+  `Scheme.baseRingToGlobalSections_bijective_of_geometricallyIntegral`
+  (`Geometrically/GlobalSections.lean`), and `k` is integrally closed in its function field,
+  `isIntegrallyClosedIn_functionField_of_geometricallyIntegral`
+  (`Geometrically/FunctionField.lean`). On an integral scheme smooth over `k` the local rings at
+  codimension-one points are discrete valuation rings,
+  `isDiscreteValuationRing_stalk_of_smooth` (`Morphisms/Smooth/Regular.lean`). An integral proper
+  scheme smooth of relative dimension one over `k` is a curve, `Scheme.IsCurveOver.of_smooth`
+  (`Curves/Smooth.lean`), hence Noetherian, of dimension one, with an algebraic function field of
+  one variable and the existence part of the valuative criterion (`IsCurveOver.isNoetherian`,
+  `IsCurveOver.coheight_le_one`, `IsCurveOver.isFunctionField`,
+  `IsCurveOver.valuativeCriterion_existence`, `Curves/Basic.lean`). On a scheme smooth of
+  relative dimension one, `Ω_{X/k}` is invertible, `isInvertible_relativeDifferentials`
+  (`Modules/Differentials/Rank.lean`).
 - Degree and Riemann–Roch on a proper integral curve over `k` whose codimension-one local rings
   are discrete valuation rings, with `H¹(X, 𝒪_X)` finite-dimensional: principal divisors have
   degree zero, `SchemeWeilDivisor.relativeDegree_principalDivisor`, and the degree of a divisor of
@@ -360,27 +380,27 @@ divisor of any nonzero rational section of `L` (`InvertibleSheaf.eulerDegree_eq_
 that it is additive under tensor product (`LineBundleClass.eulerDegree_mul`), and that
 `Pic⁰ X = ker deg` as an abstract group (`LineBundleClass.picZero`; the functorial `Pic⁰` is
 Layer D's). What remains here differs from those results by carrying no hypothesis beyond the
-standing curve and by the change of base field. Prove first that the standing curve is
-geometrically integral: smoothness gives geometric reducedness and geometric normality (Stacks
-[056T](https://stacks.math.columbia.edu/tag/056T)); after every extension `K/k` of the base
-field, `X_K` is a connected Noetherian normal scheme, hence integral (Stacks
-[033M](https://stacks.math.columbia.edu/tag/033M): a Noetherian normal scheme is a finite
-disjoint union of normal integral schemes, and a connected one is a single one), so `X` is
-geometrically irreducible; Mathlib's
-`GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible` assembles the two.
-Then prove that the standing curve satisfies their hypotheses: it is integral, its local rings
-at closed points are discrete valuation rings by regularity, it has dimension one, and
-`H¹(X, 𝒪_X)` is finite-dimensional (`finiteDimensional_cohomology_one_trivial_of_smooth`). Prove
-that the degree is invariant under
+standing curve and by the change of base field. The standing curve satisfies their hypotheses
+by pinned results. It is geometrically integral by Tau Ceti's instance
+`Smooth.geometricallyIntegral`, through Mathlib's `SmoothOfRelativeDimension.smooth` (Stacks
+[056T](https://stacks.math.columbia.edu/tag/056T) and
+[033M](https://stacks.math.columbia.edu/tag/033M) give the classical argument), hence integral
+(`GeometricallyIntegral.isIntegral_of_subsingleton`). Its local rings at codimension-one points,
+which are its closed points, are discrete valuation rings
+(`isDiscreteValuationRing_stalk_of_smooth`). It has dimension one
+(`Scheme.IsCurveOver.of_smooth`), and `H¹(X, 𝒪_X)` is finite-dimensional
+(`finiteDimensional_cohomology_one_trivial_of_smooth`). Prove that the degree is invariant under
 extension of the base field: `deg_K L_K = deg_k L` for every field extension `K/k`, because each
 `dim Hⁱ` is (`finrank_cohomology_pullback_eq_of_isPullback`); this is distinct from the factor
 `[K : k]` that appears when a `K`-scheme is regarded over `k`
 (`InvertibleSheaf.eulerDegree_eq_finrank_mul`). *Needs:* A.2; Tau Ceti
 `SchemeWeilDivisor.relativeDegree`, `InvertibleSheaf.eulerDegree`,
 `SchemeWeilDivisor.relativeDegree_principalDivisor`, `InvertibleSheaf.eulerDegree_eq_relativeDegree`,
-`LineBundleClass.picZero`, `finiteDimensional_cohomology_one_trivial_of_smooth`,
-`finrank_cohomology_pullback_eq_of_isPullback`; Mathlib
-`GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible`.
+`LineBundleClass.picZero`, `Smooth.geometricallyIntegral`,
+`isDiscreteValuationRing_stalk_of_smooth`, `Scheme.IsCurveOver.of_smooth`,
+`finiteDimensional_cohomology_one_trivial_of_smooth`,
+`finrank_cohomology_pullback_eq_of_isPullback`; Mathlib `SmoothOfRelativeDimension.smooth`,
+`GeometricallyIntegral.isIntegral_of_subsingleton`.
 
 **Checks.**
 - Geometric connectedness is used for geometric integrality: for a separable quadratic
@@ -409,7 +429,9 @@ group (A.2–A.3); the pointless real conic, whose line bundles all have even de
 ### Dependencies
 
 Mathlib schemes and invertible sheaves; Tau Ceti `LineBundleClass`, `Scheme.CartierDivisor`,
-`SchemeWeilDivisor`, `InvertibleSheaf.eulerDegree`. No other layer.
+`SchemeWeilDivisor`, `InvertibleSheaf.eulerDegree`, and the standing curve's structure results
+(`Smooth.geometricallyIntegral`, `isDiscreteValuationRing_stalk_of_smooth`,
+`Scheme.IsCurveOver.of_smooth`). No other layer.
 
 ## Layer B: coherent cohomology over `k`: genus, Riemann–Roch, Serre duality
 
@@ -521,13 +543,26 @@ constant field. The genus of the function field is `SchemeWeilDivisor.genus_eq_g
 `deg Ω_{X/k} = 2g − 2` (Tau Ceti's `eulerDegree_relativeDifferentials`; Stacks
 [0C1A](https://stacks.math.columbia.edu/tag/0C1A)) needs `H⁰(X, 𝒪_X) = k`: prove that every
 smooth proper geometrically connected curve over `k` satisfies the hypotheses of
-`eulerDegree_relativeDifferentials`. Here `H⁰(X, 𝒪_X) = k` by geometric integrality (A.3; Stacks
-[0BUG](https://stacks.math.columbia.edu/tag/0BUG) (8)); `k` is integrally closed in `k(X)`
-because an element of `k(X)` integral over `k` is regular at every point of the normal curve
-`X`, hence lies in `H⁰(X, 𝒪_X) = k`; `Ω_{X/k}` is invertible by smoothness of relative
-dimension one; and the local rings at closed points are discrete valuation rings by regularity.
-*Needs:* B.1, B.2; Tau Ceti `Scheme.genus`, `eulerDegree_relativeDifferentials`,
-`finrank_cohomology_zero_relativeDifferentials`.
+`eulerDegree_relativeDifferentials`. Each hypothesis is a pinned result on the standing curve
+(Exact supplier contracts). The curve is geometrically integral by Tau Ceti's
+`Smooth.geometricallyIntegral`, hence integral
+(`GeometricallyIntegral.isIntegral_of_subsingleton`). Its constants are exact: `H⁰(X, 𝒪_X) = k`
+(`Scheme.baseRingToGlobalSections_bijective_of_geometricallyIntegral`; Stacks
+[0BUG](https://stacks.math.columbia.edu/tag/0BUG) (8)), and `k` is integrally closed in `k(X)`
+(`isIntegrallyClosedIn_functionField_of_geometricallyIntegral`). `Ω_{X/k}` is invertible
+(`isInvertible_relativeDifferentials`), and the local rings at codimension-one points are
+discrete valuation rings (`isDiscreteValuationRing_stalk_of_smooth`). Finally the curve is
+Noetherian of dimension one, with an algebraic function field of one variable and the existence
+part of the valuative criterion (`Scheme.IsCurveOver.of_smooth` and its consequences
+`IsCurveOver.isNoetherian`, `IsCurveOver.coheight_le_one`, `IsCurveOver.isFunctionField`,
+`IsCurveOver.valuativeCriterion_existence`). *Needs:* B.1, B.2; Mathlib
+`SmoothOfRelativeDimension.smooth`, `GeometricallyIntegral.isIntegral_of_subsingleton`; Tau Ceti
+`Scheme.genus`, `eulerDegree_relativeDifferentials`,
+`finrank_cohomology_zero_relativeDifferentials`, `Smooth.geometricallyIntegral`,
+`Scheme.baseRingToGlobalSections_bijective_of_geometricallyIntegral`,
+`isIntegrallyClosedIn_functionField_of_geometricallyIntegral`,
+`isInvertible_relativeDifferentials`, `isDiscreteValuationRing_stalk_of_smooth`,
+`Scheme.IsCurveOver.of_smooth`.
 
 **Checks.**
 - `ℙ¹_k`: `H⁰(Ω_{X/k}) = 0` and `g = 0`; an elliptic curve: `H⁰(Ω_{X/k})` is spanned by the
@@ -850,13 +885,16 @@ inputs are Layer C and SchemeAndStackFoundations §4.9's
 
 Specialize to the standing curve: proper curves are projective (Stacks
 [0A26](https://stacks.math.columbia.edu/tag/0A26)) and the standing curve is geometrically
-integral (A.3), so `hasPicardScheme_of_curve` holds with no rational point, and the structural
-morphism of the curve's `picardScheme` is flat and locally of finite presentation. With `x₀`, the comparison of D.1 identifies `rigidifiedPicardFunctor` with
+integral (Tau Ceti's `Smooth.geometricallyIntegral`, through Mathlib's
+`SmoothOfRelativeDimension.smooth`), so `hasPicardScheme_of_curve` holds with no rational
+point, and the structural morphism of the curve's `picardScheme` is flat and locally of finite
+presentation. With `x₀`, the comparison of D.1 identifies `rigidifiedPicardFunctor` with
 the Picard sheaf, so `picardScheme` represents it through `picardSchemeIso`; this is a theorem
 about the named representing object, not a separate existence statement.
 SchemeAndStackFoundations §§3.6–3.7 consume this represented object and supply no input to its
 construction. *Needs:* C.1–C.3, D.1–D.3; SchemeAndStackFoundations §0.9, §1.1, §4.9, §4.14;
-Tau Ceti `relativePicardFppfSheaf`.
+Mathlib `SmoothOfRelativeDimension.smooth`; Tau Ceti `relativePicardFppfSheaf`,
+`Smooth.geometricallyIntegral`.
 
 **Checks.**
 - For `ℙ¹_k`, the representing scheme is `∐_{d ∈ ℤ} Spec k`, flat and locally of finite
@@ -1001,7 +1039,8 @@ dimension `g`, and it is `(jacobianScheme X)_l` by the base change above. Prove
 `isProper_jacobianScheme` and `geometricallyIntegral_jacobianScheme`: properness, smoothness
 and finite type descend along `Spec l ⟶ Spec k` (SchemeAndStackFoundations §0.11), and
 geometric connectedness and dimension `g` are statements after extension to an algebraic
-closure containing `l`; these are the instances `instIsProperJacobianScheme` and
+closure containing `l`; smoothness and geometric connectedness give geometric integrality by Tau
+Ceti's `Smooth.geometricallyIntegral`. These are the instances `instIsProperJacobianScheme` and
 `instGeometricallyIntegralJacobianScheme`. The extension `l` enters only these proofs. The
 **Jacobian** `JacobianVariety X` is the Jacobian scheme with its group law on Tau Ceti's
 `AbelianVariety` carrier, and `dim_jacobianVariety` states `dim (JacobianVariety X) = g` through
@@ -1014,8 +1053,8 @@ property. *Needs:* D.2, D.4–D.7; SchemeAndStackFoundations §0.11; Tau Ceti
 `relativePicardDegreeZeroFppfSheaf`, `relativePicardPresheafBaseChangeIso`,
 `relativePicardDegreeZeroFunctorBaseChangeIso`, `rigidifiedPicardDegreeZeroFunctor`,
 `rigidifiedPicardDegreeZeroFunctorIso`, `AbelianVariety`, `AbelianVariety.TangentSpace`,
-`finrank_tangentSpace_eq_dim`; Mathlib `Functor.reprX`, `Functor.representableBy`,
-`Functor.RepresentableBy.isoReprX`, `CommGrpObj.ofRepresentableBy`, `AddCommGrpCat.toCommGrp`.
+`finrank_tangentSpace_eq_dim`, `Smooth.geometricallyIntegral`; Mathlib `Functor.reprX`,
+`Functor.representableBy`, `Functor.RepresentableBy.isoReprX`, `CommGrpObj.ofRepresentableBy`, `AddCommGrpCat.toCommGrp`.
 
 **Checks.**
 - A pointless real conic: `JacobianVariety` is `Spec ℝ`, the zero abelian variety, although
