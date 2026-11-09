@@ -55,7 +55,9 @@ functions from [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicC
 [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md), `I_ν` at real argument from
 [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md), and the exponential, sine and
 cosine integrals, the error functions, the incomplete Gamma functions and Pincherle's theorem from
-[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md). This
+[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md), and
+the principal branch of the regularized Gauss function on `ℂ \ [1, ∞)`, for 10.22.49, from
+[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md). This
 roadmap builds the removable singularity in the order behind 10.2.4 and 10.27.5, Neumann's
 polynomials, the facts that the addition theorem needs about the Gegenbauer polynomials of
 [LaguerreJacobi](../LaguerreJacobi/README.md), the Rayleigh functions, the partial-fraction
@@ -159,7 +161,6 @@ Tau Ceti nor a consumed roadmap provides:
 | Sturm comparison on an open interval `I ⊆ ℝ`: for `p > 0` of class `C¹` and continuous `q₁ ≤ q₂`, if `a < b` are consecutive zeros of a nontrivial real solution `u` of `(p u′)′ + q₁ u = 0`, then every real solution `v` of `(p v′)′ + q₂ v = 0` has a zero in `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `v` is a constant multiple of `u` on `[a, b]`; and the zeros of a nontrivial real solution are simple and isolated | 7.1 |
 | Neumann's polynomials `O_n(t)` of 10.23.13, and their generating function 10.23.12 | 2.6 |
 | For LaguerreJacobi's Gegenbauer polynomials `C_n^{(ν)}(x)` over `ℂ`: the generating function 18.12.4, the expansion 18.18.17 of `(2x)ⁿ` and `C_n^{(1/2)}(x) = P_n(x)` | 2.5 |
-| The holomorphic continuation of `𝐅(α, β; γ; x)` (Mathlib's `Complex.regularizedGaussHGFun`) from `|x| < 1` to `ℂ \ [1, ∞)` for `α = (μ + ν)/2`, `β = (μ + ν + 1)/2`, `γ = ν + 1`, `Re(μ + ν) > 0` | 8.2 |
 | The partial-fraction expansion `J′_ν(z)/J_ν(z) = ν/z − ∑ₘ 2z/(j_{ν,m}² − z²)` and its logarithmic integral | 7.3 |
 | Rayleigh's functions `σ_n(ν) = ∑ₘ j_{ν,m}^{−2n}` and the recursion from the Maclaurin series of `J_{ν+1}/J_ν` | 7.3 |
 | The Fourier–Bessel expansion theorem for functions of bounded variation | 7.6 |
@@ -182,6 +183,9 @@ Tau Ceti nor a consumed roadmap provides:
   from AutomorphicSpectralTheory. This roadmap owns their extensions to the slit plane.
 - The exponential, sine and cosine integrals, the error and Fresnel functions, the incomplete
   Gamma functions and Pincherle's theorem, consumed from SpecialFunctionsEiLiErfIncompleteGamma.
+- The principal branch of the regularized Gauss function `𝐅(α, β; γ; x)` on `ℂ \ [1, ∞)`, its
+  holomorphy and its agreement with Mathlib's series on the unit disc, consumed from
+  SpecialFunctionsHypergeometric 1.2–1.4 for 10.22.49.
 - The formulas through the Struve, Whittaker, Kummer `U` and Legendre functions, which neither
   Mathlib, Tau Ceti nor a consumed roadmap defines, and the formulas through the Gauss
   hypergeometric function other than 10.22.49 and 10.22.64 (DLMF 10.16.6–10.16.8, 10.16.10, 10.22.2,
@@ -439,6 +443,13 @@ The following are consumed with the hypotheses and conventions stated there.
   `TauCeti.generalizedSinIntegral` and `TauCeti.generalizedCosIntegral`
   ([its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions)), for
   10.15.6–10.15.9, 10.38.6–10.38.7 and 10.60.11 and for Layer 11.
+
+### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+
+- [§§1.2–1.4](../SpecialFunctionsHypergeometric/README.md#12-definition-uniqueness-and-existence):
+  `Complex.regularizedGaussHypergeometric a b c x`, the principal branch of `𝐅(a, b; c; x)` on
+  `1 − x ∈ slitPlane` for all parameters; it is holomorphic in `x` there (1.4) and equals Mathlib's
+  `Complex.regularizedGaussHGFun a b c x` for `‖x‖ < 1` (1.3). For 10.22.49 in 8.2.
 
 ### From Tau Ceti
 
@@ -1219,35 +1230,24 @@ stated separately.
 10.22.49 is owned on its full domain `Re(μ + ν) > 0`, `Re(a ± ib) > 0`, where the integral is a
 Bochner integral since `Re a > |ℑ b|`:
 `∫₀^∞ t^{μ−1} e^{−at} J_ν(bt) dt = (b/2)^ν a^{−μ−ν} Γ(μ + ν) 𝐅(α, β; ν + 1; −b²/a²)` with
-`α = (μ + ν)/2`, `β = (μ + ν + 1)/2`, principal powers and Mathlib's regularized Gauss function.
-- For `|b| < |a|`, `−b²/a²` lies in the unit disc, where Mathlib's series converges
+`α = (μ + ν)/2`, `β = (μ + ν + 1)/2`, principal powers and the regularized Gauss function.
+- For `|b| < |a|`, `−b²/a²` lies in the unit disc, where `𝐅` is Mathlib's series.
   Route: expand `J_ν(bt)` by 10.2.2, integrate termwise by
   `Γ`, and use the duplication formula 5.5.5 for `Γ(μ + ν + 2k)`.
 - On the whole domain, `−b²/a²` lies in `ℂ \ [1, ∞)`: if `−b²/a² = s ≥ 1` then `b = ±i√s a`
   and one of `a ± ib` is `(1 − √s) a`, which cannot have positive real part together with
-  `(1 + √s) a`. The theorem is the existence of a holomorphic `G` on `ℂ \ [1, ∞)` equal to the
-  series on the unit disc, with 10.22.49 holding with `G` in place of the series
-  (`exists_integral_cpow_mul_exp_mul_besselJ`). `G` is unique since `ℂ \ [1, ∞)` is connected.
-  Route, in the variables `u = a + ib`, `v = a − ib`, which range over the product `D` of two
-  open right half-planes, a convex set. Let `F(u, v)` be the left side divided by
-  `(b/2)^ν a^{−μ−ν} Γ(μ + ν)`, with `(b/2)^{−ν} J_ν(bt)` read as the entire even function
-  `(t/2)^ν 𝐅(ν + 1)(−b²t²/4)` of `b` (2.2).
-  - `F` is holomorphic on `D`, by differentiation under the integral sign.
-  - `F(λu, λv) = F(u, v)` for real `λ > 0`, by the substitution `t ↦ t/λ`. Holomorphy then gives
-    the same for complex `λ` with `(λu, λv) ∈ D`, by the identity theorem in `λ`. So
-    `F(u, v) = Φ(u/v)` with `Φ` holomorphic on the slit plane `|ph r| < π`, which `u/v`
-    fills.
-  - Evenness in `b` exchanges `u` and `v`, so `Φ(1/r) = Φ(r)`.
-  - The Möbius map `s = (r − 1)/(r + 1)` takes the slit plane onto
-    `Ω = ℂ \ ((−∞, −1] ∪ [1, ∞))` and `r ↦ 1/r` to `s ↦ −s`. So `Ψ(s) = Φ(r)` is an even
-    holomorphic function on `Ω`, and `−b²/a² = s²`.
-  - An even holomorphic function on `Ω` is `G(s²)` with `G` holomorphic on `{s² : s ∈ Ω}`,
-    which is `ℂ \ [1, ∞)`. Away from `0`, `G(w) = Ψ(√w)` for either root, holomorphic since
-    `s ↦ s²` is locally biholomorphic there. At `w = 0` the singularity is removable.
-  - On the unit disc `G` is the series, by the disc case.
-
-  The surjectivity of `(a, b) ↦ −b²/a²` onto `ℂ \ [1, ∞)` uses complex `a`; with `a = 1` the
-  image is only the parabolic region `Re w < 1 − (Im w)²/4`.
+  `(1 + √s) a`. There 10.22.49 holds with `𝐅` the principal branch of
+  SpecialFunctionsHypergeometric 1.2. `Suggested.lean`, where that function is not at the pins,
+  states it as the existence of a holomorphic `G` on `ℂ \ [1, ∞)` equal to the series on the unit
+  disc, with 10.22.49 holding with `G` (`exists_integral_cpow_mul_exp_mul_besselJ`); `G` is unique
+  since `ℂ \ [1, ∞)` is connected, so it is that principal branch.
+  Route. On `D = {(a, b) | Re(a + ib) > 0, Re(a − ib) > 0}`, a convex open subset of `ℂ²`, both
+  sides are holomorphic in `(a, b)`, after division by `(b/2)^ν a^{−μ−ν} Γ(μ + ν)`, with
+  `(b/2)^{−ν} J_ν(bt)` read as the entire even function `(t/2)^ν 𝐅(ν + 1)(−b²t²/4)` of `b` (2.2):
+  the left side by differentiation under the integral sign, and the right side because
+  `−b²/a²` stays in `ℂ \ [1, ∞)`, where `𝐅` is holomorphic (SpecialFunctionsHypergeometric 1.4).
+  They agree on the nonempty open part `|b| < |a|` of `D` by the disc case, so on all of `D` by
+  the identity theorem.
 
 10.22.64 is owned for `n = 0, 1, 2, …`, `Re μ > −n − 1`, `a, b > 0`, as an improper integral:
 `∫₀^∞ J_{μ+2n+1}(at) J_μ(bt) dt` equals
@@ -1285,7 +1285,7 @@ makes the convergence locally uniform.
 - 10.22.64 at `μ = ½`, `n = 1`, `a = 2`, `b = 1`: both sides equal `0.30935 92167…`.
 
 *Needs:* 8.1, 5.2, 3.3, 1.4; for 10.22.49 and 10.22.64, 2.2 and Mathlib
-`Complex.regularizedGaussHGFun`.
+`Complex.regularizedGaussHGFun`; for 10.22.49, SpecialFunctionsHypergeometric 1.2–1.4.
 
 ### 8.3 Triple products
 
@@ -1330,7 +1330,7 @@ the conditions stated there; 10.43.16 is the limit `x → 0+` for `Re α > 0`.
 
 ### Dependencies
 
-Layers 1–7.
+Layers 1–7; SpecialFunctionsHypergeometric 1.2–1.4.
 
 ## Layer 9: spherical Bessel functions
 
@@ -1589,7 +1589,9 @@ Contributors should not attempt it under this roadmap.
 - **Formulas through Struve, Whittaker, Kummer `U`, Legendre and Gauss functions**: DLMF
   10.16.6–10.16.8, 10.16.10, 10.22.2, 10.22.50, 10.22.56–10.22.58, 10.22.66,
   10.22.71–10.22.72, 10.39.6–10.39.8, 10.39.10, 10.43.2, 10.43.22, 10.43.26, and DLMF
-  9.6.21–9.6.24 and 12.7.14. They belong to roadmaps for DLMF Chapters 11, 13, 14 and 15.
+  9.6.21–9.6.24 and 12.7.14. They belong to roadmaps for DLMF Chapters 11, 13 and 14, and those
+  through the Gauss function to SpecialFunctionsHypergeometricPartII, which consumes
+  SpecialFunctionsHypergeometric, SpecialFunctionsConfluent and this roadmap.
 - **Laguerre expansions** (DLMF 8.7.6), which belong to an orthogonal-polynomial roadmap.
 
 **Deferred, with no planned roadmap.**

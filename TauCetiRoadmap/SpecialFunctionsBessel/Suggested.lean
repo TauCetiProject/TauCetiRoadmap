@@ -535,9 +535,10 @@ theorem integral_cpow_mul_besselK {ν μ : ℂ} (h : |ν.re| < μ.re) :
       2 ^ (μ - 2) * Gamma ((μ - ν) / 2) * Gamma ((μ + ν) / 2) := by
   sorry
 
-/-- DLMF 10.22.49 on its full domain `Re(a ± ib) > 0`: the regularized Gauss function continues
-holomorphically from the unit disc to `ℂ \ [1, ∞)`, which contains `−b²/a²`, and 10.22.49 holds
-with the continuation. The continuation is unique because `ℂ \ [1, ∞)` is connected. -/
+/-- DLMF 10.22.49 on its full domain `Re(a ± ib) > 0`, where `−b²/a² ∈ ℂ \ [1, ∞)`. The README
+states it with SpecialFunctionsHypergeometric's principal branch of `𝐅`, which is not at the pins;
+here it is stated with a holomorphic `G` on `ℂ \ [1, ∞)` equal to the series on the unit disc,
+which is unique because `ℂ \ [1, ∞)` is connected and so is that principal branch. -/
 theorem exists_integral_cpow_mul_exp_mul_besselJ {μ ν : ℂ} (hμν : 0 < (μ + ν).re) :
     ∃ G : ℂ → ℂ, DifferentiableOn ℂ G {x | x.im ≠ 0 ∨ x.re < 1} ∧
       EqOn G (Complex.regularizedGaussHGFun ((μ + ν) / 2) ((μ + ν + 1) / 2) (ν + 1))
