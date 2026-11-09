@@ -77,7 +77,7 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
 
 ### Consumed, not redefined
 
-- **From Tau Ceti at the pin**, the declarations tabulated under *What Tau Ceti supplies*: the
+- **From Tau Ceti at the pin**, the declarations tabulated under *From Tau Ceti*: the
   carrier and its Gram, norm, scaling and sum API; `minimum`, `kissingNumber`, `vectorsOfNorm`,
   `representationNumber` and their finiteness; the isometry group; the realization theory of
   `PosDef/Covolume`; the discriminant group and pairing; the rank-one and ADE lattices.
@@ -117,8 +117,9 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
   `RealSpace M`, `realModel M`, `ratModel`, the invariant comparisons of 2D; `shell`, `repNum` and
   `ncard_vectorsOfNorm_ratModel` (2G); the level-one modularity of the theta series of an even
   unimodular lattice (Layer 5) and the Hecke–Schoeneberg theorem at general level (Layer 7); the
-  theta identities `Θ_{E₈} = E₄` and `Θ_Λ = E₄³ − 720Δ`
-  with their corollaries `r_{E₈}(2) = 240` (8B) and `r_Λ(4) = 196560` (8D). Layer 5 here builds
+  theta identity `Θ_{E₈} = E₄` with its corollary `r_{E₈}(2) = 240` (8B). The Leech kissing
+  number is Tau Ceti's `TauCeti.kissingNumber_leechLattice`, not Theta Series 8D, whose `Λ` is
+  the sphere-packing project's model of the Leech lattice. Layer 5 here builds
   theta series *with harmonic coefficients*, which that roadmap explicitly leaves out; the scalar
   theta series is never redefined.
 - **From Successive Minima** (cited by milestone, no Lean declaration here): `successiveMin L K i` (1.1),
@@ -134,9 +135,9 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
 - **From Tau Ceti at the pin**, the Leech lattice `Λ₂₄` as `TauCeti.leechLattice`, built by
   Construction B and an odd shift as Rank24LatticeConstructions Layer 6 specifies, with its rank,
   evenness, unimodularity, positive definiteness, `min Λ₂₄ = 4`, the absence of roots and the
-  kissing number `196560`, tabulated under *What Tau Ceti supplies*. No milestone here
+  kissing number `196560`, tabulated under *From Tau Ceti*. No milestone here
   constructs `Λ₂₄` or proves those facts.
-- **From Mathlib**: everything under *What Mathlib supplies*.
+- **From Mathlib**: the declarations tabulated under *From Mathlib* in *Exact supplier contracts*.
 
 ### Not owned here
 
@@ -287,7 +288,7 @@ this roadmap, or on a cited milestone of one of the following roadmaps.
   bridge, 2G shells and representation numbers of the real model, Layer 5 the level-one modularity
   of the theta series of an even unimodular lattice (5.6), Layer 7 (7C–7D) the Hecke–Schoeneberg
   theorem `Θ_L ∈ M_k(Γ₀(N), χ_L)` for an even lattice of rank `2k` and level `N` (6.4), 8B
-  `r_{E₈}(2) = 240` and 8D `r_Λ(4) = 196560` as corollaries of theta identities.
+  `r_{E₈}(2) = 240` as a corollary of the theta identity `Θ_{E₈} = E₄`.
 - [Successive minima and Minkowski's theorems](../SuccessiveMinima/README.md): 1.1 the real
   successive minima `successiveMin L K i` of a convex body with respect to a lattice, 2.1.4 the lower half of Minkowski's second theorem. The upper half is Tau Ceti's
   `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`, as Successive Minima
@@ -1028,8 +1029,9 @@ scope exclusions*).
   the total convention also gives the range {1}. In rank two A₂ contributes
   2π/√27, so 1 ≤ Θ₂ ≤ 2π/√27; no equality with the value of I₂, π/2, follows.
 
-*Needs:* L 1.4, 3.2; T `TauCeti.leechLattice`, `TauCeti.minimum_leechLattice` and
-`TauCeti.discriminant_leechLattice` for `Λ₂₄`.
+*Needs:* L 1.4, 3.2; T `TauCeti.leechLattice`, `TauCeti.isPosDef_leechLattice` (the real model
+is the Gram form of a positive definite lattice), `TauCeti.finrank_leechLattice` (a basis indexed by
+`Fin 24`), `TauCeti.minimum_leechLattice` and `TauCeti.discriminant_leechLattice` for `Λ₂₄`.
 
 ### Examples
 
@@ -1042,7 +1044,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 3.1 | M `Convex`, `IsCompact`, `IsAddFundamentalDomain`, `ZLattice.covolume`; L 0.3, 1.1 |
 | 3.2 | M `Metric.infDist`, `IsCompact.exists_isMaxOn`, `InnerProductSpace.volume_ball`; L 1.4, 3.1 |
 | 3.3 | GoN 4.4.2; SM 1.1, 1.5; L 3.2 |
-| 3.4 | L 1.4, 3.2; T `TauCeti.leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.discriminant_leechLattice` for `Λ₂₄` |
+| 3.4 | L 1.4, 3.2; T `TauCeti.leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.discriminant_leechLattice` for `Λ₂₄` |
 
 ## Layer 4: perfect, eutactic and extreme forms
 
@@ -1595,7 +1597,7 @@ API and acceptance statements:
   while degree 12 gives dim S₂₄ = 2; the extra isolated vanishing does not give a 14-design
   (Venkov, Remark 16.5, p.61).
 
-*Needs:* M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`, `IsEven`, `IsUnimodular`, `TauCeti.leechLattice`, `TauCeti.isEven_leechLattice`, `TauCeti.isUnimodular_leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.minimum_leechLattice`; TS 8B, 8D; IL 6C, 6D; L 5.3, 5.4, 5.6.
+*Needs:* M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`, `IsEven`, `IsUnimodular`, `TauCeti.leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.isEven_leechLattice`, `TauCeti.isUnimodular_leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.kissingNumber_leechLattice`; TS 8B; IL 6C, 6D; L 5.3, 5.4, 5.6.
 
 ### Examples
 
@@ -1611,7 +1613,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 5.4 | GoN §4.3; M `MvPolynomial.pderiv`, `MvPolynomial.homogeneousSubmodule`; L 0.3, 5.1, 5.2 |
 | 5.5 | GoN §4.3 `fourier_harmonic_gaussian`; M `SchwartzMap.fourierTransformCLM`; TS Layer 1 `gaussian`, `fourier_gaussian`; L 5.4 |
 | 5.6 | TS Layer 1 `poissonSummation`, Layer 5; M `CuspForm`; T `IsEven`, `IsUnimodular`; IL 6C (`E₈` even unimodular); L 0.3, 5.4, 5.5 |
-| 5.7 | M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`, `IsEven`, `IsUnimodular`, `TauCeti.leechLattice`, `TauCeti.isEven_leechLattice`, `TauCeti.isUnimodular_leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.minimum_leechLattice`; TS 8B, 8D; IL 6C, 6D; L 5.3, 5.4, 5.6 |
+| 5.7 | M `CuspForm.rank_eq_zero_of_weight_lt_twelve`, `discriminantEquiv`; T `mvPolynomialEquivModularForms`, `IsEven`, `IsUnimodular`, `TauCeti.leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.isEven_leechLattice`, `TauCeti.isUnimodular_leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.kissingNumber_leechLattice`; TS 8B; IL 6C, 6D; L 5.3, 5.4, 5.6 |
 
 ## Layer 6: universality
 
