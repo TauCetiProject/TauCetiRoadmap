@@ -9,8 +9,9 @@ Cartan–Serre finiteness, and Serre's analytic generation and vanishing on proj
 the consequences of coherent GAGA that arithmetic consumers use (projection and base change,
 ideal, section and line-bundle dictionaries, coherent descent on algebraic spaces and derived GAGA);
 proves Remmert's proper mapping theorem, the Remmert–Stein closure theorem and Chow's theorem with
-nilpotents, and with them the algebraicity of holomorphic maps out of proper schemes and the
-connectedness comparison for affine curves; and compares algebraic de Rham cohomology with singular
+nilpotents, and with them the algebraicity of holomorphic maps out of proper schemes, and compares
+the connected components and irreducibility of every complex scheme locally of finite type with those
+of its analytification; and compares algebraic de Rham cohomology with singular
 cohomology — for proper smooth schemes (Grothendieck), in proper smooth families (Gauss–Manin,
 Katz–Oda), with Hodge theory (harmonic forms on compact Kähler manifolds, the pure Hodge structure
 of a proper smooth scheme, Deligne's relative Hodge theorem), with integration over analytic cycles
@@ -49,7 +50,7 @@ The layers are C-1–C6:
 | C1 | Analytic coherent cohomology | `localDolbeault`, `weightedDolbeaultEstimate`, `cartanTheoremA`, `cartanTheoremB`, `montelTheorem`, `schwartzFiniteness`, `cartanSerreFiniteness`, `AnalyticTwist`, `analyticTwistCohomology`, `analyticSerreGeneration`, `analyticSerreVanishing`, `projectiveComplexGaga`, `properSchemeGagaEquivalence`, `properSpaceComplexGaga` |
 | C2 | Projective and proper consequences of coherent GAGA | `gagaBaseChange`, `projectiveGeometricDictionaries` |
 | C3 | Algebraic spaces: derived GAGA | `spaceQuasiCoherator`, `pseudoCoherenceDetection`, `spaceDerivedLimits`, `strongProperSupportExistence`, `cohStack_algebraic`, `relative_picard_algebraicSpace`, `picardZeroCriterion`, `picardParameter_formalEquiv`, `derivedGagaProperSpace` |
-| C4 | Analytic images, Chow algebraization and morphism comparison | `remmertProperImage`, `remmertSteinExtension`, `projectiveChowNonreduced`, `properSupportAlgebraization`, `properSourceMorphismAlgebraicity`, `affineCurveConnectedness` |
+| C4 | Analytic images, Chow algebraization and morphism comparison | `remmertProperImage`, `remmertSteinExtension`, `projectiveChowNonreduced`, `properSupportAlgebraization`, `properSourceMorphismAlgebraicity`, `analyticConnectednessComparison` |
 | C5 | de Rham–Betti comparison, Hodge theory and logarithmic comparison | `AlgebraicDeRham`, `holomorphicPoincare`, `nonempty_sheafSingularComparison`, `properDeRhamBetti`, `GaussManin`, `relativeHodgeBundles`, `kaehlerHodgeDecomposition`, `properPureHodge`, `AnalyticCycleIntegration`, `LogStructure`, `logChartCriterion`, `deligneRiemannHilbert`, `regularSingularDeRhamComparison`, `properLogGagaMonodromy` |
 | C6 | Stratified topology, Riemann existence and finite/adic Artin comparison | `complexAlgebraicTopology`, `topologicalCoefficientComparison`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison` |
 
@@ -74,7 +75,9 @@ enhancement, replacements and coherent limits, Hall's
 pseudo-coherence detection and derived GAGA for proper algebraic spaces. Remmert's and
 Remmert–Stein's theorems, Chow's theorem with nilpotents, algebraization
 with proper support, algebraicity of holomorphic maps from proper sources and of maps with algebraic
-graphs, the morphism interfaces for families, and the affine-curve connectedness comparison. In
+graphs, the morphism interfaces for families, and the comparison of connected components and
+irreducibility under analytification for complex schemes locally of finite type, with its
+affine-curve case. In
 Layer C5: sheafification of the shared algebraic de Rham complex and the holomorphic de Rham complex, the holomorphic and relative Poincaré
 lemmas, the analytic equivalence between flat connections and local systems with holomorphic
 parameters, the nilpotent-retaining Artin-base de Rham–Betti comparison, analytification of differential
@@ -201,12 +204,16 @@ here uses no stage of this roadmap.
   C5.5 analytic adapters → C5.6–C5.7 comparisons. No supplier uses C5's GAGA or Hodge theory
   to construct these cores; the supplier section order between the crystalline and derived
   roadmaps is retained.
-- *ResolutionOfSingularitiesCharacteristicZero, §§1.3, 6.2, 6.4.* The birth-ordered SNC
+- *ResolutionOfSingularitiesCharacteristicZero, §§1.3, 5.5, 6.1, 6.2, 6.4.* The birth-ordered SNC
   boundary (§1.3), SNC compactification (§6.2) and SNC coordinates (§6.4), all prose targets
   of that roadmap: a smooth quasi-projective finite-type variety
   in characteristic zero embeds unchanged as a dense open in a smooth projective variety
   with reduced strict-SNC complement, globally smooth labelled components and local étale
   equations `t₁⋯t_b=0`. §C-1.4 supplies the analytic polydisc charts from this algebraic datum.
+  For C4.5: the projective closure (§6.1), a reduced projective scheme containing a given reduced
+  quasi-projective scheme as a dense open; and local-isomorphism resolution (§5.5), a proper
+  surjective morphism from a smooth scheme onto a reduced finite-type characteristic-zero scheme,
+  an isomorphism over its smooth locus and over a dense open whose inverse image is dense.
 - *AlgebraicModuliForArithmeticGeometry, Layers 1–3.* Algebraic projective bundles, twisting sheaves and relative Serre
   generation and vanishing (Layer 1); coherent dévissage `coherentDevissage` and
   `devissageViaChow` (Layer 2, §2.3); effective étale descent on algebraic spaces and the
@@ -508,6 +515,13 @@ as explained in C5.1); the two names denote the same target.
   (a `MorphismProperty`), `IsLocallyNoetherian`; `QuasiCompact`, `CompactSpace`,
   `QuasiSeparatedSpace`, `IsSchemeTheoreticallyDominant`, `Scheme.Hom.ker`, `Flat`,
   `CategoryTheory.Over` and scheme pullbacks for compactification geometry.
+- Points and components (C4.5): `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace` (a scheme
+  locally of finite type over a Jacobson space is a Jacobson space), `nonempty_inter_closedPoints`
+  (in a Jacobson space every nonempty locally closed subset contains a closed point),
+  `ConnectedComponents` with `Continuous.connectedComponentsMap` (the map on connected components
+  induced by a continuous map), `ConnectedSpace` (which includes nonemptiness) and `IrreducibleSpace`,
+  used on the scheme side only; `AnalyticOnNhd.eqOn_zero_of_preconnected_of_eventuallyEq_zero`
+  (an analytic function vanishing near one point of a preconnected set vanishes on it).
 - Analysis: `AnalyticAt`, `Filter.Germ.valueRingHom`, `ContDiff`, `fderiv`, the multivariable inverse
   function theorem `ContDiffAt.to_localInverse` (valid at analytic smoothness `ω`), Montel-type
   compactness via Arzelà–Ascoli, `circleIntegral` with
@@ -739,7 +753,9 @@ as explained in C5.1); the two names denote the same target.
   type forms; the scalar compact-support Cauchy–Green operator with kernel `1/(π(z−w))`
   and the finite-rank Runge operator are scalar inputs K2 consumes for its construction and are not consumed
   by this roadmap; K3 compares analytic germs with
-  `smoothSheafCommRing` stalks and proves Weierstrass and primitive Oka relations;
+  `smoothSheafCommRing` stalks and proves Weierstrass and primitive Oka relations, and the
+  extension of locally bounded holomorphic functions across a nowhere dense analytic subset of a
+  complex manifold (consumed by C4.5);
   K4 supplies the RingCat holomorphic sheaf by forgetting commutativity, its native
   open restrictions and germs, the section/reconstruction equivalence on fixed finite-rank
   `VectorBundle ℂ` with holomorphic transitions, and the Chern connection.
@@ -953,7 +969,8 @@ the quasi-coherent derived category of an algebraic space, derived limits and pr
 effectivity, coherent/Picard algebraicity and component/formal-parameter interfaces, and Hall's derived GAGA. C4 proves the
 analytic image theorems and uses them, with EtaleCohomologyFoundations §§G.1–G.3’s compactification objects, Nagata theorem and
 refinements, to algebraize analytic subspaces and
-holomorphic maps out of proper schemes, and compares connectedness of affine curves. C5 is the
+holomorphic maps out of proper schemes, and compares connected components and irreducibility of
+complex schemes with those of their analytifications. C5 is the
 de Rham layer, in seven parts: ordinary proper comparison (C5.1), families (C5.2), geometric Hodge
 theory (C5.3), integration over analytic cycles (C5.4), logarithmic structures (C5.5), regular
 singular connections and the Riemann–Hilbert correspondence (C5.6), and curves with the proper
@@ -2618,7 +2635,8 @@ Layer 1 and Layer 2; Mathlib derived categories.
 This layer proves the classical image theorems of complex analytic geometry and uses them, with
 coherent GAGA, to algebraize closed analytic subspaces of projective space (keeping nilpotents),
 coherent modules with proper support, and holomorphic maps out of proper schemes. It ends with the
-comparison of algebraic and analytic connectedness for smooth affine curves. Borel's algebraicity of
+comparison of connected components and irreducibility of a complex scheme locally of finite type
+with those of its analytification, and its affine-curve case. Borel's algebraicity of
 maps from nonproper sources into arithmetic quotients and definable Chow are not consequences of
 anything here.
 
@@ -2728,7 +2746,7 @@ pp. 250–251; Bakker–Klingler–Tsimerman, Theorem 4.12, printed p. 933, for 
 interface). *Needs:* `properSourceMorphismAlgebraicity`; `algebraicGraphRegular`; `gagaBaseChange`;
 AlgebraicModuliForArithmeticGeometry Layer 3.
 
-### C4.5 Connectedness of affine curves
+### C4.5 Connected components and irreducibility under analytification
 
 Prove `affineCurveCompletionInterface`: let `U` be a connected component of a smooth affine curve
 over `ℂ`. AlgebraicCurves Layer 12B–12C gives its smooth projective model `C` (unique up to unique
@@ -2756,20 +2774,145 @@ Prove `puncturedRiemannSurfaceConnected`: if `M` is a connected Riemann surface 
 Hausdorff complex manifold of dimension one: Mathlib `ChartedSpace ℂ M` with `IsManifold 𝓘(ℂ) ω M`)
 and `D ⊆ M` is finite, then `M ∖ D` is connected and path-connected. Connected manifolds are path
 connected; a path meeting `D` is rerouted around each point of `D` inside a punctured coordinate disc,
-which is path connected because the real dimension is two. The statement fails for real intervals
-(SGA 1, XII, Lemma 2.5, printed p. 244, proves the general form: the complement of a nowhere dense
-closed analytic subset of a connected normal analytic space is connected). *Needs:* Mathlib manifolds and path connectedness.
+which is path connected because the real dimension is two. The statement fails for real intervals.
+Its form on smooth analytic spaces of every dimension is analyticSubsetComplementConnected below
+(SGA 1, XII, Lemma 2.5, printed p. 244, proves the form for normal analytic spaces: the complement of
+a nowhere dense closed analytic subset of a connected normal analytic space is connected). *Needs:*
+Mathlib manifolds and path connectedness.
 
 Prove `affineCurveConnectedness`: a smooth affine curve `U` over `ℂ` is connected if and only if
-`U^an` is connected. Work component by component: for a connected `U` the projective model `C` is
+`U^an` is connected. It is the case `X = U` of `analyticConnectednessComparison` below, and it has
+the following direct route, which uses neither resolution nor analytic subsets of dimension above
+zero. Work component by component: for a connected `U` the projective model `C` is
 connected, so `H⁰(C, O_C)` has no nontrivial idempotents; `properSchemeGagaEquivalence` identifies
 these with the idempotents of `H⁰(C^an, O)`, so `C^an` is connected; `puncturedRiemannSurfaceConnected`
 removes `D`. Conversely a decomposition of `U` into open and closed pieces analytifies. No full
 faithfulness on the nonproper `U` is used, and the false claim that every holomorphic function on an
-affine variety is algebraic is not invoked (SGA 1, XII, Proposition 2.4, printed pp. 243–244, proves
-the comparison of connectedness for every scheme locally of finite type over `ℂ`; this target is its
-one-dimensional case, by the route above). *Needs:* `affineCurveCompletionInterface`;
-`puncturedRiemannSurfaceConnected`; §C1.9 `properSchemeGagaEquivalence`.
+affine variety is algebraic is not invoked (SGA 1, XII, Proposition 2.4, printed pp. 243–244).
+*Needs:* `affineCurveCompletionInterface`; `puncturedRiemannSurfaceConnected`; §C1.9
+`properSchemeGagaEquivalence`.
+
+Prove analyticSubsetComplementConnected: let `T` be a connected complex analytic space (§C-1.1) that
+is smooth, every point having an open neighbourhood isomorphic as a `ℂ`-ringed space to an open
+subset of some `ℂⁿ` with its sheaf of holomorphic functions, and let `A ⊆ T` be a closed analytic
+subset, the zero locus of a `CoherentAnalyticIdeal T` (§C0.2), with `A ≠ T`. Then `A` has empty
+interior and `T ∖ A` is connected. The interior of `A` is open; it is also closed, because at a point
+of its closure a connected chart on which `A` is the common zero set of `g₁, …, g_N` contains a
+nonempty open set on which every `gᵢ` vanishes, and the identity theorem makes every `gᵢ` vanish on
+the chart. As `T` is connected and `A ≠ T`, the interior is empty. If `T ∖ A` were the disjoint union
+of nonempty open sets `Ω₀` and `Ω₁`, the function equal to `0` on `Ω₀` and to `1` on `Ω₁` would be a
+bounded holomorphic function on `T ∖ A`; the extension of locally bounded holomorphic functions
+across a nowhere dense analytic subset, applied in each chart (an open subset of `ℂⁿ`), extends it
+to a section `e` of `O_T` with `e² = e` on the dense set `T ∖ A`, hence everywhere. Every stalk of
+`O_T` is a local ring, so `e` is locally constant with values `0` and `1`, hence constant on the
+connected `T`, which contradicts `Ω₀` and `Ω₁` both being nonempty. No Hausdorff or countability
+hypothesis is used (Demailly, II, Definition (4.1) and Remark (4.2), p. 91; I, Corollaries
+(5.25)–(5.26), p. 45). *Needs:* §C-1.1 (`ComplexAnalyticSpace` and its smooth charts); §C0.2
+`CoherentAnalyticIdeal` (closed analytic subspaces and their zero loci); Mathlib
+`AnalyticOnNhd.eqOn_zero_of_preconnected_of_eventuallyEq_zero` (the identity theorem);
+ComplexKahlerGeometry K3 (the extension of locally bounded holomorphic functions across a nowhere
+dense analytic subset of a complex manifold).
+
+**Checks.**
+
+- In `ℂ²`, `A = {z₁z₂ = 0}` is reducible and singular at the origin, has empty interior, and its
+  complement `(ℂ*)²` is connected; `A` need not be smooth or irreducible.
+- `A = T` is excluded: its interior is `T`, and the complement is empty, which is not connected
+  (Mathlib's `ConnectedSpace` includes nonemptiness).
+- For the disconnected `T = ℂ ⊔ ℂ`, `A = ∅` has the disconnected complement `T`, and `A` the first
+  copy has nonempty interior, so that `T ∖ A` is not dense; connectedness of `T` is needed for both
+  conclusions.
+- The real analogue fails: `{0} ⊂ ℝ` is the zero set of a real-analytic function and `ℝ ∖ {0}` is
+  disconnected, while `{0} ⊂ ℂ` has real codimension two and `ℂ*` is connected.
+- On the analytification of the affine line with doubled origin, which is connected and not
+  Hausdorff, removing both origins leaves `ℂ*`, which is connected.
+
+Prove `analyticConnectednessComparison`: let `X : Scheme.{u}` be locally of finite type over `ℂ`,
+with `φ_X : X^an → X` and `T_X` the underlying space of `X^an` (§C-1.1). Then:
+
+1. the map `π₀(T_X) → π₀(X)` that the continuous map underlying `φ_X` induces on Mathlib
+   `ConnectedComponents` (`Continuous.connectedComponentsMap`) is a bijection; in particular `X` is
+   connected (Mathlib `ConnectedSpace`, which includes nonemptiness) if and only if `T_X` is;
+2. `X` is irreducible (Mathlib `IrreducibleSpace` on the underlying space of `X`) if and only if
+   `X^an` is analytically irreducible: `T_X` is nonempty and is not the union of two closed analytic
+   subsets of `X^an` (zero loci of `CoherentAnalyticIdeal`s, §C0.2), each different from `T_X`.
+
+Mathlib's `IrreducibleSpace` on `T_X` is not the analytic notion: `T_{A¹} = ℂ` is Hausdorff with
+more than one point, so it is not an irreducible topological space, although `A¹` is irreducible.
+No separatedness, quasi-compactness, reducedness or smoothness of `X` is assumed (SGA 1, XII,
+Proposition 2.4 and Corollary 2.6, printed pp. 243–244, for `X` locally of finite type over `ℂ`).
+For proper `X` the connectedness clause is the degree-zero GAGA argument that §C1.9 uses for proper
+curves.
+
+The route has three steps.
+
+- *Algebraic side.* `X` is a Jacobson space (`AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace`,
+  the base ring `ULift ℂ` being a field), so every nonempty locally closed subset of `X` contains a
+  closed point (`nonempty_inter_closedPoints`), and the closed points are the complex points, the
+  image of `φ_X` (§C-1.1). Hence a decomposition of `X` into two disjoint nonempty open subsets pulls
+  back to one of `T_X`; every connected component of `X`, open because `X` is locally Noetherian,
+  meets the image of `φ_X`, so the map of item 1 is surjective; and a decomposition `X = X₁ ∪ X₂`
+  into proper closed subsets gives `T_X = T_{X₁} ∪ T_{X₂}`, where the closed analytic subsets
+  `T_{Xᵢ}` (analytifications of the reduced closed subschemes, §C-1.1) differ from `T_X`. This
+  proves the "if" directions.
+- *Reductions.* `T_X = T_{X_red}`, with the same closed analytic subsets (§C-1.1 identifies
+  `(X_red)^an` with `(X^an)_red`), so `X` may be taken reduced. A connected `X` is the union of its
+  irreducible components, a locally finite family in which any two points are joined by a finite
+  chain of components with consecutive members meeting; meeting components have analytifications
+  meeting in a complex point, by the first step, so it suffices that each irreducible component has
+  connected analytification. Injectivity in item 1 follows by applying this to each connected
+  component `C` of `X`, whose analytification is the open and closed subset `φ_X⁻¹(C)` of `T_X`. An
+  irreducible `X` is covered by nonempty affine opens that pairwise meet, so their analytifications
+  pairwise meet; it therefore suffices to treat an integral affine `X`, provided that for each such
+  open `U` a closed analytic subset of `T_U` with nonempty interior is all of `T_U` (this glues
+  irreducibility across the cover, and is proved with the last step).
+- *Integral affine `X`.* Take the reduced projective closure `X̄` of `X ⊆ Aⁿ ⊆ Pⁿ`
+  (ResolutionOfSingularitiesCharacteristicZero §6.1), integral and projective with `X` as a dense
+  open, and a resolution `π : Y → X̄` (§5.5 there): `Y` is smooth, and `π` is proper, surjective and
+  an isomorphism over a dense open `V ⊆ X̄` with `π⁻¹(V)` dense, so `Y` is irreducible and proper
+  over `ℂ`. Then `H⁰(Y, O_Y)` has no idempotents other than `0` and `1`, `properSchemeGagaPushforward`
+  in degree `0` identifies it with `H⁰(Y^an, O)`, and an idempotent holomorphic function is locally
+  constant, so `T_Y` is connected. `W = π⁻¹(X)` is a nonempty open of `Y`; its complement `Z` has
+  `T_Z ≠ T_Y` by the first step, and `T_Y` is smooth by §C-1.1's smooth-chart comparison, so
+  analyticSubsetComplementConnected makes `T_W = T_Y ∖ T_Z` connected and every closed analytic
+  subset of `T_W` other than `T_W` nowhere dense. Two such subsets cannot cover `T_W`, since a union
+  of two closed sets with empty interior has empty interior, so `T_W` is analytically irreducible.
+  The restriction `W → X` of `π` is surjective, and surjective on complex points because each
+  nonempty fibre over a complex point is of finite type over `ℂ` and has a closed point; so
+  `T_X = π^an(T_W)` is connected. Inverse images of closed analytic subsets are closed analytic
+  (§C0.2's pullback of ideals), so a cover `T_X = A ∪ B` pulls back to a cover of `T_W`, one member
+  of which is `T_W`, and `T_X` lies in `A` or in `B`; likewise a closed analytic subset of `T_X` with
+  nonempty interior pulls back to all of `T_W`, hence is `T_X`.
+
+SGA 1's proof of Proposition 2.4 instead normalizes `X`, embeds it in a normal projective
+compactification and applies its Lemma 2.5 on normal analytic spaces, which needs the normality of
+the analytification of a normal scheme and the extension theorem on normal analytic spaces; the
+route above replaces these by the projective closure and resolution of
+ResolutionOfSingularitiesCharacteristicZero, a supplier of §C-1.4 as well, and by
+analyticSubsetComplementConnected. *Needs:* §C-1.1 (`complexSchemeAnalytification`: complex
+points, open and closed subspaces, reduction, smooth charts, properness); §C0.2
+`CoherentAnalyticIdeal`; §C1.9 `properSchemeGagaPushforward`; analyticSubsetComplementConnected;
+ResolutionOfSingularitiesCharacteristicZero §6.1 (projective closure) and §5.5 (local-isomorphism
+resolution); Mathlib `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace`,
+`nonempty_inter_closedPoints`, `ConnectedComponents`, `Continuous.connectedComponentsMap` and
+`IrreducibleSpace`.
+
+**Checks.**
+
+- `A¹ ⊔ A¹` has two connected components on each side, matched by `φ`, and `T_X = ℂ ⊔ ℂ`.
+- The node `xy = 0` in `A²` is connected and reducible on both sides, with components `{x = 0}` and
+  `{y = 0}` on each side; it is neither smooth nor irreducible, so no curve or smooth case covers it.
+- The affine nodal cubic `y² = x²(x + 1)` is irreducible, and `T_X` is analytically irreducible, the
+  image of `ℂ` under `t ↦ (t² − 1, t(t² − 1))`, although its germ at the origin has the two branches
+  `y = ±x√(1 + x)`; requiring every germ to be irreducible would declare it reducible.
+- `A² ∖ {0}` is connected on both sides, `T_X = ℂ² ∖ {0}` being homotopy equivalent to `S³`; it has
+  dimension two and is outside `affineCurveConnectedness`.
+- `⊔_{k∈ℕ} A¹` is locally of finite type and not quasi-compact, with `π₀ = ℕ` on both sides; a
+  finite-type hypothesis would exclude it.
+- The dual-number point `Spec ℂ[ε]/(ε²)` has one point, one component and is irreducible on both
+  sides; nilpotents change neither side.
+- The affine line with doubled origin is connected and irreducible, and `T_X` is connected and
+  analytically irreducible but not Hausdorff; no separatedness is assumed.
 
 ### Examples
 
@@ -2784,6 +2927,8 @@ one-dimensional case, by the route above). *Needs:* `affineCurveCompletionInterf
   `P¹_an → A¹_an` is constant, consistent with `Hom(P¹, A¹) = ℂ`.
 - `A¹` and `G_m` analytify to the connected `ℂ` and `ℂ*`; the disjoint union of two affine lines stays
   disconnected; `P¹ ∖ {0, ∞}` is path connected, an interval minus an interior point is not.
+- The surface `A² ∖ {0}` and the node `xy = 0` are connected on both sides, and the node is reducible
+  on both sides; neither is a smooth curve, and both are instances of `analyticConnectednessComparison`.
 
 ### Dependencies
 
@@ -2791,7 +2936,9 @@ C0–C2; §§C-1.1–C-1.2 and C1.9; AlgebraicModuliForArithmeticGeometry Layers
 SchemeAndStackFoundations Layer 1 and §0.9; EtaleCohomologyFoundations §§G.1–G.3
 (`Compactification`, `nagataCompactification`, `compactificationCommonRefinement`);
 StableReduction Layer 4 and SchemeAndStackFoundations §4.11 for compactification geometry;
-TauCetiRoadmap.AlgebraicCurves (Layers 2 and 12B–12C); Mathlib schemes and manifolds.
+TauCetiRoadmap.AlgebraicCurves (Layers 2 and 12B–12C); ResolutionOfSingularitiesCharacteristicZero
+§§5.5 and 6.1 and ComplexKahlerGeometry K3 (extension across nowhere dense analytic subsets) for
+C4.5; Mathlib schemes, Jacobson spaces, connected components and manifolds.
 
 ## Layer C5: de Rham–Betti comparison, Hodge theory and logarithmic comparison
 
@@ -4688,16 +4835,20 @@ covers both glue along open covers. The local topology of §C6.0 applies on the 
 opens. Use the existing analytification functor and UniversalCovers' topological covering API (Stages 0–2).
 
 The equivalence commutes with pullback, fibre products, disjoint unions and connected
-components, identifies Galois covers and deck groups, and identifies finite lisse
-`Λ`-sheaves with finite topological local systems. For a connected nonempty `X` and a
+components (for a finite étale `Y → X`, the components of the cover `T_Y` correspond to those of
+`Y` through §C4.5 `analyticConnectednessComparison` applied to `Y`), identifies Galois covers and
+deck groups, and identifies finite lisse
+`Λ`-sheaves with finite topological local systems. For a connected nonempty `X`, `T_X` is connected
+by the same target, and for a
 chosen complex point identify the étale fundamental group with the profinite completion
 of the topological fundamental group, using the same fibre functor and deck-action
 convention. Unbased and disconnected statements use groupoids; identity and composite
 path changes, tensor operations and coefficient changes commute with this equivalence.
 
 *Source:* SGA 1 XII, Théorème 5.1, retyped p. 251, stated there for `X` locally of finite type
-over `ℂ`, with §§2–3 for components and finite/étale analytification.
-*Needs:* §C-1.1; §§C6.0–C6.1;
+over `ℂ`, with Proposition 2.4 and Corollary 2.6 (retyped pp. 243–244) for components and §3 for
+finite/étale analytification.
+*Needs:* §C-1.1; §§C6.0–C6.1; §C4.5 `analyticConnectednessComparison`;
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`,
 `VanishingCycles.constructibleEtale`; UniversalCovers Stages 0–2; the coherent algebraization tools
 of C0–C4 for the finite-cover analytic algebraization constructed in this target.
@@ -5124,6 +5275,11 @@ an instance of the named targets, not a separate theorem.
   **LefschetzPencilsAndVanishingCycles** use the analytic image theorems, Chow's theorem, the affine
   curve comparison, the Gauss–Manin connection, the residue and period normalisations and the
   integration of C5.4.
+- **MordellLawrenceVenkatesh §3.10** uses C4.5's `analyticConnectednessComparison`, the comparison
+  of connected components and irreducibility for every complex scheme locally of finite type, which
+  C4.5 owns; **InverseGaloisAndArithmeticFundamentalGroups** and **ModularCurvesPartII** use C4.5's
+  affine-curve interfaces `affineCurveCompletionInterface`, `puncturedRiemannSurfaceConnected` and
+  `affineCurveConnectedness`.
 
 ## References
 

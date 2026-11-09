@@ -70,8 +70,11 @@ The other headline targets require objects absent from the pins:
   `TauCeti.AlgebraicGeometry.Spaces.IsAlgebraicSpace` on presheaves of sets on schemes.
 * C4: `remmertProperImage`, `remmertSteinExtension`, `projectiveChowNonreduced`,
   `properSupportAlgebraization`, `properSourceMorphismAlgebraicity` and
-  `affineCurveConnectedness` require closed analytic subspaces given by coherent ideals and
-  the analytification of schemes and morphisms.
+  `analyticConnectednessComparison` require closed analytic subspaces given by coherent ideals
+  and the analytification of schemes and morphisms. For `analyticConnectednessComparison` the
+  scheme side (`ConnectedComponents` and `IrreducibleSpace` of a scheme locally of finite type
+  over `ℂ`) exists at the pins; the space `X^an`, the map `X^an → X` and the closed analytic
+  subsets that define analytic irreducibility do not.
 * C5: `AlgebraicDeRham`, `properDeRhamBetti`, `GaussManin`, `relativeHodgeBundles`,
   `kaehlerHodgeDecomposition`, `properPureHodge`, `AnalyticCycleIntegration`, `LogStructure`,
   `logChartCriterion`, `deligneRiemannHilbert`, `regularSingularDeRhamComparison` and
