@@ -1,7 +1,9 @@
-import Mathlib
-import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Finite
-import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Infinite
-import TauCeti.Combinatorics.DenseGraphLimits.Sampling.AlmostSure.Basic
+module
+
+public import Mathlib
+public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Finite
+public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Infinite
+public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.AlmostSure.Basic
 
 /-!
 # Random graphs, Fraïssé limits, and first-order asymptotic laws: suggested signatures
@@ -29,6 +31,8 @@ meaning (`TauCeti.firstOrderAtomicDiagram`, in Tau Ceti's `ModelTheory/Scott/Ato
 and the graph stand-ins below are later than this repository's Tau Ceti pin, so this file does not
 import them.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -663,3 +667,5 @@ theorem productGraphon_ae_isomorphic_rado :
   sorry
 
 end TauCetiRoadmap.RandomGraphs
+
+end
