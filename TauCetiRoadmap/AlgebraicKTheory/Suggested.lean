@@ -46,8 +46,6 @@ Headline theorems of the roadmap that are not statable at the pins:
 * The relative exact sequences of A3: they need the relative group `K₁(R, I)` of 3.1, A3's
   relative triple group `K₀(T)` of an additive functor and A2's automorphism presentation `K₁ᴮ`
   of a small additive category, which neither library has.
-* The universal central extension `St(R) → E(R)`, Matsumoto's presentation of `K₂` of a field
-  and `K₂(𝔽_q) = 0` (A5): neither library has the Steinberg group.
 * The surjection of algebraic `K₁` of a Banach algebra `A` onto its stable component group, the
   colimit of `GLₙ(A)/GLₙ(A)₀`, and its kernel (A8): the stable component group, the quotient of
   `TauCeti.StableGeneralLinearGroup A` by the union of the images of the identity components
@@ -327,8 +325,11 @@ def HasCoveringDimensionLE (X : Type u) [TopologicalSpace X] (d : ℕ) : Prop :=
 /-- Vaserstein: for a compact Hausdorff space `X`, `C(X, ℂ)` has stable range at most `s ≥ 1`
 exactly when `dim X ≤ 2s − 1`; equivalently its stable rank is `⌊dim X / 2⌋ + 1`, infinite when
 `X` has no finite covering dimension (Vaserstein 1971, Theorem 7, with the identification of
-Vaserstein's stable-value dimension with covering dimension for nonempty compact Hausdorff spaces;
-for empty `X` both sides hold, `C(∅, ℂ)` being the zero ring). -/
+Vaserstein's stable-value dimension with covering dimension for nonempty compact Hausdorff spaces,
+which are normal: Vaserstein's remark on pp. 19–20 matches stable values with essential maps to a
+cube, and Engelking, *Dimension Theory*, Problem 3.2.E, p. 238, characterizes the covering
+dimension of a normal space by essential maps to balls; for empty `X` both sides hold, `C(∅, ℂ)`
+being the zero ring). -/
 theorem hasStableRangeLE_continuousMap_complex_iff (X : Type u) [TopologicalSpace X]
     [CompactSpace X] [T2Space X] (s : ℕ) (hs : 1 ≤ s) :
     HasStableRangeLE C(X, ℂ) s ↔ HasCoveringDimensionLE X (2 * s - 1) := by
@@ -336,11 +337,100 @@ theorem hasStableRangeLE_continuousMap_complex_iff (X : Type u) [TopologicalSpac
 
 /-- Vaserstein: for a compact Hausdorff space `X`, `C(X, ℝ)` has stable range at most `s ≥ 1`
 exactly when `dim X ≤ s − 1`; equivalently its stable rank is `dim X + 1`, infinite when `X` has
-no finite covering dimension (Vaserstein 1971, Theorem 5, read for nonempty `X`; for empty `X`
-both sides hold). -/
+no finite covering dimension (Vaserstein 1971, Theorem 5, read for nonempty `X` through the same
+identification of Vaserstein's `d(X)` with covering dimension, Engelking, *Dimension Theory*,
+Problem 3.2.E; for empty `X` both sides hold). -/
 theorem hasStableRangeLE_continuousMap_real_iff (X : Type u) [TopologicalSpace X]
     [CompactSpace X] [T2Space X] (s : ℕ) (hs : 1 ≤ s) :
     HasStableRangeLE C(X, ℝ) s ↔ HasCoveringDimensionLE X (s - 1) := by
+  sorry
+
+/-! ## Layer A5: Steinberg groups and K₂ -/
+
+/-- The Steinberg relations on the generators `x_{ij}(a)`, for distinct natural numbers `i, j`
+and `a ∈ R`: additivity `x_{ij}(a) x_{ij}(b) = x_{ij}(a + b)`; `[x_{ij}(a), x_{kl}(b)] = 1`
+when `j ≠ k` and `i ≠ l`; and `[x_{ij}(a), x_{jk}(b)] = x_{ik}(ab)` for distinct `i, j, k`, the
+order `ab` kept. Commutators are `[x, y] = x y x⁻¹ y⁻¹`. Weibel's third family
+`[x_{ij}(a), x_{ki}(b)] = x_{kj}(−ba)` follows from the second by inversion (Weibel, *The K-book*,
+Chapter III, Definition 5.1, chapter p. 35). -/
+def steinbergRels (R : Type u) [Ring R] :
+    Set (FreeGroup ({p : ℕ × ℕ // p.1 ≠ p.2} × R)) :=
+  {r | (∃ (p : {p : ℕ × ℕ // p.1 ≠ p.2}) (a b : R),
+          r = FreeGroup.of (p, a) * FreeGroup.of (p, b) * (FreeGroup.of (p, a + b))⁻¹) ∨
+       (∃ (p q : {p : ℕ × ℕ // p.1 ≠ p.2}) (a b : R), p.1.2 ≠ q.1.1 ∧ p.1.1 ≠ q.1.2 ∧
+          r = FreeGroup.of (p, a) * FreeGroup.of (q, b) * (FreeGroup.of (p, a))⁻¹ *
+            (FreeGroup.of (q, b))⁻¹) ∨
+       (∃ (i j k : ℕ) (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) (a b : R),
+          r = FreeGroup.of (⟨(i, j), hij⟩, a) * FreeGroup.of (⟨(j, k), hjk⟩, b) *
+            (FreeGroup.of (⟨(i, j), hij⟩, a))⁻¹ * (FreeGroup.of (⟨(j, k), hjk⟩, b))⁻¹ *
+            (FreeGroup.of (⟨(i, k), hik⟩, a * b))⁻¹)}
+
+/-- The stable Steinberg group `St(R)`, presented on the generators `x_{ij}(a)` indexed by all
+pairs of distinct natural numbers. It is the colimit of the groups `Stₙ(R)` of 5.1, whose
+presentations are the restrictions of this one to indices below `n`. -/
+abbrev SteinbergGroup (R : Type u) [Ring R] := PresentedGroup (steinbergRels R)
+
+/-- The elementary matrix `e_{ij}(a) = 1 + a E_{ij}` as an element of `GL(R)`: Tau Ceti's
+`TauCeti.transvectionUnit` at size `max i j + 1`, sent to the stable general linear group. The
+stabilizations `u ↦ u ⊕ 1` keep the first indices, so every larger size gives the same element. -/
+noncomputable def stableTransvection {R : Type u} [Ring R] (p : {p : ℕ × ℕ // p.1 ≠ p.2})
+    (a : R) : TauCeti.StableGeneralLinearGroup R :=
+  TauCeti.StableGeneralLinearGroup.of R (max p.1.1 p.1.2 + 1)
+    (TauCeti.transvectionUnit (i := (⟨p.1.1, by omega⟩ : Fin (max p.1.1 p.1.2 + 1)))
+      (j := ⟨p.1.2, by omega⟩) (fun h => p.2 (by simpa using congrArg Fin.val h)) a)
+
+/-- **Kervaire–Steinberg.** The homomorphism `φ : St(R) → GL(R)` with `x_{ij}(a) ↦ e_{ij}(a)`,
+unique since the `x_{ij}(a)` generate, has image `E(R)` and central kernel `K₂(R)`, and it is the
+universal central extension of `E(R)`: for every group `E` and homomorphism `q : E → GL(R)` with
+image `E(R)` and central kernel there is exactly one `ψ : St(R) → E` with `q ∘ ψ = φ` (Weibel,
+*The K-book*, Chapter III, Theorem 5.2.1, Definition 5.3.1 and Theorem 5.5, chapter pp. 35–38;
+uniqueness of `ψ` is Lemma 5.3.3, from the perfectness of `St(R)`). -/
+theorem steinberg_universalCentralExtension (R : Type u) [Ring R] :
+    ∃ φ : SteinbergGroup R →* TauCeti.StableGeneralLinearGroup R,
+      (∀ p a, φ (PresentedGroup.of (p, a)) = stableTransvection p a) ∧
+      φ.range = TauCeti.StableGeneralLinearGroup.elementarySubgroup R ∧
+      φ.ker ≤ Subgroup.center (SteinbergGroup R) ∧
+      ∀ (E : Type v) [Group E] (q : E →* TauCeti.StableGeneralLinearGroup R),
+        q.range = TauCeti.StableGeneralLinearGroup.elementarySubgroup R →
+        q.ker ≤ Subgroup.center E →
+        ∃! ψ : SteinbergGroup R →* E, q.comp ψ = φ := by
+  sorry
+
+/-- **Steinberg.** `K₂(𝔽_q) = 0`: for a finite field `F` the homomorphism `St(F) → GL(F)` with
+`x_{ij}(a) ↦ e_{ij}(a)` is injective (Weibel, *The K-book*, Chapter III, Corollary 6.1.1, chapter
+p. 48). -/
+theorem kTwo_finiteField (F : Type u) [Field F] [Finite F] :
+    ∃ φ : SteinbergGroup F →* TauCeti.StableGeneralLinearGroup F,
+      (∀ p a, φ (PresentedGroup.of (p, a)) = stableTransvection p a) ∧
+      Function.Injective φ := by
+  sorry
+
+/-- The group of Matsumoto's presentation of a field `F`: the tensor square `Fˣ ⊗_ℤ Fˣ`, written
+additively, modulo the subgroup generated by the `x ⊗ y` with `x + y = 1`, that is, by the
+`x ⊗ (1 − x)` for `x ≠ 0, 1`. -/
+abbrev MatsumotoGroup (F : Type u) [Field F] :=
+  TensorProduct ℤ (Additive Fˣ) (Additive Fˣ) ⧸ Submodule.span ℤ
+    {t | ∃ x y : Fˣ, (x : F) + y = 1 ∧
+      t = TensorProduct.tmul ℤ (Additive.ofMul x) (Additive.ofMul y)}
+
+/-- **Matsumoto.** For a field `F`, `K₂(F) = ker(St(F) → GL(F))` is isomorphic to
+`MatsumotoGroup F` by an isomorphism sending the class of `r ⊗ s` to the Steinberg symbol
+`{r, s} = [a, b]`, where `a` and `b` are any lifts to `St(F)` of `diag(r, r⁻¹, 1)` and
+`diag(s, 1, s⁻¹)` (Weibel, *The K-book*, Chapter III, Definition 5.10, chapter p. 42, and
+Matsumoto's Theorem 6.1, chapter p. 48). -/
+theorem matsumoto (F : Type u) [Field F] :
+    ∃ φ : SteinbergGroup F →* TauCeti.StableGeneralLinearGroup F,
+      (∀ p a, φ (PresentedGroup.of (p, a)) = stableTransvection p a) ∧
+      ∃ e : Additive φ.ker ≃+ MatsumotoGroup F, ∀ (r s : Fˣ) (a b : SteinbergGroup F),
+        φ a = TauCeti.StableGeneralLinearGroup.of F 3
+          (Units.map (Matrix.diagonalRingHom (Fin 3) F).toMonoidHom
+            (MulEquiv.piUnits.symm ![r, r⁻¹, 1])) →
+        φ b = TauCeti.StableGeneralLinearGroup.of F 3
+          (Units.map (Matrix.diagonalRingHom (Fin 3) F).toMonoidHom
+            (MulEquiv.piUnits.symm ![s, 1, s⁻¹])) →
+        (((Additive.toMul (e.symm (Submodule.Quotient.mk
+            (TensorProduct.tmul ℤ (Additive.ofMul r) (Additive.ofMul s))))) : φ.ker) :
+              SteinbergGroup F) = a * b * a⁻¹ * b⁻¹ := by
   sorry
 
 /-! ## Layer A6: Milnor patching and the boundary -/
