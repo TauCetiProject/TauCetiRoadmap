@@ -2,29 +2,28 @@
 
 **Summary.** Build the theta invariants of a Euclidean lattice, a discrete subgroup `L` of a
 finite-dimensional real inner product space `E` (Mathlib's `Submodule ℤ E` with
-`DiscreteTopology L`,
-full when `IsZLattice ℝ L`), and of an Arakelov divisor of a number field. The invariant is
-`h⁰_θ(L) = log ∑_(v ∈ L) exp(−π‖v‖²)`, with `h¹_θ(L) = h⁰_θ(L^∨)` for the dual lattice
+`DiscreteTopology L`, full when `IsZLattice ℝ L`), and of an Arakelov divisor of a number field. The
+invariant is `h⁰_θ(L) = log ∑_(v ∈ L) exp(−π‖v‖²)`, with `h¹_θ(L) = h⁰_θ(L^∨)` for the dual lattice
 `L^∨ = ZLattice.dual L` (Bost 2020). The end theorems are: for a full lattice, the
-Poisson–Riemann–Roch formula `h⁰_θ(L) − h¹_θ(L) = −log covol(L)` (1.2); `h⁰_θ(L) ≥ 0`, with
-equality exactly for `L = 0` (1.3); monotonicity under injective linear contractions, with
-equality exactly for an isometric bijection (1.4), and under passage to a subgroup of finite index
-(1.5); additivity on orthogonal sums (1.6); `h⁰_θ(ℤ) = log(π^(1/4)/Γ(3/4))` (1.7); for a full
-lattice and `x ∈ E`, the Gaussian mass of `x + L` equals that of `L` exactly when `x ∈ L` (2.1); for
-a full lattice `L` and a subspace `K` spanned by `L ∩ K`, the fibre bound over the projected lattice
-(2.2) and the subadditivity `h^i_θ(L) ≤ h^i_θ(L ∩ K) + h^i_θ(π_(K^⊥)(L))` for `i = 0, 1`, with
-equality for `i = 0` exactly when `π_(K^⊥)(L) ⊆ L` (2.3, 2.4); for a full lattice of positive rank
-`n` whose nonzero vectors have norm at least `r`, the upper bound
-`exp h⁰_θ(L) − 1 ≤ 3ⁿ(1 − n/(2πr²))⁻¹ exp(−πr²)` when `r > 0` and `n < 2πr²` (3.1) and its
-Banaszczyk form (3.2), and the bound on the mass of a coset outside a ball (3.3); for a number
-field `K` and an Arakelov divisor `D = (I, x)` (ArakelovGeometryAndAbelianHeights §1.7), `I` a
-nonzero fractional ideal and `x` real numbers at the infinite places, with `h⁰(D)` the logarithm
-of LFunctions' `latticeTheta` of `I` at the parameter of `x` (4.1), the invariance of `h⁰(D)`
-under principal divisors (4.2), the Riemann–Roch formula
-`h⁰(D) − h⁰(κ − D) = deg D − ½ log|Δ_K|` (4.3), the decay `h⁰(D) ≤ β exp(−πn exp(−2 deg D/n))`
-in degree at most `½ log|Δ_K|` (4.4), and the bound
-`h⁰(D) ≤ deg D + h⁰(𝓞_K)` in nonnegative degree under the hypothesis that `h⁰` on divisors of
-degree zero is largest at `𝓞_K` (4.5).
+Poisson–Riemann–Roch formula `h⁰_θ(L) − h¹_θ(L) = −log covol(L)` (1.2); `h⁰_θ(L) ≥ 0`, with equality
+exactly for `L = 0` (1.3); monotonicity under injective linear contractions, with equality exactly
+for an isometric bijection (1.4), and under passage to a subgroup of finite index (1.5); additivity
+on orthogonal sums (1.6); Jacobi's relation `θ(i)² = 2K(1/√2)/π` (1.7) and
+`h⁰_θ(ℤ) = log(π^(1/4)/Γ(3/4))` (1.8); for a full lattice and `x ∈ E`, the Gaussian mass of `x + L`
+equals that of `L` exactly when `x ∈ L` (2.1); for a full lattice `L` and a subspace `K` spanned by
+`L ∩ K`, the fibre bound over the projected lattice (2.2) and the subadditivity
+`h^i_θ(L) ≤ h^i_θ(L ∩ K) + h^i_θ(π_(K^⊥)(L))` for `i = 0, 1`, with equality for `i = 0` exactly when
+`π_(K^⊥)(L) ⊆ L` (2.3, 2.4); for a full lattice of positive rank `n` whose nonzero vectors have norm
+at least `r`, the upper bound `exp h⁰_θ(L) − 1 ≤ 3ⁿ(1 − n/(2πr²))⁻¹ exp(−πr²)` when `r > 0` and
+`n < 2πr²` (3.1) and its Banaszczyk form (3.2), and the bound on the mass of a coset outside a ball
+(3.3); for a number field `K` and an Arakelov divisor `D = (I, x)`
+(ArakelovGeometryAndAbelianHeights §1.7), `I` a nonzero fractional ideal and `x` real numbers at the
+infinite places, with `h⁰(D)` the logarithm of the theta sum of `I` for the metric of `D`,
+LFunctions' `latticeTheta` at the parameter of `x` (4.1), the invariance of `h⁰(D)` under principal
+divisors (4.2), the Riemann–Roch formula `h⁰(D) − h⁰(κ − D) = deg D − ½ log|Δ_K|` (4.3), the decay
+`h⁰(D) ≤ β exp(−πn exp(−2 deg D/n))` in degree at most `½ log|Δ_K|` (4.4), and the bound
+`h⁰(D) ≤ deg D + h⁰(𝓞_K)` in nonnegative degree under the hypothesis that `h⁰` on divisors of degree
+zero is largest at `𝓞_K` (4.5).
 
 Suggested home: `TauCeti/NumberTheory/ThetaInvariants/`, beside Tau Ceti's
 `TauCeti/Algebra/Module/ZLattice/`.
@@ -32,14 +31,14 @@ Suggested home: `TauCeti/NumberTheory/ThetaInvariants/`, beside Tau Ceti's
 ## Scope and ownership
 
 **Owned here.** The invariants `h⁰_θ` and `h¹_θ` of a discrete subgroup of a Euclidean space and
-their theory as functions of the lattice: the Poisson–Riemann–Roch formula, positivity,
-monotonicity and the finite-index comparison, orthogonal sums, the value at `ℤ` (Layer 1); the
-equality case of the coset bound, the fibre bound and the subadditivity of `h⁰_θ` and `h¹_θ` in
-admissible extensions with the equality case (Layer 2); the bounds of `h⁰_θ` by the first minimum
-and the shifted Gaussian tail at every radius (Layer 3); the invariant `h⁰` of van der Geer and
-Schoof for Arakelov divisors of a number field, read as the logarithm of LFunctions' theta series
-of an ideal lattice, its invariance under principal divisors, its Riemann–Roch formula and its two
-bounds by the degree (Layer 4). No roadmap on main or in an open pull request states a theta
+their theory as functions of the lattice: the Poisson–Riemann–Roch formula, positivity, monotonicity
+and the finite-index comparison, orthogonal sums, Jacobi's relation at `τ = i` and the value at `ℤ`
+(Layer 1); the equality case of the coset bound, the fibre bound and the subadditivity of `h⁰_θ` and
+`h¹_θ` in admissible extensions with the equality case (Layer 2); the bounds of `h⁰_θ` by the first
+minimum and the shifted Gaussian tail at every radius (Layer 3); the invariant `h⁰` of van der Geer
+and Schoof for Arakelov divisors of a number field, read as the logarithm of LFunctions' theta
+series of an ideal lattice, its invariance under principal divisors, its Riemann–Roch formula and
+its two bounds by the degree (Layer 4). No roadmap on main or in an open pull request states a theta
 invariant as a logarithm or its inequalities.
 
 **Left to other roadmaps.**
@@ -48,12 +47,17 @@ invariant as a logarithm or its inequalities.
   upper half-plane* are ThetaSeries' (Layers 1–3) and are landed in Tau Ceti; they are consumed
   under their Tau Ceti names. The theta series of a lattice as a modular form is not used.
 - *The Gaussian sums `ρ_s(L + u)`, their Poisson identity, the coset inequality
-  `ρ_s(L + u) ≤ ρ_s(L)`, the scale and tail bounds at radius `√n` and the transference theorems* are
-  GeometryOfNumbersAndQuadraticArithmetic's (§§4.4.4–4.4.14), and so is the covolume of a projected
-  lattice (§0.3.1). The Gaussian sum `ρ_1(L)` of §4.4.4 is the sum whose logarithm 1.1 takes, and
-  the route of 3.3 is the scale bound of §4.4.8. This roadmap adds the equality case of the coset
-  inequality (2.1) and the tail bound at every radius with the coset factor one (3.3), and works at
-  `s = 1`, where `ρ_1(L) = exp h⁰_θ(L)`.
+  `ρ_s(L + u) ≤ ρ_s(L)`, the scale bound, the shifted tail bound at radius `√n`, the unshifted tail
+  bound `gaussian_variable_tail` at every radius `c√n` and the transference theorems* are
+  GeometryOfNumbersAndQuadraticArithmetic's (§§4.4.4–4.4.14, `gaussian_variable_tail` with
+  §4.4.13), and so are the discreteness and fullness of a projected lattice (§0.2.2) and its
+  covolume (§0.3.1). The Gaussian sum `ρ_1(L)` of §4.4.4 is the sum whose logarithm 1.1 takes, the
+  route of 3.2 is `gaussian_variable_tail`, and the route of 3.3 is the scale bound of §4.4.8. This
+  roadmap adds the equality case of the coset inequality (2.1) and the shifted tail bound at every
+  radius (3.3), which differs from `gaussian_variable_tail` only by the shift `x ∈ E`, with coset
+  factor one; it works at `s = 1`, where `ρ_1(L) = exp h⁰_θ(L)`.
+- *Lattice-point counts in convex bodies by the successive minima* are SieveMethodsAndPrimePatterns'
+  (§0.11a); the route of 3.1 uses its first-minimum bound for a closed ball.
 - *Hermitian vector bundles over `Spec 𝓞_K` and their Arakelov degree* are
   ArakelovGeometryAndAbelianHeights' (§§1.1–1.6), and *Arakelov divisors, their degree, principal
   divisors, the bundle `O(D)` and the compactified Picard group* are its §1.7. Layer 4 uses only the
@@ -62,8 +66,8 @@ invariant as a logarithm or its inequalities.
   here.
 - *The ideal lattice of a fractional ideal, its Euclidean dual, the theta series `latticeTheta`
   with one parameter per infinite place and its transformation law* are LFunctions' (Layer 1).
-  Layer 4 defines `h⁰` as the logarithm of `latticeTheta` at the parameter of a divisor, in the
-  normalisation of van der Geer and Schoof.
+  Layer 4 reads `h⁰` as the logarithm of `latticeTheta` at the parameter of a divisor, in the
+  normalisation of van der Geer and Schoof, and owns only that parameter.
 
 The boundary in one sentence: the logarithmic theta invariants, their inequalities and their
 equality cases are here; Poisson summation, theta series, Gaussian transference and Arakelov
@@ -88,8 +92,10 @@ degrees of bundles are with their owners.
   `L ∩ K = L.comap (K.subtype.restrictScalars ℤ) : Submodule ℤ K` and the quotient lattice is the
   image `π_(K^⊥)(L) : Submodule ℤ K^⊥` under `K^⊥.orthogonalProjectionOnto`. The extension is
   admissible when `L ∩ K` spans `K` over `ℝ`, which is the hypothesis `hK` of Layer 2; the quotient
-  lattice is then discrete and full in `K^⊥`. Witness: for `ℤ²` and `K = ℝ(1, 1)`,
-  `L ∩ K = ℤ(1, 1)` and `π_(K^⊥)(ℤ²) = ℤ(½, −½)`; for `K = ℝ(1, √2)`, `L ∩ K = 0` does not span `K`.
+  lattice is then discrete and full in `K^⊥` (GeometryOfNumbersAndQuadraticArithmetic §0.2.2
+  `projected_adapted_basis`, on the adapted basis of its §0.2.1). Witness: for `ℤ²` and
+  `K = ℝ(1, 1)`, `L ∩ K = ℤ(1, 1)` and `π_(K^⊥)(ℤ²) = ℤ(½, −½)`; for `K = ℝ(1, √2)`,
+  `L ∩ K = 0` does not span `K`.
 - **Arakelov divisors** are ArakelovGeometryAndAbelianHeights §1.7's pairs `(𝔞, λ)`, with their
   degree `deg^(𝔞, λ) = log N(𝔞) + ∑_v λ_v`, their principal divisors
   `(f) = (f𝓞_K, v ↦ −mult v · log|f|_v)` and the bundle
@@ -116,6 +122,7 @@ degrees of bundles are with their owners.
   `WithLp.linearEquiv`.
 - `Mathlib/GroupTheory/Index.lean`: `AddSubgroup.relIndex`;
   `Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean`: `Real.Gamma`;
+  `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean`: `Real.Gamma_mul_Gamma_one_sub`;
   `Mathlib/Analysis/SpecialFunctions/Gaussian/PoissonSummation.lean`:
   `Real.tsum_exp_neg_mul_int_sq`;
   `Mathlib/NumberTheory/ModularForms/JacobiTheta/OneVariable.lean`: `jacobiTheta`.
@@ -141,6 +148,9 @@ degrees of bundles are with their owners.
   `TauCeti.fourier_gaussian_of_im_pos`.
 - `TauCeti/Algebra/Module/ZLattice/Summable.lean`: `ZLattice.summable_exp_neg_mul_norm_add_sq`;
   `TauCeti/NumberTheory/ModularForms/ThetaSeries/Basic.lean`: `ZLattice.thetaSeries` (Checks).
+- `TauCeti/Analysis/SpecialFunctions/EllipticIntegral/Legendre.lean`: `TauCeti.Real.legendreK`;
+  `TauCeti/Analysis/SpecialFunctions/EllipticIntegral/Lemniscate.lean`:
+  `TauCeti.Real.legendreK_one_div_sqrt_two`.
 
 **From GeometryOfNumbersAndQuadraticArithmetic.**
 
@@ -149,7 +159,17 @@ degrees of bundles are with their owners.
 - §4.4.6: the Poisson identity `ρ_s(L + u) = covol(L)⁻¹ sⁿ ∑_(y ∈ L^∨) ρ_(1/s)(y) e(⟨y, u⟩)`.
 - §4.4.7 `gaussian_shift_le`: `ρ_s(L + u) ≤ ρ_s(L)`.
 - §4.4.8 `gaussian_scale_le`: `ρ_s(L + u) ≤ sⁿ ρ_1(L)` for `s ≥ 1`.
+- §4.4, with §4.4.13, `gaussian_variable_tail`: for `n ≥ 1` and `c ≥ (2π)^(−1/2)`, the mass of
+  `ρ_1` on the `v ∈ L` with `‖v‖ ≥ c√n` is at most `b(c)ⁿ ρ_1(L)`, `b(c) = c(2πe)^(1/2) exp(−πc²)`.
+- §0.2.2 `projected_adapted_basis`: the projection `π_(K^⊥)(L)` of a full lattice along an
+  admissible `K` is discrete and full in `K^⊥`.
 - §0.3.1 `covolume_projection`: `covol(π_(K^⊥)(L)) = covol(L)/covol(L ∩ K)` for an admissible `K`.
+
+**From SieveMethodsAndPrimePatterns.**
+
+- §0.11a, the first-minimum bound: `|L ∩ K| ≤ (⌊2/λ₀⌋ + 1)^d` for a full lattice `L` of a real
+  normed space of dimension `d ≥ 1`, a symmetric convex body `K` and the first minimum `λ₀` of `L`
+  with respect to `K`.
 
 **From ArakelovGeometryAndAbelianHeights.**
 
@@ -167,18 +187,19 @@ degrees of bundles are with their owners.
 
 Layer 1 defines `h⁰_θ` and `h¹_θ` and proves the Poisson–Riemann–Roch formula from Tau Ceti's
 Poisson summation (1.2); positivity (1.3), monotonicity (1.4), the finite-index comparison (1.5) and
-orthogonal sums (1.6) follow from the definition and 1.2, and 1.7 is the classical value of
-`jacobiTheta` at `i`. Layer 2 proves the equality case of the coset bound (2.1) from the same
-Poisson
-expansion, the fibre bound (2.2) from 2.1's inequality, and subadditivity with its equality case
-(2.3) from 2.2 and 2.1; 2.4 is 2.3 read through 1.2 and the covolume of a projection. Layer 3
-bounds `h⁰_θ` by the first minimum, by a count of lattice points in balls (3.1) and by the
-shifted tail (3.3, from GeometryOfNumbersAndQuadraticArithmetic's scale bound, then 3.2). Layer 4
-passes to number fields: `h⁰` of an Arakelov divisor is the logarithm of LFunctions'
-`latticeTheta` of its ideal lattice, which is `h⁰_θ` of that lattice for the metric of `O(D)`,
-4.2 is a change of variable, 4.3 is LFunctions' transformation law,
-4.4 uses the compactness of the classes of degree `½ log|Δ_K|`, and 4.5 combines 4.3 with a
-comparison of terms. The hardest targets are 2.3's equality case, 3.1 and 4.4.
+orthogonal sums (1.6) follow from the definition and 1.2; 1.7 is Jacobi's relation between
+`jacobiTheta i` and `K(1/√2)`, which with Tau Ceti's value of `K(1/√2)` gives the value at `ℤ`
+(1.8). Layer 2 proves the equality case of the coset bound (2.1) from the same Poisson expansion,
+the fibre bound (2.2) from 2.1's inequality, and subadditivity with its equality case (2.3) from 2.2
+and 2.1; 2.4 is 2.3 read through 1.2 and the covolume of a projection. Layer 3 bounds `h⁰_θ` by the
+first minimum, by SieveMethodsAndPrimePatterns' count of lattice points in balls (3.1) and by
+GeometryOfNumbersAndQuadraticArithmetic's unshifted tail bound (3.2), and proves the shifted tail
+bound (3.3) from that roadmap's scale bound. Layer 4 passes to number fields: `h⁰` of an Arakelov
+divisor is the logarithm of LFunctions' `latticeTheta` of its ideal lattice at the parameter of the
+divisor, which is `h⁰_θ` of the Euclidean lattice `O(D)`, 4.2 is a change of variable, 4.3 is
+LFunctions' transformation law, 4.4 uses the compactness of the classes of degree `½ log|Δ_K|`, and
+4.5 combines 4.3 with a comparison of terms. The hardest targets are 2.3's equality case, 3.1 and
+4.4.
 
 ## Layer 1: theta invariants and the Poisson–Riemann–Roch formula
 
@@ -194,10 +215,22 @@ writes these for a Hermitian vector bundle over `Spec ℤ`, which is a Euclidean
 GeometryOfNumbersAndQuadraticArithmetic §4.4.4; Tau Ceti `ZLattice.dual`,
 `ZLattice.summable_exp_neg_mul_norm_add_sq`; Mathlib `tsum`, `Real.log`.
 
+**API.**
+
+- Summability: for `[FiniteDimensional ℝ E]` and `[DiscreteTopology L]`, the series
+  `v ↦ exp(−π‖v‖²)` over `L` is summable (Tau Ceti `ZLattice.summable_exp_neg_mul_norm_add_sq` at
+  `x = 0`), and its sum is at least `1`, the term at `0`.
+- Under the same hypotheses `exp(h0θ L) = ∑' v : L, exp(−π‖v‖²)`; 3.1, 3.2 and 3.3 are stated with
+  this sum.
+- Invariance: for a linear isometric equivalence `φ : E ≃ₗᵢ[ℝ] F`, `h0θ (L.map φ) = h0θ L`, for
+  every `L`, since `φ` restricts to a bijection `L → φ(L)` preserving the terms. Layer 2 reads
+  `h0θ` of `L ∩ K ⊆ K` and of `π_(K^⊥)(L) ⊆ K^⊥` through it, and 4.1 reads `h⁰(D)` as `h0θ` of the
+  Euclidean lattice `O(D)`.
+
 **Checks.**
 
 - `h0θ ⊥ = 0`: the only term is `exp 0 = 1`. A definition summing over `L ∖ {0}` would give
-  `log 0 = 0` at `⊥` and `log 0.0864348 = −2.44838` at `ℤ`, negative, against 1.3.
+  `log 0 = 0` at `⊥` and `log 0.0864348 = −2.44836` at `ℤ`, negative, against 1.3.
 - `h0θ (ℤ ⊂ ℝ) = log 1.0864348… = 0.0829015`, the logarithm of Tau Ceti's
   `ZLattice.thetaSeries ℤ UpperHalfPlane.I`; an exponent `2π` in place of `π` would give
   `log ∑ exp(−2πn²) = 0.0037279` instead, the value at `√2 ℤ`.
@@ -224,9 +257,11 @@ at least `1`. *Needs:* GeometryOfNumbersAndQuadraticArithmetic §4.4.6; Tau Ceti
 
 ### 1.3 Positivity
 
-Prove `h0θ_nonneg`: `0 ≤ h0θ L` for a discrete `L` in a finite-dimensional `E`, and
-`h0θ_eq_zero_iff`: `h0θ L = 0 ↔ L = ⊥` (Bost, Proposition 2.3.1, p. 14). The term at `0` is `1`
-and every other term is positive. With 1.2 and the dual's instances this gives `h1θ L ≥ 0` and the
+Prove `h0θ_nonneg`: `0 ≤ h0θ L` for every `L : Submodule ℤ E`, and `h0θ_eq_zero_iff`:
+`h0θ L = 0 ↔ L = ⊥` for a discrete `L` in a finite-dimensional `E` (Bost, Proposition 2.3.1,
+p. 14). For `h0θ_nonneg`: when the series is summable its sum is at least the term `1` at `0`, and
+otherwise the `tsum` is `0` and `log 0 = 0`. For `h0θ_eq_zero_iff`: the term at `0` is `1` and
+every other term is positive. With 1.2 and the dual's instances this gives `h1θ L ≥ 0` and the
 Riemann inequality `h0θ L ≥ −log covol L` for a full `L` (Bost, (2.3.2)), strict in positive rank.
 *Needs:* 1.1; Tau Ceti `ZLattice.summable_exp_neg_mul_norm_add_sq`.
 
@@ -236,7 +271,8 @@ Riemann inequality `h0θ L ≥ −log covol L` for a full `L` (Bost, (2.3.2)), s
 - Riemann inequality at `ℤ²`: `0.1658030 ≥ 0`; at `½ℤ`: `0.6931542 ≥ log 2 = 0.6931472`, with
   difference `h1θ(½ℤ) = h0θ(2ℤ)`.
 - `h0θ_eq_zero_iff` needs discreteness: for the non-discrete `ℤ + √2 ℤ ⊂ ℝ` the series diverges, its
-  `tsum` is `0` and `h0θ = log 0 = 0` although the subgroup is not `⊥`.
+  `tsum` is `0` and `h0θ = log 0 = 0 ≥ 0` although the subgroup is not `⊥`; `h0θ_nonneg` holds
+  there.
 
 Not a target: the minimisers of `h⁰_θ` among full lattices of rank `n` and covolume `1`. By 1.2
 such a lattice has `h⁰_θ(L) = h¹_θ(L) = h⁰_θ(L^∨)`, so the dual of a minimiser is a minimiser. For
@@ -299,13 +335,33 @@ summable series. *Needs:* Mathlib `WithLp.linearEquiv` and the inner product of 
   `(±1, ±1)` get the weight `e^(−π)` instead of `e^(−2π)`.
 - `L = ⊥`: `h0θ (⊥ × M) = h0θ M`.
 
-### 1.7 The value at `ℤ`
+### 1.7 Jacobi's relation at `i`
+
+Prove `jacobiTheta_I_sq`: `jacobiTheta i ^ 2 = 2 K(1/√2)/π`, with `K = TauCeti.Real.legendreK` the
+complete elliptic integral of the first kind in the modulus (DLMF, 20.9.1 and 20.9.2 at `τ = i`).
+Route: DLMF 20.9.2 gives `K(k) = ½π θ₃(0|τ)²` and `K(k′) = −iτ K(k)` for the modulus
+`k = θ₂(0|τ)²/θ₃(0|τ)²` of 20.9.1, and `θ₃(0|τ)` is Mathlib's `jacobiTheta τ`. At `τ = i`,
+`K(k′) = K(k)` with `K` strictly increasing on `[0, 1)` forces `k = k′ = 1/√2`. *Needs:* Mathlib
+`jacobiTheta`; Tau Ceti `TauCeti.Real.legendreK`.
+
+**Checks.**
+
+- Numerically `jacobiTheta i ^ 2 = 1.0864348² = 1.1803406` and
+  `2K(1/√2)/π = 2 · 1.8540747/π = 1.1803406`.
+- The modulus is `1/√2`, not the parameter `m = k² = ½`: `2K(½)/π = 1.0731820 ≠ 1.1803406`.
+- The factor is `2/π`: `K(1/√2)/π = 0.5901703` would give `jacobiTheta i = 0.7682254 < 1`,
+  impossible for a sum of the term `1` and positive terms.
+
+### 1.8 The value at `ℤ`
 
 Prove `h0θ_span_one`: `h0θ (ℤ ∙ 1) = log(π^(1/4)/Γ(3/4))`, that is `∑_(n ∈ ℤ) exp(−πn²) =
-π^(1/4)/Γ(3/4)` (van der Geer–Schoof, Proposition 4, the invariant `η(ℚ) = ω`). Route: the value
-`jacobiTheta i`, by the evaluation of `E₄/θ⁸` at `i` and the Chowla–Selberg value of the period of
-`y² = 4x³ − 4x`, as in van der Geer–Schoof's proof. *Needs:* Mathlib `jacobiTheta`, `Real.Gamma`;
-1.1.
+π^(1/4)/Γ(3/4)` (van der Geer–Schoof, Proposition 4, the invariant `η(ℚ) = ω`). Route: the sum is
+the real value `jacobiTheta i`, and 1.7 with Tau Ceti
+`TauCeti.Real.legendreK_one_div_sqrt_two`, `K(1/√2) = Γ(1/4)²/(4√π)`, gives
+`jacobiTheta i ^ 2 = Γ(1/4)²/(2π^(3/2))`; Euler's reflection formula `Γ(1/4)Γ(3/4) = π√2` (Mathlib
+`Real.Gamma_mul_Gamma_one_sub` at `1/4`) turns this into `π^(1/2)/Γ(3/4)²`; take the positive
+square root. *Needs:* Mathlib `jacobiTheta`, `Real.Gamma`, `Real.Gamma_mul_Gamma_one_sub`; Tau Ceti
+`TauCeti.Real.legendreK_one_div_sqrt_two`; 1.1, 1.7.
 
 **Checks.**
 
@@ -325,8 +381,10 @@ Prove `h0θ_span_one`: `h0θ (ℤ ∙ 1) = log(π^(1/4)/Γ(3/4))`, that is `∑_
 ### Dependencies
 
 Mathlib: `ZLattice.covolume`, `IsZLattice`, `WithLp`, `AddSubgroup.relIndex`, `jacobiTheta`,
-`Real.Gamma`. Tau Ceti: `ZLattice.dual`, Poisson summation and the Gaussian (`TauCeti/Analysis`).
-GeometryOfNumbersAndQuadraticArithmetic §§4.4.4, 4.4.6 and 4.4.7.
+`Real.Gamma`, `Real.Gamma_mul_Gamma_one_sub`. Tau Ceti: `ZLattice.dual`, Poisson summation and the
+Gaussian (`TauCeti/Analysis`), `TauCeti.Real.legendreK` and
+`TauCeti.Real.legendreK_one_div_sqrt_two`. GeometryOfNumbersAndQuadraticArithmetic §§4.4.4, 4.4.6
+and 4.4.7.
 
 ## Layer 2: cosets and admissible extensions
 
@@ -344,7 +402,7 @@ GeometryOfNumbersAndQuadraticArithmetic §4.4.6 and §4.4.7; Tau Ceti `ZLattice.
 **Checks.**
 
 - `L = ℤ`, `x = ½`: `0.9135791 < 1.0864348`, strict; `x = 1`: equal, as the coset is `ℤ`.
-- `L = ℤ²`, `x = (½, 0)`: `0.9135791 · 1.0864348 = 0.9925425 < 1.1803405`.
+- `L = ℤ²`, `x = (½, 0)`: `0.9135791 · 1.0864348 = 0.9925442 < 1.1803406`.
 - Rank zero: `x = 0 ∈ ⊥` and both sides are `1`.
 
 ### 2.2 The fibre bound
@@ -371,7 +429,8 @@ Prove `h0θ_le_h0θ_add_h0θ`: for a full `L` and a subspace `K` with `L ∩ K` 
 `K^⊥.starProjection v ∈ L` for every `v ∈ L`, that is when `L = (L ∩ K) ⊕ (L ∩ K^⊥)` orthogonally
 (Bost, Proposition 2.8.1, p. 25; Groenewegen, Lemma 5.3, p. 149). Route: sum 2.2 over
 `g ∈ π_(K^⊥)(L)`; equality forces equality in every fibre, hence by 2.1 `π_K(f₀) ∈ L ∩ K` for every
-`f₀ ∈ L`. *Needs:* 2.1; 2.2; Mathlib `Submodule.starProjection`.
+`f₀ ∈ L`. *Needs:* 2.1; 2.2; GeometryOfNumbersAndQuadraticArithmetic §0.2.2
+`projected_adapted_basis` (`π_(K^⊥)(L)` discrete); Mathlib `Submodule.starProjection`.
 
 **Checks.**
 
@@ -387,8 +446,9 @@ Prove `h1θ_le_h1θ_add_h1θ`: under the hypotheses of 2.3,
 `h1θ L ≤ h1θ (L ∩ K) + h1θ (π_(K^⊥)(L))`, the duals taken in `K` and in `K^⊥` (Bost, (2.8.3),
 p. 25). Route: `deg L = deg (L ∩ K) + deg π_(K^⊥)(L)` by
 GeometryOfNumbersAndQuadraticArithmetic §0.3.1, and 1.2 in `E`, `K` and `K^⊥` turn 2.3 into the
-same inequality for `h¹_θ`, with the same defect. *Needs:* 1.2; 2.3;
-GeometryOfNumbersAndQuadraticArithmetic §0.3.1.
+same inequality for `h¹_θ`, with the same defect; 1.2 in `K^⊥` applies because `π_(K^⊥)(L)` is
+discrete and full there. *Needs:* 1.2; 2.3; GeometryOfNumbersAndQuadraticArithmetic §0.2.2
+`projected_adapted_basis` and §0.3.1.
 
 **Checks.**
 
@@ -405,7 +465,7 @@ GeometryOfNumbersAndQuadraticArithmetic §0.3.1.
 
 ### Dependencies
 
-Layer 1. GeometryOfNumbersAndQuadraticArithmetic §0.3.1, §4.4.6 and §4.4.7. Mathlib:
+Layer 1. GeometryOfNumbersAndQuadraticArithmetic §0.2.2, §0.3.1, §4.4.6 and §4.4.7. Mathlib:
 `Submodule.orthogonalProjectionOnto`, `Submodule.starProjection`.
 
 ## Layer 3: theta invariants and the first minimum
@@ -415,14 +475,17 @@ Layer 1. GeometryOfNumbersAndQuadraticArithmetic §0.3.1, §4.4.6 and §4.4.7. M
 Prove `exp_h0θ_sub_one_le_of_le_norm`: for a full lattice `L` of rank `n ≥ 1` and `r > 0` with
 `r ≤ ‖v‖` for every nonzero `v ∈ L` and `n < 2πr²`,
 `exp(h0θ L) − 1 ≤ 3ⁿ (1 − n/(2πr²))⁻¹ exp(−πr²)` (Bost, Proposition 2.6.2, (2.6.4) and (2.6.6),
-p. 21; Groenewegen, Proposition 4.4, p. 148). Route: `θ_L(1) = π ∫_0^∞ N_L(√u) e^(−πu) du` with
-`N_L(ρ) = #{v ∈ L | ‖v‖ ≤ ρ} ≤ (2ρ/r + 1)ⁿ` by disjoint balls (Bost, Proposition 2.6.1 and Lemma
-2.6.3), then the incomplete Gamma integral (Lemma 2.6.4); the right side decreases in `r`. *Needs:*
-1.1; Mathlib `Real.Gamma`, `MeasureTheory.Measure.addHaar_ball`.
+p. 21; cf. Groenewegen, Proposition 4.4, p. 148, the weaker bound
+`1 + 3ⁿπ(π − log 3)⁻¹ exp(−πλ²)` for `λ₁ ≥ √n`). Route: `θ_L(1) = π ∫_0^∞ N_L(√u) e^(−πu) du`
+(Bost, Proposition 2.6.1) with `N_L(ρ) = #{v ∈ L | ‖v‖ ≤ ρ} ≤ (⌊2ρ/λ₁⌋ + 1)ⁿ ≤ (2ρ/r + 1)ⁿ`, the
+first-minimum bound of SieveMethodsAndPrimePatterns §0.11a for `K` the closed `ρ`-ball, whose first
+minimum is `λ₁/ρ`; then the incomplete Gamma integral (Bost, Lemma 2.6.4); the right side
+decreases in `r`. *Needs:* 1.1; SieveMethodsAndPrimePatterns §0.11a; Mathlib `Real.Gamma`.
 
 **Checks.**
 
-- `L = 2ℤ`, `r = 2`: `exp(h0θ) − 1 = 0.0000070 ≤ 3 · (1 − 1/(8π))⁻¹ e^(−4π) = 0.0000109`.
+- `L = 2ℤ`, `r = 2`: `exp(h0θ) − 1 = 0.0000070 ≤ 3 · (1 − 1/(8π))⁻¹ e^(−4π) = 0.0000109`; the
+  count at `ρ = 5` is `#{0, ±2, ±4} = 5 ≤ ⌊10/2⌋ + 1 = 6`.
 - `r > 0` is needed: `r = −10` satisfies `r ≤ ‖v‖` and `n < 2πr²` for `ℤ`, and the right side is
   `3(1 − 1/(200π))⁻¹ e^(−100π)`, far below `0.0864348`.
 - `n < 2πr²` is needed: for `ℤ` and `r = 0.3`, `1 − 1/(2π · 0.09) < 0` and the right side is
@@ -432,8 +495,11 @@ p. 21; Groenewegen, Proposition 4.4, p. 148). Route: `θ_L(1) = π ∫_0^∞ N_L
 
 Prove `exp_h0θ_sub_one_le_div_of_le_norm`: for a full lattice of rank `n ≥ 1` and `t > 1` with
 `(n/2π)^(1/2) t ≤ ‖v‖` for every nonzero `v ∈ L`, `exp(h0θ L) − 1 ≤ q/(1 − q)` with
-`q = (t exp(−(t² − 1)/2))ⁿ` (Bost, Corollary 3.2.3, (3.2.6), p. 34). Route: 3.3 at `x = 0` and
-`r = λ₁(L)`, then `exp h0θ − 1 ≤ q exp h0θ`; `q` decreases in `t ≥ 1`. *Needs:* 3.3; 1.1.
+`q = (t exp(−(t² − 1)/2))ⁿ` (Bost, Corollary 3.2.3, (3.2.6), p. 34). Route:
+GeometryOfNumbersAndQuadraticArithmetic's `gaussian_variable_tail` (§4.4, with §4.4.13) at
+`c = t/(2π)^(1/2)`, where `b(c) = t exp(−(t² − 1)/2)` and the radius `c√n` is at most `λ₁(L)`, so
+that the tail is the mass of `L ∖ 0`; then `exp h0θ − 1 ≤ q exp h0θ`. *Needs:*
+GeometryOfNumbersAndQuadraticArithmetic §4.4 `gaussian_variable_tail`; 1.1.
 
 **Checks.**
 
@@ -450,8 +516,10 @@ Prove `tsum_tail_le`: for a full lattice of rank `n ≥ 1`, `x ∈ E` and `t ≥
 3.2.1). Route: with `R = (n/2π)^(1/2) t`, bound each term of the tail by
 `e^(−π(1 − t⁻²)R²) e^(−π‖v − x‖²/t²)`, then the sum of the second factors over all of `L` is
 `ρ_t(L − x) ≤ tⁿ ρ_1(L)` by the scale bound GeometryOfNumbersAndQuadraticArithmetic §4.4.8 at
-`s = t`; and `e^(−π(1 − t⁻²)R²) = exp(−(t² − 1)n/2)`. *Needs:* 1.1;
-GeometryOfNumbersAndQuadraticArithmetic §4.4.8.
+`s = t`; and `e^(−π(1 − t⁻²)R²) = exp(−(t² − 1)n/2)`. At `x = 0` this is
+GeometryOfNumbersAndQuadraticArithmetic's `gaussian_variable_tail` at `c = t/(2π)^(1/2)`; the
+shift `x ∈ E` is what this target adds. *Needs:* 1.1; GeometryOfNumbersAndQuadraticArithmetic
+§4.4.8.
 
 **Checks.**
 
@@ -470,23 +538,33 @@ GeometryOfNumbersAndQuadraticArithmetic §4.4.8.
 
 ### Dependencies
 
-Layer 1. GeometryOfNumbersAndQuadraticArithmetic §4.4.8. Mathlib: `Real.Gamma`,
-`MeasureTheory.Measure.addHaar_ball`.
+Layer 1. GeometryOfNumbersAndQuadraticArithmetic §4.4.8 and §4.4 `gaussian_variable_tail`.
+SieveMethodsAndPrimePatterns §0.11a. Mathlib: `Real.Gamma`.
 
 ## Layer 4: Arakelov divisors of a number field
 
 ### 4.1 The invariant `h⁰` of an Arakelov divisor
 
-Define, for `I : FractionalIdeal (𝓞 K)⁰ K` and `x : InfinitePlace K → ℝ`, the invariant
-`h⁰(D) = log θ_(σ(I))(y)` of `D = (I, x)`, where `θ_(σ(I))` is LFunctions' `latticeTheta` (Layer 1)
-of the ideal lattice `σ(I)` and `y_v = mult v · exp(−2x_v/mult v)`, which is `exp(−2x_v)` at a real
-place and `2 exp(−x_v)` at a complex place. Since `latticeTheta` weighs a complex coordinate `z`
-by `y_v|z|²`, this is `log ∑_(f ∈ I) exp(−π‖f‖²_D)` with the metric of the Conventions (van der
-Geer–Schoof, §2 for the metric and §3 for `h⁰`), and it is `h⁰_θ` (1.1) of the Euclidean lattice
-`O(D)` of ArakelovGeometryAndAbelianHeights §1.7, Bost's `h⁰_θ(π_* O(D))` (Bost, (2.2.4), p. 13).
-Only the parameter is new here; the theta series is LFunctions'. *Needs:* LFunctions Layer 1
+Define `h0Div K I x`, for `I : FractionalIdeal (𝓞 K)⁰ K` and `x : InfinitePlace K → ℝ`, the
+invariant `h⁰(D) = log ∑'_(f ∈ I) exp(−π‖f‖²_D)` of `D = (I, x)`, with
+`‖f‖²_D = ∑_σ exp(−2x_v/mult v)|σ f|²` over the embeddings `σ : K →+* ℂ`, `v` the place of `σ`
+(van der Geer–Schoof, §2 for the metric and §3 for `h⁰`). It is `log θ_(σ(I))(y)`, where
+`θ_(σ(I))` is LFunctions' `latticeTheta` (Layer 1) of the ideal lattice `σ(I)` and
+`y_v = mult v · exp(−2x_v/mult v)`, which is `exp(−2x_v)` at a real place and `2 exp(−x_v)` at a
+complex place, since `latticeTheta` weighs a complex coordinate `z` by `y_v|z|²`. Only the
+parameter is new here; the theta series is LFunctions'. *Needs:* LFunctions Layer 1
 (`latticeTheta`); ArakelovGeometryAndAbelianHeights §1.7; Mathlib `InfinitePlace.mult`,
 `FractionalIdeal`; 1.1.
+
+**API.**
+
+- Summability: the series over `I` is summable, since `σ(I)` is a discrete subgroup of the
+  finite-dimensional Euclidean space of the metric `‖·‖_D` (Tau Ceti
+  `ZLattice.summable_exp_neg_mul_norm_add_sq`); `exp(h0Div K I x)` is its sum, at least `1`.
+- `h0Div K I x = h0θ` (1.1) of the Euclidean lattice `O(D)` of ArakelovGeometryAndAbelianHeights
+  §1.7, Bost's `h⁰_θ(π_* O(D))` (Bost, (2.2.4), p. 13), by the invariance of 1.1 under linear
+  isometric equivalences.
+- `h0Div K 0 x = 0`: the zero ideal has the single term `1`.
 
 **Checks.**
 
@@ -501,7 +579,7 @@ Only the parameter is new here; the theta series is LFunctions'. *Needs:* LFunct
 
 ### 4.2 Invariance under principal divisors
 
-Prove that `h⁰(D + (f)) = h⁰(D)` for `f ∈ Kˣ` and the principal divisor `(f)` of
+Prove `h0Div_add_principal`: `h⁰(D + (f)) = h⁰(D)` for `f ∈ Kˣ` and the principal divisor `(f)` of
 ArakelovGeometryAndAbelianHeights §1.7, that is `h⁰(f⁻¹I, v ↦ x_v − mult v · log|f|_v) = h⁰(I, x)`
 (van der Geer–Schoof, §3: `h⁰` depends only on the class in the Arakelov–Picard group). Route:
 `g ↦ fg` is a bijection `f⁻¹I → I` with `‖g‖²_(D + (f)) = ‖fg‖²_D`. *Needs:* 4.1;
@@ -515,7 +593,8 @@ ArakelovGeometryAndAbelianHeights §1.7; Mathlib `FractionalIdeal.spanSingleton`
 
 ### 4.3 The Riemann–Roch formula
 
-Prove that for `I ≠ 0`, `h⁰(I, x) − h⁰(I^*, −x) = (∑_v x_v − log N(I)) − ½ log|Δ_K|` with
+Prove `h0Div_sub_h0Div_dual`: for `I ≠ 0`,
+`h⁰(I, x) − h⁰(I^*, −x) = (∑_v x_v − log N(I)) − ½ log|Δ_K|` with
 `I^* = FractionalIdeal.dual ℤ ℚ I`, that is `h⁰(D) − h⁰(κ − D) = deg D − ½ log|Δ_K|`
 (van der Geer–Schoof, Proposition 1; Bost, (2.2.6), p. 14; Groenewegen, Proposition 6.4, p. 154).
 Route: the lattices of `D` and `κ − D` are dual for the inner product of `‖·‖_D`, and
@@ -535,10 +614,11 @@ ArakelovGeometryAndAbelianHeights §1.7 (the degree); Mathlib `FractionalIdeal.d
 
 ### 4.4 Divisors of small degree
 
-Prove that there is `β` such that for every `D = (I, x)` with `I ≠ 0` and
+Prove `exists_h0Div_le`: there is `β` such that for every `D = (I, x)` with `I ≠ 0` and
 `deg D ≤ ½ log|Δ_K|`, `h⁰(D) ≤ β exp(−πn exp(−2 deg D/n))`, `n = [K : ℚ]`
 (van der Geer–Schoof, Corollary 1 of Proposition 2). Route: raise `D` to degree `½ log|Δ_K|` by
-`u = (½ log|Δ_K| − deg D)/n` at every place, bound `h⁰` and the first minimum on the classes of
+replacing `x_v` with `x_v + mult v · u`, `u = (½ log|Δ_K| − deg D)/n`, which scales `‖·‖_D` by
+`e^(−u)`; bound `h⁰` and the first minimum on the classes of
 that degree, which form a compact set (the exact sequence of ArakelovGeometryAndAbelianHeights
 §1.7, with Mathlib's finite class group and the unit lattice of full rank), and bound
 `‖f‖²_D ≥ n exp(−2 deg D/n)` for `f ∈ I ∖ 0` by the arithmetic–geometric mean inequality and
@@ -555,9 +635,10 @@ that degree, which form a compact set (the exact sequence of ArakelovGeometryAnd
 
 ### 4.5 The bound in nonnegative degree
 
-Prove that if `h⁰(D) ≤ h⁰(𝓞_K)` for every `D` of degree `0`,
-then `h⁰(D) ≤ deg D + h⁰(𝓞_K)` for every `D` of degree `≥ 0` (van der Geer–Schoof, Proposition 3).
-Route: lower `D` to `D′` of degree `0` by `u = deg D/n` at every place, compare `h⁰(κ − D) ≤
+Prove `h0Div_le_deg_add`: if `h⁰(D) ≤ h⁰(𝓞_K)` for every `D` with `I ≠ 0` of degree `0`,
+then `h⁰(D) ≤ deg D + h⁰(𝓞_K)` for every `D` with `I ≠ 0` of degree `≥ 0` (van der Geer–Schoof,
+Proposition 3). Route: lower `D` to `D′` of degree `0` by replacing `x_v` with
+`x_v − mult v · u`, `u = deg D/n`, which scales `‖·‖_D` by `e^(u)`; compare `h⁰(κ − D) ≤
 h⁰(κ − D′)` term by term, and apply 4.3 twice. *Needs:* 4.3; 4.1.
 
 **Checks.**
@@ -592,19 +673,17 @@ finiteness theorems of his Chapters 7 and 8, and applies them to algebraicity cr
 curves. Van der Geer and Schoof conjecture that for a number field Galois over `ℚ` or over an
 imaginary quadratic field, `h⁰` on the classes of degree zero is largest at `𝓞_K`; they report it
 proved for quadratic fields by Francini (§5), and 4.5 is its consequence. It is also known for
-quadratic extensions of imaginary quadratic fields (Tran 2017), cyclic cubic fields (Tran–Tian
-2018) and totally imaginary cyclic sextic fields (Tran–Tian–Feaver 2023), whose abstract states it
-for every field of unit rank `0` or `1`; Francini (2004) treats a class of pure cubic fields, which
-are not Galois. It is open as far as we know for the Galois fields of unit rank at least `2`
-outside these families, for instance the real cyclic quartic and real biquadratic fields (unit
-rank `3`), so 4.5 applies unconditionally only to these families. Which lattices of rank `3` and
-covolume `1` minimise `h⁰_θ` is also open as far as we know; the non-target after 1.3 records the
-known ranks and the tie between the face-centred and body-centred cubic lattices. Banaszczyk's
-transference theorems rest on the same Gaussian masses, and Bost (§3.2) recovers them from
-Layers 1–3. Groenewegen proves an arithmetic analogue of Clifford's theorem with these invariants
-(Theorem 7.4). Quillen's notebook 1973-3
-(Clay Mathematics Institute) works on these inequalities; Bost attributes 2.3 over `ℤ` to its entry
-of 26 April 1973 (§2.8.2).
+quadratic extensions of imaginary quadratic fields (Tran 2017), cyclic cubic fields (Tran–Tian 2018)
+and totally imaginary cyclic sextic fields (Tran–Tian–Feaver 2023); Francini (2004) treats a class
+of pure cubic fields, which are not Galois. It is open as far as we know for the Galois fields of
+unit rank at least `2` outside these families, for instance the real cyclic quartic and real
+biquadratic fields (unit rank `3`), so 4.5 applies unconditionally only to these families. Which
+lattices of rank `3` and covolume `1` minimise `h⁰_θ` is also open as far as we know; the non-target
+after 1.3 records the known ranks and the tie between the face-centred and body-centred cubic
+lattices. Banaszczyk's transference theorems rest on the same Gaussian masses, and Bost (§3.2)
+recovers them from Layers 1–3. Groenewegen proves an arithmetic analogue of Clifford's theorem with
+these invariants (Theorem 7.4). Quillen's notebook 1973-3 (Clay Mathematics Institute) works on
+these inequalities; Bost attributes 2.3 over `ℤ` to its entry of 26 April 1973 (§2.8.2).
 
 ## References
 
@@ -612,6 +691,9 @@ of 26 April 1973 (§2.8.2).
   bundles over arithmetic curves*, Progr. Math. 334, Birkhäuser, Cham, 2020.
   doi:10.1007/978-3-030-44329-0; Zbl 1471.11002; arXiv:1512.08946 (numbering and pages of arXiv
   version 2).
+- W. P. Reinhardt, P. L. Walker, « Theta functions », Chapter 20 of F. W. J. Olver et al. (eds.),
+  *NIST Digital Library of Mathematical Functions*, Release 1.2.8 (2026-09-15), §20.9(i).
+  https://dlmf.nist.gov/20.9
 - G. van der Geer, R. Schoof, « Effectivity of Arakelov divisors and the theta divisor of a number
   field », *Selecta Math. (N.S.)* 6 (2000), no. 4, 377–398. doi:10.1007/PL00001393;
   Zbl 1030.11063; arXiv:math/9802121 (numbering of arXiv version 3).

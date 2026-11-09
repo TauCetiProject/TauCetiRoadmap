@@ -2,6 +2,7 @@ module
 
 public import Mathlib
 public import TauCeti.Algebra.Module.ZLattice.Dual
+public import TauCeti.Analysis.SpecialFunctions.EllipticIntegral.Legendre
 
 /-!
 # Theta invariants of Euclidean lattices: target signatures
@@ -15,7 +16,10 @@ Tau Ceti's `ZLattice.dual L`, the dual submodule of the inner product.
 Definitions: README 1.1, `h0θ` and `h1θ`. `h0θ L` is the logarithm of
 GeometryOfNumbersAndQuadraticArithmetic's Gaussian sum `ρ_1(L)` (its §4.4.4,
 `latticeGaussianSum` at `s = 1`, `u = 0`), which is not at the pins, so the sum is written out;
-it is taken over every `ℤ`-submodule, full or not.
+it is taken over every `ℤ`-submodule, full or not. README 4.1, `h0Div`: the invariant `h⁰(D)` of
+an Arakelov divisor `D = (I, x)`, the logarithm of LFunctions' theta series `latticeTheta` of the
+ideal lattice of `I` at the parameter of `x`, which is not at the pins, so the sum is written out
+over `I` for the metric of `D`.
 
 Headline theorems stated here:
 
@@ -26,7 +30,8 @@ Headline theorems stated here:
   injective contractions, with its equality case.
 * README 1.5, `h0θ_sub_log_relIndex_le`: comparison with a sublattice of finite index.
 * README 1.6, `h0θ_prod`: additivity on orthogonal sums.
-* README 1.7, `h0θ_span_one`: `h⁰_θ(ℤ) = log (π^(1/4) / Γ(3/4))`.
+* README 1.7, `jacobiTheta_I_sq`: Jacobi's relation `θ(i)² = 2K(1/√2)/π`.
+* README 1.8, `h0θ_span_one`: `h⁰_θ(ℤ) = log (π^(1/4) / Γ(3/4))`.
 * README 2.1, `tsum_exp_add_eq_tsum_exp_iff`: the coset mass equals the lattice mass exactly on
   the lattice.
 * README 2.2, `tsum_fibre_le`: the fibre bound over a vector of the quotient lattice.
@@ -36,18 +41,18 @@ Headline theorems stated here:
 * README 3.1, `exp_h0θ_sub_one_le_of_le_norm`: the upper bound by the first minimum.
 * README 3.2, `exp_h0θ_sub_one_le_div_of_le_norm`: the Banaszczyk form of that bound.
 * README 3.3, `tsum_tail_le`: the Gaussian mass of a coset outside a ball.
-
-Not stated: README 4.1–4.5, the invariant `h⁰(D)` of an Arakelov divisor and its invariance
-under principal divisors, Riemann–Roch formula and two bounds by the degree, lacking LFunctions'
-`latticeTheta` (Layer 1), the theta series of an ideal lattice with one parameter per infinite
-place, of which `h⁰(D)` is the logarithm at the parameter of the divisor. Writing that series out
-over the fractional ideal here would restate LFunctions' definition.
+* README 4.2, `h0Div_add_principal`: invariance of `h⁰` under principal divisors.
+* README 4.3, `h0Div_sub_h0Div_dual`: the Riemann–Roch formula
+  `h⁰(D) − h⁰(κ − D) = deg D − ½ log |Δ_K|`.
+* README 4.4, `exists_h0Div_le`: the decay of `h⁰` in degree at most `½ log |Δ_K|`.
+* README 4.5, `h0Div_le_deg_add`: the bound `h⁰(D) ≤ deg D + h⁰(𝓞_K)` in nonnegative degree,
+  under the hypothesis that `h⁰` on divisors of degree zero is largest at `𝓞_K`.
 -/
 
 @[expose] public section
 
-open Module
-open scoped Real RealInnerProductSpace
+open Module NumberField
+open scoped Real RealInnerProductSpace nonZeroDivisors
 
 namespace TauCetiRoadmap.ThetaInvariantsOfEuclideanLattices
 
@@ -73,10 +78,9 @@ theorem h0θ_sub_h1θ [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace 
     h0θ L - h1θ L = -Real.log (ZLattice.covolume L) :=
   sorry
 
-/-- README 1.3. The theta invariant of a discrete subgroup is nonnegative (Bost, Proposition
+/-- README 1.3. The theta invariant of a `ℤ`-submodule is nonnegative (Bost, Proposition
 2.3.1). -/
-theorem h0θ_nonneg [FiniteDimensional ℝ E] (L : Submodule ℤ E) [DiscreteTopology L] :
-    0 ≤ h0θ L :=
+theorem h0θ_nonneg (L : Submodule ℤ E) : 0 ≤ h0θ L :=
   sorry
 
 /-- README 1.3. The theta invariant of a discrete subgroup vanishes exactly on the zero subgroup
@@ -115,7 +119,13 @@ theorem h0θ_prod [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] (L : Submo
     h0θ ((L.prod M).comap (WithLp.linearEquiv 2 ℤ (E × F)).toLinearMap) = h0θ L + h0θ M :=
   sorry
 
-/-- README 1.7. `h⁰_θ(ℤ) = log (π^(1/4) / Γ(3/4))` (van der Geer–Schoof, Proposition 4). -/
+/-- README 1.7. Jacobi's relation at `τ = i`: `θ(i)² = 2K(1/√2)/π`, with `K` the complete elliptic
+integral of the first kind (DLMF 20.9.1–20.9.2). -/
+theorem jacobiTheta_I_sq :
+    jacobiTheta Complex.I ^ 2 = ((2 * TauCeti.Real.legendreK (1 / √2) / π : ℝ) : ℂ) :=
+  sorry
+
+/-- README 1.8. `h⁰_θ(ℤ) = log (π^(1/4) / Γ(3/4))` (van der Geer–Schoof, Proposition 4). -/
 theorem h0θ_span_one :
     h0θ (Submodule.span ℤ {(1 : ℝ)}) = Real.log (π ^ (1 / 4 : ℝ) / Real.Gamma (3 / 4)) :=
   sorry
@@ -202,5 +212,59 @@ theorem tsum_tail_le [FiniteDimensional ℝ E] [Nontrivial E] (L : Submodule ℤ
         Real.exp (-π * ‖((v : L) : E) - x‖ ^ 2) ≤
       (t * Real.exp (-(t ^ 2 - 1) / 2)) ^ finrank ℝ E * ∑' v : L, Real.exp (-π * ‖(v : E)‖ ^ 2) :=
   sorry
+
+/-! ## Layer 4: Arakelov divisors of a number field -/
+
+section ArakelovDivisor
+
+variable (K : Type*) [Field K] [NumberField K]
+
+/-- README 4.1. The invariant `h⁰(D) = log ∑_{f ∈ I} exp (-π ‖f‖²_D)` of the Arakelov divisor
+`D = (I, x)`, with `‖f‖²_D = ∑_σ exp (-2 x_v / mult v) |σ f|²` over the complex embeddings `σ`, `v`
+the place of `σ` (van der Geer–Schoof, §§2–3). -/
+noncomputable def h0Div (I : FractionalIdeal (𝓞 K)⁰ K) (x : InfinitePlace K → ℝ) : ℝ :=
+  Real.log (∑' f : I, Real.exp (-π * ∑ σ : K →+* ℂ,
+    Real.exp (-2 * x (InfinitePlace.mk σ) / (InfinitePlace.mk σ).mult) * ‖σ (f : K)‖ ^ 2))
+
+variable {K}
+
+/-- README 4.2. `h⁰` is invariant under adding the principal divisor of `f ∈ Kˣ`, which replaces
+`I` by `f⁻¹ I` and `x_v` by `x_v − mult v · log |f|_v` (van der Geer–Schoof, §3). -/
+theorem h0Div_add_principal (I : FractionalIdeal (𝓞 K)⁰ K) (x : InfinitePlace K → ℝ) {f : K}
+    (hf : f ≠ 0) :
+    h0Div K (FractionalIdeal.spanSingleton _ f⁻¹ * I) (fun v ↦ x v - v.mult * Real.log (v f)) =
+      h0Div K I x :=
+  sorry
+
+/-- README 4.3. The Riemann–Roch formula `h⁰(D) − h⁰(κ − D) = deg D − ½ log |Δ_K|`, with
+`κ − D = (I^*, -x)` for the trace dual `I^*` (van der Geer–Schoof, Proposition 1). -/
+theorem h0Div_sub_h0Div_dual {I : FractionalIdeal (𝓞 K)⁰ K} (hI : I ≠ 0)
+    (x : InfinitePlace K → ℝ) :
+    h0Div K I x - h0Div K (FractionalIdeal.dual ℤ ℚ I) (-x) =
+      (∑ v, x v - Real.log (FractionalIdeal.absNorm I)) - Real.log |(discr K : ℝ)| / 2 :=
+  sorry
+
+/-- README 4.4. There is `β` with `h⁰(D) ≤ β exp (-π n exp (-2 deg D / n))` for every divisor of
+degree at most `½ log |Δ_K|`, `n = [K : ℚ]` (van der Geer–Schoof, Corollary 1 of
+Proposition 2). -/
+theorem exists_h0Div_le :
+    ∃ β : ℝ, ∀ I : FractionalIdeal (𝓞 K)⁰ K, I ≠ 0 → ∀ x : InfinitePlace K → ℝ,
+      ∑ v, x v - Real.log (FractionalIdeal.absNorm I) ≤ Real.log |(discr K : ℝ)| / 2 →
+      h0Div K I x ≤ β * Real.exp (-π * finrank ℚ K *
+        Real.exp (-2 * (∑ v, x v - Real.log (FractionalIdeal.absNorm I)) / finrank ℚ K)) :=
+  sorry
+
+/-- README 4.5. If `h⁰` on divisors of degree `0` is largest at `𝓞_K`, then
+`h⁰(D) ≤ deg D + h⁰(𝓞_K)` for every divisor of nonnegative degree (van der Geer–Schoof,
+Proposition 3). -/
+theorem h0Div_le_deg_add
+    (hmax : ∀ I : FractionalIdeal (𝓞 K)⁰ K, I ≠ 0 → ∀ x : InfinitePlace K → ℝ,
+      ∑ v, x v - Real.log (FractionalIdeal.absNorm I) = 0 → h0Div K I x ≤ h0Div K 1 0)
+    {I : FractionalIdeal (𝓞 K)⁰ K} (hI : I ≠ 0) (x : InfinitePlace K → ℝ)
+    (hx : 0 ≤ ∑ v, x v - Real.log (FractionalIdeal.absNorm I)) :
+    h0Div K I x ≤ (∑ v, x v - Real.log (FractionalIdeal.absNorm I)) + h0Div K 1 0 :=
+  sorry
+
+end ArakelovDivisor
 
 end TauCetiRoadmap.ThetaInvariantsOfEuclideanLattices
