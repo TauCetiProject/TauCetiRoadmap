@@ -36,9 +36,10 @@ Suggested homes:
 
 **In scope.** Every numbered statement of §§1–6.2 of the source paper (Barraud, Damian,
 Humilière, Oancea, *Floer homology with DG coefficients. Applications to cotangent bundles*,
-arXiv:2404.07953) other than Theorem B (Theorem 5.14), subject to the deferrals and exclusions
-below. The [source coverage](#source-coverage) section assigns each of them to a layer. Layer
-7.C additionally builds the classical capped Hamiltonian Floer theory of closed positive
+arXiv:2404.07953) other than Definition 1.7 and Theorems B (Theorem 5.14), G, H and I, which the
+continuation roadmap DGFloerPartII owns, subject to the deferrals and exclusions below. The
+[source coverage](#source-coverage) section assigns each of them to a layer. Layer 7.C
+additionally builds the classical capped Hamiltonian Floer theory of closed positive
 spherically monotone and spherically `c₁`-zero targets in the contractible sector, with ordinary
 finite Laurent and completed Novikov coefficients, and its PSS comparison and Arnold bound;
 Layer 7.G builds the fixed-point Floer theory of an arbitrary symplectomorphism of a closed
@@ -48,10 +49,10 @@ all-dimensional DG-coefficient theory beyond that layer's own aspherical and ato
 hypotheses.
 
 **Continuation.** The applications of this package to manifolds abundant with 2-spheres,
-knotted hypersurfaces and the multiple-realization criterion (the source's Theorem B, Theorem I,
-§§6.3–6.4 and §7), together with the homogeneous carriers, projective loop-space computations and
-explicit degree computations they rest on, are the subject of the continuation roadmap
-DGFloerPartII. DGFloerPartII consumes this roadmap and supplies nothing to it.
+knotted hypersurfaces and the multiple-realization criterion (the source's Definition 1.7,
+Theorems B, G, H and I, §§6.3–6.4 and §7), together with the homogeneous carriers, projective
+loop-space computations and explicit degree computations they rest on, are the subject of the
+continuation roadmap DGFloerPartII. DGFloerPartII consumes this roadmap and supplies nothing to it.
 
 **Owned here.** This roadmap owns everything it states that the deferrals below do not assign
 elsewhere. In particular it owns:
@@ -214,6 +215,7 @@ them by name and section (see the supplier contracts) and does not restate them.
 | Period-controlled Novikov completions, finite-below convolution, total quotient rings and based torsion | MorseNovikov N1 and N4 | consumed by Layers 7.C and 7.T; N6's finite-dimensional bifurcation theorem is not a Floer theorem and is not consumed |
 | Singular and twisted chains, CW pairs, Eilenberg–Zilber and Künneth, fundamental classes and duality, relative Hurewicz and Whitehead, the Hurewicz map of Stage 8.3, the bar construction of Stage 8.8; CW approximation of arbitrary spaces and the connected-map homology comparison (Stage 4.8); the adapters and convergence theorems of the filtered-complex spectral sequence (Stage 5.0); relative-CW lifting, the homotopy exact sequence and the homological, cohomological and multiplicative Serre spectral sequences of a Serre fibration over CW and arbitrary bases (Stage 5.5); the functorial abelian Eilenberg–MacLane spaces with their uniqueness (Stage 8.8c); Serre classes and Hurewicz modulo a Serre class (Stage 8.8d) | AlgebraicTopology Stages 2–8 | consumed by Layers 0–1, 5, 9 and 10 |
 | Collars and tubular neighbourhoods | GeometricTopology Layer 1 | consumed by Layer 1 item 5 and Layer 11 item 2; `Diff(M)` with its `C^∞` topology and the smooth-families map, which GeometricTopology Layer 3 plans, and the flow diffeotopies of complete vector fields on boundaryless finite-dimensional manifolds are already in Tau Ceti (`TauCeti.Diff`, `Diffeomorph.ofSmoothFamily`, `TauCeti.globalFlowDiffeotopy`), and the local triviality of evaluation `Diff(M) → O` is Layer 1 item 6 |
+| The Liouville collar of a hypersurface transverse to a Liouville field, with its contact form | ContactGeometry CG4 | consumed by the contact-type step of Layer 6 item 4; the contact form `λ_Z|_Σ` and the flow-out of a complete Liouville field are also in Tau Ceti, and the graph construction behind Corollary E is Layer 6 item 4 |
 | Jacobi fields, the index form and the finite broken-geodesic carriers | RiemannianGeometry R2–R3 | consumed by Layer 5 item 6 |
 | Compact Lie theory: Lie's third theorem and the integration of homomorphisms out of simply connected groups, universal covers and their central kernels, the `Ad`-invariant inner product with the orthogonal splitting `𝔤 = 𝔷 ⊕ [𝔤, 𝔤]`, the semisimplicity of `[𝔤, 𝔤]` and its negative-definite Killing form, maximal tori, the compact real roots and their rank-one representatives `SU(2) → G`, the Haar probability measure and averaging | LieGroups Layers 4, 5, 5A and 6, CompactGroups Layer 0 | consumed by Layer 11; the negative semidefinite Killing form of `𝔤` with kernel `𝔷`, the Cartan 3-form argument and the finite cover are Layer 11 items 1–2 |
 | Covering spaces and their induced maps on homotopy groups | UniversalCovers (completed) | consumed by Layer 11 item 2 |
@@ -609,9 +611,17 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   `TauCeti.IsContactType` and `TauCeti.IsRestrictedContactType` (the latter with a primitive and a
   transverse Liouville field defined on the whole manifold, with no completeness of the field),
   Hamiltonians linear at infinity `TauCeti.IsLinearAtInfinity`, and exact embeddings
-  `TauCeti.IsExactLiouvilleEmbedding`. Contact forms `TauCeti.SmoothForm.IsContactForm`, Reeb
-  vector fields `TauCeti.SmoothForm.reebVectorField` with their rescaling
-  `TauCeti.SmoothForm.IsContactForm.reebVectorField_smul` and sign
+  `TauCeti.IsExactLiouvilleEmbedding`. In `TauCeti/Geometry/Symplectic/Liouville/`: on a
+  hypersurface of contact type the primitive restricts to a contact form,
+  `TauCeti.IsContactType.isContactForm_mpullback` (`ContactType.lean`); for a complete Liouville
+  field the flow-out `(t, s) ↦ ψ_t(ι s)` of a smooth map `ι` pulls the primitive back to
+  `eᵗ ι^*α`, `TauCeti.mpullback_globalFlow_comp_eq_symplectization` (`Symplectization.lean`); and
+  the forward Liouville flow of a point outside the interior of a Liouville domain never enters
+  it, `TauCeti.IsLiouvilleDomain.flowOf_notMem`, so that for a complete field the trajectories
+  through the boundary are pairwise disjoint and meet it once,
+  `TauCeti.IsLiouvilleDomain.injOn_flowOf` (`Completion.lean`). Contact forms
+  `TauCeti.SmoothForm.IsContactForm`, Reeb vector fields `TauCeti.SmoothForm.reebVectorField`
+  with their rescaling `TauCeti.SmoothForm.IsContactForm.reebVectorField_smul` and sign
   `TauCeti.SmoothForm.IsContactForm.reebVectorField_neg` (`TauCeti/Geometry/Contact/Reeb.lean`),
   and the Reeb field of the restricted primitive on an energy level as a rescaled Hamiltonian
   field, `TauCeti.SmoothTwoForm.IsNondegenerate.mfderiv_reebVectorField_mpullback`
@@ -845,6 +855,12 @@ of this roadmap or of the named supplier; nothing listed here is restated as a t
   generic form carrier, which this roadmap uses. Layer 3: flows of vector fields.
 - **GeometricTopology.** Layer 1: manifolds with boundary, collars, tubular neighbourhoods,
   connected sum.
+- **ContactGeometry** CG4: for a hypersurface `Y` transverse to the Liouville field `Z` of an
+  exact symplectic manifold (CG4's sign `ω = −dλ`, `ι_Z ω = −λ`, so its `λ` is `−λ_Z` here), the
+  Liouville collar, a diffeomorphism `Φ(s, y) = φ_Z^s(y)` from a neighbourhood of `{0} × Y` in
+  `ℝ × Y` onto a neighbourhood of `Y` with `Φ^*(−λ) = eˢ α` and `Φ^*ω = d(eˢ α)` for
+  `α = ι_Z ω|_Y`, with no completeness of `Z`. Consumed by the contact-type step of Layer 6
+  item 4; the complete-field statements of that item's graph construction are Tau Ceti's.
 - **UniversalCovers** (completed): covering spaces and their induced maps on homotopy groups.
 - **LieGroups** Layers 4–6: Layer 4's Lie's third theorem and the bijection between Lie-group
   homomorphisms out of a simply connected group and Lie-algebra homomorphisms; Layer 5's
@@ -2291,25 +2307,35 @@ proves from them:
   293–299). Let `Σ ⊂ T*Q` be a compact hypersurface of contact type, with a Liouville field `Z`
   defined and transverse near `Σ` and the primitive `λ_Z = ι_Z ω_can` there, and let `G` be the
   function near `Σ` with `G(φ_t(x)) = t` for `x ∈ Σ` and `|t|` small, where `φ_t` is the flow of
-  `Z`. Since `φ_t^*ω_can = eᵗ ω_can`, `φ_t` carries the characteristic foliation of `Σ` onto that
+  `Z`. Its Liouville collar, a diffeomorphism `(s, x) ↦ φ_s(x)` from a neighbourhood of `{0} × Σ`
+  in `ℝ × Σ` onto a neighbourhood of `Σ` pulling `λ_Z` back to `eˢ λ_Z|_Σ`, is ContactGeometry
+  CG4's (with its primitive `λ = −λ_Z`), and needs no completeness of `Z`. Since
+  `φ_t^*ω_can = eᵗ ω_can`, `φ_t` carries the characteristic foliation of `Σ` onto that
   of the level `G⁻¹(t) = φ_t(Σ)`, and `φ_t` is isotopic to the identity. So if a smooth function
   on `T*Q` whose levels near `0` are the `φ_t(Σ)`, equal to `G` there, has the contractible
   almost existence property at the level `0`, then `Σ` carries a closed characteristic
   contractible in `T*Q`, that is, a closed Reeb orbit of `λ_Z|_Σ` contractible in `T*Q`;
 - the **graph construction** (lines 308–317). Let `Σ = ∂U`, for a relatively compact open
-  `U ⊂ T*Q` with smooth boundary, be of restricted contact type with complete Liouville vector
-  field: there are a primitive `λ_Z` of `ω_can` on all of `T*Q` and a smooth vector field `Z` on
-  `T*Q` with `ι_Z ω_can = λ_Z`, transverse to `Σ` (`TauCeti.IsRestrictedContactType`), whose
-  integral curves are all defined on `ℝ`. Put `α₀ = λ_Z|_Σ` and `ξ = ker α₀`. Since
-  `L_Z λ_Z = λ_Z`, the flow of `Z` gives an embedding `Φ(r, x) = φ_{log r}(x)` of the
-  symplectization `((0, ∞) × Σ, d(r α₀))` into `T*Q` with `Φ^*λ_Z = r α₀`. On a component of
-  `Σ` along which `Z` points out of `U`, `Φ` maps `(1, ∞) × Σ` into `T*Q ∖ Ū`; on one along which
-  `Z` points into `U`, it maps `(0, 1) × Σ` there. On a connected `Σ` the first case holds, by
-  Stokes' theorem: `∫_Σ λ_Z ∧ ω_can^{n−1} = ∫_U ω_can^n > 0`. Let `α = g α₀` be a contact form
-  defining `ξ`, with `g` nowhere zero. Multiplying `α` on each component of `Σ` by a nonzero
-  constant keeps `ξ` and the closed Reeb orbits as subsets of `Σ`, and makes the new factor
-  `f_α`, with `α = f_α α₀`, satisfy `f_α > 1` on outward components and `0 < f_α < 1` on inward
-  ones. Prove that
+  `U ⊂ T*Q` with smooth boundary, be of restricted contact type with complete outward Liouville
+  vector field: there are a primitive `λ_Z` of `ω_can` on all of `T*Q` and a smooth vector field
+  `Z` on `T*Q` with `ι_Z ω_can = λ_Z`, transverse to `Σ` (`TauCeti.IsRestrictedContactType`),
+  whose integral curves are all defined on `ℝ`, and which points out of `U` along `Σ`, so that
+  `Ū` is a Liouville domain `TauCeti.IsLiouvilleDomain ω_can λ_Z Ū`. On a connected `Σ`, the
+  source's setting (Remark 1.3, `bdho-cotangent` lines 223–228, and the single global rescaling
+  of line 312), the last condition follows from the others: `Z` points to one side along all of
+  `Σ`, and Stokes' theorem gives `∫_Σ λ_Z ∧ ω_can^{n−1} = ∫_U ω_can^n > 0`, while
+  `λ_Z ∧ ω_can^{n−1} = ι_Z(ω_can^n)/n` is negative on `Σ`, with its boundary orientation, where
+  `Z` points into `U`. Put `α₀ = λ_Z|_Σ`, a contact form
+  (`TauCeti.IsContactType.isContactForm_mpullback`), and `ξ = ker α₀`. The map
+  `Φ(r, x) = φ_{log r}(x)` pulls `λ_Z` back to `r α₀`
+  (`TauCeti.mpullback_globalFlow_comp_eq_symplectization`), is injective on `(0, ∞) × Σ`
+  (`TauCeti.IsLiouvilleDomain.injOn_flowOf`), and maps `(1, ∞) × Σ` into `T*Q ∖ Ū`
+  (`TauCeti.IsLiouvilleDomain.flowOf_notMem`); since `Z` is transverse to `Σ` and `φ_t` preserves
+  `Z`, it is an immersion, hence an embedding of the symplectization `((0, ∞) × Σ, d(r α₀))` onto
+  an open subset of `T*Q`. Let `α = g α₀` be a contact form defining `ξ`, with `g` nowhere zero.
+  Multiplying `α` on each component of `Σ` by a nonzero constant keeps `ξ` and the closed Reeb
+  orbits as subsets of `Σ`, and makes the new factor `f_α`, with `α = f_α α₀`, satisfy
+  `f_α > 1`. Prove that
   `j_α(x) = Φ(f_α(x), x)` embeds `Σ` onto a hypersurface `Σ_α ⊂ T*Q ∖ Ū` of contact type with
   `j_α^*λ_Z = α`, so that `j_α` carries the closed Reeb orbits of `α` onto the closed
   characteristics of `Σ_α`; that `Σ_α` bounds the relatively compact domain `U_α`, the union of
@@ -2320,8 +2346,9 @@ proves from them:
   of `Σ_α` to the corresponding closed Reeb orbit of `α`.
 
 **Corollary E** in its Theorem A and Theorem C forms (lines 304–317): let `Σ = ∂U` be as in
-Theorem A or Theorem C (Layer 10 item 5), and of restricted contact type with complete Liouville
-vector field as above. Then every contact form `α` on `Σ` with `ker α = ξ` has a closed Reeb orbit
+Theorem A or Theorem C (Layer 10 item 5), and of restricted contact type with a complete
+Liouville vector field pointing out of `U` along `Σ`, as above; on a connected `Σ` the direction
+is automatic. Then every contact form `α` on `Σ` with `ker α = ξ` has a closed Reeb orbit
 that is contractible in `T*Q`. Layer 10 item 5 applies Theorem A or C to `Σ_α`, which is allowed
 because `U_α` contains `φ(S)` and, retracting onto `Ū`, meets the hypotheses of those theorems
 exactly when `U` does; then the contact-type step on `Σ_α` and the radial homotopy. The
@@ -2329,7 +2356,10 @@ contact-type step on `Σ` alone is the case `α = α₀`: it needs neither a glo
 completeness, and it reaches no other contact form defining `ξ`.
 
 *Needs:* Tau Ceti's closed characteristics, contact type, contact forms and Reeb vector fields,
-DifferentialGeometry Layers 0–1 and 3, item 2.
+Tau Ceti `TauCeti.IsContactType.isContactForm_mpullback`,
+`TauCeti.mpullback_globalFlow_comp_eq_symplectization`, `TauCeti.IsLiouvilleDomain.injOn_flowOf`
+and `TauCeti.IsLiouvilleDomain.flowOf_notMem`, ContactGeometry CG4 (the Liouville collar of the
+contact-type step), DifferentialGeometry Layers 0–1 and 3, item 2.
 
 **Checks.**
 - The unit sphere `S²ⁿ⁻¹ ⊂ ℝ²ⁿ` has characteristic foliation the Hopf circles, which are the
@@ -2353,13 +2383,17 @@ DifferentialGeometry Layers 0–1 and 3, item 2.
   `R_{−α₀} = −R_{α₀}` (`TauCeti.SmoothForm.IsContactForm.reebVectorField_neg`), so its closed
   Reeb orbits are those of `α₀`, reversed; the rescaling by `−2` gives `f_α = 2`. A route that
   rescaled by positive constants only would miss this form.
-- An inward component. The shell `U = {½ < |p| < 2} ⊂ T*S³` contains the graph of a one-form of
-  length `1` (`S³` is parallelizable), on which `π` restricts to a map of degree `1`, so Theorem A
-  applies; `Σ = S*_{1/2}S³ ⊔ S*_2S³`, and `Z = p ∂_p` points into `U` along `S*_{1/2}S³`. There
-  `Φ((0, 1) × S*_{1/2}S³) = {0 < |p| < ½}` lies outside `Ū`, the graph of `f_α < 1` lies in it,
-  and `U_α` contains `Ū`. Rescaling to `f_α > 1` on that component too, as on a connected `Σ`,
-  would put its graph inside `U`; for `f_α > 2` there the bounded domain between the two graphs
-  misses the graph `{|p| = 1}`, so Theorem A would not apply to it.
+- The outward direction is a hypothesis on a disconnected `Σ`. The shell
+  `U = {½ < |p| < 2} ⊂ T*S³` contains the graph of a one-form of length `1` (`S³` is
+  parallelizable), on which `π` restricts to a map of degree `1`, so Theorem A applies to it, and
+  `Σ = S*_{1/2}S³ ⊔ S*_2S³` is transverse to the complete field `Z = p ∂_p`, which points into `U`
+  along `S*_{1/2}S³`. There `Φ(r, (q, p)) = (q, r p)` is not injective on `(0, ∞) × Σ`, since
+  `Φ(4, (q, p)) = Φ(1, (q, 4p))` for `|p| = ½`, and `Φ(2, S*_{1/2}S³) = S*_1S³` lies in `U`. With
+  two shells, `U = {1 < |p| < 2} ∪ {3 < |p| < 4}`, which contains the graph `{|p| = 3/2}`, `Z`
+  points out of `U` along `S*_2S³` and yet `Φ(7/4, S*_2S³) = S*_{7/2}S³ ⊂ U`: one inward
+  component spoils the outward ones too. Neither `Ū` is a Liouville domain for `λ_Z = −λ_can`.
+  Corollary E's conclusion for the first shell still holds, through its outer component
+  `S*_2S³ = ∂{|p| < 2}`, which is connected and bounds a domain containing the zero section.
 
 ### 6.5 Almost existence and capacities
 
@@ -2411,7 +2445,8 @@ Own:
 HeegaardFloer F2.1; DifferentialGeometry Layers 0–1 and 3; Tau Ceti's Hamiltonian formalism and
 flows (`TauCeti.SmoothTwoForm.hamiltonianVectorField`, `TauCeti.SmoothTwoForm.poissonBracket`,
 `TauCeti.flowOf`, `TauCeti.timeDependentFlowOf`), periodic solutions, cotangent bundles,
-Liouville domains, closed characteristics, capacities and almost existence property; Mathlib
+Liouville domains, closed characteristics, capacities and almost existence property;
+ContactGeometry CG4 (item 4's contact-type step); Mathlib
 `Monotone.ae_differentiableAt`. Source: Hofer–Zehnder, *Symplectic Invariants and Hamiltonian
 Dynamics*, Chapters 1 and 4; the source paper §§1.2, 5.1 and 6.1.
 ## Layer 7: classical Hamiltonian Floer homology and symplectic homology
@@ -2563,9 +2598,19 @@ module comparison does not replace it. *Needs:* items 1–3, 7.C.5b, Layer 6 ite
 ### 7.5 Symplectic homology
 
 Define `SH_*(W)` of a Liouville domain as a direct limit over slopes, with classical local
-coefficients (Abouzaid Chapter 1, §§1.5–1.6; Seidel §3); the zero-energy and positive-energy
-parts and the long exact sequence between them; the Viterbo transfer `ι_!` for exact
-codimension-zero embeddings. *Needs:* items 1–4, Layer 6 item 2.
+coefficients (Seidel §3(3e), `seidel-biased` lines 486–515; for cotangent bundles Abouzaid
+Chapter 1, §§1.5–1.6). For a local system `𝓛` on the free loop space and the inclusion `i_W`
+of the constant loops, define the zero-energy part `SH^{=0}_*(W; 𝓛)` and the positive part
+`SH^{>0}_*(W; 𝓛)`, the action windows `(−ε, ε)` and `(ε, ∞)` for `ε` below every Reeb period,
+and prove `SH^{=0}_*(W; 𝓛) ≅ H_{*+n}(W, ∂W; i_W^*𝓛)` and the tautological long exact sequence
+`… → H_{*+n}(W, ∂W; i_W^*𝓛) → SH_*(W; 𝓛) → SH^{>0}_*(W; 𝓛) → H_{*+n−1}(W, ∂W; i_W^*𝓛) → …`:
+these are the classical-coefficient cases of the source's Propositions 3.44 and 3.45
+(`bdho-cotangent` lines 2916–2930), whose DG forms are Layer 8 item 7. Construct the Viterbo
+transfer `ι_! : SH_*(W; 𝓛) → SH_*(V; ι^*𝓛)` for an exact codimension-zero embedding
+`ι : V → W` (`TauCeti.IsExactLiouvilleEmbedding`), with `ι^*𝓛` the pullback along the induced
+map of free loop spaces: Seidel §7(7a), `seidel-biased` lines 1323–1329, whose
+Liouville embeddings allow a conformal factor `e^ρ` that is `1` here, and the classical case of
+the source's Proposition 3.46 (lines 2931–2935). *Needs:* items 1–4, Layer 6 item 2.
 
 **Checks.**
 - `SH_*(D²ⁿ) = 0`. For Layer 6 item 2's `λ` the Reeb orbits on `∂D²ⁿ` are the Hopf circles,
@@ -2577,6 +2622,12 @@ codimension-zero embeddings. *Needs:* items 1–4, Layer 6 item 2.
   admissible.
 - `SH_*(T*S¹) ≅ H_*(𝓛S¹)` (worked example 7).
 - The transfer for `W ⊆ W` is the identity, and for `D²ⁿ ⊆ W` it is zero.
+- The shift in the long exact sequence. For `W = D²ⁿ` and `𝓛` trivial, `SH_* = 0` makes the
+  connecting map an isomorphism `SH^{>0}_*(D²ⁿ) ≅ H_{*+n−1}(D²ⁿ, S²ⁿ⁻¹)`, which is `ℤ` exactly
+  in degree `n + 1`, one above `SH^{=0}_*(D²ⁿ) ≅ H_{*+n}(D²ⁿ, S²ⁿ⁻¹)`, which is `ℤ` exactly in
+  degree `n`. A connecting map raising the degree, into `H_{*+n+1}`, would put `SH^{>0}_*(D²ⁿ)`
+  in degree `n − 1`.
+
 ### 7.C Capped classical Floer theory on closed spherically monotone and spherically c₁-zero targets
 
 This branch constructs classical Hamiltonian Floer complexes, continuation and PSS comparison for a closed connected symplectic manifold `(X²ⁿ,ω)` in the contractible orbit sector. Its target hypotheses are either **positive spherical monotonicity**, `ω(A)=κ c₁(A)` for every spherical integral class, with a specified `κ>0`, or **spherical c₁-zero**, `c₁(A)=0` for every spherical integral class, with no assumption that sphere areas vanish. Its compactifications have the dimensions required by the counts, chain identities, homotopies and PSS comparisons below. Layer 7 items 1–5 and Layer 8 retain their stated aspherical/atoroidal and Liouville hypotheses and their separate all-dimensional corner-space requirements. The monotone outputs here are ordinary/Novikov classical counts in these stated dimensions; the standing DG-coefficient and symplectic-homology outputs retain their own hypotheses.
@@ -3643,7 +3694,7 @@ MorseTheory M4; SymplecticGeometry S0; CharacteristicClasses
 C3.2; Layer 6; Tau Ceti's Moore loops; Layer 0 item 1 (for the fundamental chains consumed by Layer 8).
 Source: Salamon, *Lectures on Floer homology*, §§1.4–1.5, 2.4, 3.2–3.4 and 4.2; Audin–Damian,
 Chapters 6–11; Seidel, *A biased
-view of symplectic cohomology*, §3; Abouzaid, Chapter 1; Hofer–Salamon; Piunikhin–Salamon–Schwarz;
+view of symplectic cohomology*, §§3 and 7; Abouzaid, Chapter 1; Hofer–Salamon; Piunikhin–Salamon–Schwarz;
 Floer–Hofer–Salamon; Hutchings §§7.5–7.6 and 8.2; Lee I–II.
 ## Layer 8: the DG Floer toolset
 
@@ -4513,8 +4564,12 @@ Numbers follow arXiv version 3 of the source paper.
 | Def 1.1 | Tau Ceti `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`, consumed by 6.5 |
 | Conj 1.2 | out of scope |
 | Thm A, C | 10.5 (Thms 5.10, 5.15) |
-| Cor D, E | 6.3, 6.4, 10.5, in their Theorem A and Theorem C forms |
+| Thm B | DGFloerPartII §3.2 (Thm 5.14) |
+| Cor D, E | 6.3, 6.4, 10.5, in their Theorem A and Theorem C forms; their Theorem B forms DGFloerPartII §3.3 |
 | Cor F | out of scope |
+| Thm G | DGFloerPartII §4.6 (Thm 7.1) |
+| Def 1.7, Thm H | DGFloerPartII §4.1 (Def 6.11, Thm 6.12) |
+| Thm I | DGFloerPartII §§4.1–4.5 |
 | Def 1.8 | Tau Ceti `TauCeti.DGLocalSystem`; basepoint change 3.1 |
 | Defs 1.9–1.11 | Tau Ceti `TauCeti.TwistingCocycle`, `TauCeti.ContinuationCocycle`, `TauCeti.ParametrizedCocycle` |
 | Thm J | 8.6 |
@@ -4625,7 +4680,8 @@ Tau Ceti's Mathlib and conventions.
   cohomology*, in *Contact and Symplectic Geometry*, Publications of the Newton Institute 8,
   Cambridge University Press, 1996, 171–200, §4: the PSS maps of Layer 7.C.3b and 7.C.5b.
 - P. Seidel, *A biased view of symplectic cohomology*, arXiv:0704.2055, §2(a) (Liouville
-  domains and their completions, Layer 6 item 2) and §3 (Layer 7 item 5).
+  domains and their completions, Layer 6 item 2), §3(3e) (symplectic homology as a direct limit,
+  Layer 7 item 5) and §7(7a) (the Viterbo transfer, Layer 7 item 5).
 - M. Abouzaid, *Symplectic cohomology and Viterbo's theorem*, arXiv:1312.3354 (version 2);
   in *Free loop spaces in geometry and topology*, IRMA Lect. Math. Theor. Phys. 24 (2015).
   Chapter numbers follow the arXiv version: Chapter 1 (Layer 7 item 5), Chapter 3 (Layers 5
