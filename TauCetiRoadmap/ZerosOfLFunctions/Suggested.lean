@@ -32,9 +32,10 @@ Stated here:
   completed zeta function (5.6a);
 * Layer 6, the region for primitive ray-class L-functions uniform over the fields of degree `n`
   (6.4), which at the trivial character is the region for the Dedekind zeta function (6.2); its
-  `K = ℚ` instances, the de la Vallée Poussin region for `ζ` and the uniform region for Dirichlet
-  L-functions with its exceptional-zero clause and the normalization `c ≤ log 3 / 2`; and the two
-  bounds for `−Re ζ'/ζ` off the real axis on which the region rests (6.4d);
+  `K = ℚ` forms, the de la Vallée Poussin region for `ζ` and the uniform region for the
+  L-functions of all Dirichlet characters, primitive or not, with its exceptional-zero clause and
+  the normalization `c ≤ log 3 / 2`; and the two bounds for `−Re ζ'/ζ` off the real axis on which
+  the region rests (6.4d);
 * Layer 7, the Riemann–von Mangoldt formula for `ζ`, its form uniform in the degree and the
   conductor for primitive ray-class L-functions (7.5), which at the trivial character is the
   count for the Dedekind zeta function, and its conductor-uniform Dirichlet instance;
@@ -177,11 +178,15 @@ theorem riemannZeta_zeroFreeRegion :
 
 /-- **Layer 6.3–6.4 at `K = ℚ`, the region for Dirichlet L-functions.** There is one absolute
 constant `c`, with `0 < c ≤ log 3 / 2`, such that for every modulus `q ≥ 1` and every Dirichlet
-character `χ` modulo `q`, a zero `ρ` of `L(·, χ)` with `Re ρ ≥ 1 − c / log (q (|Im ρ| + 3))` is
-real, simple, and occurs only for a real character (`χ² = 1`), and there is at most one such
-zero (Davenport §14). Zeros are read through the meromorphic order, so the pole of the principal
-character at `s = 1` is never one. The bound `c ≤ log 3 / 2` puts the whole region in
-`Re s ≥ 1/2`, which is what the transfer between a character and its primitive source uses. -/
+character `χ` modulo `q`, primitive or not, a zero `ρ` of `L(·, χ)` with
+`Re ρ ≥ 1 − c / log (q (|Im ρ| + 3))` is real, simple, and occurs only for a real character
+(`χ² = 1`), and there is at most one such zero (Davenport §14). Zeros are read through the
+meromorphic order, so the pole of the principal character at `s = 1` is never one. For primitive
+`χ` this is the case `n = 1` of `heckeLFunction_zeroFreeRegion`. An imprimitive `χ` inherits it
+from its primitive character `χ*` of conductor `q* ∣ q`: `L(s, χ)` is `L(s, χ*)` times Euler
+factors vanishing only on `Re s = 0` (`DirichletCharacter.LFunction_changeLevel`), the bound
+`c ≤ log 3 / 2` puts the whole region in `Re s ≥ 1/2`, and the region at `q` lies inside the
+region at `q*`. -/
 theorem dirichletLFunction_zeroFreeRegion :
     ∃ c : ℝ, 0 < c ∧ c ≤ Real.log 3 / 2 ∧
       ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),

@@ -118,8 +118,9 @@ not the roadmap.
   `∀ z ∈ S, meromorphicOrderAt f z = 0`. Mathlib's meromorphic functions are total: at a pole the
   representative takes a junk value, `0` for `Complex.Gamma` and `Gammaℝ`, so `f z ≠ 0` is neither
   necessary nor sufficient for regularity and never characterizes a zero or a pole.
-  `MeromorphicOn.divisor` has junk value `0` off meromorphy, so meromorphy on a stated open set is
-  a hypothesis of every theorem about a count.
+  `MeromorphicOn.divisor f U` has junk value `0` off meromorphy and at every point outside `U`, so
+  meromorphy on a stated open set is a hypothesis of every theorem about a count, and a value of
+  the divisor is claimed only at points of `U`.
 - **Order and values.** `meromorphicOrderAt f z = 0` is a statement about the punctured germ. It
   gives neither `AnalyticAt ℂ f z` nor `f z ≠ 0`, and it does not make the image of a path through
   `z` miss `0`: the function equal to `1` near `z` except for the value `0` at `z` has order `0`
@@ -170,7 +171,8 @@ not the roadmap.
 
 ### From Mathlib
 
-- `MeromorphicOn.divisor`, `meromorphicOrderAt`, `MeromorphicOn.divisor_restrict`,
+- `MeromorphicOn.divisor`, `MeromorphicOn.divisor_def` (the value `0` off `U`),
+  `meromorphicOrderAt`, `MeromorphicOn.divisor_restrict`,
   `Function.locallyFinsuppWithin.posPart_apply`, `LocallyFiniteSupport.finite_inter_support_of_isCompact`,
   `MeromorphicOn.meromorphicOrderAt_ne_top_of_isPreconnected`, `MeromorphicOn.extract_zeros_poles`,
   `meromorphicTrailingCoeffAt` (divisors, local finiteness, identity theorem, normal form);
@@ -213,7 +215,11 @@ not the roadmap.
   `IsCompact.inter_riemannZetaZeros_finite`, `RiemannHypothesis`;
 - `DirichletCharacter.LFunction`, `DirichletCharacter.completedLFunction`,
   `riemannZeta_ne_zero_of_one_le_re`, `DirichletCharacter.LFunction_ne_zero_of_one_le_re`,
-  `DirichletCharacter.norm_LFunction_product_ge_one`;
+  `DirichletCharacter.norm_LFunction_product_ge_one`; `DirichletCharacter.primitiveCharacter`,
+  `DirichletCharacter.changeLevel_primitiveCharacter` (a character is the change of level of its
+  primitive character), `DirichletCharacter.LFunction_changeLevel` (for `s ≠ 1`, the L-function at
+  level `N` is the one at level `M ∣ N` times `∏_{p ∣ N} (1 − χ(p) p^{−s})`) and
+  `DirichletCharacter.changeLevel_eq_one_iff`, for 6.4 at `K = ℚ`;
 - `mellin`, `mellinInv`, `mellinInv_mellin_eq` (Mellin transform and inversion);
 - `Rat.HeightOneSpectrum.primesEquiv` (the height-one primes of `𝓞 ℚ` and the rational primes,
   through `Rat.HeightOneSpectrum.natGenerator`) and `ZMod.isUnit_iff_coprime`, for 8.7 at `K = ℚ`;
@@ -301,8 +307,17 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   and an equality of germs at every point);
   `TauCeti.GlobalNumberFields.RayClassCharacter.eulerCorrection` with `eulerCorrection_self` and
   `eulerCorrection_one` (the trivial character, `∏_{𝔭 ∣ 𝔫} (1 − 𝔑𝔭^{−s})`);
-  `TauCeti.LFunctions.finiteEulerCorrection`; `TauCeti.meromorphicContinuation_eqOn` and
-  `TauCeti.eq_of_meromorphic_of_eqOn_halfPlane`;
+  `TauCeti.LFunctions.finiteEulerCorrection`; `TauCeti.meromorphicContinuation_eqOn`,
+  `TauCeti.eq_of_meromorphic_of_eqOn_halfPlane` and
+  `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane` (half-plane agreement of two meromorphic
+  functions on `ℂ` gives the same punctured germ at every point);
+- the ray-class characters of `ℚ` as Dirichlet characters
+  (`NumberTheory/NumberField/Global/RayClass/Character/Dirichlet.lean`), for 6.4 at `K = ℚ`:
+  `TauCeti.GlobalNumberFields.ratDirichletEquiv` (the characters of the ray class group of `(q)∞`
+  are the Dirichlet characters modulo `q`), `TauCeti.GlobalNumberFields.onIdeals_ratDirichletEquiv_symm`
+  (the ray-class character at an integral ideal prime to `q` is the Dirichlet character at its
+  absolute norm) and `TauCeti.GlobalNumberFields.RayClassCharacter.absNorm_conductor_finitePart`
+  (the finite part of the conductor has absolute norm the conductor of the Dirichlet character);
 - for the counts of 8.3, 8.5, 8.7 and 8.8: `TauCeti.primeCount K S x`
   (`NumberTheory/ArithmeticDirichletSeries/Counting.lean`), the number, as a real number, of the
   primes in a set `S` of height-one primes of `𝓞 K` of absolute norm at most `x`, inclusive cutoff,
@@ -1189,11 +1204,26 @@ Define *divisorCount* `f U R : ℤ` and `zeroCount f U R : ℕ` as in the conven
 
 ### 4.2 The zero divisor of a record
 
-For a record satisfying `HasMeromorphicContinuation`, `divisor Λ U` is nonnegative off
-`polarOrder.support` and equals `−polarOrder` on it, and
-`divisor (entireCompletion d) univ = divisor Λ univ + polarOrder`.
+For a record satisfying `HasMeromorphicContinuation` and every `U : Set ℂ`, `divisor Λ U` is
+nonnegative off `polarOrder.support` and equals `−polarOrder` at the points of
+`U ∩ polarOrder.support`. Off `U` it is `0` (`MeromorphicOn.divisor_def`), so no value is claimed
+at a pole outside `U`; in particular `divisor Λ univ = −polarOrder` on `polarOrder.support`.
+Moreover `divisor (entireCompletion d) univ = divisor Λ univ + polarOrder`.
 
-*Needs:* Layer 0; L-functions Layer 0.
+*Needs:* Layer 0; L-functions Layer 0; Mathlib `MeromorphicOn.divisor_def`.
+
+**Checks.**
+
+- The `ζ` record, `polarOrder = single 0 1 + single 1 1`, with `U = ∅`:
+  `divisor completedRiemannZeta ∅ 1 = 0`, while `−polarOrder 1 = −1`; a clause giving `−polarOrder`
+  on all of `polarOrder.support` for every `U` is false. With `U = univ` the value is `−1`, the
+  simple pole of `Λ` at `1`.
+- The `ζ` record at `−2`: `polarOrder (−2) = 0` and `divisor completedRiemannZeta univ (−2) = 0`,
+  since `Λ(−2) = Λ(3) ≠ 0`; the trivial zero of `ζ` is cancelled by the pole of `Gammaℝ` and is not
+  a zero of `Λ`.
+- `divisor zetaEntireCompletion univ 1 = divisor completedRiemannZeta univ 1 + polarOrder 1 =
+  −1 + 1 = 0`, in agreement with `zetaEntireCompletion 1 = 1 ≠ 0`; at a nontrivial zero `ρ`, where
+  `polarOrder ρ = 0`, the two divisors agree.
 
 ### 4.3 Jensen's bound
 
@@ -1586,8 +1616,9 @@ Define *IsExceptionalZero* `χ β`, for a primitive character `χ` (the trivial 
 
 For `χ` a primitive finite-order ray-class character of conductor `𝔣`: if `χ` is not real,
 `L(χ, ·)` has no zero in the region; if `χ` is real it has at most one, real and simple. The constant
-depends on `n = [K:ℚ]` alone and is chosen before `K` and `χ`. At `K = ℚ` this is
-`dirichletLFunction_zeroFreeRegion`. For every `K` it is `heckeLFunction_zeroFreeRegion`, stated
+depends on `n = [K:ℚ]` alone and is chosen before `K` and `χ`. At `K = ℚ` its case `n = 1`
+gives `dirichletLFunction_zeroFreeRegion`, which also covers imprimitive characters (the
+paragraph after (4f)). For every `K` it is `heckeLFunction_zeroFreeRegion`, stated
 for `χ : TauCeti.LFunctions.PrimitiveRayClassCharacter K` on the function
 `TauCeti.LFunctions.heckeLFunctionC χ.character` and in the coordinate
 `|d_K| 𝔑𝔣 (|Im ρ| + 3)^n`. Each of the `n` archimedean factors
@@ -1665,12 +1696,59 @@ assembles the statement from six targets.
   over the zeros in the region with multiplicity, using nonnegativity of `Λ_K(𝔞)(1 + χ(𝔞))`; two
   zeros and one double zero are refuted by the same inequality. This is per character.
 
+**At `K = ℚ`, every Dirichlet character.** `dirichletLFunction_zeroFreeRegion` is stated on
+Mathlib's `DirichletCharacter.LFunction χ` for every character `χ` modulo `q ≥ 1`, primitive or
+not, in the coordinate `q (|Im ρ| + 3)` with the modulus `q` in place of the conductor, and with
+`0 < c ≤ log 3/2`: the constant of the case `n = 1`, capped as in 6.2. For primitive `χ` it is the
+case `n = 1` of the statement above. `TauCeti.GlobalNumberFields.ratDirichletEquiv` identifies `χ`
+with a ray-class character of `(q)∞` whose conductor has finite part of absolute norm `q`
+(`TauCeti.GlobalNumberFields.RayClassCharacter.absNorm_conductor_finitePart`) and whose value at an
+ideal `(m)` prime to `q` is `χ(m)` (`TauCeti.GlobalNumberFields.onIdeals_ratDirichletEquiv_symm`).
+So the series of its primitive source and of `χ` agree on `Re s > 1`, the two continuations have
+the same punctured germ at every point (`TauCeti.meromorphicContinuation_eqOn`,
+`TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`), and `|d_ℚ| = 1`. An imprimitive `χ` is
+the change of level of its primitive source `χ* = χ.primitiveCharacter`, of conductor `q* ∣ q`
+(`DirichletCharacter.changeLevel_primitiveCharacter`), and `DirichletCharacter.LFunction_changeLevel`
+gives `L(s, χ) = L(s, χ*) ∏_{p ∣ q} (1 − χ*(p) p^{−s})` for `s ≠ 1`, the Dirichlet form of (4b).
+Three facts carry the region from `χ*` to `χ`:
+
+- the factors vanish only on `Re s = 0`: a factor with `χ*(p) = 0` is `1`, and otherwise
+  `‖χ*(p)‖ = 1`, so `χ*(p) p^{−s} = 1` forces `p^{−Re s} = 1`;
+- the cap gives `c/log (q (|t| + 3)) ≤ (log 3/2)/log 3 = 1/2`, so the region lies in
+  `Re s ≥ 1/2`, where the product is analytic and nonzero and `L(·, χ)` and `L(·, χ*)` have the
+  same order at every point;
+- `q* ≤ q` gives `log (q* (|t| + 3)) ≤ log (q (|t| + 3))`, so the region at `q` lies inside the
+  region at `q*`.
+
+The reality clause transfers because `χ²` is the change of level of `χ*²`, which is `1` exactly
+when `χ*² = 1` (`DirichletCharacter.changeLevel_eq_one_iff`); uniqueness transfers because two
+zeros of `L(·, χ)` in the region at `q` are zeros of `L(·, χ*)` in the region at `q*`.
+
 *Needs:* 6.1; 5.6; 1.4, 2.2; Layer 4; Tau Ceti `TauCeti.LFunctions.heckeLFunctionC_eq_primitive`,
 `TauCeti.GlobalNumberFields.RayClassCharacter.eulerCorrection`,
 `TauCeti.LFunctions.finiteEulerCorrection` and the inverse `χ⁻¹` of
 `TauCeti.LFunctions.PrimitiveRayClassCharacter` (L-functions Layer 5); L-functions Layers 5 and 7
 `completedHeckeLFunction_one_sub`, `norm_heckeRootNumber`; Global Number Fields Layer 2
-`TauCeti.GlobalNumberFields.finite_rayClassGroup`.
+`TauCeti.GlobalNumberFields.finite_rayClassGroup`. At `K = ℚ`: Tau Ceti
+`TauCeti.GlobalNumberFields.ratDirichletEquiv`, `TauCeti.GlobalNumberFields.onIdeals_ratDirichletEquiv_symm`,
+`TauCeti.GlobalNumberFields.RayClassCharacter.absNorm_conductor_finitePart`,
+`TauCeti.meromorphicContinuation_eqOn`, `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane`;
+Mathlib `DirichletCharacter.LFunction_changeLevel`, `DirichletCharacter.changeLevel_primitiveCharacter`,
+`DirichletCharacter.changeLevel_eq_one_iff`.
+
+**Checks.**
+
+- The principal character modulo `2`: `L(s, χ) = (1 − 2^{−s}) ζ(s)`, whose extra zeros
+  `2πik/log 2` lie on `Re s = 0`. Its region lies in `Re s ≥ 1 − (log 3/2)/log 6 ≈ 0.6934` and
+  inside the region of `ζ` at `q* = 1`, where `ζ` has no zero, so the statement holds for it
+  through the transfer.
+- The principal character modulo `6`: `L(s, χ) = (1 − 2^{−s})(1 − 3^{−s}) ζ(s)` has a double zero
+  at `s = 0`, which lies in the region at `q = 6` as soon as `c ≥ log 18 ≈ 2.890`; without a cap
+  on `c` the simplicity clause fails for imprimitive characters, while `log 3/2 < log 18`.
+- The character modulo `6` induced from the one modulo `3`: the deleted factor at `2` is
+  `1 + 2^{−s}`, since that character takes `−1` at `2`, and its zeros `iπ(2k + 1)/log 2` are not
+  real; the smallest in absolute value, at height `π/log 2 ≈ 4.532`, enters the region at `q = 6`
+  once `c ≥ log 45.19 ≈ 3.811`, where the reality clause would fail.
 
 ### 6.5 The edges
 
@@ -1697,8 +1775,8 @@ Layer 5 `completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
 ### Examples
 
 - `riemannZeta_zeroFreeRegion`: `ζ(s) ≠ 0` for `Re s ≥ 1 − c/log(|Im s| + 3)`, `s ≠ 1`.
-- `dirichletLFunction_zeroFreeRegion`, with the exceptional zero allowed for real characters and
-  the cap `c ≤ log 3/2`.
+- `dirichletLFunction_zeroFreeRegion`, for every character modulo `q`, primitive or not, with the
+  exceptional zero allowed for real characters and the cap `c ≤ log 3/2`.
 - For a real character neither branch of the disjunction follows from the other targets.
 
 ### Dependencies
