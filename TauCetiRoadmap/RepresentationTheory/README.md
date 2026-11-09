@@ -61,6 +61,13 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 - [**Quiver representations and finite-dimensional algebras**](QuiverRepresentations/README.md) - path
   algebras, representations of a quiver, Krull-Schmidt, Gabriel's theorem (finite type ⇔ ADE Dynkin,
   indecomposables ↔ positive roots), reflection and Coxeter functors, and Auslander-Reiten theory.
+- [**Krull-Schmidt categories and Auslander-Reiten theory of Artin algebras**](ArtinAlgebras/README.md) -
+  Krull-Schmidt categories, finitely presented functors, Matlis duality over commutative Artinian
+  rings, `Ext¹` and almost-split conflations in exact categories, the translate and almost-split
+  sequences for Artin algebras, the valued Auslander-Reiten quiver, the classical finiteness
+  theorems (the Harada-Sai lemma, Auslander's theorem on components of bounded length, and the first
+  Brauer-Thrall conjecture), and Morita theory, global and dominant dimension, and the
+  Morita-Tachikawa and Auslander correspondences.
 
 ## How they depend on one another
 
@@ -93,6 +100,10 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   `gl_n` classification and the isotypic decomposition toolkit) and cites its minuscule Pieri rule
   for the `gl_N` worked instance; in return it supplies the Clifford algebra of a Lie algebra with an
   invariant form as the model isotypic module, the Clifford analogue of Hopf-Koszul-Samelson.
+- **Artin algebras generalize quiver representations' Auslander-Reiten theory.** The Artin-algebra
+  roadmap states the Auslander-Reiten theory of the quiver roadmap's Layer 6 over a commutative
+  Artinian base ring and in Krull-Schmidt exact categories, and the statements of Layer 6 over a field
+  become its case `R = k`; it builds on the quiver roadmap's Krull-Schmidt theorem and radical.
 - **Quiver representations meet root systems.** Gabriel's theorem identifies the finite-type quivers with
   the ADE Dynkin diagrams and the indecomposables with the positive roots, tying the finite-dimensional
   algebra theory back to root systems.
