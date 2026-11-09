@@ -63,6 +63,13 @@ Layer 9A specializes it to the ADE lattice and constructs the new lift action.
 The generic finite-index induction dimension formula is `TauCeti.finrank_indFDRep`;
 Layer 7c uses its complex specialization.
 
+GroupSchemesOverABase owns diagonalizable groups, groups of multiplicative type and tori over
+an arbitrary base (its Layers 1–3), and, over a field, monomorphisms, quotients, the identity
+component and the component group of groups that need not be affine (its §§4.1, 4.5, 4.6, 4.8
+and 4.9). Layers 3, 4 and 9D consume it as the supplier contracts below specify. Layers 3 and 4
+keep the affine field-case statements that later layers use; Layer 3's affine quotient, identity
+component and component group are the base that its §§4.1, 4.6 and 4.8 extend.
+
 The embedding theorem and the matrix-coefficient criterion for faithfulness of a
 finite-dimensional comodule, the fppf homogeneous quotient sheaf of an affine group by a
 closed subgroup, and the implication from linear reductivity of the geometric fibre to
@@ -767,6 +774,18 @@ subgroup of automorphisms preserving the base. §5.2 identifies that based subgr
 spanning system, with the Cartan-preserving permutations of the simple roots. §9A.1a-L consumes
 both on the ADE root lattice and does not rederive them.
 
+### From TauCetiRoadmap.GroupSchemesOverABase
+
+Section 1.2 supplies the homomorphisms between diagonalizable groups over a connected base, with
+§1.1's comparison of its `D_S(M)` with Tau Ceti's group scheme over `Spec R`, and §2.4, the
+field case of §2.3, the anti-equivalence between groups of multiplicative type over a field and
+finitely generated discrete Galois modules (Layer 4). Section 4.5 supplies the closed-immersion criterion for
+quasi-compact monomorphisms of groups locally of finite type over a field (Layer 3). Layers 1–3
+supply diagonalizable groups, groups of multiplicative type and tori over an arbitrary base, with
+their character sheaves, rigidity, Hom schemes, centralizers and normalizers (Layer 9D). Its
+§§4.1, 4.6, 4.8 and 4.9 extend Layer 3's affine quotient, identity component and component group
+to groups that need not be affine; they build on Layer 3 and are not inputs here.
+
 ### Native quotient and isometry interfaces
 
 Use `TauCeti.CommHopfAlgCat.fppfQuotientSheaf` from
@@ -1134,9 +1153,12 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   `A` and closed subgroup schemes of `Spec A`, over every commutative ring, and the kernel of a
   homomorphism as the closed subgroup cut out by the kernel Hopf ideal and as the fibre over the
   identity section are pinned (`TauCeti.CommHopfAlgCat.hopfIdealOrderIsoClosedSubgroup`,
-  `TauCeti.CommHopfAlgCat.isPullback_kernelSpec`, supplier contracts) and consumed. Prove that a
+  `TauCeti.CommHopfAlgCat.isPullback_kernelSpec`, supplier contracts) and consumed. That a
   homomorphism of affine group schemes of finite type over a field is a monomorphism exactly
-  when it is a closed immersion (Milne, Theorem 5.34, p. 107).
+  when it is a closed immersion (Milne, Theorem 5.34, p. 107) is the affine case of
+  GroupSchemesOverABase §4.5, a homomorphism between affine schemes being quasi-compact and a
+  closed immersion being a monomorphism; its §4.9 removes the finiteness hypotheses. Consume
+  §4.5 and state its affine case on Layer 0's Hopf and points carriers.
   Transport the native kernel–differential Lie equivalence through Layer 0's
   scheme/Hopf dictionary and Layer 2's tangent comparison: for a group morphism
   f:G→H, its inclusion Lie(ker f)→Lie(G) agrees with the inclusion ker(df)→Lie(G).
@@ -1159,7 +1181,9 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   subgroup of an affine group scheme of finite type over a field, nonreduced groups included,
   is the kernel of a quotient map to an affine group scheme, that the quotient sheaf is then
   represented by it, and the short exact sequences and isomorphism theorems this gives (Milne,
-  Theorem 5.14 and Proposition 5.18, pp. 102–103). The headline
+  Theorem 5.14 and Proposition 5.18, pp. 102–103). GroupSchemesOverABase §§4.1 and 4.9 extend
+  the representability to groups of finite type and to quasi-compact groups, not necessarily
+  affine, and build on this affine case. The headline
   `StructureAcceptance.isIso_coinvariantsQuotient_of_isNormal` states the representation in
   coinvariant form: for a normal Hopf ideal `I` of a finite-type commutative Hopf algebra `O(G)`
   over a field, the map from the fppf homogeneous quotient `G/N` to the fppf sheaf of points of
@@ -1180,7 +1204,10 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   points. `π₀(G)` is a finite étale group scheme and `G°` is the unique connected normal
   subgroup with étale quotient (Milne, Proposition 5.58, p. 114); no smoothness or
   perfectness hypothesis is needed for this. *Needs:* Layer 0's dictionary; the quotient
-  construction above; Mathlib's connected components and idempotents.
+  construction above; Mathlib's connected components and idempotents. This bullet owns the
+  affine case, which later layers use; GroupSchemesOverABase §§4.6 and 4.8 state `G°` and the
+  étale group of connected components for groups locally of finite type over a field, and agree
+  with this bullet on affine groups. They build on it and are not inputs here.
   ⚠ Reserve the term **connected–étale sequence** for *finite* group schemes; here use
   "identity component and component group", and "connected" always means the geometric
   notion.
@@ -1208,7 +1235,8 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
 ### Dependencies
 
 Layers 0–2; the native fppf quotient sheaves, closed-subgroup classification and scheme kernels
-(supplier contracts); SchemeAndStackFoundations §§1.13–1.15.
+(supplier contracts); SchemeAndStackFoundations §§1.13–1.15; GroupSchemesOverABase §4.5 for
+monomorphisms.
 
 ## Layer 3A: algebraic actions, orbit boundaries and projective closed orbits
 
@@ -1542,16 +1570,20 @@ topological gluing, submersion normal form and the native analytic inverse funct
   comodule dictionary and the regular representation; Mathlib's Jordan–Chevalley decomposition of
   a single endomorphism.
 - **Diagonalizable groups and groups of multiplicative type:** consume the native
-  scheme anti-equivalence specified in the supplier contract. Develop its character-group
-  comparison and exactness in both directions and stability of diagonalizability under quotient groups (Milne,
+  scheme anti-equivalence specified in the supplier contract. Its character-group comparison,
+  `Hom(D(M), D(N)) = Hom(N, M)` and so `X*(D(M)) = M`, is the case `S = Spec k` of
+  GroupSchemesOverABase §1.2; consume it, transported to the native equivalence through that
+  roadmap's §1.1 comparison over `Spec k`. Develop exactness in both directions and stability of
+  diagonalizability under quotient groups (Milne,
   Theorems 12.8–12.9, p. 233); the equivalent conditions of Milne, Theorem 12.12, p. 234
   (every representation is a sum of characters, equivalently `k[G]` is spanned by group-like
   elements); `μ_n = D(ℤ/n)`, `𝔾_m = D(ℤ)`; the non-smooth example `μ_p` in characteristic `p`.
-  Groups of multiplicative type are those that become diagonalizable over `k̄`, classified
-  by finitely generated abelian groups with a continuous Galois action (Milne,
-  Theorem 12.23, p. 240). (*Cartier duality* proper is the duality of **finite locally free**
+  Groups of multiplicative type are those that become diagonalizable over `k̄`; their
+  classification by finitely generated abelian groups with a continuous Galois action (Milne,
+  Theorem 12.23, p. 240) is GroupSchemesOverABase §2.4, consumed under *Tori* below.
+  (*Cartier duality* proper is the duality of **finite locally free**
   commutative group schemes, a related but distinct statement to develop separately.)
-  *Needs:* the native diagonalizable scheme equivalence; Layer 0's dictionary; Layer 1's comodules; Mathlib's group algebras and
+  *Needs:* the native diagonalizable scheme equivalence; GroupSchemesOverABase §§1.1–1.2; Layer 0's dictionary; Layer 1's comodules; Mathlib's group algebras and
   `GroupLike`; the supplied closed-subgroup theorem.
   **Check.** In characteristic p, the coordinate surjection
   k[t,t⁻¹] → k[t]/(t^p−1) presents μ_p⊂𝔾_m. The target has group-like basis
@@ -1565,11 +1597,14 @@ topological gluing, submersion normal form and the native analytic inverse funct
   (`TauCeti.TorusCommHopfAlgCat.instCharacterCocharacterPairingIsPerfPair`,
   `TauCeti.TorusCommHopfAlgCat.finrank_cocharacterLattice_eq_characterLattice`,
   `TauCeti.TorusCommHopfAlgCat.characterLatticeFunctor_isEquivalence`, supplier contracts) and
-  consumed. Prove that a torus is split exactly when its Galois action on `X*` is trivial, over
-  every field, and extend the anti-equivalence to groups of multiplicative type, torsion
-  included, over every field (Milne, Theorem 12.23, p. 240). *Needs:* the pinned torus
-  lattices and character-lattice equivalence; the diagonalizable-group dictionary above;
-  Mathlib's `RootPairing` vocabulary for the pairing.
+  consumed. The anti-equivalence for groups of multiplicative type, torsion included, over
+  every field (Milne, Theorem 12.23, p. 240) is GroupSchemesOverABase §2.4, the field case of
+  its §2.3, under which the diagonalizable groups are those whose character module has trivial
+  Galois action; consume it. Deduce, over every field, that a torus is split exactly when its
+  Galois action on `X*` is trivial, stated on the native torus carriers that later layers use.
+  *Needs:* the pinned torus lattices and character-lattice equivalence; GroupSchemesOverABase
+  §§2.3–2.4; the diagonalizable-group dictionary above; Mathlib's `RootPairing` vocabulary for
+  the pairing.
 
 ### Examples
 
@@ -1593,8 +1628,9 @@ topological gluing, submersion normal form and the native analytic inverse funct
 ### Dependencies
 
 Layers 0–1; Tau Ceti's point Jordan decomposition, torus lattices and character-lattice
-equivalence (supplier contracts); Mathlib's Jordan–Chevalley decomposition, group algebras and
-group-like elements; Mathlib's `RootPairing` vocabulary for the pairing.
+equivalence (supplier contracts); GroupSchemesOverABase §§1.1–1.2 and 2.3–2.4; Mathlib's
+Jordan–Chevalley decomposition, group algebras and group-like elements; Mathlib's `RootPairing`
+vocabulary for the pairing.
 
 ## Layer 5: solvable and unipotent groups; the unipotent radical
 - **Unipotent groups** (correct, comodule definition): `G` is unipotent iff every nonzero
@@ -3577,8 +3613,9 @@ and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂
   and of split simply connected or adjoint semisimple groups up to isomorphism (Milne,
   Theorem 23.58, p. 501); central isogenies and the isogeny theorem; Chevalley existence,
   realized by Layer 9's construction over `ℤ` (Milne, Theorem 23.74, p. 511). *Needs:*
-  Layer 7's root data; §§8.1–8.2's split data and pinnings; Layer 4's diagonalizable groups for the central
-  kernels; Layer 9's split models; Tau Ceti's `TauCeti.existsUnique_dynkinType`,
+  Layer 7's root data; §§8.1–8.2's split data and pinnings; Layer 4's diagonalizable groups over
+  a field, and GroupSchemesOverABase Layer 1's over a base, for the central kernels; Layer 9's
+  split models; Tau Ceti's `TauCeti.existsUnique_dynkinType`,
   `TauCeti.HasCartanType.of_base` and `TauCeti.nonempty_equiv_of_hasCartanType` for the
   Dynkin classification.
 - **Relative reductive groups over an arbitrary affine base.** For `S=Spec R`, `R`
@@ -3602,11 +3639,16 @@ and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂
   topology and that the group is étale-locally a split group from Layer 9. The identification
   retains the full root datum, not merely its Dynkin diagram. Prove the based-root-datum
   classification of split pinned models over connected bases and the isomorphism, base
-  change and pinning-change equations. Extend the field-level subgroup/quotient and multiplicative-type comparisons of
-  Layers 3–4 to these bases in this lane: use the supplied sheaf coequalizers and effective
+  change and pinning-change equations. Extend the field-level subgroup and quotient comparisons of
+  Layer 3 to these bases in this lane: use the supplied sheaf coequalizers and effective
   affine descent, and prove the representability statements for these group constructions,
   with their base-change maps. Field-only quotient results do not imply these relative
-  theorems. Use Layer 0's actual affine/Hopf dictionaries and the independent Layer 9 split
+  theorems. The multiplicative-type theory over these bases, which Layer 4 states over a field,
+  is GroupSchemesOverABase Layers 1–3 over an arbitrary base: diagonalizable groups, groups of
+  multiplicative type and tori with their character sheaves (its Layers 1–2), and rigidity, Hom
+  schemes, centralizers and normalizers (its Layer 3). Consume it for the centre of
+  multiplicative type, the scheme of maximal tori, the étale-local splitting and the descended
+  character and cocharacter sheaves. Use Layer 0's actual affine/Hopf dictionaries and the independent Layer 9 split
   integral models. This relative extension is not a prerequisite of Layer 9.
 
   For each fixed split reductive model G₀ over S, construct its automorphism sheaf and its
@@ -3622,7 +3664,8 @@ and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂
   Theorem 3.3.4, p. 98, for the centre of multiplicative type and the reductive quotient;
   Theorems 6.1.16–6.1.17, pp. 196–197, for the relative isogeny and isomorphism theorems.)
   *Needs:* Layer 0's dictionaries and base change; Layers 3–4 for the field-level
-  comparisons; Layer 9's split integral models; SchemeAndStackFoundations §1.1,
+  comparisons; GroupSchemesOverABase Layers 1–3 for groups of multiplicative type over the
+  base; Layer 9's split integral models; SchemeAndStackFoundations §1.1,
   §§1.13–1.15 and ModularCurves §0E.
 
 - **Pseudo-reductive basic theory over arbitrary fields.** For any field k, the basic theory
@@ -3696,8 +3739,8 @@ and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂
 ### Dependencies
 
 Layers 0, 3, 4, 5, 7, 8.1–8.2 and 9; Tau Ceti's Cartan–Killing classification and numbered root data (supplier contracts); SchemeAndStackFoundations §1.1 and
-§§1.13–1.15; ModularCurves §0E; Tau Ceti's pseudo-reductive theory and Weil restriction of
-`𝔾_m` (supplier contracts).
+§§1.13–1.15; ModularCurves §0E; GroupSchemesOverABase Layers 1–3; Tau Ceti's pseudo-reductive
+theory and Weil restriction of `𝔾_m` (supplier contracts).
 
 ## Layer 9E: Steinberg endomorphisms and extension of Layers 7a–7f
 
