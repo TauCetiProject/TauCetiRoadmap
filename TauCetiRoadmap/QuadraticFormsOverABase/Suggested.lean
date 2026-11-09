@@ -36,15 +36,13 @@ Headline theorems stated here:
 
 Not stated here, for lack of the carrier at the pins:
 
-* README 0.2, `mapCoeffs (algebraMap K L) Q = extendScalars Q L`, lacking
-  QuadraticFormInvariantsPartII's `extendScalars` (§0.2).
 * README 2.1, smoothness as ordinarity for `n ≥ 1`, lacking LefschetzPencilsAndVanishingCycles'
   ordinary quadratic forms (§2.1).
 * README 3.1, the comparison with OrthogonalTamagawaAndLatticeMass' `O(q)` over a perfect field
   of characteristic two, lacking that group (§0.1a).
 * README 3.4, the bijection between isometry classes of smooth forms of rank `n` and torsor
-  classes under `O(qₙ)`, lacking SchemeAndStackFoundations' `NonabelianH1` (§2.3) and the torsors
-  of §1.15.
+  classes under `O(qₙ)`, lacking SchemeAndStackFoundations' `NonabelianH1` (§2.3), the torsors
+  of §1.15 and the forms of §1.16.
 * README 6.1, `aₙ formDiscr n f = (-1)^(n(n-1)/2) Res_{n,n-1}(f, f')` at formal degree `n`,
   lacking HyperellipticCurves' `formDiscr` (§0.1).
 

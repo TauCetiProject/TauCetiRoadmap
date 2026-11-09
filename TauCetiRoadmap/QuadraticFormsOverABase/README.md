@@ -37,9 +37,9 @@ functor and group scheme it defines inside `GLₙ`, about its even Clifford alge
 quadratic algebras over `R`, or about binary forms of formal degree `n` over `R`:
 
 - coefficient and polar matrices, and base change of forms along an arbitrary ring map by
-  coefficients, with its comparisons with QuadraticFormInvariantsPartII §0.2's `extendScalars`
-  (from a field to an algebra over it) and with Mathlib's `QuadraticForm.baseChange` when `2` is
-  invertible (Layer 0);
+  coefficients, the coordinate form on `Fin n → R` of the coefficientwise scalar extension that
+  LefschetzPencilsAndVanishingCycles §2.1 uses in a local basis, with its comparison with Mathlib's
+  `QuadraticForm.baseChange` when `2` is invertible (Layer 0);
 - the universal discriminant and half-discriminant, and the hafnian congruence in even rank
   (Layer 1);
 - smoothness of a form on `Fin n → R`, the coordinate carrier of LefschetzPencilsAndVanishingCycles
@@ -52,6 +52,12 @@ quadratic algebras over `R`, or about binary forms of formal degree `n` over `R`
 - the discriminant algebra of a form of even rank and the product of free quadratic algebras,
   without dividing by `2` (Layer 5);
 - the resultant identity of a binary form at formal degree (Layer 6).
+
+Base change along an arbitrary ring map (0.2), the universal half-discriminant with its
+transformation rules (1.1–1.3), the unit criteria for smoothness over an arbitrary base (2.2), the
+Azumaya criterion for `C₀(Q)` in odd rank (4.1) and the resultant identity (6.1) are the general
+statements here; the roadmaps that state their cases over a field, over `ℤ` or in rank three cite
+them (Downstream consumers).
 
 **Supplied at the pins.** Mathlib's `QuadraticForm`, `QuadraticMap.toBilin`, `polarBilin`,
 `radical`, `QuadraticMap.Nondegenerate`, isometries, `CliffordAlgebra.even`, `IsAzumaya`,
@@ -70,13 +76,18 @@ consumed by name; no second carrier is built.
 
 - Quadratic forms over fields in which `2` is invertible (Witt rings, Hasse and Clifford
   invariants, Stiefel–Whitney classes) are QuadraticFormInvariants'; nonsingular and quasilinear
-  forms over fields of characteristic two, and the coordinate scalar extension `extendScalars`
-  from a field, are QuadraticFormInvariantsPartII's (§0.2 for `extendScalars`).
+  forms over fields of characteristic two, with their Witt groups, are
+  QuadraticFormInvariantsPartII's.
 - Ordinary quadratic forms on locally free modules of positive rank over any base, their base
   change and fibre criterion, their comparison with Mathlib's `QuadraticMap.Nondegenerate` over a
   field, and their étale-local normal form are LefschetzPencilsAndVanishingCycles §2.1's. The
   centre of the even Clifford algebra of an ordinary form of positive even rank, finite étale of
-  rank two, with `C₀(Q)` Azumaya over it, is its §2.2's (`evenClifford_center_etale_azumaya`).
+  rank two, with `C₀(Q)` Azumaya over it, is its §2.2's (`evenClifford_center_etale_azumaya`). The
+  polar criteria for ordinarity that §§2.1–2.2 state (over a field, and in even rank over a base)
+  are proved here, in 2.2, on `Fin n → R`, to which they reduce Zariski-locally.
+- Lifting of isometries of nonsingular quadratic forms along an ideal for which the ring is
+  complete and separated, without dividing by `2`, is GeometryOfNumbersAndQuadraticArithmeticPartII
+  §2.3's; 3.3 uses it at a square-zero ideal.
 - The orthogonal group scheme of a quadratic space over a perfect field of characteristic two,
   with its reduction, its components and its point counts over finite fields, is
   OrthogonalTamagawaAndLatticeMass §0.1a's. The orthogonal and special orthogonal group schemes
@@ -88,9 +99,10 @@ consumed by name; no second carrier is built.
 - The discriminant of a binary form at formal degree, `formDiscr`, with its degree-drop laws and
   its compatibility with ring maps, is HyperellipticCurves §0.1's; the discriminant of a
   polynomial is Mathlib's `Polynomial.discr`.
-- Descent of quasi-coherent modules, torsors and their classes are SchemeAndStackFoundations'
-  (§1.1 for descent, §1.15 for torsors under a group space, §2.3 for the carrier `NonabelianH1`),
-  consumed in 3.4.
+- Descent of quasi-coherent modules, torsors and their classes, and the classification of forms
+  by torsors under their automorphism group are SchemeAndStackFoundations' (§1.1 for descent,
+  §1.15 for torsors under a group space, §1.16 for contracted products, twisting and forms, §2.3
+  for the carrier `NonabelianH1`), consumed in 3.4.
 - The orthogonal and special orthogonal groups of the standard symmetric bilinear form
   (`X Xᵀ = 1`) are Tau Ceti's `TauCeti.Orthogonal` and `TauCeti.SpecialOrthogonal`, with the
   smoothness of `SOₙ` when `2` is invertible; they are groups of a bilinear form, not of a
@@ -109,9 +121,8 @@ consumed by name; no second carrier is built.
   `2 Q(eᵢ)` on the diagonal: `!![2a, b; b, 2c]` for the binary `q` above, of determinant
   `4ac − b²`.
 - **Base change.** `mapCoeffs f Q` applies `f : R →+* S` to the coefficient matrix. Mathlib's
-  `QuadraticForm.baseChange` needs `Invertible (2 : R)`, and QuadraticFormInvariantsPartII's
-  `extendScalars Q L` goes from a field `K` to a `K`-algebra `L`; `mapCoeffs` goes along any ring
-  map with no hypothesis on `2`, and 0.2 compares it with both.
+  `QuadraticForm.baseChange` needs `Invertible (2 : R)`; `mapCoeffs` goes along any ring map with
+  no hypothesis on `2`, and 0.2 compares the two.
 - **Universal ring.** `ℤ[U] = MvPolynomial (Fin n × Fin n) ℤ`, `U = (Uᵢⱼ)`; a polynomial in the
   `Uᵢⱼ` is evaluated at a form through its coefficient matrix (`evalMatrix (coeffMatrix Q)`).
   Using all `n²` entries rather than the `n(n+1)/2` coefficients `i ≤ j` changes nothing: the
@@ -230,31 +241,35 @@ the comparisons of 3.1.
 nonsingular form over a field of characteristic two, read in the Layer 1 Examples and the Research
 context.
 
-**From QuadraticFormInvariantsPartII.** §0.2: `extendScalars`, the coordinate scalar extension
-from a field, consumed in the comparison of 0.2.
+**From GeometryOfNumbersAndQuadraticArithmeticPartII.** §2.3: lifting of isometries of
+nonsingular quadratic forms on finite projective modules along an ideal for which the ring is
+complete and separated, read for a commutative ring with `α = id` and `u = 1`, consumed in 3.3 at
+a square-zero ideal.
 
 **From HyperellipticCurves.** §0.1: `formDiscr`, the discriminant of a binary form at formal
 degree, consumed in 6.1.
 
 **From SchemeAndStackFoundations.** §1.1: descent of quasi-coherent modules
 (SchemeAndStackFoundations' `qcoh_fpqc_descent`); SchemeAndStackFoundations' `IsTorsor` (§1.15:
-torsors under a group space flat and of finite presentation, for the fppf topology); and
+torsors under a group space flat and of finite presentation, for the fppf topology);
+SchemeAndStackFoundations' `twistingBijection` and `FormOf` (§1.16: twisting by a torsor, and the
+classes of fppf forms of an object as `H¹_fppf` of its automorphism sheaf); and
 SchemeAndStackFoundations' `NonabelianH1` (§2.3: the pointed set of torsor classes); all consumed
 in 3.4 only.
 
 ## How to read the build
 
-Layer 0 fixes coordinates and base change, which is all the later layers need to say "over
-every `R`-algebra" without dividing by `2`. Layer 1 constructs the universal discriminant and
+Layer 0 fixes coordinates and base change, which is all the later layers need to say "over every
+`R`-algebra" without dividing by `2`. Layer 1 constructs the universal discriminant and
 half-discriminant over `ℤ` and their values at a form, with their transformation rules, and the
 hafnian congruence in even rank. Layer 2 defines smoothness geometrically, compares it with
 LefschetzPencilsAndVanishingCycles' ordinary forms, and proves the two unit criteria and local
-triviality; it uses Layer 1. Layer 3 builds `O(Q)` inside Tau Ceti's `GLₙ` and proves its
-structure theorems from Layers 1 and 2; 3.3 is the hardest target, and 3.4 needs
-SchemeAndStackFoundations. Layer 4 reads Layers 1 and 2 on the even Clifford algebra. Layer 5
-works with free quadratic algebras; 5.1 joins it to 1.4 and Layer 2. Layer 6 is independent of
-Layers 1–5 and uses only Mathlib's resultant and HyperellipticCurves' discriminant at formal
-degree.
+triviality; it uses Layer 1. Layer 3 builds `O(Q)` inside Tau Ceti's `GLₙ` and proves its structure
+theorems from Layers 1 and 2; 3.3 is the hardest target and lifts isometries by
+GeometryOfNumbersAndQuadraticArithmeticPartII, and 3.4 needs SchemeAndStackFoundations. Layer 4
+reads Layers 1 and 2 on the even Clifford algebra. Layer 5 works with free quadratic algebras; 5.1
+joins it to 1.4 and Layer 2. Layer 6 is independent of Layers 1–5 and uses only Mathlib's resultant
+and HyperellipticCurves' discriminant at formal degree.
 
 ## Layer 0: coordinates and base change
 
@@ -287,22 +302,18 @@ entry `(i, j)` for `i < j` being the sum of the entries `(i, j)` and `(j, i)`.
 Define `mapCoeffs f Q` for `f : R →+* S` as in the Conventions. Prove that
 `mapCoeffs f Q (f ∘ x) = f (Q x)`, that `mapCoeffs g (mapCoeffs f Q) = mapCoeffs (g.comp f) Q`,
 that `mapCoeffs (RingHom.id R) Q = Q` and that
-`coeffMatrix (mapCoeffs f Q) = (coeffMatrix Q).map f`. Prove the comparison with
-QuadraticFormInvariantsPartII §0.2: for a field `K` and a commutative `K`-algebra `L`,
-`mapCoeffs (algebraMap K L) Q = extendScalars Q L`, both sides being
-`x ↦ ∑ᵢ Q(eᵢ) xᵢ² + ∑_{i<j} polar Q eᵢ eⱼ xᵢ xⱼ` with the coefficients mapped into `L`. Prove
-`mapCoeffs_eq_baseChange`: when `Invertible (2 : R)` and `A` is an `R`-algebra,
-`mapCoeffs (algebraMap R A) Q` is
+`coeffMatrix (mapCoeffs f Q) = (coeffMatrix Q).map f`: `mapCoeffs f Q` is
+`x ↦ ∑ᵢ f(Q(eᵢ)) xᵢ² + ∑_{i<j} f(polar Q eᵢ eⱼ) xᵢ xⱼ`, the coefficientwise scalar extension in
+the standard basis that LefschetzPencilsAndVanishingCycles §2.1 uses in a local basis of a locally
+free module. Prove `mapCoeffs_eq_baseChange`: when `Invertible (2 : R)` and `A` is an
+`R`-algebra, `mapCoeffs (algebraMap R A) Q` is
 `(Q.baseChange A).comp (TensorProduct.piScalarRight R A A (Fin n)).symm.toLinearMap`. Route: both
 sides take the same values at the `eᵢ` and the same polar values at the pairs `(eᵢ, eⱼ)`
-(`QuadraticForm.baseChange_tmul`). For a field `K` this also follows from the comparison and
-QuadraticFormInvariantsPartII §0.2's identification of `extendScalars` with
-`QuadraticForm.baseChange`; `mapCoeffs_eq_baseChange` is its form over a ring. No source is
-named for these coordinate identities; the routes are their proofs.
+(`QuadraticForm.baseChange_tmul`). No source is named for these coordinate identities; the routes
+are their proofs.
 
 *Needs:* 0.1; Mathlib `Matrix.toLinearMap₂'`, `QuadraticForm.baseChange`,
-`QuadraticForm.baseChange_tmul`, `TensorProduct.piScalarRight`; QuadraticFormInvariantsPartII
-§0.2 (`extendScalars`).
+`QuadraticForm.baseChange_tmul`, `TensorProduct.piScalarRight`.
 
 **Checks.**
 
@@ -313,9 +324,8 @@ named for these coordinate identities; the routes are their proofs.
   `mapCoeffs f q (2, 3) = 2 · 3 = 0` in `ℤ/6`.
 - When `2 ∈ Rˣ`, `mapCoeffs_eq_baseChange` at `q = x²`, `A = R[t]`: both sides send
   `t e₀` to `t²`.
-- The comparison at `[1, a] = x² + x y + a y²` over a field `K`: `mapCoeffs (algebraMap K L)`
-  and `extendScalars · L` both give `x² + x y + a y²` over `L`, not `x² + a y²`, which is what a
-  definition dropping the off-diagonal coefficient would give.
+- At `[1, a] = x² + x y + a y²` and any `f : R →+* S`, `mapCoeffs f` gives `x² + x y + f(a) y²`,
+  not `x² + f(a) y²`, which is what a definition dropping the off-diagonal coefficient would give.
 
 ### Examples
 
@@ -325,7 +335,7 @@ named for these coordinate identities; the routes are their proofs.
 ### Dependencies
 
 Mathlib `QuadraticMap.toBilin`, `polarBilin`, `LinearMap.toMatrix₂'`, `Matrix.toLinearMap₂'`,
-`QuadraticForm.baseChange`, `TensorProduct.piScalarRight`; QuadraticFormInvariantsPartII §0.2.
+`QuadraticForm.baseChange`, `TensorProduct.piScalarRight`.
 
 ## Layer 1: discriminants
 
@@ -514,9 +524,14 @@ fibrewise, an element is a unit exactly when it is nonzero at every geometric po
 algebraically closed field the defect `dim V^⊥` of the polar form has the parity of `n` in
 characteristic two (Conrad 2014, Exercise 1.6.10, p. 50); for `n` odd and `q` degenerate, `q` is
 a form in fewer variables after a change of coordinates, so a lift over the Witt vectors has
-discriminant `0` (Conrad 2014, proof of Proposition C.1.4). In even rank, on `Fin n → R`,
-`IsUnit (det polarMatrix Q)` says that `polarBilin Q` is bijective, the form of ordinarity that
-LefschetzPencilsAndVanishingCycles §2.2 uses.
+discriminant `0` (Conrad 2014, proof of Proposition C.1.4). The route uses only the definition
+of `IsSmooth`, not its comparison with LefschetzPencilsAndVanishingCycles §2.1. In even rank, on
+`Fin n → R`, `IsUnit (det polarMatrix Q)` says that `polarBilin Q` is bijective, so
+`isSmooth_iff_isUnit_det` is, on a free module, the equivalence of ordinarity with the
+bijectivity of the polar map that LefschetzPencilsAndVanishingCycles §2.2 states in positive even
+rank; over a field, §2.1's criterion for even rank or `2 ≠ 0` (ordinary exactly when the polar form
+is nondegenerate) is the field case of 2.2, through `2 δ'(Q) = det polarMatrix Q` (1.2) in odd
+rank.
 
 *Needs:* 1.2, 1.3, 2.1; Mathlib `isUnit_iff_ne_zero`, `Ideal.exists_le_maximal`,
 `AlgebraicClosure`, `WittVector`.
@@ -685,10 +700,13 @@ along a square-zero `A → A/J` of `R`-algebras (`Algebra.Smooth` is `Algebra.Fo
 `Algebra.FinitePresentation`). Write `P = polarMatrix Q` and `B_Q(x, y) = xᵀ P y`.
 
 - *`smooth_orthogonal_iff`, from `n` even or `2 ∈ Rˣ`.* Then `det P` is a unit: by 2.2 when `n` is
-  even, and as `2 δ'(Q)` (1.2) when `n` is odd. Lift `g₀ ∈ O(Q)(A/J)` to any matrix `g̃` over `A`,
-  invertible since `J` is nilpotent. The form `ψ = −(Q ∘ g̃ − Q)` has coefficients in `J`; let `β`
-  be its coefficient matrix and `T = P⁻¹ β`. As `J² = 0` and `g̃ᵀ P g̃ ≡ P` modulo `J`,
-  `Q(g̃ (1 + T) x) = Q(x) − ψ(x) + xᵀ P T x = Q(x)`, so `g = g̃ (1 + T)` lifts `g₀` to `O(Q)(A)`.
+  even, and as `2 δ'(Q)` (1.2) when `n` is odd. So `Q_A` is nonsingular (its polar map
+  `Aⁿ → Hom(Aⁿ, A)` is bijective), `A` is complete and separated for the square-zero `J`, and
+  GeometryOfNumbersAndQuadraticArithmeticPartII §2.3 (at `α = id`, `u = 1`) lifts every
+  `g₀ ∈ O(Q)(A/J)` to `O(Q)(A)`. At `J² = 0` one correction suffices: lift `g₀` to any matrix `g̃`
+  over `A`, invertible since `J` is nilpotent; the form `ψ = −(Q ∘ g̃ − Q)` has coefficients in `J`;
+  let `β` be its coefficient matrix and `T = P⁻¹ β`. As `g̃ᵀ P g̃ ≡ P` modulo `J`,
+  `Q(g̃ (1 + T) x) = Q(x) − ψ(x) + xᵀ P T x = Q(x)`, so `g = g̃ (1 + T)` lifts `g₀`.
 - *`smooth_orthogonal_iff`, the converse.* For `n` odd, `ζ ↦ ζ · 1` and `g ↦ det g` make `μ₂` a
   retract of `O(Q)` (3.2: `det(ζ · 1) = ζⁿ = ζ`), and a retract of a smooth algebra is smooth. If
   `2 ∉ Rˣ`, a maximal ideal `𝔪 ∋ 2` (`Ideal.exists_le_maximal`) gives, by base change, a smooth
@@ -716,7 +734,8 @@ along a square-zero `A → A/J` of `R`-algebras (`Algebra.Smooth` is `Algebra.Fo
 *Needs:* 1.1, 1.2, 1.3, 2.2, 3.1, 3.2; Mathlib `Algebra.Smooth`, `Algebra.FormallySmooth`,
 `Algebra.FinitePresentation`, `Algebra.Smooth.baseChange`, `Ideal.exists_le_maximal`,
 `IsLocalRing.map_tensorProduct_mk_eq_top`, `surjective_of_isLocalized_maximal`; Tau Ceti
-`RootsOfUnityGroup.coordinateRing_smooth_iff`.
+`RootsOfUnityGroup.coordinateRing_smooth_iff`; GeometryOfNumbersAndQuadraticArithmeticPartII §2.3
+(isometry lifting).
 
 **Checks.**
 
@@ -734,15 +753,20 @@ along a square-zero `A → A/J` of `R`-algebras (`Algebra.Smooth` is `Algebra.Fo
 Prove that `P ↦ (the form P ∧^{O(qₙ)} qₙ)` is a bijection from SchemeAndStackFoundations'
 `NonabelianH1` of the big fppf site of `Spec R` with coefficients `O(qₙ)` (§2.3) onto isometry
 classes of smooth forms on locally free modules of rank `n`, with the trivial class going to
-`qₙ`; and that it restricts to the classes of forms on `Fin n → R` among them. Route: 2.4 says
-that every smooth form is an fppf twist of `qₙ`; fppf descent of modules with a quadratic form
-(SchemeAndStackFoundations §1.1), and `Isom(qₙ, Q)` as an `O(qₙ)`-torsor (SchemeAndStackFoundations
-§1.15). §1.15 applies because `O(qₙ)` is flat and finitely presented over `ℤ`: smooth for `n` even
-(3.3), and `μ₂ × SO(qₙ)` with `SO(qₙ)` smooth for `n` odd (3.2, 3.3). No source is named for the
-bijection; the route is its proof.
+`qₙ`; and that it restricts to the classes of forms on `Fin n → R` among them. Route: the
+bijection is SchemeAndStackFoundations §1.16's classification of fppf forms (`FormOf`, classes in
+`H¹_fppf` of the automorphism sheaf, with `twistingBijection` and the inverse `Q ↦ Isom(qₙ, Q)`),
+read for the free module `Rⁿ` with the form `qₙ`, whose automorphism sheaf is `O(qₙ)` (3.1). Owned
+here is the identification of these fppf forms with the smooth forms on locally free modules of
+rank `n`: 2.4 says that every smooth form is an fppf twist of `qₙ`, fppf descent of modules with
+a quadratic form (SchemeAndStackFoundations §1.1) gives the converse, and `Isom(qₙ, Q)` is an
+`O(qₙ)`-torsor (SchemeAndStackFoundations §1.15) because `O(qₙ)` is flat and finitely presented
+over `ℤ`: smooth for `n` even (3.3), and `μ₂ × SO(qₙ)` with `SO(qₙ)` smooth for `n` odd (3.2,
+3.3). No source is named for this identification; the route is its proof.
 
 *Needs:* 2.4, 3.1, 3.2, 3.3; SchemeAndStackFoundations §1.1 (descent of quasi-coherent modules),
-§1.15 (`IsTorsor`) and §2.3 (`NonabelianH1`, `NonabelianH1.mk`, `mk_eq_one_iff`).
+§1.15 (`IsTorsor`), §1.16 (`FormOf`, `twistingBijection`) and §2.3 (`NonabelianH1`,
+`NonabelianH1.mk`, `mk_eq_one_iff`).
 
 **Checks.**
 
@@ -773,7 +797,8 @@ isotropic groups (Česnavičius 2022, §3.6 and Conjecture 3.6.1).
 Layers 0–2; Tau Ceti `GeneralLinear`, `HopfIdeal`, `ConstantForm`, `RootsOfUnity`,
 `TauCeti.QuadraticMap.orthogonalGroup` and its coordinate criterion
 `TauCeti.QuadraticMap.mem_orthogonalGroup_iff_toMatrix` with `QuadraticForm.toMatrix_polarBilin`;
-OrthogonalTamagawaAndLatticeMass §§0.1, 0.1a; SchemeAndStackFoundations §§1.1, 1.15, 2.3.
+OrthogonalTamagawaAndLatticeMass §§0.1, 0.1a; GeometryOfNumbersAndQuadraticArithmeticPartII §2.3;
+SchemeAndStackFoundations §§1.1, 1.15, 1.16, 2.3.
 
 ## Layer 4: even Clifford algebras
 
@@ -930,7 +955,26 @@ HyperellipticCurves §0.1; Mathlib `Polynomial.resultant`, `Polynomial.discr`; T
 
 ## Downstream consumers
 
-None.
+- LefschetzPencilsAndVanishingCycles §§2.1–2.2: the polar criteria for ordinarity, over a field
+  (§2.1) and, in positive even rank, the bijectivity of the polar map over a base (§2.2), cite 2.2
+  for their proof on `Fin n → R`, to which a locally free module reduces Zariski-locally.
+- QuadraticFormInvariantsPartII §0.2: `extendScalars Q L`, for a field `K` and a `K`-algebra `L`,
+  is `mapCoeffs (algebraMap K L) Q` on `Fin n → K`, both being the coordinate polynomial with the
+  coefficients mapped into `L`; it cites 0.2. Its §0.1 comparison of nonsingularity with
+  `QuadraticMap.Nondegenerate` in even dimension is the field case of 2.1–2.2.
+- ArithmeticStatisticsPartII §1.3 (`4 Det Q` of an integer-valued ternary form and its rule
+  `4 Det(Q ∘ Mᵀ) = (det M)² 4 Det Q`) and ArithmeticStatisticsPartIII §2.8 (the integral
+  determinant `Counting.ternaryDet4`) are `δ'` at `n = 3`, Voight's polynomial of 1.1, with the
+  rules of 1.3; they cite 1.1–1.3.
+- ArithmeticStatisticsPartI §0.22: the fixed-degree binary discriminant in pencil coordinates,
+  identified with the signed resultant quotient `Res(F, F′)/a₀`, cites 6.1 (its `a₀` is the
+  coefficient of `xⁿ`, the `aₙ` of 6.1).
+- QuadraticFormInvariants Layer 5 (for a regular form of odd dimension over a field of
+  characteristic `≠ 2`, `CliffordAlgebra.even q` is central simple) and SpinRepresentations
+  Layer 1 (in odd dimension `2l + 1` over an algebraically closed field of characteristic `≠ 2`,
+  the even subalgebra is a single matrix algebra of size `2^l`) are field cases of 4.1 in
+  dimension at least `3`, where `δ'(q) ≠ 0` is regularity since `det polarMatrix q = 2 δ'(q)`;
+  dimension `1` is `C₀ = K`. They cite 4.1.
 
 ## Research context
 
