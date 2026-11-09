@@ -550,7 +550,8 @@ with v_L(ρ_1) = d(L/K) − n + 1 = height K L (the Eisenstein derivative formul
 `v_L(ρ_n) = 0`. Prove that the roots of `ρ` in a splitting field `M` are `(α' − α)/α` for the
 conjugates `α'` of `α`, each simple. *Needs:* Tau Ceti `addVal_sum_eisenstein_powerBasis`,
 `natCast_differentExponent_eq_iInf_of_eisenstein_adjoin_eq_top`; Mathlib `Polynomial.comp`,
-`Polynomial.coeff_comp`.
+`Polynomial.comp_eq_sum_left` and `Polynomial.coeff_X_add_C_pow` (the binomial coefficients of
+`(X + C r)^h`, for the coefficient formula) and `Polynomial.natDegree_comp` (for the degree).
 
 - The coefficient formula uses the monic normalization and the actual chosen root.
 - Root differences are divided by that root; the identity conjugate contributes the zero root.
@@ -1818,17 +1819,21 @@ RamificationOfCompleteDiscretelyValuedFields §4a.2; §1.3 and the tame branch o
 ### 6.6 Subfamilies and packets
 
 Define the **subfamily** of `I/K` of an equivalence class `𝒜` of residual polynomials (1.4) as
-the members with class `𝒜`, and prove the subfamilies partition the family. Define the **packet**
-relation on the family: `L_1 ∼ L_2` when their residual-polynomial classes agree, their Galois
-closures have isomorphic permutation representations `Gal(M_i/K) ↪ Perm(Hom_K(L_i, M_i))`
-(Mathlib `MulAction` isomorphism of the two actions), the closures `M_1/K`, `M_2/K` have the same
-`e` and the same `f`, and hiddenSwanSlopes K L_1 = hiddenSwanSlopes K L_2 (knowl `lf.packet`);
-prove it is an equivalence relation refining the
-subfamilies, and define packetCount K I. Prove that the slope content, the Galois mean slope and
-the top slope are constant on packets. *Needs:* 1.4, 3.1–3.3, 6.3.
+the members with class `𝒜` (knowl `lf.subfamily`), and prove the subfamilies partition the
+family. Define the **packet** relation on the family by the hidden invariants alone:
+`L_1 ∼ L_2` when their Galois closures have isomorphic permutation representations
+`Gal(M_i/K) ↪ Perm(Hom_K(L_i, M_i))` (Mathlib `MulAction` isomorphism of the two actions), the
+closures `M_1/K`, `M_2/K` have the same `e` and the same `f`, and
+hiddenSwanSlopes K L_1 = hiddenSwanSlopes K L_2 (knowl `lf.packet`, its four conditions);
+prove it is an equivalence relation, so that the packets partition the family, and define
+packetCount K I. Prove that the slope content, the Galois mean slope and the top slope are
+constant on packets: the visible slopes are constant on the family (6.3), the hidden slopes agree
+by definition, so the Galois slopes agree, and the closures' `e` and `f` then fix `t` and `u`.
+*Needs:* 1.4, 3.1–3.3, 6.3.
 
 - Equal residual classes define the subfamily relation independently of a uniformizer.
-- The packet relation requires all four specified invariants, hence is finer than that relation.
+- The packet relation does not compare residual classes: two members of different subfamilies
+  share a packet exactly when their four hidden invariants agree.
 - Its closure slopes and tame degree determine its Galois mean slope by §3.3.
 
 **Checks.**
@@ -1845,8 +1850,11 @@ the top slope are constant on packets. *Needs:* 1.4, 3.1–3.3, 6.3.
   polygon face from `(1,3)` to `(4,0)`, hence invariant `[1,1]` and exponent `6`.
   Their residual polynomials are respectively `z³+1` and `z³+z+1`, with associated
   additive maps `z⁴+z` and `z⁴+z²+z`. Their kernels on `𝔽₂` have sizes `2` and `1`.
-  Since `𝔽₂ˣ={1}`, the residual classes differ, so they lie in different subfamilies
-  and packets. A relation omitting the residual comparison cannot certify this separation.
+  Since `𝔽₂ˣ={1}`, the residual classes differ, so they lie in different subfamilies.
+  Their closure groups are `D₄` (order `8`) and `A₄` (order `12`), not isomorphic, so the
+  permutation-group clause puts them in different packets; the closures' residue degrees
+  `2` and `3` separate them as well, while both hidden lists are empty. A packet relation
+  that compared only the hidden slopes would wrongly identify them.
 
 ### 6.7 Monge's count over an arbitrary p-adic base
 
