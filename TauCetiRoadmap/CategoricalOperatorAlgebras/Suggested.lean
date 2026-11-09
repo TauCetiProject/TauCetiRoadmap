@@ -10,11 +10,13 @@ import Mathlib
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti. None of them is statable at the pins, so the
 file declares nothing. Mathlib has native categories, monoidal categories, `MonObj`,
-`EndMonoidal`, `HalfBraiding`, `Center`, rigid categories, `CStarModule`, `VonNeumannAlgebra` and
-completely positive maps, and Tau Ceti has pivotal structures with their traces, the universal
-grading group and the rigid, pivotal and abelian structures of the Drinfeld centre, but neither has
-a dagger category, C*-category or W*-category, and the headline theorems are statements about
-those. Each headline and the carrier it lacks:
+`EndMonoidal`, `HalfBraiding`, `Center`, rigid categories, monoidal actions with their linear
+functors, module and bimodule objects with the bicategory `Bimod.monBicategory`, `CStarModule`,
+`VonNeumannAlgebra` and completely positive maps, and Tau Ceti has pivotal structures with their
+traces, the universal grading group, the twist of a braided pivotal category, free modules and the
+rigid, pivotal and abelian structures of the Drinfeld centre, but neither has a dagger category,
+C*-category or W*-category, and the headline theorems are statements about those. Each headline
+and the carrier it lacks:
 
 * CA2a, the canonical bijections between pseudounitary pivotal structures, unitary dual functors
   and positive characters of the universal grading groupoid (Penneys, Theorem A): no

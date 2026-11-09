@@ -60,7 +60,13 @@ pivotal and spherical structures of the native Drinfeld centre
 pin, and the finite semisimplicity, finitely many simple classes and
 global dimension of the centre of a fusion category are PivotalSpherical
 Layer 11; CA6 and CA10 add unitary half-braidings, the relative centre
-and the analytic structure of the unitary centre.
+and the analytic structure of the unitary centre. Left and right actions
+of a monoidal category with their module functors, module and bimodule
+objects over monoid objects with the bicategory of bimodules, and free
+modules are in Mathlib and Tau Ceti at the pin, and so are balanced and
+ribbon structures and the twist of a braided pivotal category
+(PivotalSpherical Layer 10); CA2b, CA3 and CA4 add dagger and analytic
+structure to the actions, modules and bimodules, and CA6 uses that twist.
 
 ## Conventions
 
@@ -114,7 +120,28 @@ the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
   `ExactPairing`, `exactPairingCongrLeft`, `HasRightDual`, `Iso`,
   `Equivalence`, biproducts, `Karoubi`, Day convolution
   (`Mathlib/CategoryTheory/Monoidal/DayConvolution.lean`), `CStarModule`
-  and `VonNeumannAlgebra`. They are used as stated at the pin; the analytic
+  and `VonNeumannAlgebra`. For module categories and bimodules:
+  `MonoidalLeftAction` and `MonoidalRightAction`
+  (`Mathlib/CategoryTheory/Monoidal/Action/Basic.lean`), a monoidal category
+  acting on a category with action bifunctor, associator `d⊙(c⊗c′)≅(d⊙c)⊙c′`
+  on the right and unitor, and the regular actions `selfLeftAction` and
+  `selfRightAction` by tensoring;
+  `MonoidalLeftAction.monoidalOppositeLeftAction` and
+  `MonoidalRightAction.monoidalOppositeRightAction`
+  (`Action/Opposites.lean`), the left (right) action of the monoidal
+  opposite `Cᴹᵒᵖ` defined by a right (left) C-action, with the converse
+  constructions `MonoidalRightAction.rightActionOfMonoidalOppositeLeftAction`
+  and `MonoidalLeftAction.leftActionOfMonoidalOppositeRightAction`;
+  `Functor.LeftLinear` and
+  `Functor.RightLinear` (`Action/LinearFunctor.lean`), module functors
+  with invertible lineators; `ModObj` and its category `CategoryTheory.Mod`
+  (`Monoidal/Mod.lean`), modules over a monoid object acting through a left
+  action, with `MonObj.mopMonObj` for the monoid `mop A` of `Cᴹᵒᵖ`; and
+  `Bimod` (`Monoidal/Bimod.lean`), bimodules between monoid objects, with
+  their tensor product `Bimod.tensorBimod`, the coequalizer of the two
+  actions on `X⊗Y`, and the bicategory `Bimod.monBicategory`, both for a
+  monoidal category with coequalizers preserved by tensoring on either side.
+  They are used as stated at the pin; the analytic
   structure of this roadmap is added to these carriers, never a second copy
   of them.
 - From Tau Ceti: `TauCeti.CategoryTheory.Monoidal.Rigid.Basic` (evaluation
@@ -124,11 +151,13 @@ the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
   duals) and `TauCeti.CategoryTheory.Monoidal.Rigid.DoubleDual` (closed
   braided double duals, not used for the pivotal comparison). Tau Ceti's
   implementation of PivotalSpherical Layers 0–2, 5, 6 and 9, of the
-  Frobenius–Schur indicators of Layer 8, of the canonical rigid, linear,
-  abelian and pivotal structures of the centre of Layer 10, and of the
-  Hom-finiteness and simple unit of the centre of Layer 11 is consumed as
-  stated at the pin; its pivotal classes are stated over `[RigidCategory C]`
-  with no braiding, and carry finiteness or semisimplicity only where named:
+  Frobenius–Schur indicators of Layer 8, of the balanced and ribbon
+  categories, the twist of a braided pivotal category and the canonical
+  rigid, linear, abelian and pivotal structures of the centre of Layer 10,
+  and of the Hom-finiteness and simple unit of the centre of Layer 11 is
+  consumed as stated at the pin; its pivotal classes are stated over
+  `[RigidCategory C]` with no braiding, and carry finiteness or
+  semisimplicity only where named:
   - `TauCeti.CategoryTheory.Monoidal.Rigid.DualFunctor`: the strong monoidal
     double right dual functor `TauCeti.doubleRightDualFunctor`;
   - `TauCeti.CategoryTheory.Monoidal.Pivotal.Basic`: `TauCeti.PivotalCategory`,
@@ -207,22 +236,61 @@ the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
     category is spherical; and `CategoryTheory.Center.instSimpleUnit`, the
     unit of the centre is simple when the unit of C is simple and the
     forgetful functor preserves monomorphisms, as it does when C has finite
-    limits preserved by tensoring on both sides.
+    limits preserved by tensoring on both sides;
+  - `TauCeti.CategoryTheory.Monoidal.Braided.Balanced`,
+    `TauCeti.CategoryTheory.Monoidal.Braided.Ribbon`,
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.Balanced`,
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.OfBalanced`,
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.Ribbon` and
+    `TauCeti.CategoryTheory.Monoidal.Pivotal.Symmetric`:
+    `TauCeti.BalancedCategory`, a twist θ on a braided category, a natural
+    automorphism of the identity with `θ_(X⊗Y)=β_(Y,X)β_(X,Y)(θ_X⊗θ_Y)`;
+    `TauCeti.RibbonCategory`, the property of a balanced rigid category that
+    the twist of `Xᘁ` is the dual of the twist of X;
+    `TauCeti.balancedOfBraidedPivotal`, the balanced structure of a braided
+    rigid category with a pivotal structure φ, whose twist is `u_X⁻¹φ_X` for
+    the Drinfeld isomorphism `u_X=TauCeti.drinfeldIso X : X ≅ Xᘁᘁ`
+    (`TauCeti.balancedOfBraidedPivotal_twist_hom_app`);
+    `TauCeti.pivotalBalancedEquiv`, the bijection between pivotal and
+    balanced structures of a braided rigid category;
+    `TauCeti.sphericalCategory_of_ribbonCategory`, a pivotal structure whose
+    twist is ribbon is spherical; and the instance
+    `TauCeti.symmetricPivotalCategory`, the pivotal structure of a symmetric
+    rigid category by Drinfeld isomorphisms, whose twist is the identity
+    (`TauCeti.balancedOfBraidedPivotal_twist_eq_refl`);
+  - `TauCeti.CategoryTheory.Monoidal.Mod.Free`: the free left module functor
+    `TauCeti.freeMod A`, sending X to `A⊗X`, for a monoid object A of any
+    monoidal category, and `TauCeti.freeModAdjunction`, which makes it left
+    adjoint to the forgetful functor from `CategoryTheory.Mod`;
+  - `TauCeti.CategoryTheory.Monoidal.Action.LinearFunctor` and
+    `TauCeti.CategoryTheory.Monoidal.Action.FullSubcategory`: composites of
+    left-linear functors (`CategoryTheory.Functor.LeftLinear.comp`),
+    left-linear natural transformations
+    (`CategoryTheory.NatTrans.IsLeftLinear`), and the restriction
+    `CategoryTheory.ObjectProperty.fullSubcategoryMonoidalLeftAction` of a
+    left action to a full subcategory stable under it
+    (`CategoryTheory.ObjectProperty.IsStableUnderLeftAction`).
 
   CA2a builds its unitary duality on these declarations and does not
   restate them; CA6 and CA10 add unitary half-braidings to the centre's
-  canonical structures and do not restate those.
+  canonical structures and do not restate those. CA2b's right module
+  C*-categories, CA3's bimodules and CA4's free modules add dagger and
+  analytic structure to the native actions, modules and bimodules, and
+  CA6's twist is the pinned twist of a braided pivotal category.
 - [PivotalSpherical](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md)
   Layers 0–6 and 9 supply general pivotal/spherical, rigidity, finite
   semisimple, Frobenius–Perron, pseudo-unitarity and grading theory, Layer 8
   supplies the Frobenius–Schur indicators, and Layer 11 supplies finite
   semisimplicity and finitely many simple classes of the centre `Center C`
   of a fusion category in characteristic 0, with `dim Z(C)=(dim C)²`. The
-  centre's canonical rigid, linear, abelian and pivotal structures
-  (Layer 10) and its Hom-finiteness and simple unit (Layer 11) are consumed
-  from Tau Ceti's implementation at the pin, listed above. CA2a adds
-  analytic unitary choices and their classification, and CA10 adds
-  unitary half-braidings and the tube algebra; neither duplicates that
+  balanced and ribbon categories, the twist of a braided pivotal category
+  and the implication from ribbon to spherical (Layer 10), the centre's
+  canonical rigid, linear, abelian and pivotal structures (Layer 10) and
+  its Hom-finiteness and simple unit (Layer 11) are consumed from Tau
+  Ceti's implementation at the pin, listed above. CA2a adds analytic
+  unitary choices and their classification, CA6 reads the twist of the
+  pivotal structure its unitary dual functor induces, and CA10 adds
+  unitary half-braidings and the tube algebra; none duplicates that
   categorical API.
 - [CStarAlgebras C1–C5](../CStarAlgebras/README.md) supplies C* order,
   representations and CP/CB maps.
@@ -519,7 +587,9 @@ does not change a negative sign into symmetric self-duality. Define
 the tensor-product sign law `ε(r_x⊗_β r_y)=ε(r_x)ε(r_y)` for
 the constructed braided self-duality map under an explicit unitary
 symmetric braiding with its dual/pivotal compatibility and trivial
-induced twist on the generated tensor category. Construct the tensor
+induced twist on the generated tensor category: the twist of
+`TauCeti.balancedOfBraidedPivotal` for the pivotal structure of the chosen
+unitary dual functor is the identity there. Construct the tensor
 self-duality map using the braiding to reverse the dual factors and
 prove the law.
 In a general rigid category the dual
@@ -647,7 +717,8 @@ as endomorphisms of the whole unit.
 `TauCeti.leftTrace`, `TauCeti.rightTrace`, `TauCeti.leftDim`,
 `TauCeti.rightDim`, `TauCeti.SphericalCategory`,
 `TauCeti.PivotalCategory.instTorsor`, `TauCeti.universalGradingGroup`,
-`TauCeti.frobeniusSchurIndicator`,
+`TauCeti.frobeniusSchurIndicator`, for the braided sign law
+`TauCeti.balancedOfBraidedPivotal`,
 and, for the fusion-category comparisons only,
 `TauCeti.PivotalCategory.characterEquiv`, `TauCeti.SplitK0.leftDimChar`,
 `TauCeti.SplitK0.eq_frobeniusPerronChar`, `TauCeti.frobeniusPerronDim`,
@@ -693,11 +764,19 @@ Keep the E_N-induced weighted rigid evaluation distinct from the
 ordinary spherical closure. Sphericality remains an additional
 condition on the general planar correspondence.
 
-Construct pivotal right module C*-categories over a unitary multitensor
-category: dagger action functors with unitary module associators/unitors
-and a module trace compatible with its chosen pivotal traces. Develop
-module functors, unitary natural transformations, finite sums, subobjects
-and generation by a chosen object. For the generated 2-by-2 category of a subfactor planar algebra,
+A right module C*-category over a unitary multitensor category C is a
+C*-category M with Mathlib's `MonoidalRightAction C M` whose action is a
+dagger functor in each variable and whose module associator and unitor
+are unitary; C is one through `selfRightAction`. It is pivotal when it
+carries a module trace compatible with C's chosen pivotal traces. Module
+functors are dagger functors with `Functor.RightLinear` structure whose
+lineators are unitary. Develop unitary module natural transformations,
+finite sums, subobjects and generation by a chosen object, taking
+composition of module functors, module natural transformations and the
+restriction of the action to a full subcategory closed under it from Tau
+Ceti's left-linear API, through Mathlib's passage
+(`MonoidalLeftAction.monoidalOppositeLeftAction`) from right C-actions to
+left `Cᴹᵒᵖ`-actions. For the generated 2-by-2 category of a subfactor planar algebra,
 prove the correspondence between connected right planar modules of
 Subfactors 7.2 and indecomposable pivotal right module C*-categories with a
 simple basepoint m=m⊗1₊ with Tr_m(id_m)=1, generating under the
@@ -729,7 +808,12 @@ equivalence.
   itself, the basepoint is `1₊` with `Tr(id)=1` and the fusion graph of the
   strand action is the principal graph.
 
-*Needs:* CA2a, CA1b; Subfactors 5.1, 6.1–6.4, 7.1–7.2.
+*Needs:* CA2a, CA1b; Mathlib `MonoidalRightAction`, `selfRightAction`,
+`Functor.RightLinear`, `MonoidalLeftAction.monoidalOppositeLeftAction`;
+Tau Ceti `CategoryTheory.Functor.LeftLinear.comp`,
+`CategoryTheory.NatTrans.IsLeftLinear`,
+`CategoryTheory.ObjectProperty.fullSubcategoryMonoidalLeftAction`;
+Subfactors 5.1, 6.1–6.4, 7.1–7.2.
 
 ### Examples
 
@@ -743,12 +827,17 @@ triple with nonsimple `1₊`, and the Temperley–Lieb Gram matrix.
 ### Dependencies
 
 CA1a and CA1b; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`,
-`Functor.Monoidal`, `NatTrans.IsMonoidal` and `LaxMonoidalFunctor`; Tau Ceti
+`Functor.Monoidal`, `NatTrans.IsMonoidal`, `LaxMonoidalFunctor`,
+`MonoidalRightAction`, `selfRightAction`, `Functor.RightLinear` and
+`MonoidalLeftAction.monoidalOppositeLeftAction`; Tau Ceti
 `TauCeti.CategoryTheory.Monoidal.Rigid.Basic` and
-`TauCeti.CategoryTheory.Monoidal.Rigid.Functor` and the pivotal modules
-listed in the supplier contracts; PivotalSpherical Layers 0–6 and 9 and
-the Frobenius–Schur indicators of Layer 8; Subfactors 5.1, 6.1–6.4 and
-7.1–7.2.
+`TauCeti.CategoryTheory.Monoidal.Rigid.Functor`, the pivotal modules
+listed in the supplier contracts, `TauCeti.balancedOfBraidedPivotal`, and
+the left-linear API `CategoryTheory.Functor.LeftLinear.comp`,
+`CategoryTheory.NatTrans.IsLeftLinear` and
+`CategoryTheory.ObjectProperty.fullSubcategoryMonoidalLeftAction`;
+PivotalSpherical Layers 0–6 and 9, the Frobenius–Schur indicators of
+Layer 8 and the twist of Layer 10; Subfactors 5.1, 6.1–6.4 and 7.1–7.2.
 
 ## CA3. Q-systems and their bicategorical completion
 
@@ -783,17 +872,33 @@ Require associativity, commuting actions, both unit laws, action
 Frobenius identities and `λλ†=ρρ†=1`. Explicitly use
 `λ†λ=(m_P⊗1)(1⊗λ†)=(1⊗λ)(m_P†⊗1)` and
 `ρ†ρ=(1⊗m_Q)(ρ†⊗1)=(ρ⊗1)(1⊗m_Q†)`.
-Construct adjoints and spaces of bimodule intertwiners.
+Construct adjoints and spaces of bimodule intertwiners. When B is a
+C*-tensor category C regarded as a one-object bicategory, P and Q are
+objects of Mathlib's `Mon C` and such a bimodule is a Mathlib `Bimod P Q`,
+whose unit, associativity and middle-associativity laws are the module
+laws above, satisfying in addition the Frobenius and separability
+equations; its intertwiners are the morphisms of `Bimod P Q`.
 
 Compose X:P–Q and Y:Q–R by the range of the self-adjoint idempotent
 `p=(ρ_X⊗λ_Y)(1_X⊗m_Q†i_Q⊗1_Y)` on X⊗Y. Prove self-adjointness,
 idempotence and balancedness, then split it unitarily inside the original
 Hom category using the standing local unitary Cauchy-completeness
 hypothesis. Show the
-range is the balanced coequalizer, independent of the splitting.
+range is the balanced coequalizer, independent of the splitting. In the
+one-object case, when C has coequalizers preserved by tensoring on either
+side, as a unitary multitensor category does (it is semisimple, hence
+abelian, and rigidity makes tensoring on either side a left adjoint),
+identify the range with the coequalizer underlying Mathlib's
+`Bimod.tensorBimod` by the unique isomorphism compatible with the two
+quotient maps from X⊗Y, and show that it intertwines the actions.
 Construct its left/right actions, regular-Q units and unitors,
 associators from the splittings, and prove all bicategory coherences.
-Build QSys(C) and its canonical fully faithful hom-wise inclusion.
+Build QSys(C) and its canonical fully faithful hom-wise inclusion. In
+the one-object case with the coequalizer hypothesis above, prove that
+these identifications carry the associators and unitors built here to
+those of Mathlib's `Bimod.monBicategory`, giving a pseudofunctor from
+QSys(C) to `Bimod.monBicategory` that is the identity on Q-systems,
+bimodules and intertwiners, so fully faithful on each Hom category.
 Prove QSys(C) is again locally unitarily Cauchy complete in the finite
 sense: finite orthogonal sums carry the componentwise bimodule actions,
 and a self-adjoint bimodule-intertwiner idempotent splits using the
@@ -855,21 +960,33 @@ supplies the dual pair; constructing its Q-system is owned here.
   is the identity of X⊗Y. For `Q=M_n(ℂ)` with X the row vectors and Y the
   column vectors, its range `X⊗_Q Y` is one-dimensional inside the
   `n²`-dimensional `X⊗Y`.
+- For the same X and Y, the coequalizer underlying `Bimod.tensorBimod`
+  identifies `X⊗Y` with `M_n(ℂ)` by `x⊗y↦yx` and the two maps from
+  `X⊗Q⊗Y` with `q⊗(yx)↦(yx)q` and `q⊗(yx)↦q(yx)`, so it is `M_n(ℂ)`
+  modulo the commutators, which span the trace-zero matrices: it is ℂ
+  through the trace `x⊗y↦xy`, of dimension 1 like the range of the
+  projector, while `X⊗Y` itself has dimension `n²`. For `Q=1` the two
+  maps agree and the coequalizer is all of `X⊗Y`, again matching the
+  projector.
 - `M_n(ℂ)` splits as `ℂⁿ⊗(ℂⁿ)‾` with multiplication `1⊗ev⊗1` and unit coev.
 
-*Needs:* CA1a, CA1b, CA2a; Mathlib `MonObj`, `Mon`, `EndMonoidal`;
+*Needs:* CA1a, CA1b, CA2a; Mathlib `MonObj`, `Mon`, `EndMonoidal`, and for
+the one-object comparison `Bimod`, `Bimod.tensorBimod` and
+`Bimod.monBicategory`;
 HilbertModules H2; Subfactors 2.4–2.5, 5.1.
 
 ### Examples
 
 The Checks compute the unit-isometric and separable normalisations of
 `M_n(ℂ)` with its rescaled morphisms, the balanced projector for the trivial
-Q-system and for row and column vectors over `M_n(ℂ)`, and the splitting
+Q-system and for row and column vectors over `M_n(ℂ)` with its agreement
+with Mathlib's coequalizer, and the splitting
 `M_n(ℂ)=ℂⁿ⊗(ℂⁿ)‾`.
 
 ### Dependencies
 
-CA1a, CA1b and CA2a; Mathlib `MonObj`, `Mon` and `EndMonoidal`;
+CA1a, CA1b and CA2a; Mathlib `MonObj`, `Mon`, `EndMonoidal`, `Bimod`,
+`Bimod.tensorBimod` and `Bimod.monBicategory`;
 HilbertModules H2; Subfactors 2.4–2.5 and 5.1.
 
 ## CA4. Internal C*/W* algebra objects
@@ -885,9 +1002,20 @@ and Fubini/unit/coherence isomorphisms. Use native Day convolution and
 linear Yoneda, adding the linear/Hilbert specialization and needed
 coends as targets. Compare representable/compact objects with C.
 
-Construct monoid/algebra objects, left module categories and free modules
-c⊗A. Reuse CA2's right-module API through the tensor-reversing
-opposite, with explicit action/associator comparisons. Prove algebra objects correspond to cyclic C-module categories
+Algebra objects are Mathlib `MonObj` structures on objects of Vec(C), and
+left C-module categories are categories with `MonoidalLeftAction C M`.
+CA2b's right-module API applies to them as right `Cᴹᵒᵖ`-modules through
+Mathlib's `MonoidalRightAction.monoidalOppositeRightAction` and its
+converse `MonoidalLeftAction.leftActionOfMonoidalOppositeRightAction`,
+which are not built again. The free right A-module on c is `c⊗A`, with
+c read in Vec(C) by the linear Yoneda embedding: it is Tau Ceti's free
+module `TauCeti.freeMod` for the monoid `mop A` of the monoidal opposite
+of Vec(C) (`MonObj.mopMonObj`), whose underlying object
+`mop A⊗mop c=mop(c⊗A)` is `c⊗A`, and `TauCeti.freeModAdjunction`
+identifies right A-module maps out of `c⊗A` with maps out of c. These free
+modules form the left C-module category FreeMod(A) (Jones–Penneys,
+*Operator algebras*, proof of Theorem 3.8, p. 22). Prove algebra objects
+correspond to cyclic C-module categories
 with a chosen basepoint, on both functors and morphisms (Jones–Penneys,
 *Operator algebras*, Theorem 3.8, p. 22). Define a star
 algebra object by the corresponding cyclic dagger structure and prove
@@ -964,8 +1092,12 @@ of all Hilbert-space operators in an analytic representation.
   representation and make θ the vector state `a↦⟨ξ,aξ⟩` of `ξ=v(1)`; the
   trace, with density matrix `½·1` of rank 2, is not a vector state.
 
-*Needs:* CA1a, CA2a, CA3; Mathlib Day convolution, `MonObj`;
-CStarAlgebras C4; VonNeumannAlgebras V4.
+*Needs:* CA1a, CA2a, CA2b, CA3; Mathlib Day convolution, `MonObj`,
+`MonObj.mopMonObj`, `MonoidalLeftAction`,
+`MonoidalRightAction.monoidalOppositeRightAction`,
+`MonoidalLeftAction.leftActionOfMonoidalOppositeRightAction`; Tau Ceti
+`TauCeti.freeMod`, `TauCeti.freeModAdjunction`; CStarAlgebras C4;
+VonNeumannAlgebras V4.
 
 ### Examples
 
@@ -975,7 +1107,11 @@ and the minimal Stinespring dilation of the normalized trace of `M₂(ℂ)`.
 
 ### Dependencies
 
-CA1a, CA2a and CA3; Mathlib Day convolution and `MonObj`; CStarAlgebras C4;
+CA1a, CA2a, CA2b and CA3; Mathlib Day convolution, `MonObj`,
+`MonObj.mopMonObj`, `MonoidalLeftAction`,
+`MonoidalRightAction.monoidalOppositeRightAction` and
+`MonoidalLeftAction.leftActionOfMonoidalOppositeRightAction`; Tau Ceti
+`TauCeti.freeMod` and `TauCeti.freeModAdjunction`; CStarAlgebras C4;
 VonNeumannAlgebras V4.
 
 ## CA5. Discrete inclusions and internal-algebra realization
@@ -1052,8 +1188,19 @@ lines from internal anchor points to the exterior anchor, transparent
 to strings. Build isotopy, substitution and the ordering of inputs.
 An anchored algebra has box objects P[n] in V and morphisms Z(T)
 from their ordered tensor product to the output. Require identity,
-substitution, anchor-braiding and twist laws, with the ambient pivotal
-twist. Build generating moves and prove they present the tangle
+substitution, anchor-braiding and twist laws (Henriques–Penneys–Tener,
+*Anchored*, Definition 4.2, pp. 29–30). The twist is that of Tau Ceti's
+balanced structure `TauCeti.balancedOfBraidedPivotal V` for the
+`TauCeti.PivotalCategory` structure induced by V's chosen unitary dual
+functor (CA2a): at v it is `θ_v=u_v⁻¹φ_v`, with u the Drinfeld isomorphism
+(`TauCeti.balancedOfBraidedPivotal_twist_hom_app`; equation (24), p. 29),
+which for the unitary braiding of V reads
+`θ_v=(1_v⊗coev_v†)(β_(v,v)⊗1_(v∨))(1_v⊗coev_v)` (p. 30). For symmetric V
+it is in general not the twist of Tau Ceti's instance
+`TauCeti.symmetricPivotalCategory`, which is the identity
+(`TauCeti.balancedOfBraidedPivotal_twist_eq_refl`), and it is not unitary
+in general when the chosen dual functor is not balanced; the Checks
+compute both. Build generating moves and prove they present the tangle
 operations, so every isotopy/substitution has a specified action.
 
 A unitary anchored planar algebra is `(P,r,ψ)`, with real structures
@@ -1063,9 +1210,12 @@ faithful unital state ψ:P[0]→1. Require reflection
 compatibility through the dual functor's tensorator, and the cap pairing
 obtained from ψ and the reflected real-structured mate to equal the
 canonical `coev†_(P[n])` pairing. Prove positivity, adjoint and inner
-product laws, transport and category structure. For ribbon V define
-sphericality by equality of the two annular closures against ψ;
-it is an additional axiom.
+product laws, transport and category structure. Call V ribbon when this
+balanced structure is a `TauCeti.RibbonCategory`, the twist of `v∨` being
+the dual of the twist of v; the induced pivotal structure is then
+spherical (`TauCeti.sphericalCategory_of_ribbonCategory`). For ribbon V
+define sphericality of `(P,r,ψ)` by equality of the two annular closures
+against ψ; it is an additional axiom.
 
 Construct pointed unitary pivotal V-module multitensor categories: C with
 unitary dual functor, braided pivotal dagger functor
@@ -1169,26 +1319,49 @@ category, and prove the tensor-power criterion for the real generator.
   carries `2^(−h)`, again not unitary. So for this C, with infinitely many
   simple objects, the inclusion of Z†(C) in `Center C` is not essentially
   surjective; CA10 proves that it is for unitary fusion C.
+- For sVec, the unitary symmetric fusion category `Hilb(ℤ/2)` whose
+  braiding is −1 on `f⊗f` for the odd generator f, the unitary dual
+  functor gives `dim f=+1`, and with `β_(f,f)=−flip` and `coev_f†coev_f=1`
+  the twist is `θ_f=−1`; it is ribbon, since `f∨≅f` and `θ_(f∨)=−1` is the
+  dual of `θ_f`. Tau Ceti's instance `TauCeti.symmetricPivotalCategory` on
+  this symmetric category is the unitary dual functor's pivotal structure
+  twisted by the character `χ(f)=−1`: its twist is the identity and
+  `dim f=−1`. Reading the twist law with that instance would give the
+  wrong twist.
+- For `V=Hilb(ℤ)` with the flip braiding and the unitary dual functor whose
+  coevaluation of `δ_n` has norm `s^n` for a fixed s>0, the formula gives
+  `θ_(δ_n)=coev†coev=s^(2n)`, unitary only for the balanced choice s=1. For
+  s≠1 this V is not ribbon: `θ_(δ_(−n))=s^(−2n)`, while the dual of
+  `θ_(δ_n)` is the scalar `s^(2n)`, matching the unequal dimensions
+  `s^(2n)` and `s^(−2n)` of `δ_n`.
 
 *Needs:* CA1a, CA2a; Mathlib `HalfBraiding`, `Center`, `Functor.Monoidal`;
 Tau Ceti `CategoryTheory.HalfBraiding.rightDual`,
-`CategoryTheory.HalfBraiding.rightDualβHom_rightDual` and
-`CategoryTheory.Center.rigidCategory`.
+`CategoryTheory.HalfBraiding.rightDualβHom_rightDual`,
+`CategoryTheory.Center.rigidCategory`, `TauCeti.balancedOfBraidedPivotal`,
+`TauCeti.balancedOfBraidedPivotal_twist_hom_app`, `TauCeti.RibbonCategory`
+and `TauCeti.sphericalCategory_of_ribbonCategory`; PivotalSpherical
+Layer 10 for the twist of a braided pivotal category.
 
 ### Examples
 
 The Checks compute the representability criterion for `Hilb(ℤ)` against
 `Hilb(ℤ/2)`, the absence of a real structure on the ε=−1 object, the box
 inner product forced by the pairing axiom, the box dimensions `k^n` for
-the generator `ℂ^k`, the dual half-braiding `χ⁻¹` in `Hilb(ℤ/3)`, and a
-half-braiding of the unit of `Hilb(ℤ)` that is not unitary.
+the generator `ℂ^k`, the dual half-braiding `χ⁻¹` in `Hilb(ℤ/3)`, a
+half-braiding of the unit of `Hilb(ℤ)` that is not unitary, the twist of
+sVec against the symmetric pivotal instance, and the twist of a
+non-balanced unitary dual functor on `Hilb(ℤ)`.
 
 ### Dependencies
 
 CA1a and CA2a; Mathlib `HalfBraiding`, `Center` and `Functor.Monoidal`;
 Tau Ceti `CategoryTheory.HalfBraiding.rightDual`,
-`CategoryTheory.HalfBraiding.rightDualβHom_rightDual` and
-`CategoryTheory.Center.rigidCategory`.
+`CategoryTheory.HalfBraiding.rightDualβHom_rightDual`,
+`CategoryTheory.Center.rigidCategory`, `TauCeti.balancedOfBraidedPivotal`,
+`TauCeti.balancedOfBraidedPivotal_twist_hom_app`, `TauCeti.RibbonCategory`
+and `TauCeti.sphericalCategory_of_ribbonCategory`; PivotalSpherical
+Layer 10.
 
 ## CA7. Pimsner and free-graph C*-constructions
 
@@ -1234,8 +1407,10 @@ KK-equivalence of T_X with B and the KK-equivalence of the Fock ideal
 with J_X using K4–K6, and identify the first map with the action of
 `[ι:J_X→B]−[X|_(J_X)]` in KK(J_X,B), where the restricted left action
 is compact. If J_X=B, identify the first map as `1−[X]`; no general
-compact-left-action class for X over all of B is assumed. General
-Cuntz generators retain Dynamics D6/OperatorKTheory K7 ownership.
+compact-left-action class for X over all of B is assumed. The Cuntz
+algebras `O_n` are OperatorAlgebraDynamics D6, and the Toeplitz–Cuntz
+algebras `E_n`, the Cuntz algebra `O_∞` and the K-theory of these
+algebras are OperatorKTheory K7 (7.6).
 
 For an undirected graph Λ, with vertex and edge sets in `Type u` of
 arbitrary cardinality and neither local finiteness nor connectedness
@@ -1642,8 +1817,9 @@ agree; do not assert uniqueness between the type-II and III₁ classes.
 
 Construct the normal correspondence models with their size and
 standardization domains explicit. Keep the arbitrary-universe W*-category,
-generator and module-category targets above. Use VNA V4.Normality's
-normal representation amplification, V5's projection comparison and
+generator and module-category targets above. Use VonNeumannAlgebras
+V4.Normality's normal representation amplification, V5's projection
+comparison and
 countable absorption, V11's general standard form and tensor commutation,
 and Subfactors 1.1–1.2's normal correspondences and Connes fusion. CA9 owns
 the following coordinate models and comparison functors, not a second
@@ -2472,8 +2648,9 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11; Tau Ceti
   and indecomposable pivotal right module C*-categories with simple
   basepoint in CA2b.
 - Henriques–Penneys–Tener, [*Unitary anchored planar algebras*](https://arxiv.org/abs/2301.11114),
-  Definitions 3.1–3.6, 4.3–4.5 and Theorem A (p. 3), for states,
-  pointings, reflected pairings and category equivalence.
+  Definitions 3.1–3.6, Definition 4.2 with equation (24) (pp. 29–30),
+  Definitions 4.3–4.5 and Theorem A (p. 3), for states, pointings,
+  reflected pairings, the twist law and category equivalence.
 - Katsura, [*On C*-algebras associated with C*-correspondences*](https://arxiv.org/abs/math/0309088v3),
   J. Funct. Anal. 217 (2004), Definitions 3.2 and 3.4, Theorem 6.4,
   Propositions 8.1–8.2, Definition 8.3, Theorem 8.6 and Appendices B–C,
@@ -2569,7 +2746,10 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11; Tau Ceti
   transport and construct strong-monoidal images, and its
   `Monoidal.Pivotal` modules supply pivotal structures over any rigid
   monoidal category, with no braiding, their traces and Frobenius–Schur
-  indicators, and its `Semisimple.FrobeniusPerron` module the
+  indicators, its `Monoidal.Braided` and `Monoidal.Pivotal` modules the
+  twist of a braided pivotal category and ribbon structures, its
+  `Monoidal.Mod.Free` and `Monoidal.Action` modules free modules and
+  left-linear functors, and its `Semisimple.FrobeniusPerron` module the
   Frobenius–Perron character, as listed in the supplier contracts. The [dagger-category discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/dagger%20categories)
   distinguishes chosen dagger data from categorical properties and
   describes functors as the corresponding full subcategory.
