@@ -48,7 +48,6 @@ For cohomology, `V=V_λ` is a finite-dimensional algebraic coefficient module an
 | OperatorTheory/UnboundedOperators | OperatorTheory/UnboundedOperators Part A, UO-A01–UO-A02: the unbounded PVM integral, exact second-moment domain, polarized action and recovery of a self-adjoint partial operator with its actual domain. This prefix uses SelfAdjointSpectralTheory independently of V10 multiplier models. |
 | AnalyticNumberTheoryPartI | §2.1a: the `K`-Bessel kernel `K_ν` with its evenness in the order, entire order dependence and half-order value; §2.1b: the level-one Eisenstein series, its completion, Fourier expansion, continuation with residues and functional equation, cusp decay and core integrability; §2.1c: narrow classes, genus characters, reduced cycles and Nielsen surfaces with area and boundary length; §3.23b: the first-kind Bessel API on `Complex.besselJ` and the positive-base complex power. |
 | AnalyticNumberTheoryPartII | §5.3n: `GL₂` Eisenstein series in the convergence chamber over a number field, with the Weyl intertwiner and constant term; §5.21w: continuation and functional equation of the spherical `GL₂` Eisenstein series. |
-| LocallyConvexDuality | §5.1: the completed injective tensor product `N⊗̂εF` of separated locally convex spaces; §5.2: Grothendieck's theorem that `N⊗̂πF→N⊗̂εF` is a topological isomorphism for every `N` nuclear in the sense of §0.11 and every separated locally convex `F`. Section 0.14 applies it to `𝓢(V)`. |
 
 | Shared mathematics | Canonical owner and boundary |
 |---|---|
@@ -102,10 +101,6 @@ OperatorIdeals supplies the nuclear gauge and the trace-class family (OI-B29–O
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI and AnalyticNumberTheoryPartII
 
 AnalyticNumberTheoryPartI §2.1a supplies `K_ν(c)=(1/2)∫₀^∞u^(ν−1)exp(−c(u+u⁻¹)/2)du` for `c>0` (`TauCetiRoadmap.AnalyticNumberTheoryPartI.besselK`), with `K_{−ν}=K_ν`, entire dependence on `ν` and `K_{1/2}(c)=√(π/(2c))e^(−c)`. Its §2.1b supplies the level-one series `E(z,s)` (`TauCetiRoadmap.AnalyticNumberTheoryPartI.nonholomorphic_eisenstein`), its completion `E*(z,s)=Λ(2s)E(z,s)` with Fourier expansion `completed_eisenstein_fourier`, the continuation of `E*` with its residues and functional equation (`TauCetiRoadmap.AnalyticNumberTheoryPartI.completed_eisenstein_continuation`), and, in its last two bullets, the critical-line estimates: for `s=1/2+it` the exponential decay of `E` minus its constant term with its first derivatives, the `O(y^(−1/2))` derivative bound of the constant term and the vanishing of the horizontal derivative integral, and absolute integrability for `Re s=1/2` on every region compact apart from finitely many cusp ends of finite width. Sections 1.14–1.15, 2.17–2.18, 4.18 and 4.20 point there. Its §2.1c supplies the narrow class group, genus characters, reduced cycles and the Nielsen surfaces `F_A` with `area(F_A)=πℓ_A` and `length(∂F_A)=2 log ε_D`, used in §§4.17a–4.20. Its §3.23b supplies the series, differential equation, recurrence, half-order value and integer-order symmetry of `J_ν(y)=Complex.besselJ ν y`, and the positive-base complex power `x^s=exp(s log x)`; §0.25 builds `I_ν` beside them. AnalyticNumberTheoryPartII §5.3n supplies the `GL₂` Eisenstein series in the convergence chamber over any number field, with its Weyl intertwiner and constant term, and §5.21w the continuation and functional equation of the spherical `GL₂` Eisenstein series; §§1.2–1.5 and 2.4 specialize to them.
-
-### From TauCetiRoadmap.LocallyConvexDuality
-
-LocallyConvexDuality §5.1 supplies the completed injective tensor product `N⊗̂εF` of separated locally convex spaces, beside NoncommutativeGeometry N1's projective `N⊗̂πF`. Its §5.2 supplies Grothendieck's theorem: for `N` nuclear in the sense of §0.11, the canonical map `N⊗̂πF→N⊗̂εF` is a topological isomorphism for every separated locally convex `F`. Section 0.14 applies it with `N=𝓢(V)`; the nuclearity of `𝓢(V)` and the identification of `𝓢(V,E)` with `𝓢(V)⊗̂εE` name a particular function space and are proved there. LocallyConvexDuality §5.2 takes its nuclear spaces from §0.11, so the order is §0.11, then LocallyConvexDuality §§5.1–5.2, then §0.14.
 
 ### From the adelic and local representation roadmap targets
 
@@ -350,7 +345,7 @@ The API identifies elementary tensors pointwise, proves uniqueness from point ev
 
 ### 0.14 Vector-valued Schwartz spaces
 
-Define `vector_schwartz` as follows. For finite-dimensional real `V` and quasi-complete locally convex `E`, define `𝓢(V,E)` by smoothness and finiteness of `sup_v(1+‖v‖)^N p(Df(v))` for every `N`, constant-coefficient differential operator `D` and continuous seminorm `p`; these define its topology. For complete `E`, identify it with the completed projective tensor product `𝓢(V)⊗̂πE`: prove that `𝓢(V)` is nuclear in the sense of §0.11 and that `𝓢(V,E)` is the completed injective tensor product `𝓢(V)⊗̂εE` of LocallyConvexDuality §5.1, then apply LocallyConvexDuality §5.2, which identifies the projective and injective completions for nuclear `𝓢(V)`; no nuclearity of `E` is needed. The normed-target and continuous-postcomposition cases consume Mathlib's SchwartzMap.
+Define `vector_schwartz` as follows. For finite-dimensional real `V` and quasi-complete locally convex `E`, define `𝓢(V,E)` by smoothness and finiteness of `sup_v(1+‖v‖)^N p(Df(v))` for every `N`, constant-coefficient differential operator `D` and continuous seminorm `p`; these define its topology. For complete `E`, identify it with the completed projective tensor product `𝓢(V)⊗̂πE`; nuclearity of `𝓢(V)` makes the projective and injective completions agree, so no nuclearity of `E` is needed. The normed-target and continuous-postcomposition cases consume Mathlib's SchwartzMap.
 
 *Standing hypotheses:* `V` finite dimensional; `E` Hausdorff quasi-complete; the tensor identification assumes `E` complete.
 
@@ -365,9 +360,9 @@ Prove the following API statements.
 - A nonzero constant `E`-valued map on `ℝ` is not Schwartz.
 - For the non-nuclear Banach space `E=ℓ²(ℕ)` the identification still holds: `v↦(e^(−πv²)/(n+1)²)_n` is the image of the absolutely convergent sum `Σ_n (n+1)^(−2) e^(−πv²)⊗δ_n`.
 
-([BPCZ22], Appendix A.0.8–A.0.9 and Lemma A.0.9.1, pp.331–332, for the definition; [Tre67], Chapter 44 for the injective tensor identification and Chapter 51 for the nuclearity of `𝓢(V)`.)
+([BPCZ22], Appendix A.0.8–A.0.9 and Lemma A.0.9.1, pp.331–332, for the definition; [Tre67], Chapters 44 and 50–51, for the tensor identification and the nuclearity of `𝓢(V)`.)
 
-*Needs:* NoncommutativeGeometry N1 (completed projective tensors); LocallyConvexDuality §§5.1–5.2 (completed injective tensors and their agreement with projective ones on nuclear spaces); §0.13; §0.12; §0.11 (nuclear spaces); `SchwartzMap`; `SchwartzMap.postcompCLM`.
+*Needs:* NoncommutativeGeometry N1 (completed projective tensors); §0.13; §0.12; `SchwartzMap`; `SchwartzMap.postcompCLM`.
 
 
 ### 0.15 Weak and strong meromorphic operator families
@@ -884,7 +879,7 @@ For `μ=aδ₀+bδ₁` the direct-integral norm is `a‖v₀‖²+b‖v₁‖²`
 
 ### Dependencies
 
-The Hilbert branch uses the measure, operator and compact-group supplier contracts. The vector branch uses TestFunction, SchwartzMap, barrelled-space Banach–Steinhaus and the nuclear LF adapter to AutomorphicFormsOnReductiveGroups §0.2 before projective tensors or continuation; §0.14 also uses LocallyConvexDuality §§5.1–5.2. The rank-one branch uses regularized hypergeometric functions, gamma identities, AnalyticNumberTheoryPartI §3.23b's `J`-Bessel API, the supplied positive-argument `K`-Bessel kernel and the hyperbolic metric. The cycle-cover branch uses the independent function-field root and torus prefix described in How to read the build.
+The Hilbert branch uses the measure, operator and compact-group supplier contracts. The vector branch uses TestFunction, SchwartzMap, barrelled-space Banach–Steinhaus and the nuclear LF adapter to AutomorphicFormsOnReductiveGroups §0.2 before projective tensors or continuation. The rank-one branch uses regularized hypergeometric functions, gamma identities, AnalyticNumberTheoryPartI §3.23b's `J`-Bessel API, the supplied positive-argument `K`-Bessel kernel and the hyperbolic metric. The cycle-cover branch uses the independent function-field root and torus prefix described in How to read the build.
 
 ## Layer 1: Normalized induction and convergent Eisenstein families
 
@@ -3832,7 +3827,7 @@ Layer 5 supplies `LocallySymmetric.FrankeInput` to ArithmeticLocallySymmetricSpa
 - **[CGH20]**: Frank Calegari, David Geraghty and Michael Harris, [Bloch–Kato Conjectures for Automorphic Motives](https://arxiv.org/pdf/1907.08694). arXiv:1907.08694v1, July2019.
 - **[BCG25]**: George Boxer, Frank Calegari and Toby Gee, [Cuspidal Cohomology of GLₙ(Z) and SLₙ(Z)](https://math.uchicago.edu/~fcale/papers/WeightZero.pdf). author WeightZero PDF.
 - **[BPCZ22]**: Raphaël Beuzart-Plessis, Pierre-Henri Chaudouard and Michał Zydor, [The Global Gan–Gross–Prasad Conjecture for Unitary Groups: the Endoscopic Case](https://pmihes.centre-mersenne.org/item/10.1007/s10240-021-00129-1.pdf). Publ. Math. IHES 135 (2022), 183–337.
-- **[Tre67]**: François Trèves, *Topological Vector Spaces, Distributions and Kernels*. Academic Press, 1967; Chapter 44 (vector-valued smooth and Schwartz functions as completed injective tensor products), Chapter 51 (nuclearity of `𝓢`).
+- **[Tre67]**: François Trèves, *Topological Vector Spaces, Distributions and Kernels*. Academic Press, 1967; Chapter 44 (vector-valued smooth and Schwartz functions as completed tensor products), Chapters 50–51 (nuclear spaces, agreement of the projective and injective completions, and nuclearity of `𝓢`).
 - **[Tai17]**: Olivier Taïbi, [Dimensions of Spaces of Level One Automorphic Forms for Split Classical Groups Using the Trace Formula](https://www.numdam.org/item/10.24033/asens.2321.pdf). Ann. ENS 50 (2017), 269–344, §3.1.3, (3.1.1), p.280.
 - **[CT20]**: Gaëtan Chenevier and Olivier Taïbi, [Discrete Series Multiplicities for Classical Groups over Z and Level 1 Algebraic Cusp Forms](https://pmihes.centre-mersenne.org/item/10.1007/s10240-020-00115-z.pdf). Publ. Math. IHES 131 (2020), 261–323.
 - **[GZ86]**: Benedict H. Gross and Don B. Zagier, Heegner Points and Derivatives of L-Series. Invent. Math. 84 (1986), 225–320, [doi:10.1007/BF01388809](https://doi.org/10.1007/BF01388809).
