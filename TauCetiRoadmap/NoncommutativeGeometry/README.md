@@ -1871,13 +1871,23 @@ module with curvature `2πi/θ` and chiral index +1; the two odd modules on
   measurability and the Hochschild class of the Chern
   character*](https://arxiv.org/abs/1401.1860v1), arXiv:1401.1860v1
   (2014), numbering of that version; J. Spectral Theory 6 (2016), 1–41.
-  Theorem 16, p. 9: for a smooth spectral triple with `(1+D²)^(−p/2)`
-  in the logarithmic ideal and a Hochschild p-cycle `c=Σa₀⊗⋯⊗a_p`, the
-  Dixmier trace of `Σγa₀[D,a₁]⋯[D,a_p](1+D²)^(−p/2)` is the
+  Theorem 16, p. 9: for an integer p≥1, a smooth (QC∞) spectral triple
+  whose parity is that of p, graded by γ when p is even and ungraded
+  with γ=1 when p is odd (Definitions 12–13, p. 8), with
+  `(1+D²)^(−p/2)` in the logarithmic ideal, and a Hochschild p-cycle
+  `c=Σa₀⊗⋯⊗a_p`, the Dixmier trace of
+  `Σγa₀[D,a₁]⋯[D,a_p](1+D²)^(−p/2)` is the unnormalised
   Chern-character value of c for every dilation-invariant generalized
   limit (Definition 2 and the example after it, p. 4); with
   `(1+D²)^(−p/2)` in the weak trace class, every normalised trace on it
-  gives that value.
+  gives that value. For invertible D with phase F, that value is
+  `ΣTr′(γa₀[F,a₁]⋯[F,a_p])=Σ½Tr(γF[F,a₀]⋯[F,a_p])`, Connes' character
+  without λ_p. Definition 15, p. 9, prints it as
+  `½Tr(FΓ[F,a₀]⋯[F,a_p])`, with the grading Γ after F, which for even p
+  is minus that value, since F and Γ then anticommute. On the flat
+  2-torus with `D=D₁σ₁+D₂σ₂`, `D_j=−i∂_j+½`, γ=σ₃ and the volume cycle
+  `z₁⁻¹z₂⁻¹⊗(z₁⊗z₂−z₂⊗z₁)`, the Dixmier side is `2i·2π=4πi`,
+  `½Tr(γF[F,a₀][F,a₁][F,a₂])=4πi` and `½Tr(Fγ[F,a₀][F,a₁][F,a₂])=−4πi`.
 - T. Fack and H. Kosaki, [*Generalized s-numbers of τ-measurable
   operators*](https://msp.org/pjm/1986/123-2/pjm-v123-n2-p03-s.pdf),
   Pacific J. Math. 123 (1986), 269–300. Theorem 4.2, p. 286: Hölder with
