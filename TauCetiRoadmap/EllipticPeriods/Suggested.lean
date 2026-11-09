@@ -36,7 +36,8 @@ the zero–pole balance and the structure theorem for elliptic functions (README
 Laurent expansion of `℘` and `G_mem_adjoin` (1.6), the meromorphy of `ζ` and the scaling and
 lattice dependence of its quasi-periods (2.1, 2.2), the `E₂` dictionary (2.4), Legendre's
 relation as `det_periodMatrix` (3.1), the period field and its Zariski closure (3.2, 3.4), the
-homotheties (3.5), the CM lattice statements `hasCM_iff`, `exists_weierstrassP_mul_eq`, `exists_quasiPeriod_mul` (4.1–4.3), and
+homotheties (3.5), the CM lattice statements `hasCM_iff`, `exists_weierstrassP_mul_eq`,
+`exists_quasiPeriod_mul` (4.1–4.3), and
 Chudnovsky's theorem without algebraic invariants, `two_le_trdeg_adjoin_invariants` (5.2).
 
 Not stated here: README 2.3, `weierstrassZeta_eq_logDeriv_latticeSigma` (`ζ = σ′/σ`). Its
@@ -124,12 +125,11 @@ theorem quasiPeriod_smul (c : ℂˣ) (L : PeriodPair) (l : L.lattice) :
 theorem quasiPeriod_congr {L L' : PeriodPair} (h : L.lattice = L'.lattice) (l : L.lattice) :
     L.quasiPeriod l = L'.quasiPeriod ⟨l, h ▸ l.2⟩ := sorry
 
-/-- The Eisenstein dictionary at `(1, τ)`: `η(1) = G₂(τ) = (π²/3) E₂(τ)`, with Mathlib's
-`EisensteinSeries.G2` (rows `m` summed symmetrically). -/
+/-- The Eisenstein dictionary at `(1, τ)`: `η(1) = G₂(τ)`, with Mathlib's `EisensteinSeries.G2`
+(rows `m` summed symmetrically); hence `η(1) = (π²/3) E₂(τ)` by Mathlib's definition of `E2`. -/
 theorem quasiPeriod_ofUpperHalfPlane_one (τ : UpperHalfPlane) :
     (ofUpperHalfPlane τ).quasiPeriod ⟨1, (ofUpperHalfPlane τ).ω₁_mem_lattice⟩ =
-        EisensteinSeries.G2 τ ∧
-      EisensteinSeries.G2 τ = (π : ℂ) ^ 2 / 3 * EisensteinSeries.E2 τ := sorry
+      EisensteinSeries.G2 τ := sorry
 
 /-! ## Layer 3: the period field -/
 
