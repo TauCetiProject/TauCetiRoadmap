@@ -237,7 +237,7 @@ The comparison yields g(11)=1 and g(35)=3; no use of the larger Γ₁ dimension 
 
 ### 0.6 Bounds for the five correction products
 
-For N>0 and the five products (S,V∞,A,B,M) defining martinValue, NS≤φ(N), |A|≤2^ω, |B|≤2^ω, 0≤V∞≤sqrt(N), and |M|≤1, where ω is the number of distinct prime divisors of N. (martin-2003, Lemma 17, p.14, martin-2003 line 766.)
+For N>0 and the five products (S,V∞,A,B,M) defining martinValue, NS≤φ(N), |A|≤2^ω, |B|≤2^ω, 0≤V∞≤√N, and |M|≤1, where ω is the number of distinct prime divisors of N. (martin-2003, Lemma 17, p.14, martin-2003 line 766.)
 
 Throughout this subsection, N>0; φ is the native Euler totient and ω=ω(N).
 
@@ -382,11 +382,11 @@ At a removed multiplicative prime, compare p+1 with the signed Hecke eigenvalue 
 
 ### 1.1 Nonvanishing of the removed-prime comparison integer
 
-Let K be a number field, c∈K, p≥2, s∈{1,−1}, and σ:K→ℂ an embedding with |σ(c)|≤2 sqrt(p). Then α=p+1−s c is nonzero. (bennett-siksek-2020, proof of Lemma 2.2, p.359, bennett-siksek-2020 lines 198–203, where the nonvanishing of α is used to bound ℓ by the norm but is not stated; this subsection supplies it.)
+Let K be a number field, c∈K, p≥2, s∈{1,−1}, and σ:K→ℂ an embedding with |σ(c)|≤2√p. Then α=p+1−s c is nonzero. (bennett-siksek-2020, proof of Lemma 2.2, p.359, bennett-siksek-2020 lines 198–203, where the nonvanishing of α is used to bound ℓ by the norm but is not stated; this subsection supplies it.)
 
 Throughout this subsection, p is an integer at least 2; an actual embedding σ is supplied; s=1 or s=−1.
 
-A proof route is as follows. If α=0, applying σ gives p+1=|σ(c)|≤2 sqrt(p). But p+1−2 sqrt(p)=(sqrt(p)−1)²>0, a contradiction.
+A proof route is as follows. If α=0, applying σ gives p+1=|σ(c)|≤2√p. But p+1−2√p=(√p−1)²>0, a contradiction.
 
 At the forbidden p=1, c=2 and s=1 give α=0. Divisibility of a zero norm would provide no bound.
 
@@ -406,11 +406,11 @@ The congruence ideal must lie above the same ℓ as E[ℓ]; integrality is not a
 
 ### 1.3 Archimedean bound on the comparison norm
 
-For K/ℚ of degree d, c∈K, p≥2 and s∈{1,−1}, if |σ(c)|≤2 sqrt(p) for every complex embedding σ, then |Norm_K/ℚ(p+1−s c)|≤(sqrt(p)+1)^(2d). (bennett-siksek-2020, proof of Lemma 2.2, p.359, bennett-siksek-2020 lines 202–203.)
+For K/ℚ of degree d, c∈K, p≥2 and s∈{1,−1}, if |σ(c)|≤2√p for every complex embedding σ, then |Norm_K/ℚ(p+1−s c)|≤(√p+1)^(2d). (bennett-siksek-2020, proof of Lemma 2.2, p.359, bennett-siksek-2020 lines 202–203.)
 
 Throughout this subsection, K is a number field; every complex embedding is included; p≥2.
 
-A proof route is as follows. Apply the native product-of-embeddings formula to α=p+1−s c. Each factor has absolute value at most p+1+2 sqrt(p). The native card_algHom_le_finrank bounds the number of factors by d; equality of the number of embeddings with d is not needed. Since p+1+2 sqrt(p)≥1, enlarge the product bound to its d-th power. Use p+1+2 sqrt(p)=(sqrt(p)+1)².
+A proof route is as follows. Apply the native product-of-embeddings formula to α=p+1−s c. Each factor has absolute value at most p+1+2√p. The native card_algHom_le_finrank bounds the number of factors by d; equality of the number of embeddings with d is not needed. Since p+1+2√p≥1, enlarge the product bound to its d-th power. Use p+1+2√p=(√p+1)².
 
 A bound at only the preferred embedding is not sufficient for the product.
 
@@ -442,7 +442,7 @@ A rational exponent is not rounded to an integer; p≥2 supplies the correct mon
 
 ### 1.6 The removed-prime residual exponent bound
 
-Let E/ℚ have conductor M and nonzero minimal discriminant Δ. Let ℓ≥3 be prime with E[ℓ] irreducible. Define M₀ by deleting each prime q exactly once when ord_q(M)=1 and ℓ divides the integer valuation ord_q(Δ). If p≠ℓ is prime, ord_p(M)=1 and ℓ divides ord_p(Δ), then ℓ≤(sqrt(p)+1)^((M₀+1)/6). (bennett-siksek-2020, Theorem 3, Lemmas 2.1(ii) and 2.2, pp.358–359, bennett-siksek-2020 lines 184–197.)
+Let E/ℚ have conductor M and nonzero minimal discriminant Δ. Let ℓ≥3 be prime with E[ℓ] irreducible. Define M₀ by deleting each prime q exactly once when ord_q(M)=1 and ℓ divides the integer valuation ord_q(Δ). If p≠ℓ is prime, ord_p(M)=1 and ℓ divides ord_p(Δ), then ℓ≤(√p+1)^((M₀+1)/6). (bennett-siksek-2020, Theorem 3, Lemmas 2.1(ii) and 2.2, pp.358–359, bennett-siksek-2020 lines 184–197.)
 
 Throughout this subsection, E is an actual elliptic curve over ℚ of conductor M; ℓ≥3 is prime; E[ℓ] is irreducible; M₀ is the deletion level of SerreWeightAndLevelOptimisation §6.1; p≠ℓ is prime, p∥M, and ℓ divides the valuation exponent v_p(Δ_min(E)).
 
@@ -467,7 +467,7 @@ The thresholds are real numbers attached to the actual subgroup index and actual
 
 ### 2.1 Kraus’s coefficient-rationality threshold
 
-For N>0 put I(N)=[SL2(ℤ):Γ₀(N)] using the native subgroup index, and g(N)=the actual trivial-character newspace dimension. Define krausF(N)=(sqrt(I(N)/6)+1)^(2g(N)). (kraus-1997, §3.1, equation (7), p.1143, kraus-1997 line 239.)
+For N>0 put I(N)=[SL₂(ℤ):Γ₀(N)] using the native subgroup index, and g(N)=the actual trivial-character newspace dimension. Define krausF(N)=(√(I(N)/6)+1)^(2g(N)). (kraus-1997, §3.1, equation (7), p.1143, kraus-1997 line 239.)
 
 Throughout this subsection, N is a positive integer; all index and dimension functions retain their actual mathematical carriers.
 
@@ -491,7 +491,7 @@ The index equals N times the product of 1+1/p over its distinct prime divisors. 
 
 ### 2.2 Kraus’s two-torsion threshold
 
-For N>0 define krausG(N)=(sqrt(I(lcm(N,4))/6)+1)^2, where I is the native Γ₀ index. The lcm is essential and is not replaced by 4N. (kraus-1997, §3.1, equation (8), p.1144, kraus-1997 line 269.)
+For N>0 define krausG(N)=(√(I(lcm(N,4))/6)+1)^2, where I is the native Γ₀ index. The lcm is essential and is not replaced by 4N. (kraus-1997, §3.1, equation (8), p.1144, kraus-1997 line 269.)
 
 Throughout this subsection, N is a positive integer; all index and dimension functions retain their actual mathematical carriers.
 
@@ -499,7 +499,7 @@ Its API includes the following facts.
 
 - krausG is the displayed least-common-multiple expression.
 - For positive N, 1≤krausG(N).
-- If 4 divides N, krausG(N)=(sqrt(I(N)/6)+1)^2.
+- If 4 divides N, krausG(N)=(√(I(N)/6)+1)^2.
 
 **Checks.**
 
@@ -591,7 +591,7 @@ The dimension-zero threshold remains 1, but there is no normalized nonzero form 
 
 For q∤N and a_q(f)∉ℤ, let b be either an elliptic good-reduction trace at q, or s(q+1) with s=±1. Then b−a_q(f) is a nonzero algebraic integer and |Norm_K/ℚ(b−a_q(f))|≤(√q+1)^(2[K_f:ℚ]). (kraus-1997, §3.2, proof of Théorème 3, p.1145, kraus-1997 lines 342–363.)
 
-Throughout this subsection, N>0; f is a normalized weight-two trivial-character newform with its generated coefficient field K_f; q is prime, q∤N, and a_q(f)∉ℤ; b is a good-reduction trace of an elliptic curve over F_q, or b=s(q+1) with s∈{1,−1}.
+Throughout this subsection, N>0; f is a normalized weight-two trivial-character newform with its generated coefficient field K_f; q is prime, q∤N, and a_q(f)∉ℤ; b is a good-reduction trace of an elliptic curve over 𝔽_q, or b=s(q+1) with s∈{1,−1}.
 
 A proof route is as follows. Nonzero follows because b is an integer. In the good case each embedding has absolute difference ≤4√q≤(√q+1)². In the multiplicative case it is ≤q+1+2√q=(√q+1)². Multiply over all embeddings and identify the field norm.
 
@@ -702,11 +702,11 @@ Characteristic-zero equality is insufficient; the supplier must handle O_K/λ^m 
 
 ### 3.11 A small prime detects failure of divisibility by four
 
-Let C/ℚ be modular of conductor N. If there is a prime q∤2N with 4∤#C(F_q), there is such a prime q≤I(lcm(N,4))/6. (kraus-1997, Appendix II, Corollaire and proof, p.1159, kraus-1997 line 1095.)
+Let C/ℚ be modular of conductor N. If there is a prime q∤2N with 4∤#C(𝔽_q), there is such a prime q≤I(lcm(N,4))/6. (kraus-1997, Appendix II, Corollaire and proof, p.1159, kraus-1997 line 1095.)
 
-Throughout this subsection, C/ℚ is modular of conductor N; some prime q∤2N satisfies 4∤#C(F_q).
+Throughout this subsection, C/ℚ is modular of conductor N; some prime q∤2N satisfies 4∤#C(𝔽_q).
 
-A proof route is as follows. Apply the contrapositive of §3.10 with K=ℚ, λ=2Z, m=2 and a_q=q+1−#C(F_q). At odd q∥N the coefficient is ±1, so (q+1)(a_q−1) is automatically divisible by four.
+A proof route is as follows. Apply the contrapositive of §3.10 with K=ℚ, λ=2ℤ, m=2 and a_q=q+1−#C(𝔽_q). At odd q∥N the coefficient is ±1, so (q+1)(a_q−1) is automatically divisible by four.
 
 The finite bound is I(lcm(N,4))/6, not I(N)/6 or I(4N)/6.
 
@@ -726,7 +726,7 @@ This comparison has no newspace-dimension hypothesis.
 
 ### 3.13 The G-threshold transfers full-two point counts
 
-Let E have full rational two-torsion, ℓ≥5, and C of exact residual conductor N with C[ℓ]≅E[ℓ]. If ℓ>G(N), then 4 divides #C(F_q) for every q∤2N. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 lines 386–434.)
+Let E have full rational two-torsion, ℓ≥5, and C of exact residual conductor N with C[ℓ]≅E[ℓ]. If ℓ>G(N), then 4 divides #C(𝔽_q) for every q∤2N. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 lines 386–434.)
 
 Throughout this subsection, E/ℚ has full rational two-torsion; ℓ≥5 is prime; C/ℚ has conductor N, which is the exact prime-to-ℓ conductor of E[ℓ]; C[ℓ]≅E[ℓ]; ℓ>G(N).
 
@@ -738,21 +738,21 @@ The strict inequality ℓ>G is essential to the integer-lifting contradiction.
 
 ### 3.14 Global four-point counts give a rational two-torsion point
 
-If C/ℚ has 4|#C(F_q) at every good odd prime, then C has a rational point of order two. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 lines 437–438, which assert the rational two-point by reference to item [25], IV-6, of its bibliography; the Chebotarev argument is supplied here.)
+If C/ℚ has 4|#C(𝔽_q) at every good odd prime, then C has a rational point of order two. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 lines 437–438, which assert the rational two-point by reference to item [25], IV-6, of its bibliography; the Chebotarev argument is supplied here.)
 
-Throughout this subsection, C/ℚ is elliptic; 4 divides #C(F_q) for every prime q of good odd reduction.
+Throughout this subsection, C/ℚ is elliptic; 4 divides #C(𝔽_q) for every prime q of good odd reduction.
 
-A proof route is as follows. Modulo two all such Frobenius elements have characteristic polynomial (X−1)². Chebotarev and the six-element group GL₂(F₂) rule out an image containing an element of order three. A subgroup of GL₂(F₂) with no element of order three is trivial or of order two and fixes a nonzero vector. Identify that vector with an actual rational point of C[2].
+A proof route is as follows. Modulo two all such Frobenius elements have characteristic polynomial (X−1)². Chebotarev and the six-element group GL₂(𝔽₂) rule out an image containing an element of order three. A subgroup of GL₂(𝔽₂) with no element of order three is trivial or of order two and fixes a nonzero vector. Identify that vector with an actual rational point of C[2].
 
-Having a Galois-stable subgroup of order two gives a rational generator only because F₂× is trivial.
+Having a Galois-stable subgroup of order two gives a rational generator only because 𝔽₂× is trivial.
 
 *Needs:* ArithmeticGaloisRepresentations §§4.2–4.5; ArithmeticGaloisRepresentations §5.1; ArithmeticGaloisRepresentations §§6.1–6.4.
 
 ### 3.15 Four-point counts force one quadratic square class
 
-Let C:y²=x(x²+ax+b) over ℚ be nonsingular, with its rational point (0,0). If 4 divides #C(F_q) at every good odd prime q, then b or a²−4b is a square in ℚ. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 lines 438–439, which assert without proof that the quotient by the only rational two-point has full rational two-torsion; this subsection supplies the square-class step.)
+Let C:y²=x(x²+ax+b) over ℚ be nonsingular, with its rational point (0,0). If 4 divides #C(𝔽_q) at every good odd prime q, then b or a²−4b is a square in ℚ. (kraus-1997, §3.3, proof of Théorème 4, p.1146, kraus-1997 lines 438–439, which assert without proof that the quotient by the only rational two-point has full rational two-torsion; this subsection supplies the square-class step.)
 
-Throughout this subsection, C:y²=x(x²+ax+b) over ℚ is nonsingular, so b(a²−4b)≠0; 4 divides #C(F_q) at every prime of good odd reduction.
+Throughout this subsection, C:y²=x(x²+ax+b) over ℚ is nonsingular, so b(a²−4b)≠0; 4 divides #C(𝔽_q) at every prime of good odd reduction.
 
 A proof route is as follows. If both nonzero rational numbers b and a²−4b are nonsquares, there is an element of the Galois group of their quadratic compositum acting nontrivially on both square roots. This also holds when the two quadratic fields coincide. Chebotarev gives a good odd prime with both reductions nonsquare. The quadratic discriminant condition gives exactly one nonzero rational two-point on the reduction. The standard two-descent halving criterion makes that unique point indivisible by two when b is nonsquare. The finite group then has order 2 modulo 4, a contradiction.
 
@@ -762,9 +762,9 @@ The quadratic compositum argument includes identical fields; it does not require
 
 ### 3.16 The full-two curve in the two-isogeny class
 
-If C/ℚ has 4|#C(F_q) at every good odd prime, then there is a ℚ-isogeny C→F of degree one or two with F[2](ℚ)≅(ℤ/2ℤ)². Prove `four_divisible_isogeny_realization` for every integral Weierstrass model W whose rationalization is elliptic: four-divisible native point counts at every odd prime not dividing Δ(W) suffice. The finite set of extra discriminant primes of a nonminimal model can be avoided in the Chebotarev argument; an integral model exists for every rational elliptic curve. (kraus-1997, §3.3 proof of Théorème 4, p.1146, kraus-1997 lines 435–441.)
+If C/ℚ has 4|#C(𝔽_q) at every good odd prime, then there is a ℚ-isogeny C→F of degree one or two with F[2](ℚ)≅(ℤ/2ℤ)². Prove `four_divisible_isogeny_realization` for every integral Weierstrass model W whose rationalization is elliptic: four-divisible native point counts at every odd prime not dividing Δ(W) suffice. The finite set of extra discriminant primes of a nonminimal model can be avoided in the Chebotarev argument; an integral model exists for every rational elliptic curve. (kraus-1997, §3.3 proof of Théorème 4, p.1146, kraus-1997 lines 435–441.)
 
-Throughout this subsection, C/ℚ is elliptic; 4 divides #C(F_q) for every prime q of good odd reduction.
+Throughout this subsection, C/ℚ is elliptic; 4 divides #C(𝔽_q) for every prime q of good odd reduction.
 
 A proof route is as follows. Put the rational two-point from §3.14 at (0,0) in y²=x(x²+ax+b). By §3.15 either a²−4b is square, so C has full two-torsion, or b is square. In the second case the quotient by (0,0) has equation y²=x(x²−2ax+(a²−4b)); its quadratic discriminant is 16b, so it has full rational two-torsion.
 
@@ -866,7 +866,7 @@ The notation 1/2 and 1/3 means multiplicative inverses modulo m; no inverse is u
 
 ### 4.2 Frobenius congruences for a rational prime-isogeny character
 
-Under the isogeny-character hypotheses, at an odd prime q≠r, potential good reduction gives a trace a over F_q with a≡β(q)q^k+β(q)^−1 q^(1−k) mod r, and over F_(q^12) the trace A satisfies A≡q^(12k)+q^(12−12k) mod r. Here β is the unramified part of the finite-order local character, with order dividing 12. (mazur-1978, §6, Proposition 6.3 and Corollary 6.1, pp.152–153, mazur-1978 line 979.)
+Under the isogeny-character hypotheses, at an odd prime q≠r, potential good reduction gives a trace a over 𝔽_q with a≡β(q)q^k+β(q)^−1 q^(1−k) mod r, and over 𝔽_(q^12) the trace A satisfies A≡q^(12k)+q^(12−12k) mod r. Here β is the unramified part of the finite-order local character, with order dividing 12. (mazur-1978, §6, Proposition 6.3 and Corollary 6.1, pp.152–153, mazur-1978 line 979.)
 
 Throughout this subsection, E,r,α,k,m,t satisfy §4.1; q≠r is an odd prime; the good-reduction model is taken after a totally ramified extension killing inertia; β is the unramified finite-order factor of the local kernel character, of order dividing 12.
 
@@ -878,13 +878,13 @@ The trace belongs to the good curve after the stated extension, whose reduction 
 
 ### 4.3 The finite twelfth-power trace checks
 
-The traces over F_(3^12) of elliptic curves defined over F3 are 658,−1358,1458. The analogous traces over F_(5^12) are obtained by the recurrence A0=2,A1=a,A_(n+1)=a A_n−q A_(n−1), using the actual possible traces over F5. (mazur-1978, §6, example (6.3) and §7 k=0 calculation, pp.153–154, mazur-1978 lines 974–976.)
+The traces over 𝔽_(3^12) of elliptic curves defined over 𝔽₃ are 658,−1358,1458. The analogous traces over 𝔽_(5^12) are obtained by the recurrence A0=2,A1=a,A_(n+1)=a A_n−q A_(n−1), using the actual possible traces over 𝔽₅. (mazur-1978, §6, example (6.3) and §7 k=0 calculation, pp.153–154, mazur-1978 lines 974–976.)
 
-Throughout this subsection, the curves are elliptic curves defined over F₃ or F₅; A_n is the Frobenius trace after base change to F_(q^n).
+Throughout this subsection, the curves are elliptic curves defined over 𝔽₃ or 𝔽₅; A_n is the Frobenius trace after base change to 𝔽_(q^n).
 
 A proof route is as follows. Determine the possible base-field traces from the finite-field elliptic models and Hasse bounds; apply the Frobenius recurrence A₀=2, A₁=a, A_(n+1)=aA_n−qA_(n−1) through n=12. The finite trace identities are mathematical targets on the native point-count carrier.
 
-The list is for curves descending to F3, not every elliptic curve over F_(3^12).
+The list is for curves descending to 𝔽₃, not every elliptic curve over 𝔽_(3^12).
 
 *Needs:* EllipticCurves Layer 3.
 
@@ -952,7 +952,7 @@ The minimal-divisor list alone does not exclude multiples of an allowed d.
 
 The noncuspidal rational points at levels 14,15,20,21,24,27,32,36,49 have respective cardinalities 2,4,0,4,0,1,0,0,0, with the corresponding rational elliptic models and j-maps. These are exact point tables, not a rank-only assertion. (banwait-najman-padurariu, Table 1.1, p.2, and §2, pp.5–6, banwait-najman-padurariu line 61.)
 
-Throughout this subsection, d∈{14,15,20,21,24,27,32,36,49}; the points are noncuspidal ℚ-points of the actual X0(d).
+Throughout this subsection, d∈{14,15,20,21,24,27,32,36,49}; the points are noncuspidal ℚ-points of the actual X₀(d).
 
 A proof route is as follows. Identify the actual modular elliptic models and j maps. At each of the nine levels prove rank zero by Kummer descent, with local conditions and the known cusp classes giving the matching lower bound. Prove the exact torsion group using reduction at good odd primes and the explicit rational points, then subtract precisely the rational cusps. Finiteness of a Jacobian group or a rank statement alone is insufficient.
 
@@ -966,69 +966,69 @@ A proof route is as follows. Identify the actual modular elliptic models and j m
 
 ### 4.10 The cusp-only level 39
 
-Every ℚ-rational point of the actual modular curve X0(39) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1979, pp.21–23, cited by published locator.)
+Every ℚ-rational point of the actual modular curve X₀(39) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1979, pp.21–23, cited by published locator.)
 
-Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(39).
+Throughout this subsection, P is a ℚ-rational point of the actual modular curve X₀(39).
 
 A proof route exhibits a nonzero new optimal quotient A_39 of J₀(39) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_39(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(39)→A_39, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
-The claim is the entire rational-point set of X0(39), not a bounded-height search.
+The claim is the entire rational-point set of X₀(39), not a bounded-height search.
 
 *Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.11 The cusp-only level 65
 
-Every ℚ-rational point of the actual modular curve X0(65) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1980b, pp.15–20, cited by published locator.)
+Every ℚ-rational point of the actual modular curve X₀(65) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1980b, pp.15–20, cited by published locator.)
 
-Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(65).
+Throughout this subsection, P is a ℚ-rational point of the actual modular curve X₀(65).
 
 A proof route exhibits a nonzero new optimal quotient A_65 of J₀(65) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_65(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(65)→A_65, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
-The claim is the entire rational-point set of X0(65), not a bounded-height search.
+The claim is the entire rational-point set of X₀(65), not a bounded-height search.
 
 *Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.12 The cusp-only level 91
 
-Every ℚ-rational point of the actual modular curve X0(91) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1980b, pp.15–20, cited by published locator.)
+Every ℚ-rational point of the actual modular curve X₀(91) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1980b, pp.15–20, cited by published locator.)
 
-Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(91).
+Throughout this subsection, P is a ℚ-rational point of the actual modular curve X₀(91).
 
 A proof route exhibits a nonzero new optimal quotient A_91 of J₀(91) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_91(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(91)→A_91, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
-The claim is the entire rational-point set of X0(91), not a bounded-height search.
+The claim is the entire rational-point set of X₀(91), not a bounded-height search.
 
 *Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.13 The cusp-only level 125
 
-Every ℚ-rational point of the actual modular curve X0(125) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1981, pp.415–427, cited by published locator.)
+Every ℚ-rational point of the actual modular curve X₀(125) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1981, pp.415–427, cited by published locator.)
 
-Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(125).
+Throughout this subsection, P is a ℚ-rational point of the actual modular curve X₀(125).
 
 A proof route exhibits a nonzero new optimal quotient A_125 of J₀(125) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_125(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(125)→A_125, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
-The claim is the entire rational-point set of X0(125), not a bounded-height search.
+The claim is the entire rational-point set of X₀(125), not a bounded-height search.
 
 *Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.14 The cusp-only level 169
 
-Every ℚ-rational point of the actual modular curve X0(169) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1980a, pp.239–244 and kenku-169-corrigendum, p.428, cited by published locator.)
+Every ℚ-rational point of the actual modular curve X₀(169) is a cusp. (banwait-najman-padurariu, §1, p.2, banwait-najman-padurariu line 58; kenku-1980a, pp.239–244 and kenku-169-corrigendum, p.428, cited by published locator.)
 
-Throughout this subsection, P is a ℚ-rational point of the actual modular curve X0(169).
+Throughout this subsection, P is a ℚ-rational point of the actual modular curve X₀(169).
 
 A proof route exhibits a nonzero new optimal quotient A_169 of J₀(169) whose simple factors have nonzero central L-value. Prove these nonvanishings from exact modular symbols. Apply gap:modular-rank-zero and determine the entire finite group A_169(ℚ) by Kummer descent and torsion specialization. For the nonconstant cusp-based map X₀(169)→A_169, determine the rational points in every finite algebraic fiber over that group and show each is a cusp. The finite-fiber equations and their rational-solubility exclusions are arithmetic targets of this subsection. EisensteinIdealAndRationalTorsion §7.9 supplies formal immersion at ∞ for this new optimal quotient; it separates sections in the cusp residue disk, while other fibers require their own exact equations.
 
-The claim is the entire rational-point set of X0(169), not a bounded-height search.
+The claim is the entire rational-point set of X₀(169), not a bounded-height search.
 
 *Needs:* ModularCurvesPartII §§5.2, 5.5, 13.1–13.3, 16.2–16.6, 17.3; ModularSymbolsPadicLFunctions §§0.6–0.8, 1.1–1.2; HeightsRationalPointsAndObstructions §§1.4–1.7, 1.13–1.14, 1.18; EulerSystemsAndKolyvaginSystems §§4.7, 5.13 and gap:modular-rank-zero; EisensteinIdealAndRationalTorsion §7.9.
 
 ### 4.15 Kenku’s five remaining cusp-only levels
 
-For d∈{39,65,91,125,169}, every rational point of X0(d) is a cusp. (banwait-najman-padurariu, Introduction and §2, Ken79/Ken80a/Ken80b/Ken81 references, pp.2,4–5, banwait-najman-padurariu line 58.)
+For d∈{39,65,91,125,169}, every rational point of X₀(d) is a cusp. (banwait-najman-padurariu, Introduction and §2, Ken79/Ken80a/Ken80b/Ken81 references, pp.2,4–5, banwait-najman-padurariu line 58.)
 
-Throughout this subsection, d∈{39,65,91,125,169}; P∈X0(d)(ℚ).
+Throughout this subsection, d∈{39,65,91,125,169}; P∈X₀(d)(ℚ).
 
 A proof route is as follows. Apply the five separate cusp-only rational-point theorems of §§4.10–4.14.
 
@@ -1040,7 +1040,7 @@ The five levels are individually quantified; a list of database records is not a
 
 For the prime-isogeny and genus-one rational point tables, no noncuspidal point lifts to a larger cyclic-isogeny degree outside {1,…,19,21,25,27,37,43,67,163}; the additional minimal obstruction levels 26,35,50 also have no noncuspidal rational points. (banwait-najman-padurariu, §2, Mazur’s strategy, pp.5–6, banwait-najman-padurariu lines 228–274; mazur-1978, p.131, mazur-1978 lines 97–105; kenku-1982, pp.199–201, cited by published locator.)
 
-Throughout this subsection, the relevant rational point lies in the prime-isogeny or genus-one point table, or on X0(d) with d∈{26,35,50}; a lift means a noncuspidal rational point for a larger cyclic-isogeny degree under the actual modular degeneracy map.
+Throughout this subsection, the relevant rational point lies in the prime-isogeny or genus-one point table, or on X₀(d) with d∈{26,35,50}; a lift means a noncuspidal rational point for a larger cyclic-isogeny degree under the actual modular degeneracy map.
 
 A proof route is as follows. For each positive-genus minimal allowed point, determine all rational lifts under the cyclic-level degeneracy maps; prove the complete exclusion outside the displayed list. At each of 26,35,50 exhibit a nonzero new quotient with nonvanishing central factors, prove its exact finite rational group using gap:modular-rank-zero and descent/torsion specialization, and determine every rational fiber of the cusp-based map as in §§4.10–4.14. Mazur’s p.131 cites the exclusions of 35,50 and 26 separately; all three are required. For lifts above an allowed table point use the actual finite degeneracy fiber and prove that it has no rational noncuspidal point at any forbidden degree. The isogeny-graph bound and exhaustion of these fibers are owned parts of this target (kenku-1982, pp.199–201, uncertified).
 
@@ -1078,7 +1078,7 @@ If E/ℚ has full rational two-torsion, choose distinct rational order-two subgr
 
 Throughout this subsection, E/ℚ has full rational two-torsion; T,T′ are distinct order-two rational subgroups; E′=E/T.
 
-A proof route is as follows. The two-step path does not backtrack: the image of E′[2] under the dual is T, whereas the second kernel is T′≠T. The degree-four kernel is therefore cyclic rather than (ℤ/2Z)².
+A proof route is as follows. The two-step path does not backtrack: the image of E′[2] under the dual is T, whereas the second kernel is T′≠T. The degree-four kernel is therefore cyclic rather than (ℤ/2ℤ)².
 
 Composing an isogeny with its own dual gives [2] with noncyclic kernel, so distinct T,T′ matter.
 
@@ -1198,7 +1198,7 @@ Deduce that if E/ℚ has a rational prime isogeny of degree r∈{19,43,67,163}, 
 
 In moduli form, prove `exceptional_prime_isogeny_j`: for (r,γ)∈{(19,96),(43,960),(67,5280),(163,640320)}, the set of j-invariants of the elliptic curves E/ℚ admitting a rational cyclic isogeny of degree r is exactly {−γ³}. Both inclusions are asserted: some E/ℚ with this j-value has a rational r-isogeny, the CM isogeny of the class-number-one order of discriminant −r (mazur-1978, Introduction, p.129, mazur-1978 lines 26–28), and no other j-value occurs. This is the j-column of the table; the point count is the stronger assertion that Y₀(r)(ℚ) has exactly one point. Prove `non_cm_prime_isogeny_degrees`: if E/ℚ is geometrically non-CM and admits a rational cyclic isogeny of prime degree r, then r∈{2,3,5,7,11,13,17,37} (lemos-2017, §2, proof of Theorem 1.1, p.5, lemos-2017 lines 187–189).
 
-Non-CM means End_(Qbar)(E)=ℤ; End_Q(E)=ℤ alone would not exclude CM.
+Non-CM means End_(ℚ̄)(E)=ℤ; End_ℚ(E)=ℤ alone would not exclude CM.
 
 **Checks.**
 
@@ -1370,13 +1370,13 @@ A proof route is as follows. Identify X_s⁺(p)≅X₀⁺(p²) over ℚ (Modular
 
 ### 5.8 Every remaining proper image is in a non-split Cartan normalizer
 
-Prove `proper_image_nonsplit`. For geometrically non-CM E/ℚ and prime p>37, if the image of E[p] is proper in GL₂(F_p), then `NonsplitNormalizerImage E p` holds: the image is contained in the normalizer of a non-split Cartan. (lemos-2017, Theorem 2.3, p.6, lemos-2017 line 223.)
+Prove `proper_image_nonsplit`. For geometrically non-CM E/ℚ and prime p>37, if the image of E[p] is proper in GL₂(𝔽_p), then `NonsplitNormalizerImage E p` holds: the image is contained in the normalizer of a non-split Cartan. (lemos-2017, Theorem 2.3, p.6, lemos-2017 line 223.)
 
-Throughout this subsection, E/ℚ is geometrically non-CM; p>37 is prime; the image of E[p] is a proper subgroup of GL₂(F_p).
+Throughout this subsection, E/ℚ is geometrically non-CM; p>37 is prime; the image of E[p] is a proper subgroup of GL₂(𝔽_p).
 
 A proof route is as follows. The Weil pairing makes the determinant surjective. Apply Dickson’s finite-image classification. A Borel image would give a rational p-isogeny, excluded by the Mazur list and its CM exceptions. Use §5.3 and §5.7 for the other cases; a nonsplit Cartan is contained in its normalizer.
 
-The determinant and local arithmetic information are essential; arbitrary subgroups of GL₂(F_p) do not satisfy this conclusion.
+The determinant and local arithmetic information are essential; arbitrary subgroups of GL₂(𝔽_p) do not satisfy this conclusion.
 
 *Needs:* Layer 5.1 The CM prime-isogeny exceptions; ArithmeticGaloisRepresentations §§6.1–6.4; EllipticCurves Layer 1; Layer 5.3 Excluding exceptional projective residual images; Layer 5.7 The split Cartan uniformity input; ArithmeticGaloisRepresentations §§4.2–4.5.
 
@@ -1386,7 +1386,7 @@ If p≥5 and the image of E[p] is contained in a non-split Cartan normalizer, ev
 
 Throughout this subsection, E/ℚ is elliptic; p≥5 is prime; the image of E[p] is contained in a non-split Cartan normalizer.
 
-A proof route is as follows. Over Q_q a potentially multiplicative E is a quadratic twist of a Tate curve, so its residual diagonal characters are ψχ_p and ψ. Squaring each matrix places it in the Cartan and gives eigenvalues χ_p² and 1. The conjugate-eigenvalue description over F_(p²) forces χ_p²=1. At q=p the local cyclotomic character is onto F_p×, contradicting p≥5; at q≠p evaluate arithmetic Frobenius to get q²≡1.
+A proof route is as follows. Over ℚ_q a potentially multiplicative E is a quadratic twist of a Tate curve, so its residual diagonal characters are ψχ_p and ψ. Squaring each matrix places it in the Cartan and gives eigenvalues χ_p² and 1. The conjugate-eigenvalue description over 𝔽_(p²) forces χ_p²=1. At q=p the local cyclotomic character is onto 𝔽_p×, contradicting p≥5; at q≠p evaluate arithmetic Frobenius to get q²≡1.
 
 This includes a ramified quadratic twist of the Tate curve; a good-reduction assertion about the original curve is stronger and unjustified.
 
@@ -1394,11 +1394,11 @@ This includes a ramified quadratic twist of the Tate curve; a good-reduction ass
 
 ### 5.10 The Cartan correspondence kills the p-old part
 
-For r∈{2,3,5,7,13}, prime p∉{2,3,5,7,13}, the correspondence through X0(r)×_(X(1)) X(p)/(Nsp∩Nns) induces a prime-to-p Hecke-equivariant homomorphism from Jac(X0(rp²)/w_(p²)) to Jac(X0,ns^+(r,p)) that is zero on the p-old part. (lemos-2017, §3, Lemma 3.2 and proof, p.9, lemos-2017 line 331.)
+For r∈{2,3,5,7,13}, prime p∉{2,3,5,7,13}, the correspondence through X₀(r)×_(X(1)) X(p)/(N_sp∩N_ns) induces a prime-to-p Hecke-equivariant homomorphism from Jac(X₀(rp²)/w_(p²)) to Jac(X_(0,ns)⁺(r,p)) that is zero on the p-old part. (lemos-2017, §3, Lemma 3.2 and proof, p.9, lemos-2017 line 331.)
 
-Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; the involution on X0(rp²) is w_(p²), fixing the r-level structure.
+Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; the involution on X₀(rp²) is w_(p²), fixing the r-level structure.
 
-A proof route is as follows. Pull back along the split-normalizer map and push forward along the nonsplit-normalizer map on degree-zero divisor classes. For the two p-degeneracy maps, the pullback divisors are Borel-invariant; Nns B+=Nns B−=GL₂(F_p) makes their pushforward old from X0(r). Since X0(r) has genus zero, its degree-zero Jacobian is zero.
+A proof route is as follows. Pull back along the split-normalizer map and push forward along the nonsplit-normalizer map on degree-zero divisor classes. For the two p-degeneracy maps, the pullback divisors are Borel-invariant; N_ns B⁺=N_ns B⁻=GL₂(𝔽_p) makes their pushforward old from X₀(r). Since X₀(r) has genus zero, its degree-zero Jacobian is zero.
 
 Finite-map pullback multiplies divisor degree; degree-zero classes stay degree zero. No false preservation of every degree is needed.
 
@@ -1408,11 +1408,11 @@ Finite-map pullback multiplies divisor degree; degree-zero classes stay degree z
 
 In the full-new quotient B of Jac(X₀(rp²)/w_(p²)), let e_B be the rational winding class and I_e its annihilator in the rational Hecke algebra. Every surviving eigenform in the winding quotient B/I_eB has L(f,1)≠0. The oriented differential period is −L(f,1); the unscaled f(z)dz period is iL(f,1)/(2π). (darmon-merel, Proposition 7.1 proof, author-version pp.20–21, with the orientation convention above, darmon-merel lines 640–666.)
 
-Throughout this subsection, B is the full new quotient of Jac(X0(rp²)/w_(p²)); e_B is its rational winding class; I_e is its annihilator in the rational Hecke algebra.
+Throughout this subsection, B is the full new quotient of Jac(X₀(rp²)/w_(p²)); e_B is its rational winding class; I_e is its annihilator in the rational Hecke algebra.
 
 A proof route is as follows. Decompose the full-new rational Hecke module into eigenspaces and use the actual winding pairing. A surviving eigencomponent has nonzero pairing with the winding class. With the stated orientation that pairing is −L(f,1), hence its central L-value is nonzero.
 
-No arbitrary period-normalization scalar replaces the actual integral from 0 to infinity.
+No arbitrary period-normalization scalar replaces the actual integral from 0 to i∞.
 
 *Needs:* ModularSymbolsPadicLFunctions §§0.6–0.8; ModularSymbolsPadicLFunctions §§1.1–1.2; ModularCurvesPartII §§9.1, 13.1–13.3; ModularCurvesPartII §§13.3, 14.15.
 
@@ -1432,7 +1432,7 @@ A proof route chooses a coordinate t on the genus-zero X₀(r) with divisor [0]�
 
 ### 5.13 The nonzero finite winding quotient
 
-For r∈{2,3,5,7,13}, prime p outside that set, Jac(X0,ns^+(r,p)) has a nonzero optimal quotient A/ℚ with A(ℚ) finite and kernel stable under every T_n with (n,p)=1. (lemos-2017, Theorem 3.4 and sketch, p.10; Darmon–Merel Proposition 7.1, lemos-2017 line 355.)
+For r∈{2,3,5,7,13}, prime p outside that set, Jac(X_(0,ns)⁺(r,p)) has a nonzero optimal quotient A/ℚ with A(ℚ) finite and kernel stable under every T_n with (n,p)=1. (lemos-2017, Theorem 3.4 and sketch, p.10; Darmon–Merel Proposition 7.1, lemos-2017 line 355.)
 
 Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; use the actual Cartan fibre-product Jacobian.
 
@@ -1444,7 +1444,7 @@ A(ℚ) finite refers to this nonzero quotient, with positive dimension; gap:modu
 
 ### 5.14 The cusp residue-field constraint
 
-For the Cartan fibre-product curve X0,ns^+(r,p), every cusp has residue field ℚ(ζ_p)^+. At a prime q∤rp, a rational noncuspidal point with v_q(j)<0 specializes to a cusp, and an F_q-rational cusp exists only if q≡±1 mod p. (lemos-2017, §3, concluding formal-immersion argument, p.10; Darmon–Merel §8, lemos-2017 line 377.)
+For the Cartan fibre-product curve X_(0,ns)⁺(r,p), every cusp has residue field ℚ(ζ_p)⁺. At a prime q∤rp, a rational noncuspidal point with v_q(j)<0 specializes to a cusp, and an 𝔽_q-rational cusp exists only if q≡±1 mod p. (lemos-2017, §3, concluding formal-immersion argument, p.10; Darmon–Merel §8, lemos-2017 line 377.)
 
 Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; q∤rp is prime; for the specialization assertion, P is a rational noncuspidal point and v_q(j(P))<0.
 
@@ -1456,9 +1456,9 @@ This statement is restricted to q∤rp. The local potentially-multiplicative lem
 
 ### 5.15 Formal immersion into the winding quotient at a cusp
 
-For r∈{2,3,5,7,13}, prime p outside that set and prime q≡±1 mod p, let A be the specified finite winding quotient. The map φ:P↦[P−∞] followed by the quotient to A, extended to the smooth integral model at q, is a formal immersion at the cusp infinity. (darmon-merel, Lemma 8.2, author-version pp.23–24; Lemos §3 conclusion, darmon-merel line 737.)
+For r∈{2,3,5,7,13}, prime p outside that set and prime q≡±1 mod p, let A be the specified finite winding quotient. The map φ:P↦[P−∞] followed by the quotient to A, extended to the smooth integral model at q, is a formal immersion at the cusp ∞. (darmon-merel, Lemma 8.2, author-version pp.23–24; Lemos §3 conclusion, darmon-merel line 737.)
 
-Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; q is prime with q≡±1 mod p; A is the quotient specified in §5.13; choose infinity over ℚ(ζ_p)^+ and the smooth integral model at q.
+Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; q is prime with q≡±1 mod p; A is the quotient specified in §5.13; choose ∞ over ℚ(ζ_p)⁺ and the smooth integral model at q.
 
 A proof route is as follows. For prime p outside the five levels, p≥11 and q≡±1 forces q≥2p−1≥21>r,3. Use the smooth cusp chart and cotangent injection for the specified quotient. Vanishing of the cotangent map would, by Hecke stability, force support only at indices divisible by p; the descent theorem of gap:positive-characteristic-support carries it to level r, whose weight-two cusp space has dimension zero.
 
@@ -1468,9 +1468,9 @@ Hecke stability of the quotient and the cotangent injection are indispensable. T
 
 ### 5.16 The rational modular point has torsion quotient image
 
-For a rational point P on X0,ns^+(r,p) and a cusp infinity over K=ℚ(ζ_p)^+, its image φ(P) in A(K) is torsion. (darmon-merel, Lemma 8.3, author-version p.24, darmon-merel line 770.)
+For a rational point P on X_(0,ns)⁺(r,p) and a cusp ∞ over K=ℚ(ζ_p)⁺, its image φ(P) in A(K) is torsion. (darmon-merel, Lemma 8.3, author-version p.24, darmon-merel line 770.)
 
-Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; A is the specified quotient with A(ℚ) finite; P is a rational point of X0,ns^+(r,p); infinity is a cusp over K=ℚ(ζ_p)^+; φ(P) is the Abel–Jacobi image in A(K).
+Throughout this subsection, r∈{2,3,5,7,13}; p is prime outside that set; A is the specified quotient with A(ℚ) finite; P is a rational point of X_(0,ns)⁺(r,p); ∞ is a cusp over K=ℚ(ζ_p)⁺; φ(P) is the Abel–Jacobi image in A(K).
 
 A proof route is as follows. For σ∈Gal(K/ℚ), (σ−1)[P−∞] is a cuspidal divisor and has torsion class by the geometric cuspidal-divisor torsion theorem of EisensteinIdealAndRationalTorsion §7.9, applied to each individual difference [∞−σ∞] and to its image in A. A common positive annihilator n for these finitely many classes makes nφ(P) Galois fixed and hence rational. If m is the exponent of A(ℚ), then mnφ(P)=0.
 
@@ -1482,7 +1482,7 @@ A(ℚ) finite does not directly imply A(K) finite; the cuspidal Galois argument 
 - For σ fixing P, σ[P−∞]−[P−∞]=[∞−σ∞]. Reversing this difference negates the class and preserves its annihilator, agreeing with the path conventions of §5.12.
 - On X₀(1)=ℙ¹ every degree-zero divisor class is zero, of order one, and D=0 has order one on every curve: the imported theorem asserts torsion, not nonzero torsion, so n=1 is admissible.
 - In ℝ/ℤ, a=√2 and b=1/11−√2 have a+b=1/11, killed by 11, although neither a nor b is torsion. The exact order p of the sum of all cusp differences in §5.12 cannot replace torsion of each individual difference [∞−σ∞], which is what the imported theorem supplies.
-- If infinity is rational, each difference is zero, so n=1 suffices and mφ(P)=0; if also m=1 then φ(P)=0.
+- If ∞ is rational, each difference is zero, so n=1 suffices and mφ(P)=0; if also m=1 then φ(P)=0.
 
 *Needs:* EisensteinIdealAndRationalTorsion §7.9 for geometric cuspidal-divisor torsion; Layer 5.13 The nonzero finite winding quotient; ModularCurvesPartII §§9.1, 13.1–13.3; ModularCurvesPartII §§3.8, 5.2, 9.5–9.7; ModularSymbolsPadicLFunctions §§0.6–0.8.
 
@@ -1554,9 +1554,9 @@ The polynomial has degree r+1, not r, and a nonzero constant term at exactly the
 
 ### 5.20 The modular meaning of the five j-polynomials
 
-For r∈{2,3,5,7,13}, identify X0(r) with P1_Q in the specified coordinate, sending the two cusps to t=0 and t=infinity. On the noncuspidal open t∈ℚ×, the actual j-map is lemosNumerator(r)(t)/t. (lemos-2017, §2, table and references [3] pp.179–180, [7] p.54, p.6, lemos-2017 line 231.)
+For r∈{2,3,5,7,13}, identify X₀(r) with ℙ¹_ℚ in the specified coordinate, sending the two cusps to t=0 and t=∞. On the noncuspidal open t∈ℚ×, the actual j-map is lemosNumerator(r)(t)/t. (lemos-2017, §2, table and references [3] pp.179–180, [7] p.54, p.6, lemos-2017 line 231.)
 
-Throughout this subsection, r∈{2,3,5,7,13}; t∈ℚ×; use the source coordinate on the actual X0(r), with cusps at 0 and infinity.
+Throughout this subsection, r∈{2,3,5,7,13}; t∈ℚ×; use the source coordinate on the actual X₀(r), with cusps at 0 and ∞.
 
 A proof route is as follows. Identify the coordinate by its two cusp pole orders and its normalized q-expansion; compare that modular function with the displayed rational function using exact coefficient recognition. The chosen coordinate includes the identification of both cusps, so rescaling t is not allowed without changing the polynomial.
 
@@ -1604,9 +1604,9 @@ The exact set has repeated-value collisions: count image values, not signed para
 
 ### 5.23 Integral j-values are the finite divisor candidates
 
-For r∈{2,3,5,7,13} and j∈ℤ, j∈lemosIntegralJ(r) if and only if there is a noncuspidal rational point P of the actual X0(r) with j(P)=j. (lemos-2017, §2, denominator and signed-divisor argument, pp.6–7, lemos-2017 line 231.)
+For r∈{2,3,5,7,13} and j∈ℤ, j∈lemosIntegralJ(r) if and only if there is a noncuspidal rational point P of the actual X₀(r) with j(P)=j. (lemos-2017, §2, denominator and signed-divisor argument, pp.6–7, lemos-2017 line 231.)
 
-Throughout this subsection, r∈{2,3,5,7,13}; j is an integer; the j-map and rational points use the actual modular curve X0(r).
+Throughout this subsection, r∈{2,3,5,7,13}; j is an integer; the j-map and rational points use the actual modular curve X₀(r).
 
 A proof route is as follows. For a candidate choose its signed nonzero divisor t. Polynomial evaluation is divisible by t; the genus-zero coordinate gives a noncuspidal rational point with that exact j-value. Conversely, take the nonzero rational coordinate t of a point with integral j. Section 5.21 makes t a signed nonzero divisor of the constant term, giving membership.
 
@@ -1620,7 +1620,7 @@ For prime p≥5 and quadratic-twist elliptic curves E,E′ over ℚ, their mod-p
 
 Throughout this subsection, p≥5 is prime; E,E′/ℚ are quadratic twists of elliptic curves.
 
-A proof route is as follows. Write ρ′=ψρ with ψ valued in {±1}. If ψ is nontrivial on kerρ, the twisted image contains −I and covers GL₂. Otherwise ψ factors through GL₂(F_p); every quadratic character factors through the determinant, and g↦ψ(g)g is an involutive automorphism because det(−g)=det(g). Apply the same argument to the inverse twist.
+A proof route is as follows. Write ρ′=ψρ with ψ valued in {±1}. If ψ is nontrivial on kerρ, the twisted image contains −I and covers GL₂. Otherwise ψ factors through GL₂(𝔽_p); every quadratic character factors through the determinant, and g↦ψ(g)g is an involutive automorphism because det(−g)=det(g). Apply the same argument to the inverse twist.
 
 The statement does not claim all mod-p subgroup labels remain identical under a twist.
 
@@ -1630,7 +1630,7 @@ The statement does not claim all mod-p subgroup labels remain identical under a 
 
 Prove `isogeny_j_tables_11_17_37`: for r=11,17,37 the j-invariants of the elliptic curves E/ℚ admitting a rational cyclic isogeny of degree r form exactly the sets {−11·131³,−2^15,−11²}, {−17²·101³/2,−17·373³/2^17} and {−7·137³·2083³,−7·11³} respectively. These are the j-values of the noncuspidal rational points of X₀(r) in the cited tables. Among these seven values, −2^15 is the only geometric CM value. (lemos-2017, §2, S11,S17,S37 and CM observation, pp.5–6, lemos-2017 lines 191–202 and 212.)
 
-Throughout this subsection, r∈{11,17,37}; consider noncuspidal rational points of X0(r) and geometric CM.
+Throughout this subsection, r∈{11,17,37}; consider noncuspidal rational points of X₀(r) and geometric CM.
 
 A proof route is as follows. At levels 11 and 17 prove rank zero by elliptic descent and the complete torsion group by reduction and rational cusp/point coordinates, as in §4.9. At level 37 exhibit a nonzero rank-zero new quotient using a factor with nonzero central value, obtain its finite rational group through gap:modular-rank-zero and descent, and determine all rational fibers of X₀(37)→A₃₇. This last finite-fiber determination is a target here; formal immersion is used only on cusp disks. Evaluate the actual j-maps, preserving the rational denominators at r=17 (mazur-1978, Theorem 7.1 and introduction’s point table, pp.129–130,153, mazur-1978 lines 14–30, 993–998). This determines the j-values of the noncuspidal rational points; the passage to curves is a separate step in each direction, for the Borel level subgroup of X₀(r), which contains −I. For ⊆, a curve E/ℚ with a rational cyclic r-isogeny has a Galois-stable line in E[r] by §4.0, so its mod-r image lies in a Borel subgroup and j(E) is the j-value of a rational point of Y₀(r) (ModularCurvesPartII §9.7, first assertion). For ⊇, none of the seven values is 0 or 1728, so the converse of ModularCurvesPartII §9.7 applies at each of these points: every elliptic curve over ℚ with that j-invariant has mod-r image in a Borel subgroup, hence a Galois-stable line in E[r] and, by §4.0, a rational cyclic r-isogeny. Mathlib’s `WeierstrassCurve.ofJ` supplies one such curve for each value. At j=0 or 1728 §9.7 gives no converse, since a rational point there need not come from a curve with Borel image; the inclusion ⊇ therefore depends on the listed values avoiding 0 and 1728, not on the point table alone. Identify CM using exact class polynomials and geometric endomorphisms. The rational-point exhaustion uses the explicit point-set theorem, without a rank-zero assertion for the entire Jacobian of X₀(37).
 
@@ -1684,9 +1684,9 @@ The original five set sizes do not imply how many distinct non-CM twist classes 
 
 ### 5.28 Lemos’s rational cyclic-isogeny surjectivity theorem
 
-Prove `lemos_uniform_surjectivity`. Let E/ℚ satisfy End_(Qbar)(E)=ℤ and admit a rational cyclic isogeny of degree greater than one. Then for every prime p>37 the actual mod-p Galois representation E[p] has image GL₂(F_p). (lemos-2017, Theorem 1.1 and complete §2 proof, pp.2,4–7, lemos-2017 line 44.)
+Prove `lemos_uniform_surjectivity`. Let E/ℚ satisfy End_(ℚ̄)(E)=ℤ and admit a rational cyclic isogeny of degree greater than one. Then for every prime p>37 the actual mod-p Galois representation E[p] has image GL₂(𝔽_p). (lemos-2017, Theorem 1.1 and complete §2 proof, pp.2,4–7, lemos-2017 line 44.)
 
-Throughout this subsection, E/ℚ is elliptic with End_(Qbar)(E)=ℤ; E admits a rational cyclic isogeny of degree greater than one; p>37 is prime.
+Throughout this subsection, E/ℚ is elliptic with End_(ℚ̄)(E)=ℤ; E admits a rational cyclic isogeny of degree greater than one; p>37 is prime.
 
 A proof route is as follows. Use §5.1 to select a rational prime isogeny degree r∈{2,3,5,7,11,13,17,37}. For r∈{11,17,37}, apply §§5.25–5.26. For the five genus-zero degrees, a proper image would force integral j by §5.18. The exact modular parameter theorem puts j in lemosIntegralJ(r), and §5.27 rules out the proper image.
 
