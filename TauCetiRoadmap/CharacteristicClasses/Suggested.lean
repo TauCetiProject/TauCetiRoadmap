@@ -3,6 +3,11 @@ module
 public import Mathlib
 public import TauCeti.Topology.VectorBundle.Orientation.ThomClass
 public import TauCeti.Analysis.Normed.Module.Ball.IntUnitsAction
+public import TauCeti.AlgebraicTopology.Cohomology.FundamentalClass
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Chart
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Linear
+public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
+public import TauCeti.Geometry.Manifold.Orientation.Basic
 
 /-!
 # Characteristic classes and Chern–Weil theory: target signatures
@@ -27,7 +32,16 @@ existence and uniqueness of the Thom class of an oriented real vector bundle
 over an arbitrary base, prescribed on every fibre by the orientation, and the
 headline of C2.2, the Euler class as the primary obstruction: over a CW
 complex of dimension at most the rank `n ≥ 2`, an integral Euler class
-vanishes exactly when a nowhere-zero section exists.
+vanishes exactly when a nowhere-zero section exists. Stated too is the
+headline of C2.3, the Euler number of a closed oriented manifold:
+`⟨e(TM), [M]⟩ = χ(M)`, with the pinned Euler characteristic `TauCeti.eulerChar`
+of a space of finite CW type, the pinned evaluation
+`TauCeti.HomologicalOrientation.evalFundamentalClass` on the fundamental class, and
+both orientations taken from one manifold orientation `o`: the homological
+orientation whose local orientations are the pinned
+`TauCeti.localOrientationOfManifoldOrientation o`, and the Thom class normalized
+on each tangent space by the generator `Orientation.localOrientation` of the
+tangent orientation `o.toVectorBundleOrientation`.
 
 Stated as well is the headline of C7.3a, Whitney's theorem that `ℝP^(2^k)`
 admits no smooth immersion into `ℝ^(2^(k+1)-2)`. Here `ℝPᵐ` is the orbit space
@@ -58,15 +72,6 @@ Not statable at the pins, and therefore not stated here:
   `TauCeti.classifyingSpace G`, but no infinite Grassmannian, no classifying
   space of a topological group, no universal bundle, and no Chern or
   Stiefel–Whitney class;
-* `e(TM)[M]=χ(M)` (C2.3) and the Euler-pullback identity for a self-map:
-  the pins have the Euler characteristic `TauCeti.eulerChar` of a space of
-  finite CW type, the evaluation `TauCeti.HomologicalOrientation.evalFundamentalClass`
-  on the fundamental class of a compact manifold with a homological
-  orientation, and the tangent-bundle orientation
-  `TauCeti.Manifold.Orientation.toVectorBundleOrientation` of an oriented
-  manifold, but no identification of a tangent-bundle orientation with the
-  homological orientation that fixes `[M]`, so the sign of `e(TM)[M]` has no
-  carrier;
 * Borel's theorem `H*(BG;ℚ)≃H*(BT;ℚ)^W` and the universal Chern–Weil
   isomorphism (C5.2): no classifying space and no Chern–Weil map exist at
   the pins;
@@ -77,6 +82,19 @@ Not statable at the pins, and therefore not stated here:
   a Mathlib `CovariantDerivative`, but no Chern–Weil form `P(F)` of an invariant polynomial on the curvature,
   no de Rham/singular comparison map, and no Chern or Pontryagin class in
   singular cohomology to compare with;
+* the de Rham/Chevalley–Eilenberg comparison `H*(Ω(K)) ≅ H*(CE(𝔤;ℝ))` of a compact
+  connected Lie group through its left-invariant forms (C5a.1), and the filtered
+  Cartan–Koszul comparison identifying `H*(CE(𝔤;ℝ))` with the exterior algebra on the
+  transgressions of the basic invariants (C5a.4): the pins have only the low-degree
+  cochains of Mathlib (`LieModule.Cohomology.d₁₂`, `LieModule.Cohomology.d₂₃`) and
+  Tau Ceti's low-degree and continuous variants of them, with no all-degree
+  Chevalley–Eilenberg complex and no Weil algebra `Sym(𝔤*[2]) ⊗ Λ(𝔤*[1])`;
+* the universal transgression (C5a.3–C5a.5): the Chern–Simons transgression
+  `τ(P)` of a basic invariant `P` in the Weil algebra and its agreement with the
+  transgression of `P` in the Serre spectral sequence of the universal bundle
+  `K → EK → BK`: there is no Weil algebra at the pins, as just said, and no
+  classifying space of a compact Lie group, only the discrete-group Milnor join
+  `TauCeti.classifyingSpace G`;
 * the exterior Hopf isomorphism `H*(K;ℚ) ≅ Λ_ℚ(z₁,…,z_r)`, `|zᵢ| = 2dᵢ − 1`,
   of a compact connected Lie group (C5a.5): the pinned cup `TopCat.singularCup`
   is a family of bilinear maps `H^p × H^q → H^(p+q)`, with no graded
@@ -173,6 +191,37 @@ theorem eulerClass_eq_zero_iff_exists_ne_zero [T2Space B] [Topology.CWComplex (u
   sorry
 
 end Bundle
+
+/-! ## C2.3: the Euler number of a closed oriented manifold -/
+
+open scoped Manifold ContDiff in
+/-- **The Euler number of a closed oriented manifold is its Euler characteristic**
+(Milnor–Stasheff, Corollary 11.12). Let `M` be a compact Hausdorff smooth manifold without
+boundary, modelled on a real inner-product space `E` of dimension `n + 1`, of finite CW type,
+and let `o` be an orientation of `M`. Let `h` be the homological orientation of `M` whose local
+orientation at every point `x` is the one `o` selects through the oriented chart at `x`, and let
+`u ∈ Hⁿ⁺¹(TM, TM ∖ 0; ℤ)` pair to `1` on every fibre pair with the generator of
+`Hₙ₊₁(TₓM, TₓM ∖ 0; ℤ)` selected by the tangent orientation of `o`, so that `u` is the Thom
+class of the tangent orientation. Then the Euler class of `u` evaluated on the fundamental
+class of `h` is the Euler characteristic `χ(M)`. Reversing `o` reverses `h` and negates `u`,
+so the value does not depend on `o`; replacing `h` alone by `-h` would give `-χ(M)`. -/
+theorem eulerClass_tangentBundle_evalFundamentalClass_eq_eulerChar
+    {E : Type} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+    {M : Type} [TopologicalSpace M] [T2Space M] [CompactSpace M] [ChartedSpace E M]
+    [IsManifold 𝓘(ℝ, E) ∞ M] [TauCeti.FiniteCWType M] {n : ℕ} (hE : finrank ℝ E = n + 1)
+    (o : TauCeti.Manifold.Orientation 𝓘(ℝ, E) M (Fin (n + 1)))
+    (h : TauCeti.HomologicalOrientation M E (n + 1))
+    (hh : ∀ x, h x = TauCeti.localOrientationOfManifoldOrientation o hE x)
+    (u : (TauCeti.thomPair E (TangentSpace 𝓘(ℝ, E) : M → Type)).singularCohomology
+      (ModuleCat.of ℤ (ULift.{0} ℤ)) ℤ (ModuleCat.of ℤ (ULift.{0} ℤ)) (n + 1))
+    (hu : ∀ x, (TopPair.singularKronecker _ ℤ (n + 1)
+        (TopPair.singularCohomologyMap (TauCeti.fiberThomPairMap E (TangentSpace 𝓘(ℝ, E)) x) _
+          u)).hom (Orientation.localOrientation (F := E) (o.toVectorBundleOrientation x) hE).val =
+        ULift.up 1) :
+    h.evalFundamentalClass hE (ModuleCat.of ℤ (ULift.{0} ℤ)) (ContinuousMap.id M)
+      (TauCeti.eulerClass (ModuleCat.of ℤ (ULift.{0} ℤ)) ℤ (ModuleCat.of ℤ (ULift.{0} ℤ)) E
+        (TangentSpace 𝓘(ℝ, E) : M → Type) (n + 1) u) = ULift.up (TauCeti.eulerChar M) := by
+  sorry
 
 /-! ## C7.3a: real projective spaces and the immersion obstruction -/
 
