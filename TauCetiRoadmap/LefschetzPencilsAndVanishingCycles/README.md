@@ -244,7 +244,8 @@ It leaves to other roadmaps:
   point counts); Layer IG.1 (§IG.1.2 tame fundamental groups of curves;
   §IG.1.3 tame specialization).
 - **SmoothRepresentationsOfLocalGroups** SR.5.2 (*nilpotent-exp-log*: the nilpotent exponential and the finite
-  logarithm of a unipotent in a `ℚ`-algebra, inverse to each other and independent of the vanishing bound), in 1.2.
+  logarithm of a unipotent in a `ℚ`-algebra, inverse to each other and independent of the vanishing bound), in 1.2,
+  1.6 and 5.7.
 - **ArithmeticGaloisRepresentations** Layer 2 (§2.1a local-field specialization of the general-trait
   tame character, §2.3 tame characters of local fields, §2.4 Grothendieck's monodromy theorem for local
   fields, §2.6 monodromy filtration of a nilpotent on a vector space) and
@@ -1231,8 +1232,8 @@ zero.
 *Proof sketch.* `log(1 + U) = U · u(U)` with `u` a polynomial with constant term one, so `U` and `log(1 + U)`
 have the same kernels of powers; Jordan decomposition identifies minimal polynomial and kernel
 dimensions. (Qian 2023, published Definition 3.6, PDF p. 21.) *Needs:* Tau Ceti
-`LinearMap.GeneralLinearGroup.IsUnipotent`; ArithmeticGaloisRepresentations Layer 2, §2.4 (logarithm);
-1.4 (Jordan blocks as `N`-strings).
+`LinearMap.GeneralLinearGroup.IsUnipotent`; SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, the finite
+logarithm of a unipotent); 1.4 (Jordan blocks as `N`-strings).
 
 **Checks.**
 
@@ -2987,7 +2988,8 @@ Exercise 26.2, Proposition 29.2 and Corollaries 29.4–29.6). If `exp(N) ∈ H`,
 and closedness extends `a` to `ℤ_ℓ`; differentiating this one-parameter subgroup gives `N ∈ 𝔏`. The argument does not use
 the type of `ψ`. (Weil I, §5, proof of (5.10), p. 293; Schneider 2011, §§18.10–19, pp. 144–153; Exercise 26.2, pp. 181–182; Theorem 27.1,
 pp. 192–194; Proposition 29.2 and Corollaries 29.4–29.6, pp. 202–205.) *Needs:* TauCetiRoadmap
-AdelicAlgebraicGroups Layer 4, §4.2; Mathlib `skewAdjointLieSubalgebra`, `IsNilpotent.exp`.
+AdelicAlgebraicGroups Layer 4, §4.2; SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, `N = log h` for
+a unipotent `h`); Mathlib `skewAdjointLieSubalgebra`, `IsNilpotent.exp`.
 
 **Checks.**
 
@@ -3247,6 +3249,7 @@ TauCetiRoadmap AdelicAlgebraicGroups Layer 4; TauCetiRoadmap OrthogonalSpinGroup
 Chebotarev Layer 9; TauCetiRoadmap Completed IntegralLattices Layer 1; TauCetiRoadmap RepresentationTheory
 (CharacterTheory Layer 4, RootSystems Layer 5); SchemeAndStackFoundations Layer 0;
 AbhyankarLemma §§3.3–3.4 (regular-divisor local structure and normalization, Stacks 0EYG/0EYH);
+SmoothRepresentationsOfLocalGroups SR.5.2 (*nilpotent-exp-log*, the finite logarithm of a unipotent, in 5.7);
 Mathlib (`skewAdjointLieSubalgebra`, `LieModule.IsIrreducible`, `IsNilpotent.exp`).
 
 ## Layer LPV.6: Perverse nearby cycles
@@ -4395,8 +4398,10 @@ Layer C5; Completed HodgeStructures (layer L2) and Tau Ceti `TauCeti.Hodge.Mixed
 - **AutomorphicGaloisRepresentations** uses the specialization sequence of a proper curve (0.6, 7a.2) for Carayol's
   vanishing-cycle filtration; the semisimple trace of 1.10 is the one used for local models of Shimura varieties.
 - **QuadraticFormsOverABase** §2.1 compares its smoothness predicate for forms on `Fin n → R` with ordinarity
-  (2.1) and its polar criterion with the even-rank statement of 2.2; its Layer 4 uses the even Clifford centre and
-  the Azumaya property (2.2).
+  (2.1), and its 2.4 uses the étale-local normal form of 2.1. Its §2.2 compares its even-rank unit criterion with
+  the even-rank polar criterion that 2.2 proves (ordinarity as bijectivity of the polar map over a base) and, over a
+  field, with the polar criterion that 2.1 proves. Its Layer 4 Examples read the étale rank-two even Clifford centre
+  of 2.2 (`evenClifford_center_etale_azumaya`).
 
 ## References
 
