@@ -560,7 +560,9 @@ def IsFiniteFreeModel (R : Type u) [Ring R]
   ∀ i, Module.Free R (P.X i) ∧ Module.Finite R (P.X i) ∧ (b < i → IsZero (P.X i))
 
 /-- Perfection over a unital ring means a bounded finite-projective left-module representative
-(README 1.E.0; Stacks, Definition 15.76.1, Tag 0657, for commutative rings). -/
+(README 1.E.0; Stacks, Definition 15.76.1, Tag 0657, for commutative rings). The terms are finitely
+generated, unlike in Tau Ceti's `TauCeti.DerivedCategory.Bounded.perfect`, the thick closure of all
+projective modules: `⊕_ℕ ℤ` in degree zero lies in that closure but is not perfect here. -/
 def IsPerfect (R : Type u) [Ring R] (K : D R) : Prop :=
   ∃ (P : CochainComplex (ModuleCat.{u} R) ℤ) (a b : ℤ),
     (∀ i, Module.Projective R (P.X i) ∧ Module.Finite R (P.X i) ∧

@@ -20,6 +20,9 @@ Alexander–Whitney maps of §0.2.2, the derived Hom with its cohomology in §1.
 flatness of flat modules in §1.7, and the injective hulls, completion action, finite-length
 biduality and Artinian criterion of §1.M.2 are formalised at the pinned Tau Ceti; each such target
 names its declarations, and later sections consume them from Tau Ceti (Exact supplier contracts).
+Ordinary-module perfectness here (§1.E.0) asks for finite projective terms, unlike Tau Ceti's
+`TauCeti.DerivedCategory.Bounded.perfect`, the thick closure of all projective modules, finitely
+generated or not.
 
 The generic algebra of countable module towers `ℕᵒᵖ ⥤ ModuleCat R` over an associative unital ring
 is Tau Ceti's (Exact supplier contracts): the difference map, `lim` and `lim¹`, the six-term and
@@ -121,7 +124,7 @@ the headline theorems that are statable against the pinned libraries, with the f
 | From Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`, `Fintype.linearCombination`; the Koszul complexes below are built on them. |
 | From Tau Ceti Koszul complexes | In `TauCeti.RingTheory.KoszulComplex`: the Koszul complex `TauCeti.koszulComplex φ` of a linear functional `φ : M → R`, an `ℕ`-indexed chain complex with terms `⋀ⁿ M` and differential the contraction by `φ`, with its first differential `TauCeti.zeroEquiv_koszulDifferential_zero`, the induced chain maps `TauCeti.koszulComplex.map` (with `TauCeti.koszulComplex.map_id` and `TauCeti.koszulComplex.map_comp`), the null-homotopy `TauCeti.koszulComplex.smulHomotopy` of multiplication by `φ(m)`, the zeroth homology `TauCeti.koszulComplex.homologyZeroEquivSpan` of a finite sequence, the tensor decompositions `TauCeti.koszulComplex.tensorIso` and `TauCeti.koszulComplex.tensorIsoAppend`, and acyclicity for weakly regular sequences `TauCeti.koszulComplex.exactAt_of_isWeaklyRegular`. These formalise §0.K.1 apart from its algebra-map and mapping-cone clauses; consumed in §§1.3–1.5. |
 | From Tau Ceti simplicial objects | The Alexander–Whitney map `CategoryTheory.SimplicialObject.alexanderWhitney` from the alternating face complex of `X ⊗ Y` to the tensor product of those of `X` and `Y`, natural by `CategoryTheory.SimplicialObject.alexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.AlexanderWhitney`); the diagonal `CategoryTheory.SimplicialObject.diag` and the double complex `CategoryTheory.SimplicialObject.doubleComplex` of a bisimplicial object, and the Alexander–Whitney chain map `CategoryTheory.SimplicialObject.diagAlexanderWhitney` from the alternating face complex of the diagonal to the total complex, natural by `CategoryTheory.SimplicialObject.diagAlexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial`); the Eilenberg–Zilber theorem for free simplicial modules on simplicial sets, the shuffle map `SSet.shuffle` (`TauCeti.AlgebraicTopology.SimplicialSet.Shuffle`) and the homotopy equivalence `SSet.eilenbergZilberHomotopyEquiv` between the chains of a product and the tensor product of chains (`TauCeti.AlgebraicTopology.SimplicialSet.EilenbergZilber`), which §0.2.2 extends to arbitrary simplicial modules; the symmetric power functor `ModuleCat.symmetricPower.functor` (`TauCeti.Algebra.Category.ModuleCat.SymmetricPower.Basic`). Consumed in §§0.2.2 and 0.17. |
-| From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan with `AlgebraicTopology.DoldKan.Γ₀`, combinatorial simplicial homotopies `CategoryTheory.SimplicialObject.Homotopy` with `CategoryTheory.SimplicialObject.Homotopy.whiskerRight` (a functor applied levelwise carries homotopies) and `CategoryTheory.SimplicialObject.Homotopy.toChainHomotopy` (the induced chain homotopy of alternating face complexes), used in §0.3, the exterior power functor `ModuleCat.exteriorPower.functor`, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`; the left derived functor API `CategoryTheory.Functor.HasLeftDerivedFunctor`, `CategoryTheory.Functor.IsLeftDerivedFunctor` and `CategoryTheory.Functor.totalLeftDerived` (`Mathlib.CategoryTheory.Functor.Derived.LeftDerived`) with its two-variable form `CategoryTheory.Functor.HasLeftDerivedFunctor₂`, `CategoryTheory.Functor.IsLeftDerivedFunctor₂` and `CategoryTheory.Functor.leftDerived₂` (`Mathlib.CategoryTheory.Functor.Derived.LeftDerivedTwo`), a right Kan extension along the localization, unique up to unique isomorphism; `CategoryTheory.Functor.mapDerivedCategory` of an exact functor (`Mathlib.Algebra.Homology.DerivedCategory.ExactFunctor`), applied in §0.2 to `ModuleCat.restrictScalars`, which is exact (`Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact`), and `ModuleCat.extendScalars`. §§0.1–0.3 and 1.1.1 construct the derived operations from the Tau Ceti replacements. |
+| From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan with `AlgebraicTopology.DoldKan.Γ₀`, combinatorial simplicial homotopies `CategoryTheory.SimplicialObject.Homotopy` with `CategoryTheory.SimplicialObject.Homotopy.whiskerRight` (a functor applied levelwise carries homotopies) and `CategoryTheory.SimplicialObject.Homotopy.toChainHomotopy` (the induced chain homotopy of alternating face complexes), used in §0.3, the exterior power functor `ModuleCat.exteriorPower.functor`, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`; the left derived functor API `CategoryTheory.Functor.HasLeftDerivedFunctor`, `CategoryTheory.Functor.IsLeftDerivedFunctor` and `CategoryTheory.Functor.totalLeftDerived` (`Mathlib.CategoryTheory.Functor.Derived.LeftDerived`) with its two-variable form `CategoryTheory.Functor.HasLeftDerivedFunctor₂`, `CategoryTheory.Functor.IsLeftDerivedFunctor₂` and `CategoryTheory.Functor.leftDerived₂` (`Mathlib.CategoryTheory.Functor.Derived.LeftDerivedTwo`), a right Kan extension along the localization, unique up to unique isomorphism; `CategoryTheory.Functor.mapDerivedCategory` of an exact functor (`Mathlib.Algebra.Homology.DerivedCategory.ExactFunctor`), applied in §0.2 to `ModuleCat.restrictScalars`, which is exact (`Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact`), and `ModuleCat.extendScalars`; for the adjunction of §0.2, `ModuleCat.extendRestrictScalarsAdj` (`Mathlib.Algebra.Category.ModuleCat.ChangeOfRings`), `CategoryTheory.Adjunction.derived` (`Mathlib.CategoryTheory.Functor.Derived.Adjunction`: an adjunction induces one between a left derived functor of the left adjoint and a right derived functor of the right adjoint when each stays derived after composition with the other), `CategoryTheory.Functor.isRightDerivedFunctor_of_inverts` (`Mathlib.CategoryTheory.Functor.Derived.PointwiseRightDerived`), and left derivability structures `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure` with `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure.mk'` (`Mathlib.CategoryTheory.Localization.DerivabilityStructure.Constructor`) and `CategoryTheory.LocalizerMorphism.Derives.isLeftDerivedFunctor_iff_isIso` (`Mathlib.CategoryTheory.Localization.DerivabilityStructure.Derives`). §§0.1–0.3 and 1.1.1 construct the derived operations from the Tau Ceti replacements. |
 | From Mathlib cotangent and flatness inputs | `Algebra.Extension`, `Algebra.H1Cotangent`, Kähler differentials, Jacobi–Zariski, `Derivation`, `derivationToSquareZeroEquivLift`, `Module.Flat.exists_factorization_of_finitePresentation`, finite free modules, localizations and smoothness. §§0.4–0.17 and 0.25 construct the full complex, powers and deformation theory. |
 | From Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and edge maps. |
 | From Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
@@ -815,6 +818,32 @@ restriction of scalars needs no construction: restriction is exact, so it is Mat
 left adjoint to derived restriction ([StacksMA] Lemma 15.61.3, Tag 0GMT, p.149). The transition
 maps of §1.E.0 are adjoints under it.
 
+The route derives the adjunction of complexes, as the proof of Tag 0GMT does. Termwise extension
+`complexBaseChange f` is left adjoint to termwise restriction
+`(ModuleCat.restrictScalars f).mapHomologicalComplex (ComplexShape.up ℤ)`, with the unit and counit
+of Mathlib's `ModuleCat.extendRestrictScalarsAdj f` in each degree. Neither pinned library lifts an
+adjunction to complexes (Tau Ceti's `TauCeti.DGRightModuleCat.extendRestrictScalarsAdj` is the
+analogue for DG modules over DG algebras), so this section constructs the lift, for an adjunction
+between additive functors and any complex shape. Mathlib's `CategoryTheory.Adjunction.derived`
+turns it into `G ⊣ (ModuleCat.restrictScalars f).mapDerivedCategory`, localizing at the
+quasi-isomorphisms on both sides, once both derived functors stay derived after composition with
+the other. For derived restriction this holds because termwise restriction preserves
+quasi-isomorphisms: with the isomorphism `Functor.mapDerivedCategoryFactors`, Mathlib's
+`CategoryTheory.Functor.isRightDerivedFunctor_of_inverts` makes it, and its composite with `G`, right
+derived functors. For `G` it holds because `G` is computed on K-flat complexes: `complexBaseChange f`
+carries quasi-isomorphisms between K-flat complexes to quasi-isomorphisms ([StacksMA] Lemma 15.60.12,
+Tag 064L, p.147, with `L• = S[0]`), and every complex receives one from a K-flat complex. Construct
+the left derivability structure (Mathlib's `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure`,
+built with `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure.mk'`) given by the inclusion
+of K-flat complexes with their quasi-isomorphisms; its hypotheses follow from K-flat resolutions
+that are surjective in every degree, obtained by adding a direct sum of acyclic complexes
+`[F --id→ F]` of free modules, and from fibre products along them. By
+`CategoryTheory.LocalizerMorphism.Derives.isLeftDerivedFunctor_iff_isIso`, a functor out of `D(R)` is
+a left derived functor of a functor on complexes that inverts quasi-isomorphisms between K-flat
+complexes exactly when its comparison is invertible at K-flat complexes. Applied to `G`, this makes
+`α` invertible there; applied to `complexBaseChange f ⋙ DerivedCategory.Q` followed by derived
+restriction, it makes the composite of `G` with derived restriction a left derived functor.
+
 K-flatness is Tau Ceti's `CochainComplex.IsKFlat`: tensoring with every acyclic cochain complex
 is acyclic, with no boundedness condition. Every complex receives a quasi-isomorphism from a K-flat
 complex, Tau Ceti's `CochainComplex.exists_quasiIso_isKFlat_moduleCat`, and the complex can be chosen
@@ -825,7 +854,7 @@ flat in every degree ([StacksMA] Lemma 15.60.10, Tag 06Y4): Tau Ceti's
 (`CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X`, which is flatness by Mathlib's
 `Module.Flat.iff_preservesFiniteLimits_tensorLeft`). The bi-infinite ℤ/4 example below excludes termwise flatness as a substitute for K-flatness.
 
-*Needs:* Tau Ceti `CochainComplex.IsKFlat`, `CochainComplex.exists_quasiIso_isKFlat_moduleCat` and `CochainComplex.kFlatResolution` with its three instances above; Mathlib `DerivedCategory`, `HomologicalComplex`, `ModuleCat`, tensor products, exact filtered colimits and localization of complexes, `Functor.HasLeftDerivedFunctor₂`, `Functor.HasLeftDerivedFunctor`, `ModuleCat.extendScalars`, `ModuleCat.restrictScalars` and `Functor.mapDerivedCategory`.
+*Needs:* Tau Ceti `CochainComplex.IsKFlat`, `CochainComplex.exists_quasiIso_isKFlat_moduleCat` and `CochainComplex.kFlatResolution` with its three instances above; Mathlib `DerivedCategory`, `HomologicalComplex`, `ModuleCat`, tensor products, exact filtered colimits and localization of complexes, `Functor.HasLeftDerivedFunctor₂`, `Functor.HasLeftDerivedFunctor`, `ModuleCat.extendScalars`, `ModuleCat.restrictScalars`, `Functor.mapDerivedCategory` and `Functor.mapDerivedCategoryFactors`; for the adjunction, Mathlib `ModuleCat.extendRestrictScalarsAdj`, `CategoryTheory.Adjunction.derived`, `CategoryTheory.Functor.isRightDerivedFunctor_of_inverts`, `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure` with `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure.mk'` and `CategoryTheory.LocalizerMorphism.Derives.isLeftDerivedFunctor_iff_isIso`, and [StacksMA] Lemma 15.60.12.
 
 *Lean:* `Suggested.lean` declares `hasLeftDerivedFunctor₂_tensor`, `complexBaseChange`,
 `hasLeftDerivedFunctor_extendScalars` and `nonempty_derivedExtendRestrictScalarsAdj`, the last
@@ -1215,7 +1244,9 @@ degrees `0` and `−1`. The two degree-one shuffle generators have coefficients 
 Layer 0 and Mathlib complexes, K-injectivity, Dold–Kan, augmented simplicial objects with extra
 degeneracies, polynomial rings, combinatorial simplicial homotopies and their chain homotopies,
 tensor products, filtered colimits, spectral objects, homology, mapping cones and double-complex
-totalization; Tau Ceti K-injective and K-flat replacements, Lazard's theorem, the Alexander–Whitney
+totalization, left and right derived functors with the derived adjunction of Mathlib's
+`CategoryTheory.Adjunction.derived` and left derivability structures, and the scalar
+extension–restriction adjunction of module categories; Tau Ceti K-injective and K-flat replacements, Lazard's theorem, the Alexander–Whitney
 maps of simplicial and bisimplicial objects, the shuffle map and the Eilenberg–Zilber homotopy
 equivalence for simplicial sets, and the spectral sequences of filtered complexes and of
 first-quadrant bicomplexes.
@@ -1937,13 +1968,28 @@ complexes, with its comparison `α` (Mathlib's `Functor.IsLeftDerivedFunctor₂`
 `hasLeftDerivedFunctor₂_tensor`), the functor `K ↦ T(K, L)` is left adjoint to
 `M ↦ RHom_A(L, M)`. Naturality in `L` is the further law.
 
+The route is the proof of [StacksMA] Lemma 15.75.1 (Tag 0A65). Represent `L` by a K-flat complex
+`L•` (§0.2) and `M` by a K-injective complex `I•` (§0.I.1). For every complex `K•`, the Hom
+complexes satisfy `Hom•(K•, Hom•(L•, I•)) ≅ Hom•(Tot(K• ⊗_A L•), I•)` ([StacksMA] Lemma 15.73.1,
+Tag 0A5Y, p.181); neither pinned library has this isomorphism, and this section constructs it on
+Mathlib's `CochainComplex.linearHomComplex`. In degree zero its cohomology is a bijection of
+homotopy classes `[K•, Hom•(L•, I•)] ≅ [Tot(K• ⊗_A L•), I•]`. The complex `Hom•(L•, I•)` is
+K-injective: for acyclic `K•` the right side vanishes, since `Tot(K• ⊗_A L•)` is acyclic and `I•` is
+K-injective. Both sides are therefore morphisms in `D(A)`, the left from `K` to `Hom•(L•, I•)` and
+the right from `K ⊗^L_A L` to `M`, because `Tot(K• ⊗_A L•)` computes `K ⊗^L_A L` when `L•` is
+K-flat. `TauCeti.derivedHom` uses the K-injective replacement of `L` in place of `L•`; the
+quasi-isomorphism between the two representatives induces a quasi-isomorphism of Hom complexes into
+the K-injective `I•`, which identifies `Hom•(L•, I•)` with `RHom_A(L, M)`.
+
 [StacksMA], §15.75, Tag 0A5W, equations 15.75.0.1–15.75.0.2 (Tags 0A63–0A64, p.189), and Lemma 15.75.1,
 Tag 0A65; [StacksSites], §21.35, *Internal hom in the derived category*, Tag 08J7, p.82.
 
-*Needs:* Tau Ceti `TauCeti.derivedHom` and `TauCeti.derivedHomHomologyLinearEquiv`; §0.2 (module
+*Needs:* Tau Ceti `TauCeti.derivedHom` and `TauCeti.derivedHomHomologyLinearEquiv`; for the route,
+Tau Ceti `TauCeti.kInjectiveReplacement` (§0.I.1), `CochainComplex.IsKFlat` and
+`CochainComplex.exists_quasiIso_isKFlat_moduleCat`, and [StacksMA] Lemma 15.73.1; §0.2 (module
 derived tensor, `hasLeftDerivedFunctor₂_tensor`); §1.1 (module limits for the nonperfect Check);
-Mathlib `ModuleCat`, Hom complexes, `DerivedCategory`, `Functor.IsLeftDerivedFunctor₂` and
-localization.
+Mathlib `ModuleCat`, Hom complexes `CochainComplex.linearHomComplex`, `DerivedCategory`,
+`Functor.IsLeftDerivedFunctor₂` and localization.
 
 *Lean:* `Suggested.lean` declares `nonempty_derivedTensorHomAdj`.
 
@@ -2403,8 +2449,8 @@ For a prime `p`, the multiplication-by-`p` tower has `H⁰(Rlim) = 0` and `H¹(R
 
 Layer 1, the Koszul complex of Layer 0, Tau Ceti's module towers, derived limit, derived Hom,
 K-flat complexes and `Tor` of flat modules, AlgebraicTopology Stage 6 item 0 for the homotopy-square maps, Mathlib
-derived categories, localization, `Tor`, flat base change, adic completeness, `p`-adic integers and
-commutative algebras, and Tau Ceti Artin–Rees for the Noetherian comparison.
+derived categories, localization, Hom complexes, `Tor`, flat base change, adic completeness, `p`-adic
+integers and commutative algebras, and Tau Ceti Artin–Rees for the Noetherian comparison.
 
 ## Layer 4: perfect complexes, finite models and effectivity
 
@@ -2412,7 +2458,13 @@ commutative algebras, and Tau Ceti Artin–Rees for the Noetherian comparison.
 
 **Perfect module complexes and finite models.** Define `DerivedDeRham.IsPerfect A K` by the
 existence of a bounded complex of finite projective left `A`-modules representing `K ∈ D(A)`,
-for every associative unital ring `A`. This is the single ordinary-module predicate.
+for every associative unital ring `A`. This is the roadmap's single ordinary-module predicate, the
+finite-projective notion of [StacksMA] Definition 15.76.1 (Tag 0657). Tau Ceti's
+`TauCeti.DerivedCategory.Bounded.perfect` (`TauCeti.Algebra.Homology.DerivedCategory.Singularity.Basic`)
+is a different class: the thick subcategory of the bounded derived category generated by all
+projective objects in degree zero, which `DerivedCategory.Bounded.perfect_iff`
+(`TauCeti.Algebra.Homology.DerivedCategory.Perfect`) identifies, in an abelian category with enough
+projectives, with the bounded complexes of projectives, with no finiteness.
 The elementary finite-model and closure API belongs here. Expose the same predicate under the
 perfect-complex namespace used by the trace consumer.
 
@@ -2453,6 +2505,10 @@ model `P` of `K`, whose termwise scalar extension `complexBaseChange f` of §0.2
 - Over any unital ring a finite projective left module in degree zero is perfect, as are its
   shifts and retracts. Over a commutative ring it has Tor amplitude `[0,0]`; its shift
   by `[1]` has amplitude `[−1,−1]`. The zero complex admits every Tor interval.
+- Finiteness of the terms is part of perfection: the free `ℤ`-module `⊕_ℕ ℤ` in degree zero is a
+  bounded complex of projectives, so it lies in the thick closure of all projective modules, but it
+  is not perfect. A bounded complex of finite projective modules over the Noetherian ring `ℤ` has
+  finitely generated `H⁰`, while here `H⁰ = ⊕_ℕ ℤ` is not finitely generated.
 - Over `A = k × k`, the summand `eA`, `e = (1,0)`, is perfect. It has no bounded finite-free
   representative: its Euler ranks on the two components differ. The bounded-above free resolution
   with differentials alternating `1−e` and `e` does represent it.
