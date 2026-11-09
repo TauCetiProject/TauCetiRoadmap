@@ -401,15 +401,25 @@ identifications, and define the **folded Ford region** F_K by the same hemispher
 inequalities with x ∈ Q_K.
 
 - Prove Swan's finite-sidedness: only finitely many primitive hemispheres contribute
-  faces over a translation cell, with an upper bound B_K on |c|² for these faces.
+  faces over a translation cell, with an upper bound B_K on |c|² for these faces
+  (Swan, Theorem 3.13 for the finiteness and §8 for an explicit bound; Elstrodt–Grunewald–Mennicke,
+  Chapter 7, Theorem 3.8; Rahm, thesis §1.1.1, Theorem 6, p.19). The bound is a theorem
+  about the floor, not a search limit: the explicit values of 9.4 are far below it.
 - Prove that F_K is a fundamental region up to its identified boundary: choose a
   maximum-height representative, then its representative in Q_K. Distinct interior
   representatives cannot be related by a non-cuspidal matrix (the hemisphere inequality
   would be strict in one direction) or by a cusp rotation. Singular boundary cusps
   account for the nonprincipal ideal classes; no union of copies of F̃_K removes rotations.
 - Prove finite volume, including neighborhoods of every cusp class, and generic
-  multiplicity w_K/2 for F̃_K relative to F_K. Use the face-pairing criterion for the
-  resulting sector and its paired faces (Swan, geometric construction, pp.1–77).
+  multiplicity w_K/2 for F̃_K relative to F_K. Use the Kleinian-groups roadmap's Layer 2
+  face-pairing criterion for the resulting sector and its paired faces, and prove Swan's
+  termination criterion: a finite family of primitive hemispheres whose translates cover the
+  translation cell apart from the singular points (every non-singular point lies strictly below
+  one of them) cuts out the whole floor exactly when no vertex of the polyhedron it bounds lies
+  strictly below a further primitive hemisphere (Swan, Proposition 8.4; Rahm, thesis §1.1.4,
+  Theorem 12, p.21; Aranés, thesis §3.2.4, Proposition 3.2.25, p.76). The covering hypothesis
+  is not idle: for `d = 19` the unit hemispheres alone bound a region without vertices, so the
+  vertex condition holds vacuously although the floor is not yet complete.
 
 The
 explicit hemisphere lists for the nine class-number-one fields are 9.4. For the projective image G of Γ₀(𝔫, 𝔞), put P = PSL₂(𝓞_K) and H = G ∩ P.
@@ -590,7 +600,7 @@ For `k ≥ 2` define the coefficient module `E_k := Sym^{k−2}(ℂ²) ⊗ conj(
 representation of `GL₂(K)` through `ι`, where `conj` is the representation twisted by complex
 conjugation, and `H¹(Γ, E_k)`, `H¹_cusp(Γ, E_k)` with the same kernel definition. `E_2 = ℂ` is the
 trivial representation and 1.1–1.2 are the case `k = 2`. Record dimensions with both the coefficient parameter and the group or total component space.
-use k for the cohomological parameter and m for the analytic parameter of
+Use k for the cohomological parameter and m for the analytic parameter of
 LMFDB knowl mf.bianchi.weight. The minimal SU₂-type is Sym^(2k−2), so m = 2k−2,
 its dimension is 2k−1, and dim E_k = (k−1)². A dimension table indexed by m is therefore
 read at k = (m+2)/2; the two indices coincide only at 2. The LMFDB table renderer reads the stored weight keys unchanged
@@ -1312,9 +1322,6 @@ with `L/M_𝔡 ≅ 𝓞_K/𝔡` (cyclic quotients have one submodule of each ind
 (Şengün §4, pp.11–12, restriction/conjugation/transfer; the intermediate-lattice
 formula is the specialization of ArithmeticLocallySymmetricSpaces ALS.3.14 to cyclic quotients).
 
-*Needs:* §0.2 level pairs; §1.6 coefficient maps; §2.6 metric; §3.3 equivariance;
-ArithmeticLocallySymmetricSpaces ALS.3.6 and ALS.3.14.
-
 - Every intermediate quotient has the required index, and each degeneracy map is equivariant with the stated Steinitz shift.
 - Pullback and trace are adjoint at weight two and commute with good-prime Hecke operators away from the raised level.
 
@@ -1323,6 +1330,9 @@ ArithmeticLocallySymmetricSpaces ALS.3.6 and ALS.3.14.
 - For 𝔢 = 𝓞_K, M_𝔢 = L and the degeneracy map forgets part of the level.
 - At a prime level raise, 𝔢 takes the two values 𝓞_K and 𝔭, giving two degeneracy maps.
 - For a cyclic quotient 𝓞_K/𝔭² the intermediate indices are 1, N𝔭, (N𝔭)²; using a noncyclic quotient would not give unique intermediate lattices.
+
+*Needs:* §0.2 level pairs; §1.6 coefficient maps; §2.6 metric; §3.3 equivariance;
+ArithmeticLocallySymmetricSpaces ALS.3.6 and ALS.3.14.
 
 ### 5.2 Old and new subspaces
 
@@ -2265,14 +2275,39 @@ explicit. Prove the
 `max_x min_{a ∈ 𝓞_K} |x − a|²`: `1/2, 1/3, 4/7, 3/4, 9/11` for `d = 1, 3, 7, 2, 11`, so the
 lowest floor heights squared are `1/2, 2/3, 3/7, 1/4, 2/11`. Record the boundary fact for `ℚ(√−11)`
 that the hemispheres `S_{2,d}` pass through the lowest vertices of the floor (height² `2/11` is
-attained by `|c|² = 4` at `x = 1/2 + i·10/(4√11)`) without contributing a face. For the
-non-Euclidean fields prove that hemispheres with `|c| > 1` carry faces: `|c|² = 4` for `d = 19`;
-`|c|² ∈ {4, 9}` for `d = 43`, where the hemispheres `S_{±4,d}` (`|c|² = 16`) touch the floor only
-at vertices and carry no face; `|c|² ∈ {4, 9, 16, 23}` for `d = 67`; `|c|² ∈ {4, 9, 16, 25, 36}`
-and more for `d = 163`; prove the resulting face incidences and fundamental-domain property
-(Swan, pp.1–77, geometric fundamental-domain construction). Finite geometric descriptions are mathematical targets, not an enumeration procedure.
+attained by `|c|² = 4` at `x = 1/2 + i·10/(4√11)`) without contributing a face. For the four
+non-Euclidean fields prove that the unit hemispheres no longer cover the translation cell, so that
+hemispheres with `|c| > 1` carry faces, determine the finite face list of each floor by the
+termination criterion of 0.3 (Swan, Proposition 8.4; Aranés, thesis §3.2.4, Proposition 3.2.25,
+p.76), and prove the resulting face incidences and the fundamental-domain property. The face
+lists are the Checks below: a hemisphere carries a face when the floor height at its centre is its
+own radius, and carries none when its height never exceeds the floor. Finite geometric
+descriptions are mathematical targets, not an enumeration procedure.
 
-*Needs:* §0.3 finite domains; KleinianGroups Layer 2 face-pairing criterion.
+**Checks.**
+
+- For every `d ≡ 3 (mod 4)` with `d ≥ 19`, the centre `−(1 + ω)/2 = (−3/4, −√d/4)` of
+  `S_{2,1+ω}` is at distance² `(1 + d)/16 > 1` from every element of `𝓞_K` (nearest `−1` and
+  `−ω`), so no unit hemisphere reaches it and the floor height² there is exactly `1/4`, carried by
+  `|c|² = 4`; a hemisphere with `|c|² ≥ 4` has height² at most `1/4`, with equality only at its own
+  centre. For `d = 19` the strongest competitor is `S_{ω,−3+ω}` (`|c|² = 5`) with height² `3/20`.
+- `d = 19`: the floor is carried by `|c|² ∈ {1, 4}` alone. The hemispheres with `|c|² = 5`
+  (`c = ω`) meet the floor only at vertices: their height minus the floor height has supremum `0`
+  over the cell. A list that includes `5` would predict a face of positive area.
+- `d = 43`: `|c|² = 9` carries a face, since at the centre `(−5/6, −√43/6)` of `S_{3,2+ω}` the
+  floor height² is `1/9` and the best competitor (`|c|² = 11`) gives `8/99`; the hemispheres with
+  `|c|² = 13` and `|c|² = 16` (among them `S_{±4,d}`) touch the floor only at vertices. The face
+  sizes are `{1, 4, 9}`.
+- `d = 67`: the face sizes are `{1, 4, 9, 16, 23}`. At the centre of `S_{4,2+ω}` the floor
+  height² is `1/16 = 0.0625` against a best competitor of `0.0493` (`|c|² = 19`); at the centre
+  of `S_{3−ω,5}` (`|c|² = 23`) it is `1/23 = 0.0435` against `0.0380` (`|c|² = 16`); the sizes
+  `17` and `19` (`c = ω`, `c = 1 + ω`) touch the floor only at vertices.
+- `d = 163`: `|c|² = 4, 9, 16, 25, 36` carry faces, at the centres of `S_{2,1+ω}`,
+  `S_{3,2+ω}`, `S_{4,2+ω}`, `S_{5,3+2ω}`, `S_{6,3+ω}`, where the floor heights² are
+  `1/4, 1/9, 1/16, 1/25, 1/36` and every competitor is below `0.022`; further sizes above `36`
+  carry faces as well, so a list stopping at `36` is incomplete.
+
+*Needs:* §0.3 finite domains and termination criterion; KleinianGroups Layer 2 face-pairing criterion.
 
 ### 9.5 The two consumed covolumes
 
@@ -2442,7 +2477,15 @@ labelling code; the index inside the label is not a target.
 - L. Bianchi, *Sui gruppi di sostituzioni lineari con coefficienti appartenenti a corpi quadratici
   immaginarî*, Math. Ann. 40 (1892), 332–412 — the fundamental domains of 9.4.
 - R. G. Swan, *Generators and relations for certain special linear groups*, Adv. Math. 6 (1971),
-  1–77 — the presentations of 0.6 and the termination of the hemisphere search in 9.4.
+  1–77 — the presentations of 0.6, the finiteness of the floor (Theorem 3.13), the bound on the
+  denominators (§8) and the termination criterion (Proposition 8.4) of 0.3 and 9.4; cited by its
+  numbered results, with the open restatements in the two theses below.
+- A. D. Rahm, *(Co)homologies and K-theory of Bianchi groups using computational geometric
+  models*, PhD thesis, Université de Grenoble and Universität Göttingen (2010), HAL tel-00526976 —
+  §1.1, the statements of Swan's finiteness theorem and termination criterion used in 0.3.
+- M. T. Aranés, *Modular symbols over number fields*, PhD thesis, Warwick (2010) — §3.2, the
+  finiteness of the floor, the enumeration of singular points and the termination criterion, with
+  Swan's numbering, used in 0.3 and 9.4.
 - J. E. Cremona, *Hyperbolic tessellations, modular symbols, and elliptic curves over complex
   quadratic fields*, Compositio Math. 51 (1984), 275–324 — the modular symbols of 9.1–9.2 for the
   five Euclidean fields, the `L`-ratio of 6.6, and the examples the LMFDB's tables grew out of.
