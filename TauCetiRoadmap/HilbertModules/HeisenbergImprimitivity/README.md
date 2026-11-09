@@ -235,7 +235,8 @@ actions and pairings on S(M), and proves positivity.
 Layer 4 completes S(M), proves fullness and Rieffel's imprimitivity theorem for lattices. Layer 5
 proves spectral invariance of the rapid twisted algebras, smooth finite frames, the trace formula
 and transport under changes of coordinates. Layer 6 computes the standard families and the two-torus
-dictionary.
+dictionary. HilbertModules H5 cites the θ≠0 Schwartz imprimitivity model of that dictionary as
+HeisenbergImprimitivity H6; under this roadmap's numbering it is §6.3.
 
 ## Layer 1: Phase space, the Schrödinger family and lattice geometry
 
