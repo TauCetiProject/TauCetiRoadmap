@@ -51,14 +51,24 @@ equivalent forms (AlgebraicKTheory 4.1), Bass's bound for commutative noetherian
 
 **Left to K3BlochGroups.** Group-module hyperhomology `H_*(G, C)` of a bounded-below complex of
 `G`-modules, with its filtration spectral sequence `E¹_(p,q) = H_q(G, C_p)` and its identification
-with `H_*(G, ℤ)` when `C` is an acyclic resolution (K3BlochGroups 4.1); the complex of independent
-frames over a field (K3BlochGroups 4.2); Suslin's stability for infinite fields,
-`generalLinear_homology_stable`, with the Milnor K-theory quotient `H_n(GL_n(F))/H_n(GL_(n−1)(F))`
-(K3BlochGroups 4.5–4.8); and stability for the symmetric groups, `symmetricGroup_homology_stable`:
-`H_i(Σ_n; ℤ) → H_i(Σ_(n+1); ℤ)` is bijective for `n ≥ 2i`, Nakaoka's range, with Kerz's complex of
-injective words (K3BlochGroups 4.0 and 4.15). Its `generalLinearStabilization` is the field case of
-`stabilization` here. Layer 2 consumes the hyperhomology of 4.1 and records the field and
-symmetric-group theorems among its Examples.
+with `H_*(G, ℤ)` when `C` is an acyclic resolution (K3BlochGroups 4.1); Suslin's stability for
+infinite fields, `generalLinear_homology_stable`, with the Milnor K-theory quotient
+`H_n(GL_n(F))/H_n(GL_(n−1)(F))` (K3BlochGroups 4.5–4.8); and stability for the symmetric groups,
+`symmetricGroup_homology_stable`: `H_i(Σ_n; ℤ) → H_i(Σ_(n+1); ℤ)` is bijective for `n ≥ 2i`,
+Nakaoka's range, with Kerz's complex of injective words (K3BlochGroups 4.0 and 4.15). Layer 2
+consumes the hyperhomology of 4.1 and records the field and symmetric-group theorems among its
+Examples. Neither theorem is a case of the statements here: over an infinite field the range of
+K3BlochGroups 4.8 is stronger than that of 2.3 and 2.5, and the spectral sequences of K3BlochGroups
+4.8 and 4.15 are not that of 2.2.
+
+**Owned here and cited by K3BlochGroups and SchemeKTheoryOperations.** The complex of unimodular
+frames over a commutative ring and its acyclicity (1.2–1.4) are the general statements of which
+the complex of independent frames over a field `F` is the field case: K3BlochGroups 4.2 at `m = 0`
+is the complex of 1.2 over `F` shifted up one degree, and its acyclicity there is the field case
+of 1.4. The stabilization `stabilization R n` of 2.4 over a commutative ring is the general map of
+which K3BlochGroups' `generalLinearStabilization` is the field case. The ring-level stability
+theorems 2.4 and 2.6 are those that SchemeKTheoryOperations §6.7 applies to the rings of sections
+of affine opens. Those roadmaps cite these targets and do not restate them.
 
 **Left to StableHomotopyKTheory and GeneralAlgebraicKTheory.** Classifying spaces and the comparison
 of their homology with group homology (StableHomotopyKTheory 1.30 and 1.32), the plus construction
@@ -140,8 +150,7 @@ colimits under `g ↦ diag(g, 1)`), 1.3 (`elementary_le_commutator`: `E_n(R)` is
 `hasStableRangeLE_one_of_isSemisimpleRing`).
 
 **From K3BlochGroups.** 4.1 (group-module hyperhomology and its spectral sequence
-`E¹_(p,q) = H_q(G, C_p)`, with the identification with `H_*(G, ℤ)` for acyclic `C`), 4.2 (the
-complex of independent frames over a field) for the Examples of Layer 1, 4.8
+`E¹_(p,q) = H_q(G, C_p)`, with the identification with `H_*(G, ℤ)` for acyclic `C`), 4.8
 (`generalLinear_homology_stable`) and 4.15 (`symmetricGroup_homology_stable`) for the Examples of
 Layer 2.
 
@@ -277,8 +286,9 @@ p. 23), so the bound of 1.4 is attained at `n = 2` for this ring.
 ### Examples
 
 - For a field the theorem says that the frames of `Fⁿ`, the ordered independent sequences, form
-  an `(n − 2)`-acyclic complex. K3BlochGroups 4.2 uses the related complex of sequences in
-  `Fⁿ ⊕ Fᵐ` whose projections to `Fⁿ` are independent.
+  an `(n − 2)`-acyclic complex. This is the case `m = 0` of K3BlochGroups 4.2, which cites 1.4 for
+  it and treats, for infinite `F`, the sequences in `Fⁿ ⊕ Fᵐ` whose projections to `Fⁿ` are
+  independent.
 - For a Dedekind domain (`d = 1`) the complex is `(n − 3)`-acyclic; for `ℤ` these are Maazen's
   complexes of partial bases of `ℤⁿ`.
 
@@ -559,10 +569,16 @@ Layers 1–2; AlgebraicKTheory 4.1–4.2. Within the layer, 3.2 uses 3.1 and 3.3
 
 ## Downstream consumers
 
-No roadmap on main or in the open pull requests cites HomologicalStabilityOfGeneralLinearGroups.
+- SchemeKTheoryOperations §6.7 consumes 2.4 and 2.6: the ring-level stability of
+  `H_*(GL_n(R); ℤ) → H_*(GL(R); ℤ)` for a commutative noetherian ring of bounded Krull dimension,
+  applied uniformly to the rings of sections of the affine opens of a noetherian scheme.
+- K3BlochGroups cites 1.4 and 2.4 for their field cases: the acyclicity of its §4.2 at `m = 0` is
+  the field case of 1.4, and its `generalLinearStabilization` is `stabilization` (2.4) over a
+  field. Its infinite-field range (§4.8) and the symmetric-group range (§4.15) are its own, and it
+  supplies the group-module hyperhomology of its §4.1 to 2.2 and 2.5.
+
 ArithmeticKTheory §3.2 states rank-filtration bounds for `GL_m` of rings of integers and says
-that they are not homological stability bounds; K3BlochGroups (Layer 4) proves the
-infinite-field and symmetric-group ranges it needs and is a supplier here, not a consumer.
+that they are not homological stability bounds; it cites no target here.
 
 ## Research context
 
