@@ -73,11 +73,17 @@ SchemeAndStackFoundations §1.1; its §§1.5, 1.13–1.15 supply quotient sheave
 group spaces and torsors. ModularCurves §0E supplies effective affine descent; the Weil
 restriction of the multiplicative group is Tau Ceti's (supplier contracts). This roadmap owns the comparisons
 with Hopf/points carriers and group-specific representability statements, not those
-foundations. Layers 3 and 4 own, over a field, the criterion that a homomorphism of affine
-group schemes of finite type is a monomorphism exactly when it is a closed immersion, the
-character-group comparison for diagonalizable groups and the anti-equivalence of groups of
-multiplicative type with Galois modules; Layer 9D owns their relative forms over an arbitrary
-affine base, groups of multiplicative type there included. The generic isometry subgroup is `TauCeti.BilinForm.isometryGroup`;
+foundations. Layers 3 and 4 own, over a field, four results. The first is the criterion that a
+homomorphism of affine group schemes of finite type is a monomorphism exactly when it is a
+closed immersion. The second is stability of diagonalizability under quotient groups, and the
+third the converse direction of Milne's Theorem 12.12. The fourth is the completion of the
+anti-equivalence of groups of multiplicative type with Galois modules: splitting over a finite
+separable extension, and the character functor as one equivalence over every field. The
+character-group comparison and exactness for diagonalizable groups, the definition of
+multiplicative type, and the morphism classification over perfect fields are pinned Tau Ceti
+(supplier contracts). So is the classification of groups split by a given finite Galois
+extension. Layer 9D owns the relative forms of these results over an arbitrary base, groups of
+multiplicative type there included. The generic isometry subgroup is `TauCeti.BilinForm.isometryGroup`;
 Layer 9A specializes it to the ADE lattice and constructs the new lift action.
 The generic finite-index induction dimension formula is `TauCeti.finrank_indFDRep`;
 Layer 7c uses its complex specialization.
@@ -105,8 +111,9 @@ finite-type and smoothness comparisons and the Yoneda description of the points 
 (Layer 0), the point-representation/comodule equivalence (Layer 1.1), the classification of
 closed subgroup schemes by Hopf ideals and the scheme kernel of a homomorphism (Layer 3), the
 Jordan decomposition of points over a perfect extension and the anti-equivalence of tori over a
-perfect field with Galois lattices (Layer 4), the centre, derived group, central isogenies and
-simply connected and adjoint predicates (Layer 6), the dynamic Levi quotient and the free action
+perfect field with Galois lattices, together with the diagonalizable and multiplicative-type
+results listed in the supplier contracts (Layer 4), the centre, derived group, central isogenies
+and simply connected and adjoint predicates (Layer 6), the dynamic Levi quotient and the free action
 of the dynamic unipotent subgroup on dynamic Levis (Layer 7), the fixed-lift lemma and the
 geometric-Frobenius description of rational points (Layer 7a), the signed ADE shell Lie
 algebras with their cover lifts, fixed bases and folded Serre frames (9A.1a–9A.1b), and the
@@ -427,6 +434,60 @@ prove them equivalent** rather than committing.
   under surjective morphisms of finite-type coordinate Hopf algebras over every
   field k, including every Hopf-ideal quotient. Contravariantly these are closed
   subgroups; they do not assert stability under quotient groups.
+- **Diagonalizable groups and groups of multiplicative type.** Under
+  `TauCeti/Algebra/AlgebraicGroup/`:
+  - `DiagonalizableGroup/CharacterLattice.lean` supplies
+    `TauCeti.DiagonalizableGroup.geometricCharacterGroupEquiv`, over a field `k`: the geometric
+    character group of `k[M]` is `M`. With it,
+    `TauCeti.DiagonalizableGroup.smul_geometricCharacterGroup_eq_self` makes the absolute Galois
+    action on it trivial.
+  - `DiagonalizableGroup/Exact.lean` supplies
+    `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom_iff`, over every nonzero
+    commutative ring `R`, for commutative groups that need not be finitely generated:
+    `D(N) → D(M) → D(L)` is short exact exactly when `1 → L → M → N → 1` is (Milne, Theorem
+    12.9(b), p. 233).
+  - `DiagonalizableGroup/Scheme/Basic.lean` supplies the functor `M ↦ D_R(M)` to group schemes
+    over `Spec R`. `TauCeti.DiagonalizableGroup.schemeFunctor_faithful` makes it faithful when
+    `R` is nonzero, and `TauCeti.DiagonalizableGroup.fullyFaithfulSchemeFunctor` makes it fully
+    faithful when `Spec R` is connected: `Hom(D_R(M), D_R(N)) = Hom(N, M)`.
+  - `TauCeti/Algebra/Coalgebra/Comodule/MonoidAlgebra/Basic.lean` supplies
+    `TauCeti.Comodule.isInternal_weightSpace`, over every commutative semiring: a comodule over
+    `R[M]` is the direct sum of its weight spaces. This is the implication from diagonalizable
+    to "every representation is a sum of characters" (Milne, Theorem 12.12, (a) ⇒ (b), p. 234).
+  - `MultiplicativeType/Basic.lean` supplies `TauCeti.multiplicativeTypeCommHopfAlgProperty`: a
+    finite-type commutative Hopf algebra over a field whose base change to an algebraic closure
+    is spanned by group-like elements (Milne, Definition 12.17, p. 236). With it,
+    `TauCeti.multiplicativeTypeCommHopfAlgProperty_iff_exists_iso_coordinateRing` makes that base
+    change some `k̄[M]`. `TauCeti/AlgebraicGeometry/AffineGroupScheme/MultiplicativeType.lean`
+    supplies the scheme form `TauCeti.multiplicativeTypeAffineGroupSchemeProperty`.
+  - For a group `H` of multiplicative type over a field `k`, three pinned results hold.
+    `TauCeti.multiplicativeTypeCommHopfAlgProperty.geometricCharacterMap_injective`
+    (`MultiplicativeType/Faithful.lean`, every field): a homomorphism into `H` from any affine
+    group is determined by its pullback on geometric characters.
+    `TauCeti.multiplicativeTypeCommHopfAlgProperty.existsUnique_geometricCharacterMap_eq`
+    (`MultiplicativeType/Character/Descent.lean`, `k` perfect): every Galois-equivariant map of
+    geometric characters comes from a unique such homomorphism.
+    `TauCeti.multiplicativeTypeCommHopfAlgProperty.exists_finiteDimensional_groupLikeSpanned_baseChange`
+    (`MultiplicativeType/Splitting.lean`): `H` splits over a finite extension of `k`, not
+    asserted separable. Separately,
+    `TauCeti.multiplicativeTypeCommHopfAlgProperty.linearlyReductive`
+    (`MultiplicativeType/LinearlyReductive.lean`) makes `H` linearly reductive.
+  - `GroupAlgebra/Galois/` treats a finite Galois extension `L/k` and a `Gal(L/k)`-module `M`,
+    with `k[M]^Γ` the invariants of the semilinear action on `L[M]`. Over every field, the
+    following are pinned.
+    `TauCeti.GaloisDescent.multiplicativeTypeCommHopfAlgProperty_descendedCoordinateRing`: for
+    finitely generated `M`, torsion included, `k[M]^Γ` is of multiplicative type.
+    `TauCeti.GaloisDescent.groupAlgebraInvariantsGeometricCharacterEquiv`: its geometric
+    characters are `M` with the given action.
+    `TauCeti.GaloisDescent.characterGroupAlgebraInvariantsEquiv`: a commutative Hopf algebra
+    split by `L` is `k[M]^Γ` for its own character module.
+    `Representation.groupAlgebraInvariantsBialgHomEquiv`: equivariant maps of exponent groups
+    correspond bijectively to Hopf maps of the descended algebras. Together these are Milne's
+    Theorem 12.23, p. 240, for groups split by a given finite Galois extension.
+  None of these modules proves that quotients of diagonalizable groups are diagonalizable, the
+  converse implication of Milne's Theorem 12.12, or that a group of multiplicative type splits
+  over a finite separable extension. They also do not package the character functor as one
+  equivalence over every field. These are Layer 4's targets.
 
 - **Cofree comodules.** `TauCeti/Algebra/Coalgebra/Comodule/Cofree.lean` supplies
   `TauCeti.Comodule.cofree`, `TauCeti.Comodule.Hom.cofreeUnit`,
@@ -1158,7 +1219,18 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   identity section are pinned (`TauCeti.CommHopfAlgCat.hopfIdealOrderIsoClosedSubgroup`,
   `TauCeti.CommHopfAlgCat.isPullback_kernelSpec`, supplier contracts) and consumed. Prove that a
   homomorphism of affine group schemes of finite type over a field is a monomorphism exactly
-  when it is a closed immersion (Milne, Theorem 5.34, p. 107).
+  when it is a closed immersion (Milne, Theorem 5.34, p. 107; for affine groups, Corollary 3.35,
+  p. 75). Route, for affine groups: factor `H → G` through its image, a closed subgroup, with
+  `H → image` faithfully flat (Theorem 3.34, p. 75). This needs that a finitely generated Hopf
+  algebra is faithfully flat over each Hopf subalgebra (Theorem 3.31, p. 73). A faithfully flat
+  homomorphism with trivial kernel is then an isomorphism, by faithfully flat descent of points.
+  This route needs no quotient `G/H` by a subgroup that is not normal. *Needs:* the pinned image
+  factorization `TauCeti.CommHopfAlgCat.image`, `TauCeti.CommHopfAlgCat.imageι`
+  (`HopfIdeal/Quotient/Image/Basic.lean`) and its faithful flatness for a geometrically reduced
+  source, `TauCeti.CommHopfAlgCat.faithfullyFlat_imageι` (`HopfIdeal/Quotient/Image/FaithfullyFlat.lean`).
+  The extension of that faithful flatness to nonreduced sources is part of this target. Also
+  needed are the pinned descent of points `TauCeti.AlgHom.faithfullyFlatDescentMulEquiv`
+  (`FaithfullyFlatDescent.lean`) and the scheme kernels of this section.
   Transport the native kernel–differential Lie equivalence through Layer 0's
   scheme/Hopf dictionary and Layer 2's tangent comparison: for a group morphism
   f:G→H, its inclusion Lie(ker f)→Lie(G) agrees with the inclusion ker(df)→Lie(G).
@@ -1576,22 +1648,68 @@ topological gluing, submersion normal form and the native analytic inverse funct
   to the regular representation of `G`. *Needs:* the pinned point Jordan decomposition; Layer 1's
   comodule dictionary and the regular representation; Mathlib's Jordan–Chevalley decomposition of
   a single endomorphism.
-- **Diagonalizable groups and groups of multiplicative type:** consume the native
-  scheme anti-equivalence specified in the supplier contract. Develop its character-group
-  comparison and exactness in both directions and stability of diagonalizability under quotient groups (Milne,
-  Theorems 12.8–12.9, p. 233); the equivalent conditions of Milne, Theorem 12.12, p. 234
-  (every representation is a sum of characters, equivalently `k[G]` is spanned by group-like
-  elements); `μ_n = D(ℤ/n)`, `𝔾_m = D(ℤ)`; the non-smooth example `μ_p` in characteristic `p`.
-  Groups of multiplicative type are those that become diagonalizable over `k̄`, classified
-  by finitely generated abelian groups with a continuous Galois action (Milne,
-  Theorem 12.23, p. 240). (*Cartier duality* proper is the duality of **finite locally free**
-  commutative group schemes, a related but distinct statement to develop separately.)
-  *Needs:* the native diagonalizable scheme equivalence; Layer 0's dictionary; Layer 1's comodules; Mathlib's group algebras and
-  `GroupLike`; the supplied closed-subgroup theorem.
-  **Check.** In characteristic p, the coordinate surjection
-  k[t,t⁻¹] → k[t]/(t^p−1) presents μ_p⊂𝔾_m. The target has group-like basis
-  1,t,…,t^(p−1) and length p, but only one geometric point; closed-subgroup
-  stability does not require reducedness.
+- **Diagonalizable groups and groups of multiplicative type.** The following are pinned and
+  consumed (supplier contracts), not restated: the scheme anti-equivalence and closed-subgroup
+  stability of diagonalizable groups; the character-group comparison
+  `TauCeti.DiagonalizableGroup.geometricCharacterGroupEquiv` with trivial Galois action; and
+  exactness in both directions, `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom_iff`
+  (Milne, Theorems 12.8–12.9(a)–(b), p. 233). Also pinned are the weight decomposition
+  `TauCeti.Comodule.isInternal_weightSpace` (Theorem 12.12, (a) ⇒ (b), p. 234) and the
+  definition `TauCeti.multiplicativeTypeCommHopfAlgProperty` of multiplicative type. For such
+  groups, faithfulness of the character functor over every field and fullness over a perfect
+  field are pinned, as is the classification of the groups split by a given finite Galois
+  extension (Milne, Theorem 12.23, p. 240, in that case). Four targets remain.
+  - Quotient groups of diagonalizable groups are diagonalizable (Milne, Theorem 12.9(c),
+    p. 233). The quotient map makes `O(Q)` a Hopf subalgebra of `k[M]`, and a subcoalgebra of a
+    coalgebra spanned by group-like elements is spanned by the group-like elements it contains.
+  - The converse direction of Milne, Theorem 12.12, pp. 234–235: if every finite-dimensional
+    representation of an affine group `G` over `k` is a sum of characters, then `O(G)` is
+    spanned by its group-like elements. Apply the hypothesis to the finite-dimensional
+    subcomodules of the regular representation; a vector spanning a `G`-stable line of `O(G)` is
+    a scalar multiple of a group-like element.
+  - Every group of multiplicative type over `k` splits over a finite separable extension of `k`
+    (Milne, Theorem 12.18, (a) ⇔ (d), p. 237, and Corollaries 12.19–12.20, p. 238). Route: start
+    from the pinned finite splitting field
+    `TauCeti.multiplicativeTypeCommHopfAlgProperty.exists_finiteDimensional_groupLikeSpanned_baseChange`.
+    Then descend the splitting along its purely inseparable part, since a group of
+    multiplicative type that splits over a purely inseparable extension is already split
+    (Corollary 12.20).
+  - The character functor `G ↦ X*(G)` is an anti-equivalence, over every field `k`, from groups
+    of multiplicative type to finitely generated abelian groups with a continuous action of
+    `Gal(k_s/k)`, and it matches short exact sequences (Milne, Theorem 12.23, p. 240). Route:
+    combine the separable splitting above with the pinned finite Galois descent of
+    `TauCeti/Algebra/AlgebraicGroup/GroupAlgebra/Galois/`. Over an imperfect field the descent
+    goes through `k_s`, not `k̄`, which is not Galois over `k`. This is why the pinned fullness
+    `TauCeti.multiplicativeTypeCommHopfAlgProperty.existsUnique_geometricCharacterMap_eq` assumes
+    `k` perfect.
+  (*Cartier duality* proper is the duality of **finite locally free** commutative group schemes,
+  a related but distinct statement to develop separately.) *Needs:* the pinned diagonalizable
+  and multiplicative-type theory and finite Galois descent (supplier contracts); Layer 0's
+  dictionary; Layer 1's comodules; Layer 3's quotient maps for the first target; Mathlib's group
+  algebras and `GroupLike`.
+  **Checks.**
+  - In characteristic `p`, the coordinate surjection `k[t,t⁻¹] → k[t]/(t^p−1)` presents
+    `μ_p ⊂ 𝔾_m`. The target has group-like basis `1, t, …, t^(p−1)` and length `p`, but only one
+    geometric point; closed-subgroup stability does not require reducedness.
+  - Quotients: in characteristic `p`, `μ_{p²}/μ_p` has coordinate ring the coinvariants `k[t^p]`,
+    spanned by the group-like elements `t^(pj)`. It is `μ_p = D(ℤ/p)`, whose character group
+    `pℤ/p²ℤ ≅ ℤ/p` is the subgroup of `X*(μ_{p²}) = ℤ/p²` killed by restriction to `μ_p`, as
+    exactness requires.
+  - Converse of 12.12, a non-example: for `𝔾_a`, the representation `a ↦ [[1,a],[0,1]]` has the
+    single stable line `⟨e₁⟩`, so it is not a sum of characters. Likewise the only group-like
+    element of `O(𝔾_a) = k[a]` is `1`, whose span `k` is not `k[a]`. Both conditions fail
+    together, as the equivalence requires.
+  - Separable splitting over an imperfect field: for `k = 𝔽₂(a)` and `b² + b = a`, the extension
+    `k(b)/k` is separable of degree 2. The norm-one torus of `k(b)/k` has `X* = ℤ` with the
+    nontrivial automorphism acting by `−1`, so it is not split over `k`. It stays nonsplit over
+    the purely inseparable `k(√a)`, by Corollary 12.20, and splits over `k(b)`. A splitting field
+    taken inside `k̄` with no separability control can be `k(b, √a)`, of degree 4; its separable
+    part `k(b)` is the one Galois descent uses.
+  - The anti-equivalence over `ℝ`: `μ₄` is diagonalizable, so `X*(μ₄) = ℤ/4` with trivial action.
+    The constant group `ℤ/4` is of multiplicative type with `X* = μ₄(ℂ) ≅ ℤ/4`, on which complex
+    conjugation acts by `−1`. They are not isomorphic over `ℝ`: `μ₄(ℝ) = {±1}` has two points
+    and the constant group has four. A functor to bare abelian groups, without the Galois
+    action, would identify them.
 - **Tori:** split and non-split; the **character lattice** `X*(T)` and **cocharacter
   lattice** `X_*(T)` with their perfect pairing `⟨χ, λ⟩`, defined by `χ ∘ λ : 𝔾_m → 𝔾_m`,
   `t ↦ t^⟨χ,λ⟩`: the input to root data. That `X*` and `X_*` are free of the same rank with the
@@ -1601,10 +1719,10 @@ topological gluing, submersion normal form and the native analytic inverse funct
   `TauCeti.TorusCommHopfAlgCat.finrank_cocharacterLattice_eq_characterLattice`,
   `TauCeti.TorusCommHopfAlgCat.characterLatticeFunctor_isEquivalence`, supplier contracts) and
   consumed. Prove that a torus is split exactly when its Galois action on `X*` is trivial, over
-  every field, and extend the anti-equivalence to groups of multiplicative type, torsion
-  included, over every field (Milne, Theorem 12.23, p. 240). *Needs:* the pinned torus
-  lattices and character-lattice equivalence; the diagonalizable-group dictionary above;
-  Mathlib's `RootPairing` vocabulary for the pairing.
+  every field. On tori, the anti-equivalence of the previous bullet over every field restricts
+  to the pinned perfect-field equivalence. *Needs:* the pinned torus lattices and
+  character-lattice equivalence; the anti-equivalence of the previous bullet; Mathlib's
+  `RootPairing` vocabulary for the pairing.
 
 ### Examples
 
@@ -1627,9 +1745,11 @@ topological gluing, submersion normal form and the native analytic inverse funct
 
 ### Dependencies
 
-Layers 0–1; Tau Ceti's point Jordan decomposition, torus lattices and character-lattice
-equivalence (supplier contracts); Mathlib's Jordan–Chevalley decomposition, group algebras and
-group-like elements; Mathlib's `RootPairing` vocabulary for the pairing.
+Layers 0–1 and Layer 3's quotient maps; Tau Ceti's point Jordan decomposition, torus lattices
+and character-lattice equivalence, diagonalizable and multiplicative-type theory and finite
+Galois descent of group algebras (supplier contracts); Mathlib's Jordan–Chevalley
+decomposition, group algebras and group-like elements; Mathlib's `RootPairing` vocabulary for
+the pairing.
 
 ## Layer 5: solvable and unipotent groups; the unipotent radical
 - **Unipotent groups** (correct, comodule definition): `G` is unipotent iff every nonzero
@@ -1820,9 +1940,13 @@ exponential of a nilpotent element; Tau Ceti's finite logarithm, exponential coo
   completely reducible, and averaging over the finite group `G/G°` lifts complete reducibility
   from `G°` to `G` in characteristic 0. The second target is Nagata's theorem: over an
   algebraically closed field of characteristic `p > 0`, a **smooth connected affine** group is
-  linearly reductive iff it is a torus (Milne, Remark 12.56, p. 249, which states it without
-  proof and attributes it to Nagata; Milne, Proposition 12.54, p. 248, proves only the commutative case, a commutative group being
-  linearly reductive iff it is of multiplicative type); its headline signature is `StructureAcceptance.linearlyReductive_iff_torus`,
+  linearly reductive iff it is a torus (Kohls, *A user friendly proof of Nagata's
+  characterization of linearly reductive groups in positive characteristics*, pp. 271–278, which
+  proves the smooth case). Milne, Remark 12.56, p. 249, states the theorem without proof and
+  attributes it to Nagata. Its 2017 printing reads "`G°` is a torus" for every affine group,
+  which `μ_p` refutes; the statement here assumes smoothness. Milne, Proposition 12.54, p. 248,
+  proves only the commutative case: a commutative group is linearly reductive iff it is of
+  multiplicative type. Its headline signature is `StructureAcceptance.linearlyReductive_iff_torus`,
   with the native `TauCeti.torusCommHopfAlgProperty`. Tori are linearly reductive
   (`TauCeti.torusCommHopfAlgProperty.linearlyReductive`) and the solvable case, a reduced
   connected group with solvable rational points over an algebraically closed field, is
@@ -3613,8 +3737,9 @@ and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂
   and of split simply connected or adjoint semisimple groups up to isomorphism (Milne,
   Theorem 23.58, p. 501); central isogenies and the isogeny theorem; Chevalley existence,
   realized by Layer 9's construction over `ℤ` (Milne, Theorem 23.74, p. 511). *Needs:*
-  Layer 7's root data; §§8.1–8.2's split data and pinnings; Layer 4's diagonalizable groups for the central
-  kernels; Layer 9's split models; Tau Ceti's `TauCeti.existsUnique_dynkinType`,
+  Layer 7's root data; §§8.1–8.2's split data and pinnings; for the central kernels `D_S(M)`, the
+  pinned `TauCeti.DiagonalizableGroup.groupScheme` and this layer's multiplicative-type theory
+  over `S` (below); Layer 9's split models; Tau Ceti's `TauCeti.existsUnique_dynkinType`,
   `TauCeti.HasCartanType.of_base` and `TauCeti.nonempty_equiv_of_hasCartanType` for the
   Dynkin classification.
 - **Relative reductive groups over an arbitrary affine base.** For `S=Spec R`, `R`
@@ -3647,19 +3772,43 @@ and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂
 
   The multiplicative-type theory over `S` is owned here. For a finitely generated abelian group
   `M`, `D_S(M) = Spec(R[M])` is the pinned `TauCeti.DiagonalizableGroup.groupScheme` (supplier
-  contracts), whose fibres over `S` are Layer 4's diagonalizable groups, and an `S`-group
-  is of multiplicative type when it is isomorphic to some `D_(S_i)(M_i)` on the members of an
-  fppf cover `{S_i}` of `S` (Conrad, Reductive Group Schemes, Definition B.1.1, p. 280). Prove
-  that a monomorphism from an `S`-group of multiplicative type to an affine `S`-group of finite
-  presentation is a closed immersion (Lemma B.1.3, p. 281), the relative form of Layer 3's
-  monomorphism criterion; that an fppf closed subgroup of an `S`-group of multiplicative type is
-  of multiplicative type (Corollary B.3.3, p. 290); and that `H ↦ Hom_(S-gp)(H, 𝔾_m)` is an
-  anti-equivalence from `S`-groups of multiplicative type to locally constant étale sheaves of
-  abelian groups on `S` with finitely generated geometric fibres, so that every such group splits
-  étale-locally on `S` (Proposition B.3.4, pp. 290–291). Over `S = Spec k` this anti-equivalence
-  is Layer 4's classification by Galois modules (Milne, Theorem 12.23, p. 240). It supplies the
-  centre of multiplicative type, the scheme of maximal tori, the étale-local splitting and the
-  descended character and cocharacter sheaves above.
+  contracts), whose fibres over `S` are Layer 4's diagonalizable groups. Three of its properties
+  are pinned and consumed, not restated. First, `M ↦ D_S(M)` is fully faithful over a connected
+  base, `TauCeti.DiagonalizableGroup.fullyFaithfulSchemeFunctor`, and faithful over every
+  nonempty one. Second, it is exact in both directions over every nonempty affine base,
+  `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom_iff`. Third, over a field `k`,
+  `D_k(M)` is of multiplicative type,
+  `TauCeti.DiagonalizableGroup.multiplicativeTypeAffineGroupSchemeProperty_groupScheme`. An
+  `S`-group is of multiplicative type when it is isomorphic to some `D_(S_i)(M_i)` on the members
+  of an fppf cover `{S_i}` of `S` (Conrad, Reductive Group Schemes, Definition B.1.1, p. 280).
+  Prove that over `S = Spec k` this is the pinned `TauCeti.multiplicativeTypeAffineGroupSchemeProperty`,
+  which asks for diagonalizability over `k̄`. A group split over `k̄` is split over a finite
+  extension, by the pinned
+  `TauCeti.multiplicativeTypeCommHopfAlgProperty.exists_finiteDimensional_groupLikeSpanned_baseChange`,
+  and a finite extension is an fppf cover of `Spec k`. Conversely, a nonempty fppf cover of
+  `Spec k` has a point whose residue field is finite over `k`, and that field embeds in `k̄`.
+  Prove that a monomorphism from an `S`-group of multiplicative type to an affine `S`-group of
+  finite presentation is a closed immersion (Lemma B.1.3, p. 281); this is the relative form of
+  Layer 3's monomorphism criterion. Prove that an fppf closed subgroup of an `S`-group of
+  multiplicative type is of multiplicative type (Corollary B.3.3, p. 290). Each proof reduces,
+  by limit arguments, to a noetherian and then local base (the proofs of Lemma B.1.3, p. 281,
+  and Corollary B.3.3, p. 290).
+
+  Define the locally constant abelian sheaves on the small étale site of `S` whose geometric
+  fibres are finitely generated abelian groups. This extends EtaleCohomologyFoundations F.0.1,
+  whose lisse sheaves have finite fibres, to lattice fibres. Prove that `H ↦ Hom_(S-gp)(H, 𝔾_m)`
+  is an anti-equivalence from `S`-groups of multiplicative type to these sheaves, so that every
+  such group splits étale-locally on `S` (Proposition B.3.4, pp. 290–291). Over `S = Spec k` this
+  anti-equivalence is Layer 4's classification by Galois modules (Milne, Theorem 12.23, p. 240).
+  Prove that over a normal scheme `S` every `S`-group of multiplicative type is isotrivial on
+  the members of a Zariski cover, and isotrivial when `S` is irreducible (Corollary B.3.6,
+  p. 293). So for irreducible normal `S` and a geometric point `s`, `H ↦ Hom_(S-gp)(H, 𝔾_m)_s` is
+  an anti-equivalence to discrete `π₁(S, s)`-modules that are finitely generated as abelian
+  groups. Here `π₁` is EtaleCohomologyFoundations F.0.2's étale fundamental group, and the
+  comparison extends its `VanishingCycles.lisseMonodromyEquiv` from finite to finitely generated
+  fibres for sheaves trivialized by a finite étale cover. This theory supplies the centre of
+  multiplicative type, the scheme of maximal tori, the étale-local splitting and the descended
+  character and cocharacter sheaves above.
 
   For each fixed split reductive model G₀ over S, construct its automorphism sheaf and its
   inner/outer and pinned-automorphism interfaces, and the actual `Isom(G₀,G)` torsor.
@@ -3675,7 +3824,13 @@ and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂
   Theorems 6.1.16–6.1.17, pp. 196–197, for the relative isogeny and isomorphism theorems.)
   *Needs:* Layer 0's dictionaries and base change; Layers 3–4 for the field-level
   comparisons; Layer 9's split integral models; SchemeAndStackFoundations §1.1,
-  §§1.13–1.15 and ModularCurves §0E.
+  §§1.13–1.15 and ModularCurves §0E. For the multiplicative-type theory over `S`: the pinned
+  `TauCeti.DiagonalizableGroup.groupScheme`, `TauCeti.DiagonalizableGroup.fullyFaithfulSchemeFunctor`,
+  `TauCeti.DiagonalizableGroup.isShortExact_mapDomainBialgHom_iff`,
+  `TauCeti.multiplicativeTypeAffineGroupSchemeProperty` and the finite splitting field of a group
+  of multiplicative type (supplier contracts); SchemeAndStackFoundations §0.9 for the reduction
+  to a noetherian base; EtaleCohomologyFoundations F.0.1 for étale module sheaves and their
+  stalks; and F.0.2 for the étale fundamental group and its monodromy equivalence.
 
 - **Pseudo-reductive basic theory over arbitrary fields.** For any field k, the basic theory
   is pinned and consumed (supplier contracts): the native k-unipotent radical with its
@@ -3758,11 +3913,17 @@ and Geck constructions, and its signed ADE shell Lie algebras and explicit `G₂
   `ℤ[s]/(s², 2s)`, which has `2`-torsion, so `H` is not flat over `ℤ`: its fibre over `ℚ` is
   trivial and its fibre over `𝔽₂` is `μ_2`. It is not of multiplicative type, and the fppf
   hypothesis of the subgroup statement excludes it.
+- Over the disconnected base `S = Spec(k × k)`, `D_S(ℤ)` is `𝔾_m` on each of the two points,
+  so its endomorphisms are the pairs `(t ↦ tᵃ, t ↦ tᵇ)`, a group `ℤ × ℤ`, while `End(ℤ) = ℤ`.
+  The functor `M ↦ D_S(M)` is faithful there but not full, which is why the pinned full
+  faithfulness assumes a connected base. Over the zero ring every `D_S(M)` is empty and the
+  functor is not faithful: `ℤ → ℤ`, `n ↦ 2n`, and the identity give the same map.
 
 ### Dependencies
 
-Layers 0, 3, 4, 5, 7, 8.1–8.2 and 9; Tau Ceti's Cartan–Killing classification and numbered root data (supplier contracts); SchemeAndStackFoundations §1.1 and
-§§1.13–1.15; ModularCurves §0E; Tau Ceti's pseudo-reductive theory and Weil restriction of
+Layers 0, 3, 4, 5, 7, 8.1–8.2 and 9; Tau Ceti's Cartan–Killing classification and numbered root data (supplier contracts); SchemeAndStackFoundations §§0.9, 1.1 and
+1.13–1.15; ModularCurves §0E; EtaleCohomologyFoundations F.0.1–F.0.2; Tau Ceti's diagonalizable
+group schemes and multiplicative-type theory, pseudo-reductive theory and Weil restriction of
 `𝔾_m` (supplier contracts).
 
 ## Layer 9E: Steinberg endomorphisms and extension of Layers 7a–7f
@@ -4247,9 +4408,11 @@ The source presentation is for finite real reflection groups; this layer uses
 its crystallographic subclass. A W-fixed central summand is a contractible factor.
 The headline `ReflectionArrangementAcceptance.nonempty_mulEquiv_artinGroup` states the existence of
 this isomorphism at the class of every regular point, on the standard-coordinate model: a finite
-reduced crystallographic root pairing `P` over `ℂ` on `ℂ^κ` with a base, the Weyl group
-`ReflectionArrangementAcceptance.corootReflectionGroup` generated by the coreflections
-`y ↦ y − ⟨α_i, y⟩ α_i^∨` of the coroot space, the complement
+reduced crystallographic root pairing `P` over `ℂ` on `ℂ^κ` with a base, Mathlib's Weyl group
+`P.weylGroup` acting on the coroot space through its opposite group (Mathlib's action of
+`(Aut P)ᵐᵒᵖ` on the coroot space, the action underlying `weylGroupCorootRep`), whose image in
+the linear automorphisms is the subgroup generated by the coreflections
+`y ↦ y − ⟨α_i, y⟩ α_i^∨` (the pinned `RootPairing.range_weylGroup_coweightHom`), the complement
 `ReflectionArrangementAcceptance.RegularCoroots` of the root hyperplanes there and its orbit space
 `ReflectionArrangementAcceptance.RegularOrbits` with the quotient topology. Such a `P` is the
 complexification of its rational form on the spans of its roots and coroots, since the rational
@@ -4259,14 +4422,17 @@ realization to this model. The generator characterization and basepoint transpor
 further targets of this section.
 
 **API.**
-- `ReflectionArrangementAcceptance.corootReflectionGroup` acts on
+- The action of `P.weylGroup.op` on the coroot space preserves
   `ReflectionArrangementAcceptance.RegularCoroots`: for every root `α_j` and coreflection
   `s_i^∨`, `⟨α_j, s_i^∨ y⟩ = ⟨s_i α_j, y⟩`, and `s_i α_j` is again a root, so the coreflections
-  permute the nonvanishing conditions.
-- For finite `ι`, a finite crystallographic pairing over `ℂ`, the group is finite: it permutes
-  the finite set of coroots, fixes pointwise the subspace on which every root vanishes, and the
-  coroot space is the direct sum of that subspace and the span of the coroots; it is the image of
-  the Weyl group under the native coroot representation.
+  permute the nonvanishing conditions. That the image of the Weyl group in the linear
+  automorphisms of the coroot space is the subgroup generated by the coreflections is the
+  pinned `RootPairing.range_weylGroup_coweightHom` and is not a target.
+- For finite `ι`, a finite crystallographic pairing over `ℂ`, the Weyl group is finite: it
+  permutes the finite set of coroots, fixes pointwise the subspace on which every root vanishes,
+  and the coroot space is the direct sum of that subspace and the span of the coroots. The
+  pinned `RootPairing.finite_weylGroup_of_span_eq_top` (Tau Ceti) assumes that the roots span,
+  which this model does not.
 - The action on `ReflectionArrangementAcceptance.RegularCoroots` is free: only the identity
   fixes a point at which no root vanishes.
 - The orbit map from `ReflectionArrangementAcceptance.RegularCoroots` to
@@ -4281,8 +4447,9 @@ further targets of this section.
   `ℂ ∖ {0}`; the orbit space is homeomorphic to `ℂ ∖ {0}` by `z ↦ z²`; and its fundamental group
   is `ℤ`, the Artin group of the `1 × 1` Coxeter matrix. Quotienting all of `ℂ` instead of the
   complement gives `ℂ/{±1} ≅ ℂ`, which is simply connected.
-- No roots (`ι` empty): the regular coroots are all of `ℂ^κ`, the group is the closure of the
-  empty set, hence trivial, and the orbit space is `ℂ^κ`; both fundamental groups are trivial.
+- No roots (`ι` empty): the regular coroots are all of `ℂ^κ`, the Weyl group is generated by
+  the empty family of reflections, hence trivial, and the orbit space is `ℂ^κ`; both fundamental
+  groups are trivial.
 - Type `A₁ × A₁` on `ℂ²` with the dot product, roots `±2e₁`, `±2e₂` and coroots `±e₁`, `±e₂`:
   the regular coroots are `(ℂ*)²`, the group is the sign-change group `(ℤ/2)²`, the orbit space is
   homeomorphic to `(ℂ*)²` by squaring both coordinates, and the fundamental group is `ℤ²`, the
@@ -4581,6 +4748,9 @@ for IntegralHeckeAndGaloisDeterminants §0.7.
   (Levi subgroups), p. 238.
 - G. J. McNinch, [*Levi decompositions of a linear algebraic group*](https://arxiv.org/abs/1007.2777),
   arXiv:1007.2777v1 (2010), §3.1, p. 6; (3.2.1), p. 7; §§2.2–2.3, 3.1, 4.1, 4.3–4.5 and 5.1–5.2.
+- M. Kohls, *A user friendly proof of Nagata's characterization of linearly reductive groups in
+  positive characteristics*, Linear Multilinear Algebra 59 (2011), 271–278,
+  doi:10.1080/03081080903402939 (Nagata's theorem for smooth groups; cited by its locator).
 - J. S. Birman and T. E. Brendle, [*Braids: a survey*](https://arxiv.org/abs/math/0409205),
   arXiv math/0409205v2, §§1.1–1.2, pp. 4–5, and p. 69.
 - R. H. Fox and L. Neuwirth, *The braid groups*, Math. Scand. 10 (1962), 119–126; E. Fadell
@@ -4603,7 +4773,10 @@ for IntegralHeckeAndGaloisDeterminants §0.7.
   Enseign. Math. 58 (2012), 61–97, Proposition 3.1 and its proof, p. 4 (page numbers of the
   author's version).
 - B. Conrad, [*Reductive Group Schemes*](https://math.stanford.edu/~conrad/papers/luminysga3.pdf),
-  Theorems 5.1.13 and 6.1.16–6.1.17, pp. 143–145 and 196–197;
+  Definition 3.1.1, p. 81; Theorem 3.3.4, p. 98; Theorem 4.1.7, p. 112; Definition 5.1.1,
+  p. 136; Theorem 5.1.13, pp. 143–145; Definition 6.1.1 and Remark 6.1.2, pp. 186–187;
+  Theorems 6.1.16–6.1.17, pp. 196–197; Appendix B: Definition B.1.1, p. 280, Lemma B.1.3,
+  p. 281, Corollary B.3.3, p. 290, Proposition B.3.4, pp. 290–291, and Corollary B.3.6, p. 293;
   **SGA3**, Exposé XIX.
 - B. Conrad, O. Gabber, G. Prasad, *Pseudo-reductive Groups*, 2nd ed., Definition 1.1.1 and
   Proposition 1.1.9 (the `k`-unipotent radical and separable extensions).
