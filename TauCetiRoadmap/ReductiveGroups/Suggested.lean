@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.Algebra.AlgebraicGroup.SpecialLinear.Basic
 import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
 import TauCeti.Algebra.AlgebraicGroup.Unipotent.Radical.Construction
@@ -40,10 +39,9 @@ algebraically closed field, for every finite-type affine group, its Bruhat decom
 split reductive group over an arbitrary field in Tits-system form, and its Levi decomposition of a
 parabolic subgroup of a connected reductive group over an arbitrary field, in the same
 coinvariant form as Layer 6A's; Layer 7a's Lang surjectivity for smooth geometrically connected
-groups over finite fields; the SL coordinate presentation of the worked examples; Layer 11A's
-plane-configuration fundamental-group/braid-group equivalence, sending half-twist loops to the
-standard generators, and permutation-map nonsplitting; and Layer 11B's finite Weyl-arrangement
-theorem, on the orbit space of the root-hyperplane complement under the Weyl group, with the
+groups over finite fields; Layer 11A's plane-configuration fundamental-group/braid-group
+equivalence, sending half-twist loops to the standard generators; and Layer 11B's finite
+Weyl-arrangement theorem, on the orbit space of the root-hyperplane complement under the Weyl group, with the
 three definitions it needs.
 
 Proved in the pinned Tau Ceti, hence consumed and not restated: Layer 3's representability of
@@ -162,8 +160,8 @@ theorem linearlyReductive_iff_reductive_identityComponent {k : Type v} [Field k]
 
 /-- Nagata's theorem. Over an algebraically closed field of characteristic `p > 0`, a smooth
 connected affine group of finite type is linearly reductive exactly when it is a torus (Milne,
-Algebraic Groups, Proposition 12.54 and Remark 12.56, pp. 248–249). Smoothness is needed: `μ_p`
-is linearly reductive and connected but not a torus. -/
+Algebraic Groups (2017), Remark 12.56, p. 249, which states the theorem without proof and
+attributes it to Nagata; Proposition 12.54, p. 248, proves the commutative case). Smoothness is needed: `μ_p` is linearly reductive and connected but not a torus. -/
 theorem linearlyReductive_iff_torus {k : Type v} [Field k] [IsAlgClosed k]
     (p : ℕ) [Fact p.Prime] [CharP k p]
     (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
@@ -281,30 +279,6 @@ theorem lang_surjective {k : Type v} [Field k] [Finite k]
   sorry
 
 end StructureAcceptance
-
-/-! ## Layer 9: the special linear coordinate presentation -/
-
-namespace SpecialLinearAcceptance
-
-/-- The integral generic determinant minus one, including the empty determinant at rank zero. -/
-noncomputable def determinantRelation (n : ℕ) : MvPolynomial (Fin n × Fin n) ℤ :=
-  Matrix.det (fun i j => MvPolynomial.X (i, j)) - 1
-
-/-- The native determinant-kernel Hopf algebra has the polynomial presentation of SL,
-with its matrix coordinates identified in both directions. -/
-theorem exists_coordinatePresentation (n : ℕ) :
-    ∃ e : TauCeti.SpecialLinear.coordinateHopfAlgebra ℤ n ≃ₐ[ℤ]
-      (MvPolynomial (Fin n × Fin n) ℤ) ⧸ Ideal.span {determinantRelation n},
-      (∀ i j, e ((TauCeti.SpecialLinear.coordinateMap ℤ n).hom
-          (TauCeti.GeneralLinear.genericMatrix ℤ n i j)) =
-        Ideal.Quotient.mk (Ideal.span {determinantRelation n}) (MvPolynomial.X (i, j))) ∧
-      (∀ i j, e.symm
-          (Ideal.Quotient.mk (Ideal.span {determinantRelation n}) (MvPolynomial.X (i, j))) =
-        (TauCeti.SpecialLinear.coordinateMap ℤ n).hom
-          (TauCeti.GeneralLinear.genericMatrix ℤ n i j)) := by
-  sorry
-
-end SpecialLinearAcceptance
 
 /-! ## Layer 11: plane configurations and braid groups -/
 
@@ -463,13 +437,6 @@ theorem plane_braid (n : ℕ) :
           TauCeti.BraidGroup.sigma i := by
   sorry
 
-/-- For at least two strands, the braid permutation map has no homomorphic section:
-a lifted transposition would have exponent sum both zero and odd. -/
-theorem permutation_nonsplit (n : ℕ) (hn : 2 ≤ n) :
-    ¬ ∃ s : Equiv.Perm (Fin n) →* TauCeti.BraidGroup n,
-      (TauCeti.BraidGroup.permHom n).comp s = MonoidHom.id _ := by
-  sorry
-
 end PlaneBraidAcceptance
 
 /-! ## Layer 11B: the finite Weyl-arrangement theorem -/
@@ -496,8 +463,10 @@ abbrev RegularOrbits {ι κ : Type*} (P : RootPairing ι ℂ (κ → ℂ) (κ �
 /-- Brieskorn's theorem for finite Weyl arrangements. For a finite reduced crystallographic root
 pairing `P` on `ℂ^κ` with a base `b`, the fundamental group of the orbit space under the Weyl
 group of the complement of the root hyperplanes in the coroot space, at the class of any regular
-point, is the Artin group of the Coxeter matrix of `b` (Brieskorn, Sur les groupes de tresses,
-Séminaire Bourbaki exposé 401, Proposition 1, p. 25, for finite real reflection groups). On the
+point, is the Artin group of the Coxeter matrix of `b` (Brieskorn, Die Fundamentalgruppe des
+Raumes der regulären Orbits einer endlichen komplexen Spiegelungsgruppe, Invent. Math. 12 (1971),
+Satz, p. 57, for finite real reflection groups, restated in Sur les groupes de tresses, Séminaire
+Bourbaki exposé 401, Proposition 1, p. 25). On the
 spans of its roots and coroots `P` is the complexification of its rational form, and the
 subspace on which every root vanishes is a contractible factor fixed by the Weyl group. For the
 root pairing `±2`, `±1` on `ℂ` the orbit space is `ℂ*/±1 ≅ ℂ*` and both groups are `ℤ`; with no
