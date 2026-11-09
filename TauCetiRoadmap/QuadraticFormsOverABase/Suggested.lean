@@ -36,6 +36,8 @@ Headline theorems stated here:
 
 Not stated here, for lack of the carrier at the pins:
 
+* README 0.2, `mapCoeffs (algebraMap K L) Q = extendScalars Q L`, lacking
+  QuadraticFormInvariantsPartII's `extendScalars` (§0.2).
 * README 2.1, smoothness as ordinarity for `n ≥ 1`, lacking LefschetzPencilsAndVanishingCycles'
   ordinary quadratic forms (§2.1).
 * README 3.1, the comparison with OrthogonalTamagawaAndLatticeMass' `O(q)` over a perfect field

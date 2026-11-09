@@ -38,8 +38,9 @@ quadratic algebras over `R`, or about binary forms of formal degree `n` over `R`
 
 - coefficient and polar matrices, and base change of forms along an arbitrary ring map by
   coefficients, the coordinate form on `Fin n → R` of the coefficientwise scalar extension that
-  LefschetzPencilsAndVanishingCycles §2.1 uses in a local basis, with its comparison with Mathlib's
-  `QuadraticForm.baseChange` when `2` is invertible (Layer 0);
+  LefschetzPencilsAndVanishingCycles §2.1 uses in a local basis, with its comparisons with
+  QuadraticFormInvariantsPartII §0.2's `extendScalars` (from a field to an algebra over it) and with
+  Mathlib's `QuadraticForm.baseChange` when `2` is invertible (Layer 0);
 - the universal discriminant and half-discriminant, and the hafnian congruence in even rank
   (Layer 1);
 - smoothness of a form on `Fin n → R`, the coordinate carrier of LefschetzPencilsAndVanishingCycles
@@ -54,10 +55,15 @@ quadratic algebras over `R`, or about binary forms of formal degree `n` over `R`
 - the resultant identity of a binary form at formal degree (Layer 6).
 
 Base change along an arbitrary ring map (0.2), the universal half-discriminant with its
-transformation rules (1.1–1.3), the unit criteria for smoothness over an arbitrary base (2.2), the
-Azumaya criterion for `C₀(Q)` in odd rank (4.1) and the resultant identity (6.1) are the general
-statements here; the roadmaps that state their cases over a field, over `ℤ` or in rank three cite
-them (Downstream consumers).
+transformation rules (1.1–1.3), the odd-rank unit criterion for smoothness (2.2, Conrad 2014,
+Proposition C.1.4 (3)) and the Azumaya criterion for `C₀(Q)` in odd rank (4.1) are the general
+statements here. The even-rank criterion of 2.2 is the form on `Fin n → R` of
+LefschetzPencilsAndVanishingCycles §2.2's equivalence of ordinarity with bijectivity of the polar
+map. ArithmeticStatisticsPartII §1.3's division-free ternary `4 Det`, with its law
+`4 Det(Q ∘ Mᵀ) = (det M)² 4 Det Q`, is `δ'` at `n = 3` (Voight 2011, (3.2)) with the rule of 1.3,
+and QuadraticFormInvariants Layer 5's central simplicity of `CliffordAlgebra.even q` for a regular
+form of odd dimension at least `3` over a field in which `2` is invertible is the field case of
+4.1, since there `δ'(q) ≠ 0` is regularity (`det polarMatrix q = 2 δ'(q)`, 1.2).
 
 **Supplied at the pins.** Mathlib's `QuadraticForm`, `QuadraticMap.toBilin`, `polarBilin`,
 `radical`, `QuadraticMap.Nondegenerate`, isometries, `CliffordAlgebra.even`, `IsAzumaya`,
@@ -76,15 +82,17 @@ consumed by name; no second carrier is built.
 
 - Quadratic forms over fields in which `2` is invertible (Witt rings, Hasse and Clifford
   invariants, Stiefel–Whitney classes) are QuadraticFormInvariants'; nonsingular and quasilinear
-  forms over fields of characteristic two, with their Witt groups, are
-  QuadraticFormInvariantsPartII's.
+  forms over fields of characteristic two, with their Witt groups, and the coordinate scalar
+  extension `extendScalars` from a field, are QuadraticFormInvariantsPartII's (§0.2 for
+  `extendScalars`).
 - Ordinary quadratic forms on locally free modules of positive rank over any base, their base
   change and fibre criterion, their comparison with Mathlib's `QuadraticMap.Nondegenerate` over a
   field, and their étale-local normal form are LefschetzPencilsAndVanishingCycles §2.1's. The
   centre of the even Clifford algebra of an ordinary form of positive even rank, finite étale of
   rank two, with `C₀(Q)` Azumaya over it, is its §2.2's (`evenClifford_center_etale_azumaya`). The
-  polar criteria for ordinarity that §§2.1–2.2 state (over a field, and in even rank over a base)
-  are proved here, in 2.2, on `Fin n → R`, to which they reduce Zariski-locally.
+  polar criteria for ordinarity, over a field (§2.1) and, in positive even rank, the bijectivity
+  of the polar map over a base (§2.2), are its; 2.2 compares its two unit criteria with them on
+  `Fin n → R`.
 - Lifting of isometries of nonsingular quadratic forms along an ideal for which the ring is
   complete and separated, without dividing by `2`, is GeometryOfNumbersAndQuadraticArithmeticPartII
   §2.3's; 3.3 uses it at a square-zero ideal.
@@ -121,8 +129,9 @@ consumed by name; no second carrier is built.
   `2 Q(eᵢ)` on the diagonal: `!![2a, b; b, 2c]` for the binary `q` above, of determinant
   `4ac − b²`.
 - **Base change.** `mapCoeffs f Q` applies `f : R →+* S` to the coefficient matrix. Mathlib's
-  `QuadraticForm.baseChange` needs `Invertible (2 : R)`; `mapCoeffs` goes along any ring map with
-  no hypothesis on `2`, and 0.2 compares the two.
+  `QuadraticForm.baseChange` needs `Invertible (2 : R)`, and QuadraticFormInvariantsPartII's
+  `extendScalars Q L` goes from a field `K` to a `K`-algebra `L`; `mapCoeffs` goes along any ring
+  map with no hypothesis on `2`, and 0.2 compares it with both.
 - **Universal ring.** `ℤ[U] = MvPolynomial (Fin n × Fin n) ℤ`, `U = (Uᵢⱼ)`; a polynomial in the
   `Uᵢⱼ` is evaluated at a form through its coefficient matrix (`evalMatrix (coeffMatrix Q)`).
   Using all `n²` entries rather than the `n(n+1)/2` coefficients `i ≤ j` changes nothing: the
@@ -246,6 +255,9 @@ nonsingular quadratic forms on finite projective modules along an ideal for whic
 complete and separated, read for a commutative ring with `α = id` and `u = 1`, consumed in 3.3 at
 a square-zero ideal.
 
+**From QuadraticFormInvariantsPartII.** §0.2: `extendScalars`, the coordinate scalar extension
+from a field, consumed in the comparison of 0.2.
+
 **From HyperellipticCurves.** §0.1: `formDiscr`, the discriminant of a binary form at formal
 degree, consumed in 6.1.
 
@@ -305,15 +317,21 @@ that `mapCoeffs (RingHom.id R) Q = Q` and that
 `coeffMatrix (mapCoeffs f Q) = (coeffMatrix Q).map f`: `mapCoeffs f Q` is
 `x ↦ ∑ᵢ f(Q(eᵢ)) xᵢ² + ∑_{i<j} f(polar Q eᵢ eⱼ) xᵢ xⱼ`, the coefficientwise scalar extension in
 the standard basis that LefschetzPencilsAndVanishingCycles §2.1 uses in a local basis of a locally
-free module. Prove `mapCoeffs_eq_baseChange`: when `Invertible (2 : R)` and `A` is an
-`R`-algebra, `mapCoeffs (algebraMap R A) Q` is
+free module. Prove the comparison with QuadraticFormInvariantsPartII §0.2: for a field `K` and a
+commutative `K`-algebra `L`, `mapCoeffs (algebraMap K L) Q = extendScalars Q L`, both sides being
+`x ↦ ∑ᵢ Q(eᵢ) xᵢ² + ∑_{i<j} polar Q eᵢ eⱼ xᵢ xⱼ` with the coefficients mapped into `L`. Prove
+`mapCoeffs_eq_baseChange`: when `Invertible (2 : R)` and `A` is an `R`-algebra,
+`mapCoeffs (algebraMap R A) Q` is
 `(Q.baseChange A).comp (TensorProduct.piScalarRight R A A (Fin n)).symm.toLinearMap`. Route: both
 sides take the same values at the `eᵢ` and the same polar values at the pairs `(eᵢ, eⱼ)`
-(`QuadraticForm.baseChange_tmul`). No source is named for these coordinate identities; the routes
-are their proofs.
+(`QuadraticForm.baseChange_tmul`). For a field `K` this also follows from the comparison and
+QuadraticFormInvariantsPartII §0.2's identification of `extendScalars` with
+`QuadraticForm.baseChange`; `mapCoeffs_eq_baseChange` is its form over a ring. No source is
+named for these coordinate identities; the routes are their proofs.
 
 *Needs:* 0.1; Mathlib `Matrix.toLinearMap₂'`, `QuadraticForm.baseChange`,
-`QuadraticForm.baseChange_tmul`, `TensorProduct.piScalarRight`.
+`QuadraticForm.baseChange_tmul`, `TensorProduct.piScalarRight`; QuadraticFormInvariantsPartII
+§0.2 (`extendScalars`).
 
 **Checks.**
 
@@ -326,6 +344,8 @@ are their proofs.
   `t e₀` to `t²`.
 - At `[1, a] = x² + x y + a y²` and any `f : R →+* S`, `mapCoeffs f` gives `x² + x y + f(a) y²`,
   not `x² + f(a) y²`, which is what a definition dropping the off-diagonal coefficient would give.
+- The comparison at `[1, a]` over a field `K`: `mapCoeffs (algebraMap K L)` and `extendScalars · L`
+  both give `x² + x y + a y²` over `L`.
 
 ### Examples
 
@@ -335,7 +355,7 @@ are their proofs.
 ### Dependencies
 
 Mathlib `QuadraticMap.toBilin`, `polarBilin`, `LinearMap.toMatrix₂'`, `Matrix.toLinearMap₂'`,
-`QuadraticForm.baseChange`, `TensorProduct.piScalarRight`.
+`QuadraticForm.baseChange`, `TensorProduct.piScalarRight`; QuadraticFormInvariantsPartII §0.2.
 
 ## Layer 1: discriminants
 
@@ -955,26 +975,9 @@ HyperellipticCurves §0.1; Mathlib `Polynomial.resultant`, `Polynomial.discr`; T
 
 ## Downstream consumers
 
-- LefschetzPencilsAndVanishingCycles §§2.1–2.2: the polar criteria for ordinarity, over a field
-  (§2.1) and, in positive even rank, the bijectivity of the polar map over a base (§2.2), cite 2.2
-  for their proof on `Fin n → R`, to which a locally free module reduces Zariski-locally.
-- QuadraticFormInvariantsPartII §0.2: `extendScalars Q L`, for a field `K` and a `K`-algebra `L`,
-  is `mapCoeffs (algebraMap K L) Q` on `Fin n → K`, both being the coordinate polynomial with the
-  coefficients mapped into `L`; it cites 0.2. Its §0.1 comparison of nonsingularity with
-  `QuadraticMap.Nondegenerate` in even dimension is the field case of 2.1–2.2.
-- ArithmeticStatisticsPartII §1.3 (`4 Det Q` of an integer-valued ternary form and its rule
-  `4 Det(Q ∘ Mᵀ) = (det M)² 4 Det Q`) and ArithmeticStatisticsPartIII §2.8 (the integral
-  determinant `Counting.ternaryDet4`) are `δ'` at `n = 3`, Voight's polynomial of 1.1, with the
-  rules of 1.3; they cite 1.1–1.3.
-- ArithmeticStatisticsPartI §0.22: the fixed-degree binary discriminant in pencil coordinates,
-  identified with the signed resultant quotient `Res(F, F′)/a₀`, cites 6.1 (its `a₀` is the
-  coefficient of `xⁿ`, the `aₙ` of 6.1).
-- QuadraticFormInvariants Layer 5 (for a regular form of odd dimension over a field of
-  characteristic `≠ 2`, `CliffordAlgebra.even q` is central simple) and SpinRepresentations
-  Layer 1 (in odd dimension `2l + 1` over an algebraically closed field of characteristic `≠ 2`,
-  the even subalgebra is a single matrix algebra of size `2^l`) are field cases of 4.1 in
-  dimension at least `3`, where `δ'(q) ≠ 0` is regularity since `det polarMatrix q = 2 δ'(q)`;
-  dimension `1` is `C₀ = K`. They cite 4.1.
+- ArithmeticStatisticsPartIII §2.8 defines `Counting.ternaryDet4` as the value of
+  `univHalfDisc 3` (1.1) at the coefficient matrix, and uses `halfDisc_mapCoeffs` and
+  `halfDisc_comp` (1.3) for its compatibility with ring maps and its factor `det(δ)²`.
 
 ## Research context
 
