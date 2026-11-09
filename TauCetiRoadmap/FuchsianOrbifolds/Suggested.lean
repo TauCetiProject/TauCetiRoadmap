@@ -56,7 +56,8 @@ open scoped MatrixGroups UpperHalfPlane Manifold Real
 of Tau Ceti's Poincaré metric `TauCeti.UpperHalfPlane.poincareRiemannianMetric`, the Euclidean
 tensor divided by `(Im z)²`: for all `z w : ℍ`, `edist z w` is the infimum of the Poincaré lengths
 of the `C¹` paths from `z` to `w`. The vertical segment realises it on a vertical pair, and the
-isometric `PSL(2, ℝ)` action moves every pair to a vertical one (Katok, §1.2). -/
+`PSL(2, ℝ)` action, which preserves both distances, moves every pair to a vertical one (Katok,
+§1.2). -/
 theorem isRiemannianManifold_upperHalfPlane : IsRiemannianManifold 𝓘(ℝ, ℂ) ℍ := by
   sorry
 

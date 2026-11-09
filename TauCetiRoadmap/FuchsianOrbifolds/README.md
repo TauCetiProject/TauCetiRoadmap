@@ -430,11 +430,14 @@ The development starts from the following material.
      space `ℍ` satisfies Mathlib's `IsRiemannianManifold 𝓘(ℝ, ℂ) ℍ` for the Poincaré metric, that is,
      the Riemannian distance of the Poincaré metric is Mathlib's `dist`. Route: a vertical segment
      from `iy₁` to `iy₂` has length `|log(y₂/y₁)|`, every curve joining them is at least as long
-     because `|d log y| ≤ ds`, the `PSL(2,ℝ)` action, by Riemannian isometries (a) and by isometries
-     of `dist` (`IsIsometricSMul PSL(2, ℝ) ℍ`), moves an arbitrary pair to a vertical pair, and the
-     resulting `arcosh(1 + ((x − x′)² + (y − y′)²)/(2yy′))` agrees with `UpperHalfPlane.dist_eq`,
-     including the coincident-point case (Katok, §1.2).
-     *Needs:* (a); Tau Ceti `IsIsometricSMul PSL(2, ℝ) ℍ`; Mathlib `UpperHalfPlane.dist_eq`,
+     because `|d log y| ≤ ds`, the `PSL(2,ℝ)` action moves an arbitrary pair to a vertical pair
+     without changing either distance (the Riemannian distance because its elements are the
+     Riemannian isometries of (a) and Tau Ceti's `TauCeti.RiemannianIsometry.riemannianEDist_eq`
+     preserves it under any Riemannian isometry, Mathlib's `dist` by `IsIsometricSMul PSL(2, ℝ) ℍ`),
+     and the resulting `arcosh(1 + ((x − x′)² + (y − y′)²)/(2yy′))` agrees with
+     `UpperHalfPlane.dist_eq`, including the coincident-point case (Katok, §1.2).
+     *Needs:* (a); Tau Ceti `IsIsometricSMul PSL(2, ℝ) ℍ`,
+     `TauCeti.RiemannianIsometry.riemannianEDist_eq`; Mathlib `UpperHalfPlane.dist_eq`,
      `IsRiemannianManifold`.
    - **(c) The half-space model.** Prove that `x + iy ↦ (x, y)` is a Riemannian isometry
      `TauCeti.RiemannianIsometry 𝓘(ℝ, ℂ) 𝓘(ℝ, WithLp 2 (ℝ × ℝ)) ℍ (TauCeti.UpperHalfSpace ℝ)` onto
@@ -774,10 +777,12 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    **Checks.**
    - The cell count `(n, k, V, c) ↦ V + c + 1 − (n − k)/2` on `PSL(2,ℤ)`: the standard triangle
      with vertices `ρ`, `ρ + 1`, `∞`, its arc self-paired by `z ↦ −1/z`, is `(3, 1, 1, 1)` and gives
-     `2`; the same region with the arc split at `i` into two paired sides is `(4, 0, 2, 1)` and gives
-     `2` again, genus `0`. Leaving the midpoints of the self-paired sides out of the vertices, the
-     count `V + c + 1 − (n + k)/2`, gives `1` on the first polygon and `2` on the second, so it is
-     not an invariant of `X(Γ)`.
+     `2`, genus `0`, which is `χ(X(1)) = 2` (`TauCeti.ModularGroup.eulerChar_compactifiedQuotient`).
+     Leaving the midpoints of the self-paired sides out of the vertices, the count
+     `V + c + 1 − (n + k)/2`, gives `1` on this polygon, not `χ(X(1))`. Splitting the arc at `i` into
+     two sides paired by `z ↦ −1/z` does not give a convex `4`-gon in the sense of Tau Ceti's
+     `TauCeti.UpperHalfPlane.ConvexPolygon`: the vertex `ρ + 1` lies on the unit circle, the geodesic
+     through `ρ` and `i`, not strictly to its left, so that region is outside the cell count.
    - The image of `Γ(2)`, on the ideal quadrilateral with vertices `−1`, `0`, `1`, `∞`: `(4, 0, 0, 3)`
      gives `2`, genus `0`; leaving the cusps out of the vertices gives `0 + 1 − 2 = −1`, an odd
      value that no closed orientable surface has.
