@@ -67,7 +67,12 @@ Riemannian manifolds, and the pointwise curvature operator on bivectors with its
 symmetry, Rayleigh quotients and isometry naturality (R1); the regularity,
 fixed-chart formula and reparametrization law of covariant differentiation along
 curves (R2) and the commutation of mixed covariant derivatives up to curvature on a
-parametrized surface (R3); smoothness of geodesics
+parametrized surface (R3); the Banach-valued weak derivative on an interval, its
+characterization as a constant plus the primitive of the weak derivative, its continuous
+and absolutely continuous representative with the fundamental theorem of calculus, the
+fundamental theorem of calculus for absolutely continuous curves in finite dimension,
+their composition with C¹ maps, and the smoothness of the exponential map on its open
+domain in the tangent bundle (R3.1); smoothness of geodesics
 of a smooth metric up to the ends of their parameter sets, the Jacobi predicate
 with uniqueness from initial data, the Wronskian, the constant-curvature
 solutions, the absence of endpoint-zero Jacobi fields under nonpositive sectional
@@ -420,6 +425,38 @@ a parametrized surface f(q,r) and a field W along it whose lift
 metric or torsion hypothesis; the derivatives are taken along the full parameter lines,
 not within a parameter set.
 
+For the H¹ paths of R3.1, in `TauCeti/Analysis/Sobolev/WeakDeriv/`, for u,u′:ℝ→F with F
+a real normed space and a≤b: `TauCeti.HasWeakLineDerivOn` (`Basic.lean`), taken for
+Lebesgue measure, the open set (a,b) and the direction 1, says that F is complete, that
+u and u′ are locally integrable on (a,b) and that `∫φ′u=−∫φu′` for every smooth φ with
+compact support in (a,b); `TauCeti.hasWeakLineDerivOn_Ioo_iff_exists_ae_eq_add_intervalIntegral`
+(`Interval.lean`), for F complete, u′ locally integrable on (a,b) and t₀∈(a,b), u′ is
+the weak derivative of u on (a,b) exactly when u is almost everywhere on (a,b) a
+constant plus t↦∫_(t₀)^t u′; and, for u′ integrable on (a,b),
+`TauCeti.HasWeakLineDerivOn.exists_continuousOn_ae_eq`, u has a representative v
+continuous on [a,b], `TauCeti.HasWeakLineDerivOn.integral_eq_sub`, every such
+representative satisfies `∫_s^t u′=v(t)−v(s)` for s,t∈[a,b], and
+`TauCeti.HasWeakLineDerivOn.absolutelyContinuousOnInterval` and
+`TauCeti.HasWeakLineDerivOn.ae_hasDerivAt`, every such representative is absolutely
+continuous on [a,b] with classical derivative u′(t) at almost every t∈(a,b]. In
+`TauCeti/MeasureTheory/Integral/IntervalIntegral/AbsolutelyContinuousFun.lean`, for a
+curve γ absolutely continuous on [a,b] in a finite-dimensional real normed space with
+derivative V(t) at almost every t∈(a,b]:
+`AbsolutelyContinuousOnInterval.intervalIntegrable_of_ae_hasDerivAt`, V is integrable on
+[a,b], and `AbsolutelyContinuousOnInterval.integral_eq_sub_of_ae_hasDerivAt`,
+`∫_a^b V=γ(b)−γ(a)`. Applied on the subintervals [t₀,t] (Mathlib's
+`AbsolutelyContinuousOnInterval.mono`) and combined with the preceding equivalence, they
+make V the weak derivative of γ on (a,b). `AbsolutelyContinuousOnInterval.comp_of_contDiffAt`
+(`TauCeti/MeasureTheory/Function/AbsolutelyContinuous/Comp.lean`): for a curve γ
+absolutely continuous on [a,b] in a real normed space and a map φ into a real normed
+space that is C¹ at every point of γ([a,b]), φ∘γ is absolutely continuous on [a,b]. In
+`TauCeti/Geometry/Manifold/Riemannian/Geodesic/Exponential.lean`, for a smooth
+boundaryless Hausdorff manifold modelled on a finite-dimensional real normed space with
+a smooth Riemannian metric: `TauCeti.Manifold.isOpen_setOfPred_mem_expDomain`, the
+tangent vectors z∈T_xM lying in `expDomain` at x form an open subset of TM, and
+`TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle`, z↦exp_x(z) is C^∞ on that
+subset.
+
 For §2.2, in `TauCeti/Geometry/Manifold/Riemannian/Geodesic/Normal/Coordinates.lean`,
 for a normal domain U at p: `TauCeti.Manifold.normalCoordinateField`, the field X_w
 whose value at exp_p(v) is d(exp_p)_v(w), the coordinate field ∂_i when w=e_i;
@@ -670,8 +707,9 @@ The following contracts specify each supplier and section consumed.
   real de Rham Hodge theorem and harmonic representatives. This roadmap owns
   curvature identities and their geometric consequences, not another Hodge or
   bundle L² construction. [PDE](../PDE/README.md) supplies scalar weak-derivative,
-  extension and elliptic estimates through K5a. R3 owns the vector-valued
-  interval weak-derivative/absolutely-continuous comparison needed for paths. K7.1 supplies
+  extension and elliptic estimates through K5a. The vector-valued
+  interval weak-derivative/absolutely-continuous comparison needed for paths is Tau
+  Ceti's (Tau Ceti contract, R3.1 paragraph). K7.1 supplies
   the smooth complex projective carrier used by R1.
 - [PseudodifferentialOperators](../PseudodifferentialOperators/README.md), P1.0:
   smooth section differential operators with their order filtration, finite jets
@@ -688,9 +726,7 @@ The following contracts specify each supplier and section consumed.
   D:E→F case from the composition and adjoint symbol formulas. R5b's normal
   Jacobi operator and R7's geometric operators are P1.0 differential operators.
 - [PDE A1–A6, D16–D19, E20–E22](../PDE/README.md): Sobolev, trace and
-  energy/interior estimates for R5b's normal-Jacobi Dirichlet specialization;
-  §1.1 (A1), the absolutely continuous representative of an interval Sobolev class
-  with its endpoint fundamental theorem of calculus, for R3.1's H¹ paths.
+  energy/interior estimates for R5b's normal-Jacobi Dirichlet specialization.
   R5b constructs its boundary H² estimate and exact operator domain; these are
   not supplied by closed-manifold K5a or PDE E's interior regularity theorem.
   The abstract coercive-form solution operator, its compactness, symmetry,
@@ -1529,14 +1565,23 @@ subdivisions); finite-dimensional bilinear-form inertia. R6's mixed-endpoint for
 ### R3.1. H¹ paths and the speed topology
 
 Define the H¹ path carrier using continuous curves whose readings on a finite
-coordinate subdivision have weak first derivatives in L². Pin its topology by
-local exponential charts along reference smooth paths, with section norm
-`(∫(|V|²+|D_tV|²))^(1/2)`; prove chart/subdivision independence, the
-one-dimensional Sobolev chain rule, continuity into the compact-open carrier,
-and relative smooth density. Piecewise C¹ paths have the induced H¹ topology.
-Construct the finite-dimensional vector-valued interval weak derivative
-coordinatewise from PDE's scalar theory, prove equivalence with absolute
-continuity and the integral of the derivative, and prove energy is continuous.
+coordinate subdivision have weak first derivatives in L². The weak derivative of a
+coordinate reading, valued in a finite-dimensional real space, is Tau Ceti's
+`TauCeti.HasWeakLineDerivOn` on the open subinterval; an L² weak derivative on a
+bounded interval is integrable, so the reading has a continuous representative that
+is absolutely continuous with the fundamental theorem of calculus and classical
+derivative equal to the weak one almost everywhere, and conversely an absolutely
+continuous reading has its almost-everywhere derivative as weak derivative (Tau Ceti
+contract, R3.1 paragraph). Pin its topology by local exponential charts
+V↦(t↦exp_(γ(t))V(t)) along reference smooth paths γ, built from the exponential
+map, which is smooth on an open domain in the tangent bundle containing the zero
+section (Tau Ceti contract), with section norm `(∫(|V|²+|D_tV|²))^(1/2)`; prove
+chart/subdivision independence, the one-dimensional Sobolev chain rule (a change of
+chart φ that is C¹ near the compact image keeps an absolutely continuous reading u
+absolutely continuous, with derivative Dφ(u)u′ almost everywhere, and Dφ is bounded
+on that image, so the derivative stays in L²), continuity into the compact-open
+carrier, and relative smooth density. Piecewise C¹ paths have the induced H¹
+topology. Prove energy is continuous.
 For every absolutely continuous finite-energy
 curve on [a,b], prove Cauchy–Schwarz
 `Length(γ)²≤2(b−a)Energy(γ)` and its restriction to each subinterval.
@@ -1569,12 +1614,28 @@ completeness of this particular metric in constructing the Hilbert charts.
   speed norm 1 and uniform norm 1/(2n). Their mutual speed-metric
   distances tend to zero, but their distances to the zero path tend to 1,
   demonstrating the stated incompleteness.
+- The Cantor function c on [0,1], read as a path in ℝ, is continuous and monotone
+  with total variation 1, and has classical derivative 0 almost everywhere. A
+  carrier defined by an almost-everywhere classical derivative in L² would admit it
+  with energy 0, and the Cauchy–Schwarz inequality for its length, the total
+  variation 1, would read 1≤0. It has no integrable weak derivative: such a
+  derivative would equal the classical derivative 0 almost everywhere, and the
+  fundamental theorem of calculus would give c(1)−c(0)=0, not 1. So c is not an
+  H¹ path.
 
-*Needs:* PDE §1.1 (A1: the absolutely continuous representative of a
-`W^(1,p)(a,b)` class, the endpoint fundamental theorem of calculus and integration
-by parts; the one-dimensional embedding `|u(y)−u(x)|≤|y−x|^(1/2)‖u′‖_(L²(a,b))`
-follows from the first two by Cauchy–Schwarz); Tau Ceti
-`CovariantDerivative.eventuallyEq_sectionCoord_alongCurveWithin` (fixed-chart
+*Needs:* Tau Ceti `TauCeti.HasWeakLineDerivOn`,
+`TauCeti.hasWeakLineDerivOn_Ioo_iff_exists_ae_eq_add_intervalIntegral`,
+`TauCeti.HasWeakLineDerivOn.exists_continuousOn_ae_eq`,
+`TauCeti.HasWeakLineDerivOn.integral_eq_sub`,
+`TauCeti.HasWeakLineDerivOn.absolutelyContinuousOnInterval` and
+`TauCeti.HasWeakLineDerivOn.ae_hasDerivAt` (interval weak derivatives, the continuous
+representative and its fundamental theorem of calculus; the one-dimensional embedding
+`|u(y)−u(x)|≤|y−x|^(1/2)‖u′‖_(L²(a,b))` follows from that theorem by Cauchy–Schwarz),
+`AbsolutelyContinuousOnInterval.integral_eq_sub_of_ae_hasDerivAt` (the converse for
+absolutely continuous readings) and `AbsolutelyContinuousOnInterval.comp_of_contDiffAt`
+(chart changes); Tau Ceti `TauCeti.Manifold.isOpen_setOfPred_mem_expDomain` and
+`TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle` (exponential charts);
+Tau Ceti `CovariantDerivative.eventuallyEq_sectionCoord_alongCurveWithin` (fixed-chart
 formula for D_t, used for the chart section norm) and
 `CovariantDerivative.contMDiffOn_alongCurveWithin` (along-curve regularity),
 supplier contract; R3 first variation and compact-interval section spaces.
@@ -1883,7 +1944,8 @@ SmoothBundlesConnections B6.0. Its CW/path comparisons use MorseTheory M1–M5,
 GeometricTopology smooth triangulation, AlgebraicTopology Stages 4 and 8,
 CharacteristicClasses C2.0 and DGFloer Layer 1 item 2. The topology comparison
 uses the pinned compact-generation results and AlgebraicTopology §8.11a. R3.1's
-H¹ paths use PDE §1.1 (A1) and Tau Ceti's along-curve regularity and fixed-chart
+H¹ paths use Tau Ceti's interval weak derivatives, absolutely continuous curves,
+smooth exponential map on the tangent bundle, along-curve regularity and fixed-chart
 formula.
 
 ## Layer 4: comparison and geodesic multiplicity
