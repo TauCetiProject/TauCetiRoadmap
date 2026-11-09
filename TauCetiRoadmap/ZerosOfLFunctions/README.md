@@ -483,8 +483,8 @@ This additive form composes over products.
 ### 1.3a Bounds on vertical lines
 
 For `0 < Re s`, `‖Γ(s)‖ ≤ Real.Gamma (Re s)`: on each vertical line in the right half-plane, `‖Γ‖`
-is largest on the real axis. In particular `‖Γ(s)‖ ≤ 1` for `1 ≤ Re s ≤ 2`. Both bounds hold at
-every height, where 1.3 is asymptotic.
+is largest on the real axis (DLMF 5.6.6). In particular `‖Γ(s)‖ ≤ 1` for `1 ≤ Re s ≤ 2`. Both
+bounds hold at every height, where 1.3 is asymptotic.
 
 Route: for `0 < Re s`, `Complex.Gamma_eq_integral` writes `Γ(s)` as Euler's integral
 `∫_0^∞ x^{s−1} e^{−x} dx`, and `‖x^{s−1}‖ = x^{Re s − 1}` for `x > 0`
@@ -547,15 +547,19 @@ factors analytic and nonzero there (`differentiableAt_riemannZeta`,
 **General records.** For a record with `HasMeromorphicContinuation` and `HasFunctionalEquation`, at
 every `s`, `logDeriv Λ =ᶠ[𝓝[≠] s] fun z ↦ −logDeriv d.dual.completed (1 − z)`: the root number is
 nonzero (`norm_rootNumber`) and cancels. The equality holds at `s` itself when `Λ` is analytic at
-`s` and `d.dual.completed` at `1 − s`. Route: `hasFunctionalEquation_eventuallyEq` and Mathlib's
-`logDeriv_congr_nhdsNE`. With `completedDedekindZeta_one_sub` it gives the reflection
-`Λ_K'/Λ_K(s) = −Λ_K'/Λ_K(1 − s)` used in 8.4.
+`s` and `d.dual.completed` at `1 − s`. Route: Tau Ceti's
+`TauCeti.LFunctions.AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq`, the equation
+`Λ(z) = ε Λ_dual(1 − z)` as punctured germs at every point, and Mathlib's `logDeriv_congr_nhdsNE`.
+With `completedDedekindZeta_one_sub` it gives the reflection `Λ_K'/Λ_K(s) = −Λ_K'/Λ_K(1 − s)` used
+in 8.4.
 
 *Needs:* 1.4; Mathlib `Complex.Gamma_conj`, `Complex.Gammaℝ_conj`, `Complex.Gammaℂ_conj`,
 `deriv_conj_conj`, `logDeriv_riemannZeta_one_sub`, `completedRiemannZeta_one_sub`,
-`riemannZeta_def_of_ne_zero`, `Complex.digamma_one_sub`, `Complex.digamma_two_mul`; L-functions
-Layer 0 `hasFunctionalEquation_eventuallyEq`, `HasFunctionalEquation.norm_rootNumber`, Layer 3
-`completedDedekindZeta_one_sub`.
+`riemannZeta_def_of_ne_zero`, `Complex.digamma_one_sub`, `Complex.digamma_two_mul`,
+`logDeriv_congr_nhdsNE`; Tau Ceti
+`TauCeti.LFunctions.AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq` and
+`HasFunctionalEquation.norm_rootNumber` (L-functions Layer 0,
+`NumberTheory/LFunctions/Data/Basic.lean`); L-functions Layer 3 `completedDedekindZeta_one_sub`.
 
 **Checks.**
 
@@ -928,7 +932,12 @@ From `AnalyticOnNhd.sum_divisor_le`: for `0 < r < R`, `f` analytic on `closedBal
 `f c ≠ 0` and `‖f‖ ≤ M` on `sphere c R` with `1 ≤ M`, the number of zeros in `closedBall c r` is at
 most `log (M/‖f c‖)/log (R/r)`. **Trailing-coefficient form**: if instead `f` has finite central
 order `m` and trailing coefficient `a = meromorphicTrailingCoeffAt f c`, the count is at most
-`m + (log (M/‖a‖) − m log R)/log (R/r)`, by applying the first form to `f(z)/(z − c)^m`.
+`m + (log (M/‖a‖) − m log R)/log (R/r)`, for every bound `M` on the sphere, with no lower bound on
+`M`. Route: `g(z) = f(z)/(z − c)^m`, extended by `g(c) = a ≠ 0`, is analytic on `closedBall c R`,
+has the zeros of `f` off `c`, and satisfies `‖g‖ ≤ M/R^m` on `sphere c R`; apply the first form
+with bound `1` to `(R^m/M) g`, whose zeros are those of `g`. The scalar is positive: `M > 0`,
+since otherwise `f` vanishes on the sphere and hence, by the maximum principle, on the whole ball,
+against the finiteness of `m`. Applying the first form to `g` itself would need `1 ≤ M/R^m`.
 
 *Needs:* Mathlib `AnalyticOnNhd.sum_divisor_le`, `meromorphicTrailingCoeffAt`.
 
@@ -937,6 +946,10 @@ order `m` and trailing coefficient `a = meromorphicTrailingCoeffAt f c`, the cou
 - `f z = z`, `c = 0`, `r = 1/4`, `R = 1/2`, `M = 1`: the count is `1` and the trailing form gives
   `1 + (0 + log 2)/log 2 = 2`, while replacing `‖f c‖` by `‖a‖` in the first form gives
   `log (M/‖a‖)/log (R/r) = 0`, which is false.
+- `f z = z/10`, `c = 0`, `r = 1`, `R = 2`, `M = 1`: the quotient `g = 1/10` has sphere bound
+  `M/R = 1/2 < 1`, so the first form does not apply to `g` unscaled, while `(R/M) g = 1/5` has bound
+  `1` and at most `log 5/log 2 ≈ 2.32` zeros in `closedBall 0 1` (it has none). The trailing form
+  gives `1 + (log 10 − log 2)/log 2 ≈ 3.32` against the true count `1`.
 - `f z = 1 − z/2` with `c = 0`, `r = 1`, `R = 3/2` and `M = 2` (the maximum on `sphere 0 (3/2)` is
   `7/4`): its only zero is at `2`, the count in `closedBall 0 1` is `0`, and the bound
   `log 2/log (3/2) ≈ 1.71` is consistent.
@@ -1101,6 +1114,11 @@ For `Λ₀ = entireCompletion d` of one of the two families:
 - the number of zeros with `|Im ρ − T| ≤ 1` is `O(log analyticConductorAt d (iT))`, re-proved from
   the partial-fraction expansion.
 
+At `K = ℚ` the second clause is Davenport §12 (for `ξ(s)` and `ξ(s, χ)`) and the third is
+Davenport §§15–16. For `ζ_K` the second clause enters 6.4 through the real-part partial-fraction
+formula for `−ζ'_K/ζ_K` recalled in Kadiri §2.1.2. For the two families the three clauses are
+assembled here from 5.5, 3.1 and 4.4, as 6.4 is.
+
 *Needs:* 5.5, 3.1, 4.4; L-functions Layers 3 and 5.
 
 ### 5.6a Ordinate summability of the zeros
@@ -1118,14 +1136,15 @@ the trivial character this is `riemannZeta_zeros_summable_ordinate`, over the ze
 
 Route: on `Re s > 1` the Euler product does not vanish (L-functions Layers 3 and 5) and the gamma
 factor has neither zeros nor poles (1.5), so `Λ₀(s) ≠ 0`; the germ functional equation
-`hasFunctionalEquation_eventuallyEq` against the dual record, which lies in the same family, carries
+`HasFunctionalEquation.eventuallyEq` against the dual record, which lies in the same family, carries
 this to `Re s < 0`. Next, `s ↦ Λ₀(s + 2)` is entire with `OrderLE _ 1`, since the bound
 `exp(C(1 + ‖s‖) log(2 + ‖s‖))` of 3.1 survives the translation with a larger `C`, and it is nonzero
 at `0`; so 5.3 gives `∑_ρ m_ρ ‖ρ − 2‖^{−2} < ∞`. For `0 ≤ Re ρ ≤ 1`,
 `‖ρ − 2‖² ≤ 4 + (Im ρ)² ≤ 4(1 + (Im ρ)²)`, and comparison (`Summable.of_nonneg_of_le`) concludes.
 
-*Needs:* 5.3, 3.1, 1.5, 4.2; Layer 0 *entireCompletion*; L-functions Layers 0, 3 and 5
-(`hasFunctionalEquation_eventuallyEq`, the Euler products).
+*Needs:* 5.3, 3.1, 1.5, 4.2; Layer 0 *entireCompletion*; Tau Ceti
+`TauCeti.LFunctions.AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq` (L-functions Layer 0,
+`NumberTheory/LFunctions/Data/Basic.lean`); L-functions Layers 3 and 5 (the Euler products).
 
 **Checks.**
 
@@ -1501,11 +1520,32 @@ With `ψ_K(x) = ∑_{𝔑𝔞 ≤ x} Λ_K(𝔞)` (`TauCeti.IdealArithmeticFuncti
 ```
 
 `m_ρ = (divisor Λ_K univ ρ).toNat`, the constant depending on `K`. With the signed divisor the poles
-at `0` and `1` would be subtracted a second time. At `K = ℚ` it is
-`chebyshevPsi_explicitFormula` (Davenport §17), where `T ≤ x` absorbs the near-prime-power term.
+at `0` and `1` would be subtracted a second time. The formula is assembled here from 8.1 and 8.2:
+its main terms are the residues of 8.2, the trivial zeros at the negative even integers, each of
+order `r₁ + r₂`, giving `∑_{j ≥ 1} (r₁ + r₂) x^(−2j)/(2j) = −((r₁ + r₂)/2) log(1 − x^(−2))` and
+those at the negative odd integers, each of order `r₂`, giving
+`∑_{m odd} r₂ x^(−m)/m = (r₂/2) log((x + 1)/(x − 1))`; its error is the truncation error of 8.1
+together with the horizontal edges of 8.2. At `K = ℚ` it is `chebyshevPsi_explicitFormula`
+(Davenport §17), where `T ≤ x` absorbs the near-prime-power term.
 
 *Needs:* 8.2; Arithmetic Dirichlet Series §2.3 `IdealArithmeticFunction.vonMangoldt`; L-functions Layer 8
 `dedekindZeta_logDeriv_eq`.
+
+**Checks.**
+
+- `K = ℚ`: `r₁ = 1` and `r₂ = 0`, so the `log x` term vanishes,
+  `c_ℚ = −ζ'(0)/ζ(0) = −log 2π ≈ −1.8379` from `ζ(0) = −1/2` and `ζ'(0) = −(log 2π)/2`, and the
+  trivial-zero term is `−½ log(1 − x^(−2))`: the formula of `chebyshevPsi_explicitFormula`. The
+  opposite sign `c_ℚ = log 2π` disagrees with Davenport §17.
+- `K = ℚ(√5)`: `r₁ = 2`, `r₂ = 0`, and `ζ_K(0) = ζ(0) L(0, χ₅) = 0` with a simple zero, since
+  `L(0, χ₅) = 0` for the even character `χ₅`; this matches the order `r₁ + r₂ − 1 = 1`, and
+  `(−ζ'_K/ζ_K)(s) x^s/s` has a double pole at `0` with residue `c_K − log x`. A formula without the
+  term `−(r₁ + r₂ − 1) log x` misses that residue.
+- `K = ℚ(i)`: `r₁ = 0`, `r₂ = 1`, and `ζ_K(0) = ζ(0) L(0, χ₋₄) = (−1/2)(1/2) = −1/4 ≠ 0`,
+  matching the order `0`. The trivial-zero terms sum to
+  `−½ log(1 − x^(−2)) + ½ log((x + 1)/(x − 1)) = −log(1 − 1/x)`, which is `log 2 ≈ 0.6931` at
+  `x = 2`: the `ζ` term plus the term `½ log((x + 1)/(x − 1))` of the zeros of `L(s, χ₋₄)` at the
+  negative odd integers, as `ψ_K = ψ + ψ(·, χ₋₄)` requires.
 
 ### 8.4 The Weil formula
 
@@ -1550,9 +1590,12 @@ since `x^β = o(x exp(−c √log x))` for fixed `β < 1`; the term is carried f
 conductor-uniform absorption would need Siegel's theorem. By Abel summation
 (`TauCeti.idealSummatory_mul_eq_sub_integral_mul`) the number of nonzero prime ideals of norm at
 most `x` is `Li x + O(x exp(−c √log x))`, `Li = TauCeti.Real.logIntegral`: this is
-`primeIdealCount_effective` (Davenport §18 for `K = ℚ`).
+`primeIdealCount_effective`. The estimate is assembled here from 8.3 at height `T = exp(√log x)`,
+the region of 6.2–6.3, which bounds `|x^ρ|` by `x exp(−c √log x)` at every non-exceptional zero
+with `|Im ρ| ≤ T`, and the count 4.5, which gives `∑_{|Im ρ| ≤ T} m_ρ/‖ρ‖ = O(log² T)`;
+Davenport §18 is the `K = ℚ` case.
 
-*Needs:* 8.3, 6.2, 6.3; Arithmetic Dirichlet Series §§6.1–6.2
+*Needs:* 8.3, 6.2, 6.3, 4.5; Arithmetic Dirichlet Series §§6.1–6.2
 `idealSummatory_mul_eq_sub_integral_mul`, `TauCeti.Real.logIntegral`.
 
 ### 8.6 The Hecke instance
@@ -1563,9 +1606,11 @@ For `χ` primitive, nontrivial, of conductor `𝔣`, with `γ_χ = ∏_{j ≤ r�
 coming from the reflection to `χ⁻¹`; order `#{j : a_j = 0} + r₂` at `s = 0` (with
 `Λ(χ, 0) ≠ 0` from 6.5) and `#{j : a_j ≡ m [MOD 2]} + r₂` at `−m`; and `log(|d_K| 𝔑𝔣)` in place of
 `log |d_K|`. For fixed `K` and `χ`: `ψ_K(x, χ) = −x^β/β + O(x exp(−c √log x))` under
-*IsExceptionalZero* `χ β`, and `O(x exp(−c √log x))` otherwise (Davenport §§19–20 for `K = ℚ`).
+*IsExceptionalZero* `χ β`, and `O(x exp(−c √log x))` otherwise. These are assembled here as 8.3
+and 8.5 are, from 8.1–8.2 for `χ`, the region of 6.4 and the count 4.5; Davenport §§19–20 is the
+`K = ℚ` case.
 
-*Needs:* 8.2–8.5, 6.3–6.5, 1.5.
+*Needs:* 8.2–8.5, 6.3–6.5, 4.5, 1.5.
 
 **Checks.**
 
@@ -1853,7 +1898,7 @@ the two differ exactly at the ordinates.
   formula). Cited by locator.
 - H. Kadiri, *Explicit zero-free regions for Dedekind zeta functions*, Int. J. Number Theory 8
   (2012); arXiv:1106.1868 — Theorem 1.1 (regions for `|Im s| ≥ 1` and `|Im s| ≤ 1` when `d_K` is
-  large) and §2.1.2 (the explicit formula behind 6.4d).
+  large) and §2.1.2 (the explicit formula behind 5.6 and 6.4d).
 - T. S. Trudgian, *An improved upper bound for the error in the zero-counting formulae for
   Dirichlet L-functions and Dedekind zeta-functions*, Math. Comp. 84 (2015), 1439–1450 —
   Theorem 1 (primitive nonprincipal `χ`, zeros with `0 < β < 1` and `|γ| ≤ T`, main term
@@ -1865,9 +1910,9 @@ the two differ exactly at the ordinates.
   analytic conductor (5.7)) and §5.2 (convexity). Cited by locator.
 - J. C. Lagarias, A. M. Odlyzko, *Effective versions of the Chebotarev density theorem*, in
   *Algebraic Number Fields* (1977) — effective counting in a fixed Galois extension.
-- NIST Digital Library of Mathematical Functions, equations 5.5.3 (reflection), 5.11.1 (Stirling
-  for `log Γ`), 5.11.2 (digamma), 5.11.9 (gamma on bounded real-part intervals), and §5.11(ii)
-  (remainder bounds).
+- NIST Digital Library of Mathematical Functions, equations 5.5.3 (reflection), 5.6.6
+  (`|Γ(x + iy)| ≤ |Γ(x)|`), 5.11.1 (Stirling for `log Γ`), 5.11.2 (digamma), 5.11.9 (gamma on
+  bounded real-part intervals), and §5.11(ii) (remainder bounds).
 - PrimeNumberTheoremAnd, Lean project (Apache-2.0),
   <https://github.com/AlexKontorovich/PrimeNumberTheoremAnd>, commit
   `127b50e33f6033e2147921167a117af96d9ba4ea` — the declarations listed under Provenance.
