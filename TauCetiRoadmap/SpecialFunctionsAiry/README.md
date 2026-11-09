@@ -100,16 +100,14 @@ Tau Ceti nor a consumed roadmap provides:
 | The incomplete Airy function `Ai(a, z)` | 7.8 |
 | Uniqueness for the product equation `w‴ − 4z w′ − 2w = 0` given `w(0)`, `w′(0)`, `w″(0)` | 8.1 |
 | The representation `Ai(x)² = 2^{2/3} π⁻¹ ∫₀^∞ Ai(2^{2/3}(x + t²)) dt` | 8.3 |
-| The Bessel integral `J₀(a) = (2π)⁻¹ ∫₀^{2π} e^{ia cos φ} dφ` | 8.3 |
+| The Bessel integral `J₀(a) = (2π)⁻¹ ∫₀^{2π} e^{ia cos φ} dφ` for every `a ∈ ℂ` | 8.3 |
 | The Airy kernel `K_Ai(x, y) = ∫₀^∞ Ai(x + t) Ai(y + t) dt` in closed form, with its diagonal and tail bounds | 8.5 |
 | The rotation connection formulas of `A_n` | 9.2 |
 | The integral representation `A_n(z) = (2p/π) sin(pπ) z^{1/2} ∫₀^∞ e^{−ζ cosh u} cosh(pu) du` | 9.3 |
 
-**Taken over from RandomMatrices.** RandomMatrices §8.4 on main plans to build the Airy
-function, Airy's equation, the decay of `Ai`, its integral representations, its asymptotic
-estimates on the real line and the Airy kernel `K_Ai`. This roadmap is their single owner: 1.1–1.2,
-Layer 2, 3.2, 3.4–3.6 and 8.5 take these objects over. A companion revision of RandomMatrices
-replaces the plan in §8.4 by citations of these subsections, and the two merge together.
+**Consumed by RandomMatrices.** This roadmap owns the Airy function, Airy's equation, the decay of
+`Ai`, its integral representations, its expansions on the real line and the Airy kernel `K_Ai`.
+RandomMatrices §8.4 consumes them from 1.1–1.2, Layer 2, 3.2, 3.4–3.6 and 8.5.
 
 **What it does not own:**
 - The general asymptotic and contour tools: asymptotic expansions, inversion and reversion of
@@ -299,6 +297,9 @@ The following are consumed with the hypotheses and conventions stated there.
 - **Rouché's theorem.** `TauCeti.rouche` and `TauCeti.rouche_exists_eq_zero_iff`
   (`TauCeti/Analysis/Complex/Conformal/Rouche.lean`), for counting complex zeros near their
   asymptotic positions in 5.3.
+- **The argument principle.** `TauCeti.Contour.argumentPrinciple_nullHomologous`
+  (`TauCeti/Analysis/Contour/Argument/Cycle.lean`), for a piecewise-`C¹` closed null-homologous
+  curve, for counting the complex zeros in truncated sectors in 5.3.
 
 ### From Mathlib
 
@@ -892,14 +893,16 @@ strictly increasing from some index on (`airyBiComplexZero_spec`, for `f = Bi` a
 have unspecified constants, so they separate zeros only beyond an unspecified radius, and the
 tie-break of the Conventions makes the enumeration well defined without that.
 
-The proof route is the argument principle on truncated sectors, with 3.3–3.4 on the arcs and
-rays and 5.2 on the negative axis, to locate and count the zeros, and Rouché's theorem on discs
-around the zeros of the leading terms of 9.7.13–9.7.14 at `ε = 1`, where `cos ϑ` and `sin ϑ`
-vanish, to place one zero in each disc. Attainment and uniqueness need only that the zeros in
-each disc `|z| ≤ R` are finitely many, since `Bi` is entire and not zero, and that the order of
-the Conventions is a strict total order on them (equal modulus and equal phase give the same
-point). Beyond the radius where Rouché applies, the discs lie in disjoint annuli, which gives the
-strict increase of the moduli from some index on.
+The proof route is the argument principle on truncated sectors (in the cycle form
+`TauCeti.Contour.argumentPrinciple_nullHomologous`, since the boundary of
+`{π/3 < ph z < π/2, r < |z| < R}` is a closed piecewise-`C¹` curve, null-homologous in `ℂ`), with
+3.3–3.4 on the arcs and rays and 5.2 on the negative axis, to locate and count the zeros, and
+Rouché's theorem on discs around the zeros of the leading terms of 9.7.13–9.7.14 at `ε = 1`, where
+`cos ϑ` and `sin ϑ` vanish, to place one zero in each disc. Attainment and uniqueness need only that
+the zeros in each disc `|z| ≤ R` are finitely many, since `Bi` is entire and not zero, and that the
+order of the Conventions is a strict total order on them (equal modulus and equal phase give the
+same point). Beyond the radius where Rouché applies, the discs lie in disjoint annuli, which gives
+the strict increase of the moduli from some index on.
 
 **Checks.**
 - `β₁ = 0.97754 48867… + 2.14129 07060… i` and `β′₁ = 0.21494 70745… + 1.10060 01433… i`, with
@@ -909,7 +912,7 @@ strict increase of the moduli from some index on.
   inside the sector, so the open sector of the definition loses none of them.
 
 *Needs:* 3.3–3.4, 5.1–5.2; Tau Ceti `TauCeti.rouche` and
-`TauCeti.Contour.argumentPrinciple_divisor`.
+`TauCeti.Contour.argumentPrinciple_nullHomologous`.
 
 ### 5.4 Asymptotic expansions
 
@@ -1161,10 +1164,10 @@ DLMF 9.10.4–9.10.7. With `ζ = (2/3) x^{3/2}` for `x → +∞` and `ξ = (2/3)
 - `∫_{−∞}^x Bi = −sin(ξ + π/4)/(√π (−x)^{3/4}) + O(|x|^{−9/4})` (9.10.7).
 
 The leading term of 9.10.7 has a minus sign: its derivative must be `Bi(x)`, which by 9.7.11 is
-`−sin(ξ − π/4)/(√π (−x)^{1/4})` to leading order, and at `x = −10` the integral is
-`−0.01504…`. (DLMF 9.10.7 prints a plus sign; the correction is recorded in the errata report
-of `lean-DLMF`, see [Prior formalization](#prior-formalization).) The proof route is integration
-by parts in 7.2 against the expansions of 3.2–3.4, or integration of the expansions
+`−sin(ξ − π/4)/(√π (−x)^{1/4})` to leading order, and at `x = −10` the integral is `−0.01504…`.
+(DLMF 9.10.7 prints a plus sign in Release 1.2.8; the correction is recorded in the errata report of
+`lean-DLMF`, see [Prior formalization](#prior-formalization).) The proof route is integration by
+parts in 7.2 against the expansions of 3.2–3.4, or integration of the expansions
 (AsymptoticExpansions §1.5).
 
 *Needs:* 3.2–3.4, 7.2; AsymptoticExpansions §1.5.
@@ -1348,12 +1351,13 @@ DLMF 9.11.3–9.11.4 and an auxiliary representation:
 The proof route for 9.11.3: by 9.5.1, `Ai(x)² = (2π)^{−2} ∫∫ exp(i((u³ + v³)/3 + x(u + v))) du dv`;
 with `u + v = a`, `u − v = b/√3`, the exponent is `i a ((a² + b²)/12 + x)`, and polar coordinates in
 `(a, b)` with the Bessel integral `J₀(r) = (2π)⁻¹ ∫₀^{2π} e^{ir cos φ} dφ` give the right side. The
-Bessel integral is an owned auxiliary result, by termwise integration of the series of
-`Complex.besselJ 0`. The interchanges are justified with the factor `e^{−ε(a² + b²)}` and `ε → 0+`,
-using the locally uniform convergence of 2.2. The proof route for the other two is 8.1: each right
-side solves 9.11.1, by differentiation under the integral and integration by parts; for 9.11.4 the
-initial values at `0` are Gamma integrals, and for the second the right side decays like
-`e^{−(4/3)x^{3/2}}` times a power by 3.6, so it is a multiple of `Ai²`, fixed by the value at `0`.
+Bessel integral is an owned auxiliary result for every complex argument, by termwise integration of
+the series of `Complex.besselJ 0`. The interchanges are justified with the factor `e^{−ε(a² + b²)}`
+and `ε → 0+`, using the locally uniform convergence of 2.2. The proof route for the other two is
+8.1: each right side solves 9.11.1, by differentiation under the integral and integration by parts;
+for 9.11.4 the initial values at `0` are Gamma integrals, and for the second the right side decays
+like `e^{−(4/3)x^{3/2}}` times a power by 3.6, so it is a multiple of `Ai²`, fixed by the value at
+`0`.
 
 *Needs:* 2.2, 3.6, 8.1; Mathlib parametric differentiation, `integral_rpow_mul_exp_neg_rpow`
 and `Complex.besselJ_def`.
@@ -1528,14 +1532,15 @@ W_m(t) = 2^{(m+2)/(2m)} (2√π)⁻¹ ( Γ(1/m) Γ(1 − 1/m) 𝐅(1 − 1/m, �
 ```
 
   which pins Olver's `W_m` by 9.13.23–9.13.24.
-- `U_m(t)`, `U_m(−t)` and, for odd `m`, `V̄_m(t)` solve `d²w/dt² = ¼ m² t^{m−2} w` (9.13.13);
+- `U_m(t)` for every `m`, `U_m(−t)` for even `m`, and `V̄_m(t)` for odd `m` solve
+  `d²w/dt² = ¼ m² t^{m−2} w` (9.13.13);
   for even `m`, `U_m(−t) = √π (m/2)^{(m−2)/(2m)} csc(π/m) B_n((m/2)^{2/m} t)` (9.13.16); and for
   even `m`, `W_m(t)` and `W_m(−t)` solve `d²w/dt² = −¼ m² t^{m−2} w` (9.13.17).
 - For every `j ∈ ℤ`, `t ↦ U_m(t e^{−2jπi/m})` solves 9.13.13, and it is recessive in the sector
-  `(2j − 1)π/m < ph t < (2j + 1)π/m`: for `δ > 0`, as `t → ∞` in
-  `|ph(t e^{−2jπi/m})| ≤ π/m − δ`, `U_m(t e^{−2jπi/m}) / B_n((m/2)^{2/m} t e^{−2jπi/m}) → 0`
-  (9.13.18). DLMF prints the lower end of the sector as `−(2j − 1)π/m`; the sector here is the
-  one centred on the ray where `t e^{−2jπi/m}` is positive, which at `j = 0` is `|ph t| < π/m`.
+  `(2j − 1)π/m < ph t < (2j + 1)π/m`: for `δ > 0`, as `t → ∞` in `|ph(t e^{−2jπi/m})| ≤ π/m − δ`,
+  `U_m(t e^{−2jπi/m}) / B_n((m/2)^{2/m} t e^{−2jπi/m}) → 0` (9.13.18). DLMF (Release 1.2.8) prints
+  the lower end of the sector as `−(2j − 1)π/m`; the sector here is the one centred on the ray where
+  `t e^{−2jπi/m}` is positive, which at `j = 0` is `|ph t| < π/m`.
 - Smirnov's functions (9.13.19–9.13.21): for real `α > −2` and `x > 0`,
   `U₁(x, α) = (α + 2)^{−1/(α+2)} Γ((α + 1)/(α + 2)) x^{1/2} J_{−1/(α+2)}((2/(α + 2)) x^{(α+2)/2})`
   and `U₂(x, α) = (α + 2)^{1/(α+2)} Γ((α + 3)/(α + 2)) x^{1/2} J_{1/(α+2)}((2/(α + 2)) x^{(α+2)/2})`
@@ -1622,13 +1627,17 @@ inversion and contour deformation; Tau Ceti `Real.besselI`.
 
 ## Downstream consumers
 
-- **RandomMatrices** §8.4, in the companion revision named under Scope and ownership, consumes the
-  Airy function `TauCeti.airyAi` with Airy's equation (1.2), the value `Ai(0)` (1.1), the
-  recessive characterization and tail bounds (3.5–3.6), the integral representations (Layer 2),
-  the uniform expansions on the real line (3.2, 3.4) and the Airy kernel (8.5).
-- A Bessel-function roadmap (DLMF Chapter 10) consumes `Ai`, `Bi` with their connection formulas
-  and expansions for the `K`, `Y` and Hankel relations of DLMF §9.6 and the uniform expansions of
-  DLMF §10.20.
+- **RandomMatrices** §8.4 consumes the Airy function `TauCeti.airyAi` with Airy's equation (1.2),
+  the value `Ai(0)` (1.1), the recessive characterization and tail bounds (3.5–3.6), the integral
+  representations (Layer 2), the uniform expansions on the real line (3.2, 3.4) and the Airy kernel
+  (8.5).
+- **[SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)** consumes Kummer's second
+  transformation (1.7, `exp_neg_mul_kummer_two_mul`) for the Kummer forms 10.16.5 and 10.39.5 in
+  its 4.3, the integral `J₀(a) = (2π)⁻¹ ∫₀^{2π} e^{ia cos φ} dφ` (8.3) for 10.9.1 in its 3.1, and
+  `Ai`, `Bi`, `Hi` and the generalized Airy functions with their connection formulas, the Bessel
+  forms of 1.7, the modulus and phase of 4.1 and the integrals of 9.3 for the relations of DLMF §9.6
+  in its 11.1.
+- A roadmap for the uniform expansions of DLMF §10.20 consumes `Ai`, `Bi` and their expansions.
 - Uniform expansions in terms of Airy functions, such as the turning-point theory of DLMF
   §§2.8(iii)–(iv), the Airy-function expansions of DLMF 2.4.21 and the large-parameter expansions
   of the parabolic cylinder functions (DLMF §12.10), consume `Ai`, `Bi`, `Gi`, `Hi` and their
@@ -1694,8 +1703,9 @@ counterparts; the mathematical targets and dependencies are specified by the lay
 
 ## References
 
-- NIST *Digital Library of Mathematical Functions*, Chapter 9 (F. W. J. Olver),
-  <https://dlmf.nist.gov/9>; and §5.5(iii) for the multiplication formula.
+- NIST *Digital Library of Mathematical Functions*, Release 1.2.8 of 2026-09-15, Chapter 9
+  (F. W. J. Olver), <https://dlmf.nist.gov/9>; and §5.5(iii) for the multiplication formula. Every
+  equation number and every statement of what DLMF prints refers to this release.
 - F. W. J. Olver, *Asymptotics and Special Functions*, Academic Press, 1974, Chapter 11.
 - O. Vallée and M. Soares, *Airy Functions and Applications to Physics*, Imperial College Press,
   2004.
