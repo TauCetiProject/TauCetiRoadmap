@@ -27,7 +27,8 @@ Ceti's `pullbackIhomComparison`, and the determinant and Picard group are Tau Ce
 `FiniteLocallyFreeSheaf.det` and `LineBundleClass`.
 
 The names `isFiniteLocallyFree`, `FiniteLocallyFreeSheaf`, `isFiniteLocallyFreeOfRank` and
-`determinantObj` are Tau Ceti notions under this roadmap's namespace (the last is Tau Ceti's
+`determinantObj` are Tau Ceti notions under this roadmap's namespace (the third is Tau Ceti's
+`FiniteLocallyFreeSheaf.isConstantRank` read on `X.Modules`, the last is Tau Ceti's
 `FiniteLocallyFreeSheaf.det`), kept because consumers build on them under these names.
 
 Headline theorems of the roadmap that are not statable at the pins:
@@ -69,8 +70,9 @@ abbrev isFiniteLocallyFree (X : Scheme.{u}) : ObjectProperty X.Modules :=
 abbrev FiniteLocallyFreeSheaf (X : Scheme.{u}) : Type _ :=
   TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf X
 
-/-- Finite locally free of constant rank `r`, as a property of `𝒪_X`-modules: finite locally
-free, with Tau Ceti's bundled rank equal to `r` at every point. -/
+/-- Finite locally free of constant rank `r`, as a property of `𝒪_X`-modules: Tau Ceti's
+`FiniteLocallyFreeSheaf.isConstantRank X r` read on `X.Modules`, that is, finite locally free,
+with Tau Ceti's bundled rank equal to `r` at every point. -/
 def isFiniteLocallyFreeOfRank (X : Scheme.{u}) (r : ℕ) : ObjectProperty X.Modules :=
   fun E => ∃ h : isFiniteLocallyFree X E,
     ∀ x : X, FiniteLocallyFreeSheaf.rank (⟨E, h⟩ : FiniteLocallyFreeSheaf X) x = r

@@ -79,8 +79,10 @@ to `TauCeti/AlgebraicGeometry/`):
   and a quasi-coherent target, `Scheme.Hom.isIso_pullbackIhomComparison_app`
   (Modules/Pullback/InternalHom/Flat.lean); `Hom(E, 𝒪_X) ⊗ N ≅ Hom(E, N)` for locally free `E` of
   finite type, `Scheme.Modules.isIso_dualTensorIhom_of_isLocallyFree` (Modules/Dual.lean);
-- the ranks of powers of a finite locally free `E` at a point `x`, `(rank E x).multichoose n` for
-  `Symⁿ E` and `(rank E x).choose n` for `∧ⁿ E`, as simp lemmas (VectorBundle/SymmetricPower/Basic.lean,
+- the ranks of powers of a finite locally free `E` at a point `x`, the simp lemmas
+  `rank_symmetricPower_apply`, rank `(E.rank x).multichoose n` for `Symⁿ E`, and
+  `rank_exteriorPower_apply`, rank `(E.rank x).choose n` for `∧ⁿ E`, both in Tau Ceti's namespace
+  `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf` (VectorBundle/SymmetricPower/Basic.lean,
   VectorBundle/ExteriorPower/Basic.lean); the canonical comparisons
   `Scheme.Modules.pullbackSymmetricPowerComparison` and
   `Scheme.Modules.pullbackExteriorPowerComparison` on all modules
@@ -142,7 +144,9 @@ to `TauCeti/AlgebraicGeometry/`):
 
 Four names are declared under this roadmap's namespace for its consumers: `isFiniteLocallyFree`
 and `FiniteLocallyFreeSheaf` are the Tau Ceti notions under this roadmap's name,
-`isFiniteLocallyFreeOfRank` is finite local freeness of constant rank `r`, and `determinantObj` is
+`isFiniteLocallyFreeOfRank X r` is Tau Ceti's `FiniteLocallyFreeSheaf.isConstantRank X r`
+(VectorBundle/FixedRank.lean) read on `X.Modules`, so that `E` satisfies it exactly when `E` is
+finite locally free and the bundled sheaf has rank `r` at every point, and `determinantObj` is
 Tau Ceti's `FiniteLocallyFreeSheaf.det`; SchemeAndStackFoundations builds its Grothendieck group
 of finite locally free sheaves and its determinant on them.
 
@@ -229,7 +233,17 @@ At Mathlib `1b1ccf4b`:
 `SheafOfModules.pullbackComp` and the description `SheafOfModules.pullbackIso` of pullback as the
 sheafified presheaf pullback (Mathlib/Algebra/Category/ModuleCat/Sheaf/PullbackContinuous.lean);
 `SheafOfModules.Presentation.map`, a presentation carried along a colimit-preserving functor that
-preserves the unit (Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean);
+preserves the unit, and `SheafOfModules.Presentation.ofIsIso`, one carried along an isomorphism
+(Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean); restriction to a slice site
+`SheafOfModules.overFunctor`, written `M.over V`, and its adjunction
+`SheafOfModules.overPushforwardOverAdj` with pushforward along `Over.star V`
+(Mathlib/Algebra/Category/ModuleCat/Sheaf/PushforwardContinuous.lean);
+`TopologicalSpace.Opens.overEquivalence : Over V ≌ Opens V` (Mathlib/Topology/Sheaves/Over.lean)
+and the induced equivalence `TopologicalSpace.Opens.sheafOfModulesEquivOver` of module sheaves
+over the slice with module sheaves on the open subspace, with
+`TopologicalSpace.Opens.sheafOfModulesEquivOverUnit` and
+`TopologicalSpace.Opens.sheafOfModulesEquivOverInverseUnit` (Mathlib/Topology/Sheaves/Module.lean);
+uniqueness of adjoints `CategoryTheory.Adjunction.leftAdjointUniq`;
 `SheafOfModules.toSheaf`, faithful and preserving finite limits, and
 `CategoryTheory.ShortComplex.exact_map_iff_of_faithful`;
 `TopCat.Sheaf.exact_iff_stalkFunctor_map_exact` (Mathlib/Topology/Sheaves/Abelian.lean),
@@ -286,7 +300,9 @@ At Tau Ceti `2fd255d9`, besides the declarations listed under Scope and ownershi
   `Scheme.Opens.isIso_pullbackIhomComparison_app` (…/InternalHom/Restriction.lean) and its
   composition criterion `Scheme.Hom.isIso_pullbackIhomComparison_app_comp_iff`
   (…/InternalHom/Coherence.lean); finite presentation of a pullback
-  `Scheme.Modules.isFinitePresentation_pullback` (Modules/Pullback/Basic.lean);
+  `Scheme.Modules.isFinitePresentation_pullback`, through pullback read on slice sites
+  `Scheme.Modules.pullbackOver` and its value `Scheme.Modules.pullbackOverObjIso` on `M.over V`
+  (Modules/Pullback/Basic.lean);
 - powers: `SheafOfModules.symmetricPower` and `SheafOfModules.exteriorPower`, the sheafifications of
   the sectionwise powers, with `SheafOfModules.symmetricPowerZeroIso`,
   `SheafOfModules.symmetricPowerOneIso`, `SheafOfModules.exteriorPowerZeroIso`,
@@ -477,25 +493,44 @@ at `f(x)`, which is exact. *Needs:* §1.1; Mathlib `SheafOfModules.pullback`,
   at the generic point, injective although `j_! 𝒪_U` is not quasi-coherent.
 - `f` the inclusion of the origin in `𝔸¹_k` (not flat) and the injective `t : 𝒪 → 𝒪`: the
   pullback is `0 : k → k`, not injective, so flatness cannot be dropped.
-- An open immersion is flat, and its pullback is restriction, which is exact.
+- An open immersion `j : V → Y` is flat, and `j^*` is restriction to `V` (the identification in
+  the route of the finite-presentation target of §2.2), which is exact.
 
 ### 2.2 Base change of internal Hom
 
 Prove that for every morphism of ringed spaces `(f, φ) : X → Y` and every finitely presented
 `𝒪_Y`-module `M` (Mathlib `SheafOfModules.IsFinitePresentation`), the pullback `f^* M` is finitely
 presented (Stacks Project, Tag 01BQ); on schemes this is Tau Ceti's
-`Scheme.Modules.isFinitePresentation_pullback`. Route: cover `Y` by opens `V` on which `M|_V` has
-a finite presentation `𝒪_V^a → 𝒪_V^b → M|_V → 0`. Restriction to an open is pullback along its
-inclusion, so `SheafOfModules.pullbackComp`, applied to the two factorisations of `f⁻¹(V) → Y`,
-identifies the restriction of `f^* M` to `f⁻¹(V)` with the pullback of `M|_V` along
-`f_V : f⁻¹(V) → V`. That pullback is a left adjoint, so it preserves colimits, and it sends `𝒪_V`
-to `𝒪_{f⁻¹(V)}` through `SheafOfModules.pullbackObjUnitToUnit`, an isomorphism because
-`Opens.map f_V` sends the top open to the top open and is therefore final; hence
-`SheafOfModules.Presentation.map` carries the presentation of `M|_V` to a presentation of the
-restriction of `f^* M` with the same finite index sets, and the opens `f⁻¹(V)` cover `X`.
-*Needs:* Mathlib `SheafOfModules.IsFinitePresentation`, `SheafOfModules.Presentation.map`,
-`SheafOfModules.pullbackObjUnitToUnit`, `SheafOfModules.pullbackComp`,
-`SheafOfModules.pullbackPushforwardAdjunction`.
+`Scheme.Modules.isFinitePresentation_pullback`. Route, the ringed-space form of Tau Ceti's scheme
+proof (`Scheme.Modules.pullbackOver`, `Scheme.Modules.pullbackOverObjIso`) with open subspaces in
+place of open subschemes: `SheafOfModules.IsFinitePresentation` gives a cover of `Y` by opens `V`
+and finite presentations `𝒪^a → 𝒪^b → M.over V → 0` of the restrictions `M.over V` of `M` to the
+slice sites `Over V` (`SheafOfModules.overFunctor`), not to the open subspaces. Modules over the
+slice are modules on the subspace: `TopologicalSpace.Opens.sheafOfModulesEquivOver`, built on
+`TopologicalSpace.Opens.overEquivalence : Over V ≌ Opens V`, is an equivalence carrying the unit to
+the unit (`TopologicalSpace.Opens.sheafOfModulesEquivOverUnit`,
+`TopologicalSpace.Opens.sheafOfModulesEquivOverInverseUnit`); write `M|_V` for its image of
+`M.over V`. Restriction to `V` is pullback along the inclusion `j : V → Y`:
+`SheafOfModules.overPushforwardOverAdj V` makes `SheafOfModules.overFunctor _ V` left adjoint to
+pushforward along `Over.star V`, which the equivalence turns into `j_*` (on an open `U` of `Y` both
+take sections over `V ∩ U`), so uniqueness of left adjoints
+(`CategoryTheory.Adjunction.leftAdjointUniq`) identifies `M ↦ M|_V` with `j^*`. Then
+`SheafOfModules.pullbackComp`, applied to the two factorisations `f⁻¹(V) → X → Y` and
+`f⁻¹(V) → V → Y` of the same morphism of ringed spaces, identifies `(f^* M)|_{f⁻¹(V)}` with the
+pullback of `M|_V` along `f_V : f⁻¹(V) → V`. That pullback is a left adjoint, so it preserves
+colimits, and it sends `𝒪_V` to `𝒪_{f⁻¹(V)}` through `SheafOfModules.pullbackObjUnitToUnit`, an
+isomorphism because `Opens.map f_V` sends the top open to the top open and is therefore final;
+hence `SheafOfModules.Presentation.map`, applied along `f_V^*` and then along the inverse
+equivalence over `f⁻¹(V)`, followed by `SheafOfModules.Presentation.ofIsIso`, gives a presentation
+of `(f^* M).over (f⁻¹(V))` with the same finite index sets, and the opens `f⁻¹(V)` cover `X`.
+*Needs:* Mathlib `SheafOfModules.IsFinitePresentation`, `SheafOfModules.overFunctor`,
+`SheafOfModules.overPushforwardOverAdj`, `TopologicalSpace.Opens.overEquivalence`,
+`TopologicalSpace.Opens.sheafOfModulesEquivOver`,
+`TopologicalSpace.Opens.sheafOfModulesEquivOverUnit`,
+`TopologicalSpace.Opens.sheafOfModulesEquivOverInverseUnit`,
+`CategoryTheory.Adjunction.leftAdjointUniq`, `SheafOfModules.Presentation.map`,
+`SheafOfModules.Presentation.ofIsIso`, `SheafOfModules.pullbackObjUnitToUnit`,
+`SheafOfModules.pullbackComp`, `SheafOfModules.pullbackPushforwardAdjunction`.
 
 **Checks.**
 - `M = 𝒪_Y/(t)` on `Y = 𝔸¹_k`, pulled back to the origin: the presentation `𝒪 —t→ 𝒪 → M → 0`
@@ -577,8 +612,9 @@ route only), `Scheme.Modules.isIso_iff_of_isOpenCover`,
 
 ### Dependencies
 
-Layer 1; Mathlib presentations of sheaves of modules and their transport along pullback, and
-exactness on stalks; Tau Ceti stalks of internal Hom, the internal-Hom comparison on schemes,
+Layer 1; Mathlib presentations of sheaves of modules and their transport along pullback,
+restriction to slice sites with its adjunction and its equivalence with modules on open subspaces,
+and exactness on stalks; Tau Ceti stalks of internal Hom, the internal-Hom comparison on schemes,
 exactness of forgetting the module structure and finite free duality.
 
 ## Layer 3: symmetric and exterior powers, determinant
