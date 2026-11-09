@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.AlgebraicTopology.SimplicialSet.WeakEquivalence
 import TauCeti.Topology.Homotopy.HurewiczFibration.Basic
 import TauCeti.AlgebraicTopology.Homotopy.Hurewicz.Basic
 
@@ -11,6 +12,11 @@ the acceptance test of the finished roadmap.
 
 Statable at the pins, and stated below:
 
+* the Kan–Quillen model structure on simplicial sets (G2.1), with Mathlib's cofibrations and
+  fibrations `SSet.modelCategoryQuillen.I` and `J` and Tau Ceti's realization weak equivalences
+  `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences`;
+* the unit half of the Quillen equivalence of realization and `Sing` (G2.1), on Mathlib's
+  `sSetTopAdj`; the counit half is CharacteristicClasses C1.2b's;
 * the Hurewicz–Dold theorem for numerable locally trivial maps (G2.10), on Tau Ceti's
   `TauCeti.IsHurewiczFibration` and Mathlib's `Bundle.Trivialization` and `PartitionOfUnity`;
 * the comparison theorem for extraordinary homology theories on CW complexes (G3.3, homology
@@ -21,10 +27,6 @@ Statable at the pins, and stated below:
 
 Headline theorems of the roadmap that are not statable at the pins, with the missing carrier:
 
-* the Kan–Quillen model structure on simplicial sets and the Quillen equivalence of
-  realization and `Sing` (G2.1): Mathlib has the generating classes
-  `SSet.modelCategoryQuillen.I` and `J` with their cofibrations and fibrations, but no class of
-  weak equivalences of simplicial sets and no `ModelCategory SSet`;
 * the stable model structure on symmetric spectra and the stable homotopy category (G2.3,
   G2.4): Tau Ceti has `TauCeti.SymmetricSpectrum` with its point-set smash product, but no
   stable equivalences;
@@ -32,8 +34,10 @@ Headline theorems of the roadmap that are not statable at the pins, with the mis
   reduced suspension of pointed spaces and no suspension homomorphism on homotopy groups;
 * the Quillen equivalence of symmetric and sequential spectra (G2.5): there are no sequential
   spectra;
-* Brown representability (G3.1): there is no homotopy category of pointed connected CW
-  complexes with its wedges and subcomplex triads;
+* Brown representability (G3.1): Tau Ceti has the pointed homotopy category
+  `TauCeti.PointedHomotopyCat` and the wedge sum `TauCeti.WedgeSum`, but no CW structure on a
+  wedge of CW complexes other than a wedge of circles, so the wedge axiom on connected pointed
+  CW complexes is not statable without an ad hoc encoding;
 * the cohomological comparison theorem (G3.3) and the Milnor sequence (G3.4): Mathlib has
   homology pretheories only, and no cohomology theory;
 * the Leray–Hirsch and Thom isomorphisms (G4.1, G4.3), Spanier–Whitehead duality (G5.1) and the
@@ -41,13 +45,41 @@ Headline theorems of the roadmap that are not statable at the pins, with the mis
   homotopy category and no generalized cohomology theory represented by a spectrum.
 -/
 
-open CategoryTheory
+open CategoryTheory HomotopicalAlgebra
+
+open scoped SSet.modelCategoryQuillen
 
 universe u w
 
 namespace TauCetiRoadmap.GeneralizedCohomology
 
 /-! ## Layer 2: a concrete spectral model and represented theories -/
+
+/-- **The Kan–Quillen model structure.** The monomorphisms (Mathlib's cofibrations, generated
+by the boundary inclusions `SSet.modelCategoryQuillen.I`), the Kan fibrations (Mathlib's
+fibrations, the maps with the right lifting property against the horn inclusions
+`SSet.modelCategoryQuillen.J`) and the maps whose geometric realization is a weak homotopy
+equivalence (Tau Ceti's scoped weak equivalences) are the three classes of a model structure on
+simplicial sets (Quillen, *Homotopical Algebra*, Chapter II, Section 3). README G2.1. -/
+theorem kanQuillen_modelCategory :
+    ∃ M : ModelCategory SSet.{u},
+      M.categoryWithWeakEquivalences =
+          SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences ∧
+        M.categoryWithFibrations = (inferInstance : CategoryWithFibrations SSet.{u}) ∧
+        M.categoryWithCofibrations = (inferInstance : CategoryWithCofibrations SSet.{u}) := by
+  sorry
+
+/-- **Realization and `Sing` form a Quillen equivalence: the unit.** For every simplicial set
+`X` the unit `X → Sing |X|` of Mathlib's adjunction `sSetTopAdj` is a Kan–Quillen weak
+equivalence. Every simplicial set is cofibrant, every space is fibrant for the Serre model
+structure and realization detects weak equivalences by their definition, so this and the counit
+theorem of CharacteristicClasses C1.2b (`|Sing Y| → Y` is a weak homotopy equivalence) make
+the adjunction a Quillen equivalence (Quillen, *Homotopical Algebra*, Chapter II, Section 3).
+The route is the triangle identity `ε_|X| ∘ |η_X| = id`, the counit theorem at `|X|` and two out
+of three. README G2.1. -/
+theorem sSetTopAdj_unit_weakEquivalence (X : SSet.{u}) :
+    WeakEquivalence (sSetTopAdj.unit.app X) := by
+  sorry
 
 /-- **Hurewicz–Dold theorem for numerable locally trivial maps.** A map `p : Z → B` that is
 trivial, with fibre `F`, over the base sets of a family of local trivializations admitting a
