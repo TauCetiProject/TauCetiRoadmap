@@ -63,11 +63,11 @@ It does not own, and imports:
   manifolds and the degree (layer 10) and the hairy ball theorem (layer 11) stay
   DifferentialGeometry's, and nothing here consumes them;
 - from AlgebraicTopology Stage 6.3: the comparison of tangent orientations with homological
-  orientations and the oriented relative class of a compact manifold with boundary. The singular
-  chains and cochains of pairs, excision and the evaluation pairing that its Stages 2–3 and 6.1
-  plan are consumed from Tau Ceti, where they are already in the library; its Stage 6.5 compares
-  its homological degree with DifferentialGeometry 10's smooth degree, and nothing here touches
-  that comparison.
+  orientations and the oriented relative class of a compact Hausdorff manifold with boundary. The
+  singular chains and cochains of pairs, excision and the evaluation pairing that its Stages 2–3
+  and 6.1 plan are consumed from Tau Ceti, where they are already in the library; its Stage 6.5
+  compares its homological degree with DifferentialGeometry 10's smooth degree, and nothing here
+  touches that comparison.
 
 Deferrals that no target here consumes: sharp finite-order Sard is HeegaardFloer §2.1's (F0.S),
 and every map in Layer 5 is `C^∞`, so no target here needs it; smooth collars, collar
@@ -114,17 +114,17 @@ Layer 1 here integrates `1`-forms with local primitives along continuous paths.
 The relative smooth chain comparison (§2.4), the relative form complex of an open pair, relative
 integration and the relative de Rham isomorphism (§§3.1–3.3), and the compact-support integration
 formula (§4.1) have a single owner, this roadmap. §§2.4 and 3.1–3.3 hold over every real model
-with corners, which §4.2 needs for compact manifolds with boundary, and §4.1 carries the
+with corners, which §4.2 needs for compact Hausdorff manifolds with boundary, and §4.1 carries the
 interior compact-support formula that §4.2 uses. The open-pair comparison and compact-support
 formula that ComplexKahlerGeometry K6.1 uses for analytic cycles are their boundaryless instances,
 consumed from §§2.4, 3.1–3.3 and 4.1 (*Downstream consumers*).
 
 DifferentialGeometry 8.3 states, and owns, the absolute smoothing equivalence for every Hausdorff
 σ-compact finite-dimensional manifold over any real model with corners; §§2.4 and 3.3 import it as
-stated. The face-fixing relative smoothing lemma that its sketch names fails for targets with
-boundary (*Statements that must not enter the library*, the `3`-simplex in `[0, ∞)`); the transfer
-lemma of §2.3 applied to inward domination (§2.2) is a route to the statement that does not use
-it. The choice of route is DifferentialGeometry's.
+stated, whatever its route. A face-fixing relative smoothing lemma fails for targets with boundary
+(*Statements that must not enter the library*, the `3`-simplex in `[0, ∞)`). DifferentialGeometry
+supplies this roadmap and consumes none of it: the transfer lemma (§2.3) and inward domination
+(§2.2) are theorems here, and no input to 8.3.
 
 ## Conventions
 
@@ -356,7 +356,8 @@ installed on a manifold. In addition:
   `TauCeti.HomologicalOrientation` with the chart-normalized point generators, natural under
   oriented open embeddings, through its Euclidean rechart along a linear equivalence
   `E ≃L[ℝ] EuclideanSpace ℝ (Fin m)` and its open-embedding local maps; and the oriented relative
-  class of a compact manifold with boundary. The compact-support classes, their
+  class of a compact Hausdorff manifold over `𝓡∂ m`, `m > 0` (Stage 6.3 builds it for Hausdorff
+  second-countable `M`, through Brown's collar). The compact-support classes, their
   support-enlargement law and the integral fundamental class that Stage 6.3 also plans are Tau
   Ceti's declarations above, and so are the relative chains and cochains, excision, the five-lemma
   comparisons and the evaluation pairing of its Stages 2–3 and 6.1.
@@ -365,8 +366,9 @@ installed on a manifold. In addition:
 
 Layer 1 extends Tau Ceti's covering space of local primitives and depends on nothing else here.
 Layer 2 is differential topology of models with corners: the inward cone and inward domination
-(§§2.1–2.2) are independent of chains; the transfer lemma (§2.3) consumes §2.2 and Tau Ceti's
-smooth singular simplices, and the relative chain comparison (§2.4) consumes DifferentialGeometry
+(§§2.1–2.2) are independent of chains; the transfer lemma (§2.3) consumes Tau Ceti's smooth
+singular simplices and Mathlib's homotopy invariance of chains, and §2.2 supplies its instance
+`N = I.interior M`; the relative chain comparison (§2.4) consumes DifferentialGeometry
 8.3's equivalence directly; relative approximation (§2.5) is independent of the rest. Layer 3
 builds the relative de Rham theory on Tau Ceti's de Rham complexes and relative coordinates,
 DifferentialGeometry 8.4–8.5 and Layer 2's relative chains. Layer 4 consumes Layer 3, Tau Ceti's
@@ -623,7 +625,7 @@ homotopic (`s ~ s ≫ i ≫ t ~ t`), so the transferred inverse is independent o
 up to homotopy and the induced map on homology is natural. Inward domination (§2.2) supplies such
 a triple with `N = I.interior M`, `j` the inclusion and `r` the retraction; the equivalence for
 `M` itself is DifferentialGeometry 8.3's, imported as stated. The transfer lemma is this
-roadmap's. *Needs:* §2.2; Tau Ceti `TauCeti.smoothSingularSubcomplex`,
+roadmap's. *Needs:* Tau Ceti `TauCeti.smoothSingularSubcomplex`,
 `TauCeti.smoothSingularSubcomplexMap`; Mathlib `TopCat.Homotopy.singularChainComplexFunctorObjMap`,
 `TopCat.Homotopy.toSSet`, `SSet.Homotopy.chainComplexMap`.
 
@@ -902,8 +904,9 @@ is `Σ_{x ∈ K} ε_o(x) η(x)` for every `N`, finite or not; for finite `N` and
 `TauCeti.integralTopForm_ofFunction_finite_zeroDim`, which assumes `[Fintype N]`. These lemmas are
 stated over `𝓘(ℝ, E)`, so they are applied on `N` recharted along `I` (in dimension `0`,
 `range I = E`), one of the carrier conversions above. The interior
-compact-support formula on a manifold `M` with boundary, which §4.2 uses, is the second bullet on
-the boundaryless open submanifold `I.interior M`, carried to `M` by
+compact-support formula on a Hausdorff σ-compact manifold `M` with boundary over a
+finite-dimensional model, which §4.2 uses, is the second bullet on the boundaryless open
+submanifold `I.interior M`, carried to `M` by
 `TauCeti.integralTopForm_mpullback_subtypeVal` and excision of `M ∖ I.interior M`
 (`TopPair.isIso_singularHomologyMap_excisionMap_of_isClosed_subset` for `K` inside the open
 `I.interior M`); general
@@ -940,19 +943,21 @@ homological orientation of a tangent orientation).
 
 ### 4.2 Smooth-boundary compatibility
 
-For compact oriented `M` over `𝓡∂ m`, `m > 0`, let `U` be the image of a topological collar
-`∂M × [0, 1) → M` (Tau Ceti's Brown collar), `α` a smooth top form on `M` and `β` a smooth
-`(m−1)`-form on `U` with `α|_U = dβ`. Then `⟨ℐ[α, β], [M, U]_ℝ⟩ = ∫_M α − ∫_{∂M} j^*β`, with
-§3.3's relative class `ℐ[α, β]`, AlgebraicTopology 6.3's oriented relative class transported along
-`(M, ∂M) → (M, U)`, Tau Ceti's outward-first `TauCeti.boundaryOrientation` and `j : ∂M → U` the
-smooth factorization of the boundary inclusion (no derivative of the topological collar is used).
-Route: a smooth cutoff `ρ` from `exists_contMDiffMap_one_nhds_of_subset_interior`, equal to `1`
-near `∂M` and supported in a closed neighbourhood inside `U`; `γ = ρβ` extended by zero;
-`[α, β] = [α − dγ, β − γ|_U]`; §4.1's interior formula for `α − dγ` and Stokes' theorem
-`TauCeti.integralTopForm_mextDeriv` for `γ`; independence of cutoff and collar. The formula,
-which combines §4.1's interior formula with Stokes' theorem, is this roadmap's. *Needs:* §4.1,
-§3.3; Tau Ceti `TauCeti.boundaryOrientation`, `TauCeti.integralTopForm_mextDeriv`,
-`TauCeti.IsLocallyCollared.isCollared`; AlgebraicTopology 6.3 (the oriented relative class).
+For compact Hausdorff oriented `M` over `𝓡∂ m`, `m > 0` (second countable by
+`ChartedSpace.secondCountable_of_sigmaCompact`, so that AlgebraicTopology 6.3's relative class
+exists), let `U` be the image of a topological collar `∂M × [0, 1) → M` (Tau Ceti's Brown collar),
+`α` a smooth top form on `M` and `β` a smooth `(m−1)`-form on `U` with `α|_U = dβ`. Then
+`⟨ℐ[α, β], [M, U]_ℝ⟩ = ∫_M α − ∫_{∂M} j^*β`, with §3.3's relative class `ℐ[α, β]`,
+AlgebraicTopology 6.3's oriented relative class transported along `(M, ∂M) → (M, U)`, Tau Ceti's
+outward-first `TauCeti.boundaryOrientation` and `j : ∂M → U` the smooth factorization of the
+boundary inclusion (no derivative of the topological collar is used). Route: a smooth cutoff `ρ`
+from `exists_contMDiffMap_one_nhds_of_subset_interior`, equal to `1` near `∂M` and supported in a
+closed neighbourhood inside `U`; `γ = ρβ` extended by zero; `[α, β] = [α − dγ, β − γ|_U]`; §4.1's
+interior formula for `α − dγ` and Stokes' theorem `TauCeti.integralTopForm_mextDeriv` for `γ`;
+independence of cutoff and collar. The formula, which combines §4.1's interior formula with Stokes'
+theorem, is this roadmap's. *Needs:* §4.1, §3.3; Tau Ceti `TauCeti.boundaryOrientation`,
+`TauCeti.integralTopForm_mextDeriv`, `TauCeti.IsLocallyCollared.isCollared`; AlgebraicTopology 6.3
+(the oriented relative class).
 
 **Checks.**
 
@@ -961,6 +966,14 @@ which combines §4.1's interior formula with Stokes' theorem, is this roadmap's.
 - `β = 0` near `∂M` reduces to §4.1's interior formula.
 - On `[0, 1]`, `α = dx`, `β = x` near both ends: `∫ α − (1 − 0) = 0`, consistent with
   `(dx, x) = d(x, 0)` being exact.
+- The Hausdorff hypothesis is necessary: let `M` be `[−1, 1]` with its origin doubled to `0` and
+  `0′`, a compact manifold over `𝓡∂ 1` with boundary `∂M = {−1, 1}`, oriented by the coordinate,
+  and Hausdorff except at the pair `0, 0′`. The pair sequence gives `H₁(M, ∂M; ℝ) ≅ ℝ²`
+  (`H₁(M) ≅ ℝ` by Mayer–Vietoris, and `H₀(∂M) = ℝ² → H₀(M) = ℝ` has kernel `ℝ`), spanned by the
+  arcs `c` through `0` and `c′` through `0′` from `−1` to `1`. The local image of `a·c + b·c′` is
+  `a` at `0`, `b` at `0′` and `a + b` at every other interior point, and an orientation has one
+  sign `s` on all of them, so `a = b = a + b = s` forces `s = 0`: there is no relative fundamental
+  class, and the left side of the formula is undefined.
 
 ### Examples
 
@@ -1196,8 +1209,7 @@ measures.
   with these faces. A smooth filling would have zero value and gradient and Hessian with diagonal
   `2` and off-diagonal `−2` at `0`, so its value along `(t, t, t)` is `−3t² + o(t²) < 0`. Hence a
   face-fixing relative smoothing lemma holds only for boundaryless targets, and a proof of
-  DifferentialGeometry 8.3 over models with corners cannot use it; the transfer of §2.3 along
-  inward domination (§2.2) is a route that does not.
+  DifferentialGeometry 8.3 over models with corners cannot use it.
 - **"The semiflow of a strictly inward field is a smooth collar, face by face."** At a corner it is
   neither. On the quadrant the semiflow of `(1, 1)` is a topological collar of the whole boundary
   whose depth coordinate `min(x, y)` is not differentiable on the diagonal, and its flowout

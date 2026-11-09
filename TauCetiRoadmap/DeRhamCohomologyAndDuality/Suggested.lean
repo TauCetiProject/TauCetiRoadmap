@@ -35,7 +35,7 @@ Not statable at the pins:
   `TauCeti.Manifold.Orientation` only the local orientation at a single point,
   `TauCeti.localOrientationOfManifoldOrientation`;
 * the smooth-boundary compatibility formula (§4.2) needs, in addition, the relative de Rham class
-  of §3.3 and the oriented relative class of a compact manifold with boundary
+  of §3.3 and the oriented relative class of a compact Hausdorff manifold with boundary
   (AlgebraicTopology 6.3).
 -/
 
