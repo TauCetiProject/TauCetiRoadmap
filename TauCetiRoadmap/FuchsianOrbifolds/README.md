@@ -849,7 +849,7 @@ of the covolume and their equality cases.
    has `δ = 1/6 − 1/m₃`, positive exactly for `m₃ ≥ 7` and equal to `1/42` only at `m₃ = 7`;
    `(2, 4, m₃)` needs `m₃ ≥ 5` and has `δ ≥ 1/20`; `(2, m₂, m₃)` with `m₂ ≥ 5` has `δ ≥ 1/10`; and
    `m₁ ≥ 3` has `δ ≥ 1/12`, the case `(3, 3, 3)` having `δ = 0`.
-   *Needs:* Layer 5 item 7; Tau Ceti `MeasureTheory.covolume_pos`,
+   *Needs:* Layer 4 items 2 and 3; Layer 5 items 1 and 7; Tau Ceti `MeasureTheory.covolume_pos`,
    `TauCeti.one_div_forty_two_le_hyperbolic_deficit`, `TauCeti.hyperbolic_deficit_two_three_seven`,
    `Subgroup.IsCofinite.finite_ellipticOrbits`, `Subgroup.IsCofinite.finite_cuspOrbit`;
    AlgebraicTopology Stage 8 item 7 with ComplexManifolds Milestone 1, for the finite CW type of
@@ -884,7 +884,7 @@ of the covolume and their equality cases.
    | `g = 0, c = 1, r = 2` | sort `m₁ ≤ m₂`; `(2, 2)` gives `δ = 0`, `(2, 3)` the minimum `δ = 1/6`, and every other pair `δ ≥ 1/4` |
    | `g = 0, c = 1, r ≥ 3` | `δ ≥ 1/2`, area at least `π` |
 
-   *Needs:* Layer 5 item 7; Tau Ceti `MeasureTheory.covolume_pos`,
+   *Needs:* Layer 4 items 2 and 3; Layer 5 items 1 and 7; Tau Ceti `MeasureTheory.covolume_pos`,
    `Subgroup.IsCofinite.finite_ellipticOrbits`, `Subgroup.IsCofinite.finite_cuspOrbit`,
    `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange`; AlgebraicTopology Stage 8 item 7 with
    ComplexManifolds Milestone 1, for the finite CW type of `X(Γ)`.
@@ -947,18 +947,23 @@ implemented in Tau Ceti, in the construction order below.
 | L0 effective action and free locus | Mathlib, ComplexManifolds Milestone 4 | L1–L4, L6 |
 | L1 elliptic charts | L0, ComplexManifolds Milestones 5–6 | L4–L6 |
 | L2 polygons and presentations | L0, Tau Ceti half-space model | L3–L6 |
-| L3 cusps and q-coordinates | L0, L2 | L4–L6 |
-| L4 compactification | L1–L3 | L5–L6 |
-| L5 degree theory and applications | ComplexManifolds Milestones 1–2, AlgebraicTopology Stages 6 and 8, Tau Ceti Euler characteristic and Riemann-surface degree, L2, L4 | L4a, L6, ModularForms §§10A–10B |
+| L3 cusps and q-coordinates | L0, L2 | L4–L6, L4a |
+| L4 compactification | L0–L3 | L4a, L5–L6 |
+| L5 degree theory and applications | ComplexManifolds Milestones 1–2, AlgebraicTopology Stages 6 and 8, Tau Ceti Euler characteristic and Riemann-surface degree, L1–L4 | L4a, L6, ModularForms §§10A–10B |
 | L6 level-one example | L0–L5, Tau Ceti `j` | normalized `X(1) ≃ P^1`; ModularForms §§10A and 10D |
-| L4a minimal areas | L5 item 7, Tau Ceti deficit bound | area ≥ `π/21`; area ≥ `π/3` with a cusp; equality cases |
+| L4a minimal areas | L3 item 1, L4, L5 items 1 and 7, Tau Ceti deficit bound, AlgebraicTopology Stage 8 item 7, ComplexManifolds Milestone 1 | area ≥ `π/21`; area ≥ `π/3` with a cusp; equality cases |
 
-The dependency order follows the table. No row depends on TeichmullerGeometry or
-ArithmeticFuchsianGroups, which consume this roadmap downstream. L1 and L2 can proceed in parallel
-after L0. The local q-coordinate calculation in L3 can proceed while the global polygon results are
-completed. Layer 5 items 1–3 can proceed in parallel with Layers 0–4; items 4–7 begin after
-Layer 4, and Layer 4a follows Layer 5 item 7. Matching Mathlib APIs
-replace local declarations when available, but no layer waits for them.
+The dependency order follows the table, except that Layers 2 and 3 interleave by item. The cusp
+points, cusp orbits, cusp data, horodiscs, q-coordinates and q-expansion criterion of Layer 3 use
+Layer 0, and the finiteness of the cusp orbits of a cofinite group also the cofiniteness of Layer 2
+item 1, but no polygon; Layer 2 items 2, 5 and 6 state their cusp facts with them; and only the
+compact part of the quotient outside the horodiscs, in Layer 3 item 3, uses the convex polygons of
+Layer 2 item 2. Likewise, the membership of every cusp chart in the compactified atlas, at the end
+of Layer 3 item 4, is a statement about the atlas of Layer 4 item 3. No row depends on
+TeichmullerGeometry or ArithmeticFuchsianGroups, which consume this roadmap downstream. L1 and L2
+can proceed in parallel after L0. Layer 5 items 1–3 can proceed in parallel with Layers 0–4; items
+4–7 begin after Layer 4, and Layer 4a follows Layer 5 item 7. Matching Mathlib APIs replace local
+declarations when available, but no layer waits for them.
 
 ## Acceptance checks
 
