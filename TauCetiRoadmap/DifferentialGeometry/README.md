@@ -250,11 +250,11 @@ Checked against the pin; re-grep before citing anything in code.
 - **Smooth structures on covers**: `Geometry/Manifold/Instances/Comap.lean` —
   `IsLocalHomeomorph.chartedSpaceComap`, the charts of the base pulled back along a local
   homeomorphism, with `IsLocalHomeomorph.isManifold_chartedSpaceComap`,
-  `IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceComap`,
-  `IsLocalHomeomorph.contMDiff_chartedSpaceComap_iff` and
-  `IsLocalHomeomorph.compatible_chartedSpaceComap`; and
-  `Geometry/Manifold/Instances/UniversalCover.lean`, the smooth structure of the universal cover
-  built from it. They are 2.3, which keeps its id for its consumers.
+  `IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceComap` and
+  `IsLocalHomeomorph.contMDiff_chartedSpaceComap_iff`, and, at the Tau Ceti revision the content
+  repository pins, the uniqueness `IsLocalHomeomorph.compatible_chartedSpaceComap` in the same
+  file; and `Geometry/Manifold/Instances/UniversalCover.lean`, the smooth structure of the
+  universal cover built from it. They are 2.3, which keeps its id for its consumers.
 - **Oriented atlases**: `Geometry/Manifold/Orientation.lean` — `TauCeti.OrientationPreservingOn`
   (differentiable within `range I` with derivative of positive determinant, read in the model),
   `TauCeti.orientationPreservingGroupoid`, `TauCeti.IsOrientedAtlas I n A` (charts of the maximal
@@ -315,13 +315,16 @@ Checked against the pin; re-grep before citing anything in code.
 - **De Rham cohomology, smooth chains, null sets, Sard and the degree** (cited at Tau Ceti
   `2fd255d9`, the revision the content repository's `lake-manifest.json` pins; these modules
   postdate the revision `358314d4` that this folder's `Suggested.lean` is written against, which
-  is why its de Rham, duality and degree headlines are listed there as not statable):
+  is why its de Rham, duality and degree headlines and the equivalences of 2.4 are listed there as
+  not statable):
   `Geometry/Manifold/DeRham/{Basic,Map,Wedge,Algebra,DegreeZero,HomotopyInvariance,PathIntegral,SimplyConnected,CompactSupport,ExtendByZero,MayerVietoris,CompactlySupportedMayerVietoris,NormedSpace,RealLine,Euclidean,Sphere,Punctured,Circle,Torus,PoincarePairing,Period}.lean`,
   `Geometry/Manifold/SmoothSingular/{Basic,Integral}.lean`,
   `Geometry/Manifold/{Measure,RegularValue}.lean`, `Geometry/Manifold/Sard/{EqualDimension,Meagre}.lean`,
-  `Geometry/Manifold/Degree/Basic.lean`, `Geometry/Manifold/Orientation/Cover/{Basic,Smooth,Descent,FundamentalGroup}.lean`,
+  `Geometry/Manifold/Degree/Basic.lean`, `Geometry/Manifold/Orientation/Sign.lean`,
+  `Geometry/Manifold/Orientation/Cover/{Basic,Smooth,Descent,FundamentalGroup}.lean`,
+  `Geometry/Manifold/ContMDiff/OnSubset.lean`,
   `Geometry/Manifold/DifferentialForm/{HomotopyOperator,Poincare}.lean`,
-  `Geometry/Manifold/DifferentialForm/Integration/{TopForm,Stokes,BoundarylessStokes}.lean`,
+  `Geometry/Manifold/DifferentialForm/Integration/{TopForm,Stokes,BoundarylessStokes,Path}.lean`,
   `Geometry/Convex/FullSimplex.lean`, `Geometry/Manifold/Exhaustion.lean` and
   `Analysis/Calculus/DifferentialForm/Poincare.lean`. Layers 6–11 consume them by name. The
   carriers they are built on — `TauCeti.RoughForm`, `TauCeti.SmoothForm`, `TauCeti.mextDeriv`,
@@ -336,7 +339,9 @@ Checked against the pin; re-grep before citing anything in code.
   `AlgebraicTopology/Singular/Subdivision/{Homotopy,Small/Equiv}.lean`,
   `AlgebraicTopology/Singular/MayerVietoris/Basic.lean`,
   `AlgebraicTopology/Singular/BrouwerFixedPoint.lean` and `Topology/Circle/Degree.lean`; 8.1–8.2
-  and 10.5 consume them.
+  and 10.5 consume them. `Cohomology/UniversalCoefficient.lean`,
+  `Cohomology/MayerVietoris/Basic.lean` and `Singular/BrouwerFixedPoint.lean` are cited, like the
+  de Rham modules above, at the Tau Ceti revision the content repository pins.
 - **Flat Morse–Sard**: `Analysis/Calculus/Sard/OutermostStratum.lean`
   (`TauCeti.addHaar_image_criticalPoints_eq_zero`, for `C^k` maps with `k ≥ (dim E)² + 1`);
   10.2 consumes it.
@@ -895,27 +900,40 @@ Geometric Topology.
   (`Geometry/Manifold/Instances/Comap.lean`, *From Tau Ceti*); nothing in it is a target, and the
   id names these declarations for the roadmaps that cite it. A covering map is a local
   homeomorphism (Mathlib's `IsCoveringMap.isLocalHomeomorph`), and for a local homeomorphism
-  `p : X → M` onto a charted space, `IsLocalHomeomorph.chartedSpaceComap` is the charted structure
-  on `X` whose chart at `x` is the local inverse of `p` at `x` followed by the chart of `M` at
-  `p x`, so that it reads `y` as the chart of `M` at `p x` reads `p y`
-  (`IsLocalHomeomorph.chartAt_chartedSpaceComap_apply`). Over a `C^n` manifold `M` it makes `X` a
-  `C^n` manifold (`IsLocalHomeomorph.isManifold_chartedSpaceComap`) on which `p` is a `C^n` local
+  `p : X → M` into a charted space, `IsLocalHomeomorph.chartedSpaceComap` is the charted structure
+  on `X` whose chart at `x` is the restriction of `p` to an open neighbourhood of `x` that `p` maps
+  homeomorphically onto an open subset of `M` (the inverse of the local inverse of `p` at `x`),
+  followed by the chart of `M` at `p x`, so that it reads `y` as the chart of `M` at `p x` reads
+  `p y` (`IsLocalHomeomorph.chartAt_chartedSpaceComap_apply`). Over a `C^n` manifold `M` it makes
+  `X` a `C^n` manifold (`IsLocalHomeomorph.isManifold_chartedSpaceComap`) on which `p` is a `C^n` local
   diffeomorphism (`IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceComap`). A map into `X` is
   `C^n` exactly when it is continuous and its composite with `p` is `C^n`
   (`IsLocalHomeomorph.contMDiff_chartedSpaceComap_iff`, with `Within`, `At` and `On` forms), which
   is the smoothness of continuous lifts. Every `C^n` structure on `X` for which `p` is a `C^n` local
-  diffeomorphism is compatible with it (`IsLocalHomeomorph.compatible_chartedSpaceComap`), which is
-  the uniqueness. ⚠ It is a definition and never an instance on the type `X`, since it depends on
+  diffeomorphism is compatible with it, which is the uniqueness
+  (`IsLocalHomeomorph.compatible_chartedSpaceComap`, at the Tau Ceti revision the content
+  repository pins). ⚠ It is a definition and never an instance on the type `X`, since it depends on
   `p` (*Statements that must not enter the library*); it is installed as an instance only on a type
   built together with its covering map, as `TauCeti.UniversalCover.instChartedSpace` is. 2.4 and the
-  Lie-groups roadmap's simply connected covers consume these names.
+  Lie-groups roadmap's simply connected covers consume 2.3. The Lie-groups roadmap cites the
+  structure as `IsCoveringMap.inducedChartedSpace H hp`; for a covering map `hp : IsCoveringMap p`
+  that name stands for `hp.isLocalHomeomorph.chartedSpaceComap (H := H)`.
 - **2.4 The orientation double cover.** The cover of pairs of a point and an orientation of its
   tangent space, with its projection, a topology that is ⚠ not the sigma topology (pinned by the
   covering property of the projection), the smooth structure induced through 2.3, the canonical orientation
   and the orientation-reversing, fixed-point-free deck involution flipping the orientation. For
   connected `M`: orientable ↔ the cover is disconnected ↔ it has a section ↔ it is trivial, and
   `M` is orientable when `π₁` has no index-2 subgroup (`orientable_of_forall_index_ne_two`)
-  [Lee, Thm. 15.41–15.43]. The **descent API** — the invariant and anti-invariant parts
+  [Lee, Thm. 15.41–15.43]. At the Tau Ceti revision the content repository pins, the cover is
+  `TauCeti.Manifold.OrientationCover I M`, its charts are pulled back along the projection by
+  2.3's `IsLocalHomeomorph.chartedSpaceComap` (`Orientation/Cover/Smooth.lean`), and two of these
+  equivalences are proved for a `C¹` manifold `M` modelled on a finite-dimensional space:
+  `TauCeti.Orientable I M` holds exactly when the projection has a continuous section
+  (`TauCeti.Manifold.OrientationCover.orientable_iff_exists_section`), and, for connected `M`,
+  exactly when the cover is not connected
+  (`TauCeti.Manifold.OrientationCover.orientable_iff_not_connectedSpace`, both in
+  `Orientation/Cover/Basic.lean`); 2.4 consumes them by name there. The **descent API** — the
+  invariant and anti-invariant parts
   `(1 ± τ^*)/2` of a form under an involution `τ`, which sum to the form, commute with `d` for a
   `C²` involution and preserve compact support for a proper one, and the descent criterion (a form
   on the cover is a pullback from `M` exactly when it is deck-invariant) — is
@@ -2426,8 +2444,11 @@ Each is a tempting mistake with its refutation.
   pulled back along `p`, and its composite with `p` is the smooth `t ↦ exp(i t)`; so it is smooth
   into the pulled-back structure (`IsLocalHomeomorph.contMDiff_chartedSpaceComap_iff`). It is not
   differentiable at `0` for the standard structure, so the two structures on `ℝ` are not
-  compatible. The uniqueness of 2.3 gives the same conclusion: for the standard structure `p` is
-  not a local diffeomorphism, since its derivative `3t² · i exp(i t³)` vanishes at `0`.
+  compatible. `IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceComap` gives the same conclusion:
+  `p` is a local diffeomorphism for the pulled-back structure, so it would be one for any
+  compatible structure, but for the standard structure it is not one, since its derivative
+  `3t² · i exp(i t³)` vanishes at `0`. The uniqueness of 2.3 says nothing about the standard
+  structure, whose hypothesis that `p` be a local diffeomorphism fails there.
 - **"Every integral manifold is weakly embedded."** Only the injectively immersed ones with a
   second-countable carrier: the double cover `z ↦ z²` of the circle and the discrete real line fail.
 - **"`H^•_c` is functorial for all smooth maps."** Only for proper maps and open inclusions;

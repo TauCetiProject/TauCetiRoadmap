@@ -47,8 +47,12 @@ half-space (5.3) and for smooth faces and corners (5.5b) lack the integral of a 
 manifold and the outward-first boundary orientation, constructions whose bodies are themselves
 theorems (5.1–5.2), and the corner version also lacks the smooth face structure with its abstract
 boundary (5.5b); the face-structured divergence theorem (12.5) lacks the same face structure; the
-equivalences of 2.4 lack the orientation double cover with its topology (2.4), from which Tau
-Ceti's `IsLocalHomeomorph.chartedSpaceComap` (2.3) would give its smooth structure; the
+equivalences of 2.4 lack, at the Tau Ceti revision this file is built against, the orientation
+double cover with its topology (2.4), from which Tau Ceti's `IsLocalHomeomorph.chartedSpaceComap`
+(2.3) gives its smooth structure (the Tau Ceti revision the content repository pins has the cover
+and proves two of the equivalences,
+`TauCeti.Manifold.OrientationCover.orientable_iff_exists_section` and
+`TauCeti.Manifold.OrientationCover.orientable_iff_not_connectedSpace`, which 2.4 cites); the
 homotopy-operator identity (5.4) lacks the homotopy operator; agreement of
 densities with the integral of top forms (5.5a) and of the Riemannian volume form with the
 Riemannian density (12.4) lack those integrals and the volume form; Cartan's formula (1.4) lacks
