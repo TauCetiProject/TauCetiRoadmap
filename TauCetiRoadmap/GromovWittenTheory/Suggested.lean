@@ -33,6 +33,10 @@ None of these is statable at the pins:
   `SmoothAlmostComplexStructure` accepts any smooth `J` with `J² = −1` on a native manifold,
   but it has no moduli space of stable pseudoholomorphic maps and no implicit atlas; what is
   missing is the stable-map moduli carrier, not the domain or the target.
+- Theorems 1–4 need the cup product on Tau Ceti's Čech cohomology
+  `TauCeti.Topology.cechCohomology`, by which the operations multiply the pulled-back test and
+  insertion classes on the coarse stable-map space (README §0.4); the pinned Tau Ceti has the
+  Čech groups and the pullback maps of fixed-family Čech complexes but no product on them.
 - Theorems 1–4 need the coarse moduli space of stable pointed curves `M̄_(g,n)` with the
   weighted rational pairing of its retained-arrow groupoid, the targets of ComplexCurveModuli
   D5–D8 and Orbifolds O5, which are not in the pinned Tau Ceti.
