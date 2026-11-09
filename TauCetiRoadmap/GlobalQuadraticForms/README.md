@@ -51,7 +51,10 @@ kernel description; and the worked examples `⟨1, 1, -3⟩`, `⟨1, 1⟩`, `⟨
 the `ℚ(√5)` record.
 
 Section and name map. A citation of one of the ids below resolves to the Tau Ceti declarations
-named on its line:
+named on its line. They hold for number fields in every universe except where a line says "in
+`Type`"; for those, the statement for a number field in any universe is its transport through
+4.1 (a model in `Type` by the first fact, the declaration there, and the conclusion back by the
+second):
 
 - Layer 0, localizations and local predicates, resolves to `QuadraticForm.atFinitePlace`,
   `QuadraticForm.atRealPlace`, `QuadraticForm.atComplexEmbedding`,
@@ -66,16 +69,18 @@ named on its line:
 - Layer 3, admissible systems of local invariants, resolves to the record
   `TauCeti.NumberField.QuadraticForm.GlobalFormInvariants` (3.1), `GlobalFormInvariants.IsAdmissible`
   (3.2), and the record of a form `QuadraticForm.globalInvariants` with
-  `QuadraticForm.isAdmissible_globalInvariants_iff` (3.3).
-- 4.4, the localized product formula, resolves to `TauCeti.hilbertSymbol_productFormula`.
+  `QuadraticForm.isAdmissible_globalInvariants_iff` (3.3); the admissibility of the record of a
+  regular form of positive rank is `QuadraticForm.isAdmissible_globalInvariants`, in `Type`.
+- 4.4, the localized product formula, resolves to `TauCeti.hilbertSymbol_productFormula`, in
+  `Type`.
 - 4.4, the real symbol, resolves to `TauCeti.hilbertSymbol_real` and
   `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`.
 - 4.4, sign prescription with a prescribed second argument, resolves to
-  `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite`.
+  `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite`, in `Type`.
 - 4.4, sign prescription for a pair, cited under the name exists_hilbertSymbol_eq_neg_one_iff_pair,
-  resolves to `TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`.
+  resolves to `TauCeti.NumberField.QuadraticForm.exists_pair_hilbertSymbol_eq_ite`, in `Type`.
 - 4.4, the Hasse product of one form, resolves to
-  `QuadraticForm.globalInvariants_hasseProduct_eq_one`.
+  `QuadraticForm.globalInvariants_hasseProduct_eq_one`, in `Type`.
 
 This roadmap does not own, and cites:
 
@@ -143,8 +148,11 @@ This roadmap does not own, and cites:
 
 ## Exact supplier contracts
 
-There is no roadmap supplier. Every input below is a declaration of Mathlib or Tau Ceti at the
-pins. Eight of the Tau Ceti inputs are stated for number fields in `Type`:
+There is no roadmap supplier. Every input below, and every declaration the section map names, is
+a declaration of Mathlib or Tau Ceti, read at the revisions the content repository's manifest
+records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Eight of the Tau Ceti inputs are stated for number
+fields in `Type`:
 `TauCeti.ClassFieldTheory.finrank_le_index_range_ideleClassNormMap`,
 `TauCeti.ClassFieldTheory.exists_sq_sub_mul_sq_iff_forall_completion`,
 `GlobalFormInvariants.IsLocalRealization.exists_locallyRepresents_prod`,
@@ -191,7 +199,8 @@ conclusion to a model of `K` in `Type`.
   (`RingTheory/DedekindDomain/Ideal/Lemmas.lean`; the induced bijection of height-one primes),
   `NumberField.InfinitePlace.comap`, `NumberField.InfinitePlace.isReal_comap_iff` (pulling back
   along a ring isomorphism preserves reality) and `NumberField.InfinitePlace.comap_embedding_of_isReal`
-  (the pulled-back real embedding is the composite)
+  (when the pulled-back place is real, its embedding into `ℂ` is the embedding of the original
+  place composed with the ring homomorphism)
   (`NumberTheory/NumberField/InfinitePlace/Ramification.lean`).
 
 ### From Tau Ceti
