@@ -176,88 +176,109 @@ target; `Suggested.lean` carries it as a stand-in because the parent prototype l
 
 ### Dependencies on other roadmaps
 
-Each item is the exact statement consumed. Where a sibling roadmap names the object differently,
-use its name; the mathematics below is what is required. Each supplier owns its interface.
-`Suggested.lean` reproduces the suppliers' current proposed definitions, and the theorems it
-applies, as marked stand-ins, each block recording its owner and the owner's revision it was
-checked against; BorelEquivalenceRelations' perfect-set vocabulary is written out inline instead.
-These copies are prototype scaffolding, not authorization to implement a parallel API in Tau Ceti:
-Tau Ceti implements the owners' declarations and this roadmap imports them.
+Each item is the exact statement consumed. Each supplier owns its interface. Tau Ceti implements
+most of it at this repository's pin (2fd255d99); each item names the Tau Ceti declarations and their
+files (paths under `TauCeti/`), and `Suggested.lean` imports them. An item with no Tau Ceti
+declaration is a target of the supplying roadmap, and its statement here is what is required.
 
 **From [CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)).
 
-* **(S1) Code spaces.** For a carrier `α`, the coding space `StructureSpaceOn L α` (one bit for each
-  relation symbol `R` of arity `l` and tuple `Fin l → α`), with the product topology and product
-  σ-algebra, Polish and standard Borel for countable `α` and countably many relation symbols;
-  `StructureSpace L := StructureSpaceOn L ℕ`; the decoding `StructureSpaceOn.toStructure` and
-  encoding `ofStructure`, mutually inverse for relational `L`; the transport `encodeVia e` along a
-  bijection `e : M ≃ α` with `nonempty_equiv_encodeVia`; and `mk_structureSpaceOn_le_continuum`.
-* **(S2) Model classes.** `modelsOf φ : Set (StructureSpaceOn L α)` for `φ : L.Sentenceω`, with
-  `measurableSet_modelsOf` (countable `α`), `isomorphismInvariant_modelsOf`, and
-  `standardBorelSpace_modelsOf`.
-* **(S3) Isomorphism and the logic action.**
-  `structureIsoSetoidOn L α : Setoid (StructureSpaceOn L α)` (the decoded structures are
-  isomorphic), on every carrier `α : Type w`, and the abbreviation
-  `structureIsoSetoid L := structureIsoSetoidOn L ℕ`; the action of `Equiv.Perm α` on
-  `StructureSpaceOn L α`, with `orbitRel_iff_nonempty_equiv`, `structureIsoSetoidOn_eq_orbitRel`
-  (isomorphism is the orbit relation, on every carrier) and `structureIsoSetoid_eq_orbitRel`;
-  `ActionInvariant`, `IsomorphismInvariant`, `actionInvariant_iff_isomorphismInvariant`, and
-  `analyticSet_iUnion_smul` (the saturation of an analytic class is analytic).
-* **(S4) Back-and-forth levels on codes.** `bfEquivSetoid β : Setoid (StructureSpace L)`, the
-  parent's `BFEquiv β 0` between the empty tuples of the decoded structures, for `β : Ordinal.{0}`;
-  `measurableSet_bfEquivSetoid` (Borel for `β < ω₁`); `structureIsoSetoid_le_bfEquivSetoid`.
-* **(S5) Scott height.** `scottHeight M` with `scottHeight_lt_omega_one` (countable `M`),
-  `scottHeight_congr` (invariance under isomorphism),
-  `nonempty_equiv_of_bfEquiv_of_scottHeight_le` (for countable `M`, `N` in one universe,
+* **(S1) Code spaces.** For a carrier `α`, the coding space `TauCeti.RelationalConfiguration L α`
+  (`ModelTheory/RelationalConfiguration/Basic.lean`: one bit for each atom `atom R x`, a relation
+  symbol `R` of arity `l` with a tuple `x : Fin l → α`), with the product topology and product
+  σ-algebra, Polish and standard Borel for countable `α` and countably many relation symbols of
+  each arity (`Topology.lean`); the decoding `RelationalConfiguration.toStructure` and encoding
+  `RelationalConfiguration.ofStructure`, mutually inverse for relational `L`
+  (`ofStructure_toStructure`, `toStructure_ofStructure`, `Structure.lean`); the transport
+  `Equiv.encodeVia e` along a bijection `e : M ≃ α` with `Equiv.nonempty_equiv_encodeVia` and
+  `Equiv.realize_encodeVia`; and `RelationalConfiguration.mk_le_continuum`.
+* **(S2) Model classes.** `RelationalConfiguration.modelsOf φ : Set (RelationalConfiguration L α)`
+  for `φ : L.SentenceInf ι` (`ModelsOf.lean`), with `mem_modelsOf`, `measurableSet_modelsOf`
+  (countable `α` and `ι`) and the instance `standardBorelSpace_modelsOf`; and
+  `isomorphismInvariant_modelsOf` (codes isomorphic to a code of a model are codes of models), a
+  CountableStructureSpaces target with no Tau Ceti declaration, which follows from Tau Ceti's
+  `Language.Equiv.mem_modelsOf_iff` (invariance across carriers).
+* **(S3) Isomorphism and the logic action.** `RelationalConfiguration.isoSetoid L α`
+  (`Isomorphism.lean`; the decoded structures are isomorphic, `isoSetoid_apply`), on every carrier
+  `α : Type w`; the action `instMulActionPerm` of `Equiv.Perm α` (`Basic.lean`), with
+  `isoSetoid_eq_orbitRel` (isomorphism is the orbit relation, on every carrier) and
+  `isoSetoid_iff_exists_perm_smul_eq`; `RelationalConfiguration.IsomorphismInvariant` with
+  `isomorphismInvariant_iff_isInvariantBlock` (invariance under the action is Mathlib's
+  `MulAction.IsInvariantBlock`); and `analyticSet_iUnion_smul` (the saturation of an analytic
+  class is analytic).
+* **(S4) Back-and-forth levels on codes.** `RelationalConfiguration.bfEquivSetoid L α β`
+  (`RelationalConfiguration/BackAndForth.lean`), `BFEquiv β 0` between the empty tuples of the
+  decoded structures (`bfEquivSetoid_apply`), for `β` in any ordinal universe (here `Ordinal.{0}`
+  and `α = ℕ`); `measurableSet_setOf_bfEquivSetoid` (Borel for `β < ω₁` and countable `α`);
+  `isoSetoid_le_bfEquivSetoid`.
+* **(S5) Scott height.** `TauCeti.scottHeight M` (`ModelTheory/Scott/Height.lean`), the least `β`
+  with `StabilizesCompletely M β`: every `BFEquiv β` between a tuple of `M` and a tuple of a
+  countable `N : Type`, finite ones included, is a `BFEquiv (β + 1)`. The test structures lie in
+  `Type` whatever the universe of `M`, and the height of `M : Type w` lies in `Ordinal.{w}`, so in
+  `Ordinal.{0}` for codes on `ℕ`. With `scottHeight_lt_omega_one` (countable `M`),
+  `Language.Equiv.scottHeight_eq` (invariance under isomorphism),
+  `nonempty_equiv_of_bfEquiv_of_scottHeight_le` (for countable `M : Type w` and `N : Type w'`,
   `scottHeight M ≤ β` and `BFEquiv β 0 Fin.elim0 Fin.elim0` give `Nonempty (M ≃[L] N)`), and
   `scottHeight_le_internalScottRank_add_omega0`.
 * **(S6) López–Escobar, separation form.** `exists_sentence_separating`: for analytic `A`, `B` with
   `B` action invariant and `Disjoint A B`, some `θ` has `A ⊆ modelsOf θ` and
-  `Disjoint B (modelsOf θ)`.
+  `Disjoint B (modelsOf θ)`. A CountableStructureSpaces target with no Tau Ceti declaration; Tau
+  Ceti's `Setoid.exists_invariant_measurableSet_separating`
+  (`SetTheory/Descriptive/InvariantSeparation.lean`) supplies the invariant Borel separating set
+  that López–Escobar turns into a sentence.
 * **(S7) Uniform back-and-forth separation.** `exists_uniform_bfSeparation`: an analytic set of
   pairs of codes containing no isomorphic pair is separated at one level `β < ω₁`
-  (that roadmap proves it from the forced back-and-forth tree and the boundedness theorem).
+  (that roadmap proves it from the forced back-and-forth tree and the boundedness theorem). A
+  CountableStructureSpaces target with no Tau Ceti declaration.
 
 **From [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)).
 
-* **(E0) Perfect-set vocabulary.** For a topological space `X`, a setoid `E` and `A : Set X`:
-  `HasPerfectAntichainOn E A` (a nonempty perfect subset of `A` of pairwise `E`-inequivalent
-  points), `HasCantorAntichainOn E A` (a continuous map of Cantor space into `A` with
-  `E`-inequivalent values at distinct points), `IsThinOn E A`; with
-  `hasCantorAntichainOn_iff_hasPerfectAntichainOn` (Polish `X`),
-  `HasCantorAntichainOn.continuum_le_mk_quotient`, `HasCantorAntichainOn.mono_relation`,
-  `hasCantorAntichainOn_image_iff` (transport along a measurable embedding preserving and
-  reflecting the relations), and `exists_countable_exceptions_of_splits`.
+* **(E0) Perfect-set vocabulary.** For a topological space `X`, a setoid `E` and `A : Set X`
+  (`SetTheory/Descriptive/Antichain.lean`): `Setoid.HasPerfectAntichainOn E A` (a nonempty perfect
+  subset of `A` of pairwise `E`-inequivalent points), `Setoid.HasCantorAntichainOn E A` (a
+  continuous map of Cantor space `ℕ → Bool` into `A` with `E`-inequivalent values at distinct
+  points), `Setoid.IsThinOn E A`; with `Setoid.hasCantorAntichainOn_iff_hasPerfectAntichainOn`
+  (completely metrizable `X`), `HasCantorAntichainOn.continuum_le_mk_quotient`,
+  `HasCantorAntichainOn.mono_relation`, `Setoid.hasCantorAntichainOn_image_iff` (transport along a
+  measurable embedding preserving and reflecting the relations), and
+  `TauCeti.exists_countable_exceptions_of_splits` (`Data/Set/Countable.lean`).
 * **(E1) Silver's theorem, relative to a Borel subset.**
-  `countable_or_hasCantorAntichainOn_of_measurableSet`: for a Polish `X`, a Borel `A`, a setoid `R`
-  on `X` and a Borel setoid `F` on `A` coarser than `R`, `Quotient F` is countable or
-  `HasCantorAntichainOn R A`. Every use of Silver's theorem here is on a Borel subset (a model
-  class), so this is the only form consumed.
-* **(E2) The cardinality form of Silver's theorem.** `mk_quotient_le_aleph0_or_eq_continuum`: on a
-  standard Borel space, a Borel equivalence relation has `≤ ℵ₀` or exactly `𝔠` classes.
+  `Setoid.countable_or_hasCantorAntichainOn_of_measurableSet` (`SetTheory/Descriptive/Silver.lean`):
+  for a Polish `X`, a Borel `A`, a setoid `R` on `X` and a Borel setoid `F` on `A` coarser than `R`,
+  `Quotient F` is countable or `R.HasCantorAntichainOn A`. Every use of Silver's theorem here is on
+  a Borel subset (a model class), so this is the only form consumed.
+* **(E2) The cardinality form of Silver's theorem.** `Setoid.mk_quotient_le_aleph0_or_eq_continuum`
+  (`Silver.lean`): on a standard Borel space, a Borel equivalence relation has `≤ ℵ₀` or exactly
+  `𝔠` classes.
 
 **From [InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)).
 
-* **(M0) Language maps (its Layer 0.1).** `onBoundedFormulaInf g`, the action of a language map
-  `g : L →ᴸ L'` (Mathlib's `LHom`, languages in any universes) on infinitary formulas at every
-  carrier, and `realize_onBoundedFormulaInf` (realization is preserved when `g.IsExpansionOn M`),
-  the infinitary form of Mathlib's `LHom.realize_onBoundedFormula`.
-* **(M1) Fragments and theories.** `Fragment L` (a set `toSet` of Lω₁ω formulas with bound
-  variables, closed under the components of implications, universal quantifiers and countable
-  conjunctions and disjunctions), `Fragment.generated S`, `Fragment.generated_countable` (a
-  countable set generates a countable fragment); `Theoryω.conjunction T hT`, the countable
-  conjunction of a countable theory, with `realize_conjunction_iff`.
+* **(M0) Language maps (its Layer 0.1).** `LHom.onBoundedFormulaInf g`
+  (`ModelTheory/Infinitary/LanguageMap.lean`), the action of a language map `g : L →ᴸ L'`
+  (Mathlib's `LHom`, languages in any universes) on infinitary formulas at every carrier, and
+  `LHom.realize_onBoundedFormulaInf` (realization is preserved when `g.IsExpansionOn M`), the
+  infinitary form of Mathlib's `LHom.realize_onBoundedFormula`.
+* **(M1) Fragments and theories.** `FirstOrder.Language.Fragment L`
+  (`ModelTheory/Infinitary/Fragment.lean`: a set of Lω₁ω formulas with bound variables, closed
+  under the components of implications, universal quantifiers and countable conjunctions and
+  disjunctions), `Fragment.generated S`, `Fragment.generated_countable` (a countable set generates
+  a countable fragment); `Theoryω.conjunction T hT` (`Infinitary/Theory.lean`), the countable
+  conjunction of a countable theory, with `Theoryω.realize_conjunction_iff`.
 * **(M2) Fragment types.** `fragmentType F M a`, the members of `F` of arity `n` realized by
   `a : Fin n → M`; the slice `Fragment.slice F n` and the realized truth assignment
-  `F.slice n → Prop`, transported along isomorphisms.
-* **(M3) Morleyization.** For a set `Φ` of formulas: the language `morleyize L Φ` (the relation
-  symbols of `L` and one `n`-ary symbol for each member of `Φ` of arity `n`), the inclusion
-  `lhomMorleyize Φ`, the canonical expansion `morleyExpansion Φ M`, in which the symbol of `φ`
-  holds of `a` exactly when `φ` does; the relational and countable instances of `morleyize`; and
-  `nonempty_morleyEquiv_iff` (canonical expansions are isomorphic iff the bases are).
-* **(M4) The small presentation (its Layer 0.3).** `smallPresentation L : Language.{0, 0}` for `L`
-  with countably many function and relation symbols, `smallPresentationEquiv L : L ≃ᴸ
-  smallPresentation L`, and `realize_smallPresentation`.
+  `F.slice n → Prop`, transported along isomorphisms. InfinitaryModelExistence targets with no Tau
+  Ceti declaration; Tau Ceti's `infinitaryType M a` (`ModelTheory/ModelExistence/Types.lean`) is the
+  full Lω₁ω type, not the fragment-relative one.
+* **(M3) Morleyization.** For a set `Φ` of formulas (`ModelTheory/ModelExistence/Morleyization.lean`):
+  the language `L.morleyize Φ` (the relation symbols of `L` and one `n`-ary symbol for each member of
+  `Φ` of arity `n`), the inclusion `lhomMorleyize Φ`, the canonical expansion `morleyExpansion Φ M`,
+  in which the symbol of `φ` holds of `a` exactly when `φ` does; the instances
+  `isRelational_morleyize` and `countable_relations_morleyize`; and `nonempty_morleyEquiv_iff`
+  (canonical expansions are isomorphic iff the bases are).
+* **(M4) The small presentation (its Layer 0.3).** `L.smallPresentation : Language.{0, 0}`
+  (`ModelTheory/Infinitary/SmallPresentation.lean`) for `L` with countably many function and
+  relation symbols, `L.smallPresentationEquiv : L ≃ᴸ L.smallPresentation`, and
+  `realize_smallPresentation`.
 
 ## The build, in layers
 
