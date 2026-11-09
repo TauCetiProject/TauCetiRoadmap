@@ -265,7 +265,8 @@ noncomputable abbrev tateModule (A : AbelianVariety K) (ℓ : ℕ) :=
 /-- The geometric Tate module is free of rank `2g` at every invertible prime (README A4.1). -/
 theorem tateModule_rank (A : AbelianVariety K) (g : ℕ) (hg : A.dim = (g : WithBot ℕ∞))
     (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : (ℓ : K) ≠ 0) :
-    Nonempty (tateModule A ℓ ≃ₗ[ℤ_[ℓ]] (Fin (2 * g) → ℤ_[ℓ])) := by
+    Module.Free ℤ_[ℓ] (tateModule A ℓ) ∧ Module.Finite ℤ_[ℓ] (tateModule A ℓ) ∧
+      Module.finrank ℤ_[ℓ] (tateModule A ℓ) = 2 * g := by
   sorry
 
 /-- Postcomposition on geometric points induces the map on integral Tate modules
