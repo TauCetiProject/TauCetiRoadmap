@@ -30,9 +30,10 @@ not the roadmap.
   analytic reciprocal of a gamma factor, and the continued uncompleted L-function of a record
   (Layer 1);
 - the analytic conductor of a record and its comparison with degree and arithmetic conductor
-  (Layer 2), in the Iwaniec–Kowalski normalization (5.7); the newform analytic conductor that the
-  [modular forms roadmap](../ModularForms/README.md) displays in its Layer 7 is the specialization
-  proved in 2.4;
+  (Layer 2), in the Iwaniec–Kowalski normalization (5.7), with its comparison 2.4 against Tau
+  Ceti's newform analytic conductor `HeckeRing.GL2.Newform.analyticConductorAt`, which the
+  [modular forms roadmap](../ModularForms/README.md) consumes in its supplier contracts and which
+  takes the arithmetic coordinate;
 - convexity bounds on vertical strips for the pole-cleared continued L-function (Layer 3);
 - the signed divisor count and the natural-number zero count `zeroCount` in a region, the
   counting function `N(T)` and its symmetric variant, and the Jensen-type local counts (Layer 4);
@@ -215,7 +216,22 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   `TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv` (`LogDerivFTC.lean`), the winding
   number of the image curve `f ∘ γ` about `0`; and
   `TauCeti.Contour.exists_continuousOn_arg_lift_with_partition` (`Argument/Lift.lean`), the
-  continuous argument lift of a curve avoiding a point.
+  continuous argument lift of a curve avoiding a point;
+- newform invariants (`NumberTheory/ModularForms/Newforms/AnalyticInvariants.lean`):
+  `HeckeRing.GL2.Newform.analyticConductorAt` for `f : HeckeRing.GL2.Newform N k`, in the
+  arithmetic coordinate, with `HeckeRing.GL2.Newform.analyticConductorAt_eq`
+  (`analyticConductorAt f s = N (‖s‖ + 3)(‖s + 1‖ + 3)`), for the comparison 2.4;
+- the logarithmic derivative of the series of a completely multiplicative ideal weight, as Tau
+  Ceti realizes Arithmetic Dirichlet Series §2.3
+  (`NumberTheory/ArithmeticDirichletSeries/EulerProduct/Logarithm/VonMangoldtCoeff.lean`,
+  `ArithmeticDirichletSeries/VonMangoldt.lean`, `ArithmeticDirichletSeries/Estimates.lean`):
+  `TauCeti.MultiplicativeIdealWeight.logDeriv_LSeries_eq_neg_tsum_vonMangoldtTransform`
+  (`logDeriv L(s) = −∑_𝔞 χ(𝔞) Λ_K(𝔞) 𝔑𝔞^{−s}` strictly right of the abscissa of absolute
+  convergence), `TauCeti.MultiplicativeIdealWeight.vonMangoldtTransform_apply_prime_pow` and
+  `TauCeti.idealAbscissaOfAbsConv_lt_re_of_bounded`, applied to the weight
+  `TauCeti.GlobalNumberFields.RayClassCharacter.toMultiplicativeIdealWeight`
+  (`NumberTheory/NumberField/Global/RayClass/Character/Weight.lean`) of a presented ray-class
+  character, for 6.1 and 8.6.
 
 ### From TauCetiRoadmap.ArithmeticDirichletSeries
 
@@ -696,15 +712,21 @@ conventions.
   `continuedL analytic s = continuedL arithmetic (s + w/2)` as germs at every `s`, derived from
   `completed_eq`, `gammaR_eq`, `gammaC_eq` and `conductor_eq` (the analytic shifts are the
   arithmetic ones plus `w/2`).
-- **Newform specialization (2.4).** For the record of a weight-`k` newform of level `N`, with
-  `gammaR = ∅` and `gammaC = {(k − 1)/2}`,
-  `analyticConductorAt d s = N (‖s + (k − 1)/2‖ + 3)(‖s + (k + 1)/2‖ + 3)`, the modular forms
-  roadmap's displayed quantity.
+- **Newform specialization (2.4).** For a record `d` with conductor `N`, `gammaR = ∅` and
+  `gammaC = {(k − 1)/2}`, the analytic record of a weight-`k` newform of level `N`,
+  `analyticConductorAt d s = N (‖s + (k − 1)/2‖ + 3)(‖s + (k + 1)/2‖ + 3)`; and for every
+  `f : HeckeRing.GL2.Newform N k` this is
+  `HeckeRing.GL2.Newform.analyticConductorAt f (s + (k − 1)/2)`. Tau Ceti's function is stated in
+  the arithmetic coordinate, where it is `N (‖s‖ + 3)(‖s + 1‖ + 3)`
+  (`HeckeRing.GL2.Newform.analyticConductorAt_eq`), and the analytic point `s` is the arithmetic
+  point `s + (k − 1)/2`; this is the normalization translation above at weight `w = k − 1`.
 - **Families.** *arithmeticConductor* is `|d_K|` for `dedekindZetaData K` and `|d_K| 𝔑(𝔣)` for
   `heckeData χ` of conductor `𝔣`.
 
 *Needs:* L-functions Layer 0 `AnalyticLFunctionData`, `NormalizationTranslation`, Layers 3 and 5;
-Layer 1.6.
+Layer 1.6; for 2.4, Tau Ceti `HeckeRing.GL2.Newform.analyticConductorAt` and
+`HeckeRing.GL2.Newform.analyticConductorAt_eq`
+(`NumberTheory/ModularForms/Newforms/AnalyticInvariants.lean`).
 
 **Checks.**
 
@@ -715,6 +737,12 @@ Layer 1.6.
 - At weight `w = 0` the translation is the identity; at a weight-`k` newform, arithmetic
   `gammaC = {0}` becomes analytic `gammaC = {(k − 1)/2}` and the central points `k/2` and `1/2`
   correspond. The opposite sign convention `μ_an = μ_ar − w/2` fails the second test.
+- For a weight-`12` newform `f` of level `1` (the discriminant form `Δ`), 2.4 at the analytic
+  centre `s = 1/2` gives `(6 + 3)(7 + 3) = 90`, which is
+  `HeckeRing.GL2.Newform.analyticConductorAt f 6`, the value at the arithmetic centre `k/2 = 6`.
+  Comparing at the same numerical point instead gives
+  `HeckeRing.GL2.Newform.analyticConductorAt f (1/2) = 3.5 · 4.5 = 15.75`, so the shift by
+  `(k − 1)/2` cannot be dropped.
 
 ### Examples
 
@@ -1193,14 +1221,26 @@ Mangoldt coefficients and the `3-4-1` inequality, none of which a general record
 
 For `σ > 1` and three ray-class characters `1, χ, χ²` presented at the same modulus `𝔣`,
 `3 (−logDeriv L₁)(σ) + 4 Re (−logDeriv L_χ)(σ + it) + Re (−logDeriv L_{χ²})(σ + 2it) ≥ 0`, with
-`L_ψ = heckeLFunctionC ψ`: on `Re s > 1` each logarithmic derivative is
+`L_ψ = heckeLFunctionC ψ`: on `Re s > 1` each negative logarithmic derivative `−logDeriv L_ψ` is
 `∑_𝔞 Λ_K(𝔞) ψ(𝔞) 𝔑𝔞^{−s}` over the ideals prime to `𝔣`, and termwise the combination is
 `Λ_K(𝔞) 𝔑𝔞^{−σ}(3 + 4 cos θ + cos 2θ)`, nonnegative by `three_four_one_nonneg` and
 `dedekindZeta_idealVonMangoldt_nonneg`. All three series are presented at `𝔣` so that the Euler
 products run over the same primes. It is a statement about convergent series on `Re s > 1` only.
+The series identity is the degree-one case of Arithmetic Dirichlet Series §2.3 for the weight of
+`ψ`, the indicator of the ideals prime to `𝔣` when `ψ = 1`, and not the Dedekind identity
+`dedekindZeta_logDeriv_eq`: over `ℚ` the trivial character presented at `(3)∞` has
+`L₁ = (1 − 3^{−s}) ζ`, whose negative logarithmic derivative lacks the term
+`log 3 · 3^{−s}/(1 − 3^{−s})` of `−ζ'/ζ`.
 
 *Needs:* L-functions Layers 5, 7, 8 `heckeLFunctionC`, `three_four_one_nonneg`,
-`dedekindZeta_idealVonMangoldt_nonneg`, `dedekindZeta_logDeriv_eq`.
+`dedekindZeta_idealVonMangoldt_nonneg`; Arithmetic Dirichlet Series §2.3, at the pin
+`TauCeti.MultiplicativeIdealWeight.logDeriv_LSeries_eq_neg_tsum_vonMangoldtTransform` (the
+logarithmic derivative of the series of a completely multiplicative weight, strictly right of its
+abscissa of absolute convergence) and
+`TauCeti.MultiplicativeIdealWeight.vonMangoldtTransform_apply_prime_pow` (the coefficient
+`ψ(𝔭)^k log 𝔑𝔭` at `𝔭^k`), applied to
+`TauCeti.GlobalNumberFields.RayClassCharacter.toMultiplicativeIdealWeight`, with
+`TauCeti.idealAbscissaOfAbsConv_lt_re_of_bounded` for the abscissa on `Re s > 1`.
 
 ### 6.2 The region for the Dedekind zeta function
 
@@ -1270,10 +1310,20 @@ and simple and occurs only for a real character is proved here, by (4c) and (4f)
 assembles the statement from six targets.
 
 - **(4a)** 6.1.
-- **(4b) Imprimitive characters.** Consume `heckeLFunctionC_eq_primitive`. The zeros of
-  `eulerCorrection` lie on `Re s = 0`, since `1 − w 𝔑𝔭^{−s} = 0` with `‖w‖ = 1` forces
-  `𝔑𝔭^{−Re s} = 1`; `‖logDeriv eulerCorrection s‖ ≤ 2 log 𝔑𝔣` for `Re s > 1`; and for the trivial
-  character the presented series is `dedekindZetaC K` times `finiteEulerCorrection`.
+- **(4b) Imprimitive characters.** Consume `heckeLFunctionC_eq_primitive`: a character `ψ`
+  presented at a modulus `𝔫` has the series of its primitive source
+  `PrimitiveRayClassCharacter.of ψ` times `eulerCorrection`, the Euler factors at the primes
+  dividing `𝔫` but not the conductor of that source. The zeros of `eulerCorrection` lie on
+  `Re s = 0`, since `1 − w 𝔑𝔭^{−s} = 0` with `‖w‖ = 1` forces `𝔑𝔭^{−Re s} = 1`. For `Re s > 1`,
+  `‖logDeriv eulerCorrection s‖ ≤ log 𝔑𝔫`, where `𝔑𝔫` is the absolute norm of the finite part of
+  the presentation modulus: a deleted factor at `𝔭` contributes at most
+  `log 𝔑𝔭 · 𝔑𝔭^{−σ}/(1 − 𝔑𝔭^{−σ}) = log 𝔑𝔭/(𝔑𝔭^σ − 1) < log 𝔑𝔭`, and the sum of `log 𝔑𝔭` over
+  the distinct primes dividing `𝔫` is at most `log 𝔑𝔫`. In 6.4 the three characters of 6.1 are
+  presented at the conductor `𝔣` of `χ`, where the bound reads `log 𝔑𝔣`. No bound in the conductor
+  of the primitive source holds: over `ℚ` the trivial character presented at `(2)` has source
+  conductor `1`, so such a bound would be `0`, while its deleted factor `1 − 2^{−s}` has
+  logarithmic derivative `(log 2)/3 ≈ 0.2310` at `s = 2` (and tends to `log 2` as `s → 1⁺`). For
+  the trivial character the presented series is `dedekindZetaC K` times `finiteEulerCorrection`.
 - **(4c) The real and non-real split.** `χ` is real iff `χ² = 1` iff
   `PrimitiveRayClassCharacter.inv χ = χ`. If `χ² ≠ 1` the third term of 6.1 is regular at `1`; if
   `χ² = 1` it carries the pole of `ζ_K`, which confines a surviving zero to the real axis.
@@ -1358,7 +1408,8 @@ Layer 5 `completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
 ### Dependencies
 
 L-functions Layers 3, 5, 7, 8. Layers 1.4–1.6, 2, 4, 5.6. Global Number Fields Layer 2 ray-class
-finiteness.
+finiteness. Arithmetic Dirichlet Series §2.3 (the logarithmic derivative of the series of a
+ray-class character's weight, for 6.1).
 
 ## Layer 7: the Riemann–von Mangoldt formula
 
@@ -1648,7 +1699,11 @@ coming from the reflection to `χ⁻¹`; order `#{j : a_j = 0} + r₂` at `s = 0
 and 8.5 are, from 8.1–8.2 for `χ`, the region of 6.4 and the count 4.5; Davenport §§19–20 is the
 `K = ℚ` case.
 
-*Needs:* 8.1–8.5, 6.3–6.5, 4.5, 1.5.
+*Needs:* 8.1–8.5, 6.3–6.5, 4.5, 1.5; Arithmetic Dirichlet Series §2.3, at the pin
+`TauCeti.MultiplicativeIdealWeight.logDeriv_LSeries_eq_neg_tsum_vonMangoldtTransform` for the
+weight of `χ`, which makes `ψ_K(x, χ)` the summatory function of the coefficients of
+`−logDeriv (heckeLFunctionC χ.character)` on `Re s > 1`, which the Dedekind identity
+`dedekindZeta_logDeriv_eq` of 8.3 does not give.
 
 **Checks.**
 
@@ -1717,7 +1772,8 @@ derivative by a function regular at `s = 1`, and changes the prime-power sum by
 constant `TauCeti.GlobalNumberFields.rayClassIdealMainTerm 𝔪`, which multiplies the Dedekind-zeta
 residue by that correction and governs the count of all ideals in a class. Each nontrivial
 character enters through 8.6 after 6.4b replaces it by its primitive source; the zeros agree on
-`Re s > 0`, and the deleted factors move the logarithmic derivative by `O(log 𝔑𝔪)`. The passage to
+`Re s > 0`, and on `Re s > 1` the deleted factors move the logarithmic derivative by at most
+`log 𝔑𝔪`, the bound of 6.4b at the presentation modulus `𝔪`. The passage to
 the prime count is Abel summation, `x^β/β` becoming `Li(x^β) − Li(2^β)` under `u = t^β`, legitimate
 because `β ≥ 1/2` (6.3). `x/log x` is not an admissible main term: `Li x − x/log x ∼ x/log² x`,
 which is not `O(x exp(−c √log x))`. At `K = ℚ` and `𝔪 = (q)∞` this is
