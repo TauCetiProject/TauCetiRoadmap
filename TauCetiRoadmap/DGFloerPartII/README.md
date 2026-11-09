@@ -1876,11 +1876,13 @@ Crowley, Schick, Steimle, proof of Lemma 2.2; Hatcher, *Algebraic Topology*, §4
 
 ## Downstream consumers
 
-- TopologicalKTheory can consume 4.2a–4.2c in T1.6a, T1.6d and T7: the stable `O`, compared with
-  the loop space of its stable real Grassmannian `BO`; the Grassmannian member `Ω₇` with its
-  stabilization, compared with `ℤ × BO`; and the eight stable Bott maps with real Bott periodicity,
-  for the periodicity of `KO`. Those comparisons with `BO` are TopologicalKTheory's, and nothing in
-  this roadmap uses them.
+- TopologicalKTheory can consume 4.2a–4.2c in T7, its real `K`-theory: the stable `O` for its
+  loop comparison `ΩBO ≃ O`, the Grassmannian member `Ω₇` with its stabilization for its
+  comparison with `ℤ × BO`, and the eight stable Bott maps with real Bott periodicity for the
+  periodicity of `KO`. Those comparisons with `BO` are TopologicalKTheory's, and nothing in this
+  roadmap uses them. It cannot consume 4.2a–4.2c in T1.5–T1.6 or in T2's `K` and `KO` groups:
+  GeneralizedCohomology G4.0a–G4.0b consume those sections, and 4.2a–4.2b consume G4.0b for
+  `Sp(r)` and the quaternionic Grassmannians of the Clifford chain.
 - The base roadmap consumes nothing from this one.
 
 ## Worked examples
