@@ -1,30 +1,33 @@
 # Roadmap: classifying topoi of geometric theories
 
 **Summary.** Build geometric logic and its classifying topoi on Mathlib's carriers: first-order
-languages `L : FirstOrder.Language.{u₁, u₂}` with Mathlib's terms and structures, geometric
-formulas `GeometricFormula.{w} L n` (atomic formulas, finite conjunctions, disjunctions indexed by
-a type in `Type w`, existential quantification), geometric theories as sets of sequents, and
-`L`-structures `CatStructure L E` in a category `E` with finite products, interpreted in Mathlib's
-subobject lattices. Classifying topoi are small sites `C : Type u` with
-`J : GrothendieckTopology C` and a model `U` of the theory in `Sheaf J (Type u)`, through which
-every model of the theory in every sheaf topos `Sheaf K (Type u)` of a small site `(D, K)` is the
-image of `U` under a left exact left adjoint, fully faithfully on homomorphisms. The end theorems
-are: geometric formulas are preserved by homomorphisms of structures, the categorical semantics in
-`Type u` is the set-theoretic one, and left exact left adjoints between sheaf topoi map models to
-models (Layer 1); every geometric theory over a language `L : FirstOrder.Language.{u, u}` has a
-classifying site; two classifying sites of one theory have equivalent sheaf topoi by an
+languages `L : FirstOrder.Language.{u₁, u₂}` with Mathlib's terms and structures, geometric formulas
+`GeometricFormula.{w} L n` (atomic formulas, finite conjunctions, disjunctions indexed by a type in
+`Type w`, existential quantification), geometric theories as sets of sequents, and `L`-structures
+`CatStructure L E` in a category `E` with finite products, interpreted in Mathlib's subobject
+lattices. Classifying topoi are small sites `C : Type u` with `J : GrothendieckTopology C` and a
+model `U` of the theory in `Sheaf J (Type u)`, through which every model of the theory in every
+sheaf topos `Sheaf K (Type u)` of a small site `(D, K)` is the image of `U` under a left exact left
+adjoint, fully faithfully on homomorphisms. The end theorems are: geometric formulas are preserved
+by homomorphisms of structures and translate into Tau Ceti's infinitary formulas with the same
+satisfaction, the categorical semantics in `Type u` is the set-theoretic one, and left exact left
+adjoints between sheaf topoi map models to models (Layer 1); the models of a Horn theory are the
+filtering functors on its classifying category of Horn formulas, and in every sheaf topos a
+geometric formula is a `u`-small disjunction of existential quantifications of Horn formulas; every
+geometric theory over a language `L : FirstOrder.Language.{u₁, u₂}` has a classifying site in
+`Type (max u₁ u₂ u)`; two classifying sites of one theory have equivalent sheaf topoi by an
 equivalence carrying one generic model to the other; for a site `(C, J)` classifying `T`, every
-quotient `T ⊆ T'` is classified by `(C, J')` for a topology `J ≤ J'`, and every `J' ≥ J`
-classifies a quotient of `T`, in both cases with the sheafified generic model; and Morita
-equivalence of theories (Layer 2); Horn theories over a small language are of presheaf type; the
-topos of functors from finite sets to sets classifies objects, with the inclusion as generic
-object; for a group `G` the topos of right `G`-sets classifies `G`-torsors, with `G` acting on
-itself on the left as generic torsor, and the theories of `G`- and `H`-torsors are
-Morita-equivalent exactly when `G ≃* H`; simplicial sets classify intervals, with `Δ[1]` as
-generic interval (Layer 3); presheaves on the opposite of finitely presented commutative rings
-classify commutative rings, with a generic ring on the forgetful functor; that functor is a sheaf
-for the Zariski topology; and the Zariski topos classifies local rings, with the sheafified
-generic ring as generic local ring (Layer 4).
+quotient `T ⊆ T'` is classified by `(C, J')` for a topology `J ≤ J'`, and every `J' ≥ J` classifies
+a quotient of `T`, in both cases with the sheafified generic model; and Morita equivalence of
+theories (Layer 2); Horn theories are of presheaf type; the topos of functors from finite sets to
+sets classifies objects, with the inclusion as generic object; for a group `G` the topos of right
+`G`-sets classifies `G`-torsors, with `G` acting on itself on the left as generic torsor, and the
+theories of `G`- and `H`-torsors are Morita-equivalent exactly when `G ≃* H`; simplicial sets
+classify intervals, with `Δ[1]` as generic interval (Layer 3); a commutative ring finitely
+presentable in `CommRingCat` is finitely presented, and presheaves on the opposite of finitely
+presented commutative rings classify commutative rings, with the forgetful functor and its pointwise
+operations as generic ring; that functor is a sheaf for the Zariski topology; and the Zariski topos
+classifies local rings, with the sheafified generic ring as generic local ring (Layer 4).
 
 Suggested home: `TauCeti/ModelTheory/Geometric/` for Layer 1 and
 `TauCeti/CategoryTheory/Topos/Classifying/` for Layers 2–4.
@@ -32,31 +35,32 @@ Suggested home: `TauCeti/ModelTheory/Geometric/` for Layer 1 and
 ## Scope and ownership
 
 **Owned here.** Geometric logic over a single-sorted first-order language (formulas, sequents,
-theories, their set-theoretic and categorical semantics, homomorphisms of structures and the
-inverse image of a structure along a functor preserving finite products, Layer 1); classifying
-sites and their universal property, the existence and uniqueness of classifying topoi, the
-correspondence between quotient theories and finer topologies on a classifying site, and Morita
-equivalence of geometric theories (Layer 2); theories of presheaf type, Horn theories, and the
-classifying topoi of objects, of `G`-torsors and of intervals (Layer 3); the classifying topoi of
-commutative rings and of local rings, and the Zariski topology on the opposite of finitely
-presented rings (Layer 4). A search of the roadmaps on main, of the open pull requests and of the
-maintainers' packages for classifying topoi, geometric theories, geometric logic, Diaconescu's
-theorem, flat functors, the theory of objects, the object classifier, syntactic sites and Morita
-equivalence of theories finds no other owner: GrothendieckTopoi (Scope and ownership, Out of
-scope) and LocallyPresentableCategories (Scope and ownership, Left to other roadmaps) both
-exclude classifying topoi of geometric theories, and the only other mention, AdicSpacesPartIV, uses
-the classifying topos of a profinite Galois group as an example. The Morita equivalence of
-DGAInfinity, HilbertModules and GrothendieckEulerForms is a different notion, for dg categories,
-C*-algebras and rings.
+theories, their set-theoretic and categorical semantics, homomorphisms of structures and the inverse
+image of a structure along a functor preserving finite products, Layer 1); the classifying category
+of a Horn theory, the normal form of geometric formulas, classifying sites and their universal
+property, the existence and uniqueness of classifying topoi, the correspondence between quotient
+theories and finer topologies on a classifying site, and Morita equivalence of geometric theories
+(Layer 2); theories of presheaf type, the presheaf type of Horn theories, and the classifying topoi
+of objects, of `G`-torsors and of intervals (Layer 3); the classifying topoi of commutative rings
+and of local rings, and the Zariski topology on the opposite of finitely presented rings (Layer 4).
+A search of the roadmaps on main, of the open pull requests and of the maintainers' packages for
+classifying topoi, geometric theories, geometric logic, Diaconescu's theorem, flat functors, the
+theory of objects, the object classifier, syntactic sites and Morita equivalence of theories finds
+no other owner: GrothendieckTopoi (Scope and ownership, Out of scope) and
+LocallyPresentableCategories (Scope and ownership, Left to other roadmaps) both exclude classifying
+topoi of geometric theories, and the only other mention, AdicSpacesPartIV, uses the classifying
+topos of a profinite Galois group as an example. The Morita equivalence of DGAInfinity,
+HilbertModules and GrothendieckEulerForms is a different notion, for dg categories, C*-algebras and
+rings.
 
 **Left to GrothendieckTopoi.** Grothendieck topoi and the predicate `IsGrothendieckTopos`, with
 `Sheaf J (Type u)` as the standard instance and every topos equivalent to one (GrothendieckTopoi
-1.1); geometric morphisms, their 2-cells and the equivalence between 2-cells and transformations
-of inverse images (GrothendieckTopoi 2.1–2.2); Diaconescu's theorem, `IsFiltering` and
+1.1); geometric morphisms, their 2-cells and the equivalence between 2-cells and transformations of
+inverse images (GrothendieckTopoi 2.1–2.2); Diaconescu's theorem, `IsFiltering` and
 `nonempty_geometricMorphism_equiv_isFiltering` (GrothendieckTopoi 2.5); subtopoi, and the
 correspondence between subtopoi of `Sheaf J (Type u)` and topologies `J' ≥ J` (GrothendieckTopoi
-4.1–4.2); points of a topos (GrothendieckTopoi 6.1). This roadmap writes the universal property
-of a classifying topos with inverse images, the left exact left adjoints
+4.1–4.2); points of a topos (GrothendieckTopoi 6.1). This roadmap writes the universal property of a
+classifying topos with inverse images, the left exact left adjoints
 `Sheaf J (Type u) ⥤ Sheaf K (Type u)`, which GrothendieckTopoi 2.1 identifies with geometric
 morphisms; it restates none of those statements.
 
@@ -67,11 +71,20 @@ a Horn theory, and more generally of a theory of presheaf type, is the category 
 finitely presentable models, an instance of LocallyPresentableCategories 1.5 recorded in the
 Examples of Layer 3; this roadmap defines no category of set-models.
 
+**Supplied by Tau Ceti.** The syntax and set-theoretic semantics of `L_{∞ω}`,
+`FirstOrder.Language.BoundedFormulaInf` (`TauCeti/ModelTheory/Infinitary/Syntax`) and
+`FirstOrder.Language.BoundedFormulaInf.Realize` (`Infinitary/Semantics`), into which 1.2
+translates geometric formulas. A positive syntax is kept here because Tau Ceti's `⊓` and `ex` are
+defined through implication and negation, which inverse images do not preserve, and because its
+disjunctions all branch over the one carrier of the formula, while each disjunction of a geometric
+formula has an index type of its own.
+
 **Supplied by Mathlib and consumed by name.** First-order languages, terms, structures and their
 homomorphisms (`Mathlib.ModelTheory`), the language of rings and its term operations, Grothendieck
 topologies with their complete lattice, sheaves, sheafification, sheaves for the trivial topology
 as presheaves, subobjects with pullback, images and existential quantification, the skeleton of
-finite sets, the simplex category and `SingleObj`.
+finite sets, the simplex category and `SingleObj`, and finitely presented rings with the finite
+presentability of their objects in `CommRingCat`.
 
 **Out of scope.** Many-sorted theories (every theory here has one sort; the many-sorted
 statements are the same with families of carriers); proof systems for geometric logic and the
@@ -87,10 +100,14 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
 1. **Sizes.** A site is `C : Type u` with `[SmallCategory C]`, and its topos is
    `Sheaf J (Type u)`, as in GrothendieckTopoi Convention 1. Disjunctions are indexed by types in
    `Type w`; semantics in a sheaf topos uses `w = u`, the size of its coproducts
-   (`HasCoproducts.{u}`), and the existence theorems 2.2 and 3.1 take
-   `L : FirstOrder.Language.{u, u}`. Witness: `GeometricFormula.bot` is the disjunction over
-   `PEmpty`, and in `Type u` its interpretation is the image of the map out of the initial object,
-   the empty subset (1.3, Checks).
+   (`HasCoproducts.{u}`). The existence theorems 2.3 and 3.1 take a language
+   `L : FirstOrder.Language.{u₁, u₂}` in any universes and `T : GeometricTheory.{max u₁ u₂ u} L`,
+   and give a site in `Type (max u₁ u₂ u)`: the languages of rings and of intervals and the empty
+   language are in `FirstOrder.Language.{0, 0}`, and the theorems apply to them at every `u`.
+   Witnesses: `GeometricFormula.bot` is the disjunction over `PEmpty`, and in `Type u` its
+   interpretation is the image of the map out of the initial object, the empty subset (1.3,
+   Checks); `exists_isClassifyingSite.{0, 0, 1}` gives `intervalTheory.{1}` a classifying site in
+   `Type 1`, which a statement for `L : FirstOrder.Language.{u, u}` would not.
 2. **Contexts and the bound variable.** A formula in context `n` has free variables `Fin n`;
    `GeometricFormula.ex` binds the last variable of `Fin (n + 1)`: its realization extends the
    assignment by `Fin.snoc`, and its interpretation is the image along the projection
@@ -111,13 +128,19 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
    opposite of the category of geometric morphisms into the classifying topos. Witness: for
    `T = torsorTheory G` and the one-point site, the endomorphisms of the generic torsor's image
    under the canonical point form a group isomorphic to `G` (right multiplications), and so do the
-   2-cells from the canonical point of `B G` to itself (GrothendieckTopoi 2.2, Checks).
+   2-cells from the canonical point of `B G` to itself (GrothendieckTopoi 2.2, Checks), compared
+   across the equivalence of Convention 5.
 5. **The action of `G`.** In `SingleObj G` composition is `f ≫ g = g * f` (Mathlib). The generic
    torsor is the representable presheaf `yoneda.obj star`, whose presheaf structure is
    precomposition (`G` acting on the right), and `g` acts by postcomposition, `x ↦ x ≫ g = g * x`
    (on the left). Witness: `(g * h) · x = x ≫ (g * h) = (x ≫ h) ≫ g = g · (h · x)`, the axiom of
    a left action; postcomposition with `g` is natural, precomposition is not when `G` is not
-   abelian.
+   abelian. The presheaves on `SingleObj G` are right `G`-sets, while GrothendieckTopoi's `B G` is
+   `Action (Type u) G`, left `G`-sets; the two are equivalent by letting `g` act through `g⁻¹`
+   (`g · x = x · g⁻¹`, so `(g * h) · x = x · h⁻¹ · g⁻¹ = g · (h · x)`), with the same underlying
+   sets and the same equivariant maps, so the equivalence carries evaluation at the object of
+   `AsSmall.{u} (SingleObj G)` to the forgetful functor, the inverse image of the canonical
+   point.
 6. **Simplices.** `δ i : ⦋0⦌ ⟶ ⦋1⦌` skips the vertex `i` and `σ i : ⦋2⦌ ⟶ ⦋1⦌` repeats it, so the
    constant `0` of the generic interval is `δ 1` (the vertex `0`), the constant `1` is `δ 0`, and
    `≤` is the image of `(σ 0, σ 1) : Δ[2] ⟶ Δ[1] × Δ[1]`. Witness: `σ 0` sends `0, 1, 2` to
@@ -128,17 +151,19 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
 
 **From Mathlib** (at the pins).
 
-- Model theory: `FirstOrder.Language`, `FirstOrder.Language.Term` with `Term.var`, `Term.func` and
-  `Term.realize`, `FirstOrder.Language.Structure` with `Structure.funMap` and `Structure.RelMap`,
-  `FirstOrder.Language.Hom` (`M →[L] N`), `FirstOrder.Language.Functions.apply₁`,
-  `FirstOrder.Language.empty`, `FirstOrder.Language.ring` with its `Zero`, `One`, `Add`, `Mul`
-  and `Neg` instances on terms (`ModelTheory/Algebra/Ring/Basic`).
+- Model theory: `FirstOrder.Language`, `FirstOrder.Language.Term` with `Term.var`, `Term.func`,
+  `Term.realize`, `Term.relabel` and `Term.subst`, `FirstOrder.Language.Structure` with
+  `Structure.funMap` and `Structure.RelMap`, `FirstOrder.Language.Hom` (`M →[L] N`),
+  `FirstOrder.Language.Functions.apply₁`, `FirstOrder.Language.empty`, `FirstOrder.Language.ring`
+  with its `Zero`, `One`, `Add`, `Mul` and `Neg` instances on terms and
+  `FirstOrder.Ring.compatibleRingOfRing` (`ModelTheory/Algebra/Ring/Basic`).
 - Subobjects and limits: `Subobject` with its `⊓` and `⊤`, `Subobject.pullback`,
   `Subobject.exists`, `imageSubobject`, `equalizerSubobject` (`Subobject/Limits`), `Over`,
   `Pi.lift`, `Pi.π`, `Limits.Pi.map`, `Sigma.desc`, `piComparison`, `HasFiniteProducts`,
   `HasFiniteLimits`, `HasImages`, `HasCoproducts`, `PreservesFiniteProducts`,
   `PreservesFiniteLimits`, `Functor.IsLeftAdjoint`, `IsTerminal`, `IsTerminal.isTerminalObj`,
-  `Types.productIso`, `TypeCat.ofHom`.
+  `Types.productIso`, `TypeCat.ofHom`, `piObjIso`, `piObjIso_hom_comp_π`,
+  `NatTrans.naturality_apply`.
 - Sites: `GrothendieckTopology` with its complete lattice, `Sieve`, `Sheaf`, `sheafToPresheaf`,
   `presheafToSheaf`, `sheafBotEquivalence`, `Presheaf.IsSheaf`, `Sheaf.instHasColimitsOfShape`
   (`Sites/Limits`), the instance `HasImages (Sheaf J (Type u))` (`Sites/Subsheaf`).
@@ -147,15 +172,22 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
   `SimplexCategory` with `SimplexCategory.δ`, `SimplexCategory.σ` and
   `SimplexCategory.isTerminalZero`.
 - Algebra: `MvPolynomial`, `Ideal.FG`, `Ideal.span`, `IsLocalization.Away`, `RingHom.toAlgebra`,
-  `MulEquiv`.
+  `MulEquiv`, `CommRingCat`, `Algebra.FinitePresentation`, `IsFinitelyPresentable`,
+  `CommRingCat.isFinitelyPresentable_under`, `CommRingCat.isFinitelyPresentable_hom`
+  (`Algebra/Category/Ring/FinitePresentation`) and `essentiallySmall_of_le`
+  (`Algebra/Category/CommAlgCat/FiniteType`).
 
-**From Tau Ceti.** Nothing is consumed.
+**From Tau Ceti** (at the pin). `FirstOrder.Language.BoundedFormulaInf` with its constructors
+`equal`, `rel` and `iSup` and its `⊤`, `⊥`, `⊓` and `ex` (`TauCeti/ModelTheory/Infinitary/Syntax`),
+and `FirstOrder.Language.BoundedFormulaInf.Realize` (`TauCeti/ModelTheory/Infinitary/Semantics`),
+for 1.2.
 
-**From GrothendieckTopoi.** 1.1 (`IsGrothendieckTopos`: `Sheaf J (Type u)` is a Grothendieck
-topos for every small site and every Grothendieck topos is equivalent to one, so the quantifier
-over small sites in 2.1 is a quantifier over Grothendieck topoi), 2.1 (`GeometricMorphism`: left
-exact left adjoints between Grothendieck topoi are the inverse images of geometric morphisms), 2.2
-(`GeometricMorphism.homEquivInverse`: 2-cells and transformations of inverse images), 2.5
+**From GrothendieckTopoi.** 1.1 (`IsGrothendieckTopos`: `Sheaf J (Type u)` is a Grothendieck topos
+for every small site and every Grothendieck topos is equivalent to one, so the quantifier over small
+sites in 2.1 is a quantifier over Grothendieck topoi), 1.2 (images, epimorphisms and coproducts in
+`Sheaf J (Type u)`, and the frame property of its subobject lattices), 2.1 (`GeometricMorphism`:
+left exact left adjoints between Grothendieck topoi are the inverse images of geometric morphisms),
+2.2 (`GeometricMorphism.homEquivInverse`: 2-cells and transformations of inverse images), 2.5
 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`, Diaconescu's theorem), 4.2 (the
 subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`), 6.1 (points of a topos,
 `nonempty_point_equivalence`).
@@ -165,17 +197,18 @@ subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`), 6.1 
 
 ## How to read the build
 
-Layer 1 is geometric logic on Mathlib alone: syntax, the set-theoretic semantics with its
-preservation by homomorphisms, structures and models in a category with finite limits, images
-and small coproducts, and the transport of a model along a left exact left adjoint. Layer 2
-defines classifying sites through the universal property of Layer 1's transport, proves their
-existence by the syntactic site and their uniqueness, relates quotient theories to finer
-topologies, and defines Morita equivalence; it consumes Diaconescu's theorem and the subtopoi of
-a sheaf topos from GrothendieckTopoi. Layer 3 specialises to the trivial topology: Horn theories,
-the object classifier, torsors and `B G`, intervals and simplicial sets. Layer 4 treats rings: the
-small category of finitely presented rings, the classifying topos of rings, the Zariski topology,
-and local rings as the quotient classified by it, an instance of 2.4 with the topology given
-explicitly.
+Layer 1 is geometric logic on Mathlib, with Tau Ceti for one translation: syntax, the set-theoretic
+semantics with its preservation by homomorphisms, structures and models in a category with finite
+limits, images and small coproducts, the transport of a model along a left exact left adjoint, and
+the translation into Tau Ceti's infinitary formulas. Layer 2 defines classifying sites through the
+universal property of Layer 1's transport, builds the classifying category of a Horn theory and the
+normal form of geometric formulas, proves the existence of classifying sites by the syntactic site
+and their uniqueness, relates quotient theories to finer topologies, and defines Morita equivalence;
+it consumes Diaconescu's theorem and the subtopoi of a sheaf topos from GrothendieckTopoi. Layer 3
+specialises to the trivial topology: Horn theories, the object classifier, torsors and `B G`,
+intervals and simplicial sets. Layer 4 treats rings: the small category of finitely presented rings,
+the classifying topos of rings, the Zariski topology, and local rings as the quotient classified by
+it, an instance of 2.5 with the topology given explicitly.
 
 ## Layer 1: geometric logic and its semantics
 
@@ -186,7 +219,8 @@ family indexed by `ι : Type w`), `equal` (two terms of `L.Term (Fin n)`), `rel`
 symbol applied to terms) and `ex` (binding the last variable of `Fin (n + 1)`, Convention 2), the
 false formula `GeometricFormula.bot` (the disjunction over `PEmpty`), the structure `Sequent L`
 (a context length `n`, a hypothesis and a conclusion in context `n`) and `GeometricTheory L`, a
-set of sequents (Johnstone, Elephant, D1.1; Mac Lane–Moerdijk, Chapter X). Implication, negation
+set of sequents (Johnstone, Elephant, D1.1; Mac Lane–Moerdijk, X.1 and X.3, pp. 527–530 and
+533–539). Implication, negation
 and universal quantification are not formulas; a sequent `φ ⊢ ψ` plays the role of
 `∀ x, φ → ψ`.
 *Needs:* Mathlib `FirstOrder.Language`, `FirstOrder.Language.Term`.
@@ -212,7 +246,17 @@ Prove `GeometricFormula.realize_hom`: for a homomorphism `f : M →[L] N`, `φ.R
 `φ.Realize (f ∘ x)`. The proof is an induction on `φ`, with Mathlib's
 `FirstOrder.Language.Hom.map_fun` and `FirstOrder.Language.Hom.map_rel` at the atomic formulas and
 `f a` as the witness of `ex` (Elephant, D1.2).
-*Needs:* 1.1; Mathlib `Term.realize`, `Structure.RelMap`, `FirstOrder.Language.Hom`.
+
+Define `GeometricFormula.toInf`, the translation into Tau Ceti's `L_{∞ω}` formulas
+`L.BoundedFormulaInf (Σ X : Type w, X) Empty n` (no free variables; the context `Fin n` becomes
+the bound-variable slots): `top`, `and` and `ex` go to Tau Ceti's `⊤`, `⊓` and `ex`, terms are
+relabelled by `Sum.inr`, and the disjunction of `φ : ι → _` goes to the disjunction over the pairs
+`⟨X, x⟩` whose branch is `φ x` when `X = ι` and `⊥` otherwise. Prove
+`GeometricFormula.realize_toInf`: `φ.toInf.Realize Empty.elim x ↔ φ.Realize x`, by induction on
+`φ`, with Tau Ceti's realization lemmas for `⊤`, `⊓`, `ex` and `iSup`.
+*Needs:* 1.1; Mathlib `Term.realize`, `Term.relabel`, `Structure.RelMap`,
+`FirstOrder.Language.Hom`; Tau Ceti `FirstOrder.Language.BoundedFormulaInf`,
+`FirstOrder.Language.BoundedFormulaInf.Realize`.
 
 **Checks.**
 
@@ -224,6 +268,16 @@ Prove `GeometricFormula.realize_hom`: for a homomorphism `f : M →[L] N`, `φ.R
   why negation is not a geometric connective.
 - `IsSetModel` of the empty theory holds in every structure, the empty type included; the theory
   `{⟨0, top, ex top⟩}` (inhabited) fails in `PEmpty` and holds in `PUnit`.
+- `toInf` of `bot`, the disjunction over `PEmpty`, has only `⊥` branches (no pair `⟨PEmpty, x⟩`
+  exists), so its realization is false, as that of `bot`.
+- The carrier must hold every index type: `toInf` of the torsion formula of 1.1, a disjunction
+  over `ULift ℕ`, has the `k`-th equation as branch at `⟨ULift ℕ, k⟩` and `⊥` at `⟨Bool, b⟩`; at
+  `1` it is realized in `ℤ/6` (`k = 5`) and not in `ℤ`. A translation into a fixed carrier such
+  as `ℕ` could not reach a disjunction over `ULift ℝ`.
+- The context becomes the bound slots: `toInf` of `ex (equal (var 0) (var 1 * var 1))` is Tau
+  Ceti's `ex` of the relabelled equation, which binds the last slot by `Fin.snoc` as in
+  Convention 2, and is realized at `4` and not at `2` in `ℤ`; relabelling the context into free
+  variables would leave `ex` nothing to bind.
 
 ### 1.3 Structures and models in a category
 
@@ -237,12 +291,19 @@ terms, and `Subobject.exists` along the projection of Convention 2), `CatStructu
 every axiom, the interpretation of the hypothesis lies below that of the conclusion),
 `CatStructure.IsHom` (a morphism of carriers commuting with `funMap` and sending each relation into
 its counterpart) and `CatStructure.Isomorphic` (an isomorphism of carriers that is a homomorphism
-both ways) (Elephant, D1.2; Mac Lane–Moerdijk, Chapter X). Define `CatStructure.ofStructure`, the
-structure in `Type u` of a structure on `M : Type u`, and prove
+both ways) (Elephant, D1.2; Mac Lane–Moerdijk, X.2, pp. 530–533). Define `CatStructure.ofStructure`,
+the structure in `Type u` of a structure on `M : Type u`, and prove
 `CatStructure.isModel_ofStructure_iff`: `(CatStructure.ofStructure M).IsModel T ↔ T.IsSetModel M`
 for `T : GeometricTheory.{u} L`. Route: by induction, the interpretation of `φ` is the subset of
 `Fin n → M` (through `Types.productIso`) of the assignments realizing `φ`; images in `Type u` are
-ranges, coproducts are sigma types, and the order of subobjects is inclusion.
+ranges, coproducts are sigma types, and the order of subobjects is inclusion. Prove also, as API:
+
+- `CatStructure.Isomorphic` is reflexive (the identity), symmetric (the inverse) and transitive
+  (the composite), the homomorphism conditions being stable under composition because
+  `Limits.Pi.map` and `Subobject.pullback` are functorial;
+- `CatStructure.IsModel` is invariant under `CatStructure.Isomorphic`: an isomorphism of carriers
+  carries `M.interp φ` to `N.interp φ` for every formula, by induction on `φ`.
+
 *Needs:* 1.1, 1.2; Mathlib `Subobject`, `Subobject.pullback`, `Subobject.exists`,
 `imageSubobject`, `equalizerSubobject`, `Pi.lift`, `Limits.Pi.map`, `Sigma.desc`, `Over`,
 `Types.productIso`, `TypeCat.ofHom`.
@@ -272,7 +333,14 @@ and `[F.IsLeftAdjoint]`, a model of `T` in `Sheaf J (Type u)` maps to a model in
 `Sheaf K (Type u)`. Route: `F` preserves finite limits, monomorphisms, epimorphisms and small
 coproducts, hence images, so `(M.map F).interp φ` is the image of `M.interp φ` under `F`, by
 induction on `φ`; the order of subobjects is preserved because `F` preserves monomorphisms
-(Mac Lane–Moerdijk, Chapter X; Elephant, D1.2).
+(Mac Lane–Moerdijk, X.3, pp. 533–539; Elephant, D1.2). Prove also, as API:
+
+- `M.map (𝟭 E)` is `CatStructure.Isomorphic` to `M`, and for `F` and `G` preserving finite
+  products, `(M.map F).map G` is `CatStructure.Isomorphic` to `M.map (F ⋙ G)`, both through the
+  identity of the carrier and the `piComparison` of a composite;
+- for a left exact left adjoint `F` as above, `M.Isomorphic N` implies
+  `(M.map F).Isomorphic (N.map F)`, since `F` preserves the images that interpret the relations.
+
 *Needs:* 1.3; GrothendieckTopoi 1.2 (images, epimorphisms and coproducts in `Sheaf J (Type u)`);
 Mathlib `piComparison`, `PreservesFiniteProducts`, `PreservesFiniteLimits`,
 `Functor.IsLeftAdjoint`.
@@ -300,21 +368,22 @@ Mathlib `piComparison`, `PreservesFiniteProducts`, `PreservesFiniteLimits`,
 
 ### Dependencies
 
-Mathlib, and GrothendieckTopoi 1.2 for 1.4. Within the layer, each target uses the previous ones.
+Mathlib; Tau Ceti for 1.2; GrothendieckTopoi 1.2 for 1.4. Within the layer, each target uses the
+previous ones.
 
 ## Layer 2: classifying topoi
 
 ### 2.1 Classifying sites
 
-Define `IsClassifyingSite T J U` for a small site `(C, J)` and `U : CatStructure L
-(Sheaf J (Type u))`: `U` is a model of `T`, and for every small site `(D, K)`, (i) every model `M`
-of `T` in `Sheaf K (Type u)` is `Isomorphic` to `U.map F` for some left exact left adjoint
-`F : Sheaf J (Type u) ⥤ Sheaf K (Type u)`, and (ii) for two such `F`, `G`, evaluation
+Define `IsClassifyingSite T J U` for a small site `(C, J)` and
+`U : CatStructure L (Sheaf J (Type u))`: `U` is a model of `T`, and for every small site `(D, K)`,
+(i) every model `M` of `T` in `Sheaf K (Type u)` is `Isomorphic` to `U.map F` for some left exact
+left adjoint `F : Sheaf J (Type u) ⥤ Sheaf K (Type u)`, and (ii) for two such `F`, `G`, evaluation
 `α ↦ α.app U.carrier` is injective on `F ⟶ G` and its image is exactly the homomorphisms
 `U.map F ⟶ U.map G`. By GrothendieckTopoi 1.1 and 2.1–2.2 this says that `T`-models in every
-Grothendieck topos `E` are, naturally in `E`, the opposite of the geometric morphisms
-`E → Sh(C, J)` (Convention 4; Mac Lane–Moerdijk, Chapter X; Elephant, D3.1). By Diaconescu's
-theorem (GrothendieckTopoi 2.5) they are also the `J`-filtering functors `C ⥤ E`.
+Grothendieck topos `E` are, naturally in `E`, the opposite of the geometric morphisms `E → Sh(C, J)`
+(Convention 4; Mac Lane–Moerdijk, X.6, pp. 559–566; Elephant, D3.1). By Diaconescu's theorem
+(GrothendieckTopoi 2.5) they are also the `J`-filtering functors `C ⥤ E`.
 *Needs:* 1.3, 1.4; GrothendieckTopoi 1.1, 2.1, 2.2, 2.5.
 
 **Checks.**
@@ -334,58 +403,122 @@ theorem (GrothendieckTopoi 2.5) they are also the `J`-filtering functors `C ⥤ 
   map `PUnit ⟶ PEmpty`), while the identity of `PUnit` is a homomorphism `U.map F ⟶ U.map G`;
   (ii) fails, as it should, since `Type u × Type u` is not the classifying topos `Type u`.
 
-### 2.2 Existence: the syntactic site
+### 2.2 The classifying category of a Horn theory
 
-Prove `exists_isClassifyingSite`: for `L : FirstOrder.Language.{u, u}` and
-`T : GeometricTheory.{u} L` there are a small category `C : Type u`, a topology `J` and a model `U`
-with `IsClassifyingSite T J U` (Makkai–Reyes 1977; Mac Lane–Moerdijk, Chapter X; Elephant, D3.1).
-Route: `T` is equivalent to a theory whose axioms are `ψ ⊢ ⋁ᵢ ∃ xᵢ, θᵢ` with `ψ` and `θᵢ`
-cartesian formulas (Elephant, D1.3.10, as used in Caramello 2017, proof of Theorem 17.6 in the
-numbering of arXiv:0905.0299v1). The empty theory over `L` is cartesian and is classified by
-presheaves on its cartesian syntactic category (objects the cartesian formulas in context up to
-provable equivalence, morphisms the provably functional cartesian relations), which is `u`-small
-because cartesian formulas are finitary over a `u`-small language. Take for `C` that category,
-for `J` the topology generated by the families `θᵢ ⟶ ψ` of the axioms, and for `U` the
-sheafification of the representable of `{x. ⊤}`: the `J`-continuous filtering functors
-`C ⥤ E` are the `T`-models in `E` (Caramello 2017, « Lattices of theories », Remark 3.7 in the
-numbering of arXiv:0905.0299v1), and GrothendieckTopoi 2.5 gives the universal property.
-*Needs:* 2.1; GrothendieckTopoi 2.5.
+Define `GeometricFormula.IsHorn` (built from `top`, `and`, `equal` and `rel` only),
+`GeometricTheory.IsHorn` (hypothesis and conclusion of every axiom Horn) and
+`GeometricFormula.exs`, the existential quantification of the last `m` variables of `Fin (n + m)`.
+For a Horn theory `T : GeometricTheory.{u'} L`, where `u' = max u₁ u₂ u` (the empty theory
+included), define its classifying category 𝒞_T without a proof system: the objects are the pairs
+`(n, φ)` of a context and a Horn formula in context `n`; a morphism `(n, φ) ⟶ (m, ψ)` is an
+`m`-tuple `t` of terms in context `n` such that, for every model `M` of `T` in every
+`Sheaf K (Type u')` of a small site, `M.interp φ` lies below the pullback of `M.interp ψ` along
+`Pi.lift fun i => M.termMap (t i)`, two tuples being identified when, for every such `M`,
+`M.interp φ` lies below the equalizer of each pair of their components; composition is
+substitution (`Term.subst`) and the identities are the variables. Horn formulas use no `iSup`, so
+they are in bijection with a type in `Type (max u₁ u₂)`, and 𝒞_T is equivalent to a small
+category in `Type u'` (`AsSmall.{u'}`). Equivalently, 𝒞_T is the opposite of the category of
+finitely presented set-models of `T`, `(n, φ)` presenting the model generated by `n` elements
+subject to the atomic formulas of `φ`. Prove:
+
+- (a) for every small site `(D, K)` with `D : Type u'`, the models of `T` in `Sheaf K (Type u')`
+  correspond, up to `CatStructure.Isomorphic` and up to isomorphism of functors, to the functors
+  from that small category to `Sheaf K (Type u')` that are `IsFiltering` for the trivial topology
+  (GrothendieckTopoi 2.5), a model `M` going to the functor that sends `(n, φ)` to the domain of
+  `M.interp φ` and `t` to the map it induces (Elephant, D1.4; Caramello 2017, proof of
+  Theorem 17.6, p. 81 in the numbering of arXiv:0905.0299v1). Route: 𝒞_T has finite limits
+  (`(0, top)` is terminal, products are conjunctions in the concatenated context, equalizers add
+  equations), the functor of a model preserves them, and on a category with finite limits the
+  filtering functors for `⊥` are those preserving finite limits; conversely a filtering functor `A`
+  gives the structure on `A (1, top)`.
+- (b) `GeometricFormula.exists_interp_eq_iSup_exs`: for `φ : GeometricFormula.{u} L n` there are
+  `ι : Type u`, `m : ι → ℕ` and Horn formulas `θ i` in context `n + m i` such that
+  `M.interp φ = M.interp (.iSup fun i => (θ i).exs)` for every structure `M` in every
+  `Sheaf K (Type u)` of a small site. Route: induction on `φ` in the frames `Subobject` of
+  GrothendieckTopoi 1.2: meets distribute over joins, `Subobject.exists` commutes with joins and
+  satisfies Frobenius reciprocity, and the index types stay in `Type u` (`PUnit`, products, sigma
+  types) (Elephant, D1.3.10, as used in Caramello 2017, proof of Theorem 17.6, p. 81).
+
+*Needs:* 1.3; GrothendieckTopoi 1.2, 2.5; Mathlib `Term.subst`, `Pi.lift`, `Subobject.pullback`,
+`Subobject.exists`, `equalizerSubobject`, `AsSmall`.
 
 **Checks.**
 
-- The empty theory over the empty language: the cartesian syntactic category has the contexts
-  `Fin n` as objects and the substitutions as morphisms, the opposite of finite sets, and no
-  axiom adds a cover: this is the site `FintypeCat.Skeleton.{u}ᵒᵖ` of 3.2.
+- `commRingTheory` is Horn; `localRingTheory` is not (it has `iSup` and `ex`), and neither is
+  `torsorTheory` (`⊢ ∃ x, ⊤`).
+- `exs` binds the last variables: for `n = 1` and `m = 1`, `exs (equal (var 0) (var 1 * var 1))`
+  is the formula "`x₀` is a square" of Convention 2, true at `4` and false at `2` in `ℤ`, while
+  binding `x₀` would give a formula true everywhere; for `m = 0`, `exs φ` is `φ`.
+- Over the empty language a term is a variable, so for the empty theory the morphisms
+  `(n, top) ⟶ (m, top)` are the maps `Fin m → Fin n`, and `(2, equal (var 0) (var 1))` is
+  isomorphic to `(1, top)`: 𝒞_T is equivalent to `FintypeCat.Skeleton.{u}ᵒᵖ`, the site of 3.2.
+- The identification depends on the source: for `commRingTheory`, the tuples `(x₀)` and
+  `(x₀ * x₀)` are identified as morphisms `(1, equal (var 0 * var 0) (var 0)) ⟶ (1, top)` and are
+  not as morphisms `(1, top) ⟶ (1, top)` (in `ℤ` at `2`, `2 ≠ 4`): the first hom-set is
+  `ℤ[x]/(x² - x)`, the second `ℤ[x]`.
+- In (b), the conclusion of the second new axiom of `localRingTheory` is already in normal form
+  (index `ULift Bool`, `m = 1`); `and (ex θ) ψ` has the normal form `ex (and θ ψ')`, with `ψ'` the
+  weakening of `ψ` to `Fin (n + 1)`, by Frobenius reciprocity (in `Type u`,
+  `(∃ y, θ x y) ∧ ψ x ↔ ∃ y, θ x y ∧ ψ x`); a normal form with finite index types would not reach
+  the torsion formula of 1.1.
+
+### 2.3 Existence: the syntactic site
+
+Prove `exists_isClassifyingSite`: for `L : FirstOrder.Language.{u₁, u₂}` and
+`T : GeometricTheory.{max u₁ u₂ u} L` there are a small category `C : Type (max u₁ u₂ u)`, a
+topology `J` and a model `U` with `IsClassifyingSite T J U` (Makkai–Reyes 1977, « Classifying
+topoi », pp. 272–297; Mac Lane–Moerdijk, X.5–X.6, pp. 553–566; Elephant, D3.1). Route: by 2.2 (b),
+each axiom `φ ⊢ ψ` of `T` has the same models in every sheaf topos as the axioms `χ ⊢ ψ'`, for the
+disjuncts `exs χ` of the normal form of `φ` and `ψ'` the weakening of `ψ`, and each of these as
+an axiom `χ ⊢ ⋁ᵢ exs θᵢ` with `χ` and the `θᵢ` Horn (Elephant, D1.3.10, as used in
+Caramello 2017, proof of Theorem 17.6, p. 81 in the numbering of arXiv:0905.0299v1). Take for `C`
+the classifying category of the empty theory over `L` (2.2), as a small category, for `J` the
+topology generated by the families `(n + mᵢ, θᵢ ∧ χ') ⟶ (n, χ)` of the axioms, given by the first
+`n` variables (`χ'` the weakening of `χ`), and for `U` the sheafification of the representable
+presheaf of `(1, top)`: by 2.2 (a), the `J`-continuous filtering functors on `C` are the
+`T`-models (Caramello 2017, « Lattices of theories », Remark 3.7 in the numbering of
+arXiv:0905.0299v1), and GrothendieckTopoi 2.5 gives the universal property.
+*Needs:* 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `AsSmall`, `yoneda`, `presheafToSheaf`.
+
+**Checks.**
+
+- The empty theory over the empty language: no axiom adds a cover, so `J = ⊥` on the category of
+  2.2, which is equivalent to `FintypeCat.Skeleton.{u}ᵒᵖ` (2.2, Checks): the site of 3.2.
 - One `0`-ary relation symbol `p` and no axiom: set-models are the two truth values of `p`, with
   one homomorphism `false ⟶ true` besides the identities; the classifying topos is presheaves on
   the arrow category `0 ⟶ 1`, the Sierpiński topos, whose points are the two points of the
   Sierpiński space with one 2-cell between them (GrothendieckTopoi 2.2, Checks).
-- The size hypothesis is used: over a language with a type in `Type (u + 1)` of `0`-ary
-  relation symbols and no axiom, the symbols give pairwise distinct subobjects of the terminal
-  object of the classifying topos, while `Sheaf J (Type u)` for `C : Type u` has a `u`-small set
-  of them (closed sieves on the objects of `C`).
+- The universe of the site is needed: take as `0`-ary relation symbols the elements of `Type u`
+  itself, a type in `Type (u + 1)` not equivalent to any type in `Type u`, and no axiom. Distinct
+  symbols `p ≠ q` give distinct subobjects of the terminal object of any classifying topos (the
+  set-model in which only `p` holds separates them), while for `C : Type u` the subterminal
+  objects of `Sheaf J (Type u)` form a `u`-small set (each is determined by a set of objects of
+  `C`); so no classifying site lives in `Type u`, and 2.3 gives one in `Type (u + 1)`. With two
+  symbols, `ULift.{u + 1} Bool`, the theory is classified at universe `u`, by presheaves on the
+  product of two copies of the arrow category `0 ⟶ 1`.
 
-### 2.3 Uniqueness
+### 2.4 Uniqueness
 
 Prove `IsClassifyingSite.exists_equivalence`: if `(C, J, U)` and `(C', J', U')` classify the same
 `T`, there is `e : Sheaf J (Type u) ≌ Sheaf J' (Type u)` with `(U.map e.functor).Isomorphic U'`.
 Route: (i) for `U'` gives `F` with `U' ≅ U.map F`, and symmetrically `G`; (ii) shows that
 `G ⋙ F` and `F ⋙ G` are isomorphic to the identities, a 2-dimensional Yoneda argument
 (Caramello 2017, the chapter « Lattices of theories », §2.1 in the numbering of arXiv:0905.0299v1).
-*Needs:* 2.1; Mathlib `Equivalence`.
+*Needs:* 1.3, 1.4 (API: `CatStructure.Isomorphic` is an equivalence relation, `CatStructure.map`
+along the identity and along a composite); 2.1; Mathlib `Equivalence`.
 
 **Checks.**
 
-- The theory of objects is classified by `FintypeCat.Skeleton.{u}ᵒᵖ` (3.2) and, by 2.2, by its
-  cartesian syntactic category; the two sites are equivalent categories, and 2.3 gives the
-  equivalence of topoi sending generic object to generic object.
+- The theory of objects is classified by `FintypeCat.Skeleton.{u}ᵒᵖ` (3.2) and, by 2.3, by the
+  syntactic site on the category of 2.2; the two sites are equivalent categories, and 2.4 gives
+  the equivalence of topoi sending generic object to generic object.
 - The isomorphism of generic models is not unique: for `G = ℤ/2`, the generic torsor has the
   automorphism `x ↦ g · x` of the non-trivial `g` (it commutes with the action, `G` being
   abelian), so `U.map (𝟭 _)` and `U` are isomorphic in two ways.
 - For `T = {⊤ ⊢ bot}`, every classifying site has a degenerate topos, and all degenerate topoi are
   equivalent (one object, one morphism).
 
-### 2.4 Quotients and finer topologies
+### 2.5 Quotients and finer topologies
 
 Prove `IsClassifyingSite.exists_quotient_topology`: if `(C, J, U)` classifies `T` and `T ⊆ T'`,
 then some `J' ≥ J` makes `(C, J')` with the model
@@ -398,8 +531,9 @@ classifying topos (Caramello 2017, the chapter « Lattices of theories », Theor
 Remark 3.7 in the numbering of arXiv:0905.0299v1). Route: `T'`-models are the `T`-models whose
 filtering functor sends the families of the new axioms to epimorphic families (the proof of
 Theorem 3.6), which is continuity for the topology `J'` generated by `J` and those families.
-*Needs:* 2.1, 2.2, 2.3; GrothendieckTopoi 2.5, 4.2; Mathlib `sheafToPresheaf`,
-`presheafToSheaf`.
+*Needs:* 1.3, 1.4 (API: invariance of `CatStructure.IsModel` under `CatStructure.Isomorphic`,
+`CatStructure.map` along a composite and of isomorphic structures); 2.1, 2.3, 2.4;
+GrothendieckTopoi 2.5, 4.2; Mathlib `sheafToPresheaf`, `presheafToSheaf`.
 
 **Checks.**
 
@@ -407,20 +541,21 @@ Theorem 3.6), which is continuity for the topology `J'` generated by `J` and tho
   gives a `T'` with the same models as `T` in every topos.
 - Over the empty language, `T' = {⊤ ⊢ x = y}` (subsingletons) is a quotient of the theory of
   objects; its models in a topos are the subterminal objects, as are the models of the theory of
-  one `0`-ary relation symbol of 2.2, Checks, so some `J'` on `FintypeCat.Skeleton.{u}ᵒᵖ` has
-  `Sheaf J' (Type u)` equivalent to the Sierpiński topos (2.3): two points, `PEmpty` and
+  one `0`-ary relation symbol of 2.3, Checks, so some `J'` on `FintypeCat.Skeleton.{u}ᵒᵖ` has
+  `Sheaf J' (Type u)` equivalent to the Sierpiński topos (2.4): two points, `PEmpty` and
   `PUnit`.
 - Layer 4: `commRingTheory ⊆ localRingTheory` and `⊥ ≤ zariskiTopology` on `FPRing.{u}ᵒᵖ` is an
   instance with both topologies given explicitly (4.3).
 
-### 2.5 Morita equivalence
+### 2.6 Morita equivalence
 
 Define `MoritaEquivalent T T'` for theories over possibly different languages: there are
 classifying sites `(C, J, U)` of `T` and `(C', J', U')` of `T'` with
-`Sheaf J (Type u) ≌ Sheaf J' (Type u)`. By 2.3 the condition does not depend on the chosen sites;
-by 2.1 it says that the categories of models of `T` and `T'` in every Grothendieck topos are
-equivalent, naturally along inverse images (Caramello 2017; Elephant, D3.1).
-*Needs:* 2.1, 2.3.
+`Sheaf J (Type u) ≌ Sheaf J' (Type u)`. By 2.4 the condition does not depend on the chosen sites
+(Caramello 2017, « Lattices of theories », Definition 3.5, p. 14 in the numbering of
+arXiv:0905.0299v1; Elephant, D3.1).
+*Needs:* 1.3, 1.4 (API: `CatStructure.Isomorphic` is an equivalence relation, `CatStructure.map`
+along a composite); 2.1, 2.4.
 
 **Checks.**
 
@@ -433,8 +568,8 @@ equivalent, naturally along inverse images (Caramello 2017; Elephant, D3.1).
   relation `≠` with `x ≠ x ⊢ bot` and `⊤ ⊢ x = y ∨ x ≠ y`) have the same set-models, sets, but
   the homomorphisms of the second are the injections. Their classifying topoi, functors on
   finite sets with all maps and with injections, are not equivalent (Borceux–Dejean 1986,
-  Theorem 1 (4) and Proposition 2: both categories are Cauchy complete and not equivalent, one
-  having a non-monomorphism `Fin 2 ⟶ Fin 1`).
+  Theorem 1 (3), p. 134, and Proposition 2, p. 135: both categories are Cauchy complete and not
+  equivalent, one having a non-monomorphism `Fin 2 ⟶ Fin 1`).
 
 ### Examples
 
@@ -443,26 +578,27 @@ equivalent, naturally along inverse images (Caramello 2017; Elephant, D3.1).
 
 ### Dependencies
 
-Layer 1; GrothendieckTopoi 1.1, 2.1, 2.2, 2.5, 4.2. Within the layer, 2.2–2.5 use 2.1, 2.4 uses
-2.2 and 2.3, and 2.5 uses 2.3.
+Layer 1; GrothendieckTopoi 1.1, 1.2, 2.1, 2.2, 2.5, 4.2. Within the layer, 2.3–2.6 use 2.1, 2.3
+uses 2.2, 2.5 uses 2.3 and 2.4, and 2.6 uses 2.4.
 
 ## Layer 3: theories of presheaf type
 
 ### 3.1 Horn theories
 
 Define `IsOfPresheafType T`: some small `C` with the trivial topology `⊥` and a model `U` classify
-`T`. Define `GeometricFormula.IsHorn` (built from `top`, `and`, `equal` and `rel` only) and
-`GeometricTheory.IsHorn` (hypothesis and conclusion of every axiom Horn). Prove
-`isOfPresheafType_of_isHorn` for `L : FirstOrder.Language.{u, u}`. Route: a Horn theory is
-cartesian, and a cartesian theory is classified by presheaves on its cartesian syntactic category,
-the opposite of its finitely presentable set-models (Elephant, D3.1; Caramello 2017, proof of
-Theorem 17.6 in the numbering of arXiv:0905.0299v1).
-*Needs:* 2.1.
+`T`. Prove `isOfPresheafType_of_isHorn`: a Horn theory `T : GeometricTheory.{max u₁ u₂ u} L` over
+`L : FirstOrder.Language.{u₁, u₂}` is of presheaf type, with a site in `Type (max u₁ u₂ u)`.
+Route: by 2.2 (a) the models of `T` are the filtering functors on its classifying category 𝒞_T,
+which by GrothendieckTopoi 2.5 are the geometric morphisms into presheaves on 𝒞_T; take for `C`
+the small category equivalent to 𝒞_T with `⊥`, and for `U` the representable presheaf of
+`(1, top)` (Elephant, D3.1; Caramello 2017, proof of Theorem 17.6, p. 81 in the numbering of
+arXiv:0905.0299v1).
+*Needs:* 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `AsSmall`, `yoneda`, `sheafBotEquivalence`.
 
 **Checks.**
 
-- `commRingTheory` is Horn; `localRingTheory` is not (it has `iSup` and `ex`), and neither is
-  `torsorTheory` (`⊢ ∃ x, ⊤`).
+- Presheaf type does not need Horn axioms: `torsorTheory G` is not Horn, and it is of presheaf
+  type, classified by `AsSmall.{u} (SingleObj G)` with `⊥` (3.3).
 - Set-models of a Horn theory are closed under products (each axiom is checked coordinatewise):
   `ℤ × ℤ` is a commutative ring. `ℤ/2 × ℤ/2` is not local (`x = (1, 0)`: neither `x` nor `1 - x`
   is invertible) although `ℤ/2` is, so no Horn theory has the local rings as set-models.
@@ -476,9 +612,9 @@ Define `objectTheory`, the empty theory over `FirstOrder.Language.empty`, and `g
 presheaf `unopUnop _ ⋙ FintypeCat.Skeleton.incl ⋙ FintypeCat.incl` on
 `FintypeCat.Skeleton.{u}ᵒᵖ` as a sheaf for `⊥` (`sheafBotEquivalence`), the inclusion of finite
 sets into sets. Prove `isClassifyingSite_genericObject`: functors from finite sets to sets
-classify objects (Mac Lane–Moerdijk, Chapter VIII; Elephant, D3.1).
-*Needs:* 2.1, 3.1; Mathlib `FintypeCat.Skeleton`, `FintypeCat.Skeleton.incl`, `FintypeCat.incl`,
-`unopUnop`, `sheafBotEquivalence`.
+classify objects (Mac Lane–Moerdijk, VIII.4, pp. 434–437; Elephant, D3.1).
+*Needs:* 2.1, 2.2, 3.1; Mathlib `FintypeCat.Skeleton`, `FintypeCat.Skeleton.incl`,
+`FintypeCat.incl`, `unopUnop`, `sheafBotEquivalence`.
 
 **Checks.**
 
@@ -493,20 +629,21 @@ classify objects (Mac Lane–Moerdijk, Chapter VIII; Elephant, D3.1).
 
 ### 3.3 Torsors and the classifying topos of a group
 
-Define `torsorFunctions G` (one unary symbol for each `g : G`), `torsorLanguage G`,
-`torsorAct g t` (the term `g · t`), `torsorTheory G` (left action, inhabited, transitive
-`⊤ ⊢ ⋁_g g · x = y`, free `g · x = h · x ⊢ bot` for `g ≠ h`), `torsorYoneda G` (the Yoneda
-embedding of `SingleObj G` into sheaves for `⊥` on `AsSmall.{u} (SingleObj G)`) and
-`genericTorsor G` (the representable presheaf, `G` acting on the left by postcomposition,
-Convention 5). Prove `isClassifyingSite_genericTorsor`: right `G`-sets classify `G`-torsors
-(Mac Lane–Moerdijk, Chapter VIII). Prove `moritaEquivalent_torsorTheory_iff`: the theories of
-`G`- and `H`-torsors are Morita-equivalent exactly when `G ≃* H`. Route: an equivalence of the
-presheaf topoi on `SingleObj G` and `SingleObj H` gives an equivalence of their Cauchy completions
-(Borceux–Dejean 1986, Theorem 1 (4), p. 134, and Proposition 2, p. 135: the Cauchy completion is
-the full subcategory of absolutely presentable presheaves, which an equivalence preserves); an
-idempotent of a group is `1`, so `SingleObj G` is its own Cauchy completion, and an equivalence
-`SingleObj G ≌ SingleObj H` restricts to a group isomorphism on the endomorphisms of the object.
-*Needs:* 2.1, 2.3, 2.5; GrothendieckTopoi 2.5; Mathlib `SingleObj`, `AsSmall`, `yoneda`,
+Define `torsorFunctions G` (one unary symbol for each `g : G`), `torsorLanguage G`, `torsorAct g t`
+(the term `g · t`), `torsorTheory G` (left action, inhabited, transitive `⊤ ⊢ ⋁_g g · x = y`, free
+`g · x = h · x ⊢ bot` for `g ≠ h`), `torsorYoneda G` (the Yoneda embedding of `SingleObj G` into
+sheaves for `⊥` on `AsSmall.{u} (SingleObj G)`) and `genericTorsor G` (the representable presheaf,
+`G` acting on the left by postcomposition, Convention 5). Prove `isClassifyingSite_genericTorsor`:
+right `G`-sets classify `G`-torsors (Mac Lane–Moerdijk, VIII.2–VIII.3, pp. 423–434). Prove
+`moritaEquivalent_torsorTheory_iff`: the theories of `G`- and `H`-torsors are Morita-equivalent
+exactly when `G ≃* H`. Route: an equivalence of the presheaf topoi on `SingleObj G` and
+`SingleObj H` gives an equivalence of their Cauchy completions (Borceux–Dejean 1986, Proposition 2,
+p. 135: the Cauchy completion is the full subcategory of absolutely presentable presheaves, which an
+equivalence preserves); an idempotent of a group is `1`, so idempotents split in `SingleObj G`,
+which is therefore equivalent to its Cauchy completion (Borceux–Dejean 1986, Theorem 1 (3), p. 134),
+and an equivalence `SingleObj G ≌ SingleObj H` restricts to a group isomorphism on the endomorphisms
+of the object.
+*Needs:* 2.1, 2.4, 2.6; GrothendieckTopoi 2.5; Mathlib `SingleObj`, `AsSmall`, `yoneda`,
 `sheafBotEquivalence`, `MulEquiv`.
 
 **Checks.**
@@ -531,7 +668,8 @@ Define `intervalLanguage` (constants `0`, `1` and a binary relation `≤`), `int
 embedding of the simplex category into sheaves for `⊥` on `AsSmall.{u} SimplexCategory`),
 `isTerminalSimplexYonedaZero` (`Δ[0]` is terminal, from `SimplexCategory.isTerminalZero`) and
 `genericInterval` (Convention 6). Prove `isClassifyingSite_genericInterval`: simplicial sets
-classify intervals, with generic interval `Δ[1]` (Mac Lane–Moerdijk, Chapter VIII). Route: the
+classify intervals, with generic interval `Δ[1]` (Mac Lane–Moerdijk, VIII.8, pp. 455–466). Route:
+the
 finitely presentable intervals are the finite ones `{0 < 1 < ⋯ < n + 1}`, and their opposite is
 the simplex category through `⦋n⦌ ↦ Hom(⦋n⦌, ⦋1⦌)`; 3.1's route for cartesian theories does not
 apply (the linearity axiom is a disjunction) and is replaced by a direct check that intervals in
@@ -556,7 +694,7 @@ apply (the linearity axiom is a disjunction) and is replaced by a direct check t
   `Ind` of the finitely presentable models (LocallyPresentableCategories 1.5); for
   `commRingTheory`, the commutative rings are filtered colimits of finitely presented ones, the
   points of the classifying topos of 4.1.
-- For a Horn theory, the classifying category of 3.1 is the opposite of the finitely presentable
+- For a Horn theory, the classifying category of 2.2 is the opposite of the finitely presentable
   set-models, the theory with finite limits of LocallyPresentableCategories 3.1 and 3.5.
 
 ### Dependencies
@@ -571,15 +709,30 @@ Within the layer, 3.2 uses 3.1.
 Define the structure `FPRing` (a number `n` of generators and a finitely generated ideal of
 `MvPolynomial (Fin n) ℤ`), `FPRing.Ring` (the quotient, lifted to `Type u`), the small category
 instance on `FPRing` with ring maps as morphisms, `FPRing.forget`, `ringEq` (the equation `t = s`
-in three variables) and `commRingTheory` (the eight equations of a commutative ring). Prove
-`exists_isClassifyingSite_commRing`: some `U : CatStructure FirstOrder.Language.ring
-(Sheaf ⊥ (Type u))` on `FPRing.{u}ᵒᵖ`, whose underlying presheaf is isomorphic to
-`unopUnop _ ⋙ FPRing.forget`, classifies commutative rings (Mac Lane–Moerdijk, Chapter VIII).
-Route: 3.1, with the finitely presented rings as finitely presentable set-models; every finitely
-presented ring is isomorphic to an object of `FPRing`, and the generic ring is the forgetful
-functor with pointwise operations.
-*Needs:* 2.1, 3.1; Mathlib `MvPolynomial`, `Ideal.FG`, `FirstOrder.Language.ring`,
-`sheafBotEquivalence`.
+in three variables) and `commRingTheory` (the eight equations of a commutative ring). Define the
+generic ring: `ringOp A f` (the operation of a function symbol `f` on `A.Ring`, through
+`FirstOrder.Ring.compatibleRingOfRing`), `forgetPresheaf` (`unopUnop _ ⋙ FPRing.forget`),
+`genericRingPresheaf` (carrier `forgetPresheaf`, the operation of `f` at `A` being `ringOp A f`
+after the comparisons `piObjIso` and `Types.productIso`, natural because ring maps commute with
+`ringOp`) and `genericRing`, its image in `Sheaf ⊥ (Type u)` under `sheafBotEquivalence`. Prove
+`finitePresentation_of_isFinitelyPresentable`: a commutative ring that is
+`IsFinitelyPresentable.{u}` in `CommRingCat.{u}` is a finitely presented `ℤ`-algebra, the
+converse of `CommRingCat.isFinitelyPresentable_under` over `ℤ` (a finitely presentable ring is a
+retract of a finitely presented one through which its identity factors). Prove
+`isClassifyingSite_genericRing`: `(FPRing.{u}ᵒᵖ, ⊥, genericRing)` classifies commutative rings
+(Mac Lane–Moerdijk, VIII.5, pp. 437–445, with Proposition 5.1). Route: 3.1, through 2.2 for
+`commRingTheory`: its classifying category is equivalent to `FPRing.{u}ᵒᵖ`, `(n, φ)` going to
+`ℤ[x₀, …, xₙ₋₁]` modulo the equations of `φ`, and its morphisms to the ring maps; the
+representable of `(1, top)` goes to the forgetful functor, with the operations of the terms
+`x₀ + x₁`, `x₀ * x₁`, … , which are those of `genericRing`. The finitely presented rings are the
+finitely presentable set-models (`CommRingCat.isFinitelyPresentable_hom` and
+`finitePresentation_of_isFinitelyPresentable`), and they form an essentially small category
+(`essentiallySmall_of_le`), of which `FPRing.{u}` is a small model.
+*Needs:* 2.1, 2.2, 3.1; Mathlib `MvPolynomial`, `Ideal.FG`, `FirstOrder.Language.ring`,
+`FirstOrder.Ring.compatibleRingOfRing`, `piObjIso`, `piObjIso_hom_comp_π`, `Types.productIso`,
+`NatTrans.naturality_apply`, `sheafBotEquivalence`, `IsFinitelyPresentable`,
+`Algebra.FinitePresentation`, `CommRingCat.isFinitelyPresentable_under`,
+`CommRingCat.isFinitelyPresentable_hom`, `essentiallySmall_of_le`.
 
 **Checks.**
 
@@ -592,6 +745,10 @@ functor with pointwise operations.
 - The site is the opposite of `FPRing`: presheaves on `FPRing.{u}ᵒᵖ` are covariant functors on
   rings, and `unopUnop _ ⋙ FPRing.forget` is one of them; presheaves on `FPRing` itself would be
   contravariant and the forgetful functor would not be among them.
+- The operations of `genericRing` are those of each `A.Ring`, not only its carrier: transporting
+  them along the natural bijection `x ↦ x + 1` of the forgetful functor (natural since ring maps
+  preserve `1`) gives another commutative ring object on the same presheaf, with zero `1` and
+  addition `(a, b) ↦ a + b - 1` at `ℤ`, which pinning the carrier alone would not exclude.
 
 ### 4.2 The Zariski topology
 
@@ -599,7 +756,7 @@ Define `zariskiCovers A` (the sieves on `A : FPRing.{u}ᵒᵖ` containing, for e
 family generating the unit ideal, a map `A ⟶ B` making `B` a localization of `A` away from `f`)
 and `zariskiTopology`, the smallest Grothendieck topology containing them. Prove
 `isSheaf_forget_zariskiTopology`: the forgetful functor is a Zariski sheaf (Mac Lane–Moerdijk,
-Chapter VIII). Route: the pullback of a Zariski covering family along `A ⟶ A'` contains the
+VIII.6, pp. 445–450). Route: the pullback of a Zariski covering family along `A ⟶ A'` contains the
 localizations of `A'` away from the images of the `fᵢ`, which still generate the unit ideal, so
 it suffices to check the sheaf condition on the generating families; there it is the exactness of
 `A ⟶ ∏ᵢ A[1/fᵢ] ⇉ ∏ᵢⱼ A[1/fᵢfⱼ]`, the gluing of functions on a cover of `Spec A` by basic open
@@ -619,16 +776,17 @@ sets.
 ### 4.3 Local rings and the Zariski topos
 
 Define `localRingTheory`: `commRingTheory` with `0 = 1 ⊢ bot` and
-`⊤ ⊢ (∃ y, x * y = 1) ∨ (∃ y, (1 + -x) * y = 1)`. Prove `exists_isClassifyingSite_localRing`: some
-`U` as in 4.1 classifies commutative rings and its sheafification
-`U.map (sheafToPresheaf ⊥ (Type u) ⋙ presheafToSheaf zariskiTopology (Type u))` classifies local
-rings on `(FPRing.{u}ᵒᵖ, zariskiTopology)` (Mac Lane–Moerdijk, Chapter VIII; Hakim 1972). By 4.2
-the sheafified carrier is again the forgetful functor. Route: 2.4 with `T = commRingTheory`,
+`⊤ ⊢ (∃ y, x * y = 1) ∨ (∃ y, (1 + -x) * y = 1)`. Prove `isClassifyingSite_localRingTheory`: the
+sheafified generic ring
+`genericRing.map (sheafToPresheaf ⊥ (Type u) ⋙ presheafToSheaf zariskiTopology (Type u))`
+classifies local rings on `(FPRing.{u}ᵒᵖ, zariskiTopology)` (Mac Lane–Moerdijk, VIII.6,
+pp. 445–450; Hakim 1972, Chapitre III, §3, pp. 41–49). By 4.2 the sheafified carrier is again the
+forgetful functor. Route: 2.5 with `T = commRingTheory`,
 `T' = localRingTheory`; the sieves of the two new axioms, on the generic ring, are the empty
 sieve on the zero ring and the cover `{A ⟶ A[1/x], A ⟶ A[1/(1 - x)]}`, which generate
 `zariskiTopology` (every Zariski cover is reached from those binary ones by the transitivity
 axiom, by induction on the size of the family generating the unit ideal).
-*Needs:* 2.4, 4.1, 4.2; Mathlib `sheafToPresheaf`, `presheafToSheaf`.
+*Needs:* 2.5, 4.1, 4.2; Mathlib `sheafToPresheaf`, `presheafToSheaf`.
 
 **Checks.**
 
@@ -642,7 +800,7 @@ axiom, by induction on the size of the family generating the unit ideal).
 
 ### Examples
 
-- The points of the Zariski topos are the local rings (2.5, Examples), and the stalk of the
+- The points of the Zariski topos are the local rings (Layer 2, Examples), and the stalk of the
   forgetful functor at the point of a local ring `R` is `R`.
 - For a scheme `X`, the structure sheaf is a local ring in `Sh(X)`, the image of the generic local
   ring under the geometric morphism `Sh(X) → Sh(FPRing.{u}ᵒᵖ, zariskiTopology)` it classifies.
@@ -667,8 +825,8 @@ should be constructions on topoi. The duality of 2.4 makes the lattice of quotie
 coHeyting algebra, the subtopoi of its classifying topos, and Caramello's method of topos-theoretic
 bridges transfers properties of a classifying topos presented by two sites into properties of the
 two theories. Open questions there concern which invariants of topoi admit syntactic
-characterizations for arbitrary geometric theories, and the description of the theories of
-presheaf type beyond the criteria known for cartesian theories.
+characterizations for arbitrary geometric theories, and the description of the theories of presheaf
+type beyond the criteria known for cartesian theories.
 
 ## References
 

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.ModelTheory.Infinitary.Semantics
 
 /-!
 # Classifying topoi of geometric theories: target signatures
@@ -12,20 +13,23 @@ carriers. The API around each target, the special cases and the Checks stay in t
 
 Headlines stated, with their README targets:
 
-* 1.2 `GeometricFormula.realize_hom`; 1.3 `CatStructure.isModel_ofStructure_iff`;
-  1.4 `CatStructure.IsModel.map`;
-* 2.2 `exists_isClassifyingSite`; 2.3 `IsClassifyingSite.exists_equivalence`;
-  2.4 `IsClassifyingSite.exists_quotient_topology` and `IsClassifyingSite.exists_quotient_theory`;
+* 1.2 `GeometricFormula.realize_hom` and `GeometricFormula.realize_toInf`;
+  1.3 `CatStructure.isModel_ofStructure_iff`; 1.4 `CatStructure.IsModel.map`;
+* 2.2 (b) `GeometricFormula.exists_interp_eq_iSup_exs`; 2.3 `exists_isClassifyingSite`;
+  2.4 `IsClassifyingSite.exists_equivalence`; 2.5 `IsClassifyingSite.exists_quotient_topology`
+  and `IsClassifyingSite.exists_quotient_theory`;
 * 3.1 `isOfPresheafType_of_isHorn`; 3.2 `isClassifyingSite_genericObject`;
   3.3 `isClassifyingSite_genericTorsor` and `moritaEquivalent_torsorTheory_iff`;
   3.4 `isClassifyingSite_genericInterval`;
-* 4.1 `exists_isClassifyingSite_commRing`; 4.2 `isSheaf_forget_zariskiTopology`;
-  4.3 `exists_isClassifyingSite_localRing`.
+* 4.1 `isClassifyingSite_genericRing` and `finitePresentation_of_isFinitelyPresentable`;
+  4.2 `isSheaf_forget_zariskiTopology`; 4.3 `isClassifyingSite_localRingTheory`.
 
-Every headline of the README is stated. Geometric morphisms and Diaconescu's theorem are
-GrothendieckTopoi's (Layer 2); the universal property here is written with their inverse images,
-left exact left adjoints between categories of sheaves, so that it is statable on Mathlib's
-carriers.
+Not stated: README 2.2 (a), the correspondence between models of a Horn theory in
+`Sheaf K (Type u)` and the filtering functors on its classifying category, lacking
+GrothendieckTopoi's `IsFiltering`; the classifying category itself is therefore not defined here,
+no stated headline using it. Geometric morphisms and Diaconescu's theorem are GrothendieckTopoi's
+(Layer 2); the universal property here is written with their inverse images, left exact left
+adjoints between categories of sheaves, so that it is statable on Mathlib's carriers.
 -/
 
 @[expose] public section
@@ -101,6 +105,25 @@ def GeometricTheory.IsSetModel (T : GeometricTheory.{w} L) (M : Type v) [L.Struc
 theorem GeometricFormula.realize_hom {M : Type v} {N : Type v'} [L.Structure M]
     [L.Structure N] (f : M →[L] N) {n : ℕ} (φ : GeometricFormula.{w} L n) (x : Fin n → M)
     (h : φ.Realize x) : φ.Realize (f ∘ x) :=
+  sorry
+
+open Classical in
+/-- **1.2.** A geometric formula as an `L_{∞ω}` formula of Tau Ceti, with no free variables and
+branching carrier `Σ X : Type w, X`: the disjunction of `φ : ι → _` becomes the disjunction over
+the pairs `⟨X, x⟩`, whose branch is `φ x` when `X = ι` and `⊥` otherwise. -/
+noncomputable def GeometricFormula.toInf :
+    {n : ℕ} → GeometricFormula.{w} L n → L.BoundedFormulaInf (Σ X : Type w, X) Empty n
+  | _, .top => ⊤
+  | _, .and φ ψ => φ.toInf ⊓ ψ.toInf
+  | _, .iSup (ι := ι) φ => .iSup fun p => if h : p.1 = ι then (φ (cast h p.2)).toInf else ⊥
+  | _, .equal t₁ t₂ => .equal (t₁.relabel Sum.inr) (t₂.relabel Sum.inr)
+  | _, .rel R ts => .rel R fun i => (ts i).relabel Sum.inr
+  | _, .ex φ => φ.toInf.ex
+
+/-- **1.2.** The translation into Tau Ceti's `L_{∞ω}` preserves satisfaction. -/
+theorem GeometricFormula.realize_toInf {M : Type v} [L.Structure M] {n : ℕ}
+    (φ : GeometricFormula.{w} L n) (x : Fin n → M) :
+    φ.toInf.Realize (Empty.elim : Empty → M) x ↔ φ.Realize x :=
   sorry
 
 /-- **1.3.** An `L`-structure in a category with finite products: an object, a morphism
@@ -217,14 +240,43 @@ def IsClassifyingSite (T : GeometricTheory.{u} L) {C : Type u} [SmallCategory C]
       ∀ h : F.obj U.carrier ⟶ G.obj U.carrier,
         (U.map F).IsHom (U.map G) h ↔ ∃ α : F ⟶ G, α.app U.carrier = h
 
-/-- **2.2.** Every geometric theory over a small language has a classifying site, its syntactic
-site. -/
-theorem exists_isClassifyingSite {L : FirstOrder.Language.{u, u}} (T : GeometricTheory.{u} L) :
-    ∃ (C : Type u) (_ : SmallCategory C) (J : GrothendieckTopology C)
-      (U : CatStructure L (Sheaf J (Type u))), IsClassifyingSite T J U :=
+/-- **2.2.** Horn formulas: finite conjunctions of atomic formulas. -/
+def GeometricFormula.IsHorn : {n : ℕ} → GeometricFormula.{w} L n → Prop
+  | _, .top => True
+  | _, .and φ ψ => φ.IsHorn ∧ ψ.IsHorn
+  | _, .iSup _ => False
+  | _, .equal _ _ => True
+  | _, .rel _ _ => True
+  | _, .ex _ => False
+
+/-- **2.2.** A Horn theory: every axiom is a sequent between Horn formulas. -/
+def GeometricTheory.IsHorn (T : GeometricTheory.{w} L) : Prop :=
+  ∀ σ ∈ T, σ.lhs.IsHorn ∧ σ.rhs.IsHorn
+
+/-- **2.2.** Existential quantification of the last `m` variables of the context
+`Fin (n + m)`. -/
+def GeometricFormula.exs {n : ℕ} : {m : ℕ} → GeometricFormula.{w} L (n + m) →
+    GeometricFormula.{w} L n
+  | 0, φ => φ
+  | m + 1, φ => exs (m := m) (.ex φ)
+
+/-- **2.2 (b).** The normal form: in every sheaf topos, a geometric formula has the
+interpretation of a `u`-small disjunction of existential quantifications of Horn formulas. -/
+theorem GeometricFormula.exists_interp_eq_iSup_exs {n : ℕ} (φ : GeometricFormula.{u} L n) :
+    ∃ (ι : Type u) (m : ι → ℕ) (θ : ∀ i, GeometricFormula.{u} L (n + m i)),
+      (∀ i, (θ i).IsHorn) ∧ ∀ (D : Type u) [SmallCategory D] (K : GrothendieckTopology D)
+        (M : CatStructure L (Sheaf K (Type u))),
+        M.interp φ = M.interp (.iSup fun i => (θ i).exs) :=
   sorry
 
-/-- **2.3.** Two classifying sites of the same theory have equivalent topoi of sheaves, by an
+/-- **2.3.** Every geometric theory has a classifying site, its syntactic site, in the universe
+of the language and of the theory's disjunctions. -/
+theorem exists_isClassifyingSite (T : GeometricTheory.{max u₁ u₂ u} L) :
+    ∃ (C : Type (max u₁ u₂ u)) (_ : SmallCategory C) (J : GrothendieckTopology C)
+      (U : CatStructure L (Sheaf J (Type (max u₁ u₂ u)))), IsClassifyingSite T J U :=
+  sorry
+
+/-- **2.4.** Two classifying sites of the same theory have equivalent topoi of sheaves, by an
 equivalence carrying one generic model to the other. -/
 theorem IsClassifyingSite.exists_equivalence {T : GeometricTheory.{u} L} {C C' : Type u}
     [SmallCategory C] [SmallCategory C'] {J : GrothendieckTopology C}
@@ -234,7 +286,7 @@ theorem IsClassifyingSite.exists_equivalence {T : GeometricTheory.{u} L} {C C' :
     ∃ e : Sheaf J (Type u) ≌ Sheaf J' (Type u), (U.map e.functor).Isomorphic U' :=
   sorry
 
-/-- **2.4.** A quotient of a theory classified by `(C, J)` is classified by a finer topology on
+/-- **2.5.** A quotient of a theory classified by `(C, J)` is classified by a finer topology on
 `C`, with the sheafified generic model. -/
 theorem IsClassifyingSite.exists_quotient_topology {T T' : GeometricTheory.{u} L} (hT : T ⊆ T')
     {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
@@ -244,7 +296,7 @@ theorem IsClassifyingSite.exists_quotient_topology {T T' : GeometricTheory.{u} L
         (U.map (sheafToPresheaf J (Type u) ⋙ presheafToSheaf J' (Type u))) :=
   sorry
 
-/-- **2.4.** Every finer topology on a classifying site classifies a quotient of the theory,
+/-- **2.5.** Every finer topology on a classifying site classifies a quotient of the theory,
 with the sheafified generic model. -/
 theorem IsClassifyingSite.exists_quotient_theory {T : GeometricTheory.{u} L} {C : Type u}
     [SmallCategory C] {J J' : GrothendieckTopology C} {U : CatStructure L (Sheaf J (Type u))}
@@ -254,7 +306,7 @@ theorem IsClassifyingSite.exists_quotient_theory {T : GeometricTheory.{u} L} {C 
         (U.map (sheafToPresheaf J (Type u) ⋙ presheafToSheaf J' (Type u))) :=
   sorry
 
-/-- **2.5.** Two geometric theories, possibly over different languages, are Morita-equivalent
+/-- **2.6.** Two geometric theories, possibly over different languages, are Morita-equivalent
 when they have classifying sites whose topoi of sheaves are equivalent. -/
 def MoritaEquivalent {L' : FirstOrder.Language.{u₃, u₄}} (T : GeometricTheory.{u} L)
     (T' : GeometricTheory.{u} L') : Prop :=
@@ -272,22 +324,10 @@ def IsOfPresheafType (T : GeometricTheory.{u} L) : Prop :=
   ∃ (C : Type u) (_ : SmallCategory C)
     (U : CatStructure L (Sheaf (⊥ : GrothendieckTopology C) (Type u))), IsClassifyingSite T ⊥ U
 
-/-- **3.1.** Horn formulas: finite conjunctions of atomic formulas. -/
-def GeometricFormula.IsHorn : {n : ℕ} → GeometricFormula.{w} L n → Prop
-  | _, .top => True
-  | _, .and φ ψ => φ.IsHorn ∧ ψ.IsHorn
-  | _, .iSup _ => False
-  | _, .equal _ _ => True
-  | _, .rel _ _ => True
-  | _, .ex _ => False
-
-/-- **3.1.** A Horn theory: every axiom is a sequent between Horn formulas. -/
-def GeometricTheory.IsHorn (T : GeometricTheory.{w} L) : Prop :=
-  ∀ σ ∈ T, σ.lhs.IsHorn ∧ σ.rhs.IsHorn
-
-/-- **3.1.** Horn theories over a small language are of presheaf type. -/
-theorem isOfPresheafType_of_isHorn {L : FirstOrder.Language.{u, u}} (T : GeometricTheory.{u} L)
-    (hT : T.IsHorn) : IsOfPresheafType T :=
+/-- **3.1.** Horn theories are of presheaf type, with a site in the universe of the language
+and of the theory's disjunctions. -/
+theorem isOfPresheafType_of_isHorn (T : GeometricTheory.{max u₁ u₂ u} L) (hT : T.IsHorn) :
+    IsOfPresheafType T :=
   sorry
 
 /-- **3.2.** The theory of objects: the empty theory over the empty language. -/
@@ -449,6 +489,67 @@ noncomputable def FPRing.forget : FPRing.{u} ⥤ Type u where
   obj A := A.Ring
   map {A B} f := TypeCat.ofHom (show A.Ring →+* B.Ring from f)
 
+/-- **4.1.** The ring operation of a function symbol of the language of rings on a finitely
+presented ring. -/
+noncomputable def ringOp (A : FPRing.{u}) {k : ℕ} (f : FirstOrder.Language.ring.Functions k)
+    (x : Fin k → A.Ring) : A.Ring :=
+  letI := FirstOrder.Ring.compatibleRingOfRing A.Ring
+  FirstOrder.Language.Structure.funMap f x
+
+/-- **4.1.** The forgetful functor as a presheaf on `FPRing.{u}ᵒᵖ`. -/
+noncomputable abbrev forgetPresheaf : FPRing.{u}ᵒᵖᵒᵖ ⥤ Type u := unopUnop _ ⋙ FPRing.forget
+
+/-- **4.1.** The generic ring as a presheaf: the forgetful functor with the pointwise ring
+operations, through the comparison of a product of presheaves with the product of its values. -/
+noncomputable def genericRingPresheaf :
+    CatStructure FirstOrder.Language.ring (FPRing.{u}ᵒᵖᵒᵖ ⥤ Type u) where
+  carrier := forgetPresheaf
+  funMap {k} f :=
+    { app := fun A => (piObjIso (fun _ : Fin k => forgetPresheaf.{u}) A).hom ≫
+        (Types.productIso (fun _ : Fin k => forgetPresheaf.{u}.obj A)).hom ≫
+        TypeCat.ofHom (fun x => ringOp A.unop.unop f x)
+      naturality := by
+        intro A B φ
+        have eval : ∀ (C : FPRing.{u}ᵒᵖᵒᵖ) (y : (∏ᶜ fun _ : Fin k => forgetPresheaf.{u}).obj C)
+            (i : Fin k), (Types.productIso (fun _ : Fin k => forgetPresheaf.{u}.obj C)).hom
+              ((piObjIso (fun _ : Fin k => forgetPresheaf.{u}) C).hom y) i =
+            (Pi.π (fun _ : Fin k => forgetPresheaf.{u}) i).app C y := by
+          intro C y i
+          rw [← piObjIso_hom_comp_π]
+          rfl
+        have hom : ∀ (x : Fin k → A.unop.unop.Ring),
+            (show A.unop.unop.Ring →+* B.unop.unop.Ring from φ.unop.unop) (ringOp _ f x) =
+              ringOp _ f (fun i => (show A.unop.unop.Ring →+* B.unop.unop.Ring from φ.unop.unop)
+                (x i)) := by
+          intro x
+          cases f <;> simp [ringOp]
+        ext x
+        change ringOp _ f (fun i => (Types.productIso (fun _ : Fin k =>
+            forgetPresheaf.{u}.obj B)).hom ((piObjIso (fun _ : Fin k => forgetPresheaf.{u}) B).hom
+              ((∏ᶜ fun _ : Fin k => forgetPresheaf.{u}).map φ x)) i) =
+          (show A.unop.unop.Ring →+* B.unop.unop.Ring from φ.unop.unop)
+            (ringOp _ f (fun i => (Types.productIso (fun _ : Fin k =>
+              forgetPresheaf.{u}.obj A)).hom ((piObjIso (fun _ : Fin k =>
+                forgetPresheaf.{u}) A).hom x) i))
+        simp only [eval]
+        refine Eq.trans ?_ (hom _).symm
+        congr 1
+        funext i
+        exact NatTrans.naturality_apply (Pi.π (fun _ : Fin k => forgetPresheaf.{u}) i) φ x }
+  relMap R := Empty.elim R
+
+/-- **4.1.** The generic commutative ring: the forgetful functor with the pointwise ring
+operations, as a sheaf for the trivial topology on `FPRing.{u}ᵒᵖ`. -/
+noncomputable def genericRing : CatStructure FirstOrder.Language.ring
+    (Sheaf (⊥ : GrothendieckTopology FPRing.{u}ᵒᵖ) (Type u)) :=
+  genericRingPresheaf.{u}.map (sheafBotEquivalence (Type u)).inverse
+
+/-- **4.1.** A commutative ring that is finitely presentable in `CommRingCat` is a finitely
+presented `ℤ`-algebra. -/
+theorem finitePresentation_of_isFinitelyPresentable (S : CommRingCat.{u})
+    (hS : IsFinitelyPresentable.{u} S) : Algebra.FinitePresentation ℤ S :=
+  sorry
+
 /-- **4.1.** The equation `t = s` in three variables, an axiom of commutative rings. -/
 def ringEq (t s : FirstOrder.Language.ring.Term (Fin 3)) : Sequent.{u} FirstOrder.Language.ring :=
   ⟨3, .top, .equal t s⟩
@@ -463,12 +564,9 @@ def commRingTheory : GeometricTheory.{u} FirstOrder.Language.ring :=
     ringEq (x * (y + z)) (x * y + x * z)}
 
 /-- **4.1.** Presheaves on the opposite of finitely presented rings classify commutative rings,
-with a generic ring whose underlying presheaf is the forgetful functor. -/
-theorem exists_isClassifyingSite_commRing :
-    ∃ U : CatStructure FirstOrder.Language.ring
-        (Sheaf (⊥ : GrothendieckTopology FPRing.{u}ᵒᵖ) (Type u)),
-      Nonempty ((sheafToPresheaf _ _).obj U.carrier ≅ unopUnop _ ⋙ FPRing.forget) ∧
-        IsClassifyingSite commRingTheory.{u} ⊥ U :=
+with the forgetful functor as generic ring. -/
+theorem isClassifyingSite_genericRing :
+    IsClassifyingSite commRingTheory.{u} ⊥ genericRing.{u} :=
   sorry
 
 /-- **4.2.** The Zariski covering sieves on `A`: those containing, for each `f` in a finite
@@ -499,13 +597,10 @@ def localRingTheory : GeometricTheory.{u} FirstOrder.Language.ring :=
        else .equal ((1 + -.var 0) * .var 1) 1)⟩}
 
 /-- **4.3.** The Zariski topos classifies local rings, with the sheafified generic ring. -/
-theorem exists_isClassifyingSite_localRing :
-    ∃ U : CatStructure FirstOrder.Language.ring
-        (Sheaf (⊥ : GrothendieckTopology FPRing.{u}ᵒᵖ) (Type u)),
-      Nonempty ((sheafToPresheaf _ _).obj U.carrier ≅ unopUnop _ ⋙ FPRing.forget) ∧
-        IsClassifyingSite commRingTheory.{u} ⊥ U ∧
-        IsClassifyingSite localRingTheory.{u} zariskiTopology
-          (U.map (sheafToPresheaf ⊥ (Type u) ⋙ presheafToSheaf zariskiTopology (Type u))) :=
+theorem isClassifyingSite_localRingTheory :
+    IsClassifyingSite localRingTheory.{u} zariskiTopology
+      (genericRing.{u}.map
+        (sheafToPresheaf ⊥ (Type u) ⋙ presheafToSheaf zariskiTopology (Type u))) :=
   sorry
 
 end TauCetiRoadmap.ClassifyingTopoi
