@@ -32,8 +32,9 @@ public import TauCeti.FieldTheory.GaloisCohomology.Restriction
 # Continuous cohomology of profinite groups: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
-and Tau Ceti, the headline theorems of the roadmap that the pinned libraries do not yet prove, each
-with `sorry`.
+and Tau Ceti, the headline theorems of the roadmap that the libraries do not prove at the revisions
+`README.md` cites them at ("Exact supplier contracts": Tau Ceti `2fd255d9`, Mathlib `1b1ccf4b`),
+each with `sorry`.
 
 Most headline theorems of the roadmap are already proved at the Tau Ceti pin, and `README.md`
 cites them by name in its supplier contracts instead of restating them here: the comparison

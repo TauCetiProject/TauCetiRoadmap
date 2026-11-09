@@ -464,6 +464,19 @@ cited in Layer 7.
 
 ## Exact supplier contracts
 
+The library declarations, modules and files named in this README and in `Suggested.lean` (in this
+section, in Scope and ownership, in the layers, on the *Needs:* lines, in Downstream consumers and
+in the imports of `Suggested.lean`) are cited as they are at the revisions the content repository's
+manifest records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. At those revisions two statements that `Suggested.lean`
+carries with `sorry` under this roadmap's names are theorems of Tau Ceti, and each is closed by the
+Tau Ceti theorem: `abelianizationProPClass_generates` by
+`TauCeti.abelianizationProPClass_generates`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/ClassModule/Sylow.lean`)
+and `galoisEvens_galoisRes` by `TauCeti.galoisEvens_galoisRes`
+(`TauCeti/FieldTheory/GaloisCohomology/EvensNorm.lean`). The two universe-independence theorems of
+11.2 are the only statements of `Suggested.lean` that those revisions do not prove.
+
 ### From Mathlib
 
 All paths at the pinned Mathlib.
