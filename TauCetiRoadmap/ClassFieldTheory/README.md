@@ -185,7 +185,7 @@ are the theorems stated in `Suggested.lean`.
   stay here in every characteristic, because their norm-map proof uses neither theory.
   The equal-characteristic finite and absolute filtration comparisons that FunctionFieldArithmetic
   §4.2 uses are the characteristic-`p` cases of Layer 7's `normResidue_map_unitFiltration` and
-  `closure_map_artinMap_unitFiltration_eq_upper`. This roadmap owns them in both characteristics,
+  `map_artinMap_unitFiltration_eq_upper`. This roadmap owns them in both characteristics,
   and a consumer cites them from Layer 7 instead of deriving them again. FunctionFieldArithmetic's
   own additional comparison is the action of the Artin map on Lubin–Tate torsion, and the Tau
   Ceti conductor criterion it uses is
@@ -278,7 +278,7 @@ declaration in the middle column, at the pinned Tau Ceti or in `Suggested.lean`.
 | sumLocalInv_eq_zero | `sumLocalInv_brLocalization_eq_zero` | stated on `brLocalization K x`: Tau Ceti's `sumLocalInv` takes the family of localizations of a class, not the class `x : Br K` |
 | gal_ringClassField_equiv_pic | `ringClassArtinEquiv` | every order of every number field, with no degree hypothesis, and an explicit isomorphism `Pic O ≃* Gal(ringClassField O / K)` |
 | map_unitFiltration_normResidue | `normResidue_map_unitFiltration` | none |
-| closure_map_artinMap_unitFiltration | `closure_map_artinMap_unitFiltration_eq_upper` | the absolute upper group is the constructed `localAbsoluteUpperRamificationGroup`, not an argument with a defining hypothesis |
+| closure_map_artinMap_unitFiltration | `map_artinMap_unitFiltration_eq_upper` | the absolute upper group is the constructed `localAbsoluteUpperRamificationGroup`, not an argument with a defining hypothesis; the image of `U(K,n)` is stated without a closure, since it is already closed |
 
 ---
 
@@ -599,7 +599,7 @@ The declarations below supply the native arithmetic and cohomology contracts.
 | class fields as subfields | `classField`, `classField_le_classField_iff`, `galClassFieldEquiv` |
 | the local Brauer group and invariant | `Br`, `invMap`, `unitsRep` |
 | local class formation and finite local reciprocity | `localClassFormation`, `localArtinEquiv`, `localArtinMap`, `normResidue`, `normGroup` |
-| the absolute local Artin map | `artinMap`, `artinMap_restrict`, `artinMap_norm`, `artinMap_congr`, `continuous_artinMap`, `denseRange_artinMap`, `ker_artinMap_eq_iInf` |
+| the absolute local Artin map | `artinMap`, `artinMap_restrict`, `artinMap_norm`, `artinMap_congr`, `continuous_artinMap`, `denseRange_artinMap`, `ker_artinMap_eq_iInf`, `inertiaSubgroup`, `mem_inertiaSubgroup_of_mk_eq_artinMap`, `map_artinMap_unitFiltration_zero` |
 | local norm subgroups and abelian layers | `localNormSubgroup`, `isOpen_localNormSubgroup`, `finiteIndex_localNormSubgroup`, `localNormSubgroup_mono`, `localNormSubgroup_sup`, `localNormSubgroup_inf_of_isAbelian`, `localNormSubgroup_maximalAbelianLayer`, `localAbelianGaloisEquiv`, `index_localNormSubgroup` |
 | local coefficients and local Tate duality | `GalRep`, `muNRep`, `tateDual`, `tateDualityPairing`, `dualityMap0_kummerCoeff_bijective`, `dualityMap1_kummerCoeff_bijective`, `dualityMap2_kummerCoeff_bijective`, `subsingleton_h3_unitsRep` |
 | ramification and conductors | `unitFiltration`, `LocalFieldsRamification.upperRamificationGroup`, `discriminantExponent` |
@@ -611,6 +611,7 @@ The declarations below supply the native arithmetic and cohomology contracts.
 | cohomological dimension, in characteristic zero (Layer 6) | `subsingleton_h3_unitsRep`, `cohomologicalDimensionAt_absoluteGaloisGroup_eq_two`, `strictCohomologicalDimensionAt_absoluteGaloisGroup_eq_two` |
 | normalizations of the local Artin map (Layers 6 and 7) | `localArtinMap_uniformizer`, `localArtinMap_eq_frobenius_pow_valuation`, `localArtinMap_quadratic_eq_nontrivial_iff_not_norm`, `localArtinMap_quadratic_eq_hilbertSymbol`, `unramifiedCoordinate_artinMap`, `localCyclotomicCharacter_artinMap_padic`, `localCyclotomicCharacter_artinMap_unit`, `abelianizedLocalCyclotomicCharacter_artinMap_norm`, `geometricArtinMap` |
 | local conductors (Layer 7) | `conductorExponent`, `conductorIdeal`, `characterConductorExp`, `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`, `conductorExponent_fixedField_ker` |
+| inputs of Layer 7's open targets and of its kernel identity, which the Layer 13 targets read: finite and absolute unit-filtration reciprocity, compactness of the unit groups, the finite Galois levels of the absolute upper filtration, and the two character-conductor consequences | `ClassFormation.artinMap_quotient`, `normResidue_mk`, `normResidue_mk_eq_one_iff`, `conductorExponent_le_iff_upperRamificationGroup_eq_bot`, `LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`, `LocalFieldsRamification.artinConductorExponent_le_iff`, `LocalFieldsRamification.finsum_artinConductorExponent_eq_discriminantExponent`, `AlgHom.restrictNormalHom_restrictNormalHom`, `isCompact_unitFiltration`, `finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`, `finiteIntermediateField_isNonarchimedeanLocalField`, `finiteIntermediateField_valuativeExtension` |
 | local existence and the local correspondence (Layer 8) | `localAbelianExistence`, `localAbelianExistence_primeToResidueCharacteristic`, `localClassField_unique`, `localClassFieldCorrespondence`, `localClassFieldCorrespondencePrimeToResidueCharacteristic`, `injective_artinMap` |
 | conductors of local class fields (Layer 8; every theorem but the prime-to-`p` form assumes `[CharZero K]`) | `conductorExponent_localClassField_le_iff`, `conductorExponent_localClassFieldPrimeToResidueCharacteristic_le_iff`, `unitFiltrationSupZpowers`, `conductorExponent_localClassField_unitFiltrationSupZpowers`, `conductorExponent_localClassField_unitFiltrationSupZpowers_one_eq_zero` |
 | the local Weil group (Layer 9) | `localWeilGroup`, `WeilGroup`, `weilDegree`, `inertiaToWeil`, `isOpenEmbedding_inertiaToWeil`, `weilTopology_unique`, `weilTransfer`, `index_range_weilTransfer`, `weilDegree_weilTransfer`, `weilRestrict`, `range_weilTransfer_eq_ker_weilRestrict`, `localWeilArtinEquiv`, `localWeilArtinEquiv_compat` |
@@ -618,6 +619,7 @@ The declarations below supply the native arithmetic and cohomology contracts.
 | global reciprocity (Layer 11) | `globalClassFormation`, `globalArtinEquiv`, `globalArtinMap`, `ker_globalArtinMap`, `surjective_globalArtinMap`, `globalArtinMap_principal`, `globalArtinMap_local`, `globalArtinMap_ideal`, `globalArtinMap_isArithFrobAt` |
 | global existence and the global correspondence (Layer 12) | `globalAbelianExistence`, `globalClassField_unique`, `globalClassFieldCorrespondence`, `globalClassField_le_iff`, `globalClassField_orderReversing`, `globalAbelianGaloisEquiv`, `card_ideleClassNormQuotient` |
 | norm theorems and class fields (Layer 13) | `cyclicHasseNorm`, `isGlobalNorm_iff_isLocalNormEverywhere`, `exists_sq_sub_mul_sq_iff_forall_completion`, `abelianConductor`, `isAdmissibleModulus_iff_abelianConductor_dvd`, `rayClassArtinMap`, `rayClassField`, `hilbertClassField`, `narrowHilbertClassField`, `hilbertClassArtinEquiv`, `fieldRange_le_hilbertClassField_iff`, `ringClassField`, `ringClassArtinEquiv`, `kroneckerWeber` |
+| inputs of the open targets of Layer 13: the class-formation principal ideal theorem and the local Artin symbol at a finite place | `ClassFormation.groundInclusion_mem_normSubgroup_of_range_eq_commutator`, `localArtinAt` |
 | Hilbert reciprocity (Layer 14) | `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt`, `hilbertProductFormula` |
 
 ### From Mathlib
@@ -628,6 +630,19 @@ Use `tateCohomology` in `Mathlib/RepresentationTheory/Homological/TateCohomology
 `Valuation.exists_map_pow_eq_map_algebraMap_of_isAlgebraic` in
 `Mathlib/RingTheory/Valuation/Algebraic.lean`. The quadratic reciprocity comparison uses
 `legendreSym.quadratic_reciprocity`.
+
+The carriers and inputs of the open targets (Layers 7 and 13) are: the class
+`IsNonarchimedeanLocalField` in `Mathlib/NumberTheory/LocalField/Basic.lean` and
+`ValuativeExtension` in `Mathlib/RingTheory/Valuation/ValuativeRel/Basic.lean`;
+`Field.absoluteGaloisGroup` and `Field.absoluteGaloisGroupAbelianization` in
+`Mathlib/FieldTheory/AbsoluteGaloisGroup.lean`; `cyclotomicCharacter` in
+`Mathlib/NumberTheory/Cyclotomic/CyclotomicCharacter.lean`; `FiniteGaloisIntermediateField` in
+`Mathlib/FieldTheory/Galois/GaloisClosure.lean`, `AlgEquiv.restrictNormalHom` in
+`Mathlib/FieldTheory/Normal/Defs.lean` and `InfiniteGalois.restrictNormalHom_continuous` in
+`Mathlib/FieldTheory/Galois/Profinite.lean`; `IsAbelianGalois` in
+`Mathlib/FieldTheory/Galois/Abelian.lean`; and
+`CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity`, `MonoidHom.domRestrict_surjective` and
+`CommGroup.card_domRestrictHom_ker` in `Mathlib/GroupTheory/FiniteAbelian/Duality.lean`.
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
@@ -642,10 +657,11 @@ commutator subgroup. Compactness and Hausdorffness are retained in the inverse-l
 
 ### From TauCetiRoadmap.LocalFieldsRamification
 
-The local-field objects in its scope contract are consumed through the pinned Tau Ceti
-modules `NumberTheory/LocalField/Basic`, `FiniteExtension/`, `UnitFiltration/`, `Herbrand/`,
-`Different/` and `Discriminant/`. In particular, use `unitFiltration`,
-`LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
+The local-field objects in its scope contract are consumed through Mathlib's class
+`IsNonarchimedeanLocalField` (`Mathlib/NumberTheory/LocalField/Basic.lean`) and the pinned Tau
+Ceti modules `NumberTheory/LocalField/RamificationGroup.lean`, `FiniteExtension/`,
+`UnitFiltration/`, `Unramified/`, `Herbrand/`, `Different/` and `Discriminant/`. In particular,
+use `unitFiltration`, `LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
 `LocalFieldsRamification.hasseArf`, `differentExponent`, `discriminantExponent` and
 `LocalFieldsRamification.artinConductorExponent` on compatible finite Galois valued extensions.
 
@@ -670,7 +686,7 @@ different exponents. For Galois `L/K` this sum is `g_v f_v d_v = g_v δ(L_w/K_v)
 |---|---|
 | the cyclotomic normalization at a unit, for every finite `ℚ_p`-algebra structure | `cyclotomicCharacter_artinMap` |
 | the upper-numbering theorem | `normResidue_map_unitFiltration` |
-| absolute unit-filtration reciprocity, on the absolute upper filtration of a local field | `localAbsoluteUpperRamificationGroup`, `closure_map_artinMap_unitFiltration_eq_upper` |
+| absolute unit-filtration reciprocity, on the absolute upper filtration of a local field | `localAbsoluteUpperRamificationGroup`, `map_artinMap_unitFiltration_eq_upper` |
 | the principal ideal theorem | `isPrincipal_map_hilbertClassField` |
 | the global conductor–discriminant formula, product and lcm | `count_relDiscr_eq_finsum_abelianConductor_exponent`, `abelianConductor_eq_lcm` |
 
@@ -1175,7 +1191,10 @@ consumed here under Tau Ceti's names. The contract:
   in either characteristic (`continuous_artinMap`). Its unramified coordinate is the normalized valuation
   (`unramifiedCoordinate_artinMap`): lifts of `Art_K(π)` are arithmetic Frobenius lifts
   (`isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`) and lifts of `Art_K(u)`, `u` a unit, lie in
-  inertia (`mem_inertiaSubgroup_of_mk_eq_artinMap`). Norm functoriality is `artinMap_norm`, along
+  inertia (`mem_inertiaSubgroup_of_mk_eq_artinMap`); conversely the image of `U(K,0) = 𝒪[K]ˣ` is
+  exactly the image of the inertia subgroup `inertiaSubgroup K` in `G_K^ab`
+  (`map_artinMap_unitFiltration_zero`, in `Unramified`), the depth-zero case of absolute
+  unit-filtration reciprocity below. Norm functoriality is `artinMap_norm`, along
   Tau Ceti's `absoluteGaloisGroupExtend`. `geometricArtinMap` is the precomposition with inversion.
 - **The cyclotomic normalization** `χ_cyc(Art_K(u)) = N_{K/ℚ_p}(u)⁻¹`, with the field norm:
   `localCyclotomicCharacter_artinMap_padic`, `localCyclotomicCharacter_artinMap_unit`,
@@ -1230,9 +1249,10 @@ structure, and finite and absolute unit-filtration reciprocity in every characte
   (`unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot` for that field), exactly when
   `G^n ≤ H`, the upper numbering being compatible with quotients; taking `H` to be each of the two
   subgroups gives equality. *Needs:* Layer 6 `normResidue` and its norm kernel;
-  `artinMap_quotient`; `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`;
+  `ClassFormation.artinMap_quotient`; `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`;
   `LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`,
   in `TauCeti/NumberTheory/LocalField/Herbrand/UpperQuotient.lean`.
+
 **Character conductors, as consequences of the contract.** Let `L/K` be a finite abelian
 Galois extension of nonarchimedean local fields, in either characteristic, with compatible local
 valuations, let `ψ : Gal(L/K) → ℂˣ` be a character, and let `F = L^{ker ψ}`, with the
@@ -1331,17 +1351,23 @@ finite-extension structures and restriction maps come from
   the Herbrand calculation in the reciprocity Checks below rules out lower numbering.
 
 **Absolute unit-filtration reciprocity.** For a nonarchimedean local field `K` in either
-characteristic and every integer `n ≥ 0`, prove `closure_map_artinMap_unitFiltration_eq_upper`:
-the closure of the image of `U(K,n)` under
+characteristic and every integer `n ≥ 0`, prove `map_artinMap_unitFiltration_eq_upper`:
+the image of `U(K,n)` under
 `artinMap : Kˣ → Field.absoluteGaloisGroupAbelianization K` is the image of
 `localAbsoluteUpperRamificationGroup K n` under the quotient map from
-`Field.absoluteGaloisGroup K` by the closure of its commutator subgroup. This image is closed,
-since `G_K^n` is compact and the abelianization is Hausdorff. The same assertion projects to
-every abelian algebraic extension. Route: finite unit-filtration reciprocity, the preceding
-finite-level surjections, and the characterization of a closed subgroup of a profinite group
-by its finite images (Serre, *Local Fields*, XV §2, Theorem 2 and Corollary 3 to Theorem 1).
+`Field.absoluteGaloisGroup K` by the closure of its commutator subgroup. Neither side needs a
+closure. `U(K,n)` is compact (`isCompact_unitFiltration`) and `artinMap` is continuous in either
+characteristic (`continuous_artinMap`), so the left side is compact; `G_K^n` is closed in the
+compact group `G_K`, so the right side is compact; and compact subsets of the Hausdorff
+abelianization are closed. The same assertion projects to every abelian algebraic extension. At
+`n = 0` it is Tau Ceti's `map_artinMap_unitFiltration_zero`, read through the API fact that the
+term at `0` is the inertia subgroup `inertiaSubgroup K`. Route for every `n`: finite
+unit-filtration reciprocity, the preceding finite-level surjections, and the characterization of
+a closed subgroup of a profinite group by its finite images, applied to the two compact sides
+(Serre, *Local Fields*, XV §2, Theorem 2 and Corollary 3 to Theorem 1).
 *Needs:* this layer's finite comparison and absolute filtration API; `artinMap_restrict`;
-ProfiniteProPGroups Layer 0.
+`isCompact_unitFiltration` and `continuous_artinMap`; ProfiniteProPGroups Layer 0. The depth-zero
+case alternatively needs only `map_artinMap_unitFiltration_zero` and the API fact at `0`.
 
 Both statements use their constructed groups, with no arbitrary subgroup parameter; other
 roadmaps' names for them are listed in Scope and ownership (Section and name correspondence).
@@ -1352,8 +1378,15 @@ the base and not the different exponent of `L`.
 **Checks.**
 
 - At `K = ℚ₃`, the unit `4` acts on `μ₉` by exponent `7`, since `4·7 = 28 ≡ 1 mod 9`;
-  the opposite reciprocity convention gives exponent `4`. At `p = 2`, `−1` acts by `−1`,
-  while `−3` acts on `μ₈` by exponent `5`, since `5² ≡ 1 mod 8`.
+  the opposite reciprocity convention gives exponent `4`. At `p = 2`, `−1` acts by `−1` in
+  either convention, which separates the character from the trivial one; `−3 ≡ 13 mod 16` acts
+  on `μ₁₆` by exponent `5`, since `13·5 = 65 ≡ 1 mod 16`, while the opposite convention gives
+  `13`. Every element of `(ℤ/8ℤ)ˣ` is its own inverse, so `μ₈` cannot tell the two conventions
+  apart.
+- At `n = 0`, both sides of absolute unit-filtration reciprocity are the image of inertia, and
+  in the unramified quadratic quotient of `G_ℚ₃^ab` both project to `1`, while the symbol of the
+  uniformizer `3` projects to the Frobenius of order `2`; replacing `U(K,0)` by `Kˣ`, or the depth
+  `0` by `−1`, gives a subgroup whose image there is the whole group.
 - `L = K`: `δ = 0`, the only character is trivial with conductor exponent `0`, and
   `conductorExponent K K = 0`; counting the trivial character with exponent `1`
   incorrectly gives `0 = 1`. Omitting it cannot be detected numerically, since its true
@@ -2040,7 +2073,7 @@ LocalGaloisGroups consumes the local coefficients, duality, Euler characteristic
 cyclotomic normalization of Layers 5–7. FunctionFieldArithmetic §4.2 owns full
 equal-characteristic existence and the action of the Artin map on Lubin–Tate torsion. The
 equal-characteristic unit-filtration comparisons it uses are the characteristic-`p` cases of
-Layer 7's `normResidue_map_unitFiltration` and `closure_map_artinMap_unitFiltration_eq_upper`.
+Layer 7's `normResidue_map_unitFiltration` and `map_artinMap_unitFiltration_eq_upper`.
 This roadmap owns them in both characteristics, and a consumer cites them from Layer 7 instead of
 proving them a second time.
 GlobalQuadraticForms §4.2 consumes the first fundamental inequality of Layer 10 and §4.3 the
@@ -2119,7 +2152,8 @@ At `ℚ_p`, verify further that the unramified coordinate of `Art(p)` is the gen
 and that of a unit is trivial (`isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`,
 `mem_inertiaSubgroup_of_mk_eq_artinMap`), and that `χ_cyc(Art(u)) = u⁻¹`
 (`localCyclotomicCharacter_artinMap_padic`, Layer 7); at `p = 2`, test `u = -1, -3` and the
-uniformizer (`localCyclotomicCharacter_artinMap_uniformizer`) separately.
+uniformizer (`localCyclotomicCharacter_artinMap_uniformizer`) separately, reading `u = -3` on
+`μ₁₆`, where it acts by exponent `5` and the opposite convention by `13`: on `μ₈` the two agree.
 
 ### W.4 Quadratic extensions
 
@@ -2174,7 +2208,9 @@ Frobenius on roots of unity; it must not define a second cyclotomic Artin map.
 
 Small numerical checks: for `ℚ(ζ₅)/ℚ`, `Art((2))(ζ₅) = ζ₅²` of order four
 (`globalArtinMap_zeta5_two`), `Art((3))(ζ₅) = ζ₅³`, `Art((11))(ζ₅) = ζ₅`; for `ℚ(ζ₈)/ℚ`,
-`Art((3))`, `Art((5))`, `Art((7))` send `ζ₈` to `ζ₈³`, `ζ₈⁵`, `ζ₈⁷`. Verify
+`Art((3))`, `Art((5))`, `Art((7))` send `ζ₈` to `ζ₈³`, `ζ₈⁵`, `ζ₈⁷`; these exponents are their
+own inverses modulo `8`, so they test the identification with `(ℤ/8ℤ)ˣ` and not the Frobenius
+direction, which the `ζ₅` values test. Verify
 `ℚ(i) ⊂ ℚ(ζ₄)`, `ℚ(√2) ⊂ ℚ(ζ₈)`, and `ℚ(√5) ⊂ ℚ(ζ₅)` with the correct conductor.
 
 ### W.6 Compatibility and tower tests

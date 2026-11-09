@@ -29,8 +29,10 @@ of them is restated here; the roadmap consumes them under Tau Ceti's names
   nonarchimedean local field of characteristic zero,
   `cohomologicalDimensionAt_absoluteGaloisGroup_eq_two` and
   `strictCohomologicalDimensionAt_absoluteGaloisGroup_eq_two` (Layer 6);
-* the absolute local Artin map, its cyclotomic normalization, the conductor in the upper
-  numbering, `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`, and the equality of
+* the absolute local Artin map, its cyclotomic normalization, the depth-zero case of absolute
+  unit-filtration reciprocity `map_artinMap_unitFiltration_zero` (units go onto inertia), the
+  conductor in the upper numbering,
+  `unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot`, and the equality of
   the conductor exponent of the fixed field of `ker χ` with the Artin conductor exponent of `χ`,
   `conductorExponent_fixedField_ker` (Layer 7);
 * local existence and the local class-field correspondence in characteristic zero and in the
@@ -119,13 +121,16 @@ noncomputable def localAbsoluteUpperRamificationGroup
     (LocalFieldsRamification.upperRamificationGroup K M v).comap (AlgEquiv.restrictNormalHom M)
 
 /-- **Absolute unit-filtration reciprocity.** For a nonarchimedean local field in either
-characteristic, the closure of the image of the units of depth `n ≥ 0` under the arithmetic
-Artin map is the image of the absolute upper ramification group at depth `n` in the topological
-abelianization (Serre, *Local Fields*, XV §2, Theorem 2 and Corollary 3 to Theorem 1). -/
-theorem closure_map_artinMap_unitFiltration_eq_upper
+characteristic, the image of the units of depth `n ≥ 0` under the arithmetic Artin map is the
+image of the absolute upper ramification group at depth `n` in the topological abelianization
+(Serre, *Local Fields*, XV §2, Theorem 2 and Corollary 3 to Theorem 1). The left side is
+already closed, as the continuous image of the compact group `U(K,n)`. At `n = 0` it is Tau
+Ceti's `map_artinMap_unitFiltration_zero`, once the absolute upper group at `0` is identified
+with the inertia subgroup. -/
+theorem map_artinMap_unitFiltration_eq_upper
     (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
     (n : ℕ) :
-    ((unitFiltration K n).map (artinMap K)).topologicalClosure =
+    (unitFiltration K n).map (artinMap K) =
       (localAbsoluteUpperRamificationGroup K ⟨n, Nat.cast_mem_ramificationIndexDomain n⟩).map
         (QuotientGroup.mk' (commutator (Field.absoluteGaloisGroup K)).topologicalClosure) :=
   sorry
