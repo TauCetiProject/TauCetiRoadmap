@@ -168,13 +168,14 @@ theorem lefschetzDecomposition (𝒱 : ℤ → Submodule K V) (h𝒱 : DirectSum
         Module.finrank K (𝒱 ((n : ℤ) - r)) - Module.finrank K (𝒱 ((n : ℤ) - r - 2)) := by
   sorry
 
-/-- Lefschetz pairings `ψ_r(x, y) = B (lam ^ r x) y` (§9.7(iii); Deligne (1968), (1.5)–(1.6),
-p. 108). For every `lam`-self-adjoint bilinear form the primitive summands are `ψ_r`-orthogonal,
-and `ψ_r` is `(-1)^(n-r)`-symmetric when the ambient form has the graded symmetry; neither
-clause uses nondegeneracy of `B` or its compatibility with the grading. When `B` is moreover
-nondegenerate and pairs `𝒱 a` only with `𝒱 (2n - a)`, `ψ_r` is nondegenerate on `𝒱 (n - r)`
-and on the primitive piece. Neither a characteristic-zero assumption nor semisimplicity of the
-operator is required. -/
+/-- Lefschetz pairings `ψ_r(x, y) = B (lam ^ r x) y` (§9.7(iii); nondegeneracy and parity as in
+Weil II, proof of Corollaire (4.1.5), p. 218; §9.7 proves orthogonality from self-adjointness
+and the primitive restriction from (i)). For every `lam`-self-adjoint bilinear form the
+primitive summands are `ψ_r`-orthogonal, and `ψ_r` is `(-1)^(n-r)`-symmetric when the ambient
+form has the graded symmetry; neither clause uses nondegeneracy of `B` or its compatibility
+with the grading. When `B` is moreover nondegenerate and pairs `𝒱 a` only with `𝒱 (2n - a)`,
+`ψ_r` is nondegenerate on `𝒱 (n - r)` and on the primitive piece. Neither a characteristic-zero
+assumption nor semisimplicity of the operator is required. -/
 theorem lefschetzPairings (𝒱 : ℤ → Submodule K V) (h𝒱 : DirectSum.IsInternal 𝒱)
     (n : ℕ) (hout : ∀ j : ℤ, (j < 0 ∨ 2 * (n : ℤ) < j) → 𝒱 j = ⊥) (lam : V →ₗ[K] V)
     (hlam : ∀ j : ℤ, ∀ x ∈ 𝒱 j, lam x ∈ 𝒱 (j + 2))

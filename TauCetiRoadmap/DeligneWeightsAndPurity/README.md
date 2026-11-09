@@ -107,102 +107,102 @@ ArithmeticGaloisRepresentations §5.13.
 
 ### From Mathlib and Tau Ceti
 
-Use these declarations in their existing namespaces, at Mathlib `6b7abb3` and Tau Ceti `a91d3aa`.
+Use these declarations in their existing namespaces, at Mathlib `1b1ccf4` and Tau Ceti `2fd255d`.
 
-- [minpoly.algHom_eq](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/Minpoly/Basic.lean): Minimal polynomials are unchanged by injective algebra maps.
+- [minpoly.algHom_eq](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/Minpoly/Basic.lean): Minimal polynomials are unchanged by injective algebra maps.
 
-- [IsAlgClosed.lift](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/IsAlgClosed/Basic.lean): Algebraic domain algebras embed in an algebraically closed field with the prescribed base algebra structure.
+- [IsAlgClosed.lift](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Basic.lean): Algebraic domain algebras embed in an algebraically closed field with the prescribed base algebra structure.
 
-- [NumberField.Embeddings.pow_eq_one_of_norm_eq_one](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean): An algebraic integer whose complex embedding norms are `1` is a root of unity.
+- [NumberField.Embeddings.pow_eq_one_of_norm_eq_one](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean): An algebraic integer whose complex embedding norms are `1` is a root of unity.
 
-- [IsAlgClosed.cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): An uncountable algebraically closed field has a transcendence basis of its cardinality over a countable base.
+- [IsAlgClosed.cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): An uncountable algebraically closed field has a transcendence basis of its cardinality over a countable base.
 
-- [Cardinal.mk_complex](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Analysis/Complex/Cardinality.lean): The cardinality of `ℂ` is `𝔠`.
+- [Cardinal.mk_complex](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Complex/Cardinality.lean): The cardinality of `ℂ` is `𝔠`.
 
-- [IsAlgClosed.equivOfTranscendenceBasis](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): Equipotent transcendence bases yield a ring equivalence; compatibility with a prescribed base embedding is a separate target.
+- [IsAlgClosed.equivOfTranscendenceBasis](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): Equipotent transcendence bases yield a ring equivalence; compatibility with a prescribed base embedding is a separate target.
 
-- [IsAlgClosed.ringEquiv_of_equiv_of_charZero](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): Equal-cardinality uncountable algebraically closed characteristic-zero fields are isomorphic.
+- [IsAlgClosed.ringEquiv_of_equiv_of_charZero](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): Equal-cardinality uncountable algebraically closed characteristic-zero fields are isomorphic.
 
-- [Algebra.IsAlgebraic.cardinalMk_le_max](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Algebraic/Cardinality.lean): An algebraic extension has cardinality bounded by `max(#R,ℵ₀)`.
+- [Algebra.IsAlgebraic.cardinalMk_le_max](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/Algebraic/Cardinality.lean): An algebraic extension has cardinality bounded by `max(#R,ℵ₀)`.
 
-- [LinearMap.charpoly_baseChange](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Charpoly/BaseChange.lean): Characteristic polynomials commute with scalar extension for finite free modules.
+- [LinearMap.charpoly_baseChange](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Charpoly/BaseChange.lean): Characteristic polynomials commute with scalar extension for finite free modules.
 
-- [Module.End.hasEigenvalue_iff_isRoot_charpoly](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Eigenspace/Charpoly.lean): Eigenvalues are characteristic roots over a domain.
+- [Module.End.hasEigenvalue_iff_isRoot_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Charpoly.lean): Eigenvalues are characteristic roots over a domain.
 
-- [LinearMap.finrank_maxGenEigenspace_eq](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Eigenspace/Zero.lean): Generalized eigenspace dimension equals root multiplicity.
+- [LinearMap.finrank_maxGenEigenspace_eq](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Zero.lean): Generalized eigenspace dimension equals root multiplicity.
 
-- [Module.End.iSup_maxGenEigenspace_eq_top](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Eigenspace/Triangularizable.lean): Generalized eigenspaces span over an algebraically closed field.
+- [Module.End.iSup_maxGenEigenspace_eq_top](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Triangularizable.lean): Generalized eigenspaces span over an algebraically closed field.
 
-- [Module.End.independent_maxGenEigenspace](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Eigenspace/Basic.lean): Distinct generalized eigenspaces are independent.
+- [Module.End.independent_maxGenEigenspace](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Basic.lean): Distinct generalized eigenspaces are independent.
 
-- [Matrix.charpoly_fromBlocks_zero₂₁](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean): Block triangular characteristic polynomials multiply.
+- [Matrix.charpoly_fromBlocks_zero₂₁](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean): Block triangular characteristic polynomials multiply.
 
-- [LinearMap.charpoly_prodMap](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Charpoly/ToMatrix.lean): Product-map characteristic polynomials multiply.
+- [LinearMap.charpoly_prodMap](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Charpoly/ToMatrix.lean): Product-map characteristic polynomials multiply.
 
-- [Matrix.reverse_charpoly](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean): The reversed characteristic polynomial is `det(1−tM)`.
+- [Matrix.reverse_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean): The reversed characteristic polynomial is `det(1−tM)`.
 
-- [Matrix.trace_eq_sum_roots_charpoly](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/Charpoly/Eigs.lean): Trace is the sum of characteristic roots over an algebraically closed field.
+- [Matrix.trace_eq_sum_roots_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Eigs.lean): Trace is the sum of characteristic roots over an algebraically closed field.
 
-- [Matrix.charpoly_inv](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean): The inverse characteristic polynomial is expressed by reversal and determinant.
+- [Matrix.charpoly_inv](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean): The inverse characteristic polynomial is expressed by reversal and determinant.
 
-- [Matrix.det_kronecker](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Matrix/Kronecker.lean): The Kronecker-product determinant formula.
+- [Matrix.det_kronecker](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Kronecker.lean): The Kronecker-product determinant formula.
 
-- [LinearMap.trace_tensorProduct'](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Trace.lean): Tensor-map traces multiply for finite free modules.
+- [LinearMap.trace_tensorProduct'](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Trace.lean): Tensor-map traces multiply for finite free modules.
 
-- [LinearMap.det_dualMap](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Determinant.lean): Ordinary transpose preserves determinant; a contragredient first takes the inverse.
+- [LinearMap.det_dualMap](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Determinant.lean): Ordinary transpose preserves determinant; a contragredient first takes the inverse.
 
-- [Polynomial.isCoprime_iff_aeval_ne_zero_of_isAlgClosed](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/IsAlgClosed/Basic.lean): Coprime polynomials have no common algebraic-closure root.
+- [Polynomial.isCoprime_iff_aeval_ne_zero_of_isAlgClosed](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Basic.lean): Coprime polynomials have no common algebraic-closure root.
 
-- [LinearMap.aeval_self_charpoly](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Charpoly/Basic.lean): Cayley–Hamilton.
+- [LinearMap.aeval_self_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Charpoly/Basic.lean): Cayley–Hamilton.
 
-- [Polynomial.sup_ker_aeval_eq_ker_aeval_mul_of_coprime](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Polynomial/Basic.lean): Coprime polynomial kernels sum to the product kernel.
+- [Polynomial.sup_ker_aeval_eq_ker_aeval_mul_of_coprime](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/Polynomial/Basic.lean): Coprime polynomial kernels sum to the product kernel.
 
-- [AddValuation](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/Valuation/Basic.lean): Existing additive valuations with `v(0)=∞` and additive product law.
+- [AddValuation](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/Valuation/Basic.lean): Existing additive valuations with `v(0)=∞` and additive product law.
 
-- [Multiset.sort](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Data/Multiset/Sort.lean): Sorted multisets, preserving multiplicities.
+- [Multiset.sort](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Data/Multiset/Sort.lean): Sorted multisets, preserving multiplicities.
 
-- [MonoidHom.eqLocus](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Group/Subgroup/Ker.lean): Equalizer subgroup of two group homomorphisms.
+- [MonoidHom.eqLocus](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Group/Subgroup/Ker.lean): Equalizer subgroup of two group homomorphisms.
 
-- [exteriorPower.map](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/ExteriorPower/Basic.lean): Functorial maps on exterior powers.
+- [exteriorPower.map](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/ExteriorPower/Basic.lean): Functorial maps on exterior powers.
 
-- [Module.Basis.exteriorPower](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/ExteriorPower/Basis.lean): Exterior-power basis from a linearly ordered basis.
+- [Module.Basis.exteriorPower](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/ExteriorPower/Basis.lean): Exterior-power basis from a linearly ordered basis.
 
-- [Representation](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RepresentationTheory/Basic.lean): Group/monoid representations by linear endomorphisms.
+- [Representation](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Basic.lean): Group/monoid representations by linear endomorphisms.
 
-- [Representation.asModule](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RepresentationTheory/Basic.lean): The corresponding monoid-algebra module.
+- [Representation.asModule](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Basic.lean): The corresponding monoid-algebra module.
 
-- [Representation.invariants](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RepresentationTheory/Invariants.lean): The invariant submodule.
+- [Representation.invariants](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Invariants.lean): The invariant submodule.
 
-- [IsSemisimpleModule](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/SimpleModule/Basic.lean): Semisimplicity as a complemented submodule lattice.
+- [IsSemisimpleModule](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/SimpleModule/Basic.lean): Semisimplicity as a complemented submodule lattice.
 
-- [Representation.IsSemisimpleRepresentation](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RepresentationTheory/Semisimple.lean) and `Representation.isSemisimpleRepresentation_iff_isSemisimpleModule_asModule`: semisimplicity of a representation and its equivalence with semisimplicity of the associated monoid-algebra module.
+- [Representation.IsSemisimpleRepresentation](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Semisimple.lean) and `Representation.isSemisimpleRepresentation_iff_isSemisimpleModule_asModule`: semisimplicity of a representation and its equivalence with semisimplicity of the associated monoid-algebra module.
 
-- [LinearMap.BilinForm.Nondegenerate](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/BilinearForm/Properties.lean): Bilinear forms separating on both sides.
+- [LinearMap.BilinForm.Nondegenerate](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Properties.lean): Bilinear forms separating on both sides.
 
-- [LinearMap.BilinForm.restrict](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/BilinearForm/Basic.lean): Restriction of a bilinear form.
+- [LinearMap.BilinForm.restrict](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Basic.lean): Restriction of a bilinear form.
 
-- [LinearMap.BilinForm.IsAlt](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/BilinearForm/Properties.lean): Alternation `B(x,x)=0`.
+- [LinearMap.BilinForm.IsAlt](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Properties.lean): Alternation `B(x,x)=0`.
 
-- [LinearMap.BilinForm.restrict_nondegenerate_iff_isCompl_orthogonal](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean): Over a finite-dimensional field space with reflexive form, nondegenerate restriction is equivalent to complementarity with the orthogonal.
+- [LinearMap.BilinForm.restrict_nondegenerate_iff_isCompl_orthogonal](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean): Over a finite-dimensional field space with reflexive form, nondegenerate restriction is equivalent to complementarity with the orthogonal.
 
-- [DirectSum.IsInternal](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/DirectSum/Basic.lean): Internal direct sums via bijectivity of the canonical map.
+- [DirectSum.IsInternal](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/DirectSum/Basic.lean): Internal direct sums via bijectivity of the canonical map.
 
-- [LinearMap.ker](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Module/Submodule/Ker.lean): Linear-map kernels.
+- [LinearMap.ker](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Module/Submodule/Ker.lean): Linear-map kernels.
 
-- [Module.finrank](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/Dimension/Finrank.lean): Finite dimension.
+- [Module.finrank](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Dimension/Finrank.lean): Finite dimension.
 
-- [TauCeti.Representation.isSemisimpleRepresentation_comp_subtype](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RepresentationTheory/Induction/Clifford/Basic.lean): An irreducible finite-dimensional representation restricts semisimply to a normal subgroup over any field; apply summandwise to a semisimple representation.
+- [TauCeti.Representation.isSemisimpleRepresentation_comp_subtype](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/RepresentationTheory/Induction/Clifford/Basic.lean): An irreducible finite-dimensional representation restricts semisimply to a normal subgroup over any field; apply summandwise to a semisimple representation.
 
 
-- [LinearMap.BilinForm.IsAlt.even_finrank](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/LinearAlgebra/BilinearForm/SymplecticBasis.lean): a nondegenerate alternating form on a finite-dimensional space has even dimension over every field, including characteristic two. Alternation means `B(x,x)=0`; skew symmetry alone is insufficient in characteristic two. This is the parity input for §9.9 (Weil II, Corollary 4.1.5, `p`. `218`).
+- [LinearMap.BilinForm.IsAlt.even_finrank](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/LinearAlgebra/BilinearForm/SymplecticBasis.lean): a nondegenerate alternating form on a finite-dimensional space has even dimension over every field, including characteristic two. Alternation means `B(x,x)=0`; skew symmetry alone is insufficient in characteristic two. This is the parity input for §9.9 (Weil II, Corollary 4.1.5, `p`. `218`).
 
-- [TauCeti.AlgebraicGeometry.AbelianVariety](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean) and its `dim`: the abelian-variety carrier (a proper geometrically integral group scheme over a field, with its structure morphism) and its dimension as topological Krull dimension, used by the §1.5 point-count bound.
+- [TauCeti.AlgebraicGeometry.AbelianVariety](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean) and its `dim`: the abelian-variety carrier (a proper geometrically integral group scheme over a field, with its structure morphism) and its dimension as topological Krull dimension, used by the §1.5 point-count bound.
 
-- [WeierstrassCurve.hasse_bound](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/EllipticCurve/HasseBound.lean) and `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` (same file): for an elliptic Weierstrass curve `W` over a finite field with `q` elements, `(#W(𝔽_q) − (q + 1))² ≤ 4q`, the count including the point at infinity, and the trace form `a_q² ≤ 4q` for `W.frobeniusTrace = q + 1 − #W(𝔽_q)` (`WeierstrassCurve.frobeniusTrace_eq_card_point`, `TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`). Both are proved without `sorry`, through the degree of `rπ − s`. Used by §1.8, which compares them with §1.4's root-modulus estimate and restates nothing.
+- [WeierstrassCurve.hasse_bound](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/AlgebraicGeometry/EllipticCurve/HasseBound.lean) and `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` (same file): for an elliptic Weierstrass curve `W` over a finite field with `q` elements, `(#W(𝔽_q) − (q + 1))² ≤ 4q`, the count including the point at infinity, and the trace form `a_q² ≤ 4q` for `W.frobeniusTrace = q + 1 − #W(𝔽_q)` (`WeierstrassCurve.frobeniusTrace_eq_card_point`, `TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`). Both are proved without `sorry`, through the degree of `rπ − s`. Used by §1.8, which compares them with §1.4's root-modulus estimate and restates nothing.
 
-- [Even.pow_nonneg](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Order/Ring/Basic.lean): even powers are nonnegative in an ordered ring, including the rational traces in §2.5.
+- [Even.pow_nonneg](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Order/Ring/Basic.lean): even powers are nonnegative in an ordered ring, including the rational traces in §2.5.
 
-- [MonoidHom.mrange](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Group/Submonoid/Operations.lean) and `MonoidHom.mem_mrange`: use the image submonoid of the geometric representation directly. Membership is existence of a represented geometric group element; every such endomorphism is invertible. The image and its Zariski closure are distinguished throughout §8.14.
+- [MonoidHom.mrange](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Group/Submonoid/Operations.lean) and `MonoidHom.mem_mrange`: use the image submonoid of the geometric representation directly. Membership is existence of a represented geometric group element; every such endomorphism is invertible. The image and its Zariski closure are distinguished throughout §8.14.
 
 ### From other roadmaps
 
@@ -2221,7 +2221,7 @@ underlying spaces. Stratification by component dimension supplies the
 corresponding reduction for an arbitrary finite-type `X` in the integrality induction.
 
 *Needs:* Mathlib
-[exists_finite_inj_algHom_of_fg](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/NoetherNormalization.lean#L287)
+[exists_finite_inj_algHom_of_fg](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/NoetherNormalization.lean#L292)
 (finite Noether normalization for a finitely generated algebra over a field);
 SchemeAndStackFoundations §0.7 (dimensions and finite-type morphisms).
 (Source: [Int](#references), Exposé XXI, proof of Théorème 5.2.2, pp. 386–387.)
@@ -3055,11 +3055,11 @@ Use rational `ℚ_ℓ` coefficients; the integral assertion fails in general.
 
 Let `K` be a field, `n ∈ ℕ`, `V` a finite-dimensional `K`-vector space which is the internal direct sum of subspaces `V^j` (`0 ≤ j ≤ 2n`; `V^j = 0` otherwise), and `λ ∈ End(V)` with `λ(V^j) ⊆ V^{j+2}`, such that `λ^r : V^{n−r} → V^{n+r}` is bijective for `0 ≤ r ≤ n`. Put `P^{n−r} = V^{n−r} ∩ ker λ^{r+1}` for `0 ≤ r ≤ n`. Then: (i) for `0 ≤ r ≤ n`, the maps `⊕_{k ≥ 0} λ^k : ⊕_{k≥0} P^{n−r−2k} → V^{n−r}` and `⊕_{k ≥ 0} λ^{r+k}` : `⊕_{k≥0} P^{n−r−2k} → V^{n+r}` are isomorphisms; (ii) `dim P^{n−r} = dim V^{n−r} − dim V^{n−r−2}`; (iii) let `B` be a bilinear form on `V` with `B(λx, y) = B(x, λy)`, and for `0 ≤ r ≤ n` put `ψ_r(x, y) = B(λ^r x, y)` on `V^{n−r}`; then the decomposition (i) of `V^{n−r}` is `ψ_r`-orthogonal; if `B(y, x) = (−1)^a B(x, y)` for `x ∈ V^a`, then `ψ_r` is `(−1)^{n−r}`-symmetric; and if `B` is moreover nondegenerate with `B(V^a, V^b) = 0` unless `a + b = 2n`, then `ψ_r` is nondegenerate on `V^{n−r}` and restricts to a nondegenerate form on `P^{n−r}`.
 
-Orthogonality and graded symmetry use only the self-adjointness of `λ`: for `p ∈ P^{n−r−2k}`, `q ∈ P^{n−r−2l}` and `k ≠ l`, `ψ_r(λ^k p, λ^l q)` equals both `B(λ^{r+k+l} p, q)` and `B(p, λ^{r+k+l} q)`, and `r + k + l` exceeds `r + 2 min(k, l)`, so one of `λ^{r+k+l} p` and `λ^{r+k+l} q` is zero. Nondegeneracy and the grading condition on `B` enter only the nondegeneracy clauses.
+Orthogonality and graded symmetry use only the self-adjointness of `λ`: for `p ∈ P^{n−r−2k}`, `q ∈ P^{n−r−2l}` and `k ≠ l`, `ψ_r(λ^k p, λ^l q)` equals both `B(λ^{r+k+l} p, q)` and `B(p, λ^{r+k+l} q)`, and `r + k + l` exceeds `r + 2 min(k, l)`, so one of `λ^{r+k+l} p` and `λ^{r+k+l} q` is zero; for `x`, `y ∈ V^{n−r}`, `ψ_r(y, x) = B(λ^r y, x) = (−1)^{n−r} B(x, λ^r y) = (−1)^{n−r} ψ_r(x, y)`. Nondegeneracy and the grading condition on `B` enter only the nondegeneracy clauses. A vector of `V^{n+r}` that is `B`-orthogonal to `V^{n−r}` is orthogonal to every `V^b`, hence to `V`, and is zero, and in the same way a vector of `V^{n−r}` to which `V^{n+r}` is `B`-orthogonal is zero; since `λ^r : V^{n−r} → V^{n+r}` is bijective, `ψ_r` is nondegenerate on `V^{n−r}`. Nondegeneracy on `P^{n−r}` follows from nondegeneracy on `V^{n−r}`, the spanning in (i) and the orthogonality: a vector of `P^{n−r}` that is `ψ_r`-orthogonal to `P^{n−r}` is orthogonal to every summand `λ^k P^{n−r−2k}` with `k ≥ 1`, hence to all of `V^{n−r}`, and is zero; the same holds in the second variable.
 
 *Needs:* [DirectSum.IsInternal](#from-mathlib-and-tau-ceti), [LinearMap.ker](#from-mathlib-and-tau-ceti), [Module.finrank](#from-mathlib-and-tau-ceti), [LinearMap.BilinForm.Nondegenerate](#from-mathlib-and-tau-ceti).
 
-(Sources: [Lef](#references), Théorème (1.5) and (1.6), p. 108.)
+(Sources: [Lef](#references), Théorème (1.5) and (1.6), p. 108, for (i), of which (ii) is the dimension count; [WII](#references), §4, proof of Corollaire (4.1.5), p. 218, for the nondegeneracy and parity of `ψ_r` in the cohomological case of (iii), from hard Lefschetz and Poincaré duality.)
 
 The definition `primitivePiece` in Suggested.lean is
 `primitivePiece 𝒱 λ n r = 𝒱(n−r)∩ker(λ^(r+1))`, with
@@ -3071,7 +3071,10 @@ orthogonality and the conditional graded symmetry for every `λ`-self-adjoint
 `B`, and nondegeneracy once `B` is nondegenerate and pairs `V^a` only with
 `V^{2n−a}`. Both statements are over an arbitrary field, under the standing
 hypotheses of §9.7 on `V` and `λ`.
-(Source: [Lef](#references), (1.5)–(1.6), p. 108.)
+(Sources: [Lef](#references), (1.5)–(1.6), p. 108, for `lefschetzDecomposition`;
+[WII](#references), §4, proof of Corollaire (4.1.5), p. 218, for the
+nondegeneracy and parity in `lefschetzPairings`, whose orthogonality and
+primitive restriction are proved in the paragraph after (iii).)
 
 Extend a natural grading `𝒱_nat:ℕ→Submodule K V` by zero in negative degrees
 to an integer grading `𝒱`. Prove that this preserves the internal direct sum,
