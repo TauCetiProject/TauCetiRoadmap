@@ -8,10 +8,10 @@ This roadmap owns:
 
 - the Lorentzian hyperbolic theory on Minkowski space: the causal Green operators of the Klein–Gordon, Dirac and Maxwell equations, their covariance and constraint bridges, and the classification of the invariant fundamental solutions (RQFT1);
 - the field-theoretic constructions: Lorentz spinor bundles and their covariance (RQFT2), the free scalar, Dirac and photon fields on Fock space with their common domains (RQFT3), the Wightman and Haag–Kastler consequences (RQFT4), Euclidean reconstruction (RQFT7), Haag–Ruelle and LSZ scattering (RQFT8), the electromagnetic and QED examples (RQFT9), the field-theoretic Bogoliubov bridge and Shale's theorem (RQFT10) and graviton power counting (RQFT11);
-- the perturbative machinery: the graded field-jet Hopf construction, graph flags and incidence actions (RQFT5), the QFT-specific wavefront calculations for propagators, graph kernels and diagonals, the extension and renormalization of graph distributions, the forest formula, the renormalization group action and the symmetry stabilizers (RQFT6);
+- the perturbative machinery: the ℤ/2-graded field-jet Hopf construction with its total derivations and port allocations, graph flags and incidence actions (RQFT5), the QFT-specific wavefront calculations for propagators, graph kernels and diagonals, the extension and renormalization of graph distributions, the forest formula, the renormalization group action and the symmetry stabilizers (RQFT6);
 - the current complex built from Kähler differentials `Ω(V)`, the Euler–Lagrange ideal and the solution-homomorphism and D-module comparison, the stress-energy and Belinfante targets, and the abstract isoclinism and topological Lorentz and Pin extension constructions (RQFT2).
 
-It consumes, and does not restate: the CAR, CCR and Weyl algebras, their regular representations, the bosonic and fermionic Fock carriers and quasi-free states (OperatorAlgebraDynamics D8); generic second quantization, its domains and the creation and annihilation operators (QuantumFoundations §6.3–§6.4), the coordinate-change unitaries and the free Hamiltonian (QuantumFoundations §8.1–§8.2), the Kummer and Tricomi functions (QuantumFoundations §9.4), the nonrelativistic Coulomb model (QuantumFoundations §9.5) and the family of regular CCR representations of QuantumFoundations §9.9; unbounded operators, spectral integrals, forms and self-adjoint extensions (UnboundedOperators, SelfAdjointSpectralTheory); induced Poincaré and Lorentz representations, the real Lorentz Lie group data, the Whitehead lemmas and free-particle position and momentum (NoncompactQuantumSymmetry M0, M2, M4, P.4, P.5); generic wavefront sets, pullback and product criteria and microlocal regularity (PseudodifferentialOperators P8); finite-order Euler–Lagrange and Noether theory and the finite-dimensional Lorentz-spinor modules (LocalVariationalFieldTheory); connections and curvature (SmoothBundlesConnections B3–B4, and the completed HopfRinow); Clifford algebras and their real classification (Mathlib, SpinRepresentations); factor sets and central extensions (InductionRestriction Layer 7); Lie groups and their Lie algebras (LieGroups); the one-variable Laurent germs of GlobalHolomorphicFunctions Layer 4 (GH2) and ComplexKahlerGeometry K3.MeromorphicGermField; the local structure of distributions on bundles (ComplexKahlerGeometry K5a.DistributionLocalStructure); hyperfunctions (Hyperfunctions HF3, HF5); Wiener measure (StochasticCalculus S1.2); preduals and affiliated operators (VonNeumannAlgebras V4, V10); Hilbert–Schmidt and Schatten ideals (OperatorIdeals Parts B–C); and the heat kernel (Tau Ceti `TauCeti.heatKernel`, with PDE §6.3).
+It consumes, and does not restate: the CAR, CCR and Weyl algebras, their regular representations, the bosonic and fermionic Fock carriers and quasi-free states (OperatorAlgebraDynamics D8); generic second quantization, its domains and the creation and annihilation operators (QuantumFoundations §6.3–§6.4), the coordinate-change unitaries and the free Hamiltonian (QuantumFoundations §8.1–§8.2), the Kummer and Tricomi functions (QuantumFoundations §9.4), the nonrelativistic Coulomb model (QuantumFoundations §9.5) and the family of regular CCR representations of QuantumFoundations §9.9; unbounded operators, spectral integrals, forms and self-adjoint extensions (UnboundedOperators, SelfAdjointSpectralTheory); induced Poincaré and Lorentz representations, the real Lorentz Lie group data, the Whitehead lemmas and free-particle position and momentum (NoncompactQuantumSymmetry M0, M2, M4, P.4, P.5); generic wavefront sets, pullback and product criteria and microlocal regularity (PseudodifferentialOperators P8); finite-order Euler–Lagrange and Noether theory and the finite-dimensional Lorentz-spinor modules (LocalVariationalFieldTheory); connections and curvature (SmoothBundlesConnections B3–B4, and the completed HopfRinow); Clifford algebras and their real classification (Mathlib, SpinRepresentations); the Hopf structure of a symmetric algebra with primitive generators (Mathlib `SymmetricAlgebra.instBialgebra`, Tau Ceti `TauCeti.SymmetricAlgebra.instHopfAlgebra`) and the group-like elements of a group algebra (Mathlib `MonoidAlgebra.isGroupLikeElem_iff_mem_range_single_one`); factor sets and central extensions (InductionRestriction Layer 7); Lie groups and their Lie algebras (LieGroups); the one-variable Laurent germs of GlobalHolomorphicFunctions Layer 4 (GH2) and ComplexKahlerGeometry K3.MeromorphicGermField; the local structure of distributions on bundles (ComplexKahlerGeometry K5a.DistributionLocalStructure); hyperfunctions (Hyperfunctions HF3, HF5); Wiener measure (StochasticCalculus S1.2); preduals and affiliated operators (VonNeumannAlgebras V4, V10); Hilbert–Schmidt and Schatten ideals (OperatorIdeals Parts B–C); and the heat kernel (Tau Ceti `TauCeti.heatKernel`, with PDE §6.3).
 
 The PDE roadmap supplies elliptic and parabolic theory; it does not supply the Lorentzian causal Green operators, which are owned here. StandardDistributions concerns probability laws, not Schwartz distributions. QuantumFoundations and NoncompactQuantumSymmetry consume nothing from this roadmap: supply runs from them to it.
 
@@ -31,6 +31,8 @@ Clifford algebras are Mathlib's `CliffordAlgebra` with its grading and `SpinGrou
 
 - Schwartz space `SchwartzMap` (`𝓢(E,F)`), tempered distributions `TemperedDistribution` (`𝓢'(E,F)`) with their pointwise topology, the Fourier transform `FourierTransform.fourierCLM` on Schwartz space, test functions `TestFunction Ω F n` (`𝓓(Ω,F)`) with their LF topology and the inclusions `TestFunction.monoCLM`, the stagewise spaces `ContDiffMapSupportedIn`, and distributions `Distribution Ω F n` (`𝓓'(Ω,F)`, `Mathlib/Analysis/Distribution/Distribution.lean`), which are defined on real-valued tests and carry the topology of uniform convergence on compact sets of tests.
 - `CliffordAlgebra`, its grading, `SpinGroup`.
+- The cocommutative bialgebra `SymmetricAlgebra.instBialgebra` with primitive generators, `SymmetricAlgebra.comul_ι` and `SymmetricAlgebra.counit_ι` (`Mathlib/RingTheory/Bialgebra/SymmetricAlgebra.lean`), used for the even field jets of §5.6, together with `ExteriorAlgebra`, `ExteriorAlgebra.prodEquivTensor` (`Mathlib/LinearAlgebra/ExteriorAlgebra/Product.lean`) and `GradedTensorProduct` for the odd jets.
+- The group-like elements of a monoid algebra over a commutative domain, `MonoidAlgebra.isGroupLikeElem_iff_mem_range_single_one` (`Mathlib/RingTheory/Bialgebra/MonoidAlgebra.lean`), with `MonoidAlgebra.single_left_injective` and `MonoidAlgebra.single_mul_single` (`Mathlib/Algebra/MonoidAlgebra/Defs.lean`), used in §5.4.
 - `PowerSeries`, `MvPowerSeries`, `HopfAlgebra`, `Complex.regularizedHGFun`, `GaussianFourier.integral_cexp_neg_sum_mul_add`, `MeromorphicAt` with `meromorphicOrderAt_ne_top_iff`, `tendsto_cobounded_of_meromorphicOrderAt_neg`, `tendsto_nhds_of_meromorphicOrderAt_nonneg` and `MeromorphicAt.analyticAt` (`Mathlib/Analysis/Meromorphic/Order.lean`).
 
 ### From Tau Ceti
@@ -41,6 +43,7 @@ The Tau Ceti declarations and files named here are read at the revision pinned b
 - `TauCeti.exists_isCompl_of_isKilling` (`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`), complete reducibility for a Lie algebra with nondegenerate Killing form.
 - `TauCeti.exists_unit_conj_of_algEquiv` (Skolem–Noether, `TauCeti/Algebra/CentralSimple/SkolemNoether.lean`) and `TauCeti.Quaternion.complexTensorAlgEquivMatrix` (`TauCeti/Algebra/CentralSimple/Quaternion.lean`).
 - `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra` (`TauCeti/Algebra/Lie/UniversalEnveloping/HopfAlgebra.lean`), the Hopf structure of an enveloping algebra.
+- `TauCeti.SymmetricAlgebra.instHopfAlgebra` and `TauCeti.SymmetricAlgebra.antipode_ι` (`TauCeti/Algebra/HopfAlgebra/SymmetricAlgebra/Basic.lean`), the Hopf structure of a symmetric algebra over a commutative ring, with antipode `ι x↦−ι x`, used for the even field jets of §5.6.
 - The Hermitian model of Minkowski space and `Spin(3,1) ≃ SL(2,ℂ)` (`TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean`, `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean`).
 - The Levi-Civita theory of nondegenerate metrics, `TauCeti.Manifold.ContMDiffNondegenerateMetric` and its families, with the coordinate Christoffel formulas (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/`), delivered by the completed HopfRinow roadmap.
 - Hilbert–Schmidt operators (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`).
@@ -863,7 +866,7 @@ Scalar field: take the one-particle space `h_m=L²(H_m^+,dμ_m)`, `H_m^+={p:p²=
 
 ### 3.4 The free Dirac field
 
-Dirac field: use CAR on the positive/negative energy spinor mass-shell space, spinor solutions of `(γ·p−m)u(p,s)=0`, and the analogous `v` solutions. Fix their normalization and completeness/spin-sum identities, define particle/antiparticle creation modes on the common finite-particle domain, and prove the anticommutator distribution and causal support. The classical commuting-spinor equations in the lecture notes do not themselves supply a fermionic quantum field; prove graded locality separately.
+Dirac field: use CAR on the positive/negative energy spinor mass-shell space, spinor solutions of `(γ·p−m)u(p,s)=0`, and the analogous `v` solutions. Fix their normalization and completeness/spin-sum identities, define particle/antiparticle creation modes on the common finite-particle domain, and prove the anticommutator distribution and causal support (Weinberg, *The Quantum Theory of Fields I*, §5.5, the causal Dirac field, written in his `(−,+,+,+)` metric with his own spinor normalization; the identities below are in the metric of the Conventions with `ū_su_t=2mδ_(st)`). A classical commuting-spinor solution of the Dirac equation does not itself supply a fermionic quantum field; prove graded locality separately.
 
 **Checks.**
 
@@ -871,7 +874,7 @@ Dirac field: use CAR on the positive/negative energy spinor mass-shell space, sp
 - The anticommutator `{ψ(f),ψ̄(g)}` is the c-number Dirac causal propagator of §1.3 and vanishes for spacelike separation; `{ψ(f),ψ(g)}=0`.
 - The classical commuting spinor field has `ψ(f)ψ(g)=ψ(g)ψ(f)`, so it satisfies neither the CAR nor graded locality; the quantum field is a different object.
 
-*Needs:* OperatorAlgebraDynamics D8 (CAR); §1.3; §2.15; §2.12 for the spinor bases.
+*Needs:* OperatorAlgebraDynamics D8 (CAR); §1.3; §2.15; §2.12 for the spinor bases; Weinberg §5.5.
 
 ### 3.5 The photon polarization quotient
 
@@ -1047,7 +1050,7 @@ with `f_(a,Λ)(y)=f(Λ⁻¹(y−a))`, on the declared invariant D_∞. Transport
 - `O_r+a` is not contained in `O_(cr)` for fixed `c` as `r↓0`, so origin preservation does not transfer to translations; the translated spaces `Φ_γ(x)=AdU(x)Φ_γ(0)` are defined instead.
 - For a linear coefficient map `φ(v)=Σv_iφ_i` the induced action on coefficients is the contragredient `D(A⁻¹)ᵀ`, checked on the composition `(a,A)(b,B)`.
 
-*Needs:* VonNeumannAlgebras V4.Core (predual) and V10.Affiliation; UnboundedOperators UO-A01–A08; §4.15 (Reeh–Schlieder); Bostelmann, Definitions 2.1 and 4.1, Theorems 3.3, 3.6 and 4.3, (4.6)–(4.8).
+*Needs:* VonNeumannAlgebras V4.Core (predual) and V10.Affiliation; UnboundedOperators UO-A01–A08; §4.15 (Reeh–Schlieder); Bostelmann, Definitions 2.1 and 4.1, Lemma 3.5, Theorems 3.3, 3.6 and 4.3, (4.6)–(4.7).
 
 ### 4.6 Charged-field reconstruction port
 
@@ -1360,7 +1363,7 @@ Use these same analytic prerequisites for the PCT construction, and state any fu
 **Checks.**
 
 - The free two-point function `W(ξ)=∫exp(−ip·ξ)dμ_m(p)` continues to `ξ−iy`, `y∈V_+`, with `|exp(−ip·(ξ−iy))|=exp(−p·y)≤1`, the Fourier–Laplace bound.
-- For the free field and a test `f` supported in a small region, `Kf` is the restriction of an entire function to the shell, so its vanishing on an open set forces `f=0`: Reeh–Schlieder holds for one-particle vectors.
+- For the free scalar field the one-particle vectors `Kf` with `supp f⊂O` are dense in `h_m` for every nonempty open `O`. Choose a ball `B` and `δ>0` with `B+x⊂O` for `|x|<δ`, and let `h` be orthogonal to these vectors. For `supp f⊂B` the function `x↦⟨h,K(f(·−x))⟩=∫h̄(p)e^(iη(p,x))Kf(p)dμ_m(p)` continues holomorphically to `x+iy`, `y∈V_+`, since `|e^(iη(p,x+iy))|=e^(−η(p,y))≤1` on the positive shell, and its boundary value vanishes for `|x|<δ`; by uniqueness of boundary values it vanishes for every `x`. Every compactly supported test is a finite sum of translates of tests supported in `B`, so `h` is orthogonal to `K(C_c^∞)`, and `h=0` by the density of `K(𝒮)` (§3.8). The pointwise strengthening is false: for nonzero `g∈C_c^∞(O)` the test `f=(□+m²)g≠0` has `Kf=(m²−η(p,p))Kg=0` on the whole shell.
 - The reflection identity `‖φ_a(f)*Ω‖²=εs‖φ_a(Rf)Ω‖²` is consistent for the scalar field (`ε=s=1`) and forces both sides to `0` when `ε≠s`.
 - The complexified action `X↦AXA†` on Hermitian matrices with `A↦(A,conj A)` recovers the real Lorentz action; replacing `conj A` by `A` would not preserve Hermiticity.
 
@@ -1432,15 +1435,16 @@ Prove the group equivalence between length-preserving typed incidence automorphi
 
 ### 5.4 GroupLikeExample — group-like elements of a group algebra
 
-This roadmap owns the proof route below. For every group G, with no finiteness assumption, use the existing coalgebra on `MonoidAlgebra ℂ G` and native `IsGroupLikeElem`; prove for each x the equivalence `IsGroupLikeElem ℂ x ↔ ∃!g:G, x=MonoidAlgebra.single g 1`. Consume `MonoidAlgebra.instCoalgebra`, `counit_single`, `comul_single` and its native coefficient equivalence, not a second coalgebra. In a finite-support expansion x=Σ_g a_g[g], comparison of tensor coefficients gives a_g a_h=0 for g≠h and a_g²=a_g; counit1 gives Σ_g a_g=1, so over ℂ exactly one coefficient is1. Prove the converse and uniqueness, and identify multiplication of these basis elements with G by the native `single_mul_single` formula. Keep the separate warning that arbitrary UEA elements are not group-like: the Sweedler/antipode expansions in the prescription action use their full actual coproduct.
+The characterisation is the library's. For every group G, with no finiteness assumption, Mathlib's `MonoidAlgebra.isGroupLikeElem_iff_mem_range_single_one` (stated over any commutative domain and for any exponent type) says that the group-like elements of `MonoidAlgebra ℂ G`, for its coalgebra `MonoidAlgebra.instCoalgebra`, are exactly the basis elements `MonoidAlgebra.single g 1`; `MonoidAlgebra.single_left_injective` (with `1≠0`) makes `g` unique, and `MonoidAlgebra.single_mul_single` identifies their multiplication with that of G. The prescription action uses these declarations as stated: a basis element `[g]` has the one-term coproduct `[g]⊗[g]` and counit `1`, whereas arbitrary elements of an enveloping algebra are not group-like, so the Sweedler and antipode expansions of the prescription action use the full coproduct.
 
 **Checks.**
 
 - `x=½([e]+[g])` with `g≠e` has `Δx=½([e]⊗[e]+[g]⊗[g])≠x⊗x`, so it is not group-like; `[g]` is group-like with `Δ[g]=[g]⊗[g]` and counit `1`.
 - In `U(𝔤)` the element `1+X` with `X` primitive has `Δ(1+X)=1⊗1+X⊗1+1⊗X≠(1+X)⊗(1+X)`, so Sweedler expansions in the prescription action use the full coproduct.
 - Multiplication of basis elements matches `G`: `single g 1 * single h 1 = single (gh) 1`.
+- The domain hypothesis of the library theorem is needed: over `ℤ/6ℤ`, with the idempotents `3` and `4` (`3·4=0`, `3+4=1`), `x=3[e]+4[g]` with `g≠e` has `Δx=3[e]⊗[e]+4[g]⊗[g]=x⊗x` and counit `1`, a group-like element that is not a basis element.
 
-*Needs:* Mathlib `MonoidAlgebra.instCoalgebra`, `counit_single`, `comul_single`, `single_mul_single`, `IsGroupLikeElem`.
+*Needs:* Mathlib `MonoidAlgebra.isGroupLikeElem_iff_mem_range_single_one`, `MonoidAlgebra.single_left_injective`, `MonoidAlgebra.instCoalgebra`, `MonoidAlgebra.single_mul_single`, `IsGroupLikeElem`.
 
 ### 5.5 GraphCutFlags — labelled edge-cut and quotient flags
 
@@ -1456,9 +1460,9 @@ For the finite halfedge graphs just defined, construct restriction to an edge su
 
 ### 5.6 FieldJets — the symmetric/graded field-jet Hopf carrier
 
-This roadmap owns the proof route below.
+For the even jets the Hopf structure is the library's. The polynomial field algebra on the even formal field-jet generators is `SymmetricAlgebra ℂ V₀`, `V₀` their complex span, with Mathlib's bialgebra `SymmetricAlgebra.instBialgebra`, in which every generator is primitive with counit `0` (`SymmetricAlgebra.comul_ι`, `SymmetricAlgebra.counit_ι`), and Tau Ceti's Hopf structure `TauCeti.SymmetricAlgebra.instHopfAlgebra`, whose antipode sends each generator to its negative (`TauCeti.SymmetricAlgebra.antipode_ι`). This roadmap owns the rest of the field-jet carrier: the stated complex conjugation involution, the ℤ/2-graded extension by the odd jets with its Koszul signs, the total derivations and their compatibility with the coproduct, and the port allocations.
 
-Build the polynomial field algebra over the scalar field ℂ as the symmetric algebra on all formal field-jet generators, with the stated complex conjugation involution. Use LVF1's symmetric jet indices: `u_(a,I)`, I∈ℕ⁴, and total derivations `D_i u_(a,I)=u_(a,I+e_i)`. The constant-coefficient enveloping algebra acts by these commuting derivations; it is not a new coefficient ring whose derivatives are central scalars. Make every jet generator primitive, with counit0 and antipode minus, and prove `ΔD_i=(D_i⊗1+1⊗D_i)Δ`. Prove the iterated coproduct gives the exact multinomial allocations among all incident ports, and compare the graded version through the already fixed Koszul symmetry. Use it to split each interaction monomial among incident half-edges/vertices and derive the exact vertex-label combinatorics. Include derivative-labelled propagators `D₁D₂Δ_{φ₁,φ₂}` and the `φ⁴`, `φ²∂φ` and `D₁(φ²)D₂(φ²)` examples.
+Use LVF1's symmetric jet indices: `u_(a,I)`, I∈ℕ⁴, and total derivations `D_i u_(a,I)=u_(a,I+e_i)`. The constant-coefficient enveloping algebra acts by these commuting derivations; it is not a new coefficient ring whose derivatives are central scalars. Prove `ΔD_i=(D_i⊗1+1⊗D_i)Δ`. For the odd jets take the graded tensor product of `SymmetricAlgebra ℂ V₀` with the exterior algebra on the span `V₁` of the odd generators; make every odd generator primitive, with counit `0` and antipode `ψ↦−ψ`, and prove the ℤ/2-graded Hopf axioms for the Koszul-signed multiplication on the graded tensor square, the structure restricting to the library one on the even part. One route to the odd coproduct is the exterior-algebra map of the diagonal `V₁→V₁×V₁` followed by Mathlib's `ExteriorAlgebra.prodEquivTensor`. Prove the iterated coproduct gives the exact multinomial allocations among all incident ports, with the Koszul signs on odd ports. Use it to split each interaction monomial among incident half-edges/vertices and derive the exact vertex-label combinatorics. Include derivative-labelled propagators `D₁D₂Δ_{φ₁,φ₂}` and the `φ⁴`, `φ²∂φ` and `D₁(φ²)D₂(φ²)` examples.
 
 **Checks.**
 
@@ -1467,7 +1471,7 @@ Build the polynomial field algebra over the scalar field ℂ as the symmetric al
 - For odd `ψ₁,ψ₂`, `Δ(ψ₁ψ₂)=ψ₁ψ₂⊗1+ψ₁⊗ψ₂−ψ₂⊗ψ₁+1⊗ψ₁ψ₂`, the Koszul sign; without it the coproduct would not be an algebra map.
 - The derivative-labelled propagator `D₁D₂Δ` arises from the allocation of one derivative to each of two ports of `φ²∂φ`-type vertices.
 
-*Needs:* LocalVariationalFieldTheory Layer 1 (jet indices and total derivatives); Mathlib `HopfAlgebra`, symmetric and exterior algebras.
+*Needs:* LocalVariationalFieldTheory Layer 1 (jet indices and total derivatives); Mathlib `SymmetricAlgebra.instBialgebra`, `SymmetricAlgebra.comul_ι`, `SymmetricAlgebra.counit_ι`, `ExteriorAlgebra`, `ExteriorAlgebra.prodEquivTensor`, `GradedTensorProduct`, `HopfAlgebra`; Tau Ceti `TauCeti.SymmetricAlgebra.instHopfAlgebra`, `TauCeti.SymmetricAlgebra.antipode_ι`.
 
 ### 5.7 CompactDistributionAlgebra — compact distribution densities
 
@@ -4118,7 +4122,7 @@ comparison.
 
 ### 6.35 Invariant theory spaces, renormalization group and Ward identities
 
-Consume **RQFT6.ConnectedSubstitution** for the actual interaction/source map, its contravariant composition law, and the invariant paired inverse action on prescriptions and Lagrangians. Prove that action with the specified counterterm group, field-algebra action and graph contraction. Use characters of H_𝓕 on 𝓕 or H_𝓛 on 𝓛, and their fixed-tad quotients for fixed data, after the full natural typed defect-ideal and insertion proofs above; prove preservation of that exact class and use inverse characters for the reverse comparison between realized prescriptions. For a specified continuous spacetime/internal symmetry G acting on the field algebra, diagonals and test spaces, prove existence of G-equivariant prescriptions and transitivity of renormalizations commuting with G under exact averaging/cohomological hypotheses; for a compact internal G use Haar averaging, and for noncompact spacetime symmetry own the equivariant extension obstruction and its vanishing conditions. The finite-jet connected Lorentz case is supplied by the defect/Whitehead adapter above under its Lorentz-stable-submodule and invariant-affine-set hypotheses; it does not remove obstructions for other groups or incompatible constraints. Questions 1–2 of Borcherds–Barnard §8.3 (p. 65) ask for these results; they are theorem targets with hypotheses, not assumed properties of every group.
+Consume **RQFT6.ConnectedSubstitution** for the actual interaction/source map, its contravariant composition law, and the invariant paired inverse action on prescriptions and Lagrangians. Prove that action with the specified counterterm group, field-algebra action and graph contraction. Use characters of H_𝓕 on 𝓕 or H_𝓛 on 𝓛, and their fixed-tad quotients for fixed data, after the full natural typed defect-ideal and insertion proofs above; prove preservation of that exact class and use inverse characters for the reverse comparison between realized prescriptions. For a specified continuous spacetime/internal symmetry G acting on the field algebra, diagonals and test spaces, prove existence of G-equivariant prescriptions and transitivity of renormalizations commuting with G under exact averaging/cohomological hypotheses; for a compact internal G use Haar averaging, and for noncompact spacetime symmetry own the equivariant extension obstruction and its vanishing conditions. The finite-jet connected Lorentz case is supplied by the defect/Whitehead adapter above under its Lorentz-stable-submodule and invariant-affine-set hypotheses; it does not remove obstructions for other groups or incompatible constraints. Questions 3–4 of Borcherds–Barnard §8.3 (p. 65) ask for these results; they are theorem targets with hypotheses, not assumed properties of every group.
 
 **Checks.**
 
@@ -4248,7 +4252,7 @@ This is not an all-orders finite operator-family theorem: negative coefficient w
 - The `φ⁴` bubble has `Δ_v=4`, `Δ_ext=4`, so `ω^nom=4−4−0=0`; the `φ³` bubble has `Δ_v=3`, `Δ_ext=2`, so `ω^nom=4−2−2=0`.
 - The massive `R_ξ` vector propagator has `n_e=2` and `Σ_as_(e,a)=2`, so `r_e=2`; the Proca propagator has leading order `0` and is excluded from the theorem.
 - With `wt(g)=−1`, `wt(x)=1` and `k[g]/(g^(N+1))`, the monomials `g^jx^j` for `j≤N` all have weight `0`: every stage is finite but new monomials appear at every order.
-- The complete weight estimate `wt(c)+Σ_vwt(a_v)+q+Δ_ext≤4` on the bubble with `wt(a_v)=0` reads `wt(c)+0+q+4≤4`, forcing `wt(c)=q=0`.
+- The complete weight estimate `wt(c)+Σ_vwt(a_v)+q+Δ_ext≤4` on the `φ⁴` bubble with `wt(a_v)=0` reads `wt(c)+0+q+4≤4`, that is `wt(c)+q≤0`. With nonnegative coefficient weights this forces `wt(c)=q=0`. In the stage `k[g]/(g^(N+1))` with `wt(g)=−1` it admits `c=g^j` with `q=j` for every `j≤N`, for example `(wt c,q)=(−1,1)`: derivative counterterms on the bubble occur only with negative-weight coefficients.
 
 *Needs:* §6.2, §6.33, §6.36, §6.37; §6.3.
 
@@ -4416,7 +4420,7 @@ x is generalized-zero but not an ordinary zero eigenvector. Prove
 preservation of these generalized spaces under the commuting G-action;
 rational eigenvalues are fixed by the conjugation in the complex case.
 Apply finite-dimensionality only to the declared bounded E/G-stable
-coefficient/jet/degree stages. Borcherds–Barnard §8.3 (p. 65) allows invariance up to surface terms and generalized
+coefficient/jet/degree stages. Borcherds–Barnard §8.3 (p. 66) allows invariance up to surface terms and generalized
 eigenvectors; no unstated eigenvalue is selected, and the zero and nonnegative
 alternatives remain distinct.
 
@@ -5026,7 +5030,7 @@ RQFT3, RQFT4 and RQFT7; UnboundedOperators; NoncompactQuantumSymmetry M4.
 
 Consume the all-parameter regularized Kummer M and Tricomi U interface of QuantumFoundations §9.4, including the slit-plane/logarithmic branches, ODEs, Wronskians, integer-b logarithmic limits, connection and uniform asymptotic estimates, for the radial special-function comparison; RQFT9 owns its relativistic parameter/domain adapter.
 
-Use LVF's Maxwell/Dirac Lagrangian and Noether identities, then build the quantum model-specific bridge:
+Use the scalar-electrodynamics, sourced-Maxwell and Dirac Lagrangians of LocalVariationalFieldTheory §3.8–§3.10 and the Noether currents of LocalVariationalFieldTheory §4.1 as the classical input of §9.4 (the charged scalar current and its vertices), §9.6 (Dirac minimal coupling and the current `ψ̄γ^μψ`) and §9.13 (the vector current of the free Dirac field); the quantum statements are the targets of those sections.
 
 **Checks.**
 
@@ -5101,7 +5105,7 @@ Charged Klein–Gordon: covariant derivative `D_μ=∂_μ+ieA_μ`, gauge transfo
 **Checks.**
 
 - With `D_μ=∂_μ+ieA_μ`, `φ↦exp(ieα)φ` and `A↦A−dα` give `D_μ(exp(ieα)φ)=exp(ieα)D_μφ`; the convention `∂−ieA` reverses the sign of `e` in every vertex.
-- Expanding `|Dφ|²` gives the one-photon term `ieA^μ(φ̄∂_μφ−∂_μφ̄φ)` and the seagull `e²A²|φ|²`; the vertex rules `−ie(p+p′)^μ` and `2ie²η^(μν)` follow, the `2` from the two identical photon legs.
+- Expanding `|Dφ|²=(∂_μφ̄−ieA_μφ̄)(∂^μφ+ieA^μφ)` gives the one-photon term `−ieA^μ(φ̄∂_μφ−∂_μφ̄φ)`, which is `−eA_μj^μ` for the `A`-independent part `j^μ=i(φ̄∂^μφ−∂^μφ̄φ)` of the current below (the sign of `L_J=−J_cl·A` in §1.6), and the seagull `e²A²|φ|²`. On an incoming `e^(−ip·x)` and an outgoing `e^(ip′·x)` the one-photon term is `−e(p+p′)·A`, so the vertex rules `−ie(p+p′)^μ` and `2ie²η^(μν)` follow, the `2` from the two identical photon legs; the opposite sign `+ieA^μ(φ̄∂_μφ−∂_μφ̄φ)` would give `+ie(p+p′)^μ`.
 - The current `j_μ=i(φ̄D_μφ−(D_μφ)‾φ)` is conserved on solutions and the factor `i` makes it real.
 
 *Needs:* LocalVariationalFieldTheory Layer 3; §1.4; §3.3.
@@ -5571,7 +5575,7 @@ No roadmap consumes a target of this roadmap. NoncompactQuantumSymmetry names RQ
 - C. Bär, N. Ginoux and F. Pfäffle, *Wave equations on Lorentzian manifolds and quantization*, arXiv:0806.1036 (manifest key `bgp08`): Theorem 3.1.1 (uniqueness for past- or future-compact support), Definition 3.4.1 and Corollary 3.4.3 (Green operators).
 - R. Brunetti and K. Fredenhagen, *Microlocal analysis and interacting quantum field theories: renormalization on physical backgrounds*, Comm. Math. Phys. 208 (2000), arXiv:math-ph/9903028 (manifest key `bf00`): §5.1 (scaling degree), Theorems 5.2–5.3 (extension at a point), §6 (transversal scaling degree).
 - N. V. Dang, *The extension of distributions on manifolds, a microlocal approach*, arXiv:1412.2808 (manifest key `dang14`): Theorems 3.4–3.5, §8.
-- H. Bostelmann, *Phase space properties and the short distance structure in quantum field theory*, J. Math. Phys. 46 (2005), arXiv:math-ph/0409070v3 (manifest key `bostelmann05`): the damped functionals (2.1)–(2.6), Theorems 3.3 and 3.6, Theorem 4.3 and (4.6)–(4.8).
+- H. Bostelmann, *Phase space properties and the short distance structure in quantum field theory*, J. Math. Phys. 46 (2005), arXiv:math-ph/0409070v3 (manifest key `bostelmann05`): Definitions 2.1 and 4.1, the damped functionals (2.1)–(2.6), Lemma 3.5, Theorems 3.3 and 3.6, Theorem 4.3 and (4.6)–(4.7).
 - H. Epstein and V. Glaser, *The role of locality in perturbation theory*, Ann. Inst. H. Poincaré A 19 (1973) (manifest key `eg73`).
 - A. Connes and D. Kreimer, *Renormalization in quantum field theory and the Riemann–Hilbert problem I*, arXiv:hep-th/9912092 (manifest key `ck00`): §2 (equation 6 and Theorem 1), §3.
 - K. Osterwalder and R. Schrader, *Axioms for Euclidean Green's functions II*, Comm. Math. Phys. 42 (1975), doi:10.1007/BF01608978 (manifest key `os75`): §II (2.1), §IV.1 and the reconstruction theorem E′→R′.
@@ -5580,7 +5584,7 @@ No roadmap consumes a target of this roadmap. NoncompactQuantumSymmetry names RQ
 - R. Haag, *Local Quantum Physics* (nets and scattering) (manifest key `haag96`).
 - M. Reed and B. Simon, *Methods of Modern Mathematical Physics II* (the free scalar field and the Wightman axioms) (manifest key `rs75`).
 - L. Hörmander, *The Analysis of Linear Partial Differential Operators I*, Theorems 8.2.4 and 8.2.10 (pullback and product of distributions) (manifest key `hormander83`).
-- N. N. Bogoliubov and D. V. Shirkov, *Introduction to the Theory of Quantized Fields* (manifest key `bs80`), and S. Weinberg, *The Quantum Theory of Fields I* (manifest key `weinberg95`) (perturbative conventions; §3.4 for the box normalization of rates).
+- N. N. Bogoliubov and D. V. Shirkov, *Introduction to the Theory of Quantized Fields* (manifest key `bs80`), and S. Weinberg, *The Quantum Theory of Fields I* (manifest key `weinberg95`) (perturbative conventions; §3.4 for the box normalization of rates; §5.5 for the causal Dirac field).
 - J. F. Donoghue, *General relativity as an effective field theory*, arXiv:gr-qc/9405057, §2, and arXiv:2211.09902, §4 (manifest key `donoghue94`, `donoghue22`).
 
 - R. Conti, S. Doplicher and J. E. Roberts, *Superselection theory for subsystems*, Comm. Math. Phys. 218 (2001), arXiv:math/0001139 (manifest key `cdr01`): §2–§3.
