@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Topology.MetricSpace.Polish.GDelta
 
 /-!
 # Borel equivalence relations, the G₀ dichotomy and Silver's theorem: suggested signatures
@@ -12,7 +13,7 @@ neither finishes a layer nor the roadmap.
 
 Every definition below has an actual mathematical body; no proposition-valued placeholder stands
 for an unstated condition. The roadmap has no model-theoretic dependency, so this file imports
-Mathlib only. Names and namespaces are provisional: implementations put general topology and
+Mathlib and, for Alexandrov's converse, one Tau Ceti topology module. Names and namespaces are provisional: implementations put general topology and
 measure theory lemmas in Mathlib's namespaces (`MeasureTheory.AnalyticSet.prod`,
 `IsGδ.polishSpace`, ...) and the descriptive-set-theoretic objects in a shared namespace.
 -/
@@ -66,19 +67,18 @@ end CantorSpace
 
 section GDelta
 
-/-- Follows Mathlib PR #42693 (now `IsGδ.polishSpace` in Mathlib; stated here in the roadmap
-namespace to avoid the name clash). -/
-theorem IsGδ.polishSpace {X : Type u} [TopologicalSpace X] [PolishSpace X] {s : Set X}
-    (hs : IsGδ s) : PolishSpace s := by
-  sorry
+/-! Mathlib's `IsGδ.polishSpace` and `IsGδ.isCompletelyMetrizableSpace` (from Mathlib PR #42693)
+are the forward direction. -/
 
 /-- The converse (Alexandrov), as in Mathlib PR #42912: a subset of a `T6` space that is
 completely metrizable in the subspace topology is Gδ. Metrizable spaces are `T6`, and Polish
-subspaces are the separable case. -/
+subspaces are the separable case. Tau Ceti proves it as `TauCeti.isGδ_of_isCompletelyMetrizableSpace`
+for perfectly normal Hausdorff spaces, which is the same class: a `T6` space is perfectly normal
+and `T1`, hence normal and Hausdorff. -/
 theorem _root_.TopologicalSpace.IsCompletelyMetrizableSpace.isGδ {X : Type u}
     [TopologicalSpace X] [T6Space X] {s : Set X}
-    (hs : TopologicalSpace.IsCompletelyMetrizableSpace s) : IsGδ s := by
-  sorry
+    (hs : TopologicalSpace.IsCompletelyMetrizableSpace s) : IsGδ s :=
+  TauCeti.isGδ_of_isCompletelyMetrizableSpace
 
 theorem _root_.IsGδ.standardBorelSpace {X : Type u} [TopologicalSpace X] [PolishSpace X]
     [MeasurableSpace X] [BorelSpace X] {s : Set X} (hs : IsGδ s) : StandardBorelSpace s := by

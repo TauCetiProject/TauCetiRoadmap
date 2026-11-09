@@ -165,9 +165,11 @@ equivalents land.
   Kuratowski–Ulam theorem as `curry_le_residual`, `eventually_eventually_left_of_mem_residual`,
   `IsMeagre.prod_left`, `BaireMeasurableSet.baireMeasurableSet_curry_left` and
   `BaireMeasurableSet.eventually_eventually_left_iff_mem_residual` (Layer 1.1).
-- [Mathlib #42693](https://github.com/leanprover-community/mathlib4/pull/42693): `IsGδ.polishSpace`
-  and `IsGδ.isCompletelyMetrizableSpace`; [Mathlib #42912](https://github.com/leanprover-community/mathlib4/pull/42912):
-  a completely metrizable subspace is Gδ (Layer 0.2).
+- [Mathlib #42693](https://github.com/leanprover-community/mathlib4/pull/42693) has landed:
+  `IsGδ.polishSpace` and `IsGδ.isCompletelyMetrizableSpace` are Mathlib's.
+  [Mathlib #42912](https://github.com/leanprover-community/mathlib4/pull/42912): a completely
+  metrizable subspace is Gδ (Layer 0.2); Tau Ceti proves it as
+  `TauCeti.isGδ_of_isCompletelyMetrizableSpace`.
 - [Mathlib #41945](https://github.com/leanprover-community/mathlib4/pull/41945), on
   [#41944](https://github.com/leanprover-community/mathlib4/pull/41944): the Borel graph theorem
   `analyticSet_graph_iff_measurable`, `measurable_of_analyticSet_graph` and
@@ -178,7 +180,7 @@ equivalents land.
 
 What is missing from Mathlib and built here: a working `PolishSpace (ℕ → Bool)` instance (at
 the pinned Mathlib, instance search does not find it although `PolishSpace.mk` produces it);
-`PerfectSpace` for infinite products; meagreness of countable sets; Gδ subspaces; analytic sets
+`PerfectSpace` for infinite products; meagreness of countable sets; standard Borel Gδ subspaces; analytic sets
 under binary intersection, products, off-diagonals and saturation; the perfect set theorem
 beyond closed sets; Kuratowski–Ulam; Mycielski; every object of Layers 1.3–5.
 
@@ -210,11 +212,13 @@ is related but not consumed: no milestone here needs a selector.
 
 ### 0.2 Gδ subspaces
 
-- `IsGδ.polishSpace`: a Gδ subset of a Polish space is Polish in the subspace topology, with no
-  nonemptiness assumption; `IsGδ.standardBorelSpace` for the subspace σ-algebra.
+- Mathlib's `IsGδ.polishSpace`: a Gδ subset of a Polish space is Polish in the subspace topology,
+  with no nonemptiness assumption. Build `IsGδ.standardBorelSpace` for the subspace σ-algebra.
 - The converse (Alexandrov): a subset of a `T6` space (in particular of a metrizable space) that
   is completely metrizable in the subspace topology is Gδ, as
-  `TopologicalSpace.IsCompletelyMetrizableSpace.isGδ` following Mathlib #42912. Separability is
+  `TopologicalSpace.IsCompletelyMetrizableSpace.isGδ` following Mathlib #42912. Tau Ceti proves it
+  as `TauCeti.isGδ_of_isCompletelyMetrizableSpace` for perfectly normal Hausdorff spaces, which are
+  exactly the `T6` spaces, so the prototype derives the roadmap's form from it. Separability is
   not needed: an uncountable discrete space is a completely metrizable Gδ subset of itself that is
   not Polish.
 - Open and closed subsets are recovered as special cases; the existing `IsOpen.polishSpace` and
