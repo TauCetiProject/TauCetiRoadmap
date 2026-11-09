@@ -33,11 +33,13 @@ No conjectural classifier for arbitrary bicommutant categories is a
 target. The finite-depth classifier in CA10 has a specified fusion
 subcategory and real generator. General fusion-category actions on
 continuous-trace spaces, cocycle-action classification outside the
-centrally free amenable separable-predual factor setting of CA9, and
-spectral triples of the planar C*-models
-are outside scope. Compact quantum groups and their Tannaka realization
-are in QuantumGroups. C*-categories, their finite additive and Karoubi
-completion and the finite-Hilbert and Hilbert-module examples (CA1a),
+centrally free amenable separable-predual factor setting of CA9, the
+characterization of centrally trivial endomorphisms of hyperfinite
+factors other than the II∞ and III₁ factors, and spectral triples of
+the planar C*-models are outside scope. Compact quantum groups and their
+Tannaka realization are in QuantumGroups. C*-categories, their finite
+additive and Karoubi completion and the finite-Hilbert and Hilbert-module
+examples (CA1a),
 and C*-tensor categories with solutions of the conjugate equations,
 standard solutions and intrinsic dimension, unitary dual functors and
 signed self-dualities (CA2a) have their single home here; QuantumGroups
@@ -57,10 +59,11 @@ Pimsner construction does not rebuild them.
 ## Conventions
 
 Use Mathlib `Category`, `Preadditive`, `Linear ℂ`, `MonoidalCategory`,
-`MonObj`, `Mon`, `MonoidalFunctor`, `HalfBraiding`, `Center`, rigid
-categories, `Iso`, `Equivalence`, biproducts and `Karoubi`. Analytic
-structure is added to these carriers. In categorical notation `f≫g`
-means first f, then g; formulas below use ordinary operator composition,
+`MonObj`, `Mon`, `Functor.Monoidal`, `LaxMonoidalFunctor`,
+`NatTrans.IsMonoidal`, `HalfBraiding`, `Center`, rigid categories,
+`Iso`, `Equivalence`, biproducts and `Karoubi`. Analytic structure is
+added to these carriers. In categorical notation `f≫g` means first f,
+then g; formulas below use ordinary operator composition,
 with the rightmost map applied first. Tensor formulas carry the native
 associators and unitors, including where they are suppressed in print.
 
@@ -95,7 +98,11 @@ sphericality refer to the chosen dual functor, not just a dagger.
 
 - From Mathlib: `Category`, `Preadditive`, `Linear ℂ`, `MonoidalCategory`,
   `MonoidalPreadditive`, `MonoidalLinear`, `MonObj`, `Mon`,
-  `MonoidalFunctor`, `Bicategory`, `EndMonoidal`, `HalfBraiding`, `Center`,
+  `Functor.Monoidal` (a strong monoidal structure on a functor),
+  `NatTrans.IsMonoidal` (monoidal natural transformations),
+  `LaxMonoidalFunctor` (the bundled category of lax monoidal functors, in
+  which the strong ones form a full subcategory), `Bicategory`,
+  `EndMonoidal`, `HalfBraiding`, `Center`,
   `ExactPairing`, `exactPairingCongrLeft`, `HasRightDual`, `Iso`,
   `Equivalence`, biproducts, `Karoubi`, Day convolution
   (`Mathlib/CategoryTheory/Monoidal/DayConvolution.lean`), `CStarModule`
@@ -357,7 +364,9 @@ unitary Temperley–Lieb category.
 
 Add dagger compatibility and unitary associators/unitors to the native
 tensor structure; prove tensor norm and dagger laws. Build tensor-functor
-categories and unitary monoidal natural isomorphisms.
+categories on Mathlib's `Functor.Monoidal` and `NatTrans.IsMonoidal`, as
+full subcategories of `LaxMonoidalFunctor`, and unitary monoidal natural
+isomorphisms.
 For a rigid object construct solutions of the conjugate equations,
 standard/balanced solutions, dual morphisms and dimension,
 using native right duals `Xᘁ` as primary and transporting left duals
@@ -458,7 +467,8 @@ distinct from a native spherical-category structure with simple unit.
   at `t=1`.
 
 *Needs:* CA1a; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`,
-`MonoidalFunctor`; Tau Ceti `TauCeti.CategoryTheory.Monoidal.Rigid.Basic`,
+`Functor.Monoidal`, `NatTrans.IsMonoidal`, `LaxMonoidalFunctor`; Tau Ceti
+`TauCeti.CategoryTheory.Monoidal.Rigid.Basic`,
 `TauCeti.CategoryTheory.Monoidal.Rigid.Functor`; PivotalSpherical
 Layers 0–4, 9.
 
@@ -546,9 +556,10 @@ triple with nonsimple `1₊`, and the Temperley–Lieb Gram matrix.
 
 ### Dependencies
 
-CA1a and CA1b; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`
-and `MonoidalFunctor`; Tau Ceti `TauCeti.CategoryTheory.Monoidal.Rigid.Basic`
-and `TauCeti.CategoryTheory.Monoidal.Rigid.Functor`; PivotalSpherical
+CA1a and CA1b; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`,
+`Functor.Monoidal`, `NatTrans.IsMonoidal` and `LaxMonoidalFunctor`; Tau Ceti
+`TauCeti.CategoryTheory.Monoidal.Rigid.Basic` and
+`TauCeti.CategoryTheory.Monoidal.Rigid.Functor`; PivotalSpherical
 Layers 0–4 and 9; Subfactors 5.1, 6.1–6.4 and 7.1–7.2.
 
 ## CA3. Q-systems and their bicategorical completion
@@ -942,7 +953,7 @@ category, and prove the tensor-power criterion for the real generator.
   the identity functor and `P[n]=Tr_V(x^⊗n)=(ℂ^k)^⊗n` has dimension `k^n`;
   boxes taken as `End(x^⊗n)` would have dimension `k^(2n)`.
 
-*Needs:* CA1a, CA2a; Mathlib `HalfBraiding`, `Center`, `MonoidalFunctor`.
+*Needs:* CA1a, CA2a; Mathlib `HalfBraiding`, `Center`, `Functor.Monoidal`.
 
 ### Examples
 
@@ -953,7 +964,7 @@ the generator `ℂ^k`.
 
 ### Dependencies
 
-CA1a and CA2a; Mathlib `HalfBraiding`, `Center` and `MonoidalFunctor`.
+CA1a and CA2a; Mathlib `HalfBraiding`, `Center` and `Functor.Monoidal`.
 
 ## CA7. Pimsner and free-graph C*-constructions
 
@@ -1262,8 +1273,8 @@ Here 1_k is the through-string projection in the common semifinite
 planar algebra whose corner is A_k; compare these classes in that
 algebra's K₀ through the full-corner maps, before using the obstruction.
 Also work out the outer finite-group crossed-product witnesses and
-the distinct shaded Morita classes for nonabelian groups (Example 6.15,
-p. 28). This is
+the distinct shaded Morita classes for nonabelian groups (Examples 6.15
+and 6.16, p. 28). This is
 existential sharpness, not a lower bound for every input planar algebra.
 Keep finite-dimensional planar levels, finite von Neumann index and
 existence of a finite C* quasi-basis distinct. Include the Temperley–Lieb
@@ -1647,6 +1658,46 @@ Masuda–Tomatsu 2009 with expectation-weight ratio μ₁/μ₀=r, and extract
 the displayed rank families. The normalizations and estimates needed
 for this application are part of this target.
 
+Call a finite-index endomorphism ρ of a factor M centrally trivial
+when ρ^ω is the identity on M_ω (Masuda–Tomatsu 2009, Definition 4.1,
+p. 30). On an infinite factor prove that the centrally trivial
+endomorphisms contain the inner automorphisms and are closed under
+composition, subobjects, finite direct sums and conjugates (Theorem 4.6,
+p. 31), that a centrally trivial ρ and an approximately inner
+automorphism θ satisfy `[θρθ⁻¹]=[ρ]` as sectors (Lemma 4.7, p. 32), and
+that every modular endomorphism, in particular every `Ad u∘σ_t^φ`, is
+centrally trivial (Lemma 4.11, p. 34). For irreducible ρ prove that ρ is
+not centrally trivial exactly when no nonzero a∈M satisfies
+`ax=ρ^ω(x)a` for every x∈M_ω (Masuda–Tomatsu 2007, Lemma 8.3, p. 65,
+with K=ℂ; since a commutes with M_ω this is Definition 8.1(4), p. 64,
+there). Prove `T(M)={0}` for V11's invariant T(M) of every factor M of
+type III₁ with separable predual: if `σ_T^φ=Ad u` for a faithful normal
+state φ and T≠0, then `φ∘Ad u*` is a positive multiple of φ with the
+same value at 1, so u lies in the centralizer of φ; writing `u=h^(iT)`
+with h positive and invertible in that centralizer, the faithful normal
+functional `φ(h^(-1)·)` has a modular flow of period T, so the Connes
+spectrum lies in `(2π/T)ℤ`, against V11's identification of it with
+`log(S(M)∖{0})=ℝ`. Then prove the Masuda–Tomatsu characterization on
+the two hyperfinite factors used below (Masuda–Tomatsu 2009,
+Theorem 4.12, p. 35, with Lemma 4.10(2)–(3), p. 34): an irreducible
+centrally trivial finite-index endomorphism of R_II∞ is an inner
+automorphism, and one of R_III₁ is `Ad u∘σ_t^φ` for a unitary u, a
+faithful normal state φ and some t∈ℝ. On R_II∞ prove the McDuff
+splitting `[ρ]=[θ∘(ρ⊗id)∘θ⁻¹]` for an isomorphism
+`θ:R_II∞⊗̄R_II∞→R_II∞` (Propositions 4.8–4.9, p. 33); the flip of
+`R_II∞⊗̄R_II∞` preserves the trace and so is approximately inner by
+V13b, and Lemma 4.7 then puts id⊗id inside ρ⊗ρ̄, so `Hom(id,ρ)≠0`
+(p. 35). On R_III₁ prove that for a non-inner irreducible centrally
+trivial ρ the inclusion `(id⊕ρ)(M)⊂M` is not centrally non-trivial
+(Definition 4.13 and Lemma 4.15, p. 36); prove Izumi's criterion
+comparing the relative commutants of σ and of its canonical extension
+σ̃ above, and Popa's criterion for central non-triviality of the tower
+inclusions `M⊂M_n` of a finite-index endomorphism σ of R_III₁, in the
+forms of Theorems 4.16 and 4.18 (p. 37); deduce Corollary 4.19 (p. 38);
+and exclude an outer `σ_t^φ` from ρρ̄: it would put `σ_(nt)^φ` into ρρ̄
+for every integer n, infinitely many inequivalent sectors by
+`T(R_III₁)={0}`, inside a finite-index endomorphism (p. 38).
+
 Define fusion amenability by the weighted Følner criterion: for every
 nonempty finite F⊆Irr(C) and ε>0 there is a nonempty finite K with
 `|(F·K)△K|_σ≤ε|K|_σ`, where `σ(X)=d(X)²` and F·K consists
@@ -1688,14 +1739,28 @@ normal state on Z(M) is automatic for a factor; no injectivity is
 assumed. Build the Rohlin and approximate-intertwining constructions
 that prove this theorem, then apply it to representation uniqueness.
 Use the preceding ultrapower, central-freeness and canonical-left-
-inverse APIs throughout. Prove fully faithful representations
-centrally free, and prove the induced-predual-map comparison for
-dualizable finite-depth endomorphisms: on II∞ retain irreducibility
-and equality of intrinsic statistical dimensions d_ρ=d_σ, and on III₁ retain its
-finite-depth hypothesis. Derive those hypotheses for each simple
-image of α and β. Define the Connes–Takesaki module through
-V11's core, prove finite depth forces the module trivial, and prove
-the approximate-inner rank comparison giving rank d_ρ in the II∞
+inverse APIs throughout. For a unitary fusion category C and R the
+hyperfinite II∞ or III₁ factor, prove that a cocycle action α of C on
+R is centrally free exactly when it is fully faithful (Henriques–Penneys
+2020, Lemma 3.6 and Corollary 3.8, p. 13). The forward implication is
+the factor statement above. Conversely, by Masuda–Tomatsu 2007,
+Lemma 8.3, a fully faithful α fails central freeness only at a
+nontrivial simple X with α_X centrally trivial. On R_II∞ the
+characterization above makes α_X inner, so α_X≅α_1. On R_III₁ it makes
+α_X the automorphism `Ad u∘σ_t^φ`; full faithfulness then makes X
+invertible, of some finite order n because C has finitely many simple
+classes, so `σ_(nt)^φ` is inner, t=0 by `T(R_III₁)={0}`, and again
+α_X≅α_1. Both contradict full faithfulness. The equivalence can fail
+on a III_λ factor, 0<λ<1, and on a non-hyperfinite factor (Checks
+below).
+Prove the induced-predual-map comparison for dualizable finite-depth
+endomorphisms of a hyperfinite factor with separable predual
+(Henriques–Penneys 2020, Lemma 3.9, p. 13): on II∞ retain
+irreducibility and equality of intrinsic statistical dimensions
+d_ρ=d_σ, and on III₁ retain its finite-depth hypothesis. Derive those
+hypotheses for each simple image of α and β. Define the Connes–Takesaki
+module through V11's core, prove finite depth forces the module trivial,
+and prove the approximate-inner rank comparison giving rank d_ρ in the II∞
 case. Apply the just-proved cocycle-action theorem and transport it back
 to the invertible correspondence U. For type II₁ first pass to II∞
 by the explicit Morita equivalence and return through it; V13 supplies
@@ -1769,6 +1834,39 @@ is asserted.
   a III_λ factor; a statement restricted to the types II₁, II∞ and III₁
   has no instance here, while for type I the absorption fails
   (`M_n(ℂ)⊗̄R_II₁≅R_II₁`, not `M_n(ℂ)`).
+- On the same factor, written `R_λ=⊗̄(M₂(ℂ),φ_λ)` with
+  `φ_λ=Tr(diag(1,λ)·)/(1+λ)`, the modular group is
+  `σ_t=⊗Ad(diag(1,λ^(it)))`; at `t₀=π/|log λ|` it is `⊗Ad(diag(1,−1))`,
+  which squares to the identity and is outer because
+  `T(R_λ)=(2π/log λ)ℤ` does not contain t₀. So `g↦_(σ_(gt₀))L²` is a
+  fully faithful representation of `Hilb(ℤ/2)` whose generator is
+  modular, hence centrally trivial and not centrally free. The action of
+  the preceding Check is centrally free: the sequence with `[[0,1],[1,0]]`
+  in the n-th coordinate of `R_II₁` is central and is negated by α.
+  Central triviality is invariant under isomorphism of representations,
+  so these two fully faithful representations of `Hilb(ℤ/2)` in `R_λ` are
+  not isomorphic, and full faithfulness does not imply central freeness
+  on a III_λ factor; dropping the II/III₁ restriction from the
+  equivalence or from uniqueness fails here.
+- On R_III₁ with a faithful normal state φ and t≠0, `n↦σ_(nt)^φ` is an
+  action of ℤ by automorphisms that are outer for n≠0, since
+  `T(R_III₁)={0}`, so it is a fully faithful representation of `Hilb(ℤ)`,
+  an amenable category with infinitely many simple classes. Each
+  `σ_(nt)^φ` is modular, hence centrally trivial, so the action is not
+  centrally free: the finiteness of the simple classes of C, which bounds
+  the order of an invertible simple object, cannot be dropped from the
+  III₁ equivalence.
+- For `M=L(F₂)⊗̄B(ℓ²)`, a properly infinite factor with separable predual
+  that is not hyperfinite, let φ swap the free generators a,b of F₂. If
+  `Ad u=φ` on L(F₂), the Fourier coefficients of u are constant on each
+  set `{φ(g)⁻¹hg: g∈F₂}`, which is infinite because the elements
+  `b⁻ⁿhaⁿ` are distinct (`h⁻¹bʲh=aʲ` forces j=0 in the abelianization);
+  so u=0 and φ is outer, as is `φ⊗id`, which squares to the identity.
+  Hence `g↦_((φ⊗id)^g)L²(M)` is a fully faithful representation of
+  `Hilb(ℤ/2)`. As L(F₂) lacks property Γ, M is full and `M_ω=ℂ`, so
+  a=1 satisfies `ax=α_g^ω(x)a` for every x∈M_ω and the action is not
+  centrally free. Reading central freeness as outerness of the simple
+  images would accept this action.
 
 *Needs:* CA1a, CA1b, CA2a, CA2b, CA6; VonNeumannAlgebras V4, V5, V11, V12, V13;
 Subfactors 1.1–1.2, 9.1–9.2.
@@ -1779,8 +1877,11 @@ The Checks compute the II∞ amplification cocycle, the reversed composition
 on `M₂(ℂ)`, the ultrapower centralizers of `M_n(ℂ)`, `L(F₂)` and R, the Hom
 spaces and presentations of the corner model, the Hilb-valued transpose on
 Hilbert spaces and on pairs of Hilbert spaces, the Følner condition for
-`K=Irr(C)`, and a fully faithful representation of `Hilb(ℤ/2)` in the
-III_λ Powers factor.
+`K=Irr(C)`, a centrally free and a centrally trivial fully faithful
+representation of `Hilb(ℤ/2)` in the III_λ Powers factor, a fully
+faithful but centrally trivial action of `Hilb(ℤ)` on R_III₁, and a
+fully faithful but not centrally free representation of `Hilb(ℤ/2)` in
+`L(F₂)⊗̄B(ℓ²)`.
 
 ### Dependencies
 
@@ -2006,7 +2107,7 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   [Part II](https://arxiv.org/abs/1401.2486), §§3–6, with Theorems A–C
   (pp. 2–3), Corollaries 4.16–4.17 (p. 15), Remark 4.18 (p. 16),
   Remark 5.17 and Corollary 5.18 (p. 25), Corollary 6.8, Definition 6.11
-  and Theorem 6.13 (p. 27) and Example 6.15 (p. 28); for Fock/graph
+  and Theorem 6.13 (p. 27) and Examples 6.15–6.16 (p. 28); for Fock/graph
   models, Morita and trace/K-theory and Watatani towers.
 - Henriques–Nivedita–Penneys, [*Complete W*-categories*](https://arxiv.org/abs/2411.01678),
   §§2–7, Theorem A (p. 2), Definition 4.14 (p. 26) and Theorem 7.4
@@ -2019,20 +2120,28 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   and the bicommutant property of `C⊗_Vec Hilb`;
   and Henriques–Penneys 2020, [*Representations of fusion categories and their commutants*](https://arxiv.org/abs/2004.08271),
   §§3.1–3.3, Theorem A (p. 2; Theorem 5.18, p. 28), Theorem B (p. 3;
-  Theorem 6.8, p. 37), Theorem 3.10 (p. 14), Theorem 3.15 and
-  Corollary 3.16 (p. 16), for
+  Theorem 6.8, p. 37), Lemma 3.6, Corollary 3.8 and Lemma 3.9 (p. 13),
+  Theorem 3.10 (p. 14), Theorem 3.15 and Corollary 3.16 (p. 16), for
+  central freeness of fully faithful representations,
   representation existence/uniqueness, absorbing objects, positive
   representations and Morita transport.
 - Masuda–Tomatsu 2007, [*Classification of minimal actions of a compact
   Kac algebra with amenable dual*](https://arxiv.org/abs/math/0604348),
-  Comm. Math. Phys. 274 (2007), Lemma 8.2 (Appendix, p. 64), for the
-  equivalence of proper central nontriviality and strong outerness.
+  Comm. Math. Phys. 274 (2007), Definition 8.1 and Lemma 8.2 (Appendix,
+  p. 64) and Lemma 8.3 (p. 65), for the equivalence of proper central
+  nontriviality and strong outerness, and of central nontriviality and
+  proper central nontriviality for irreducible maps.
 - Masuda–Tomatsu 2009, [*Approximate innerness and central triviality of
   endomorphisms*](https://arxiv.org/abs/0802.0344), Adv. Math. 220 (2009),
   §2.4 (p. 5), Definitions 2.1, 2.4, 3.1, Theorem 3.15 and
-  Corollary 3.16(3)–(4) (p. 29), for the ultraproduct and central
-  sequence algebras, real-rank partial-isometry approximation and its
-  II∞/III₁ characterizations.
+  Corollary 3.16(3)–(4) (p. 29), Definition 4.1 (p. 30), Theorem 4.6
+  (p. 31), Lemma 4.7 (p. 32), Propositions 4.8–4.9 (p. 33),
+  Lemmas 4.10–4.11 (p. 34), Theorem 4.12 (p. 35), Definition 4.13 and
+  Lemma 4.15 (p. 36), Theorems 4.16 and 4.18 (p. 37) and Corollary 4.19
+  (p. 38), for the ultraproduct and central sequence algebras,
+  real-rank partial-isometry approximation and its II∞/III₁
+  characterizations, and the II∞/III₁ characterization of centrally
+  trivial endomorphisms.
 - Tomatsu, [*Centrally free actions of amenable C*-tensor categories on
   von Neumann algebras*](https://arxiv.org/abs/1812.04222),
   §2.2 (p. 5), §2.4 (p. 8), Proposition 2.7 (p. 10), Remark 2.17(1)
