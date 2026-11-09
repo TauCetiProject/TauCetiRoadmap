@@ -1546,7 +1546,7 @@ Jankov–von Neumann uniformization from [OptimalTransport, Layers 2
 and 8.2](../OptimalTransport/README.md). Prove Lusin–Novikov
 uniformization for Borel relations with countable sections, its
 countable-partial-map enumeration and measurable null-set transport.
-V11 and FactorRigidity R6 consume this selection layer.
+V11 and FactorRigidity, Layer 6 (§6.2), consume this selection layer.
 Build Polish structures on
 unitary groups and finite matrix-unit systems using strong-star
 convergence on bounded sets; construct the Borel spaces of countably
@@ -3347,9 +3347,12 @@ VIII.2.6, and Hiai, Remark 13.18, are the sources.
 - On `B(ℓ²)` the canonical trace is an n.s.f. weight with `n_Tr` the Hilbert–Schmidt operators,
   `m_Tr` the trace class, and `σ^Tr=id`; on `M₂(ℂ)` with `φ=Tr(h·)`, `h=diag(2/3,1/3)`, the
   cocycle is `(Dφ:DTr)_t=h^(it)=diag((2/3)^(it),(1/3)^(it))` and `σ^φ_t=Ad(h^(it))∘σ^Tr_t`.
-- The weight `φ(x)=Σ_n n·x_nn` on `ℓ∞(ℕ)` is normal, faithful and semifinite (finitely supported
-  positive elements have finite weight and are dense), but not bounded; the weight that is ∞ on
-  every nonzero positive element is normal and faithful but not semifinite.
+- The weight `φ(x)=Σ_n (n+1)·x_n` on `ℓ∞(ℕ)` is normal, faithful and semifinite: `φ(δ_n)=n+1>0`,
+  so `φ(x)=0` for `x≥0` forces every `x_n=0`; on `1_{0,…,N}↑1` its values `(N+1)(N+2)/2` increase
+  to `φ(1)=∞`, so it is normal but not bounded; finitely supported positive elements have finite
+  weight and increase to 1. The weight `Σ_n n·x_n` is not faithful, since it vanishes on the
+  nonzero positive `δ₀`. The weight that is ∞ on every nonzero positive element is normal and
+  faithful but not semifinite.
 - `CentralizerCornerRestriction` on `M₂(ℂ)` with the weight above and `p=e₁₁` (fixed by `σ^φ`)
   gives `θ_p=(2/3)·id` on `pMp=ℂ`, with trivial modular group, as the formula requires.
 
@@ -3843,7 +3846,7 @@ inverses, restrictions, pushforward of measures and transport of fiber
 functions `f^φ` by reindexing arrows. Give [R] its uniform metric
 `d(S,T)=μ{x:Sx≠Tx}` on the probability base and prove [R] is closed
 in the nonsingular automorphism group for this metric. Prove the
-modulus-cocycle identities needed for orbit equivalence. FactorRigidity R6 specializes
+modulus-cocycle identities needed for orbit equivalence. FactorRigidity, Layer 6 (§6.2), specializes
 this API to p.m.p. relations. Define hyperfinite measured relations by increasing
 finite subrelations modulo invariant null sets. Prove compatibility
 with the smooth/type-I exhaustion formulation. For an exhaustion
@@ -3855,7 +3858,7 @@ single-transformation presentation from compatible finite orbit
 orderings, measurable successor maps and a conull limiting exhaustion;
 prove the converse for nonsingular transformations by measurable
 marker partitions and finite orbit intervals. Include finite orbit
-components and aperiodic components separately. R7 of FactorRigidity
+components and aperiodic components separately. FactorRigidity, Layer 7 (§7.1),
 consumes this relation API and owns its p.m.p. cost theory. Prove the modular spectrum/ratio-set and
 continuous-core/associated-flow identifications. Prove every properly ergodic flow admits
 a free nonsingular ergodic ℤ-transformation with that associated flow, giving
@@ -4025,8 +4028,8 @@ V5's comparison, Mathlib `Ultrafilter` limits.
 - In `R=⊗M₂(ℂ)` the unitaries `u_n=diag(1,−1)` at site n form a central sequence with `τ(u_n)=0`
   (they commute with every operator supported on the first `n−1` sites), so R has property Γ;
   they define a nonscalar element of `R_ω` with `‖u_n‖₂=1`.
-- The sequence of orthogonal projections `e_n` with `τ(e_n)=1/n` maps to 0 in `M^ω`
-  (`‖e_n‖₂²=1/n→0`) although `‖e_n‖=1`, and the constant sequences embed isometrically, so the
+- A sequence of projections `e_n` with `τ(e_n)=1/(n+1)` maps to 0 in `M^ω`
+  (`‖e_n‖₂²=1/(n+1)→0`) although `‖e_n‖=1`, and the constant sequences embed isometrically, so the
   ideal is the `L²`-null one, not the norm-null one.
 - On `R⊕ℂ` with `τ(x,c)=(1/4)τ_R(x)+(3/4)c`, central elements are `(λ,z)` and
   `‖(u_n,0)−(λ,z)‖₂²=(1/4)(1+|λ|²)+(3/4)|z|²≥1/4`, while a unitary `(v,z)` has
@@ -4343,11 +4346,14 @@ map P:A→A with P(A)⊆S, P(s)=s for every s∈S, and ‖P‖=1. Then P is posi
 `P(axb)=aP(x)b` for every a,b∈S and x∈A, and P is completely positive, expressed by a
 `CompletelyPositiveMap A A` whose underlying linear map is P. The range and fixing conditions
 imply P²=P and S=ker(1−P), so S is automatically norm closed; no unitality or normality is
-assumed (Hiai, Theorem 6.5, pp. 55–56; Tomiyama, Proc. Japan Acad. 33 (1957), Theorem 1,
-pp. 608–609, for the unital ambient case; Peterson, Theorem 6.2.1, p. 98, for the unital
-inclusion case). Define injectivity by CP extension (every unital CP map into M from a unital
-C*-subalgebra of a unital C*-algebra extends to a CP map on the whole algebra) and prove its
-equivalence, for M⊆B(H) in a faithful normal representation, to a contractive projection
+assumed (Hiai, Theorem 6.5, pp. 55–56, whose conclusions are items (ii) bimodularity and
+(v) complete positivity of Theorem 6.4; Peterson, Theorem 6.2.1, p. 98, for the unital
+inclusion case, complete positivity included. Tomiyama, Proc. Japan Acad. 33 (1957), Theorem 1,
+pp. 608–609, is cited only for positivity and bimodularity in the unital ambient case, the
+conditional-expectation properties that Anantharaman–Popa, Appendix A.4, p. 314, attribute to
+it; complete positivity is taken from Hiai and Peterson). Define injectivity by CP extension
+(every unital CP map into M from a unital C*-subalgebra of a unital C*-algebra extends to a CP
+map on the whole algebra) and prove its equivalence, for M⊆B(H) in a faithful normal representation, to a contractive projection
 B(H)→M: a bounded linear P with P(B(H))⊆M, P(x)=x for x∈M and ‖P‖≤1, of norm one when M≠0
 and then a conditional expectation by Tomiyama's theorem (Anantharaman–Popa, Definition 10.2.1
 and Proposition 10.2.2, p. 161). The contractive-projection form for the given concrete algebra
@@ -4978,7 +4984,8 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   §5.4 and §15.2 (V12); Definition 2.6.6, p. 48, for separable von Neumann algebras;
   §§10.2–10.3, 11.1–11.2 and 12.5 (V13), in particular Definition 10.2.1 and Proposition 10.2.2,
   p. 161, Theorem 11.1.3, p. 173, Theorem 11.2.2, p. 186, Remark 11.2.3 and Corollary 11.2.4,
-  p. 188, and the Notes to Chapter 11, p. 189.
+  p. 188, and the Notes to Chapter 11, p. 189; Appendix A.4, p. 314, for what Tomiyama's 1957
+  theorem states (13.1).
 - Fumio Hiai, [*Concise lectures on selected topics of von Neumann algebras*](https://arxiv.org/abs/2004.02383):
   §1.8, p. 9 (separable predual; Connes's theorem that injective and AFD algebras coincide), Theorem 2.2 (Tomita), Theorem 2.14 (KMS characterization), Proposition 3.8 and Theorems
   3.12–3.13 (standard form), §5, Theorem 6.5, pp. 55–56 (Tomiyama), Theorem 6.6 (Takesaki's expectation theorem), Theorem 7.6
@@ -4988,7 +4995,7 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 - William Arveson, *Subalgebras of C*-algebras*, Acta Math. 123 (1969), 141–224, Theorem 1.2.3,
   for the completely positive extension theorem of 13.1.
 - Jun Tomiyama, *On the projection of norm one in W*-algebras*, Proc. Japan Acad. 33 (1957),
-  608–612, Theorem 1, for the norm-one projection theorem of 13.1.
+  608–612, Theorem 1, for positivity and bimodularity of a norm-one projection (13.1).
 - Walter Rudin, *Fourier Analysis on Groups*, §§1.5–1.7, for Fourier inversion, Plancherel and
   Pontryagin duality (V11); Gerald B. Folland, *A Course in Abstract Harmonic Analysis*, 2nd ed.,
   §4.4, for Bochner's theorem, which Tau Ceti's cyclic spectral theorem implements.
