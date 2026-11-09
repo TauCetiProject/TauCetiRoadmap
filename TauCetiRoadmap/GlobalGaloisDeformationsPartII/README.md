@@ -45,6 +45,8 @@ The standing residual conditions are C1: H⁰(Γ_F,M)=0; C2: H⁰(Γ_F,M*)=0; C3
 
 ## Exact supplier contracts
 
+The development starts from these pinned APIs, read at the revisions the content repository's manifest records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. Every declaration, module and file named in this section, in the Scope and ownership paragraphs, on the *Needs:* lines and in §4.4, and the Tau Ceti import of `Suggested.lean`, is cited as it is at those revisions.
+
 ### From Mathlib
 
 Use `Representation` in `Mathlib/RepresentationTheory/Basic.lean`, `Rep.of` in `Mathlib/RepresentationTheory/Rep/Basic.lean`, `Representation.IntertwiningMap` and `Representation.Equiv` in `Mathlib/RepresentationTheory/Intertwining.lean`, and `groupCohomology.H1` in `Mathlib/RepresentationTheory/Homological/GroupCohomology/LowDegree.lean`. A representation is a monoid homomorphism to linear endomorphisms; for a group its values are invertible. No topology or continuity is included.
