@@ -342,12 +342,21 @@ rebuild them.
   logarithmic ideal `OperatorIdealFamily.logarithmic` with its gauge,
   ideal laws, completeness, adjoint invariance, compactness of its members
   and the trace-class inclusion (`…/Logarithmic`); `GeneralizedLimit` with
-  `IsDilationInvariant` and the existence of dilation-invariant
-  generalized limits (`Analysis/Normed/Order/GeneralizedLimit`);
-  `dixmierTrace` with its positivity, positive homogeneity, subadditivity,
-  ideal bound, invariance under adjoints and unitaries, vanishing on trace
-  class, the value 1 on `diag(1/(j+1))` and additivity on positive
-  operators for dilation-invariant ω (`…/DixmierTrace`). The pins have the
+  `IsDilationInvariant`, its unfolding
+  `TauCeti.GeneralizedLimit.IsDilationInvariant.map_dilate`,
+  `ω(n↦f(⌊n/k⌋))=ω(f)` for dilation-invariant ω, every bounded f and
+  k≥1, and the existence of dilation-invariant generalized limits
+  (`Analysis/Normed/Order/GeneralizedLimit`); `dixmierTrace` with its
+  positivity, positive homogeneity, subadditivity
+  `Tr_ω(S+T)≤Tr_ω(S)+Tr_ω(T)` on `L^(1,∞)`, ideal bound, invariance under
+  adjoints and unitaries, vanishing on trace class and the value 1 on
+  `diag(1/(j+1))` (`…/DixmierTrace`); and the Ky Fan superadditivity
+  `ContinuousLinearMap.IsPositive.kyFanGauge_add_kyFanGauge_le`,
+  `K_k(S)+K_l(T)≤K_(k+l)(S+T)` for positive S, T on a Hilbert space, with
+  `K_k` the sum of the first k approximation numbers
+  (`Analysis/OperatorIdeal/ApproximationNumber/Positive`). The pin has no
+  additivity of `dixmierTrace` on positive operators; N4 proves it from
+  these two inputs. The pins have the
   trace only in finite dimension (Mathlib's `LinearMap.trace`, Tau Ceti's
   `TauCeti.traceCLM`) and no trace functional on trace-class operators,
   which VonNeumannAlgebras V4.Core supplies; N4 builds the linear Dixmier
@@ -1026,6 +1035,38 @@ the cases p=1 and p=∞ being V4.Core's.
   ℓ²(ℕ), `S*S−SS*` is the rank-one projection onto e₀, of trace 1, so
   `Tr(AB)=Tr(BA)` fails for bounded A, B whose commutator is trace
   class; this is why the conditional trace Tr′ below is not Tr.
+- The odd character on the circle fixes the sign of λ_n. On ℓ²(ℤ) with
+  `ze_k=e_(k+1)` and F=2P_Hardy−1, P_Hardy the projection onto the span
+  of the e_k with k≥0, the commutator `[F,z]` is the rank-one map
+  `e_(−1)↦2e_0`, so `τ₁(z⁻¹−1,z−1)=Tr(z⁻¹[F,z])−Tr([F,z])=2−0=2`.
+  With the odd `λ₁=−(1+i)Γ(3/2)=−(1+i)sqrt(π)/2` and N2's pinned odd
+  factor `(1+i)⁻¹2⁻¹Γ(3/2)⁻¹`, `⟨[z],Ch₁⟩=−1=ind(P_Hardy z P_Hardy)`,
+  the forward shift having zero kernel and cokernel spanned by e_0.
+  With the same pinned factor, the coefficient
+  `sqrt(2i)Γ(3/2)=(1+i)sqrt(π)/2` printed in Connes IV.1, Definition 3,
+  p. 302, gives +1, which is `ind(P_Hardy z⁻¹ P_Hardy)`.
+- The index pairing runs from π(e)H⁺ to π(e)H⁻. On the even module
+  ℂ²⊕ℂ² over M₂(ℂ) with π=id⊕0, γ=diag(1,−1) and F the swap, the
+  idempotent `e=[[1,a],[0,0]]`, a≠0, has e²=e≠e* and range the first
+  coordinate line; its compression maps that line to π(e)H⁻=0, with
+  index 1=`Tr′(γπ(e))`=Tr e, while the compression from π(e)H⁻ to
+  π(e)H⁺ has index −1. The projection diag(1,0), similar to e, gives the
+  same index 1.
+- The domain of Tr′ is larger than the trace class. On ℓ²(ℤ) with
+  F=2P_Hardy−1, the unitary `Te_k=e_(−k−1)` exchanges the spectral
+  subspaces of F, so `FT+TF=0` and `Tr′(T)=½Tr(F·0)=0`, although T is not
+  compact; a conditional trace defined as Tr on S₁ only would leave T
+  outside its domain.
+- The doubling must reverse F in the second corner. For the scalar
+  contraction F=1/2 on ℂ, `F′=[[1/2,sqrt(3)/2],[sqrt(3)/2,−1/2]]` has
+  F′²=1 and trace 0, so (1+F′)/2 is a projection of rank one; with +F in
+  the lower corner the square has off-diagonal entries `sqrt(3)/2≠0`. The
+  sine replacement keeps the essential values: if F=±1 on two
+  infinite-dimensional summands and F=3 on a finite-rank one, then
+  `sin(πF/2)` is ±1 on the first two and −1 on the third, so
+  `sin(πF/2)²−1=0`, while the rescaled contraction F/3 has
+  `(F/3)²−1=−8/9` on an infinite-dimensional subspace, which is not
+  compact.
 
 For normalized F and a chosen dense smooth algebra require
 `[F,π(a)]∈S_p` for every a (Connes IV, introduction, Definition 3,
@@ -1102,7 +1143,9 @@ the whole C*-completion.
 The point cycle, with the idempotent `[[1,a],[0,0]]` of M₂(ℂ) of
 compression index 1; the circle Hardy compression with
 `ind(P_Hardy u P_Hardy)=−1` and `⟨[u],Ch₁⟩=−1`; a nonsummable
-compact-commutator cycle. On B(H): `diag((j+1)^(−3))` in S_p exactly for
+compact-commutator cycle; the half-exchanging unitary on ℓ²(ℤ) with
+`Tr′=0` outside the trace class; the doubling of F=1/2. On B(H):
+`diag((j+1)^(−3))` in S_p exactly for
 p>1/3, `diag(1/(j+1))²` in S_r exactly for r>1/2, `diag((j+1)^(−2))` in
 S₁ but not in S_(1/2), Hölder attained on `I₂`, the weighted shifts in
 S₃ and S_(3/2) whose products ST≠TS have the same trace `ζ(11/10)`, and
@@ -1148,11 +1191,26 @@ rescalings and complex linear extension. For positive T the pinned
 `Tr_ω(T)=Lim_ω((log(1+N))⁻¹ Σ_(j<N)μ_j(T))`,
 
 with its positivity, positive homogeneity, subadditivity, the bound
-`Tr_ω(ATB)≤‖A‖Tr_ω(T)‖B‖`, unitary and adjoint invariance, vanishing on
-trace class and additivity on the positive cone under the
-dilation-invariance hypothesis; on a non-positive T it takes the value
-`Tr_ω(|T|)`. Construct here the linear extension to a trace on
-L^(1,∞), prove `Tr_ω(AT)=Tr_ω(TA)` for bounded A (Connes IV.2,
+`Tr_ω(ATB)≤‖A‖Tr_ω(T)‖B‖`, unitary and adjoint invariance and vanishing
+on trace class; on a non-positive T it takes the value `Tr_ω(|T|)`.
+Prove that, for a dilation-invariant ω, Tr_ω is additive on the positive
+part of `L^(1,∞)`: `Tr_ω(S+T)=Tr_ω(S)+Tr_ω(T)` for positive S, T in
+`L^(1,∞)` (Connes IV.2, p. 312, after Definition 2, from the inequalities
+and the duplication condition (γ) on p. 311). The pinned subadditivity
+gives ≤. For ≥, Ky Fan superadditivity with k=l=N gives
+`σ_N(S)+σ_N(T)≤σ_(2N)(S+T)`; dividing by `log(1+N)`, the right side is
+`(log(1+2N)/log(1+N))·m(2N)` for the means
+`m(N)=σ_N(S+T)/log(1+N)`, and `log(1+2N)/log(1+N)→1` with m bounded. It
+remains to show `ω(N↦m(2N))=ω(m)`: the dilation by 2 of `N↦m(2N)` is
+`n↦m(2⌊n/2⌋)`, which differs from m by at most one consecutive difference
+`m(n)−m(n−1)`, and these tend to 0 since `μ_N≤σ_N/N` and m is bounded;
+a generalized limit vanishes on null sequences, and dilation invariance
+(`TauCeti.GeneralizedLimit.IsDilationInvariant.map_dilate`) identifies
+the two. Membership and positivity are both needed for the pinned
+functional: for positive S outside `L^(1,∞)` and `T=diag(1/(j+1))`,
+S+T lies outside `L^(1,∞)` and `Tr_ω(S+T)=0≠0+1`; for
+`S=diag(1/(j+1))` and T=−S, `Tr_ω(S+T)=0≠1+1`. Construct here the
+linear extension to a trace on L^(1,∞), prove `Tr_ω(AT)=Tr_ω(TA)` for bounded A (Connes IV.2,
 Proposition 3(b), p. 312) and its boundedness.
 Prove that, for infinite-dimensional H, no Dixmier trace is the
 restriction to `L^(1,∞)` of a normal (ultraweakly continuous) functional
@@ -1174,6 +1232,16 @@ ordinary convergence of the logarithmic means a sufficient condition.
   `σ_N/log(1+N)→1` and `Tr_ω(T)=1` for every ω; T is measurable and not
   trace class. For any finite-rank R, `Tr_ω(T+R)=Tr_ω(T)=1`, since Tr_ω
   vanishes on trace class; a functional of the form `Tr(ρ·)` would see R.
+- Additivity needs the doubled index: on ℓ²⊕ℓ² let `S=diag(1/(j+1))⊕0`
+  and `T=0⊕diag(1/(j+1))`. Then S+T has each value 1/(j+1) twice, so
+  `σ_N(S)+σ_N(T)=2H_N=σ_(2N)(S+T)` while `σ_(2M)(S+T)=2H_M`; at
+  N=10⁶ the first is 28.786 and `σ_N(S+T)` is 27.399, strictly smaller,
+  with logarithmic means 2.084 and 1.983, both tending to 2. So
+  `Tr_ω(S+T)=2=Tr_ω(S)+Tr_ω(T)`, which a comparison of `σ_N(S+T)` with
+  `σ_N(S)+σ_N(T)` at the same N cannot reach: superadditivity holds only
+  with 2N on the right. Here the means converge, so the equality holds
+  for every ω; in general the passage from 2N back to N uses dilation
+  invariance.
 - The diagonal operator with `μ_j=1` for j<4 and, for k≥1, `μ_j=k/N_k` on
   `[N_k,2N_k)` and `μ_j=(k+1)/N_(k+1)` on `[2N_k,N_(k+1))` is
   non-increasing, has `(j+1)μ_j=2k` at `j=2N_k−1`, hence lies outside
@@ -1211,14 +1279,16 @@ formula is imposed on arbitrary members of this ideal.
 
 ### Examples
 
-`diag(1/(j+1))` with `Tr_ω=1` for every ω; the block-diagonal operator in
+`diag(1/(j+1))` with `Tr_ω=1` for every ω; the pair
+`diag(1/(j+1))⊕0`, `0⊕diag(1/(j+1))` with `σ_N(S)+σ_N(T)=σ_(2N)(S+T)` and
+`Tr_ω(S+T)=2`; the block-diagonal operator in
 `L^(1,∞)∖S_(1,∞)`; `diag(1/((j+2)log(j+2)))` with `Tr_ω=0` and divergent
 trace; the non-measurable operator with Dixmier traces `2/3+(log 2)/9` and
 `5/6−(log 2)/9`.
 
 ### Dependencies
 
-*Needs:* NoncommutativeIntegration §1.4 and §1.6 at M=B(H) (Hölder's inequality, the weak Schatten classes and the weak trace class `S_(1,∞)` with their quasi-norm, adjoint and ideal bounds); VonNeumannAlgebras V4.Core (the trace on trace class and the trace-class duality of B(H)); Tau Ceti `OperatorIdealFamily.logarithmic`, `GeneralizedLimit`, `IsDilationInvariant` and `dixmierTrace`; OperatorTheory/OperatorIdeals Part A (OI-A17, OI-A20, OI-A22, OI-A30) and Part B.
+*Needs:* NoncommutativeIntegration §1.4 and §1.6 at M=B(H) (Hölder's inequality, the weak Schatten classes and the weak trace class `S_(1,∞)` with their quasi-norm, adjoint and ideal bounds); VonNeumannAlgebras V4.Core (the trace on trace class and the trace-class duality of B(H)); Tau Ceti `OperatorIdealFamily.logarithmic`, `GeneralizedLimit`, `IsDilationInvariant`, `TauCeti.GeneralizedLimit.IsDilationInvariant.map_dilate`, `dixmierTrace` and `ContinuousLinearMap.IsPositive.kyFanGauge_add_kyFanGauge_le`; OperatorTheory/OperatorIdeals Part A (OI-A17, OI-A20, OI-A22, OI-A30) and Part B.
 
 ## N5. Spectral triples and the Hochschild class
 
@@ -1320,12 +1390,33 @@ Compare diagonal spectral models with different summability exponents.
 This is the Hochschild class of the index character, not the full
 local index formula.
 
+**Checks.**
+- The circle, n=1. On ℓ²(ℤ) with `ze_k=e_(k+1)` let `D=diag(k+1/2)`,
+  invertible, with sign D=2P_Hardy−1, N3's circle F. Then `[D,z]=z`, and
+  δ(z)=[|D|,z] is the weighted shift with weights 1 for k≥0, 0 for k=−1
+  and −1 for k≤−2, whose powers δ^m(z) have weights in {0,1,−1}, so z,
+  z⁻¹ and their commutators with D lie in every δ-domain. The singular
+  values of `|D|⁻¹` are 2,2,2/3,2/3,2/5,…, with
+  `σ_(2M)(|D|⁻¹)=4(H_(2M)−H_M/2)=2log M+O(1)`, so D⁻¹∈L^(1,∞) and
+  `Tr_ω(|D|⁻¹)=2` for every ω. On the Hochschild cycle z⁻¹⊗z, a cycle
+  since `b(z⁻¹⊗z)=z⁻¹z−zz⁻¹=0`, `φ_ω(z⁻¹,z)=λ₁Tr_ω(|D|⁻¹)=2λ₁`, and
+  N3's character gives `λ₁τ₁(z⁻¹,z)=λ₁Tr(z⁻¹[F,z])=2λ₁`: the two
+  agree, as the theorem requires.
+- The absolute value in `|D|⁻ⁿ` is needed: on the same D the positive
+  and negative parts of D⁻¹ each have singular values 2,2/3,2/5,…, with
+  Dixmier trace 1, so the linear Tr_ω gives `Tr_ω(z⁻¹[D,z]D⁻¹)=1−1=0`,
+  and a cocycle built with D⁻ⁿ would vanish on z⁻¹⊗z while the character
+  does not. Replacing D by cD for c>0 changes neither `[D,a]|D|⁻¹` nor
+  the value 2.
+
 ### Examples
 
 D=diag(0,1,−1) with `F_D=diag(0,1/√2,−1/√2)` and `K=diag(1,1/2,1/2)`;
 D=diag(j) on ℓ²(ℕ) with compact resolvent, ⌊R⌋+1 eigenvalues in [−R,R]
 and the graph-domain witnesses `1/(j+1)∉Dom(D)`, `1/(j+1)²∈Dom(D)`; the
-bounded D=diag(1−1/(j+1)) without compact resolvent.
+bounded D=diag(1−1/(j+1)) without compact resolvent; the circle
+D=diag(k+1/2) on ℓ²(ℤ) with `Tr_ω(|D|⁻¹)=2` and
+`φ_ω(z⁻¹,z)=2λ₁=λ₁τ₁(z⁻¹,z)`.
 
 ### Dependencies
 
