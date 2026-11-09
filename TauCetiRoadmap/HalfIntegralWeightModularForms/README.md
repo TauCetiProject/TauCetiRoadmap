@@ -84,7 +84,8 @@ those proofs are targets of the sections that use them, except for the named sup
 - From Mathlib: `jacobiTheta` and `jacobiTheta₂` with their functional equations (the odd-rank
   `S`-law of rank one, which the theta-series roadmap deliberately consumes only through its
   square, is consumed here directly, in 4.1); `ModularForm.eta` and `eta_ne_zero` (Mathlib has
-  the function, QSeriesPartitionsAndMockModularForms §5.2 its multiplier, 3.3 the closed forms);
+  the function and its inversion law `ModularForm.eta_comp_eq_csqrt_I_inv`,
+  QSeriesPartitionsAndMockModularForms §5.2 its multiplier, 3.3 the closed forms);
   `ModularForm`, `CuspForm` and `qExpansion` as the targets of every integral-weight statement;
   `jacobiSym`, `ZMod.χ₄`, `ZMod.χ₈`; `LSeries`.
 - From Tau Ceti: `diamondOpHom`, `modFormCharSpace`, `cuspFormCharSpace` and
@@ -112,8 +113,8 @@ those proofs are targets of the sections that use them, except for the named sup
   `thetaFormOfLevel_mem_modFormCharSpace` and `discChar` (*Layer 7*). Layer 2 below states the
   odd-rank theorem on the same `thetaSeries L` and proves it by dividing the even-rank theorem for
   `L ⊕ A₁` by `θ` and taking the square root of the one for `L ⊕ L`; no second theta series, no
-  second Poisson summation and no second Gauss sum appear here. The Tau Ceti names under which
-  part of this material has landed on Tau Ceti main are listed in *Exact supplier contracts*.
+  second Poisson summation and no second Gauss sum appear here. The Tau Ceti declarations that
+  formalize part of this material are listed under *From Tau Ceti* in *Exact supplier contracts*.
 - From GeometryOfNumbersAndQuadraticArithmetic §4.3 (*Half-integral cusp forms and the ternary
   specialization*, *Half-integral coefficient estimate*): the theta multiplier `j(γ, z) = θ(γz)/θ(z)`
   on `Γ₀(4)`, the nonvanishing of `θ`, the identification of `j` with Shimura's
@@ -321,8 +322,12 @@ some of them differently from the sources.
   (`TwoVariable.lean`). ⚠ `jacobiTheta τ = θ(τ/2)`: every use carries the substitution `τ = 2z`,
   and `jacobiTheta_S_smul` reads `θ(−1/(4z)) = (−2iz)^{1/2} θ(z)`, the `W₄`-law of 0.1 and 5.2.
 - `ModularForm.eta` (`DedekindEta.lean`): `eta`, `eta_ne_zero`, `multipliableLocallyUniformlyOn_eta`,
-  `differentiableAt_eta_of_mem_upperHalfPlaneSet`, `logDeriv_eta_eq_E2`. Mathlib has the function,
-  its nonvanishing and its logarithmic derivative, no eta transformation law and no Dedekind sums.
+  `differentiableAt_eta_of_mem_upperHalfPlaneSet`, `logDeriv_eta_eq_E2`; and the inversion law
+  `ModularForm.eta_comp_eq_csqrt_I_inv` (`Discriminant.lean`), `η(−1/z) = (√i)⁻¹ √z η(z)` on the
+  upper half-plane, which is `η(−1/z) = (−iz)^{1/2} η(z)` with the principal root because for
+  `0 < arg z < π` both roots have argument `(arg z − π/2)/2`. Mathlib has the function, its
+  nonvanishing, its logarithmic derivative and this inversion law; it has no transformation law
+  at a general element of `SL(2, ℤ)` and no Dedekind sums.
 - `DirichletCharacter ℂ N`, `changeLevel`, `conductor`, `primitiveCharacter`,
   `MulChar.equivToUnitHom`, `DirichletCharacter.Even`/`Odd`; `jacobiSym` with quadratic reciprocity,
   `ZMod.χ₄`, `ZMod.χ₈`; `Int.IsFundamentalDiscr` (`FundamentalDiscriminant.lean`, with
@@ -346,27 +351,50 @@ some of them differently from the sources.
 - `hurwitzClassNumber` (examples of Layers 2 and 4; `r₃(n) = 12(H(4n) − 2H(n))` is a check, not a
   target). `IntegralLattice.*` through the theta-series roadmap's bridge: `typeARootLattice`,
   `typeE₈RootLattice`, `checkerboardLattice` for `A₁`, `A₃`, `D₅`, `E₇`.
-- From Tau Ceti main, cited by module path and not declared here: the landed part of the
-  theta-series roadmap that this roadmap consumes, under its Tau Ceti names.
-  `ZLattice.thetaSeries`, `ZLattice.thetaCoset` and `ZLattice.thetaCoset_add_mem`
-  (`TauCeti/NumberTheory/ModularForms/ThetaSeries/Basic.lean`) are that roadmap's `thetaSeries`,
-  `thetaCoset` and `thetaCoset_add_mem`; `ZLattice.thetaCosetClass`
-  (`…/ThetaSeries/DiscriminantGroup.lean`) is its `thetaCosetClass`; `ZLattice.IsEven.hasSum_thetaSeries_qParam` and
-  `ZLattice.IsEven.qExpansion_thetaSeries_coeff` (`…/ThetaSeries/QExpansion.lean`) are its
-  `hasSum_thetaSeries` and `qExpansion_thetaSeries_coeff`, with the translation laws in
-  `…/ThetaSeries/Translation.lean` and the boundedness and limits at `i∞` in
-  `…/ThetaSeries/Cusp.lean`;
-  `ZLattice.representationNumber` and `ZLattice.cosetRepresentationNumber`
-  (`TauCeti/Algebra/Module/ZLattice/Shell.lean`) are its `repNum` and `cosetRepNum`;
-  `ZLattice.DiscriminantGroup` (`…/ZLattice/Determinant.lean`) is its `discGroup`; and
+- The theta-series roadmap's objects that this roadmap consumes, under their Tau Ceti names (the
+  rest of this README uses that roadmap's names). In `TauCeti/Algebra/Module/ZLattice/`:
+  `ZLattice.IsEven` and `ZLattice.IsIntegral` (`Integral.lean`) are its `IsEven` and
+  `IsIntegral`; `ZLattice.dual` (`Dual.lean`, notation `L^∨`) is its `dual`; `ZLattice.level`
+  (`Level.lean`) is its `level`; `ZLattice.det` and `ZLattice.DiscriminantGroup`
+  (`Determinant.lean`) are its `det` and `discGroup`; `ZLattice.representationNumber` and
+  `ZLattice.cosetRepresentationNumber` (`Shell.lean`) are its `repNum` and `cosetRepNum`;
+  `ZLattice.gaussSum` (`GaussSum.lean`) is its `gaussSum`, with a finiteness instance on
+  `L/cL` in place of `NeZero c`; `ZLattice.IsIntegral.isEven_sqrt_smul` (`Scaling.lean`) is its
+  `isEven_scale_sqrt_of_even`, its `scale L c` being the pointwise `c • L`; and
+  `ZLattice.orthSum` (`OrthSum.lean`) is its `orthSum`, with `ZLattice.isEven_orthSum_iff`,
+  `ZLattice.det_orthSum` and `ZLattice.level_orthSum` (`Level.lean`, the level of `L ⊕ M` is
+  `lcm(level L, level M)`) for the sums `L ⊕ A₁` and `L ⊕ L` of 2.2. In
+  `TauCeti/NumberTheory/ModularForms/ThetaSeries/`: `ZLattice.thetaSeries`,
+  `ZLattice.thetaCoset` and `ZLattice.thetaCoset_add_mem` (`Basic.lean`) are its `thetaSeries`,
+  `thetaCoset` and `thetaCoset_add_mem`; `ZLattice.thetaCosetClass` (`DiscriminantGroup.lean`)
+  is its `thetaCosetClass`; `ZLattice.IsEven.hasSum_thetaSeries_qParam`,
+  `ZLattice.IsEven.qExpansion_thetaSeries_coeff` and `ZLattice.IsEven.hasSum_thetaCoset_qParam`
+  (`QExpansion.lean`) are its `hasSum_thetaSeries`, `qExpansion_thetaSeries_coeff` and
+  `hasSum_thetaCoset`, the last stated for every positive `N` with `N ‖γ‖²/2 ∈ ℤ`, which holds at
+  `N = level L` for `γ ∈ L^∨`; `ZLattice.thetaSeries_smul` (`Functoriality.lean`, for `c ≠ 0`)
+  contains its `thetaSeries_scale` (for `c > 0`); `ZLattice.thetaSeries_span_one`
+  (`RankOne.lean`) is its `thetaSeries_int`, and `ZLattice.thetaSeries_sqrt_two_smul_span_one` in
+  the same file gives `Θ_{√2ℤ}(z) = jacobiTheta(2z) = θ(z)`, the case 2.2 uses; the translation
+  laws are in `Translation.lean` and the boundedness and limit `1` at `i∞` in `Cusp.lean`.
   `TauCeti.kroneckerSym` and `TauCeti.kroneckerChar`
-  (`TauCeti/NumberTheory/LegendreSymbol/KroneckerSymbol.lean`) are its `kroneckerSym` and
-  `kroneckerChar`. For `θ` itself, `TauCeti.tendsto_jacobiTheta_comap_im_atTop` and
-  `TauCeti.jacobiTheta_I_mul` (`…/ModularForms/JacobiTheta/OneVariable.lean`) give the limit `1` at
-  `i∞` and the inversion law on the imaginary axis, and `TauCeti.sum_range_cexp_two_pi_I_sq_div`
-  (`…/JacobiTheta/GaussSum.lean`) is Gauss's evaluation of the quadratic Gauss sum. None of these is
-  an odd-rank modularity theorem or a vector-valued inversion law; Layer 2 owns the odd-rank
-  theorem.
+  (`TauCeti/NumberTheory/LegendreSymbol/KroneckerSymbol.lean`; the character takes its
+  coefficient ring as an argument, `ℂ` here) are its `kroneckerSym` and `kroneckerChar`. For `θ`
+  itself, `TauCeti.tendsto_jacobiTheta_comap_im_atTop` and `TauCeti.jacobiTheta_I_mul`
+  (`TauCeti/NumberTheory/ModularForms/JacobiTheta/OneVariable.lean`) give the limit `1` at `i∞`
+  and the inversion law on the imaginary axis, and `TauCeti.sum_range_cexp_two_pi_I_sq_div`
+  (`…/JacobiTheta/GaussSum.lean`) is Gauss's evaluation of the quadratic Gauss sum. In even rank
+  `2k` Tau Ceti has three laws of that roadmap's Layers 4 and 7: the vector-valued inversion law
+  `ZLattice.IsIntegral.thetaCoset_S_smul` (`…/ThetaSeries/Inversion.lean`, for integral `L`); the
+  `Γ₀(N)` law with the Gauss sum as its constant, `ZLattice.IsEven.thetaSeries_slash_eq_gaussSum_smul`
+  (`…/ThetaSeries/CosetSplitting.lean`: for `A = [[a, b], [c, d]] ∈ SL(2, ℤ)` with `c > 0` and
+  `level L ∣ c`, `Θ_L ∣[k] A = (−i)^k c^{−k} (covol L)⁻¹ G_L(a, c) Θ_L`); and the boundedness at
+  `i∞` of every `SL(2, ℤ)`-slash of `Θ_L` and of `θ_{γ+L}` for `γ ∈ L^∨`,
+  `ZLattice.IsEven.isBoundedAtImInfty_thetaSeries_slash` and
+  `ZLattice.IsEven.isBoundedAtImInfty_thetaCoset_slash` (`…/ThetaSeries/BoundedAtCusp.lean`).
+  Each assumes `finrank ℝ E = 2 * k`, so none covers odd rank; Layer 2 owns the odd-rank theorem.
+  `thetaSeries_orthSum`, `gaussSum_reciprocity`, `milgram`, `discChar`, the character laws
+  `thetaSeries_slash_of_mem_Gamma0` and `thetaCoset_slash_of_mem_Gamma`, and `thetaFormOfLevel`
+  are consumed under the theta-series roadmap's names.
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
@@ -1424,7 +1452,8 @@ The definition has the following API.
   `M⁺_{5/2}(4) = ℂ(θ⁵ − 20θF)` goes to `ℂE₄`.
 - Kronecker values: `(5/2) = −1`, `(−7/2) = 1`, `(−3/2) = −1`, `(−4/2) = (8/2) = 0`, `(5/3) = −1`,
   `(1/d) = 1` for every `d ≥ 1`; reading `(D/2)` as the Legendre symbol at the prime `2` (the
-  parity of `D`) would give `(5/2) = 1`.
+  parity of `D`) would give `(5/2) = 1`. At `d = 0` the closed formula gives `1` while the
+  Kronecker symbol has `(5/0) = 0`, so the two agree for `d ≥ 1` only.
 - `Sh_5⁺(δ)` (`D = 5`, `k = 6`): `A(1) = c(5) = 120`, `A(2) = c(20) + (5/2) 2⁵ c(5) = 960 − 3840 =
   −2880 = 120 τ(2)`, `A(3) = c(45) + (5/3) 3⁵ c(5) = 59400 − 29160 = 30240 = 120 τ(3)`, so
   `Sh_5⁺(δ) = c(5) Δ` at these indices (Kohnen–Zagier's table, p.178).
@@ -1437,10 +1466,13 @@ The lift headline is `HalfIntegralForm.kohnenLift`: for `k ≥ 1`, a fundamental
 equivariance and the eigenform identity `Sh_D⁺(g) = c(|D|) f` remain targets. Its Kronecker
 symbol `(D/d)` for `d ≥ 1` is `HalfIntegralForm.kroneckerSymNat`: `(D/2)^{v₂(d)} (D/d')` with `d'`
 the odd part of `d`, `(D/2) = χ₈(D)` (`1` for `D ≡ ±1`, `−1` for `D ≡ ±3 (mod 8)`, `0` for
-even `D`) and `(D/d')` the Jacobi symbol. It is the theta-series roadmap's `kroneckerSym`
-(`TauCeti.kroneckerSym` on Tau Ceti main) at a positive second argument, written with this
-closed formula only so that the headline elaborates at the pins; prove that the two agree for
-`d ≥ 1`, so that the lift is stated through the consumed symbol.
+even `D`) and `(D/d')` the Jacobi symbol. For `d ≥ 1` it is `TauCeti.kroneckerSym D d`, the
+theta-series roadmap's `kroneckerSym`: at a positive second argument,
+`TauCeti.kroneckerSym_of_ne_zero` has sign factor `1`, exponent `d.factorization 2 = v₂(d)` and
+odd part `ordCompl[2] d = d'`. Prove that the two agree for `d ≥ 1`, so that the lift is stated
+through the consumed symbol. They differ only at `d = 0`, where the closed formula gives `1` and
+`TauCeti.kroneckerSym D 0 = 0` for `D ≠ ±1`; the divisor sum over the divisors of `n > 0` never
+reads that value.
 
 ### 5.4 Kohnen's plus space at level `4N`
 
