@@ -162,7 +162,7 @@ a law is homogeneous of degree `n` if `f_S(s·x) = s^n·f_S(x)` for every commut
 `PolynomialLaw.IsHomogeneousOfDegree`. Prove that the zero law is homogeneous of every degree, that
 homogeneity of a fixed degree is closed under addition, that composition multiplies degrees, and
 that a law has degree one iff it is the base change of a linear map
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, pp.6–7); Tau Ceti formalises these as
+([Chenevier], §1.1, p.7); Tau Ceti formalises these as
 `PolynomialLaw.isHomogeneousOfDegree_zero`, `PolynomialLaw.IsHomogeneousOfDegree.add`,
 `PolynomialLaw.IsHomogeneousOfDegree.comp` and `PolynomialLaw.isHomogeneousOfDegree_one_iff`.
 *Needs:* Mathlib `PolynomialLaw`, `PolynomialLaw.comp`, `TensorProduct`.
@@ -183,7 +183,7 @@ necessarily commutative, an `A`-polynomial law `f : R → B` is multiplicative i
 `f_S(xy) = f_S(x)f_S(y)` for every commutative `A`-algebra `S` and `x, y ∈ S ⊗_A R`, where the ring
 structure on `S ⊗_A R` is Mathlib's `Algebra.TensorProduct` ring structure. Define this multiplicativity predicate and prove that the identity is multiplicative, that multiplicative
 laws compose, and that the multiplicative laws of degree one to `A` are the `A`-algebra maps
-([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). Tau Ceti formalises the predicate as
+([Chenevier], §1.1, p.8). Tau Ceti formalises the predicate as
 `PolynomialLaw.IsMultiplicative`, with `PolynomialLaw.isMultiplicative_id`,
 `PolynomialLaw.IsMultiplicative.comp` and `PolynomialLaw.algHomEquiv`. *Needs:* Mathlib `PolynomialLaw`,
 `PolynomialLaw.id`, `PolynomialLaw.comp`, `Algebra.TensorProduct.instRing`.
@@ -205,7 +205,7 @@ laws compose, and that the multiplicative laws of degree one to `A` are the `A`-
 `∑_j n_j = d`. It is a graded piece of the full commutative algebra, not an algebra under its
 degree-adding multiplication. Prove that `γ_d(m)` belongs to `Γ^d_A(M)`, and define the map
 `Γ^d(f) : Γ^d_A(M) → Γ^d_A(N)` induced by an `A`-linear `f : M → N`, taking `γ_d(m)` to
-`γ_d(f(m))` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1, p.8). Tau Ceti formalises the
+`γ_d(f(m))` ([Chenevier], §1.1, p.8). Tau Ceti formalises the
 piece as `DividedPowerAlgebra.homogeneousSubmodule`, with `DividedPowerAlgebra.dp_mem_homogeneousSubmodule`
 and the induced map `DividedPowerAlgebra.mapHomogeneousSubmodule`. *Needs:* Mathlib `DividedPowerAlgebra`,
 `DividedPowerAlgebra.dp`.
@@ -224,7 +224,7 @@ and the induced map `DividedPowerAlgebra.mapHomogeneousSubmodule`. *Needs:* Math
 the sum map `⊕_(d≥0) Γ^d_A(M) → Γ_A(M)` is an `A`-linear equivalence, that multiplication maps
 degrees `a, b` to `a + b`, and that `γ_d(m)` has degree `d`. The proof gives the polynomial
 generators their weight `n` and proves each Roby relation homogeneous; the quotient decomposition
-must establish directness as well as generation, and the grading is multiplicative ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250).
+must establish directness as well as generation, and the grading is multiplicative ([Roby], III §§1–2, pp.248–250).
 Tau Ceti formalises this as `DividedPowerAlgebra.isInternal_homogeneousSubmodule`.
 *Needs:* §0.DP.2 / Homogeneous divided-power piece.
 
@@ -244,7 +244,7 @@ extension is
 
 Define `γ^univ_d` as the homogeneous law with ground value `m ↦ γ_d(m)`, and prove that the
 ground evaluation of `γ^univ_d` at `m` is `γ_d(m)` and that the coefficient of `∏ T_j^{n_j}` in
-`γ^univ_d(∑ T_j m_j)` is `∏ γ_(n_j)(m_j)` ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Proposition IV.1 and Theorem IV.1, pp.265–267).
+`γ^univ_d(∑ T_j m_j)` is `∏ γ_(n_j)(m_j)` ([Roby], Proposition IV.1 and Theorem IV.1, pp.265–267).
 Tau Ceti formalises the law as `DividedPowerAlgebra.gamma`, with `DividedPowerAlgebra.ground_gamma_apply`
 and `DividedPowerAlgebra.gamma_toFun_sum_tmul`. *Needs:*
 §0.DP.2 / Direct-sum grading of divided powers; §0.DP.1 / Homogeneous polynomial laws.
@@ -261,7 +261,7 @@ and `DividedPowerAlgebra.gamma_toFun_sum_tmul`. *Needs:*
 **Roby representability.** For all `A`-modules `M, N` and `d ≥ 0`, prove that composition with
 `γ^univ_d` is a natural `A`-linear equivalence between `Hom_A(Γ^d_A(M), N)` and the homogeneous
 degree-`d` `A`-polynomial laws `M → N`; no flatness or projectivity of `M` is assumed
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem IV.1 and proof, pp.266–267).
+([Roby], Theorem IV.1 and proof, pp.266–267).
 Linearity of postcomposition makes this correspondence linear, and uniqueness of the factorization
 on every scalar extension makes it natural. Tau Ceti formalises it as
 `DividedPowerAlgebra.homogeneousLawEquiv`, natural by
@@ -283,7 +283,7 @@ representing map computed on products of generators by
 **Arbitrary base change of divided powers.** For any commutative `A`-algebra `B` and `A`-module `M`,
 prove that the canonical map `B ⊗_A Γ^d_A(M) → Γ^d_B(B ⊗_A M)` is a `B`-linear equivalence for
 every `d`, taking `1 ⊗ γ_d(m)` to `γ_d(1 ⊗ m)`; flatness of `B` is unnecessary
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem III.3 and proof, pp.261–262).
+([Roby], Theorem III.3 and proof, pp.261–262).
 Tau Ceti formalises it as `DividedPowerAlgebra.baseChangeHomogeneousEquiv`, the restriction of the
 algebra isomorphism `DividedPowerAlgebra.baseChangeEquiv`. *Needs:* §0.DP.2 / Roby representability.
 
@@ -298,8 +298,8 @@ algebra isomorphism `DividedPowerAlgebra.baseChangeEquiv`. *Needs:* §0.DP.2 / R
 `(m, n) ↦ γ_d(m ⊗ n)`, separately homogeneous of degree `d`. Its mixed coefficient formula is
 required; no assertion that this map is an isomorphism is made. Define this linear map
 `Γ^d(M) ⊗ Γ^d(N) → Γ^d(M ⊗ N)`, and prove that `γ_d(m) ⊗ γ_d(n)` maps to `γ_d(m ⊗ n)` and that it
-commutes with `Γ^d(f) ⊗ Γ^d(g)` and `Γ^d(f ⊗ g)` ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1 and the Roby algebra
-structure, p.8; [Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), IV §11, Proposition IV.9 and proof, pp.284–286).
+commutes with `Γ^d(f) ⊗ Γ^d(g)` and `Γ^d(f ⊗ g)` ([Chenevier], §1.1 and the Roby algebra
+structure, p.8; [Roby], IV §11, Proposition IV.9 and proof, pp.284–286).
 Tau Ceti formalises it as `DividedPowerAlgebra.homogeneousTensorMap`, with
 `DividedPowerAlgebra.homogeneousTensorMap_dp_tmul_dp` and `DividedPowerAlgebra.homogeneousTensorMap_comp_map`.
 *Needs:* §0.DP.2 / Arbitrary base change of divided powers.
@@ -322,7 +322,7 @@ divided-power algebra; the unit is `gamma d 1` and the scalar map sends `a` to `
 can be noncommutative and is distinct from the graded multiplication on `Γ_A(R)`. Define the
 degree-`d` representing module with its internal associative `A`-algebra structure, prove
 `γ_d(x) ⋆ γ_d(y) = γ_d(xy)`, with unit `γ_d(1)`, and construct the equivalence between algebra maps
-from this internal algebra and the multiplicative degree-`d` laws ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.1 and footnote
+from this internal algebra and the multiplicative degree-`d` laws ([Chenevier], §1.1 and footnote
 13, p.8). Tau Ceti formalises it as `DividedPowerAlgebra.RobyAlgebra`, with
 `DividedPowerAlgebra.homogeneousMul_dp_dp` and `DividedPowerAlgebra.RobyAlgebra.algHomEquiv`. *Needs:* §0.DP.2 / Tensor map for homogeneous divided powers; §0.DP.1 / Multiplicative polynomial laws.
 
@@ -344,7 +344,7 @@ internal product by the tensor map followed by `LinearMap.mul'`.
 **Free divided powers and symmetric tensors.** For any free `A`-module `M`, prove that
 `Γ^d_A(M) → (M^(⊗d))^(S_d)`, `γ_d(m) ↦ m^(⊗d)`, is an `A`-linear equivalence. The module
 comparison is stated with permutation-fixed tensors as the intersection of the
-kernels of `reindex σ − id` ([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf),
+kernels of `reindex σ − id` ([Roby],
 Theorem IV.2 and Proposition IV.5, p.272). Tau Ceti formalises it as
 `DividedPowerAlgebra.symmetricTensorEquiv`. *Needs:* §0.DP.2 / Roby algebra of multiplicative laws.
 
@@ -393,9 +393,9 @@ containment in the zero ideal as the inputs of `DividedPowerAlgebra.lift`. Use
 `DividedPowers.dpow_eval_zero` in positive degree to compute `ε` on every generator. The
 algebra-homomorphism structure gives `ε(algebraMap(r)) = r`. For naturality and uniqueness use
 `DividedPowerAlgebra.algHom_ext` on all `dp(n, m)`, splitting `n = 0` from `n > 0`. The free-module
-augmentation is described in [Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4).
+augmentation is described in [StacksDPA], §23.5, Tag 07H4, p.9.
 For arbitrary modules the lift argument above uses the general Roby algebra
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* Mathlib
+([Roby], III §§1–2, pp.248–250). *Needs:* Mathlib
 `dividedPowersBot`; Mathlib `DividedPowerAlgebra.lift`; Mathlib `DividedPowerAlgebra.lift_apply_dp`;
 Mathlib `DividedPowers.dpow_eval_zero`; Mathlib `DividedPowerAlgebra.algHom_ext`; Mathlib
 `DividedPowerAlgebra.dp_zero`; Mathlib `DividedPowerAlgebra.map_apply_dp`; Mathlib
@@ -442,9 +442,9 @@ with `FreeConstruction.positiveIdeal_le_augmentation_ker`
 *Proof sketch.* Apply `RingHom.ker` to `ε` and use `RingHom.mem_ker` for membership. The generator
 and scalar assertions follow from the computed values of `ε`. Properness over a nonzero ring follows
 because `ε(1) = 1`. The free-module kernel is described in
-[Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4). The preceding kernel argument
+[StacksDPA], §23.5, Tag 07H4, p.9. The preceding kernel argument
 proves the arbitrary-module version from Roby's presentation
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib `RingHom.ker`; Mathlib `RingHom.mem_ker`; Mathlib `DividedPowerAlgebra.map`.
+([Roby], III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib `RingHom.ker`; Mathlib `RingHom.mem_ker`; Mathlib `DividedPowerAlgebra.map`.
 
 **Checks.**
 
@@ -471,9 +471,9 @@ the two remainders. For `z · dp(0, m)`, `DividedPowerAlgebra.dp_zero` reduces t
 hypothesis. For `z · dp(n, m)` with `n > 0`, the augmentation is zero and `dp(n, m)` is one of the
 generators of `H`, so closure of the ideal under multiplication proves membership. The free-module
 calculation appears in the proof of
-[Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The induction above
+[StacksDPA], Lemma 23.5.1, Tag 07H5, p.9. The induction above
 proves it for arbitrary modules using Roby's generators and relations
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib
+([Roby], III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; Mathlib
 `DividedPowerAlgebra.induction_on`; Mathlib `DividedPowerAlgebra.dp_zero`; Mathlib
 `Ideal.subset_span`.
 
@@ -498,9 +498,9 @@ hypotheses and against an earlier Mathlib.
 *Proof sketch.* Every listed generator has augmentation zero, so `Ideal.span_le` gives
 `H ⊆ RingHom.ker ε`. If `ε(z) = 0`, the positive-degree remainder gives `z − algebraMap(0) = z ∈ H`,
 proving the reverse inclusion. The free-module generators occur in the proof of
-[Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). For arbitrary modules,
+[StacksDPA], Lemma 23.5.1, Tag 07H5, p.9. For arbitrary modules,
 the two inclusions above use the general Roby algebra
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Positive-degree remainder*;
+([Roby], III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Positive-degree remainder*;
 Mathlib `Ideal.span_le`.
 
 **Checks.**
@@ -529,9 +529,9 @@ membership proof. Both coordinate functions and the proposed inverse are `R`-lin
 maps and the submodule structure. Substitute each composite: cancellation gives `z` in one
 direction, and `ε(u) = 0` gives `(r, u)` in the other. Package the linear maps with
 `LinearEquiv.ofLinearMap`. The free-module scalar splitting is given by the degree-zero summand in
-[Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4). The inverse formulas above
+[StacksDPA], §23.5, Tag 07H4, p.9. The inverse formulas above
 prove the arbitrary-module splitting on Roby's algebra
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `LinearEquiv.ofLinearMap`.
+([Roby], III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `LinearEquiv.ofLinearMap`.
 
 **Checks.**
 
@@ -552,9 +552,9 @@ is used. The augmentation is `Σ_j ε(b_j) a_j`. Subtract its scalar image and d
 `Σ_j (b_j − algebraMap(ε(b_j))) · algebraMap(a_j)`. Each first factor lies in `Γ_R(M)₊` by the
 augmentation calculation, and each second factor lies in `IΓ`. Membership in an ideal product and
 closure under finite sums give the result. For free modules, compare the ideal calculation in the
-proof of [Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The finite-sum
+proof of [StacksDPA], Lemma 23.5.1, Tag 07H5, p.9. The finite-sum
 argument above proves the arbitrary-module assertion on the general Roby algebra
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `Ideal.map`; Mathlib `Ideal.mem_map_of_mem`; Mathlib
+([Roby], III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation of the divided power algebra*; §0.DP.3 / *Augmentation ideal*; Mathlib `Ideal.map`; Mathlib `Ideal.mem_map_of_mem`; Mathlib
 `Finsupp.mem_ideal_span_range_iff_exists_finsupp`; Mathlib `Ideal.mul_mem_mul`.
 
 **Checks.**
@@ -573,9 +573,9 @@ every ideal `I ⊂ R`, with no flatness, freeness or other hypothesis, prove the
 *Proof sketch.* The ideal product is contained in the intersection by `Ideal.mul_le_inf`. For `z` in
 the intersection, `ε(z) = 0`, and the preceding base-ideal remainder statement gives
 `z ∈ IΓ · Γ_R(M)₊`, proving the reverse inclusion. The free-module equality occurs in the proof of
-[Stacks Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The containment argument
+[StacksDPA], Lemma 23.5.1, Tag 07H5, p.9. The containment argument
 above extends it to arbitrary modules using Roby's algebra
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Remainder of an extended base ideal*; Mathlib `Ideal.mul_le_inf`.
+([Roby], III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *Augmentation ideal*; §0.DP.3 / *Remainder of an extended base ideal*; Mathlib `Ideal.mul_le_inf`.
 
 **Checks.**
 
@@ -599,10 +599,10 @@ possibly nonzero left side is `inr(a)² = 0`, and the only possibly nonzero targ
 degree zero gives `1` and degree two gives `inr(a + b) = inr(a) + inr(b)`; the only other possible
 convolution term is in degree four, `inr(a) · inr(b) = 0`. All remaining terms vanish. Apply
 `DividedPowerAlgebra.lift'_apply_dp` for the stated formula. For the free-module divided-power
-relations see [Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4) and
-[Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The detector argument above
+relations see [StacksDPA], §23.5, Tag 07H4, p.9 and
+Lemma 23.5.1, Tag 07H5, p.9. The detector argument above
 uses Roby's generator presentation
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* Mathlib `DividedPowerAlgebra.lift'`; Mathlib
+([Roby], III §§1–2, pp.248–250). *Needs:* Mathlib `DividedPowerAlgebra.lift'`; Mathlib
 `DividedPowerAlgebra.lift'_apply_dp`; Mathlib `TrivSqZeroExt.inr`; Mathlib
 `TrivSqZeroExt.inr_mul_inr`; Mathlib `ZMod.natCast_self`.
 
@@ -623,10 +623,10 @@ generated by `{embed(a) | a ∈ F₂}`. This is Tau Ceti's
 `Ideal.span_le`. The image of `dp(2, 1)` is `inr(1)`, which is nonzero by
 `TrivSqZeroExt.inr_injective` and `1 ≠ 0` in `F₂`, so kernel membership rules out membership in the
 degree-one ideal. For the free-module divided-power relations see
-[Stacks §23.5, Tag 07H4](https://stacks.math.columbia.edu/tag/07H4) and
-[Lemma 23.5.1, Tag 07H5](https://stacks.math.columbia.edu/tag/07H5). The detector argument above
+[StacksDPA], §23.5, Tag 07H4, p.9 and
+Lemma 23.5.1, Tag 07H5, p.9. The detector argument above
 uses Roby's generator presentation
-([Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *A degree-two detector in characteristic two*; Mathlib
+([Roby], III §§1–2, pp.248–250). *Needs:* §0.DP.3 / *A degree-two detector in characteristic two*; Mathlib
 `DividedPowerAlgebra.embed_def`; Mathlib `RingHom.mem_ker`; Mathlib `Ideal.span_le`; Mathlib
 `TrivSqZeroExt.inr_injective`.
 
@@ -648,7 +648,7 @@ that its first differential is `d₁(v) = ∑ x_i v_i`, that
 sequences, functoriality in the sequence (a linear map `g : Aⁿ → A^{n′}` with
 `x′ ∘ g = x` induces a chain map `K(x) → K(x′)`), and that
 if `x` is weakly regular, `H_k(K(x)) = 0` for `k > 0`, so `K(x) → A/(x)` is a finite free
-resolution ([Stacks](https://stacks.math.columbia.edu), Definitions 15.29.1–15.29.2 (tags 0622, 0623), Lemma 15.29.3
+resolution ([StacksMA], Definitions 15.29.1–15.29.2 (tags 0622, 0623), Lemma 15.29.3
 (tag 0624), Lemma 15.29.12 (tag 0664) and Lemma 15.31.2 (tag 062F)). Tau Ceti formalises all of
 these as `TauCeti.koszulComplex` of the functional `Fintype.linearCombination R x` on `Rⁿ`: the first
 differential is `TauCeti.zeroEquiv_koszulDifferential_zero`, the zeroth homology
@@ -671,7 +671,7 @@ multiplication by `m` is a degree-raising homotopy between multiplication by `φ
 homology; and that for `φ′ = φ ⊕ (y·) : M ⊕ A → A` the complex `K(φ′)` is the mapping cone of
 multiplication by `y` on `K(φ)`, which with the tensor identification
 `K(x, y) ≅ K(x) ⊗_A K(y)` uses the sign `d(v ⊗ w) = dv ⊗ w + (−1)^deg(v) v ⊗ dw`
-([Stacks](https://stacks.math.columbia.edu), Definition 15.29.1 (tag 0622), Lemma 15.29.3
+([StacksMA], Definition 15.29.1 (tag 0622), Lemma 15.29.3
 (tag 0624), Lemma 15.29.5 (tag 0626), Lemma 15.29.7 (tag 0628) and Lemma 15.29.12 (tag 0664)).
 Tau Ceti formalises the complex `TauCeti.koszulComplex φ` with this differential (contraction by
 `φ`), the identity `d² = 0`, the chain maps `TauCeti.koszulComplex.map` induced by `g` with
@@ -931,11 +931,11 @@ identification of a first-quadrant chain complex with a first-quadrant cochain c
 - `E_r^{pq} = E_∞^{pq}` for `r > max(p, q + 1)`.
 - `E₂^{n,0} → Hⁿ(Tot A)`.
 - `Hⁿ(Tot A) → E₂^{0,n}`.
-- the five-term exact sequence (NSW (2.1.1)).
+- the five-term exact sequence ([NSW] (2.1.1)).
 - with the explicit hypothesis `1 ≤ n`, vanishing
-  `E₂^{pq}` for all `p ≥ 0` and `0 < q < n` gives the extended sequence (NSW (2.1.2)).
+  `E₂^{pq}` for all `p ≥ 0` and `0 < q < n` gives the extended sequence ([NSW] (2.1.2)).
 - exact rows give
-  `Hⁿ(Tot A) = Hⁿ(ker(A^{0•} → A^{1•}))` (NSW (2.2.4)).
+  `Hⁿ(Tot A) = Hⁿ(ker(A^{0•} → A^{1•}))` ([NSW] (2.2.4)).
 - naturality in the double complex, in both homological and cohomological indexing.
 
 *Proof sketch.* Tau Ceti's spectral sequence of a filtered cochain complex,
@@ -951,17 +951,15 @@ because `A^{pq} = 0` outside the quadrant. For the homological form use
 (`HomologicalComplex₂.columnFiltrationSpectralSequenceFirstPageXIso`) and whose abutment is the
 homology of the total complex (`HomologicalComplex₂.columnFiltrationAbutmentIso`).
 Identify `E₂^{pq}` with `H^p_I(H^q_{II}(A))`: the `E₁` page is the vertical cohomology and `d₁` is
-induced by `d′` (NSW (2.2.1)). Convergence: the filtration is finite in each degree, so the pages
+induced by `d′` ([NSW] (2.2.1)). Convergence: the filtration is finite in each degree, so the pages
 stabilise for `r > max(p, q + 1)` and `E_∞` is the associated graded of `Hⁿ(Tot A)`. The edge
-morphisms and the five-term sequence come from the definition of the filtration (NSW (2.1.1),
-(2.1.2)); the exact-rows statement from the transposed double complex (NSW (2.2.4)). The source's
+morphisms and the five-term sequence come from the definition of the filtration ([NSW] (2.1.1),
+(2.1.2)); the exact-rows statement from the transposed double complex ([NSW] (2.2.4)). The source's
 anticommuting differentials become the commuting differentials of Mathlib's `HomologicalComplex₂`
 after a sign depending on the degree; its totalisation uses `ComplexShape.TensorSigns`, and the
-pages and edge maps are transported through the same convention ([Neukirch–Schmidt–Wingberg,
-*Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
-Chapter II, §1, Proposition 2.1.1, printed p. 99 (PDF p. 116); [Neukirch–Schmidt–Wingberg,
-*Cohomology of Number Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf),
-Chapter II, §2, Lemma 2.2.4, printed p. 105 (PDF p. 122)). *Needs:* Tau Ceti
+pages and edge maps are transported through the same convention ([NSW],
+Chapter II, §1, Proposition 2.1.1, printed p. 99 (PDF p. 116); Chapter II, §2, Lemma 2.2.4,
+printed p. 105 (PDF p. 122)). *Needs:* Tau Ceti
 `CochainComplex.spectralSequence`, `CochainComplex.filtrationAbutmentIso`,
 `CochainComplex.filtrationSpectralSequencePageXIsoEInfty`,
 `HomologicalComplex₂.columnFiltrationSpectralSequence` and
@@ -1034,7 +1032,7 @@ For arbitrary scalar extension, the derived identification uses degreewise-flat 
 not identify an arbitrary underived scalar extension with derived base change. The shuffle
 comparisons preserve the tensor unit, associativity and Koszul symmetry in the homotopy category,
 hence in `D(A)`. These identities give the graded multiplications in §§0.14–0.16 and their scalar
-change laws. ([Stacks](https://stacks.math.columbia.edu/tag/08QD), Remark 21.39.11; [DoldPuppe],
+change laws. ([StacksSites], Remark 21.39.11, Tag 08QD, p.96; [DoldPuppe],
 §2, Theorems 2.9 and 2.15, pp.213–217.)
 
 *Needs:* §0.2 (K-flat models and derived tensor); Tau Ceti
@@ -1201,9 +1199,10 @@ its alternating-face complex and its cochain model in nonpositive degrees before
 
 Prove the following laws.
 
-- every commutative square `(A → B) → (A′ → B′)` gives
-  `L_(B/A) ⊗^L_B B′ → L_(B′/A′)`, with identity and composition laws; on the model it sends
-  `t ⊗ dx` to `b(t) ⊗ d(a(x))`. Together these form a functor on the
+- every commutative square `(A → B) → (A′ → B′)`, with base map `a : A → A′` and target map
+  `b : B → B′`, gives `L_(B/A) ⊗^L_B B′ → L_(B′/A′)`, with identity and composition laws; on the
+  model it sends `t ⊗ dx` to `b(t) ⊗ d(a_P(x))`, where `a_P : P• → P′•` is the induced map of
+  standard resolutions ([StacksCt] §6, Tag 08QL, p.11). Together these form a functor on the
   arrow category of commutative rings, retaining every cohomological degree.
 - every polynomial resolution gives the differential model,
   naturally and coherently in comparison maps.
@@ -1230,7 +1229,9 @@ scalars, hence a semilinear chain map between the differential models. For base 
 map `b`, this map takes `t ⊗ dx` to `b(t) ⊗ d(a_P(x))`, where `a_P` is the induced map of resolution
 rings. These comparisons retain the full complex, with no truncation.
 
-[StacksCt], Lemma 3.4, Tag 08S9, p.3; Lemmas 92.4.5–92.4.7, Tags 08QF–08QH.
+[StacksCt], §6, Tag 08QL, pp.11–12 (the map of standard resolutions and of differentials induced by
+a commutative square); Lemmas 92.4.5–92.4.7, Tags 08QF–08QH, pp.5–6 (the values in degree zero and
+for polynomial algebras).
 The downstream consumer PerfectoidSpaces §P0.19 uses this precise model contract.
 
 **Checks.**
@@ -1887,7 +1888,7 @@ naturally in `L` and `M`. Construct the tensor–Hom adjunction, comparing its t
 Neither boundedness nor perfectness of `L` is required.
 
 [StacksMA], §15.75, Tag 0A5W, equations 15.75.0.1–15.75.0.2 (Tags 0A63–0A64), and Lemma 15.75.1,
-Tag 0A65; [StacksSites], §21.35, *Internal hom in the derived category*.
+Tag 0A65; [StacksSites], §21.35, *Internal hom in the derived category*, Tag 08J7, p.82.
 
 *Needs:* Tau Ceti `TauCeti.derivedHom` and `TauCeti.derivedHomHomologyLinearEquiv`; §0.2 (module
 derived tensor); §1.1 (module limits for the nonperfect Check); Mathlib `ModuleCat`, Hom complexes,
@@ -2448,7 +2449,7 @@ comparison maps retain the transition maps of the given tower.
 
 Here every M_n is perfect; ordinary tensor compatibility of cohomology modules does not replace derived compatibility. Locally nilpotent transition kernels need not be nilpotent.
 
-([Stacks](https://stacks.math.columbia.edu/tag/0CQG), Lemma 15.99.3, the alternative with every finite-stage complex perfect.)
+([StacksMA], Lemma 15.99.3, Tag 0CQG, p.288, the alternative with every finite-stage complex perfect.)
 
 *Needs:* §0.2 (derived module categories and derived tensor); §1.1 (derived limits);
 §1.E.0 (perfect complexes, compatible finite-free models, strict-tower limit and reduction
@@ -2516,7 +2517,7 @@ by `D` (`TauCeti.IsInjectiveEnvelope.length_linearMap`) and biduality for module
 (`TauCeti.IsInjectiveEnvelope.bijective_applyₗ`). Exactness of `D` is injectivity of `E_R(k)`.
 Completeness of `R` and the compatible reductions modulo `𝔪ⁿ` give the anti-equivalence between
 finite-type and cofinite-type modules and its equivariant form, and termwise application gives the
-complex form. ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf),
+complex form. ([Nekovar],
 §§2.2–2.3, pp. 51–53; §3.1, pp. 75–76.) *Needs:* Tau Ceti
 `TauCeti.exists_isInjectiveEnvelope_submodule`, `TauCeti.residueFieldLinearMapEquiv`,
 `TauCeti.injective_applyₗ_of_injective`, `TauCeti.IsInjectiveEnvelope.length_linearMap` and
@@ -2632,6 +2633,9 @@ the author corrections [IllusieI] and [IllusieII].
 - **BMS19**: Bhargav Bhatt, Matthew Morrow and Peter Scholze, *Topological Hochschild homology and
   integral p-adic Hodge theory*. Publ. Math. IHÉS 129 (2019), 199–310.
 - **Bhatt12**: Bhargav Bhatt, *p-adic derived de Rham cohomology*. arXiv:1204.6560v1, 30 April 2012.
+- **Chenevier**: Gaëtan Chenevier, *The p-adic analytic space of pseudocharacters of a profinite
+  group and pseudorepresentations over arbitrary rings*. arXiv:0809.0415v2, 18 July 2013; pages of
+  that version.
 - **DM**: Bjørn Ian Dundas and Matthew Morrow, *Finite generation and continuity of topological Hochschild
   and cyclic homology*. arXiv:1403.0534v1.
 - **DoldPuppe**: Albrecht Dold and Dieter Puppe, *Homologie nicht-additiver Funktoren. Anwendungen*.
@@ -2640,30 +2644,42 @@ the author corrections [IllusieI] and [IllusieII].
 - **IllusieCC**: Luc Illusie, *Complexe cotangent et déformations I*. LNM 239 (1971).
 - **IllusieI**: Luc Illusie, *Errata: Complexe cotangent et déformations I*. Author erratum.
 - **IllusieII**: Luc Illusie, *Errata: Complexe cotangent et déformations II*. Author erratum.
+- **Nekovar**: Jan Nekovář, *Selmer complexes*. Astérisque 310 (2006).
+- **NSW**: Jürgen Neukirch, Alexander Schmidt and Kay Wingberg, *Cohomology of Number Fields*.
+  Second edition, Grundlehren der mathematischen Wissenschaften 323, Springer; electronic version
+  2.3 (May 2020) from the authors' page, cited by statement number with printed and PDF pages.
 - **Prisms**: Bhargav Bhatt and Peter Scholze, *Prisms and prismatic cohomology*. arXiv:1905.08229v4.
+- **Roby**: Norbert Roby, *Lois polynômes et lois formelles en théorie des modules*. Ann. Sci. École
+  Norm. Sup. (3) 80 (1963), 213–348.
 - **SAG**: Jacob Lurie, *Spectral Algebraic Geometry*. Version of February 2018, §25.2.
 - **StacksAlg**: The Stacks Project Authors, *Commutative Algebra* (Chapter 10).
 - **StacksCt**: The Stacks Project Authors, *The Cotangent Complex* (Chapter 92).
 - **StacksDefos**: The Stacks Project Authors, *Deformation Theory* (Chapter 91).
+- **StacksDPA**: The Stacks Project Authors, *Divided Power Algebra* (Chapter 23).
 - **StacksMA**: The Stacks Project Authors, *More on Algebra* (Chapter 15).
 - **StacksSimp**: The Stacks Project Authors, *Simplicial Methods* (Chapter 14).
-- **StacksSites**: The Stacks Project Authors, *Cohomology on Sites* (Chapter 21), §21.35 *Internal hom in the derived category*.
+- **StacksSites**: The Stacks Project Authors, *Cohomology on Sites* (Chapter 21).
 
 [AffineCrystalline]: https://github.com/daddeziomath/affine-crystalline
 [BL22]: https://arxiv.org/pdf/2201.06120v1
 [BMS19]: https://www.numdam.org/item/10.1007/s10240-019-00106-9.pdf
 [Bhatt12]: https://arxiv.org/pdf/1204.6560v1
+[Chenevier]: https://arxiv.org/pdf/0809.0415v2
 [DM]: https://arxiv.org/pdf/1403.0534v1
 [DoldPuppe]: http://www.numdam.org/item/AIF_1961__11__201_0/
 [GR]: https://arxiv.org/abs/math/0201175
 [IllusieCC]: https://doi.org/10.1007/BFb0059052
 [IllusieI]: https://www.imo.universite-paris-saclay.fr/~illusie/ErrSLN239.pdf
 [IllusieII]: https://www.imo.universite-paris-saclay.fr/~illusie/Errsln283.pdf
+[Nekovar]: https://www.numdam.org/item/AST_2006__310__R1_0.pdf
+[NSW]: https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf
 [Prisms]: https://arxiv.org/pdf/1905.08229v4
+[Roby]: https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf
 [SAG]: https://www.math.ias.edu/~lurie/papers/SAG-rootfile.pdf
 [StacksAlg]: https://stacks.math.columbia.edu/download/algebra.pdf
 [StacksCt]: https://stacks.math.columbia.edu/download/cotangent.pdf
 [StacksDefos]: https://stacks.math.columbia.edu/download/defos.pdf
+[StacksDPA]: https://stacks.math.columbia.edu/download/dpa.pdf
 [StacksMA]: https://stacks.math.columbia.edu/download/more-algebra.pdf
 [StacksSimp]: https://stacks.math.columbia.edu/download/simplicial.pdf
-[StacksSites]: https://stacks.math.columbia.edu/tag/08J7
+[StacksSites]: https://stacks.math.columbia.edu/download/sites-cohomology.pdf
