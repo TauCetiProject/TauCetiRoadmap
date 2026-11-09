@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.Algebra.Module.Injective.Envelope.Basic
 public import TauCeti.Algebra.Homology.SpectralSequence.Bicomplex
 public import TauCeti.Algebra.Category.ModuleCat.Tower.DerivedLimit
+public import TauCeti.Algebra.Category.ModuleCat.Tower.Reduction
 public import TauCeti.AlgebraicTopology.SimplicialObject.AlexanderWhitney
 public import TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial
 public import TauCeti.RingTheory.DividedPowerAlgebra.Homogeneous
@@ -50,10 +51,10 @@ Headline theorems that are not statable at the pins, and the carrier each lacks:
 * the unbounded module derived tensor `⊗^L` on `D(R)` (§0.2) and the
   derived scalar extension and restriction functors with their adjunction (§1.E.0): no derived
   tensor bifunctor or derived extension of scalars on `DerivedCategory (ModuleCat R)` exists at
-  the pin. Derived Nakayama (§1.3), the cohomological bound of complete Tor-amplitude (§1.8) and
-  the preservation of perfection by derived scalar extension (§1.E.0) are stated below on models
-  whose termwise tensor product computes the derived one: a K-flat model for the first two, a
-  bounded-above finite-free model for the third;
+  the pin. Derived Nakayama (§1.3), the ordinary-quotient comparisons (§1.5), the cohomological
+  bound of complete Tor-amplitude (§1.8) and the preservation of perfection by derived scalar
+  extension (§1.E.0) are stated below on models whose termwise tensor product computes the derived
+  one: a K-flat model for the first three, a bounded-above finite-free model for the fourth;
 * the cohomological first-quadrant spectral sequence, its edge morphisms and the five-term and
   extended exact sequences (§S.1): the pinned spectral sequence of a bicomplex is the homological
   one of `HomologicalComplex₂ C (down ℕ) (down ℕ)`, no column filtration of the total complex of a
@@ -70,24 +71,25 @@ Headline theorems that are not statable at the pins, and the carrier each lacks:
   module in degree zero (§0.17) are stated below;
 * the tensor–Hom adjunction of §1.1.1: it pairs the pinned derived Hom with the derived tensor
   above; the exactness of the pinned derived limit (§1.1) is stated below;
-* the Koszul completion tower (§1.4) and the ordinary-quotient comparison (§1.5): each identifies
-  the completion functor `Λ_I` of §1.3, a construction of which only the existence is stated
-  below, with the derived limit of the tower `n ↦ M ⊗^L_A K(f₁ⁿ, …, f_rⁿ)` or
-  `n ↦ M ⊗^L_A A/Iⁿ`, an object of the derived category of strict towers that no pinned
-  construction supplies;
+* the Koszul completion tower (§1.4): the tower `n ↦ K(f₁ⁿ, …, f_rⁿ)` of cochain Koszul
+  complexes, with transitions `e_i ↦ f_i e_i` and the identity in degree zero, as a complex of
+  strict towers to be tensored with a K-flat model, is a construction of §1.4; Tau Ceti's
+  `TauCeti.koszulComplex` is a single `ℕ`-indexed chain complex of one linear functional, with
+  chain maps `TauCeti.koszulComplex.map` between two such complexes. The completion `Λ_I M` itself
+  needs no functor: as in §1.5 below, its universal property identifies it;
 * completion of simplicial commutative algebras (§1.6): the localized category of simplicial
   commutative algebras with its underlying-module functor to `D(A)` is a construction of §1.6;
-* the completion laws of complete flatness (§1.7: the derived completion of a flat module, and
-  completed base change) and complete faithful-flat descent (§1.9): they need the completion
-  functor `Λ_I` of §1.3, and descent the completed Čech nerve with its product totalization; the
-  module form of the bounded-torsion criterion of §1.8 is stated below;
+* complete faithful-flat descent (§1.9): its statement concerns the `p`-completed Čech nerve of
+  `A → B`, whose terms are derived `p`-completions of derived tensor powers of `B`, and the
+  product totalization of the resulting cosimplicial complex; the pins have the uncompleted Čech
+  conerve of a map of commutative rings and only coproduct totalizations of double complexes;
 * compatible finite-free models, strict-tower limits and perfect inverse-system effectivity
-  (§§1.E.0–1.E.1): besides objects, their statements apply derived scalar extension to morphisms
-  (the specified reductions `M_(n+1) ⊗^L A_n ≅ M_n`, the identifications of the models with the
-  `M_n`, and the maps `M ⊗^L_A A_n → M_n` adjoint to the projections) and use the derived
-  category of varying-ring diagrams of §1.E.0; these need the functor and adjunction above, since
-  a finite-free model computes the derived scalar extension of an object, while a morphism of
-  `D(A_(n+1))` is not a chain map of models.
+  (§§1.E.0–1.E.1): their statements concern the strict tower of `A`-complexes obtained by
+  restricting the semilinear chain maps of compatible finite-free models along the projections
+  `A → A_n`, whose termwise and derived limits Tau Ceti would then supply, and the derived
+  category `D(Mod(ℕ,(A_n)))` of varying-ring diagrams with its evaluation and restriction
+  functors, both constructions of §1.E.0; the residue-field criterion and the unit reflection on
+  which effectivity rests are stated below.
 
 Derived categories of modules are `DerivedCategory (ModuleCat.{u} R)` with the standard instance
 `HasDerivedCategory.{u+1}`; towers are indexed by `ℕ` with transitions from `n + 1` to `n`.
@@ -312,6 +314,89 @@ theorem completeNakayama (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
       (((MonoidalCategory.tensorRight (ModuleCat.of A (A ⧸ I))).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj P))) :
     IsZero ((DerivedCategory.Q (C := ModuleCat A)).obj P) := by
+  sorry
+
+/-- **Ordinary quotient towers compute derived completion over a Noetherian ring** (README 1.5;
+Stacks, Proposition 15.96.2, Tag 0922). Let `A` be Noetherian, `I` an ideal and `P` a K-flat
+complex of `A`-modules with image `M` in `D(A)`. The strict tower `n ↦ P/I^(n+1)P`, Tau Ceti's
+reduction applied to every term, computes `n ↦ M ⊗^L_A A/I^(n+1)` because `P` is K-flat. Its
+derived limit `L` is the derived completion `Λ_I M`: `L` is derived `I`-complete, and some map
+`η : M → L` makes `g ↦ η ≫ g` a bijection `Hom(L, N) → Hom(M, N)` for every derived `I`-complete
+`N`. Some hypothesis on `A` is needed: for `A = ℤ_p ⋉ ℚ_p/ℤ_p` and `I = (p)` the tower of `A[0]`
+has derived limit `ℤ_p[0]`, while `H^(-1)(Λ_I A) ≅ ℤ_p`. -/
+theorem ordinaryQuotientCompletion (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A)
+    [HasDerivedCategory.{w} (TauCeti.ModuleTower.{u} A)]
+    (P : CochainComplex (ModuleCat.{u} A) ℤ) [P.IsKFlat] :
+    let L := (TauCeti.ModuleTower.derivedLimit A).obj
+      ((DerivedCategory.Q (C := TauCeti.ModuleTower.{u} A)).obj
+        (((TauCeti.ModuleTower.reductionFunctor I).mapHomologicalComplex
+          (ComplexShape.up ℤ)).obj P))
+    ∃ η : (DerivedCategory.Q (C := ModuleCat A)).obj P ⟶ L,
+      derivedCompleteness A I L ∧
+        ∀ N : D A, derivedCompleteness A I N → Function.Bijective (fun g : L ⟶ N ↦ η ≫ g) := by
+  sorry
+
+/-- **Ordinary quotient towers compute derived completion under bounded torsion** (README 1.5;
+Stacks, Lemma 15.95.2, Tag 0923, with Lemma 15.95.1, Tag 091X). Let `f ∈ A` have bounded
+`f`-power torsion, `fⁿ a = 0 ⇒ f^c a = 0` for one `c` and all `n`, and let `P` be a K-flat complex
+with image `M` in `D(A)`. Then the derived limit of the strict tower `n ↦ P/f^(n+1)P`, which
+computes `n ↦ M ⊗^L_A A/f^(n+1)`, is the derived `(f)`-completion of `M`, characterised as in
+`ordinaryQuotientCompletion`. `A` need not be Noetherian, and `f` may be a zero divisor, as for
+`p` in `ℤ[x₁, x₂, …]/(p x_i : i ≥ 1)`, where `c = 1`. -/
+theorem ordinaryQuotientCompletion_of_boundedTorsion (A : Type u) [CommRing A] (f : A)
+    (hA : ∃ c : ℕ, ∀ (a : A) (n : ℕ), f ^ n * a = 0 → f ^ c * a = 0)
+    [HasDerivedCategory.{w} (TauCeti.ModuleTower.{u} A)]
+    (P : CochainComplex (ModuleCat.{u} A) ℤ) [P.IsKFlat] :
+    let L := (TauCeti.ModuleTower.derivedLimit A).obj
+      ((DerivedCategory.Q (C := TauCeti.ModuleTower.{u} A)).obj
+        (((TauCeti.ModuleTower.reductionFunctor (Ideal.span {f})).mapHomologicalComplex
+          (ComplexShape.up ℤ)).obj P))
+    ∃ η : (DerivedCategory.Q (C := ModuleCat A)).obj P ⟶ L,
+      derivedCompleteness A (Ideal.span {f}) L ∧
+        ∀ N : D A, derivedCompleteness A (Ideal.span {f}) N →
+          Function.Bijective (fun g : L ⟶ N ↦ η ≫ g) := by
+  sorry
+
+/-- **Ordinary quotient towers compute derived completion for a weakly regular sequence**
+(README 1.5; Stacks, Lemmas 15.31.2 and 15.31.4, Tags 062F and 062G, with Lemma 15.93.18,
+Tag 0920, and Lemma 15.89.12, Tag 091L). Let `f₁, …, f_r` be weakly regular in `A`, each `f_i` a
+nonzerodivisor on `A/(f₁, …, f_(i-1))`, generating `I`, and let `P` be a K-flat complex with image
+`M` in `D(A)`. Then the derived limit of the strict tower `n ↦ P/I^(n+1)P` is the derived
+`I`-completion of `M`, characterised as in `ordinaryQuotientCompletion`: the powers
+`f₁ⁿ, …, f_rⁿ` are Koszul-regular, so the Koszul tower of §1.4 is levelwise quasi-isomorphic to
+`n ↦ A/(f₁ⁿ, …, f_rⁿ)`, which is pro-isomorphic to `n ↦ A/Iⁿ`. The quotient `A/I` may be zero. -/
+theorem ordinaryQuotientCompletion_of_isWeaklyRegular (A : Type u) [CommRing A] (fs : List A)
+    (hreg : RingTheory.Sequence.IsWeaklyRegular A fs)
+    [HasDerivedCategory.{w} (TauCeti.ModuleTower.{u} A)]
+    (P : CochainComplex (ModuleCat.{u} A) ℤ) [P.IsKFlat] :
+    let L := (TauCeti.ModuleTower.derivedLimit A).obj
+      ((DerivedCategory.Q (C := TauCeti.ModuleTower.{u} A)).obj
+        (((TauCeti.ModuleTower.reductionFunctor (Ideal.ofList fs)).mapHomologicalComplex
+          (ComplexShape.up ℤ)).obj P))
+    ∃ η : (DerivedCategory.Q (C := ModuleCat A)).obj P ⟶ L,
+      derivedCompleteness A (Ideal.ofList fs) L ∧
+        ∀ N : D A, derivedCompleteness A (Ideal.ofList fs) N →
+          Function.Bijective (fun g : L ⟶ N ↦ η ≫ g) := by
+  sorry
+
+/-- **Derived completion of a complex with finite cohomology over a Noetherian ring** (README 1.5;
+Stacks, Lemma 15.96.4, Tag 0A06). Let `A` be Noetherian, `I` an ideal and `P` a K-flat complex
+whose image `M` in `D(A)` has finitely generated cohomology in every degree. Then in every degree
+`n` the cohomology of the derived limit of `k ↦ P/I^(k+1)P`, which is `Λ_I M` by
+`ordinaryQuotientCompletion`, is isomorphic to the `I`-adic completion of `Hⁿ(M)`. Finiteness is
+needed: over `ℤ_p` with `I = (p)`, the module `ℚ_p/ℤ_p` has the K-flat model `[ℤ_p → ℚ_p]`, whose
+tower `[ℤ/p^(k+1) → 0]` has derived limit with `H^(-1) = ℤ_p`, while `H^(-1)(ℚ_p/ℤ_p) = 0`. -/
+theorem nonempty_ordinaryQuotientCompletionHomologyIso (A : Type u) [CommRing A]
+    [IsNoetherianRing A] (I : Ideal A) [HasDerivedCategory.{w} (TauCeti.ModuleTower.{u} A)]
+    (P : CochainComplex (ModuleCat.{u} A) ℤ) [P.IsKFlat]
+    (hfin : ∀ n : ℤ, Module.Finite A (H A n ((DerivedCategory.Q (C := ModuleCat A)).obj P)))
+    (n : ℤ) :
+    Nonempty (H A n ((TauCeti.ModuleTower.derivedLimit A).obj
+        ((DerivedCategory.Q (C := TauCeti.ModuleTower.{u} A)).obj
+          (((TauCeti.ModuleTower.reductionFunctor I).mapHomologicalComplex
+            (ComplexShape.up ℤ)).obj P))) ≅
+      ModuleCat.of A
+        (AdicCompletion I (H A n ((DerivedCategory.Q (C := ModuleCat A)).obj P)))) := by
   sorry
 
 /-- **Complete flatness of a module** (README 1.7). A module `M` is `I`-completely flat when its
