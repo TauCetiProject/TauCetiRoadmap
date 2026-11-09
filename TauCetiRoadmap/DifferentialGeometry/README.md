@@ -782,14 +782,23 @@ Geometric Topology.
   oriented-atlas criterion for boundaryless `C¹` `M`: `Orientable I M` holds exactly when `M`
   has an oriented atlas `TauCeti.IsOrientedAtlas I 1` (`orientable_iff_exists_atlas`)
   [Lee, Prop. 15.6]. The direction from an oriented atlas to an orientation holds over every
-  model; the converse needs `[BoundarylessManifold I M]`.
+  model. The converse is stated for boundaryless `M`, and the hypothesis is needed only in
+  dimension `1`: for a manifold with boundary of dimension at least `2` the converse also holds
+  [Lee, Prop. 15.6], since a negatively signed chart at a boundary point becomes positive after
+  reflecting a coordinate other than the boundary-defining one, which preserves the half-space,
+  while `Set.Icc 0 1` is the one-dimensional obstruction (the first Check).
   **Checks.**
-  - Negative control for the boundaryless hypothesis: `Set.Icc 0 1` over `𝓡∂ 1` has an
-    orientation (2.1) but no oriented atlas. A chart of the maximal atlas around `0` sends the
-    boundary point `0` to the boundary point `0` of `[0, ∞)` and so is increasing near `0`; one
-    around `1` sends `1` there and so is decreasing near `1`. Positive transition derivatives
-    would make the sign of the derivative of the charts, read against the coordinate of
-    `[0, 1]`, locally constant on the connected `[0, 1]`, and it is `+` at `0` and `−` at `1`.
+  - Negative control for the boundaryless hypothesis, in dimension `1`: `Set.Icc 0 1` over
+    `𝓡∂ 1` has an orientation (2.1) but no oriented atlas. A chart of the maximal atlas around
+    `0` sends the boundary point `0` to the boundary point `0` of `[0, ∞)` and so is increasing
+    near `0`; one around `1` sends `1` there and so is decreasing near `1`. Positive transition
+    derivatives would make the sign of the derivative of the charts, read against the coordinate
+    of `[0, 1]`, locally constant on the connected `[0, 1]`, and it is `+` at `0` and `−` at `1`.
+  - The closed half-plane `{x₀ ≥ 0}` over `𝓡∂ 2` has an oriented atlas: the reflection
+    `(x₀, x₁) ↦ (x₀, −x₁)` preserves the half-plane with Jacobian `−1`, so a negatively signed
+    boundary chart composed with it is a positively signed boundary chart. A criterion that
+    demanded boundarylessness in every dimension would miss it, and a proof of the converse
+    that reflected the first coordinate would leave the half-plane.
   - On `ℝ`, the atlas `{id}` is oriented, and the atlas `{id, t ↦ −t}` (both in the maximal
     smooth atlas) is not, since its transition has derivative `−1`; an orientable manifold can
     carry a non-oriented atlas, so the criterion asks for some oriented atlas, not for the given
@@ -1879,9 +1888,9 @@ with de Rham cohomology on those carriers, and never a second singular theory.*
   makes the pairing well defined on classes: on `[0, 1]`, `[dx] = 0` in `H¹_dR` while
   `∫₀¹ dx = 1`.
 - **9.2 Top cohomology.** Prove `H^n_c(M) ≃ ℝ` by integration for a connected oriented
-  boundaryless `M` of dimension `n` [Lee, Ch. 17, the top-degree compactly supported cohomology
-  of a connected oriented manifold]: a compactly supported `n`-form is a finite sum of forms
-  supported in coordinate balls, a chain of overlapping coordinate balls joins any two of them
+  boundaryless `M` of dimension `n` [Lee, Thm. 17.30]: a compactly supported `n`-form is a
+  finite sum of forms supported in coordinate balls, a chain of overlapping coordinate balls
+  joins any two of them
   (connectedness), and on a coordinate ball 6.4's `H^n_c(E) ≃ ℝ` says that a form of integral
   zero is compactly supported exact. Prove `H^n_c(M) = 0` for a connected nonorientable `M` by
   descent along the orientation cover of 2.4 [Lee, Thm. 17.34]: the pullback of a compactly
