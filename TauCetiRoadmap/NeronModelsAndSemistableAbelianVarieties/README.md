@@ -109,7 +109,9 @@ It leaves to other roadmaps, and consumes from them:
 - **JacobianChallenge** (Tau Ceti), Layers D–F: the Picard functor, Jacobian and Abel–Jacobi map
   of a smooth proper curve over a field.
 - **AlgebraicCurves** (Tau Ceti), Layer 10: hyperelliptic models.
-- **ReductiveGroups** (Tau Ceti), Layers 4 and 7: character lattices of tori, exactness of the
+- **ReductiveGroups** (Tau Ceti), Layer 3: the identity component and component group of an
+  affine group scheme of finite type over a field, with which 2.1–2.2 agree in the affine case;
+  Layers 4 and 7: character lattices of tori, exactness of the
   character functor, and the Galois action on characters.
 - **ReductiveGroupsPartII** (Tau Ceti), RG2.0a and RG2.3.2: norm-one tori and Weil
   restriction; locally finite-type Néron models of tori, their finite-type and connected open subgroups; RG2.3.7 supplies Lang's theorem for connected smooth
@@ -348,7 +350,7 @@ lattice theory.
 
 ## Exact supplier contracts
 
-The library pins are Mathlib `6b7abb3` and Tau Ceti `a91d3aa`.
+The library pins are Mathlib `1b1ccf4b` and Tau Ceti `2fd255d9`.
 Roadmap section contracts describe the requested mathematics independently of implementation.
 
 ### From Mathlib
@@ -485,8 +487,11 @@ and F: the Jacobian as an abelian variety and the Abel–Jacobi map.
 
 ### From `TauCetiRoadmap.ReductiveGroups` and `ReductiveGroupsPartII`
 
-ReductiveGroups Layer 4: character lattices of tori and exactness of `X^*`; Layer 7: the Galois
-action on `X^*` and the anti-equivalence with Galois lattices. ReductiveGroupsPartII RG2.0a:
+ReductiveGroups Layer 3: the identity component `G°` and component group `π₀(G)` of an affine
+group scheme of finite type over a field, with which the fibrewise identity components of 2.1 and
+the component group of 2.2 agree when the group is affine; Layer 4: character lattices of tori
+and exactness of `X^*`; Layer 7: the Galois action on `X^*` and the anti-equivalence with Galois
+lattices. ReductiveGroupsPartII RG2.0a:
 `NormTorus.normOne` (`R¹_{k'/k}𝔾_m`) and Weil restriction; RG2.3.2: locally-finite-type Néron
 models of tori, their finite-type and connected open subgroups. RG2.3.7 supplies Lang's theorem
 and `H¹(k,H) = 0` for smooth geometrically connected finite-type groups over finite fields.
@@ -1201,19 +1206,26 @@ dimension of the smooth morphism `M → Spec R` is locally constant on `M`, henc
 identity section, and a group scheme locally of finite type over a field is equidimensional
 (Stacks, Lemma 39.8.1, tag 045X). Formation of `M⁰` commutes with base change, so its special
 fibre is the identity component `M_k⁰ ⊂ M_k` and its generic fibre is the identity component of
-`A`, which is `A`. Prove, as parts of this target, that the identity section of `M` factors
+`A`, which is `A`. The same specialisation with `B = S` a connected Dedekind scheme (Noetherian
+and reduced) and `P` the global Néron model of 1.9 gives the open identity model `M⁰ ⊂ M` over
+`S`: an open subgroup scheme, smooth and of finite type over `S`, whose base change to the local
+ring at each closed point of `S` is the local `M⁰` of that point and whose generic fibre is `A`;
+6.4a–6.4c use this form. Prove, as parts of this target, that the identity section of `M` factors
 through `M⁰`; that `M_k⁰` is open, closed and normal in `M_k` and geometrically irreducible over
 `k`, and that its formation commutes with every extension of `k` (the field-level construction of
 §7.9; Stacks, Proposition 39.7.11, tag 0B7R); and that `M_k⁰` is Tau Ceti's
 `TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec` when `M_k` is affine and `k` is
 algebraically closed, both being the open and closed subgroup cut out by the connected component
-of the identity. Neither group is affine in general: for good reduction `M_k⁰ = M_k` is an abelian
+of the identity, and, when `M_k` is affine over any field `k`, the identity component `G°` of
+ReductiveGroups Layer 3, of which `identityComponentSpec` is the Tau Ceti instance. Neither
+group is affine in general: for good reduction `M_k⁰ = M_k` is an abelian
 variety. The Néron-model API is `NeronIdentity.generic_iso` (the generic fibre of `M⁰` is `A`,
 the marking identifying the generic fibre of `M` with the connected group `A`), `map`, `map_id`,
 `map_comp` (the extension to Néron models (1.5) of a homomorphism `A → B` sends `M_A⁰` into
 `M_B⁰`, functorially) and `good` (for an abelian-scheme model, `M⁰ = M`), with the marked-model
-API of `M⁰`. *Needs:* 1.5; AlgebraicModuliForArithmeticGeometry §7.9; Mathlib
-`AlgebraicGeometry.Scheme.Hom.fiber`, `ConnectedComponents`; Tau Ceti `identityComponentSpec`.
+API of `M⁰`. *Needs:* 1.5, 1.9; AlgebraicModuliForArithmeticGeometry §7.9; ReductiveGroups
+Layer 3; Mathlib `AlgebraicGeometry.Scheme.Hom.fiber`, `ConnectedComponents`; Tau Ceti
+`identityComponentSpec`.
 
 **Checks.**
 
@@ -1267,13 +1279,16 @@ and under `galoisEquivalenceCommGrp k k^sep` when `G` is commutative. For a Nér
   extension of `k`;
 - agreement with Tau Ceti's `TauCeti.FiniteTypeCommHopfAlgCat.componentGroupScheme`, the constant
   group on `ConnectedComponents (PrimeSpectrum H)`, when `G = Spec H` is affine and `k` is
-  algebraically closed.
+  algebraically closed, and, for affine `G` over any field `k`, with the identity component and
+  component group of ReductiveGroups Layer 3, of which the affine algebraically-closed carrier
+  `componentGroupScheme` is the Tau Ceti instance; the general non-affine construction is this
+  target's.
 
 The Néron-model API is `NeronComponents.map`, `map_id`, `map_comp` (the extension to Néron models
 (1.5) of a homomorphism `A → B` induces `Φ_A → Φ_B`, functorially) and `good` (an abelian-scheme
-model has `Φ_A = 0`). *Needs:* 2.1; AlgebraicModuliForArithmeticGeometry §7.9; Tau Ceti
-`galoisEquivalenceGrp`, `galoisEquivalenceCommGrp`, `componentGroupScheme`; Mathlib
-`fpqcTopology` and its subcanonicity, `ConnectedComponents`.
+model has `Φ_A = 0`). *Needs:* 2.1; AlgebraicModuliForArithmeticGeometry §7.9; ReductiveGroups
+Layer 3; Tau Ceti `galoisEquivalenceGrp`, `galoisEquivalenceCommGrp`, `componentGroupScheme`;
+Mathlib `fpqcTopology` and its subcanonicity, `ConnectedComponents`.
 
 **Checks.**
 
@@ -1501,7 +1516,8 @@ AlgebraicModuliForArithmeticGeometry §7.9 for the identity components of 2.1–
 affine identity components and component groups and its Galois correspondence for finite étale
 group schemes over a field
 (`galoisEquivalenceGrp`, `galoisEquivalenceCommGrp`) for 2.1–2.2; Mathlib's subcanonical
-`fpqcTopology` for 2.2; ReductiveGroups Layers 4 and 7 and ReductiveGroupsPartII RG2.3.7;
+`fpqcTopology` for 2.2; ReductiveGroups Layer 3 (the affine identity component and component
+group, with which 2.1–2.2 agree), Layers 4 and 7 and ReductiveGroupsPartII RG2.3.7;
 EllipticCurves Layers 1 and 4; EtaleCohomologyFoundations §§G.1–G.3, `Compactification`,
 `nagataCompactification`, `compactificationCommonRefinement`; StableReduction Layers 4–6,
 with Layer 4 supplying resolution of normal proper curve models preserving the regular open
