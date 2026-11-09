@@ -29,7 +29,11 @@ acting Fuchsian group; it does not introduce a general orbifold groupoid or orbi
 fundamental-group carrier.
 
 Teichmüller theory and the marked moduli-space construction are owned by the separate
-`TeichmullerGeometry` roadmap. Its cross-roadmap graph is `RiemannianGeometry R4.7 + Fuchsian L2 → Teichmuller T0`; `Fuchsian L1,L2,L4,L5 → Teichmuller T7`; `Fuchsian L1,L2.1,L4,L4a,L5 → Teichmuller T9`; `Fuchsian L7.4 → Teichmuller T8`; `Teichmuller T7,T8,T9 → T10`; and `Teichmuller T0,T4a,T9,T10 → Fuchsian L9`. Fuchsian L9 consumes Fuchsian L2.1, L5 and L8; Teichmuller T0/T4a/T9/T10; RiemannianGeometry R4.7; and the generic InductionRestriction, NoncompactQuantumSymmetry, and PseudodifferentialOperators interfaces. Fuchsian L0–L8 do not consume TeichmullerGeometry; this section-level graph is acyclic. General Kleinian groups, higher-dimensional
+`TeichmullerGeometry` roadmap, a downstream consumer of this one: it takes Layer 0 items 2 and 3,
+Layer 1 items 1–3, Layer 2 item 1, Layer 4 item 5, Layer 4a and Layer 7 items 1 and 4, and no layer
+here consumes any layer of it. Layer 9 consumes Layers 0, 2, 5, 7 and 8, RiemannianGeometry R4.7,
+the universal-covers roadmap, and the generic InductionRestriction, NoncompactQuantumSymmetry and
+PseudodifferentialOperators interfaces. General Kleinian groups, higher-dimensional
 locally symmetric spaces, automorphic representations, and the classification of all
 two-dimensional orbifolds remain outside this roadmap. Congruence-subgroup arithmetic, Hecke
 operators, modular-form dimension formulas, and the construction and q-expansion of modular
@@ -72,9 +76,11 @@ The roadmap is complete when Tau Ceti proves the following.
     arithmeticity criterion, and its exact index-two passage to PGL is established.
 11. The compact orbifold minimum `π/21` and the finite-area extension of that minimum to cusp
     signatures are proved from Gauss–Bonnet and integer-signature minimization.
-12. For every genus `g ≥ 3`, the Teichmuller common-generic-locus theorem and the finite
-    order-32 Gassmann pair give nonisometric, scalar-isospectral degree-eight covers of genus
-    `8g−7`, together with the ambient right-regular `PSL(2,ℝ)`-representation equivalence.
+12. For every torsion-free cocompact Fuchsian group of genus `g ≥ 3` that is not arithmetic and
+    is maximal among discrete subgroups of `PGL₂(ℝ)` containing it, and every surjection of it
+    onto the order-32 group of Layer 9, the finite Gassmann pair gives nonisometric,
+    scalar-isospectral degree-eight covers of genus `8g−7`, together with the ambient
+    right-regular `PSL(2,ℝ)`-representation equivalence.
 
 ## Ownership and dependencies
 
@@ -139,12 +145,13 @@ The roadmap is complete when Tau Ceti proves the following.
   representation criterion and QFI 6D owns the local finite-place isotropy target. GQF form
   classification is not used to classify central simple algebras, which uses
   CFT's ABHN sequence and SSA Layers 4 and 6.
-- **TeichmullerGeometry owns marked Teichmuller space and its generic-locus theorems.** T7
-  consumes Fuchsian L1, L2, L4 and L5; L2 supplies the standard cocompact presentation used by
-  T7's abstract-signature adapter. T9 consumes Fuchsian L1, L2.1, L4, L4a and L5, with L2.1's
-  projective isometric-action convention; T9 supplies the isometry-lifting and
-  `RiemannianIsometry(H²)≃PGL₂(ℝ)` adapters. T8 consumes Fuchsian L7.4. Teichmuller T7, T8, and T9 feed T10;
-  Fuchsian L9 consumes Fuchsian L2.1, L5 and L8, Teichmuller T0, T4a, T9 and T10.
+- **TeichmullerGeometry, a downstream consumer, owns marked Teichmüller space and its
+  generic-locus theorems.** It consumes the layers listed under Scope, and this roadmap consumes
+  none of its layers. Its Layer 4.1 owns the group identification of `Isom(ℍ)` with `PGL₂(ℝ)`;
+  Layer 9 here proves only the identification of a lifted isometry with one element of
+  `PGL₂(ℝ)`, from L0, L2.1 and RiemannianGeometry R4.7. Surfaces in its Layer 11 common generic
+  locus have uniformizing groups satisfying Layer 9's hypotheses; the resulting p85 pairs in every
+  genus `g ≥ 3` belong to the downstream roadmap named in its Downstream consumers section.
 - **[InductionRestriction IR2.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7f4bfabdd1853a87f68a450756ba95deb068d2a9/TauCetiRoadmap/RepresentationTheory/InductionRestriction/README.md#L346-L432) owns generic finite almost-conjugacy and permutation-representation
   equivalence.** Fuchsian L9 owns and verifies the concrete p85 order-32 pair; it consumes only
   IR2.1's generic criterion, not a finite-pair contract from IR. **[NoncompactQuantumSymmetry M1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f42b4ff526e2572c148520494a68fa500cbc9ae1/TauCetiRoadmap/NoncompactQuantumSymmetry/README.md#L664-L699)**
@@ -173,22 +180,17 @@ GeometricTopology Layer 1 smooth/finite-CW adapter + AlgebraicTopology 4.7 CW co
 SurfaceTopology Layer 5 topological branched-cover Riemann–Hurwitz
     -> Fuchsian complex-curve specialization and analytic finite-map/branched-cover adapter
         -> Fuchsian compactification applications
-        -> Teichmuller T7/T9 and ModularForms10B consumers
+        -> ModularForms10B consumers
 
 TauCeti.Analysis.Complex.ModularForms.LevelOne.JInputs
     -> TauCeti.Analysis.Complex.Fuchsian.LevelOne
 
 NFA/ADS/GNF + LF3 + ZLF 1.4/3.4/4.8/5/5.6 + exact rational certificates -> Fuchsian L7.3b; L7.3b + ThetaSeries L1/2A/2C + QFI/CFT/SSA + LocalFieldsRamification + RG2.2.1/2.2.2/2.2.4 + AA.2.4/3.4/4.2 + GQF 0.1/0.2/6.1 + Fuchsian L0–L5/L4a -> Fuchsian L7.4; L7.6 sharp bound separately consumes ZLF 8.4
 Fuchsian L0/L2/L7 + LieGroups + SemisimpleAlgebras/RepresentationTheory + RG2.2.1/2.2.2/2.2.4 -> Fuchsian L8
-Fuchsian L1/L2.1/L4/L4a/L5 -> TeichmullerGeometry T9
-Fuchsian L7.4 -> TeichmullerGeometry T8
-Fuchsian L2 + RiemannianGeometry R4.7 -> Teichmuller T0
-Fuchsian L1/L2/L4/L5 -> TeichmullerGeometry T7
-TeichmullerGeometry T7/T8/T9 -> T10
-Fuchsian L2.1 + Teichmuller T0/T4a/T9/T10 + Fuchsian L8 + RiemannianGeometry R4.7 + IR2.1 + NQS M1 + PDO P7a -> Fuchsian L9
-Fuchsian L5/L8 + Teichmuller T4a + generic IR2.1 -> Fuchsian L9
+Fuchsian L0/L2/L2.1/L5/L7.1/L8 + RiemannianGeometry R4.7 + universal covers + generic IR2.1 -> Fuchsian L9
 NQS M1 quotient-L2 adapter + IR2.1 -> Fuchsian L9 ambient representation
 PDO P7a finite-deck transplantation + IR2.1 -> Fuchsian L9 scalar spectrum
+Fuchsian L0/L1/L2.1/L4/L4a/L7 -> downstream consumer TeichmullerGeometry
 ```
 
 `TauCeti.Analysis.Complex.RiemannSurface.Degree` is a native lower module and imports neither
@@ -431,8 +433,8 @@ attained at `(0;2,3;1 cusp)`. The exhaustive cases are:
 | `g=0, c=1, r≥3` | bracket at least `1/2`, hence area at least `π` |
 
 Own the integer-signature minimization proof in these cases, including the order comparisons in the
-`r=2` row; L7 consumes the finite-area bound for normalizer indices, and Teichmuller T9 consumes
-the compact minimum `π/21` from the preceding theorem.
+`r=2` row; L7 consumes the finite-area bound for normalizer indices, and the downstream
+TeichmullerGeometry Layer 10 consumes the compact minimum `π/21` from the preceding theorem.
 
 
 ## Layer 5: compact-surface degree theory and Fuchsian applications
@@ -485,8 +487,8 @@ the compact minimum `π/21` from the preceding theorem.
    `m_i` the elliptic orders. Use the dimension-two smooth/finite-CW comparison from GeometricTopology Layer 1 only for
    smooth clients; the polygon cell count itself is a Fuchsian compactification adapter. This
    named bridge applies both to
-   Teich T7's quotient by an action with fixed points and to L6's noncompact modular quotient
-   before cusp filling. Neither genus is identified by notation alone.
+   compact coarse quotients with elliptic points, such as a closed surface modulo a finite group
+   of automorphisms, and to L6's noncompact modular quotient before cusp filling. Neither genus is identified by notation alone.
 
 **Source spine:** Forster, §§10, 17, and 19; Miranda, Chapter III §§3--4; Farkas--Kra,
 Chapter II §4.
@@ -778,7 +780,7 @@ not claims that a supplier has already proved arithmetic Fuchsian theory.
    certificates must verify the specified rational comparisons as well as the analytic identities;
    numerical agreement alone does not discharge those proof targets.
    L7.3b proves the estimate-(5) bound consumed by L7.4. For totally real fields, positivity of f₂ gives `Δ≥e^(−70)58.6^n`; certify `e^(−70)>10^(−34)` using `e<3` and the integer inequality `3^70<10^34` and export `Δ≥10^(−34)58.6^n`. The sharper
-   totally-real Table 2/4 estimate is a separate L7.6 output and is not an input to L7.4 or T8.
+   totally-real Table 2/4 estimate is a separate L7.6 output and is not an input to L7.4.
 
 Consume LFunctions Layer 3's completed Dedekind-zeta datum, continuation, poles, residues
 and functional equation; consume ZerosOfLFunctions Layer 3.4's finite-order/growth theorem
@@ -914,7 +916,7 @@ explicit-formula analytic interfaces.
      `8π Δ^(3/2)/(4π²)^n ≤ C_sig`, hence
      `Δ ≤ (C_sig(4π²)^n/(8π))^(2/3)`. Use the direct all-signature estimate-(5) theorem for
      L7.4's finite candidate enumeration. The sharper totally-real Table 2/4 bound is separately
-     owned by L7.6 and is not an input to L7.4 or its T8 consumer.
+     owned by L7.6 and is not an input to L7.4.
      From L7.3b’s weakening obtain
      `C_sig≥8π·10^(−51)·(58.6^(3/2)/(4π²))^n`. Certify
      `58.6^(3/2)/(4π²)>10` using rational bounds on π, hence
@@ -997,7 +999,7 @@ explicit-formula analytic interfaces.
 5. **Independent sharp totally-real discriminant bound (L7.6; not an input to L7.4).**
 Prove the sharper totally-real bound `Δ≥a₀R₀^n`, where `a₀=2439/10^7` and `R₀=29.099`.
 Its proof is the unconditional Odlyzko Tables 2 and 4 route below; it is separate from the
-all-signature estimates in L7.3b and is not used in the L7.4 enumeration or Teichmuller T8.
+all-signature estimates in L7.3b and is not used in the L7.4 enumeration.
 Use Odlyzko's author-hosted unconditional Tables 2 and 4 (Nov. 29, 1976; files
 `https://www-users.cse.umn.edu/~odlyzko/unpublished/discr.bound.table2`,
 `https://www-users.cse.umn.edu/~odlyzko/unpublished/discr.bound.table4`, and description
@@ -1374,9 +1376,8 @@ RG2.2.1's `Building.exists_fixedPoint_of_bounded` on the enlarged building toget
 RG2.2.4's `BTTree.type_smul` and `sl2_preserves_type`, plus L7's building/tree and midpoint-to-vertex adapters; GNF mixed weak approximation only in the L7 instances named above; and
 SemisimpleAlgebras/RepresentationTheory for finite-dimensional matrix density. Layer 8 owns the
 specialized boundary-map construction, measurable uniqueness, boundary-pair ergodicity comparison,
-and low-dimensional subgroup/homomorphism classifications used here. TeichmullerGeometry T0
-consumes Fuchsian L2’s projective action for its hyperbolic isometry model; T7/T9 consume the
-listed quotient, signature and area interfaces. Layer 9 consumes maximality from this layer.
+and low-dimensional subgroup/homomorphism classifications used here. Layer 9 consumes item 4's
+maximality consequence.
 
 **Source spine:** Margulis, *Discrete Subgroups of Semisimple Lie Groups*, Chapter IX, and the
 source article's cited 1974 ICM theorem. The hypotheses and the two directions are stated above;
@@ -1384,12 +1385,13 @@ this layer proves the specialized two-dimensional interface.
 
 ## Layer 9: the p85 order-32 Gassmann application
 
-Layer 9 consumes Fuchsian L2.1's projective PGL action, L5's topological genus and covering
-formulas, and L8's commensurator criterion. For each `g≥3`, consume TeichmullerGeometry T10's
-common-generic-locus theorem to choose a
-closed hyperbolic surface `S₀=ℍ²/Γ₀` with `Γ₀` torsion-free and cocompact, trivial full
-conformal/anticonformal isometry group, nonarithmetic uniformizing lattice, and maximality
-among discrete PGL overgroups. By Layer 8, `Comm_PGL(Γ₀)=Γ₀`.
+Layer 9 consumes L0 item 2's projective PGL action and its map `PSL₂(ℝ)→PGL₂(ℝ)`, L2.1's
+metric comparison, L2 item 5's standard presentation, L5's topological genus and covering
+formulas, L7 item 1's arithmetic lattices and L8's commensurator criterion. Throughout, fix
+`g≥3` and a subgroup `Γ₀≤PSL₂(ℝ)` that is discrete, cocompact and torsion-free, with closed
+quotient `S₀=ℍ²/Γ₀` of genus `g`, such that `Γ₀` is not arithmetic in the sense of L7 item 1
+and its image in `PGL₂(ℝ)` is maximal among discrete subgroups of `PGL₂(ℝ)` containing it.
+Every theorem of this layer is stated for every such `Γ₀`. By L8 item 4, `Comm_PGL(Γ₀)=Γ₀`.
 
 Use the explicit finite group `Q=(ℤ/8ℤ)ˣ⋉(ℤ/8ℤ)` with product
 `(u,a)(v,b)=(uv,a+ub)` and subgroups
@@ -1404,14 +1406,13 @@ intersection-cardinality predicate. This is the specific p85 pair, not Induction
 separate `S₁₆` pair. Consume only the generic IR2.1 almost-conjugacy/permutation-module
 equivalence; this layer owns the concrete pair and its formal finite verification.
 
-Use the geometric surface-group convention fixed by TeichmullerGeometry T4a:
-`Π(S₀):=(π₁ⁿᵃᵗ(S₀,x₀))ᵐᵒᵖ`, whose multiplication is first-traverse-then-second-traverse.
-Choose the marking isomorphism `Π(S₀)≃Γ₀` and the standard positively oriented polygon
-presentation in that convention. Send three `a`-generators to the displayed triple
-`(1,1),(3,0),(5,0)` and every other `a`- or `b`-generator to `1`; the displayed triple
-satisfies the polygon relation, so this defines the surjection `φ:Γ₀↠Q`. This use of `Π`,
-rather than an unqualified native `π₁`, keeps the attaching-word order consistent with the
-positive geometric polygon relation and T4a's holonomy convention. Put `Γ=ker φ` and
+L2 items 4 and 5, applied to a Dirichlet polygon of `Γ₀`, give its standard presentation
+`⟨a₁,b₁,…,a_g,b_g | [a₁,b₁]⋯[a_g,b_g]⟩` with L2's positive boundary-word orientation. The
+relation is an identity among elements of `Γ₀≤PSL₂(ℝ)`, so no fundamental-group or marking
+convention enters. The theorems below hold for every surjective homomorphism `φ:Γ₀↠Q`, and one
+exists for every `g≥3`: send `a₁,a₂,a₃` to the displayed triple `(1,1),(3,0),(5,0)` and every
+other `a`- or `b`-generator to `1`. Each commutator `[aᵢ,bᵢ]` then maps to `1`, so the relation
+holds, and `p85_generates` gives surjectivity. Put `Γ=ker φ` and
 `Γᵢ=φ⁻¹(Hᵢ)`. Then `Γ◁Γ₀`,
 `Γᵢ/Γ≃Hᵢ`, and `[Γ₀:Γᵢ]=8`; the common regular cover is required, while the intermediate
 groups need not be normal in `Γ₀`. Since `Γ₀` is torsion-free and cocompact, so are `Γ` and
@@ -1426,29 +1427,39 @@ Before invoking any Laplacian or Sobolev-domain interface, construct the quotien
 closed, connected smooth surface and descend the hyperbolic metric. Prove the Γ action is free,
 proper and isometric; prove the finite quotient maps are smooth finite regular covers and local
 isometries, and identify their deck actions. Use RiemannianGeometry R4.7's quotient-metric,
-covering and smooth-manifold results and TeichmullerGeometry T9’s
-`RiemannianIsometry(H²)≃PGL₂(ℝ)` identification and isometry-lifting adapter, consuming R4.7’s generic lifting interface. All quotient groups and maps have been defined
+covering and smooth-manifold results. All quotient groups and maps have been defined
 before this metric comparison is used.
 
 Apply the finite-index quotient-`L²` unitary adapter of NQS M1 and the finite-deck scalar
 Laplacian transplantation theorem of PDO P7a. Prove the ambient unitary equivalence separately
-from scalar isospectrality with multiplicity. Since `Γ₀` is maximal in PGL,
-`Comm_PGL(Γ₀)=Γ₀`. Lift an isometry between the intermediate surfaces to `c∈PGL₂(ℝ)`
-with `cΓ₁c⁻¹=Γ₂`. Because both Γᵢ have finite index in Γ₀, prove `c∈Comm_PGL(Γ₀)=Γ₀`.
-Applying φ then conjugates H₁ to H₂ in Q, a contradiction. This proves the p85 existence statement without claiming a particular coordinate
-model for the generic lattice.
+from scalar isospectrality with multiplicity. For nonisometry, let `f:S₁→S₂` be an isometry,
+orientation-preserving or not. Since `ℍ²` is simply connected, the universal-covers lifting
+criterion lifts `f∘p₁` through the covering `p₂:ℍ²→S₂` to a map `F:ℍ²→ℍ²`; it is a local
+isometry for the L2.1 metric because both projections are, and lifting `f⁻¹` the same way makes
+`F` a bijective isometry. Identify `F` with one element of `PGL₂(ℝ)`: the L0 item 2 action is
+transitive on `ℍ²`, the stabilizer of `i` in `PSL₂(ℝ)` acts on `T_iℍ²` by every rotation, and
+`z↦−z̄` acts there by a reflection, so some `c∈PGL₂(ℝ)` makes `c⁻¹F` fix `i` with identity
+differential. R4.7's theorem that a local isometry of a connected manifold is determined by its
+value and tangent map at one point gives `F=c`, so `cΓ₁c⁻¹=Γ₂`. Because both `Γᵢ` have finite
+index in `Γ₀`, `c∈Comm_PGL(Γ₀)=Γ₀`, and applying `φ` conjugates `H₁` to `H₂` in `Q`,
+contradicting `p85_not_conjugate`. The argument uses only the stated hypotheses on `Γ₀`, not a
+particular coordinate model for it.
 
-### L9.1. Exact marked genericity and full commensurator input
+### L9.1. The genericity hypotheses and the full commensurator
 
-Consume the following precise T9/T10 interfaces on the analytic marked Teichmüller carrier of the fixed closed oriented genus-`g≥3` surface. T9 constructs the finite family of normal subgroups `N◁Π` of index at most `(168(g−1))!`, their marked regular covers `p_N:Σ_N→Σ`, and holomorphic embeddings `Φ_N:Teich(Σ)→Teich(Σ_N)` onto the fixed loci of `Q_N=Π/N`. The deck identification uses T4a's endpoint/opposite-group convention, and its outer action is represented by `n↦γnγ⁻¹` for `γN∈Q_N`. The fixed-locus identification includes the extension argument `L_Q≃E_Q≃Π`, torsion-freeness and freeness of the realized deck group, orientation of the descended marking by finite-cover degree, global injectivity by the trivial centralizer of `N`, and the holomorphic local inverse by the quadratic-differential trace identity `p_*p^*=[Π:N] id`. These are T9 targets for the fixed marked cover.
+The hypotheses on `Γ₀` use only this roadmap's notions: discreteness and cocompactness from
+Layers 0 and 2, genus from L5, arithmeticity from L7 item 1, and maximality through L0 item 2's
+map `PSL₂(ℝ)→PGL₂(ℝ)`. L8 proves `Comm_PSL(Γ₀)` discrete for this nonarithmetic lattice. The
+positive-determinant part of `Comm_PGL(Γ₀)` is exactly `Comm_PSL(Γ₀)` and has index at most
+two; hence the full commensurator is discrete as well. Full PGL maximality then gives
+`Comm_PGL(Γ₀)=Γ₀`. A nontrivial conformal or anticonformal isometry of `S₀` lifts, as in the
+nonisometry argument above, to an element of the normalizer of `Γ₀` in `PGL₂(ℝ)` outside `Γ₀`;
+the normalizer lies in `Comm_PGL(Γ₀)=Γ₀`, so the full isometry group of `S₀` is trivial. Thus
+all unoriented isometries are included in the nonisometry conclusion.
 
-For every mapping class `a∉Q_N`, T9 proves `Φ_N⁻¹(Fix(a))` is closed nowhere dense. At a fixed point put `F=⟨Q_N,a⟩` in the finite point stabilizer. If `F⁺>Q_N`, the subgroup inclusion gives the finite holomorphic map `Σ_N/Q_N→Σ_N/F⁺` of degree `e=[F⁺:Q_N]≥2`, with no normality assumption on `Q_N≤F⁺`. Its source is a smooth genus-`g` surface. With quotient genus `h` and cone orders `m₁,…,m_r`, L5 gives `2g−2=e(2h−2+Σ(1−1/m_i))`. Positivity and `m_i≥2` imply `r≤2g+2−4h`. T7's invariant-quadratic-differential/Serre-duality/Riemann–Roch theorem gives dimension `3h−3+r`; its codimension in the deck fixed locus is at least `g+h−2>0`. This treats every proper orientable orbifold cover, including nonregular covers and low quotient genus. In genus two equality occurs at the hyperelliptic degree-two cover with signature `(0;2,2,2,2,2,2)`, which is why the generic input starts at genus three.
-
-If `F⁺=Q_N`, the remaining coset induces an antiholomorphic involution on the deck fixed locus, with fixed real dimension `3g−3<6g−6` by T7's finite-action real linearization. This includes free orientation-reversing isometries. The mapping-class indexing sets are countable, so T5's complete metric gives the countable Baire exclusion. T3's finite compact transporters make the closed fixed-locus family locally finite; the finite normal-core family therefore yields the stronger open dense FULL-PGL-maximal locus. Its overgroup correspondence uses the minimum compact orientable orbifold area `π/21` from L4a and the index bound `168(g−1)`.
-
-For arithmetic removal, T8 consumes the full L7.4 fixed-signature theorem in signature `(g;−)`. Finitely many unmarked arithmetic classes lift to finitely many countable mapping-class orbits on marked Teichmüller space. Proper discontinuity makes these orbits locally finite and closed, so their complement is open dense. T10 intersects this complement with T7's full automorphism-free locus and T9's full-PGL-maximal locus. This argument uses the marked topology and Baire/local-finiteness theorems, and proves a nonempty open dense common locus.
-
-Finally L8 proves `Comm_PSL(Γ₀)` discrete for this nonarithmetic lattice. The positive-determinant part of `Comm_PGL(Γ₀)` is exactly `Comm_PSL(Γ₀)` and has index at most two; hence the full commensurator is discrete as well. Full PGL maximality then gives `Comm_PGL(Γ₀)=Γ₀`. Equivalently, after orientation-preserving maximality, a reversing commensurator would normalize `Comm_PSL(Γ₀)=Γ₀` and descend to a forbidden anticonformal isometry. Thus all unoriented isometries are included in the nonisometry conclusion.
+Surfaces in TeichmullerGeometry Layer 11's common generic locus satisfy these hypotheses. This
+layer does not use that locus: producing p85 pairs in every genus `g≥3` from it belongs to the
+downstream roadmap named in TeichmullerGeometry's Downstream consumers section.
 
 ### L9.2. Finite pair and quotient transport checks
 
@@ -1458,11 +1469,10 @@ L9 owns the quotient-in-stages identification `X/H≃ℍ²/φ⁻¹(H)` as a smoo
 
 Use Riemannian volume consistently. For `π_H:X→X/H` the normalized scalar pullback is `J_H=|H|^(−1/2)π_H^*`; its isometry follows from the degree-`|H|` integration formula. PDO P7a supplies quadratic-form, Sobolev-domain, resolvent and nonnegative scalar-Laplacian transport and yields equality of multiplicities. For the ambient comparison take `G=PSL₂(ℝ)` and the right-regular representations on `L²(Γᵢ\G)`; its finite left deck action on `L²(Γ\G)` commutes with the right G action because `Γ◁Γ₀`. Normalize Haar measure with probability Haar measure on `K=PSO(2)` and quotient measure on `G/K=ℍ²` equal to hyperbolic area. NQS M1 separately supplies the ambient right-regular quotient-L² unitary equivalence using this quotient normalization and finite left deck action. The concrete finite pair belongs to L9, generic almost-conjugacy/permutation equivalence to IR2.1, and generic spectral/ambient comparison to those respective analytic owners.
 
-**Dependency order:** the section-level graph is `Fuchsian L1,L2,L4,L5 → TeichmullerGeometry T7`;
-`Fuchsian L1/L2.1/L4/L4a/L5 → TeichmullerGeometry T9`; `Fuchsian L7.4 → TeichmullerGeometry T8`;
-`T7,T8,T9 → T10`; and `T0,T4a,T9,T10,Fuchsian L8,RiemannianGeometry R4.7 → Fuchsian L9`.
-Fuchsian L0–L8 have no Teichmuller dependency. L9 also consumes IR2.1, NQS M1's finite-index
-quotient adapter, and PDO P7a's finite-deck scalar transplantation theorem.
+**Dependency order:** Layer 9 consumes Layers 0, 2, 5, 7 (item 1) and 8 of this roadmap,
+RiemannianGeometry R4.7, the universal-covers lifting criterion, IR2.1's generic almost-conjugacy
+criterion, NQS M1's finite-index quotient adapter and PDO P7a's finite-deck scalar
+transplantation theorem. It consumes nothing from TeichmullerGeometry.
 
 ## Dependency order and parallel work
 
@@ -1470,24 +1480,21 @@ quotient adapter, and PDO P7a's finite-deck scalar transplantation theorem.
 | --- | --- | --- |
 | L0 effective action and free locus | Mathlib, complex manifolds | L1--L4 |
 | L1 elliptic charts | L0, complex-manifold gluing | L4--L6 |
-| L2 polygons and presentations | L0, conformal mapping, R4.7 native/generic models plus owned L2.1 coordinate/tensor/distance/volume comparison | L3--L4, L6, Teich T0 |
+| L2 polygons and presentations | L0, conformal mapping, R4.7 native/generic models plus owned L2.1 coordinate/tensor/distance/volume comparison | L3--L4, L6, L9 |
 | L3 cusps and q-coordinates | L0, L2 | L4--L6 |
 | L4 compactification | L1--L3 | L5--L6 |
-| L5 degree theory and applications | complex analysis, SurfaceTopology Layers 5 and 8, PlanarTopology surface invariants, GeometricTopology Layer 1 smooth/finite-CW comparison, native Riemann-surface degree APIs, L4 | L6, Teich T7/T9, modular forms |
+| L5 degree theory and applications | complex analysis, SurfaceTopology Layers 5 and 8, PlanarTopology surface invariants, GeometricTopology Layer 1 smooth/finite-CW comparison, native Riemann-surface degree APIs, L4 | L6, L9, modular forms |
 | L6 level-one example | L0--L5, modular forms | normalized `X(1) ≃ P^1` |
-| L4a compact and finite-area minima | L4, integer-signature minimization | compact area ≥ `π/21` for T9; cusp area ≥ `π/3` for L7 normalizer indices |
-| Teichmuller T7 | Fuchsian L1, L2, L4, L5, Teichmuller deformation/moduli theory | marked-surface mapping-class interface |
-| Teichmuller T9 | Fuchsian L1/L2.1/L4/L4a/L5, Teichmuller deformation/moduli theory | open dense maximal PGL locus for `g≥3` |
+| L4a compact and finite-area minima | L4, integer-signature minimization | compact area ≥ `π/21`; cusp area ≥ `π/3` for L7 normalizer indices |
 | L7.3b all-signature Odlyzko estimates (4)/(5) | LFunctions LF3, ZLF 1.4/3.4/4.8/5/5.6 and exact rational certificates | both-signature discriminant estimates, consumed by L7.4 |
-| L7.4 fixed-signature arithmetic finiteness | NFA/ADS/GNF, ThetaSeries Layers 1, 2A, 2C, LFunctions LF3, ZLF 1.4/3.4/4.8/5/5.6, QFI, CFT, SSA Layers 3, 4 and 6, GQF Layers 0.1/0.2/6.1, LocalFieldsRamification, RG2.2.1/2.2.2/2.2.4, AA.2.4/3.4/4.2, L0--L5, L4a | fixed-signature arithmetic lattice finiteness consumed by T8 |
-| L7.6 sharp Odlyzko Table 2/4 theorem | LFunctions LF3, ZLF 1.4/3.4/4.8/5/5.6/8.4 and ThetaSeries smoothing adapters | sharp totally-real discriminant bound; parallel to the T8 path |
-| L8 commensurator | L0, L2, L7, LieGroups, RepresentationTheory/SemisimpleAlgebras, RG2.2.1/2.2.2/2.2.4 | finite-covolume PSL/PGL commensurator criterion |
-| Teichmuller T8 | Fuchsian L7.4, Teichmuller deformation/moduli theory | fixed-genus torsion-free arithmetic finiteness |
-| Teichmuller T10 | Teichmuller T7, T8, T9, Teichmuller deformation/moduli theory | common generic locus for L9 |
-| L9 p85 application | L2.1, L5, L8, Teich T0/T4a/T9/T10, RiemannianGeometry R4.7, IR2.1, NQS M1, PDO P7a | genus `8g−7` examples and both equivalences |
+| L7.4 fixed-signature arithmetic finiteness | NFA/ADS/GNF, ThetaSeries Layers 1, 2A, 2C, LFunctions LF3, ZLF 1.4/3.4/4.8/5/5.6, QFI, CFT, SSA Layers 3, 4 and 6, GQF Layers 0.1/0.2/6.1, LocalFieldsRamification, RG2.2.1/2.2.2/2.2.4, AA.2.4/3.4/4.2, L0--L5, L4a | fixed-signature arithmetic lattice finiteness |
+| L7.6 sharp Odlyzko Table 2/4 theorem | LFunctions LF3, ZLF 1.4/3.4/4.8/5/5.6/8.4 and ThetaSeries smoothing adapters | sharp totally-real discriminant bound; parallel to L7.4 |
+| L8 commensurator | L0, L2, L7, LieGroups, RepresentationTheory/SemisimpleAlgebras, RG2.2.1/2.2.2/2.2.4 | finite-covolume PSL/PGL commensurator criterion and maximality consequence for L9 |
+| L9 p85 application | L0, L2, L2.1, L5, L7.1, L8, RiemannianGeometry R4.7, universal covers, IR2.1, NQS M1, PDO P7a | genus `8g−7` covers for every `Γ₀` satisfying the L9 hypotheses, and both equivalences |
 
-The dependency order follows the section graph above: L2+R4.7→T0; L1,L2,L4,L5→T7; L1,L2.1,L4,L4a,L5→T9; L7.4→T8;
-T7,T8,T9→T10; and T0,T4a,T9,T10,L8,R4.7 plus the stated IR2.1/NQS M1/PDO P7a interfaces→L9. L1 and L2 can proceed in parallel after L0. The local q-coordinate calculation in L3 can proceed
+The dependency order follows the table; in particular L0, L2, L2.1, L5, L7.1, L8 and R4.7 plus the
+stated universal-covers, IR2.1, NQS M1 and PDO P7a interfaces→L9. No row depends on
+TeichmullerGeometry, which consumes this roadmap downstream. L1 and L2 can proceed in parallel after L0. The local q-coordinate calculation in L3 can proceed
 while the global polygon results are completed. The generic part of Layer 5 can proceed in
 parallel with Layers 0--4; its Fuchsian applications begin after Layer 4. Matching Mathlib APIs
 replace local declarations when available, but no layer waits for them.
@@ -1534,7 +1541,8 @@ replace local declarations when available, but no layer waits for them.
   accepted.
 - Layer 8 proves the finite-covolume PSL dichotomy, the closed-subgroup density/discreteness step,
   the index-two PGL passage and applies maximality only after commensurator discreteness is proved.
-- Layer 9 follows `T0,T4a,T9,T10,L8,R4.7→L9`, uses IR2.1 only for generic permutation equivalence,
+- Layer 9 follows `L0,L2,L2.1,L5,L7.1,L8,R4.7→L9`, states every theorem for every `Γ₀` satisfying
+  its hypotheses, uses IR2.1 only for generic permutation equivalence,
   and keeps the concrete p85 pair in L9.
 - The concrete quotient surfaces in PDO P7a are proved closed connected smooth Riemannian
   surfaces, with finite regular covering and local-isometry structures, before smooth, Sobolev,
@@ -1584,7 +1592,6 @@ replace local declarations when available, but no layer waits for them.
 
 ## Secondary implementation provenance
 
-The exact rational data for the L7.3b estimate-(4)/(5) numerical audit is recorded in
-`root-odlyzko-estimates4-5-all-signatures-certificate-20261016T173212Z` in the source-evidence
-collection. The definitive coefficient lists, polynomial/Bernstein comparisons and analytic
+The exact rational data for the L7.3b estimate-(4)/(5) numerical audit is recorded in the
+all-signature Odlyzko certificate of the source-evidence collection. The definitive coefficient lists, polynomial/Bernstein comparisons and analytic
 proof obligations are stated in L7.3b itself; this audit is not a Lean proof.

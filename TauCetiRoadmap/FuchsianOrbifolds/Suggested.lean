@@ -1,16 +1,6 @@
+import Mathlib
 import TauCeti.Analysis.Complex.RiemannSurface.Degree
 import TauCeti.Analysis.Complex.RiemannSurface.Ramification
-import Mathlib.GroupTheory.SemidirectProduct
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Algebra.GroupWithZero.Units.Fintype
-import Mathlib.Analysis.Complex.UpperHalfPlane.FixedPoints
-import Mathlib.Analysis.Complex.UpperHalfPlane.Manifold
-import Mathlib.Analysis.Complex.UpperHalfPlane.Measure
-import Mathlib.Analysis.Complex.UpperHalfPlane.ProperAction
-import Mathlib.Geometry.Manifold.Diffeomorph
-import Mathlib.Geometry.Manifold.Instances.Quotient
-import Mathlib.LinearAlgebra.Matrix.ProjectiveSpecialLinearGroup
-import Mathlib.Topology.Compactification.OnePoint.ProjectiveLine
 
 /-!
 # Fuchsian groups and orbifold Riemann surfaces: target signatures
@@ -528,21 +518,17 @@ def p85H1Elements : Finset p85AffineGroup :=
 def p85H2Elements : Finset p85AffineGroup :=
   {p85Element 1 0, p85Element p85Unit3 4, p85Element p85Unit5 4, p85Element p85Unit7 0}
 
-set_option maxRecDepth 10000 in
-set_option maxHeartbeats 10000000 in
 def p85H₁ : Subgroup p85AffineGroup where
   carrier := {x | x ∈ p85H1Elements}
-  one_mem' := by decide
-  mul_mem' := by decide
-  inv_mem' := by decide
+  one_mem' := by decide +kernel
+  mul_mem' := by decide +kernel
+  inv_mem' := by decide +kernel
 
-set_option maxRecDepth 10000 in
-set_option maxHeartbeats 10000000 in
 def p85H₂ : Subgroup p85AffineGroup where
   carrier := {x | x ∈ p85H2Elements}
-  one_mem' := by decide
-  mul_mem' := by decide
-  inv_mem' := by decide
+  one_mem' := by decide +kernel
+  mul_mem' := by decide +kernel
+  inv_mem' := by decide +kernel
 
 theorem p85_card : Fintype.card p85AffineGroup = 32 := by decide
 
@@ -565,33 +551,27 @@ theorem p85H₂_subgroup_card : Fintype.card p85H₂ = 4 := by decide
 def p85ConjugacyCount (S : Finset p85AffineGroup) (q : p85AffineGroup) : ℕ :=
   (Finset.univ.filter fun x => x ∈ S ∧ ∃ g : p85AffineGroup, g*q*g⁻¹=x).card
 
-set_option maxRecDepth 10000 in
-set_option maxHeartbeats 10000000 in
 /-- The two subgroups have equal intersection counts with every conjugacy class. -/
 theorem p85AlmostConjugate (q : p85AffineGroup) :
     p85ConjugacyCount p85H1Elements q = p85ConjugacyCount p85H2Elements q := by
   revert q
-  decide
+  decide +kernel
 
-set_option maxRecDepth 10000 in
-set_option maxHeartbeats 10000000 in
 /-- No inner automorphism carries the first subgroup to the second. -/
 theorem p85_not_conjugate :
     ¬ ∃ g : p85AffineGroup, ∀ x : p85AffineGroup,
       x ∈ p85H₂ ↔ g⁻¹*x*g ∈ p85H₁ := by
-  decide
+  decide +kernel
 
 def p85Translation : p85AffineGroup := p85Element 1 1
 def p85Dilation3 : p85AffineGroup := p85Element p85Unit3 0
 def p85Dilation5 : p85AffineGroup := p85Element p85Unit5 0
 
-set_option maxRecDepth 10000 in
-set_option maxHeartbeats 10000000 in
 theorem p85_normalForm (x : p85AffineGroup) :
     ∃ i : Fin 8, ∃ j k : Fin 2,
       x = p85Translation^i.val * p85Dilation3^j.val * p85Dilation5^k.val := by
   revert x
-  decide
+  decide +kernel
 
 /-- Translation and the two specified dilations generate the entire affine group. -/
 theorem p85_generates :
