@@ -243,10 +243,10 @@ def IsDerivedComplete {R : Type u} [CommRing R] (I : Ideal R) (M : Type v) [AddC
 
 /-- Telescope completeness agrees with the shifted-localization criterion of
 `DerivedDeRham.derivedCompleteness` on `M[0]` (`isDerivedComplete_iff_derivedCompleteness`,
-Section E4.1; BS-proet Lemma 3.4.7; Stacks 091P). -/
+Section E4.1; BS-proet Lemma 3.4.7; Stacks 091P). Both sides are conditions on each `f ∈ I`
+separately, so the ideal need not be finitely generated. -/
 theorem isDerivedComplete_iff_derivedCompleteness (R : Type u) [CommRing R]
-    (I : Ideal R) (hI : I.FG)
-    (M : Type u) [AddCommGroup M] [Module R M] :
+    (I : Ideal R) (M : Type u) [AddCommGroup M] [Module R M] :
     IsDerivedComplete I M ↔ ∀ f ∈ I, ∀ n : ℤ,
       Subsingleton
         (((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj
