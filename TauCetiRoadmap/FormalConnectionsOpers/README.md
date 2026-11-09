@@ -2416,7 +2416,7 @@ form. In rank one this is the trace form with `κ(h, h) = 2`. Construct `Conn`'s
 bracket directly through residue pairing and `{H_x, H_y}(A) = H_[x,y](A) − Res κ(x dy)`. Prove
 the formal cocycle, biderivation and Jacobi identities using continuous Laurent calculus, extend
 continuously from coefficient functions, and identify with the affine Lie–Poisson dual hyperplane
-(Frenkel, §8.3.2, pp. 246–247; Frenkel–Gaitsgory, §4.3). This direct
+(Frenkel, §8.3.2, pp. 246–247; Frenkel–Gaitsgory, §4.3, pp. 39–40). This direct
 construction uses no completed enveloping algebra or quantum-centre theorem. With
 `H_x(A) = Res κ(A, x) dt` and central cocycle `−κ Res(x dy)`, the canonical Lie–Poisson
 Hamiltonian anchor of `dH_x` is `+∇_ad x = x′ + [A, x]`. The tangent vector labelled by a left gauge
@@ -2488,8 +2488,11 @@ the pointed `Aut(O)` subgroup.
 ### 7.4 The coisotropic regular locus (F7.4)
 
 Prove `Op(D) ⊂ Op(D×)` coisotropic: its defining ideal `I` satisfies `{I, I} ⊂ I`
-(Frenkel–Gaitsgory, Lemma 4.4.1). Construct its conormal Lie–Rinehart algebroid, action
-on `Ω¹_(Op(D))`, and normal/conormal exact sequences. Prove the normal module is locally
+(over `ℂ`, Frenkel–Gaitsgory, Lemma 4.4.1, p. 40). Construct its conormal Lie–Rinehart algebroid,
+action on `Ω¹_(Op(D))`, and normal/conormal exact sequences (for a coisotropic subscheme of a
+formally smooth Poisson ind-scheme, itself formally smooth, whose normal bundle is locally
+projective, the conormal algebroid, its action and the diagram (4.9) are Frenkel–Gaitsgory, §4.4,
+p. 40). Prove the normal module is locally
 projective/discrete from the negative Drinfeld–Sokolov coefficient decomposition, supplying the
 hypothesis used in the general conormal theorem. It is not generally a Poisson ideal: do not impose
 `{I, A} ⊂ I` or invent an inherited unrestricted Poisson bracket on `Fun Op(D)`. The
@@ -2603,7 +2606,7 @@ side is AffineLieAlgebras' target.
 
 Define `IsomOp` as the 2-fibre product `Op(D×) ×_(Loc(D×)) Op(D×)`. Its arrows are isomorphisms
 of underlying connections, without requiring preservation of the Borel reductions
-(Frenkel–Gaitsgory, §4.1). In Drinfeld–Sokolov representatives these are
+(Frenkel–Gaitsgory, §4.1, p. 37). In Drinfeld–Sokolov representatives these are
 `(q, q′, g)` with `gauge(g, A_q) = A_(q′)`; composition is multiplication of gauges. Construct its
 ind-formal presentations and base-change/descent laws. This is a full restriction/pullback of the
 connection groupoid, not an action of `LG` on the slice and not the groupoid of oper isomorphisms
@@ -2629,11 +2632,12 @@ of Layer 4.
 ### 8.2 Formal smoothness and the source-fixed differentiation (F8.2)
 
 Prove formal smoothness of source and target by the oper transversality lifting argument for every
-square-zero extension of `R` (Frenkel–Gaitsgory, Proposition 4.1.1 and §4.2).
+square-zero extension of `R` (Frenkel–Gaitsgory, Proposition 4.1.1, p. 37, proved in §4.2,
+pp. 37–38).
 Construct its source-tangent-at-unit Tate algebroid, bracket first by `N((t))`-reduction of the
 `Conn` action algebroid `𝔤((t)) ⊗^! Fun(Conn)`, with moment constraints and bracket descent, and
-the anchor (Frenkel–Gaitsgory, Lemmas 4.3.1–4.3.2). Identify it with the
-source-tangent-at-unit carrier by formal smoothness, and with right-invariant relative vector
+the anchor (Frenkel–Gaitsgory, Lemmas 4.3.1–4.3.2, p. 39, proof of 4.3.2 p. 40). Identify it with
+the source-tangent-at-unit carrier by formal smoothness, and with right-invariant relative vector
 fields. For the left gauge action on `Conn`, constant gauge labels have the opposite of the native
 convolution loop bracket: their fundamental vector fields satisfy `[F_x, F_y] = −F_[x,y]`. Prove
 this convention comparison; `Lie(LG)` itself retains the native loop bracket. For every
@@ -2649,10 +2653,10 @@ bracket, anchor and Leibniz rule on the completed kernel, with relative base cha
 evaluation-stage independence. This single source-fixed differentiation supplier feeds
 GeometricRepresentationCategories R5's relative differentiation question. At `∇ = ∂ + A` use
 `T Op = coker(∇_ad : 𝔫((t)) → 𝔟((t)) dt)` and `Lie IsomOp = ker(∇_ad : (𝔤/𝔫)((t)) → (𝔤/𝔟)((t)) dt)`
-(Frenkel–Gaitsgory, equations (4.2)–(4.3)); globally replace each coefficient
+(Frenkel–Gaitsgory, equations (4.2)–(4.3), p. 38); globally replace each coefficient
 space by its `⊗^! Fun Op` module from §5.2, using the compatible universal connection; prove these
 maps are well-defined quotient maps and residue identifies the continuous cotangent with the
-latter kernel (Frenkel–Gaitsgory, equation (4.4)). Our anchor sends the class `x` to
+latter kernel (Frenkel–Gaitsgory, equation (4.4), p. 38). Our anchor sends the class `x` to
 `−∇_ad x = [x, A] − x′` in the displayed cokernel. The residue cotangent identification sends
 `dH_x` to the class of `−x`, so its anchor is `+∇_ad x` as in §7.2; prove the pairing sign and
 bracket comparison, including variable sections. Prove an isomorphism of native Lie–Rinehart
@@ -2687,9 +2691,12 @@ dimensions.
 
 Restrict to regular opers, prove every punctured horizontal isomorphism between regular
 connections extends uniquely to the disc, and identify this regular groupoid with the 2-fibre
-product over `BG` of fibres at `t = 0` (Frenkel–Gaitsgory, §4.4, Lemma 4.4.2, p. 40, proof p. 41).
-Identify its Lie algebroid with §7.4's conormal Lie–Rinehart algebroid through the
-residue/negative-label comparison of §8.2, and preserve the anchor, bracket and stabilizers. No
+product over `BG` of fibres at `t = 0` (over `ℂ`, Frenkel–Gaitsgory, §4.4, Lemma 4.4.2, p. 40,
+proof p. 41). Identify its Lie algebroid with §7.4's conormal Lie–Rinehart algebroid through the
+residue/negative-label comparison of §8.2, and preserve the anchor, bracket and stabilizers (over
+`ℂ`, Frenkel–Gaitsgory, §4.4, p. 41: the algebroid map (4.10) from the conormal to the regular
+isomonodromy algebroid, built from Lemma 4.3.2 and Lemma 4.4.2(1), is an isomorphism by
+Proposition 4.4.3). No
 simply-connected integration hypothesis is inserted into this formal algebraic construction.
 
 - `IsomOp^reg = Op(D) ×_(BG) Op(D)`, with `Lie IsomOp^reg ≃ N*_(Op(D)/Op(D×))` as Lie–Rinehart
@@ -2832,8 +2839,12 @@ GeometricRepresentationCategories.
   adjoint group have no automorphisms; §1.1, p. 16, `R`-families of bundles on `D×`, étale-locally
   trivial on `Spec R`; Proposition 1.3.1 and Corollary 1.3.2, p. 17, canonical representatives and
   representability of the regular and punctured oper functors), §4 (the isomonodromy groupoid,
-  its tangent and cotangent algebroids, Drinfeld–Sokolov reduction, regular opers; Lemmas 4.3.1
-  and 4.3.2, p. 39; Lemma 4.4.2, pp. 40–41, regular connections and their fibres at the origin),
+  its tangent and cotangent algebroids, Drinfeld–Sokolov reduction, regular opers; §4.1 and
+  Proposition 4.1.1, p. 37, the isomonodromy groupoid and its formal smoothness, proved in §4.2,
+  pp. 37–38; (4.2)–(4.4), p. 38, its tangent, its algebroid and the cotangent identification;
+  Lemmas 4.3.1 and 4.3.2, p. 39; Lemma 4.4.1 and the conormal algebroid (4.9) of a coisotropic
+  subscheme, p. 40; Lemma 4.4.2, pp. 40–41, regular connections and their fibres at the origin;
+  the map (4.10) and Proposition 4.4.3, p. 41, the conormal algebroid of regular opers),
   §19 (Tate vector bundles on ind-schemes; §19.1, pp. 110–111, the three
   completed tensor products).
 - E. Frenkel and X. Zhu, [*Any flat bundle on a punctured disc has an oper structure*](https://arxiv.org/abs/0811.3186),
