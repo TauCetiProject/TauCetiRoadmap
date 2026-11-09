@@ -117,7 +117,8 @@ the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
   `TauCeti.CategoryTheory.Monoidal.Rigid.Functor` (strong-monoidal images of
   duals) and `TauCeti.CategoryTheory.Monoidal.Rigid.DoubleDual` (closed
   braided double duals, not used for the pivotal comparison). Tau Ceti's
-  implementation of PivotalSpherical Layers 0–2, 6 and 9 is consumed as
+  implementation of PivotalSpherical Layers 0–2, 5, 6 and 9 and of the
+  Frobenius–Schur indicators of Layer 8 is consumed as
   stated at the pin; its pivotal classes are stated over `[RigidCategory C]`
   with no braiding, and carry finiteness or semisimplicity only where named:
   - `TauCeti.CategoryTheory.Monoidal.Rigid.DualFunctor`: the strong monoidal
@@ -147,19 +148,40 @@ the `TauCeti.PivotalCategory` structure that dual functor induces (CA2a).
     a base point as characters `TauCeti.universalGradingGroup C →* kˣ`, for a finite
     semisimple abelian k-linear rigid category with simple unit over an
     algebraically closed field k;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.FrobeniusSchur`:
+    `TauCeti.frobeniusSchurIndicator k V n`, for a positive integer n the
+    trace of Ng–Schauenburg's rotation operator on `𝟙_ C ⟶ V^⊗n` in a
+    k-linear pivotal category, the indicator `ν_n(V)` whenever that space
+    is finite and free over k;
+  - `TauCeti.CategoryTheory.Monoidal.Pivotal.Character`: the left dimension
+    character `TauCeti.SplitK0.leftDimChar k C`, the ring homomorphism from
+    the Grothendieck ring to k sending the class of X to its left dimension,
+    for a pivotal category whose unit is simple with finite-dimensional
+    endomorphisms over an algebraically closed field k;
+  - `TauCeti.CategoryTheory.Semisimple.FrobeniusPerron`: for a fusion
+    category over an algebraically closed field, the Frobenius–Perron
+    character `TauCeti.SplitK0.frobeniusPerronChar`, its uniqueness
+    `TauCeti.SplitK0.eq_frobeniusPerronChar` among ring homomorphisms from
+    the Grothendieck ring to ℝ that are nonnegative on the simple classes,
+    and the Frobenius–Perron dimension `TauCeti.frobeniusPerronDim`;
   - `TauCeti.CategoryTheory.Monoidal.Pivotal.PseudoUnitary.Basic` and
     `TauCeti.CategoryTheory.Monoidal.Pivotal.PseudoUnitary.Existence`:
     `TauCeti.IsPseudoUnitary`, global dimension equal to Frobenius–Perron
-    dimension for a pivotal fusion category over ℂ, and
-    `TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`, the unique
-    pivotal structure whose left dimensions are the Frobenius–Perron
-    dimensions, which is spherical.
+    dimension for a pivotal fusion category over ℂ;
+    `TauCeti.IsPseudoUnitary.of_leftDim_eq_frobeniusPerronDim`, a pivotal
+    structure whose left dimensions of simple objects are their
+    Frobenius–Perron dimensions makes the category pseudo-unitary;
+    `TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim`, there is
+    at most one such structure; and
+    `TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`, under
+    pseudo-unitarity there is exactly one, and it is spherical.
 
   CA2a builds its unitary duality on these declarations and does not
   restate them.
 - [PivotalSpherical](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md)
-  Layers 0–4, 6 and 9 supply general pivotal/spherical, rigidity, finite
-  semisimple, pseudo-unitarity and grading theory, and Layer 11 supplies finite
+  Layers 0–6 and 9 supply general pivotal/spherical, rigidity, finite
+  semisimple, Frobenius–Perron, pseudo-unitarity and grading theory, Layer 8
+  supplies the Frobenius–Schur indicators, and Layer 11 supplies finite
   semisimplicity, finitely many simple classes and simple unit of the
   centre `Center C` of a fusion category in characteristic 0, with
   `dim Z(C)=(dim C)²`. CA2a adds analytic unitary choices and their
@@ -446,8 +468,13 @@ equivalently `r=ε r̄†φ_x`. Their evaluation equation is
 ev_x∘(r⊗id_x)=ε ev_(x∨)∘(φ_x⊗r).
 Construct their cup equations
 and unitary transport, retaining the negative
-Frobenius–Schur sign as distinct data. On a simple self-dual object prove
-the sign is independent of the normalized unitary identification; in the
+Frobenius–Schur sign as distinct data. On a simple self-dual object x prove
+`ε=ν₂(x)`, where `ν₂(x)` is `TauCeti.frobeniusSchurIndicator ℂ x 2` for the
+induced pivotal structure, so that ε does not depend on the normalized
+unitary identification: through `Hom(1,x⊗x)≅Hom(x∨,x)`, a line because x
+is simple and self-dual, the indicator is the trace of `f↦φ_x⁻¹∘f∨`
+(Ng–Schauenburg, Definition 3.1, p. 8), and `r̄ r=ε φ_x` says that this
+map sends `r⁻¹` to `ε r⁻¹`. In the
 finite-Hilbert realization the negative sign gives an antiunitary J with
 J²=−1 and forces even Hilbert dimension. Compare both signs with standard
 conjugate solutions and their positive intrinsic dimension; positivity
@@ -468,15 +495,23 @@ in the copy `End(1_i)=ℂ` of the unit summand on which it is supported
 (Penneys, Definition 2.10, p. 8). A pivotal fusion category over ℂ has a
 pseudounitary pivotal structure exactly when it is
 `TauCeti.IsPseudoUnitary`, and that structure is then the one of
-`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`: positive left
-dimensions are multiplicative and additive, so by uniqueness of the
-Frobenius–Perron character (PivotalSpherical Layer 5; the comparison is
-stated with Penneys, Definition 2.10) they are the Frobenius–Perron
-dimensions, and conversely that structure is spherical with
-Frobenius–Perron dimensions on both sides. The definition here extends
+`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`: for a
+pseudounitary structure the left dimension character
+`TauCeti.SplitK0.leftDimChar ℂ C` is real and positive on the simple
+classes, so it factors through a ring homomorphism to ℝ which is
+nonnegative on the simple classes and which
+`TauCeti.SplitK0.eq_frobeniusPerronChar` identifies with the
+Frobenius–Perron character; the left dimensions are then the
+`TauCeti.frobeniusPerronDim`, and
+`TauCeti.IsPseudoUnitary.of_leftDim_eq_frobeniusPerronDim` and
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim` give
+pseudo-unitarity and the identification. Conversely that structure is
+spherical with Frobenius–Perron dimensions, which are positive, on both
+sides. The definition here extends
 this to unitary multitensor categories with nonsimple unit or infinitely
 many simple classes, which `TauCeti.IsPseudoUnitary` does not cover.
-Construct the universal grading groupoid from the simple unit summands,
+Construct the universal grading groupoid `U` (Penneys, §3.3, the paragraph
+after Definition 3.16, p. 14) from the simple unit summands,
 nonzero simple objects, and tensor-product decomposition relations;
 prove its universal property, transport and skeleton independence. For
 a simple unit it has one object; identify its vertex group with
@@ -534,6 +569,14 @@ as endomorphisms of the whole unit.
 - Under the flip braiding of Hilbert spaces, the tensor square of the ε=−1
   structure on ℂ² is `J⊗J` with `(J⊗J)²=J²⊗J²=+1`, matching
   `ε(r⊗_β r)=(−1)(−1)=+1`.
+- The comparison `ε=ν₂(x)` needs a simple object and the induced pivotal
+  structure. The object ℂ² of finite-dimensional Hilbert spaces is not
+  simple: it carries self-dualities of both signs (J and J′ above), while
+  `ν₂(ℂ²)` is the trace of the flip of `ℂ²⊗ℂ²`, which is 2. In `Hilb(ℤ/2)`
+  with trivial associator, the generator g has `ε(g)=+1=ν₂(g)` for the
+  pivotal structure of its unitary dual functor; for the pivotal structure
+  twisted by `χ(g)=−1` the rotation uses `φ_g⁻¹` once, so `ν₂(g)=−1`, and
+  that structure, with dimensions −1, is induced by no unitary dual functor.
 - For the pointed category `Hilb(ℤ/2)` the universal grading group is ℤ/2.
   A homomorphism `χ:ℤ/2→ℝ>0` has `χ(g)²=1`, hence `χ=1`, so the unitary
   dual functor is unique up to equivalence; homomorphisms to ℂ× would give
@@ -567,10 +610,14 @@ as endomorphisms of the whole unit.
 `TauCeti.leftTrace`, `TauCeti.rightTrace`, `TauCeti.leftDim`,
 `TauCeti.rightDim`, `TauCeti.SphericalCategory`,
 `TauCeti.PivotalCategory.instTorsor`, `TauCeti.universalGradingGroup`,
+`TauCeti.frobeniusSchurIndicator`,
 and, for the fusion-category comparisons only,
-`TauCeti.PivotalCategory.characterEquiv` and
+`TauCeti.PivotalCategory.characterEquiv`, `TauCeti.SplitK0.leftDimChar`,
+`TauCeti.SplitK0.eq_frobeniusPerronChar`, `TauCeti.frobeniusPerronDim`,
+`TauCeti.IsPseudoUnitary.of_leftDim_eq_frobeniusPerronDim`,
+`TauCeti.PivotalCategory.eq_of_leftDim_eq_frobeniusPerronDim` and
 `TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`; PivotalSpherical
-Layers 0–6, 9.
+Layers 0–6 and 9 and the Frobenius–Schur indicators of Layer 8.
 
 ### CA2b. Planar and module correspondences
 
@@ -650,7 +697,9 @@ equivalence.
 ### Examples
 
 The Checks of CA2a and CA2b compute the signs of the antiunitary
-self-dualities on ℂ and ℂ², the grading characters of `Hilb(ℤ/2)` and of
+self-dualities on ℂ and ℂ², their comparison with the second
+Frobenius–Schur indicator on ℂ² and in `Hilb(ℤ/2)`, the grading characters
+of `Hilb(ℤ/2)` and of
 `End†(Hilb_fd⊕Hilb_fd)` with their spherical states, the bipartite-graph
 triple with nonsimple `1₊`, and the Temperley–Lieb Gram matrix.
 
@@ -660,8 +709,9 @@ CA1a and CA1b; Mathlib `MonoidalCategory`, `ExactPairing`, `HasRightDual`,
 `Functor.Monoidal`, `NatTrans.IsMonoidal` and `LaxMonoidalFunctor`; Tau Ceti
 `TauCeti.CategoryTheory.Monoidal.Rigid.Basic` and
 `TauCeti.CategoryTheory.Monoidal.Rigid.Functor` and the pivotal modules
-listed in the supplier contracts; PivotalSpherical Layers 0–6 and 9;
-Subfactors 5.1, 6.1–6.4 and 7.1–7.2.
+listed in the supplier contracts; PivotalSpherical Layers 0–6 and 9 and
+the Frobenius–Schur indicators of Layer 8; Subfactors 5.1, 6.1–6.4 and
+7.1–7.2.
 
 ## CA3. Q-systems and their bicategorical completion
 
@@ -2285,10 +2335,17 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   the basic construction `J_φN′J_φ` over a II₁ base.
 - Penneys, [*Unitary dual functors for unitary multitensor categories*](https://arxiv.org/abs/1808.00323),
   Theorem A (p. 3), Theorem C (p. 4), Remark 2.5 (p. 6), Definition 2.10
-  and Remark 2.11 (p. 8), Lemmas 3.19–3.20 (p. 14),
+  and Remark 2.11 (p. 8), the universal grading groupoid after
+  Definition 3.16 and Lemmas 3.19–3.20 (p. 14),
   Proposition 3.24 (p. 16), Corollary 3.26 (p. 18) and §§2–4, for
   pseudounitary pivotal structures, positive grading characters, balanced
   duals and the shaded planar correspondence.
+- Ng–Schauenburg, [*Higher Frobenius–Schur indicators for pivotal
+  categories*](https://arxiv.org/abs/math/0503167), in *Hopf algebras and
+  generalizations*, Contemp. Math. 441 (2007), Definition 3.1 (p. 8, in the
+  numbering of the arXiv version), for the operators `T_(V,W)` and
+  `E_V^(n)` and the indicators `ν_n(V)`, compared in CA2a with the sign of a
+  self-duality.
 - Coles–Huston–Penneys–Srinivas, [*The module embedding theorem via towers
   of algebras*](https://arxiv.org/abs/1810.07049) (2018), Theorem A (p. 3;
   §2.3, p. 10), for the equivalence between connected right planar modules
@@ -2388,7 +2445,8 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   supply evaluation/coevaluation lemmas for Mathlib's exact-pairing
   transport and construct strong-monoidal images, and its
   `Monoidal.Pivotal` modules supply pivotal structures over any rigid
-  monoidal category, with no braiding, and their traces, as listed in
-  the supplier contracts. The [dagger-category discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/dagger%20categories)
+  monoidal category, with no braiding, their traces and Frobenius–Schur
+  indicators, and its `Semisimple.FrobeniusPerron` module the
+  Frobenius–Perron character, as listed in the supplier contracts. The [dagger-category discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/dagger%20categories)
   distinguishes chosen dagger data from categorical properties and
   describes functors as the corresponding full subcategory.
