@@ -1335,10 +1335,11 @@ Checks:
   nondegenerate module: the all-one tuple has no finite local unit. For A = 0 both modules
   are zero and nondegenerate.
 - A with the zero multiplication is not idempotented, for A ≠ 0.
-- For `H = ⊕_{n ∈ ℕ} A` with componentwise product, local units `u_N = Σ_{k ≤ N} ε_k` and M = H, the
-  inverse of multiplication sends ε_n to ε_n ⊗ ε_n, and u_N ⊗ ε_n = ε_n ⊗ ε_n in H ⊗_H H for
-  every N ≥ n; in H ⊗_A H these two tensors differ for N > n, so a definition of H ⊗_H M without
-  the relations hh′ ⊗ m − h ⊗ h′m makes the inverse ill-defined.
+- For `A ≠ 0` and `H = ⊕_{n ∈ ℕ} A` with componentwise product, local units `u_N = Σ_{k ≤ N} ε_k`
+  and M = H, the inverse of multiplication sends ε_n to ε_n ⊗ ε_n, and u_N ⊗ ε_n = ε_n ⊗ ε_n in
+  H ⊗_H H for every N ≥ n; in H ⊗_A H, which is free on the ε_i ⊗ ε_j, the two tensors differ by
+  `Σ_{k ≤ N, k ≠ n} ε_k ⊗ ε_n ≠ 0` for N > n, so a definition of H ⊗_H M without the relations
+  hh′ ⊗ m − h ⊗ h′m makes the inverse ill-defined. For A = 0 both tensors are zero.
 - The submodule statement uses the idempotents: the non-idempotented ring 2ℤ acts on ℤ[1/2] with
   2ℤ·ℤ[1/2] = ℤ[1/2], while its submodule ℤ has 2ℤ·ℤ = 2ℤ ≠ ℤ.
 
