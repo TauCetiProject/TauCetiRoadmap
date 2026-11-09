@@ -215,6 +215,17 @@ Riemann inequality `h0θ L ≥ −log covol L` for a full `L` (Bost, (2.3.2)), s
 - `h0θ_eq_zero_iff` needs discreteness: for the non-discrete `ℤ + √2 ℤ ⊂ ℝ` the series diverges, its
   `tsum` is `0` and `h0θ = log 0 = 0` although the subgroup is not `⊥`.
 
+Not a target: the minimisers of `h⁰_θ` among full lattices of rank `n` and covolume `1`. By 1.2
+such a lattice has `h⁰_θ(L) = h¹_θ(L) = h⁰_θ(L^∨)`, so the dual of a minimiser is a minimiser. For
+`n = 1` only `ℤ` has covolume `1`. For `n = 2` the hexagonal lattice is the unique minimiser
+(Montgomery 1988, at `α = 1` for the forms of discriminant `−1`): `h⁰_θ = 0.1480710` against
+`0.1658030` for `ℤ²`. For `n = 8` and `n = 24`, `E₈` and the Leech lattice are the unique
+minimisers, since they are universally optimal (Cohn–Kumar–Miller–Radchenko–Viazovska 2022,
+Theorem 1.4) and `exp(−πr²)` is a completely monotone function of `r²`. For `n = 3` the
+covolume-`1` face-centred and body-centred cubic lattices are dual to each other, so they have the
+same `h⁰_θ`, `0.2082624`, against `0.2487046` for `ℤ³` (own computation): a proof that the
+face-centred lattice minimises would make the body-centred one a minimiser too.
+
 ### 1.4 Monotonicity under contractions
 
 Prove `h0θ_le_of_contraction`: for `φ : E →ₗ[ℝ] F` with `‖φ x‖ ≤ ‖x‖`, `L : Submodule ℤ E`, a
@@ -551,10 +562,18 @@ curves, where subadditivity in admissible extensions (Layer 2) is the basis of t
 finiteness theorems of his Chapters 7 and 8, and applies them to algebraicity criteria for formal
 curves. Van der Geer and Schoof conjecture that for a number field Galois over `ℚ` or over an
 imaginary quadratic field, `h⁰` on the classes of degree zero is largest at `𝓞_K`; they report it
-proved for quadratic fields by Francini (§5), and 4.5 is its consequence. Banaszczyk's transference
-theorems rest on the same Gaussian masses, and Bost (§3.2) recovers them from Layers 1–3.
-Groenewegen proves an arithmetic
-analogue of Clifford's theorem with these invariants (Theorem 7.4). Quillen's notebook 1973-3
+proved for quadratic fields by Francini (§5), and 4.5 is its consequence. It is also known for
+quadratic extensions of imaginary quadratic fields (Tran 2017), cyclic cubic fields (Tran–Tian
+2018) and totally imaginary cyclic sextic fields (Tran–Tian–Feaver 2023), whose abstract states it
+for every field of unit rank `0` or `1`; Francini (2004) treats a class of pure cubic fields, which
+are not Galois. It is open as far as we know for the Galois fields of unit rank at least `2`
+outside these families, for instance the real cyclic quartic and real biquadratic fields (unit
+rank `3`), so 4.5 applies unconditionally only to these families. Which lattices of rank `3` and
+covolume `1` minimise `h⁰_θ` is also open as far as we know; the non-target after 1.3 records the
+known ranks and the tie between the face-centred and body-centred cubic lattices. Banaszczyk's
+transference theorems rest on the same Gaussian masses, and Bost (§3.2) recovers them from
+Layers 1–3. Groenewegen proves an arithmetic analogue of Clifford's theorem with these invariants
+(Theorem 7.4). Quillen's notebook 1973-3
 (Clay Mathematics Institute) works on these inequalities; Bost attributes 2.3 over `ℤ` to its entry
 of 26 April 1973 (§2.8.2).
 
@@ -573,3 +592,18 @@ of 26 April 1973 (§2.8.2).
   Ann.* 296 (1993), no. 4, 625–635. doi:10.1007/BF01445125; Zbl 0786.11035.
 - P. Francini, « The size function h⁰ for quadratic number fields », *J. Théor. Nombres Bordeaux*
   13 (2001), no. 1, 125–135. Zbl 1060.11076.
+- P. Francini, « The size function h⁰ for a pure cubic field », *Acta Arith.* 111 (2004), no. 3,
+  225–237. doi:10.4064/aa111-3-2. Zbl 1059.11063.
+- H. T. N. Tran, « The size function for quadratic extensions of complex quadratic fields »,
+  *J. Théor. Nombres Bordeaux* 29 (2017), no. 1, 243–259. doi:10.5802/jtnb.978.
+  Zbl 1429.11194. arXiv:1504.01045.
+- H. T. N. Tran, P. Tian, « The size function for cyclic cubic fields », *Int. J. Number Theory*
+  14 (2018), no. 2, 399–415. doi:10.1142/S1793042118500276. Zbl 1398.11135. arXiv:1609.02858.
+- H. T. N. Tran, P. Tian, A. Feaver, « The size function for imaginary cyclic sextic fields »,
+  *J. Théor. Nombres Bordeaux* 35 (2023), no. 3, 841–866. doi:10.5802/jtnb.1266.
+  Zbl 1561.11090. arXiv:2302.05987.
+- H. L. Montgomery, « Minimal theta functions », *Glasgow Math. J.* 30 (1988), no. 1, 75–85.
+  doi:10.1017/S0017089500007047. Zbl 0639.10017.
+- H. Cohn, A. Kumar, S. D. Miller, D. Radchenko, M. Viazovska, « Universal optimality of the E₈
+  and Leech lattices and interpolation formulas », *Ann. of Math.* (2) 196 (2022), no. 3,
+  983–1082. doi:10.4007/annals.2022.196.3.3. Zbl 1509.11061. arXiv:1902.05438.
