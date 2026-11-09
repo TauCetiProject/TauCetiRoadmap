@@ -1566,12 +1566,16 @@ hypothesis in the scalar-index claim.
 For an inclusion N⊂M of factors with a faithful normal conditional
 expectation E of finite index, M in standard form on L²(M) with modular
 conjugation J, construct Kosaki's basic extension `M₁=⟨M,e_E⟩=JN′J`
-(Jones–Penneys, *Realizations*, Definition 3.3(1), p. 15), where the
-Jones projection e_E projects onto the closure of `Nξ` for the vector ξ
-of `ψ∘E`, ψ a faithful normal state on N, so that `e_E x e_E=E(x)e_E` for
-x∈M. Construct the dual expectation `E₁=Ind(E)⁻¹·j∘E⁻¹∘j:M₁→M` from
-Subfactors 2.5's inverse weight `E⁻¹:N′₊→M̂′₊`, where `j(x)=Jx*J`, and
-prove `E₁(e_E)=Ind(E)⁻¹` and `Ind(E₁)=Ind(E)`; iterate to the tower
+(Kosaki 1986, §3, Lemma 3.2, as recalled in Burns, *Subfactors, planar
+algebras and rotations*, Proposition 2.1.21, pp. 12–13; over a II₁ base
+N this is the form `⟨M,N⟩=J_φN′J_φ` of Jones–Penneys, *Realizations*,
+Definition 3.3(1), p. 15), where the Jones projection e_E projects onto
+the closure of `Nξ` for the vector ξ of `ψ∘E`, ψ a faithful normal state
+on N, so that `e_E x e_E=E(x)e_E` for x∈M, `N=M∩{e_E}′` and
+`Je_EJ=e_E`. Construct the dual expectation
+`E₁=Ind(E)⁻¹·j∘E⁻¹∘j:M₁→M` from Subfactors 2.5's inverse weight
+`E⁻¹:N′₊→M̂′₊`, where `j(x)=Jx*J`, and prove `E₁(e_E)=Ind(E)⁻¹` and
+`Ind(E₁)=Ind(E)` (Kosaki 1986, §3; Burns, p. 13); iterate to the tower
 `N⊂M⊂M₁⊂M₂⊂⋯`. The algebra M₁ does not depend on E; its Jones projection
 and the index do. For a finite-index endomorphism σ of an infinite factor
 M with separable predual, applied to `σ(M)⊂M` with `E=E_σ`, identify
@@ -1649,7 +1653,9 @@ endomorphisms. For hyperfinite III₁ prove every finite-index
 endomorphism approximately inner of each rank r>0 (Masuda–Tomatsu
 2009, Corollary 3.16(3)–(4), p. 29). These are targets
 here, not consequences of V13's automorphism-only theorem. Construct
-Izumi's canonical extension on V11's core, with the positive dual
+Izumi's canonical extension (Izumi 2003, Theorem 2.4, p. 5, for a
+type III factor; Masuda–Tomatsu 2009, §3.1, p. 15, for a factor of
+any type) on V11's core, with the positive dual
 action fixed by `θ_s(x)=x` for x∈M, `θ_s(u_t)=exp(i s t)u_t`
 and `Tr∘θ_s=exp(s)Tr`. For a faithful normal semifinite weight φ
 and the designated standard left inverse φ_ρ, construct the normalized
@@ -1694,7 +1700,8 @@ on which ρ does not converge to the identity has a subsequence bounded
 away from it, which is ω-centralizing for every free ultrafilter. Call
 ρ modular when its canonical extension ρ̃ above is inner, that is,
 implemented by a finite-dimensional Hilbert space in the core
-(Masuda–Tomatsu 2009, §4.2, p. 33, after Izumi). On every such factor
+(Izumi 2003, Definition 3.1, p. 7, for a type III factor; Masuda–Tomatsu
+2009, §4.2, p. 33, for a factor of any type). On every such factor
 prove that the inner automorphisms are centrally trivial (p. 31), that a
 centrally trivial ρ and an approximately inner automorphism θ satisfy
 `[θρθ⁻¹]=[ρ]` as sectors (Lemma 4.7, p. 32), and that every modular
@@ -1702,7 +1709,9 @@ endomorphism, in particular every `Ad u∘σ_t^φ`, is centrally trivial
 (Lemma 4.11, p. 34). Prove that the irreducible modular endomorphisms of
 a factor of type II∞ are its inner automorphisms, and those of a factor
 of type III_λ, 0<λ≤1, are the `Ad u∘σ_t^φ` with u unitary, φ a faithful
-normal semifinite weight and t∈ℝ (Lemma 4.10(2)–(3), p. 34); by V11's
+normal semifinite weight and t∈ℝ (Lemma 4.10(2), p. 34, for type II∞;
+for type III_λ, Izumi 2003, Theorem 3.3 with Remark 3.8, pp. 9 and 17,
+recalled as Masuda–Tomatsu 2009, Lemma 4.10(3)); by V11's
 Connes cocycle a faithful normal state may replace the weight. On an
 infinite factor prove that the centrally trivial endomorphisms are
 closed under composition, subobjects, finite direct sums and conjugates
@@ -2160,7 +2169,7 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   Theorem 5.35 (p. 47), Theorems 7.2–7.3 (pp. 58–59) and Corollary 7.14
   (p. 62), for the representation-relative equivalence, its canonical
   states and morphisms, intermediate objects and standard invariants, and
-  Kosaki's basic extension `JN′J` for inclusions of arbitrary factors.
+  the basic construction `J_φN′J_φ` over a II₁ base.
 - Penneys, [*Unitary dual functors for unitary multitensor categories*](https://arxiv.org/abs/1808.00323),
   Theorem A (p. 3), Theorem C (p. 4), Lemma 3.20 (p. 14),
   Proposition 3.24 (p. 16), Corollary 3.26 (p. 18) and §§2–4, for
@@ -2221,13 +2230,27 @@ CA2a, CA6 and CA9; PivotalSpherical Layer 11.
   algebras, real-rank partial-isometry approximation and its II∞/III₁
   characterizations, modular and centrally trivial endomorphisms, central
   non-triviality of inclusions, and the II∞/III₁ characterization of
-  centrally trivial endomorphisms; Theorem 4.16 is recalled there from
-  Izumi and Theorem 4.18 extends Popa's theorem from centrally free to
-  centrally non-trivial subfactors.
+  centrally trivial endomorphisms; Lemma 4.10(3) and Theorem 4.16 are
+  recalled there from Izumi 2003 and Izumi 1993, and Theorem 4.18 extends
+  Popa's theorem from centrally free to centrally non-trivial subfactors.
+- Izumi, [*Canonical extension of endomorphisms of type III factors*](https://arxiv.org/abs/math/0104228),
+  Amer. J. Math. 125 (2003), 1–56, Theorem 2.4 (p. 5), Definition 3.1
+  (p. 7), Theorem 3.3 (p. 9) and Remark 3.8 (p. 17), for the canonical
+  extension of a finite-index endomorphism of a type III factor, modular
+  endomorphisms and their classification by unitary cocycles on the flow
+  of weights, whose III_λ case is Masuda–Tomatsu 2009, Lemma 4.10(3)
+  (printed page numbers of the arXiv version).
 - Izumi, [*On type II and type III principal graphs of subfactors*](https://doi.org/10.7146/math.scand.a-12473),
   Math. Scand. 73 (1993), 307–319, Theorem 3.5, for the comparison of the
   relative commutants of an endomorphism of a type III₁ factor and of its
   canonical extension, as recalled in Masuda–Tomatsu 2009, Theorem 4.16.
+- Kosaki, *Extension of Jones' theory on index to arbitrary factors*,
+  J. Funct. Anal. 66 (1986), 123–140, §3, Lemma 3.2, for the basic
+  extension `JN′J` of an inclusion of arbitrary factors with a
+  finite-index expectation, its Jones projection, the dual expectation
+  and `Ind(E₁)=Ind(E)`, as recalled in Burns,
+  [*Subfactors, planar algebras and rotations*](https://arxiv.org/abs/1111.1362),
+  Proposition 2.1.21 (pp. 12–13).
 - Popa, *Classification of subfactors and their endomorphisms*, CBMS
   Regional Conference Series in Mathematics 86, Amer. Math. Soc. (1995),
   Theorem 3.5(ii) and Corollary 4.4, for the criterion relating central
