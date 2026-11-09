@@ -27,8 +27,9 @@ immersion into `ℝ^(2^(k+1)−2)` (C7).
 This roadmap owns, in its layers C1–C7 (with C5a between C5 and C6): the
 metric frame and orientation-cover comparisons and the principal universal
 join classifiers of C1, with their comparison against TopologicalKTheory's
-Grassmannian classifiers; the compact-relative support foundation of C1.2a
-(S0–S5) and the bundle/coefficient comparisons of C1.2b; the rank-one
+Grassmannian classifiers; the support excision and collared-pair triangle
+of C1.2a (S5), on the supported cochain foundation S0–S4 that it consumes
+from AlgebraicTopology, and the bundle/coefficient comparisons of C1.2b; the rank-one
 Eilenberg–MacLane identifications and line classification of C1.5–C1.6;
 Thom, Euler and Gysin theory (C2); projective splitting and the integral and
 mod 2 universal rings (C3); curvature classes and the universal Chern–Weil
@@ -47,9 +48,11 @@ CompactGroups; the CE complex of LieGroupoidsPoisson; and the reflection
 invariant theory of ReflectionInvariantTheory.
 
 The Lefschetz fixed-point formula, its graph/diagonal trace expression and
-the fixed-point index sum belong to MorseNovikov N6 and are not restated
-here; beside `⟨e(TM),[M]⟩=χ(M)`, C2.3 states only the Euler-class pullback
-identity for a self-map.
+the fixed-point index sum belong to MorseNovikov N6, and the vector-field
+Poincaré–Hopf theorem `Σ ind(V,p)=χ(M)` on every compact manifold to
+MorseNovikov §7.1; neither is restated here. Beside `⟨e(TM),[M]⟩=χ(M)`,
+C2.3 states the Euler-class index formula of a section of an oriented
+bundle and the Euler-class pullback identity for a self-map.
 The algebraic-vector-bundle roadmap concerns schemes and Chow/étale realization.
 Tau Ceti's quadratic-form `sw1`/`sw2` concern Galois cohomology of fields; they
 are distinct from the topological classes constructed here. The classifying-space
@@ -238,11 +241,43 @@ declaration; the layer that consumes a name says what it uses.
   (`AlgebraicTopology/Cohomology/FundamentalClass.lean`) and the Euler
   characteristic `TauCeti.eulerChar` of a space of finite CW type
   (`AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean`) (C2.3).
+- Embeddings and mapping topology: the intrinsic normal bundle
+  `TauCeti.SmoothEmbedding.NormalSpace`
+  (`Geometry/Manifold/SmoothEmbedding/NormalSpace/Basic.lean`) and the tubular
+  neighbourhood theorem `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`
+  (`Geometry/Manifold/TubularNeighborhood/Existence.lean`; boundaryless
+  finite-dimensional source and target, the target Hausdorff and second
+  countable) (C2.4–C2.5); the weak Whitney topology
+  `ContMDiffMap.manifoldWeakWhitneyTopology` with
+  `ContMDiffMap.tendsto_manifoldWeakWhitney_iff` and
+  `ContMDiffMap.manifoldWeakWhitneyTopology_self`
+  (`Geometry/Manifold/ContMDiffMap/Chart/Topology.lean`) (C2.5); and the
+  Euler class of a foliation `TauCeti.Foliation.eulerClass`
+  (`Geometry/Manifold/Foliation/EulerClass.lean`) (C2.3).
 - Spin covers (`Topology/Algebra/CliffordAlgebra/Spin/`):
   `CliffordAlgebra.isCoveringMap_realCliffordSpinDoubleCoverZero_rightHom`,
   `TauCeti.realSpinThreeHomeomorphQuaternionSphere` and
   `CliffordAlgebra.pathConnectedSpace_realCliffordSpinGroupZero_add_two`
-  (C1.1d, C3.5).
+  (C1.1d, C3.5); on the closed unit-group carriers
+  (`Spin/Real/Projection.lean`), the continuous projection
+  `TauCeti.CliffordAlgebra.realCliffordSpinToSpecialOrthogonalRange` with
+  `isCoveringMap_realCliffordSpinToSpecialOrthogonalRange` and
+  `realCliffordSpinToSpecialOrthogonalRange_eq_one_iff` (for n≥1) and
+  `realCliffordSpinToSpecialOrthogonalRange_surjective`, and the topological
+  isomorphism `TauCeti.CliffordAlgebra.realCliffordSpinContinuousMulEquivUnitsRange`
+  of the Spin group with its range in the Clifford units; and
+  `TauCeti.QuadraticMap.mem_range_specialOrthogonalToGeneralLinear_realCliffordForm_iff`
+  (`Topology/Algebra/QuadraticForm/RealSpecialOrthogonal.lean`), identifying
+  the matrix range with `Matrix.specialOrthogonalGroup (Fin n) ℝ`; and the
+  even unitary group `CliffordAlgebra.evenUnitaryGroup`
+  (`LinearAlgebra/CliffordAlgebra/Spin/EvenUnitary.lean`), the rank-0 lift
+  group (C3.5).
+- Quaternions as complex matrices (`Algebra/Quaternion/ComplexMatrix.lean`):
+  the star-algebra embedding `Quaternion.toComplexMatrix` of `ℍ[ℝ]` into
+  `Matrix (Fin 2) (Fin 2) ℂ` with `Quaternion.toComplexMatrix_injective`, and
+  its restriction `Quaternion.unitaryEquivSpecialUnitaryGroup` from the unit
+  quaternions onto `Matrix.specialUnitaryGroup (Fin 2) ℂ`
+  (C7.AdjointHopfObstruction).
 - Compact groups and Lie algebras: `ContRepresentation.isUnitarizable`
   (`RepresentationTheory/Compact/Unitarizable.lean`); the Chevalley
   restriction `TauCeti.lieCartanRestriction`,
@@ -317,11 +352,14 @@ representability and AT8.12's native circle comparison, after C1.5's
 independent carrier/cellular calculations; ordinary line classification in
 C1.6 consumes AT8.10 and C1.5a. C1.5's comparison portion and C2 consume
 no AT8.8b, AT8.10 or AT8.12.
-For the support lane, C1.2a consumes ordinary AT2–4 and ordinary 6.1–6.2
-only. The separate AT supported-cellular supplement after ordinary 6.2
-consumes C1.2a S0–S4; its pair long exact sequence has a separate
-compatibility check against S5, and proper AT8.5 consumes the needed support
-interfaces.
+For the support lane, C1.2a consumes the compactly supported
+local-coefficient cochain foundation of AT's supported-cellular supplement
+after Stage 6.2 (the support colimit and H_c, support enlargement,
+cofinality, proper pullback, open extension, supported and mixed-support
+cups, and jointly proper homotopy invariance; the labels C1.2a S0–S4 name
+these inputs), together with ordinary AT2–4 and AT6.1–6.2. AlgebraicTopology
+consumes nothing of C1.2a. C1.2a S5 compares its collared-pair triangle with
+that supplement's supported CW-pair triangle.
 
 [AlgebraicTopology Stage 4.8 and Stage 5.5](../AlgebraicTopology/README.md)
 supply the generic homotopy-theoretic inputs. Serre fibrations themselves
@@ -378,13 +416,15 @@ independent form and SBC B6 circle-class comparisons.
 
 ### From TauCetiRoadmap.GeometricTopology
 
-[GeometricTopology Layers1,3,10,11](../GeometricTopology/README.md) owns
-embeddings/tubular maps, the smooth mapping topology, the oriented-plane
-Euler target and the smoothing-and-triangulation comparison used by C2.3a's
-worked example. These are roadmap targets of that supplier,
-not claims that a built supplier API already exists.
-C2 constructs general Euler/Thom and compares its rank2 restriction with
-that standalone plane construction.
+[GeometricTopology Layers 1, 3 and 11](../GeometricTopology/README.md) own
+the uniqueness of tubular neighbourhoods up to isotopy (Layer 1.5) and the
+topology on spaces of embeddings with its isotopy extension (Layer 3.3), used
+by C2.4's independence and isotopy statements, and the
+smoothing-and-triangulation comparison (Layer 11) used by C2.3a's worked
+example. These are roadmap targets of that supplier, not claims that a built
+supplier API already exists. The intrinsic normal bundle, the tubular
+neighbourhood theorem and the weak Whitney topology on `ContMDiffMap` are
+pinned and listed under "From Tau Ceti".
 
 ### From TauCetiRoadmap.LieGroups
 
@@ -441,20 +481,6 @@ supplies the early cover-theoretic Čech interface on arbitrary topological
 spaces: fixed-cover tuple complexes, raw refinement cochain maps and their
 homotopies (C1.2b).
 
-### From TauCetiRoadmap.GeneralizedCohomology
-
-[GeneralizedCohomology G4.0a](../GeneralizedCohomology/README.md) supplies
-the quaternionic projective line HP¹ with its Sp(1)/Spin(3) calibration, and
-its G4 the ordinary quaternionic-line normalization `u=c₂(F)`, used by
-C7.AdjointHopfObstruction.
-
-### From TauCetiRoadmap.SpinGeometry
-
-[SpinGeometry G4.1a](../SpinGeometry/README.md) owns rank0/rank1 and frame
-transport through the native abstract/units-range/matrix comparisons, with
-the geometric μ2→SO(0)={1}; C3.5 uses those topological carrier adapters and
-no smooth-cover refinement.
-
 ### From TauCetiRoadmap.SchubertGeometry
 
 [SchubertGeometry S9.6](../SchubertGeometry/README.md) supplies the rational
@@ -475,7 +501,7 @@ them with TopologicalKTheory's Grassmannian classifiers, and assembles the
 support, coefficient and Čech comparisons and the rank-one Eilenberg–MacLane
 identifications that the later layers use. C2 builds the bundle
 disk/sphere cells, the Thom and Euler classes, the Euler class as primary
-obstruction, Poincaré–Hopf, Gysin maps and fibre integration. C3 proves
+obstruction, the Euler-class index formula, Gysin maps and fibre integration. C3 proves
 Leray–Hirsch and projective splitting, defines Stiefel–Whitney, Chern and
 Pontryagin classes, and computes the integral and mod 2 universal rings and
 the w₂ spin obstruction. C4 builds curvature forms and the universal
@@ -488,9 +514,10 @@ states the characteristic formulas and the acceptance calculations.
 C1 and C2 precede C3. C3.6's away2/odd-prime rings consume C3.1–4 and
 C1–2, AT4/6's compact-image and cochain foundation and the pinned cochain
 Milnor sequence, before C4–5
-and independently of Spin or bordism. C3.5 consumes the native topological spin cover
-and [SpinGeometry G4.1a](../SpinGeometry/README.md)'s topological carrier adapters; it uses no smooth
-refinement. The spin-lift obstruction/torsor consumes C3.5 afterwards.
+and independently of Spin or bordism. C3.5 consumes the pinned topological
+spin covers and transports them to C1.0's oriented frames itself; it uses no
+smooth refinement. SpinGeometry's spin-lift obstruction and torsor consume
+C3.5 afterwards.
 C4's invariant-form construction and line comparison use
 C1–C3 and the smooth suppliers; C5.5 proves the Pfaffian comparison after
 rational 2-plane splitting. C5 uses the universal Chern–Weil map of C4, not an assumed
@@ -645,6 +672,17 @@ comparison.
    T1.6a owns the finite oriented carriers, the fixed-rank/stable oriented
    colimits and their classifier comparison.
 
+   *Needs:* C1.0's orientation double cover; the pinned
+   `TauCeti.VectorBundleOrientation.prod`,
+   `TauCeti.VectorBundleOrientationCover.prodMap`,
+   `TauCeti.VectorBundleOrientation.nonempty_iff_exists_section`,
+   `TauCeti.VectorBundleOrientationCover.signLocalSystem`,
+   `TauCeti.finiteOrientedGrassmannian` and
+   `TauCeti.VectorBundleOrientationCover.tautologicalOrientation`;
+   TopologicalKTheory T1's vector-bundle atlases, T1.5's finite Stiefel
+   quotients and T1.6a's lifted Schubert cells, rank maps and last-column SO
+   comparison.
+
    **C1.1b. Numerable joins and frame specialization.** Use TopK T6.4
    for the independent continuous principal/associated-bundle category.
    **General Hausdorff groups and CW bases.** For every Hausdorff topological group
@@ -778,6 +816,18 @@ comparison.
    - The normalization p·g_i(p)⁻¹ has label g_i(p)g_i(p)⁻¹=1 at index i, so
      the section s_i is well defined; normalizing by p·g_i(p) instead gives
      the label g_i(p)², which for G=ℤ/3 and g_i(p)≠1 is not 1.
+
+   *Needs:* TopologicalKTheory T6.4's numerable principal/associated-bundle
+   category and cylinder homotopy invariance, and T1.6–T1.6a's carriers,
+   classifier comparison and countable-colour producer; C1.0's frame bundles
+   and C1.1a's orientation-cover comparison; AlgebraicTopology Stage 4.5's
+   compact-generation coreflection and Stage 5.5's fibration homotopy exact
+   sequence; the pinned
+   `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` and
+   `TauCeti.TopCat.mem_serreFibrations_proj`; Mathlib's
+   `CompactlyGenerated.compactlyGeneratedToTop`; ClassifyingSpaces'
+   weak-topology join for finite discrete G.
+
    **C1.1d. Trivializations and disconnected clutching.** For a continuous
    right principal G-bundle P→X, define a global trivialization as an
    equivariant bundle isomorphism P≃X×G covering id_X, with continuous
@@ -904,6 +954,14 @@ comparison.
      classes a point; the identity map S¹→Circle has no extension over D²
      because its degree is 1.
 
+   *Needs:* C1.0's metric frames and Gram–Schmidt retraction; C1.1b's
+   classification, relative homotopy lifting and the boundary map of EG→BG;
+   TopologicalKTheory T1.5a's sphere-bundle sequences, π₁(SO(k)) and relative
+   triples; the pinned
+   `CliffordAlgebra.isCoveringMap_realCliffordSpinDoubleCoverZero_rightHom`
+   and `TauCeti.realSpinThreeHomeomorphQuaternionSphere`; for the
+   characteristic comparisons, C2.2's Euler class and C3.2's w₁ and w₂.
+
 2. **Bockstein input.** Consume the pinned coefficient long exact sequences
    and Bocksteins `TopCat.singularCohomologyBockstein` and
    `TopPair.singularCohomologyBockstein`
@@ -914,17 +972,34 @@ comparison.
    compatibility with the graded and supported interfaces here; do not
    define a second Bockstein.
 
+   *Needs:* the pinned `TopCat.singularCohomologyBockstein` and
+   `TopPair.singularCohomologyBockstein`; AlgebraicTopology Stage 6.1's
+   compatibility with pair connecting maps and cup-product Leibniz signs; the
+   supported cochains of AlgebraicTopology's supported-cellular supplement
+   (C1.2a S0–S4).
+
    **C1.2a. Compact-relative support foundations.** These constructions precede bundle classification, Thom theory and manifold duality.
 
-   **S0 (diagram and colimit).** For locally compact Hausdorff X, closed A subset X, commutative R and an arbitrary module-valued local system L on X, consume AT6.1's single local-coefficient singular cochain complex, its actual path transport and restriction maps. There is no finite-rank, projectivity, freeness or field assumption on the fibres. A degree-n cochain assigns each singular n-simplex an element of the designated first-vertex fibre, with the differential and edge transport fixed by AT6.1. Use that same convention in every construction below. Define C_K^*(X,A;L)=C_sing^*(X,A union (X\K);L), the subcomplex of cochains vanishing on simplices in that relative subspace, on actual compact K ordered by inclusion. Construct its degreewise filtered colimit C_c^*(X,A;L) and prove H^n of this complex is colim_K H^n(X,A union (X\K);L), using exact filtered ModuleCat R colimits. Define H_c^n from this one object. Constant L=R recovers the earlier constant-coefficient object naturally; do not create a second cohomology theory. Export naturality under morphisms of local systems and ordinary relative cochain restriction along maps of pairs. Pullback on compactly supported cohomology uses S3's properness hypotheses; open inclusions use its extension map.
-
-   **S1 (enlargement).** For K subset L_compact, construct C_K^*(X,A;L) -> C_L_compact^*(X,A;L) as the contravariant identity pair map with the unchanged local system. Export the actual structure maps, identity/composition laws, and commutation with local-system morphisms. Distinguish the compact set L_compact from the coefficient system L. No coefficient fibre is dualized or assumed finite.
-
-   **S2 (cofinality).** Prove cofinal-family comparison and common-refinement independence for the actual compact-relative diagram with any module-valued local system L; the maps are those of S1. Use a countable exhaustion only with proved cofinality. Prove compatibility of this comparison with local-system morphisms, proper pullback and the constant-system specialization.
-
-   **S3 (proper pullback and open extension).** For a proper map of closed pairs f:(X,A)->(Y,B), local system L_Y and coefficient morphism alpha:f^*L_Y -> L_X, pull compact K subset Y to f^(-1)K and construct the AT6.1 cochain pullback followed by alpha. It induces the compact-relative and filtered-colimit pullbacks. Prove identities, composition with the composed coefficient morphism, and coefficient-change compatibility. For an open inclusion j:V->X use the same restricted local system and relative local-coefficient excision on compact supports inside V to construct extension H_c^*(V;L|V)->H_c^*(X;L). Bind its chain-level representatives/derived inverse to the chosen excision comparison and prove independence and composition, rather than assert a strict inverse to an arbitrary cochain quasi-isomorphism. Construct supported cup and mixed-support maps with coefficient pairing L tensor L' -> L'', using AT6.2's actual transport and support hypotheses, before the later cap-duality comparisons. Do not assume closed-pair excision without the S5 condition.
-
-   **S4 (jointly proper homotopy invariance).** For H:I times X -> Y between closed pairs (X,A),(Y,B), require H(I times A) subset B and JOINT properness. For a target local system L_Y construct the actual local system H^*L_Y on I times X; identify the endpoint pullback systems by its canonical transport along t -> H(t,x). Prove its naturality in x using AT6.1's homotopy transport. The cochain prism with those coefficient transports gives the homotopy between the two pullbacks AFTER this identification. For compact K subset Y use the single compact projection P_K=pr_X(H^(-1)K) to enlarge source support; the entire prism lies outside K when its source lies outside P_K. Pass to the filtered colimit and prove the induced cohomology equality. For a further coefficient morphism require compatibility over the whole pulled-back homotopy system; unrelated endpoint morphisms do not yield equality. Properness of separate slices alone is insufficient. For a homotopy fixed on A the restricted transport is the identity and the same prism proves the relative assertion.
+   **S0–S4 (the supported cochain foundation).** The labels S0–S4 name the
+   compactly supported local-coefficient cochain foundation of
+   AlgebraicTopology's supported-cellular supplement after Stage 6.2, which
+   this item consumes and does not construct; other roadmaps' citations of
+   C1.2a S0–S4 resolve to that supplement. For locally compact Hausdorff X,
+   closed A⊆X, a commutative ring R and an arbitrary module-valued local
+   system L on X, with no finite-rank, projectivity, freeness or field
+   assumption on the fibres, that supplement supplies on AT6.1's first-vertex
+   cochains: the compact-relative complexes
+   `C_K^*(X,A;L)=C^*(X,A∪(X∖K);L)` for compact K, their degreewise filtered
+   colimit `C_c^*(X,A;L)` and `H_c^n(X,A;L)=colim_K H^n(X,A∪(X∖K);L)`, with
+   the constant system recovering the constant-coefficient object (S0); the
+   support-enlargement maps with their identity and composition laws (S1);
+   the cofinal-family and cofinal countable-exhaustion comparisons (S2); the
+   pullback along a proper map of closed pairs with a coefficient morphism
+   `f^*L_Y→L_X`, the extension `H_c^*(V;L|V)→H_c^*(X;L)` for open V⊆X, and
+   the supported and mixed-support cups for a pairing `L⊗L′→L″` (S3); and
+   invariance under a jointly proper homotopy H with H(I×A)⊆B, after the
+   identification of the endpoint pullback systems by transport along
+   t↦H(t,x) (S4). S5 below is this item's own.
 
    **S5 (support excision and the pair triangle).** For closed pairs and an arbitrary module-valued local system L on X define the filtered union-relative to sum-subcomplex-relative
    comparison
@@ -987,34 +1062,51 @@ comparison.
    Specialize to the orientation local system and all tensor-twisted module
    systems used by AffineMorseLefschetz A4.0's four cap dualities, without
    changing that stage's single supported carrier or its integer grading. An arbitrary closed pair is not declared excisive merely
-   by being closed. AT's supported cellular comparison specializes this support
-   object to locally finite CW pairs; it is not an input to this generic
-   definition or collared-pair proof. These foundations consume AT2–4 and
-   ordinary AT6.1–6.2 only, independently of AT8.5 and all CC classifiers/Thom
-   developments.
+   by being closed. On a finite-dimensional locally finite Hausdorff CW pair,
+   compare this triangle with the supported CW-pair short exact cochain
+   sequence and triangle of AT's supported-cellular supplement, through that
+   supplement's finite-support cellular/singular comparison; the cellular
+   triangle is not an input to the collared-pair proof. S5 consumes S0–S4,
+   ordinary AT2–4 and AT6.1–6.2, independently of AT8.5 and of every
+   classifier and Thom construction of this roadmap.
 
    **Checks.**
-   - On a compact X the single compact set K=X is cofinal, so
-     `H_c^n(X;L)=H^n(X;L)`. On ℝ, `H_c^0(ℝ;ℤ)=0` and `H_c^1(ℝ;ℤ)=ℤ`, while
-     `H^0(ℝ;ℤ)=ℤ` and `H^1(ℝ;ℤ)=0`; a colimit over all closed K, which
-     contains K=ℝ with empty complement, would return ordinary cohomology.
-   - On `H_c^1(ℝ;ℤ)=ℤ` the proper maps x↦x, x↦−x and x↦x² act by 1, −1 and
-     0. The constant map ℝ→pt is not proper: a pullback along it would send
-     the generator of `H_c^0(pt;ℤ)=ℤ` to the constant function 1, which has
-     no compact support, and indeed `H_c^0(ℝ;ℤ)=0`.
-   - For the open inclusion (0,1)⊂ℝ the extension map
-     `H_c^1((0,1);ℤ)→H_c^1(ℝ;ℤ)` is an isomorphism ℤ→ℤ; compactly
-     supported classes extend by zero along open inclusions and do not
-     restrict along them, so there is no map in the other direction.
+   - For compact X the compact set K=X is the largest, so X∖K=∅ and the
+     filtered comparison is the identity: every closed pair in a compact
+     space is support-excisive and the triangle is the ordinary pair
+     sequence; on X=[0,1], A={0,1} it gives `H^1([0,1],{0,1};ℤ)=ℤ`.
+   - For X=[0,1), A={0} and collar c(0,u)=u: `H_c^0(X)=0`, `H_c^0(A)=ℤ`,
+     `H_c^1(X,A)=ℤ` (each `H^1(X,A∪(1−ε,1))` is that of an interval relative
+     to its two ends) and `H_c^1(X)=0`, so the connecting map ℤ→ℤ of the
+     triangle is an isomorphism; the ordinary pair sequence of the
+     contractible X would instead give `H^0(X)=ℤ→H^0(A)=ℤ` bijective and
+     `H^1(X,A)=0`.
+   - The collar pusher `G_t(x,u)=(x,(1−tχ(u))u)` is the identity where χ=0,
+     near u=r1, so it glues continuously with the identity outside the strip,
+     and at t=1 it sends u≤r0 to u=0; the uniform slide `(x,u)↦(x,(1−t)u)`
+     on the whole strip would move (x,r1) to (x,(1−t)r1) while fixing the
+     points just beyond r1, which is discontinuous.
 
-   **C1.2a mixed-support cup/module products.** Consume AlgebraicTopology Stage6's
-   relative cup/module maps against the
-   actual TopPair carrier and construct their support-colimit packaging.
-   Absolute-relative module maps and the cup product on one fixed pair exist
-   for every pair. Cup/cross products into a union of relative subsets use
-   excisive couples: NDR/cofibration triads, finite CW triads or open complements
-   of compact supports. Construct the small-chain comparison from C(A)+C(B)
-   to C(A∪B) under that hypothesis; do not assert it for arbitrary closed couples.
+   *Needs:* AlgebraicTopology's supported-cellular supplement after Stage 6.2
+   (S0–S4, and for the cellular comparison its supported CW-pair triangle and
+   finite-support cellular/singular comparison); AlgebraicTopology Stages 2–4
+   and 6.1–6.2: local-coefficient cochains and transports, Stage 3's
+   subdivision and small chains, prism operators and Stage 4.5's mapping
+   cylinder.
+
+   **C1.2a mixed-support cup/module products.** The absolute-relative module
+   maps, the same-pair relative cup, and the cups and cross products into a
+   union of relative subsets on excisive couples (NDR/cofibration triads,
+   finite CW triads or open complements of compact supports), with the
+   small-chain comparison from C(A)+C(B) to C(A∪B) under that hypothesis, are
+   AlgebraicTopology Stage 6.2's; their support-colimit packaging is S3's
+   supported and mixed-support cups. This roadmap consumes both, constructs
+   no second product, and uses a cup into a union of relative subsets only
+   under one of those hypotheses, never for an arbitrary closed couple.
+
+   *Needs:* AlgebraicTopology Stage 6.2's relative cup and module maps and
+   small-chain comparison; the supported and mixed-support cups of
+   AlgebraicTopology's supported-cellular supplement (C1.2a S3).
 
    **C1.2b. Bundle/coefficient comparisons.** For arbitrary paracompact bases,
    prove the bundle-specific Leray–Hirsch and
@@ -1095,6 +1187,14 @@ comparison.
    - The Warsaw circle is compact metric, hence paracompact Hausdorff, with
      Čech H¹=ℤ, while its singular homology is that of a point: the
      comparison needs the CW-type hypothesis.
+
+   *Needs:* Mathlib's `sSetTopAdj`, `SSet.KanComplex`, `SSet.π₀`,
+   `cechComplexFunctor` and `CategoryTheory.Sheaf.H`; AlgebraicTopology Stage
+   4's cell-neighbourhood contractions, Stage 4.7's realization CW structure,
+   Stage 4.8's connected-map comparison, Stage 8.2's Kan/cubical comparison
+   and, for the classifying-map square, Stages 8.9–8.10;
+   TopologicalSheafCohomology TS1.1–TS1.2; C1.1b's homotopy exact sequence.
+
 3. For compact Lie G prove the no-small-subgroups property from the local
    exponential chart and powers. Combine it with Peter–Weyl point separation
    and compactness of the complement of an identity neighbourhood to obtain
@@ -1113,6 +1213,14 @@ comparison.
    naturality. Use SBC B6.0's finite smooth good cover and Mayer–Vietoris to prove
    finite generation for compact B_m in each degree and the rational-to-real
    base-change theorem there; this does not require smooth triangulation.
+
+   *Needs:* LieGroups' exponential chart and continuous-homomorphism theorem;
+   CompactGroups' Peter–Weyl point separation; SmoothBundlesConnections
+   B1.4's smooth principal quotient bundles and B6.0's finite good covers;
+   TopologicalKTheory T1's Stiefel connectivity; C1.1b's classification and
+   Dold theorem; AlgebraicTopology Stage 4.8's connected-map comparison and
+   Stage 5.5's homotopy exact sequence.
+
 4. Prove the smooth-principal-bundle comparison needed by these approximations:
    continuous reductions to compact G and continuous principal isomorphisms
    over smooth bases admit smooth representatives, including relative homotopy
@@ -1120,6 +1228,12 @@ comparison.
    proving that section smoothing retains the reduction and prescribed data.
    A smooth bundle classified by a smooth finite-approximation map has its
    connection classes equal to pullbacks of universal classes by naturality.
+
+   *Needs:* item 3's finite smooth approximations; SmoothBundlesConnections
+   B1–B2's smooth principal and associated bundles and connections; relative
+   approximation of sections by bundle charts and Mathlib's
+   `SmoothPartitionOfUnity`.
+
 5. Use T1.6's named rank-one infinite Grassmannian models CP∞ and RP∞,
    with their final/weak CW topology and tautological bundles. Own the
    comparisons with the finite AT4.6 RPⁿ and CKG K7 CPⁿ carriers and their
@@ -1145,6 +1259,13 @@ comparison.
    orientation double cover. This precedes higher projective characteristic classes. Its
    tensor/dual maps are addition/negation by the universal degree2 calculation;
    compare with SBC B6 on smooth bases. C3 identifies this class with c₁.
+
+   *Needs:* TopologicalKTheory T1.6's rank-one carriers CP∞ and RP∞ with
+   their tautological bundles; AlgebraicTopology Stage 4.6's RPⁿ and Stages 4
+   and 6's cellular, cup and Künneth comparisons; ComplexKahlerGeometry
+   K7.1–K7.2's CPⁿ carrier and positive hyperplane generator; C1.1b's
+   universal comparison with B_join(T); item 2's Bockstein for y=β(a);
+   SmoothBundlesConnections B6 for the smooth comparison.
 
    **C1.5a. Classical Eilenberg–MacLane comparisons.** After the
    carrier/cellular comparisons above, own the identification of T1.6's
@@ -1216,6 +1337,11 @@ comparison.
    or Eilenberg–MacLane identification. On general paracompact bases retain
    the stated Čech/singular distinction rather than assert singular classification.
 
+   *Needs:* TopologicalKTheory T1.6's numerable rank-one classification;
+   AlgebraicTopology Stage 8.10's ordinary and relative representability;
+   C1.5a's comparisons CP∞≃K(ℤ,2) and RP∞≃K(ℤ/2,1); C1.2b's Čech/singular
+   comparison and classifying-map square for bases of CW type.
+
 ### Examples
 
 Over S² the oriented rank 2 bundles are indexed by the winding m of the
@@ -1223,8 +1349,10 @@ clutching function R(mθ); conjugation by J=diag(−1,1) identifies m with −m
 once the orientation is forgotten, TS² has winding 2 and O(−1) winding −1
 (C1.1d). The free homotopy classes are `[S¹,O(2)]=ℤ⋊_(−1)(ℤ/2)` and
 `[S¹,O(k)]=(ℤ/2)×(ℤ/2)` for k≥3, the based classes of SO(k) together with
-the two components of O(k) (C1.1d). The support foundation of C1.2a has `H_c^1(ℝ;ℤ)=ℤ` while `H^1(ℝ;ℤ)=0`, and the proper map x↦x² of ℝ
-acts on it by 0. RP∞ and CP∞ are K(ℤ/2,1) and K(ℤ,2); the class of
+the two components of O(k) (C1.1d). For X=[0,1) and A={0} with its
+collar, the support-excision triangle of C1.2a S5 has connecting map
+`H_c^0(A;ℤ)=ℤ→H_c^1(X,A;ℤ)=ℤ` an isomorphism, while the ordinary pair
+sequence of the contractible X has `H^1(X,A;ℤ)=0` (C1.2a). RP∞ and CP∞ are K(ℤ/2,1) and K(ℤ,2); the class of
 π₂(CP∞) whose native Hurewicz image is [CP¹] goes to the element of
 π₂(K(ℤ,2)) that is +1 under AT8.10's identification, while the class of an
 orientation-preserving sphere map S²≅CP¹ goes to η₂, the unit of AT8.3
@@ -1233,7 +1361,8 @@ orientation-preserving sphere map S²≅CP¹ goes to η₂, the unit of AT8.3
 ### Dependencies
 
 TopologicalKTheory T1, T1.5, T1.5a, T1.6, T1.6a and T6.4.
-AlgebraicTopology Stages 2–6, including Stages 4.5–4.8, 5.5 and 6.1–6.2,
+AlgebraicTopology Stages 2–6, including Stages 4.5–4.8, 5.5 and 6.1–6.2
+and the supported-cellular supplement after Stage 6.2,
 and Stage 8 items 8.2, 8.3, 8.5, 8.8b,
 8.9, 8.10 and 8.12. SmoothBundlesConnections B1–B2 and B6.
 ComplexKahlerGeometry K7.1–K7.2. LieGroups and CompactGroups.
@@ -1409,6 +1538,17 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
      (`VectorBundleOrientation.nonempty_iff_not_connectedSpace`: the cover is
      connected), so no integral Thom class exists, which a definition
      dropping the fibre-generator condition would miss.
+
+   *Needs:* the pinned `TauCeti.thomPair`, `TauCeti.IsThomClass`,
+   `TauCeti.IsThomClass.singularCohomologyMap`,
+   `TauCeti.VectorBundleOrientationCover.signLocalSystem`,
+   `TauCeti.VectorBundleOrientation.signLocalSystemIso`,
+   `Bundle.Trivialization.mapOrientation`,
+   `TauCeti.isZero_singularCohomology_thomPair` and
+   `TauCeti.existsUnique_singularCohomology_thomPairOver_iUnion`; C1.0's
+   orientation cover; for the local-system extension, C1.2b's CW resolution
+   and AlgebraicTopology Stage 6.1's local coefficients and cap products.
+
 2. The Euler class of a relative class is the pinned
    `TauCeti.eulerClass R k M F E n` (restriction to E followed by zero-section
    pullback; `EulerClass.lean`), with Euler naturality
@@ -1448,12 +1588,35 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
      nowhere-zero section, since such a section would trivialize the complex
      line; over S¹, a complex of dimension 1<2, every oriented rank-2 bundle
      is trivial and H²(S¹)=0, so both sides hold.
-   - The bundle su(F) on HP¹ of C7.AdjointHopfObstruction has rank 3 over a
+   - The bundle su(F) on S⁴ of C7.AdjointHopfObstruction has rank 3 over a
      4-dimensional complex, e=0 and no nowhere-zero section: dropping the
      dimension bound makes the criterion false.
+
+   *Needs:* C2.0's bundle cells and C2.1's Thom classes; the pinned
+   `TauCeti.eulerClass`, `TauCeti.eulerClass_naturality`,
+   `TauCeti.eulerClass_pullback`,
+   `TauCeti.eulerClass_eq_zero_of_forall_ne_zero`,
+   `TauCeti.eulerClass_trivial_eq_zero` and `TauCeti.IsThomClass.neg`;
+   AlgebraicTopology Stage 8.9's obstruction cochains and Stage 2.5's radial
+   degree normalization; for the Gysin sequence, C2.1's Thom isomorphism and
+   AlgebraicTopology Stage 6's pair sequence.
+
 3. For a transverse smooth section prove its zero locus has the specified
-   orientation and represents Euler via Thom/Gysin. On a closed oriented
-   manifold prove the sum-of-local-indices formula and the Euler-number
+   orientation and represents Euler via Thom/Gysin. Prove the Euler-class
+   index formula: let E be an oriented real bundle of rank m≥1 over a closed
+   oriented m-manifold M and s a continuous section whose zeros are isolated,
+   hence finitely many; the local index of s at a zero p is the degree of
+   s/|s| on a small sphere about p, read in an oriented chart of M and an
+   oriented trivialization of E near p. Then `⟨e(E),[M]⟩` is the sum of the
+   local indices of s. Prove it from C2.2's identification of the Euler class
+   with the primary section obstruction (Milnor–Stasheff §12), placing each
+   zero in the interior of a top cell. Prove the twisted form for a bundle
+   without orientation, pairing `e(E)∈H^m(M;o(E))` with the twisted
+   fundamental class `[M]∈H_m(M;o(M))` through a given identification
+   o(E)≃o(M), as for E=TM. For E=TM the local index is the index of a vector
+   field, and with the Euler-number identity below the formula gives the
+   vector-field Poincaré–Hopf theorem, which is MorseNovikov §7.1's. On a
+   closed oriented manifold prove the Euler-number
    identity e(TM)[M]=χ(M) (Milnor–Stasheff, Corollary 11.12), with the
    cap/degree normalization of the suppliers, in the following form. Let M be
    a compact Hausdorff smooth manifold without boundary, modelled on a real
@@ -1482,14 +1645,25 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
    identifying Euler with diagonal self-intersection, then evaluating the
    Poincaré-duality/Künneth trace; finite good covers give the finite-generation
    and cohomological-dimension bounds. This does not assume a Morse triangulation. Compare the rank2 class with
-   GT Layer10 and C1's normalized degree2 class of the corresponding complex
-   line, including the SBC dual-character convention. C3 identifies it with c₁. Construct characteristic-number evaluation and
+   C1's normalized degree2 class of the corresponding complex
+   line, including the SBC dual-character convention. C3 identifies it with c₁.
+   The Euler class of the tangent plane field of a foliation is the pinned
+   `TauCeti.Foliation.eulerClass`, which is by definition `TauCeti.eulerClass`
+   of the tangent distribution (`Geometry/Manifold/Foliation/EulerClass.lean`),
+   so it is a special case of C2.2's class and needs no separate comparison. Construct characteristic-number evaluation and
    its naturality, degree and boundary-vanishing formulas. For a closed
    connected oriented M with m≥1 and a continuous self-map f prove
    `⟨f*e(TM),[M]⟩=deg(f)χ(M)` from Euler naturality, the χ identity and
    f_*[M]=deg(f)[M]; no graph, diagonal class or fixed-point count enters.
 
    **Checks.**
+   - Index formula: the height gradient on S² has two zeros, each of index
+     +1, so `⟨e(TS²),[S²]⟩=2`; a section of the realification of O(1) on CP¹
+     with one simple zero has index +1 and gives Euler number 1, and on
+     O(−1), whose Euler number is −1 by C1.1d's calibration, every section
+     with one zero has index −1. On the trivial plane bundle over T², the
+     section (x,y)↦(sin x, sin y) has zeros of indices +1, −1, −1, +1, summing
+     to 0; counting zeros without sign would give 4.
    - On S² the Euler-number identity reads 2=χ(S²) for either orientation o;
      on the torus T² and on the circle S¹ (n+1=1, where TS¹ is trivial and
      e=0) it reads 0=0. Replacing h by −h while keeping u gives −2 on S², so
@@ -1504,8 +1678,20 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
      the index sum of the barycentric field below is 4−6+4=2=χ(S²); a
      triangle as a circle gives 3−3=0.
 
+   *Needs:* for the index formula, C2.2's primary-obstruction identification
+   and AlgebraicTopology's degree of sphere maps; for the Euler number,
+   C2.1's Thom class of the tangent orientation, the pinned
+   `TauCeti.localOrientationOfManifoldOrientation`,
+   `Orientation.localOrientation`,
+   `TauCeti.Manifold.Orientation.toVectorBundleOrientation`,
+   `TauCeti.HomologicalOrientation.evalFundamentalClass` and
+   `TauCeti.eulerChar`, C2.4's diagonal Gysin map and self-intersection
+   formula, AlgebraicTopology Stage 6's Künneth, cap products and manifold
+   duality, and SmoothBundlesConnections B6.0's finite good covers; for the
+   rank-2 comparison, C1.5's degree-2 class.
+
    **C2.3a. Worked example: the barycentric Hopf field and its simplex
-   indices.** This example evaluates C2.3's sum-of-local-indices formula on
+   indices.** This example evaluates C2.3's Euler-class index formula on
    one explicit field; it is not a second proof of C2.3's theorem, which has
    no triangulation input. For a compact
    boundaryless smooth Hausdorff second-countable m-manifold M, take a
@@ -1563,7 +1749,7 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
    manifold, and the empty-dimensional determinant and local index are+1.
    Include empty and disconnected manifolds and triangulations.
 
-   Evaluate C2.3's sum-of-local-indices formula on this field: its index
+   Evaluate C2.3's Euler-class index formula, for E=TM, on this field: its index
    sum is Σ_σ(−1)^(dim σ), which AT7 identifies with χ(M), in agreement
    with C2.3's theorem e(TM)[M]=χ(M) (Milnor, *Topology from the
    Differentiable Viewpoint*, §6, for the index and its sum). In the
@@ -1571,7 +1757,7 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
    fundamental class [M]∈H_m(M;o(M)), the canonical identification
    o(TM)≃o(M), and the sign-system pairing o(M)⊗o(M)→Z; the local indices
    are unchanged by simultaneous reversal of source and tangent-fibre
-   orientations. The example consumes C2.3's local-index formula, GT
+   orientations. The example consumes C2.3's Euler-class index formula, GT
    Layer11's compatible smooth triangulation, DG's relative section
    smoothing and AT's degree/Euler interfaces; C2.3 itself consumes none of
    the triangulation. An arbitrary realization homeomorphism alone does not
@@ -1593,12 +1779,44 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
    - In m=0 every point is a zero of index +1, and the index sum is the
      point count; the empty manifold has index sum 0.
 
+   *Needs:* C2.3's Euler-class index formula; GeometricTopology Layer 11's
+   compatible smooth triangulation; Mathlib's `SmoothPartitionOfUnity` for
+   the relative smoothing; AlgebraicTopology's sphere-degree classification
+   and Stage 7's Euler characteristic.
+
 4. Construct oriented and orientation-twisted embedding Gysin by Thom followed by tubular open
    extension; prove independence, isotopy, composition, transverse base change,
-   self-intersection and the projection formula. Consume GT's normal/tubular
-   maps and supply orientation/support comparisons. Noncompact embeddings use
+   self-intersection and the projection formula. Consume the pinned intrinsic
+   normal bundle `TauCeti.SmoothEmbedding.NormalSpace` of a smooth embedding
+   and the pinned tubular neighbourhood theorem
+   `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`, with
+   GeometricTopology Layer 1.5's uniqueness of tubes up to isotopy and Layer
+   3.3's isotopy extension, and supply orientation/support comparisons. Noncompact embeddings use
    proper maps and compact-support groups; a bare Thom class on a noncompact
    base is a fibre-support multiplier, not a compact-support class.
+
+   **Checks.**
+   - For the inclusion i of a point in S², with the point's canonical
+     orientation, i_!(1) is the generator of H²(S²) pairing to +1 with [S²];
+     reversing the orientation of S² alone gives −1, so the Gysin map
+     depends on the normal orientation.
+   - For the diagonal Δ:S²→S²×S² the normal bundle is TS² with its
+     orientation, and the self-intersection formula gives
+     `⟨Δ*Δ_!(1),[S²]⟩=⟨e(TS²),[S²]⟩=2`; indeed Δ_!(1)=ω⊗1+1⊗ω for the
+     orientation generator ω of H²(S²), which restricts to 2ω, while the
+     class ω⊗1 of a single fibre would restrict to ω and give 1.
+   - The circle {pt}×S¹ in the torus has i_!(1) the class pairing to ±1 with
+     the transverse circle S¹×{pt}, while the equator of S² has i_!(1)=0 in
+     H¹(S²)=0: the same source gives a nonzero class only where the target
+     sees it.
+
+   *Needs:* C2.1's Thom classes and C1.2a's supported cohomology; the pinned
+   `TauCeti.SmoothEmbedding.NormalSpace` and
+   `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`;
+   GeometricTopology Layer 1.5's uniqueness of tubes up to isotopy and Layer
+   3.3's isotopy extension; AlgebraicTopology Stage 6's cup products and
+   excision.
+
 5. Construct fibre integration for proper smooth submersions with compact fibres, using the vertical
    orientation system and its chosen-orientation specialization: export
    `p!:H^k(E;o(Tp)⊗p*L)→H^(k−d)(B;L)` for every displayed local system L.
@@ -1612,12 +1830,17 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
    general-position perturbations. Use DG10.2's manifold Sard theorem to
    prove the finite-parameter transversality statements for these perturbations
    on the tangent sphere and off-diagonal pair space. Supply countable
-   avoidance/approximation on the compact exhaustion. Use GT Layer1's weak
-   (compact-open C∞) topology on native `ContMDiffMap` carriers E→ℝ^N,
-   with its uniform compact derivative controls of every finite order.
-   Prove convergence to a smooth limit and persistence of immersion and
-   pairwise separation on each compact stage. Use Layer3's compact-source
-   comparison only for compact sources. Construct a smooth proper exhaustion
+   avoidance/approximation on the compact exhaustion. Use the pinned weak
+   Whitney topology `ContMDiffMap.manifoldWeakWhitneyTopology` on native
+   `ContMDiffMap` carriers E→ℝ^N (`Geometry/Manifold/ContMDiffMap/Chart/Topology.lean`,
+   selected by `open scoped TauCeti.ManifoldWeakWhitney`), generated by
+   compact-open tests on chart derivatives of every finite order, with its
+   convergence criterion `ContMDiffMap.tendsto_manifoldWeakWhitney_iff`; on
+   maps between normed spaces it is `ContMDiffMap.weakWhitneyTopology`
+   (`ContMDiffMap.manifoldWeakWhitneyTopology_self`). Prove convergence to a
+   smooth limit and persistence of immersion and pairwise separation on each
+   compact stage; these use only the uniform derivative control on that
+   compact stage, so no comparison with the strong Whitney topology enters. Construct a smooth proper exhaustion
    and append it as one coordinate to make the embedding proper. Prove the
    graph remains proper over the base and admits a fibrewise tube.
    Define the intermediate cohomology with supports proper over the base.
@@ -1644,6 +1867,13 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
      back fibre class `pr₂*[dθ/(2π)]` to 1 and the unit 1 in degree 0 to 0,
      there being no cohomology in degree −1.
 
+   *Needs:* C2.4's Thom/extension construction; Mathlib's
+   `exists_embedding_euclidean_of_compact` and `ContMDiffMap`; the pinned
+   `ContMDiffMap.manifoldWeakWhitneyTopology` with
+   `ContMDiffMap.tendsto_manifoldWeakWhitney_iff`; DifferentialGeometry Layer
+   10.2's Sard theorem and Layers 5–9's forms, compact supports and de Rham
+   comparison; C1.2a's supported cohomology.
+
 6. For an associated G/T bundle over a numerable principal bundle for compact connected G over a paracompact base, construct cohomological fibre integration without assuming
    the base is a manifold. Embed G/T equivariantly as the adjoint orbit of a
    regular torus element in g, prove its normal bundle and uniform equivariant
@@ -1656,6 +1886,23 @@ homotopy-pushout gluing; the pinned `TauCeti.FiberBundle.t2Space_totalSpace`,
    identities on arbitrary bases in C5.5 and virtual classes in C6, beyond
    universal smooth approximations. Prove agreement with C2.5 on smooth bases.
 
+   **Checks.**
+   - For G=SU(2) and T=U(1), G/T=S²; over a point the transfer is
+     integration over S², lowering degree by 2, and the Euler-weighted
+     identity sends 1 to χ(S²)=2, the order of the Weyl group.
+   - For G=T a torus, G/T is a point and the transfer is the identity in
+     degree 0.
+   - For G=U(3), G/T is the flag manifold of real dimension 3²−3=6 and
+     χ(G/T)=3!=6=|S₃|. Its adjoint orbit in the 9-dimensional u(3) has
+     normal rank 3, so Thom/extension sends degree k to degree k+3 of the
+     ambient disc pair, and only the inverse ambient Thom map, lowering
+     degree by 9, returns to degree k−6 of the base.
+
+   *Needs:* C1.1b's numerable principal bundles; LieGroups' adjoint orbits,
+   maximal tori and Weyl group; LieGroups Layer 5A's Ad-invariant inner
+   product; C2.4's Thom/extension maps and C1.2a's supported cohomology; C2.5
+   for the comparison on smooth bases.
+
 ### Examples
 
 Over a point the Thom class of the orientation ω with fibre class g is g,
@@ -1663,7 +1910,7 @@ and that of −ω is −g; in rank 0 the Thom class is the locally constant sign
 `(1,−1)` on two components with opposite signs; the Möbius line has a ℤ/2
 Thom class and no integral one (C2.1). TS² has Euler number 2 and no
 nowhere-zero section, the realification of O(1) on CP¹ has Euler number 1,
-and su(F) on HP¹, of rank 3 over a 4-dimensional complex, has e=0 and no
+and su(F) on S⁴, of rank 3 over a 4-dimensional complex, has e=0 and no
 nowhere-zero section, so the dimension bound of the obstruction theorem
 cannot be dropped (C2.2). The barycentric Hopf field of C2.3a has index
 (−1)^d at the barycentre of a d-simplex, so on the boundary of a tetrahedron
@@ -1673,7 +1920,7 @@ its index sum is 4−6+4=2=χ(S²).
 
 C1. TopologicalKTheory T1.3–T1.4. AlgebraicTopology Stages 2.5, 4.5,
 6, 7, 8.1 and 8.9. DifferentialGeometry Layers 1–2 and 5–10.
-GeometricTopology Layers 1, 3, 10 and 11. SmoothBundlesConnections B2 and B6.
+GeometricTopology Layers 1.5, 3.3 and 11. SmoothBundlesConnections B2 and B6.
 
 ## C3: Projective splitting and integral/mod2 classes
 
@@ -1789,6 +2036,17 @@ GeometricTopology Layers 1, 3, 10 and 11. SmoothBundlesConnections B2 and B6.
    comparison must have its own stated support hypotheses and maps, as in
    C2's distinct Thom/fibre-integration interfaces. Retain ordinary LH at
    its original numerable scope.
+
+   *Needs:* C1's line classes and CW-resolution comparison (C1.2b); the
+   pinned Milnor sequences `TauCeti.ComplexTower.limOneToHomology_injective`,
+   `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim` and
+   `TauCeti.ComplexTower.homologyToLim_surjective` and
+   `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`;
+   AlgebraicTopology Stage 6.0's limit-complex comparison, Stage 4.8's
+   coefficient-chain comparison and Stage 5.5's Serre sequence of a locally
+   trivial map; C1.2a's supported cohomology and support-excisive hypotheses
+   for the compact-support form.
+
 2. In positive rank define w_i and c_i by the unique monic projective
    relations above. In rank0 define the total class as1, with all positive
    components zero; the empty projectivization is not used for coefficient uniqueness. Build
@@ -1818,6 +2076,11 @@ GeometricTopology Layers 1, 3, 10 and 11. SmoothBundlesConnections B2 and B6.
    - TRP² has `w=(1+a)³=1+a+a²`: w₁=a≠0 since RP² is not orientable, and
      w₂[RP²]=1=χ(RP²) mod 2, as `w_n=e mod 2` requires. TS² is stably
      trivial, so w(TS²)=1, in agreement with `w₂(TS²)=c₁(TS²) mod 2=2h mod 2=0`.
+
+   *Needs:* C3.1's projective bundle theorem and flag injection; C2.2's Euler
+   products; C1.5's line classes and C1.0's orientation cover; C2.2's Gysin
+   sequence for the comparison with the deleted-vector construction.
+
 3. Define integral Pontryagin classes from complexification; prove conjugation,
    2-torsion of odd complexification Chern classes, stabilization, naturality,
    rank vanishing and `p_i mod2=w_(2i)^2`. For k≥1 export the exact Whitney correction
@@ -1846,6 +2109,11 @@ GeometricTopology Layers 1, 3, 10 and 11. SmoothBundlesConnections B2 and B6.
      p₁(L)=0, while `(L⊕L)⊗ℂ` has `c=(1+y)²=1+y²`, so p₁(L⊕L)=−y²≠0 in
      `H⁴(RP∞;ℤ)=ℤ/2`: the uncorrected sum p₁(L)+p₁(L)=0 is wrong, and the
      correction term −c₁(L⊗ℂ)²=−y² accounts for the difference.
+
+   *Needs:* C3.2's Chern and Stiefel–Whitney classes; C2.2's Euler class; C1
+   item 2's Bockstein and AlgebraicTopology Stage 6.1's Bockstein product
+   rule.
+
 4. Compute `H*(BU(r);Z)=Z[c₁,…,c_r]` by integral flag injection into
    `H*((BU(1))^r;Z)`, the permutation action and the fundamental symmetric
    polynomial theorem, consuming Mathlib `MvPolynomial.symmetricSubalgebra`,
@@ -1856,6 +2124,10 @@ GeometricTopology Layers 1, 3, 10 and 11. SmoothBundlesConnections B2 and B6.
    `H*(BSO(n);F2)=F2[w₂,…,w_n]` for n≥1, with the canonical rank0 case separate. Compare stabilization and rank restrictions.
    Integral BO/BSO is not inferred from these mod2 or rational rings.
 
+   *Needs:* C3.1's flag injection and C3.2's classes; C1.5's universal line
+   rings; Mathlib's `MvPolynomial.symmetricSubalgebra`, `MvPolynomial.esymm`,
+   `MvPolynomial.psum` and `MvPolynomial.esymmAlgEquiv`; C2.2's
+   determinant-line Gysin sequence; TopologicalKTheory T1.6.
 
 4a. **Partial-frame primary obstruction comparison.** After C3.4, compare
    its actual universal w/c classes with the first obstruction for r independent
@@ -1893,6 +2165,10 @@ GeometricTopology Layers 1, 3, 10 and 11. SmoothBundlesConnections B2 and B6.
    either positive-frame first-group formula there. For r>n use the empty
    frame fibre and retain the empty-base case separately.
 
+   *Needs:* C3.4's universal rings; TopologicalKTheory T1.5a's Stiefel
+   fibrations; AlgebraicTopology Stage 8.9's relative obstruction cochains;
+   C2.2's one-frame Euler obstruction; C1.0's determinant cover.
+
 5. Identify w₂ with the universal transition-lift cocycle for the real spin
    central double cover. In positive rank consume native
    `CliffordAlgebra.isCoveringMap_realCliffordSpinDoubleCoverZero_rightHom`
@@ -1903,12 +2179,21 @@ GeometricTopology Layers 1, 3, 10 and 11. SmoothBundlesConnections B2 and B6.
    from `Connected` for ranks≥2, including the rank2 squaring-cover
    nontriviality detected by restriction to SO(2) and e mod2.
    `realCliffordSpinLastLocalSection` is a section over the unit sphere and
-   is not an SO-cover section. [SpinGeometry G4.1a](../SpinGeometry/README.md) owns rank0/rank1 and
-   frame transport through the native abstract/units-range/matrix comparisons;
-   G4.1b owns the
-   independent smooth refinement on the native units-range carriers;
-   the topological cocycle uses no smooth-cover refinement. Consume those
-   topological carrier adapters when comparing with TopK's frame bundles.
+   is not an SO-cover section. On the closed unit-group carriers consume, for
+   n≥1, the pinned covering
+   `TauCeti.CliffordAlgebra.isCoveringMap_realCliffordSpinToSpecialOrthogonalRange`,
+   its kernel `realCliffordSpinToSpecialOrthogonalRange_eq_one_iff` (exactly
+   the units 1 and −1), its surjectivity
+   `realCliffordSpinToSpecialOrthogonalRange_surjective`, the topological
+   isomorphism `TauCeti.CliffordAlgebra.realCliffordSpinContinuousMulEquivUnitsRange`
+   of the Spin group with its Clifford-units range, and
+   `TauCeti.QuadraticMap.mem_range_specialOrthogonalToGeneralLinear_realCliffordForm_iff`,
+   which identifies the matrix-units range with
+   `Matrix.specialOrthogonalGroup (Fin n) ℝ`. Own here the transport of that
+   covering to the structure group of C1.0's oriented orthonormal frames
+   through an ordered positive orthonormal basis, and its independence of
+   that basis up to conjugation by SO(n); the topological cocycle uses no
+   smooth-cover refinement.
    For a numerable oriented bundle construct the Čech central-lift cocycle
    from actual transition functions and continuous local lifts after refinement.
    Own the paracompact refinement/local-lift lemma using the covering
@@ -1922,20 +2207,44 @@ GeometricTopology Layers 1, 3, 10 and 11. SmoothBundlesConnections B2 and B6.
    and compare on finite smooth approximations/good covers. H²(BSO(n);F2)
    is generated by w₂ for n≥2; restriction to SO(2) identifies the central
    squaring-cover obstruction with e mod2. Prove stabilization and the rank0/1
-   cases. In rank0 consume [SpinGeometry G4.1a](../SpinGeometry/README.md)'s geometric μ2→SO(0)={1},
-   rather than the trivial native Mathlib Spin(0). Its canonical SO(0) frame
-   bundle lifts as a principal Z2 bundle; w₂=0 and the trivial lift exists.
-   Retain the signed rank0 orientation separately. The same trivial-base-cover
-   test applies in rank1, with the chosen orientation retained. On paracompact
+   cases. In rank0 the lift group is the pinned even unitary group
+   `CliffordAlgebra.evenUnitaryGroup` of `realCliffordForm 0 0`
+   (`LinearAlgebra/CliffordAlgebra/Spin/EvenUnitary.lean`), which in
+   Cl(0)=ℝ is μ₂={±1}, with the trivial map to SO(0)={1}; it is not the
+   native Mathlib Spin(0): that group is generated by invertible vectors,
+   and the zero space has none, so it is {1}. In rank1,
+   Spin(1)={±1} over SO(1)={1}, by the pinned kernel statement and
+   −1=e₁·(−e₁)∈Spin(1). In both ranks the canonical frame bundle lifts as the
+   trivial principal μ₂ bundle, w₂=0 and the trivial lift exists. Retain the
+   signed rank0 orientation and the rank1 orientation separately. On paracompact
    Hausdorff bases of CW type export the singular/Čech obstruction
    comparison; for finite-dimensional Hausdorff second-countable smooth manifolds consume AT8.7's
    countable locally finite triangulation/CW comparison. Retain the Čech
    obstruction on a general paracompact base.
-   The item order is G4.1a → C3.5 → G4.3: the topological adapters
-   precede this comparison independently of w₂; G4.3 consumes this equality
-   and this item's general paracompact atlas-refinement/local-lifting lemma.
-   G4.1b's smooth refinement is independent of C3.5. G4.4 constructs the H¹ torsor
-   once a lift is given, independently of the universal obstruction equality.
+
+   **Checks.**
+   - For the oriented plane bundle E_m over S² with transition R(mθ)
+     (C1.1d), the squaring cover z↦z² of SO(2) lifts the transition loop
+     exactly when m is even, and e(E_m) mod 2 = m mod 2, so w₂(E_m)=0 exactly
+     for even m: TS² (m=2) is spin and the realification of O(−1) (m=−1) is
+     not.
+   - w₂(TCP²) is the reduction of c₁(TCP²)=3h, which is h≠0, so CP² has no
+     spin structure; w₂(TS²) is the reduction of 2h, which is 0.
+   - In ranks 0 and 1 the lift group μ₂ maps to the trivial group, the
+     central-lift cocycle is trivial and w₂=0; over S¹ the lifts of the rank-0
+     frame bundle are the principal μ₂ bundles, two of them, while the native
+     Mathlib Spin(0)={1} would give exactly one.
+
+   *Needs:* the pinned
+   `CliffordAlgebra.isCoveringMap_realCliffordSpinDoubleCoverZero_rightHom`,
+   `CliffordAlgebra.pathConnectedSpace_realCliffordSpinGroupZero_add_two`,
+   `TauCeti.CliffordAlgebra.isCoveringMap_realCliffordSpinToSpecialOrthogonalRange`,
+   `realCliffordSpinToSpecialOrthogonalRange_eq_one_iff`,
+   `TauCeti.CliffordAlgebra.realCliffordSpinContinuousMulEquivUnitsRange` and
+   `CliffordAlgebra.evenUnitaryGroup`; C1.0's oriented frames; C1.2b's Čech/singular comparison and
+   classifying-map square; C3.2's w₂ and C3.4's `H*(BSO(n);𝔽₂)`;
+   AlgebraicTopology Stage 8.7's triangulation/CW comparison for smooth
+   manifolds.
 
 6. **Orthogonal universal rings away from 2.** Build
    the BSO ring isomorphism away from 2 for every commutative coefficient ring R with
@@ -2029,6 +2338,11 @@ GeometricTopology Layers 1, 3, 10 and 11. SmoothBundlesConnections B2 and B6.
    orientation-reversal and subgroup/stabilization naturality. This is a
    theorem for these orthogonal groups, not a general mod-p Borel theorem.
 
+   *Needs:* C1–C2 and C3.1–C3.4; C2.2's Gysin sequence and Euler classes;
+   C1.1's subgroup-associated fibrations; TopologicalKTheory T1.6–T1.6a's
+   fixed-rank and stable carriers; AlgebraicTopology Stage 4's CW compactness
+   and Stage 6.1's cochains; C3.1's pinned Milnor sequence.
+
 ### Examples
 
 On RP^n the real projectivization relation reads `a^(n+1)=0` for the
@@ -2040,7 +2354,7 @@ trivial bundle ℝ^(n+1), and `H*(BO(1);𝔽₂)=𝔽₂[w₁]`. The reduction f
 ### Dependencies
 
 C1–C2. TopologicalKTheory T1.5–T1.6a. AlgebraicTopology Stages 4, 4.8,
-6.0, 6.1, 8.7 and 8.9. SpinGeometry G4.1a.
+6.0, 6.1, 8.7 and 8.9.
 
 ## C4: Curvature classes and their integral comparison
 
@@ -2053,6 +2367,11 @@ C1–C2. TopologicalKTheory T1.5–T1.6a. AlgebraicTopology Stages 4, 4.8,
    Proposition 9.1 for polarization, Proposition 9.3 for closedness,
    Theorem 9.5 and Lemma 9.6 for connection independence). Prove gauge invariance,
    functoriality, product/Whitney and real/complex comparison identities.
+
+   *Needs:* DifferentialGeometry Layers 0–1's value-bundle forms, wedge and
+   exterior derivative; SmoothBundlesConnections B3–B4's principal
+   connections, curvature and Bianchi identity.
+
 2. Construct Chern, trace-character, Pontryagin and Pfaffian forms with the
    normalizations above. Prove the rank-one singular/de Rham comparison using
    SBC B6; on a smooth projective flag compare with split line connections,
@@ -2060,6 +2379,12 @@ C1–C2. TopologicalKTheory T1.5–T1.6a. AlgebraicTopology Stages 4, 4.8,
    exactly the real images of C3's Chern and Pontryagin classes. C5.5 proves
    the Euler/Pfaffian comparison after oriented real splitting. Curvature
    comparison retains the distinction between an integral class and its real image.
+
+   *Needs:* C4.1's invariant forms; SmoothBundlesConnections B6's normalized
+   circle class; DifferentialGeometry Layer 8's de Rham comparison; C3.1's
+   flag injection and C3.2–C3.3's classes; ComplexKahlerGeometry K4's Chern
+   connections and K7.2's O(1) curvature.
+
 3. Construct the universal Chern–Weil map degreewise on C1's finite smooth
    Stiefel approximations; prove stable-degree compatibility, independence of
    universal connection and agreement with smooth-bundle pullback classes.
@@ -2077,6 +2402,9 @@ C1–C2. TopologicalKTheory T1.5–T1.6a. AlgebraicTopology Stages 4, 4.8,
    - CKG's O(1) curvature −2πiω_FS has c₁ form `(i/(2π))(−2πiω_FS)=ω_FS`,
      whose integral over CP¹ is 1=⟨h,[CP¹]⟩; omitting the factor i/(2π)
      would give the imaginary form −2πiω_FS, which represents no real class.
+
+   *Needs:* C1 items 3–4's finite smooth Stiefel approximations and smooth
+   representatives; C4.1–C4.2; DifferentialGeometry Layers 6–8.
 
 ### Examples
 
@@ -2152,6 +2480,14 @@ K7.1–K7.2.
    factor separately. This item owns the compact-group versus infinitesimal invariants
    comparison, transport of the supplied geometric Cartan/root-data maps, tensor factor for
    the reductive centre, and finite-degree real descent.
+
+   *Needs:* LieGroups Layers 1, 5A and 6; CompactGroups Layers 0–1;
+   LieHighestWeight L1's root system; the pinned
+   `ContRepresentation.isUnitarizable`, `TauCeti.lieCartanRestriction`,
+   `LieSubalgebra.lieChevalleyRestrictionIso` with its two companion lemmas,
+   and `TauCeti.killingSymmetricEquiv` with its three companion lemmas;
+   Mathlib's `LieAlgebra.HasCentralRadical` and `LieAlgebra.IsKilling`.
+
 2. Prove the torus Chern–Weil map is an isomorphism with H*(BT;R), with each
    integral character giving its normalized degree2 class. For connected G,
    on finite approximations use `E_m/T→E_m/G`, its oriented fibre G/T, and
@@ -2163,6 +2499,11 @@ K7.1–K7.2.
    conjugation acts trivially on BG cohomology, so the image is W-invariant.
    The Chevalley/torus square then proves both universal Chern–Weil and
    Borel `H*(BG;R)≃H*(BT;R)^W`. This is the proof spine of Dupont1978 §8.
+
+   *Needs:* C4.3's universal Chern–Weil map; C1's finite approximations and
+   torus models (C1.5); C2.5's Euler-weighted fibre integration and C2.3's
+   Euler-class index formula; C5.1's restriction isomorphism.
+
 3. For disconnected compact G prove π₀(G) finite and
    `H*(BG;K)=H*(BG⁰;K)^π₀(G)` for K=Q or R by the finite-cover/transfer model of
    C1's universal bundle. Compare with invariants of I(G⁰). For a torus of
@@ -2171,6 +2512,10 @@ K7.1–K7.2.
    the rational statement by the integral character lattice, finite-degree
    base change and exact finite-group averaging. No integral or mod2 Borel
    invariant theorem follows by this argument.
+
+   *Needs:* C1.1b's universal bundle and finite-cover transfer; C5.1–C5.2;
+   the integral character lattice of a maximal torus of G⁰.
+
 4. Consume C3.4's integral BU ring and C3.6's BSO rings after rational
    coefficient change; compare their inclusions/root restriction with
    items1–3's Chern–Weil/Borel construction. Compute the rational BO ring
@@ -2191,11 +2536,17 @@ K7.1–K7.2.
    the transfer. The stable BSO ring and
    coefficient/stabilization comparison are consumed from C3.6.
 
+   *Needs:* C3.4's BU ring and C3.6's BSO rings; C5.2–C5.3;
+   TopologicalKTheory T1.6's unoriented stable Grassmannian.
+
 5. Pull an oriented real bundle to its associated oriented-plane flag and
    use item2/C2.6 to prove rational injectivity on any displayed base. Prove
    the Pfaffian product on ordered 2-plane curvature blocks, compare each
    plane with its complex line and B6 normalization, and descend to identify
    C4's Pfaffian class with the real image of the integral Euler class.
+
+   *Needs:* C5.2 and C2.6's flag transfer; C4.2's Pfaffian forms;
+   SmoothBundlesConnections B6's normalization; C2.2's integral Euler class.
 
 ### Examples
 
@@ -2717,6 +3068,23 @@ Stage 5.5. DifferentialGeometry Layers 1–2 and 5–10.
    Whitney laws; virtual λ_(−1) is not an evaluation of an arbitrary infinite
    λ-series at −1. Build the degreewise truncation of a multiplicative class
    on a base of displayed cohomological dimension.
+
+   **Checks.**
+   - For an oriented real 2-plane with root x, Â=1−x²/24+…, so Â₁=−p₁/24;
+     a product over both roots ±x of the complexification would give
+     Â(x)Â(−x)=1−x²/12+…, that is −p₁/12, twice the correct class.
+   - For TCP¹, c₁=2h and Td₁=c₁/2=h pairs to 1, the Todd genus of CP¹;
+     omitting the 1/2 would give 2.
+   - For TCP², p₁=3h² and L₁=p₁/3=h² pairs to 1, the signature of CP²;
+     the product over both roots would give 2h².
+
+   *Needs:* the pinned `PowerSeries.multiplicativeSequence` with its root,
+   Whitney and stability lemmas, `bernoulli'PowerSeries`,
+   `TauCeti.aHatSeries`, `TauCeti.hirzebruchLSeries`,
+   `expand_cartier_hirzebruchLSeries` and `expand_cartier_aHatSeries`;
+   C3.2–C3.3's Chern and Pontryagin classes and C3.1's splitting;
+   TopologicalKTheory T2's K-rings for the extension to virtual classes.
+
 2. Construct `ch_j(E)` as the rational Newton polynomial in integral c_i,
    normalized by j!, with ch₀=rank. Prove root exponentials, additivity,
    multiplicativity, dual/conjugate and line-twist identities using C3's
@@ -2753,6 +3121,12 @@ Stage 5.5. DifferentialGeometry Layers 1–2 and 5–10.
    - For TCP², with c₁=3h and c₂=3h², `ch₂=(9h²−6h²)/2=3h²/2` is not
      integral, so ch is a rational class; dropping the factor 1/j! would give
      the integral but non-multiplicative 3h².
+
+   *Needs:* C3.2's integral Chern classes and C3.1's flag theorem;
+   TopologicalKTheory's SplitK0 universal properties and T7.4's doubled-space
+   kernel comparison; C1.2a's supported cohomology and excisive couples; C1's
+   finite approximations for K_G(pt).
+
 3. Construct suspension-degree characters. Orient R by increasing t and
    let U_R∈H¹(I,∂I;Q) satisfy ∫dt=1, with boundary signs (−0,+1).
    Define cohomological suspension by right external product `a↦a⊠U_R`;
@@ -2777,6 +3151,22 @@ Stage 5.5. DifferentialGeometry Layers 1–2 and 5–10.
    induction in the mapping-cylinder sequence. State the finite-CW hypothesis;
    ordinary K on an arbitrary compact Hausdorff space is not asserted to be
    rationally equivalent to all its singular cohomology.
+
+   **Checks.**
+   - The connecting map `H⁰(∂I;ℚ)→H¹(I,∂I;ℚ)` sends a function f on the
+     endpoints to (f(1)−f(0))U_R, so δ_H(0,1)=U_R and δ_H of the constant 1
+     is 0; reversing the orientation of the interval gives −U_R.
+   - `Hper^n(pt)` is ℚ·v^(−n/2) for even n and 0 for odd n, so ch(u)=−v lies
+     in `Hper^(−2)(pt)=ℚv`; the completed even target without v would put
+     the character of the degree −2 coefficient in degree 0.
+   - On CP¹, `ch(O(−1)−1)=exp(−h)−1=−h` because h²=0, pairing to −1, which
+     matches ch(u)=−U_C; the opposite generator O(1)−1 would give +h.
+
+   *Needs:* C6.2's Chern character; TopologicalKTheory T3.4's right
+   suspension and T4.8's cone boundary; AlgebraicTopology Stage 6's external
+   products and connecting maps; the finite-CW cell induction of
+   AlgebraicTopology Stage 4.
+
 4. For the dual-Koszul Thom class of a complex bundle prove
    `ch(Thom_K(a))=Thom_H(ch(a)·Td(E)^−1)`; the zero-section expression is
    ch(λ_(−1)(E*))=∏(1−exp(−x_j)). For the wedge convention prove the correction
@@ -2790,11 +3180,20 @@ Stage 5.5. DifferentialGeometry Layers 1–2 and 5–10.
    in completed ordinary cohomology with the period symbol suppressed; for
    the degree0 folded K-Thom map its graded version includes the factor v^r
    multiplying the cohomological Thom map of real rank2r.
+
+   *Needs:* C6.1's Todd class and C6.2's Chern character; TopologicalKTheory
+   T5's dual-Koszul Thom class; C2.1's Thom map and C3.1's flag injection;
+   C1.5's torus models `(CP^N)^r`.
+
 5. For embeddings with a specified complex normal bundle prove the
    cohomological/K-theoretic pushforward comparison
    `ch(f!_K a)=f!_H(ch(a)·Td(ν)^−1)` for complex normal ν, with the normal Todd factor,
    support, orientation and composition conventions fixed. This is a Riemann–Roch identity for the constructed
    pushforwards; analytic index equality is a separate consumer.
+
+   *Needs:* C6.4's Thom correction; C2.4's embedding Gysin maps;
+   TopologicalKTheory T5's Thom class and compact-support extension for the
+   K-theoretic pushforward.
 
 ### Examples
 
@@ -2844,6 +3243,13 @@ C1–C5a. TopologicalKTheory T2–T5, T3.4, T4.8 and T7.4.
      `L₃=(496−624+128)/945·u³=0`, the signature of `HP³` (`H⁶(HP³)=0`); on
      `HP²`, `p=(1+u)⁶/(1+4u)=1+2u+7u²` and the pinned `L₂` gives
      `(49−4)/45·u²=u²`, signature 1.
+
+   *Needs:* the pinned genus identities of
+   `RingTheory/PowerSeries/GenusPolynomials.lean`,
+   `multiplicativeSequence_three_right`, `coeff_hirzebruchLSeries` and
+   `expand_cartier_hirzebruchLSeries`; C6.1's bundle-level classes; C3.3's
+   Pontryagin classes.
+
 2. Translate the ordered half-spin weights and exterior λ-characters into
    exponential root products. For the ordered roots x₁,…,x_r name the
    summand with an even number of negative half-weight signs S_high⁺; then
@@ -2858,6 +3264,10 @@ C1–C5a. TopologicalKTheory T2–T5, T3.4, T4.8 and T7.4.
    Prove this degree-4k comparison by x_j↦x_j/2 and homogeneous scaling.
    For k>0 the constant terms differ; no general full-series equality is asserted. Real Clifford/chirality and spin-lift constructions retain
    their own geometric owners.
+
+   *Needs:* SpinRepresentations' half-spin weights and exterior characters;
+   C6.2's Chern character and C6.1's L series; C3.1's splitting.
+
 3. Acceptance: construct the projective Euler sequence from the tautological
    line and tangent chart derivatives, proving its bundle exactness; thus CP^n
    has c(TCP^n)=(1+h)^(n+1) and its Euler number is n+1;
@@ -2876,6 +3286,13 @@ C1–C5a. TopologicalKTheory T2–T5, T3.4, T4.8 and T7.4.
    Include the universal p_r=e² relation, w₂ reduction/central-cover test,
    the rank-one Hopf sign, and a flat torsion circle bundle with nonzero
    integral c₁ and zero de Rham Chern form using SBC B6's lens-space example.
+
+   *Needs:* C3.2–C3.3's classes and C2.2's Euler class; TopologicalKTheory
+   T1's bundle comparison and T1.5's tautological lines;
+   SmoothBundlesConnections B2 and B6; native sphere differential calculus;
+   C1.1d's clutching over S²; C3.4's `H*(BSO(3);𝔽₂)` for w₃; C3.3's integral
+   Whitney correction; C1.5's rank-one Hopf sign.
+
 **C7.AdjointHopfObstruction — zero primary classes without a section.**
 For every Hermitian complex rank-two bundle F over a paracompact Hausdorff
 base, construct the oriented real rank-three bundle su(F) of trace-free
@@ -2901,17 +3318,32 @@ in integral cohomology and with naturality,
 This is an integral root calculation; rational Chern-character comparison
 alone is not substituted for integral equality on a base with torsion.
 For a fixed determinant trivialization compare with the adjoint bundle of
-the SU(2) frame reduction. Under [GeneralizedCohomology G4.0a](../GeneralizedCohomology/README.md)'s
-Sp(1)/Spin(3) calibration, identify
-the conjugation representation with the action on imaginary quaternions.
+the SU(2) frame reduction. The pinned star-algebra embedding
+`Quaternion.toComplexMatrix` of `ℍ[ℝ]` into `Matrix (Fin 2) (Fin 2) ℂ`
+sends a+bi+cj+dk to `[[a+bi, c+di],[−c+di, a−bi]]`, hence i, j, k to the
+three ordered matrices above; it is ℝ-linear, multiplicative, injective and
+carries quaternion conjugation to the conjugate transpose, and its
+restriction to the unit quaternions is the group isomorphism
+`Quaternion.unitaryEquivSpecialUnitaryGroup` onto SU(2). It therefore
+carries the imaginary quaternions onto su(2) and conjugation by a unit
+quaternion to Ad of its image. Prove this identification of the
+conjugation representation of the unit quaternions with Ad on su(2); the
+orientation of su(F) is the image of the ordered basis (i,j,k).
 
-On GeneralizedCohomology G4.0a's actual HP¹, identified with its oriented S⁴,
-let γ_ℍ be the tautological right-quaternionic line, F its right-complex
-restriction, and E=su(F). Use G4's ordinary quaternionic-line normalization
-`u=c₂(F)`, with `⟨u,[HP¹]⟩=1`, and the canonical trivial determinant of F.
-Construct E on this carrier, including its transition maps from those of
-γ_ℍ; do not replace it by an abstract bundle with prescribed classes.
-Prove `c₁(F)=0` and `p₁(E)=−4u≠0`. The sphere cohomology calculation and
+On S⁴=D_N∪D_S, whose equator S³ is the unit sphere of ℍ=ℝ⁴ in the
+coordinates a+bi+cj+dk, let F be the Hermitian rank-two bundle obtained by
+C1.1d's clutching, in its convention s_S=s_N c on the equator, from the
+transition `c(q)=Quaternion.toComplexMatrix q`, which lies in SU(2)⊂U(2),
+and let E=su(F), with transition Ad∘c. Construct E on this carrier with
+those transition maps; do not replace it by an abstract bundle with
+prescribed classes. Since c takes values in SU(2), the determinant line of F
+is canonically trivial and `c₁(F)=0`. Prove that `u=c₂(F)` generates
+`H⁴(S⁴;ℤ)`: `c₂(F)=e(F_ℝ)` by the convention `c_r(E)=e(E_R)`, and C2.2's
+identification of the Euler class with the primary section obstruction,
+applied to the constant section e₁ of the northern frame, which the
+southern frame reads on the equator as `q↦c(q)⁻¹e₁=(a−bi, c−di)`, the
+restriction of a linear isometry of ℝ⁴=ℂ², gives `⟨e(F_ℝ),[S⁴]⟩=±1`.
+Orient S⁴ so that `⟨u,[S⁴]⟩=1`. Prove `p₁(E)=−4u≠0`. The sphere cohomology calculation and
 rank normalization give `e(E)=0` and `w_i(E)=0` for every i>0. Prove E is
 not stably trivial: an isomorphism `E⊕ε^k≃ε^(k+3)` would force p₁(E)=0
 by naturality and trivial-summand stability.
@@ -2938,10 +3370,22 @@ For the adjoint-bundle formula see Zentner,
   skew-adjoint and traceless; for Z=diag(1,−1), X=0 and Y=diag(−i,i).
 - With roots 0, x−y, y−x the second elementary symmetric polynomial is
   −(x−y)², so p₁=−c₂(End₀(F))=(x−y)²=(x+y)²−4xy=c₁(F)²−4c₂(F); the
-  opposite sign convention p₁=+c₂(E⊗ℂ) would give p₁(E)=+4u on HP¹, and
+  opposite sign convention p₁=+c₂(E⊗ℂ) would give p₁(E)=+4u on S⁴, and
   the product of the three roots is 0, so e(E)=0 is forced by the roots too.
-- On HP¹, c₁(F)=0 and u pairs to 1, so p₁(E) pairs to −4; the
+- On S⁴, c₁(F)=0 and u pairs to 1, so p₁(E) pairs to −4; the
   stably trivial TS² has p₁=0 but Euler number 2, the opposite failure.
+- For q=a+bi+cj+dk the matrix c(q) has determinant a²+b²+c²+d²=1 and
+  inverse its conjugate transpose, whose first column is (a−bi, c−di); as a
+  real map (a,b,c,d)↦(a,−b,c,−d) it has determinant +1, so the obstruction
+  degree is ±1 and u is a generator. The constant transition c≡1 gives the
+  trivial bundle, with c₂=0 and p₁(E)=0, so the clutching map, not the
+  hemisphere decomposition, carries the class.
+
+*Needs:* C1.0's unitary frame bundle and C1.1d's clutching;
+TopologicalKTheory T1's endomorphism bundles; C3.1's integral splitting,
+C3.2–C3.3's classes and C2.2's Euler class and primary obstruction; the
+pinned `Quaternion.toComplexMatrix` and
+`Quaternion.unitaryEquivSpecialUnitaryGroup`.
 
 3a. **Real-projective tangent classes and immersion obstruction.** For every
    m≥0 use AT4.6's smooth native real-projective carrier. Transport TopK
@@ -3003,15 +3447,39 @@ For the adjoint-bundle formula see Zentner,
    and T1.5–T1.6 with T1.5's real carrier/chart comparison, SBC B2 and
    native differential calculus; it precedes the rational curvature and
    genus calculations.
+
+   **Checks.**
+   - In `F₂[a]/(a³)`, `(1+a)^(−3)=(1+a)(1+a)^(−4)=(1+a)(1+a⁴)^(−1)=1+a`, so
+     w̄(RP²)=1+a and w̄₁=a≠0 excludes every immersion RP²→ℝ²; for RP² in ℝ⁴
+     the normal plane bundle has w(ν)=1+a, so w₁(ν)=a and w₂(ν)=0.
+   - In `F₂[a]/(a⁴)`, `(1+a)^(−4)=1`, so w̄(RP³)=1 and the obstruction
+     excludes nothing for RP³, consistent with its trivial tangent bundle.
+   - For the round sphere Sᵐ⊂ℝ^(m+1) the normal line is trivial and
+     w(TSᵐ)=1, so w̄(Sᵐ)=1; a definition of w̄ as w(TM) itself would agree
+     here but give 1+a+a² instead of 1+a on RP².
+
+   *Needs:* AlgebraicTopology Stage 4.6's real-projective carrier;
+   TopologicalKTheory T1's bundle category, metrics and embeddings and
+   T1.5–T1.6's tautological lines and chart comparisons;
+   SmoothBundlesConnections B2; C1.5's cup comparison and C3.2's Whitney
+   laws; the pinned `TauCeti.FiniteRankBundleCore.ofBundle`,
+   `TauCeti.RealProjectiveSpace` and `TauCeti.instIsManifoldQuotient`;
+   Mathlib's `Manifold.IsImmersion`, `Manifold.IsImmersion.id`,
+   `MulAction.instChartedSpaceQuotient`, `contMDiff_neg_sphere` and
+   `contMDiff_id`.
+
 4. Verify ch respects the relative symbol gluing and external tensor blocks
    on the excisive/supported pairs,
    the compact complex Thom point normalization, the inverse Todd correction,
    dimension4 L₁=p₁/3 and the curve Todd class 1+c₁/2. All source formulas
    involving an Euler denominator are justified universally before evaluation.
 
+   *Needs:* C6.2–C6.5's relative Chern character, Thom correction and Todd
+   class; C7.1's genus polynomials.
+
 ### Examples
 
-`L₃[CP⁶]=1` and `L₃[HP³]=0`, `L₂[HP²]=1`; the bundle su(F) on HP¹ has
+`L₃[CP⁶]=1` and `L₃[HP³]=0`, `L₂[HP²]=1`; the bundle su(F) on S⁴ has
 `p₁=−4u≠0`, `e=0` and all `w_i=0`, and no nowhere-zero section; RP⁴ admits
 no immersion into ℝ⁶.
 
@@ -3019,17 +3487,19 @@ no immersion into ℝ⁶.
 
 C1–C6. AlgebraicTopology Stage 4.6. TopologicalKTheory T1, T1.5 and
 T1.6. SmoothBundlesConnections B2 and B6. SpinRepresentations.
-GeneralizedCohomology G4.0a.
 
 ## Downstream consumers
 
-- AffineMorseLefschetz consumes C1.2a S0–S5's supported cohomology and
+- AffineMorseLefschetz consumes C1.2a's supported cohomology (S0–S4, which
+  C1.2a takes from AlgebraicTopology's supported-cellular supplement) and S5's
   supplied-collared-boundary pair sequence for its A4.0 cap dualities.
-- AlgebraicTopology's supported-cellular supplement after its ordinary
-  Stage 6.2, and its proper Stage 8.5, consume C1.2a S0–S4; the supplement's
-  supported CW-pair triangle is compared with S5 in a separate compatibility
-  target. GeneralizedCohomology consumes C1–C3: C1.1b's join carrier, C1.5's
-  universal line models and C2.1's Thom classes.
+- GeneralizedCohomology consumes C1–C3: C1.1b's join carrier, C1.5's
+  universal line models and C2.1's Thom classes; it supplies nothing to this
+  roadmap, whose quaternionic example in C7 is built by C1.1d's clutching.
+- SpinGeometry consumes C1's oriented orthonormal frame bundles and C3.5:
+  its G4.3 uses the equality of w₂ with the central-lift obstruction and
+  C3.5's paracompact atlas-refinement/local-lifting lemma, and its G4.4
+  torsor of lifts uses a given lift independently of that equality.
 - BordismFormalGroups consumes C3's Whitney laws and `H*(BO(n);𝔽₂)` and the
   Conventions' standard-character line class.
 - ConvexityToric T2 owns Borel equivariant cohomology, moment-map Morse
