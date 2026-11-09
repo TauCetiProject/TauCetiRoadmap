@@ -398,7 +398,12 @@ Continuous paths on finite horizons use `ContinuousMap` and the uniform
    Use native `MeasureTheory.AEEqFun Ω ℝ P` for scalar random variables modulo a.e.
    equality. On finite measure spaces give convergence in measure its bounded metric
    presentation `d(f,g)=∫|f−g|/(1+|f−g|)dP`. Prove representative independence, the
-   metric axioms, completeness and equivalence with native `MeasureTheory.TendstoInMeasure P`.
+   metric axioms, completeness and equivalence with native `MeasureTheory.TendstoInMeasure P`
+   (an elementary own proof, not taken from a source: the metric axioms from the monotonicity
+   and subadditivity of `x↦x/(1+x)`; the equivalence from Markov's inequality,
+   `P(|f−g|>ε)≤((1+ε)/ε)d(f,g)`, in one direction and `x/(1+x)≤min(x,1)`, hence
+   `d(f,g)≤ε+P(|f−g|>ε)`, in the other; completeness from the almost-everywhere convergent
+   subsequence of a sequence Cauchy in measure, selected by Borel–Cantelli).
    Use a distinct wrapper for real L⁰ and an equivalence with `AEEqFun Ω ℝ P`;
    no second a.e. quotient is constructed.
    Give the wrapper its metric instance. Keep `AEEqFun` free of this metric instance,
@@ -722,7 +727,8 @@ Use S0.2's pointwise announceable-time definition,
    theorem from S0.2's filtration-aware E* paving, outer-projection capacity and compact-fiber
    section construction: for a predictable set E and ε>0,
    find a predictable time T whose finite graph lies in E and whose finite
-   probability is at least P*(projection E)−ε. Prove that the section's projected
+   probability is at least P*(projection E)−ε (Theodorakopoulos, Lemma 4.2 and
+   Theorem 4.4, the predictable section theorem). Prove that the section's projected
    intersection is F-measurable by compact time fibers, without completing the probability
    space. Then prove on a complete
    right-continuous probability basis that a stopping time with predictable graph (equivalently
@@ -967,12 +973,16 @@ Define filtration-relative Brownian predicates strengthening
 
 Spatial translation, orthogonal invariance, sign, deterministic
    time shift/scaling, independent products and Brownian bridges. Prove continuous time
-   inversion `tB_{1/t}` at 0 by applying S1.1 Chentsov to its pre-Brownian law,
+   inversion `tB_{1/t}` at 0 (Mörters–Peres, Theorem 1.9, p. 13) by applying S1.1 Chentsov to
+   its pre-Brownian law,
    comparing its continuous modification with the original inverse at rational positive
    times and then all positive times. Consume Mathlib’s finite-law inversion proof.
-   This gives `B_t/t→0` at infinity without later maximal or reflection theory. Specify the bridge law/covariance and conditional endpoint kernel, including
+   This gives `B_t/t→0` at infinity without later maximal or reflection theory
+   (Mörters–Peres, Corollary 1.11, p. 14, which derives it from time inversion in the same
+   order). Specify the bridge law/covariance and conditional endpoint kernel, including
    degenerate horizons and endpoint events interpreted through disintegration rather than
-   conditioning on a zero-probability event by a ratio.
+   conditioning on a zero-probability event by a ratio; the bridge covariance
+   `min(s,t)−st/T` on `[0,T]` is an own Gaussian computation from the Brownian covariance.
    For every finite `T≥0` and continuous real K on `[0,T]`, develop the Volterra
    transformation on continuous real paths based at zero,
    `T_K x(t)=x(t)+∫₀ᵗK(s)x(s)ds`. Prove it is a continuous linear map for the
@@ -986,7 +996,10 @@ Spatial translation, orthogonal invariance, sign, deterministic
    `min(t,s)+∫₀ᵗK(u)min(u,s)du+∫₀ˢK(v)min(t,v)dv
    +∫₀ᵗ∫₀ˢK(u)K(v)min(u,v)dvdu`.
    Prove the required measurability and exchange of expectation and deterministic
-   integration from the bounded horizon and Gaussian second moments. This uses
+   integration from the bounded horizon and Gaussian second moments. The Volterra
+   transform and its covariance are an own computation (the Gaussian law from L² limits
+   of Riemann sums, the covariance from `Cov(B_u,B_v)=min(u,v)` and Fubini on the bounded
+   horizon); no source is cited for them. This uses
    S1.2–S1.3 Gaussian/path APIs; stochastic integration is not a prerequisite.
 
 ### 1.5 random-walk approximation
@@ -1394,7 +1407,10 @@ For the Brownian time measure, prove that the predictable sigma algebra `F.predi
 is contained in the ambient product sigma algebra: its generators `{0}×A` for `A∈F_0` and
 `(t,∞)×A` for `A∈F_t` are product-measurable. Define the predictable measure on the
 horizon T by trimming `(timeMeasure T).prod P` along that inclusion;
-its predictable L² space is the native real `Lp` space with exponent 2.
+its predictable L² space is the native real `Lp` space with exponent 2
+(Karatzas–Shreve, §3.2.A, for the measure on `[0,∞)×Ω` induced by the bracket of a
+square-integrable martingale and its L² space of integrands; for Brownian `M` that measure
+is Lebesgue measure times `P`).
 
 **API.**
 
@@ -1422,7 +1438,10 @@ On a usual basis construct the nonnegative
    For a càdlàg L² martingale M specialize the same construction to Z=M² on
    predictable sets, zero mass at time 0 and rectangle value
    `μ_M((s,t]×A)=E[1_A(M_t−M_s)²]`, A∈ℱ_s. Prove countable additivity, finiteness on
-   finite horizons for L² martingales, uniqueness and the predictable-bracket representation; its Brownian
+   finite horizons for L² martingales, uniqueness and the predictable-bracket representation
+   `μ_M(A)=E∫1_A d⟨M⟩` (Karatzas–Shreve, §3.2.A, where this identity is the definition of
+   `μ_M`; Protter, Chapter III, for the Doob–Meyer decomposition and the compensator that
+   `λ_Z` and `⟨M⟩` encode); its Brownian
    specialization on [0,T] is the trim of `(timeMeasure T).prod P` to
    `F.predictable`; the compensated rate-α Poisson specialization is α times that trim.
 
@@ -1516,13 +1535,17 @@ Truncation at t, mean-zero martingale, strongly progressive
    selected continuous/càdlàg process,
    L² continuity in the continuous case, Doob uniform approximation, linearity, AE integrand
    congruence, indistinguishability, multiplier rule for bounded ℱ_s-measurable variables,
-   deterministic/optional stopping and restriction/concatenation. Prove continuity of the
+   deterministic/optional stopping and restriction/concatenation (Karatzas–Shreve, §3.2.B,
+   Proposition 3.2.10, for the martingale, continuity, linearity and bracket properties;
+   Revuz–Yor, Chapter IV, §2, for the stopping and associativity identities). Prove continuity of the
    integrator implies continuity of the integral, not merely separate-time L² limits.
    Identify the deterministic-integrand Gaussian map of S1.3 with this integral by the
    common elementary-integrand formula and L² continuity.
    For `Y=∫X dM` prove the measure identity `μ_Y(A)=∫_A X²dμ_M` on every
    predictable set, first on rectangles by conditional isometry, then by
-   measure uniqueness. State the finite-horizon L² hypotheses and identify
+   measure uniqueness; it is the measure form of the bracket identity
+   `⟨∫X dM⟩=∫X² d⟨M⟩` (Karatzas–Shreve, Proposition 3.2.10). State the finite-horizon
+   L² hypotheses and identify
    the actual with-density measure. This proof precedes S4's bracket formula.
 
 ### 3.4 localization
@@ -1904,8 +1927,9 @@ For the original real process M,
    `M₀=0` a.s., and `IsQuadraticVariation F P M (fun t _ => t)`.
    Prove `levy_characterization_adapted`, concluding `IsFilteredBrownian F P M`: conditional characteristic functions give
    `E(exp(iα(M_t−M_s))|F_s)=exp(−α²(t−s)/2)` for every s≤t and real α,
-   hence centered Gaussian increments independent of F_s. Independence is a conclusion,
-   not an additional premise. Use S2.4's actual raw bounded localizers, the stopped
+   hence centered Gaussian increments independent of F_s (Lévy's characterization:
+   Karatzas–Shreve, Theorem 3.3.16; Revuz–Yor, Chapter IV, Theorem 3.6). Independence is a
+   conclusion, not an additional premise. Use S2.4's actual raw bounded localizers, the stopped
    exponential identities and bounded conditional convergence. No completeness or right
    continuity of F is imposed. Literal adaptation is separate from native locality.
 
@@ -1913,7 +1937,8 @@ For the original real process M,
    continuity, centered start, coordinate native locality and the full cross-bracket
    identities `[Mⁱ,Mʲ]_t=δ_ij t`. Apply the scalar conditional characteristic-function
    argument to every linear projection to prove the joint conditional Gaussian law,
-   independent vector increments and the filtered vector Brownian conclusion.
+   independent vector increments and the filtered vector Brownian conclusion (the
+   vector statement of Karatzas–Shreve, Theorem 3.3.16).
    Separate scalar Brownian coordinate conclusions do not establish that joint law.
 
    Prove the filtered Wiener-law corollary for an original **strongly adapted** M:
@@ -2490,7 +2515,11 @@ Prove `exists_brownian_localTime`,
 
 Construct two-sided Wiener noise and measure-preserving
    increments shift `θ_sω(t)=ω(t+s)−ω(s)`, its cocycle, ergodicity/mixing through cylinder
-   approximation and independent separated increments. Overlapping interval increments use
+   approximation and independent separated increments (Arnold, Random Dynamical Systems,
+   Appendix A, for the Wiener shift as an ergodic metric dynamical system; the proof here
+   is the own argument that for events `A`, `B` depending on increments over bounded time
+   windows, `P(A∩θ_s⁻¹B)=P(A)P(B)` once `s` separates the windows, so that mixing, hence
+   ergodicity, follows by π-system approximation). Overlapping interval increments use
    their induced joint law, not the product of all interval marginal laws. Brownian translation
    flow gives the basic measurable skew-product example and cocycle law; state
    the shift of noise when composing times.
@@ -2635,20 +2664,29 @@ For continuous positive density martingale ρ and continuous local M,
 
 ### 7.5 finite versus infinite horizon
 
-Bounded drift gives each finite-horizon L² density.
+Bounded drift gives each finite-horizon L² density (Karatzas–Shreve,
+   §3.5.A, Theorem 3.5.1, for the change of measure on each finite horizon).
    For bounded Borel nonanticipative drift functionals on canonical Wiener paths,
    construct the infinite-path law by finite-time consistency and countable-projective
-   restriction/continuity; this does not assert extension on an arbitrary original Ω. Infinite
+   restriction/continuity (Karatzas–Shreve, §3.5.C, for the consistent family of drifted
+   laws on canonical space); this does not assert extension on an arbitrary original Ω. Infinite
    equivalence requires a UI density martingale with terminal density positive P-a.s.; nonzero constant
-   drift laws are singular at infinity by `B_t/t` limits. For bounded Borel drift b and f∈C¹ with f′ locally absolutely continuous and
+   drift laws are singular at infinity by `B_t/t` limits (an own computation: under the
+   drifted law `B_t/t→θ≠0`, under Wiener measure `B_t/t→0` by Mörters–Peres, Corollary 1.11,
+   and the two limit events are disjoint). For bounded Borel drift b and f∈C¹ with f′ locally absolutely continuous and
    `½f″+bf′=0` Lebesgue-a.e., prove and apply the generalized Itô formula for an absolutely
-   continuous derivative; this keeps Borel b in scope, unlike C² hypotheses that force b
+   continuous derivative (Revuz–Yor, Chapter VI, §1: the Itô–Tanaka formula together with the
+   occupation-times formula, applied to f, which is locally a difference of convex
+   functions); this keeps Borel b in scope, unlike C² hypotheses that force b
    continuous wherever f′ is nonzero. With f bounded or f′ bounded and verified moment bounds,
    prove the drifted harmonic ODE
    representation for every t≥0: with P^x the Brownian law started at x,
    `f(x)=E_{P^x}[f(B_t) exp(∫₀ᵗb(B_s)dB_s−(1/2)∫₀ᵗb(B_s)²ds)]`.
    This equals E_(Q^x)f(B_t) under the drifted law; prove the needed moment/UI
-   bounds for the bounded-f or bounded-f′ alternatives.
+   bounds for the bounded-f or bounded-f′ alternatives. The representation is an own
+   corollary of the finite-horizon Girsanov theorem and the generalized Itô formula: under
+   `Q^x` the coordinate process solves `dX=b(X)dt+dW`, and `f(X)` is a `Q^x`-martingale
+   because its drift `½f″(X)+b(X)f′(X)` vanishes a.e. in time by the occupation-times formula.
 
 ### Examples
 
@@ -2684,7 +2722,10 @@ h(0)=0; a nonzero h(0) gives two disjoint Dirac laws.
 Construct the Gaussian Banach-space Cameron–Martin RKHS,
    continuous injection and isonormal coordinates here (Hairer, An Introduction to
    Stochastic PDEs, §4.2 and Definition 4.26, p. 27, for the space, and Theorem 4.44, p. 31,
-   for absolute continuity of translates exactly along it and mutual singularity otherwise), following the Mathlib Cameron–Martin proposal's design and
+   whose statement is absolute continuity of translates exactly along it; mutual
+   singularity otherwise is shown inside its proof, p. 31, by a total-variation bound, and is
+   stated as a theorem for Wiener measure on `C[0,1]` by Mörters–Peres, Theorem 1.38(1),
+   p. 25), following the Mathlib Cameron–Martin proposal's design and
    names, including `cameronMartin` and `cmCoe`; adopt native declarations with this interface. Build the finite-moment dual
    closure, inner-product/completion/evaluation range identities, Gaussian coordinate laws,
    positive translation density and inverse/equivalence. Discharge missing total-variation
@@ -2695,7 +2736,8 @@ Construct the Gaussian Banach-space Cameron–Martin RKHS,
 ### 8.2 Wiener identification
 
 Prove that the Wiener RKHS consists exactly of
-   `h(0)=0`, h absolutely continuous and h′∈L²(0,T), isometrically with norm²=∫‖h′‖².
+   `h(0)=0`, h absolutely continuous and h′∈L²(0,T), isometrically with norm²=∫‖h′‖²
+   (Hairer, Exercise 4.29, p. 27, for this identification on `C([0,1])`).
    Its isonormal coordinate equals the deterministic S3 integral ∫h′·dB. Construct translation
    on based continuous paths and its cylinder/Borel measurability for every continuous based
    shift.
@@ -2705,11 +2747,15 @@ Prove that the Wiener RKHS consists exactly of
    centered real Brownian B. Prove independence of disjoint increments and their
    normal laws with mean h(t)−h(s) and variance t−s. Prove these finite-dimensional
    law statements for every such h, independently of the Cameron–Martin density
-   criterion.
+   criterion; they are an own computation from the Brownian finite-dimensional laws, since
+   a deterministic translate of a Gaussian vector is Gaussian with the same covariance.
    For Cameron–Martin shifts prove preservation of the completed Wiener sigma-algebra
    in both directions, using the positive density identity to transport null sets. Prove density
    `exp(∫h′·dB−½∫‖h′‖²)` for the **pushforward** under ω↦ω+h, and singularity for a
-   continuous shift outside this space. Prove translation composition/density cocycle,
+   continuous shift outside this space (Revuz–Yor, Chapter VIII, §1, for the density;
+   Mörters–Peres, Theorem 1.38, p. 25, for the equivalence/singularity dichotomy on
+   `C[0,1]`; Hairer, Theorem 4.44, p. 31, and its proof for the general Gaussian case).
+   Prove translation composition/density cocycle,
    restriction and vector/isometry transport. An equivalent finite-horizon shift law is not
    a pathwise derivative of Brownian motion.
    For an arbitrary continuous shift, transport completions with respect to its pushforward
@@ -2919,9 +2965,17 @@ Prove `exists_strongSolution` and
 
 Local spatial Lipschitz uniformly on compact
    time/state regions, locally bounded coefficients, exit-ball localization, compatible
-   truncated solutions and explosion time. Prove maximality/uniqueness and no finite explosion
-   under a coercive C² Lyapunov function with finite-horizon generator bound `L_tV≤C_T(1+V)` for t∈[0,T]; the source's
-   `‖σ(x)‖_HS²≤C(1+‖x‖²)` and `⟨x,b(x)⟩≤C(1+‖x‖²)` is a corollary via1+‖x‖².
+   truncated solutions and explosion time (Karatzas–Shreve, Theorem 5.2.5, for pathwise
+   uniqueness under local Lipschitz coefficients; Protter, Chapter V, for the unique solution
+   up to an explosion time under locally Lipschitz coefficients). Prove maximality/uniqueness
+   and no finite explosion
+   under a coercive C² Lyapunov function with finite-horizon generator bound `L_tV≤C_T(1+V)`
+   for t∈[0,T] (Khasminskii, Stochastic Stability of Differential Equations, Theorem 3.5,
+   restated as Lee, Theorem 2.2: a positive C² function `V` with `LV≤CV` and
+   `inf_{‖x‖>R}V→∞` excludes explosion; the affine bound reduces to it by replacing `V`
+   with `V+1`, which keeps coercivity and gives `L_t(V+1)≤C_T(V+1)`); the source's
+   `‖σ(x)‖_HS²≤C(1+‖x‖²)` and `⟨x,b(x)⟩≤C(1+‖x‖²)` is a corollary via `V(x)=1+‖x‖²`,
+   for which `LV=2⟨x,b(x)⟩+‖σ(x)‖_HS²≤3C·V`.
    This is weaker than imposing linear growth of the full drift. Initial moment estimates
    require corresponding moments; nonexplosion itself is localized in the initial state.
 
@@ -3725,7 +3779,8 @@ Wiener laws with that reference is this roadmap's, not a dependency of OptimalTr
   Theorem 1 (existence), Theorem 5, p.13 (strong Markov), equation (32), p.16
   (reflection), and Theorem 7 (quadratic variation along nested partitions).
 - Peter Mörters and Yuval Peres, [*Brownian Motion*](https://www.mi.uni-koeln.de/~moerters/book/book.pdf),
-  Cambridge University Press (2010), author-page copy: Theorem 1.14 with Remark 1.18 and
+  Cambridge University Press (2010), author-page copy: Theorem 1.9 (time inversion),
+  Corollary 1.11 (law of large numbers), Theorem 1.14 with Remark 1.18 and
   Exercise 1.7 (Lévy's modulus and its limit form), Theorem 1.27 (fixed-time
   nondifferentiability), Theorem 1.30 (nowhere differentiability), Theorem 1.38
   (Cameron–Martin on `C[0,1]`), Theorems 2.5 and 2.7 (independence from the right-continuous
@@ -3733,8 +3788,9 @@ Wiener laws with that reference is this roadmap's, not a dependency of OptimalTr
   3.20 (annulus exit, recurrence and transience), Theorem 5.22 (Donsker's invariance principle)
   and Theorem 9.22 (double points).
 - Martin Hairer, [*An Introduction to Stochastic PDEs*](https://arxiv.org/abs/0907.4178v2),
-  arXiv:0907.4178v2, §4.2, Definition 4.26 and Theorem 4.44: the Cameron–Martin space of a
-  Gaussian measure on a separable Banach space and the Cameron–Martin theorem, for §8.1.
+  arXiv:0907.4178v2, §4.2, Definition 4.26, Exercise 4.29 and Theorem 4.44 with its proof:
+  the Cameron–Martin space of a Gaussian measure on a separable Banach space, its
+  identification for Wiener measure, and the Cameron–Martin theorem, for §§8.1–8.2.
 - Peter E. Kloeden and Eckhard Platen, *Numerical Solution of Stochastic Differential
   Equations*, Springer (1992), §14.5: finite-order weak Taylor convergence for §9.6.
 - Volker Krätschmer and Mikhail Urusov, [*A general Kolmogorov–Chentsov type theorem on general metric spaces with applications to limit theorems for Banach-valued processes*](https://arxiv.org/abs/2107.13837v2),
@@ -3745,8 +3801,12 @@ Wiener laws with that reference is this roadmap's, not a dependency of OptimalTr
   its stochastic-calculus proof; Revuz–Yor, Chapter IV, §4, for the good-λ route.
   S4.3 owns the stopped-L²/good-λ construction and the required maximal estimates.
 - Ioannis Karatzas and Steven E. Shreve, *Brownian Motion and Stochastic Calculus*, second
-  edition, Springer GTM 113 (1991): Chapters 1–3 process/martingale/Brownian/integration,
-  §3.4 martingale representation and DDS, §3.5 Girsanov/Novikov, Chapter 5 SDEs/flows and
+  edition, Springer GTM 113 (1991): Chapters 1–3 process/martingale/Brownian/integration
+  (Lemma 2.9.4 time inversion, §3.2.A the measure `μ_M`, Proposition 3.2.10 the integral's
+  martingale and bracket properties, Theorem 3.3.16 Lévy's characterization),
+  §3.4 martingale representation and DDS, §3.5 Girsanov/Novikov (Theorem 3.5.1, §3.5.C
+  Brownian motion with drift), Chapter 5 SDEs/flows (Theorem 5.2.5 local Lipschitz
+  uniqueness) and
   §5.7 PDE representation, Chapter 6 local time. The theorem hypotheses govern the targets.
 - A. H. Dooley, *Pure Mathematics IV — Outline notes on Stochastic Differential
   Equations*, MATH5695, University of New South Wales, School of Mathematics,
@@ -3766,8 +3826,19 @@ Wiener laws with that reference is this roadmap's, not a dependency of OptimalTr
 - Philip Protter, *Stochastic Integration and Differential Equations*, second edition:
   Chapter I, §3 (the Poisson process) and §4 (Lévy processes), Chapter II, §§6–7 (quadratic
   variation, integration by parts and Itô's formula with jumps), Chapter III (compensators and
-  Doob–Meyer), Chapter IV, §6 (stochastic Fubini) and Chapter V, §5 (Fisk–Stratonovich
+  Doob–Meyer), Chapter IV, §6 (stochastic Fubini) and Chapter V (existence and uniqueness,
+  including locally Lipschitz coefficients up to an explosion time; §5, Fisk–Stratonovich
   integrals).
+- Ludwig Arnold, *Random Dynamical Systems*, Springer Monographs in Mathematics (1998),
+  Appendix A: the Wiener shift on two-sided Brownian paths as an ergodic metric dynamical
+  system, for §6.7.
+- Rafail Khasminskii, *Stochastic Stability of Differential Equations*, second edition,
+  Springer (2012), Theorem 3.5: nonexplosion under a coercive C² Lyapunov function with
+  `LV≤CV`, for §9.2.
+- Seungsoo Lee, [*Finite Time Explosion of Stochastic Differential Equations: A survey into
+  Khasminskii's Lyapunov Method and its Consistency with the Osgood Criterion*](https://arxiv.org/abs/2407.04834v1),
+  arXiv:2407.04834v1 (2024), Theorem 2.2: the restatement of Khasminskii's Theorem 3.5 with
+  its proof by Dynkin's formula, for §9.2.
 - Hiroshi Kunita, *Stochastic Flows and Stochastic Differential Equations*: finite-dimensional
   differentiable solution flows and their exact smoothness/nonexplosion hypotheses.
 - Denis Talay and Luciano Tubaro,
