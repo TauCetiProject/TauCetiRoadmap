@@ -1,11 +1,12 @@
 # Roadmap: polynomial interpolation and arithmetic determinants
 
 **Summary.** Build polynomial jet evaluation on finite coefficient-supported spaces, the Frobenius
-power substitution `Z ↦ X, W ↦ X^q` for every power `q = p^e` (`e ≥ 1`) of the characteristic `p`,
-with its derivative identities and nonvanishing test, algebraic Hermite interpolation with
-arbitrary multiplicities over any field, the Hasse confluent Vandermonde determinant with its
-sign, and the general minor, ideal-divisibility, row-change, Hadamard-size and integral-norm
-comparisons that an arithmetic interpolation determinant is estimated with. Everything is stated
+power substitution `Z ↦ X, W ↦ X^q` for every power `q = p^e` (`e ≥ 0`) of the characteristic `p`,
+with its derivative identities and nonvanishing test (the ordinary identity and the ordinary test
+for `e ≥ 1`), algebraic Hermite interpolation with arbitrary multiplicities over any field, the
+Hasse confluent Vandermonde determinant with its sign, and the general minor, ideal-divisibility,
+row-change, Hadamard-size and integral-norm comparisons that an arithmetic interpolation
+determinant is estimated with. Everything is stated
 on Mathlib's native `Polynomial`, `MvPolynomial`, `Submodule`, `Module.Basis`, `LinearMap`,
 `Matrix`, `Ideal`, `Matrix.gram` and `Algebra.norm` carriers, from Mathlib's Hasse derivatives and
 Taylor expansion and Tau Ceti's multivariate Hasse calculus, Taylor coefficients at a root,
@@ -43,8 +44,9 @@ other target, API list and Check lives here as well.
   degree boxes, weighted-degree restrictions and `Polynomial.degreeLT`; the jet evaluation map on
   such a space with its monomial-basis matrix, kernel, naturality and reduction; the power
   substitution `powerSubstitution B` with its injectivity on `Z`-degree below `B`, the ordinary and
-  Hasse derivative identities through `powerSubstitution (p^e)` in characteristic `p` for every
-  `e ≥ 1`, the comparison of ordinary and Hasse jets of order below `p`, and the Frobenius-graph
+  Hasse derivative identities through `powerSubstitution (p^e)` in characteristic `p` (the Hasse
+  identity for every `e ≥ 0` and orders below `p^e`, the ordinary identity for `e ≥ 1`), the
+  comparison of ordinary and Hasse jets of order below `p`, and the Frobenius-graph
   nonvanishing test, in its Hasse form for every `e ≥ 0` and orders below `p^e` and in its ordinary
   form for `e ≥ 1` and orders below `p`.
 - Layer 1: Hermite interpolation with arbitrary multiplicities `m : Fin r → ℕ` at injective nodes
@@ -101,6 +103,12 @@ other target, API list and Check lives here as well.
   closed unit disc of an ultrametric field, with coefficient bounds): IntegralIwasawaTheory §4.1c
   `exists_hasseDeriv_eval_eq_ite`. Target 1.1 is over an arbitrary field, with arbitrary
   multiplicities and no bound; an ultrametric consumer takes its bounds from that section.
+- *Finite-jet interpolation over `ℂ` inside Runge approximation*: GlobalHolomorphicFunctions §2.5
+  constructs, by the Chinese remainder theorem for the pairwise coprime powers `(X − a)^(m_a + 1)`,
+  a polynomial with prescribed jets at finitely many points of `ℂ`, as a step of its pole-pushing
+  refinement. Targets 1.1–1.2 own the statement over every field as a linear equivalence on
+  `degreeLT`, with its kernel, adapted basis and determinant; that step is the case `K = ℂ` of the
+  quotient comparison of 1.2.
 - *The Chinese remainder decomposition* `K[X] ⧸ (P) ≃ ∏ K[X] ⧸ ((X − a_i)^(m_i))` for pairwise
   coprime factors: Mathlib's `Ideal.quotientInfRingEquivPiQuotient`, consumed in 1.2 and never
   restated.
@@ -189,8 +197,8 @@ other target, API list and Check lives here as well.
   `0 < e` wherever the case `q = 1` is false.
 - **Power substitution.** `powerSubstitution B : MvPolynomial (Fin 2) R →ₐ[R] R[X]` is
   `MvPolynomial.aeval` of `Z ↦ X`, `W ↦ X^B`; the Frobenius substitution is `powerSubstitution q`
-  with `q = p^e`, `e ≥ 1`, which sends `F` to `X ↦ F(X, X^q)`, and the Frobenius graph of `a` is the
-  point `(a, a^q)`.
+  with `q = p^e` for every `e ≥ 0`, which sends `F` to `X ↦ F(X, X^q)` (at `e = 0` it is the
+  substitution `W ↦ X`), and the Frobenius graph of `a` is the point `(a, a^q)`.
 - **Jets and jet rows.** For nodes `a : Fin r → K` and multiplicities `m : Fin r → ℕ`, the jet of
   `f` at `(i, k)` with `k < m i` is `D^[k] f (a i)`. Jet rows are ordered lexicographically by
   `(i, k)`: the row index is `finSigmaFinEquiv ⟨i, k⟩ = ∑_{i' < i} m i' + k`. Columns of a
@@ -419,7 +427,7 @@ p. 282, in one variable over a field; P, Lemma 2.6.1, (2.34) and the normalisati
 
 Define `powerSubstitution B : MvPolynomial (Fin 2) R →ₐ[R] R[X]` as `MvPolynomial.aeval` of
 `Z ↦ X`, `W ↦ X^B`, so that `powerSubstitution B F = F(X, X^B)`. Prove
-`powerSubstitution_injOn`: for `B > 0`, the substitution is injective on the set of `F` with
+`powerSubstitution_injOn`: for every `B`, the substitution is injective on the set of `F` with
 `Z`-degree below `B`. The coefficient of `X^(i + B j)` in `powerSubstitution B F` is the
 coefficient of `Z^i W^j` in `F` whenever `i < B`, by uniqueness of quotient and remainder on division
 by `B`; this is Tau Ceti's `coeff_aeval_X_pow_weight` for the weight `(1, B)` on the strip
@@ -427,8 +435,9 @@ by `B`; this is Tau Ceti's `coeff_aeval_X_pow_weight` for the weight `(1, B)` on
 `natDegree (powerSubstitution B F) ≤ degreeOf 0 F + B · degreeOf 1 F`,
 the support bound (the exponents of the image are the weights of the exponents of `F`), the
 scalar-extension naturality `powerSubstitution B (map f F) = map f (powerSubstitution B F)`, and the
-evaluation formula `eval a (powerSubstitution B F) = MvPolynomial.eval ![a, a^B] F`. For `B = 0`
-the substitution sends `W` to `1` and is not injective on any strip containing `W` and `1`.
+evaluation formula `eval a (powerSubstitution B F) = MvPolynomial.eval ![a, a^B] F`. No
+positivity of `B` is assumed: at `B = 0` the set of `F` with `Z`-degree below `0` is empty and the
+statement holds vacuously.
 (IK, Lemma 11.17, p. 284, the substitution `h(X, X^q)`; P, §3.3, the proof of Theorem 3.3.7,
 p. 87, and Exercise 3.5(a), p. 89, the Kronecker substitution `x_i ↦ t^(d^(i−1))`, injective on
 monomials of partial degrees below `d`.) *Needs:* Tau Ceti `MvPolynomial.coeff_aeval_X_pow_weight`,
@@ -444,6 +453,9 @@ monomials of partial degrees below `d`.) *Needs:* Tau Ceti `MvPolynomial.coeff_a
 - `B = 3`, `F = Z² W + Z W²`: image `X⁵ + X⁷`; the exponents `5 = 2 + 3·1` and `7 = 1 + 3·2` are
   the weights of `(2, 1)` and `(1, 2)`, and `natDegree 7 ≤ 2 + 3·2 = 8`.
 - Evaluation: `B = 2`, `F = Z W`, `a = 3`: `eval 3 (X³) = 27 = MvPolynomial.eval ![3, 9] (Z W)`.
+- `B = 0`: `powerSubstitution 0` sends `W` and `1` both to `1`, so it is not injective on the strip
+  `{μ | μ 0 < 1}` of `Z`-degree below `1`; the strip of the statement, `Z`-degree below `B = 0`, is
+  empty, so the bound in the set must be `B` itself and not a fixed strip.
 
 ### 0.4 Derivatives through the Frobenius substitution
 

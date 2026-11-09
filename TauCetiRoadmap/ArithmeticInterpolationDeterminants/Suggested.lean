@@ -46,8 +46,9 @@ def powerSubstitution (B : ℕ) : MvPolynomial (Fin 2) R →ₐ[R] R[X] :=
 
 /-- The power substitution is injective on polynomials of `Z`-degree below `B` (README 0.3): the
 coefficient of `X ^ (i + B j)` with `i < B` is the coefficient of `Z ^ i W ^ j`. Tau Ceti's
-`MvPolynomial.injOn_aeval_X_pow` for the weight `(1, B)`. -/
-theorem powerSubstitution_injOn (B : ℕ) (hB : 0 < B) :
+`MvPolynomial.injOn_aeval_X_pow` for the weight `(1, B)`; no positivity of `B` is needed, since at
+`B = 0` the strip is empty. -/
+theorem powerSubstitution_injOn (B : ℕ) :
     Set.InjOn (powerSubstitution (R := R) B)
       {f : MvPolynomial (Fin 2) R | f.degreeOf 0 < B} := by
   sorry
