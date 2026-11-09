@@ -1,0 +1,27 @@
+import TauCeti.NumberTheory.LocalField.WorkedExamples.DyadicSqrt.Two
+import TauCeti.NumberTheory.LocalField.Squares
+
+open TauCeti ValuativeRel
+
+namespace TauCeti.DyadicSqrtTwo
+
+-- Q₂(√2) attains d ≤ e − 1 + v_L(e), since d=3, e=2 and v_L(2)=2.
+example :
+    differentExponent ℚ_[2] DyadicSqrtTwo = ramificationIndex ℚ_[2] DyadicSqrtTwo - 1 +
+      natCastValuation DyadicSqrtTwo (ramificationIndex ℚ_[2] DyadicSqrtTwo)
+        (by simp [ramificationIndex_eq_two]) := by
+  simp only [differentExponent_eq_three, ramificationIndex_eq_two]
+  rw [← absoluteRamificationIndex_eq_natCastValuation, absoluteRamificationIndex_eq_two]
+
+end TauCeti.DyadicSqrtTwo
+
+-- Every element of 1+8Z₂ is a square, directly from the generic square-depth API.
+example : unitFiltration ℚ_[2] 3 ≤ Subgroup.square ℚ_[2]ˣ := by
+  have h := unitFiltration_le_square (K := ℚ_[2]) (by norm_num : (2 : ℚ_[2]) ≠ 0)
+  rw [dyadicLevel_def, _root_.Padic.natCastValuation_self] at h
+  exact h
+
+#print axioms TauCeti.DyadicSqrtTwo.differentExponent_eq_three
+#print axioms TauCeti.DyadicSqrtTwo.absoluteRamificationIndex_eq_two
+#print axioms TauCeti.unitFiltration_le_square
+#print axioms Padic.not_isSquare_five

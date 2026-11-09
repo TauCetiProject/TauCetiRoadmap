@@ -1,0 +1,51 @@
+import TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Dyadic
+import TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.RankOne
+import TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Reflection
+import TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Permutation
+import TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Diagonal
+import TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Nonunit
+import TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Conjugator
+import TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Correction
+
+open TauCeti
+open TauCeti.Peripheral
+
+#check cusp_def
+#check prod_mul_cusp
+#check IsPeripheralAut.exponent_unique
+#check exists_mem_level_succ
+#check exists_defect_eq_one_of_forall_exists_mem_level
+#check exists_defect_eq_one
+#check exists_peripheralAut
+#check exponent_surjective
+#check isClosed_peripheralGraph
+#check isClosed_peripheralAut
+#check continuous_exponent
+#check reflect_basis
+#check reflect_cusp
+#check reflect_mul_reflect
+#check exists_inversion_two
+#check not_isPeripheralAut_of_apply_basis_eq_inv
+#check IsPeripheralPermAut.unique
+#check permData
+#check exists_isPeripheralPermAut_swap_rank_one
+#check exists_rotation_two
+#check exists_swap_two
+#check exists_section_principalUnits
+#check continuousAutEquivUnits
+#check odd_correction_mem_level_two
+#check not_isPeripheralAut_of_apply_basis_eq_padicPow
+#check not_exists_peripheral_identity_two
+#check exists_ne_of_apply_eq_conj
+#check exists_peripheralPowerAutomorphism_two
+#check exists_peripheralPowerAutomorphism_two_opposite
+#check exists_peripheral_identity_two
+#check exists_section_unitsPrincipal_two
+
+#print axioms exists_mem_level_succ
+#print axioms exists_defect_eq_one_of_forall_exists_mem_level
+#print axioms exists_peripheralAut
+#print axioms continuous_exponent
+#print axioms exists_section_principalUnits
+#print axioms exists_peripheralPowerAutomorphism_two_opposite
+#print axioms odd_correction_mem_level_two
