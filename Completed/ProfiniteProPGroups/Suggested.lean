@@ -16,7 +16,7 @@ import TauCeti.NumberTheory.Padics.PowerSeries
 import TauCeti.NumberTheory.Padics.PrincipalUnits
 import TauCeti.NumberTheory.Padics.ProcyclicSubgroups
 import TauCeti.NumberTheory.Padics.TwistedUnits
-import TauCeti.NumberTheory.Padics.UnitsDecomposition
+import TauCeti.NumberTheory.Padics.UnitsDecomposition.Basic
 import TauCeti.NumberTheory.Supernatural
 import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.IndexNotDvd
 import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.OpenSubgroup
@@ -74,8 +74,8 @@ import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.OpenSubgroup
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Orientation
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.PadicIntProd
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.QInvariant
-import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.RankOne
-import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.RankParity
+import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Rank.One
+import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Rank.Parity
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Recognition
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Trace
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.TwistedCoefficients
@@ -112,7 +112,7 @@ import TauCeti.Topology.Algebra.Group.Profinite.Hopfian
 import TauCeti.Topology.Algebra.Group.Profinite.Index.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.Index.Functoriality
 import TauCeti.Topology.Algebra.Group.Profinite.Index.PadicUnits
-import TauCeti.Topology.Algebra.Group.Profinite.Index.Transitivity
+import TauCeti.Topology.Algebra.Group.Profinite.Index.Tower
 import TauCeti.Topology.Algebra.Group.Profinite.Lagrange
 import TauCeti.Topology.Algebra.Group.Profinite.Limit
 import TauCeti.Topology.Algebra.Group.Profinite.MaximalProP
@@ -710,12 +710,12 @@ example [CompactSpace G] (H : Subgroup G) :
 
 /-- **Layer 0, open normal subgroups of a quotient.** The open normal subgroups of `G ⧸ N`
 correspond, as an order isomorphism, to the open normal subgroups of `G` above `N`, by preimage:
-Tau Ceti's `TauCeti.QuotientGroup.comapMk'OpenNormalOrderIso`. -/
+Tau Ceti's `Subgroup.comapMk'OpenNormalOrderIso`. -/
 example (N : Subgroup G) [N.Normal] :
     ∃ e : OpenNormalSubgroup (G ⧸ N) ≃o {U : OpenNormalSubgroup G // N ≤ U.toSubgroup},
       ∀ U, (e U).1.toSubgroup = U.toSubgroup.comap (QuotientGroup.mk' N) :=
-  ⟨TauCeti.QuotientGroup.comapMk'OpenNormalOrderIso N,
-    TauCeti.QuotientGroup.comapMk'OpenNormalOrderIso_apply_toSubgroup⟩
+  ⟨Subgroup.comapMk'OpenNormalOrderIso N,
+    OpenNormalSubgroup.comapMk'OpenNormalOrderIso_apply_toSubgroup⟩
 
 /-- **Layer 0, inverse limits, unbundled.** A compatible family of elements of the finite
 quotients of a profinite group comes from a unique element: Tau Ceti's
@@ -771,7 +771,7 @@ example {S : ℕ → Type u} (β : ∀ k, S (k + 1) → S k) [∀ k, Finite (S k
 /-- **Layer 0, lifting a compatible family.** A compatible family in a tower of `T1` spaces lifts
 along a levelwise surjective continuous map from a tower of compact Hausdorff spaces, with no
 surjectivity asked of the transition maps: Tau Ceti's
-`TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_surjective`. -/
+`TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`. -/
 example {A : ℕ → Type u} {B : ℕ → Type v} [∀ k, TopologicalSpace (A k)]
     [∀ k, CompactSpace (A k)] [∀ k, T2Space (A k)] [∀ k, TopologicalSpace (B k)]
     [∀ k, T1Space (B k)] (α : ∀ k, A (k + 1) → A k) (β : ∀ k, B (k + 1) → B k)
@@ -779,7 +779,8 @@ example {A : ℕ → Type u} {B : ℕ → Type v} [∀ k, TopologicalSpace (A k)
     (hcomm : ∀ k a, g k (α k a) = β k (g (k + 1) a)) (hsurj : ∀ k, Function.Surjective (g k))
     (b : ∀ k, B k) (hb : ∀ k, β k (b (k + 1)) = b k) :
     ∃ a : ∀ k, A k, (∀ k, α k (a (k + 1)) = a k) ∧ ∀ k, g k (a k) = b k :=
-  TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_surjective α β g hα hg hcomm hsurj b hb
+  TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range α β g hα hg hcomm b hb
+    (fun k => hsurj k (b k))
 
 /-- **Layer 0, the unbundled universal property of the profinite completion.** Continuous
 homomorphisms from the completion of `G` to a profinite group `P` correspond to abstract
@@ -973,11 +974,11 @@ example {K : Type v} [Group K] [TopologicalSpace K] [IsTopologicalGroup K] [T2Sp
   H.profiniteIndex_map_equiv e
 
 /-- **Layer 1, index API: multiplicativity in a tower** `H ≤ K ≤ G` with `K` closed: Tau Ceti's
-`Subgroup.profiniteIndex_mul_profiniteIndex`. -/
+`Subgroup.profiniteIndex_subgroupOf_mul_profiniteIndex`. -/
 example [TotallyDisconnectedSpace G] {H K : Subgroup G} (hHK : H ≤ K)
     (hK : IsClosed (K : Set G)) :
     (H.subgroupOf K).profiniteIndex * K.profiniteIndex = H.profiniteIndex :=
-  Subgroup.profiniteIndex_mul_profiniteIndex hHK hK
+  Subgroup.profiniteIndex_subgroupOf_mul_profiniteIndex H K hHK hK
 
 /-- **Layer 1, index API: the image formula under a continuous surjection**
 `[H : f K] = [G : K ⊔ ker f]`: Tau Ceti's `Subgroup.profiniteIndex_map_of_surjective`; when
@@ -1492,7 +1493,7 @@ example {p : ℕ} [hp : Fact p.Prime] {G : Type u} [Group G] [TopologicalSpace G
     refine le_of_le_of_eq ?_ (TauCeti.profiniteOrder_apply G _).symm
     exact le_iSup (fun V : OpenNormalSubgroup G ↦
       (padicValNat p (Nat.card (G ⧸ V.toSubgroup)) : ℕ∞)) U
-  rw [h, hn, padicValNat.prime_pow] at hle
+  rw [h, hn, Nat.padicValNat_def, Nat.multiplicity_prime_pow] at hle
   have hn0 : n = 0 := by exact_mod_cast le_antisymm hle bot_le
   rw [hn0, pow_zero] at hn
   exact Subgroup.index_eq_one.mp (by rw [Subgroup.index_eq_card, hn])
@@ -1836,11 +1837,11 @@ example {p : ℕ} {G : Type u} [Group G] [TopologicalSpace G] {H : Type v} [Grou
   e.map_proPFrattini_eq
 
 /-- **Layer 3, `Φ(G)` is the intersection of the maximal open subgroups** of a pro-`p` group:
-Tau Ceti's `TauCeti.IsProP.proPFrattini_eq_iInf_isCoatom`. -/
+Tau Ceti's `TauCeti.IsProP.proPFrattini_eq_profiniteFrattini` with `TauCeti.profiniteFrattini_def`. -/
 example {p : ℕ} [Fact p.Prime] {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [CompactSpace G] (hG : TauCeti.IsProP p G) :
     TauCeti.proPFrattini p G = ⨅ (M : Subgroup G) (_ : IsOpen (M : Set G)) (_ : IsCoatom M), M :=
-  hG.proPFrattini_eq_iInf_isCoatom
+  hG.proPFrattini_eq_profiniteFrattini.trans TauCeti.profiniteFrattini_def
 
 /-- **Layer 3, `Φ(G) = closure (Gᵖ[G,G])`**: Tau Ceti's
 `TauCeti.proPFrattini_eq_topologicalClosure`, which needs no pro-`p` hypothesis. -/
@@ -2855,7 +2856,7 @@ example :
       Submodule.span (ZMod 2) {TauCeti.zmodFourExtensionClass} = ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := TauCeti.finrank_cohomFp_two_multiplicative_zmod 2
-  exact ⟨h, (finrank_eq_one_iff_of_nonzero _ TauCeti.zmodFourExtensionClass_ne_zero).mp h⟩
+  exact ⟨h, (finrank_eq_one_iff_of_ne_zero _ TauCeti.zmodFourExtensionClass_ne_zero).mp h⟩
 
 /-- **Layer 5, example: `H²(F, 𝔽_p) = 0` for `F` free pro-`p`**, on any basis, finite or not.
 Tau Ceti's `TauCeti.freeProP.subsingleton_H2_zmod`, on the explicit model, read on `cohomFp` through
@@ -3749,7 +3750,8 @@ theorem res_injective_of_isProPSylow (G : Type u) [Group G] [TopologicalSpace G]
         (TauCeti.ContinuousCohomology.res P (TauCeti.ofDiscreteModule ℤ G M) 0))
   | succ n =>
     exact TauCeti.ContinuousCohomology.res_injective_of_forall_not_dvd_index Fact.out
-      (TauCeti.ofDiscreteModule_isSmoothDiscrete ℤ G M) hM hP.isClosed hP.not_dvd_index_of_le n
+      (TauCeti.ofDiscreteModule_isSmoothDiscrete ℤ G M) hM hP.isClosed hP.not_dvd_index_of_le
+      (n + 1)
 
 /-- **Layer 6, the Sylow equality** `cd_p G = cd_p G_p`: Tau Ceti's
 `TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`. -/
@@ -3795,7 +3797,7 @@ example (hG : TauCeti.IsProP p G) {M : Type u} [AddCommGroup M] [TopologicalSpac
 /-- **Layer 6, additive invariants and composition length.** A `ℤ`-valued function of the finite
 discrete `p`-primary modules that is additive along short exact sequences takes the value
 `padicValNat p (Nat.card M)` times its value at a trivial module of order `p`: Tau Ceti's
-`TauCeti.invariant_eq_padicValNat_mul_of_isProP`. -/
+`TauCeti.invariant_eq_padicValNat_nsmul_of_isProP` (stated there with `•` in a monoid of values). -/
 example
     (I : ∀ (A : Type u) [AddCommGroup A] [TopologicalSpace A]
       [DiscreteTopology A] [DistribMulAction G A] [ContinuousSMul G A] [Finite A],
@@ -3824,7 +3826,8 @@ example
     haveI : ContinuousSMul G P := ⟨continuous_snd.congr fun z ↦ (hPsmul z.1 z.2).symm⟩
     I M hM = (padicValNat p (Nat.card M) : ℤ) *
       I P (TauCeti.forall_exists_nsmul_eq_zero_of_addEquiv_zmod eP) :=
-  TauCeti.invariant_eq_padicValNat_mul_of_isProP I hExact hG hM eP hPsmul
+  (TauCeti.invariant_eq_padicValNat_nsmul_of_isProP I hExact hG hM eP hPsmul).trans
+    (nsmul_eq_mul _ _)
 
 /-- **Layer 6, dévissage.** For a pro-`p` group, vanishing in one degree on the finite elementary
 abelian modules with trivial action gives vanishing in that degree on all finite discrete
@@ -5512,10 +5515,10 @@ example {R : Subgroup (TauCeti.freeProP p X)} [R.Normal] {G : Type v} [Group G]
           (TauCeti.gradedMk p (TauCeti.freeProP p X) 1 ⟨r, by
             rw [TauCeti.pLowerCentralSeries_one_eq_proPFrattini Fact.out]; exact hR r.2⟩)
           (((e : TauCeti.freeProP p X ⧸ R →ₜ* G).comp
-            (TauCeti.ContinuousMonoidHom.quotientMk R)).continuousZModDualMap
+            (Subgroup.quotientMkContinuousMonoidHom R)).continuousZModDualMap
               (TauCeti.cohomFpLinearEquivContinuousZModDual p G a))
           (((e : TauCeti.freeProP p X ⧸ R →ₜ* G).comp
-            (TauCeti.ContinuousMonoidHom.quotientMk R)).continuousZModDualMap
+            (Subgroup.quotientMkContinuousMonoidHom R)).continuousZModDualMap
               (TauCeti.cohomFpLinearEquivContinuousZModDual p G b)) :=
   TauCeti.freeProP.relatorFunctional_cupFp hRc hR e r a b
 
@@ -5738,7 +5741,7 @@ example (p : ℕ) [Fact p.Prime] (Γ : Type u) [Group Γ] [TopologicalSpace Γ] 
 /-- **Layer 9, the lifting lemma for towers**: along a tower of compact Hausdorff spaces and a
 tower of `T1` spaces, continuous levelwise surjections commuting with the transition maps lift
 every compatible family downstairs: Tau Ceti's
-`TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_surjective`. -/
+`TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`. -/
 example {A B : ℕ → Type u} [∀ k, TopologicalSpace (A k)] [∀ k, CompactSpace (A k)]
     [∀ k, T2Space (A k)] [∀ k, TopologicalSpace (B k)] [∀ k, T1Space (B k)]
     (α : ∀ k, A (k + 1) → A k) (β : ∀ k, B (k + 1) → B k) (g : ∀ k, A k → B k)
@@ -5746,7 +5749,8 @@ example {A B : ℕ → Type u} [∀ k, TopologicalSpace (A k)] [∀ k, CompactSp
     (hsq : ∀ k (a : A (k + 1)), g k (α k a) = β k (g (k + 1) a))
     (hgs : ∀ k, Function.Surjective (g k)) (b : ∀ k, B k) (hb : ∀ k, β k (b (k + 1)) = b k) :
     ∃ a : ∀ k, A k, (∀ k, α k (a (k + 1)) = a k) ∧ ∀ k, g k (a k) = b k :=
-  TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_surjective α β g hα hg hsq hgs b hb
+  TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range α β g hα hg hsq b hb
+    (fun k => hgs k (b k))
 
 /-! ### The procyclic coordinate, evaluation and division -/
 
@@ -6318,10 +6322,14 @@ theorem isDemushkin_marked_of_q_two_rank_two (hG : TauCeti.IsDemushkin 2 G)
   obtain ⟨u, hu, hr⟩ := hrange
   have ha₀ : a ≠ 0 := by
     rintro rfl
+    rw [Nat.padicValNat_def, multiplicity_zero_right] at hu
     simp at hu
-  have hg : 2 ≤ padicValNat 2 a := (padicValNat_dvd_iff_le ha₀).1 (by simpa using ha)
-  have h := TauCeti.isDemushkin_marked_of_q_two_rank_two hG hrank hg pow_padicValNat_dvd
-    (pow_succ_padicValNat_not_dvd ha₀) hu hr
+  have hg : 2 ≤ padicValNat 2 a := by
+    rw [Nat.padicValNat_def]
+    exact (multiplicity_dvd_iff_le (p := 2) (n := 2) ha₀).1 (by simpa using ha)
+  have h := TauCeti.isDemushkin_marked_of_q_two_rank_two (a := a) hG hrank hg
+    (by rw [Nat.padicValNat_def]; exact pow_multiplicity_dvd 2 a)
+    (by rw [Nat.padicValNat_def]; exact pow_succ_multiplicity_not_dvd ha₀) hu hr
   simp only [presentedProPGen, demushkinWordTwoRankTwo]
   rw [hrank]
   exact h
@@ -6389,10 +6397,10 @@ example {p : ℕ} [Fact p.Prime] {X : Type} [Finite X] {R : Subgroup (TauCeti.fr
       -TauCeti.freeProP.degreeOneForm (TauCeti.gradedMk p (TauCeti.freeProP p X) 1
           ⟨r, (TauCeti.pLowerCentralSeries_one_eq_proPFrattini Fact.out).symm.le (hR r.2)⟩)
         (((e : TauCeti.freeProP p X ⧸ R →ₜ* G).comp
-          (TauCeti.ContinuousMonoidHom.quotientMk R)).continuousZModDualMap
+          (Subgroup.quotientMkContinuousMonoidHom R)).continuousZModDualMap
             (TauCeti.cohomFpLinearEquivContinuousZModDual p G a))
         (((e : TauCeti.freeProP p X ⧸ R →ₜ* G).comp
-          (TauCeti.ContinuousMonoidHom.quotientMk R)).continuousZModDualMap
+          (Subgroup.quotientMkContinuousMonoidHom R)).continuousZModDualMap
             (TauCeti.cohomFpLinearEquivContinuousZModDual p G b)) :=
   TauCeti.freeProP.relatorFunctional_cupFp hRc hR e r a b
 
