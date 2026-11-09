@@ -11,8 +11,10 @@ Cohen–Gabber theorems in equal and mixed characteristic, the partial algebraiz
 theorems, the local form of Gabber’s affine Lefschetz theorem and Gabber’s
 cohomological-dimension bound against the pinned APIs. The three structures only bundle
 native rings, ideals, localizations, completions and generic fibres needed by those
-statements. Quasi-excellence of a noetherian local ring is Tau Ceti’s G-ring condition
-(ILO I 5.3.1 and 5.5.1(ii)).
+statements. The local affine Lefschetz theorem assumes Tau Ceti’s G-ring condition, which
+makes the completion map regular; for a noetherian local ring that condition is
+quasi-excellence (ILO I 5.3.1 and 5.5.1(ii)), but the proof only uses the regularity of
+the completion map (ILO XV 1.2.5).
 
 These remaining headlines are not statable at the pins without their missing
 geometric carriers and operations:
@@ -28,10 +30,11 @@ geometric carriers and operations:
   between geometric points of a scheme, and quasi-excellence, excellence and regular
   morphisms for schemes. The pins have the strict henselization of a local ring, G-rings
   and regular ring maps, but not these scheme-level notions.
-* Gabber’s affine Lefschetz theorem over a quasi-excellent scheme (README §5.6), and the
-  trait theorem with its strict-local consequence (README §5.5), need dimension functions,
-  constructible étale sheaves with their higher direct images and, for §5.6, the
-  quasi-excellence predicate for schemes. Its local form (README §5.7) is stated below.
+* Gabber’s affine Lefschetz theorem over a quasi-excellent scheme (README §5.6) needs
+  dimension functions, constructible étale sheaves with their higher direct images and
+  the quasi-excellence predicate for schemes. Its strict-local trait step (README §5.5)
+  is an intermediate step of the proof, not a headline. Its local form (README §5.7) is
+  stated below.
 * The top local class and higher transitions need geometric local support complexes,
   Tate twists and specialization maps.
 * The pinned structure of putative and potential dualizing complexes (README §6.2),
@@ -280,10 +283,11 @@ theorem partialAlgebraization_mixedCharacteristic
 /-! ## Layer 5: Dimension functions, affine Lefschetz and cohomological dimension -/
 
 /-- Gabber’s affine Lefschetz theorem, local form: let A be a strictly henselian
-noetherian local ring of Krull dimension d that is quasi-excellent, which for a noetherian
-local ring is the G-ring condition. For every affine open U of Spec A and every n
-invertible in A, the étale cohomology H^q(U, ℤ/n) vanishes for q > d
-(ILO XV Corollaire 1.2.4, ILO14 line 10362; ILO I 5.3.1 and 5.5.1(ii), ILO14 lines 667, 724). -/
+noetherian local ring of Krull dimension d that is a G-ring, so that A → Â is regular
+(for a noetherian local ring this is quasi-excellence, ILO I 5.3.1 and 5.5.1(ii),
+ILO14 lines 667, 724). For every affine open U of Spec A and every n invertible in A, the
+étale cohomology H^q(U, ℤ/n) vanishes for q > d (ILO XV Corollaire 1.2.4, with the
+reduction 1.2.5 to the complete case; ILO14 lines 10362, 10365). -/
 theorem affineLefschetz_strictlyLocal
     (A : Type u) [CommRing A] [HenselianLocalRing A]
     [IsSepClosed (IsLocalRing.ResidueField A)] [TauCeti.Excellence.IsGRing A]
