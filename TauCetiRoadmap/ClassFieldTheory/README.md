@@ -1245,7 +1245,7 @@ structure, and finite and absolute unit-filtration reciprocity in every characte
   `G(L/K)^n`; at `n = 0` it carries `𝒪[K]ˣ` onto inertia (Neukirch, *Algebraic Number Theory*, V
   Theorem 6.2; Serre, *Local Fields*, XV §2). Route: for every subgroup `H` of `G = Gal(L/K)`,
   `Art(U(K,n)) ≤ H` exactly when `U(K,n)` consists of norms from the fixed field of `H`
-  (`artinMap_quotient` and the kernel of reciprocity), exactly when `(G/H)^n = 1`
+  (`ClassFormation.artinMap_quotient` and the kernel of reciprocity), exactly when `(G/H)^n = 1`
   (`unitFiltration_le_normGroup_iff_upperRamificationGroup_eq_bot` for that field), exactly when
   `G^n ≤ H`, the upper numbering being compatible with quotients; taking `H` to be each of the two
   subgroups gives equality. *Needs:* Layer 6 `normResidue` and its norm kernel;
