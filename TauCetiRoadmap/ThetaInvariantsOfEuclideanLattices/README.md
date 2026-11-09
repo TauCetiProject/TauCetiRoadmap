@@ -8,22 +8,22 @@ invariant is `h⁰_θ(L) = log ∑_(v ∈ L) exp(−π‖v‖²)`, with `h¹_θ(
 Poisson–Riemann–Roch formula `h⁰_θ(L) − h¹_θ(L) = −log covol(L)` (1.2); `h⁰_θ(L) ≥ 0`, with equality
 exactly for `L = 0` (1.3); monotonicity under injective linear contractions, with equality exactly
 for an isometric bijection (1.4), and under passage to a subgroup of finite index (1.5); additivity
-on orthogonal sums (1.6); Jacobi's relation `θ(i)² = 2K(1/√2)/π` (1.7) and
-`h⁰_θ(ℤ) = log(π^(1/4)/Γ(3/4))` (1.8); for a full lattice and `x ∈ E`, the Gaussian mass of `x + L`
-equals that of `L` exactly when `x ∈ L` (2.1); for a full lattice `L` and a subspace `K` spanned by
-`L ∩ K`, the fibre bound over the projected lattice (2.2) and the subadditivity
-`h^i_θ(L) ≤ h^i_θ(L ∩ K) + h^i_θ(π_(K^⊥)(L))` for `i = 0, 1`, with equality for `i = 0` exactly when
-`π_(K^⊥)(L) ⊆ L` (2.3, 2.4); for a full lattice of positive rank `n` whose nonzero vectors have norm
-at least `r`, the upper bound `exp h⁰_θ(L) − 1 ≤ 3ⁿ(1 − n/(2πr²))⁻¹ exp(−πr²)` when `r > 0` and
-`n < 2πr²` (3.1) and its Banaszczyk form (3.2), and the bound on the mass of a coset outside a ball
-(3.3); for a number field `K` and an Arakelov divisor `D = (I, x)`
-(ArakelovGeometryAndAbelianHeights §1.7), `I` a nonzero fractional ideal and `x` real numbers at the
-infinite places, with `h⁰(D)` the logarithm of the theta sum of `I` for the metric of `D`,
-LFunctions' `latticeTheta` at the parameter of `x` (4.1), the invariance of `h⁰(D)` under principal
-divisors (4.2), the Riemann–Roch formula `h⁰(D) − h⁰(κ − D) = deg D − ½ log|Δ_K|` (4.3), the decay
-`h⁰(D) ≤ β exp(−πn exp(−2 deg D/n))` in degree at most `½ log|Δ_K|` (4.4), and the bound
-`h⁰(D) ≤ deg D + h⁰(𝓞_K)` in nonnegative degree under the hypothesis that `h⁰` on divisors of degree
-zero is largest at `𝓞_K` (4.5).
+on orthogonal sums (1.6); Jacobi's relation `K(√(1 − θ₄(0|it)⁴/θ₃(0|it)⁴)) = ½π θ₃(0|it)²` for every
+`t > 0` (1.7) and `h⁰_θ(ℤ) = log(π^(1/4)/Γ(3/4))` (1.8); for a full lattice and `x ∈ E`, the
+Gaussian mass of `x + L` equals that of `L` exactly when `x ∈ L` (2.1); for a full lattice `L` and a
+subspace `K` spanned by `L ∩ K`, the fibre bound over the projected lattice (2.2) and the
+subadditivity `h^i_θ(L) ≤ h^i_θ(L ∩ K) + h^i_θ(π_(K^⊥)(L))` for `i = 0, 1`, with equality for
+`i = 0` exactly when `π_(K^⊥)(L) ⊆ L` (2.3, 2.4); for a full lattice of positive rank `n` whose
+nonzero vectors have norm at least `r`, the upper bound
+`exp h⁰_θ(L) − 1 ≤ 3ⁿ(1 − n/(2πr²))⁻¹ exp(−πr²)` when `r > 0` and `n < 2πr²` (3.1) and its
+Banaszczyk form (3.2), and the bound on the mass of a coset outside a ball (3.3); for a number field
+`K` and an Arakelov divisor `D = (I, x)` (ArakelovGeometryAndAbelianHeights §1.7), `I` a nonzero
+fractional ideal and `x` real numbers at the infinite places, with `h⁰(D)` the logarithm of the
+theta sum of `I` for the metric of `D`, LFunctions' `latticeTheta` at the parameter of `x` (4.1),
+the invariance of `h⁰(D)` under principal divisors (4.2), the Riemann–Roch formula
+`h⁰(D) − h⁰(κ − D) = deg D − ½ log|Δ_K|` (4.3), the decay `h⁰(D) ≤ β exp(−πn exp(−2 deg D/n))` in
+degree at most `½ log|Δ_K|` (4.4), and the bound `h⁰(D) ≤ deg D + h⁰(𝓞_K)` in nonnegative degree
+under the hypothesis that `h⁰` on divisors of degree zero is largest at `𝓞_K` (4.5).
 
 Suggested home: `TauCeti/NumberTheory/ThetaInvariants/`, beside Tau Ceti's
 `TauCeti/Algebra/Module/ZLattice/`.
@@ -32,14 +32,13 @@ Suggested home: `TauCeti/NumberTheory/ThetaInvariants/`, beside Tau Ceti's
 
 **Owned here.** The invariants `h⁰_θ` and `h¹_θ` of a discrete subgroup of a Euclidean space and
 their theory as functions of the lattice: the Poisson–Riemann–Roch formula, positivity, monotonicity
-and the finite-index comparison, orthogonal sums, Jacobi's relation at `τ = i` and the value at `ℤ`
-(Layer 1); the equality case of the coset bound, the fibre bound and the subadditivity of `h⁰_θ` and
-`h¹_θ` in admissible extensions with the equality case (Layer 2); the bounds of `h⁰_θ` by the first
-minimum and the shifted Gaussian tail at every radius (Layer 3); the invariant `h⁰` of van der Geer
-and Schoof for Arakelov divisors of a number field, read as the logarithm of LFunctions' theta
-series of an ideal lattice, its invariance under principal divisors, its Riemann–Roch formula and
-its two bounds by the degree (Layer 4). No roadmap on main or in an open pull request states a theta
-invariant as a logarithm or its inequalities.
+and the finite-index comparison, orthogonal sums, Jacobi's relation on the imaginary axis and the
+value at `ℤ` (Layer 1); the equality case of the coset bound, the fibre bound and the subadditivity
+of `h⁰_θ` and `h¹_θ` in admissible extensions with the equality case (Layer 2); the bounds of `h⁰_θ`
+by the first minimum and the shifted Gaussian tail at every radius (Layer 3); the invariant `h⁰` of
+van der Geer and Schoof for Arakelov divisors of a number field, read as the logarithm of
+LFunctions' theta series of an ideal lattice, its invariance under principal divisors, its
+Riemann–Roch formula and its two bounds by the degree (Layer 4).
 
 **Left to other roadmaps.**
 
@@ -125,7 +124,9 @@ degrees of bundles are with their owners.
   `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean`: `Real.Gamma_mul_Gamma_one_sub`;
   `Mathlib/Analysis/SpecialFunctions/Gaussian/PoissonSummation.lean`:
   `Real.tsum_exp_neg_mul_int_sq`;
-  `Mathlib/NumberTheory/ModularForms/JacobiTheta/OneVariable.lean`: `jacobiTheta`.
+  `Mathlib/NumberTheory/ModularForms/JacobiTheta/OneVariable.lean`: `jacobiTheta`;
+  `Mathlib/Analysis/SpecialFunctions/ArithmeticGeometricMean.lean`: `NNReal.agm`,
+  `NNReal.agm_mul_distrib`, `NNReal.agm_eq_agm_gm_am`, `NNReal.min_le_agm`, `NNReal.agm_le_max`.
 - `Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.lean`: `NumberField.InfinitePlace`,
   `InfinitePlace.mk`, `InfinitePlace.mult`;
   `Mathlib/NumberTheory/NumberField/Discriminant/Defs.lean`:
@@ -150,7 +151,9 @@ degrees of bundles are with their owners.
   `TauCeti/NumberTheory/ModularForms/ThetaSeries/Basic.lean`: `ZLattice.thetaSeries` (Checks).
 - `TauCeti/Analysis/SpecialFunctions/EllipticIntegral/Legendre.lean`: `TauCeti.Real.legendreK`;
   `TauCeti/Analysis/SpecialFunctions/EllipticIntegral/Lemniscate.lean`:
-  `TauCeti.Real.legendreK_one_div_sqrt_two`.
+  `TauCeti.Real.legendreK_one_div_sqrt_two`;
+  `TauCeti/Analysis/SpecialFunctions/EllipticIntegral/Gauss.lean`:
+  `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`.
 
 **From GeometryOfNumbersAndQuadraticArithmetic.**
 
@@ -188,11 +191,12 @@ degrees of bundles are with their owners.
 Layer 1 defines `h⁰_θ` and `h¹_θ` and proves the Poisson–Riemann–Roch formula from Tau Ceti's
 Poisson summation (1.2); positivity (1.3), monotonicity (1.4), the finite-index comparison (1.5) and
 orthogonal sums (1.6) follow from the definition and 1.2; 1.7 is Jacobi's relation between
-`jacobiTheta i` and `K(1/√2)`, which with Tau Ceti's value of `K(1/√2)` gives the value at `ℤ`
-(1.8). Layer 2 proves the equality case of the coset bound (2.1) from the same Poisson expansion,
-the fibre bound (2.2) from 2.1's inequality, and subadditivity with its equality case (2.3) from 2.2
-and 2.1; 2.4 is 2.3 read through 1.2 and the covolume of a projection. Layer 3 bounds `h⁰_θ` by the
-first minimum, by SieveMethodsAndPrimePatterns' count of lattice points in balls (3.1) and by
+`jacobiTheta` on the imaginary axis and `K`, from Tau Ceti's AGM formula for `K`; at `t = 1` its
+modulus is `1/√2`, and with Tau Ceti's value of `K(1/√2)` it gives the value at `ℤ` (1.8). Layer 2
+proves the equality case of the coset bound (2.1) from the same Poisson expansion, the fibre bound
+(2.2) from 2.1's inequality, and subadditivity with its equality case (2.3) from 2.2 and 2.1; 2.4 is
+2.3 read through 1.2 and the covolume of a projection. Layer 3 bounds `h⁰_θ` by the first minimum,
+by SieveMethodsAndPrimePatterns' count of lattice points in balls (3.1) and by
 GeometryOfNumbersAndQuadraticArithmetic's unshifted tail bound (3.2), and proves the shifted tail
 bound (3.3) from that roadmap's scale bound. Layer 4 passes to number fields: `h⁰` of an Arakelov
 divisor is the logarithm of LFunctions' `latticeTheta` of its ideal lattice at the parameter of the
@@ -335,33 +339,58 @@ summable series. *Needs:* Mathlib `WithLp.linearEquiv` and the inner product of 
   `(±1, ±1)` get the weight `e^(−π)` instead of `e^(−2π)`.
 - `L = ⊥`: `h0θ (⊥ × M) = h0θ M`.
 
-### 1.7 Jacobi's relation at `i`
+### 1.7 Jacobi's relation on the imaginary axis
 
-Prove `jacobiTheta_I_sq`: `jacobiTheta i ^ 2 = 2 K(1/√2)/π`, with `K = TauCeti.Real.legendreK` the
-complete elliptic integral of the first kind in the modulus (DLMF, 20.9.1 and 20.9.2 at `τ = i`).
-Route: DLMF 20.9.2 gives `K(k) = ½π θ₃(0|τ)²` and `K(k′) = −iτ K(k)` for the modulus
-`k = θ₂(0|τ)²/θ₃(0|τ)²` of 20.9.1, and `θ₃(0|τ)` is Mathlib's `jacobiTheta τ`. At `τ = i`,
-`K(k′) = K(k)` with `K` strictly increasing on `[0, 1)` forces `k = k′ = 1/√2`. *Needs:* Mathlib
-`jacobiTheta`; Tau Ceti `TauCeti.Real.legendreK`.
+Prove `legendreK_eq_pi_div_two_mul_jacobiTheta_sq`: for `t > 0`, with `a(t) = jacobiTheta (t·i)`
+and `b(t) = jacobiTheta (t·i + 1)`, which is `θ₄(0|it)` because `exp(πi n²) = (−1)ⁿ`, both real,
+`K(√(1 − (b/a)⁴)) = ½π a²`, where `K = TauCeti.Real.legendreK` is the complete elliptic integral of
+the first kind in the modulus (DLMF, 20.9.1 and 20.9.2 at `τ = it`, where `k² = 1 − (b/a)⁴` by
+Jacobi's identity 20.7.5). In Lean `a` and `b` are the real parts of the two values. Route: Tau
+Ceti `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`, `K(k) = π/(2 agm(1, √(1 − k²)))` for
+`k² < 1`, with `√(1 − k²) = (b/a)²` and Mathlib `NNReal.agm_mul_distrib`, turns the claim into
+`agm(a², b²) = 1`. The two duplication identities of the API below and Mathlib
+`NNReal.agm_eq_agm_gm_am` make `agm(a(t)², b(t)²)` invariant under `t ↦ 2t`; as `t → ∞`, `a` and
+`b` tend to `1`, and Mathlib `NNReal.min_le_agm` and `NNReal.agm_le_max` give `agm(a², b²) = 1`.
+*Needs:* Mathlib `jacobiTheta`, `NNReal.agm`, `NNReal.agm_mul_distrib`, `NNReal.agm_eq_agm_gm_am`,
+`NNReal.min_le_agm`, `NNReal.agm_le_max`; Tau Ceti `TauCeti.Real.legendreK`,
+`TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`.
+
+**API.**
+
+- Duplication: `a(t)² + b(t)² = 2a(2t)²` and `a(t)·b(t) = b(2t)²` for `t > 0`, both by the
+  substitution `m = u + v`, `n = u − v` in the double series, which is a bijection of `ℤ²` onto the
+  pairs with `m ≡ n mod 2` (the second is DLMF 20.7.11 at `z = 0`, with `q = e^(−πt)`).
+- Positivity: `0 < b ≤ a`. The difference `a − b` is twice the sum of `exp(−πtn²)` over odd `n`;
+  by the second identity `b(t) = b(2t)²/a(t) ≥ 0`, and `b(t) = 0` would give `b(2ᵏt) = 0` for every
+  `k`, against `b(2ᵏt) → 1`. So `k² = 1 − (b/a)⁴` lies in `[0, 1)`.
+- Limits: `a(t) → 1` and `b(t) → 1` as `t → ∞`, since `|a − 1|` and `|b − 1|` are at most
+  `2∑_(n ≥ 1) exp(−πtn)`.
 
 **Checks.**
 
-- Numerically `jacobiTheta i ^ 2 = 1.0864348² = 1.1803406` and
-  `2K(1/√2)/π = 2 · 1.8540747/π = 1.1803406`.
-- The modulus is `1/√2`, not the parameter `m = k² = ½`: `2K(½)/π = 1.0731820 ≠ 1.1803406`.
-- The factor is `2/π`: `K(1/√2)/π = 0.5901703` would give `jacobiTheta i = 0.7682254 < 1`,
-  impossible for a sum of the term `1` and positive terms.
+- `t = ½`, `1`, `2`: `a² + b² = 2a(2t)²` reads `2.3606812`, `2.0149674`, `2.0000279` on both
+  sides; `a·b = b(2t)²` reads `0.8346268`, `0.9925442`, `0.9999861` on both sides; and
+  `K(√(1 − (b/a)⁴)) = ½π a²` reads `3.1651035`, `1.8540747`, `1.5825517` on both sides, with
+  moduli `0.9851714`, `0.7071068`, `0.1715729`, each equal to `θ₂(0|it)²/θ₃(0|it)²`.
+- The modulus is `√(1 − (b/a)⁴)`, not `√(1 − (b/a)²)`: at `t = 1` the latter gives
+  `K = 1.7097562 ≠ 1.8540747`.
+- The factor is `½π`: `π a(1)² = 3.7081494 ≠ 1.8540747`, and at `t = ½`,
+  `π a(½)² = 6.3302069 ≠ 3.1651035`.
 
 ### 1.8 The value at `ℤ`
 
 Prove `h0θ_span_one`: `h0θ (ℤ ∙ 1) = log(π^(1/4)/Γ(3/4))`, that is `∑_(n ∈ ℤ) exp(−πn²) =
 π^(1/4)/Γ(3/4)` (van der Geer–Schoof, Proposition 4, the invariant `η(ℚ) = ω`). Route: the sum is
-the real value `jacobiTheta i`, and 1.7 with Tau Ceti
-`TauCeti.Real.legendreK_one_div_sqrt_two`, `K(1/√2) = Γ(1/4)²/(4√π)`, gives
-`jacobiTheta i ^ 2 = Γ(1/4)²/(2π^(3/2))`; Euler's reflection formula `Γ(1/4)Γ(3/4) = π√2` (Mathlib
+the real value `a(1) = jacobiTheta i` of 1.7. The duplication identities of 1.7 at `t = ½` and
+`t = 1`, with `a(½)² = 2a(2)²` (Mathlib `Real.tsum_exp_neg_mul_int_sq` at `½`), give
+`b(½)² = a(1)² − b(1)²` and then `b(1)⁴ = a(½)²b(½)² = a(1)⁴ − b(1)⁴`, so `a(1)⁴ = 2b(1)⁴` and the
+modulus of 1.7 at `t = 1` is `√(1 − ½) = 1/√2`. Then 1.7 at `t = 1` and Tau Ceti
+`TauCeti.Real.legendreK_one_div_sqrt_two`, `K(1/√2) = Γ(1/4)²/(4√π)`, give
+`a(1)² = Γ(1/4)²/(2π^(3/2))`; Euler's reflection formula `Γ(1/4)Γ(3/4) = π√2` (Mathlib
 `Real.Gamma_mul_Gamma_one_sub` at `1/4`) turns this into `π^(1/2)/Γ(3/4)²`; take the positive
-square root. *Needs:* Mathlib `jacobiTheta`, `Real.Gamma`, `Real.Gamma_mul_Gamma_one_sub`; Tau Ceti
-`TauCeti.Real.legendreK_one_div_sqrt_two`; 1.1, 1.7.
+square root. *Needs:* Mathlib `jacobiTheta`, `Real.tsum_exp_neg_mul_int_sq`, `Real.Gamma`,
+`Real.Gamma_mul_Gamma_one_sub`; Tau Ceti `TauCeti.Real.legendreK_one_div_sqrt_two`; 1.1, 1.7 and
+its API.
 
 **Checks.**
 
@@ -381,10 +410,11 @@ square root. *Needs:* Mathlib `jacobiTheta`, `Real.Gamma`, `Real.Gamma_mul_Gamma
 ### Dependencies
 
 Mathlib: `ZLattice.covolume`, `IsZLattice`, `WithLp`, `AddSubgroup.relIndex`, `jacobiTheta`,
-`Real.Gamma`, `Real.Gamma_mul_Gamma_one_sub`. Tau Ceti: `ZLattice.dual`, Poisson summation and the
-Gaussian (`TauCeti/Analysis`), `TauCeti.Real.legendreK` and
-`TauCeti.Real.legendreK_one_div_sqrt_two`. GeometryOfNumbersAndQuadraticArithmetic §§4.4.4, 4.4.6
-and 4.4.7.
+`Real.tsum_exp_neg_mul_int_sq`, `NNReal.agm` and its lemmas, `Real.Gamma`,
+`Real.Gamma_mul_Gamma_one_sub`. Tau Ceti: `ZLattice.dual`, Poisson summation and the Gaussian
+(`TauCeti/Analysis`), `TauCeti.Real.legendreK`, `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`
+and `TauCeti.Real.legendreK_one_div_sqrt_two`. GeometryOfNumbersAndQuadraticArithmetic §§4.4.4,
+4.4.6 and 4.4.7.
 
 ## Layer 2: cosets and admissible extensions
 
@@ -663,7 +693,7 @@ Layer 1. LFunctions Layer 1. ArakelovGeometryAndAbelianHeights §1.7. Mathlib:
 
 ## Downstream consumers
 
-No roadmap on main or in an open pull request cites this one.
+None.
 
 ## Research context
 
@@ -692,8 +722,8 @@ these inequalities; Bost attributes 2.3 over `ℤ` to its entry of 26 April 1973
   doi:10.1007/978-3-030-44329-0; Zbl 1471.11002; arXiv:1512.08946 (numbering and pages of arXiv
   version 2).
 - W. P. Reinhardt, P. L. Walker, « Theta functions », Chapter 20 of F. W. J. Olver et al. (eds.),
-  *NIST Digital Library of Mathematical Functions*, Release 1.2.8 (2026-09-15), §20.9(i).
-  https://dlmf.nist.gov/20.9
+  *NIST Digital Library of Mathematical Functions*, Release 1.2.8 (2026-09-15), §20.7 and
+  §20.9(i). https://dlmf.nist.gov/20.7, https://dlmf.nist.gov/20.9
 - G. van der Geer, R. Schoof, « Effectivity of Arakelov divisors and the theta divisor of a number
   field », *Selecta Math. (N.S.)* 6 (2000), no. 4, 377–398. doi:10.1007/PL00001393;
   Zbl 1030.11063; arXiv:math/9802121 (numbering of arXiv version 3).

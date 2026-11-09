@@ -30,7 +30,8 @@ Headline theorems stated here:
   injective contractions, with its equality case.
 * README 1.5, `h0θ_sub_log_relIndex_le`: comparison with a sublattice of finite index.
 * README 1.6, `h0θ_prod`: additivity on orthogonal sums.
-* README 1.7, `jacobiTheta_I_sq`: Jacobi's relation `θ(i)² = 2K(1/√2)/π`.
+* README 1.7, `legendreK_eq_pi_div_two_mul_jacobiTheta_sq`: Jacobi's relation
+  `K(√(1 − θ₄(0|it)⁴/θ₃(0|it)⁴)) = ½π θ₃(0|it)²` for `t > 0`.
 * README 1.8, `h0θ_span_one`: `h⁰_θ(ℤ) = log (π^(1/4) / Γ(3/4))`.
 * README 2.1, `tsum_exp_add_eq_tsum_exp_iff`: the coset mass equals the lattice mass exactly on
   the lattice.
@@ -119,10 +120,13 @@ theorem h0θ_prod [FiniteDimensional ℝ E] [FiniteDimensional ℝ F] (L : Submo
     h0θ ((L.prod M).comap (WithLp.linearEquiv 2 ℤ (E × F)).toLinearMap) = h0θ L + h0θ M :=
   sorry
 
-/-- README 1.7. Jacobi's relation at `τ = i`: `θ(i)² = 2K(1/√2)/π`, with `K` the complete elliptic
-integral of the first kind (DLMF 20.9.1–20.9.2). -/
-theorem jacobiTheta_I_sq :
-    jacobiTheta Complex.I ^ 2 = ((2 * TauCeti.Real.legendreK (1 / √2) / π : ℝ) : ℂ) :=
+/-- README 1.7. Jacobi's relation on the imaginary axis: for `t > 0`, with `a = θ₃(0|it)` and
+`b = θ₄(0|it)`, the values of `jacobiTheta` at `t·i` and `t·i + 1`, the complete elliptic integral
+of the first kind at the modulus `√(1 − (b/a)⁴)` is `½π a²` (DLMF 20.9.1–20.9.2 at `τ = it`). -/
+theorem legendreK_eq_pi_div_two_mul_jacobiTheta_sq {t : ℝ} (ht : 0 < t) :
+    TauCeti.Real.legendreK
+        √(1 - ((jacobiTheta (t * Complex.I + 1)).re / (jacobiTheta (t * Complex.I)).re) ^ 4) =
+      π / 2 * (jacobiTheta (t * Complex.I)).re ^ 2 :=
   sorry
 
 /-- README 1.8. `h⁰_θ(ℤ) = log (π^(1/4) / Γ(3/4))` (van der Geer–Schoof, Proposition 4). -/
