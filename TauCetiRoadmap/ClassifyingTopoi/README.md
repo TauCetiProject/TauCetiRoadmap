@@ -837,10 +837,12 @@ profinite group with continuous actions, which this roadmap does not treat.
 
 Grothendieck's 1973 Buffalo lectures on topoi treated classifying topoi as a programme: every
 geometric theory should have a topos whose points are its models, and constructions on theories
-should be constructions on topoi. The duality of 2.5 makes the lattice of quotients of a theory a
-coHeyting algebra, the subtopoi of its classifying topos, and Caramello's method of topos-theoretic
-bridges transfers properties of a classifying topos presented by two sites into properties of the
-two theories. Open questions there concern which invariants of topoi admit syntactic
+should be constructions on topoi. The duality of 2.5 reverses order: ordered by inclusion of
+axioms, the quotients of a theory form the opposite of the coHeyting algebra of subtopoi of its
+classifying topos, hence a Heyting algebra (Caramello 2017, « Lattices of theories », Theorem 5.1,
+p. 37 in the numbering of arXiv:0905.0299v1), and Caramello's method of topos-theoretic bridges
+transfers properties of a classifying topos presented by two sites into properties of the two
+theories. Open questions there concern which invariants of topoi admit syntactic
 characterizations for arbitrary geometric theories, and the description of the theories of presheaf
 type beyond the criteria known for cartesian theories.
 
