@@ -1492,12 +1492,21 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
 8. For every pair p≠q on a connected compact boundaryless Riemannian manifold
    of dimension at least one, prove `two_distinct_geodesics`: there are geodesics
    γ,η on [0,1], both starting at p and ending at q, with γ(t)≠η(t) for some
-   t∈[0,1] (a special case of Morse's theorem, *The Calculus of Variations
-   in the Large*, Theorem 13.3, p. 239, infinitely many geodesics between two
-   points once the based loop space has nonzero homology in infinitely many
-   degrees, which Serre's theorem gives on a compact manifold, both as stated
+   t∈[0,1]. For simply connected M this is a special case of Morse's theorem
+   (*The Calculus of Variations in the Large*, Theorem 13.3, p. 239, as recalled
    in Caponio–Javaloyes, *A remark on the Morse theorem about infinitely many
-   geodesics between two points*, §1, p. 1). Their extensions outside [0,1] are irrelevant. An increasing affine
+   geodesics between two points*, §1, p. 1): on a complete connected manifold
+   whose based loop space has nonzero homology in infinitely many degrees, any
+   two points are joined by infinitely many geodesics, and Serre's theorem
+   supplies that hypothesis for a compact simply connected manifold of positive
+   dimension, whose top mod-2 homology is nonzero (the wider clause of
+   Caponio–Javaloyes, §1, p. 1, every compact manifold, needs the simple
+   connectivity).
+   For nontrivial π₁(M) the loop-space hypothesis fails in general (on the
+   circle and the flat torus the based loop space is homotopy equivalent to the
+   discrete group π₁(M), with homology in degree 0 only) and the two geodesics
+   come from distinct lifted path classes, as in the route below. Their
+   extensions outside [0,1] are irrelevant. An increasing affine
    self-reparametrization fixing 0 and 1 is the identity, so this distinguishes
    oriented geodesics rather than arbitrary extensions or affine rescalings.
    Specify the equivalence as oriented paths up to increasing affine
@@ -2840,7 +2849,9 @@ minimization nor GeometricCurrents regularity enters R5b.
   many geodesics between two points](https://arxiv.org/abs/1105.3923), arXiv:1105.3923v2
   (2011), §1, p. 1: Morse's theorem (*The Calculus of Variations in the Large*,
   Theorem 13.3, p. 239) and Serre's theorem on the homology of the based loop space
-  of a compact manifold, used by R4.8.
+  of a compact simply connected manifold, used by R4.8 for simply connected M (the
+  paper's wider clause, every compact manifold, fails for the circle, whose based
+  loop space is homotopy-discrete).
 - J. Barzen and F. Leymann, [Mathematics of Spacetime: A Guided Tour Through The
   Underlying Differential Topology and Differential Geometry](https://arxiv.org/abs/2606.02616),
   arXiv:2606.02616, Theorem 9, p. 60: the Killing–Hopf classification of complete
