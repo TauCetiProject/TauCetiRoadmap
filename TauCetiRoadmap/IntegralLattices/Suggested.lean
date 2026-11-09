@@ -70,8 +70,14 @@ of `ℤ_p`-lattices at odd `p` by their Jordan constituents
 unimodular at `2` (`localIntegralForm_two_equivalent_iff`, 3D), Cho's dyadic density exponents
 with their invariance and his Lemma 5.1 (`DyadicJordanProfile.nQ_eq_nM_add_densityExponent`,
 `SameGenus.dyadicJordanProfile_eq`, 3I), the finite genus test
-(`sameGenus_iff_localIntegralForm_equivalent_primeFactors`, 3F), class numbers (`classNumber`,
-`properClassNumber`, 4A), the binary class-number finiteness
+(`sameGenus_iff_localIntegralForm_equivalent_primeFactors`, 3F), the quadratic order of a binary
+lattice (`binaryOrder`, B1), the dictionary between proper classes of primitive binary forms and
+the Picard and narrow Picard groups of quadratic orders, with its composition laws
+(`posDefProperClassEquivPic`, `properClassEquivNarrowPic`, B2, B3), the ring class field
+isomorphism for negative discriminants (`posDefProperClassEquivGal`, B3), the automorphism group
+of a binary lattice with the criterion for the existence of an improper automorphism
+(`specialOrthogonalGroupEquivNormOneUnits`, `index_specialOrthogonalGroup_eq_two_iff_reflected`,
+B4), class numbers (`classNumber`, `properClassNumber`, 4A), the binary class-number finiteness
 (`finite_genusClasses_of_finrank_eq_two`, 4E), the infinitude of the isometry group of an
 indefinite lattice of rank at least 3 (`infinite_isometry_of_isIndefinite`, 4F), Kneser
 neighbours in one genus (`IsNeighbor.sameGenus`, `isNeighbor_neighbor`, 4G), the necessity half

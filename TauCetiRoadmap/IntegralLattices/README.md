@@ -56,11 +56,12 @@ below. The Jordan theory over a discrete valuation ring and the dyadic Jordan co
 3B and 3I record are Tau Ceti's, at that generality; this roadmap consumes them.
 
 Many milestones of the layers below are proved in Tau Ceti at the pin, and this roadmap consumes
-them rather than restating them: 1H, 1I, 1L, 2F, 2G, 3A, 3B, 3C, 3F, 4E, 4F, 4G, 6B, 6C, 6D, 6G,
-6H, 7A and 9B in full, 7G in ranks 0 and 1, and a part of each of 1G, 3D, 3I, 4A, 5J, N0, 7C and
-7E. The rows of §*From Tau Ceti* name the declarations that supply each of them, and the
-paragraph after that table says which part of each partly native milestone is native; the rest
-of such a milestone is its target here.
+them rather than restating them: 1H, 1I, 1L, 2F, 2G, 3A, 3B, 3C, 3F, B1, B4, 4E, 4F, 4G, 6B, 6C,
+6D, 6G, 6H, 7A and 9B in full, 7G in ranks 0 and 1, and a part of each of 1G, 3D, 3I, B2, B3, B5,
+N0, N1, 4A, 5A, 5J, 7C and 7E. The rows of §*From Tau Ceti* name the declarations that supply
+each of them, and the paragraph after that table says which part of each partly native milestone
+is native; the rest of such a milestone is its target here. Exactly the milestones of the first
+list other than 7G carry "(native)" in their headings.
 
 The arithmetic dependencies are `GlobalQuadraticForms`, `RestrictedProducts`,
 `OrthogonalSpinGroups` and `RepresentationTheory/RootSystems`. What this roadmap uses of
@@ -517,15 +518,19 @@ is unimodularity and not nondegeneracy.
 The labels 0A–0G, 1A–1F, 1J, 1K and 2A–2E name the native declarations in the rows above:
 the archived foundation roadmap and Tau Ceti own them, they are not targets here, and a later
 prerequisite row that cites one of these labels cites Tau Ceti. The milestones 1H, 1I, 1L,
-2F, 2G, 3A, 3B, 3C, 3F, 4E, 4F, 4G, 6B, 6C, 6D, 6G, 6H, 7A, 7G in ranks 0 and 1 and 9B are
-likewise native in the rows above, as are the relations and the odd-prime quadratic
+2F, 2G, 3A, 3B, 3C, 3F, B1, B4, 4E, 4F, 4G, 6B, 6C, 6D, 6G, 6H, 7A, 7G in ranks 0 and 1 and 9B
+are likewise native in the rows above, as are the relations and the odd-prime quadratic
 classification of 1G, the unimodular case of 3D, all of 3I but its dictionary to the 2-adic
-symbol, the class sets, class numbers and their relations of 4A, the necessity half of 5J, the
-stabilizer comparison of N0, the definition, stabilization, odd-prime values and convergent
-Euler products of 7C, and the volume half of 7E: each milestone names what it consumes and
-keeps as a target only what the pin lacks. One comparison is not native and
-is not stated: the equality of the native `successiveMinimum` with the real-length minima of
-the realization in `ℝⁿ` is needed by no milestone. 3A starts
+symbol, the form–ideal dictionary and the split class group of B2, the composition laws, the
+principal genus theorem at a fundamental discriminant and the ring class field of B3, the
+definite reduction, the finite sets of representatives for every `Δ ≠ 0` and the class counts
+for `Δ < 0` and for square `Δ` of B5, the stabilizer comparison of N0, the local spinor images of
+N1 with their values at the odd primes not dividing `det L`, the class sets, class numbers and
+their relations of 4A, the unimodular case of 5A, the necessity half of 5J, the definition,
+stabilization, odd-prime values and convergent Euler products of 7C, and the volume half of 7E:
+each milestone names what it consumes and keeps as a target only what the pin lacks. One
+comparison is not native and is not stated: the equality of the native `successiveMinimum` with
+the real-length minima of the realization in `ℝⁿ` is needed by no milestone. 3A starts
 from `TauCeti.IntegralLattice.localIntegralForm` and `TauCeti.IntegralLattice.localizationToCompletion`
 rather than from a second localization map, the odd-prime splitting of 3C is stated on the
 native local form, the restriction constructors of 0A are `TauCeti.IntegralLattice.restrictFull` and
@@ -1180,11 +1185,12 @@ orders or of binary form classes; Tau Ceti has both (§*From Tau Ceti*).
 
 ⚠ **Most of this layer is native, and the field-order and class-group branch is consumed, not
 built.** Tau Ceti proves B1 and B4 in full, the form–ideal dictionary and the split class group
-of B2, the composition laws and the ring class field of B3, and the reduced forms and class
-counts of B5; the rows of §*From Tau Ceti* name each declaration. Those milestones keep their
-labels for citation, the text below says at each one what is native, and nothing is stated for
-the native parts in `Suggested.lean`. Global Number Fields Layer 11 owns orders in number
-fields, conductors, raw proper fractional ideals, the group of invertible proper fractional
+of B2, the composition laws, the principal genus theorem at a fundamental discriminant and the
+ring class field of B3, and the definite reduction, the finite sets of representatives for every
+`Δ ≠ 0` and the class counts for `Δ < 0` and for square `Δ` of B5; the rows of §*From Tau Ceti*
+name each declaration. Those milestones keep their labels for citation, the text below says at
+each one what is native, and nothing is stated for the native parts in `Suggested.lean`. Global
+Number Fields Layer 11 owns orders in number fields, conductors, raw proper fractional ideals, the group of invertible proper fractional
 ideals, the separate ideal class monoid, `Pic`, and `NarrowPic`, which Tau Ceti implements. The
 ring class field and its Artin isomorphism are Tau Ceti's `TauCeti.ClassFieldTheory.ringClassField`
 and `TauCeti.ClassFieldTheory.ringClassArtinEquiv`. Those interfaces apply only when `Δ` is
@@ -1897,7 +1903,7 @@ the finiteness statement of 4C. *Needs:* 3C–3E, N0; T `localSpinorNormImage` a
   `exists_localSpinorNormImage_ne_unitSquareClasses` records against the unit square classes at
   every odd `p`; a convention giving it `ℤ_pˣ` would make the rank-one test of 4C fail.
 
-**4A. Class sets (native).** The class `cls L` (`isometryClass`, a point of the quotient
+**4A. Class sets and class numbers.** The class `cls L` (`isometryClass`, a point of the quotient
 `IsometryQuotient V` of the lattices on `V` by isometry), the proper class `cls⁺ L`
 (`properIsometryClass`), the genus `gen L` as the set `genusClasses` of classes of the lattices
 on `V` in the genus of `L`, and its proper analogue `genusProperClasses` are Tau Ceti's (O'Meara
@@ -2182,7 +2188,7 @@ classes from neighbor steps.
 
 | Milestone | Direct prerequisites |
 | --- | --- |
-| 4A | native (`isometryClass`, `properIsometryClass`, `genusClasses`, `classNumber`, `properClassNumber`, `properClassNumber_add_card_eq_two_mul_classNumber`); L 4C for `spn`; L B2, B5 for the binary counts |
+| 4A | T `isometryClass`, `properIsometryClass`, `genusClasses`, `classNumber`, `properClassNumber`, `properClassNumber_add_card_eq_two_mul_classNumber`; L 4C for `spn`; L B2, B5 for the binary counts |
 | 4B | T `SameGenus`, `genusClasses`, `genusProperClasses`, `SameGenus.exists_isometry`, `localStabilizer`, `orthogonalCompactOpens`, `finiteAdelicOrthogonalDiagonal`, `finiteAdelicOrthogonalDoubleCoset`, `finiteAdelicSpecialOrthogonalDoubleCoset`, `integralSubgroup`; M `DoubleCoset.Quotient`; L 3A, 3H, N0; R Orthogonal and Spin Groups 0C; R Global Quadratic Forms `hasseMinkowski_equivalent` |
 | 4C | T `squareClass`, `localSpinorNormImage`, `adelicSpinorNorm`, `finiteAdelicSquareClasses`; L 3C, 3D, 4B, N1; rank 2 also L B2, B3, B6; R Orthogonal and Spin Groups Layers 1 and 2 |
 | N0 | T `integralOrthogonalSubgroup`, `OrthogonalCompactOpens.integral`, `localizationToCompletion`, `localStabilizer`, `localStabilizer_eq_integralOrthogonalSubgroup`, `orthogonalCompactOpens`; L 3A; R Restricted Products Layers 1--3; for the improper element of `K_p(L)`, L 0D and T `reflectionOrthogonal_mem_integralOrthogonalSubgroup` (the unit-norm case) |
@@ -3507,9 +3513,8 @@ of Layers 2, 6 or 7, and of Layer 4 only N0. Their uniqueness statements are
 
 - `OrthogonalTamagawaAndLatticeMass` consumes Layers 0–4, 5A, 6C–6E, 6G, 7A, 7C, 7E, 7G, B1–B8
   and 9B, and owns Eichler's theorem, the mass formula and the dyadic smooth model. Where a
-  milestone it cites is native (2G, 3A–3C, 3F, all of 3I but its dictionary, the class sets and
-  class numbers of 4A, 6C, 6D, 6G, 7A, the native parts of 7C, 7G in ranks 0 and 1, the volume
-  half of 7E, 9B), the milestone names the Tau Ceti declaration it should consume directly.
+  milestone it cites is native in full or in part (the two lists of §*Scope and ownership*), the
+  milestone names the Tau Ceti declarations it should consume directly for the native part.
 - `IntegralLatticesPartII` consumes Layers 1, 3, 4 and 5 here and OTM §0.3 for Nikulin's
   uniqueness, splitting and surjectivity theorems.
 - [Theta Series](../ThetaSeries/README.md) consumes Layer 8's exports.
