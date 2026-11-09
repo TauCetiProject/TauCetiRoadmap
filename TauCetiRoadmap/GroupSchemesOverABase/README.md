@@ -968,8 +968,9 @@ of `k` and its comparisons on affine groups are NeronModelsAndSemistableAbelianV
 `π₀(G/k) = G/G⁰` (SGA 3, Exp. VI_A, 5.5.1 (i)), universal among homomorphisms from `G` to étale
 `k`-groups (Milne, Proposition 2.37 (a), for `G` of finite type). For `G` of finite type, `π₀(G/k)`
 is the `π₀` of 4.7 of the scheme `G`, so it agrees with NeronModelsAndSemistableAbelianVarieties
-2.2's, and for `G` and `G′` of finite type `π₀(G ×_k G′/k) = π₀(G/k) ×_k π₀(G′/k)` (Milne,
-Proposition 2.37 (c)–(e)). The target is the extension to groups locally of finite type. Route:
+2.2's, and for `G` and `G′` of finite type `π₀(G ×_k G′/k) = π₀(G/k) ×_k π₀(G′/k)` (Milne, the
+paragraph before Proposition 2.37 for the identification with the `π₀` of 1.29, and Proposition
+2.37 (e)). The target is the extension to groups locally of finite type. Route:
 every connected component `C` of `G` is open and of finite type (4.6), so `π₀(G/k)` is the disjoint
 union of the `π₀(C/k)` of 4.7, each the spectrum of a finite separable extension of `k`, and the
 group law comes from the compatibility of 4.7 with products of components. *Needs:* 4.6, 4.7;
@@ -1423,19 +1424,22 @@ ModularCurves 0C; SchemeAndStackFoundations §0.6, §3.4.
 
 ## Downstream consumers
 
-- EllipticCurveModularityPartII (its contract *From TauCetiRoadmap.GroupSchemesOverABase*)
-  consumes 4.5, Cartier's theorem `smooth_of_charZero`, in §6.0f: the intersection of two abelian
-  subvarieties is smooth, which gives the minimal period subvariety.
+- EllipticCurveModularityPartII §6.0f uses Cartier's theorem for group schemes locally of finite
+  type over a field of characteristic `0`, which is 4.5's `smooth_of_charZero`, for the intersection
+  of two abelian subvarieties, which gives the minimal period subvariety. 4.5 owns that statement
+  (Scope and ownership), and §6.0f is to cite it.
 - FlagVarieties (Scope) names this roadmap, as GS7, for the relative scheme `Bor(G)`; that scheme
   is ReductiveGroups Layer 9D's, and this roadmap's share is the line bundles on it and its Picard
   group (Layer 6).
-- HeightsRationalPointsAndObstructions (its contract *From TauCetiRoadmap.GroupSchemesOverABase*)
-  consumes 6.2 in §3.8e: the Picard groups of a connected split reductive group and of its flag
-  variety over a field, applied to the reductive quotient of `Ḡ`.
-- PurityForFlatCohomology (its contract *From TauCetiRoadmap.GroupSchemesOverABase*) consumes
-  0.1, 1.1–1.5, 2.1–2.3 and 2.7 in §§7.12a–7.12e for its purity results. Those sections prove
-  only that the points of `D_S(ℤ)` and `D_S(ℤ/n)` and the Kummer sequence match Tau Ceti's sheaves
-  `𝔾_m` and `μ_n`, and that finite groups of multiplicative type are finite locally free.
+- HeightsRationalPointsAndObstructions §3.8e uses the Picard groups of a connected split reductive
+  group and of its flag variety over a field, which are 6.2's, for the reductive quotient of `Ḡ`.
+  6.2 owns them (Scope and ownership), and §3.8e is to cite 6.2 for `Ḡ_red`, keeping the reduction
+  along the unipotent radical and the product with `X̄`, which 6.2 does not state.
+- PurityForFlatCohomology §§7.12a–7.12e use diagonalizable groups, groups of multiplicative type and
+  tori over a base, with their character sheaves, subgroups, quotients and largest subtori, which
+  are 0.1, 1.1–1.5, 2.1–2.3 and 2.7's, for its §§7.13–7.15 and Layer 8. These targets own that
+  material (Scope and ownership), and §§7.12a–7.12e are to cite them, keeping the comparisons with
+  Tau Ceti's `𝔾_m` and `μ_n` and the Kummer sequence.
 - SpringerResolutionAndCharacteristicCycles (Scope) names 7.6, as §7.6, for the
   Grothendieck–Springer space `G̃ ⊆ G × Bor(G)`, distinct from its own additive `g̃`, and consumes
   nothing from it.
