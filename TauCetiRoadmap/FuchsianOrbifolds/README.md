@@ -239,7 +239,7 @@ These conventions prevent silent inversions and non-effective actions.
   (`Fuchsian/Cusp/ChangeScaling.lean`): if two data have the same cusp representative and
   selected positive generator, and `σ'(z)=aσ(z)+b` for `a>0`, conjugating that generator gives
   `w' = a w`, and the q-coordinate transition multiplies by `exp(2πib/(aw))`; the compactified
-  complex structure is independent of this choice (Layer 3 item 4).
+  complex structure is independent of this choice (Layer 4 item 3).
 - The coordinate attached to cusp datum `(σ,w)` is
   `q(z)=exp(2*pi*i*σ(z)/w)`. Its selected positive generator fixes `q`. Meridians are
   counterclockwise-positive around `q=0`: the lift of the meridian with `n` signed turns ends at
@@ -593,10 +593,7 @@ The development starts from the following material.
    the cusp, its norm being small exactly on high horodiscs
    (`TauCeti.Subgroup.CuspDatum.norm_qCoordinate_lt_iff_mem_horodisc`). For a second datum
    `σ'=aσ+b`, `w'=aw` and `q'=exp(2πib/(aw))q` are `TauCeti.cuspDatum_width_eq_mul` and
-   `TauCeti.cuspDatum_coordinate_eq` (`Fuchsian/Cusp/ChangeScaling.lean`), and the chart of every
-   datum lies in the atlas of the compactification (`cuspChart_mem_atlas`, in Tau Ceti's namespace
-   `Subgroup.CompactifiedQuotient`),
-   so the compactified complex structure does not depend on the datum.
+   `TauCeti.cuspDatum_coordinate_eq` (`Fuchsian/Cusp/ChangeScaling.lean`).
 5. The q-expansion criterion is Tau Ceti's: for an invariant holomorphic function, the descended
    function on the punctured disc extends holomorphically across `0` when it is bounded
    (`TauCeti.Subgroup.CuspDatum.analyticAt_cuspExtension_zero`, `Fuchsian/Cusp/Extension.lean`),
@@ -628,9 +625,11 @@ namespace, such as `isOpenEmbedding_ofQuotient`, are in Tau Ceti's namespace
    (`Fuchsian/DirichletDomain/Cofinite.lean`), from a truncated Dirichlet polygon and finitely many
    cusp discs.
 3. The atlas extending the coarse-quotient charts by the q-coordinate charts at the cusps is
-   `Subgroup.CompactifiedQuotient.instChartedSpace`, and it is analytic,
-   `Subgroup.CompactifiedQuotient.instIsManifold : IsManifold 𝓘(ℂ) ω`
-   (`Fuchsian/Compactification/Manifold.lean`).
+   `Subgroup.CompactifiedQuotient.instChartedSpace`. It contains the cusp chart of every cusp datum
+   of Layer 3 item 2, cut off at any height at least the datum's width (`cuspChart_mem_atlas`), and
+   it is analytic, `Subgroup.CompactifiedQuotient.instIsManifold : IsManifold 𝓘(ℂ) ω`
+   (`Fuchsian/Compactification/Manifold.lean`), so the compactified complex structure does not
+   depend on the cusp datum chosen.
 4. The original quotient is open and dense, and the cusps are exactly its complement
    (`isOpenEmbedding_ofQuotient`, `dense_range_ofQuotient`, `compl_range_ofQuotient`). Conjugate
    groups have biholomorphic
@@ -752,7 +751,7 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    give only for `X(1)` (`TauCeti.ModularGroup.finiteCWType_compactifiedQuotient`); for these
    compact Riemann surfaces (Layer 4 items 2 and 3) it is taken from AlgebraicTopology Stage 8
    item 7 through ComplexManifolds Milestone 1, as in Layer 4a.
-   *Needs:* items 3, 5 and 7; Layer 4 items 2 and 3; Tau Ceti
+   *Needs:* items 3, 5 and 7; Layer 2 item 1; Layer 4 items 2 and 3; Tau Ceti
    `MeasureTheory.covolume_eq_card_mul_covolume`; AlgebraicTopology Stage 8 item 7 with
    ComplexManifolds Milestone 1, for the finite CW type of `X(Γ′)` and `X(Γ)`.
    **Checks.**
@@ -787,7 +786,7 @@ No step identifies the carrier with `P^1`, a torus, or another classified surfac
    `mₑ = TauCeti.cardStabilizerOnOrbit e`, and `c = Nat.card Γ.CuspOrbit` (Martin, Theorem 2.2;
    Beardon, §10.4; Katok, §4.3). Keep the cell count `χ(X(Γ)) = 2 − 2g` distinct from the orbifold
    Euler characteristic `χ_orb = 2 − 2g − Σₑ (1 − 1/mₑ) − c = −covolume Γ / 2π`.
-   *Needs:* item 1; Layer 2 items 4 and 5; Layer 4; Tau Ceti
+   *Needs:* item 1; Layer 2 items 1, 4 and 5; Layer 4; Tau Ceti
    `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.covolume_eq_two_pi_mul`,
    `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.natCard_cuspOrbit`,
    `TauCeti.eulerChar_eq_cwEulerChar`, `Subgroup.IsCofinite.finite_ellipticOrbits`,
@@ -849,11 +848,11 @@ of the covolume and their equality cases.
    has `δ = 1/6 − 1/m₃`, positive exactly for `m₃ ≥ 7` and equal to `1/42` only at `m₃ = 7`;
    `(2, 4, m₃)` needs `m₃ ≥ 5` and has `δ ≥ 1/20`; `(2, m₂, m₃)` with `m₂ ≥ 5` has `δ ≥ 1/10`; and
    `m₁ ≥ 3` has `δ ≥ 1/12`, the case `(3, 3, 3)` having `δ = 0`.
-   *Needs:* Layer 4 items 2 and 3; Layer 5 items 1 and 7; Tau Ceti `MeasureTheory.covolume_pos`,
-   `TauCeti.one_div_forty_two_le_hyperbolic_deficit`, `TauCeti.hyperbolic_deficit_two_three_seven`,
-   `Subgroup.IsCofinite.finite_ellipticOrbits`, `Subgroup.IsCofinite.finite_cuspOrbit`;
-   AlgebraicTopology Stage 8 item 7 with ComplexManifolds Milestone 1, for the finite CW type of
-   `X(Γ)`.
+   *Needs:* Layer 2 item 1; Layer 4 items 2 and 3; Layer 5 items 1 and 7; Tau Ceti
+   `MeasureTheory.covolume_pos`, `TauCeti.one_div_forty_two_le_hyperbolic_deficit`,
+   `TauCeti.hyperbolic_deficit_two_three_seven`, `Subgroup.IsCofinite.finite_ellipticOrbits`,
+   `Subgroup.IsCofinite.finite_cuspOrbit`; AlgebraicTopology Stage 8 item 7 with ComplexManifolds
+   Milestone 1, for the finite CW type of `X(Γ)`.
    **Checks.**
    - `(0; 2, 3, 7)`: `δ = −2 + 1/2 + 2/3 + 6/7 = 1/42`, covolume `π/21`; a bound `π/42`, from
      forgetting the factor `2` in `2π δ`, would not be attained by any group.
@@ -884,10 +883,11 @@ of the covolume and their equality cases.
    | `g = 0, c = 1, r = 2` | sort `m₁ ≤ m₂`; `(2, 2)` gives `δ = 0`, `(2, 3)` the minimum `δ = 1/6`, and every other pair `δ ≥ 1/4` |
    | `g = 0, c = 1, r ≥ 3` | `δ ≥ 1/2`, area at least `π` |
 
-   *Needs:* Layer 4 items 2 and 3; Layer 5 items 1 and 7; Tau Ceti `MeasureTheory.covolume_pos`,
-   `Subgroup.IsCofinite.finite_ellipticOrbits`, `Subgroup.IsCofinite.finite_cuspOrbit`,
-   `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange`; AlgebraicTopology Stage 8 item 7 with
-   ComplexManifolds Milestone 1, for the finite CW type of `X(Γ)`.
+   *Needs:* Layer 2 item 1; Layer 4 items 2 and 3; Layer 5 items 1 and 7; Tau Ceti
+   `MeasureTheory.covolume_pos`, `Subgroup.IsCofinite.finite_ellipticOrbits`,
+   `Subgroup.IsCofinite.finite_cuspOrbit`, `TauCeti.ModularGroup.covolume_psl2zToPSL2RRange`;
+   AlgebraicTopology Stage 8 item 7 with ComplexManifolds Milestone 1, for the finite CW type of
+   `X(Γ)`.
    **Checks.**
    - `(0; 2, 3; 1)`: `δ = −2 + 1/2 + 2/3 + 1 = 1/6`, covolume `π/3`, the pinned covolume of
      `PSL(2,ℤ)`.
@@ -946,24 +946,22 @@ implemented in Tau Ceti, in the construction order below.
 | --- | --- | --- |
 | L0 effective action and free locus | Mathlib, ComplexManifolds Milestone 4 | L1–L4, L6 |
 | L1 elliptic charts | L0, ComplexManifolds Milestones 5–6 | L4–L6 |
-| L2 polygons and presentations | L0, Tau Ceti half-space model | L3–L6 |
+| L2 polygons and presentations | L0, Tau Ceti half-space model | L3–L6, L4a |
 | L3 cusps and q-coordinates | L0, L2 | L4–L6, L4a |
 | L4 compactification | L0–L3 | L4a, L5–L6 |
 | L5 degree theory and applications | ComplexManifolds Milestones 1–2, AlgebraicTopology Stages 6 and 8, Tau Ceti Euler characteristic and Riemann-surface degree, L1–L4 | L4a, L6, ModularForms §§10A–10B |
 | L6 level-one example | L0–L5, Tau Ceti `j` | normalized `X(1) ≃ P^1`; ModularForms §§10A and 10D |
-| L4a minimal areas | L3 item 1, L4, L5 items 1 and 7, Tau Ceti deficit bound, AlgebraicTopology Stage 8 item 7, ComplexManifolds Milestone 1 | area ≥ `π/21`; area ≥ `π/3` with a cusp; equality cases |
+| L4a minimal areas | L2 item 1, L3 item 1, L4, L5 items 1 and 7, Tau Ceti deficit bound, AlgebraicTopology Stage 8 item 7, ComplexManifolds Milestone 1 | area ≥ `π/21`; area ≥ `π/3` with a cusp; equality cases |
 
 The dependency order follows the table, except that Layers 2 and 3 interleave by item. The cusp
 points, cusp orbits, cusp data, horodiscs, q-coordinates and q-expansion criterion of Layer 3 use
 Layer 0, and the finiteness of the cusp orbits of a cofinite group also the cofiniteness of Layer 2
 item 1, but no polygon; Layer 2 items 2, 5 and 6 state their cusp facts with them; and only the
 compact part of the quotient outside the horodiscs, in Layer 3 item 3, uses the convex polygons of
-Layer 2 item 2. Likewise, the membership of every cusp chart in the compactified atlas, at the end
-of Layer 3 item 4, is a statement about the atlas of Layer 4 item 3. No row depends on
-TeichmullerGeometry or ArithmeticFuchsianGroups, which consume this roadmap downstream. L1 and L2
-can proceed in parallel after L0. Layer 5 items 1–3 can proceed in parallel with Layers 0–4; items
-4–7 begin after Layer 4, and Layer 4a follows Layer 5 item 7. Matching Mathlib APIs replace local
-declarations when available, but no layer waits for them.
+Layer 2 item 2. No row depends on TeichmullerGeometry or ArithmeticFuchsianGroups, which consume
+this roadmap downstream. L1 and L2 can proceed in parallel after L0. Layer 5 items 1–3 can proceed
+in parallel with Layers 0–4; items 4–7 begin after Layer 4, and Layer 4a follows Layer 5 item 7.
+Matching Mathlib APIs replace local declarations when available, but no layer waits for them.
 
 ## Acceptance checks
 
