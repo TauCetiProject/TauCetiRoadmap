@@ -142,11 +142,16 @@ intrinsic descriptions.
   completion of the classical screening-kernel algebra. This roadmap consumes nothing from it:
   §7.5 constructs its completion explicitly, and Layer 7 is built independently of any
   quantum-centre theorem so that the two roadmaps have no dependency cycle.
-- **KacMoody KM8A** owns the untwisted minimal derived affine group, its real-root/torus
-  homomorphism to polynomial loops, its central kernel and the rotation/global-form comparison with
-  the polynomial loop group of Layer 3A. This roadmap consumes nothing from it; Layer 3A
-  constructs polynomial and formal functors, full-cocharacter quotients and positive orbits
-  independently, and KacMoody consumes them.
+- **KacMoody Layer 8 (KM8A)** owns, on complex points of the pinned simply connected simple group
+  `G_sc` of ReductiveGroups Layer 9, the root-element generation of `G_sc(ℂ[t, t⁻¹])`, its affine
+  Bruhat decomposition, the affine positive-root bounds and conjugation formula for the Iwahori
+  `I = ev₀⁻¹(B⁺(ℂ))` and the generation of `G_sc(ℂ[t])` by `I` and the finite negative simple root
+  groups (8.1), and the homomorphism from the untwisted minimal derived affine group, its central
+  kernel and the Iwahori, parabolic and global-form maps (8.2–8.4). It is earlier in the merge
+  order and consumes nothing here. §3A.4 states the root bounds and conjugation formula over every
+  coefficient algebra `R` and the generation of `G(ℂ[t])` for every connected reductive `G`, which
+  KacMoody 8.1 does not, and owns the identification of Layer 3A's functors at `R = ℂ` with
+  KacMoody 8.1's complex-point groups and of §3A.3's component map with KacMoody 8.4's.
 - **GeometricRepresentationCategories R3–R5** consumes the exported contracts of §8.4; its
   categorical-lift conjectures are stated there, not here.
 - General root classification, highest-weight representation theory, PBW and universal
@@ -463,6 +468,22 @@ its procyclic isomorphism.
 
 Finite root systems, bases, positive roots, the Weyl group and its reflection representation, for
 the affine root bounds and the dominant-chamber transport of Layer 3A.
+
+### From TauCetiRoadmap.KacMoody
+
+Layer 8 (KM8A), consumed only by §3A.4's comparison target. 8.1: for the pinned simply connected
+simple group `G_sc` of ReductiveGroups Layer 9, the groups `G_sc(ℂ[t, t⁻¹])` and `G_sc(ℂ[t])` of
+points of `G_sc` over these complex algebras (ReductiveGroups Layer 0), the root elements
+`x_α(u t^n)`, the evaluation `ev_0` and the Iwahori `I = ev_0⁻¹(B⁺(ℂ))`, with the affine
+positive-root bounds, the conjugation formula `t^μ x_α(u t^n) t^(−μ) = x_α(u t^(n + α(μ)))` for
+`μ ∈ Y`, the affine Bruhat decomposition `G_sc(ℂ[t, t⁻¹]) = ⊔_(w ∈ W_aff) I ẇ I` and the
+generation of `G_sc(ℂ[t])` by `I` and the finite negative simple root groups. 8.4: for a connected
+reductive target `G`, the map of polynomial loop groups induced through its derived central
+isogeny and central torus, and its component map to `Y/Q^∨`. What is assumed: the groups of 8.1
+are points of the same group scheme through the same Hopf/scheme-points dictionary as Layer 3A's
+native Hopf points, so that the comparison is the identity on points. The minimal derived affine
+group, its homomorphism to `G_sc(ℂ[t, t⁻¹])` and its central kernel (8.2–8.3) are KacMoody's and
+enter nothing here.
 
 ## How to read the build
 
@@ -919,7 +940,9 @@ assumed.
 
 On `D_R×` the continuous relative 1-form module has rank one, so its relative curvature vanishes.
 Prove regular formal horizontal trivialization by coefficient recursion in characteristic zero,
-including all `R`-families and morphisms. With the left gauge `regularGauge`,
+including all `R`-families and morphisms (for `G`-bundles over `ℂ`-algebras `R`: Frenkel–Gaitsgory,
+Lemma 4.4.2, p. 40, in the form stated at the start of its proof, p. 41; the `ℚ`-algebra form here
+is the same coefficient recursion). With the left gauge `regularGauge`,
 `g·A = gAg⁻¹ − (dg/dt)g⁻¹` on `R[[t]]`-matrices over a `ℚ`-algebra `R`,
 `regularGauge_constantCoeff_bijective` states that taking the constant term is a bijection from
 gauge transformations carrying `A` to `B` onto `GL_n(R)`; the proof is the recursion
@@ -1064,9 +1087,13 @@ morphisms by dual-number points, compatible with the native convolution tangent 
   stage `LG_(≤N)`, which contains `t^M` only for `M ≤ N`: both bounds enter the presentation.
 - For `R = k` and `S = k[x]`, `Σ_(n≥0) x^n t^n ∈ S((t))` is not in `S ⊗_k k((t))`; the descent
   overlap `(S ⊗_R S)((t))` is likewise larger than `S((t)) ⊗_(R((t))) S((t))`.
-- For `R = S` the descent datum is the identity and the equivalence is the identity; for
-  `S = R × R` it is the statement that a module is determined by its two restrictions and the
-  identification on the empty overlap of the two factors.
+- For `R = S` the descent datum is the identity and the equivalence is the identity. For the
+  diagonal `R → S = R × R`, `S ⊗_R S ≅ R⁴` through the idempotents `e_i ⊗ e_j` and a module over
+  `S((t)) = R((t)) × R((t))` is a pair `(M₁, M₂)`; the descent isomorphism has a component
+  `M_j ≃ M_i` at each `e_i ⊗ e_j`, and the cocycle condition makes the diagonal components
+  identities and the off-diagonal ones mutually inverse. So a descent datum is an isomorphism
+  `M₁ ≃ M₂`, and the descended module is `M₁`. For `R ≠ 0` the pair `(R((t)), 0)` admits none; a
+  criterion treating the off-diagonal components as an empty overlap would descend it.
 
 *Needs:* §1.3; §3.1; SchemeAndStackFoundations §1.1; ReductiveGroups Layer 1.
 
@@ -1101,10 +1128,14 @@ composite `h` after `g` is `hg` (Frenkel–Gaitsgory, §4.3, (4.5), p. 39: the a
 `Conn_G(D×) × G((t))` of the gauge action, there over `ℂ`). Its fpqc stackification on coefficient
 algebras is `Loc_G(D×)` (Frenkel, §1.2.6, (1.2-7), p. 18, the set of gauge classes over `ℂ`).
 Identify its objects intrinsically as relative connections on torsors trivializable after a
-coefficient-ring fpqc cover (Frenkel–Gaitsgory, §1.1, p. 16, for `R`-families of torsors on `D×`
-locally trivial over `Spec R`). Construct the groupoid of all `G`-torsors with relative connection
-over `F_R` using Layer 2, and the comparison functor; prove full faithfulness and the stated
-essential-image criterion. Prove that torsors extending to `O_R` are in this image for smooth
+coefficient-ring fpqc cover. Frenkel–Gaitsgory (§1.1, p. 16) require an `R`-family of `G`-bundles
+on `D×` to be locally trivial in the étale topology of `Spec R`. Torsors trivialized after an
+étale cover form a full subgroupoid of the fpqc class used here, since a finite jointly surjective
+family of étale maps `R → R_i` makes `R → ∏ R_i` faithfully flat and
+`(∏ R_i)((t)) = ∏ R_i((t))`. The fpqc class matches §3.2's coefficient descent; the comparison of
+the two classes over a general `R` is not used. Construct the groupoid of all `G`-torsors with
+relative connection over `F_R` using Layer 2, and the comparison functor; prove full faithfulness
+and the stated essential-image criterion. Prove that torsors extending to `O_R` are in this image for smooth
 `G` by formal lifting after trivializing their `t = 0` fibre. Layer 6 proves the all-torsor
 comparison on `ℂ`-points. Ordinary fpqc local triviality over `Spec F_R` is not by itself the
 coefficient-cover criterion over `Spec R`. Prove stabilizers equal horizontal automorphisms, and
@@ -1294,9 +1325,14 @@ and prove uniqueness of dominant orbit representatives.
   `λ ↦ t^(−λ)` would send the polynomial class of `t` to the formal class of `t⁻¹` and fail the
   compatibility.
 - `G = SL₂`: `Y = ℤα^∨ = Q^∨`, `Y/Q^∨ = 0`, and RG2.4.1's Check `sl2_eq_affineWeyl` gives
-  `W̃ = W_a` infinite dihedral with `Ω = 1`; `G = PGL₂`: `Y = ℤ(α^∨/2)`, `Y/Q^∨ = ℤ/2`, and the
-  class of `diag(t, 1)` is the nontrivial element of `Ω`, as in RG2.1's non-example
-  `AffineWeylGroup.not_all_of_N`; `G = GL_n`: the determinant leaves `Y/Q^∨ = ℤ`.
+  `W̃ = W_a` infinite dihedral with `Ω = 1`; `G = GL_n`: the determinant leaves `Y/Q^∨ = ℤ`.
+- `G = PGL₂`: `Y = ℤ(α^∨/2)` and `Y/Q^∨ = ℤ/2`. The class of `diag(t, 1)` is not in `W_a` (RG2.1's
+  non-example `AffineWeylGroup.not_all_of_N`) and maps to the nontrivial element of
+  `W̃/W_a ≅ Ω ≅ Y/Q^∨`, but it has length `|α(α^∨/2)| = 1` and is not in `Ω`: it conjugates
+  `[[a, b], [c, d]]` to `[[a, tb], [c/t, d]]`, sending `[[1, 0], [t, 1]] ∈ I_form(ℂ)` to
+  `[[1, 0], [1, 1]] ∉ I_form(ℂ)`. The nontrivial element of `Ω` is the class of `[[0, 1], [t, 0]]`,
+  which conjugates `[[a, b], [c, d]]` to `[[d, c/t], [tb, a]]`, in `I_form(ℂ)` exactly when
+  `c ∈ tℂ[[t]]`, so it normalizes `I_form(ℂ)`; its image in `Y/Q^∨` is the class of `α^∨/2`.
 - `(λ, w)(μ, v)(ν, u) = (λ + wμ + wvν, wvu)` in both bracketings; the factor order `W ⋉ Y` has
   `(w, λ)(v, μ) = (wv, v⁻¹λ + μ)`, a different formula for the same group.
 - `n_w t^λ n_w⁻¹ = t^(wλ)`: for `SL₂`, `n = [[0, 1], [−1, 0]]` and `t^λ = diag(t, t⁻¹)` give
@@ -1320,14 +1356,35 @@ actual ind-scheme quotients. Its omitted nodes are the extending nodes, one per 
 component. It is a maximal standard parabolic in the irreducible affine root setting; for a product
 with multiple nontrivial derived components it is not maximal in the full product, and a root-free
 torus has no extending node. Do not infer arbitrary-ring generation of all `G(R[t])` from this
-complex-point statement. KacMoody KM8A compares its separately constructed untwisted minimal group
-with these polynomial loops; that comparison is KacMoody's, and nothing here consumes it.
+complex-point statement. KacMoody 8.1 proves the root bounds, the conjugation formula and this
+generation statement for the pinned simply connected simple group on complex points; here they
+are stated for every connected reductive `G`, and the root bounds and conjugation formula over
+every `R`.
+
+Compare with KacMoody Layer 8. Let `G_sc` be the pinned simply connected simple group of
+ReductiveGroups Layer 9, base-changed to `ℂ` with its pinning, as the `G` of this layer. Prove that
+`L_poly G_sc(ℂ)`, `L_poly⁺G_sc(ℂ)`, the evaluation `ev₀`, `I_poly(ℂ)` and the root elements
+`x_α(u t^n)` are KacMoody 8.1's `G_sc(ℂ[t, t⁻¹])`, `G_sc(ℂ[t])`, `ev_0`, `I` and root elements,
+by the identity on points through ReductiveGroups Layer 0's Hopf/scheme-points dictionary; so the
+root bounds, the conjugation formula and the generation of `G(ℂ[t])` above specialize at
+`G = G_sc`, `R = ℂ` to KacMoody 8.1's, and the index set `W_aff` of KacMoody 8.1's affine Bruhat
+decomposition is §3A.3's `Q^∨ ⋊ W`, which equals `Y ⋊ W` because `Y = Q^∨` for `G_sc`. For a
+product of such groups identify factor by factor. For a connected reductive `G`, prove that the
+map `L_poly G̃(ℂ) → L_poly G(ℂ)` induced by the simply connected cover `G̃ → G_der ⊂ G` of the
+derived group, a product of such `G_sc`, is KacMoody 8.4's induced map, and that KacMoody 8.4's
+component map to `Y/Q^∨`, restricted to `N_G(T)(ℂ[t, t⁻¹])`, is the quotient map to §3A.3's
+`Y ⋊ W` followed by its component map `Y ⋊ W → Y/Q^∨`. No other target of this layer consumes
+this comparison.
 
 - `I_poly` and `I_form` are subgroup functors with `I_poly = I_form ∩ G(R[t])` inside `G(R((t)))`.
-- `x_α(u t^n) ∈ I` iff `n ≥ 0` for `α > 0`, iff `n ≥ 1` for `α < 0`;
+- For `u ≠ 0`, `x_α(u t^n) ∈ I` iff `n ≥ 0` for `α > 0`, iff `n ≥ 1` for `α < 0`;
   `t^λ x_α(u t^n) t^(−λ) = x_α(u t^(n + α(λ)))`.
 - The real roots of the loop algebra of an irreducible component are `{α + nδ}`, with simple
   affine roots the finite simple roots and `−θ + δ`.
+- For `G = G_sc` simply connected and simple, the identity on points identifies `L_poly G(ℂ)`,
+  `L_poly⁺G(ℂ)`, `ev₀`, `I_poly(ℂ)` and `x_α(u t^n)` with KacMoody 8.1's `G_sc(ℂ[t, t⁻¹])`,
+  `G_sc(ℂ[t])`, `ev_0`, `I` and root elements; for connected reductive `G`, KacMoody 8.4's
+  component map on `N_G(T)(ℂ[t, t⁻¹])` factors through §3A.3's `Y ⋊ W → Y/Q^∨`.
 
 **Checks.**
 
@@ -1336,8 +1393,21 @@ with these polynomial loops; that comparison is KacMoody's, and nothing here con
 - `t^λ = diag(t, t⁻¹)` conjugates `[[1, u], [0, 1]]` to `[[1, t² u], [0, 1]]`, so `α(λ) = 2`.
 - `G = SL₂ × SL₂`: two extending nodes; omitting only one gives a parabolic that is not maximal in
   the product. `G = 𝔾_m`: no roots, `I = G(R[t])`.
+- KacMoody comparison, `G = SL₂`: KacMoody 8.1's Iwahori is the set of `[[a, b], [c, d]]` in
+  `SL₂(ℂ[t])` with `c(0) = 0`, and `I_poly(ℂ)` is the set whose constant term is upper triangular;
+  both contain `[[1, 0], [t, 1]]` and neither contains `[[0, 1], [−1, 0]]`. An identification
+  through the inverse coordinate `t ↦ t⁻¹` would send `[[1, 0], [t, 1]]` to `[[1, 0], [t⁻¹, 1]]`,
+  which is not in `SL₂(ℂ[t])`: the comparison is the identity on coefficients.
+- KacMoody comparison, `G = PGL₂`: `diag(t, 1)` is not in the image of the `SL₂` loop group, since a
+  scalar multiple `c·diag(t, 1)`, `c = a t^m ∈ ℂ[t, t⁻¹]ˣ`, has determinant `a² t^(2m+1) ≠ 1`; §3A.3's
+  component map sends its class `(α^∨/2, 1)` to the generator of `Y/Q^∨ = ℤ/2`, matching
+  KacMoody 8.4's Check that this image is the identity component.
+- KacMoody comparison, `G = GL₂`: `diag(t, 1)` and `diag(1, t)` both go to `1 ∈ Y/Q^∨ = ℤ`, the
+  `t`-order of the determinant, since `e₁ − e₂ = α^∨ ∈ Q^∨`; a map reading the `t`-order of the
+  first diagonal entry alone separates them and is not a component map.
 
-*Needs:* §3A.3; ReductiveGroups Layers 7, 9; RootSystems.
+*Needs:* §3A.3; ReductiveGroups Layers 0, 6, 7, 9; RootSystems; KacMoody 8.1 and 8.4 for the
+comparison only.
 
 ### 3A.5 Loop Grassmannian, affine flags and the Cartan decomposition (F3A.5)
 
@@ -1476,8 +1546,9 @@ ReductiveGroups and RootSystems, then §3A.5's lattice Grassmannian, flag geomet
 form of ReductiveGroupsPartII's decompositions, then §3A.6's positive-orbit comparison. The
 semilocal torsor lemmas are
 constructed independently of the desired polynomial quotient theorem. Layer 6's affine-Springer
-cycle/oper argument consumes these exports; no oper-reduction, critical-centre,
-representation-category or KacMoody group-comparison return edge supplies them.
+cycle/oper argument consumes these exports; no oper-reduction, critical-centre or
+representation-category return edge supplies them, and KacMoody Layer 8 enters only §3A.4's
+comparison target, which no other target here consumes.
 
 ### Examples
 
@@ -1489,8 +1560,8 @@ explicit polynomial-times-positive factorization; the `SL₂` quadric-cone Schub
 ### Dependencies
 
 Layers 1–3, ReductiveGroups Layers 1, 4, 6, 6B, 7, 9, ReductiveGroupsPartII RG2.1, RG2.3 and
-RG2.4, RootSystems, SchemeAndStackFoundations §§1.14–1.18 and FormalLaurentPuiseux L1. Nothing
-from Layer 6, KacMoody or AffineLieAlgebras.
+RG2.4, RootSystems, SchemeAndStackFoundations §§1.14–1.18, FormalLaurentPuiseux L1, and
+KacMoody 8.1 and 8.4 for §3A.4's comparison only. Nothing from Layer 6 or AffineLieAlgebras.
 
 ## Layer 4: intrinsic opers and the Drinfeld–Sokolov/Kostant slice (F4)
 
@@ -1515,8 +1586,10 @@ condition on its derived-root directions and retain the central connection direc
 
 - `PGL₂`: `d + [[a, b], [ψ, c]] dt` is an oper for the standard Borel iff `ψ` is a unit; `ψ = t`
   over `ℂ((t))` qualifies, `ψ = t` over `ℂ[[t]]` does not, and `ψ = 0` never does.
-- The sheaf condition is fpqc-local: for `R = ℂ[ε]/ε²` the series `ψ = ε + t⁻¹` is a unit of
-  `R((t))`; the unit condition is tested in `R((t))`, not in `(R/ε)((t))` alone.
+- `R = ℂ[ε]/ε²`: `ψ = 1 + εt⁻¹` is a unit of `R((t))` with inverse `1 − εt⁻¹`, although its
+  lowest coefficient, the coefficient `ε` of `t⁻¹`, is not a unit of `R`; a transversality test
+  asking for an invertible lowest coefficient wrongly rejects it. The constant `ψ = ε` is rejected
+  by both tests, and `ψ = ε + t⁻¹`, with lowest coefficient `1`, is accepted by both.
 - A torus has no roots and every connection with its unique Borel reduction is an oper (§4.4).
 
 *Needs:* §§3.3–3.4; §2.3; ReductiveGroups Layers 7, 9.
@@ -1797,26 +1870,37 @@ Tau Ceti counit derivations, characteristic-zero smoothness, the point topology 
 
 ### 4.4 Regular and punctured opers; central isogenies (F4.4)
 
-Construct `Op_G(D)` and `Op_G(D×)` as their regular and punctured coefficient functors and
-identify them with the intrinsic moduli for adjoint `G` (Frenkel–Gaitsgory, *Local geometric
-Langlands correspondence and affine Kac–Moody algebras*, §1). Prove the regular inclusion is a
-monomorphism and a closed immersion into every applicable pole-bound stage. Include product groups
-and tori. For a semisimple central isogeny `G → G_ad`, construct the forgetful functor of
-intrinsic oper groupoids and identify its fibre over an adjoint oper with lifts of its underlying
-connection and Borel reduction; build the obstruction gerbe and its band `Z(G)`, and the action
-of the Picard groupoid of `Z(G)`-torsors on its lifts when nonempty. For reductive `G` the
-projection `G → G_ad` has possibly positive-dimensional centre: construct the lifting obstruction
+Write `Op_G(D)` and `Op_G(D×)` for the intrinsic oper groupoids of §4.1 over the disc and the
+punctured disc. Construct the Drinfeld–Sokolov coefficient functors `Op^DS_G(D)` and
+`Op^DS_G(D×)`, regular and punctured, each with only identity arrows: for adjoint semisimple `G`,
+`R ↦ V_can ⊗ R[[t]]` and `R ↦ V_can ⊗ F_R` through §4.3's normal form; for a torus `T`,
+`R ↦ 𝔱 ⊗ O_R dt` and `R ↦ 𝔱 ⊗ F_R dt`; for a product of such groups, the product. Construct the
+comparison functors `Op^DS_G → Op_G`, and prove that for adjoint `G` they are equivalences, the
+intrinsic groupoids having only identity automorphisms (Frenkel–Gaitsgory, *Local geometric
+Langlands correspondence and affine Kac–Moody algebras*, §1: Lemma 1.1.2, p. 15, and
+Proposition 1.3.1 with Corollary 1.3.2, p. 17). Layers 5–8, which take `G` adjoint, write
+`Op_G(D×)` for both. Prove the regular inclusion is a monomorphism and a closed immersion into
+every applicable pole-bound stage. For a semisimple central isogeny `G → G_ad`, construct the
+forgetful functor of intrinsic oper groupoids and identify its fibre over an adjoint oper with
+lifts of its underlying connection and Borel reduction; build the obstruction gerbe and its band
+`Z(G)`, and the action of the Picard groupoid of `Z(G)`-torsors on its lifts when nonempty. For
+reductive `G` the projection `G → G_ad` has possibly positive-dimensional centre: construct the lifting obstruction
 with central connection data. When that obstruction vanishes, identify the nonempty lift groupoid
 as a torsor under central torsors with connection, with horizontal `Z(G)` as its automorphism
 band. Prove horizontal central automorphisms are the stabilizers of a lift. A torus oper is
 exactly a torus connection. This comparison never replaces the intrinsic nonadjoint oper stack by
 an adjoint coefficient set.
 
-- `Op_G(D)(R) ⊂ Op_G(D×)(R)` is the locus of Drinfeld–Sokolov coordinates in `R[[t]]`, a closed
-  immersion into each stage `Op_(≤N)` of Layer 5.
+- For adjoint `G`, `Op_G(D)(R) ⊂ Op_G(D×)(R)` is the locus of Drinfeld–Sokolov coordinates in
+  `R[[t]]`, a closed immersion into each stage `Op_(≤N)` of Layer 5.
 - The fibre of `Op_G(D×) → Op_(G_ad)(D×)` over a point, when nonempty, is a torsor under the
   groupoid of `Z(G)`-torsors with connection over `D_R×`, with automorphisms the horizontal `Z(G)`.
-- For a torus `T`, `Op_T(D×)(R) = 𝔱 ⊗ F_R dt` with the trivial groupoid structure.
+- For a torus `T`, the coefficient functor `Op^DS_T(D×)(R) = 𝔱 ⊗ F_R dt` has only identity
+  arrows, while the intrinsic groupoid `Op_T(D×)` is `Loc_T(D×)` of §3.4: its arrows between
+  objects on the trivial torsor are the gauges `A ↦ A − dlog g`, `g ∈ T(F_R)`, and the automorphism
+  group of each object is `T(R)`, the horizontal gauges. The comparison functor
+  `Op^DS_T(D×) → Op_T(D×)` is faithful and not full, and its essential image is the connections on
+  torsors trivial over `F_R`.
 
 **Checks.**
 
@@ -1828,8 +1912,12 @@ an adjoint coefficient set.
   so both are opers on `D×`; only the first is regular.
 - Over `ℂ[[t]]` every `μ₂`-torsor is trivial, so a regular `PGL₂`-oper has a unique regular
   `SL₂`-lift up to isomorphism.
-- `T = 𝔾_m`: `Op_T(D×)(R) = F_R dt`, and `Op_T(D)(R) = O_R dt` is the closed subfunctor of series
-  with no polar part.
+- `T = 𝔾_m`, `R = ℂ`: in `Op^DS_T(D×)(ℂ) = ℂ((t)) dt` the objects `0` and `−t⁻¹ dt` are distinct
+  with no arrow between them, while in `Op_T(D×)(ℂ)` the gauge `g = t` carries `d` to
+  `d − t⁻¹ dt` (§3.3's `gauge(t, A) = A − t⁻¹`) and `Aut(d) = ℂˣ` (§3.4's Checks). This agrees with
+  the second bullet at `G = T`, `G_ad = 1`; giving the intrinsic torus groupoid only identity
+  arrows would contradict it. `Op^DS_T(D)(R) = O_R dt` is the closed subfunctor of series with no
+  polar part.
 
 *Needs:* §§4.1–4.3; §3.4; ReductiveGroups Layer 6; SchemeAndStackFoundations §§1.14–1.18 for the
 gerbe and Picard groupoid.
@@ -2599,7 +2687,7 @@ dimensions.
 
 Restrict to regular opers, prove every punctured horizontal isomorphism between regular
 connections extends uniquely to the disc, and identify this regular groupoid with the 2-fibre
-product over `BG` of fibres at `t = 0` (Frenkel–Gaitsgory, §4.4, Lemma 4.4.2).
+product over `BG` of fibres at `t = 0` (Frenkel–Gaitsgory, §4.4, Lemma 4.4.2, p. 40, proof p. 41).
 Identify its Lie algebroid with §7.4's conormal Lie–Rinehart algebroid through the
 residue/negative-label comparison of §8.2, and preserve the anchor, bracket and stabilizers. No
 simply-connected integration hypothesis is inserted into this formal algebraic construction.
@@ -2636,9 +2724,9 @@ scalar. The form on the dual Cartan is the inverse of `κ₀` on the original Ca
 `κ₀(h, h) = 2` and the normalized Segal–Sugawara generator `S = (1/2) Σ :J^a J_a:` (Frenkel,
 (2.1-9), p. 37) must map modewise to `L_n = Res(t^(n+1) q dt)`, giving the displayed `−1/2`
 central term, the Virasoro relation of Frenkel, (3.1-3), p. 66, at central charge `−6`. The
-exported continuous cotangent algebroid is the one of Frenkel–Gaitsgory, §4.3, Lemma 4.3.1, p. 39,
-over the coefficient field `k`. Layer 7 is constructed independently of that comparison so the two
-roadmaps have no dependency cycle.
+exported continuous cotangent algebroid is the one of Frenkel–Gaitsgory, §4.3, Lemma 4.3.2, p. 39
+(proof p. 40), over the coefficient field `k`. Layer 7 is constructed independently of that
+comparison so the two roadmaps have no dependency cycle.
 
 **Checks.**
 
@@ -2676,7 +2764,7 @@ GeometricRepresentationCategories.
   `IsomOp` and its cotangent Lie-algebroid comparison. R3 uses the continuous-character
   classification of §5.2; R4 states the complex-point categorical-lift conjecture as a coherent
   action on the central-character categories along `IsomOp(ℂ)`, commuting with the original
-  `G((t))` action, including units and composition (Frenkel, Conjecture 10.1.2, p. 310); R5
+  `G((t))` action, including units and composition (Frenkel, Conjecture 10.1.2, p. 311); R5
   separately states the relative/infinitesimal Artinian-complex-algebra refinement
   and its differentiation question, consuming §8.2's source-fixed tangent and mixed-commutator
   supplier. Relative base-change constraints are part of that refinement, not silently included in
@@ -2691,10 +2779,6 @@ GeometricRepresentationCategories.
 - **SchubertGeometry** consumes §2.4's fixed-model manifold on `X^an` for a separated smooth
   finite-type `ℂ`-scheme `X`, with the identification of its holomorphic function sheaf with
   ComplexComparisonPartII C−1.1's analytic ring sheaf, specialized to its flag and word schemes.
-- **KacMoody KM8A** consumes Layer 3A's polynomial and formal loop functors, Iwahori and positive
-  subgroups, full-cocharacter normalizer quotients, the lattice form of the loop Cartan
-  decomposition and the positive-orbit comparison, and compares its
-  minimal derived affine group with them.
 - **§6.2** is the owner of the cyclic-vector theorem at the generality of differential fields of
   characteristic zero with nonzero derivation. PadicDifferentialEquationsAndRigidCohomology,
   later in the merge order, states it in §§RD.1.2–RD.1.7 for its `p`-adic differential fields and
@@ -2744,10 +2828,13 @@ GeometricRepresentationCategories.
   realization), §§8.2–8.3 (Miura opers, screenings, the Drinfeld–Sokolov Poisson structure),
   §10.1 (opers versus local systems).
 - E. Frenkel and D. Gaitsgory, [*Local geometric Langlands correspondence and affine Kac–Moody
-  algebras*](https://arxiv.org/abs/math/0508382v3), v3: §1 (opers; Corollary 1.3.2, p. 17,
+  algebras*](https://arxiv.org/abs/math/0508382v3), v3: §1 (opers; Lemma 1.1.2, p. 15, opers of an
+  adjoint group have no automorphisms; §1.1, p. 16, `R`-families of bundles on `D×`, étale-locally
+  trivial on `Spec R`; Proposition 1.3.1 and Corollary 1.3.2, p. 17, canonical representatives and
   representability of the regular and punctured oper functors), §4 (the isomonodromy groupoid,
   its tangent and cotangent algebroids, Drinfeld–Sokolov reduction, regular opers; Lemmas 4.3.1
-  and 4.3.2, p. 39), §19 (Tate vector bundles on ind-schemes; §19.1, pp. 110–111, the three
+  and 4.3.2, p. 39; Lemma 4.4.2, pp. 40–41, regular connections and their fibres at the origin),
+  §19 (Tate vector bundles on ind-schemes; §19.1, pp. 110–111, the three
   completed tensor products).
 - E. Frenkel and X. Zhu, [*Any flat bundle on a punctured disc has an oper structure*](https://arxiv.org/abs/0811.3186),
   Math. Res. Lett. 17 (2010): Theorem 1, Theorem 4, §5 Lemma 10, the reductive theorem and the

@@ -62,7 +62,10 @@ def regularGauge (R : Type u) [CommRing R] (n : Type) [Fintype n] [DecidableEq n
     (g : Matrix n n R⟦X⟧).map (fun f => PowerSeries.derivative (R := R) f) *
       ((g⁻¹ : Matrix.GeneralLinearGroup n R⟦X⟧) : Matrix n n R⟦X⟧)
 
-/-- **Regular formal connections are determined by their fibre at `t = 0`** (README F2.4): over
+/-- **Regular formal connections are determined by their fibre at `t = 0`** (README F2.4; for
+`G`-bundles over `ℂ`-algebras, Frenkel–Gaitsgory, *Local geometric Langlands correspondence and
+affine Kac–Moody algebras*, Lemma 4.4.2, p. 40, in the form stated at the start of its proof,
+p. 41; the `ℚ`-algebra form is the same coefficient recursion): over
 a `ℚ`-algebra `R`, possibly nonreduced, for any two connection matrices `A`, `B` over `R⟦t⟧`,
 taking the constant term is a bijection from gauge transformations carrying `A` to `B` onto
 `GL_n(R)`. With `B = 0` this is the existence and uniqueness of a horizontal frame with
