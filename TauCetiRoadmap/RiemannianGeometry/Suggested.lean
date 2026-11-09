@@ -7,6 +7,7 @@ public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvatu
 public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.ExteriorSquare
 public import TauCeti.Geometry.Manifold.Riemannian.Geodesic.HopfRinow
 public import TauCeti.Geometry.Manifold.Riemannian.Jacobi.Basic
+public import TauCeti.Geometry.Manifold.Riemannian.Jacobi.Conjugate
 public import TauCeti.Analysis.SpecialFunctions.Trigonometric.Curvature
 public import TauCeti.Geometry.Manifold.DeRham.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
@@ -23,14 +24,17 @@ public import TauCeti.Analysis.MvPolynomial.Sphere
 
 **This file is not the roadmap.** The roadmap is `README.md`; this file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, with only
-the two simple definitions those headlines need: the model ball volume `modelBallVolume` and the
-graph parametrization `paraboloidGraph`. Jacobi fields are Tau Ceti's
-`TauCeti.Manifold.IsJacobiFieldOn` and the comparison model is Tau Ceti's `TauCeti.curvatureSine`.
+the four simple definitions those headlines need: the predicate `IsEndpointZeroSmoothSection` and
+the integral `indexForm` of the Morse index theorem, the model ball volume `modelBallVolume` and
+the graph parametrization `paraboloidGraph`. Jacobi fields and conjugate multiplicity are Tau
+Ceti's `TauCeti.Manifold.IsJacobiFieldOn` and `TauCeti.Manifold.conjugateMultiplicity`, and the
+comparison model is Tau Ceti's `TauCeti.curvatureSine`.
 
 Statable at the pins and stated here: existence of Jacobi fields with prescribed initial data on
-a compact geodesic interval (R2), the integral homology of the based loop space of a round sphere
-(R3.3), the Rauch comparison under an upper sectional bound (R4.1), Günther's volume comparison
-under an upper sectional bound (R4.1), the Bishop–Gromov relative-volume monotonicity against the
+a compact geodesic interval (R2), the Morse index theorem on smooth endpoint-zero sections (R3),
+the integral homology of the based loop space of a round sphere (R3.3), the Rauch comparison
+under an upper sectional bound (R4.1), Günther's volume comparison under an upper sectional
+bound (R4.1), the Bishop–Gromov relative-volume monotonicity against the
 model of curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the
 finiteness of the fundamental group (R4.5), Synge's theorem in its even-dimensional and
 odd-dimensional forms (R4.6), the three cases of the Killing–Hopf classification of simply
@@ -68,15 +72,17 @@ of an embedding with its open natural domain and smoothness (R6); the scalar Boc
 and the Lichnerowicz eigenvalue bound (R7.0); and the Fischer decomposition of homogeneous
 polynomials (R8.1).
 
-Not statable at the pins, hence not stated: the Morse index theorem (R3) and its focal-point
-version (R6), which need the index form on continuous piecewise `C¹` sections of `γ*TM`, which
-has no carrier at the pin; the Gauss, Codazzi and Ricci equations and the first and second
-variation of volume (R5a, R5b), which need the second fundamental form of an isometric immersion
-between manifolds, hence the pullback ambient connection, absent at the pin; the vanishing of de
-Rham cohomology under a positive Weitzenböck term `ℛ_p` and the parallelism of harmonic forms
-under a nonnegative one (R7.6), which need the Weitzenböck curvature term on `p`-forms, absent at
-the pin; and Takahashi's eigenmap theorem (R8.4), which needs the mean curvature of an isometric
-immersion into a round sphere, absent at the pin.
+Not statable at the pins, hence not stated: the focal-point version of the Morse index theorem
+(R6), whose index form carries the boundary term `⟨S_(γ′(a))X(a), Y(a)⟩` of the shape operator of
+an immersed submanifold of a Riemannian manifold, absent at the pin (Tau Ceti's
+`TauCeti.shapeOperator` is that of a map into an inner-product space); the Gauss, Codazzi and
+Ricci equations and the first and second variation of volume (R5a, R5b), which need the second
+fundamental form of an isometric immersion between manifolds, hence the pullback ambient
+connection, absent at the pin; the vanishing of de Rham cohomology under a positive Weitzenböck
+term `ℛ_p` and the parallelism of harmonic forms under a nonnegative one (R7.6), which need the
+Weitzenböck curvature term on `p`-forms, absent at the pin; and Takahashi's eigenmap theorem
+(R8.4), which needs the mean curvature of an isometric immersion into a round sphere, absent at
+the pin.
 -/
 
 @[expose] public section
@@ -106,6 +112,70 @@ theorem exists_jacobi_initial_data {γ : ℝ → M} {a b : ℝ} (hab : a < b)
     ∃ X : ∀ t, TangentSpace I (γ t),
       TauCeti.Manifold.IsJacobiFieldOn I γ X (Icc a b) ∧ X a = u ∧
       (CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ X (Icc a b) a = v := by
+  sorry
+
+/-! ## Layer 3: The Morse index theorem -/
+
+/-- R3: `X` is a smooth section of `γ*TM` over `[a, b]` vanishing at both ends: its lift
+`t ↦ (γ t, X t)` to the tangent bundle is smooth on `[a, b]`, and `X a = 0` and `X b = 0`. -/
+def IsEndpointZeroSmoothSection (γ : ℝ → M) (a b : ℝ) (X : ∀ t, TangentSpace I (γ t)) : Prop :=
+  ContMDiffOn 𝓘(ℝ, ℝ) I.tangent ∞ (fun t ↦ TotalSpace.mk' E (γ t) (X t)) (Icc a b) ∧
+    X a = 0 ∧ X b = 0
+
+/-- R3: the index form `I(X, Y) = ∫ₐᵇ ⟨D_tX, D_tY⟩ − ⟨R(X, γ′)γ′, Y⟩` of `γ` on `[a, b]`, the
+covariant derivatives along `γ` and the velocity `γ′` taken within `[a, b]`. With Tau Ceti's
+curvature convention `R(X,Y)Z = [∇_X,∇_Y]Z − ∇_[X,Y]Z` and Jacobi equation `D_t²J + R(J,γ′)γ′ = 0`,
+integration by parts identifies its kernel on endpoint-zero sections with the endpoint-zero Jacobi
+fields. Along a unit-speed geodesic of the unit sphere and for `X = f E` with `E` a parallel unit
+normal field it is `∫ₐᵇ f′² − f²`. -/
+def indexForm (γ : ℝ → M) (a b : ℝ) (X Y : ∀ t, TangentSpace I (γ t)) : ℝ :=
+  ∫ t in a..b,
+    (inner ℝ ((CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ X (Icc a b) t)
+        ((CovariantDerivative.leviCivitaConnection I M).alongCurveWithin γ Y (Icc a b) t) -
+      inner ℝ ((CovariantDerivative.leviCivitaConnection I M).curvatureTensor (γ t) (X t)
+        (TauCeti.Manifold.curveVelocityWithin I γ (Icc a b) t)
+        (TauCeti.Manifold.curveVelocityWithin I γ (Icc a b) t)) (Y t))
+
+/-- R3, the Morse index theorem: along a geodesic `γ` on `[a, b]`, `a < b`, the index of the index
+form on smooth sections vanishing at both ends, the largest `k` for which some `k` such sections
+satisfy `indexForm γ a b Z Z < 0` for every nonzero linear combination `Z` of them, exists and is
+the sum, over the parameters `t` strictly between `a` and `b`, of the multiplicity
+`TauCeti.Manifold.conjugateMultiplicity` of `t` as a conjugate parameter of `a`; these parameters
+are finitely many. Smooth endpoint-zero sections are dense for the `H¹` norm among the continuous
+piecewise `C¹` ones, the form is `H¹`-continuous and negative definiteness of a finite family is
+an open condition, so this is also the index on continuous piecewise `C¹` sections, the setting of
+Milnor, *Morse Theory*, Theorem 15.1, p. 83. The endpoint `b` contributes nullity, not index: on a
+unit great circle of the sphere `Sⁿ` the sum is empty for `[0, π]` and is `n − 1`, from the
+conjugate parameter `π`, for `[0, 3π/2]`. -/
+theorem morse_index {γ : ℝ → M} {a b : ℝ} (hab : a < b)
+    (hγ : TauCeti.Manifold.IsGeodesicCurveOn I γ (Icc a b)) :
+    IsGreatest {k : ℕ | ∃ X : Fin k → (∀ t, TangentSpace I (γ t)),
+        (∀ i, IsEndpointZeroSmoothSection γ a b (X i)) ∧
+        ∀ c : Fin k → ℝ, c ≠ 0 → indexForm γ a b (∑ i, c i • X i) (∑ i, c i • X i) < 0}
+      (∑ᶠ t ∈ Ioo a b,
+        TauCeti.Manifold.conjugateMultiplicity hγ isPreconnected_Icc (left_mem_Icc.2 hab.le) t) :=
+    by
+  sorry
+
+/-! ## Layer 3: Loop spaces of round spheres -/
+
+/-- R3.3: for `n ≥ 2` and a point `p` of the unit sphere `Sⁿ ⊂ ℝⁿ⁺¹`, the integral singular
+homology of the based loop space `ΩSⁿ`, the space `Path p p` of loops at `p` with the
+compact-open topology, is `ℤ` in every degree divisible by `n − 1` and zero in every other degree.
+For `n = 2` it is `ℤ` in every degree. Hatcher, *Algebraic Topology*, Theorem 4J.1, p. 471, makes
+`ΩΣX` weakly equivalent to the James reduced product `J(X)` for a connected CW complex `X`, here
+`X = Sⁿ⁻¹` with `ΣSⁿ⁻¹ = Sⁿ`, and Proposition 3C.8, p. 288, makes `H_*(J(X); ℤ)` the tensor
+algebra on `H̃_*(X; ℤ)` when `H_*(X; ℤ)` is free, here `ℤ` in degree `n − 1`. The bound `2 ≤ n`
+is needed: the loop space of the circle has one contractible component for each winding number,
+so its degree-zero homology is free of countably infinite rank, not `ℤ`. -/
+theorem singularHomology_loopSpace_sphere {n : ℕ} (hn : 2 ≤ n) (i : ℕ)
+    (p : Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) :
+    (n - 1 ∣ i → Nonempty
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
+        (ModuleCat.of ℤ ℤ)).obj (TopCat.of (Path p p)) ≅ ModuleCat.of ℤ ℤ)) ∧
+    (¬ n - 1 ∣ i → CategoryTheory.Limits.IsZero
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
+        (ModuleCat.of ℤ ℤ)).obj (TopCat.of (Path p p)))) := by
   sorry
 
 /-! ## Layer 4: Rauch comparison -/
@@ -160,24 +230,6 @@ theorem synge_orientable_of_odd [ConnectedSpace M] [CompactSpace M]
   sorry
 
 end Intrinsic
-
-/-! ## Layer 3: Loop spaces of round spheres -/
-
-/-- R3.3: for `n ≥ 2` and a point `p` of the unit sphere `Sⁿ ⊂ ℝⁿ⁺¹`, the integral singular
-homology of the based loop space `ΩSⁿ`, the space `Path p p` of loops at `p` with the
-compact-open topology, is `ℤ` in every degree divisible by `n − 1` and zero in every other degree.
-For `n = 2` it is `ℤ` in every degree. The bound `2 ≤ n` is needed: the loop space of the circle
-has one contractible component for each winding number, so its degree-zero homology is free of
-countably infinite rank, not `ℤ`. -/
-theorem singularHomology_loopSpace_sphere {n : ℕ} (hn : 2 ≤ n) (i : ℕ)
-    (p : Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) :
-    (n - 1 ∣ i → Nonempty
-      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
-        (ModuleCat.of ℤ ℤ)).obj (TopCat.of (Path p p)) ≅ ModuleCat.of ℤ ℤ)) ∧
-    (¬ n - 1 ∣ i → CategoryTheory.Limits.IsZero
-      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
-        (ModuleCat.of ℤ ℤ)).obj (TopCat.of (Path p p)))) := by
-  sorry
 
 /-! ## Layer 4: Complete manifolds and comparison -/
 
@@ -393,7 +445,11 @@ variable {S : Type*} [TopologicalSpace S]
 graph-induced paraboloid metric, every all-time unit-speed geodesic with nonzero angular
 momentum has infinitely many transverse self-intersections, with crossing radii and times
 tending to infinity. The curve `γ` is the geodesic read in the chart, and the determinant tests
-the two chart velocities. -/
+the two chart velocities. That every nonmeridional geodesic of the paraboloid `z = x² + y²`
+meets itself infinitely often is Wilson, *Differential Geometry, Examples 3* (Cambridge, Lent
+2016), Problem 14, p. 2; this statement adds transversality, crossing times symmetric about the
+turning time and unbounded crossing radii. The route uses Clairaut's relation, Nicolaescu,
+*Lectures on the Geometry of Manifolds*, Theorem 5.1.17, p. 212. -/
 theorem paraboloid_geodesic_crossings
     (e : Diffeomorph (𝓡 2) (𝓡 2) S (EuclideanSpace ℝ (Fin 2)) ∞)
     (hmetric : ∀ x (u v : TangentSpace (𝓡 2) x),
@@ -415,7 +471,14 @@ theorem paraboloid_geodesic_crossings
 
 /-- R5a.3: the vertex is a pole for the graph-induced paraboloid metric: on a surface `S` with a
 global graph chart `e` in which its metric is that metric, the Riemannian exponential at the
-point over the origin is a smooth diffeomorphism from the entire tangent plane. -/
+point over the origin is a smooth diffeomorphism from the entire tangent plane. Along each
+meridian from the vertex the normal Jacobi field vanishing there has length the distance to the
+axis, positive away from the vertex, so the exponential map at the vertex has no critical point;
+on the complete surface it is then a covering map by the argument of Nicolaescu, *Lectures on the
+Geometry of Manifolds*, proof of Theorem 6.2.6, p. 238, where nonpositive curvature serves only to
+exclude critical points, and a covering of the simply connected `S` by the connected tangent plane
+is a diffeomorphism. The positive curvature `K = 4/(1 + 4r²)²` does not prevent this: the round
+sphere of curvature `4` has conjugate points at distance `π/2`. -/
 theorem paraboloid_vertex_pole
     (e : Diffeomorph (𝓡 2) (𝓡 2) S (EuclideanSpace ℝ (Fin 2)) ∞)
     (hmetric : ∀ x (u v : TangentSpace (𝓡 2) x),
@@ -509,7 +572,11 @@ open MvPolynomial
 some degree `d` and is the restriction of a real harmonic homogeneous polynomial of degree `d`.
 For `m = 1` the eigenfunctions are `cos dθ` and `sin dθ` with `λ = d²`. The bound `m ≥ 1` is
 needed: on `S⁰ = {±1}` the Laplacian vanishes, and the function with values `1` and `2` has
-`λ = 0` but is the restriction of neither a constant nor a multiple of `X`. -/
+`λ = 0` but is the restriction of neither a constant nor a multiple of `X`. For `m ≥ 2` this is
+Taylor, *Introduction to Lie Groups*, §8.2: on `Sⁿ⁻¹`, `n = m + 1`, the eigenvalues are
+`−k(k + n − 2)`, (8.2.13), p. 399, and restriction is an isomorphism from the harmonic
+homogeneous polynomials of degree `k` onto the eigenspace, Proposition 8.2.1, p. 399; for `m = 1`
+it is the Fourier basis `e^(ikθ)` of eigenfunctions with eigenvalues `−k²`, (8.2.2), p. 398. -/
 theorem eq_harmonicSphereRestriction_of_laplaceBeltrami_eq_neg_mul {m : ℕ} (hm : 1 ≤ m)
     (f : Metric.sphere (0 : EuclideanSpace ℝ (Fin (m + 1))) 1 → ℝ)
     (hf : ContMDiff (𝓡 m) 𝓘(ℝ, ℝ) ∞ f) (hf0 : f ≠ 0) {lam : ℝ}
@@ -525,7 +592,11 @@ killed by the Euclidean Laplacian `Σ ∂ᵢ²`), form an irreducible representa
 `SO(N)` acting by `(g·p)(x) = p(g⁻¹x)`: a complex subspace of them that every rotation maps into
 itself is zero or all of them. The bound `N ≥ 3` is needed: for `N = 2` and `d ≥ 1` the space is
 spanned by `(x₁ + i x₂)ᵈ` and `(x₁ − i x₂)ᵈ`, which span two invariant lines with the characters
-`e^(∓idθ)` of the rotation by `θ`. -/
+`e^(∓idθ)` of the rotation by `θ`. This is Taylor, *Introduction to Lie Groups*, Proposition
+8.5.1, p. 421, for `SO(N)` acting by `f ↦ f(g⁻¹·)` on the degree-`d` eigenspace of the Laplacian
+of `Sᴺ⁻¹`, under the standing hypothesis `N ≥ 3` of §8.4, p. 415 (the uniqueness of zonal
+harmonics, Proposition 8.4.2), transported to the polynomials by the equivariant restriction
+isomorphism of Proposition 8.2.1, p. 399. -/
 theorem harmonic_irreducible {N : ℕ} (hN : 3 ≤ N) (d : ℕ)
     (W : Submodule ℂ (MvPolynomial (Fin N) ℂ)) (hW : W ≤ harmonicSubmodule (Fin N) ℂ d)
     (hinv : ∀ g : Matrix.specialOrthogonalGroup (Fin N) ℝ, ∀ p ∈ W,

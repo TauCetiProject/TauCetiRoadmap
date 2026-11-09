@@ -142,8 +142,8 @@ Use
 `K(span(X,Y)) = ⟨R(X,Y)Y,X⟩ / (|X|²|Y|²−⟨X,Y⟩²)`.
 
 The unit round sphere has sectional curvature +1. The pointwise curvature tensor
-is
-[`CovariantDerivative.curvatureTensor`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Tensor.lean#L148);
+is Tau Ceti's `CovariantDerivative.curvatureTensor` in
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Tensor.lean`;
 sectional/Ricci/scalar curvature use
 the existing covariant-derivative APIs, including their independent-vector
 hypotheses. The curvature operator on bivectors is characterized by
@@ -423,7 +423,11 @@ connection on the tangent bundle of a smooth Hausdorff real manifold of finite d
 a parametrized surface f(q,r) and a field W along it whose lift
 (q,r)↦(f(q,r),W(q,r)) is C² at (u,v), `D_qD_rW−D_rD_qW=R(∂_qf,∂_rf)W` at (u,v), with no
 metric or torsion hypothesis; the derivatives are taken along the full parameter lines,
-not within a parameter set.
+not within a parameter set. `TauCeti.Manifold.curveVelocityWithin` in
+`TauCeti/Geometry/Manifold/MFDeriv/Curve.lean` is the velocity γ′(t) of a curve within a
+parameter set s, the manifold derivative of γ within s at t applied to the unit vector, with
+the junk value 0 where γ is not differentiable within s at t; the Jacobi equation, R3's
+`indexForm` and the unit-speed hypotheses of R4.1 and R5a.3 read velocities through it.
 
 For the H¹ paths of R3.1, in `TauCeti/Analysis/Sobolev/WeakDeriv/`, for u,u′:ℝ→F with F
 a real normed space and a≤b: `TauCeti.HasWeakLineDerivOn` (`Basic.lean`), taken for
@@ -492,6 +496,11 @@ in `TauCeti/Geometry/Manifold/Riemannian/Jacobi/Comparison.lean`: on a boundaryl
 manifold, for v in `expDomain` at p with nonpositive sectional curvature at every
 point of the radial segment t↦exp_p(tv), 0≤t≤1, every w∈T_pM has
 `|w|≤|d(exp_p)_v(w)|`; completeness, unit speed and orthogonality are not assumed.
+
+For R4.6, `TauCeti.Orientable` in `TauCeti/Geometry/Manifold/Orientation/Basic.lean`: the
+class asserting that a manifold with corners carries a manifold orientation, an orientation
+of its tangent spaces compatible with the chart Jacobians; `synge` assumes it and
+`synge_orientable_of_odd` concludes it.
 
 For R4.7, `TauCeti.instIsManifoldQuotient` and `TauCeti.isLocalDiffeomorph_quotientMk`
 in `TauCeti/Geometry/Manifold/Instances/Quotient.lean`: the orbit space of a free
@@ -659,6 +668,20 @@ restriction, a continuous function on the unit sphere of `EuclideanSpace ℝ σ`
 round metric `TauCeti.sphereRoundMetric` with its `RiemannianBundle` instance
 (`TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`); and
 `TauCeti.Manifold.laplaceBeltrami` (the R7.0 contract).
+
+For R8.3, in `TauCeti/RepresentationTheory/ClassicalGroups/WeylDimension/`, for a Young
+diagram μ read through its first r rows, indexed from i=0: `TauCeti.oddOrthogonalWeylDimension`
+(`OddOrthogonal.lean`), the type-Bᵣ Weyl product `∏ lᵢ/rᵢ·∏_(i<j)(lᵢ²−lⱼ²)/(rᵢ²−rⱼ²)` with
+lᵢ=μᵢ+r−i−½ and rᵢ=r−i−½, as a natural number, and
+`TauCeti.evenOrthogonalWeylDimension` (`EvenOrthogonal.lean`), the type-Dᵣ product
+`∏_(i<j)(lᵢ²−lⱼ²)/(rᵢ²−rⱼ²)` with lᵢ=μᵢ+r−1−i and rᵢ=r−1−i; their one-row values
+`TauCeti.oddOrthogonalWeylDimension_eq_choose_add_choose_of_colLen_le_one`, for SO(2n+3)
+the value `binomial(d+2n+1,2n+1)+binomial(d+2n,2n+1)` on the row (d), and
+`TauCeti.evenOrthogonalWeylDimension_eq_choose_add_choose_of_colLen_le_one`, for SO(2n+4)
+the value `binomial(d+2n+2,2n+2)+binomial(d+2n+1,2n+2)`; and the rank-one and rank-two cases
+`TauCeti.oddOrthogonalWeylDimension_one_eq_two_mul_rowLen_add_one` (2d+1 for SO(3)) and
+`TauCeti.evenOrthogonalWeylDimension_two` ((λ₁−λ₂+1)(λ₁+λ₂+1) for SO(4)). These are numbers:
+that they are dimensions of irreducible modules is ClassicalGroups Layer 5.
 
 ### From the named roadmaps
 
@@ -954,7 +977,8 @@ item 2 with κ=K(x)=Scal(x)/2.
 - The unit sphere has R=g∧g and ∇R=0 because ∇g=0. Scaling its metric by 4
   gives K=1/4 and still ∇R=0; local symmetry does not mean K=0.
 - For g=dx²+e^(2x²)dy² on ℝ², K=−2−4x² and ∂_xK at x=1 is −8;
-  hence ∇R≠0 there, excluding all smooth metrics from the predicate.
+  hence ∇R≠0 there: this metric fails the predicate, so a predicate satisfied
+  by every smooth metric is excluded.
 - For Einstein constancy the unit S³ has a=2 and the radius-two S³ has a=1/2.
   Their disjoint union is Einstein pointwise with unequal factors, so
   connectedness is essential. In dimension two the preceding variable-curvature
@@ -1521,6 +1545,46 @@ strictly inside the interval; endpoint conjugacy supplies nullity, not index.
 Track the index jump as the endpoint moves. No infinite-dimensional spectral
 assertion substitutes for this finite reduction.
 
+The headline `morse_index` states it on smooth sections. Define
+`IsEndpointZeroSmoothSection` for a section X of γ*TM over [a,b]: its lift
+t↦(γ(t),X(t)) to the tangent bundle is smooth on [a,b] and X(a)=X(b)=0. Define
+`indexForm` as the bulk integral `∫_a^b ⟨D_tX,D_tY⟩−⟨R(X,γ′)γ′,Y⟩`, with D_t Tau
+Ceti's covariant derivative along γ within [a,b] and γ′ its velocity within [a,b];
+on smooth sections it is the restriction of I. For a<b and γ a geodesic on [a,b],
+`morse_index` says that the largest k for which some k smooth endpoint-zero sections
+have `indexForm(Z,Z)<0` for every nonzero linear combination Z of them exists and
+equals the sum over t∈(a,b) of `TauCeti.Manifold.conjugateMultiplicity` of the pair
+(a,t). The smooth index equals the index of I on V₀₀: smooth endpoint-zero sections
+are dense in V₀₀ for the H¹ norm, I is continuous for that norm, and a family on
+whose span I is negative definite stays so under small perturbation, its Gram
+matrix being negative definite; the reverse inequality is monotonicity under
+inclusion of test spaces.
+
+- `IsEndpointZeroSmoothSection` is closed under sums and scalar multiples, so the
+  index above is that of I on a linear subspace of V₀₀.
+- `indexForm` is symmetric and bilinear on smooth sections, and equals
+  `−∫_a^b ⟨D_t²X+R(X,γ′)γ′,Y⟩` when Y vanishes at both ends.
+- `morse_index` holds for every geodesic, the constant ones included.
+
+**Checks.**
+
+- X(t)=sin(πt)E on [0,1], E parallel, satisfies `IsEndpointZeroSmoothSection`;
+  X(t)=tE fails it, since X(1)=E≠0; the tent min(t,1−t)E lies in V₀₀ but fails
+  smoothness at t=1/2, and on a flat geodesic its form value 1 is the limit of
+  those of smooth endpoint-zero approximations, as density requires.
+- On a constant geodesic the Jacobi fields are X(t)=u+(t−a)v in one tangent
+  space; vanishing at a and at t≠a forces u=v=0, so every multiplicity is 0, the
+  sum is 0, and `indexForm(X,X)=∫|X′|²≥0` has index 0.
+- On a unit great circle of the unit S², [a,b]=[0,3π/2], the field
+  X(t)=sin(2t/3)E has `indexForm(X,X)=(4/9)(3π/4)−3π/4=−5π/12<0`, and the only
+  interior conjugate parameter is π, of multiplicity 1, so both sides are 1. With
+  +⟨R(X,γ′)γ′,Y⟩ in place of −, the same field gives (4/9)(3π/4)+3π/4>0 and every
+  normal field has positive form value, so the opposite curvature sign would make
+  the index 0 against the multiplicity 1 at π.
+- On [0,2π] the conjugate parameters are π and 2π; the sum over the open interval
+  counts only π and gives n−1, whereas counting the endpoint 2π would give
+  2(n−1).
+
 Prove minimizing segments have index zero (positive-semidefinite index form). A conjugate point strictly
 before the endpoint produces an explicitly smoothed shortening variation;
 segments with no conjugate point in `(a,b]` are strictly locally minimizing
@@ -1559,7 +1623,8 @@ Hessian, so its index and nullity are unchanged.
 *Needs:* R2 Jacobi theory; HopfRinow Layer 3 (first variation);
 Tau Ceti `CovariantDerivative.alongCurve_alongCurve_sub_alongCurve_alongCurve`
 (mixed covariant derivatives) and `CovariantDerivative.contMDiffOn_alongCurveWithin`
-(along-curve regularity); SmoothBundlesConnections B6.0 (strongly convex
+(along-curve regularity); Tau Ceti `TauCeti.Manifold.conjugateMultiplicity`
+(supplier contract); SmoothBundlesConnections B6.0 (strongly convex
 subdivisions); finite-dimensional bilinear-form inertia. R6's mixed-endpoint form is a later application.
 
 ### R3.1. H¹ paths and the speed topology
@@ -1631,8 +1696,10 @@ completeness of this particular metric in constructing the Hilbert charts.
 `TauCeti.HasWeakLineDerivOn.ae_hasDerivAt` (interval weak derivatives, the continuous
 representative and its fundamental theorem of calculus; the one-dimensional embedding
 `|u(y)−u(x)|≤|y−x|^(1/2)‖u′‖_(L²(a,b))` follows from that theorem by Cauchy–Schwarz),
+`AbsolutelyContinuousOnInterval.intervalIntegrable_of_ae_hasDerivAt` and
 `AbsolutelyContinuousOnInterval.integral_eq_sub_of_ae_hasDerivAt` (the converse for
-absolutely continuous readings) and `AbsolutelyContinuousOnInterval.comp_of_contDiffAt`
+absolutely continuous readings, applied on the subintervals [t₀,t] through Mathlib's
+`AbsolutelyContinuousOnInterval.mono`) and `AbsolutelyContinuousOnInterval.comp_of_contDiffAt`
 (chart changes); Tau Ceti `TauCeti.Manifold.isOpen_setOfPred_mem_expDomain` and
 `TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle` (exponential charts);
 Tau Ceti `CovariantDerivative.eventuallyEq_sectionCoord_alongCurveWithin` (fixed-chart
@@ -1779,7 +1846,7 @@ refinement above; AlgebraicTopology Stage 8.11a.
 
 Keep the ordinary path carrier, chosen endpoints and endpoint-change maps fixed throughout these calculations. The full result uses the three constructions below; the n = 2 argument is not a premise of the n ≥ 3 construction or of circle winding.
 
-Their conclusion for loops is the headline `singularHomology_loopSpace_sphere`: for n ≥ 2 and a point p of the unit Sⁿ, the integral singular homology of `Path p p` is ℤ in every degree divisible by n − 1 and 0 in every other degree. R3.3a gives the case n ≥ 3 and R3.3c the case n = 2; R3.3b shows why n = 1 is excluded.
+Their conclusion for loops is the headline `singularHomology_loopSpace_sphere`: for n ≥ 2 and a point p of the unit Sⁿ, the integral singular homology of `Path p p` is ℤ in every degree divisible by n − 1 and 0 in every other degree. R3.3a gives the case n ≥ 3 and R3.3c the case n = 2; R3.3b shows why n = 1 is excluded. The statement for every n ≥ 2 is Hatcher, *Algebraic Topology*: Theorem 4J.1, p. 471, makes ΩΣX weakly homotopy equivalent to the James reduced product J(X) for a connected CW complex X, here X = Sⁿ⁻¹ with ΣSⁿ⁻¹ = Sⁿ, and Proposition 3C.8, p. 288, identifies H_*(J(X); ℤ) with the tensor algebra on H̃_*(X; ℤ) when H_*(X; ℤ) is free, here one ℤ in degree n − 1, so one ℤ in each degree divisible by n − 1. The Morse-theoretic branches below are this roadmap's route to it.
 
 #### R3.3a. Lacunary cells in dimensions n ≥ 3
 
@@ -1930,6 +1997,33 @@ to j after endpoint change. Use the native loop homotopy-group equivalence
 π_q(S^(n−1))→π_(q+1)(Sⁿ), including the degree and basepoint equations.
 This supplies the Morse proof of the sphere Freudenthal range independently;
 stable homotopy calculations are outside this roadmap.
+
+**Checks.**
+
+- Degree at n=2: the adjoint sends (v,s) with s∈(0,½) to cos(2πs)e₀+sin(2πs)v,
+  and the reverse half lies on the meridian of v₀=e₁ in span(e₀,e₁). The point
+  e₂ of S² avoids that meridian and has the single preimage v=e₂, s=¼. There the
+  outward-first basis of S¹⊂span(e₁,e₂) is −e₁, since det(e₂,−e₁)=1, and the
+  interval-last basis (−e₁,∂_s) goes to (−e₁,−e₀) up to positive factors. With
+  outward normal e₂ and the basis (e₀,e₁,e₂), det(e₂,−e₁,−e₀)=det(e₂,e₁,e₀)=−1,
+  so the degree is −1=(−1)^(2+1). n is even, so the e₂ reflection, of degree −1
+  on S¹ and fixing v₀=e₁, is applied and the normalized degree is +1.
+- Degree at n=3: at v=e₂, s=¼ the outward-first basis of S² is (e₃,e₁), since
+  (e₂,e₃,e₁) is a cyclic, hence even, reordering of (e₁,e₂,e₃); its image is
+  (e₃,e₁,−e₀), and det(e₂,e₃,e₁,−e₀)=−det(e₂,e₃,e₁,e₀)=+1 in the basis
+  (e₀,e₁,e₂,e₃), the reordering being a 4-cycle, hence odd. The degree is
+  +1=(−1)^(3+1) and no reflection is applied. With the interval coordinate first
+  instead of last, the sign changes by (−1)^(n−1) and the degree would be +1 for
+  every n, so the convention is what makes the parity rule.
+- Index of the critical families: for antipodal endpoints the geodesics of
+  length 3π (k=1) pass the interior conjugate parameters π and 2π, each of
+  multiplicity n−1, so the index is 2(n−1); the final endpoint 3π is conjugate
+  and adds n−1 to the nullity, not to the index, and counting it would give
+  3(n−1). For n=2 and k=1 this is index 2 on a circle family.
+- Connectivity range at n=3: S²→ΩS³ must give π₂(S²)=ℤ→π₂(ΩS³)=π₃(S³)=ℤ an
+  isomorphism (q=2≤2n−4) and π₃(S²)=ℤ→π₃(ΩS³)=π₄(S³)=ℤ/2 only a surjection
+  (q=3=2n−3), the Hopf map going to the generator; an isomorphism at q=2n−3
+  is false.
 
 ### Examples
 
@@ -2304,6 +2398,30 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
 
    Complete connected dimension 1 manifolds are a line or a circle with
    its circumference parameter; dimension 0 is a point, independently of κ.
+
+   **Checks.**
+
+   - Ball normalisation: for c|dx|²/(1−|x|²)² in dimension two, φ=½log c−log(1−r²)
+     has Δφ=4/(1−r²)², so K=−e^(−2φ)Δφ=−4/c. The pinned c=4 gives K=−1; dropping
+     the 4 gives K=−4.
+   - Ball distance: from 0 to x it is `∫_0^|x| 2/(1−t²)dt=log((1+|x|)/(1−|x|))`,
+     which is log 3≈1.0986 at |x|=½. The hyperboloid-to-ball map
+     x↦(x₁,…,x_n)/(1+x₀) sends (cosh d, sinh d, 0,…) to tanh(d/2), whose ball
+     distance from 0 is d; at d=log 3 the image has |x|=(3−1)/(3+1)=½, agreeing
+     with the first value.
+   - Hyperboloid metric: at (cosh s, sinh s, 0,…) the tangent vector
+     (sinh s, cosh s, 0,…) has Lorentz square −sinh²s+cosh²s=1, so the restricted
+     form is positive there and t↦(cosh t, sinh t, 0,…) has unit speed; the
+     Euclidean square cosh 2s of the same vector would make that curve's speed
+     unbounded, so the ambient Euclidean metric is the wrong model.
+   - Sphere-to-projectivization comparison: e₁ and −e₁ span the same line, the
+     scalar being −1, and e₁ and (e₁+e₂)/√2 span different lines; sending a unit
+     vector to its ray ℝ₊x instead would separate e₁ from −e₁ and give back the
+     sphere.
+   - Orientation parity: the antipodal map of Sⁿ has degree det(−Id on ℝⁿ⁺¹)=(−1)ⁿ⁺¹,
+     +1 for n=1 (RP¹ is a circle, orientable), −1 for n=2 (RP² is not orientable)
+     and +1 for n=3 (RP³ is orientable). The wrong model det(−Id on ℝⁿ)=(−1)ⁿ
+     would make RP¹ nonorientable and RP² orientable.
 8. For every pair p≠q on a connected compact boundaryless Riemannian manifold
    of dimension at least one, prove `two_distinct_geodesics`: there are geodesics
    γ,η on [0,1], both starting at p and ending at q, with γ(t)≠η(t) for some
@@ -2971,13 +3089,28 @@ these crossings transverse: the polar tangent vectors are
 `(r′(t_n),a/R_n²)` and `(−r′(t_n),a/R_n²)`, with nonzero determinant.
 Thus the conclusion concerns infinitely many distinct self-intersection
 points of the all-time image; a restricted geodesic segment need not cross
-itself. The meridians are the separate a=0 case.
+itself. The meridians are the separate a=0 case. That every nonmeridional
+geodesic of z=x²+y² meets itself infinitely often is Wilson,
+*Differential Geometry, Examples 3* (Cambridge, Lent 2016), Problem 14, p. 2;
+the headline adds transversality, crossing times symmetric about the turning
+time and unbounded crossing radii. Clairaut's relation r cos φ=const along a
+geodesic of a surface of revolution, φ the angle with the parallels, is
+Nicolaescu, *Lectures on the Geometry of Manifolds*, Theorem 5.1.17, p. 212;
+with unit speed it is the conserved momentum r²θ′=a used above.
 
 At the vertex use the Cartesian chart and radial arclength
 `ℓ(r)=∫_0^r √(1+4s²) ds`. The radial/rotational exponential variations
 give a normal Jacobi field whose length is r(ℓ)>0 for ℓ>0. Combine this
 with the tangential Jacobi field to prove the vertex has no conjugate points,
-despite `K=4/(1+4r²)²>0`.
+despite `K=4/(1+4r²)²>0`. Hence the exponential map at the vertex has no
+critical point, and on the complete surface it is a covering map by the
+argument of Nicolaescu, *Lectures on the Geometry of Manifolds*, proof of
+Theorem 6.2.6, p. 238: the pulled-back metric on the tangent plane is
+positive definite and complete because the radial lines are its geodesics
+for all time, and there nonpositive curvature serves only to exclude critical
+points. A covering of the simply connected S by the connected tangent plane
+has one sheet, so the exponential map is a smooth bijective local
+diffeomorphism, hence a diffeomorphism.
 
 **Checks.**
 - The polar metric is `(1+4r²)dr²+r²dθ²`: from z=x²+y², dz=2r dr and
@@ -3472,7 +3605,23 @@ and has no positive eigenvalue.
    (Homma, arXiv:math/0307022v1, Theorem 7.1, p. 24, and Example 8.2,
    equations (8.1), p. 27, for the complexified associated-bundle formulas;
    the real and orientation-independent comparisons use the shared Gram carriers).
-5. Prove the section-norm identity
+
+   **Checks.**
+
+   - Unit Sⁿ: R(eᵢ,eⱼ)e^k=δ_jk e^i−δ_ik e^j on 1-forms, so R^Λ(eᵢ,eⱼ)=aᵢ*aⱼ−aⱼ*aᵢ on
+     every degree. With aⱼaᵢ*+aᵢ*aⱼ=δᵢⱼ and N=Σaᵢ*aᵢ, Σ_(i,j)aᵢ*aⱼaᵢ*aⱼ=N and
+     Σ_(i,j)aᵢ*aⱼaⱼ*aᵢ=N(n−N+1), so ℛ_p=−(p−p(n−p+1))=p(n−p) Id on degree p. At
+     p=1 this is n−1, the Ricci curvature, as ℛ₁=Ric requires; at p=0 and p=n it is
+     0, matching b₀=b_n=1. The opposite overall sign would give −p(n−p) and
+     ℛ₁=−Ric.
+   - Flat torus: R=0, so ℛ_p=0, every harmonic form is parallel, and b_p equals
+     binomial(n,p), the equality case of item 6.
+   - Unit S²×S²: the area form ω₁=e¹∧e² of the first factor is parallel, hence
+     harmonic, so ℛ₂ω₁=Δω₁−∇*∇ω₁=0. Directly, R^Λ(e₁,e₂)=a₁*a₂−a₂*a₁ sends
+     e¹∧e² to a₁*(−e¹)−a₂*(e²)=0, the second-factor and mixed terms vanish, and
+     ℛ₂ω₁=0, consistent with b₂=2 under Rop≥0.
+   - Number identities on degree 2 in dimension 2: Σaᵢ*aᵢ(e¹∧e²)=2e¹∧e², and
+     a₂*a₁*a₁a₂(e¹∧e²)=a₂*a₁*a₁(−e¹)=a₂*(−e¹)=e¹∧e²=binomial(2,2)e¹∧e².
    `Δ⁺|φ|²+2|∇φ|²=2Re⟨∇*∇φ,φ⟩` and Kato's inequality. The classical derivative
    formula is on φ≠0; at its zero set prove the Sobolev weak/a.e. inequality
    using `√(|φ|²+ε²)` and the completed K5a weak-regularity/domain API.
@@ -3647,7 +3796,7 @@ this finite construction.
 
 ### R8.2. Spectral completeness and eigenspace identification
 
-After the finite polynomial construction, consume K5a's compact scalar spectral decomposition to prove that restriction identifies the constructed harmonic degree-d space with the entire smooth and L² eigenspace for λ_d=d(d+m−1). The smooth form is the headline `eq_harmonicSphereRestriction_of_laplaceBeltrami_eq_neg_mul`: for m≥1, on the unit round sphere Sᵐ of `EuclideanSpace ℝ (Fin (m+1))` with Tau Ceti's round metric, every nonzero smooth f with `Δf=−λf` for Tau Ceti's `TauCeti.Manifold.laplaceBeltrami` (Δ=div grad) has λ=d(d+m−1) for some d≥0 and is the image of an element of `MvPolynomial.harmonicSubmodule` of degree d under `MvPolynomial.harmonicSphereRestriction`. Since d↦d(d+m−1) is strictly increasing for m≥1, d is determined by λ. The L² form follows from the smooth one by K5a's elliptic regularity, every L² eigenfunction being smooth. The bound m≥1 is needed: on S⁰={±1} the Laplacian is zero, every nonzero f has λ=0, and the function with f(1)=1, f(−1)=2 is the restriction of neither a constant (H_0) nor a multiple of X (H_1). Establish orthogonality, completeness and the comparison of the polynomial and Hilbert spectral bases, with the actual smooth-domain/elliptic-regularity interface. Retain the dimension formula binomial(m+d,d)−binomial(m+d−2,d−2), the second term zero for d<2; constants d=0 and the m=1 Fourier pair are explicit. These surjectivity and completeness outputs are later than the one-way finite polynomial calculation and are not inputs to it. Preserve O(m+1)-equivariance throughout.
+After the finite polynomial construction, consume K5a's compact scalar spectral decomposition to prove that restriction identifies the constructed harmonic degree-d space with the entire smooth and L² eigenspace for λ_d=d(d+m−1). The smooth form is the headline `eq_harmonicSphereRestriction_of_laplaceBeltrami_eq_neg_mul`: for m≥1, on the unit round sphere Sᵐ of `EuclideanSpace ℝ (Fin (m+1))` with Tau Ceti's round metric, every nonzero smooth f with `Δf=−λf` for Tau Ceti's `TauCeti.Manifold.laplaceBeltrami` (Δ=div grad) has λ=d(d+m−1) for some d≥0 and is the image of an element of `MvPolynomial.harmonicSubmodule` of degree d under `MvPolynomial.harmonicSphereRestriction`. Since d↦d(d+m−1) is strictly increasing for m≥1, d is determined by λ. For m≥2 this is Taylor, *Introduction to Lie Groups*, §8.2 on S^(n−1) with n=m+1: a smooth eigenfunction with eigenvalue −λ gives a bounded harmonic function r^k g(ω) on the punctured ball, which forces λ=k(k+n−2) with k a nonnegative integer, (8.2.13), p. 399, and restriction is an isomorphism from the harmonic homogeneous polynomials of degree k onto that eigenspace, Proposition 8.2.1, p. 399; for m=1 it is the Fourier basis e^(ikθ), with eigenvalues −k², (8.2.2), p. 398. The L² form follows from the smooth one by K5a's elliptic regularity, every L² eigenfunction being smooth. The bound m≥1 is needed: on S⁰={±1} the Laplacian is zero, every nonzero f has λ=0, and the function with f(1)=1, f(−1)=2 is the restriction of neither a constant (H_0) nor a multiple of X (H_1). Establish orthogonality, completeness and the comparison of the polynomial and Hilbert spectral bases, with the actual smooth-domain/elliptic-regularity interface. Retain the dimension formula binomial(m+d,d)−binomial(m+d−2,d−2), the second term zero for d<2; constants d=0 and the m=1 Fourier pair are explicit. These surjectivity and completeness outputs are later than the one-way finite polynomial calculation and are not inputs to it. Preserve O(m+1)-equivariance throughout.
 
 **Checks.**
 
@@ -3671,10 +3820,15 @@ for the density of restricted polynomials.
 ### R8.3. Orthogonal highest weights and low ranks
 
 Construct the harmonic-polynomial representation and compare its
-complexification on SO(m+1) with highest weight dε₁ (d times the vector highest weight), consuming ClassicalGroups Layers 3/5's highest-weight classification targets
-and its existing numerical Weyl-dimension APIs (including
-`ClassicalGroups/WeylDimension/OddOrthogonal.lean` and
-`ClassicalGroups/WeylDimension/EvenOrthogonal.lean`). Spell out the low-rank fundamental-weight conversions, and handle SO(2) separately
+complexification on SO(m+1) with highest weight dε₁ (d times the vector highest weight), consuming ClassicalGroups Layer 3's highest-weight classification
+and Layer 5's identification of the dimension of the irreducible module with the
+Weyl product. The Weyl products themselves are Tau Ceti's
+`TauCeti.oddOrthogonalWeylDimension` (type Bᵣ, SO(2r+1)) and
+`TauCeti.evenOrthogonalWeylDimension` (type Dᵣ, SO(2r)) (supplier contract); for N≥3
+their value on the one-row weight (d) is `binomial(d+N−2,N−2)+binomial(d+N−3,N−2)`, by
+`TauCeti.oddOrthogonalWeylDimension_eq_choose_add_choose_of_colLen_le_one` and
+`TauCeti.evenOrthogonalWeylDimension_eq_choose_add_choose_of_colLen_le_one`, which is
+dim H_d by R8.1's dimension formula and Pascal's rule. Spell out the low-rank fundamental-weight conversions, and handle SO(2) separately
 by its pair of characters for d≥1 and one trivial character for d=0; real form, orientation-group restriction and O-action
 are explicit. Construct the complex SO-action by
 `(g·p)(x)=p(g⁻¹x)`. Choose rotations
@@ -3730,7 +3884,15 @@ of degree d in N variables (the complex homogeneous polynomials of degree d
 killed by `Σᵢ∂ᵢ²`) that every element of
 `Matrix.specialOrthogonalGroup (Fin N) ℝ` maps into itself under
 `(g·p)(x)=p(g⁻¹x)` is 0 or the whole space. For N=2 and d≥1 the invariant
-lines spanned by `(x₁±ix₂)ᵈ` show that the bound is needed.
+lines spanned by `(x₁±ix₂)ᵈ` show that the bound is needed. The statement is
+Taylor, *Introduction to Lie Groups*, Proposition 8.5.1, p. 421, for SO(N)
+acting by f↦f(g⁻¹·) on the degree-d eigenspace of the Laplacian of S^(N−1),
+under the standing hypothesis N≥3 of §8.4, p. 415, transported to H_d by the
+equivariant restriction isomorphism of Proposition 8.2.1, p. 399. Its proof is
+independent of highest weights: an invariant subspace W≠0 contains, after a
+rotation and the projection onto zonal functions, the zonal harmonic of degree d,
+unique up to scale by Proposition 8.4.2, p. 415, and so does its orthogonal
+complement if W is proper.
 
 **Checks.**
 - `R_θu₁=e^(−iθ)u₁` and `R_θv₁=e^(iθ)v₁`: with `R_θe₁=cosθ e₁+sinθ e₂`
@@ -3751,16 +3913,20 @@ lines spanned by `(x₁±ix₂)ᵈ` show that the bound is needed.
   `K=diag(1,−1,1)` has det K=−1, and since `−I` is central, σ is
   conjugation by the rotation `−K=diag(−1,1,−1)`, hence inner on SO(3).
 - Dimensions: for N=2 and d≥1, H_d is spanned by `(x₁±ix₂)^d`, two
-  characters and no highest-weight irreducibility; for N=3, dim H_d=2d+1
-  by R8.1 equals the Weyl dimension of weight dε₁ in type B₁, and for
-  N=4, dim H_d=(d+1)² is the dimension of the type D₂ module of highest
-  weight (d,0).
+  characters and no highest-weight irreducibility. For N=3 the type-B₁
+  Weyl product at λ=(d) is `(d+½)/(½)=2d+1`, equal to dim H_d=2d+1 by R8.1;
+  for N=4 the type-D₂ product at (d,0) is `((d+1)²−0²)/(1²−0²)=(d+1)²`,
+  equal to dim H_d=`binomial(d+3,3)−binomial(d+1,3)=(d+1)²` (d=2: 10−1=9).
+  For N=5, d=2 the one-row value is `binomial(5,3)+binomial(4,3)=10+4=14`
+  and dim H_2=15−1=14. Reading the B₁ product with ρ=1 in place of ½ would
+  give (d+1)/1=d+1, which is 2 at d=1 against dim H_1=3.
 
 *Needs:* R8.1 (the harmonic-polynomial spaces H_d and their dimensions),
 R8.2 (eigenspace identification), ClassicalGroups Layer 3 (connected
-SO_N highest-weight classification) and Layer 5 (Weyl dimension formula,
-`ClassicalGroups/WeylDimension/OddOrthogonal.lean`,
-`ClassicalGroups/WeylDimension/EvenOrthogonal.lean`), CompactGroups
+SO_N highest-weight classification) and Layer 5 (dimension of the irreducible
+module as the Weyl product), Tau Ceti `TauCeti.oddOrthogonalWeylDimension` and
+`TauCeti.evenOrthogonalWeylDimension` with their one-row values (supplier
+contract), CompactGroups
 (complete reducibility and invariant products), Tau Ceti's
 `MvPolynomial.harmonicSubmodule` (supplier contract), Mathlib
 `Matrix.specialOrthogonalGroup` and `MvPolynomial.aeval`.
@@ -3882,8 +4048,11 @@ minimization nor GeometricCurrents regularity enters R5b.
   Example 4.2.36, p. 195, and Exercise 4.2.38, p. 196 (the Einstein factor is
   Scal/n and is constant in dimension at least three),
   Theorem 5.2.26, p. 220 (Myers: diameter bound and compactness), Theorem 6.2.6,
-  p. 238 (Cartan–Hadamard) and Example 6.2.29, p. 243 (compactness of the universal
-  cover under a positive Ricci lower bound), §3.3.2, equation (3.3.7), pp. 103–104
+  p. 238 (Cartan–Hadamard; its proof, an exponential map without critical points on a
+  complete manifold is a covering map, is used by R5a.3 for the paraboloid vertex) and
+  Example 6.2.29, p. 243 (compactness of the universal
+  cover under a positive Ricci lower bound), Theorem 5.1.17, p. 212 (Clairaut's relation
+  on a surface of revolution, used by R5a.3), §3.3.2, equation (3.3.7), pp. 103–104
   (parallel transport as the solution of `∇_(d/dt)u=0`, used by §1.2) and
   Theorem 12.2.5(b), p. 661 (Bochner: positive Ricci curvature kills b_1, used by R7.6).
 - R. L. Bishop, [Riemannian Geometry](https://arxiv.org/abs/1303.5390), lecture
@@ -3949,6 +4118,24 @@ minimization nor GeometricCurrents regularity enters R5b.
   so_N fixed by R8.3's convention bridge.
 
 
+- A. Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
+  Cambridge University Press (2002), author's electronic edition, Theorem 4J.1, p. 471
+  (ΩΣX is weakly equivalent to the James reduced product J(X) for a connected CW
+  complex X) and Proposition 3C.8, p. 288 (the homology of J(X) is the tensor algebra
+  on the reduced homology of X when the latter is free): the homology of ΩSⁿ, n≥2,
+  stated by R3.3's headline.
+- M. Taylor, [*Introduction to Lie Groups*](https://mtaylor.web.unc.edu/wp-content/uploads/sites/16915/2021/03/liegp.pdf),
+  lecture notes, Department of Mathematics, University of North Carolina (version
+  posted 2021), Chapter 8:
+  equations (8.2.2), p. 398, and (8.2.13), with Proposition 8.2.1, p. 399 (the
+  eigenvalues of the Laplacian of S^(n−1) and the restriction isomorphism from
+  harmonic homogeneous polynomials onto its eigenspaces, used by R8.2); Proposition
+  8.4.2, p. 415, and Proposition 8.5.1, p. 421 (uniqueness of zonal harmonics for
+  n≥3 and irreducibility of SO(n) on each eigenspace, used by R8.3).
+- P. M. H. Wilson, [*Differential Geometry, Examples 3*](https://www.dpmms.cam.ac.uk/~pmw1000/dg16.3.pdf),
+  University of Cambridge, Part II, Lent 2016, Problem 14, p. 2: every geodesic of
+  the paraboloid z=x²+y² that is not a meridian meets itself infinitely often, used
+  by R5a.3.
 - S. Axler, P. Bourdon and W. Ramey, [*Harmonic Function Theory*](https://www.axler.net/HFT.pdf),
   second edition (2001), electronic version of 17 July 2020, Proposition 5.5,
   p. 76, and Theorem 5.7, p. 77: unique finite harmonic decomposition
