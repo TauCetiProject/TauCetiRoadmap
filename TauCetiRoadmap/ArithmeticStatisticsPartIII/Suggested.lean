@@ -135,7 +135,8 @@ def ternaryCoeff {R : Type*} [CommRing R] (Q : MvPolynomial (Fin 3) R) (i j : Fi
   Q.coeff (Finsupp.single i 1 + Finsupp.single j 1)
 
 /-- Four times the determinant of the half-integral Gram matrix of a ternary quadratic form, as the
-integral coefficient polynomial `4a₁₁a₂₂a₃₃ + a₁₂a₁₃a₂₃ − a₁₁a₂₃² − a₂₂a₁₃² − a₃₃a₁₂²`. -/
+integral coefficient polynomial `4a₁₁a₂₂a₃₃ + a₁₂a₁₃a₂₃ − a₁₁a₂₃² − a₂₂a₁₃² − a₃₃a₁₂²`. This is the
+rank-three half-discriminant `δ'` of QuadraticFormsOverABase §§1.1–1.2, whose laws are its §1.3. -/
 def ternaryDet4 {R : Type*} [CommRing R] (Q : MvPolynomial (Fin 3) R) : R :=
   4 * ternaryCoeff Q 0 0 * ternaryCoeff Q 1 1 * ternaryCoeff Q 2 2 +
     ternaryCoeff Q 0 1 * ternaryCoeff Q 0 2 * ternaryCoeff Q 1 2 -

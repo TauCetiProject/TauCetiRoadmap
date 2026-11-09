@@ -8,7 +8,7 @@ This is Part III of the eight-part arithmetic-statistics roadmap. It owns Layer 
 
 The boundaries fix the carriers and prevent parallel versions of existing mathematics.
 
-- ArithmeticStatisticsPartI §0.3, **Eligible pairs are nine lattice translates**, owns the eligibility classification; §2.4 here counts those translates in bounded-height sign regions. AnalyticNumberTheoryPartII §§5.4–5.5 own the cubic action, real orbit classification and stabilizers; §2.6 here defines their counting regions. ArithmeticStatisticsPartII §1.2, **Index p subrings of a cubic ring** and **Index p overrings of a cubic ring**, owns both basis-change dictionaries; §2.7 here deduces the orbit-fibre bound. Its §1.3, **Pairs of ternary quadratic forms**, owns the coefficient, determinant and resolvent algebra; §2.8 uses polynomial specializations of it to state the statistical theorem.
+- ArithmeticStatisticsPartI §0.3, **Eligible pairs are nine lattice translates**, owns the eligibility classification; §2.4 here counts those translates in bounded-height sign regions. AnalyticNumberTheoryPartII §§5.4–5.5 own the cubic action, real orbit classification and stabilizers; §2.6 here defines their counting regions. ArithmeticStatisticsPartII §1.2, **Index p subrings of a cubic ring** and **Index p overrings of a cubic ring**, owns both basis-change dictionaries; §2.7 here deduces the orbit-fibre bound. Its §1.3, **Pairs of ternary quadratic forms**, owns the coefficient, determinant and resolvent algebra; §2.8 uses polynomial specializations of it to state the statistical theorem. QuadraticFormsOverABase §§1.1–1.3 own the half-discriminant of an odd-rank form over any commutative ring with its base-change, change-of-variables and scaling laws; the integral determinant of §2.8 is its rank-three value.
 
 - PolynomialGaloisGroups Layers 0, 2 and 4 supply the root-permutation action and static integral resolvents. InverseGaloisAndArithmeticFundamentalGroups §§IG.0–IG.2 supply specialization and quantitative Hilbert irreducibility. The anisotropic weighted-box exclusion and its uniform rectangular curve estimate are targets here.
 - GlobalNumberFields Layers 0–3 and 11 supply places, ideal classes, units, ideal lattices, order classes and discriminant/index-square identities. GeometryOfNumbersAndQuadraticArithmetic Layers 0–4 supply primitive-vector saturation, successive minima and bounded semialgebraic lattice counts. The new estimates use skew, truncated and averaged arithmetic regions, with the cusp and divisor-multiplicity errors retained.
@@ -44,6 +44,10 @@ Use Mathlib's `Northcott` and `Northcott.comp_of_finite_fibers` for finite heigh
 GlobalNumberFields Layer 0 fixes the normalized places and product formula; Layers 2–3 supply finite ideal-class charts, units and the Minkowski ideal-lattice/coset dictionary, including its fixed norm and covolume conventions; Layer 11 supplies orders, Picard groups, trace duals, ideal norms and discriminant/index-square identities. GeometryOfNumbersAndQuadraticArithmetic Layers 0–3 supply saturation, primitive minors and successive-minimum/covolume bounds. Its §4.1, Davenport semialgebraic count, supplies a bounded region of bounded complexity with translates, projections and multiset multiplicity. Neither supplies the moving arithmetic cusp bounds asserted here.
 
 OperatorTheory, PolarDecomposition Part `C`, targets PD-`C09`–PD-`C18` supply right and left singular vectors and reconstruction. Its invertible real two-dimensional specialization gives `g=k diag(u,u⁻¹)l`, `u≥1`, for `|det g|=1`, with orthogonal `k,l`. This is the compact-transporter input; the real embedding-metric and restricted-basis Gram estimates here retain their own arithmetic hypotheses.
+
+### From TauCetiRoadmap.QuadraticFormsOverABase
+
+§1.1 supplies the universal half-discriminant `univHalfDisc n` over `ℤ[U]`, homogeneous of degree `n`, with `2·univHalfDisc n=det(U+Uᵀ)` for odd `n`. §1.2 supplies the half-discriminant `δ'(Q)` of a form `Q` on `Fin n → R` over any commutative ring, its independence of the bilinear representative at which `univHalfDisc n` is evaluated, and `δ'(Q)=2^(n−1)·QuadraticForm.discr' Q` when 2 is invertible. §1.3 supplies `halfDisc_mapCoeffs` (compatibility with every ring homomorphism), `halfDisc_comp` (factor `(det g)²` for every matrix `g`, odd `n`) and `δ'(aQ)=aⁿδ'(Q)`. None of these divides by 2. §2.8 uses them at `n=3` for `Counting.ternaryDet4` and the variable-change law of `Counting.pairResolvent`.
 
 ### From AdelicAlgebraicGroups
 
@@ -1179,11 +1183,11 @@ The following definitions specialize ArithmeticStatisticsPartII §1.3, **Pairs o
 - For Q=uv+w², the uv coefficient is 1 in either index order, and the w² coefficient is 1. A half-Gram convention would incorrectly return 1/2 for uv.
 - For Q=0 all six coefficients are zero; for Q=1+u³ they are also zero, so the reconstruction assertion must assume homogeneity of degree two.
 
-**Integral determinant.** Define `Counting.ternaryDet4` by the integral six-coefficient polynomial `4adf+bce-ae²-dc²-fb²` for `Q=au²+buv+cuw+dv²+evw+fw²`. It equals four times the Gram determinant when 2 is invertible; its definition requires no division in the coefficient ring.
+**Integral determinant.** Define `Counting.ternaryDet4` by the integral six-coefficient polynomial `4adf+bce-ae²-dc²-fb²` for `Q=au²+buv+cuw+dv²+evw+fw²`. Its definition requires no division in the coefficient ring. It is the rank-three half-discriminant of QuadraticFormsOverABase: prove that it equals the value of `univHalfDisc 3` (QuadraticFormsOverABase §1.1) at the upper-triangular matrix with entries `Counting.ternaryCoeff Q i j` for `i≤j`, by expanding that rank-three determinant. By QuadraticFormsOverABase §1.2 this is `δ'` of the form with that bilinear representative on `Fin 3 → R`, and four times Mathlib's `QuadraticForm.discr'` when 2 is invertible. Its laws are QuadraticFormsOverABase §1.3's, read through this identification, and are not reproved here:
 
-- It is homogeneous of degree three in the six coefficients, so scaling Q by t scales this value by t³.
-- It commutes with every coefficient ring homomorphism, including reduction at 2 and 3.
-- For a homogeneous quadratic and an invertible variable change δ, its value scales by det(δ)², as in the supplied covariance law.
+- degree-three homogeneity in the six coefficients (scaling Q by t scales the value by t³) is `δ'(aQ)=aⁿδ'(Q)` at `n=3`;
+- compatibility with every coefficient ring homomorphism, including reduction at 2 and 3, is `halfDisc_mapCoeffs`;
+- for a homogeneous quadratic and a variable change δ, the factor det(δ)² is `halfDisc_comp`, valid for every 3×3 matrix δ.
 
 **Checks.**
 
@@ -1194,7 +1198,7 @@ The following definitions specialize ArithmeticStatisticsPartII §1.3, **Pairs o
 **Resolvent.** For an integral pair P=(A,B), define `Counting.pairResolvent P` to be the binary cubic `4 Det(Ax−By)`, evaluating the preceding integral coefficient polynomial after forming the pencil. Its source is a pair of ternary polynomials and its target is an integral binary polynomial; on quadratic pairs it is the supplied cubic resolvent.
 
 - The result is homogeneous of degree three in x,y; its fixed-degree `Counting.cubicDiscriminant` is the pair discriminant.
-- For pair change `(A,B)↦(aA+bB,cA+dB)`, substitute `(x,y)↦(ax−cy,dy−bx)` in the resolvent. A variable change δ contributes det(δ)².
+- For pair change `(A,B)↦(aA+bB,cA+dB)`, substitute `(x,y)↦(ax−cy,dy−bx)` in the resolvent. A variable change δ contributes det(δ)², by QuadraticFormsOverABase §1.3 `halfDisc_comp` applied to the pencil over `ℤ[x,y]`.
 - Swapping A and B gives `−f(y,x)`. Simultaneously scaling both forms by t multiplies f by t³ and its discriminant by t¹².
 
 **Checks.**
@@ -2265,7 +2269,7 @@ For the light tail interfaces, `Δ=36` and `M=5` has exactly one contributing sq
 
 ### Dependencies
 
-ArithmeticStatisticsPartI Layer 0 and ArithmeticStatisticsPartII Layer 1; the Mathlib Chebyshev estimate and partial summation; GeometryOfNumbersAndQuadraticArithmetic Layers 0–4 and GlobalNumberFields Layer 3 lattice/coset bounds; real and `p`-adic integration; AdelicAlgebraicGroups Layers 0–4 reduction and Haar contracts; AnalyticNumberTheoryPartI Layer 3 arithmetic sums and AnalyticNumberTheoryPartII §5.21 cubic continuation; and InverseGaloisAndArithmeticFundamentalGroups §IG.2 for specialization in quantitative Galois exclusion. The moving-lattice, all-orbit transport, paired even-degree and specialized coregular assertions above are local supporting targets.
+ArithmeticStatisticsPartI Layer 0 and ArithmeticStatisticsPartII Layer 1; the Mathlib Chebyshev estimate and partial summation; GeometryOfNumbersAndQuadraticArithmetic Layers 0–4 and GlobalNumberFields Layer 3 lattice/coset bounds; QuadraticFormsOverABase §§1.1–1.3 for the rank-three half-discriminant; real and `p`-adic integration; AdelicAlgebraicGroups Layers 0–4 reduction and Haar contracts; AnalyticNumberTheoryPartI Layer 3 arithmetic sums and AnalyticNumberTheoryPartII §5.21 cubic continuation; and InverseGaloisAndArithmeticFundamentalGroups §IG.2 for specialization in quantitative Galois exclusion. The moving-lattice, all-orbit transport, paired even-degree and specialized coregular assertions above are local supporting targets.
 
 ## Downstream consumers
 
