@@ -30,8 +30,9 @@ the iterated Lefschetz wedge). Every carrier is pinned: `TauCeti.SmoothForm`, `m
 Stated here: the Newlander–Nirenberg theorem in its local form (Layer 1); the
 Dolbeault–Grothendieck lemma on a polydisc (Layer 2); the Hartogs extension theorem on an open
 set of `ℂⁿ`, the Weierstrass preparation theorem with its uniqueness, the regularity, Noetherian
-property and factoriality of the ring of holomorphic germs, Rückert's Nullstellensatz and Oka's
-coherence theorem in its primitive relation form (Layer 3); the Hodge theorem for real de Rham
+property and factoriality of the ring of holomorphic germs, Rückert's Nullstellensatz, Oka's
+coherence theorem in its primitive relation form and Cartan's coherence theorem for the reduced
+ideal sheaf in its local-generator form (Layer 3); the Hodge theorem for real de Rham
 cohomology of a compact oriented Riemannian manifold (Layer 5); finiteness of Dolbeault
 cohomology and Serre duality with trivial coefficients on a compact complex manifold (Layer 5);
 and, on a compact Kähler manifold, the Hodge decomposition in its dimension form, Hodge
@@ -215,6 +216,28 @@ theorem oka_coherence {n k : ℕ} {U : Set (Fin n → ℂ)} (hU : IsOpen U)
           (∀ᶠ z in 𝓝 y, ∑ i, h i z * f i z = 0) →
           ∃ c : Fin N → (Fin n → ℂ) → ℂ, (∀ j, AnalyticAt ℂ (c j) y) ∧
             ∀ i, h i =ᶠ[𝓝 y] fun z ↦ ∑ j, c j z * g j i z := by
+  sorry
+
+/-- **Cartan's coherence theorem for the reduced ideal sheaf** (Demailly, Chapter II, (4.29),
+p. 99), in its primitive local form: let `A` be the common zero set of holomorphic functions
+`f₁, …, f_k` on an open set `U ⊆ ℂⁿ` and let `x ∈ U`. There are a neighbourhood `V ⊆ U` of `x`
+and finitely many holomorphic functions `g₁, …, g_N` on `V` vanishing on `A ∩ V` whose germs
+generate, at every point `y` of `V`, the ideal of analytic germs at `y` that vanish on `A` near
+`y`. Together with `oka_coherence` this is the coherence of the ideal sheaf of `A`. For `k = 0`
+the set `A` is `U`, the ideal is `0` and `N = 0` works; for `f₁ = 1` the set `A` is empty and
+`g₁ = 1` works. Instance: `f₁ = z²` on `ℂ`, `N = 1`, `g₁ = z`, which is a unit at every
+`y ≠ 0`. -/
+theorem cartan_coherence {n k : ℕ} {U : Set (Fin n → ℂ)} (hU : IsOpen U)
+    {f : Fin k → (Fin n → ℂ) → ℂ} (hf : ∀ i, DifferentiableOn ℂ (f i) U)
+    {x : Fin n → ℂ} (hx : x ∈ U) :
+    ∃ V : Set (Fin n → ℂ), IsOpen V ∧ x ∈ V ∧ V ⊆ U ∧
+      ∃ (N : ℕ) (g : Fin N → (Fin n → ℂ) → ℂ),
+        (∀ j, DifferentiableOn ℂ (g j) V) ∧
+        (∀ j, ∀ z ∈ V, (∀ i, f i z = 0) → g j z = 0) ∧
+        ∀ y ∈ V, ∀ h : (Fin n → ℂ) → ℂ, AnalyticAt ℂ h y →
+          (∀ᶠ z in 𝓝 y, (∀ i, f i z = 0) → h z = 0) →
+          ∃ c : Fin N → (Fin n → ℂ) → ℂ, (∀ j, AnalyticAt ℂ (c j) y) ∧
+            h =ᶠ[𝓝 y] fun z ↦ ∑ j, c j z * g j z := by
   sorry
 
 end LocalAnalytic

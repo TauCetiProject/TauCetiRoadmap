@@ -14,7 +14,7 @@ computations, and the Frölicher spectral sequence with the Iwasawa manifold. It
 stated in `Suggested.lean` where the pins allow, are `newlander_nirenberg`,
 `dolbeault_grothendieck_polydisc`, `hartogs_extension`, `weierstrass_preparation`,
 `isRegularLocalRing_holomorphicStalk`, `rueckert_nullstellensatz`, `oka_coherence`,
-`hodge_theorem_deRham`, `finiteDimensional_dolbeaultCohomology`,
+`cartan_coherence`, `hodge_theorem_deRham`, `finiteDimensional_dolbeaultCohomology`,
 `finrank_dolbeaultCohomology_serre`, `finrank_complexDeRhamCohomology_eq_sum_dolbeault`,
 `finrank_dolbeaultCohomology_symm` and `hard_lefschetz`; the definitions `polydisc`,
 `dolbeaultCocycles`, `dolbeaultCoboundaries`, `DolbeaultCohomology`, `mextDerivℂ`,
@@ -84,8 +84,7 @@ It leaves to named roadmaps:
   Tau Ceti owns the finite CW structure, cellular chain complex and Euler characteristic of the
   sphere-quotient model `TauCeti.ComplexProjectiveSpace n` of complex projective space; 7.2 owns
   the homeomorphism of that model with `Projectivization ℂ (Fin (n+1) → ℂ)`, the transport of
-  the CW structure along it and the cup ring, which AlgebraicTopology Stage 7 and
-  CharacteristicClasses C1.5 consume.
+  the CW structure along it and the cup ring, which CharacteristicClasses C1.5 consumes.
 - GlobalHolomorphicFunctions owns Runge approximation, the global scalar `∂̄` solver on arbitrary
   plane domains, the exactness of smooth two-forms there, and the global theory of isolated
   singularities and Mittag–Leffler. Nothing of it is consumed here: this roadmap's solver (2.2)
@@ -384,6 +383,11 @@ All at the pinned revision; nothing listed here is constructed again.
   `integral_smoothSingularSubcomplexMap_app` and `integral_ofFunction` in degree `0`
   (`SmoothSingular/Integral.lean`). Chain integration, Stokes for chains, the de Rham theorem
   and Poincaré duality are not at the pin.
+- The real Lax–Milgram solution map `IsCoercive.formSolutionMap` of a coercive bilinear form `B`
+  on `V` along `J : V →L[ℝ] H`, sending `h : H` to the unique `u : V` with `B u v = ⟪h, J v⟫` for
+  every `v` (`apply_formSolutionMap`, `eq_formSolutionMap`;
+  `Analysis/InnerProductSpace/Variational/Spectrum.lean`), through which VariationalMethods §2.2
+  identifies its weak solutions at `𝕜 = ℝ`; 5.7 consumes it only through that identification.
 
 ### From TauCetiRoadmap.ComplexManifolds
 
@@ -435,8 +439,8 @@ Stage 4's CW theory, cellular/singular comparison and `cwSubcomplexNeighborhoods
 topology on `Projectivization ℂ (Fin (n+1) → ℂ)` is the pinned Tau Ceti instance and its CW
 structure is 7.2's); Stage 4.7 `simplicialRealizationCW`; Stage 5.0 the generic
 filtered-complex spectral sequence; Stage 6 cohomology, cup products, Poincaré duality and
-universal coefficients; Stage 6.3 the fundamental class of a compact oriented manifold. Stage 7
-consumes 7.2's transported cell structure and nothing of Stage 7 is consumed here.
+universal coefficients; Stage 6.3 the fundamental class of a compact oriented manifold. Nothing
+of Stage 7 is consumed here.
 
 ### From TauCetiRoadmap.RealAlgebraicGeometry (Completed)
 
@@ -452,16 +456,21 @@ supplies scalar real-domain estimates, not system estimates.
 
 ### From TauCetiRoadmap.VariationalMethods and TauCetiRoadmap.OperatorTheory/UnboundedOperators
 
-VariationalMethods §2.2–2.4: the `RCLike` coercive solution operator with its `toRealBilin`
-comparison to Mathlib's `IsCoercive.continuousLinearEquivOfBilin`, energy spaces, forcing maps
-and semibounded shifts; §3.1: compact form pairs and their finite orthogonal sums; Layers 3–4:
-the compact-embedding form/solution-operator spectral theorem; §5.1–5.2: the represented
-operator `CompactFormPair.operator`, its graph and domain characterization, compact resolvent
-and eigen-expansion. UnboundedOperators §4.7 (UO-D06): `closedFormOperator`, closed-form
-representation, real-shift self-adjointness, both adjoint inclusions and witness independence;
-`CompactFormPair.operator` is its specialization on the same form/inclusion data. The abstract
-order is VariationalMethods §2.3, then UnboundedOperators §4.7, then VariationalMethods §5.1,
-with §3–4 also preceding §5.1.
+VariationalMethods §2.2: the weak equation of a quadratic energy, identified at `𝕜 = ℝ` with
+Mathlib's Lax–Milgram solution `IsCoercive.continuousLinearEquivOfBilin` and with Tau Ceti's
+`IsCoercive.formSolutionMap`; §2.3: the energy space and the `RCLike` solution maps `S_α`
+(forcing by a vector of `H`) and `F_α` (forcing by a functional on the form domain) of a
+shifted coercive form; §2.4: semibounded shifts; §3.1: compact form pairs and their finite
+orthogonal sums; Layers 3–4: the compact-embedding form/solution-operator spectral theorem;
+§5.1–5.2: the operator of a compact form pair, which is UnboundedOperators UO-D06's operator on
+the pair's form and inclusion (VariationalMethods declares no separate operator), with §5.1's
+graph characterization, `CompactFormPair.operatorDomainV` and
+`CompactFormPair.exists_compact_selfAdjoint_shifted_inverse`, its compact resolvent and the
+eigen-expansion `CompactFormPair.mem_operatorDomainV_iff_summable`. UnboundedOperators §4.7
+(UO-D06): the coercive solution map over `[RCLike 𝕜]`, the closed-form representation theorem
+`existsUnique_selfAdjoint_of_closed_form`, real-shift self-adjointness, both adjoint inclusions
+and witness independence. The abstract order is UnboundedOperators §4.7, then
+VariationalMethods §2.3, then VariationalMethods §5.1, with §3–4 also preceding §5.1.
 
 ### From TauCetiRoadmap.LieGroupoidsPoisson
 
@@ -488,8 +497,8 @@ transport laws of the holomorphic inverse and implicit function theorems and, on
 Nijenhuis tensor, the Newlander–Nirenberg theorem; its orientation comparison precedes 7.1.
 Layer 2 builds the Taylor and Laurent truncation operators, then the parameter-dependent solver
 on the pinned compact-support Cauchy transform, then the Dolbeault–Grothendieck lemma, Dolbeault
-cohomology, the holomorphic-form sheaves and the Dolbeault theorem; its bundle-valued comparison
-follows Layer 4. Layer 3 develops the convergent local algebra of germs and analytic subsets
+cohomology, the holomorphic-form sheaves and the Dolbeault theorem; the bundle-valued Dolbeault
+comparison is 4.2's. Layer 3 develops the convergent local algebra of germs and analytic subsets
 that Layers 4, 6 and 7 and RealAnalyticGeometry consume. Layer 4 builds holomorphic bundles,
 Chern and holomorphic connections and the flat correspondence. Layer 5 is the analytic core:
 5.1–5.8 work on real manifolds (densities, tests and distributions, the differential-operator
@@ -650,8 +659,7 @@ iteration; prove convergence and invertibility of the composed coordinate maps a
 regularity by bootstrapping. These analytic prerequisites belong here, consuming PDE §1.7's
 Hölder spaces and §5.3/§5.6's Schauder estimates. A fixed-Hölder contraction using polydisc
 Cauchy–Green alone does not give the required derivative control, and real Frobenius alone does
-not give the theorem. LieGroupoidsPoisson consumes the eigensubbundle/involutivity dictionary
-and builds the complex Lie algebroid structures.
+not give the theorem.
 
 **Checks.**
 
@@ -876,10 +884,14 @@ constancy for disconnected manifolds.
   the ambient quotient.
 - For `p + q > 2 dim_ℂ M` there are no nonzero forms and the group is `0`; for `p > dim_ℂ M` or
   `q > dim_ℂ M` the type-`(p, q)` projection is `0` and the group is `0`.
-- On `ℂ* × ℂ*`, `H¹(U, 𝒪)` of the two-set cover of `ℂ² ∖ {0}` by `ℂ* × ℂ` and `ℂ × ℂ*` is
-  spanned by the monomials `z₁^(−m) z₂^(−n)`, `m, n ≥ 1`, the Laurent monomials on the overlap not
-  holomorphic on either piece (7.3); a cover by two polydiscs would be a Leray cover of a Stein
-  union with `H¹ = 0`.
+- On `ℂ* × ℂ*`, `H¹(U, 𝒪)` of the two-set cover of `ℂ² ∖ {0}` by `ℂ* × ℂ` and `ℂ × ℂ*` is spanned
+  by the monomials `z₁^(−m) z₂^(−n)`, `m, n ≥ 1`, the Laurent monomials on the overlap not
+  holomorphic on either piece (7.3). A cover by two polydiscs centred at `0`, whose intersection is
+  again a polydisc, is also a Leray cover (2.3), but `H¹(𝒪)` of the union need not vanish: on the
+  cross `polydisc (1, ε) ∪ polydisc (ε, 1)`, `0 < ε < 1`, the class of `g = Σ_k (z₁z₂/ε²)^k` on the
+  overlap `polydisc (ε, ε)` is nonzero, because the diagonal Taylor coefficients `ε^(−2k)` of `g`
+  outgrow the Cauchy bounds `O((ε(1 − δ)²)^(−k))`, for any `δ > 0` with `(1 − δ)² > ε`, of every
+  function holomorphic on either piece.
 
 *Needs:* 2.1–2.3; Tau Ceti `typeProjection`, `delBar`, `kerDelBarZeroEquiv`, `mpullback_delBar`,
 `delBar_wedgeWith`, `smoothSheafIso`; Mathlib sheaf cohomology, `smoothSheafCommRing`,
@@ -888,7 +900,7 @@ constancy for disconnected manifolds.
 ### Examples
 
 The unit disc and the polydisc with the explicit primitives of 2.3; the punctured-plane products
-and their Laurent monomials of 2.1; the Riemann sphere of 7.1, where `H^(1,0) = 0`.
+and their Laurent monomials of 2.1.
 
 ### Dependencies
 
@@ -896,7 +908,7 @@ Tau Ceti `del`, `delBar`, `IsOfType`, `typeProjection`, the Dolbeault Leibniz an
 lemmas, `kerDelBarZeroEquiv`, the compact-support Cauchy transform and its parameter theorems,
 `smoothSheafIso`; rainer-advanced-complex-analysis, Theorem 7.4; Mathlib `circleIntegral`,
 `Complex.volume_preserving_equiv_real_prod`, `smoothSheafCommRing`, sheaf cohomology and the
-constancy theorems; Demailly, Chapters I and IV; Layer 4 and 7.1 for the later items only.
+constancy theorems; Demailly, Chapters I and IV.
 
 ## Layer 3: analytic germs and subvarieties (K3)
 
@@ -1034,42 +1046,43 @@ quantum-field-theory prerequisite and treats poles only.
 
 ### 3.4 Local algebra, the Nullstellensatz and coherence
 
-Prove the holomorphic stalk, a domain by the pinned `smoothStalkIsDomain`, Noetherian
-(Demailly, Chapter II, (2.7)), factorial ((2.10), `uniqueFactorizationMonoid_holomorphicStalk`)
-and a regular local ring of Krull dimension `n` with the coordinate germs as regular parameters
+Prove the holomorphic stalk, a domain by the pinned `smoothStalkIsDomain`, Noetherian (Demailly,
+Chapter II, (2.7)), factorial ((2.10), `uniqueFactorizationMonoid_holomorphicStalk`) and a regular
+local ring of Krull dimension `n` with the coordinate germs as regular parameters
 (`isRegularLocalRing_holomorphicStalk`: the coordinate germs span the maximal ideal by the pinned
-`ker_eval_eq_span_holomorphicLinearCoordinateGerm`, and `n` is its minimal number of generators
-by (4.32), p. 101; the Krull dimension is `n` because the primes `(z₁) ⊂ (z₁, z₂) ⊂ … ⊂
-(z₁, …, z_n)`, with quotients the domains `𝒪_(n−k)`, form a chain of length `n`, and Krull's
-height theorem in the Noetherian ring bounds the dimension by the number of generators). Follow
-Demailly, Chapter II, §4: prove local parametrization of a pure-dimensional analytic germ by a
-finite branched projection to a polydisc ((4.19)), elimination under finite projections, density
-of regular points ((4.24)) and the dimension and finite-fibre formulas. Prove the hypersurface
-weak Nullstellensatz: for irreducible `f`, a germ `h` vanishing on the zero germ of `f` is
-divisible by `f`. Prove **Rückert's Nullstellensatz** `rueckert_nullstellensatz`,
-`I(V(𝔞)) = √𝔞` for every ideal `𝔞` of the convergent local ring ((4.22)), stated for the ideal
-generated by finitely many germs `f₁, …, f_k` at `0 ∈ ℂⁿ` (every ideal, the ring being
-Noetherian): a germ vanishing on their common zero set near `0` has a power of the form
-`Σ a_i f_i` with holomorphic `a_i`, using local parametrization.
+`ker_eval_eq_span_holomorphicLinearCoordinateGerm`, and `n` is its minimal number of generators by
+(4.32), p. 101; the Krull dimension is `n` because the primes
+`(0) ⊂ (z₁) ⊂ (z₁, z₂) ⊂ … ⊂ (z₁, …, z_n)`, with quotients the domains `𝒪_(n−k)` for `0 ≤ k ≤ n`,
+form a chain of `n + 1` primes, of length `n`, and Krull's height theorem in the Noetherian ring
+bounds the dimension by the number of generators). Follow Demailly, Chapter II, §4: prove local
+parametrization of a pure-dimensional analytic germ by a finite branched projection to a polydisc
+((4.19)), elimination under finite projections, density of regular points ((4.24)) and the
+dimension and finite-fibre formulas. Prove the hypersurface weak Nullstellensatz: for irreducible
+`f`, a germ `h` vanishing on the zero germ of `f` is divisible by `f`. Prove **Rückert's
+Nullstellensatz** `rueckert_nullstellensatz`, `I(V(𝔞)) = √𝔞` for every ideal `𝔞` of the convergent
+local ring ((4.22)), stated for the ideal generated by finitely many germs `f₁, …, f_k` at `0 ∈ ℂⁿ`
+(every ideal, the ring being Noetherian): a germ vanishing on their common zero set near `0` has a
+power of the form `Σ a_i f_i` with holomorphic `a_i`, using local parametrization.
 
-Prove **Oka coherence** `oka_coherence` ((3.19)) via Weierstrass division and relations
-induction in the primitive local form: for every open `U ⊆ ℂⁿ`, every finite tuple of
-holomorphic functions on `U` and every `x ∈ U`, construct a neighbourhood `V ⊆ U` of `x` and
-finitely many holomorphic relation vectors on `V` whose germs generate the relation module at
-every point of `V`. Own **Cartan's
-coherence theorem** for the reduced ideal sheaf ((4.29)) as a separate local-algebra target:
-for every closed analytic subset `A` of an open complex manifold, locally the common zero set of
-finitely many holomorphic functions, and every point, construct a neighbourhood and finitely
-many holomorphic functions whose germs generate its reduced ideal at every point of that
-neighbourhood; by Rückert this ideal is the radical of the defining ideal, so the construction
+Prove **Oka coherence** `oka_coherence` ((3.19)) via Weierstrass division and relations induction
+in the primitive local form: for every open `U ⊆ ℂⁿ`, every finite tuple of holomorphic functions
+on `U` and every `x ∈ U`, construct a neighbourhood `V ⊆ U` of `x` and finitely many holomorphic
+relation vectors on `V` whose germs generate the relation module at every point of `V`. Own
+**Cartan's coherence theorem** `cartan_coherence` for the reduced ideal sheaf ((4.29), p. 99) as a
+separate local-algebra target: for every closed analytic subset `A` of an open complex manifold,
+locally the common zero set of finitely many holomorphic functions, and every point, construct a
+neighbourhood and finitely many holomorphic functions vanishing on `A` whose germs generate its
+reduced ideal at every point of that neighbourhood. It is stated in this primitive local form for
+the common zero set `A` of holomorphic `f₁, …, f_k` on an open `U ⊆ ℂⁿ` and a point `x ∈ U`: a
+neighbourhood `V ⊆ U` of `x` and holomorphic `g₁, …, g_N` on `V`, vanishing on `A ∩ V`, such that
+at every `y ∈ V` each analytic germ vanishing on `A` near `y` is `Σ c_j g_j` near `y` for analytic
+germs `c_j`; by Rückert this ideal is the radical of the defining ideal, so the construction
 produces generators of the radical. Prove it by reducing to irreducible germs, using local
-parametrization and the Weierstrass-polynomial description on the branched cover, and applying
-the Oka relations theorem; recombine local irreducible components by `I_A = ⋂ I_(A_k)`,
-generating each finite intersection from Oka relations of concatenated tuples `(f, −g)`. Give
-also the local-generator statement for ideals specified by a finite holomorphic tuple.
-RealAnalyticGeometry R3.2 owns the native coherent `SheafOfModules` predicate and the
-translation of these primitive statements to it; these local proofs consume only the preceding
-convergent local algebra.
+parametrization and the Weierstrass-polynomial description on the branched cover, and applying the
+Oka relations theorem; recombine local irreducible components by `I_A = ⋂ I_(A_k)`, generating each
+finite intersection from Oka relations of concatenated tuples `(f, −g)`. RealAnalyticGeometry R3.2
+owns the native coherent `SheafOfModules` predicate and the translation of these primitive
+statements to it; these local proofs consume only the preceding convergent local algebra.
 
 **Checks.**
 
@@ -1077,6 +1090,11 @@ convergent local algebra.
   `𝒪_2` is radical and `I(V(𝔞)) = 𝔞`.
 - The relation module of `(z₁, z₂)` in `𝒪_2` is generated by the single Koszul relation
   `(z₂, −z₁)`; the relation module of `(z, z²)` in `𝒪_1` by `(z, −1)`.
+- For `A = {z² = 0} = {0}` in `ℂ`, Cartan's generators can be the single `g₁ = z`: it generates
+  `(z)` at `0` and is a unit at every `y ≠ 0`, where the ideal is the unit ideal. The defining
+  function `z²` does not generate the reduced ideal at `0`, since `z ∉ (z²)`, so a construction
+  returning the defining tuple is wrong. For the empty tuple `A = U` and the ideal is `0` at every
+  point (no generator is needed); for `f₁ = 1`, `A = ∅` and `g₁ = 1` generates the unit ideal.
 - The cusp germ `w² − z³` is irreducible in `𝒪_2` though its zero set is singular; the node
   `w² − z² − z³` is reducible in `𝒪_2` (two branches `w = ±z√(1 + z)`) though irreducible as a
   polynomial. Factoriality is a statement about germs, not polynomials.
@@ -1190,7 +1208,8 @@ with that mixin, construct the sheaf of holomorphic sections in `SheafOfModules`
 independence and local freeness of rank `r` at every point, and compare with sections of the
 bundle glued by Milestone 7 from a holomorphic `GL_r` cocycle. Conversely reconstruct the native
 `F`-bundle from a locally free `𝒪`-module of rank `r` at every point, transporting its local
-bases to `F`. Prove the section/reconstruction equivalence, including morphisms and pullbacks.
+bases to `F`. Prove the section/reconstruction equivalence, including morphisms and pullbacks
+(Demailly, Chapter V, §11, after (11.1), p. 267).
 This fixed-model theorem does not identify a varying-rank sheaf with a single
 `VectorBundle ℂ F E`; 4.4 supplies the locally finite-rank scope.
 ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2 and FormalConnectionsOpers F2.4 consume this
@@ -1845,21 +1864,23 @@ operator of `d_A ⊕ d_A*` at a smooth reference connection, compute the exterio
 `A`.
 
 For every formally self-adjoint nonnegative Laplace-type system on a compact boundaryless base,
-identify its form and inclusion in B2.2's geometric `L²` with VariationalMethods §5.1's
-`CompactFormPair.operator`, the specialization of UnboundedOperators §4.7's `closedFormOperator`
-on the same form and inclusion data; UnboundedOperators owns closed-form representation,
-real-shift self-adjointness, both adjoint inclusions and witness independence, and §5.1 applies
-these and owns its compact-pair comparisons. Prove here that the operator domain and the
-adjoint/maximal weak domain are `H²` by elliptic regularity, obtaining the geometric `H²`
-realization, and that the shifted energy form is coercive on `H¹` by its scalar principal part
-and bounded lower-order coefficients. Consume VariationalMethods §2.2–2.4's `RCLike` coercive
-solution operator with its `toRealBilin` comparison (complex Hermitian forms use the
-realification and `i`-test supplied there), `H¹` Rellich and Layers 3–4's abstract
-compact-embedding spectral theorem, with §5.1–5.2's same-operator compact-resolvent, graph and
-eigen-expansion comparisons, to obtain the finite-dimensional kernel, complete smooth
-eigensections, the Green inverse on the kernel's orthogonal complement and its projection and
-recovery identities. Apply this to `Δ_d` and `Δ_A`; PseudodifferentialOperators P7 consumes
-it for smooth reference operators.
+identify its form and inclusion in B2.2's geometric `L²` as a compact form pair of
+VariationalMethods §3.1, whose operator (§5.1) is the unique self-adjoint operator of
+UnboundedOperators §4.7's `existsUnique_selfAdjoint_of_closed_form` on the same form and inclusion
+data, with domain the image of `CompactFormPair.operatorDomainV`; UnboundedOperators owns
+closed-form representation, real-shift self-adjointness, both adjoint inclusions and witness
+independence, and §5.1 applies these and owns its compact-pair comparisons. Prove here that the
+operator domain and the adjoint/maximal weak domain are `H²` by elliptic regularity, obtaining the
+geometric `H²` realization, and that the shifted energy form is coercive on `H¹` by its scalar
+principal part and bounded lower-order coefficients. Consume VariationalMethods §2.3's `RCLike`
+solution maps `S_α` and `F_α` of the shifted form, identified at `𝕜 = ℝ` through §2.2 with
+`IsCoercive.continuousLinearEquivOfBilin` and `IsCoercive.formSolutionMap` (complex Hermitian forms
+use the real restriction and `i`-test of UnboundedOperators §4.7), §2.4's shifts, `H¹` Rellich and
+Layers 3–4's abstract compact-embedding spectral theorem, with §5.1–5.2's same-operator
+compact-resolvent, graph and eigen-expansion comparisons, to obtain the finite-dimensional kernel,
+complete smooth eigensections, the Green inverse on the kernel's orthogonal complement and its
+projection and recovery identities. Apply this to `Δ_d` and `Δ_A`; PseudodifferentialOperators P7
+consumes it for smooth reference operators.
 
 Pin `d*` as the formal `L²` adjoint and the nonnegative Hodge Laplacian `Δ = d*d + dd*`, with
 `σ_F(Δ_d) = |ξ|²_g Id`; prove its self-adjoint realization with domain `H²` and compact
@@ -1895,7 +1916,7 @@ PseudodifferentialOperators P1.1, RiemannianGeometry R7 and 5.9 consume these id
 *Needs:* 5.2; 5.5; VariationalMethods §2.2–2.4, §3.1, Layers 3–4, §5.1–5.2; UnboundedOperators
 §4.7 (UO-D06); PDE §1.3; Tau Ceti `codifferential`, `laplaceBeltrami`; Mathlib
 `SchwartzMap.fourier_convolution`, `IsCoercive.continuousLinearEquivOfBilin`; Tau Ceti
-`deRhamCohomology`, `closedForms`, `deRhamCohomology.mk`; DifferentialGeometry 12.3;
+`deRhamCohomology`, `closedForms`, `deRhamCohomology.mk`, `IsCoercive.formSolutionMap`; DifferentialGeometry 12.3;
 hormander-alpdo1 for the local regularity route; wells-dacm, Chapter IV.
 
 ### 5.8 Componentwise compact transport (K5a.ComponentwiseCompact)
@@ -1966,27 +1987,26 @@ Consume Layers 1, 2, 4 and 5.1–5.2. The Gram, type and star identities, the Do
 adjoint on compact supports and the principal symbol `σ(Δ_∂̄_E)(ξ) = (1/2)|ξ|²_g Id` hold on
 arbitrary Hermitian complex manifolds and their open sets, without compactness;
 RealAnalyticGeometry R3.1 consumes them for its weighted noncompact estimate. Prove
-`dvol_g = ω^n/n!` for the complex orientation. Identify the `(p,q)` summands as smooth
-Gram-orthogonal subbundles with their orthogonal splitting and coefficient-space models, and
-prove the complex Dolbeault formal-adjoint instantiation on 5.1–5.2's density and `L²` laws. For
-`H_kl = h_T(∂_(z_k), ∂_(z_l))`, pin `|dz_j|²_Gram = 2(H⁻¹)_jj` and `dz_j♯ = 2 Σ_k (H⁻¹)_kj ∂_(z_k)`;
-thus `|dz_j|² = 2` and `dz_j♯ = 2∂_(z_j)` where `H = I`. For a `(1,0)` coframe `ψ` orthonormal in
-the complexified-real Gram product, define `e_θ = θ ∧ ·` and `i_θ = e_θ* = ι_(θ♯)` with `♯` the
-conjugate-linear Gram dual; prove the `(1,0)` and `(0,1)` cotangent subspaces Gram-orthogonal,
-and for `ψ_j` and its conjugate pin `i_j = e_j*`, `bar(i_j) = bar(e_j)*`,
-`e_θ i_η + i_η e_θ = ⟨η, θ⟩_Gram`, so the two same-type anticommutators are `δ_jk` and both
-mixed-type anticommutators vanish; interior at the ordinary dual-frame vector is a different
-normalization. A unitary `(1,0)` coframe `φ` for `h_T*` has Gram norm `√2`; prove the scaling
-`ψ = φ/√2` and `e_(φ_j) i_(φ_k) + i_(φ_k) e_(φ_j) = 2δ_jk`. Transport 5.1's pointwise type law to
-the complex-linear Hodge star `⋆ : Ω^(p,q) → Ω^(n−q,n−p)`, its degree square identities, and
-the `(n−p,n−q)` type of `barStar β = ⋆(bar β)`. Pin `α ∧ barStar β = ⟨β, α⟩ dvol` and
-`∂̄* = −⋆∂⋆`. Consume 5.7's `⋆Δ_d = Δ_d⋆` and prove `barStar Δ_∂̄ = Δ_∂̄ barStar`. For a
-Hermitian holomorphic bundle `E` construct the conjugate-linear
-`barStar_E : Ω^(p,q)(E) → Ω^(n−p,n−q)(E*)` by the fibrewise metric identification; pin
-`α ∧_ev barStar_E β = ⟨β, α⟩_(Gram⊗h_E) dvol_g` with `wedgeWith` and evaluation `(s, φ) ↦ φ(s)`
-in that order, and its integral and norm consequence; use this slot order in the Serre pairing.
-Prove the inverse and square laws and `barStar_E Δ_∂̄_E = Δ_∂̄_(E*) barStar_E`, where `E*` has
-B2.2's Riesz-transported dual metric.
+`dvol_g = ω^n/n!` for the complex orientation (Demailly, Chapter VI, (4.2), p. 296). Identify the
+`(p,q)` summands as smooth Gram-orthogonal subbundles with their orthogonal splitting and
+coefficient-space models, and prove the complex Dolbeault formal-adjoint instantiation on 5.1–5.2's
+density and `L²` laws. For `H_kl = h_T(∂_(z_k), ∂_(z_l))`, pin `|dz_j|²_Gram = 2(H⁻¹)_jj` and
+`dz_j♯ = 2 Σ_k (H⁻¹)_kj ∂_(z_k)`; thus `|dz_j|² = 2` and `dz_j♯ = 2∂_(z_j)` where `H = I`. For a
+`(1,0)` coframe `ψ` orthonormal in the complexified-real Gram product, define `e_θ = θ ∧ ·` and
+`i_θ = e_θ* = ι_(θ♯)` with `♯` the conjugate-linear Gram dual; prove the `(1,0)` and `(0,1)`
+cotangent subspaces Gram-orthogonal, and for `ψ_j` and its conjugate pin `i_j = e_j*`,
+`bar(i_j) = bar(e_j)*`, `e_θ i_η + i_η e_θ = ⟨η, θ⟩_Gram`, so the two same-type anticommutators are
+`δ_jk` and both mixed-type anticommutators vanish; interior at the ordinary dual-frame vector is a
+different normalization. A unitary `(1,0)` coframe `φ` for `h_T*` has Gram norm `√2`; prove the
+scaling `ψ = φ/√2` and `e_(φ_j) i_(φ_k) + i_(φ_k) e_(φ_j) = 2δ_jk`. Transport 5.1's pointwise type
+law to the complex-linear Hodge star `⋆ : Ω^(p,q) → Ω^(n−q,n−p)`, its degree square identities, and
+the `(n−p,n−q)` type of `barStar β = ⋆(bar β)`. Pin `α ∧ barStar β = ⟨β, α⟩ dvol` and `∂̄* = −⋆∂⋆`.
+Consume 5.7's `⋆Δ_d = Δ_d⋆` and prove `barStar Δ_∂̄ = Δ_∂̄ barStar`. For a Hermitian holomorphic
+bundle `E` construct the conjugate-linear `barStar_E : Ω^(p,q)(E) → Ω^(n−p,n−q)(E*)` by the
+fibrewise metric identification; pin `α ∧_ev barStar_E β = ⟨β, α⟩_(Gram⊗h_E) dvol_g` with
+`wedgeWith` and evaluation `(s, φ) ↦ φ(s)` in that order, and its integral and norm consequence;
+use this slot order in the Serre pairing. Prove the inverse and square laws and
+`barStar_E Δ_∂̄_E = Δ_∂̄_(E*) barStar_E`, where `E*` has B2.2's Riesz-transported dual metric.
 
 **Checks.**
 
@@ -2074,18 +2094,18 @@ Demailly, Chapter VI.
 The Kähler predicate is `IsKahlerForm`: a real smooth two-form on a complex manifold that is
 closed, `J`-invariant and positive on `(v, Jv)`. Prove its comparison with Tau Ceti's
 `SmoothTwoForm.Compatible` and `IsClosed` through DifferentialGeometry 0.4's
-`legacySmoothTwoFormEquiv`, and with the real-carrier predicate "compatible, closed and
-`N_J = 0`" on an almost complex manifold through 1.4's Newlander–Nirenberg theorem. Prove the
-equivalences (Ballmann, Theorem 4.17): closedness of the fundamental form, `∇J = 0` for the
-Levi-Civita connection, and holomorphic coordinates with `h_ij = δ_ij + O(|z|²)` at a point.
-Prove the adapted unitary frame lemma, the standard Kähler structure on `ℂⁿ`, that complex
-submanifolds inherit Kähler metrics, and that every Hermitian metric on a complex curve is
-Kähler. Develop `L = ω ∧ ·`, its adjoint `Λ`, primitive forms and `[Λ, L] = (n − k)` on degree
-`k` (Demailly, Chapter VI, §5.3). Prove the **Kähler identities** `[Λ, ∂] = i∂̄*`,
+`legacySmoothTwoFormEquiv`, and with the real-carrier predicate "compatible, closed and `N_J = 0`"
+on an almost complex manifold through 1.4's Newlander–Nirenberg theorem. Prove the equivalences
+(Ballmann, Theorem 4.17): closedness of the fundamental form, `∇J = 0` for the Levi-Civita
+connection, and holomorphic coordinates with `h_ij = δ_ij + O(|z|²)` at a point. Prove the adapted
+unitary frame lemma, the standard Kähler structure on `ℂⁿ`, that complex submanifolds inherit
+Kähler metrics, and that every Hermitian metric on a complex curve is Kähler. Develop `L = ω ∧ ·`,
+its adjoint `Λ`, primitive forms (Demailly, Chapter VI, §5.3) and `[Λ, L] = (n − k)` on degree `k`
+(Demailly, Chapter VI, (5.9), p. 301). Prove the **Kähler identities** `[Λ, ∂] = i∂̄*`,
 `[Λ, ∂̄] = −i∂*` and their adjoint and conjugate forms, explicitly `[Λ, d] = −(d^c)*` and
 `[L, d*] = d^c` (Demailly, Chapter VI, §6; Ballmann, §5.1); for `d_c = d^c/(4π)` prove the
-commutator identities with the factor `4π`. Prove `Δ_d = 2Δ_∂ = 2Δ_∂̄`, preserving type
-(Ballmann, Theorem 5.25).
+commutator identities with the factor `4π`. Prove `Δ_d = 2Δ_∂ = 2Δ_∂̄`, preserving type (Ballmann,
+Theorem 5.25).
 
 For a Hermitian holomorphic bundle `E` with 4.2's Chern connection, prove the pointwise
 Lefschetz algebra on `E`-valued forms and the twisted Kähler identities `[Λ, ∂̄_E] = −i(D′_E)*`
@@ -2284,39 +2304,38 @@ Construct the homeomorphism from `TauCeti.ComplexProjectiveSpace n` to
 `Projectivization ℂ (Fin (n+1) → ℂ)` sending the class of a unit vector to the line it spans
 (`Projectivization.mk`, a unit vector being nonzero): it is well defined and injective by
 `mk_eq_mk_iff` on the sphere side and `Projectivization.mk_eq_mk_iff` on the line side (two unit
-vectors span the same line iff they differ by a unit scalar), surjective because every nonzero
-`v` is a scalar multiple of `v/‖v‖`, continuous by `continuousAt_lift` and the continuity of
+vectors span the same line iff they differ by a unit scalar), surjective because every nonzero `v`
+is a scalar multiple of `v/‖v‖`, continuous by `continuousAt_lift` and the continuity of
 `Projectivization.mk` for the quotient topology, hence a homeomorphism from the compact space to
-the Hausdorff one (`Continuous.homeoOfEquivCompactToT2`). Prove that on `affineOpen i` it
-carries the ratio chart `affineChart i` to `affineOpenPartialHomeomorph i` coordinate by
-coordinate (`affineChart_apply`), so that it is a biholomorphism between
-`ComplexProjectiveSpace.instIsManifold` and `Projectivization.instIsManifold`. Transport the
-pinned finite CW structure `ComplexProjectiveSpace.cwComplex` along it by
-`Topology.IsClosedEmbedding.relCWComplex` (`Homeomorph.isClosedEmbedding`; the image of the
-whole space is the whole space), with the same cells (`relCWComplexCellEquiv`: one cell in each
-even dimension `0, 2, …, 2n`, none in odd dimensions) and characteristic maps `cellMap i`
-followed by the homeomorphism (`coe_map_relCWComplex`), the closed unit disc of `ℂⁱ` sent to
+the Hausdorff one (`Continuous.homeoOfEquivCompactToT2`). Prove that on `affineOpen i` it carries
+the ratio chart `affineChart i` to `affineOpenPartialHomeomorph i` coordinate by coordinate
+(`affineChart_apply`), so that it is a biholomorphism between
+`ComplexProjectiveSpace.instIsManifold` and `Projectivization.instIsManifold`. Transport the pinned
+finite CW structure `ComplexProjectiveSpace.cwComplex` along it by
+`Topology.IsClosedEmbedding.relCWComplex` (`Homeomorph.isClosedEmbedding`; the image of the whole
+space is the whole space), with the same cells (`relCWComplexCellEquiv`: one cell in each even
+dimension `0, 2, …, 2n`, none in odd dimensions) and characteristic maps `cellMap i` followed by
+the homeomorphism (`coe_map_relCWComplex`), the closed unit disc of `ℂⁱ` sent to
 `z ↦ [z : √(1−|z|²) : 0 : ⋯ : 0]`, so that the `2i`-skeleton is the image of
 `Projectivization ℂ (Fin (i+1) → ℂ)` under the inclusion of the first `i + 1` coordinates.
 Transport the pinned cellular chain complex, whose differentials all vanish
 (`cellularChainComplex_d_eq_zero`), the singular homology `singularHomologyIso`,
 `isZero_singularHomology_of_odd` and `isZero_singularHomology_of_lt` and the Euler characteristic
 `eulerChar_complexProjectiveSpace` along the homeomorphism (singular homology and the cell count
-are homeomorphism invariants), using AlgebraicTopology Stage 4's cellular/singular comparison
-and not Stage 7's Euler-characteristic theorem; AlgebraicTopology Stage 7's complex-projective
-check and CharacteristicClasses C1.5 consume this transported structure. Own the
-cellular and cup calculation `H*(ℂPⁿ; ℤ) = ℤ[u]/(u^(n+1))`, `|u| = 2`, using Stage 6's cellular
-groups and products, with `u` the hyperplane class normalized by `⟨u, [ℂP¹]⟩ = +1`; use Stage
-6's Poincaré duality and the restrictions to `ℂP^k` to identify the powers of `u` and the cup
-multiplication beyond the additive groups. Compare the real image of `u` with `[ω_FS]` and with
-SmoothBundlesConnections B6.2's `c₁(P)` for the Hopf circle bundle `P`, whose dual-character
-associated line is `O(1)`, using B6.3's Chern–Weil comparison; this `c₁` is the independently
-constructed circle-bundle class and does not consume CharacteristicClasses' universal class.
-CharacteristicClasses C1.5 consumes these finite carrier inclusions, cup rings and
-restriction-normalized classes for its finite-to-infinite comparison. Prove nonempty closed
-complex submanifolds of projective space compact Kähler with `h^(k,k) ≥ 1` for `0 ≤ k ≤ dim`
-from nonzero Kähler powers; these are GeometricQuantization's inputs, whose scaled symplectic
-forms use `k ≥ 1`.
+are homeomorphism invariants), using AlgebraicTopology Stage 4's cellular/singular comparison and
+not Stage 7's Euler-characteristic theorem; CharacteristicClasses C1.5 consumes this transported
+structure. Own the cellular and cup calculation `H*(ℂPⁿ; ℤ) = ℤ[u]/(u^(n+1))`, `|u| = 2`
+(Demailly, Chapter V, (15.10), p. 280), using
+Stage 6's cellular groups and products, with `u` the hyperplane class normalized by
+`⟨u, [ℂP¹]⟩ = +1`; use Stage 6's Poincaré duality and the restrictions to `ℂP^k` to identify the
+powers of `u` and the cup multiplication beyond the additive groups. Compare the real image of `u`
+with `[ω_FS]` and with SmoothBundlesConnections B6.2's `c₁(P)` for the Hopf circle bundle `P`,
+whose dual-character associated line is `O(1)`, using B6.3's Chern–Weil comparison; this `c₁` is
+the independently constructed circle-bundle class and does not consume CharacteristicClasses'
+universal class. CharacteristicClasses C1.5 consumes these finite carrier inclusions, cup rings and
+restriction-normalized classes for its finite-to-infinite comparison. Prove nonempty closed complex
+submanifolds of projective space compact Kähler with `h^(k,k) ≥ 1` for `0 ≤ k ≤ dim` from nonzero
+Kähler powers; these are GeometricQuantization's inputs, whose scaled symplectic forms use `k ≥ 1`.
 
 **Checks.**
 
@@ -2357,7 +2376,8 @@ Tau Ceti `ComplexProjectiveSpace.cwComplex`, `cellMap`, `cellularChainComplex_d_
 ### 7.3 Tori, Riemann surfaces and the Hopf surface (K7.3)
 
 For a complex torus `ℂⁿ/Λ` with a full real lattice, consume ComplexTori Milestone 1's quotient
-and descent. Prove its flat Kähler structure, the invariant holomorphic forms and
+and descent. Prove its flat Kähler structure (Demailly, Chapter VI, (4.5), p. 297), the
+invariant holomorphic forms and
 `h^(p,q) = binomial(n, p) binomial(n, q)`, including the elliptic curve and its genus/Betti
 dictionary. For every compact connected Riemann surface define the geometric genus `g = h^(1,0)`
 and prove `h^(0,0) = h^(1,1) = 1`, `h^(0,1) = g` and `b₁ = 2g` by Hodge comparison. Prove the
@@ -2387,7 +2407,8 @@ are GeometricQuantization's.
 
 Construct the primary **Hopf surface** `(ℂ² ∖ {0})/(z ↦ 2z)` using ComplexManifolds Milestone
 4's free properly discontinuous holomorphic quotient and its diffeomorphism to `S¹ × S³`.
-Compute its de Rham groups and prove it is not Kähler since `H²(M; ℝ) = 0`. Prove `h^(1,0) = 0`
+Compute its de Rham groups and prove it is not Kähler since `H²(M; ℝ) = 0` (Demailly, Chapter
+VI, (4.7), p. 297). Prove `h^(1,0) = 0`
 by 3.5's Hartogs extension and dilation invariance, compute `h^(0,1) = 1`, and identify the
 failure of Hodge symmetry. Own the Laurent and Čech computation of `H¹(ℂ² ∖ {0}, 𝒪)` on 2.4's
 Leray cover and its dilation action: its invariant part is zero, while `H¹(ℤ, 𝒪(ℂ²)) ≃ ℂ` by
@@ -2584,29 +2605,30 @@ Layers 2, 5, 6; AlgebraicTopology Stage 5.0; ComplexManifolds Milestone 4; LieGr
   and 5.3's distribution local structure; RelativisticQuantumFieldTheory consumes 3.3's
   meromorphic germ field; RiemannianGeometry R7 and SpinGeometry consume
   5.1, 5.7 and the star and codifferential identities.
-- LieGroupoidsPoisson consumes 1.3's eigenbundle and involutivity dictionary; SymplecticGeometry
-  consumes 6.2's odd-Betti obstruction; the roadmaps on main that cite K5a and K7 (DGFloer,
-  TaubesGromov, SeibergWittenTheory, Yamabe, PositiveScalarCurvature, MorseTheory,
+- SymplecticGeometry consumes 6.2's odd-Betti obstruction; the roadmaps on main that cite K5a and
+  K7 (DGFloer, TaubesGromov, SeibergWittenTheory, Yamabe, PositiveScalarCurvature, MorseTheory,
   GeometricCurrents, TopologicalSheafCohomology, Orbifolds, NilpotentOrbits, ComplexCurveModuli,
-  AffineMorseLefschetz, TopologicalKTheory, GeneralizedCohomology) consume the Sobolev scale,
-  the Hodge theorem and the projective examples.
+  AffineMorseLefschetz, TopologicalKTheory, GeneralizedCohomology) consume the Sobolev scale, the
+  Hodge theorem and the projective examples.
 
 ## References
 
-- Jean-Pierre Demailly, *Complex Analytic and Differential Geometry*, manuscript
-  (demailly-agbook): Chapter I, (3.2) and (3.4) the Cauchy–Green kernel, (3.28) Hartogs
-  extension, (3.29) the Dolbeault–Grothendieck lemma; Chapter II, (2.1) Weierstrass preparation,
-  (2.3)–(2.4) Weierstrass division with its uniqueness, (2.7) the Noetherian property, (2.10)
-  factoriality, (3.19) Oka's coherence theorem, (4.19) local parametrization, (4.22) the
-  Nullstellensatz, (4.24) density of regular points, (4.29) Cartan's theorem, (4.31) the
-  singular locus, (4.32) the dimension of the local ring; Chapter III, (1.25) Wirtinger's
-  inequality, (2.6)–(2.7) Lelong's theorem on the current of integration; Chapter IV, (6.13)–(6.15)
-  the Dolbeault isomorphism theorem; Chapter V, §12, (12.4) the Chern connection and its curvature,
-  (15.5)–(15.6) sections of `O(k)` on projective space; Chapter VI, §5.3 primitive forms, §6
-  commutation relations, (7.2) the Hodge isomorphism theorem, (7.3) Serre duality, (8.5)–(8.7)
-  Hodge decomposition and the `∂∂̄`-lemma, (8.12) Betti and Hodge numbers, (8.17) Hard Lefschetz,
-  §11 the Hodge–Frölicher spectral sequence; Chapter VII, (1.2)–(1.3) the Bochner–Kodaira–Nakano
-  identity and its Kähler case, (2.1) the integrated a priori inequality.
+- Jean-Pierre Demailly, *Complex Analytic and Differential Geometry*, manuscript (demailly-agbook):
+  Chapter I, (3.2) and (3.4) the Cauchy–Green kernel, (3.28) Hartogs extension, (3.29) the
+  Dolbeault–Grothendieck lemma; Chapter II, (2.1) Weierstrass preparation, (2.3)–(2.4) Weierstrass
+  division with its uniqueness, (2.7) the Noetherian property, (2.10) factoriality, (3.19) Oka's
+  coherence theorem, (4.19) local parametrization, (4.22) the Nullstellensatz, (4.24) density of
+  regular points, (4.29) Cartan's theorem, (4.31) the singular locus, (4.32) the dimension of the
+  local ring; Chapter III, (1.25) Wirtinger's inequality, (2.6)–(2.7) Lelong's theorem on the
+  current of integration; Chapter IV, (6.13)–(6.15) the Dolbeault isomorphism theorem; Chapter V,
+  §11 after (11.1) holomorphic bundles as locally free sheaves, §12, (12.4) the Chern connection
+  and its curvature, (15.5)–(15.6) sections of `O(k)` on projective space, (15.10) the cohomology
+  ring of projective space; Chapter VI, (4.2) the volume form `ω^n/n!`, (4.5) flat tori, (4.7) the
+  Hopf surface, (5.9) `[L, Λ]` on `(p,q)`-forms, §5.3 primitive forms, §6 commutation relations,
+  (7.2) the Hodge isomorphism theorem, (7.3) Serre duality, (8.5)–(8.7) Hodge decomposition and the
+  `∂∂̄`-lemma, (8.12) Betti and Hodge numbers, (8.17) Hard Lefschetz, §11 the Hodge–Frölicher
+  spectral sequence; Chapter VII, (1.2)–(1.3) the Bochner–Kodaira–Nakano identity and its Kähler
+  case, (2.1) the integrated a priori inequality.
 - Werner Ballmann, *Lectures on Kähler Manifolds* (ballmann-kahler): Theorem 3.18 the Chern
   connection, Theorem 4.17 the Kähler equivalences, Theorem 4.23 nonvanishing of `[ω^k]`, §5.1
   and Theorem 5.25 the Kähler identities and Laplacians, Theorem 5.31 Hard Lefschetz.
