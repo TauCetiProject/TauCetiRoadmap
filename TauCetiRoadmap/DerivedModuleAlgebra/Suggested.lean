@@ -125,13 +125,15 @@ universe u v w w'
 namespace DerivedDeRham
 
 /-- **The derived tensor product exists** (README 0.2; Stacks, Definition 15.60.13, Tag 064M,
-with Lemmas 15.60.10 and 15.60.12, Tags 06Y4 and 064L). For a commutative ring `R`, the termwise
-tensor product of cochain complexes of `R`-modules followed by the localization `Q` to `D(R)` has
-a left derived bifunctor with respect to quasi-isomorphisms in both variables: a right Kan
-extension along `Q × Q`, in the sense of Mathlib's `Functor.HasLeftDerivedFunctor₂`. This is the
-derived tensor product `⊗^L` on unbounded complexes; the route resolves one variable by a K-flat
-complex, which every complex has, and tensoring with a K-flat complex preserves
-quasi-isomorphisms. -/
+with Lemmas 15.60.2, 15.60.10 and 15.60.12, Tags 06Y0, 06Y4 and 064L). For a commutative ring `R`,
+the termwise tensor product of cochain complexes of `R`-modules followed by the localization `Q` to
+`D(R)` has a left derived bifunctor with respect to quasi-isomorphisms in both variables: a right
+Kan extension along `Q × Q`, in the sense of Mathlib's `Functor.HasLeftDerivedFunctor₂`. This is
+the derived tensor product `⊗^L` on unbounded complexes; the route resolves one variable by a
+K-flat complex, which every complex has (Lemma 15.60.10), tensoring with a fixed K-flat complex
+preserves quasi-isomorphisms in the other variable (Lemma 15.60.2, Tau Ceti's
+`CochainComplex.quasiIso_id_tensorHom`), and a quasi-isomorphism between K-flat complexes stays one
+after tensoring with any complex (Lemma 15.60.12). -/
 theorem hasLeftDerivedFunctor₂_tensor (R : Type u) [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{u} R)] :
     (MonoidalCategory.curriedTensor (CochainComplex (ModuleCat.{u} R) ℤ) ⋙

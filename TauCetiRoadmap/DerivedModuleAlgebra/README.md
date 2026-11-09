@@ -15,7 +15,8 @@ of module-derived limits and derived completion, ordinary-module perfectness and
 effectivity, and the specified Matlis and spectral-sequence contracts. Objects and comparisons use
 Mathlib's carriers and the pinned Tau Ceti APIs. The targets of §§0.DP.1–0.DP.3, the Koszul
 complex of §0.K.1 apart from its algebra-map and mapping-cone clauses, the K-injective replacement
-functor of §0.I.1, the K-flat replacement of §0.2 with flat terms, Lazard's theorem in §0.2.1, the
+functor of §0.I.1, the K-flat replacement of §0.2 with flat terms and the K-flatness and tensor
+facts it cites other than [StacksMA] Lemma 15.60.12, Lazard's theorem in §0.2.1, the
 Alexander–Whitney maps of §0.2.2, the derived Hom with its cohomology in §1.1.1, the complete
 flatness of flat modules in §1.7, and the injective hulls, completion action, finite-length
 biduality and Artinian criterion of §1.M.2 are formalised at the pinned Tau Ceti; each such target
@@ -119,7 +120,7 @@ the headline theorems that are statable against the pinned libraries, with the f
 | From Tau Ceti module towers | In `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower` (`ℕᵒᵖ ⥤ ModuleCat R` over any `[Ring R]`), the product `TauCeti.ModuleTower.Product` of its terms, its difference map `TauCeti.ModuleTower.shift` on that product, `δ(x)_n = x_n − φ_n(x_(n+1))`, with kernel `TauCeti.ModuleTower.lim` and cokernel `TauCeti.ModuleTower.limOne`, the induced maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap`; the six-term connecting map `TauCeti.ModuleTower.connecting` with `TauCeti.ModuleTower.exact_limMap_connecting`, `TauCeti.ModuleTower.exact_connecting_limOneMap`, `TauCeti.ModuleTower.exact_limOneMap`, `TauCeti.ModuleTower.limOneMap_surjective` and `TauCeti.ModuleTower.connecting_naturality`; `TauCeti.ModuleTower.IsMittagLeffler` with `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; the Milnor sequences of towers of complexes `TauCeti.ComplexTower` under degreewise surjectivity of the difference map, `TauCeti.ComplexTower.limOneToHomology_injective`, `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim` and `TauCeti.ComplexTower.homologyToLim_surjective`, natural by `TauCeti.ComplexTower.homologyToLim_naturality` and `TauCeti.ComplexTower.limOneToHomology_naturality`; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`, `TauCeti.ModuleTower.limOneSubsequenceEquiv` and `TauCeti.ComplexTower.limComplexSubsequenceIso`; and, in `Tower.DerivedLimit`, the homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`, the derived limit `TauCeti.ModuleTower.derivedLimit` with `TauCeti.ModuleTower.derivedLimitFactors` (`Q ⋙ Rlim ≅ holim ⋙ Q`), its `Functor.CommShift ℤ` instance, the projections `TauCeti.ModuleTower.derivedLimitπ`, the comparison `TauCeti.ModuleTower.homotopyLimitLift` and `TauCeti.ModuleTower.derivedLimitIsoLimComplex` (`Rlim K ≅ lim K` when every term has vanishing `lim¹`); in `Tower.Reduction`, the reduction functor `TauCeti.ModuleTower.reductionFunctor I` sending a module `M` to its tower `n ↦ M/I^(n+1)M` with the quotient maps as transitions. Used in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
 | From Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs, on which the Tau Ceti divided-power declarations below are built. |
 | From Tau Ceti polynomial laws and divided powers | In `TauCeti.RingTheory.PolynomialLaw`: `PolynomialLaw.IsHomogeneousOfDegree`, `PolynomialLaw.IsMultiplicative` and `PolynomialLaw.algHomEquiv`. In `TauCeti.RingTheory.DividedPowerAlgebra`: `DividedPowerAlgebra.homogeneousSubmodule`, `DividedPowerAlgebra.mapHomogeneousSubmodule`, `DividedPowerAlgebra.isInternal_homogeneousSubmodule`, the universal law `DividedPowerAlgebra.gamma` with `DividedPowerAlgebra.gamma_toFun_sum_tmul`, `DividedPowerAlgebra.homogeneousLawEquiv`, `DividedPowerAlgebra.baseChangeHomogeneousEquiv`, `DividedPowerAlgebra.homogeneousTensorMap`, `DividedPowerAlgebra.RobyAlgebra` with `DividedPowerAlgebra.RobyAlgebra.algHomEquiv`, `DividedPowerAlgebra.symmetricTensorEquiv`, and the augmentation theory `DividedPowerAlgebra.augmentation`, `DividedPowerAlgebra.augmentationIdeal`, `DividedPowerAlgebra.augmentationIdeal_eq_span`, `DividedPowerAlgebra.augmentationSplitting`, `DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul` and `DividedPowerAlgebra.dp_two_not_mem_span_dp_one`. These formalise §§0.DP.1–0.DP.3. |
-| From Tau Ceti replacements, derived Hom and flat modules | `CochainComplex.exists_quasiIso_isKInjective` (`TauCeti.Algebra.Homology.ModuleCat.KInjective`, any `[Ring R]`); the replacement functor `TauCeti.kInjectiveReplacement`, right adjoint to `DerivedCategory.Qh` by `TauCeti.kInjectiveReplacementAdjunction`, and `CochainComplex.IsKInjective.exists_homotopyEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.KInjective`); the derived Hom `TauCeti.derivedHom` with `TauCeti.derivedHomHomologyLinearEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.DerivedHom`); `CochainComplex.IsKFlat` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Basic`) and `CochainComplex.exists_quasiIso_isKFlat_moduleCat` (`TauCeti.Algebra.Homology.ModuleCat.KFlat`); the cell-attachment resolution `CochainComplex.kFlatResolution` built from epimorphisms `E X → X`, with its instances `CochainComplex.kFlatResolution.quasiIso_π`, `CochainComplex.isKFlat_kFlatResolution` and `CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Resolution`), read through Mathlib's `Module.Flat.iff_preservesFiniteLimits_tensorLeft`; Lazard's theorem `TauCeti.flatModuleFilteredFree` on the filtered category `TauCeti.FiniteFreeOver` (`TauCeti.Algebra.Category.ModuleCat.Flat.FilteredFree`, any `[Ring R]`); `ModuleCat.isZero_Tor_succ_of_flat` (`TauCeti.Algebra.Category.ModuleCat.Monoidal.Tor`). These formalise the K-injective replacement of §0.I.1, the derived Hom of §1.1.1 without its tensor adjunction, the K-flat replacement of §0.2 with flat terms, §0.2.1, and, with Mathlib's `Module.Flat.baseChange`, the complete flatness of flat modules in §1.7. `CochainComplex.IsKFlat` with `CochainComplex.exists_quasiIso_isKFlat_moduleCat` also carries the K-flat models on which §§1.3, 1.5 and 1.8 state derived Nakayama, the ordinary-quotient comparisons and the amplitude bound. |
+| From Tau Ceti replacements, derived Hom and flat modules | `CochainComplex.exists_quasiIso_isKInjective` (`TauCeti.Algebra.Homology.ModuleCat.KInjective`, any `[Ring R]`); the replacement functor `TauCeti.kInjectiveReplacement`, right adjoint to `DerivedCategory.Qh` by `TauCeti.kInjectiveReplacementAdjunction`, and `CochainComplex.IsKInjective.exists_homotopyEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.KInjective`); the derived Hom `TauCeti.derivedHom` with `TauCeti.derivedHomHomologyLinearEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.DerivedHom`); `CochainComplex.IsKFlat` with `CochainComplex.quasiIso_id_tensorHom`, `CochainComplex.isKFlat_of_boundedAbove_flat`, `CochainComplex.isKFlat_shift`, `CochainComplex.isKFlat_mappingCone` and `CochainComplex.isKFlat_of_isColimit` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Basic`), the Koszul symmetry `TauCeti.koszulSymmetricCategory` of `CochainComplex (ModuleCat R) ℤ` for commutative `R` (`TauCeti.Algebra.Homology.Monoidal.Braiding`), and `CochainComplex.exists_quasiIso_isKFlat_moduleCat` (`TauCeti.Algebra.Homology.ModuleCat.KFlat`); the cell-attachment resolution `CochainComplex.kFlatResolution` built from epimorphisms `E X → X`, with its instances `CochainComplex.kFlatResolution.quasiIso_π`, `CochainComplex.isKFlat_kFlatResolution` and `CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Resolution`), read through Mathlib's `Module.Flat.iff_preservesFiniteLimits_tensorLeft`; Lazard's theorem `TauCeti.flatModuleFilteredFree` on the filtered category `TauCeti.FiniteFreeOver` (`TauCeti.Algebra.Category.ModuleCat.Flat.FilteredFree`, any `[Ring R]`); `ModuleCat.isZero_Tor_succ_of_flat` (`TauCeti.Algebra.Category.ModuleCat.Monoidal.Tor`). These formalise the K-injective replacement of §0.I.1, the derived Hom of §1.1.1 without its tensor adjunction, the K-flat replacement of §0.2 with flat terms and the K-flatness and tensor facts §0.2 cites from [StacksMA] Lemmas 15.60.2, 15.60.5, 15.60.7 and 15.60.8, §0.2.1, and, with Mathlib's `Module.Flat.baseChange`, the complete flatness of flat modules in §1.7. `CochainComplex.IsKFlat` with `CochainComplex.exists_quasiIso_isKFlat_moduleCat` also carries the K-flat models on which §§1.3, 1.5 and 1.8 state derived Nakayama, the ordinary-quotient comparisons and the amplitude bound. |
 | From Tau Ceti spectral sequences | The spectral sequence `CochainComplex.spectralSequence` of a filtered cochain complex `CochainComplex.filtrationFunctor`, with its abutment `CochainComplex.filtrationAbutmentIso` and stabilization `CochainComplex.filtrationSpectralSequencePageXIsoEInfty` (`TauCeti.Algebra.Homology.SpectralSequence.Filtered`); for a first-quadrant homological bicomplex in `HomologicalComplex₂ C (down ℕ) (down ℕ)`, `HomologicalComplex₂.rowFiltrationSpectralSequence` and `HomologicalComplex₂.columnFiltrationSpectralSequence`, their first pages `HomologicalComplex₂.rowFiltrationSpectralSequenceFirstPageXIso` and `HomologicalComplex₂.columnFiltrationSpectralSequenceFirstPageXIso`, abutments `HomologicalComplex₂.rowFiltrationAbutmentIso` and `HomologicalComplex₂.columnFiltrationAbutmentIso`, and convergence `HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`, `HomologicalComplex₂.isZero_rowFiltration_abutmentFiltration` and `HomologicalComplex₂.isIso_rowFiltration_abutmentFiltrationι` (`TauCeti.Algebra.Homology.SpectralSequence.Bicomplex`). Consumed in §S.1. |
 | From Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`, `Fintype.linearCombination`; the Koszul complexes below are built on them. |
 | From Tau Ceti Koszul complexes | In `TauCeti.RingTheory.KoszulComplex`: the Koszul complex `TauCeti.koszulComplex φ` of a linear functional `φ : M → R`, an `ℕ`-indexed chain complex with terms `⋀ⁿ M` and differential the contraction by `φ`, with its first differential `TauCeti.zeroEquiv_koszulDifferential_zero`, the induced chain maps `TauCeti.koszulComplex.map` (with `TauCeti.koszulComplex.map_id` and `TauCeti.koszulComplex.map_comp`), the null-homotopy `TauCeti.koszulComplex.smulHomotopy` of multiplication by `φ(m)`, the zeroth homology `TauCeti.koszulComplex.homologyZeroEquivSpan` of a finite sequence, the tensor decompositions `TauCeti.koszulComplex.tensorIso` and `TauCeti.koszulComplex.tensorIsoAppend`, and acyclicity for weakly regular sequences `TauCeti.koszulComplex.exactAt_of_isWeaklyRegular`. These formalise §0.K.1 apart from its algebra-map and mapping-cone clauses; consumed in §§1.3–1.5. |
@@ -792,11 +793,19 @@ Prove the following laws.
 
 ### 0.2 Derived tensor products on module derived categories
 
-For a ring `R`, every complex of `R`-modules admits a K-flat resolution, a bounded-above complex of flat
-modules is K-flat, and the termwise tensor product with a K-flat complex sends quasi-isomorphisms to
-quasi-isomorphisms ([StacksMA] Definition 15.60.1, Lemmas 15.60.7, 15.60.10, 15.60.12; Tags 06XZ, 064K,
-06Y4, 064L, pp.144–147). K-flat complexes are closed under shifts and cones and under filtered colimits
-([StacksMA] Lemmas 15.60.5 and 15.60.8, Tags 06Y2, 06Y3). Define
+For a ring `R`, every complex of `R`-modules admits a K-flat resolution and a bounded-above complex of
+flat modules is K-flat ([StacksMA] Definition 15.60.1, Lemmas 15.60.10 and 15.60.7; Tags 06XZ, 06Y4,
+064K, pp.144–146). The termwise tensor product with a fixed K-flat complex sends quasi-isomorphisms to
+quasi-isomorphisms ([StacksMA] Lemma 15.60.2, Tag 06Y0, p.144), and a quasi-isomorphism between K-flat
+complexes stays one after termwise tensor product with any complex ([StacksMA] Lemma 15.60.12,
+Tag 064L, p.147). K-flat complexes are closed under shifts and cones and under filtered colimits
+([StacksMA] Lemmas 15.60.5 and 15.60.8, Tags 06Y2, 06Y3). For complexes of modules over a
+commutative ring, Tau Ceti formalises all of these except Lemma 15.60.12, in
+`TauCeti.Algebra.Homology.Monoidal.KFlat.Basic`: `CochainComplex.isKFlat_of_boundedAbove_flat`,
+`CochainComplex.quasiIso_id_tensorHom` (for a K-flat `K` and a quasi-isomorphism `f`, the map
+`K ⊗ f` is a quasi-isomorphism), `CochainComplex.isKFlat_shift`, `CochainComplex.isKFlat_mappingCone`
+(the cone of a map between K-flat complexes) and `CochainComplex.isKFlat_of_isColimit`; the
+resolution is described below, and Lemma 15.60.12 is a law of this section. Define
 `D(R) ⥤ D(R) ⥤ D(R)` as the derived tensor product of [StacksMA]
 Definition 15.60.13 (Tag 064M), computed by `Tot(K• ⊗_R L•)` with `K•` K-flat; and derived extension of
 scalars along `R → R′` as `− ⊗^L_R R′`.
@@ -810,7 +819,7 @@ quasi-isomorphisms in both variables (Mathlib's `Functor.HasLeftDerivedFunctor�
 applied to every term of a complex, followed by `DerivedCategory.Q` has a left derived functor for
 quasi-isomorphisms (Mathlib's `Functor.HasLeftDerivedFunctor`), for every map `f : R → R′` of
 commutative rings ([StacksMA] Lemma 15.61.1, Tag 06Y6, p.149). Both rest on K-flat
-resolutions of one variable ([StacksMA] Lemmas 15.60.10 and 15.60.12); the derived functors are then Mathlib's
+resolutions of one variable ([StacksMA] Lemmas 15.60.2, 15.60.10 and 15.60.12); the derived functors are then Mathlib's
 `Functor.leftDerived₂` and `Functor.totalLeftDerived`, unique up to unique isomorphism. Derived
 restriction of scalars needs no construction: restriction is exact, so it is Mathlib's
 `Functor.mapDerivedCategory` of `ModuleCat.restrictScalars f`. Prove
@@ -854,7 +863,7 @@ flat in every degree ([StacksMA] Lemma 15.60.10, Tag 06Y4): Tau Ceti's
 (`CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X`, which is flatness by Mathlib's
 `Module.Flat.iff_preservesFiniteLimits_tensorLeft`). The bi-infinite ℤ/4 example below excludes termwise flatness as a substitute for K-flatness.
 
-*Needs:* Tau Ceti `CochainComplex.IsKFlat`, `CochainComplex.exists_quasiIso_isKFlat_moduleCat` and `CochainComplex.kFlatResolution` with its three instances above; Mathlib `DerivedCategory`, `HomologicalComplex`, `ModuleCat`, tensor products, exact filtered colimits and localization of complexes, `Functor.HasLeftDerivedFunctor₂`, `Functor.HasLeftDerivedFunctor`, `ModuleCat.extendScalars`, `ModuleCat.restrictScalars`, `Functor.mapDerivedCategory` and `Functor.mapDerivedCategoryFactors`; for the adjunction, Mathlib `ModuleCat.extendRestrictScalarsAdj`, `CategoryTheory.Adjunction.derived`, `CategoryTheory.Functor.isRightDerivedFunctor_of_inverts`, `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure` with `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure.mk'` and `CategoryTheory.LocalizerMorphism.Derives.isLeftDerivedFunctor_iff_isIso`, and [StacksMA] Lemma 15.60.12.
+*Needs:* Tau Ceti `CochainComplex.IsKFlat`, `CochainComplex.quasiIso_id_tensorHom`, `CochainComplex.isKFlat_of_boundedAbove_flat`, `CochainComplex.isKFlat_shift`, `CochainComplex.isKFlat_mappingCone`, `CochainComplex.isKFlat_of_isColimit`, the Koszul symmetry `TauCeti.koszulSymmetricCategory`, `CochainComplex.exists_quasiIso_isKFlat_moduleCat` and `CochainComplex.kFlatResolution` with its three instances above; Mathlib `DerivedCategory`, `HomologicalComplex`, `ModuleCat`, tensor products, exact filtered colimits and localization of complexes, `Functor.HasLeftDerivedFunctor₂`, `Functor.HasLeftDerivedFunctor`, `ModuleCat.extendScalars`, `ModuleCat.restrictScalars`, `Functor.mapDerivedCategory` and `Functor.mapDerivedCategoryFactors`; for the adjunction, Mathlib `ModuleCat.extendRestrictScalarsAdj`, `CategoryTheory.Adjunction.derived`, `CategoryTheory.Functor.isRightDerivedFunctor_of_inverts`, `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure` with `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure.mk'` and `CategoryTheory.LocalizerMorphism.Derives.isLeftDerivedFunctor_iff_isIso`, and the law of [StacksMA] Lemma 15.60.12 below.
 
 *Lean:* `Suggested.lean` declares `hasLeftDerivedFunctor₂_tensor`, `complexBaseChange`,
 `hasLeftDerivedFunctor_extendScalars` and `nonempty_derivedExtendRestrictScalarsAdj`, the last
@@ -867,11 +876,17 @@ Prove the following laws.
   `P• ⊗^L L ≅ Tot(P• ⊗ L•)` naturally.
 - the bifunctor is exact in each variable, symmetric
   monoidal with unit `R[0]`.
-- a filtered colimit of K-flat complexes is K-flat, and a shift or cone of
-  K-flat complexes is K-flat.
+- for a quasi-isomorphism `α : P• → Q•` between K-flat complexes and any complex `L•`, the map
+  `Tot(L• ⊗ P•) → Tot(L• ⊗ Q•)` induced by `α` is a quasi-isomorphism ([StacksMA] Lemma 15.60.12,
+  Tag 064L, p.147). Route: choose a K-flat resolution `K• → L•` and compare through
+  `Tot(K• ⊗ P•) → Tot(K• ⊗ Q•)`. The top map is a quasi-isomorphism by
+  `CochainComplex.quasiIso_id_tensorHom` for `K•`; the two maps down to `L•` are, by the same
+  lemma for `P•` and for `Q•`, after `TauCeti.koszulSymmetricCategory` moves the K-flat factor to
+  the left.
 - the direct-sum totalization of a bicomplex whose columns sit in
   nonpositive simplicial degrees and are K-flat is K-flat. It is the colimit of the totalizations of
-  its first `n` columns, each an iterated cone of shifted columns.
+  its first `n` columns, each an iterated cone of shifted columns, so `CochainComplex.isKFlat_shift`,
+  `CochainComplex.isKFlat_mappingCone` and `CochainComplex.isKFlat_of_isColimit` give it.
 
 KhovanovHomology K5 consumes this bifunctor over `W = DualNumber R`, for commutative `R`.
 Its bounded-above projective/K-projective resolution model is naturally identified with the
@@ -1246,7 +1261,7 @@ degeneracies, polynomial rings, combinatorial simplicial homotopies and their ch
 tensor products, filtered colimits, spectral objects, homology, mapping cones and double-complex
 totalization, left and right derived functors with the derived adjunction of Mathlib's
 `CategoryTheory.Adjunction.derived` and left derivability structures, and the scalar
-extension–restriction adjunction of module categories; Tau Ceti K-injective and K-flat replacements, Lazard's theorem, the Alexander–Whitney
+extension–restriction adjunction of module categories; Tau Ceti K-injective and K-flat replacements, K-flatness of shifts, cones, filtered colimits and bounded-above flat complexes, tensoring with a K-flat complex, the Koszul symmetry of complexes, Lazard's theorem, the Alexander–Whitney
 maps of simplicial and bisimplicial objects, the shuffle map and the Eilenberg–Zilber homotopy
 equivalence for simplicial sets, and the spectral sequences of filtered complexes and of
 first-quadrant bicomplexes.
@@ -2829,7 +2844,8 @@ the author corrections [IllusieI] and [IllusieII].
   and cyclic homology*. arXiv:1403.0534v1.
 - **DoldPuppe**: Albrecht Dold and Dieter Puppe, *Homologie nicht-additiver Funktoren. Anwendungen*.
   Ann. Inst. Fourier 11 (1961), 201–312.
-- **GR**: Ofer Gabber and Lorenzo Ramero, *Almost ring theory*. LNM 1800 (2003); arXiv:math/0201175v3.
+- **GR**: Ofer Gabber and Lorenzo Ramero, *Almost ring theory*, sixth release. arXiv:math/0201175v3,
+  22 July 2002; pages of that version. Published as Lecture Notes in Mathematics 1800 (2003).
 - **IllusieCC**: Luc Illusie, *Complexe cotangent et déformations I*. LNM 239 (1971).
 - **IllusieI**: Luc Illusie, *Errata: Complexe cotangent et déformations I*. Author erratum.
 - **IllusieII**: Luc Illusie, *Errata: Complexe cotangent et déformations II*. Author erratum.
@@ -2859,7 +2875,7 @@ the author corrections [IllusieI] and [IllusieII].
 [Chenevier]: https://arxiv.org/pdf/0809.0415v2
 [DM]: https://arxiv.org/pdf/1403.0534v1
 [DoldPuppe]: http://www.numdam.org/item/AIF_1961__11__201_0/
-[GR]: https://arxiv.org/abs/math/0201175
+[GR]: https://arxiv.org/abs/math/0201175v3
 [IllusieCC]: https://doi.org/10.1007/BFb0059052
 [IllusieI]: https://www.imo.universite-paris-saclay.fr/~illusie/ErrSLN239.pdf
 [IllusieII]: https://www.imo.universite-paris-saclay.fr/~illusie/Errsln283.pdf
