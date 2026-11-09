@@ -21,23 +21,30 @@ Its high points are:
 implemented in Tau Ceti, and the supplier contracts below name the native declaration and file
 for each one. The layers state each milestone and cite the declaration that discharges it; a
 contributor extends the native files rather than building a second copy. `Suggested.lean` states
-the five headline theorems as examples proved by Tau Ceti and declares, as aliases proved from Tau
-Ceti, the names that other roadmaps import from this namespace:
+the five headline theorems as examples proved by Tau Ceti and declares, as aliases of Tau Ceti
+declarations or proved from them, the names that other roadmaps import or cite from this
+namespace:
 
-- `formClass`, `discr`, `wittRing` and `toWittRing` (`GlobalQuadraticForms`);
-- `hilbertSymbol`, `hilbertSymbol_neg_self`, `hilbertSymbol_comm`, `hilbertSymbol_mul`,
+- `RegularFormClass`, `formClass`, `discr`, `wittRing` and `toWittRing` (`GlobalQuadraticForms`);
+- `hilbertSymbol` (`GlobalQuadraticForms`, `OrthogonalSpinGroups`);
+- `hilbertSymbol_neg_self`, `hilbertSymbol_comm`, `hilbertSymbol_mul`,
   `hilbertSymbol_unramified`, `exists_hilbertSymbol_eq_neg_one` and `exists_of_realization`
   (`GlobalQuadraticForms`);
-- `localHasse` (`GlobalQuadraticForms`, `IntegralLattices`, `OrthogonalSpinGroups`) and
+- `localHasse` (`GlobalQuadraticForms`, `OrthogonalSpinGroups`) and
   `hasseInvariant_eq_localHasse` (`OrthogonalSpinGroups`);
-- `hilbertSymbol_eq_cohomological` and `hilbertSymbol_productFormula` (`GlobalQuadraticForms`,
-  `IntegralLattices`).
+- `hilbertSymbol_eq_cohomological` (`GlobalQuadraticForms`) and `hilbertSymbol_productFormula`
+  (`GlobalQuadraticForms`, `IntegralLattices`).
+
+`IntegralLattices` takes the symbol, the local Hasse invariant and the cohomological comparison
+from Tau Ceti directly, as `TauCeti.hilbertSymbol`, `TauCeti.RegularFormClass.localHasse` and
+`TauCeti.hilbertSymbol_eq_cohomological`.
 
 **Excluded.** The exclusions are deliberate, and a separate roadmap for any of them is welcome.
 
 - The characteristic-2 theory of quadratic and bilinear forms, that is the Arf invariant and
-  quasilinear forms. Grove's chapters on characteristic 2 and EKM Part II record how different
-  that theory is, and every statement here assumes `2` invertible.
+  quasilinear forms. Grove's chapters on characteristic 2 and EKM Chapter II (§10 on totally
+  singular forms, Example 13.5 for the Arf invariant) record how different that theory is, and
+  every statement here assumes `2` invertible.
 - The deep theory of Pfister forms: function-field methods, the Arason–Pfister Hauptsatz, the
   Milnor conjecture, the norm-residue theorem, and each classification statement that rests on
   them. Pfister forms in every degree, and the elementary generation statements for `I`, `I²` and
@@ -2617,8 +2624,8 @@ for the specification of the transfer along `L/K` and the `D₁₆` pullback for
   (the anisotropic quaternary space), 63:19 (`u = 4`), 63:20 (classification), 63:21
   (representation), 63:23 (existence). ⚠ O'Meara's Hasse symbol is `∏_{i≤j}`, translated
   by the convention table.
-- O. T. O'Meara, *Quadratic forms over local fields* (1955), the paper antecedent of
-  §63.
+- O. T. O'Meara, *Quadratic forms over local fields*, Amer. J. Math. 77 (1955), no. 1,
+  doi:10.2307/2372423, the paper antecedent of §63.
 - B. Kahn, *Classes de Stiefel-Whitney de formes quadratiques et de représentations
   galoisiennes réelles*, Invent. Math. 78 (1984) 223-256, Théorèmes 1-3, Lemme II.2.1
   and Prop. II.3.5; the source of Layer 9's relative formula and of the value of the
