@@ -258,7 +258,7 @@ name carries another prefix, it is in the namespace `TauCeti.ClassFieldTheory`, 
 
 | Layer | Tau Ceti declarations |
 |---|---|
-| 0 | `TauCeti.TateCohomology.cup_bijective_of_forall_isPGroup` (Tate's criterion), `TauCeti.TateCohomology.cup_bijective_of_forall_isPGroup_of_lTensor_injective` (Tate–Nakayama), `TauCeti.TateCohomology.isZero_of_forall_isPGroup`, `Rep.isZero_res_of_projective`, `Rep.projective_of_isZero_res`, `Rep.projective_ker_of_isZero_res`, `Rep.isZero_res_of_exact`, `Submodule.free_of_isPrincipalIdealRing`, `TauCeti.TateCohomology.primaryComponent_tateCohomology_eq_bot`, `TauCeti.TateCohomology.herbrandQuotient`, `TauCeti.TateCohomology.herbrandQuotient_eq_mul_of_shortExact`, `TauCeti.TateCohomology.herbrandQuotient_eq_of_finite_kernel_of_finite_cokernel`, `Rep.FiniteCyclicGroup.periodicIso` |
+| 0 | `TauCeti.TateCohomology.cup_bijective_of_forall_isPGroup` (Tate's criterion), `TauCeti.TateCohomology.cup_bijective_of_forall_isPGroup_of_lTensor_injective` (Tate–Nakayama), `TauCeti.TateCohomology.isZero_of_forall_isPGroup`, `Rep.isZero_res_of_projective`, `Rep.projective_of_isZero_res`, `Rep.projective_ker_of_isZero_res`, `Rep.isZero_res_of_exact`, `Submodule.free_of_isPrincipalIdealRing`, `LinearMap.projective_ker_of_projective_ker`, `TauCeti.TateCohomology.primaryComponent_tateCohomology_eq_bot`, `TauCeti.TateCohomology.herbrandQuotient`, `TauCeti.TateCohomology.herbrandQuotient_eq_mul_of_shortExact`, `TauCeti.TateCohomology.herbrandQuotient_eq_of_finite_kernel_of_finite_cokernel`, `Rep.FiniteCyclicGroup.periodicIso` |
 | 1 | `Formation`, `Formation.level`, `NormalLayer`, `NormalLayer.Gal`, `NormalLayer.rep`, `NormalLayer.groundLevelEquiv`, `NormalLayer.subgroupLayer`, `NormalLayer.subgroupRestriction`, `NormalLayer.ofOpenNormal`, `NormalLayer.tateHMinusTwoEquivAbelianization`, `NormalLayer.tateHZeroEquivNormQuotient`, `NormalLayer.normSubgroup`, `LayerRestriction`, `LayerRefinement`, `LayerRefinement.exists_commonRefinement`, `AbelianLayer`, `abelianizationGalEquiv`, `OpenNormalSubgroup.IsAbelianClassFieldLayer` and `OpenNormalSubgroup.maximalAbelianLayer` (root namespace), `classField`, `classField_le_classField_iff`, `galClassFieldEquiv`, `cupClass` |
 | 2 | `ClassFormation`; ClassFormation: `fundamentalClass`, `inv_fundamentalClass`, `fundamentalClass_generates`, `fundamentalClass_restrict`, `fundamentalClass_cor`, `fundamentalClass_infl`, `fundamentalClass_conj`, `inv_cor`, `h1_subgroupLayer`, `card_H2_subgroupLayer`, `fundamentalClass_restrict_generates`, `natCard_normQuotient` |
 | 3 | `tateTheorem`, `tateTheorem_toAddMonoidHom`; ClassFormation: `tateIso`, `tateIso_toAddMonoidHom`, `tateIso_res`, `tateIso_cor`, `tateIso_res_trans`, `tateIso_conj`, `tateIso_infl` |
@@ -323,11 +323,16 @@ such as `ℤ`, `ℤ_p`, `ℤ_(p)` or a field of characteristic zero. Over such a
 trivial representation whose underlying `k`-module is projective (for instance free, of any rank)
 is a projective `k[G]`-module; this is the lattice form. If `k` is moreover a principal ideal
 domain, the kernel of every surjection from a projective `k[G]`-module onto a cohomologically
-trivial representation is projective, with no finiteness hypothesis on either module: the kernel
-of the free cover is free over `k` by `Submodule.free_of_isPrincipalIdealRing` (Lang, *Algebra*,
-III Theorem 7.1), in every rank, so the lattice form applies to it, and Schanuel's lemma passes to
-every other projective cover. Finally, `p`-primary Tate cohomology sees only `p`: if
-multiplication by `p` is bijective on `A`, the `p`-primary component of `Ĥⁿ(S, A)` vanishes.
+trivial representation `A` is projective, with no finiteness hypothesis on either module. Let
+`F` be the free `k[G]`-module on the elements of `A` and `R` the kernel of its surjection onto
+`A`. Then `R` is cohomologically trivial by the long exact sequence of Tate cohomology, since `F`
+is projective and `A` is cohomologically trivial. It is also free over `k` by
+`Submodule.free_of_isPrincipalIdealRing` (Lang, *Algebra*, III Theorem 7.1), in every rank, as a
+`k`-submodule of the free `k`-module `F`. So the lattice form applies to `R`, and Schanuel's lemma
+(`LinearMap.projective_ker_of_projective_ker`) carries projectivity over to the kernel of every
+other surjection onto `A` from a projective `k[G]`-module. Finally, `p`-primary Tate cohomology
+sees only `p`: if multiplication by `p` is bijective on `A`, the `p`-primary component of
+`Ĥⁿ(S, A)` vanishes.
 
 `LocalGaloisGroups` uses the kernel statement, at `k = ℤ_p`, and the `p`-primary vanishing, as Tau
 Ceti's `Rep.projective_ker_of_isZero_res` and
