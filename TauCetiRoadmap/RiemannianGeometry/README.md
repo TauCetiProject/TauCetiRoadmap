@@ -186,6 +186,15 @@ free properly discontinuous action pushed forward along the orbit projection, an
 `isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul` in
 `Mathlib/Topology/Covering/Quotient.lean`, that the orbit projection of such an action
 is a quotient covering map.
+For R5a.3 use `IsLocalDiffeomorph.diffeomorphOfBijective` in
+`Mathlib/Geometry/Manifold/LocalDiffeomorph.lean`, a bijective local diffeomorphism is a
+diffeomorphism, and `Homeomorph.contractibleSpace` in
+`Mathlib/Topology/Homotopy/Contractible.lean` with the instance
+`SimplyConnectedSpace.ofContractible` in
+`Mathlib/AlgebraicTopology/FundamentalGroupoid/SimplyConnected.lean`: a space
+homeomorphic to a contractible one is simply connected, a real normed space being
+contractible by the instance `RealTopologicalVectorSpace.contractibleSpace` in
+`Mathlib/Analysis/Convex/Contractible.lean`.
 
 ### From Tau Ceti
 
@@ -586,6 +595,16 @@ when i(x)−a is normal that Hessian is `2⟨Di((1−S_(a−i(x)))v),Di w⟩`, a
 `TauCeti.ker_fderiv_fderiv_norm_sq_sub_add_smul_comp`, for a normal ν and t≠0 its kernel at
 a=i(x)+tν is the t⁻¹-eigenspace of S_ν. These concern one parametrization on a vector
 space; R5a and R6 own the manifold forms and the comparison with R5a's intrinsic B and S.
+
+For R5a.3, the R4.3 contract's `Bundle.ContMDiffRiemannianMetric.pullback` and
+`Bundle.ContMDiffRiemannianMetric.pullback_inner`, applied along the exponential map at
+the paraboloid vertex, whose differential is injective everywhere;
+`TauCeti.isLocalDiffeomorph_of_mfderiv_eq` in
+`TauCeti/Geometry/Manifold/LocalDiffeomorph/Basic.lean`, the inverse function theorem:
+a C^n map (1≤n) from a boundaryless manifold whose differential is a continuous linear
+equivalence at every point is a C^n local diffeomorphism; and `IsCoveringMap.injective`
+in `TauCeti/Topology/Homotopy/Covering.lean`: a covering map from a path-connected space
+onto a simply connected space is injective.
 
 For R5b, in `TauCeti/Analysis/InnerProductSpace/Variational/`, for a bounded coercive
 bilinear form B on a real Hilbert space V and a continuous linear map J:V→H into a real
@@ -3105,11 +3124,16 @@ with the tangential Jacobi field to prove the vertex has no conjugate points,
 despite `K=4/(1+4r²)²>0`. Hence the exponential map at the vertex has no
 critical point, and on the complete surface it is a covering map by the
 argument of Nicolaescu, *Lectures on the Geometry of Manifolds*, proof of
-Theorem 6.2.6, p. 238: the pulled-back metric on the tangent plane is
-positive definite and complete because the radial lines are its geodesics
-for all time, and there nonpositive curvature serves only to exclude critical
-points. A covering of the simply connected S by the connected tangent plane
-has one sheet, so the exponential map is a smooth bijective local
+Theorem 6.2.6, p. 238: the pulled-back metric exp*g on the tangent plane is
+positive definite and makes exp a local Riemannian isometry onto S; the radial
+lines are therefore geodesics of exp*g for all time, so exp*g is complete by
+Hopf–Rinow, and R4.3's criterion for a local Riemannian isometry from a
+nonempty complete manifold onto a connected one makes exp a surjective
+covering. There nonpositive curvature serves only to exclude critical points.
+R4.3's other criterion, for a local diffeomorphism with `|df(v)|≥|v|` and
+complete domain, does not apply here, since positive curvature makes d exp
+shorten angular vectors. A covering of the simply connected S by the connected
+tangent plane has one sheet, so the exponential map is a smooth bijective local
 diffeomorphism, hence a diffeomorphism.
 
 **Checks.**
@@ -3131,6 +3155,10 @@ diffeomorphism, hence a diffeomorphism.
   `r(0)=0`, `r′(0)=1` and `r(ℓ)>0` for all ℓ>0, so there is no conjugate
   point although K>0; on the round sphere of curvature 4 the same initial
   data vanish again at ℓ=π/2.
+- For v of length ℓ along a meridian and a unit w⊥v, `|d(exp)_v(w)|=r(ℓ)/ℓ`.
+  At r=1, `ℓ(1)=√5/2+arsinh(2)/4≈1.4789`, so the value is ≈0.6762<1: the
+  criterion `|df(v)|≥|v|` fails, and only the local-isometry criterion for
+  exp*g yields the covering.
 
 Define `paraboloidGraph` on ℝ² by (x,y)↦(x,y,x²+y²). The paraboloid is a
 smooth surface S with a global graph chart, a smooth diffeomorphism e : S → ℝ²,
@@ -3168,8 +3196,22 @@ are part of their proof and Checks; the induced-metric comparison is part of
 R5a's immersion construction.
 
 *Needs:* HopfRinow (Completed) Layers 2–4 (geodesic ODE, exponential map,
-completeness), R2 (Jacobi fields and `d exp`), R3 (conjugate points), R5a.2
-(surface-of-revolution formulas and Clairaut's relation).
+completeness, and completeness of exp*g from its radial geodesics), R2 (Jacobi
+fields and `d exp`), R3 (conjugate points), R4.3 (a local Riemannian isometry
+from a nonempty complete manifold onto a connected one is a surjective
+covering), R5a.2 (surface-of-revolution formulas and Clairaut's relation); Tau
+Ceti `TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle` (smoothness of
+the exponential map at the vertex), `Bundle.ContMDiffRiemannianMetric.pullback`
+and `Bundle.ContMDiffRiemannianMetric.pullback_inner` (the metric exp*g on the
+tangent plane), `TauCeti.IsLocalRiemannianIsometry.mfderiv_leviCivitaConnection_mpullback`
+(exp carries the Levi-Civita connection of exp*g to that of g, so the radial
+lines are geodesics of exp*g), `TauCeti.isLocalDiffeomorph_of_mfderiv_eq` (exp,
+with invertible differential everywhere, is a local diffeomorphism) and
+`IsCoveringMap.injective` (a covering of the simply connected S by the
+path-connected tangent plane has one sheet); Mathlib
+`Homeomorph.contractibleSpace` and `SimplyConnectedSpace.ofContractible` (S is
+simply connected through e) and `IsLocalDiffeomorph.diffeomorphOfBijective` (the
+bijective local diffeomorphism exp is a diffeomorphism).
 
 ### R5b. General normal second variation and hypersurface stability
 
@@ -3305,7 +3347,7 @@ geodesic residual −1; the actual turning geodesic has r″=1/5.
 
 R5a uses R1, SmoothBundlesConnections B2–B4 and GeometricTopology Layer 1.
 R5a.1 uses DifferentialGeometry Layer 12 densities; R5a.2 and R5b use R5a.1.
-R5a.3 additionally uses R2 and HopfRinow. R5b consumes PDE's Sobolev, trace and
+R5a.3 additionally uses R2, R3, R4.3 and HopfRinow. R5b consumes PDE's Sobolev, trace and
 boundary estimates and Tau Ceti's Lax–Milgram solution operator
 `IsCoercive.formSolutionOperator` with its eigenbasis and Rayleigh principle; its
 normal Jacobi operator, principal symbol and formal self-adjointness use
@@ -3622,6 +3664,7 @@ and has no positive eigenvalue.
      ℛ₂ω₁=0, consistent with b₂=2 under Rop≥0.
    - Number identities on degree 2 in dimension 2: Σaᵢ*aᵢ(e¹∧e²)=2e¹∧e², and
      a₂*a₁*a₁a₂(e¹∧e²)=a₂*a₁*a₁(−e¹)=a₂*(−e¹)=e¹∧e²=binomial(2,2)e¹∧e².
+5. Prove the section-norm identity
    `Δ⁺|φ|²+2|∇φ|²=2Re⟨∇*∇φ,φ⟩` and Kato's inequality. The classical derivative
    formula is on φ≠0; at its zero set prove the Sobolev weak/a.e. inequality
    using `√(|φ|²+ε²)` and the completed K5a weak-regularity/domain API.
