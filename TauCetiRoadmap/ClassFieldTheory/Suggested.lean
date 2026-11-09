@@ -35,30 +35,30 @@ that other roadmaps import from this one.
 
 **Open targets.** Almost all of class field theory is proved in the pinned Tau Ceti, in
 `TauCeti/NumberTheory/ClassFieldTheory/`, and is consumed there by name (README, *Exact supplier
-contracts*). The targets still open at the pins are:
+contracts*). The open targets are:
 
 * the uniqueness of a rank-one henselian valuation on a field that is not separably closed,
-  `isEquiv_of_henselian`, and its application `valuativeExtension_padic`: every finite
-  `ℚ_p`-algebra structure on a nonarchimedean local field preserves and reflects the valuative
-  relation (README, Layer 5);
+  `isEquiv_of_henselian`, and the comparison `valuativeExtension_of_finite`: for nonarchimedean
+  local fields `K` and `F`, every finite `K`-algebra structure on `F` preserves and reflects the
+  valuative relation (README, Layer 5);
 * the principal ideal theorem `isPrincipal_map_hilbertClassField`, the conductor–discriminant
-  formula `relDiscr_eq_finprod_abelianConductor`, and the splitting criteria for the Hilbert and
-  ray class fields `ncard_primesOver_hilbertClassField_eq_finrank_iff` and
-  `ncard_primesOver_rayClassField_eq_finrank_iff` (README, Layer 13).
+  formula `relDiscr_eq_finprod_abelianConductor`, and the splitting criterion for the Hilbert
+  class field `ncard_primesOver_hilbertClassField_eq_finrank_iff` (README, Layer 13).
 
 The local Euler characteristic `eulerCharacteristic_mixed`, its `𝔽_p`-rank form
 `eulerCharacteristic_finrank_fp` and the cyclotomic normalization `cyclotomicCharacter_artinMap`
 hold for every finite `F/ℚ_p`, with no compatibility hypothesis between the valuations; each is
-closed here from `valuativeExtension_padic` and the Tau Ceti theorem that assumes the
-compatibility, so the route is checked by elaboration and the open input is the comparison.
+closed here from `valuativeExtension_of_finite` at `K = ℚ_p` and the Tau Ceti theorem that assumes
+the compatibility, so the route is checked by elaboration and the open input is the comparison.
 
 No headline of the roadmap is unstatable at the pins.
 
 **Names imported by other roadmaps.** `LocalGaloisGroups`, `QuadraticFormInvariants` and
 `GlobalQuadraticForms` cite the remaining declarations of this file as this roadmap's (README,
 *Consumers, and the names they import*). Each is an abbreviation of a Tau Ceti declaration, a
-definition built from Tau Ceti's, or a theorem closed by Tau Ceti's theorem, so a consumer's
-statement is about Tau Ceti's object.
+definition built from Tau Ceti's, or a theorem closed by Tau Ceti's theorem; most of the theorems
+restate a Tau Ceti theorem under the same hypotheses and are kept because a consumer cites them
+under this roadmap's name, so a consumer's statement is about Tau Ceti's object.
 
 Everything except the valuation comparison is stated in universe `0`, as Tau Ceti's formations
 are: Mathlib's `tateCohomology` requires the group and the coefficient ring `ℤ` to live in one
@@ -357,13 +357,14 @@ theorem tateDualityPairing_muNRepToTateDual [NeZero n] (ζ : F) (hζ : IsPrimiti
 
 end Duality
 
-/-! ## Layer 5: the comparison of valuations on a finite extension of `ℚ_p` -/
+/-! ## Layer 5: the comparison of valuations on finite extensions of local fields -/
 
 /-- **Open target: a field that is not separably closed has at most one rank-one henselian
-valuation** (F. K. Schmidt's theorem, specialized to rank one): two rank-one valuations of `K`
-whose valuation rings are henselian are equivalent. Both hypotheses are needed: `ℚ` with `v₂` and
-`v₃` is not henselian for either, and on an algebraic closure of `ℚ` the extensions of `v₂` and
-`v₃` are henselian but inequivalent. -/
+valuation** (F. K. Schmidt's theorem, Jahnke–Koenigsmann, *Definable henselian valuations*,
+Theorem 2.1, read in rank one): two rank-one valuations of `K` whose valuation rings are henselian
+are equivalent. Both hypotheses are needed: `ℚ` with `v₂` and `v₃` is not henselian for either,
+and on an algebraic closure of `ℚ` the extensions of `v₂` and `v₃` are henselian but
+inequivalent. -/
 theorem isEquiv_of_henselian {K : Type*} [Field K] (hK : ¬ IsSepClosed K)
     {Γ₁ Γ₂ : Type*} [LinearOrderedCommGroupWithZero Γ₁] [LinearOrderedCommGroupWithZero Γ₂]
     (v₁ : Valuation K Γ₁) (v₂ : Valuation K Γ₂) [v₁.RankOne] [v₂.RankOne]
@@ -371,16 +372,20 @@ theorem isEquiv_of_henselian {K : Type*} [Field K] (hK : ¬ IsSepClosed K)
     v₁.IsEquiv v₂ :=
   sorry
 
-/-- **Open target: every finite `ℚ_p`-algebra structure on a nonarchimedean local field is
-compatible with the valuations**: `algebraMap ℚ_[p] F a ≤ᵥ algebraMap ℚ_[p] F b ↔ a ≤ᵥ b`. It is a
-statement about the valuative relation, not about normalized valuations: on `ℚ₂(i)` the
-normalized valuation of `2` is `2` while that of `2 ∈ ℚ₂` is `1`, and both relations put `2`
-strictly below `1`. The route is `isEquiv_of_henselian` applied to the valuation of `F` and to Tau
-Ceti's extension `TauCeti.algebraicExtensionValuativeRel ℚ_[p] F` of the `p`-adic one. -/
-theorem valuativeExtension_padic (p : ℕ) [Fact p.Prime] (F : Type) [Field F] [ValuativeRel F]
-    [TopologicalSpace F] [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F]
-    [Module.Finite ℚ_[p] F] :
-    ValuativeExtension ℚ_[p] F :=
+/-- **Open target: every finite algebra structure between nonarchimedean local fields is
+compatible with the valuations**: for nonarchimedean local fields `K` and `F` and a finite
+`K`-algebra structure on `F`, `algebraMap K F a ≤ᵥ algebraMap K F b ↔ a ≤ᵥ b`. No continuity of
+the algebra map is assumed. It is a statement about the valuative relation, not about normalized
+valuations: on `ℚ₂(i)` over `ℚ₂` the normalized valuation of `2` is `2` while that of `2 ∈ ℚ₂` is
+`1`, and both relations put `2` strictly below `1`. The route uses discreteness only: the
+normalized valuation of `F` vanishes on the units of `K`, because for a unit `u` and a prime `ℓ`
+different from the residue characteristic, `u^{q-1}` has an `ℓ^k`-th root for every `k` by Hensel's
+lemma; and it is positive on a uniformizer of `K`, because otherwise it would vanish on `K` and
+then on the algebraic extension `F`. -/
+theorem valuativeExtension_of_finite (K : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] (F : Type*) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] [Algebra K F] [Module.Finite K F] :
+    ValuativeExtension K F :=
   sorry
 
 section LocalDuality
@@ -415,7 +420,8 @@ theorem tateDualityPairing_perfect_mixed (p : ℕ) [Fact p.Prime] (F : Type) [Fi
 smooth discrete `A : GalRep n F`: `#H¹ = #H⁰ · #H² · p^{[F:ℚ_p] v_p(#A)}` (Milne, *Arithmetic
 Duality Theorems*, I Theorem 2.8, p. 31). Tau Ceti proves it as
 `TauCeti.ClassFieldTheory.eulerCharacteristic_mixed` under `TauCeti.FinitePadicExtension F p`, which
-also asks for `ValuativeExtension ℚ_[p] F`; `valuativeExtension_padic` supplies that hypothesis. -/
+also asks for `ValuativeExtension ℚ_[p] F`; `valuativeExtension_of_finite` supplies that
+hypothesis. -/
 theorem eulerCharacteristic_mixed (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
     [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F]
     [Module.Finite ℚ_[p] F] (n : ℕ) (hn : n ≠ 0) (A : GalRep n F) (hA : Finite A.V)
@@ -423,13 +429,13 @@ theorem eulerCharacteristic_mixed (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
     Nat.card (H n F 1 A)
       = Nat.card (H n F 0 A) * Nat.card (H n F 2 A)
         * p ^ (Module.finrank ℚ_[p] F * padicValNat p (Nat.card A.V)) := by
-  have := valuativeExtension_padic p F
+  have := valuativeExtension_of_finite ℚ_[p] F
   exact TauCeti.ClassFieldTheory.eulerCharacteristic_mixed (F := F) (p := p) n hn A hA
 
 /-- **The Euler-characteristic formula in `𝔽_p`-rank form**,
 `dim H¹ = dim H⁰ + dim H² + [F:ℚ_p] dim A`, for every finite smooth discrete `A : GalRep p F`:
 Tau Ceti's `TauCeti.ClassFieldTheory.eulerCharacteristic_finrank_fp`, with its compatibility
-hypothesis supplied by `valuativeExtension_padic`. -/
+hypothesis supplied by `valuativeExtension_of_finite`. -/
 theorem eulerCharacteristic_finrank_fp (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
     [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F]
     [Module.Finite ℚ_[p] F] (A : GalRep p F) (hA : Finite A.V) [DiscreteTopology A.V]
@@ -438,7 +444,7 @@ theorem eulerCharacteristic_finrank_fp (p : ℕ) [Fact p.Prime] (F : Type) [Fiel
       = Module.finrank (ZMod p) (H p F 0 A)
         + Module.finrank (ZMod p) (H p F 2 A)
         + Module.finrank ℚ_[p] F * Module.finrank (ZMod p) A.V := by
-  have := valuativeExtension_padic p F
+  have := valuativeExtension_of_finite ℚ_[p] F
   exact TauCeti.ClassFieldTheory.eulerCharacteristic_finrank_fp (F := F) (p := p) A hA
 
 end LocalDuality
@@ -572,7 +578,7 @@ theorem cyclotomicCharacter_artinMap_padic (p : ℕ) [Fact p.Prime]
 `F`, `χ_cyc(Art_F(u)) = N_{F/ℚ_p}(u)⁻¹` (Milne, *Class Field Theory*, VII Example 8.2,
 pp. 221–222, at `ℚ_p`, transported by norm functoriality). Tau Ceti proves it as
 `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_unit` under
-`ValuativeExtension ℚ_[p] F`, which `valuativeExtension_padic` supplies; `LocalGaloisGroups`
+`ValuativeExtension ℚ_[p] F`, which `valuativeExtension_of_finite` supplies; `LocalGaloisGroups`
 consumes it in this form. -/
 theorem cyclotomicCharacter_artinMap (p : ℕ) [Fact p.Prime]
     (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
@@ -583,7 +589,7 @@ theorem cyclotomicCharacter_artinMap (p : ℕ) [Fact p.Prime]
     Units.map (algebraMap ℤ_[p] ℚ_[p]).toMonoidHom
         (cyclotomicCharacter (AlgebraicClosure F) p σ.toRingEquiv)
       = (Units.map (Algebra.norm ℚ_[p] : F →* ℚ_[p]) u)⁻¹ := by
-  have := valuativeExtension_padic p F
+  have := valuativeExtension_of_finite ℚ_[p] F
   exact TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_unit p F u hu σ hσ
 
 end CyclotomicNormalization
@@ -663,16 +669,6 @@ theorem ncard_primesOver_hilbertClassField_eq_finrank_iff (v : HeightOneSpectrum
     (v.asIdeal.primesOver (𝓞 (TauCeti.ClassFieldTheory.hilbertClassField K))).ncard =
         Module.finrank K (TauCeti.ClassFieldTheory.hilbertClassField K) ↔
       v.asIdeal.IsPrincipal :=
-  sorry
-
-/-- **Open target: splitting in the ray class field.** A finite prime of `K` prime to `𝔪` splits
-completely in the ray class field of `𝔪` exactly when its ray class is trivial (Milne, *Class Field
-Theory*, V §1, p. 154, and V Theorem 3.6, p. 158). -/
-theorem ncard_primesOver_rayClassField_eq_finrank_iff (𝔪 : TauCeti.GlobalNumberFields.Modulus K)
-    (I : TauCeti.GlobalNumberFields.integralIdealsPrimeTo 𝔪) [(I : Ideal (𝓞 K)).IsMaximal] :
-    ((I : Ideal (𝓞 K)).primesOver (𝓞 (TauCeti.ClassFieldTheory.rayClassField 𝔪))).ncard =
-        Module.finrank K (TauCeti.ClassFieldTheory.rayClassField 𝔪) ↔
-      TauCeti.GlobalNumberFields.idealClass 𝔪 I = 1 :=
   sorry
 
 /-- **Open target: the conductor–discriminant formula** (Milne, *Class Field Theory*, V Theorem
