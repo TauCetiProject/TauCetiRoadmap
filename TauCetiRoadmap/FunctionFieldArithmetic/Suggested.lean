@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.FieldTheory.FunctionField.Place.Extension.Inertia
 import TauCeti.FieldTheory.FunctionField.RiemannRoch.ClassNumber
 import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
 import TauCeti.NumberTheory.ClassFieldTheory.LocalExistence.NormSubgroup
@@ -13,7 +14,9 @@ The degree-one divisor theorem, reduced-basis theorem, Witt-vector additive Hilb
 finite- and infinite-length Artin–Schreier–Witt character classification, local abelian
 existence and injectivity of the local Artin map for every nonarchimedean local field (on the
 pinned Tau Ceti Artin map and norm subgroups, and for `k((T))` with field carriers), divisor zeta
-identities and the recovery of the `L`-polynomial from `g` point counts are statable below.
+identities, the recovery of the `L`-polynomial from `g` point counts and the degree-sensitive
+Chebotarev estimate (on the pinned decomposition groups of places, through Mathlib's
+`IsArithFrobAt`) are statable below.
 The remaining headline theorems lack the following carriers at the pins:
 divisor-lattice Fourier duality and volumes (§2) need completed adelic divisor lattices
 and the differential's self-dual measure; reduced Witt–Laurent representatives (§3.2) need
@@ -28,12 +31,12 @@ Lubin–Tate tower. The perfect-field fixed-modulus universal property and finit
 ray-cover classification (§§4.7, 4.10) need generalized Picard schemes, Abel maps and Lang
 covers. The finite-coefficient cohomological
 L-function identity (§5.7) needs constructible étale
-sheaves with derived compact-support cohomology and Frobenius; quantitative Chebotarev
-(§5.8) needs the finite-cover Frobenius conjugacy classes. Harder finiteness (§§6.4–6.5)
+sheaves with derived compact-support cohomology and Frobenius. Harder finiteness (§§6.4–6.5)
 needs reductive adelic automorphic function modules; Yu's degree-zero nonvanishing (§6.7)
 needs their cuspidal representation and Whittaker interfaces. The inducing-character
-obstruction and existence theorems (§7.1) need the curve Picard pullback and adelic
-unitary-character interfaces. Unitary cuspidal and
+obstruction and existence theorems (§7.1) need the idele class group of a function field (the
+divisor pullback is the pinned `TauCeti.Divisor.conorm`) and adelic unitary-character
+interfaces. Unitary cuspidal and
 discrete-data Eisenstein continuation and Levi discrete decomposition (§7.2) need smooth
 induced sections, Eisenstein series and their L² realizations; the Whittaker–density
 identity, density interpolation and global Fourier coefficient formulas (§§7.4–7.6)
@@ -58,7 +61,7 @@ theorem exists_divisor_degree_eq_one [Finite k] (hF : IsFunctionField k F)
 
 end Constants
 
-/-! ## Layer 1: reduced bases of Riemann–Roch spaces -/
+/-! ## Layer 1: Riemann–Roch spaces over a polynomial subring -/
 
 /-- Reduced bases simultaneously describe every pole shift of a divisor, with uniquely
 determined sorted invariants (README 1.2; Hess, Theorem 7 and Corollary 11). The chosen
@@ -164,7 +167,7 @@ theorem exists_addEquiv_aswQuotient_padicCharacters :
 
 end ArtinSchreierWitt
 
-/-! ## Layer 4: equal-characteristic local class field theory -/
+/-! ## Layer 4: equal-characteristic class field theory and ray geometry -/
 
 /-- **Local abelian existence for every nonarchimedean local field** (README 4.2): every open
 subgroup of finite index of `Kˣ` is the norm subgroup of a finite abelian extension, that is, of
@@ -204,7 +207,7 @@ theorem localAbelianExistence_laurentSeries (k : Type*) [Field k] [Finite k]
       Module.finrank (LaurentSeries k) L = H.index := by
   sorry
 
-/-! ## Layer 5: zeta functions and `L`-polynomials -/
+/-! ## Layer 5: zeta functions and `L`-polynomials of function fields -/
 
 section Zeta
 
@@ -277,7 +280,7 @@ theorem zeta_rationality [Finite k] (hF : IsFunctionField k F) (hk : IsIntegrall
 
 end Zeta
 
-/-! ## Layer 5.6: recovering the `L`-polynomial from `g` point counts -/
+/-! ### 5.6 Recovering the `L`-polynomial from `g` point counts -/
 
 section LPolynomial
 
@@ -307,5 +310,55 @@ theorem isLPolynomialData_iff_eq_lPolynomial {k F : Type*} [Field k] [Finite k] 
   sorry
 
 end LPolynomial
+
+/-! ### 5.8 Quantitative Chebotarev in each degree -/
+
+section Chebotarev
+
+/-- **Arithmetic Frobenius at a place** (README 5.8): `σ ∈ Gal(M/F)` preserves the valuation ring
+`𝒪_P` of the place `P` of `M` and is an arithmetic Frobenius at its maximal ideal in Mathlib's
+sense, `σ x ≡ x ^ #κ(v) (mod 𝔪_P)` for every `x ∈ 𝒪_P`, where `v` is the place of `F` below `P`.
+Equivalently `TauCeti.Place.residueAut` sends `σ` to `x ↦ x ^ #κ(v)`; at a ramified place the
+elements satisfying it form a coset of the inertia group. -/
+def IsArithFrobAtPlace {k F M : Type*} [Field k] [Field F] [Field M] [Algebra k F]
+    [Algebra k M] [Algebra F M] [IsScalarTower k F M] [FiniteDimensional F M]
+    (σ : M ≃ₐ[F] M) (P : Place k M) : Prop :=
+  ∃ h : σ ∈ P.integers.decompositionSubgroup F,
+    IsArithFrobAt (P.restrict k F).integers
+      (⟨σ, h⟩ : P.integers.decompositionSubgroup F) (IsLocalRing.maximalIdeal P.integers)
+
+/-- **The degree-`r` Frobenius count** (README 5.8): the number of places `v` of `F` of degree `r`
+at which every place of `M` above `v` is unramified and has an arithmetic Frobenius in the
+conjugacy class `C`. This is ArithmeticGaloisRepresentations §5.13's `π_B(r)` for the cover
+attached to `M/F` over its unramified locus, on the pinned place carriers. -/
+noncomputable def frobeniusPlaceCount (k : Type*) {F M : Type*} [Field k] [Field F] [Field M]
+    [Algebra k F] [Algebra k M] [Algebra F M] [IsScalarTower k F M] [FiniteDimensional F M]
+    (C : ConjClasses (M ≃ₐ[F] M)) (r : ℕ) : ℕ :=
+  Nat.card {v : Place k F // v.degree = r ∧ ∀ P : Place k M, P.restrict k F = v →
+    P.ramificationIdx F = 1 ∧ ∃ σ ∈ C.carrier, IsArithFrobAtPlace σ P}
+
+/-- **Degree-sensitive Chebotarev with an explicit error** (README 5.8; Kosters, Theorem 1.1 and
+Corollary 1.2). Let `M/F` be a finite Galois extension of function fields over `k = 𝔽_q`, with
+exact constants `k` for `F` and `k_M` for `M`, geometric subgroup `N = Gal(M/F k_M)` and a
+conjugacy class `C` whose elements act on `k_M` by `x ↦ x ^ (q ^ r)` (a compatible degree; in
+the others the count vanishes by ArithmeticGaloisRepresentations §5.13). Then
+`|r π_C(r) − (|C|/|N|)(q^r + 1)| ≤ (2 g_M + r (1 + 2 g_X)) q^(r/2) + r + R`, with
+`π_C(r) = frobeniusPlaceCount k C r`, `g_M` the genus of `M` over `k_M`, `g_X` the genus of `F`
+over `k` and `R` the sum of the degrees of the places of `F` ramified in `M`. -/
+theorem degree_sensitive_chebotarev {k F M : Type*} [Field k] [Finite k] [Field F] [Field M]
+    [Algebra k F] [Algebra k M] [Algebra F M] [IsScalarTower k F M] [FiniteDimensional F M]
+    [IsGalois F M] (hF : IsFunctionField k F) (hk : IsIntegrallyClosedIn k F)
+    (hM : IsFunctionField k M) (C : ConjClasses (M ≃ₐ[F] M)) (r : ℕ) (hr : 0 < r)
+    (hC : ∀ σ ∈ C.carrier, ∀ x ∈ algebraicClosure k M, σ x = x ^ (Nat.card k ^ r)) :
+    |(r : ℝ) * frobeniusPlaceCount k C r -
+        (Nat.card C.carrier / Nat.card {σ : M ≃ₐ[F] M //
+          ∀ x ∈ algebraicClosure k M, σ x = x} : ℝ) * ((Nat.card k : ℝ) ^ r + 1)| ≤
+      (2 * genus (algebraicClosure k M) M + r * (1 + 2 * genus k F)) *
+          (Nat.card k : ℝ) ^ ((r : ℝ) / 2) + r +
+        ∑ᶠ v ∈ {v : Place k F | ∃ P : Place k M, P.restrict k F = v ∧
+          P.ramificationIdx F ≠ 1}, (v.degree : ℝ) := by
+  sorry
+
+end Chebotarev
 
 end TauCetiRoadmap.FunctionFieldArithmetic

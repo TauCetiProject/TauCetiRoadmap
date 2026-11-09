@@ -68,7 +68,7 @@ This roadmap owns:
 - the zeta function and `L`-polynomial of a function field over `𝔽_q`, their Riemann–Roch
   properties, their comparison with the scheme-theoretic zeta function, recovery from `g` point
   counts, finite-coefficient `L`-functions of local systems, and quantitative degree-sensitive
-  Chebotarev with the constant-field congruence (Layer 5);
+  Chebotarev with an explicit error term (Layer 5);
 - adelic points of affine groups over a function field, automorphic function modules with
   coefficients in a `ℤ[1/p]`-algebra, constant terms, cusp modules, Harder's finiteness theorem,
   integral coefficient models, the global unramified Hecke action and Yu's degree-zero
@@ -109,10 +109,11 @@ It leaves the following to the roadmaps that state them, and states none of them
   at nonzero conductor*; and §AL.3.10.3 *Function-field local factors, multiplicity one and
   converse theorem*.
 - **ArithmeticGaloisRepresentations**: §2.5 *Local factors* (`GaloisRep.localEulerFactor` on
-  inertia invariants, for any coefficient field); §3.7 *Artin–Schreier characters* (break `m`,
+  inertia invariants, for any coefficient field); §3.7 *Computations and Artin–Schreier characters* (break `m`,
   Swan conductor `m`, Artin conductor `m + 1`, different exponent `(p − 1)(m + 1)`); §5.13
   *Function fields over finite fields* (restricted-ramification groups and Frobenius, the curve
-  point-counting input, Chebotarev for function fields including enlarged constant fields,
+  point-counting input, Chebotarev for function fields including enlarged constant fields, with
+  the degree-`n` Frobenius count `π_B(n)` and its vanishing outside the compatible degrees,
   profinite Frobenius density and recognition of semisimple representations by Frobenius
   characteristic polynomials); §1.8 Brauer–Nesbitt.
 - **DeligneWeightsAndPurity**: §1.6 (the Weil estimate for curves through the Jacobian and
@@ -122,9 +123,10 @@ It leaves the following to the roadmaps that state them, and states none of them
   error estimate with the same constant-field Frobenius congruence and main term.
 - **WeilConjectures**: §1.16 *A curve numerator before root bounds* and §5.20
   *Recurrences and Newton recovery*.
-- **SchemeAndStackFoundations**: §2.16 *Tsen's theorem*, §3.3 *Vector bundles and duality on
-  curves*, §3.6 *Picard schemes and Picard torsors of a curve without a rational point*, and
-  §5.11 *Weil bound via surfaces*.
+- **SchemeAndStackFoundations**: §2.16 *Tsen's theorem, `𝔾_m` on curves and proper
+  hypercoverings*, §3.3 *Degrees of vector bundles, Riemann–Roch and Serre duality on curves*,
+  §3.6 *Picard torsors of a curve without a rational point and rational divisor classes*, and
+  §5.11 *The Weil bound via surfaces*.
 - **AutomorphicSpectralTheory**: §§1.11–1.13 (function-field `GLₙ` character tori, spherical
   sections and induction normalization), §§2.15–2.16 (intertwiners), §§4.11–4.17
   (discrete and residual data). These are its everywhere-unramified `GLₙ` branch; they do not
@@ -278,6 +280,42 @@ topological ring are locally compact; and `TauCeti.PointTopology.tensorProductHo
 (`Functoriality.lean`), the points of `A ⊗[k] B` are homeomorphic to the product of the point
 spaces.
 
+Repartitions are pinned in `TauCeti/FieldTheory/FunctionField/Repartition/`, the implementation
+of AlgebraicCurves Layers 4–5 consumed by §2.1. In `Basic.lean`: `TauCeti.repartitionSpace k F`,
+the repartitions `A_F` inside `Place k F → F`; `TauCeti.adeleFiltration D`, the subspace
+`A_F(D)` cut out by `P.valuation (a P) ≤ exp (D P)` at every place (so `0 ∈ A_F(D)` for every
+`D`); and `TauCeti.diagonalRepartitions k F`, the constant families. In `IndexOfSpecialty.lean`:
+`TauCeti.finrank_quotient_repartitionSpace`, for a function field with
+`IsIntegrallyClosedIn k F`, the `k`-dimension of `A_F ⧸ (A_F(D) + F)` is
+`TauCeti.Divisor.indexOfSpecialty D = ℓ(D) − deg D − 1 + g` (defined in `RiemannRoch/Genus.lean`).
+In `FiniteAdele.lean`, for a Dedekind `k`-algebra `R` with fraction field `F`:
+`TauCeti.repartitionToFiniteAdeles`, the additive map from repartitions to the finite adeles of
+`R`, and `TauCeti.denseRange_repartitionToFiniteAdeles`, its range is dense. In `Quotient.lean`:
+`TauCeti.adeleFiltrationQuotientEquiv`, for divisors `D`, `E` agreeing away from a place `P`, the
+`k`-linear isomorphism of `A_F(E) ⧸ A_F(D)` with the local quotient
+`𝔪_P^(−E P) ⧸ 𝔪_P^(−D P)`. In `Place/Filtration.lean`: `TauCeti.Place.finrank_quotient_filtration`,
+`dim_k(𝔪_P^a ⧸ 𝔪_P^b) = (b − a) deg P` for `a ≤ b`.
+
+Extensions of places are pinned in `TauCeti/FieldTheory/FunctionField/Place/Extension/`, for an
+integral extension `M/F` of fields over `k`. In `Basic.lean`: `TauCeti.Place.restrict k F P`, the
+place of `F` below a place `P` of `M`, and `TauCeti.Place.ramificationIdx F P`, the ramification
+index `e(P ∣ P ∩ F)`. In `Inertia.lean`: `TauCeti.Place.residueAut F P`, the homomorphism from
+the decomposition group (Mathlib's `ValuationSubring.decompositionSubgroup` of the valuation ring
+of `P`) to the automorphisms of the residue field of `P` over that of the place below; its kernel
+is Mathlib's `ValuationSubring.inertiaSubgroup` (`TauCeti.Place.ker_residueAut`), and for `M/F`
+finite Galois it is surjective (`TauCeti.Place.residueAut_surjective`). The decomposition group
+acts on the valuation ring of `P` (Mathlib's `ValuationSubring.decompositionSubgroupMulSemiringAction`)
+over the valuation ring of the place below (`TauCeti.Place.instAlgebraIntegers`,
+`TauCeti.Place.instSMulCommClassIntegers`), so Mathlib's `IsArithFrobAt`
+(`Mathlib/RingTheory/Frobenius.lean`: `σ • x ≡ x^(#(R ⧸ Q ∩ R))` modulo the ideal `Q`, for a
+monoid acting on a ring) applies at the maximal ideal of that valuation ring; §5.8's
+`IsArithFrobAtPlace` is this specialization. In
+`TauCeti/FieldTheory/FunctionField/Divisor/Conorm.lean`, for an algebraic extension with finite
+restriction fibres: `TauCeti.Divisor.conorm`, the pullback of divisors
+`P ↦ Σ_{P′ ∣ P} e(P′ ∣ P) P′`; `TauCeti.Divisor.conorm_principal`, the conorm of `div z` is the
+divisor of `z` upstairs; and `TauCeti.Divisor.conormClassGroup`, the induced map of divisor class
+groups. This is the pullback `ν^* : Pic(X) → Pic(X′)` of §7.1.
+
 Local ramification is consumed from Tau Ceti directly, for finite extensions of any
 `IsNonarchimedeanLocalField`, equal characteristic included. In
 `TauCeti/NumberTheory/LocalField/`: `TauCeti.LocalFieldsRamification.lowerRamificationGroup`
@@ -375,7 +413,7 @@ chosen-generator comparison transports this contract to the intrinsic
 `TauCeti.IsFunctionField` setting.
 Its compatible finite Artin quotients give the dense reciprocity map
 `C_F → Gal(F^ab/F)` and the isomorphism from the profinite completion of `C_F` onto that
-Galois group. Its *Function-field places, ideles and S-units* degree-surjectivity API
+Galois group. Its *Function-field places, ideles and `S`-units* degree-surjectivity API
 supplies a degree-one idele under these same finite exact-constant hypotheses.
 The constant-field projection is arithmetic Frobenius to the valuation degree;
 equivalently it is inverse Frobenius to Yu's degree. The discrete `ℤ` degree direction is
@@ -419,8 +457,10 @@ ArithmeticGaloisRepresentations §2.5 defines `GaloisRep.localEulerFactor` as
 `det(1 − X ρ(Fr) | V^{ρ(I)})` for any coefficient field, independent of the lift of `Fr`;
 Layer 5.7 substitutes `X = T^(d_v)`. Section 5.13, *Chebotarev for function fields*,
 supplies degree-refined counts for connected finite étale Galois covers, with the
-prescribed constant-field Frobenius coset and main coefficient `|C|/|G_geom|`.
-Section 5.8 here compares its explicit error estimate with that asymptotic theorem.
+prescribed constant-field Frobenius coset and main coefficient `|C|/|G_geom|`: the count `π_B(n)`
+of degree-`n` closed points with Frobenius in a class `B`, its vanishing for `n ≢ b mod a`, and
+its asymptotic. Section 5.8 here takes that count, realized on the pinned place carriers as
+`frobeniusPlaceCount`, and proves an explicit error estimate in the compatible degrees.
 
 ### From TauCetiRoadmap.ClassFieldTheory
 
@@ -584,7 +624,7 @@ Layer 5 needs Layer 0 and AlgebraicCurves Layers 3–5. Layer 6
 needs Layer 2 (divisor-lattice volumes, for the integrality of unipotent volumes) and Layer 0.
 Layer 7 needs Layers 0, 5 and 6; it uses Layer 5 only through §§5.1–5.5, to continue the good
 Euler product of §7.6, and takes its additive measures from §§AL.0.3.1 and AL.0.6.1. The worked
-examples after Layer 7 use Layers 0, 3 and 5.
+examples after Layer 7 use Layers 0, 1, 2, 3 and 5.
 
 ## Layer 0: finite constant fields, degrees and normalisations
 
@@ -640,17 +680,17 @@ assert the existence of a place of degree one, nor of a rational point of the mo
 
 *Proof sketch.* This is the divisor form of F. K. Schmidt's theorem, transported from
 the degree-surjectivity API of ArithmeticGaloisDuality §R02.3.2, *Function-field places,
-ideles and S-units*, along the valuation-divisor map of
+ideles and `S`-units*, along the valuation-divisor map of
 AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 and the comparison 0.1(1): a degree-one idele maps to
 a degree-one divisor. A direct proof, independent of class field theory, runs through the Weil
 bound: if `e > 1` divided every place degree, the model would have no `𝔽_{q^r}`-points for
-`e ∤ r`, contradicting `|#X(𝔽_{q^r}) − q^r − 1| ≤ 2g q^(r/2)` (SchemeAndStackFoundations §5.11 *Weil bound via surfaces*,
+`e ∤ r`, contradicting `|#X(𝔽_{q^r}) − q^r − 1| ≤ 2g q^(r/2)` (SchemeAndStackFoundations §5.11 *The Weil bound via surfaces*,
 together with DeligneWeightsAndPurity §1.9 for base extension) for large `r` prime to `e`; Bézout
 then combines finitely many places into a degree-one divisor. (Roquette, *Class field theory in
 characteristic p*, §4.3.3, p. 26, which records the theorem and its original zeta-function proof;
 §8.1 for Witt's algebraic proof.)
 
-*Needs:* ArithmeticGaloisDuality §R02.3.2, *Function-field places, ideles and S-units*,
+*Needs:* ArithmeticGaloisDuality §R02.3.2, *Function-field places, ideles and `S`-units*,
 degree-surjectivity API; AutomorphicLFunctionsAndLocalFactors
 §AL.0.6.1 *Curve additive analysis*; Layer 0.1.
 
@@ -675,9 +715,7 @@ the class of a degree-one divisor from 0.2), but such a point is not a point of 
 *Proof sketch.* AlgebraicCurves Layer 12D identifies `Divisor k F` with the Weil divisors of the
 model and `Cl(F)` with its Picard group; SchemeAndStackFoundations §3.6 gives the injection `Pic(X) → Pic_{X/k}(k)` with cokernel
 inside `Br(k)`, and `Br(k) = 0` for a finite field (Wedderburn; ClassFieldTheory Layer 5). The
-torsor `Pic¹` has a `k`-point by 0.2 and `picardComponent_point_iff`. (Milne, *Arithmetic Duality
-Theorems*, 2nd ed., Appendix A, proof of A.7, pp. 131–132, for the use of this comparison over
-finite fields.)
+torsor `Pic¹` has a `k`-point by 0.2 and `picardComponent_point_iff`.
 
 *Needs:* AlgebraicCurves Layer 12; SchemeAndStackFoundations §3.6; ClassFieldTheory Layer 5;
 Tau Ceti `Divisor.degreeClass`, `Divisor.finite_ker_degreeClass`, `Divisor.classNumber`; Layer 0.2.
@@ -840,7 +878,11 @@ Prove divisorLattice_isCompactOpen, divisorLattice_inter_diagonal
 and divisorLattice_quotient: the quotient `𝔸_K ⧸ (A(D) + K)` is a finite-dimensional
 `k`-vector space, naturally isomorphic to the repartition quotient
 `A_F ⧸ (A_F(D) + F)` of AlgebraicCurves Layer 4, hence of dimension `i(D) = ℓ(W − D)` for a
-canonical divisor `W`. The lattice API is:
+canonical divisor `W`. On the repartition side this dimension is pinned: with
+`A_F = TauCeti.repartitionSpace k F`, `A_F(D) = TauCeti.adeleFiltration D` and
+`F = TauCeti.diagonalRepartitions k F`, `TauCeti.finrank_quotient_repartitionSpace` gives
+`dim_k (A_F ⧸ (A_F(D) + F)) = TauCeti.Divisor.indexOfSpecialty D` under
+`IsIntegrallyClosedIn k F`. The lattice API is:
 
 - If `D ≤ D′`, then `A(D) ⊆ A(D′)`.
 - For `f ∈ Kˣ`, multiplication gives `f · A(D) = A(D − div f)`.
@@ -849,14 +891,23 @@ canonical divisor `W`. The lattice API is:
 *Proof sketch.* Compact openness is the product of the compact open `π_v^(−D_v) O_v` with almost
 all factors `O_v`. The diagonal intersection is the definition of `L(D)`. For the quotient,
 AlgebraicCurves Layer 5's completion comparison gives a map of repartitions into `𝔸_K` with dense
-image in the `D`-filtration sense; since `A(D)` is open, every class of
+image in the `D`-filtration sense. At the places of a Dedekind affine chart `R` this is the pinned
+`TauCeti.repartitionToFiniteAdeles` into the finite adeles of `R`, whose range is dense
+(`TauCeti.denseRange_repartitionToFiniteAdeles`); at the finitely many places off the chart it is
+the density of `F` in each completion. Since `A(D)` is open, every class of
 `𝔸_K ⧸ A(D)` is hit by a repartition, and the kernel of the induced map is
-`A_F(D) + F` by the diagonal intersection. The index is the local count
-`dim_k(π_v^(−b)O_v/π_v^(−a)O_v) = (b − a)d_v` of AlgebraicCurves Layer 4. (Parshin, *Notes on the
+`A_F(D) + F` by the diagonal intersection; `TauCeti.finrank_quotient_repartitionSpace` then gives
+the dimension. The index is the local count
+`dim_k(π_v^(−b)O_v/π_v^(−a)O_v) = (b − a)d_v` of AlgebraicCurves Layer 4, pinned as
+`TauCeti.Place.finrank_quotient_filtration`, and transported to one-place steps of the
+filtration by `TauCeti.adeleFiltrationQuotientEquiv`. (Parshin, *Notes on the
 Poisson formula*, §2.1, p. 7, and §2.2, pp. 9–10, for divisor lattices in the full adeles.)
 
 *Needs:* AutomorphicLFunctionsAndLocalFactors §AL.0.6.1 *Curve additive analysis*;
-AlgebraicCurves Layers 4 and 5; Tau Ceti `riemannRochSpace`.
+AlgebraicCurves Layers 4 and 5; Tau Ceti `riemannRochSpace`, `repartitionSpace`,
+`adeleFiltration`, `diagonalRepartitions`, `finrank_quotient_repartitionSpace`,
+`Divisor.indexOfSpecialty`, `repartitionToFiniteAdeles`, `denseRange_repartitionToFiniteAdeles`,
+`adeleFiltrationQuotientEquiv` and `Place.finrank_quotient_filtration`.
 
 **Checks.**
 
@@ -945,8 +996,12 @@ and §AL.0.6.1 *Curve additive analysis*.
 - Applying the transform twice to `1_{A(D)}` gives
   `q^(deg D + 1 − g) q^(deg((ω) − D) + 1 − g) = q^(2g − 2 + 2 − 2g) = 1` times the indicator, in
   line with `f̂̂(a) = f(−a)`.
-- For `|k| > 2`, the indicator of a coset `c + A(D′)` moved by multiplication by a
-  constant `λ ∈ kˣ` is not in the span of the `kˣ`-invariant unshifted indicators.
+- For `|k| > 2`, `c ∉ A(D′)` and `λ ∈ kˣ ∖ {1}`: `λ(c + A(D′)) = λc + A(D′)` differs from
+  `c + A(D′)`, because `(λ − 1)c ∉ A(D′)`. So `1_{c+A(D′)}` is not `kˣ`-invariant, while every
+  unshifted indicator is, and it lies outside their span. On `𝔽₃(t)` take `D′ = 0`, `c` equal
+  to `t⁻¹` at the place `t = 0` and `0` elsewhere, and `λ = 2`: then `(λ − 1)c = c ∉ A(0)`. For
+  `c ∈ A(D′)` (for instance `c = 0`) the coset is `A(D′)` itself and its indicator is unshifted,
+  so the hypothesis `c ∉ A(D′)` is needed.
 
 **Source corrections.** Parshin's §2.2 (p. 9) writes the adelic pairing as a sum of local
 character values; it is their product (equivalently the character applied to the finite sum of
@@ -1983,7 +2038,7 @@ defined from divisors of the function field, with no scheme and no cohomology; i
 the scheme-theoretic zeta function of WeilConjectures WC.1 and with the Jacobian numerator of
 DeligneWeightsAndPurity §1.6 is a theorem of this layer (5.4). The Riemann hypothesis for curves (the inverse roots of
 `L` have absolute value `√q`) is imported from DeligneWeightsAndPurity §1.6 and
-SchemeAndStackFoundations §5.11 *Weil bound via surfaces*, never derived here.
+SchemeAndStackFoundations §5.11 *The Weil bound via surfaces*, never derived here.
 
 ### 5.1 The zeta series, its Euler product and point counts
 
@@ -2207,8 +2262,8 @@ Its API is:
 This characteristic-series bridge uses PadicMeasuresIwasawaAlgebras §5.1's determinant
 functor and its canonical quasi-isomorphism, acyclic and base-change identifications;
 no new determinant-line construction is made.
-(Stacks, Tag 03UZ, Theorem 64.20.1 and its perfect-complex determinant convention;
-Abdurrahman–Venkatesh, §3.2, equations (3.1)–(3.2), p. 27.)
+(Stacks, Tag 03UZ, Theorem 64.20.1, whose determinant is taken on the perfect complex
+`RΓ_c`, perfect by Tag 03V3, Theorem 64.20.4.)
 
 **Checks for the characteristic series.**
 
@@ -2251,13 +2306,15 @@ characteristic zero is assumed or used.
 `L(X, ρ, T)` is the `L`-function of the constructible sheaf `j_*ρ`, and the identity is the
 finite-coefficient cohomological interpretation of `L`-functions: for a scheme of finite type
 over `𝔽_q`, a finite ring `Λ` of order prime to `p` and a constructible flat `Λ`-sheaf `𝓕`,
-`L(X, 𝓕, T) = det(1 − Fr·T | RΓ_c(X_{k̄}, 𝓕))⁻¹` (Stacks Project, Tag 03UZ, Theorem 64.20.1,
-whose proof refers to SGA 4½, *Fonctions L modulo ℓⁿ et modulo p*, Théorème 2.2). For a proper
+`L(X, 𝓕, T) = det(1 − Fr·T | RΓ_c(X_{k̄}, 𝓕))⁻¹` (Stacks Project, Tag 03UZ, Theorem 64.20.1;
+Stacks omits its proof and refers for it to SGA 4½ in Remark 64.20.3, Tag 03V1; there it is
+*Fonctions L modulo ℓⁿ et modulo p*, Théorème 2.2). For a proper
 curve `RΓ_c = RΓ`. In characteristic `ℓ`, equality of traces for all powers of Frobenius does not by itself determine the
 determinant, because a logarithmic derivative divides by integers; the determinant identity is
 proved directly over `Λ[[T]]` as in loc. cit. (Abdurrahman–Venkatesh, *Symplectic L-functions and
-symplectic Reidemeister torsion*, §3.2, equations (3.1)–(3.2), p. 27, for this statement on a
-curve with torsion coefficients.)
+symplectic Reidemeister torsion*, §3.2, p. 27: (3.1) for the definition of `L(X, ρ, t)` over a
+coefficient field, (3.2) for its cohomological form for everywhere-unramified `ρ`. The ramified,
+finite-ring identity rests on Stacks Tag 03UZ and its SGA 4½ proof.)
 
 *Needs:* ArithmeticGaloisRepresentations §2.5; EtaleCohomologyFoundations §§F.2.5, F.3 and F.10.2–F.10.3 (compact supports, finiteness, Frobenius and
 perfect-complex traces and finite-projective determinant comparisons);
@@ -2288,23 +2345,46 @@ bridge above; Layer 5.1.
 
 ### 5.8 Quantitative Chebotarev in each degree
 
-Let `M/F` be a finite Galois extension, with exact constants `k_M = 𝔽_{q^h}`,
-`G = Gal(M/F)`, geometric subgroup `N = Gal(M/Fk_M)`, and a conjugacy class `C ⊆ G`.
-Define `π_C(r)` to count the unramified places of `F` of degree `r ≥ 1`
-whose arithmetic Frobenius lies in `C`. Its API is:
+Let `M/F` be a finite Galois extension of function fields over `k`, with exact constants
+`k_M = 𝔽_{q^h}` (Mathlib's `algebraicClosure k M`), `G = Gal(M/F)`, geometric subgroup
+`N = Gal(M/Fk_M)` (the elements fixing `k_M` pointwise), and a conjugacy class `C ⊆ G`. The
+number `π_C(r)` of places of `F` of degree `r ≥ 1`, unramified in `M`, whose arithmetic
+Frobenius lies in `C` is ArithmeticGaloisRepresentations §5.13's `π_B(r)` for the cover attached
+to `M/F` over its unramified locus `U` (the normalization of `U` in `M`, with `H = G`, `a = h`,
+`H_geom = N` and `B = C`); that section also proves that it vanishes unless the image of `C` in
+`Gal(k_M/k)` is `Frob_q^r`, and gives its asymptotic. To state the explicit estimate on the
+pinned place carriers, define:
 
-- The set counted is finite by degree-bounded place finiteness.
-- The count is independent of the choice of a conjugate Frobenius lift.
-- Extending the count to conjugation-stable subsets is additive on disjoint unions, and
-  the empty subset has count zero.
+- `IsArithFrobAtPlace σ P`, for `σ ∈ G` and a place `P` of `M` over the place `v` of `F`
+  (`TauCeti.Place.restrict`): `σ` lies in the decomposition group of `P` and is an arithmetic
+  Frobenius at the maximal ideal of its valuation ring in the sense of Mathlib's
+  `IsArithFrobAt`, that is `σ x ≡ x^(q_v)` modulo `𝔪_P` for every `x ∈ O_P`, with
+  `q_v = #κ(v)`;
+- `frobeniusPlaceCount k C r`: the number of places `v` of `F` of degree `r` such that every
+  place `P` of `M` above `v` has ramification index one (`TauCeti.Place.ramificationIdx`) and
+  satisfies `IsArithFrobAtPlace σ P` for some `σ ∈ C`.
 
-Prove frobeniusPlaceCount_constant_congruence:
-the count is zero unless the image of `C` in `Gal(k_M/k)` is `Frob_q^r`. In a compatible
-degree, prove degree_sensitive_chebotarev:
+Their API, each item the form on the pinned carriers of a §5.13 statement:
+
+- Through `TauCeti.Place.residueAut_residue`, `IsArithFrobAtPlace σ P` says that
+  `TauCeti.Place.residueAut` sends `σ` to `x ↦ x^(q_v)` on `κ(P)`. That automorphism lies in
+  the image, which is all of `Aut(κ(P)/κ(v))` (`TauCeti.Place.residueAut_surjective`), and the
+  kernel is the inertia group (`TauCeti.Place.ker_residueAut`). So at an unramified `P` exactly
+  one `σ` satisfies it, while at a ramified `P` the solutions form a coset of the inertia group,
+  which is why the count requires ramification index one at every place above `v`.
+- For `τ ∈ G`, `σ` satisfies it at `P` exactly when `τστ⁻¹` does at `τ(P)`; since the places
+  above `v` form one `G`-orbit, for a conjugacy class `C` the condition depends only on `v`.
+- `frobeniusPlaceCount k C r = π_B(r)` for the cover above, by §5.13's agreement of its
+  decomposition and inertia groups in finite Galois quotients with the valuation-theoretic
+  ones; its finiteness and its vanishing in incompatible degrees are therefore §5.13's.
+
+Prove `degree_sensitive_chebotarev`: for finite `k`, `F` with exact constants
+(`IsIntegrallyClosedIn k F`), `M/F` finite Galois with `M` a function field over `k`, `r ≥ 1`,
+and `C` compatible in degree `r` (every element of `C` acts on `k_M` by `x ↦ x^(q^r)`),
 
 ```text
 |r · π_C(r) − (|C|/|N|)(q^r+1)|
-  ≤ (2g_M + r(1+2g_X))q^(r/2) + r + R.
+  ≤ (2g_M + r(1+2g_X))q^(r/2) + r + R,       π_C(r) = frobeniusPlaceCount k C r.
 ```
 
 Here `g_M` is the genus over the exact constants of `M`, `g_X` is the genus of `F/k`,
@@ -2338,20 +2418,37 @@ with places of degree exactly `r`.
 
 *Needs:* AlgebraicCurves Layers 6 and 8 (Galois places, constant-field components and genus);
 §5.1; DeligneWeightsAndPurity §1.6 (the curve Weil bound); ArithmeticGaloisRepresentations
-§5.13, *Chebotarev for function fields* (comparison with its asymptotic);
-finite-group conjugacy and arithmetic Frobenius.
+§5.13, *Chebotarev for function fields* (the count `π_B`, its constant-field vanishing, and
+comparison with its asymptotic); Tau Ceti `Place.restrict`, `Place.ramificationIdx`,
+`Place.residueAut`, `Place.residueAut_residue`, `Place.residueAut_surjective`,
+`Place.ker_residueAut`, `genus`; Mathlib `IsArithFrobAt`,
+`ValuationSubring.decompositionSubgroup`, `algebraicClosure`; finite-group conjugacy.
 
 **Checks.**
 
 - For a pure constant extension of degree `h`, `N = 1` and the only possible degree-`r`
   Frobenius is `Frob_q^r`; using `1/|G|` would give the wrong main term by a factor of `h`.
-  In a quadratic constant extension, odd degrees cannot have trivial Frobenius.
+  In a quadratic constant extension `C = {1}` is compatible only in even degrees: in odd
+  degrees `1` does not act on `𝔽_{q²}` by `x ↦ x^(q^r)`, and §5.13's count is zero there.
 - For `M = F = 𝔽_q(t)` and `r = 1`, the count is `q+1`, `R = g_M = g_X = 0`, and the
   main term agrees exactly. For `r = 2`, `2 · π_C(2) = q²−q`;
-  the difference from `q²+1` is the `q+1` degree-one points, which must be subtracted.
+  the difference from `q²+1` is the `q+1` degree-one points, which must be subtracted. The
+  left side is then `q+1` and the right side `(0 + 2·1)q + 2 + 0 = 2q+2`.
 - For a geometric extension (`h = 1`), the main coefficient becomes `|C|/|G|`.
   For `r = 1` there are no smaller-degree contributions, and the sharper intermediate
   error is `2g_M√q + R`; ramified rational points cannot be counted as unramified ones.
+- Arithmetic, not geometric, Frobenius: for the cubic constant extension `M = F·𝔽_{q³}` of
+  `F = 𝔽_q(t)`, let `σ₁` act on `𝔽_{q³}` by `x ↦ x^q` and take `C = {σ₁}`, `r = 1`. Each of the
+  `q+1` places of degree one is inert, and `σ₁` acts on its residue field `𝔽_{q³}` by
+  `x ↦ x^q`, so `π_C(1) = q+1` and the left side is `0`. Under the geometric
+  convention (`x ↦ x^(q⁻¹)`, that is `σ₁⁻¹`) the count would be `0` while `C` stays compatible,
+  and the left side `q+1` would exceed the right side `√q + 1`.
+- Ramified places are excluded, not assigned a Frobenius: for odd `q` and `M = F(√t)` over
+  `F = 𝔽_q(t)`, both `1` and the nontrivial `σ` are arithmetic Frobenius elements at the totally
+  ramified places over `t = 0` and `t = ∞` (the inertia group is all of `G` and the residue
+  fields are `𝔽_q`). The count gives `(q−1)/2` for each of `C = {1}` and `C = {σ}`, from the
+  squares and non-squares `a ∈ 𝔽_qˣ`; for `C = {1}` the left side is
+  `|(q−1)/2 − (q+1)/2| = 1` and the right side is `√q + 1 + 2`, with `R = 2`.
 
 ### Examples
 
@@ -2814,7 +2911,9 @@ therefore finite ramification. The inducing-character API is:
   such a character gives every other choice.
 
 *Needs:* ArithmeticGaloisDuality §R02.3.2 (idele classes, topology and reciprocity);
-Layer 0.3; SchemeAndStackFoundations §§2.11 and 3.6 (Hilbert 90 and Picard objects);
+Layer 0.3; SchemeAndStackFoundations §§2.11 and 3.6 (Hilbert 90 and Picard objects); Tau Ceti
+`Divisor.conorm`, `Divisor.conorm_principal` and `Divisor.conormClassGroup` (the pullback `ν^*`
+on divisors and divisor classes);
 divisibility of `U(1)` and extension of homomorphisms from subgroups of abelian groups.
 The arithmetic obstruction is evaluated before any choice of inducing character.
 
@@ -3480,8 +3579,8 @@ wrong; each is a test of the layers cited.
 - **Roquette**: P. Roquette, *Class field theory in characteristic p, its origin and development*,
   [author PDF](https://www.mathi.uni-heidelberg.de/~roquette/klkall.pdf). §4.3.3, pp. 25–28.
 - **Milne ADT**: J. S. Milne, *Arithmetic Duality Theorems*, 2nd ed., 2006,
-  [author PDF](https://www.jmilne.org/math/Books/ADTnot.pdf). Appendix A, A.7, pp. 131–132,
-  A.8–A.9, pp. 132–133, and A.10–A.12, pp. 134–136.
+  [author PDF](https://www.jmilne.org/math/Books/ADTnot.pdf). Appendix A, A.8–A.9,
+  pp. 132–133, and A.10–A.12, pp. 134–136.
 - **Conrad (geometric)**: B. Conrad, *Geometric global class field theory*,
   [handout](https://math.stanford.edu/~conrad/249BW09Page/handouts/geomcft.pdf), §2, pp. 1–3,
   Theorems 3.1–3.2, pp. 3–4.
@@ -3512,7 +3611,8 @@ wrong; each is a test of the layers cited.
   Reidemeister torsion (mod squares)*, [arXiv:2303.13436v1](https://arxiv.org/abs/2303.13436v1).
   §3.2, p. 27.
 - **Stacks**: The Stacks Project, Chapter 64 *The Trace Formula*, Section 64.20,
-  [Tag 03UZ](https://stacks.math.columbia.edu/tag/03UZ) (Theorem 64.20.1).
+  [Tag 03UZ](https://stacks.math.columbia.edu/tag/03UZ) (Theorem 64.20.1), with Remark 64.20.3
+  (Tag 03V1) and Theorem 64.20.4 (Tag 03V3).
 - **SGA 4½**: P. Deligne, *Fonctions L modulo ℓⁿ et modulo p*, in *Cohomologie étale (SGA 4½)*,
   Lecture Notes in Math. 569, Springer, 1977; Théorème 2.2.
 - **Feng–Yun–Zhang**: T. Feng, Z. Yun and W. Zhang, *Higher Siegel–Weil formula for unitary groups:
