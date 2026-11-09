@@ -1635,8 +1635,11 @@ connected-sum decomposition has an unknotted summand.
   ambient isotopy of unoriented knots allows `reverse` as well.
 - Ambient isotopy is a congruence for connected sum and commutes with mirror and reversal.
 - The complement `S³ ∖ K` is a boundaryless `3`-manifold, and ambient isotopic knots have
-  diffeomorphic complements
-  (`TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic.nonempty_complementHomeomorph`).
+  homeomorphic complements
+  (`TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic.nonempty_complementHomeomorph`) and
+  diffeomorphic ones: the final diffeomorphism (`TauCeti.Diffeotopy.final`) of a diffeotopy
+  carrying one knot to the other maps the compact image of the first onto that of the second,
+  so it restricts to a diffeomorphism of the open complements.
 
 **Checks.**
 - *Trefoil mirror.* The mirror of the right-handed trefoil is the left-handed trefoil, and the
@@ -2180,7 +2183,7 @@ polygonal perturbation; ReductiveGroups §11A's identification, half-twist conve
 plane/disc homeomorphism; no mapping-class theorem for punctured surfaces. 4.12.1's
 Brunnian/deletion producer consumes the based markings. Reference: Artin, [*Theory of
 braids*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/artinbraids.pdf), Ann. of Math. 48
-(1947), 102–115, Theorems 8–16, transported to the pullback convention above.
+(1947), 101–126, Theorems 8–16, transported to the pullback convention above.
 
 **Checks.**
 
@@ -2443,6 +2446,16 @@ over orthogonal sums; a half-dimensional q-zero subspace extends to a hyperbolic
 
 - *Planes.* On F₂², q(x,y) = xy has Arf 0 and Gauss sum 2, and q(x,y) = x²+xy+y² has Arf 1,
   Gauss sum −2 and no nonzero zero (by evaluation).
+- *Orthogonal sum.* The sum of two anisotropic planes on F₂⁴ has Arf `1 + 1 = 0`, Gauss sum
+  `(−2)(−2) = 4 = 2²` and `1·1 + 3·3 = 10` zeros, which is `2³ + 2¹` and also the zero count
+  `3·3 + 1·1` of two hyperbolic planes; the product `Π q(aᵢ)q(bᵢ)` in place of the sum would
+  give 1 here (by evaluation).
+- *Basis change.* On q(x,y) = xy the symplectic basis a = (1,1), b = (0,1) (polar value 1) has
+  q(a) = 1, q(b) = 0 and again Arf 0, whereas `Σ q(aᵢ)` moves from 0 on the standard basis to
+  1: only the sum of products is basis-independent (by evaluation).
+- *Zero space.* For V = 0 (m = 0) the Arf invariant is the empty sum 0, the Gauss sum is
+  `1 = 2⁰` and the only zero is 0; read with natural-number subtraction, the m ≥ 1 zero count
+  would give `2⁰ + 2⁰ = 2`, which is why m = 0 is stated separately (by evaluation).
 
 *Needs:* Mathlib `QuadraticForm`, `Submodule`, finite sums and finrank; Tau Ceti
 `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`.
@@ -2474,6 +2487,16 @@ input.
 - *Trefoil.* The trefoil Seifert matrix gives q(x,y) = x²+xy+y² and Arf 1 (by evaluation).
 - *Hopf.* The positive Hopf annulus `[−1]` has q(core) = 1 on its polar radical, so the link is
   improper (by evaluation).
+- *Proper link and orientation.* The closure `L_4` of `σ₁⁴` (4.4.7, linking number 2) with
+  4.4.7's positive two-disc four-band surface in its consecutive-band basis (4.3) has
+  `V = [[−1,1,0],[0,−1,1],[0,0,−1]]`, so
+  `dim H₁ = 3 = 2·1 + 2 − 1`, `q = x₁+x₂+x₃+x₁x₂+x₂x₃` and polar matrix
+  `[[0,1,0],[1,0,1],[0,1,0]]` with radical spanned by `e₁+e₃`, where `q(e₁+e₃) = 0`: the link is
+  proper. The quotient has `q(e₁) = q(e₂) = 1` with polar value 1, so Arf 1, and the Gauss sum
+  over all eight classes is `2 − 6 = −4 = −2^(g+μ−1)`. Reversing one component gives the
+  annulus `[2]`, `q ≡ 0` on a one-dimensional radical and Arf 0, so the proper-link Arf
+  invariant depends on the orientation, by `ℓ/2 = 1` as 4.5.3's reversal law says (by
+  evaluation).
 
 *Needs:* Layer 4.3 Seifert surfaces and geometric common stabilizations; the finite algebra above;
 native integral S-equivalence, `Matrix.toQuadraticForm'`, `QuadraticMap.polarBilin`, `.radical` and
@@ -7960,8 +7983,11 @@ for Layer 11.2.1; Mathlib CW complexes.
   compact surfaces of its LV.5, §§5.9–5.12.
 - **KhovanovHomology** and **CombinatorialHeegaardFloer** consume Layer 4's geometric and
   combinatorial presentations and the comparison theorems between them.
-- **FourManifolds** consumes Layers 1, 2 and 6 and Layer 4.3.1's knot/proper-link Arf invariant,
-  and owns the four-dimensional theorems this roadmap states (the dimension-four annulus theorem
+- **FourManifolds** consumes Layers 1, 2 and 6, Layer 4.3.1's finite quadratic Arf algebra and
+  its knot and proper-link Arf invariant (independence of the surface, additivity and the
+  determinant–Arf criterion, with 4.5.3's signed congruence `Δ_K(−1) ≡ 1 − 4·Arf(K) mod 8`),
+  and adds their vanishing on smoothly and topologically slice knots (its §§1.4 and 3.6); it
+  owns the four-dimensional theorems this roadmap states (the dimension-four annulus theorem
   and Freedman's theorem).
 - **TemperleyLiebOperatorAlgebras** consumes Layer 4.5.3's finite algebraic
   Clifford map, scalar trace, radical quotient, coordinate inclusions and braid phases, and
