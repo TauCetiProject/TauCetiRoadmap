@@ -8,6 +8,7 @@ public import TauCeti.AlgebraicTopology.SimplicialObject.AlexanderWhitney
 public import TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial
 public import TauCeti.RingTheory.DividedPowerAlgebra.Homogeneous
 public import TauCeti.Algebra.Category.ModuleCat.SymmetricPower.Basic
+public import TauCeti.Algebra.Homology.Monoidal.KFlat.Basic
 
 /-!
 # DerivedModuleAlgebra: target signatures
@@ -46,11 +47,13 @@ the injective hulls, completion action, finite-length biduality and Artinian cri
 
 Headline theorems that are not statable at the pins, and the carrier each lacks:
 
-* the unbounded module derived tensor `⊗^L` on `D(R)` (§0.2), the
-  derived scalar extension and restriction functors with their adjunction, and the preservation of
-  perfection by derived scalar extension along a map of commutative rings (§1.E.0): no derived
+* the unbounded module derived tensor `⊗^L` on `D(R)` (§0.2) and the
+  derived scalar extension and restriction functors with their adjunction (§1.E.0): no derived
   tensor bifunctor or derived extension of scalars on `DerivedCategory (ModuleCat R)` exists at
-  the pin;
+  the pin. Derived Nakayama (§1.3), the cohomological bound of complete Tor-amplitude (§1.8) and
+  the preservation of perfection by derived scalar extension (§1.E.0) are stated below on models
+  whose termwise tensor product computes the derived one: a K-flat model for the first two, a
+  bounded-above finite-free model for the third;
 * the cohomological first-quadrant spectral sequence, its edge morphisms and the five-term and
   extended exact sequences (§S.1): the pinned spectral sequence of a bicomplex is the homological
   one of `HomologicalComplex₂ C (down ℕ) (down ℕ)`, no column filtration of the total complex of a
@@ -67,16 +70,24 @@ Headline theorems that are not statable at the pins, and the carrier each lacks:
   module in degree zero (§0.17) are stated below;
 * the tensor–Hom adjunction of §1.1.1: it pairs the pinned derived Hom with the derived tensor
   above; the exactness of the pinned derived limit (§1.1) is stated below;
-* derived Nakayama (§1.3), the Koszul completion tower (§1.4) and the ordinary-quotient comparison
-  (§1.5): each statement contains `M ⊗^L_A A/I` or `M ⊗^L_A K(f)`; the existence of the completion
-  reflector of §1.3 is stated below;
+* the Koszul completion tower (§1.4) and the ordinary-quotient comparison (§1.5): each identifies
+  the completion functor `Λ_I` of §1.3, a construction of which only the existence is stated
+  below, with the derived limit of the tower `n ↦ M ⊗^L_A K(f₁ⁿ, …, f_rⁿ)` or
+  `n ↦ M ⊗^L_A A/Iⁿ`, an object of the derived category of strict towers that no pinned
+  construction supplies;
 * completion of simplicial commutative algebras (§1.6): the localized category of simplicial
   commutative algebras with its underlying-module functor to `D(A)` is a construction of §1.6;
-* complete flatness of complexes, complete Tor-amplitude and complete faithful-flat descent
-  (§§1.7–1.9): built from `⊗^L`; the module form of the bounded-torsion criterion of §1.8 is
-  stated below;
+* the completion laws of complete flatness (§1.7: the derived completion of a flat module, and
+  completed base change) and complete faithful-flat descent (§1.9): they need the completion
+  functor `Λ_I` of §1.3, and descent the completed Čech nerve with its product totalization; the
+  module form of the bounded-torsion criterion of §1.8 is stated below;
 * compatible finite-free models, strict-tower limits and perfect inverse-system effectivity
-  (§§1.E.0–1.E.1): their statements mention derived scalar extension.
+  (§§1.E.0–1.E.1): besides objects, their statements apply derived scalar extension to morphisms
+  (the specified reductions `M_(n+1) ⊗^L A_n ≅ M_n`, the identifications of the models with the
+  `M_n`, and the maps `M ⊗^L_A A_n → M_n` adjoint to the projections) and use the derived
+  category of varying-ring diagrams of §1.E.0; these need the functor and adjunction above, since
+  a finite-free model computes the derived scalar extension of an object, while a morphism of
+  `D(A_(n+1))` is not a chain map of models.
 
 Derived categories of modules are `DerivedCategory (ModuleCat.{u} R)` with the standard instance
 `HasDerivedCategory.{u+1}`; towers are indexed by `ℕ` with transitions from `n + 1` to `n`.
@@ -287,6 +298,22 @@ theorem derivedCompleteness_isRightAdjoint (A : Type u) [CommRing A] (I : Ideal 
     (ObjectProperty.ι (derivedCompleteness A I)).IsRightAdjoint := by
   sorry
 
+/-- **Derived Nakayama** (README 1.3; Stacks, Lemma 15.93.20, Tag 0G1U). Let `I` be a finitely
+generated ideal of `A` and `P` a K-flat complex of `A`-modules whose image `M` in `D(A)` is derived
+`I`-complete. If `M ⊗^L_A A/I = 0` then `M = 0`. Because `P` is K-flat, the termwise tensor
+product `P ⊗_A A/I` computes `M ⊗^L_A A/I`, and every object of `D(A)` has a K-flat model (Tau Ceti
+`CochainComplex.exists_quasiIso_isKFlat_moduleCat`), so this covers every derived complete `M`.
+Finite generation is needed: for the ring of integers `O` of `ℂ_p` and its maximal ideal
+`m = m²`, the module `m` is nonzero and derived `m`-complete, while `m ⊗^L_O O/m = m/m² = 0`. -/
+theorem completeNakayama (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG)
+    (P : CochainComplex (ModuleCat.{u} A) ℤ) [P.IsKFlat]
+    (hc : derivedCompleteness A I ((DerivedCategory.Q (C := ModuleCat A)).obj P))
+    (h : IsZero ((DerivedCategory.Q (C := ModuleCat A)).obj
+      (((MonoidalCategory.tensorRight (ModuleCat.of A (A ⧸ I))).mapHomologicalComplex
+        (ComplexShape.up ℤ)).obj P))) :
+    IsZero ((DerivedCategory.Q (C := ModuleCat A)).obj P) := by
+  sorry
+
 /-- **Complete flatness of a module** (README 1.7). A module `M` is `I`-completely flat when its
 derived reduction `M ⊗^L_A A/I` is a flat `A/I`-module in degree zero: the higher `Tor_n^A(M, A/I)`
 vanish and `A/I ⊗_A M` is flat over `A/I`. The predicate does not require `M` to be complete
@@ -295,6 +322,26 @@ def IsCompletelyFlatModule (A : Type u) [CommRing A] (I : Ideal A) (M : ModuleCa
   (∀ n : ℕ, 0 < n →
       IsZero (((CategoryTheory.Tor (ModuleCat.{u} A) n).obj M).obj (ModuleCat.of A (A ⧸ I)))) ∧
     Module.Flat (A ⧸ I) ((A ⧸ I) ⊗[A] M)
+
+/-- **Complete Tor-amplitude bounds cohomology** (README 1.8; [BMS19], Lemma 4.6, p. 221). Let `A`
+have bounded `p`-power torsion and let `P` be a K-flat complex of `A`-modules whose image `M` in
+`D(A)` is derived `p`-complete and has `p`-complete Tor-amplitude in `[a, b]`: for every
+`A`-module `N` killed by `p`, the termwise tensor product `P ⊗_A N`, which computes `M ⊗^L_A N`
+because `P` is K-flat, has cohomology only in degrees `[a, b]`. Then `M` itself has cohomology only
+in degrees `[a, b]`. Bounded torsion of `A` is needed: for `A = ℤ_p ⋉ ℚ_p/ℤ_p` the derived
+`p`-completion of `A[0]` is `p`-completely flat with nonzero `H^(-1)`. -/
+theorem cohomologicalAmplitude_of_completeTorAmplitude (A : Type u) [CommRing A] (p : ℕ)
+    (hp : p.Prime)
+    (hA : ∃ c : ℕ, ∀ (a : A) (n : ℕ), (p : A) ^ n * a = 0 → (p : A) ^ c * a = 0)
+    (P : CochainComplex (ModuleCat.{u} A) ℤ) [P.IsKFlat]
+    (hc : derivedCompleteness A (Ideal.span {(p : A)})
+      ((DerivedCategory.Q (C := ModuleCat A)).obj P))
+    (a b : ℤ)
+    (hamp : ∀ N : ModuleCat.{u} A, (∀ x : N, (p : A) • x = 0) → ∀ i : ℤ, i < a ∨ b < i →
+      IsZero (H A i ((DerivedCategory.Q (C := ModuleCat A)).obj
+        (((MonoidalCategory.tensorRight N).mapHomologicalComplex (ComplexShape.up ℤ)).obj P)))) :
+    ∀ i : ℤ, i < a ∨ b < i → IsZero (H A i ((DerivedCategory.Q (C := ModuleCat A)).obj P)) := by
+  sorry
 
 /-- **A derived complete, completely flat module has flat reductions and bounded torsion**
 (README 1.8; [BMS19], Lemma 4.7(1), pp. 221–222). Let `A` have bounded `p`-power torsion and let
@@ -379,6 +426,18 @@ theorem isPerfect_triangle (R : Type u) [Ring R] (T : Triangle (D R))
 a bounded finite-projective complex has a bounded-above finite-free representative. -/
 theorem isPerfect_isPseudoCoherent (R : Type u) [Ring R] (K : D R)
     (hK : IsPerfect R K) : IsPseudoCoherent R K := by
+  sorry
+
+/-- **Derived extension of scalars preserves perfection** (README 1.E.0; Stacks, Lemma 15.76.9,
+Tag 066W). Let `f : R → S` be a map of commutative rings and `P` a bounded-above complex of finite
+free `R`-modules whose image in `D(R)` is perfect. Then the termwise scalar extension `P ⊗_R S` is
+perfect in `D(S)`. Since `P` is bounded above and termwise free, it is K-flat (Stacks,
+Lemma 15.60.7, Tag 064K), so `P ⊗_R S` computes `P ⊗^L_R S`; as every perfect complex has such a
+model (`isPerfect_isPseudoCoherent`), this covers every perfect complex. -/
+theorem isPerfect_baseChange {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
+    (P : CochainComplex (ModuleCat.{u} R) ℤ) (b : ℤ) (hP : IsFiniteFreeModel R P b)
+    (hK : IsPerfect R ((DerivedCategory.Q (C := ModuleCat R)).obj P)) :
+    IsPerfect S ((DerivedCategory.Q (C := ModuleCat S)).obj ((complexBaseChange f).obj P)) := by
   sorry
 
 /-- Compatible ring projections exhibit `R` as the inverse limit of the ring tower. -/
