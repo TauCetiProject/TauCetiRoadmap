@@ -33,12 +33,12 @@ Teichmüller theory and the marked moduli-space construction are owned by the se
 Layer 1 items 1–3, Layer 2 item 1, Layer 4 item 5 and Layer 4a, and no layer here consumes any
 layer of it. Arithmetic Fuchsian lattices, commensurators and their applications are owned by the
 separate `ArithmeticFuchsianGroups` roadmap, also a downstream consumer of this one: it takes
-Layer 0 items 1–3, Layer 2 items 1, 4 and 5, Layer 4 item 5, Layer 4a and Layer 5 items 5–7,
+Layer 0 items 1–3, Layer 2 items 1 and 3–5, Layer 4 item 5, Layer 4a and Layer 5 items 5–7,
 and no layer here consumes any layer of it. General Kleinian groups, higher-dimensional locally
 symmetric spaces, automorphic representations, and the classification of all two-dimensional
 orbifolds remain outside this roadmap. Congruence-subgroup arithmetic, Hecke operators,
 modular-form dimension formulas, and the construction and q-expansion of modular forms remain with
-the modular-forms roadmap.
+ModularForms, by the sections listed under Ownership and dependencies.
 
 The roadmap is complete when Tau Ceti proves the following.
 
@@ -106,12 +106,19 @@ The roadmap is complete when Tau Ceti proves the following.
   analytic by `OnePoint.instIsManifold`
   (`TauCeti/Geometry/Manifold/Instances/OnePoint/Basic.lean`); ComplexManifolds Milestone 3
   consumes the same instance.
-- **The universal-covers roadmap (completed) owns universal covers, deck groups, lifting
-  criteria, and induced maps on homotopy groups.**  This roadmap identifies the upper-half-plane
-  quotient as an instance of that theory and contributes the Fuchsian and orbifold presentations.
-- **The conformal-mapping roadmap (completed) owns the Riemann mapping theorem, analytic
-  continuation, and Schwarz reflection.**  These are consumed in polygon uniformization and local
-  extension arguments.
+- **UniversalCovers (completed) owns universal covers and deck groups (Stages 0–1), the lifting
+  criterion and the correspondence between covers and subgroups of `π₁` (Stage 2), and induced
+  maps on higher homotopy groups (Stage 3).** No layer here consumes them: the covering statements
+  of this roadmap, that the projection of the free locus is a covering map (Layer 0 item 5) and
+  that a lifted cusp meridian of `n` turns ends at the `n`th power of the selected generator
+  applied to its starting point (Pinned conventions, Layer 2 item 5), are Tau Ceti's `TauCeti.isCoveringMap_quotientMk_freeLocus`
+  and `TauCeti.Subgroup.CuspDatum.meridian_lift_endpoint`, and the presentations of Layer 2 are
+  side-pairing presentations read off polygons, not computations of fundamental groups.
+- **ConformalMapping (completed) owns the Riemann mapping theorem (Layer 3), and analytic
+  continuation and Schwarz reflection across analytic arcs (Layer 4).** No layer here consumes
+  them: the polygons of Layer 2 are hyperbolic polygons with side pairings, and the extensions of
+  functions across cusps (Layer 3 item 5, Layer 5 item 4, Layer 6 item 2) are removable-singularity
+  and q-expansion arguments implemented in Tau Ceti.
 - **AlgebraicTopology owns finite CW type, Poincaré duality and the Euler characteristic.**
   AlgebraicTopology Stage 8 item 7 proves that a compact smooth manifold, also with finitely many
   marked interior points, has finite CW type; Stage 6 items 4 and 5 supply Poincaré duality and
@@ -126,8 +133,9 @@ The roadmap is complete when Tau Ceti proves the following.
   enters either. ComplexKahlerGeometry K7 compares its Hodge genus `h^(1,0)` with the first Betti
   number, and ModularForms §10B compares its analytic genus `dim H¹(X, 𝒪)` with Layer 5 item
   1's genus; neither comparison is an input here.
-- **The modular-forms roadmap owns modular forms and functions before descent, congruence-subgroup
-  arithmetic, analytic Riemann--Roch, automorphy sheaves, and dimension formulas.** Its §10A and
+- **ModularForms owns modular forms and functions before descent (Layers 0–9), the
+  congruence-subgroup arithmetic of `X(Γ)` (§10A), analytic Riemann–Roch (§10B), and automorphy
+  sheaves and dimension formulas (§10C).** Its §10A and
   §10B consume this roadmap's compactified quotients, degree theory and topological genus
   (Layers 0–5), and its §10A and §10D consume the identification `X(1) ≃ P¹` of Layer 6. This
   roadmap does not reconstruct modular forms, cohomology, or Riemann--Roch in its level-one
@@ -141,7 +149,8 @@ The roadmap is complete when Tau Ceti proves the following.
   `2` at `i`); and the q-expansion `TauCeti.ModularForm.laurentQExpansion_j`, with a simple pole
   `q⁻¹` at the cusp. Layer 6 consumes these and owns the descent of `j` to `X(1)`, its extension
   over the cusp and the degree-one identification `X(1) ≃ P¹`.
-- **The algebraic-curves roadmap owns algebraic curves and their function fields.**  This
+- **AlgebraicCurves owns algebraic curves and their function fields (Layer 0, and Layer 12's
+  dictionary between function fields and curves).**  This
   roadmap constructs analytic Riemann surfaces.  It proves no GAGA equivalence and creates no
   algebraic curve by declaration.
 - **TeichmullerGeometry, a downstream consumer, owns marked Teichmüller space and its
@@ -285,8 +294,6 @@ The development starts from the following material.
   Ownership.
 - AlgebraicTopology Stage 6 items 4 and 5 and Stage 8 item 7, as listed under Ownership.
 - The Tau Ceti declarations listed under Ownership.
-- The universal-covers roadmap's covering and deck-transformation results.
-- The conformal-mapping roadmap's Riemann mapping and Schwarz-reflection results.
 - Tau Ceti's normalized level-one `j` (`TauCeti.ModularForm.j`), its invariance, q-expansion, and
   exact orders at elliptic points, as listed under Ownership.
 
@@ -937,13 +944,13 @@ implemented in Tau Ceti, in the construction order below.
 
 | Track | Depends on | Feeds |
 | --- | --- | --- |
-| L0 effective action and free locus | Mathlib, complex manifolds | L1--L4 |
-| L1 elliptic charts | L0, complex-manifold gluing | L4--L6 |
-| L2 polygons and presentations | L0, conformal mapping, Tau Ceti half-space model | L3--L4, L6 |
+| L0 effective action and free locus | Mathlib, ComplexManifolds Milestone 4 | L1--L4 |
+| L1 elliptic charts | L0, ComplexManifolds Milestones 5--6 | L4--L6 |
+| L2 polygons and presentations | L0, Tau Ceti half-space model | L3--L4, L6 |
 | L3 cusps and q-coordinates | L0, L2 | L4--L6 |
 | L4 compactification | L1--L3 | L5--L6 |
-| L5 degree theory and applications | ComplexManifolds Milestones 1--2, AlgebraicTopology Stages 6 and 8, Tau Ceti Euler characteristic and Riemann-surface degree, L2, L4 | L4a, L6, modular forms |
-| L6 level-one example | L0--L5, Tau Ceti `j` | normalized `X(1) ≃ P^1` |
+| L5 degree theory and applications | ComplexManifolds Milestones 1--2, AlgebraicTopology Stages 6 and 8, Tau Ceti Euler characteristic and Riemann-surface degree, L2, L4 | L4a, L6, ModularForms §§10A--10B |
+| L6 level-one example | L0--L5, Tau Ceti `j` | normalized `X(1) ≃ P^1`; ModularForms §§10A and 10D |
 | L4a minimal areas | L5 item 7, Tau Ceti deficit bound | area ≥ `π/21`; area ≥ `π/3` with a cusp; equality cases |
 
 The dependency order follows the table. No row depends on TeichmullerGeometry or
