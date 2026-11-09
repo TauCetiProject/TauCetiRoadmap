@@ -314,7 +314,7 @@ operator on Siegel modular forms, and no paramodular group.
   series `thetaSeries L` (its *Layer 3*) is `ZLattice.thetaSeries L`,
   `τ ↦ ∑_{v ∈ L} exp(π i ‖v‖² τ)` for `L : Submodule ℤ E` (`…ThetaSeries.Basic`), with the
   inversion law `ZLattice.thetaSeries_S_smul` in rank `2k` (`…ThetaSeries.Inversion`, that
-  roadmap's *Layer 4*) and the level-one form `ZLattice.thetaForm` of an even unimodular lattice
+  roadmap's *Layer 4*) and the level-one form `ZLattice.IsEven.thetaForm` of an even unimodular lattice
   (`…ThetaSeries.LevelOne`, its *Layer 5*); 5.1 generalizes `ZLattice.thetaSeries L` to degree
   `g`, with the same exponent `π i ‖v‖² τ` at `g = 1`.
 - `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`: the abelian-variety carrier that the
@@ -2546,8 +2546,9 @@ Hodge types of weight `(k, j)` are `(0, w), (k − 2, k + j − 1), (k + j − 1
 scalar weight this is `Γ(s)Γ(s − k + 2)(2π)^{−2s}` up to constants — continues meromorphically to
 `ℂ` with finitely many poles and satisfies
 `Λ(2k + j − 2 − s, F, spin) = (−1)^k Λ(s, F, spin)`; where the poles lie (none off the Maass
-space, the simple pole of `L(s, F, spin)` at `s = k` on a Saito–Kurokawa lift) is the holomorphy
-part of these theorems, proved in 9.5 once the Maass space is available. Prove **Böcherer's and Andrianov–Kalinin's theorem**
+space, the simple pole of `L(s, F, spin)` at `s = k` on a Saito–Kurokawa lift) is Evdokimov's and
+Oda's characterization of the Maass space in scalar weight and Arakawa's theorem for `j > 0`,
+proved in 9.5 once the Maass space is available. Prove **Böcherer's and Andrianov–Kalinin's theorem**
 (Böcherer 1985;
 Andrianov–Kalinin 1978; Piatetski-Shapiro–Rallis 1987) for the standard `L`-function of a
 scalar eigenform `F ∈ M_k(Γ_g)`:
@@ -2860,8 +2861,14 @@ product of `L(s, f)`: Deligne's bound `|a_p(f)| ≤ 2p^{k−3/2}` (Deligne 1974)
 not suffice; the completed `Λ(s, F, spin)` of 8.3 then has poles at `s = k` and at its mirror
 `s = k − 2` (there the factor `Γ_ℂ(s − k + 2)` has its pole). For a cuspidal eigenform
 `F ∈ S_{k,j}(Γ₂)` orthogonal to the Maass space (every such `F` when `j > 0`, and when `k` is odd,
-where `S_k^*(Γ₂) = 0`), with `a_F((1, 0, 1)) ≠ 0` when `j > 0` as in 8.3, `Λ(s, F, spin)` is entire
-(the holomorphy part of Andrianov's and Arakawa's theorems as cited in 8.3). Hence the polar divisor of `L(s, F, spin)` is `{k}`
+where `S_k^*(Γ₂) = 0`), with `a_F((1, 0, 1)) ≠ 0` when `j > 0` as in 8.3, `Λ(s, F, spin)` is entire.
+In scalar weight this is the characterization of the Maass space by Evdokimov and Oda
+(Evdokimov 1980; Oda 1981): for even `k` and a Hecke eigenform `F ∈ S_k(Γ₂)`, `Λ(s, F, spin)` has
+a pole if and only if `F ∈ S_k^*(Γ₂)`, and then the only poles are the simple ones at `s = k` and
+`s = k − 2` computed above; for odd `k` the Maass space is zero and no eigenform has a pole. For
+`j > 0` it is Arakawa's theorem (Arakawa 1983, the Theorem on p. 158). Andrianov's theorem as cited
+in 8.3 supplies the continuation, the functional equation and the finiteness of the set of poles;
+which eigenforms have a pole is the characterization. Hence the polar divisor of `L(s, F, spin)` is `{k}`
 for `SK(f)` and empty off the Maass space, and 9.5 completes the spin record of 8.5 with it.
 **Ramanujan–Petersson** (Weissauer 2009): for every prime `p` the arithmetic spin roots of a
 cuspidal full-level eigenform of weight `(k, j)` with `k ≥ 3` orthogonal to the Maass space have
@@ -3606,6 +3613,11 @@ read from the cited theorem.
 - T. Arakawa, *Vector valued Siegel's modular forms of degree two and the associated Andrianov
   L-functions*, Manuscripta Math. 44 (1983), 155–185: the Klingen section of 4.3 and the
   vector-valued functional equation of 8.3.
+- S. A. Evdokimov, *A characterization of the Maass space of Siegel cusp forms of second degree*,
+  Mat. Sb. (N.S.) 112(154) (1980), 133–142; Math. USSR-Sb. 40 (1981), 125–133: a Hecke eigenform
+  in `S_k(Γ₂)` lies in the Maass space iff its spinor `L`-function has a pole at `s = k` (9.5).
+- T. Oda, *On the poles of Andrianov L-functions*, Math. Ann. 256 (1981), 323–340: the same
+  characterization by indefinite theta series (9.5).
 - M. Eichler, D. Zagier, *The Theory of Jacobi Forms*, Progress in Math. 55, Birkhäuser (1985).
   Theorem 2.1 (Jacobi Eisenstein coefficients, Cohen's `H`), Theorem 2.2 (`c(n, r)` depends on
   `4n − r²` in index 1), Theorem 4.2 (`V_l` on coefficients), Theorem 5.1 (theta decomposition),
