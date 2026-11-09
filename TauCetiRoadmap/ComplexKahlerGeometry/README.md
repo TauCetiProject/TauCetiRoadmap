@@ -1169,7 +1169,7 @@ and prove its continuous-dual identification directly by weighted Plancherel
 and reciprocal Fourier weights. Prove density and transpose compatibility on
 Schwartz functions first and extend to the completed spaces. This Euclidean
 duality precedes the bundle carrier's closed-image/completeness argument.
-In the complex Euclidean case also compare the course's Fourier-side
+In the complex Euclidean case also compare the Fourier-side
 bilinear pairing `B_F(f,g)=∫ f̂(ξ)·ĝ(ξ)dξ` with the spatial density
 pairing `B₀(f,g)=∫ f(x)·g(x)dx`. For `Rg(x)=g(−x)`, prove in the
 native Fourier normalization `B_F(f,g)=B₀(f,Rg)` by bilinear Plancherel,
@@ -1178,8 +1178,9 @@ Consequently the two transposes satisfy `T^(t_F)=R T^(t₀) R` on
 Schwartz functions. Prove the abstract reciprocal-Fourier-weight duality
 lemma, including the pairing normalization, and derive the transpose
 bound with the same C in the matched primal/dual norms. Apply it to
-the native Bessel norms and separately to the course's angular-weight
-norms with their chosen pairing constant, then extend by density.
+the native Bessel norms and separately to the angular-weight norms `〈ξ〉^s`
+below, with the pairing constant their frequency convention fixes, then extend
+by density.
 Transporting to other equivalent norms uses their explicit equivalence
 constants; it does not preserve C automatically.
 For matrix multiplication identify the B_F transpose as multiplication
@@ -2097,6 +2098,10 @@ nonzero vectors, and a biholomorphism: it carries `U_i` onto `affineOpen i` and 
 in the charts `Projectivization.affineChart i` and `affineChart i`, both of which read
 `v_(i.succAbove j)/v_i`. Transport every K7 theorem through it in both directions; the Lean
 statements of K7.2 are on the sphere-quotient model.
+This roadmap is the single owner of that comparison and of the transport of `cwComplex` and
+its characteristic maps in K7.2: AlgebraicTopology Stage 4.6 supplies only the generic quotient
+topology on `Projectivization`, and AlgebraicTopology's complex-projective Euler-characteristic
+check (Stage 7) consumes K7.1's model and K7.2's cell structure on the `Projectivization` carrier.
 
 Prove the underlying real smooth atlas and its
 complex orientation agree with K1. Upgrade the existing equivalence
