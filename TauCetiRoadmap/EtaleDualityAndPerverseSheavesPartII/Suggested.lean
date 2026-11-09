@@ -2,19 +2,22 @@ module
 
 public import Mathlib
 public import TauCeti.RingTheory.RegularLocalRing.GRing
+public import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.Basic
 
 /-!
 # Étale duality and perverse sheaves, part II: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the headline
 Cohen–Gabber theorems in equal and mixed characteristic, the partial algebraization
-theorems, the local form of Gabber’s affine Lefschetz theorem and Gabber’s
-cohomological-dimension bound against the pinned APIs. The three structures only bundle
-native rings, ideals, localizations, completions and generic fibres needed by those
-statements. The local affine Lefschetz theorem assumes Tau Ceti’s G-ring condition, which
-makes the completion map regular; for a noetherian local ring that condition is
+theorems, the local form of Gabber’s affine Lefschetz theorem, Gabber’s formula for the
+cohomological dimension of the fraction field of a henselian quasi-excellent local domain
+and Gabber’s cohomological-dimension bound against the pinned APIs. The three structures
+only bundle native rings, ideals, localizations, completions and generic fibres needed by
+those statements. The local affine Lefschetz theorem assumes Tau Ceti’s G-ring condition,
+which makes the completion map regular; for a noetherian local ring that condition is
 quasi-excellence (ILO I 5.3.1 and 5.5.1(ii)), but the proof only uses the regularity of
-the completion map (ILO XV 1.2.5).
+the completion map (ILO XV 1.2.5). The fraction-field formula uses the same condition as
+quasi-excellence, and Tau Ceti’s cohomological dimension of the absolute Galois group.
 
 These remaining headlines are not statable at the pins without their missing
 geometric carriers and operations:
@@ -314,6 +317,25 @@ theorem cohomologicalDimension_le_of_strictlyLocal
       ∀ (s : F.obj.obj (Opposite.op V)), ∃ k : ℕ, ℓ ^ k • s = 0)
     (q : ℕ) (hq : 2 * d ≤ q) :
     Subsingleton (F.H q) := by
+  sorry
+
+/-- Gabber's formula for the cohomological dimension of a henselian fraction field: let A be
+a henselian noetherian local domain of Krull dimension d that is a G-ring (for a noetherian
+local ring, quasi-excellence), with fraction field K and residue field k, and ℓ a prime
+invertible in A. If ℓ ≠ 2 or k is not formally real, then cd_ℓ(K) = d + cd_ℓ(k), the
+ℓ-cohomological dimensions of the absolute Galois groups taken in ℕ∞. For A strictly henselian
+this is cd_ℓ(K) = d, conjectured in SGA 4 X 3.1. The upper bound is ILO 0, Corollaire 8
+(ILO14 line 396); the lower bound is SGA 4 X, Corollaire 2.4 (SGA4 line 1338). The hypothesis
+on k is needed: for ℓ = 2 the henselization of ℝ[x, y]/(x² + y²) at the origin has
+cd₂(K) = 1 while 1 + cd₂(ℝ) = ∞ (SGA 4 X 2.3). -/
+theorem cohomologicalDimension_fractionRing_eq
+    (A : Type u) [CommRing A] [IsDomain A] [HenselianLocalRing A]
+    [TauCeti.Excellence.IsGRing A] (d : ℕ) (hdim : ringKrullDim A = d)
+    (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : IsUnit (ℓ : A))
+    (hreal : ℓ ≠ 2 ∨ ¬ IsFormallyReal (IsLocalRing.ResidueField A)) :
+    TauCeti.cohomologicalDimensionAt.{0} ℓ (Field.absoluteGaloisGroup (FractionRing A)) =
+      (d : ℕ∞) + TauCeti.cohomologicalDimensionAt.{0} ℓ
+        (Field.absoluteGaloisGroup (IsLocalRing.ResidueField A)) := by
   sorry
 
 end TauCetiRoadmap.EtaleDualityAndPerverseSheavesPartII
