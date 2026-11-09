@@ -87,7 +87,8 @@ This roadmap owns the following, by layer.
   bounding no PL disc (Layer 6.4), and the statement of Freedman's theorem.
 - **Layer 7.** Hyperbolic manifolds, Mostow rigidity and the finite-volume Mostow–Prasad
   theorem in dimension three with their volume and isometry-group consequences, Thurston's
-  smooth measure homology with Löh's isometric comparison to singular homology and the
+  smooth measure homology with Löh's isometric comparison to singular homology, through the
+  bounded cohomology of spaces and its duality principles, and the
   proportionality of simplicial volume and hyperbolic volume (Layer 7.2), the
   Margulis and cusp theory, the hyperbolicity of the pinned Weeks manifold and the statement of
   its minimality, and the statements of the virtual fibering and virtual Haken theorems.
@@ -596,7 +597,15 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   `TauCeti.HomologicalOrientation.simplicialVolume_eq_zero_of_one_lt_abs` under a self-map of
   degree of absolute value at least two (`AlgebraicTopology/Singular/LocalHomology/SimplicialVolume.lean`,
   `AlgebraicTopology/SimplicialSet/Homology/L1Norm.lean`), the proportionality with hyperbolic
-  volume not being proved there; the upper half space `TauCeti.UpperHalfSpace E`
+  volume not being proved there; the smooth singular simplices `TauCeti.SmoothSimplex I M k`,
+  smooth near each point of the full-dimensional simplex `Δᵏ ⊆ ℝᵏ`, forming the subcomplex
+  `TauCeti.smoothSingularSubcomplex` of the singular simplicial set
+  (`Geometry/Manifold/SmoothSingular/Basic.lean`), with derivatives within `Δᵏ` unique by
+  `TauCeti.uniqueDiffOn_fullSimplex` (`Geometry/Convex/FullSimplex.lean`), and the integral of a
+  `k`-form over a smooth `k`-simplex `TauCeti.SmoothSimplex.integral`, linear and natural under
+  smooth maps (`Geometry/Manifold/SmoothSingular/Integral.lean`), with no topology on the
+  simplices, no comparison with singular homology and no Stokes formula there; the upper half
+  space `TauCeti.UpperHalfSpace E`
   (`Hyperbolic/UpperHalfSpace/Basic.lean`) with its complete metric of curvature `−1`,
   `TauCeti.UpperHalfSpace.hyperbolicMetric` and `TauCeti.UpperHalfSpace.isHyperbolic`
   (`UpperHalfSpace/Metric.lean`); `TauCeti.riemannianVolume` and
@@ -718,14 +727,16 @@ handlebodies and Heegaard splittings of Layer 9.1, which need Layers 1.3, 1.7, 1
 precede the Lickorish–Wallace theorem of Layer 5.2. The realizations and smooth triangulations of
 Layers 11.1 and 11.3, which need only Layer 1.6, then the surface theorems of Layer 11.2.1, which
 need in addition Layers 1.1, 3.3 and 3.4, then Moise's theorems of Layer 11.2, which need Layer
-11.2.1, precede Layer 1.7, the three-dimensional case of the annulus theorem in Layer 2.3, and
-Layers 8 and 9. The smooth structure of the pinned exterior in Layer 5.1, built from Layers 1.5,
+11.2.1, precede Layer 1.7, the three-dimensional case of the annulus theorem in Layer 2.3, Löh's
+comparison in Layer 7.2, and Layers 8 and 9. The smooth structure of the pinned exterior in
+Layer 5.1, built from Layers 1.5,
 3.3 and 4.1, precedes the Alexander module of Layer 4.4. The decomposition theorems of Layers 8.1–8.4, which need Layers 1,
 4.4, 5.1 and 11.2, precede the cyclic surgery theorem of Layer 5.4 and the finite-volume theory of
 Layer 7.3. With these edges the graph of targets is acyclic. Otherwise Layers 2 and 3 are
 independent of each other and of Layer 4; Layer 6 (concordance) needs Layers 1, 2 and 4, and
 the reduction of Levine's theorem in Layer 6.4 also Layer 5.2, and its PL form Layer 11.3; Layer 7
-needs Layer 1 and the Riemannian suppliers, and for its finite-volume part the Dehn filling of
+needs Layer 1 and the Riemannian suppliers, for Löh's comparison the smooth triangulations of
+Layer 11.3, and for its finite-volume part the Dehn filling of
 Layer 5.2 and the irreducibility of Layer 8.2; Layer 9 (Heegaard splittings) needs Layers 1, 7, 8
 and 11; and Layer 10 (foliations) needs Layers 1, 5, 7, 8 and 9. Each layer ends with its examples
 and its dependencies on the others.
@@ -4635,12 +4646,17 @@ Cambridge Philos. Soc. 99 (1986); Franks–Williams, Trans. Amer. Math. Soc. 303
 
 - *Split correction.* The two- and three-component unlinks have `V = −t¹ᐟ² − t⁻¹ᐟ²` and
   `(t¹ᐟ² + t⁻¹ᐟ²)²`, of spans `1 = 0 + 2 − 1` and `2 = 0 + 3 − 1` (by evaluation).
-- *Morton–Franks–Williams bound.* The closure `T(3, 4)` of `(σ₁σ₂)⁴` has `span V = 5`, and the
-  bound gives braid index `3`, attained by that braid (by evaluation).
+- *Morton–Franks–Williams bound.* The closure `T(3, 4)` of `(σ₁σ₂)⁴`, with `k = 3` and `w = 8`,
+  has `P = v⁶(5 + 10z² + 6z⁴ + z⁶) − v⁸(5 + 5z² + z⁴) + v¹⁰`, whose `v`-exponents `6, 8, 10`
+  fill `[w − k + 1, w + k − 1] = [6, 10]`, so `span_v P = 4` and the bound gives braid index
+  `3`, attained by that braid. The bound is on the `v`-span of `P`, not on the span of the Jones
+  polynomial: `V = t³ + t⁵ − t⁸` has span `5`, which in its place would give `3.5` and wrongly
+  exclude the three-strand braid (by evaluation).
 - *Small invariants.* Trefoil: `c = 3`, `u = 1`, `br = 2`, braid index `2`; figure-eight: `c = 4`,
   `u = 1`, `br = 2`, braid index `3`; unknot: `c = 0`, `u = 0`, `br = 1`, braid index `1`.
 
-*Needs:* Layer 4.2 through 4.6.
+*Needs:* Layer 4.2 through 4.6; Layer 4.7.1 (the unknotting number `u(K)` and the bridge number
+`br(K)`).
 
 ### 4.8.1 Adequate diagrams, colored cabling and crossing minimality
 
@@ -5505,20 +5521,31 @@ positions, Fox ranks, transposition labels, signed pretzels); 4.8 (Schubert's br
 
 Consume `TauCeti.BraidGroup n` with its Artin generators `TauCeti.BraidGroup.sigma`. Define the
 positive braid monoid and prove it embeds in `B_n`; define the Garside element `Δ_n` (the half
-twist) and prove `Δ_n²` is central and generates the centre for `n ≥ 3`. Prove the Garside
-normal form: every braid is uniquely `Δ_n^k s₁ ⋯ s_r` with `k ∈ ℤ` and `s₁, …, s_r` a
-left-weighted sequence of positive permutation braids (Garside, Quart. J. Math. 20 (1969);
-Epstein et al., *Word Processing in Groups*, Chapter 9). Deduce that two braid words represent
+twist) and prove `Δ_n²` is central and generates the centre for `n ≥ 3`. A positive permutation
+braid is a positive braid in which each pair of strands crosses at most once; its starting set
+`S(s)` and finishing set `F(s)` are the generators `σ_j` with which some positive word for `s`
+begins, respectively ends. Prove the Garside normal form: for `n ≥ 2`, every braid is uniquely
+`Δ_n^k s₁ ⋯ s_r` with `k ∈ ℤ`, `r ≥ 0` and `s₁, …, s_r` positive permutation braids other than
+`1` and `Δ_n` forming a left-weighted sequence, `S(s_(i+1)) ⊆ F(s_i)` for `1 ≤ i < r` (Garside,
+Quart. J. Math. 20 (1969); Epstein et al., *Word Processing in Groups*, Chapter 9;
+Elrifai–Morton, Quart. J. Math. 45 (1994)). Deduce that two braid words represent
 the same braid iff they have the same normal form, and prove that the super summit set of a
 conjugacy class is finite, nonempty and connected under conjugation by simple elements, so
-that conjugacy of braids is decided by it (Elrifai–Morton, Quart. J. Math. 45 (1994)). Strand
+that conjugacy of braids is decided by it (Elrifai–Morton, op. cit.). Strand
 deletion, Milnor invariants and the Brunnian families are 4.12.1's, independent of these.
 
 **Checks.**
 - *Centres.* `Δ₂ = σ₁` and `B₂ ≅ ℤ`; `Δ₃ = σ₁σ₂σ₁`, and `Δ₃²` generates the centre of `B₃`,
   with quotient `PSL(2, ℤ)` (by evaluation).
 - *Normal forms.* `σ₁σ₂σ₁` and `σ₂σ₁σ₂` have normal form `Δ₃`; `σ₁σ₂⁻¹` has normal form
-  `Δ₃⁻¹ · σ₂ · (σ₂σ₁)` and unknotted closure (by evaluation).
+  `Δ₃⁻¹ · σ₂ · (σ₂σ₁)` and unknotted closure: both factors are proper and
+  `S(σ₂σ₁) = {σ₂} = F(σ₂)` (by evaluation).
+- *Proper factors.* Were `Δ_n` allowed as a factor, `Δ₃ = Δ₃¹` (with `r = 0`) and
+  `Δ₃ = Δ₃⁰ · Δ₃` would be two normal forms; were `1` allowed, so would `σ₁ = Δ₃⁰ · σ₁` and
+  `σ₁ = Δ₃⁰ · σ₁ · 1`, the pair `(σ₁, 1)` being left-weighted since `S(1)` is empty. With both
+  excluded, `Δ₃` has only `k = 1`, `r = 0`; on two strands the only positive permutation braids
+  are `1` and `Δ₂ = σ₁`, so the normal forms are `σ₁^k`, matching `B₂ ≅ ℤ`; on one strand
+  `Δ₁ = 1` and `k` is not determined, which is why `n ≥ 2` (by evaluation).
 - *Pure braids only.* Strand deletion (4.12.1) is defined on pure braids, where every strand
   returns to its position; for `σ₁ ∈ B₂` the strand starting at position `1` ends at position
   `2`, so deleting the strand of a position is not well defined.
@@ -5987,9 +6014,12 @@ to the lens space that is the double branched cover (both in 5.4.2).
   `|5 − 1 · 1 · 2| = 3`, so the criterion needs `|r|, |s| ≥ 2` (by evaluation).
 - *Scharlemann.* The granny knot has `u = 2` and is composite; `u(8₃) = 2` and `8₃` is prime
   (5.4.2), so the converse fails.
-- *The unknot is excluded.* The meridian `∞` and the slope `±1` on the unknot both give `S³`, at
-  distance one; the unknot's exterior is a solid torus, Seifert fibred, so the theorem does not
-  apply to it.
+- *The unknot is excluded.* On the unknot the meridian `∞` and the slope `1/2` both give
+  `S³ = L(1, 2)`, at distance `2`, and `5/2` gives the cyclic `L(5, 2)`, also at distance `2`
+  from the meridian and at distance `|1 · 2 − 2 · 5| = 8` from `1/2`; neither `1/2` nor `5/2` is
+  integral. So the conclusion fails for the unknot, whose exterior is a solid torus, Seifert
+  fibred, and the non-Seifert-fibred hypothesis cannot be dropped. The pair `∞`, `±1` would not
+  show this: it is at distance one and satisfies the conclusion (by evaluation).
 - *Trefoil lens surgeries.* `T(2, 3)` has lens-space surgeries exactly for `|p − 6q| = 1`, the
   filling being `L(p, 9q)`: `p/q = 5` and `7` give `L(5, 4)` and `L(7, 2)` up to orientation; `p/q = 6`
   gives the reducible `L(2, 1) # L(3, 1)`, which is why `|p − 6q| = 0` is excluded (by
@@ -6633,18 +6663,29 @@ targets of this section:
   `∂f̃` of the sphere at infinity `Sⁿ⁻¹`, equivariant for the two deck actions, whose inverse is
   the extension of a lift of a homotopy inverse (Corollaries 5.9.3 and 5.9.5).
 - *Measure chains and their comparison with singular chains.* For a smooth manifold `M` and
-  `k ≥ 0`, a smooth measure `k`-chain is a signed Borel measure on the space of smooth singular
-  simplices `Δᵏ → M`, with the `C¹` topology, that has a compact determination set and finite
-  total variation; the faces act by push-forward, the total variation induces a seminorm `‖·‖_sm`
-  on the resulting measure homology `H^s_*(M)`, and `σ ↦ δ_σ` embeds the smooth singular chains
+  `k ≥ 0`, give the pinned smooth singular simplices `TauCeti.SmoothSimplex I M k` Löh's `C¹`
+  topology: the topology induced from the compact-open topology by sending a simplex to its
+  derivative within `Δᵏ`, unique there by `TauCeti.uniqueDiffOn_fullSimplex`, as a map from
+  `TΔᵏ = Δᵏ × ℝᵏ` to `TM`. The pinned simplices are smooth near each point of `Δᵏ`, Löh's on a
+  whole neighbourhood of it; prove that for `M` Hausdorff and without boundary the two classes
+  agree, gluing local extensions by a partition of unity on `ℝᵏ` inside an embedding of a
+  neighbourhood of the compact image in some `ℝᴺ` and returning the glued map to `M` by a
+  tubular retraction. A smooth measure `k`-chain is a signed Borel measure on this space that
+  has a compact determination set and finite total variation; the faces act by push-forward,
+  the total variation induces a seminorm `‖·‖_sm` on the resulting measure homology `H^s_*(M)`,
+  and `σ ↦ δ_σ` embeds the pinned smooth singular chains of `TauCeti.smoothSingularSubcomplex`
   preserving norms (Thurston, Definition 6.1.8; Löh, *Measure homology and singular homology are
   isometrically isomorphic*, Math. Z. 253 (2006), numbered as in arXiv math/0504103v2,
   Definitions 5.1, 5.2 and 5.6). Integrating a `k`-form `ω` along a measure chain `μ`,
-  `∫ (∫_Δᵏ σ*ω) dμ(σ)`, is continuous for the `C¹` topology and satisfies Stokes' formula, so on
-  cycles it depends only on the class, and on the image of the real fundamental class of a
-  closed oriented `M` it is `∫_M ω`. Prove
-  Löh's comparison: for a connected smooth manifold `M`, the inclusion of smooth singular chains
-  into all singular chains and the inclusion `σ ↦ δ_σ` induce an isomorphism
+  `∫ (∫_σ ω) dμ(σ)` with the inner integral the pinned `TauCeti.SmoothSimplex.integral`, is
+  defined because the inner integral is continuous for the `C¹` topology, and it satisfies
+  Stokes' formula `∫_(∂μ) ω = ∫_μ dω`; so for a closed form (`dω = 0`) it depends on cycles only
+  through their class. Every `n`-form on an `n`-manifold is closed, and for an `n`-form `ω` on a
+  closed oriented `n`-manifold `M` the integral along any measure cycle representing the image of
+  the real fundamental class is `∫_M ω`; this top-degree case is the only one the proportionality
+  and Möbius steps use. Prove Löh's comparison: for a connected Hausdorff second-countable
+  smooth manifold `M` without boundary, the inclusion of smooth singular chains into all
+  singular chains and the inclusion `σ ↦ δ_σ` induce an isomorphism
   `H_*(M; ℝ) ≅ H^s_*(M)` that is isometric for `SSet.homologyL1Seminorm` and `‖·‖_sm` (Löh,
   Theorem 1.2, proved as Proposition 5.3 and Theorems 5.7 and 5.9 through the duality with
   bounded cohomology), so for a closed connected oriented smooth `M` the simplicial volume `‖M‖`
@@ -6726,6 +6767,12 @@ covolume formula.
   variation `π²/6`, but integrating `dθ/2π` along it gives `Σ_(i≥1) i⁻¹ = ∞`; the derivatives of
   the `σ_i` are unbounded, so it has no compact determination set and is not a measure chain
   (by evaluation).
+- *Closed forms only.* On the torus `T² = ℝ²/ℤ²` the form `ω = sin(2πx) dy` has
+  `dω = 2π cos(2πx) dx ∧ dy ≠ 0`. The boundary `c` of the square `[0, ¼]²`, oriented
+  counterclockwise, is the boundary of the `2`-chain of its two straight triangles, so `c` and
+  `0` are homologous smooth cycles, and so are `δ_c` and `0`; yet
+  `∫_c ω = ∫_square dω = ¼ · sin(π/2) = ¼` against `0`, so the class-invariance of the integral
+  needs `dω = 0` (by evaluation).
 - *Degree −1.* The double `M` of the compact hyperbolic `3`-manifold with totally geodesic
   genus-two boundary of Thurston §3.2 is closed hyperbolic, and the reflection exchanging the two
   halves is an isometry of degree `−1`. Its lift is the reflection of `ℍ³` in a lift of the
@@ -6738,15 +6785,35 @@ covolume formula.
 `TauCeti.HomologicalOrientation.simplicialVolume`,
 `TauCeti.HomologicalOrientation.simplicialVolume_eq_of_homotopyEquiv`,
 `TauCeti.HomologicalOrientation.simplicialVolume_eq_zero_of_one_lt_abs`,
-`SSet.homologyL1Seminorm`, and `ContMDiffMap.weakWhitneyTopology` as the chart-level `C¹`
-topology on smooth simplices; Layer 7.1 (the isometry group, its transitivity on frames, the
-volume form and the fundamental-domain volume); Mathlib singular homology, Haar measure on the
-locally compact group of isometries of `ℍⁿ` (`MeasureTheory.Measure.haar`), signed measures and
-their total variation (`MeasureTheory.SignedMeasure`,
-`MeasureTheory.SignedMeasure.totalVariation`) and measure theory. The measure chains and Löh's
-comparison are targets of this section; Löh's route also needs smooth singular homology with
-Whitney smoothing (Löh, Proposition 5.3) and the bounded cohomology of spaces with its duality
-principle for the `ℓ¹` seminorm (Löh, Theorem 3.3 and §3.3), which are targets here with it.
+`SSet.homologyL1Seminorm`, the smooth singular simplices and chains `TauCeti.SmoothSimplex` and
+`TauCeti.smoothSingularSubcomplex` (`Geometry/Manifold/SmoothSingular/Basic.lean`) with
+`TauCeti.uniqueDiffOn_fullSimplex`, and the integral of forms over smooth simplices
+`TauCeti.SmoothSimplex.integral` (`Geometry/Manifold/SmoothSingular/Integral.lean`); Layer 7.1
+(the isometry group, its transitivity on frames, the volume form and the fundamental-domain
+volume); Layer 11.3 (smooth triangulations, through which Löh's Theorem 3.5, by his Remark 3.6,
+and the comparison behind his Theorem 5.7 apply to `M`); Mathlib singular homology, the
+compact-open topology, Haar measure on the locally compact group of isometries of `ℍⁿ`
+(`MeasureTheory.Measure.haar`), signed measures and their total variation
+(`MeasureTheory.SignedMeasure`, `MeasureTheory.SignedMeasure.totalVariation`) and measure
+theory. The measure chains, Löh's `C¹`
+topology and Löh's comparison are targets of this section, and so are the inputs of Löh's
+route: the isometric isomorphism between smooth singular and singular homology by Whitney
+smoothing (Löh, Proposition 5.3) and its dual for bounded cohomology (Löh, Proposition 5.5); the
+bounded cohomology of spaces with its duality principle for the `ℓ¹` seminorm (Löh, Theorem 3.3);
+the Kronecker product of measure chains with bounded Borel cochains and the duality principle of
+measure homology it gives (Löh, Definitions 3.7–3.9, Lemmas 3.10 and 3.11), in their smooth form
+(Löh, §5.4); the isometric isomorphism from the cohomology of the bounded invariant continuous
+functions on the powers of the universal cover of a connected locally finite CW complex to its
+bounded cohomology (Löh, Theorem 3.5), which rests on the comparison of strong relatively
+injective resolutions of the trivial Banach module `ℝ` (Monod, *Continuous bounded cohomology of
+locally compact groups*, Lecture Notes in Math. 1758 (2001), Theorem 7.4.5 and Lemma 7.2.6); a
+Borel section of the map that the universal covering induces on singular simplices (Löh, Theorem
+4.1, proved in the Appendix), Borel also on smooth simplices since the `C¹` topology is finer
+than the compact-open one; and the algebraic isomorphism between smooth singular and smooth
+measure homology (Löh, Theorem 5.7), from the Eilenberg–Steenrod axioms for measure homology
+carried over to `C¹` simplices on a triangulated manifold (Zastrow, *On the (non)-coincidence of
+Milnor–Thurston homology theory with singular homology theory*, Pacific J. Math. 186 (1998),
+Theorem 3.4).
 
 ### 7.3 Finite-volume hyperbolic 3-manifolds
 
@@ -6932,11 +6999,13 @@ figure-eight and Whitehead link complements; the Weeks manifold.
 ### Dependencies
 
 Tau Ceti's hyperbolic metrics, volumes, isometries, geometric structures, the simplicial
-volume with its homotopy invariance, and the Mostow, virtual fibering and virtual Haken
-propositions; Mathlib's Haar measure, signed measures and singular homology (Layer 7.2's
-measure chains, their comparison with singular chains and the proportionality);
+volume with its homotopy invariance, the Mostow, virtual fibering and virtual Haken
+propositions, and its smooth singular simplices with the integral of forms over them;
+Mathlib's Haar measure, signed measures, the compact-open topology and singular homology
+(Layer 7.2's measure chains, their comparison with singular chains and the proportionality);
 HopfRinow (geodesics, exponential map); DifferentialGeometry Layer 12 (metrics and densities);
-Layer 5.2 (Dehn filling), Layer 8.2 (irreducibility).
+Layer 5.2 (Dehn filling), Layer 8.2 (irreducibility), Layer 11.3 (smooth triangulations, for
+Löh's comparison).
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
 The decomposition theorems of `3`-manifold topology are statable against Tau Ceti's
@@ -8005,7 +8074,12 @@ for Layer 11.2.1; Mathlib CW complexes.
   Geometry and Topology of Three-Manifolds*, Princeton lecture notes (1980),
   https://library.slmath.org/nonmsri/gt3m/, Chapters 3, 5, 6. C. Löh, *Measure homology and
   singular homology are isometrically isomorphic*, Math. Z. 253 (2006), arXiv math/0504103v2
-  (whose numbering is cited), Theorems 1.2, 5.7 and 5.9, Proposition 5.3, Corollary 6.2. P. Scott, *The geometries of
+  (whose numbering is cited), Definitions 3.7–3.9, 5.1, 5.2 and 5.6, Theorems 1.2, 3.3, 3.5,
+  4.1, 5.7 and 5.9, Remark 3.6, Lemmas 3.10 and 3.11, Propositions 5.3 and 5.5, Corollary 6.2.
+  N. Monod, *Continuous Bounded Cohomology of Locally Compact Groups*, Lecture Notes in Math.
+  1758, Springer (2001), Lemma 7.2.6, Theorem 7.4.5. A. Zastrow, *On the (non)-coincidence of
+  Milnor–Thurston homology theory with singular homology theory*, Pacific J. Math. 186 (1998),
+  369–396, Theorem 3.4. P. Scott, *The geometries of
   3-manifolds*, Bull. London Math. Soc. 15 (1983), 401–487. C. Adams, M. Hildebrand,
   J. Weeks, *Hyperbolic invariants of knots and links*, Trans. Amer. Math. Soc. 326 (1991),
   1–56, §2 (pp. 2–4), Tables 1–2.
