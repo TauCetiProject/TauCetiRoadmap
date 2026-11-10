@@ -221,9 +221,9 @@ placed in the corresponding general Mathlib-style directories.
 7. **References.** Results are cited by their numbers in KM, which serve as exact locators, and by
    the numbers of the further sources named at the end of a section, in the versions listed in
    §References. A further source is cited with its relation to the statement here: the same
-   statement, a special case, or a more general one. The order of the layers is the roadmap's own
-   and follows the dependencies between the statements. Statements taken from Loeffler's notes
-   rather than directly from KM are identified as such.
+   statement, a special case, or a more general one. The order of the layers follows the
+   dependencies between the statements, worked backwards from the targets. Statements taken from
+   Loeffler's notes rather than directly from KM are identified as such.
 
 8. **Quotients of moduli problems.** The integral Katz–Mazur quotient `P/H`, the objectwise
    orbit presheaf, and a coarse scheme quotient are different objects. The notation `P/H` in
