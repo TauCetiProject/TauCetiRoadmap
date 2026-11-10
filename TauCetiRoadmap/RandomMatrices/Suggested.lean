@@ -1,28 +1,34 @@
 import Mathlib
-import TauCeti.Probability.Process.EmpiricalMeasure
+import TauCeti.Analysis.Matrix.SpectralMeasure
+import TauCeti.Probability.Distributions.Semicircle.LocationScale
+import TauCeti.Probability.Distributions.MarchenkoPastur.Basic
+import TauCeti.Probability.RandomMatrix.Wigner
+import TauCeti.Probability.FreeProbability.Distribution.Convergence
+import TauCeti.Probability.FreeProbability.Semicircular.Basic
+import TauCeti.Probability.FreeProbability.Variables
 
 /-!
 # Random matrices: target signatures
 
 This file is not the roadmap: the roadmap is `README.md`. This file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with
-the few definitions their statements need.
+the few definitions their statements need. The spectral and eigenvalue measures, the semicircle
+and Marchenko–Pastur laws and the Wigner matrix are Tau Ceti's and are used by name.
 
 Stated here: the almost-sure semicircle law for Wigner matrices and the Bai–Yin limits of their
 extreme eigenvalues (Layer 4); the almost-sure Marchenko–Pastur law and the extreme eigenvalues
 of sample covariance matrices (Layer 4); the Hanson–Wright inequality and the Hermitian matrix
 Bernstein inequality (Layer 2); the ordered eigenvalue densities of GOE and GUE with their
-Gaussian Selberg normalisation (Layer 5); the rank-one spiked largest eigenvalue (Layer 7); the
+Gaussian Selberg normalisation (Layer 5); almost-sure asymptotic freeness of independent Wigner
+matrices (Layer 6); the rank-one spiked largest eigenvalue (Layer 7); the
 central limit theorem for polynomial linear statistics of GOE and GUE, the Tracy–Widom limit
 `F₂` of the GUE largest eigenvalue and the GUE bulk gap probability (Layer 8); the large
 deviation principle of the GOE and GUE largest eigenvalue (Layer 9); the Rudelson–Vershynin
 least-singular-value bound and the almost-sure circular law (Layer 10).
 
 Not statable at the pins, each for the carrier named:
-* free-probability limits (asymptotic freeness of Wigner and Haar-conjugated families, the free
-  central limit theorem, `L_{Dₙ+√t Hₙ} → ν ⊞ SC_t`, the population-covariance law `ν ⊠ MP_y`):
-  Mathlib has no noncommutative probability space, no free independence and no free
-  convolution;
+* `L_{Dₙ+√t Hₙ} → ν ⊞ SC_t` and the population-covariance law `ν ⊠ MP_y`: the pins have no free
+  convolution of probability measures;
 * the Tracy–Widom limit `F₁` of GOE: it is written through the Hastings–McLeod solution of
   Painlevé II, whose existence is a theorem of §8.5;
 * the large deviation principle at speed `n²` for the beta-gas empirical measure: its rate is the
@@ -38,18 +44,7 @@ open scoped BigOperators ENNReal NNReal Topology BoundedContinuousFunction Compl
 
 namespace TauCetiRoadmap.RandomMatrices
 
-/-! ## Layer 1: spectral measures -/
-
-/-- The empirical spectral measure `L_A = n⁻¹ ∑ᵢ δ_{λᵢ(A)}` of a Hermitian matrix of positive
-size, as the measure underlying Tau Ceti's empirical probability measure of its eigenvalues. -/
-def spectralMeasure {n : ℕ} [NeZero n] (A : Matrix (Fin n) (Fin n) ℂ) (hA : A.IsHermitian) :
-    Measure ℝ :=
-  (TauCeti.Probability.empiricalMeasureOfFintype hA.eigenvalues : Measure ℝ)
-
-/-- The empirical eigenvalue measure `n⁻¹ ∑ δ_z` of a complex square matrix, the sum running
-over the roots of its characteristic polynomial with algebraic multiplicity. -/
-def eigenvalueMeasure {n : ℕ} (A : Matrix (Fin n) (Fin n) ℂ) : Measure ℂ :=
-  (n : ℝ≥0∞)⁻¹ • (A.charpoly.roots.map Measure.dirac).sum
+open TauCeti TauCeti.Probability
 
 /-! ## Layer 2: concentration -/
 
@@ -85,23 +80,6 @@ theorem matrix_bernstein {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsP
 
 /-! ## Layer 3: named spectral laws -/
 
-/-- The semicircle law with centre `a` and variance `v`, as the image of the unit-radius
-semicircle `(betaMeasure (3/2) (3/2)).map (2 * · - 1)` of StandardDistributions, target 10.20,
-under `y ↦ a + 2√v y`. For `v > 0` its density is `(2πv)⁻¹ √(4v - (x - a)²)`; for `v = 0` it
-is `δ_a`. -/
-def semicircleReal (a : ℝ) (v : ℝ≥0) : Measure ℝ :=
-  (betaMeasure (3 / 2) (3 / 2)).map fun x ↦ a + 2 * Real.sqrt v * (2 * x - 1)
-
-/-- The Marchenko–Pastur law `MP_y` of ratio `y`: for `y > 0`, the atom `(1 - 1/y)₊ δ₀` plus the
-density `√((b - x)(x - a))/(2πyx)` on `[a, b]`, `a = (1 - √y)²`, `b = (1 + √y)²` (the square
-root of a negative real is `0`, so the density vanishes off `[a, b]`); `MP_0 = δ₁`. -/
-def marchenkoPastur (y : ℝ≥0) : Measure ℝ :=
-  if y = 0 then Measure.dirac 1 else
-    ENNReal.ofReal (1 - (y : ℝ)⁻¹) • Measure.dirac 0 +
-      volume.withDensity fun x ↦ ENNReal.ofReal
-        (Real.sqrt (((1 + Real.sqrt y) ^ 2 - x) * (x - (1 - Real.sqrt y) ^ 2)) /
-          (2 * Real.pi * y * x))
-
 /-- The circular law: Lebesgue measure on `ℂ` conditioned on the open unit disc, which is
 `π⁻¹ 1_{|z| < 1} d(area)`; it is the two-dimensional uniform ball law of StandardDistributions,
 target 12.1, transported to `ℂ`. -/
@@ -111,30 +89,6 @@ def circularLaw : Measure ℂ :=
 /-! ## Layer 4: Wigner and sample-covariance global laws -/
 
 section Wigner
-
-/-- Index set of the strictly upper-triangular positions of an infinite matrix. -/
-abbrev StrictUpper := {ij : ℕ × ℕ // ij.1 < ij.2}
-
-/-- The normalised Wigner matrix `Wₙ/√n` built from the top-left `n × n` corner of an infinite
-array: complex entries `ξ` above the diagonal, their conjugates below it, and real entries `η` on
-it. A real symmetric Wigner matrix is the case of real-valued `ξ`. -/
-def wignerMatrix {Ω : Type*} (ξ : StrictUpper → Ω → ℂ) (η : ℕ → Ω → ℝ) (n : ℕ) (ω : Ω) :
-    Matrix (Fin n) (Fin n) ℂ :=
-  Matrix.of fun i j ↦ ((Real.sqrt n)⁻¹ : ℂ) *
-    if h : i.val < j.val then ξ ⟨(i.val, j.val), h⟩ ω
-    else if h' : j.val < i.val then star (ξ ⟨(j.val, i.val), h'⟩ ω)
-    else (η i.val ω : ℂ)
-
-/-- The normalised Wigner matrix is Hermitian for every sample point. -/
-theorem wignerMatrix_isHermitian {Ω : Type*} (ξ : StrictUpper → Ω → ℂ) (η : ℕ → Ω → ℝ)
-    (n : ℕ) (ω : Ω) : (wignerMatrix ξ η n ω).IsHermitian := by
-  ext i j
-  simp only [wignerMatrix, conjTranspose_apply, of_apply, star_mul', star_inv₀,
-    Complex.star_def, Complex.conj_ofReal]
-  rcases lt_trichotomy i.val j.val with h | h | h
-  · simp [h, h.not_gt]
-  · simp [Fin.ext h]
-  · simp [h, h.not_gt]
 
 variable {Ω : Type*} [MeasurableSpace Ω]
 
@@ -152,8 +106,8 @@ theorem wigner_semicircle_ae (P : Measure Ω) [IsProbabilityMeasure P]
     (hsecond : Integrable (fun z : ℂ ↦ ‖z‖ ^ 2) ν)
     (hvar : ∫ z, ‖z - ∫ w, w ∂ν‖ ^ 2 ∂ν = 1) :
     ∀ᵐ ω ∂P, ∀ f : ℝ →ᵇ ℝ,
-      Tendsto (fun n : ℕ ↦ ∫ x, f x ∂spectralMeasure (wignerMatrix ξ η (n + 1) ω)
-          (wignerMatrix_isHermitian ξ η (n + 1) ω))
+      Tendsto (fun n : ℕ ↦ ∫ x, f x ∂(Matrix.spectralMeasure (wignerMatrix ξ η (n + 1) ω)
+          (wignerMatrix_isHermitian ξ η ω (n + 1)) : Measure ℝ))
         atTop (𝓝 (∫ x, f x ∂semicircleReal 0 1)) := by
   sorry
 
@@ -170,9 +124,9 @@ theorem wigner_extreme_eigenvalues_ae (P : Measure Ω) [IsProbabilityMeasure P]
     (hmean : ∫ z, z ∂ν = 0) (hfourth : Integrable (fun z : ℂ ↦ ‖z‖ ^ 4) ν)
     (hvar : ∫ z, ‖z‖ ^ 2 ∂ν = 1) (hdiag : Integrable (fun x : ℝ ↦ x ^ 2) ν₀) :
     ∀ᵐ ω ∂P,
-      Tendsto (fun n : ℕ ↦ ⨆ i, (wignerMatrix_isHermitian ξ η (n + 1) ω).eigenvalues i)
+      Tendsto (fun n : ℕ ↦ ⨆ i, (wignerMatrix_isHermitian ξ η ω (n + 1)).eigenvalues i)
         atTop (𝓝 2) ∧
-      Tendsto (fun n : ℕ ↦ ⨅ i, (wignerMatrix_isHermitian ξ η (n + 1) ω).eigenvalues i)
+      Tendsto (fun n : ℕ ↦ ⨅ i, (wignerMatrix_isHermitian ξ η ω (n + 1)).eigenvalues i)
         atTop (𝓝 (-2)) := by
   sorry
 
@@ -203,9 +157,9 @@ theorem marchenkoPastur_ae (P : Measure Ω) [IsProbabilityMeasure P]
     (p : ℕ → ℕ) [∀ n, NeZero (p n)] (y : ℝ≥0) (hy : 0 < y)
     (hp : Tendsto (fun n ↦ (p n : ℝ) / n) atTop (𝓝 y)) :
     ∀ᵐ ω ∂P, ∀ f : ℝ →ᵇ ℝ,
-      Tendsto (fun n ↦ ∫ t, f t ∂spectralMeasure
+      Tendsto (fun n ↦ ∫ t, f t ∂(Matrix.spectralMeasure
           (sampleCovariance (Matrix.of fun (i : Fin (p n)) (j : Fin n) ↦ x (i, j) ω))
-          (sampleCovariance_isHermitian _))
+          (sampleCovariance_isHermitian _) : Measure ℝ))
         atTop (𝓝 (∫ t, f t ∂marchenkoPastur y)) := by
   sorry
 
@@ -276,6 +230,37 @@ theorem gaussianEnsemble_eigenvalue_density (β : ℕ) (hβ : β = 1 ∨ β = 2)
             Real.exp (-(β * n / 4 : ℝ) * ∑ i, x i ^ 2) *
             ∏ i, ∏ j ∈ Finset.Ioi i, |x i - x j| ^ (β : ℝ))) x := by
   sorry
+
+/-! ## Layer 6: asymptotic freeness -/
+
+section Freeness
+
+variable {Ω : Type*} [MeasurableSpace Ω]
+
+/-- **Asymptotic freeness of Wigner matrices, almost surely** (AGZ Theorem 5.4.2 for the
+normalized trace). Let `k` Wigner arrays be independent, with i.i.d. complex strictly upper entries
+of law `ν` with all moments, mean zero and `E|ξ|² = 1`, and i.i.d. real diagonal entries of law
+`ν₀` with all moments, mean zero and variance `1`. Then almost surely the normalized-trace moments
+of the `k` Wigner matrices of size `n + 1` converge to those of any free family of standard
+semicircular elements. -/
+theorem wigner_asymptotically_free {k : ℕ} (P : Measure Ω) [IsProbabilityMeasure P]
+    (ν : Measure ℂ) [IsProbabilityMeasure ν] (ν₀ : Measure ℝ) [IsProbabilityMeasure ν₀]
+    (ξ : Fin k → StrictUpper → Ω → ℂ) (η : Fin k → ℕ → Ω → ℝ)
+    (hξ : ∀ l ij, HasLaw (ξ l ij) ν P) (hη : ∀ l i, HasLaw (η l i) ν₀ P)
+    (hindep : iIndepFun (fun p : Fin k × (StrictUpper ⊕ ℕ) ↦
+      Sum.elim (ξ p.1) (fun i ω ↦ (η p.1 i ω : ℂ)) p.2) P)
+    (hmom : ∀ p : ℕ, Integrable (fun z : ℂ ↦ ‖z‖ ^ p) ν)
+    (hmom₀ : ∀ p : ℕ, Integrable (fun x : ℝ ↦ |x| ^ p) ν₀)
+    (hmean : ∫ z, z ∂ν = 0) (hvar : ∫ z, ‖z‖ ^ 2 ∂ν = 1)
+    (hmean₀ : ∫ x, x ∂ν₀ = 0) (hvar₀ : ∫ x, x ^ 2 ∂ν₀ = 1)
+    {B : Type*} [Ring B] [Algebra ℂ B] (ψ : B →ₗ[ℂ] ℂ) (s : Fin k → B) (hψ : ψ 1 = 1)
+    (hfree : IsFreelyIndependentElements ψ s) (hs : ∀ l, IsSemicircular ψ (s l) 1) :
+    ∀ᵐ ω ∂P, TendstoInMoments (A := fun n : ℕ ↦ Matrix (Fin (n + 1)) (Fin (n + 1)) ℂ)
+      (fun n ↦ ((n + 1 : ℂ)⁻¹) • Matrix.traceLinearMap (Fin (n + 1)) ℂ ℂ)
+      (fun n l ↦ wignerMatrix (ξ l) (η l) (n + 1) ω) atTop ψ s := by
+  sorry
+
+end Freeness
 
 /-! ## Layer 7: spiked models -/
 
@@ -353,7 +338,8 @@ theorem gue_largest_eigenvalue_tracyWidom
       atTop (𝓝 (fredholmDet airyKernel (Set.Ioi s))) := by
   sorry
 
-/-- **Bulk gap probability of GUE** (AGZ Theorem 3.1.1). For `|E| < 2` and compact `A`, the
+/-- **Bulk gap probability of GUE** (AGZ Theorem 3.1.1 at `E = 0`; for `0 < |E| < 2`, the remark
+following it and Exercise 3.7.5, with the argument of AGZ §3.5). For `|E| < 2` and compact `A`, the
 probability that no eigenvalue of `Hₙ`, scaled by `n ρ_SC(E) (λ − E)` with
 `ρ_SC(E) = √(4 − E²)/(2π)`, lies in `A` tends to `det(I − K_sine)` on `L²(A)`. -/
 theorem gue_bulk_gap
@@ -422,8 +408,9 @@ theorem circular_law_ae (P : Measure Ω) [IsProbabilityMeasure P]
     (hmean : ∫ z, z ∂ν = 0) (hsecond : Integrable (fun z : ℂ ↦ ‖z‖ ^ 2) ν)
     (hvar : ∫ z, ‖z‖ ^ 2 ∂ν = 1) :
     ∀ᵐ ω ∂P, ∀ f : ℂ →ᵇ ℝ,
-      Tendsto (fun n : ℕ ↦ ∫ z, f z ∂eigenvalueMeasure
-          (Matrix.of fun (i : Fin n) (j : Fin n) ↦ ((Real.sqrt n)⁻¹ : ℂ) * ξ (i, j) ω))
+      Tendsto (fun n : ℕ ↦ ∫ z, f z ∂(Matrix.eigenvalueMeasure
+          (Matrix.of fun (i : Fin (n + 1)) (j : Fin (n + 1)) ↦
+            ((Real.sqrt (n + 1))⁻¹ : ℂ) * ξ (i, j) ω) : Measure ℂ))
         atTop (𝓝 (∫ z, f z ∂circularLaw)) := by
   sorry
 

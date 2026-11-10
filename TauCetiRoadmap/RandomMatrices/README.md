@@ -46,33 +46,30 @@ Owned elsewhere and consumed here:
 - [StandardDistributions](../StandardDistributions/README.md), Layers 0 and 3–6, owns scalar
   Gaussian, gamma and chi-squared laws, multivariate Gaussian laws, real symmetric coordinate
   Lebesgue measure, Cholesky/Bartlett theory and real Wishart distributions, including singular
-  Gaussian-Gram laws (`wishartGramMeasure`). Its target 10.20 owns the unit-radius semicircle
-  `(betaMeasure (3/2) (3/2)).map (2*·-1)` and its Layer 7 the affine images of a law; its target
-  12.1 owns the uniform ball law `cond volume (ball c r)`. Here: the complex Gaussian-Gram
-  counterpart, spectral pushforwards, the centre/variance semicircle family `semicircleReal`
-  as an affine image of target 10.20, the circular law as the transport of target 12.1 to `ℂ`,
-  and large-dimension limits. No second real Wishart measure and no second semicircle density
-  are introduced.
+  Gaussian-Gram laws (`wishartGramMeasure`). Its target 12.1 owns the uniform ball law
+  `cond volume (ball c r)`. Here: the complex Gaussian-Gram counterpart, spectral pushforwards,
+  the circular law as the transport of target 12.1 to `ℂ`, and large-dimension limits. No second
+  real Wishart measure is introduced.
+- Tau Ceti already has the empirical spectral and eigenvalue measures of a matrix, the Wigner
+  matrix constructor, the semicircle family `semicircleReal` with its moments and transform, the
+  Marchenko–Pastur law, the Hoffman–Wielandt, Weyl and rank-perturbation bounds, the resolvent
+  identities, the noncrossing partitions with their counts, Kreweras complement and Möbius
+  function, and the scalar free probability of freeness, free cumulants, semicircular elements
+  and the free central limit theorem; they are consumed by name (see
+  [From Tau Ceti](#from-tau-ceti)). No second copy of any of them is introduced.
 - [OrthogonalL2Bases](../../Completed/OrthogonalL2Bases/README.md), Parts A–B, supplies Hermite
   polynomials and functions and moment determinacy, implemented in
   `TauCeti.Probability.Moments.*` and `TauCeti.Analysis.SpecialFunctions.Hermite.*`.
   Here: convergence from moments, polynomial-ensemble kernels and Hermite asymptotics.
-- LaguerreJacobi, Parts A–D, owns the Laguerre and Jacobi polynomials over a `ℚ`-algebra, their
-  recurrences and Rodrigues formulas (A3, C4), the measures `laguerreMeasure` and `jacobiMeasure`
-  and their orthogonality relations with exact norms (B3, D3). Here: the Christoffel–Darboux
-  kernels of the Laguerre and Jacobi unitary ensembles built from them, and their asymptotics.
 - [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md),
   Layer 0 and `weyl_integration_formula`, owns normalized Haar averaging and general compact-group
   Weyl integration. Here: matrix-coordinate Jacobians, explicit unitary-group specializations,
   eigenvalue/eigenprojector disintegrations and Haar entry integrals.
 - [OptimalTransport](../OptimalTransport/README.md), Layers 0–3, owns couplings and Wasserstein
   distances. Here: the eigenvalue coupling and the spectral `W₁`/`W₂` corollaries.
-- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md), PD-A51–PD-A53,
-  owns the Courant–Fischer min–max formula, Loewner monotonicity of sorted eigenvalues and Weyl's
-  operator-norm bound for symmetric endomorphisms of finite-dimensional inner-product spaces.
-- [OperatorTheory/PrincipalAngles](../OperatorTheory/PrincipalAngles/README.md), PA-B40, owns the
-  Hoffman–Wielandt inequality for symmetric endomorphisms against an orthonormal basis. Here: its
-  matrix form through `Matrix.toEuclideanLin` and the singular-value analogue.
+- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md), PD-A51–PD-A52,
+  owns the Courant–Fischer min–max formula and Loewner monotonicity of sorted eigenvalues for
+  symmetric endomorphisms of finite-dimensional inner-product spaces.
 - [OperatorTheory/SpectralSubspacePerturbation](../OperatorTheory/SpectralSubspacePerturbation/README.md),
   SSP-D06, SSP-D13 and SSP-D14, owns the Hermitian dilation `[[0,A†],[A,0]]` of a rectangular
   map, its operator-norm perturbation identity and its spectral transfer to singular values.
@@ -84,9 +81,9 @@ Owned elsewhere and consumed here:
   `hermitian_gram_hadamard`, owns Hadamard's bound for Hermitian Gram matrices.
 - [FreeProbability](../FreeProbability/README.md), F1–F6, extends Layer 6 rather than supplying
   it: on the same scalar expectations, cumulants and laws it adds the C*-completions, the
-  operator-valued and amalgamated theory, formal-series transforms, free Poisson laws of every
-  jump and the free central limit theorem with variance profile `N⁻¹ ∑ φ(aⱼ²) → σ²`. Layer 6 is
-  the bounded scalar core that those sections consume.
+  operator-valued and amalgamated theory, formal-series transforms and free Poisson laws of every
+  jump. Layer 6, with the scalar free probability that Tau Ceti already has, is the bounded
+  scalar core that those sections consume.
 
 ## Conventions
 
@@ -160,14 +157,76 @@ Owned elsewhere and consumed here:
   nonempty finite family, with evaluation, integration, pushforward and measurability API.
 - `TauCeti.Probability.Moments.*` (moment determinacy) and
   `TauCeti.Analysis.SpecialFunctions.Hermite.*` (Hermite polynomials and functions).
+- Spectral measures (`TauCeti/Analysis/Matrix/SpectralMeasure.lean`): `Matrix.spectralMeasure A hA`,
+  the probability measure `L_A` of a Hermitian matrix with nonempty index type, with
+  `measurable_spectralMeasure` and `integral_spectralMeasure_eq_sum_eigenvalues₀`; and
+  `Matrix.eigenvalueMeasure A`, the probability measure `n⁻¹ ∑ δ_z` over the roots of the
+  characteristic polynomial with algebraic multiplicity, with `eigenvalueMeasure_apply` and
+  `integral_eigenvalueMeasure`. Both require a nonempty index type.
+- Eigenvalue perturbation: `Matrix.lipschitzWith_eigenvalues₀`, `Matrix.continuous_eigenvalues₀`
+  and `Matrix.measurable_eigenvalues₀` (`TauCeti/Analysis/Matrix/Eigenvalues/Continuous.lean`);
+  Weyl's additive inequalities `Matrix.IsHermitian.eigenvalues₀_add_le` and
+  `Matrix.IsHermitian.le_eigenvalues₀_add` and the operator-norm bound
+  `Matrix.IsHermitian.abs_eigenvalues₀_sub_le_norm` (`…/Eigenvalues/Basic.lean`); the
+  Hoffman–Wielandt inequalities `Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq`
+  and `Matrix.sum_sq_singularValues_toEuclideanLin_sub_le_frobenius_norm_sub_sq`
+  (`TauCeti/Analysis/Matrix/HoffmanWielandt.lean`); and the rank bound
+  `Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card`
+  (`TauCeti/Analysis/Matrix/SpectralMeasure/RankPerturbation.lean`).
+- Resolvents of Hermitian matrices (`TauCeti/Analysis/Matrix/Resolvent/`): the norm bound
+  `Matrix.IsHermitian.l2_opNorm_inv_sub_smul_one_le`, the trace formula `trace_inv_sub_smul_one`,
+  the Ward identity `sum_norm_inv_sub_smul_one_apply_sq`, the rank-one update
+  `inv_add_smul_vecMulVec_sub_smul_one` and the leave-one-out formula
+  `inv_sub_smul_one_apply_self_eq`.
+- The resolvent transform (`TauCeti/MeasureTheory/Measure/ResolventTransform/`):
+  `MeasureTheory.im_resolventTransform_pos`, `MeasureTheory.Measure.resolventTransform_conj` and
+  `MeasureTheory.resolventTransform_map_affine` (`Basic.lean`); the finite moment expansion
+  `MeasureTheory.resolventTransform_add_sum_eq` with the remainder bound
+  `MeasureTheory.norm_resolventTransform_add_sum_le` and the total-mass asymptotic
+  `MeasureTheory.tendsto_mul_I_mul_resolventTransform` (`Expansion.lean`); Stieltjes inversion
+  `MeasureTheory.tendsto_intervalIntegral_im_resolventTransform`, with the half-atom endpoint
+  terms, and uniqueness `MeasureTheory.Measure.ext_of_resolventTransform` (`Inversion.lean`); and
+  the atom formula `MeasureTheory.tendsto_mul_im_resolventTransform` (`Atoms.lean`).
+- Named laws: `TauCeti.Probability.semicircleReal a v`
+  (`TauCeti/Probability/Distributions/Semicircle/LocationScale.lean`), with
+  `measurable_semicircleReal`, `variance_id_semicircleReal`, `map_affine_semicircleReal` and
+  `semicircleReal_eq_withDensity`, the moments `integral_pow_two_mul_semicircleReal_zero`
+  (`v^k C_k`) and `integral_pow_two_mul_add_one_semicircleReal_zero` (`Moments.lean`), and the
+  transform `resolventTransform_semicircleReal_quadratic_eq_zero` and
+  `eq_resolventTransform_semicircleReal_iff` (`ResolventTransform.lean`);
+  `TauCeti.Probability.marchenkoPastur y`
+  (`TauCeti/Probability/Distributions/MarchenkoPastur/Basic.lean`), with
+  `marchenkoPastur_eq_withDensity`, `marchenkoPastur_singleton_zero`,
+  `ae_eq_zero_or_mem_Icc_marchenkoPastur`, `integral_pow_succ_marchenkoPastur`,
+  `integral_id_marchenkoPastur` and `integral_sq_marchenkoPastur`.
+- Wigner matrices (`TauCeti/Probability/RandomMatrix/Wigner.lean`): `TauCeti.StrictUpper`,
+  `TauCeti.wignerMatrix` and `TauCeti.wignerMatrix_isHermitian`, with `measurable_wignerMatrix`,
+  `submatrix_castLE_wignerMatrix` and `indepFun_wignerMatrix_column`.
+- Noncrossing partitions (`TauCeti/Combinatorics/NoncrossingPartition/`):
+  `Finpartition.IsNoncrossing` and `TauCeti.NoncrossingPartition s` with its order
+  (`Basic.lean`), `card_fin_eq_catalan` and `card_isPairing_fin_eq_catalan` (`Catalan.lean`), the
+  Narayana count `card_parts_eq_div` (`Narayana.lean`), the Kreweras complement
+  `Finpartition.kreweras` with `isNoncrossing_kreweras` (`Kreweras.lean`), the lower intervals
+  `iicOrderIso` (`Interval.lean`), the Möbius function `mu_bot_eq_prod` (`Mobius.lean`), and the
+  cycle count `orbitCount_formPerm_add_orbitCount_inv_mul_finRotate` (`FormPerm.lean`).
+- Scalar free probability (`TauCeti/Probability/FreeProbability/`): `TauCeti.IsFreelyIndependent`
+  (`Independence.lean`) and `TauCeti.IsFreelyIndependentElements` (`Variables.lean`);
+  `TauCeti.freeCumulant` (`Cumulant/Basic.lean`) and
+  `TauCeti.isFreelyIndependent_iff_freeCumulant_eq_zero` (`Cumulant/Free.lean`); the R-series
+  `TauCeti.rSeries` and `IsFreelyIndependentElements.rSeries_sum` (`Cumulant/Series.lean`);
+  `PositiveLinearMap.law` (`Law/Basic.lean`); `TauCeti.IsSemicircular`
+  (`Semicircular/Basic.lean`); convergence in moments `TauCeti.TendstoInMoments`
+  (`Distribution/Convergence.lean`) and
+  `TauCeti.IsFreelyIndependentElements.jointDistribution_eq_of_forall_pow`
+  (`Distribution/Free.lean`); and the free central limit theorem
+  `IsFreelyIndependentElements.tendsto_apply_inv_sqrt_smul_sum_pow_semicircleReal`
+  (`CentralLimit.lean`) and `IsFreelyIndependentElements.tendsto_law_inv_sqrt_smul_sum_semicircleReal`
+  (`Law/CentralLimit.lean`).
 
 ### From TauCetiRoadmap roadmaps
 
-- StandardDistributions: Layers 0 and 3–6, `wishartGramMeasure`, target 10.20 (unit-radius
-  semicircle), Layer 7 (affine images), target 12.1 (uniform ball law).
+- StandardDistributions: Layers 0 and 3–6, `wishartGramMeasure`, target 12.1 (uniform ball law).
 - OrthogonalL2Bases: Parts A–B.
-- LaguerreJacobi: Parts A–D, with `laguerreMeasure`, `jacobiMeasure` and the orthogonality
-  relations B3 and D3.
 - RepresentationTheory/CompactGroups: Layer 0 and `weyl_integration_formula`.
 - OptimalTransport: Layers 0–3.
 - [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md): the Airy function `TauCeti.airyAi`
@@ -177,7 +236,7 @@ Owned elsewhere and consumed here:
   `0 < Ai(x) ≤ Ai(0) e^{−(2/3)x^{3/2}}` for `x ≥ 0` (3.6), and the Airy kernel
   `TauCeti.airyKernel` with its closed forms and the bound `|K_Ai(x,y)| ≤ C² e^{−x−y}` on
   `[s,∞)²` (8.5).
-- OperatorTheory/PolarDecomposition: PD-A51–PD-A53. OperatorTheory/PrincipalAngles: PA-B40.
+- OperatorTheory/PolarDecomposition: PD-A51–PD-A52.
   OperatorTheory/SpectralSubspacePerturbation: SSP-D06, SSP-D13, SSP-D14.
   OperatorTheory/OperatorIdeals: OI-B01–OI-B19, OI-B23, OI-B29, OI-B30 and Part C.
 - SuccessiveMinima: target 0.1.2, `hermitian_gram_hadamard`.
@@ -204,7 +263,7 @@ finite noncrossing combinatorics → 3, 4, 6
 0–3 + StandardDistributions + CompactGroups → 5 (exact ensembles)
 1, 3, 5 + combinatorics → 6 (free probability)
 1–6 → 7 (deformations, covariance, spikes)
-1, 3, 5 + Hermite + LaguerreJacobi + OperatorIdeals + Airy → 8 (local statistics)
+1, 3, 5 + Hermite + OperatorIdeals + Airy → 8 (local statistics)
 1, 3, 5 → 9 (large deviations)
 0–5 → 10 (circular law)
 ```
@@ -218,7 +277,7 @@ function or log-determinant is evaluated.
 
 ## Layer 0: probability arguments invariant under extension
 
-**Sources:** T §1.1.
+**Sources:** T §1.1, §2.3.2.
 
 ### 0.1 Product extensions
 
@@ -253,7 +312,9 @@ involving several variables. *Needs:* §0.1; Mathlib `MeasurePreserving`, condit
 
 Supply independent-copy, symmetrization and coordinate-replacement lemmas. For centred
 independent real `Xᵢ`, an independent copy `X'`, independent Rademacher signs `εᵢ` and convex `Φ`
-with the needed integrability, prove `E Φ(∑ Xᵢ) ≤ E Φ(∑ (Xᵢ-X'ᵢ)) = E Φ(∑ εᵢ(Xᵢ-X'ᵢ))`.
+with the needed integrability, prove `E Φ(∑ Xᵢ) ≤ E Φ(∑ (Xᵢ-X'ᵢ)) = E Φ(∑ εᵢ(Xᵢ-X'ᵢ))` (T §2.3.2,
+(2.59)–(2.60), for the operator norm; the conditional Jensen step is the same for every convex
+`Φ`).
 Demonstrate preservation of joint relationships on a pair `(X,Z)` and a new copy independent of
 both. A matrix quadratic-form symmetrization proof moves to an extension and returns an
 inequality on the original space by these lemmas. *Needs:* §§0.1–0.2.
@@ -277,29 +338,28 @@ Define the empirical finite measure `|ι|⁻¹ ∑ᵢ δ_{xᵢ}` of a finite fam
 arbitrary finite type; it is the zero measure for the empty family. For a nonempty index type it
 is the measure underlying `TauCeti.Probability.empiricalMeasureOfFintype`, whose normalization,
 evaluation, integration, pushforward from the uniform index law and measurability are reused; no
-second empirical probability measure is built. Define `spectralMeasure A hA`, the empirical
-spectral measure `L_A` of a Hermitian matrix of positive size, through that API, and
-`eigenvalueMeasure A`, the empirical measure `n⁻¹ ∑ δ_z` over the roots of the characteristic
-polynomial with algebraic multiplicity, for a general complex square matrix. *Needs:* Tau Ceti
-`empiricalMeasureOfFintype`; Mathlib `Matrix.IsHermitian.eigenvalues`, `Matrix.charpoly`,
-`Polynomial.roots`.
+second empirical probability measure is built. The empirical spectral measure `L_A` of a
+Hermitian matrix is Tau Ceti's `Matrix.spectralMeasure A hA`, and the eigenvalue measure of a
+general complex square matrix is `Matrix.eigenvalueMeasure A`, both for a nonempty index type
+(see [From Tau Ceti](#from-tau-ceti)); `L_A` written below is `Matrix.spectralMeasure A hA`.
+*Needs:* Tau Ceti `empiricalMeasureOfFintype`, `Matrix.spectralMeasure`,
+`Matrix.eigenvalueMeasure`; Mathlib `Matrix.charpoly`, `Polynomial.roots`.
 
 - The empirical finite measure has total mass one for a nonempty family and zero for the empty
   one, is invariant under reindexing by an equivalence, and behaves under concatenation as the
   mass-weighted average.
 - It is measurable as a map into finite measures; `Fin n` families are a specialization.
-- Specialize to Hermitian eigenvalues, singular values, squared singular values and complex
-  characteristic roots; prove measurability of the root measure without choosing continuous
-  ordered complex roots.
-- For Hermitian `A`, `eigenvalueMeasure A` is the pushforward of `spectralMeasure A hA` along
-  `ℝ → ℂ`.
+- Specialize to singular values and squared singular values; prove measurability of
+  `A ↦ Matrix.eigenvalueMeasure A` without choosing continuous ordered complex roots.
+- For Hermitian `A`, `Matrix.eigenvalueMeasure A` is the pushforward of
+  `Matrix.spectralMeasure A hA` along `ℝ → ℂ`.
 
 **Checks.**
 
 - For the family `(0, 0, 1)` the empirical measure gives `{0}` mass `2/3`; a definition counting
   distinct values would give `1/2`.
-- `spectralMeasure` of `diag(1,-1)` and of `[[0,1],[1,0]]` are both `(δ₁+δ₋₁)/2`: the measure
-  depends only on the spectrum, not on the basis.
+- `Matrix.spectralMeasure` of `diag(1,-1)` and of `[[0,1],[1,0]]` are both `(δ₁+δ₋₁)/2`: the
+  measure depends only on the spectrum, not on the basis.
 - `eigenvalueMeasure [[0,1],[0,0]] = δ₀` with mass `1` at `0` (algebraic multiplicity `2`); a
   geometric-multiplicity count would give mass `1/2`.
 - `eigenvalueMeasure [[0,-1],[1,0]] = (δ_i+δ_{-i})/2`, which is not supported on `ℝ`.
@@ -307,23 +367,28 @@ polynomial with algebraic multiplicity, for a general complex square matrix. *Ne
 
 ### 1.2 Ordered eigenvalues and perturbation
 
-Prove continuity and measurability of ordered Hermitian eigenvalues. Take the min–max formula,
-eigenvalue monotonicity and the operator-norm eigenvalue bound from PD-A51–PD-A53 through the
-comparison of their sorted eigenvalues with `Matrix.IsHermitian.eigenvalues₀` under
-`Matrix.toEuclideanLin`. Prove the max–min formula, the additive Weyl inequalities
-`λ_{i+j-1}(A+B) ≤ λᵢ(A)+λⱼ(B)`, Cauchy interlacing, and the rank perturbation bound
-`sup_t |L_A(-∞,t] - L_B(-∞,t]| ≤ rank(A-B)/n`, with principal-minor and rectangular Gram
-corollaries (AGZ Appendix A; T §1.3). *Needs:* PD-A51–PD-A53; Mathlib `eigenvalues₀`,
-`Matrix.toEuclideanLin`.
+Continuity and measurability of the ordered Hermitian eigenvalues, Weyl's additive inequalities
+`λ_{i+j-1}(A+B) ≤ λᵢ(A)+λⱼ(B)`, the operator-norm eigenvalue bound and the rank perturbation bound
+`sup_t |L_A(-∞,t] - L_B(-∞,t]| ≤ rank(A-B)/n` are Tau Ceti's (`Matrix.continuous_eigenvalues₀`,
+`Matrix.measurable_eigenvalues₀`, `Matrix.IsHermitian.eigenvalues₀_add_le`,
+`Matrix.IsHermitian.abs_eigenvalues₀_sub_le_norm`,
+`Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card`). Take the min–max formula and
+eigenvalue monotonicity from PD-A51–PD-A52 through the comparison of their sorted eigenvalues with
+`Matrix.IsHermitian.eigenvalues₀` under `Matrix.toEuclideanLin`. Prove the max–min formula and
+Cauchy interlacing, with principal-minor and rectangular Gram corollaries of the rank bound
+(AGZ Appendix A; T §1.3). *Needs:* PD-A51–PD-A52; Tau Ceti eigenvalue perturbation (see
+[From Tau Ceti](#from-tau-ceti)); Mathlib `eigenvalues₀`, `Matrix.toEuclideanLin`.
 
-Take the Hoffman–Wielandt inequality from PA-B40 through the same comparison and state its
-matrix form `∑ᵢ |λᵢ(A)-λᵢ(B)|² ≤ ‖A-B‖_F²` for Hermitian `A, B` (with the standard basis as the
-orthonormal basis). Prove its singular-value analogue and the singular-value form of the
-operator-norm bound by applying PA-B40 and PD-A53 to Hermitian dilations, using SSP-D14 for the
+The Hoffman–Wielandt inequality `∑ᵢ |λᵢ(A)-λᵢ(B)|² ≤ ‖A-B‖_F²` for Hermitian `A, B` and its
+singular-value analogue are Tau Ceti's
+`Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq` and
+`Matrix.sum_sq_singularValues_toEuclideanLin_sub_le_frobenius_norm_sub_sq`. Prove the
+singular-value form of the operator-norm bound by applying
+`Matrix.IsHermitian.abs_eigenvalues₀_sub_le_norm` to Hermitian dilations, using SSP-D14 for the
 spectral transfer and SSP-D13 for the norm identity. Deduce the Lipschitz estimate
 `|∫ f dL_A - ∫ f dL_B| ≤ Lip(f) ‖A-B‖_F/√n` and the spectral Wasserstein bounds by exhibiting the
-sorted eigenvalue coupling (AGZ Lemma 2.1.19, Lemma 2.3.3). *Needs:* PA-B40, PD-A53, SSP-D13,
-SSP-D14; OptimalTransport Layers 0–3 for the Wasserstein corollaries.
+sorted eigenvalue coupling (AGZ Lemma 2.1.19, Lemma 2.3.3). *Needs:* SSP-D13, SSP-D14; Tau Ceti
+Hoffman–Wielandt; OptimalTransport Layers 0–3 for the Wasserstein corollaries.
 
 **Checks.**
 
@@ -336,14 +401,16 @@ SSP-D14; OptimalTransport Layers 0–3 for the Wasserstein corollaries.
 
 ### 1.3 Resolvents and moments
 
-Develop the resolvent identity, Schur complements, the matrix determinant lemma and
-Sherman–Morrison–Woodbury; take the Hermitian dilation of a rectangular matrix from SSP-D06. In
-the upper half-plane prove invertibility of `A - zI`, `‖R_A(z)‖ ≤ 1/Im z`,
-`m_{L_A}(z) = trₙ R_A(z)` and the Ward identity `∑ⱼ |Rᵢⱼ|² = Im Rᵢᵢ / Im z`, with rank-one update
-and leave-one-row/column formulas. Prove `∫ x^k dL_A = trₙ(A^k)`, positivity and support
-statements, equality of the nonzero spectra of `XX*` and `X*X`, the exact zero-mass correction
-between their empirical probability measures, and uniform-integrability estimates from trace
-powers. *Needs:* §1.1; SSP-D06; Mathlib `resolventTransform`.
+The bound `‖R_A(z)‖ ≤ 1/|Im z|`, the trace formula, the Ward identity
+`∑ⱼ |Rᵢⱼ|² = Im Rᵢᵢ / Im z`, the rank-one update and the leave-one-out formula for Hermitian `A`
+and non-real `z` are Tau Ceti's (see [From Tau Ceti](#from-tau-ceti)). Develop the resolvent
+identity, Schur complements in block form, the matrix determinant lemma and
+Sherman–Morrison–Woodbury beyond rank one; take the Hermitian dilation of a rectangular matrix
+from SSP-D06. Prove `m_{L_A}(z) = trₙ R_A(z)` from the trace formula, `∫ x^k dL_A = trₙ(A^k)`,
+positivity and support statements, equality of the nonzero spectra of `XX*` and `X*X`, the exact
+zero-mass correction between their empirical probability measures, and uniform-integrability
+estimates from trace powers. *Needs:* §1.1; SSP-D06; Tau Ceti resolvents; Mathlib
+`resolventTransform`.
 
 **Checks.**
 
@@ -359,12 +426,14 @@ For `A = [[0,1],[1,0]]`: `trₙ A² = 1 = ∫ x² dL_A`, `‖R_A(i)‖ = 1/√2 
 
 ### Dependencies
 
-Layer 0 for random versions; PD-A51–PD-A53, PA-B40, SSP-D06, SSP-D13, SSP-D14; OptimalTransport
-Layers 0–3 for the transport corollaries; Tau Ceti `empiricalMeasureOfFintype`.
+Layer 0 for random versions; PD-A51–PD-A52, SSP-D06, SSP-D13, SSP-D14; OptimalTransport
+Layers 0–3 for the transport corollaries; Tau Ceti `empiricalMeasureOfFintype`, spectral measures,
+eigenvalue perturbation and resolvents.
 
 ## Layer 2: concentration, replacement and norm bounds
 
-**Sources:** T §§2.1–2.3, §3.2; AGZ §§2.3, 4.4; BLM chs. 2, 3, 6; V §§2.7–2.8.
+**Sources:** T §§2.1–2.3, §3.2; AGZ §§2.3, 2.4, 4.4; BLM chs. 2, 3, 6; V §§2.7–2.8, 4.4, 4.6; Tropp
+2012.
 
 ### 2.1 Scalar inequalities and sub-exponential variables
 
@@ -415,7 +484,8 @@ integration.
 Transfer these inequalities to eigenvalues and linear spectral statistics with Layer 1: for
 Wigner coordinates with a uniform logarithmic Sobolev constant, obtain the `n²t²/Lip(f)²` exponent
 for fluctuations of `∫ f dL_H` with its explicit normalization-dependent constant (AGZ Theorem
-2.3.5).
+2.3.5). *Needs:* §2.2 (the logarithmic Sobolev inequality and Herbst's argument), §1.2 (the
+Lipschitz estimate).
 
 Prove the Hanson–Wright inequality `hanson_wright`: there is an absolute `c > 0` such that for
 independent real coordinates `Xᵢ`, each satisfying `HasSubgaussianMGF` with variance proxy `K`,
@@ -435,34 +505,34 @@ Mathlib `HasSubgaussianMGF`.
 ### 2.4 Nets and norms of rectangular matrices
 
 Prove epsilon-net cardinality estimates for Euclidean spheres and the bilinear and quadratic net
-reductions. For a `p × n` matrix with independent centred sub-Gaussian coordinates prove
-`P(‖X‖ > CK(√p+√n+t)) ≤ 2exp(-ct²)` for `t ≥ 0`. For independent centred isotropic rows whose
-every real linear form in direction `u` has sub-Gaussian proxy at most `K²‖u‖²`, prove
-`√p - CK²(√n+t) ≤ s_min(X) ≤ s_max(X) ≤ √p + CK²(√n+t)` with probability at least
-`1 - 2exp(-ct²)`; a negative lower bound makes no invertibility claim. *Needs:* §2.1; Mathlib
+reductions. For a `p × n` matrix with independent centred sub-Gaussian coordinates prove `P(‖X‖ >
+CK(√p+√n+t)) ≤ 2exp(-ct²)` for `t ≥ 0` (V Theorem 4.4.5). For independent centred isotropic rows
+whose every real linear form in direction `u` has sub-Gaussian proxy at most `K²‖u‖²`, prove `√p -
+CK²(√n+t) ≤ s_min(X) ≤ s_max(X) ≤ √p + CK²(√n+t)` with probability at least `1 - 2exp(-ct²)` (V
+Theorem 4.6.1); a negative lower bound makes no invertibility claim. *Needs:* §2.1; Mathlib
 `LinearMap.singularValues`.
 
 ### 2.5 Gaussian integration by parts and replacement
 
-Prove Gaussian integration by parts, real and complex Wick/Isserlis formulas, and a
-finite-dimensional Lindeberg replacement inequality: replacing independent coordinates whose
-moments match through degree `r` changes the expectation of a `C^(r+1)` test by a sum of
-derivative bounds times `(r+1)`st absolute moments. Include localization and truncation versions
-and resolvent differentiation formulas. *Needs:* Layer 0; Mathlib `gaussianReal`.
+Prove Gaussian integration by parts (AGZ Lemma 2.4.5), real and complex Wick/Isserlis formulas, and
+a finite-dimensional Lindeberg replacement inequality (T §2.2.4): replacing independent coordinates
+whose moments match through degree `r` changes the expectation of a `C^(r+1)` test by a sum of
+derivative bounds times `(r+1)`st absolute moments. Include localization and truncation versions and
+resolvent differentiation formulas. *Needs:* Layer 0; Mathlib `gaussianReal`.
 
 ### 2.6 Trace inequalities and matrix concentration
 
-Develop Golden–Thompson, Lieb concavity of `A ↦ tr exp(B + log A)` for positive-definite `A`, and
-the independent matrix Laplace-transform bound. Deduce the Hermitian matrix Bernstein inequality
-`matrix_bernstein`: for independent measurable random Hermitian `d × d` matrices `Xₖ` with
-`E Xₖ = 0`, `‖Xₖ‖ ≤ L` and `v = ‖∑ E Xₖ²‖`, `P(‖∑ Xₖ‖ ≥ t) ≤ 2d exp(-(t²/2)/(v + Lt/3))` for
-`t > 0` (Tropp 2012, Theorem 1.4, applied to `±Xₖ`). For independent `0 ≤ Yᵢ ≤ LI`, `L > 0`, set
-`μ_max = λ_max(∑ E Yᵢ)`, `μ_min = λ_min(∑ E Yᵢ)` and prove matrix Chernoff: the probability of
-`λ_max(∑ Yᵢ) ≥ (1+δ)μ_max` is at most `d[e^δ/(1+δ)^(1+δ)]^(μ_max/L)` for `δ ≥ 0`, and the
-probability of `λ_min(∑ Yᵢ) ≤ (1-δ)μ_min` is at most `d[e^(-δ)/(1-δ)^(1-δ)]^(μ_min/L)` for
-`0 < δ < 1`; `L = 0` is handled directly. Give rectangular Bernstein through the Hermitian
-dilation of SSP-D06. These are theorems under summand hypotheses, not consequences of an assumed
-matrix moment-generating-function estimate. *Needs:* §2.1; SSP-D06, SSP-D13; Mathlib matrix
+Develop Golden–Thompson, Lieb concavity of `A ↦ tr exp(B + log A)` for positive-definite `A` (Tropp
+2012, Theorem 3.2), and the independent matrix Laplace-transform bound. Deduce the Hermitian matrix
+Bernstein inequality `matrix_bernstein`: for independent measurable random Hermitian `d × d`
+matrices `Xₖ` with `E Xₖ = 0`, `‖Xₖ‖ ≤ L` and `v = ‖∑ E Xₖ²‖`, `P(‖∑ Xₖ‖ ≥ t) ≤ 2d exp(-(t²/2)/(v +
+Lt/3))` for `t > 0` (Tropp 2012, Theorem 1.4, applied to `±Xₖ`). For independent `0 ≤ Yᵢ ≤ LI`, `L >
+0`, set `μ_max = λ_max(∑ E Yᵢ)`, `μ_min = λ_min(∑ E Yᵢ)` and prove matrix Chernoff: the probability
+of `λ_max(∑ Yᵢ) ≥ (1+δ)μ_max` is at most `d[e^δ/(1+δ)^(1+δ)]^(μ_max/L)` for `δ ≥ 0`, and the
+probability of `λ_min(∑ Yᵢ) ≤ (1-δ)μ_min` is at most `d[e^(-δ)/(1-δ)^(1-δ)]^(μ_min/L)` for `0 < δ <
+1` (Tropp 2012, Theorem 1.1); `L = 0` is handled directly. Give rectangular Bernstein through the
+Hermitian dilation of SSP-D06. These are theorems under summand hypotheses, not consequences of an
+assumed matrix moment-generating-function estimate. *Needs:* §2.1; SSP-D06, SSP-D13; Mathlib matrix
 exponential and continuous functional calculus.
 
 **Checks.**
@@ -488,13 +558,14 @@ Layers 0–1; SSP-D06, SSP-D13; Mathlib `HasSubgaussianMGF`.
 
 ### 3.1 The resolvent transform
 
-Extend `resolventTransform` with imaginary-part positivity, conjugation, affine scaling,
-total-mass asymptotics, uniqueness and Stieltjes inversion, including the half-atom terms at
-interval endpoints (AGZ Theorem 2.4.3). Prove `μ{a} = lim_{η↓0} η Im m_μ(a+iη)` and the density
-formula wherever the boundary limit is continuous. For a probability measure with finite moment
-`m_k = ∫ x^k dμ` for `k ≤ r`, prove the finite expansion at infinity
-`m_μ(z) = -∑_{k<r} m_k z^(-k-1) + R_r(z)` with `|R_r(z)| ≤ ∫|x|^r dμ / (|z|^r Im z)` for
-`Im z > 0`. *Needs:* Mathlib `resolventTransform`.
+Imaginary-part positivity, conjugation, affine scaling, total-mass asymptotics, uniqueness,
+Stieltjes inversion with the half-atom terms at interval endpoints, the atom formula
+`μ{a} = lim_{η↓0} η Im m_μ(a+iη)`, and the finite expansion at infinity
+`m_μ(z) = -∑_{k<r} m_k z^(-k-1) + R_r(z)` with `|R_r(z)| ≤ ∫|x|^r dμ / (|z|^r |Im z|)` for a
+measure with finite `r`th absolute moment are Tau Ceti's (see [From Tau Ceti](#from-tau-ceti));
+for endpoints that are not atoms the inversion is AGZ Theorem 2.4.3. Prove the density formula
+`dμ/dx = π⁻¹ lim_{η↓0} Im m_μ(x+iη)` on every open interval where the boundary limit exists and is
+continuous. *Needs:* Tau Ceti resolvent transform; Mathlib `resolventTransform`.
 
 **Checks.**
 
@@ -515,17 +586,18 @@ Prokhorov compactness.
 
 ### 3.3 Semicircle laws
 
-Define `semicircleReal a v`, `v : ℝ≥0`, as the image of the unit-radius semicircle of
-StandardDistributions target 10.20 under `y ↦ a + 2√v y`. *Needs:* StandardDistributions
-target 10.20 and Layer 7; Mathlib `betaMeasure`.
+The semicircle law with centre `a` and variance `v : ℝ≥0` is Tau Ceti's
+`TauCeti.Probability.semicircleReal a v`, the image of the unit-radius semicircle under
+`y ↦ a + 2√v y`, written `semicircleReal a v` below. Its API at the pin covers everything this
+roadmap uses, so no target remains here (see [From Tau Ceti](#from-tau-ceti)):
+- for `v > 0` the density `(2πv)⁻¹ √(4v-(x-a)²)` on `[a-2√v, a+2√v]`, and `δ_a` for `v = 0`;
+- measurability in `(a, v)`, mean `a`, variance `v`, and the affine image
+  `semicircleReal (c a + b) (c² v)` under `x ↦ c x + b`;
+- the odd moments `0` and the moment `v^k C_k` of order `2k` for `a = 0`;
+- the transform equation `v m² + (z-a)m + 1 = 0` off the support, and its characterization in the
+  upper half-plane as the root with `Im m > 0`.
 
-- For `v > 0` its density is `(2πv)⁻¹ √(4v-(x-a)²)` on `[a-2√v, a+2√v]`; for `v = 0` it is `δ_a`.
-- It is a probability measure, measurable in `(a, v)`, with mean `a` and variance `v`, and
-  `semicircleReal a v` maps to `semicircleReal (c a + b) (c² v)` under `x ↦ c x + b`.
-- For the standard law odd moments vanish and moment `2k` is the Catalan number `C_k`.
-- The transform `m` of `semicircleReal 0 1` satisfies `m² + zm + 1 = 0`, the branch fixed by
-  `Im m > 0` and `zm(z) → -1`; square roots are defined analytically off the support, not as a
-  pointwise choice of quadratic root.
+*Needs:* Tau Ceti `semicircleReal`.
 
 **Checks.**
 
@@ -538,13 +610,17 @@ target 10.20 and Layer 7; Mathlib `betaMeasure`.
 
 ### 3.4 Marchenko–Pastur laws
 
-Define `marchenkoPastur y`, `MP_y`, for `y > 0` with edges `a = (1-√y)²`, `b = (1+√y)²`, atom
-`(1-1/y)₊ δ₀` and density `√((b-x)(x-a))/(2πyx)` on `(a,b)`; set `MP_0 = δ₁`. *Needs:* the
-finite combinatorial prerequisite for the moments; §3.1.
+The Marchenko–Pastur law `MP_y` is Tau Ceti's `TauCeti.Probability.marchenkoPastur y`,
+written `marchenkoPastur y` below: for `y > 0` it has edges `a = (1-√y)²`, `b = (1+√y)²`, atom
+`(1-1/y)₊ δ₀` and density `√((b-x)(x-a))/(2πyx)` on `(a,b)`, and `MP_0 = δ₁`. The pin proves the
+density, the atom, that it is concentrated on `{0} ∪ [a,b]`, mean `1`, second moment `1 + y`,
+variance `y`, and `∫ x^(k+1) dMP_y = ∫ x^k d semicircleReal (1+y) y` (see
+[From Tau Ceti](#from-tau-ceti)). *Needs:* Tau Ceti `marchenkoPastur` and the Narayana count;
+§3.1.
 
-- It is a probability measure with support `[a,b]`, together with `{0}` when `y > 1`, and mean 1.
-- Its moments are `∑_{π ∈ NC(k)} y^(k-|π|)` for `k ≥ 1`, through the noncrossing partitions of
-  the combinatorial prerequisite.
+- Its support is exactly `[a,b]`, together with `{0}` when `y > 1`.
+- Its moments are `∑_{π ∈ NC(k)} y^(k-|π|)` for `k ≥ 1`, by the Narayana count of the noncrossing
+  partitions of `Fin k` by number of parts.
 - Its transform satisfies `yz m² + (z+y-1)m + 1 = 0` with the upper-half-plane branch.
 - `y ↦ MP_y` is weakly continuous on `y ≥ 0`.
 
@@ -560,8 +636,8 @@ finite combinatorial prerequisite for the moments; §3.1.
 Define `circularLaw`, the uniform probability measure `π⁻¹ 1_{|z|<1} d(area)` on the unit disc of
 `ℂ`, as `cond volume (ball 0 1)`, the transport of the uniform ball law of StandardDistributions
 target 12.1 to `ℂ`, and the quarter-circle law `π⁻¹ √(4-s²) ds` on `[0,2]`. Prove support,
-moments and mixed moments, rotational invariance, and that the square of a quarter-circle
-variable has law `MP_1`. *Needs:* StandardDistributions target 12.1; Mathlib `ProbabilityTheory.cond`,
+moments and mixed moments, rotational invariance, and that the square of a quarter-circle variable
+has law `MP_1`. *Needs:* StandardDistributions target 12.1; Mathlib `ProbabilityTheory.cond`,
 `Complex.volume_ball`.
 
 **Checks.**
@@ -577,8 +653,8 @@ first moment `1` and second moment `1 + y`, and `MP_y`'s atom `1 - 1/y` at zero 
 
 ### Dependencies
 
-Layers 0–1; the finite combinatorial prerequisite; StandardDistributions target 10.20, Layer 7
-and target 12.1; Tau Ceti moment determinacy.
+Layers 0–1; StandardDistributions target 12.1; Tau Ceti moment determinacy, resolvent transform,
+`semicircleReal`, `marchenkoPastur` and noncrossing partitions.
 
 ## Layer 4: Wigner and sample-covariance global laws
 
@@ -586,15 +662,17 @@ and target 12.1; Tau Ceti moment determinacy.
 
 ### 4.1 Constructors
 
-Define `wignerMatrix ξ η n ω`, the normalised Wigner matrix `Wₙ/√n` of the top-left `n × n`
-corner of an infinite array, with complex entries `ξ` indexed by the strictly upper positions
-`StrictUpper`, their conjugates below the diagonal and real diagonal entries `η`; prove
-`wignerMatrix_isHermitian`. Define `sampleCovariance X = XX*/n` and prove
+The normalised Wigner matrix `Wₙ/√n` of the top-left `n × n` corner of an infinite array, with
+complex entries `ξ` indexed by the strictly upper positions `StrictUpper`, their conjugates below
+the diagonal and real diagonal entries `η`, is Tau Ceti's `TauCeti.wignerMatrix ξ η n ω`, with
+`TauCeti.wignerMatrix_isHermitian`, measurability, the corner relation
+`submatrix_castLE_wignerMatrix`, the independence of a minor and the removed row's off-diagonal
+entries `indepFun_wignerMatrix_column`, and `identDistrib_wignerMatrix`; it is written
+`wignerMatrix` below. Define `sampleCovariance X = XX*/n` and prove
 `sampleCovariance_isHermitian`. Provide law characterizations for independent upper-triangular
-entries with a separate diagonal law, the real-to-complex embedding, i.i.d. rectangular
-ensembles, and independence of a minor and the removed row's off-diagonal entries. Centring and
-Hermitian symmetry are hypotheses, not consequences of identically distributed entries.
-*Needs:* Layer 0; Mathlib `HasLaw`, `iIndepFun`.
+entries with a separate diagonal law, the real-to-complex embedding and i.i.d. rectangular
+ensembles. Centring and Hermitian symmetry are hypotheses, not consequences of identically
+distributed entries. *Needs:* Layer 0; Tau Ceti `wignerMatrix`; Mathlib `HasLaw`, `iIndepFun`.
 
 **Checks.**
 
@@ -623,12 +701,16 @@ renormalization estimates (Bai 1999, Theorem 2.4; AGZ Theorem 2.1.21 is the i.i.
 `wigner_semicircle_ae`: for i.i.d. complex upper entries of finite second moment with
 `E|ξ - Eξ|² = 1`, an independent i.i.d. real diagonal with no moment condition, and the corners
 of one infinite array, almost surely the empirical spectral measures converge weakly to
-`semicircleReal 0 1` (Bai 1999, Theorem 2.1). The mean is removed by the rank bound of §1.2, and
-the diagonal by truncation at `ε√n`, the rank bound for the few large entries and the
-operator-norm bound for the rest. The centred case with a diagonal of finite second moment is
-T Theorem 2.4.2. No fourth moment is required for the global law. Provide the resolvent proof's
-self-consistency estimate, fluctuation bound, stability and uniqueness argument in the upper
-half-plane, and the identification with §3.3. *Needs:* §§4.1–4.2, 1.2, 3.2, 3.3.
+`semicircleReal 0 1` (Bai 1999, Theorem 2.1). The real part of the mean is removed by the rank bound
+of §1.2. The imaginary part `ic S/√n`, where `S` has `+1` above the diagonal and `-1` below it, has
+full rank and eigenvalues `c cot((2k-1)π/2n)/√n`; the fewer than `4|c| n^{3/4}` of them that exceed
+`n^{-1/4}` in absolute value are removed by the rank bound, and the rest by the Lévy-distance form
+of Hoffman–Wielandt (Bai 1999, proof of Theorem 2.1, with Lemmas 2.2–2.3). The diagonal is removed
+by truncation at `ε√n`, the rank bound for the few large entries and the operator-norm bound for the
+rest. The centred case with a diagonal of finite second moment is T Theorem 2.4.2. No fourth moment
+is required for the global law. Provide the resolvent proof's self-consistency estimate, fluctuation
+bound, stability and uniqueness argument in the upper half-plane, and the identification with §3.3.
+*Needs:* §§4.1–4.2, 1.2, 3.2, 3.3.
 
 ### 4.4 Marchenko–Pastur law
 
@@ -756,13 +838,17 @@ Layers 0–3; StandardDistributions Layers 3–6; RepresentationTheory/CompactGr
 
 ## Finite combinatorial prerequisite for Layers 3, 4 and 6
 
-Use finite set partitions of `Fin k` with the cyclic order inherited from the usual order. A
-partition is noncrossing when there are no `a < b < c < d` with `a, c` in one block and `b, d` in
-a different block. Prove restriction and interval decomposition, refinement as a finite lattice,
-the Kreweras complement, Möbius inversion, Catalan counts for noncrossing partitions and
-pairings, and Narayana counts by number of blocks. For pairings prove the equivalence with planar
-closed-walk leading terms and with maximal cycle count of a pairing composed with the long cycle,
-counting fixed points as cycles. *Needs:* Mathlib `Finpartition`.
+Noncrossing partitions are Tau Ceti's: a finite partition is noncrossing
+(`Finpartition.IsNoncrossing`) when there are no `a < b < c < d` with `a, c` in one block and
+`b, d` in a different block, and `TauCeti.NoncrossingPartition s` is their lattice under
+refinement. The pin proves the decomposition of lower intervals, the Kreweras complement, the
+Möbius function, the Catalan counts of noncrossing partitions and pairings, the Narayana counts by
+number of blocks, and the geodesic condition that a noncrossing partition of `Fin n` and its
+Kreweras complement have `n + 1` cycles in total (see [From Tau Ceti](#from-tau-ceti)). Prove the
+converse for pairings, that a pairing of `Fin 2k` whose permutation composed with the long cycle
+has the maximal number `k + 1` of cycles, fixed points included, is noncrossing, and the
+equivalence of noncrossing pairings with the planar closed-walk leading terms of §4.2.
+*Needs:* Tau Ceti noncrossing partitions; Mathlib `Finpartition`.
 
 **Checks.**
 
@@ -777,14 +863,15 @@ counting fixed points as cycles. *Needs:* Mathlib `Finpartition`.
 
 ### 6.1 Noncommutative probability spaces
 
-Develop unital linear functionals on unital algebras and noncommutative laws as evaluation of
-words, with real and complex scalar extension. In the analytic layer use unital complex
-C*-algebras with a positive normalized linear functional, adding traciality where needed, reusing
-Mathlib's positive-linear-map and star-algebra APIs. Prove positivity, Cauchy–Schwarz, norm
-bounds, and the probability measure representing a bounded self-adjoint variable through
-continuous functional calculus and Riesz representation, with its support, moment identities and
-uniqueness. A word functional without positivity is not a probability measure. *Needs:* Mathlib
-C*-algebras, `cfc`, Riesz–Markov.
+The law of a self-adjoint element `a` of a unital C*-algebra under a positive linear functional
+is Tau Ceti's `PositiveLinearMap.law φ a`, with its moment identities, its concentration on the
+spectrum, its characterization by integration of the continuous functional calculus, and its
+total mass `1` when `φ 1 = 1` (see [From Tau Ceti](#from-tau-ceti)); joint algebraic
+distributions as evaluation of noncommutative polynomials are Tau Ceti's as well
+(`TauCeti/Probability/FreeProbability/Distribution/Basic.lean`). Develop the real and complex
+scalar extension of word laws, and Cauchy–Schwarz and norm bounds for positive normalized
+functionals, adding traciality where needed. A word functional without positivity is not a
+probability measure. *Needs:* Tau Ceti free probability; Mathlib C*-algebras, `cfc`.
 
 **Checks.**
 
@@ -796,14 +883,15 @@ C*-algebras, `cfc`, Riesz–Markov.
 
 ### 6.2 Freeness and free cumulants
 
-Define free unital subalgebras by vanishing of alternating products of centred elements from
-successively distinct subalgebras, and freeness of families through generated subalgebras. Prove
-permutation and regrouping, adjoining scalars, polynomial substitution, mixed-moment uniqueness,
-and the contrast with tensor-product independence. Construct free cumulants by noncrossing
-Möbius inversion and prove multilinearity, moment–cumulant inversion, and freeness iff mixed
-cumulants vanish. Construct free products with positive state through the reduced-word
-Hilbert-space construction (vacuum, inner product, bounded representations, positivity,
-freeness). *Needs:* §6.1; the finite combinatorial prerequisite.
+Freeness of unital subalgebras and of families of elements, its stability under subfamilies and
+homomorphisms, the contrast with commuting independence, the dependence of mixed moments on the
+individual distributions only, free cumulants with their multilinearity and the moment–cumulant
+formula, and freeness iff mixed cumulants vanish (AGZ Definition 5.3.1, Theorem 5.3.15) are Tau
+Ceti's (`TauCeti.IsFreelyIndependent`, `TauCeti.IsFreelyIndependentElements`,
+`TauCeti.freeCumulant`, `TauCeti.isFreelyIndependent_iff_freeCumulant_eq_zero`). Construct free
+products with positive state through the reduced-word Hilbert-space construction (vacuum, inner
+product, bounded representations, positivity, freeness). *Needs:* §6.1; Tau Ceti free
+probability and noncrossing partitions.
 
 **Checks.**
 
@@ -816,14 +904,15 @@ freeness). *Needs:* §6.1; the finite combinatorial prerequisite.
 ### 6.3 Free convolution and transforms
 
 Define free additive convolution on compactly supported real probability measures, and free
-multiplicative convolution on compactly supported nonnegative laws via `a^(1/2) b a^(1/2)`.
-Prove well-definedness, associativity, commutativity at the level of laws, identities, scaling,
-support bounds and weak continuity on uniformly bounded supports. For `G = -m` construct the
-local inverse near infinity and the R-transform by `G^(-1)(w) = 1/w + R(w)`; define
-`ψ(z) = ∫ zx/(1-zx) dμ` and `S(w) = (1+w)ψ^(-1)(w)/w` when the first moment is nonzero. Prove the
-formal-series and analytic-germ bridges, additivity of R-transforms and multiplicativity of
-S-transforms, and identify `R_{SC_v}(w) = vw`, `R_{MP_y}(w) = 1/(1-yw)`, `S_{MP_y}(w) = 1/(1+yw)`.
-*Needs:* §§6.2, 3.1, 3.3, 3.4.
+multiplicative convolution on compactly supported nonnegative laws via `a^(1/2) b a^(1/2)`. Prove
+well-definedness, associativity, commutativity at the level of laws, identities, scaling, support
+bounds and weak continuity on uniformly bounded supports. For `G = -m` construct the local inverse
+near infinity and the R-transform by `G^(-1)(w) = 1/w + R(w)`; define `ψ(z) = ∫ zx/(1-zx) dμ` and
+`S(w) = (1+w)ψ^(-1)(w)/w` when the first moment is nonzero. The formal R-series and its additivity
+over free families are Tau Ceti's (`TauCeti.rSeries`, `IsFreelyIndependentElements.rSeries_sum`).
+Prove the analytic-germ bridge to the formal R-series, additivity of R-transforms of measures and
+multiplicativity of S-transforms, and identify `R_{SC_v}(w) = vw`, `R_{MP_y}(w) = 1/(1-yw)`,
+`S_{MP_y}(w) = 1/(1+yw)`. *Needs:* §§6.2, 3.1, 3.3, 3.4; Tau Ceti free probability.
 
 **Checks.**
 
@@ -835,14 +924,17 @@ S-transforms, and identify `R_{SC_v}(w) = vw`, `R_{MP_y}(w) = 1/(1-yw)`, `S_{MP_
 
 ### 6.4 Free limit theorems
 
-Prove the free central limit theorem for freely independent self-adjoint variables `aᵢ` with
-`φ(aᵢ) = 0`, `φ(aᵢ²) = 1` and `sup_i |φ(aᵢ^k)| < ∞` for every `k`: the moments of
-`N^(-1/2) ∑_{i≤N} aᵢ` converge to those of `semicircleReal 0 1`, and for bounded variables the
-laws converge weakly (AGZ Lemma 5.3.32). Prove the free Poisson limit for free projections of
+The free central limit theorem is Tau Ceti's
+`IsFreelyIndependentElements.tendsto_apply_inv_sqrt_smul_sum_pow_semicircleReal` (moments) and
+`IsFreelyIndependentElements.tendsto_law_inv_sqrt_smul_sum_semicircleReal` (laws): for freely
+independent self-adjoint variables `aᵢ` with `φ(aᵢ) = 0`, `sup_i |φ(aᵢ^k)| < ∞` for every `k`
+and `N⁻¹ ∑_{i<N} φ(aᵢ²) → v`, the moments of `N^(-1/2) ∑_{i<N} aᵢ` converge to those of
+`semicircleReal 0 v`, and the laws converge weakly (AGZ Lemma 5.3.32 is the case
+`φ(aᵢ²) = 1`). Prove the free Poisson limit for free projections of
 trace `λ/n`: their sums tend to the law with all free cumulants `λ` (for `λ > 0` the dilation by
 `λ` of `MP_(1/λ)`; for `λ = 0` the Dirac mass at zero), with moment convergence and the
 support/tightness argument; projection arrays exist only once `n ≥ λ` (AGZ §5.3.3, the exercise on
-the free Poisson law). *Needs:* §§6.2–6.3.
+the free Poisson law). *Needs:* §§6.2–6.3; Tau Ceti free central limit theorem.
 
 **Checks.**
 
@@ -851,7 +943,7 @@ the free Poisson law). *Needs:* §§6.2–6.3.
 - Free variables alternating between a standard semicircular and a variable of law
   `(δ₋₁+δ₁)/2` are centred of variance `1` with bounded moments but not identically
   distributed; the limit is still `semicircleReal 0 1`.
-- Without `φ(aᵢ²) = 1`, variances alternating between `1` and `3` give the limit
+- Variances alternating between `1` and `3` average to `2` and give the limit
   `semicircleReal 0 2`, not `semicircleReal 0 1`.
 
 ### 6.5 Asymptotic freeness
@@ -861,11 +953,17 @@ finitely many independent Wigner matrices `Xⁱ/√n` (real symmetric or complex
 entries are centred with `E|X(m,ℓ)|² = 1` and have moments of every order bounded uniformly in
 the size, the index `i` and the position, jointly with a deterministic family of uniformly
 bounded operator norm having a joint limiting star-moment law (AGZ Theorems 5.4.2 and 5.4.5); GUE
-and GOE are the Gaussian cases. Prove the Haar-conjugation version for independent Haar unitaries
+and GOE are the Gaussian cases. The almost-sure statement for independent Wigner matrices is
+`wigner_asymptotically_free`: almost surely `(Xⁱ/√n)ᵢ` converges in moments
+(`TauCeti.TendstoInMoments` for the normalized traces) to any freely independent family of
+standard semicircular elements. Every such family has the same joint distribution
+(`TauCeti.IsFreelyIndependentElements.jointDistribution_eq_of_forall_pow`), so the null set does
+not depend on the choice. Prove the Haar-conjugation version for independent Haar unitaries
 and deterministic bounded Hermitian matrices with limiting individual laws. Build Haar entry
 moment and Weingarten formulas, their large-dimension estimates, mixed-word counting, and
 variance and higher centred-moment bounds; convert matrix moment limits into spectral weak limits
-for self-adjoint polynomials. *Needs:* §§6.2–6.3, 4.2, 5.1, 5.4.
+for self-adjoint polynomials. *Needs:* §§6.2–6.3, 4.1–4.2, 5.1, 5.4; Tau Ceti `TendstoInMoments`
+and `IsSemicircular`.
 
 ### Examples
 
@@ -998,17 +1096,22 @@ gap probabilities, the form of AGZ Theorems 3.1.1 and 3.1.4. *Needs:* §1.1.
 
 ### 8.2 Orthogonal polynomial ensembles
 
-Prove Andréief's identity and the determinantal structure of orthogonal polynomial ensembles.
-Construct the GUE kernel from the Hermite functions, the Laguerre and Jacobi unitary-ensemble
-kernels from LaguerreJacobi's polynomials and orthogonality relations (B3, D3), and the CUE and
-complex Ginibre kernels, each with its reference measure. Prove Christoffel–Darboux, the
+Prove Andréief's identity (AGZ Lemma 3.2.3) and the determinantal structure of orthogonal polynomial
+ensembles (AGZ Lemma 3.2.2 for GUE). For a weight `w` with all moments finite, obtain the
+orthonormal polynomials of `L²(w)` by Gram–Schmidt of the monomials (Mathlib
+`InnerProductSpace.gramSchmidt` and `InnerProductSpace.gramSchmidtNormed`) and prove their
+three-term recurrence. Construct the GUE kernel from the Hermite functions, the Laguerre and Jacobi
+unitary-ensemble kernels from the orthonormal polynomials of the weights `x^a e^{-x}` on `(0,∞)` (`a
+> -1`) and `(1-x)^a (1+x)^b` on `(-1,1)` (`a, b > -1`), and the CUE and complex Ginibre kernels,
+each with its reference measure. Prove Christoffel–Darboux from the three-term recurrence, the
 reproducing and projection identities, correlation functions, and mean and variance of counts and
-linear statistics. *Needs:* §5.2, §5.4; OrthogonalL2Bases Parts A–B; LaguerreJacobi Parts A–D.
+linear statistics. *Needs:* §5.2, §5.4; OrthogonalL2Bases Parts A–B; Mathlib
+`InnerProductSpace.gramSchmidt`.
 
 **Checks.**
 
-- `n = 1` Laguerre unitary kernel with weight `w`: `K(x,y) = w(x)^(1/2) w(y)^(1/2)/c₀`, with
-  `c₀ = ∫ w` the zeroth norm of LaguerreJacobi B3.
+- `n = 1` Laguerre unitary kernel with weight `w(x) = x^a e^{-x}`:
+  `K(x,y) = w(x)^(1/2) w(y)^(1/2)/c₀`, with `c₀ = ∫₀^∞ x^a e^{-x} dx = Γ(a+1)`.
 - The GUE kernel satisfies `∫ K(x,x) dx = n`.
 - The CUE kernel `K(θ,φ) = (2π)⁻¹ ∑_{k<n} e^{ik(θ-φ)}` relative to Lebesgue measure on
   `[0,2π)` has `K(θ,θ) = n/(2π)` and `∫₀^{2π} K(θ,θ) dθ = n`; at `n = 2` these are `1/π` and
@@ -1016,39 +1119,59 @@ linear statistics. *Needs:* §5.2, §5.4; OrthogonalL2Bases Parts A–B; Laguerr
 
 ### 8.3 Determinantal point processes from continuous kernels
 
-The constructor takes a locally compact Polish space `S` with a locally finite reference measure
-`μ` and a continuous Hermitian kernel `K : S → S → ℂ` that is positive semidefinite (every finite
-matrix `[K(xᵢ,xⱼ)]` is positive semidefinite) and whose integral operator on `L²(μ)` is a
-contraction. Build on the operator-ideal carriers the trace-class integral-operator and
-Fredholm-determinant theory: summability, the trace functional, exterior powers, determinant
-series, continuity in trace norm and restriction to windows. For each relatively compact Borel
-window `W`, apply Mercer's theorem on the compact support of `μ|_W` to prove that `K_W` is a
-positive trace-class contraction with `tr K_W = ∫_W K(x,x) dμ(x)` and
+An accepted kernel is a continuous Hermitian kernel `K : S → S → ℂ` on a locally compact Polish
+space `S` with a locally finite reference measure `μ`, positive semidefinite (every finite matrix
+`[K(xᵢ,xⱼ)]` is positive semidefinite), whose integral operator on `L²(μ)` is a contraction.
+Prove Mercer's theorem: for a continuous positive semidefinite Hermitian kernel on a compact metric
+space with a finite Borel measure, the eigen-expansion converges uniformly on the support of the
+measure, the integral operator is trace class, and its trace is `∫ K(x,x) dμ(x)` (AGZ Lemma 4.2.13,
+quoting Simon 2005, Theorem 2.12). Build on the operator-ideal carriers the trace-class
+integral-operator and Fredholm-determinant theory: summability, the trace functional, exterior
+powers, determinant series, continuity in trace norm and restriction to windows. For each
+relatively compact Borel window `W`, apply Mercer's theorem on the compact support of `μ|_W` to
+prove that `K_W` is a positive trace-class contraction with `tr K_W = ∫_W K(x,x) dμ(x)` and
 `tr Λ^k K_W = (k!)⁻¹ ∫_{W^k} det[K(xᵢ,xⱼ)] dμ^k(x)`, hence
 `det(I-K_W) = ∑_k ((-1)^k/k!) ∫_{W^k} det[K(xᵢ,xⱼ)] dμ^k(x)`. These identities come before
 `det[K(xᵢ,xⱼ)]` is used as the `k`-point correlation function relative to `μ`. Kernels defined
 only up to null sets, which need the trace-compatible representative of Soshnikov 2000 (§1,
-Lemmas 1–2 and (1.14)) and AGZ §4.2.2, are outside this constructor.
+Lemmas 1–2 and (1.14)) and AGZ §4.2.2, are outside this definition.
 
-For pairwise disjoint relatively compact Borel `B₁, …, B_m` and `z ∈ ℂ^m` prove the count
-generating function `E ∏ⱼ zⱼ^{N(Bⱼ)} = det(I - ∑ⱼ (1-zⱼ) 1_{Bⱼ} K 1_{Bⱼ})` from the
-factorial-moment expansion of §8.1, applying the identities above to the restriction of `K` to
-`B₁ ∪ ⋯ ∪ B_m`, and deduce that `K` determines the joint count laws (AGZ Lemma 4.2.13 for the
-local admissibility of `K`). The exponential count moments that expansion needs on a bounded
-window `W` come from Hadamard's bound `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)`, taken from
-`hermitian_gram_hadamard` by realizing each finite kernel matrix as a Gram matrix, which with the
-trace identity gives `α_k(W^k) ≤ (tr K_W)^k`. Prove `P(N(B)=0) = det(I-K_B)` for relatively
-compact Borel `B`, the Bernoulli-sum representation of bounded-set counts (AGZ Corollary 4.2.24)
-and their CLT when the variance diverges (AGZ Theorem 4.2.25).
+For an accepted kernel `K` and pairwise disjoint relatively compact Borel `B₁, …, B_m`, a joint
+count law of `K` on `(B₁, …, B_m)` is a probability measure `P` on `ℕ^m` whose generating function
+is the Fredholm determinant: `∑_{k ∈ ℕ^m} P{k} ∏ⱼ zⱼ^{kⱼ} = det(I - ∑ⱼ (1-zⱼ) 1_{Bⱼ} K 1_{Bⱼ})`
+for `z ∈ ℂ^m` with every `|zⱼ| ≤ 1`. Prove that it is unique when it exists, since a probability
+measure on `ℕ^m` is determined by its generating function on the closed unit polydisc, that its
+factorial moments are `∫_{B₁^{k₁}×⋯×B_m^{k_m}} det[K(xᵢ,xⱼ)] dμ^k` (so `det[K(xᵢ,xⱼ)]` are its
+correlation functions in the sense of §8.1), and that its void probability is
+`P(N(B)=0) = det(I-K_B)`. Existence for an arbitrary accepted kernel goes through random
+configurations (AGZ Propositions 4.2.19–4.2.20 and Corollaries 4.2.21–4.2.22), excluded under [Scope
+and ownership](#scope-and-ownership); prove existence in the following three cases, which cover
+every kernel used below.
 
-Prove the convergence criterion: if kernels `Kₙ` accepted by the constructor on `ℝ` with Lebesgue
-reference measure converge uniformly on compact sets to a continuous `K`, then `K` is accepted
-(positive semidefiniteness passes to the pointwise limit; the contraction bound follows from
-Hilbert–Schmidt convergence on each bounded window), the correlation functions converge locally
-uniformly, and, with Hadamard's bound dominating the Fredholm expansions, the joint count laws on
-bounded Borel sets with Lebesgue-null boundaries converge, together with the gap probabilities.
-*Needs:* §8.1; OperatorIdeals OI-B01–OI-B19, OI-B23, OI-B29, OI-B30 and Part C; SuccessiveMinima
-target 0.1.2.
+- **Finite ensembles.** For the kernel of an orthogonal polynomial ensemble of §8.2, the joint law
+  of the eigenvalue counts `(N_A(B₁), …, N_A(B_m))` of §8.1 is a joint count law: prove the
+  generating-function identity from the factorial-moment expansion of §8.1, applying the
+  identities above to the restriction of the kernel to `B₁ ∪ ⋯ ∪ B_m`. The exponential count
+  moments that expansion needs on a bounded window `W` come from Hadamard's bound
+  `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)`, taken from `hermitian_gram_hadamard` by realizing each finite
+  kernel matrix as a Gram matrix, which with the trace identity gives `α_k(W^k) ≤ (tr K_W)^k`.
+- **One set.** For every accepted `K` and one set `B`, `det(I-(1-z)K_B) = ∏ₖ (1 - λₖ + λₖ z)` over
+  the eigenvalues `λₖ ∈ [0,1]` of `K_B`, so the law of a sum of independent Bernoulli(`λₖ`)
+  variables is the count law (AGZ Corollary 4.2.24). Prove the central limit theorem for these
+  counts when the variance diverges (AGZ Theorem 4.2.25).
+- **Limits.** For locally uniform limits of finite-ensemble kernels, by the convergence criterion
+  below; the sine and Airy kernels of §8.4 are of this kind.
+
+Prove the convergence criterion: if kernels `Kₙ` accepted on `ℝ` with Lebesgue reference measure
+have joint count laws on every finite family of pairwise disjoint bounded Borel sets and converge
+uniformly on compact sets to a continuous `K`, then `K` is accepted (positive semidefiniteness
+passes to the pointwise limit; the contraction bound follows from Hilbert–Schmidt convergence on
+each bounded window), the correlation functions converge locally uniformly, and on every such
+family the joint count laws of `Kₙ` converge to a joint count law of `K`, together with the gap
+probabilities. The generating functions converge on the closed polydisc, with Hadamard's bound
+dominating the Fredholm expansions, and the laws are tight since `E N(B) = ∫_B Kₙ(x,x) dx` is
+bounded in `n`. *Needs:* §§8.1–8.2; OperatorIdeals OI-B01–OI-B19, OI-B23, OI-B29, OI-B30 and
+Part C; SuccessiveMinima target 0.1.2.
 
 **Checks.**
 
@@ -1056,9 +1179,11 @@ target 0.1.2.
   matrices and zero integral operator, yet `∫_{[0,1]} K(x,x) dx = 1`; its `det[K(xᵢ,xⱼ)]` are the
   correlation functions of the unit-rate Poisson process, whose void probability on `[0,1]` is
   `e^{-1} ≠ det(I-0) = 1`. Continuity of the kernel excludes it.
-- `K = λ φ⊗φ` with `‖φ‖ = 1`: for `0 ≤ λ ≤ 1` the process has at most one point,
-  `P(N(B)=0) = 1 - λ∫_B φ² = det(I-K_B)`; for `λ > 1` the contraction bound fails and
-  `det(I-K) = 1-λ < 0`.
+- `K = λ φ⊗φ` with `‖φ‖ = 1`: for `0 ≤ λ ≤ 1` the count law on `B` is Bernoulli(`λ∫_B φ²`),
+  with `P(N(B)=0) = 1 - λ∫_B φ² = det(I-K_B)`; for `λ > 1` the contraction bound fails and
+  `det(I-K) = 1-λ < 0` is the value at `z = 0` of no generating function.
+- At `z = (1, …, 1)` the defining determinant is `det I = 1`, the total mass; for the GUE kernel
+  of size `n` and `B = ℝ`, `det(I-(1-z)K) = zⁿ`, the law `δₙ`.
 - The sine kernel has `K(x,x) = 1` and `ρ₂(x,y) = 1 - (sin π(x-y)/(π(x-y)))² → 0` as `y → x`.
 
 ### 8.4 Bulk and edge limits
@@ -1074,8 +1199,8 @@ section proves the matching of the scaled Hermite kernel with `K_Ai` at the edge
 control of the scaled kernels on unbounded intervals. Define `F₂(s) = det(I-K_Ai)` on
 `L²(s,∞)`, prove it is a continuous distribution function and
 `P(n^(2/3)(λ_max(GUE)-2) ≤ s) → F₂(s)`, and prove convergence of the joint count laws of the
-scaled eigenvalues on bounded Borel sets to those of the Airy and sine determinantal kernels,
-with the bulk gap distributions. *Needs:* §§8.2–8.3; OrthogonalL2Bases Parts A–B;
+scaled eigenvalues on bounded Borel sets to the joint count laws of the Airy and sine kernels
+(§8.3), with the bulk gap distributions. *Needs:* §§8.2–8.3; OrthogonalL2Bases Parts A–B;
 SpecialFunctionsAiry 1.1–1.2, Layer 2, 3.2, 3.4, 3.6 and 8.5.
 
 `Suggested.lean` writes the Fredholm determinant as its series, AGZ (3.1.6):
@@ -1097,6 +1222,11 @@ AGZ §3.5).
   `P(λ_max > s) ≤ E N(s,∞)`. On `L²(−∞,s)` the series diverges, since `K_Ai(x,x) ~ √(−x)/π` as
   `x → −∞`; as a gap probability it is `0` for every `s`, which fails the bound and the limit `1`
   at `+∞`.
+- `sineKernel x x = 1` and `sineKernel 1 0 = 0`; without the diagonal clause the formula gives
+  `0/0`, which Lean evaluates to `0`, and every gap probability would see `K(x,x) = 0`.
+- The sine kernel is the Fourier projection onto frequencies in `[-π, π]`, a contraction, so it is
+  accepted by §8.3; `2 · sineKernel` has operator norm `2` and is not.
+- `∫₀^L sineKernel x x dx = L`: the scaling `nρ_SC(E)` gives the limit process unit density.
 
 ### 8.5 GOE: Pfaffians and Painlevé II
 
@@ -1142,7 +1272,7 @@ At `n = 2` the GUE kernel `K₂(x,x)` integrates to `2`, and `P(N(ℝ) = 2) = 1`
 
 ### Dependencies
 
-Layers 1, 3, 5; OrthogonalL2Bases Parts A–B; LaguerreJacobi Parts A–D; OperatorIdeals;
+Layers 1, 3, 5; OrthogonalL2Bases Parts A–B; OperatorIdeals;
 SuccessiveMinima target 0.1.2; SpecialFunctionsAiry 1.1–1.2, Layer 2, 3.2, 3.4, 3.6 and 8.5.
 
 ## Layer 9: logarithmic energy and large deviations
@@ -1196,9 +1326,10 @@ recovery configurations; the singular diagonal is not treated as a continuous ke
 
 Develop the variational characterization: the effective potential `V(x) - 2∫ log|x-y| dμ(y)` is at
 least the equilibrium constant outside a set of logarithmic capacity zero and equals it on the
-support except on such a set. Define logarithmic capacity and justify the exceptional-set
-statement. For `V = x²/2` identify the minimizer as `semicircleReal 0 1` and evaluate its energy
-and normalization constants. *Needs:* §9.2, §3.3.
+support except on such a set (AGZ Lemma 2.6.2(e), (2.6.9)–(2.6.10), with capacity as defined
+just before it). Define logarithmic capacity and justify the exceptional-set statement. For
+`V = x²/2` identify the minimizer as `semicircleReal 0 1` and evaluate its energy and
+normalization constants. *Needs:* §9.2, §3.3.
 
 **Checks.**
 
@@ -1307,10 +1438,12 @@ Layers 0–5.
 ## Downstream consumers
 
 - [FreeProbability](../FreeProbability/README.md) consumes Layers 1, 3, 5 and 6 (cited there as
-  Milestones 1, 3, 5 and 6) and the finite combinatorial prerequisite: `spectralMeasure` and the
-  decreasing Hermitian eigenvalues, the moment-to-weak convergence and resolvent inversion of
-  §§3.1–3.2, `semicircleReal` and `marchenkoPastur`, the GUE, Ginibre and Haar carriers of
-  Layer 5, and the scalar free probability, Weingarten and expected-moment interface of Layer 6.
+  Milestones 1, 3, 5 and 6) and the finite combinatorial prerequisite: the spectral API of
+  Layer 1 on Tau Ceti's `Matrix.spectralMeasure` and the decreasing Hermitian eigenvalues, the
+  moment-to-weak convergence of §3.2 and the density formula of §3.1, the laws of §§3.3–3.5 on
+  Tau Ceti's `semicircleReal` and `marchenkoPastur`, the GUE, Ginibre and Haar carriers of
+  Layer 5, and the free products, transforms of measures, Weingarten and expected-moment
+  interface of Layer 6.
 
 ## References
 
@@ -1338,6 +1471,8 @@ Layers 0–5.
   [arXiv:0708.2895](https://arxiv.org/abs/0708.2895).
 - T. Tao, V. Vu (appendix by M. Krishnapur), *Random matrices: universality of ESDs and the
   circular law*, Ann. Probab. 38 (2010), [arXiv:0807.4898](https://arxiv.org/abs/0807.4898).
+- B. Simon, *Trace Ideals and Their Applications*, 2nd ed., Mathematical Surveys and Monographs
+  120, AMS, 2005.
 - A. Soshnikov, *Determinantal random point fields*, Russian Math. Surveys 55 (2000),
   [arXiv:math/0002099](https://arxiv.org/abs/math/0002099).
 - K. Johansson, *On fluctuations of eigenvalues of random Hermitian matrices*, Duke Math. J. 91
