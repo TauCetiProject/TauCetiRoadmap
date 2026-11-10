@@ -99,7 +99,7 @@ def moment (a b c : ℝ) (L₁ P L : Submodule ℂ V3) : Fin 3 → ℝ :=
 def initialPlane : Submodule ℂ V3 :=
   Submodule.span ℂ {EuclideanSpace.single 0 (1 : ℂ), EuclideanSpace.single 1 (1 : ℂ)}
 
-/-- In the order of the eight fixed flags in T3.1. -/
+/-- The moment values of the eight torus-fixed flags, in the order of the table of README §3.3. -/
 def fixedMoment (a b c : ℝ) : Fin 8 → Fin 3 → ℝ :=
   ![![a+b+c,b,0], ![a+b,b+c,0], ![a+b+c,0,b], ![a+b,0,b+c],
     ![b+c,a+b,0], ![b,a+b+c,0], ![0,a+b+c,b], ![0,a+b,b+c]]
