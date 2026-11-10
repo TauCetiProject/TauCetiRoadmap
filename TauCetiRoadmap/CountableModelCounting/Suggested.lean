@@ -30,6 +30,9 @@ syntax, back-and-forth equivalence and Scott analysis, the relational configurat
 `TauCeti.RelationalConfiguration` with their model classes, isomorphism and back-and-forth
 relations, the perfect-set vocabulary, the language maps and the Morleyization), including the
 targets of this roadmap that Tau Ceti already implements. Names and namespaces are provisional.
+
+Not statable at the pins: the fragment-spectrum characterization of thinness (Layer 4f), which
+needs InfinitaryModelExistence's `fragmentType` and `Fragment.slice`.
 -/
 
 @[expose] public section
@@ -384,6 +387,9 @@ def ConcentratedAtBFLevels (C : Set (RelationalConfiguration L ℕ)) : Prop :=
   ∀ β < (Ordinal.omega 1 : Ordinal.{0}), ∃ k : RelationalConfiguration L ℕ,
     (Quotient.mk (isoSetoid L ℕ) '' {x | x ∈ C ∧ ¬ bfEquivSetoid L ℕ β x k}).Countable
 
+/-- **Layer 4 milestone.** A concentrated set is back-and-forth scattered: at each level `β < ω₁`
+it meets the level-`β` class of the centre and, through its countably many other isomorphism
+classes, countably many more. -/
 theorem ConcentratedAtBFLevels.bfScattered {C : Set (RelationalConfiguration L ℕ)}
     (hC : ConcentratedAtBFLevels C) : BFScattered C := by
   sorry
