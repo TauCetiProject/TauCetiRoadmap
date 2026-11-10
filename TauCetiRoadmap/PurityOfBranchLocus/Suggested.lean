@@ -13,7 +13,8 @@ finite generically étale morphisms (§2.2), and the codimension-one purity of t
 branch loci (SGA 1, Exposé X, Théorème 3.1; §2.3). Every headline is statable at the pins.
 
 The pointwise vocabulary, the ramification, non-étale and branch loci, normal and regular schemes
-and the equality of local dimensions for dominant locally quasi-finite morphisms are Tau Ceti's
+and the equality of local dimensions for dominant locally quasi-finite morphisms of integral
+schemes, locally of finite type, onto a normal scheme are Tau Ceti's
 (`Scheme.Hom.ramificationLocus`, `Scheme.Hom.branchLocus`, `TauCeti.AlgebraicGeometry.IsNormalScheme`,
 `TauCeti.AlgebraicGeometry.IsRegular`); "unramified at `x`" is formal unramifiedness of the stalk
 map and "étale at `x`" is an open neighbourhood on which the restriction is `Etale` (README,

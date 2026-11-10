@@ -13,13 +13,16 @@ and the branch locus are empty or of pure codimension one. The local input is pu
 rings, from [LocalPurity](../LocalPurity/README.md) §2.1. Everything else the proofs use is at the
 pins: Mathlib has schemes, étale, unramified and quasi-finite morphisms with their stalkwise and
 affine pointwise forms, regular local rings, going down and the dimension formula; Tau Ceti has
-the equivalence of the stalkwise and Stacks forms of "unramified at `x`" and "étale at `x`", the
-ramification, non-étale and branch loci of a morphism of schemes with their closedness and affine
-comparisons, the permanence of normality, regularity and dimension along étale maps, elementary
-étale localization of a quasi-finite morphism, the equality of local dimensions for a dominant
-locally quasi-finite morphism onto a normal scheme, the equality of the ramification and non-étale
-loci over a normal base, normal and regular schemes, the homological theory of regular local
-rings, and 0BMB for finite algebras over regular local rings of dimension one or two.
+the equivalence of the stalkwise and Stacks forms of "unramified at `x`" for a morphism locally of
+finite type and of "étale at `x`" for a morphism locally of finite presentation, the ramification,
+non-étale and branch loci of a morphism of schemes with their closedness and affine comparisons,
+the permanence of normality, regularity and dimension along étale maps, elementary étale
+localization of a morphism locally of finite type at a point where it is quasi-finite, the
+equality of local dimensions for a dominant locally quasi-finite morphism of integral schemes,
+locally of finite type, onto a normal scheme, the equality of the ramification and non-étale loci
+for a dominant morphism of integral schemes, locally of finite type, onto a locally Noetherian
+normal scheme, normal and regular schemes, the homological theory of regular local rings, and 0BMB
+for finite algebras over regular local rings of dimension one or two.
 
 | Layer | Title | What it delivers |
 |---|---|---|
@@ -39,20 +42,23 @@ The end theorems are `Scheme.Hom.exists_etale_of_formallyUnramified_stalk_codimO
 **This roadmap owns** purity of the branch locus (Stacks, Lemma 58.21.4 (0BMB)) in its stalkwise,
 Stacks and affine forms (§2.1); its global corollary for finite generically étale morphisms
 (§2.2); and the codimension-one purity of the ramification and branch loci of a dominant locally
-quasi-finite morphism from a normal integral scheme to a regular integral scheme (SGA 1, Exposé X,
-Théorème 3.1; §2.3).
+quasi-finite morphism, locally of finite type, from a normal integral scheme to a regular integral
+scheme (SGA 1, Exposé X, Théorème 3.1; §2.3).
 
 **Owned elsewhere and consumed here.**
 
 - *Purity for regular local rings* (Stacks, Lemma 58.21.3 (0BMA) (2), with the torsion-free
   correction of LocalPurity Convention 5): [LocalPurity](../LocalPurity/README.md) §2.1,
   `Algebra.etale_of_finiteNormal_of_isRegularLocalRing`.
-- *The pointwise vocabulary and the loci*: Tau Ceti's stalkwise characterizations of unramified,
-  étale and quasi-finite points (Stacks 02G4, 02GU, 01TD) and its `Scheme.Hom.ramificationLocus`,
+- *The pointwise vocabulary and the loci*: Tau Ceti's stalkwise characterizations of unramified
+  points for `f` locally of finite type, of étale points for `f` locally of finite presentation, and
+  of quasi-finite points (Stacks 02G4, 02GU, 01TD), and its `Scheme.Hom.ramificationLocus`,
   `Scheme.Hom.nonEtaleLocus` and `Scheme.Hom.branchLocus` with their API, including
-  `Scheme.Hom.ramificationLocus_eq_nonEtaleLocus` over a normal base (SGA 1, Exposé I, 9.5 (ii)).
+  `Scheme.Hom.ramificationLocus_eq_nonEtaleLocus` for a dominant morphism of integral schemes,
+  locally of finite type, onto a locally Noetherian normal scheme (SGA 1, Exposé I, 9.5 (ii)).
 - *Étale localization and étale invariance*: Tau Ceti's elementary étale localization of a
-  quasi-finite point (Stacks 02LK, with its persistence clause), descent of étaleness along flat
+  morphism locally of finite type at a point where it is quasi-finite (Stacks 02LK, with its
+  persistence clause), descent of étaleness along flat
   morphisms (Stacks 036W for `f` locally of finite presentation), normality along étale
   homomorphisms of local rings (Stacks 025P, without Noetherian hypotheses), and the invariance of
   the dimension and the regularity of local rings under étale morphisms (Stacks 039S, 025N).
@@ -77,7 +83,7 @@ resolve as follows (paths under `TauCeti/`).
 |---|---|---|
 | §0.1 | stalk forms of "unramified at `x`" and "étale at `x`", affine comparisons, quasi-finiteness from an affine chart | Tau Ceti `AlgebraicGeometry.Scheme.Hom.unramifiedAt_iff_stalkMap`, `Scheme.Hom.etaleAt_iff_stalkMap`, `Scheme.Hom.etaleAt_spec_iff`, `Scheme.Hom.unramifiedAt_spec_iff`, `Scheme.Hom.quasiFiniteAt_of_appLE`, `Scheme.Hom.exists_appLE_quasiFiniteAt_iff` (`AlgebraicGeometry/Morphisms/StalkMap.lean`) |
 | §0.2 | normality under étale homomorphisms of local rings (025P) | Tau Ceti `TauCeti.Algebra.isNormalDomain_iff_of_etale` (`RingTheory/Etale/Normal.lean`) |
-| §0.3 | global dimension, Auslander–Buchsbaum, Serre's characterization of regular local rings, 0AFS | Tau Ceti, by target in the next table |
+| §0.3 | global dimension, finite free and minimal resolutions of finite modules over a Noetherian local ring under a projective-dimension bound (0CXF, 00MT), comparison maps into exact augmented complexes (00LS), Auslander–Buchsbaum, Serre's characterization of regular local rings, 0AFS | Tau Ceti, by target in the next table |
 | §0.4 | the ramification, non-étale and branch loci and their API | Tau Ceti `AlgebraicGeometry/Morphisms/RamificationLocus.lean` |
 | §1.1 | elementary étale neighbourhoods (02LK), étaleness étale local on the source (036W, used here for `f` locally of finite presentation) | Tau Ceti `Scheme.Hom.exists_elementaryEtale_finite_of_isolated` (`AlgebraicGeometry/Morphisms/ElementaryEtale/Basic.lean`), `Scheme.Hom.exists_finite_open_baseChange` (`…/ElementaryEtale/BaseChange.lean`), `AlgebraicGeometry.Etale.of_comp_surjective` (`AlgebraicGeometry/Morphisms/StalkMap.lean`) |
 
@@ -91,6 +97,9 @@ The targets formerly stated in §0.3 and §2.3 resolve to these declarations (pa
 | *globalDimension_le_iff_hasProjectiveDimensionLE* | `TauCeti.globalDimension_le_iff_hasProjectiveDimensionLE` (`RingTheory/GlobalDimension.lean`) |
 | *globalDimension_localization_le* (00O8) | `Submonoid.globalDimension_localization_le` (`RingTheory/GlobalDimension.lean`) |
 | *projectiveDimension_localization_le* (00O8) | Mathlib's `ModuleCat.projectiveDimension_le_projectiveDimension_of_isLocalizedModule` |
+| *finite free resolution of a finite module, zero above a projective-dimension bound* (0CXF) | `ModuleCat.exists_projectiveResolution_finite` (`Algebra/Category/ModuleCat/Projective/FiniteResolution.lean`): over a Noetherian ring, a finite module with `HasProjectiveDimensionLE M n` has a `ProjectiveResolution` with finite terms vanishing above degree `n`; over a local ring these terms are free by Mathlib's `Module.free_of_flat_of_isLocalRing` |
+| *minimization of that resolution* (00MT) | `ModuleCat.exists_projectiveResolution_finite_free_minimal` (`Algebra/Category/ModuleCat/Projective/MinimalResolution/ChainComplex.lean`): over a Noetherian local ring `(R, 𝔪)`, the resolution can be taken finite free, vanishing above degree `n`, with every differential landing in `𝔪` times its target |
+| *augmentation-preserving comparison into an exact augmented complex* (00LS) | `ChainComplex.liftToAugmented` (`Algebra/Homology/HomologicalComplex/Augmented.lean`): only the target complex is assumed exact |
 | *Module.free_of_quotSMulTop_free* (00NS) | Mathlib's `Module.free_quotSMulTop_iff_free`, for `M` finitely presented and `x` an `M`-regular element of the Jacobson radical |
 | *exists_resolution_maximalCohenMacaulay* (00NG) | `TauCeti.exists_resolution_maximalCohenMacaulay` (`RingTheory/CohenMacaulay/Resolution.lean`) |
 | *auslander_buchsbaum* (090V) | `ModuleCat.projectiveDimension_add_depth_eq_depth` (`RingTheory/Depth/AuslanderBuchsbaum.lean`) |
@@ -126,7 +135,11 @@ presentation, which no statement here uses.
    29.36.1 (02G4), 29.37.1 (02GI)) are the open-neighbourhood forms: unramified at `x` is
    `∃ U : X.Opens, x ∈ U ∧ LocallyOfFiniteType (U.ι ≫ f) ∧ FormallyUnramified (U.ι ≫ f)`, and
    quasi-finite at `x` adds `∃ U : X.Opens, x ∈ U ∧ LocallyOfFiniteType (U.ι ≫ f)` to
-   `f.QuasiFiniteAt x`. Tau Ceti proves the forms equivalent (supplier contracts).
+   `f.QuasiFiniteAt x`. For `f` locally of finite type Tau Ceti proves the two forms of
+   "unramified at `x`" equivalent, and it identifies Stacks' affine-chart form of quasi-finiteness
+   at `x` with the form above (supplier contracts). Without finite type the two forms of
+   "unramified at `x`" differ: `Spec ℚ ⟶ Spec ℤ` has a formally unramified stalk map (the identity
+   of `ℚ`) and no open neighbourhood of its point on which it is locally of finite type.
 4. **Normal and regular.** A local ring is *normal* when it is a domain and integrally closed
    (`IsDomain` and `IsIntegrallyClosed`). A scheme is normal when every local ring is
    (`TauCeti.AlgebraicGeometry.IsNormalScheme`), and regular when it is locally Noetherian with
@@ -143,10 +156,12 @@ presentation, which no statement here uses.
    `Y` over which `f` is ramified at some point; in Sections 58.28 and 58.29 (Lemma 58.28.3 (0EA4),
    Theorem 58.29.3 (0ECD)) it means the complement of the étale points. SGA 1, Exposé X,
    Théorème 3.1 takes the points where `f` is not étale and notes that under its hypotheses these
-   are the points where `f` is ramified. The two loci in `X` differ in general (the closed immersion
-   of the origin into `𝔸¹_k` is unramified and not flat) and agree over a normal base (Tau Ceti
-   `Scheme.Hom.ramificationLocus_eq_nonEtaleLocus`), so §2.3 states purity for the ramification
-   locus and for its image.
+   are the points where `f` is ramified. The two loci in `X` differ in general: the closed
+   immersion of the origin into `𝔸¹_k` has normal target and is unramified and not flat, so its
+   ramification locus is empty and its non-étale locus is its point. They agree for a dominant
+   morphism of integral schemes, locally of finite type, onto a locally Noetherian normal scheme
+   (Tau Ceti `Scheme.Hom.ramificationLocus_eq_nonEtaleLocus`); the closed immersion is not
+   dominant. §2.3 states purity for the ramification locus and for its image.
 6. Names: ring-level statements live in the `Algebra` namespace, scheme-level statements in
    `AlgebraicGeometry.Scheme.Hom`; the acceptance file `Suggested.lean` states them in
    `TauCetiRoadmap.PurityOfBranchLocus`.
@@ -356,8 +371,9 @@ Mathlib
 
 ### 2.2 The global corollary
 
-Prove `Scheme.Hom.etale_of_etaleAt_codimOne` (*API*): let `X` and `Y` be integral schemes, `X`
-normal (`TauCeti.AlgebraicGeometry.IsNormalScheme X`) and `Y` regular
+Prove `Scheme.Hom.etale_of_etaleAt_codimOne` (*API*; derived from SGA 1, Exposé X, Théorème 3.1,
+printed p. 212): let `X` and `Y` be integral schemes, `X` normal
+(`TauCeti.AlgebraicGeometry.IsNormalScheme X`) and `Y` regular
 (`TauCeti.AlgebraicGeometry.IsRegular Y`), and let `f : X ⟶ Y` be finite and dominant and
 **generically étale**: `∃ U : X.Opens, genericPoint X ∈ U ∧ Etale (U.ι ≫ f)`, equivalently the finite
 extension of function fields is separable. Then `Etale f` iff `(f.stalkMap x).hom.FormallyUnramified`
@@ -372,6 +388,11 @@ finite type and locally quasi-finite, so `f` is quasi-finite at `x`, `X` is loca
 Tau Ceti's `Scheme.Hom.ringKrullDim_stalk_eq_of_locallyQuasiFinite` (for the normal scheme `Y`,
 through `TauCeti.AlgebraicGeometry.IsRegular.isNormal`) gives `dim 𝒪_{X,x} = dim 𝒪_{Y,f x}`;
 §2.1 then makes `f` étale at `x`, the codimension-one hypothesis being the right-hand side.
+The statement is also a consequence of SGA 1, Exposé X, Théorème 3.1 (printed p. 212), which
+applies to the finite, hence quasi-finite, dominant `f`: generic étaleness puts the generic point
+outside the non-étale locus `Z`, so `Z ≠ X`, and if `Z` were nonempty, the generic point `z` of an
+irreducible component of `Z` would have `dim 𝒪_{X,z} = 1` and be a ramified point (SGA 1, Exposé I,
+9.5 (ii)), against the right-hand side; so `Z` is empty.
 Without generic étaleness the statement fails: for the purely inseparable extension
 `𝔽_p(t) ⊂ 𝔽_p(t)[u]/(uᵖ − t)` both spectra are points of dimension zero, the right-hand side holds
 vacuously, and the map is not étale.
@@ -478,7 +499,8 @@ subset of `Y` that is empty or of pure codimension one.
 LocalPurity §2.1 (0BMA (2)). Tau Ceti: the stalk forms of unramified and étale points, the
 dimension-one criteria, elementary étale localization, descent of étaleness along flat morphisms,
 étale invariance of normality, dimension and regularity, the equality of local dimensions for
-dominant locally quasi-finite morphisms, the loci and their API, normal and regular schemes, and
+dominant locally quasi-finite morphisms of integral schemes, locally of finite type, onto a normal
+scheme, the loci and their API, normal and regular schemes, and
 0AFS. Mathlib: schemes and their morphism classes, quasi-finiteness at a point, regular local
 rings, going down and the dimension formula.
 
@@ -492,7 +514,7 @@ restatement of a target. *API*: no Stacks counterpart.
 | 2.1 | `exists_etale_of_formallyUnramified_stalk_codimOne` | 58.21.4 (0BMB) | exact (stalk form) |
 | 2.1 | `etaleAt_of_unramifiedAt_codimOne` | 58.21.4 (0BMB) | accompanying |
 | 2.1 | `isEtaleAt_of_purity` | 58.21.4 (0BMB) | affine form |
-| 2.2 | `etale_of_etaleAt_codimOne` | — | API |
+| 2.2 | `etale_of_etaleAt_codimOne` | 58.21.4 (0BMB); SGA 1 X 3.1 | API (derived) |
 | 2.3 | `ringKrullDim_stalk_eq_one_of_maximal_ramificationLocus`, `ringKrullDim_stalk_eq_one_of_maximal_branchLocus` | 58.21.4 (0BMB); SGA 1 X 3.1 | API (derived) |
 
 ## Downstream consumers
@@ -506,9 +528,10 @@ restatement of a target. *API*: no Stacks counterpart.
 - FiniteFlatGroupsAndIntegralPadicHodgeTheory consumes §§2.1–2.2 (purity for finite normal covers
   of regular bases).
 - ArtinAlgebras, AdicCoefficientsAndComparisonsPartII, DeformationAndDerivedPatchingAlgebra and
-  EnhancedDerivedSheaves cite the former §0.3 for global dimension, the Auslander–Buchsbaum formula,
-  freeness of maximal Cohen–Macaulay modules and Serre's characterization; these are the Tau Ceti
-  declarations of the table in Scope and ownership.
+  EnhancedDerivedSheaves cite the former §0.3 for global dimension, finite free and minimal
+  resolutions of finite modules over a Noetherian local ring under a projective-dimension bound, the
+  Auslander–Buchsbaum formula, freeness of maximal Cohen–Macaulay modules and Serre's
+  characterization; these are the Tau Ceti declarations of the table in Scope and ownership.
 
 ## Provenance
 
