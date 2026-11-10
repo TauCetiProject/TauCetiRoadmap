@@ -580,6 +580,16 @@ theorem cardinalVaughtConjecture_iff_bfScattered (h : ℵ₁ < 𝔠) :
           Countable (Quotient (isoSetoidOn ℕ φ)) := by
   sorry
 
+/-- **Layer 5 milestone, the rank form.** Vaught's conjecture holds exactly when, for every
+isolating rank, every thin sentence has the rank bounded below `ω₁` on its models on `ℕ`. -/
+theorem vaughtConjecture_iff_forall_isIsolatingRank_bounded :
+    VaughtConjecture ↔
+      ∀ (L : FirstOrder.Language.{0, 0}) [L.IsRelational] [Countable (Σ l, L.Relations l)]
+        (ρ : RelationalConfiguration L ℕ → Ordinal.{0}), IsIsolatingRank ρ →
+          ∀ φ : L.Sentenceω, IsThinOnNatModels φ → ∃ β < Ordinal.omega 1,
+            ∀ c ∈ (modelsOf φ : Set (RelationalConfiguration L ℕ)), ρ c < β := by
+  sorry
+
 /-- **Layer 5 milestone, universes.** The conjecture over `Language.{0, 0}` is the conjecture over
 countable relational languages in any universe, by `smallPresentationEquiv` and
 `lift_countableModelCount_onBoundedFormulaInf`. -/
@@ -615,6 +625,14 @@ def MinimallyUncountableOn [L.IsRelational] (K : Set (RelationalConfiguration L 
     ∀ θ : L.Sentenceω, (Quotient.mk (isoSetoid L ℕ) '' (K ∩ modelsOf θ)).Countable ∨
       (Quotient.mk (isoSetoid L ℕ) '' (K \ modelsOf θ)).Countable
 
+/-- **Layer 5.** A map `ρ` is minimally unbounded on a set of codes: it is not bounded below `ω₁`
+on the set, and on one side of every cut by a sentence it is. -/
+def MinimallyUnboundedOn [L.IsRelational] (ρ : RelationalConfiguration L ℕ → Ordinal.{0})
+    (K : Set (RelationalConfiguration L ℕ)) : Prop :=
+  (¬ ∃ β < Ordinal.omega 1, ∀ c ∈ K, ρ c < β) ∧
+    ∀ θ : L.Sentenceω, (∃ β < Ordinal.omega 1, ∀ c ∈ K ∩ modelsOf θ, ρ c < β) ∨
+      ∃ β < Ordinal.omega 1, ∀ c ∈ K \ modelsOf θ, ρ c < β
+
 /-- **Layer 5 milestone.** The models of a sentence are minimally uncountable exactly when they
 are concentrated at back-and-forth levels and meet uncountably many isomorphism classes. -/
 theorem minimallyUncountableOn_modelsOf_iff [L.IsRelational] [Countable (Σ l, L.Relations l)]
@@ -622,6 +640,18 @@ theorem minimallyUncountableOn_modelsOf_iff [L.IsRelational] [Countable (Σ l, L
     MinimallyUncountableOn (modelsOf φ) ↔ ConcentratedAtBFLevels (modelsOf φ) ∧
       ¬ (Quotient.mk (isoSetoid L ℕ) ''
         (modelsOf φ : Set (RelationalConfiguration L ℕ))).Countable := by
+  sorry
+
+/-- **Layer 5 milestone.** For every isolating rank `ρ`, the models of a sentence are minimally
+uncountable exactly when they are back-and-forth scattered and `ρ` is minimally unbounded on them
+(Montalbán's minimally unbounded sentences). On a scattered class, countably many classes is the
+same as `ρ` bounded below `ω₁` (`IsIsolatingRank.countable_isoClasses_iff_bounded`), on every
+subclass. -/
+theorem minimallyUncountableOn_modelsOf_iff_minimallyUnboundedOn [L.IsRelational]
+    [Countable (Σ l, L.Relations l)] {ρ : RelationalConfiguration L ℕ → Ordinal.{0}}
+    (hρ : IsIsolatingRank ρ) (φ : L.Sentenceω) :
+    MinimallyUncountableOn (modelsOf φ) ↔
+      BFScattered (modelsOf φ) ∧ MinimallyUnboundedOn ρ (modelsOf φ) := by
   sorry
 
 /-- **Layer 5 milestone.** A minimally uncountable sentence refutes Vaught's conjecture:

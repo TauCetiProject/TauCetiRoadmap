@@ -709,8 +709,9 @@ Prove, with exactly the hypotheses shown:
   countably many models on `ℕ`; and `cardinalVaughtConjecture_iff_bfScattered`, the same with
   `CardinalVaughtConjecture`, **under `ℵ₁ < 𝔠`** (by the previous equivalence; under CH the
   cardinal form holds while the scattered statement remains open);
-* the rank form, unconditionally: `VaughtConjecture` iff for every isolating rank (equivalently,
-  for the Scott height) every thin sentence has the rank bounded below `ω₁` on its models on `ℕ`;
+* the rank form, unconditionally, `vaughtConjecture_iff_forall_isIsolatingRank_bounded`:
+  `VaughtConjecture` iff for every isolating rank (equivalently, for the Scott height) every thin
+  sentence has the rank bounded below `ω₁` on its models on `ℕ`;
 * the counterexample profile (no CH hypothesis): a counterexample to `HasVaughtDichotomy` has thin
   models on `ℕ`, countably many classes at every level, every isolating rank unbounded below `ω₁` on
   its models on `ℕ` with countable fibres, and countably many finite models;
@@ -739,7 +740,8 @@ Prove, with exactly the hypotheses shown:
   literal form through `φ ⊓ θ` and `φ ⊓ θ.not`.
 * `BoundedRankOn ρ K`, `UnboundedRankOn ρ K` for an arbitrary `ρ`, with monotonicity, the empty
   class, and countable unions (regularity of `ℵ₁`); `MinimallyUnboundedOn ρ K` (unbounded, and every
-  sentence cut has a side on which `ρ` is bounded).
+  sentence cut has a side on which `ρ` is bounded below `ω₁`, with the strict bound `ρ c < β` of
+  `IsIsolatingRank.countable_isoClasses_iff_bounded`).
 * The generic engine: for a smallness predicate closed under subsets and countable unions, if `K`
   is not small, every sentence cut has a small side, and `K` meets countably many classes at level
   `α < ω₁`, then some level-`α` class of a member of `K` is not small and its complement in `K` is.
@@ -748,9 +750,12 @@ Prove, with exactly the hypotheses shown:
 * Thinness from sentence cuts: if every sentence cut of `K` has a side meeting countably many
   classes, `K` is thin (4e, single-sentence splits); so a minimally uncountable class is thin.
 * `minimallyUncountableOn_modelsOf_iff`: the models of `φ` are minimally uncountable iff they are
-  concentrated and meet uncountably many classes; and, for every isolating rank `ρ`, iff they are
-  back-and-forth scattered and `φ` is minimally unbounded for `ρ` (Montalbán's minimally unbounded
-  sentences). On a scattered class, minimal unboundedness does not depend on the isolating rank.
+  concentrated and meet uncountably many classes.
+* `minimallyUncountableOn_modelsOf_iff_minimallyUnboundedOn`: for every isolating rank `ρ`, the
+  models of `φ` are minimally uncountable iff they are back-and-forth scattered and `ρ` is
+  minimally unbounded on them (Montalbán's minimally unbounded sentences). On a scattered class,
+  countably many classes is the same as `ρ` bounded, on every subclass (4b), so minimal
+  unboundedness does not depend on the isolating rank.
 * `not_vaughtConjecture_of_minimallyUncountableOn`: a minimally uncountable sentence refutes
   `VaughtConjecture`.
 
