@@ -142,7 +142,10 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   `TauCeti.existsUnique_mem_openWeylChamber` placing each regular weight in exactly one open
   chamber), and `TauCeti.existsUnique_mem_orbit_inter_dominantChamber` in
   `TauCeti/LinearAlgebra/RootSystem/FundamentalDomain.lean` (each Weyl orbit meets the
-  closed dominant chamber in exactly one point, walls included). The last two assume a
+  closed dominant chamber in exactly one point, walls included). RootSystems' Downstream
+  consumers table places its Layer 4 chambers at `RootPairing.dominantChamber` and this
+  last theorem, which is therefore the closed-wall chamber theorem of RootSystems Layer 4
+  that HamiltonianReduction R2 consumes. The two uniqueness theorems assume a
   root system over a linearly ordered strict ordered commutative ring with finite index set,
   crystallographic and reduced with reduced flip, where a root system means that the roots
   span their module and the coroots theirs. The real root system of a compact connected
