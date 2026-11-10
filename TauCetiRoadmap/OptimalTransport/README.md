@@ -366,6 +366,11 @@ consumed with exactly the hypotheses recorded here.
 * `TauCeti.exists_isOptimalCoupling` (`…/OptimalTransport/Existence/Basic.lean`): an optimal
   coupling exists for a lower semicontinuous cost `c : X × Y → ℝ≥0∞` between probability measures
   on Polish spaces with their Borel σ-algebras (Layer 1.5).
+* `TauCeti.transportCost_eq_sSup_ofReal_kantorovichDualValue_integrable_of_lowerSemicontinuous`
+  (`…/OptimalTransport/Duality/LowerSemicontinuous.lean`): for a lower semicontinuous cost
+  `c : X × Y → ℝ≥0∞` between probability measures on Polish spaces, the transport cost is the
+  supremum of the positive parts of the values of integrable dual-feasible pairs, both sides
+  possibly infinite; no dual attainment is asserted (Layer 2.4).
 * `TauCeti.IsCoupling.isOptimalCoupling_iff_exists_isCyclicallyMonotone` and
   `TauCeti.IsCoupling.isOptimalCoupling_of_isCyclicallyMonotone`
   (`…/OptimalTransport/Duality/SchachermayerTeichmann.lean`): for a finite-valued lower
@@ -373,6 +378,9 @@ consumed with exactly the hypotheses recorded here.
   concentrated on a measurable `c`-cyclically monotone set (`TauCeti.IsCyclicallyMonotone`,
   `…/OptimalTransport/Cost/CyclicalMonotonicity.lean`); for a finite-valued measurable cost,
   concentration on any `c`-cyclically monotone set gives optimality (Layer 2.7).
+* `TauCeti.WassersteinSpace.completeSpace` (`…/OptimalTransport/Wasserstein/Complete.lean`):
+  `P_p(X)` is complete for `1 ≤ p < ∞` over a complete second-countable pseudometric space with
+  its Borel σ-algebra, standard Borel (Layer 3.3).
 * `TauCeti.wassersteinEDist_top_eq_iSup` (`…/OptimalTransport/Wasserstein/Infinity/Basic.lean`):
   `W_∞(μ,ν) = ⨆ p < ∞, W_p(μ,ν)` in `[0,∞]` for a probability measure `μ` on a complete
   second-countable metric space with its Borel σ-algebra (Layer 3.6).
@@ -380,6 +388,10 @@ consumed with exactly the hypotheses recorded here.
   (`…/OptimalTransport/Wasserstein/KantorovichRubinstein.lean`): Kantorovich--Rubinstein duality
   for probability measures of finite first moment on a second-countable pseudometric space with
   standard-Borel measurable structure containing the opens (Layer 3.8).
+* `TauCeti.mongeCost_eq_transportCost_of_continuous` (`…/OptimalTransport/Pratelli.lean`):
+  Pratelli's theorem, the Monge and Kantorovich values agree, finite or not, for a continuous
+  cost `c : X × Y → ℝ≥0∞` on second-countable standard Borel spaces, a finite source measure
+  without atoms and a nonempty target (Layer 4.3).
 * `TauCeti.wassersteinEDist_two_multivariateGaussian`
   (`…/OptimalTransport/Wasserstein/Gaussian/Basic.lean`): the Bures formula for `W₂` from a
   nondegenerate Gaussian law to any Gaussian law (Layer 5.3).
@@ -420,6 +432,11 @@ consumed with exactly the hypotheses recorded here.
 * `TauCeti.existsUnique_isCoupling_klDiv_eq_schroedingerValue`
   (`…/OptimalTransport/Entropic/Basic.lean`): for a finite source `μ` and a finite reference `R`,
   a finite Schrödinger value is attained by exactly one coupling (Layer 13.2).
+* `TauCeti.GromovWassersteinSpace` with `TauCeti.GromovWassersteinSpace.instMetricSpace`
+  (`…/OptimalTransport/GromovWasserstein/Space.lean`): for `1 ≤ p ≤ ∞` and a metric target `Z`,
+  the weak-isomorphism classes of finite-size, almost everywhere strongly measurable `Z`-valued
+  kernels on standard Borel probability carriers, with the Gromov--Wasserstein distance as a
+  genuine metric (Layer 15.4).
 * `TauCeti.exists_isMinOn_finiteGromovWassersteinBarycenterObjective`
   (`…/OptimalTransport/GromovWasserstein/Barycenter.lean`),
   `TauCeti.exists_isMinOn_entropicGromovWassersteinObjective`,
@@ -588,7 +605,8 @@ a standard-Borel second factor.
 ### 0.4 Gluing and countable chains
 
 Prove the gluing lemma: couplings of `(μ,ν)` and `(ν,σ)` admit a joint law on
-`X × Y × Z` with the prescribed two-coordinate marginals.  The one-sided theorem
+`X × Y × Z` with the prescribed two-coordinate marginals (Ambrosio--Gigli, *A user's guide
+to optimal transport*, Lemma 2.1, p. 25, for three Polish spaces).  The one-sided theorem
 obtained by disintegrating the second coupling needs only `Z` standard Borel; give the
 symmetric theorem obtained by disintegrating the first coupling under the corresponding
 hypothesis on `X`.  Derive composition of couplings and finite-chain gluing.  For
@@ -822,9 +840,12 @@ parts (i) and (iii)) for
 comparing bounded-continuous and integrable dual classes.  For a real-valued cost,
 finite primal value, and an integrable split upper envelope `c ≤ c_X ⊕ c_Y`, prove dual
 attainment; without that attainment theorem's hypotheses prove only equality of
-values.
+values.  Equality of values for a lower semicontinuous cost `c : X × Y → ℝ≥0∞` on Polish
+spaces, in the integrable dual class, is Tau Ceti's
+`TauCeti.transportCost_eq_sSup_ofReal_kantorovichDualValue_integrable_of_lowerSemicontinuous`.
 
-*Needs:* items 1--3; Layers 1.3--1.5; Mathlib bounded continuous functions.
+*Needs:* items 1--3; Layers 1.3--1.5; Mathlib bounded continuous functions; Tau Ceti
+`TauCeti.transportCost_eq_sSup_ofReal_kantorovichDualValue_integrable_of_lowerSemicontinuous`.
 
 ### 2.5 Borel-cost duality
 
@@ -985,7 +1006,8 @@ Tau Ceti `TauCeti.WassersteinSpace`.
 ### 3.3 Separability, completeness, compactness, and quantization
 
 For `1 ≤ p < ∞`, prove separability and completeness of `P_p(X)` when `X` has those
-properties (Villani 2009, Theorem 6.18).  Then prove this definite list on a Polish `X`,
+properties (Villani 2009, Theorem 6.18); completeness is Tau Ceti's
+`TauCeti.WassersteinSpace.completeSpace`.  Then prove this definite list on a Polish `X`,
 rather than "compactness and approximation" generically: a family in `P_p(X)` is relatively compact exactly when it
 is tight and its `p`-moment tails about one basepoint are uniformly integrable, and
 compact when it is also closed (Ambrosio--Gigli--Savaré, §7.1); finitely supported probability
@@ -998,7 +1020,8 @@ properness, finite-dimensional, or regularity hypotheses.  State them as such; d
 fold them into the convergence statements above.
 
 *Needs:* items 1--2; Layer 1.3; Mathlib Prokhorov's theorem, `MeasureTheory.UniformIntegrable` and
-the strong law of large numbers; Tau Ceti `TauCeti.tendsto_wassersteinEDist_empiricalMeasure_ae`.
+the strong law of large numbers; Tau Ceti `TauCeti.tendsto_wassersteinEDist_empiricalMeasure_ae`
+and `TauCeti.WassersteinSpace.completeSpace`.
 
 ### 3.4 Wasserstein convergence
 
@@ -1170,10 +1193,12 @@ costs, while the Monge infimum need not be attained.  Then formalize
 [Pratelli Theorem B](https://www.numdam.org/item/AIHPB_2007__43_1_1_0/): for
 continuous `c : X×Y → [0,∞]`, possibly unbounded or infinite-valued,
 the Monge infimum equals the Kantorovich minimum, possibly `∞`, under the same
-nonatomic-source hypothesis.  For finite equal-mass measures, normalize and handle
-zero mass separately.
+nonatomic-source hypothesis; this is Tau Ceti's
+`TauCeti.mongeCost_eq_transportCost_of_continuous`.  For finite equal-mass measures, normalize
+and handle zero mass separately.
 
-*Needs:* items 1--2; Layer 1.2; Pratelli Theorem B.
+*Needs:* items 1--2; Layer 1.2; Pratelli Theorem B; Tau Ceti
+`TauCeti.mongeCost_eq_transportCost_of_continuous`.
 
 ### 4.4 Convergence of graph plans
 
@@ -1569,11 +1594,14 @@ section normalization/distance, and quantitative dependence of constants visibly
 ### 6.9 Higher interior regularity
 
 Add the sharper section-local tiers for a strictly convex Aleksandrov solution with
-`0 < λ ≤ f ≤ Λ`: continuity or vanishing-mean-oscillation (VMO) control of `f`
-with its modulus gives `W²,p` for every fixed finite `p`; `f ∈ C⁰,α` gives `C²,α`
-(Caffarelli 1990; De Philippis--Figalli survey, Theorems 2.19 and 2.20 on normalized
-sections, p. 18, localized to sections compactly contained in the domain as the survey
-explains there).
+`0 < λ ≤ f ≤ Λ`: continuity of `f` gives `W²,p_loc` for every fixed finite `p`
+(Caffarelli 1990; De Philippis--Figalli survey, Theorem 2.20 on normalized sections and the
+localization to small sections stated after it, p. 18); the same interior `L^p` control of the
+second derivatives under a vanishing-mean-oscillation (VMO) type condition on `f`, with its
+modulus, is Huang's theorem (Q. Huang, Comm. Pure Appl. Math. 62 (2009), 677--705);
+`f ∈ C⁰,α` gives `C²,α` (Caffarelli 1990; De Philippis--Figalli survey, Theorem 2.19 on
+normalized sections, p. 18, localized to sections compactly contained in the domain as the
+survey explains on p. 19).
 State the bootstrap as a theorem instead of "higher interior regularity": for every
 integer `k ≥ 0` and every `0 < α < 1`, such a solution with `f ∈ C^{k,α}_loc` lies in
 `C^{k+2,α}_loc`.  The `k=0` step carries the normalized-section hypotheses and
@@ -1585,7 +1613,8 @@ strict-convexity input at the base step, the distance to the boundary, `λ`, `Λ
 the relevant `C^{k,α}` norm of `f`.  Do not state any of these from positivity without
 the normalized-section and oscillation hypotheses.
 
-*Needs:* item 8; PDE §1.7 (A7) and §2.4 (B11); De Philippis--Figalli survey Theorems 2.19--2.21.
+*Needs:* item 8; PDE §1.7 (A7) and §2.4 (B11); De Philippis--Figalli survey Theorems 2.19--2.21;
+Huang 2009 for the VMO tier.
 
 ### 6.10 Global regularity
 
@@ -1898,8 +1927,11 @@ Build continuous path space with its Borel structure, evaluation maps `e_t`, end
 laws, dynamic plans, and plans concentrated on base-space geodesics.  Prove
 measurability of all evaluation and action functionals used later.  On a complete
 separable geodesic space, prove that the endpoint/constant-speed-geodesic relation is
-closed.  Build the Jankov--von Neumann uniformization theorem for analytic relations
-between standard-Borel/Polish spaces, using Layer 2's
+closed (Ambrosio--Gigli, *A user's guide to optimal transport*, Lemma 2.11, p. 34, which the
+proof of their Theorem 2.10, pp. 31--32, feeds to a measurable selection theorem).  Build the
+Jankov--von Neumann uniformization theorem for analytic relations
+between standard-Borel/Polish spaces (Kechris, *Classical Descriptive Set Theory*,
+Theorem 18.1), using Layer 2's
 analytic-set/completion-measurability bridge, and apply it to this relation.  Relative
 to each fixed endpoint law, pass through its
 completion and choose a Borel representative equal almost everywhere.  Keep a global
@@ -2263,7 +2295,10 @@ under their usual hypotheses.  A semigroup needs three further hypotheses made v
 existence of an EVI solution from every point of the chosen initial domain, uniqueness,
 and closure under time translation.  Only then define `S_t x` and prove
 `S_{t+s}=S_t ∘ S_s`.  Do not assert the converse or EVI existence on every geodesic
-metric space.
+metric space.  The contraction, the regularization estimate and the energy identity are
+Muratori--Savaré, *Gradient flows and evolution variational inequalities in metric spaces. I*,
+Theorem 3.5, pp. 18--19: (3.10) is the contraction, (3.13) rearranges to the displayed
+estimate with their `E_λ(t)` equal to `I_λ(t)`, and (3.17) is the energy identity.
 
 *Needs:* items 1--2; Layer 9.3.
 
@@ -2281,7 +2316,11 @@ Define the Moreau--Yosida functional, resolvent set/map when single-valued, impl
 Euler step, discrete variational interpolation, and De Giorgi interpolation.  Interpret
 the squared-distance penalty as `∞` outside the anchor's finite-distance component,
 prove that every finite-energy resolvent and minimizing-movement step remains in that
-component, and prove the discrete energy and slope estimates there.
+component, and prove the discrete energy and slope estimates there (Ambrosio--Gigli, *A
+user's guide to optimal transport*, §3.2.2, pp. 55--57: Definition 3.7 for the discrete
+solution, Theorem 3.9 for De Giorgi's derivative formula along the resolvent, Definition 3.11
+for the variational interpolation, and Corollary 3.12 for the discrete energy identity with
+its discrete speed and slope).
 
 *Needs:* items 1--3.
 
@@ -2488,7 +2527,12 @@ merely `W₂`-bounded set is proper.  If `Φ` is additionally `λ`-convex along 
 geodesics based at the previous iterate, then the objective is `(λ+1/τ)`-convex along
 those curves; prove uniqueness when `1+λτ>0`.  Do not silently replace generalized-
 geodesic convexity by ordinary displacement convexity.  Prove Euler--Lagrange
-conditions, discrete estimates, and compactness of interpolants.
+conditions, discrete estimates, and compactness of interpolants.  The step is that of
+Jordan--Kinderlehrer--Otto 1998; the convexity mechanism is Ambrosio--Gigli, *A user's guide
+to optimal transport*: Assumption 3.24 and the first assertion of Theorem 3.25, p. 64 (a
+unique discrete solution for `0 < τ < 1/λ⁻`, which is `1+λτ>0`), with Definition 3.29 and
+inequality (3.43), pp. 70--71, for the `1`-convexity of `W₂(μ,·)²` along interpolating curves
+with base `μ`, stated there for a regular base.
 
 *Needs:* items 2 and 4; Layers 9.4 and 10.4.
 
@@ -2511,12 +2555,23 @@ the PDE solution concept rather than ending at an unspecified limit curve.
 Deliver the canonical equations.  Boltzmann entropy gives heat flow, and entropy plus
 a potential gives Fokker--Planck.  On `ℝⁿ`, define
 `U_m(r)=r^m/(m-1)`: for `m>1` prove the porous-medium flow, and for
-`1-1/n<m<1` (read `0<m<1` when `n=1`) prove fast diffusion.  Treat the
-displacement-convex endpoint `m=1-1/n` separately for `n≥2`, and treat `m=1` by the
-signed Boltzmann entropy rather than the singular formula for `U_m`.  At each power
-tier take initial data `ρ₀ dx ∈ P₂(ℝⁿ)` with finite `∫ U_m(ρ₀)dx`; prove
-the moment/energy bound that makes every JKO functional bounded below and coercive,
-including the endpoint bound, and obtain a narrowly continuous `P₂` curve satisfying
+`max(1-1/n, n/(n+2)) < m < 1` prove fast diffusion: the range is `1/3<m<1` for `n=1`,
+`1/2<m<1` for `n=2`, and `1-1/n<m<1` for `n≥3`.  The two bounds do different work.
+McCann's condition `m ≥ 1-1/n` gives displacement convexity of `∫U_m(ρ)dx` (Layer 9.5) and
+nothing else; the lower bound of the energy on `P₂(ℝⁿ)` is the strict inequality
+`m > n/(n+2)`.  For `0<m<1` prove, by Hölder's inequality with exponents `1/m` and
+`1/(1-m)`,
+`∫ρ^m dx ≤ (∫(1+‖x‖²)ρ dx)^m (∫(1+‖x‖²)^(-m/(1-m)) dx)^(1-m)`,
+whose last integral is finite exactly when `2m/(1-m) > n`, that is `m > n/(n+2)`; since the
+exponent `m` of the second moment is smaller than one, every JKO functional
+`ν ↦ ∫U_m(ρ_ν)dx + W₂(ν,μ)²/(2τ)` is then bounded below and coercive.  Prove that the
+threshold is sharp: for `m ≤ n/(n+2)` the energy takes the value `-∞` inside `P₂(ℝⁿ)` and
+every JKO functional has infimum `-∞`, so no minimizing-movement scheme exists there.
+Treat the displacement-convex endpoint `m=1-1/n` separately, and only for `n≥3`, where
+`1-1/n > n/(n+2)`; for `n=2` the endpoint `m=1/2` equals `n/(n+2)` and is excluded.  Treat
+`m=1` by the signed Boltzmann entropy rather than the singular formula for `U_m`.  At each
+power tier take initial data `ρ₀ dx ∈ P₂(ℝⁿ)` with finite `∫ U_m(ρ₀)dx`, and obtain a
+narrowly continuous `P₂` curve satisfying
 the energy-dissipation inequality and the distributional identity
 `∫∫ (ρ ∂_tζ+ρ^m Δζ) dxdt=0` for compactly supported smooth tests,
 with `ρ,ρ^m∈L¹_loc`.  Interaction energy gives aggregation, and sums give the
@@ -2528,10 +2583,20 @@ their component energies.
 **Checks.**
 
 * `U_2(r) = r²`, and on `ℝ` the condition `s ↦ s U_2(1/s) = 1/s` convex and nonincreasing holds.
-* For `n = 3` the fast-diffusion range is `2/3 < m < 1`: `m = 3/4` lies in it and `m = 1/2` does
-  not.
+* For `n = 3` the fast-diffusion range is `2/3 < m < 1`, because `2/3 > 3/5 = n/(n+2)`:
+  `m = 3/4` lies in it and `m = 1/2` does not.
 * For `m < 1`, `U_m` is negative (`U_{1/2}(r) = -2√r`), so the energy is bounded below only
-  through the moment bound.
+  through the moment bound.  For `n = 1` and `m = 1/2`, which the range admits,
+  `∫(1+x²)^(-1) dx = π` gives `∫ρ^(1/2) dx ≤ (π(1+∫x²ρ dx))^(1/2)`.
+* For `n = 1` and `m = 1/4`, which the range excludes, the probability density
+  `ρ(x) = (5/4)|x|^(-7/2)` on `|x| ≥ 1` has second moment `(5/2)∫₁^∞ x^(-3/2) dx = 5` and
+  `∫ρ^(1/4) dx = 2(5/4)^(1/4)∫₁^∞ x^(-7/8) dx = ∞`, so `∫U_m(ρ)dx = -∞` inside `P₂(ℝ)`.  Mixing a
+  mass `ε` of its normalised truncations to `|x| ≤ k` into any `μ` keeps the second moments
+  bounded and sends the energy to `-∞`; the range `0 < m < 1` for `n = 1` would admit this case.
+* For `n = 2` at `m = 1/2 = 1-1/n = n/(n+2)`, the density proportional to
+  `‖x‖^(-4)(log‖x‖)^(-2)` on `‖x‖ ≥ e` has second moment proportional to
+  `∫_e^∞ dr/(r log² r) = 1` and `∫ρ^(1/2) dx` proportional to `∫_e^∞ dr/(r log r) = ∞`: the
+  displacement-convex endpoint is not bounded below in the plane.
 
 ### 11.9 Linear flows and semigroups
 
@@ -2921,13 +2986,16 @@ that name.  Take minimizers over `ν` of
 `F_ε(ν) = ∑_i λ_i inf_{π ∈ Π(ν,μ_i)} [∫ d(x,y)^p dπ + ε klDiv π (ν⊗μ_i)]`,
 and record that regularizing the entropy of the barycenter itself, using a fixed ambient
 reference, or replacing `OT_ε` by the debiased Sinkhorn divergence are different
-functionals with different minimizers and bias.  Fix the optimization domain and every
-entropy reference explicitly.  Then state the convergence theorem with its topology and
+functionals with different minimizers and bias (Chizat, *Doubly regularized entropic
+Wasserstein barycenters*, §§1.1--1.3, pp. 2--4, on a compact convex subset of `ℝᵈ`:
+Definition 1.1 and Table 1 separate the inner-regularized objective, which is `F_ε`, from the
+outer-regularized, Schrödinger and Sinkhorn-divergence barycenters).  Fix the optimization
+domain and every entropy reference explicitly.  Then state the convergence theorem with its topology and
 its mechanism: Γ-convergence of exactly these objectives, equicoercivity giving cluster
 points, and uniqueness of the unregularized barycenter giving convergence of the full
 sequence.
 
-*Needs:* items 1--2; Layer 12.
+*Needs:* items 1--2; Layers 10.6 and 12.
 
 **Checks.**
 
@@ -2980,7 +3048,10 @@ Prove convergence of alternating row/column scaling.  For a strictly positive fi
 kernel, build Hilbert's projective metric and Birkhoff contraction, define
 `Δ(K)=sup_{i,i',j,j'} log((K_ij K_i'j')/(K_ij' K_i'j))`, and prove contraction
 factor `tanh(Δ(K)/4)` for each positive kernel map (hence the explicitly multiplied
-factors for a full row--column iteration).  Derive potential-oscillation, marginal-
+factors for a full row--column iteration) (Peyré--Cuturi, *Computational Optimal Transport*,
+arXiv:1803.00567v4, Theorem 4.1, p. 70, for the Birkhoff contraction and Theorem 4.2, p. 71,
+for the linear convergence of the iteration; their factor `(√η - 1)/(√η + 1)` with
+`η = exp(Δ(K))` equals `tanh(Δ(K)/4)`).  Derive potential-oscillation, marginal-
 residual, and objective-gap rates with their dependence on `min K`, `max K`, and the
 positive marginal entries visible.  Treat kernels with support zeros only under their
 separately sourced support/indecomposability regime.  Exact rational instances, such as
@@ -3039,7 +3110,10 @@ bridge `f(X₀)g(X₁)R^ε_Leb`.  With the heat semigroup `P^ε_t`, set
 Fokker--Planck equations
 `∂_tρ+div(ρ ε∇log g_t)=(ε/2)Δρ` and
 `∂_tρ+div(-ρ ε∇log f_t)=-(ε/2)Δρ`, first for smooth positive
-data and then in the finite-entropy weak class.  Bridges over Riemannian or abstract Markov
+data and then in the finite-entropy weak class (Léonard, *A survey of the Schrödinger
+problem*, arXiv:1308.0215v1: Theorems 3.3 and 3.4, pp. 16--17, for the bridge
+`f(X₀)g(X₁)R` and its time marginals `f_t g_t`, and Proposition 4.1, p. 21, for the reversible
+Brownian reference with endpoint laws in `P₂(ℝⁿ)` of finite entropy).  Bridges over Riemannian or abstract Markov
 reference processes are outside this roadmap (see Scope and ownership).
 
 *Needs:* item 11; Layer 11.2; Mathlib Gaussian measures.
@@ -3068,13 +3142,15 @@ endpoints are unavailable for general `μ,ν ∈ P₂(ℝⁿ)`: both endpoint ma
 coupling has finite quadratic cost `‖a-b‖²/2` while every `π ∈ Π(μ,ν)` has
 `klDiv(π,R^ε₀₁)=∞` at every `ε>0`.  Keep that pair as a guardrail counterexample.
 Define the plan domain by finite quadratic cost together with finite Boltzmann entropy
-`Ent_{vol⊗vol}(π)`, where the moment bound already forces the negative part to be
-finite, and the endpoint domain by `μ,ν ∈ P₂(ℝⁿ)` with `Ent_vol(μ),Ent_vol(ν)<∞`,
+`Ent_{vol⊗vol}(π)`.  Finite quadratic cost alone does not bound the negative part of
+`∫ρ_π log ρ_π`; for `π` with both marginals in `P₂(ℝⁿ)` the second-moment bound does, by
+Layer 11.2's inequality `r log r ≥ r log s + r - s` with a Gaussian `s` on `ℝ²ⁿ`.  Define
+the endpoint domain by `μ,ν ∈ P₂(ℝⁿ)` with `Ent_vol(μ),Ent_vol(ν)<∞`,
 so that `μ⊗ν` witnesses feasibility.  On the plan domain prove the exact identity
 `ε klDiv(π,R^ε₀₁) = (1/2)∫‖x-y‖²dπ + ε Ent_{vol⊗vol}(π) + ε(n/2)log(2πε)`,
 whose error terms vanish as `ε ↓ 0`, so the constant sequence `π_ε=π` is already a
-recovery sequence with exact endpoints.  For an arbitrary finite-quadratic-cost `π`
-prove the relaxed recovery theorem instead: Gaussian mollification gives plans `π_ε`
+recovery sequence with exact endpoints.  For an arbitrary `π` with both marginals in
+`P₂(ℝⁿ)`, whose quadratic cost is then finite, prove the relaxed recovery theorem instead: Gaussian mollification gives plans `π_ε`
 in the plan domain with `π_ε → π` in `W₂`, marginals converging to `μ` and `ν`, and
 `limsup ε klDiv(π_ε,R^ε₀₁) ≤ (1/2)∫‖x-y‖²dπ`; those endpoints converge and are not
 exact.  Prove the matching liminf along sequences of uniformly bounded second moment,
@@ -3084,6 +3160,20 @@ interpolations to Layer 9 displacement interpolations, giving full convergence w
 the quadratic optimizer is unique and only cluster-point convergence otherwise.
 
 *Needs:* items 11--12; Layers 9.1 and 10.6.
+
+**Checks.**
+
+* For `π = N(0, I₂)` on `ℝ × ℝ` and `ε = 1`, the cost is `(1/2)E|x-y|² = 1` and
+  `Ent_{vol⊗vol}(π) = -log(2πe)`, so the identity gives
+  `klDiv(π,R¹₀₁) = 1 - log(2πe) + (1/2)log(2π) = -(1/2)log(2π)`; integrating
+  `log(dπ/dR¹₀₁) = -(1/2)log(2π) - (x²+y²)/2 + (x-y)²/2` against `π` gives the same value.  It is
+  negative because the reference has infinite mass.
+* On `ℝ × ℝ` let `π` be the law of `(X, X+Z)`, with `X` of density `1/(x (log x)²)` on `[e,∞)`
+  and `Z` an independent standard Gaussian.  Its quadratic cost is `(1/2)E Z² = 1/2`, and
+  `Ent_{vol⊗vol}(π) = Ent(X) + Ent(Z) = -∞`: finite cost does not bound the negative part, the
+  plan is outside the plan domain, and neither marginal has a second moment.
+* For `μ = δ_a` and `ν = δ_b` with `a ≠ b`, the only coupling has cost `‖a-b‖²/2` and infinite
+  relative entropy at every `ε > 0`, so the endpoint domain excludes the pair.
 
 Use Nutz's [entropic optimal-transport
 notes](https://www.math.columbia.edu/~mnutz/docs/EOT_lecture_notes.pdf) for the measurable
@@ -3357,11 +3447,13 @@ rather than the foundation.
 ### 15.4 Zero distance and the quotient
 
 In the Polish-carrier category of item 3, characterize zero distance as weak
-isomorphism, form the quotient, and give the quotient a genuine metric.  For
+isomorphism, form the quotient, and give the quotient a genuine metric; the quotient and its
+metric are Tau Ceti's `TauCeti.GromovWassersteinSpace` and
+`TauCeti.GromovWassersteinSpace.instMetricSpace`.  For
 full-support metric-measure spaces, prove that weak isomorphism reduces to a
 measure-preserving isometry; without full support, pass to supports.
 
-*Needs:* item 3.
+*Needs:* item 3; Tau Ceti `TauCeti.GromovWassersteinSpace`.
 
 ### 15.5 Completeness, separability, and geodesics
 
@@ -3763,6 +3855,13 @@ stage of which is reusable on its own.
   Transportation*](https://bookstore.ams.org/gsm-58/), AMS, 2003.
 * F. Santambrogio, [*Optimal Transport for Applied
   Mathematicians*](https://link.springer.com/book/10.1007/978-3-319-20828-2), 2015.
+* L. Ambrosio and N. Gigli, [*A user's guide to optimal
+  transport*](https://cvgmt.sns.it/media/doc/paper/195/users_guide-final.pdf), in *Modelling and
+  Optimisation of Flows on Networks*, Lecture Notes in Mathematics 2062, Springer, 2013,
+  1--155; page numbers are those of the linked authors' version.
+* A. S. Kechris, [*Classical Descriptive Set
+  Theory*](https://doi.org/10.1007/978-1-4612-4190-4), Graduate Texts in Mathematics 156,
+  Springer, 1995.
 * M. Beiglböck and W. Schachermayer, [Duality for Borel measurable
   cost](https://arxiv.org/abs/0807.1468); M. Beiglböck, C. Léonard, and W.
   Schachermayer, [the extended-cost relaxed
@@ -3800,7 +3899,9 @@ stage of which is reusable on its own.
   [interior `W²,p`
   estimates](https://annals.math.princeton.edu/1990/130-1/p05), 1990;
   G. De Philippis, A. Figalli, and O. Savin,
-  [`W²,1+ε` regularity](https://arxiv.org/abs/1202.5566).
+  [`W²,1+ε` regularity](https://arxiv.org/abs/1202.5566); Q. Huang, [Sharp regularity results
+  on second derivatives of solutions to the Monge--Ampère equation with VMO type
+  data](https://doi.org/10.1002/cpa.20272), Comm. Pure Appl. Math. 62 (2009), 677--705.
 * X.-N. Ma, N. Trudinger, and X.-J. Wang,
   [MTW regularity](https://doi.org/10.1007/s00205-005-0362-9); G. Loeper,
   [MTW necessity](https://doi.org/10.1007/s11511-009-0037-8); A. Figalli, Y.-H. Kim,
@@ -3815,6 +3916,8 @@ stage of which is reusable on its own.
 * L. Ambrosio, N. Gigli, and G. Savaré, [*Gradient Flows in Metric Spaces and in the
   Space of Probability Measures*](https://link.springer.com/book/10.1007/978-3-7643-8722-8),
   2008.
+* M. Muratori and G. Savaré, [Gradient flows and evolution variational inequalities in metric
+  spaces. I: structural properties](https://arxiv.org/abs/1810.03939), 2018.
 * E. Sandier and S. Serfaty, [Γ-convergence of gradient flows with applications to
   Ginzburg--Landau](https://doi.org/10.1002/cpa.20046), 2004; S. Serfaty,
   [the Hilbert/metric-space scheme](https://doi.org/10.3934/dcds.2011.31.1427), 2011.
@@ -3851,6 +3954,8 @@ stage of which is reusable on its own.
   343--348.
 * G. Peyré and M. Cuturi, [*Computational Optimal
   Transport*](https://optimaltransport.github.io/book/), 2019.
+* L. Chizat, [Doubly regularized entropic Wasserstein
+  barycenters](https://arxiv.org/abs/2303.11844), 2023.
 * J. Feydy, T. Séjourné, F.-X. Vialard, S.-I. Amari, A. Trouvé, and G. Peyré,
   [Interpolating between optimal transport and MMD using Sinkhorn
   divergences](https://proceedings.mlr.press/v89/feydy19a/feydy19a.pdf), 2019.

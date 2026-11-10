@@ -25,9 +25,15 @@ not restated here.
 
 * Primal attainment for lower semicontinuous costs on Polish spaces (Layer 1.5):
   `TauCeti.exists_isOptimalCoupling`.
+* Kantorovich duality for lower semicontinuous costs on Polish spaces (Layer 2.4):
+  `TauCeti.transportCost_eq_sSup_ofReal_kantorovichDualValue_integrable_of_lowerSemicontinuous`.
 * The Schachermayer–Teichmann characterization of optimal plans by cyclical monotonicity
   (Layer 2.7): `TauCeti.IsCoupling.isOptimalCoupling_iff_exists_isCyclicallyMonotone`.
+* Completeness of `P_p(X)` for `1 ≤ p < ∞` (Layer 3.3):
+  `TauCeti.WassersteinSpace.completeSpace`.
 * Kantorovich–Rubinstein duality (Layer 3.8): `TauCeti.wassersteinEDist_one_eq_iSup`.
+* Pratelli's equality of the Monge and Kantorovich values for continuous costs (Layer 4.3):
+  `TauCeti.mongeCost_eq_transportCost_of_continuous`.
 * Brenier's theorem (Layer 5.5): `TauCeti.exists_isKantorovichOptimalTransportMap_gradient`.
 * Brenier's polar factorization at finite quadratic cost (Layer 5.9):
   `TauCeti.exists_hasLaw_and_ae_eq_gradient_comp`.
@@ -41,17 +47,48 @@ not restated here.
   `TauCeti.WassersteinSpace.exists_isFrechetBarycenter`.
 * Existence and uniqueness of the static Schrödinger bridge (Layer 13.2):
   `TauCeti.existsUnique_isCoupling_klDiv_eq_schroedingerValue`.
+* The Gromov–Wasserstein metric on weak-isomorphism classes of measured kernels (Layer 15.4):
+  `TauCeti.GromovWassersteinSpace.instMetricSpace`.
 * Existence of fixed-law finite Gromov–Wasserstein barycenters (Layer 15.10):
   `TauCeti.exists_isMinOn_finiteGromovWassersteinBarycenterObjective`.
 
 The following headline theorems of `README.md` are not statable at the pins; each needs the
 carrier named.
 
+* Caffarelli's global regularity (Layer 6.10) needs domains with `C^{k,α}` boundary and uniform
+  convexity of the boundary; neither library has a predicate for the boundary regularity of an
+  open set.
 * The `p = 1` BV theory of Abedi–Li–Schultz (Layer 8.5) needs the Skorokhod topology on càdlàg
   paths; Mathlib has only the càdlàg predicate `IsCadlag`.
+* The Riemannian Benamou–Brenier formula (Layer 8.9) needs the continuity equation for a
+  time-dependent vector field on a manifold, and with it the Riemannian divergence; neither
+  library states a continuity equation on a manifold.
 * Brownian Schrödinger bridges and the Schilder limit (Layer 13.12–13.13) need the Brownian law
   on `C([0,1]; ℝⁿ)`; Mathlib has only the predicates `ProbabilityTheory.IsPreBrownianReal` and
   `ProbabilityTheory.IsBrownianReal` on real-valued processes.
+* The Gigli–Rajala–Sturm optimal-map theorem (Layer 14.8) needs the `RCD*(K,N)` condition, that
+  is a curvature-dimension condition with finite `N` and infinitesimal Hilbertianity; neither
+  library has a curvature-dimension condition with finite `N`.
+
+The following headline theorems of `README.md` are stated on carriers of Tau Ceti that the Tau
+Ceti pinned by this file's manifest does not contain, so they are not statable at these pins;
+each names the carrier it needs.
+
+* The Borel-cost duality through the relaxed primal (Layer 2.5) needs the relaxed transport
+  value `TauCeti.relaxedTransportCost`.
+* The Figalli–Kim–McCann Hölder-continuity theorem (Layer 6.14) needs the weak
+  Ma–Trudinger–Wang condition `TauCeti.SatisfiesWeakMTW` and `c`-convexity of sets
+  `TauCeti.IsCConvexSet`.
+* Convergence of the Jordan–Kinderlehrer–Otto scheme (Layer 11.7) needs the signed Boltzmann
+  entropy `TauCeti.boltzmannEntropy` and evolution variational inequalities
+  `TauCeti.IsEVISolution`.
+* Metrization of weak convergence by the Sinkhorn divergence (Layer 13.4) needs
+  `TauCeti.sinkhornDivergence`.
+* The identification of the heat flow on `RCD(K,∞)` spaces (Layer 14.7) needs the Cheeger
+  energy `TauCeti.cheegerEnergy` and the condition
+  `TauCeti.MetricMeasureSpace.CurvatureDimensionInfinity`.
+* Completeness of the Gromov–Wasserstein quotient exactly when the target is complete
+  (Layer 15.5) needs `TauCeti.GromovWassersteinSpace`.
 -/
 
 noncomputable section
@@ -153,7 +190,8 @@ theorem exists_homeomorph_holderOnWith_of_isKantorovichOptimalTransportMap {n : 
 
 /-! ## Layer 7: Riemannian Brenier–McCann transport -/
 
-/-- **McCann's theorem** (McCann 2001; Villani 2009, Chapter 10). Let `M` be a finite-dimensional,
+/-- **McCann's theorem** (McCann 2001; Villani 2009, Chapter 10, Theorem 10.35). Let `M` be
+a finite-dimensional,
 connected, boundaryless, complete smooth Riemannian manifold whose extended distance is the
 Riemannian distance. For probability measures `μ` and `ν` of finite second moment with `μ`
 absolutely continuous with respect to Riemannian volume, there is a transport map attaining the
