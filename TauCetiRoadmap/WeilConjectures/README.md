@@ -50,9 +50,15 @@ applications of downstream ShimuraCompactifications §§0.16–0.17. AnalyticTor
 operational Chow/Minkowski-weight comparison for possibly singular complete fans
 has a different scope from the smooth Chow-ring and cycle comparison here.
 
-The elliptic Hasse theorem and the Weierstrass point-count convention are supplied
-by EllipticCurves Layer 3 and Tau Ceti. AlgebraicCurves Layers 7, 10 and 12 own the
-function-field/model/genus dictionary. Surface numerical divisor local systems
+The elliptic Hasse theorem, the Weierstrass point-count convention and the zeta
+function of an elliptic Weierstrass curve over a finite field (its counts over
+every finite extension, trace recurrence, rationality, functional equation and
+Riemann hypothesis) belong to EllipticCurves Layer 3 and are already in Tau Ceti,
+together with the projective Weierstrass model and its point dictionary; §5.19
+compares that zeta function with this roadmap's point-count series and does not
+derive it again. The function fields of the Artin–Schreier curves `y^p − y = x^m`,
+their constant field, place at infinity and genus are also in Tau Ceti.
+AlgebraicCurves Layer 12 owns the function-field/model/genus dictionary. Surface numerical divisor local systems
 and their cohomological descent comparisons needed here are targets in WC.7,
 as are the stated characteristic-sensitive surface invariant comparisons.
 DeligneWeightsAndPurity §8.24 supplies rational DM cohomology, Frobenius-equivariant
@@ -109,6 +115,8 @@ Use the Mathlib and Tau Ceti versions pinned by the repository manifest. The alg
 * **Finite spectra:** `Matrix.vandermonde`, `det_vandermonde_ne_zero_iff`, `mul_nonsing_inv`, geometric-series summation, and the finite-sum norm inequality.
 * **Groupoids and characters:** `CategoryTheory.isIsomorphicSetoid`, `Aut`, `Aut.autMulEquivOfIso`, discrete categories, single-object groupoids, action categories, and Tau Ceti's `repRing`, `repRingCharacter`, its injectivity for finite groups in characteristic zero, and its virtual-character image criterion.
 * **Elliptic counts:** `WeierstrassCurve.pointCount`, `pointCount_eq_card_point`, and `frobeniusTrace`. The first counts affine solutions and adds infinity; its comparison with the elliptic point carrier requires nonsingularity.
+* **The genus-one zeta function and the Weierstrass model:** Tau Ceti's `WeierstrassCurve.zetaFunction`, its rationality, functional equation, Riemann hypothesis, counts over every finite extension and trace recurrence, and the projective model `WeierstrassCurve.projModel` with its base change and point dictionary. Names, modules and hypotheses are listed below.
+* **Artin–Schreier function fields:** Tau Ceti's `TauCeti.ArtinSchreierMonomial.FunctionField` with its constant field, place at infinity and genus, listed below.
 
 Mathlib's `Scheme.EllAdicCohomology` is an additive-group construction from an integral pro-étale sheaf. Rational finite-dimensional spaces, compact support, continuous Frobenius, and the trace theorem are additional geometric inputs. The roadmap uses the supplier's rational construction explicitly.
 
@@ -127,12 +135,12 @@ Mathlib's `Scheme.EllAdicCohomology` is an additive-group construction from an i
 | MotivesAndAlgebraicCycles §4.20 | The scissor ring `K₀Var k` of separated finite-type `k`-schemes, its independence of the small model, `[X]=[X_red]`, and its universal property for invariants additive on closed–open decompositions and multiplicative on products over `k`. §7.3 applies it to point counts over a finite field. |
 | EtaleDualityAndPerverseSheaves §§1.3, 4.3, 4.7, 8.1–8.2 | Chow/étale cycle comparison, complete-intersection primitive Betti comparison, alternating middle pairing, graded determinant reciprocity and its sign `poincareReciprocityExport`. WC.1 adapts the DM pairing supplied by DeligneWeightsAndPurity §8.24. |
 | ComplexComparisonPartII §§C6.3–C6.6 | Finite, integral and rational Artin comparison, including compact support, cup products, coefficient maps and finite group actions. WC.4 supplies the actual family and transport path. |
-| AbelianSchemesAndArithmeticModuli §A4.4; AlgebraicCurves Layers 7, 10, 12 | Jacobian Tate/first-cohomology realization and the field/model/place/genus comparisons, Artin–Schreier different and Hurwitz formula. These retain `b₁=2g` rather than identifying Betti and coherent genus without a comparison. |
+| AbelianSchemesAndArithmeticModuli §A4.4; AlgebraicCurves Layer 12 | Jacobian Tate/first-cohomology realization and the field/model/place/genus comparisons. These retain `b₁=2g` rather than identifying Betti and coherent genus without a comparison. |
 | ReductiveGroupsPartII §RG2.3 | Lang torsor triviality for connected smooth linear algebraic groups over finite fields; disconnected groups retain their torsor forms. |
 | ArithmeticGaloisRepresentations §§5.1, 5.3 | Frobenius density and characteristic-zero semisimple recognition from density-one traces, for the actual continuous generic Galois representations. |
 | PadicHodgeTheory §§5.3, 8.1; Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`) | Potential semistability and good-reduction crystallinity; the Mathlib theorem makes each finite Galois extension cut out by a finite image quotient of an everywhere-unramified representation have degree one. WC.5 proves the required extension-splitting implication, with the hypotheses of van den Bogaart–Edixhoven Lemma 4.2. |
 | PadicDifferentialEquationsAndRigidCohomology §§RD.6.24, RD.7.4(b), RD.7.5, RD.7.1–RD.7.9 | Arbitrary-field rational-series descent; normalized coprime local Fatou bounds for both polynomials at every prime, including `ℓ=p`; the polynomial-family extraction adapter; and the linear `q`-Frobenius rigid/crystalline/étale comparison, with explicit coefficient maps. |
-| EllipticCurves Layer 3 | The independent Hasse theorem and Weierstrass normalization. |
+| EllipticCurves Layer 3 | The independent Hasse theorem, Weierstrass normalization and the genus-one zeta milestone: point counts over every extension, the trace recurrence, rationality, the functional equation in `ℚ(T)` and the Riemann hypothesis, all pinned in Tau Ceti as listed below. §5.19 compares them with `zetaSeries`. |
 | NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2 | `GenusOneFibration`, relative minimality and model/base-change API; `rationalSurface_commonBlowup`, `blowup_Picard_intersection`, `rationalSurface_coherent_vanishing`, `pointBlowup_ellAdicCohomology`, `rationalSurface_cycleClass` and the rank-ten Picard-constancy criterion. WC.7 generalizes the rank and the Jacobian genus-one restriction and agrees with these specializations. |
 
 Tau Ceti supplies `TauCeti.repRing`, `TauCeti.repRingCharacter` and
@@ -150,6 +158,51 @@ and the irreducible-character expansion; rational irreducibles retain Schur indi
 point carrier assumes ellipticity and finite affine solutions. The independent
 `WeierstrassCurve.hasse_bound` is in
 `TauCeti.AlgebraicGeometry.EllipticCurve.HasseBound`.
+
+For a Weierstrass curve `W` over a finite field `F` with `q` elements, the module
+`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Frobenius.Zeta` defines the rational
+function `WeierstrassCurve.zetaRatFunc`, equal to `(1 − a_q T + qT²)/((1 − T)(1 − qT))`
+with `a_q` the Frobenius trace, and proves `WeierstrassCurve.mobiusAutOf_zetaRatFunc`:
+it is invariant under `T ↦ 1/(qT)`. Neither needs ellipticity. Under `[W.IsElliptic]`
+the module defines the zeta function `WeierstrassCurve.zetaFunction` in `ℚ[[T]]`, the
+exponential of `∑_{n≥1} deg(1 − πⁿ)Tⁿ/n` for the `q`-power Frobenius endomorphism `π`,
+and proves five facts. `WeierstrassCurve.logOf_zetaFunction`: its logarithm is that
+series. `WeierstrassCurve.coeff_finrank_logOf_zetaFunction`: for every
+finite extension `E/F` of degree `n`, the `n`-th coefficient of its logarithm is the
+`pointCount` of the base change of `W` to `E`, divided by `n`.
+`WeierstrassCurve.zetaFunction_eq_mul_inv`: rationality, with numerator
+`1 − a_q T + qT²` and denominator `(1 − T)(1 − qT)`. `WeierstrassCurve.coe_zetaRatFunc`:
+the Laurent expansion of `zetaRatFunc` is `zetaFunction`.
+`WeierstrassCurve.norm_eq_inv_sqrt_card_of_one_sub_frobeniusTrace_mul_add_card_mul_sq_eq_zero`:
+every complex zero of `1 − a_q T + qT²` has modulus `q^(−1/2)`. The module
+`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Frobenius.PowTrace` defines, under the
+same hypotheses, `WeierstrassCurve.frobeniusPowTrace`, the sequence
+`t_n = qⁿ + 1 − deg(1 − πⁿ)` with `t₀ = 2` and `t₁ = a_q`, and proves
+`WeierstrassCurve.frobeniusPowTrace_add_two`, the recurrence
+`t_{n+2} = a_q t_{n+1} − q t_n`, and `WeierstrassCurve.frobeniusPowTrace_finrank`: over
+an extension of degree `n`, `t_n` is the Frobenius trace of the base change. These
+declarations are EllipticCurves Layer 3's zeta milestone.
+
+For a Weierstrass curve `W` over a commutative ring `R`,
+`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.ProjModel` constructs the projective
+model `WeierstrassCurve.projModel` with structure morphism
+`WeierstrassCurve.projModelOver` to `Spec R`, which is proper; for elliptic `W` it is
+smooth of relative dimension one (`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.Smooth`).
+`WeierstrassCurve.isPullback_projModelBaseChange`, in
+`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.BaseChange`, shows that for a ring map
+`f : R → R′` the model of the curve with coefficients extended along `f` is the base
+change of the model along `Spec f`. `WeierstrassCurve.projModelPointsEquiv`, in
+`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.Points`, identifies, over a field and for
+elliptic `W`, the sections of the structure morphism with Mathlib's
+`WeierstrassCurve.Affine.Point`.
+
+For a field `k` of prime characteristic `p` and a natural number `m` with `p ∤ m`,
+`TauCeti.FieldTheory.FunctionField.ArtinSchreier.Monomial` constructs the function field
+`TauCeti.ArtinSchreierMonomial.FunctionField k p m` of `y^p − y = x^m` and proves
+`TauCeti.ArtinSchreierMonomial.isIntegrallyClosedIn` (its constant field is exactly
+`k`), `TauCeti.ArtinSchreierMonomial.existsUnique_restrict_eq_infty` (exactly one place
+lies over the place at infinity of `k(x)`, and it has degree one) and
+`TauCeti.ArtinSchreierMonomial.two_mul_genus` (`2g = (p − 1)(m − 1)`).
 
 Tau Ceti's `TauCeti.Toric.Fan`, `TauCeti.Toric.Fan.IsRegular`,
 `TauCeti.Toric.Fan.IsComplete`, `TauCeti.Toric.dualSemigroup` and
@@ -1089,11 +1142,19 @@ For `d = 0`, `X` is finite étale and there is only degree-zero cohomology: `N_r
 
 ### 5.19 Compatibility with curve and elliptic bounds
 
-For a smooth projective geometrically connected genus-`g` curve, use the actual curve/Jacobian comparison `b₁ = 2g` to identify the WC bound with the independent Jacobian/Rosati bound from DeligneWeightsAndPurity §1. For a nonsingular Weierstrass elliptic model, identify the scheme count with `WeierstrassCurve.pointCount` and its existing point type. Its trace `a_q = q + 1 − N₁` is `frobeniusTrace`, and `|a_q| ≤ 2√q` agrees with the independent Hasse theorem.
+For a smooth projective geometrically connected genus-`g` curve, use the actual curve/Jacobian comparison `b₁ = 2g` to identify the WC bound with the independent Jacobian/Rosati bound from DeligneWeightsAndPurity §1.
 
-Make the same comparison over each `k_r` using WC.0's extension transport. The result is agreement of counts and estimates. It does not repeat the Jacobian or elliptic proof.
+For an elliptic Weierstrass curve `W` over `k`, let `E` be its projective model `WeierstrassCurve.projModel`, a scheme over `Spec k` through `WeierstrassCurve.projModelOver`. Prove that the `zetaSeries` of `E` equals `WeierstrassCurve.zetaFunction` of `W`. Both are exponentials of power series with zero constant term, and by `WeierstrassCurve.logOf_zetaFunction` the series inside `zetaFunction` is its logarithm, so it suffices to compare the coefficients of degree `r ≥ 1` of the two inner series. Apply `WeierstrassCurve.coeff_finrank_logOf_zetaFunction` to `FiniteField.Extension k p r`, which has degree `r` by `finrank_extension`. The comparison becomes the equality of `N_r(E)` with the `pointCount` of the base change of `W` to `k_r`. That is the Hom/point dictionary over `k_r`. A morphism `Spec k_r → E` over `Spec k` is a section of the base change of `E` to `k_r`, which is the model of the base-changed curve by `WeierstrassCurve.isPullback_projModelBaseChange`. Its sections are the points of the base-changed curve by `WeierstrassCurve.projModelPointsEquiv`, and these are counted by `pointCount_eq_card_point`.
 
-*Needs:* the all-extension estimate; DeligneWeightsAndPurity §§1.6–1.7; **EllipticCurves, Layer 3**; Tau Ceti `pointCount`, `pointCount_eq_card_point` with ellipticity and finite affine solutions, and `frobeniusTrace`. **Source:** Milne, Theorem 27.15, p. 159, for the purity estimate; Mustață, Example 3.10, pp. 22–23, for elliptic normalization.
+Across this comparison the pinned genus-one theorems are the WC statements for `E`. The curve factor is `Π₁ = 1 − a_q T + qT²` with `a_q = frobeniusTrace`, read off `WeierstrassCurve.zetaFunction_eq_mul_inv`. The root bound for `Π₁` is `WeierstrassCurve.norm_eq_inv_sqrt_card_of_one_sub_frobeniusTrace_mul_add_card_mul_sq_eq_zero`, and `|a_q| ≤ 2√q` is the independent `WeierstrassCurve.hasse_bound`. WC.6's signed equation, with `d = 1`, `χ = 0` and `Δ = 1`, is `WeierstrassCurve.mobiusAutOf_zetaRatFunc` read through `WeierstrassCurve.coe_zetaRatFunc`. The result is agreement of series, counts over every `k_r` and estimates. It does not repeat the Jacobian or the elliptic proof.
+
+**Checks.**
+
+- For `y² = x³ − x` over `𝔽₅` (§7.5), `pointCount` is 8, so `a_q = −2`. Both sides give `N₁ = 8` and `N₂ = 32`, the second through `frobeniusPowTrace` at 2, which is `(−2)(−2) − 5·2 = −6`.
+- Counting affine solutions without the point at infinity gives 7 for that curve, hence `a_q = −1`, and `1 + T + 5T²` as numerator. Its first logarithmic coefficient is 7, not the `N₁ = 8` of the scheme. The comparison therefore fixes the convention that adds infinity.
+- Ellipticity is necessary. The cuspidal cubic `y² = x³` over `𝔽₅` has `pointCount` 6 and `frobeniusTrace` 0. Its projective model is bijective with `ℙ¹` on points, so `N_r = 5^r + 1` and its zeta function is `1/((1 − T)(1 − 5T))`. By contrast `zetaRatFunc` is `(1 + 5T²)/((1 − T)(1 − 5T))`, whose expansion gives `N₂ = 36` rather than 26.
+
+*Needs:* the all-extension estimate; DeligneWeightsAndPurity §§1.6–1.7; **EllipticCurves, Layer 3**; Tau Ceti `pointCount`, `pointCount_eq_card_point` with ellipticity and finite affine solutions, `frobeniusTrace`, `hasse_bound`, and the zeta, recurrence, model, base-change and point declarations listed in the supplier contracts; Mathlib `FiniteField.Extension`, `finrank_extension` and the universal property of pullbacks; WC.1 `zetaSeries`. **Source:** Milne, Theorem 27.15, p. 159, for the purity estimate; Mustață, Example 3.10, pp. 22–23, for elliptic normalization.
 
 ### 5.20 Recurrences and Newton recovery
 
@@ -1165,17 +1226,23 @@ operations.
 
 ### 5.23 A local cutoff for approximate polynomial counts
 
-Let `X` be smooth proper of pure relative dimension `d` over `ℤ_p` and `s ≥ d` an integer. Choose the geometric, coefficient and comparison data giving the generic rational Betti spaces, with `ℓ ≠ p`. Suppose `P ∈ ℚ[T]` and
+Let `X` be smooth proper of pure relative dimension `d` over `ℤ_p` and `s` a natural number. Choose the geometric, coefficient and comparison data giving the generic rational Betti spaces, with `ℓ ≠ p`. Suppose `P ∈ ℚ[T]` and
 
 ```text
 #X(𝔽_(p^n)) − P(p^n) = o(p^(sn/2)) as n → ∞.
 ```
 
-Then `H^k` vanishes for odd `k ≥ s`. For `s ≤ 2j ≤ 2d`, `P_j = dim H^{2j}`, and all reciprocal Frobenius roots in that degree are `p^j`. These are eigenvalue and dimension conclusions, not semisimplicity conclusions.
+Then `H^k` vanishes for odd `k ≥ s`. For `s ≤ 2j ≤ 2d`, `P_j = dim H^{2j}`, and all reciprocal Frobenius roots in that degree are `p^j`. Also `P_j = 0` whenever `2j ≥ s` and `j > d`. These are eigenvalue and dimension conclusions, not semisimplicity conclusions.
 
-For a DM stack, use mass and the actual stack trace, purity, smooth proper transport and rational comparison contracts. The same graded-moment argument then applies. The error exponent used throughout the proof is `s`, so it remains valid when `s > d`.
+The proof applies §5.16 with `r = 2d` and cutoff `s` to the moments given by the trace formula, whose degree-`i` roots have modulus `p^{i/2}` by purity. §5.16 puts no range on `s`, so neither does this theorem. A cutoff `s < d` gives the stronger low-degree conclusions, and a cutoff `s > 2d` leaves only the clause on coefficients above degree `d`. For a DM stack, use mass and the actual stack trace, purity, smooth proper transport and rational comparison contracts. The same graded-moment argument then applies.
 
-*Needs:* graded polynomial approximation; WC.4 supplied comparison; WC.1 stack trace where applicable; DeligneWeightsAndPurity §7.15 and DeligneWeightsAndPurity §8.24’s smooth proper DM purity. **Source:** Bergström–Faber–Payne, Proposition 3.1 and proof, published p. 1330; van den Bogaart–Edixhoven, Lemma 4.1, pp. 6–7.
+**Checks.**
+
+- `ℙ²` over `ℤ_p` with `P = 1 + T + T²` has error 0, so the cutoff `s = 0` applies. It gives `H¹ = H³ = 0`, `P_j = dim H^{2j} = 1` for `j = 0, 1, 2`, and the Frobenius root `p^j` in degree `2j`. A hypothesis `s ≥ d` would exclude this case.
+- On `ℙ²` the polynomial `P = T + T²` has error 1. That is `o(p^{n/2})`, so `s = 1` applies and gives `P₁ = P₂ = 1` but nothing about `P₀`. It is not `o(1)`, so `s = 0` does not apply; it must not, since `P₀ = 0 ≠ dim H⁰`.
+- On `ℙ²` the polynomial `P = 1 + T + T² + T³` has error `−p^{3n}`. That is `o(p^{sn/2})` exactly when `s ≥ 7`, and then the clause on high coefficients constrains only `j ≥ 4`, so the stray `T³` is not contradicted. At `s = 6` the hypothesis fails.
+
+*Needs:* graded polynomial approximation; WC.4 supplied comparison; WC.1 stack trace where applicable; DeligneWeightsAndPurity §7.15 and DeligneWeightsAndPurity §8.24’s smooth proper DM purity. **Source:** Bergström–Faber–Payne, Proposition 3.1 and proof, published p. 1330, which states the conclusions for `s ≥ d`; that range comes from van den Bogaart–Edixhoven, Lemma 4.1, pp. 6–7, whose error exponent `d` and degree bound `r` satisfy `d ≤ r ≤ 2d`, and §5.16 removes it.
 
 ### 5.24 Approximate counts and Tate semisimplification
 
@@ -1209,7 +1276,7 @@ H^odd = 0,    H^(2j)(X_ℚ̄, ℚ_ℓ) ≃ ℚ_ℓ(−j)^(C_j)
 
 as actual continuous Galois representations. The unique count polynomial is `Σ_j C_jT^j` and is palindromic. This is stronger than the open-`U` result.
 
-To remove semisimplification, twist each even-degree representation to weight zero. Good reduction gives unramifiedness away from `ℓ`, and local potential semistability at `ℓ` is supplied by PadicHodgeTheory §§5.3 and 8.1. The local extension theorem used in van den Bogaart–Edixhoven's Lemma 4.2 makes successive extensions of trivial representations unramified at `ℓ`. The global absence of nontrivial everywhere-unramified extensions of `ℚ` then splits the resulting representation. Explicitly prove tate extension unramified: for `n≥1`, a potentially semistable representation `V` in an exact sequence `0→ℚ_ℓ^n→V→ℚ_ℓ→0` of `G_ℚℓ`-representations is unramified (van den Bogaart–Edixhoven, Lemma 4.2, pp. 8–10). For a global representation unramified at every finite prime, its compact image is profinite. Each continuous finite quotient cuts out a finite Galois extension of `ℚ` unramified at every finite prime. Apply Mathlib's `NumberField.finrank_eq_one_of_unramified` to that extension and its ring of integers: its degree is one. Thus every such quotient is trivial, and so is the compact image. Induct on the dimension of the global representation after its Tate twist: the invariant codimension-one subrepresentation is trivial by induction, so this exact-sequence lemma applies at `ℓ`. The all-Spec-`ℤ` hypothesis is necessary for this argument. The reverse implication is the all-power trace formula at each prime with a different coefficient prime.
+To remove semisimplification, twist each even-degree representation to weight zero. Good reduction gives unramifiedness away from `ℓ`, and local potential semistability at `ℓ` is supplied by PadicHodgeTheory §§5.3 and 8.1. The local extension theorem used in van den Bogaart–Edixhoven's Lemma 4.2 makes successive extensions of trivial representations unramified at `ℓ`. The global absence of nontrivial everywhere-unramified extensions of `ℚ` then splits the resulting representation. Prove that potentially semistable extensions of a trivial representation by a trivial representation are unramified: for `n ≥ 1`, a continuous representation `V` of `G_{ℚ_ℓ}` over `ℚ_ℓ` that is potentially semistable and sits in an exact sequence `0 → ℚ_ℓ^n → V → ℚ_ℓ → 0` of `G_{ℚ_ℓ}`-representations, with trivial action on `ℚ_ℓ^n` and on `ℚ_ℓ`, is unramified (van den Bogaart–Edixhoven, Lemma 4.2 and its proof, pp. 8–9). For a global representation unramified at every finite prime, its compact image is profinite. Each continuous finite quotient cuts out a finite Galois extension of `ℚ` unramified at every finite prime. Apply Mathlib's `NumberField.finrank_eq_one_of_unramified` to that extension and its ring of integers: its degree is one. Thus every such quotient is trivial, and so is the compact image. Induct on the dimension of the global representation after its Tate twist: the invariant codimension-one subrepresentation is trivial by induction, so this exact-sequence lemma applies at `ℓ`. The all-Spec-`ℤ` hypothesis is necessary for this argument. The reverse implication is the all-power trace formula at each prime with a different coefficient prime.
 
 The DM version has the same conclusion only with the stack extension of the comparison and local p-adic inputs, as well as trace, purity and duality. The theorem does not infer that extension from the scheme case.
 
@@ -1279,7 +1346,7 @@ The finite-spectrum checks above retain cancellation and repeated roots. On `ℙ
 
 ### Dependencies
 
-*Needs:* WC.0–WC.4; DeligneWeightsAndPurity §§1.6–1.7, 7.15, 8.24; EtaleDualityAndPerverseSheaves §§4.3, 4.7; SchemeAndStackFoundations §5.11; ArithmeticGaloisRepresentations §§5.1, 5.3; PadicHodgeTheory §§5.3, 8.1; Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`), applied to the finite Galois extensions cut out by finite image quotients.
+*Needs:* WC.0–WC.4; DeligneWeightsAndPurity §§1.6–1.7, 7.15, 8.24; EtaleDualityAndPerverseSheaves §§4.3, 4.7; SchemeAndStackFoundations §5.11; ArithmeticGaloisRepresentations §§5.1, 5.3; PadicHodgeTheory §§5.3, 8.1; EllipticCurves Layer 3 and the Tau Ceti genus-one zeta and Weierstrass-model declarations of the supplier contracts (§5.19); Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`), applied to the finite Galois extensions cut out by finite image quotients.
 
 ## Layer WC.6: Smooth proper and mixed extensions
 
@@ -1626,31 +1693,31 @@ N_r = 1 + q^r − S_r,    S_r = Tr(F^r | H¹),    r ≥ 1.
 
 The identification with the Jacobian is a comparison of constructions, including Frobenius and Tate conventions. It imports the curve/Jacobian Betti-number theorem; coherent genus alone does not supply it. WC.5 recovers the polynomial and all `S_r` from the initial moments, and gives the recurrence and the precise pole multiplicities. None of these trace identities requires semisimplicity. The numerator comparison with WC.1 remains valid before RH is supplied; WC.6 additionally identifies the canonical integral factor and its pure reciprocal roots.
 
-At `g = 0`, `Π₁ = 1` and `N_r = 1 + q^r`. At `g = 1`, writing `a = q + 1 − N₁` gives `Π₁ = 1 − aT + qT²` and `S_r = aS_{r−1} − qS_{r−2}`, with `S₀ = 2`. These normalizations connect the curve factor to the independent elliptic point-count carrier.
+At `g = 0`, `Π₁ = 1` and `N_r = 1 + q^r`. At `g = 1`, `deg Π₁ = 2` and the displayed functional equation leave `Π₁ = 1 − aT + qT²` with `a = q + 1 − N₁`. When `C` is the projective model of an elliptic Weierstrass curve `W`, this is the numerator of `WeierstrassCurve.zetaFunction_eq_mul_inv` carried across §5.19's comparison, and `a` is `frobeniusTrace`. In that case `S_r` is `WeierstrassCurve.frobeniusPowTrace` at `r`, and the recurrence `S_{r+2} = aS_{r+1} − qS_r` with `S₀ = 2` is `WeierstrassCurve.frobeniusPowTrace_add_two`. This roadmap cites these declarations and does not derive them again.
 
-*Needs:* SchemeAndStackFoundations Layers 0–2 curves; AbelianSchemesAndArithmeticModuli §A4.4 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1; WC.1 curve numerator; WC.6 smooth proper factors and signed equation; WC.5 recurrence and moment recovery. **Source:** Deligne I, §§1.5–1.5.4, pp. 275–276; Mustață, Remark 3.7, equations (3.8)–(3.10), p. 21.
+*Needs:* SchemeAndStackFoundations Layers 0–2 curves; AbelianSchemesAndArithmeticModuli §A4.4 and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1; WC.1 curve numerator; WC.6 smooth proper factors and signed equation; WC.5 recurrence and moment recovery; for genus one, §5.19 and Tau Ceti's `WeierstrassCurve.zetaFunction_eq_mul_inv` and `WeierstrassCurve.frobeniusPowTrace_add_two`. **Source:** Deligne I, §§1.5–1.5.4, pp. 275–276; Mustață, Remark 3.7, equations (3.8)–(3.10), p. 21.
 
 ### 7.5 Worked elliptic example over `𝔽₅`
 
-Use the actual Weierstrass curve with `a₁ = a₂ = a₃ = a₆ = 0` and `a₄ = −1` over `𝔽₅`, giving `y² = x³ − x`. Its discriminant is 64, nonzero modulo 5, so its smooth proper completion is an elliptic curve. Take `N₁=8` as an explicit hypothesis of this zeta specialization. As a small worked Check, the affine solution counts for `x=0,1,2,3,4` are `1,1,2,2,1`, respectively. The point at infinity gives `N₁ = 8` and `a = −2`. Therefore
+Let `W` be the Weierstrass curve over `𝔽₅` with `a₁ = a₂ = a₃ = a₆ = 0` and `a₄ = −1`, that is `y² = x³ − x`. Its discriminant is 64, nonzero modulo 5, so `W` is elliptic and its projective model `E = WeierstrassCurve.projModel W` is smooth and proper over `𝔽₅`. By §5.19 the `zetaSeries` of `E` is `WeierstrassCurve.zetaFunction` of `W`, and `WeierstrassCurve.zetaFunction_eq_mul_inv` gives
 
 ```text
-Π₁ = 1 + 2T + 5T²,    Z_E(T) = (1 + 2T + 5T²)/((1 − T)(1 − 5T)).
+Π₁ = 1 − aT + 5T²,    Z_E(T) = (1 − aT + 5T²)/((1 − T)(1 − 5T)),    a = 6 − pointCount.
 ```
 
-The reciprocal roots have sum −2 and product 5. The all-extension recurrence is
+The counts over every `k_r` are `WeierstrassCurve.coeff_finrank_logOf_zetaFunction`, and the traces `S_r` are `WeierstrassCurve.frobeniusPowTrace`, with the recurrence `WeierstrassCurve.frobeniusPowTrace_add_two`. The values below test the comparison of §5.19 and the curve factor of §7.4 on one curve; they are not a second derivation.
 
-```text
-S₀ = 2,    S₁ = −2,    S_r = −2 S_{r−1} − 5 S_{r−2}  (r ≥ 2).
-```
+**Checks.**
 
-It gives `S₂ = −6` and `N₂ = 1 + 25 − (−6) = 32`. The specialization compares its count hypothesis with `WeierstrassCurve.pointCount_eq_card_point` and the scheme’s point dictionary. Checking the affine equation or a `2 × 2` companion matrix alone is only part of this geometric application.
+- The affine solution counts for `x = 0, 1, 2, 3, 4` are `1, 1, 2, 2, 1`. With the point at infinity, `pointCount` is 8, so `a = −2`, `Π₁ = 1 + 2T + 5T²` and `Z_E(T) = (1 + 2T + 5T²)/((1 − T)(1 − 5T))`. The reciprocal roots `−1 ± 2i` have sum −2, product 5 and modulus `√5`, as the pinned Riemann hypothesis requires.
+- The recurrence with `S₀ = 2` and `S₁ = −2` gives `S₂ = (−2)(−2) − 5·2 = −6`. Hence `N₂ = 1 + 25 − (−6) = 32`, which the subgroup of `𝔽₅`-points forces to be a multiple of `N₁ = 8`.
+- The signed equation of WC.6 has `d = 1`, `χ = 1 − 2 + 1 = 0` and `Δ = 1 · 5⁻¹ · 5 = 1`, since `det F₁ = 5` and `F₂ = 5`. It reads `Z_E(1/(5T)) = Z_E(T)`, which is `WeierstrassCurve.mobiusAutOf_zetaRatFunc` for this `W`.
 
-*Needs:* the curve factor comparison; SchemeAndStackFoundations Layers 0–2 model and point dictionary; Mathlib `WeierstrassCurve`, `WeierstrassCurve.Δ`, and `WeierstrassCurve.Affine.Equation`; Tau Ceti `pointCount`, `pointCount_eq_card_point` and `frobeniusTrace`; WC.5 recurrence. **Source:** the elementary enumeration just given uses the specified equation, with the genus-one normalization of Mustață, Example 3.10, pp. 22–23.
+*Needs:* §5.19's comparison; the curve factor of §7.4; Mathlib `WeierstrassCurve`, `WeierstrassCurve.Δ`, and `WeierstrassCurve.Affine.Equation`; Tau Ceti `WeierstrassCurve.projModel`, `pointCount`, `frobeniusTrace`, `WeierstrassCurve.zetaFunction_eq_mul_inv`, `WeierstrassCurve.coeff_finrank_logOf_zetaFunction`, `WeierstrassCurve.frobeniusPowTrace_add_two` and `WeierstrassCurve.mobiusAutOf_zetaRatFunc`. **Source:** the elementary enumeration just given uses the specified equation, with the genus-one normalization of Mustață, Example 3.10, pp. 22–23.
 
 ### 7.6 Worked genus-two example with negative Euler characteristic
 
-Let `C/𝔽₂` be the smooth projective curve of the function field defined by `y² + y = x⁵`. The Artin–Schreier supplier constructs the model, proves geometric connectedness, and gives genus 2 and a single rational point at infinity. Its reduced pole order is 5, and the Artin–Schreier different and Hurwitz formula supply the genus. The affine equation is not itself the proper model.
+Let `C/𝔽₂` be the smooth projective curve whose function field is Tau Ceti's `TauCeti.ArtinSchreierMonomial.FunctionField 𝔽₂ 2 5`, the field of `y² − y = x⁵`, which in characteristic two is `y² + y = x⁵`; the hypothesis `2 ∤ 5` holds. `TauCeti.ArtinSchreierMonomial.isIntegrallyClosedIn` makes `𝔽₂` its exact constant field. `TauCeti.ArtinSchreierMonomial.two_mul_genus` gives `2g = (2 − 1)(5 − 1) = 4`, so `g = 2`. `TauCeti.ArtinSchreierMonomial.existsUnique_restrict_eq_infty` gives a single place over infinity, of degree one. AlgebraicCurves Layer 12 supplies the smooth projective model of this function field, its geometric integrality over the perfect field `𝔽₂` (12B.0) and the dictionary between places of degree one and rational points. The affine equation is not itself the proper model.
 
 For `k_r = 𝔽_{2^r}`, the map `y ↦ y² + y` has kernel of size two and image the trace-zero elements. Thus
 
@@ -1672,7 +1739,7 @@ Z_C(1/(2T)) = (1/2) T^(−2) Z_C(T).
 
 This example exercises integer powers and reciprocal substitution. An attempted identity using a natural-valued Euler characteristic would discard its exponent. Beyond the four initial counts, the numerator supplies `S_{r+4} + 4S_r = 0` for `r ≥ 0`, with `S₀ = 4`, hence every extension count.
 
-*Needs:* the curve factor comparison and WC.5 Newton/recurrence API; **AlgebraicCurves, Layer 10** Artin–Schreier model, reduced local invariant and different; **Layer 7** Hurwitz; **Layer 12B–12E** model/place/genus dictionary. **Source:** AlgebraicCurves Layers 7, 10 and 12; the displayed finite-field trace calculation and Newton identities determine this specialization.
+*Needs:* the curve factor comparison and WC.5 Newton/recurrence API; Tau Ceti `TauCeti.ArtinSchreierMonomial.FunctionField`, `TauCeti.ArtinSchreierMonomial.isIntegrallyClosedIn`, `TauCeti.ArtinSchreierMonomial.existsUnique_restrict_eq_infty` and `TauCeti.ArtinSchreierMonomial.two_mul_genus`; **AlgebraicCurves, Layer 12B–12E** model/place/genus dictionary. **Source:** the Tau Ceti module and AlgebraicCurves Layer 12; the displayed finite-field trace calculation and Newton identities determine this specialization.
 
 ### 7.7 The sign for the projective plane
 
@@ -1921,11 +1988,11 @@ Applications can consume a single interface—such as the all-power trace formul
 
 ### Examples
 
-The elliptic and genus-two specializations above use their initial counts as explicit hypotheses and apply the geometric factor/recurrence comparisons. The ten-class surface formula gives `25` and `57` over `𝔽₂` and `𝔽₄`; the nonsplit-quadric Check prevents geometric spanning from being mistaken for base-field descent.
+The elliptic specialization reads its zeta function from Tau Ceti through §5.19, and its counts are Checks of that comparison. The genus-two specialization uses its initial counts as explicit hypotheses and applies the geometric factor/recurrence comparisons. The ten-class surface formula gives `25` and `57` over `𝔽₂` and `𝔽₄`; the nonsplit-quadric Check prevents geometric spanning from being mistaken for base-field descent.
 
 ### Dependencies
 
-*Needs:* WC.0–WC.6; NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2; SchemeAndStackFoundations §§3–5; AlgebraicCurves Layers 7, 10, 12; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4; EtaleCohomologyFoundations §§F.5–F.7; EtaleDualityAndPerverseSheaves §1.3; MotivesAndAlgebraicCycles §4.20.
+*Needs:* WC.0–WC.6; NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2; SchemeAndStackFoundations §§3–5; AlgebraicCurves Layer 12; Tau Ceti genus-one zeta, Weierstrass model and Artin–Schreier declarations of the supplier contracts; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4; EtaleCohomologyFoundations §§F.5–F.7; EtaleDualityAndPerverseSheaves §1.3; MotivesAndAlgebraicCycles §4.20.
 
 ## Downstream consumers
 
@@ -1957,4 +2024,4 @@ The locators above refer to printed pagination unless a particular arXiv version
   generators and character relations underlie the specified Chow presentation.
 * **Stefan Schröer, There is no Enriques surface over the integers**, arXiv:2004.07025v3, §7, pp. 19–21, especially Proposition 7.1 and Corollaries 7.2–7.3. [Freely readable preprint](https://arxiv.org/abs/2004.07025). These are the cycle, numerical Picard and explicit surface point-count applications. WC.7 constructs the numerical-divisor descent and surface invariant comparisons used in these applications.
 * **Kiran S. Kedlaya, Notes on isocrystals**, arXiv:1606.01321v6, §§8.1–8.8 and 9.1–9.7, pp. 20–22, and §§10.1–10.3, p. 27. [Freely readable preprint](https://arxiv.org/abs/1606.01321). **Fourier transforms and p-adic “Weil II”**, Compositio Mathematica **142** (2006), 1426–1450, Proposition 5.3.1, Theorem 5.3.2 and the ensuing consequences, pp. 1445–1446. [Published article](https://doi.org/10.1112/S0010437X06002338); [freely readable preprint](https://arxiv.org/abs/math/0210149). These support the rigid/crystalline interface imported from PadicDifferentialEquationsAndRigidCohomology §RD.7.
-* **AlgebraicCurves**, [Layers 7, 10 and 12](../AlgebraicCurves/README.md), supplies the function-field/model/genus interfaces for the Artin–Schreier example.
+* **AlgebraicCurves**, [Layer 12](../AlgebraicCurves/README.md), supplies the function-field/model/genus dictionary for the Artin–Schreier example.
