@@ -2751,7 +2751,8 @@ transport for equivalent base measures. Include H=0, zero controls/fields
 and the empty unit space, where nondegeneracy forces H=0; keep the onto
 zero-fibre transport in these cases. D5 proves quasi-invariance and constructs
 the inter-fibre unitaries U_γ, saturated conull reduction and disintegration
-below; continuous Hilbert fields in H5 alone do not supply these targets.
+below; the continuous Hilbert fields of HilbertModules H5 alone do not supply
+these targets.
 
 **Checks.**
 - For the empty unit space, G is empty, `C_c(G)=0` and `C*(G)=0`; a
