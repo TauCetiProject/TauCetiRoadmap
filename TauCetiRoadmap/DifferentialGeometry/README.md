@@ -550,10 +550,12 @@ a `C²` manifold: every chart expression has vanishing flat exterior derivative 
 range). The symplectic API of
 `Geometry/Symplectic/Manifold/{TwoForm,Energy}.lean` (`TauCeti.SmoothTwoForm.IsSymplectic` and its
 companions) is stated on that carrier. Nothing about them is planned here. Consumers that cite
-0.4's migration equivalence from `TauCeti.SmoothTwoForm I M` to `SmoothForm I M ℝ 2` (the
-HamiltonianReduction part of SymplecticGeometry, and LieGroupoidsPoisson) read it as the identity,
-the two types being equal by definition: its tuple-evaluation law holds by definition and its
-closedness comparison is the defining equation of `TauCeti.SmoothForm.IsClosed`.
+0.4's migration equivalence from `TauCeti.SmoothTwoForm I M` to `SmoothForm I M ℝ 2`, as
+legacySmoothTwoFormEquiv with its closedness comparison legacySmoothTwoFormEquiv_isClosed_iff (the
+HamiltonianReduction part of SymplecticGeometry, LieGroupoidsPoisson and ComplexKahlerGeometry),
+read it as the identity, the two types being equal by definition: its tuple-evaluation law holds
+by definition and its closedness comparison is the defining equation of
+`TauCeti.SmoothForm.IsClosed`.
 
 ### Existing distribution and Frobenius implementation
 
@@ -1281,9 +1283,9 @@ Geometric Topology.
   about them again. The flow of a complete `C¹` field as a Mathlib `Flow ℝ M`, whose time-`t` map
   is `TauCeti.flowOf v t`, is Tau Ceti's `TauCeti.globalFlow` with `TauCeti.flowOf_eq_globalFlow`
   (`IntegralCurve/GlobalFlow.lean`) on finite-dimensional boundaryless Hausdorff manifolds. The
-  targets are the same `Flow ℝ M` for a complete `C¹` field on a boundaryless Hausdorff manifold
-  over a Banach model, its continuity being 3.2's Banach joint smoothness on the domain
-  `TauCeti.flowDomain v = univ` and its group law `maximalIntegralCurve_add`; and homogeneity
+  targets are the same `Flow ℝ M` (cited by consumers as toFlow) for a complete `C¹` field on a
+  boundaryless Hausdorff manifold over a Banach model, its continuity being 3.2's Banach joint
+  smoothness on the domain `TauCeti.flowDomain v = univ` and its group law `maximalIntegralCurve_add`; and homogeneity
   `exists_flowOf_one_eq` on connected boundaryless finite-dimensional `M` — ⚠ false
   Banach-generally, where every compactly supported continuous field is zero. The flow of a
   left-invariant field on a Lie group is Tau Ceti's `mulInvariantIntegralCurve`, reconciling with
@@ -1708,7 +1710,8 @@ stronger quantifier order.
   against that basis's `addHaar`, weighted by the chart signs of a representing lift
   (`TauCeti.integralTopForm_eq_sum_disjointed_chart_integrals`); the manifold needs no Hausdorff
   or measurable-space structure, and a form supported in one chart has that chart's integral for
-  any representing lift (`TauCeti.integralTopForm_eq_chartIntegral`). Its laws are Tau Ceti's as
+  any representing lift (`TauCeti.integralTopForm_eq_chartIntegral`, the chart formula that
+  consumers cite as integralTopForm_of_tsupport_subset_chart). Its laws are Tau Ceti's as
   well: additivity for continuous compactly supported forms and for integrable rough forms
   (`TauCeti.integralTopForm_add`, `…_add_of_integrable`), scalars and zero
   (`…_smul`, `…_zero`), sign reversal under the opposite orientation for every rough form
@@ -1872,10 +1875,12 @@ stronger quantifier order.
   - `familyContraction` for the translation family `P(x, t) = x + t e₁` on `ℝ²` and
     `ω = x dy`: `V_t = e₁`, `p_t^* ω = (x + t) dy` has `∂_t = dy`, and the identity
     `∂_t(p_t^* ω) = d(C ω) + C(dω)` gives `d(x · dy(e₁)) + ι_{e₁}(dx ∧ dy) = 0 + dy`, as it must.
-- **5.5a Densities, for every finite-dimensional real model.** `Density`, rough
-  densities (a `Density (TangentSpace I x) m` at every point `x`), the density `φ · sign_o` of a
-  top form and an orientation, the integral of
-  densities, and its agreement with the integral of top forms give orientation-free integration
+- **5.5a Densities, for every finite-dimensional real model.** `Density` with its pointwise
+  real scaling `(c • μ).toFun v = c · μ.toFun v`, rough densities (a `Density (TangentSpace I x) m`
+  at every point `x`, cited by consumers as RoughDensity), the density `φ · sign_o` of a top form
+  and an orientation (cited as toDensity), the integral of densities (cited as integralDensity),
+  and its agreement `∫_o φ = ∫ φ · sign_o` with the integral of top forms on an oriented manifold
+  (cited as integralTopForm_eq_integralDensity) give orientation-free integration
   [Lee, Ch. 16, "Densities"]. Prove independence of chart, basis and partition
   by the absolute determinant change-of-variables formula. This uses 5.2's
   integral construction and not 5.5b's faces or corner Stokes. Retain the
@@ -1895,6 +1900,10 @@ stronger quantifier order.
     `T ∘ v` with `T` invertible: `Density V (dim V) ≅ ℝ`; and it is not a top form: on `ℝ` the
     form `dx` has `dx(−1) = −1` while a density satisfies `toFun (−1) = |−1| · toFun 1`, so
     `v ↦ dx v` is not a `Density`.
+  - On `ℝ²` with `μ = |dx ∧ dy|`, the scaled density `2 • μ` has value `2` on the standard basis
+    `e` and `2 · |det T|` on `T ∘ e`, so it obeys the `|det|` law again; scaling the tuple
+    instead, `v ↦ μ(2v)`, gives `4 = |det (2 · id)|` on `e`, the action of `2 · id` and not the
+    scalar `2`.
   - `TauCeti.planeAngularForm` at `z = 1` is `dy` and at `z = i` is `−dx`, each giving `1` on the
     counterclockwise unit tangent; pulled back along `t ↦ exp(it)` it is
     `cos t · cos t dt − sin t · (−sin t) dt = dt`, so its integral over `[0, 2π]` is `2π`, and
@@ -2581,8 +2590,8 @@ with de Rham cohomology on those carriers, and never a second singular theory.*
   `TauCeti.smoothSingularSubcomplex` composed with the affine face inclusions
   `Δ^(p−1) → Δᵖ` of `fullSimplex` (cited as simplexFace), with the boundary
   `∂σ = Σᵢ (−1)ⁱ σ ∘ δᵢ`; Stokes for a smooth simplex, `∫_σ dω = ∫_{∂σ} ω` for a `C¹` form `ω`
-  with complete coefficients, by the flat Stokes identity on `Δᵖ ⊆ ℝᵖ` (a Fubini computation on
-  the simplex, independent of 5.5b) and the pullback within `Δᵖ` [Lee, Thm. 18.12], and Stokes
+  with complete coefficients (cited as SmoothSimplex.integral_mextDeriv), by the flat Stokes
+  identity on `Δᵖ ⊆ ℝᵖ` (a Fubini computation on the simplex, independent of 5.5b) and the pullback within `Δᵖ` [Lee, Thm. 18.12], and Stokes
   for chains by linearity; the de Rham homomorphism `H^k_dR(M) → H^k(M; ℝ)` (cited as deRhamHom),
   the composite of integration over smooth chains, the dual of 8.3's smoothing equivalence and
   8.1's evaluation isomorphism, under 8.3's hypotheses, natural in smooth maps and compatible with
@@ -2607,7 +2616,10 @@ with de Rham cohomology on those carriers, and never a second singular theory.*
   de Rham homomorphism intertwines 7.1's connecting map with 8.1's cochain connecting map; and
   both theories take countable disjoint unions to products. Multiplicativity, that the de Rham
   homomorphism carries the wedge of 6.1 to the cup product `TopCat.singularCup`, is a theorem
-  here; no cup product is defined here. *Acceptance:* `[dθ] ↦ ` a nonzero class (8.4);
+  here; no cup product is defined here. *Acceptance:* `[dθ] ↦ ` a nonzero class, its period on
+  the smooth `1`-simplex `t ↦ exp(2πit)` of `Circle` being `2π` (8.4; that simplex is the loop
+  consumers cite as circleLoop, while Tau Ceti's `TauCeti.circleLoop` is the same parametrisation
+  as a continuous map into the unit circle of `EuclideanSpace ℝ (Fin 2)`, not a smooth simplex);
   `H^k(Sⁿ; ℝ)` agrees with 7.3's `H^k_dR(Sⁿ)`; `H^k_dR(E ∖ {0}) ≃ H^k(Sⁿ⁻¹; ℝ)` for a
   Euclidean `E` of dimension `n`, through `TauCeti.deRhamCohomology.puncturedSpaceEquivSphere`.
   *Needs:* 7.4; 8.4; 8.1.
@@ -2881,7 +2893,9 @@ Riesz duality.*
   `…_of_opposite`), and `C^n` for a `C^n` metric on a `C^(n+1)` manifold
   (`TauCeti.isSmoothForm_riemannianVolumeForm`);
   12.4 consumes it by name and plans nothing about it again. The target is the
-  invariant Riemannian density, whose chart coefficient is Tau Ceti's `chartVolumeDensity`. The
+  invariant Riemannian density `ρ_g` (cited by consumers as riemannianDensity), the rough density
+  of top degree with value `1` on every orthonormal basis, whose chart coefficient is Tau Ceti's
+  `chartVolumeDensity`. The
   measure is Tau Ceti's `TauCeti.riemannianVolume`; consume its native
   `TauCeti.isLocallyFiniteMeasure_riemannianVolume` instance from
   `TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume`, with its
@@ -2893,8 +2907,9 @@ Riesz duality.*
   `TauCeti.lintegral_riemannianVolume_pos` (`Riemannian/VolumeDensity/Positivity.lean`: a
   continuous function positive somewhere on a σ-compact manifold has positive lower integral);
   12.4 consumes both by name. The targets are the measure's bridge to densities, agreement with
-  the integral of densities on compactly supported continuous functions, and
-  `d(ι_X dV) = (div X) dV`.
+  the integral of densities on compactly supported continuous functions,
+  `∫ f d(TauCeti.riemannianVolume I M) = ∫ f • ρ_g` with 5.5a's pointwise scaling (cited as
+  integral_riemannianVolume_eq_integralDensity), and `d(ι_X dV) = (div X) dV`.
   *Needs:* 0.4 and 2.1–2.2 (the volume form as an oriented top form); 5.2 and 5.5a (the two
   integrals); Tau Ceti's `TauCeti.riemannianVolume`, `chartVolumeDensity` and
   `TauCeti.isLocallyFiniteMeasure_riemannianVolume`; 12.3 and 1.4 for `d(ι_X dV) = (div X) dV`.
@@ -3133,8 +3148,10 @@ constructions they share with it and their single owners.
 - **GeometricTopology**: orientations (2), distributions, Frobenius and leaves for its foliations
   (4), densities and form integration (5.5a, 12.4) and the smooth face structure with its
   product charts (5.5b) for collars and gluing.
-- **ComplexKahlerGeometry**: the forms and wedge of layers 0–1, 2.1's orientations, 5.5a's
-  `Density`, and layer 12's sign convention for the Laplacian.
+- **ComplexKahlerGeometry**: the forms and wedge of layers 0–1 with 0.4's two-form migration,
+  2.1's orientations, 5.5a's `Density` with its scaling, rough densities, integral of densities
+  and agreement with the integral of top forms, 12.4's comparison of the Riemannian measure with
+  the Riemannian density, and layer 12's sign convention for the Laplacian.
 - **SymplecticGeometry**: the Cartan and homotopy formulas (1.4, 5.4);
   its ContactGeometry consumes the forms and `mextDeriv` of layers 0–1, HamiltonianReduction
   0.4, 3.5 and the de Rham carrier, CotangentLagrangian layer 4, 5.4 and the de Rham comparison
