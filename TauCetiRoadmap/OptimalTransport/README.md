@@ -332,9 +332,10 @@ Do not assume these gaps away.  Each is a named target below before anything con
 
 ### From Tau Ceti
 
-Tau Ceti's optimal-transport library implements this roadmap's foundational targets.
-`Suggested.lean` and the later layers consume the following declarations by name, with the
-meaning stated.
+Declaration names and paths are those of Tau Ceti at revision `2fd255d9` with Mathlib
+`1b1ccf4b`, the revisions pinned by the roadmap repository's main branch.  Tau Ceti's
+optimal-transport library implements this roadmap's foundational targets.  `Suggested.lean` and
+the later layers consume the following declarations by name, with the meaning stated.
 
 * `TauCeti.IsCoupling π μ ν` and the bundled `TauCeti.Coupling μ ν`
   (`TauCeti/MeasureTheory/OptimalTransport/Coupling.lean`): the two marginal equalities of
@@ -590,6 +591,380 @@ consumed with exactly the hypotheses recorded here.
   minimizers, their zero-temperature limit, and existence of fixed-law finite GW barycenters for
   every `ε ≥ 0` (Layer 15.10).
 
+The remaining implemented targets are the following, by layer; each subsection named cites
+these declarations on its `*Needs:*` line (for a range of subsections, the first one does).
+
+* Layer 0.  `TauCeti.graphPlan`, `TauCeti.isCoupling_graphPlan_iff` and `TauCeti.eq_graphPlan_iff`
+  (`…/OptimalTransport/GraphPlan/Basic.lean`): the graph plan of a map, which couples `μ` and `ν`
+  exactly when the almost everywhere measurable map has law `ν`, and the plans concentrated on a
+  graph (Layer 0.2).  `TauCeti.IsCoupling.compProd_condKernel`, `TauCeti.isCoupling_compProd_iff`
+  and `TauCeti.IsCoupling.ae_eq_condKernel_iff_compProd_eq`
+  (`…/OptimalTransport/Disintegration.lean`): reconstruction of a finite coupling from its source
+  marginal and conditional kernel, couplings built from a marginal and a Markov kernel, and
+  almost everywhere uniqueness of the kernel (Layer 0.3).
+  `TauCeti.Measure.exists_glue_of_standardBorel_right`,
+  `TauCeti.Measure.exists_glue_of_standardBorel_left` and
+  `TauCeti.Measure.exists_comp_of_exists_glue` (`…/OptimalTransport/Gluing.lean`), and
+  `TauCeti.Measure.chainMeasure` (`…/OptimalTransport/Chain.lean`): the gluing lemma with the third,
+  respectively the first, factor standard Borel, composition of plans, and the law of a countable
+  chain of couplings (Layer 0.4).  `TauCeti.Measure.IsMultiCoupling` and `TauCeti.MultiCoupling`
+  (`…/OptimalTransport/MultiMarginal/Basic.lean`), `TauCeti.Measure.replaceMarginal`
+  (`…/OptimalTransport/MultiMarginal/Replacement.lean`) and
+  `TauCeti.couplingEquivMultiCouplingFinTwo` (`…/OptimalTransport/MultiMarginal/Pair.lean`):
+  multi-marginal couplings, marginal replacement, and the two-marginal reduction (Layer 0.5).
+* Layer 1.  `TauCeti.transportCostBddBelow` and `TauCeti.transportCostBddBelow_coe_eq_transportCost`
+  (`…/OptimalTransport/Cost/BoundedBelow.lean`): the signed value for a cost bounded below by
+  integrable marginal terms, and its agreement with the nonnegative interface (Layer 1.1).
+  `TauCeti.tendsto_transportCost`, `TauCeti.exists_isOptimalCoupling_tendsto` and
+  `TauCeti.lowerSemicontinuous_transportCost` (`…/OptimalTransport/Stability.lean`): convergence of
+  values and subsequential convergence of optimal plans under the liminf and recovery hypotheses,
+  and weak lower semicontinuity of the value of a lower semicontinuous cost in the pair of
+  marginals on Polish spaces (Layer 1.6).  `TauCeti.TransportMatrix`
+  (`…/OptimalTransport/Finite/TransportMatrix.lean`),
+  `TauCeti.TransportMatrix.exists_uncrossSteps_isMonotone`
+  (`…/OptimalTransport/Finite/Uncrossing/Termination.lean`),
+  `TauCeti.TransportMatrix.IsMonotone.forall_cost_le` (`…/OptimalTransport/Finite/Monotone.lean`)
+  and `TauCeti.transportConstraintCost` (`…/OptimalTransport/Cost/Constraint.lean`): finite plans
+  as matrices, termination of uncrossing, optimality of the monotone plan for Monge costs, and the
+  barrier cost of a constraint (the Examples of Layer 1).
+* Layer 2.  `TauCeti.DualFeasible`, `TauCeti.kantorovichDualValue` and
+  `TauCeti.DualFeasible.kantorovichDualValue_le_transportCost`
+  (`…/OptimalTransport/Duality/Basic.lean`): the constraint `φ x + ψ y ≤ c(x,y)` for extended-real
+  potentials, the dual value, and weak duality (Layer 2.1).  `TauCeti.cTransform`,
+  `TauCeti.IsCConcave`, `TauCeti.contactSet`, `TauCeti.cSuperdifferential`,
+  `TauCeti.cTransform_galoisConnection`, `TauCeti.isCConcave_iff` and
+  `TauCeti.upperSemicontinuous_cTransform` (`…/OptimalTransport/CTransform/Basic.lean`),
+  `TauCeti.exists_cTransform_eq`, `TauCeti.lowerSemicontinuous_cTransform` and
+  `TauCeti.continuous_cTransform_coe` (`…/OptimalTransport/CTransform/Compact.lean`), and
+  `TauCeti.cTransformExtended` (`…/OptimalTransport/CTransform/Extended.lean`): the infimal
+  transform, `c`-concavity, contact sets, the Galois connection, upper semicontinuity for upper
+  semicontinuous sections, and attainment, lower semicontinuity and continuity on a compact
+  source (Layer 2.2).  `TauCeti.exists_cost_eq_finiteDualValue`,
+  `TauCeti.TransportMatrix.cost_eq_finiteDualValue_iff` and
+  `TauCeti.finiteDualValue_eq_kantorovichDualValue` (`…/OptimalTransport/Finite/Duality.lean`):
+  finite strong duality with both attainments, complementary slackness, and the bridge to the
+  measure-level dual value (Layer 2.3).  `TauCeti.isLUB_kantorovichDualValue_continuous`
+  (`…/OptimalTransport/Duality/Compact.lean`), `TauCeti.isGreatest_kantorovichDualValue_integrable`
+  (`…/OptimalTransport/Duality/Attainment.lean`),
+  `TauCeti.isLUB_kantorovichDualValue_of_lowerSemicontinuous_bddBelow`
+  (`…/OptimalTransport/Duality/BoundedBelow.lean`) and
+  `TauCeti.exists_kantorovichDualValue_eq_of_le_add` (`…/OptimalTransport/Duality/BoundedAbove.lean`):
+  strong duality over continuous pairs for a continuous nonnegative cost on compact pseudometric
+  spaces; the maximum over integrable pairs for a bounded continuous nonnegative cost on Polish
+  spaces; the Polish theorem for a lower semicontinuous cost bounded below by integrable upper
+  semicontinuous marginal terms; and, for a lower semicontinuous cost `c ≤ c_X ⊕ c_Y` with `c_X`, `c_Y` integrable, an
+  integrable pair feasible on a product of full-measure sets whose value is the transport cost
+  (Layer 2.4).  `TauCeti.partialTransportCost` and `TauCeti.relaxedTransportCost`
+  (`…/OptimalTransport/Cost/Partial/Basic.lean`),
+  `TauCeti.DualFeasible.ofReal_kantorovichDualValue_le_relaxedTransportCost` and
+  `TauCeti.relaxedTransportCost_eq_transportCost_of_lowerSemicontinuous`
+  (`…/OptimalTransport/Duality/Relaxed.lean`),
+  `TauCeti.relaxedTransportCost_eq_transportCost_of_bounded` and
+  `TauCeti.relaxedTransportCost_eq_transportCost_of_le_split`
+  (`…/OptimalTransport/Cost/Partial/Integrable.lean`) and
+  `TauCeti.relaxedTransportCost_eq_iSup_transportCost_min`
+  (`…/OptimalTransport/Cost/Partial/Truncation.lean`): the relaxed primal with the hypotheses
+  recorded in Layer 2.5.  `TauCeti.exists_cost_eq_finiteMultiDualValue` and
+  `TauCeti.FiniteMultiCoupling.cost_eq_finiteMultiDualValue_iff`
+  (`…/OptimalTransport/MultiMarginal/Finite/Duality.lean`): finite multi-marginal duality and
+  complementary slackness (Layer 2.6).  `TauCeti.isCyclicallyMonotone_iff_exists_isCConcave`
+  (`…/OptimalTransport/CTransform/CyclicalMonotonicity.lean`) and
+  `TauCeti.IsOptimalCoupling.exists_isCyclicallyMonotone_of_lowerSemicontinuous`
+  (`…/OptimalTransport/Duality/CyclicalMonotonicity.lean`): a set is `c`-cyclically monotone
+  exactly when it lies in the `c`-superdifferential of a `c`-concave potential, and an optimal
+  plan of finite cost for a lower semicontinuous cost on Polish spaces is concentrated on a
+  measurable `c`-cyclically monotone set (Layer 2.7).  `TauCeti.IsDualCertificate`,
+  `TauCeti.isDualCertificate_iff`, `TauCeti.IsDualCertificate.isOptimalCoupling` and
+  `TauCeti.IsDualCertificate.transportCost_eq` (`…/OptimalTransport/Duality/Certificate.lean`):
+  certificates, complementary slackness, and the optimality and absence of a gap they prove
+  (Layer 2.8).
+* Layer 3.  `TauCeti.wassersteinEDist_eq_zero_iff_separationQuotient_eq`
+  (`…/OptimalTransport/Wasserstein/Quotient.lean`): zero distance is equality after pushforward to
+  the metric separation quotient, for every nonzero exponent (Layer 3.1).
+  `TauCeti.WassersteinSpace`, `TauCeti.WassersteinComponent` and
+  `TauCeti.WassersteinSpace.isometryEquivComponent` (`…/OptimalTransport/Wasserstein/Space.lean`)
+  and `TauCeti.WassersteinSpace.borelSpace` (`…/OptimalTransport/Wasserstein/Borel.lean`): `P_p(X)`,
+  the finite-distance component of an anchor, their identification at a Dirac anchor, and the
+  Borel structure for `1 ≤ p < ∞` (Layer 3.2).  `TauCeti.WassersteinSpace.separableSpace`
+  (`…/OptimalTransport/Wasserstein/Separable.lean`),
+  `TauCeti.WassersteinSpace.isCompact_closure_iff_isTightMeasureSet_and_exists_setLIntegral_edist_rpow_le`
+  (`…/OptimalTransport/Wasserstein/Compactness.lean`),
+  `TauCeti.WassersteinSpace.dense_setOfPred_ae_mem_finset` and
+  `TauCeti.tendsto_wassersteinQuantizationError` (`…/OptimalTransport/Wasserstein/FiniteSupport.lean`),
+  `TauCeti.exists_wassersteinEDist_eq_wassersteinQuantizationError`
+  (`…/OptimalTransport/Wasserstein/Quantization.lean`) and
+  `TauCeti.tendsto_wassersteinEDist_empiricalMeasure_ae`
+  (`…/OptimalTransport/Wasserstein/Empirical.lean`): separability, relative compactness as
+  tightness with uniformly small moment tails, density of finitely supported laws, quantization
+  errors and best quantizers on proper spaces, and almost sure convergence of empirical measures
+  (Layer 3.3).  `TauCeti.WassersteinSpace.tendsto_iff_tendsto_toProbabilityMeasure_and_lintegral`
+  (`…/OptimalTransport/Wasserstein/Moment.lean`),
+  `TauCeti.WassersteinSpace.continuous_toProbabilityMeasure`
+  (`…/OptimalTransport/Wasserstein/WeakConvergence.lean`) and
+  `TauCeti.lowerSemicontinuous_wassersteinEDist`
+  (`…/OptimalTransport/Wasserstein/LowerSemicontinuous.lean`): convergence in `P_p(X)` as weak
+  convergence with convergence of `p`-moments, and weak lower semicontinuity of `W_p` on a Polish
+  metric space (Layer 3.4).  `TauCeti.wassersteinEDist_map_le_mul`,
+  `TauCeti.WassersteinSpace.lipschitzWith_map` and `TauCeti.WassersteinSpace.isometry_map`
+  (`…/OptimalTransport/Wasserstein/Pushforward.lean`), `TauCeti.wassersteinEDist_map_toLp_prod`
+  (`…/OptimalTransport/Wasserstein/Product.lean`), `TauCeti.wassersteinEDist_conv_right_le`
+  (`…/OptimalTransport/Wasserstein/Convolution.lean`),
+  `TauCeti.wassersteinEDist_smul_add_smul_rpow_le` (`…/OptimalTransport/Wasserstein/Mixture/Basic.lean`)
+  and `TauCeti.wassersteinEDist_comp_le_mul` (`…/OptimalTransport/Wasserstein/Kernel/Basic.lean`):
+  Lipschitz and isometric pushforward, tensorization, convolution, mixtures and Lipschitz kernels
+  (Layer 3.5).  `TauCeti.WassersteinComponent.instCompleteSpaceTop`
+  (`…/OptimalTransport/Wasserstein/Infinity/Complete.lean`),
+  `TauCeti.tendsto_wassersteinEDist_top_iff_exists_couplings`
+  (`…/OptimalTransport/Wasserstein/Infinity/Convergence.lean`),
+  `TauCeti.WassersteinSpace.not_dense_setOfPred_ae_mem_finset_top_baire`
+  (`…/OptimalTransport/Wasserstein/Infinity/FiniteSupport.lean`) and
+  `TauCeti.WassersteinSpace.not_separableSpace_top_nat`
+  (`…/OptimalTransport/Wasserstein/Infinity/Nonseparable.lean`): completeness of the finite-`W_∞`
+  components over a Polish metric space, convergence in `W_∞` through couplings, and the failure
+  of density of finitely supported laws and of separability at `p = ∞` (Layer 3.6).
+  `TauCeti.wassersteinEDist_one_eq_lintegral_enorm_cdf_sub`
+  (`…/OptimalTransport/Wasserstein/OneDimensional.lean`): `W₁` on `ℝ` as the area between the
+  distribution functions (Layer 3.7).  `TauCeti.MetricMeasureSpace`
+  (`…/OptimalTransport/MetricMeasure/Basic.lean`): the measured-metric carrier (Layers 3.9 and
+  14.1).
+* Layers 4--6.  `TauCeti.IsCoupling.exists_graphPlan_of_ae_exists_condKernel_eq_dirac`
+  (`…/OptimalTransport/MeasurableSelection.lean`): a coupling with Dirac conditional laws is a
+  graph plan of a measurable map (Layer 4.6).
+  `TauCeti.IsCyclicallyMonotone.exists_fenchelConjugate_subset_subdifferential`
+  (`…/OptimalTransport/CTransform/Rockafellar.lean`),
+  `TauCeti.IsCyclicallyMonotone.exists_fenchelConjugate_innerₗ_subset_subdifferential` and
+  `TauCeti.cSuperdifferential_norm_sub_sq_div_two` (`…/OptimalTransport/CTransform/Quadratic.lean`)
+  and `TauCeti.isCyclicallyMonotone_norm_sub_sq_div_two_iff`
+  (`…/OptimalTransport/Cost/Quadratic.lean`): Rockafellar's theorem for a pairing and for the
+  quadratic cost, with the dictionary between `c`-superdifferentials and subdifferentials
+  (Layer 5.4).  `TauCeti.subsingleton_setOf_mem_contactSet_of_strictConvexOn` and
+  `TauCeti.IsDualCertificate.eq_of_isOptimalCoupling_of_strictConvexOn`
+  (`…/OptimalTransport/Twist/StrictConvex.lean`): for `c(x,y) = h(x-y)` with `h` strictly convex,
+  one contact partner at a point where the potential is finite nearby and differentiable, and,
+  for nonnegative `h`, a finite source and a certified plan with almost everywhere differentiable
+  first potential, uniqueness of the optimal coupling (Layer 5.8).
+  `TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_not_continuousOn`
+  (`…/OptimalTransport/DisconnectedTarget.lean`): the discontinuous Brenier map from a ball to two
+  separated balls (Layer 6.11).  `TauCeti.mtwTensor`, `TauCeti.SatisfiesWeakMTW`,
+  `TauCeti.SatisfiesStrongMTW`, `TauCeti.satisfiesWeakMTW_norm_sub_sq_div_two` and
+  `TauCeti.satisfiesStrongMTW_norm_sub_sq_div_two_iff`
+  (`…/OptimalTransport/Twist/MaTrudingerWang.lean`), and `TauCeti.cExp`, `TauCeti.IsCConvexSet` and
+  `TauCeti.IsDualCertificate.ae_eq_cExp` (`…/OptimalTransport/Twist/CExponential.lean`): the
+  Ma--Trudinger--Wang tensor and conditions with the quadratic regression values, the
+  `c`-exponential, `c`-convex sets, and the map `x ↦ cExp(x, -Dφ(x))` of a certified plan of a
+  twisted cost (Layer 6.12).
+* Layers 8--9.  `TauCeti.absolutelyContinuousOnInterval_of_coe_eq_map_IccExtend` and
+  `TauCeti.curveAction_le_lintegral_of_coe_eq_map_IccExtend`
+  (`…/OptimalTransport/Wasserstein/AbsolutelyContinuous.lean`): the time marginals of a law on
+  absolutely continuous paths of finite expected action form an absolutely continuous curve of
+  `P_p(X)` of at most that action (Layer 8.1).
+  `MeasureTheory.Measure.exists_measurable_ae_mem_geodesicPaths` and
+  `MeasureTheory.Measure.exists_ae_mem_geodesicPaths_endpointLaw_eq`
+  (`…/OptimalTransport/DynamicPlan.lean`): measurable selection of geodesics on a Polish metric
+  space, and dynamic plans with a prescribed endpoint law (Layer 8.2).
+  `TauCeti.WassersteinSpace.instIsGeodesicSpace`,
+  `TauCeti.WassersteinSpace.isGeodesicSegment_iff_isDisplacementInterpolation`,
+  `TauCeti.isLeast_wassersteinEDist_rpow_lintegral_curveAction`,
+  `TauCeti.WassersteinSpace.isGeodesicSegment_iff_exists_isOptimalCoupling` and
+  `TauCeti.IsDisplacementInterpolation` (`…/OptimalTransport/Wasserstein/Geodesic/Basic.lean`), and
+  `TauCeti.WassersteinSpace.eqOn_of_isGeodesicSegment_of_ae_subsingleton` and
+  `TauCeti.WassersteinSpace.isGeodesicSegment_iff_coe_eq_map_smul_add_smul_of_absolutelyContinuous`
+  (`…/OptimalTransport/Wasserstein/Geodesic/Unique.lean`): `P_p(X)` is geodesic over a Polish
+  geodesic space for `1 ≤ p ≤ ∞`; for `1 < p < ∞` its geodesics are the displacement
+  interpolations of optimal dynamic plans, and on a strictly convex separable Banach space the
+  linear interpolations of optimal couplings; `W_p^p` is the least expected `p`-action; and
+  geodesics are unique when the optimal coupling is unique and almost surely joins points by
+  unique geodesics, in particular out of an absolutely continuous law in `P₂` of a
+  finite-dimensional inner product space (Layers 8.4, 9.1 and 9.2).
+  `TauCeti.IsContinuityEquation` and `TauCeti.exists_isContinuityEquation_map`
+  (`…/OptimalTransport/ContinuityEquation/Basic.lean`),
+  `TauCeti.IsContinuityEquation.measure_univ_eq`
+  (`…/OptimalTransport/ContinuityEquation/Endpoint.lean`),
+  `TauCeti.exists_isContinuityEquation_map_smul_fst_add_smul_snd_of_isOptimalCoupling`
+  (`…/OptimalTransport/ContinuityEquation/PlanInterpolation.lean`) and
+  `TauCeti.IsContinuityEquation.ofReal_integral_sub_integral_le_lintegral_of_fderiv_le`
+  (`…/OptimalTransport/ContinuityEquation/Subsolution.lean`): the distributional continuity
+  equation, its solutions from laws on absolutely continuous curves, conservation of mass, the
+  displacement interpolation as a solution of action `W_p^p`, and the bound of the boundary terms
+  of a subsolution by the action (Layers 8.7 and 8.8).  `TauCeti.potentialEnergy`,
+  `StrongConvexOn.geodesicallyConvex_potentialEnergy` and
+  `StrongConvexOn.generalizedGeodesicallyConvex_potentialEnergy`
+  (`…/OptimalTransport/Wasserstein/PotentialEnergy.lean`), `TauCeti.interactionEnergy`,
+  `ConvexOn.geodesicallyConvex_interactionEnergy` and
+  `TauCeti.not_geodesicallyConvex_interactionEnergy`
+  (`…/OptimalTransport/Wasserstein/InteractionEnergy.lean`), `TauCeti.internalEnergy`
+  (`…/OptimalTransport/Wasserstein/InternalEnergy/Basic.lean`),
+  `TauCeti.internalEnergy_map_smul_add_smul_gradient_le` and
+  `TauCeti.WassersteinSpace.exists_isGeodesicSegment_convexAlong_internalEnergy`
+  (`…/OptimalTransport/Wasserstein/InternalEnergy/DisplacementConvexity.lean`) and
+  `TauCeti.renyiEntropy` (`…/OptimalTransport/Wasserstein/RenyiEntropy.lean`): the three energies
+  as extended reals, `m`-convexity of the potential energy of an `m`-strongly convex potential
+  along geodesics and generalized geodesics, convexity and the absence of a positive modulus for
+  the interaction energy of a convex difference kernel, McCann's displacement convexity of the
+  internal energy along the displacement interpolation of a Brenier map, and the Rényi entropy
+  (Layer 9.5).
+* Layer 10.  `TauCeti.descendingSlope` (`TauCeti/Analysis/GradientFlow/Slope.lean`),
+  `TauCeti.IsStrongUpperGradient` (`TauCeti/Analysis/GradientFlow/UpperGradient.lean`),
+  `TauCeti.IsCurveOfMaximalSlope` and `TauCeti.IsCurveOfMaximalSlope.apply_eq_add_dissipation`
+  (`TauCeti/Analysis/GradientFlow/MaximalSlope/Basic.lean`), `TauCeti.IsEVISolution`,
+  `TauCeti.IsEVISolution.dist_le` and `TauCeti.IsEVISolution.eqOn`
+  (`TauCeti/Analysis/GradientFlow/EVI/Basic.lean`), `TauCeti.eviSemiflow`
+  (`TauCeti/Analysis/GradientFlow/EVI/Semigroup.lean`), `TauCeti.moreauYosida` and
+  `TauCeti.moreauYosidaResolvent` (`TauCeti/Analysis/GradientFlow/MoreauYosida/Basic.lean`),
+  `TauCeti.moreauYosidaResolvent_nonempty_of_lowerSemicontinuous`
+  (`TauCeti/Analysis/GradientFlow/MoreauYosida/Existence.lean`), `TauCeti.deGiorgiInterpolant`
+  (`TauCeti/Analysis/GradientFlow/DeGiorgiInterpolation.lean`),
+  `TauCeti.IsGeneralizedMinimizingMovement` and `TauCeti.exists_isGeneralizedMinimizingMovement`
+  (`TauCeti/Analysis/GradientFlow/MinimizingMovement.lean`) and
+  `TauCeti.TendstoGamma.mem_moreauYosidaResolvent_of_tendsto`
+  (`TauCeti/Analysis/GradientFlow/MoreauYosida/GammaConvergence.lean`): slopes and strong upper
+  gradients; curves of maximal slope with their energy identity; `EVI_λ` solutions with
+  `λ`-contraction, uniqueness and the semiflow they generate; the Moreau--Yosida approximation and
+  resolvent, nonempty for a lower semicontinuous coercive energy on a proper metric space; De
+  Giorgi's interpolant; generalized minimizing movements and their existence; and stability of
+  resolvent steps under Γ-convergence (Layers 10.1--10.6).
+* Layer 11.  `TauCeti.boltzmannEntropy` and `TauCeti.klDiv_eq_boltzmannEntropy_add_sub`
+  (`…/OptimalTransport/Wasserstein/InternalEnergy/Basic.lean`) and
+  `TauCeti.WassersteinSpace.lowerSemicontinuous_boltzmannEntropy`
+  (`…/OptimalTransport/Wasserstein/BoltzmannEntropy.lean`): the signed entropy, the identity
+  `klDiv μ m = Ent_m(μ) + m(X) - μ(X)` for finite measures, and lower semicontinuity on `P_p(X)`
+  (Layer 11.2).  `TauCeti.wassersteinTangentSpace`,
+  `TauCeti.mem_orthogonal_wassersteinTangentSpace_iff` and `TauCeti.wassersteinTangentSpace_dirac`
+  (`…/OptimalTransport/Wasserstein/TangentSpace.lean`): the tangent space as the closure of
+  gradients of test functions, its orthogonal complement as the fields `w` with `div(wμ) = 0`, and
+  its value at a Dirac mass (Layer 11.3).  `TauCeti.wassersteinSubdifferential`,
+  `TauCeti.convex_wassersteinSubdifferential`, `TauCeti.isClosed_wassersteinSubdifferential`,
+  `TauCeti.existsUnique_mem_wassersteinSubdifferential_forall_norm_le`,
+  `TauCeti.descendingSlope_le_of_mem_wassersteinSubdifferential`,
+  `TauCeti.ConvexAlongGeodesics.mem_wassersteinSubdifferential_iff` and
+  `StrongConvexOn.mem_wassersteinSubdifferential_potentialEnergy`
+  (`…/OptimalTransport/Wasserstein/Subdifferential.lean`), and
+  `TauCeti.hasDerivAt_integral_comp_add_smul`
+  (`…/OptimalTransport/Wasserstein/PotentialEnergy.lean`): the Fréchet subdifferential of Layer
+  11.4 with the properties recorded there, the gradient of an `m`-strongly convex potential as a
+  subgradient of its potential energy, and the first variation of the potential energy (Layers
+  11.4 and 11.5).  `TauCeti.WassersteinSpace.moreauYosidaResolvent_nonempty`,
+  `TauCeti.WassersteinSpace.moreauYosidaResolvent_nonempty_of_properSpace` and
+  `TauCeti.WassersteinSpace.exists_forall_mem_moreauYosidaResolvent`
+  (`…/OptimalTransport/Wasserstein/Resolvent.lean`), and
+  `TauCeti.apply_le_apply_add_of_mem_moreauYosidaResolvent` and
+  `TauCeti.integral_inner_eq_neg_mul_of_mem_moreauYosidaResolvent`
+  (`…/OptimalTransport/Wasserstein/EulerLagrange.lean`): existence of the JKO step and of JKO
+  sequences for a narrowly lower semicontinuous coercive energy whose bounded sequences of
+  bounded energy are tight, in particular on a proper space, and the variational inequality and
+  Euler--Lagrange equation of the step (Layer 11.6).
+* Layer 12.  `TauCeti.WassersteinSpace.isFrechetBarycenter_sum_smul_dirac_iff_isMinOn`
+  (`…/OptimalTransport/Wasserstein/FrechetMean.lean`) and
+  `TauCeti.WassersteinSpace.exists_isFrechetBarycenter_sum_smul_dirac`
+  (`…/OptimalTransport/MultiMarginal/Barycenter.lean`): on a Polish space the barycenters of
+  `∑ w_j δ_{μ_j}` are the minimizers of the weighted `p`-cost, and they exist on a proper space
+  (Layers 12.1 and 12.3).  `TauCeti.exists_isMultiCoupling_isMinOn_lintegral`
+  (`…/OptimalTransport/MultiMarginal/Existence.lean`), and
+  `TauCeti.iInf_sum_mul_wassersteinEDist_rpow_eq`, `TauCeti.iInf_sum_mul_wassersteinEDist_sq_eq` and
+  `TauCeti.isFrechetBarycenter_two_iff_exists_isMinOn_lintegral_map_eq`
+  (`…/OptimalTransport/MultiMarginal/Barycenter.lean`): attainment of the multi-marginal problem
+  for a lower semicontinuous cost and tight marginals on second-countable metrizable spaces, equality of the barycentric and multi-marginal values, on a
+  proper space for `d^p` and on a Hilbert space for the weighted mean, and the quadratic
+  barycenters as the weighted means of the optimal multi-couplings (Layer 12.6).
+  `TauCeti.WassersteinSpace.subsingleton_frechetBarycenters`
+  (`…/OptimalTransport/Wasserstein/Barycenter/Uniqueness/Basic.lean`),
+  `TauCeti.WassersteinSpace.subsingleton_frechetBarycenters_two_sum_smul_dirac`
+  (`…/OptimalTransport/Wasserstein/Barycenter/Uniqueness/Euclidean.lean`) and
+  `TauCeti.wassersteinEDist_two_smul_add_smul_sq_lt`
+  (`…/OptimalTransport/Wasserstein/Mixture/Euclidean.lean`): at most one barycenter when the law
+  of the inputs charges laws whose optimal plans are induced by maps, in particular at most one
+  quadratic barycenter of finitely many laws one of which has positive weight and is absolutely
+  continuous, through strict convexity of `ν ↦ W₂(μ,ν)²` for an absolutely continuous `μ` (Layer
+  12.7).  `TauCeti.WassersteinSpace.existsUnique_isFrechetBarycenter_real`
+  (`…/OptimalTransport/Wasserstein/Barycenter/Uniqueness/Real.lean`),
+  `TauCeti.WassersteinSpace.tendsto_of_isFrechetBarycenter_empiricalMeasure_ae`
+  (`…/OptimalTransport/Wasserstein/Barycenter/Empirical.lean`) and
+  `TauCeti.Probability.isFrechetBarycenter_two_multivariateGaussian`
+  (`…/OptimalTransport/Wasserstein/Gaussian/Barycenter.lean`): the unique quadratic barycenter of
+  a law of finite second moment on `P₂(ℝ)`, almost sure convergence of empirical barycenters to a
+  unique population barycenter, and the Gaussian interpolation as a barycenter of two Gaussian
+  laws (Layer 12.8).
+* Layer 13.  `TauCeti.tendsto_of_klDiv_eq_schroedingerValue` and
+  `TauCeti.lowerSemicontinuous_entropicTransportCost` (`…/OptimalTransport/Entropic/Stability.lean`):
+  convergence of Schrödinger minimizers along weakly convergent marginals and references once
+  the values satisfy the limsup bound and the limit value is finite, and lower semicontinuity of
+  the entropic cost (Layer 13.2).
+  `TauCeti.IsCoupling.exists_eq_withDensity_exp_add_of_klDiv_eq_schroedingerValue` and
+  `TauCeti.exists_isCoupling_lintegral_add_mul_klDiv_eq_entropicTransportCost`
+  (`…/OptimalTransport/Entropic/SchroedingerSystem.lean`): for a reference with bounded measurable
+  log-density against `μ⊗ν`, `μ` finite, the Schrödinger minimizer has density `exp(φ ⊕ ψ)`
+  against the reference with bounded measurable potentials; for a bounded cost the entropic
+  optimal plan exists with a Gibbs density (Layer 13.3).
+  `MeasureTheory.Measure.proportionalFitting`, `TauCeti.klDiv_eq_add_klDiv_proportionalFittingStep`,
+  `TauCeti.klDiv_eq_sum_add_klDiv_proportionalFitting` and
+  `TauCeti.tendsto_klDiv_fst_proportionalFitting` (`…/OptimalTransport/ProportionalFitting.lean`):
+  the iteration, the Pythagorean identity of one sweep and its telescoped form for a finite
+  reference and a finite coupling, and convergence of the marginal errors under finite-entropy
+  feasibility (Layer 13.7).  `Matrix.exists_sinkhorn_scaling_iff`
+  (`TauCeti/Data/Matrix/Scaling/Support.lean`) and
+  `Matrix.hasTotalSupport_iff_exists_mem_doublyStochastic` (`TauCeti/Data/Matrix/TotalSupport.lean`):
+  a nonnegative rectangular kernel has a positive diagonal scaling with marginals `a`, `b` exactly
+  when some nonnegative matrix with the same zero pattern has those marginals, and a square
+  matrix has total support exactly when some doubly stochastic matrix has its zero pattern
+  (Layer 13.8).  `TauCeti.hilbertProjectiveDist`, `Matrix.projectiveDiameter` and
+  `Matrix.hilbertProjectiveDist_mulVec_le` (`TauCeti/Data/Matrix/BirkhoffContraction.lean`),
+  `Matrix.hilbertProjectiveDist_sinkhornStep_le` (`TauCeti/Data/Matrix/Sinkhorn/Basic.lean`),
+  `Matrix.hilbertProjectiveDist_sinkhornStep_iterate_succ_le_mul_projectiveDiameter` and
+  `Matrix.sum_abs_sum_sinkhornPlan_iterate_apply_sub_le` (`TauCeti/Data/Matrix/Sinkhorn/Rate.lean`)
+  and `TauCeti.tendsto_proportionalFitting_apply`
+  (`…/OptimalTransport/Finite/ProportionalFitting.lean`): Hilbert's projective metric, the
+  diameter `Δ(K)`, Birkhoff's contraction with factor `tanh(Δ(K)/4)` for a strictly positive
+  kernel on positive vectors, the factor `tanh(Δ(K)/4)²` for a full Sinkhorn step, explicit rates
+  for the iterates and the marginal residual, and setwise convergence of proportional fitting to
+  the Schrödinger minimizer for strictly positive finite masses (Layer 13.9).
+  `Matrix.ofReal_entropicTransportValue_eq` and `Matrix.entropicDualValue_eq_mul_relEntropyDual`
+  (`…/OptimalTransport/Finite/Entropic.lean`) and `TauCeti.proportionalFitting_real_singleton`
+  (`…/OptimalTransport/Finite/ProportionalFitting.lean`): agreement of the finite primal and dual
+  values and of the Sinkhorn iterates with the measure-theoretic ones for a nonnegative real cost
+  (Layer 13.10).
+* Layers 14--15.  `TauCeti.MetricMeasureSpace.CurvatureDimensionInfinity` and
+  `TauCeti.MetricMeasureSpace.curvatureDimensionInfinity_iff_geodesicallyConvex`
+  (`…/OptimalTransport/MetricMeasure/CurvatureDimension.lean`), `TauCeti.distortionSigma` and
+  `TauCeti.distortionTau` (`…/OptimalTransport/MetricMeasure/DistortionCoefficient.lean`),
+  `TauCeti.MetricMeasureSpace.MeasureContraction`
+  (`…/OptimalTransport/MetricMeasure/MeasureContraction.lean`) and
+  `TauCeti.MetricMeasureSpace.EssentiallyNonbranching`
+  (`…/OptimalTransport/MetricMeasure/Nonbranching.lean`): `CD(K,∞)`, its form as `K`-geodesic
+  convexity of the entropy for a reference of full support, the distortion coefficients,
+  `MCP(K,N)`, and essential nonbranching (Layer 14.2).  `TauCeti.sturmEDist`
+  (`…/OptimalTransport/MetricMeasure/TransportationDistance.lean`) and
+  `TauCeti.gromovProkhorovEDist` (`…/OptimalTransport/MetricMeasure/GromovProkhorov.lean`):
+  Sturm's transportation distance and the Gromov--Prokhorov distance (Layers 14.4 and 15.6).
+  `TauCeti.AreWeaklyIsomorphicKernels` (`…/OptimalTransport/GromovWasserstein/WeakIsomorphism.lean`),
+  `TauCeti.gromovWassersteinDistortion`, `TauCeti.gromovWassersteinEDist`,
+  `TauCeti.gromovWassersteinEDist_comm` and `TauCeti.gromovWassersteinEDist_triangle`
+  (`…/OptimalTransport/GromovWasserstein/Basic.lean`),
+  `TauCeti.exists_isCoupling_gromovWassersteinDistortion_eq`
+  (`…/OptimalTransport/GromovWasserstein/Attainment.lean`) and
+  `TauCeti.gromovWassersteinEDist_eq_zero_iff` (`…/OptimalTransport/GromovWasserstein/Zero.lean`):
+  weak isomorphism of measured kernels, the distortion and the distance, symmetry, the triangle
+  inequality for a standard Borel third carrier, an optimal coupling on Polish carriers, and, for
+  standard Borel probability carriers, almost everywhere strongly measurable kernels and
+  `p ≠ 0`, zero distance exactly for weakly isomorphic kernels (Layers 15.1--15.4).
+  `TauCeti.GromovWassersteinSpace.instIsGeodesicSpace`
+  (`…/OptimalTransport/GromovWasserstein/Geodesic/Basic.lean`) and
+  `TauCeti.GromovWassersteinSpace.completeSpace_of_completeSpace_gromovWassersteinSpace`
+  (`…/OptimalTransport/GromovWasserstein/Point.lean`): the quotient is geodesic over a complete
+  separable geodesic target, and a complete quotient forces a complete target (Layer 15.5).
+  `TauCeti.kernelSectionLaw` and
+  `TauCeti.iInf_eLpNorm_kernelSectionLawEDist_le_gromovWassersteinEDist`
+  (`…/OptimalTransport/GromovWasserstein/SectionLaw.lean`), `TauCeti.kernelEccentricity` and
+  `TauCeti.wassersteinEDist_map_kernelEccentricity_le_gromovWassersteinEDist`
+  (`…/OptimalTransport/GromovWasserstein/Eccentricity.lean`) and
+  `TauCeti.wassersteinEDist_kernelDistribution_le_gromovWassersteinEDist`
+  (`…/OptimalTransport/GromovWasserstein/KernelDistribution.lean`): the section-law,
+  eccentricity and kernel-distribution lower bounds (Layer 15.8).
+  `TauCeti.gromovWassersteinEDist_eq_iInf_transportMatrix` and
+  `TauCeti.exists_isMinOn_gromovWassersteinObjective`
+  (`…/OptimalTransport/GromovWasserstein/Finite.lean`) and `TauCeti.gromovWassersteinEDist_twoPoint`
+  (`…/OptimalTransport/GromovWasserstein/TwoPoint.lean`): the finite distance as an infimum over
+  transport matrices, attainment of the finite objective, and the two-point value (Layer 15.9).
+
 Here `…/` abbreviates `TauCeti/MeasureTheory/`.
 
 ### From other roadmaps
@@ -721,6 +1096,7 @@ introducing a parallel transport-map predicate.
 *Needs:* item 1; Mathlib `ProbabilityTheory.HasLaw`, `ProbabilityTheory.HasLaw.comp`,
 `ProbabilityTheory.HasLaw.congr`, `MeasureTheory.MeasurePreserving.hasLaw` and
 `MeasureTheory.Measure.map`; Tau Ceti `TauCeti.graphPlan`.
+Tau Ceti declares or proves `TauCeti.isCoupling_graphPlan_iff` and `TauCeti.eq_graphPlan_iff`.
 
 **Checks.**
 
@@ -746,6 +1122,8 @@ probability kernel.  Derive the coupling-facing a.e.-kernel uniqueness corollary
 `ProbabilityTheory.compProd_map_condDistrib`, `MeasureTheory.Measure.IsCondKernel`,
 `MeasureTheory.Measure.disintegrate` and `ProbabilityTheory.eq_condKernel_of_measure_eq_compProd`;
 a standard-Borel second factor.
+Tau Ceti declares or proves `TauCeti.IsCoupling.compProd_condKernel`,
+`TauCeti.isCoupling_compProd_iff` and `TauCeti.IsCoupling.ae_eq_condKernel_iff_compProd_eq`.
 
 ### 0.4 Gluing and countable chains
 
@@ -770,6 +1148,9 @@ reimplement Ionescu--Tulcea or its Carathéodory construction.
 `ProbabilityTheory.Kernel.traj`, `ProbabilityTheory.Kernel.trajMeasure`,
 `ProbabilityTheory.Kernel.traj_map_frestrictLe`, `MeasureTheory.IsProjectiveLimit` and
 `MeasureTheory.isProjectiveLimit_nat_iff`; standard-Borel factors as stated.
+Tau Ceti declares or proves `TauCeti.Measure.exists_glue_of_standardBorel_right`,
+`TauCeti.Measure.exists_glue_of_standardBorel_left`, `TauCeti.Measure.exists_comp_of_exists_glue`
+and `TauCeti.Measure.chainMeasure`.
 
 ### 0.5 Multi-marginal couplings
 
@@ -779,6 +1160,8 @@ two-marginal API.
 
 *Needs:* item 1; Mathlib `MeasureTheory.Measure.map`, `MeasureTheory.Measure.pi` and finite index
 types.
+Tau Ceti declares or proves `TauCeti.Measure.IsMultiCoupling`, `TauCeti.MultiCoupling`,
+`TauCeti.Measure.replaceMarginal` and `TauCeti.couplingEquivMultiCouplingFinTwo`.
 
 **Checks.**
 
@@ -824,6 +1207,7 @@ bound and agrees with the nonnegative `ℝ≥0∞` interface when both apply.
 
 *Needs:* Layer 0.1; Mathlib `MeasureTheory.lintegral` and `EReal`; Tau Ceti
 `TauCeti.transportCost`, `TauCeti.IsOptimalCoupling` and `TauCeti.transportCostBddBelow`.
+Tau Ceti declares or proves `TauCeti.transportCostBddBelow_coe_eq_transportCost`.
 
 **Checks.**
 
@@ -909,6 +1293,8 @@ lower-semicontinuous corollary separately.  Only Layer 10 later packages these
 conditions as Γ-liminf, Γ-limsup, and equicoercivity.
 
 *Needs:* items 3--5; Mathlib Prokhorov's theorem.
+Tau Ceti declares or proves `TauCeti.tendsto_transportCost`,
+`TauCeti.exists_isOptimalCoupling_tendsto` and `TauCeti.lowerSemicontinuous_transportCost`.
 
 ### Examples
 
@@ -935,6 +1321,8 @@ that make the two marginal integrals meaningful.  Prove weak duality once for th
 general interface.
 
 *Needs:* Layer 1.1; Mathlib `MeasureTheory.Integrable` and `MeasureTheory.integral`.
+Tau Ceti declares or proves `TauCeti.DualFeasible`, `TauCeti.kantorovichDualValue` and
+`TauCeti.DualFeasible.kantorovichDualValue_le_transportCost`.
 
 **Checks.**
 
@@ -971,6 +1359,11 @@ corollary in these topological regimes.
 *Needs:* item 1; Mathlib `EReal` and analytic sets `MeasureTheory.AnalyticSet` with measure
 completions; Tau Ceti `TauCeti.analyticSet_setOf_cTransform_lt`, `TauCeti.nullMeasurable_cTransform`
 and `TauCeti.MeasureTheory.AnalyticSet.nullMeasurableSet`.
+Tau Ceti declares or proves `TauCeti.cTransform`, `TauCeti.IsCConcave`, `TauCeti.contactSet`,
+`TauCeti.cSuperdifferential`, `TauCeti.cTransform_galoisConnection`, `TauCeti.isCConcave_iff`,
+`TauCeti.upperSemicontinuous_cTransform`, `TauCeti.exists_cTransform_eq`,
+`TauCeti.lowerSemicontinuous_cTransform`, `TauCeti.continuous_cTransform_coe` and
+`TauCeti.cTransformExtended`.
 
 **Checks.**
 
@@ -988,6 +1381,9 @@ primal and dual attainment and complementary slackness.  Connect it definitional
 by transparent equivalences to the measure API.
 
 *Needs:* items 1--2; Mathlib finite-dimensional linear algebra and convex-cone separation.
+Tau Ceti declares or proves `TauCeti.exists_cost_eq_finiteDualValue`,
+`TauCeti.TransportMatrix.cost_eq_finiteDualValue_iff` and
+`TauCeti.finiteDualValue_eq_kantorovichDualValue`.
 
 ### 2.4 Strong Kantorovich duality
 
@@ -1004,16 +1400,72 @@ spaces, in the integrable dual class, is Tau Ceti's
 
 *Needs:* items 1--3; Layers 1.3--1.5; Mathlib bounded continuous functions; Tau Ceti
 `TauCeti.transportCost_eq_sSup_ofReal_kantorovichDualValue_integrable_of_lowerSemicontinuous`.
+Tau Ceti declares or proves `TauCeti.isLUB_kantorovichDualValue_continuous`,
+`TauCeti.isGreatest_kantorovichDualValue_integrable`,
+`TauCeti.isLUB_kantorovichDualValue_of_lowerSemicontinuous_bddBelow` and
+`TauCeti.exists_kantorovichDualValue_eq_of_le_add`.
 
 ### 2.5 Borel-cost duality
 
-Add the post-Villani Borel-cost regimes explicitly: finite-valued nonnegative Borel
-costs on Polish spaces following Beiglböck--Schachermayer, and extended-valued Borel
-costs through the relaxed partial-transport primal of
-Beiglböck--Léonard--Schachermayer.  Prove when the relaxed and ordinary primals agree.
-Do not present an unrelaxed arbitrary-Borel theorem where a duality gap can occur.
+Throughout this subsection `X` and `Y` are Polish spaces with Borel probability laws `μ` and
+`ν`, the cost `c : X × Y → [0,∞]` is Borel, `P` is the primal value of Layer 1.1, and `D` is the
+supremum of `∫ φ dμ + ∫ ψ dν` over the integrable pairs with `φ(x) + ψ(y) ≤ c(x,y)` everywhere.
 
-*Needs:* items 1 and 4; Layer 1.
+Define the partial value `P^ε`, for `ε ≥ 0`, as the infimum of `∫ c dπ` over the nonnegative
+Borel measures `π` on `X × Y` whose two marginals are at most `μ` and `ν` and whose mass is at
+least `1 - ε`, and the relaxed primal value `P^rel = lim_{ε→0} P^ε = sup_{ε>0} P^ε`
+(Beiglböck--Léonard--Schachermayer, *A general duality theorem for the Monge--Kantorovich
+transport problem*, arXiv:0911.4347v2, (6) and (7), pp. 2--3).  These are Tau Ceti's
+`TauCeti.partialTransportCost` and `TauCeti.relaxedTransportCost`, defined for arbitrary measures
+on measurable spaces with the mass condition `μ univ ≤ π univ + ε`.  Prove the following.
+
+* `P^ε` is antitone in `ε`, `P^rel ≤ P`, and `P^rel = D`, both sides possibly `∞` (their
+  Theorem 1.2, p. 3).  The inequality `D ≤ P^rel`, for real integrable feasible pairs and a
+  finite `μ` with `μ univ = ν univ`, is Tau Ceti's
+  `TauCeti.DualFeasible.ofReal_kantorovichDualValue_le_relaxedTransportCost`.
+* `P = P^rel`, and hence `P = D`, in each of three cases: `c` is lower semicontinuous (their
+  Corollary 3.3, p. 7; Tau Ceti's
+  `TauCeti.relaxedTransportCost_eq_transportCost_of_lowerSemicontinuous`); `c` is bounded, or
+  more generally `c ≤ a ⊕ b` with `a`, `b` integrable (their Corollary 3.1, p. 7, and the footnote
+  to p. 2; Tau Ceti's `TauCeti.relaxedTransportCost_eq_transportCost_of_bounded` and
+  `TauCeti.relaxedTransportCost_eq_transportCost_of_le_split`, on arbitrary measurable spaces);
+  `c` is finite `μ⊗ν`-almost everywhere (their Theorem 1.2 (c), through their Theorem 3.4, p. 8).
+* For `c` finite `μ⊗ν`-almost everywhere and admitting a transport plan of finite cost, `P = D`
+  (Beiglböck--Schachermayer, *Duality for Borel measurable cost functions*, arXiv:0807.1468v1,
+  Theorem 1, p. 2), and there are Borel `φ̂ : X → [-∞,∞)`, `ψ̂ : Y → [-∞,∞)` with
+  `φ̂(x) + ψ̂(y) ≤ c(x,y)` everywhere and `∫ (φ̂ ⊕ ψ̂) dπ = P` for every transport plan `π` of
+  finite cost (their Theorem 2, p. 2).  These maximizers need not be integrable; they are
+  the contact potentials of item 7, not integrable dual optimizers.
+* If a transport plan of finite cost exists and `h_n : X × Y → [0,∞]` are measurable, finite
+  `μ⊗ν`-almost everywhere and increase uniformly to `∞`, then the primal values of the truncated
+  costs `min(c, h_n)` increase to `P^rel`; and `P^rel` is attained by a pair of measurable
+  potentials, in the sense of the previous bullet, exactly when `P^rel` is the primal value of
+  `min(c, h)` for some measurable `h` finite `μ⊗ν`-almost everywhere
+  (Beiglböck--Léonard--Schachermayer, Theorem 3.5, p. 8).  For the constant truncations
+  `h_n = n`, a measurable cost and marginals of equal mass, the first assertion is Tau Ceti's
+  `TauCeti.relaxedTransportCost_eq_iSup_transportCost_min`.
+
+Do not present an unrelaxed arbitrary-Borel theorem: the first Check is a duality gap.
+
+*Needs:* items 1 and 4; Layer 1; Tau Ceti `TauCeti.partialTransportCost`,
+`TauCeti.relaxedTransportCost`,
+`TauCeti.DualFeasible.ofReal_kantorovichDualValue_le_relaxedTransportCost`,
+`TauCeti.relaxedTransportCost_eq_transportCost_of_lowerSemicontinuous`,
+`TauCeti.relaxedTransportCost_eq_transportCost_of_bounded`,
+`TauCeti.relaxedTransportCost_eq_transportCost_of_le_split` and
+`TauCeti.relaxedTransportCost_eq_iSup_transportCost_min`.
+
+**Checks.**
+
+* On `X = Y = [0,1]` with Lebesgue marginals, let `c = 0` for `y < x`, `c = 1` for `y = x` and
+  `c = ∞` for `y > x` (Beiglböck--Léonard--Schachermayer, Example 1.1, p. 2).  A plan of finite
+  cost is carried by `{y ≤ x}` and has `∫ (x - y) dπ = 1/2 - 1/2 = 0`, so it is the diagonal plan
+  and `P = 1`.  The partial plan `x ↦ (x, x - ε)` on `[ε,1]` has mass `1 - ε` and cost `0`, so
+  `P^ε = 0` for every `ε > 0` and `P^rel = 0 = D`.
+* For `μ = ν = δ₀` and `c ≡ 5` the partial plans are `m δ_{(0,0)}` with `1 - ε ≤ m ≤ 1`, so
+  `P^ε = 5(1 - ε)` for `ε ≤ 1` and `P^rel = 5 = P`.
+* In the same example a definition with one fixed `ε > 0` instead of the limit gives
+  `5(1 - ε) < 5 = D`, a spurious gap for a bounded continuous cost.
 
 ### 2.6 Finite multi-marginal duality
 
@@ -1022,6 +1474,8 @@ Prove finite multi-marginal duality with the constraint
 slackness.  Connect it to the multi-marginal coupling API from Layer 0.
 
 *Needs:* item 3; Layer 0.5.
+Tau Ceti declares or proves `TauCeti.exists_cost_eq_finiteMultiDualValue` and
+`TauCeti.FiniteMultiCoupling.cost_eq_finiteMultiDualValue_iff`.
 
 ### 2.7 Cyclical monotonicity and optimality
 
@@ -1050,6 +1504,8 @@ support, which additionally needs closedness/continuity.
 `TauCeti.IsCoupling.isOptimalCoupling_iff_exists_isCyclicallyMonotone`,
 `TauCeti.IsCoupling.exists_ae_add_eq_of_isCyclicallyMonotone` and
 `TauCeti.IsCoupling.isOptimalCoupling_of_ae_mem_dualContactSet`.
+Tau Ceti declares or proves `TauCeti.isCyclicallyMonotone_iff_exists_isCConcave` and
+`TauCeti.IsOptimalCoupling.exists_isCyclicallyMonotone_of_lowerSemicontinuous`.
 
 **Checks.**
 
@@ -1065,6 +1521,8 @@ Package complementary slackness/contact-set concentration as an optimality
 certificate usable by later map, barycenter, and entropic layers.
 
 *Needs:* items 1--7; Tau Ceti `TauCeti.IsDualCertificate`.
+Tau Ceti declares or proves `TauCeti.isDualCertificate_iff`,
+`TauCeti.IsDualCertificate.isOptimalCoupling` and `TauCeti.IsDualCertificate.transportCost_eq`.
 
 **Checks.**
 
@@ -1117,6 +1575,7 @@ bridge to the integral-of-`edist^p`/root formula and Layer 1's transport cost.
 
 *Needs:* Layers 0.1, 0.4 and 1.1; Mathlib `MeasureTheory.eLpNorm`, `MeasureTheory.MemLp` and
 Minkowski's inequality; Tau Ceti `TauCeti.wassersteinEDist` and `TauCeti.HasFiniteMoment`.
+Tau Ceti declares or proves `TauCeti.wassersteinEDist_eq_zero_iff_separationQuotient_eq`.
 
 **Checks.**
 
@@ -1155,6 +1614,8 @@ measurability needed by later uses.  Prove compatibility among `dist`, `edist`,
 
 *Needs:* item 1; Mathlib `Subtype.instMeasurableSpace`, `PseudoEMetricSpace` and `MetricSpace`;
 Tau Ceti `TauCeti.WassersteinSpace`.
+Tau Ceti declares or proves `TauCeti.WassersteinComponent`,
+`TauCeti.WassersteinSpace.isometryEquivComponent` and `TauCeti.WassersteinSpace.borelSpace`.
 
 **Checks.**
 
@@ -1183,6 +1644,11 @@ fold them into the convergence statements above.
 *Needs:* items 1--2; Layer 1.3; Mathlib Prokhorov's theorem, `MeasureTheory.UniformIntegrable` and
 the strong law of large numbers; Tau Ceti `TauCeti.tendsto_wassersteinEDist_empiricalMeasure_ae`
 and `TauCeti.WassersteinSpace.completeSpace`.
+Tau Ceti declares or proves `TauCeti.WassersteinSpace.separableSpace`,
+`TauCeti.WassersteinSpace.isCompact_closure_iff_isTightMeasureSet_and_exists_setLIntegral_edist_rpow_le`,
+`TauCeti.WassersteinSpace.dense_setOfPred_ae_mem_finset`,
+`TauCeti.tendsto_wassersteinQuantizationError` and
+`TauCeti.exists_wassersteinEDist_eq_wassersteinQuantizationError`.
 
 ### 3.4 Wasserstein convergence
 
@@ -1193,6 +1659,10 @@ weak convergence and continuity under the stronger topology.
 
 *Needs:* items 1--3; Mathlib weak convergence of probability measures and
 `MeasureTheory.UniformIntegrable`.
+Implemented in Tau Ceti by
+`TauCeti.WassersteinSpace.tendsto_iff_tendsto_toProbabilityMeasure_and_lintegral`,
+`TauCeti.WassersteinSpace.continuous_toProbabilityMeasure` and
+`TauCeti.lowerSemicontinuous_wassersteinEDist`.
 
 ### 3.5 Functorial estimates
 
@@ -1214,6 +1684,10 @@ statements for `p=∞` belong to item 6, stated separately.
 
 *Needs:* items 1--2; Layers 0.3--0.4; Mathlib `WithLp`, kernels and
 `ProbabilityTheory.Kernel.comp`.
+Tau Ceti declares or proves `TauCeti.wassersteinEDist_map_le_mul`,
+`TauCeti.WassersteinSpace.lipschitzWith_map`, `TauCeti.WassersteinSpace.isometry_map`,
+`TauCeti.wassersteinEDist_map_toLp_prod`, `TauCeti.wassersteinEDist_conv_right_le`,
+`TauCeti.wassersteinEDist_smul_add_smul_rpow_le` and `TauCeti.wassersteinEDist_comp_le_mul`.
 
 ### 3.6 The exponent-`∞` distance
 
@@ -1241,6 +1715,10 @@ just proved.
 
 *Needs:* items 1--2; Layer 0.4; Tau Ceti `TauCeti.wassersteinEDist_top` and
 `TauCeti.wassersteinEDist_top_eq_iSup`; Givens--Shortt Proposition 1.
+Tau Ceti declares or proves `TauCeti.WassersteinComponent.instCompleteSpaceTop`,
+`TauCeti.tendsto_wassersteinEDist_top_iff_exists_couplings`,
+`TauCeti.WassersteinSpace.not_dense_setOfPred_ae_mem_finset_top_baire` and
+`TauCeti.WassersteinSpace.not_separableSpace_top_nat`.
 
 **Checks.**
 
@@ -1267,6 +1745,7 @@ hypothesis, built on the quantile `MeasureTheory.Measure.quantile`, its pushforw
 
 *Needs:* item 1; Mathlib `ProbabilityTheory.cdf` and Lebesgue measure on `(0,1)`; Tau Ceti
 `TauCeti.wassersteinEDist_eq_eLpNorm_quantile_sub`.
+Tau Ceti declares or proves `TauCeti.wassersteinEDist_one_eq_lintegral_enorm_cdf_sub`.
 
 **Checks.**
 
@@ -1295,6 +1774,7 @@ or a quotient.
 
 *Needs:* item 2; Mathlib `MetricSpace`, `CompleteSpace`, `SecondCountableTopology` and Borel
 measures.
+Tau Ceti declares or proves `TauCeti.MetricMeasureSpace`.
 
 **Checks.**
 
@@ -1438,6 +1918,7 @@ of a measurable Kantorovich-optimal map `T`, with `(x,T x)` in the contact set a
 
 *Needs:* item 5; Layers 0.3 and 2.2 (the analytic-set and completion bridge); Tau Ceti
 `TauCeti.IsDualCertificate.exists_optimal_transportMap_unique_ae`.
+Tau Ceti declares or proves `TauCeti.IsCoupling.exists_graphPlan_of_ae_exists_condKernel_eq_dirac`.
 
 ### Examples
 
@@ -1531,6 +2012,11 @@ Consume item 1's Rockafellar theorem and connect ordinary cyclic monotonicity to
 `c`-cyclical monotonicity for `c(x,y)=‖x-y‖²/2`.
 
 *Needs:* item 1; Layer 2.7.
+Implemented in Tau Ceti by
+`TauCeti.IsCyclicallyMonotone.exists_fenchelConjugate_subset_subdifferential`,
+`TauCeti.IsCyclicallyMonotone.exists_fenchelConjugate_innerₗ_subset_subdifferential`,
+`TauCeti.cSuperdifferential_norm_sub_sq_div_two` and
+`TauCeti.isCyclicallyMonotone_norm_sub_sq_div_two_iff`.
 
 ### 5.5 Brenier's theorem
 
@@ -1559,15 +2045,46 @@ measure; make no global constant claim across disconnected source components.
 
 *Needs:* items 2 and 5; Mathlib `affineSpan`.
 
-### 5.7 Sources null on Lipschitz hypersurfaces
+### 5.7 Regular sources and sources null on Lipschitz hypersurfaces
 
-Prove the exact stronger quadratic source theorem: for `μ,ν ∈ P₂(ℝⁿ)`, assume
-`μ(E)=0` for every Borel `E` covered by countably many `(n-1)`-dimensional Lipschitz
-submanifolds.  Prove the same existence and, at finite optimal value, a.e.-uniqueness
-of the optimal graph map and coupling as in item 5.  Keep the familiar
-absolutely-continuous corollary as the public entry point.
+Let `n ≥ 1`.  Call `E ⊆ ℝⁿ` a `c - c` hypersurface when, in some orthonormal system of
+coordinates, it is the graph `{(y,t) | y ∈ ℝⁿ⁻¹, t = f(y) - g(y)}` of the difference of two real
+convex functions on `ℝⁿ⁻¹` (Ambrosio--Gigli, *A user's guide to optimal transport*,
+Definition 1.23, p. 15), and call a probability measure on `ℝⁿ` regular when it gives mass `0`
+to every `c - c` hypersurface (their Definition 1.25, p. 16).  Prove the structure theorem for
+convex functions: a set `A ⊆ ℝⁿ` lies in the set of non-differentiability points of some real
+convex function on `ℝⁿ` exactly when countably many `c - c` hypersurfaces cover it (their
+Theorem 1.24, p. 16, which they state without proof; it is a target of this subsection).
 
-*Needs:* item 5; Mathlib Lipschitz maps and Hausdorff measure.
+Prove the sharp quadratic source theorem (their Theorem 1.26, p. 16): for `μ ∈ P₂(ℝⁿ)` the
+following are equivalent.
+
+* For every `ν ∈ P₂(ℝⁿ)` the optimal plan from `μ` to `ν` for `‖x - y‖²/2` is unique and is
+  induced by a map.
+* `μ` is regular.
+
+In that case the map is the gradient of a convex function, as in item 5.  Derive two
+corollaries: a `μ` with `μ(E) = 0` for every Borel `E` covered by countably many
+`(n-1)`-dimensional Lipschitz graphs is regular, because convex functions are locally Lipschitz;
+and so is every `μ` absolutely continuous with respect to Lebesgue measure, which is the public
+entry point of item 5.
+
+*Needs:* items 2 and 5; Layer 2.7; Mathlib `ConvexOn`, Lipschitz maps and Hausdorff measure.
+
+**Checks.**
+
+* On `ℝ` a `c - c` hypersurface is a point, so the regular measures are the atomless ones;
+  `δ₀` is not regular, and no map pushes `δ₀` to `(δ₋₁ + δ₁)/2`, as the equivalence requires.
+* On `ℝ²` the uniform law `μ` on the segment `{0} × [0,1]` charges a line, the graph of
+  `f - g = 0`, so it is not regular.  For `ν` the average of the uniform laws on `{-1} × [0,1]`
+  and `{1} × [0,1]`, every plan costs at least `∫ (x₁ - y₁)²/2 dπ = 1/2`, with equality only when
+  `y₂ = x₂` almost surely; a map with this property sends `(0,s)` to `(σ(s), s)` with
+  `σ = ±1`, and then the law of `s` on `{σ = 1}` would have density `1/2`, not an indicator.  So
+  no optimal plan is induced by a map.
+* The uniform law on the unit disc of `ℝ²` is absolutely continuous, hence regular, and its
+  optimal map to any `ν ∈ P₂(ℝ²)` is a gradient; a definition of regularity that asked for
+  mass `0` on Lipschitz hypersurfaces only would be the sufficient condition of the first
+  corollary, not the equivalence.
 
 ### 5.8 Strictly convex costs
 
@@ -1590,6 +2107,8 @@ retaining (H1)--(H3) and requiring exactly `h ∈ C¹,¹_loc(ℝᵈ)` as in the 
 theorem.
 
 *Needs:* items 1--2; Layers 2.8 and 4.5--4.6.
+Tau Ceti declares or proves `TauCeti.subsingleton_setOf_mem_contactSet_of_strictConvexOn` and
+`TauCeti.IsDualCertificate.eq_of_isOptimalCoupling_of_strictConvexOn`.
 
 ### 5.9 Polar factorization
 
@@ -1909,6 +2428,8 @@ map discontinuous despite smooth positive data; density bounds alone do not impl
 `W²,p` estimates; and strict convexity cannot be omitted in higher dimensions.
 
 *Needs:* items 7--9.
+Implemented in Tau Ceti by
+`TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_not_continuousOn`.
 
 ### 6D. General costs, Ma--Trudinger--Wang (MTW), and partial regularity
 
@@ -1925,6 +2446,10 @@ its conditions (C1), (C2) and (C3), p. 29, under the `C⁴` bound (C0); the `c`-
 p. 33; and A3w and A3s are `MTW(0)` and `MTW(K)` for some `K > 0` in Definition 4.1, p. 34.
 
 *Needs:* Layers 4.5 and 5.1; Mathlib `ContDiff` and Fréchet derivatives.
+Tau Ceti declares or proves `TauCeti.mtwTensor`, `TauCeti.SatisfiesWeakMTW`,
+`TauCeti.SatisfiesStrongMTW`, `TauCeti.satisfiesWeakMTW_norm_sub_sq_div_two`,
+`TauCeti.satisfiesStrongMTW_norm_sub_sq_div_two_iff`, `TauCeti.cExp`, `TauCeti.IsCConvexSet` and
+`TauCeti.IsDualCertificate.ae_eq_cExp`.
 
 **Checks.**
 
@@ -2044,8 +2569,15 @@ separately from compactness.
 ### 7.2 Contact points and the exponential map
 
 Using the Hopf--Rinow roadmap's exponential and minimizing-geodesic APIs, specialize Layer 2's
-`c`-concave/contact API to `c(x,y)=d(x,y)²/2`.  At every differentiability point `x` of the
-semiconcave potential `φ`, prove that each contact endpoint `y` is joined to `x` by a unique
+`c`-concave/contact API to `c(x,y)=d(x,y)²/2`.  Prove that a Kantorovich potential `φ` for this
+cost is locally semiconcave on the interior `Ω` of the set where it is finite, that every point
+of `Ω` has a contact endpoint, that the contact endpoints are locally bounded on `Ω`, and that
+the finiteness set minus `Ω` is `(n-1)`-rectifiable, with no compactness or curvature
+hypothesis on the complete manifold (Figalli--Gigli, *Local semiconvexity of Kantorovich
+potentials on non-compact manifolds*, Theorem 1, p. 2, who write the potential with the
+opposite sign and state local semiconvexity); so `Ω` has full `μ`-measure when `μ` gives mass
+`0` to `(n-1)`-rectifiable sets, and `φ` is differentiable volume-almost everywhere on `Ω`.  At
+every differentiability point `x ∈ Ω` of `φ`, prove that each contact endpoint `y` is joined to `x` by a unique
 minimizing geodesic, that its initial velocity is `-∇φ(x)`, and hence that
 `y=exp_x(-∇φ(x))`.  Do not strengthen this to
 `y ∉ Cut(x)`: differentiability of `d(·,y)²/2` at `x` is equivalent to uniqueness of
@@ -2056,7 +2588,8 @@ of the cut locus and with its own hypotheses.  Deduce the displayed pointwise
 conclusion volume-a.e., and hence `μ`-a.e. only when `μ ≪ volume`; connect the sign
 convention to the Riemannian exponential map.
 
-*Needs:* item 1; Layer 2.2.
+*Needs:* item 1; Layer 2.2; Mathlib Rademacher's theorem for the almost-everywhere
+differentiability of locally Lipschitz functions.
 
 ### 7.3 McCann's theorem
 
@@ -2068,7 +2601,15 @@ continuous with respect to Riemannian volume, the unique quadratic optimal plan 
 automatic, as a corollary rather than the root theorem (McCann 2001, Theorem 9, p. 13, existence
 and characterization of `T`, and Theorem 8, pp. 12--13, its uniqueness among maps, on a
 connected compact `C³` boundaryless manifold; Ambrosio--Gigli, *A user's guide to optimal
-transport*, Theorem 1.33, p. 19, on a smooth compact boundaryless manifold).  Existence of a
+transport*, Theorem 1.33, p. 19, on a smooth compact boundaryless manifold).  On a complete
+connected manifold, existence of the optimal map, its uniqueness `μ`-almost everywhere and the
+concentration of every optimal plan on its graph are Fathi--Figalli, *Optimal transportation on
+non-compact manifolds*, arXiv:0711.4519v1, Theorem 4.2, pp. 14--15 (costs induced by a Tonelli
+Lagrangian, a source null on countably `(n-1)`-Lipschitz sets, finite Kantorovich value), and
+Theorem 4.3, p. 16 (the cost `d^r`, `r > 1`, with finite `r`-th moments); there the exponential
+formula holds, for `μ ≪ volume`, with the approximate gradient of the potential.  Item 2's
+semiconcavity (Figalli--Gigli, Theorem 1 and the display (1.2), p. 2) makes the potential
+differentiable `μ`-almost everywhere, so the formula holds with the gradient.  Existence of a
 Kantorovich-optimal map whose graph plan is the only optimal coupling, for the cost
 `d²/2` of the Riemannian distance and without the exponential formula, is
 `exists_isKantorovichOptimalTransportMap_riemannian`.
@@ -2150,8 +2691,12 @@ cut-locus nullity.
 *Needs:* items 1--3 and 5; Layer 6.15; RiemannianGeometry R4.6.
 
 McCann's original [polar factorization on Riemannian
-manifolds](https://doi.org/10.1007/PL00001679) is the primary source; Villani, Chapter 10,
-Theorem 10.35, supplies the complete noncompact finite-cost form.  The compact-support
+manifolds](https://doi.org/10.1007/PL00001679) is the primary source for compact manifolds;
+Fathi--Figalli, [Optimal transportation on non-compact
+manifolds](https://arxiv.org/abs/0711.4519), Theorems 4.2 and 4.3, with Figalli--Gigli,
+[Local semiconvexity of Kantorovich potentials on non-compact
+manifolds](https://doi.org/10.1051/cocv/2010011), Theorem 1, supply the complete noncompact
+finite-cost form, which Villani 2009, Chapter 10, treats for general costs.  The compact-support
 distance-cost milestone follows Feldman--McCann,
 [Monge's mass transport problem on a Riemannian
 manifold](https://www.ams.org/journals/tran/2002-354-04/S0002-9947-01-02930-0/); the
@@ -2201,6 +2746,8 @@ geodesic category, and basic isometry/geodesic-invariance API.  Keep lower curva
 bounds distinct from CAT(0)'s upper bound.
 
 *Needs:* Hopf--Rinow Layer 4; Mathlib `ContinuousMap` and Lebesgue integration on intervals.
+Tau Ceti declares or proves `TauCeti.absolutelyContinuousOnInterval_of_coe_eq_map_IccExtend` and
+`TauCeti.curveAction_le_lintegral_of_coe_eq_map_IccExtend`.
 
 **Checks.**
 
@@ -2229,6 +2776,8 @@ Polish geodesicity.
 
 *Needs:* item 1; Layer 2.2 (the analytic-set and completion bridge); Mathlib `ContinuousMap` with
 the compact-open topology.
+Tau Ceti declares or proves `MeasureTheory.Measure.exists_measurable_ae_mem_geodesicPaths` and
+`MeasureTheory.Measure.exists_ae_mem_geodesicPaths_endpointLaw_eq`.
 
 **Checks.**
 
@@ -2258,6 +2807,13 @@ Prove that every two-time projection is optimal and obtain the metric dynamic-ac
 formula.
 
 *Needs:* items 1--3; Layer 3.
+Tau Ceti declares or proves `TauCeti.WassersteinSpace.instIsGeodesicSpace`,
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_isDisplacementInterpolation`,
+`TauCeti.isLeast_wassersteinEDist_rpow_lintegral_curveAction`,
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_exists_isOptimalCoupling`,
+`TauCeti.IsDisplacementInterpolation`,
+`TauCeti.WassersteinSpace.eqOn_of_isGeodesicSegment_of_ae_subsingleton` and
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_coe_eq_map_smul_add_smul_of_absolutelyContinuous`.
 
 ### 8.5 The `p = 1` endpoint
 
@@ -2334,6 +2890,10 @@ arbitrary normed space.
 
 *Needs:* items 1--2; Mathlib Fréchet derivatives and compactly supported smooth functions;
 Ambrosio--Gigli--Savaré Theorem 8.3.1.
+Tau Ceti declares or proves `TauCeti.IsContinuityEquation`,
+`TauCeti.exists_isContinuityEquation_map`, `TauCeti.IsContinuityEquation.measure_univ_eq`,
+`TauCeti.exists_isContinuityEquation_map_smul_fst_add_smul_snd_of_isOptimalCoupling` and
+`TauCeti.IsContinuityEquation.ofReal_integral_sub_integral_le_lintegral_of_fderiv_le`.
 
 **Checks.**
 
@@ -2365,6 +2925,10 @@ relation.
 
 *Needs:* items 3, 4 and 7; Layer 4; Tau Ceti `TauCeti.isLeast_lintegral_isContinuityEquation` and
 `TauCeti.wassersteinEDist_rpow_eq_sInf_lintegral_isContinuityEquation`.
+Tau Ceti declares or proves `TauCeti.IsContinuityEquation`,
+`TauCeti.exists_isContinuityEquation_map`, `TauCeti.IsContinuityEquation.measure_univ_eq`,
+`TauCeti.exists_isContinuityEquation_map_smul_fst_add_smul_snd_of_isOptimalCoupling` and
+`TauCeti.IsContinuityEquation.ofReal_integral_sub_integral_le_lintegral_of_fderiv_le`.
 
 **Checks.**
 
@@ -2446,6 +3010,13 @@ plan).
 
 *Needs:* Layers 7.4 and 8.2--8.4; Layer 0.4 (gluing); Tau Ceti
 `TauCeti.IsGeneralizedGeodesicPlan` and `TauCeti.exists_isGeneralizedGeodesicPlan`.
+Tau Ceti declares or proves `TauCeti.WassersteinSpace.instIsGeodesicSpace`,
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_isDisplacementInterpolation`,
+`TauCeti.isLeast_wassersteinEDist_rpow_lintegral_curveAction`,
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_exists_isOptimalCoupling`,
+`TauCeti.IsDisplacementInterpolation`,
+`TauCeti.WassersteinSpace.eqOn_of_isGeodesicSegment_of_ae_subsingleton` and
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_coe_eq_map_smul_add_smul_of_absolutelyContinuous`.
 
 **Checks.**
 
@@ -2467,12 +3038,36 @@ combination of almost-everywhere unique base geodesics and uniqueness of the end
 optimizer; nonbranching alone is not silently promoted to uniqueness.
 
 *Needs:* items 1 and 3; Layer 8.4.
+Tau Ceti declares or proves `TauCeti.WassersteinSpace.instIsGeodesicSpace`,
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_isDisplacementInterpolation`,
+`TauCeti.isLeast_wassersteinEDist_rpow_lintegral_curveAction`,
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_exists_isOptimalCoupling`,
+`TauCeti.IsDisplacementInterpolation`,
+`TauCeti.WassersteinSpace.eqOn_of_isGeodesicSegment_of_ae_subsingleton` and
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_coe_eq_map_smul_add_smul_of_absolutelyContinuous`.
 
 ### 9.3 Displacement convexity
 
-Define ordinary geodesic convexity, strong/weak displacement convexity, and convexity
-along generalized geodesics, all with a visible parameter `λ`.  Develop endpoint,
-restriction, lower-semicontinuity, and stability lemmas for each notion.
+Define four notions, each with a visible parameter `λ ∈ ℝ`.
+
+* A functional `E` on a metric space is `λ`-geodesically convex when every two points `x`, `y`
+  are joined by some constant-speed geodesic `γ` with
+  `E(γ_t) ≤ (1-t)E(x) + tE(y) - (λ/2)t(1-t)d(x,y)²` for `t ∈ [0,1]` (Ambrosio--Gigli, *A user's
+  guide to optimal transport*, Definition 3.16, p. 59).
+* A functional on `P₂(X)` is `λ`-displacement convex when this inequality, with `d = W₂`, holds
+  along every Wasserstein geodesic between two laws of its domain, and weakly `λ`-displacement
+  convex when for every two such laws it holds along at least one Wasserstein geodesic
+  (Lott--Villani, arXiv:math/0412127v4, Definition 3.15 and inequality (3.16), p. 17, for their
+  functionals `U_ν` over a compact length space; the definition here is for every functional and
+  every `X`).  Weak `λ`-displacement convexity is `λ`-geodesic convexity on the metric space
+  `P₂(X)`.
+* A functional on `P₂(ℝⁿ)` is `λ`-convex along generalized geodesics when the inequality holds
+  along the interpolating curves `((1-t)T₀ + tT₁)₊μ` with base `μ`, where `T₀`, `T₁` are the
+  optimal maps from a regular `μ` (Layer 5.7) to the endpoints (Ambrosio--Gigli,
+  Definition 3.29, p. 70), and for an arbitrary base along the plans of item 4, with the
+  remainder `(λ/2)t(1-t)∫‖x₂-x₃‖² dγ` of the plan.
+
+Develop endpoint, restriction, lower-semicontinuity, and stability lemmas for each notion.
 
 *Needs:* item 1.
 
@@ -2545,6 +3140,14 @@ retaining that variance-type remainder.  The signed Boltzmann-entropy instance i
 in Layer 11 after that functional exists.
 
 *Needs:* items 1 and 3; Mathlib `EReal` and Lebesgue decomposition.
+Tau Ceti declares or proves `TauCeti.potentialEnergy`,
+`StrongConvexOn.geodesicallyConvex_potentialEnergy`,
+`StrongConvexOn.generalizedGeodesicallyConvex_potentialEnergy`, `TauCeti.interactionEnergy`,
+`ConvexOn.geodesicallyConvex_interactionEnergy`,
+`TauCeti.not_geodesicallyConvex_interactionEnergy`, `TauCeti.internalEnergy`,
+`TauCeti.internalEnergy_map_smul_add_smul_gradient_le`,
+`TauCeti.WassersteinSpace.exists_isGeodesicSegment_convexAlong_internalEnergy` and
+`TauCeti.renyiEntropy`.
 
 **Checks.**
 
@@ -2643,6 +3246,8 @@ implications under strong-upper-gradient hypotheses and keep existence separate 
 a definition that merely packages an equality.
 
 *Needs:* item 1.
+Tau Ceti declares or proves `TauCeti.IsCurveOfMaximalSlope` and
+`TauCeti.IsCurveOfMaximalSlope.apply_eq_add_dissipation`.
 
 **Checks.**
 
@@ -2674,6 +3279,8 @@ Theorem 3.5, pp. 18--19: (3.10) is the contraction, (3.13) rearranges to the dis
 estimate with their `E_λ(t)` equal to `I_λ(t)`, and (3.17) is the energy identity.
 
 *Needs:* items 1--2; Layer 9.3.
+Tau Ceti declares or proves `TauCeti.IsEVISolution`, `TauCeti.IsEVISolution.dist_le`,
+`TauCeti.IsEVISolution.eqOn` and `TauCeti.eviSemiflow`.
 
 **Checks.**
 
@@ -2696,6 +3303,9 @@ for the variational interpolation, and Corollary 3.12 for the discrete energy id
 its discrete speed and slope).
 
 *Needs:* items 1--3.
+Tau Ceti declares or proves `TauCeti.moreauYosida`, `TauCeti.moreauYosidaResolvent`,
+`TauCeti.moreauYosidaResolvent_nonempty_of_lowerSemicontinuous`, `TauCeti.deGiorgiInterpolant` and
+`TauCeti.TendstoGamma.mem_moreauYosidaResolvent_of_tendsto`.
 
 **Checks.**
 
@@ -2712,6 +3322,8 @@ hypothesis on sublevels; prove convergence to a maximal-slope or EVI flow when t
 corresponding assumptions hold.
 
 *Needs:* item 4.
+Tau Ceti declares or proves `TauCeti.IsGeneralizedMinimizingMovement` and
+`TauCeti.exists_isGeneralizedMinimizingMovement`.
 
 **Checks.**
 
@@ -2744,6 +3356,7 @@ structure.  Prove passage through the energy--dissipation inequality.  Plain
 product/sum rules for energies and flows separately.
 
 *Needs:* items 2--5.
+Tau Ceti declares or proves `TauCeti.TendstoGamma.mem_moreauYosidaResolvent_of_tendsto`.
 
 **Checks.**
 
@@ -2837,6 +3450,8 @@ tightness/coercivity of sublevels after adding a moment coefficient strictly lar
 used by gradient and heat flows; it may be negative and is not `ℝ≥0∞`.
 
 *Needs:* Layer 9.5; item 1; Mathlib Radon--Nikodym derivatives and `EReal`.
+Tau Ceti declares or proves `TauCeti.boltzmannEntropy`, `TauCeti.klDiv_eq_boltzmannEntropy_add_sub`
+and `TauCeti.WassersteinSpace.lowerSemicontinuous_boltzmannEntropy`.
 
 **Checks.**
 
@@ -2857,6 +3472,8 @@ Lemma 8.4.2).  Relate it to Layer 8's distributional continuity equation and
 metric derivative.
 
 *Needs:* Layer 8.7; Mathlib `MeasureTheory.Lp` and compactly supported smooth functions.
+Tau Ceti declares or proves `TauCeti.wassersteinTangentSpace`,
+`TauCeti.mem_orthogonal_wassersteinTangentSpace_iff` and `TauCeti.wassersteinTangentSpace_dirac`.
 
 **Checks.**
 
@@ -2868,20 +3485,70 @@ metric derivative.
 
 ### 11.4 Wasserstein subdifferentials
 
-Define strong, extended, and limiting Wasserstein subdifferentials and their scalar
-slope.  Prove the subdifferential inequality along optimal plans/generalized geodesics,
-closedness, minimal selection, and the equivalence with velocity fields under the AGS
-hypotheses.
+Let `E` be a separable real Hilbert space, `Φ : P₂(E) → [-∞,∞]` an energy and `μ ∈ P₂(E)` with
+`Φ(μ)` finite.  Define three subdifferentials of `Φ` at `μ`, each a subset of `L²(μ;E)`.
 
-*Needs:* items 2--3; Layer 9.4.
+* The Fréchet subdifferential: the fields `ξ` with
+  `Φ(ν) ≥ Φ(μ) + ∫⟨ξ(x), y - x⟩ dγ(x,y) + o(W₂(μ,ν))` as `ν → μ`, for every quadratic optimal
+  plan `γ` from `μ` to `ν` (Ambrosio--Gigli--Savaré, Definition 10.1.1, for a regular `μ`, where
+  `γ` is the plan of the optimal map, and Definition 10.3.1 for plans).  It is Tau Ceti's
+  `TauCeti.wassersteinSubdifferential`.  No tangency is required of `ξ`.
+* The strong subdifferential: the fields `ξ` with
+  `Φ(t₊μ) ≥ Φ(μ) + ∫⟨ξ, t - id⟩ dμ + o(‖t - id‖_{L²(μ)})` as `t → id` in `L²(μ;E)`, for all Borel
+  maps `t`, optimal or not (Ambrosio--Gigli--Savaré, Definition 10.1.1).
+* The tangent subdifferential, on `E = ℝⁿ`, for `Φ` lower semicontinuous and `λ`-geodesically
+  convex and `μ` regular (Layer 5.7): the fields `ξ` in the tangent space of item 3 with
+  `Φ(μ) + ∫⟨T - id, ξ⟩ dμ + (λ/2)W₂(μ,ν)² ≤ Φ(ν)` for every `ν ∈ P₂(ℝⁿ)`, where `T` is the optimal
+  map from `μ` to `ν` (Ambrosio--Gigli, *A user's guide to optimal transport*, Definition 3.26,
+  p. 69).
+
+The scalar slope is the descending slope of Layer 10.1.  Prove the following.
+
+* The Fréchet subdifferential is a closed convex subset of `L²(μ;E)`
+  (`TauCeti.convex_wassersteinSubdifferential`, `TauCeti.isClosed_wassersteinSubdifferential`),
+  and when it is nonempty it has exactly one element of minimal norm
+  (`TauCeti.existsUnique_mem_wassersteinSubdifferential_forall_norm_le`).
+* The descending slope of `Φ` at `μ` is at most the norm of every Fréchet subgradient
+  (`TauCeti.descendingSlope_le_of_mem_wassersteinSubdifferential`).
+* For `Φ` that is `m`-convex along geodesics, the Fréchet subgradients are exactly the fields
+  satisfying the global inequality `Φ(ν) ≥ Φ(μ) + ∫⟨ξ(x), y - x⟩ dγ + (m/2)W₂(μ,ν)²` along
+  optimal plans (`TauCeti.ConvexAlongGeodesics.mem_wassersteinSubdifferential_iff`); prove the
+  corresponding inequality along the generalized geodesics of Layer 9.4.
+* On `ℝⁿ` and at a regular `μ`, where every optimal plan is induced by a map, every strong
+  subgradient is a Fréchet subgradient, and so is every tangent subgradient of a lower
+  semicontinuous `λ`-geodesically convex energy, since `(λ/2)W₂(μ,ν)² = o(W₂(μ,ν))`.
+* The equivalence with velocity fields: for `Φ` `λ`-geodesically convex on `P₂(ℝⁿ)` and a
+  locally absolutely continuous curve `(μ_t)` of regular measures with tangent velocity `v_t`
+  (item 3), `-v_t` lies in the tangent subdifferential of `Φ` at `μ_t` for almost every `t`
+  exactly when `(μ_t)` satisfies the evolution variational inequality of Layer 10.3
+  (Ambrosio--Gigli, Definition 3.27 and Proposition 3.28, pp. 69--70).
+
+*Needs:* items 2--3; Layers 5.7, 9.4, 10.1 and 10.3; Tau Ceti
+`TauCeti.wassersteinSubdifferential`, `TauCeti.convex_wassersteinSubdifferential`,
+`TauCeti.isClosed_wassersteinSubdifferential`,
+`TauCeti.existsUnique_mem_wassersteinSubdifferential_forall_norm_le`,
+`TauCeti.descendingSlope_le_of_mem_wassersteinSubdifferential` and
+`TauCeti.ConvexAlongGeodesics.mem_wassersteinSubdifferential_iff`.
+Tau Ceti declares or proves `StrongConvexOn.mem_wassersteinSubdifferential_potentialEnergy` and
+`TauCeti.hasDerivAt_integral_comp_add_smul`.
 
 **Checks.**
 
-* For the potential energy of `V(x) = x²/2` at `δ_a`, the subdifferential contains `x ↦ x`, whose
-  value at `a` is the slope `|a|`.
-* For the Boltzmann entropy at the standard Gaussian law, the strong subdifferential is
+* For the potential energy of `V(x) = x²/2` at `δ_a`, the Fréchet and strong subdifferentials
+  contain `x ↦ x`, by `y²/2 ≥ a²/2 + a(y - a)`; its value at `a` has norm the slope `|a|`.
+* For the Boltzmann entropy at the standard Gaussian law, the strong subdifferential contains
   `∇ log ρ = -x`.
-* For an energy constant in `μ` the subdifferential is `{0}` and the slope is `0`.
+* For a constant energy the strong subdifferential and, at a regular `μ`, the tangent
+  subdifferential are `{0}`: testing `t = id + hξ` gives `0 ≥ h‖ξ‖² + o(h)`, and testing the
+  optimal maps `id + h∇ψ`, `ψ` smooth with compact support and `|h|` small, makes a tangent
+  subgradient orthogonal to the tangent space.  The Fréchet subdifferential at the uniform law
+  on the unit disc of `ℝ²` also contains the rotation field `x ↦ (-x₂, x₁)`: for every convex
+  `u`, `⟨ξ, ∇u - id⟩ = ∂_θ u`, which integrates to `0` on each circle.  This field is orthogonal
+  to the tangent space (item 3's second Check); the element of minimal norm is `0`, equal to the
+  slope.
+* At `δ_a`, which is not regular, the Fréchet and strong subdifferentials of a constant energy
+  are both `{0}`: testing `ν = δ_y` gives `⟨ξ(a), y - a⟩ ≤ o(|y - a|)` for all `y`, which forces
+  `ξ(a) = 0`.
 
 ### 11.5 First variations of energies
 
@@ -2891,6 +3558,13 @@ entropy.  Prove their displacement or generalized-geodesic convexity under the e
 convexity, reference, and growth assumptions.
 
 *Needs:* items 2 and 4; Layer 9.5.
+Tau Ceti declares or proves `TauCeti.wassersteinSubdifferential`,
+`TauCeti.convex_wassersteinSubdifferential`, `TauCeti.isClosed_wassersteinSubdifferential`,
+`TauCeti.existsUnique_mem_wassersteinSubdifferential_forall_norm_le`,
+`TauCeti.descendingSlope_le_of_mem_wassersteinSubdifferential`,
+`TauCeti.ConvexAlongGeodesics.mem_wassersteinSubdifferential_iff`,
+`StrongConvexOn.mem_wassersteinSubdifferential_potentialEnergy` and
+`TauCeti.hasDerivAt_integral_comp_add_smul`.
 
 ### 11.6 The JKO step
 
@@ -2923,6 +3597,11 @@ somewhere.
 *Needs:* items 2 and 4; Layers 9.4 and 10.4; Tau Ceti
 `TauCeti.GeneralizedGeodesicallyConvex.add_edist_sq_div` and
 `TauCeti.GeneralizedGeodesicallyConvex.subsingleton_moreauYosidaResolvent`.
+Tau Ceti declares or proves `TauCeti.WassersteinSpace.moreauYosidaResolvent_nonempty`,
+`TauCeti.WassersteinSpace.moreauYosidaResolvent_nonempty_of_properSpace`,
+`TauCeti.WassersteinSpace.exists_forall_mem_moreauYosidaResolvent`,
+`TauCeti.apply_le_apply_add_of_mem_moreauYosidaResolvent` and
+`TauCeti.integral_inner_eq_neg_mul_of_mem_moreauYosidaResolvent`.
 
 **Checks.**
 
@@ -3063,6 +3742,9 @@ distance over the topological support.
 
 *Needs:* Mathlib `MeasureTheory.eLpNorm` and measurable distance sections; Tau Ceti
 `TauCeti.IsFrechetBarycenter`.
+Implemented in Tau Ceti by
+`TauCeti.WassersteinSpace.isFrechetBarycenter_sum_smul_dirac_iff_isMinOn` and
+`TauCeti.WassersteinSpace.exists_isFrechetBarycenter_sum_smul_dirac`.
 
 **Checks.**
 
@@ -3110,6 +3792,9 @@ laws.  Consume it for their Theorem 8, the finitely supported case: for
 existence of a barycenter.  Do not assume or claim that `P_p(X)` itself is proper.
 
 *Needs:* items 1--2; Layer 0.5; Tau Ceti `TauCeti.WassersteinSpace`.
+Implemented in Tau Ceti by
+`TauCeti.WassersteinSpace.isFrechetBarycenter_sum_smul_dirac_iff_isMinOn` and
+`TauCeti.WassersteinSpace.exists_isFrechetBarycenter_sum_smul_dirac`.
 
 ### 12.4 Stability of barycenters
 
@@ -3150,6 +3835,9 @@ is the explicit weighted average on `ℝⁿ`.  Prove the multi-marginal primal a
 formulas rather than using the selector without a measurability theorem.
 
 *Needs:* item 3; Layers 0.5 and 2.6.
+Tau Ceti declares or proves `TauCeti.exists_isMultiCoupling_isMinOn_lintegral`,
+`TauCeti.iInf_sum_mul_wassersteinEDist_rpow_eq`, `TauCeti.iInf_sum_mul_wassersteinEDist_sq_eq` and
+`TauCeti.isFrechetBarycenter_two_iff_exists_isMinOn_lintegral_map_eq`.
 
 ### 12.7 Agueh--Carlier existence and uniqueness
 
@@ -3168,6 +3856,9 @@ input has density in `L∞`, prove the separate Agueh--Carlier estimate
 density bound from the small-set predicate alone.
 
 *Needs:* item 6; Layer 5.5; Mathlib `dimH`.
+Tau Ceti declares or proves `TauCeti.WassersteinSpace.subsingleton_frechetBarycenters`,
+`TauCeti.WassersteinSpace.subsingleton_frechetBarycenters_two_sum_smul_dirac` and
+`TauCeti.wassersteinEDist_two_smul_add_smul_sq_lt`.
 
 **Checks.**
 
@@ -3175,9 +3866,8 @@ density bound from the small-set predicate alone.
   and `δ₀` does not when `n ≥ 1`.
 * On `ℝ` the Cantor measure vanishes on every set of Hausdorff dimension `0` and is singular: the
   predicate is weaker than absolute continuity.
-* For `n = 0`, `n - 1` is `0` in `ℕ`, every set has dimension `0`, and no probability law
-  satisfies the predicate, so the Lean statement is vacuous on `ℝ⁰`, where `δ₀` is trivially the
-  unique barycenter.
+* For `n = 0` no nonempty set has Hausdorff dimension at most `-1`, so every law vanishes on small
+  sets, and `δ₀`, the only probability law on `ℝ⁰`, is the unique barycenter.
 
 ### 12.8 One-dimensional, Gaussian, and empirical barycenters
 
@@ -3222,6 +3912,9 @@ random element needs its own measurable-selection theorem, stated and proved her
 `TauCeti.Probability.isFrechetBarycenter_sum_smul_dirac_multivariateGaussian`,
 `TauCeti.isFrechetBarycenter_two_iff_quantile_ae_eq` and
 `TauCeti.IsGeodesicSegment.isFrechetBarycenter_twoPointBarycenterTime`.
+Tau Ceti declares or proves `TauCeti.WassersteinSpace.existsUnique_isFrechetBarycenter_real`,
+`TauCeti.WassersteinSpace.tendsto_of_isFrechetBarycenter_empiricalMeasure_ae` and
+`TauCeti.Probability.isFrechetBarycenter_two_multivariateGaussian`.
 
 The population theory follows Le Gouic--Loubes,
 [arXiv:1506.04153](https://arxiv.org/abs/1506.04153); the finite Euclidean theory follows
@@ -3296,6 +3989,8 @@ separately sourced sufficient theorem supplying it, and do not present the limin
 as the whole result.  Keep topology out of the root definition.
 
 *Needs:* item 1; Tau Ceti `TauCeti.existsUnique_isCoupling_klDiv_eq_schroedingerValue`.
+Tau Ceti declares or proves `TauCeti.tendsto_of_klDiv_eq_schroedingerValue` and
+`TauCeti.lowerSemicontinuous_entropicTransportCost`.
 
 ### 13.3 Entropic duality and Schrödinger potentials
 
@@ -3324,6 +4019,9 @@ under it.
 *Needs:* items 1--2; Layer 2.1; Mathlib `MeasureTheory.IsSeparable`; Tau Ceti
 `TauCeti.exists_entropicDualValue_eq_toReal_entropicTransportCost` and
 `TauCeti.exists_ae_eq_add_const_of_entropicDualValue_eq_toReal_entropicTransportCost`.
+Implemented in Tau Ceti by
+`TauCeti.IsCoupling.exists_eq_withDensity_exp_add_of_klDiv_eq_schroedingerValue` and
+`TauCeti.exists_isCoupling_lintegral_add_mul_klDiv_eq_entropicTransportCost`.
 
 ### 13.4 Differentiability and Sinkhorn divergences
 
@@ -3493,6 +4191,10 @@ bounded-kernel hypotheses: for `dR = e^{-c} d(μ⊗ν)` with `c` bounded below a
 Schrödinger bridge (Nutz, Theorem 6.15, p. 62).
 
 *Needs:* items 1--2; Layer 11.1.
+Tau Ceti declares or proves `MeasureTheory.Measure.proportionalFitting`,
+`TauCeti.klDiv_eq_add_klDiv_proportionalFittingStep`,
+`TauCeti.klDiv_eq_sum_add_klDiv_proportionalFitting` and
+`TauCeti.tendsto_klDiv_fst_proportionalFitting`.
 
 **Checks.**
 
@@ -3518,6 +4220,8 @@ prove the rectangular scaling theorem directly for a strictly positive kernel (T
 `Matrix.exists_sinkhorn_scaling`).
 
 *Needs:* item 7; Tau Ceti `Matrix.exists_sinkhorn_scaling`; Sinkhorn--Knopp 1967.
+Tau Ceti declares or proves `Matrix.exists_sinkhorn_scaling_iff` and
+`Matrix.hasTotalSupport_iff_exists_mem_doublyStochastic`.
 
 ### 13.9 Convergence of the Sinkhorn iteration
 
@@ -3536,6 +4240,11 @@ the contraction factor `1/3` of `K = [[2,1],[1,2]]` in the Examples below, are C
 these theorems.
 
 *Needs:* items 7--8.
+Tau Ceti declares or proves `TauCeti.hilbertProjectiveDist`, `Matrix.projectiveDiameter`,
+`Matrix.hilbertProjectiveDist_mulVec_le`, `Matrix.hilbertProjectiveDist_sinkhornStep_le`,
+`Matrix.hilbertProjectiveDist_sinkhornStep_iterate_succ_le_mul_projectiveDiameter`,
+`Matrix.sum_abs_sum_sinkhornPlan_iterate_apply_sub_le` and
+`TauCeti.tendsto_proportionalFitting_apply`.
 
 **Checks.**
 
@@ -3552,6 +4261,8 @@ generic measure-theoretic definitions on finite types.  The existing LeanTriathl
 statement is a prototype only; this equivalence is the acceptance boundary.
 
 *Needs:* items 1--9; Layer 2.3.
+Tau Ceti declares or proves `Matrix.ofReal_entropicTransportValue_eq`,
+`Matrix.entropicDualValue_eq_mul_relEntropyDual` and `TauCeti.proportionalFitting_real_singleton`.
 
 ### 13C. Dynamic Schrödinger theory
 
@@ -3703,6 +4414,7 @@ statements).  Local finiteness alone is not substituted on a nonproper carrier. 
 the reference measure separate from the transported probability law.
 
 *Needs:* Layer 3.9.
+Tau Ceti declares or proves `TauCeti.MetricMeasureSpace`.
 
 ### 14.2 Curvature-dimension conditions
 
@@ -3713,6 +4425,10 @@ dynamic plan.  Define the curvature-dimension conditions `CD(K,N)`, reduced
 bridge theorems among conventions rather than one overloaded predicate.
 
 *Needs:* item 1; Layers 8.2 and 9.3; Layer 11.2.
+Tau Ceti declares or proves `TauCeti.MetricMeasureSpace.CurvatureDimensionInfinity`,
+`TauCeti.MetricMeasureSpace.curvatureDimensionInfinity_iff_geodesicallyConvex`,
+`TauCeti.distortionSigma`, `TauCeti.distortionTau`, `TauCeti.MetricMeasureSpace.MeasureContraction`
+and `TauCeti.MetricMeasureSpace.EssentiallyNonbranching`.
 
 **Checks.**
 
@@ -3748,6 +4464,7 @@ Make Layer 15's scalar `p=2` distortion theory prove explicit comparison/bridge 
 to `D` rather than duplicate this construction.
 
 *Needs:* item 1; Layer 3.9.
+Tau Ceti declares or proves `TauCeti.sturmEDist` and `TauCeti.gromovProkhorovEDist`.
 
 **Checks.**
 
@@ -3798,8 +4515,20 @@ conventions at `N = n` and `N < n` are Lott--Villani, *Ricci curvature for metri
 via optimal transport*, arXiv:math/0412127v4, Definition 0.10, p. 4, and on a smooth compact
 connected manifold with a smooth weight their Theorem 0.12, p. 4 (with Theorem 7.3, p. 41),
 proves that `∞`-Ricci curvature at least `K` in the transport sense is `Ric + Hess V ≥ K g`, and
-that nonnegative `N`-Ricci curvature is `Ric_N ≥ 0`; the complete noncompact case and finite `N`
-with `K ≠ 0` follow the two parts of Sturm's *On the geometry of metric measure spaces*.  This consumes the Ricci tensor
+that nonnegative `N`-Ricci curvature is `Ric_N ≥ 0`.  On a complete manifold with `V ∈ C²`, the
+equality of the optimal entropy-convexity constant of `(M,d,e^{-V} vol_g)` with the infimum of
+`Ric + Hess V` over unit vectors, which is the `N = ∞` equivalence for every `K`, is Sturm, *On the
+geometry of metric measure spaces. I*, Theorem 4.9.  For the unweighted volume, every `K ∈ ℝ` and
+`N ≥ 1`, the equivalence of `CD(K,N)` with `Ric ≥ K` and `dim M ≤ N` is Sturm, *On the geometry of
+metric measure spaces. II*, Theorem 1.7 (i); its part (ii) gives `CD(K+K', N+N')` for the weight
+`W = e^{-V}` when `Ric ≥ K` and `W^{1/N'}` satisfies the `(K',N')`-concavity inequality along
+geodesics, that is `Hess V - (dV⊗dV)/N' ≥ K'`: the implication from the tensor inequality to the
+curvature-dimension condition when the bound splits into these two.  The equivalence for a
+weighted manifold with `K ≠ 0`, finite `N` and a bound that does not split is in neither paper;
+it is proved here from the second-order expansion of the Jacobian of `exp(-t∇φ)` along
+transport geodesics, the route of Lott--Villani's Theorem 7.3 for `K = 0` (Villani 2009,
+Chapter 29, treats the general case).  Both Sturm papers are cited in their preprint versions,
+whose theorem numbers these are.  This consumes the Ricci tensor
 `CovariantDerivative.ricciTensor` of the Levi-Civita connection with RiemannianGeometry R1's
 curvature calculus, the Hessian of DifferentialGeometry Layer 12.3, and Tau Ceti's
 `TauCeti.riemannianVolume`.  On weighted `ℝ` with `V(x) = x²/2`, `Ric_g = 0` and `Hess V = 1`,
@@ -3917,6 +4646,11 @@ under a.e. equality of `ω`.  Define support/full-support representatives only o
 topological/Polish specialization that makes those notions available.
 
 *Needs:* Layer 3.9; Mathlib `MeasureTheory.AEStronglyMeasurable` and `MeasureTheory.MemLp`.
+Tau Ceti declares or proves `TauCeti.AreWeaklyIsomorphicKernels`,
+`TauCeti.gromovWassersteinDistortion`, `TauCeti.gromovWassersteinEDist`,
+`TauCeti.gromovWassersteinEDist_comm`, `TauCeti.gromovWassersteinEDist_triangle`,
+`TauCeti.exists_isCoupling_gromovWassersteinDistortion_eq` and
+`TauCeti.gromovWassersteinEDist_eq_zero_iff`.
 
 **Checks.**
 
@@ -3990,6 +4724,8 @@ to the fixed optimal endpoint law and its Borel almost-everywhere representative
 Do not promote this measure-relative construction to a global Borel selector.
 
 *Needs:* items 3--4; Layer 8.2.
+Tau Ceti declares or proves `TauCeti.GromovWassersteinSpace.instIsGeodesicSpace` and
+`TauCeti.GromovWassersteinSpace.completeSpace_of_completeSpace_gromovWassersteinSpace`.
 
 ### 15.6 Gromov--Prokhorov and measured Gromov--Hausdorff comparisons
 
@@ -4012,6 +4748,7 @@ identify these topologies.
 
 *Needs:* items 1--2; Mathlib `GromovHausdorff.ghDist`, `MeasureTheory.levyProkhorovEDist` and
 Hausdorff distance.
+Tau Ceti declares or proves `TauCeti.sturmEDist` and `TauCeti.gromovProkhorovEDist`.
 
 **Checks.**
 
@@ -4061,6 +4798,11 @@ eccentricity-distribution, and kernel-distribution invariants; avoid an open-end
 promise of unspecified equality characterizations.
 
 *Needs:* items 1--2; Layer 3.
+Tau Ceti declares or proves `TauCeti.kernelSectionLaw`,
+`TauCeti.iInf_eLpNorm_kernelSectionLawEDist_le_gromovWassersteinEDist`,
+`TauCeti.kernelEccentricity`,
+`TauCeti.wassersteinEDist_map_kernelEccentricity_le_gromovWassersteinEDist` and
+`TauCeti.wassersteinEDist_kernelDistribution_le_gromovWassersteinEDist`.
 
 **Checks.**
 
@@ -4078,6 +4820,8 @@ quadratic GW objective.  Give small exact examples, such as the uniform two-poin
 of the Examples below, as Checks of that identification.
 
 *Needs:* items 1--2.
+Tau Ceti declares or proves `TauCeti.gromovWassersteinEDist_eq_iInf_transportMatrix`,
+`TauCeti.exists_isMinOn_gromovWassersteinObjective` and `TauCeti.gromovWassersteinEDist_twoPoint`.
 
 ### 15.10 Entropic Gromov--Wasserstein and barycenters
 
@@ -4400,6 +5144,14 @@ stage of which is reusable on its own.
   factorization](https://doi.org/10.1007/PL00001679), 2001; A. Figalli,
   [The Monge problem on non-compact
   manifolds](https://cvgmt.sns.it/media/doc/paper/1313/transportdist.pdf), 2007.
+* M. Beiglböck and W. Schachermayer, [Duality for Borel measurable cost
+  functions](https://arxiv.org/abs/0807.1468), Trans. Amer. Math. Soc. 363 (2011); M. Beiglböck,
+  C. Léonard, and W. Schachermayer, [A general duality theorem for the Monge--Kantorovich
+  transport problem](https://arxiv.org/abs/0911.4347), Studia Math. 209 (2012).
+* A. Fathi and A. Figalli, [Optimal transportation on non-compact
+  manifolds](https://arxiv.org/abs/0711.4519), Israel J. Math. 175 (2010); A. Figalli and
+  N. Gigli, [Local semiconvexity of Kantorovich potentials on non-compact
+  manifolds](https://doi.org/10.1051/cocv/2010011), ESAIM Control Optim. Calc. Var. 17 (2011).
 
 ### Monge--Ampère and regularity
 
@@ -4479,8 +5231,8 @@ stage of which is reusable on its own.
   divergences](https://proceedings.mlr.press/v89/feydy19a/feydy19a.pdf), 2019.
 * J. Lott and C. Villani, [Ricci curvature for metric-measure
   spaces](https://annals.math.princeton.edu/2009/169-3/p04), 2009; K.-T. Sturm,
-  [On the geometry of metric measure
-  spaces](https://doi.org/10.1007/s11511-006-0002-8), 2006, and its
+  On the geometry of metric measure spaces, [I](https://doi.org/10.1007/s11511-006-0002-8) and
+  [II](https://doi.org/10.1007/s11511-006-0003-7), Acta Math. 196 (2006), and its
   [tensorization corrigendum](https://arxiv.org/abs/2401.15094), 2024.
 * F. Mémoli, [Gromov--Wasserstein distances and object
   matching](https://doi.org/10.1007/s10208-011-9093-5), 2011; H. Bauer, F. Mémoli, T.

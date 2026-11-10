@@ -20,8 +20,8 @@ finite moments `TauCeti.HasFiniteMoment`, Tau Ceti's Riemannian volume
 homeomorphisms, iterated derivatives, multivariate Gaussian laws, Kullback–Leibler divergence and
 separable measures.
 
-The following headline theorems of `README.md` are proved in the pinned Tau Ceti, so they are
-not restated here.
+The following headline theorems of `README.md` are proved in Tau Ceti at revision `2fd255d9`,
+the revision pinned by the roadmap repository's main branch, so they are not restated here.
 
 * Primal attainment for lower semicontinuous costs on Polish spaces (Layer 1.5):
   `TauCeti.exists_isOptimalCoupling`.
@@ -195,8 +195,8 @@ theorem exists_homeomorph_holderOnWith_of_isKantorovichOptimalTransportMap {n : 
 
 /-! ## Layer 7: Riemannian Brenier–McCann transport -/
 
-/-- **McCann's theorem** (McCann 2001; Villani 2009, Chapter 10, Theorem 10.35). Let `M` be
-a finite-dimensional,
+/-- **McCann's theorem** (McCann 2001, Theorems 8 and 9, on compact manifolds; Fathi–Figalli,
+arXiv:0711.4519v1, Theorems 4.2 and 4.3, on complete manifolds). Let `M` be a finite-dimensional,
 connected, boundaryless, complete smooth Riemannian manifold whose extended distance is the
 Riemannian distance. For probability measures `μ` and `ν` of finite second moment with `μ`
 absolutely continuous with respect to Riemannian volume, there is a transport map attaining the
@@ -246,7 +246,9 @@ theorem exists_isKantorovichOptimalTransportMap_edist_riemannian
 Proposition 2.3, Definition 3.2 and Proposition 3.5). For finitely many laws `μ i` of finite
 second moment on `ℝⁿ` and weights `w i ≥ 0` summing to one, suppose that one input `μ j` of
 positive weight vanishes on small sets: `μ j A = 0` for every Borel `A` of Hausdorff dimension at
-most `n - 1`. Then exactly one probability measure minimizes `ν ↦ ∑ i, w i W₂(ν, μ i)²`. -/
+most `n - 1`. Then exactly one probability measure minimizes `ν ↦ ∑ i, w i W₂(ν, μ i)²`.
+For `n = 0` the truncated `n - 1` is `0`, the hypothesis `hsmall` is unsatisfiable, and the
+statement is vacuous. -/
 theorem existsUnique_isMinOn_sum_wassersteinEDist_sq_of_dimH_le {n : ℕ} {ι : Type*} [Fintype ι]
     (w : ι → ℝ≥0) (hw : ∑ i, w i = 1) (μ : ι → Measure (EuclideanSpace ℝ (Fin n)))
     [∀ i, IsProbabilityMeasure (μ i)] (hμ : ∀ i, TauCeti.HasFiniteMoment 2 (μ i))
