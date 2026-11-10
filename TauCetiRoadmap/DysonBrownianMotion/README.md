@@ -29,10 +29,11 @@ Dyson Brownian motion; fluctuation and large deviation theory of the empirical m
 
 Owned elsewhere and consumed here:
 
-- [RandomMatrices](../RandomMatrices/README.md) owns the spectral API and its measurability
-  (§§1.1–1.2), the GOE and GUE coordinates and their normalization (§5.1), the Gaussian beta
-  ensemble densities (§§5.2–5.3), the semicircle family `semicircleReal` (§3.3), the resolvent
-  transform toolkit (§§3.1–3.2), free additive convolution with its subordination and
+- Tau Ceti owns the empirical spectral measure `Matrix.spectralMeasure` and the semicircle family
+  `TauCeti.Probability.semicircleReal`.
+- [RandomMatrices](../RandomMatrices/README.md) owns the rest of the spectral API and its
+  measurability (§§1.1–1.2), the GOE and GUE coordinates and their normalization (§5.1), the
+  Gaussian beta ensemble densities (§§5.2–5.3), the resolvent transform toolkit (§§3.1–3.2), free additive convolution with its subordination and
   R-transform (§6.3), and the deformed-Wigner law `ν ⊞ SC_t` with the Pastur equation (§7.1).
   Here: the time-dependent versions of these objects and their stochastic analysis.
 - StochasticCalculus owns finite-dimensional Brownian motion (S1), predictable `L²` Brownian
@@ -49,7 +50,7 @@ Owned elsewhere and consumed here:
    Brownian; usual conditions are assumed only where that roadmap's theorems require them, and
    conclusions are transported back through its raw-filtration adapters. Statements that need no
    filtration use Mathlib's `IsBrownianReal`.
-2. **Order.** Eigenvalues are RandomMatrices' decreasing `Matrix.IsHermitian.eigenvalues₀`,
+2. **Order.** Eigenvalues are Mathlib's decreasing `Matrix.IsHermitian.eigenvalues₀`,
    `λ₁ ≥ ⋯ ≥ λₙ`, and the Dyson system is written on the closed chamber
    `{x₁ ≥ ⋯ ≥ xₙ}` with its interior `{x₁ > ⋯ > xₙ}`. AGZ orders increasingly; every quoted
    statement is translated.
@@ -62,7 +63,7 @@ Owned elsewhere and consumed here:
    `IsStrongSolution`, with state space `ℝⁿ`. Singular coefficients are handled by globally
    Lipschitz truncations agreeing with them on
    `{x₁ > ⋯ > xₙ, min_{i<j}(xᵢ-xⱼ) ≥ 1/k, ‖x‖ ≤ k}`, pasted by S9.2 up to the exit times.
-5. **Empirical measures.** `L_n(t) = n⁻¹ ∑ᵢ δ_{λᵢ(t)}` is RandomMatrices' `spectralMeasure` at
+5. **Empirical measures.** `L_n(t) = n⁻¹ ∑ᵢ δ_{λᵢ(t)}` is Tau Ceti's `Matrix.spectralMeasure` at
    each time. Convergence of `(L_n(t))_{t ≤ T}` is uniform convergence on `[0,T]` for the
    Lévy–Prokhorov metric `levyProkhorovDist`, which metrizes weak convergence of probability
    measures on `ℝ`.
@@ -77,10 +78,17 @@ Owned elsewhere and consumed here:
 - `MeasureTheory.levyProkhorovDist` (`Mathlib/MeasureTheory/Measure/LevyProkhorovMetric.lean`).
 - `Matrix.IsHermitian.eigenvalues₀` and `Matrix.isHermitian_diagonal_of_self_adjoint`.
 
+### From Tau Ceti
+
+- `Matrix.spectralMeasure` (`TauCeti/Analysis/Matrix/SpectralMeasure.lean`), a
+  `ProbabilityMeasure ℝ` for a Hermitian matrix of positive size.
+- `TauCeti.Probability.semicircleReal`
+  (`TauCeti/Probability/Distributions/Semicircle/LocationScale.lean`).
+
 ### From TauCetiRoadmap roadmaps
 
-- RandomMatrices: §§1.1–1.2, 3.1–3.3, 5.1–5.3, 6.3 and 7.1, with `spectralMeasure`,
-  `semicircleReal`, `gaussianEnsemble` and `gaussianEnsemble_isHermitian`.
+- RandomMatrices: §§1.1–1.2, 3.1–3.3, 5.1–5.3, 6.3 and 7.1, with `gaussianEnsemble` and
+  `gaussianEnsemble_isHermitian`.
 - StochasticCalculus: S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.2, with
   `timeMeasure`, `IsFilteredBrownian` and `IsStrongSolution`.
 

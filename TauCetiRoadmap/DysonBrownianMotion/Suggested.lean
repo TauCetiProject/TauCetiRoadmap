@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Analysis.Matrix.SpectralMeasure
 import TauCetiRoadmap.RandomMatrices.Suggested
 
 /-!
@@ -7,7 +8,7 @@ import TauCetiRoadmap.RandomMatrices.Suggested
 This file is not the roadmap: the roadmap is `README.md`. This file states the roadmap's
 headline theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`,
 together with the one definition their statements need. It imports the RandomMatrices
-prototype for `gaussianEnsemble`, `spectralMeasure` and `semicircleReal`.
+prototype for `gaussianEnsemble` and uses Tau Ceti's `Matrix.spectralMeasure`.
 
 Stated here: the absence of eigenvalue collisions at positive times for symmetric and Hermitian
 matrix Brownian motion started at a real diagonal matrix (Layer 2), and the hydrodynamic limit
@@ -82,8 +83,8 @@ theorem matrixBrownian_hydrodynamic_limit [MeasurableSpace Ω] (β : ℕ) (hβ :
             deriv (fun w : ℂ ↦ ∫ x : ℝ, (w - x)⁻¹ ∂μ s.toNNReal) z) ∧
       ∀ T : ℝ≥0, ∀ ε : ℝ, 0 < ε →
         Tendsto (fun n ↦ P {ω | ∃ t ≤ T, ε < levyProkhorovDist
-            (spectralMeasure (matrixBrownian β (n + 1) (d n) (B n) t ω)
-              (matrixBrownian_isHermitian β (n + 1) (d n) (B n) t ω)) (μ t)})
+            (Matrix.spectralMeasure (matrixBrownian β (n + 1) (d n) (B n) t ω)
+              (matrixBrownian_isHermitian β (n + 1) (d n) (B n) t ω) : Measure ℝ) (μ t)})
           atTop (𝓝 0) := by
   sorry
 
