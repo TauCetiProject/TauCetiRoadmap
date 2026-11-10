@@ -1,0 +1,38 @@
+NumberField.abs_discr_le_of_basis_isIntegral.{u_1, u_2} {K : Type u_1} [Field K] [NumberField K] {ι : Type u_2}
+  [Fintype ι] [DecidableEq ι] (b : Module.Basis ι ℚ K) (hb : ∀ (i : ι), IsIntegral ℤ (b i)) :
+  |↑(NumberField.discr K)| ≤ |Algebra.discr ℚ ⇑b|
+NumberField.trace_eq_zero_of_sq_ratCast.{u_1} {K : Type u_1} [Field K] [NumberField K] {x : K} {r : ℚ}
+  (hx2 : x ^ 2 = (algebraMap ℚ K) r) (hx : x ∉ (algebraMap ℚ K).range) : (Algebra.trace ℚ K) x = 0
+NumberField.card_ideal_absNorm_le.{u_1} (F : Type u_1) [Field F] [NumberField F] {X : ℝ} (hX : 1 ≤ X) :
+  {I | I ≠ ⊥ ∧ ↑(Ideal.absNorm I) ≤ X}.Finite ∧
+    ↑{I | I ≠ ⊥ ∧ ↑(Ideal.absNorm I) ≤ X}.ncard ≤ X ^ 2 * 2 ^ Module.finrank ℚ F
+NumberField.classNumber_le_bound.{u_1} (F : Type u_1) [Field F] [NumberField F] :
+  ↑(NumberField.classNumber F) ≤ |↑(NumberField.discr F)| * 4 ^ Module.finrank ℚ F
+NumberField.units_sq_index_le.{u_1} (F : Type u_1) [Field F] [NumberField F] :
+  (Subgroup.square (𝓞 F)ˣ).index ≤ 2 ^ Module.finrank ℚ F
+NumberField.coeffBoundOfDiscrBdd (N : ℕ) : ℕ
+NumberField.ncard_setOf_finiteDimensional_abs_discr_le_le.{u_1} (A : Type u_1) [Field A] [CharZero A] (N : ℕ) :
+  {K | |NumberField.discr ↥↑K| ≤ ↑N}.ncard ≤
+    (2 * NumberField.coeffBoundOfDiscrBdd N + 1) ^ (NumberField.hermiteTheorem.rankOfDiscrBdd N + 1) *
+      NumberField.hermiteTheorem.rankOfDiscrBdd N
+NumberField.mixedEmbedding.fundamentalCone.volume_normLeOne.{u_1} (K : Type u_1) [Field K] [NumberField K] :
+  MeasureTheory.volume (NumberField.mixedEmbedding.fundamentalCone.normLeOne K) =
+    2 ^ NumberField.InfinitePlace.nrRealPlaces K * ↑NNReal.pi ^ NumberField.InfinitePlace.nrComplexPlaces K *
+      ENNReal.ofReal (NumberField.Units.regulator K)
+NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT.{u_1} (K : Type u_1) [Field K] [NumberField K] :
+  Filter.Tendsto (fun s => (↑s - 1) * NumberField.dedekindZeta K ↑s) (nhdsWithin 1 (Set.Ioi 1))
+    (nhds ↑(NumberField.dedekindZeta_residue K))
+'TauCeti.GeometryOfNumbers.finite_and_ncard_le_of_subset_pi_closedBall_of_separated' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.GeometryOfNumbers.ncard_inter_pi_closedBall_two_le_pow_mul_of_discreteTopology' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.GeometryOfNumbers.gaussianLattice_ncard_inter_pi_closedBall_two_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.NumberField.Units.unitHeightLowerBound_le_logHeight₁' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.NumberField.Units.regulatorLowerBound_le_regulator' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.covolume_fullUnitLattice_fullLogEuclideanVolume' depends on axioms: [propext, Classical.choice, Quot.sound]
