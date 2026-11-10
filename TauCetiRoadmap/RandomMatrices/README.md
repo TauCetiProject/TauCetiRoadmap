@@ -50,13 +50,15 @@ Owned elsewhere and consumed here:
   `cond volume (ball c r)`. Here: the complex Gaussian-Gram counterpart, spectral pushforwards,
   the circular law as the transport of target 12.1 to `ℂ`, and large-dimension limits. No second
   real Wishart measure is introduced.
-- Tau Ceti already has the empirical spectral and eigenvalue measures of a matrix, the Wigner
-  matrix constructor, the semicircle family `semicircleReal` with its moments and transform, the
-  Marchenko–Pastur law, the Hoffman–Wielandt, Weyl and rank-perturbation bounds, the resolvent
-  identities, the noncrossing partitions with their counts, Kreweras complement and Möbius
-  function, and the scalar free probability of freeness, free cumulants, semicircular elements
-  and the free central limit theorem; they are consumed by name (see
-  [From Tau Ceti](#from-tau-ceti)). No second copy of any of them is introduced.
+- Tau Ceti already has the empirical spectral and eigenvalue measures of a matrix, the Wigner matrix
+  constructor, the semicircle family `semicircleReal` with its moments and transform, the
+  Marchenko–Pastur law, the Courant–Fischer formula, the Hoffman–Wielandt, Weyl, singular-value and
+  rank-perturbation bounds, the resolvent identities and the trace and moment formulas of spectral
+  measures, the scalar Bernstein and McDiarmid inequalities, the method of moments for a compactly
+  supported limit, product extensions of a law, the noncrossing partitions with their counts,
+  Kreweras complement and Möbius function, and the scalar free probability of freeness, free
+  cumulants, semicircular elements and the free central limit theorem; they are consumed by name
+  (see [From Tau Ceti](#from-tau-ceti)). No second copy of any of them is introduced.
 - [OrthogonalL2Bases](../../Completed/OrthogonalL2Bases/README.md), Parts A–B, supplies Hermite
   polynomials and functions and moment determinacy, implemented in
   `TauCeti.Probability.Moments.*` and `TauCeti.Analysis.SpecialFunctions.Hermite.*`.
@@ -67,12 +69,9 @@ Owned elsewhere and consumed here:
   eigenvalue/eigenprojector disintegrations and Haar entry integrals.
 - [OptimalTransport](../OptimalTransport/README.md), Layers 0–3, owns couplings and Wasserstein
   distances. Here: the eigenvalue coupling and the spectral `W₁`/`W₂` corollaries.
-- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md), PD-A51–PD-A52,
-  owns the Courant–Fischer min–max formula and Loewner monotonicity of sorted eigenvalues for
-  symmetric endomorphisms of finite-dimensional inner-product spaces.
 - [OperatorTheory/SpectralSubspacePerturbation](../OperatorTheory/SpectralSubspacePerturbation/README.md),
-  SSP-D06, SSP-D13 and SSP-D14, owns the Hermitian dilation `[[0,A†],[A,0]]` of a rectangular
-  map, its operator-norm perturbation identity and its spectral transfer to singular values.
+  SSP-D06 and SSP-D13, owns the Hermitian dilation `[[0,A†],[A,0]]` of a rectangular map and its
+  operator-norm perturbation identity.
 - [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md), OI-B01–OI-B19,
   OI-B23, OI-B29, OI-B30 and Part C, owns the operator-ideal carriers, the nuclear gauge, the
   trace-class family and its completeness, and the Hilbert–Schmidt column model. No second
@@ -147,6 +146,11 @@ Owned elsewhere and consumed here:
   (`Mathlib/Probability/CentralLimitTheorem.lean`).
 - `MeasureTheory.resolventTransform` and its analyticity
   (`Mathlib/MeasureTheory/Measure/ResolventTransform.lean`).
+- Block and low-rank identities: the Schur-complement inverse `Matrix.invOf_fromBlocks₁₁_eq`, the
+  block determinant `Matrix.det_fromBlocks₁₁` and the determinant lemma
+  `Matrix.det_one_add_mul_comm` (`Mathlib/LinearAlgebra/Matrix/SchurComplement.lean`); the
+  Woodbury identity `Matrix.add_mul_mul_inv_eq_sub`
+  (`Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`).
 
 ### From Tau Ceti
 
@@ -154,13 +158,33 @@ Owned elsewhere and consumed here:
   (`TauCeti/Probability/Process/EmpiricalMeasure.lean`): the empirical probability measure of a
   nonempty finite family, with evaluation, integration, pushforward and measurability API.
 - `TauCeti.Probability.Moments.*` (moment determinacy) and
-  `TauCeti.Analysis.SpecialFunctions.Hermite.*` (Hermite polynomials and functions).
+  `TauCeti.Analysis.SpecialFunctions.Hermite.*` (Hermite polynomials and functions); the method
+  of moments for a compactly supported limit,
+  `MeasureTheory.ProbabilityMeasure.tendsto_of_tendsto_integral_pow`
+  (`TauCeti/Probability/Moments/WeakConvergence.lean`).
+- Product extensions: `ProbabilityTheory.HasLaw.prod_extension`
+  (`TauCeti/Probability/HasLaw.lean`), the law `μ.prod ν` of `(X ∘ Prod.fst, Prod.snd)` under
+  `P.prod ν`.
+- Scalar concentration: Bernstein's two-sided inequality
+  `ProbabilityTheory.iIndepFun.measureReal_abs_sum_ge_le_of_abs_le`
+  (`TauCeti/Probability/Moments/Bernstein.lean`) and McDiarmid's inequality for a product of
+  identical coordinate laws, `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences`, with
+  variance proxy `∑ cᵢ²/4` (`TauCeti/Probability/McDiarmid.lean`).
 - Spectral measures (`TauCeti/Analysis/Matrix/SpectralMeasure.lean`): `Matrix.spectralMeasure A hA`,
   the probability measure `L_A` of a Hermitian matrix with nonempty index type, with
-  `measurable_spectralMeasure` and `integral_spectralMeasure_eq_sum_eigenvalues₀`; and
-  `Matrix.eigenvalueMeasure A`, the probability measure `n⁻¹ ∑ δ_z` over the roots of the
+  `measurable_spectralMeasure`, `integral_spectralMeasure_eq_sum_eigenvalues₀`, the moments
+  `Matrix.integral_pow_spectralMeasure`, the resolvent transform
+  `Matrix.resolventTransform_spectralMeasure`, the zero-mass correction
+  `Matrix.spectralMeasure_conjTranspose_mul_self` and the pushforward
+  `Matrix.map_spectralMeasure_ofReal` onto the eigenvalue measure; the equal nonzero spectra
+  `Matrix.filter_map_eigenvalues_conjTranspose_mul_self` (`TauCeti/Analysis/Matrix/Spectrum.lean`);
+  and `Matrix.eigenvalueMeasure A`, the probability measure `n⁻¹ ∑ δ_z` over the roots of the
   characteristic polynomial with algebraic multiplicity, with `eigenvalueMeasure_apply` and
   `integral_eigenvalueMeasure`. Both require a nonempty index type.
+- Courant–Fischer (`TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`), the completed
+  PolarDecomposition PD-A51–PD-A52: the max–min formula
+  `LinearMap.IsSymmetric.eigenvalues_eq_iSup_iInf_re_inner` and Loewner monotonicity
+  `LinearMap.IsSymmetric.eigenvalue_mono`.
 - Eigenvalue perturbation: `Matrix.lipschitzWith_eigenvalues₀`, `Matrix.continuous_eigenvalues₀`
   and `Matrix.measurable_eigenvalues₀` (`TauCeti/Analysis/Matrix/Eigenvalues/Continuous.lean`);
   Weyl's additive inequalities `Matrix.IsHermitian.eigenvalues₀_add_le` and
@@ -168,7 +192,9 @@ Owned elsewhere and consumed here:
   `Matrix.IsHermitian.abs_eigenvalues₀_sub_le_norm` (`…/Eigenvalues/Basic.lean`); the
   Hoffman–Wielandt inequalities `Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq`
   and `Matrix.sum_sq_singularValues_toEuclideanLin_sub_le_frobenius_norm_sub_sq`
-  (`TauCeti/Analysis/Matrix/HoffmanWielandt.lean`); and the rank bound
+  (`TauCeti/Analysis/Matrix/HoffmanWielandt.lean`); the singular-value bound
+  `LinearMap.abs_singularValues_sub_singularValues_le`
+  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean`); and the rank bound
   `Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card`
   (`TauCeti/Analysis/Matrix/SpectralMeasure/RankPerturbation.lean`).
 - Resolvents of Hermitian matrices (`TauCeti/Analysis/Matrix/Resolvent/`): the norm bound
@@ -238,8 +264,7 @@ Owned elsewhere and consumed here:
   `0 < Ai(x) ≤ Ai(0) e^{−(2/3)x^{3/2}}` for `x ≥ 0` (3.6), and the Airy kernel
   `TauCeti.airyKernel` with its closed forms and the bound `|K_Ai(x,y)| ≤ C² e^{−x−y}` on
   `[s,∞)²` (8.5).
-- OperatorTheory/PolarDecomposition: PD-A51–PD-A52.
-  OperatorTheory/SpectralSubspacePerturbation: SSP-D06, SSP-D13, SSP-D14.
+- OperatorTheory/SpectralSubspacePerturbation: SSP-D06, SSP-D13.
   OperatorTheory/OperatorIdeals: OI-B01–OI-B19, OI-B23, OI-B29, OI-B30 and Part C.
 
 ## How to read the build
@@ -282,13 +307,13 @@ function or log-determinant is evaluated.
 
 ### 0.1 Product extensions
 
-For a probability space `(Ω,P)` and a probability law `ν` on a standard Borel space `E`, construct
-`Ω × E` with `P.prod ν`. Prove that the first projection is measure-preserving, that the second
-coordinate has law `ν`, and that it is independent of the whole old random object `X ∘ Prod.fst`
-for every measurable `X`. Include finite and countable families of new coordinates, repeated
-extensions and reordering and association of products. Use `exists_hasLaw_indepFun` and
-`exists_iid` where only a realization is needed. *Needs:* Mathlib `Measure.prod`, `HasLaw`,
-`exists_hasLaw_indepFun`, `exists_iid`.
+For a probability space `(Ω,P)` and a probability law `ν` on a standard Borel space `E`, extend to
+`Ω × E` with `P.prod ν`. For `X` with law `μ`, the pair `(X ∘ Prod.fst, Prod.snd)` has law
+`μ.prod ν` (Tau Ceti `HasLaw.prod_extension`), so the second coordinate has law `ν` and is
+independent of the old random object `X ∘ Prod.fst`. Prove the extension by countable families of
+new coordinates, repeated extensions, and the reordering and reassociation of products. Use
+`exists_hasLaw_indepFun` and `exists_iid` where only a realization is needed. *Needs:* Mathlib
+`Measure.prod`, `HasLaw`, `exists_hasLaw_indepFun`, `exists_iid`; Tau Ceti `HasLaw.prod_extension`.
 
 **Checks.**
 
@@ -335,16 +360,17 @@ Mathlib only.
 
 ### 1.1 Empirical and spectral measures
 
-Define the empirical finite measure `|ι|⁻¹ ∑ᵢ δ_{xᵢ}` of a finite family indexed by an
-arbitrary finite type; it is the zero measure for the empty family. For a nonempty index type it
-is the measure underlying `TauCeti.Probability.empiricalMeasureOfFintype`, whose normalization,
-evaluation, integration, pushforward from the uniform index law and measurability are reused; no
-second empirical probability measure is built. The empirical spectral measure `L_A` of a
-Hermitian matrix is Tau Ceti's `Matrix.spectralMeasure A hA`, and the eigenvalue measure of a
-general complex square matrix is `Matrix.eigenvalueMeasure A`, both for a nonempty index type
-(see [From Tau Ceti](#from-tau-ceti)); `L_A` written below is `Matrix.spectralMeasure A hA`.
-*Needs:* Tau Ceti `empiricalMeasureOfFintype`, `Matrix.spectralMeasure`,
-`Matrix.eigenvalueMeasure`; Mathlib `Matrix.charpoly`, `Polynomial.roots`.
+Define the empirical finite measure `|ι|⁻¹ ∑ᵢ δ_{xᵢ}` of a finite family indexed by an arbitrary
+finite type; it is the zero measure for the empty family. For a nonempty index type it is the
+measure underlying `TauCeti.Probability.empiricalMeasureOfFintype`, whose normalization, evaluation,
+integration, pushforward from the uniform index law and measurability are reused; no second
+empirical probability measure is built. The empirical spectral measure `L_A` of a Hermitian matrix
+is Tau Ceti's `Matrix.spectralMeasure A hA`, and the eigenvalue measure of a general complex square
+matrix is `Matrix.eigenvalueMeasure A`, both for a nonempty index type, and for Hermitian `A` the
+second is the pushforward of the first along `ℝ → ℂ` (`Matrix.map_spectralMeasure_ofReal`; see [From
+Tau Ceti](#from-tau-ceti)); `L_A` written below is `Matrix.spectralMeasure A hA`. *Needs:* Tau Ceti
+`empiricalMeasureOfFintype`, `Matrix.spectralMeasure`, `Matrix.eigenvalueMeasure`; Mathlib
+`Matrix.charpoly`, `Polynomial.roots`.
 
 - The empirical finite measure has total mass one for a nonempty family and zero for the empty
   one, is invariant under reindexing by an equivalence, and behaves under concatenation as the
@@ -352,8 +378,6 @@ general complex square matrix is `Matrix.eigenvalueMeasure A`, both for a nonemp
 - It is measurable as a map into finite measures; `Fin n` families are a specialization.
 - Specialize to singular values and squared singular values; prove measurability of
   `A ↦ Matrix.eigenvalueMeasure A` without choosing continuous ordered complex roots.
-- For Hermitian `A`, `Matrix.eigenvalueMeasure A` is the pushforward of
-  `Matrix.spectralMeasure A hA` along `ℝ → ℂ`.
 
 **Checks.**
 
@@ -373,23 +397,23 @@ Continuity and measurability of the ordered Hermitian eigenvalues, Weyl's additi
 `sup_t |L_A(-∞,t] - L_B(-∞,t]| ≤ rank(A-B)/n` are Tau Ceti's (`Matrix.continuous_eigenvalues₀`,
 `Matrix.measurable_eigenvalues₀`, `Matrix.IsHermitian.eigenvalues₀_add_le`,
 `Matrix.IsHermitian.abs_eigenvalues₀_sub_le_norm`,
-`Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card`). Take the min–max formula and
-eigenvalue monotonicity from PD-A51–PD-A52 through the comparison of their sorted eigenvalues with
-`Matrix.IsHermitian.eigenvalues₀` under `Matrix.toEuclideanLin`. Prove the max–min formula and
-Cauchy interlacing, with principal-minor and rectangular Gram corollaries of the rank bound
-(AGZ Appendix A; T §1.3). *Needs:* PD-A51–PD-A52; Tau Ceti eigenvalue perturbation (see
-[From Tau Ceti](#from-tau-ceti)); Mathlib `eigenvalues₀`, `Matrix.toEuclideanLin`.
+`Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card`). The max–min formula and Loewner
+monotonicity are Tau Ceti's (`LinearMap.IsSymmetric.eigenvalues_eq_iSup_iInf_re_inner`,
+`LinearMap.IsSymmetric.eigenvalue_mono`, the completed PD-A51–PD-A52); transfer them to
+`Matrix.IsHermitian.eigenvalues₀` under `Matrix.toEuclideanLin`. Prove the min–max form and Cauchy
+interlacing, with principal-minor and rectangular Gram corollaries of the rank bound (AGZ Appendix
+A; T §1.3). *Needs:* Tau Ceti Courant–Fischer and eigenvalue perturbation (see [From Tau
+Ceti](#from-tau-ceti)); Mathlib `eigenvalues₀`, `Matrix.toEuclideanLin`.
 
 The Hoffman–Wielandt inequality `∑ᵢ |λᵢ(A)-λᵢ(B)|² ≤ ‖A-B‖_F²` for Hermitian `A, B` and its
 singular-value analogue are Tau Ceti's
 `Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq` and
-`Matrix.sum_sq_singularValues_toEuclideanLin_sub_le_frobenius_norm_sub_sq`. Prove the singular-value
-form of the operator-norm bound by applying `Matrix.IsHermitian.abs_eigenvalues₀_sub_le_norm` to
-Hermitian dilations, using SSP-D14 for the spectral transfer and SSP-D13 for the norm identity.
-Deduce the Lipschitz estimate `|∫ f dL_A - ∫ f dL_B| ≤ Lip(f) ‖A-B‖_F/√n` and the spectral
-Wasserstein bounds by exhibiting the sorted eigenvalue coupling (AGZ Lemma 2.1.19, p. 21; Lemma
-2.3.1, pp. 38–39). *Needs:* SSP-D13, SSP-D14; Tau Ceti Hoffman–Wielandt; OptimalTransport Layers 0–3
-for the Wasserstein corollaries.
+`Matrix.sum_sq_singularValues_toEuclideanLin_sub_le_frobenius_norm_sub_sq`, and the singular-value
+operator-norm bound is `LinearMap.abs_singularValues_sub_singularValues_le`. Deduce the Lipschitz
+estimate `|∫ f dL_A - ∫ f dL_B| ≤ Lip(f) ‖A-B‖_F/√n` and the spectral Wasserstein bounds by
+exhibiting the sorted eigenvalue coupling (AGZ Lemma 2.1.19, p. 21; Lemma 2.3.1, pp. 38–39).
+*Needs:* Tau Ceti Hoffman–Wielandt and the singular-value bound; OptimalTransport Layers 0–3 for the
+Wasserstein corollaries.
 
 **Checks.**
 
@@ -402,16 +426,17 @@ for the Wasserstein corollaries.
 
 ### 1.3 Resolvents and moments
 
-The bound `‖R_A(z)‖ ≤ 1/|Im z|`, the trace formula, the Ward identity
-`∑ⱼ |Rᵢⱼ|² = Im Rᵢᵢ / Im z`, the rank-one update and the leave-one-out formula for Hermitian `A`
-and non-real `z` are Tau Ceti's (see [From Tau Ceti](#from-tau-ceti)). Develop the resolvent
-identity, Schur complements in block form, the matrix determinant lemma and
-Sherman–Morrison–Woodbury beyond rank one; take the Hermitian dilation of a rectangular matrix
-from SSP-D06. Prove `m_{L_A}(z) = trₙ R_A(z)` from the trace formula, `∫ x^k dL_A = trₙ(A^k)`,
-positivity and support statements, equality of the nonzero spectra of `XX*` and `X*X`, the exact
-zero-mass correction between their empirical probability measures, and uniform-integrability
-estimates from trace powers. *Needs:* §1.1; SSP-D06; Tau Ceti resolvents; Mathlib
-`resolventTransform`.
+The bound `‖R_A(z)‖ ≤ 1/|Im z|`, the trace formula, the Ward identity `∑ⱼ |Rᵢⱼ|² = Im Rᵢᵢ / Im z`,
+the rank-one update and the leave-one-out formula for Hermitian `A` and non-real `z` are Tau Ceti's,
+and so are `m_{L_A}(z) = trₙ R_A(z)`, `∫ x^k dL_A = trₙ(A^k)`, the equality of the nonzero spectra
+of `XX*` and `X*X` and the exact zero-mass correction between their empirical probability measures
+(see [From Tau Ceti](#from-tau-ceti)). Schur complements in block form, the matrix determinant lemma
+and Sherman–Morrison–Woodbury are Mathlib's (`Matrix.invOf_fromBlocks₁₁_eq`,
+`Matrix.det_fromBlocks₁₁`, `Matrix.det_one_add_mul_comm`, `Matrix.add_mul_mul_inv_eq_sub`). Prove
+the resolvent identity, positivity and support statements, and uniform-integrability estimates from
+trace powers; take the Hermitian dilation of a rectangular matrix from SSP-D06. *Needs:* §1.1;
+SSP-D06; Tau Ceti resolvents and spectral measures; Mathlib `resolventTransform` and the block
+identities.
 
 **Checks.**
 
@@ -427,9 +452,9 @@ For `A = [[0,1],[1,0]]`: `trₙ A² = 1 = ∫ x² dL_A`, `‖R_A(i)‖ = 1/√2 
 
 ### Dependencies
 
-Layer 0 for random versions; PD-A51–PD-A52, SSP-D06, SSP-D13, SSP-D14; OptimalTransport
+Layer 0 for random versions; SSP-D06; OptimalTransport
 Layers 0–3 for the transport corollaries; Tau Ceti `empiricalMeasureOfFintype`, spectral measures,
-eigenvalue perturbation and resolvents.
+Courant–Fischer, eigenvalue perturbation and resolvents.
 
 ## Layer 2: concentration, replacement and norm bounds
 
@@ -438,18 +463,20 @@ eigenvalue perturbation and resolvents.
 
 ### 2.1 Scalar inequalities and sub-exponential variables
 
-Complete the scalar Hoeffding, Bernstein, Azuma–Hoeffding, McDiarmid and Efron–Stein
-interfaces. For independent centred summands with `|Xᵢ| ≤ b` almost surely and `v = ∑ E Xᵢ²`,
-Bernstein's two-sided bound is `2 exp(-t²/(2(v+bt/3)))` for `t > 0` (BLM Theorem 2.10 and
-Corollary 2.11 with `c = b/3`, pp. 37–38, applied to `±Xᵢ`). For bounded differences `cᵢ`,
-McDiarmid's bound is `2 exp(-2t²/∑cᵢ²)` (BLM Theorem 6.2, p. 171, with `v = ∑cᵢ²/4`, and its
-lower-tail form); a zero denominator is handled by the almost-sure constant conclusion. The
+Complete the scalar Hoeffding, Azuma–Hoeffding, McDiarmid and Efron–Stein interfaces. For
+independent centred summands with `|Xᵢ| ≤ b` almost surely and `v = ∑ E Xᵢ²`, Bernstein's two-sided
+bound `2 exp(-t²/(2(v+bt/3)))` is Tau Ceti's
+`ProbabilityTheory.iIndepFun.measureReal_abs_sum_ge_le_of_abs_le` (BLM Theorem 2.10 and Corollary
+2.11 with `c = b/3`, pp. 37–38, applied to `±Xᵢ`). For bounded differences `cᵢ`, McDiarmid's bound
+is `2 exp(-2t²/∑cᵢ²)` (BLM Theorem 6.2, p. 171, with `v = ∑cᵢ²/4`, and its lower-tail form). Tau
+Ceti's `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences` gives the sub-Gaussian bound
+behind it for a product of identical coordinate laws; prove it for independent coordinates with
+different laws, with a zero denominator handled by the almost-sure constant conclusion. The
 Efron–Stein inequality is `Var f(X) ≤ ∑ᵢ E(f(X) - E⁽ⁱ⁾f(X))²` (BLM Theorem 3.1, p. 54). Define a
 real random variable to be sub-exponential with parameter `K > 0` when `exp(λ(X - EX))` is
-integrable and `E exp(λ(X - EX)) ≤ exp(K²λ²)` for every `|λ| ≤ 1/K` (V Proposition 2.7.1(v),
-p. 29, for the centred variable), and prove the Bernstein inequality for independent sums of
-such variables (V Theorem 2.8.1). *Needs:* Mathlib
-`HasSubgaussianMGF`, `mgf`.
+integrable and `E exp(λ(X - EX)) ≤ exp(K²λ²)` for every `|λ| ≤ 1/K` (V Proposition 2.7.1(v), p. 29,
+for the centred variable), and prove the Bernstein inequality for independent sums of such variables
+(V Theorem 2.8.1). *Needs:* Mathlib `HasSubgaussianMGF`, `mgf`; Tau Ceti Bernstein and McDiarmid.
 
 **Checks.**
 
@@ -579,11 +606,13 @@ continuous. *Needs:* Tau Ceti resolvent transform; Mathlib `resolventTransform`.
 Prove that weak convergence of probability measures on `ℝ` is equivalent to convergence of the
 transforms on the upper half-plane to the transform of a probability measure, with a countable
 determining set, the normal-family argument, and random in-probability and almost-sure versions.
-Prove that moment convergence implies weak convergence when the limiting moments determine a
-probability measure, using tightness and higher moments to pass through unbounded monomials, with
-compact-support and exponential-moment sufficient conditions from the determinacy API (AGZ Theorem
-2.4.4; Bai 1999, §2, moment convergence theorem with Carleman's condition, p. 613). *Needs:* §3.1;
-Tau Ceti moment determinacy; Mathlib Prokhorov compactness.
+Moment convergence implies weak convergence when the limit is compactly supported (Tau Ceti
+`MeasureTheory.ProbabilityMeasure.tendsto_of_tendsto_integral_pow`). Prove it when the limiting
+moments determine a probability measure, using tightness and higher moments to pass through
+unbounded monomials, with the exponential-moment and Carleman sufficient conditions from the
+determinacy API (AGZ Theorem 2.4.4; Bai 1999, §2, moment convergence theorem with Carleman's
+condition, p. 613). *Needs:* §3.1; Tau Ceti moment determinacy and method of moments; Mathlib
+Prokhorov compactness.
 
 ### 3.3 Semicircle laws
 
@@ -813,15 +842,15 @@ Dirichlet law (AGZ §4.5.1). *Needs:* §5.2; StandardDistributions Layers 3–6.
 
 Prove Weyl's integration formula on `U(n)`: for nonnegative measurable central `φ`,
 `∫ φ dHaar = (n!)⁻¹ ∫_{[0,2π]^n} φ(e^{i diag θ}) ∏_{i<j}|e^{iθᵢ}-e^{iθⱼ}|² ∏ dθᵢ/(2π)` (AGZ
-Proposition 4.1.6, (4.1.6), p. 192), from the spectral change of variables of §5.2 for
-normal matrices. Specialize it to the circular unitary ensemble: eigenangles in `[0,2π)` with
-density `((2π)^n n!)⁻¹ ∏_{i<j}|e^{iθᵢ}-e^{iθⱼ}|²` and independent Haar eigenflags. Prove complex
-Schur triangularization and the complex Ginibre joint eigenvalue density by the Schur change of
-variables with its triangular-coordinate Jacobian. Prove the HCIZ integral for Hermitian `A, B`
-and real `t`, with continuous extensions at repeated eigenvalues and `t = 0`:
-`∫ exp(t tr(AUBU*)) dU = c_n t^(-n(n-1)/2) det[exp(t aᵢ bⱼ)] / (Δ(a)Δ(b))`,
-`c_n = 1!·2!⋯(n-1)!`, `Δ(a) = ∏_{i<j}(aⱼ-aᵢ)`, when `t ≠ 0` and both spectra are simple, and a
-separate nonsingular rank-one formula. *Needs:* §5.2; RepresentationTheory/CompactGroups.
+Proposition 4.1.6, (4.1.6)), from the spectral change of variables of §5.2 for normal matrices.
+Specialize it to the circular unitary ensemble: eigenangles in `[0,2π)` with density
+`((2π)^n n!)⁻¹ ∏_{i<j}|e^{iθᵢ}-e^{iθⱼ}|²` and independent Haar eigenflags. Prove complex Schur
+triangularization and the complex Ginibre joint eigenvalue density by the Schur change of variables
+with its triangular-coordinate Jacobian. Prove the HCIZ integral for Hermitian `A, B` and real `t`,
+with continuous extensions at repeated eigenvalues and `t = 0`:
+`∫ exp(t tr(AUBU*)) dU = c_n t^(-n(n-1)/2) det[exp(t aᵢ bⱼ)] / (Δ(a)Δ(b))`, `c_n = 1!·2!⋯(n-1)!`,
+`Δ(a) = ∏_{i<j}(aⱼ-aᵢ)`, when `t ≠ 0` and both spectra are simple, and a separate nonsingular
+rank-one formula. *Needs:* §5.2; RepresentationTheory/CompactGroups.
 
 **Checks.**
 
