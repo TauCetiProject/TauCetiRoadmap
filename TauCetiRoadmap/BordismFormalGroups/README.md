@@ -3,11 +3,12 @@
 **Summary.** This roadmap develops the coefficient and operation theory
 that connects complex bordism to one-dimensional commutative formal groups.
 From the pinned Tau Ceti formal-group tree (Lazard ring, logarithms,
-heights) it proves Lazard's classification of formal groups over separably
-closed fields by their height (F1). From GeneralizedCohomology's spectra,
+heights) it builds the algebra of p-typical formal group laws and proves
+Lazard's classification of formal groups over separably closed fields by
+their height (F1). From GeneralizedCohomology's spectra,
 Thom spectra and orientations it builds the mod-p Steenrod algebras and
 Adams towers and proves Quillen's theorem L≅MU_* and Thom's computation of
-π_*MO (F2); constructs p-typical coordinates and the Brown–Peterson,
+π_*MO (F2); constructs the p-typicalization of MU_(p) and the Brown–Peterson,
 Johnson–Wilson and Morava K-theories (F3); develops comodules, the
 Adams–Novikov spectral sequence, Toda brackets and the Ω-spectrum Hopf
 rings of BP⟨n⟩ (F4); proves the invariant prime ideal theorem,
@@ -24,14 +25,17 @@ supply an E∞ orientation.
 
 ## Scope and ownership
 
-This roadmap owns, by layer: F1, the height classification of
+This roadmap owns, by layer: F1, the algebraic theory of p-typical formal
+group laws (Cartier's theorem, the universal p-typical ring V and its
+Hopf algebroid) and the height classification of
 one-dimensional commutative formal groups over separably closed fields,
 built on the pinned Tau Ceti formal-group tree, which F1 consumes by name
 and never plans again; F2, complex and real orientations with their
 formal laws, the mod-p Steenrod algebras and HF_p-based Adams towers, the
 unoriented coefficient ring MO_*, Thom's and Quillen's coefficient
 theorems for MO and MU, and the Conner–Floyd and graded Eilenberg–MacLane
-comparisons; F3, p-typical coordinates, Brown–Peterson theories and their
+comparisons; F3, the splitting of idempotents of spectra, the
+p-typicalization of MU_(p), Brown–Peterson theories and their
 cooperations, the height-n Honda laws, and the theories BP⟨n⟩, E(n) and
 K(n) with the Adams summands; F4, comodule algebra, the Adams–Novikov
 spectral sequence, the BP-homology Atiyah–Hirzebruch spectral sequence,
@@ -229,7 +233,11 @@ choices, with explicit comparison maps between choices.
 
 ## How to read the build
 
-F1 precedes F2. F2 constructs the mod-p Steenrod algebras, the HF_p-based
+F1 precedes F2, and no section of F1 uses a later layer: F1.5 contains
+the algebraic theory of p-typical laws (Cartier's theorem, the ring V, its
+generators and the Hopf algebroid (V,VT)) on which Lazard's classification
+and F3.2's Honda laws rest, and F3.1 identifies (V,VT) with (BP_*,BP_*BP)
+after Quillen's theorem. F2 constructs the mod-p Steenrod algebras, the HF_p-based
 Adams towers and the unoriented coefficient ring from AlgebraicTopology's
 ordinary cohomology and G2.7's HF_p and G5.4's MO and MU models, and
 supplies F3's spectra/cooperations. After the Toda brackets (F4.1–F4.2),
@@ -517,6 +525,71 @@ ring the height ideals I_(p,n) are `FormalGroup.heightIdeal` (module
 `Height.Ideal`), with `heightIdeal_eq_bot_iff_le_height` comparing them
 with the height over fields; F5 consumes them.
 
+Build the algebraic theory of p-typical laws, which the pinned Tau Ceti
+formal-group tree does not contain; it is formal-group algebra over
+ℤ_(p)-algebras and uses no spectrum. For a prime p, a formal group law
+over a torsion-free ℤ_(p)-algebra is p-typical when its logarithm has the
+form Σ_(i≥0) ℓ_i x^(p^i) with ℓ₀=1 (Ravenel, Definition A2.1.17); over an
+arbitrary ℤ_(p)-algebra, when for every prime q≠p the series
+f_q(x)=[1/q]_F(Σ^F_(1≤j≤q) ζ^j x), ζ a primitive q-th root of unity,
+vanishes (Ravenel, Proposition A2.1.20 for [1/q]_F, (A2.1.21) and
+Definition A2.1.22, pp. 358–359); prove that f_q has coefficients in the
+base ring and that the two definitions agree in the torsion-free case.
+Its API:
+
+- Cartier's theorem: every formal group law over a ℤ_(p)-algebra is
+  strictly isomorphic, by a coordinate change natural in the ring, to a
+  p-typical one; for the universal law over L⊗ℤ_(p) the p-typical law has
+  logarithm Σ_(i≥0) m_(p^i−1) x^(p^i), where Σ m_i x^(i+1) is the
+  logarithm over L⊗ℚ (Ravenel, Theorem A2.1.18, p. 358, and (A2.1.24)).
+- The ring V=ℤ_(p)[v₁,v₂,…], |v_n|=2(p^n−1), carries a universal
+  p-typical law: p-typical laws over a commutative ℤ_(p)-algebra R
+  correspond bijectively to ring maps V→R, and V is the image of the
+  idempotent ring endomorphism of L⊗ℤ_(p) whose rationalization fixes m_i
+  for i+1 a power of p and kills the other m_i, hence a retract of
+  L⊗ℤ_(p) (Ravenel, Theorem A2.1.25, p. 360, with its proof).
+- Generators: with ℓ_i the image of m_(p^i−1) in V⊗ℚ, Hazewinkel's
+  generators are defined by pℓ_n=Σ_(0≤i<n) ℓ_i v_(n−i)^(p^i) and Araki's by
+  pℓ_n=Σ_(0≤i≤n) ℓ_i v_(n−i)^(p^i) with v₀=p; each family lies in V and
+  generates it as a ℤ_(p)-algebra, and the two are congruent modulo p
+  (Ravenel, (A2.2.1), (A2.2.2) and Theorem A2.2.3, pp. 363–364).
+- For Araki's generators the p-series of the universal p-typical law is
+  [p]_F(x)=Σ^F_(i≥0) v_i x^(p^i), v₀=p (Ravenel, (A2.2.4), p. 364).
+- A strict isomorphism f out of a p-typical law F has p-typical target
+  exactly when f⁻¹(x)=Σ^F_(i≥0) t_i x^(p^i) with t₀=1, so
+  VT=V[t₁,t₂,…], |t_n|=2(p^n−1), classifies strict isomorphisms of
+  p-typical laws and (V,VT) is a Hopf algebroid, a quotient of
+  (L⊗ℤ_(p),L⊗ℤ_(p)[b₁,b₂,…]); its right unit is determined by
+  η_R(ℓ_n)=Σ_(0≤i≤n) ℓ_i t_(n−i)^(p^i) and, for Araki's generators, by
+  Σ^F_(i,j≥0) t_i η_R(v_j)^(p^i)=Σ^F_(i,j≥0) v_i t_j^(p^i) (Ravenel, Lemma
+  A2.1.26, Theorem A2.1.27, pp. 360–361, and Theorem A2.2.6, p. 365).
+
+*Needs:* Mathlib `FormalGroup`; the pinned `TauCeti.LazardRing` with
+`TauCeti.LazardRing.lift` and `TauCeti.LazardRing.mvPolynomialEquiv`,
+`FormalGroup.log` over L⊗ℚ (F1.3), the pinned n-series (F1.1) and F1.2's
+coordinate changes and Hopf algebroid (L,L[b₁,b₂,…]). F3.1 identifies
+(V,VT) with (BP_*,BP_*BP); nothing here uses F2 or F3.
+
+**Checks.**
+- The multiplicative law X+Y+XY over ℤ_(p) is not p-typical: its
+  logarithm Σ_(n≥1)(−1)^(n+1)x^n/n has the nonzero coefficient −1/2 at x²
+  for odd p, and 1/3 at x³ for p=2, in degrees that are not powers of p.
+  Its p-typicalization has logarithm Σ_(i≥0)(−1)^(p^i+1)x^(p^i)/p^i, so
+  ℓ₁=1/p for odd p and −1/2 for p=2, and Hazewinkel's v₁=pℓ₁ is 1,
+  respectively −1: a unit, as height one requires.
+- The additive law is p-typical for every p (logarithm x) and is
+  classified by v_i↦0 for all i≥1, for either family of generators; a
+  definition requiring only ℓ₁≠0 would exclude it.
+- ℓ₁: Hazewinkel's recursion gives ℓ₁=v₁/p and Araki's gives
+  ℓ₁=v₁/(p−p^p), so the two v₁ differ by the factor 1−p^(p−1), a unit of
+  ℤ_(p) congruent to 1 modulo p; at p=2 the factor is −1.
+- From η_R(ℓ₁)=ℓ₁+t₁ the Hazewinkel v₁=pℓ₁ has η_R(v₁)=v₁+pt₁. For
+  Araki's v₁ the degree-2(p−1) part of Theorem A2.2.6's identity reads
+  η_R(v₁)+p^p t₁=v₁+pt₁, the cross terms of the formal sums having higher
+  degree, so η_R(v₁)=v₁+(p−p^p)t₁, in agreement with ℓ₁=v₁/(p−p^p); a
+  right unit equal to the left unit would make every ideal of V
+  invariant.
+
 Prove Lazard's classification over separably closed fields: for a
 separably closed field k of characteristic p and commutative
 one-dimensional formal groups F and G over k, `TauCeti.FormalGroupIso F G`
@@ -524,13 +597,14 @@ is nonempty precisely when `FormalGroup.height F p` equals
 `FormalGroup.height G p`, the infinite-height class included
 (`nonempty_formalGroupIso_iff_height_eq`; Ravenel, Theorem A2.2.12, which
 says that every law of height n over k is isomorphic to Ravenel's standard
-law F_n of Definition A2.2.11, F3's height-n Honda law, and to the
+law F_n of Definition A2.2.11, F3.2's height-n Honda law, and to the
 additive law for n=∞). The forward direction
 is `TauCeti.FormalGroupIso.height_eq` and the infinite-height case is
 `height_eq_top_iff_nonempty_formalGroupIso_𝔾ₐ`. Ravenel's route for finite
 height: by Cartier's theorem (A2.1.18) replace F and G by isomorphic
 p-typical laws, parametrized by the images of the generators v_i of the
-p-typical Lazard ring V (A2.1.24, A2.1.25), and seek the isomorphism in
+ring V of the p-typical paragraph above (Theorem A2.1.25), and seek the
+isomorphism in
 the form of a formal sum Σ^F t_i x^(p^i); the coefficient equations
 (A2.2.13), from the right-unit formula of Theorem A2.2.6, begin with
 t₀·θ(v_h)=t₀^(p^h) and continue degree by degree with equations whose
@@ -551,8 +625,9 @@ and for f the identity series, whose defect is F−G, this is
 `succ_le_order_sub_of_lt_height` (module `LeadingDifference`). *Needs:*
 `FormalGroup.height`, `TauCeti.FormalGroupIso` and the pinned p-series,
 Frobenius, obstruction and leading-difference APIs named above; for
-Ravenel's route also F3's p-typical coordinates and Hazewinkel
-generators, which are a route input, not an input of the statement.
+Ravenel's route also the p-typical paragraph above (Cartier's theorem, V
+with Araki's generators, the p-series formula and the right-unit
+formula), which is a route input, not an input of the statement.
 This supplies ModularCurves' height-classification application.
 EllipticCurves Layer 1 owns the elliptic logarithm/exponential instances;
 it consumes the pinned generic API.
@@ -586,9 +661,10 @@ it consumes the pinned generic API.
 ### Dependencies
 
 Mathlib's `FormalGroup` carrier and the pinned Tau Ceti formal-group tree
-listed under Exact supplier contracts. Ravenel's route to the
-classification also uses F3's p-typical coordinates; the statement does
-not.
+listed under Exact supplier contracts. F1.5's p-typical theory uses
+F1.1–F1.3 and the pinned Lazard ring, and Ravenel's route to the
+classification uses that p-typical theory; no section of F1 uses a later
+layer.
 
 ## Layer 2: F2. Complex orientations and Quillen's theorem
 
@@ -602,8 +678,13 @@ its degreewise completion and products. Use the even commutative coefficient
 ring π_(2*)E for the native formal group; odd coefficients remain modules
 over it. This comparison precedes the tensor-product definition. Prove that tensoring the two universal lines defines a
 commutative native formal group F_E, with the orientation normalization,
-inverse dual-line formula and base-change laws. Compare two orientations by
-their strict coordinate change. Include K-theory's multiplicative law with its Bott grading: for
+inverse dual-line formula and base-change laws (Ravenel, Definition
+4.1.1, p. 106, for a complex orientation of an associative
+homotopy-commutative ring spectrum, and Lemma 4.1.4, p. 107, for
+E^*(CP^∞)=E^*[[x]], E^*(CP^∞×CP^∞)=E^*[[x⊗1,1⊗x]] and the formal group
+law of the tensor-product map). Compare two orientations by
+their strict coordinate change (Ravenel, Lemma 4.1.13 with its proof,
+p. 111). Include K-theory's multiplicative law with its Bott grading: for
 TopologicalKTheory's Bott class u=β=[O(−1)]−1 of its Conventions (O(−1)
 the tautological line on CP¹=S²) and the normalized coordinate on L=O(1), set
 x_K(L)=u⁻¹([L⁻¹]−1), so its restriction is +1 and
@@ -973,7 +1054,12 @@ formal law.
 Own a chosen natural Conner–Floyd
 MO_*-module comparison
 `MO_*(X,A)≃MO_*⊗_(𝔽₂)H_*(X,A;𝔽₂)`, compatible with the actual
-relative boundary, suspension, wedge and external-product maps.
+relative boundary, suspension, wedge and external-product maps (Quillen
+1969, Theorem 3, for the universality of the real law over MO_* on which
+the algebraic classification above rests; Quillen 1971, Introduction, for
+the comparison of unoriented cobordism with mod-2 cohomology; Miller,
+Chapter 1, Theorem 12.4, for the additive splitting of MO that this
+multiplicative comparison refines).
 Using the preceding graded EM ring/orientation, for R=MO_* and
 its own real law, its Thom map MO→H(MO_*) induces the identity on
 coefficients by the algebraic classification. Prove it an isomorphism on G2.6 true π_* and hence a stable weak
@@ -1020,26 +1106,51 @@ Conventions; GeneralizedCohomology G2.4, G2.5, G2.6, G2.7, G3.8, G3.9, G4
 
 ### 3.1 p-typicalization and Brown–Peterson theory (F3.1)
 
-For each prime p, construct the p-typicalization idempotent on MU_(p),
-prove its multiplicative comparison, and split it to obtain BP. Pin
-BP_*≅ℤ_(p)[v₁,v₂,…] using specified Hazewinkel generators and prove the
-logarithm recursion and conversion to other p-typical coordinates.
-Construct BP_*BP≅BP_*[t₁,t₂,…] and the full Hopf-algebroid structure;
-identify its strict p-typical coordinate-change functor. *Needs:* F2.3
-(MU, MU_*MU and Quillen's theorem); GeneralizedCohomology G2.4
-(localization and splitting of idempotents of spectra); F1.2's pinned
-Lazard ring and coordinate changes for Cartier's p-typicalization of
-formal groups.
+Prove that idempotents split in GeneralizedCohomology G2.4's stable
+homotopy category: for an idempotent e of a spectrum X, the mapping
+telescope eX of X→X→⋯ along e, formed as G3.4's cofiber of 1−shift on the
+countable wedge of copies of X, has π_*(eX)=e·π_*X, the map X→eX and the
+map eX→X induced by e on every stage compose to the identity of eX and to
+e on X, and X≃eX∨(1−e)X (Bökstedt–Neeman, Proposition 3.2 and Remark
+3.3, pp. 221–222, for a triangulated category with countable direct
+sums). F6.3 uses the same splitting for Smith's idempotents.
+
+For each prime p, construct the p-typicalization idempotent on MU_(p):
+by Quillen's theorem and F1.5's Cartier coordinate change there is a
+multiplicative self-map g of MU_(p), unique up to homotopy, whose effect
+on the orientation is that coordinate change, and g is idempotent because
+π_*(g)⊗ℚ is (Ravenel, Lemmas 4.1.13 and 4.1.15 and the proof of Theorem
+4.1.12, pp. 111–112; Quillen 1969, Theorem 4, for the idempotent
+operation and its values on the coefficients). Split it to obtain BP, an associative
+homotopy-commutative ring spectrum and a retract of MU_(p) with
+multiplicative retraction MU_(p)→BP (Ravenel, Theorem 4.1.12, p. 110).
+Identify π_*BP with F1.5's ring V=ℤ_(p)[v₁,v₂,…], compatibly with
+L⊗ℤ_(p)→V, and H_*(BP;𝔽_p) with P_* as an A_*-comodule algebra (Ravenel,
+Theorem 4.1.12(ii)–(iii)). Pin the Hazewinkel generators of F1.5 in
+BP_*, with their logarithm recursion and the conversion to Araki's
+generators. Prove that BP_*BP is flat over BP_* and that
+(BP_*,BP_*BP) is isomorphic as a Hopf algebroid to F1.5's (V,VT), so that
+BP_*BP≅BP_*[t₁,t₂,…] represents strict isomorphisms of p-typical laws
+(Ravenel, Theorem 4.1.19, p. 113, with Theorem 4.1.18 for the structure
+maps). *Needs:* F2.3 (MU, MU_*MU and Quillen's theorem); F1.5's p-typical
+theory (Cartier's theorem, V, its generators and (V,VT)); F2.2's P_* and
+A_*; GeneralizedCohomology G3.9 (the p-localization MU_(p)), G2.4 (the
+stable category, its coproducts and cofiber triangles) and G3.4 (the
+telescope of a sequence of spectra as the cofiber of 1−shift).
 
 **Checks.**
 - At p=2, |v₁|=2 and |v₂|=6, so BP₂=ℤ_(2)v₁, BP₄=ℤ_(2)v₁² and
   BP₆=ℤ_(2){v₁³,v₂}, whereas π₄MU_(2) has rank 2 on x₁², x₂: the
   idempotent kills the generator x₂, as 2+1=3 is not a power of 2, and BP
   is a proper summand.
-- The Hazewinkel recursion pℓ_n=Σ_(0≤i<n)ℓ_i v_(n−i)^(p^i), ℓ₀=1, gives
-  ℓ₁=v₁/p; Araki's recursion, which also has the term ℓ_n v₀^(p^n) with
-  v₀=p, gives ℓ₁=v₁/(p−p^p); the two v₁ differ by the factor 1−p^(p−1),
-  congruent to 1 modulo p, as F3.2 uses.
+- Idempotent splitting on a two-term example: on X=S[1/2]∨S[1/2] the swap
+  τ gives the idempotent e=(1+τ)/2, with e·π₀X the diagonal copy of
+  ℤ[1/2] in ℤ[1/2]², so eX≃S[1/2] and X≃eX∨(1−e)X; the
+  telescope along e, not the cofiber of e, is the summand: the cofiber of
+  an idempotent e on X is (1−e)X∨Σ(1−e)X.
+- Under π_*BP≅V the Hazewinkel recursion of F1.5 gives ℓ₁=v₁/p in
+  BP_*⊗ℚ, where ℓ₁ is the image of the logarithm coefficient m_(p−1) of
+  MU; at p=2, m₁=x₁/2 up to sign, so v₁ is the image of ±x₁.
 - For the Hazewinkel generators η_R(v₁)=v₁+pt₁ in BP_*BP, from
   η_R(ℓ₁)=ℓ₁+t₁ (Ravenel, Theorem A2.1.27(iv)) and v₁=pℓ₁; for Araki's,
   η_R(v₁)=v₁+p(1−p^(p−1))t₁. Either way v₁ is primitive modulo p but not
@@ -1049,13 +1160,15 @@ formal groups.
 ### 3.2 The height-n Honda law (F3.2)
 
 For 1≤n<∞ define the height-n Honda law H_n
-over 𝔽_p as the p-typical law classified by the ring map BP_*→𝔽_p with
+over 𝔽_p as the p-typical law classified by the ring map V→𝔽_p, V the
+ring of F1.5's p-typical theory, with
 v_n↦1 and v_i↦0 for every i≠n, Ravenel's standard law F_n (Definition
 A2.2.11, p. 367), and H_∞ as the additive law; over an 𝔽_p-algebra, in
-particular 𝔽_(p^m), it is the base change. The Hazewinkel generators
-pinned above and Araki's generators are congruent modulo p (Ravenel,
+particular 𝔽_(p^m), it is the base change. Hazewinkel's and Araki's
+generators are congruent modulo p (Ravenel,
 Theorem A2.2.3, p. 364), so the two choices classify the same law over
-𝔽_p. Its API:
+𝔽_p. The definition is formal-group algebra and uses no spectrum; F3.1's
+isomorphism π_*BP≅V makes H_n the law of the ring map BP_*→𝔽_p. Its API:
 
 - the p-series is [p]_(H_n)(x)=x^(p^n): Araki's formula
   [p]_F(x)=Σ^F_(i≥0) v_i x^(p^i), v₀=p (Ravenel, (A2.2.4), p. 364),
@@ -1065,9 +1178,10 @@ Theorem A2.2.3, p. 364), so the two choices classify the same law over
 - over a separably closed field of characteristic p every commutative
   law of height n is isomorphic to H_n, by F1's classification.
 
-*Needs:* F3.1's BP_* with its classifying property for p-typical laws;
-Mathlib `FormalGroup` and the pinned `FormalGroup.height`; F1.5's
-classification for the second API bullet.
+*Needs:* F1.5's p-typical theory (V with its universal p-typical law,
+the two families of generators and the p-series formula); Mathlib
+`FormalGroup` and the pinned `FormalGroup.height`; F1.5's classification
+for the second API bullet.
 
 **Checks.**
 - At n=1 the p-series is x^p, which is also the p-series (1+x)^p−1=x^p
@@ -1083,19 +1197,30 @@ classification for the second API bullet.
 
 ### 3.3 BP⟨n⟩, E(n), K(n) and the Adams summands (F3.3)
 
-Build BP⟨n⟩ and E(n) for n≥0, with the specified ordered spectral cofibres by v_(n+1),v_(n+2),… and localization at v_n for n≥1. Define E(0)=Hℚ.
+Build BP⟨n⟩ and E(n) for n≥0, with the specified ordered spectral
+cofibres by v_(n+1),v_(n+2),… and, for n≥1, E(n) the telescope of
+BP⟨n⟩ along multiplication by v_n, with π_*BP⟨n⟩=ℤ_(p)[v₁,…,v_n] and the
+cofibre sequences `Σ^(2p^n−2)BP⟨n⟩ --v_n→ BP⟨n⟩ → BP⟨n−1⟩` (Ravenel,
+Section 4.2, p. 116). Define E(0)=Hℚ.
 Prove the homotopy groups, canonical maps, connective-cover comparisons
 and the homotopy-associative products needed for F4.6's Hopf rings. Construct
 and compare the products on the iterated cofibres, with their actual
 p=2 noncommutativity/choice qualifications; no coherent BP-module
 category is presumed before an A∞ model is constructed. Do not
 assert an E∞ structure on BP or every BP⟨n⟩. Include BP⟨0⟩≃Hℤ_(p), and ku_(2)≃BP⟨1⟩. Construct Morava
-K(n) for n≥1 from the specified p,v_i (i≠n) cofibres and v_n
-localization, with coefficients F_p[v_n,v_n⁻¹], exact sequence and
-homology/detection APIs; its homotopy product is not asserted E∞.
+K(n) for n≥1 from the specified p,v_i (i≠n) cofibres and the
+v_n-telescope of the connective k(n), with coefficients F_p[v_n,v_n⁻¹],
+exact sequence and homology/detection APIs (Ravenel, Section 4.2,
+pp. 116–117, for k(n), K(n), their coefficients and the cofibre sequence
+`Σ^(2p^n−2)k(n) --v_n→ k(n) → H𝔽_p`); its homotopy product is not
+asserted E∞.
 For odd p, construct the Adams summand BP⟨1⟩ comparison with connective
 complex K-theory and the p−1 summands
-ku_(p)≃∏_(i=0)^(p−2) Σ^(2i)BP⟨1⟩. Prove Bott's cyclic action between
+ku_(p)≃∏_(i=0)^(p−2) Σ^(2i)BP⟨1⟩ (Adams, *Lectures on generalised
+cohomology*, Lecture 4, for the splitting of p-local K-theory; Ravenel,
+Section 1.5, p. 33, states the p−1 summands of ku_(p), Section 4.2,
+pp. 116 and 118, that BP⟨1⟩ is a summand of ku_(p) and E(1) of KU_(p),
+and Section 3.1, p. 66, that ko is a summand of ku at odd primes). Prove Bott's cyclic action between
 the factors, including v₁ on the last return. Include the i=0 summand.
 Construct ko_(p)≃⋁_(i=0)^((p−3)/2)Σ^(4i)BP⟨1⟩ for odd p by
 real/complex K comparison and conjugation, preserving its Bott action
@@ -1109,8 +1234,9 @@ for its own space-level splitting of BO⟨d⟩_(p). The API of these spectra:
 - π_*K(n)=𝔽_p[v_n^(±1)], and K(n) is the v_n-localization of the
   connective k(n), whose coefficients are 𝔽_p[v_n].
 
-*Needs:* F3.1; GeneralizedCohomology G2.4 (cofibers and localization of
-spectra), G3.8 (connective covers), G4.5 (complex orientations) and G5.4
+*Needs:* F3.1; GeneralizedCohomology G2.4 (cofibers), G3.4 (the
+telescopes of BP⟨n⟩ and k(n) along v_n), G3.9 (p-localization of ku, ko,
+KU and KO), G3.8 (connective covers), G4.5 (complex orientations) and G5.4
 (KU, KO and their connective covers ku, ko).
 
 **Checks.**
@@ -1140,9 +1266,11 @@ spectra), G3.8 (connective covers), G4.5 (complex orientations) and G5.4
 
 ### Dependencies
 
-F1 and F2 (MU, its orientation and cooperations); GeneralizedCohomology
-G2.4 (cofibers and localization of spectra), G3.8 (connective covers),
-G4.5 (complex orientations) and G5.4 (KU, KO, ku and ko).
+F1 (with F1.5's p-typical theory, on which F3.2 alone depends) and F2
+(MU, its orientation and cooperations); GeneralizedCohomology G2.4 (the
+stable category and cofibers), G3.4 (telescopes of spectra), G3.9
+(p-localization), G3.8 (connective covers), G4.5 (complex orientations)
+and G5.4 (KU, KO, ku and ko).
 
 ## Layer 4: F4. Comodules and Adams–Novikov comparisons
 
@@ -1287,7 +1415,10 @@ edge/Hurewicz maps, multiplicative and naturality laws, lim¹ obstruction,
 and conditional/strong-convergence criteria. Prove convergence to X_(p) for bounded-below X in the BP-based
 p-local Adams tower: the augmentation fibre of S_(p)→BP is
 positive-connective, so its iterated smash powers with X have connectivity
-tending to infinity. Prove the resulting tower limit and strong
+tending to infinity (Ravenel, Theorem 4.4.1, p. 132: the E₂-term
+Ext_(BP_*BP)(BP_*,BP_*X) and, for connective p-local X, convergence to
+π_*X with the filtration by factorizations into maps that vanish after
+smashing with BP). Prove the resulting tower limit and strong
 convergence criteria rather than merely labelling it a completion.
 Construct the BP/p-based nilpotent tower separately and identify its
 limit with derived p-completion for bounded-below finite-type X,
@@ -1296,7 +1427,9 @@ outside those hypotheses retain the actual nilpotent tower limit and
 its conditional-convergence statement. Ordinary p-localization and
 p-completion are distinct. Build the AHSS for
 BP-homology from the cellular filtration of G2.4's CW-spectrum approximation and prove its corresponding
-convergence and extension criteria. Supply the free/even/comodule comparisons
+convergence and extension criteria (Adams, *Stable Homotopy and
+Generalised Homology*, Part III, Section 7, the reference Ravenel gives
+for this spectral sequence in the proof of Lemma 4.1.4, p. 107). Supply the free/even/comodule comparisons
 used in StringOrientation's Hovey calculation. F2's HF_p-based Adams tower is a
 different tower from this BP-based one; neither is substituted for the
 other. *Needs:* F4.3; GeneralizedCohomology G2.4 (CW-spectrum
@@ -1392,10 +1525,16 @@ StringOrientation. Run F4.4's BP-homology Atiyah–Hirzebruch spectral
 sequence, built from the cellular filtration of G2.4's CW-spectrum
 approximation, on the suspension spectra of these spaces, and prove its
 collapse and extension
-identifications; cellular ranks alone do not determine the ring.
+identifications; cellular ranks alone do not determine the ring
+(Wilson, Part II, Corollary 5.1, for the torsion-free polynomial
+p-local homology of BP⟨1⟩_m when m<2p+2, and Ravenel, Section 4.2,
+pp. 116 and 119, for Wilson's splitting of the spaces BP⟨n⟩_k in his
+range and the torsion-free homology of the spaces of BP; Hovey, Theorem
+1.2, for the BP-homology polynomial generators when m is even and m<2p
+or m=2p, and Corollary 1.6 and Theorem 1.7 for the relations and the
+presentation at m=2p+2).
 *Needs:* F3.3; AlgebraicTopology Stages 8.8–8.10 (Eilenberg–MacLane
-models); F4.4's BP-homology Atiyah–Hirzebruch spectral sequence; Wilson's
-range theorems as cited source.
+models); F4.4's BP-homology Atiyah–Hirzebruch spectral sequence.
 
 **Checks.**
 - The spaces of an Ω-spectrum satisfy π_i(BP⟨n⟩_k)=π_(i−k)BP⟨n⟩ for
@@ -1446,8 +1585,9 @@ their strict inclusion order and the quotient presentations, including
 A/I_∞=𝔽_p. The homogeneity hypothesis is essential: the ungraded
 invariant prime (p,v₁−1), using η_R(v₁)=v₁+p t₁, is not in this list.
 Compare these ideals under the chosen p-typical coordinate changes.
-*Needs:* F3.1's Hopf algebroid with its right-unit formulas; Ravenel,
-Theorem 4.3.2, is the cited source.
+*Needs:* F3.1's Hopf algebroid (BP_*,BP_*BP), which is F1.5's (V,VT)
+with its right-unit formulas; the calculations of this section are
+statements about (V,VT) and use no other property of BP.
 
 **Checks.**
 - v₁ is primitive modulo p, since η_R(v₁)=v₁+pt₁, so 𝔽_p[v₁] lies in
@@ -1475,7 +1615,10 @@ bounded-below grading and finite coaction of its generators; prove the
 finite-polynomial-stage descent of a module presentation and coaction.
 Prove Landweber filtration for these comodules: construct a finite
 filtration by graded subcomodules with subquotients Σ^d A/I_n, d∈ℤ
-and n finite, including n=0. Prove termination over the descended finite
+and n finite, including n=0 (Landweber 1976, for comodules over
+BP_*BP, in the form stated in Ravenel, Section 4.2, p. 118, and in
+Ravenel, *Nilpotence and Periodicity*, (B.5.19), p. 182; the MU form is
+Theorem 3.3.7, p. 33, there). Prove termination over the descended finite
 Noetherian polynomial stage and its extension back to A. Prove the
 required coherence and finite-presentation/base-change lemmas for A;
 A itself is not assumed Noetherian. The prime I_∞ belongs to the
@@ -1606,7 +1749,9 @@ Ext⁰_Γ(A,A/I_n)=𝔽_p[v_n] through the p-typical comparison above.
 
 Prove Landweber's exact functor theorem for a graded MU_*-module M:
 for every prime p, p and successive v_i act injectively on its successive
-height quotients (Landweber's criterion, as surveyed in Ravenel,
+height quotients (Landweber 1976, Theorem 2.6; the statement, with the
+reduction to Tor₁ against the filtration factors, is Ravenel, *Nilpotence
+and Periodicity*, Theorem B.6.2 and Section B.6, pp. 182–183, and Ravenel,
 Section 4.2, p. 118). Zero quotients satisfy the criterion. Prove the
 necessary Tor vanishing for the filtration factors from their finite
 regular sequences; induct through the Landweber filtration to obtain
@@ -1792,7 +1937,9 @@ supplied spectrum E define E-equivalences by derived E-smash and E-acyclic
 objects by E∧X≃0; define E-locality by the contractibility of the derived
 function spectrum F(A,Y) for every E-acyclic A. Construct Bousfield
 localization L_E, its unit, derived mapping-space universal property,
-functoriality, exactness and idempotence. Construct the localized model and
+functoriality, exactness and idempotence (Bousfield 1979, §1, for the
+existence of L_E for every spectrum E; Ravenel, *Nilpotence and
+Periodicity*, Theorem 7.1.3, p. 76, states it). Construct the localized model and
 homotopy categories, their derived smash/localized smash and function
 comparisons. Prove the smallness/cardinal bound and existence by
 transfinite homotopy pushouts along a bounded family of E-equivalences,
@@ -1809,8 +1956,7 @@ hypotheses; these do not supply chromatic localization or its smashing
 theorems. *Needs:* GeneralizedCohomology G2.3–G2.4 (the stable symmetric
 spectral model, its small-object constructions, derived smash products
 and function spectra) and G3.9 (integer localization and derived
-p-completion, for the comparison); F3.3's spectra for the examples;
-Bousfield 1979 is the cited source.
+p-completion, for the comparison); F3.3's spectra for the examples.
 
 **Checks.**
 - L_S is the identity: only the zero spectrum is S-acyclic, so every
@@ -2048,12 +2194,14 @@ The proof has the following constructions and estimates.
    from an inverse limit or an arbitrary BP completion.
 
 *Needs:* GeneralizedCohomology G2.4 (derived smash products and ring
-spectra), G2.9 (loop/bar comparison), G5.1 (finite duality), G5.3
+spectra), G3.4 (telescopes of spectra, for the multiplication telescopes
+Tel(α;R)), G2.9 (loop/bar comparison), G5.1 (finite duality), G5.3
 (numerable bundle and Thom diagrams) and G5.4 (strict MU and the complex
 Bott equivalence); AlgebraicTopology Stage 5.5 (Serre fibrations); F4.1's
 derived right-module category over a strict ring spectrum; F2.2's mod-p
-homology operations at odd p and their prime-2 modifications constructed
-here; Devinatz–Hopkins–Smith, Hatcher and James are cited sources.
+Steenrod operations and dual Steenrod algebra; the mod-p homology
+operations of Ω²S^(2m+1) and of the extended powers D_(2,j), at odd
+primes and at 2, are constructed here.
 
 ### 6.3 Finite height, periodicity and telescopes (F6.3)
 
@@ -2219,7 +2367,7 @@ Prove its nonzero-image and subspace-annihilation tests, and the
 free-summand criterion for the local finite Hopf algebras used in
 Ravenel Appendix C.2.2. Construct their image/splitting and homology
 base-change comparisons on finite p-local smash powers, splitting each
-idempotent by its mapping telescope in G2.4's stable category. These
+idempotent by F3.1's idempotent splitting. These
 p-local/graded constructions do not
 follow from complex semisimplicity.
 
@@ -2295,11 +2443,12 @@ products), F5.1–F5.2 (the height ideals and the finite Landweber
 filtration), F5.4 (Landweber exactness of E(n)_*), F4.3 (the BP cobar
 complex), F2.2 (the dual Steenrod algebra), F6.1 (Bousfield classes) and
 F6.2 (MU-smash and MU-Hurewicz nilpotence); RepresentationTheory
-SchurWeyl Layers 0, 2 and 5 (Smith idempotents); GeneralizedCohomology
-G2.4 (cofibers, telescopes, idempotent splitting and the cellular
-filtration of finite spectra, for the finite K(n)-Atiyah–Hirzebruch
-spectral sequences built here as F4.4 builds the BP-homology one) and
-G5.1 (finite duality). Johnson–Wilson and Würgler are cited sources.
+SchurWeyl Layers 0, 2 and 5 (Smith idempotents); F3.1's splitting of
+idempotents; GeneralizedCohomology G2.4 (cofibers and the
+finite-subcomplex filtration of spectra, for the finite
+K(n)-Atiyah–Hirzebruch spectral sequences built here as F4.4 builds the
+BP-homology one), G3.4 (telescopes of spectra) and G5.1 (finite
+duality).
 
 **Checks.**
 - S_(p) has type 0, since K(0)_*S_(p)=ℚ≠0; S/p has type 1, since
@@ -2475,14 +2624,17 @@ heights already vanish on X. This proves other-height nilpotence
 before transporting periodicity to other finite spectra.
 Then prove Hopkins–Smith thick-subcategory classification: the full
 thick subcategories of finite p-local spectra are C₀, the C_n of
-K(n−1)-acyclic finite spectra for n≥1, and C_∞={0}. Prove their
+K(n−1)-acyclic finite spectra for n≥1, and C_∞={0} (Hopkins–Smith,
+Theorem 7; Ravenel, *Nilpotence and Periodicity*, Theorem 3.4.3,
+p. 37). Prove their
 strict order and type/support characterization. Use the Morava
 nilpotence theorem on the finite evaluation/coevaluation fibre and
 its iterated-smash cofiber filtration for the classification.
 Prove the nilpotence and ideal-extension argument that transports a
 self-map across finite cofiber/retract constructions in a thick
 subcategory, yielding Hopkins–Smith periodicity for every type-n
-finite spectrum, n≥1.
+finite spectrum, n≥1 (Hopkins–Smith, Theorem 9; Ravenel, *Nilpotence
+and Periodicity*, Theorem 1.5.4, p. 9).
 
 Include Adams' v₁ maps on the mod-p Moore spectrum, of degree 2p−2 for odd p and
 degree 8 at p=2, constructing their K-theory/Adams-operation detection
@@ -2630,8 +2782,9 @@ localized by G3.9); F6.2's finite-MU-cell ghost bound; F3.1 (the
 p-typical maps ε and ι); F6.1 (localization, Bousfield classes and the
 derived mapping-space property); thick classification, periodicity and
 the Johnson–Wilson class identity above; GeneralizedCohomology G2.3–G2.4
-(localization of the spectral model at a small set) and G5.1 (finite
-duality).
+(the stable model structure, its small-object constructions and the
+stable category, on which the finite localizations are built), G3.4
+(telescopes of spectra) and G5.1 (finite duality).
 
 ### 6.4 Johnson–Wilson classes, smashing and fracture (F6.4)
 
@@ -3453,23 +3606,28 @@ module-extension nullhomotopy on its moment-map stratification.
 ## References
 
 - Quillen, [*Elementary proofs of some results of cobordism theory using Steenrod operations*](https://people.math.rochester.edu/faculty/doug/otherpapers/QuillenElem.pdf).
-- Adams, *Stable Homotopy and Generalised Homology*, for orientations and cooperations.
-- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions (Theorem 1.3.16, p. 17, for the invariant prime ideals of L; Lemmas 3.1.4, 3.1.6, 3.1.7 and 3.1.8, Theorem 3.1.5, Corollary 3.1.10, Section 4.2, p. 118, and Theorem 4.3.2 with its proof, pp. 120–121), Corollaries A1.1.18 and A1.1.20 for the splitting of a comodule algebra and of a Hopf algebra as a module and comodule, Corollary A1.3.13 for the change of rings, and Appendix 2 (Theorems A2.1.6, A2.1.18, A2.1.27, A2.2.3, A2.2.6 and A2.2.12, Lemmas A2.1.9 and A2.2.7, Definitions A2.1.24–A2.1.25, A2.2.8 and A2.2.11, Example A2.2.10 and equations (A2.2.4) and (A2.2.13)) for the formal-group logarithm, p-series, height, the Honda laws and the height classification over separably closed fields.
-- Bousfield, [*The localization of spectra with respect to homology*](https://doi.org/10.1016/0040-9383(79)90018-1), Topology 18 (1979), §6, Theorem 6.6, for the identification of the HF_p-nilpotent completion of a bounded-below spectrum with its derived p-completion.
+- Adams, *Stable Homotopy and Generalised Homology*, Part II for orientations and cooperations and Part III, Section 7, for the Atiyah–Hirzebruch spectral sequence.
+- Ravenel, [*Complex Cobordism and Stable Homotopy Groups of Spheres*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/ravenel3rd.pdf), for p-typical cooperations and Adams–Novikov constructions (Theorem 1.3.16, p. 17, for the invariant prime ideals of L; Lemmas 3.1.4, 3.1.6, 3.1.7 and 3.1.8, Theorem 3.1.5, Corollary 3.1.10, Section 4.2, p. 118, and Theorem 4.3.2 with its proof, pp. 120–121), Corollaries A1.1.18 and A1.1.20 for the splitting of a comodule algebra and of a Hopf algebra as a module and comodule, Corollary A1.3.13 for the change of rings, and Appendix 2 (Theorems A2.1.6, A2.1.18, A2.1.25, A2.1.27, A2.2.3, A2.2.6 and A2.2.12, Lemmas A2.1.9, A2.1.26 and A2.2.7, Proposition A2.1.20, Definitions A2.1.17, A2.1.22, A2.2.8 and A2.2.11, Example A2.2.10 and equations (A2.1.21), (A2.1.24), (A2.2.1), (A2.2.2), (A2.2.4) and (A2.2.13)) for the formal-group logarithm, p-typical laws and their Hopf algebroid (V,VT), p-series, height, the Honda laws and the height classification over separably closed fields; Section 4.1 (Definition 4.1.1, Lemmas 4.1.4, 4.1.13 and 4.1.15, Theorems 4.1.12, 4.1.18 and 4.1.19, pp. 106–113) for complex orientations, BP and BP_*BP; Section 4.2, pp. 116–119, for BP⟨n⟩, E(n), k(n), K(n) and Wilson's results; Theorem 4.4.1, p. 132, for the Adams–Novikov spectral sequence; and Section 1.5, p. 33, and Section 3.1, p. 66, for the summands of ku and ko at odd primes.
+- Bökstedt–Neeman, [*Homotopy limits in triangulated categories*](https://www.numdam.org/item/CM_1993__86_2_209_0/), Compositio Math. 86 (1993), 209–234, Proposition 3.2 and Remark 3.3, pp. 221–222, for the splitting of idempotents by telescopes.
+- Adams, *Lectures on generalised cohomology*, Lecture Notes in Mathematics 99 (1969), Lecture 4, for the splitting of p-local K-theory.
+- Landweber, *Homological properties of comodules over MU_*(MU) and BP_*(BP)*, Amer. J. Math. 98 (1976), for the Landweber filtration theorem for comodules over BP_*BP and, as Theorem 2.6, the exact functor theorem.
+- Carrick–Davies–van Nigtevecht, [*The descent spectral sequence for topological modular forms*](https://arxiv.org/abs/2412.01640v2), §3 (Definitions 3.3 and 3.7, Lemma 3.9, Propositions 3.14–3.15 and Theorem 3.16), for the higher Toda conventions and the synthetic Moss theorem.
+- Bauer, [*Computation of the homotopy of the spectrum tmf*](https://arxiv.org/abs/math/0311328v3), Geom. Topol. Monogr. 13 (2008), 11–40, §8 (Lemma 8.6 and Corollary 8.7), for the bracket forms of F4.2.
+- Bousfield, [*The localization of spectra with respect to homology*](https://doi.org/10.1016/0040-9383(79)90018-1), Topology 18 (1979), §1, for the existence of homological localizations, and §6, Theorem 6.6, for the identification of the HF_p-nilpotent completion of a bounded-below spectrum with its derived p-completion.
 - Landweber–Ravenel–Stong, [*Periodic cohomology theories defined by elliptic curves*](https://people.math.rochester.edu/faculty/doug/mypapers/lrs.pdf), for exactness and elliptic examples.
-- Wilson, *The Ω-spectrum for Brown–Peterson cohomology II*, and Hovey, [*The homotopy of MString and MU⟨6⟩ at large primes*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Hovey-bpbp1.pdf), for the Hopf-ring interfaces.
+- Wilson, *The Ω-spectrum for Brown–Peterson cohomology II*, Amer. J. Math. 97 (1975), Corollary 5.1, and Hovey, [*The homotopy of MString and MU⟨6⟩ at large primes*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Hovey-bpbp1.pdf), Algebr. Geom. Topol. 8 (2008), Theorem 1.2, Corollary 1.6 and Theorem 1.7, for the Hopf-ring interfaces.
 - Lubin–Tate, [*Formal moduli for one-parameter formal Lie groups*](https://www.numdam.org/item/BSMF_1966__94__49_0.pdf), Bull. Soc. Math. France 94 (1966), 49–59: the ⋆-isomorphisms (p. 49), Proposition 1.1 (p. 50), Proposition 2.4 (p. 52) for rigidity, Proposition 2.6 (p. 54), Theorem 3.1 (p. 56), §3.2 and Proposition 3.3 (p. 57) and §§3.4–3.5 (p. 58), for the universal deformation theorem, its automorphism action and the height-two elliptic example.
 - Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Section 4.J for the James construction and Section 4.L for the Steenrod operations, Adem relations and the admissible basis.
 - Miller, [*Notes on Cobordism*](https://math.mit.edu/~hrm/papers/cobordism.pdf), Chapter 1, Sections 9–13, for the Steenrod algebra, Milnor's theorem on its dual (Theorem 11.2), the Milnor–Moore freeness criterion (Proposition 10.4), the freeness of H^*MO and the splitting of MO (Theorems 12.1–12.4), with Section 13 stating the ring π_*MO without proof; Chapter 2, Theorem 3.5 and Proposition 8.3, for Quillen's theorem and the Hurewicz embedding.
 - Guillou–Weibel, [*Unstable operations in étale and motivic cohomology*](https://arxiv.org/abs/1301.0872), Definition 6.1, Theorem 6.2 and Theorem 6.5, for the algebraic forms of Borel's and Kudo's transgression theorems.
 - Thom, *Quelques propriétés globales des variétés différentiables*, Comment. Math. Helv. 28 (1954), Chapitre IV, for the proof of the structure of the unoriented coefficient ring.
-- Quillen, [*On the formal group laws of unoriented and complex cobordism theory*](https://www.ams.org/journals/bull/1969-75-06/S0002-9904-1969-12401-8/S0002-9904-1969-12401-8.pdf), Theorems 2 and 3, for the universality of the complex and unoriented laws.
+- Quillen, [*On the formal group laws of unoriented and complex cobordism theory*](https://www.ams.org/journals/bull/1969-75-06/S0002-9904-1969-12401-8/S0002-9904-1969-12401-8.pdf), Theorems 2 and 3, for the universality of the complex and unoriented laws, and Theorem 4 for the p-typical idempotent.
 - James, *Reduced product spaces*, Annals of Mathematics 62 (1955), Sections 1–6, for the James construction and its filtration.
 - Toda, *Composition Methods in Homotopy Groups of Spheres*, Annals of Mathematics Studies 49 (1962), Chapter I, for the three-fold Toda brackets and their suspension.
 
 - Devinatz–Hopkins–Smith, [*Nilpotence and stable homotopy theory I*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/dhs-ocr.pdf), for the three nilpotence scopes and the Thom/James/vanishing-line proof.
-- Hopkins–Smith, [*Nilpotence and stable homotopy theory II*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/HS.pdf), for finite support, thick classification and periodicity.
-- Ravenel, [*Nilpotence and Periodicity in Stable Homotopy Theory*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf), §§3.3, 7.3 and 7.5, Chapters 6–8 and Appendix C, for invariant primes, Bousfield classes, periodicity (§6.2: the operations P_t^s for t>s≥0, p. 63, Definition 6.2.3 of strong type and Theorem 6.2.4, pp. 64–65), the smash product theorem (Theorem 7.5.6, p. 87), the Hopkins–Ravenel smashing proof and Smith idempotents.
+- Hopkins–Smith, [*Nilpotence and stable homotopy theory II*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/HS.pdf), Theorems 3, 7 and 9, for the Morava K-theory form of nilpotence and finite support, thick classification and periodicity.
+- Ravenel, [*Nilpotence and Periodicity in Stable Homotopy Theory*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf), §§3.3, 7.3 and 7.5, Chapters 6–8 and Appendices B and C, for invariant primes, the Landweber filtration and exact functor theorems (Theorem 3.3.7, p. 33, (B.5.19) and Theorem B.6.2, pp. 182–183), the thick subcategory and periodicity theorems (Theorem 3.4.3, p. 37, and Theorem 1.5.4, p. 9), Bousfield localization (Theorem 7.1.3, p. 76), Bousfield classes, periodicity (§6.2: the operations P_t^s for t>s≥0, p. 63, Definition 6.2.3 of strong type and Theorem 6.2.4, pp. 64–65), the smash product theorem (Theorem 7.5.6, p. 87), the Hopkins–Ravenel smashing proof and Smith idempotents.
 - Hovey–Strickland, [*Morava K-Theories and Localisation*](https://doi.org/10.1090/memo/0666), for generalized Moore systems, their local categories and completion comparisons.
 - Greenlees–Sadofsky, [*The Tate spectrum of v_n-periodic complex oriented theories*](https://people.math.rochester.edu/faculty/doug/otherpapers/greenlees-sadofsky.pdf), and Kuhn, [*Tate cohomology and periodic localization of polynomial functors*](https://arxiv.org/abs/math/0307173), for the stated local Tate comparisons.
 
