@@ -49,8 +49,6 @@ provisional.
 
 @[expose] public section
 
-set_option autoImplicit false
-
 universe u v u' v' u₁ v₁ u₂ v₂ w w' uι
 
 namespace TauCetiRoadmap.InfinitaryModelExistence
