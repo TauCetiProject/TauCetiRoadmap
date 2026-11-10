@@ -122,6 +122,14 @@ triviality supplies the projection's surjectivity and submersion property. Do no
 second total-space topology. Open restrictions are pullbacks along `Subtype.val`; their chart maps
 consume `Bundle.Trivialization.restrictPreimage`.
 
+A principal bundle in the classical form is a manifold `P` with a projection to the base and a
+right action of G. It is not a second definition: B1.1's presentation theorem turns such data into
+the mixin form on the fibre family `b ↦ π⁻¹(b)`, with the topology of `P` transported to the total
+space, and compares the two smooth structures by an equivariant diffeomorphism over the base.
+Bundles that arise with a given total space, namely `G → G/H`, the free proper quotients and the
+Hopf bundle (B1.4) and the frame bundles (B2.5), are constructed through that theorem, and
+statements about them are stated on `P`.
+
 Use [`GroupLieAlgebra I G`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Geometry/Manifold/GroupLieAlgebra.html#GroupLieAlgebra)
 for the structure Lie algebra. Its tangent-space definition and bracket are Mathlib's; the
 left-invariant-derivation comparison is a theorem, not a choice of a competing Lie algebra. For `A`
@@ -331,9 +339,23 @@ in one fibre. Prove the projection is a smooth surjective submersion in the sens
 `Manifold.IsSubmersion`/`IsSubmersionAt`, directly from the product form of the local
 trivializations. Construct `P×_M P` as B1.0's fibre product of the projection with itself; identify
 its inherited topology and charts with the principal local model `M×G×G`. Division is smooth on
-this manifold, not a function on unrelated pairs. Conversely, a surjective submersion with a free
-right action whose orbits are exactly the fibres is a principal bundle (Kolář–Michor–Slovák, Lemma
-10.3).
+this manifold, not a function on unrelated pairs.
+
+Prove the presentation theorem for a given total space. The data are a smooth manifold `P`, a
+smooth map `π : P → M`, a smooth right action of G on `P` that preserves each fibre of π, and a
+cover of M by open sets U with diffeomorphisms `π⁻¹(U) ≃ U × G` over U that intertwine the action
+with right multiplication on the second factor (Kobayashi–Nomizu I, Ch. I §5). Put `P_b = π⁻¹(b)`
+with its subspace topology, and give `Bundle.TotalSpace G P_•` the topology of `P` transported
+along the bijection `⟨b,p⟩ ↦ p`; this is its only topology. Prove that the given trivializations
+generate a fibre-bundle atlas on this family, that the restricted action is a principal structure
+with smooth transition functions, and that the composite of the canonical homeomorphism from the
+principal-total-space synonym with `⟨b,p⟩ ↦ p` is a G-equivariant diffeomorphism onto `P` carrying
+the bundle projection to π. Its two sides have different models, `IB.prod IG` and the model of `P`.
+Transport along this diffeomorphism gives the division map, the fibre product, the descent
+theorems and the vertical distribution on `P` itself. Conversely, a surjective submersion with a
+smooth free right action whose orbits are exactly the fibres has such trivializations, the maps
+`(x,g) ↦ s(x)·g` for local sections s of π, and is therefore a principal bundle
+(Kolář–Michor–Slovák, Lemma 10.3).
 
 Prove generic smooth descent along a principal projection: a map from the base to any smooth
 manifold is smooth iff its composite with the projection is smooth. Every invariant smooth map on
@@ -349,6 +371,9 @@ composition, restriction, transport and extensionality APIs.
 - For points p,q in a common fibre, division is smooth on `P×_M P` and is the unique g with `p·g=q`.
 - Smooth maps from the base are exactly maps whose composites with the principal projection are
   smooth; invariant total-space maps descend uniquely, compatibly with restriction and composition.
+- A manifold `P` with a projection, a fibre-preserving right action and equivariant local product
+  diffeomorphisms presents a principal bundle on its fibre family, equivariantly diffeomorphic to
+  `P` over the base; a surjective submersion with a free action whose orbits are the fibres is one.
 
 **Checks.**
 
@@ -360,6 +385,14 @@ composition, restriction, transport and extensionality APIs.
 - `ker dπ_p` has dimension `dim G`, and for G finite (a covering) the vertical distribution is zero.
 - For a non-free action (the trivial action of a nontrivial G on M) the division map is not
   defined: the fibrewise torsor axiom excludes it.
+- For `P = M × G` with the first projection and the action `(x,h)·g = (x,hg)`, the fibre over x is
+  `{x} × G`, the presented bundle is isomorphic to the trivial bundle, and the comparison
+  diffeomorphism is `⟨x,(x,h)⟩ ↦ (x,h)`.
+- The squaring map `S¹ → S¹` with `ℤ/2` acting by `z ↦ −z` is a surjective submersion with a free
+  action whose orbits are its fibres; it presents the nontrivial principal `ℤ/2`-bundle over `S¹`.
+- For nontrivial G acting on the last factor of `M × G × G`, the action is free and preserves the
+  fibres of the first projection, but each fibre `G × G` is more than one orbit, so the hypothesis
+  that orbits are exactly the fibres cannot be dropped.
 
 *Needs:* Mathlib `FiberBundle`, `Trivialization`, `Manifold.IsSubmersionAt`; B1.0.
 
@@ -439,7 +472,8 @@ neighbourhood of the orbit, using properness for injectivity after shrinking. Th
 and orbit tubular-neighbourhood theorem (Meinrenken, Theorem 1.25 and proof, p. 12).
 Free proper actions give smooth
 quotient manifolds with surjective submersion projection and a principal bundle (Meinrenken,
-Theorem 1.21). The headline `exists_freeProperQuotient_isSubmersion` quantifies over arbitrary
+Theorem 1.21); the principal structure is B1.1's presentation of the given manifold M with its
+orbit projection. The headline `exists_freeProperQuotient_isSubmersion` quantifies over arbitrary
 finite-dimensional boundaryless real models for M and G, with both manifolds Hausdorff and
 second countable, a smooth action, `ProperSMul G M`, and freeness
 `∀ g x, g • x = x → g = 1`. It asserts existence of a `ChartedSpace` on
@@ -452,7 +486,8 @@ gluing symplectic forms and its orbifold reduction theorem on these charts. Prov
 right action on any principal bundle over these bases: `(p,g) ↦ (p,pg)` is a homeomorphism onto
 `P ×_M P`, which is closed in `P × P` because M is Hausdorff. For a closed Lie subgroup H≤G,
 consume LieGroups' closed-subgroup structure and apply the free proper right H-action to construct
-G/H; prove G→G/H is a principal H-bundle and its tangent quotient description
+G/H; prove G→G/H is a principal H-bundle, presented by the total space G through B1.1, and its
+tangent quotient description
 (Kolář–Michor–Slovák §10.5, Theorem; Lee, Theorem 21.17). Reuse Tau Ceti's smooth quotient
 construction for discrete actions (`Geometry/Manifold/Instances/Quotient.lean`) in that
 specialization.
@@ -809,7 +844,12 @@ general-linear Lie construction. Prove the identity homeomorphism with the defau
 topology by finite-dimensional norm equivalence, and its induced units-level homeomorphism on
 `Matrix.GeneralLinearGroup (Fin n) 𝕜`, for `𝕜=ℝ,ℂ`. Prove compatibility of multiplication,
 inversion, frame evaluation and manifold charts. The right action is `f·g=f∘g`; recovery is
-`[f,v]↦f(v)`. Prove an equivalence of **groupoids of isomorphisms** between the corresponding
+`[f,v]↦f(v)`. The total space of the frame bundle of E is the set of fibrewise invertible maps in
+the total space of B2.1's Hom bundle of linear maps `𝕜ⁿ → E_x`, a real smooth vector bundle also
+when `𝕜=ℂ`. Prove that this set is open, give it the topology and smooth structure of an open
+subset, and obtain its principal structure from local frames of E by B1.1's presentation theorem;
+no separate topology or atlas is built for frames.
+Prove an equivalence of **groupoids of isomorphisms** between the corresponding
 smooth vector bundles and principal GL_n bundles. Orthogonal, unitary and symplectic reductions
 encode the corresponding nondegenerate fibrewise structures; give their transition criteria.
 Positive metrics exist by partitions of unity. Define reduction of structure group to a closed Lie
