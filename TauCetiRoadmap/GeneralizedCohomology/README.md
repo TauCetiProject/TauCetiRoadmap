@@ -477,6 +477,17 @@ quaternionic adapters of G4.0 built first. G5 constructs duality, Thom spectra, 
 ring spectra and their orientations, and the rational comparisons, from G2–G4. Each layer ends
 with its examples and its dependencies.
 
+The G-prefixed subsection identifiers retain their numbering. The layer headings correspond as
+follows, so citations using the former numbering have an explicit destination.
+
+| Former heading and numbering | Layer |
+| --- | --- |
+| G1. Reduced, relative and multiplicative theories | [Layer 1](#layer-1-reduced-relative-and-multiplicative-theories) |
+| G2. A concrete spectral model and represented theories | [Layer 2](#layer-2-a-concrete-spectral-model-and-represented-theories) |
+| G3. Brown representation, arbitrary CW and infinite comparisons | [Layer 3](#layer-3-brown-representation-arbitrary-cw-and-infinite-comparisons) |
+| G4. Generalized Leray–Hirsch, Thom and Euler theory | [Layer 4](#layer-4-generalized-lerayhirsch-thom-and-euler-theory) |
+| G5. Finite duality, Thom spectra and rational Hurewicz | [Layer 5](#layer-5-finite-duality-thom-spectra-and-rational-hurewicz) |
+
 ## Layer 1: Reduced, relative and multiplicative theories
 
 G1 starts with the pointed topological/CW suppliers. It states and develops
@@ -730,8 +741,6 @@ proves only 2σ²=0. Prove the bimodule/Koszul action on the shifted summand.
 ### Dependencies
 
 G1 uses AlgebraicTopology Stages 2–4, 4.4 and 4.5 for the pointed CW substrate, pairs, cofibrations and the pair-to-mapping-cone comparison, and Mathlib's `TopPair.HomologyPretheory` for the shape of homology theories. It uses no spectral model.
-
-<a id="g2-a-concrete-spectral-model-and-represented-theories"></a>
 
 ## Layer 2: A concrete spectral model and represented theories
 
@@ -2815,8 +2824,6 @@ of lim¹ for surjective towers.)
 
 G3.4's telescope and Milnor construction uses G1 and Tau Ceti's towers of modules and precedes G3.1 and G3.3; its spectral version uses G2. G3.1 uses G1 and the CW substrate; G3.2 and G3.6 use G2.3–2.5. G3.5 uses G3.4, G1.3 and Tau Ceti's gap refinement of partitions of unity. G3.8 uses G2.4, G2.7 and G2.8; G3.9 follows G3.8. G3.10 uses G2.10, AlgebraicTopology Stages 4–5 and Tau Ceti's towers of groups.
 
-<a id="g4-generalized-lerayhirsch-thom-and-euler-theory"></a>
-
 ## Layer 4: Generalized Leray–Hirsch, Thom and Euler theory
 
 ### 4.0 Quaternionic bundle and manifold adapters (G4.0)
@@ -3483,8 +3490,6 @@ branch.
 ### Dependencies
 
 G4.0a uses G2.9's join classifier, CharacteristicClasses C1.1b, TopologicalKTheory T1.5–T1.6, RepresentationTheory SpinRepresentations Layer 7, SpinGeometry G4.1, AlgebraicTopology Stages 2.5 and 4.4 and Tau Ceti's Spin(3), Spin(4) and quaternionic data, and precedes G4.6. G4.0b adds SmoothBundlesConnections B1.4, the embedded-unitary Lie data, TopologicalKTheory T1.5's smooth Grassmannian upgrade and ComplexKahlerGeometry K7's sphere adapter. G4.1–4.4 use G1 and G3 for the cell and cover proofs and G2 for the concrete examples; G4.2 uses CharacteristicClasses C2.1. G4.6 uses G2.9, G4.0a and TopologicalKTheory T1.5 and T1.5a.
-
-<a id="g5-finite-duality-thom-spectra-and-rational-hurewicz"></a>
 
 ## Layer 5: Finite duality, Thom spectra and rational Hurewicz
 
