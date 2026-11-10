@@ -43,7 +43,7 @@ Groups and vector spaces may occupy independent universes; tensor and intertwine
 
 ## Exact supplier contracts
 
-The library pins are Mathlib 6b7abb3c7686292736be2955bd3eb9ebf63b456a and Tau Ceti a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039. A contract labeled gap: is required mathematics, not a declaration available for use. It must be discharged before a dependent target is implemented as a theorem; the target’s final hypotheses do not acquire an arbitrary package of its desired conclusions.
+The Mathlib and Tau Ceti revisions are pinned in [lake-manifest.json](../../lake-manifest.json). A contract labeled gap: is required mathematics, not a declaration available for use. It must be discharged before a dependent target is implemented as a theorem; the target’s final hypotheses do not acquire an arbitrary package of its desired conclusions.
 
 ### From Mathlib
 
