@@ -237,11 +237,16 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   right ℂ-module) and `CStarMatrix` (the C*-algebra `M_n(A)` with its
   continuous functional calculus), used by D1.Modules; `ContRepresentation`
   (a representation by bounded operators, continuous in each operator), used
-  by D1; `PositiveLinearMap.GNS` and `PositiveLinearMap.gnsNonUnitalStarAlgHom`
-  (the GNS space and representation of a positive functional),
+  by D1; `PolishSpace`, `MeasureTheory.AnalyticSet`, `MeasurableEquiv`,
+  `MeasurableMul₂` and `MeasurableInv`, used by D1.BorelPrefix for analytic
+  Borel groups; `PositiveLinearMap.GNS` and `PositiveLinearMap.gnsNonUnitalStarAlgHom`
+  (the GNS space and representation of a positive functional), with the
+  unital representation `PositiveLinearMap.gnsStarAlgHom` for unital A,
   `VonNeumannAlgebra` with `VonNeumannAlgebra.commutant` (the
   double-commutant definition on a Hilbert space) and
   `ContinuousLinearMapWOT` (the weak operator topology), used by D7 and D8;
+  `Set.extremePoints` and `Set.centralizer` (the extreme points of a convex
+  set and the commutant of a set of operators), used by D7;
   `PiTensorProduct.tmulEquiv` (the binary tensor product of two tensor
   powers as the tensor power over the sum of the index types),
   `PiTensorProduct.reindex` with `finSumFinEquiv`,
@@ -387,7 +392,8 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
     (`TauCeti.CStarAction.isKMSState_comp_iff_of_surjective`), restriction
     (`TauCeti.CStarAction.IsKMSState.restrict`), limits that are states
     (`TauCeti.CStarAction.IsKMSState.of_tendsto`), convexity and, for unital
-    A, weak-* compactness of `K_β`
+    A, weak-* compactness of `K_β=TauCeti.CStarAction.kmsStates`, the image
+    of the β-KMS states in the weak-* dual
     (`TauCeti.CStarAction.convex_kmsStates`,
     `TauCeti.CStarAction.isCompact_kmsStates`), the rotation of `C(S¹)`
     (`TauCeti.CStarAction.isKMSState_rotation_iff`) and the separating
@@ -967,7 +973,12 @@ f^{*_ω}(s)   = c(s) ω(s,s⁻¹)* α_s(f(s⁻¹)*).
 ```
 
 Multiplication by a multiplier is its actual left or right action on A;
-the displayed values lie in A. Prove continuity, support containment
+the displayed values lie in A. The twisted convolution is
+`twistedConvolution`, with `ω(r,r⁻¹s)` acting on the right through the
+right action of `𝓜(ℂ,A)` on A; by centrality the left action gives the
+same value, and for ω=1 it agrees on `C_c(G,A)` with Tau Ceti's bilinear
+`TauCeti.CStarAction.convolution`.
+Prove continuity, support containment
 `supp(f*_ωg)⊆supp(f)supp(g)`, inverse support for star, associativity,
 conjugate linearity, involutivity, reversal of products and
 `‖f*_ωg‖₁≤‖f‖₁‖g‖₁`, `‖f^{*_ω}‖₁=‖f‖₁`.
@@ -994,8 +1005,15 @@ U_s U_t=π̃(ω(s,t)) U_(st).
 Here π̃ is Tau Ceti's `NonUnitalStarAlgHom.multiplierExtension` of π; U is not a genuine representation
 unless the represented cocycle is trivial. Construct the integrated form
 by the vector integral `T_fξ=∫π(f(s))U_sξ dμ(s)` and prove
-`‖T_f‖≤‖f‖₁` (`exists_centralIntegratedOperator`), multiplicativity and
-star preservation with the displayed modular factor. Establish the compact-support proof and L¹ extension in
+`‖T_f‖≤‖f‖₁`, by the measurability argument of D1's
+`exists_integratedOperator` (the bound uses neither covariance nor the
+projective law). Prove multiplicativity `T_(f*_ωg)=T_fT_g` for f, g in
+`C_c(G,A)` and a left Haar measure (`centralIntegrated_twistedConvolution`):
+covariance and the projective law give
+`π(f(r))U_rπ(g(t))U_t=π(f(r)α_r(g(t))ω(r,t))U_(rt)`, and the substitution
+`t=r⁻¹s`, left invariance and Fubini on compact supports give the
+displayed `f*_ωg`. Prove star preservation with the displayed modular
+factor. Establish the compact-support proof and L¹ extension in
 D1's arbitrary-LCH scope; do not substitute an operator-norm Bochner
 integral. Give the intertwiner, unitary equivalence, direct sum,
 nondegeneracy and irreducibility comparisons and inverse recovery of the
@@ -1143,6 +1161,18 @@ here.
   trivializes ω, and `T_b` sends `δ_a` to `iδ_a` with `(iδ_a)²=−ω(a,a)δ_e=δ_e`.
   This instance does not fix the direction of `T_b`: since `b(a)⁴=1`, the
   map `f↦fb` is also a homomorphism from the ω algebra to the `ω^b` algebra.
+- Multiplicativity of the integrated form tests the projective law, the
+  norm bound does not: for the same G=ℤ/2, A=ℂ, `ω(a,a)=−1`, counting
+  measure and `π=id` on `H=ℂ`, the twisted convolution gives
+  `δ_a*_ωδ_a=ω(a,a)δ_e=−δ_e`, so `T_(δ_a*_ωδ_a)=−1`. The twisted covariant
+  pair `U_a=i` (`U_aU_a=−1=ω(a,a)U_e`) gives `T_(δ_a)T_(δ_a)=i²=−1`, while
+  the family `U_a=1`, covariant but not projective for ω, gives
+  `T_(δ_a)T_(δ_a)=1≠−1`; both satisfy `‖T_(δ_a)‖=1≤‖δ_a‖₁`. The order of
+  the arguments of ω in `f*_ωg` is pinned by G=(ℤ/2)², A=ℂ and
+  `ω((a,b),(a′,b′))=(−1)^(ba′)`, with u=(1,0), v=(0,1): `ω(u,v)=1` and
+  `ω(v,u)=−1`, the displayed formula gives `δ_u*_ωδ_v=ω(u,v)δ_(u+v)=δ_(u+v)`,
+  matching `U_uU_v=ω(u,v)U_(u+v)`, while `ω(r⁻¹s,r)` in its place would give
+  `−δ_(u+v)`.
 - The direction of `T_b`, from the `ω^b` algebra to the ω algebra: for
   G=ℤ/3={0,1,2}, A=ℂ, ω=1 and the cochain `b(1)=i`, `b(2)=1`,
   `ω^b(1,2)=b(1)b(2)overline(b(0))=i`, so `δ_1δ_2=iδ_0` in the `ω^b`
@@ -1182,7 +1212,8 @@ here.
   conventions cannot be told apart there.
 
 *Needs:* Tau Ceti's covariant pairs and full crossed product (integrated
-forms, regular representation, universal norm);
+forms, regular representation, universal norm), and
+`TauCeti.CStarAction.convolution` (the comparison at ω=1);
 CStarAlgebras C1.7 (the strict topology, multiplier
 extensions into `M(B)`); Tau Ceti `TauCeti.CStarAction.multiplier` and
 `NonUnitalStarAlgHom.multiplierExtension` (π̃ and ρ̃); Mathlib
@@ -1230,7 +1261,7 @@ group is an admissible source. For a locally compact source a route
 avoiding category is available: cover K by countably many translates of a
 small identity neighbourhood, find a preimage of positive Haar measure
 inside a compact identity neighbourhood of G, and apply Steinhaus's theorem
-`div_mem_nhds_one_of_haar_pos` (Williams, Theorem D.3 and Lemma D.4).
+`MeasureTheory.Measure.div_mem_nhds_one_of_haar_pos` (Williams, Theorem D.3 and Lemma D.4).
 Mathlib's `MeasureTheory.Measure.AddMonoidHom.continuous_of_measurable` treats only additive
 homomorphisms from a locally compact normed group into a real normed space,
 so it does not apply to `U(H)_s`. A ℚ-linear map ℝ→ℝ that is not ℝ-linear,
@@ -1246,12 +1277,20 @@ Borel and that the product of normalized Haar measure on 𝕋 with μ is a
 nonzero σ-finite left-invariant measure. Prove Mackey's theorem: an
 analytic Borel group carrying such a measure has exactly one
 second-countable locally compact group topology whose Borel sets are the
-given ones, and the measure is a Haar measure for it (Williams,
-Theorem D.23, p. 376, with Lemmas D.40–D.44); an analytic Borel space is
-one Borel isomorphic to an analytic subset of a Polish space with its
-relative Borel structure (Williams, Definition D.19, p. 375), a class
-strictly larger than the standard Borel spaces of Mathlib's
-`StandardBorelSpace`. Existence embeds the group in
+given ones, and the measure is a Haar measure for it
+(`existsUnique_groupTopology_of_isAnalyticBorelSpace`; Williams,
+Theorem D.23, p. 376, with Lemmas D.40–D.44). An analytic Borel space
+(`IsAnalyticBorelSpace`) is one Borel isomorphic to an analytic subset of
+a Polish space with its relative Borel structure (Williams, Definition
+D.19, p. 375), stated with Mathlib's `PolishSpace`,
+`MeasureTheory.AnalyticSet` and `MeasurableEquiv`; it is a class strictly
+larger than the standard Borel spaces of Mathlib's `StandardBorelSpace`.
+An analytic Borel group is a group with such a structure whose
+multiplication and inversion are measurable (Mathlib's `MeasurableMul₂`
+and `MeasurableInv`; Williams, Definition D.21, asks that `(r,s)↦r⁻¹s` be
+measurable for the product structure, which is equivalent). The
+uniqueness ranges over group topologies, second-countable, locally compact
+and Hausdorff, with the given Borel sets. Existence embeds the group in
 `U(L²)_s` by its left-regular representation; uniqueness is automatic
 continuity of the identity map. Apply it to `E_ω`: `i(z)=(z,e)` and
 `j(z,s)=s` are Borel homomorphisms, hence continuous; i is a homeomorphism
@@ -1303,9 +1342,30 @@ statement here uses the projective quotient `U(H)_s/𝕋`.
   `λ^ω_aλ^ω_a=−1`, while the untwisted regular representation has
   `λ_a²=1`; a definition that forgets the factor `ω(s,s⁻¹x)` cannot
   distinguish the two.
+- `IsAnalyticBorelSpace` on ℝ: with its Borel sets it holds with X=ℝ and
+  s=univ (every standard Borel space is analytic), and Mackey's topology
+  for Lebesgue measure is the usual one; with the countable–cocountable
+  σ-algebra it fails, since that σ-algebra is not countably generated
+  while the relative Borel structure of a subset of a Polish space is.
+- Uniqueness needs group topologies: the involution φ of ℝ sending x to
+  x+1 on `[0,1)`, to x−1 on `[1,2)` and fixing every other point is a Borel
+  automorphism, so transporting the usual topology by φ gives a
+  second-countable locally compact Hausdorff topology τ′ with the same Borel
+  sets. It is not a group topology: `U=φ((−1/2,1/2))=(−1/2,0)∪[1,3/2)` is
+  τ′-open, but `U−1=(−3/2,−1)∪[0,1/2)` is not, because
+  `φ(U−1)=(−3/2,−1)∪[1,3/2)` is not open in ℝ; so translation by 1 is not
+  τ′-continuous.
+- The hypotheses on the measure: counting measure on ℝ is nonzero and
+  left-invariant but not σ-finite, and it is not a Haar measure for the
+  usual topology (it is infinite on `[0,1]`); the zero measure on the
+  standard Borel group `ℝ^ℕ` leaves no compatible locally compact group
+  topology, since automatic continuity of the identity in both directions
+  would make the Polish product topology locally compact.
 
 *Needs:* Mathlib `ContinuousLinearMap.toPointwiseConvergenceCLM`,
-`div_mem_nhds_one_of_haar_pos`, `MonoidHom.isOpenMap_of_sigmaCompact`;
+`MeasureTheory.Measure.div_mem_nhds_one_of_haar_pos`, `MonoidHom.isOpenMap_of_sigmaCompact`,
+`PolishSpace`, `MeasureTheory.AnalyticSet`, `MeasurableEquiv`, `MeasurableMul₂`,
+`MeasurableInv`, `MeasureTheory.Measure.IsHaarMeasure` and `StandardBorelSpace`;
 BanachAlgebras A7 (Haar integration and Fubini); Mathlib `unitary`; Williams, Appendix D as cited at each claim.
 
 ### D1.TwistedBorel. Scalar Borel fibers of circle extensions
@@ -1394,7 +1454,9 @@ Ceti as in the supplier contract; Mathlib
 `ContRepresentation`,
 `MeasureTheory.Measure.modularCharacter`, `CStarModule`, `CStarMatrix`,
 `DoubleCentralizer`, `unitary`, `ContinuousLinearMap.toPointwiseConvergenceCLM`,
-`div_mem_nhds_one_of_haar_pos` and `MonoidHom.isOpenMap_of_sigmaCompact`; Tau
+`MeasureTheory.Measure.div_mem_nhds_one_of_haar_pos`, `MonoidHom.isOpenMap_of_sigmaCompact`,
+`PolishSpace`, `MeasureTheory.AnalyticSet`, `MeasurableEquiv`, `MeasurableMul₂` and
+`MeasurableInv`; Tau
 Ceti `ContRepresentation.IsUnitary`, `ContRepresentation.integratedOperatorL1`,
 `twistedMonoidAlgebra` and `TwistedMonoidAlgebra.equivOfCoboundary`; the
 induced Hilbert spaces of HilbertModules H3 (D1.Modules). Within
@@ -1893,16 +1955,13 @@ comparisons. Every nonzero closed ideal of R contains K(H); hence the
 closed ideals are 0 and the inverse images of the closed ideals of Q.
 Identify `Prim(R)={η}⊔Prim(Q)`, η=0, with opens ∅ and
 `{η}∪O` for O open in Prim(Q). In particular η is open and dense;
-Prim(Q) is its closed complement. This is a quotient-spectrum description,
-without identifying the boundary with the circle of SequenceToeplitz.
+Prim(Q) is its closed complement. This is a quotient-spectrum description;
+the boundary `Prim(Q)` is not identified with a concrete space.
 
 Prove R and Q have no unital complex characters. For the even-integer
 projection p, covariance gives `UpU*=1−p`; a character would send p
 to an idempotent scalar equal to 1 minus itself, which is impossible.
-The same relation holds in Q. Construct the faithful inclusion of
-SequenceToeplitz's C₊⋊ℤ in R from its translation-invariant coefficient
-inclusion, respecting the common compact ideal and quotient maps.
-The C₊ example's circle characters need not extend to R.
+The same relation holds in Q.
 
 **Checks.**
 
@@ -1922,9 +1981,11 @@ The C₊ example's circle characters need not extend to R.
 
 *Needs:* D1 (crossed product, exactness for invariant ideals); D2
 (amenable full/reduced comparison, gauge expectation);
-CStarAlgebras C1.3 (ideals, quotients) and
+CStarAlgebras C1.3 (ideals, quotients),
+C1.7 (the embedding `R→M(K(H))`) and
 C2.2–C2.4 and C2.AnnHull (irreducible representations, primitive ideal
-space);
+space); Tau Ceti `NonUnitalStarAlgHom.multiplierExtension` (the
+extension from the compact ideal);
 Mathlib `lp`, `lp.single` and the C*-algebra instance on `lp A ∞`
 (`Mathlib/Analysis/CStarAlgebra/lpSpace.lean`).
 
@@ -1989,6 +2050,14 @@ finite sums of rank-one diagonal projections converge strongly to the
 support of the compact ideal; the orthogonal complement is the quotient
 representation, on which S is unitary. They need not converge to I.
 
+Construct the faithful inclusion of B in the algebra R=ℓ∞(ℤ)⋊ℤ of
+D2.BoundedSequenceTranslation from the translation-invariant coefficient
+inclusion C₊⊆ℓ∞(ℤ), respecting the common compact ideal `K(ℓ²(ℤ))` and the
+quotient maps, so that it induces `C(𝕋)=ℂ⋊ℤ→Q`. The circle characters
+`ev_z∘q` of B do not extend to R: a nonzero character of the unital R
+would be unital, and R has none
+(D2.BoundedSequenceTranslation).
+
 **Checks.**
 
 - `ker ℓ₊=c₀(ℤ)`: `ℓ₊(f)=0` together with `lim_(n→−∞)f(n)=0` is vanishing
@@ -2008,11 +2077,13 @@ representation, on which S is unitary. They need not converge to I.
   quotient `C(𝕋)` is commutative, so B is type I.
 
 *Needs:* D1 (full exactness); D2 (amenable comparison, gauge
-expectation); D2.BoundedSequenceTranslation (matrix units, the inclusion
-`C₊⋊ℤ→R`); D4.Harmonic (`C*(ℤ)≅C(𝕋)` with `δ_1↦z`, for the circle
+expectation); D2.BoundedSequenceTranslation (matrix units, the type I and
+CCR definitions, the algebra R with its compact ideal, quotient Q and
+absence of characters, for the inclusion of B in R); D4.Harmonic
+(`C*(ℤ)≅C(𝕋)` with `δ_1↦z`, for the circle
 quotient and its exact kernel); CStarAlgebras C2.2–C2.4 and C2.AnnHull (irreducible representations,
 primitive ideals), CStarAlgebras C1.7 (the embedding
-`R→M(K(H))`) and CStarAlgebras C8.4 (the concrete Toeplitz
+`B→M(K(ℓ²(ℤ)))`) and CStarAlgebras C8.4 (the concrete Toeplitz
 algebra); Tau Ceti `NonUnitalStarAlgHom.multiplierExtension` (the
 extension from the compact ideal); Mathlib `lp`.
 
@@ -2199,7 +2270,7 @@ Let G be a locally compact Hausdorff abelian group with a regular Haar
 measure μ (Mathlib `Measure.IsHaarMeasure` together with `Measure.Regular`:
 the class `IsHaarMeasure` does not include regularity, and regular Haar
 measures are unique up to a positive scalar by Mathlib
-`isMulLeftInvariant_eq_smul_of_regular`) and
+`MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular`) and
 `Ĝ=PontryaginDual G`, the continuous characters `G→𝕋` with the compact-open
 topology, a locally compact abelian group by Mathlib's instance.
 BanachAlgebras A7.CharactersAndUniqueness identifies every nonzero
@@ -2977,7 +3048,17 @@ injective, using faithfulness of the expectation. The map to the groupoid
 algebra is onto; prove injectivity on each matrix core and gauge equivariance,
 then apply uniqueness. Thus establish the universal groupoid identification
 (Renault, Chapter III, Proposition 2.7, by a representation-theoretic route)
-and deduce simplicity and nuclearity from the groupoid theorems. Identify
+and deduce simplicity and nuclearity from the groupoid theorems. Deduce
+that for n≥2 the C*-algebra generated by any n isometries `S_j` on a
+nonzero Hilbert space H with `S_i*S_j=δ_ijId` and `∑_jS_jS_j*=Id` is
+simple, as a ring, so for every two-sided ideal, closed or not
+(`cuntz_isSimpleRing`, on D2.FreeGroups' `generatedCStarAlgebra`; Cuntz,
+§1): the universal property maps O_n onto it, since the range of a
+*-homomorphism of C*-algebras is closed and contains the generators; the
+map is unital and H≠0, so it is nonzero and hence injective because O_n is
+simple; and a unital C*-algebra without nontrivial closed ideals has no
+nontrivial ideals, as in D2.FreeGroups. So every Cuntz family of n≥2
+isometries generates a copy of O_n. Identify
 the integer cocycle and its gauge action, without making classification of all groupoid KMS
 states as a target.
 
@@ -2990,6 +3071,13 @@ states as a target.
 - The full shift on one symbol, n=1: the space is a point, the groupoid is
   the group ℤ of the integer cocycle, and `C*(ℤ)=C(𝕋)` is neither simple nor
   the algebra of a minimal effective groupoid; this is why `2≤n` is assumed.
+- The hypotheses of the simplicity of a concrete Cuntz family: for n=1 the
+  bilateral shift U on `ℓ²(ℤ)` satisfies `U*U=UU*=1`, and the C*-algebra it
+  generates is `C(σ(U))=C(𝕋)`, which has the proper ideal of functions
+  vanishing at 1; for H=0 the relations hold trivially (1=0) and the
+  generated algebra is 0, which is not a simple ring. For n=2 the
+  residue-class family below on `ℓ²(ℕ)` satisfies the hypotheses, so they
+  are not vacuous.
 - For n=2 the prefix bisections `Z(X,1,0,X)` restricted to the cylinders
   `[i]` give isometries `S_0`, `S_1` with `S_i*S_j=δ_(ij)` and
   `S_0S_0*+S_1S_1*=1`, since `[0]⊔[1]=X`; the gauge action is
@@ -3008,7 +3096,9 @@ states as a target.
 (inductive limits, and the universal unitary algebra as the model of a
 universal norm); the concrete Cuntz families below, which make the universal norm of
 `O_n` finite and definite; the D6 ideal theory above (simplicity and nuclearity from amenability,
-effectiveness and minimality).
+effectiveness and minimality); D2.FreeGroups (`generatedCStarAlgebra`, and
+the passage from closed ideals to all two-sided ideals); Mathlib
+`IsSimpleRing`.
 
 **Concrete Cuntz families on separable Hilbert space.** For every complete
 infinite-dimensional separable complex Hilbert space H and every integer
@@ -3060,7 +3150,7 @@ on a separable Hilbert space.
 
 D5 and D5.Fields; D1.Modules with HilbertModules H1 and H3; D2;
 CStarAlgebras C1.3, C1.7, C2.2–C2.3, C5.4, C6.1–C6.2 and C6.5; Mathlib
-`HilbertBasis`, `Nat.divModEquiv`, `ContinuousLinearMap.adjoint` and
+`HilbertBasis`, `Nat.divModEquiv`, `ContinuousLinearMap.adjoint`, `IsSimpleRing` and
 point-set topology.
 
 ## D7. Analytic dynamics, KMS states, and the KMS simplex
@@ -3131,14 +3221,29 @@ of VonNeumannAlgebras V10.KMS on `0≤Im z≤1`. The characterization of
 V10.KMS identifies τ̄ with the modular group of ω̄ on M:
 `σ^ω̄_t=τ̄_(−βt)`.
 
-For unital A, `K_β` is convex and weak-* compact by
+For unital A, `K_β=TauCeti.CStarAction.kmsStates`, a subset of the weak-*
+dual, is convex and weak-* compact by
 `TauCeti.CStarAction.convex_kmsStates` and
 `TauCeti.CStarAction.isCompact_kmsStates`. Prove that, when nonempty, it is
 a Choquet simplex, defined here by unique maximal representing probability
-measure for every point in the convex order. Its extreme states are exactly its factor states,
-the states whose GNS representation generates a von Neumann algebra
-(Mathlib's `VonNeumannAlgebra`, the bicommutant of the image) with trivial
-centre; distinct extreme KMS states have disjoint GNS representations, that
+measure for every point in the convex order. Prove that its extreme states
+are exactly its factor states (`mem_extremePoints_kmsStates_iff`, for
+every real β and a β-KMS state ω, with Mathlib's `Set.extremePoints ℝ`;
+Bratteli–Robinson 2, Theorem 5.3.30, cited by locator): the states whose
+GNS representation `π_ω`, Mathlib's `PositiveLinearMap.gnsStarAlgHom` for
+unital A, generates a von Neumann algebra (Mathlib's `VonNeumannAlgebra`,
+the bicommutant of the image) with trivial centre `π_ω(A)'∩π_ω(A)''`,
+written with `Set.centralizer`. At β=0 this is the factor characterisation
+of the extreme tracial states. A route: a central projection z of
+`π_ω(A)''` with `0<z<1` splits ω into the two states
+`a↦⟨Ω_ω,zπ_ω(a)Ω_ω⟩/⟨Ω_ω,zΩ_ω⟩` and its complement, both β-KMS because
+ω̄ satisfies the strip condition on all of M (proved above for β≠0; at β=0
+it is the trace property of ω̄, extended from `π_ω(A)` to M by strong
+density) and z is a central element of M, and distinct from ω because `Ω_ω` is separating
+for M; conversely a decomposition
+`ω=λω₁+(1−λ)ω₂` in `K_β` gives, through the commutant Radon–Nikodym
+operator of `ω₁≤λ⁻¹ω`, an element of the centre. Distinct extreme KMS
+states have disjoint GNS representations, that
 is, no nonzero intertwiner exists between them. Build the
 barycenter, convex order on representing probability measures, maximal
 measures, and central decomposition used here. Build Tomita's orthogonal
@@ -3239,6 +3344,22 @@ perturbation that D9 applies with `Q=βπ_ω(W_Φ(Λ))`, that is `P=−W_Φ(Λ)`
 - β=0: the degenerate strip reduces the condition to `ω(ab)=ω(ba)`, and
   the evaluation states of the rotation on `C(S¹)` satisfy it without
   being invariant.
+- Extreme KMS states and factor states on `A=ℂ⊕ℂ` with the trivial
+  dynamics: every state `(t,1−t)` is a β-KMS state for every β (all states
+  are traces and the dynamics is trivial). The two extreme points `(1,0)`
+  and `(0,1)` have one-dimensional GNS spaces, so they are factor states;
+  `(½,½)` has GNS space ℂ² with `π_ω(A)''` the diagonal algebra, whose
+  centre is ℂ², so it is neither extreme nor a factor state.
+- Extreme is not pure: for `K=diag(0,1)` on `M_2(ℂ)` the Gibbs state is the
+  only β-KMS state, so it is extreme in `K_β`; its GNS representation is
+  left multiplication on `M_2(ℂ)≅ℂ⁴` with the trace inner product weighted
+  by the Gibbs density, `π_ω(A)''=M_2(ℂ)⊗1` is a factor, but the commutant
+  of right multiplications is `M_2(ℂ)`, not ℂ, so the state is not pure. A
+  characterisation of the extreme KMS states as the pure states fails
+  here.
+- The KMS hypothesis on ω in the factor characterisation: for the rotation
+  of `C(S¹)` and β≠0, `K_β` is empty, while every evaluation state has a
+  one-dimensional GNS space and is a factor state.
 - For the trivial dynamics a bounded strip function with constant boundary
   values `ω(ab)` on ℝ and `ω(ba)` on `ℝ+iβ` is constant by reflection
   across ℝ, so only traces are KMS for the trivial dynamics.
@@ -3298,7 +3419,9 @@ strip condition on M), V10.ModularTheory (the standard form and natural
 cone of a cyclic separating vector) and V10.KMS (the KMS characterization
 of the modular group), for `σ^ω̄_t=τ̄_(−βt)` and the bounded perturbations
 `Ω^Q`; Tau Ceti `NonUnitalStarAlgHom.multiplierExtension` (π̃_ω);
-Mathlib `PositiveLinearMap.GNS`, `VonNeumannAlgebra`,
+Tau Ceti `TauCeti.CStarAction.kmsStates` (the set `K_β` in the weak-* dual);
+Mathlib `PositiveLinearMap.GNS`, `PositiveLinearMap.gnsStarAlgHom`,
+`Set.extremePoints`, `Set.centralizer`, `VonNeumannAlgebra`,
 `VonNeumannAlgebra.commutant`, `ContinuousLinearMapWOT`, `DifferentiableOn`
 and `Bornology.IsBounded`.
 
@@ -3315,7 +3438,9 @@ Tau Ceti's real dynamics, KMS and ground states; OneParameterSemigroups;
 SelfAdjointSpectralTheory Part B as listed; D5.Fields;
 CStarAlgebras C2.1–C2.2 and C5.1–C5.2; Mathlib
 `DifferentiableOn`, `Bornology.IsBounded`, `PositiveLinearMap`,
-`PositiveLinearMap.GNS`, `VonNeumannAlgebra` and `ContinuousLinearMapWOT`.
+`PositiveLinearMap.GNS`, `PositiveLinearMap.gnsStarAlgHom`,
+`Set.extremePoints`, `Set.centralizer`, `VonNeumannAlgebra` and
+`ContinuousLinearMapWOT`.
 VonNeumannAlgebras V1 (Kaplansky density), V10.ModularTheory (the
 standard form `(M,Ω,Δ_Ω,J,P_Ω)` of a cyclic separating vector) and V10.KMS
 (the KMS characterization of the modular group) are consumed by the
