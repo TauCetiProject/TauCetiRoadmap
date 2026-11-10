@@ -113,7 +113,9 @@ This roadmap does not own, and cites:
   `QuadraticForm K V` on a finite-dimensional `V`; regular means `QuadraticMap.Nondegenerate`
   (written `Q.Nondegenerate`, a `QuadraticForm` being a `QuadraticMap` with values in its ring).
   Two forms on `V` and on `W` may live in different universes. Where a Tau Ceti carrier takes
-  `[Invertible (2 : K)]` (the Witt ring), any instance serves: they are all equal.
+  `[Invertible (2 : K)]` (the Witt ring), the instance is Mathlib's `invertibleTwo` for fields of
+  characteristic zero, the one `TauCeti.WittRing.globalToLocal` uses; any other instance is equal
+  to it.
 - "Locally" means at every finite place `v : HeightOneSpectrum (𝓞 K)`, through
   `v.adicCompletion K`, and at every real place `w`, through `InfinitePlace.embedding_of_isReal`.
   Complex places are omitted because Tau Ceti proves that they add no condition.
@@ -196,6 +198,8 @@ conclusion to a model of `K` in `Type`.
 - `IdeleGroup` and `IdeleClassGroup` (`NumberTheory/NumberField/AdeleRing.lean`): the ideles and
   the idele classes.
 - `IsSquare`, `Function.HasFiniteMulSupport` and `finprod`.
+- `invertibleTwo` (`Algebra/CharP/Invertible.lean`): the instance `Invertible (2 : K)` for a
+  division semiring of characteristic zero, through which a number field carries its Witt ring.
 - Transport of number fields: `Field.exists_primitive_element`
   (`FieldTheory/PrimitiveElement.lean`), `IntermediateField.adjoinRootEquivAdjoin`
   (`FieldTheory/IntermediateField/Adjoin/Basic.lean`; `AdjoinRoot (minpoly F α) ≃ₐ[F] F⟮α⟯` for
@@ -1085,19 +1089,19 @@ is part of the proofs of these Tau Ceti lemmas.
 
 ### 8.3 Injectivity of the global-to-local Witt map
 
-Prove that the global-to-local map of Witt rings, whose component at a finite place `v` is
-`TauCeti.WittRing.baseChange` along `K → K_v` and whose component at a real place `w` is the same
-map along the real embedding of `w`, is injective (`injective_wittRing_baseChange_places`; the
-local–global principle it rests on is Milne, VIII, Theorem 6.3, p. 252, through 8.2). This
-map is `TauCeti.WittRing.globalToLocal`, a ring homomorphism; the Lean statement writes its
-components out. So it is enough that its kernel is zero (`injective_iff_map_eq_zero`), and the
-kernel is 8.2. Every Witt class is the Witt class of a class of regular forms
-(`TauCeti.wittClass_surjective`), and every such class is the class of a regular diagonal form
-`TauCeti.presentedForm p` (`TauCeti.formClass_presentedForm`, `TauCeti.nondegenerate_presentedForm`).
-On the Witt class of a regular form the components of the map are the Witt classes of its
-localizations (`TauCeti.WittRing.globalToLocal_wittClass_formClass`). So a class in the kernel is
-the Witt class of a regular form whose localizations have Witt class zero, that is, are sums of
-hyperbolic planes (`TauCeti.wittClass_eq_zero_iff`, with
+Prove that the global-to-local map of Witt rings `TauCeti.WittRing.globalToLocal K`, whose
+component at a finite place `v` is `TauCeti.WittRing.baseChange` along `K → K_v` and whose
+component at a real place `w` is the same map along the real embedding of `w`, is injective
+(`injective_wittRing_baseChange_places`; the local–global principle it rests on is Milne, VIII,
+Theorem 6.3, p. 252, through 8.2). The Lean statement is the injectivity of
+`TauCeti.WittRing.globalToLocal`, a ring homomorphism, so it is enough that its kernel is zero
+(`injective_iff_map_eq_zero`), and the kernel is 8.2. Every Witt class is the Witt class of a class
+of regular forms (`TauCeti.wittClass_surjective`), and every such class is the class of a regular
+diagonal form `TauCeti.presentedForm p` (`TauCeti.formClass_presentedForm`,
+`TauCeti.nondegenerate_presentedForm`). On the Witt class of a regular form the components of the
+map are the Witt classes of its localizations (`TauCeti.WittRing.globalToLocal_wittClass_formClass`).
+So a class in the kernel is the Witt class of a regular form whose localizations have Witt class
+zero, that is, are sums of hyperbolic planes (`TauCeti.wittClass_eq_zero_iff`, with
 `TauCeti.RegularFormClass.wittDecomposition`); 8.2 makes the form a sum of hyperbolic planes, so
 the class is zero. Complex places add nothing: a class
 that vanishes at one finite place has even dimension, which is its whole image in `W(ℂ) = ℤ/2`.
