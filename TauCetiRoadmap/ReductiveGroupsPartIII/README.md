@@ -58,15 +58,14 @@ of rational representatives.
   the conjugacy quotient of a connected reductive group, its universal property, flat base change,
   finite generation, the characteristic-polynomial quotient of `GL_n`, and the bijection between
   geometric quotient points and semisimple conjugacy classes, including surjectivity and the
-  semisimple-part description of every fibre. These replace the separate quotient and geometric
-  classification targets; group Chevalley restriction here adds the explicit torus restriction
-  isomorphism for arbitrary maximal tori.
+  semisimple-part description of every fibre. Group Chevalley restriction here adds the explicit
+  torus restriction isomorphism for arbitrary maximal tori.
 - **ShimuraVarieties** §7.0i.1 owns the common open Galois subgroup on which all realizations take
   values in the Mumford–Tate group, its independence of `ℓ`, the finite extension it defines, and
   the inner-form transport under a change of complex embedding. **MotivesAndAlgebraicCycles**
-  §6.8 owns the tensor-isomorphism torsor and the inner twist it produces. These replace separate
-  comparison-torsor and simultaneous-factorization targets; §5.1 fixes the conventions used by
-  the arithmetic applications.
+  §6.8 owns the tensor-isomorphism torsor between two fibre functors and the inner twist it
+  produces; no target here consumes it. §5.1 fixes the conventions used by the arithmetic
+  applications.
 - The localization exact sequence in §2.0, the local centralizer openness in §2.1a, the
   Galois-stable maximal-torus embedding theorem in §4.3, the pointwise building intersection in
   §5.3a and the relative inner-form obstruction in §5.7a are owned here. They extend the named
@@ -86,18 +85,18 @@ of rational representatives.
   **DeligneWeightsAndPurity** §§0.1–0.2. An `l`-Weil number here is such a number for `q=l` that is in
   addition a unit at every finite place not above `l`.
 - Neatness of elements and the generation of eigenvalues of algebraic tensor subquotients are
-  **AdelicAlgebraicGroups** §4.3; finiteness of class numbers is §3.4; weak approximation, Kneser's
-  vanishing and the Hasse principle for simply connected groups are §4.1.
+  **AdelicAlgebraicGroups** §4.3; finiteness of class numbers is §3.4. `IsNeatPoint` here is that
+  eigenvalue condition for a rational point of a `ℚ`-group, imposed on all its finite-dimensional
+  comodules instead of one complex matrix; it is kept to state §3.7.
 - Nonabelian Galois cohomology, Tate–Nakayama for tori, stable conjugacy and centralizers, abelianized
   cohomology, inner twists and quasi-split inner forms, Kneser and Hasse principles, Kottwitz duality,
   rational classes in a stable class and the global obstruction are
   **EndoscopicTransferAndUnitaryTraceComparison** §§1.1–1.15.
 - Mumford–Tate groups, their connectedness and reductivity, and the additional axiom `SV2*` for data of
   Hodge type are **ShimuraData** §§1.2–1.4 and 4.2–4.3. Real tori compact modulo the centre are
-  **ShimuraVarieties** §P.5, and Deligne's theorem that Hodge tensors on abelian varieties are absolute
-  Hodge is **ShimuraVarieties** §7.0i. Finite tensor stabilizers of reductive groups are
-  **AutomorphicBundles** §1.1. The tensor-isomorphism torsor between two fibre functors is
-  **MotivesAndAlgebraicCycles** §6.8.
+  **ShimuraVarieties** §P.5. Deligne's theorem that Hodge tensors on abelian varieties are absolute
+  Hodge (**ShimuraVarieties** §7.0i) and the finite tensor stabilizers of reductive groups
+  (**AutomorphicBundles** §1.1) are inputs of ShimuraVarieties §7.0i.1 and are not consumed directly.
 - The forms of unitary PEL data and the identification `ker¹(ℚ,Z)≅ker¹(ℚ,G)` for a unitary similitude
   group in an odd number of variables are **PELModuli** §§M3.1–M3.2; §4.6 adds the vanishing when the
   totally real field has odd degree.
@@ -114,13 +113,6 @@ of rational representatives.
   connected reductive group over a field, with a possibly non-split maximal torus. Neither of those statements covers a non-split torus or an
   arbitrary base field.
 
-The former build labels RG3.0, RG3.1, RG3.2, RG3.3 and RG3.5 refer respectively to Layers 0,
-1, 2, 3 and 5. More precisely, RG3.0/conjugacy-quotient denotes the supplied quotient contract
-of ArithmeticGaloisRepresentations §1.11; RG3.0/character-separation is §0.5;
-RG3.0/faithful-quotient-finite is §0.6; RG3.0/orthogonal-outer-action is §0.7;
-RG3.1/finite-fibre-algebraicity is §1.3; RG3.1/degree-one-residue-descent is §1.2;
-RG3.2/elliptic-maximal-torus is §2.3; and RG3.3/cyclic-torus-and-neatness is §3.5.
-
 **Not in this roadmap.** The geometric independence-of-`ℓ` theorem for a good-reduction point of a
 Hodge-type Shimura variety with strongly acceptable datum (KZ25 Theorem 5.1.4, KZ25 lines 2104–2106)
 and the realization theorem for isogeny groups (KMPS22 Proposition 2.2.2, KMPS22 lines 1122–1123)
@@ -128,7 +120,7 @@ are theorems about integral models of Shimura varieties. Here they enter only as
 of §4.5 and §5.5, stated in group-theoretic terms. A Shimura-variety roadmap that proves them
 consumes this roadmap and obtains the unconditional statements by combining them with §4.5 and
 §5.5. The basic `σ`-conjugacy classes and Newton strata attached to an elliptic torus belong to
-**BunGAndNewtonStrata**, which consumes Layer 2. Coadjoint orbits in good characteristic,
+**BunGAndNewtonStrata**. Coadjoint orbits in good characteristic,
 characteristic-`p` `σ`-dual homomorphisms, general Levi decompositions of arbitrary affine groups,
 integral and modular representation theory of reductive groups and arithmetic gerbs are not part of this
 roadmap.
@@ -188,6 +180,8 @@ roadmap.
 - `NumberField.InfinitePlace.Completion` and `IsDedekindDomain.HeightOneSpectrum.adicCompletion`:
   the completions of a number field at its archimedean and finite places.
 - `NumberField`, `NumberField.RingOfIntegers` and `IsAlgClosed`, for the hypotheses of the Lean statements.
+- `Padic` (`ℚ_[v]`), `IsCompact`, `closure`, `minpoly`, `Polynomial.aroots`, `LinearMap.charpoly`,
+  `IsIntegral`, `Subgroup.closure` and `IsOfFinOrder`: the carriers of the Layer 3 predicates.
 - Scheme language: `AlgebraicGeometry.Scheme`, `IsReduced`, `IrreducibleSpace`, `IsSeparated`.
 
 ### From Tau Ceti
@@ -213,6 +207,16 @@ roadmap.
   `TauCeti.CommHopfAlgCat.baseChangeHopfIdeal`, `TauCeti.CommHopfAlgCat.baseChange`
   (`TauCeti/Algebra/AlgebraicGroup/HopfIdeal/BaseChange.lean`, `…/CommHopfAlgCat/BaseChange.lean`):
   conjugation and scalar extension of closed subgroups.
+- `TauCeti.PointTopology.topology` with its instance on `WithConv (A →ₐ[k] R)`
+  (`TauCeti/Topology/Algebra/PointTopology/Basic.lean`) and
+  `TauCeti.PointTopology.isTopologicalGroup` (`…/PointTopology/Group.lean`): the topology on the
+  `R`-points of an affine scheme induced from the product topology on `A → R`, for which the points
+  of an affine group over a topological ring form a topological group. It is Hausdorff when `R` is
+  (`…/PointTopology/Separation.lean`). Local compactness of the points over a local field is not
+  taken from the pin; it is ReductiveGroupsPartII §RG2.0.2.
+- `TauCeti.splitTorusCommHopfAlgProperty` and `TauCeti.torusCommHopfAlgProperty`
+  (`TauCeti/Algebra/AlgebraicGroup/Torus/Basic.lean`): split tori of finite rank, rank zero included,
+  and tori as the finite-type Hopf algebras that become split over an algebraic closure.
 - `TauCeti.HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer`
   (`TauCeti/Algebra/AlgebraicGroup/Representation/ExteriorStabilizer/Character.lean`): Chevalley's
   line-stabilizer theorem, used by ReductiveGroups Layer 10B and not restated here.
@@ -224,7 +228,7 @@ embedding theorem. Layer 3: Hopf ideals and closed subgroups, normal subgroups, 
 identity components and finite group quotients. Layer 4: Jordan decomposition and its functoriality,
 diagonalizable groups `D(M)` and tori with their character and cocharacter lattices. Layer 6: reductive
 and semisimple groups, centre, derived group and central isogenies. Layer 7: Borel subgroups, conjugacy
-of maximal tori, root data and Weyl groups, the absolute root datum with its Galois action. Layer 8: split data and pinnings. Layer 9D: the inner/outer and pinned automorphism interfaces. Layer 10B: dominant-weight classification of simple rational representations
+of maximal tori, root data and Weyl groups, the absolute root datum with its Galois action. Layer 9D: the inner/outer and pinned automorphism interfaces. Layer 10B: dominant-weight classification of simple rational representations
 of split connected reductive groups, highest-weight order and Weyl characters.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
@@ -232,7 +236,8 @@ of split connected reductive groups, highest-weight order and Weyl characters.
 §RG2.0.1–RG2.0.2: the point topology on local points, the topological group `G(F_v)` and its
 analytic charts and inverse function theorem over characteristic-zero local fields. §RG2.0a.1–RG2.0a.2:
 Weil restriction of affine schemes and group schemes, with `Res_{k′/k}(G′)(R)≅G′(k′⊗R)`.
-§RG2.0a.3: the Deligne torus `S`. §RG2.1.1: quasi-split forms. §RG2.3.3:
+§RG2.0a.3: the Deligne torus `S`. §RG2.2: enlarged buildings, apartments, affine root groups and
+their central functoriality. §RG2.3.3:
 *compact-elements-in-hyperspecial-subgroups* (an element of `G(ℚ_p)` in a compact open subgroup lies in
 a hyperspecial parahoric over a finite splitting extension) and *fixer-versus-parahoric* (5) (the
 fixer of a very special point is the connected parahoric when `G_der` is a product of Weil
@@ -273,8 +278,7 @@ reciprocal conjugation formula `conj σ(α)=q^n/σ(α)` for rational `q`.
 §4.3: eigenvalues of algebraic tensor subquotients lie in the group generated by the eigenvalues of a
 faithful representation; neat elements (target `Neat.IsNeatAut`) (eigenvalue group torsion free) and independence
 of the faithful representation. §3.4: *class-number-finite*, finiteness of `G(F)\G(𝔸_f)/K` for compact
-open `K`. §4.1: weak approximation, Kneser's vanishing and the Hasse principle for simply connected
-groups.
+open `K`.
 
 ### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
@@ -294,18 +298,10 @@ real points contain `h(S)`; §1.3 connectedness; §1.4 reductivity in the polari
 for a datum inside a Siegel datum, `Int(h(i))` is a Cartan involution of `G_ℝ/w(G_m)` (`SV2*`), so
 `Z(ℝ)/w(ℝ^×)` is compact. ShimuraVarieties §P.5: regular semisimple Lie elements, centralizer maximal
 tori, and real tori compact modulo the centre. ShimuraVarieties §5.8: the Shimura–Taniyama Frobenius
-calculation for CM abelian varieties, used only in a Check of §5.5. ShimuraVarieties §7.0i, target `TauCeti.Shimura.abelian_absolute_hodge`: Deligne's theorem that rational Hodge tensors on an abelian
-variety are absolute Hodge, with the finite-adelic étale realization and transport under `Aut(ℂ)`. Section 7.0i.1 supplies
+calculation for CM abelian varieties, used only in a Check of §5.5. ShimuraVarieties §7.0i.1 supplies
 simultaneous Mumford–Tate factorization after one finite extension, its independence of `ℓ`,
 the inner-form transport of the quotient under a change of complex embedding and the integral
 `ℓ`-independent characteristic polynomial of good-reduction Frobenius.
-
-### From TauCetiRoadmap.AutomorphicBundles and TauCetiRoadmap.MotivesAndAlgebraicCycles
-
-AutomorphicBundles §1.1, target `finiteTensorStabilizer`: a reductive group in characteristic zero with a
-faithful representation is the scheme-theoretic stabilizer of finitely many mixed tensors.
-MotivesAndAlgebraicCycles §6.8: for two neutral fibre functors, the tensor isomorphisms form an affine
-torsor, `Aut^⊗` of the second fibre is the twist of the first group, and no rational point is asserted.
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
@@ -923,7 +919,7 @@ for simply connected groups); ReductiveGroupsPartII §RG2.0a.3 (the Deligne toru
 ### Dependencies
 
 EndoscopicTransferAndUnitaryTraceComparison §§1.1, 1.2 and 1.9. Chebotarev Layer 10. GlobalNumberFields Layer 1. ShimuraVarieties
-§P.5. ReductiveGroups Layers 2, 4, 6 and 7. ReductiveGroupsPartII §§RG2.0.2 and RG2.0a.3. Tau Ceti
+§P.5. ReductiveGroups Layers 2, 4, 6 and 7 and §3A.5. ReductiveGroupsPartII §§RG2.0.2 and RG2.0a.3. Tau Ceti
 maximal-torus, Hopf-ideal conjugation and base-change APIs.
 
 ## Layer 3: Serre tori, prime-units, Weil points and rigidity
@@ -934,8 +930,11 @@ Weights of Weil numbers are integers; different eigenvalues of one point may hav
 
 ### 3.1 The Serre condition
 
-A `ℚ`-torus `T` satisfies the Serre condition when its maximal `ℝ`-split subtorus `T_s⊂T_ℝ` is the base
-change of a `ℚ`-split subtorus of `T`. Prove that this holds if and only if the `(+1)`-eigenspace of `c`
+A `ℚ`-torus `T` satisfies the Serre condition, `IsSerreTorus`, when its maximal `ℝ`-split subtorus
+`T_s⊂T_ℝ` is the base change of a `ℚ`-split subtorus of `T`. On coordinate Hopf algebras: there is a
+Hopf ideal of `O(T)` with split-torus quotient whose base change is minimal among the Hopf ideals of
+`O(T_ℝ)` with split-torus quotient. Ideals reverse inclusions of subgroups, and a torus has exactly
+one maximal split subtorus, so this minimal ideal defines `T_s`. Prove that this holds if and only if the `(+1)`-eigenspace of `c`
 on `X_*(T)⊗ℚ` equals the `Γ_ℚ`-fixed subspace. Under the condition the `(−1)`-eigenspace is
 `Γ_ℚ`-stable. Hence the maximal compact real subtorus `T_c` descends to a `ℚ`-subtorus and `T/T_c` is
 `ℚ`-split. Route: `X_*(T_s)⊗ℚ` is the `(+1)`-eigenspace, and a subtorus is defined over `ℚ` and split
@@ -946,7 +945,9 @@ Since the `Γ_ℚ`-fixed subspace always lies in the `c`-fixed one, the conditio
 the equality of ranks `rank_ℚ(T)=rank_ℝ(T_ℝ)`; the eigenspace formulation in addition identifies the
 descended subtori. (KMPS22 §2.2.3, p.25, KMPS22 lines 1125–1126; proof of Lemma 2.2.4, KMPS22 lines
 1138–1142.)
-*Needs:* ReductiveGroups Layers 4 and 7 (tori, cocharacters and the absolute root datum with Galois action).
+*Needs:* ReductiveGroups Layers 4 and 7 (tori, cocharacters and the absolute root datum with Galois action);
+Tau Ceti `TauCeti.splitTorusCommHopfAlgProperty`, `TauCeti.torusCommHopfAlgProperty`,
+`TauCeti.CommHopfAlgCat.baseChangeHopfIdeal`.
 
 The API consists of the following facts.
 
@@ -956,12 +957,14 @@ The API consists of the following facts.
 - A product of tori satisfies the condition exactly when both factors do; its real split subtorus is the
   product.
 - The condition is invariant under `ℚ`-isogeny, since it depends only on `X_*(T)⊗ℚ`.
-- For every geometric character `χ`, the character `χ+cχ` is defined over `ℚ` and factors through
-  `T/T_c`.
+- Under the condition, for every geometric character `χ`, the character `χ+cχ` is defined over `ℚ`
+  and factors through `T/T_c`. Without it this fails: on the norm-one torus of `ℚ(√3)/ℚ`, `χ+cχ=2χ`
+  for the generator `χ`, and `Γ_ℚ` sends `2χ` to `−2χ`.
 
 **Checks.**
 
-- `G_m` and every split torus satisfy the condition, with `T_c=1`.
+- `G_m` and every split torus satisfy the condition, with `T_c=1`. The trivial torus does too: it is
+  the split torus of rank zero, and its only subtorus is itself.
 - The norm-one torus of an imaginary quadratic field satisfies it: `X_*=ℤ` with `c=−1`, so `T_s=1` and
   `T_c=T`.
 - The norm-one torus of `ℚ(√3)/ℚ` fails it: `c` acts trivially on `X_*=ℤ` while `Γ_ℚ` acts by `−1`, so
@@ -974,13 +977,16 @@ The API consists of the following facts.
 
 For a number field `F`, a linear algebraic group `H` over `F`, a prime `l` and `γ∈H(F)`, `γ` is an
 `l`-unit when, for every finite place `v` of `F` not dividing `l`, the subgroup `{γⁿ : n∈ℤ}` is relatively
-compact in `H(F_v)` for the point topology of ReductiveGroupsPartII §RG2.0.2. No condition is imposed at
+compact in `H(F_v)` for the point topology of ReductiveGroupsPartII §RG2.0.2, which at the pin is
+`TauCeti.PointTopology.topology`. `IsPrimeUnit` is this predicate for `F=ℚ`, where the finite places not
+dividing `l` are the primes `v≠l` and `F_v=ℚ_v`: the closure of `{γⁿ}` in `H(ℚ_v)` is compact. No condition is imposed at
 archimedean places: the source writes "every place `v∤l`", but its Lemma 2.2.4 needs finite places only,
 since `l` itself is an `l`-unit of `G_m`. Prove: relative compactness may be tested in one faithful closed
 embedding into `GL_n`; for a torus split over `L`, `γ` is an `l`-unit exactly when every character value
 `χ(γ)∈L^×` has valuation zero at all finite places of `L` not above `l`. (KMPS22 §2.2.3, p.25, KMPS22
 lines 1126–1128.)
-*Needs:* ReductiveGroupsPartII §§RG2.0.1–RG2.0.2 (point topology, closed embeddings give closed
+*Needs:* Tau Ceti `TauCeti.PointTopology.topology`, `TauCeti.PointTopology.isTopologicalGroup`;
+ReductiveGroupsPartII §§RG2.0.1–RG2.0.2 (closed embeddings give closed
 embeddings of local points, local compactness); ReductiveGroups Layers 1 and 4.
 
 The API consists of the following facts.
@@ -1009,7 +1015,10 @@ The API consists of the following facts.
 For a prime `l` and `w∈ℤ`, an `l`-Weil number of weight `w` is an `α∈ℚ̄^×` that is a Weil `l`-number of
 weight `w` in the sense of DeligneWeightsAndPurity §0.1 (`|σ(α)|=l^{w/2}` for every embedding
 `σ:ℚ(α)→ℂ`) and is a unit at every finite place of `ℚ(α)` not above `l`. Negative weights are allowed and
-`α` need not be integral at `l`. Prove that the unit condition is independent of the number field
+`α` need not be integral at `l`. `IsPrimeWeilNumber` is this predicate on complex numbers, through the
+fixed embedding `ℚ̄→ℂ`: `α` is algebraic, every root of its minimal polynomial has absolute value `l^{w/2}`,
+and `lⁿα` and `lⁿα⁻¹` are algebraic integers for some `n≥0`, which says that `α` is a unit of the ring of
+integers with `l` inverted. Zero is excluded by the absolute values. Prove that the unit condition is independent of the number field
 containing `α`, and that the `l`-Weil numbers of all weights form a subgroup of `ℚ̄^×`, with weights adding
 under products. (KMPS22 §2.2.1, p.24, KMPS22 lines 1107–1109.)
 *Needs:* DeligneWeightsAndPurity §§0.1–0.2 (Weil `q`-numbers, uniqueness of weight, products, inverses);
@@ -1040,7 +1049,9 @@ For a linear algebraic group `H` over `ℚ` and a prime `l`, `γ∈H(ℚ)` is an
 faithful finite-dimensional representation over a field of characteristic zero, every eigenvalue of `γ`
 is an `l`-Weil number; different eigenvalues may have different weights. A Weil point is an `l`-Weil point
 for some `l`. Semisimplicity is not part of the definition. Prove independence of the faithful
-representation. Route: by AdelicAlgebraicGroups §4.3, every eigenvalue of `γ` in any algebraic
+representation. `IsPrimeWeilPoint` imposes the eigenvalue condition on every finite-dimensional
+comodule over `ℚ`; by this independence it is the same predicate, and it needs no choice of a
+faithful representation. Route: by AdelicAlgebraicGroups §4.3, every eigenvalue of `γ` in any algebraic
 representation lies in the multiplicative group generated by its eigenvalues in a faithful one, and the
 `l`-Weil numbers form a group (§3.3). (KMPS22 §2.2.1, pp.24–25, KMPS22 lines 1110–1118.)
 *Needs:* §3.3; AdelicAlgebraicGroups §4.3 (eigenvalues of algebraic tensor subquotients);
@@ -1072,7 +1083,10 @@ The Zariski closure `S` of `{γⁿ}` is of multiplicative type over `F` and diag
 in general over `F`. Prove that `S` is connected, hence an `F`-torus, exactly when
 the eigenvalues of `γ` in a faithful `F`-representation generate a torsion-free subgroup of `ℂ^×`, that is,
 when `γ` is neat in the sense `Neat.IsNeatAut` of AdelicAlgebraicGroups §4.3. So "neat" in the sense of
-KMPS22 §2.1.8 (semisimple with connected cyclic closure) means semisimple and neat. For a `ℚ`-torus `T`
+KMPS22 §2.1.8 (semisimple with connected cyclic closure) means semisimple and neat. For `F=ℚ`,
+`IsNeatPoint` is this eigenvalue condition imposed on every finite-dimensional comodule of `H`; by the
+independence of the representation in AdelicAlgebraicGroups §4.3 it agrees with the condition in one
+faithful representation. For a `ℚ`-torus `T`
 split by `L` and every `γ∈T(ℚ)`, `γ^m` is neat for `m=#μ(L)`. Route: after scalar extension `S` lies in a
 split diagonal torus `D`. The map `χ↦χ(γ)` identifies the geometric character group `X^*(S_F̄)` with the
 group generated by the eigenvalues, and `S` is connected exactly when `X^*(S_F̄)` is torsion free. Character values of a point of `T(ℚ)` lie in
@@ -1098,7 +1112,7 @@ ReductiveGroups Layer 4 (diagonalizable groups `D(M)`); Tau Ceti `TauCeti.HopfAl
 ### 3.6 Weil points from the Serre condition
 
 Let `T` be a `ℚ`-torus satisfying the Serre condition and `l` a prime. Then `γ∈T(ℚ)` is an `l`-Weil point if
-and only if it is an `l`-unit; consequently the `l`-Weil points of `T(ℚ)` form a subgroup. If `G` is
+and only if it is an `l`-unit (`isPrimeWeilPoint_iff_isPrimeUnit`); consequently the `l`-Weil points of `T(ℚ)` form a subgroup. If `G` is
 connected reductive over `ℚ` and every maximal `ℚ`-torus of `G` satisfies the Serre condition, then a
 semisimple `γ∈G(ℚ)` is an `l`-Weil point exactly when it is an `l`-unit. Route: Weil points have unit
 character values away from `l`, hence bounded powers. Conversely, for a geometric character `χ`, `χ+cχ`
@@ -1122,7 +1136,10 @@ group statement is made for noncommuting points. (KMPS22 Lemma 2.2.4 and its pro
 Let `T` be a `ℚ`-torus satisfying the Serre condition and `l` a prime such that `T_{ℚ_l}` is split. Then the
 `l`-Weil points of `T(ℚ)` form a Zariski-dense subgroup of `T`, and the neat `l`-Weil points contain a
 Zariski-dense subgroup, namely the `m`-th powers of the `l`-Weil points for `m=#μ(L)` and `L` a finite
-Galois splitting field. Route: let `T′` be the Zariski closure of the `l`-Weil subgroup and suppose `T/T′`
+Galois splitting field. `exists_pow_isNeatPoint_dense` states it as: there is `m>0` such that `γ^m` is
+neat for every `l`-Weil point `γ`, and a regular function on `T` vanishing at all these `γ^m` is zero.
+Since `T` is reduced, a set of rational points is Zariski dense exactly when no nonzero regular function
+vanishes on it; the `γ^m` are `l`-Weil points (§3.4), so the `l`-Weil points are dense as well. Route: let `T′` be the Zariski closure of the `l`-Weil subgroup and suppose `T/T′`
 nontrivial, with a nonzero character `χ` of `T/T′`, split at `l`. Choose `y_l∈T(ℚ_l)` with `χ(y_l)` of
 positive valuation and let `y` be the finite idele with component `y_l` and trivial components elsewhere.
 Finiteness of `T(ℚ)\T(𝔸_f)/K_T` gives `x∈T(ℚ)` and `m₀>0` with `x∈y^{m₀}K_T`. Then `x` is an `l`-unit,
@@ -1134,7 +1151,12 @@ lines 1301–1322.)
 
 **Checks.**
 
-- For `G_m`, `{l^{mn} : n∈ℤ}` is already a dense subgroup of neat `l`-Weil points.
+- For `G_m`, `{l^{mn} : n∈ℤ}` is already a dense subgroup of neat `l`-Weil points: with `m=2` the
+  `l`-Weil points `±lⁿ` have squares `l^{2n}`, whose character values generate a subgroup of the
+  torsion-free group `l^ℤ`, and a Laurent polynomial vanishing at every `l^{2n}` is zero. The exponent
+  `m=1` fails, since `−1` is an `l`-Weil point that is not neat.
+- For the trivial torus the only point is the identity, which is a neat `l`-Weil point, and a constant
+  vanishing there is zero.
 - The splitting hypothesis at `l` is needed: for the norm-one torus of an imaginary quadratic `E` with `l`
   inert in `E`, an `l`-unit of norm one has equal valuations at the prime above `l` and its conjugate,
   summing to zero, so it is a unit everywhere and hence a root of unity; the `l`-Weil points are finite.
@@ -1172,7 +1194,8 @@ of morphisms to separated schemes; ReductiveGroups Layer 3.
 ### Dependencies
 
 Layer 0 (semisimple points). ReductiveGroups Layers 1, 3, 4 and 7. ReductiveGroupsPartII §§RG2.0.1–RG2.0.2.
-DeligneWeightsAndPurity §§0.1–0.2. AdelicAlgebraicGroups §§3.4 and 4.3. Mathlib scheme language.
+DeligneWeightsAndPurity §§0.1–0.2. AdelicAlgebraicGroups §§3.4 and 4.3. Tau Ceti point topology, torus
+predicates, comodule point actions and base change of Hopf ideals. Mathlib scheme language.
 
 ## Layer 4: Common realization tori and inner-form transfer
 
@@ -1391,7 +1414,7 @@ groups with Galois action).
 
 ### Dependencies
 
-§0.7, §1.1, §3.7, §3.8. EndoscopicTransferAndUnitaryTraceComparison §§1.2, 1.3, 1.5, 1.6, 1.9 and 1.11. Chebotarev
+§0.7, §1.1, §3.7, §3.8. EndoscopicTransferAndUnitaryTraceComparison §§1.1, 1.2, 1.3, 1.5, 1.6, 1.9 and 1.11. Chebotarev
 Layer 10. ReductiveGroups Layers 7 and 9D. ReductiveGroupsPartII §RG2.5.1. PELModuli §M3.2.
 
 ## Layer 5: Mumford–Tate Frobenius classes and rational representatives
@@ -1490,7 +1513,8 @@ place `w|p`; the Weil restriction `H′=Res_{F/ℚ}G_F` and its common-multiplie
 with `𝓗(ℤ_p)=H(ℚ_p)∩𝓗′(ℤ_p)` containing the image of `Fr_v`, where `𝓗′` is the very special parahoric of
 `H′_{ℚ_p}≅∏_{w|p}Res_{F_w/ℚ_p}G_{F_w}` whose integral points are the product of the hyperspecial subgroups
 of the split groups `G_{F_w}≅G_{F₀}` containing `Fr_v`; a maximal `ℚ`-torus `T⊂H` through which some `h` in
-the Hodge class factors, with `T_{ℚ_p}` of the prescribed `H(ℚ_p)`-conjugacy type; and the central product
+the Hodge class factors, with `T_{ℚ_p}` `H(ℚ_p)`-conjugate to the centralizer of a maximal `ℚ̆_p`-split
+torus of `H_{ℚ_p}` defined over `ℚ_p` (KZ25 §6.2.5, KZ25 lines 2584–2587); and the central product
 `H₁=(H×T)/Z_H`. Prove that the composite closed embedding `j:G→H₁` induces a `Γ_ℚ`-equivariant injection
 `Conj(G)(ℚ̄)→Conj(H₁)(ℚ̄)`. After replacing `E` by a finite extension `E′` with a place `v′|v` of the same
 residue field `𝔽_q`, the image of `Γ_{E′}` at `p` lies in `𝓗(ℤ_p)`; a geometric Frobenius at `v′` is a
@@ -1537,7 +1561,8 @@ Assume `ρ_ℓ` takes values in `G(ℚ_ℓ)` for all `ℓ`, and let `v|p` be a p
 `Conj(G)(ℚ̄)→Conj(H₁)(ℚ̄)` (§5.4 constructs one). Suppose there is `δ∈Conj(H₁)(ℚ)` whose image in
 `Conj(H₁)(ℚ_ℓ)` is `χ_{H₁}(j(ρ_ℓ(Fr_v)))` for every `ℓ≠p`. Then there is a unique `γ_v∈Conj(G)(ℚ)` whose
 image in `Conj(G)(ℚ_ℓ)` is `χ_G(ρ_ℓ(Fr_v))` for every `ℓ≠p`. Each `ρ_ℓ(Fr_v)` is semisimple, and under
-ShimuraVarieties §7.0i.1 the point `γ_v` for `τ` is carried to the point for `τ′`. This is a rational point of the quotient,
+ShimuraVarieties §7.0i.1, for a second embedding `E⊂ℂ` with Mumford–Tate group `G′`, the inner-form
+identification `Conj(G)≅Conj(G′)` of §1.4 carries `γ_v` to the corresponding point for `G′`. This is a rational point of the quotient,
 not yet a rational element of `G`. Route: `γ_ℓ=χ_G(ρ_ℓ(Fr_v))` lies over `δ` under the finite morphism
 `Conj(G)→Conj(H₁)` (§0.6). The fibre over `δ` is a finite `ℚ`-scheme (§1.3), and by injectivity it
 has exactly one geometric point. In characteristic zero its reduction is `Spec ℚ`, a rational point
@@ -1716,8 +1741,9 @@ pp.60–61, KZ25 lines 2694–2718; for the compactness, KZ25 lines 2635–2638.
 ### Dependencies
 
 ArithmeticGaloisRepresentations §1.11, §0.6, §§1.3–1.6, §2.2. ShimuraData §§1.2–1.4, 4.2–4.3. ShimuraVarieties §§5.8 and
-7.0i–7.0i.1. AutomorphicBundles §1.1. MotivesAndAlgebraicCycles §6.8. AbelianSchemesAndArithmeticModuli §§A1.3a,
-A3.7, A3.9, A4.1, A5.1, A5.7, A6.11, A6.21. EndoscopicTransferAndUnitaryTraceComparison §§1.9, 1.11, 1.14, 1.15. ReductiveGroupsPartII §§RG2.0a,
+7.0i.1. AbelianSchemesAndArithmeticModuli §§A1.3a,
+A3.7, A3.9, A4.1, A5.1, A5.7, A6.11, A6.21. EndoscopicTransferAndUnitaryTraceComparison §§1.1, 1.2, 1.5, 1.6, 1.9, 1.11, 1.14, 1.15.
+ReductiveGroups Layers 4, 6 and 7. ReductiveGroupsPartII §§RG2.0a, RG2.2,
 RG2.3.3 and RG2.3.4, and §5.3a. NeronModelsAndSemistableAbelianVarieties §§5.0a–5.0b.
 Chebotarev Layer 10.
 
@@ -1728,7 +1754,7 @@ Shimura varieties (KZ25 Theorem 5.1.4) and the realization theorem for isogeny g
 2.2.2) consumes Layers 0–1 for the quotient, finiteness and descent statements its proofs use, and
 combines its theorems with §4.5 and §5.5 to obtain the rational torus embeddings of KMPS22
 Corollary 2.2.14 and the unconditional common Frobenius class of KZ25 Theorem 6.2.7.
-**BunGAndNewtonStrata** consumes the global elliptic tori of §2.3 for its basic Newton strata. The
+The non-emptiness of Newton strata (KMPS22 Proposition 1.2.5 and §1.3) consumes §§2.3 and 2.5. The
 Honda–Tate theory for Shimura varieties (CM lifts of isogeny classes, KMPS22 §2.3) consumes §2.5,
 §4.5 and §4.6.
 
