@@ -5,6 +5,7 @@ public import TauCeti.Analysis.Normed.Field.WeaklyStable
 public import TauCeti.RingTheory.MvPowerSeries.TateAlgebra.FractionField
 public import TauCeti.RingTheory.Affinoid.PowerBounded
 public import TauCeti.RingTheory.Affinoid.TopologicallyFiniteType
+public import TauCeti.RingTheory.Affinoid.Subdomain.Rational
 public import TauCeti.RingTheory.Japanese
 public import TauCeti.RingTheory.RegularLocalRing.GRing
 public import TauCeti.RingTheory.RegularLocalRing.Locus
@@ -23,7 +24,8 @@ weak-stability predicate `TauCeti.IsWeaklyStable` and the Gauss-normed fraction 
 supremum seminorm `TauCeti.supSeminorm`, the Japanese-ring predicate `TauCeti.Ring.IsJapanese`,
 the G-ring predicate `TauCeti.Excellence.IsGRing`, the regular locus
 `TauCeti.Excellence.regularLocus` and universal catenarity `TauCeti.Excellence.IsUniversallyCatenary`,
-the poset `TauCeti.AffinoidSubdomain` of affinoid subdomains of `Sp A` with its presheaf of
+the poset `TauCeti.AffinoidSubdomain` of affinoid subdomains of `Sp A`, the rational domains
+`TauCeti.rationalDomain`, the presheaf of
 coordinate algebras `TauCeti.AffinoidSubdomain.presheaf`, its weak G-topology
 `TauCeti.AffinoidSubdomain.weakGTopology` and the site points `TauCeti.GTopology.point` of a
 G-topology with Mathlib's fibers `CategoryTheory.GrothendieckTopology.Point.presheafFiber`, Mathlib's
@@ -38,7 +40,9 @@ affinoid algebras in its two non-pinned halves (§1.2: every affinoid algebra is
 algebra of finite type over it has open regular locus; universal catenarity is pinned); the
 Banach function algebra theorem of §2.2 (on a reduced affinoid algebra every complete ultrametric
 algebra norm is bounded by a multiple of the supremum seminorm; the reverse bound is the pinned
-`TauCeti.IsAffinoidAlgebra.supSeminorm_le_norm`); Tate's acyclicity theorem (§5.1: the presheaf of
+`TauCeti.IsAffinoidAlgebra.supSeminorm_le_norm`); the Gerritzen–Grauert theorem in its
+finite-union form (§4.3: every affinoid subdomain of `Sp A` is a finite union of rational
+domains); Tate's acyclicity theorem (§5.1: the presheaf of
 coordinate algebras is a sheaf for the weak affinoid G-topology, and its Čech complex for a finite
 affinoid cover is exact in positive degrees); excellence of the analytic local rings (§5.3: the
 stalk of the structure presheaf at a classical point is a G-ring and universally catenary); and
@@ -50,7 +54,12 @@ Proved by the pinned Tau Ceti, so not restated: the algebraic theorems of Layers
 README cites by their pinned names, the injectivity and image of the classical-point map of §8.2,
 and the numerical slope predicates, decomposition and projector of §7.2.
 
-Not statable at the pins, so stated nowhere in this file: the category of rigid spaces with its
+Not statable at the pins, so stated nowhere in this file: the Gerritzen–Grauert theorem for a
+locally closed immersion of affinoid spaces (§4.3; Bosch §4.2, Theorem 10), which needs the stalk
+map of a morphism of affinoid spaces, and the pins construct neither the morphism of weak
+affinoid G-topologies that an algebra map induces nor its map of structure presheaves (the
+pinned `TauCeti.GTopology.stalkMap` takes such a presheaf map as input); the category of rigid
+spaces with its
 gluing and the classical properness predicates (§§6.2–6.3), which need a rigid-space carrier; the
 identity principle (§7.3), which needs rigid spaces and their analytic subsets; rigid
 analytification (§8.1), which needs the rigid category; the rigid–adic equivalence (§8.3), which
@@ -106,17 +115,19 @@ end Normalisation
 
 section Excellence
 
-/-- Affinoid algebras are G-rings (§1.2; Kiehl's excellence theorem as explained in Conrad,
-*Irreducible components of rigid spaces*, §1.1, pp. 3–5): every affinoid algebra is noetherian
-and the completion of each of its local rings has geometrically regular formal fibres. No
-finiteness of the imperfection degree `[K : K^p]` is assumed; in characteristic `p` the proof
-uses Kiehl's differential regularity criterion (Conrad, Theorem 1.1.1). The algebra need not be
-a domain: `K⟨T⟩ × K` is a G-ring. -/
+/-- Affinoid algebras are G-rings (§1.2; Kiehl, *Ausgezeichnete Ringe in der
+nichtarchimedischen analytischen Geometrie*, Theorem 3.3, p. 94, with the reduction to two inputs
+in Conrad, *Irreducible components of rigid spaces*, §1.1, p. 3): every affinoid algebra is
+noetherian and the completion of each of its local rings has geometrically regular formal fibres.
+No finiteness of the imperfection degree `[K : K^p]` is assumed; in characteristic `p` the proof
+uses Kiehl's fields of definition, the faithful flatness of complete field extension (README
+§1.3) and his differential regularity criterion (Kiehl, Satz 2.2; proved in Conrad,
+Theorem 1.1.1). The algebra need not be a domain: `K⟨T⟩ × K` is a G-ring. -/
 theorem isGRing_of_isAffinoidAlgebra {A : Type*} [CommRing A] [Algebra K A]
     (hA : TauCeti.IsAffinoidAlgebra K A) : TauCeti.Excellence.IsGRing A := by
   sorry
 
-/-- Affinoid algebras are J-2 (§1.2; Kiehl's excellence theorem, Conrad §1.1, pp. 3–5): for an
+/-- Affinoid algebras are J-2 (§1.2; Kiehl, *Ausgezeichnete Ringe*, Theorem 3.3, p. 94): for an
 affinoid algebra `A` and every `A`-algebra `B` of finite type, the regular locus of `B` is open in
 `Spec B`. For the cusp `K⟨X,Y⟩/(Y² − X³)` it is the complement of the origin. A nonempty regular
 locus alone would say nothing, since the generic point of a domain is always regular. -/
@@ -144,6 +155,22 @@ theorem exists_norm_le_mul_supSeminorm [IsReduced A] (hA : TauCeti.IsAffinoidAlg
 
 end BanachFunctionAlgebra
 
+/-! ## Layer 4: affinoid subdomains, local rings and covers -/
+
+/-- The Gerritzen–Grauert theorem, finite-union form (§4.3; Bosch, *Lectures on Formal and Rigid
+Geometry*, §3.3, Theorem 20, p. 60, and §4.2, Corollary 12, p. 77): every affinoid subdomain `U`
+of `Sp A` is a finite union of rational domains `R(fᵢ/gᵢ)`, where `gᵢ` and the entries of `fᵢ`
+generate the unit ideal of `A`. For `A = 0` the union is empty; for `U = Sp A` one domain with
+`g = 1` and no numerators suffices; the annulus `|ϖ| ≤ |T| ≤ 1` of the unit disc is `R(ϖ/T)`.
+Without the unit-ideal clause `g = T` with no numerators would give the punctured disc, which is
+no finite union of affinoid subdomains. -/
+theorem exists_eq_iUnion_rationalDomain (A : Type*) [CommRing A] [Algebra K A]
+    [Fact (TauCeti.IsAffinoidAlgebra K A)] (U : TauCeti.AffinoidSubdomain K A) :
+    ∃ (n : ℕ) (m : Fin n → ℕ) (g : Fin n → A) (f : (i : Fin n) → Fin (m i) → A),
+      (∀ i, Ideal.span (insert (g i) (Set.range (f i))) = ⊤) ∧
+        (U : Set (MaximalSpectrum A)) = ⋃ i, TauCeti.rationalDomain K (g i) (f i) := by
+  sorry
+
 /-! ## Layer 5: Čech comparison and acyclicity -/
 
 section Acyclicity
@@ -154,7 +181,8 @@ Kiehl-AB §1, p. 258, whose Hilfssatz 1.3, p. 260, refines a covering by special
 Laurent covering on each member of which the induced covering is formal): the presheaf of
 coordinate algebras on the affinoid subdomains of `Sp A` is a sheaf for the Grothendieck topology
 of the weak affinoid G-topology, whose covers are the families of affinoid subdomains with a
-finite affinoid subcover. For the Laurent cover of the unit disc this is the exactness of
+finite affinoid subcover. For the Laurent cover of the unit disc, with `0 < |ϖ| < 1`, this is the
+exactness of
 `0 → K⟨T⟩ → K⟨T/ϖ⟩ × K⟨ϖ/T⟩ → K⟨T/ϖ, ϖ/T⟩`; for `A = 0` the empty cover of the empty subdomain
 forces its coordinate algebra to be the zero ring. -/
 theorem isSheaf_affinoidSubdomain_presheaf (A : Type*) [CommRing A] [Algebra K A]

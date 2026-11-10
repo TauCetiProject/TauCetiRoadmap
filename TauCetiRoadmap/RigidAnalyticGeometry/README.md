@@ -51,9 +51,7 @@ prerequisites of Kiehl's theorem (R3.3 *surjection-small-perturbation*; R3.6
 *restriction-strictly-completely-continuous*), quasi-Stein spaces with
 Theorems A and B (R3.4), Kiehl's almost noetherianity of presentation rings
 (R3.6 *almost-noetherian-integral-affinoid-modules*, which consumes §2.3's
-presentation-ring integrality), faithfully flat complete extension of the
-ground field for affinoid algebras and their finite modules (R3.6
-*affinoid-completed-field-extension*), Kiehl's proper mapping theorem with its
+presentation-ring integrality), Kiehl's proper mapping theorem with its
 base changes, principal filtrations and formal functions (R3.6
 *kiehl-proper-mapping-theorem*, *proper-affinoid-cohomology-finite*,
 *proper-cohomology-affinoid-subdomain*,
@@ -61,12 +59,15 @@ base changes, principal filtrations and formal functions (R3.6
 *proper-cohomology-finite-flat-base-change* and
 *proper-cohomology-adic-completion*), and proper GAGA (R3.7
 *analytification-coherent*, *proper-gaga* and *proper-gaga-coherent-equivalence*).
+Faithfully flat complete extension of the ground field for affinoid algebras
+and the comparison of their finite modules (§1.3) are owned here, because
+Kiehl's excellence route in §1.2 uses them; AdicSpacesPartIII R3.6
+*affinoid-completed-field-extension*, downstream, states the same theorem.
 
 Section ids of this roadmap whose content is Part III's:
 
 | Former section of this roadmap | Content now owned by Part III | Now |
 | --- | --- | --- |
-| §1.3 | Complete field extension of affinoid algebras and finite modules; §1.3 keeps affinoid pushouts and the affinoid algebra `A⊗̂_K L` over `L` | AdicSpacesPartIII R3.6 *affinoid-completed-field-extension* |
 | §7.1 | Banach prerequisites for Kiehl's theorem | AdicSpacesPartIII R3.3 *surjection-small-perturbation* and the four R3.6 targets above |
 | §7.3 | Coherence and quasi-Stein spaces; §7.3 keeps the identity principle | AdicSpacesPartIII R3.2–R3.4 |
 | §7.4 | Proper mapping and base change | AdicSpacesPartIII R3.6 *kiehl-proper-mapping-theorem*, *proper-affinoid-cohomology-finite*, *proper-cohomology-affinoid-subdomain*, *proper-coherent-cohomology-field-extension* and *proper-cohomology-finite-flat-base-change* |
@@ -96,7 +97,10 @@ consume this roadmap and supply nothing to it.
 1. Use `[NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]`.
    Characteristic zero, discrete valuation and spherical completeness are
    additional hypotheses only where stated. Put
-   `√|K×| = {r>0 : ∃ n≥1, ∃ c∈K×, r^n=|c|}`.
+   `√|K×| = {r>0 : ∃ n≥1, ∃ c∈K×, r^n=|c|}`. Fix `ϖ∈K` with `0<|ϖ|<1`,
+   which exists because the norm is nontrivial; `ϖ` denotes this element
+   throughout, and its powers `|ϖ|ⁿ` tend to zero. Over `ℚ_p` the examples
+   write `p` directly.
 2. `Tₙ=K⟨X₁,…,Xₙ⟩` is the shared native restricted-series algebra at unit
    polyradius. Use coefficient-preserving equivalences for alternative
    presentations. Distinguished-variable conventions must agree with the
@@ -264,7 +268,9 @@ supplies closedness of every ideal of an algebra topologically of finite type
 (`TauCeti.Huber.IsTopologicallyFiniteType.isClosed_ideal`), the completed
 tensor product of Huber rings `TauCeti.Huber.CompletedTensor` and its base
 change of restricted series
-(`TauCeti.Huber.CompletedTensor.weightedRestrictedEquiv`).
+(`TauCeti.Huber.CompletedTensor.weightedRestrictedEquiv`), and the completed
+tensor product of Banach modules `TauCeti.Huber.BanachModule.CompletedTensor`
+used in §1.3.
 Where a target of Layers 0–4 below is one of these theorems, the text cites it
 by its pinned name; the rest of those layers are targets.
 
@@ -621,28 +627,68 @@ Mathlib `MaximalSpectrum`, `Ideal.height` and `ringKrullDim`.
   statement is not made for it.
 
 Prove that affinoid algebras are excellent in every characteristic: Kiehl's
-theorem, whose proof [Conrad] §1.1 (pp. 3–5) explains. Universal catenarity
-is pinned under `TauCeti/RingTheory/Affinoid/UniversallyCatenary.lean`. The
-two remaining halves are headlines: every affinoid algebra `A` is a G-ring,
+theorem ([Kiehl-AR] Theorem 3.3, p. 94). [Conrad] §1.1 (pp. 3–5) reduces it
+to the two inputs below and proves Kiehl's regularity criterion, but proves
+neither input; [Kiehl-AR] proves both in characteristic `p`. Universal
+catenarity is pinned under
+`TauCeti/RingTheory/Affinoid/UniversallyCatenary.lean`. The two remaining
+halves are headlines: every affinoid algebra `A` is a G-ring,
 `TauCeti.Excellence.IsGRing A` (`isGRing_of_isAffinoidAlgebra`), and for
 every `A`-algebra `B` of finite type the regular locus
 `TauCeti.Excellence.regularLocus B` is open in `Spec B`
-(`isOpen_regularLocus_of_finiteType`, the J-2 property). Following [Conrad]
-§1.1 (p. 3), it suffices to treat Tate algebras and to prove two inputs: the
-regular locus of every affinoid domain `A` contains a nonempty open subset
-of `Spec A`, and the localisations of Tate algebras at maximal ideals have
-geometrically regular formal fibres. Regularity of Tate algebras at maximal
-ideals is the pinned instance
-`TauCeti.MvPowerSeries.isRegularLocalRing_localization_atPrime_of_isMaximal_isRestricted_subring`.
-Include the differential-rank regularity criterion of [Conrad] Theorem 1.1.1
-used in positive characteristic; finiteness of the imperfection degree
-`[K:K^p]` is not assumed. General excellent-ring permanence stays in
+(`isOpen_regularLocus_of_finiteType`, the J-2 property). Every affinoid
+algebra is a quotient of a Tate algebra, which is regular at its maximal
+ideals (the pinned instance
+`TauCeti.MvPowerSeries.isRegularLocalRing_localization_atPrime_of_isMaximal_isRestricted_subring`),
+and every finite algebra over an affinoid algebra is affinoid; by the
+general criteria [Conrad] p. 3 applies, the two halves therefore follow
+from two inputs, which are targets here:
+
+- for every affinoid domain `A`, the regular locus of `Spec A` contains a
+  nonempty open subset ([Kiehl-AR] condition 3.2.1′, p. 94, proved on
+  pp. 96–97);
+- for every domain `A` finite over a Tate algebra `Tₙ`, every maximal ideal
+  `𝔯` of `A` and every prime `𝔭` of the `𝔯`-adic completion `Â_𝔯` with
+  `𝔭∩A=0`, the local ring `(Â_𝔯)_𝔭` is regular ([Conrad] p. 4 for this
+  form of the formal-fibre condition; [Kiehl-AR] Satz 3.10, p. 97, which
+  completes at a maximal ideal of `Tₙ`).
+
+In characteristic zero, excellence of the Tate algebras, and with it both
+inputs, follows from the excellence criterion of [Matsumura] Theorem 102
+applied to `Tₙ` ([Conrad] p. 3). In characteristic `p` the route is Kiehl's, and finiteness
+of the imperfection degree `[K:K^p]` is not assumed. Call a complete subfield
+`K₀` of `K` with `K^p⊆K₀`, topologically generated over `K^p` by countably
+many elements, a field of definition of `A` if `A≃B⊗̂_{K₀}K` for an affinoid
+`K₀`-algebra `B`. Every affinoid algebra has a field of definition, every
+ideal of `A` comes from one, and `A` and its `𝔪`-adic completions, for `𝔪`
+a maximal ideal of a Tate algebra over which `A` is finite, are the direct
+limits of the corresponding algebras over its fields of definition ([Kiehl-AR] Hilfssätze 3.4, 3.4′ and 3.11, Definition 3.5 and
+Folgerung 3.6, pp. 94–95 and 97). A complete subfield of this kind has a
+topological `p`-basis over `K^p` ([Kiehl-AR] Satz 1.4, p. 91). For complete
+subfields `K₁⊆K` containing `K^p` with `[K:K₁]` finite of `p`-rank `ρ`, the
+module of differentials of `Tₙ` over `K₁⟨X₁^p,…,Xₙ^p⟩` is free of rank `n+ρ`
+([Kiehl-AR] Hilfssatz 3.9, p. 96); the ranks of the differential modules of
+the fraction fields of `A` and of `Tₙ` agree over a suitable such `K₁`
+([Kiehl-AR] Satz 2.4, p. 93, and Folgerung 3.8, p. 96); and Kiehl's
+differential-rank regularity criterion ([Kiehl-AR] Satz 2.2 and Folgerung
+2.3, pp. 92–93, whose proof is [Conrad] Theorem 1.1.1 and Corollary 1.1.2,
+pp. 4–5) then gives regularity, first over a field of definition and then
+over `K`. The descent from `B` to `A=B⊗̂_{K₀}K` uses that `A` is faithfully
+flat over `B` ([Kiehl-AR] pp. 95 and 97), which is §1.3's faithful flatness
+for the complete extension `K/K₀`; [Conrad] p. 6 remarks that Kiehl's
+arguments appear to require it. General excellent-ring permanence stays in
 SchemeAndStackFoundations.
-*Needs:* §1.2's normalisation; SchemeAndStackFoundations §0.21 (excellent
-rings, G-rings, J-2 rings and their permanence); Tau Ceti universal
-catenarity, `TauCeti.Excellence.IsGRing`, `TauCeti.Excellence.regularLocus`
-and the regularity of Tate algebras; [Conrad] §1.1 and Theorem 1.1.1;
-Mathlib `Algebra.FiniteType`.
+*Needs:* §1.2's normalisation (Noether normalisation and finiteness over
+`Tₙ`); §1.3 (faithful flatness of `B→B⊗̂_{K₀}K` for an affinoid algebra `B`
+over a complete subfield `K₀⊆K`, and the presentation of `B⊗̂_{K₀}K`); §0.1
+(the Tate algebra and its Gauss norm, for the differential modules);
+SchemeAndStackFoundations §0.21 (excellent rings, G-rings, J-2 rings and
+their permanence); Tau Ceti universal catenarity,
+`TauCeti.Excellence.IsGRing`, `TauCeti.Excellence.regularLocus` and the
+regularity of Tate algebras; [Kiehl-AR] §§1–3; [Conrad] §1.1 (the reduction
+on p. 3 and Theorem 1.1.1 with Corollary 1.1.2); [Matsumura] Theorem 102 in
+characteristic zero; Mathlib `Algebra.FiniteType`, `KaehlerDifferential`
+and `IsRegularLocalRing`.
 
 **Checks.**
 
@@ -659,6 +705,18 @@ Mathlib `Algebra.FiniteType`.
   complement of a closed point is open, as J-2 requires.
 - `K⟨T⟩×K` is not a domain and is still a G-ring: the G-ring statement is
   made for every affinoid algebra.
+- For `A=K⟨T⟩` and `𝔯=(T)`, the completion is `K⟦T⟧`, a discrete
+  valuation ring, and `(T)∩K⟨T⟩=(T)≠0`, so the only prime of `K⟦T⟧`
+  meeting `K⟨T⟩` in zero is `(0)`, with localisation `K((T))`, a field: the
+  formal-fibre input holds here with nothing to prove, and it has content
+  only from two variables on.
+- The imperfection degree may be infinite: for `κ=𝔽_p(t₁,t₂,…)` and the
+  complete discretely valued field `K=κ((s))`, the `p`-monomials in
+  finitely many `tⱼ` are linearly independent over `K^p=κ^p((s^p))`
+  (the coefficient of each power of `s^p` in a relation is a relation over
+  `κ^p`, and the `tⱼ` are `p`-independent in `κ`), so `[K:K^p]=∞`. A proof that applies the
+  finite-`p`-degree criterion [Conrad] p. 3 mentions does not reach this
+  field, while Kiehl's countably generated fields of definition do.
 
 ### 1.3 Tensor products and complete field extension
 
@@ -679,12 +737,35 @@ Prove that a presentation `π:Tₙ(K)↠A` with kernel `I` induces a surjection
 compatibly with affinoid homomorphisms and with repeated field extension. No
 algebraicity or spherical completeness of `L/K` is assumed. Source: [BGR]
 6.1.1.
+
+Prove that `A→A_L`, `a↦a⊗1`, is faithfully flat, and that for every finite
+`A`-module `M` with its canonical topology the `A_L`-linear map
+`A_L⊗_A M→L⊗̂_K M`, sending `(a⊗l)⊗m` to `l⊗am`, is an isomorphism of
+topological modules, where the right side is the pinned completed tensor
+product `TauCeti.Huber.BanachModule.CompletedTensor` of Banach `K`-spaces;
+the comparison is natural in `M` ([Conrad] Lemma 1.1.5(1), pp. 6–7; [BGR]
+6.1.1/12). The statement is made over every ground field as in Convention 1,
+and §1.2 applies it to `K` over a complete subfield `K₀`. Route, following
+[Conrad] pp. 6–7: for a maximal ideal `𝔪` of `A`, `A_L/𝔪A_L≃L⊗_K(A/𝔪)` is
+nonzero and finite over `L`, because `A/𝔪` is finite-dimensional over `K`,
+so faithful flatness reduces to flatness. For a finite presentation of `M`
+the image of `A^s→A^r` is closed (every submodule of a finite module is
+closed), affinoid algebras and their finite modules have countable type,
+and `L⊗̂_K(−)` is strict exact on strict exact sequences of countable type,
+which gives the comparison from the case `M=A^r`; an injection `M→N` of
+finite modules is a closed embedding, so `L⊗̂_K M→L⊗̂_K N` is injective, and
+through the comparison so is `A_L⊗_A M→A_L⊗_A N`.
 *Needs:* §1.1 (`A⟨X⟩`, presentations, quotient topologies and closed
-ideals); PadicFunctionalAnalysis §2.4 (strict exactness of `L⊗̂_K(−)` on
-countable-type spaces); Tau Ceti `TauCeti.AffinoidPushout`,
-`TauCeti.Huber.CompletedTensor` and
-`TauCeti.Huber.CompletedTensor.weightedRestrictedEquiv`; Mathlib
-`TensorProduct`.
+ideals); PadicFunctionalAnalysis Layer 1 (the canonical topology of finite
+Banach modules and closedness of their submodules) and §2.4 (strict
+exactness of `L⊗̂_K(−)` on countable-type spaces); Tau Ceti
+`TauCeti.AffinoidPushout`, `TauCeti.Huber.CompletedTensor`,
+`TauCeti.Huber.CompletedTensor.weightedRestrictedEquiv`,
+`TauCeti.Huber.BanachModule.CompletedTensor`,
+`TauCeti.exists_continuousLinearEquiv_prod_of_countableType` and
+`TauCeti.IsAffinoidAlgebra.finite_quotient_of_isMaximal`; [Conrad] Lemma
+1.1.5(1); Mathlib `TensorProduct`, `Module.Flat` and
+`Module.FaithfullyFlat`.
 
 **Checks.**
 
@@ -695,6 +776,14 @@ countable-type spaces); Tau Ceti `TauCeti.AffinoidPushout`,
 - `B⊗̂_A A=B` and `B⊗̂_A 0=0`; the surjection `K⟨X⟩↠K`, `X↦0`, tensored
   with `K⟨Y⟩` gives the surjection `K⟨X,Y⟩↠K⟨Y⟩`.
 - `L=K` gives `A_K=A`; for `A=K` it gives `L` with its norm.
+- For `A=K⟨T⟩` and `M=A/(T)`, both `A_L⊗_A M=L⟨T⟩/(T)` and `L⊗̂_K M` are
+  `L`; the maximal ideal `(T)` generates the proper ideal `T·L⟨T⟩` of
+  `A_L`, as faithful flatness requires.
+- For `A=K⟨T⟩/(T²)`, finite over `K`, the completed tensor product is the
+  algebraic one, `A_L=L⊗_K A=L⟨T⟩/(T²)`, free over `A` on any `K`-basis of
+  `L`; a construction producing a larger completion for a
+  finite-dimensional algebra is wrong, and for infinite `L/K` the map
+  `A→A_L` is faithfully flat without being finite.
 - Over `ℚ_p`, `A=ℚ_p⟨T⟩/(T²−p)` is a field, while for `L=ℚ_p(√p)` the
   algebra `A_L=L⟨T⟩/(T−√p)(T+√p)` is `L×L`, the two factors being coprime
   because `2√p` is a unit of `L`: field extension does not preserve being a
@@ -797,8 +886,10 @@ PadicFunctionalAnalysis Layer 1 and §2.4; SchemeAndStackFoundations §0.21;
 AdicSpaces §3.1; the pinned open mapping and closed graph theorems, the
 Japanese criteria and the affinoid algebra under
 `TauCeti/RingTheory/Affinoid/`, the Tate regularity, G-ring and regular-locus
-interfaces and the Huber completed tensor product; the forward direction of
-§1.5 uses §2.2. AdicSpacesPartII and AdicSpacesPartIII consume this layer.
+interfaces, the Huber completed tensor product and the completed tensor
+product of Banach modules; [Kiehl-AR], [Conrad] §1.1 and [Matsumura]
+Theorem 102 for excellence; the forward direction of §1.5 uses §2.2.
+AdicSpacesPartII and AdicSpacesPartIII consume this layer.
 
 ## Layer 2: supremum seminorm, reduction and integral models
 
@@ -940,13 +1031,13 @@ map induces a finite map on canonical reductions; deduce that `Ã` is a
 finite-type `K̃`-algebra. Sources: [BGR] 6.3.1, 6.3.4–6.3.5.
 
 **Reduced quotient of a ring of definition.** For an open bounded subring `B⊆A`
-and `ϖ∈B` which is topologically nilpotent and left regular in `A`, for
-instance a topologically nilpotent unit of `A`, if `B/ϖB` is reduced then
+and `t∈B` which is topologically nilpotent and left regular in `A`, for
+instance a topologically nilpotent unit of `A`, if `B/tB` is reduced then
 `B=A°={f:|f|sup≤1}`: the pinned
 `TauCeti.IsAffinoidAlgebra.mem_iff_supSeminorm_le_one_of_isReduced_quotient`,
 proved using [FK] Chapter 0, Appendix B, Proposition B.1.3(1) (p. 236 of
 arXiv v5: `f` is power-bounded iff `B[f]` is a ring of definition, stated
-there without proof) and §2.2's supremum identification. The element `ϖ`
+there without proof) and §2.2's supremum identification. The element `t`
 need not be a scalar. Part II R0.9 consumes this theorem. The sufficient
 hypothesis is not asserted to be necessary.
 *Needs:* §2.2 (`A°`, `A°°` and the supremum theorems); §1.1 (presentations
@@ -1045,8 +1136,9 @@ and the rational and Laurent cases pinned under
 `TauCeti/RingTheory/Affinoid/Subdomain/`. Transitivity is the pinned
 `TauCeti.IsAffinoidSubdomainMap.comp`: if `φ:A→B` represents `U⊆Sp A` and
 `φ':B→C` represents `V⊆Sp B`, then `φ'∘φ` represents the image of `V` in
-`Sp A`. Identify Weierstrass subdomains with §1.4. Include open, closed and
-locally closed immersions. The Gerritzen–Grauert theorem and the refinement of
+`Sp A`. Identify Weierstrass subdomains with §1.4. Open, closed, locally
+closed and Runge immersions are defined in §4.3, after the stalks of §4.2
+that their definition uses. The Gerritzen–Grauert theorem and the refinement of
 affinoid coverings by rational coverings are proved in §4.3, after the local
 rings their proof uses. Sources: [BGR] Chapter 7.
 *Needs:* §§1.1–1.4 (algebras, tensor products and fraction algebras); §2.2
@@ -1126,18 +1218,50 @@ Mathlib `CategoryTheory.GrothendieckTopology.Point.presheafFiber`,
 
 ### 4.3 The Gerritzen–Grauert theorem, rational refinements and Kisin's lemma
 
-A morphism `φ:Sp A'→Sp A` of affinoid spaces is a *locally closed immersion*
-if it is injective on classical points and every stalk map
-`𝒪_{Sp A,φ(x)}→𝒪_{Sp A',x}` of §4.2 is surjective, and a *Runge immersion* if
-it is a closed immersion into a Weierstrass domain of `Sp A` ([Bosch] §4.2,
-Definitions 1 and 5, pp. 69 and 71). Prove the Gerritzen–Grauert theorem: for
-a locally closed immersion `φ` there are finitely many rational subdomains
-`X₁,…,X_r` covering `Sp A` such that every restriction `φ⁻¹(Xᵢ)→Xᵢ` is a
-Runge immersion ([Bosch] §4.2, Theorem 10, p. 76). The inclusion of an
-affinoid subdomain `U⊆Sp A` is a locally closed immersion with bijective
-stalk maps, and for it every `Xᵢ∩U` is a Weierstrass domain in `Xᵢ`; in
-particular `U` is a finite union of rational subdomains of `Sp A` ([Bosch]
-§4.2, Corollaries 11–12, pp. 76–77; §3.3, Theorem 20, p. 60). The route of
+A morphism `φ:Sp A'→Sp A` of affinoid spaces is given by a `K`-algebra map
+`φ*:A→A'`. At `x∈Sp A'` it induces the local stalk map
+`φ*_x:𝒪_{Sp A,φ(x)}→𝒪_{Sp A',x}` of the stalks of §4.2: for an affinoid
+subdomain `U∋φ(x)` the inverse image `φ⁻¹(U)` is an affinoid subdomain of
+`Sp A'` (the pinned inverse images of `TauCeti.IsAffinoidSubdomainMap`), the
+universal property of `U` gives `𝒪(U)→𝒪(φ⁻¹(U))`, and these maps pass to
+the colimits ([Bosch] §4.1, pp. 65–66). Call `φ` a *closed immersion* if `φ*`
+is surjective, a *locally closed immersion* (an *open immersion*) if it is
+injective on classical points and every `φ*_x` is surjective (bijective), and
+a *Runge immersion* if it is a closed immersion into a Weierstrass domain
+`W` of `Sp A` followed by the inclusion of `W` ([Bosch] §4.2, Definitions 1
+and 5, pp. 69 and 71).
+
+- Closed immersions and inclusions of affinoid subdomains are locally closed
+  immersions, and the inclusion of an affinoid subdomain is an open
+  immersion ([Bosch] §4.2, p. 69).
+- Closed, locally closed and open immersions are each closed under
+  composition, and for an immersion `φ` of each type and an affinoid
+  subdomain `U` of the target, `φ⁻¹(U)→U` is an immersion of the same type
+  ([Bosch] §4.2, p. 69 and Remark 2, pp. 69–70).
+- A locally closed immersion whose algebra map `φ*` is finite is a closed
+  immersion ([Bosch] §4.2, Proposition 3, pp. 70–71).
+- A morphism that is both an open and a closed immersion has Zariski open
+  and closed image and is the inclusion of a Weierstrass domain ([Bosch]
+  §4.2, Proposition 4, p. 71).
+- `φ` is a Runge immersion if and only if `φ*(A)` is dense in `A'` for a
+  complete algebra norm, if and only if `φ*(A)` contains a system of affinoid
+  generators of `A'` over `A`; Runge immersions are closed under composition,
+  and for an affinoid subdomain `U` of the target `φ⁻¹(U)→U` is again a
+  Runge immersion ([Bosch] §4.2, Remark 6 and Proposition 7, p. 72).
+- A Runge immersion that is also an open immersion is the inclusion of a
+  Weierstrass domain ([Bosch] §4.2, proof of Corollary 11, pp. 76–77).
+
+Prove the Gerritzen–Grauert theorem: for a locally closed immersion `φ`
+there are finitely many rational subdomains `X₁,…,X_r` covering `Sp A` such
+that every restriction `φ⁻¹(Xᵢ)→Xᵢ` is a Runge immersion ([Bosch] §4.2,
+Theorem 10, p. 76). The inclusion of an affinoid subdomain `U⊆Sp A` is an
+open immersion, and for it every `Xᵢ∩U` is a Weierstrass domain in `Xᵢ`
+([Bosch] §4.2, Corollaries 11–12, pp. 76–77). In particular, for an affinoid
+algebra `A`, every affinoid subdomain `U` of `Sp A` (the pinned
+`TauCeti.AffinoidSubdomain`) is a finite union of rational domains
+`R(fᵢ/gᵢ)` (the pinned `TauCeti.rationalDomain`) whose data `(gᵢ,fᵢ)`
+generate the unit ideal of `A` (`exists_eq_iUnion_rationalDomain`; [Bosch]
+§3.3, Theorem 20, p. 60, and §4.2, Corollary 12, p. 77). The route of
 [Bosch] §4.2 (pp. 77–81) inducts on the number of affinoid generators of `A'`
 over `A`: it puts an element of the kernel of a presentation
 `A⟨ζ₁,…,ζₙ⟩↠A'` into distinguished form uniformly over the points of `Sp A`,
@@ -1186,11 +1310,40 @@ subsets, quotients and rational localisation); Tau Ceti's spectrality of
 `Spa` (the `SpectralSpace` instance on `TauCeti.ValuationSpectrum.spa`),
 `TauCeti.ValuationSpectrum.spa_eq_biUnion_rationalSubset_of_span_eq_top`,
 `TauCeti.ValuationSpectrum.maximalSpectrumToSpa` and
-`TauCeti.IsAffinoidAlgebra.isTopologicallyFiniteType`; Mathlib
-`compactSpace_withConstructibleTopology`.
+`TauCeti.IsAffinoidAlgebra.isTopologicallyFiniteType`; the pinned inverse
+images of `TauCeti.IsAffinoidSubdomainMap`, `TauCeti.AffinoidSubdomain` and
+`TauCeti.rationalDomain`; Mathlib `compactSpace_withConstructibleTopology`
+and `Ideal.span`.
 
 **Checks.**
 
+- The normalisation of the cusp, `K⟨X,Y⟩/(Y²−X³)→K⟨t⟩` with `X↦t²` and
+  `Y↦t³`, is injective on classical points: over `K̄`, `(a²,a³)=(b²,b³)`
+  forces `a=b` (`a=a³/a²` when `a≠0`), and the map commutes with Galois
+  conjugation. It is not a locally closed immersion: the stalk map at the
+  origin sends the maximal ideal into `t²𝒪`, so its image lies in `K+t²𝒪`
+  and misses `t`. It is finite and `φ*` is not surjective, so it is not a
+  closed immersion, and Proposition 3 of [Bosch] §4.2 confirms that it is
+  not a locally closed immersion. A definition requiring only injectivity on
+  points accepts it.
+- The map `Sp(K×K)→Sp K` from two points to one, `φ*` the diagonal
+  `K→K×K`, has bijective stalk maps `K→K` at both points but is not
+  injective, so it is not a locally closed immersion; the injectivity clause
+  is what excludes it.
+- The origin `Sp K→Sp K⟨T⟩`, `T↦0`, is a closed immersion, hence a locally
+  closed and a Runge immersion with `W` the whole disc. It is not an open
+  immersion, since its stalk map `𝒪_{Sp K⟨T⟩,0}→K` kills `T`, in agreement
+  with §4.1's Check that the origin is not an affinoid subdomain.
+- The inclusion of the disc `|T|≤|ϖ|` in the unit disc is a Runge
+  immersion, a Weierstrass domain with `W` itself, and `K⟨T⟩` is dense in
+  `K⟨T/ϖ⟩` because polynomials in `T` are, as Proposition 7 of [Bosch] §4.2
+  requires. The inclusion of the annulus `{|ϖ|≤|T|≤1}` is an open immersion
+  that is not a Runge immersion: in `K⟨T,ϖ/T⟩`, whose elements are Laurent
+  series `Σ aₙTⁿ` with norm `max(sup_{n≥0}|aₙ|, sup_{n<0}|aₙ||ϖ|ⁿ)`, the
+  element `ϖ/T` has norm one and distance at least one from every series
+  without negative terms, so `K⟨T⟩` is not dense; equivalently, an open
+  Runge immersion would be a Weierstrass domain, which the next Check
+  excludes.
 - On the unit disc the annulus `U={|ϖ|≤|T|≤1}` is a Laurent domain but not a
   Weierstrass domain: a Weierstrass domain `{|hⱼ|≤1}` containing the circle
   `|T|=|ϖ|` contains the disc `|T|≤|ϖ|`, since by the maximum modulus
@@ -1201,6 +1354,16 @@ subsets, quotients and rational localisation); Tau Ceti's spectrality of
   on which `T` is a unit. The covering by `|T|≤|ϖ|` and `|ϖ|≤|T|≤1` is not:
   its first member meets `U` in the circle `|T|=|ϖ|`, which by the same
   argument is not a Weierstrass domain of that disc.
+- The finite-union form on degenerate and small instances: for `A=0` the
+  only subdomain is empty, the union of no rational domains; for `U=Sp A`
+  one rational domain suffices, `g=1` with no numerators, since `|1(x)|=1`;
+  and the annulus `{|ϖ|≤|T|≤1}` is the single rational domain `R(ϖ/T)`, the
+  data `(T,ϖ)` generating the unit ideal because `ϖ` is a unit. Without
+  the unit-ideal clause the data `g=T` with no numerators would give
+  `{T≠0}`, the punctured disc, which is no finite union of affinoid
+  subdomains: on an affinoid subdomain inside it `T` is a unit, so `|T|` is
+  bounded below there by `1/|T⁻¹|sup>0`, while the points `T=ϖᴺ` lie in
+  the punctured disc for every `N`.
 - Refining the covering by `U¹={|T|≤|ϖ|}` (functions `ϖ;T`) and
   `U²={|ϖ|≤|T|}` (functions `T;ϖ`): the products with at least one
   denominator factor are `ϖT`, `ϖ²` and `T²`, and their rational covering is
@@ -1521,7 +1684,7 @@ Layer 5 (acyclicity, for the structure sheaf); §1.3 (the affinoid algebras
   set-theoretic but not admissible: a G-topology admitting it would force
   the structure presheaf to glue the function which is `0` on the open disc
   and `1` on the circle, against the identity principle.
-- For `0<|ϖ|<1`, the domains `|T|^n≤|ϖ|`, `n≥1`, give an admissible
+- The domains `|T|^n≤|ϖ|`, `n≥1`, give an admissible
   exhaustion of the open disc: radii `|ϖ|^(1/n)` approach one even for
   discretely valued `K`.
 - The punctured disc `{0<|T|≤1}` is the union of the affinoids
@@ -2072,6 +2235,14 @@ elaborating roadmap prototype is not a proof or an implementation milestone.
 - **[Kiehl-AB]** R. Kiehl, *Theorem A und Theorem B in der
   nichtarchimedischen Funktionentheorie*, Invent. Math. 2 (1967), 256–273.
   [Journal volume](https://gdz.sub.uni-goettingen.de/id/PPN356556735_0002).
+- **[Kiehl-AR]** R. Kiehl, *Ausgezeichnete Ringe in der nichtarchimedischen
+  analytischen Geometrie*, J. reine angew. Math. 234 (1969), 89–98:
+  topological `p`-bases (§1), the differential regularity criterion
+  (Satz 2.2) and excellence of affinoid algebras (Theorem 3.3).
+  [GDZ digitisation of the article](https://gdz.sub.uni-goettingen.de/download/pdf/PPN243919689_0234/LOG_0008.pdf).
+- **[Matsumura]** H. Matsumura, *Commutative Algebra*, second edition,
+  Benjamin/Cummings, 1980, Theorem 102 (the excellence criterion that
+  [Conrad] p. 3 applies to Tate algebras in characteristic zero).
 - **[Kiehl-E]** R. Kiehl, *Der Endlichkeitssatz für eigentliche Abbildungen
   in der nichtarchimedischen Funktionentheorie*, Invent. Math. 2 (1967),
   191–214, §2 (Definitions 2.1–2.3).
