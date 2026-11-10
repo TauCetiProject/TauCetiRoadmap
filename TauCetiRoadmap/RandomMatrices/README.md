@@ -7,12 +7,12 @@ resolvent transform. It builds sample-space extensions, empirical spectral measu
 deterministic spectral estimates, concentration inequalities, the moment and resolvent toolkit,
 the named limiting laws, invariant ensembles and exact integration, free probability, deformed and
 spiked models, determinantal point processes and Gaussian local statistics, logarithmic gases and
-their large deviations, Dyson Brownian motion, and small singular values. Its end theorems are the
+their large deviations, and small singular values. Its end theorems are the
 almost-sure semicircle, Marchenko–Pastur and circular laws, the Bai–Yin edge limits, the
 Hanson–Wright and matrix Bernstein inequalities, the GOE/GUE eigenvalue densities, asymptotic
 freeness of Wigner and Haar-conjugated families, the spiked-model phase transition, the sine and
-Airy limits with the Tracy–Widom laws `F₁` and `F₂`, the speed-`n²` large deviation principle of
-the beta gas, the hydrodynamic limit of Dyson Brownian motion, and the least-singular-value bound.
+Airy limits with the Tracy–Widom laws `F₁` and `F₂`, the large deviation principles of the beta
+gas and of the Gaussian largest eigenvalue, and the least-singular-value bound.
 [Suggested.lean](Suggested.lean) states the headline theorems that are statable against the pinned
 libraries; this README is the roadmap.
 
@@ -32,6 +32,14 @@ and Brown measures, infinite-volume stochastic dynamics, replica analytic contin
 finance, Bayesian-inference, spin-glass and matrix-Kesten models of PB. PB's cavity and
 saddle-point calculations supply formulas; every formula included below has a rigorous limiting
 statement.
+
+Point processes appear here only through their joint count laws on bounded Borel sets, gap
+probabilities and correlation functions; random elements of a configuration space of locally
+finite integer-valued measures with the vague topology (AGZ Definition 4.2.1), and weak
+convergence of their laws, are outside the roadmap. Dyson Brownian motion (matrix Brownian
+motion, the eigenvalue stochastic differential equation, the `β ≥ 1` particle system and its
+hydrodynamic limit, AGZ §4.3) is the subject of the DysonBrownianMotion roadmap, which builds on
+this one and on StochasticCalculus; no stochastic integral is used here.
 
 Owned elsewhere and consumed here:
 
@@ -59,15 +67,6 @@ Owned elsewhere and consumed here:
   eigenvalue/eigenprojector disintegrations and Haar entry integrals.
 - [OptimalTransport](../OptimalTransport/README.md), Layers 0–3, owns couplings and Wasserstein
   distances. Here: the eigenvalue coupling and the spectral `W₁`/`W₂` corollaries.
-- [Exchangeability](../Exchangeability/README.md) owns exchangeability and conditional-i.i.d.
-  representation theory. Here: sample-space extensions that preserve an existing joint law.
-- PointProcesses, Layers 0–6, owns configuration spaces `LocallyFiniteMeasure S` and
-  `PointMeasure S` on locally compact Polish `S` with the vague topology, laws of random measures
-  and their determination by Laplace functionals, factorial moment measures and correlation
-  functions relative to a named reference measure, restriction and pushforward, and weak
-  convergence of laws on configuration spaces. Here: determinantal point processes, their
-  trace-class and Fredholm analysis, the Pfaffian formulas for GOE and the determinantal
-  convergence criterion.
 - [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md), PD-A51–PD-A53,
   owns the Courant–Fischer min–max formula, Loewner monotonicity of sorted eigenvalues and Weyl's
   operator-norm bound for symmetric endomorphisms of finite-dimensional inner-product spaces.
@@ -83,10 +82,11 @@ Owned elsewhere and consumed here:
   trace-class carrier is introduced.
 - [SuccessiveMinima](../SuccessiveMinima/README.md), Layer 0, target 0.1.2,
   `hermitian_gram_hadamard`, owns Hadamard's bound for Hermitian Gram matrices.
-- StochasticCalculus owns finite-dimensional Brownian motion (S1), predictable `L²` Brownian
-  integration, continuous integral processes and localization (S3.2–S3.4), brackets
-  (S4.1–S4.3), the `C²` Itô formula on open domains (S5.1), Lévy's characterization (S5.5), and
-  strong, local and maximal solutions with Lyapunov nonexplosion (S9.1–S9.2).
+- [FreeProbability](../FreeProbability/README.md), F1–F6, extends Layer 6 rather than supplying
+  it: on the same scalar expectations, cumulants and laws it adds the C*-completions, the
+  operator-valued and amalgamated theory, formal-series transforms, free Poisson laws of every
+  jump and the free central limit theorem with variance profile `N⁻¹ ∑ φ(aⱼ²) → σ²`. Layer 6 is
+  the bounded scalar core that those sections consume.
 
 ## Conventions
 
@@ -152,8 +152,6 @@ Owned elsewhere and consumed here:
   (`Mathlib/Probability/CentralLimitTheorem.lean`).
 - `MeasureTheory.resolventTransform` and its analyticity
   (`Mathlib/MeasureTheory/Measure/ResolventTransform.lean`).
-- Brownian motion (`Mathlib/Probability/BrownianMotion/Basic.lean`); it does not supply the Itô
-  and stochastic-differential-equation toolkit, which comes from StochasticCalculus.
 
 ### From Tau Ceti
 
@@ -171,8 +169,7 @@ Owned elsewhere and consumed here:
 - LaguerreJacobi: Parts A–D, with `laguerreMeasure`, `jacobiMeasure` and the orthogonality
   relations B3 and D3.
 - RepresentationTheory/CompactGroups: Layer 0 and `weyl_integration_formula`.
-- OptimalTransport: Layers 0–3. Exchangeability: the joint-law transport interface.
-- PointProcesses: Layers 0–6.
+- OptimalTransport: Layers 0–3.
 - [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md): the Airy function `TauCeti.airyAi`
   and its real restriction `TauCeti.Real.airyAi`, with the value at `0` (1.1), Airy's equation
   and uniqueness (1.2), the integral representations (Layer 2), the expansions on the real line
@@ -184,8 +181,6 @@ Owned elsewhere and consumed here:
   OperatorTheory/SpectralSubspacePerturbation: SSP-D06, SSP-D13, SSP-D14.
   OperatorTheory/OperatorIdeals: OI-B01–OI-B19, OI-B23, OI-B29, OI-B30 and Part C.
 - SuccessiveMinima: target 0.1.2, `hermitian_gram_hadamard`.
-- StochasticCalculus: S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.2, with
-  `timeMeasure`, `IsFilteredBrownian` and `IsStrongSolution`.
 
 ## How to read the build
 
@@ -198,8 +193,7 @@ the global laws of Wigner and sample-covariance matrices; Layer 5 the exact inva
 Layer 6 builds free probability and asymptotic freeness on Layers 1, 3, 5 and the combinatorics;
 Layer 7 deformed and spiked models on Layers 1–6. Layer 8 (point processes and Gaussian local
 statistics) and Layer 9 (logarithmic gases and large deviations) rest on Layers 1, 3 and 5;
-Layer 10 (Dyson Brownian motion) on Layers 0–3, 5–6 and StochasticCalculus; Layer 11 (small
-singular values and the circular law) on Layers 0–5.
+Layer 10 (small singular values and the circular law) on Layers 0–5.
 
 ```text
 Mathlib / Tau Ceti probability and spectral theory
@@ -210,10 +204,9 @@ finite noncrossing combinatorics → 3, 4, 6
 0–3 + StandardDistributions + CompactGroups → 5 (exact ensembles)
 1, 3, 5 + combinatorics → 6 (free probability)
 1–6 → 7 (deformations, covariance, spikes)
-1, 3, 5 + Hermite + LaguerreJacobi + PointProcesses + OperatorIdeals + Airy → 8 (local statistics)
+1, 3, 5 + Hermite + LaguerreJacobi + OperatorIdeals + Airy → 8 (local statistics)
 1, 3, 5 → 9 (large deviations)
-0–3, 5–6 + StochasticCalculus → 10 (Dyson Brownian motion)
-0–5 → 11 (circular law)
+0–5 → 10 (circular law)
 ```
 
 For each new object the build supplies construction or existence, extensionality, measurability
@@ -371,17 +364,21 @@ Layers 0–3 for the transport corollaries; Tau Ceti `empiricalMeasureOfFintype`
 
 ## Layer 2: concentration, replacement and norm bounds
 
-**Sources:** T §§2.1–2.3, §3.2; AGZ §§2.3, 4.4.
+**Sources:** T §§2.1–2.3, §3.2; AGZ §§2.3, 4.4; BLM chs. 2, 3, 6; V §§2.7–2.8.
 
 ### 2.1 Scalar inequalities and sub-exponential variables
 
 Complete the scalar Hoeffding, Bernstein, Azuma–Hoeffding, McDiarmid and Efron–Stein
 interfaces. For independent centred summands with `|Xᵢ| ≤ b` almost surely and `v = ∑ E Xᵢ²`,
-Bernstein's two-sided bound is `2 exp(-t²/(2(v+bt/3)))` for `t > 0`. For bounded differences
-`cᵢ`, McDiarmid's bound is `2 exp(-2t²/∑cᵢ²)`; a zero denominator is handled by the almost-sure
-constant conclusion. Define a real random variable to be sub-exponential with parameter `K > 0`
-when `exp(λ(X - EX))` is integrable and `E exp(λ(X - EX)) ≤ exp(K²λ²)` for every `|λ| ≤ 1/K`,
-and prove the Bernstein inequality for independent sums of such variables. *Needs:* Mathlib
+Bernstein's two-sided bound is `2 exp(-t²/(2(v+bt/3)))` for `t > 0` (BLM Theorem 2.10 and
+Corollary 2.11 with `c = b/3`, pp. 37–38, applied to `±Xᵢ`). For bounded differences `cᵢ`,
+McDiarmid's bound is `2 exp(-2t²/∑cᵢ²)` (BLM Theorem 6.2, p. 171, with `v = ∑cᵢ²/4`, and its
+lower-tail form); a zero denominator is handled by the almost-sure constant conclusion. The
+Efron–Stein inequality is `Var f(X) ≤ ∑ᵢ E(f(X) - E⁽ⁱ⁾f(X))²` (BLM Theorem 3.1, p. 54). Define a
+real random variable to be sub-exponential with parameter `K > 0` when `exp(λ(X - EX))` is
+integrable and `E exp(λ(X - EX)) ≤ exp(K²λ²)` for every `|λ| ≤ 1/K` (V Proposition 2.7.1(v),
+p. 29, for the centred variable), and prove the Bernstein inequality for independent sums of
+such variables (V Theorem 2.8.1). *Needs:* Mathlib
 `HasSubgaussianMGF`, `mgf`.
 
 **Checks.**
@@ -493,9 +490,9 @@ Layers 0–1; SSP-D06, SSP-D13; Mathlib `HasSubgaussianMGF`.
 
 Extend `resolventTransform` with imaginary-part positivity, conjugation, affine scaling,
 total-mass asymptotics, uniqueness and Stieltjes inversion, including the half-atom terms at
-interval endpoints. Prove `μ{a} = lim_{η↓0} η Im m_μ(a+iη)` and the density formula wherever the
-boundary limit is continuous. For a probability measure with finite moment `m_k = ∫ x^k dμ`
-for `k ≤ r`, prove the finite expansion at infinity
+interval endpoints (AGZ Theorem 2.4.3). Prove `μ{a} = lim_{η↓0} η Im m_μ(a+iη)` and the density
+formula wherever the boundary limit is continuous. For a probability measure with finite moment
+`m_k = ∫ x^k dμ` for `k ≤ r`, prove the finite expansion at infinity
 `m_μ(z) = -∑_{k<r} m_k z^(-k-1) + R_r(z)` with `|R_r(z)| ≤ ∫|x|^r dμ / (|z|^r Im z)` for
 `Im z > 0`. *Needs:* Mathlib `resolventTransform`.
 
@@ -622,13 +619,16 @@ noncrossing-pairing descriptions and their leading-term bridge (AGZ §2.1, Lemma
 Prove the semicircle law in probability under triangular-array hypotheses: centred independent
 upper-triangular entries, off-diagonal second absolute moments 1, `n⁻² ∑ᵢ E|Wᵢᵢ|² → 0`, and for
 every `ε > 0`, `n⁻² ∑ᵢⱼ E[|Wᵢⱼ|² 1_{|Wᵢⱼ|>ε√n}] → 0`, with the truncation, recentring and variance
-renormalization estimates (AGZ Theorem 2.1.21). Prove `wigner_semicircle_ae`: for i.i.d. complex
-upper entries of mean zero and `E|ξ|² = 1`, an independent i.i.d. real diagonal of finite second
-moment, and the corners of one infinite array, almost surely the empirical spectral measures
-converge weakly to `semicircleReal 0 1` (T Theorem 2.4.2; Bai 1999, Theorem 2.1). No fourth
-moment is required for the global law. Provide the resolvent proof's self-consistency estimate,
-fluctuation bound, stability and uniqueness argument in the upper half-plane, and the
-identification with §3.3. *Needs:* §§4.1–4.2, 1.2, 3.2, 3.3.
+renormalization estimates (Bai 1999, Theorem 2.4; AGZ Theorem 2.1.21 is the i.i.d. case). Prove
+`wigner_semicircle_ae`: for i.i.d. complex upper entries of finite second moment with
+`E|ξ - Eξ|² = 1`, an independent i.i.d. real diagonal with no moment condition, and the corners
+of one infinite array, almost surely the empirical spectral measures converge weakly to
+`semicircleReal 0 1` (Bai 1999, Theorem 2.1). The mean is removed by the rank bound of §1.2, and
+the diagonal by truncation at `ε√n`, the rank bound for the few large entries and the
+operator-norm bound for the rest. The centred case with a diagonal of finite second moment is
+T Theorem 2.4.2. No fourth moment is required for the global law. Provide the resolvent proof's
+self-consistency estimate, fluctuation bound, stability and uniqueness argument in the upper
+half-plane, and the identification with §3.3. *Needs:* §§4.1–4.2, 1.2, 3.2, 3.3.
 
 ### 4.4 Marchenko–Pastur law
 
@@ -835,12 +835,24 @@ S-transforms, and identify `R_{SC_v}(w) = vw`, `R_{MP_y}(w) = 1/(1-yw)`, `S_{MP_
 
 ### 6.4 Free limit theorems
 
-Prove the free central limit theorem for freely independent identically distributed bounded
-centred self-adjoint variables of variance 1: laws of normalized sums converge weakly to
-`semicircleReal 0 1`. Prove the free Poisson limit for free projections of trace `λ/n`: their
-sums tend to the law with all free cumulants `λ` (for `λ > 0` the dilation by `λ` of `MP_(1/λ)`;
-for `λ = 0` the Dirac mass at zero), with moment convergence and the support/tightness argument;
-projection arrays exist only once `n ≥ λ`. *Needs:* §§6.2–6.3.
+Prove the free central limit theorem for freely independent self-adjoint variables `aᵢ` with
+`φ(aᵢ) = 0`, `φ(aᵢ²) = 1` and `sup_i |φ(aᵢ^k)| < ∞` for every `k`: the moments of
+`N^(-1/2) ∑_{i≤N} aᵢ` converge to those of `semicircleReal 0 1`, and for bounded variables the
+laws converge weakly (AGZ Lemma 5.3.32). Prove the free Poisson limit for free projections of
+trace `λ/n`: their sums tend to the law with all free cumulants `λ` (for `λ > 0` the dilation by
+`λ` of `MP_(1/λ)`; for `λ = 0` the Dirac mass at zero), with moment convergence and the
+support/tightness argument; projection arrays exist only once `n ≥ λ` (AGZ §5.3.3, the exercise on
+the free Poisson law). *Needs:* §§6.2–6.3.
+
+**Checks.**
+
+- Freely independent identically distributed bounded centred variables of variance `1` satisfy
+  the hypotheses, so the identically distributed free central limit theorem is a special case.
+- Free variables alternating between a standard semicircular and a variable of law
+  `(δ₋₁+δ₁)/2` are centred of variance `1` with bounded moments but not identically
+  distributed; the limit is still `semicircleReal 0 1`.
+- Without `φ(aᵢ²) = 1`, variances alternating between `1` and `3` give the limit
+  `semicircleReal 0 2`, not `semicircleReal 0 1`.
 
 ### 6.5 Asymptotic freeness
 
@@ -871,7 +883,8 @@ Layers 1, 3, 4 (moment method), 5; the finite combinatorial prerequisite.
 ### 7.1 Deformed Wigner matrices
 
 For deterministic Hermitian `Dₙ` of uniformly bounded norm with limiting empirical law `ν` and
-independent GUE `Hₙ`, prove `L_{Dₙ+√t Hₙ} → ν ⊞ SC_t` almost surely and the Pastur equation
+independent GUE `Hₙ`, prove `L_{Dₙ+√t Hₙ} → ν ⊞ SC_t` almost surely (AGZ Theorem 5.4.5) and the
+Pastur equation
 `m(z) = ∫ (x-z-tm(z))⁻¹ dν(x)`, with existence and uniqueness in the Stieltjes class. Prove the
 resolvent deterministic equivalent against deterministic unit vectors for fixed `Im z > 0` and
 its extension uniformly on compact real intervals separated from the limiting and
@@ -956,22 +969,32 @@ Layers 1–6.
 
 **Sources:** AGZ ch. 3, §4.2; T §2.6, §§3.3–3.4; PB ch. 6, §14.1; Soshnikov 2000.
 
-### 8.1 Eigenvalue point processes
+### 8.1 Eigenvalue counts and correlation functions
 
-Take configuration spaces, their vague topology and measurable structure, factorial moment
-measures, correlation functions relative to a reference measure, restriction, pushforward,
-Laplace-functional uniqueness and weak convergence of laws from PointProcesses Layers 0–6 at
-`S = ℝ` and `S = ℂ`. Define the eigenvalue point process `∑ᵢ δ_{λᵢ}` of a random Hermitian or
-complex matrix as a random element of `PointMeasure ℝ` or `PointMeasure ℂ`, prove its
-measurability, and relate it to `L_A` by the factor `n⁻¹`. Prove that `λ ↦ nρ_SC(E)(λ-E)` and
-`λ ↦ n^(2/3)(λ-2)` are proper, and that under `x ↦ c(x-a)`, `c > 0`, the `k`-point correlation
-function relative to Lebesgue measure becomes `ρ'_k(y) = c^(-k) ρ_k(a+y₁/c, …, a+y_k/c)`.
-*Needs:* PointProcesses Layers 0–6; §1.1.
+Point processes are handled through counts, not as random elements of a configuration space. For
+a random Hermitian `n × n` matrix `A` and a Borel set `B ⊆ ℝ` (Borel `B ⊆ ℂ` and the characteristic
+roots for a general complex matrix) define the eigenvalue count `N_A(B) = #{i : λᵢ(A) ∈ B}` with
+multiplicity, so `N_A = n L_A` is a finite measure of mass `n`. Prove that `ω ↦ N_A(B)(ω)` is
+measurable, so for bounded Borel `B₁, …, B_m` the joint count law, the law of
+`(N(B₁), …, N(B_m))` on `ℕ^m`, is defined, and that it determines the gap probabilities
+`P(N(B) = 0)`. Define the `k`-point correlation function relative to a reference measure `μ` by
+the factorial-moment identity
+`E ∏ⱼ N(Bⱼ)(N(Bⱼ)-1)⋯(N(Bⱼ)-kⱼ+1) = ∫_{B₁^{k₁}×⋯×B_m^{k_m}} ρ_k dμ^k` for pairwise disjoint
+`Bⱼ` and `k = ∑ kⱼ` (AGZ Definition 4.2.3 and Lemma 4.2.5(b)). Prove that when the counts have
+exponential moments the correlation functions determine the joint count law, since the
+generating function `E ∏ⱼ zⱼ^{N(Bⱼ)} = ∑_k ∏ⱼ (zⱼ-1)^{kⱼ}/kⱼ! · E ∏ⱼ N(Bⱼ)(N(Bⱼ)-1)⋯(N(Bⱼ)-kⱼ+1)`
+is then entire. Under `x ↦ c(x-a)`, `c > 0`, the counts
+become `N'(B) = N(a + c⁻¹B)` and the correlation functions relative to Lebesgue measure become
+`ρ'_k(y) = c^(-k) ρ_k(a+y₁/c, …, a+y_k/c)`. Convergence of point processes in this roadmap means
+convergence of joint count laws on bounded Borel sets whose boundaries are Lebesgue-null, and of
+gap probabilities, the form of AGZ Theorems 3.1.1 and 3.1.4. *Needs:* §1.1.
 
 **Checks.**
 
-- The eigenvalue point process has total mass `n`, `L_A` has mass `1`.
+- The eigenvalue count has total mass `N_A(ℝ) = n`, `L_A` has mass `1`.
 - Scaling `x ↦ 2x` sends a unit-intensity `ρ₁ = 1` to `ρ'₁ = 1/2`.
+- `A = diag(1,1)`: `N_A = 2δ₁`, of mass `2`, and `N_A({1}) = 2`; a definition through distinct
+  eigenvalues gives `δ₁`.
 
 ### 8.2 Orthogonal polynomial ensembles
 
@@ -987,6 +1010,9 @@ linear statistics. *Needs:* §5.2, §5.4; OrthogonalL2Bases Parts A–B; Laguerr
 - `n = 1` Laguerre unitary kernel with weight `w`: `K(x,y) = w(x)^(1/2) w(y)^(1/2)/c₀`, with
   `c₀ = ∫ w` the zeroth norm of LaguerreJacobi B3.
 - The GUE kernel satisfies `∫ K(x,x) dx = n`.
+- The CUE kernel `K(θ,φ) = (2π)⁻¹ ∑_{k<n} e^{ik(θ-φ)}` relative to Lebesgue measure on
+  `[0,2π)` has `K(θ,θ) = n/(2π)` and `∫₀^{2π} K(θ,θ) dθ = n`; at `n = 2` these are `1/π` and
+  `2`.
 
 ### 8.3 Determinantal point processes from continuous kernels
 
@@ -1004,23 +1030,25 @@ positive trace-class contraction with `tr K_W = ∫_W K(x,x) dμ(x)` and
 only up to null sets, which need the trace-compatible representative of Soshnikov 2000 (§1,
 Lemmas 1–2 and (1.14)) and AGZ §4.2.2, are outside this constructor.
 
-For `f ≥ 0` continuous with compact support prove the Laplace functional
-`E exp(-∫ f dN) = det(I-(1-e^{-f})K)` on `L²(supp f)` from PointProcesses' factorial expansion,
-applying the identities above to `√φ(x)K(x,y)√φ(y)`, `φ = 1-e^{-f}`, and deduce uniqueness of the
-law from PointProcesses' Laplace-functional determination. The exponential count moments that
-expansion needs on a bounded window `W` come from Hadamard's bound `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)`,
-taken from `hermitian_gram_hadamard` by realizing each finite kernel matrix as a Gram matrix,
-which with the trace identity gives `α_k(W^k) ≤ (tr K_W)^k`. Prove `P(N(B)=0) = det(I-K_B)` for
-relatively compact Borel `B`, the Bernoulli-sum representation of bounded-set counts and their
-CLT when the variance diverges.
+For pairwise disjoint relatively compact Borel `B₁, …, B_m` and `z ∈ ℂ^m` prove the count
+generating function `E ∏ⱼ zⱼ^{N(Bⱼ)} = det(I - ∑ⱼ (1-zⱼ) 1_{Bⱼ} K 1_{Bⱼ})` from the
+factorial-moment expansion of §8.1, applying the identities above to the restriction of `K` to
+`B₁ ∪ ⋯ ∪ B_m`, and deduce that `K` determines the joint count laws (AGZ Lemma 4.2.13 for the
+local admissibility of `K`). The exponential count moments that expansion needs on a bounded
+window `W` come from Hadamard's bound `det[K(xᵢ,xⱼ)] ≤ ∏ᵢ K(xᵢ,xᵢ)`, taken from
+`hermitian_gram_hadamard` by realizing each finite kernel matrix as a Gram matrix, which with the
+trace identity gives `α_k(W^k) ≤ (tr K_W)^k`. Prove `P(N(B)=0) = det(I-K_B)` for relatively
+compact Borel `B`, the Bernoulli-sum representation of bounded-set counts (AGZ Corollary 4.2.24)
+and their CLT when the variance diverges (AGZ Theorem 4.2.25).
 
 Prove the convergence criterion: if kernels `Kₙ` accepted by the constructor on `ℝ` with Lebesgue
 reference measure converge uniformly on compact sets to a continuous `K`, then `K` is accepted
 (positive semidefiniteness passes to the pointwise limit; the contraction bound follows from
 Hilbert–Schmidt convergence on each bounded window), the correlation functions converge locally
-uniformly, and, with Hadamard's bound dominating the Fredholm expansions, the processes converge
-in law in PointProcesses' weak topology on `PointMeasure ℝ`. *Needs:* OperatorIdeals OI-B01–OI-B19,
-OI-B23, OI-B29, OI-B30 and Part C; PointProcesses Layers 0–6; SuccessiveMinima target 0.1.2.
+uniformly, and, with Hadamard's bound dominating the Fredholm expansions, the joint count laws on
+bounded Borel sets with Lebesgue-null boundaries converge, together with the gap probabilities.
+*Needs:* §8.1; OperatorIdeals OI-B01–OI-B19, OI-B23, OI-B29, OI-B30 and Part C; SuccessiveMinima
+target 0.1.2.
 
 **Checks.**
 
@@ -1045,8 +1073,9 @@ from SpecialFunctionsAiry (see [Exact supplier contracts](#from-taucetiroadmap-r
 section proves the matching of the scaled Hermite kernel with `K_Ai` at the edge and the tail
 control of the scaled kernels on unbounded intervals. Define `F₂(s) = det(I-K_Ai)` on
 `L²(s,∞)`, prove it is a continuous distribution function and
-`P(n^(2/3)(λ_max(GUE)-2) ≤ s) → F₂(s)`, and prove the limiting Airy point process and the bulk
-sine-process gap distributions. *Needs:* §§8.2–8.3; OrthogonalL2Bases Parts A–B;
+`P(n^(2/3)(λ_max(GUE)-2) ≤ s) → F₂(s)`, and prove convergence of the joint count laws of the
+scaled eigenvalues on bounded Borel sets to those of the Airy and sine determinantal kernels,
+with the bulk gap distributions. *Needs:* §§8.2–8.3; OrthogonalL2Bases Parts A–B;
 SpecialFunctionsAiry 1.1–1.2, Layer 2, 3.2, 3.4, 3.6 and 8.5.
 
 `Suggested.lean` writes the Fredholm determinant as its series, AGZ (3.1.6):
@@ -1055,7 +1084,9 @@ SpecialFunctionsAiry 1.1–1.2, Layer 2, 3.2, 3.4, 3.6 and 8.5.
 the diagonal. It states the edge limit `gue_largest_eigenvalue_tracyWidom`,
 `P(n^(2/3)(λ_max - 2) ≤ s) → fredholmDet airyKernel (s,∞)` (AGZ Theorems 3.1.4–3.1.5), and the
 bulk gap `gue_bulk_gap`: for `|E| < 2` and compact `A`, the probability that no eigenvalue scaled
-by `nρ_SC(E)(λ-E)` lies in `A` tends to `fredholmDet sineKernel A` (AGZ Theorem 3.1.1).
+by `nρ_SC(E)(λ-E)` lies in `A` tends to `fredholmDet sineKernel A` (AGZ Theorem 3.1.1 at
+`E = 0`; for `0 < |E| < 2`, the remark following it and Exercise 3.7.5, with the argument of
+AGZ §3.5).
 
 **Checks.**
 
@@ -1063,7 +1094,9 @@ by `nρ_SC(E)(λ-E)` lies in `A` tends to `fredholmDet sineKernel A` (AGZ Theore
   the bound of SpecialFunctionsAiry 8.5, so `tr K_Ai` on `L²(s,∞)` is finite.
 - `F₂(s) → 1` as `s → ∞` and `F₂` is nondecreasing.
 - `F₂(s) → 0` as `s → −∞` (AGZ Theorem 3.1.5), and `1 − F₂(s) ≤ ∫_s^∞ K_Ai(x,x) dx`, since
-  `P(λ_max > s) ≤ E N(s,∞)`. A determinant on `L²(−∞,s)` fails both.
+  `P(λ_max > s) ≤ E N(s,∞)`. On `L²(−∞,s)` the series diverges, since `K_Ai(x,x) ~ √(−x)/π` as
+  `x → −∞`; as a gap probability it is `0` for every `s`, which fails the bound and the limit `1`
+  at `+∞`.
 
 ### 8.5 GOE: Pfaffians and Painlevé II
 
@@ -1080,6 +1113,8 @@ differential identities are targets. *Needs:* §8.4.
 
 - `Pf [[0,a],[-a,0]] = a`, and for a `4 × 4` skew matrix `Pf = a₁₂a₃₄ - a₁₃a₂₄ + a₁₄a₂₃` with
   `Pf² = det`.
+- `Pf(BABᵀ) = det B · Pf A`: for `A = [[0,1],[-1,0]]` and `B = diag(2,1)`,
+  `Pf [[0,2],[-2,0]] = 2 = 2 · 1`; a rule with `(det B)²` would give `4`.
 - Solutions `q ~ k Ai` with `k < 1` (Ablowitz–Segur) are not Hastings–McLeod.
 
 ### 8.6 Linear statistics
@@ -1107,9 +1142,8 @@ At `n = 2` the GUE kernel `K₂(x,x)` integrates to `2`, and `P(N(ℝ) = 2) = 1`
 
 ### Dependencies
 
-Layers 1, 3, 5; OrthogonalL2Bases Parts A–B; LaguerreJacobi Parts A–D; PointProcesses Layers 0–6;
-OperatorIdeals; SuccessiveMinima target 0.1.2; SpecialFunctionsAiry 1.1–1.2, Layer 2, 3.2, 3.4,
-3.6 and 8.5.
+Layers 1, 3, 5; OrthogonalL2Bases Parts A–B; LaguerreJacobi Parts A–D; OperatorIdeals;
+SuccessiveMinima target 0.1.2; SpecialFunctionsAiry 1.1–1.2, Layer 2, 3.2, 3.4, 3.6 and 8.5.
 
 ## Layer 9: logarithmic energy and large deviations
 
@@ -1117,11 +1151,13 @@ OperatorIdeals; SuccessiveMinima target 0.1.2; SpecialFunctionsAiry 1.1–1.2, L
 
 ### 9.1 Large deviation principles
 
-Define a large deviation principle for measures on a topological space by the open-set lower and
-closed-set upper bounds, with a specified speed and a lower-semicontinuous rate; define goodness,
-exponential tightness and exponential equivalence, and prove the contraction principle. Use
-extended-real logarithms with `log 0 = -∞`, not `Real.log 0 = 0`. *Needs:* Mathlib `EReal`,
-`ProbabilityMeasure`.
+Define `LargeDeviationPrinciple μ a I` for a sequence of measures `μ n` on a topological space,
+a speed `a` and a lower-semicontinuous rate `I` with values in `[0,∞]`, by the closed-set upper
+bound `limsup a(n)⁻¹ log μ n(F) ≤ -inf_F I` and the open-set lower bound
+`-inf_U I ≤ liminf a(n)⁻¹ log μ n(U)` (AGZ Definition D.1); define goodness, the weak principle
+and exponential tightness (AGZ Definitions D.2–D.3) and exponential equivalence, and prove the
+contraction principle (AGZ Theorem D.7). Use extended-real logarithms, `ENNReal.log 0 = ⊥`, not
+`Real.log 0 = 0`. *Needs:* Mathlib `EReal`, `ENNReal.log`, `ProbabilityMeasure`.
 
 **Checks.**
 
@@ -1169,13 +1205,18 @@ and normalization constants. *Needs:* §9.2, §3.3.
 - `∫ log|x-y| d semicircleReal 0 1 (y) = x²/4 - 1/2` on `[-2,2]`, so the effective potential of
   `V = x²/2` is the constant `1` there.
 - The interval `[-2,2]` has capacity `1` (length over `4`); a point has capacity `0`.
+- `cap(cE) = c · cap(E)` for `c > 0`, so `cap [0,1] = 1/4`, and a finite set has capacity `0`;
+  a capacity defined as the energy minimum itself, not its exponential, would not scale
+  linearly.
 
 ### 9.5 Largest-eigenvalue large deviations
 
 For the Gaussian beta gas prove the largest-eigenvalue principle at speed `n` with rate
-`J_β(x) = (β/2) ∫₂ˣ √(t²-4) dt` for `x ≥ 2` and `+∞` for `x < 2`, with exponential tightness, the
-outlier bounds and the `n²` scale of fixed left-tail events via the constrained equilibrium
-problem. It is not derived from a weak-topology contraction of empirical measures. *Needs:*
+`J_β(x) = (β/2) ∫₂ˣ √(t²-4) dt` for `x ≥ 2` and `+∞` for `x < 2` (AGZ Theorem 2.6.6), with
+exponential tightness, the outlier bounds and the `n²` scale of fixed left-tail events via the
+constrained equilibrium problem. `Suggested.lean` states the cases `β = 1, 2` as
+`gaussianEnsemble_largest_eigenvalue_ldp`, for the matrices `gaussianEnsemble β (n+1)` of §5.1 and
+speed `n + 1`. It is not derived from a weak-topology contraction of empirical measures. *Needs:*
 §§9.1–9.4.
 
 **Checks.**
@@ -1191,88 +1232,11 @@ At `n = 1` the beta gas is the law with density proportional to `e^{-βV/2}`.
 
 Layers 1, 3, 5.
 
-## Layer 10: Itô calculus and Dyson Brownian motion
-
-**Sources:** AGZ §§4.3.1–4.3.2; T §3.1; PB chs. 8–9.
-
-### 10.1 Adapters to stochastic calculus
-
-Consume from StochasticCalculus: vector Brownian motion on a finite-dimensional real
-inner-product space with independent orthonormal coordinates and linear-isometry transport
-(S1.2–S1.3); the predictable `L²` Brownian integral with its isometry, continuous integral
-process and localization (S3.2–S3.4); quadratic and mutual variation with
-`[∫H dM, ∫K dN] = ∫ HK d[M,N]` (S4.1–S4.3); the `C²` Itô formula on an open domain stopped before
-its boundary, in coordinate form (S5.1); the vector Lévy characterization (S5.5); and strong
-solutions, pathwise uniqueness, local and maximal solutions with compatible truncations, and
-coercive `C²` Lyapunov nonexplosion (S9.1–S9.2). State and prove the adapters to that interface.
-Time is `ℝ≥0` with finite horizons measured by its `timeMeasure T`; collision and exit times are
-stopping times valued in `WithTop ℝ≥0`. The Brownian hypotheses are its filtration-relative
-predicates of S1.3, `IsFilteredBrownian` in the scalar case, for a filtration on which the matrix
-noise is Brownian; usual conditions are assumed only where that roadmap's theorems require them,
-and conclusions are transported back through its raw-filtration adapters. Integrands are its
-predictable or progressive classes, localized at collision and exit times, with Hilbert–Schmidt
-norms for matrix noise. Brackets follow `[⟨u,W⟩,⟨v,W⟩]_t = ⟨u,v⟩t`. Solutions use its
-strong-solution notion, whose scalar carrier is `IsStrongSolution`, with state space `ℝⁿ`;
-singular Dyson coefficients are handled by globally Lipschitz truncations agreeing with them on
-`{x₁ > ⋯ > xₙ, min_{i<j}(xᵢ-xⱼ) ≥ 1/k, ‖x‖ ≤ k}`, pasted by S9.2 up to the exit times.
-*Needs:* StochasticCalculus S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.2.
-
-### 10.2 Matrix Brownian motion and the eigenvalue equation
-
-Construct real symmetric (`β = 1`) and complex Hermitian (`β = 2`) matrix Brownian motion as
-standard Brownian motion on that real space with inner product `(β/2) Re tr(AB)`, so
-`[tr(AH), tr(BH)]_t = (2/β) Re tr(AB) t` and the time-one entry variances are those of §5.1. For
-distinct starting eigenvalues derive the eigenvalue equation up to the first collision, with
-derivatives of eigenvalues and projectors, the quadratic-variation computation, and the
-identification of the martingale parts as independent Brownian motions by Lévy's
-characterization; with decreasing order and normalized noise it is
-`dλᵢ = √(2/(βn)) dBᵢ + n⁻¹ ∑_{j≠i} (λᵢ-λⱼ)⁻¹ dt`, `β = 1, 2` (AGZ Theorem 4.3.2). *Needs:* §10.1,
-§5.1, §1.2.
-
-**Checks.**
-
-- `β = 1`, `A = B = E₁₁`: `[tr(AH)]_t = 2t`, the GOE diagonal variance; `β = 2`: `t`.
-- `n = 1`: `dλ = √(2/β) dB`.
-- `β = 2`, off-diagonal `A = B = E₁₂ + E₂₁`: `[tr(AH)]_t = 2t`, so `Re H₁₂` has variance `t/2`.
-
-### 10.3 Dyson Brownian motion for `β ≥ 1`
-
-Construct the ordered-particle equation for every real `β ≥ 1`; prove global strong existence,
-uniqueness, no collisions from strictly ordered starts, and continuous entrance from coincident
-deterministic starts by approximation. Prove noncollision from a logarithmic-gap argument and
-nonexplosion from the quadratic Lyapunov estimate. For the Ornstein–Uhlenbeck drift `-λᵢ/2`,
-prove the Gaussian beta density invariant, with the boundary terms needed to pass from formal
-generator symmetry to an invariant probability law. *Needs:* §10.2, §5.3.
-
-**Checks.**
-
-- `n = 1` with drift `-λ/2`: the stationary variance is `(2/β)/(2 · 1/2) = 2/β`, the variance
-  of `exp(-βx²/4)`.
-- `β < 1` is excluded: collisions occur there.
-
-### 10.4 Hydrodynamic limit
-
-Prove the empirical-measure evolution against `C_c²` test functions, its martingale
-quadratic-variation estimate, tightness on finite time intervals, and the limiting weak equation.
-For initial empirical laws converging to compactly supported `ν` with uniformly bounded initial
-spectra, identify the Brownian limit at time `t` as `ν ⊞ SC_t` and prove uniqueness through its
-Stieltjes equation, with convergence in probability uniformly in time on compact intervals for a
-metric of weak convergence. The Ornstein–Uhlenbeck limit follows by deterministic time change and
-scaling. *Needs:* §§10.2–10.3, 6.3, 7.1.
-
-### Examples
-
-From `ν = δ₀` the Brownian limit at time `t` is `semicircleReal 0 t`.
-
-### Dependencies
-
-Layers 0–3, 5–6; StochasticCalculus.
-
-## Layer 11: small singular values and the circular law
+## Layer 10: small singular values and the circular law
 
 **Sources:** T §§2.7–2.8; PB §3.1; Tao–Vu 2008; Tao–Vu–Krishnapur 2010; Rudelson–Vershynin 2008.
 
-### 11.1 Anti-concentration and least singular values
+### 10.1 Anti-concentration and least singular values
 
 Develop the negative-second-moment identity relating singular values to distances of rows from
 the spans of the other rows, distance-to-subspace concentration, compressible and incompressible
@@ -1281,7 +1245,8 @@ Littlewood–Offord anti-concentration and the inverse structural estimates of t
 least-singular-value theorem (T §2.7.3, Remark 2.7.6; Tao–Vu 2008, Theorems 2.1 and 3.2) with the
 finite additive-combinatorial covering lemmas of that argument. Prove `least_singular_value`:
 for each sub-Gaussian proxy `K` there are `C > 0` and `0 < c < 1` such that every `N × N` matrix
-with i.i.d. real entries of variance one, each satisfying `HasSubgaussianMGF` with proxy `K`, has
+with independent real entries, each satisfying `HasSubgaussianMGF` with proxy `K`, whose rows are
+identically distributed with column `j` of law `νⱼ` and `∫ x² dνⱼ ≥ 1`, has
 `P(s_min(X) ≤ ε/√N) ≤ Cε + c^N` for `ε ≥ 0` (Rudelson–Vershynin 2008, Theorem 1.2). Include
 rectangular lower bounds from §2.4 and the complex circular Gaussian specialization; keep the
 `X` and `X/√n` thresholds distinct. For a fixed nondegenerate centred variance-one complex entry
@@ -1297,15 +1262,17 @@ integrability. *Needs:* §§2.1, 2.4, 0.3; Mathlib `LinearMap.singularValues`.
 - Rademacher entries: the `2 × 2` matrix is singular with probability `1/2` (the rows are equal
   or opposite), consistent with the term `c^N` at `ε = 0`.
 - Replacing `ε/√N` by `ε` changes the scale: `s_min(X/√N) = s_min(X)/√N`.
+- I.i.d. entries of variance `1` are the case `νⱼ = ν` for all `j`; column `j` of law
+  `N(0, 1 + (j mod 2))` is covered by the theorem but not by the i.i.d. case.
 
-### 11.2 Logarithmic potentials and Girko hermitization
+### 10.2 Logarithmic potentials and Girko hermitization
 
 Define the logarithmic potential `U_μ(z) = ∫ log|z-w| dμ(w)` wherever integrable, and as a
 locally integrable function for finite empirical spectra. Prove Girko hermitization:
-`U_{L_A}(z) = n⁻¹ log|det(A-zI)| = n⁻¹ ∑ log sᵢ(A-zI)` almost everywhere in `z`, and
+`U_{L_A}(z) = n⁻¹ log|det(A-zI)| = n⁻¹ ∑ log sᵢ(A-zI)` almost everywhere in `z` (T (2.179)), and
 `ΔU_{L_A} = 2πL_A` in distributions. Build the distributional Laplacian interface, local
-integrability of the logarithmic kernel, and the potential convergence theorem. *Needs:* §1.1,
-§1.3.
+integrability of the logarithmic kernel, and the potential convergence theorem (T Theorem 2.8.3).
+*Needs:* §1.1, §1.3.
 
 **Checks.**
 
@@ -1314,7 +1281,7 @@ integrability of the logarithmic kernel, and the potential convergence theorem. 
   `ΔU = 2 = 2π · π⁻¹`.
 - `A = diag(a, b)`: `½(log|a-z| + log|b-z|) = ½ log|det(A-zI)|`.
 
-### 11.3 The circular law
+### 10.3 The circular law
 
 Prove convergence of the singular-value laws of `Xₙ/√n - zI` for almost every `z`, by Hermitian
 block linearization, a self-consistent resolvent equation and its uniqueness, with Gaussian
@@ -1326,7 +1293,7 @@ almost-everywhere log-determinant hypotheses, separately from their verification
 matrices. Prove `circular_law_ae`: for the top-left `n × n` corners of an infinite array of i.i.d.
 complex entries of mean zero and `E|ξ|² = 1`, almost surely `eigenvalueMeasure (Xₙ/√n)` converges
 weakly to `circularLaw` (T Theorem 2.8.1; Tao–Vu–Krishnapur 2010, Theorem 1.13), and in
-probability. Give complex Ginibre as a check against §5.4. *Needs:* §§11.1–11.2, 3.5, 5.4.
+probability. Give complex Ginibre as a check against §5.4. *Needs:* §§10.1–10.2, 3.5, 5.4.
 
 ### Examples
 
@@ -1352,6 +1319,10 @@ Layers 0–5.
 - [T] T. Tao, *Topics in Random Matrix Theory*, Graduate Studies in Mathematics 132, AMS, 2012.
 - [PB] M. Potters, J.-P. Bouchaud, *A First Course in Random Matrix Theory*, Cambridge University
   Press, 2020.
+- [BLM] S. Boucheron, G. Lugosi, P. Massart, *Concentration Inequalities: A Nonasymptotic Theory
+  of Independence*, Oxford University Press, 2013.
+- [V] R. Vershynin, *High-Dimensional Probability*, Cambridge Series in Statistical and
+  Probabilistic Mathematics 47, Cambridge University Press, 2018.
 - Z. D. Bai, *Methodologies in spectral analysis of large dimensional random matrices, a review*,
   Statistica Sinica 9 (1999), 611–677.
 - M. Rudelson, R. Vershynin, *Hanson–Wright inequality and sub-gaussian concentration*, Electron.

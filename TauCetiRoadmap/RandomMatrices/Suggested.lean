@@ -14,8 +14,9 @@ of sample covariance matrices (Layer 4); the Hanson–Wright inequality and the 
 Bernstein inequality (Layer 2); the ordered eigenvalue densities of GOE and GUE with their
 Gaussian Selberg normalisation (Layer 5); the rank-one spiked largest eigenvalue (Layer 7); the
 central limit theorem for polynomial linear statistics of GOE and GUE, the Tracy–Widom limit
-`F₂` of the GUE largest eigenvalue and the GUE bulk gap probability (Layer 8); the
-Rudelson–Vershynin least-singular-value bound and the almost-sure circular law (Layer 11).
+`F₂` of the GUE largest eigenvalue and the GUE bulk gap probability (Layer 8); the large
+deviation principle of the GOE and GUE largest eigenvalue (Layer 9); the Rudelson–Vershynin
+least-singular-value bound and the almost-sure circular law (Layer 10).
 
 Not statable at the pins, each for the carrier named:
 * free-probability limits (asymptotic freeness of Wigner and Haar-conjugated families, the free
@@ -24,13 +25,9 @@ Not statable at the pins, each for the carrier named:
   convolution;
 * the Tracy–Widom limit `F₁` of GOE: it is written through the Hastings–McLeod solution of
   Painlevé II, whose existence is a theorem of §8.5;
-* the Airy and sine point-process limits of GUE and GOE: Mathlib has no space of locally finite
-  configurations with its vague topology;
-* the large deviation principles at speed `n²` for the beta-gas empirical measure and at speed
-  `n` for the Gaussian largest eigenvalue: Mathlib has no large deviation principle and no
-  logarithmic energy of a probability measure;
-* Dyson Brownian motion and its eigenvalue stochastic differential equation: Mathlib has no
-  Itô integral and no strong solution of a stochastic differential equation.
+* the large deviation principle at speed `n²` for the beta-gas empirical measure: its rate is the
+  logarithmic energy `E_V` of §9.2 as a lower-semicontinuous functional on probability measures,
+  which the pins do not have.
 -/
 
 noncomputable section
@@ -141,18 +138,19 @@ theorem wignerMatrix_isHermitian {Ω : Type*} (ξ : StrictUpper → Ω → ℂ) 
 
 variable {Ω : Type*} [MeasurableSpace Ω]
 
-/-- **Semicircle law, almost surely** (Tao, Theorem 2.4.2; Bai 1999, Theorem 2.1). Let the
-strictly upper entries `ξ` be i.i.d. complex with law `ν` of mean zero and `E|ξ|² = 1`, the
-diagonal entries `η` i.i.d. real with law `ν₀` of finite second moment, all independent. Then
-almost surely the empirical spectral measures of the normalised Wigner matrices converge weakly
-to `semicircleReal 0 1`. -/
+/-- **Semicircle law, almost surely** (Bai 1999, Theorem 2.1; Tao, Theorem 2.4.2 for centred
+entries with a diagonal of finite second moment). Let the strictly upper entries `ξ` be i.i.d.
+complex with law `ν` of finite second moment and centred second moment `E|ξ - Eξ|² = 1`, and the
+diagonal entries `η` i.i.d. real with any law `ν₀`, all independent. Then almost surely the
+empirical spectral measures of the normalised Wigner matrices converge weakly to
+`semicircleReal 0 1`. -/
 theorem wigner_semicircle_ae (P : Measure Ω) [IsProbabilityMeasure P]
     (ν : Measure ℂ) [IsProbabilityMeasure ν] (ν₀ : Measure ℝ) [IsProbabilityMeasure ν₀]
     (ξ : StrictUpper → Ω → ℂ) (η : ℕ → Ω → ℝ)
     (hξ : ∀ ij, HasLaw (ξ ij) ν P) (hη : ∀ i, HasLaw (η i) ν₀ P)
     (hindep : iIndepFun (fun k : StrictUpper ⊕ ℕ ↦ Sum.elim ξ (fun i ω ↦ (η i ω : ℂ)) k) P)
-    (hmean : ∫ z, z ∂ν = 0) (hsecond : Integrable (fun z : ℂ ↦ ‖z‖ ^ 2) ν)
-    (hvar : ∫ z, ‖z‖ ^ 2 ∂ν = 1) (hdiag : Integrable (fun x : ℝ ↦ x ^ 2) ν₀) :
+    (hsecond : Integrable (fun z : ℂ ↦ ‖z‖ ^ 2) ν)
+    (hvar : ∫ z, ‖z - ∫ w, w ∂ν‖ ^ 2 ∂ν = 1) :
     ∀ᵐ ω ∂P, ∀ f : ℝ →ᵇ ℝ,
       Tendsto (fun n : ℕ ↦ ∫ x, f x ∂spectralMeasure (wignerMatrix ξ η (n + 1) ω)
           (wignerMatrix_isHermitian ξ η (n + 1) ω))
@@ -160,8 +158,9 @@ theorem wigner_semicircle_ae (P : Measure Ω) [IsProbabilityMeasure P]
   sorry
 
 /-- **Bai–Yin theorem for Wigner matrices** (Bai 1999, Theorem 2.12, and its reflection
-`W ↦ -W`). Under the hypotheses of `wigner_semicircle_ae` and a finite fourth moment of the
-upper entries, almost surely the largest eigenvalue of the normalised Wigner matrix tends to `2`
+`W ↦ -W`). Let the strictly upper entries be i.i.d. complex of mean zero, `E|ξ|² = 1` and finite
+fourth moment, and the diagonal entries i.i.d. real of finite second moment, all independent.
+Then almost surely the largest eigenvalue of the normalised Wigner matrix tends to `2`
 and the smallest to `-2`. -/
 theorem wigner_extreme_eigenvalues_ae (P : Measure Ω) [IsProbabilityMeasure P]
     (ν : Measure ℂ) [IsProbabilityMeasure ν] (ν₀ : Measure ℝ) [IsProbabilityMeasure ν₀]
@@ -306,8 +305,8 @@ theorem gaussianEnsemble_spike_ae (β : ℕ) (hβ : β = 1 ∨ β = 2)
 /-! ## Layer 8: Gaussian fluctuations -/
 
 /-- **Central limit theorem for polynomial linear statistics** (Johansson 1998, Theorem 2.4;
-AGZ Theorem 4.3.20 with zero initial data). For `β ∈ {1, 2}` and a real polynomial `f`, write `f(2 cos θ) = a₀ + ∑ aₖ cos kθ`
-with `aₖ = (2/π) ∫₀^π f(2 cos θ) cos kθ dθ`. Then `tr f(Hₙ) - E tr f(Hₙ)` converges in
+AGZ Theorem 4.3.20 with zero initial data). For `β ∈ {1, 2}` and a real polynomial `f`, write
+`f(2 cos θ) = a₀ + ∑ aₖ cos kθ` with `aₖ = (2/π) ∫₀^π f(2 cos θ) cos kθ dθ`. Then `tr f(Hₙ) - E tr f(Hₙ)` converges in
 distribution to the centred Gaussian of variance `(2β)⁻¹ ∑_{k ≥ 1} k aₖ²`. -/
 theorem gaussianEnsemble_linear_statistic_clt (β : ℕ) (hβ : β = 1 ∨ β = 2) (f : ℝ[X])
     (P : Measure Ω) [IsProbabilityMeasure P] (G : ∀ n : ℕ, Ω → Fin (n + 1) × Fin (n + 1) → ℝ)
@@ -366,18 +365,48 @@ theorem gue_bulk_gap
       atTop (𝓝 (fredholmDet sineKernel A)) := by
   sorry
 
-/-! ## Layer 11: small singular values and the circular law -/
+/-! ## Layer 9: large deviations -/
+
+/-- A large deviation principle at speed `a` with rate `I` (AGZ Definition D.1): `I` is lower
+semicontinuous, every closed `F` satisfies `limsup a(n)⁻¹ log μₙ(F) ≤ -inf_F I`, and every open
+`U` satisfies `-inf_U I ≤ liminf a(n)⁻¹ log μₙ(U)`, with `log 0 = -∞`. -/
+def LargeDeviationPrinciple {X : Type*} [TopologicalSpace X] [MeasurableSpace X]
+    (μ : ℕ → Measure X) (a : ℕ → ℝ) (I : X → ℝ≥0∞) : Prop :=
+  LowerSemicontinuous I ∧
+    (∀ F : Set X, IsClosed F →
+      limsup (fun n ↦ ((a n)⁻¹ : ℝ) * ENNReal.log (μ n F)) atTop ≤ -(⨅ x ∈ F, (I x : EReal))) ∧
+    ∀ U : Set X, IsOpen U →
+      -(⨅ x ∈ U, (I x : EReal)) ≤ liminf (fun n ↦ ((a n)⁻¹ : ℝ) * ENNReal.log (μ n U)) atTop
+
+/-- **Large deviations of the Gaussian largest eigenvalue** (AGZ Theorem 2.6.6). For GOE
+(`β = 1`) and GUE (`β = 2`) of size `n + 1`, the laws of the largest eigenvalue satisfy a large
+deviation principle at speed `n + 1` with rate `J_β(x) = (β/2) ∫₂ˣ √(t² - 4) dt` for `x ≥ 2` and
+`+∞` for `x < 2`. -/
+theorem gaussianEnsemble_largest_eigenvalue_ldp {Ω : Type*} [MeasurableSpace Ω] (β : ℕ)
+    (hβ : β = 1 ∨ β = 2) (P : Measure Ω) [IsProbabilityMeasure P]
+    (G : ∀ n : ℕ, Ω → Fin (n + 1) × Fin (n + 1) → ℝ)
+    (hG : ∀ n, HasLaw (G n) (Measure.pi fun _ ↦ gaussianReal 0 1) P) :
+    LargeDeviationPrinciple
+      (fun n ↦ P.map fun ω ↦ ⨆ i, (gaussianEnsemble_isHermitian β (n + 1) (G n ω)).eigenvalues i)
+      (fun n ↦ ((n + 1 : ℕ) : ℝ))
+      (fun x ↦ if 2 ≤ x then
+        ENNReal.ofReal ((β : ℝ) / 2 * ∫ t in (2 : ℝ)..x, Real.sqrt (t ^ 2 - 4)) else ⊤) := by
+  sorry
+
+/-! ## Layer 10: small singular values and the circular law -/
 
 /-- **Least singular value of sub-Gaussian matrices** (Rudelson–Vershynin 2008, Theorem 1.2). For
 each variance proxy `K` there are `C > 0` and `0 < c < 1` such that for every `N × N` matrix
-`X` with i.i.d. real entries of variance one, each sub-Gaussian with proxy `K`, and every
-`ε ≥ 0`, the smallest singular value satisfies `P(s_N(X) ≤ ε/√N) ≤ Cε + c^N`. -/
+`X` with independent real entries, each sub-Gaussian with proxy `K`, whose rows are identically
+distributed with column `j` of law `νⱼ` and second moment at least `1`, and every `ε ≥ 0`, the
+smallest singular value satisfies `P(s_N(X) ≤ ε/√N) ≤ Cε + c^N`. -/
 theorem least_singular_value (K : ℝ≥0) :
     ∃ C c : ℝ, 0 < C ∧ 0 < c ∧ c < 1 ∧
       ∀ {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
-        (ν : Measure ℝ) (N : ℕ) [NeZero N] (ξ : Fin N × Fin N → Ω → ℝ),
-        iIndepFun ξ P → (∀ ij, HasLaw (ξ ij) ν P) → (∀ ij, HasSubgaussianMGF (ξ ij) K P) →
-        ∫ x, x ^ 2 ∂ν = 1 → ∀ ε : ℝ, 0 ≤ ε →
+        (N : ℕ) [NeZero N] (ν : Fin N → Measure ℝ) (ξ : Fin N × Fin N → Ω → ℝ),
+        iIndepFun ξ P → (∀ ij, HasLaw (ξ ij) (ν ij.2) P) →
+        (∀ ij, HasSubgaussianMGF (ξ ij) K P) → (∀ j, 1 ≤ ∫ x, x ^ 2 ∂ν j) →
+        ∀ ε : ℝ, 0 ≤ ε →
           P.real {ω | LinearMap.singularValues
               (Matrix.toEuclideanLin (Matrix.of fun i j ↦ ξ (i, j) ω)) (N - 1) ≤
             ε / Real.sqrt N} ≤ C * ε + c ^ N := by
