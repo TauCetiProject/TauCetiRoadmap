@@ -170,7 +170,9 @@ jobs:
           id=""; collected=""; from=""; to=""
           while read -r job started completed; do
             [[ "$job" =~ ^[0-9]+$ ]] || continue
-            gh api "repos/$GITHUB_REPOSITORY/actions/jobs/$job/logs" > gate.log || continue
+            # Read with curl: `gh api` declines to print a log that holds terminal colour codes.
+            curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+              "${GITHUB_API_URL:-https://api.github.com}/repos/$GITHUB_REPOSITORY/actions/jobs/$job/logs" -o gate.log || continue
             # Each line of the log without its timestamp.
             sed -E $'s/^\xef\xbb\xbf//; s/\r$//; s/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z //' gate.log > gate.txt
             # The link `gh pr comment` printed: a whole line, the last such (it follows the quoted
