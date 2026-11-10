@@ -26,9 +26,10 @@ and the Witt ring `TauCeti.WittRing` with its global-to-local map
 The headline theorems are the global square theorem (4.2), Hasse–Minkowski for isotropy (5.5),
 for the representation of nonzero scalars (6.1), for the representation of forms (6.2) and for
 isometry (6.3), the existence of a global form with prescribed admissible invariants (7.3), the
-classification of regular forms by their invariants (8.1), the injectivity of the global-to-local
-map of Witt rings (8.3), and the isometry corollary consumed by the orthogonal-group roadmaps
-(8.4). Each is statable at the pins and is stated below.
+classification of regular forms by their invariants (8.1), and the injectivity of the
+global-to-local map of Witt rings (8.3). Each is statable at the pins and is stated below. The
+isometry corollary consumed by the orthogonal-group roadmaps (8.4) is the reverse direction of
+6.3 and is not stated separately.
 -/
 
 public section
@@ -125,19 +126,6 @@ theorem equivalent_iff_globalInvariants_eq
     (R : QuadraticForm K W) (hR : R.Nondegenerate) :
     Q.Equivalent R ↔ Q.globalInvariants hQ = R.globalInvariants hR :=
   sorry
-
-/-- **8.4, the isometry corollary consumed by the orthogonal-group roadmaps**: locally isometric
-regular forms are isometric. Its translation into the triviality of the localization kernel of
-`H¹(K, SO(Q))` is assigned by Orthogonal and Spin Groups to Orthogonal Tamagawa and Lattice
-Mass; this roadmap defines no `H¹`. -/
-theorem equivalent_of_locallyEquivalent
-    {V : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
-    {W : Type w} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
-    (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
-    (R : QuadraticForm K W) (hR : R.Nondegenerate)
-    (h : Q.LocallyEquivalent R) :
-    Q.Equivalent R :=
-  (hasseMinkowski_equivalent Q hQ R hR).2 h
 
 /-- **8.3, injectivity of the global-to-local map of Witt rings.** The ring homomorphism
 `W(K) → ∏_v W(K_v) × ∏_w W(ℝ)`, scalar extension to every finite completion and, along the real
