@@ -2255,7 +2255,7 @@ Provide *postnikovCompletion*, *postnikovCompletion_eval* (the n-th term lies in
 
 *Needs:* *enhancedDerived*; *enhancedPushforward*; Tau Ceti `SSet.fullEnhancedSubcategory`; the supplied functor quasicategories; Mathlib `CategoryTheory.Triangulated.TStructure.eTruncGE`.
 
-**The derived limit is right adjoint to Ψ** (*postnikovCompletion_adjunction*). The functor `Rlim : D̂(X) → D(X)` is right adjoint to `Ψ`, with unit `K → Rlim τ^{≥−n} K`. The adjunction is proved on mapping spaces: truncation adjunction identifies maps into the connective objects `L_n`, but the full derived Hom complexes are not identified degree by degree. (BS-proet Lemma 3.3.2, p. 18, with the proof corrected as described.)
+**The derived limit is right adjoint to Ψ** (*postnikovCompletion_adjunction*). The functor `Rlim : D̂(X) → D(X)` is right adjoint to `Ψ`, with unit `K → Rlim τ^{≥−n} K`. The adjunction is proved on mapping spaces: truncation adjunction identifies maps into the objects `L_n ∈ D^{≥−n}`, `Map(K, L_n) ≃ Map(τ^{≥−n}K, L_n)`, but the full derived Hom complexes are not identified degree by degree. (BS-proet Lemma 3.3.2, p. 18, with the proof corrected as described.)
 
 **Checks.**
 
@@ -2797,7 +2797,7 @@ For `X = Set`, that is for modules over a commutative ring R with the telescope 
 - Completeness is stable under good truncations and shifts.
 - On `Set, ℤ_p[1]` is complete, with its only nonzero cohomology in degree `−1`; checking nonnegative degrees alone would miss this test.
 
-*Proof route.* If the cohomology is complete, finite truncations are complete by extensions, and left completeness (*IsReplete.leftComplete*) writes each bounded-above truncation as a limit of finite ones; `T(K, x)` is then arbitrarily connective, hence zero. Conversely the amplitude bound in the truncation triangles gives completeness of the truncations and their cohomology.
+*Proof route.* If the cohomology is complete, finite truncations are complete by extensions, and left completeness (*IsReplete.leftComplete*) writes each bounded-above truncation as a limit of finite ones; applying `T(−, x)` to `τ^{≤m}K → K → τ^{≥m+1}K` gives `T(K, x) ≃ T(τ^{≥m+1}K, x) ∈ D^{≥m+1}` for every m, so `T(K, x) = 0`. Conversely the amplitude bound in the truncation triangles gives completeness of the truncations and their cohomology.
 
 *Needs:* *DerivedCompleteSheaves*; *derivedComplete_limits*; *derivedCompleteSheaves_weakSerre*; *IsReplete.leftComplete*; *IsReplete.rlim_amplitude*; *enhancedDerived*.
 
