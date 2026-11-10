@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Analysis.Matrix.SampleSecondMoment
 import TauCeti.Analysis.Matrix.SpectralMeasure
 import TauCeti.Probability.Distributions.Semicircle.LocationScale
 import TauCeti.Probability.Distributions.MarchenkoPastur.Basic
@@ -13,7 +14,8 @@ import TauCeti.Probability.FreeProbability.Variables
 This file is not the roadmap: the roadmap is `README.md`. This file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with
 the few definitions their statements need. The spectral and eigenvalue measures, the semicircle
-and Marchenko–Pastur laws and the Wigner matrix are Tau Ceti's and are used by name.
+and Marchenko–Pastur laws, the Wigner matrix and the sample second-moment matrix are Tau Ceti's
+and are used by name.
 
 Stated here: the almost-sure semicircle law for Wigner matrices and the Bai–Yin limits of their
 extreme eigenvalues (Layer 4); the almost-sure Marchenko–Pastur law and the extreme eigenvalues
@@ -129,14 +131,15 @@ end Wigner
 
 section Covariance
 
-/-- The sample covariance matrix `S = XX*/n` of a `p × n` data matrix `X`. -/
+/-- The sample covariance matrix `S = XX*/n` of a `p × n` data matrix `X`: Tau Ceti's
+sample second-moment matrix of the `n` columns of `X`. -/
 def sampleCovariance {p n : ℕ} (X : Matrix (Fin p) (Fin n) ℂ) : Matrix (Fin p) (Fin p) ℂ :=
-  ((n : ℝ)⁻¹ : ℝ) • (X * Xᴴ)
+  TauCeti.sampleSecondMoment fun j i ↦ X i j
 
 /-- A sample covariance matrix is Hermitian. -/
 theorem sampleCovariance_isHermitian {p n : ℕ} (X : Matrix (Fin p) (Fin n) ℂ) :
     (sampleCovariance X).IsHermitian :=
-  (isHermitian_mul_conjTranspose_self X).smul (IsSelfAdjoint.all _)
+  TauCeti.isHermitian_sampleSecondMoment _
 
 variable {Ω : Type*} [MeasurableSpace Ω]
 

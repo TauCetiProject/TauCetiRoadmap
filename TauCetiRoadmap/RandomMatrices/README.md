@@ -52,13 +52,15 @@ Owned elsewhere and consumed here:
   real Wishart measure is introduced.
 - Tau Ceti already has the empirical spectral and eigenvalue measures of a matrix, the Wigner matrix
   constructor, the semicircle family `semicircleReal` with its moments and transform, the
-  Marchenko–Pastur law, the Courant–Fischer formula, the Hoffman–Wielandt, Weyl, singular-value and
-  rank-perturbation bounds, the resolvent identities and the trace and moment formulas of spectral
-  measures, the scalar Bernstein and McDiarmid inequalities, the method of moments for a compactly
-  supported limit, product extensions of a law, the noncrossing partitions with their counts,
-  Kreweras complement and Möbius function, and the scalar free probability of freeness, free
-  cumulants, semicircular elements and the free central limit theorem; they are consumed by name
-  (see [From Tau Ceti](#from-tau-ceti)). No second copy of any of them is introduced.
+  Marchenko–Pastur law, the sample second-moment matrix, the Courant–Fischer formula, the
+  Hoffman–Wielandt, Weyl, singular-value and rank-perturbation bounds with the Gram form of the rank
+  bound, the covering numbers and nets of spheres in finite-dimensional normed spaces, the resolvent
+  identities and the trace and moment formulas of spectral measures, the scalar Bernstein and
+  McDiarmid inequalities, the method of moments for a compactly supported limit, product extensions
+  of a law, the noncrossing partitions with their counts, Kreweras complement and Möbius function,
+  and the scalar free probability of freeness, free cumulants, semicircular elements and the free
+  central limit theorem; they are consumed by name (see [From Tau Ceti](#from-tau-ceti)). No second
+  copy of any of them is introduced.
 - [OrthogonalL2Bases](../../Completed/OrthogonalL2Bases/README.md), Parts A–B, supplies Hermite
   polynomials and functions and moment determinacy, implemented in
   `TauCeti.Probability.Moments.*` and `TauCeti.Analysis.SpecialFunctions.Hermite.*`.
@@ -195,8 +197,18 @@ Owned elsewhere and consumed here:
   (`TauCeti/Analysis/Matrix/HoffmanWielandt.lean`); the singular-value bound
   `LinearMap.abs_singularValues_sub_singularValues_le`
   (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean`); and the rank bound
-  `Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card`
+  `Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card` with its Gram form
+  `Matrix.abs_spectralMeasure_mul_conjTranspose_self_Iic_sub_le_two_mul_rank_div_card`, the bound
+  `2 rank(X − Y)/m` for `XXᴴ` and `YYᴴ` with `m` rows
   (`TauCeti/Analysis/Matrix/SpectralMeasure/RankPerturbation.lean`).
+- The sample second-moment matrix (`TauCeti/Analysis/Matrix/SampleSecondMoment.lean`):
+  `TauCeti.sampleSecondMoment v = r⁻¹ ∑ᵢ vᵢvᵢᴴ` of a finite sample `v : ι → n → 𝕜` with
+  `r = card ι`, with `TauCeti.isHermitian_sampleSecondMoment` and
+  `TauCeti.posSemidef_sampleSecondMoment`.
+- Covering numbers (`TauCeti/Analysis/Normed/Module/CoveringNumber.lean`): the packing bound
+  `TauCeti.card_le_of_isSeparated_of_subset_closedBall`, the covering bound
+  `TauCeti.coveringNumber_le_of_subset_closedBall` and the net of the unit sphere
+  `TauCeti.exists_finset_isCover_sphere`, with at most `(1 + 2/η)^dim` points for `η > 0`.
 - Resolvents of Hermitian matrices (`TauCeti/Analysis/Matrix/Resolvent/`): the norm bound
   `Matrix.IsHermitian.l2_opNorm_inv_sub_smul_one_le`, the trace formula `trace_inv_sub_smul_one`,
   the Ward identity `sum_norm_inv_sub_smul_one_apply_sq`, the rank-one update
@@ -401,9 +413,11 @@ Continuity and measurability of the ordered Hermitian eigenvalues, Weyl's additi
 monotonicity are Tau Ceti's (`LinearMap.IsSymmetric.eigenvalues_eq_iSup_iInf_re_inner`,
 `LinearMap.IsSymmetric.eigenvalue_mono`, the completed PD-A51–PD-A52); transfer them to
 `Matrix.IsHermitian.eigenvalues₀` under `Matrix.toEuclideanLin`. Prove the min–max form and Cauchy
-interlacing, with principal-minor and rectangular Gram corollaries of the rank bound (AGZ Appendix
-A; T §1.3). *Needs:* Tau Ceti Courant–Fischer and eigenvalue perturbation (see [From Tau
-Ceti](#from-tau-ceti)); Mathlib `eigenvalues₀`, `Matrix.toEuclideanLin`.
+interlacing, with its principal-minor corollaries (AGZ Appendix A; T §1.3). The Gram form of the
+rank bound, `sup_t |L_{XX*}(-∞,t] - L_{YY*}(-∞,t]| ≤ 2 rank(X-Y)/p` for `p × n` matrices, is Tau
+Ceti's `Matrix.abs_spectralMeasure_mul_conjTranspose_self_Iic_sub_le_two_mul_rank_div_card`.
+*Needs:* Tau Ceti Courant–Fischer and eigenvalue perturbation (see [From Tau Ceti](#from-tau-ceti));
+Mathlib `eigenvalues₀`, `Matrix.toEuclideanLin`.
 
 The Hoffman–Wielandt inequality `∑ᵢ |λᵢ(A)-λᵢ(B)|² ≤ ‖A-B‖_F²` for Hermitian `A, B` and its
 singular-value analogue are Tau Ceti's
@@ -532,13 +546,14 @@ Mathlib `HasSubgaussianMGF`.
 
 ### 2.4 Nets and norms of rectangular matrices
 
-Prove epsilon-net cardinality estimates for Euclidean spheres and the bilinear and quadratic net
-reductions. For a `p × n` matrix with independent centred sub-Gaussian coordinates prove `P(‖X‖ >
-CK(√p+√n+t)) ≤ 2exp(-ct²)` for `t ≥ 0` (V Theorem 4.4.5). For independent centred isotropic rows
-whose every real linear form in direction `u` has sub-Gaussian proxy at most `K²‖u‖²`, prove `√p -
-CK²(√n+t) ≤ s_min(X) ≤ s_max(X) ≤ √p + CK²(√n+t)` with probability at least `1 - 2exp(-ct²)` (V
-Theorem 4.6.1); a negative lower bound makes no invertibility claim. *Needs:* §2.1; Mathlib
-`LinearMap.singularValues`.
+The cardinality bound `(1 + 2/η)^n` for an `η`-net of the unit sphere is Tau Ceti's
+`TauCeti.exists_finset_isCover_sphere`. Prove the bilinear and quadratic net reductions. For a
+`p × n` matrix with independent centred coordinates, each sub-Gaussian with variance proxy at most
+`K²`, prove `P(‖X‖ > CK(√p+√n+t)) ≤ 2exp(-ct²)` for `t ≥ 0` (V Theorem 4.4.5). For independent
+centred isotropic rows whose every real linear form in direction `u` has sub-Gaussian proxy at most
+`K²‖u‖²`, prove `√p - CK²(√n+t) ≤ s_min(X) ≤ s_max(X) ≤ √p + CK²(√n+t)` with probability at least
+`1 - 2exp(-ct²)` (V Theorem 4.6.1); a negative lower bound makes no invertibility claim. *Needs:*
+§2.1; Mathlib `LinearMap.singularValues`.
 
 ### 2.5 Gaussian integration by parts and replacement
 
@@ -698,11 +713,13 @@ the diagonal and real diagonal entries `η`, is Tau Ceti's `TauCeti.wignerMatrix
 `TauCeti.wignerMatrix_isHermitian`, measurability, the corner relation
 `submatrix_castLE_wignerMatrix`, the independence of a minor and the removed row's off-diagonal
 entries `indepFun_wignerMatrix_column`, and `identDistrib_wignerMatrix`; it is written
-`wignerMatrix` below. Define `sampleCovariance X = XX*/n` and prove
-`sampleCovariance_isHermitian`. Provide law characterizations for independent upper-triangular
-entries with a separate diagonal law, the real-to-complex embedding and i.i.d. rectangular
-ensembles. Centring and Hermitian symmetry are hypotheses, not consequences of identically
-distributed entries. *Needs:* Layer 0; Tau Ceti `wignerMatrix`; Mathlib `HasLaw`, `iIndepFun`.
+`wignerMatrix` below. The sample covariance `sampleCovariance X = XX*/n` of a `p × n` matrix `X` is
+Tau Ceti's `TauCeti.sampleSecondMoment` of the columns of `X`, and `sampleCovariance_isHermitian` is
+`TauCeti.isHermitian_sampleSecondMoment`. Provide law characterizations for independent
+upper-triangular entries with a separate diagonal law, the real-to-complex embedding and i.i.d.
+rectangular ensembles. Centring and Hermitian symmetry are hypotheses, not consequences of
+identically distributed entries. *Needs:* Layer 0; Tau Ceti `wignerMatrix`, `sampleSecondMoment`;
+Mathlib `HasLaw`, `iIndepFun`.
 
 **Checks.**
 
@@ -1014,7 +1031,8 @@ Layers 1, 3, 4 (moment method), 5; the finite combinatorial prerequisite.
 
 ## Layer 7: deformations, covariance spectra and spikes
 
-**Sources:** PB chs. 10, 14, 15, 17, §§19.1–19.3; AGZ §5.4; Benaych-Georges–Nadakuditi 2011.
+**Sources:** PB chs. 10, 14, 15, 17, §§19.1–19.3; AGZ §5.4; Benaych-Georges–Nadakuditi 2011;
+Ledoit–Péché 2011.
 
 ### 7.1 Deformed Wigner matrices
 
@@ -1078,17 +1096,24 @@ Prove the finite-dimensional oracle identity: among estimators diagonal in an ob
 orthonormal eigenbasis `uᵢ`, the unique minimizer of squared Frobenius loss to `T` has
 eigenvalues `uᵢ*Tuᵢ`; for a repeated observed eigenvalue distinguish this basis-dependent class
 from spectral estimators constant on the eigenspace, which use the averaged trace on the
-spectral projector. Prove the integrated bulk nonlinear-shrinkage formula: for Gaussian `X`,
-`0 < y < 1`, `cI ≤ T_p ≤ CI` with fixed `c > 0` and limiting law `ν`, let `μ = ν ⊠ MP_y`; on a
-compact interval `J ⊂ (0,∞)` where `μ` has continuous positive density and `m` continuous
-boundary values with `|1-y-yx m(x+i0)|` bounded away from zero, for every continuous `f`
-supported in the interior of `J`, `p⁻¹ ∑ᵢ f(λᵢ) uᵢ*T_puᵢ → ∫ f(x) x/|1-y-yx m(x+i0)|² dμ(x)`
-almost surely. Build the weighted spectral measure and boundary-inversion argument from the
-deterministic equivalent; this does not assert convergence of individual eigenvector weights.
+spectral projector. Prove the nonlinear-shrinkage limit (Ledoit–Péché 2011, Theorem 1.4
+and (13), arXiv:0911.3010 numbering). Let `X` be `p × n` with i.i.d. real or complex entries of
+mean zero, variance 1 and twelfth absolute central moment bounded uniformly in `p` and `n`; let
+`T_p` be Hermitian positive definite and independent of `X`, with spectral distribution converging
+almost surely to a law `ν` supported in a compact interval of `(0,∞)`; let `p/n → y > 0`, and let
+`λᵢ`, `uᵢ` be the eigenvalues and orthonormal eigenvectors of `S = T_p^{1/2}XX*T_p^{1/2}/n`, whose
+limiting spectral law `μ` has Stieltjes transform `m`. Then for every `x ≠ 0` the weighted
+distribution function `p⁻¹ ∑_{λᵢ ≤ x} uᵢ*T_puᵢ` converges almost surely to a nonrandom `Δ(x)`.
+For `y ≠ 1`, `Δ(x) = ∫_{(-∞,x]} δ dμ` with `δ(λ) = λ/|1-y-yλ m(λ+i0)|²` for `λ > 0`, the value
+of (13) at `λ = 0` when `y > 1`, and `δ = 0` otherwise. The route is the limit of
+`p⁻¹ tr g(T_p)(S - z)⁻¹` (their Theorem 1.2) and Stieltjes inversion (their (12)); this does not
+assert convergence of individual eigenvector weights.
 *Needs:* §7.2.
 
 **Checks.**
 
+- Gaussian entries satisfy the moment hypothesis, and in Ledoit–Péché's notation `γ = n/p = 1/y`
+  turns their weight `λ/|1 - γ⁻¹ - γ⁻¹λ m̆(λ)|²` into `δ(λ)`.
 - `ν = δ₁`: `w = 1-y-yzm` solves `w² - (1-y+z)w + z = 0`, so on the support `|w|² = x` and the
   weight `x/|w|²` is `1 = uᵢ*Iuᵢ`.
 - For `T = I` the oracle eigenvalues are all `1` in every basis.
@@ -1512,6 +1537,8 @@ Layers 0–5.
 - F. Benaych-Georges, R. R. Nadakuditi, *The eigenvalues and eigenvectors of finite, low rank
   perturbations of large random matrices*, Adv. Math. 227 (2011),
   [arXiv:0910.2120](https://arxiv.org/abs/0910.2120).
+- O. Ledoit, S. Péché, *Eigenvectors of some large sample covariance matrix ensembles*, Probab.
+  Theory Related Fields 151 (2011), 233–264, [arXiv:0911.3010](https://arxiv.org/abs/0911.3010).
 - T. Tao, V. Vu, *Random matrices: the circular law*, Commun. Contemp. Math. 10 (2008),
   [arXiv:0708.2895](https://arxiv.org/abs/0708.2895).
 - T. Tao, V. Vu (appendix by M. Krishnapur), *Random matrices: universality of ESDs and the
