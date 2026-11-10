@@ -159,17 +159,6 @@ theorem olverLegendreQ_legendreEquation (ν μ : ℂ) {z : ℂ} (hz : z - 1 ∈ 
     (1 - z ^ 2) * deriv^[2] (olverLegendreQ ν μ) z - 2 * z * deriv (olverLegendreQ ν μ) z +
       (ν * (ν + 1) - μ ^ 2 / (1 - z ^ 2)) * olverLegendreQ ν μ z = 0 := sorry
 
-/-- **1.3** Abel's identity: `(1 − z²) 𝒲{f, g}` is constant for solutions of 14.21.1 on a
-connected open set avoiding `±1`. -/
-theorem wronskian_mul_one_sub_sq_eq_const (ν μ : ℂ) {V : Set ℂ} (hV : IsOpen V)
-    (hVc : IsPreconnected V) (h₁ : (1 : ℂ) ∉ V) (h₂ : (-1 : ℂ) ∉ V) {f g : ℂ → ℂ}
-    (hf : DifferentiableOn ℂ f V) (hg : DifferentiableOn ℂ g V)
-    (hfe : ∀ z ∈ V, (1 - z ^ 2) * deriv^[2] f z - 2 * z * deriv f z +
-      (ν * (ν + 1) - μ ^ 2 / (1 - z ^ 2)) * f z = 0)
-    (hge : ∀ z ∈ V, (1 - z ^ 2) * deriv^[2] g z - 2 * z * deriv g z +
-      (ν * (ν + 1) - μ ^ 2 / (1 - z ^ 2)) * g z = 0) :
-    ∃ C, ∀ z ∈ V, (1 - z ^ 2) * (f z * deriv g z - deriv f z * g z) = C := sorry
-
 /-- **1.4** DLMF 14.9.3 with `Γ(ν + m + 1)/Γ(ν − m + 1)` written as `(ν − m + 1)_{2m}`, for
 every `ν`: `(ν − m + 1)_{2m} 𝖯^{−m}_ν = (−1)^m 𝖯^m_ν` on `D`. -/
 theorem ferrersP_neg_nat_order (ν : ℂ) (m : ℕ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
@@ -286,7 +275,14 @@ theorem tendsto_olverLegendreQ_cut {ν μ : ℂ} (hνμ : ∀ n : ℕ, ν + μ �
         (𝓝 (exp (-(μ * π * I / 2)) * (Gamma (ν + μ + 1))⁻¹ *
           (ferrersQ ν μ x + π / 2 * I * ferrersP ν μ x))) := sorry
 
-/-! ### Layer 6: continued fractions -/
+/-! ### Layer 6: derivatives with respect to degree and order, continued fractions -/
+
+/-- **6.1** DLMF 14.11.4 for `ν ∉ ℤ` on `(−1, 1)`: the derivative of `𝖯^μ_ν(x)` in the order at
+`μ = 0`. -/
+theorem deriv_ferrersP_order_zero {ν : ℂ} (hν : ∀ n : ℤ, ν ≠ n) {x : ℝ} (hx₀ : -1 < x)
+    (hx₁ : x < 1) :
+    deriv (fun μ => ferrersP ν μ x) 0 =
+      (digamma (-ν) - π * Complex.cot (ν * π)) * ferrersP ν 0 x + ferrersQ ν 0 x := sorry
 
 /-- **6.2** DLMF 14.14.1 as corrected, with `x_k`, `y_k` of 14.14.2 as the `k + 1`-st partial
 numerator and denominator: for `x > 1` and real `ν, μ` with `x_{k+1}`, `y_k` never both zero and
@@ -372,6 +368,14 @@ theorem hasSum_heine {z₁ z₂ : ℂ} (hz₁ : z₁ - 1 ∈ slitPlane)
 theorem ferrersP_zero_count {ν μ : ℝ} (hν : -1 / 2 ≤ ν) (hμ : μ ≤ 0) :
     {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.Finite ∧
       {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.ncard = (⌈ν + μ⌉).toNat := sorry
+
+/-- **9.2** The case of `N₀ + 1` zeros that DLMF omits, with its other case `n > m`: for
+`ν, μ ∉ ℤ`, `μ > 0`, `n ≥ m` and `δ_ν ≤ δ_μ` (14.16.1), `𝖯^μ_ν` has `N₀ + 1 = ⌈ν − μ⌉ + 1`
+zeros in `(−1, 1)`. -/
+theorem ferrersP_zero_count_add_one {ν μ : ℝ} (hν : ∀ n : ℤ, ν ≠ n) (hμ : ∀ n : ℤ, μ ≠ n)
+    (hμ₀ : 0 < μ) (hnm : ⌊μ⌋ ≤ ⌊ν⌋) (hδ : Int.fract ν ≤ Int.fract μ) :
+    {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.Finite ∧
+      {x : ℝ | x ∈ Ioo (-1) 1 ∧ ferrersP ν μ x = 0}.ncard = (⌈ν - μ⌉).toNat + 1 := sorry
 
 /-! ### Layer 10: toroidal and conical functions, generalizations -/
 

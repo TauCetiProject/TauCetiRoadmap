@@ -110,7 +110,7 @@ Tau Ceti provides:
 | The branch identities behind the definitions: `((1 + z)/(1 − z))^{μ/2}` and `(1 − z²)^{−μ/2}` are holomorphic on the doubly cut plane, `((z + 1)/(z − 1))^{μ/2}`, `(z − 1)^{μ/2} (z + 1)^{μ/2}` and `z^{ν+μ+1}` on `ℂ \ (−∞, 1]`, and each is the principal value on the real interval | 1.1 |
 | Sturm's separation and comparison theorems for `((1 − x²) y′)′ + q(x) y = 0` on an open interval, and the continuity of the zeros of a solution in its parameters | 9.1 |
 | Adams's linearization of `Pₘ Pₙ` in Legendre polynomials | 7.4 |
-| The Abelian estimate: for `Re μ > −1` and `g` integrable on `(0, 1)` and continuous at `1`, the integral `I(σ) = ∫₀¹ x^σ (1 − x)^μ g(x) dx` exists for `σ ≥ 0` and `σ^{μ+1} I(σ) → Γ(μ + 1) g(1)` as `σ → +∞` (so `I(σ) ∼ Γ(μ + 1) g(1) σ^{−μ−1}` when `g(1) ≠ 0`) | 7.3 |
+| The Abelian estimate: for `Re μ > −1` and `g` integrable on `(0, 1)` and continuous at `1`, the integral `I(σ) = ∫₀¹ x^σ (1 − x)^μ g(x) dx` exists for `σ ≥ 0` and `σ^{μ+1} I(σ) → Γ(μ + 1) g(1)` as `σ → +∞` (so `I(σ) ∼ Γ(μ + 1) g(1) σ^{−μ−1}` when `g(1) ≠ 0`). Proof: split at `1 − δ`; the part over `(0, 1 − δ)` is `O((1 − δ)^σ)`, and on `(1 − δ, 1)` the substitution `x = e^{−u/σ}` and dominated convergence give `Γ(μ + 1) g(1)` | 7.3 |
 | The `L²` density of the polynomials restricted to `S²`, through Stone–Weierstrass | 11.3 |
 
 **What it does not own:**
@@ -120,13 +120,21 @@ Tau Ceti provides:
 - The theory of harmonic polynomials in `n` variables (Tau Ceti's `MvPolynomial.harmonicSubmodule`
   and its decomposition) and the spectral theory of the Laplace–Beltrami operator on `Sᵐ`
   ([RiemannianGeometry](../RiemannianGeometry/README.md) R8). Layer 11 consumes the first and
-  owns the explicit basis `Y_{l,m}` of the sphere `S²` and its completeness by the elementary
-  route; it neither consumes nor restates RiemannianGeometry R8.2, which owns the eigenspace
-  identification on every `Sᵐ`.
+  owns the explicit basis `Y_{l,m}` of `S²` in the coordinates `(θ, φ)`. Its completeness
+  statement overlaps the completeness clause of RiemannianGeometry R8.2 on `S²`. 11.3 proves it by
+  the elementary route, Stone–Weierstrass and the harmonic decomposition, which works on every
+  sphere. It uses neither R8's spectral decomposition nor the identification of the eigenspaces of
+  the Laplace–Beltrami operator, which R8.2 owns.
 - The uniform asymptotics (§§14.15, 14.20(vii)–(ix), 14.26), the generalized Mehler–Fock
   transformation (§14.20(vi)), branches off the principal sheet (§14.24), the zeros in the
   complex plane and on the left cut (§14.27), and the formulas of other chapters through Legendre
   functions. See the last section for these.
+
+**An object defined elsewhere:** AutomorphicSpectralTheory (§§0.35–0.38 of that roadmap) defines
+the Legendre function of the second kind `Q_{s−1}(t)` for `t > 1` and `Re s > 0` by Heine's
+integral `∫₀^∞ (t + (t² − 1)^{1/2} cosh u)^{−s} du`, with its asymptotics as `t → 1+` and
+`t → ∞`. `associatedLegendreQ ν μ` here is its continuation to all `ν`, `μ` and to `U`, and 7.2
+proves that the two agree. Neither roadmap consumes the other.
 
 **The boundary in one sentence:** this roadmap owns the principal branches of `𝖯^μ_ν`, `𝖰^μ_ν`,
 `P^μ_ν`, `Q^μ_ν` and `𝑸^μ_ν` for all complex degree and order, Dunster's `𝖰̂` and the spherical
@@ -153,6 +161,13 @@ Pincherle's theorem from SpecialFunctionsEiLiErfIncompleteGamma.
   to `ℂ` and evaluated at `(1 − z)/2`, as in SpecialFunctionsHypergeometric 9.1. The prefix
   `legendre` is not used for these functions: Tau Ceti's `TauCeti.Real.legendreK` and its
   siblings are Legendre's elliptic integrals.
+
+  `Suggested.lean` also uses these local names:
+  - `eulerIntegral` and `IsEulerContinuation`: the supplier's construction of `𝐅`, copied
+    locally;
+  - `legP n z`: the Legendre polynomial `Pₙ(z)` above;
+  - `cfIndex`: the index of the convergent that is read when a continued fraction terminates;
+  - `sphereMeasure`: the measure `sin θ dθ dφ` on `(0, π) × (0, 2π)`.
 - **Domains.** The Ferrers functions are holomorphic on the doubly cut plane
   `D = {z | 1 − z ∈ slitPlane ∧ 1 + z ∈ slitPlane} = ℂ \ ((−∞, −1] ∪ [1, ∞))`, and the associated
   Legendre functions on `U = {z | z − 1 ∈ slitPlane} = ℂ \ (−∞, 1]`. These sets are written out,
@@ -251,7 +266,14 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
   `MvPolynomial.homogeneousSubmodule_eq_iSup_map_mulLeft_normSq_pow` (the harmonic
   decomposition), `MvPolynomial.finrank_harmonicSubmodule_add_two` and
   `MvPolynomial.sphereEval` (`TauCeti/RingTheory/MvPolynomial/Harmonic.lean`,
-  `TauCeti/Analysis/MvPolynomial/Sphere.lean`), for Layer 11.
+  `TauCeti/Analysis/MvPolynomial/Sphere.lean`), for Layer 11; and Laplace's equation for the
+  evaluation of a polynomial, `MvPolynomial.laplacian_eval_euclidean` and
+  `MvPolynomial.harmonicOnNhd_eval_euclidean_iff`
+  (`TauCeti/Analysis/MvPolynomial/Laplacian.lean`), stated for real polynomials and applied to
+  the real and imaginary parts of `p_{l,m}`, for 11.3.
+- **Residue theorem.** `TauCeti.Contour.classicalResidueTheorem_circle`
+  (`TauCeti/Analysis/Contour/Residue/Theorem.lean`), for meromorphic functions on a closed disc,
+  for Dougall's expansion in 8.3.
 
 ### From Mathlib
 
@@ -263,8 +285,7 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
   `Polynomial.derivative`, `Polynomial.iterate_derivative_mul`.
 - **Holomorphic functions.** `Complex.slitPlane`, `Complex.cpow`, `Complex.log`,
   `DifferentiableOn.analyticOnNhd`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`,
-  `IsOpen.is_const_of_deriv_eq_zero`, Cauchy's integral formula and the residue theorem for
-  rational functions.
+  `IsOpen.is_const_of_deriv_eq_zero` and Cauchy's integral formula.
 - **Analysis.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi`, Fubini, dominated
   convergence, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `Asymptotics.IsEquivalent`,
   `Asymptotics.IsBigO`, `HasSum`, `fourierBasis`, `ContinuousMap.toLp_denseRange`,
@@ -303,18 +324,19 @@ in them is holomorphic on its domain and is the principal real power on the real
   `(1 − z)/2` and `z⁻²` of `𝐅` lie in its cut plane (`z⁻² ∈ [1, ∞)` only for `z ∈ [−1, 1]`).
 
 **Checks.**
-- `ferrersP`: `𝖯^0_1(z) = z` on `D` (14.5.6); `𝖯^{1/2}_{0.3}(cos 1) = (2/(π sin 1))^{1/2} cos 0.8 =
-  0.60599 70103 6…` (14.5.11); `𝖯^{0.4}_{0.3}(0.25) = 0.51489 44336 58…`.
+- `ferrersP`: `𝖯^0_1(z) = z` on `D` (14.5.6);
+  `𝖯^{1/2}_{0.3}(cos 1) = (2/(π sin 1))^{1/2} cos 0.8 = 0.60599 70103 6…` (14.5.11);
+  `𝖯^{0.4}_{0.3}(0.25) = 0.51489 44336 58…`.
 - `ferrersQ`: `𝖰^0_0(0.5) = ½ ln 3 = 0.54930 61443 3…` (14.5.7); `𝖰^1_0(x) = −(1 − x²)^{−1/2}`
   on `(−1, 1)`, an integer order where 14.3.2 is `0/0` (14.6.2 with 14.5.7);
   `𝖰^{0.4}_{0.3}(0.25) = −0.99301 77856 9…`.
-- `associatedLegendreP`: `P^0_1(z) = z` on `U`; `P^{1/2}_{0.3}(cosh 1) = (2/(π sinh 1))^{1/2}
-  cosh 0.8 = 0.98436 60263 4…` (14.5.15); `P^{0.4}_{0.3}(1.5 + 0.7i) = 0.99012 91609 9… +
-  0.01524 91041 2… i`.
+- `associatedLegendreP`: `P^0_1(z) = z` on `U`;
+  `P^{1/2}_{0.3}(cosh 1) = (2/(π sinh 1))^{1/2} cosh 0.8 = 0.98436 60263 4…` (14.5.15);
+  `P^{0.4}_{0.3}(1.5 + 0.7i) = 0.99012 91609 9… + 0.01524 91041 2… i`.
 - `olverLegendreQ`: `𝑸^0_0(x) = ½ ln((x + 1)/(x − 1))` for `x > 1` (14.5.9);
-  `𝑸^1_0(z) = ((z − 1)^{1/2} (z + 1)^{1/2})⁻¹` on `U` (14.6.5), which is `−i/√5 =
-  −0.44721 35955 0… i` at `z = 2i` and continuous there, while the principal `(z² − 1)^{1/2}`
-  would give `+i/√5` on the side `Re z < 0`; `𝑸^{0.4}_{0.3}(2) = 0.35518 67693 2…`.
+  `𝑸^1_0(z) = ((z − 1)^{1/2} (z + 1)^{1/2})⁻¹` on `U` (14.6.5), which is
+  `−i/√5 = −0.44721 35955 0… i` at `z = 2i` and continuous there, while the principal
+  `(z² − 1)^{1/2}` would give `+i/√5` on the side `Re z < 0`; `𝑸^{0.4}_{0.3}(2) = 0.35518 67693 2…`.
 - `associatedLegendreQ`: `Q^0_1(2) = ln 3 − 1 = 0.09861 22886 6…` (14.5.10, 14.3.10);
   `Q^{0.4}_{0.3}(2) = 0.09973 10496 1… + 0.30694 06095 3… i`, not real although `x > 1`
   (§14.2(ii)); at `ν + μ = −1` the value is the junk `0`.
@@ -323,9 +345,9 @@ in them is holomorphic on its domain and is the principal real power on the real
 
 ### 1.2 Analytic properties and symmetries
 
-- **Holomorphy** (DLMF §14.21(i) and, for the principal branches, the last paragraph of §14.24):
-  `ferrersP ν μ` is holomorphic on `D` and `associatedLegendreP ν μ`, `olverLegendreQ ν μ` on `U`;
-  at each fixed point of the domain they are entire in `ν` and entire in `μ`
+- **Holomorphy** (DLMF §14.21(i) and, for the principal branches, the penultimate paragraph of
+  §14.24): `ferrersP ν μ` is holomorphic on `D` and `associatedLegendreP ν μ`, `olverLegendreQ ν μ`
+  on `U`; at each fixed point of the domain they are entire in `ν` and entire in `μ`
   (`differentiable_ferrersP_degree`); `ferrersQ` and `associatedLegendreQ` are holomorphic in the
   variable and in each parameter on the set where `ν + μ ∉ {−1, −2, …}`.
 - **Conjugation and reality** (§14.2(ii), §14.21(i)): `ferrersP`, `ferrersQ`,
@@ -353,7 +375,7 @@ in them is holomorphic on its domain and is the principal real power on the real
   (in its form with one singular point at `∞`) with singular points `1`, `−1`, `∞` and exponent
   pairs `{½μ, −½μ}`, `{½μ, −½μ}`, `{ν + 1, −ν}`.
 - Abel's identity: for solutions `f`, `g` of 14.21.1 on a connected open set `V` avoiding `±1`,
-  `(1 − z²) 𝒲{f, g}(z)` is constant on `V` (`wronskian_mul_one_sub_sq_eq_const`); and the span
+  `(1 − z²) 𝒲{f, g}(z)` is constant on `V`; and the span
   criterion: if `f₁`, `f₂` solve 14.21.1 on `V` with `𝒲{f₁, f₂}` nowhere zero, every solution on
   `V` is `α f₁ + β f₂` with constants `α`, `β`.
 
@@ -379,8 +401,8 @@ in them is holomorphic on its domain and is the principal real power on the real
 **Checks.**
 - 14.9.3 at `(ν, m) = (2, 1)`: `𝖯^{−1}_2(x) = −(1/6) 𝖯^1_2(x) = ½ x (1 − x²)^{1/2}`.
 - 14.3.4 at `m = 1`, `ν = 0`: `𝖯^1_0 = 0`, since `Γ(ν − m + 1)⁻¹ = Γ(0)⁻¹ = 0`.
-- 14.3.15 and 14.3.9 at `(ν, μ, x) = (0.3, 0.4, 2)`: both give `P^{−0.4}_{0.3}(2) =
-  1.01402 04011 46…`.
+- 14.3.15 and 14.3.9 at `(ν, μ, x) = (0.3, 0.4, 2)`: both give
+  `P^{−0.4}_{0.3}(2) = 1.01402 04011 46…`.
 
 *Needs:* 1.1–1.2; SpecialFunctionsHypergeometric 1.3, 5.1.
 
@@ -415,14 +437,19 @@ targets of 5.2, where the connection formulas that carry them over are proved.
 all five functions in the variable are holomorphic on the domains, by 1.2.
 
 **Checks.**
-- 14.10.3 at `(ν, μ, x) = (0.3, 0.4, 0.25)`: `1.9 𝖯^{0.4}_{2.3}(x) − 3.6x 𝖯^{0.4}_{1.3}(x) +
-  1.7 𝖯^{0.4}_{0.3}(x) = 0`, and the left side computed from the definition is `0` to working
-  precision.
+- 14.10.3 at `(ν, μ, x) = (0.3, 0.4, 0.25)`:
+  `1.9 𝖯^{0.4}_{2.3}(x) − 3.6x 𝖯^{0.4}_{1.3}(x) + 1.7 𝖯^{0.4}_{0.3}(x) = 0`, and the left side
+  computed from the definition is `0` to working precision.
 - 14.10.6 at `(ν, μ) = (1, 0)`: with `P^1_1(x) = (x² − 1)^{1/2}` (14.7.11) and `P^2_1 = 0`
   (14.7.16), it reads `0 + 2x − 2x = 0`.
 - 14.10.4 at `(ν, μ) = (0, 0)`: `(1 − x²) · 0 = −𝖯_1(x) + x 𝖯_0(x) = −x + x`.
 
 *Needs:* Layer 1; SpecialFunctionsHypergeometric Layer 2.
+
+### Examples
+
+- 14.10.3 at `(ν, μ) = (0, 0)`: `2𝖯₂(x) − 3x 𝖯₁(x) + 𝖯₀(x) = 0`, so `𝖯₂(x) = (3x² − 1)/2`.
+- 14.10.4 at `(ν, μ) = (1, 0)`: `(1 − x²) 𝖯₁′(x) = −2𝖯₂(x) + 2x 𝖯₁(x) = 1 − x²`.
 
 ### Dependencies
 
@@ -487,10 +514,22 @@ right sides of 14.3.21–14.3.22 extend holomorphically across `1 − 2μ ∈ {0
   definition and from `2^μ π^{1/2}/(Γ(½ν − ½μ + 1) Γ(½ − ½ν − ½μ))`.
 - 14.3.11 at `(ν, μ) = (1, 0)`: the coefficient of `w₁` is `cos(π/2) = 0`, and
   `w₂(1, 0, x) = Γ(3/2) x 𝐅(0, 3/2; 3/2; x²) = x = 𝖯_1(x)`.
+- `ferrersW₁`: `w₁(ν, μ, 0) = 2^μ Γ(½ν + ½μ + ½)/(π^{1/2} Γ(½ν − ½μ + 1))`, which is
+  `0.80293 64174 23…` at `(ν, μ) = (0.3, 0.4)`; `w₁(0, 0, z) = 1`; `w₁(ν, μ, −z) = w₁(ν, μ, z)`
+  on `D`.
+- `ferrersW₂`: `w₂(ν, μ, 0) = 0` and `w₂′(ν, μ, 0) = 2^μ Γ(½ν + ½μ + 1)/(Γ(3/2) Γ(½ν − ½μ + ½))`,
+  which is `0.67416 06165 51…` at `(ν, μ) = (0.3, 0.4)`; `w₂(ν, μ, −z) = −w₂(ν, μ, z)` on `D`.
+- The junk value at `ν + μ = −1`: `w₁(−1, 0, z) = w₂(−1, 0, z) = 0`, through `Γ(0) = 0` in `w₁`
+  and `Γ(0)⁻¹ = 0` in `w₂`, while `𝖯_{−1}(z) = 1`, so 14.3.11 needs its hypothesis.
 - 15.9.17 at `(a, c, z) = (0.3, 1.2, 0.5)`: `𝐅(0.3, 0.8; 1.2; 0.5)` and
   `2^{0.2} (0.5)^{−0.1} (0.5)^{−0.2} P^{−0.2}_{−0.6}(√2)` are both `1.24282 08654 77…`.
 
 *Needs:* Layers 1–2; SpecialFunctionsHypergeometric Layer 7 (15.4.30, 15.8.13–15.8.21), 5.1.
+
+### Examples
+
+- 14.5.1 at `μ = 0`: `𝖯₁(0) = 0`, since `Γ(0)⁻¹ = 0`, and
+  `𝖯₂(0) = π^{1/2}/(Γ(2) Γ(−½)) = −½`.
 
 ### Dependencies
 
@@ -533,7 +572,16 @@ as corrected in DLMF 1.0.28), from 14.6.1, 14.6.3 and 14.9.3 by induction on `m`
   `|h| > 1` in 14.7.21; for `x > 1`: `|h| < x − (x² − 1)^{1/2}` in 14.7.19 and 14.7.22 and
   `|h| > x + (x² − 1)^{1/2}` in 14.7.21), and their complex forms of §14.21(iii) on `U`, with
   `|h| < min|z ± (z² − 1)^{1/2}|`, respectively `|h| > max|z ± (z² − 1)^{1/2}|`, as `HasSum`
-  (`hasSum_ferrersP_nat_mul_pow`).
+  (`hasSum_ferrersP_nat_mul_pow`). 14.7.21, its form for `x > 1` and its complex form have the
+  right side `h⁻¹ (1 − 2x h⁻¹ + h⁻²)^{−1/2}` with the principal power. It equals the printed
+  `(1 − 2xh + h²)^{−1/2}` for `h > 1`. For `h < −1` the printed side has the wrong sign: the sum
+  has the sign of `h` for real `h`. On `|h| > max|z ± (z² − 1)^{1/2}|` the base is
+  `(1 − w/a)(1 − w/b)` with `w = h⁻¹`, `|w| < |a|, |b|` and `ab = 1`; each factor has positive real
+  part, so the base never meets `(−∞, 0]` and the principal power is the continuous one.
+
+**Checks.**
+- 14.7.21 at `(x, h) = (0, −2)`: the sum `∑ 𝖯ₙ(0) (−2)^{−n−1}` is `−5^{−1/2} = −0.44721 35955 0…`,
+  while the printed right side is `+5^{−1/2}`.
 
 ### 4.4 Behaviour at the singularities
 
@@ -549,8 +597,8 @@ argument `1 − x⁻²` tends to `1`, and for 14.8.4–14.8.6 through 14.3.2; an
 15.8.8–15.8.12 for 14.8.3 and 14.8.9–14.8.10.
 
 **Checks.**
-- 14.7.5 and 14.7.2 at `n = 2`, `x = 0.3`: `W_1(0.3) = 0.45`, and `𝖰_2(0.3) =
-  −0.56297 46555 34…`, which is 14.5.29.
+- 14.7.5 and 14.7.2 at `n = 2`, `x = 0.3`: `W_1(0.3) = 0.45`, and `𝖰_2(0.3) = −0.56297 46555 34…`,
+  which is 14.5.29.
 - 14.5.21 at `θ = 1`: `𝖯_{−1/2}(cos 1) = (2/π) K(sin ½) = 1.06633 42455 7…`, and 14.5.27 at `ξ = 1`:
   `𝑸_{−1/2}(cosh 1) = 2π^{−1/2} e^{−1/2} K(e^{−1}) = 1.11448 00364 1…`, with `K(k)` Tau Ceti's
   `legendreK k` (modulus, not parameter).
@@ -574,10 +622,11 @@ Layers 1–3; SpecialFunctionsHypergeometric Layers 4–5, 9; Tau Ceti elliptic 
 
 ### 5.1 Wronskians and numerically satisfactory pairs
 
-- 14.2.3–14.2.11 on `(−1, 1)`, respectively `(1, ∞)`, for all parameters for which the functions
-  are defined, and 14.2.7–14.2.11 on `U` (§14.21(iii)) (`wronskian_ferrersP_ferrersQ`). Each is
-  1.3 with the constant computed from Layer 4 at a singular point, or from 3.1 at `x = 0`;
-  14.2.5 and 14.2.11 are 14.2.4 and 14.2.10 combined with 14.10.4–14.10.5.
+- 14.2.3–14.2.6 on `D` (on `(−1, 1)` by restriction) and 14.2.7–14.2.11 on `(1, ∞)` and on `U`
+  (§14.21(iii)), for all parameters for which the functions are defined
+  (`wronskian_ferrersP_ferrersQ`). Each is 1.3 with the constant computed from Layer 4 at a singular
+  point, or from 3.1 at `x = 0`; 14.2.5 and 14.2.11 are 14.2.4 and 14.2.10 combined with
+  14.10.4–14.10.5.
 - The statements of §14.2(iii) and §14.21(ii). A solution is *recessive* at an endpoint when its
   ratio to every independent solution tends to `0` there; this is stronger than DLMF's
   "numerically satisfactory".
@@ -631,12 +680,16 @@ after 14.23.6 is a target: 14.23.4 and 14.23.6, with the right sides continued f
 `ferrersP` and `ferrersQ` on `D ∩ {Im z > 0}` and on `D ∩ {Im z < 0}` as holomorphic functions.
 
 **Checks.**
-- 14.2.4 at `(ν, μ, x) = (0.3, 0.4, 0.2)`: `(1 − x²) 𝒲{𝖯, 𝖰} = Γ(1.7)/Γ(0.9) =
-  0.85028 47912 0…`.
+- 14.2.4 at `(ν, μ, x) = (0.3, 0.4, 0.2)`: `(1 − x²) 𝒲{𝖯, 𝖰} = Γ(1.7)/Γ(0.9) = 0.85028 47912 0…`.
 - 14.9.16 at `(ν, μ, x) = (0.3, 0.4, 2)`: both sides are `0.35518 67693 2…`.
 - 14.23.1 at `(ν, μ, x) = (0.3, 0.4, 0.25)`: `P^μ_ν(x + iε) → e^{−0.2πi} · 0.51489 44336 58…`.
 
 *Needs:* Layers 1–4; SpecialFunctionsHypergeometric 5.1, 5.4, Layer 7.
+
+### Examples
+
+- 14.2.4 at `(ν, μ) = (1, 0)`: with `𝖯₁(x) = x` and `𝖰₁(x) = (x/2) ln((1 + x)/(1 − x)) − 1`
+  (14.7.2–14.7.3), `x 𝖰₁′(x) − 𝖰₁(x) = 1/(1 − x²)`, so `(1 − x²) 𝒲{𝖯₁, 𝖰₁} = 1 = Γ(2)/Γ(2)`.
 
 ### Dependencies
 
@@ -654,7 +707,8 @@ hypotheses are those that make every term defined: `ν ∉ ℤ` in 14.11.1 (the 
 growth of its Gamma ratio in `k`. 14.11.1 is the termwise `ν`-derivative of the series of 14.3.1,
 which converges at `(1 − x)/2` for every `x ∈ (−1, 1)`; 14.11.4 is the `μ`-derivative of the same
 series at `μ = 0`, with the series of `𝖰_ν` of Hobson (1931, §132); 14.11.2 and 14.11.5 follow from
-14.9.10, 14.9.8 and 14.11.1, 14.11.4, as DLMF's notes say.
+14.9.10, 14.9.8 and 14.11.1, 14.11.4, as DLMF's notes say. 14.11.4 is
+`deriv_ferrersP_order_zero`.
 
 ### 6.2 Continued fractions
 
@@ -698,6 +752,10 @@ series at `μ = 0`, with the series of `𝖰_ν` of Hobson (1931, §132); 14.11.
 theorem); SpecialFunctionsHypergeometric 5.1 (15.8.1) and Layer 7; Mathlib `Complex.digamma`,
 `GenContFract`, `tendsto_tsum_of_dominated_convergence`.
 
+### Examples
+
+- 14.11.4 at `(ν, x) = (0.3, 0.25)`: both sides are `−0.45849 20843 78…`.
+
 ### Dependencies
 
 Layers 1–5; SpecialFunctionsEiLiErfIncompleteGamma 4.1; SpecialFunctionsHypergeometric 5.1 and
@@ -721,6 +779,9 @@ the Riemann–Liouville form of 14.6.6 and holomorphy in `μ`.
   14.12.8 for `n ≥ m`; 14.12.9–14.12.12 for `m, n : ℕ`, 14.12.12 for `n ≥ m`;
 - Neumann's integral 14.12.13 for `x > 1`, and on `U` (`olverLegendreQ_nat_eq_integral`), and
   Heine's integral 14.12.14;
+- 14.12.6 at `μ = 0` with 14.3.10, written out: for `t > 1` and `Re s > 0`,
+  `associatedLegendreQ (s − 1) 0 t = ∫₀^∞ (t + (t² − 1)^{1/2} cosh u)^{−s} du`, which is the
+  definition of `Q_{s−1}(t)` in AutomorphicSpectralTheory §0.35;
 - 14.25.1 for `Re μ > Re ν > −1` and 14.25.2 for `Re(ν + 1) > Re μ > −½`, on `U` with
   `(z² − 1)^{μ/2}` and `(z² − 1)^{1/2}` as in [Conventions](#conventions).
 
@@ -765,10 +826,17 @@ sum of rationals vanishes for every `l` of the stated range and parity. At `(l, 
 **Checks.**
 - 14.17.5 at `(ν, μ, σ) = (0.7, −0.4, 0.6)`: both sides are `0.57409 52867 05…`.
 - 14.17.6 at `l = n = 2`, `m = 1`: `∫_{−1}^1 (𝖯^1_2)² = 3!/(1! · 5/2) = 12/5`.
-- 14.17.17 at `(l, m, n) = (4, 1, 2)`, outside the range: the integral is `−7/36 =
-  −0.19444…`, not `0`.
+- 14.17.17 at `(l, m, n) = (4, 1, 2)`, outside the range: the integral is `−7/36 = −0.19444…`, not
+  `0`.
 
 *Needs:* Layers 1–5; SpecialFunctionsHypergeometric 6.1.
+
+### Examples
+
+- Neumann's integral 14.12.13 at `n = 0`: `½ ∫_{−1}^1 dt/(x − t) = ½ ln((x + 1)/(x − 1))`, which
+  is `𝑸₀(x)` (14.5.9).
+- Heine's integral 14.12.14 at `n = 0`, `x = 3`:
+  `∫₀^∞ dt/(3 + 8^{1/2} cosh t) = ½ ln 2 = 0.34657 35902 7…`, which is `𝑸₀(3) = Q₀(3)` (14.5.9).
 
 ### Dependencies
 
@@ -807,7 +875,10 @@ and 14.9.3.
 
 - Christoffel's formulas 14.18.6–14.18.7 for `n : ℕ`, with `P` and `Q` at `μ = 0` on `U` and with
   the Ferrers functions on `D`;
-- the zonal harmonic series 14.18.8 for `ν ∉ ℤ` and `x ∈ (−1, 1]`;
+- the zonal harmonic series 14.18.8 for `ν ∉ ℤ` and `−1 < x < 1`, as `HasSum` (the terms are
+  `O(n^{−3/2})`), and at `x = −1` as the limit of the partial sums, which is Dougall's case
+  `x = 1`, `μ = 0` below. At `x = 1` the series diverges: its left side `𝖯_ν(−1)` is infinite and
+  every `𝖯ₙ(1) = 1`;
 - Dougall's expansion 14.18.9 for `−1 < x ≤ 1`, `μ ≥ 0`, `ν ∉ ℤ`, as `HasSum` for `−1 < x < 1`
   (`hasSum_ferrersP_dougall`) and as the limit of the partial sums at `x = 1`, where for `μ = 0`
   the series `∑ (−1)ⁿ (2n + 1)/((ν − n)(ν + n + 1))` converges only conditionally: as a
@@ -831,7 +902,14 @@ and 14.9.3.
 - 14.18.9 at `(ν, μ, x) = (0.3, 0.5, 0.2)`: both sides are `0.89592 59862 1…`.
 - 14.18.6 at `n = 1`: `(x − y)(1 + 3xy) = 2(P₂(x)y − xP₂(y))`.
 
-*Needs:* Layers 1–7; SpecialFunctionsHypergeometric 4.3.
+*Needs:* Layers 1–7; SpecialFunctionsHypergeometric 4.3; Tau Ceti
+`TauCeti.Contour.classicalResidueTheorem_circle`.
+
+### Examples
+
+- 14.18.1 at `ν = 1`: with `𝖯^1_1(cos θ) = −sin θ` and `𝖯^{−1}_1(cos θ) = ½ sin θ` (14.9.3), and
+  `𝖯^m_1 = 0` for `m ≥ 2`, it is the spherical law of cosines
+  `cos θ₁ cos θ₂ + sin θ₁ sin θ₂ cos φ`.
 
 ### Dependencies
 
@@ -841,12 +919,21 @@ Layers 1–7; SpecialFunctionsHypergeometric 4.3.
 
 ### 9.1 Sturm theory
 
-Auxiliary targets: for `((1 − x²) y′)′ + q(x) y = 0` on an open subinterval of `(−1, 1)` or of
-`(1, ∞)` with `q` continuous and real, the zeros of a nontrivial real solution are simple and
-isolated; Sturm's separation theorem (the zeros of two independent real solutions interlace);
-Sturm's comparison theorem; and, for a family of solutions depending continuously on a real
-parameter with a fixed endpoint behaviour, the number of zeros in the open interval changes only
-when a zero enters or leaves through an endpoint.
+Auxiliary targets, for `((1 − x²) y′)′ + q(x) y = 0` on an open subinterval `I` of `(−1, 1)` or
+of `(1, ∞)` with `q` continuous and real (the method of DLMF's source for §14.16, Hobson (1931,
+pp. 386–389, 399–401)):
+- the zeros of a nontrivial real solution are simple and isolated;
+- Sturm's separation theorem: the zeros of two independent real solutions interlace;
+- Sturm's comparison theorem: let `q₁ ≤ q₂` on `I`, let `y₁` be a nontrivial real solution for
+  `q₁` with consecutive zeros `a < b` in `I`, and let `y₂` be a real solution for `q₂`. Then `y₂`
+  has a zero in `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `y₂` is a multiple of `y₁`;
+- continuity of the zero count: let `t ↦ (q_t, y_t)` be a family indexed by a real interval `T`,
+  with `y_t` a nontrivial real solution for `q_t` and `(t, x) ↦ y_t(x)`, `(t, x) ↦ y_t′(x)`
+  continuous on `T × I`. Suppose the endpoint behaviour is fixed: for each compact `K ⊆ T` there
+  are neighbourhoods of the two ends of `I` on which no `y_t` with `t ∈ K` vanishes. Then the
+  number of zeros of `y_t` in `I` is finite and locally constant in `t`. In 9.2 the
+  neighbourhoods come from the leading terms of 4.4 (for example 14.8.1 at `x → 1−`), which hold
+  locally uniformly in the parameters.
 
 ### 9.2 Zeros on `(−1, 1)` and `(1, ∞)`
 
@@ -855,13 +942,13 @@ DLMF §14.16 for real `ν ≥ −½` and real `μ` (the restriction to `ν ≥ �
 respectively `ν`, is not an integer) and `N₀ = max(⌈ν − |μ|⌉, 0)`. The zeros are counted as the
 cardinality of the zero set in the open interval, which is finite. The statements are DLMF's with
 three corrections:
-- **`𝖯^μ_ν` on `(−1, 1)`** (`ferrersP_zero_count`), when it is not identically zero there, that
-  is, `𝖯^μ_ν(x) ≠ 0` for some `x ∈ (−1, 1)` (`𝖯¹₀` and `𝖯³₂` vanish identically). It has `N₀`
-  zeros if `μ ≤ 0`; or `μ = m ≥ 1` is an integer; or `ν ∈ ℕ`; or `ν, μ ∉ ℤ`, `μ > 0`, and
-  either `n ≥ m` and `δ_ν > δ_μ`, or `n < m` and `m − n` is odd. It has `N₀ + 1` zeros if
-  `ν, μ ∉ ℤ`, `μ > 0`, and either `n ≥ m` and `δ_ν ≤ δ_μ` (DLMF prints `n > m`, which omits
-  `n = m`), or `n < m` and `m − n` is even. At `(ν, μ) = (¼, ¾)`, `(0.3, 0.3)` and `(1.6, 1.6)`,
-  where `n = m`, there is one zero and `N₀ = 0`.
+- **`𝖯^μ_ν` on `(−1, 1)`** (`ferrersP_zero_count`), when it is not identically zero there, that is,
+  `𝖯^μ_ν(x) ≠ 0` for some `x ∈ (−1, 1)` (`𝖯¹₀` and `𝖯³₂` vanish identically). It has `N₀` zeros if
+  `μ ≤ 0`; or `μ = m ≥ 1` is an integer; or `ν ∈ ℕ`; or `ν, μ ∉ ℤ`, `μ > 0`, and either `n ≥ m` and
+  `δ_ν > δ_μ`, or `n < m` and `m − n` is odd. It has `N₀ + 1` zeros if `ν, μ ∉ ℤ`, `μ > 0`, and
+  either `n ≥ m` and `δ_ν ≤ δ_μ` (DLMF prints `n > m`, which omits `n = m`;
+  `ferrersP_zero_count_add_one`), or `n < m` and `m − n` is even. At `(ν, μ) = (¼, ¾)`, `(0.3, 0.3)`
+  and `(1.6, 1.6)`, where `n = m`, there is one zero and `N₀ = 0`.
 - **`𝖰^μ_ν` on `(−1, 1)`**, for `ν + μ ∉ {−1, −2, …}` and `Γ(ν + μ + 1)/Γ(ν − μ + 1) ≠ 0`: its
   zeros interlace those of `𝖯^μ_ν`, and their number is `N₀ + k` with `k ∈ {−1, 0, 1, 2}`; for
   `μ ≥ 0` it is even if `cos νπ` and `cos μπ` have opposite signs and odd if they have the same
@@ -885,6 +972,12 @@ and, for the base counts, the polynomial cases `ν = n`, `μ = −m` (4.3).
 
 *Needs:* Layers 1–5.
 
+### Examples
+
+- `𝖯₃(x) = (5x³ − 3x)/2` has the three zeros `0` and `±(3/5)^{1/2}`, and `N₀ = 3` at `μ = 0`.
+- `𝖯^{3/4}_{1/4}` has one zero, at `x = 0`, since 14.5.1 has the factor
+  `Γ(½ − ⅛ − ⅜)⁻¹ = Γ(0)⁻¹ = 0`: the case `n = m = 0`, `δ_ν < δ_μ`, with `N₀ + 1 = 1` zero.
+
 ### Dependencies
 
 Layers 1–5.
@@ -904,9 +997,11 @@ Layers 1–5.
 
 ### 10.2 Conical functions and `𝖰̂`
 
-- 14.20.1, which is 14.2.2 at `ν = −½ + iτ`, and the statements before 14.20.2: for `−1 < x < 1`
-  and `τ > 0`, `𝖯^{−μ}_{−½+iτ}(x)` and `𝖯^{−μ}_{−½+iτ}(−x)` are real, independent and form a
-  numerically satisfactory pair in the sense of 5.1;
+- 14.20.1, which is 14.2.2 at `ν = −½ + iτ`, and the statements before 14.20.2: for `−1 < x < 1`,
+  `τ > 0` and `μ ≥ 0` (DLMF's standing assumption in §14.20), `𝖯^{−μ}_{−½+iτ}(x)` and
+  `𝖯^{−μ}_{−½+iτ}(−x)` are real, independent and form a numerically satisfactory pair in the sense
+  of 5.1. For `μ < 0` the pair fails: at `μ = −½`, `τ = 1` the ratio of the two at `x = cos θ`
+  is `cosh θ/cosh(π − θ)` (14.5.11), which tends to `1/cosh π`, not to `0`, as `θ → 0+`;
 - `Real.conicalQHat μ τ x`, for real `μ, τ` and `x ∈ (−1, 1)`, is
 
 ```text
@@ -915,7 +1010,7 @@ Layers 1–5.
 
   so that DLMF's `𝖰̂^{−μ}_{−½+iτ}` is `conicalQHat (−μ) τ x`; it solves 14.20.1, it equals
   14.20.3 (`conicalQHat_eq`) whenever `𝖰^{∓μ}_{−½+iτ}` is defined (that is, except at
-  `μ ∈ {½, 3/2, …}`, `τ = 0`), and 14.20.4–14.20.5 are its Wronskians;
+  `τ = 0`, `μ ∈ ½ + ℤ`), and 14.20.4–14.20.5 are its Wronskians;
 - 14.20.6 for `x > 1`, `τ ≠ 0`; 14.20.7–14.20.8 for `μ > 0`, `x → 1−`; 14.20.9 for `0 < θ < π`;
   14.20.10 for `0 ≤ θ ≤ π`, with the positivity of `𝖯_{−½+iτ}(cos θ)` stated after it;
 - 14.23.7 as corrected (the second factor is `e^{μπi/2}`, which makes the two terms conjugate):
@@ -954,7 +1049,12 @@ Babister and has no formula; it is not a target.
 - 14.19.3 at `(ν, μ) = (½, 0)`: `𝑸_0(cosh ξ) = π^{1/2} e^{−ξ} 𝐅(½, 1; 3/2; e^{−2ξ})`, and both
   sides are `ln coth(ξ/2)`, by 14.5.9 and `F(½, 1; 3/2; w²) = artanh(w)/w`.
 
-*Needs:* Layers 1–5, 8.2; SpecialFunctionsHypergeometric 3.4, 5.1, Layer 7.
+*Needs:* Layers 1–5, 7, 8.2; SpecialFunctionsHypergeometric 3.4, 5.1, Layer 7.
+
+### Examples
+
+- 14.5.12 at `ν = −½ + iτ`: `𝖯^{−1/2}_{−½+iτ}(cos θ) = (2/(π sin θ))^{1/2} sinh(τθ)/τ`, real as
+  10.2 says; at `(τ, θ) = (1.3, 0.9)` it is `1.00955 67436 8…`.
 
 ### Dependencies
 
@@ -1008,13 +1108,24 @@ Layers 1–5, 7–8; SpecialFunctionsHypergeometric Layers 3, 5, 7.
   `L_z Y_{l,m} = ħ m Y_{l,m}` for `|m| ≤ l`, from 14.2.2 at `μ = m`.
 
 **Checks.**
-- 14.30.9 at `l = 1`: `cos θ₁ cos θ₂ + sin θ₁ sin θ₂ cos(φ₁ − φ₂) = (4π/3) ∑_{m=−1}^{1}
-  conj(Y_{1,m}(θ₁, φ₁)) Y_{1,m}(θ₂, φ₂)`.
+- 14.30.9 at `l = 1`:
+
+```text
+cos θ₁ cos θ₂ + sin θ₁ sin θ₂ cos(φ₁ − φ₂)
+  = (4π/3) ∑_{m=−1}^{1} conj(Y_{1,m}(θ₁, φ₁)) Y_{1,m}(θ₂, φ₂)
+```
+
 - `p_{1,1} = −(3/(8π))^{1/2} (X₀ + i X₁)` in the coordinates `(x, y, z) = (X₀, X₁, X₂)`.
 - 14.30.8 at `(l₁, m₁, l₂, m₂) = (1, 0, 1, 0)`: `(3/(4π)) ∫∫ cos² θ sin θ dθ dφ = 1`.
 
-*Needs:* Layers 1, 4, 7–8; Tau Ceti harmonic polynomials; Mathlib Stone–Weierstrass,
+*Needs:* Layers 1, 4, 7–8; Tau Ceti harmonic polynomials and
+`MvPolynomial.laplacian_eval_euclidean`; Mathlib Stone–Weierstrass,
 `ContinuousMap.toLp_denseRange`, `fourierBasis`, `HilbertBasis`.
+
+### Examples
+
+- `Y_{2,0}(θ, φ) = (5/(16π))^{1/2} (3 cos² θ − 1)`, from 14.30.1 and `𝖯₂(x) = (3x² − 1)/2`.
+- 14.30.9 at `l = 0`: `1 = 4π |Y_{0,0}|²`.
 
 ### Dependencies
 
@@ -1052,8 +1163,8 @@ boundary. Contributors should not attempt it under this roadmap.
   14.20.13–14.20.14 are DLMF's special cases of it.
 - **Branches off the principal sheet** (DLMF §14.24, 14.24.1–14.24.4): continuation along the
   ellipses with foci `±1` and around `1`, and the behaviour at `−1` from the left that DLMF
-  derives from them. The holomorphy of the principal branches in the parameters, stated at the end
-  of §14.24, is 1.2.
+  derives from them. The holomorphy of the principal branches in the parameters, stated in the
+  penultimate paragraph of §14.24, is 1.2.
 - **Zeros in the complex plane and on the left cut** (DLMF §14.27). As printed, the rule for a
   zero of `P^μ_ν(x ± i0)` on `(−∞, −1)` is wrong: it predicts one zero at degree `ν = 1`, order
   `μ = −½`, where there is none.
@@ -1111,7 +1222,7 @@ specified by the layers.
   series of Legendre's coefficients, *Proc. Roy. Soc. London* 27 (1878), 63–71.
 - T. M. Dunster, Conical functions with one or both parameters large, *Proc. Roy. Soc. Edinburgh
   Sect. A* 119 (1991), 311–327.
-- H. Volkmer, Convergence of the Fourier series of Legendre functions (cited by DLMF §14.13 as
-  Volkmer (2021)).
+- H. Volkmer, Fourier series representation of Ferrers function `𝖯`, 2021 (cited by DLMF §14.13
+  as Volkmer (2021)).
 - G. E. Andrews, R. Askey and R. Roy, *Special Functions*, Cambridge University Press, 1999,
   Chapter 9 (spherical harmonics).
