@@ -270,8 +270,8 @@ declaration is a target of the supplying roadmap, and its statement here is what
 * **(S4) Back-and-forth levels on codes.** `RelationalConfiguration.bfEquivSetoid L α β`
   (`RelationalConfiguration/BackAndForth.lean`), `BFEquiv β 0` between the empty tuples of the
   decoded structures (`bfEquivSetoid_apply`), for `β` in any ordinal universe (here `Ordinal.{0}`
-  and `α = ℕ`); `measurableSet_setOf_bfEquivSetoid` (Borel for `β < ω₁` and countable `α`);
-  `isoSetoid_le_bfEquivSetoid`.
+  and `α = ℕ`); `measurableSet_setOf_bfEquivSetoid` (Borel for `β < ω₁`, countable `α` and
+  countably many relation symbols of each arity); `isoSetoid_le_bfEquivSetoid`.
 * **(S5) Scott height.** `TauCeti.scottHeight M` (`ModelTheory/Scott/Height.lean`), the least `β`
   with `StabilizesCompletely M β`: every `BFEquiv β` between a tuple of `M` and a tuple of a
   countable `N : Type`, finite ones included, is a `BFEquiv (β + 1)`. The test structures lie in
