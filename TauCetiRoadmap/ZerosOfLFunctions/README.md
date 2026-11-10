@@ -1524,8 +1524,8 @@ every `T ≥ 1`, with `r₁` the number of real places,
 where `N±_K(T)` counts the zeros of `ζ_K` with `0 < Re ρ < 1` and `|Im ρ| ≤ T` with multiplicity,
 the count used here. The absolute constant follows: for `T ≥ 2`, put `L = log(|d_K| T^n)`; then
 `(T + 2)/(2π) ≤ T/π < T`, `r₁/4 ≤ n/4`, `4.51954 ≤ 4.51954 n` and `L ≥ n log 2`, so the error is
-at most `0.22737 L + 27.795 n ≤ (0.22737 + 27.795/log 2) L < 41 L`. Trudgian, Theorem 2, states
-the same count, without the term `r₁/4`, with the error
+at most `0.22737 L + 27.795 n ≤ (0.22737 + 27.795/log 2) L < 41 L`. Trudgian, Theorem 2 in the
+arXiv v4 text, states the same count, without the term `r₁/4`, with the error
 `0.317 (log |d_K| + n log T) + 6.333 n + 3.482` for `T ≥ 1` (a larger leading constant and smaller
 secondary ones), but Bennett, Martin, O'Bryant and Rechnitzer (§1, p. 2) report that the proofs
 of Trudgian's Theorems 1 and 2 are incomplete (a parameter inequality is wrongly treated as
@@ -1967,8 +1967,11 @@ Layer 4.1; Layer 0 for *entireCompletion*; Layer 7.2 for the bridge. Mathlib `Ri
   large) and §2.1.2 (the explicit formula behind 6.4d).
 - T. S. Trudgian, *An improved upper bound for the error in the zero-counting formulae for
   Dirichlet L-functions and Dedekind zeta-functions*, Math. Comp. 84 (2015); arXiv:1206.1844 —
-  Theorem 2 (the Dedekind count, main term `(T/π) log(d_K (T/2πe)^{n_K})`), cited as history
-  only: its proof, like that of Theorem 1, is reported incomplete in the next two entries.
+  Theorem 2 in the arXiv v4 text (the Dedekind count, `T ≥ 1`, main term
+  `(T/π) log(d_K (T/2πe)^{n_K})`, error at most `0.317 (log d_K + n_K log T) + 6.333 n_K + 3.482`;
+  the published constants, as Hasanalizade–Shen–Wong quote them in §1, p. 1, are `0.316`,
+  `5.872`, `3.655`), cited as history only: its proof, like that of Theorem 1, is reported
+  incomplete in the next two entries.
 - E. Hasanalizade, Q. Shen, P.-J. Wong, *Counting zeros of Dedekind zeta functions*, Math. Comp.
   91 (2022); arXiv:2102.04663 — Theorem 1.1, p. 2, in the arXiv v3 numbering (every number field,
   `T ≥ 1`, zeros with `0 < β < 1` and `|γ| ≤ T`, main term `(T/π) log(d_K (T/2πe)^{n_K}) − r₁/4`,
