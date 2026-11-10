@@ -569,6 +569,15 @@ theorem satisfiesInf_radoSentenceInf_iff (G : SimpleGraph V) :
     SatisfiesInf G radoSentenceInf ↔ G.HasExtensionProperty := by
   sorry
 
+/-- `Θ_R` and Tau Ceti's Scott sentence of `R` hold in the same graphs, of any cardinality:
+by `SimpleGraph.HasExtensionProperty.realize_scottSentence_iff`, both say that the graph has the
+extension property. `Θ_R` is the explicit conjunction of the first-order extension axioms. -/
+theorem satisfiesInf_radoSentenceInf_iff_scottSentence (G : SimpleGraph V) :
+    SatisfiesInf G radoSentenceInf ↔
+      SatisfiesInf G (@TauCeti.scottSentence Language.graph _ ℕ TauCeti.radoGraph.structure _ _) :=
+  (satisfiesInf_radoSentenceInf_iff G).trans
+    (TauCeti.hasExtensionProperty_radoGraph.realize_scottSentence_iff G).symm
+
 theorem binomialRandom_radoSentenceInf (p : I) (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1) :
     SimpleGraph.binomialRandom ℕ p {G | SatisfiesInf G radoSentenceInf} = 1 := by
   sorry
