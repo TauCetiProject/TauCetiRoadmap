@@ -10,9 +10,10 @@ classical zero-free regions with their exceptional-zero alternative, the Riemann
 formula in its degree-and-conductor-uniform form, the truncated and Weil explicit formulas, and
 the semantics of a certified list of zeros. The end theorems are the de la Vallée Poussin region
 for the Dedekind zeta function and for the L-functions of finite-order ray-class characters, the
-uniform Riemann–von Mangoldt formula for both families, and the effective prime ideal theorem, the
-effective prime count in a ray class, and the effective abelian Chebotarev count with error
-`O(x exp(−c √log x))` and main term the offset logarithmic integral.
+uniform Riemann–von Mangoldt formula for both families, the Weil explicit formula for both
+families, and the effective prime ideal theorem, the effective prime count in a ray class, and the
+effective abelian Chebotarev count with error `O(x exp(−c √log x))` and main term the offset
+logarithmic integral.
 
 Suggested home: `TauCeti/NumberTheory/LFunctions/Zeros/`, divided into `Growth/`,
 `GammaAsymptotics/`, `AnalyticConductor/`, `Convexity/`, `Counting/`, `Hadamard/`, `ZeroFree/`,
@@ -239,6 +240,12 @@ not the roadmap.
 - `mellin`, `mellinInv`, `mellinInv_mellin_eq` (Mellin transform and inversion);
 - `Rat.HeightOneSpectrum.primesEquiv` (the height-one primes of `𝓞 ℚ` and the rational primes,
   through `Rat.HeightOneSpectrum.natGenerator`) and `ZMod.isUnit_iff_coprime`, for 8.7 at `K = ℚ`;
+- `NumberField.discr`, `NumberField.InfinitePlace.nrRealPlaces`,
+  `NumberField.InfinitePlace.nrComplexPlaces` (the discriminant `d_K` and the numbers `r₁`, `r₂` of
+  real and complex places; `nrRealPlaces K` is the cardinality of the real places, so
+  `r₁ − #𝔣_∞` never truncates in `ℕ`) and `Module.finrank` (the degree `n = [K : ℚ]`), for 6.4,
+  7.5, 8.4, 8.6 and 8.7; `DirichletCharacter.IsPrimitive` (the conductor of `χ` is its level), for
+  3.4 and 7.5 at `K = ℚ`; `IsAbelianGalois` and `ConjClasses`, for 8.8;
 - `Chebyshev.psi`, `ArithmeticFunction.vonMangoldt`, `NumberField.dedekindZeta`,
   `NumberField.dedekindZeta_residue`, `Ideal.absNorm`.
 
@@ -327,6 +334,22 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   `TauCeti.eq_of_meromorphic_of_eqOn_halfPlane` and
   `TauCeti.eventuallyEq_of_meromorphic_of_eqOn_halfPlane` (half-plane agreement of two meromorphic
   functions on `ℂ` gives the same punctured germ at every point);
+- the real signs of a ray-class character, for the gamma factor of 8.6:
+  `TauCeti.GlobalNumberFields.HeckeCharacter.ofRayClassCharacter`
+  (`NumberTheory/NumberField/Global/HeckeCharacter/Basic.lean`), the Hecke character of a
+  ray-class character; `TauCeti.GlobalNumberFields.HeckeCharacter.infinityType`
+  (`HeckeCharacter/InfinityType.lean`) with its real parities
+  `TauCeti.GlobalNumberFields.ContinuousInfinityType.realParity` (`Global/InfinityType/Basic.lean`),
+  the real gamma shifts of L-functions Layer 5 `heckeData`;
+  `TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff`
+  (`HeckeCharacter/RealParity.lean`: a real place `w` lies in the infinite part of the conductor of
+  a finite-order Hecke character exactly when its real parity at `w` is `1`);
+  `TauCeti.GlobalNumberFields.HeckeCharacter.conductor_ofRayClassCharacter`
+  (`Global/RayClass/Character/Conductor.lean`: the conductor of a ray-class character is that of
+  its Hecke character) and `TauCeti.LFunctions.PrimitiveRayClassCharacter.conductor_character`
+  (`LFunctions/Hecke/Primitive.lean`: the modulus of a primitive character is the conductor of its
+  character). Together they give that the real shift of `heckeData ψ` at `w` is `1` exactly when
+  `w ∈ ψ.conductor.infinitePart`, and `0` otherwise;
 - the ray-class characters of `ℚ` as Dirichlet characters
   (`NumberTheory/NumberField/Global/RayClass/Character/Dirichlet.lean`), for 6.4 at `K = ℚ`:
   `TauCeti.GlobalNumberFields.ratDirichletEquiv` (the characters of the ray class group of `(q)∞`
@@ -436,7 +459,8 @@ cited below, which Tau Ceti realizes in `NumberTheory/ArithmeticDirichletSeries/
 
 ### From TauCetiRoadmap.GlobalNumberFields
 
-[Global Number Fields](../../Completed/GlobalNumberFields/README.md), Layer 2, supplies `Modulus`,
+[Global Number Fields](../../Completed/GlobalNumberFields/README.md), Layer 2, supplies `Modulus`
+(fields `finitePart`, a nonzero ideal of `𝓞 K`, and `infinitePart`, a finite set of real places),
 `Modulus.support`, `Modulus.one`, `RayClassGroup`, `integralIdealsPrimeTo`, `idealClass` and
 `finite_rayClassGroup`: the ideal-class map has domain the nonzero integral ideals prime to the
 modulus. Layer 9 supplies `RayClassCharacter`. Layer 3E supplies `rayClassIdealMainTerm_eq`, whose
@@ -2284,11 +2308,43 @@ coming from the reflection to `χ⁻¹`; order `#{j : a_j = 0} + r₂` at `s = 0
 and 8.5 are, from 8.1–8.2 for `χ`, the region of 6.4 and the count 4.5; Davenport §§19–20 is the
 `K = ℚ` case.
 
-*Needs:* 8.1–8.5, 6.3–6.5, 4.5, 1.5; Arithmetic Dirichlet Series §2.3, at the pin
+The shift `a_j` is `1` exactly at the real places `w_j` dividing `𝔣` and `0` at the others, so
+`γ_χ(s) = Gammaℝ(s + 1)^{#𝔣_∞} Gammaℝ(s)^{r₁ − #𝔣_∞} Gammaℂ(s)^{r₂}`, with `𝔣_∞` the set of real
+places of `𝔣`: in L-functions Layer 5 `heckeData` the shift at `w` is the real parity at `w` of
+the Hecke character `TauCeti.GlobalNumberFields.HeckeCharacter.ofRayClassCharacter 𝔣 χ`, and Tau
+Ceti's `TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff`, read through
+`TauCeti.GlobalNumberFields.HeckeCharacter.conductor_ofRayClassCharacter` and
+`TauCeti.LFunctions.PrimitiveRayClassCharacter.conductor_character`, says that this parity is `1`
+exactly when `w ∈ 𝔣_∞`. For every `K`, the Weil formula of 8.4 for `χ` is
+`heckeLFunction_weilExplicitFormula`, stated for `χ = ψ.character` with
+`ψ : TauCeti.LFunctions.PrimitiveRayClassCharacter K`, `ψ ≠ 1`, and `m_ρ` read as in 8.4: the
+positive part of the divisor of `heckeLFunctionC ψ.character` at the points of the open strip,
+with the prime side over the nonzero ideals of `𝓞 K` and
+`TauCeti.GlobalNumberFields.RayClassCharacter.toMultiplicativeIdealWeight` for `χ(𝔞)`, which is
+`0` off the ideals prime to `𝔣`. The two readings of `m_ρ` agree as in 8.4: the zeros of `Λ(χ, ·)`
+lie in the closed strip (5.6a) and none lies on its edges (6.5), and on `Re s > 0` the factors
+`(|d_K| 𝔑𝔣)^{s/2}` and `γ_χ` have neither zeros nor poles, those of `Gammaℝ(s + 1)` lying at
+`s = −1, −3, …`. Route: the shift of 8.4 for `Λ(χ, ·)`, which is entire, so that no pole term
+appears; the reflection `Λ'/Λ(χ, s) = −Λ'/Λ(χ⁻¹, 1 − s)` from `completedHeckeLFunction_one_sub`,
+where `χ⁻¹` has the conductor and the shifts of `χ` and the values `conj χ(𝔞)`; and Mellin
+inversion on `Re s = 2` against the series of `−logDeriv L(χ, ·)` and `−logDeriv L(χ⁻¹, ·)`.
+
+*Needs:* 8.1–8.5, 6.3–6.5, 5.6a, 4.5, 1.5; Arithmetic Dirichlet Series §2.3, at the pin
 `TauCeti.MultiplicativeIdealWeight.logDeriv_LSeries_eq_neg_tsum_vonMangoldtTransform` for the
 weight of `χ`, which makes `ψ_K(x, χ)` the summatory function of the coefficients of
 `−logDeriv (heckeLFunctionC χ.character)` on `Re s > 1`, which the Dedekind identity
-`TauCeti.hasSum_idealTerm_vonMangoldt` of 8.3 does not give.
+`TauCeti.hasSum_idealTerm_vonMangoldt` of 8.3 does not give; for the Weil formula, L-functions
+Layer 5 `heckeData`, `differentiable_completedHeckeLFunction` and
+`completedHeckeLFunction_one_sub`, Tau Ceti
+`TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff`,
+`TauCeti.GlobalNumberFields.HeckeCharacter.conductor_ofRayClassCharacter` and
+`TauCeti.LFunctions.PrimitiveRayClassCharacter.conductor_character`, and Mathlib `mellin`,
+`mellinInv_mellin_eq`; for its statement, Tau Ceti `TauCeti.LFunctions.heckeLFunctionC`,
+`TauCeti.LFunctions.PrimitiveRayClassCharacter`, `TauCeti.GlobalNumberFields.Modulus` (fields
+`finitePart` and `infinitePart`),
+`TauCeti.GlobalNumberFields.RayClassCharacter.toMultiplicativeIdealWeight` and
+`TauCeti.IdealArithmeticFunction.vonMangoldt`, and Mathlib `NumberField.discr`,
+`NumberField.InfinitePlace.nrRealPlaces`, `NumberField.InfinitePlace.nrComplexPlaces`.
 
 **Checks.**
 
@@ -2299,6 +2355,25 @@ weight of `χ`, which makes `ψ_K(x, χ)` the summatory function of the coeffici
   the conjugation.
 - At `K = ℚ` and an odd character, the order at `s = 0` is `0` (`a = 1`), and the trivial zeros are
   at the negative odd integers.
+- `K = ℚ` and `χ₋₄`, of conductor `(4)∞`: `𝔣_∞` is the real place, so `γ_χ = Gammaℝ(s + 1)`, with
+  `Gammaℝ(1) = 1` and `Λ(χ₋₄, 0) = L(0, χ₋₄) = 1/2`, equal to `Λ(χ₋₄, 1) = 2 · (1/π) · (π/4)` as
+  the functional equation with `W = 1` requires. The shift `0` would give
+  `4^{s/2} Gammaℝ(s) L(s, χ₋₄)`, which has a pole at `s = 0` since `L(0, χ₋₄) ≠ 0`, so it is not the
+  entire completion. The conductor term of `heckeLFunction_weilExplicitFormula` is
+  `(log 4) φ(1) ≈ 1.3863 φ(1)`, and its archimedean weight at `t = 0` is
+  `logDeriv Gammaℝ (3) = −(log π)/2 + digamma(3/2)/2 ≈ −0.55412`, against
+  `logDeriv Gammaℝ (2) ≈ −0.86097` for the shift `0`.
+- `K = ℚ(√3)` and `ψ` the nontrivial character of the narrow class group, which has order `2`
+  because the class number is `1` and every unit `±(2 + √3)^k` has norm `+1`: the generators of
+  `(α)` have the sign pattern of `α` or of `−α`, and `ψ((α)) = −1` exactly when `N α < 0`. The ray
+  class group modulo one real place alone is trivial (multiply a generator by `−1`), so `𝔣₀ = (1)`
+  and `𝔣_∞` is both real places. Then `γ_ψ = Gammaℝ(s + 1)²`, and `L(s, ψ) = L(s, χ₋₄) L(s, χ₋₃)`,
+  the induction of `ψ` to `ℚ` being the sum of the two characters of `ℚ(i, √−3)/ℚ` that are
+  nontrivial on `Gal(ℚ(i, √−3)/ℚ(√3))`. The formula is the sum of the two `K = ℚ` formulas:
+  conductor term `log(12 · 1) ≈ 2.4849 = log 4 + log 3`, gamma factor the product of the two odd
+  factors, and at the ramified prime `(1 + √3)` of norm `2`, whose generators all have norm `−2`
+  and so are never totally positive, `ψ((1 + √3)) = −1 = χ₋₄(2) + χ₋₃(2)`. Reading both shifts
+  as `0` gives `Gammaℝ(s)²`, with a double pole at `0`, where `L(0, ψ) = (1/2)(1/3) = 1/6 ≠ 0`.
 
 ### 8.7 Effective counting in a ray class
 
@@ -2569,6 +2644,8 @@ at `√x` bounds it by `√x/log³ 2 + 8x/log³ x`, which is `O(x/log³ x)`.
 ### Examples
 
 - `chebyshevPsi_explicitFormula` and `riemannZeta_weilExplicitFormula` at `K = ℚ`.
+- `heckeLFunction_weilExplicitFormula` at `K = ℚ` and `χ₋₄`: one real gamma factor with shift `1`
+  and conductor term `(log 4) φ(1)`.
 - `primeIdealCount_effective` at `K = ℚ` is `π(x) = Li x + O(x exp(−c √log x))`.
 - `primeCounting_progression_effective` at `q = 4`, `a = 3`.
 
@@ -2578,8 +2655,10 @@ Arithmetic Dirichlet Series §§2.3, 4.2–4.3, 5.2, 6.1–6.4, 10.1–10.2; Glo
 Layers 2, 3E, 9;
 Number Field Arithmetic §2.3; Chebotarev Layers 11, 13–14. Mathlib Mellin transform and
 `IsAbelianGalois`. Layers 1.4,
-1.4a, 1.5, 4.5, 5.6, 6, 7.2. L-functions Layers 2, 3, 5. Tau Ceti
-`TauCeti.hasSum_idealTerm_vonMangoldt` (L-functions Layer 8; 8.3, 8.4), ray-class reciprocity
+1.4a, 1.5, 4.5, 5.6, 5.6a, 6, 7.2. L-functions Layers 2, 3, 5. Tau Ceti
+`TauCeti.hasSum_idealTerm_vonMangoldt` (L-functions Layer 8; 8.3, 8.4), the real parities of
+Hecke characters and the infinite part of the conductor
+`TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff` (8.6), ray-class reciprocity
 `TauCeti.ClassFieldTheory.rayClassArtinMap` (Class Field Theory Layer 12; 8.8) and
 `TauCeti.Real.logIntegral_eq_div_log_sub_add` (Arithmetic Dirichlet Series §6.2; 8.9).
 

@@ -43,22 +43,19 @@ Stated here:
 * Layer 8, the truncated explicit formula for `Chebyshev.psi`, the Weil explicit formula for the
   Dedekind zeta function of an arbitrary number field (8.4) over smooth compactly supported test
   functions, with its `K = ℚ` form for `ζ`, the effective prime ideal theorem over an
-  arbitrary number field (8.5), the effective prime count in a ray class with its width uniform
-  over the fields of degree `n` (8.7) and its `K = ℚ` case for arithmetic progressions, and the
-  effective Chebotarev count for an abelian extension (8.8).
+  arbitrary number field (8.5), the Weil explicit formula for a nontrivial primitive ray-class
+  character (8.6), whose gamma factor has shift `1` exactly at the real places of the conductor,
+  the effective prime count in a ray class with its width uniform over the fields of degree `n`
+  (8.7) and its `K = ℚ` case for arithmetic progressions, and the effective Chebotarev count for an
+  abelian extension (8.8).
 
 Not stated here:
 
 * the completed Dedekind zeta function and the completed Hecke L-functions of L-functions Layers 3
-  and 5, which are not at the pins. The counts of 7.5 and the Weil formula 8.4 over a general field
-  are therefore stated on the continued function over the open strip `0 < Re s < 1`, where its
-  zeros are those of the completion with the same multiplicities and the trivial zero at `0` is
-  left out;
-* the Weil formula of 8.6 for a nontrivial character: its archimedean term is the logarithmic
-  derivative of the gamma factor of the L-functions roadmap's Hecke record `heckeData χ` (Layer 5),
-  whose gamma shifts are not at the pins and are not redefined here. The trivial character's
-  formula is 8.4, `dedekindZeta_weilExplicitFormula`, whose gamma factor `Γℝ^{r₁} Γℂ^{r₂}` is read
-  off the places of `K`;
+  and 5, which are not at the pins. The counts of 7.5 and the Weil formulas 8.4 and 8.6 over a
+  general field are therefore stated on the continued function over the open strip
+  `0 < Re s < 1`, where its zeros are those of the completion with the same multiplicities and the
+  trivial zeros at `0` are left out;
 * the exceptional-zero terms of 8.5–8.8, which 6.3 defines from the region constant of 6.4, a
   witness of a theorem stated here with `sorry`. For a fixed field, modulus or extension each is
   `O(x^β)` with `β < 1` and is absorbed by the error term, which is the form in which 8.5, 8.7 and
@@ -347,6 +344,49 @@ theorem primeIdealCount_effective (K : Type*) [Field K] [NumberField K] :
     ∃ c : ℝ, 0 < c ∧
       (fun x : ℝ ↦ TauCeti.primeCount K Set.univ x - TauCeti.Real.logIntegral x)
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
+
+/-- **Layer 8.6, the Weil explicit formula for a nontrivial primitive ray-class character.** Let
+`ψ ≠ 1` be a primitive finite-order ray-class character of a number field `K` with `r₁` real and
+`r₂` complex places, of conductor `𝔣` with finite part `𝔣₀` and set `𝔣_∞` of real places, and `φ`
+smooth with compact support in `(0, ∞)`, with Mellin transform `φ̃`. With `m_ρ` the multiplicity of
+`ρ` as a zero of `L(ψ, s) = heckeLFunctionC ψ.character` in the open strip `0 < Re ρ < 1`, the
+family `ρ ↦ m_ρ φ̃(ρ)` over `ℂ` is summable, and
+`∑_ρ m_ρ φ̃(ρ) = log(|d_K| 𝔑𝔣₀) φ(1) + A_ψ(φ) − ∑_𝔞 Λ_K(𝔞) (ψ(𝔞) φ(𝔑𝔞) + conj ψ(𝔞) φ(1/𝔑𝔞)/𝔑𝔞)`,
+the last sum over the nonzero ideals of `𝓞 K`, with `ψ(𝔞) = 0` for `𝔞` not prime to `𝔣₀`, where
+`A_ψ(φ) = (2π)⁻¹ ∫ (logDeriv γ_ψ)(2 + it) (φ̃(2 + it) + φ̃(−1 − it)) dt` for the gamma factor
+`γ_ψ(s) = Γℝ(s + 1)^{#𝔣_∞} Γℝ(s)^{r₁ − #𝔣_∞} Γℂ(s)^{r₂}`. The completion
+`Λ(ψ, s) = (|d_K| 𝔑𝔣₀)^{s/2} γ_ψ(s) L(ψ, s)` is entire, which is why there is no pole term, and
+`Λ(ψ, s) = W(ψ) Λ(ψ⁻¹, 1 − s)`; the reflection to `ψ⁻¹`, of the same conductor and gamma factor,
+puts `conj ψ(𝔞)` in the second prime term. The shift at a real place `w` is the real parity at `w`
+of the Hecke character of `ψ`, the shift of the L-functions roadmap's `heckeData`, and it is `1`
+exactly when `w ∈ 𝔣_∞` (Tau Ceti `HeckeCharacter.mem_conductor_infinitePart_iff`). At `ψ = 1` the
+formula is `dedekindZeta_weilExplicitFormula`, which has the pole terms `φ̃(0) + φ̃(1)`. -/
+theorem heckeLFunction_weilExplicitFormula (K : Type*) [Field K] [NumberField K]
+    (ψ : TauCeti.LFunctions.PrimitiveRayClassCharacter K) (hψ : ψ ≠ 1) (φ : ℝ → ℂ)
+    (hφ : ContDiff ℝ ∞ φ) (hsupp : HasCompactSupport φ) (hpos : tsupport φ ⊆ Ioi 0) :
+    Summable (fun ρ : ℂ ↦ (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.LFunctions.heckeLFunctionC ψ.character) univ ρ).toNat :
+          ℂ) * mellin φ ρ) ρ) ∧
+      ∑' ρ : ℂ, (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.LFunctions.heckeLFunctionC ψ.character) univ ρ).toNat :
+          ℂ) * mellin φ ρ) ρ =
+        (Real.log (|(NumberField.discr K : ℝ)| *
+            (Ideal.absNorm ψ.conductor.finitePart : ℝ)) : ℂ) * φ 1 +
+          (2 * π : ℂ)⁻¹ * (∫ t : ℝ,
+            ((ψ.conductor.infinitePart.card : ℂ) * logDeriv Gammaℝ (3 + t * I) +
+              ((NumberField.InfinitePlace.nrRealPlaces K - ψ.conductor.infinitePart.card : ℕ) :
+                ℂ) * logDeriv Gammaℝ (2 + t * I) +
+              (NumberField.InfinitePlace.nrComplexPlaces K : ℂ) * logDeriv Gammaℂ (2 + t * I)) *
+            (mellin φ (2 + t * I) + mellin φ (1 - (2 + t * I)))) -
+          ∑' 𝔞 : (Ideal (NumberField.RingOfIntegers K))⁰,
+            TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) 𝔞 *
+              (ψ.character.toMultiplicativeIdealWeight (𝔞 : Ideal (NumberField.RingOfIntegers K)) *
+                  φ (Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K))) +
+                (starRingEnd ℂ) (ψ.character.toMultiplicativeIdealWeight
+                    (𝔞 : Ideal (NumberField.RingOfIntegers K))) *
+                  φ ((Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℝ))⁻¹ /
+                    (Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℂ)) :=
+  sorry
 
 /-- **Layer 8.7, the effective prime count in a ray class.** For each degree `n` there is `c > 0`
 such that for every number field `K` of degree `n`, every modulus `𝔪` of `K` and every ray class
