@@ -49,10 +49,10 @@ Not statable at the pins, and therefore stated nowhere in this file:
   that operator;
 * the closed-base self-adjoint realization with `H¹` domain and compact resolvent and the chiral
   adjoint theorems (G6.1): the pins have no bundle Sobolev spaces;
-* existence of a spin structure iff `w₂ = 0` in every rank, and the `H¹(X; ℤ/2)` torsor of spin
-  structures (G4.3, G4.4): the pins have no second Stiefel–Whitney class of a real vector bundle
-  (their Stiefel–Whitney classes are those of quadratic forms over fields) and no twist of a
-  principal `Spin(n)`-bundle by a principal `ℤ/2`-bundle;
+* existence of a spin structure iff `w₂ = 0` in every rank, and the `H¹(X; ℤ/2)` torsor of the
+  spin structures of a fixed orientation (G4.3, G4.4): the pins have no second Stiefel–Whitney
+  class of a real vector bundle (their Stiefel–Whitney classes are those of quadratic forms over
+  fields) and no twist of a principal `Spin(n)`-bundle by a principal `ℤ/2`-bundle;
 * the skeletal comparison of G4.4a: the pins have no quotient of frame sections over the
   one-skeleton by homotopy through such sections;
 * plane-bundle square roots (G5.3): the pins have no tensor product of topological vector bundles,
@@ -82,7 +82,9 @@ namespace TauCetiRoadmap.SpinGeometry
 orthonormal frame bundle of `E` over the identity, equivariant along the vector action
 `Spin(n) → SO(n)`: the frame of `p • g` sends `v` to the frame of `p` applied to `g v g⁻¹`.
 Each fibre of `P` is a `Spin(n)`-torsor, so its image is one `SO(n)`-orbit of frames, and the
-orientation of `E` is the one for which these frames are positive. Positive rank is required:
+orientation of `E` is the one for which these frames are positive. A structure thus chooses an
+orientation of `E`, which equivalences preserving the frame map preserve, and G4.4's
+`H¹(X; ℤ/2)` torsor acts on the classes of one orientation. Positive rank is required:
 the native `Spin(0)` is trivial, while the rank-zero branch of G4.2 uses the geometric group
 `μ₂`. (Kirby, *The topology of 4-manifolds*, Chapter IV, p. 33; Lawson–Michelsohn,
 *Spin Geometry*, Chapter II, §1.) -/

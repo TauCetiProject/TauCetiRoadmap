@@ -1620,7 +1620,12 @@ bases fixed above every principal bundle is numerable. Its frame map lands
 in the full orthonormal frame bundle; each fibre of P is a Spin(n)-torsor,
 so the image is one SO(n)-orbit of frames, and the orientation of V is the
 one for which these frames are positive. The isomorphism with the oriented
-frame bundle then follows, both fibres being SO(n)-torsors. At n=0 the
+frame bundle then follows, both fibres being SO(n)-torsors. Equivalences
+preserve the frame map and hence this orientation, so the equivalence
+classes of these structures on V are the disjoint union, over the
+orientations of V, of the classes of lifts of Fr⁺_SO(V) for that
+orientation; a non-orientable V has none. The torsor of G4.4 and the
+counts of G4.4–G4.4a are those of one fixed orientation. At n=0 the
 native group `CliffordAlgebra.realCliffordSpinGroupZero 0` is trivial, so
 the geometric μ₂ branch is not this structure, and the Lean structure
 requires n≠0 (Kirby, *The topology of 4-manifolds*, Chapter IV, p. 33, for
@@ -1653,10 +1658,21 @@ and B2; G1.1's μ₂ with Tau Ceti
 `TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`.
 
 **Checks.**
-- Circle: Fr⁺_SO(1)(TS¹)=S¹ and Spin(1)={±1}, so a spin structure is a
-  double cover of S¹ over the identity: the trivial cover and the
-  connected one, two structures (Nicolaescu, Exercise 12.2.30, p. 670);
-  over a simply connected base there is one.
+- Circle, with a fixed orientation: Fr⁺_SO(1)(TS¹)=S¹ and Spin(1)={±1},
+  so a spin structure is a double cover of S¹ over the identity: the
+  trivial cover and the connected one, two structures (Nicolaescu,
+  Exercise 12.2.30, p. 670); over a simply connected base there is one
+  for each orientation.
+- The frame map chooses the orientation. Over a point with V=ℝ², a
+  Spin(2)-torsor with an equivariant map into the full frame bundle O(2)
+  has image one of its two components, giving two classes, one per
+  orientation; for a fixed orientation there is one, matching
+  H¹(pt;ℤ/2)=0. In rank one Spin(1) acts trivially on ℝ¹, so the frame
+  map is constant on the fibres of P and a structure is an orientation of
+  V together with a double cover: over S¹ with V=TS¹ there are four
+  classes, two per orientation. Reading these full-frame structures as
+  one H¹(X;ℤ/2) torsor would give one class over the point and two over
+  S¹.
 - A lift is data: over S¹ the proposition w₂=0 holds (H²(S¹;ℤ/2)=0)
   while the two lifts are inequivalent; in rank zero the frame bundle is
   the base and μ₂-lifts are its double covers, two over S¹ and one
@@ -1713,17 +1729,20 @@ G4.2.
 
 The required API includes:
 
-- Central twisting acts freely and transitively on lift classes, retaining relative gauge transformations.
+- Central twisting acts freely and transitively on the lift classes of a fixed orientation, retaining relative gauge transformations.
 - Ordered direct sums are associative and commute with pullback and metric transport, including geometric rank zero.
 
-Given one lift, twist by a principal Z/2-bundle: on a common
+Fix an orientation of V. Given one lift of Fr⁺_SO(V) for it, twist by a
+principal Z/2-bundle: on a common
 trivializing cover multiply the Spin transition cocycle by the central ±1
 cocycle and glue by Tau Ceti's `TauCeti.fiberBundleCoreOfGroupCocycle`,
 which is principal, with `TauCeti.homeomorphOfCohomologous` making the
 result independent of the cocycle representatives on that cover and
 TopologicalKTheory T6.4's refinement comparison independent of the cover;
-−1 acts trivially on frames, so the frame map descends. Prove this action is free
-and transitive on equivalence classes, giving an H¹(X;Z/2) torsor
+−1 acts trivially on frames, so the frame map descends and the twisted
+lift has the same orientation. Prove this action is free and transitive
+on the equivalence classes of lifts for that orientation, giving an
+H¹(X;Z/2) torsor
 (Lawson–Michelsohn, Theorem II.1.7; Nicolaescu, Remark 12.2.28 and
 Exercise 12.2.29, p. 669, with the three-torus instance in Exercise
 12.2.35, p. 673), with
@@ -1748,9 +1767,12 @@ C1's canonical zero-frame bundle; G4.1a's covering with its central
 kernel; G1.1's μ₂.
 
 **Checks.**
-- S¹: H¹(S¹;ℤ/2)=ℤ/2, two structures, periodic and antiperiodic,
-  exchanged by the nontrivial twist; T²: four; Sⁿ for n≥2: one, since
-  H¹=0. Twisting twice by the same ℤ/2-bundle is the identity.
+- For a fixed orientation: S¹: H¹(S¹;ℤ/2)=ℤ/2, two structures, periodic
+  and antiperiodic, exchanged by the nontrivial twist; T²: four; Sⁿ for
+  n≥2: one, since H¹=0. Twisting twice by the same ℤ/2-bundle is the
+  identity. These bases are connected and orientable, so structures
+  whose frame map lands in the full frame bundle number four, eight and
+  two, and no twist moves a structure to the other orientation.
 - Direct sum for m=n=1: (Spin(1)×Spin(1))/{(1,1),(−1,−1)}≅ℤ/2 maps to
   {±1}⊂Spin(2) by multiplication; over S¹ the sum of lifts of twist
   classes a and b has class a+b, so antiperiodic⊕antiperiodic has
@@ -1763,7 +1785,7 @@ kernel; G1.1's μ₂.
 
 The required API includes:
 
-- The skeletal quotient and principal lift classes are inverse natural comparisons, with difference given by the H¹ cocycle.
+- For a fixed orientation, the skeletal quotient and principal lift classes are inverse natural comparisons, with difference given by the H¹ cocycle.
 - Framed stabilization is an equivalence of lift groupoids; rank-two existence is integral divisibility of e by 2.
 
 On a Hausdorff CW
@@ -1784,8 +1806,8 @@ orthonormal frames over X¹ which admit extension to X², modulo homotopy
 through frame sections over X¹. Extension is a property, not extra chosen
 data. Allow the frames at vertices to move during the homotopy. Construct
 an equivalence between this quotient and the isomorphism classes of
-G4.2's Spin lifts. This quotient does not retain the lifts' H⁰(X;Z/2)
-automorphisms. Consume SpinRepresentations Layer 2's
+G4.2's Spin lifts for that orientation. This quotient does not retain the
+lifts' H⁰(X;Z/2) automorphisms. Consume SpinRepresentations Layer 2's
 SpinCompactTopologyFoundation: π₀Spin(n)=π₁Spin(n)=0 lets a lift admit a
 Spin frame over X², and makes any two choices homotopic over X¹. Project
 its restriction to obtain the skeletal class. Use AlgebraicTopology §8.9's
@@ -1827,14 +1849,14 @@ exists iff `TauCeti.eulerClass` of u is twice an integral class.
 Divisibility by two does not depend on the sign of u, and w₂ does not
 depend on the orientation, so this is the condition for either
 orientation. For rank one an orientation trivializes V, but its Spin
-lifts still form the H¹ torsor. Rank zero retains G4.4's separate
-geometric μ₂ and orientation conventions.
+lifts for that orientation still form the H¹ torsor. Rank zero retains
+G4.4's separate geometric μ₂ and orientation conventions.
 
 Check the distinction on TS²: its Euler number is 2, it has a unique Spin
-structure, and the radial stable framing TS²⊕ε¹≃ε³ of CharacteristicClasses
-C7.3 supplies skeletal data although TS² has no global frame. Match the
-edge differences on S¹ and T² with G6.5's two circle lifts and four torus
-lifts, including the lift defined by the Lie framing and their G4.4
+structure for each orientation, and the radial stable framing TS²⊕ε¹≃ε³
+of CharacteristicClasses C7.3 supplies skeletal data although TS² has no
+global frame. Match the edge differences on S¹ and T² with G6.5's two
+circle lifts and four torus lifts, including the lift defined by the Lie framing and their G4.4
 twists. TS², the two circle lifts and the four torus lifts distinguish
 lift data, existence and a chosen trivialization (Kirby, *The topology of
 4-manifolds*, Chapter IV, pp. 33–34, for the skeletal and principal
@@ -1851,11 +1873,11 @@ listed under the suppliers; Mathlib `Topology.CWComplex` and
 
 **Checks.**
 - TS² has e=2 and w₂=0: its stabilized bundle is trivial and it has one
-  spin structure, but its unstabilized two-plane bundle has no global
-  frame.
-- For the trivial rank-three bundle on S¹, the two loop classes in SO(3)
-  give two skeletal classes and two lifts; keeping only globally constant
-  frames loses one.
+  spin structure for each orientation, but its unstabilized two-plane
+  bundle has no global frame.
+- For the trivial rank-three bundle on S¹ with its standard orientation,
+  the two loop classes in SO(3) give two skeletal classes and two lifts;
+  keeping only globally constant frames loses one.
 - The plane bundle on S² with e=1 stabilizes with w₂≠0 and has neither
   extendible skeletal data nor a spin lift.
 - If H²(X;Z)=Z/2 and e is its nonzero class, 2H²=0, so no root exists;
@@ -2081,9 +2103,9 @@ and C3.2's c₁=e; SmoothBundlesConnections B5's curvature.
   (e₂,e₁) changes the sign of Γ and gives (S⁺)²≃E.
 - S²: E=TS² has c₁=2 and H²(S²;ℤ)=ℤ has no 2-torsion, so E has one
   square root up to isomorphism (c₁=1), matching the unique spin
-  structure; the flat T² has four flat square roots of the trivial E,
-  matching |H¹(T²;ℤ/2)|=4. Curvature halving gives the root of TS² the
-  Chern number 1=2/2.
+  structure for the orientation of J; the flat T² has four flat square
+  roots of the trivial E, matching |H¹(T²;ℤ/2)|=4. Curvature halving
+  gives the root of TS² the Chern number 1=2/2.
 - At θ=π/2, z=e₁e₂ is i under z↦e^(iθ) and acts on E by −1 and on S⁺, S⁻
   by −i and i; both squares are −1, and the distinct characters fix the
   labels.
