@@ -19,8 +19,12 @@ Statable at the pins, and stated below:
   `sSetTopAdj`; the counit half is CharacteristicClasses C1.2b's;
 * the Hurewicz–Dold theorem for numerable locally trivial maps (G2.10), on Tau Ceti's
   `TauCeti.IsHurewiczFibration` and Mathlib's `Bundle.Trivialization` and `PartitionOfUnity`;
-* the comparison theorem for extraordinary homology theories on CW complexes (G3.3, homology
-  form), on Mathlib's `TopPair.HomologyPretheory` and `Topology.CWComplex`;
+* the comparison theorem for extraordinary homology theories on CW complexes (G3.3), on Mathlib's
+  `TopPair.HomologyPretheory` and `Topology.CWComplex`; the cohomological comparison theorem is its
+  instance `C := Dᵒᵖ`, since a `ℤ`-graded cohomology theory valued in an abelian category `D` is an
+  extraordinary Eilenberg–Steenrod homology pretheory valued in `Dᵒᵖ`, whose boundary for
+  `c.Rel i (i - 1)` is the connecting map `h^(i-1)(A) → h^i(X, A)` and whose additivity is the
+  product axiom;
 * Serre's theorem that the positive stable stems are torsion (G5.6), on Mathlib's
   `HomotopyGroup` of Euclidean spheres in the Freudenthal stable range;
 * the unstable rational Hurewicz theorem (G5.6), on Tau Ceti's `HomotopyGroup.hurewiczHom`.
@@ -38,11 +42,16 @@ Headline theorems of the roadmap that are not statable at the pins, with the mis
   `TauCeti.PointedHomotopyCat` and the wedge sum `TauCeti.WedgeSum`, but no CW structure on a
   wedge of CW complexes other than a wedge of circles, so the wedge axiom on connected pointed
   CW complexes is not statable without an ad hoc encoding;
-* the cohomological comparison theorem (G3.3) and the Milnor sequence (G3.4): Mathlib has
-  homology pretheories only, and no cohomology theory;
-* the Leray–Hirsch and Thom isomorphisms (G4.1, G4.3), Spanier–Whitehead duality (G5.1) and the
-  stable rational Hurewicz isomorphism `π_n E ⊗ ℚ ≅ H_n(E; ℚ)` (G5.6): there is no stable
-  homotopy category and no generalized cohomology theory represented by a spectrum.
+* the Milnor sequence `0 → lim¹ E^(q-1)(X_i) → E^q(X) → lim E^q(X_i) → 0` (G3.4): Tau Ceti has
+  `lim` and `lim¹` of towers of modules (`TauCeti.ModuleTower.lim`, `TauCeti.ModuleTower.limOne`),
+  but there is no mapping telescope of a sequence of spaces and hence no Milnor connecting map
+  `lim¹ E^(q-1)(X_i) → E^q(X)`; asserting only an abstract isomorphism of the kernel of restriction
+  with `lim¹` would drop that natural map, so nothing is stated;
+* the Leray–Hirsch and Thom isomorphisms (G4.1, G4.3): Mathlib's homology pretheories carry no
+  product (no cross or cup product on a theory, so no module structure over the base), and there
+  are no Thom spaces of vector bundles;
+* Spanier–Whitehead duality (G5.1) and the stable rational Hurewicz isomorphism
+  `π_n E ⊗ ℚ ≅ H_n(E; ℚ)` (G5.6): there is no stable homotopy category.
 -/
 
 open CategoryTheory HomotopicalAlgebra
@@ -129,12 +138,14 @@ theorem stableStem_isOfFinOrder (n k : ℕ) (hk : n + 3 ≤ k)
   sorry
 
 /-- **Unstable rational Hurewicz theorem.** Let `X` be a pointed space with `π_j(X, x)` trivial
-for `j < k` (so `X` is path connected, and `(k - 1)`-connected). The Hurewicz map
+for `j < k` (so `X` is `(k - 1)`-connected, and path connected when `k ≥ 1`). The Hurewicz map
 `π_(n+1)(X, x) → H_(n+1)(X; ℚ)` is a rational isomorphism in degrees `n + 1 ≤ 2k - 2`: its
 kernel consists of elements of finite order and its image spans the rational homology; and it is
-rationally surjective in degree `2k - 1`. For `k ≤ 1` only the degree-one surjectivity is
-asserted. The route is Freudenthal and the stable rational Hurewicz isomorphism, after CW
-approximation. README G5.6. -/
+rationally surjective in degree `2k - 1`. For `k = 1` only the degree-one surjectivity is
+asserted, and for `k = 0` nothing, since `2 * 0 - 1 = 0` in `ℕ`. The route is Freudenthal and
+the stable rational Hurewicz isomorphism, after CW approximation (Hatcher, *Spectral Sequences in
+Algebraic Topology*, Proposition 1.22, p. 34, for the stable isomorphism, and Hatcher,
+*Algebraic Topology*, Corollary 4.24, p. 360, for the Freudenthal range). README G5.6. -/
 theorem rationalHurewicz {X : Type} [TopologicalSpace X] (x : X) (k : ℕ)
     (hconn : ∀ j < k, Subsingleton (HomotopyGroup (Fin j) X x)) (n : ℕ) :
     (n + 1 ≤ 2 * k - 2 → ∀ a,
