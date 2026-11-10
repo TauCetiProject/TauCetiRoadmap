@@ -54,10 +54,11 @@ restates none of these. What stays here is what §6.7 does not state: the elemen
 and 2.3, the plus construction of 2.4, and Layer 3.
 
 **Left to AlgebraicKTheory.** Bass's stable range condition `HasStableRangeLE R s` and its
-equivalent forms, with injective stability for `K₁`, `injective_stability` (AlgebraicKTheory 4.1);
-Bass's bound for commutative noetherian rings `hasStableRangeLE_of_ringKrullDim_le` and stable
-range one for semilocal rings `hasStableRangeLE_one_of_isSemisimpleRing` (AlgebraicKTheory 4.2).
-This roadmap states its theorems on `SR_(sdim+2)`, which is `HasStableRangeLE R (sdim + 1)`.
+equivalent forms, with surjective and injective stability for `K₁`, `surjective_stability` and
+`injective_stability` (AlgebraicKTheory 4.1); Bass's bound for commutative noetherian rings
+`hasStableRangeLE_of_ringKrullDim_le` and stable range one for semilocal rings
+`hasStableRangeLE_one_of_isSemisimpleRing` (AlgebraicKTheory 4.2). This roadmap states its
+theorems on `SR_(sdim+2)`, which is `HasStableRangeLE R (sdim + 1)`.
 
 **Left to Tau Ceti.** The stabilization `TauCeti.stabilizeGL`, the elementary subgroup
 `TauCeti.elementarySubgroup` and its perfectness `TauCeti.commutator_elementarySubgroup_self`, the
@@ -65,11 +66,10 @@ block-diagonal homomorphism `TauCeti.fromBlocksGL`, and the stable group
 `TauCeti.StableGeneralLinearGroup` (supplier contracts below).
 
 **Left to StableHomotopyKTheory and GeneralAlgebraicKTheory.** Classifying spaces and the comparison
-of their homology with group homology (StableHomotopyKTheory 1.30 and 1.32), homotopy groups of
-filtered colimits (1.14), the relative Hurewicz theorem (3.16), the plus construction with respect
-to a perfect normal subgroup, its homology and its universal property (StableHomotopyKTheory 3.12,
-3.25–3.27), the universal cover `BP⁺` of `BG⁺` (3.31), the H-space `BGL(R)⁺` (StableHomotopyKTheory
-4.14), Quillen's `K_m(R)`
+of their homology with group homology (StableHomotopyKTheory 1.30 and 1.32), the relative Hurewicz
+theorem (3.16), the plus construction with respect to a perfect normal subgroup, its homology and
+its universal property (StableHomotopyKTheory 3.12, 3.25–3.27), the universal cover `BP⁺` of `BG⁺`
+(3.31), the H-space `BGL(R)⁺` (StableHomotopyKTheory 4.14), Quillen's `K_m(R)`
 (GeneralAlgebraicKTheory 3.2) and the identification `π_m(BGL(R)⁺) ≅ K_m(R)` for `m ≥ 1`
 (GeneralAlgebraicKTheory 3.14).
 
@@ -174,17 +174,19 @@ for the theorems here.
 spectral sequence `E¹_(p,q) = H_q(G, C_p)`, its vanishing for complexes exact in low degrees and the
 Shapiro identification of `E¹_(p,q)` with `H_q(Stab_G(x), ℤ)` for a transitive permutation module;
 the unimodular frames, the complexes `F_n^δ` and `F_n^δ(u)` for columns and for row vectors, their
-`GL_n(R)`-actions and their exactness ranges under `SR_(s+2)`; van der Kallen's theorem for
+`GL_n(R)`-actions and their exactness ranges under `SR_(s+2)`; the identification of the homology
+of a directed union of subgroups with the colimit of their homology; van der Kallen's theorem for
 `GL_n(R)` with constant coefficients and its comparison with `GL(R)`.
 
-**From AlgebraicKTheory.** 4.1 (`HasStableRangeLE`, its monotonicity and `injective_stability`),
-4.2 (`hasStableRangeLE_of_ringKrullDim_le`, `hasStableRangeLE_one_of_isSemisimpleRing`).
+**From AlgebraicKTheory.** 4.1 (`HasStableRangeLE`, its monotonicity, `surjective_stability` and
+`injective_stability`), 4.2 (`hasStableRangeLE_of_ringKrullDim_le`,
+`hasStableRangeLE_one_of_isSemisimpleRing`).
 
-**From StableHomotopyKTheory.** 1.14 (homotopy groups commute with filtered colimits), 1.30 and
-1.32 (`H_*(BG) ≅ H_*(G)`), 3.12 (the plus construction is an integral homology isomorphism), 3.16
-(the relative Hurewicz theorem with trivial `π₁`-action), 3.25–3.27 (the plus construction with
-respect to a perfect normal subgroup, its universal property and functoriality), 3.31 (`BP⁺` is the
-universal cover of `BG⁺`), 4.14 (`BGL(R)⁺` and its H-space structure).
+**From StableHomotopyKTheory.** 1.30 and 1.32 (`H_*(BG) ≅ H_*(G)`), 3.12 (the plus construction
+is an integral homology isomorphism), 3.16 (the relative Hurewicz theorem with trivial `π₁`-action),
+3.25–3.27 (the plus construction with respect to a perfect normal subgroup, its universal property
+and functoriality), 3.31 (`BP⁺` is the universal cover of `BG⁺`), 4.14 (`BGL(R)⁺` and its H-space
+structure).
 
 **From GeneralAlgebraicKTheory.** 3.2 (Quillen's `K_m(R)`) and 3.14 (`π_m(BGL(R)⁺) ≅ K_m(R)` for
 `m ≥ 1`).
@@ -488,15 +490,20 @@ the perfect group `E_n(R)`, `n ≥ 3` (van der Kallen 1980, Corollary 4.12, p. 2
 universal cover of `BGL_n(R)⁺` (StableHomotopyKTheory 3.31) and
 `H_*(BE_n(R)⁺) = H_*(E_n(R))` (StableHomotopyKTheory 1.30, 1.32 and 3.12); 2.1 and the relative
 Hurewicz theorem (StableHomotopyKTheory 3.16) give the first claim (van der Kallen 1980, proof of
-Corollary 4.12), and for `m = 1` the injective stability of `K₁` (AlgebraicKTheory 4.1); for the
-second, the mapping telescope of the `BGL_n(R)⁺` is a plus construction of `BGL(R)`, with
-`GL(R) = TauCeti.StableGeneralLinearGroup R` (StableHomotopyKTheory 3.25), its homotopy groups are
-the colimits of the `π_m(BGL_n(R)⁺)` (StableHomotopyKTheory 1.14), and `K_m(R) ≅ π_m(BGL(R)⁺)`
-(GeneralAlgebraicKTheory 3.14).
-*Needs:* 2.1; AlgebraicKTheory 4.1 (`injective_stability`, normality of `E_n(R)`); Tau Ceti
+Corollary 4.12), and for `m = 1` the surjective and injective stability of `K₁`
+(AlgebraicKTheory 4.1, `surjective_stability` for `n ≥ sdim + 1`, `injective_stability` for
+`n ≥ sdim + 2`). For the second, with `GL(R) = TauCeti.StableGeneralLinearGroup R` and `E(R)` its
+elementary subgroup: `H_i(E(R)) = colim_n H_i(E_n(R))` (SchemeKTheoryOperations §6.7, directed
+unions), so by 2.1 `H_i(E(R), E_n(R)) = 0` for `i ≤ k` when `n ≥ 2k + e − 1`; `BE_n(R)⁺ → BE(R)⁺`
+covers `BGL_n(R)⁺ → BGL(R)⁺` (StableHomotopyKTheory 3.27 and 3.31, `E(R)` being perfect and normal
+by 4.14), and the relative Hurewicz theorem (3.16) gives that `π_m(BGL_n(R)⁺) → π_m(BGL(R)⁺)` is
+onto for `n ≥ 2m + e − 1` and injective for `n ≥ 2m + e + 1`, `m ≥ 2`; for `m = 1` the same
+follows from AlgebraicKTheory 4.1; then `K_m(R) ≅ π_m(BGL(R)⁺)` (GeneralAlgebraicKTheory 3.14).
+*Needs:* 2.1; SchemeKTheoryOperations §6.7 (directed unions); AlgebraicKTheory 4.1
+(`surjective_stability`, `injective_stability`, normality of `E_n(R)`); Tau Ceti
 `TauCeti.commutator_elementarySubgroup_self`, `TauCeti.StableGeneralLinearGroup`,
-`TauCeti.StableGeneralLinearGroup.of`; StableHomotopyKTheory 1.14, 1.30, 1.32, 3.12, 3.16,
-3.25–3.27, 3.31, 4.14; GeneralAlgebraicKTheory 3.2, 3.14.
+`TauCeti.StableGeneralLinearGroup.of`; StableHomotopyKTheory 1.30, 1.32, 3.12, 3.16, 3.25–3.27,
+3.31, 4.14; GeneralAlgebraicKTheory 3.2, 3.14.
 
 **Checks.**
 
@@ -520,11 +527,11 @@ the colimits of the `π_m(BGL_n(R)⁺)` (StableHomotopyKTheory 1.14), and `K_m(R
 
 ### Dependencies
 
-Layer 1; SchemeKTheoryOperations §6.7 (for comparison in Examples and in Scope); AlgebraicKTheory
-4.1–4.2; Tau Ceti `TauCeti.stabilizeGL`, `TauCeti.elementarySubgroup`,
+Layer 1; SchemeKTheoryOperations §6.7 (directed unions for 2.4; for comparison in Examples and in
+Scope); AlgebraicKTheory 4.1–4.2; Tau Ceti `TauCeti.stabilizeGL`, `TauCeti.elementarySubgroup`,
 `TauCeti.map_stabilizeGL_elementarySubgroup_le`, `TauCeti.commutator_elementarySubgroup_self`,
-`TauCeti.StableGeneralLinearGroup`; StableHomotopyKTheory 1.14, 1.30, 1.32, 3.12, 3.16, 3.25–3.27,
-3.31, 4.14 and GeneralAlgebraicKTheory 3.2, 3.14 for 2.4. Within the layer, 2.2 and 2.4 use 2.1,
+`TauCeti.StableGeneralLinearGroup`; StableHomotopyKTheory 1.30, 1.32, 3.12, 3.16, 3.25–3.27, 3.31,
+4.14 and GeneralAlgebraicKTheory 3.2, 3.14 for 2.4. Within the layer, 2.2 and 2.4 use 2.1,
 and 2.3 uses Layer 1 only.
 
 ## Layer 3: twisted coefficients
