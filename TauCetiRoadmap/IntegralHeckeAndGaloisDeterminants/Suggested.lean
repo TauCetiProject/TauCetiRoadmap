@@ -326,7 +326,7 @@ def FiniteCohomology (C : DerivedCategory (ModuleCat.{u} A)) : Prop :=
 
 /-- An endomorphism is a ghost if it acts by zero on every cohomology module. -/
 def IsGhost {C : DerivedCategory (ModuleCat.{u} A)} (f : End C) : Prop :=
-  ∀ i : ℤ, (DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).map f = 0
+  ∀ i : ℤ, (DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).map f.asHom = 0
 
 /-- Over a noetherian ring, `Hom(M, N)` is finite for bounded `M, N` with finite cohomology; no
 finite projective dimension is assumed ([Boxer–Pilloni], proof of Lemma 2.4.3, p. 18). -/
