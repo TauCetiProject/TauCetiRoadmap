@@ -62,6 +62,7 @@ body:
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
+        - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleMassFormula
         - FactorRigidity
@@ -122,16 +123,19 @@ body:
         - PerfectoidSpaces
         - PivotalSpherical
         - Poincare3D
+        - PolylogarithmFunctions
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
         - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
@@ -144,6 +148,7 @@ body:
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - RootSystemsPartII
         - SNumbers
         - ScatteringDiagrams
         - SchemeAndStackFoundations
