@@ -180,10 +180,10 @@ statements of Layer 7 Step 5 included.
 | cohomological triviality and projective dimension | `TateCohomology.projective_ker_of_isZero_res`, `TateCohomology.primaryComponent_tateCohomology_eq_bot` |
 | strict cohomological dimension of `G_K` | `scd_p_absoluteGaloisGroup_eq_two` |
 
-The `h2MuEquivZMod_mixed` equivalence is the mixed-characteristic one, valid at `n = p`; an
-away-from-`p` equivalence assuming `IsUnit (n : 𝒪[K])` cannot replace it. Likewise,
-`h2FpEquivZMod_of_mu` takes a coefficient identification `μ_p ≅ T` as data. Omitting that
-identification makes the statement false. `tateDual A` is Tau Ceti's internal hom
+The `h2MuEquivZMod_mixed` theorem is the mixed-characteristic result valid at `n = p`; the
+away-from-`p` theorem with `IsUnit (n : 𝒪[K])` cannot replace it. Likewise,
+`h2FpEquivZMod_of_mu` carries a chosen primitive root and a coefficient identification. Omitting
+that identification makes the statement false. `tateDual A` is Tau Ceti's internal hom
 `Hom(A, μ_n)` with its conjugation action, and `tateDualityPairing` is evaluation followed by an
 invariant `H²(G_K, μ_n) ≃ ℤ/n`. After a primitive root `ζ ∈ K` is chosen, `muNRepToTateDual ζ`
 identifies `μ_p` with `Hom(μ_p, μ_p)`, and `tateDualityPairing_muNRepToTateDual` turns the `(1, 1)`

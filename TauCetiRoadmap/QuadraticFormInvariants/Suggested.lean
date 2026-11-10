@@ -1,149 +1,88 @@
 import Mathlib
 import TauCeti.Algebra.Quaternion.BrauerClass
-import TauCeti.Algebra.Quaternion.SplittingCriterion
-import TauCeti.FieldTheory.GaloisCohomology.MuTwo.CupNorm
-import TauCeti.FieldTheory.QuadraticForm.StiefelWhitney.Evens.Kummer.Value
-import TauCeti.FieldTheory.QuadraticForm.StiefelWhitney.QuadraticExtension
-import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Discriminant
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Hasse.Basic
 import TauCeti.NumberTheory.HilbertSymbol.Basic
-import TauCeti.NumberTheory.LocalField.QuadraticForm.Bimultiplicativity
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Brauer
-import TauCeti.NumberTheory.LocalField.QuadraticForm.Classification
 
 /-!
 # Quadratic forms and cohomological invariants: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, and it is the test the finished roadmap is held
-to. Every headline is statable at the pins and every one is proved there, so each is written below
-as an `example` whose proof is the Tau Ceti theorem:
+**This file is not the roadmap.** The roadmap is `README.md`. This file is the test of the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti. All five are statable at the pins, and
+the pinned Tau Ceti proves each of them, so they are cited here and not restated:
 
-* the four-fold splitting criterion for quaternion algebras (Layer 2);
-* the classification of regular forms over a nonarchimedean local field by dimension,
-  discriminant and local Hasse invariant (Layer 6D);
-* the cup-norm theorem in `H²(G_K, 𝔽₂)` (Layer 7C);
-* the value of the Evens norm on a Kummer class of a quadratic extension (Layer 9);
-* the relative Stiefel–Whitney formula in degree two for a quadratic extension (Layer 9).
+- Layer 2, the four-fold splitting criterion for `ℍ[K,a,b]`:
+  `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae`;
+- Layer 6D, the classification of regular forms over a nonarchimedean local field by dimension,
+  discriminant and local Hasse invariant:
+  `QuadraticForm.equivalent_iff_finrank_eq_and_discr_eq_and_localHasse_eq`;
+- Layer 7C, the cup-norm theorem, `(a) ∪ (b) = 0` in `H²(G_K, 𝔽₂)` exactly when `b = x² − a y²`
+  is solvable: `TauCeti.cup_kummerClass_eq_zero_iff`;
+- Layer 9, the value of the Evens norm on a Kummer class: `TauCeti.galoisEvens2_kummerClass`;
+- Layer 9, the relative Stiefel–Whitney formula in degree two for a quadratic extension:
+  `TauCeti.sw2Class_formClass_traceTransfer_smul_sq`.
 
-No headline is left unstated for want of a carrier.
+No headline theorem is unstatable at the pins.
 
-The other declarations are the names that other roadmaps import from this namespace. The Lean
-statements of `GlobalQuadraticForms` use `formClass` (with its carrier `RegularFormClass`),
-`discr`, `hilbertSymbol`, `localHasse`, `hilbertSymbol_neg_self`, `hilbertSymbol_mul` and
-`exists_hilbertSymbol_eq_neg_one`, and those of `OrthogonalSpinGroups` use `hilbertSymbol`,
-`localHasse` and `hasseInvariant_eq_localHasse`. Each is an abbreviation of a Tau Ceti
-declaration, a definition read off one, or a theorem whose proof is a Tau Ceti theorem; none is
-admitted. `hilbertSymbol` and `localHasse` keep the bodies that `GlobalQuadraticForms` unfolds.
-The other names that roadmaps cite from this namespace are Tau Ceti's declarations, and
-`README.md` gives the Tau Ceti name of each; among them, Hilbert reciprocity in sign form is
-`TauCeti.hilbertSymbol_productFormula`, which `IntegralLattices` consumes under that name.
+The file declares the three names that a roadmap on main imports from this namespace:
+`OrthogonalSpinGroups` imports `hilbertSymbol`, `localHasse` (Layer 6C) and
+`hasseInvariant_eq_localHasse` (Layer 6E). `hilbertSymbol` is a reducible alias of Tau Ceti's
+symbol, `localHasse` is the pairwise product on a diagonal tuple `Fin n → Kˣ`, and
+`hasseInvariant_eq_localHasse` is proved from Tau Ceti with no admitted step. Every other name
+that a roadmap cites from this namespace is Tau Ceti's, and the README's scope section gives the
+Tau Ceti name for each. The carrier of isometry classes of regular forms is Tau Ceti's
+`TauCeti.RegularFormClass`, written with its Tau Ceti name below.
 -/
 
 namespace TauCetiRoadmap.QuadraticFormInvariants
 
-open QuadraticMap
-open scoped Quaternion
+universe u
 
-universe u v
+/-! ## Layer 6C: the Hilbert symbol and the local Hasse invariant -/
 
-/-! ## Layer 2: quaternion algebras and the four-fold splitting criterion -/
+section Layer6C
 
-/-- **The four-fold splitting criterion** (Lam III.2.7; Serre, *A Course in Arithmetic*, III.1.1
-and III.1.2), Tau Ceti's `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae`: for units `a`,
-`b` of a field in which `2` is invertible, these are equivalent: `ℍ[K,a,b]` is a matrix algebra;
-`b` is a norm from `K[√a]`; `b = x² − a y²` has a solution in `K`; `⟨1, −a, −b⟩` is isotropic;
-and the norm form of `ℍ[K,a,b]` is isotropic. -/
-example {K : Type u} [Field K] [Invertible (2 : K)] (a b : Kˣ) :
-    [Nonempty (ℍ[K, (a : K), (b : K)] ≃ₐ[K] Matrix (Fin 2) (Fin 2) K),
-      ∃ z : QuadraticAlgebra K (a : K) 0, z.norm = b,
-      ∃ x y : K, (b : K) = x ^ 2 - a * y ^ 2,
-      ¬ (weightedSumSquares K ![1, -(a : K), -(b : K)]).Anisotropic,
-      ¬ (QuaternionAlgebra.normForm (a : K) 0 (b : K)).Anisotropic].TFAE :=
-  TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae a b
+variable {K : Type u} [Field K]
 
-/-! ## Layer 3: the classical invariants that need no Brauer group -/
-
-/-! `RegularFormClass` and `formClass` are Tau Ceti's carrier for isometry classes of regular forms
-and the class of a regular form, from Layer 0
-(`TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`). The `export` makes the two
-names of this namespace denote Tau Ceti's constants, so that no second carrier exists. -/
-
-export TauCeti (RegularFormClass formClass)
-
-/-- **The discriminant in `Kˣ ⧸ (Kˣ)²`**: Tau Ceti's `TauCeti.RegularFormClass.discr`, valued in the
-additive `TauCeti.SquareClassGroup K`, read in the multiplicative quotient through
-`TauCeti.multiplicativeSquareClassEquiv`. On the class of `⟨w 0, …, w (n-1)⟩` it is the class of
-`∏ i, w i` (`TauCeti.RegularFormClass.discr_mk` and `TauCeti.multiplicativeSquareClassEquiv_mk`). -/
-noncomputable def discr {K : Type u} [Field K] [Invertible (2 : K)] (x : RegularFormClass K) :
-    Kˣ ⧸ Subgroup.square Kˣ :=
-  TauCeti.multiplicativeSquareClassEquiv.symm
-    (Multiplicative.ofAdd (TauCeti.RegularFormClass.discr x))
-
-/-! ## Layer 6: forms over a nonarchimedean local field -/
-
-/-- **The Hilbert symbol** (6C), Tau Ceti's `TauCeti.hilbertSymbol`: `+1` when `b = x² − a y²` has
-a solution in `K` and `−1` otherwise. It is defined over every field; each theorem about it
-carries the hypotheses it needs. Consumers take the rest of its API from Tau Ceti under Tau Ceti's
-names: symmetry where `2` is invertible, `TauCeti.hilbertSymbol_comm`; the evaluation against the
-unramified class over a nonarchimedean local field, `TauCeti.hilbertSymbol_unramified`; and the
-comparison with Class Field Theory's cohomological symbol,
-`TauCeti.hilbertSymbol_eq_cohomological`. -/
-noncomputable abbrev hilbertSymbol {K : Type u} [Field K] (a b : Kˣ) : ℤˣ :=
+/-- **The Hilbert symbol**, Tau Ceti's `TauCeti.hilbertSymbol`: `+1` when `b = x² − a y²` has a
+solution in `K` and `−1` otherwise. It is defined over every field. -/
+noncomputable abbrev hilbertSymbol (a b : Kˣ) : ℤˣ :=
   TauCeti.hilbertSymbol a b
 
-/-- **The local Hasse invariant of a diagonal tuple** (6C), `∏_{i<j} (aᵢ, aⱼ)`, with the empty
-product in ranks `0` and `1`. On the class of the tuple it is Tau Ceti's
+/-- **The local Hasse invariant of a diagonal tuple**, `∏_{i<j} (aᵢ, aⱼ)`, with the empty product
+in ranks `0` and `1`. On the class of the tuple it is Tau Ceti's
 `TauCeti.RegularFormClass.localHasse` (`TauCeti.RegularFormClass.localHasse_mk`), so over a
-nonarchimedean local field with `2` invertible isometric tuples have the same value
-(`TauCeti.RegularFormClass.localHasse_congr`). -/
-noncomputable def localHasse {K : Type u} [Field K] {n : ℕ} (w : Fin n → Kˣ) : ℤˣ :=
+nonarchimedean local field with `2` invertible isometric tuples have the same value, by
+`TauCeti.RegularFormClass.localHasse_congr`. -/
+noncomputable def localHasse {n : ℕ} (w : Fin n → Kˣ) : ℤˣ :=
   ∏ ij ∈ Finset.univ.filter fun ij : Fin n × Fin n => ij.1 < ij.2,
     hilbertSymbol (w ij.1) (w ij.2)
 
-/-- `(a, −a) = +1` over every field (6C), Tau Ceti's `TauCeti.hilbertSymbol_neg_self`: the norm
-equation `−a = x² − a y²` has the solution `x = 0`, `y = 1`. -/
-theorem hilbertSymbol_neg_self {K : Type u} [Field K] (a : Kˣ) : hilbertSymbol a (-a) = 1 :=
-  TauCeti.hilbertSymbol_neg_self a
+end Layer6C
 
-/-- **Bimultiplicativity** over a nonarchimedean local field in which `2` is invertible (6C),
-Tau Ceti's `TauCeti.hilbertSymbol_mul_right`. -/
-theorem hilbertSymbol_mul {K : Type u} [Field K] [ValuativeRel K] [TopologicalSpace K]
-    [IsNonarchimedeanLocalField K] [Invertible (2 : K)] (a b c : Kˣ) :
-    hilbertSymbol a (b * c) = hilbertSymbol a b * hilbertSymbol a c :=
-  TauCeti.hilbertSymbol_mul_right (Invertible.ne_zero (2 : K)) a b c
+/-! ## Layer 6E: the two Hasse invariants agree -/
 
-/-- **Nondegeneracy** over a nonarchimedean local field in which `2` is invertible (6C), Tau Ceti's
-`TauCeti.exists_hilbertSymbol_eq_neg_one`: for every nonsquare `a` some `b` has `(a, b)_K = −1`. -/
-theorem exists_hilbertSymbol_eq_neg_one {K : Type u} [Field K] [ValuativeRel K]
-    [TopologicalSpace K] [IsNonarchimedeanLocalField K] [Invertible (2 : K)] (a : Kˣ)
-    (ha : ¬ IsSquare a) :
-    ∃ b : Kˣ, hilbertSymbol a b = -1 :=
-  TauCeti.exists_hilbertSymbol_eq_neg_one (Invertible.ne_zero (2 : K)) ha
+section Layer6E
 
-/-- **The local classification** (6D; O'Meara 63:20; Serre, *A Course in Arithmetic*, IV.2.3,
-Thm. 7),
-Tau Ceti's `QuadraticForm.equivalent_iff_finrank_eq_and_discr_eq_and_localHasse_eq`: over a
-nonarchimedean local field in which `2` is invertible, two regular forms are isometric exactly
-when their dimensions, discriminants and local Hasse invariants agree. -/
-example {K : Type u} [Field K] [ValuativeRel K] [TopologicalSpace K]
-    [IsNonarchimedeanLocalField K] [Invertible (2 : K)] {V W : Type v} [AddCommGroup V]
-    [Module K V] [FiniteDimensional K V] [AddCommGroup W] [Module K W] [FiniteDimensional K W]
-    (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (R : QuadraticForm K W)
-    (hR : R.Nondegenerate) :
-    Q.Equivalent R ↔ Module.finrank K V = Module.finrank K W ∧
-      TauCeti.RegularFormClass.discr (formClass Q hQ) =
-        TauCeti.RegularFormClass.discr (formClass R hR) ∧
-      TauCeti.RegularFormClass.localHasse (formClass Q hQ) =
-        TauCeti.RegularFormClass.localHasse (formClass R hR) :=
-  QuadraticForm.equivalent_iff_finrank_eq_and_discr_eq_and_localHasse_eq Q hQ hR
+variable {K : Type u} [Field K]
 
-/-- **The two Hasse invariants agree** (6E): over a nonarchimedean local field in which `2` is
-invertible, Tau Ceti's sign isomorphism `TauCeti.BrauerGroup.quaternionSubgroupSignEquiv` on the
-subgroup of the Brauer group generated by quaternion classes carries the Brauer-valued Hasse
-invariant of a diagonal tuple to its local Hasse invariant
+/-- The pairwise product over the pairs `i < j` is the iterated product over `j ∈ Ioi i`, which is
+how Tau Ceti's `TauCeti.RegularFormClass.localHasse_mk` writes it. -/
+private theorem localHasse_eq_prod_prod_Ioi {n : ℕ} (w : Fin n → Kˣ) :
+    localHasse w = ∏ i, ∏ j ∈ Finset.Ioi i, TauCeti.hilbertSymbol (w i) (w j) := by
+  rw [localHasse, Finset.prod_filter, Fintype.prod_prod_type]
+  refine Finset.prod_congr rfl fun i _ => ?_
+  rw [← Finset.prod_filter]
+  congr 1
+  ext j
+  simp
+
+/-- **The two Hasse invariants agree** (Layer 6E, Milestone 1): over a nonarchimedean local field
+in which `2` is invertible, Tau Ceti's sign isomorphism
+`TauCeti.BrauerGroup.quaternionSubgroupSignEquiv` on the subgroup generated by quaternion classes
+carries the Brauer-valued Hasse invariant to the local Hasse invariant
 (`TauCeti.RegularFormClass.quaternionSubgroupSignEquiv_apply_hasseInvariant`). -/
-theorem hasseInvariant_eq_localHasse {K : Type u} [Field K] [ValuativeRel K] [TopologicalSpace K]
+theorem hasseInvariant_eq_localHasse [ValuativeRel K] [TopologicalSpace K]
     [IsNonarchimedeanLocalField K] [Invertible (2 : K)] :
     ∃ ε : Subgroup.closure
         (Set.range fun ab : Kˣ × Kˣ => TauCeti.BrauerGroup.quaternionClass ab.1 ab.2) →* ℤˣ,
@@ -154,65 +93,13 @@ theorem hasseInvariant_eq_localHasse {K : Type u} [Field K] [ValuativeRel K] [To
           (Set.range fun ab : Kˣ × Kˣ => TauCeti.BrauerGroup.quaternionClass ab.1 ab.2)),
         ε ⟨_, h⟩ = localHasse w := by
   refine ⟨(TauCeti.BrauerGroup.quaternionSubgroupSignEquiv (K := K)).toMonoidHom,
-    (TauCeti.BrauerGroup.quaternionSubgroupSignEquiv (K := K)).injective, fun {n} w h => ?_⟩
-  have key := TauCeti.RegularFormClass.quaternionSubgroupSignEquiv_apply_hasseInvariant
-    (Quotient.mk (TauCeti.regularFormSetoid K) ⟨n, w⟩)
-  rw [TauCeti.RegularFormClass.localHasse_mk] at key
-  have hprod : localHasse w = ∏ i, ∏ j ∈ Finset.Ioi i, TauCeti.hilbertSymbol (w i) (w j) := by
-    rw [localHasse, Finset.prod_filter, Fintype.prod_prod_type]
-    refine Finset.prod_congr rfl fun i _ => ?_
-    rw [← Finset.prod_filter]
-    congr 1
-    ext j
-    simp
-  rw [hprod]
-  exact key
+    (TauCeti.BrauerGroup.quaternionSubgroupSignEquiv (K := K)).injective, fun w h => ?_⟩
+  have := TauCeti.RegularFormClass.quaternionSubgroupSignEquiv_apply_hasseInvariant
+    (Quotient.mk (TauCeti.regularFormSetoid K) ⟨_, w⟩)
+  rw [TauCeti.RegularFormClass.localHasse_mk] at this
+  rw [localHasse_eq_prod_prod_Ioi]
+  exact this
 
-/-! ## Layer 7: the Brauer group in Galois cohomology -/
-
-/-- **The cup-norm theorem** (7C; Serre, *Local Fields*, XIV §2; Gille–Szamuely 4.7), Tau Ceti's
-`TauCeti.cup_kummerClass_eq_zero_iff`: over every field in which `2` is invertible,
-`(a) ∪ (b) = 0` in `H²(G_K, 𝔽₂)` exactly when `b = x² − a y²` has a solution in `K`. -/
-example {K : Type u} [Field K] [Invertible (2 : K)] (a b : Kˣ) :
-    (TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1
-        (TauCeti.kummerClass a) (TauCeti.kummerClass b) = 0 ↔
-      ∃ x y : K, (b : K) = x ^ 2 - a * y ^ 2 :=
-  TauCeti.cup_kummerClass_eq_zero_iff a b
-
-/-! ## Layer 9: transfer and the relative Stiefel–Whitney formula -/
-
-/-- **The value of the Evens norm on a Kummer class** (Kahn 1984, Lemme II.2.1), Tau Ceti's
-`TauCeti.galoisEvens2_kummerClass`: for a separable quadratic extension `L = K(x)` with `x² = d`,
-and `a ∈ Lˣ` whose trace `t` is nonzero, `N^Ev((a)) = (t) ∪ (−d · N a) + (2) ∪ (d)`. -/
-example {K L : Type u} [Field K] [Field L] [Algebra K L] [Invertible (2 : K)]
-    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
-    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
-    (d : Kˣ) {x : L} (hx : x ∉ Set.range (algebraMap K L))
-    (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ) (t : Kˣ)
-    (ht : (t : K) = Algebra.trace K L (a : L)) :
-    TauCeti.galoisEvens K L σ hdeg (TauCeti.kummerClass a) =
-      (TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1
-          (TauCeti.kummerClass t)
-          (TauCeti.kummerClass (-(d * Units.map (Algebra.norm K : L →* K) a))) +
-        (TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1
-          (TauCeti.kummerClass (unitOfInvertible (2 : K))) (TauCeti.kummerClass d) :=
-  TauCeti.galoisEvens2_kummerClass σ hdeg d hx hx2 a t ht
-
-/-- **The relative Stiefel–Whitney formula in degree two** (Kahn 1984, Théorème 2 in degree two,
-whose quadratic case is Prop. II.3.5), Tau Ceti's
-`TauCeti.sw2Class_formClass_traceTransfer_smul_sq`: for a quadratic extension `L/K` in which `2`
-is invertible and `a ∈ Lˣ`,
-`w₂(Tr_*⟨a⟩) = w₂(Tr_*⟨1⟩) + N^Ev((a)) + w₁(Tr_*⟨1⟩) ∪ cor (a)`. -/
-example {K L : Type u} [Field K] [Field L] [Algebra K L] [Invertible (2 : K)]
-    [FiniteDimensional K L] [Invertible (2 : L)]
-    (σ : L →ₐ[K] SeparableClosure K) (hfin : Module.finrank K L = 2) (a : Lˣ)
-    (ha : (((a : L) • QuadraticMap.sq (R := L) (A := L)).traceTransfer K).Nondegenerate)
-    (h1 : ((QuadraticMap.sq (R := L) (A := L)).traceTransfer K).Nondegenerate) :
-    TauCeti.sw2Class (formClass _ ha) =
-      TauCeti.sw2Class (formClass _ h1) +
-          TauCeti.galoisEvens K L σ hfin (TauCeti.kummerClass a) +
-        (TauCeti.trivialF2TopPairing (TauCeti.AbsoluteGaloisGroup K)).cup 1 1
-          (TauCeti.sw1Class (formClass _ h1)) (TauCeti.galoisCor K L σ 1 (TauCeti.kummerClass a)) :=
-  TauCeti.sw2Class_formClass_traceTransfer_smul_sq σ hfin a ha h1
+end Layer6E
 
 end TauCetiRoadmap.QuadraticFormInvariants
