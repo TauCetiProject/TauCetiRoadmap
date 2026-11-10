@@ -22,15 +22,19 @@ refutes the continuum hypothesis. Its supporting milestone is the **bounded-rank
 the models of `φ` have Scott height bounded below ω₁, there are at most ℵ₀ countable models or a
 perfect set of pairwise non-isomorphic ones.
 
-The roadmap is downstream of four others. The parent [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md)
-roadmap supplies the infinitary syntax, back-and-forth equivalence and Scott analysis. Three
-sibling roadmaps supply the descriptive set theory: **[CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) (the coded space
-of structures, model classes, Borelness of back-and-forth equivalence, Scott height, López–Escobar,
-uniform back-and-forth separation), **[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)) (perfect and Cantor antichains,
-Silver's theorem and its cardinality form), and **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) (fragments,
-fragment types, Morleyization, the action of language maps on formulas, the small presentation of
-a countable language). Every
-statement consumed from them is quoted exactly in [Dependencies](#dependencies-on-other-roadmaps).
+The roadmap is downstream of four others. The parent
+[InfinitaryLogic](../../Completed/InfinitaryLogic/README.md) roadmap supplies the infinitary syntax,
+back-and-forth equivalence and Scott analysis. Three sibling roadmaps supply the descriptive set
+theory: **[CountableStructureSpaces](../CountableStructureSpaces/README.md)**
+([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) (the coded space of
+structures, model classes, Borelness of back-and-forth equivalence, Scott height, López–Escobar,
+uniform back-and-forth separation),
+**[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** (perfect and Cantor
+antichains, Silver's theorem and its cardinality form), and
+**[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** (fragments, fragment types,
+Morleyization, the action of language maps on formulas, the small presentation of a countable
+language). Every statement consumed from them is quoted exactly in
+[Dependencies](#dependencies-on-other-roadmaps).
 
 Suggested homes:
 
@@ -296,7 +300,7 @@ declaration is a target of the supplying roadmap, and its statement here is what
   (that roadmap proves it from the forced back-and-forth tree and the boundedness theorem). A
   CountableStructureSpaces target with no Tau Ceti declaration.
 
-**From [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)).
+**From [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)**.
 
 * **(E0) Perfect-set vocabulary.** For a topological space `X`, a setoid `E` and `A : Set X`
   (`SetTheory/Descriptive/Antichain.lean`): `Setoid.HasPerfectAntichainOn E A` (a nonempty perfect
@@ -316,7 +320,7 @@ declaration is a target of the supplying roadmap, and its statement here is what
   (`Silver.lean`): on a standard Borel space, a Borel equivalence relation has `≤ ℵ₀` or exactly
   `𝔠` classes.
 
-**From [InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)).
+**From [InfinitaryModelExistence](../InfinitaryModelExistence/README.md)**.
 
 * **(M0) Language maps (its Layer 0.1).** `LHom.onBoundedFormulaInf g`
   (`ModelTheory/Infinitary/LanguageMap.lean`), the action of a language map `g : L →ᴸ L'`
