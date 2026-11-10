@@ -2,33 +2,44 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib
+module
+
+public import Mathlib
+public import TauCeti.Analysis.VonNeumannAlgebra.Adjoin
 
 /-!
 # Von Neumann algebras, factors, and modular theory: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems that are statable against the pinned Mathlib, each with `sorry`, together with the few
-definitions (the amplifications `x ⊗ 1`, `1 ⊗ y` and the spatial tensor product on the completed
-Hilbert tensor product, multiplication algebras, the left regular representation and group von
-Neumann algebras of discrete groups) and predicates (central, abelian and finite projections,
-normal functionals and normal semifinite traces, factor, finiteness, types II₁ and II∞, type I₂
-summands, projection comparison, cyclic and separating vectors, tracial states, property Γ,
-injectivity and hyperfiniteness) that those statements need. Concrete von Neumann algebras are
-Mathlib's `VonNeumannAlgebra H` on a complete complex Hilbert space `H`; the strong and weak
-operator topologies are Mathlib's `H →Lₚₜ[ℂ] H` and `H →WOT[ℂ] H`. The completed Hilbert tensor
-product `E ⊗̂ F` is `UniformSpace.Completion (E ⊗[ℂ] F)` of Mathlib's inner product space
-`E ⊗[ℂ] F`, and `ℓ²(Γ)` of a discrete group is `L²(Γ)` for the counting measure. The
-nondegeneracy clause of the Layer 0 representations is the body of Tau Ceti's
-`NonUnitalStarAlgHom.IsNondegenerate`, and the generated von Neumann algebras `spatialTensor`,
-`multiplicationAlgebra` and `groupVonNeumannAlgebra` are Tau Ceti's `VonNeumannAlgebra.adjoin`
-of their generators with its body written out, so that the file imports only Mathlib.
+theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
+with the few definitions (the amplifications `x ⊗ 1`, `1 ⊗ y` and the spatial tensor product on
+the completed Hilbert tensor product, multiplication algebras, the left regular representation
+and group von Neumann algebras of discrete groups) and predicates (central, abelian and finite
+projections, normal functionals and normal semifinite traces, factor, finiteness, types II₁ and
+II∞, type I₂ summands, projection comparison, cyclic and separating vectors, tracial states,
+property Γ, injectivity and hyperfiniteness) that those statements need. Concrete von Neumann
+algebras are Mathlib's `VonNeumannAlgebra H` on a complete complex Hilbert space `H`; the strong
+and weak operator topologies are Mathlib's `H →Lₚₜ[ℂ] H` and `H →WOT[ℂ] H`. The completed
+Hilbert tensor product `E ⊗̂ F` is `UniformSpace.Completion (E ⊗[ℂ] F)` of Mathlib's inner
+product space `E ⊗[ℂ] F`, and `ℓ²(Γ)` of a discrete group is `L²(Γ)` for the counting measure.
+The generated von Neumann algebras `spatialTensor`, `multiplicationAlgebra` and
+`groupVonNeumannAlgebra` are Tau Ceti's `VonNeumannAlgebra.adjoin` of their generators, the
+double commutant of the generators and their adjoints. The nondegeneracy clause of the Layer 0
+representations is the body of Tau Ceti's `NonUnitalStarAlgHom.IsNondegenerate`, density of the
+span of the vectors `π a ξ`, written out.
 
 Headline theorems of the README that are not statable at the pins, and the carrier each lacks:
 
 * Layer 1: the ultraweak and ultrastrong closure forms of the bicommutant and Kaplansky theorems,
   and the ultraweak form of the projection-closure theorem. Mathlib has no ultraweak or
   ultrastrong topology on `H →L[ℂ] H` (only the WOT and pointwise copies used below).
+* Layer 2: the spatial form of the classification of abelian von Neumann algebras with
+  multiplicity, a unitary equivalence with a Hilbert sum of amplified multiplication algebras.
+  There is no direct sum of von Neumann algebras, and assembling one from `lp.mapCLM`, with a
+  uniform-bound side condition on every operator family, would be a long ad hoc encoding. The
+  abstract classification is stated below, with `L∞(X, μ)` realized as the von Neumann algebra
+  of its multiplication operators on `L²(X, μ)` (Mathlib's `ContinuousLinearMap.holderL`), since
+  `MeasureTheory.Lp` has no ring structure for `p = ∞`.
 * Layer 4: the identification of the predual `M_*` with the ultraweakly continuous functionals
   and the agreement of normality with ultraweak continuity. Mathlib has no ultraweak topology on
   `H →L[ℂ] H`. Normality itself is stated below in its monotone-net form on Mathlib's strong
@@ -36,13 +47,6 @@ Headline theorems of the README that are not statable at the pins, and the carri
   of vector functionals. The existence of a Banach predual for a concrete von Neumann algebra and
   Sakai's theorem are statable through `WStarAlgebra`'s conjugate-linear predual and are stated
   below.
-  The classification of abelian von Neumann algebras is stated below in its abstract form, with
-  `L∞(X, μ)` realized as the von Neumann algebra of its multiplication operators on `L²(X, μ)`
-  (Mathlib's `ContinuousLinearMap.holderL`), since `MeasureTheory.Lp` has no ring structure for
-  `p = ∞`. Its spatial form with multiplicity, a unitary equivalence with a Hilbert sum of
-  amplified multiplication algebras, is not stated: there is no direct sum of von Neumann
-  algebras, and assembling one from `lp.mapCLM`, with a uniform-bound side condition on every
-  operator family, would be a long ad hoc encoding.
 * Layer 7: the coupling constant and the Jones index of a II₁ subfactor (no normal Hilbert
   modules over a II₁ factor and no coupling dimension).
 * Layer 8: von Neumann crossed products and the Bernoulli factors. There is no von Neumann
@@ -84,6 +88,8 @@ Headline theorems of the README that are not statable at the pins, and the carri
   (Anantharaman–Popa, Proposition 10.2.2, p. 161).
 -/
 
+@[expose] public section
+
 open scoped ComplexOrder ENNReal NNReal TensorProduct
 
 open Filter Topology
@@ -120,7 +126,7 @@ theorem exists_injective_nondegenerate_representation_lp
     {A : Type*} [NonUnitalCStarAlgebra A] [TopologicalSpace.SeparableSpace A] [Nontrivial A] :
     ∃ π : A →⋆ₙₐ[ℂ] (lp (fun _ : ℕ ↦ ℂ) 2 →L[ℂ] lp (fun _ : ℕ ↦ ℂ) 2),
       Function.Injective π ∧
-        Dense (Submodule.span ℂ (⋃ a, Set.range (π a)) : Set (lp (fun _ : ℕ ↦ ℂ) 2)) := by
+        Dense (Submodule.span ℂ {ξ | ∃ a η, π a η = ξ} : Set (lp (fun _ : ℕ ↦ ℂ) 2)) := by
   sorry
 
 /-! ## Layer 1: Operator topologies and the bicommutant theorem -/
@@ -173,16 +179,40 @@ def lTensorCompletion (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℂ 
 
 /-- The spatial tensor product: the von Neumann algebra on `E ⊗̂ F` generated by the operators
 `x ⊗ 1` for `x ∈ A` and `1 ⊗ y` for `y ∈ B`, that is, the double commutant of these operators
-and their adjoints, Tau Ceti's `VonNeumannAlgebra.adjoin` of them (README, Layer 2). For von Neumann algebras `M` and `N` it is `M ⊗̄ N`: for
-instance `M_m(ℂ) ⊗̄ M_n(ℂ) = M_{mn}(ℂ)` on `ℂ^m ⊗ ℂ^n`, and `B(H) ⊗̄ ℂ1 = B(H) ⊗ 1`, whose
-commutant is `1 ⊗ B(K)`. -/
+and their adjoints, Tau Ceti's `VonNeumannAlgebra.adjoin` of them (README, Layer 2). For von
+Neumann algebras `M` and `N` it is `M ⊗̄ N`: for instance `M_m(ℂ) ⊗̄ M_n(ℂ) = M_{mn}(ℂ)` on
+`ℂ^m ⊗ ℂ^n`, and `B(H) ⊗̄ ℂ1 = B(H) ⊗ 1`, whose commutant is `1 ⊗ B(K)`. -/
 def spatialTensor {E F : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E]
     [NormedAddCommGroup F] [InnerProductSpace ℂ F] (A : Set (E →L[ℂ] E)) (B : Set (F →L[ℂ] F)) :
-    VonNeumannAlgebra (UniformSpace.Completion (E ⊗[ℂ] F)) where
-  toStarSubalgebra := StarSubalgebra.centralizer ℂ
-    (StarSubalgebra.centralizer ℂ (rTensorCompletion F '' A ∪ lTensorCompletion E '' B) :
-      Set (UniformSpace.Completion (E ⊗[ℂ] F) →L[ℂ] UniformSpace.Completion (E ⊗[ℂ] F)))
-  centralizer_centralizer' := by simp
+    VonNeumannAlgebra (UniformSpace.Completion (E ⊗[ℂ] F)) :=
+  VonNeumannAlgebra.adjoin (rTensorCompletion F '' A ∪ lTensorCompletion E '' B)
+
+/-- The multiplication algebra of a measure space `(X, μ)`: the von Neumann algebra on `L²(X, μ)`
+generated by the operators of multiplication by `f ∈ L∞(X, μ)`, which are Mathlib's Hölder
+products `ContinuousLinearMap.holderL` for the exponents `∞, 2, 2`; it is Tau Ceti's
+`VonNeumannAlgebra.adjoin` of these operators (README, V2.AbelianClassification). For σ-finite
+`μ` it consists of these multiplication operators and is star isomorphic to `L∞(X, μ)`. For the
+counting measure on a two-point space it is the diagonal algebra `ℂ²` on `ℂ²`; for Lebesgue
+measure on `[0, 1]` it is `L∞[0, 1]`, which has no minimal projection. -/
+def multiplicationAlgebra {X : Type*} [MeasurableSpace X] (μ : MeasureTheory.Measure X) :
+    VonNeumannAlgebra (MeasureTheory.Lp ℂ 2 μ) :=
+  VonNeumannAlgebra.adjoin (Set.range ((ContinuousLinearMap.mul ℂ ℂ).holderL μ ∞ 2 2))
+
+/-- **Abelian von Neumann algebras are `L∞` spaces.** An abelian von Neumann algebra on a nonzero
+separable Hilbert space is star isomorphic to the multiplication algebra of a probability measure
+on a standard Borel space: to `ℓ∞` of a finite or countable set, to `L∞[0, 1]`, or to their direct
+sum (README, V2.AbelianClassification; Jones, the remark after EP10, p. 23). The zero algebra on
+the zero space is excluded, since the multiplication algebra of a probability space contains
+`1 ≠ 0`; without separability `ℓ∞(I)` for an uncountable `I` is a counterexample, having
+uncountably many orthogonal minimal projections, while a probability measure has only countably
+many atoms. -/
+theorem exists_starAlgEquiv_multiplicationAlgebra [Nontrivial H]
+    [TopologicalSpace.SeparableSpace H] {M : VonNeumannAlgebra H}
+    (hM : ∀ x ∈ M, ∀ y ∈ M, x * y = y * x) :
+    ∃ (X : Type) (_ : MeasurableSpace X) (_ : StandardBorelSpace X)
+      (μ : MeasureTheory.Measure X) (_ : MeasureTheory.IsProbabilityMeasure μ),
+      Nonempty (M.toStarSubalgebra ≃⋆ₐ[ℂ] (multiplicationAlgebra μ).toStarSubalgebra) := by
+  sorry
 
 /-! ## Layer 3: Type I and finite-dimensional algebras -/
 
@@ -263,36 +293,6 @@ def IsSeparating (M : VonNeumannAlgebra H) (ξ : H) : Prop :=
 commutant `M'`. -/
 theorem isCyclic_iff_isSeparating_commutant (M : VonNeumannAlgebra H) (ξ : H) :
     IsCyclic M ξ ↔ IsSeparating M.commutant ξ := by
-  sorry
-
-/-- The multiplication algebra of a measure space `(X, μ)`: the von Neumann algebra on `L²(X, μ)`
-generated by the operators of multiplication by `f ∈ L∞(X, μ)`, which are Mathlib's Hölder
-products `ContinuousLinearMap.holderL` for the exponents `∞, 2, 2`; it is Tau Ceti's
-`VonNeumannAlgebra.adjoin` of these operators (README, V2 and V4.AbelianClassification). For σ-finite `μ` it consists of these multiplication operators and is
-star isomorphic to `L∞(X, μ)`. For the counting measure on a two-point space it is the diagonal
-algebra `ℂ²` on `ℂ²`; for Lebesgue measure on `[0, 1]` it is `L∞[0, 1]`, which has no minimal
-projection. -/
-def multiplicationAlgebra {X : Type*} [MeasurableSpace X] (μ : MeasureTheory.Measure X) :
-    VonNeumannAlgebra (MeasureTheory.Lp ℂ 2 μ) where
-  toStarSubalgebra := StarSubalgebra.centralizer ℂ
-    (StarSubalgebra.centralizer ℂ
-      (Set.range ((ContinuousLinearMap.mul ℂ ℂ).holderL μ ∞ 2 2)) : Set _)
-  centralizer_centralizer' := by simp
-
-/-- **Abelian von Neumann algebras are `L∞` spaces.** An abelian von Neumann algebra on a nonzero
-separable Hilbert space is star isomorphic to the multiplication algebra of a probability measure
-on a standard Borel space: to `ℓ∞` of a finite or countable set, to `L∞[0, 1]`, or to their direct
-sum (README, V4.AbelianClassification; Jones, the remark after EP10, p. 23). The zero algebra on
-the zero space is excluded, since the multiplication algebra of a probability space contains
-`1 ≠ 0`; without separability `ℓ∞(I)` for an uncountable `I` is a counterexample, having
-uncountably many orthogonal minimal projections, while a probability measure has only countably
-many atoms. -/
-theorem exists_starAlgEquiv_multiplicationAlgebra [Nontrivial H]
-    [TopologicalSpace.SeparableSpace H] {M : VonNeumannAlgebra H}
-    (hM : ∀ x ∈ M, ∀ y ∈ M, x * y = y * x) :
-    ∃ (X : Type) (_ : MeasurableSpace X) (_ : StandardBorelSpace X)
-      (μ : MeasureTheory.Measure X) (_ : MeasureTheory.IsProbabilityMeasure μ),
-      Nonempty (M.toStarSubalgebra ≃⋆ₐ[ℂ] (multiplicationAlgebra μ).toStarSubalgebra) := by
   sorry
 
 /-! ## Layer 5: Projection comparison and finite factors -/
@@ -378,8 +378,10 @@ theorem isFiniteProjection_iff_modular {M : VonNeumannAlgebra H} {e : H →L[ℂ
       ∀ p ∈ M, ∀ q ∈ M, ∀ r ∈ M, IsStarProjection p → IsStarProjection q → IsStarProjection r →
         p ≤ e → q ≤ e → r ≤ e → p ≤ r →
         (LinearMap.range (p : H →ₗ[ℂ] H) ⊔
-            (LinearMap.range (q : H →ₗ[ℂ] H) ⊓ LinearMap.range (r : H →ₗ[ℂ] H))).topologicalClosure =
-          (LinearMap.range (p : H →ₗ[ℂ] H) ⊔ LinearMap.range (q : H →ₗ[ℂ] H)).topologicalClosure ⊓
+            (LinearMap.range (q : H →ₗ[ℂ] H) ⊓
+              LinearMap.range (r : H →ₗ[ℂ] H))).topologicalClosure =
+          (LinearMap.range (p : H →ₗ[ℂ] H) ⊔
+              LinearMap.range (q : H →ₗ[ℂ] H)).topologicalClosure ⊓
             LinearMap.range (r : H →ₗ[ℂ] H) := by
   sorry
 
@@ -496,15 +498,14 @@ def leftRegular (Γ : Type*) [Group Γ] [MeasurableSpace Γ] [DiscreteMeasurable
 
 /-- The group von Neumann algebra `L(Γ) = λ(Γ)''` of a discrete group, the von Neumann algebra on
 `ℓ²(Γ)` generated by the left regular representation, Tau Ceti's `VonNeumannAlgebra.adjoin` of
-its range (README, Layer 8; Peterson, Theorem 5.1.3, p. 83). `L(ℤ/2)` is the algebra of circulant matrices `[[a, b], [b, a]]` on `ℂ²`, and `L(ℤ)` is
-`L∞(𝕋)` through the Fourier transform. -/
+its range (README, Layer 8; Peterson, Theorem 5.1.3, p. 83). `L(ℤ/2)` is the algebra of
+circulant matrices `[[a, b], [b, a]]` on `ℂ²`, and `L(ℤ)` is `L∞(𝕋)` through the Fourier
+transform. -/
 def groupVonNeumannAlgebra (Γ : Type*) [Group Γ] [MeasurableSpace Γ]
     [DiscreteMeasurableSpace Γ] :
     VonNeumannAlgebra
-      (MeasureTheory.Lp ℂ 2 (MeasureTheory.Measure.count : MeasureTheory.Measure Γ)) where
-  toStarSubalgebra := StarSubalgebra.centralizer ℂ
-    (StarSubalgebra.centralizer ℂ (Set.range (leftRegular Γ)) : Set _)
-  centralizer_centralizer' := by simp
+      (MeasureTheory.Lp ℂ 2 (MeasureTheory.Measure.count : MeasureTheory.Measure Γ)) :=
+  VonNeumannAlgebra.adjoin (Set.range (leftRegular Γ))
 
 /-- **The ICC criterion** (Murray–von Neumann). The group von Neumann algebra of a discrete group
 `Γ` is a factor exactly when every conjugacy class of `Γ` other than `{1}` is infinite (README,

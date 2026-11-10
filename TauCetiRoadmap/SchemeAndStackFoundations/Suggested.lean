@@ -9,6 +9,7 @@ import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
+import TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint
 
 /-!
 # Scheme, stack, cohomology and intersection foundations
@@ -921,6 +922,106 @@ example (k L : Type u) [Field k] [Finite k] [Field L] [Finite L]
           iteratedSchemeFrobenius p T hT a ≠ 𝟙 T := by sorry
 
 end SchemeFrobenius
+
+/-! ### §0.30 Normal schemes, codimension-one points under finite morphisms, ramification -/
+
+namespace NormalSchemes
+
+open Order
+
+/-- A scheme is **normal** if every local ring is an integrally closed domain.
+Stacks, Definition 28.7.1 (033I). -/
+@[stacks 033I]
+class IsNormalScheme (X : Scheme.{u}) : Prop where
+  isDomain_stalk : ∀ x : X, IsDomain (X.presheaf.stalk x)
+  isIntegrallyClosed_stalk : ∀ x : X, IsIntegrallyClosed (X.presheaf.stalk x)
+
+instance IsNormalScheme.isDomain_stalk' (X : Scheme.{u}) [IsNormalScheme X] (x : X) :
+    IsDomain (X.presheaf.stalk x) :=
+  IsNormalScheme.isDomain_stalk x
+
+/-- A normal scheme is reduced. Stacks, Lemma 28.7.3 (033K). -/
+@[stacks 033K]
+theorem IsNormalScheme.isReduced (X : Scheme.{u}) [IsNormalScheme X] : IsReduced X := by
+  sorry
+
+/-- On a locally Noetherian normal scheme the stalk at a point of coheight one is a discrete
+valuation ring. Stacks, Lemma 10.119.7 (00PD). -/
+@[stacks 00PD "the codimension-one stalk"]
+theorem IsNormalScheme.isDiscreteValuationRing_stalk (X : Scheme.{u}) [IsLocallyNoetherian X]
+    [IsNormalScheme X] (x : X) (hx : coheight x = 1) :
+    IsDiscreteValuationRing (X.presheaf.stalk x) := by
+  sorry
+
+variable {X Y : Scheme.{u}} (f : X ⟶ Y)
+
+/-- A point over a point of coheight one under a finite dominant morphism of integral schemes has
+coheight one (incomparability, with dominance). -/
+theorem coheight_eq_one_of_coheight_apply_eq_one [IsFinite f] [IsDominant f] [IsIntegral X]
+    [IsIntegral Y] (x : X) (hx : coheight (f x) = 1) : coheight x = 1 := by
+  sorry
+
+/-- The image of a point of coheight one under a finite dominant morphism of integral schemes,
+with target locally of finite type over a field and Noetherian: the local dimension formula
+`dim_x X = trdeg_k κ(x) + dim 𝒪_{X,x}` (Stacks, Lemma 33.20.3 (0A21)) on `X` and on `Y`, with
+`dim X = dim Y` (Stacks, Lemma 29.45.9 (0ECG)) and `[κ(x) : κ(f x)] < ∞`. -/
+theorem coheight_apply_eq_one (k : Type u) [Field k] (sY : Y ⟶ Spec (.of k))
+    [LocallyOfFiniteType sY] [IsLocallyNoetherian Y] [TopologicalSpace.NoetherianSpace Y]
+    [IsFinite f] [IsDominant f] [IsIntegral X] [IsIntegral Y]
+    (x : X) (hx : coheight x = 1) : coheight (f x) = 1 := by
+  sorry
+
+/-- The image of a point of coheight one under a finite dominant morphism of integral schemes
+with normal target has coheight one: going down (Stacks, Proposition 10.38.7 (00H8)). -/
+theorem coheight_apply_eq_one_of_isNormalScheme [IsLocallyNoetherian Y] [IsNormalScheme Y]
+    [IsFinite f] [IsDominant f] [IsIntegral X] [IsIntegral Y]
+    (x : X) (hx : coheight x = 1) : coheight (f x) = 1 := by
+  sorry
+
+/-- The map on codimension-one points induced by `f`, given that `f` preserves coheight one
+(supplied by `coheight_apply_eq_one` or `coheight_apply_eq_one_of_isNormalScheme`). -/
+def codimensionOneMap (hf : ∀ x : X, coheight x = 1 → coheight (f x) = 1) :
+    TauCeti.AlgebraicGeometry.CodimensionOnePoint X →
+      TauCeti.AlgebraicGeometry.CodimensionOnePoint Y :=
+  fun x => ⟨f x, hf x x.2⟩
+
+/-- Every codimension-one point of the target of a finite dominant morphism of integral schemes is
+the image of a codimension-one point. -/
+theorem codimensionOneMap_surjective [IsFinite f] [IsDominant f] [IsIntegral X] [IsIntegral Y]
+    (hf : ∀ x : X, coheight x = 1 → coheight (f x) = 1) :
+    Function.Surjective (codimensionOneMap f hf) := by
+  sorry
+
+/-- The **ramification index of `f` at `x`**: the ramification index of the maximal ideal of
+`𝒪_{X,x}` over `𝒪_{Y,f(x)}` along the stalk map. -/
+def ramificationIdxAt (x : X) : ℕ :=
+  letI := (f.stalkMap x).hom.toAlgebra
+  (IsLocalRing.maximalIdeal (X.presheaf.stalk x)).ramificationIdx (Y.presheaf.stalk (f x))
+
+/-- Ramification indices multiply in towers at points of coheight one. The stalk map of `f ≫ g`
+at `x` is the composite of the stalk maps (`Scheme.Hom.stalkMap_comp`), and the extensions of
+discrete valuation rings are torsion free, hence flat, as `Ideal.ramificationIdx_tower` requires. -/
+theorem ramificationIdxAt_comp {Z : Scheme.{u}} (g : Y ⟶ Z) [IsFinite f] [IsDominant f]
+    [IsFinite g] [IsDominant g] [IsIntegral X] [IsIntegral Y] [IsIntegral Z]
+    [IsLocallyNoetherian X] [IsLocallyNoetherian Y] [IsLocallyNoetherian Z]
+    [IsNormalScheme X] [IsNormalScheme Y] [IsNormalScheme Z]
+    (x : X) (hx : coheight x = 1) :
+    ramificationIdxAt (f ≫ g) x = ramificationIdxAt f x * ramificationIdxAt g (f x) := by
+  sorry
+
+/-- **Regular quotients of a regular local ring.** If `R ⧸ I` is a regular local ring, `I` is
+generated by part of a minimal generating set of the maximal ideal. Stacks, Lemma 10.106.4
+(00NR). -/
+@[stacks 00NR]
+theorem exists_regularSystem_of_quotient {R : Type u} [CommRing R]
+    [IsRegularLocalRing R] (I : Ideal R) [IsRegularLocalRing (R ⧸ I)] :
+    ∃ (d c : ℕ) (x : Fin d → R), c ≤ d ∧
+      Ideal.span (Set.range x) = IsLocalRing.maximalIdeal R ∧
+      (IsLocalRing.maximalIdeal R).spanFinrank = d ∧
+      I = Ideal.span (x '' {i | (i : ℕ) < c}) := by
+  sorry
+
+end NormalSchemes
 
 end Layer0
 

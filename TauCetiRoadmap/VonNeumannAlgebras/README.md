@@ -49,17 +49,16 @@ It leaves the following to the named owners and consumes them by section.
   Hermitian matrix (its Gibbs states), is consumed from Tau Ceti; V10.KMS adds the condition for
   weakly continuous automorphism groups of a von Neumann algebra, which need not be norm
   continuous, and its characterization of the modular group.
-* [BanachSpaceTheory](../BanachSpaceTheory/README.md) owns the Banach adjoint, the weak and
-  weak-star continuity criteria by evaluation and the norm/weak-star comparison on dual balls
-  (B1), James's theorem (B2), and the compact Schmidt series with the isometric identification of
-  the Hilbert nuclear operators with the trace-class ideal (B4). Its B1 also owns the generic
-  strong and weak operator topologies of bounded maps between normed spaces: norm ⇒ SOT ⇒ WOT,
-  norm boundedness of SOT- and WOT-convergent sequences on a Banach domain, joint SOT continuity
-  of products on norm-bounded sets and its failure for unbounded nets in infinite dimension. V1
-  consumes these at `E=F=H` and owns the strong-star, ultraweak and ultrastrong topologies, their
-  comparisons with the WOT and SOT, and the Hilbert-space examples. Annihilators, quotient duals,
-  Krein–Šmulian and the Banach space of nuclear operators are Tau Ceti's at the pin and are
-  consumed there.
+* [BanachSpaceTheory](../BanachSpaceTheory/README.md) owns annihilators, quotient duals, adjoints,
+  Goldstine and weak/weak-star duality (B1), Eberlein–Šmulian, James and Krein–Šmulian (B2)
+  and Banach tensor products (B4). Its B1 also owns the generic strong and weak operator
+  topologies of bounded maps between normed spaces: norm ⇒ SOT ⇒ WOT, norm boundedness of SOT-
+  and WOT-convergent sequences on a Banach domain, joint SOT continuity of products on
+  norm-bounded sets and its failure for unbounded nets in infinite dimension. V1 consumes these
+  at `E=F=H` and owns the strong-star, ultraweak and ultrastrong topologies, their comparisons
+  with the WOT and SOT, and the Hilbert-space examples. Annihilators, quotient duals,
+  Krein–Šmulian and the Banach space of nuclear operators are implemented in Tau Ceti at the pin
+  and are consumed from there.
 * [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns
   Peter–Weyl, and RepresentationTheory/SemisimpleAlgebras the finite-dimensional
   double-centralizer theorem.
@@ -338,20 +337,23 @@ of norm below c is a convergent series `Σ xₙ⊗yₙ` with `Σ‖xₙ‖‖y�
 (`TauCeti/Analysis/Normed/Module/TensorProduct/Series.lean`).
 Each is used as stated at the pin.
 
-**From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md): the Banach
-adjoint, the weak and weak-star continuity criteria by evaluation and the comparison of the norm
-and weak-star topologies on dual balls; and the generic operator topologies of bounded maps
-between normed spaces, on Mathlib's `PointwiseConvergenceCLM` (SOT) and `ContinuousLinearMapWOT`
-(WOT): norm convergence implies SOT convergence, which implies WOT convergence; an SOT- or
-WOT-convergent sequence of bounded maps on a Banach space is norm bounded; multiplication is
-jointly SOT continuous on norm-bounded sets; and on an infinite-dimensional Banach space there
-are SOT-null nets `S_i`, `T_i` with `S_iT_i` a fixed nonzero rank-one operator, so it is not
-jointly SOT continuous there.
-[B2](../BanachSpaceTheory/README.md): James's theorem.
-[B4](../BanachSpaceTheory/README.md): the compact Schmidt series with its zero-based
-singular-value comparison, and the isometric identification of the Hilbert nuclear operators
-(`TauCeti.NuclearOperator` on Hilbert pairs) with the trace-class ideal of OperatorIdeals
-OI-B29–B30.
+**From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
+annihilators, quotient duals, adjoints and Goldstine, the weak and weak-star continuity criteria
+by evaluation and the comparison of the norm and weak-star topologies on dual balls; and the
+generic operator topologies of bounded maps between normed spaces, on Mathlib's
+`PointwiseConvergenceCLM` (SOT) and `ContinuousLinearMapWOT` (WOT): norm convergence implies SOT
+convergence, which implies WOT convergence; an SOT- or WOT-convergent sequence of bounded maps on
+a Banach space is norm bounded; multiplication is jointly SOT continuous on norm-bounded sets;
+and on an infinite-dimensional Banach space there are SOT-null nets `S_i`, `T_i` with `S_iT_i` a
+fixed nonzero rank-one operator, so it is not jointly SOT continuous there.
+[B2](../BanachSpaceTheory/README.md#b2-weak-compactness-and-reflexivity) Krein–Šmulian and
+James; [B4](../BanachSpaceTheory/README.md#b4-approximation-and-banach-tensor-products) the
+quotient-norm nuclear operators with their nuclear norm, rank-one norm and series
+representation, and the compact Schmidt series with its zero-based singular-value comparison and
+its nuclear-norm identity on Hilbert pairs, together with B4's isometric identification of the
+Hilbert nuclear operators (`TauCeti.NuclearOperator` on Hilbert pairs) with the trace-class ideal
+of OperatorIdeals OI-B29–B30. The annihilator and quotient dualities, Krein–Šmulian and the
+nuclear operators are consumed through their Tau Ceti implementations listed above.
 
 **From TauCetiRoadmap.OperatorTheory.** From
 [PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) Part A, the bounded
@@ -418,19 +420,15 @@ normality/representation conclusions consume that one criterion. V4.0.Fields con
 Hilbert and operator fields from countable fundamental sections and given measures,
 independently of projection-valued measures, multiplication models and central decomposition.
 In V8, V8.RegularL2 precedes
-V8.LCHRegularNormalBridge and the compact-action and dense-translation targets, and
-V8.GroupApplications follows V8.SubgroupCosets. In V11 the harmonic-analysis layer is built as
-V11.DoubleDualEmbedding, then V11.UnitizationCharacters, then V11.FourierInversion (inversion,
-Plancherel and duality). The uniqueness inputs of inversion, cited elsewhere as
-V11.FourierUniqueness, are BanachAlgebras A7.CharactersAndUniqueness on G and Tau Ceti's
-`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular` on the
-dual group. V13b.SpatialNorm opens V13b.
+V8.LCHRegularNormalBridge and the compact-action and dense-translation targets. In V11 the
+harmonic-analysis layer is built as V11.DoubleDualEmbedding, then V11.UnitizationCharacters and
+V11.FourierUniqueness, then inversion, Plancherel and duality. V13b.SpatialNorm opens V13b.
 V2.BorelCalculus uses only Layer 0's states, Mathlib's continuous calculus and Layer 1's
 topologies and bicommutant theorem, and precedes Fields; V4.0.Multiplication consumes Fields and
-V2.BorelCalculus. V4.AbelianClassification, V4.AbelianLocalizable and
-V4.AbelianRepresentationMultiplicity close Layer 4, after Fields, V4.0.Multiplication and
-V4.Normality; the elementary V2 carriers, V2.BorelCalculus, the single-generator construction
-and the given-measure multiplication/MASA theorem precede Fields.
+V2.BorelCalculus. V2.AbelianClassification and V2.AbelianRepresentationMultiplicity are
+applications after Fields and V4.0.Multiplication, with V4.Normality when a normal
+representation is used; only the elementary V2 carriers, V2.BorelCalculus, the single-generator
+construction and the given-measure multiplication/MASA theorem precede Fields.
 V4.0.Decomposition consumes Fields, V4.Normality and V4.0.Multiplication and owns
 spectral/central reduction and measurable selection; V5's measurable
 trivialization and the central-reduction applications consume Decomposition. V5 delivers
@@ -439,8 +437,8 @@ classification, V7 modules and index, V8–V9 group algebras, crossed products a
 In V10, ClosedOperators precedes Affiliation; TracialLp also consumes V6; ModularTheory
 constructs the Tomita–Takesaki/natural-cone theory after Affiliation, V0/V1/V6, V2's infinite
 tensor product, V4.Core/PositivePredual/Normality and V8's nonsingular crossed products; KMS
-fixes the strip convention before Hecke uses it. AffineAP consumes Tau Ceti's prime number theorem
-in arithmetic progressions; AffineHecke constructs the
+fixes the strip convention before Hecke uses it. AffineAP consumes Tau Ceti's prime
+number theorem in arithmetic progressions; AffineHecke constructs the
 finite-adele corner from Hecke, GlobalNumberFields Layer 4 and V8; AffineType consumes that
 model, AffineAP, KMS and V2/V6's full-corner comparison. These affine constructions have no V11
 input. V11 consumes the completed V10 interfaces. In V12, V12.J.Maps precedes Dye, Enriched and
@@ -903,11 +901,11 @@ continuity (Mathlib's `ContinuousLinearMap.completion`) of `ContinuousLinearMap.
 - For E=ℓ², F=ℂ and the unilateral shift S, `S⊗1` on `ℓ²⊗̂ℂ≅ℓ²` is unitarily equivalent to S:
   an isometry that is not unitary, as an injective star homomorphism must preserve.
 
-**V2.RectangularL2 — Hilbert tensors for arbitrary measures.** For arbitrary measurable spaces S,T and positive measures μ,ν, use native `Measure.pi` on the dependent two-element family(S,T), transported to S×T by `MeasurableEquiv.piFinTwo`; denote this particular measure by κ in the following statements. This is the maximal rectangle-cover product obtained from native `OuterMeasure.pi`/`piPremeasure` and `Measure.pi_caratheodory` in `Mathlib/MeasureTheory/Constructions/Pi.lean`, not a new measure type or replacement for native `Measure.prod`. Prove the measurable-rectangle cover formula for its outer measure, `κ*(E)=inf{Σ_n μ(A_n)ν(B_n): E⊆⋃_n(A_n×B_n), A_n,B_n measurable}`, and the rectangle identity `κ(A×B)=μ(A)ν(B)` without σ-finiteness. Cover sets in `piPremeasure` can be replaced by their projected bounding rectangles and measurable envelopes with the same outer costs. For the rectangle lower bound integrate the one-variable inequality `ν(B)1_A(x)≤Σ_nν(B_n)1_(A_n)(x)` for any measurable rectangle cover of A×B; this uses countable additivity/monotone convergence, without assuming a Fubini theorem for κ. Consume the native Carathéodory measurability proof for the product σ-algebra. Measurable unions of the rectangle covers show this outer measure is already trimmed to that σ-algebra, matching the native measure’s associated outer measure.
+**V2.RectangularL2 — Hilbert tensors for arbitrary measures.** For arbitrary measurable spaces S,T and positive measures μ,ν, use native `Measure.pi` on the dependent two-element family(S,T), transported to S×T by `MeasurableEquiv.piFinTwo`; denote this particular measure by κ in the following statements. This is the maximal rectangle-cover product obtained from native `OuterMeasure.pi`/`piPremeasure` and `Measure.pi_caratheodory` in `Mathlib/MeasureTheory/Constructions/Pi.lean` ([finite-product design](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/product%20measures/near/206288949)), not a new measure type or replacement for native `Measure.prod`. Prove the measurable-rectangle cover formula for its outer measure, `κ*(E)=inf{Σ_n μ(A_n)ν(B_n): E⊆⋃_n(A_n×B_n), A_n,B_n measurable}`, and the rectangle identity `κ(A×B)=μ(A)ν(B)` without σ-finiteness. Cover sets in `piPremeasure` can be replaced by their projected bounding rectangles and measurable envelopes with the same outer costs. For the rectangle lower bound integrate the one-variable inequality `ν(B)1_A(x)≤Σ_nν(B_n)1_(A_n)(x)` for any measurable rectangle cover of A×B; this uses countable additivity/monotone convergence, without assuming a Fubini theorem for κ. Consume the native Carathéodory measurability proof for the product σ-algebra. Measurable unions of the rectangle covers show this outer measure is already trimmed to that σ-algebra, matching the native measure’s associated outer measure.
 
 Prove the unique complex-linear unitary `L²(μ)⊗̂L²(ν)≃ₗᵢ[ℂ]L²(κ)` sending f⊗g to the a.e. class of `(x,y)↦f(x)g(y)`, with its exact norm and inner-product formulas, bilinearity, dense range and uniqueness on elementary tensors. Include zero measures, empty carriers and zero L² factors, with no separability assumption on the measure spaces or Hilbert spaces. Prove that changing either representative on a marginal null set changes the product only on a κ-null cylinder. Construct the map first on finite-measure simple-function factors using rectangle pairings, then extend through the completed Hilbert tensor product above. For surjectivity prove that finite spans of indicators of rectangles with finite marginal measures are dense in L²(κ). If κ(E)<∞, choose a countable rectangle cover with total cost<κ(E)+ε, discard its zero-cost rectangles modulo a κ-null union, and take finite subunions of its positive finite-cost rectangles; these have finite marginal measures and approximate E in symmetric-difference measure. Use native `Lp.simpleFunc.denseRange` for p=2 to pass from finite-measure indicators to all L² classes. Identify the completed map with pointwise products by measurable representatives and a.e.-convergent subsequences; do not infer a pointwise formula from a merely abstract Hilbert-space isomorphism.
 
-Prove naturality under measure-preserving measurable equivalences of the factors and compatibility with the Hilbert tensor flip and the coordinate swap. For any measure η let η̂ denote its completion on the completed σ-algebra of the same carrier. Construct the canonical unitary C_η:L²(η)≃ₗᵢ[ℂ]L²(η̂) induced by identity on original measurable representatives, and prove C_κ(U(f⊗g)) is the class of (x,y)↦f(x)g(y) in L²(κ̂). Also complete both marginals: let κ_c be the same native maximal product construction for μ̂,ν̂ on their product σ-algebra. Prove κ_c and κ have the same associated outer measure, and that the product of the completed marginal σ-algebras lies in the κ-completed σ-algebra. Construct the canonical identity-on-original-representatives unitary J:L²(κ)≃ₗᵢ[ℂ]L²(κ_c) and prove the commuting identity J∘U=U_c∘(C_μ⊗̂C_ν), where U_c is this same tensor unitary for the completed marginals. Identify both sides with the elementary-product class in their common measure completion. Use equality of marginal outer measures, the measurable-rectangle cover formula and null cylinders to prove these comparisons. These are a.e.-class statements; completeness of marginal σ-algebras does not imply completeness of their product σ-algebra. When μ,ν are σ-finite, prove κ equals native `μ.prod ν`, using `MeasureTheory.measurePreserving_piFinTwo`/`Measure.prod_eq`, and recover the usual product-L² unitary with that exact measure. Do not identify the two product conventions for arbitrary s-finite inputs: for μ=ν=∞ times Lebesgue measure on[0,1], the diagonal has maximal rectangle-cover measure∞ but native bind-product measure0. A different rectangle-consistent extension can give that diagonal finite positive measure. Under the maximal convention declared here the theorem holds for all measures with no separability condition, and the σ-finite models agree with native `Measure.prod`. It is part of V2's completed-tensor/L² theory.
+Prove naturality under measure-preserving measurable equivalences of the factors and compatibility with the Hilbert tensor flip and the coordinate swap. For any measure η let η̂ denote its completion on the completed σ-algebra of the same carrier. Construct the canonical unitary C_η:L²(η)≃ₗᵢ[ℂ]L²(η̂) induced by identity on original measurable representatives, and prove C_κ(U(f⊗g)) is the class of (x,y)↦f(x)g(y) in L²(κ̂). Also complete both marginals: let κ_c be the same native maximal product construction for μ̂,ν̂ on their product σ-algebra. Prove κ_c and κ have the same associated outer measure, and that the product of the completed marginal σ-algebras lies in the κ-completed σ-algebra. Construct the canonical identity-on-original-representatives unitary J:L²(κ)≃ₗᵢ[ℂ]L²(κ_c) and prove the commuting identity J∘U=U_c∘(C_μ⊗̂C_ν), where U_c is this same tensor unitary for the completed marginals. Identify both sides with the elementary-product class in their common measure completion. Use equality of marginal outer measures, the measurable-rectangle cover formula and null cylinders to prove these comparisons. These are a.e.-class statements; completeness of marginal σ-algebras does not imply completeness of their product σ-algebra. When μ,ν are σ-finite, prove κ equals native `μ.prod ν`, using `MeasureTheory.measurePreserving_piFinTwo`/`Measure.prod_eq`, and recover the usual product-L² unitary with that exact measure. Do not identify the two product conventions for arbitrary s-finite inputs: for μ=ν=∞ times Lebesgue measure on[0,1], the diagonal has maximal rectangle-cover measure∞ but native bind-product measure0. A different rectangle-consistent extension can give that diagonal finite positive measure. Under the maximal convention declared here the theorem holds for all measures with no separability condition, and the σ-finite models agree with native `Measure.prod`. This supplier is part of V2's completed-tensor/L² theory; downstream UO tensor operators consume it without a reverse dependency.
 *Needs:* Mathlib `Measure.pi`, `MeasurableEquiv.piFinTwo`, `OuterMeasure.pi`, `Measure.pi_caratheodory`,
 `Lp.simpleFunc.denseRange`, `MeasureTheory.measurePreserving_piFinTwo`, `Measure.prod_eq`; the completed
 Hilbert tensor product above.
@@ -1070,6 +1068,158 @@ projections; the finite measure algebra above.
   eigenvalues `1, 1/3, 1/9`, so it generates the whole algebra; equal weights give `1`, which
   generates only `ℂ·1`.
 
+**V2.AbelianClassification — after Fields and V4.0.Multiplication.** For an abelian
+M on separable H, choose the preceding generator a, so M=W*(a).
+Consume V4.0.Multiplication's control measure μ on K=σ(a) for the
+continuous-calculus representation of a, V2.BorelCalculus's spectral projections P_a and the
+equivalence `μ(B)=0 ↔ P_a(B)=0` for Borel B. For H≠0 normalize
+the finite nonzero control to a probability measure. For H=0 use the
+zero measure and the unique isomorphism of zero algebras; do not claim
+a probability control or choose a unit vector there. Consume V4.0.Multiplication's
+P-essentially bounded symbol quotient, its norm equality and its comparison
+with Mathlib's L∞(K,μ), with norm `essSup_μ|f|`.
+VNA owns its comparison with this concrete generated algebra: construct
+
+```
+Φ_a : L∞(K,μ) ≃⋆ₐ[ℂ] W*(a),       Φ_a([f]) = f(a),
+‖Φ_a([f])‖ = essSup_μ |f|.
+```
+
+Require compatibility with continuous and bounded Borel calculus,
+`Φ_a([1_B])=P_a(B)`, the projection/measure-algebra correspondence and
+normality. The representative is an actual bounded Borel version of
+the a.e. class; V2.BorelCalculus's null filter and V4.0.Multiplication's symbol quotient supply
+descent and injectivity, not a new symbol or measure carrier. Prove onto-ness rather
+than putting it in a premise. For T∈W*(a), V1's Kaplansky theorem and
+bounded-set SOT metrizability give uniformly bounded continuous-calculus
+approximants f_n(a)→T strongly. V4.0.Multiplication's weighted control and V2.BorelCalculus's
+vector L² identity `‖f(a)ξ‖²=∫|f|²dμ_ξ` make f_n Cauchy in L²(μ): control finitely many cyclic
+vectors and then the summable uniformly bounded tail. A subsequence
+converges μ-a.e. to a bounded Borel version f with the same uniform
+bound. P-null equivalence and V2.BorelCalculus's bounded convergence give
+f_n(a)→f(a) strongly along that subsequence, so T=Φ_a([f]). Increasing
+bounded nonnegative symbols/projections and their vector integrals give
+normality, and the indicator laws identify the projection lattice.
+This is the algebra-membership/range theorem on the V2.BorelCalculus Borel
+calculus, not a second scalar-control or spectral construction. Changing generators or control choices gives the induced normal
+star isomorphism through M and its projection lattice; preserve the
+measure class, not an arbitrary pointwise representative.
+
+Only after this isomorphism apply the measure-algebra classification:
+classify the separably acting abelian algebras abstractly as ℓ∞ of a
+finite/countable atomic set, a nonatomic L∞[0,1] part, or their direct
+sum, with either part allowed to vanish. Treat the zero algebra
+separately. This is not the classification of arbitrary-cardinality
+abelian algebras by one separable probability model. Define `multiplicationAlgebra μ`, for a
+measure μ on a measurable space X, as the von Neumann algebra on `L²(X,μ)` generated by the
+multiplication operators `(ContinuousLinearMap.mul ℂ ℂ).holderL μ ∞ 2 2 f`, f∈L∞(X,μ), Mathlib's
+Hölder product (Tau Ceti's `VonNeumannAlgebra.adjoin` of them); `MeasureTheory.Lp` has no ring
+structure for p=∞, so L∞ enters as this operator algebra. State the abstract classification as
+`exists_starAlgEquiv_multiplicationAlgebra`: an abelian von Neumann algebra on a nonzero separable
+Hilbert space is star isomorphic to `multiplicationAlgebra μ` for a probability measure μ on a
+standard Borel space (Jones, the remark after EP10, p. 23).
+*Needs:* V2.BorelCalculus (Borel calculus, null filter, vector L² identity, bounded
+convergence) and V4.0.Multiplication (control measure, essentially bounded symbols), the
+single-generator construction above, V1's Kaplansky theorem and bounded-set metrizability, Mathlib
+`L∞(K,μ)`, `essSup`, `ContinuousLinearMap.holderL` and `StandardBorelSpace`; V4.Normality
+wherever normality is asserted.
+
+- For σ-finite μ, `multiplicationAlgebra μ` consists exactly of the multiplication operators,
+  `f↦(ContinuousLinearMap.mul ℂ ℂ).holderL μ ∞ 2 2 f` is an isometric star isomorphism from
+  L∞(X,μ) onto it, and it is its own commutant (the multiplication-operator realization above).
+- A measure-preserving measurable isomorphism of probability spaces induces a unitary of the L²
+  spaces conjugating the two multiplication algebras.
+
+**Checks.**
+
+- For the counting measure on a two-point set, L² is ℂ² and the multiplication algebra is the
+  diagonal algebra ℂ², which is its own commutant; for a Dirac measure it is ℂ on ℂ.
+- For Lebesgue measure on [0,1] it is `L∞[0,1]`: multiplication by t has no eigenvector and the
+  algebra has no minimal projection, unlike every atomic model.
+- For μ=0, L²(μ)=0 and the multiplication algebra is the zero algebra on the zero space, which is
+  why the classification uses probability measures and excludes H=0.
+- `ℓ∞(I)` on `ℓ²(I)` with I uncountable is abelian but is not the multiplication algebra of any
+  probability measure: it has uncountably many orthogonal minimal projections, while a
+  probability measure has only countably many atoms; separability of H is needed.
+
+**V2.AbelianLocalizable — arbitrary cardinalities.** Prove the general
+abelian model by disjoint sigma-finite corners, without imposing a
+faithful normal state on all M. Using V4.Normality's support/normal
+functional APIs, take a maximal orthogonal family of nonzero supports
+z_i of normal positive vector functionals in an arbitrary faithful
+concrete abelian M. Prove z_i central, their supremum1, and each z_iM
+has a faithful normal state by restriction and normalization. For each
+corner, consume Mathlib's unital commutative Gelfand duality
+(`gelfandTransform_isometry`, `gelfandTransform_bijective`,
+`gelfandStarTransform` under `CommCStarAlgebra`) with C(X_i), and that
+state's cyclic faithful normal GNS representation. X_i may be nonmetrizable.
+Consume V0/GNS, V4.Normality's normal-image theorem, Mathlib's
+Riesz–Markov–Kakutani measure `RealRMK.rieszMeasure` for the state on C(X_i), and the
+preceding given-finite-measure multiplication/MASA theorem. Its finite Radon Riesz measure μ_i
+and continuous-function L² density identify the cyclic GNS carrier with
+L²(μ_i). Bounded continuous approximations to bounded measurable symbols,
+together with the normal image's strong closedness, prove that this
+corner image is all L∞(μ_i). Prove the isometric normal star comparison
+on this actual GNS carrier, not merely a Hilbert-space isomorphism.
+This is the corner/GNS-to-algebra comparison; the Gelfand transform and
+Riesz measure are consumed, not rebuilt.
+
+Complete the finite component measures and take their disjoint union
+with all componentwise measurable sets and measure `μ(E)=∑'_i μ_i(E_i)`.
+Prove this space strictly localizable and construct the normal isometric
+star isomorphisms `M≃∏_i z_iM≃L∞(μ)`, where the product is the uniformly
+bounded product, with norm the supremum of component norms. Prove the
+component/a.e.-class and projection comparisons, choice/reindexing and
+common-universe-lift transport. The empty family gives the zero algebra
+and zero measure. Uncountable counting measure models ℓ∞(I); do not
+replace it by a faithful finite control. This general target uses no
+standard-Borel or countable-multiplicity conclusion for its arbitrary
+X_i or index set.
+*Needs:* V4.Normality's supports and normal functionals, V0's GNS, Mathlib `gelfandStarTransform`,
+`RealRMK.rieszMeasure` and `RealRMK.integral_rieszMeasure`, the given-measure MASA theorem above;
+the strictly localizable disjoint union is built here.
+
+**V2.AbelianRepresentationMultiplicity — terminal application.** For
+normal representations of the separably acting abelian algebras on
+separable Hilbert spaces, consume V4.0.Multiplication's cyclic
+multiplication model, control measure class, measurable multiplicity and
+classification of representations of the same `C(K)` by control class and
+multiplicity, with V4.Normality and the preceding Φ_a comparison. Own
+restriction to the C*-algebra generated by a and comparison with its normal
+extension, and use V4.Normality to recover the given representation from that
+restriction: two normal representations of M=W*(a) on separable Hilbert spaces
+are unitarily equivalent iff their restrictions to `C(σ(a))` have equivalent
+control measures and equal multiplicities almost everywhere, and the control
+class of a normal representation is absolutely continuous with respect to the
+class of μ in V2.AbelianClassification. Include the identity representation of
+L∞[0,1] on `L²[0,1]` (multiplicity 1), its amplification on `L²[0,1]⊗ℂ²`
+(multiplicity 2, not equivalent to the first) and the zero representation (zero
+control). V4.0.Decomposition consumes V4.0.Multiplication for its central-reduction and
+direct-integral applications. For representations on arbitrary Hilbert spaces
+use V4.0.Multiplication's orthogonal cyclic-sum description and V4.Normality's
+amplification API, without a separable measurable-multiplicity assertion.
+Elementary V2 carriers, completed tensors, projection lattice, membership,
+generator and given-measure MASA APIs consumed by Fields remain independent of
+these later classification applications.
+*Needs:* V4.0.Multiplication, V4.Normality, V2.AbelianClassification's Φ_a.
+
+**Checks.**
+
+- For the generator `a=diag(1,1/3,1/9)` of `ℓ∞({0,1,2})` on ℂ³, `K=σ(a)={1,1/3,1/9}` and the
+  control measure charges each point, so `L∞(K,μ)=ℂ³` and `Φ_a([1_{1/3}])` is the projection onto
+  the second basis vector; for H=0 the control is the zero measure and Φ_a is the unique map of
+  zero algebras, with no probability normalization.
+- For a the multiplication by t on `L²[0,1]`, with control Lebesgue measure, the class of
+  `f=1_(ℚ∩[0,1])` is 0, so `Φ_a([f])=0` and `‖Φ_a([f])‖=essSup_μ|f|=0`, whereas the supremum of
+  this representative over `σ(a)=[0,1]` is 1: the norm is the essential supremum of the class.
+- For an uncountable set I, `ℓ∞(I)` on `ℓ²(I)` has no faithful normal state: a normal state ω
+  has `Σ_i ω(δ_i)=1`, so `ω(δ_i)=0` for all but countably many i. V2.AbelianLocalizable's maximal
+  family is then `z_i=δ_i` with corners `ℂδ_i`, and the model is counting measure on I, not a
+  finite control.
+- `L∞[0,1]` on `L²[0,1]` (multiplicity 1) and on `L²[0,1]⊗ℂ²` (multiplicity 2) have the same
+  control class but are not unitarily equivalent: their commutants are `L∞[0,1]`, abelian, and
+  `L∞[0,1]⊗M₂(ℂ)`, not abelian. The control class alone does not classify.
+
 **V2.NonmodularProjectionLattice.** On H=ℓ²⊕ℓ² let
 D(x)_n=x_n/(n+1), y_n=1/(n+1), A=ℓ²⊕0, B=graph D and C=ℓ²⊕ℂy.
 Prove these subspaces closed, D injective with dense range and y∉range D.
@@ -1080,6 +1230,8 @@ This elementary Hilbert/projection result is consumed by V5.LatticeFinite.
 
 ### Examples
 
+- The separably acting abelian von Neumann algebras are `ℓ∞` of a finite or countable atomic
+  set, `L∞[0,1]`, or a direct sum of the two; uncountable counting measure gives `ℓ∞(I)`.
 - On `ℓ²⊕ℓ²`, the subspaces `ℓ²⊕0`, the graph of `D(x)_n=x_n/(n+1)` and `ℓ²⊕ℂy` with
   `y_n=1/(n+1)` violate the modular law (V2.NonmodularProjectionLattice).
 - The support projection of a positive `a≠0` is the SOT limit of `(a/‖a‖)^(1/n)`.
@@ -1101,6 +1253,12 @@ This elementary Hilbert/projection result is consumed by V5.LatticeFinite.
 - Mathlib `ContinuousLinearMap.rTensor`, `ContinuousLinearMap.lTensor`,
   `ContinuousLinearMap.completion` and `StarSubalgebra.centralizer` for the amplifications and
   the spatial tensor product.
+- V2.BorelCalculus, V4.0.Multiplication, Layer 1's Kaplansky
+  theorem and bounded-set metrizability, Mathlib `L∞` and `essSup`, and V4.Normality for
+  V2.AbelianClassification and V2.AbelianRepresentationMultiplicity.
+- Mathlib `ContinuousLinearMap.holderL` and `StandardBorelSpace` for the multiplication algebras
+  of V2.AbelianClassification.
+- Mathlib's commutative Gelfand duality and `RealRMK.rieszMeasure` for V2.AbelianLocalizable.
 
 ## Layer 3: Type I and finite-dimensional algebras
 
@@ -1216,7 +1374,7 @@ Banach predual in the sense of `WStarAlgebra`, the conjugate Banach space of M_*
 star-isomorphic to a concrete von Neumann algebra, through the direct sum of the GNS
 representations of the states lying in the predual (Sakai's theorem: Peterson, Theorem 4.4.6,
 p. 66): this is `exists_vonNeumannAlgebra_starAlgEquiv`.
-Consume Tau Ceti's Krein–Šmulian theorem for the dual
+Consume BanachSpaceTheory B2's Krein–Šmulian theorem, in its Tau Ceti implementation, for the dual
 of a Banach space with its weak-star topology, `Convex.isClosed_iff_forall_isClosed_inter_closedBall`:
 a real-convex set is weak-star closed iff its intersections with all centered closed balls
 are weak-star closed, with its linear-subspace unit-ball criterion
@@ -1239,7 +1397,8 @@ equivalence identifies every continuous linear functional on the weak-star
 space B* uniquely with evaluation at b∈B, with no reflexivity hypothesis.
 Own the pairing and transport specialization: ev_b(φ)=φ(b), and for bounded
 T:B→L[ℂ]C, its weak-star continuous transpose satisfies
-`ev_b ∘ T* = ev_(Tb)`. Consume Tau Ceti's quotient duals
+`ev_b ∘ T* = ev_(Tb)`. Consume BanachSpaceTheory B1's annihilator and quotient theory in its Tau
+Ceti implementation, the quotient duals
 `Submodule.quotientDualEquivAnnihilator` and `Submodule.quotientAnnihilatorEquivDual` and its
 weak-star double-annihilator theorem
 `Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`: the dual of the
@@ -1636,166 +1795,12 @@ Polish spaces, `Measure` on standard Borel spaces and the one-point compactifica
   are null, so the fibre at a prescribed t is not determined and the decomposition is a class
   modulo null sets, not a pointwise assignment.
 
-**V4.AbelianClassification — separably acting abelian algebras.** For an abelian
-M on separable H, choose V2's single generator a, so M=W*(a).
-Consume V4.0.Multiplication's control measure μ on K=σ(a) for the
-continuous-calculus representation of a, V2.BorelCalculus's spectral projections P_a and the
-equivalence `μ(B)=0 ↔ P_a(B)=0` for Borel B. For H≠0 normalize
-the finite nonzero control to a probability measure. For H=0 use the
-zero measure and the unique isomorphism of zero algebras; do not claim
-a probability control or choose a unit vector there. Consume V4.0.Multiplication's
-P-essentially bounded symbol quotient, its norm equality and its comparison
-with Mathlib's L∞(K,μ), with norm `essSup_μ|f|`.
-VNA owns its comparison with this concrete generated algebra: construct
-
-```
-Φ_a : L∞(K,μ) ≃⋆ₐ[ℂ] W*(a),       Φ_a([f]) = f(a),
-‖Φ_a([f])‖ = essSup_μ |f|.
-```
-
-Require compatibility with continuous and bounded Borel calculus,
-`Φ_a([1_B])=P_a(B)`, the projection/measure-algebra correspondence and
-normality. The representative is an actual bounded Borel version of
-the a.e. class; V2.BorelCalculus's null filter and V4.0.Multiplication's symbol quotient supply
-descent and injectivity, not a new symbol or measure carrier. Prove onto-ness rather
-than putting it in a premise. For T∈W*(a), V1's Kaplansky theorem and
-bounded-set SOT metrizability give uniformly bounded continuous-calculus
-approximants f_n(a)→T strongly. V4.0.Multiplication's weighted control and V2.BorelCalculus's
-vector L² identity `‖f(a)ξ‖²=∫|f|²dμ_ξ` make f_n Cauchy in L²(μ): control finitely many cyclic
-vectors and then the summable uniformly bounded tail. A subsequence
-converges μ-a.e. to a bounded Borel version f with the same uniform
-bound. P-null equivalence and V2.BorelCalculus's bounded convergence give
-f_n(a)→f(a) strongly along that subsequence, so T=Φ_a([f]). Increasing
-bounded nonnegative symbols/projections and their vector integrals give
-normality, and the indicator laws identify the projection lattice.
-This is the algebra-membership/range theorem on the V2.BorelCalculus Borel
-calculus, not a second scalar-control or spectral construction. Changing generators or control choices gives the induced normal
-star isomorphism through M and its projection lattice; preserve the
-measure class, not an arbitrary pointwise representative.
-
-Only after this isomorphism apply the measure-algebra classification:
-classify the separably acting abelian algebras abstractly as ℓ∞ of a
-finite/countable atomic set, a nonatomic L∞[0,1] part, or their direct
-sum, with either part allowed to vanish. Treat the zero algebra
-separately. This is not the classification of arbitrary-cardinality
-abelian algebras by one separable probability model. Define `multiplicationAlgebra μ`, for a
-measure μ on a measurable space X, as the von Neumann algebra on `L²(X,μ)` generated by the
-multiplication operators `(ContinuousLinearMap.mul ℂ ℂ).holderL μ ∞ 2 2 f`, f∈L∞(X,μ), Mathlib's
-Hölder product (Tau Ceti's `VonNeumannAlgebra.adjoin` of them); `MeasureTheory.Lp` has no ring
-structure for p=∞, so L∞ enters as this operator algebra. State the abstract classification as `exists_starAlgEquiv_multiplicationAlgebra`: an
-abelian von Neumann algebra on a nonzero separable Hilbert space is star isomorphic to
-`multiplicationAlgebra μ` for a probability measure μ on a standard Borel space (Jones, the
-remark after EP10, p. 23).
-*Needs:* V2.BorelCalculus (Borel calculus, null filter, vector L² identity, bounded
-convergence) and V4.0.Multiplication (control measure, essentially bounded symbols),
-V2's single-generator construction, V1's Kaplansky theorem and bounded-set metrizability, Mathlib
-`L∞(K,μ)`, `essSup`, `ContinuousLinearMap.holderL` and `StandardBorelSpace`; V4.Normality
-wherever normality is asserted.
-
-- For σ-finite μ, `multiplicationAlgebra μ` consists exactly of the multiplication operators,
-  `f↦(ContinuousLinearMap.mul ℂ ℂ).holderL μ ∞ 2 2 f` is an isometric star isomorphism from
-  L∞(X,μ) onto it, and it is its own commutant (V2's multiplication-operator realization).
-- A measure-preserving measurable isomorphism of probability spaces induces a unitary of the L²
-  spaces conjugating the two multiplication algebras.
-
-**Checks.**
-
-- For the counting measure on a two-point set, L² is ℂ² and the multiplication algebra is the
-  diagonal algebra ℂ², which is its own commutant; for a Dirac measure it is ℂ on ℂ.
-- For Lebesgue measure on [0,1] it is `L∞[0,1]`: multiplication by t has no eigenvector and the
-  algebra has no minimal projection, unlike every atomic model.
-- For μ=0, L²(μ)=0 and the multiplication algebra is the zero algebra on the zero space, which is
-  why the classification uses probability measures and excludes H=0.
-- `ℓ∞(I)` on `ℓ²(I)` with I uncountable is abelian but is not the multiplication algebra of any
-  probability measure: it has uncountably many orthogonal minimal projections, while a
-  probability measure has only countably many atoms; separability of H is needed.
-
-**V4.AbelianLocalizable — arbitrary cardinalities.** Prove the general
-abelian model by disjoint σ-finite corners, without imposing a
-faithful normal state on all M. Using V4.Normality's support/normal
-functional APIs, take a maximal orthogonal family of nonzero supports
-z_i of normal positive vector functionals in an arbitrary faithful
-concrete abelian M. Prove z_i central, their supremum1, and each z_iM
-has a faithful normal state by restriction and normalization. For each
-corner, consume Mathlib's unital commutative Gelfand duality
-(`gelfandTransform_isometry`, `gelfandTransform_bijective`,
-`gelfandStarTransform` under `CommCStarAlgebra`) with C(X_i), and that
-state's cyclic faithful normal GNS representation. X_i may be nonmetrizable.
-Consume V0/GNS, V4.Normality's normal-image theorem, Mathlib's
-Riesz–Markov–Kakutani measure `RealRMK.rieszMeasure` for the state on C(X_i), and the
-V2's given-finite-measure multiplication/MASA theorem. Its finite Radon Riesz measure μ_i
-and continuous-function L² density identify the cyclic GNS carrier with
-L²(μ_i). Bounded continuous approximations to bounded measurable symbols,
-together with the normal image's strong closedness, prove that this
-corner image is all L∞(μ_i). Prove the isometric normal star comparison
-on this actual GNS carrier, not merely a Hilbert-space isomorphism.
-This is the corner/GNS-to-algebra comparison; the Gelfand transform and
-Riesz measure are consumed, not rebuilt.
-
-Complete the finite component measures and take their disjoint union
-with all componentwise measurable sets and measure `μ(E)=∑'_i μ_i(E_i)`.
-Prove this space strictly localizable and construct the normal isometric
-star isomorphisms `M≃∏_i z_iM≃L∞(μ)`, where the product is the uniformly
-bounded product, with norm the supremum of component norms. Prove the
-component/a.e.-class and projection comparisons, choice/reindexing and
-common-universe-lift transport. The empty family gives the zero algebra
-and zero measure. Uncountable counting measure models ℓ∞(I); do not
-replace it by a faithful finite control. This general target uses no
-standard-Borel or countable-multiplicity conclusion for its arbitrary
-X_i or index set.
-*Needs:* V4.Normality's supports and normal functionals, V0's GNS, Mathlib `gelfandStarTransform`,
-`RealRMK.rieszMeasure` and `RealRMK.integral_rieszMeasure`, V2's given-measure MASA theorem;
-the strictly localizable disjoint union is built here.
-
-**V4.AbelianRepresentationMultiplicity — terminal application.** For
-normal representations of the separably acting abelian algebras on
-separable Hilbert spaces, consume V4.0.Multiplication's cyclic
-multiplication model, control measure class, measurable multiplicity and
-classification of representations of the same `C(K)` by control class and
-multiplicity, with V4.Normality and V4.AbelianClassification's Φ_a comparison. Own
-restriction to the C*-algebra generated by a and comparison with its normal
-extension, and use V4.Normality to recover the given representation from that
-restriction: two normal representations of M=W*(a) on separable Hilbert spaces
-are unitarily equivalent iff their restrictions to `C(σ(a))` have equivalent
-control measures and equal multiplicities almost everywhere, and the control
-class of a normal representation is absolutely continuous with respect to the
-class of μ in V4.AbelianClassification. Include the identity representation of
-L∞[0,1] on `L²[0,1]` (multiplicity 1), its amplification on `L²[0,1]⊗ℂ²`
-(multiplicity 2, not equivalent to the first) and the zero representation (zero
-control). V4.0.Decomposition consumes V4.0.Multiplication for its central-reduction and
-direct-integral applications. For representations on arbitrary Hilbert spaces
-use V4.0.Multiplication's orthogonal cyclic-sum description and V4.Normality's
-amplification API, without a separable measurable-multiplicity assertion.
-Elementary V2 carriers, completed tensors, projection lattice, membership,
-generator and given-measure MASA APIs consumed by Fields remain independent of
-these later classification applications.
-*Needs:* V4.0.Multiplication, V4.Normality, V4.AbelianClassification's Φ_a.
-
-**Checks.**
-
-- For V2's generator `a=diag(1,1/3,1/9)` of `ℓ∞({0,1,2})` on ℂ³, `K=σ(a)={1,1/3,1/9}` and the
-  control measure charges each point, so `L∞(K,μ)=ℂ³` and `Φ_a([1_{1/3}])` is the projection onto
-  the second basis vector; for H=0 the control is the zero measure and Φ_a is the unique map of
-  zero algebras, with no probability normalization.
-- For a the multiplication by t on `L²[0,1]`, with control Lebesgue measure, the class of
-  `f=1_(ℚ∩[0,1])` is 0, so `Φ_a([f])=0` and `‖Φ_a([f])‖=essSup_μ|f|=0`, whereas the supremum of
-  this representative over `σ(a)=[0,1]` is 1: the norm is the essential supremum of the class.
-- For an uncountable set I, `ℓ∞(I)` on `ℓ²(I)` has no faithful normal state: a normal state ω
-  has `Σ_i ω(δ_i)=1`, so `ω(δ_i)=0` for all but countably many i. V4.AbelianLocalizable's maximal
-  family is then `z_i=δ_i` with corners `ℂδ_i`, and the model is counting measure on I, not a
-  finite control.
-- `L∞[0,1]` on `L²[0,1]` (multiplicity 1) and on `L²[0,1]⊗ℂ²` (multiplicity 2) have the same
-  control class but are not unitarily equivalent: their commutants are `L∞[0,1]`, abelian, and
-  `L∞[0,1]⊗M₂(ℂ)`, not abelian. The control class alone does not classify.
-
 ### Examples
 
 - For the vector state `φ(a)=a₁₁` on `M_n(ℂ)` acting on ℂⁿ, n≥2, the GNS vector is cyclic but
   the state is not faithful, so the vector `e₁` is not separating.
 - `B(H)` is the dual of the trace-class operators, and `ℓ∞(I)` of `ℓ¹(I)` for every index set
   I, with no separability assumption.
-- The separably acting abelian von Neumann algebras are `ℓ∞` of a finite or countable atomic
-  set, `L∞[0,1]`, or a direct sum of the two; uncountable counting measure gives `ℓ∞(I)`.
 
 ### Dependencies
 
@@ -1805,14 +1810,8 @@ these later classification applications.
 - Tau Ceti's quotient duals, weak-star double annihilators, Krein–Šmulian theorem and
   `TauCeti.NuclearOperator` (the Banach duality of V4.Core).
 - Mathlib `LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, `SeparatingDual`.
-- Mathlib `ContinuousLinearMap.holderL` and `StandardBorelSpace` for the multiplication algebras
-  of V4.AbelianClassification.
 - V2.BorelCalculus and V4.0.Fields for V4.0.Multiplication; V4.0.Multiplication and
   OptimalTransport Layers 2 and 8.2 for V4.0.Decomposition.
-- V2's single generator and given-measure multiplication/MASA theorem, V2.BorelCalculus, Layer
-  1's Kaplansky theorem and bounded-set metrizability, Mathlib `L∞` and `essSup`, commutative
-  Gelfand duality and `RealRMK.rieszMeasure` for V4.AbelianClassification, V4.AbelianLocalizable
-  and V4.AbelianRepresentationMultiplicity.
 
 ## Layer 5: Projection comparison and finite factors
 
@@ -2427,9 +2426,23 @@ N-linear unitary. This general corollary has no group-theoretic input.
 *Needs:* V7.Dimension, V6's standard form and `JMJ=M′`, V5's trace, V4.Normality; the induced
 commutant trace of V7.Dimension for the restriction-of-scalars law.
 
-This layer owns elementary dimension, index and bimodule theory; Subfactors owns its basic
-constructions, finite bases and later towers. The group-factor index computations that use these
-laws are V8.SubgroupCosets and V8.GroupApplications.
+**V7.GroupApplications — after the V8 models.** V8.SubgroupCosets constructs
+its actual arbitrary-index coset unitary without a dimension input. When
+L(Η) is a factor, it consumes the preceding identity-range corollary `dim_N(S_I)=∑'_(i∈I)1`:
+dimension is the finite subgroup index when finite and∞ when infinite. Its dimension/index comparison and the
+following test are applications, not prerequisites of V7's general
+construction or index laws. After V8's group-factor and tensor models,
+for the separable hyperfinite II₁ factor R of V6 and an uncountable free group F_I,
+prove the inclusion R⊂R⊗̄L(F_I) has index∞ on the actual amplification
+L²(R)⊗̂ℓ²(F_I); no isometry into a separable amplification is required.
+V9's finite formal-degree/covolume and commuting-action applications use the same
+dimension, with their stated hypotheses. This layer owns elementary dimension, index
+and bimodule theory; Subfactors owns its basic constructions,
+finite bases and later towers.
+*Needs:* V8.SubgroupCosets's coset unitary, V8's group factors and tensor models, V2's spatial
+tensor product, V6's hyperfinite model, V7.Index's index and V7.Dimension's identity-range
+corollary.
+
 
 **Checks.**
 
@@ -2451,6 +2464,7 @@ laws are V8.SubgroupCosets and V8.GroupApplications.
 
 - For `N=M_m(ℂ)`, m≥1, every normal module is `ℂ^m⊗K`, of dimension `dim K/m`.
 - For a II₁ factor N and n≥1, `[N⊗̄M_n(ℂ):N]=n²`.
+- For infinite ICC groups Γ₀⊆Γ with `[Γ:Γ₀]<∞`, `[L(Γ):L(Γ₀)]=[Γ:Γ₀]`.
 
 ### Dependencies
 
@@ -2504,18 +2518,6 @@ embeddings (`IsAlgClosed` lifting) for the direct-finiteness descent.
 *Needs:* the group von Neumann algebra above, V7.AmplificationTrace and V7.Dimension, V6's product
 trace, Mathlib `lp` reindexing along coset representatives.
 
-**V8.GroupApplications — index computations for group factors.** V8.SubgroupCosets constructs
-its arbitrary-index coset unitary without a dimension input. When L(Η) is a factor, consume
-Layer 7's identity-range corollary `dim_N(S_I)=∑'_(i∈I)1`: the dimension of the coset module is
-the subgroup index when it is finite and ∞ when it is infinite. These comparisons apply Layer 7;
-they are not prerequisites of its general construction or index laws. For the separable
-hyperfinite II₁ factor R of V6 and a free group F_I on an uncountable set I, prove that the
-inclusion R⊂R⊗̄L(F_I) has index ∞, computed on the actual amplification `L²(R)⊗̂ℓ²(F_I)`; no
-isometry into a separable amplification is required. V9's formal-degree/covolume and
-commuting-action applications use the same dimension, with their stated hypotheses.
-*Needs:* V8.SubgroupCosets's coset unitary, the group factors of this layer, V2's spatial tensor
-product, V6's hyperfinite model, V7.Index's index and Layer 7's identity-range corollary.
-
 Define normal group actions, fixed-point algebras, inner/outer automorphisms, spatial
 implementation, and proper outerness by vanishing intertwiners. Prove equivalence of proper
 outerness and outerness for factors. Include the Pauli Klein-four action on M₂ with no
@@ -2529,7 +2531,7 @@ iff proper outerness, and freeness of ergodic abelian actions whose induced acti
 `Lp` multiplication; Peterson, §5.2, pp. 87–92, and Anantharaman–Popa, §1.4, pp. 12–18, are the
 sources.
 
-**V8.RegularL2 — the reduced group C*-algebra and the regular von Neumann algebra.** For every
+**V8.RegularL2 — the left-regular representation of a locally compact group.** For every
 locally compact Hausdorff group G with a regular left Haar measure μ, consume BanachAlgebras
 A7.RegularL2 for the left-regular representation: the unitaries `(λ_s f)(r)=f(s⁻¹r)` on
 `L²(G,μ)`, strongly continuous in s, and the integrated operators λ(f), f∈L¹(G,μ), with
@@ -2721,7 +2723,6 @@ assumption from the classification milestones.
 - The bounded function `Σ_(n≥1)2^(-n)z^n` lies in `L(ℤ)` but is not a finite combination of
   group unitaries.
 - `ℚ` acting on ℝ by translation is ergodic for Lebesgue measure.
-- For infinite ICC groups Γ₀⊆Γ with `[Γ:Γ₀]<∞`, `[L(Γ):L(Γ₀)]=[Γ:Γ₀]`.
 
 ### Dependencies
 
@@ -3853,7 +3854,7 @@ uniqueness or double-dual surjectivity enters this proof.
 and `TauCeti.PontryaginDual.continuous_coe_eval_const`; Mathlib `PontryaginDual` (compact-open topology,
 evaluation continuity) and regular Haar measure.
 
-**V11.UnitizationCharacters — the characters of the reduced group C*-algebra.** Let Ω be the
+**V11.UnitizationCharacters — the nonunital Gelfand spectrum.** Let Ω be the
 nonzero characters of C*_r(G) and Ω⁺ the compact character space of `Unitization ℂ C*_r(G)`,
 with augmentation `∞=Unitization.fstHom`. Consume BanachAlgebras §3.1 for the restriction
 homeomorphism `Ω⁺∖{∞}≃Ω`, with inverse `χ↦((c,a)↦c+χ(a))`, and for Ω⁺ being the one-point
@@ -3867,32 +3868,25 @@ character γ_φ with `φ(λ(g))=ĝ(γ_φ)` for every g∈L¹(G). Prove that `φ�
 is determined on the dense set λ(L¹(G)), and continuous from the weak-star topology of Ω to the
 compact-open topology of dual G, since weak-star convergence `φ_i→φ` gives pointwise convergence
 `φ_i∘λ→φ∘λ` on `L¹(G)` and A7's correspondence is a homeomorphism onto the weak-star character
-space. Thus the Gelfand transform of λ(g) on Ω is `ĝ∘γ`. Surjectivity of `φ↦γ_φ` is proved in
-V11.FourierInversion. Include the trivial group, where C*_r(G)=ℂ, Ω is one point and γ_φ is the
+space. Thus the Gelfand transform of λ(g) on Ω is `ĝ∘γ`. Surjectivity of `φ↦γ_φ` is proved after
+Plancherel below. Include the trivial group, where C*_r(G)=ℂ, Ω is one point and γ_φ is the
 trivial character.
 *Needs:* BanachAlgebras §3.1 and A7.CharactersAndUniqueness; Mathlib `characterSpace`
 compactness, `Unitization.starLift`, `Unitization.fstHom` and `gelfandTransform_isometry`;
 V8.RegularL2.
 
-**V11.FourierInversion — inversion, Plancherel and duality.** Construct inversion on its
-integrable domain: for f∈L¹ with f̂∈L¹(dual G), `f(x)=∫f̂(γ)conj(γ(x))dγ` a.e. for the dual Haar
-measure normalized by this identity. One route applies Tau Ceti's cyclic spectral theorem
-`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` to the positive-definite
-functions `x↦⟨ξ,λ_xξ⟩` and identifies the resulting measures on dual G by Tau Ceti's uniqueness
-theorem above, with BanachAlgebras' uniqueness on G for `L¹` functions with equal transforms.
-Prove Fourier–Plancherel on L², the unitary `F:L²(G)≃L²(dual G)` with `Fλ(f)F*=M_f̂`; deduce
-`‖λ(f)‖=sup|f̂|`, hence that every evaluation `f̂↦f̂(γ)` is a character of C*_r(G), completing
-the homeomorphism `Ω≃dual G` of V11.UnitizationCharacters and identifying the Fourier transform
-with the Gelfand transform. Prove the evaluation map `G→dual(dual G)` a topological group
-isomorphism (surjectivity after inversion), its naturality, and Fourier/Haar rescaling
-compatibilities. Give compact-support density and local σ-finite integration arguments for
-groups without a global σ-finite Haar measure. This harmonic-analysis layer is independent of
-the countability assumption on the normal crossed-product construction and supplies
-OperatorAlgebraDynamics D4's arbitrary-LCA Takai duality.
-*Needs:* V11.DoubleDualEmbedding, V11.UnitizationCharacters, V8.RegularL2; BanachAlgebras
-A7.CharactersAndUniqueness; Tau Ceti `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`
-and `MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`;
-Mathlib `PontryaginDual` and Haar measure; AmenableGroups Layer 7.
+**V11.FourierUniqueness — on finite measures and on L¹.** The uniqueness theorems that
+inversion uses are consumed, not proved here. On G: for f∈L¹(G,μ), `f̂=0` forces f=0 almost
+everywhere, and two finite regular complex Borel measures on G with equal transforms
+`γ↦∫γ dν` are equal, positive measures included (BanachAlgebras A7.CharactersAndUniqueness,
+from the semisimplicity of `L¹(G)`). On dual G: two finite inner regular measures with equal
+integrals against every evaluation character `γ↦γ(x)`, x∈G, are equal (Tau Ceti's
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`, a
+consequence of `TauCeti.MeasureTheory.ext_of_forall_mem_subalgebra_integral_eq_of_innerRegular`
+applied to the conjugation-closed, point-separating span of the evaluation characters). Neither
+needs a countability or global σ-finiteness hypothesis. Include f=0 and the trivial group.
+*Needs:* BanachAlgebras A7.CharactersAndUniqueness; Tau Ceti
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`.
 
 **Checks.**
 
@@ -3916,6 +3910,31 @@ Mathlib `PontryaginDual` and Haar measure; AmenableGroups Layer 7.
 - For G=ℝ with Lebesgue measure and `γ_y(x)=e^(ixy)`, the dual Haar measure is `dy/(2π)`: for
   `f=1_[0,1]`, `|f̂(y)|²=(sin(y/2)/(y/2))²` and `∫|f̂(y)|²dy/(2π)=1=‖f‖₂²`, as Plancherel
   requires, whereas Lebesgue measure dy would give 2π.
+- Uniqueness needs regularity of the measures, not only finiteness: on G it is stated for finite
+  regular complex measures, and on dual G for finite inner regular measures; it is not asserted
+  for arbitrary finite Borel measures on a nonmetrizable group.
+
+Consume V11.FourierUniqueness before constructing inversion on its integrable domain, for
+f∈L¹ with f̂∈L¹(dual G), `f(x)=∫f̂(γ)conj(γ(x))dγ` a.e. for the dual Haar measure normalized by
+this identity. One route applies Tau Ceti's cyclic spectral theorem
+`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` to the positive-definite
+functions `x↦⟨ξ,λ_xξ⟩` and identifies the resulting measures on dual G by the uniqueness theorem
+on dual G, with the uniqueness on G for `L¹` functions with equal transforms. Prove
+Fourier–Plancherel on L², the unitary `F:L²(G)≃L²(dual G)` with
+`Fλ(f)F*=M_f̂`; deduce `‖λ(f)‖=sup|f̂|`, hence that every evaluation `f̂↦f̂(γ)` is a
+character of C*_r(G), completing the homeomorphism `Ω≃dual G` of V11.UnitizationCharacters and
+identifying the Fourier transform with the Gelfand transform. Prove the evaluation map
+`G→dual(dual G)` a topological group isomorphism (surjectivity after inversion), its
+naturality, and Fourier/Haar rescaling compatibilities. Give compact-support density and local
+σ-finite integration arguments for groups without a global σ-finite Haar measure. This
+harmonic-analysis layer is independent of the countability assumption on the normal
+crossed-product construction and supplies OperatorAlgebraDynamics D4's arbitrary-LCA Takai
+duality.
+*Needs:* V11.DoubleDualEmbedding, V11.UnitizationCharacters, V11.FourierUniqueness,
+V8.RegularL2; BanachAlgebras A7.CharactersAndUniqueness; Tau Ceti
+`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` and
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`;
+Mathlib `PontryaginDual` and Haar measure; AmenableGroups Layer 7.
 
 Construct crossed products by second-countable locally compact groups with
 pointwise strong-star continuous normal actions on `L²(G,H)`, Haar and
@@ -5073,6 +5092,8 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   instance `(e₁₂φ)(e₂₁)=φ(e₂₁e₁₂)=1/3` and `(φe₁₂)(e₂₁)=φ(e₁₂e₂₁)=2/3`, so `e₁₂` is not
   centralizing, while the diagonal unitaries commute with h and are.
 
+
+
 ### Examples
 
 - `M⊗̄B(ℓ²)` is semidiscrete when M is, and its properly infinite approximation gives an AF
@@ -5242,6 +5263,14 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 - Connes, [*Periodic automorphisms of the hyperfinite factor of type II₁*](https://alainconnes.org/wp-content/uploads/szego.pdf),
   Theorem 5.1 and Theorem 6.2, for invariant matrix approximation and
   outer-period/obstruction classification.
+- Mathlib's `Analysis/VonNeumannAlgebra/Basic`, `Analysis/InnerProductSpace/WeakOperatorTopology`, `Analysis/LocallyConvex/WeakOperatorTopology`, and C*-algebra/continuous-functional-calculus files determine the foundational vocabulary.
+- The bicommutant theorem is stated on Mathlib's `ContinuousLinearMapWOT` wrapper, with the
+  finite diagonal amplification of V1 as its proof route.
+- Finite-dimensional positive functionals are written as `x↦Tr(hx)` with a positive density
+  matrix h (V0, V10). The pinned Mathlib has no density-matrix or finite Hilbert–Schmidt
+  declarations; on a single matrix block the density is Tau Ceti's trace duality
+  `LinearMap.existsUnique_trace_mul_eq` (Conventions), its blockwise form on a direct sum of
+  matrix blocks is a V10 target, and the Hilbert–Schmidt norm is the V4.Core target.
 - Andrew Gleason, *Measures on the closed subspaces of a Hilbert space*, J. Math. Mech. 6
   (1957), pp. 885–893, for the finite frame-function theorem of V12.J.Frame.
 - L. J. Bunce and J. D. Maitland Wright, [*The Mackey–Gleason problem*](https://arxiv.org/abs/math/9204228),
@@ -5266,3 +5295,4 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   automorphisms*](https://jot.theta.ro/jot/archive/1985-014-001/1985-014-001-011.html),
   J. Operator Theory 14 (1985),189–211, gives the original bicentralizer
   characterization; the proof route specified here is the direct product route.
+- Relevant Lean design discussions include [naming in operator algebras](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/naming%20in%20operator%20algebras) and [Double commutant theorem](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Double%20commutant%20theorem). Use Mathlib's concrete/abstract split and topology wrappers, with the interface conventions above. Supply the required missing results here or in their explicitly cited prerequisite owner.

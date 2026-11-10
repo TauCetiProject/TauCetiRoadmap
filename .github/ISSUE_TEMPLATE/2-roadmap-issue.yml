@@ -14,80 +14,167 @@ body:
     attributes:
       label: Roadmap area
       options:
-        - AdicSpaces
+        - AbhyankarLemma
+        - AdicEtaleGeometry
         - AdicSpacesPartII
+        - AdicSpacesPartIII
+        - AdicSpacesPartIV
+        - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
-        - AnalyticToricGeometry
+        - AmenableGroups
+        - AnalyticNumberTheoryPartI
+        - AsymptoticExpansions
+        - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
+        - BordismFormalGroups
+        - BorelEquivalenceRelations
+        - CFSGBasicProperties
         - CFSGStatement
-        - Chebotarev
+        - CStarAlgebras
+        - CharacteristicClasses
+        - ChevalleyGroups
         - ClassFieldTheory
+        - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
-        - ConformalMapping
+        - ComplexCurveModuli
+        - ComplexKahlerGeometry
+        - ComplexManifolds
+        - ComplexTori
+        - ComputabilityTheory
+        - ConformalMappingPartII
+        - CountableModelCounting
         - DGAInfinity
         - DGFloer
-        - DenseGraphLimits
+        - DeRhamCohomologyAndDuality
+        - DerivedModuleAlgebra
+        - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
-        - Exchangeability
+        - EllipticIntegrals
+        - EnhancedDerivedSheaves
+        - EquivariantIntersectionTheory
+        - EtaleCohomologyFoundations
+        - EtaleMassFormula
+        - FactorRigidity
+        - FinancialMathematics
+        - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
+        - FlagVarieties
         - FormalLaurentPuiseux
+        - FreeGroupsAndLimitGroups
+        - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
+        - GeometricCurrents
         - GeometricMeasureTheory
+        - GeometricRepresentationCategories
         - GeometricTopology
-        - GlobalNumberFields
         - GlobalQuadraticForms
+        - GraphConnectivityAndFlows
+        - GroebnerGeometry
         - GrothendieckEulerForms
+        - HamiltonianFloerOperations
         - HeegaardFloer
-        - HeightsAndUnits
-        - HopfRinow
-        - InfinitaryLogic
+        - HilbertModules
+        - HopfologicalAlgebra
+        - Hyperfunctions
+        - ImaginaryQuadraticClassNumber
+        - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
-        - LocalFieldsRamification
-        - LocalGaloisGroups
+        - KacMoody
+        - KhovanovHomology
+        - LFunctions
+        - LieGroupoidsPoisson
+        - LinearFormsInLogarithms
+        - LocalPurity
+        - LocalVariationalFieldTheory
+        - MarkovChainsAndRenewal
         - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
+        - MorseNovikov
         - MorseTheory
+        - Neuromanifolds
         - NewtonPolygons
+        - NilpotentOrbits
         - NoncommutativeGeometry
-        - NumberFieldArithmetic
-        - OneParameterSemigroups
+        - NoncommutativeIntegration
+        - NoncongruenceModularForms
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
-        - OrthogonalSpinGroups
+        - Orbifolds
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
-        - PeripheralActions
+        - PerfectoidSpaces
         - PivotalSpherical
-        - PolynomialGaloisGroups
-        - ProfiniteArithmetic
+        - Poincare3D
+        - PositiveScalarCurvature
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
-        - ProfiniteProPGroups
+        - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
+        - PurityOfBranchLocus
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
-        - RealAlgebraicGeometry
+        - QuaternionicAnalysis
+        - RandomMatrices
+        - Rank24LatticeConstructions
+        - RealAnalyticGeometry
         - ReductiveGroups
+        - ReductiveGroupsPartII
+        - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
+        - RiemannianGeometry
         - RigidAnalyticGeometry
+        - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
+        - SchubertGeometry
+        - SeibergWittenTheory
+        - SmoothBundlesConnections
+        - SobolevPolynomialApproximation
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsParabolicCylinder
+        - SpinGeometry
+        - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Subfactors
+        - SubspaceTheorem
+        - SuccessiveMinima
+        - SymplecticFieldTheory
+        - SymplecticGeometry
+        - TauberianBoundaryConvergence
+        - TaubesGromov
+        - TemperleyLieb
+        - TensorProductCombinatorics
+        - ThetaSeries
+        - TopologicalKTheory
+        - TopologicalSheafCohomology
+        - TypeAHeckeAlgebras
+        - VonNeumannAlgebras
         - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
