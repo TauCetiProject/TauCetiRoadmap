@@ -120,7 +120,11 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   (`FiberBundle/GapTrivialization.lean`, `VectorBundle/Countable.lean`); and
   the principal-bundle class `TauCeti.PrincipalBundle` with its equivariant
   trivializations, division map, trivialization from a section and pullback
-  (`FiberBundle/Principal.lean`).
+  (`FiberBundle/Principal.lean`). Tau Ceti
+  `Topology/Algebra/CliffordAlgebra/Spin/UniversalCover.lean` supplies
+  `TauCeti.specialOrthogonalGroupFundamentalGroupMulEquiv`, the isomorphism
+  π₁(SO(n),1)≅ℤ/2 for n≥3 on Mathlib's
+  `Matrix.specialOrthogonalGroup (Fin n) ℝ`, which T1.5a and T7.1 consume.
 - [AlgebraicTopology](../AlgebraicTopology/README.md) supplies CW pairs,
   cofibrations, homotopies, relative homotopy sequences and ordinary
   (co)homology, and its Stage 5.5 supplies the based homotopy long exact
@@ -205,7 +209,8 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   orthogonal and special orthogonal groups O and SO, the colimits of
   Mathlib's `Matrix.orthogonalGroup (Fin n) ℝ` and
   `Matrix.specialOrthogonalGroup (Fin n) ℝ` along the block inclusions with
-  the new coordinate last, the loop comparisons ΩBO≃O and ΩBSO≃SO, Real
+  the new coordinate last, the stable range of those inclusions, the stable
+  homotopy groups π_i(O) and π_i(SO), the loop comparisons ΩBO≃O and ΩBSO≃SO, Real
   K-theory of spaces with involution with its (1,1)-periodicity, real Bott
   periodicity as the product with the degree −8 class b, the coefficient
   ring, the geometric KO/ABS and multiplicative normalization, and the
@@ -439,7 +444,11 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    map to Z vanishes. Prove all actual generator/LES/group comparisons.
    The m=0 full-frame carrier is O(n), with determinant components; its
    identity component is SO(n), with π1=0 for n≤1, Z for n=2 and Z/2 for
-   n≥3. Treat n=0 and r=0 separately. Construct the relative triple
+   n≥3. For n≥3 the value is Tau Ceti's
+   `TauCeti.specialOrthogonalGroupFundamentalGroupMulEquiv`, proved through
+   the Spin double cover, and is consumed from there; the sequence above
+   identifies its generator with the image of the winding-one loop of
+   SO(2). Treat n=0 and r=0 separately. Construct the relative triple
    (SO(n),SO(k+1),SO(k)) and its inclusion/boundary square on the actual
    positive-rank quotient carriers, retaining every k=0/low-rank exception.
    For complex r-frames prove2(n−r)-connectivity and first group
@@ -1501,6 +1510,23 @@ its characteristic-class consequences; G2.8 owns the generic
    - For a compact Hausdorff space K, a based map from K to O factors
      through a finite stage, so π_i(O) is the colimit of the groups
      π_i(O(n)) and likewise for SO.
+   - Stable range: for every i≥0 and n≥i+2 the map π_i(O(n))→π_i(O)
+     induced by the finite stage is a bijection, and for n=i+1 it is onto;
+     likewise for SO (Hatcher, *Vector Bundles and K-Theory*, §4.1, p. 108).
+     Route: for n≥1 the last-column map O(n+1)→S^n, g↦g·e_n, has fibre
+     ι_n(O(n)) over e_n, because an orthogonal matrix whose last column is
+     e_n has last row e_n as well. Over the complement of −e_n the rotation
+     in the plane of e_n and x that carries e_n to x (the identity at
+     x=e_n) is a continuous section s, and (x,A)↦s(x)·ι_n(A) is a
+     trivialization; over the complement of e_n the section is x↦s(−x)·R
+     for a fixed R∈SO(n+1) carrying e_n to −e_n. These trivializations make the map a
+     Serre fibration by Tau Ceti's
+     `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`, and its
+     restriction to SO(n+1) has fibre ι_n(SO(n)). Since π_j(S^n)=0 for j<n
+     (T1.5a at r=1), AlgebraicTopology Stage 5.5's based homotopy long exact
+     sequence makes ι_n bijective on π_i for i≤n−2 and onto for i=n−1, and
+     the colimit gives the claim. In degree 0 this is the statement about
+     path components: π₀(O(n))=ℤ/2 for n≥1, separated by the determinant.
 
    **Checks.**
    - n=0 and n=1: O(0) is the trivial group and ι_0 sends its element to
@@ -1510,9 +1536,14 @@ its characteristic-class consequences; G2.8 owns the generic
      it is not a homomorphism and its colimit carries no group structure;
      the determinant is also not compatible with it.
    - The winding-one loop of SO(2) has nonzero class in π₁(SO)=ℤ/2 and its
-     double is null, by T1.5a's computation π₁(SO(3))=ℤ/2, the surjection
-     from π₁(SO(2)) and the stability of π₁(SO(n)) for n≥3; the single
-     stage SO(2) would give ℤ.
+     double is null, by T1.5a's value π₁(SO(3))=ℤ/2, the surjection
+     from π₁(SO(2)) at n=i+1=2 and the bijection at n≥3=i+2; the single
+     stage SO(2) would give ℤ, which is why the stable range needs n≥i+2
+     and not n≥i+1.
+   - i=3: SO(4) is doubly covered by S³×S³, so π₃(SO(4))=ℤ², which maps
+     onto π₃(SO(5))=ℤ at n=i+1=4 but not injectively, while at n=5=i+2
+     the map to π₃(O)=ℤ is a bijection; a range n≥i+1 would give
+     π₃(O)=ℤ².
 
    Own the loop comparisons ΩBO≃O and ΩBSO≃SO: the based loop space of
    T1.6a's stableRealGrassmannian at its trivial-bundle basepoint is weakly
@@ -1556,22 +1587,24 @@ its characteristic-class consequences; G2.8 owns the generic
      i≡0,1,2,4,5,6 (mod 8) the group π_i(O) is ℤ/2 or 0 by the coefficient
      table below, so the choice is invisible there.
 
-   **Real bundles and (1,1)-periodicity.** A Real space is a compact
-   Hausdorff space X with a continuous involution τ, and a Real pair is a
-   Real space with a closed τ-invariant subspace. A Real bundle over X is a
-   finite-rank complex vector bundle E→X with a continuous involution of E
-   that covers τ and is conjugate-linear from E_x to E_(τx). Define KR(X) as
-   the group completion of the direct-sum monoid of isomorphism classes of
-   Real bundles, by T2.0's construction, with the tensor-product ring
-   structure, and the relative and compactly supported groups of Real pairs
-   and of locally compact Real spaces by T3's constructions carried out
-   with invariant subspaces and equivariant maps.
+   **Real bundles and (1,1)-periodicity.** A Real space is a locally
+   compact Hausdorff space X with a continuous involution τ, and a Real pair
+   is a compact Real space with a closed τ-invariant subspace. A Real bundle
+   over X is a finite-rank complex vector bundle E→X with a continuous
+   involution of E that covers τ and is conjugate-linear from E_x to
+   E_(τx). For a compact Real space X define KR(X) as the group completion
+   of the direct-sum monoid of isomorphism classes of Real bundles, by
+   T2.0's construction, with the tensor-product ring structure; define the
+   relative groups of Real pairs, and the compactly supported groups of
+   Real spaces that are only locally compact, by T3's constructions carried
+   out with invariant subspaces and equivariant maps.
    - Homotopy invariance, the exact sequence of a Real pair, excision and
      the external product hold with the proofs of T1–T3, every auxiliary
      choice being made compatible with the involution: a Hermitian metric
      and a partition of unity by averaging, a generating family of sections
-     by adjoining its conjugates, so that every Real bundle is a Real
-     summand of a trivial bundle ℂ^N with the standard conjugation.
+     by adjoining its conjugates, so that every Real bundle over a compact
+     Real space is a Real summand of a trivial bundle ℂ^N with the standard
+     conjugation.
    - When τ is the identity, the fixed points of the involution of E form a
      real vector bundle whose complexification is E, and this identifies
      KR(X) with KO(X) as rings.
@@ -1715,7 +1748,12 @@ its characteristic-class consequences; G2.8 owns the generic
    in degree 8 that c maps the generator b isomorphically to K^(−8)(pt).
    The KO coefficients in degrees 0,−1,…,−7 are therefore
    Z,Z/2,Z/2,0,Z,0,0,0, with periodicity given by this b, not just an
-   unnamed additive isomorphism, and π_i(O)≅a_(i+1) for every i≥0.
+   unnamed additive isomorphism, and π_i(O)≅a_(i+1) for every i≥0. Read
+   on the finite stages through the stable range above: for i≥1 and n≥i+2
+   the group π_i(O(n)) at the identity is ℤ/2, ℤ/2, 0, ℤ, 0, 0, 0, ℤ
+   according as i≡0,1,…,7 mod 8, which is
+   `nonempty_homotopyGroup_orthogonalGroup_mulEquiv` (Hatcher, *Vector Bundles and
+   K-Theory*, Introduction, p. 1, for the table of reduced KO of spheres).
 
    Choose η in degree−1 as Möbius−1, a in degree−4 and b in degree−8 by the
    specified irreducible module representatives of Cl(0,n): the raw volume
@@ -1841,7 +1879,7 @@ computation uses T1.5a's first homotopy groups and the loop comparisons
 matrix/bundle families; no elliptic operator or index theorem proves Bott.
 
 - Atiyah–Bott, [*On the periodicity theorem for complex vector bundles*](https://doi.org/10.1007/BF02391772), Acta Math.112 (1964), 229–247, for the polynomial-clutching proof.
-- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), §1 and §§2.1–2.3, for bundle/classification foundations, the group completion of T2.0, the elementary product proof and Adams operations.
+- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), §1 and §§2.1–2.3, for bundle/classification foundations, the group completion of T2.0, the elementary product proof and Adams operations; the Introduction (p. 1) for the table of reduced KO of spheres and §4.1 (p. 108) for the stable range of the orthogonal groups in T7.1.
 - Kriz–May, [*Operads, algebras, modules, and motives*](https://www.math.uchicago.edu/~may/BOOKS/KM.pdf), the section “The linear isometries operad”, for the finite-support universe and compactly generated coordinate-choice topology; T1.6 builds the actual frame/coherence comparisons.
 - Freed's K-theory lectures, [notes by Arun Debray](https://www.math.purdue.edu/~adebray/lecture_notes/m392c_Knotes.pdf), §§5–6, for the companion-pencil, spectral bundle and inverse-independence proof spine, with uniform approximation and signs proved as specified above.
 - Segal, [*Equivariant K-theory*](https://www.numdam.org/item/PMIHES_1968__34__129_0/), Publ.Math.IHÉS34 (1968), for equivariant bundles, representation embeddings, descent and complex Thom theory.
