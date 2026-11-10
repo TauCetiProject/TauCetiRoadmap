@@ -333,7 +333,9 @@ Let `F = ℚ⟮TauCeti.Cyclotomic.complexRoot e⟯ ⊆ ℂ` and choose a finite 
 `K = F_v`, `O` its valuation ring with Mathlib's DVR instance, and `k` its residue field. Prove that
 `(K, O, k)` is a splitting `p`-modular system, that `k` is generated over `𝔽_p` by the reduction of
 `complexRoot e'`, and that reduction is a bijection from the `e'`-th roots of unity of `O` onto
-those of `k`, multiplicative and compatible with powers (Webb, §9.4, p. 148). Prove that `K` splits every subgroup of `G`, from CharacterTheory §4.5. All
+those of `k`, multiplicative and compatible with powers (Webb, §9.4, p. 148, for the splitting
+system; Lemma 10.1.1, p. 170, for the bijection of roots of unity). Prove that `K` splits every
+subgroup of `G`, from CharacterTheory §4.5. All
 later layers use this system and its root bijection for every subgroup, centralizer and quotient
 of `G`. *Needs:* Mathlib `IsDiscreteValuationRing`, the completion at a finite place; Tau Ceti
 `TauCeti.Cyclotomic.complexRoot`; CharacterTheory §4.5.
@@ -637,6 +639,14 @@ GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`,
   `K[G]`-modules representing every irreducible one. Then `TauCeti.cartanMatrix P S …` equals
   `Dᵀ D` with `D c i = [k ⊗_O L_c : S_i]` (Webb, Theorem 9.5.4 and Corollary 9.5.6, pp. 159–160).
   For residue characteristic `0`, `C` and `Dᵀ D` are both the identity.
+- The same identity, with the same `D` and `C`, holds for every complete discrete valuation ring
+  `O` with `CharZero O` and residue field `k` of characteristic `p` whose fraction field `K` and
+  residue field `k` are both splitting fields for `G` (Webb, Theorem 9.5.4 and Corollary 9.5.6,
+  pp. 159–160, whose hypothesis this is): the proof uses the splitting only through
+  `End_{K[G]}(T) = K` and `End_{k[G]}(S) = k` in
+  `dim_K Hom_{K[G]}(K ⊗ P̂_S, T) = dim_k Hom_{k[G]}(P_S, T₀/mT₀)`, for `T₀` a `G`-stable lattice in
+  the simple `K[G]`-module `T`. The root-of-unity hypothesis of the headline implies it
+  (CharacterTheory §4.5 for `K`, §2.3 for `k`).
 - `|G|_p` divides `Φ_φ(1)` (Martínez, Corollary 1.13, p. 6).
 - Two projective `O[G]`-modules are isomorphic exactly when their ordinary characters are equal
   (Webb, Corollary 10.3.3, p. 183).
@@ -645,7 +655,12 @@ GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`,
 - `S₃`, `p = 3`: `C = Dᵀ D = [[2,1],[1,2]]`, `det C = 3`; `Φ_1 = 1 + std` and `Φ_sgn = sgn + std`
   vanish at a `3`-cycle (`1 − 1 = 0`) and have degree `3`.
 - `S₃`, `p = 2`: `C = diag(2, 1)`, `det C = 2`.
-- The root-of-unity hypothesis is needed: for `C₄` over `O = ℤ₂`, which lacks `i`, the
+- `S₃` over `O = ℤ₂`: `ℚ₂` and `𝔽₂` split `S₃`, but `ℚ₂` contains no primitive sixth root of
+  unity (`X² + X + 1` is irreducible modulo `2`); the trivial and sign lattices reduce to the
+  trivial module and the standard lattice to the `2`-dimensional simple module, so
+  `D = [[1,0],[1,0],[0,1]]` and `Dᵀ D = diag(2, 1) = C`. The root-of-unity hypothesis is
+  sufficient, not necessary.
+- A splitting hypothesis is needed: for `C₄` over `O = ℤ₂`, which lacks `i`, the
   irreducible `ℚ₂[C₄]`-modules are the trivial one, the sign and a `2`-dimensional one on which the
   generator has eigenvalues `±i`; all reduce to copies of the trivial module, so `D = (1, 1, 2)ᵀ`
   and `Dᵀ D = [6]`, while `𝔽₂[C₄]` is local of dimension `4` and `C = [4]`. Over the ramified
