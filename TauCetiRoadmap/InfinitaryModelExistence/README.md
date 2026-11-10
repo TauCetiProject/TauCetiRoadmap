@@ -113,7 +113,7 @@ Pin these once; every statement below uses them.
 | Supplier | Consumed material |
 |---|---|
 | [InfinitaryLogic, Layer 0](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/Infinitary/{Syntax,Semantics,IndexCoding,CodedConnectives,Reindex,Operations,Substitution,QuantifierRank,Equiv}.lean` at Tau Ceti `2fd255d99` | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the derived connectives and `BoundedFormulaInf.alls`/`exs`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, `BoundedFormula.toInf`/`BoundedFormulaInf.toOmega` with `BoundedFormula.realize_toInf`, `TauCeti.IndexCoding` and `IndexCoding.ofEncodableWith`, `BoundedFormulaInf.iInfAlong`/`iSupAlong` with their realization lemmas, `BoundedFormulaInf.reindex`, `mapBound`, `castLE`, `TauCeti.BoundedFormulaInf.subst` and `relabel` with their realization laws, `BoundedFormulaInf.qrank`, and invariance of realization under isomorphisms (`StrongHomClass.realize_sentenceInf`), all in the namespace `FirstOrder.Language` unless written with `TauCeti` |
-| [InfinitaryLogic, Layers 1–3](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/{BackAndForth/Karp,BackAndForth/Equivalence,Scott/Sentence,Scott/Isomorphism}.lean` at `2fd255d99` | `TauCeti.InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `TauCeti.BFEquiv`, Scott sentences `TauCeti.scottSentence` and `TauCeti.scott_isomorphism`, used in worked examples; `BFEquiv` and `scottSentence` are defined for relational languages only, as the order languages of the worked examples are, and `scott_isomorphism` asserts that some sentence characterizes the countable structure, which `realize_scottSentence_iff` states for `scottSentence` |
+| [InfinitaryLogic, Layers 1–3](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/{BackAndForth/Karp,BackAndForth/Equivalence,Scott/Sentence,Scott/Isomorphism}.lean` at `2fd255d99` | `TauCeti.InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `TauCeti.BFEquiv`, Scott sentences `TauCeti.scottSentence` and `TauCeti.scott_isomorphism`, used in worked examples; `BFEquiv` and `scottSentence` are defined for relational languages only, as the order languages of the worked examples are, and `scott_isomorphism` asserts that some sentence characterizes the countable structure, which `TauCeti.realize_scottSentence_iff` states for `scottSentence` |
 | Mathlib `ModelTheory/LanguageMap.lean` | `LHom`, `LHom.onTerm`, `LHom.reduct`, `LHom.IsExpansionOn`, `LHom.Injective`, `Language.sum`, `LHom.sumInl`/`sumInr`/`sumElim`, `withConstants` and `L.con`, `constantsOn` |
 | Mathlib `ModelTheory/Syntax.lean`, `Semantics.lean` | `Term.subst`, `Term.relabel`, `BoundedFormula.toFormula`, `BoundedFormula.constantsVarsEquiv`, `LHom.realize_onBoundedFormula`, `Theory.Model` |
 | Mathlib `ModelTheory/Satisfiability.lean`, `Bundled.lean` | `Theory.IsSatisfiable`, `Theory.ModelsBoundedFormula`, `Theory.ModelType` (nonempty models), first-order compactness `Theory.isSatisfiable_iff_isFinitelySatisfiable` |
@@ -187,7 +187,7 @@ once, generic in the carrier `ι` wherever the statement allows.
 
 ### 0.2 Occurrences and symbol locality
 
-* `termFunctionsIn`, and `functionsIn`, `relationsIn : BoundedFormulaInf L ι α n → Set (Σ n, …)`,
+* `Term.functionsIn`, and `functionsIn`, `relationsIn : BoundedFormulaInf L ι α n → Set (Σ n, …)`,
   the symbols occurring in a formula. Equality is logical: it contributes the function symbols of
   its terms and no relation symbol. Constructor equations, and the laws for the derived
   connectives, `alls`/`exs`, `iInfAlong`/`iSupAlong` (padding contributes nothing), `reindex`,
@@ -266,8 +266,9 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Theory.lean` and `Fragment.lean`
   with first-order entailment: for first-order `φ`, `ψ`,
   `Sentenceω.Entails (toOmega φ) (toOmega ψ)` iff `{φ} ⊨ᵇ ψ` in Mathlib's sense.
 * `Theoryω.conjunction T hT` for countable `T`, the countable conjunction along
-  `IndexCoding.ofEncodableWith`, with `realize_conjunction_iff`. It is how a countable theory is
-  reduced to a single sentence wherever the sentence-level theorems are applied to theories.
+  `IndexCoding.ofEncodableWith`, with `Theoryω.realize_conjunction_iff`. It is how a countable
+  theory is reduced to a single sentence wherever the sentence-level theorems are applied to
+  theories.
 * `OmitsType M p` for `p : Set (BoundedFormulaω L Empty n)`: no `n`-tuple of `M` realizes every
   member of `p`.
 
@@ -519,16 +520,16 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
 
   Route: apply `model_existence_omitting` to `ConsistencyProperty.ofSatisfiable T A`, with `P`
   mapped along `lhomWithConstants`. Take a member `T ∪ σ` and a tuple `c : Fin n → ℕ`. Each element
-  of `σ` is an instance `χⱼ[ē]` of a member `χⱼ` of `A`. Rename (`rename_mem`) the positions of
-  every `χⱼ` into `Fin (n + k)`: a constant equal to some `cᵢ` goes to the first such `i < n`, and
-  the remaining constants of `σ` go to the last `k` positions. Conjoin the renamed `χⱼ` with the
-  equalities `xᵢ = xᵢ'` for every `cᵢ = cᵢ'` (the tuple `c` may repeat a constant, and a witness
-  tuple from non-isolation need not), and existentially close the last `k` positions. The result
-  `φ` lies in `A` by formation closure, and `T ∪ {∃̄φ}` holds in the model of `T ∪ σ`.
-  Non-isolation gives `ψ ∈ p` and a model of `T` with a tuple satisfying `φ ∧ ¬ψ`. Interpret `cᵢ`
-  as its `i`-th coordinate (consistent, by the equalities) and the other constants of `σ` by
-  witnesses of the existential. This makes `T ∪ σ ∪ {¬ψ[c]}` satisfiable, and `¬ψ[c]` is an
-  instance of the member `¬ψ` of `A`. The model omits `p` because it omits the image of `p` along
+  of `σ` is an instance `χⱼ[ē]` of a member `χⱼ` of `A`. Rename (`FormationClosed.mapBound_mem`) the
+  positions of every `χⱼ` into `Fin (n + k)`: a constant equal to some `cᵢ` goes to the first such
+  `i < n`, and the remaining constants of `σ` go to the last `k` positions. Conjoin the renamed `χⱼ`
+  with the equalities `xᵢ = xᵢ'` for every `cᵢ = cᵢ'` (the tuple `c` may repeat a constant, and a
+  witness tuple from non-isolation need not), and existentially close the last `k` positions. The
+  result `φ` lies in `A` by formation closure, and `T ∪ {∃̄φ}` holds in the model of `T ∪ σ`.
+  Non-isolation gives `ψ ∈ p` and a model of `T` with a tuple satisfying `φ ∧ ¬ψ`. Interpret `cᵢ` as
+  its `i`-th coordinate (consistent, by the equalities) and the other constants of `σ` by witnesses
+  of the existential. This makes `T ∪ σ ∪ {¬ψ[c]}` satisfiable, and `¬ψ[c]` is an instance of the
+  member `¬ψ` of `A`. The model omits `p` because it omits the image of `p` along
   `lhomWithConstants` and every element is named.
 * Corollaries: for `A` and `T` as above (in particular `T` satisfiable), a partial type inside `A`
   realized in every countable model of `T` is isolated over `T` in `A`; and the **first-order
@@ -562,8 +563,8 @@ For any set `Φ` of tagged formulas (no closure assumed):
 * `definingTheory Φ`, the Lω₁ω sentences `∀̄(R_φ ↔ φ)`; the canonical expansion is its unique model
   among expansions (`eq_morleyExpansion_of_model_definingTheory`).
 * `unMorleyize`, the back-translation replacing each atom `R_φ(t̄)` by `φ` with `t̄` substituted for
-  its bound positions (`substBounds`), and `realize_unMorleyize`: realization in the canonical
-  expansion equals realization of the back-translation.
+  its bound positions (`substBounds`), and `BoundedFormulaInf.realize_unMorleyize`: realization in
+  the canonical expansion equals realization of the back-translation.
 * `morleyEquiv`: isomorphisms of `L`-structures lift to isomorphisms of canonical expansions with
   the same underlying bijection, and restrict back (`nonempty_morleyEquiv_iff`).
 * For a fragment `A`: an embedding is `A`-elementary iff it is an embedding of the canonical
@@ -643,8 +644,9 @@ and must reuse this API.
   `∀x̄ y z (G_f(x̄, y) → G_f(x̄, z) → y = z)` for `f ∈ F`. The graph expansion satisfies them. On a
   model of `graphAxioms F`, `reconstructStructure F` is the `L`-structure whose functions in `F` are
   read off the graph relations (and are arbitrary outside `F`) and whose relations are the base
-  relations; `realize_relationalize_reconstruct`: for `φ` with `functionsIn φ ⊆ F`, the translation
-  of `φ` in the graph structure is realized exactly when `φ` is realized in the reconstruction.
+  relations; `BoundedFormulaInf.realize_relationalize_reconstructStructure`: for `φ` with
+  `functionsIn φ ⊆ F`, the translation of `φ` in the graph structure is realized exactly when `φ` is
+  realized in the reconstruction.
 * **Back-translation**
   `backTranslate : BoundedFormulaω (graphLanguage L) α n → BoundedFormulaω L α n`, sending
   `G_f(x̄, y)` to `f(x̄) = y` and base atoms to themselves; `realize_backTranslate` (over the graph
@@ -1031,13 +1033,13 @@ and the difference is recorded in the last column.
 
 | Layer | Files | Declarations | Difference from the roadmap |
 |---|---|---|---|
-| L0 | `Infinitary/{LanguageMap,Symbols,Sublanguage,SmallPresentation,SubstBounds,ConstantSupport,ConstantAbstraction,Syntax}.lean`, `Term/Symbols.lean`, `Sublanguage.lean` | `LHom.onBoundedFormulaInf`, `LHom.realize_onBoundedFormulaInf`; `Term.functionsIn` (the roadmap's `termFunctionsIn`), `BoundedFormulaInf.functionsIn`, `relationsIn`, `functionsIn_countable`, `relationsIn_countable`, `realize_congr_of_agreeOn`; `Term.constantSupport`, `BoundedFormulaInf.constantSupport`; `symbSublang`, `symbSublangIncl`, `BoundedFormulaInf.restrictSymbols`, `LHom.exists_eq_onBoundedFormulaInf_of_subset_range`; `smallPresentation`, `smallPresentationEquiv`, `realize_smallPresentation`; `BoundedFormulaInf.liftSubst`, `substBounds`, `inst`, `realize_substBounds`, `LHom.onBoundedFormulaInf_substBounds`; `BoundedFormulaInf.constantsVarsEquiv`; `BoundedFormulaInf.IsAtomic` | `inst` accepts any type of free variables, not only `Empty`; `IsAtomic` is an inductive predicate |
-| L1 | `Infinitary/{Theory,Satisfiability,Fragment,FormationClosed}.lean` | `Theoryω`, `Theoryω.Model`, `Theoryω.IsSatisfiable`, `Theoryω.Entails`, `Sentenceω.Entails`, `Theoryω.entails_iff_not_isSatisfiable`, `Theoryω.conjunction`, `OmitsType`; `Fragment` (with `SetLike` and the complete lattice), `Fragment.GeneratedFrom`, `Fragment.generated`, `Fragment.generated_countable`, `Fragment.ofSentence`, `Fragment.ofTheory`, `Fragment.formationClosure`, `Fragment.FormationClosed` | `FormationClosed` states closure under renaming by `mapBound` (`mapBound_mem`), which is `substBounds` along variable terms by `BoundedFormulaInf.mapBound_eq_substBounds` |
+| L0 | `Infinitary/{LanguageMap,Symbols,Sublanguage,SmallPresentation,SubstBounds,ConstantSupport,ConstantAbstraction,Syntax}.lean`, `Term/Symbols.lean`, `Sublanguage.lean` | `LHom.onBoundedFormulaInf`, `LHom.realize_onBoundedFormulaInf`; `Term.functionsIn`, `BoundedFormulaInf.functionsIn`, `relationsIn`, `functionsIn_countable`, `relationsIn_countable`, `realize_congr_of_agreeOn`; `Term.constantSupport`, `BoundedFormulaInf.constantSupport`; `symbSublang`, `symbSublangIncl`, `BoundedFormulaInf.restrictSymbols`, `LHom.exists_eq_onBoundedFormulaInf_of_subset_range`; `smallPresentation`, `smallPresentationEquiv`, `realize_smallPresentation`; `BoundedFormulaInf.liftSubst`, `substBounds`, `inst`, `realize_substBounds`, `LHom.onBoundedFormulaInf_substBounds`; `BoundedFormulaInf.constantsVarsEquiv`; `BoundedFormulaInf.IsAtomic` | `inst` accepts any type of free variables, not only `Empty`; `IsAtomic` is an inductive predicate |
+| L1 | `Infinitary/{Theory,Satisfiability,Fragment,FormationClosed}.lean` | `Theoryω`, `Theoryω.Model`, `Theoryω.IsSatisfiable`, `Theoryω.Entails`, `Sentenceω.Entails`, `Theoryω.entails_iff_not_isSatisfiable`, `Theoryω.conjunction`, `Theoryω.realize_conjunction_iff`, `OmitsType`; `Fragment` (with `SetLike` and the complete lattice), `Fragment.GeneratedFrom`, `Fragment.generated`, `Fragment.generated_countable`, `Fragment.ofSentence`, `Fragment.ofTheory`, `Fragment.formationClosure`, `Fragment.FormationClosed` | `FormationClosed` states closure under renaming by `mapBound` (`mapBound_mem`), which is `substBounds` along variable terms by `BoundedFormulaInf.mapBound_eq_substBounds` |
 | L2 | `ModelExistence/{AElementary,LowenheimSkolem,DirectedUnion,CountableModel}.lean` | `AElementary`, `aElementary_of_tarskiVaught`, `Fragment.witnessHull`, `exists_aElementary_substructure`, `exists_aElementary_substructure_of_eq_univ`, `exists_countable_aElementary_substructure`, `aElementary_iSup`, `aElementary_inclusion_iSup`, `aElementary_iSup_of_monotone`, `OmitsType.of_aElementary`, `OmitsType.iSup`; `Theoryω.exists_countable_model`, `Theoryω.entails_iff_countable`, `Theoryω.Entails.realize`, `Sentenceω.Entails.onBoundedFormulaInf`, `Sentenceω.entails_onBoundedFormulaInf_iff` | none |
 | L3 | `ModelExistence/{ConsistencyProperty,ModelExistence}.lean` | `ConsistencyProperty`, `ConsistencyProperty.model_existence`, `ConsistencyProperty.model_existence_omitting`, `ConsistencyProperty.ofModel` | `model_existence` also gives `Nonempty M`; `model_existence_omitting` takes the types as a countable indexed family; `ofModel` takes an `L[[ℕ]]`-structure whose constants exhaust it in place of a surjection `e : ℕ → M` |
 | L4 | `ModelExistence/{Types,Isolation}.lean` | `infinitaryType`, `realizedTypes`, `StrongHomClass.realizedTypes_eq`, `TauCeti.infEquivAt_nat_iff_realizedTypes_zero_eq`, `exists_isolatingFormula`, `Theoryω.IsolatesIn` | none |
-| L5 | `ModelExistence/Morleyization.lean` | `morleyize`, `lhomMorleyize`, `morleyExpansion` with the instance `isExpansionOn_morleyExpansion`, `isRelational_morleyize`, `countable_relations_morleyize`, `definingTheory`, `eq_morleyExpansion_of_model_definingTheory`, `BoundedFormulaInf.unMorleyize`, `nonempty_morleyEquiv_iff`, `exists_morleyEmbedding_iff_aElementary` | none |
-| L6 | `Infinitary/GraphTranslation/{Language,Relationalize,Reconstruct,BackTranslate}.lean` | `GraphRelation`, `graphLanguage`, `graphExpansion`, `relSym`, `relSym_inter`; `BoundedFormulaInf.relationalize`, `realize_relationalize`, `relationsIn_relationalize`; `graphAxioms`, `reconstructStructure`, `BoundedFormulaInf.realize_relationalize_reconstructStructure`; `Term.backTranslate` (the roadmap's `ungraphTerm`), `BoundedFormulaInf.backTranslate`, `realize_backTranslate` | `backTranslate` works at every carrier; `graphAxioms F` is a theory, for any `F`, not one sentence |
+| L5 | `ModelExistence/Morleyization.lean` | `morleyize`, `lhomMorleyize`, `morleyExpansion` with the instance `isExpansionOn_morleyExpansion`, `isRelational_morleyize`, `countable_relations_morleyize`, `definingTheory`, `eq_morleyExpansion_of_model_definingTheory`, `BoundedFormulaInf.unMorleyize`, `BoundedFormulaInf.realize_unMorleyize`, `nonempty_morleyEquiv_iff`, `exists_morleyEmbedding_iff_aElementary` | none |
+| L6 | `Infinitary/GraphTranslation/{Language,Relationalize,Reconstruct,BackTranslate}.lean` | `GraphRelation`, `graphLanguage`, `graphExpansion`, `relSym`, `relSym_inter`; `BoundedFormulaInf.relationalize`, `realize_relationalize`, `relationsIn_relationalize`; `graphAxioms`, `reconstructStructure`, `BoundedFormulaInf.realize_relationalize_reconstructStructure`; `Term.backTranslate`, `BoundedFormulaInf.backTranslate`, `realize_backTranslate` | `backTranslate` works at every carrier; `graphAxioms F` is a theory, for any `F`, not one sentence |
 | L7 | `Interpolation/PCClass.lean` | `LHom.PCMem` (the roadmap's `PCMem`), `StrongHomClass.pcMem_iff`, `LHom.pcMem_id_iff`, `LHom.pcMem_comp_iff`, `LHom.pcMem_sumInl_inf_iff`, `LHom.pcMem_sumInl_sup_iff` | `pcMem_sumInl_sup_iff` assumes `[Nonempty (L₁.Structure M)]` and `[Nonempty (L₂.Structure M)]` in place of relational `L₁` and `L₂` |
 | L8 | `WellOrdering.lean` | `RelChain`, `RelChain.not_wellFounded`, `Sentenceω.HasWellOrderedChains`, `Sentenceω.exists_model_relChain_rat`, `Sentenceω.wellFounded_boundedness`, `Sentenceω.wellOrder_type_boundedness`, `wellOrdering_undefinable` | none |
 
