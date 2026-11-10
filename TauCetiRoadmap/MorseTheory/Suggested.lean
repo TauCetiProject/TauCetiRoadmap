@@ -11,17 +11,23 @@ public import TauCeti.Geometry.Manifold.Riemannian.Gradient.Basic
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
 and Tau Ceti, the roadmap's headline theorems that the pinned Tau Ceti does not already prove,
-each admitted with `sorry`: the CW model of a proper bounded-below Morse function, whose `j`-cells
-are in bijection with the critical points of index `j` (Layer 2); the strong Morse inequalities as
-a polynomial identity with a correction polynomial of natural coefficients, stated
-coefficientwise (Layer 4); the recognition of the sphere from a smooth function with exactly two
-critical points of arbitrary degeneracy, with its two inputs, the two-Euclidean-open cover and the
-two-open-cell recognition of the sphere (Layer 4); and, for an arbitrary forward
+each admitted with `sorry`: the homeomorphism of the sublevel above a critical level with the
+sublevel below it with one handle `D^λ × D^(m−λ)` attached along the boundary level for each
+critical point on the level, as a `TopCat` pushout, and the CW model of a proper bounded-below
+Morse function, whose `j`-cells are in bijection with the critical points of index `j`
+(Layer 2); the strong Morse inequalities as a polynomial identity with a correction polynomial
+of natural coefficients, stated coefficientwise (Layer 4); the recognition of the sphere from a
+smooth function with exactly two critical points of arbitrary degeneracy, with its two inputs,
+the two-Euclidean-open cover and the two-open-cell recognition of the sphere (Layer 4); and,
+for an arbitrary forward
 negative-gradient curve of a Morse function, convergence to a critical point when the curve is
 trapped in a compact set and exponential decay of the Riemannian distance to its limit (Layer 6).
 The statements use the pinned carriers `TauCeti.criticalPoints`, `TauCeti.criticalCount`,
-`TauCeti.totalCriticalCount` and `TauCeti.Manifold.mgradient`; the one definition made here is
-`bettiNumber`, since neither pin has a Betti number of singular homology.
+`TauCeti.totalCriticalCount` and `TauCeti.Manifold.mgradient`. The definitions made here are
+the handle `handle`, its attaching region `attachingRegion` and the inclusion
+`attachingRegionIncl` of the attaching regions into the handles, products of the native unit
+balls and spheres that state the handle theorem, and `bettiNumber`, since neither pin has a
+Betti number of singular homology.
 
 The other headline theorems of README.md are proved at the pinned Tau Ceti and are consumed by
 the names the README's Tau Ceti contract lists, not restated: among them the normalized Morse
@@ -41,11 +47,12 @@ and exponential decay of maximal negative-gradient trajectories
 (`TauCeti.exists_tendsto_maximalIntegralCurve_neg_mgradient`,
 `TauCeti.exists_riemannianEDist_le_mul_exp_maximalIntegralCurve_neg_mgradient`).
 
-Not stated: the handle-attachment homeomorphism across a critical level and the comparison of
-handle attachments for different Morse charts with coherent dependence on a compact parameter
-space (README §2.2–§2.3), whose statements quantify over chart-dependent attaching maps of the
-handles `D^λ × D^(m−λ)` and over families of adjunction spaces over the parameter space, a long
-encoding for which the pins supply no carrier. Not statable at the pins, and therefore not
+Not stated: the comparison of the attachments built from different Morse charts, with coherent
+dependence on a compact parameter space (README §2.3), whose statement quantifies over families
+of charts with jointly continuous inverses and coordinate derivatives through order 2, over
+homotopies of pairs of characteristic maps and over maps between fibrewise adjunction spaces
+over the parameter space: a long ad hoc encoding, which this file does not carry. Not statable
+at the pins, and therefore not
 stated: the Morse–Bott negative-disc-bundle attachment, its relative Thom comparison and its
 spectral sequence (README Layer 5), which lack a Morse–Bott predicate with its critical normal
 bundle and the filtered attachment complex.
@@ -68,6 +75,49 @@ variable {E H : Type*} {M : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [IsManifold I ∞ M]
 
 /-! ## Layer 2: compact-band deformation, handles and cells -/
+
+/-- The handle `D^λ × D^(m−λ)` of index `λ` in dimension `m`: the product of the closed unit
+balls of `EuclideanSpace ℝ (Fin λ)` and `EuclideanSpace ℝ (Fin (m − λ))` (README §2.2). -/
+abbrev handle (l m : ℕ) : Type :=
+  Metric.closedBall (0 : EuclideanSpace ℝ (Fin l)) 1 ×
+    Metric.closedBall (0 : EuclideanSpace ℝ (Fin (m - l))) 1
+
+/-- The attaching region `∂D^λ × D^(m−λ)` of the handle of index `λ` in dimension `m`, the
+product of the unit sphere of `EuclideanSpace ℝ (Fin λ)` and the closed unit ball of
+`EuclideanSpace ℝ (Fin (m − λ))`; it is empty for `λ = 0` (README §2.2). -/
+abbrev attachingRegion (l m : ℕ) : Type :=
+  Metric.sphere (0 : EuclideanSpace ℝ (Fin l)) 1 ×
+    Metric.closedBall (0 : EuclideanSpace ℝ (Fin (m - l))) 1
+
+/-- For a family of handles of indices `k i` in dimension `m`, the inclusion of the disjoint
+union of their attaching regions into the disjoint union of the handles, summand by summand
+(README §2.2). -/
+def attachingRegionIncl {ι : Type*} (k : ι → ℕ) (m : ℕ) :
+    C((i : ι) × attachingRegion (k i) m, (i : ι) × handle (k i) m) where
+  toFun := Sigma.map id fun _ q ↦ (⟨q.1.1, Metric.sphere_subset_closedBall q.1.2⟩, q.2)
+  continuous_toFun := continuous_sigma_map.mpr fun _ ↦ by fun_prop
+
+/-- **Handle attachment across one critical level** (Nicolaescu, *An Invitation to Morse
+Theory*, Theorem 2.2.3 and Remark 2.2.5, pp. 38–42, after Milnor, *Morse Theory*, §3): for a
+Morse function `f` and a value `c` with a compact band `f⁻¹[c − δ, c + δ]`
+there are `0 < ε ≤ δ` and a topological embedding `φ` of the disjoint union, over the critical
+points `p` on the level `c`, of the attaching regions `∂D^(λ p) × D^(m − λ p)` into the level
+`f⁻¹(c − ε)`, the boundary of the lower sublevel `{f ≤ c − ε}`, such that `{f ≤ c + ε}` is
+homeomorphic to the `TopCat` pushout of `φ` and of the inclusion of the attaching regions into
+the handles; here `λ p` is the Morse index of `p` and `m` the dimension (README §2.2). -/
+theorem exists_homeomorph_pushout_handles (f : M → ℝ) (hf : TauCeti.IsMorse I f) {c δ : ℝ}
+    (hδ : 0 < δ) (hcompact : IsCompact (f ⁻¹' Icc (c - δ) (c + δ))) :
+    ∃ ε, 0 < ε ∧ ε ≤ δ ∧
+      ∃ φ : C((p : ↥(TauCeti.criticalPoints I f ∩ f ⁻¹' {c})) ×
+          attachingRegion (TauCeti.manifoldMorseIndex I f p) (Module.finrank ℝ E),
+          {x : M // f x ≤ c - ε}),
+        Topology.IsEmbedding φ ∧ (∀ q, f (φ q) = c - ε) ∧
+        Nonempty ({x : M // f x ≤ c + ε} ≃ₜ
+          ↑(CategoryTheory.Limits.pushout (TopCat.ofHom φ)
+            (TopCat.ofHom (attachingRegionIncl
+              (fun p : ↥(TauCeti.criticalPoints I f ∩ f ⁻¹' {c}) ↦
+                TauCeti.manifoldMorseIndex I f p) (Module.finrank ℝ E))))) := by
+  sorry
 
 /-- **The Morse CW model** (Milnor, *Morse Theory*, Theorem 3.5, p. 20): a manifold carrying a
 proper Morse function bounded below is homotopy equivalent to a Hausdorff CW complex `X` whose

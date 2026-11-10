@@ -128,6 +128,10 @@ partition of unity on a closed set subordinate to any open cover of it. The
 homology functor in `Mathlib/AlgebraicTopology/SingularHomology/Basic.lean`
 is used with `ModuleCat k` and coefficient module k; its output is actual
 singular homology.
+For the handles of §2.2 use `Metric.closedBall` and `Metric.sphere` in
+`EuclideanSpace ℝ (Fin l)`, the disjoint-union topology on a sigma type, and
+the pushout `CategoryTheory.Limits.pushout` in `TopCat`, which exists because
+`TopCat` has all colimits.
 An extended cardinal is converted to a natural number only after proving
 finiteness. Boundarylessness gives `range I=univ` and the native model
 homeomorphism; it does not supply Hausdorffness or second countability of M.
@@ -300,7 +304,13 @@ weaker setting is said.
   `ContMDiffMap.exists_isMorse_mem_ball_sub_compl`, and a proper Morse function
   bounded below `TauCeti.exists_isMorse_isProperMap_bddBelow` (Milnor,
   Corollary 6.7). A second-countable manifold with a finite-dimensional model
-  is locally compact, hence σ-compact.
+  is locally compact, hence σ-compact. The smooth proper exhaustion
+  (`Geometry/Manifold/Exhaustion`), for any model with corners on a
+  finite-dimensional space and a Hausdorff manifold:
+  `TauCeti.exists_contMDiffMap_isProperMap_nonneg`, a nonnegative smooth proper
+  function when M is σ-compact, and
+  `CompactExhaustion.exists_contMDiffMap_isProperMap`, a smooth proper function
+  bounded below by the first-entry index of a given compact exhaustion.
 - Inequalities and critical-point bounds
   (`Geometry/Manifold/Morse/{Inequalities,LusternikSchnirelmann,MinCriticalCount,Deformation/Homology}`,
   `Topology/Homotopy/LusternikSchnirelmann`): for a Morse function on a compact
@@ -351,7 +361,13 @@ weaker setting is said.
   subset of the maximal interval of x; and
   `IsMIntegralCurveOn.eqOn_maximalIntegralCurve`: on a Hausdorff boundaryless
   C¹ manifold and for a C¹ field, such a curve agrees on that interval with
-  the maximal integral curve through x.
+  the maximal integral curve through x. For a C^n metric and a C^(n+1)
+  function the negative gradient is a C^n field
+  (`TauCeti.Manifold.contMDiff_neg_mgradient`), and on a boundaryless C²
+  manifold an integral curve of a C¹ field on a parameter set with unique
+  derivatives, such as a nondegenerate closed interval, is C² within that set
+  (`TauCeti.contMDiffOn_two_of_isMIntegralCurveOn`,
+  `Geometry/Manifold/IntegralCurve/Regularity`).
 
 The native section-zero and boundary declarations used by Layer 2 are from
 `TauCeti/Geometry/Manifold/VectorBundle/Section/{Chart,Manifold,SmoothZero,Linearization}.lean`
@@ -492,8 +508,9 @@ possible proof route. [Suggested.lean](Suggested.lean) states the headline
 theorems that the pinned Tau Ceti does not already prove; the others are named
 in the Tau Ceti contract. It states them on the pinned carriers
 `TauCeti.criticalPoints`, `TauCeti.criticalCount`,
-`TauCeti.totalCriticalCount` and `TauCeti.Manifold.mgradient`, and its only
-definition is `bettiNumber` (§4.1).
+`TauCeti.totalCriticalCount` and `TauCeti.Manifold.mgradient`, and its
+definitions are `handle`, `attachingRegion` and `attachingRegionIncl` (§2.2)
+and `bettiNumber` (§4.1).
 
 ## Layer 1: critical Hessians, indices and usable normal forms (M1)
 
@@ -713,29 +730,54 @@ the pinned normalized-gradient deformation: both reach M_a from a point x of
 the band at time f(x)−a, both fix M_a, and they are homotopic rel M_a by the
 restriction statement.
 
-**Handles.** Across one critical value with finitely many nondegenerate
-critical points and compact band, attach one index-λ handle D^λ×D^(m−λ) at
-each point using disjoint normalized Morse charts. The conclusion is a
-homeomorphism of M_(c+ε) with the topological handle adjunction along
-∂D^λ×D^(m−λ), respecting the regular boundary away from the attachment; no
-diffeomorphism of a cornered handle space is asserted (Nicolaescu, *An
+**Handles.** Define the handle `handle l m`, the product D^l×D^(m−l) of the
+closed unit balls of `EuclideanSpace ℝ (Fin l)` and
+`EuclideanSpace ℝ (Fin (m−l))`; its attaching region `attachingRegion l m`,
+the product ∂D^l×D^(m−l) of the unit sphere of the first factor and the closed
+unit ball of the second; and, for indices k:ι→ℕ, the inclusion
+`attachingRegionIncl k m` of the disjoint union over i of the attaching
+regions of index k i into the disjoint union of the handles, summand by
+summand. The headline `exists_homeomorph_pushout_handles` is the attachment
+across one critical level: for a Morse function f on M of dimension m=dim E,
+δ>0 and a compact band f⁻¹[c−δ,c+δ], there are 0<ε≤δ and a topological
+embedding φ of the disjoint union, over the critical points p on the level c,
+of the attaching regions of index λ_p, the Morse index of p, into M_(c−ε), with
+image in the level f⁻¹(c−ε), such that M_(c+ε) is homeomorphic to the TopCat
+pushout (Mathlib's `CategoryTheory.Limits.pushout` in `TopCat`) of φ and the
+inclusion of the attaching regions into the handles (Nicolaescu, *An
 Invitation to Morse Theory*, Theorem 2.2.3, pp. 38–42, for one critical point,
-and Remark 2.2.5, p. 42, for several on one level; there f is exhaustive, and
-the proof, after Milnor §3, uses only a compact band f⁻¹[c−ε,c+ε] with no
-other critical point and the deformation across a compact critical-free band
-for the modified function). Build the modified-function cutoff deformation,
-control all chart boundaries and prove continuity of the local
-modified-function deformation. Consume GT's collars for the attaching-face
-boundary identifications and native TopCat pushouts for the handle adjunction;
-the handle-to-cell comparison is the pinned cell attachment. Include
-simultaneous critical points, index 0 and the whole-dimension case.
+and Remark 2.2.5, p. 42, for several on one level, with the handle attached
+along the boundary as defined on pp. 34–35; there f is exhaustive, and the
+proof, after Milnor §3, uses only a compact band f⁻¹[c−ε,c+ε] with no other
+critical point and the deformation across a compact critical-free band for the
+modified function). The homeomorphism is topological: no diffeomorphism of a
+cornered handle space is asserted, and the smooth attachment with corner
+straightening is GeometricTopology §1.3's. Prove it with disjoint normalized
+Morse charts: build the modified-function cutoff deformation, control all
+chart boundaries and prove continuity of the local modified-function
+deformation. Consume GT's collars for the attaching-face boundary
+identifications; the handle-to-cell comparison is the pinned cell attachment.
+Simultaneous critical points, index 0 and the whole-dimension case are
+included.
+
+- `handle l m` is compact, Hausdorff and contractible, and for l≤m it is homeomorphic to the closed unit ball of `EuclideanSpace ℝ (Fin m)`.
+- `attachingRegion l m` is empty for l=0, and compact and nonempty for l≥1.
+- `attachingRegionIncl k m` is a closed embedding, so for every continuous φ from its source to a space X the first inclusion of the pushout is a closed embedding of X; for finite ι and Hausdorff X the pushout is Hausdorff, since each attaching region has a collar in its handle.
+- The pushout of φ and `attachingRegionIncl k m` deformation retracts, relative to X, onto the image of X and of the cores D^(k i)×{0}, which is X with the cores attached along the restriction of φ to the spheres ∂D^(k i)×{0}; with the headline this recovers the pinned cell attachment `TauCeti.IsMorse.exists_morseCellAttachment_deformation` up to homotopy equivalence.
 
 *Needs:* the pinned deformation, pseudo-gradient and cell-attachment
 declarations above; §1.3; GeometricTopology Layer 1 collars and Mathlib TopCat
 pushouts for the handles.
 
 **Checks.**
-- The point x=1 belongs to the closed sublevel at level 1 and stays present at level 4; an open-sublevel convention would exclude it.
+- For f=x² on ℝ, the point x=1 belongs to the closed sublevel at level 1 and stays present at level 4; an open-sublevel convention would exclude it.
+- The unit sphere of the zero space `EuclideanSpace ℝ (Fin 0)` is empty, since ‖0‖=0≠1, so `attachingRegion 0 m` is empty and `handle 0 m` is a point times D^m: an index-0 handle adds a component. A sphere of radius 0 would be the point {0} and would glue that handle to the lower sublevel.
+- `attachingRegion 1 1` is the two points ±1 times the one-point ball of `EuclideanSpace ℝ (Fin 0)`, and `handle 1 1` is [−1,1] times that point.
+- For f=x² on ℝ, c=0 and δ=1: the critical point 0 has index 0, M_(−ε) is empty, the pushout is `handle 0 1`, an interval, and M_ε=[−√ε,√ε] is homeomorphic to it. With open balls in place of closed ones the pushout would be an open interval, which is not compact.
+- For f=−x² on ℝ and c=0: the index is 1, M_(−ε)=(−∞,−√ε]∪[√ε,∞), φ sends the two attaching points to ±√ε, which lie on the level f=−ε, and the pushout joins the two rays by an arc, giving ℝ=M_ε.
+- For the height h on S² and c=1: the north pole has index 2, M_(1−ε) is a closed disc, φ carries ∂D²×{pt} onto the level circle h=1−ε, and gluing `handle 2 2`, a disc, gives S²=M_(1+ε).
+- With no critical point on the level c the index type is empty, the pushout is M_(c−ε), and the headline is the pinned band homeomorphism `TauCeti.exists_sublevelHomeomorph`.
+- In dimension 0 every point is critical of index 0, each handle is a point and each attaching region is empty, so M_(c+ε) is M_(c−ε) with the points of the level c added as isolated points.
 - For f=x² on ℝ and 0<a<b, the retraction sends x outside [−√a,√a] to sign(x)√a and fixes that interval; for a<a′<b′<b a point x∈[√a′,√b′] goes to √a′ and then to √a, which is where the retraction for [a,b] sends it.
 - For f=x², a Morse chart at 0 in the Tau Ceti normalization is z=√2x, with f=z²/2 and weight 1; an adapted pseudo-gradient reads z′=−z there, so x′=−x, with flow x₀e^(−t) and df(X)=−2x². The Euclidean −grad f=−2x reads z′=−2z and is not adapted in that chart, while for the metric 2dx², Euclidean in z, −grad f=−x is.
 - For f=−u²+v² the Morse chart z=√2(u,v) has weights (−1,1) and the adapted field reads (z₁,−z₂), with flow (e^t z₁,e^(−t) z₂); the field (−z₁,−z₂) has df=z₁²−z₂², which increases f on the u-axis.
@@ -962,7 +1004,15 @@ The headline, a proper Morse function bounded below on every manifold here
 (Milnor, Corollary 6.7, p. 36), is the pinned
 `TauCeti.exists_isMorse_isProperMap_bddBelow`, for a Hausdorff σ-compact
 manifold with a boundaryless finite-dimensional model. Its inputs are pinned
-as well (`Geometry/Manifold/Morse/Generic/Strong`): the relative approximation
+as well. The smooth proper exhaustion that it approximates is
+`TauCeti.exists_contMDiffMap_isProperMap_nonneg` (`Geometry/Manifold/Exhaustion`):
+a nonnegative smooth proper function on every Hausdorff σ-compact manifold
+with a finite-dimensional model, built from a compact exhaustion and a smooth
+partition of unity, with no boundaryless hypothesis. Its controlled form
+`CompactExhaustion.exists_contMDiffMap_isProperMap` takes a given compact
+exhaustion (Kₙ) and gives a smooth proper f with f(x) at least the first index
+n such that x∈Kₙ, so that the sublevel {f≤n} lies in Kₙ. The approximation
+theorems are in `Geometry/Manifold/Morse/Generic/Strong`: the relative approximation
 `ContMDiffMap.exists_isMorse_mem_ball_sub_compl`, which for a smooth f, a
 strong C^k neighbourhood of f, a continuous positive tolerance ε, and a closed
 set C inside an open set V on which f is Morse, gives a Morse g in that
@@ -974,12 +1024,13 @@ perturbation, not the global difference g−f on a noncompact manifold, and the
 parameter statements of §1.3 do not make every member of a generic family
 Morse through birth–death points. General exhaustion existence here is
 separate from GeometricTopology Layer 1's squared-distance exhaustion for a
-given closed embedding. *Needs:* the pinned approximation theorems above.
+given closed embedding. *Needs:* the pinned exhaustion and approximation theorems above.
 
 **Checks.**
 - On ℝ, x² is Morse, proper and bounded below by 0; a C⁰ perturbation of size <1 is bounded below by −1 and remains proper.
 - On the empty manifold the unique function is proper and bounded below, and is Morse vacuously.
 - On a countable discrete manifold, f(n)=n is proper with index-0 critical points; the constant function is not proper there.
+- On ℝ with the compact exhaustion Kₙ=[−n,n], the first index n with x∈Kₙ is ⌈|x|⌉, so the controlled exhaustion g has g(x)≥⌈|x|⌉≥0 and {g≤n}⊆[−n,n]; the bounded function arctan is not an exhaustion, since its sublevel {arctan≤2} is all of ℝ.
 
 ### Examples
 
@@ -1448,7 +1499,9 @@ is one-sided, since `IsMIntegralCurveOn` on `Set.Ici 0` takes derivatives
 within that set, while uniqueness of integral curves is for curves on an open
 interval agreeing at an interior time; so γ is compared with a maximal
 trajectory at a positive time. Fix t₁>0, let x=γ(t₁) and let Γ be the maximal
-integral curve of the C¹ field −grad f through x. On (0,∞) the set `Set.Ici 0`
+integral curve through x of −grad f, a C¹ field by the pinned
+`TauCeti.Manifold.contMDiff_neg_mgradient` for the smooth f and the smooth
+metric. On (0,∞) the set `Set.Ici 0`
 is a neighbourhood of each time, so for every b>0 the shifted curve
 s↦γ(t₁+s) is an integral curve through x on the open interval (−t₁,b) around
 0; so (−t₁,b) lies in the maximal interval of existence
@@ -1471,9 +1524,13 @@ hence nondegenerate since f is Morse, and
 `TauCeti.exists_riemannianEDist_le_mul_exp_maximalIntegralCurve_neg_mgradient`
 gives μ,C>0 and T₀≥0 with `riemannianEDist(Γ(s),p) ≤ C·e^(−μs)` for s≥T₀. For
 t≥T₁:=t₁+T₀ the distance from γ(t) to p is therefore at most
-`C·e^(μt₁)·e^(−μt)`. On [0,T₁] the curve γ is C¹, one-sided at 0, with speed
-‖grad f(γ(t))‖, which is bounded on the compact image γ([0,T₁]); so
-`Manifold.riemannianEDist_le_pathELength` bounds the distance from γ(t) to
+`C·e^(μt₁)·e^(−μt)`. On [0,T₁] the curve γ is C¹ within [0,T₁], one-sided
+at 0: the pinned `TauCeti.contMDiffOn_two_of_isMIntegralCurveOn`, applied on
+the boundaryless M to s=`Icc 0 T₁`, which has unique derivatives since T₁>0,
+to the curve equation restricted from `Set.Ici 0` to s and to the C¹ field
+−grad f, makes γ C² within s. Its speed is ‖grad f(γ(t))‖, which is bounded
+on the compact image γ([0,T₁]); so `Manifold.riemannianEDist_le_pathELength`,
+which asks for a C¹ curve on a closed interval, bounds the distance from γ(t) to
 γ(T₁) by the finite length L of γ on [0,T₁], and the distance from γ(t) to p
 by B=L+C·e^(−μT₀). The headline's constants are c=μ and
 max(C·e^(μt₁), B·e^(μT₁)).
@@ -1481,6 +1538,9 @@ max(C·e^(μt₁), B·e^(μT₁)).
 *Needs:* the pinned trajectory theorems above, with
 `TauCeti.mem_criticalPoints_of_mapClusterPt_maximalIntegralCurve_neg_mgradient`;
 the pinned `TauCeti.IsMorse.finite_criticalPoints_inter` (convergence only);
+the pinned `TauCeti.Manifold.contMDiff_neg_mgradient`; the pinned
+`TauCeti.contMDiffOn_two_of_isMIntegralCurveOn`
+(`TauCeti/Geometry/Manifold/IntegralCurve/Regularity`, decay only);
 the pinned maximal-curve lemmas
 `IsMIntegralCurveOn.subset_maximalIntegralCurveInterval` and
 `IsMIntegralCurveOn.eqOn_maximalIntegralCurve`
@@ -1521,6 +1581,23 @@ broken-geodesic and path-space applications. AffineMorseLefschetz
 uses Layers 1–4 for index-controlled exhaustions. HeegaardFloer Lane M uses the
 finite core for trajectory homology. SymplecticGeometry/ConvexityToric T2 uses
 Layer 5 for Hamiltonian critical submanifolds and equivariant perfection.
+
+GeometricCurrents uses Layer 3's smooth proper exhaustion, the pinned
+`TauCeti.exists_contMDiffMap_isProperMap_nonneg` of §3.2, before Morse
+approximation. DGFloer uses Layer 5's Morse–Bott attachment and Thom
+comparison for based-loop energies, the minimal critical count c(M) of §4.2,
+and Layers 1–6 through HeegaardFloer Lane M for its auxiliary Morse
+comparison complex. MorseNovikov uses Layers 1–4 and 6 for the local
+potentials of closed one-forms. SymplecticFieldTheory uses Layers 1–6 in its
+comparison examples. DiagrammaticCoherence uses the normal forms of Layer 1
+and the relative Morse approximation of Layer 3. SchubertGeometry compares
+Layer 2's negative-handle characteristic maps with the flag characteristic
+maps. CombinatorialHeegaardFloer uses the ordinary Morse and handle
+foundation of Layers 1–2 in its reconciliation of Heegaard diagrams with
+smooth 3-manifolds. HamiltonianFloerOperations uses the finite Morse core
+together with HeegaardFloer Lane M's oriented Morse/singular comparison.
+SymplecticGeometry/HamiltonianReduction R2a uses Layers 1–2 and Layer 5 for
+heights on compact coadjoint orbits.
 
 ## References
 
