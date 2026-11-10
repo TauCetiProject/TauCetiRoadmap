@@ -1,8 +1,12 @@
 module
 
 import Mathlib
+import TauCeti.Algebra.Module.ProjectiveCover.Basic
 import TauCeti.GroupTheory.OrderOfElement.PPart
+import TauCeti.RepresentationTheory.BaseChange
 import TauCeti.RepresentationTheory.CharacterTable.Table
+import TauCeti.RepresentationTheory.GrothendieckGroup.CartanMatrix
+import TauCeti.RingTheory.CompositionSeries.Multiplicity
 import TauCeti.RingTheory.Idempotents.Primitive.Basic
 
 /-!
@@ -15,14 +19,17 @@ algebra), the Brauer coefficient projection, defect groups as maximal `p`-subgro
 the Brauer projection of a block idempotent is nonzero, the central-character relation that
 sorts the complex irreducible characters into `p`-blocks modulo a maximal ideal of the algebraic
 integers containing `p`, and the `p'`-core `O_{p'}(G)`. A block is principal when its idempotent
-has nonzero augmentation, written with the native `MonoidAlgebra.lift`.
+has nonzero augmentation, written with the native `MonoidAlgebra.lift`. The decomposition
+numbers in the statements of Layers 2 and 3 are the Jordan–Hölder multiplicities
+`TauCeti.jordanHolderMultiplicity` of the simple `k[G]`-modules in the reduction `k ⊗_O L` of a
+`G`-stable `O`-lattice `L`, formed with the native `Representation.baseChange`.
 
 Headline theorems of the roadmap that are not statable at the pins:
 
-* Brauer reciprocity `C = Dᵀ D`, the surjectivity of the decomposition map and the Brauer-character
-  basis of the class functions on `p`-regular classes (Layers 2–3). They need Brauer characters
-  and the reduction of stable lattices over a complete discrete valuation ring into `G₀(k[G])`;
-  the pinned Tau Ceti has neither (its `TauCeti.reductionK0` reduces `ℤ`-forms only).
+* The Brauer-character basis of the complex class functions on the `p`-regular classes
+  (Layer 2). It needs the Brauer character of a `k[G]`-module, the complex class function that
+  lifts the eigenvalues of `p`-regular elements through an identification of prime-to-`p` roots
+  of unity; neither pinned library defines it.
 * Generalized decomposition numbers, their orthogonality relations and Brauer's second main
   theorem (Layers 5 and 7). They need Brauer characters of centralizers.
 * The agreement of the central-character relation with the partition of the ordinary irreducible
@@ -83,6 +90,95 @@ theorem card_simpleModules_eq_card_pRegularClasses {G k : Type u} [Group G] [Fin
         ∃ i, Nonempty (M ≅ S i)) ∧
       Fintype.card ι =
         Nat.card {C : ConjClasses G // ∃ g : G, ConjClasses.mk g = C ∧ (orderOf g).Coprime p} :=
+  sorry
+
+/-- **Integral surjectivity of the decomposition map.** Let `O` be a complete discrete valuation
+ring whose fraction field `K` has characteristic zero and contains a primitive `e`-th root of
+unity, `e` the exponent of `G`, and let `k` be its residue field. Let `(S i)` be pairwise
+non-isomorphic simple `k[G]`-modules and `(L c)` a family of `G`-stable free `O`-lattices of
+finite rank such that every irreducible `K[G]`-module is isomorphic to some `K ⊗_O L c`. Then
+the vectors `([k ⊗_O L c : S i])_i` span `ℤ^ι`: every class of `G₀(k[G])` is an integral
+combination of reductions of lattices (Webb, remark after Corollary 10.2.4, p. 178; the
+decomposition matrix has full rank by Corollary 10.2.4). -/
+theorem span_decompositionRows_eq_top {G O : Type u} [Group G] [Finite G] [CommRing O]
+    [IsDomain O] [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+    [CharZero O] {ζ : FractionRing O} (hζ : IsPrimitiveRoot ζ (Monoid.exponent G))
+    {ι κ : Type u} [Fintype ι]
+    (S : ι → FGModuleCat.{u} (MonoidAlgebra (IsLocalRing.ResidueField O) G))
+    [∀ i, IsSimpleModule (MonoidAlgebra (IsLocalRing.ResidueField O) G) (S i)]
+    (hSnoniso : Pairwise fun i j ↦
+      IsEmpty ((S i : Type u) ≃ₗ[MonoidAlgebra (IsLocalRing.ResidueField O) G] S j))
+    (L : κ → Type u) [∀ c, AddCommGroup (L c)] [∀ c, Module O (L c)]
+    [∀ c, Module.Free O (L c)] [∀ c, Module.Finite O (L c)]
+    (ρ : ∀ c, Representation O G (L c))
+    [∀ c, IsNoetherian (MonoidAlgebra (IsLocalRing.ResidueField O) G)
+      (Representation.baseChange (IsLocalRing.ResidueField O) (ρ c)).asModule]
+    [∀ c, IsArtinian (MonoidAlgebra (IsLocalRing.ResidueField O) G)
+      (Representation.baseChange (IsLocalRing.ResidueField O) (ρ c)).asModule]
+    (hexh : ∀ (V : Type u) [AddCommGroup V] [Module (FractionRing O) V]
+      [FiniteDimensional (FractionRing O) V] (σ : Representation (FractionRing O) G V),
+      σ.IsIrreducible →
+        ∃ c, Nonempty (σ.Equiv (Representation.baseChange (FractionRing O) (ρ c)))) :
+    Submodule.span ℤ (Set.range fun c i =>
+      (TauCeti.jordanHolderMultiplicity (MonoidAlgebra (IsLocalRing.ResidueField O) G)
+        (Representation.baseChange (IsLocalRing.ResidueField O) (ρ c)).asModule (S i) : ℤ)) =
+      ⊤ :=
+  sorry
+
+/-! ## Layer 3: projective modules, reciprocity and the Cartan matrix -/
+
+/-- **Brauer reciprocity `C = Dᵀ D`.** Let `O` be a complete discrete valuation ring whose
+fraction field `K` has characteristic zero and contains a primitive `e`-th root of unity, `e` the
+exponent of `G`, and let `k` be its residue field. Take exhaustive families of pairwise
+non-isomorphic indecomposable projective `k[G]`-modules `P i` and simple `k[G]`-modules `S i`,
+with `P i` a projective cover of `S i`, and `G`-stable free `O`-lattices `L c` of finite rank
+whose scalar extensions `K ⊗_O L c` are pairwise non-isomorphic irreducible `K[G]`-modules
+representing every irreducible one. Then the native Cartan matrix, `C i j = [P j : S i]`, equals
+`Dᵀ D` for the decomposition matrix `D c i = [k ⊗_O L c : S i]` (Webb, Theorem 9.5.4 and
+Corollary 9.5.6, pp. 159–160). -/
+theorem cartanMatrix_eq_transpose_mul_decomposition {G O : Type u} [Group G] [Finite G]
+    [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharZero O]
+    {ζ : FractionRing O} (hζ : IsPrimitiveRoot ζ (Monoid.exponent G))
+    [IsArtinianRing (MonoidAlgebra (IsLocalRing.ResidueField O) G)]
+    {ι κ : Type u} [Fintype ι] [Fintype κ]
+    (P : ι → (TauCeti.finiteProjectiveModules
+      (MonoidAlgebra (IsLocalRing.ResidueField O) G)).FullSubcategory)
+    (S : ι → FGModuleCat.{u} (MonoidAlgebra (IsLocalRing.ResidueField O) G))
+    [∀ i, IsSimpleModule (MonoidAlgebra (IsLocalRing.ResidueField O) G) (S i)]
+    (hind : ∀ i,
+      TauCeti.IsIndecomposableModule (MonoidAlgebra (IsLocalRing.ResidueField O) G) (P i).obj)
+    (hPnoniso : Pairwise fun i j ↦
+      IsEmpty (↥(P i).obj ≃ₗ[MonoidAlgebra (IsLocalRing.ResidueField O) G] ↥(P j).obj))
+    (hPexh : TauCeti.IsExhaustiveIndecomposableProjectiveFamily P)
+    (hSnoniso : Pairwise fun i j ↦
+      IsEmpty ((S i : Type u) ≃ₗ[MonoidAlgebra (IsLocalRing.ResidueField O) G] S j))
+    (hSexh : TauCeti.IsExhaustiveSimpleFamily S)
+    (hcover : ∀ i, ∃ f : (P i).obj →ₗ[MonoidAlgebra (IsLocalRing.ResidueField O) G]
+      (S i : Type u), TauCeti.IsProjectiveCover f)
+    (L : κ → Type u) [∀ c, AddCommGroup (L c)] [∀ c, Module O (L c)]
+    [∀ c, Module.Free O (L c)] [∀ c, Module.Finite O (L c)]
+    (ρ : ∀ c, Representation O G (L c))
+    [∀ c, IsNoetherian (MonoidAlgebra (IsLocalRing.ResidueField O) G)
+      (Representation.baseChange (IsLocalRing.ResidueField O) (ρ c)).asModule]
+    [∀ c, IsArtinian (MonoidAlgebra (IsLocalRing.ResidueField O) G)
+      (Representation.baseChange (IsLocalRing.ResidueField O) (ρ c)).asModule]
+    (hirr : ∀ c, (Representation.baseChange (FractionRing O) (ρ c)).IsIrreducible)
+    (hnoniso : Pairwise fun c d ↦
+      IsEmpty ((Representation.baseChange (FractionRing O) (ρ c)).Equiv
+        (Representation.baseChange (FractionRing O) (ρ d))))
+    (hexh : ∀ (V : Type u) [AddCommGroup V] [Module (FractionRing O) V]
+      [FiniteDimensional (FractionRing O) V] (σ : Representation (FractionRing O) G V),
+      σ.IsIrreducible →
+        ∃ c, Nonempty (σ.Equiv (Representation.baseChange (FractionRing O) (ρ c)))) :
+    TauCeti.cartanMatrix P S hind hPnoniso hPexh hSnoniso hSexh =
+      (Matrix.of fun c i =>
+        (TauCeti.jordanHolderMultiplicity (MonoidAlgebra (IsLocalRing.ResidueField O) G)
+          (Representation.baseChange (IsLocalRing.ResidueField O) (ρ c)).asModule (S i) :
+            ℤ)).transpose *
+      Matrix.of fun c i =>
+        (TauCeti.jordanHolderMultiplicity (MonoidAlgebra (IsLocalRing.ResidueField O) G)
+          (Representation.baseChange (IsLocalRing.ResidueField O) (ρ c)).asModule (S i) : ℤ) :=
   sorry
 
 /-! ## Layer 4: blocks in the three coefficient rings -/

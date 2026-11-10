@@ -10,8 +10,10 @@ algebras, discrete valuation rings and Sylow theory, from the pinned Tau Ceti li
 `p`-parts of elements, primitive idempotents, complete-adic idempotent lifting, projective covers,
 Cartan matrices and Grothendieck groups of group algebras, and from the ordinary character theory
 of CharacterTheory and InductionRestriction. The end theorems are Brauer's count of simple modules
-(`card_simpleModules_eq_card_pRegularClasses`), Brauer reciprocity `C = Dᵀ D`, the bijection of
-blocks of `O[G]` and `k[G]` (`existsUnique_blockIdempotent_map_residue`), the orthogonality of
+(`card_simpleModules_eq_card_pRegularClasses`), the integral surjectivity of the decomposition map
+(`span_decompositionRows_eq_top`), Brauer reciprocity `C = Dᵀ D`
+(`cartanMatrix_eq_transpose_mul_decomposition`), the bijection of blocks of `O[G]` and `k[G]`
+(`existsUnique_blockIdempotent_map_residue`), the orthogonality of
 generalized decomposition numbers, the conjugacy of defect groups (`isDefectGroup_conj`), the
 Sylow defect groups of the principal block (`isDefectGroup_iff_sylow_of_augmentation_ne_zero`),
 Brauer's first main theorem (`brauer_first_main`), the second main theorem and block-section
@@ -117,7 +119,10 @@ A **`p`-modular system** `(K, O, k)` is a complete discrete valuation ring `O` w
 `m = IsLocalRing.maximalIdeal O`, `IsAdicComplete m O`, fraction field `K` with `CharZero K`, and
 residue field `k = IsLocalRing.ResidueField O` of characteristic `p`; `k̄` denotes a fixed algebraic
 closure of `k`. The system is **splitting** for `G` when `K` contains a primitive `e`-th root of
-unity; `k` then contains a primitive `e'`-th root.
+unity; `k` then contains a primitive `e'`-th root. A field `k` is a **splitting field** for `G`,
+or **splits** `G`, when every simple `k[G]`-module is absolutely simple, equivalently has
+endomorphism ring `k` (Webb, §9.2 and Proposition 9.2.5, pp. 142–143); for a splitting system both
+`K` and `k` split `G` and all its subgroups (CharacterTheory §4.5 for `K`, §2.3 for `k`).
 All subgroups, centralizers and quotients of `G` use the same system and the same root lifting:
 reduction modulo `m` is a bijection from the `e'`-th roots of unity of `O` to those of `k`, and
 the **Brauer character** of a `k[G]`-module sends a `p`-regular `g` to the sum of the lifts of the
@@ -148,7 +153,10 @@ conjugation is evaluation at the inverse.
 `IsFractionRing`, `IsAlgClosed`, `CharP`, `ConjClasses`, `Subgroup.centralizer`,
 `Subgroup.normalizer`, `Subgroup.subgroupOf`, `IsPGroup`, `Sylow`, `MulAut.conj`, `IsConj`,
 `integralClosure` (the algebraic integers `integralClosure ℤ ℂ`), `Ideal.IsMaximal`,
-`starRingEnd`, the complete lattice `Subgroup G` with its `sSup`, and the DVR
+`starRingEnd`, the complete lattice `Subgroup G` with its `sSup`, `Representation.IsIrreducible`,
+`Representation.Equiv`, `Representation.asModule`, `FractionRing`, `IsPrimitiveRoot`,
+`Monoid.exponent`, `FGModuleCat`, `Module.Free`, `Module.Finite`, `IsNoetherian`, `IsArtinian`,
+`IsArtinianRing`, `Submodule.span`, `Matrix.of`, `Matrix.transpose`, and the DVR
 instance on the integers of a completion at a finite place
 (`Mathlib/NumberTheory/NumberField/Completion/FinitePlace.lean`). Assumed: the stated
 definitions, nothing beyond their docstrings.
@@ -167,9 +175,18 @@ The declarations listed under *Already in the libraries*, at the files named the
 (`TauCeti/RepresentationTheory/CharacterTable/Table.lean`), the character kernel
 `Representation.mem_ker_iff_char_eq` (root namespace, in
 `TauCeti/RepresentationTheory/CharacterTable/Kernel.lean`) and
-`FDRep.exists_simple_nonempty_iso_baseChange_of_isPrimitiveRoot`. Assumed of them: what their
-statements say. In particular `TauCeti.Representation.primitiveCentralIdempotent` requires an
-algebraically closed field in which `|G|` is invertible, `TauCeti.cartanMatrix` is taken for
+`FDRep.exists_simple_nonempty_iso_baseChange_of_isPrimitiveRoot`. For the statements of
+§§2.4 and 3.1: the Jordan–Hölder multiplicity `TauCeti.jordanHolderMultiplicity`
+(`TauCeti/RingTheory/CompositionSeries/Multiplicity.lean`), scalar extension of representations
+`Representation.baseChange` (root namespace, in `TauCeti/RepresentationTheory/BaseChange.lean`),
+`TauCeti.finiteProjectiveModules` (`TauCeti/Algebra/Category/ModuleCat/CartanMap/Basic.lean`),
+`TauCeti.IsIndecomposableModule` (`TauCeti/RingTheory/KrullSchmidt/Indecomposable.lean`),
+`TauCeti.IsExhaustiveSimpleFamily` and `TauCeti.IsExhaustiveIndecomposableProjectiveFamily`
+(`GrothendieckGroup/SimpleBasis.lean` and `GrothendieckGroup/ProjectiveBasis.lean`), and
+`TauCeti.IsProjectiveCover` (`TauCeti/Algebra/Module/ProjectiveCover/Basic.lean`). Assumed of
+them: what their statements say. In particular
+`TauCeti.Representation.primitiveCentralIdempotent` requires an algebraically closed field in
+which `|G|` is invertible, `TauCeti.cartanMatrix` is taken for
 chosen exhaustive families of pairwise non-isomorphic simples and indecomposable projectives, and
 `TauCeti.reductionK0` reduces a finitely generated `ℤ`-form only.
 
@@ -433,9 +450,31 @@ count below.
 
 - `card_simpleModules_eq_card_pRegularClasses`: over an algebraically closed field of
   characteristic `p`, a complete family of pairwise non-isomorphic simple `k[G]`-modules has as
-  many members as `G` has `p`-regular conjugacy classes (Webb, Theorem 9.3.6, p. 147).
-- The same count holds over every field of characteristic `p` containing a primitive `e'`-th root
-  of unity, by §2.3.
+  many members as `G` has `p`-regular conjugacy classes (Webb, Theorem 9.3.6, p. 147). Route,
+  over any splitting field `k` of characteristic `p`: for a finite-dimensional `k`-algebra `A`,
+  let `[A, A]` be the span of the commutators `ab − ba` and `T(A)` the set of `a` with
+  `a^(p^n) ∈ [A, A]` for some `n`. Then `T(A)` is a subspace containing `[A, A]` and `rad A`, on a
+  matrix algebra `M_n(k)` it consists of the trace-zero matrices, and when `k` splits `A`, so that
+  `A / rad A` is a product of matrix algebras over `k`, the number of simple `A`-modules is the
+  codimension of `T(A)` (Webb, Lemmas 9.3.1–9.3.2 and Proposition 9.3.3, pp. 145–146). For
+  `A = k[G]`, `[A, A]` is spanned by the differences of conjugate elements (Webb, Lemma 9.3.5,
+  p. 147). Every `g` is congruent to `pFreePart p g` modulo `T`, since the two commute and
+  `(g − pFreePart p g)^(p^n) = pFreePart p g ^ (p^n) · (pPart p g ^ (p^n) − 1)` vanishes once `p^n`
+  is a multiple of the order of `pPart p g`; and representatives of the `p`-regular classes are
+  linearly independent modulo `T`, because modulo `[A, A]` the `p`-th power map is additive,
+  raises scalars to the `p`-th power and maps `[A, A]` into itself, and a suitable power `p^n`
+  fixes every `p`-regular element. So these representatives give a basis of `k[G] / T(k[G])`
+  (Webb, proof of Theorem 9.3.6, p. 147). *Needs:* SemisimpleAlgebras Layers 0 and 2; Tau Ceti
+  `TauCeti.pPart`, `TauCeti.pFreePart`, `TauCeti.pPart_mul_pFreePart`,
+  `TauCeti.commute_pFreePart_pPart`, `TauCeti.orderOf_pPart`, `TauCeti.pFreePart_conj`; Mathlib
+  `ConjClasses`.
+- Over every splitting field `k` of characteristic `p` for `G` the count holds, and the Brauer
+  characters of the simple `k[G]`-modules, computed on `k̄ ⊗_k −` for any identification of the
+  prime-to-`p` roots of unity of `k̄` with those of `ℂ`, form the same basis (Webb, Theorems 9.3.6
+  and 10.2.2, pp. 147 and 176): once `k` splits `G`, scalar extension to `k̄` is a bijection on
+  isomorphism classes of simple modules (§2.3). In particular both hold over every field of
+  characteristic `p` containing a primitive `e'`-th root of unity (§2.3). *Needs:* §2.3 and the
+  two statements above.
 
 **Checks.**
 - `S₃`, `p = 3`: two simple modules (trivial, sign) and two `3`-regular classes (identity,
@@ -443,6 +482,14 @@ count below.
 - `C_p` in characteristic `p`: one simple module and one `p`-regular class.
 - `C₃` over `𝔽₂`: two simple modules (dimensions `1` and `2`) against three `2`-regular classes,
   so the count needs `k` to split `G`.
+- `S₃` over `𝔽₂`, which splits `S₃` without containing a primitive cube root of unity: simple
+  modules of dimensions `1` and `2` (the endomorphism ring of the second is `𝔽₂`) against the two
+  `2`-regular classes, of `1` and of the `3`-cycles; the Brauer values `(1, 1)` and `(2, −1)` have
+  determinant `−3 ≠ 0`. Neither the algebraically closed headline nor the root-of-unity criterion
+  covers this field; the splitting-field statement does.
+- The route on `S₃` at `p = 2`: `T(k[S₃])` has codimension `2`, with the identity and a
+  `3`-cycle `r` independent modulo `T`, while a transposition `t` satisfies `(t − 1)² = 0` and so
+  `t ≡ 1`; `T` is not `[A, A]`, which has codimension `3`, the number of classes.
 
 ### 2.3 Residue-field splitting
 
@@ -514,6 +561,18 @@ a change of splitting modular system. *Needs:* §§1.2–1.3, 2.1; InductionRest
 Tau Ceti `TauCeti.ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`;
 ModularInduction Layer 1; ArithmeticGaloisDuality §R02.4.4 for the agreement.
 
+- `span_decompositionRows_eq_top`: let `O` be a complete discrete valuation ring with
+  `CharZero O` whose fraction field `K` contains a primitive `e`-th root of unity, with residue
+  field `k` of any characteristic. Let `(S_i)`, indexed by a finite type, be pairwise
+  non-isomorphic simple `k[G]`-modules, and `(L_c)` `G`-stable free `O`-lattices of finite rank such
+  that every irreducible `K[G]`-module is isomorphic to some `K ⊗_O L_c`. Then the vectors
+  `([k ⊗_O L_c : S_i])_i` of Jordan–Hölder multiplicities span `ℤ^ι` (Webb, remark after
+  Corollary 10.2.4, p. 178). For a complete family `(S_i)` this is the integral surjectivity of
+  `d` in the simple-class basis, the vector of `L_c` being the coordinate vector of
+  `d [K ⊗_O L_c]` (§1.2). The family `(L_c)` may repeat a module or contain reducible ones, whose
+  vectors are sums of those of irreducible ones, and `(S_i)` need not be complete, since a
+  coordinate projection of a spanning family spans. For residue characteristic `0` and complete
+  families without repetition, `D` is a permutation matrix.
 - `d` is a ring homomorphism compatible with restriction and induction.
 - When `p ∤ |G|`, `d` is an isomorphism and the decomposition matrix is a permutation matrix
   (Webb, Theorem 9.4.11, p. 155).
@@ -529,6 +588,9 @@ ModularInduction Layer 1; ArithmeticGaloisDuality §R02.4.4 for the agreement.
 - `C₂ × C₂`, `p = 3`: `e = 2` and the system of §1.1 has `K = ℚ₃`, which does not contain the
   fourth root of unity `i`, so §R02.4.4 does not apply; `3 ∤ 4`, so `d` is an isomorphism and `D`
   is the `4 × 4` identity once each character `(±1, ±1)` is listed with its reduction.
+- Integral, not only rational: for `S₃` at `p = 3` the rows `(1, 0)`, `(0, 1)`, `(1, 1)` of `D`
+  span `ℤ²`, whereas the columns `(2, 1)`, `(1, 2)` of the Cartan matrix span a sublattice of
+  index `det C = 3`; surjectivity is a property of `d`, not of the Cartan map.
 
 ### Examples
 
@@ -539,7 +601,8 @@ once for all subgroups.
 ### Dependencies
 
 Layers 0–1; GL2AutomorphicRepresentationsAndTransfer §R17.5.11; ArithmeticGaloisDuality
-§R02.4.4; InductionRestriction Layer 6; ModularInduction Layers 0–1; SemisimpleAlgebras Layer 2.
+§R02.4.4; InductionRestriction Layer 6; ModularInduction Layers 0–1; SemisimpleAlgebras Layers 0
+and 2; Tau Ceti `TauCeti.jordanHolderMultiplicity`, `Representation.baseChange`.
 
 ## Layer 3: projective modules, reciprocity and the Cartan matrix
 
@@ -564,6 +627,16 @@ GL2AutomorphicRepresentationsAndTransfer §R17.5.11; QuiverRepresentations Layer
 GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`,
 `TauCeti.projectiveSimplePairing_isPerfPair`.
 
+- `cartanMatrix_eq_transpose_mul_decomposition`: let `O` be a complete discrete valuation ring
+  with `CharZero O` whose fraction field `K` contains a primitive `e`-th root of unity, with
+  residue field `k` of any characteristic. Let `(P_i)` and `(S_i)`, indexed by one finite type, be
+  exhaustive families of pairwise non-isomorphic indecomposable finitely generated projective
+  `k[G]`-modules and of pairwise non-isomorphic simple `k[G]`-modules, with `P_i` a projective
+  cover of `S_i`, and let `(L_c)`, indexed by a finite type, be `G`-stable free `O`-lattices of
+  finite rank whose scalar extensions `K ⊗_O L_c` are pairwise non-isomorphic irreducible
+  `K[G]`-modules representing every irreducible one. Then `TauCeti.cartanMatrix P S …` equals
+  `Dᵀ D` with `D c i = [k ⊗_O L_c : S_i]` (Webb, Theorem 9.5.4 and Corollary 9.5.6, pp. 159–160).
+  For residue characteristic `0`, `C` and `Dᵀ D` are both the identity.
 - `|G|_p` divides `Φ_φ(1)` (Martínez, Corollary 1.13, p. 6).
 - Two projective `O[G]`-modules are isomorphic exactly when their ordinary characters are equal
   (Webb, Corollary 10.3.3, p. 183).
@@ -572,6 +645,12 @@ GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`,
 - `S₃`, `p = 3`: `C = Dᵀ D = [[2,1],[1,2]]`, `det C = 3`; `Φ_1 = 1 + std` and `Φ_sgn = sgn + std`
   vanish at a `3`-cycle (`1 − 1 = 0`) and have degree `3`.
 - `S₃`, `p = 2`: `C = diag(2, 1)`, `det C = 2`.
+- The root-of-unity hypothesis is needed: for `C₄` over `O = ℤ₂`, which lacks `i`, the
+  irreducible `ℚ₂[C₄]`-modules are the trivial one, the sign and a `2`-dimensional one on which the
+  generator has eigenvalues `±i`; all reduce to copies of the trivial module, so `D = (1, 1, 2)ᵀ`
+  and `Dᵀ D = [6]`, while `𝔽₂[C₄]` is local of dimension `4` and `C = [4]`. Over the ramified
+  `O = ℤ₂[i]`, with residue field `𝔽₂`, the four characters give `D = (1, 1, 1, 1)ᵀ` and
+  `Dᵀ D = [4] = C`.
 - The pairing on `S₃` at `p = 2`, with the `2`-regular classes `{1}` and the two `3`-cycles:
   `Φ_1 = 1 + sgn` takes `2, 2` there, so `⟨Φ_1, φ_1⟩ = (2·1 + 2·2·1)/6 = 1` and
   `⟨Φ_1, φ_std⟩ = (2·2 + 2·2·(−1))/6 = 0`, the values of §R17.5.11 for a cover and a simple.
@@ -593,7 +672,8 @@ the projective cover of the trivial module with `Φ_1 = ∑_χ χ`, the regular 
 ### Dependencies
 
 Layers 1–2; GL2AutomorphicRepresentationsAndTransfer §R17.5.11; QuiverRepresentations Layer 3;
-GrothendieckEulerForms Layer 4.
+GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`, `TauCeti.jordanHolderMultiplicity`,
+`TauCeti.IsProjectiveCover`, `Representation.baseChange`.
 
 ## Layer 4: blocks in the three coefficient rings
 
@@ -855,6 +935,9 @@ Theorem 4.5 and Corollary 4.6, p. 26).
   bijection from the blocks of `k[N_G(D)]` with defect group `D` to the blocks of `k[G]` with
   defect group `D` (Webb, Theorem 12.6.4, p. 250; Martínez, Theorem 4.10, p. 27). By the formula
   for `Br_D(e_B)` above with `H = N_G(D)`, this rule is block induction `b ↦ b^G`.
+- The same rule is a bijection between the same two sets of blocks over every field `k` of
+  characteristic `p` that splits `G` and all its subgroups (Webb, Theorem 12.6.4, p. 250), for
+  instance one containing a primitive `e'`-th root of unity (§2.3).
 - For `N_G(D) ≤ H ≤ G`, block induction `b ↦ b^G` is a bijection from the blocks of `k[H]` with
   defect group `D` to the blocks of `k[G]` with defect group `D`, by applying the first main theorem
   to `H` and to `G` and identifying `N_H(D) = N_G(D)` (Sambale, Theorem 1.12, p. 16). The product
