@@ -22,7 +22,7 @@ Headline theorems of the roadmap that are not statable at the pins:
 * Generalized decomposition numbers, their orthogonality relations and Brauer's second main
   theorem (Layers 5 and 7). They need Brauer characters of centralizers.
 * The ordinary block partition, block-section orthogonality and the kernel theorem
-  `⋂_{χ ∈ Irr(B₀)} ker χ = O_{p'}(G)` (Layers 4, 5 and 8). They need the partition of the
+  `⋂_{χ ∈ Irr(B₀)} ker χ = O_{p'}(G)` (Layers 4, 7 and 8). They need the partition of the
   complex irreducible characters into `p`-blocks through a `p`-modular system, and the core
   `O_{p'}(G)`, which is not at the pinned Mathlib.
 -/

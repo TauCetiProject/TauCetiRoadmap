@@ -25,8 +25,8 @@ The module theory is primary; complex characters describe it through proved comp
 
 This roadmap owns the general modular theory of finite groups listed in Layers 0–8. It does not
 own the classification of finite simple groups, the odd order theorem, Glauberman's `Z*` theorem
-(GlaubermanZStar consumes Layers 4–8), blocks with cyclic defect group and Brauer trees, block
-fusion systems beyond Brauer pairs, or conjectures about blocks.
+(GlaubermanZStar consumes the interfaces of §8.4), blocks with cyclic defect group and Brauer
+trees, block fusion systems beyond Brauer pairs, or conjectures about blocks.
 
 Already in the libraries, and consumed rather than rebuilt:
 
@@ -621,7 +621,7 @@ columns the pairs `(u, φ)` is square, by the class count of §0.1, and `Q* Q` i
 matrix of the `c^u`; hence `Q` is invertible over `ℂ` and `|det Q|² = ∏_{u ∈ R} det c^u`. `Q` is not
 in general invertible over `ℤ[ζ_{|G|_p}]` or its localization at `p`. The refinement of these
 relations to a single block of `G` is a consequence of the second main theorem and is stated in
-§7.2. *Needs:* §§3.1, 5.1.
+§7.2. *Needs:* §§3.1, 5.1; Tau Ceti `TauCeti.sum_characterTable_mul_conj`.
 
 - Within one section the sum over all of `Irr(G)` is the native column orthogonality
   `TauCeti.sum_characterTable_mul_conj`.
@@ -640,7 +640,7 @@ relations to a single block of `G` is a consequence of the second main theorem a
 
 ### Dependencies
 
-Layers 0, 2–4.
+Layers 0, 2 and 3; Tau Ceti `TauCeti.sum_characterTable_mul_conj` (CharacterTheory §3.5).
 
 ## Layer 6: relative traces, Brauer maps and defect
 
@@ -785,11 +785,12 @@ Theorem 1.13 and Proposition 1.11, p. 16). Equivalently, `d^u_{χφ} ≠ 0` impl
 - Block form of the orthogonality relations of §5.2: for a block `B` of `G`, `u, v ∈ R`,
   `φ ∈ IBr(C_G(u))` and `ψ ∈ IBr(C_G(v))`, the sum `∑_{χ ∈ Irr(B)} d^u_{χφ} conj(d^v_{χψ})` equals
   `c^u_{φψ}` when `u = v`, `φ` and `ψ` lie in one block `b` of `C_G(u)` and `b^G = B`, and `0`
-  otherwise (Sambale, Theorem 1.14, p. 16). *Needs:* §5.2 and the theorem above.
+  otherwise (Sambale, Theorem 1.14, p. 16). *Needs:* §§4.2, 5.2 and the theorem above.
 - Block-section orthogonality: if the `p`-parts of `g` and `h` are not conjugate, then
   `∑_{χ ∈ Irr(B)} χ(g) conj(χ(h)) = 0` for each block `B` (Martínez, Corollary 2.4, p. 11, for `g`
   `p`-regular and `h` `p`-singular; the general case from the block form, with the trace
   argument of the Axiom section-orthogonality formalization as a proof source).
+  *Needs:* §§0.1, 4.2, 5.1 and the block form above.
 
 **Checks.**
 - `S₃`, `p = 2`, `u = (12)`: `d^u = (1, −1, 0)`, nonzero exactly on `B₀`.
@@ -824,7 +825,7 @@ corresponds to itself, and `A₄` has a single `2`-block.
 
 ### Dependencies
 
-Layers 5–6.
+Layers 0 and 4–6.
 
 ## Layer 8: normal subgroups and finite-group interfaces
 
@@ -892,9 +893,13 @@ act trivially. *Needs:* §§3.1, 4.2, 8.2.
 
 ### 8.4 Interfaces for local group theory
 
-Export the sections (§0.1), block-section orthogonality (§7.2), the principal block (§4.3), the
-kernel theorem (§8.3) and the third main theorem (§7.3) at `p = 2` for GlaubermanZStar, whose
-fusion argument stays outside this roadmap.
+Export to GlaubermanZStar, which uses them at `p = 2` and keeps its fusion argument outside this
+roadmap: the sections (§0.1); the splitting modular system and its root lifting (§1.1), and the
+compatibility of the decomposition map with a change of splitting modular system (§2.4); the
+central-character description of the block partition and the principal block (§§4.2–4.3);
+generalized decomposition numbers (§5.1); the second main theorem and block-section orthogonality
+(§7.2); the local third main theorem (§7.3); and normal `p'`-subgroups, the kernel theorem and the
+modular containment (§§8.2–8.3).
 
 ### Examples
 
@@ -910,8 +915,9 @@ Layers 3–7.
 
 ## Downstream consumers
 
-- **GlaubermanZStar**: sections, the principal block and its kernel, block-section orthogonality
-  and the local third main theorem at `p = 2` (Layers 4–8).
+- **GlaubermanZStar**: at `p = 2`, the interfaces of §8.4: sections, the splitting modular system,
+  the block partition, the principal block and its kernel, generalized decomposition numbers, the
+  second main theorem, block-section orthogonality and the local third main theorem.
 
 ## References
 
