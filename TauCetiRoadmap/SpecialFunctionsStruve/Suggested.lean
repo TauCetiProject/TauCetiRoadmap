@@ -202,7 +202,7 @@ theorem struveH_eq_integral {ν : ℂ} (hν : -1 / 2 < ν.re) {z : ℂ} (hz : z 
   sorry
 
 /-- DLMF 11.5.2. -/
-theorem struveK_eq_integral {ν : ℂ} (hν : -1 / 2 < ν.re) {z : ℂ} (hz : 0 < z.re) :
+theorem struveK_eq_integral {ν : ℂ} {z : ℂ} (hz : 0 < z.re) :
     struveK ν z = 2 * (z / 2) ^ ν * ((Real.sqrt π : ℂ) * Gamma (ν + 1 / 2))⁻¹ *
       ∫ t in Ioi (0 : ℝ), cexp (-z * t) * (1 + (t : ℂ) ^ 2) ^ (ν - 1 / 2) := by
   sorry
@@ -238,8 +238,8 @@ theorem struveL_isEquivalent_besselI {lam : ℝ} (hlam : 0 < lam) {δ : ℝ} (h�
 
 /-! ## Layer 5: integrals -/
 
-/-- DLMF 10.22.2 for `J`: an antiderivative of `z^ν J_ν(z)`. -/
-theorem hasDerivAt_besselJ_struveH {ν : ℂ} (hν : ν ≠ -1 / 2) {z : ℂ} (hz : z ∈ slitPlane) :
+/-- DLMF 10.22.2 for `J`: an antiderivative of `z^ν J_ν(z)`, for `ν + ½` not a pole of `Γ`. -/
+theorem hasDerivAt_besselJ_struveH {ν : ℂ} (hν : ∀ n : ℕ, ν + 1 / 2 ≠ -n) {z : ℂ} (hz : z ∈ slitPlane) :
     HasDerivAt (fun z => (Real.sqrt π : ℂ) * 2 ^ (ν - 1) * Gamma (ν + 1 / 2) * z *
         (besselJ ν z * struveH (ν - 1) z - besselJ (ν - 1) z * struveH ν z))
       (z ^ ν * besselJ ν z) z := by

@@ -202,7 +202,7 @@ angerWeberA n z = (π cos nπ)⁻¹ ∂_ν(𝐉_ν(z) − J_ν(z))|_{ν=n}      
   `Complex.modifiedSphericalBesselI1`, `…I2`.
 - 1.1–1.3: Bessel's equation for `J_ν`, `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, uniqueness and the span of its
   solutions on the slit plane, the connection formulas 10.4.1–10.4.8 and the Wronskians
-  10.5.1–10.5.5; 1.2: holomorphy in the order. For 1.2 and Layers 6–7.
+  10.5.1–10.5.5; 1.2: holomorphy in the order. For 1.2, 3.1 and Layers 6–7.
 - 1.4: the recurrences and derivatives 10.6.1–10.6.7, for 2.4 and 7.4.
 - 1.7–1.8: `I_ν`, `K_ν`, their equation, connection formulas and Wronskians, for 1.2.
 - 2.2: the power series 10.2.2 and 10.8.1 and the limiting forms of 2.1, for Layers 1–2.
@@ -214,14 +214,14 @@ angerWeberA n z = (π cos nπ)⁻¹ ∂_ν(𝐉_ν(z) − J_ν(z))|_{ν=n}      
 - 5.1–5.2: the expansions of `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `K_ν`, `J_ν`, `Y_ν` and `I_ν` for large argument,
   for Layer 4 and 8.1.
 - 6.1: Debye's expansions of `I_ν`, `K_ν` for real large order, for the check in 4.3.
-- 8.1: the primitives 10.22.1 and 10.43.1, for Layer 5.
+- 8.1: the primitive 10.22.1, and 8.4: the primitive 10.43.1, for Layer 5.
 - 9.1–9.2: the spherical functions and their explicit forms, for 2.1.
 
 ### From [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md)
 
 - [Its Conventions](../SpecialFunctionsAiry/README.md#conventions) and 6.1: Scorer's function
   `TauCeti.scorerHi`, `Hi(z) = π⁻¹ ∫₀^∞ exp(−t³/3 + z t) dt`, entire, and its value
-  `Hi(0) = 2/(3^{7/6} Γ(⅔))` (DLMF 9.12.6). For 8.4.
+  `Hi(0) = 2 Gi(0) = 2/(3^{7/6} Γ(⅔))`, with DLMF 9.12.6 for `Gi(0)`. For 8.4.
 
 ### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
 
@@ -389,7 +389,7 @@ DLMF 11.4.18–11.4.22 on the slit plane, as `HasSum`:
 11.4.18 is the power series 11.2.1 with each power `(z/2)^{ν+2m+1}` expanded in `J_{ν+2m+1+2j}`
 by DLMF 10.23.15 and the absolutely convergent double sum rearranged.
 
-**Checks.
+**Checks.**
 - 11.4.21 at `z → 0`: both series are `O(z)`, and the first term `(4/π) J₁(z) ∼ 2z/π` matches
   `𝐇₀(z) ∼ 2z/π` (11.2.3).
 
@@ -429,7 +429,7 @@ Layer 1; SpecialFunctionsBessel 2.2, 2.4, 2.6, 4.3, 9.1–9.2.
   = 2(z/2)^ν/(√π Γ(ν + ½)) ∫₀^{π/2} sin(z cos θ) (sin θ)^{2ν} dθ`, and the same with `sinh` for
   `𝐋_ν`.
 - DLMF 11.5.2–11.5.3 for `Re z > 0`:
-  `𝐊_ν(z) = 2(z/2)^ν/(√π Γ(ν + ½)) ∫₀^∞ e^{−zt} (1 + t²)^{ν−1/2} dt` for `Re ν > −½`, the integral
+  `𝐊_ν(z) = 2(z/2)^ν/(√π Γ(ν + ½)) ∫₀^∞ e^{−zt} (1 + t²)^{ν−1/2} dt` for every `ν`, the integral
   absolutely convergent, and `𝐊₀(z) = (2/π) ∫₀^∞ e^{−z sinh t} dt`.
 - DLMF 11.5.4–11.5.5 for `Re ν > −½`, `z` in the slit plane:
   `𝐌_ν(z) = −2(z/2)^ν/(√π Γ(ν + ½)) ∫₀¹ e^{−zt} (1 − t²)^{ν−1/2} dt`, and
@@ -439,14 +439,17 @@ Layer 1; SpecialFunctionsBessel 2.2, 2.4, 2.6, 4.3, 9.1–9.2.
 
 The routes are those of DLMF's Sources: term-by-term integration with the Beta integral for 11.5.1
 and 11.5.6; for 11.5.2, Schläfli's integral of `Y_ν` (SpecialFunctionsBessel 3.1) and the rotation
-of the path; for 11.5.4, the substitution into 11.5.1 at `iz` collapsed onto `[0, 1]`.
+of the path for `Re ν > −½`, then analytic continuation in `ν`, since for fixed `z` with `Re z > 0`
+both sides are entire in `ν` (1.1, SpecialFunctionsBessel 1.2); for 11.5.4, the substitution into
+11.5.1 at `iz` collapsed onto `[0, 1]`.
 
 **Checks.**
 - 11.5.1 at `ν = ½`: `𝐇_{1/2}(z) = (2z/π)^{1/2} ∫₀¹ sin(zt) dt = (2/(πz))^{1/2}(1 − cos z)`
   (11.4.5).
+- 11.5.2 at `ν = −1`, `z = 1`, outside `Re ν > −½`: both sides are `−0.34305 03851 34…`.
 - 11.5.3 at `z = 1`: `(2/π) ∫₀^∞ e^{−sinh t} dt = 0.48039 96628 32… = 𝐊₀(1)`.
 
-*Needs:* Layers 1–2; SpecialFunctionsBessel 3.1; Mathlib `Complex.betaIntegral`.
+*Needs:* Layers 1–2; SpecialFunctionsBessel 1.2, 3.1; Mathlib `Complex.betaIntegral`.
 
 ### 3.2 Mellin–Barnes integrals
 
@@ -494,7 +497,7 @@ Layers 1–2; SpecialFunctionsBessel 3.1; AsymptoticExpansions 8.2, 8.6.
   `|ph z| ≤ π/2 − δ`.
 
 11.6.1 is Watson's lemma in a sector (AsymptoticExpansions 4.2) applied to 11.5.2, with the
-rotation of the path for `|ph z| ≥ π/2` and the recurrence 11.4.23 to remove `Re ν > −½`. 11.6.2
+rotation of the path for `|ph z| ≥ π/2`. 11.6.2
 is Laplace's method on the two paths from `0` to `∞` passing below and above `t = 1`, applied to
 the loop form of 11.5.4 (DLMF's Sources).
 
@@ -580,17 +583,19 @@ ZerosOfLFunctions 1.2.
   `(−z^{−ν} 𝐇_ν + 2^{−ν} z/(√π Γ(ν + 3/2)))′ = z^{−ν} 𝐇_{ν+1}`, and the `𝐋_ν` forms.
 - DLMF 11.7.5–11.7.6: `f_ν(z) = ∫₀^z t^ν 𝐇_ν(t) dt` along the segment `[0, z]` for `Re ν > −1`, and
   `f_{ν+1}(z) = (2ν + 1) f_ν(z) − z^{ν+1} 𝐇_ν(z) + (z²/2)^{ν+1}/((ν + 1) √π Γ(ν + 3/2))`.
-- DLMF 10.22.2: for `ν ≠ −½` and every cylinder function `𝒞_ν = A J_ν + B Y_ν` with `A`, `B`
-  independent of `ν`, the derivative of `√π 2^{ν−1} Γ(ν + ½) z (𝒞_ν 𝐇_{ν−1} − 𝒞_{ν−1} 𝐇_ν)` is
-  `z^ν 𝒞_ν(z)`.
-- DLMF 10.43.2: the same with `𝒵_ν ∈ {I_ν, e^{νπi} K_ν}` and `𝐋_ν` in place of `𝐇_ν`.
+- DLMF 10.22.2: for `ν + ½ ∉ {0, −1, −2, …}` and every cylinder function `𝒞_ν = A J_ν + B Y_ν` with
+  `A`, `B` independent of `ν`, the derivative of `√π 2^{ν−1} Γ(ν + ½) z (𝒞_ν 𝐇_{ν−1} − 𝒞_{ν−1} 𝐇_ν)`
+  is `z^ν 𝒞_ν(z)`.
+- DLMF 10.43.2: for `ν + ½ ∉ {0, −1, −2, …}` and every modified cylinder function
+  `𝒵_ν = A I_ν + B e^{νπi} K_ν` with `A`, `B` independent of `z` and of `ν` (DLMF §10.25(ii)), the
+  derivative of `√π 2^{ν−1} Γ(ν + ½) z (𝒵_ν 𝐋_{ν−1} − 𝒵_{ν−1} 𝐋_ν)` is `z^ν 𝒵_ν(z)`.
 
 **Checks.**
 - 10.22.2 at `ν = ½`, `𝒞 = J`: with 11.4.5–11.4.6 and `J_{1/2}(z) = (2/(πz))^{1/2} sin z`,
   `J_{−1/2}(z) = (2/(πz))^{1/2} cos z`, the bracket is `(2/π)^{1/2} (1 − cos z)`, whose derivative
   `(2/π)^{1/2} sin z` is `z^{1/2} J_{1/2}(z)`.
 
-*Needs:* Layers 1–2; SpecialFunctionsBessel 1.4, 1.8, 8.1.
+*Needs:* Layers 1–2; SpecialFunctionsBessel 1.4, 1.8, 8.1, 8.4.
 
 ### 5.2 Definite integrals
 
@@ -865,7 +870,8 @@ leading term `π⁻¹ e^{πi/6} Γ(⅓) (6/ν)^{1/3}/3`, with `Γ(⅓) Γ(⅔) =
 `2^{1/3}/(3^{2/3} Γ(⅔) ν^{1/3})` and imaginary part `2^{1/3}/(3^{7/6} Γ(⅔) ν^{1/3})`.
 
 **Checks.**
-- 11.11.17 at `a = 0` is 11.11.16, since `Hi(0) = 2/(3^{7/6} Γ(⅔))` (DLMF 9.12.6).
+- 11.11.17 at `a = 0` is 11.11.16, since `Hi(0) = 2 Gi(0) = 2/(3^{7/6} Γ(⅔))`, with DLMF 9.12.6
+  for `Gi(0)`.
 - `𝐀_{−10}(10) = 0.23669 40284 75…` against the leading term `0.23974 08488 46…`.
 
 *Needs:* 7.1; SpecialFunctionsAiry 6.1; AsymptoticExpansions 5.2, 5.4, 6.2.
