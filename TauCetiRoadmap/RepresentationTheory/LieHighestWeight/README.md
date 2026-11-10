@@ -68,8 +68,9 @@ what these do not.
 | Layer 6F: Fourier boundary values of the Weyl formula | §6.2 for the finite rational Weyl and torus-character identities; the cone series, their Fourier boundary values and the endpoint reconstruction are TensorProductCombinatorics §§1.5–1.6 and 2.6, which this roadmap does not consume. |
 
 These former layer identifiers refer to the supplier contracts, not to new
-construction targets. AdoIwasawa consumes native ordered PBW directly; this
-roadmap's additional exports are the central-monic finiteness adapter, the normalized
+construction targets. AdoIwasawa consumes native ordered PBW and the native finiteness of the
+enveloping algebra over central subalgebras directly; this
+roadmap's additional exports are the normalized
 symmetrization and the first-order bracket on the native Rees zero fibre.
 
 [RootSystems, Layers 1–6](../RootSystems/README.md) owns finite root geometry,
@@ -150,9 +151,9 @@ invariants `Sym(L)^L` alone.
   **`LieAlgebra.IsKilling K L`** (non-degenerate Killing form), which over a characteristic-zero field
   is equivalent to `LieAlgebra.IsSemisimple K L` and, crucially, is the hypothesis under which Mathlib
   already produces `LieAlgebra.IsKilling.rootSystem`. Over an algebraically closed `K` every Cartan
-  subalgebra is **split** (all root and weight values land in `K`); this splitness is itself a **named
-  milestone** (feeding Mathlib's `IsTriangularizable K H L`), consumed thereafter rather than treated as
-  ambient, so we do not carry a separate "split" hypothesis. Where the general theory over a non-closed
+  subalgebra is **split** (all root and weight values land in `K`), by Mathlib's instance
+  `LieModule.instIsTriangularizableOfIsAlgClosed` giving `IsTriangularizable K H L`,
+  so we do not carry a separate "split" hypothesis there. Where the general theory over a non-closed
   field needs a split semisimple Lie algebra, that is a named generalization stated as such, not the
   default. The abelian, nilpotent, and solvable notions are Mathlib's (`LieAlgebra.IsNilpotent`,
   `LieAlgebra.IsSolvable`, `HasTrivialRadical`).
@@ -207,7 +208,7 @@ invariants `Sym(L)^L` alone.
   `LieAlgebra.derivedSeries K L 1`, never on `L`; `IsAlgClosed` appears per-theorem exactly where a
   Schur-type argument needs it. The concrete `gl_n` is `Matrix (Fin n) (Fin n) K` with its
   `LieRing.ofAssociativeRing` bracket (Mathlib names no separate carrier), its Cartan is the diagonal
-  diagonalCartan, and its positive system is the matrix-unit order (`Matrix.single i j 1` raising for
+  subalgebra `TauCeti.diagonalCartan`, and its positive system is the matrix-unit order (`Matrix.single i j 1` raising for
   `i < j`), since `LieAlgebra.IsKilling.rootSystem` is unavailable for it. On `gl_n` the **Killing form
   is degenerate**, so the pinned invariant form is the **trace form of the standard representation**
   (`⟨X, Y⟩ = tr (X * Y)`, `LieModule.traceForm`); the trace-form Casimir scalar
@@ -531,6 +532,23 @@ estimate is needed for that finite sum.
   `TauCeti/Algebra/Octonion/Basic.lean` and `Derivation.lean`, supply the split
   octonions and the dimension 14 of their derivations. The native nonassociative
   derivation carrier is `TauCeti.derivationLieAlgebra`.
+  `TauCeti.Octonion.cartanSubalgebra` and `TauCeti.Octonion.lieBasis`, in
+  `TauCeti/Algebra/Octonion/Simple.lean`, supply the span of the two Cartan derivations
+  and, over a nontrivial commutative ring with 2 and 3 invertible, the Chevalley
+  generators of `Der(𝕆)` relative to it with Cartan matrix `CartanMatrix.G₂ᵀ`, the short
+  simple root first. Over a characteristic-zero field the same file supplies
+  `TauCeti.Octonion.instIsCartanSubalgebraCartanSubalgebra`,
+  `TauCeti.Octonion.instIsTriangularizableCartanSubalgebra`,
+  `TauCeti.Octonion.isSimple_derivationLieAlgebra` and
+  `TauCeti.Octonion.instIsKillingDerivationLieAlgebra`: that subalgebra is a split
+  Cartan subalgebra, and `Der(𝕆)` is simple with nondegenerate Killing form.
+  `TauCeti.Octonion.imaginaryLieSubmodule` (`Derivation.lean`),
+  `TauCeti.Octonion.finrank_imaginary` (`Basic.lean`) and
+  `TauCeti.Octonion.isIrreducible_imaginaryLieSubmodule`
+  (`TauCeti/Algebra/Octonion/Fundamental.lean`) supply the 7-dimensional imaginary
+  module and its irreducibility over a field in which 2 is nonzero. None of these is a
+  target here; the pin does not prove injectivity of
+  `TauCeti.Octonion.g₂ToDerivationLieAlgebra`.
 - `TauCeti.AlbertAlgebra K`, `TauCeti.AlbertAlgebra.finrank_eq_twentySeven` and
   `TauCeti.AlbertAlgebra.finrank_traceZero`, in
   `TauCeti/Algebra/AlbertAlgebra/Basic.lean`, supply the split product and dimensions
@@ -541,8 +559,26 @@ estimate is needed for that finite sum.
   ring with 2 invertible; the determinant itself needs only a commutative ring.
   `TauCeti.AlbertAlgebra.det_eq_invOf_two_mul_invOf_three_mul` additionally
   assumes 3 invertible. `TauCeti/Algebra/AlbertAlgebra/Jordan.lean` supplies
-  `IsCommJordan` with 2 invertible. The split exceptional-type identification and
-  compact real comparison remain targets.
+  `IsCommJordan` with 2 invertible.
+  `TauCeti.AlbertAlgebra.finrank_derivationLieAlgebra`, in
+  `TauCeti/Algebra/AlbertAlgebra/Derivation/Finrank.lean`, supplies the dimension 52 of
+  the derivation algebra over a field with 2 invertible.
+  `TauCeti.AlbertAlgebra.trace_derivation_apply_eq_zero`,
+  `TauCeti.AlbertAlgebra.traceZeroLieSubmodule`,
+  `TauCeti.AlbertAlgebra.finrank_traceZeroLieSubmodule` and
+  `TauCeti.AlbertAlgebra.isFaithful_traceZeroLieSubmodule`, in
+  `TauCeti/Algebra/AlbertAlgebra/Derivation/Basic.lean`, supply, over a commutative
+  ring with 2 invertible, that derivations take values of trace zero, the trace-zero
+  subspace as a Lie submodule over the derivation algebra, its dimension 26 (under
+  `StrongRankCondition`) and the faithfulness of the action on it. The pin proves
+  neither simplicity of this derivation algebra nor a Cartan subalgebra of it, nor
+  irreducibility of the trace-zero module: these, the split exceptional-type
+  identification and the compact real comparison remain targets.
+- `TauCeti.finrank_prod_sl_exteriorPower_dual`, in
+  `TauCeti/Algebra/Lie/E8/Vinberg.lean`, supplies the dimension 248 of the module
+  `𝔰𝔩₉ × ⋀³(K⁹) × (⋀³(K⁹))^*` over a nontrivial commutative ring, with the summand
+  counts 80 and 84 in the same file. It is a dimension count of a module; the pin has
+  no bracket on it.
 - `TauCeti.glIrreducible`, in `TauCeti/Algebra/Lie/GeneralLinear/Carrier.lean`,
   supplies the highest-weight carrier with its native module instances.
   `TauCeti.glCasimir` and
@@ -877,15 +913,23 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
   the root-space/semisimple characteristic-zero setting. Consume the native
   triangular multiplication equivalence on the actual nilradicals below.
 
-  Consume native `span_range_bounded_orderedPowerProducts_eq_top` and
-  `moduleFinite_of_isIntegral_of_span_eq_top` from `PBW.Finite`. The
-  central-subalgebra adapter `module_finite_of_central_monic_relations` packages
-  a subalgebra R≤Z(U(L)) through the commutative scalar view
-  S:=R.comap(center.val), a subalgebra of the center, supplies the S→R algebra/tower
-  comparisons, reindexes a finite basis by Fin n, and converts its explicit
-  monic relations to `IsIntegral` before applying those native theorems. It
-  preserves the original R-module structure and the bounded ordered products;
-  it does not rebuild native finite-spanning or module-finiteness machinery.
+  Central finiteness is native (From Tau Ceti) and is not a target here:
+  `TauCeti.UniversalEnvelopingAlgebra.span_range_bounded_orderedPowerProducts_eq_top` and
+  `TauCeti.UniversalEnvelopingAlgebra.moduleFinite_of_isIntegral_of_span_eq_top`
+  (`TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Finite.lean`) make a surjective image of
+  `U(L)` module-finite over central scalars `S` once the images of a finite spanning
+  family of `L` are integral over `S`, and `Subalgebra.centralSubalgebraAlgebra` with
+  `Subalgebra.isScalarTower_centralSubalgebraAlgebra`
+  (`TauCeti/Algebra/Subalgebra/Center.lean`) supply the algebra and scalar-tower
+  structure of a subalgebra of the center. Remark: for a subalgebra R≤Z(U(L)) and a
+  finite basis of `L` whose members satisfy monic relations with coefficients in R, these
+  declarations give finiteness of `U(L)` over R, by viewing R as the subalgebra
+  R.comap(center.val) of the center and reading each monic relation as integrality; a
+  relation of degree 0 would read 1=0 and is excluded. The native consumers are
+  `TauCeti.UniversalEnvelopingAlgebra.exists_pCentralGenerators_moduleFinite`
+  (`TauCeti/Algebra/Lie/UniversalEnveloping/FiniteOverCenter.lean`) and the
+  arbitrary-field Ado–Iwasawa theorem `TauCeti.adoIwasawa`
+  (`TauCeti/RepresentationTheory/Lie/Ado/ArbitraryField.lean`).
 - **PBW Rees deformation and its first-order Poisson bracket.** Let `R` be a commutative
   ring and `L` a Lie `R`-algebra. No semisimplicity or characteristic-zero hypothesis
   is imposed. Write `F_n` for the native increasing PBW filtration, with
@@ -1107,7 +1151,8 @@ and oriented Cartan-matrix equations, preserving the native contravariant
 coweight convention. Construct its based-automorphism witness and change-of-base
 comparison; reuse the existing involution and base permutation.
 
-Prove that `L(λ)` is self-dual exactly when `δλ=λ`, equivalently its
+By the native `TauCeti.nonempty_lieModuleEquiv_dual_iff`, `L(λ)` is self-dual exactly
+when `δλ=λ`; this equivalence is not a target. Prove the equivalent reading that its
 fundamental-weight coefficients are constant on δ-orbits. Complete reducibility
 then identifies the dual multiplicities of an arbitrary finite-dimensional
 module by `m_(M*)(λ)=m_M(δλ)` and gives its self-duality criterion. Prove that
@@ -1700,8 +1745,8 @@ the native dot action and ρ-translation in Layer 7.
   *Needs:* native normalized Serre lift and surjectivity; native characteristic-zero
   root sl₂ strings; RootSystems Layers 1–6 for rational root geometry; the
   root-graded spanning target in this paragraph. No HC input is used.
-  The all-root normalization exists_chevalleySystem and serre_presentation_equiv
-  are split-field contracts, independent of the HC isomorphism. Writing
+  The all-root Chevalley normalization and the presentation equivalence built from the
+  lift are targets of this paragraph, independent of the HC isomorphism. Writing
   `A = base.cartanMatrix`, the native root convention is `A i j = αᵢ(hⱼ)`, whereas
   `CartanMatrix.Relations.HE` imposes `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`. Hence
   `⁅hᵢ, eⱼ⁆ = αⱼ(hᵢ) • eⱼ = A j i • eⱼ`, and for distinct simple roots the higher
@@ -1790,7 +1835,8 @@ This layer identifies concrete **split** models over every characteristic-zero f
 using Layer 7's split-field presentation. For each concrete derivation or graded model,
 first prove finite dimensionality, Killing-simplicity, construct its split Cartan `H`
 and `[IsTriangularizable K H L]`, and compute its concrete root system/base and fixed
-coroots. Give the explicit index equivalence taking `base.cartanMatrix.transpose` to
+coroots; for the split octonion derivations these inputs are native (From Tau Ceti)
+and are consumed. Give the explicit index equivalence taking `base.cartanMatrix.transpose` to
 that named Serre algebra's Cartan matrix, checking the generator scalings; apply the
 normalized presentation only after these model-specific inputs. The resulting map is
 defined over `K`, including nonclosed fields. The formally real / compact division forms
@@ -1809,8 +1855,11 @@ the stated scalar extension; “formally real” is never asserted over algebrai
 - **`G₂ = Der(𝕆)`.** The derivation algebra of the split `𝕆` is a `14`-dimensional simple Lie algebra of
   type `G₂`, with its `7`-dimensional **fundamental representation** the imaginary octonions `Im 𝕆`
   (imaginaryOctonion). Use `TauCeti.derivationLieAlgebra K (TauCeti.Octonion K)` with its native
-  commutator bracket and dimension theorem; prove that it is Killing-simple of type
-  `G₂`, and use the native imaginary-module irreducibility theorem; identify it with the **split**
+  commutator bracket and dimension theorem. Its simplicity, the nondegeneracy of its Killing
+  form, its split Cartan subalgebra `TauCeti.Octonion.cartanSubalgebra` and the Chevalley
+  generators `TauCeti.Octonion.lieBasis` with Cartan matrix `CartanMatrix.G₂ᵀ` are native
+  (From Tau Ceti) over a characteristic-zero field and are consumed, as is the native
+  imaginary-module irreducibility theorem. The one target of this bullet is the identification with the **split**
   `LieAlgebra.g₂ K` via `octonionSerreLift_injective`, the injectivity of the
   actual native `TauCeti.Octonion.g₂ToDerivationLieAlgebra`, together with
   `TauCeti.Octonion.g₂ToDerivationLieAlgebra_surjective` from
@@ -1829,15 +1878,19 @@ the stated scalar extension; “formally real” is never asserted over algebrai
   by an explicit product-preserving linear equivalence, using the octonion comparison;
   preserve trace and hence its kernel. Transport the supplied Jordan identity
   through this comparison; the representation comparison is a target, while
-  the dimensions 27 and 26 are inputs. Its derivation
-  algebra is a 52-dimensional Killing-simple split algebra with fundamental 26-dimensional
-  trace-zero representation. Construct its split Cartan and concrete root-matrix
+  the dimensions 27 and 26 are inputs. The dimension 52 of its derivation
+  algebra, the trace-zero Lie submodule of dimension 26 and the faithfulness of the action
+  on it are native (From Tau Ceti) and are consumed. The targets are: the derivation
+  algebra is Killing-simple; it has a split Cartan subalgebra with root data of type `F₄`;
+  the trace-zero module is irreducible, hence its fundamental 26-dimensional
+  representation. Construct the split Cartan and concrete root-matrix
   comparison before the identification `nonempty_derivationAlbert_equiv_f4` with `LieAlgebra.f₄ K`.
   The dimension 52 and absolute type are Schafer, 1961 notes, Chapter IV,
   p. 41 (SchaferNonassociative line 1461); splitness is established by the
   concrete Cartan/generator construction here, not inferred from dimension.
   Baez §4.2, Theorem 5, p. 41 is the distinct compact real-form statement.
-  The trace-zero module has dimension 27−1=26 by the native trace splitting;
+  The trace-zero module has dimension 27−1=26 by the native
+  `TauCeti.AlbertAlgebra.finrank_traceZeroLieSubmodule`;
   its irreducibility is a model-specific target using the split root action.
   Use the native cyclic determinant and cubic/trace identities from the
   supplier contract. The extra comparison preserves this actual determinant
@@ -2144,7 +2197,7 @@ classification is used.
   and the roadmap keeps them apart rather than conflating them:
     - **The Vinberg `ℤ/3`-model of split `E₈`.** `𝔢₈ = 𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*` of dimension
       `248 = 80 + 84 + 84` (consume `LieAlgebra.SpecialLinear.sl (Fin 9) K`, `exteriorPower`,
-      `⋀[K]^3 (Fin 9 → K)`), a `ℤ/3`-graded Lie algebra whose bracket pairs the exterior summands into
+      `⋀[K]^3 (Fin 9 → K)` and the native count `TauCeti.finrank_prod_sl_exteriorPower_dual`), a `ℤ/3`-graded Lie algebra whose bracket pairs the exterior summands into
       `𝔰𝔩₉`. This is one concrete construction of split `E₈`; it is **not** the Freudenthal-Tits magic
       square built from a pair of composition algebras. The complex graded decomposition
       is Garibaldi, *E₈, the most exceptional group*, arXiv:1605.01721v1, §4,
@@ -2320,6 +2373,10 @@ system). It is independent of Layer 8.
   bijection of `TauCeti/Combinatorics/Young/LittlewoodRichardson/Yamanouchi.lean`, and count
   morphisms by Schur's lemma. For general dominant integer weights the statement follows by a
   determinant twist, which shifts all three weights and leaves the count unchanged.
+  The symmetric-function rule in n variables is Stembridge, *A concise proof of the
+  Littlewood–Richardson rule*, second Corollary, p. 3, at empty inner shape
+  (Stembridge2002LR line 109); the multiplicity statement for the Lie modules is a derived
+  statement, with no source claim, obtained from it through the native contracts above.
 
 **Checks.**
 
@@ -2707,14 +2764,22 @@ In type A₁ with the coordinate α(x), the closed alcove is [0,1], `P∨/Q∨` 
   the adjoint `V(ω₁+ω₂)` by Freudenthal's recursion (a check on the Kostant computation in the `sl₃`
   worked example above) and the multiplicities of `V(2ω₁+2ω₂)`.
 - **`G₂ = Der(𝕆)` and its `7`.** On the native split octonions verify the alternative identities and the
-  multiplicative norm, use the native derivation carrier, and check `finrank K (Der 𝕆) = 14`, that it is Killing-simple of
-  type `G₂` (Cartan matrix reindexes to `CartanMatrix.G₂`), that `Im 𝕆` is its `7`-dimensional
-  irreducible `V(ω₁)`, and `Der(𝕆) ≃ₗ⁅K⁆ LieAlgebra.g₂ K`. The Weyl dimension formula on `G₂` returns
+  multiplicative norm and use the native derivation carrier. The dimension
+  `finrank K (Der 𝕆) = 14` is `TauCeti.Octonion.finrank_derivationLieAlgebra`; simplicity and
+  the nondegenerate Killing form are `TauCeti.Octonion.isSimple_derivationLieAlgebra` and
+  `TauCeti.Octonion.instIsKillingDerivationLieAlgebra`; the type is read from
+  `TauCeti.Octonion.lieBasis`, whose Cartan matrix `CartanMatrix.G₂ᵀ = !![2, -1; -3, 2]` is
+  `CartanMatrix.G₂` with its two indices exchanged; irreducibility of the `7`-dimensional
+  `Im 𝕆` is `TauCeti.Octonion.isIrreducible_imaginaryLieSubmodule`. What remains to check
+  is that `Im 𝕆` is `V(ω₁)` and that `Der(𝕆) ≃ₗ⁅K⁆ LieAlgebra.g₂ K`. The Weyl dimension formula on `G₂` returns
   `7` and `14` for the two fundamental weights.
 - **`F₄ = Der(H₃(𝕆))` and `E₈`.** Use the native split Albert product, dimension 27, Jordan
-  identity and derivation carrier; check `finrank = 52`, type `F₄`, the `26`-dimensional representation
-  `J₀`, and `≃ₗ⁅K⁆ LieAlgebra.f₄ K`. For `E₈`, check `finrank (𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*) = 248 =
-  80 + 84 + 84`, Killing-simplicity of type `E₈`, and `≃ₗ⁅K⁆ LieAlgebra.e₈ K`; the Weyl dimension
+  identity and derivation carrier. The dimension 52 is
+  `TauCeti.AlbertAlgebra.finrank_derivationLieAlgebra` and the `26`-dimensional faithful module
+  `J₀` is `TauCeti.AlbertAlgebra.traceZeroLieSubmodule`; check type `F₄`, irreducibility of `J₀`
+  and `≃ₗ⁅K⁆ LieAlgebra.f₄ K`. For `E₈`, the count `finrank (𝔰𝔩₉ ⊕ ⋀³(K⁹) ⊕ ⋀³(K⁹)^*) = 248 =
+  80 + 84 + 84` is `TauCeti.finrank_prod_sl_exteriorPower_dual`; check Killing-simplicity of
+  type `E₈` and `≃ₗ⁅K⁆ LieAlgebra.e₈ K`; the Weyl dimension
   formula at the adjoint highest weight returns `248`.
 - **Isotypic components against characters (the toolkit check).** For `L = sl (Fin 2) K` and
   `M = (V(1) ⊗ V(1)) ⊕ V(0)`: the isotypic multiplicities are `1, 0, 2` at the weights `2, 1, 0`,
@@ -2752,8 +2817,8 @@ In type A₁ with the coordinate α(x), the closed alcove is [0,1], `P∨/Q∨` 
 
 ## Downstream consumers
 
-AdoIwasawa consumes arbitrary-field ordered PBW directly from Tau Ceti and the
-additional central-monic finiteness comparison in Layer 3. CharacteristicClasses C5 consumes the native
+AdoIwasawa consumes arbitrary-field ordered PBW and central finiteness of the
+enveloping algebra directly from Tau Ceti; nothing of Layer 3 is exported to it. CharacteristicClasses C5 consumes the native
 Lie–Chevalley restriction `TauCeti.lieCartanRestriction` and native Killing-duality
 comparison. The split
 exceptional identifications in Layer 8 use the split Serre presentation in
@@ -2803,6 +2868,10 @@ Layer 10 consumes the native affine and extended affine Weyl groups, the fundame
   Theorem 10.1 and Remark 10.2, pp. 51–52; Theorem 13.5, p. 69;
   Theorem 14.1, pp. 70–71. The Chevalley/HC source is over ℂ; the algebraic
   characteristic-zero extension requires the polynomial arguments stated in Layer 7.
+- J. R. Stembridge, *A concise proof of the Littlewood–Richardson rule*,
+  Electron. J. Combin. 9 (2002), Note 5, second Corollary, p. 3: the product of a Schur
+  function with a skew Schur function in n variables as a sum over tableaux, whose
+  specialization at empty inner shape is the Littlewood–Richardson rule of Layer 9.
 - S. Gutt, *Deformation Quantization and Symmetries*, Lectures 1–2 (2019),
   Lecture 1, slide 14: PBW symmetrization and the positive linear Poisson convention.
 - J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972),

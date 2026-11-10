@@ -11,7 +11,6 @@ public import TauCeti.Algebra.AlbertAlgebra.Basic
 public import TauCeti.LinearAlgebra.SymmetricPower.Basic
 public import TauCeti.Algebra.Lie.UniversalEnveloping.Prod
 public import TauCeti.Algebra.Lie.UniversalEnveloping.Abelian
-public import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Finite
 public import TauCeti.Algebra.Lie.UniversalEnveloping.Rees.ZeroFiber
 public import TauCeti.Algebra.CayleyDickson.Quaternion
 public import TauCeti.Algebra.Lie.GeneralLinear.Carrier
@@ -24,13 +23,12 @@ public import TauCeti.LinearAlgebra.RootSystem.Weyl.Affine.Alcove
 
 The roadmap is README.md; this file is not the roadmap. It states the headline
 theorems against the pinned APIs: the normalized polynomial/symmetric-power comparison, the
-central-monic finiteness adapter, the first-order bracket on the zero fibre of the PBW Rees
+first-order bracket on the zero fibre of the PBW Rees
 algebra, normalized PBW symmetrization, the invariant-form symmetry sign, the split Serre
 presentation, the exceptional split identifications G2, F4, E8 and E6/E7, the compact real
 form of G2 on the division octonions and its complexification, the Littlewood-Richardson
 multiplicities of the general linear Lie algebra, the normalized center of an abelian direct
 product, and uniqueness of closed-alcove representatives under the affine Weyl group.
-The central-monic finiteness adapter retains its arbitrary-field coefficient subalgebra.
 The native highest-weight classification, Weyl formulas, complete reducibility, rank-one
 spectrum and dimensions, general-linear classification, the minuscule and dual-standard
 Pieri rules, the Lie and Weyl invariants with the Killing-orthogonal restriction and
@@ -81,19 +79,6 @@ theorem exists_polynomialSymmetric (d : ℕ) :
         MvPolynomial.X 0 ^ (d - i.val) * MvPolynomial.X 1 ^ i.val := sorry
 
 /-! ## Layer 3: normalized PBW symmetrization -/
-
-/-- Central monic relations on a finite ordered Lie basis make the enveloping algebra
-finite over that same central coefficient subalgebra, over an arbitrary field. -/
-theorem module_finite_of_central_monic_relations (K : Type u) [Field K]
-    (L : Type v) [LieRing L] [LieAlgebra K L]
-    {κ : Type v} [Fintype κ] [LinearOrder κ] (b : Basis κ K L)
-    (R : Subalgebra K (UniversalEnvelopingAlgebra K L))
-    (hR : R ≤ Subalgebra.center K (UniversalEnvelopingAlgebra K L))
-    (hmonic : ∀ i : κ, ∃ (d : ℕ) (c : Fin d → R), 0 < d ∧
-      (UniversalEnvelopingAlgebra.ι K (b i)) ^ d +
-        ∑ j : Fin d, (c j : UniversalEnvelopingAlgebra K L) *
-          (UniversalEnvelopingAlgebra.ι K (b i)) ^ (j : ℕ) = 0) :
-    Module.Finite R (UniversalEnvelopingAlgebra K L) := sorry
 
 /-- On the zero fibre of the PBW Rees algebra of a free Lie algebra over a commutative ring,
 the commutator divided by the central parameter is a well-defined bilinear bracket on the
