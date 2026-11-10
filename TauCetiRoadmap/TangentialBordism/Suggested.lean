@@ -14,8 +14,10 @@ public import TauCeti.Geometry.Manifold.RegularValue
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
 Mathlib and Tau Ceti, relative smoothing of continuous maps from manifolds with corners into
-compact boundaryless manifolds and Sard's theorem in unequal dimensions for sources without
-boundary or on the Euclidean half-space (Layer 2, B1.6; Lee, Theorem 6.10), smooth oriented
+compact boundaryless manifolds and Sard's theorem in unequal dimensions for sources on the
+Euclidean half-space (Layer 2, B1.6; Lee, Theorem 6.10), extending to those sources the Sard
+theorem in all dimensions for boundaryless sources, which is DifferentialGeometry 10.2's and is
+not restated in this file; smooth oriented
 three-manifold parallelization (Layer 8, B3.1) and the zero entries of the low unoriented and
 oriented coefficient tables (Layer 8, B3.1): `ΩO_n = 0` for `n = 1, 3` and `ΩSO_n = 0` for
 `1 ≤ n ≤ 3`, each stated as "every closed (oriented) smooth `n`-manifold is the (oriented)
@@ -98,30 +100,14 @@ theorem exists_contMDiff_homotopicRel
       ∃ F : f.HomotopyRel g C, ∀ t x, (F (t, x), f x) ∈ D := by
   sorry
 
-/-- Sard's theorem in unequal dimensions for sources without boundary (B1.6; Lee, Theorem 6.10,
-p.129): for a smooth map from a Lindelöf manifold without boundary, over any finite-dimensional
-real model with corners, to a manifold over any finite-dimensional real model with corners, the
-image of the points where the manifold derivative is not surjective is null in every extended
-chart of the target. No relation between the two dimensions is assumed; the pinned
-`TauCeti.isNullSet_image_criticalPoints` requires them equal. -/
-theorem isNullSet_image_criticalPoints_of_boundaryless
-    {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-    [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
-    [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M] [BoundarylessManifold I M]
-    [LindelofSpace M]
-    {E' H' N : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
-    [MeasurableSpace E'] [BorelSpace E'] [TopologicalSpace H'] (J : ModelWithCorners ℝ E' H')
-    [TopologicalSpace N] [ChartedSpace H' N] [IsManifold J ∞ N]
-    {f : M → N} (hf : ContMDiff I J ∞ f) :
-    TauCeti.IsNullSet J (f '' {x | ¬ TauCeti.IsRegularPoint I J f x}) := by
-  sorry
-
 /-- Sard's theorem in unequal dimensions for sources with boundary (B1.6; Lee, Theorem 6.10,
 p.129): for a smooth map from a Lindelöf manifold modelled on the Euclidean half-space of
 dimension `n ≥ 1` to a manifold over any finite-dimensional real model with corners, the image
 of the points where the manifold derivative is not surjective, boundary points included, is
 null in every extended chart of the target. The route splits the source into its interior and
-the boundary manifold of `TauCeti.boundaryChartedSpace`. -/
+the boundary manifold of `TauCeti.boundaryChartedSpace`, both boundaryless, where
+DifferentialGeometry 10.2's Sard theorem in all dimensions applies; that theorem's chart route
+does not reach boundary points, since the flat Morse–Sard theorem asks for `ContDiffAt`. -/
 theorem isNullSet_image_criticalPoints_halfSpace
     {n : ℕ} [NeZero n] {M : Type*} [TopologicalSpace M]
     [ChartedSpace (EuclideanHalfSpace n) M] [IsManifold (𝓡∂ n) ∞ M] [LindelofSpace M]
