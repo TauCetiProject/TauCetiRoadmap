@@ -980,13 +980,13 @@ back-and-forth relation does not discharge its target.
 ## Provenance
 
 A Lean formalization of most of this material exists in
-[`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic) at checkpoint
+[`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic) at commit
 [`518a366`](https://github.com/cameronfreer/infinitary-logic/tree/518a366cba97b1ae8c4dc64a297a396939bc3e0b)
 (Apache-2.0, sorry-free, axioms `propext`, `Classical.choice`, `Quot.sound`). It is Cameron Freer's
 repository; credit `cameronfreer/infinitary-logic` in ported files. The map below says where to
 look, not what is correct; the targets above differ from it where noted.
 
-Paths are relative to `InfinitaryLogic/` at that checkpoint.
+Paths are relative to `InfinitaryLogic/` at that commit.
 
 | Layer | Source | Differences from the target |
 | --- | --- | --- |
@@ -1053,4 +1053,4 @@ here.
   compiled on 22 April 2025. Lemma XII.8 (p. 220) assumes only that `Θ` is minimally unbounded,
   but its proof (p. 221) uses that the models of `Θ` have countably many `≡_β`-classes; the
   targets here assume back-and-forth scatteredness.
-* `cameronfreer/infinitary-logic`, Lean 4 formalization, checkpoint `518a366`.
+* `cameronfreer/infinitary-logic`, Lean 4 formalization, commit `518a366`.
