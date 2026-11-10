@@ -211,7 +211,7 @@ proves the corresponding statements by its theorems. Files are under `TauCeti/Mo
   `bfEquivSetoidOn_anti`, `isoSetoidOn_le_bfEquivSetoidOn`, `mk_quotient_bfEquivSetoidOn_le` and
   `measurableSet_setOf_bfEquivSetoidOn`; `RelationalConfiguration.scottSentenceAtLevel` with
   `modelsOf_scottSentenceAtLevel`; `IsIsolatingRank` with `IsIsolatingRank.isolates_of_le`,
-  `IsIsolatingRank.of_le`, `IsIsolatingRank.exists_unbounded_of_not_countable` and
+  `TauCeti.IsIsolatingRank.of_le`, `TauCeti.IsIsolatingRank.exists_unbounded_of_not_countable` and
   `exists_rank_bound_of_countable_isoClasses` (the target `exists_bound_of_countable`, for any
   invariant map below `ω₁`); `isIsolatingRank_scottHeight` and `exists_isIsolatingRank`, which need
   no countability of `L`; `mk_isoClasses_le_aleph_one_of_countable_levels`, also without
@@ -222,10 +222,11 @@ proves the corresponding statements by its theorems. Files are under `TauCeti/Mo
   `BFSmall.mk_isoClasses_le_aleph_one`. `BFSmall` and `bfTupleSetoid` are indexed by a family of
   structures rather than by `(φ, C)`; on codes they apply to the structures decoded from `C`.
 * **Layer 4a–4b** (`Counting/Scattered/Basic.lean`): `BFScattered` with `BFScattered.mono` and
-  `bfScattered_of_observation` (the observation adapter),
-  `IsIsolatingRank.countable_isoClasses_iff_bounded`, `IsIsolatingRank.mk_isoClasses_eq_aleph_one`,
-  `IsIsolatingRank.exists_rank_bound_iff` and
-  `IsIsolatingRank.exists_comap_isoSetoid_eq_bfEquivSetoid` (the code form of the isolating level).
+  `TauCeti.bfScattered_of_observation` (the observation adapter),
+  `IsIsolatingRank.countable_isoClasses_iff_bounded`, `IsIsolatingRank.mk_isoClasses_eq_aleph_one`
+  and `TauCeti.IsIsolatingRank.exists_rank_bound_iff`; and, in `Counting/Stratification.lean`,
+  `TauCeti.IsIsolatingRank.exists_comap_isoSetoid_eq_bfEquivSetoid` (the code form of the
+  isolating level).
 * **Layer 5**: the limit model `RelationalConfiguration.exists_limit_of_bfEquiv_chain`
   (`RelationalConfiguration/BackAndForth.lean`, levels in any ordinal universe).
 
