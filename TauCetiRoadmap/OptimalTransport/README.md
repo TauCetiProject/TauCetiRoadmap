@@ -621,6 +621,13 @@ these declarations on its `*Needs:*` line (for a range of subsections, the first
 * Layer 1.  `TauCeti.transportCostBddBelow` and `TauCeti.transportCostBddBelow_coe_eq_transportCost`
   (`…/OptimalTransport/Cost/BoundedBelow.lean`): the signed value for a cost bounded below by
   integrable marginal terms, and its agreement with the nonnegative interface (Layer 1.1).
+  `TauCeti.lowerSemicontinuous_lintegral_probabilityMeasure` and
+  `TauCeti.le_liminf_lintegral_of_tendsto_probabilityMeasure`
+  (`TauCeti/MeasureTheory/Measure/LowerSemicontinuousLintegral.lean`) and
+  `TauCeti.lowerSemicontinuous_planCostBddBelow` (`…/OptimalTransport/Cost/BoundedBelow.lean`):
+  weak lower semicontinuity of the integral of a nonnegative lower semicontinuous integrand on a
+  pseudometric space with measurable open sets, with its `liminf` form, and of the signed cost of
+  a lower semicontinuous cost whose split lower bound is upper semicontinuous (Layer 1.4).
   `TauCeti.tendsto_transportCost`, `TauCeti.exists_isOptimalCoupling_tendsto` and
   `TauCeti.lowerSemicontinuous_transportCost` (`…/OptimalTransport/Stability.lean`): convergence of
   values and subsequential convergence of optimal plans under the liminf and recovery hypotheses,
@@ -751,6 +758,49 @@ these declarations on its `*Needs:*` line (for a range of subsections, the first
   `TauCeti.MetricMeasureSpace`
   (`…/OptimalTransport/MetricMeasure/Basic.lean`): the measured-metric carrier (Layers 3.9 and
   14.1).
+* Layers 5--6, convex analysis and the Aleksandrov theory.
+  `TauCeti.fenchelConjugate_flip_fenchelConjugate_eq_iff`
+  (`TauCeti/Analysis/Convex/FenchelMoreau.lean`): the Fenchel--Moreau theorem with its converse on
+  a locally convex space (Layer 5.1).  `TauCeti.convexOn_toReal`
+  (`TauCeti/Analysis/Convex/EffectiveDomain.lean`),
+  `ConvexOn.ae_differentiableAt_of_mem_interior` (`TauCeti/Analysis/Calculus/Rademacher.lean`)
+  and `ConvexOn.ae_existsUnique_isPositive_isLittleO` (`TauCeti/Analysis/Convex/Alexandrov.lean`):
+  the real representative of an extended-real convex function, almost everywhere
+  differentiability of a convex function in the interior of its domain, and Alexandrov's
+  theorem with uniqueness of the positive second-order term (Layers 5.2 and 6.2).
+  `TauCeti.isLocallyFiniteMeasure_comap_mongeAmpereMeasure` and
+  `TauCeti.mongeAmpereMeasure_ite_eq_withDensity_det`
+  (`TauCeti/Analysis/Convex/MongeAmpere/Basic.lean`) and `TauCeti.mongeAmpereMeasure_mul_norm_sub`
+  (`TauCeti/Analysis/Convex/MongeAmpere/Cone.lean`): local finiteness, the formula
+  `det(D²u) dx` for a twice differentiable convex function, and the point mass of a cone (Layer
+  6.1).  `TauCeti.mongeAmpereMeasure_mul_norm_sub_ne_withDensity_det` (the same `Cone.lean`),
+  `TauCeti.mongeAmpereMeasure_le_liminf`, `TauCeti.limsup_mongeAmpereMeasure_le` and
+  `TauCeti.tendsto_mongeAmpereMeasure` (`TauCeti/Analysis/Convex/MongeAmpere/Convergence.lean`),
+  `TauCeti.mongeAmpereMeasure_le_of_le_of_le_frontier`,
+  `TauCeti.le_of_mongeAmpereMeasure_le_of_le_frontier` and
+  `TauCeti.eqOn_of_mongeAmpereMeasure_eq_of_eqOn_frontier`
+  (`TauCeti/Analysis/Convex/MongeAmpere/Comparison.lean`) and
+  `TauCeti.ofReal_neg_pow_mul_addHaar_ball_le_mul_mongeAmpereMeasure` (the same `Basic.lean`):
+  singular mass, weak convergence under locally uniform convergence, the comparison principle
+  with Dirichlet uniqueness, and the Aleksandrov maximum principle (Layer 6.2).
+  `TauCeti.IsMongeAmpereViscositySolution`,
+  `TauCeti.isMongeAmpereViscositySolution_of_mongeAmpereMeasure_eq` and
+  `TauCeti.isMongeAmpereViscositySolution_iff_forall_det_eq`
+  (`TauCeti/Analysis/Convex/MongeAmpere/Viscosity.lean`), and
+  `TauCeti.mongeAmpereMeasure_eq_singularPart_add_withDensity` and
+  `TauCeti.ae_eq_indicator_ofReal_det_of_mongeAmpereMeasure_eq_withDensity`
+  (`TauCeti/Analysis/Convex/MongeAmpere/Decomposition.lean`): viscosity solutions, the bridges
+  from Aleksandrov and from classical solutions, and the Lebesgue decomposition of the
+  Aleksandrov measure with its almost everywhere consequence (Layer 6.3).
+  `TauCeti.convexSection` (`TauCeti/Analysis/Convex/Section/Basic.lean`),
+  `TauCeti.exists_ofReal_pow_le_mul_measure_convexSection_mul_mongeAmpereMeasure` and
+  `TauCeti.exists_mul_measure_convexSection_sq_le_mul_ofReal_pow`
+  (`TauCeti/Analysis/Convex/MongeAmpere/Section.lean`),
+  `TauCeti.exists_convexSection_subset_convexSection`
+  (`TauCeti/Analysis/Convex/MongeAmpere/Engulfing.lean`) and
+  `TauCeti.exists_countable_pairwiseDisjoint_convexSection_measure_le`
+  (`TauCeti/Analysis/Convex/MongeAmpere/Vitali.lean`): sections, their two volume estimates,
+  engulfing, and the Vitali covering lemma for sections (Layer 6.8).
 * Layers 4--6.  `ProbabilityTheory.HasLaw.measure_singleton_le` and
   `ProbabilityTheory.HasLaw.exists_measure_atom_le_measure_singleton`
   (`TauCeti/Probability/HasLaw.lean`), `AEMeasurable.exists_map_restrict_eq_smul_dirac_of_atom`
@@ -850,14 +900,24 @@ these declarations on its `*Needs:*` line (for a range of subsections, the first
   (`TauCeti/Analysis/GradientFlow/MoreauYosida/Existence.lean`), `TauCeti.deGiorgiInterpolant`
   (`TauCeti/Analysis/GradientFlow/DeGiorgiInterpolation.lean`),
   `TauCeti.IsGeneralizedMinimizingMovement` and `TauCeti.exists_isGeneralizedMinimizingMovement`
-  (`TauCeti/Analysis/GradientFlow/MinimizingMovement.lean`) and
+  (`TauCeti/Analysis/GradientFlow/MinimizingMovement.lean`),
+  `TauCeti.hasDerivAt_toReal_moreauYosida`
+  (`TauCeti/Analysis/GradientFlow/MoreauYosida/Derivative.lean`),
+  `TauCeti.isCurveOfMaximalSlope_of_forall_mem_moreauYosidaResolvent`
+  (`TauCeti/Analysis/GradientFlow/MaximalSlope/MinimizingMovement.lean`),
+  `TauCeti.IsEVISolution.isCurveOfMaximalSlope`
+  (`TauCeti/Analysis/GradientFlow/EVI/MaximalSlope.lean`),
+  `TauCeti.isCurveOfMaximalSlope_of_tendsto`
+  (`TauCeti/Analysis/GradientFlow/MaximalSlope/Convergence.lean`) and
   `TauCeti.TendstoGamma.mem_moreauYosidaResolvent_of_tendsto`
   (`TauCeti/Analysis/GradientFlow/MoreauYosida/GammaConvergence.lean`): slopes and strong upper
   gradients; curves of maximal slope with their energy identity; `EVI_λ` solutions with
   `λ`-contraction, uniqueness and the semiflow they generate; the Moreau--Yosida approximation and
   resolvent, nonempty for a lower semicontinuous coercive energy on a proper metric space; De
-  Giorgi's interpolant; generalized minimizing movements and their existence; and stability of
-  resolvent steps under Γ-convergence (Layers 10.1--10.6).
+  Giorgi's interpolant; generalized minimizing movements and their existence; the derivative of
+  the Moreau--Yosida approximation in the step; limits of minimizing movements and `EVI_λ`
+  solutions as curves of maximal slope; the Sandier--Serfaty limit of curves of maximal slope on
+  a fixed carrier; and stability of resolvent steps under Γ-convergence (Layers 10.1--10.6).
 * Layer 11.  `TauCeti.boltzmannEntropy` and `TauCeti.klDiv_eq_boltzmannEntropy_add_sub`
   (`…/OptimalTransport/Wasserstein/InternalEnergy/Basic.lean`) and
   `TauCeti.WassersteinSpace.lowerSemicontinuous_boltzmannEntropy`
@@ -888,12 +948,31 @@ these declarations on its `*Needs:*` line (for a range of subsections, the first
   sequences for a narrowly lower semicontinuous coercive energy whose bounded sequences of
   bounded energy are tight, in particular on a proper space, and the variational inequality and
   Euler--Lagrange equation of the step (Layer 11.6).
-* Layer 12.  `TauCeti.WassersteinSpace.isFrechetBarycenter_sum_smul_dirac_iff_isMinOn`
+* Layer 12.  `TauCeti.frechetRadius`, `TauCeti.frechetPower`,
+  `TauCeti.frechetRadius_rpow_eq_frechetPower`,
+  `TauCeti.isFrechetBarycenter_iff_forall_frechetPower_le`, `TauCeti.chebyshevRadius` and
+  `TauCeti.IsChebyshevCenter` (`TauCeti/MeasureTheory/Measure/FrechetMean/Basic.lean`) and
+  `TauCeti.frechetRadius_top_eq_iSup_support`
+  (`TauCeti/MeasureTheory/Measure/FrechetMean/Support.lean`): the Fréchet radius and power
+  functional of a measure on a pseudo-extended-metric space, their value relation and common
+  finite minimizers for `0 < p < ∞`, the Chebyshev radius and centers, and the support formula
+  at `p = ∞` on a hereditarily Lindelöf space (Layer 12.1).
+  `TauCeti.lipschitzWith_one_toReal_frechetRadius`, `TauCeti.isCompact_frechetRadius_sublevel`,
+  `TauCeti.exists_isFrechetBarycenter` and `TauCeti.isCompact_frechetBarycenters` (the same
+  `Basic.lean`), `TauCeti.IsCATZeroSpace` (`TauCeti/Topology/MetricSpace/CATZero.lean`) and
+  `TauCeti.subsingleton_frechetBarycenters_two`
+  (`TauCeti/MeasureTheory/Measure/FrechetMean/CATZero.lean`): for a probability law of finite
+  radius somewhere, the `1`-Lipschitz radius and, on a proper space, compact sublevels, existence
+  and compactness of the barycenters; CAT(0) spaces and uniqueness of their quadratic
+  barycenters (Layer 12.2).  `TauCeti.exists_measurable_isFrechetBarycenter_sum_smul_dirac`
+  (`TauCeti/MeasureTheory/Measure/FrechetMean/Selection.lean`): the Borel barycenter application
+  on a proper metric space (Layer 12.3).
+  `TauCeti.WassersteinSpace.isFrechetBarycenter_sum_smul_dirac_iff_isMinOn`
   (`…/OptimalTransport/Wasserstein/FrechetMean.lean`) and
   `TauCeti.WassersteinSpace.exists_isFrechetBarycenter_sum_smul_dirac`
   (`…/OptimalTransport/MultiMarginal/Barycenter.lean`): on a Polish space the barycenters of
   `∑ w_j δ_{μ_j}` are the minimizers of the weighted `p`-cost, and they exist on a proper space
-  (Layers 12.1 and 12.3).  `TauCeti.exists_isMultiCoupling_isMinOn_lintegral`
+  (Layer 12.3).  `TauCeti.exists_isMultiCoupling_isMinOn_lintegral`
   (`…/OptimalTransport/MultiMarginal/Existence.lean`), and
   `TauCeti.iInf_sum_mul_wassersteinEDist_rpow_eq`, `TauCeti.iInf_sum_mul_wassersteinEDist_sq_eq` and
   `TauCeti.isFrechetBarycenter_two_iff_exists_isMinOn_lintegral_map_eq`
@@ -1301,11 +1380,36 @@ Ceti `TauCeti.isCompact_setOfPred_isCoupling` and
 
 In the weak/Borel regime of item 2, prove lower semicontinuity of
 `π ↦ ∫⁻ c dπ` for nonnegative lower-semicontinuous `c`, first for bounded truncations
-and then by monotone convergence.  Include a reusable theorem for costs bounded below
-by integrable marginal terms.
+and then by monotone convergence: this is the semicontinuity half of the direct method in
+Ambrosio--Gigli, *A user's guide to optimal transport*, Theorem 1.5, pp. 5--6.  On a pseudometric
+space `Ω` whose open sets are measurable and for lower semicontinuous `f : Ω → [0,∞]`, Tau Ceti's
+`TauCeti.lowerSemicontinuous_lintegral_probabilityMeasure` is lower semicontinuity of
+`μ ↦ ∫⁻ f dμ` on probability measures with the topology of weak convergence, and
+`TauCeti.le_liminf_lintegral_of_tendsto_probabilityMeasure` is its `liminf` form along an
+arbitrary filter; applied on `X × Y` they give the statement for plans.  Include a reusable
+theorem for costs bounded below by integrable marginal terms: for pseudometric `X` and `Y` with
+measurable open sets in `X × Y`, a lower semicontinuous `c : X × Y → [-∞,∞]` and a lower bound
+`a(x) + b(y) ≤ c(x,y)` with `a` and `b` real-valued, integrable against the marginals and upper
+semicontinuous, `TauCeti.lowerSemicontinuous_planCostBddBelow` is lower semicontinuity of the
+signed cost of item 1 on the couplings of the two marginals.  Upper semicontinuity of `a` and `b`
+is what makes the residual `c - a - b` lower semicontinuous.
 
 *Needs:* item 2; Mathlib `MeasureTheory.lintegral` with monotone convergence and the Portmanteau
-theorem.
+theorem; Tau Ceti `TauCeti.lowerSemicontinuous_lintegral_probabilityMeasure`,
+`TauCeti.le_liminf_lintegral_of_tendsto_probabilityMeasure` and
+`TauCeti.lowerSemicontinuous_planCostBddBelow`.
+
+**Checks.**
+
+* For `π_n = δ_{(1/n,1/n)} → δ_{(0,0)}` on `ℝ²` and the lower semicontinuous cost equal to `0` at
+  the origin and `1` elsewhere, `∫ c dπ_n = 1` for every `n` and the limit plan has cost `0`:
+  the inequality `0 ≤ liminf 1` is strict, so the functional is not continuous.
+* For the cost equal to `1` at the origin and `0` elsewhere, which is upper and not lower
+  semicontinuous, the same sequence has costs `0` and limit cost `1`: lower semicontinuity of
+  `c` cannot be dropped.
+* For `c(x,y) = -x` on `ℝ × ℝ` with the split `a(x) = -x`, `b = 0` and a first marginal of finite
+  first moment, the residual is `0` and the signed cost of every coupling is `-∫ x dμ`, a
+  constant.
 
 ### 1.5 Primal attainment
 
@@ -2030,12 +2134,17 @@ On a separated real dual pair `(E,F,⟪·,·⟫)`, build proper `EReal`-valued c
 functions, Legendre--Fenchel conjugates, Fenchel--Young, subgradients,
 conjugate-subgradient reciprocity, and the algebraic Rockafellar theorem for cyclically
 monotone sets.  Under compatible Hausdorff locally convex topologies, prove the
-lower-semicontinuous Fenchel--Moreau theorem.  Consume Mathlib's `SeparatingDual` and
+lower-semicontinuous Fenchel--Moreau theorem.  Tau Ceti's
+`TauCeti.fenchelConjugate_flip_fenchelConjugate_eq_iff` is that theorem with its converse: on a
+locally convex real topological vector space `E` and for a pairing that represents every
+continuous linear functional on `E` and is continuous in its first variable, `f : E → [-∞,∞]`
+equals its biconjugate exactly when its real epigraph is convex, it is lower semicontinuous, and
+it either never takes the value `-∞` or is identically `-∞`.  Consume Mathlib's `SeparatingDual` and
 `LocallyConvexSpace` vocabulary where applicable, and state the general-purpose additions
 at the generality that vocabulary supports.
 
 *Needs:* Mathlib `SeparatingDual`, `LocallyConvexSpace` and `EReal`; Tau Ceti
-`TauCeti.fenchelConjugate`.
+`TauCeti.fenchelConjugate` and `TauCeti.fenchelConjugate_flip_fenchelConjugate_eq_iff`.
 
 **Checks.**
 
@@ -2058,13 +2167,23 @@ intended source measure.  Then consume `ConvexOn.locallyLipschitzOn_interior`,
 `LocallyLipschitzOn.exists_lipschitzOnWith_of_compact`, and
 `LipschitzOnWith.ae_differentiableWithinAt` to obtain Rademacher differentiability via
 a countable compact exhaustion.  Build an intrinsic-interior variant only where
-lower-dimensional domains are genuinely claimed.  Alexandrov twice differentiability
-and positivity of the distributional Hessian remain new prerequisites for both maps
-and Monge--Ampère regularity.
+lower-dimensional domains are genuinely claimed.  Three of these steps are Tau Ceti
+declarations.  `TauCeti.convexOn_toReal` is the bridge: for `f` with values in `[-∞,∞]`, convex
+real epigraph and no value `-∞`, the real representative `x ↦ (f x).toReal` is `ConvexOn ℝ` on
+the effective domain `{f ≠ ∞}`.  `ConvexOn.ae_differentiableAt_of_mem_interior` is the Rademacher
+step: a real convex function on a set of a finite-dimensional real normed space is
+differentiable at almost every interior point of the set, for every additive Haar measure.
+Alexandrov's twice-differentiability theorem is `ConvexOn.ae_existsUnique_isPositive_isLittleO`:
+for `u` convex on a set `Ω` of a finite-dimensional real inner product space and an additive Haar
+measure, at almost every `x ∈ Ω` the function is differentiable and has the expansion
+`u(x') = u(x) + ⟨∇u(x), x'-x⟩ + ⟨A(x'-x), x'-x⟩/2 + o(‖x'-x‖²)` with a positive operator `A`,
+the only positive operator giving it.  Positivity of the distributional Hessian remains a target
+here, for both maps and Monge--Ampère regularity.
 
 *Needs:* item 1; Mathlib `affineSpan`, `intrinsicInterior`,
 `ConvexOn.locallyLipschitzOn_interior`, `LocallyLipschitzOn.exists_lipschitzOnWith_of_compact` and
-`LipschitzOnWith.ae_differentiableWithinAt`.
+`LipschitzOnWith.ae_differentiableWithinAt`; Tau Ceti `TauCeti.convexOn_toReal`,
+`ConvexOn.ae_differentiableAt_of_mem_interior` and `ConvexOn.ae_existsUnique_isPositive_isLittleO`.
 
 **Checks.**
 
@@ -2275,9 +2394,20 @@ This is a full regularity layer, not a one-line determinant corollary of Brenier
 For an open convex `Ω ⊆ ℝⁿ` and finite convex `u : Ω → ℝ`, define the
 subgradient image and Aleksandrov measure `MA_u(E)=Lebesgue(∂u(E))`.  Prove that this
 is a locally finite Borel measure.  For `u ∈ C²(Ω)`, prove
-`MA_u = det(D²u) dx`.
+`MA_u = det(D²u) dx`.  Tau Ceti's `TauCeti.mongeAmpereMeasure μ f` is this measure for a
+function `f` with values in `[-∞,∞]`, convex real epigraph and no value `-∞`, weighted by a
+measure `μ` absolutely continuous with respect to an additive Haar measure; a convex `u` on an
+open `Ω` enters as its extension by `∞` off `Ω`.
+`TauCeti.isLocallyFiniteMeasure_comap_mongeAmpereMeasure` is local finiteness on the interior of
+the effective domain when `μ` is finite on compact sets,
+`TauCeti.mongeAmpereMeasure_ite_eq_withDensity_det` is `MA_u = det(D²u) dx` on an open `Ω` for a
+convex `u` that is differentiable with differentiable gradient on `Ω`, in particular for
+`u ∈ C²(Ω)`, and `TauCeti.mongeAmpereMeasure_mul_norm_sub` is the cone: for `r ≥ 0` the measure
+of `x ↦ r‖x-a‖` is `μ(B̄(0,r)) δ_a`.
 
-*Needs:* Layer 5.2; Mathlib Lebesgue measure and Hessians; Tau Ceti `TauCeti.mongeAmpereMeasure`.
+*Needs:* Layer 5.2; Mathlib Lebesgue measure and Hessians; Tau Ceti `TauCeti.mongeAmpereMeasure`,
+`TauCeti.isLocallyFiniteMeasure_comap_mongeAmpereMeasure`,
+`TauCeti.mongeAmpereMeasure_ite_eq_withDensity_det` and `TauCeti.mongeAmpereMeasure_mul_norm_sub`.
 
 **Checks.**
 
@@ -2294,9 +2424,53 @@ of convex functions on an open domain, prove convergence of the locally finite
 Aleksandrov measures against compactly supported continuous tests (equivalently, on
 relatively compact continuity sets); upgrade this to narrow convergence only with
 finite total mass and tightness.  Prove the comparison principle, the Aleksandrov
-maximum principle, and Alexandrov's twice-differentiability theorem.
+maximum principle, and Alexandrov's twice-differentiability theorem.  Tau Ceti proves each of
+these on a finite-dimensional real inner product space, for functions convex on an open `Ω` and
+extended by `∞` off it.
 
-*Needs:* item 1; Mathlib Lebesgue measure and locally uniform convergence.
+* *Singular mass.*  `TauCeti.mongeAmpereMeasure_mul_norm_sub_ne_withDensity_det`: in positive
+  dimension and for `r > 0`, the cone `x ↦ r‖x-a‖` has Hessian determinant `0` off its vertex
+  and its Aleksandrov measure is not `det(D²u) dx`.
+* *Convergence.*  For `F_k → u` locally uniformly on `Ω` with `F_k` eventually convex on `Ω`, and
+  a weight absolutely continuous with respect to an additive Haar measure:
+  `TauCeti.mongeAmpereMeasure_le_liminf` is `MA_u(U) ≤ liminf MA_{F_k}(U)` for open `U ⊆ Ω`;
+  for an outer regular weight, `TauCeti.limsup_mongeAmpereMeasure_le` is
+  `limsup MA_{F_k}(K) ≤ MA_u(K)` for compact `K ⊆ Ω`, and `TauCeti.tendsto_mongeAmpereMeasure`
+  is `MA_{F_k}(s) → MA_u(s)` for bounded `s` with closure in `Ω` and `MA_u`-null frontier.
+* *Comparison.*  For bounded open `Ω` in dimension at least one, and `u`, `v` convex on `Ω` and
+  continuous on its closure: `TauCeti.le_of_mongeAmpereMeasure_le_of_le_frontier` is `v ≤ u` on
+  `Ω` from `MA_u ≤ MA_v` and `v ≤ u` on `∂Ω`, and
+  `TauCeti.eqOn_of_mongeAmpereMeasure_eq_of_eqOn_frontier` is the uniqueness it implies for the
+  Dirichlet problem of item 4.  `TauCeti.mongeAmpereMeasure_le_of_le_of_le_frontier` is the mass
+  comparison behind both: `u ≤ v` on `Ω` and `v ≤ u` on `∂Ω` give `MA_v(Ω) ≤ MA_u(Ω)`, in every
+  finite dimension and for every weight absolutely continuous with respect to a Haar measure.
+* *Maximum principle.*  `TauCeti.ofReal_neg_pow_mul_addHaar_ball_le_mul_mongeAmpereMeasure`: for
+  bounded open `Ω` of dimension `n ≥ 1`, `u` convex on `Ω`, continuous on its closure and
+  nonnegative on `∂Ω`, and every `x₀ ∈ Ω`,
+  `max(-u(x₀),0)ⁿ |B₁| ≤ 2^(n+1) diam(Ω)^(n-1) dist(x₀,∂Ω) MA_u(Ω)`.
+* *Twice differentiability.*  `ConvexOn.ae_existsUnique_isPositive_isLittleO` of Layer 5.2.
+
+*Needs:* item 1; Mathlib Lebesgue measure and locally uniform convergence; Tau Ceti
+`TauCeti.mongeAmpereMeasure_mul_norm_sub_ne_withDensity_det`,
+`TauCeti.mongeAmpereMeasure_le_liminf`, `TauCeti.limsup_mongeAmpereMeasure_le`,
+`TauCeti.tendsto_mongeAmpereMeasure`, `TauCeti.le_of_mongeAmpereMeasure_le_of_le_frontier`,
+`TauCeti.eqOn_of_mongeAmpereMeasure_eq_of_eqOn_frontier`,
+`TauCeti.mongeAmpereMeasure_le_of_le_of_le_frontier`,
+`TauCeti.ofReal_neg_pow_mul_addHaar_ball_le_mul_mongeAmpereMeasure` and
+`ConvexOn.ae_existsUnique_isPositive_isLittleO`.
+
+**Checks.**
+
+* For `u(x) = |x|` on `ℝ` and `F_k(x) = √(x² + 1/k)`, which converge uniformly, `MA_{F_k}` has
+  density `F_k″` and `MA_{F_k}([-1,1]) = F_k′(1) - F_k′(-1) = 2/√(1+1/k) → 2 = MA_u([-1,1])`,
+  while on the compact set `{0}` the values are `0` and `MA_u({0}) = 2`: the `limsup` inequality
+  on compact sets is strict and convergence needs the null frontier.
+* For `Ω = (-1,1)` and `u(x) = |x| - 1`, the maximum principle at `x₀ = 0` reads
+  `1 · 2 ≤ 2² · 2⁰ · 1 · MA_u(Ω) = 4 · 2`, which holds.
+* For `Ω = (-1,1)`, `u(x) = x² - 1` and `v(x) = |x| - 1`, both vanish on `∂Ω` and `u ≤ v` on `Ω`;
+  `MA_u = 2 dx` and `MA_v = 2δ₀`, so `MA_v(Ω) = 2 ≤ 4 = MA_u(Ω)`: the lower function has the
+  larger total mass.  The two measures are not ordered as measures, so the comparison principle
+  draws no conclusion from them, as it must not: `v ≤ u` fails at `x = 1/2`.
 
 ### 6.3 Solution concepts and their bridges
 
@@ -2312,9 +2486,27 @@ gives the Aleksandrov identity only after a further theorem rules out `(MA_u)^s`
 local `C^{1,1}` plus the area formula as one concrete sufficient regime.  Keep the
 counterexample that forces this--a convex function satisfying `det D²u = f` almost
 everywhere whose Aleksandrov measure still carries singular mass--along with the others
-showing why the notions differ outside these regimes.
+showing why the notions differ outside these regimes.  Tau Ceti states the following of these,
+in a finite-dimensional real inner product space.  `TauCeti.IsMongeAmpereViscositySolution Ω u f`
+is the viscosity notion, tested against functions that are `C²` at the contact point and convex
+near it; convexity of `u` is not part of the predicate and is a hypothesis of each bridge.
+`TauCeti.isMongeAmpereViscositySolution_of_mongeAmpereMeasure_eq` is the bridge from Aleksandrov
+to viscosity solutions for `u` convex on an open `Ω` in dimension at least one and `f ≥ 0`
+continuous on `Ω`; strict positivity of `f` enters only in the converse bridge, which remains a
+target.  `TauCeti.isMongeAmpereViscositySolution_iff_forall_det_eq` says that a convex `u` of
+class `C²` on an open `Ω` is a viscosity solution exactly when `det D²u = f` at every point.
+`TauCeti.mongeAmpereMeasure_eq_singularPart_add_withDensity` is the decomposition
+`MA_u = (MA_u)^s + det(H) dx` on the interior of the effective domain, where `H(x)` is, at almost
+every `x`, a first-order expansion of the subdifferential at `x`, and
+`TauCeti.ae_eq_indicator_ofReal_det_of_mongeAmpereMeasure_eq_withDensity` is its consequence
+that an Aleksandrov solution of `MA_u = g dx` satisfies `det H = g` almost everywhere.
 
-*Needs:* items 1--2; Mathlib second derivatives and Lebesgue decomposition.
+*Needs:* items 1--2; Mathlib second derivatives and Lebesgue decomposition; Tau Ceti
+`TauCeti.IsMongeAmpereViscositySolution`,
+`TauCeti.isMongeAmpereViscositySolution_of_mongeAmpereMeasure_eq`,
+`TauCeti.isMongeAmpereViscositySolution_iff_forall_det_eq`,
+`TauCeti.mongeAmpereMeasure_eq_singularPart_add_withDensity` and
+`TauCeti.ae_eq_indicator_ofReal_det_of_mongeAmpereMeasure_eq_withDensity`.
 
 **Checks.**
 
@@ -2447,7 +2639,19 @@ Define convex sections
 `S_u(x,h;p)={y | u(y)<u(x)+⟨p,y-x⟩+h}` for `p ∈ ∂u(x)`, with the gradient
 specialization at differentiability points.  Build affine/John normalization,
 section nesting, localization and engulfing, volume scaling, and the section-adapted
-Vitali covering package before any estimate consumes normalized sections.  Then, for
+Vitali covering package before any estimate consumes normalized sections.  Tau Ceti's
+`TauCeti.convexSection Ω u x ℓ h` is the section `{y ∈ Ω | u(y) < u(x) + ℓ(y-x) + h}` with slope
+a linear functional `ℓ`, and three parts of the package are proved for it, each for `u` convex on
+an open `Ω`, a supporting slope at the centre, bounded sections with closure in `Ω`, and constants
+depending only on the space and the Haar measure.  The volume estimates are
+`TauCeti.exists_ofReal_pow_le_mul_measure_convexSection_mul_mongeAmpereMeasure`,
+`hⁿ ≤ C |S| MA_u(S)`, and `TauCeti.exists_mul_measure_convexSection_sq_le_mul_ofReal_pow`,
+`λ|S|² ≤ C hⁿ` when `MA_u ≥ λ dx` on `Ω`.  Engulfing is
+`TauCeti.exists_convexSection_subset_convexSection`: when `λ dx ≤ MA_u ≤ Λ dx` with `λ > 0` and
+`S(x,2h)` is bounded with closure in `Ω`, the section `S(x,h)` lies in the section of height
+`(1 + CΛ/λ)h` at each of its points, for every supporting slope there.  The covering lemma is
+`TauCeti.exists_countable_pairwiseDisjoint_convexSection_measure_le`, a countable disjoint
+subfamily carrying a fixed fraction of the measure of the union.  Then, for
 bounded Euclidean source and convex target domains with densities bounded above and
 below by positive constants, prove local strict convexity, local `C¹,α`, and local
 `W²,1+ε` regularity of the Brenier potential (Caffarelli; De Philippis--Figalli survey,
@@ -2459,8 +2663,12 @@ source, for bounded open `X` and bounded open convex `Y` with both densities bet
 sections compactly contained in the domain, carry `0 < λ ≤ f ≤ Λ`, strict convexity,
 section normalization/distance, and quantitative dependence of constants visibly.
 
-*Needs:* items 1--7; Tau Ceti `TauCeti.Wkp`; De Philippis--Figalli survey Theorems 2.14, 2.21 and
-3.3.
+*Needs:* items 1--7; Tau Ceti `TauCeti.Wkp`, `TauCeti.convexSection`,
+`TauCeti.exists_ofReal_pow_le_mul_measure_convexSection_mul_mongeAmpereMeasure`,
+`TauCeti.exists_mul_measure_convexSection_sq_le_mul_ofReal_pow`,
+`TauCeti.exists_convexSection_subset_convexSection` and
+`TauCeti.exists_countable_pairwiseDisjoint_convexSection_measure_le`; De Philippis--Figalli survey
+Theorems 2.14, 2.21 and 3.3.
 
 **Checks.**
 
@@ -3458,8 +3666,11 @@ its discrete speed and slope).
 
 *Needs:* items 1--3.
 Tau Ceti declares or proves `TauCeti.moreauYosida`, `TauCeti.moreauYosidaResolvent`,
-`TauCeti.moreauYosidaResolvent_nonempty_of_lowerSemicontinuous`, `TauCeti.deGiorgiInterpolant` and
-`TauCeti.TendstoGamma.mem_moreauYosidaResolvent_of_tendsto`.
+`TauCeti.moreauYosidaResolvent_nonempty_of_lowerSemicontinuous`, `TauCeti.deGiorgiInterpolant`,
+`TauCeti.TendstoGamma.mem_moreauYosidaResolvent_of_tendsto` and
+`TauCeti.hasDerivAt_toReal_moreauYosida`, the derivative formula of Theorem 3.9: for resolvent
+points `y_s ∈ J_s(x)` chosen for all `s` near `r > 0`, with `Φ_r(x)` finite and `s ↦ d(x,y_s)`
+continuous at `r`, the function `s ↦ Φ_s(x)` has derivative `-d(x,y_r)²/(2r²)` at `r`.
 
 **Checks.**
 
@@ -3470,14 +3681,55 @@ Tau Ceti declares or proves `TauCeti.moreauYosida`, `TauCeti.moreauYosidaResolve
 
 ### 10.5 Minimizing movements
 
-Define minimizing movements and generalized minimizing movements.  Prove compactness
-and convergence from coercivity, lower semicontinuity, and the exact compactness
-hypothesis on sublevels; prove convergence to a maximal-slope or EVI flow when the
-corresponding assumptions hold.
+Define minimizing movements and generalized minimizing movements: limits, as the step `τ ↓ 0`
+(respectively along some sequence of steps), of the piecewise-constant interpolants of the
+implicit Euler sequences of item 4 whose initial points converge to the starting point with
+bounded energy.  Prove three theorems, with
+different hypotheses and different conclusions.
 
-*Needs:* item 4.
-Tau Ceti declares or proves `TauCeti.IsGeneralizedMinimizingMovement` and
-`TauCeti.exists_isGeneralizedMinimizingMovement`.
+1. *Existence.*  Let `X` be an extended metric space with an auxiliary sequential convergence
+   `⇀` for which constant sequences converge and `d` is jointly sequentially lower
+   semicontinuous: `d(y,z) ≤ liminf d(v_n,w_n)` whenever `v_n ⇀ y` and `w_n ⇀ z`.  Let `Φ` be
+   sequentially `⇀`-lower semicontinuous along sequences of finite diameter, and let every
+   sequence of finite diameter on which `Φ` is bounded above have a `⇀`-convergent subsequence.
+   Let `Φ` be coercive: `inf_y (Φ(y) + d(y,x₁)²/(2τ₀)) > -∞` for some `τ₀ > 0` and some `x₁`.
+   Then from every `x₀` with `Φ(x₀) < ∞` at finite distance from `x₁` there starts a generalized
+   minimizing movement, and it is `1/2`-Hölder on every bounded time interval.  This is Tau
+   Ceti's `TauCeti.exists_isGeneralizedMinimizingMovement`.  With `⇀` the metric convergence on a
+   complete separable space and `Φ` lower semicontinuous and bounded below, the compactness
+   hypothesis says that the sublevels are boundedly compact, and the statement is the first
+   assertion of Ambrosio--Gigli, *A user's guide to optimal transport*, Theorem 3.14, pp. 57--58,
+   whose hypotheses are Assumption 3.8, p. 55, and Assumption 3.13, p. 57; that compactness is
+   the first clause of Assumption 3.13.
+2. *Maximal slope.*  Let `X` be a metric space, `Φ` lower semicontinuous and bounded below, its
+   descending slope lower semicontinuous on `{Φ < ∞}` and a strong upper gradient of `Φ`.  Let
+   `τ_k ↓ 0` be positive steps and, for each `k`, an implicit Euler sequence with step `τ_k` from
+   a fixed `x₀` with `Φ(x₀) < ∞`, with resolvent points chosen at the intermediate steps so that
+   the slope along De Giorgi's interpolant is almost everywhere measurable.  If the interpolants
+   converge pointwise on `[0,T]`, the limit is a curve of maximal slope for `Φ` with respect to
+   its descending slope on `[0,T]`, with exponents `p = q = 2`
+   (`TauCeti.isCurveOfMaximalSlope_of_forall_mem_moreauYosidaResolvent`).  Ambrosio--Gigli obtain
+   the energy-dissipation inequality of the limit from the continuity clause of Assumption 3.13
+   (Theorem 3.14, second assertion, p. 58) and the equality for a `λ`-geodesically convex energy
+   with boundedly compact sublevels on a geodesic space (Assumption 3.17, p. 59, and Theorem
+   3.20, p. 62).
+3. *EVI.*  Let `X` be complete and separable, `Φ` lower semicontinuous, and suppose that for all
+   `x₀, x₁, y` there is a curve `γ` from `x₀` to `x₁` with
+   `Φ(γ_t) ≤ (1-t)Φ(x₀) + tΦ(x₁) - (λ/2)t(1-t)d(x₀,x₁)²` and
+   `d(γ_t,y)² ≤ (1-t)d(x₀,y)² + t d(x₁,y)² - t(1-t)d(x₀,x₁)²` for `t ∈ [0,1]`.  Then for every
+   step with `1 + λτ > 0` the discrete solution from a point of `{Φ < ∞}` exists and is unique,
+   and as `τ ↓ 0` the discrete solutions converge locally uniformly to the `EVI_λ` solution of
+   item 3, with no compactness hypothesis on sublevels (Ambrosio--Gigli, Assumption 3.24 and
+   Theorem 3.25, p. 64).  Layer 11.7 is the Wasserstein instance.  An `EVI_λ` solution of a
+   lower semicontinuous energy is a curve of maximal slope on `(0,∞)`
+   (`TauCeti.IsEVISolution.isCurveOfMaximalSlope`), so the third conclusion implies the second
+   where both apply.
+
+*Needs:* items 1--4; Layer 8.1.
+Tau Ceti declares or proves `TauCeti.IsGeneralizedMinimizingMovement`,
+`TauCeti.exists_isGeneralizedMinimizingMovement`,
+`TauCeti.isCurveOfMaximalSlope_of_forall_mem_moreauYosidaResolvent` and
+`TauCeti.IsEVISolution.isCurveOfMaximalSlope`.
 
 **Checks.**
 
@@ -3485,6 +3737,11 @@ Tau Ceti declares or proves `TauCeti.IsGeneralizedMinimizingMovement` and
   `(1+t/k)^{-k} → e^{-t}`: the scheme converges to the flow.
 * The energies `Φ(x_k)` are nonincreasing along every valid minimizing-movement sequence.
 * For `Φ ≡ 0` the minimizing movement is constant.
+* For `Φ(x) = -x⁴` on `ℝ`, `inf_y (-y⁴ + (y-x)²/(2τ)) = -∞` for every `τ > 0`, so no step
+  exists and coercivity cannot be dropped from the existence theorem.
+* For `Φ(x) = -x²`, which is `λ`-convex with `λ = -2`, the infimum is finite exactly when
+  `1/(2τ) > 1`, that is `1 + λτ > 0`; then the step is `x ↦ x/(1-2τ)`, and
+  `(1-2t/k)^{-k} → e^{2t}`, the flow of `x' = 2x`.  The step range of the third theorem is sharp.
 
 ### 10.6 Γ-convergence and stability of flows
 
@@ -3510,7 +3767,14 @@ structure.  Prove passage through the energy--dissipation inequality.  Plain
 product/sum rules for energies and flows separately.
 
 *Needs:* items 2--5.
-Tau Ceti declares or proves `TauCeti.TendstoGamma.mem_moreauYosidaResolvent_of_tendsto`.
+Tau Ceti declares or proves `TauCeti.TendstoGamma.mem_moreauYosidaResolvent_of_tendsto` and, for
+the Sandier--Serfaty scheme on a fixed pseudometric carrier,
+`TauCeti.isCurveOfMaximalSlope_of_tendsto`: for conjugate exponents `p, q`, if the curves `u_i`
+are eventually curves of maximal slope on `[a,b]` for energies `Φ_i` and upper gradients `g_i`,
+converge pointwise on `[a,b]` to `u`, have initial energies converging to the finite value
+`Φ(u(a))`, and satisfy `Φ(u(b)) ≤ liminf Φ_i(u_i(b))` and `g(u(t)) ≤ liminf g_i(u_i(t))` for almost
+every `t`, with `t ↦ g_i(u_i(t))` almost everywhere measurable, and if `g` is a strong upper
+gradient of `Φ`, then `u` is a curve of maximal slope for `Φ` and `g` on `[a,b]`.
 
 **Checks.**
 
@@ -3822,15 +4086,23 @@ a potential gives Fokker--Planck.  On `ℝⁿ`, define
 `max(1-1/n, n/(n+2)) < m < 1` prove fast diffusion: the range is `1/3<m<1` for `n=1`,
 `1/2<m<1` for `n=2`, and `1-1/n<m<1` for `n≥3`.  The two bounds do different work.
 McCann's condition `m ≥ 1-1/n` gives displacement convexity of `∫U_m(ρ)dx` (Layer 9.5) and
-nothing else; the lower bound of the energy on `P₂(ℝⁿ)` is the strict inequality
-`m > n/(n+2)`.  For `0<m<1` prove, by Hölder's inequality with exponents `1/m` and
+nothing else: it is the condition that `s ↦ sⁿU_m(s^{-n})` be convex and nonincreasing
+(Ambrosio--Gigli, *A user's guide to optimal transport*, (3.45) and Proposition 3.33 (iii),
+p. 72, with the power densities (3.47), p. 73, for exponents `α ≥ 1-1/n`, `α ≠ 1`; the density
+there is `(z^α - z)/(α-1)`, which differs from `U_α` by `z/(α-1)`, whose integral is the same
+constant on every probability density).  The lower bound of the energy on `P₂(ℝⁿ)` is the
+strict inequality `m > n/(n+2)`, the growth condition (3.44) of Ambrosio--Gigli's Definition
+3.32, p. 71.  For `0<m<1` prove, by Hölder's inequality with exponents `1/m` and
 `1/(1-m)`,
 `∫ρ^m dx ≤ (∫(1+‖x‖²)ρ dx)^m (∫(1+‖x‖²)^(-m/(1-m)) dx)^(1-m)`,
-whose last integral is finite exactly when `2m/(1-m) > n`, that is `m > n/(n+2)`; since the
+whose last integral is finite exactly when `2m/(1-m) > n`, that is `m > n/(n+2)` (the estimate
+displayed after Definition 3.32, p. 72, there with the weight `(1+‖x‖)²`); since the
 exponent `m` of the second moment is smaller than one, every JKO functional
 `ν ↦ ∫U_m(ρ_ν)dx + W₂(ν,μ)²/(2τ)` is then bounded below and coercive.  Prove that the
 threshold is sharp: for `m ≤ n/(n+2)` the energy takes the value `-∞` inside `P₂(ℝⁿ)` and
-every JKO functional has infimum `-∞`, so no minimizing-movement scheme exists there.
+every JKO functional has infimum `-∞`, so no minimizing-movement scheme exists there.  The
+sharpness is proved here, from the densities of the last two Checks below; the cited text states
+only the sufficient condition.
 Treat the displacement-convex endpoint `m=1-1/n` separately, and only for `n≥3`, where
 `1-1/n > n/(n+2)`; for `n=2` the endpoint `m=1/2` equals `n/(n+2)` and is excluded.  Treat
 `m=1` by the signed Boltzmann entropy rather than the singular formula for `U_m`.  At each
@@ -3838,11 +4110,18 @@ power tier take initial data `ρ₀ dx ∈ P₂(ℝⁿ)` with finite `∫ U_m(ρ
 narrowly continuous `P₂` curve satisfying
 the energy-dissipation inequality and the distributional identity
 `∫∫ (ρ ∂_tζ+ρ^m Δζ) dxdt=0` for compactly supported smooth tests,
-with `ρ,ρ^m∈L¹_loc`.  Interaction energy gives aggregation, and sums give the
+with `ρ,ρ^m∈L¹_loc`.  Existence and uniqueness of the flow as an `EVI_0` gradient flow, for
+every internal energy satisfying (3.44) and (3.45) and from every initial law in `P₂(ℝⁿ)`, is
+Ambrosio--Gigli, Theorem 3.35, p. 74; the equation is their Proposition 3.38, p. 75, which
+identifies `∇(u′(ρ))` as the Wasserstein subgradient at a smooth density and reads
+`∂_tρ = div(ρ∇(u′(ρ)))`, that is `∂_tρ = Δ(ρ^m)` for `u = U_m`, since
+`ρ∇(U_m′(ρ)) = ∇(ρ^m)`.  That proposition assumes smooth densities; the distributional identity
+for the data above is the target here, through the Euler--Lagrange equation of the JKO step
+(item 6).  Interaction energy gives aggregation, and sums give the
 corresponding drift-diffusion equations under the named coercivity hypotheses of
 their component energies.
 
-*Needs:* items 2 and 6--7; Layer 9.5.
+*Needs:* items 2 and 6--7; Layers 9.5 and 10.5.
 
 **Checks.**
 
@@ -3954,13 +4233,24 @@ barycenter.  Include finite weighted families as a transparent specialization,
 allowing zero weights but normalizing total mass.  At `p=∞`, use the essential-
 supremum radius and define finite Chebyshev centers separately.  For a Polish metric
 space with its Borel structure, prove that this radius equals the supremum of the
-distance over the topological support.
+distance over the topological support.  Tau Ceti states these on a pseudo-extended-metric
+measurable space and for every measure: `TauCeti.frechetRadius` and `TauCeti.frechetPower` are
+the two functionals, extended-valued and defined with no moment assumption;
+`TauCeti.frechetRadius_rpow_eq_frechetPower` is the value relation
+`frechetRadius^p = frechetPower` for `0 < p < ∞` at a point whose distance section is almost
+everywhere measurable; `TauCeti.isFrechetBarycenter_iff_forall_frechetPower_le` says that, when
+every distance section is almost everywhere measurable, the barycenters are the finite-radius
+minimizers of the power functional; `TauCeti.chebyshevRadius` and `TauCeti.IsChebyshevCenter`
+are the essential-supremum radius and its finite minimizers; and
+`TauCeti.frechetRadius_top_eq_iSup_support` is the support formula at `p = ∞`, on every
+hereditarily Lindelöf space whose open sets are measurable, in particular on a Polish space
+with its Borel structure.
 
 *Needs:* Mathlib `MeasureTheory.eLpNorm` and measurable distance sections; Tau Ceti
-`TauCeti.IsFrechetBarycenter`.
-Implemented in Tau Ceti by
-`TauCeti.WassersteinSpace.isFrechetBarycenter_sum_smul_dirac_iff_isMinOn` and
-`TauCeti.WassersteinSpace.exists_isFrechetBarycenter_sum_smul_dirac`.
+`TauCeti.IsFrechetBarycenter`, `TauCeti.frechetRadius`, `TauCeti.frechetPower`,
+`TauCeti.frechetRadius_rpow_eq_frechetPower`,
+`TauCeti.isFrechetBarycenter_iff_forall_frechetPower_le`, `TauCeti.chebyshevRadius`,
+`TauCeti.IsChebyshevCenter` and `TauCeti.frechetRadius_top_eq_iSup_support`.
 
 **Checks.**
 
@@ -3984,9 +4274,20 @@ compact-sublevel or coercive-function hypothesis that replaces properness rather
 gesturing at coercivity.  After Layer 8's geodesic infrastructure, define a reusable
 CAT(0)/Hadamard-space predicate, prove the CN inequality and strong convexity of squared
 distance, and derive quadratic barycenter uniqueness; state no uniqueness theorem in a
-general geodesic space.
+general geodesic space.  The chain is in Tau Ceti for a probability law on a pseudometric space
+with measurable open sets and `1 ≤ p ≤ ∞`, the radius being finite at one point:
+`TauCeti.lipschitzWith_one_toReal_frechetRadius` is the `1`-Lipschitz bound, and on a proper
+space `TauCeti.isCompact_frechetRadius_sublevel`, `TauCeti.exists_isFrechetBarycenter` and
+`TauCeti.isCompact_frechetBarycenters` are compactness of the sublevels, existence of a
+barycenter and compactness of the set of barycenters.  The CAT(0) predicate is
+`TauCeti.IsCATZeroSpace`, a geodesic space with the CN inequality at every midpoint, and
+`TauCeti.subsingleton_frechetBarycenters_two` is uniqueness: on a CAT(0) metric space with
+measurable open sets a nonzero measure has at most one quadratic barycenter.
 
-*Needs:* item 1; Layer 8.1.
+*Needs:* item 1; Layer 8.1; Tau Ceti `TauCeti.lipschitzWith_one_toReal_frechetRadius`,
+`TauCeti.isCompact_frechetRadius_sublevel`, `TauCeti.exists_isFrechetBarycenter`,
+`TauCeti.isCompact_frechetBarycenters`, `TauCeti.IsCATZeroSpace` and
+`TauCeti.subsingleton_frechetBarycenters_two`.
 
 **Checks.**
 
@@ -4003,11 +4304,15 @@ geodesicity: the integers in `ℝ` are proper and not geodesic.  Build the base-
 existence theorem consumes it.  Prove Le Gouic--Loubes' Lemma 7 (arXiv:1506.04153v2, p. 11):
 for finitely many positive weights summing to one there is a Borel *barycenter application*
 `X^J → X` sending a `J`-tuple to a barycenter of the corresponding weighted combination of Dirac
-laws.  Consume it for their Theorem 8 (p. 11), the finitely supported case: for
+laws; on a proper metric space with its Borel σ-algebra, for `1 ≤ p < ∞` and nonnegative weights
+summing to one, this is Tau Ceti's
+`TauCeti.exists_measurable_isFrechetBarycenter_sum_smul_dirac`.  Consume it for their Theorem 8
+(p. 11), the finitely supported case: for
 `P = ∑_j λ_j δ_{μ_j}` in `P_p(P_p(X))`, prove the multi-marginal formulation and
 existence of a barycenter.  Do not assume or claim that `P_p(X)` itself is proper.
 
-*Needs:* items 1--2; Layer 0.5; Tau Ceti `TauCeti.WassersteinSpace`.
+*Needs:* items 1--2; Layer 0.5; Tau Ceti `TauCeti.WassersteinSpace` and
+`TauCeti.exists_measurable_isFrechetBarycenter_sum_smul_dirac`.
 Implemented in Tau Ceti by
 `TauCeti.WassersteinSpace.isFrechetBarycenter_sum_smul_dirac_iff_isMinOn` and
 `TauCeti.WassersteinSpace.exists_isFrechetBarycenter_sum_smul_dirac`.
@@ -5467,7 +5772,7 @@ stage of which is reusable on its own.
   [II](https://doi.org/10.1007/s11511-006-0003-7), Acta Math. 196 (2006), and its
   [tensorization corrigendum](https://arxiv.org/abs/2401.15094), 2024.
 * F. Mémoli, [Gromov--Wasserstein distances and object
-  matching](https://doi.org/10.1007/s10208-011-9093-5), 2011; H. Bauer, F. Mémoli, T.
+  matching](https://doi.org/10.1007/s10208-011-9093-5), 2011; M. Bauer, F. Mémoli, T.
   Needham, and M. Nishino, [The `Z`-Gromov--Wasserstein
   distance](https://www.jmlr.org/papers/volume26/24-2189/24-2189.pdf), 2025; K.-T. Sturm,
   [The space of spaces](https://arxiv.org/abs/1208.0434), 2012; G. Peyré, M. Cuturi, and
