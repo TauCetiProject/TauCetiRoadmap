@@ -33,8 +33,6 @@ implementations put general topology and measure theory lemmas in Mathlib's name
 descriptive-set-theoretic objects in a shared namespace.
 -/
 
-set_option autoImplicit false
-
 universe u v w
 
 open MeasureTheory Topology Filter Set Function Cardinal
