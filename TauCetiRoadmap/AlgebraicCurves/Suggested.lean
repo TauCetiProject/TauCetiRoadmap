@@ -24,7 +24,7 @@ the Tau Ceti pin, where the README cites them by name instead of restating them 
   `TauCeti.Divisor.finite_ker_degreeClass` (Layer 5), and Clifford's theorem over every exact
   constant field `TauCeti.Divisor.two_mul_dim_le_degree_add_two` (Layer 8);
 * the Hurwitz genus formula `TauCeti.hurwitz_genus_formula` (Layer 7);
-* genus invariance under finite separable constant extension
+* genus invariance under separable algebraic constant extension, finite or not,
   `TauCeti.genus_eq_genus_of_constantCompositum_eq_top`, the tensor-domain criterion
   `TauCeti.isDomain_tensorProduct_of_separating`, genus non-increase under algebraic constant
   extension `TauCeti.genus_le_genus_of_constantCompositum_eq_top`, the genus-drop formula

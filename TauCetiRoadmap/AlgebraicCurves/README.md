@@ -1236,24 +1236,37 @@ asserted on `K ⊗[k] F` unless a domain theorem supplies it. Keep the perfect-`
 
 1. **Generic separable generation**: a separating transcendental `x` with `F/k(x)` finite
    separable. It gives the one-dimensional Kähler module of §9.1 and geometric reducedness of the
-   generic field, with Mathlib's `SeparablyGenerated.lean` existential as comparison target; it
-   gives neither smoothness of the regular model nor conserved genus.
+   generic field (the pinned `TauCeti.isGeometricallyReduced_of_separating`), with Mathlib's
+   `SeparablyGenerated.lean` existential as comparison target; it gives neither smoothness of the
+   regular model nor conserved genus. Conversely, a geometrically reduced function field has a
+   separating element (the pinned
+   `TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_isGeometricallyReduced`,
+   the transcendence-degree-one case of
+   `TauCeti.exists_isTranscendenceBasis_and_isSeparable_of_isGeometricallyReduced`, which needs
+   finite generation), so for a function field the two conditions are equivalent.
 2. **Regular field extension**: generic separable generation together with
    `IsIntegrallyClosedIn k F`. Its tensor-domain criterion: `K ⊗[k] F` is a domain for every
    field extension `K/k` (the pinned `TauCeti.isDomain_tensorProduct_of_separating`, which gives
    `IsDomain (F ⊗[k] A)` for every `k`-algebra `A` that is a domain, from exact constants and a
-   transcendental `x` with `F/k(x)` separable); prove the converse through separable generation
-   and relative algebraic closure, so that regularity is equivalent to the tensor-domain
-   condition. The fraction field `F_K` has exact constants `K` and is again a function field.
-   Build the tensor-domain and fraction-field maps for every `K/k`, with identity, composition and
-   uniqueness laws; these are field-map statements, not full faithfulness of base change. For a
-   separating `t`, identify `Frac(K ⊗[k] F) ≃ₐ[K] K(t) ⊗[k(t)] F` (localize at the nonzero
-   polynomials in `t`; this finite `K(t)`-algebra is a domain, hence a field), with both maps on
-   pure tensors, inverse equations, basis transport, linear disjointness and
-   `[F : k(t)] = [F_K : K(t)]`; prove scalar stability of regular extensions, also for extensions
-   that are not finitely generated, by finite subextension descent. Over perfect `k`, exact
-   constants imply this condition. None of these statements says that the closed local rings stay
-   regular after base change.
+   transcendental `x` with `F/k(x)` separable, as the composite of
+   `TauCeti.isGeometricallyReduced_of_separating` and
+   `TauCeti.isDomain_tensorProduct_of_isGeometricallyReduced`). State the equivalence of
+   regularity with the tensor-domain condition, for every `K/k` or for one algebraically closed
+   `K/k`; its converse direction is again a composite of pinned theorems: if `F ⊗[k] L` is a
+   domain for an algebraically closed `L/k`, it is reduced, so `F` is geometrically reduced
+   (`Algebra.IsGeometricallyReduced.of_isReduced_tensorProduct`) and has a separating element
+   (item 1), and `k` is algebraically closed in `F`
+   (`TauCeti.algebraicClosure_eq_bot_of_isDomain_tensorProduct` with
+   `TauCeti.algebraicClosure_eq_bot_iff_isIntegrallyClosedIn`). The fraction field `F_K` has exact
+   constants `K` and is again a function field. Build the tensor-domain and fraction-field maps for
+   every `K/k`, with identity, composition and uniqueness laws; these are field-map statements, not
+   full faithfulness of base change. For a separating `t`, identify
+   `Frac(K ⊗[k] F) ≃ₐ[K] K(t) ⊗[k(t)] F` (localize at the nonzero polynomials in `t`; this finite
+   `K(t)`-algebra is a domain, hence a field), with both maps on pure tensors, inverse equations,
+   basis transport, linear disjointness and `[F : k(t)] = [F_K : K(t)]`; prove scalar stability of
+   regular extensions, also for extensions that are not finitely generated, by finite subextension
+   descent. Over perfect `k`, exact constants imply this condition. None of these statements says
+   that the closed local rings stay regular after base change.
 3. **Smooth-model branch**: the regular projective model `X_F` of §12B.0 with a smooth structure
    morphism and geometric integrality. Prove that its `K`-base change is smooth, proper and
    geometrically integral and is the regular model of `Frac(K ⊗[k] F)`, the identity of fraction
@@ -1265,7 +1278,14 @@ The perfect-`k` statements keep their degree formulas explicit: for `F′/F` wit
 `[F′ : F] = [F′ k̄ : F k̄] · [k′ : k]` (Prop. 3.6.6); the geometric irreducibility criterion
 (Cor. 3.6.8) over perfect `k`, and over arbitrary `k` with separable generation explicit.
 *Needs:* items 1–2: Layer 0; Tau Ceti `TauCeti.isDomain_tensorProduct_of_separating`,
-`TauCeti.constantCompositum`; Mathlib `TensorProduct`, `IsLocalization`,
+`TauCeti.isGeometricallyReduced_of_separating`,
+`TauCeti.isDomain_tensorProduct_of_isGeometricallyReduced`,
+`TauCeti.exists_isTranscendenceBasis_and_isSeparable_of_isGeometricallyReduced`,
+`TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_isGeometricallyReduced`,
+`Algebra.IsGeometricallyReduced.of_isReduced_tensorProduct`,
+`TauCeti.algebraicClosure_eq_bot_of_isDomain_tensorProduct`,
+`TauCeti.algebraicClosure_eq_bot_iff_isIntegrallyClosedIn`, `TauCeti.constantCompositum`; Mathlib
+`TensorProduct`, `IsLocalization`, `Algebra.IsGeometricallyReduced`,
 `exists_isTranscendenceBasis_and_isSeparable_of_perfectField`. Item 3: the model of §12B.0 with
 12B.0a–b. The perfect-`k` degree formulas: Layer 3 (degrees) and §6.2 (the conorm).
 
@@ -1606,8 +1626,12 @@ transformation); Tau Ceti `TauCeti.Place.kaehlerResidueOfPerfectField`; Mathlib 
 - On `k(x)`, `res_{P_0}(dx/x) = 1` and `res_{P_∞}(dx/x) = −1`, with `t = 1/x` at infinity.
 - Transformation with `s = 2t` (characteristic not `2`): `res_s(1/s) = 1` and
   `res_t((1/(2t)) · 2) = 1`.
-- In characteristic `p`, `x^{−p} dx` has residue `0` at `P_0` while `x^{−1} dx` has residue `1`:
-  the formula holds although `x^{−p}` has no antiderivative.
+- In characteristic `p`, `x^{−p−1} dx` has residue `0` at `P_0` while `x^{−1} dx` has residue `1`,
+  and `x^{−p−1} dx` is not exact in `k((x))`: a Laurent antiderivative would need a term `c x^{−p}`
+  with `−p · c = 1`, impossible in characteristic `p`. A residue read as the obstruction to
+  exactness, correct in characteristic `0`, would give it a nonzero value. Its neighbour
+  `x^{−p} dx = d(x^{1−p})` (since `1 − p = 1` in `k`) is exact, of residue `0`; at `p = 3`,
+  `d(c x^{−3}) = −3c x^{−4} dx = 0`.
 
 ### 9.3 The comparison theorem and the residue theorem
 
@@ -1978,9 +2002,14 @@ the index-two subfield in the hyperelliptic case (`TauCeti.finite_algEquiv_of_fi
 The route of the general theorem:
 
 1. *Extension to the compositum.* Prove that every `k`-automorphism `σ` of `F` extends uniquely to
-   a `K`-automorphism of `F′`, giving an injective homomorphism `Aut(F/k) → Aut(F′/K)`. Exactness
-   makes `k` separably closed in `F`, so `F ⊗[k] k^sep` is a field; `K/k^sep` is purely
-   inseparable, so the nilradical is the only prime ideal of `F ⊗[k] K`; the image of `F ⊗[k] K`
+   a `K`-automorphism of `F′`, giving an injective homomorphism `Aut(F/k) → Aut(F′/K)`. For the
+   separable closure `k^sep` of `k` in `K`, exactness makes `F ⊗[k] k^sep` a domain (the pinned
+   `TauCeti.isDomain_tensorProduct_of_isIntegrallyClosedIn`), integral over `F` and hence a field;
+   `K/k^sep` is purely inseparable (Mathlib's `separableClosure.isPurelyInseparable`), so
+   `Spec (F ⊗[k] K) → Spec (F ⊗[k] k^sep)` is a homeomorphism (Mathlib's
+   `PrimeSpectrum.isHomeomorph_comap_of_isPurelyInseparable`, after
+   `F ⊗[k] K ≅ (F ⊗[k] k^sep) ⊗[k^sep] K`) and the nilradical is the only prime ideal of
+   `F ⊗[k] K`, which need not be reduced (§8.1's Check `y^p = a + b x^p`); the image of `F ⊗[k] K`
    in `F′` is a domain integral over `F` that generates `F′`, so `F′` is the residue field of that
    prime, which `σ ⊗ id` preserves. `F′/K` is a function field with exact constants `K`.
 2. *Geometric genus at least two.* If `g(F′/K) ≥ 2`, `Aut(F′/K)` is finite by Rosenlicht's
@@ -2004,10 +2033,18 @@ The route of the general theorem:
      `φ(X)` is a curve generating `Jac X`, of dimension `g′ ≥ 2`, `σP₀ = P₀`, so `σP − P` is
      principal for every `P`, and `σ = 1` because `g′ > 0` (Rosenlicht 1955, proof of the Theorem
      of §2, p. 4).
-3. *Geometric genus one.* If `g(F′/K) = 1` while `g ≥ 2`, suppose `Aut(F/k)` infinite. Its fixed
+3. *Geometric genus one.* If `g(F′/K) = 1` while `g ≥ 2`, then `k` is imperfect, of
+   characteristic `p > 0`, since over a perfect `k` the genus is kept (the pinned
+   `TauCeti.genus_eq_genus_of_constantCompositum_eq_top`). Suppose `Aut(F/k)` infinite. Its fixed
    field has infinite index in `F`, so it is algebraic over `k` and equals `k` by exactness. Prove
-   that a field is separably generated over the fixed field of any group of its automorphisms
-   (Rosenlicht 1955, §3, Lemma, pp. 4–5); hence `F/k` is separably generated (§3, Corollary, p. 5),
+   that for a field `E` of characteristic `p > 0` and a group `G` of automorphisms of `E` with
+   fixed field `E^G`, the `p`-th powers of `E^G`-linearly independent elements of `E` are
+   `E^G`-linearly independent (Rosenlicht 1955, §3, Lemma, pp. 4–5, whose "separably generated"
+   means this criterion of MacLane; without finite generation it does not give a separating
+   transcendence basis, see the Checks). Since `F/k` is finitely generated
+   (`TauCeti.IsFunctionField.essFiniteType`), Mathlib's
+   `exists_isTranscendenceBasis_and_isSeparable_of_linearIndepOn_pow_of_essFiniteType` then gives
+   a separating transcendence basis, so `F/k` is separably generated (§3, Corollary, p. 5),
    the generic point of the regular model `X_F` of §12B is smooth over `k`, and the closed points
    at which `X_F` is not smooth form a finite set. `Aut(F/k)` permutes this set through the
    anti-equivalence of §12C, and the set is nonempty, since a smooth `X_F` would keep the genus
@@ -2033,8 +2070,11 @@ Layers E–F (abelian varieties, `Jac X`, the Abel–Jacobi map and its Albanese
 `TauCeti.AlgebraicGeometry.eq_snd_comp_lift_comp`, `TauCeti.finite_algEquiv_of_two_le_genus`,
 `TauCeti.finite_algEquiv_of_not_isHyperellipticFunctionField`,
 `TauCeti.finite_algEquiv_of_finrank_adjoin_eq_two`, `TauCeti.isDomain_tensorProduct_of_separating`,
-`TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_perfectField`; Mathlib
-`IsAlgClosure`, `TensorProduct`.
+`TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_perfectField`,
+`TauCeti.isDomain_tensorProduct_of_isIntegrallyClosedIn`, `TauCeti.IsFunctionField.essFiniteType`;
+Mathlib `IsAlgClosure`, `TensorProduct`, `separableClosure.isPurelyInseparable`,
+`PrimeSpectrum.isHomeomorph_comap_of_isPurelyInseparable`,
+`exists_isTranscendenceBasis_and_isSeparable_of_linearIndepOn_pow_of_essFiniteType`.
 
 **Checks.**
 
@@ -2060,6 +2100,14 @@ Layers E–F (abelian varieties, `Jac X`, the Abel–Jacobi map and its Albanese
 - A genus-one field over `ℂ` has infinitely many automorphisms (§11.1), and so has `y² = x³ − 2`
   over `ℚ`, translated by the multiples of the point `(3, 5)` of infinite order: the hypothesis
   `g ≥ 2` is load-bearing although `g(F′/K) = 1 > 0`.
+- The step-3 lemma concludes linear independence of `p`-th powers, not a separating transcendence
+  basis. For the perfect closure `E` of `𝔽̄_p(t)` and the translations `t ↦ t + a`, `a ∈ 𝔽̄_p`, the
+  fixed field is `𝔽̄_p` (an invariant `u` has `u^{p^n} ∈ 𝔽̄_p(t)` invariant under infinitely many
+  translations, hence constant) and the criterion holds (`∑ cᵢ fᵢ^p = (∑ cᵢ^{1/p} fᵢ)^p`), but
+  `E/𝔽̄_p` has no separating transcendence basis: for a candidate `s`, `s^{1/p} ∈ E` is a root of
+  the irreducible `X^p − s` over `𝔽̄_p(s)`, inseparable of degree `p`. A version of the lemma
+  concluding separable generation for every group of automorphisms would be refuted here; `E` is
+  not finitely generated over `𝔽̄_p`.
 
 ### 11.5 The Hurwitz bound
 
@@ -2386,8 +2434,9 @@ schemes; Tau Ceti's two-chart model, scheme Weil divisors and the anti-equivalen
   (1955), 1–11, [doi:10.1090/S0002-9947-1955-0070211-3](https://doi.org/10.1090/S0002-9947-1955-0070211-3):
   §2, Theorem (finiteness over an algebraically closed field) and its two lemmas; §3, finiteness
   over an arbitrary field when the genus stays positive over `k̄` (p. 5), the Lemma and Corollary
-  on separable generation over a fixed field (pp. 4–5) and the exceptional fields over imperfect
-  fields (p. 10) (§11.4).
+  of pp. 4–5 (MacLane's `p`-th-power criterion over the fixed field of a group of automorphisms,
+  and separable generation of a function field with infinitely many automorphisms), and the
+  exceptional fields over imperfect fields (p. 10) (§11.4).
 - **[DeligneMumford1969]** P. Deligne, D. Mumford, *The irreducibility of the space of curves of given
   genus*, Publ. Math. IHÉS 36 (1969), 75–109,
   [Numdam](http://www.numdam.org/item/PMIHES_1969__36__75_0/): Theorem (1.11), finiteness and
