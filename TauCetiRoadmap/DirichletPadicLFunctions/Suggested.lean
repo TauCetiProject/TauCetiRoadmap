@@ -1,5 +1,4 @@
 import Mathlib
-import TauCeti.Analysis.Normed.Algebra.Logarithm.Basic
 import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.NumberTheory.Padics.PadicIntegers
