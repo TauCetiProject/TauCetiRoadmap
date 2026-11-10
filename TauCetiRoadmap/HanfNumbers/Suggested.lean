@@ -504,6 +504,32 @@ theorem exists_isCompleteSentence_isCategorical [L.IsRelational]
       IsCategorical σ κ := by
   sorry
 
+/-- **Layer 5.6 headline, countable languages.** Over a language with countably many function and
+relation symbols, a structure is Lω₁ω-small exactly when it satisfies a complete sentence. The
+proof passes through the graph language of `L` (InfinitaryModelExistence Layer 6, Tau Ceti's
+`graphLanguage`, `relationalize`, `backTranslate` and `graphAxioms`), to which
+`isLω₁ωSmall_iff_exists_isCompleteSentence` applies. -/
+theorem isLω₁ωSmall_iff_exists_isCompleteSentence_of_countable [Countable (Σ l, L.Functions l)]
+    [Countable (Σ l, L.Relations l)] (M : Type w) [L.Structure M] :
+    IsLω₁ωSmall (L := L) M ↔
+      ∃ σ : L.Sentenceω, IsCompleteSentence.{u, v, w} σ ∧ SentenceInf.Realize σ M := by
+  sorry
+
+/-- **Layer 5.6 headline, categorical completions over countable languages.** The statement of
+`exists_isCompleteSentence_isCategorical` for a language with countably many function and
+relation symbols, from `exists_small_model_card_eq` and
+`isLω₁ωSmall_iff_exists_isCompleteSentence_of_countable`. -/
+theorem exists_isCompleteSentence_isCategorical_of_countable [Countable (Σ l, L.Functions l)]
+    [Countable (Σ l, L.Relations l)] (φ : L.Sentenceω)
+    (h : ∀ α < Ordinal.omega.{w} 1,
+      ∃ (M : Type w) (_ : L.Structure M), SentenceInf.Realize φ M ∧ ℶ_ α ≤ #M)
+    {κ : Cardinal.{w}} (hκ : ℵ₀ ≤ κ) (hcat : IsCategorical φ κ) :
+    ∃ σ : L.Sentenceω, IsCompleteSentence.{u, v, w} σ ∧
+      (∀ (M : Type w) (_ : L.Structure M), SentenceInf.Realize σ M → SentenceInf.Realize φ M) ∧
+      (∃ (M : Type w) (_ : L.Structure M), SentenceInf.Realize σ M ∧ #M = κ) ∧
+      IsCategorical σ κ := by
+  sorry
+
 end Small
 
 end TauCetiRoadmap.HanfNumbers
