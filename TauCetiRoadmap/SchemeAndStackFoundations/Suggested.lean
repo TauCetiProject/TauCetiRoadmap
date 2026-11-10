@@ -11,6 +11,7 @@ import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
 import TauCeti.AlgebraicGeometry.Modules.PseudoCoherent.Basic
 import TauCeti.AlgebraicGeometry.Modules.Quasicoherent.Kernels
 import TauCeti.AlgebraicGeometry.Modules.Tilde.Basic
+import TauCeti.AlgebraicGeometry.Morphisms.Dominant
 import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
 import TauCeti.AlgebraicGeometry.Morphisms.Thickening
 import TauCeti.AlgebraicGeometry.ProjectiveSpectrum.ProjectiveOver
@@ -733,7 +734,8 @@ theorem genus_baseChange (X : Scheme.{u}) [X.Over (Spec (.of k))]
 proper integral curves: for `E` finite locally free of rank `r` at every point of `Y` (Tau Ceti's
 `FiniteLocallyFreeSheaf.FixedRank`), `deg f^*E = [K(X) : K(Y)] · deg E`, where
 `deg E = χ(E) − r·χ(O_Y)` (Stacks, Definition 0AYR) with `χ = dim H⁰ − dim H¹`;
-`K(Y) → K(X)` is the algebra map compatible with `f` at the generic points.
+the algebra map `K(Y) → K(X)` is Tau Ceti's `Scheme.Hom.functionFieldMap f`, the map of stalks
+at the generic points.
 Stacks, Lemma 33.44.11 (0AYZ). -/
 theorem vectorBundleDegree_pullback (X Y : Scheme.{u})
     [X.Over (Spec (.of k))] [Y.Over (Spec (.of k))] [IsIntegral X] [IsIntegral Y]
@@ -741,8 +743,7 @@ theorem vectorBundleDegree_pullback (X Y : Scheme.{u})
     (hX : topologicalKrullDim X = 1) (hY : topologicalKrullDim Y = 1)
     (f : X ⟶ Y) [IsDominant f] (hf : f ≫ (Y ↘ Spec (.of k)) = (X ↘ Spec (.of k)))
     [Algebra Y.functionField X.functionField]
-    (hφ : Spec.map (CommRingCat.ofHom (algebraMap Y.functionField X.functionField)) ≫
-      Y.fromSpecStalk (genericPoint Y) = X.fromSpecStalk (genericPoint X) ≫ f)
+    (hφ : CommRingCat.ofHom (algebraMap Y.functionField X.functionField) = f.functionFieldMap)
     {r : ℕ} (E : FiniteLocallyFreeSheaf.FixedRank Y r) :
     Scheme.Modules.eulerCharBelow k X
         ((FiniteLocallyFreeSheaf.FixedRank.pullback f).obj E).obj.obj 2 -
@@ -935,20 +936,12 @@ class IsAlteration {S' S : Scheme.{u}} (f : S' ⟶ S) : Prop where
   isDominant : IsDominant f
   generically_finite : ∃ U : S.Opens, (U : Set S).Nonempty ∧ IsFinite (f ∣_ U)
 
-/-- The extension of function fields `K(S) → K(S')` of an alteration of integral schemes. -/
-def IsAlteration.functionFieldMap {S' S : Scheme.{u}} (f : S' ⟶ S) [IsIntegral S]
-    [IsIntegral S'] [IsAlteration f] : S.functionField ⟶ S'.functionField :=
-  S.presheaf.stalkSpecializes (show f (genericPoint S') ⤳ genericPoint S by
-    have : IsDominant f := IsAlteration.isDominant
-    have h := (genericPoint_spec S').image f.continuous
-    rw [Set.image_univ, (Scheme.Hom.denseRange f).closure_range] at h
-    exact h.specializes (Set.mem_univ _)) ≫
-    f.stalkMap (genericPoint S')
-
-/-- Generically étale: the function-field extension is separable. -/
+/-- Generically étale: the function-field extension `K(S) → K(S')`, Tau Ceti's
+`Scheme.Hom.functionFieldMap f`, is separable. -/
 def IsAlteration.IsGenericallyEtale {S' S : Scheme.{u}} (f : S' ⟶ S) [IsIntegral S]
     [IsIntegral S'] [IsAlteration f] : Prop :=
-  letI := (IsAlteration.functionFieldMap f).hom.toAlgebra
+  letI : IsDominant f := IsAlteration.isDominant
+  letI := f.functionFieldMap.hom.toAlgebra
   Algebra.IsSeparable S.functionField S'.functionField
 
 /-- Generic flatness. Stacks, Proposition 29.28.1 (052A). -/

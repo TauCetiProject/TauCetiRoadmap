@@ -483,7 +483,15 @@ imported through `TauCeti.AlgebraicGeometry.Modules.Quasicoherent.Kernels`);
 `TauCeti.AlgebraicGeometry.InvertibleSheaf`,
 `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.FixedRank` with `isConstantRank` and `pullback`
 (`TauCeti/AlgebraicGeometry/VectorBundle/FixedRank.lean`), `LineBundleClass` (with its `CommGroup` instance), `SchemeWeilDivisor`, `CartierDivisor`,
+`Scheme.CartierDivisor.principalSubgroup_eq_ker` and
+`Scheme.CartierDivisor.classGroupAddEquivLineBundleClass` (on an integral scheme, Cartier divisors
+modulo principal divisors are the line-bundle classes;
+`TauCeti/AlgebraicGeometry/CartierDivisor/ClassGroup.lean:61`, `:123`),
 `CodimensionOnePoint`, `SchemeWeilDivisor.toInvertibleSheaf`, `classGroupToLineBundleClass`;
+`AlgebraicGeometry.Scheme.Hom.functionFieldMap` with `eq_functionFieldMap_iff` (the map
+`K(Y) → K(X)` of a dominant morphism `X → Y` of irreducible schemes, the unique one compatible with
+the canonical morphisms from the spectra of the function fields;
+`TauCeti/AlgebraicGeometry/Morphisms/Dominant.lean:151`, `:170`), used in §3.3 and §4.16;
 `TauCeti.Model`, `genericFiber`, `specialFiberι`, `FiniteDVRExtension`;
 `TauCeti.CommHopfAlgCat.fppfQuotientSheaf`, `isPullback_fppfQuotientTorsor`,
 `TauCeti.ConstantGroup.groupScheme`, `linearlyReductiveAffineGroupSchemeProperty`;
@@ -4933,9 +4941,11 @@ cited there gives the finite-dimensionality),
 `vectorBundleDegree_pullback` (for a nonconstant `f : X → Y` of proper integral curves over `k`
 and `E` finite locally free of constant rank, `deg f^* E = [K(X):K(Y)] deg E`;
 Stacks, Lemma 33.44.11 (0AYZ)). In `vectorBundleDegree_pullback` the field extension
-`K(X)/K(Y)` is the one given by `f` at the generic points: the algebra map `K(Y) → K(X)` is the
-one for which `Spec K(X) → Spec K(Y) → Y` equals `Spec K(X) → X → Y`, and `E` keeps constant
-rank `r`.
+`K(X)/K(Y)` is the one given by `f` at the generic points: the algebra map `K(Y) → K(X)` is
+Tau Ceti's `AlgebraicGeometry.Scheme.Hom.functionFieldMap f`
+(`TauCeti/AlgebraicGeometry/Morphisms/Dominant.lean:151`), the one for which
+`Spec K(X) → Spec K(Y) → Y` equals `Spec K(X) → X → Y` (`eq_functionFieldMap_iff`, `:170`), and
+`E` keeps constant rank `r`.
 Prove `vectorBundle_riemann_roch`: for a proper curve `X`
 over `k` with `H⁰ = k` and `E` locally free of rank `r`, `χ(X, E) = deg E + r(1 − g)`; by the
 definition of the degree this is `χ(X, O_X) = 1 − g` (Stacks, Definition 0AYR), and `H⁰ = k` holds
@@ -5009,26 +5019,31 @@ restated; its affine case is `lineBundleClass_spec_equiv_pic`: a group isomorphi
 `LineBundleClass (Spec R) ≃* CommRing.Pic R` sending the class of `L` to `P` exactly when
 `L ≅ P~`.
 
-**Cartier and Weil comparisons — `cartierClass_picard_equiv`, `picardToClassGroup`.**
-For integral `X`, use the pinned `Scheme.CartierDivisor.toLineBundleClassHom`,
-`toLineBundleClass_surjective` and `toLineBundleClass_principalCartierDivisor` to
-identify Cartier divisors modulo principal divisors with `LineBundleClass X`.
-Prove the kernel statement by comparing rational trivializations; no dimension bound is
-imposed. For normal integral locally Noetherian `X`, construct `picardToClassGroup`
+**The Weil comparison — `picardToClassGroup`.**
+For integral `X`, with no Noetherian or dimension hypothesis, Cartier divisors modulo principal
+divisors are `LineBundleClass X` by Tau Ceti's
+`TauCeti.AlgebraicGeometry.Scheme.CartierDivisor.classGroupAddEquivLineBundleClass`
+(`TauCeti/AlgebraicGeometry/CartierDivisor/ClassGroup.lean:123`, an additive equivalence
+`ClassGroup X ≃+ Additive (LineBundleClass X)`), whose kernel statement is
+`principalSubgroup_eq_ker` (`:61`: the principal Cartier divisors are the kernel of
+`D ↦ [O_X(D)]`); both are cited and not restated. For normal integral locally Noetherian `X`,
+construct `picardToClassGroup`
 by taking the codimension-one orders of a rational section of an invertible sheaf.
 Changing the section adds a principal Weil divisor. Prove
 `classGroup_picard_locallyFactorial`: this homomorphism is injective and is bijective
 when `X` is locally factorial. Compare its inverse with pinned
 `SchemeWeilDivisor.classGroupToLineBundleClass` and
-`classGroupAddEquivLineBundleClass` only for Noetherian regular integral curves,
+`SchemeWeilDivisor.classGroupAddEquivLineBundleClass` only for Noetherian regular integral curves,
 where the pinned coheight-at-most-one hypothesis holds.
 Source: Stacks, §§31.27–31.28 (0BE4, 0BE6), Lemmas 31.28.6–31.28.7 (0BE8, 0BE9).
-*Needs:* the pinned Cartier-divisor representation and Picard maps, rational
-trivializations and codimension-one valuations; Tau Ceti `SchemeWeilDivisor`.
+*Needs:* Tau Ceti `Scheme.CartierDivisor.classGroupAddEquivLineBundleClass`,
+`Scheme.CartierDivisor.principalSubgroup_eq_ker`, `SchemeWeilDivisor`, `CodimensionOnePoint`;
+codimension-one valuations of rational sections.
 
 **Checks.**
-- On `ℙ²_k`, the hyperplane Cartier divisor maps to `O(1)` and to its Weil class;
-  both class groups are `ℤ`, in dimension two.
+- On `ℙ²_k`, the pinned Cartier equivalence sends the hyperplane Cartier divisor to `O(1)`, and
+  `picardToClassGroup` sends `O(1)` to the Weil class of a line; both class groups are `ℤ`, in
+  dimension two.
 - For the normal quadric cone `k[x,y,z]/(xy−z²)`, `Pic=0` and `Cl=ℤ/2`;
   `picardToClassGroup` is injective and not surjective.
 - On a regular integral proper curve, this comparison is inverse to the pinned
@@ -5231,7 +5246,7 @@ Abel–Jacobi map `ι : X → J` of JacobianChallenge Layer F, `ι^* : Γ(J, Ω�
 isomorphism. Under this isomorphism and Serre duality, the dual of the tangent map
 `T_{x_0} X → T_0 J = H¹(X, O_X)` is the evaluation map
 `H⁰(X, Ω¹_X) → Ω¹_X|_{x_0}` (Milne 2008,
-Part III, Propositions 2.1, 2.2, p. 91). *Needs:* §3.3, §3.6; StableReduction Layer 1
+Part III, Propositions 2.1, 2.2, pp. 91–92). *Needs:* §3.3, §3.6; StableReduction Layer 1
 (`Ω¹`); JacobianChallenge Layers E–F; Tau Ceti `AbelianVariety.TangentSpace`.
 
 **Checks.**
@@ -6336,7 +6351,10 @@ The proper closure map is the alteration; no finiteness claim is made for it.
 Define `IsAlteration f` for `f : S' → S`: `f` is proper, dominant, and finite over some nonempty
 open `U ⊆ S` (Stacks, Definition 29.52.12 (0AB0)); the theorems below assume `S` Noetherian
 **integral** and `S'` integral, and the composition and domination statements are stated in that
-integral setting. API: `functionFieldMap` (`K(S) → K(S')`), `genericDegree` (`[K(S') : K(S)]`),
+integral setting. The map `K(S) → K(S')` of an alteration is Tau Ceti's
+`AlgebraicGeometry.Scheme.Hom.functionFieldMap f`
+(`TauCeti/AlgebraicGeometry/Morphisms/Dominant.lean:151`, for a dominant morphism of irreducible
+schemes), cited and not restated. API: `genericDegree` (`[K(S') : K(S)]`),
 `IsGenericallyEtale` (the function-field extension is separable), *IsAlteration.comp* (for `S'' → S'
 → S` alterations of **integral** schemes, the composite is an alteration; the finite-open witnesses must meet the generic point),
 `genericDegree_comp` (multiplicative),
@@ -6350,7 +6368,7 @@ alteration `h : T' → S` and morphisms `a_i : T' → T_i` in `Over S`, that is 
 *IsAlteration.baseChange_component* (the base change along a dominant map of integral schemes
 contains a dominating component that is an alteration). *Needs:* §0.9, §0.21, §4.11, §4.12;
 Mathlib `IsProper`, `IsDominant`, `IsFinite`, `Scheme.functionField`, `Module.finrank`,
-`Algebra.IsSeparable`, `IsIntegral`.
+`Algebra.IsSeparable`, `IsIntegral`; Tau Ceti `Scheme.Hom.functionFieldMap`.
 
 **Checks.**
 - Frobenius of `𝔸¹_{𝔽_p}` is an alteration of generic degree `p` and not
@@ -6364,9 +6382,9 @@ Mathlib `IsProper`, `IsDominant`, `IsFinite`, `Scheme.functionField`, `Module.fi
 - For `S = Spec k ⊔ Spec k` and the two inclusions, no
   integral scheme dominates both.
 
-*Lean:* `Formal.IsAlteration`, `Formal.IsAlteration.functionFieldMap` (the stalk map at the
-generic point of `S'` composed with the specialisation of its image to the generic point of `S`),
-`Formal.IsAlteration.IsGenericallyEtale`. The rest of the API is specified in this README only.
+*Lean:* `Formal.IsAlteration`, `Formal.IsAlteration.IsGenericallyEtale` (separability of
+`K(S')` over `K(S)` along Tau Ceti's `Scheme.Hom.functionFieldMap f`). The rest of the API is
+specified in this README only.
 
 ### 4.17 Strict normal crossings divisors
 
