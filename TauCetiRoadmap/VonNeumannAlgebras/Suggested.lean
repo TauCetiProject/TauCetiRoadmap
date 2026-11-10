@@ -9,21 +9,26 @@ import Mathlib
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib, each with `sorry`, together with the few
-predicates (central, abelian and finite projections, normal functionals and normal semifinite
-traces, factor, finiteness, types II₁ and II∞, type I₂ summands, projection comparison, cyclic
-and separating vectors, tracial states, injectivity and hyperfiniteness) that those statements
-need. Concrete von Neumann algebras are Mathlib's `VonNeumannAlgebra H` on a complete complex
-Hilbert space `H`; the strong and weak operator topologies are Mathlib's `H →Lₚₜ[ℂ] H` and
-`H →WOT[ℂ] H`. The nondegeneracy clause of the Layer 0 representations is the body of Tau Ceti's
-`NonUnitalStarAlgHom.IsNondegenerate`, written out so that the file imports only Mathlib.
+definitions (the amplifications `x ⊗ 1`, `1 ⊗ y` and the spatial tensor product on the completed
+Hilbert tensor product, multiplication algebras, the left regular representation and group von
+Neumann algebras of discrete groups) and predicates (central, abelian and finite projections,
+normal functionals and normal semifinite traces, factor, finiteness, types II₁ and II∞, type I₂
+summands, projection comparison, cyclic and separating vectors, tracial states, property Γ,
+injectivity and hyperfiniteness) that those statements need. Concrete von Neumann algebras are
+Mathlib's `VonNeumannAlgebra H` on a complete complex Hilbert space `H`; the strong and weak
+operator topologies are Mathlib's `H →Lₚₜ[ℂ] H` and `H →WOT[ℂ] H`. The completed Hilbert tensor
+product `E ⊗̂ F` is `UniformSpace.Completion (E ⊗[ℂ] F)` of Mathlib's inner product space
+`E ⊗[ℂ] F`, and `ℓ²(Γ)` of a discrete group is `L²(Γ)` for the counting measure. The
+nondegeneracy clause of the Layer 0 representations is the body of Tau Ceti's
+`NonUnitalStarAlgHom.IsNondegenerate`, and the generated von Neumann algebras `spatialTensor`,
+`multiplicationAlgebra` and `groupVonNeumannAlgebra` are Tau Ceti's `VonNeumannAlgebra.adjoin`
+of their generators with its body written out, so that the file imports only Mathlib.
 
 Headline theorems of the README that are not statable at the pins, and the carrier each lacks:
 
 * Layer 1: the ultraweak and ultrastrong closure forms of the bicommutant and Kaplansky theorems,
   and the ultraweak form of the projection-closure theorem. Mathlib has no ultraweak or
   ultrastrong topology on `H →L[ℂ] H` (only the WOT and pointwise copies used below).
-* Layer 2: the completed spatial tensor product `M ⊗̄ N` and its commutation theorem. There is
-  no completed Hilbert tensor product of von Neumann algebras.
 * Layer 4: the identification of the predual `M_*` with the ultraweakly continuous functionals
   and the agreement of normality with ultraweak continuity. Mathlib has no ultraweak topology on
   `H →L[ℂ] H`. Normality itself is stated below in its monotone-net form on Mathlib's strong
@@ -31,20 +36,24 @@ Headline theorems of the README that are not statable at the pins, and the carri
   of vector functionals. The existence of a Banach predual for a concrete von Neumann algebra and
   Sakai's theorem are statable through `WStarAlgebra`'s conjugate-linear predual and are stated
   below.
-  The classification of abelian von Neumann algebras by `L∞` of a measure space with
-  multiplicity is not statable: `MeasureTheory.Lp` has no ring structure for `p = ∞`, only the
-  heterogeneous Hölder scalar action, and there is no direct integral of Hilbert spaces.
-* Layers 5 and 7: projection modularity versus finiteness (no lattice structure on the
-  projections of a von Neumann algebra), the coupling constant and the Jones index of a II₁
-  subfactor (no normal Hilbert modules over a II₁ factor and no coupling dimension).
-* Layer 6: the amplification `M ≅ pMp ⊗̄ B(ℓ²)` of a separably acting II∞ factor by a finite
-  corner (no completed tensor product of von Neumann algebras). The trace of a semifinite factor,
-  the tracial standard form `J M J = M'` (in its spatial form, for a cyclic vector with tracial
-  vector state) and the type decomposition are stated below.
-* Layer 8: group von Neumann algebras, crossed products and the Bernoulli factors (no group
-  von Neumann algebra or von Neumann crossed product).
+  The classification of abelian von Neumann algebras is stated below in its abstract form, with
+  `L∞(X, μ)` realized as the von Neumann algebra of its multiplication operators on `L²(X, μ)`
+  (Mathlib's `ContinuousLinearMap.holderL`), since `MeasureTheory.Lp` has no ring structure for
+  `p = ∞`. Its spatial form with multiplicity, a unitary equivalence with a Hilbert sum of
+  amplified multiplication algebras, is not stated: there is no direct sum of von Neumann
+  algebras, and assembling one from `lp.mapCLM`, with a uniform-bound side condition on every
+  operator family, would be a long ad hoc encoding.
+* Layer 7: the coupling constant and the Jones index of a II₁ subfactor (no normal Hilbert
+  modules over a II₁ factor and no coupling dimension).
+* Layer 8: von Neumann crossed products and the Bernoulli factors. There is no von Neumann
+  crossed product, and `L∞(X)` is not a C*-algebra at the pins (`MeasureTheory.Lp` has no ring
+  structure for `p = ∞`); assembling `L∞(X) ⋊ Γ` from multiplication operators
+  (`ContinuousLinearMap.holderL`), Koopman unitaries (`MeasureTheory.Lp.compMeasurePreservingₗᵢ`)
+  and the completed tensor product would be a long ad hoc encoding. Group von Neumann algebras
+  and their factoriality criterion are stated below.
 * Layer 9: formal degrees of discrete series and the covolume formula (no square-integrable
-  representation or formal degree).
+  representation or formal degree, and the covolume formula is an identity between Layer 7
+  coupling dimensions).
 * Layer 10: Tomita–Takesaki theory, the finite-dimensional identification `σ_t = Ad(h^{it})`
   and the Bost–Connes type III theorem. There is no closed antilinear operator `S`, modular
   operator `Δ`, modular conjugation `J` or modular automorphism group. The KMS characterization
@@ -52,16 +61,14 @@ Headline theorems of the README that are not statable at the pins, and the carri
   below.
 * Layer 11: weights, spatial derivatives, Connes cocycles, the continuous core, Takesaki duality,
   the invariants `S` and `T`, and the flow of weights (no modular automorphism group of a weight,
-  on which each of these depends).
-* Layer 12: the two-projection structure theorem (it identifies the general-position part with
-  `B ⊗̄ M₂(ℂ)`, which needs the completed tensor product), the tracial ultraproduct and
-  `R_ω′ ∩ R^ω = R` for the hyperfinite II₁ factor `R` (no tracial ultraproduct), and the
-  central-sequence theorems that `R` has property Γ while the free group factors lack it and so
-  are not isomorphic to `R` (no group von Neumann algebra and no infinite tensor product model of
-  `R`). The Mackey–Gleason–Bunce–Wright
-  theorem and Dye's theorem are stated below; normality of the Dye isomorphism is omitted there
-  because it is automatic: a Jordan *-isomorphism is an order isomorphism, so it preserves
-  suprema of bounded increasing nets.
+  on which each of these depends). The tensor commutation theorem `(M ⊗̄ N)′ = M′ ⊗̄ N′`, proved
+  there through standard forms, needs none of them in its statement and is stated below.
+* Layer 12: the tracial ultraproduct and `R_ω′ ∩ R^ω = R` for the hyperfinite II₁ factor `R`
+  (no tracial ultraproduct). The two-projection theorem, in Halmos's form on `L ⊕ L`, property Γ
+  of the hyperfinite II₁ factors and its failure for the free group factors (so that these are
+  not `R`), the Mackey–Gleason–Bunce–Wright theorem and Dye's theorem are stated below.
+  Normality of the Dye isomorphism is omitted there because it is automatic: a Jordan
+  *-isomorphism is an order isomorphism, so it preserves suprema of bounded increasing nets.
 * Layer 13: semidiscreteness and its equivalence with injectivity. Semidiscreteness is defined
   by completely positive maps through matrix algebras, and Mathlib's `CompletelyPositiveMap`
   needs `NonUnitalCStarAlgebra` and `StarOrderedRing` instances on its source, which the carrier
@@ -77,7 +84,7 @@ Headline theorems of the README that are not statable at the pins, and the carri
   (Anantharaman–Popa, Proposition 10.2.2, p. 161).
 -/
 
-open scoped ComplexOrder ENNReal NNReal
+open scoped ComplexOrder ENNReal NNReal TensorProduct
 
 open Filter Topology
 
@@ -144,6 +151,38 @@ theorem closure_isStarProjection_eq_positive_contractions (hH : ¬ FiniteDimensi
     closure {A : H →WOT[ℂ] H | IsStarProjection A.toCLM} =
       {A : H →WOT[ℂ] H | 0 ≤ A.toCLM ∧ A.toCLM ≤ 1} := by
   sorry
+
+/-! ## Layer 2: Elementary algebra, corners, and tensors -/
+
+/-- The amplification `x ⊗ 1` on the completed Hilbert tensor product `E ⊗̂ F`, the completion of
+Mathlib's inner product space `E ⊗[ℂ] F`: the extension by continuity of
+`ContinuousLinearMap.rTensor`, which sends `e ⊗ f` to `x e ⊗ f` (README, Layer 2). No
+completeness of `E` or `F` is assumed, so that a corner of Layer 6, acting on a closed subspace,
+can be amplified. -/
+def rTensorCompletion {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E]
+    (F : Type*) [NormedAddCommGroup F] [InnerProductSpace ℂ F] (x : E →L[ℂ] E) :
+    UniformSpace.Completion (E ⊗[ℂ] F) →L[ℂ] UniformSpace.Completion (E ⊗[ℂ] F) :=
+  (x.rTensor F).completion
+
+/-- The amplification `1 ⊗ y` on `E ⊗̂ F`: the extension by continuity of
+`ContinuousLinearMap.lTensor`, which sends `e ⊗ f` to `e ⊗ y f` (README, Layer 2). -/
+def lTensorCompletion (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℂ E]
+    {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℂ F] (y : F →L[ℂ] F) :
+    UniformSpace.Completion (E ⊗[ℂ] F) →L[ℂ] UniformSpace.Completion (E ⊗[ℂ] F) :=
+  (y.lTensor E).completion
+
+/-- The spatial tensor product: the von Neumann algebra on `E ⊗̂ F` generated by the operators
+`x ⊗ 1` for `x ∈ A` and `1 ⊗ y` for `y ∈ B`, that is, the double commutant of these operators
+and their adjoints, Tau Ceti's `VonNeumannAlgebra.adjoin` of them (README, Layer 2). For von Neumann algebras `M` and `N` it is `M ⊗̄ N`: for
+instance `M_m(ℂ) ⊗̄ M_n(ℂ) = M_{mn}(ℂ)` on `ℂ^m ⊗ ℂ^n`, and `B(H) ⊗̄ ℂ1 = B(H) ⊗ 1`, whose
+commutant is `1 ⊗ B(K)`. -/
+def spatialTensor {E F : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E]
+    [NormedAddCommGroup F] [InnerProductSpace ℂ F] (A : Set (E →L[ℂ] E)) (B : Set (F →L[ℂ] F)) :
+    VonNeumannAlgebra (UniformSpace.Completion (E ⊗[ℂ] F)) where
+  toStarSubalgebra := StarSubalgebra.centralizer ℂ
+    (StarSubalgebra.centralizer ℂ (rTensorCompletion F '' A ∪ lTensorCompletion E '' B) :
+      Set (UniformSpace.Completion (E ⊗[ℂ] F) →L[ℂ] UniformSpace.Completion (E ⊗[ℂ] F)))
+  centralizer_centralizer' := by simp
 
 /-! ## Layer 3: Type I and finite-dimensional algebras -/
 
@@ -226,6 +265,36 @@ theorem isCyclic_iff_isSeparating_commutant (M : VonNeumannAlgebra H) (ξ : H) :
     IsCyclic M ξ ↔ IsSeparating M.commutant ξ := by
   sorry
 
+/-- The multiplication algebra of a measure space `(X, μ)`: the von Neumann algebra on `L²(X, μ)`
+generated by the operators of multiplication by `f ∈ L∞(X, μ)`, which are Mathlib's Hölder
+products `ContinuousLinearMap.holderL` for the exponents `∞, 2, 2`; it is Tau Ceti's
+`VonNeumannAlgebra.adjoin` of these operators (README, V2 and V4.AbelianClassification). For σ-finite `μ` it consists of these multiplication operators and is
+star isomorphic to `L∞(X, μ)`. For the counting measure on a two-point space it is the diagonal
+algebra `ℂ²` on `ℂ²`; for Lebesgue measure on `[0, 1]` it is `L∞[0, 1]`, which has no minimal
+projection. -/
+def multiplicationAlgebra {X : Type*} [MeasurableSpace X] (μ : MeasureTheory.Measure X) :
+    VonNeumannAlgebra (MeasureTheory.Lp ℂ 2 μ) where
+  toStarSubalgebra := StarSubalgebra.centralizer ℂ
+    (StarSubalgebra.centralizer ℂ
+      (Set.range ((ContinuousLinearMap.mul ℂ ℂ).holderL μ ∞ 2 2)) : Set _)
+  centralizer_centralizer' := by simp
+
+/-- **Abelian von Neumann algebras are `L∞` spaces.** An abelian von Neumann algebra on a nonzero
+separable Hilbert space is star isomorphic to the multiplication algebra of a probability measure
+on a standard Borel space: to `ℓ∞` of a finite or countable set, to `L∞[0, 1]`, or to their direct
+sum (README, V4.AbelianClassification; Jones, the remark after EP10, p. 23). The zero algebra on
+the zero space is excluded, since the multiplication algebra of a probability space contains
+`1 ≠ 0`; without separability `ℓ∞(I)` for an uncountable `I` is a counterexample, having
+uncountably many orthogonal minimal projections, while a probability measure has only countably
+many atoms. -/
+theorem exists_starAlgEquiv_multiplicationAlgebra [Nontrivial H]
+    [TopologicalSpace.SeparableSpace H] {M : VonNeumannAlgebra H}
+    (hM : ∀ x ∈ M, ∀ y ∈ M, x * y = y * x) :
+    ∃ (X : Type) (_ : MeasurableSpace X) (_ : StandardBorelSpace X)
+      (μ : MeasureTheory.Measure X) (_ : MeasureTheory.IsProbabilityMeasure μ),
+      Nonempty (M.toStarSubalgebra ≃⋆ₐ[ℂ] (multiplicationAlgebra μ).toStarSubalgebra) := by
+  sorry
+
 /-! ## Layer 5: Projection comparison and finite factors -/
 
 /-- Murray–von Neumann equivalence `p ∼ q` in `M`, oriented from initial to final projection:
@@ -294,6 +363,26 @@ theorem isSimpleRing_of_isTypeIIOne {M : VonNeumannAlgebra H} (hM : IsTypeIIOne 
     IsSimpleRing M.toStarSubalgebra := by
   sorry
 
+/-- **Finiteness is modularity of the projection lattice.** A projection `e` of `M` is finite
+exactly when the interval `[0, e]` of the projection lattice of `M` is modular: for projections
+`p ≤ r` and `q` of `M` below `e`, `p ∨ (q ∧ r) = (p ∨ q) ∧ r`. Projections are compared through
+their ranges, `p ∧ q` being the projection onto `ran p ∩ ran q` and `p ∨ q` the projection onto
+the closure of `ran p + ran q`; both lie in `M`. At `e = 1` this is the theorem that `M` is
+finite exactly when its projection lattice is modular, since `IsFiniteProjection M 1` says that
+every isometry of `M` is unitary. No separability is assumed (README, V5.LatticeFinite). In
+`B(ℓ²)` the subspaces of V2.NonmodularProjectionLattice break the law, and `1` is infinite there
+through the shift. -/
+theorem isFiniteProjection_iff_modular {M : VonNeumannAlgebra H} {e : H →L[ℂ] H}
+    (he : IsStarProjection e) (heM : e ∈ M) :
+    IsFiniteProjection M e ↔
+      ∀ p ∈ M, ∀ q ∈ M, ∀ r ∈ M, IsStarProjection p → IsStarProjection q → IsStarProjection r →
+        p ≤ e → q ≤ e → r ≤ e → p ≤ r →
+        (LinearMap.range (p : H →ₗ[ℂ] H) ⊔
+            (LinearMap.range (q : H →ₗ[ℂ] H) ⊓ LinearMap.range (r : H →ₗ[ℂ] H))).topologicalClosure =
+          (LinearMap.range (p : H →ₗ[ℂ] H) ⊔ LinearMap.range (q : H →ₗ[ℂ] H)).topologicalClosure ⊓
+            LinearMap.range (r : H →ₗ[ℂ] H) := by
+  sorry
+
 /-! ## Layer 6: Tracial standard form and semifinite factors -/
 
 /-- A normal semifinite trace on `M` (Anantharaman–Popa, Definition 8.3.1, pp. 124–125): a map
@@ -351,6 +440,24 @@ def IsTypeIIInfinity (M : VonNeumannAlgebra H) : Prop :=
   ∀ p ∈ M, IsStarProjection p → p ≠ 0 →
     ∃ q ∈ M, IsStarProjection q ∧ q ≠ 0 ∧ q ≠ p ∧ q ≤ p
 
+/-- **A II∞ factor is an amplification of a finite corner.** Let `M` be a type II∞ factor on a
+separable Hilbert space and `E ≠ 0` a closed subspace whose orthogonal projection `p` is a finite
+projection of `M`. Then `M` is star isomorphic to `pMp ⊗̄ B(ℓ²)`, where the corner `pMp` acts on
+`E` by the compressions `x ↦ P_E x|_E` of the elements of `M`: a maximal family of mutually
+orthogonal projections equivalent to `p` is countable by separability and infinite since `M` is,
+it sums to a projection equivalent to `1`, and the partial isometries implementing the
+equivalences form a system of matrix units (README, Layer 6; Jones, Definition 9.1.7 and
+Proposition 9.1.8, p. 57). For `E = 0` the right side is `0` and the statement fails, which is why
+`E ≠ 0` is assumed. -/
+theorem nonempty_starAlgEquiv_spatialTensor_of_isTypeIIInfinity
+    [TopologicalSpace.SeparableSpace H] {M : VonNeumannAlgebra H} (hM : IsTypeIIInfinity M)
+    (E : Submodule ℂ H) [E.HasOrthogonalProjection]
+    (hE : IsFiniteProjection M E.starProjection) (hE0 : E ≠ ⊥) :
+    Nonempty (M.toStarSubalgebra ≃⋆ₐ[ℂ] (spatialTensor
+      {y : E →L[ℂ] E | ∃ x ∈ M, y = E.orthogonalProjectionOnto ∘L x ∘L E.subtypeL}
+      (Set.univ : Set (lp (fun _ : ℕ ↦ ℂ) 2 →L[ℂ] lp (fun _ : ℕ ↦ ℂ) 2))).toStarSubalgebra) := by
+  sorry
+
 /-- **The Murray–von Neumann type decomposition.** Every von Neumann algebra `M` has unique
 pairwise orthogonal central projections `z 0, z 1, z 2, z 3` with sum `1` cutting it into its
 type I, II₁, II∞ and III parts (README, Layer 6; Peterson, Theorem 3.3.1, p. 49, with the
@@ -376,6 +483,38 @@ theorem existsUnique_typeDecomposition (M : VonNeumannAlgebra H) :
   sorry
 
 /-! ## Layer 8: Group algebras, actions, and discrete crossed products -/
+
+/-- The left regular representation of a discrete group `Γ` on `ℓ²(Γ)`, realized as `L²(Γ)` for
+the counting measure on the discrete σ-algebra: `λ_g` sends `f` to `h ↦ f(g⁻¹ h)`, through
+Mathlib's `MeasureTheory.Lp.compMeasurePreservingₗᵢ` and the left invariance of the counting
+measure (README, Layer 8). On `ℓ²(ℤ/2) = ℂ²` the nontrivial element acts by the swap matrix. -/
+def leftRegular (Γ : Type*) [Group Γ] [MeasurableSpace Γ] [DiscreteMeasurableSpace Γ] (g : Γ) :
+    MeasureTheory.Lp ℂ 2 (MeasureTheory.Measure.count : MeasureTheory.Measure Γ) →L[ℂ]
+      MeasureTheory.Lp ℂ 2 (MeasureTheory.Measure.count : MeasureTheory.Measure Γ) :=
+  (MeasureTheory.Lp.compMeasurePreservingₗᵢ ℂ (fun h ↦ g⁻¹ * h)
+    (MeasureTheory.measurePreserving_mul_left _ g⁻¹)).toContinuousLinearMap
+
+/-- The group von Neumann algebra `L(Γ) = λ(Γ)''` of a discrete group, the von Neumann algebra on
+`ℓ²(Γ)` generated by the left regular representation, Tau Ceti's `VonNeumannAlgebra.adjoin` of
+its range (README, Layer 8; Peterson, Theorem 5.1.3, p. 83). `L(ℤ/2)` is the algebra of circulant matrices `[[a, b], [b, a]]` on `ℂ²`, and `L(ℤ)` is
+`L∞(𝕋)` through the Fourier transform. -/
+def groupVonNeumannAlgebra (Γ : Type*) [Group Γ] [MeasurableSpace Γ]
+    [DiscreteMeasurableSpace Γ] :
+    VonNeumannAlgebra
+      (MeasureTheory.Lp ℂ 2 (MeasureTheory.Measure.count : MeasureTheory.Measure Γ)) where
+  toStarSubalgebra := StarSubalgebra.centralizer ℂ
+    (StarSubalgebra.centralizer ℂ (Set.range (leftRegular Γ)) : Set _)
+  centralizer_centralizer' := by simp
+
+/-- **The ICC criterion** (Murray–von Neumann). The group von Neumann algebra of a discrete group
+`Γ` is a factor exactly when every conjugacy class of `Γ` other than `{1}` is infinite (README,
+Layer 8; Peterson, Theorem 5.1.6, p. 84). No countability of `Γ` is assumed. The trivial group
+gives the factor `ℂ`; a nontrivial finite or abelian group has a finite nontrivial class and a
+nonscalar centre; the free groups of rank at least two are ICC. -/
+theorem isFactor_groupVonNeumannAlgebra_iff (Γ : Type*) [Group Γ] [MeasurableSpace Γ]
+    [DiscreteMeasurableSpace Γ] :
+    IsFactor (groupVonNeumannAlgebra Γ) ↔ ∀ g : Γ, g ≠ 1 → {h : Γ | IsConj g h}.Infinite := by
+  sorry
 
 /-- **Dense translations are ergodic.** Left translation by a countable dense subgroup of a
 locally compact Hausdorff group is ergodic for a regular Haar measure, with no compactness,
@@ -412,7 +551,72 @@ theorem existsUnique_isKMS_flow {M : VonNeumannAlgebra H}
         ∀ t : ℝ, F t = φ (σ t x * y) ∧ F (t + Complex.I) = φ (y * σ t x) := by
   sorry
 
+/-! ## Layer 11: Weights, Connes invariants, and continuous cores -/
+
+/-- **The tensor commutation theorem** (Tomita). For von Neumann algebras `M` on `H` and `N` on
+`K`, the commutant of `M ⊗̄ N` on `H ⊗̂ K` is `M′ ⊗̄ N′` (README, Layer 11, proved through standard
+forms; Anantharaman–Popa, §5.1, p. 66, footnote 1). The case `N = B(K)`, where the commutant of
+`M ⊗̄ B(K)` is `M′ ⊗ 1`, is elementary and proved in Layer 2. For `M = B(H)` and `N = B(K)` both
+sides are the scalars. -/
+theorem commutant_spatialTensor {K : Type*} [NormedAddCommGroup K] [InnerProductSpace ℂ K]
+    [CompleteSpace K] (M : VonNeumannAlgebra H) (N : VonNeumannAlgebra K) :
+    (spatialTensor (M : Set (H →L[ℂ] H)) (N : Set (K →L[ℂ] K))).commutant =
+      spatialTensor (M.commutant : Set (H →L[ℂ] H)) (N.commutant : Set (K →L[ℂ] K)) := by
+  sorry
+
 /-! ## Layer 12: Two projections, ultraproducts, and central sequences -/
+
+/-- **Halmos's two-projection theorem.** Two projections `p` and `q` on `H` in general position,
+meaning that `ran p ∩ ran q`, `ran p ∩ ker q`, `ker p ∩ ran q` and `ker p ∩ ker q` are all `0`, are
+simultaneously unitarily equivalent to `diag(1, 0)` and
+`[[b, √(b(1 − b))], [√(b(1 − b)), 1 − b]]` on `L ⊕ L`, for a positive contraction `b` on a Hilbert
+space `L` with `ker b = ker (1 − b) = 0`; so the von Neumann algebra they generate is
+`W*(b) ⊗ M₂(ℂ)` with `W*(b)` abelian (README, Layer 12; Jones, Exercises 7.3.2 and 7.3.8,
+pp. 46–47). The general-position part of an arbitrary pair, the complement of the four
+intersections, is such a pair on a reducing subspace. On `ℂ²`, `p = diag(1, 0)` and the
+projection onto the line through `(cos θ, sin θ)`, `0 < θ < π/2`, give `L = ℂ` and `b = cos² θ`. -/
+theorem exists_linearIsometryEquiv_withLp_of_generalPosition {p q : H →L[ℂ] H}
+    (hp : IsStarProjection p) (hq : IsStarProjection q)
+    (h₁ : LinearMap.range (p : H →ₗ[ℂ] H) ⊓ LinearMap.range (q : H →ₗ[ℂ] H) = ⊥)
+    (h₂ : LinearMap.range (p : H →ₗ[ℂ] H) ⊓ LinearMap.ker (q : H →ₗ[ℂ] H) = ⊥)
+    (h₃ : LinearMap.ker (p : H →ₗ[ℂ] H) ⊓ LinearMap.range (q : H →ₗ[ℂ] H) = ⊥)
+    (h₄ : LinearMap.ker (p : H →ₗ[ℂ] H) ⊓ LinearMap.ker (q : H →ₗ[ℂ] H) = ⊥) :
+    ∃ (L : Type u) (_ : NormedAddCommGroup L) (_ : InnerProductSpace ℂ L) (_ : CompleteSpace L)
+      (b : L →L[ℂ] L) (U : H ≃ₗᵢ[ℂ] WithLp 2 (L × L)),
+      0 ≤ b ∧ b ≤ 1 ∧ LinearMap.ker (b : L →ₗ[ℂ] L) = ⊥ ∧
+      LinearMap.ker ((1 - b : L →L[ℂ] L) : L →ₗ[ℂ] L) = ⊥ ∧
+      ∀ ξ η : L,
+        U (p (U.symm (WithLp.toLp 2 (ξ, η)))) = WithLp.toLp 2 (ξ, 0) ∧
+        U (q (U.symm (WithLp.toLp 2 (ξ, η)))) =
+          WithLp.toLp 2 (b ξ + CFC.sqrt (b * (1 - b)) η,
+            CFC.sqrt (b * (1 - b)) ξ + (1 - b) η) := by
+  sorry
+
+/-- Property Γ of a II₁ factor in Dixmier's form: for a tracial state `τ` of `M` there is a
+sequence of unitaries `u_n ∈ M` with `τ(u_n) = 0` that is asymptotically central in the trace
+norm, `‖u_n y − y u_n‖₂ → 0` for every `y ∈ M`, where `‖z‖₂² = τ(z* z)` (README, Layer 12;
+Jones, Definition 16.1.1, p. 107; for separable II₁ factors the equivalence with a nontrivial
+central sequence and with the finite-set form of Anantharaman–Popa, Definition 15.2.1 and
+Remark 15.2.2, pp. 261–262, is a README target). The predicate is meant for II₁ factors, whose
+tracial state is unique. `M₂(ℂ)` does not have it: a limit point of such a sequence would be a
+central unitary of trace `0`, while the central unitaries are scalars of modulus one. -/
+def HasPropertyGamma (M : VonNeumannAlgebra H) : Prop :=
+  ∃ τ : M.toStarSubalgebra →ₗ[ℂ] ℂ, IsTracialState M τ ∧
+    ∃ u : ℕ → M.toStarSubalgebra,
+      (∀ n, star (u n) * u n = 1 ∧ u n * star (u n) = 1 ∧ τ (u n) = 0) ∧
+      ∀ y, Tendsto (fun n ↦ (τ (star (u n * y - y * u n) * (u n * y - y * u n))).re) atTop (𝓝 0)
+
+/-- **The free group factors lack property Γ** (Murray–von Neumann). For a free group on a set of
+at least two generators, `L(F)` does not have property Γ: with `Δ` the reduced words ending in a
+nonzero power of a generator `g` and `h` a second generator, the estimate
+`‖x − τ(x)1‖₂ ≤ 14 max(‖[x, u_g]‖₂, ‖[x, u_h]‖₂, ‖[x, u_{h⁻¹}]‖₂)` holds for all `x`, and a
+trace-zero unitary has `‖x − τ(x)1‖₂ = 1` (README, Layer 12; Jones, Theorems 16.3.1 and 16.3.2,
+pp. 108–109). The rank need not be finite. With `hasPropertyGamma_of_isHyperfinite` it shows
+that these factors are not hyperfinite, hence not `R`. -/
+theorem not_hasPropertyGamma_groupVonNeumannAlgebra_freeGroup (α : Type*) [Nontrivial α]
+    [MeasurableSpace (FreeGroup α)] [DiscreteMeasurableSpace (FreeGroup α)] :
+    ¬ HasPropertyGamma (groupVonNeumannAlgebra (FreeGroup α)) := by
+  sorry
 
 /-- `M` has a nonzero central summand of type I₂: a nonzero central projection `z = e + f` that is
 the sum of two orthogonal equivalent projections `e ∼ f` of `M` with `eMe` commutative, so that
@@ -487,6 +691,16 @@ def IsHyperfinite (M : VonNeumannAlgebra H) : Prop :=
   ∃ A : ℕ → StarSubalgebra ℂ (H →L[ℂ] H), Monotone A ∧
     (∀ n, FiniteDimensional ℂ (A n)) ∧
     Set.centralizer (Set.centralizer (⋃ n, (A n : Set (H →L[ℂ] H)))) = (M : Set (H →L[ℂ] H))
+
+/-- **Hyperfinite II₁ factors have property Γ.** If `M = (⋃ₙ Aₙ)''` for an increasing sequence of
+finite-dimensional subalgebras, the relative commutant of each `Aₙ` in the II₁ factor `M`
+contains a self-adjoint unitary `uₙ = 2eₙ − 1` with `τ(eₙ) = 1/2`, and these are asymptotically
+central in the trace norm, exactly so on `⋃ₙ Aₙ` and by Kaplansky density on `M` (README, V13b
+and Layer 12; Jones, §16.2, pp. 107–108, for the tensor model `R = ⊗ M₂(ℂ)`, where `uₙ` is
+`diag(1, −1)` at the `n`-th site). -/
+theorem hasPropertyGamma_of_isHyperfinite {M : VonNeumannAlgebra H} (hM : IsTypeIIOne M)
+    (hR : IsHyperfinite M) : HasPropertyGamma M := by
+  sorry
 
 /-- **Connes's theorem: injective equals hyperfinite.** A von Neumann algebra with separable
 predual, here acting on a separable Hilbert space, is injective exactly when it is hyperfinite
