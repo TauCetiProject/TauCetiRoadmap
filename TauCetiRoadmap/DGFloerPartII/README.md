@@ -156,8 +156,12 @@ target of this roadmap or of the named supplier, never a "native" API.
 - Cubical homotopy groups `HomotopyGroup.Pi`, written `π_ n X x`, with their group structure
   (`Mathlib/Topology/Homotopy/HomotopyGroup.lean`), `IsOfFinOrder`
   (`Mathlib/GroupTheory/OrderOfElement.lean`) and `IsMulTorsion`
-  (`Mathlib/GroupTheory/Torsion.lean`): the carriers of the statements of 3.2, 4.3 and 4.6 in
-  `Suggested.lean`.
+  (`Mathlib/GroupTheory/Torsion.lean`): the carriers of the homotopy-group hypotheses and
+  conclusions of 3.2, 4.2, 4.2a, 4.2c, 4.3, 4.5 and 4.6 in `Suggested.lean`, `IsMulTorsion` in
+  3.2 and `IsOfFinOrder` in 4.3. In the same file as `HomotopyGroup.Pi`,
+  `HomotopyGroup.pi1MulEquivFundamentalGroup`, the group isomorphism
+  `π_ 1 X x ≃* FundamentalGroup X x`, through which 4.2c reads its case `i = 1`, and 4.2a's
+  range Check its value `π₁(SO(3)) = ℤ/2`, off Tau Ceti's fundamental group of `SO(n)`.
 - Singular homology `AlgebraicTopology.singularHomologyFunctor`
   (`Mathlib/AlgebraicTopology/SingularHomology/Basic.lean`), with integral coefficients
   `ModuleCat.of ℤ (ULift ℤ)` as in Tau Ceti's fundamental class: the map
@@ -191,15 +195,24 @@ target of this roadmap or of the named supplier, never a "native" API.
   continuous map from a simply connected, locally path-connected space lifts uniquely through a
   covering map once the lift of one point is prescribed. 4.2 lifts the spheres of a fibered
   family to the covering of the base by the components of the fibres.
+- `IsCoveringMap.comp_homeomorph` and `IsCoveringMap.homeomorph_comp`
+  (`Mathlib/Topology/Covering/Basic.lean`): a covering map composed with a homeomorphism on
+  either side is a covering map. 4.3 assembles the double cover `S³ → SO(3)` from Tau Ceti's
+  Spin covering with them.
 - Generated spaces (`Mathlib/Topology/Convenient/`): for a family `X` of topological spaces, the
   predicate `Topology.IsGeneratedBy` (the topology is coinduced by all continuous maps from
-  members of `X`), with the closure of `X`-generated spaces under quotients, sums and sigma types
-  (`Quot.isGeneratedBy`, `Sum.isGeneratedBy`, `Sigma.isGeneratedBy`); the full subcategory
-  `GeneratedByTopCat` of `TopCat` with its coreflection `GeneratedByTopCat.adj` onto the right
-  adjoint `TopCat.toGeneratedByTopCat`, whose unit is invertible, and its limits and colimits; and
-  the space `Topology.ContinuousMapGeneratedBy` of `X`-continuous maps, topologized through
-  precomposition with the maps from members of `X` into the compact-open spaces, with the
-  currying bijection `Topology.ContinuousMapGeneratedBy.curryEquiv` and the evaluation
+  members of `X`), with `TopologicalSpace.generatedBy_eq_coinduced`
+  (`Mathlib/Topology/Convenient/GeneratedBy.lean`), which writes the `X`-generated topology as
+  coinduced by the single evaluation map out of the sigma type of pairs of a continuous map from
+  a member of `X` and a point of its source, the form in which
+  `TopologicalSpace.compactlyGenerated` is defined, and with the closure of `X`-generated spaces
+  under quotients, sums and sigma types (`Quot.isGeneratedBy`, `Sum.isGeneratedBy`,
+  `Sigma.isGeneratedBy`); the full subcategory `GeneratedByTopCat` of `TopCat` with its
+  coreflection `GeneratedByTopCat.adj` onto the right adjoint `TopCat.toGeneratedByTopCat`,
+  whose unit is invertible, and its limits and colimits; and the space
+  `Topology.ContinuousMapGeneratedBy` of `X`-continuous maps, topologized through precomposition
+  with the maps from members of `X` into the compact-open spaces, with the currying bijection
+  `Topology.ContinuousMapGeneratedBy.curryEquiv` and the evaluation
   `Topology.ContinuousMapGeneratedBy.ev`, both under the hypotheses that every member of `X` is
   locally compact and that the product of two members is `X`-generated. 1.0 applies them to the
   family of compact Hausdorff spaces of `CompHaus`.
@@ -217,6 +230,10 @@ target of this roadmap or of the named supplier, never a "native" API.
   `Mathlib/Topology/Compactness/CompactlyGeneratedSpace.lean`), and for a Hausdorff `X` tested in its
   own universe both `𝐤X` and `TopologicalSpace.compactlyGenerated X` carry the topology coherent
   with the compact subsets of `X`. The carriers 1.1 compares are Hausdorff.
+- `Topology.CWComplex` (`Mathlib/Topology/CWComplex/Classical/Basic.lean`): a CW structure on a
+  closed subset of a topological space, whose topology is coherent with its closed cells. The
+  pins do not make it compactly generated; 1.0 proves that it is, with the subspace topology,
+  and compares the convenient product of two CW complexes with the ordinary product.
 
 ### From Tau Ceti
 
@@ -642,10 +659,13 @@ them the convenient category in which 1.1 and 1.2 form mapping spaces and suspen
   and metrizable `Z`, `Map_*(Y, Z)` is the raw based compact-open mapping space; in particular,
   for metrizable `Z`, `ΩZ` is the base roadmap's fixed-interval loop space `Ω^{[0,1]}Z`.
 
-*Needs:* Mathlib `CompactlyGenerated`, `TopologicalSpace.compactlyGenerated`,
-`UCompactlyGeneratedSpace`, `GeneratedByTopCat.adj`, `Topology.IsGeneratedBy`,
-`Topology.ContinuousMapGeneratedBy.curryEquiv`, `ContinuousMap.compactOpen`,
-`ContinuousMap.curry`, `Topology.IsQuotientMap.continuous_lift_prod_left`; AlgebraicTopology
+*Needs:* Mathlib `CompactlyGenerated`, `CompactlyGenerated.compactlyGeneratedToTop`,
+`TopologicalSpace.compactlyGenerated`, `UCompactlyGeneratedSpace`, `GeneratedByTopCat.adj`,
+`Topology.IsGeneratedBy`, `TopologicalSpace.generatedBy_eq_coinduced`,
+`Topology.ContinuousMapGeneratedBy.curryEquiv`, `Topology.ContinuousMapGeneratedBy.ev`,
+`ContinuousMap.compactOpen`, `ContinuousMap.curry`,
+`Topology.IsQuotientMap.continuous_lift_prod_left`, `Topology.CWComplex`,
+`CompactCoherentification` (the comparison on Hausdorff spaces); AlgebraicTopology
 Stage 4.4 (the raw smash and suspension quotients); GeometricTopology Layer 1 (tubular
 neighbourhoods); Tau Ceti `TauCeti.nonempty_ndrPair_iff`,
 `TauCeti.TopCat.uCompactlyGeneratedSpace_of_isColimit`,
@@ -1232,8 +1252,9 @@ induces on Mathlib's singular homology in degree `n = dim E` with coefficients `
 conclusion `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence` of
 `TauCeti.CotangentBundle.symplecticForm` on `Set.univ`, with contractibility in `T*Q`. *Needs:*
 3.1, DGFloer Layer 10 items 4–5, DGFloer Layer 6 item 5, Tau Ceti
-`TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`, Mathlib
-`AlgebraicTopology.singularHomologyFunctor`.
+`TauCeti.CotangentBundle.symplecticForm`, `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`,
+`TauCeti.IsRegularValue`, Mathlib `AlgebraicTopology.singularHomologyFunctor`,
+`HomotopyGroup.Pi`, `IsMulTorsion`.
 
 **Checks.**
 - `Q = T^r`: every `π_ℓ`, `ℓ ≥ 2`, vanishes, the hypothesis fails, and indeed `c°_HZ(D*T^r) = ∞`
@@ -1282,9 +1303,10 @@ by either transport. *Needs:* 3.2, DGFloer Layer 6 items 3–4, DGFloer Layer 10
 ### Dependencies
 
 GeneralizedCohomology G5; TangentialBordism B5 and B6.3; DGFloer Layer 1 items 2 and 4, Layer 6
-items 3–5, Layer 10 items 4–5; Tau Ceti `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`;
-Mathlib `AlgebraicTopology.singularHomologyFunctor`. Source: the source paper §§1.2 and 5
-(Theorems 5.10 and 5.14 and their proofs).
+items 3–5, Layer 10 items 4–5; Tau Ceti `TauCeti.CotangentBundle.symplecticForm`,
+`TauCeti.SmoothTwoForm.HasContractibleAlmostExistence` and `TauCeti.IsRegularValue`; Mathlib
+`AlgebraicTopology.singularHomologyFunctor`, `HomotopyGroup.Pi` and `IsMulTorsion`. Source: the
+source paper §§1.2 and 5 (Theorems 5.10 and 5.14 and their proofs).
 
 ## Layer 4: manifolds abundant with 2-spheres, and knotted hypersurfaces
 
@@ -1467,7 +1489,8 @@ SmoothBundlesConnections B2.2 and B2.5 (the unit-sphere bundle of a metrized vec
 `TauCeti.CotangentBundle.restrictOpen` and
 `TauCeti.CotangentBundle.mpullback_restrictOpen_symplecticForm` (the covering descent), and
 `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` (the sphere bundles), Mathlib
-`Bundle.Trivialization`, `FiberBundle`, `VectorBundle`, `IsContinuousRiemannianBundle` and
+`Bundle.Trivialization`, `FiberBundle`, `VectorBundle`, `IsContinuousRiemannianBundle`,
+`HomotopyGroup.Pi` (the connectivity of the base) and
 `IsCoveringMap.existsUnique_continuousMap_lifts`;
 Hatcher, *Algebraic Topology*, Proposition 4.48.
 
@@ -1574,7 +1597,8 @@ inclusions.
 G4.0b, SmoothBundlesConnections B1.4, DGFloer Layer 1 item 2, Tau Ceti `HomotopyGroup.map`,
 `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`,
 `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`, `TauCeti.homotopyGroupSphereAddEquiv`, Mathlib
-`Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`, `Matrix.unitaryGroup`. Sources: Steenrod,
+`HomotopyGroup.Pi`, `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
+`Matrix.unitaryGroup`. Sources: Steenrod,
 *The Topology of Fibre Bundles*, Part I, §7; Hatcher, *Algebraic Topology*, §4.2.
 
 **Checks.**
@@ -1858,7 +1882,8 @@ Tau Ceti `IsAspherical`, `TauCeti.continuousOrthogonalToDiffSphere`,
 `TauCeti.realSpinThreeHomeomorphQuaternionSphere`,
 `TauCeti.QuadraticMap.matrixSpecialOrthogonalContinuousMulEquivRealCliffordForm`,
 `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`, `TauCeti.stiefel`, Mathlib `HomotopyGroup.Pi`,
-`IsOfFinOrder`, `Matrix.specialOrthogonalGroup`.
+`IsCoveringMap.comp_homeomorph`, `IsCoveringMap.homeomorph_comp`, `IsOfFinOrder`,
+`Matrix.specialOrthogonalGroup`.
 
 **Checks.**
 - Low ranks: `π₂(SO(3)) = π₂(S³) = 0` through the double cover `S³ → SO(3)` of the supplier
@@ -2007,10 +2032,15 @@ manifold through `instIsManifoldRealComplexProjectiveSpace`, the restriction of 
 (`IsManifold.restrictScalars`) of its complex structure. These are stated for every `d`: for
 `d = 0` the space is a point, every admissible Hamiltonian vanishes and the capacity is `0`.
 *Needs:* 2.6, 4.1, 4.2, 4.3, 4.4, 1.3, Tau Ceti `TauCeti.SmoothTwoForm.contractibleHZCapacity`,
-`TauCeti.CotangentBundle.codiscBundle`, `Diffeomorph.weakWhitneyTopology`,
+`TauCeti.CotangentBundle.codiscBundle`, `TauCeti.CotangentBundle.symplecticForm`,
+`Diffeomorph.weakWhitneyTopology`, `Diffeomorph.continuous_eval_const`,
+`TauCeti.HomologicalOrientation`, `TauCeti.IsAspherical`, `TauCeti.ComplexProjectiveSpace`,
+`TauCeti.QuaternionicProjectiveSpace`, `IsManifold.restrictScalars`,
 `TauCeti.CotangentBundle.mpullback_vectorBundleScalarDiffeomorph_symplecticForm`,
 `TauCeti.SmoothTwoForm.IsNondegenerate.contractibleHZCapacity_image`,
-`TauCeti.SmoothTwoForm.IsNondegenerate.contractibleHZCapacity_smul`.
+`TauCeti.SmoothTwoForm.IsNondegenerate.contractibleHZCapacity_smul`, Mathlib
+`Bundle.RiemannianBundle`, `IsContMDiffRiemannianBundle`, `LieGroup`, `HomotopyGroup.Pi`,
+`AlgebraicTopology.singularHomologyFunctor`.
 
 **Checks.**
 - `CP¹ = S²` and `HP¹ = S⁴`: the `CP¹` family is one orientation component of the `n = 2`
@@ -2077,9 +2107,12 @@ quotient topology; `S` a compact Hausdorff smooth manifold modelled on `F′`, o
 `F⁻¹(c)` of a smooth `F : T*Q → ℝ` with compact sublevel sets, with `F ∘ φ < c`. *Needs:* 1.5,
 DGFloer Layer 1 items 2 and 5, Layer 3, Layer 5 items 4–5, Layer 10 items 3–4, GeometricTopology
 Layer 1 (hypersurfaces, collars), AlgebraicTopology Stage 6, Tau Ceti
+`TauCeti.HomologicalOrientation`, `TauCeti.SmoothEmbedding`,
 `TauCeti.SmoothEmbedding.tangentRange`, `TauCeti.SmoothEmbedding.NormalSpace`,
-`TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`, Mathlib `Bundle.Trivialization`,
-`AlgebraicTopology.singularHomologyFunctor`.
+`TauCeti.SmoothEmbedding.instTopologicalSpaceNormalBundle`,
+`TauCeti.CotangentBundle.symplecticForm`, `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`,
+`TauCeti.IsRegularValue`, Mathlib `Bundle.Trivialization`, `Bundle.Trivialization.IsLinear`,
+`HomotopyGroup.Pi`, `AlgebraicTopology.singularHomologyFunctor`.
 
 **Checks.**
 - Example 7.4: `Q = Q′ # (S^k × Y)` with `Y` closed orientable and `(2k−2)`-connected,
@@ -2143,9 +2176,12 @@ SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `IsAsp
 `Diffeomorph.cotangent`, `Diffeomorph.mpullback_cotangent_symplecticForm`,
 `TauCeti.CotangentBundle.restrictOpen` and
 `TauCeti.CotangentBundle.mpullback_restrictOpen_symplecticForm` (4.2),
-`TauCeti.HomologicalOrientation` (4.2–4.6), `TauCeti.SmoothTwoForm.contractibleHZCapacity`,
-`TauCeti.CotangentBundle.codiscBundle`, `Diffeomorph.weakWhitneyTopology`,
+`TauCeti.HomologicalOrientation` (4.2–4.6), `TauCeti.RankOneLocalSystem` (4.4),
+`TauCeti.SmoothTwoForm.contractibleHZCapacity`, `TauCeti.CotangentBundle.codiscBundle`,
+`TauCeti.CotangentBundle.symplecticForm`, `TauCeti.SmoothTwoForm.HasContractibleAlmostExistence`,
+`TauCeti.IsRegularValue`, `Diffeomorph.weakWhitneyTopology`, `Diffeomorph.continuous_eval_const`,
 `TauCeti.ComplexProjectiveSpace`, `TauCeti.QuaternionicProjectiveSpace`,
+`IsManifold.restrictScalars` (4.5),
 `TauCeti.realClifford_classification`, `TauCeti.continuousOrthogonalToDiffSphere`,
 `IsCoveringMap.homotopyGroupPiMulEquiv`,
 `CliffordAlgebra.isCoveringMap_realCliffordSpinProjectionZero`,
@@ -2154,10 +2190,14 @@ SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `IsAsp
 `TauCeti.stiefel` (4.3), `TauCeti.specialOrthogonalGroupFundamentalGroupMulEquiv` (4.2a, 4.2c),
 the fibre dilation and
 capacity statements of 4.5,
-`TauCeti.SmoothEmbedding.tangentRange` and `TauCeti.SmoothEmbedding.NormalSpace` (4.6); Mathlib
+`TauCeti.SmoothEmbedding`, `TauCeti.SmoothEmbedding.tangentRange`,
+`TauCeti.SmoothEmbedding.NormalSpace` and
+`TauCeti.SmoothEmbedding.instTopologicalSpaceNormalBundle` (4.6); Mathlib
 `HomotopyGroup.Pi`, `HomotopyGroup.pi1MulEquivFundamentalGroup` (4.2c), `IsCoveringMap.comp_homeomorph`
 and `IsCoveringMap.homeomorph_comp` (4.3), `IsOfFinOrder`, `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
-`Matrix.unitaryGroup`, `Bundle.RiemannianBundle`, `Bundle.Trivialization` (4.2, 4.6), `FiberBundle`,
+`Matrix.unitaryGroup`, `LieGroup`, `Bundle.RiemannianBundle`, `IsContMDiffRiemannianBundle`,
+`AlgebraicTopology.singularHomologyFunctor`, `Bundle.Trivialization` (4.2, 4.6),
+`Bundle.Trivialization.IsLinear` (4.6), `FiberBundle`,
 `VectorBundle`, `IsContinuousRiemannianBundle` and `IsCoveringMap.existsUnique_continuousMap_lifts`
 (4.2). Sources: the source paper §§6.3–6.4 and §7, with Remark 6.2 for finite coverings (4.2);
 Milnor, *Morse Theory*, §§22–24; Bott, *The stable homotopy of the classical groups*;
