@@ -6,39 +6,30 @@ public import TauCeti.Algebra.AlgebraicGroup.Borel.Basic
 public import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.Weight.Parabolic.Basic
 public import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.UpperTriangular.Basic
 public import TauCeti.Algebra.AlgebraicGroup.Representation.ProjectiveOrbit.Quotient
-public import TauCeti.Algebra.AlgebraicGroup.Representation.Stabilizer
+public import TauCeti.Algebra.AlgebraicGroup.Parabolic.Basic
 
 /-!
 # Flag varieties: target signatures
 
 This file contains suggested forms, not an exhaustive checklist; the README is definitive.
 The GL case of headline 1 is stated below using the pinned weight-parabolic Hopf ideal.
-The five general reductive-group classifications still need the following declarations:
+The general classifications need the following additional interfaces:
 
-1. Standard parabolic ideal classification: `HopfIdeal.IsParabolicOverAlgClosed`,
-   the actual reductive-group `TitsSystem` on `G(k)`, the `B W_J B` classification of subgroups containing `B`, and the scheme bridge `P_J`.
+1. Standard parabolic ideal classification: the actual reductive-group `TitsSystem` on
+   `G(k)` and the scheme bridge `P_J`.
 2. The uniqueness half for two closed subgroups containing the same Borel is stated below
-   for a geometrically connected affine group. The full classification needs the parabolic predicate,
-   the standard-parabolic bridge, unconditional Borel conjugacy and pointwise normalizer.
-3. Projective `G/H` iff parabolic: the predicate and a represented homogeneous quotient scheme
-   with projectivity and complete-scheme Borel fixed point. Complete `G/B` is a target here.
+   for a geometrically connected affine group. The full conjugacy classification needs
+   the reductive-group Tits system and the standard-parabolic scheme bridge.
 4. Classification of projective homogeneous schemes: the scheme action and stabilizer/quotient
-   comparison and the ingredients of 2 and 3.
+   comparison, the standard-parabolic scheme bridge and the fixed point for proper schemes.
 5. Equivariant morphism classification: represented `G/P_J` schemes, scheme-level equivariant
    morphisms, quotient descent and the ingredients of 1 and 2.
 
+Headline 3 is stated below using the native parabolic predicate and represented projective
+orbit scheme. Its proof needs the Borel fixed-point theorem for general proper schemes.
+
 The declarations use native Hopf ideals. They introduce no point-set replacement for a scheme
 statement.
-
-Layer 4.0(a)-(b) needs carriers absent at the pinned Tau Ceti: the complete-flag incidence
-scheme `Fl(V)` over the product of quotient-rank Grassmannians, its universal subbundles,
-and its Plücker–Segre morphism to the projective scheme of the prefix-wedge tensor module.
-`Module.Grassmannian.scheme` exists, but the complete-flag scheme does not. The compatible
-`FGComoduleCat.tensorFin` / `Comodule.flagExteriorPowers` carrier and
-`Module.Basis.flagTensorVector` are in progress in TauCeti PR #33233, not at this pin.
-The README specifies these constructions and their point comparisons; no substitute carrier
-or conclusion-shaped structure is introduced here. Layer 4.0(c) can already be stated using
-the pinned projective orbit scheme and its fppf sheaf of points.
 -/
 
 public section
@@ -77,22 +68,21 @@ theorem conjugate_eq_of_borel_le {k : Type u} [Field k] [IsAlgClosed k]
     (g : WithConv (G.obj →ₐ[k] k)) (hconj : Q = P.conjugate g) : P = Q := by
   sorry
 
-/-! ## Layer 4: complete G/B -/
+/-! ## Layer 4: projectivity and the homogeneous-space dictionary -/
 
-/-- A Borel is the scheme-theoretic line stabilizer in a finite-dimensional representation
-with closed projective orbit. That orbit is proper and represents the native fppf quotient.
-This is Layer 4.0(c), with no reductivity hypothesis. -/
-theorem exists_closed_projectiveOrbit_borel_quotient {k : Type u} [Field k] [IsAlgClosed k]
-    (G : FiniteTypeCommHopfAlgCat.{u, u} k)
+/-- Headline 3: a smooth closed subgroup `H` of a smooth connected affine group is parabolic
+exactly when the orbit scheme representing `G/H` is proper over `k`. -/
+theorem isProper_projectiveOrbitToSpec_iff_isParabolicOverAlgClosed {k : Type u} [Field k]
+    [IsAlgClosed k] (G : FiniteTypeCommHopfAlgCat.{u, u} k)
     (hG_smooth : smoothCommHopfAlgProperty k G.obj)
     (hG_connected : geometricallyConnectedCommHopfAlgProperty k G.obj)
-    (B : HopfIdeal k G) (hB : HopfIdeal.IsBorelOverAlgClosed k G B) :
-    ∃ (M : FGComoduleCat.{u, u, u} k G) (m : M) (hm : Module.IsUnimodular k m),
-      (Submodule.span k {m}).stabilizerHopfIdeal G = B ∧
-      IsClosed (Set.range (Comodule.projectiveOrbitMap (H := G) m hm)) ∧
-      AlgebraicGeometry.IsProper (Comodule.projectiveOrbitToSpec (H := G) m hm) ∧
-      Nonempty (CommHopfAlgCat.fppfHomogeneousQuotient G.obj B ≅
-        Comodule.projectiveOrbitPointsSheaf (H := G.obj) m hm) := by
+    (H : HopfIdeal k G)
+    (hH : smoothCommHopfAlgProperty k (FiniteTypeCommHopfAlgCat.quotient G H).obj)
+    (M : FGComoduleCat.{u, u, u} k G) (m : M) (hm : Module.IsUnimodular k m)
+    (e : CommHopfAlgCat.fppfHomogeneousQuotient G.obj H ≅
+      Comodule.projectiveOrbitPointsSheaf (H := G.obj) m hm) :
+    AlgebraicGeometry.IsProper (Comodule.projectiveOrbitToSpec (H := G) m hm) ↔
+      HopfIdeal.IsParabolicOverAlgClosed k G H := by
   sorry
 
 end TauCetiRoadmap.FlagVarieties

@@ -14,15 +14,13 @@ The group G and its action are fixed throughout the classification. This does no
 
 ## Scope and ownership
 
-This roadmap owns the classification, its geometric interpretation, and the complete-flag schemes and complete `G/B` construction in §4.0. It uses existing algebraic-group definitions, not a new matrix-group foundation.
+This is a consumer roadmap for the classification and its geometric interpretation. It uses existing algebraic-group definitions, not a new matrix-group foundation.
 
-No merged roadmap owns complete-flag schemes. Construct them here from the existing Grassmannians; SchubertGeometry's incidence, embedding and Schubert comparisons consume this construction. [AlgebraicModuliForArithmeticGeometry §1.3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/853) (universal flags), if merged later, should identify its field-valued complete-flag scheme with this one, with the same tautological kernels and action.
-
-ReductiveGroups 7/7b owns the Tits system on `G(k)`, Bruhat decomposition and the general bridge to abstract standard parabolics. FlagVarieties owns the five headline classifications. The pointwise normalizer suffices; no scheme-theoretic normalizer is needed. GroupSchemesOverABase GS7 owns relative `Bor(G)`, ShimuraData §3.8 owns relative `Par_t(G)`, and ReductiveGroups 7C.5 owns type-A block maps. Their field-fibre comparison is the only work here.
+ReductiveGroups 7/7b owns the Tits system on `G(k)`, Bruhat decomposition and the general bridge to abstract standard parabolics. FlagVarieties owns the five headline classifications. The pointwise normalizer suffices; no scheme-theoretic normalizer is needed. ReductiveGroups 7C.5 owns type-A block maps.
 
 The uniqueness half of the second headline holds for every smooth connected affine group over algebraically closed `k`; `conjugate_eq_of_borel_le` in `Suggested.lean` uses only geometric connectedness of the ambient finite-type group.
 
-ShimuraData §3.8 owns the smooth proper `Par_t(G)`, its projectivity over an affine base, and the comparison `G/P ≅ Par_t(G)`. This roadmap proves that containment of a Borel makes `G/H` proper and compares Borel containment with the parabolic notion used by that supplier; it does not reconstruct the projectivity of `G/P`.
+Realize `G/H` by `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints` (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`). This roadmap proves properness from Borel containment and then projectivity: the orbit scheme is locally closed in projective space, and properness makes that immersion closed.
 
 Levi decompositions, central isogeny classification, classification of reductive groups, non-algebraically-closed-field forms, relative schemes parametrizing parabolics, horospherical spaces and general spherical spaces are outside this scope. None is a prerequisite for the results above.
 
@@ -30,7 +28,7 @@ Levi decompositions, central isogeny classification, classification of reductive
 
 - Keep the hypotheses separate: field, algebraic closedness, finite type, smoothness, geometric connectedness and reductivity. Do not encode the conclusions in a replacement group structure.
 - Use the native finite-type commutative Hopf-algebra model and its scheme/points dictionary. A closed subgroup is represented by a native Hopf ideal. Its geometric inclusion order is opposite to the Hopf-ideal order. An order isomorphism stated on defining ideals therefore uses `OrderDual`.
-- Use `HopfIdeal.IsParabolicOverAlgClosed`, which includes smoothness and containment of a Borel. Its supplier contract is `gap:parabolic-predicate`. Projectivity of the quotient is a theorem, not a redefinition.
+- Use `HopfIdeal.IsParabolicOverAlgClosed`, which includes smoothness and containment of a Borel. It is defined in `Algebra/AlgebraicGroup/Parabolic/Basic.lean`. Projectivity of the quotient is a theorem, not a redefinition.
 - Write G/P for cosets gP with G acting on the left. This is the quotient by right multiplication by P. Mathlib calls these left cosets. Do not confuse this with P\G.
 - The chosen B determines the positive system and S. A subset J lists simple roots included in the Levi, rather than omitted roots. Thus J ⊆ K gives P_J ⊆ P_K and a projection G/P_J → G/P_K.
 - Identify S with the native subtype of simple reflections in the actual Tits system; prove its comparison with the root-system simple-root index. A chosen representative n_w in N_G(T)(k) is auxiliary data, and formulas must be independent of its choice.
@@ -42,42 +40,26 @@ Levi decompositions, central isogeny classification, classification of reductive
 
 | Consumed result | Owner roadmap and layer | Exact pinned declaration and file, or gap slug below |
 | --- | --- | --- |
-| Borel predicate and connected-group conjugacy | ReductiveGroups 7 | `HopfIdeal.IsBorelOverAlgClosed`, `Algebra/AlgebraicGroup/Borel/Basic.lean`; `gap:borel-conjugacy-connected` |
-| Smooth parabolic predicate | ReductiveGroups 7 | `gap:parabolic-predicate` |
+| Borel predicate and conjugacy | Tau Ceti | `HopfIdeal.IsBorelOverAlgClosed`, `Algebra/AlgebraicGroup/Borel/Basic.lean`; `HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq`, `Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean` |
+| Smooth parabolic predicate | Tau Ceti | `HopfIdeal.IsParabolicOverAlgClosed`, `Algebra/AlgebraicGroup/Parabolic/Basic.lean` |
 | Reduced finite-type point separation | ReductiveGroups 3 | `HopfIdeal.eq_of_quotientPointsSubgroup_eq`, `Algebra/AlgebraicGroup/HopfIdeal/Points/Separation.lean` |
 | Hopf ideal conjugation, identity, inverse, composition, point comparison | ReductiveGroups 3 | `HopfIdeal.conjugate`, `HopfIdeal.conjugate_one`, `CommHopfAlgCat.pointConjugation_mem_conjugate_iff`, `Algebra/AlgebraicGroup/HopfIdeal/Conjugation.lean` |
-| Actual `G(k)` Tits system, abstract parabolics, algebraic parabolics and Borel pointwise normalizer | ReductiveGroups 7/7b | `TitsSystem`, `GroupTheory/TitsSystem/Basic.lean`; `gap:tits-system-of-points`, `gap:tits-standard-parabolic`, `gap:standard-parabolic-scheme`, `gap:borel-pointwise-normalizer` |
+| Actual `G(k)` Tits system, abstract parabolics, algebraic parabolics and Borel pointwise normalizer | ReductiveGroups 7/7b | `TitsSystem`, `GroupTheory/TitsSystem/Basic.lean`; `gap:tits-system-of-points`, `gap:standard-parabolic-scheme`; `TitsSystem.standardParabolicOrderIso`, `TitsSystem.standardParabolic_eq_of_subgroupB_le`, `GroupTheory/TitsSystem/Parabolic/Classification.lean`; `TitsSystem.normalizer_subgroupB`, `GroupTheory/TitsSystem/Parabolic/Normalizer.lean` |
 | GL Tits system and weight ideal | ReductiveGroups 7C | `glTitsSystem`, `LinearAlgebra/Matrix/GeneralLinearGroup/Diagonal/TitsSystem.lean`; `weightParabolicDefiningHopfIdeal`, `Algebra/AlgebraicGroup/GeneralLinear/Weight/Parabolic/Basic.lean` |
-| Represented homogeneous quotient, torsor and orbit maps | ReductiveGroups 3/3A | `CommHopfAlgCat.fppfHomogeneousQuotient`, `Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean`; `gap:homogeneous-quotient-scheme`, `gap:orbit-map-quotient` |
-| Complete-flag scheme, Plücker–Segre encoding and complete `G/B` | FlagVarieties 4.0 | Targets (a)–(c) below, owned here; Grassmannian and representation inputs listed below. |
+| Represented homogeneous quotient, torsor and orbit maps | ReductiveGroups 3/3A | `CommHopfAlgCat.fppfHomogeneousQuotient`, `Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean`; `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints`, `Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`; `Comodule.projectiveOrbitι`, `Comodule.projectiveOrbitToSpec`, `Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Scheme.lean`; `gap:orbit-map-quotient` |
+| Complete `G/B` | ReductiveGroups 7 | `gap:complete-borel-quotient` |
 | Complete-scheme Borel fixed point | ReductiveGroups 3A | `gap:borel-fixed-point-scheme` |
-| Grassmannian scheme and properness (quotient rank) | Tau Ceti | `Module.Grassmannian.scheme`, `AlgebraicGeometry/Grassmannian/Basic.lean`; `Module.Grassmannian.isProper_toSpec`, `AlgebraicGeometry/Grassmannian/Proper.lean` |
-| Chevalley line and faithful representation | Tau Ceti | `HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer`, `Representation/ExteriorStabilizer/Character.lean`; `AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`, `Representation/Embedding.lean` |
-| Flag tensor and its scheme-theoretic line stabilizer | ReductiveGroups representation API, in progress | [TauCeti PR #33233](https://github.com/TauCetiProject/TauCeti/pull/33233): `Module.Basis.flagTensorVector`, `Module.Basis.stabilizerHopfIdeal_span_singleton_flagTensorVector`, `Representation/FlagTensor.lean` |
-| Lie–Kolchin with prescribed first line | ReductiveGroups solvable-group API, in progress | [TauCeti PR #33891](https://github.com/TauCetiProject/TauCeti/pull/33891): `Comodule.exists_basis_coefficientMatrix_isUpperTriangular_first_span_of_isSolvable`, `Solvable/LieKolchin.lean` |
-| Solvable-subgroup dimension bound | Tau Ceti main | `HopfIdeal.IsBorelOverAlgClosed.ringKrullDim_quotient_le`, `Borel/Dimension.lean` |
-| Orbit–stabilizer dimension formula | Tau Ceti | `Comodule.topologicalKrullDim_range_projectiveOrbitMap_add_ringKrullDim_eq`, `Representation/ProjectiveOrbit/StabilizerDimension.lean` |
-| Minimal orbit is closed; closed projective orbit is proper | Tau Ceti | `Comodule.isClosed_range_projectiveOrbitMap_of_forall_mem`, `Representation/ProjectiveOrbit/ClosedOrbit.lean`; `Comodule.isProper_projectiveOrbitToSpec_of_isClosed`, `Representation/ProjectiveOrbit/Scheme.lean` (main) |
-| Projective orbit represents the fppf quotient | Tau Ceti | `Comodule.fppfHomogeneousQuotientIsoProjectiveOrbitPoints`, `Representation/ProjectiveOrbit/Quotient.lean` |
 | Type-A block maps and incidence | ReductiveGroups 7C.5; SchubertGeometry S1–S2.3 | Consume the named block maps and incidence work of those roadmaps. |
 | Scheme descent and morphism properties | SchemeAndStackFoundations 0–1 | The quotient universal property and descent required in Layer 5. |
 | Cartier smoothness in characteristic zero | Tau Ceti | `TauCeti.smoothCommHopfAlgProperty_of_charZero`, `Algebra/AlgebraicGroup/Smooth/CharZero.lean:148` |
 
 ### From TauCetiRoadmap.ReductiveGroups
 
-What ReductiveGroups must provide (gap:borel-conjugacy-connected): for a smooth geometrically connected affine group of finite type over an algebraically closed field, any two Hopf ideals satisfying `IsBorelOverAlgClosed` are conjugate by a rational point, without the `hcontain` hypothesis of `Borel/Conjugation.lean:161`.
-
-What ReductiveGroups must provide (gap:borel-pointwise-normalizer): for such a group and a Borel ideal `B`, a rational point whose conjugation fixes `B` lies in `B(k)`.
-
 What ReductiveGroups must provide (gap:tits-system-of-points): the Tits system on `G(k)` with `subgroupB = B(k)`, `subgroupN = N_G(T)(k)` and simple set the simple reflections of the root system of `(G,T)`, for `G` smooth connected reductive and `T ⊆ B`.
-
-What ReductiveGroups must provide (gap:tits-standard-parabolic): for a Tits system on a group `G`, the subgroups containing `B` are exactly the `B W_J B`, for a unique `J` (Bourbaki IV §2.5 Theorem 3).
 
 What ReductiveGroups must provide (gap:standard-parabolic-scheme): for `J` a set of simple reflections, the smallest closed subgroup scheme `P_J` containing `B` and the root subgroups `U_{−α}`, `α ∈ J`, with `P_J(k) = B(k) W_J B(k)`, smooth, connected, `P_∅ = B`, `P_S = G`.
 
-What ReductiveGroups must provide (gap:parabolic-predicate): `HopfIdeal.IsParabolicOverAlgClosed` meaning a smooth closed subgroup scheme whose ideal is contained in some Borel ideal.
-
-What ReductiveGroups must provide (gap:homogeneous-quotient-scheme): for smooth affine `G` of finite type over `k` and any closed subgroup scheme `H`, a separated finite-type `k`-scheme representing `fppfHomogeneousQuotient` with its universal property (Milne Theorem 7.18, p.143).
+What ReductiveGroups must provide (gap:complete-borel-quotient): `G/B` is proper over `k` for a Borel `B` of a smooth connected affine `G` (Milne Theorem 17.9(a), p.354).
 
 What ReductiveGroups must provide (gap:borel-fixed-point-scheme): a smooth connected solvable group acting on a nonempty proper `k`-scheme over algebraically closed `k` has a `k`-rational fixed point (Milne Corollary 17.3, p.353).
 
@@ -103,11 +85,11 @@ Do not assert pointwise detection for nonreduced subgroup schemes in positive ch
 
 Compare scheme conjugation, Hopf-ideal conjugation and conjugation in `Subgroup G(k)`. State the orientation explicitly and cite the existing identity, inverse and composition laws in `HopfIdeal/Conjugation.lean`. Use the existing homogeneous quotient and torsor interfaces to identify its k-points with cosets: a nonempty finite-type fibre over algebraically closed k has a k-point. Prove that this identification commutes with left translation and with subgroup-induced quotient maps.
 
-*Needs:* ReductiveGroups Layer 3 represented quotient and torsor, existing conjugation laws.
+*Needs:* `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints` (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`), native quotient and torsor interfaces, existing conjugation laws.
 
 ### 0.3 Homogeneous orbit comparison
 
-For an action as above and x∈X(k), use the native scheme-theoretic stabilizer H=Stab_G(x). Establish finite type and smoothness of H, and that the orbit map identifies X with the represented fppf quotient G/H. Consume ReductiveGroups' homogeneous quotient representability and orbit-map construction. Supply the transitivity-to-local-surjectivity adapter and the orbit-map fibre identity at these hypotheses; use the quotient universal property to obtain an isomorphism, rather than upgrading a bijection on k-points to a scheme isomorphism.
+For an action as above and x∈X(k), use the native scheme-theoretic stabilizer H=Stab_G(x). Establish finite type and smoothness of H, and that the orbit map identifies X with the represented fppf quotient G/H. Consume pinned homogeneous quotient representability and ReductiveGroups' scheme orbit-map construction. Supply the transitivity-to-local-surjectivity adapter and the orbit-map fibre identity at these hypotheses; use the quotient universal property to obtain an isomorphism, rather than upgrading a bijection on k-points to a scheme isomorphism.
 
 **Checks. Homogeneous variety:** a torus acting on a point is included; `Gₘ` acting on itself is homogeneous but nonprojective; a dual-number thickening is excluded by smoothness; a Frobenius-twisted `SL₂` action on `ℙ¹` has nonsmooth stabilizer and is excluded in characteristic `p`.
 
@@ -131,7 +113,7 @@ Prove the block-triangular point description of the weight ideal, classify the p
 
 **Checks. Block weight:** `standardWeight ∅` and `UpperTriangular.weights 3 = (2,1,0)` define the same ideal although their weight vectors differ. At `n=0`, `standardWeight` is the single zero weight. Distinct `J` and `J′` forbid different adjacent matrix entries, so their weight ideals differ.
 
-*Needs:* pinned weight ideal and upper-triangular ideal, pinned point separation, and `gap:tits-standard-parabolic`. The weight-ideal comparison and parabolicity are proved in this layer.
+*Needs:* pinned weight ideal and upper-triangular ideal, pinned point separation, and `TitsSystem.standardParabolicOrderIso` / `TitsSystem.standardParabolic_eq_of_subgroupB_le` (`GroupTheory/TitsSystem/Parabolic/Classification.lean`). The weight-ideal comparison and parabolicity are proved in this layer.
 
 ### Examples
 
@@ -139,11 +121,11 @@ For `n=2`, the weights for `∅`, `{0}`, `{1}` and `Finset.univ` are `(0,−1,�
 
 ### Dependencies
 
-Pinned general-linear weight and upper-triangular ideals, reduced point separation, and `gap:tits-standard-parabolic`.
+Pinned general-linear weight and upper-triangular ideals, reduced point separation, and `TitsSystem.standardParabolicOrderIso` / `TitsSystem.standardParabolic_eq_of_subgroupB_le` (`GroupTheory/TitsSystem/Parabolic/Classification.lean`).
 
 ## Layer 2: standard algebraic parabolics and the BN-pair bridge
 
-Inputs are ReductiveGroups Layer 7's actual algebraic-group Tits system on G(k), B(k), N_G(T)(k), its Weyl-group identification, and Layer 7C's rank-one subgroups. Prove the carrier and simple-reflection comparison equalities needed to invoke the abstract API specified by `gap:tits-standard-parabolic`.
+Inputs are ReductiveGroups Layer 7's actual algebraic-group Tits system on G(k), B(k), N_G(T)(k), its Weyl-group identification, and Layer 7C's rank-one subgroups. Prove the carrier and simple-reflection comparison equalities needed to invoke the abstract API `TitsSystem.standardParabolicOrderIso` / `TitsSystem.standardParabolic_eq_of_subgroupB_le` (`GroupTheory/TitsSystem/Parabolic/Classification.lean`).
 
 ### 2.1 Algebraic realization
 
@@ -163,13 +145,13 @@ Consume smoothness in any characteristic, containment of B, parabolicity, connec
 
 ### 2.2 Standard classification
 
-Consume `gap:tits-standard-parabolic` and `gap:standard-parabolic-scheme`. For any smooth closed subgroup `Q` containing `B` (any closed subgroup in characteristic zero, by `TauCeti.smoothCommHopfAlgProperty_of_charZero`), classify `Q(k)` abstractly and recover `Q=P_J` through 0.1 and 2.1; invoke `HopfIdeal.eq_of_quotientPointsSubgroup_eq` with the reducedness of both quotient coordinate rings. Export an order isomorphism
+Consume `TitsSystem.standardParabolicOrderIso` and `TitsSystem.standardParabolic_eq_of_subgroupB_le` (`GroupTheory/TitsSystem/Parabolic/Classification.lean`) and `gap:standard-parabolic-scheme`. For any smooth closed subgroup `Q` containing `B` (any closed subgroup in characteristic zero, by `TauCeti.smoothCommHopfAlgProperty_of_charZero`), classify `Q(k)` abstractly and recover `Q=P_J` through 0.1 and 2.1; invoke `HopfIdeal.eq_of_quotientPointsSubgroup_eq` with the reducedness of both quotient coordinate rings. Export an order isomorphism
 
     Set S ≃o {Q : smooth closed subgroup scheme of G | B ⊆ Q}.
 
 Give evaluation/inverse lemmas, uniqueness, inclusion reflection, and endpoint lemmas. Show that the inverse selects s precisely when the corresponding minimal parabolic is contained in Q. Prove P_J∩P_K=P_(J∩K); prove that the closed subgroup generated by P_J and P_K is P_(J∪K). Formulate intersections scheme-theoretically in all characteristics, using the smooth connected intersection theorem of ReductiveGroups 7b and 0.1 to recover their defining ideals.
 
-*Needs:* 2.1, ReductiveGroups 7b abstract standard-parabolic classification, 0.1.
+*Needs:* 2.1, `TitsSystem.standardParabolicOrderIso` / `TitsSystem.standardParabolic_eq_of_subgroupB_le` (`GroupTheory/TitsSystem/Parabolic/Classification.lean`), 0.1.
 
 ### Examples
 
@@ -177,21 +159,21 @@ Give evaluation/inverse lemmas, uniqueness, inclusion reflection, and endpoint l
 
 ### Dependencies
 
-ReductiveGroups 7/7b supplies the actual Tits system, Bruhat/root cells and scheme bridge; Layer 0 supplies point separation.
+ReductiveGroups 7/7b supplies the actual Tits system, Bruhat/root cells and scheme bridge; `TitsSystem.standardParabolicOrderIso` / `TitsSystem.standardParabolic_eq_of_subgroupB_le` (`GroupTheory/TitsSystem/Parabolic/Classification.lean`) supplies abstract classification; Layer 0 supplies point separation.
 
 ## Layer 3: conjugacy classes and intrinsic type
 
 ### 3.1 Existence and uniqueness of a standard representative
 
-Use the supplier parabolic conjugation theorem to move a Borel contained in P to B, then apply 2.2. Prove uniqueness of the standard representative under G(k)-conjugacy.
+Use `HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq` (`Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean`) to move a Borel contained in P to B, then apply 2.2. Prove uniqueness of the standard representative under G(k)-conjugacy.
 
-The uniqueness argument must include its missing bridge: if gP_Jg⁻¹=P_K, then gBg⁻¹ and B are Borel subgroups of the connected group P_K. They remain Borel in P_K because any larger connected solvable subgroup would contradict maximality in G. Conjugate them inside `P_K` by `gap:borel-conjugacy-connected` applied to the smooth connected group `P_K`, modifying g to an element normalizing B. Use the pointwise equality N_G(B)(k)=B(k) to conclude P_J=P_K and then J=K.
+The uniqueness argument must include its missing bridge: if gP_Jg⁻¹=P_K, then gBg⁻¹ and B are Borel subgroups of the connected group P_K. They remain Borel in P_K because any larger connected solvable subgroup would contradict maximality in G. Conjugate them inside `P_K` by `HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq` (`Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean`) applied to `P_K`, modifying g to an element normalizing B. Derive the pointwise equality N_G(B)(k)=B(k) from `gap:tits-system-of-points` and `TitsSystem.normalizer_subgroupB` (`GroupTheory/TitsSystem/Parabolic/Normalizer.lean`), and use it to conclude P_J=P_K and then J=K.
 
 Define the type of a parabolic as its unique standard label and prove invariance under conjugation, together with the converse: equal types imply conjugacy. Export the equivalence between subsets of S and G(k)-conjugacy classes of parabolic subgroup schemes.
 
 **Checks. Type and maps:** conjugation by `[[1,0,0],[1,1,0],[0,1,1]]` sends the stabilizer of `⟨e₁⟩` to that of `⟨e₁+e₂⟩`; in characteristic 2 its inverse sends it to that of `⟨e₁+e₂+e₃⟩`, so the two directions differ. Conjugate parabolics have equal type; line and plane types in `GL₃` differ despite abstractly isomorphic projective planes; only forgetful projections with `J⊆K` exist.
 
-*Needs:* 2.2, unconditional Borel conjugacy inside connected `P_K`, pointwise Borel normalizer.
+*Needs:* 2.2, `HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq` (`Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean`), `gap:tits-system-of-points` and `TitsSystem.normalizer_subgroupB` (`GroupTheory/TitsSystem/Parabolic/Normalizer.lean`).
 
 ### 3.2 Pointwise normalizers
 
@@ -205,58 +187,25 @@ In `GL₃`, the two maximal proper standard parabolics have equal dimension but 
 
 ### Dependencies
 
-Layer 2 classification, `gap:borel-conjugacy-connected` and `gap:borel-pointwise-normalizer`.
+Layer 2 classification, `HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq` (`Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean`), and `gap:tits-system-of-points` with `TitsSystem.normalizer_subgroupB` (`GroupTheory/TitsSystem/Parabolic/Normalizer.lean`).
 
 ## Layer 4: projectivity and the homogeneous-space dictionary
 
-### 4.0 Complete flags, their tensor encoding and complete G/B
-
-This section owns the following constructions and the completeness theorem. They apply independently of reductivity and of the classification in Layers 1–3.
-
-**(a) Complete-flag scheme.** For a finite-dimensional vector space `V` of dimension `n` over any field `k`, construct `Fl(V)` as the closed incidence subscheme of the product over `Spec k` of `Module.Grassmannian.scheme k V (n-i)`, `1 ≤ i ≤ n`. The Grassmannian parameter is the quotient rank: its universal kernel `S_i` has rank `i`. Set `S_0=0`; impose `S_i ⊆ S_{i+1}` by vanishing of the universal maps `S_i → V/S_{i+1}`. These are equations of schemes, with their induced closed subscheme structure, rather than just conditions on rational points.
-
-Prove the functor of points: over a `k`-algebra `A`, flags are chains of locally direct summands of `A ⊗[k] V`, with `S_i` of rank `i` and successive quotients locally free of rank one. Export the universal subbundles and quotients, incidence factorization, uniqueness, and compatibility with extension of the base field. In particular `Fl(V)(k)` is naturally the set of complete flags of `V`. Consume `Module.Grassmannian.isProper_toSpec` and finite products and closed immersions to prove `Fl(V)` proper over `k`. Construct the scheme action of `GL(V)` and prove that the point comparison is equivariant and the action commutes with base change.
-
-*Needs:* `Module.Grassmannian.scheme`, its universal quotient and points API in `AlgebraicGeometry/Grassmannian`, `Module.Grassmannian.isProper_toSpec`, finite products over `Spec k`, and vanishing loci of maps of vector bundles. The incidence scheme and its universal flags are targets here.
-
-**(b) Plücker–Segre encoding.** Construct the morphism
-
-    Fl(V) → P(⊗_{i=1}^{n} Λ^i V)
-
-using the determinant lines `Λ^i S_i ⊆ Λ^i V` and their tensor product. Here `P(W)` parametrizes lines in `W`, expressed by `Proj Sym(W*)`, consistently with `Comodule.projectiveOrbitMap`. Prove independence of an adapted basis, compatibility with base change and equivariance for every representation on `V`. On an adapted basis `b`, its point is the line of the prefix-wedge tensor `b₁ ⊗ (b₁∧b₂) ⊗ ⋯ ⊗ (b₁∧⋯∧bₙ)`, namely `Module.Basis.flagTensorVector` in `Representation/FlagTensor.lean` ([PR #33233, in progress](https://github.com/TauCetiProject/TauCeti/pull/33233)). Identify the tensor carrier with that API's `FGComoduleCat.tensorFin` of `Comodule.flagExteriorPowers`.
-
-The morphism is proper, since its source is proper and projective space is separated over `k`; hence its image is closed. Over every algebraically closed extension field, prove that the rational points in this image are exactly the lines spanned by `flagTensorVector` for bases of the extended vector space. Distinguish these rational lines from the nonclosed scheme points of the image. Prove that every rational flag admits an adapted basis and every basis gives that flag's tensor line. This supplies the closed invariant locus needed in (c); closedness of the set of basis tensors must follow from this scheme construction.
-
-*Needs:* (a), exterior powers and determinant lines of the universal subbundles, and the flag-tensor API of PR #33233. Construct the determinant-line Plücker maps and their Segre composite here, together with their comparison with the existing linear-algebra tensors.
-
-**(c) Complete G/B.** For `G` smooth connected affine of finite type over an algebraically closed field `k` and `B` a Borel subgroup, prove that there exist a bundled finite-dimensional comodule `M : FGComoduleCat k G`, a vector `m : M` and `hm : Module.IsUnimodular k m` such that its scheme-theoretic line stabilizer is exactly `B`, its projective orbit has closed image, its projective orbit scheme is proper over `k`, and the native fppf quotient `G/B` is isomorphic to that scheme's fppf sheaf of points. Use Humphreys §21.3 and Milne Theorem 17.9(a), printed p.354, with the following route.
-
-1. Take a Chevalley line with stabilizer `B`, using `HopfIdeal.exists_finite_subcomodule_exteriorPower_line_stabilizer` (`Representation/ExteriorStabilizer/Character.lean`), and add a faithful representation as a direct summand, putting the line in the first summand. Obtain faithfulness from `AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear` (`Representation/Embedding.lean`). Prove that this operation preserves the line stabilizer.
-2. Restrict to `B` and extend this line to an upper-triangular basis with `Comodule.exists_basis_coefficientMatrix_isUpperTriangular_first_span_of_isSolvable` (`Solvable/LieKolchin.lean`, [PR #33891, in progress](https://github.com/TauCetiProject/TauCeti/pull/33891)). Take its flag tensor. `Module.Basis.stabilizerHopfIdeal_span_singleton_flagTensorVector` (`Representation/FlagTensor.lean`, PR #33233, in progress) identifies the stabilizer with the inverse image of the upper-triangular subgroup. It contains `B`, and preserving the first line forces containment in `B`, so it equals `B` as a subgroup scheme.
-3. Every `k`-rational point of the closed locus in (b) is a basis-flag tensor line. Its stabilizer has solvable rational points, since the representation is faithful and the stabilizer embeds in an upper-triangular group. Apply `HopfIdeal.IsBorelOverAlgClosed.ringKrullDim_quotient_le` (`Borel/Dimension.lean`, main), including for disconnected or nonreduced stabilizers, and `Comodule.topologicalKrullDim_range_projectiveOrbitMap_add_ringKrullDim_eq` (`Representation/ProjectiveOrbit/StabilizerDimension.lean`). These orbit dimensions are at least `dim G − dim B`, the dimension of the chosen orbit. Export this dimension comparison explicitly.
-4. The chosen orbit lies in (b)'s closed invariant image, so its closure stays there. Apply `Comodule.isClosed_range_projectiveOrbitMap_of_forall_mem` (`Representation/ProjectiveOrbit/ClosedOrbit.lean`) with that locus and the dimension comparison to conclude closedness. Apply `Comodule.isProper_projectiveOrbitToSpec_of_isClosed` (`Representation/ProjectiveOrbit/Scheme.lean`, main) to conclude properness. Identify the fppf quotient with this orbit scheme using `Comodule.fppfHomogeneousQuotientIsoProjectiveOrbitPoints` (`Representation/ProjectiveOrbit/Quotient.lean`), verifying the coset criterion over every `k`-algebra, not only on `k`-points.
-
-*Needs:* (a)–(b), the Chevalley, faithful-representation, prescribed-line Lie–Kolchin and flag-tensor inputs above, the solvable-subgroup dimension bound, projective orbit dimensions and closedness, and the orbit/fppf quotient comparison. The closed orbit with stabilizer `B` and its proper quotient realization are targets here, not supplier assumptions.
-
-**Checks. Flags and completeness:** `n=0` uses the empty product and tensor unit, so both the flag scheme and its tensor image are a point; `n=1` also gives a point. For `n=2`, recover the line Grassmannian `P(V)` and its usual action (the determinant factor does not change its projective points). For `GL₃`, recover the line–plane incidence equation and prefix tensor with all degrees `1,2,3`. Changing an adapted basis rescales the tensor without changing its line. For `SL₂`, the stabilizer is the upper-triangular Borel and the closed orbit is `P¹`. For a torus, `B=G` and `G/B` is a point. An arbitrary Chevalley line need not have closed orbit; the flag locus and the dimension bound establish this for the constructed tensor line.
-
-**Dependencies:** existing Grassmannian schemes and properness, the representation and projective-orbit APIs in the supplier table, and the two explicitly marked in-progress PRs. No parabolic classification, complete-scheme Borel fixed point, projective homogeneous-space classification or Schubert cohomology is used to prove (a)–(c).
-
 ### 4.1 Containing a Borel implies properness
 
-For a closed subgroup `H` containing `B`, use `gap:homogeneous-quotient-scheme` to form `G/H`. The complete `G/B` constructed in 4.0(c) maps surjectively to the separated finite-type `G/H`; properness descends along this map. This proves that Borel containment implies `G/H` proper (Milne Theorem 17.16, p.356).
+For a closed subgroup `H` containing `B`, use `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints` (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`) to realize `G/H` as a projective orbit scheme. The complete `G/B` from `gap:complete-borel-quotient` maps surjectively to the separated finite-type `G/H`; properness descends along this map. This proves that Borel containment implies `G/H` proper (Milne Theorem 17.16, p.356).
 
-Compare Borel containment with the parabolic condition used by ShimuraData §3.8. For a resulting parabolic `P`, consume that roadmap's `Par_t(G)`, its projectivity over the affine base `Spec k`, and its isomorphism `G/P ≅ Par_t(G)`. This supplies the projective direction of headline 3 without a second projectivity construction.
+The orbit immersion `Comodule.projectiveOrbitι` (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Scheme.lean`) is locally closed in `P(M)`. Since the orbit scheme is proper over `k` and projective space is separated, the immersion is proper and hence closed. Thus `G/H` is projective. This proves the projective direction of headline 3 using the same quotient realization.
 
-The completeness of `G/B` is proved in 4.0 independently of this equivalence. Neither the classification of projective homogeneous spaces nor Schubert cohomology is an input.
+The completeness of `G/B` is supplied independently of this layer's equivalence, by Milne Theorem 17.9(a), p.354, and Humphreys §21.3. Neither the classification of projective homogeneous spaces nor Schubert cohomology is an input.
 
-*Needs:* `gap:homogeneous-quotient-scheme`, 4.0(c), 0.2 and ShimuraData §3.8's `Par_t(G)` comparison and projectivity.
+*Needs:* `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints` (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`), `Comodule.projectiveOrbitι` (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Scheme.lean`), `gap:complete-borel-quotient` and 0.2.
 
 ### 4.2 Projectivity implies containing a Borel
 
 If G/H is projective, apply Borel fixed point to the left B-action. Lift the resulting point to g∈G(k) by 0.2. Its stabilizer condition says g⁻¹Bg⊆H. Express this as containment of subgroup schemes by 0.1. H is smooth by hypothesis; in characteristic zero Cartier supplies this hypothesis for every closed subgroup scheme, so it is parabolic in the native definition.
 
-Export equivalence of: H parabolic; G/H proper over k; G/H projective over k. The proper-to-parabolic proof uses the complete-scheme form of Borel fixed point, and the parabolic-to-projective proof above supplies the stronger conclusion. Do not use proper ⇒ projective for general schemes.
+Export `isProper_projectiveOrbitToSpec_iff_isParabolicOverAlgClosed` in `Suggested.lean` as “H parabolic ⇔ G/H proper”, and extend it to the equivalence of: H parabolic; G/H proper over k; G/H projective over k. The proper-to-parabolic proof uses the complete-scheme form of Borel fixed point, and the parabolic-to-projective proof above supplies the stronger conclusion. Do not use proper ⇒ projective for general schemes.
 
 *Needs:* complete-scheme Borel fixed point, 0.1–0.2 and 4.1.
 
@@ -274,7 +223,7 @@ For `SL₂`, `G/B ≅ ℙ¹` is projective while `G/T` is not proper; `G/G` is a
 
 ### Dependencies
 
-Layer 0 quotient and orbit comparison, Layer 3 type classification, 4.0 complete `G/B`, ReductiveGroups 3A complete-scheme fixed point, ShimuraData §3.8 projective `Par_t(G)`.
+Layer 0 quotient and orbit comparison, Layer 3 type classification, ReductiveGroups 7 complete `G/B`, ReductiveGroups 3A complete-scheme fixed point, and the pinned projective-orbit immersion (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Scheme.lean`).
 
 ## Layer 5: equivariant morphisms and projections
 
@@ -304,7 +253,7 @@ Layer 2 order classification, Layer 3 Borel conjugacy, and Layer 0 scheme quotie
 
 ### 6.1 Model comparisons
 
-Reuse existing group and incidence models, including 4.0's complete-flag scheme; build comparison isomorphisms and classification applications rather than new Grassmannian or flag constructions. Consume the type-A block maps of ReductiveGroups 7C.5 and the incidence comparisons of SchubertGeometry S1; SchubertGeometry S2.3 owns the subword/Bruhat closure criterion.
+Reuse existing group and incidence models; build comparison isomorphisms and classification applications rather than new Grassmannian or flag constructions. Consume the type-A block maps of ReductiveGroups 7C.5 and the incidence comparisons of SchubertGeometry S1; SchubertGeometry S2.3 owns the subword/Bruhat closure criterion.
 
 1. Torus: S=∅, B=G, P_∅=G, and the only projective homogeneous G-variety is a point.
 2. SL₂: S has one element; the two spaces are SL₂/B≅P¹ and a point. Identify the action and stabilizer in the existing line model.
@@ -323,7 +272,7 @@ Layers 1–5, ReductiveGroups 7C.5 block maps, and SchubertGeometry S1 incidence
 
 ## Downstream consumers
 
-SchubertGeometry's complete-flag incidence and embedding comparisons use 4.0's scheme and tensor encoding. ShimuraData §3.8 supplies `Par_t(G)` earlier in the build order; ReductiveGroups 7C.5 and SchubertGeometry S1 supply the type-A block and incidence comparisons used here.
+There are no downstream roadmap consumers. ReductiveGroups 7C.5 and SchubertGeometry S1 supply the type-A block and incidence comparisons used here.
 
 ## References
 
@@ -340,4 +289,4 @@ The intended path is the classical algebraic route, not classification of reduct
 
 ### Claim-local locators
 
-Layer 0.3 uses Milne (2017), §7.e and Propositions 7.11 and 7.15, printed pp.141–143, for the orbit-to-quotient isomorphism and fibre comparison. Layer 2.1 uses Humphreys §§29.1–29.3 for BN-pairs and Bruhat cells. Layer 2.2 uses Humphreys §30.1 and Milne Theorem 21.91, pp.453–454, for smooth standard parabolics in arbitrary characteristic; its scheme-theoretic intersection equality holds in every characteristic by ReductiveGroups 7b's smooth connected intersection theorem. Layer 3.1 uses Milne Theorem 17.9(b), p.354, for Borel conjugacy, Milne Theorem 21.91, p.453, for uniqueness of standard type, and Conrad–Feng (2020), Appendix T.1, p.305, as a statement reference. Layer 3.2 uses Milne Corollary 17.49, p.367, for pointwise self-normalization. Layer 4.0(c) uses Milne Theorem 17.9(a), p.354, and Humphreys §21.3 for complete `G/B`; 4.1 consumes that target and ShimuraData §3.8's projectivity of `Par_t(G)`. Layer 5.1 uses Milne Proposition 5.22, p.104, with the quotient universal property. Humphreys is cited by locator only (uncertified).
+Layer 0.3 uses Milne (2017), §7.e and Propositions 7.11 and 7.15, printed pp.141–143, for the orbit-to-quotient isomorphism and fibre comparison. Layer 2.1 uses Humphreys §§29.1–29.3 for BN-pairs and Bruhat cells. Layer 2.2 uses Humphreys §30.1 and Milne Theorem 21.91, pp.453–454, for smooth standard parabolics in arbitrary characteristic; its scheme-theoretic intersection equality holds in every characteristic by ReductiveGroups 7b's smooth connected intersection theorem. Layer 3.1 uses Milne Theorem 17.9(b), p.354, for Borel conjugacy, Milne Theorem 21.91, p.453, for uniqueness of standard type, and Conrad–Feng (2020), Appendix T.1, p.305, as a statement reference. Layer 3.2 uses Milne Corollary 17.49, p.367, for pointwise self-normalization. Layer 4.1 uses Milne Theorem 17.9(a), p.354, and Humphreys §21.3 for complete `G/B`. Layer 5.1 uses Milne Proposition 5.22, p.104, with the quotient universal property. Humphreys is cited by locator only (uncertified).
