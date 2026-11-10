@@ -954,9 +954,11 @@ geometrically irreducible, Lemmas 37.27.5 (0559) and 37.27.7 (055B) with `n = 1`
 connected, Lemmas 37.28.4 (055G) and 37.28.6 (055I) with `n = 1`; geometrically integral, EGA IV₃,
 Theorem 9.7.7 (iv), p. 79; geometrically normal and smooth, EGA IV₃, Proposition 9.9.4 (iii) and (i),
 p. 93, and Corollary 9.9.5, p. 94 (a fibre is smooth iff it is geometrically regular at every point).
-In the last three cases the dense open follows from the locus statement, because a constructible set
-containing the generic point of an irreducible space contains a dense open (Stacks, Lemma 5.15.15
-(005K)). Prove `flat_proper_fibre_loci`: for `f` proper and flat of finite presentation, the
+In the last three cases the dense open follows from the locus statement: on a nonempty affine open
+`U ⊆ S` the locus is constructible (Stacks, Properties, Lemma 28.2.1 (054C)) and contains the
+generic point `η` of the irreducible space `U`, so it contains a dense open of `U` (Topology, Lemma
+5.15.15 (005K), which needs a finite union of locally closed subsets, as a constructible subset of
+`U` is), and a nonempty open of the irreducible `S` is dense in `S`. Prove `flat_proper_fibre_loci`: for `f` proper and flat of finite presentation, the
 loci where the fibre is geometrically reduced, respectively geometrically integral, are open (EGA
 IV₃, Theorem 12.2.4 (v) and (viii), p. 183). Prove `fibre_power_irreducible`: for `f : X → S` flat of
 finite presentation with geometrically irreducible fibres, every fibre power `X ×_S ⋯ ×_S X` has
