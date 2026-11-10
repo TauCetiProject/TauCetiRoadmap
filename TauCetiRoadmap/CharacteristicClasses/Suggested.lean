@@ -42,9 +42,13 @@ on the fundamental class, and the pinned local orientations
 its oriented charts; the Thom class is normalized on every fibre by the pinned generator
 `Orientation.localOrientation` of the tangent orientation. Finite CW type is a hypothesis,
 since the pins have no such instance for compact manifolds. The self-map form
-`⟨f* e(TM), [M]⟩ = deg(f) χ(M)` follows from it through the pinned
-`TauCeti.HomologicalOrientation.evalFundamentalClass_id_singularCohomologyMap` and is not
-restated.
+`⟨f* e(TM), [M]⟩ = deg(f) χ(M)` of C2.3 is not a separate headline: the pins define no degree
+of a self-map, and for an integer `d` with `f_*[M] = d • [M]` (the pinned
+`TauCeti.HomologicalOrientation.mapFundamentalClass` and
+`TauCeti.HomologicalOrientation.fundamentalClass`) it follows from
+this theorem, the pinned
+`TauCeti.HomologicalOrientation.evalFundamentalClass_id_singularCohomologyMap`, which gives
+`⟨f* c, [M]⟩ = ⟨c, f_*[M]⟩`, and linearity of the Kronecker pairing.
 
 Stated as well is the headline of C7.3a, Whitney's theorem that `ℝP^(2^k)`
 admits no smooth immersion into `ℝ^(2^(k+1)-2)`. Here `ℝPᵐ` is the orbit space
@@ -91,6 +95,17 @@ Not statable at the pins, and therefore not stated here:
   cohomology algebra `⨁ₖ Hᵏ(K;ℚ)` to compare with an exterior algebra, and
   spelling out exterior monomials through iterated degreewise cups would be
   an ad hoc encoding;
+* the comparison `H*_dR(K) ≅ H*(CE(𝔤;ℝ))` of the de Rham cohomology ring of a compact
+  connected Lie group with the cohomology of its Chevalley–Eilenberg complex (C5a.1): the
+  pinned Lie-algebra cochains of Mathlib's `LieModule.Cohomology` and of Tau Ceti's
+  `Algebra/Lie/Cochain.lean` stop at 2-cochains, with coboundaries `d₁₂` and `d₂₃`, so there is
+  no Chevalley–Eilenberg complex in all degrees;
+* the universal transgression `d_(2dᵢ)(zᵢ) = uᵢ` in the Serre spectral sequence of
+  `K → EK → BK` (C5a.5): the pins have no classifying space of a Lie group of positive
+  dimension (`TauCeti.classifyingSpace G` is the join of `G` as a discrete group) and no
+  cohomological Serre spectral sequence (the pinned
+  `TauCeti.filteredSpaceSpectralSequence` is the homological spectral sequence of a filtered
+  space);
 * the rational Chern-character isomorphism on finite CW pairs and its Thom
   correction `ch(Thom_K(a)) = Thom_H(ch(a)·Td(E)⁻¹)` (C6.3–C6.4): the pins have
   no topological K-theory and no Chern class.
