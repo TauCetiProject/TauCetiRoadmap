@@ -20,20 +20,15 @@ extreme eigenvalues (Layer 4); the almost-sure Marchenko–Pastur law and the ex
 of sample covariance matrices (Layer 4); the Hanson–Wright inequality and the Hermitian matrix
 Bernstein inequality (Layer 2); the ordered eigenvalue densities of GOE and GUE with their
 Gaussian Selberg normalisation (Layer 5); almost-sure asymptotic freeness of independent Wigner
-matrices (Layer 6); the rank-one spiked largest eigenvalue (Layer 7); the
-central limit theorem for polynomial linear statistics of GOE and GUE, the Tracy–Widom limit
-`F₂` of the GUE largest eigenvalue and the GUE bulk gap probability (Layer 8); the large
-deviation principle of the GOE and GUE largest eigenvalue (Layer 9); the Rudelson–Vershynin
-least-singular-value bound and the almost-sure circular law (Layer 10).
+matrices and of Haar-conjugated deterministic matrices (Layer 6); the rank-one spiked largest
+eigenvalue (Layer 7); the central limit theorem for polynomial linear statistics of GOE and GUE,
+the Tracy–Widom limits `F₂` of the GUE and `F₁` of the GOE largest eigenvalue and the GUE bulk gap
+probability (Layer 8); the large deviation principles of the GOE and GUE empirical spectral
+measure and largest eigenvalue (Layer 9); the Rudelson–Vershynin least-singular-value bound and
+the almost-sure circular law (Layer 10).
 
-Not statable at the pins, each for the carrier named:
-* `L_{Dₙ+√t Hₙ} → ν ⊞ SC_t` and the population-covariance law `ν ⊠ MP_y`: the pins have no free
-  convolution of probability measures;
-* the Tracy–Widom limit `F₁` of GOE: it is written through the Hastings–McLeod solution of
-  Painlevé II, whose existence is a theorem of §8.5;
-* the large deviation principle at speed `n²` for the beta-gas empirical measure: its rate is the
-  logarithmic energy `E_V` of §9.2 as a lower-semicontinuous functional on probability measures,
-  which the pins do not have.
+Not statable at the pins: `L_{Dₙ+√t Hₙ} → ν ⊞ SC_t` and the population-covariance law
+`ν ⊠ MP_y`, since the pins have no free convolution of probability measures.
 -/
 
 noncomputable section
@@ -238,26 +233,50 @@ section Freeness
 variable {Ω : Type*} [MeasurableSpace Ω]
 
 /-- **Asymptotic freeness of Wigner matrices, almost surely** (AGZ Theorem 5.4.2 for the
-normalized trace). Let `k` Wigner arrays be independent, with i.i.d. complex strictly upper entries
-of law `ν` with all moments, mean zero and `E|ξ|² = 1`, and i.i.d. real diagonal entries of law
-`ν₀` with all moments, mean zero and variance `1`. Then almost surely the normalized-trace moments
-of the `k` Wigner matrices of size `n + 1` converge to those of any free family of standard
-semicircular elements. -/
+normalized trace). Let the entries of `k` Wigner arrays, complex strictly upper entries `ξ` and
+real diagonal entries `η`, be independent, centred, of unit second moment, and with moments of
+every order bounded uniformly in the matrix and the position; they need not be identically
+distributed. Then almost surely the normalized-trace moments of the `k` Wigner matrices of size
+`n + 1` converge to those of any free family of standard semicircular elements. -/
 theorem wigner_asymptotically_free {k : ℕ} (P : Measure Ω) [IsProbabilityMeasure P]
-    (ν : Measure ℂ) [IsProbabilityMeasure ν] (ν₀ : Measure ℝ) [IsProbabilityMeasure ν₀]
     (ξ : Fin k → StrictUpper → Ω → ℂ) (η : Fin k → ℕ → Ω → ℝ)
-    (hξ : ∀ l ij, HasLaw (ξ l ij) ν P) (hη : ∀ l i, HasLaw (η l i) ν₀ P)
     (hindep : iIndepFun (fun p : Fin k × (StrictUpper ⊕ ℕ) ↦
       Sum.elim (ξ p.1) (fun i ω ↦ (η p.1 i ω : ℂ)) p.2) P)
-    (hmom : ∀ p : ℕ, Integrable (fun z : ℂ ↦ ‖z‖ ^ p) ν)
-    (hmom₀ : ∀ p : ℕ, Integrable (fun x : ℝ ↦ |x| ^ p) ν₀)
-    (hmean : ∫ z, z ∂ν = 0) (hvar : ∫ z, ‖z‖ ^ 2 ∂ν = 1)
-    (hmean₀ : ∫ x, x ∂ν₀ = 0) (hvar₀ : ∫ x, x ^ 2 ∂ν₀ = 1)
+    (hint : ∀ (p : ℕ) l ij i, Integrable (fun ω ↦ ‖ξ l ij ω‖ ^ p) P ∧
+      Integrable (fun ω ↦ |η l i ω| ^ p) P)
+    (hbound : ∀ p : ℕ, ∃ C : ℝ, ∀ l ij i,
+      ∫ ω, ‖ξ l ij ω‖ ^ p ∂P ≤ C ∧ ∫ ω, |η l i ω| ^ p ∂P ≤ C)
+    (hmean : ∀ l ij i, ∫ ω, ξ l ij ω ∂P = 0 ∧ ∫ ω, η l i ω ∂P = 0)
+    (hvar : ∀ l ij i, ∫ ω, ‖ξ l ij ω‖ ^ 2 ∂P = 1 ∧ ∫ ω, η l i ω ^ 2 ∂P = 1)
     {B : Type*} [Ring B] [Algebra ℂ B] (ψ : B →ₗ[ℂ] ℂ) (s : Fin k → B) (hψ : ψ 1 = 1)
     (hfree : IsFreelyIndependentElements ψ s) (hs : ∀ l, IsSemicircular ψ (s l) 1) :
     ∀ᵐ ω ∂P, TendstoInMoments (A := fun n : ℕ ↦ Matrix (Fin (n + 1)) (Fin (n + 1)) ℂ)
       (fun n ↦ ((n + 1 : ℂ)⁻¹) • Matrix.traceLinearMap (Fin (n + 1)) ℂ ℂ)
       (fun n l ↦ wignerMatrix (ξ l) (η l) (n + 1) ω) atTop ψ s := by
+  sorry
+
+/-- **Asymptotic freeness of Haar-conjugated matrices, almost surely** (AGZ Theorem 5.4.10,
+Corollary 5.4.11(i)). Let `Aₙ, Bₙ` be deterministic Hermitian matrices of uniformly bounded
+operator norm whose normalized-trace moments converge to those of `s 0` and `s 1`, a free pair,
+and let `Uₙ` be Haar distributed on the unitary group. Then almost surely
+`(Aₙ, UₙBₙUₙ*)` converges in moments to `(s 0, s 1)`. -/
+theorem haar_conj_asymptotically_free (P : Measure Ω) [IsProbabilityMeasure P]
+    (A B : ∀ n : ℕ, Matrix (Fin (n + 1)) (Fin (n + 1)) ℂ)
+    (hA : ∀ n, (A n).IsHermitian) (hB : ∀ n, (B n).IsHermitian)
+    (D : ℝ) (hAD : ∀ n, ‖A n‖ ≤ D) (hBD : ∀ n, ‖B n‖ ≤ D)
+    (μ : ∀ n : ℕ, Measure (Matrix.unitaryGroup (Fin (n + 1)) ℂ))
+    [∀ n, (μ n).IsHaarMeasure] [∀ n, IsProbabilityMeasure (μ n)]
+    (U : ∀ n : ℕ, Ω → Matrix.unitaryGroup (Fin (n + 1)) ℂ) (hU : ∀ n, HasLaw (U n) (μ n) P)
+    {C : Type*} [Ring C] [Algebra ℂ C] (ψ : C →ₗ[ℂ] ℂ) (s : Fin 2 → C) (hψ : ψ 1 = 1)
+    (hfree : IsFreelyIndependentElements ψ s)
+    (hlimA : ∀ k : ℕ, Tendsto (fun n : ℕ ↦ ((n + 1 : ℂ)⁻¹) * (A n ^ k).trace) atTop
+      (𝓝 (ψ (s 0 ^ k))))
+    (hlimB : ∀ k : ℕ, Tendsto (fun n : ℕ ↦ ((n + 1 : ℂ)⁻¹) * (B n ^ k).trace) atTop
+      (𝓝 (ψ (s 1 ^ k)))) :
+    ∀ᵐ ω ∂P, TendstoInMoments (A := fun n : ℕ ↦ Matrix (Fin (n + 1)) (Fin (n + 1)) ℂ)
+      (fun n ↦ ((n + 1 : ℂ)⁻¹) • Matrix.traceLinearMap (Fin (n + 1)) ℂ ℂ)
+      (fun n ↦ ![A n, (U n ω : Matrix (Fin (n + 1)) (Fin (n + 1)) ℂ) * B n *
+        star (U n ω : Matrix (Fin (n + 1)) (Fin (n + 1)) ℂ)]) atTop ψ s := by
   sorry
 
 end Freeness
@@ -338,6 +357,21 @@ theorem gue_largest_eigenvalue_tracyWidom
       atTop (𝓝 (fredholmDet airyKernel (Set.Ioi s))) := by
   sorry
 
+/-- **Tracy–Widom limit `F₁` of the GOE largest eigenvalue** (AGZ Theorem 3.1.7, (3.1.13)):
+`F₁(s) = √F₂(s) · exp(-(1/2) ∫_s^∞ q)` for the Hastings–McLeod solution `q` of Painlevé II,
+`q'' = xq + 2q³` with `q/Ai → 1` at `+∞`. That solution is unique; its existence is a target of
+§8.5. -/
+theorem goe_largest_eigenvalue_tracyWidom
+    (P : Measure Ω) [IsProbabilityMeasure P] (G : ∀ n : ℕ, Ω → Fin (n + 1) × Fin (n + 1) → ℝ)
+    (hG : ∀ n, HasLaw (G n) (Measure.pi fun _ ↦ gaussianReal 0 1) P)
+    (q : ℝ → ℝ) (hq : ContDiff ℝ 2 q) (hPII : ∀ x, deriv (deriv q) x = x * q x + 2 * q x ^ 3)
+    (hAi : Tendsto (fun x ↦ q x / airyAi x) atTop (𝓝 1)) (s : ℝ) :
+    Tendsto (fun n : ℕ ↦ P.real {ω | ((n + 1 : ℕ) : ℝ) ^ ((2 : ℝ) / 3) *
+        ((⨆ i, (gaussianEnsemble_isHermitian 1 (n + 1) (G n ω)).eigenvalues i) - 2) ≤ s})
+      atTop (𝓝 (Real.sqrt (fredholmDet airyKernel (Set.Ioi s)) *
+        Real.exp (-(1 / 2) * ∫ x in Set.Ioi s, q x))) := by
+  sorry
+
 /-- **Bulk gap probability of GUE** (AGZ Theorem 3.1.1 at `E = 0`; for `0 < |E| < 2`, the remark
 following it and Exercise 3.7.5, with the argument of AGZ §3.5). For `|E| < 2` and compact `A`, the
 probability that no eigenvalue of `Hₙ`, scaled by `n ρ_SC(E) (λ − E)` with
@@ -377,6 +411,25 @@ theorem gaussianEnsemble_largest_eigenvalue_ldp {Ω : Type*} [MeasurableSpace Ω
       (fun n ↦ ((n + 1 : ℕ) : ℝ))
       (fun x ↦ if 2 ≤ x then
         ENNReal.ofReal ((β : ℝ) / 2 * ∫ t in (2 : ℝ)..x, Real.sqrt (t ^ 2 - 4)) else ⊤) := by
+  sorry
+
+/-- `E_V(μ) + 1` for `V(x) = x²/2` (§9.2), with `+∞` on the diagonal; the integrand is at least
+`3/2 - log 2 > 0`, so no truncation is needed. -/
+def gaussianLogEnergy (μ : ProbabilityMeasure ℝ) : ℝ≥0∞ :=
+  ∫⁻ x, ∫⁻ y, (if x = y then ⊤ else
+    ENNReal.ofReal ((x ^ 2 + y ^ 2) / 4 - Real.log |x - y| + 1)) ∂(μ : Measure ℝ) ∂(μ : Measure ℝ)
+
+/-- **Large deviations of the GOE/GUE empirical spectral measure** (AGZ Theorem 2.6.1 with
+`V = βx²/4` in AGZ's normalization, `V = x²/2` in §9.2's): speed `n²` and rate
+`(β/2)(E_V(μ) - 3/4)`, where `3/4 = E_V(semicircleReal 0 1)` is the minimum. -/
+theorem gaussianEnsemble_spectralMeasure_ldp (β : ℕ) (hβ : β = 1 ∨ β = 2)
+    (P : Measure Ω) [IsProbabilityMeasure P] (G : ∀ n : ℕ, Ω → Fin (n + 1) × Fin (n + 1) → ℝ)
+    (hG : ∀ n, HasLaw (G n) (Measure.pi fun _ ↦ gaussianReal 0 1) P) :
+    LargeDeviationPrinciple
+      (fun n ↦ P.map fun ω ↦ Matrix.spectralMeasure (gaussianEnsemble β (n + 1) (G n ω))
+        (gaussianEnsemble_isHermitian β (n + 1) (G n ω)))
+      (fun n ↦ ((n + 1 : ℕ) : ℝ) ^ 2)
+      (fun μ ↦ ENNReal.ofReal ((β : ℝ) / 2) * (gaussianLogEnergy μ - ENNReal.ofReal (7 / 4))) := by
   sorry
 
 /-! ## Layer 10: small singular values and the circular law -/
