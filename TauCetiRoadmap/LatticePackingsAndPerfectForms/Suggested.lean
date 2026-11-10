@@ -10,6 +10,7 @@ import TauCeti.LinearAlgebra.IntegralLattice.Isometry.Group
 import TauCeti.LinearAlgebra.IntegralLattice.PosDef.Minimum
 import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Bilinear
 import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
+import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.Basic
 
 /-!
 # Lattice packings and perfect forms: target signatures
@@ -666,7 +667,8 @@ theorem PosDefForm.min_tensor_kitaoka {n m : ℕ} (A : PosDefForm n) (B : PosDef
     (hC : C.1 = Matrix.reindex finProdFinEquiv finProdFinEquiv (Matrix.kronecker A.1 B.1))
     (hn : n ≤ 43) : C.min = A.min * B.min := sorry
 
-/-- Composition gives the native finite bilinear self-isometries their group structure. -/
+/-- **7.4.** The group `O(b)` of self-isometries of a finite bilinear module, with product
+`f · g = f ∘ g`. -/
 instance bilinearIsometryGroup (D : TauCeti.FiniteBilinearModule) :
     Group (TauCeti.FiniteBilinearModule.Isometry D D) where
   mul f g := g.trans f
@@ -689,17 +691,6 @@ instance bilinearIsometryGroup (D : TauCeti.FiniteBilinearModule) :
     change (f.trans f.symm) x = (TauCeti.FiniteBilinearModule.Isometry.refl D) x
     simp
 
-/-- Composition gives the native finite quadratic self-isometries their group structure. -/
-instance quadraticIsometryGroup (D : TauCeti.FiniteQuadraticModule) :
-    Group (TauCeti.FiniteQuadraticModule.Isometry D D) where
-  mul f g := g.trans f
-  one := QuadraticMap.IsometryEquiv.refl D.quadratic
-  inv f := f.symm
-  mul_assoc f g h := by apply DFunLike.ext; intro x; rfl
-  one_mul f := by apply DFunLike.ext; intro x; rfl
-  mul_one f := by apply DFunLike.ext; intro x; rfl
-  inv_mul_cancel f := by apply DFunLike.ext; intro x; exact f.toLinearEquiv.symm_apply_apply x
-
 /-- **7.4.** The induced action on the native discriminant bilinear module. -/
 noncomputable def discriminantHom (L : IntegralLattice V) [L.IsNondegenerate] :
     TauCeti.IntegralLattice.Isometry L L →*
@@ -717,21 +708,26 @@ noncomputable def discriminantHom (L : IntegralLattice V) [L.IsNondegenerate] :
       (g.discriminantBilinearIsometry.trans f.discriminantBilinearIsometry) x
     simp [Isometry.mul_def]
 
-/-- **7.4.** The induced action on the native discriminant quadratic module of an even lattice. -/
+/-- **7.4.** The induced action on the discriminant quadratic module of an even lattice, valued
+in Tau Ceti's orthogonal group `O(q_L)` of the discriminant quadratic map. -/
 noncomputable def discriminantQuadraticHom (L : IntegralLattice V) [L.IsNondegenerate]
     (he : L.IsEven) :
     TauCeti.IntegralLattice.Isometry L L →*
-      TauCeti.FiniteQuadraticModule.Isometry (L.discriminantQuadraticModule he)
-        (L.discriminantQuadraticModule he) where
-  toFun e := e.discriminantQuadraticIsometry he
+      TauCeti.QuadraticMap.orthogonalGroup (L.discriminantQuadraticModule he).quadratic where
+  toFun e := (TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv _).symm
+    (e.discriminantQuadraticIsometry he)
   map_one' := by
-    apply DFunLike.ext; intro x
+    ext x
+    simp only [TauCeti.QuadraticMap.coe_orthogonalGroupEquivIsometryEquiv_symm,
+      OneMemClass.coe_one, LinearEquiv.coe_one, id_eq]
     change (Isometry.discriminantQuadraticIsometry (1 : Isometry L L) he).toAddEquiv x = x
     rw [Isometry.discriminantQuadraticIsometry_toAddEquiv]
     simp [Isometry.one_def]
     rfl
   map_mul' f g := by
-    apply DFunLike.ext; intro x
+    ext x
+    simp only [TauCeti.QuadraticMap.coe_orthogonalGroupEquivIsometryEquiv_symm,
+      Subgroup.coe_mul, LinearEquiv.mul_apply]
     change (Isometry.discriminantQuadraticIsometry (f * g) he).toAddEquiv x =
       (f.discriminantQuadraticIsometry he).toAddEquiv ((g.discriminantQuadraticIsometry he).toAddEquiv x)
     simp only [Isometry.discriminantQuadraticIsometry_toAddEquiv]

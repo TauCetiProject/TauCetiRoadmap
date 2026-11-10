@@ -80,7 +80,9 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
 - **From Tau Ceti at the pin**, the declarations tabulated under *From Tau Ceti*: the
   carrier and its Gram, norm, scaling and sum API; `minimum`, `kissingNumber`, `vectorsOfNorm`,
   `representationNumber` and their finiteness; the isometry group; the realization theory of
-  `PosDef/Covolume`; the discriminant group and pairing; the rank-one and ADE lattices.
+  `PosDef/Covolume`; the discriminant group and pairing; the orthogonal group
+  `TauCeti.QuadraticMap.orthogonalGroup` of a quadratic map, which is `O(q_L)` in 7.4; the rank-one
+  and ADE lattices.
   Tau Ceti's `minimum` and `kissingNumber` **are** the LMFDB `minimum` and `kissing` columns;
   Layer 1 identifies them with the form-side definitions and adds no second minimum on the
   rational carrier.
@@ -128,10 +130,9 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
   (`TauCeti/NumberTheory/GeometryOfNumbers/MinkowskiSecond.lean`), the declaration Successive
   Minima names as the upper half. Milestone 1.2 proves
   `min A = successiveMin (ℤⁿ) (closedBall 0 1) 0 ^ 2` in `FormSpace A`.
-- **From GoN** (cited by milestone, no Lean declaration here): `latticePackingRadius` (4.4.1),
-  `latticeCoveringRadius` (4.4.2), `StarBody` (4.5.1), with boundedness imposed where used,
-  `criticalDeterminant` (4.5.2), `IsLLLReduced`, `lll_short_vector_factor` (5.1.2, 5.1.4). Milestones 1.4 and 3.3
-  identify the packing radius and the inhomogeneous minimum of a form with the first two.
+- **From GoN** (cited by milestone, no Lean declaration here): `latticePackingRadius` (4.4.1) and
+  `latticeCoveringRadius` (4.4.2). Milestones 1.4 and 3.3 identify the packing radius and the
+  inhomogeneous minimum of a form with them.
 - **From ProbabilisticAndMetricNumberTheory §4.9b** (cited by milestone, no Lean declaration here):
   Mahler's criterion `mahler_relativelyCompact_iff`, that a set of classes in `SLₙ(ℝ)/SLₙ(ℤ)` has
   compact closure exactly when the max-norm first minima of the lattices `gℤⁿ` are bounded below by
@@ -262,7 +263,9 @@ has every factor of rank `≥ 2`. ⚠ The knowl `lattice.tensor_decomposition` o
 
 **Festi–Veniani index.** `D_L` is the discriminant form of `L`: the finite quadratic module
 `(A_L, q_L)` when `L` is even and the finite bilinear module `(A_L, b_L)` when `L` is odd, both Tau
-Ceti's. `O(D_L)` is its isometry group, and `φ_L : O(L) → O(D_L)` is the natural map through
+Ceti's. `O(D_L)` is its isometry group: Tau Ceti's orthogonal group
+`TauCeti.QuadraticMap.orthogonalGroup` of `q_L` when `L` is even, and the self-isometries of
+`(A_L, b_L)` under composition (7.4) when `L` is odd. `φ_L : O(L) → O(D_L)` is the natural map through
 `Isometry.discriminantGroupEquiv`. The Festi–Veniani index is `[O(D_L) : φ_L(O(L))]`. For a
 nondegenerate `L` the group `O(D_L)` is finite, so the index is a positive integer.
 
@@ -304,8 +307,10 @@ lines, is cited as it is at those revisions.
   `ZLattice.prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume`, as Successive Minima
   records; first-theorem uses below are the pinned Mathlib convex-body declarations. Real successive minima are consumed from this roadmap and from nowhere else.
 - [Geometry of numbers, quadratic forms and homogeneous arithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md)
-  (GoN): 4.4.1 `latticePackingRadius` and 4.4.2 `latticeCoveringRadius` of a full Euclidean lattice,
-  4.5.1 star bodies, 5.1 LLL-reduced bases.
+  (GoN): §4.3 `polynomialLaplacian`, `polynomial_fischer_decomposition`,
+  `polynomial_sphere_harmonic_span` and `fourier_harmonic_gaussian` (consumed in 5.4 and 5.5);
+  4.4.1 `latticePackingRadius` (consumed in 1.4) and 4.4.2 `latticeCoveringRadius`, valued in
+  `[0, ∞]` (consumed in 3.3), of a full Euclidean lattice.
 - [Probabilistic and metric number theory](../ProbabilisticAndMetricNumberTheory/README.md) (PMNT):
   §4.9b Mahler's criterion `mahler_relativelyCompact_iff` on `SLₙ(ℝ)/SLₙ(ℤ)`, stated there for
   every `n` with the max-norm first minimum, consumed in 2.2 and 4.7.
@@ -361,6 +366,7 @@ dimension formula gives `S_k(SL₂(ℤ)) = 0` for `k < 12` and `dim S₁₂ = 1`
 | realizations: `gram_comp_eq_map_gramMatrix`, `discreteTopology_range`, `covolume_range_sq_eq_determinant` | `…/PosDef/Covolume.lean` | 0.3 |
 | `dualCarrier`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `discriminantBilinearModule`, `discriminantQuadraticModule`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry` | `…/Dual/Basic.lean`, `…/Discriminant/{Group,Bilinear,Quadratic}.lean` | 7.1, 7.4 |
 | `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry` and the finite quadratic modules of Completed IL Layer 3 | `TauCeti/LinearAlgebra/FiniteBilinearModule/{Basic,Quadratic}.lean` | 7.4 |
+| `TauCeti.QuadraticMap.orthogonalGroup` (the group `O(q)` of a quadratic map, the codomain of the even case of 7.4), `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv` (its underlying set is the self-isometries of `q`) | `TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean` | 7.4 |
 | `rankOne`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `checkerboardPlusLattice` (`Dₙ⁺` for `8 ∣ n`) | `…/RankOne/Basic.lean`, `…/RootLattice/TypeA/Basic.lean`, `…/RootLattice/TypeD/{Basic,Plus}.lean`, `…/RootLattice/TypeE/Basic.lean` | 4.10, 7.5, worked examples |
 | `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv` (`A_⟨a⟩ ≃ ℤ/|a|` for `a ≠ 0`), `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass` (`b(kg, lg) = kl/a`), `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass` (`q(kg) = k²/(2a)` for even `a`) | `…/RankOne/{Basic,Discriminant}.lean` | 7.5 |
 | `TauCeti.leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.isEven_leechLattice`, `TauCeti.isUnimodular_leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.discriminant_leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.vectorsOfNorm_two_leechLattice`, `TauCeti.kissingNumber_leechLattice` | `…/Rank24/Leech/{Basic,Minimum,MinimalVectors}.lean` | 3.4, 4.11, 5.7, worked examples |
@@ -867,9 +873,9 @@ Transport their lattices isometrically into one fixed Euclidean space as `gℤ�
 `g ∈ SLₙ(ℝ)` (when `det g = −1`, replace `A` by `UᵀAU` with `U = diag(−1, 1, …, 1)`), and apply
 ProbabilisticAndMetricNumberTheory §4.9b `mahler_relativelyCompact_iff` on SLₙ(ℝ)/SLₙ(ℤ): the
 Euclidean shortest length is at least √η, so the max-norm first minimum is at least √(η/n);
-use the reduced-Gram bounds of 1.9 to lift compactness to representatives. Rank one has the unique determinant-one form [1], so a maximizing sequence has a convergent
-subsequence after reduction and `min` is continuous on `PosDefForm n`. State separately the two
-continuity facts used: `min` is continuous on `PosDefForm n`, and `det` is. Prove that a critical
+use the reduced-Gram bounds of 1.9 to lift compactness to representatives. In rank one every form is
+similar to the only determinant-one form [1], so the supremum `γ₁ = 1` is attained. In every rank `min` and `det` are
+continuous on `PosDefForm n`; state both. Prove that a critical
 form is extreme in the sense of 4.3 (a global maximum is a local one).
 
 API and acceptance statements:
@@ -882,7 +888,7 @@ API and acceptance statements:
 - For n = 2 and η = 1/4, diag(1/t,t) is allowed only for 1 ≤ t ≤ 4.
 - Choosing ε = γₙ gives η = 0 and admits the unbounded diagonal family, so ε < γₙ is essential.
 
-*Needs:* GoN 4.5.1; ProbabilisticAndMetricNumberTheory §4.9b `mahler_relativelyCompact_iff`; M `IsCompact.exists_isMaxOn`; L 0.3, 1.1, 2.1.
+*Needs:* ProbabilisticAndMetricNumberTheory §4.9b `mahler_relativelyCompact_iff`; M `IsCompact.exists_isMaxOn`; L 0.3, 1.1, 1.9, 2.1.
 
 ### 2.3 The values in ranks one, two and three
 
@@ -920,7 +926,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 2.1 | M `sSup`, `Real.rpow`; L 0.5, 1.5, 1.7, 1.8 |
-| 2.2 | GoN 4.5.1; PMNT §4.9b; M `IsCompact.exists_isMaxOn`; L 0.3, 1.1, 2.1 |
+| 2.2 | PMNT §4.9b; M `IsCompact.exists_isMaxOn`; L 0.3, 1.1, 1.9, 2.1 |
 | 2.3 | L 1.1, 1.8, 2.1 |
 
 ## Layer 3: Voronoi cells and covering
@@ -1006,10 +1012,14 @@ API:
 
 ### 3.3 Identification with GoN
 
-Prove `coveringRadius A = GoN.latticeCoveringRadius (stdLattice A)` (GoN 4.4.2) and record that
-GoN's attainment lemma is 3.2's attainment read in the real model. Prove Jarník's inequalities
-`λₙ/2 ≤ coveringRadius A ≤ (∑ᵢ λᵢ)/2 ≤ n λₙ/2` with `λᵢ = SM.successiveMin (stdLattice A)
-(closedBall 0 1) i` (Gruber–Lekkerkerker, Ch. 2, §13; the knowl `lattice.covering_radius`
+Prove `ENNReal.ofReal (coveringRadius A) = GoN.latticeCoveringRadius (stdLattice A)` (GoN 4.4.2,
+whose covering radius takes values in `[0, ∞]` through `Metric.infEDist`; the equality also says
+that it is finite for `stdLattice A`) and record that GoN's attainment lemma is 3.2's attainment
+read in the real model. For `n ≥ 1` prove Jarník's inequalities
+`λₙ/2 ≤ coveringRadius A ≤ (∑ᵢ λᵢ)/2 ≤ n λₙ/2`, where for `1 ≤ i ≤ n` the `i`-th real successive
+minimum is `λᵢ = SM.successiveMin (stdLattice A) (closedBall 0 1) (i − 1)` (SM indexes from `0`,
+as in 1.2 and 1.9, and its value at an index `≥ n` is the junk value `0`)
+(Gruber–Lekkerkerker, Ch. 2, §13; the knowl `lattice.covering_radius`
 states them). For the upper bound, choose real-linearly independent lattice vectors of lengths λᵢ
 (SuccessiveMinima §1.5). Their integral span has finite index in the full lattice. Rounding
 the coordinates in this smaller lattice gives distance at most (∑ᵢ λᵢ)/2, hence also bounds
@@ -1020,6 +1030,9 @@ the distance to the full lattice; no integral basis attaining every minimum is r
 - For diag(1,4), λ₁ = 1 and λ₂ = 2; the bounds give 1 ≤ √5/2 ≤ 3/2 ≤ 2.
 - For [4], both Jarník bounds are 2/2 = 1, equal to the covering radius.
 - For I₂, rounding in the sublattice generated by (1,1),(1,−1) gives bound √2; it still bounds √2/2 for the full lattice although the sublattice has index 2.
+- For I₂ the chain reads 1/2 ≤ √2/2 ≤ 1 ≤ 1. Reading `λₙ` as SM's index `n` instead of `n − 1`
+  gives the junk value `0` there, and the last inequality would become the false `1 ≤ 0`.
+- In rank zero `coveringRadius A = 0` and GoN's covering radius of the zero lattice is `0 = ENNReal.ofReal 0`; Jarník's inequalities are stated only for `n ≥ 1`, where every `λᵢ` is a genuine minimum.
 
 *Needs:* GoN 4.4.2; SM 1.1, 1.5; L 3.2.
 
@@ -1035,7 +1048,7 @@ at squared distance exactly `2`, the deep holes, form `23` classes up to lattice
 lattice isometries, any one of which gives the lower bound (Conway–Sloane, Ch. 23). The vertices
 at squared distance below `2`, the shallow holes, play no part in the value; their classification
 is Borcherds–Conway–Queen's (Conway–Sloane, Ch. 25) and is listed under *Explicit scope
-exclusions*). Define the lattice covering constant
+exclusions*. Define the lattice covering constant
 `Θₙ := sInf {coveringDensity A | A}` and prove `Θₙ ≥ 1`; its values are excluded (see *Explicit
 scope exclusions*).
 
@@ -1207,7 +1220,7 @@ State the three directions as separate theorems so that 4.6 and 4.10 can cite th
 
 API and acceptance statements:
 
-- `isExtreme_iff`: : extreme iff perfect and eutactic.
+- `isExtreme_iff`: Voronoi's theorem: extreme iff perfect and eutactic.
 
 **Checks.**
 
@@ -1762,7 +1775,7 @@ GlobalQuadraticForms §6.1 for the local representation conditions.
 
 API and acceptance statements:
 
-- `isHalfUniversal_iff_twoNinety`: (Bhargava–Hanke), for the half-norms of an even lattice.
+- `isHalfUniversal_iff_twoNinety`: The 290 theorem (Bhargava–Hanke), for the half-norms of an even lattice: an even positive definite lattice is half-norm universal iff it has half-norm `m` for each of the 29 integers listed above.
 
 **Checks.**
 
@@ -1862,9 +1875,11 @@ L 1.1, 1.2, 7.1.
 
 Define `IsTensorDecomposable L :↔ ∃ L₁ L₂, 2 ≤ rank L₁ ∧ 2 ≤ rank L₂ ∧ Nonempty (Isometry L (L₁ ⊗ L₂))`
 and `TensorDecomposition L` as a finite list of factors of rank `≥ 2` with an isometry onto their
-iterated tensor product. Prove: a decomposable lattice has composite rank; `det L` is then a
-`rank L₂`-th power times a `rank L₁`-th power, so a lattice of squarefree determinant and rank `p`
-prime is indecomposable; `E₈ ≇ A₂ ⊗ D₄`-type statements are checked by minima (7.2) or
+iterated tensor product. Prove: a decomposable lattice has composite rank, so every lattice of
+prime rank is indecomposable; if `L ≅ L₁ ⊗ L₂` then `det L = (det L₁)^{rank L₂} (det L₂)^{rank L₁}`
+(7.1) with both exponents `≥ 2`, so every prime dividing `det L` divides it at least twice, and a
+lattice whose determinant has a prime factor `p` with `p² ∤ det L` is indecomposable, in every rank
+(in particular every lattice whose determinant is squarefree and not `±1`); `E₈ ≇ A₂ ⊗ D₄`-type statements are checked by minima (7.2) or
 determinants; `A₂ ⊗ A₂` has rank `4`, determinant `81`, minimum `4` and is decomposable by
 definition. The LMFDB has no tensor column; the knowl is served by the predicate and these
 criteria.
@@ -1872,15 +1887,23 @@ criteria.
 API:
 
 - Tensor decomposability requires both ranks at least two, and therefore forces composite rank.
-- It is preserved by isometry; determinant and minimum identities give obstruction tests.
+- It is preserved by isometry. Prime rank rules it out, and so does a prime that divides the determinant exactly once; the minimum identities of 7.2 give further obstruction tests.
 
 **Checks.**
 
 - (accepted) — `A₂ ⊗ A₂` and `ℤ⁴ ≅ ℤ² ⊗ ℤ²` are tensor decomposable.
 - (rejected: rank-one factor) — `L ≅ ⟨1⟩ ⊗ L` is not a tensor decomposition; a definition that
-  drops `2 ≤ rank` on either factor makes every lattice decomposable (*Pinned conventions*).
+  drops `2 ≤ rank` on either factor makes every lattice decomposable (*Conventions*, Tensor products).
 - (rejected: prime rank) — a lattice of prime rank, such as `A₂`, `ℤ³` or `A₃`, is indecomposable,
-  since the rank of a decomposition is a product of two integers `≥ 2`.
+  since the rank of a decomposition is a product of two integers `≥ 2`. This needs no condition on
+  the determinant: `2I₃` has determinant `8`, which is not squarefree, and is indecomposable.
+- (rejected: determinant, composite rank) — `diag(1,1,2,3)` has rank `4` and determinant `6`, in
+  which `2` and `3` each occur once; a decomposition would have two factors of rank `2` and
+  determinant `d₁² d₂²`, a square, so it is indecomposable although `4` is composite. Likewise
+  `diag(1,1,1,1,1,12)` has rank `6` and determinant `12 = 2² · 3`, which is not squarefree, but `3`
+  occurs once while `d₁³ d₂²` (ranks `2` and `3`) has every prime factor to an exponent `3a + 2b ≥ 2`, so
+  it is indecomposable too. The test is one-sided: `ℤ⁴ ≅ ℤ² ⊗ ℤ²` has determinant `1`, with no
+  prime factor at all, and is decomposable, so a determinant without a simple prime factor decides nothing.
 - (determinant criterion) — `E₈` is not isometric to `A₂ ⊗ D₄`, although both have rank `8`:
   `det E₈ = 1` and `det (A₂ ⊗ D₄) = 1296`.
 
@@ -1888,14 +1911,18 @@ API:
 
 ### 7.4 Automorphisms of the discriminant form
 
-For a nondegenerate L, use `FiniteBilinearModule.Isometry` of its discriminant bilinear
-module with itself when L is odd, and `FiniteQuadraticModule.Isometry` of its discriminant
-quadratic module when L is even. Composition and inverse give finite groups; the native
-isometry carriers and their induced maps are supplied by Tau Ceti. Bundle
-`Isometry.discriminantBilinearIsometry` as `discriminantHom` and
-`Isometry.discriminantQuadraticIsometry` as `discriminantQuadraticHom`.
-The group instances `bilinearIsometryGroup` and `quadraticIsometryGroup` use composition
-f · g = f ∘ g. Both maps carry this explicit nondegeneracy assumption.
+For a nondegenerate L, the group `O(D_L)` is, when L is even, Tau Ceti's orthogonal group
+`TauCeti.QuadraticMap.orthogonalGroup` of the discriminant quadratic map `q_L`: the linear
+automorphisms of `A_L` that preserve `q_L`, whose underlying set
+`TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv` identifies with the self-isometries
+`FiniteQuadraticModule.Isometry` of the discriminant quadratic module. When L is odd it is the
+group `bilinearIsometryGroup` of this subsection on the self-isometries
+`FiniteBilinearModule.Isometry` of the discriminant bilinear module, which Tau Ceti does not make a
+group. Both groups are finite, since `A_L` is. Bundle `Isometry.discriminantBilinearIsometry` as
+the homomorphism `discriminantHom` into `bilinearIsometryGroup`, and
+`Isometry.discriminantQuadraticIsometry`, read through `orthogonalGroupEquivIsometryEquiv`, as the
+homomorphism `discriminantQuadraticHom` into the orthogonal group. In both groups the product is
+composition, f · g = f ∘ g, and both maps carry the explicit nondegeneracy assumption.
 
 API:
 - Identity lattice isometries induce identity discriminant isometries.
@@ -1912,7 +1939,7 @@ API:
   composition order. Identity fixes all eight classes and f² fixes each class.
   The quadratic value of each eᵢ/2 is 1/4, with polar self-pairing 1/2 modulo ℤ.
 
-*Needs:* T `IsNondegenerate`, `IsEven`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry`, and the induced isometries `Isometry.discriminantBilinearIsometry` and `Isometry.discriminantQuadraticIsometry` of `discriminantBilinearModule` and `discriminantQuadraticModule`, which preserve `b_L` and, for even `L`, `q_L` (Discriminant/Bilinear and Discriminant/Quadratic); IntegralLattices §§1C–1D, 1G.
+*Needs:* T `IsNondegenerate`, `IsEven`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry`, `TauCeti.QuadraticMap.orthogonalGroup`, `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv`, and the induced isometries `Isometry.discriminantBilinearIsometry` and `Isometry.discriminantQuadraticIsometry` of `discriminantBilinearModule` and `discriminantQuadraticModule`, which preserve `b_L` and, for even `L`, `q_L` (Discriminant/Bilinear and Discriminant/Quadratic); IntegralLattices §§1C–1D, 1G.
 
 ### 7.5 The Festi–Veniani index
 
@@ -1969,7 +1996,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | 7.1 | M `TensorProduct`, `LinearMap.BilinForm.tensorDistrib`, `Basis.tensorProduct`, `Matrix.det_kronecker`; T `ofIntegralForm`, `dualCarrier`; L 0.2 |
 | 7.2 | T `scale`, `TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`, `TauCeti.IntegralLattice.IsMinkowskiReduced.monotone_integralNorm`, `TauCeti.IntegralLattice.IsMinkowskiReduced.two_mul_abs_integralForm_le` (the rank-two case, prose); L 1.1, 1.2, 7.1 |
 | 7.3 | T `Isometry`, `determinant`; L 7.1, 7.2 |
-| 7.4 | T `IsNondegenerate`, `IsEven`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry`; IL 1C, 1D, 1G |
+| 7.4 | T `IsNondegenerate`, `IsEven`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry`, `TauCeti.QuadraticMap.orthogonalGroup`, `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry`; IL 1C, 1D, 1G |
 | 7.5 | M `Subgroup.index`; T `IsNondegenerate`, `IsEven`, `IsPosDef.finite_isometry`, `rankOne`, `Isometry.ofGramMatrixEq`, `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv`, `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`, `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass`; L 7.4 |
 
 ## Downstream consumers
@@ -2049,7 +2076,7 @@ Layers 1–7 ──► downstream applications
 ```
 
 Layer 0 first. Layers 3, 6 and 7 are independent of one another and of Layers 2, 4 and 5 once Layer
-1 is in place, and can proceed in parallel. Layer 2 needs 1.7–1.8 and ProbabilisticAndMetricNumberTheory §4.9b; Layer 4 needs
+1 is in place, and can proceed in parallel. Layer 2 needs 1.7–1.9 and ProbabilisticAndMetricNumberTheory §4.9b; Layer 4 needs
 Layer 2 for 4.3 and 4.10; Layer 1.9 consumes SM 0.1.2 and 1.1 and Tau Ceti's Minkowski upper inequality; Layer 5 needs 4.1–4.5 for 5.3 and Theta Series
 Layer 1 for 5.5–5.6. The downstream applications consume these results.
 
