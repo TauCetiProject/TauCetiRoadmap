@@ -1,14 +1,13 @@
 import Mathlib
 import TauCeti.Analysis.Matrix.SpectralMeasure
-import TauCetiRoadmap.RandomMatrices.Suggested
 
 /-!
 # Dyson Brownian motion: target signatures
 
 This file is not the roadmap: the roadmap is `README.md`. This file states the roadmap's
 headline theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`,
-together with the one definition their statements need. It imports the RandomMatrices
-prototype for `gaussianEnsemble` and uses Tau Ceti's `Matrix.spectralMeasure`.
+together with the two definitions their statements need. It writes the noise matrix with
+the GOE and GUE coordinates of RandomMatrices §5.1 and uses Tau Ceti's `Matrix.spectralMeasure`.
 
 Stated here: the absence of eigenvalue collisions at positive times for symmetric and Hermitian
 matrix Brownian motion started at a real diagonal matrix (Layer 2), and the hydrodynamic limit
@@ -19,7 +18,8 @@ Not statable at the pins, each for the carrier named:
 * the `β ≥ 1` particle system of Layer 1 and the eigenvalue stochastic differential equation of
   Layer 2: Mathlib has no Itô integral and no strong solution of a stochastic differential
   equation;
-* the identification of the hydrodynamic limit as `ν ⊞ SC_t`: Mathlib has no free convolution.
+* the identification of the hydrodynamic limit as `ν ⊞ SC_t`: the pins have no free convolution
+  of probability measures.
 -/
 
 noncomputable section
@@ -29,26 +29,49 @@ open scoped ENNReal NNReal Topology BoundedContinuousFunction
 
 namespace TauCetiRoadmap.DysonBrownianMotion
 
-open TauCetiRoadmap.RandomMatrices
-
 variable {Ω : Type*}
 
+/-- The noise matrix built from real coordinates `g`, normalised by `√n`, with the coordinates of
+RandomMatrices §5.1. For `β = 1` it is real symmetric with off-diagonal entries `g(i, j)` and
+diagonal entries `√2 g(i, i)`; otherwise the entry above the diagonal is
+`(g(i, j) + i g(j, i))/√2`, its conjugate sits below, and `g(i, i)` is on the diagonal. -/
+def matrixBrownianNoise (β n : ℕ) (g : Fin n × Fin n → ℝ) : Matrix (Fin n) (Fin n) ℂ :=
+  Matrix.of fun i j ↦ ((Real.sqrt n)⁻¹ : ℂ) *
+    if β = 1 then
+      (if i < j then (g (i, j) : ℂ) else if j < i then (g (j, i) : ℂ)
+        else (Real.sqrt 2 * g (i, i) : ℝ))
+    else
+      (if i < j then ((g (i, j) : ℂ) + g (j, i) * Complex.I) / (Real.sqrt 2 : ℂ)
+        else if j < i then ((g (j, i) : ℂ) - g (i, j) * Complex.I) / (Real.sqrt 2 : ℂ)
+        else (g (i, i) : ℂ))
+
+/-- The noise matrix is Hermitian for every coordinate family. -/
+theorem matrixBrownianNoise_isHermitian (β n : ℕ) (g : Fin n × Fin n → ℝ) :
+    (matrixBrownianNoise β n g).IsHermitian := by
+  ext i j
+  simp only [matrixBrownianNoise, conjTranspose_apply, of_apply, star_mul', star_inv₀,
+    Complex.star_def, Complex.conj_ofReal]
+  rcases lt_trichotomy i j with h | rfl | h
+  · split_ifs <;> simp_all [h.not_gt, map_div₀]
+  · split_ifs <;> simp_all
+  · split_ifs <;> simp_all [Complex.ext_iff, h.not_gt, map_div₀]
+
 /-- Matrix Brownian motion started at the real diagonal matrix `diag d`: at time `t` it is
-`diag d + gaussianEnsemble β n (B · t ω)`, so for independent standard Brownian coordinates `B`
-it is real symmetric (`β = 1`) or complex Hermitian (`β ≠ 1`) Brownian motion in the
+`diag d + matrixBrownianNoise β n (B · t ω)`, so for independent standard Brownian coordinates
+`B` it is real symmetric (`β = 1`) or complex Hermitian (`β ≠ 1`) Brownian motion in the
 normalisation of AGZ Definition 4.3.1, and at time `1` from `d = 0` it is GOE or GUE. -/
 def matrixBrownian (β n : ℕ) (d : Fin n → ℝ) (B : Fin n × Fin n → ℝ≥0 → Ω → ℝ) (t : ℝ≥0)
     (ω : Ω) : Matrix (Fin n) (Fin n) ℂ :=
-  Matrix.diagonal (fun i ↦ (d i : ℂ)) + gaussianEnsemble β n (fun ij ↦ B ij t ω)
+  Matrix.diagonal (fun i ↦ (d i : ℂ)) + matrixBrownianNoise β n (fun ij ↦ B ij t ω)
 
 /-- Matrix Brownian motion is Hermitian at every time and for every path. -/
 theorem matrixBrownian_isHermitian (β n : ℕ) (d : Fin n → ℝ)
     (B : Fin n × Fin n → ℝ≥0 → Ω → ℝ) (t : ℝ≥0) (ω : Ω) :
     (matrixBrownian β n d B t ω).IsHermitian :=
   (Matrix.isHermitian_diagonal_of_self_adjoint _ (by ext i; simp [Complex.conj_ofReal])).add
-    (gaussianEnsemble_isHermitian β n _)
+    (matrixBrownianNoise_isHermitian β n _)
 
-/-- **No collisions at positive times** (AGZ Theorem 4.3.2). For `β ∈ {1, 2}`, independent
+/-- **No collisions at positive times** (AGZ Theorem 4.3.2, the case of a real diagonal start). For `β ∈ {1, 2}`, independent
 standard Brownian coordinates and any real diagonal start, almost surely the ordered eigenvalues
 of matrix Brownian motion are distinct at every positive time, even when entries of `d`
 coincide. -/

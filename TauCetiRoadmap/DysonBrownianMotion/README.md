@@ -1,18 +1,19 @@
 # Roadmap: Dyson Brownian motion
 
 **Summary.** This roadmap builds Dyson Brownian motion on two foundations: the finite-dimensional
-spectral theory, Gaussian ensembles, free convolution and deformed-Wigner laws of the
-RandomMatrices roadmap, and the Itô calculus and stochastic-differential-equation theory of the
-StochasticCalculus roadmap. It follows Anderson–Guionnet–Zeitouni (**AGZ**) §§4.3.1–4.3.2, Tao
-(**T**) §3.1 and Potters–Bouchaud (**PB**) chs. 8–9. It builds the adapters to stochastic
-calculus, the `β ≥ 1` ordered particle system with its invariant Gaussian beta law, symmetric
-and Hermitian matrix Brownian motion with the eigenvalue stochastic differential equation, and
-the hydrodynamic limit of the empirical measure. Its end theorems are Dyson's theorem
-(the eigenvalues of matrix Brownian motion solve the Dyson system and do not collide at positive
-times), global strong existence and uniqueness without collisions for every real `β ≥ 1`, and
-convergence of the empirical measure process to the free convolution `ν ⊞ SC_t`, uniformly on
-compact time intervals. [Suggested.lean](Suggested.lean) states the headline theorems that are
-statable against the pinned libraries; this README is the roadmap.
+spectral theory, Gaussian ensembles, free convolution and deformed-Wigner laws of the RandomMatrices
+roadmap, and the Itô calculus and stochastic-differential-equation theory of the StochasticCalculus
+roadmap. It follows Anderson–Guionnet–Zeitouni (**AGZ**) §§4.3.1–4.3.2, Tao (**T**) §3.1 and
+Potters–Bouchaud (**PB**) chs. 8–9. It builds the adapters to stochastic calculus, the `β ≥ 1`
+ordered particle system with its invariant Gaussian beta law, symmetric and Hermitian matrix
+Brownian motion with the eigenvalue stochastic differential equation, and the hydrodynamic limit of
+the empirical measure. Its end theorems are Dyson's theorem (the eigenvalues of matrix Brownian
+motion solve the Dyson system and do not collide at positive times), global strong existence and
+uniqueness without collisions for every real `β ≥ 1`, and convergence of the empirical measure
+process, uniformly on compact time intervals, to the solution of a Burgers equation for the
+Stieltjes transform. For a compactly supported initial limit `ν` and uniformly bounded initial
+spectra, that limit is the free convolution `ν ⊞ SC_t`. [Suggested.lean](Suggested.lean) states the headline theorems
+that are statable against the pinned libraries; this README is the roadmap.
 
 ## Scope and ownership
 
@@ -33,8 +34,9 @@ Owned elsewhere and consumed here:
   `TauCeti.Probability.semicircleReal`.
 - [RandomMatrices](../RandomMatrices/README.md) owns the rest of the spectral API and its
   measurability (§§1.1–1.2), the GOE and GUE coordinates and their normalization (§5.1), the
-  Gaussian beta ensemble densities (§§5.2–5.3), the resolvent transform toolkit (§§3.1–3.2), free additive convolution with its subordination and
-  R-transform (§6.3), and the deformed-Wigner law `ν ⊞ SC_t` with the Pastur equation (§7.1).
+  Gaussian beta ensemble densities (§§5.2–5.3), the resolvent transform toolkit (§§3.1–3.2),
+  free additive convolution of compactly supported laws with its subordination and R-transform
+  (§6.3), and the deformed-Wigner law `ν ⊞ SC_t` with the Pastur equation (§7.1).
   Here: the time-dependent versions of these objects and their stochastic analysis.
 - StochasticCalculus owns finite-dimensional Brownian motion (S1), predictable `L²` Brownian
   integration, continuous integral processes and localization (S3.2–S3.4), brackets
@@ -67,6 +69,10 @@ Owned elsewhere and consumed here:
    each time. Convergence of `(L_n(t))_{t ≤ T}` is uniform convergence on `[0,T]` for the
    Lévy–Prokhorov metric `levyProkhorovDist`, which metrizes weak convergence of probability
    measures on `ℝ`.
+6. **Transforms.** `G_μ(z) = ∫ (z-x)⁻¹ dμ(x)` is the Stieltjes transform used in Layer 3, and
+   `G_μ = −m_μ` for the transform `m_μ(z) = ∫ (x-z)⁻¹ dμ(x)` of RandomMatrices Convention 4.
+   Under this sign change `∂_t G = −G ∂_z G` becomes `∂_t m = m ∂_z m`, which is the
+   `t`-derivative of the Pastur equation `m_t(z) = m_ν(z + t m_t(z))`.
 
 ## Exact supplier contracts
 
@@ -87,8 +93,8 @@ Owned elsewhere and consumed here:
 
 ### From TauCetiRoadmap roadmaps
 
-- RandomMatrices: §§1.1–1.2, 3.1–3.3, 5.1–5.3, 6.3 and 7.1, with `gaussianEnsemble` and
-  `gaussianEnsemble_isHermitian`.
+- RandomMatrices: §§1.1–1.2, 3.1–3.3, 5.1–5.3, 6.3 and 7.1, with the GOE and GUE coordinates
+  and normalization of §5.1.
 - StochasticCalculus: S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.2, with
   `timeMeasure`, `IsFilteredBrownian` and `IsStrongSolution`.
 
@@ -126,11 +132,14 @@ process and localization (S3.2–S3.4); quadratic and mutual variation with
 `[∫H dM, ∫K dN] = ∫ HK d[M,N]` (S4.1–S4.3); the `C²` Itô formula on an open domain stopped before
 its boundary, in coordinate form (S5.1); the vector Lévy characterization (S5.5); and strong
 solutions, pathwise uniqueness, local and maximal solutions with compatible truncations, and
-coercive `C²` Lyapunov nonexplosion (S9.1–S9.2). State and prove the adapters to that interface:
-Brownian motion on a finite-dimensional real inner-product space from independent scalar
-Brownian coordinates in an orthonormal basis, its independence of the basis, and brackets
-`[⟨u,W⟩,⟨v,W⟩]_t = ⟨u,v⟩t`. Integrands are StochasticCalculus' predictable or progressive
-classes, localized at collision and exit times, with Hilbert–Schmidt norms for matrix noise.
+coercive `C²` Lyapunov nonexplosion (S9.1–S9.2). The construction of vector Brownian motion and
+its orthonormal components are consumed from S1.2, not restated. State and prove the two
+adapters that StochasticCalculus does not state:
+- the mutual bracket of two linear functionals of a Brownian motion `W` on a finite-dimensional
+  real inner-product space, `[⟨u,W⟩,⟨v,W⟩]_t = ⟨u,v⟩t` for every pair `u, v`, orthonormal or
+  not, from the covariance of S1.2 and the bilinearity of S4.3;
+- the integrand classes for matrix noise: StochasticCalculus' predictable classes with
+  Hilbert–Schmidt norms, localized at collision and exit times.
 *Needs:* StochasticCalculus S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.2.
 
 **Checks.**
@@ -143,6 +152,11 @@ classes, localized at collision and exit times, with Hilbert–Schmidt norms for
   solution that agrees with any local solution up to the exit time of `[1/k, k]`; outside that
   interval the two may differ.
 
+### Examples
+
+- For a standard Brownian motion `W` on `ℝ²`, `u = (1, 0)` and `v = (1, 1)` are not orthonormal,
+  and `[⟨u,W⟩,⟨v,W⟩]_t = [B₁, B₁ + B₂]_t = t = ⟨u,v⟩t`.
+
 ### Dependencies
 
 StochasticCalculus S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.2.
@@ -153,11 +167,19 @@ StochasticCalculus S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.
 
 ### 1.1 Existence, uniqueness and noncollision
 
-Construct the ordered-particle equation for every real `β ≥ 1`; prove global strong existence,
-uniqueness and no collisions from strictly ordered starts (AGZ Lemma 4.3.3), and continuous
-entrance from coincident deterministic starts by approximation, with continuity in the initial
-condition (AGZ Proposition 4.3.5). Prove noncollision from a logarithmic-gap argument and
-nonexplosion from the quadratic Lyapunov estimate. *Needs:* §0.1.
+The Dyson system of size `n` and real parameter `β ≥ 1` is
+`dλᵢ = √(2/(βn)) dBᵢ + n⁻¹ ∑_{j≠i} (λᵢ-λⱼ)⁻¹ dt`, `i = 1, …, n`, where `B` is an
+`n`-dimensional Brownian motion relative to a filtration as in Convention 1. Prove:
+- **Open chamber** (AGZ Lemma 4.3.3): for a deterministic start in the open chamber
+  `{x₁ > ⋯ > xₙ}`, there is a unique strong solution, its paths stay in the open chamber at all
+  times, and the solution is unique in law.
+- **Closed chamber** (AGZ Proposition 4.3.5): for a deterministic start in the closed chamber
+  `{x₁ ≥ ⋯ ≥ xₙ}`, there is a unique strong solution with continuous paths, it lies in the open
+  chamber at every `t > 0`, and it depends continuously on the start.
+
+The route is the truncation of Convention 4, noncollision from a logarithmic-gap argument,
+nonexplosion from the quadratic Lyapunov estimate, and entrance from coincident starts by
+approximation from the open chamber. *Needs:* §0.1.
 
 **Checks.**
 
@@ -169,9 +191,12 @@ nonexplosion from the quadratic Lyapunov estimate. *Needs:* §0.1.
 
 ### 1.2 The Ornstein–Uhlenbeck system and its invariant law
 
-For the Ornstein–Uhlenbeck drift `-λᵢ/2`, prove the Gaussian beta density of RandomMatrices
-§5.3 invariant, with the boundary terms needed to pass from formal generator symmetry to an
-invariant probability law. *Needs:* §1.1; RandomMatrices §5.3.
+The Ornstein–Uhlenbeck system is the Dyson system of §1.1 with the added drift `-λᵢ/2`:
+`dλᵢ = √(2/(βn)) dBᵢ + (n⁻¹ ∑_{j≠i} (λᵢ-λⱼ)⁻¹ - λᵢ/2) dt`. Prove the two statements of §1.1 for
+it, by the proof of AGZ Lemma 4.3.3 with the same Lyapunov function, since the added drift is
+globally Lipschitz. Prove the Gaussian beta density of RandomMatrices §5.3 invariant, with the
+boundary terms needed to pass from formal generator symmetry to an invariant probability law.
+*Needs:* §1.1; RandomMatrices §5.3.
 
 **Checks.**
 
@@ -181,6 +206,11 @@ invariant probability law. *Needs:* §1.1; RandomMatrices §5.3.
   `log p = β ∑_{i<j} log|xᵢ-xⱼ| − βn ∑ xᵢ²/4`, so `p` is the invariant density; dropping the
   factor `(βn)⁻¹` breaks the balance with the noise `√(2/(βn))`.
 - At `β = 2`, `n = 1` the invariant law is `N(0,1)`, the GUE law of size `1`.
+
+### Examples
+
+- `β = 2`, `n = 2`: the gap `r = λ₁ − λ₂` solves `dr = dW + r⁻¹ dt`, the Bessel process of
+  dimension `3`, which is Brownian motion conditioned never to hit `0`.
 
 ### Dependencies
 
@@ -195,10 +225,20 @@ Layer 0; RandomMatrices §5.3.
 Construct real symmetric (`β = 1`) and complex Hermitian (`β = 2`) matrix Brownian motion as
 standard Brownian motion on that real space with inner product `(βn/2) Re tr(AB)` (AGZ
 Definition 4.3.1), so `[tr(AH), tr(BH)]_t = (2/(βn)) Re tr(AB) t` and the time-one entry
-variances are those of RandomMatrices §5.1. `Suggested.lean` writes it as `matrixBrownian`, the
-real diagonal start `diag d` plus RandomMatrices' `gaussianEnsemble` evaluated on independent
-standard Brownian coordinates, with `matrixBrownian_isHermitian`. *Needs:* §0.1; RandomMatrices
-§5.1.
+variances are those of RandomMatrices §5.1. Its API:
+- joint measurability in `(t, ω)` and almost sure continuity of paths;
+- independent increments: `H(t) − H(s)` is independent of the past before `s` and has the law of
+  `√(t − s)` times GOE (`β = 1`) or GUE (`β = 2`);
+- invariance in law under conjugation by a fixed orthogonal (`β = 1`) or unitary (`β = 2`)
+  matrix, so that for every start `H(0)` the process `U*H(·)U` is matrix Brownian motion from
+  `U*H(0)U`;
+- Brownian scaling: `H(ct)` from `0` has the law of `√c H(t)`;
+- the bracket formula above.
+
+`Suggested.lean` writes it as `matrixBrownian`: the real diagonal start `diag d` plus the noise
+matrix `matrixBrownianNoise` built from independent standard Brownian coordinates with the
+coordinates and normalization of RandomMatrices §5.1, with `matrixBrownian_isHermitian`.
+*Needs:* §0.1; RandomMatrices §5.1.
 
 **Checks.**
 
@@ -211,13 +251,22 @@ standard Brownian coordinates, with `matrixBrownian_isHermitian`. *Needs:* §0.1
 
 ### 2.2 The eigenvalue equation
 
-For distinct starting eigenvalues derive the eigenvalue equation up to the first collision, with
-derivatives of eigenvalues and projectors, the quadratic-variation computation, and the
-identification of the martingale parts as independent Brownian motions by Lévy's
-characterization; with decreasing order and normalized noise it is
-`dλᵢ = √(2/(βn)) dBᵢ + n⁻¹ ∑_{j≠i} (λᵢ-λⱼ)⁻¹ dt`, `β = 1, 2` (AGZ Theorem 4.3.2, (4.3.3)). Prove
-that the collision time is almost surely infinite, from any real diagonal start at positive times,
-by comparison with the solution of §1.1 (AGZ Theorem 4.3.2 and the remark following it); this is
+Prove Dyson's theorem (AGZ Theorem 4.3.2, (4.3.3)): for `β = 1, 2` and every start `H(0)` in the
+real symmetric (`β = 1`) or complex Hermitian (`β = 2`) space, including starts with coincident
+eigenvalues, the ordered eigenvalue process of matrix Brownian motion is a weak solution of the
+Dyson system of §1.1 started at the ordered spectrum of `H(0)`, and it lies in the open chamber at
+every `t > 0`. The steps:
+- for distinct starting eigenvalues, derive the eigenvalue equation up to the first collision,
+  with derivatives of eigenvalues and projectors, the quadratic-variation computation, and the
+  identification of the martingale parts as independent Brownian motions by Lévy's
+  characterization;
+- prove that the collision time is almost surely infinite, by comparison with the solution of
+  §1.1 (AGZ Theorem 4.3.2 and the remark following it), and pass to coincident starts with
+  Proposition 4.3.5;
+- reduce a general start to a real diagonal one by the conjugation invariance of §2.1.
+
+A complex Hermitian start that is not real symmetric, with `β = 1` noise, is not covered.
+`Suggested.lean` states the noncollision for real diagonal starts as
 `matrixBrownian_eigenvalues_strictAnti`. *Needs:* §§0.1, 1.1, 2.1; RandomMatrices §1.2.
 
 **Checks.**
@@ -228,6 +277,12 @@ by comparison with the solution of §1.1 (AGZ Theorem 4.3.2 and the remark follo
 - Itô's formula for `∑ λᵢ² = tr H²` gives the drift `n⁻¹ · n(n-1) + n · 2/(βn) = n - 1 + 2/β`,
   which matches `E tr H(t)² = n(n-1) · t/n + n · 2t/(βn) = (n - 1 + 2/β)t` computed from the
   entries; a drift `∑_{j≠i} (λᵢ-λⱼ)⁻¹` without the factor `n⁻¹` would give `n(n-1) + 2/β`.
+
+### Examples
+
+- `β = 1`, `n = 2`, from `0`: for `H = [[x, y], [y, z]]` the gap is `λ₁ − λ₂ = √((x − z)² + 4y²)`.
+  Here `x − z` and `2y` are independent Brownian motions with bracket `2t`, so the gap is `√2`
+  times a two-dimensional Bessel process, the dimension `β + 1 = 2` of §1.1.
 
 ### Dependencies
 
@@ -264,10 +319,17 @@ diagonal start). `Suggested.lean` states the matrix case `β = 1, 2`, in probabi
 
 ### 3.2 Identification with free convolution
 
-Identify `μ_t` as `ν ⊞ SC_t` through the subordination form of RandomMatrices §6.3 and the
-Pastur equation of RandomMatrices §7.1, prove uniqueness through the Stieltjes equation, and
-deduce the Ornstein–Uhlenbeck limit by deterministic time change and scaling. *Needs:* §3.1;
-RandomMatrices §§3.3, 6.3, 7.1.
+For compactly supported `ν` and initial spectra bounded uniformly in `n`, identify `μ_t` as
+`ν ⊞ SC_t` through the subordination form of RandomMatrices §6.3 and the Pastur equation of
+RandomMatrices §7.1, in the transform convention of Convention 6, and prove uniqueness through
+the Stieltjes equation. For other `ν` of §3.1, `μ_t` is the solution of §3.1.
+
+Prove the Ornstein–Uhlenbeck limit by a deterministic time change and scaling. If `λ` solves the
+Dyson system of §1.1, then `Y(t) = e^(−t/2) λ(e^t − 1)` solves the system of §1.2 with respect
+to the Brownian motion `∫₀^(e^t−1) (1 + s)^(−1/2) dB(s)`. So for every `ν` of §3.1, the
+Ornstein–Uhlenbeck empirical measures converge to the image of `μ_(e^t−1)` under
+`x ↦ e^(−t/2) x`, which is the image of `ν ⊞ SC_(e^t−1)` in the compactly supported case.
+*Needs:* §3.1; RandomMatrices §§3.3, 6.3, 7.1.
 
 **Checks.**
 
@@ -275,10 +337,24 @@ RandomMatrices §§3.3, 6.3, 7.1.
 - `ν = (δ₋₁ + δ₁)/2`: `ν ⊞ SC_t` at small `t` has two components near `±1`, which merge at
   `t = 1`; the classical convolution `ν ∗ N(0,t)` has full support for every `t > 0`.
 - The Pastur equation `m(z) = ∫ (x − z − t m(z))⁻¹ dν(x)` with `t = 0` returns `m = m_ν`.
+- From `ν = δ₀` the Pastur equation gives `t m² + z m + 1 = 0`, and `G = −m` gives
+  `t G² − z G + 1 = 0`, whose root decaying at `∞` is the `(z − √(z²−4t))/(2t)` of §3.1.
+- Ornstein–Uhlenbeck from `ν = δ₀`: the limit at time `t` is `semicircleReal 0 (1 − e^(−t))`,
+  which tends to `semicircleReal 0 1` as `t → ∞`, the invariant limit.
+
+### Examples
+
+- From `ν = δ₀` the limit at time `t` is `semicircleReal 0 t`, the law of `√t` times the
+  semicircle law of variance `1`, in agreement with the Brownian scaling of §2.1.
 
 ### Dependencies
 
 Layers 1–2; RandomMatrices §§3.1–3.3, 6.3, 7.1.
+
+## Downstream consumers
+
+- RandomMatrices §7.1, the deformed-Wigner law `ν ⊞ SC_t` at a fixed `t`, is the static
+  counterpart of §3.2; this roadmap consumes it, and no roadmap consumes this one.
 
 ## References
 
