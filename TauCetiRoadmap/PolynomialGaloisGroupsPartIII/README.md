@@ -59,9 +59,11 @@ Layer 4); the label predicates and classification for `n ≤ 5` (base roadmap La
 realization of `Sₙ` over `ℚ` (base roadmap Layer 9); almost-conjugacy, its transport along group
 isomorphisms, its permutation-representation criterion, the determinant of a permutation module
 and the nonconjugate almost-conjugate pair in `S₁₆` (planned by RepresentationTheory,
-Induction–Restriction Layers 2.1 and 2.2, and consumed in their pinned Tau Ceti form); the
-restriction, quotient-invariant and orbit-sum adapters (Induction–Restriction Layer 2.1); the
-double-coset law for primes of a fixed field (Number Field Arithmetic Layer 1.4). Galois groups
+Induction–Restriction Layers 2.1 and 2.2, and consumed in their pinned Tau Ceti form), with the
+orbit-sum basis of the invariants of a permutation module and its equivariance (the same Layer
+2.1, in the pinned form `TauCeti.invariantOrbitSumBasis`, `TauCeti.orbitSumEquiv`); the
+restriction and quotient-invariant adapters (Induction–Restriction Layer 2.1); the double-coset
+law for primes of a fixed field (Number Field Arithmetic Layer 1.4). Galois groups
 of polynomials, part II (ramified merging and random partitions) is a separate continuation of the
 same base; neither part uses the other.
 
@@ -82,9 +84,10 @@ same base; neither part uses the other.
   roadmap's 4.1, and the conjugacy criterion for isomorphic fixed fields has one owner, 4.2:
   Finite Group Invariants takes the sufficient half of its 7.4 from 4.1 and the step of its 7.6
   that isomorphic fixed fields come from conjugate subgroups from 4.2, and plans neither again.
-  Here 4.1 is proved from the pinned almost-conjugacy API, Induction–Restriction Layer 2.1 and
-  Number Field Arithmetic Layer 1.4, 4.2 from the Mathlib and Tau Ceti fixed-field API, and the
-  existence theorem (4.3) from 4.1, 4.2, the pinned pair in `S₁₆` and the base roadmap's Layer 9.
+  Here 4.1 is proved from the pinned almost-conjugacy and orbit-sum API, Induction–Restriction
+  Layer 2.1 and Number Field Arithmetic Layer 1.4, 4.2 from the Mathlib and Tau Ceti fixed-field
+  API, and the existence theorem (4.3) from 4.1, 4.2, the pinned pair in `S₁₆` and the base
+  roadmap's Layer 9.
 - Radicals in positive characteristic, Hilbert irreducibility, and the realization of `Aₙ` over
   `ℚ`.
 
@@ -220,6 +223,23 @@ same base; neither part uses the other.
   `TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction` (subgroups `H, K` of a finite group `G`
   are almost conjugate exactly when, over a field of characteristic zero, the permutation
   representations on `G ⧸ H` and `G ⧸ K` are equivalent).
+- `RepresentationTheory/OfMulAction.lean`: `Representation.ofMulAction_comp_subtype` (the
+  restriction of the permutation representation of `G` on a `G`-set `X` to a subgroup `S` is the
+  permutation representation of `S` on `X`), `TauCeti.invariantOrbitSumBasis` (for a group `I`
+  acting on a finite set `X` and a commutative ring `k`, the `I`-invariants of the permutation
+  module `k[X]` are free on the orbit space, the basis vector at an orbit being the orbit sum),
+  `TauCeti.ofMulAction_invariantOrbitSumBasis_mk` (an element of `D` normalizing `I` sends the sum
+  over the `I`-orbit of `x` to the sum over the `I`-orbit of `d • x`) and `TauCeti.orbitSumEquiv`
+  (for `I` normal in `D` and `X` a finite `D`-set, the permutation representation of `D ⧸ I` on
+  the `I`-orbits is equivalent to the representation of `D ⧸ I` on the `I`-invariants of `k[X]`,
+  Mathlib's `Representation.quotientToInvariants`).
+- `NumberTheory/NumberField/Frobenius/FixedField/`, for a Galois extension `L/K` of number
+  fields, a prime `Q` of `L` over `p` and a subgroup `H` of `Gal(L/K)`:
+  `Ideal.fullCycleType_toPerm_quotient_eq_map_inertiaDeg` (for `Q` **unramified** over `p` and
+  `σ` an arithmetic Frobenius at `Q`, the full cycle type of `σ` on `Gal(L/K) ⧸ H` is the multiset
+  of residue degrees of the primes of `L^H` above `p`) and
+  `Ideal.ramificationIdx_under_fixedField_eq_relIndex` (the number-field form of the inertia
+  formula, `e(Q ∩ L^H / p) = [I(Q) : I(Q) ∩ H]`, for every `Q`).
 - `LinearAlgebra/Charpoly/Permutation.lean`: `Representation.reverse_charpoly_ofMulAction` (over
   any commutative ring, the reversed characteristic polynomial of `g` on the permutation module of
   a finite set is `∏ (1 − Zᵈ)` over the full cycle type of `g`, fixed points included).
@@ -240,15 +260,12 @@ roadmap uses them in that form.
 
 ### From TauCetiRoadmap.RepresentationTheory
 
-Induction–Restriction Layer 2.1, for the adapters that the pinned Tau Ceti does not contain:
+Induction–Restriction Layer 2.1, for the two adapters that the pinned Tau Ceti does not contain:
 `Gassmann.restrictEquiv` (an equivalence of representations restricts along a group
-homomorphism), `Gassmann.normalInvariantEquiv` (it induces an equivalence of the representations
-of `D ⧸ I` on the `I`-invariants, for `I` normal in `D`), `Gassmann.invariantOrbitSumBasis` (the
-`I`-invariants of the permutation module of a finite `I`-set have the orbit sums as a basis) and
-`Gassmann.orbitSumEquivariant` (that basis carries the permutation action of `D ⧸ I` on the
-`I`-orbits to the representation on the invariants). The rest of Layer 2.1 (almost-conjugacy, its
-transport, the permutation-representation criterion and the determinant of a permutation module)
-and the pair of Layer 2.2 are implemented by the Tau Ceti declarations listed above, and this
+homomorphism) and `Gassmann.normalInvariantEquiv` (it induces an equivalence of the
+representations of `D ⧸ I` on the `I`-invariants, for `I` normal in `D`). The rest of Layer 2.1
+(almost-conjugacy, its transport, the permutation-representation criterion, the orbit-sum basis
+with its equivariance and the determinant of a permutation module) and the pair of Layer 2.2 are implemented by the Tau Ceti declarations listed above, and this
 roadmap uses them in that form.
 
 ### From TauCetiRoadmap.NumberFieldArithmetic
@@ -648,13 +665,18 @@ Route. Prove two lemmas first.
   (`Ideal.Quotient.stabilizerHom_surjective`, `Ideal.Quotient.ker_stabilizerHom`), hence cyclic,
   generated by a Frobenius element `φ`, and the `I`-orbits inside one `D`-orbit form a single
   `φ`-cycle. So the multiset of residue degrees is the full cycle type of `φ` acting on the
-  `I`-orbits of `Gal(E/ℚ) ⧸ H`.
+  `I`-orbits of `Gal(E/ℚ) ⧸ H`. This extends the pinned
+  `Ideal.fullCycleType_toPerm_quotient_eq_map_inertiaDeg` from unramified primes to all primes
+  by passing to the `I`-orbits: when `Q` is unramified, `I = 1`, the `I`-orbits are the cosets
+  and the statement is the pinned one.
 
 Almost-conjugacy gives equivalent complex permutation representations of `Gal(E/ℚ)` on the cosets
 of `H` and of `K` (`TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction`); restricting to `D`
-(`Gassmann.restrictEquiv`) and taking `I`-invariants (`Gassmann.normalInvariantEquiv`) gives
-equivalent representations of `D/I` on the permutation modules of the `I`-orbits
-(`Gassmann.invariantOrbitSumBasis`, `Gassmann.orbitSumEquivariant`). Equal characteristic
+(`Gassmann.restrictEquiv`; the restrictions are the permutation representations of `D` on the
+cosets, `Representation.ofMulAction_comp_subtype`) and taking `I`-invariants
+(`Gassmann.normalInvariantEquiv`) gives equivalent representations of `D/I` on the permutation
+modules of the `I`-orbits (`TauCeti.orbitSumEquiv`, built on `TauCeti.invariantOrbitSumBasis`
+and `TauCeti.ofMulAction_invariantOrbitSumBasis_mk`). Equal characteristic
 polynomials of `φ` give equal products `∏ (1 − Zᵈ)` over the full cycle types
 (`Representation.reverse_charpoly_ofMulAction`), and such a product determines its multiset of
 exponents: its lowest nonconstant term is `−m Z^{d₀}`, where `d₀` is the least exponent and
@@ -663,13 +685,16 @@ exponents: its lowest nonconstant term is `−m Z^{d₀}`, where `d₀` is the l
 
 *Needs:* Tau Ceti `TauCeti.dedekindZetaCoeff`, `Subgroup.AlmostConjugate`,
 `TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction`,
-`Representation.reverse_charpoly_ofMulAction`, `Ideal.orbitQuotientEquivPrimesOver`,
+`Representation.reverse_charpoly_ofMulAction`, `Representation.ofMulAction_comp_subtype`,
+`TauCeti.invariantOrbitSumBasis`, `TauCeti.ofMulAction_invariantOrbitSumBasis_mk`,
+`TauCeti.orbitSumEquiv`, `Ideal.orbitQuotientEquivPrimesOver`,
 `Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg`,
-`Ideal.ramificationIdx_under_smul_eq_relIndex_inertia_of_isIntegralClosure`; Mathlib
+`Ideal.ramificationIdx_under_smul_eq_relIndex_inertia_of_isIntegralClosure`,
+`Ideal.fullCycleType_toPerm_quotient_eq_map_inertiaDeg` (the unramified case of the second
+lemma); Mathlib
 `Ideal.absNorm`, `NumberField.dedekindZeta`, `Ideal.Quotient.stabilizerHom_surjective`,
 `Ideal.Quotient.ker_stabilizerHom`; Number Field Arithmetic Layer 1.4; Induction–Restriction
-Layer 2.1 (`Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`,
-`Gassmann.invariantOrbitSumBasis`, `Gassmann.orbitSumEquivariant`).
+Layer 2.1 (`Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`).
 
 **Checks.**
 
@@ -682,6 +707,11 @@ Layer 2.1 (`Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`,
 - Residue degrees from the Galois group: for `E = ℚ(i)`, `H = 1` and `p = 5`, `D = I = 1`, the two
   `D`-orbits on `Gal(E/ℚ)` give two primes of residue degree 1, and the coefficient of `ℚ(i)` at 5
   is 2.
+- The `I`-orbits cannot be replaced by the cosets at a ramified prime: for `E = ℚ(i)`, `H = 1`
+  and `p = 2`, `D = I = Gal(E/ℚ)` has order 2, there is one `I`-orbit, `φ` is trivial in `D/I`
+  and its full cycle type on the `I`-orbits is `1`, the one prime `(1 + i)` of residue degree 1
+  (coefficient 1 at 2). The cycle type of an element of `D` on the two cosets is `2` or `1, 1`,
+  which would give an inert or a split prime.
 
 ### 4.2 Isomorphic fixed fields and conjugate subgroups
 
@@ -747,7 +777,8 @@ trivial case of 4.1.
 
 ### Dependencies
 
-Tau Ceti number-field, Dirichlet-series, fixed-field, double-coset and almost-conjugacy API, with
+Tau Ceti number-field, Dirichlet-series, fixed-field, double-coset, Frobenius cycle-type,
+orbit-sum and almost-conjugacy API, with
 the pair in `S₁₆`; Mathlib decomposition and inertia groups; Induction–Restriction Layer 2.1;
 Number Field Arithmetic Layer 1.4; the base roadmap Layer 9.
 
