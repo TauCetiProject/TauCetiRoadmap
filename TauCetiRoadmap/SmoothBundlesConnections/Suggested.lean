@@ -22,7 +22,9 @@ Stated here (B1.4, B1.5 and B6.0–B6.1):
   quotient topology, of dimension `dim M - dim G`, making the projection a submersion;
 * for such an action the orbits, with the right action `x · g = g⁻¹ • x`, form a smooth
   principal `G`-bundle over that orbit manifold whose charted total space is diffeomorphic to
-  `M` by `⟨q, x⟩ ↦ x`; `G → G/H` for a closed subgroup `H` and the Hopf bundle are instances;
+  `M` by `⟨q, x⟩ ↦ x`; `G → G/H` for a closed subgroup `H` (for the left action `h • g = g * h⁻¹`)
+  and the Hopf bundle (for the left action of `Circle` on `S³` by scalar multiplication by
+  `λ⁻¹`, whose conversion is the Hopf action `z · λ = λ z`) are instances;
 * Ehresmann's fibration theorem: the fibres of a proper surjective submersion onto a connected
   base form a smooth fibre bundle with model fibre one of them, whose charted total space is
   diffeomorphic to the source by `⟨b, p⟩ ↦ p`;
@@ -180,7 +182,7 @@ theorem exists_contMDiffFiberBundle_of_isProperMap
           ∀ x, φ x = ((TauCeti.ManifoldTotalSpace.homeomorph _ _).symm x).2.1 := by
   sorry
 
-/-! ## Layer 6: Smooth good covers and Čech coordinates -/
+/-! ## Layer 6: Circle bundles, integral classes, and flat ambiguity -/
 
 section SmoothGoodCovers
 
