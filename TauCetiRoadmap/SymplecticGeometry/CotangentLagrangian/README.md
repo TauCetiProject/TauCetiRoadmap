@@ -132,9 +132,9 @@ parametrization (`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_comp_dif
 `TauCeti.SmoothTwoForm.IsNondegenerate.isCoisotropicMap_comp_diffeomorph_iff`), transport by
 symplectomorphisms (`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_diffeomorph_comp_iff`
 and its isotropic and coisotropic siblings),
-the dimension counts `2 dim N ≤ dim M` for isotropic maps and `2 dim N = dim M` for
-Lagrangian maps with an injective differential at some point, and `dim M ≤ 2 dim N` for
-coisotropic maps from a nonempty source
+the dimension counts, for a map with an injective differential at some point,
+`2 dim N ≤ dim M` when it is isotropic and `2 dim N = dim M` when it is Lagrangian, and
+`dim M ≤ 2 dim N` for coisotropic maps from a nonempty source, with no injectivity hypothesis
 (`TauCeti.SmoothTwoForm.IsNondegenerate.IsIsotropicMap.two_mul_finrank_le`,
 `TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianMap.two_mul_finrank`,
 `TauCeti.SmoothTwoForm.IsNondegenerate.IsCoisotropicMap.finrank_le_two_mul_finrank`), products
@@ -349,7 +349,8 @@ universal cover and deck group using
 [UniversalCovers](../../../Completed/UniversalCovers/README.md) Stages 1–2 (the isomorphism
 of the deck group of the universal cover with π₁, the lifting criterion and the Galois
 correspondence), and compute π₁ through that covering/fundamental-group correspondence, then
-H₁=π₁^ab using SmoothBundlesConnections B6.1’s degree-one comparison, and identify b₁=3 using
+H₁=π₁^ab by Tau Ceti's degree-one Hurewicz isomorphism for a path-connected space
+(`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`), and identify b₁=3 using
 the de Rham theorem of [DifferentialGeometry](../../DifferentialGeometry/README.md) Layer 8.
 Construct its closed nondegenerate form and odd first
 Betti number obstruction using the compact Kähler
