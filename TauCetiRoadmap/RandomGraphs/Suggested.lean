@@ -227,7 +227,38 @@ theorem exists_graphEmbedding_over_root {A : Type w} [Finite A] [Countable V]
     ∃ e : G ↪g H, ∀ x, e (aG x) = aH x := by
   sorry
 
+/-- The class of finite simple graphs, as structures in the graph language. -/
+def finiteGraphs : Set (Bundled.{w} Language.graph.Structure) :=
+  {M | Finite M ∧ M ⊨ Language.Theory.simpleGraph}
+
+theorem isFraisse_finiteGraphs : IsFraisse finiteGraphs.{w} := by
+  sorry
+
+/-- `R` is the Fraïssé limit of the finite simple graphs. -/
+theorem isFraisseLimit_radoGraph :
+    @IsFraisseLimit Language.graph finiteGraphs.{0} ℕ TauCeti.radoGraph.structure _ _ := by
+  sorry
+
 /-! ## Finite-rank agreement and genuine QE targets (Milestone 5) -/
+
+/-- `T_R` is complete. -/
+theorem radoAxioms_isComplete : radoAxioms.IsComplete := by
+  sorry
+
+/-- `T_R` is `ℵ₀`-categorical. -/
+theorem radoAxioms_aleph0_categorical : Cardinal.Categorical Cardinal.aleph0.{w} radoAxioms := by
+  sorry
+
+/-- The semantic consequences of `T_R` are exactly the sentences true in `R`. -/
+theorem radoAxioms_models_iff (φ : Language.graph.Sentence) :
+    radoAxioms ⊨ᵇ φ ↔ Satisfies TauCeti.radoGraph φ := by
+  sorry
+
+/-- Primeness: `R` embeds elementarily into every model of `T_R`, of any cardinality. -/
+theorem nonempty_elementaryEmbedding_radoGraph (M : Type w) [Language.graph.Structure M]
+    (hM : M ⊨ radoAxioms) :
+    Nonempty (@ElementaryEmbedding Language.graph ℕ M TauCeti.radoGraph.structure _) := by
+  sorry
 
 theorem satisfies_iff_of_extension
     (G : SimpleGraph V) (H : SimpleGraph W) (d : ℕ)
