@@ -962,8 +962,13 @@ Define `Scheme.Modules.IsReflexive F` for a coherent `F` on a locally Noetherian
 map `ev_F : F → F^{∨∨}` of Tau Ceti's `SheafOfModules.dual` is an isomorphism (Stacks, Definition
 31.13.1 (0AVU), stated there for integral `X`; here the same evaluation-map definition is made on
 every locally Noetherian `X`). API: `isReflexive_iff_forall_affine` (affine-locally,
-`Module.IsReflexive` of the sections; Lemma 31.13.2 (0AY0)), `isReflexive_iff_forall_stalk`
-(reflexivity of every stalk, equivalently of the stalks at closed points; Lemma 31.13.5 (0AY3)),
+`Module.IsReflexive` of the sections; Lemma 31.13.2 (0AY0), stated there for integral `X`),
+`isReflexive_iff_forall_stalk` (reflexivity of every stalk, equivalently of the stalks at closed
+points; Lemma 31.13.5 (0AY3), stated there for integral `X`; both criteria hold on every locally
+Noetherian `X`, because the stalk of `F^{∨∨}` at `x` is `(F_x)^{∨∨}` (Lemma 17.22.4 (01CP), applied
+to `F` and to the coherent `F^∨`), double duals of finite modules over a Noetherian ring commute
+with localisation (Lemma 10.10.2 (0583)), and every point specialises to a closed point (Lemma
+28.5.9 (02IL)), none of which uses integrality),
 `IsReflexive.locallyFree` (finite locally free sheaves are reflexive), `IsReflexive.dual` (the dual
 of a coherent sheaf on an integral locally Noetherian scheme is reflexive; Lemma 31.13.8 (0AY4)
 with target `O_X`, which is reflexive), `reflexiveHull F := F^{∨∨}` for `X` integral with
