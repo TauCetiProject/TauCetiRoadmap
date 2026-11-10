@@ -18,12 +18,12 @@ There are three ways to contribute, in rough order of how much they ask of you:
 Reviewing someone else's roadmap PR is welcome at any time and does not require permissions.
 Substantive review, especially from a subject-area expert, is the thing we are shortest of.
 
-## Advice on writing a roadmap
+## Getting started
 
 Read these before you start, in this order:
 
 1. **[Writing a roadmap](README.md#writing-a-roadmap)** in the README. This is the standing
-   checklist, written after several rounds of review, and it is what reviewers will hold your
+   checklist, and it is what reviewers will hold your
    PR against. Build the library rather than racing to a headline theorem; ground every
    milestone in material that exists or is itself a target; use Mathlib's vocabulary; pin
    conventions; nothing is "optional".
@@ -37,7 +37,7 @@ Read these before you start, in this order:
 
 [zulip-topic]: https://leanprover.zulipchat.com/#narrow/channel/610393-Tau-Ceti/topic/Getting.20started.3A.20roadmaps/with/614905192
 
-A few points from the Zulip topic that the README checklist does not yet spell out:
+Additional guidance for authors:
 
 - **Roadmaps are not scoped to Mathlib.** Anything that would be good to have in a central,
   coordinated library is in scope. But a roadmap must make contact with material that already
@@ -61,6 +61,73 @@ A few points from the Zulip topic that the README checklist does not yet spell o
   not they know Lean, say so on the PR or in the Zulip topic. That is often the difference
   between a roadmap merging and sitting.
 
+## The roadmap writing process
+
+Writing a roadmap can combine human guidance, AI writing, and human and AI review. It involves
+several connected activities, and contributors may return to earlier decisions as the interfaces
+and review reveal more.
+
+1. **Gather or develop source material, when useful.** This varies by the situation and can
+   involve a complicated mix of human guidance with AI writing and review. An existing guide or
+   formalization can supply source material. Alternatively, you can develop a guide or
+   formalization in a separate guide repo, targeted for partial migration into Tau Ceti; this
+   is not needed for every roadmap. Follow the README's
+   [porting guidance](README.md#porting-existing-work).
+2. **Select what to include in Tau Ceti.** This heavily relies on human judgement, but that
+   judgement may be expressed through prompting rather than in any single part of the written
+   PR. The resulting scope and boundaries should be clear in the roadmap itself.
+3. **Design the various layers and how they connect to Tau Ceti and Mathlib.** This can be
+   seeded by human suggestions, benefits from an AI survey of what Tau Ceti and Mathlib
+   currently contain, and benefits from human checking afterwards.
+4. **Prototype the interfaces in Lean.** These usually go in `Suggested.lean`, though a roadmap
+   can instead embed Lean prototypes in its markdown. They can be human- or AI-written,
+   depending on preference, with human review of the intended statements and design, supported
+   by detailed AI checks. The roadmap's `README.md` stays definitive; suggested Lean interfaces
+   help check and communicate the design.
+5. **Revise through repeated detailed review.** Careful AI review can help find mathematical
+   errors, missing prerequisites, unjustified connections, and incorrect hypotheses, as well as
+   checking signatures, references, and consistency across the prose and Lean. Findings can
+   reveal a need to revisit the scope or layers.
+
+## Reviewing a roadmap
+
+Human review is often closest to a journal's "quick opinion": is the mathematics worth
+developing, is the scope appropriate, and is the overall approach sound? AI review can do much
+of the detailed work of looking for gaps, errors, and inconsistencies in the proposed interfaces
+and dependencies.
+
+There are several important aspects of reviewing a roadmap PR. A review may address one or
+several of them, and different reviewers can contribute different expertise.
+A human reviewer can give a useful assessment of the scope and overall approach without
+independently repeating every detailed check; the review should make clear which aspects they
+assessed. Because an approval from a roadmap reviewer merges the PR once the build is green,
+submit a scope-only assessment as a comment. Approve once the detailed aspects have been
+adequately covered, either by your own review or by reviews you have checked.
+
+| Aspect | Review question | What to emphasize |
+| --- | --- | --- |
+| **1. What is included** | Is this the mathematics we want in Tau Ceti? | A human subject-matter expert is key here: scope, significance, intended generality, and the needs of consumers. |
+| **2. How it is done** | Do the layers and interfaces express the intended mathematics and connect to the existing libraries? | Human mathematical and Lean/Mathlib expertise helps assess the overall architecture and important design choices. AI review checks the proposed dependencies, assumptions, definitions, and interfaces in detail. |
+| **3. Tau Ceti format** | Does the roadmap meet the project's conventions? | The scaffold reaches the ground, nothing is optional, and nothing is slated for upstreaming to Mathlib. A careful AI can help check these against the [README's standing guidance](README.md#writing-a-roadmap). |
+| **4. Repeated detailed review** | Are there mathematical errors or gaps, and are the prose, signatures, references, and examples consistent? | Careful AI review can help find errors and gaps that earlier passes missed, as well as inconsistencies in the details. Check the evidence for each finding; repeated passes do not by themselves establish that the mathematics or design is sound. |
+
+When reporting a review, say what you checked and what remains outside its scope. For example,
+checking that `Suggested.lean` compiles is useful evidence about the interfaces, but does not
+establish that its admitted targets are true or that the roadmap covers the intended subject.
+Distinguish an author's self-review from a review by another contributor, and identify AI
+assistance as described above. See [Opening a pull request](#opening-a-pull-request) for the
+approval requirements.
+
+For example, a review note might say: ":robot: AI-assisted review using [model]: I checked the layer
+dependencies and the proposed interfaces against the pinned Mathlib sources. I have not reviewed
+the choice of mathematical scope." An author might say: "I selected the scope and reviewed the
+resulting roadmap; [model] helped survey the libraries, draft `Suggested.lean`, and check details."
+Use descriptions that reflect the work actually done.
+
+The automated rubrics in [TauCetiReview](https://github.com/TauCetiProject/TauCetiReview) assess
+implementation PRs against existing roadmaps. They offer useful review questions, but roadmap
+changes follow this repository's human-review process.
+
 ## Opening a pull request
 
 Open the PR against `main`. Anyone can open one; no permissions are needed.
@@ -70,9 +137,9 @@ it and the `build` check passes. Roadmap content is owned by that team; infrastr
 (the workflows, the Lake config, the toolchain pin) stay with `@TauCetiProject/humans`, so a PR
 touching those needs their approval too.
 
-Apply the **`awaiting-review`** label when you open it. If you cannot apply labels yet, see
-[Permissions](#permissions) below, and in the meantime say so in the PR description or the
-[Zulip topic][zulip-topic] and someone will apply it.
+Apply the **`awaiting-review`** label when you open it. You can do this without triage
+access by posting `awaiting-review` on its own line in a new PR comment; see
+[Changing labels by comment](#changing-labels-by-comment).
 
 **A roadmap pull request touches only its own directory under `TauCetiRoadmap/`.** Four files
 list the roadmaps, and all four are derived from the set of directories that contain a
@@ -99,7 +166,8 @@ can do for the people reviewing, because it is how they find work.
 | `awaiting-review` | The ball is with a reviewer. Nothing is expected of the author right now. |
 | `awaiting-author` | A review has landed. The ball is with the author. |
 
-Nothing applies these automatically. The convention is:
+These labels change through direct label edits or explicit comment commands, not through
+pushes or review submission. The convention is:
 
 - **The author** applies `awaiting-review` when opening the PR, and again each time they have
   finished responding to a round of review.
@@ -112,6 +180,32 @@ Nothing applies these automatically. The convention is:
 Pushing a commit does not move the label, and reviewers should not have to infer from the
 commit log that you are ready. If you have pushed a partial response and are still working,
 leave `awaiting-author` in place.
+
+## Changing labels by comment
+
+Anyone who can comment can add or remove the labels below, without triage access.
+Post a new issue or pull request conversation comment with the exact label on its own
+line to add it, or prefix it with `-` to remove it. For example:
+
+```text
+-awaiting-author
+awaiting-review
+```
+
+Names are case-sensitive; surrounding whitespace is ignored. You can put several commands
+on separate lines, and the last command for each label wins. Other text is ignored.
+Editing or deleting a comment does not undo a command; post a new comment instead.
+Review bodies and inline review comments are not processed.
+
+The allowed labels are `awaiting-author`, `awaiting-review`, `awaiting-dependencies`,
+`roadmap-feedback`, `meta`, `documentation`, `enhancement`, `help wanted`, and
+`dont-repair-in-queue`. The last label records the
+same repair preference used by TauCeti's implementation merge queue; it does not change
+Roadmap's human approval or GitHub merge-queue requirements.
+
+To hand a PR back to reviewers, post both `-awaiting-author` and `awaiting-review` on
+separate lines; the workflow changes only the labels you name. `administrative-hold`,
+`ai-approved`, CI labels, and generated roadmap-area labels remain outside this allowlist.
 
 ## Resolving review conversations
 
