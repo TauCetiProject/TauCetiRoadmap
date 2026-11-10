@@ -425,7 +425,7 @@ Projective classes are the library's `FirstOrder.Language.LHom.PCMem`. -/
 /-! ### Stand-in owned by InfinitaryModelExistence
 
 Owner: the InfinitaryModelExistence roadmap, Layer 7. Declaration: `pcSeparation`, over the pinned
-infinitary syntax. Checked against revision 786457c7 of that roadmap (follow-up TauCetiRoadmap #1615). The
+infinitary syntax. Checked against revision 35db8dff of that roadmap (follow-up TauCetiRoadmap #1615). The
 copy is prototype scaffolding; the owner's statement is authoritative. -/
 
 /-- **Stand-in for `pcSeparation` of the InfinitaryModelExistence roadmap** (its Craig
