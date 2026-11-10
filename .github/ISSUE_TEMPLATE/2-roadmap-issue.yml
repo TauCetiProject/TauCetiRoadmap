@@ -159,6 +159,7 @@ body:
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsHypergeometric
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
