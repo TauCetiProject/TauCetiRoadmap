@@ -302,7 +302,7 @@ theorem exists_finset_primeDiscriminant_prod_eq_discr {K : Type*} [Field K] [Num
       (∀ P ∈ s, ∀ Q ∈ s, IsEvenPrimeDiscriminant P → IsEvenPrimeDiscriminant Q → P = Q) ∧
       ∏ P ∈ s, P = NumberField.discr K := by
   rw [TauCeti.Multiquadratic.discr_eq_fundamentalDiscriminant hmin hgen hsf]
-  exact (isFundamentalDiscriminant_fundamentalDiscriminant hsf).exists_finset_primeDiscriminant
+  exact (isFundamentalDiscr_fundamentalDiscriminant hsf).exists_finset_primeDiscriminant
 
 /-- **The conjugate-ideal transversal count**, a Dedekind-domain lemma migrated from
 erdos-unit-distance: a fixed-point-free involution of a finite set `S` of primes admits at least

@@ -1,0 +1,14 @@
+# Progress log: LocalPurity
+
+An append-only record of what landed on the LocalPurity roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"67f09bd3e82e6c779fcda34fc62bb105566390d7","prs":[19153,19473,20162,20561],"roadmap":"LocalPurity","to_sha":"e177885ee120f8074a7610c3e60571ab00b20004"}-->
+## LocalPurity: 2026-10-20 to 2026-10-24 (`67f09bd` to `e177885`)
+
+The discriminant criterion of Layer 0 is in: a finite free algebra is étale exactly when the discriminant of a basis is a unit ([`etale_iff_isUnit_discr`](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/Discriminant.html#TauCeti.Algebra.etale_iff_isUnit_discr), Stacks 0BJF), proved over an arbitrary commutative base rather than only the local one the roadmap asks for (TauCeti#19153). Its field case, that a finite-dimensional algebra over a field is étale iff its [trace form is nondegenerate](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/Discriminant.html#TauCeti.Algebra.etale_iff_traceForm_nondegenerate), and the [localization form](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/Discriminant.html#TauCeti.Algebra.isUnit_discr_localization_iff) came with it, along with base change of discriminants and trace matrices.
+
+On top of this, Krull's principal ideal theorem now shows that étaleness of a finite free algebra over a Noetherian ring is [detected on fibres over primes of height at most one](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/Purity.html#TauCeti.Algebra.etale_iff_etale_fiber_of_height_le_one). As a consequence, over a Noetherian local ring of dimension at least two, a [finite flat algebra unramified away from the closed point is étale](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/Purity.html#TauCeti.Algebra.etale_of_isUnramifiedAt_of_two_le_ringKrullDim). This is the discriminant step of purity for regular local rings, but it assumes flatness, which miracle flatness is supposed to supply and which has not landed.
+
+Work toward that flatness has started. Regular local rings are now [Cohen–Macaulay](https://taucetiproject.org/docs/TauCeti/RingTheory/RegularLocalRing/CohenMacaulay.html#TauCeti.IsRegularLocalRing.isCohenMacaulay): a regular system of parameters is a regular sequence, so depth equals dimension. Over a two-dimensional regular local ring, any pair generating the maximal ideal is [regular on a finite normal local algebra](https://taucetiproject.org/docs/TauCeti/RingTheory/RegularLocalRing/FiniteNormal.html#TauCeti.IsRegularLocalRing.isRegular_pair_of_finite_normal), which is the input for the dimension-two flatness lemma. Nothing about punctured spectra or extending covers has landed yet.

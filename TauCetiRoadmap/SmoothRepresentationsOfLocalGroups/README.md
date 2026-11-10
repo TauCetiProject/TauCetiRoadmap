@@ -64,7 +64,8 @@ restriction are transported along it. From
 and [layer 10](../ProfiniteCohomology/README.md#layer-10-continuous-cohomology-in-all-degrees) it
 takes coinduction, Shapiro's lemma and continuous cohomology of profinite groups, and adds derived
 invariants of compact open subgroups and the derived Hecke algebra. From
-[Profinite and pro-p groups](../ProfiniteProPGroups/README.md#layer-1-supernatural-order-and-index)
+the completed roadmap
+[Profinite and pro-p groups](../../Completed/ProfiniteProPGroups/README.md#layer-1-supernatural-order-and-index)
 layer 1 it takes supernatural orders and pro-p groups, and adds compact open subgroups of pro-order
 invertible in A. From
 [Induction and restriction](../RepresentationTheory/InductionRestriction/README.md#layer-0-the-functorial-core----transitivity-and-the-projection-formula)
@@ -74,19 +75,30 @@ from open subgroups, induction in stages and the Mackey filtration. From
 [Modular forms](../ModularForms/README.md#layer-2-hecke-operators-and-the-hecke-algebra) layer 2
 it takes the double-coset Hecke ring with Shimura's product and the GL_2 polynomial presentation,
 and adds convolution and permutation-module Hecke algebras with their comparison with the
-double-coset ring, and the all-rank Satake isomorphism. From
+double-coset ring, and the all-rank Satake isomorphism. Idempotented algebras, their
+nondegenerate modules with the principal projective generators He, and the Hecke-module
+equivalence are stated and proved here (SR.1.3, *locally-unital-algebra*, *hecke-module-equivalence*);
+unitary and firm modules over an arbitrary nonunital ring, left xst rings and the abelian category
+of their firm modules belong to the later roadmap CyclicHomologyLieHomologyAndQuasiFreeAlgebras
+§5.4, which records the nondegenerate modules of an idempotented algebra as its instance, and this
+roadmap cites no section of it. From
 [Reductive groups](../ReductiveGroups/README.md#layer-3-subgroups-quotients-components) layer 3,
 [layer 7](../ReductiveGroups/README.md#layer-7-structure-theory) and
 [layer 9](../ReductiveGroups/README.md#layer-9-pinned-chevalleydemazure-group-schemes-over-ℤ) it
 takes root data, parabolic and Levi subgroups, Weyl groups, the Bruhat decomposition, central
 quotients and pinned split group schemes, and adds the representation theory of the rational
-points. From [Class field theory](../ClassFieldTheory/README.md#layer-9-the-local-weil-group)
+points. ReductiveGroups Layer 5P owns the characteristic-zero matrix exp/log construction
+and its restrictions to unipotent algebraic groups and their Lie algebras. SR.5.2
+*nilpotent-exp-log* adds finite evaluation in arbitrary, possibly noncommutative ℚ-algebras,
+with comparison to those matrix maps, and the continuous ℤ_ℓ interpolation needed for monodromy.
+From [Class field theory](../ClassFieldTheory/README.md#layer-9-the-local-weil-group)
 layer 9 it takes the local Weil group and its Frobenius elements (the wild and tame filtrations are
-[Local fields and ramification](../LocalFieldsRamification/README.md); local Langlands for tori is
+[Local fields and ramification](../../Completed/LocalFieldsRamification/README.md); local Langlands for tori is
 an input stated where used), and adds finite-wild discretisations and cocycle functoriality.
 SR.5.2 owns the common raw Weil–Deligne fields and the entire lower linear theory:
-*nilpotent-exp-log*, *wd-parameter-operations*, *wd-complete-coefficients*,
-*full-wd-construction* and *wd-frobenius-semisimplification*. These targets use ordinary
+*nilpotent-exp-log*, *wd-parameter-operations*, *wd-algebraic-composition*,
+*wd-complete-coefficients*, *full-wd-construction* and *wd-frobenius-semisimplification*.
+These targets use ordinary
 linear representations, ClassFieldTheory layer 9 and Tau Ceti's local characters;
 they precede *classical-llc-normalization* and require neither determinant reconstruction
 nor LLC. ArithmeticGaloisRepresentations consumes this linear theory for its
@@ -248,7 +260,7 @@ under *Exact supplier contracts* (Tau Ceti names start with `TauCeti.` or `Hecke
 Names attributed to Mathlib or Tau Ceti are full names in those libraries: their `Representation`
 namespace is the root one, while the roadmap's own `Representation.IsSmooth`,
 `Representation.smoothVectors` and `Representation.IsAdmissible` sit under the roadmap namespace.
-The pinned libraries are Mathlib `6b7abb3c76` and Tau Ceti `a91d3aaf`.
+The pinned libraries are Mathlib `f6090c7095` and Tau Ceti `358314d4ab`.
 
 ## Exact supplier contracts
 
@@ -271,8 +283,12 @@ suppliers at the pins. SR.0 constructs these interfaces in Tau Ceti using that d
 also separates general topological-group smoothness from the reductive applications.
 
 For SR.0: `NonarchimedeanGroup` (open subgroups as a neighbourhood basis, without compactness),
+`loc_compact_Haus_tot_disc_of_zero_dim` in
+`Mathlib/Topology/Separation/Profinite.lean` (the locally compact Hausdorff clopen basis) and
+`exists_compact_subset` (compact neighbourhoods inside open sets). SR.0.1 supplies the
+compact-clopen translation-stabilizer argument for van Dantzig's theorem;
 `IsTopologicalGroup.exist_openSubgroup_sub_clopen_nhds_of_one` and
-`compact_exists_isClopen_in_isOpen` (the two halves of van Dantzig's theorem), `OpenSubgroup`,
+`compact_exists_isClopen_in_isOpen` apply only to compact ambient spaces. Also `OpenSubgroup`,
 `Representation`, `Representation.stabilizer`, `Representation.ofMulAction` (the carrier of
 smoothness and the permutation representations used in the checks), `Rep` with `Rep.res` in
 `Mathlib/RepresentationTheory/Rep/Res.lean` and `Rep.quotient` and `Rep.mkQ` in
@@ -374,6 +390,13 @@ The following exact algebraic suppliers are used directly:
   `Mathlib/RingTheory/Artinian/Module.lean` supplies Fitting decomposition on Noetherian Artinian
   modules. `StableOperator` allows arbitrary modules and asks for such a decomposition
   without either chain condition.
+
+For SR.5.2: `IsNilpotent.exp`, `IsNilpotent.exp_eq_sum`,
+`IsNilpotent.exp_add_of_commute`, `IsNilpotent.map_exp`, `IsNilpotent.isUnit_exp`
+from `Mathlib/RingTheory/Nilpotent/Exp.lean` supply finite exponentials;
+`PowerSeries.log`, `PowerSeries.subst_exp_log` and `PowerSeries.subst_log_exp_sub_one`
+from `Mathlib/RingTheory/PowerSeries/Log.lean` supply the formal rational series and
+inverse substitution identities. SR.5.2 adds their finite evaluation on unipotent units.
 
 ### From Tau Ceti
 
@@ -484,7 +507,7 @@ subobjects, quotients and restriction, which SR.0.2 transports along
 derived Hecke algebra and by exactness of induction. Layer 10: continuous cohomology in all
 degrees, the target of the comparison of derived invariants in SR.0d.
 
-### From TauCetiRoadmap.ProfiniteProPGroups
+### From the completed roadmap ProfiniteProPGroups (Completed/ProfiniteProPGroups)
 
 Layer 1: supernatural order and index, which defines the pro-order of a profinite group and the
 pro-p property behind *unit-pro-order*.
@@ -507,6 +530,13 @@ another multiplication.
 Layer 3: subgroups, quotients and components, for the c-group formulation. Layer 7: structure
 theory, with the relative roots, parabolic and Levi subgroups, Weyl groups and the Bruhat
 decomposition that the parabolic pairs, the geometric lemma and the dual-group arguments use.
+Layer 5P: characteristic-zero polynomial matrix exp/log and their geometric restrictions;
+SR.5.2 compares its arbitrary-ℚ-algebra finite evaluation with these maps.
+Layer 2: the Lie algebra of an algebraic group and the differential of a morphism, for the
+composites of SR.5.2 *wd-algebraic-composition*.
+Layer 4: the Jordan decomposition of elements and its functoriality under representations,
+which SR.5.2 *wd-algebraic-composition* uses for the unipotence of ρ(exp N) and for the
+preservation of Frobenius semisimplicity.
 Layer 9: the pinned Chevalley–Demazure group schemes over ℤ, carrying the finite-wild cocycle
 scheme.
 
@@ -565,10 +595,30 @@ neighbourhood of 1 contains a compact open subgroup. Such a G is called locally 
 l-group). Prove that in that case every open subgroup contained in a compact neighbourhood of 1 is
 compact, every compact open subgroup is profinite, and the compact open subgroups contained in a
 given one form a cofinal directed family under reverse inclusion ([Ber92] Ch. I §1.1,
-Definition 1, p. 7 (the definition); (a) ⇔ (c) is van Dantzig's theorem, from Mathlib's
-`compact_exists_isClopen_in_isOpen` and
-`IsTopologicalGroup.exist_openSubgroup_sub_clopen_nhds_of_one`). *Needs:* the library vocabulary
-of this layer.
+Definition 1, p. 7 (the definition); [Kramer] Proposition 1.43 and Theorem 1.44,
+pp. 18–19). *Needs:* Mathlib `loc_compact_Haus_tot_disc_of_zero_dim`,
+`exists_compact_subset`, `OpenSubgroup` and the closedness of open subgroups.
+
+For (a) ⇒ (c), first find a compact clopen identity neighbourhood C inside the prescribed
+neighbourhood, using the clopen basis inside a compact neighbourhood. Construct its left
+translation stabilizer H = {g | gC = C}. Compactness of C and continuity of multiplication
+give a symmetric open identity neighbourhood V with VC ⊆ C; applying the same inclusion
+to v⁻¹ gives vC = C for v ∈ V. Thus H contains V and is an open subgroup.
+Since 1 ∈ C, H ⊆ C, so closedness of H makes it compact. This is the locally compact
+argument of [Kramer] Lemma 1.41, pp. 17–18, with left translations in place of right
+translations. For (b) ⇒ (c), intersect an identity neighbourhood with the interior of a
+compact neighbourhood and take an open subgroup inside it; that subgroup is closed and
+compact. For (c) ⇒ (a), compact open subgroups give local compactness and their clopen
+cosets separate points, so every connected subset is a singleton.
+
+**Checks.**
+
+- In the noncompact additive group ℚ₂, C = ℤ₂ and C = 2ℤ₂ have translation stabilizers
+  ℤ₂ and 2ℤ₂ respectively; the neighbourhood basis is 2^m ℤ₂ for m ∈ ℤ.
+- In discrete S₃, C = {1, (12), (13)} is compact and clopen but is not a subgroup:
+  (12)(13) is a 3-cycle outside C. Its left translation stabilizer is {1}.
+- The trivial group has the singleton compact open basis. In ℝ the interval (−1,1)
+  contains no open subgroup, so local compactness alone does not give the conclusion.
 
 **Smooth representations** (*is-smooth*). Let G be a topological group (`IsTopologicalGroup`), A
 a commutative ring and ρ : Representation A G V a representation on an A-module V, with no
@@ -654,12 +704,18 @@ has smooth-vector submodule ⊤.
 **Smooth representations form an abelian category** (*smooth-rep-abelian*). For a commutative
 ring A and a topological group G, prove that the property 'smooth' on Rep A G contains 0 and is
 closed under kernels, cokernels, subobjects, quotients, finite products, arbitrary direct sums and
-filtered colimits. Conclude that SmoothRep A G is an abelian category with all colimits (computed
-in Rep A G) and all limits (the smooth parts of limits in Rep A G), that the inclusion into
-Rep A G is exact and preserves all colimits, that kernels and cokernels are computed on underlying
-A-modules, and that a morphism is a monomorphism (epimorphism) iff it is injective (surjective).
-It is not closed under extensions in Rep A G ([Ber87] §1.1, p. 3). *Needs:*
-*smooth-rep-category*.
+filtered colimits: a subobject or a quotient keeps open stabilisers, a finite sum of vectors is
+fixed by the finite intersection of their stabilisers, and every element of a direct sum or of a
+filtered colimit is the image of a finite sum. Conclude that SmoothRep A G is an abelian category
+with all colimits (computed in Rep A G) and all limits (the smooth parts of limits in Rep A G),
+that the inclusion into Rep A G is exact and preserves all colimits, that kernels and cokernels
+are computed on underlying A-modules, and that a morphism is a monomorphism (epimorphism) iff it
+is injective (surjective). Smoothness is not closed under extensions in Rep A G in general: for
+G = (ℤ_2, +), A = ℚ_2 and `ρ(t) = [[1, t], [0, 1]]` on ℚ_2² the subline spanned by e_1 and the
+quotient line carry the trivial action and are smooth, while e_2 has stabiliser {0}, which is not
+open; for discrete G every representation is smooth. The same statements for nondegenerate
+modules over an idempotented ring, with limits given by the nondegenerate part of the module
+limit, are [Ber87] §1.1, p. 3. *Needs:* *smooth-rep-category*.
 
 The abelian structure extends the preadditive structure inherited from `Rep A G`:
 addition and scalar multiplication of morphisms are the underlying operations on
@@ -667,6 +723,19 @@ intertwining maps. In particular its zero morphisms agree with those used in coc
 
 The monomorphism and epimorphism criteria accompany exactness of the inclusion and its
 preservation of all colimits.
+
+**Checks.**
+
+- The unipotent representation `ρ(t) = [[1, t], [0, 1]]` of ℤ_2 on ℚ_2² has smooth part the
+  line spanned by e_1, of dimension 1, not 2: an extension of two smooth representations need
+  not be smooth, so a definition closing SmoothRep A G under extensions would be wrong.
+- For G = ℤ_p the product in SmoothRep A G of the permutation representations A[ℤ/p^n], n ≥ 1,
+  is strictly smaller than the module product: the vector whose n-th component is the indicator
+  of the class of 0 in ℤ/p^n has stabiliser ⋂ p^nℤ_p = {0}, so the module product is not smooth
+  and the limit is its smooth part. For discrete G the two products agree.
+- For the sum-of-coefficients map A[ℤ/p] → A of ℤ_p-representations, the kernel is the
+  augmentation submodule with its induced action and the cokernel is 0, both computed on the
+  underlying A-modules; a non-surjective map of smooth representations has nonzero cokernel.
 
 **Smooth representations as discrete continuous representations** (*smooth-discrete-comparison*).
 Give the commutative ring A the discrete topology and let G be a
@@ -1233,7 +1302,13 @@ fourth test), so through V^U = Hom_G(A[G/U], V) it acts as ρ(1)⁻¹: the right
 commutative and H an idempotented A-algebra. Define idempotented algebras: an A-algebra H (not
 necessarily unital) is idempotented (locally unital) if every finite subset {x_i} admits an
 idempotent e with e x_i = x_i = x_i e; then H = ⋃_e eHe. Define NondegMod H, the full subcategory
-of left H-modules M that are nondegenerate, HM = M, equivalently M = ⋃_e eM. Prove
+of left H-modules M that are nondegenerate, HM = M, equivalently M = ⋃_e eM. Prove that the
+A-module structure of a nondegenerate module is determined by its H-module structure, a·m = (ae)m
+for every local unit e of m, so that NondegMod H is the same category whether its objects are taken
+as A-modules or as modules over the underlying ring of H; that a submodule of a nondegenerate
+module is nondegenerate; and that for nondegenerate M the multiplication map H ⊗_H M → M, from the
+quotient of H ⊗_A M by the elements hh′ ⊗ m − h ⊗ h′m, is bijective, with inverse m ↦ e ⊗ m for
+any local unit e of m. Prove
 that NondegMod H is a full abelian subcategory of H-modules with exact
 filtered colimits, closed under subquotients, direct sums and filtered colimits, with products
 given by nondegenerate parts of products and a centre identified with the bimodule endomorphisms
@@ -1260,6 +1335,13 @@ Checks:
   nondegenerate module: the all-one tuple has no finite local unit. For A = 0 both modules
   are zero and nondegenerate.
 - A with the zero multiplication is not idempotented, for A ≠ 0.
+- For `A ≠ 0` and `H = ⊕_{n ∈ ℕ} A` with componentwise product, local units `u_N = Σ_{k ≤ N} ε_k`
+  and M = H, the inverse of multiplication sends ε_n to ε_n ⊗ ε_n, and u_N ⊗ ε_n = ε_n ⊗ ε_n in
+  H ⊗_H H for every N ≥ n; in H ⊗_A H, which is free on the ε_i ⊗ ε_j, the two tensors differ by
+  `Σ_{k ≤ N, k ≠ n} ε_k ⊗ ε_n ≠ 0` for N > n, so a definition of H ⊗_H M without the relations
+  hh′ ⊗ m − h ⊗ h′m makes the inverse ill-defined. For A = 0 both tensors are zero.
+- The submodule statement uses the idempotents: the non-idempotented ring 2ℤ acts on ℤ[1/2] with
+  2ℤ·ℤ[1/2] = ℤ[1/2], while its submodule ℤ has 2ℤ·ℤ = 2ℤ ≠ ℤ.
 
 **Smooth representations as nondegenerate Hecke modules** (*hecke-module-equivalence*). Let G be
 locally profinite and A a commutative ring such that G has a cofinal family of compact open
@@ -1819,8 +1901,9 @@ non-admissible complex F_ℓ[ℚ_p/ℤ_p].
 ### Dependencies
 
 SR.0 and SR.1; Mathlib's Grothendieck-abelian, derived-category, K-injective and Ext API;
-ProfiniteCohomology layers 7 and 10; DGAInfinity layers 0–1;
-DerivedModuleAlgebra §0.2.
+EnhancedDerivedSheaves E1.2 / *replacementDGComparison* (the generic functorial K-injective
+replacement, specialised to SmoothRep A G by *k-injective-resolutions*); ProfiniteCohomology
+layers 7 and 10; DGAInfinity layers 0–1; DerivedModuleAlgebra §0.2.
 
 ## Layer SR.2: induction, compact induction and Jacquet functors
 
@@ -2111,13 +2194,13 @@ The natural form states compatibility of the graded isomorphisms with every morp
 and quasi-split, B = TU a Borel (minimal parabolic) subgroup and χ a smooth character of the
 maximal torus T over ℂ. Prove that r_B(i_B χ) has a filtration with graded pieces the Weyl
 conjugates wχ (w ∈ W), so its semisimplification is `⊕_{w ∈ W} wχ`, and that if χ is regular
-(wχ ≠ χ for w ≠ 1) the filtration splits. Conclude that every irreducible subquotient π of i_B χ
-has r_B(π) ≠ 0, that its semisimplified Jacquet module is a sub-sum of ⊕ wχ, that π embeds in
-i_B(wχ) for some w, and that i_B χ has length ≤ |W| ([BZ77] Corollary 2.13(c), p. 449;
-Theorem 2.8, p. 448 (length); [Cas95] Proposition 6.4.1, p. 61 (splitting for regular χ)).
+(wχ ≠ χ for w ≠ 1) the filtration splits ([BZ77] Corollary 2.13(c), p. 449; [Cas95]
+Proposition 6.4.1, p. 61 (splitting for regular χ)). Consequences for the irreducible
+constituents of i_B χ need the cuspidal-support theory and are *principal-series-constituents*
+of SR.3.1.
 For GL_2(F), [BH06] 9.3 Restriction-Induction Lemma, p. 63, gives the unnormalised two-step sequence; conversion using `δ_B = (δ_B^{BH})⁻¹` gives the normalized Weyl characters. It is a filtration, not an unconditional splitting. *Needs:* *geometric-lemma*, *first-adjointness*, *central-ext-vanishing*.
 
-The Weyl-character filtration splits under pairwise distinctness of the Weyl characters; the subquotient statement gives the nonzero Jacquet module, its sub-sum of characters and the principal-series embedding; the length statement gives the Weyl-cardinality bound. The statements use the relative Weyl quotient and explicit representatives, retaining the quasi-split hypothesis.
+The Weyl-character filtration splits under pairwise distinctness of the Weyl characters. The statements use the relative Weyl quotient and explicit representatives, retaining the quasi-split hypothesis.
 
 ### SR.2.3 Pairings, canonical lifting, Iwahori invariants and Whittaker functionals
 
@@ -2206,8 +2289,9 @@ and c-Ind_U^G ψ); the genericity condition is a definition and the description 
 *frobenius-reciprocity*). *Needs:* *smooth-induction*, *compact-induction*,
 *frobenius-reciprocity*, *jacquet-module*; ReductiveGroups layer 7.
 
-*Lean:* `whittakerCoinvariants_one_dimensional` (the complex GL₂ multiplicity-one theorem for
-every irreducible infinite-dimensional smooth representation and every nontrivial smooth ψ).
+*Lean:* `whittakerCoinvariants_one_dimensional` (the complex GL₂ multiplicity-one theorem, stated
+as `V_{U,ψ}` having ℂ-dimension one, for every irreducible infinite-dimensional smooth
+representation and every nontrivial smooth ψ).
 
 The genericity predicate takes the simple-root subgroups inside the radical as explicit data and requires a smooth character nontrivial on each. The algebraic root subgroups are supplied by ReductiveGroupsPartII.
 
@@ -2581,6 +2665,29 @@ Checks:
 - There are no data without Levi subgroups.
 - For GL_2(ℚ_p), a diagonal character χ and its Weyl conjugate χ' (χ'(diag(a, d)) = χ(diag(d, a))) give the same cuspidal datum.
 
+**Constituents of principal series** (*principal-series-constituents*). Let G be reductive over F
+and quasi-split, B = TU a Borel subgroup, W the relative Weyl group N_G(T)/T and χ a smooth
+complex character of T(F). Prove that every irreducible subquotient π of i_B χ has cuspidal
+support [T, χ], that r_B(π) ≠ 0 with semisimplification a sub-sum of `⊕_{w ∈ W} wχ` (with
+multiplicities), that π embeds in i_B(wχ) for some w ∈ W, and that i_B χ has length ≤ |W|. The
+nonvanishing is not a formal consequence of exactness of r_B and the filtration of
+*principal-series-jacquet*: it uses that no subquotient of i_B χ is killed by r_B, which is the
+uniqueness of cuspidal support (no constituent has support on a Levi not conjugate to T)
+([BZ77] Corollary 2.13(b),(c) and §2.14, p. 449, with Theorem 2.4(a),(d), p. 447; Theorem 2.8,
+p. 448 (length); [Cas95] Corollaries 7.2.2–7.2.3, p. 68). *Needs:* *principal-series-jacquet*,
+*cuspidal-support*, *finite-length*, *first-adjointness*.
+
+**Checks.**
+
+- For G = T a torus, B = T, i_B χ = χ is irreducible of length 1 = |W|.
+- For GL_2(ℚ_p) and χ = `δ_B^{1/2}`, the trivial representation is a quotient of i_B χ, does not
+  embed in i_B χ, and embeds in i_B(wχ) = i_B(`δ_B^{−1/2}`) for the nontrivial w: the Weyl
+  conjugation in the embedding statement cannot be dropped.
+- For GL_2(ℚ_p) and χ = `δ_B^{−1/2}`, i_B χ has length exactly 2 = |W|, with constituents the
+  trivial representation (r_B = `δ_B^{−1/2}`) and a second constituent with r_B = `δ_B^{1/2}`; the
+  two Jacquet characters exhaust ⊕ wχ. At diag(3,1) over ℚ₃,
+  `δ_B^{1/2}` is 1/√3 and `δ_B^{−1/2}` is √3.
+
 **Generic irreducibility of induced representations** (*generic-irreducibility*). Let G be
 reductive over F with complex coefficients, σ an irreducible cuspidal representation of a Levi M
 and P = MN. Prove that for ψ in a nonempty Zariski-open subset of the torus Ψ(M), i_P(ψσ) is
@@ -2905,7 +3012,8 @@ its Iwahori invariants are one-dimensional by *borel-casselman-invariants*. For 
 0 → 1 → Ind_B^G 1 → St → 0 (unnormalised), i.e. St is the irreducible subrepresentation of
 `i_B(δ_B^{1/2})` ([Cas95] §8, Lemmas 8.1.1–8.1.2 and Theorem 8.1.3, p. 70). For GL_2(F), [BH06] (9.10.3)–(9.10.5), p. 68, verifies the quotient sequence, its dual embedding and self-duality, with the inverse-module conversion above. *Needs:*
 *borel-casselman-invariants*, *smooth-induction*, *parabolic-induction*,
-*principal-series-jacquet*, *square-integrable-tempered*; ReductiveGroups layer 7.
+*principal-series-jacquet*, *principal-series-constituents*, *square-integrable-tempered*;
+ReductiveGroups layer 7.
 
 **Checks.**
 
@@ -3740,12 +3848,23 @@ In the GL_n application, generic means nonzero nondegenerate Whittaker quotient;
 every field extension. The predicate is relative to arbitrary subgroup/character data;
 its elementary socle and direct-sum checks hold at that generality. Scalar endomorphisms are
 asserted here only for GL_n with nondegenerate Whittaker data and characteristic different from p.
-Prove that every equivariant endomorphism is
-scalar ([Hel12] Definition 3.3 and Lemma 3.4, pp. 5–6; [EH] §3.2, pp. 17–24). *Needs:*
-*twisted-coinvariants*; layer SR.0, layer SR.3.
+For every nonarchimedean local field F of residue characteristic p, n > 0, and every
+coefficient field κ with char(κ) ≠ p, prove `EssentiallyAIG.scalars`: every equivariant
+endomorphism of an essentially AIG GL_n(F)-representation is multiplication by a unique
+scalar in κ ([EH] Lemma 3.2.3, p. 18; the definition is [Hel12] Definition 3.3, p. 5).
+Use the actual upper-unitriangular subgroup and the standard nondegenerate character
+ψ(u) = χ(Σ_i u_(i,i+1)), for a nontrivial additive character χ : F → κˣ with open kernel;
+for n = 1 the unipotent group and ψ are trivial and no χ is needed. Conjugation by diagonal
+matrices transports the assertion to all nondegenerate Whittaker data.
+No algebraic closure, characteristic-zero, or Witt-algebra hypothesis is imposed on κ.
+The route restricts an endomorphism to the absolutely simple generic socle; a map vanishing
+there factors through a quotient with no generic constituents and therefore vanishes
+([EH] Lemma 3.2.2 and proof of Lemma 3.2.3, p. 18). *Needs:*
+*twisted-coinvariants*, *derivative-exactness*, *mirabolic-derivatives*; layer SR.0, layer SR.3.
 
 *Lean:* `AbsolutelyIrreducible`, `IsGeneric`, `EssentiallyAIG` (the field and socle predicates
-needed for the prime-fibre condition in co-Whittaker families).
+needed for the prime-fibre condition in co-Whittaker families), and `EssentiallyAIG.scalars`
+(the scalar endomorphism theorem with the stated GL_n Whittaker data).
 
 **Checks.**
 
@@ -3754,6 +3873,9 @@ needed for the prime-fibre condition in co-Whittaker families).
 - The direct sum of two nonzero generic simple representations is not
   essentially AIG.
 - The zero representation is not essentially AIG.
+- For GL₁(F), a smooth κ-valued character line has endomorphism ring κ; on two copies
+  the equivariant endomorphism ring is M₂(κ), and the projection diag(1,0) is not scalar.
+  The two-copy socle is not absolutely irreducible, so it fails the hypothesis.
 
 **Checks (absolute simplicity and genericity).** The tests check
 `AbsolutelyIrreducible` on the trivial rank-one module (true), zero (false),
@@ -4350,7 +4472,7 @@ apart: Breuil–Schneider uses L(Δ) and π(m), and *highest-derivative-adapter*
   Z(m); its unique irreducible quotient L(m) is the character `ν^{1/2}`. The other order, 1 × ν,
   exchanges the subrepresentation and the quotient.
 
-<a id="wd-raw-parameters"></a>
+#### WD raw parameters
 
 **Shared raw Weil–Deligne parameters** (*wd-raw-parameters*). For a characteristic-zero field E,
 a finite-dimensional E-space V, the local Weil group W_F and q the residue cardinality,
@@ -4380,7 +4502,7 @@ and the separate semisimplicity predicate, with a specified topological group an
 - A change of basis conjugates both r and N. Duality gives (r∨,−Nᵗ); applying it twice
   recovers the original parameter.
 
-<a id="wd-linear-substrate"></a>
+#### WD linear substrate
 
 The linear substrate consists of the following targets on *wd-raw-parameters*.
 ClassFieldTheory layer 9 supplies the continuous dense map W_F → G_F, open compact
@@ -4388,21 +4510,39 @@ inertia, the continuous surjective arithmetic degree map and the decomposition
 W_F = I_F ⋊ ⟨Φ⟩ for an arithmetic lift Φ. These identify the inertia and tame characters
 used here with Tau Ceti's local characters.
 
-<a id="nilpotent-exp-log"></a>
+#### Nilpotent exp-log
 
 **Nilpotent exponential and unipotent logarithm** (*nilpotent-exp-log*).
-In a ℚ-algebra define the logarithm of a unipotent unit u by
-`log u = Σ_{1 ≤ i < b} (−1)^{i+1}(u−1)^i/i` when (u−1)^b = 0.
-Prove independence of b and that this is inverse to Mathlib's finite nilpotent
-exponential. Both operations commute with algebra maps and conjugation.
-For every nonzero integer m, the unique unipotent m-th root is exp(m⁻¹ log u).
-For a complete normed extension E/ℚ_ℓ and a continuous homomorphism
-h : ℤ_ℓ → GL_E(V) with h(1) unipotent, prove h(x) = exp(x log h(1)).
-Here V is finite-dimensional with its module topology; density of ℤ in ℤ_ℓ
-identifies the polynomial exponential with h ([Del73] Theorem 8.2 and
-§8.4, pp. 566–569).
-*Needs:* Mathlib `IsNilpotent.exp`, `IsNilpotent.exp_add_of_commute`,
-`IsNilpotent.map_exp`, `IsNilpotent.isUnit_exp`; Tau Ceti's unipotent linear automorphisms.
+Let R be a unital, possibly noncommutative ℚ-algebra. For a unit u with u−1 nilpotent,
+define its finite logarithm in R by
+`log u = Σ_{1 ≤ i < b} (−1)^{i+1}(u−1)^i/i`, where (u−1)^b = 0.
+All denominators are positive integers and hence invertible rational scalars.
+Develop finite evaluation of the rational power-series identities in the commutative
+subalgebra generated by one nilpotent element, and transport them into R. For the
+matrix specialization, compare with ReductiveGroups Layer 5P's polynomial maps.
+This extends the polynomial exp/log identities used in [Del73] §8.4.2, p. 569,
+by finite evaluation; no convergence or commutativity of R is required.
+
+The API consists of the following facts.
+
+- The sum is independent of the positive vanishing bound b, and log u is nilpotent.
+- Exponential and logarithm are inverse maps between nilpotent elements of R and
+  units u of R for which u−1 is nilpotent: log(exp N) = N and exp(log u) = u.
+- For a unital ℚ-algebra homomorphism f : R → S, log(f(u)) = f(log u);
+  conjugation by every unit v gives log(vuv⁻¹) = v(log u)v⁻¹.
+- For each nonzero integer m, u has a unique unipotent m-th root, namely
+  exp(m⁻¹ log u). Uniqueness is among unipotent units, not among all units.
+- For a prime ℓ, a complete normed extension E/ℚ_ℓ, a finite-dimensional E-space V
+  with its module topology, and a continuous homomorphism h : ℤ_ℓ → GL_E(V)
+  from the additive group with h(1) unipotent, h(x) = exp(x log h(1)) for every x ∈ ℤ_ℓ.
+  Integer powers establish the identity on ℤ; density and continuity of the finite
+  polynomial give it on ℤ_ℓ ([Del73] Theorem 8.2 and §8.4.2, pp. 566–569).
+
+*Needs:* Mathlib `IsNilpotent.exp`, `IsNilpotent.exp_eq_sum`,
+`IsNilpotent.exp_add_of_commute`, `IsNilpotent.map_exp`, `IsNilpotent.isUnit_exp`,
+`PowerSeries.log`, `PowerSeries.subst_exp_log`, `PowerSeries.subst_log_exp_sub_one`
+in `Mathlib/RingTheory/PowerSeries/Log.lean`; ReductiveGroups Layer 5P for the
+matrix comparison; Tau Ceti's unipotent linear automorphisms; density of ℤ in ℤ_ℓ.
 
 **Checks.**
 
@@ -4410,8 +4550,15 @@ identifies the polynomial exponential with h ([Del73] Theorem 8.2 and
 - If N³ = 0 with N² ≠ 0, log(1+N) = N−N²/2, so the quadratic term is necessary.
 - For nonzero N² = 0, the unipotent square root of 1+N is 1+N/2. For m = 0
   uniqueness fails: every unipotent unit has zeroth power 1.
+- In ℚ[ε]/(ε³), log(1+ε) = ε−ε²/2 for b = 3 and b = 4; its exponential is
+  1+ε. The quotient to ℚ[ε]/(ε²) sends the logarithm to ε on both sides.
+- For N = [[0,1],[0,0]] and v = diag(2,1), conjugation gives 2N, and
+  log(v(1+N)v⁻¹) = 2N = v(log(1+N))v⁻¹. For h(x) = 1+xN on ℤ_ℓ,
+  exp(x log h(1)) = 1+xN, including ℓ = 2 and ℓ = 3.
+- In the zero ℚ-algebra, 0 = 1 and both domains are singletons. In ℚ the unit
+  −1 is not unipotent; it is a second square root of 1 outside the uniqueness domain.
 
-<a id="wd-parameter-operations"></a>
+#### WD parameter operations
 
 **Operations on raw parameters** (*wd-parameter-operations*).
 Over a characteristic-zero field E construct direct sums, tensor products with monodromy
@@ -4440,8 +4587,74 @@ RepresentationTheory/InductionRestriction layers 0 and 2; Mathlib linear duals a
 - A degree-dependent Sp(2) action on indiscrete W = ℤ at q = 2 has non-open kernel.
   The local Weil group's open degree kernel is necessary for this construction.
 
-<a id="grothendieck-monodromy"></a>
-<a id="wd-complete-coefficients"></a>
+**Composition with an algebraic representation and symmetric powers** (*wd-algebraic-composition*).
+Over a characteristic-zero field E, for raw parameters (V_1,r_1,N_1), …, (V_k,r_k,N_k) of
+*wd-raw-parameters* and a morphism of algebraic groups ρ : GL(V_1) × ⋯ × GL(V_k) → GL(W) over E
+with differential dρ : 𝔤𝔩(V_1) × ⋯ × 𝔤𝔩(V_k) → 𝔤𝔩(W) (ReductiveGroups Layer 2), define
+`ρ∘(r,N) := (W, ρ∘(r_1,…,r_k), dρ(N_1,…,N_k))` and prove that it is a raw parameter on W.
+Its kernel contains ⋂ ker r_i and is open. Prove the nilpotency of dρ(N_1,…,N_k) together with
+the identity `ρ(exp(tN_1),…,exp(tN_k)) = exp(t·dρ(N_1,…,N_k))` for every t ∈ E as follows:
+u := ρ(exp N_1,…,exp N_k) is unipotent, because each exp N_i is unipotent and a morphism of
+algebraic groups preserves Jordan decompositions (ReductiveGroups Layer 4); Y := log u is
+nilpotent by *nilpotent-exp-log*; the two one-parameter subgroups t ↦ ρ(exp(tN_1),…,exp(tN_k))
+and t ↦ exp(tY) are morphisms of algebraic groups 𝔾_a → GL(W) with polynomial entries that
+agree at every t ∈ ℤ, where both equal u^t, so they agree identically because E has
+characteristic zero (the polynomial one-parameter subgroup u^t of ReductiveGroups Layer 5P);
+differentiating at t = 0 gives dρ(N_1,…,N_k) = Y. The conjugation relation
+`ρ(r(w)) dρ(N) ρ(r(w))⁻¹ = dρ(r(w) N r(w)⁻¹) = q^{deg w} dρ(N)` follows from
+`ρ(g) dρ(X) ρ(g)⁻¹ = dρ(Ad(g) X)` (ReductiveGroups Layer 2), with the same arithmetic
+degree and `ω(w) = q^{deg w}` as *wd-parameter-operations*. Prove functoriality in ρ (identity and
+composition), that an isomorphism of parameters on the V_i given by (g_i) induces the
+isomorphism ρ(g_1,…,g_k), and that Frobenius semisimplicity is preserved: ρ carries the
+semisimple part of the multiplicative Jordan decomposition
+`LinearMap.GeneralLinearGroup.jordanDecomposition` of (r_1(Φ),…,r_k(Φ)) to the semisimple
+part of ρ(r_1(Φ),…,r_k(Φ)) (ReductiveGroups Layer 4). Show that the direct sum, tensor
+product, dual, character twist and determinant of *wd-parameter-operations* are the
+instances ρ = ⊕, ⊗, g ↦ (gᵗ)⁻¹, tensoring with a line and det, whose differentials give the
+monodromies N⊕N', N⊗1+1⊗N', −Nᵗ, N and 0.
+For m ≥ 0 let Sym^m V be the m-th symmetric power of V. Mathlib's symmetric tensor power
+`Sym[E]^m V` and the degree-m piece `TauCeti.SymmetricAlgebra.homogeneousSubmodule` are both
+quotients of the m-th tensor power `⨂^m V` by the relations identifying a pure tensor with each
+of its permutations, so they are isomorphic over every commutative ring, with no characteristic
+hypothesis; the submodule of symmetric tensors inside `⨂^m V` is a different carrier, which this
+target does not use. Give Sym^m V the algebraic representation
+Sym^m : GL(V) → GL(Sym^m V), g(v_1⋯v_m) = gv_1⋯gv_m, whose differential is
+`d Sym^m(X)(v_1⋯v_m) = Σ_j v_1⋯(Xv_j)⋯v_m`. Define the m-th symmetric power
+`Sym^m∘(r,N) := (Sym^m V, Sym^m∘r, d Sym^m(N))` as the instance ρ = Sym^m, of dimension
+binom(dim V + m − 1, m), functorial in V and compatible with transport along linear
+equivalences. Prove Sym^0∘(r,N) is the trivial parameter, Sym^1∘(r,N) = (r,N),
+`Sym^m((r,N)⊗χ) ≅ Sym^m(r,N) ⊗ χ^m` for a character χ, `Sym^m∘(r,0) = (Sym^m∘r, 0)`, and
+`Sym^{n−1}∘Sp(2) ≅ Sp(n)` for n ≥ 1 with the Sp(n) of *wd-parameter-operations*; this
+last isomorphism uses the characteristic-zero hypothesis of the raw fields, through the
+invertibility of the integers 1, …, n−1 in E
+([Del73] §8.4.1, p. 568; [Tat79] §4.1).
+*Needs:* *wd-raw-parameters*, *wd-parameter-operations*, *nilpotent-exp-log*;
+ReductiveGroups Layers 2, 4 and 5P; Mathlib `Sym[E]^m V` and `PiTensorProduct`;
+Tau Ceti `TauCeti.SymmetricAlgebra.homogeneousSubmodule` and
+`LinearMap.GeneralLinearGroup.jordanDecomposition`.
+
+**Checks.**
+
+- For dim V = 2 with basis e_1, e_2, Ne_2 = e_1, Ne_1 = 0 and `f_j = e_1^{n−1−j} e_2^j`,
+  `d Sym^{n−1}(N) f_j = j·f_{j−1}`: a single Jordan block of size n.
+- In the basis of Sp(2) with `r(w)e_0 = e_0`, `r(w)e_1 = ω(w)e_1`, `Ne_0 = e_1`, the monomials
+  `e_0^{n−1−j} e_1^j` have weights `ω(w)^j` and `d Sym^{n−1}(N)` sends the j-th to (n−1−j) times
+  the (j+1)-st; rescaling the basis gives Sp(n) exactly, with no twist, and the arithmetic
+  conjugation relation raises each weight by one as required.
+- The dual instance g ↦ (gᵗ)⁻¹ has differential X ↦ −Xᵗ and recovers (r∨, −Nᵗ); the
+  determinant has differential the trace, which vanishes on nilpotent N, recovering zero
+  monodromy. Tensoring two rank-one parameters gives the product character with N = 0.
+- For ρ = Sym² and N with N² = 0 on E², the unipotent element Sym²(exp N) = Sym²(1 + N) has a
+  single Jordan block of size 3, so its logarithm d Sym²(N) is nilpotent of order 3, not 2: the
+  nilpotency order of dρ(N) is not that of N, and only the unipotence of ρ(exp N) is transported.
+- Over 𝔽_3 with n = 4 and the basis of the first Check, `d Sym^3(N) f_3 = 3·f_2 = 0` and
+  `d Sym^3(N) f_0 = 0`, so the monodromy of Sym^3∘Sp(2) has two Jordan blocks, of sizes 3 and 1,
+  and the parameter is not Sp(4): the characteristic-zero hypothesis is used for
+  `Sym^{n−1}∘Sp(2) ≅ Sp(n)` and for the single-Jordan-block Check, not for the identification
+  of the two quotient carriers, which holds over every commutative ring.
+
+#### Grothendieck monodromy
+##### WD complete coefficients
 
 **Complete normed coefficients for the full construction** (*wd-complete-coefficients*).
 Let F be a nonarchimedean local field of residue characteristic p, let ℓ ≠ p be prime,
@@ -4489,7 +4702,7 @@ exponential formula and cyclotomic conjugation relation over complete normed ext
 - The cyclotomic character on `G_{ℚ_ℓ}` fails the open-inertia unipotence conclusion;
   the hypothesis ℓ ≠ p is necessary.
 
-<a id="full-wd-construction"></a>
+#### Full WD construction
 
 **Finite-coefficient full construction and inverse** (*full-wd-construction*).
 For finite E/ℚ_ℓ and ℓ ≠ p, specialize *wd-complete-coefficients* to continuous linear
@@ -4517,7 +4730,7 @@ ClassFieldTheory layer 9; finite-extension local-field linear algebra.
 - The unramified rank-one pair r(Φ) = ℓ, N = 0 has no continuous G_F-extension:
   its Frobenius eigenvalue is not a unit. An unramified unit eigenvalue does extend.
 
-<a id="wd-frobenius-semisimplification"></a>
+#### WD Frobenius semisimplification
 
 **Frobenius semisimplification** (*wd-frobenius-semisimplification*).
 For a characteristic-zero field E and a raw parameter on the local Weil group with finite
@@ -5154,7 +5367,11 @@ Locators use the printed page numbers of the following editions.
 - [Del73] P. Deligne, *Les constantes des équations fonctionnelles des fonctions L*, in
   *Modular Functions of One Variable II*, Lecture Notes in Mathematics 349 (1973), 501–597,
   [scan](https://publications.ias.edu/sites/default/files/Number20.pdf).
+- [Tat79] J. Tate, *Number theoretic background*, in *Automorphic Forms, Representations and
+  L-functions*, Proc. Sympos. Pure Math. 33 (1979), Part 2, 3–26.
 - [Nak] K. Nakamura, *Zeta morphisms for rank two universal deformations*, Invent. Math. 234 (2023), [published](https://link.springer.com/content/pdf/10.1007/s00222-023-01203-7.pdf).
 - [AKY] H. Atobe, S. Kondo and S. Yasuda, *Local newforms for the general linear groups over a non-archimedean local field*, [arXiv:2110.09070v4](https://arxiv.org/pdf/2110.09070v4).
 - [DHKM1] J.-F. Dat, D. Helm, R. Kurinczuk and G. Moss, *Finiteness for Hecke algebras of p-adic groups*, [arXiv:2203.04929v2](https://arxiv.org/pdf/2203.04929v2).
 - [DHKM2] J.-F. Dat, D. Helm, R. Kurinczuk and G. Moss, *Moduli of Langlands parameters*, [arXiv:2009.06708v3](https://arxiv.org/pdf/2009.06708v3).
+
+- [Kramer] L. Kramer, *Locally Compact Groups and Lie Groups*, Chapter 1, version of 19 May 2020, Lemma 1.41, Proposition 1.43 and Theorem 1.44, pp. 17–19, [author copy](https://www.uni-muenster.de/AGKramer/content/ch1.pdf).
