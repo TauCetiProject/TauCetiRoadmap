@@ -73,23 +73,23 @@ What this roadmap leaves to others, by object:
   `TauCeti.PresentationComplex` of the tautological presentation `Group.Presentation.ofFreeGroupHom`
   with `TauCeti.PresentationComplex.isEmpty_cell`), not acceptance tests of this roadmap.
 - **The nerve model** of `G`, the realization of the nerve of `G` as a one-object category, and
-  its comparison with the two pinned models normalised to the identity on `G`, belong to the
+  its comparison with Milnor's model normalised to the identity on `G`, belong to the
   [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, items 8.8a and 8.8b. The
-  models that comparison is normalised against are the pinned `TauCeti.classifyingSpace G` and
-  `TauCeti.cellularClassifyingSpace R`, with the pinned identifications of their fundamental
-  groups; the pointed maps from the nerve model into the pinned models and their uniqueness up
-  to pointed homotopy are Layer 1 of this roadmap (items 1.1 and 1.2 with the nerve model as
-  the source and a pinned model as the aspherical target, item 1.3 for the pointed homotopy
-  equivalence), which that item consumes. The classification of pointed maps from a connected
-  pointed CW complex into a `K(π, 1)` by homomorphisms `π₁ → π`, up to pointed homotopy, is the
-  case of items 1.1 and 1.2 with target a `K(π, 1)` and is owned here, not in the
-  algebraic-topology roadmap. This roadmap consumes nothing from the algebraic-topology roadmap:
-  the CW machinery its routes use (the homotopy extension property of skeleta, the killing
-  tower and its homotopy groups, the lifting of maps out of spaces of CW type through weak
-  homotopy equivalences, Whitehead's theorem, the homotopy invariance of singular and twisted
-  (co)homology) is at the pin. Segal's remark comparing the nerve model with Milnor's join
-  (Segal 1968, §3) is the background for the relation between the two; it is not a target of
-  either roadmap.
+  model that comparison is normalised against is the pinned `TauCeti.classifyingSpace G`, with
+  the pinned identification `TauCeti.classifyingSpaceFundamentalGroupMulEquiv G` of its
+  fundamental group; the pointed map from the nerve model into Milnor's model and its uniqueness
+  up to pointed homotopy are Layer 1 of this roadmap (items 1.1 and 1.2 with the nerve model as
+  the source and Milnor's model as the aspherical target, item 1.3 for the pointed homotopy
+  equivalence), which that item consumes. The classification of pointed maps from a
+  path-connected pointed Hausdorff CW complex into a `K(π, 1)` by homomorphisms `π₁ → π`, up to
+  pointed homotopy, is the case of items 1.1 and 1.2 with target a `K(π, 1)` and is owned here,
+  not in the algebraic-topology roadmap. This roadmap consumes nothing from the
+  algebraic-topology roadmap: the CW machinery its routes use (the homotopy extension property
+  of skeleta, the killing tower and its homotopy groups, the lifting of maps out of spaces of CW
+  type through weak homotopy equivalences, Whitehead's theorem, the homotopy invariance of
+  singular and twisted (co)homology) is at the pin. Segal's remark comparing the nerve model
+  with Milnor's join (Segal 1968, §3) is the background for the relation between the two; it is
+  not a target of either roadmap.
 - **Covering-space theory** is the universal-covers roadmap's, complete: the universal cover,
   deck transformations, quotient covers by a group action (Mathlib's `IsQuotientCoveringMap`),
   the `π_n` API and the recognition of `K(G, 1)` spaces from a weakly contractible universal
@@ -1189,16 +1189,16 @@ invariance of singular and twisted (co)homology, all named above. No other roadm
 ## Downstream consumers
 
 - The [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, item 8.8b, compares
-  its nerve model with the pinned models `TauCeti.classifyingSpace G` and
-  `TauCeti.cellularClassifyingSpace R`, normalised to the identity on `G`. Its inputs from this
-  roadmap are Layer 1: item 1.1 for the pointed map from the nerve model, based at its vertex,
-  into a pinned model inducing the normalised isomorphism, item 1.2 for its uniqueness up to
-  pointed homotopy and item 1.3 for the pointed homotopy equivalence; the pinned identifications
-  of the fundamental groups of the models and the pinned local-coefficient comparisons are its
-  other inputs. The classification `[X, Bπ]_* ≃ Hom(π₁(X), π)` of pointed maps from a connected
-  pointed CW complex into a `K(π, 1)` is the case of items 1.1 and 1.2 with target `Bπ`, owned
-  here. The [characteristic-classes roadmap](../CharacteristicClasses/README.md) consumes the
-  classifying space of `ℤ/2` through that item.
+  its nerve model with Milnor's model `TauCeti.classifyingSpace G`, normalised to the identity on
+  `G`. Its inputs from this roadmap are Layer 1: item 1.1 for the pointed map from the nerve
+  model, based at its vertex, into Milnor's model inducing the normalised isomorphism, item 1.2
+  for its uniqueness up to pointed homotopy and item 1.3 for the pointed homotopy equivalence;
+  the pinned identification `TauCeti.classifyingSpaceFundamentalGroupMulEquiv G` of the
+  fundamental group of Milnor's model and the pinned local-coefficient comparisons are its other
+  inputs. The classification `[X, Bπ]_* ≃ Hom(π₁(X), π)` of pointed maps from a path-connected
+  pointed Hausdorff CW complex into a `K(π, 1)` is the case of items 1.1 and 1.2 with target
+  `Bπ`, owned here. The [characteristic-classes roadmap](../CharacteristicClasses/README.md)
+  consumes the classifying space of `ℤ/2` through that item.
 - Any roadmap computing the (co)homology of a group from a geometric `K(G, 1)` that is not one
   of the pinned models (a surface group from a closed surface, a right-angled Artin group from a
   cube complex) consumes Layer 2 with that model and its own identification `Ψ`.

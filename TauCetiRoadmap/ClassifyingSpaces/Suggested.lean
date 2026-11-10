@@ -46,7 +46,7 @@ Headline theorems that are theorems of the pinned Tau Ceti, and therefore not st
   through the chosen identification of the fundamental group and state its naturality; those are
   constructions and prose targets of `README.md` only.
 
-The nerve model of the algebraic-topology roadmap and its comparison with the pinned models
+The nerve model of the algebraic-topology roadmap and its comparison with Milnor's model
 belong to that roadmap and are not stated here.
 
 Base points are arbitrary points, of a CW source as of an aspherical target; Hatcher's proof
