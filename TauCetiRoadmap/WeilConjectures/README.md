@@ -17,6 +17,14 @@ sign descent, polynomial-count and equivariant Tate conclusions, and the geometr
 comparisons in WC.0–WC.7. It preserves the distinction between a theorem about
 actual cohomology and a numerical theorem about a supplied spectrum.
 
+§7.3 owns the ring homomorphism from the scissor ring of
+MotivesAndAlgebraicCycles §4.20 to `∏_{r≥1} ℤ` given by point counts over all
+finite extensions. The Witt-ring product formula, `Z_{X×Y} = Z_X ∗ Z_Y` for the
+multiplication `∗` of the big Witt ring `W(ℤ) = 1 + Tℤ[[T]]`, is outside this
+roadmap. Its carrier is the big Witt ring of QWittVectors §§1.3–1.4a, and on
+that carrier the formula is §7.3's homomorphism read through the injective
+ghost map, whose components on `Z_X` are the counts `N_r`.
+
 Scheme geometry, descent, Chow groups, intersection theory and the surface Weil
 bound are supplied by SchemeAndStackFoundations §§0–5. Rational adic carriers,
 Frobenius and base change are supplied by EtaleCohomologyFoundations §§`F`.0–`F`.4,
@@ -116,6 +124,7 @@ Mathlib's `Scheme.EllAdicCohomology` is an additive-group construction from an i
 | InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 | Curve/Jacobian realization and graph trace, finite and rational constructible Grothendieck–Lefschetz, and constant-sheaf counts for every extension with compact support. §IG.0.T4 supplies the independent affine/projective-space and multiplicative-group cohomology comparisons. |
 | DeligneWeightsAndPurity §§0.1, 0.10–0.16, 1.6–1.10 | All-conjugates Weil numbers, characteristic power series, powers, tensor products and reciprocal pairings; curve purity and the coefficient Euler product/rational zeta construction `finiteFieldZetaRationality`. |
 | DeligneWeightsAndPurity §§4.3–4.4, 7.8–7.15, 8.24, 10.2 | Projective purity, normalized integral rational-series presentations and `degreeFactorExtraction`; canonical projective, smooth proper and homology-manifold factors; mixed direct-image bounds; §8.24's rational étale cohomology of Deligne–Mumford stacks and smooth proper DM purity clauses, Frobenius-equivariant rational coarse comparison and smooth proper DM duality; component-aware bounds. WC.3 compares the supplied extraction with the point-count construction and these canonical factors. |
+| MotivesAndAlgebraicCycles §4.20 | The scissor ring `K₀Var k` of separated finite-type `k`-schemes, its independence of the small model, `[X]=[X_red]`, and its universal property for invariants additive on closed–open decompositions and multiplicative on products over `k`. §7.3 applies it to point counts over a finite field. |
 | EtaleDualityAndPerverseSheaves §§1.3, 4.3, 4.7, 8.1–8.2 | Chow/étale cycle comparison, complete-intersection primitive Betti comparison, alternating middle pairing, graded determinant reciprocity and its sign `poincareReciprocityExport`. WC.1 adapts the DM pairing supplied by DeligneWeightsAndPurity §8.24. |
 | ComplexComparisonPartII §§C6.3–C6.6 | Finite, integral and rational Artin comparison, including compact support, cup products, coefficient maps and finite group actions. WC.4 supplies the actual family and transport path. |
 | AbelianSchemesAndArithmeticModuli §A4.4; AlgebraicCurves Layers 7, 10, 12 | Jacobian Tate/first-cohomology realization and the field/model/place/genus comparisons, Artin–Schreier different and Hurwitz formula. These retain `b₁=2g` rather than identifying Betti and coherent genus without a comparison. |
@@ -153,6 +162,15 @@ records their lattice, cone and gluing contracts. The pinned affine and fan
 scheme constructions use complex coefficients; WC.6 owns the integral model
 for every finite rational fan and the smooth complete split-fan Chow/cycle
 comparison, specialized to the specified fan in WC.6.
+
+### From TauCetiRoadmap.MotivesAndAlgebraicCycles
+
+Section 4.20 constructs `K₀Var k` for every field `k`, with its ring structure
+and its universal property for additive multiplicative invariants. This roadmap
+uses that universal property only in §7.3, for a finite field, with the
+sequence of point counts as the invariant. The compactly supported motivic
+measure and the tensor ring on `TriangulatedK0` in the same section are not
+used here.
 
 ## How to read the build
 
@@ -1577,7 +1595,7 @@ Let `X,Y/k` be smooth proper, with canonical degree factors and actual Frobenius
 Π_n(X ×_k Y, T) ↦ ∏_{i+j=n} det(1 − T(F_i ⊗ G_j))
 ```
 
-under the specified map from `ℤ[T]` to the coefficient field. Tensor products multiply eigenvalues; direct sums multiply determinant polynomials. This formula agrees with `N_r(X × Y) = N_r(X)N_r(Y)` for every `r ≥ 1`, since traces of tensor products multiply. It does not give a product formula `Z_{X×Y} = Z_XZ_Y`.
+under the specified map from `ℤ[T]` to the coefficient field. Tensor products multiply eigenvalues; direct sums multiply determinant polynomials. This formula agrees with `N_r(X × Y) = N_r(X)N_r(Y)` for every `r ≥ 1`, since traces of tensor products multiply. The ordinary product `Z_XZ_Y` is not `Z_{X×Y}`: by §1.2 it is the zeta function of the disjoint union `X ⊔ Y`, whose counts are `N_r(X) + N_r(Y)`.
 
 For `ℙ¹ × ℙ¹` the degree factors are `1 − T`, `(1 − qT)²` and `1 − q²T` in degrees `0,2,4`, and one in every odd degree. Hence
 
@@ -1585,7 +1603,14 @@ For `ℙ¹ × ℙ¹` the degree factors are `1 − T`, `(1 − qT)²` and `1 −
 Z(T) = 1/((1 − T)(1 − qT)²(1 − q²T)),    N_r = (1 + q^r)².
 ```
 
-*Needs:* SchemeAndStackFoundations Layers 0–2 fibre products; EtaleCohomologyFoundations §§F.4.5–F.4.6 Künneth and actions, and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4; WC.6 factors; the projective-space computation; WC.5 all-power traces and recurrences. **Source:** Deligne I, §1.5.3, pp. 275–276, with the supplier's Künneth isomorphism.
+**Point counts on the scissor ring.** For a finite field `k`, prove that `[X] ↦ (N_r(X))_{r≥1}` is a ring homomorphism from MotivesAndAlgebraicCycles §4.20's scissor ring `K₀Var k` to the product ring `∏_{r≥1} ℤ`. Apply §4.20's universal property to the count sequence. It is invariant under isomorphism and multiplicative on fibre products over `k` (§0.1), and it is the unit sequence on `Spec k`. It is additive over a closed subscheme `Z ⊆ X` and its open complement: a morphism from `Spec k_r` has one-point image and, its source being reduced, factors through `Z` exactly when that point lies in `Z`, and through `X ∖ Z` otherwise. No cohomology, smoothness or properness is used. Each coordinate is the counting measure `[X] ↦ N_r(X)`. Its Witt-ring form is outside this roadmap; see Scope and ownership. (Ramachandran, §3, conditions (1)–(3), pp. 14–15; Lemma 2.3 and the first proof of Theorem 2.1(i), pp. 10–11.)
+
+**Checks.**
+
+- `[ℙ¹] = 1 + 𝕃` maps to `(1 + q^r)_r` and `𝕃` to `(q^r)_r`, so `[ℙ¹ × ℙ¹] = 1 + 2𝕃 + 𝕃²` maps to `((1 + q^r)²)_r`, the counts above. The ordinary square `Z_{ℙ¹}² = 1/((1 − T)²(1 − qT)²)` is the zeta function of `ℙ¹ ⊔ ℙ¹`, with `N₁ = 2q + 2` rather than `(q + 1)²`.
+- `[𝔾_m] = 𝕃 − 1` maps to `(q^r − 1)_r`, the §1.2 count `3^r − 1` over `𝔽₃`. The fat point `Spec k[ε]/(ε²)` has class one and maps to the unit sequence, as §0.1's count requires.
+
+*Needs:* SchemeAndStackFoundations Layers 0–2 fibre products; EtaleCohomologyFoundations §§F.4.5–F.4.6 Künneth and actions, and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T4; WC.6 factors; the projective-space computation; WC.5 all-power traces and recurrences; for the scissor-ring homomorphism, WC.0 §0.1, WC.1 §1.2 and MotivesAndAlgebraicCycles §4.20. **Source:** Deligne I, §1.5.3, pp. 275–276, with the supplier's Künneth isomorphism; Ramachandran, as cited above.
 
 ### 7.4 Curves and their Jacobians
 
@@ -1900,7 +1925,7 @@ The elliptic and genus-two specializations above use their initial counts as exp
 
 ### Dependencies
 
-*Needs:* WC.0–WC.6; NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2; SchemeAndStackFoundations §§3–5; AlgebraicCurves Layers 7, 10, 12; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4; EtaleCohomologyFoundations §§F.5–F.7; EtaleDualityAndPerverseSheaves §1.3.
+*Needs:* WC.0–WC.6; NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2; SchemeAndStackFoundations §§3–5; AlgebraicCurves Layers 7, 10, 12; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4; EtaleCohomologyFoundations §§F.5–F.7; EtaleDualityAndPerverseSheaves §1.3; MotivesAndAlgebraicCycles §4.20.
 
 ## Downstream consumers
 
@@ -1923,6 +1948,7 @@ The locators above refer to printed pagination unless a particular arXiv version
 * **Mircea Mustață, Zeta functions in algebraic geometry**, §3.3, Theorem 3.6 through Example 3.10, pp. 21–23. [Author's notes](https://public.websites.umich.edu/~mmustata/zeta_book.pdf). These provide the independent surface-intersection proof of curve bounds and the all-power root-bound argument.
 * **Theo van den Bogaart and Bas Edixhoven, Algebraic stacks whose number of points over finite fields is a polynomial**, arXiv:math/0505178v3. [Freely readable preprint](https://arxiv.org/abs/math/0505178). Theorem 2.1, p. 3, smooth proper stack comparison in §3, pp. 4–6, Lemma 4.1, pp. 6–7, and Lemma 4.2 and the proof in §4, pp. 8–10, support the polynomial-count and Tate consequences.
 * **Jonas Bergström, Carel Faber and Sam Payne, Polynomial point counts and odd cohomology vanishing on moduli spaces of stable curves**, Annals of Mathematics **199** (2024), 1323–1365. [Authors' freely readable published text](https://web.ma.utexas.edu/users/sampayne/pdf/PolynomialPointCounts.pdf); [arXiv:2206.07759](https://arxiv.org/abs/2206.07759). Proposition 1.3, pp. 1324–1325, concerns stack counts; Proposition 3.1, p. 1330, supplies the local cutoff; §7, pp. 1336–1339, supplies signed configurations, inverse zeta and the sieve; §§9.1–9.2, pp. 1351–1352, supply twists and equivariant polynomial counts. This roadmap uses those general counting results, not a new plan for the moduli spaces treated in the paper.
+* **Niranjan Ramachandran, Zeta functions, Grothendieck groups, and the Witt ring**, Bulletin des Sciences Mathématiques **139** (2015), 599–627; arXiv:1407.1813v2. [Freely readable preprint](https://arxiv.org/abs/1407.1813). Locators refer to the arXiv version. §3, conditions (1)–(3), pp. 14–15, define a motivic measure; Lemma 2.3 and the first proof of Theorem 2.1(i), pp. 10–11, identify the point counts with the ghost components of the zeta function. Theorem 2.1(i)–(ii), p. 9, is the Witt-ring statement, which lies outside this roadmap.
 * **Hongjie Yu, Comptage des systèmes locaux ℓ-adiques sur une courbe**, arXiv:1807.04659v5, Appendix C, pp. 79–81, especially the unnumbered finite-spectrum lemma on p. 81. [Freely readable preprint](https://arxiv.org/abs/1807.04659). The finite-spectrum layer develops its numerical mechanism with explicit weights and cancellation; the other arguments about automorphic forms and moduli in that paper belong to their respective owners.
 * **Osamu Fujino and Hiroshi Sato, On non-projective complete toric varieties**, version 0.27, 12 July 2025, Example 4.1, pp. 7–8. [Authors’ text](https://www.math.kyoto-u.ac.jp/~fujino/toric-projectivity11.pdf). **William Fulton, Introduction to Toric Varieties**, Annals of Mathematics Studies 131, §5.2. These specify the nonprojective fan and the Chow and complex cohomology inputs in WC.6.
   **William Fulton and Bernd Sturmfels, Intersection theory on toric varieties**,
