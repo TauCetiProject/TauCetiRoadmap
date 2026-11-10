@@ -23,31 +23,31 @@ definitive. This file states, against the pinned Mathlib and Tau Ceti, the headl
 the roadmap that the pinned libraries do not already prove: Amice's theorem (§4.4), the analytic
 level of an additive character (§4.6), the Amice bijection between locally analytic distributions
 and series on the open unit disc (§4.7), the adic universal character, the Amice-coordinate
-comparison and separation by weights (§5.3), and joint injectivity of the annular evaluations
-(§5.6). It uses the pinned carriers `TauCeti.AnalyticStage` with
-`TauCeti.AnalyticStage.amiceMap` and `TauCeti.AnalyticStage.eval` (§§4.4, 4.6),
-`PadicInt.addChar_of_value_at_one` and `TauCeti.amiceRadius` (§4.6), the algebraic direct limit
-`TauCeti.LocallyAnalytic` with `TauCeti.LocallyAnalytic.ofStage` and `PowerSeries.OnOpenDisc`
-(§4.7), `TauCeti.WeightSpace` with `TauCeti.WeightSpace.finiteChar` and
-`TauCeti.WeightSpace.coord` (§5.3), `AbstractMeasure` with
-`ContinuousMonoidHom.characterIntegralAlgHom`, the completed-group-algebra equivalence
-`AbstractMeasure.completedGroupAlgebraEquiv` with the power-series coordinate
+comparison and separation by weights (§5.3), the analytic level of a weight on `ℤ_pˣ` (§5.4), and
+joint injectivity of the annular evaluations (§5.6). It uses the pinned carriers
+`TauCeti.AnalyticStage` with `TauCeti.AnalyticStage.amiceMap` and `TauCeti.AnalyticStage.eval`
+(§§4.4, 4.6, 5.4), `PadicInt.addChar_of_value_at_one` and `TauCeti.amiceRadius` (§§4.6, 5.4), the
+algebraic direct limit `TauCeti.LocallyAnalytic` with `TauCeti.LocallyAnalytic.ofStage` and
+`PowerSeries.OnOpenDisc` (§4.7), `TauCeti.WeightSpace` with `TauCeti.WeightSpace.finiteChar` and
+`TauCeti.WeightSpace.coord` (§§5.3, 5.4), `TauCeti.padicUnitsDepth` (§§5.3, 5.4),
+`AbstractMeasure` with `ContinuousMonoidHom.characterIntegralAlgHom`, the completed-group-algebra
+equivalence `AbstractMeasure.completedGroupAlgebraEquiv` with the power-series coordinate
 `TauCeti.completedGroupAlgebra.powerSeriesCoordinate` (§5.3), and Mathlib's `MvPowerSeries`,
 `Ideal.span` and `PadicComplex` for the model `ℤ_p⟦T, U⟧ / (TU − p)` of the annular ring `H`
 and its points (§5.6). The two definitions `distributions` and `binomialLA` exist only to state
 the §4.7 bijection. Every result the pinned libraries already prove is cited by name in the
-README, not restated here.
+README, not restated here. The form of §5.4 for the principal part `s ↦ κ(γ^s)` is
+`exists_eval_eq_addChar_iff` at `t = T_κ`, through the pinned
+`TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one`, so it is not restated; the form on
+`ℤ_pˣ` is `exists_eval_eq_weight_iff`, stated on the stage carrier with the evaluation restricted
+to the units.
 
-Three headline targets are not stated here. The analytic level of a weight (§5.4): its form for
-the principal part is `exists_eval_eq_addChar_iff` at `t = T_κ`, through the pinned
-`TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one`, so it adds nothing to this file;
-its form on `ℤ_pˣ`, analyticity of `κ` on the cosets of `1 + p^(h') ℤ_p`, needs locally analytic
-functions on `ℤ_pˣ`, and the only pinned carrier, `TauCeti.LocallyAnalytic`, lives on `ℤ_p`. The
-scalar analytic factors of §5.5: no pinned declaration extends a weight analytically from
-`1 + p^(h') ℤ_p` to `1 + p^(h') 𝒪_K` for a unit level `h' ≥ v_p(q)`, and the expansion of
-`κ(cz + d)` needs that extension. The Banach–Tate structure of §5.6: the gauge on `H[1/T]`, its
-completeness and the continuity of the annular evaluations need a normed-ring structure on
-`H[1/T]`, which the pins lack. The remaining targets of §§4.4–5.6 are specified in the README.
+Two headline targets are not stated here. The scalar analytic factors of §5.5: no pinned
+declaration extends a weight analytically from `1 + p^(h') ℤ_p` to `1 + p^(h') 𝒪_K` for a unit
+level `h' ≥ v_p(q)`, and the expansion of `κ(cz + d)` needs that extension. The Banach–Tate
+structure of §5.6: the gauge on `H[1/T]`, its completeness and the continuity of the annular
+evaluations need a normed-ring structure on `H[1/T]`, which the pins lack. The remaining targets of
+§§4.4–5.6 are specified in the README.
 -/
 
 @[expose] public section
@@ -200,6 +200,26 @@ case of extended integral measures. -/
 theorem measurePairing_injective :
     Function.Injective fun (μ : AbstractMeasure ℤ_[p]ˣ ℂ_[p] ℂ_[p])
       (κ : TauCeti.WeightSpace p ℂ_[p]) ↦ κ.weightTest.characterIntegralAlgHom μ := by
+  sorry
+
+/-- **The analytic level of a weight** (§5.4; [Col] §I.6, p. 27, for analyticity on the cosets
+of some `1 + pⁿ ℤ_p`). Let `K` be a complete ultrametric normed `ℚ_p`-algebra with multiplicative
+norm, such as a complete normed field over `ℚ_p`, let `κ` be a `K`-valued weight and let
+`h' = h + v_p(q)` be a unit level. Then `κ` is analytic on the unit discs modulo `p^(h')`, the
+cosets of `1 + p^(h') ℤ_p` in `ℤ_pˣ`, that is, agrees on `ℤ_pˣ` with the evaluation of a vector of
+the analytic stage `LA_(h')(K)`, exactly when `‖T_κ‖ < r_h = p^(−1/((p−1)pʰ))`, equivalently
+`‖κ(exp(p^(h'))) − 1‖ < r_p`. On a disc `x = a(1 + p^(h') w)` the weight is
+`κ(a) (1 + T')^(log(1 + p^(h') w)/p^(h'))` with `1 + T' = (1 + T_κ)^(pʰ)`, and both changes of
+variable `w ↦ log(1 + p^(h') w)/p^(h')` and `y ↦ (exp(p^(h') y) − 1)/p^(h')` are integral restricted
+series, so the criterion reduces to `exists_eval_eq_addChar_iff`. At `p = 2` the level `h' = 1`
+is excluded: the sign weight is not analytic on `1 + 2ℤ_2`, although its coordinate is zero. -/
+theorem exists_eval_eq_weight_iff (h : ℕ) {K : Type*} [NormedRing K] [NormMulClass K]
+    [NormOneClass K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [Module ℚ_[p] K]
+    [NormSMulClass ℚ_[p] K] [IsUltrametricDist K] [CompleteSpace K]
+    (κ : TauCeti.WeightSpace p K) :
+    (∃ f : TauCeti.AnalyticStage p (h + TauCeti.padicUnitsDepth p) K,
+        ∀ x : ℤ_[p]ˣ, TauCeti.AnalyticStage.eval ℤ_[p] f (x : ℤ_[p]) = (κ x : K)) ↔
+      ‖κ.coord‖ < TauCeti.amiceRadius p h := by
   sorry
 
 /-- **Joint injectivity of the annular evaluations** (§5.6). On Mathlib's model

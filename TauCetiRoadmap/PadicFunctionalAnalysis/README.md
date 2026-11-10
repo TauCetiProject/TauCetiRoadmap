@@ -30,7 +30,8 @@ discrete-valuation and characteristic-zero assumptions are imposed locally.
 
 Every milestone and check below is required. This README is definitive;
 [Suggested.lean](Suggested.lean) states, on the pinned carriers, the headline
-theorems of §§4.4, 4.6, 4.7, 5.3 and 5.6 that the pinned libraries do not prove.
+theorems of §§4.4, 4.6, 4.7, 5.3, 5.4 and 5.6 that the pinned libraries do not
+prove.
 
 ## Scope and ownership
 
@@ -212,7 +213,8 @@ without a namespace in the target lists (`amiceMap_bijective_and_norm_eq`,
 `binomialLA`, `amiceTransform_distribution_bijective`,
 `exists_character_of_hasEval`, `eq_aeval_binomialSeries`,
 `amiceTransform_completedGroupAlgebra_compat`, `measurePairing_injective`,
-`mem_span_iff_forall_eval_annulus`) are the declarations of
+`exists_eval_eq_weight_iff`, `mem_span_iff_forall_eval_annulus`) are the
+declarations of
 [Suggested.lean](Suggested.lean), stated against the pinned carriers. A Check
 marked as an example in a pinned file is already formalised; the others are
 required.
@@ -964,20 +966,34 @@ Targets:
   and `log((1+u)(1+u'))=log(1+u)+log(1+u')` on these domains, and the bounds
   `‖exp z−1‖≤‖z‖`, `‖log(1+u)‖≤‖u‖` for `‖z‖,‖u‖<r_p`. Exact norm identities
   use a normed-field or isometric-scalar hypothesis; do not infer a
-  Banach-algebra identity from field-valued evaluations alone. Over `ℂ_p` the
-  logarithm series and its functional equation are [Col] §I.6, p. 27; the
-  algebra case runs the same coefficient estimates with `‖c•a‖≤‖c‖‖a‖` and
-  submultiplicativity in place of multiplicativity. *Needs:*
-  Mathlib `NormedSpace.exp`, `NormedSpace.log` and
-  `NonarchimedeanAddGroup.summable_of_tendsto_cofinite_zero`, with the scalar
+  Banach-algebra identity from field-valued evaluations alone. For elements of
+  an affinoid algebra, [Buz] §8, p. 62, recalls that `log(1+t)` converges for
+  `|t|<1` and `exp(t)` for `|t|<r_p`, and that the two series are inverse
+  isomorphisms between the open discs of radius `r_p` about `1` and about `0`;
+  over `ℂ_p` the logarithm series and its functional equation are [Col] §I.6,
+  p. 27. The coefficient bound `v_p(n)≤v_p(n!)≤(n−1)/(p−1)` gives
+  `‖z^n/n!‖≤‖z‖(‖z‖/r_p)^(n−1)` and `‖u^n/n‖≤‖u‖(‖u‖/r_p)^(n−1)`, using
+  `‖c•a‖≤‖c‖‖a‖` and submultiplicativity in place of multiplicativity; hence
+  the radius of `expSeries ℚ_p A` is at least `r_p`, and the two norm bounds
+  hold. On that radius `exp(z+z')=exp z·exp z'` is Mathlib's
+  `NormedSpace.exp_add_of_mem_ball`. *Needs:*
+  Mathlib `NormedSpace.exp`, `NormedSpace.log`, `NormedSpace.exp_add_of_mem_ball`
+  and `NonarchimedeanAddGroup.summable_of_tendsto_cofinite_zero`, with the scalar
   case `Padic.log_exp`, `Padic.exp_log`, `Padic.norm_exp_sub_one` as the model.
 - For `t∈A` with `‖t‖<r_p` and `x∈ℤ_p`, `(1+t)^x=exp(x log(1+t))`, where the
   left side is `PadicInt.addChar_of_value_at_one`, and
-  `‖(1+t)^x−1‖≤‖x‖‖t‖`, with equality over a normed field. Over `ℂ_p` the
-  identity is the expansion `exp(w log x)=Σ_n binom(w,n)(x−1)^n` of [Col] §I.6,
-  p. 27, near `x=1`, and [Am] Proposition 15, p. 177, gives the continuous
-  extension `a^x=Σ_n binom(x,n)(a−1)^n` for `v_p(a−1)>0`, equal to `exp(px)` at
-  `a=exp(p)` ([Am] §16.2, p. 177). Integral exponents are not arbitrary
+  `‖(1+t)^x−1‖≤‖x‖‖t‖`, with equality over a normed field. Over `ℚ_p`, where
+  `‖t‖<r_p` means `t∈2pℤ_p`, the identity is a case of [Col] §I.6, p. 27,
+  which expands a continuous character `δ` of `ℚ_pˣ` as
+  `δ(y)=exp(w(δ) log y)=Σ_n binom(w(δ),n)(y−1)^n` for `y∈1+p^(n(δ))ℤ_p`, with
+  the base in `ℚ_p` and the exponent `w(δ)∈ℂ_p`: take for `δ` the character
+  equal to `y↦y^x` on `1+2pℤ_p` and trivial on `p` and on the roots of unity of
+  `ℚ_p`, for which `w(δ)=x` and `n(δ)=v_p(2p)`. For a base `a=1+t` with `t∈ℂ_p`,
+  [Am] Proposition 15, p. 177, gives the continuous extension
+  `a^x=Σ_n binom(x,n)(a−1)^n` of `n↦a^n` for `v_p(a−1)>0`, equal to `exp(px)`
+  at `a=exp(p)` ([Am] §16.2, p. 177). In general both sides equal `(1+t)^n` at
+  `x=n∈ℕ`, by `exp(z+z')=exp z·exp z'` and `exp(log(1+t))=1+t`, and both are
+  continuous in `x`, so they agree on `ℤ_p`. Integral exponents are not arbitrary
   elements of the unit ball of a coefficient algebra. *Needs:* the previous
   target, `PadicInt.addChar_of_value_at_one`,
   `PadicInt.continuous_binomialSeries` for continuity in `x`, and density of
@@ -1214,7 +1230,7 @@ Layers 0–3, RestrictedPowerSeries Layers 0–2 with §7.1, and
 LocalFieldsRamification Layer 1 for §4.5. Sources: [Am] Théorème 2, p. 150,
 Théorème 3 and Corollaire 1, pp. 159–161, Proposition 15 and §16.2, p. 177;
 [Col] Théorème I.4.7 and Corollaire I.4.8, p. 15, §I.6, p. 27, §§II.2–II.4,
-pp. 29–37; [ST] Theorem 2.2, p. 9; [RJW] Theorem 3.43.
+pp. 29–37; [ST] Theorem 2.2, p. 9; [RJW] Theorem 3.43; [Buz] §8, p. 62.
 
 ## Layer 5: Characters, specialisation and coefficient rings
 
@@ -1369,26 +1385,47 @@ Targets:
 
 ### 5.4 Analytic levels of weights
 
-Target: for a weight `κ` with values in a complete ultrametric normed
-`ℚ_p`-algebra `K` with multiplicative norm, in particular a complete normed
-field over `ℚ_p`, the principal part `s↦κ(γ^s)=(1+T_κ)^s`
+Target: let `K` be a complete ultrametric normed `ℚ_p`-algebra with
+multiplicative norm, in particular a complete normed field over `ℚ_p`, and `κ`
+a `K`-valued weight. The principal part `s↦κ(γ^s)=(1+T_κ)^s`
 (`TauCeti.WeightSpace.principalChar`) lies in the image of `LA_h(K)` exactly
 when `‖T_κ‖ < p^(−1/((p−1)p^h))`. This is §4.6's `exists_eval_eq_addChar_iff`
 at `t=T_κ`, because the pinned
 `TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one` identifies the
 principal part with `χ_(T_κ)`. What this section adds is the reading on
-`ℤ_pˣ`: through `x↦log(x/ω(x̄))/q` (`TauCeti.padicIntUnitsEquivZModUnitsProd`),
-which carries the cosets of `1+p^(h')ℤ_p`, `h'≥v_p(q)`, onto the discs of
-`ℤ_p` modulo `p^(h'−v_p(q))`, the criterion says that `κ` is analytic on unit
-discs modulo `p^(h')` exactly when
+`ℤ_pˣ`. Through `x↦log(x/ω(x̄))/q` (`TauCeti.padicIntUnitsEquivZModUnitsProd`),
+the cosets of `1+p^(h')ℤ_p` in `ℤ_pˣ`, for a unit level `h'=h+v_p(q)`, go to
+the discs of `ℤ_p` modulo `p^h`. For such `h'`, `κ` is analytic on the unit
+discs modulo `p^(h')`, that is, it agrees on `ℤ_pˣ` with the evaluation of a
+vector of `LA_(h')(K)`, exactly when
 
 ```text
 ‖κ(exp(p^(h')))−1‖ < r_p,
-equivalently ‖T_κ‖ < p^(−q/(p^(h')(p−1))),
+equivalently ‖T_κ‖ < p^(−q/(p^(h')(p−1))) = p^(−1/((p−1)p^h)),
 ```
 
-the level `h=h'−v_p(q)` of the principal part, since `q=p^(v_p(q))`. Every
-continuous field-valued weight satisfies it for some `h'`
+the level `h=h'−v_p(q)` of the principal part, since `q=p^(v_p(q))`:
+`exists_eval_eq_weight_iff`, stated with the stage `LA_(h+v_p(q))(K)` and the
+radius `TauCeti.amiceRadius p h`. The unit level is needed: at `p=2` the sign
+weight has `T_κ=0` but is not analytic on `1+2ℤ_2` (see the Checks).
+
+Route: take for `a` the natural representative of a unit residue class modulo
+`p^(h')` and write `x=a(1+p^(h')w)`, `w∈ℤ_p`. Then
+`κ(x)=κ(a)·(1+T')^(σ(w))`, with `1+T'=(1+T_κ)^(p^h)=κ(exp(p^(h')))` and
+`σ(w)=log(1+p^(h')w)/p^(h')`. The series `σ` and
+`τ(y)=(exp(p^(h')y)−1)/p^(h')` have the coefficients `±p^(h'(n−1))/n` and
+`p^(h'(n−1))/n!`, of valuation at least `(n−1)(h'−1/(p−1))`, so for
+`h'≥v_p(q)` they are integral and tend to zero; they are inverse to each other
+on `ℤ_p` by the pinned `Padic.log_exp` and `Padic.exp_log` at depth `h'`. For
+"if", `‖T'‖<r_p` and the level-zero expansion of `χ_(T')`
+(`TauCeti.AnalyticStage.eval_addCharExpansion`), composed with `σ` and with the
+integral linear change `w'=aw` to the stage coordinate `x=a+p^(h')w'`, expands
+`κ` on each unit disc. For "only if", the expansion on the disc of `1`
+composed with `τ` is a level-zero expansion of `χ_(T')`, and
+`exists_eval_eq_addChar_iff` at level zero gives `‖T'‖<r_p`. Both directions
+end with the equivalence `‖(1+t)^(p^h)−1‖<r_p ⇔ ‖t‖<r_h` of §4.6.
+
+Every continuous field-valued weight satisfies the criterion for some `h'`
 (`TauCeti.AnalyticStage.exists_eval_eq_addChar`; [Col] §I.6, p. 27: a
 continuous `ℂ_p`-valued character of `ℚ_pˣ`, such as a weight extended by
 `δ(p)=1`, is `x↦exp(w log x)` on some `1+p^nℤ_p`, hence analytic on the cosets
@@ -1398,10 +1435,14 @@ finite-order character separately: for `κ(x)=x^kψ(x)` with conductor dividing
 `p^m`, every `h'≥max(m,v_p(q))` suffices. For Banach-algebra coefficients use
 sufficient convergence conditions and an explicit bound on the resulting
 expansion; compactness alone does not give norm one. *Needs:*
-`exists_eval_eq_addChar_iff` (§4.6),
+`exists_eval_eq_addChar_iff` (§4.6) with its equivalence
+`‖(1+t)^(p^h)−1‖<r_p ⇔ ‖t‖<r_h`,
 `TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one`,
-`TauCeti.padicIntUnitsEquivZModUnitsProd`, `TauCeti.amiceRadius`, and the
-valuation formula of §5.2 for the conductor bound.
+`TauCeti.WeightSpace.coord`, `TauCeti.padicIntUnitsEquivZModUnitsProd`,
+`TauCeti.amiceRadius`, `TauCeti.AnalyticStage.eval_addCharExpansion`, the
+pinned `Padic.log_exp` and `Padic.exp_log` for `σ` and `τ`, RestrictedPowerSeries
+§2.2 (substitution) for composing an expansion with `σ`, `τ` and `w'=aw`, and
+the valuation formula of §5.2 for the conductor bound.
 
 ### 5.5 Scalar analytic factors for automorphic applications
 
@@ -1521,6 +1562,22 @@ Fredholm series and slope bounds are outside this roadmap. *Needs:* the ring
   for every `p` (`p⁻¹<p^(−1/(p−1))` for odd `p`, `4⁻¹<2⁻¹` at `p=2`), so its
   principal part is analytic on all of `ℤ_p`: `x↦x` is analytic on the cosets
   of `1+qℤ_p`.
+- The unit level in §5.4 cannot drop below `v_p(q)`. At `p=2` the sign weight
+  `x↦ε(x mod 4)` has `T_κ=0<r_h` for every `h`, and it is constant on the
+  cosets of `1+4ℤ_2`, as `exists_eval_eq_weight_iff` at `h=0` requires. On
+  `1+2ℤ_2`, the single unit disc modulo `2`, it is not analytic over `ℚ_2`: an
+  expansion
+  `G` in `x=1+2w` would have `G(w)=1` for every even `w` and `G(w)=−1` for every
+  odd `w`, while a restricted series equal to `1` at infinitely many points of
+  `ℤ_2` is constant (Strassmann). The level `h'=1` would thus pair a true
+  radius condition with a false analyticity statement.
+- Conductors at odd `p`: for `ψ` of exact conductor `p^m`, `m≥2`, `ψ(γ)` is a
+  primitive `p^(m−1)`-th root of unity and `‖T_ψ‖=p^(−1/(p^(m−2)(p−1)))=r_(m−2)`
+  (§5.2), so the criterion holds at the unit level `h'=h+1` exactly when
+  `h≥m−1`, that is `h'≥m`. This matches the weight itself: it is constant on
+  the cosets of `1+p^mℤ_p`, while on a coset of `1+p^(m−1)ℤ_p` it is locally
+  constant with `p` values and so not analytic. At `p=3`, `m=2`:
+  `‖ζ_3−1‖=3^(−1/2)=r_0` is not below `r_0`, so `h'=1` fails and `h'=2` holds.
 - §5.5 for `κ(x)=x` at the unit level `h'=v_p(q)` and `r=1`:
   `t_(h')=exp(q)−1` has norm `‖q‖`, the radius conditions read
   `‖c‖≤‖q‖<r_p` and `‖c‖‖q‖≤‖q‖²<‖q‖r_p`, and `κ(cz+d)=cz+d` has Gauss norm
@@ -1629,7 +1686,8 @@ and [LWX] §§2–3, Lemma 3.15.
 * **[Buz]** K. Buzzard, [*Eigenvarieties*](https://www.ma.imperial.ac.uk/~buzzard/maths/research/papers/eigenvarieties.pdf),
   in *L-functions and Galois Representations*, LMS Lecture Note Series **320**
   (2007), especially Lemmas 2.2–2.3 for finite-coordinate detection and
-  closedness. The Banach–Tate extension uses [JN] §2.1's shell scaling.
+  closedness, and §8, p. 62, for the exponential and logarithm on affinoid
+  algebras. The Banach–Tate extension uses [JN] §2.1's shell scaling.
 * **[BGR]** S. Bosch, U. Güntzer and R. Remmert, *Non-Archimedean
   Analysis*, Springer, 1984, especially §§2.7 and 3.7.
 * **[Conrad]** B. Conrad, [*Irreducible components of rigid spaces*](https://math.stanford.edu/~conrad/papers/irredpaper.pdf),
