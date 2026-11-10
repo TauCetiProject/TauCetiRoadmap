@@ -73,9 +73,11 @@ Hausdorff boundaryless manifold `M` all of whose fixed points are nondegenerate,
 signs `sgn det(1 − df_x)` over the fixed points equals the alternating sum of the traces of
 `f_*` on the rational singular homology of `M` in degrees `0` to `dim M`. Neither
 orientability, connectedness nor second countability is assumed. The fixed set is finite under
-these hypotheses, so the finite sum is the actual signed count. The simplicial Lefschetz
-theorem is Hatcher, Algebraic Topology, §2.C, Theorem 2C.3, p. 179, with the trace formula in
-its proof, p. 181; Hutchings, Forum Math. 14 (2002), Example 1.9, pp. 215–216, takes the
+these hypotheses, so the finite sum is the actual signed count. Hatcher, Algebraic Topology,
+§2.C, Theorem 2C.3, p. 179, is the Lefschetz fixed-point theorem for retracts of finite
+simplicial complexes, with the trace formula in its proof, p. 181; the index form `Σ ind = L(f)`
+for compact Euclidean neighbourhood retracts is Dold, Lectures on Algebraic Topology,
+Chapter VII, §6. Hutchings, Forum Math. 14 (2002), Example 1.9, pp. 215–216, takes the
 Lefschetz theorem for the iterates of the monodromy as the content of its mapping-torus
 formula. -/
 theorem lefschetz_fixed_point_formula {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]

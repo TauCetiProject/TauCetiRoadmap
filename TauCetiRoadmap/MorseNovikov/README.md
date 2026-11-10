@@ -60,7 +60,7 @@ de Rham comparisons.
 A closed one-form α is Morse if its local potentials have nondegenerate critical
 points. This predicate includes neither Morse–Smale transversality nor periodic-orbit
 nondegeneracy. Use the metric dual V=α♯, and count trajectories and closed orbits
-of **−V** (rt3 §1.1, p. 210).
+of **−V** (rt3 §1.1, pp. 210–211).
 
 Choose a connected regular abelian covering π:X̃→X on which π*α is exact, with
 specified deck-group identification H. Periods factor as
@@ -721,7 +721,7 @@ The API includes:
 - For H=0, the total quotient of ℤ is ℚ.
 - For H=ℤ/2 and N=0, Q(ℤ[H])=ℚ×ℚ with g↦(1,−1); 1−g maps to (0,2).
 - For H=ℤ/3, Q(ℤ[H])=ℚ×ℚ(ζ₃), two fields of different degrees; for H=ℤ it is the single field ℚ(t).
-- For H=ℤ⊕ℤ/2 and N(n,e)=−n, Q(Nov)=ℚ((t))×ℚ((t)) and the map from Q(ℤ[H]) is ℚ(t)→ℚ((t)) in each component; the splitting with free generator (1,1) gives the same two minimal ideals.
+- For H=ℤ⊕ℤ/2 and N(n,e)=−n, with t=e^(−1,0) the downward monomial of §2.3 (so N(t)=1), Q(Nov)=ℚ((t))×ℚ((t)) and the map from Q(ℤ[H]) is ℚ(t)→ℚ((t)) in each component; the splitting with free generator (1,1) gives the same two minimal ideals.
 - Over 𝔽₂, (1+g)²=0 with 1+g≠0, so the characteristic-zero component statement cannot be exported unchanged.
 
 *Needs:* Layer 1 leading coefficients; Mathlib `Localization` and `nonZeroDivisors`; finite abelian groups and cyclotomic fields.
@@ -769,7 +769,7 @@ Norm, retaining zero on nonacyclic components and pullback Euler structures.
 The ring-level Norm and zeta formula do not require this additional
 hypothesis; the asserted quotient/torsion comparison does.
 
-Use rt3 Lemma 3.5 and Proposition 3.6, pp. 227–228, including condition (3.8): the rank-k free extension is rt3 §3, p. 227; Tr=k·restriction and log Norm=Tr log are Lemma 3.5(a)–(b), p. 227; nonvanishing under (3.8) is Lemma 3.5(c), p. 227; the torsion transformation is Proposition 3.6(b), p. 228.
+Use rt3 Lemma 3.5 and Proposition 3.6, pp. 227–228, including condition (3.8): the rank-k free extension is rt3 §3.4, p. 227; Tr=k·restriction and log Norm=Tr log are Lemma 3.5(a)–(b), p. 227; nonvanishing under (3.8) is Lemma 3.5(c), p. 227; the torsion transformation is Proposition 3.6(b), p. 228.
 
 The API includes:
 
@@ -1241,7 +1241,7 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   representing the generator has this value in the correctly directed completion.
   Verify the unknot and right-handed trefoil, including t↦t⁻¹ and lift changes.
 
-Use rt3 Examples 1.7–1.9, pp. 215–216 for the circle and mapping torus, and rt2 Example 1.4, p. 372 for zero surgery. In particular the circle is rt3 Example 1.7, p. 215; the mapping-torus zeta formula (1.6) and its determinant identity are rt3 Example 1.9, p. 215, and the equivariant version for a larger cover is p. 216. That example takes the Lefschetz theorem for the iterates as given, so it is constructed here. The zero-surgery torsion is also rt1 Example 1.9, p. 863, proved there through its Lemma 2.6; rt3 §1.5, p. 214 records only the relation with the Alexander polynomial. The chain adapters and local-index proof below supply the comparisons.
+Use rt3 Examples 1.7–1.9, pp. 215–216 for the circle and mapping torus, and rt2 Example 1.4, p. 372 for zero surgery. In particular the circle is rt3 Example 1.7, p. 215; the mapping-torus zeta formula (1.6) and its determinant identity are rt3 Example 1.9, p. 215, and the equivariant version for a larger cover is p. 216. That example takes the Lefschetz theorem for the iterates as given, so it is constructed here. The zero-surgery torsion is also rt1 Example 1.9, p. 863, which credits it to Milnor and points to its Lemma 2.6 for a proof; rt3 §1.5, p. 214 records only the relation with the Alexander polynomial. The chain adapters and local-index proof below supply the comparisons.
 
 The API includes:
 
@@ -1271,8 +1271,9 @@ hypothesis: it follows from compactness. M and its model may lie in any universe
 Apply it to every positive iterate
 whose fixed points are nondegenerate; the identity on a positive-dimensional
 manifold is treated by §5.2's continuous index, not by dropping nondegeneracy.
-Hatcher §2.C, Theorem 2C.3, p. 179 is the simplicial Lefschetz theorem, and its
-proof, pp. 180–181, supplies the chain/homology trace argument, with the trace
+Hatcher §2.C, Theorem 2C.3, p. 179 is the Lefschetz fixed-point theorem for retracts
+of finite simplicial complexes (a fixed point exists when the Lefschetz number is
+nonzero), and its proof, pp. 180–181, supplies the chain/homology trace argument, with the trace
 formula on p. 181. The local-index form Σ ind=L(f) for compact Euclidean
 neighbourhood retracts is Dold, Lectures on Algebraic Topology, Chapter VII, §6
 (the Lefschetz–Hopf theorem); §§5.2 and 6.4 construct the stronger local-index
