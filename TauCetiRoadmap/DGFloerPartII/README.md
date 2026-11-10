@@ -731,10 +731,19 @@ G2.10, Mathlib `ContinuousMap.compactOpen`.
 - For a closed manifold `Q` the raw carrier `Map(S², Q)` is metrizable, hence compactly
   generated, and the counit `k Map(S², Q) → Map(S², Q)` is a homeomorphism; a comparison that
   claimed only a weak equivalence here would be weaker than the base roadmap's metrizable lane.
-- An ordinary product of two compactly generated spaces need not be compactly generated
-  (Dowker's pair of CW complexes whose product topology is not the CW topology), so a
-  "comparison" that identified the `k`-product with the ordinary product without the local
-  compactness hypothesis would be false.
+- An ordinary product of two compactly generated spaces need not be compactly generated. In
+  Dowker's pair, `X` is the wedge at `0` of intervals `I_s = [0, 1]`, one for each sequence
+  `s = (s₁, s₂, …)` of positive integers, and `Y` the wedge at `0` of intervals `I_j = [0, 1]`,
+  `j ≥ 1`; both are Hausdorff CW complexes, hence compactly generated (1.0). The set `P` of the
+  points `(1/s_j, 1/s_j) ∈ I_s × I_j` meets each closed cell of `X × Y` in at most one point, so it
+  is closed in the CW topology, which is the `k`-ification of the product (Hatcher, *Algebraic
+  Topology*, Theorem A.6). It is not closed in the product topology: given widths `a_s` and `b_j`
+  of a product neighbourhood of the wedge point, a sequence with `s_j > max(j, 1/b_j)` for every
+  `j` and then a `j` with `s_j > 1/a_s` put a point of `P` in that neighbourhood (Hatcher,
+  *Algebraic Topology*, Appendix, pp. 524–525, after Theorem A.6). So a "comparison" that
+  identified the `k`-product with the ordinary product without the local compactness hypothesis
+  would be false, and choosing one point per 2-cell at `(1/2, 1/2)` instead would give a set that
+  stays closed in both topologies.
 - Path composition on the convenient Moore-loop carrier and on the raw one agree under the
   comparison on the nose, not only up to homotopy: for two loops of lengths `a` and `b` the
   composite has length `a + b` on both sides.
@@ -1003,8 +1012,9 @@ Ceti `TauCeti.nonempty_ndrPair_iff`, `TauCeti.instDeltaGeneratedSpaceCWComplex`,
 paper §§6.3–6.4; Strickland, *The category of CGWH spaces*, §§2 and 5; Rezk, *Compactly generated
 spaces*, §§7–9; Milnor–Stasheff,
 *Characteristic Classes*, Chapter 5; Steenrod, *The Topology of Fibre Bundles*, Part I, §7;
-Hatcher, *Algebraic Topology*, §4.J; Pontryagin, *Smooth manifolds and their
-applications in homotopy theory*, Chapter II.
+Hatcher, *Algebraic Topology*, §4.J and Appendix, Theorem A.6 with the example after it
+(pp. 524–525); Pontryagin, *Smooth manifolds and their applications in homotopy theory*,
+Chapter II.
 
 ## Layer 2: based-loop Morse–Bott energy on `CPᵈ` and `HPᵈ`
 
@@ -2300,7 +2310,9 @@ Numbers follow arXiv:2404.07953v3.
   1974, Chapter 5; N. Steenrod, *The Topology of Fibre Bundles*, Princeton, 1951, Part I, §7:
   Stiefel manifolds and frame quotients in Layer 1.
 - A. Hatcher, *Algebraic Topology*, Cambridge, 2002, Theorem 3.26, §4.2 with Proposition 4.48,
-  §4.J and Appendix, Theorem A.6: the top homology of a closed manifold (3.2), fibration
-  sequences, the homotopy lifting of fibre bundles over any base used for the sphere bundles of
-  4.2, the homotopy groups of Lie groups and Stiefel manifolds used in 4.2a and 4.3, the James
-  construction, and products of CW complexes (left to AlgebraicTopology Stage 4 item 5).
+  §4.J and Appendix, Theorem A.6 with Dowker's example after it (pp. 524–525): the top homology of
+  a closed manifold (3.2), fibration sequences, the homotopy lifting of fibre bundles over any
+  base used for the sphere bundles of 4.2, the homotopy groups of Lie groups and Stiefel manifolds
+  used in 4.2a and 4.3, the James construction, products of CW complexes (left to
+  AlgebraicTopology Stage 4 item 5), and Dowker's product of two CW complexes that is not
+  compactly generated (1.1).
