@@ -66,7 +66,7 @@ noncomputable def polredabsKey (P : ℤ[X]) : Lex (ℝ × Lex (ℕ × List ℤ))
 
 /-- `README.md`, Layer 1, 1.2. The defining polynomials of `K`: the integer minimal polynomials
 of its integral primitive elements. -/
-def definingPolys (K : Type*) [Field K] [NumberField K] : Set ℤ[X] :=
+noncomputable def definingPolys (K : Type*) [Field K] [NumberField K] : Set ℤ[X] :=
   Set.range fun θ : TauCeti.NumberField.IntegralPrimitiveElement K => minpoly ℤ θ.1
 
 open scoped Classical in
