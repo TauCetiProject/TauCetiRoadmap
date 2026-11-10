@@ -17,26 +17,41 @@ The carriers are Tau Ceti's couplings `TauCeti.IsCoupling`, transport cost
 `TauCeti.IsKantorovichOptimalTransportMap`, Wasserstein distance `TauCeti.wassersteinEDist` and
 finite moments `TauCeti.HasFiniteMoment`, Tau Ceti's Riemannian volume
 `TauCeti.riemannianVolume`, and Mathlib's Riemannian distance, Hausdorff dimension, Hölder maps,
-multivariate Gaussian laws, Kullback–Leibler divergence and separable measures.
+homeomorphisms, iterated derivatives, multivariate Gaussian laws, Kullback–Leibler divergence and
+separable measures.
 
-The following headline theorems of `README.md` are not stated here; each needs the carrier named.
+The following headline theorems of `README.md` are proved in the pinned Tau Ceti, so they are
+not restated here.
 
-* Kantorovich duality for extended-valued Borel costs (Layer 2.5) needs the relaxed
-  partial-transport value.
-* The Figalli–Kim–McCann Hölder theorem and De Philippis–Figalli partial regularity
-  (Layer 6.13–6.15) need `c`-convexity of domains and the Ma–Trudinger–Wang conditions on a
-  `C⁴` cost.
-* The `p = 1` BV theory of Abedi–Li–Schultz (Layer 8.5) needs the Skorokhod space of càdlàg
-  paths with its Polish structure and the variation measure of a BV curve.
-* Convergence of the JKO scheme to Fokker–Planck and porous-medium solutions (Layer 11.7–11.8)
-  needs the JKO scheme and the signed Boltzmann entropy on `P₂(ℝⁿ)`.
-* The Sinkhorn-divergence theorem (Layer 13.4) needs positive universal kernels.
-* Brownian Schrödinger bridges and the Schilder limit (Layer 13.12–13.13) need Wiener measure on
-  `C([0,1]; ℝⁿ)`.
-* `RCD(K,∞)` heat flow and optimal maps on `RCD*(K,N)` spaces (Layer 14.7–14.8) need
-  infinitesimal Hilbertianity and the `RCD` conditions.
-* The Gromov–Wasserstein quotient theorems (Layer 15.4–15.8) need the measured-kernel
-  Gromov–Wasserstein distance and its weak-isomorphism quotient.
+* Primal attainment for lower semicontinuous costs on Polish spaces (Layer 1.5):
+  `TauCeti.exists_isOptimalCoupling`.
+* The Schachermayer–Teichmann characterization of optimal plans by cyclical monotonicity
+  (Layer 2.7): `TauCeti.IsCoupling.isOptimalCoupling_iff_exists_isCyclicallyMonotone`.
+* Kantorovich–Rubinstein duality (Layer 3.8): `TauCeti.wassersteinEDist_one_eq_iSup`.
+* Brenier's theorem (Layer 5.5): `TauCeti.exists_isKantorovichOptimalTransportMap_gradient`.
+* Brenier's polar factorization at finite quadratic cost (Layer 5.9):
+  `TauCeti.exists_hasLaw_and_ae_eq_gradient_comp`.
+* Lisini's superposition principle (Layer 8.3):
+  `TauCeti.exists_map_IccExtend_eq_lintegral_curveAction_eq`.
+* The Benamou–Brenier formula for `1 ≤ p < ∞` (Layer 8.8):
+  `TauCeti.isLeast_lintegral_isContinuityEquation`.
+* The conditional chain rule for relative entropy (Layer 11.1):
+  `TauCeti.klDiv_compProd_eq_add_lintegral`.
+* The Le Gouic–Loubes existence of population barycenters (Layer 12.5):
+  `TauCeti.WassersteinSpace.exists_isFrechetBarycenter`.
+* Existence and uniqueness of the static Schrödinger bridge (Layer 13.2):
+  `TauCeti.existsUnique_isCoupling_klDiv_eq_schroedingerValue`.
+* Existence of fixed-law finite Gromov–Wasserstein barycenters (Layer 15.10):
+  `TauCeti.exists_isMinOn_finiteGromovWassersteinBarycenterObjective`.
+
+The following headline theorems of `README.md` are not statable at the pins; each needs the
+carrier named.
+
+* The `p = 1` BV theory of Abedi–Li–Schultz (Layer 8.5) needs the Skorokhod topology on càdlàg
+  paths; Mathlib has only the càdlàg predicate `IsCadlag`.
+* Brownian Schrödinger bridges and the Schilder limit (Layer 13.12–13.13) need the Brownian law
+  on `C([0,1]; ℝⁿ)`; Mathlib has only the predicates `ProbabilityTheory.IsPreBrownianReal` and
+  `ProbabilityTheory.IsBrownianReal` on real-valued processes.
 -/
 
 noncomputable section
@@ -97,6 +112,45 @@ theorem exists_holderOnWith_of_isKantorovichOptimalTransportMap_of_convex {n : �
       ∀ K ⊆ X, IsCompact K → ∃ C : ℝ≥0, HolderOnWith C α S K := by
   sorry
 
+/-- **De Philippis–Figalli partial regularity** (De Philippis–Figalli 2015, Theorem 1.3, p. 82).
+Let `X, Y ⊆ ℝⁿ` be bounded open sets, and let `μ = f dx` on `X` and `ν = g dy` on `Y` be
+probability measures whose densities are continuous and lie between `λ > 0` and `λ⁻¹` on their
+sets. Let the cost `c` be nonnegative on `X × Y` (a constant shift arranges this without changing
+optimal maps), of class `C²` there with derivatives of order at most two bounded (C0), with
+`y ↦ -Dₓc(x, y)` injective on `Y` for every `x ∈ X` (C1), `x ↦ -D_y c(x, y)` injective on `X` for
+every `y ∈ Y` (C2), and with injective mixed derivative `D_y Dₓ c(x, y)` on `X × Y` (C3). No
+Ma–Trudinger–Wang condition and no convexity of `X` or `Y` is assumed. Then every
+Kantorovich-optimal map `T` from `μ` to `ν` agrees `μ`-almost everywhere with a homeomorphism `h`
+of `X \ S_X` onto `Y \ S_Y`, for relatively closed Lebesgue-null sets `S_X ⊆ X` and `S_Y ⊆ Y`,
+and `h` is Hölder of every exponent `β < 1` on every compact subset of `X \ S_X`. -/
+theorem exists_homeomorph_holderOnWith_of_isKantorovichOptimalTransportMap {n : ℕ}
+    {X Y : Set (EuclideanSpace ℝ (Fin n))} (hXo : IsOpen X) (hXb : Bornology.IsBounded X)
+    (hYo : IsOpen Y) (hYb : Bornology.IsBounded Y)
+    {f g : EuclideanSpace ℝ (Fin n) → ℝ} (hf : ContinuousOn f X) (hg : ContinuousOn g Y)
+    {l : ℝ} (hl : 0 < l) (hfl : ∀ x ∈ X, l ≤ f x ∧ f x ≤ l⁻¹)
+    (hgl : ∀ y ∈ Y, l ≤ g y ∧ g y ≤ l⁻¹)
+    [IsProbabilityMeasure ((volume.restrict X).withDensity fun x => ENNReal.ofReal (f x))]
+    [IsProbabilityMeasure ((volume.restrict Y).withDensity fun y => ENNReal.ofReal (g y))]
+    {c : EuclideanSpace ℝ (Fin n) × EuclideanSpace ℝ (Fin n) → ℝ}
+    (hc_nonneg : ∀ z ∈ X ×ˢ Y, 0 ≤ c z) (hc : ContDiffOn ℝ 2 c (X ×ˢ Y))
+    (hc_bdd : ∃ C : ℝ, ∀ k ≤ 2, ∀ z ∈ X ×ˢ Y, ‖iteratedFDeriv ℝ k c z‖ ≤ C)
+    (hc_twist : ∀ x ∈ X, InjOn (fun y => -fderiv ℝ (fun x' => c (x', y)) x) Y)
+    (hc_twist' : ∀ y ∈ Y, InjOn (fun x => -fderiv ℝ (fun y' => c (x, y')) y) X)
+    (hc_nondeg : ∀ x ∈ X, ∀ y ∈ Y,
+      Function.Injective (fderiv ℝ (fun y' => fderiv ℝ (fun x' => c (x', y')) x) y))
+    {T : EuclideanSpace ℝ (Fin n) → EuclideanSpace ℝ (Fin n)}
+    (hT : TauCeti.IsKantorovichOptimalTransportMap (fun z => ENNReal.ofReal (c z))
+      ((volume.restrict X).withDensity fun x => ENNReal.ofReal (f x))
+      ((volume.restrict Y).withDensity fun y => ENNReal.ofReal (g y)) T) :
+    ∃ SX SY : Set (EuclideanSpace ℝ (Fin n)), SX ⊆ X ∧ SY ⊆ Y ∧
+      IsOpen (X \ SX) ∧ IsOpen (Y \ SY) ∧ volume SX = 0 ∧ volume SY = 0 ∧
+      ∃ h : ↥(X \ SX) ≃ₜ ↥(Y \ SY),
+        (∀ᵐ x ∂((volume.restrict X).withDensity fun x => ENNReal.ofReal (f x)),
+          ∀ hx : x ∈ X \ SX, (h ⟨x, hx⟩ : EuclideanSpace ℝ (Fin n)) = T x) ∧
+        ∀ β : ℝ≥0, β < 1 → ∀ K : Set ↥(X \ SX), IsCompact K →
+          ∃ C : ℝ≥0, HolderOnWith C β (fun x => (h x : EuclideanSpace ℝ (Fin n))) K := by
+  sorry
+
 /-! ## Layer 7: Riemannian Brenier–McCann transport -/
 
 /-- **McCann's theorem** (McCann 2001; Villani 2009, Chapter 10). Let `M` be a finite-dimensional,
@@ -122,6 +176,27 @@ theorem exists_isKantorovichOptimalTransportMap_riemannian
         γ = μ.map fun x => (x, T x) := by
   sorry
 
+/-- **Figalli's distance-cost Monge theorem** (Figalli 2007, Theorem 1.1 with the Lagrangian
+`(1 + ‖v‖²) / 2` of Remark 1.2, pp. 3–4). Let `M` be a finite-dimensional, connected, boundaryless
+smooth Riemannian manifold, complete for its Riemannian distance. For probability measures `μ`
+and `ν` of finite first moment with `μ` absolutely continuous with respect to Riemannian volume,
+there is a transport map from `μ` to `ν` attaining the Kantorovich value for the cost `d`.
+Neither support is assumed compact, and the optimal map is in general not unique. -/
+theorem exists_isKantorovichOptimalTransportMap_edist_riemannian
+    {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+    {M : Type*} [EMetricSpace M] [ChartedSpace H M] [IsManifold I (⊤ : ℕ∞) M]
+    [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
+    [Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I (⊤ : ℕ∞) E (fun x : M ↦ TangentSpace I x)]
+    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)]
+    [IsRiemannianManifold I M] [ConnectedSpace M] [CompleteSpace M]
+    (μ ν : Measure M) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+    (hμ1 : TauCeti.HasFiniteMoment 1 μ) (hν1 : TauCeti.HasFiniteMoment 1 ν)
+    (hμ : μ ≪ TauCeti.riemannianVolume I M) :
+    ∃ T : M → M, TauCeti.IsKantorovichOptimalTransportMap (fun z => edist z.1 z.2) μ ν T := by
+  sorry
+
 /-! ## Layer 12: Fréchet and Wasserstein barycenters -/
 
 /-- **Agueh–Carlier existence and uniqueness of quadratic barycenters** (Agueh–Carlier 2011,
@@ -140,7 +215,7 @@ theorem existsUnique_isMinOn_sum_wassersteinEDist_sq_of_dimH_le {n : ℕ} {ι : 
   sorry
 
 /-- **Quadratic barycenters of Gaussian laws** (Agueh–Carlier 2011, Theorem 6.1;
-Álvarez-Esteban–del Barrio–Cuesta-Albertos–Matrán 2016, Theorem 4.2). Let `N(m k, C k)` be
+Álvarez-Esteban–del Barrio–Cuesta-Albertos–Matrán 2016, Theorem 4.2 and Corollary 4.5). Let `N(m k, C k)` be
 finitely many Gaussian laws on `ℝⁿ` with positive semidefinite covariances, and let `w k ≥ 0` be
 weights summing to one, one of them positive on an input with positive definite covariance. Then
 there is a positive definite `S` with `S = ∑ k, w k (S^(1/2) C k S^(1/2))^(1/2)` such that the
