@@ -957,13 +957,15 @@ paracompact conclusions of T2.0.
    `MvPolynomial.psum_eq_mul_esymm_sub_sum`, rather than divide by k or
    apply a rational logarithm. Pin
    Σ_(k≥1)(−1)^(k−1)ψᵏ(x)t^(k−1)=λ'_t(x)λ_t(x)⁻¹
-   on T2.3's constant1 unit power series: the integral signed
-   unit-derivative coefficient `adamsValueOfLambdaSeries` of a unit power
-   series, whose index n gives ψ^(n+1), is additive on products of unit
-   series (`adamsValueOfLambdaSeries_mul`) and agrees on ℚ-algebras with
-   Tau Ceti's native `PowerSeries.logDeriv`
-   (`adamsValueOfLambdaSeries_eq_coeff_logDeriv`); compare it with the
-   Newton definition. Prove independence of virtual
+   on T2.3's constant1 unit power series. Define the integral signed
+   unit-derivative coefficient of a unit power series u over a commutative
+   ring as (−1)ⁿ times the coefficient of tⁿ in u'·u⁻¹, so that index n
+   gives ψ^(n+1) and no rational logarithm or division enters; prove that
+   it is additive on products of unit series, by the Leibniz rule for the
+   formal derivative, and that over a ℚ-algebra, for u with constant
+   coefficient 1, it is (−1)ⁿ times the tⁿ coefficient of Tau Ceti's
+   native `PowerSeries.logDeriv` of u, by `PowerSeries.logDeriv_mul`;
+   compare it with the Newton definition. Prove independence of virtual
    presentations, additivity, multiplicativity, ψᵏ(1)=1, rank preservation,
    ψ¹=id, ψᵏψˡ=ψ^(kl), commutation with dual/conjugation and every
    continuous pullback. On a line L prove ψᵏ([L])=[L^⊗k], and prove
@@ -1097,11 +1099,11 @@ all steps below are targets, including independence of the constructed inverse.
    generalized-eigenspace projector: on generalized eigenvectors it is1
    for |λ|<1 and0 for |λ|>1. Prove the two constructions equal, including
    their contour orientation and normalization, and use this one projector
-   thereafter; `exists_continuous_inside_projection` states, for a continuous
-   family of finite complex matrices with no eigenvalue on the unit circle
-   over a compact base, the continuous idempotent family commuting with it
-   that is the identity on the generalized eigenvectors inside the circle and
-   zero on those outside. Own its local-matrix/bundle covariance, its finite-dimensional
+   thereafter: for a continuous family of finite complex matrices with no
+   eigenvalue on the unit circle over a compact base, it is a continuous
+   idempotent family commuting with the given one that is the identity on the
+   generalized eigenvectors for eigenvalues inside the circle and zero on
+   those outside. Own its local-matrix/bundle covariance, its finite-dimensional
    generalized-eigenspace characterization and its clutching/pullback
    naturality; the locally constant rank of a continuous idempotent family is
    Tau Ceti's `TauCeti.isLocallyConstant_finrank_range`, and its inside and
