@@ -31,9 +31,10 @@ and graded twists. These are listed by declaration under From Tau Ceti and are
 not targets here. The pointwise exterior metric and Hodge stars are in the
 library as well: Mathlib's Gram-determinant inner product and Hodge star on
 exterior powers, and Tau Ceti's oriented Hodge star with its complex-linear
-extension, the conjugate star and the Gram metric on complexified forms. They
-are consumed, not planned; ComplexKahlerGeometry K5 is cited only for their
-bundle transport and for the analysis. G1–G2 own only what lies beyond them: the Gram-determinant formula
+extension, the conjugate star and the Gram metric on complexified forms; so
+are the smooth real Hodge star and codifferential of an oriented Riemannian
+manifold. They are consumed, not planned; ComplexKahlerGeometry K5 is cited
+only for complex- and bundle-valued forms and for the analysis. G1–G2 own only what lies beyond them: the Gram-determinant formula
 for the Fock metric (G1.2), the agreement of the wedge-basis form on
 complexified forms with the complexified Gram metric (G2.2),
 the two-factor evaluation and restriction intertwiners in odd dimension (G1.4),
@@ -45,9 +46,10 @@ periodicity is distinct from the topological Bott theorem. G3 owns smooth Cliffo
 module and connection comparisons, G4 the geometric lift data, G5 associated
 spinors and G6 the geometric Dirac and real analytic index comparisons. G4's
 lift data and rank-two criterion are stated on Tau Ceti's principal bundles,
-orthonormal frame bundle and integral Thom and Euler classes. Generic
-bundle descent, characteristic classes, elliptic analysis and KO models remain
-with the named suppliers below.
+with their pullback and cocycle gluing, its orthonormal frame bundle and
+orientation double cover, and its integral Thom and Euler classes. Numerable
+and associated bundles, generic bundle descent, characteristic classes,
+elliptic analysis and KO models remain with the named suppliers below.
 
 ## Conventions
 
@@ -204,13 +206,42 @@ unless its statement says so.
   `Orientation.sesqComplexification_complexHodgeStar` for the Gram metric
   `LinearMap.BilinForm.sesqComplexification` of complexified forms, and the
   conjugate star `Orientation.barHodgeStar`).
-- G4.2 and G4.4a: `Topology/FiberBundle/Principal.lean`
+- G4.2–G4.4a: `Topology/FiberBundle/Principal.lean`
   (`TauCeti.PrincipalBundle`: a fibre bundle with model fibre a group, right
   action on the fibres and equivariant atlas trivializations; the fibres are
-  torsors), `Topology/VectorBundle/OrthonormalFrame/Basic.lean`
+  torsors; its pullback along a continuous map,
+  `TauCeti.PrincipalBundle.pullback`, and the equivariant trivialization of a
+  continuous local section, `TauCeti.PrincipalBundle.trivializationOfSection`),
+  `Topology/FiberBundle/GroupCocycle.lean` (the bundle
+  `TauCeti.fiberBundleCoreOfGroupCocycle` glued from a continuous group-valued
+  cocycle on an open cover, principal when the fibre is the group acting on
+  itself, `TauCeti.principalBundle_fiberBundleCoreOfGroupCocycle`, and the
+  equivariant homeomorphism `TauCeti.homeomorphOfCohomologous` between the
+  bundles of cohomologous cocycles), `Topology/VectorBundle/OrthonormalFrame/Basic.lean`
   (`TauCeti.OrthonormalFrameBundle`: pairs of a base point and a linear isometric
   equivalence from the model space to the fibre, with the topology of pointwise
-  convergence in the total space), `LinearAlgebra/CliffordAlgebra/Spin/Real/Basic.lean`
+  convergence in the total space; Gram–Schmidt local frames, free and
+  transitive right action and the reconstruction of the bundle,
+  `TauCeti.OrthonormalFrameBundle.associatedHomeomorph`) and `Pullback.lean` in
+  that folder (`TauCeti.OrthonormalFrameBundle.pullbackHomeomorph`),
+  `Topology/VectorBundle/Orientation/Basic.lean` and `Cover.lean`
+  (orientations `TauCeti.VectorBundleOrientation`, the orientation double cover
+  `TauCeti.VectorBundleOrientationCover`, and orientability as the existence of
+  a continuous section of that cover,
+  `TauCeti.VectorBundleOrientation.nonempty_iff_exists_section`),
+  `Orientation/OrthonormalFrame.lean` in that folder (the orientation
+  `TauCeti.OrthonormalFrameBundle.toOrientationCover` carried by a frame; two
+  frames carry the same orientation exactly when they differ by an orthogonal
+  map of positive determinant,
+  `TauCeti.OrthonormalFrameBundle.toOrientationCover_eq_toOrientationCover_iff`,
+  and in positive rank the quotient by that relation,
+  `TauCeti.OrthonormalFrameBundle.orientedRel`, is the double cover,
+  `TauCeti.OrthonormalFrameBundle.orientationCoverHomeomorph`),
+  `Geometry/Manifold/FiberBundle/Basic.lean` and `Principal.lean` in that folder
+  for smooth lifts (the C^n fibre bundles `TauCeti.ContMDiffFiberBundle`, charted
+  through `TauCeti.ManifoldTotalSpace`; a principal bundle is C^n exactly when
+  its transition functions are, `TauCeti.PrincipalBundle.contMDiffFiberBundle_iff`),
+  `LinearAlgebra/CliffordAlgebra/Spin/Real/Basic.lean`
   (`CliffordAlgebra.realCliffordSpinGroupZero`, the Spin group of the positive
   form `realCliffordForm n 0`), `LinearAlgebra/CliffordAlgebra/Spin/Action.lean`
   (`CliffordAlgebra.spinVectorAction`, conjugation `v↦g v g⁻¹`),
@@ -224,6 +255,20 @@ unless its statement says so.
   (`AlgHom.cliffordProdTensor`), `VolumeElement/Prod.lean`
   (`CliffordAlgebra.complexProdTensor`), `VolumeElement/GradedModule.lean` and
   `LinearAlgebra/Eigenspace/TensorProduct/Involution.lean`.
+- G3.4 and G6.4: the smooth forms `TauCeti.SmoothForm`, the exterior
+  derivative `TauCeti.mextDerivₗ` and boundaryless Stokes
+  (`TauCeti.integralTopForm_mextDeriv_eq_zero`) in
+  `Geometry/Manifold/DifferentialForm/`, and manifold orientations
+  `TauCeti.Manifold.Orientation`; for a smooth Riemannian metric and an
+  orientation, `Geometry/Manifold/Riemannian/HodgeStar.lean` (the smooth real Hodge star
+  `TauCeti.SmoothForm.hodgeStar`, with `α∧⋆β=⟨α,β⟩vol` and
+  `TauCeti.SmoothForm.hodgeStar_hodgeStar`) and `Codifferential.lean` in that
+  folder (`TauCeti.SmoothForm.codifferential`, d*=(−1)^(m(j+1)+1)⋆d⋆ on
+  j-forms in dimension m, unchanged when the orientation is reversed,
+  `TauCeti.SmoothForm.codifferential_neg_orientation`, and the formal adjoint of
+  d on a boundaryless, Hausdorff, σ-compact base when one of the two forms has
+  compact support,
+  `TauCeti.SmoothForm.integralTopForm_inner_mextDeriv_eq_inner_codifferential`).
 - G5.0: `LinearAlgebra/CliffordAlgebra/Regular.lean`
   (`CliffordAlgebra.parityTwistedRightAction`), the parity-twisted right action
   on the regular module that is the fibre model of the external positive
@@ -234,9 +279,11 @@ unless its statement says so.
 The following contracts name the supplying sections and the structures consumed:
 
 - [SmoothBundlesConnections B1–B5,B6.0](../SmoothBundlesConnections/README.md)
-  owns smooth principal/associated bundles, descent, frames, sums/tensors/duals,
-  scalar extension, metrics, connections, curvature and parallel transport.
-  Use its actual Mathlib `FiberBundle`, `VectorBundle`, `ContMDiffVectorBundle`
+  owns smooth associated bundles, descent along principal projections, frame
+  bundles, sums/tensors/duals, scalar extension, metrics, connections,
+  curvature and parallel transport; the smooth principal-bundle atlas, with
+  the smoothness of transitions, action and division, is Tau Ceti's (From Tau
+  Ceti above). Use its actual Mathlib `FiberBundle`, `VectorBundle`, `ContMDiffVectorBundle`
   carriers, and its metric-parametrized L² sections. G3 adds Clifford algebra
   multiplication and module data to those bundles; G4 adds a spin lift of the
   oriented frame bundle. B3 supplies the invariant-vector parallel-section
@@ -247,13 +294,16 @@ The following contracts name the supplying sections and the structures consumed:
   Weitzenböck comparison. The metric uses Mathlib's `RiemannianBundle` and
   `IsContMDiffRiemannianBundle`.
 - [DifferentialGeometry L0–L2,L5–L9](../DifferentialGeometry/README.md)
-  supplies forms, exterior calculus, orientation, densities, integration,
-  Stokes and de Rham comparison.
-  [ComplexKahlerGeometry K5](../ComplexKahlerGeometry/README.md) supplies
-  the smooth transport of the pinned pointwise Gram metric and Hodge stars
-  (From Mathlib and From Tau Ceti above) to exterior-form bundles, formal
-  adjoints, p=2 bundle Sobolev/distribution theory,
-  Laplace-type regularity, Hodge theorem and compact resolvent. Its K1/K4
+  is the plan for forms, exterior calculus, orientation, densities, integration,
+  Stokes and de Rham comparison; the smooth forms, exterior derivative,
+  manifold orientations and boundaryless Stokes theorem listed under From Tau
+  Ceti are consumed from the pin, and DifferentialGeometry supplies the rest.
+  [ComplexKahlerGeometry K5](../ComplexKahlerGeometry/README.md) supplies,
+  beyond Tau Ceti's smooth real Hodge star and codifferential (From Tau Ceti
+  above), the complex- and bundle-valued exterior-form bundles with the Gram
+  metric tensored with a Hermitian metric, their formal adjoints, p=2 bundle
+  Sobolev/distribution theory, Laplace-type regularity, Hodge theorem and
+  compact resolvent. Its K1/K4
   complex/type and Hermitian bundle interfaces supply the almost-complex
   pointwise comparisons below.
 - [CharacteristicClasses C1,C3.5](../CharacteristicClasses/README.md) owns
@@ -264,9 +314,16 @@ The following contracts name the supplying sections and the structures consumed:
   smooth good covers. On general paracompact bases keep Čech cohomology;
   identify it with singular cohomology on CW-type bases using C1's comparison.
 - [TopologicalKTheory T1–T3,T6.4](../TopologicalKTheory/README.md) supplies the
-  vector-bundle K-ring and products for G5's virtual spinor formula. Its
-  T6.4 owns the continuous numerable principal/associated-bundle category;
-  CharacteristicClasses C1 owns its continuous orthonormal/oriented frames.
+  vector-bundle K-ring and products for G5's virtual spinor formula. Beyond
+  Tau Ceti's principal-bundle mixin, pullback and cocycle gluing (From Tau
+  Ceti above), its T6.4 supplies numerability, homotopy invariance of
+  numerable principal bundles, bundle morphisms, associated bundles and
+  extension of the structure group along continuous homomorphisms. Beyond Tau
+  Ceti's orthonormal frame bundle and orientation double cover,
+  CharacteristicClasses C1.0 supplies the positively oriented SO(n) principal
+  subbundle of a given orientation, the metric-change transport of
+  orthonormal frames and the rank-zero frame conventions, and C3.2 identifies
+  w₁ with the class of the orientation double cover.
 - [GeneralizedCohomology G5.5](../GeneralizedCohomology/README.md#g5-finite-duality-thom-spectra-and-rational-hurewicz)
   specifies the real Hilbert and finite-Clifford functional-calculus,
   regularity, stabilization and negative-Clifford family-index suppliers
@@ -406,7 +463,10 @@ API includes:
 - The formula holds in every degree, including degree zero (empty determinant 1) and the top degree, for every finite-dimensional W.
 - The normalized Fock action is a *-representation for the Gram metric, and real vectors act skew-Hermitianly for it.
 
-(Nicolaescu, Proposition 12.1.19, pp. 630–631.)
+(Nicolaescu, Proposition 12.1.19, pp. 630–631, for the Fock action; §2.2.4,
+the determinant pairing ΛʳB, p. 60, and (2.2.8), p. 61, for the Gram
+determinant; Proposition 12.1.27, p. 634, for the compatible Hermitian metric
+and its uniqueness up to a positive scalar.)
 
 *Needs:* the declarations above.
 
@@ -858,14 +918,16 @@ The required API includes:
 - Musical and isometric pullback comparisons preserve the exterior metric and connection.
 
 On exterior forms build the induced Levi-Civita connection, c=ε−ι,
-Clifford compatibility and the local frame formulas for d and d*;
-G6 then identifies its Dirac operator with d+d*. Pullback of a module
+Clifford compatibility and the local frame formulas `d=Σ ε(e^j)∇_(e_j)` and
+`d*=−Σ ι(e_j)∇_(e_j)`, where d is `TauCeti.mextDerivₗ` and, on an oriented
+base, d* is Tau Ceti's `TauCeti.SmoothForm.codifferential` for every
+orientation; G6 then identifies its Dirac operator with d+d*. Pullback of a module
 connection is general bundle functoriality; a pullback does not identify
 tangent Dirac operators on manifolds of different dimensions.
 
 (Nicolaescu, Proposition 12.2.1, p. 657.)
 
-*Needs:* G2.2; G3.3; HopfRinow L1; DifferentialGeometry exterior calculus.
+*Needs:* G2.2; G3.3; HopfRinow L1; Tau Ceti's smooth forms, exterior derivative and codifferential.
 
 **Checks.**
 
@@ -880,7 +942,8 @@ connection and a Clifford-compatible one.
 
 ### Dependencies
 
-G1–G2, SmoothBundlesConnections B1–B3 and HopfRinow L1.
+G1–G2, SmoothBundlesConnections B1–B3, HopfRinow L1 and Tau Ceti's smooth forms
+and codifferential.
 ## Layer 4: Spin lifts, obstruction and classification
 
 ### 4.1 Topological and smooth frame adapters (G4.1)
@@ -972,10 +1035,14 @@ The required API includes:
 - Equivalences of lifts commute with pullback and descent and preserve the map to the fixed frame bundle.
 - Positive-square-root metric transport is smooth and composite metric changes agree up to the specified homotopy.
 
-The carriers are Tau Ceti's principal bundles `TauCeti.PrincipalBundle` and
-orthonormal frame bundle `TauCeti.OrthonormalFrameBundle`, with
-TopologicalKTheory T6.4's numerable principal-bundle category for pullback and
-descent and CharacteristicClasses C1.0's positively oriented SO(n) subbundle.
+The carriers are Tau Ceti's principal bundles `TauCeti.PrincipalBundle`, with
+their pullback `TauCeti.PrincipalBundle.pullback` and cocycle gluing
+`TauCeti.fiberBundleCoreOfGroupCocycle`, and Tau Ceti's orthonormal frame bundle
+`TauCeti.OrthonormalFrameBundle`, whose frames carry orientations by
+`TauCeti.OrthonormalFrameBundle.toOrientationCover`. TopologicalKTheory T6.4
+supplies numerability, bundle morphisms and associated bundles, and
+CharacteristicClasses C1.0 the positively oriented SO(n) subbundle and the
+metric-change transport of frames.
 Use G4.1a's native Spin units range when n≥1 and G1.1's
 μ₂=`evenUnitaryGroup (realCliffordForm 0 0)` when n=0 as the
 topological structure group. Smooth bundles use G4.1b's Lie structure
@@ -1003,13 +1070,17 @@ is trivial, so the geometric μ₂ branch is not this structure, and the Lean
 structure requires n≠0. (Kirby, *The topology of 4-manifolds*, Chapter IV,
 p. 33, for this principal description over CW complexes; Lawson–Michelsohn,
 Chapter II, §1.)
-Define equivalences, pullback and descent; prove metric-change independence
-by constructing the unique positive g-self-adjoint B with
-g'(u,v)=g(Bu,v), its positive square root, and the frame map B^(−1/2).
-Prove smooth dependence through the invertible Sylvester differential
-H↦B^(1/2)H+HB^(1/2), and naturality under pullback and bundle isometries.
-Compare composite metric changes through homotopies in the contractible
-positive-metric space; noncommuting square roots need not compose literally.
+Define equivalences, pullback and descent of Spin structures; prove
+metric-change independence by composing the frame map with C1.0's transport
+of orthonormal frames, the frame map B^(−1/2) of the unique positive
+g-self-adjoint B with g'(u,v)=g(Bu,v), which commutes with the right
+orthogonal action and has positive determinant, and so lifts Spin structures
+for g to Spin structures for g'. Consume C1.0's smooth
+dependence through the invertible Sylvester differential and its homotopy
+comparison of composite metric changes; prove that the lift is natural under
+pullback and bundle isometries and that composite metric changes of Spin
+structures agree through homotopies in the contractible positive-metric
+space, since noncommuting square roots need not compose literally.
 A lift is data, not merely the proposition w₂(V)=0. For a smooth base
 prove each continuous lift has the unique smooth structure transported
 through its covering of the smooth oriented frame bundle.
@@ -1020,7 +1091,7 @@ The paracompact-base generality uses the named numerable-bundle and Čech
 descent suppliers; the cited smooth tangent-bundle statement alone does not
 establish that extension.
 
-*Needs:* G4.1a–G4.1b; Tau Ceti's principal and orthonormal frame bundles; TopologicalKTheory T6.4; CharacteristicClasses C1; SmoothBundlesConnections B1–B2.
+*Needs:* G4.1a–G4.1b; Tau Ceti's principal bundles, cocycle gluing, orthonormal frame bundle and frame orientations; TopologicalKTheory T6.4; CharacteristicClasses C1.0; SmoothBundlesConnections B1–B2.
 
 **Checks.**
 
@@ -1069,7 +1140,13 @@ The required API includes:
 - Central twisting acts freely and transitively on lift classes, retaining relative gauge transformations.
 - Ordered direct sums are associative and commute with pullback and metric transport, including geometric rank zero.
 
-Given one lift, twist by a principal Z/2-bundle. Prove this action is free
+Given one lift, twist by a principal Z/2-bundle: on a common trivializing
+cover multiply the Spin transition cocycle by the central ±1 cocycle and glue
+by Tau Ceti's `TauCeti.fiberBundleCoreOfGroupCocycle`, which is principal, with
+`TauCeti.homeomorphOfCohomologous` making the result independent of the
+cocycle representatives on that cover and T6.4's refinement comparison
+independent of the cover; −1 acts trivially on frames, so the frame map
+descends. Prove this action is free
 and transitive on equivalence classes, giving an H¹(X;Z/2) torsor, with
 explicit relative gauge transformations and cocycle comparisons. Construct
 product/direct-sum lifts using `(Spin(m)×Spin(n))/{(1,1),(−1,−1)}`
@@ -1088,7 +1165,7 @@ The paracompact-base generality uses the named numerable-bundle and Čech
 descent suppliers; the cited smooth tangent-bundle statement alone does not
 establish that extension.
 
-*Needs:* G4.2; principal central-bundle descent; TopologicalKTheory T6.4.
+*Needs:* G4.2; Tau Ceti's cocycle gluing and cohomologous-cocycle homeomorphism; TopologicalKTheory T6.4 for numerability and associated bundles.
 
 **Checks.**
 
@@ -1106,8 +1183,13 @@ The required API includes:
 On a Hausdorff CW base X,
 construct the following comparison with G4.2's actual lifts. In positive
 rank, unrestricted orthonormal frames over X⁰ which admit extension to X¹,
-modulo homotopy over X⁰, classify C1.0's determinant-cover orientations.
-Their existence obstruction is w₁; when nonempty they form an
+modulo homotopy over X⁰, classify the orientations of V, the continuous
+sections of Tau Ceti's orientation double cover
+`TauCeti.VectorBundleOrientationCover`
+(`TauCeti.VectorBundleOrientation.nonempty_iff_exists_section`), a frame
+carrying its orientation by `TauCeti.OrthonormalFrameBundle.toOrientationCover`.
+Their existence obstruction is w₁, the class of that cover
+(CharacteristicClasses C3.2); when nonempty they form an
 H⁰(X;Z/2) torsor. An identification with H⁰ requires a chosen orientation.
 
 Fix an orientation and rank n≥3. Define skeletal Spin data to be positive
@@ -1169,7 +1251,7 @@ The cellular cochains, moving-vertex homotopies and infinite-CW naturality
 use AlgebraicTopology §8.9; the integral rank-two criterion uses
 CharacteristicClasses C3.2's equality w₂=ρe and the coefficient exact sequence.
 
-*Needs:* G4.2–G4.4; AlgebraicTopology §8.9; SpinRepresentations Layer 2; CharacteristicClasses C3.2 and C7.3 for the Euler comparison and radial stable framing; Tau Ceti's Thom and Euler classes for the rank-two statement.
+*Needs:* G4.2–G4.4; AlgebraicTopology §8.9; SpinRepresentations Layer 2; CharacteristicClasses C3.2 and C7.3 for w₁, the Euler comparison and the radial stable framing; Tau Ceti's orientation double cover and frame orientations; Tau Ceti's Thom and Euler classes for the rank-two statement.
 
 **Checks.**
 
@@ -1186,7 +1268,8 @@ existence and a chosen trivialization.
 
 ### Dependencies
 
-G1.1, the native covering/Lie projection, TopologicalKTheory T6.4,
+G1.1, the native covering/Lie projection, Tau Ceti's principal bundles, cocycle
+gluing, orthonormal frame bundle and orientation double cover, TopologicalKTheory T6.4,
 CharacteristicClasses C1/C3.2/C3.5/C7.3, AlgebraicTopology §8.9 and SpinRepresentations
 Layer 2.
 ## Layer 5: Spinor bundles, chiral products and rank-two roots
@@ -1651,16 +1734,20 @@ The required API includes:
 - Exterior parity and intrinsic chirality give their respective graded blocks and harmonic-kernel comparisons.
 
 On exterior forms prove D=d+d*, D² the nonnegative Hodge Laplacian and
-recover R7's real Weitzenböck curvature term. Exterior parity gives the
+recover R7's real Weitzenböck curvature term, with d* G3.4's local formula,
+which is Tau Ceti's codifferential on an oriented base. Exterior parity gives the
 Euler operator; G2's chiral grading gives the signature operator on
 even-dimensional oriented bases. Prove DΓ=−ΓD, the block/formal-adjoint
-comparison and harmonic-kernel identification. The numerical Euler/signature
+comparison and harmonic-kernel identification; the formal adjointness of d
+and d* on a boundaryless, Hausdorff, σ-compact oriented base, for pairs of
+forms one of which has compact support, is Tau Ceti's
+`TauCeti.SmoothForm.integralTopForm_inner_mextDeriv_eq_inner_codifferential`. The numerical Euler/signature
 formulas are outside this geometric
 development; retain the operator and harmonic-space identifications.
 
 (Nicolaescu, Proposition 12.2.1, p. 657; Example 12.1.25, p. 633.)
 
-*Needs:* G2.2; G3.4; G6.1–G6.2; RiemannianGeometry R7 exterior comparison.
+*Needs:* G2.2; G3.4; G6.1–G6.2; RiemannianGeometry R7 exterior comparison; Tau Ceti's codifferential and its formal adjointness.
 
 **Checks.**
 
@@ -1809,7 +1896,7 @@ covering/connectivity supply G4.1a's topological frame/rank0 adapters and
 SpinRepresentations L7's remaining universal-cover comparison. The item order
 is G4.1a → CharacteristicClasses C3.5 → G4.3. G4.1b's smooth refinement
 uses G4.1a and native Lie differential APIs, independently of C3.5.
-G4.4's torsor uses a given lift and central-bundle descent independently of
+G4.4's torsor uses a given lift and Tau Ceti's cocycle gluing independently of
 that obstruction equality. G4.4a additionally consumes AT8.9's CW obstruction
 API and SpinRepresentations Layer2's independent compact-real simple-connectivity
 foundation. G5 uses G1–G3 and G4.1–G4.4a; G5.3 compares its square roots with G4.4a's rank-two criterion. G6 follows G3/G5 and uses
