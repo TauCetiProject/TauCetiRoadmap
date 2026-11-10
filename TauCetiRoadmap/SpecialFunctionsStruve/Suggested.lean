@@ -1,6 +1,8 @@
 module
 
 public import Mathlib
+public import TauCeti.Analysis.SpecialFunctions.RegularizedHypergeometric
+public import TauCetiRoadmap.SpecialFunctionsHypergeometric.Suggested
 
 /-!
 # Struve and related functions: target signatures
@@ -10,10 +12,11 @@ one or more per layer, as a check that the conventions of `README.md` can be sta
 is the definitive document and states every target; the statements here are a selection of
 them, and discharging them finishes neither a layer nor the roadmap.
 
-The definitions below are roadmap-local copies. `besselY`, `hankelH1`, `hankelH2` and `besselI`
-copy the definitions that SpecialFunctionsBessel pins, `scorerHi` copies SpecialFunctionsAiry's,
-and `fresnelC`, `fresnelS` copy SpecialFunctionsEiLiErfIncompleteGamma's, so that this file
-compiles against the pins alone. In Tau Ceti the Bessel functions and the functions of this
+The definitions below are roadmap-local copies. `besselY` and `besselI` copy the definitions that
+SpecialFunctionsBessel pins, `scorerHi` copies SpecialFunctionsAiry's, and `fresnelC`, `fresnelS`
+copy SpecialFunctionsEiLiErfIncompleteGamma's, so that this file compiles against the pins and
+SpecialFunctionsHypergeometric's `Suggested.lean`, whose Gauss function the Laplace representation
+of `S_{μ,ν}` uses. In Tau Ceti the Bessel functions and the functions of this
 roadmap live in `Complex`, beside Mathlib's `Complex.besselJ`; here they live in this file's
 `Complex` subnamespace. The functions of this roadmap copy the definitions of `README.md` with
 their intended bodies, so that the conventions are checked by the compiler: orders first, then
@@ -46,6 +49,22 @@ local notation "𝐅₁₂(" b₁ ", " b₂ ")" =>
 local notation "sectorAtTop " θ =>
   Bornology.cobounded ℂ ⊓ 𝓟 (Set.ofPred fun z : ℂ => |Complex.arg z| ≤ θ)
 
+/-! ### Mathlib declarations that `README.md` cites -/
+
+#check @_root_.Complex.Gamma_add_one
+#check @_root_.Complex.Gamma_mul_Gamma_add_half
+#check @_root_.Complex.Gamma_mul_Gamma_one_sub
+#check @_root_.Complex.Gamma_ne_zero
+#check @_root_.Complex.analyticAt_regularizedHGFun_of_card_le
+#check @_root_.Complex.analyticOnNhd_besselJ
+#check @_root_.Complex.besselJ_def
+#check @_root_.Complex.besselJ_int_neg
+#check @_root_.Complex.differentiable_one_div_Gamma
+#check @_root_.Complex.integral_boundary_rect_eq_zero_of_differentiableOn
+#check @_root_.Complex.radius_regularizedHGFunSeries_eq_top
+#check @_root_.Complex.two_mul_self_mul_besselJ
+#check @_root_.Complex.hasSum_regularizedHGFun
+
 namespace Complex
 
 /-! ### Local copies of the suppliers' definitions -/
@@ -57,12 +76,6 @@ def besselY (ν z : ℂ) : ℂ :=
     (deriv (fun μ => besselJ μ z) ν + Complex.cos (ν * π) * deriv (fun μ => besselJ μ z) (-ν)) /
       (π : ℂ)
   else (besselJ ν z * Complex.cos (ν * π) - besselJ (-ν) z) / Complex.sin (ν * π)
-
-/-- SpecialFunctionsBessel's `H⁽¹⁾_ν = J_ν + i Y_ν`. -/
-def hankelH1 (ν z : ℂ) : ℂ := besselJ ν z + I * besselY ν z
-
-/-- SpecialFunctionsBessel's `H⁽²⁾_ν = J_ν − i Y_ν`. -/
-def hankelH2 (ν z : ℂ) : ℂ := besselJ ν z - I * besselY ν z
 
 /-- SpecialFunctionsBessel's `I_ν(z) = (z/2)^ν 𝐅(ν + 1, (z/2)²)`. -/
 def besselI (ν z : ℂ) : ℂ := (z / 2) ^ ν * 𝐅(ν + 1) ((z / 2) ^ 2)
@@ -102,9 +115,8 @@ def lommelSmallS (μ ν z : ℂ) : ℂ :=
 /-- The right side of DLMF 11.9.5, `s_{μ,ν} + 2^{μ−1} Γ(a) Γ(b) (sin(½(μ − ν)π) J_ν −
 cos(½(μ − ν)π) Y_ν)`, meaningful at regular parameters. -/
 def lommelCapitalSFormula (μ ν z : ℂ) : ℂ :=
-  2 ^ (μ - 1) * Gamma ((μ - ν + 1) / 2) * Gamma ((μ + ν + 1) / 2) *
-    ((z / 2) ^ (μ + 1) * 𝐅₁₂((μ - ν + 3) / 2, (μ + ν + 3) / 2) (-(z ^ 2) / 4) +
-      Complex.sin ((μ - ν) * π / 2) * besselJ ν z - Complex.cos ((μ - ν) * π / 2) * besselY ν z)
+  lommelSmallS μ ν z + 2 ^ (μ - 1) * Gamma ((μ - ν + 1) / 2) * Gamma ((μ + ν + 1) / 2) *
+    (Complex.sin ((μ - ν) * π / 2) * besselJ ν z - Complex.cos ((μ - ν) * π / 2) * besselY ν z)
 
 open scoped Classical in
 /-- The Lommel function `S_{μ,ν}(z)` (DLMF 11.9.5): the formula at regular parameters, and its
@@ -153,13 +165,6 @@ def angerScaledCoeff (lam : ℂ) (k : ℕ) : ℂ :=
 theorem hasSum_struveH (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
     HasSum (fun k : ℕ => (-1) ^ k * (z / 2) ^ (2 * k + ν + 1) /
       (Gamma (k + 3 / 2) * Gamma (k + ν + 3 / 2))) (struveH ν z) := by
-  sorry
-
-/-- The core `𝐅₁₂(3/2, ν + 3/2; −z²/4)` is entire; it is the extension of `(z/2)^{−ν−1} 𝐇_ν(z)`
-from `z ≠ 0` in the slit plane. The literal product is not used at `z = 0`, where Mathlib's
-`0 ^ w` makes it discontinuous. -/
-theorem differentiable_struveH_div (ν : ℂ) :
-    Differentiable ℂ fun z => 𝐅₁₂(3 / 2, ν + 3 / 2) (-(z ^ 2) / 4) := by
   sorry
 
 /-- DLMF 11.2.7: Struve's equation, with a reciprocal Gamma factor. -/
@@ -227,9 +232,14 @@ theorem isBigO_struveK_sub_sum (ν : ℂ) {δ : ℝ} (hδ : 0 < δ) (hδπ : δ 
       =O[sectorAtTop (π - δ)] fun z => z ^ (ν - 2 * N - 1) := by
   sorry
 
-/-- DLMF 11.6.6 at `k ≤ 1` of 11.6.8: `c₀ = 1`, `c₁(λ) = 2λ⁻²`. -/
-theorem struveScaledCoeff_zero_one {lam : ℂ} (hlam : lam ≠ 0) :
-    struveScaledCoeff lam 0 = 1 ∧ struveScaledCoeff lam 1 = 2 / lam ^ 2 := by
+/-- DLMF 11.6.6: the expansion of `𝐊_ν(λν)` for fixed `λ > 1`. -/
+theorem isBigO_struveK_scaled {lam : ℝ} (hlam : 1 < lam) {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < π / 2)
+    (N : ℕ) :
+    (fun ν => struveK ν (lam * ν) - (lam * ν / 2) ^ (ν - 1) *
+        ((Real.sqrt π : ℂ) * Gamma (ν + 1 / 2))⁻¹ *
+          ∑ k ∈ Finset.range N, (k ! : ℂ) * struveScaledCoeff lam k * ν ^ (-(k : ℤ)))
+      =O[sectorAtTop (π / 2 - δ)] fun ν => (lam * ν / 2) ^ (ν - 1) *
+        ((Real.sqrt π : ℂ) * Gamma (ν + 1 / 2))⁻¹ * ν ^ (-(N : ℤ)) := by
   sorry
 
 /-- DLMF 11.6.9. -/
@@ -241,7 +251,8 @@ theorem struveL_isEquivalent_besselI {lam : ℝ} (hlam : 0 < lam) {δ : ℝ} (h�
 /-! ## Layer 5: integrals -/
 
 /-- DLMF 10.22.2 for `J`: an antiderivative of `z^ν J_ν(z)`, for `ν + ½` not a pole of `Γ`. -/
-theorem hasDerivAt_besselJ_struveH {ν : ℂ} (hν : ∀ n : ℕ, ν + 1 / 2 ≠ -n) {z : ℂ} (hz : z ∈ slitPlane) :
+theorem hasDerivAt_besselJ_struveH {ν : ℂ} (hν : ∀ n : ℕ, ν + 1 / 2 ≠ -n) {z : ℂ}
+    (hz : z ∈ slitPlane) :
     HasDerivAt (fun z => (Real.sqrt π : ℂ) * 2 ^ (ν - 1) * Gamma (ν + 1 / 2) * z *
         (besselJ ν z * struveH (ν - 1) z - besselJ (ν - 1) z * struveH ν z))
       (z ^ ν * besselJ ν z) z := by
@@ -274,6 +285,14 @@ theorem isBigO_lommelCapitalS_sub_sum (μ ν : ℂ) {δ : ℝ} (hδ : 0 < δ) (h
         (-1) ^ k * (∏ m ∈ Finset.range k, ((-μ + 2 * (m + 1) - 1) ^ 2 - ν ^ 2)) *
           z ^ (-2 * (k : ℂ)))
       =O[sectorAtTop (π - δ)] fun z => z ^ (μ - 1 - 2 * N) := by
+  sorry
+
+/-- The Laplace representation of `S_{μ,ν}` (6.3), with the Gauss function of
+SpecialFunctionsHypergeometric. -/
+theorem lommelCapitalS_eq_laplace (μ ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
+    lommelCapitalS μ ν z = z ^ μ * ∫ t in Ioi (0 : ℝ), cexp (-z * t) *
+      TauCetiRoadmap.SpecialFunctionsHypergeometric.gaussHypergeometric
+        ((1 - μ + ν) / 2) ((1 - μ - ν) / 2) (1 / 2) (-(t : ℂ) ^ 2) := by
   sorry
 
 /-! ## Layer 7: Anger–Weber functions -/
@@ -312,17 +331,20 @@ theorem isBigO_weberE_large_order (z : ℂ) {ε : ℝ} (hε : 0 < ε) :
         fun ν => (Real.exp (π * |ν.im|) : ℂ) * ν ^ (-2 : ℤ) := by
   sorry
 
-/-- DLMF 11.11.9 at `k ≤ 1`: `a₀(λ) = 1/(1 + λ)`, `a₁(λ) = −λ/(2(1 + λ)⁴)`. -/
-theorem angerScaledCoeff_zero_one {lam : ℂ} (hlam : lam ≠ -1) :
-    angerScaledCoeff lam 0 = 1 / (1 + lam) ∧
-      angerScaledCoeff lam 1 = -lam / (2 * (1 + lam) ^ 4) := by
+/-- DLMF 11.11.8: the expansion of `𝐀_ν(λν)` for fixed `λ > 0`. -/
+theorem isBigO_angerWeberA_scaled {lam : ℝ} (hlam : 0 < lam) {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < π)
+    (N : ℕ) :
+    (fun ν => angerWeberA ν (lam * ν) - (π : ℂ)⁻¹ *
+        ∑ k ∈ Finset.range N, ((2 * k)! : ℂ) * angerScaledCoeff lam k * ν ^ (-(2 * k + 1 : ℤ)))
+      =O[sectorAtTop (π - δ)] fun ν => ν ^ (-(2 * N + 1 : ℤ)) := by
   sorry
 
-/-- DLMF 11.11.17: the transition region, uniformly for `|a| ≤ M`. -/
-theorem isBigO_angerWeberA_transition {M : ℝ} (hM : 0 < M) :
-    (fun p : ℝ × ℂ => angerWeberA (-p.1) (p.1 + p.2 * (p.1 : ℂ) ^ (1 / 3 : ℂ)) -
-        2 ^ (1 / 3 : ℂ) * (p.1 : ℂ) ^ (-1 / 3 : ℂ) * scorerHi (-2 ^ (1 / 3 : ℂ) * p.2))
-      =O[comap Prod.fst atTop ⊓ 𝓟 {p | ‖p.2‖ ≤ M}] fun p => ((p.1 : ℂ))⁻¹ := by
+/-- DLMF 11.11.17: the transition region, as `ν → ∞` in `|ph ν| ≤ π − δ`, uniformly for
+`|a| ≤ M`. -/
+theorem isBigO_angerWeberA_transition {M δ : ℝ} (hM : 0 < M) (hδ : 0 < δ) (hδπ : δ < π) :
+    (fun p : ℂ × ℂ => angerWeberA (-p.1) (p.1 + p.2 * p.1 ^ (1 / 3 : ℂ)) -
+        2 ^ (1 / 3 : ℂ) * p.1 ^ (-1 / 3 : ℂ) * scorerHi (-2 ^ (1 / 3 : ℂ) * p.2))
+      =O[comap Prod.fst (sectorAtTop (π - δ)) ⊓ 𝓟 {p | ‖p.2‖ ≤ M}] fun p => p.1⁻¹ := by
   sorry
 
 /-- DLMF 11.11.18, for real `ν → +∞` only. -/
