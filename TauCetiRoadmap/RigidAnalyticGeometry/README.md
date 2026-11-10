@@ -131,11 +131,11 @@ consume this roadmap and supply nothing to it.
 
 | Supplier | Interface used here | Boundary |
 | --- | --- | --- |
-| Tau Ceti at the pin: `TauCeti/RingTheory/Affinoid/`, `TauCeti/AlgebraicGeometry/Rigid/Affinoid/`, `TauCeti/Topology/GTopology/`, `TauCeti/Analysis/Normed/Field/WeaklyStable.lean`, `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/`, `TauCeti/RingTheory/RegularLocalRing/`, `TauCeti/RingTheory/Huber/`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/MaximalIdealPoint.lean`, `TauCeti/RingTheory/Japanese.lean`, `TauCeti/Analysis/Normed/Unbundled/SpectralNorm/Basis.lean`, `TauCeti/Analysis/Normed/Module/Bases/`, `TauCeti/Analysis/Normed/Operator/RingOpNorm/OpenMapping.lean`, `TauCeti/Analysis/Normed/Operator/SlopeDecomposition.lean` | The affinoid predicate `TauCeti.IsAffinoidAlgebra`, the supremum seminorm `TauCeti.supSeminorm` and the Layer 0–4 theorems cited by their pinned names below; weak stability of complete and perfect fields, its spectral-norm comparisons on finite extensions, and the Gauss-normed fraction field; countable-type Banach spaces; open mapping and closed graph over Tate rings; regularity of Tate algebras, the G-ring predicate and the regular locus; closedness of ideals and completed tensor products of Huber rings; affinoid subdomains, their presheaf of coordinate algebras and the weak affinoid site; the Japanese-ring predicate and its purely inseparable and separable criteria; the classical points of `Spa(A,A°)`; G-topologies, their sites and their slightly finer enhancements; the numerical slope predicates, decompositions and projector of §7.2 | Consumed by name where the text cites them; the remaining targets of Layers 0–4, weak stability of the Gauss fraction field, finiteness of normalisation and excellence of affinoid algebras, the Banach function algebra theorem, the sheaf condition of Layer 5, constructible density and everything else after Layer 5 are this roadmap's |
+| Tau Ceti at the pin: `TauCeti/RingTheory/Affinoid/`, `TauCeti/AlgebraicGeometry/Rigid/Affinoid/`, `TauCeti/Topology/GTopology/`, `TauCeti/Analysis/Normed/Field/WeaklyStable.lean`, `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/`, `TauCeti/RingTheory/RegularLocalRing/`, `TauCeti/RingTheory/Huber/`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/MaximalIdealPoint.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Spectral.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/RationalSubset/`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/`, `TauCeti/RingTheory/Japanese.lean`, `TauCeti/Analysis/Normed/Unbundled/SpectralNorm/Basis.lean`, `TauCeti/Analysis/Normed/Module/Bases/`, `TauCeti/Analysis/Normed/Operator/RingOpNorm/OpenMapping.lean`, `TauCeti/Analysis/Normed/Operator/SlopeDecomposition.lean` | The affinoid predicate `TauCeti.IsAffinoidAlgebra`, the supremum seminorm `TauCeti.supSeminorm` and the Layer 0–4 theorems cited by their pinned names below; weak stability of complete and perfect fields, its spectral-norm comparisons on finite extensions, and the Gauss-normed fraction field; countable-type Banach spaces; open mapping and closed graph over Tate rings; regularity of Tate algebras, the G-ring predicate and the regular locus; closedness of ideals and completed tensor products of Huber rings; affinoid subdomains, their presheaf of coordinate algebras and the weak affinoid site; the Japanese-ring predicate and its purely inseparable and separable criteria; the classical points of `Spa(A,A°)`, the spectrality of `Spa`, its rational subsets and Tate acyclicity for rational covers of `Spa(A,A°)` over a strongly noetherian Tate ring; G-topologies, their sites and their slightly finer enhancements; the numerical slope predicates, decompositions and projector of §7.2 | Consumed by name where the text cites them; the remaining targets of Layers 0–4, weak stability of the Gauss fraction field, finiteness of normalisation and excellence of affinoid algebras, the Banach function algebra theorem, the sheaf condition of Layer 5, constructible density and everything else after Layer 5 are this roadmap's |
 | [RestrictedPowerSeries](../RestrictedPowerSeries/README.md) §§0.1, 1.1, 2.1–2.2, 2.4, 3.3, Layers 4–5 and §6.2 | Native restricted series over Banach rings, Gauss norms, evaluation and substitution, maximum modulus, reduction, Weierstrass theory, distinguished charts, Rückert theory, closed ideals and finite Tate modules; positive-polyradius algebra; normed and completed comparisons | Those constructions and proofs are not repeated here. Weak stability of the Gauss fraction field, general affinoids and the converse strict-radius criterion are below |
 | [PadicFunctionalAnalysis](../PadicFunctionalAnalysis/README.md) Layer 1 and §2.4 | The topology of finite Banach modules over a noetherian Banach–Tate ring, and strict exactness of completed scalar extension on countable-type spaces | General Banach-module analysis stays there; its pinned open mapping, closed graph and countable-type results are cited by their Tau Ceti names |
 | [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.21 | G-rings, J-2 rings and excellent rings, their permanence, and the completion criteria for reducedness and normality | Apply the shared algebraic criteria; the Japanese predicate and the Japanese criteria used here are pinned in `TauCeti/RingTheory/Japanese.lean` |
-| [AdicSpaces](../../Completed/AdicSpaces/README.md) Layers 1–5 | Huber pairs, `Spv` and `Spa`, rational localisation, Tate acyclicity for rational covers of `Spa(A,A°)`, gluing and morphisms locally of finite type | The foundational adic theory is consumed, not repeated |
+| [AdicSpaces](../../Completed/AdicSpaces/README.md) Layers 1–5 | Huber pairs, `Spv` and `Spa`, closed subspaces of quotient pairs, rational localisation, gluing and morphisms locally of finite type | The foundational adic theory is consumed, not repeated; its Tate acyclicity for rational covers of `Spa(A,A°)` and the spectrality of `Spa` are cited by their Tau Ceti names |
 
 ### From Mathlib
 
@@ -150,7 +150,17 @@ normed quotients, finite-dimensional topology, topological nilpotence
 `IsLocalization`), tensor products and finite-type algebras
 (`Algebra.FiniteType`), adic completion (`AdicCompletion`), the constructible
 topology of a topological space (`constructibleTopology`, generated by the
-open compact sets and their complements), schemes with their finite-type
+open compact sets and their complements, in which a spectral space is
+compact by `compactSpace_withConstructibleTopology`), first-order languages,
+theories, compactness and elementary diagrams
+(`FirstOrder.Language.ring`, `FirstOrder.Language.Theory`,
+`FirstOrder.Language.Theory.isSatisfiable_iff_isFinitelySatisfiable`,
+`FirstOrder.Language.ElementaryEmbedding.ofModelsElementaryDiagram`),
+extensions of valuation rings and transitivity on primes lying over a prime
+(`LocalSubring.exists_le_valuationSubring`,
+`Algebra.IsInvariant.exists_smul_of_under_eq_of_profinite`), embeddings of
+algebraic extensions into algebraically closed fields (`IsAlgClosed.lift`),
+schemes with their finite-type
 morphisms (`AlgebraicGeometry.Scheme`,
 `AlgebraicGeometry.LocallyOfFiniteType`), and categorical sites and sheaves
 (`CategoryTheory.GrothendieckTopology`, `CategoryTheory.Presheaf.IsSheaf`,
@@ -283,6 +293,27 @@ Huber rings and `Spa`, use the native Tau Ceti interfaces
 Huber-pair carriers of AdicSpaces). Valuations are considered up to
 equivalence; a chosen representative is not a replacement for `Spv`.
 
+The adic spectrum `TauCeti.ValuationSpectrum.spa` of a Huber ring is a
+spectral space (the `SpectralSpace` instance of
+`TauCeti/AlgebraicGeometry/AdicSpace/Spa/Spectral.lean`), a finite set
+generating the unit ideal gives a standard rational covering of it
+(`TauCeti.ValuationSpectrum.spa_eq_biUnion_rationalSubset_of_span_eq_top`),
+and every open covering has a standard rational refinement
+(`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isOpen_of_iUnion_eq_univ`).
+A complete ultrametric normed affinoid algebra is a strongly noetherian Tate
+ring (`TauCeti.IsAffinoidAlgebra.isStronglyNoetherian`). For a strongly
+noetherian Tate ring `A`, a subring `A⁺` of power-bounded elements containing
+a ring of definition and a rational subset `W` of `Spa(A,A⁺)`, every nonempty
+family of rational subsets with union `W` has an exact augmented Čech
+complex of the structure presheaf in every degree
+(`TauCeti.ValuationSpectrum.quasiIso_cechAugmentation_spaRationalOpens_of_iSup_eq`;
+degree zero is
+`TauCeti.ValuationSpectrum.isSheafFor_ofArrows_spaRationalOpens_of_iSup_eq`),
+and the structure presheaf is a sheaf on all opens
+(`TauCeti.ValuationSpectrum.isSheaf_presentationLimitPresheaf_of_isStronglyNoetherian`).
+These are AdicSpaces Layer 4 at the pin; §5.1 compares them with the
+classical weak affinoid site.
+
 `TauCeti/Analysis/Normed/Operator/SlopeDecomposition.lean` and
 `TauCeti/Analysis/Normed/Unbundled/Slope.lean` supply `Polynomial.IsSlopeLE`,
 `ContinuousLinearMap.IsSlopeDecomposition` and its projector. Missing results
@@ -318,10 +349,11 @@ normality. The Japanese criteria are pinned and cited above.
 
 ### From TauCetiRoadmap.AdicSpaces
 
-Layers 1–2: `Spv`, `Spa`, rational subsets and pro-constructible subspaces;
-§3.1: rational localisation of a Huber pair; Layer 4: Tate acyclicity for
-rational covers of `Spa(A,A°)`; Layer 5: gluing and morphisms locally of
-finite type.
+Layers 1–2: `Spv`, `Spa`, rational subsets and pro-constructible subspaces,
+with §2.4's closed subspace of a quotient pair; §3.1: rational localisation of
+a Huber pair; Layer 5: gluing and morphisms locally of finite type. Its
+Layer 4, Tate acyclicity for rational covers of `Spa(A,A°)`, is consumed
+through the Tau Ceti declarations that formalise it, cited above.
 
 ## How to read the build
 
@@ -332,11 +364,12 @@ excellence, tensor products, fraction algebras and the strict-radius
 identification. Layer 2 consumes the pinned supremum seminorm and proves the
 Banach function algebra theorem, the reduction functor and the
 presentation-ring theory. Layer 3 constructs classical affinoid spaces and
-Layer 4 their subdomains, rational covers and local rings with the
-excellence of the analytic local rings, on the pinned carriers; Layer 5
-proves Tate acyclicity (the sheaf condition of the weak affinoid site and
-the vanishing of higher Čech cohomology) and the Čech comparisons for
-modules; Layer 6 builds general
+Layer 4 their subdomains, local rings, the Gerritzen–Grauert theorem with
+the rational refinement of coverings and Kisin's lemma, on the pinned
+carriers; Layer 5 proves Tate acyclicity (the sheaf condition of the weak
+affinoid site and the vanishing of higher Čech cohomology), the Čech
+comparisons for modules and the excellence of the analytic local rings;
+Layer 6 builds general
 G-topologies, rigid spaces and the classical properness predicates; Layer 7
 records the numerical slope interface and proves the identity principle;
 Layer 8 constructs analytification, proves quantifier elimination for
@@ -1012,10 +1045,10 @@ and the rational and Laurent cases pinned under
 `TauCeti/RingTheory/Affinoid/Subdomain/`. Transitivity is the pinned
 `TauCeti.IsAffinoidSubdomainMap.comp`: if `φ:A→B` represents `U⊆Sp A` and
 `φ':B→C` represents `V⊆Sp B`, then `φ'∘φ` represents the image of `V` in
-`Sp A`. Identify Weierstrass subdomains with §1.4. Gerritzen–Grauert supplies
-finite rational decompositions and the ambient-cover refinement used in
-descent. Include open, closed and locally closed immersions. Sources: [BGR]
-Chapter 7.
+`Sp A`. Identify Weierstrass subdomains with §1.4. Include open, closed and
+locally closed immersions. The Gerritzen–Grauert theorem and the refinement of
+affinoid coverings by rational coverings are proved in §4.3, after the local
+rings their proof uses. Sources: [BGR] Chapter 7.
 *Needs:* §§1.1–1.4 (algebras, tensor products and fraction algebras); §2.2
 (supremum norms for the rational-domain conditions and the maximum
 modulus); Layer 3; the pinned `TauCeti.IsAffinoidSubdomainMap`,
@@ -1050,29 +1083,27 @@ isomorphisms `A/𝔪ₓⁿ≃B/𝔪ₓⁿB`, for every `n`, are the pinned
 site point `TauCeti.GTopology.point x` of the weak affinoid G-topology
 (Mathlib `CategoryTheory.GrothendieckTopology.Point.presheafFiber`): the
 colimit of the coordinate algebras over the affinoid subdomains containing
-`x` (`TauCeti.GTopology.isColimitNhdsCocone`). Prove that it is a noetherian
-local ring, the local-ring comparison `A_𝔪/𝔪ⁿ≃𝒪_{Sp A,x}/𝔪ₓⁿ` for every `n`
-and its completion `Â_𝔪≃𝒪̂_{Sp A,x}`; these stalk statements are proved
-after Layer 5 establishes the sheaf condition. The germ map
-`A_𝔪→𝒪_{Sp A,x}` is local and faithfully flat. Prove excellence of the
-analytic local rings ([Conrad] Theorem 1.1.3, p. 5): the stalk is a G-ring
-(`isGRing_stalk`) and universally catenary (`isUniversallyCatenary_stalk`),
-which for a noetherian local ring is excellence (the criterion [Conrad]'s
-proof of Theorem 1.1.3 applies on p. 5). In [Conrad]'s route the stalk is
-a quotient of the stalk at a point of a unit ball, which is regular since it
-is noetherian with regular completion, hence universally catenary; the
-formal fibres are geometrically regular by §1.2's affinoid theorem through
-`Â_𝔪≃𝒪̂_{Sp A,x}`, after reducing to a domain and to the generic formal fibre
-by finite maps of affinoids ([Conrad] pp. 5–6). Sources: [BGR] Chapter 7;
-[Conrad] §1.1 and Theorem 1.1.3.
-*Needs:* §1.2 (excellence of affinoid algebras); §4.1; Layer 5 (the sheaf
-condition, used only for the stalk statements); SchemeAndStackFoundations
-§0.21 (excellence permanence and completion criteria); the pinned
+`x` (`TauCeti.GTopology.isColimitNhdsCocone`). Prove that it is a local ring
+with maximal ideal `𝔪ₓ𝒪_{Sp A,x}`, that the germ map factors as
+`A→A_𝔪→𝒪_{Sp A,x}` with the second map injective and inducing
+`A/𝔪ⁿ≃A_𝔪/𝔪ⁿ≃𝒪_{Sp A,x}/𝔪ₓⁿ` for every `n`, so that the three `𝔪`-adic
+completions agree, `Â_𝔪≃𝒪̂_{Sp A,x}`, and that `𝒪_{Sp A,x}` is noetherian
+([Bosch] §4.1, Propositions 1, 2 and 6, pp. 66–68). These are statements
+about the colimit of the presheaf, with no sheaf condition: the comparison
+passes to the colimit from the pinned isomorphisms for each affinoid subdomain
+containing `x`; Krull's intersection theorem in `A_𝔪`, applied also to the
+stalks of the closed subspaces `Sp A/𝔞`, makes every finitely generated ideal
+of `𝒪_{Sp A,x}` closed for its `𝔪`-adic topology, and an ascending chain of
+such ideals then stabilises because its closures in the noetherian
+completion do. Consequently the germ
+map `A_𝔪→𝒪_{Sp A,x}` is a local map of noetherian local rings inducing an
+isomorphism of completions, hence faithfully flat. Excellence of these local
+rings is §5.3. Sources: [BGR] Chapter 7; [Bosch] §4.1.
+*Needs:* §4.1; §1.1 (closed ideals of affinoid algebras); the pinned
 `TauCeti.IsAffinoidSubdomainMap.quotientPowAlgEquiv`,
-`TauCeti.GTopology.point`, `TauCeti.GTopology.isColimitNhdsCocone`,
-`TauCeti.Excellence.IsGRing` and `TauCeti.Excellence.IsUniversallyCatenary`;
+`TauCeti.GTopology.point` and `TauCeti.GTopology.isColimitNhdsCocone`;
 Mathlib `CategoryTheory.GrothendieckTopology.Point.presheafFiber`,
-`IsLocalization`, `IsLocalHom` and `AdicCompletion`.
+`IsLocalization`, `IsLocalHom`, `AdicCompletion` and `IsNoetherianRing`.
 
 **Checks.**
 
@@ -1087,12 +1118,108 @@ Mathlib `CategoryTheory.GrothendieckTopology.Point.presheafFiber`,
   `K⟨T⟩/(T)ⁿ≃K⟨T/ϖ⟩/(T)ⁿ`, both `K[T]/(Tⁿ)`; the subdomain `|T|=1` misses
   the origin and gives no such comparison.
 - For the cusp `A=K⟨X,Y⟩/(Y²−X³)` at the origin the completed stalk is
-  `K⟦t²,t³⟧` (`X=t²`, `Y=t³`), a one-dimensional domain that is not regular,
-  so the G-ring and catenarity statements are not reduced to regularity of
-  the stalk; at a `K`-rational point `c` of the unit disc the completed stalk
-  is `K⟦T−c⟧`, regular.
+  `K⟦X,Y⟧/(Y²−X³)≅K⟦t²,t³⟧` (`X=t²`, `Y=t³`), computed from `A` alone through
+  `Â_𝔪≃𝒪̂_{Sp A,x}`; its maximal ideal needs the two generators `t²,t³` in
+  dimension one, so the stalk is a noetherian local ring that is not
+  regular, while at a `K`-rational point `c` of the unit disc the completed
+  stalk is `K⟦T−c⟧`, regular.
 
-### 4.3 Covers, flatness and reducedness
+### 4.3 The Gerritzen–Grauert theorem, rational refinements and Kisin's lemma
+
+A morphism `φ:Sp A'→Sp A` of affinoid spaces is a *locally closed immersion*
+if it is injective on classical points and every stalk map
+`𝒪_{Sp A,φ(x)}→𝒪_{Sp A',x}` of §4.2 is surjective, and a *Runge immersion* if
+it is a closed immersion into a Weierstrass domain of `Sp A` ([Bosch] §4.2,
+Definitions 1 and 5, pp. 69 and 71). Prove the Gerritzen–Grauert theorem: for
+a locally closed immersion `φ` there are finitely many rational subdomains
+`X₁,…,X_r` covering `Sp A` such that every restriction `φ⁻¹(Xᵢ)→Xᵢ` is a
+Runge immersion ([Bosch] §4.2, Theorem 10, p. 76). The inclusion of an
+affinoid subdomain `U⊆Sp A` is a locally closed immersion with bijective
+stalk maps, and for it every `Xᵢ∩U` is a Weierstrass domain in `Xᵢ`; in
+particular `U` is a finite union of rational subdomains of `Sp A` ([Bosch]
+§4.2, Corollaries 11–12, pp. 76–77; §3.3, Theorem 20, p. 60). The route of
+[Bosch] §4.2 (pp. 77–81) inducts on the number of affinoid generators of `A'`
+over `A`: it puts an element of the kernel of a presentation
+`A⟨ζ₁,…,ζₙ⟩↠A'` into distinguished form uniformly over the points of `Sp A`,
+divides by it on the affinoid subdomain where it is distinguished of the
+maximal order, uses
+that a finite locally closed immersion is a closed immersion (which rests on
+the noetherian stalks and completions of §4.2), and covers the rest of
+`Sp A` by rational subdomains on which the order drops.
+
+Prove that every finite covering of `Sp A` by affinoid subdomains is refined
+by the rational covering `Uᵢ={x : |gⱼ(x)|≤|gᵢ(x)| for all j}`, `i=0,…,m`,
+attached to some `g₀,…,g_m∈A` without common zero ([Bosch] §4.3, Lemma 4,
+p. 84): by Gerritzen–Grauert the members may be taken rational, and the
+products of their defining functions, one factor from each member and at
+least one of them a denominator, define a refining rational covering.
+
+Prove Kisin's lemma in the form used for stalks: for an ideal
+`I=(f₁,…,f_r)` of `A` and affinoid subdomains `W₁,…,W_m` of `Sp A` whose union
+contains the zero set `V(I)`, there is `n≥1` with
+`{x : |fₖ(x)|≤|ϖ|ⁿ for all k}⊆W₁∪…∪W_m` ([Conrad] Lemma 1.1.4, p. 6, stated
+there for admissible opens). The proof [Conrad] cites uses formal models,
+which this roadmap does not use; here the route is through the adic
+spectrum. By Gerritzen–Grauert the `Wⱼ` may be taken rational, with rational
+subsets `W̃ⱼ` of `Spa(A,A°)`. The points of `Spa(A,A°)` that vanish on `I` form
+the closed subspace `Spa(A/I,(A/I)°)` (AdicSpaces §2.4, with §2.3 identifying
+its plus ring); the traces of the `Wⱼ` on `Sp A/I` are refined by a rational
+covering of `Sp A/I`, whose rational subsets cover `Spa(A/I,(A/I)°)`, and an
+inclusion of rational subdomains gives the inclusion of their rational
+subsets through the universal property of §1.4 and the identification of
+`Spa` of a rational fraction algebra with its rational subset, so that this
+vanishing locus lies in `⋃W̃ⱼ`. A continuous valuation `v` with
+`v(fₖ)≤v(ϖ)ⁿ` for every `n` has `v(fₖ)=0`, since the values `v(ϖ)ⁿ` are
+cofinal towards zero in its value group; so the rational subsets
+`Ỹₙ={v : v(fₖ)≤v(ϖⁿ) for all k}` decrease to that vanishing locus. As
+`Spa(A,A°)` is spectral it is compact in its constructible topology, in which
+rational subsets are open and closed, so some `Ỹₙ∖⋃W̃ⱼ` is empty, and its
+classical points give the claim.
+*Needs:* §4.2 (noetherian stalks, the infinitesimal comparison and
+completions); §4.1 (subdomains, Weierstrass and rational domains and their
+transitivity); §0.1 (Weierstrass division and distinguished series over
+affinoid coefficients, from RestrictedPowerSeries Layer 4 and §5.1); §1.4
+(the universal property of rational fractions and
+`TauCeti.RationalFraction.completionLocEquiv`); §2.2 (supremum norms); §2.3
+(the plus ring of a quotient); AdicSpaces Layers 1–3 and §2.4 (`Spa`, rational
+subsets, quotients and rational localisation); Tau Ceti's spectrality of
+`Spa` (the `SpectralSpace` instance on `TauCeti.ValuationSpectrum.spa`),
+`TauCeti.ValuationSpectrum.spa_eq_biUnion_rationalSubset_of_span_eq_top`,
+`TauCeti.ValuationSpectrum.maximalSpectrumToSpa` and
+`TauCeti.IsAffinoidAlgebra.isTopologicallyFiniteType`; Mathlib
+`compactSpace_withConstructibleTopology`.
+
+**Checks.**
+
+- On the unit disc the annulus `U={|ϖ|≤|T|≤1}` is a Laurent domain but not a
+  Weierstrass domain: a Weierstrass domain `{|hⱼ|≤1}` containing the circle
+  `|T|=|ϖ|` contains the disc `|T|≤|ϖ|`, since by the maximum modulus
+  principle each `|hⱼ|` takes its maximum over that disc on that circle. The
+  rational covering `X₁={|T|≤|ϖ|²}`, `X₂={|ϖ|²≤|T|≤1}`, attached to `ϖ²,T`,
+  is one as in Gerritzen–Grauert: `U∩X₁` is empty, the Weierstrass domain
+  `{|ϖ⁻¹|≤1}` of `X₁`, and `U∩X₂={|ϖT⁻¹|≤1}` is a Weierstrass domain of `X₂`,
+  on which `T` is a unit. The covering by `|T|≤|ϖ|` and `|ϖ|≤|T|≤1` is not:
+  its first member meets `U` in the circle `|T|=|ϖ|`, which by the same
+  argument is not a Weierstrass domain of that disc.
+- Refining the covering by `U¹={|T|≤|ϖ|}` (functions `ϖ;T`) and
+  `U²={|ϖ|≤|T|}` (functions `T;ϖ`): the products with at least one
+  denominator factor are `ϖT`, `ϖ²` and `T²`, and their rational covering is
+  the circle `{|ϖ|≤|T|≤|ϖ|}` (where `ϖT` is largest), the disc
+  `{|T|≤|ϖ|}=U¹` (where `ϖ²` is) and the annulus `{|T|≥|ϖ|}=U²` (where `T²`
+  is), each inside a member; the three functions have no common zero, as
+  `ϖ²` is a unit. Dropping the product `ϖ²` leaves `ϖT,T²`, which both
+  vanish at the origin, so the origin would lie in no member.
+- For `I=(T)` on the unit disc and `W₁={|T|≤|ϖ|}`, the lemma holds with
+  `n=1`. The set `{0}∪{|T|=1}` contains `V(T)` and contains no
+  `{|T|≤|ϖ|ⁿ}`: the hypothesis that the `Wⱼ` are affinoid subdomains, which
+  `{0}` is not (§4.1), cannot be dropped.
+- For the finite map `Sp K⟨S⟩→Sp K⟨T⟩`, `T↦S²`, with `|2|=1` and the point
+  `T=c²`, `|c|=1`, the fibre is `{S=c, S=−c}`. If `|(S−c)(S+c)|≤|ϖ|` and
+  `|S−c|≤|S+c|`, then `|S+c|≥|2c|=1`, so `|S−c|≤|ϖ|`: the preimage of
+  `{|T−c²|≤|ϖ|}` lies in the disjoint union of the discs `|S∓c|≤|ϖ|`
+  around the fibre points, as the lemma applied to `I=(T−c²)K⟨S⟩` asserts.
+
+### 4.4 Covers, flatness and reducedness
 
 For a domain `A`, restriction to a nonempty affinoid subdomain is injective,
 and for a finite affinoid cover `(Uᵢ)`, `A→∏ᵢ𝒪(Uᵢ)` is faithfully flat;
@@ -1126,24 +1253,37 @@ The unit disc `Sp K⟨T⟩` is covered by the rational domains `|T|≤|ϖ|` and
 `|ϖ|≤|T|≤1`, whose intersection is the circle `|T|=|ϖ|`. For `A=K⟨T⟩` and
 `𝔪=(T)`, `A_𝔪/𝔪ⁿ` is `K[T]/(Tⁿ)`, the quotient of the analytic local ring
 at the origin by the `n`th power of its maximal ideal. The origin of the
-disc is not an affinoid subdomain, while the whole of `Sp K` is.
+disc is not an affinoid subdomain, while the whole of `Sp K` is. The annulus
+`|ϖ|≤|T|≤1` is a Laurent but not a Weierstrass domain of the disc, and it
+becomes a Weierstrass domain on each member of the rational covering by
+`|T|≤|ϖ|²` and `|ϖ|²≤|T|≤1`.
 
 ### Dependencies
 
-Layers 1–3; Layer 5 for the stalk statements of §4.2;
-SchemeAndStackFoundations §0.21; the pinned affinoid subdomains, their
-transitivity and infinitesimal neighbourhoods, the site points of the weak
-affinoid G-topology, and the G-ring and universal-catenarity predicates;
-Mathlib flatness, localisation, adic completion and fibers of presheaves at
-site points. AdicSpacesPartII R0.9 and R1,
-AdicSpacesPartIII and AdicSpacesPartIV R5.7 consume this layer.
+Layers 0–3; AdicSpaces Layers 1–3 and §2.4 for Kisin's lemma; the pinned
+affinoid subdomains, their transitivity and infinitesimal neighbourhoods,
+the site points of the weak affinoid G-topology and the spectrality of
+`Spa`; Mathlib flatness, localisation, adic completion, fibers of presheaves
+at site points and the constructible topology. Nothing of Layers 5–8 is used.
+AdicSpacesPartII R0.9 and R1, AdicSpacesPartIII and AdicSpacesPartIV R5.7
+consume this layer.
 
 ## Layer 5: Čech comparison and acyclicity
 
 ### 5.1 Tate acyclicity and the sheaf condition
 
 Prove classical Tate acyclicity using the rational-localisation comparison
-with foundational AdicSpaces and the affinoid-cover refinement of Layer 4.
+with the adic Tate acyclicity pinned in Tau Ceti and the rational refinement
+of affinoid coverings of §4.3. For an affinoid `A` with a complete
+ultrametric algebra norm, `A` is a strongly noetherian Tate ring
+(`TauCeti.IsAffinoidAlgebra.isStronglyNoetherian`), so a family of rational
+subsets of a rational subset of `Spa(A,A°)`, nonempty and with union that
+subset, has an exact augmented Čech complex in every degree
+(`TauCeti.ValuationSpectrum.quasiIso_cechAugmentation_spaRationalOpens_of_iSup_eq`,
+with degree zero
+`TauCeti.ValuationSpectrum.isSheafFor_ofArrows_spaRationalOpens_of_iSup_eq`),
+and the structure presheaf of `Spa(A,A°)` is a sheaf
+(`TauCeti.ValuationSpectrum.isSheaf_presentationLimitPresheaf_of_isStronglyNoetherian`).
 Compare the finite-intersection algebras, restriction maps and augmented
 Čech complexes. In degree zero this is the sheaf condition of the pinned
 weak affinoid site: the presheaf `TauCeti.AffinoidSubdomain.presheaf` of
@@ -1161,10 +1301,16 @@ refinement through this chain map. Sources: [BGR] 8.2; Tate's theorem as
 recorded in [Kiehl-AB] §1 (p. 258); its Hilfssatz 1.3 (p. 260) refines a
 covering by special subdomains to a Laurent covering on each member of which
 the induced covering is formal.
-*Needs:* Layer 4 (rational covers, the Gerritzen–Grauert refinement, flat
-restrictions); §1.4 (rational localisations and their identification with
-AdicSpaces §3.1); AdicSpaces Layer 4 (Tate acyclicity for rational covers of
-`Spa(A,A°)`); the pinned `TauCeti.AffinoidSubdomain.weakGTopology`,
+*Needs:* §4.3 (the Gerritzen–Grauert theorem and the rational refinement of
+affinoid coverings); §4.1 (rational covers, flat restrictions); §1.4
+(rational localisations and their identification with AdicSpaces §3.1);
+Tau Ceti `TauCeti.IsAffinoidAlgebra.isStronglyNoetherian`,
+`TauCeti.ValuationSpectrum.spa`,
+`TauCeti.ValuationSpectrum.quasiIso_cechAugmentation_spaRationalOpens_of_iSup_eq`,
+`TauCeti.ValuationSpectrum.isSheafFor_ofArrows_spaRationalOpens_of_iSup_eq`
+and `TauCeti.ValuationSpectrum.isSheaf_presentationLimitPresheaf_of_isStronglyNoetherian`
+(Tate acyclicity for rational covers of `Spa(A,A°)`); the pinned
+`TauCeti.AffinoidSubdomain.weakGTopology`,
 `TauCeti.AffinoidSubdomain.presheaf`, `TauCeti.GTopology.grothendieckTopology`
 and `TauCeti.GTopology.isSheaf_iff`; Mathlib
 `CategoryTheory.Presheaf.IsSheaf`, `CategoryTheory.cechComplexFunctor` and
@@ -1213,6 +1359,60 @@ fictitious Banach norm. Sources: [BGR] 8.2.
   identity on global sections in degree zero, and both sides vanish in
   positive degrees.
 
+### 5.3 Excellence of the analytic local rings
+
+Prove excellence of the analytic local rings ([Conrad] Theorem 1.1.3,
+p. 5): for an affinoid `A` and a classical point `x`, the stalk
+`𝒪_{Sp A,x}` of §4.2 is a G-ring (`isGRing_stalk`) and universally catenary
+(`isUniversallyCatenary_stalk`), which for a noetherian local ring is
+excellence (the criterion [Conrad]'s proof of Theorem 1.1.3 applies on
+p. 5). In [Conrad]'s route the stalk is a quotient of the stalk at a point of
+a unit ball, which is regular since it is noetherian with regular
+completion, hence universally catenary. For the formal fibres one reduces to
+a domain `A` and the generic formal fibre, which is regular by §1.2's
+affinoid excellence through `Â_𝔪≃𝒪̂_{Sp A,x}`; a finite extension of the
+fraction field of the stalk is reached through a finite map of affinoids
+`f:Sp B→Sp A`, for which `f_*(𝒪_{Sp B})_x≃∏_{f(y)=x}𝒪_{Sp B,y}` ([Conrad]
+pp. 5–6). That identification uses Kisin's lemma of §4.3 to put the inverse
+image of a Weierstrass neighbourhood of `x` inside a disjoint union of
+affinoid neighbourhoods of the fibre points, and then the product
+decomposition of the coordinate ring of an affinoid space covered by
+finitely many pairwise disjoint affinoid subdomains ([Conrad] p. 6), which
+is the sheaf condition of §5.1 for that covering. Sources: [Conrad] §1.1 and
+Theorem 1.1.3.
+*Needs:* §4.2 (the stalk, its noetherianity and completion, and the
+faithfully flat germ map); §4.3 (Kisin's lemma); §5.1 (the sheaf condition,
+for finite disjoint affinoid coverings); §1.2 (excellence of affinoid
+algebras); SchemeAndStackFoundations §0.21 (excellence permanence and
+completion criteria); the pinned `TauCeti.GTopology.point`,
+`TauCeti.GTopology.isColimitNhdsCocone`, `TauCeti.Excellence.IsGRing`,
+`TauCeti.Excellence.IsUniversallyCatenary` and the regularity of Tate
+algebras at maximal ideals
+(`TauCeti.MvPowerSeries.isRegularLocalRing_localization_atPrime_of_isMaximal_isRestricted_subring`);
+Mathlib `CategoryTheory.GrothendieckTopology.Point.presheafFiber`.
+
+**Checks.**
+
+- At the origin of the cusp `K⟨X,Y⟩/(Y²−X³)` the stalk is a one-dimensional
+  noetherian local domain that is not regular, with completion `K⟦t²,t³⟧`, a
+  domain. Inverting the nonzero element `X=t²` of the maximal ideal of this
+  one-dimensional complete domain gives its fraction field, so the generic
+  formal fibre is the field `K((t))`, regular: the G-ring statement concerns
+  formal fibres, not regularity of the stalk.
+- At the origin of `Sp K⟨X,Y,Z⟩/(XY,XZ)`, the union of the plane `X=0` and the
+  line `Y=Z=0`, the stalk has the minimal primes `(X)` and `(Y,Z)`, of
+  coheights two and one, so its maximal chains of primes have lengths two
+  and one; it is still universally catenary, being a quotient of the regular
+  stalk of the three-dimensional ball. A test reading universal catenarity as
+  equidimensionality would reject it.
+- In characteristic not two, at the origin of `y²=x²(x+1)` the analytic stalk
+  has the two minimal primes `(y−x√(1+x))` and `(y+x√(1+x))`, with `√(1+x)`
+  convergent on a small disc, and its completion
+  `K⟦x,y⟧/((y−x√(1+x))(y+x√(1+x)))` is reduced, as it must be for the
+  completion of a reduced excellent local ring; the algebraic local ring
+  `A_𝔪` is a domain with the same completion, so being a domain is not read
+  off the completion.
+
 ### Examples
 
 For the Laurent cover of the unit disc by `|T|≤|ϖ|` and `|ϖ|≤|T|≤1`, the
@@ -1220,15 +1420,19 @@ augmented Čech complex is `0→K⟨T⟩→K⟨T/ϖ⟩×K⟨ϖ/T⟩→K⟨T/ϖ,�
 with `d(u,v)=v−u` on the circle, and it is exact; the one-member identity
 cover gives the complex `0→A→A→0`. Tensoring with an infinite direct sum of
 copies of `A` keeps exactness; the strict version is asserted only for finite
-modules.
+modules. At the origin of the cusp the stalk is excellent and not regular,
+with generic formal fibre `K((t))`.
 
 ### Dependencies
 
-Layers 1–4; AdicSpaces Layers 3–4; PadicFunctionalAnalysis Layer 1; the
-pinned weak affinoid site and G-topology sites; Mathlib's Čech complex of a
-presheaf; [Kiehl-AB]. AdicSpacesPartII
-R1 and AdicSpacesPartIII R3.1 consume the acyclicity theorem and the
-Čech-to-derived comparison.
+Layers 1–4; AdicSpaces Layer 3 (rational localisation) and the adic Tate
+acyclicity pinned in Tau Ceti; PadicFunctionalAnalysis Layer 1;
+SchemeAndStackFoundations §0.21 (for §5.3); the pinned weak affinoid site and
+G-topology sites, the site points and the G-ring and universal-catenarity
+predicates; Mathlib's Čech complex of a presheaf and fibers of presheaves at
+site points; [Kiehl-AB]; [Conrad] §1.1. AdicSpacesPartII R1 and
+AdicSpacesPartIII R3.1 consume the acyclicity theorem and the Čech-to-derived
+comparison.
 
 ## Layer 6: general G-topologies and rigid gluing
 
@@ -1525,7 +1729,7 @@ flat local comparison gives exact pullback.
 For a classical analytic point `x` over a closed point `x₀`, identify
 the completed local rings, compatibly with their local map. Prove that
 `𝒪_{X,x₀}` is reduced, respectively normal, iff `𝒪_{X^an,x}` is.
-Use §1.2 and Layers 3–4 for affinoid and analytic excellence, the shared
+Use §1.2 and §5.3 for affinoid and analytic excellence, the shared
 permanence theorems for finite-type schemes over affinoids, and the
 completion criteria; normal here means an integrally closed local
 domain. Deduce the global equivalences for reducedness and normality.
@@ -1535,8 +1739,8 @@ components carrying their reduced induced structures. Sources: [Conrad]
 case, with its compatibility with fibre products, affinoid base change and
 complete field extension); SchemeAndStackFoundations' excellence input.
 *Needs:* §6.2 (gluing and affinoid charts); §1.3 (completed presentations
-and pushouts); §1.2 and Layers 3–4 (excellence of affinoid algebras and of
-analytic local rings); SchemeAndStackFoundations §0.21 (excellence
+and pushouts); §1.2 and §5.3 (excellence of affinoid algebras and of
+analytic local rings); §4.2 (completed local rings); SchemeAndStackFoundations §0.21 (excellence
 permanence, reducedness and normality under completion); Mathlib
 `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.LocallyOfFiniteType`,
 `IsReduced` and `IsIntegrallyClosed`.
@@ -1586,7 +1790,7 @@ rational subdomains of `Max A` whose inequalities `v` satisfies form a prime
 filter, and this identifies `Spa(A,A°)` homeomorphically with the space of
 prime filters of rational subdomains, matching rational subsets and fixing
 the classical points (4.7.2–4.7.3, using the refinement of a finite rational
-covering by a standard rational covering from §4.1). The classical points
+covering by a standard rational covering from §4.3). The classical points
 are dense in the constructible topology of that filter space (4.7.4). Prove
 the finite rational-cover criterion through this comparison.
 
@@ -1619,22 +1823,78 @@ saying that `∣` is the divisibility relation of a valuation ring (`x∣y` or
 `y∣x`; `x∣y∧y∣z→x∣z`; `x∣y→xz∣yz`; `x∣y∧x∣z→x∣(y+z)`; `¬(0∣1)`); and
 `∃x ¬(1∣x)`. Prove that ACVF eliminates quantifiers: every formula is
 equivalent modulo ACVF to a quantifier-free formula
-(`FirstOrder.Language.BoundedFormula.IsQF`) in the same free variables.
-[Huber-CV] p. 471 and p. 472 states this and takes it from Prestel's
-model-theory text, item 4.17. The characteristic is not fixed: the
-characteristic and the residue characteristic are decided by quantifier-free
-sentences such as `p·1=0` and `¬(p·1∣1)`.
+(`FirstOrder.Language.BoundedFormula.IsQF`) in the same free variables
+([Prestel] 4.17, the reference [Huber-CV] gives for it on p. 472). The
+characteristic is not fixed: the characteristic and the residue
+characteristic are decided by quantifier-free sentences such as `p·1=0` and
+`¬(p·1∣1)`.
+
+One route has four steps; each is part of this target.
+(i) *Substructure test.* A theory `T` in a language with constant symbols
+eliminates quantifiers once, for all models `M` and `N` of `T`, every
+substructure `A⊆M`, every embedding `σ:A→N`, every quantifier-free formula
+`φ(x,ȳ)` and every tuple `ā` of `A`, `M⊨∃x φ(x,ā)` implies
+`N⊨∃x φ(x,σā)`. Under this hypothesis `T` together with the quantifier-free
+formulas that `∃x φ` implies modulo `T` implies `∃x φ`, so Mathlib's
+compactness theorem
+`FirstOrder.Language.Theory.isSatisfiable_iff_isFinitelySatisfiable` yields
+one quantifier-free formula equivalent to `∃x φ` modulo `T`, and induction on
+formulas removes the quantifiers one at a time.
+(ii) *Algebraic extension.* A substructure of a model of ACVF is a subdomain
+`A` of the field with the restricted relation, and `a/b∈O ⟺ b∣a` defines the
+valuation ring of `Frac(A)`, so `σ` extends uniquely to an embedding of
+valued fields on `Frac(A)`. It extends further to the relative algebraic
+closure `F` of `Frac(A)` in `M`: a field embedding `τ:F→N` over `Frac(A)`
+exists because `N` is algebraically closed (Mathlib `IsAlgClosed.lift`), the
+valuation rings `O_M∩F` and `τ⁻¹(O_N)` of `F` both lie over the valuation
+ring of `Frac(A)`, and step (iii) gives an automorphism `ρ` of `F` over
+`Frac(A)` carrying the first to the second, so that `τ∘ρ` preserves `∣`.
+(iii) *Conjugacy of extensions.* For a field `F₀` with valuation ring `O`
+and an algebraic closure `F₀ᵃ`, the automorphisms of `F₀ᵃ` over `F₀` act
+transitively on the valuation rings of `F₀ᵃ` lying over `O`. The valuation
+rings of `F₀ᵃ` lying over `O` are the localisations of the integral closure
+`B` of `O` in `F₀ᵃ` at the maximal ideals of `B` over the maximal ideal of
+`O`; such maximal ideals exist (Chevalley's theorem, Mathlib
+`LocalSubring.exists_le_valuationSubring`). The automorphism group of `F₀ᵃ`
+over `F₀` is profinite, and its invariants in `B` are the integral closure
+of `O` in the perfect closure of `F₀`, which is a valuation ring because
+valuation rings extend uniquely along purely inseparable extensions; so it
+permutes those maximal ideals transitively (Mathlib
+`Algebra.IsInvariant.exists_smul_of_under_eq_of_profinite`).
+(iv) *One transcendental element.* A witness of `∃x φ(x,ā)` in `F` maps to a
+witness in `N`. For a witness `x∈M` outside the algebraically
+closed field `F`, every polynomial over `F` splits, so the valuation on
+`F(x)` is determined by the values `v(x−c)`, `c∈F`, a closer approximation
+`c` giving a smaller value. Exactly one of three cases holds: these values
+have a smallest element outside the value group `v(F^×)`; they have a
+smallest element `v(x−c₀)=v(d)` with `d∈F^×`, and the residue of `(x−c₀)/d`
+is then transcendental over the residue field of `F`; or they have no
+smallest element, and `x` is a pseudo-limit of a
+pseudo-Cauchy sequence of `F` with no pseudo-limit in `F`. In each case the
+conditions saying that a new element `y` stands to `σ(F)` as `x` stands to
+`F` are finitely satisfiable in `N`, because the value group of `N` is
+divisible and nontrivial and its residue field is algebraically closed,
+hence infinite. By compactness they hold for some `y` in a model of the
+elementary diagram of `N`, which is an elementary extension of `N` (Mathlib
+`FirstOrder.Language.ElementaryEmbedding.ofModelsElementaryDiagram`);
+`x↦y` extends `σ` to `F(x)`, so `∃x φ(x,σā)` holds there and hence in `N`.
 Sources: [Huber-CV] §4 (Theorem 4.1 with its model-theoretic input on
-pp. 471–472, Corollaries 4.2–4.3 and Remark 4.7).
+pp. 471–472, Corollaries 4.2–4.3 and Remark 4.7); [Prestel] 4.17.
 *Needs:* §0.1 (Weierstrass preparation, for Theorem 4.1); §1.4 (rational
 fractions and their universal property); §2.2 (`A°` and `A°°`); §2.3
-(presentation-ring integrality); §4.1 (rational covers and their refinement
-by standard rational covers); the pinned classical points of `Spa(A,A°)`,
+(presentation-ring integrality); §4.1 (rational covers); §4.3 (their
+refinement by standard rational covers); the pinned classical points of `Spa(A,A°)`,
 `TauCeti.Huber.topologicallyNilpotentIdeal` and the topologically-finite-type
 identification `TauCeti.IsAffinoidAlgebra.isTopologicallyFiniteType`;
 AdicSpaces Layers 1–2 (`Spv`, `Spa`, rational subsets, pro-constructible
 subspaces); Mathlib `constructibleTopology`, `FirstOrder.Language.ring`,
-`FirstOrder.Language.Theory` and `FirstOrder.Language.BoundedFormula.IsQF`.
+`FirstOrder.Language.Theory` and `FirstOrder.Language.BoundedFormula.IsQF`;
+for quantifier elimination, steps (i)–(iv) above with Mathlib
+`FirstOrder.Language.Theory.isSatisfiable_iff_isFinitelySatisfiable`,
+`FirstOrder.Language.elementaryDiagram`,
+`FirstOrder.Language.ElementaryEmbedding.ofModelsElementaryDiagram`,
+`IsAlgClosed.lift`, `LocalSubring.exists_le_valuationSubring` and
+`Algebra.IsInvariant.exists_smul_of_under_eq_of_profinite`.
 
 **Checks.**
 
@@ -1670,6 +1930,19 @@ subspaces); Mathlib `constructibleTopology`, `FirstOrder.Language.ring`,
   quantifier-free definable: such subsets of `F` are finite or cofinite, and
   `O_v` is neither when `v` is nontrivial and `F` algebraically closed. The
   relation symbol is needed.
+- Conjugacy, step (iii), over `ℚ(i)/ℚ`: the `5`-adic valuation ring of `ℚ`
+  has the two extensions `ℤ[i]_(2+i)` and `ℤ[i]_(2−i)`, since
+  `5=(2+i)(2−i)`, and complex conjugation exchanges them; the `3`-adic one
+  has the single extension `ℤ[i]_(3)`, `3` being inert. A proof that assumed
+  a unique extension fails at `5`, and one that tried the identity
+  automorphism alone fails there too.
+- The three cases of step (iv) over `F` the algebraic closure of `ℚ_p`,
+  whose value group is `p^ℚ`: in the completion of `F(T)` for the Gauss norm
+  of radius `p^(−√2)`, `x=T` has smallest value `v(T)=p^(−√2)` outside `p^ℚ`;
+  for the Gauss norm of radius one, `x=T` has smallest value `1=v(1)` and
+  transcendental residue; and every `x∈ℂ_p` outside `F` has no closest
+  approximation in `F`, which is dense in `ℂ_p`, so it is a pseudo-limit
+  without a limit in `F`.
 
 ### 8.3 The image of the rigid–adic functor
 
@@ -1728,8 +2001,10 @@ consume this layer.
    theorems, including the polyradius criterion, independently of geometry;
    prove excellence, then the Banach function algebra theorem and the
    integral theory.
-3. Construct affinoid spaces, subdomains and their local rings, and prove
-   Tate acyclicity. General G-site theory is independent of this step.
+3. Construct affinoid spaces, subdomains and their local rings, prove the
+   Gerritzen–Grauert theorem, the rational refinement of coverings and
+   Kisin's lemma, then Tate acyclicity and the excellence of the analytic
+   local rings. General G-site theory is independent of this step.
 4. Construct the G-site and rigid category, the classical properness
    predicates and the identity principle, then rigid analytification,
    quantifier elimination for algebraically closed valued fields, the
@@ -1752,7 +2027,9 @@ elaborating roadmap prototype is not a proof or an implementation milestone.
 - AdicSpacesPartII R0.9 and R1 (R1.1, R1.7 and R1.9) consume
   `TauCeti.IsAffinoidAlgebra`, the affinoid norm and reduction theorems, the
   closed-embedding theorem of §1.1, the affinoid space `Sp A` of Layer 3 and
-  its subdomains of Layer 4, classical Tate acyclicity of Layer 5, the rigid
+  its subdomains of Layer 4 with the Gerritzen–Grauert theorem and the
+  rational refinement of coverings of §4.3 (*gerritzen-grauert*), classical
+  Tate acyclicity of Layer 5, the rigid
   category and the properness predicates of §§6.2–6.3, rigid analytification
   of §8.1, the constructible closure of the classical points in `Spv A` and
   their constructible density in `Spa(A,A°)` of §8.2
@@ -1768,9 +2045,10 @@ elaborating roadmap prototype is not a proof or an implementation milestone.
   rigid–adic functor of §8.3; the coherence, Kiehl, formal-functions and
   GAGA targets listed under **Scope and ownership** are theirs.
 - AdicSpacesPartIV F1.1 and R5.7, with its dagger-algebra targets, consume
-  strict-polyradius affinoidness (§1.5), affinoid excellence (§1.2), the
+  strict-polyradius affinoidness (§1.5), affinoid excellence (§1.2),
+  Gerritzen–Grauert and the rational refinement of coverings (§4.3), the
   supremum theorems of §§2.1–2.2, fraction algebras (§1.4) and
-  rational-local reducedness (§4.3), read through AdicSpacesPartII's
+  rational-local reducedness (§4.4), read through AdicSpacesPartII's
   R0.9 carrier bridge; dagger algebras, weak completion, étale and
   pro-étale geometry and their site comparisons stay there.
 - LocallyAnalyticDistributions §4.16 builds its geometric slope comparison,
@@ -1818,6 +2096,11 @@ elaborating roadmap prototype is not a proof or an implementation milestone.
   455–477, §4 (Theorem 4.1 with its model-theoretic input on pp. 471–472,
   Corollaries 4.2–4.3 and Remark 4.7).
   [GDZ digitisation of the volume](https://gdz.sub.uni-goettingen.de/id/PPN266833020_0212).
+- **[Prestel]** A. Prestel, *Einführung in die mathematische Logik und
+  Modelltheorie*, Vieweg, 1986, item 4.17 (quantifier elimination for
+  algebraically closed fields with a nontrivial valuation-divisibility
+  relation, the reference [Huber-CV] gives on p. 472),
+  [doi:10.1007/978-3-663-07641-4](https://doi.org/10.1007/978-3-663-07641-4).
 - **[Huber-FR]** R. Huber, *A generalization of formal schemes and rigid
   analytic varieties*, Math. Z. 217 (1994), 513–551, §4.
   [GDZ digitisation of the volume](https://gdz.sub.uni-goettingen.de/id/PPN266833020_0217).

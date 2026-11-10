@@ -38,11 +38,11 @@ affinoid algebras in its two non-pinned halves (§1.2: every affinoid algebra is
 algebra of finite type over it has open regular locus; universal catenarity is pinned); the
 Banach function algebra theorem of §2.2 (on a reduced affinoid algebra every complete ultrametric
 algebra norm is bounded by a multiple of the supremum seminorm; the reverse bound is the pinned
-`TauCeti.IsAffinoidAlgebra.supSeminorm_le_norm`); excellence of the analytic local rings (§4.2:
-the stalk of the structure presheaf at a classical point is a G-ring and universally catenary);
-Tate's acyclicity theorem (Layer 5: the presheaf of coordinate algebras is a sheaf for the weak
-affinoid G-topology, and its Čech complex for a finite affinoid cover is exact in positive
-degrees); and Huber's theorems on classical points (§8.2: their closure in the constructible
+`TauCeti.IsAffinoidAlgebra.supSeminorm_le_norm`); Tate's acyclicity theorem (§5.1: the presheaf of
+coordinate algebras is a sheaf for the weak affinoid G-topology, and its Čech complex for a finite
+affinoid cover is exact in positive degrees); excellence of the analytic local rings (§5.3: the
+stalk of the structure presheaf at a classical point is a G-ring and universally catenary); and
+Huber's theorems on classical points (§8.2: their closure in the constructible
 topology of `Spv A` is the set `L_A`, and they are dense in the constructible topology of
 `Spa(A,A°)`).
 
@@ -144,50 +144,12 @@ theorem exists_norm_le_mul_supSeminorm [IsReduced A] (hA : TauCeti.IsAffinoidAlg
 
 end BanachFunctionAlgebra
 
-/-! ## Layer 4: affinoid subdomains, local rings and covers -/
-
-section AnalyticLocalRings
-
-open CategoryTheory
-
-/-- The analytic local rings are G-rings (§4.2; Conrad, *Irreducible components of rigid
-spaces*, Theorem 1.1.3, p. 5): the stalk of the structure presheaf of `Sp A` at a classical point
-`x`, the fiber of the presheaf of coordinate algebras at the site point of `x` for the weak affinoid
-G-topology, which is the colimit of the coordinate algebras of the affinoid subdomains containing
-`x`, is noetherian with geometrically regular formal fibres. Conrad's proof reduces the formal
-fibres to the generic formal fibre of an affinoid domain, regular by Kiehl's excellence of affinoid
-algebras. The stalk need not be regular: at the origin of the cusp `K⟨X,Y⟩/(Y² − X³)` its
-completion is `K⟦t², t³⟧`. -/
-theorem isGRing_stalk (A : Type u) [CommRing A] [Algebra K A]
-    [Fact (TauCeti.IsAffinoidAlgebra K A)] (x : MaximalSpectrum A) :
-    TauCeti.Excellence.IsGRing
-      (((TauCeti.AffinoidSubdomain.weakGTopology (K := K) (A := A)).point x).presheafFiber
-        (A := CommRingCat.{u}) |>.obj
-        (TauCeti.AffinoidSubdomain.presheaf (K := K) (A := A) ⋙
-          forget₂ (CommAlgCat K) CommRingCat)) := by
-  sorry
-
-/-- The analytic local rings are universally catenary (§4.2; Conrad, proof of Theorem 1.1.3,
-p. 5): the stalk at a classical point is a quotient of the stalk at a point of a unit ball, which
-is a regular local ring. With `isGRing_stalk` this is excellence of the noetherian local ring,
-by the criterion Conrad's proof applies on p. 5. -/
-theorem isUniversallyCatenary_stalk (A : Type u) [CommRing A] [Algebra K A]
-    [Fact (TauCeti.IsAffinoidAlgebra K A)] (x : MaximalSpectrum A) :
-    TauCeti.Excellence.IsUniversallyCatenary
-      (((TauCeti.AffinoidSubdomain.weakGTopology (K := K) (A := A)).point x).presheafFiber
-        (A := CommRingCat.{u}) |>.obj
-        (TauCeti.AffinoidSubdomain.presheaf (K := K) (A := A) ⋙
-          forget₂ (CommAlgCat K) CommRingCat)) := by
-  sorry
-
-end AnalyticLocalRings
-
 /-! ## Layer 5: Čech comparison and acyclicity -/
 
 section Acyclicity
 
 open CategoryTheory in
-/-- Tate's acyclicity theorem, sheaf form (Layer 5; BGR 8.2.1/1; Tate's theorem as recorded in
+/-- Tate's acyclicity theorem, sheaf form (§5.1; BGR 8.2.1/1; Tate's theorem as recorded in
 Kiehl-AB §1, p. 258, whose Hilfssatz 1.3, p. 260, refines a covering by special subdomains to a
 Laurent covering on each member of which the induced covering is formal): the presheaf of
 coordinate algebras on the affinoid subdomains of `Sp A` is a sheaf for the Grothendieck topology
@@ -203,7 +165,7 @@ theorem isSheaf_affinoidSubdomain_presheaf (A : Type*) [CommRing A] [Algebra K A
   sorry
 
 open CategoryTheory in
-/-- Tate's acyclicity theorem in positive degrees (Layer 5; BGR 8.2.1/1): for a finite family `U`
+/-- Tate's acyclicity theorem in positive degrees (§5.1; BGR 8.2.1/1): for a finite family `U`
 of affinoid subdomains covering `Sp A`, Mathlib's Čech complex of the presheaf of coordinate
 algebras, as `K`-modules, is exact in every degree `n ≥ 1`. The complex runs over all ordered
 tuples of indices. Degree zero is excluded: there the cohomology is `A`, by the sheaf condition.
@@ -219,6 +181,44 @@ theorem exactAt_cechComplex_of_cover (A : Type*) [CommRing A] [Algebra K A]
   sorry
 
 end Acyclicity
+
+section AnalyticLocalRings
+
+open CategoryTheory
+
+/-- The analytic local rings are G-rings (§5.3; Conrad, *Irreducible components of rigid
+spaces*, Theorem 1.1.3, p. 5): the stalk of the structure presheaf of `Sp A` at a classical point
+`x`, the fiber of the presheaf of coordinate algebras at the site point of `x` for the weak affinoid
+G-topology, which is the colimit of the coordinate algebras of the affinoid subdomains containing
+`x`, is noetherian with geometrically regular formal fibres. Conrad's proof reduces the formal
+fibres to the generic formal fibre of an affinoid domain, regular by Kiehl's excellence of affinoid
+algebras, through finite maps of affinoids, using Kisin's lemma and the sheaf condition for
+disjoint affinoid coverings. The stalk need not be regular: at the origin of the cusp
+`K⟨X,Y⟩/(Y² − X³)` its completion is `K⟦t², t³⟧`, and its generic formal fibre is the field
+`K((t))`. -/
+theorem isGRing_stalk (A : Type u) [CommRing A] [Algebra K A]
+    [Fact (TauCeti.IsAffinoidAlgebra K A)] (x : MaximalSpectrum A) :
+    TauCeti.Excellence.IsGRing
+      (((TauCeti.AffinoidSubdomain.weakGTopology (K := K) (A := A)).point x).presheafFiber
+        (A := CommRingCat.{u}) |>.obj
+        (TauCeti.AffinoidSubdomain.presheaf (K := K) (A := A) ⋙
+          forget₂ (CommAlgCat K) CommRingCat)) := by
+  sorry
+
+/-- The analytic local rings are universally catenary (§5.3; Conrad, proof of Theorem 1.1.3,
+p. 5): the stalk at a classical point is a quotient of the stalk at a point of a unit ball, which
+is a regular local ring. With `isGRing_stalk` this is excellence of the noetherian local ring,
+by the criterion Conrad's proof applies on p. 5. -/
+theorem isUniversallyCatenary_stalk (A : Type u) [CommRing A] [Algebra K A]
+    [Fact (TauCeti.IsAffinoidAlgebra K A)] (x : MaximalSpectrum A) :
+    TauCeti.Excellence.IsUniversallyCatenary
+      (((TauCeti.AffinoidSubdomain.weakGTopology (K := K) (A := A)).point x).presheafFiber
+        (A := CommRingCat.{u}) |>.obj
+        (TauCeti.AffinoidSubdomain.presheaf (K := K) (A := A) ⋙
+          forget₂ (CommAlgCat K) CommRingCat)) := by
+  sorry
+
+end AnalyticLocalRings
 
 /-! ## Layer 8: analytification and rigid–adic comparison -/
 
