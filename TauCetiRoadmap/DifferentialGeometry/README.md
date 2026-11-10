@@ -328,7 +328,7 @@ Checked against the pin; re-grep before citing anything in code.
   `maximalIntegralCurve`, the escape lemma `eventually_notMem_nhdsLT_maximalIntegralCurve`,
   completeness on compact manifolds, and the fundamental theorem of flows for finite-dimensional
   models: `maximalIntegralCurveFlowDomain`, its openness, joint smoothness of the flow, and the
-  group law `maximalIntegralCurve_add`. 3.2 reads them in `flowOf`'s order, discharges its
+  group law `maximalIntegralCurve_add`. 3.2 reads them in `TauCeti.flowOf`'s order, discharges its
   finite-dimensional targets from them, and extends them to Banach models.
 - **Smooth dependence on initial conditions, finite-dimensional**:
   `Analysis/ODE/{SmoothParameter,InitialCondition}.lean` (`ODE.exists_contDiffAt_localFlow`); 3.1
@@ -379,8 +379,13 @@ Checked against the pin; re-grep before citing anything in code.
   name. The carriers they are built on — `TauCeti.RoughForm`, `TauCeti.SmoothForm`, `TauCeti.mextDeriv`,
   `TauCeti.closedForms`, `TauCeti.Manifold.OrientationLift`, `TauCeti.Manifold.Orientation`,
   `TauCeti.integralTopForm`, `TauCeti.homotopyOperator`, `TauCeti.fullSimplex` — realize the
-  carriers of layers 0–2 and 5; a declaration of `Suggested.lean` bearing one of these names is
-  that target's signature, never a second definition.
+  carriers of layers 0–2 and 5, and `Suggested.lean` states its theorems on them. Its
+  `RoughForm`, `RoughForm.ofFunction`, `SmoothForm`, `mextDeriv`, `fullSimplex` and
+  `fullSimplexEquivStdSimplex` are abbreviations of the Tau Ceti declarations of the same names,
+  and `bundleMpullback` is `TauCeti.bundleMpullback` typed in the pulled-back bundle (0.3); the
+  chart-sign carriers `OrientationLift`, `OrientationLift.setoid`, `Manifold.Orientation`,
+  `Manifold.Orientation.neg`, `orientationAt` and `Manifold.Orientation.pullback` are the
+  definitions on which AlgebraicTopology's orientation comparison computes (2.1–2.2).
 - **Forms, the exterior derivative, flows, the outward field, Green and the Riemannian
   calculus**: `Topology/Algebra/Module/Alternating/Wedge/{Basic,Assoc}.lean` and
   `Analysis/Normed/Module/Alternating/{Wedge,BracketWedge}.lean` —
@@ -450,9 +455,8 @@ Checked against the pin; re-grep before citing anything in code.
   `Geometry/Manifold/DifferentialForm/HomotopyOperator.lean` — `TauCeti.homotopyOperator`,
   `TauCeti.mextDeriv_homotopyOperator_add_homotopyOperator_mextDeriv`,
   `TauCeti.mextDeriv_homotopyOperator` and `TauCeti.IsSmoothForm.homotopyOperator` (5.4). The
-  subsections named consume these by name and plan nothing again; a declaration of
-  `Suggested.lean` bearing one of these names is that target's signature, never a second
-  definition.
+  subsections named consume these by name and plan nothing again, and `Suggested.lean` declares
+  none of them again.
 - **Coefficient maps, the Lie derivative of forms, time-dependent flows, product and
   closed-ball orientations, and metrics on products, open subsets and boundaries**:
   `Geometry/Manifold/DifferentialForm/MapCoeff.lean` and
@@ -559,7 +563,7 @@ Frobenius APIs. `TauCeti.IsContMDiffDistribution`, local
 integral-graph theorem are the shared production interfaces. Extend them
 with the restrictions, transport laws and consumers below; do not build a
 parallel distribution or involutivity theory. `Suggested.lean` states layer 4
-on these predicates directly and adds only the bundled integral manifold. The pinned files are
+on these predicates and on `TauCeti.IntegralManifold` directly. The pinned files are
 `TauCeti/Geometry/Manifold/Distribution.lean`,
 `TauCeti/Geometry/Manifold/Foliation/Basic.lean` and
 `TauCeti/Geometry/Manifold/Distribution/Graph.lean`, together with, under
@@ -611,8 +615,8 @@ Everything the layers specify beyond the inventory above. The layer order is the
 dependence, and the hardest item, Banach smooth dependence (3.1), gates what follows it. `Suggested.lean` states the
 headline theorems of these layers against the pinned libraries; it is a nonexhaustive
 illustration of particular signatures, and this README is definitive. A definition in
-`Suggested.lean` has a real body (`mpullback`, `flowDomain`/`flowOf`,
-`planarRadialPrimitive`, `fullSimplexEquivStdSimplex`, `divergence`, …). A construction whose
+`Suggested.lean` has a real body (`planarRadialPrimitive`, `contractionAlongMap`,
+`timeDependentFlow`, `immersionMetric`, …). A construction whose
 body is itself a theorem (integration of densities, the smooth face structure of 5.5b, the
 degree) is a target of this README with its intended signature and laws, and is never
 declared with a `sorry` body or a `Prop`-typed placeholder. An implementation must provide that
@@ -733,12 +737,14 @@ hypotheses.
   bundles specialize it, and 0.2 plans nothing again. *Needs:* Mathlib's topological bundle
   of continuous alternating maps (`Topology/VectorBundle/ContinuousAlternatingMap.lean`) and the
   smooth `Hom` bundle (`Geometry/Manifold/VectorBundle/Hom.lean`) as the pattern.
-- **0.3 Rough forms and pullback.** The carrier is `RoughBundleForm I M V k`, with value fibre
+- **0.3 Rough forms and pullback.** The carrier is `TauCeti.RoughBundleForm I M V k`, with value fibre
   `V x`; `RoughForm I M F k` is its `Bundle.Trivial M F` specialization. Smoothness is
-  `IsSmoothBundleForm` in the alternating bundle, specializing to `IsSmoothForm`. Bundle pullback
-  `bundleMpullback` through `mfderiv` takes values in the pulled-back bundle `fun x ↦ V (f x)`,
+  `TauCeti.IsSmoothBundleForm` in the alternating bundle, specializing to `TauCeti.IsSmoothForm`. Bundle pullback
+  through `mfderiv` is Tau Ceti's `TauCeti.bundleMpullback`, with values in the family
+  `fun x ↦ V (f x)`; `bundleMpullback` is the same form typed in Mathlib's pulled-back bundle
+  `f *ᵖ V`, the family that carries the bundle structure in which smoothness is stated,
   and pulling back a paired wedge pulls back the fibrewise pairing as well as both forms, with no
-  differentiability hypothesis. `mpullback` is the fixed-coefficient specialization. Its chain
+  differentiability hypothesis. `TauCeti.mpullback` is the fixed-coefficient specialization. Its chain
   rule carries the differentiability hypotheses `mfderiv`'s does, pointwise, on open sets and
   globally. For fixed coefficients, the coefficient postcomposition `L_*ω` of a rough form along
   a continuous real-linear `L : F →L[ℝ] G` is Tau Ceti's `TauCeti.RoughForm.mapCoeff L ω`
@@ -759,7 +765,8 @@ hypotheses.
   `mapCoeff_wedgeWith_eq_postcomp` in the namespace `TauCeti.RoughForm`
   (`DifferentialForm/Wedge/MapCoeff.lean`).
   `C^(n+1)` maps pull `C^n` forms back to `C^n` forms (`isSmoothBundleForm_mpullback`, with values
-  in the pulled-back bundle).
+  in the pulled-back bundle; the case of a trivial value bundle is Tau Ceti's
+  `TauCeti.IsSmoothBundleForm.mpullback`, `DifferentialForm/Pullback/Smooth.lean`).
   **Open-subtype flat adapter.** For an open `U⊆E` in a real normed model `E`, give the
   open subtype its canonical manifold structure induced by inclusion, with model `𝓘(ℝ,E)`. Use `ContinuousAlternatingMap.ofSubsingletonLIE` at
   `Fin 1` to identify flat degree-one alternating covectors with `E→L[ℝ]F`. Define the flat
@@ -775,7 +782,7 @@ hypotheses.
   comparison between `mextDeriv ω=0` and the flat `extDeriv`/curl equation.
   For every degree `k` and regularity `n`, identify the flat field of a rough form on this
   canonical open subtype with `U → (E [⋀^Fin k]→L[ℝ] F)`. Prove that
-  `IsSmoothForm (𝓘(ℝ,E)) n ω` is equivalent to `ContDiffOn ℝ n ω₀ U` for an ambient
+  `TauCeti.IsSmoothForm (𝓘(ℝ,E)) n ω` is equivalent to `ContDiffOn ℝ n ω₀ U` for an ambient
   representative `ω₀` agreeing with that field on `U`. Prove this in both directions and
   independence of the representative outside `U`. The degree-zero specialization uses
   `ContinuousAlternatingMap.constOfIsEmpty`; degree one uses the adapter above. This supplies
@@ -793,24 +800,24 @@ hypotheses.
   `ContinuousLinearMap.compContinuousAlternatingMap`, `ContinuousAlternatingMap.ofSubsingletonLIE`
   and `ContinuousAlternatingMap.constOfIsEmpty`; for the path statement, Mathlib's `curveIntegral`.
   **Checks.**
-  - `RoughBundleForm I M V 0` is `(x : M) → TangentSpace I x [⋀^Fin 0]→L[ℝ] V x`, the sections of
+  - `TauCeti.RoughBundleForm I M V 0` is `(x : M) → TangentSpace I x [⋀^Fin 0]→L[ℝ] V x`, the sections of
     `V` through `constOfIsEmpty`; a carrier indexed by `Fin (k + 1)` instead of `Fin k` would make
-    `0`-forms covector fields. On a model of dimension `n` every `RoughBundleForm` of degree
+    `0`-forms covector fields. On a model of dimension `n` every `TauCeti.RoughBundleForm` of degree
     `n + 1` is `0`, since `E [⋀^Fin (n+1)]→L[ℝ] F = 0`, which is what makes cohomology vanish
     above the dimension (6.1).
   - A rough form carries no continuity: the indicator form on `ℝ`, `dx` for `x ≥ 0` and `0`
-    for `x < 0`, is a `RoughForm 𝓘(ℝ) ℝ ℝ 1`, and `IsSmoothForm 𝓘(ℝ) 0` fails for it, so
-    smoothness is a predicate on the carrier, not part of it; `IsSmoothBundleForm` and
-    `IsSmoothForm` are monotone in `n` and hold for the zero form at every `n`.
-  - On the model `𝓘(ℝ, E)` with the trivial bundle, `IsSmoothForm 𝓘(ℝ, E) n φ` is
-    `ContDiff ℝ n φ` for `φ : E → E [⋀^Fin k]→L[ℝ] F` (the flat adapter), and `mpullback` at a
+    for `x < 0`, is a `RoughForm 𝓘(ℝ) ℝ ℝ 1`, and `TauCeti.IsSmoothForm 𝓘(ℝ) 0` fails for it, so
+    smoothness is a predicate on the carrier, not part of it; `TauCeti.IsSmoothBundleForm` and
+    `TauCeti.IsSmoothForm` are monotone in `n` and hold for the zero form at every `n`.
+  - On the model `𝓘(ℝ, E)` with the trivial bundle, `TauCeti.IsSmoothForm 𝓘(ℝ, E) n φ` is
+    `ContDiff ℝ n φ` for `φ : E → E [⋀^Fin k]→L[ℝ] F` (the flat adapter), and `TauCeti.mpullback` at a
     point of differentiability is `(φ (f x)).compContinuousLinearMap (fderiv ℝ f x)`; a chartwise
     definition that forgot the fibre identification would not reduce to these.
   - `bundleMpullback I I id φ = φ`, and along a constant map `c` the pullback is
     `(φ c).compContinuousLinearMap 0`, which is `0` in degree `≥ 1` and the constant function
     `φ c` in degree `0`.
-  - The chain rule of `mpullback` needs differentiability: for `f = (· ^ 3)` and `g = ∛` on
-    `ℝ`, `mpullback (g ∘ f) dx = dx` everywhere, while `mpullback f (mpullback g dx)` is `0` at
+  - The chain rule of `TauCeti.mpullback` needs differentiability: for `f = (· ^ 3)` and `g = ∛` on
+    `ℝ`, `TauCeti.mpullback (g ∘ f) dx = dx` everywhere, while `TauCeti.mpullback f (TauCeti.mpullback g dx)` is `0` at
     `0`, because `mfderiv g 0` is the junk value `0`.
   - `TauCeti.RoughForm.wedgeWith` is pointwise: on `ℝ²`, `(x dy) ∧ dx` evaluated at `(e₁, e₂)` is
     `0 · 0 − x · 1 = −x`, i.e. `x dy ∧ dx = −x dx ∧ dy`; pullback commutes with it with no
@@ -818,17 +825,17 @@ hypotheses.
     `a`, `ofFunction a ∧ η = a • η` with no sign.
   - `RoughForm.ofFunction I f x` evaluates to `f x` on the empty tuple, is injective in `f`,
     and `mextDeriv (ofFunction f) = df` (1.1), so a constant function has `d = 0`;
-    `IsSmoothForm I n (ofFunction f)` is `ContMDiff I 𝓘(ℝ, F) n f`.
-- **0.4 Bundled forms.** `SmoothBundleForm` is the submodule `smoothBundleForms` of `C^∞`
-  bundle-valued rough forms; `SmoothForm I M F k` (the submodule `smoothForms`) is its
-  trivial-bundle specialization, closed under the paired wedge for every fixed continuous
+    `TauCeti.IsSmoothForm I n (ofFunction f)` is `ContMDiff I 𝓘(ℝ, F) n f`.
+- **0.4 Bundled forms.** `TauCeti.SmoothBundleForm` is the submodule `TauCeti.smoothBundleForms` of `C^∞`
+  bundle-valued rough forms; `SmoothForm I M F k` is its
+  trivial-bundle specialization `TauCeti.SmoothBundleForm I F (Trivial M F) k`, closed under the paired wedge for every fixed continuous
   bilinear pairing (Tau Ceti's `TauCeti.smoothForms_wedgeWith_mem`,
   `DifferentialForm/Wedge/Smooth/Basic.lean`). General fibrewise products use a smooth bundle
   pairing.
   In particular, `V x →L[ℝ] V x` is an allowed value fibre: curvature can be typed as an
-  endomorphism-valued 2-form (`CurvatureForm`). Degree-two scalar forms are Tau Ceti's
+  endomorphism-valued 2-form (`TauCeti.CurvatureForm`). Degree-two scalar forms are Tau Ceti's
   `TauCeti.SmoothTwoForm I M`, by definition `SmoothForm I M ℝ 2`. *Acceptance:* over
-  `𝓘(ℝ, E)`, `mpullback` at a point where `f` is differentiable is the flat pullback
+  `𝓘(ℝ, E)`, `TauCeti.mpullback` at a point where `f` is differentiable is the flat pullback
   `(φ (f x)).compContinuousLinearMap (fderiv ℝ f x)`. Fixed-coefficient
   postcomposition on smooth forms is Tau Ceti's linear map `TauCeti.SmoothForm.mapCoeff L`
   from `SmoothForm I M F k` to `SmoothForm I M G k`, with `mapCoeff_id`,
@@ -837,27 +844,27 @@ hypotheses.
   without completeness; 0.4 consumes them and plans nothing about them again.
   *Needs:* 0.2–0.3.
   **Checks.**
-  - Membership in `smoothForms I M F k` is `IsSmoothForm I ∞` by definition: `x dy` on `ℝ²` is a
-    member, the indicator form of 0.3 is not, and the zero form is; `smoothForms I M F k = 0` for
-    `k > dim E`.
+  - Membership in `SmoothForm I M F k` is `TauCeti.IsSmoothForm I ∞`
+    (`TauCeti.IsSmoothForm.mem_smoothBundleForms`): `x dy` on `ℝ²` is a member, the indicator
+    form of 0.3 is not, and the zero form is; `SmoothForm I M F k` is zero for `k > dim E`.
   - `SmoothForm I M ℝ 2` on `ℝ²` contains `dx ∧ dy` (`TauCeti.smoothForms_wedgeWith_mem`), and
     closedness of a smooth form (`TauCeti.SmoothForm.IsClosed`) is `mextDeriv = 0`; on `ℝ²` every
     `2`-form is closed because `3`-forms vanish, while
     `d(x dy) = dx ∧ dy ≠ 0` shows the predicate is not vacuous in degree `1`.
-  - `CurvatureForm I ℝ (Trivial M ℝ)` is `SmoothBundleForm I (ℝ →L[ℝ] ℝ) (fun _ ↦ ℝ →L[ℝ] ℝ) 2`,
+  - `TauCeti.CurvatureForm I ℝ (Trivial M ℝ)` is `TauCeti.SmoothBundleForm I (ℝ →L[ℝ] ℝ) (fun _ ↦ ℝ →L[ℝ] ℝ) 2`,
     where the curvature `dA` of a connection `d + A` on the trivial line bundle lives: for
     `A = x dy` on `ℝ²` it is `dx ∧ dy ≠ 0`, so `(d_∇)² = 0` is not a law of this carrier; over a
-    curve every `CurvatureForm` is `0`; the flat connection has curvature `0`.
+    curve every `TauCeti.CurvatureForm` is `0`; the flat connection has curvature `0`.
 
 ### Layer 1: the exterior derivative
 
 *[Lee, Ch. 14].*
 
 - **1.1 Definition.** For fixed coefficients (the trivial-bundle specialization),
-  `mextDerivWithin` conjugates `extDerivWithin` through `extChartAt` on
+  `TauCeti.mextDerivWithin` conjugates `extDerivWithin` through `extChartAt` on
   `(extChartAt I x).symm ⁻¹' s ∩ range I`, chart independence being `extDerivWithin_pullback`; then
-  `mextDeriv`, locality, linearity (`mextDeriv_add` for `C¹` forms and `mextDeriv_smul`, which
-  Tau Ceti proves pointwise as `TauCeti.mextDeriv_add` and `TauCeti.mextDeriv_smul` in
+  `mextDeriv`, locality, linearity (Tau Ceti's `TauCeti.mextDeriv_add`, pointwise for forms
+  whose chart expressions are differentiable, and `TauCeti.mextDeriv_smul`,
   `DifferentialForm/ExtDeriv.lean`), agreement
   with Mathlib's `extDeriv` over the model space, and, for a `0`-form `RoughForm.ofFunction I f`,
   `d f = mfderiv f`.
@@ -879,7 +886,7 @@ hypotheses.
   (`DifferentialForm/MapCoeff.lean`): for every continuous real-linear `L : F →L[ℝ] G` and a
   `C¹` form `ω` on a `C¹` manifold, `mextDeriv (L_*ω) = L_*(mextDeriv ω)`
   (`TauCeti.mextDeriv_mapCoeff`), and its pointwise `Within` form
-  `mextDerivWithin (L_*ω) s x = L.compContinuousAlternatingMap (mextDerivWithin ω s x)` under
+  `TauCeti.mextDerivWithin (L_*ω) s x = L.compContinuousAlternatingMap (TauCeti.mextDerivWithin ω s x)` under
   differentiability of the chart coefficient within the chart image of `s` and
   `UniqueMDiffWithinAt I s x` (`TauCeti.mextDerivWithin_mapCoeff`), whose cases `s = univ` and
   `s` open are the `At` and `On` forms; `UniqueMDiffWithinAt` is by
@@ -891,35 +898,35 @@ hypotheses.
 - **1.3 d² = 0 and regularity.** `d ∘ d = 0` for `C²` forms is Tau Ceti's
   `TauCeti.mextDeriv_mextDeriv` (`DifferentialForm/Squared.lean`), and `d` takes `C^p` forms to
   `C^n` forms for `n + 1 ≤ p` on a `C²` manifold, Tau Ceti's `TauCeti.isSmoothForm_mextDeriv`
-  (`DifferentialForm/Regularity.lean`), whose smooth case `isSmoothForm_mextDeriv_infty` is what
+  (`DifferentialForm/Regularity.lean`), whose case `p = n = ∞` is what
   lets `d` map `Ω^k` to `Ω^(k+1)`. The bundled
   `SmoothForm` mirror of 1.2's coefficient naturality, `d (L_*φ) = L_*(d φ)` for `C^∞` forms
   on a `C²` manifold, is Tau Ceti's as well: its linear exterior derivative commutes with
   `TauCeti.SmoothForm.mapCoeff` (the last theorem on coefficient maps of
   `DifferentialForm/MapCoeff.lean`'s `SmoothForm` section). On bundled smooth
-  real forms, `d` is the linear map `mextDerivₗ`, and the closed forms `closedForms I M k` are
+  real forms, `d` is the linear map `TauCeti.mextDerivₗ`, and the closed forms `TauCeti.closedForms I M k` are
   its kernel: closedness is the equation `mextDeriv φ = 0`, with any chartwise description a
   theorem about it. *Needs:* 1.1–1.2; 0.4 (the bundled carrier and its coefficient-map
   smoothness); Mathlib's flat `d² = 0` and its `Within` form on sets of unique differentiability.
   **Checks.**
   - On the model `𝓘(ℝ, E)` with `s = univ` the chart is the identity, so
-    `mextDerivWithin φ univ x = extDeriv φ x`, Mathlib's flat derivative; on `[0, ∞)` over
+    `TauCeti.mextDerivWithin φ univ x = extDeriv φ x`, Mathlib's flat derivative; on `[0, ∞)` over
     `𝓡∂ 1` the derivative within `range I = [0, ∞)` is unique at `0`, so `d(x) = dx` holds at
     the boundary point, where a definition using the open-set derivative would give the junk
     value `0`.
-  - `mextDerivWithin φ ∅ x = 0`: the within-derivative on the empty set is `fderivWithin` on
+  - `TauCeti.mextDerivWithin φ ∅ x = 0`: the within-derivative on the empty set is `fderivWithin` on
     `∅`, Mathlib's junk value `0`; a definition claiming chart independence for every `s` would
     have to prove it for this value too, which holds.
-  - `mextDeriv_add` needs `C¹`: on `ℝ²` let `φ = ∛x dy` and `η = (x − ∛x) dy`; then
+  - `TauCeti.mextDeriv_add` needs `C¹`: on `ℝ²` let `φ = ∛x dy` and `η = (x − ∛x) dy`; then
     `φ + η = x dy` has `d = dx ∧ dy ≠ 0` at `0`, while `mextDeriv φ` and `mextDeriv η` are both
-    the junk value `0` at `0`, neither coefficient being differentiable there. `mextDeriv_smul`
+    the junk value `0` at `0`, neither coefficient being differentiable there. `TauCeti.mextDeriv_smul`
     holds with no hypothesis: for `c = 0` both sides are `0`, and for `c ≠ 0` both sides are
     junk or both are `c` times the derivative.
-  - `mextDerivₗ` is `mextDeriv` on the underlying form; `mextDerivₗ ∘ mextDerivₗ = 0` (1.3) is
+  - `TauCeti.mextDerivₗ` is `mextDeriv` on the underlying form; `TauCeti.mextDerivₗ ∘ TauCeti.mextDerivₗ = 0` (1.3) is
     what makes `TauCeti.deRhamComplex` a complex (6.1); in degree `dim E` it is the zero map.
-  - `closedForms`: `dθ` on the circle is closed (every `1`-form on a `1`-manifold is) but not
-    exact (6.3), so `closedForms ≠ exactForms`; `x dy` on `ℝ²` is not closed and
-    `x dx + y dy = d(½(x² + y²))` is; in degree `0`, `closedForms I M 0` are the locally constant
+  - `TauCeti.closedForms`: `dθ` on the circle is closed (every `1`-form on a `1`-manifold is) but not
+    exact (6.3), so `TauCeti.closedForms ≠ exactForms`; `x dy` on `ℝ²` is not closed and
+    `x dx + y dy = d(½(x² + y²))` is; in degree `0`, `TauCeti.closedForms I M 0` are the locally constant
     functions, two-dimensional on a two-point manifold.
 - **1.4 Cartan calculus.** The vector-valued Leibniz law for every fixed continuous bilinear
   pairing `μ`, with unit constants, is Tau Ceti's `TauCeti.mextDeriv_wedgeWith` at every point
@@ -1000,11 +1007,16 @@ Geometric Topology.
   points of each preferred chart's source — ⚠ never a total `M → M → ℤˣ`, whose off-source values
   would split the quotient without changing any tangent orientation — locally constant, and
   compatible with the sign of the transition Jacobian computed within `range I`;
-  `Manifold.Orientation` is the quotient by the diagonal flip `OrientationLift.setoid`. Then
+  `Manifold.Orientation` is the quotient by the diagonal flip `OrientationLift.setoid`. These
+  are the definitions on which AlgebraicTopology's orientation comparison computes, chart sign
+  by chart sign; Tau Ceti's `TauCeti.Manifold.OrientationLift` and `TauCeti.Manifold.Orientation`
+  (`Orientation/{Lift,Basic}.lean`) carry the same data, with the coordinate-change law stated
+  as a positivity and the diagonal flip as `TauCeti.Manifold.OrientationLift.flip`, and the
+  theorems of 2.2 and 2.4 are stated on Tau Ceti's orientations. Then
   `Manifold.Orientation.neg`, `orientationAt` (pinned by its characteristic equation: at the base
   point of a lift's own chart it is the model orientation twisted by the chart sign there),
   extensionality through it (Tau Ceti's `TauCeti.Manifold.Orientation.ext`, which nothing in
-  `Suggested.lean` or its consumers restates), `Orientable`, and the two-orientation
+  `Suggested.lean` or its consumers restates), `TauCeti.Orientable`, and the two-orientation
   theorem on preconnected `M` (Tau Ceti's `eq_or_eq_neg` in the namespace
   `TauCeti.Manifold.Orientation`, `Orientation/Basic.lean`), with `o.neg ≠ o` on nonempty `M` and
   `orientationAt o.neg x = −orientationAt o x`. *Needs:* Mathlib's `Orientation` and `Module.Ray`
@@ -1021,9 +1033,9 @@ Geometric Topology.
     two lifts `(μ, +1)` and `(−μ, −1)` have the same `orientationAt` at every point (`μ` twisted
     by `+1`, `−μ` twisted by `−1`), which is why `OrientationLift.setoid` identifies exactly the
     diagonal flip: a quotient flipping `μ` alone would identify `o` with `o.neg`, and
-    extensionality in `orientationAt` would fail. `Orientable I M` uses the index `Fin (finrank ℝ E)`,
+    extensionality in `orientationAt` would fail. `TauCeti.Orientable I M` uses the index `Fin (finrank ℝ E)`,
     so `card_eq` is automatic there.
-- **2.2 Preserving maps and top forms.** `IsOrientationPreservingAt`, its reversing twin (the
+- **2.2 Preserving maps and top forms.** `TauCeti.Manifold.Orientation.IsOrientationPreservingAt`, its reversing twin (the
   differential carries `orientationAt o x` to `−orientationAt o' (f x)`), the pullback
   orientation along local diffeomorphisms (Tau Ceti's `TauCeti.Manifold.Orientation.pullback`
   along a `C¹` map with everywhere invertible differential, from which `f` preserves orientation
@@ -1056,8 +1068,10 @@ Geometric Topology.
   orientations (the direction from a form is Tau Ceti's `TauCeti.Manifold.Orientation.ofTopForm`,
   for which a tangent basis is positive exactly when the form is positive on it,
   `Orientation/TopForm.lean`), the smooth direction under
-  `[T2Space M] [SigmaCompactSpace M]` (`exists_topForm_of_orientation`) [Lee, Prop. 15.5]; the
-  oriented-atlas criterion for boundaryless `C¹` `M`: `Orientable I M` holds exactly when `M`
+  `[T2Space M] [SigmaCompactSpace M]` (`exists_topForm_of_orientation`, for an orientation
+  `o : TauCeti.Manifold.Orientation I M (Fin (finrank ℝ E))` of a smooth `M`, the form being
+  positive on every basis whose orientation is `o.orientationAt x`) [Lee, Prop. 15.5]; the
+  oriented-atlas criterion for boundaryless `C¹` `M`: `TauCeti.Orientable I M` holds exactly when `M`
   has an oriented atlas `TauCeti.IsOrientedAtlas I 1` (`orientable_iff_exists_atlas`)
   [Lee, Prop. 15.6]. The direction from an oriented atlas to an orientation holds over every
   model. The converse is stated for boundaryless `M`. Over the half-space model `𝓡∂ n` the
@@ -1194,12 +1208,13 @@ Geometric Topology.
 
   The targets of 2.4 are what remains. Prove that `M` is orientable exactly when its cover is
   trivial, that is when some homeomorphism `M × Fin 2 → TauCeti.Manifold.OrientationCover I M`
-  commutes with the projections. No connectedness is needed: a continuous section `s` gives
+  commutes with the projections (`orientable_iff_exists_homeomorph_orientationCover`). No connectedness is needed: a continuous section `s` gives
   `(x, 0) ↦ s x` and `(x, 1) ↦ deck (s x)`, a bijection because each fibre is `{p, deck p}` with
   `p ≠ deck p`, whose two images are open because a section of a covering map agrees near each
   point with a local inverse of the projection. Prove that `d` commutes with
   `TauCeti.invariantPart τ` and `TauCeti.antiInvariantPart τ` on `C¹` forms for a `C²` self-map
-  `τ` of a `C²` manifold, from the naturality `d(τ^*φ) = τ^*(dφ)` of 1.2 and the linearity of `d`
+  `τ` of a `C²` manifold (`mextDeriv_invariantPart`, `mextDeriv_antiInvariantPart`), from the
+  naturality `d(τ^*φ) = τ^*(dφ)` of 1.2 and the linearity of `d`
   on `C¹` forms of 1.1; involutivity is not needed. *Acceptance:* `Set.Icc x y` and spheres are
   orientable; the open Möbius band is not. Construct the outward orientation of Mathlib's native
   smooth unit sphere `S^n ⊂ ℝ^(n+1)`: a tangent basis `(b₁,…,bₙ)` is positive exactly when the
@@ -1242,12 +1257,11 @@ Geometric Topology.
   its own. *Needs:* Mathlib's Picard–Lindelöf theorem (`Analysis/ODE/PicardLindelof.lean`) and
   implicit function theorem (`Analysis/Calculus/ImplicitContDiff.lean`); Tau Ceti's
   `ODE.exists_contDiffAt_localFlow` as the finite-dimensional model; nothing of layers 0–2.
-- **3.2 The maximal flow.** `flowOf` and `flowDomain` read Tau Ceti's `maximalIntegralCurve` and
-  `maximalIntegralCurveFlowDomain` in the `(t, x)` order — adapters, not a second flow, and the
-  signatures of Tau Ceti's `TauCeti.flowOf` and `TauCeti.flowDomain` (`Flow/Basic.lean`), which
-  are the same adapters. The
+- **3.2 The maximal flow.** Tau Ceti's `TauCeti.flowOf` and `TauCeti.flowDomain`
+  (`Flow/Basic.lean`) read `maximalIntegralCurve` and `maximalIntegralCurveFlowDomain` in the
+  `(t, x)` order — adapters, not a second flow. The
   fundamental theorem of flows [Lee, Thm. 9.12] is Tau Ceti's for finite-dimensional models:
-  openness of `flowDomain`, joint smoothness of `flowOf` on it, the group law and the escape lemma
+  openness of `TauCeti.flowDomain`, joint smoothness of `TauCeti.flowOf` on it, the group law and the escape lemma
   [Lee, Lemma 9.19] are its `isOpen_maximalIntegralCurveFlowDomain`,
   `contMDiffOn_maximalIntegralCurve`, `maximalIntegralCurve_add` and
   `eventually_notMem_nhdsLT_maximalIntegralCurve` read in the `(t, x)` order. **The target is its
@@ -1258,18 +1272,18 @@ Geometric Topology.
   `maximalIntegralCurveFlowDomain`, `isOpen_maximalIntegralCurveFlowDomain`,
   `contMDiffOn_maximalIntegralCurve` and `maximalIntegralCurve_add`
   (`Geometry/Manifold/IntegralCurve/{Maximal,Flow}.lean`).
-- **3.3 Completeness and homogeneity.** Completeness, `flowDomain v = univ`, is Tau Ceti's
+- **3.3 Completeness and homogeneity.** Completeness, `TauCeti.flowDomain v = univ`, is Tau Ceti's
   `TauCeti.IsCompleteVectorField` (`Flow/Complete.lean`) over Banach models, with the uniform-time
   criterion, compactly supported completeness
   `TauCeti.isCompleteVectorField_of_isCompact_of_eq_zero_off` [Lee, Thm. 9.16] and completeness
   of every `C¹` field on a compact boundaryless Hausdorff manifold,
   `TauCeti.isCompleteVectorField_of_compactSpace`; 3.3 consumes them by name and plans nothing
   about them again. The flow of a complete `C¹` field as a Mathlib `Flow ℝ M`, whose time-`t` map
-  is `flowOf v t`, is Tau Ceti's `TauCeti.globalFlow` with `TauCeti.flowOf_eq_globalFlow`
+  is `TauCeti.flowOf v t`, is Tau Ceti's `TauCeti.globalFlow` with `TauCeti.flowOf_eq_globalFlow`
   (`IntegralCurve/GlobalFlow.lean`) on finite-dimensional boundaryless Hausdorff manifolds. The
   targets are the same `Flow ℝ M` for a complete `C¹` field on a boundaryless Hausdorff manifold
   over a Banach model, its continuity being 3.2's Banach joint smoothness on the domain
-  `flowDomain v = univ` and its group law `maximalIntegralCurve_add`; and homogeneity
+  `TauCeti.flowDomain v = univ` and its group law `maximalIntegralCurve_add`; and homogeneity
   `exists_flowOf_one_eq` on connected boundaryless finite-dimensional `M` — ⚠ false
   Banach-generally, where every compactly supported continuous field is zero. The flow of a
   left-invariant field on a Lie group is Tau Ceti's `mulInvariantIntegralCurve`, reconciling with
@@ -1278,14 +1292,14 @@ Geometric Topology.
   for homogeneity, Mathlib's smooth bump functions; for the reconciliation, Tau Ceti's
   `mulInvariantIntegralCurve`.
   **Checks.**
-  - `v = 1` on `ℝ`: `flowOf v t x = x + t`, `flowDomain v = univ`, so
+  - `v = 1` on `ℝ`: `TauCeti.flowOf v t x = x + t`, `TauCeti.flowDomain v = univ`, so
     `TauCeti.IsCompleteVectorField v`, and its flow is the translation flow, the group law
     `(x + t) + s = x + (t + s)`.
-  - `v = x²` on `ℝ` from `x = 1`: the maximal curve is `t ↦ 1/(1 − t)`, so `(t, 1) ∈ flowDomain v`
+  - `v = x²` on `ℝ` from `x = 1`: the maximal curve is `t ↦ 1/(1 − t)`, so `(t, 1) ∈ TauCeti.flowDomain v`
     exactly for `t < 1`, the field is smooth but not complete, and the group law is asserted
-    only on the domain: `(½, 1)` and `(½, flowOf v ½ 1) = (½, 2)` are both in it only if
+    only on the domain: `(½, 1)` and `(½, TauCeti.flowOf v ½ 1) = (½, 2)` are both in it only if
     `(1, 1)` is, and it is not.
-  - `v = 0`: `flowOf v t x = x` and `flowDomain v = univ`; the rotation field `(−y, x)` of `ℝ²`
+  - `v = 0`: `TauCeti.flowOf v t x = x` and `TauCeti.flowDomain v = univ`; the rotation field `(−y, x)` of `ℝ²`
     flows by rotation, its flow at time `π/2` sending `e₁` to `e₂`, and is complete although
     not compactly supported, so compact support is sufficient and not necessary.
 - **3.4 Naturality, straightening, commuting flows.** Conjugate flows of related fields, Tau
@@ -1299,8 +1313,8 @@ Geometric Topology.
   finite-dimensional Hausdorff `C²` manifold and a form `α` differentiable at `ψ_t x`, the
   curve `s ↦ (ψ_s^*α)_x` has derivative `(ψ_t^* L_Z α)_x` at `t`, which is Tau Ceti's
   `TauCeti.hasDerivAt_mpullback_globalFlow` (`DifferentialForm/Flow.lean`) on its
-  `TauCeti.mlieDerivForm`; the target is the same derivative along the maximal flow `flowOf` of
-  a field that need not be complete, at the times and points of `flowDomain`. *Acceptance:* constant fields flow by translation, the rotation
+  `TauCeti.mlieDerivForm`; the target is the same derivative along the maximal flow `TauCeti.flowOf` of
+  a field that need not be complete, at the times and points of `TauCeti.flowDomain`. *Acceptance:* constant fields flow by translation, the rotation
   field of `ℝ²` by rotation. *Needs:* 3.2–3.3; Mathlib's `VectorField.mpullback` and
   `mlieBracket`; Tau Ceti's inverse function theorem `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`
   for straightening; 0.3 and 1.4 for the Lie derivative of forms.
@@ -1357,7 +1371,7 @@ Geometric Topology.
   Moser) uses the full finite-dimensional specialization,
   including its compact-time extension, smooth dependence on both time
   variables and initial point, and restriction/naturality. SBC B5 consumes
-  this same finite-dimensional specialization. *Needs:* 3.2's `flowOf` and `flowDomain`; Tau
+  this same finite-dimensional specialization. *Needs:* 3.2's `TauCeti.flowOf` and `TauCeti.flowDomain`; Tau
   Ceti's finite-dimensional maximal flow (`IntegralCurve/Flow.lean`) and time-dependent flow on
   `ℝ` (`Flow/TimeDependent.lean`) for the finite-dimensional specialization; 3.1–3.2 for the
   Banach specialization; 3.1 for `exists_timeDependentFlow`; Mathlib's open-submanifold and
@@ -1366,7 +1380,7 @@ Geometric Topology.
   - `suspendedTimeField J v` at `(s, x)` is `(1, v s x)`: its time component is the unit field,
     so the suspended curve through `(s, x)` has time coordinate `s + τ` at elapsed time `τ`,
     which is why `timeDependentFlowDomain` reads the suspended domain at elapsed time `t − s`.
-    For an autonomous `v`, `timeDependentFlow J v t s x = flowOf v (t − s) x`.
+    For an autonomous `v`, `timeDependentFlow J v t s x = TauCeti.flowOf v (t − s) x`.
   - `v s x = s` on `M = ℝ`, `J = ℝ` (the equation `x' = s`): the solution through `(s, x)` is
     `x + (t² − s²)/2`, so `timeDependentFlow J v t s x = x + (t² − s²)/2`; the two-time law reads
     `(r² − t²)/2 + (t² − s²)/2 = (r² − s²)/2`, and a definition reading the elapsed time as
@@ -1422,10 +1436,8 @@ where involutivity is the conclusion. The bundled integral manifold of 4.2 is Ta
 `TauCeti.IntegralManifold` (`Geometry/Manifold/Distribution/IntegralManifold.lean`): a nonempty
 carrier with its own topology, charts on `ℝ^k` and `C^n` manifold structure, a map into `M`, and
 the two facts that the map is a `C^n` immersion and that its differential has range the fibre of
-`D` at every point. `Distribution.IntegralManifold`, the only definition `Suggested.lean` has in
-this layer, repeats that structure field for field, under the same field names, so that the six
-statements below read verbatim on `TauCeti.IntegralManifold`; the library keeps one structure,
-Tau Ceti's, and the theorems are proved for it.
+`D` at every point. The six statements below are stated on `TauCeti.IntegralManifold`, with the
+carrier in the universe of `M`; `Suggested.lean` has no definition in this layer.
 
 - **4.1 Distributions and frames.** Consume the existing rank, frame,
   regularity, constant-distribution and contact-distribution APIs. Coordinate transport is Tau
@@ -1463,7 +1475,7 @@ Tau Ceti's, and the theorems are proved for it.
 - **4.2 Integral manifolds and involutivity.** An integral immersion has its
   own smooth `k`-dimensional manifold carrier and a smooth immersion into `M`
   whose differential has image exactly `D` at every point (the bundled data
-  `Distribution.IntegralManifold`, over the family `D` itself; regularity and involutivity are
+  `TauCeti.IntegralManifold`, over the family `D` itself; regularity and involutivity are
   `TauCeti.IsContMDiffDistribution` and `TauCeti.IsInvolutiveDistribution`). The
   unbundled predicate and the bundled data are Tau Ceti's `TauCeti.IsIntegralManifold` and
   `TauCeti.IntegralManifold`, with the evaluation laws `TauCeti.IsIntegralManifold.isImmersion`
@@ -1491,7 +1503,7 @@ Tau Ceti's, and the theorems are proved for it.
   for the annihilating-form criterion.
 
   **Checks.**
-  - `Distribution.IntegralManifold`, constant family: the affine slice `u ↦ (u, c)`,
+  - `TauCeti.IntegralManifold`, constant family: the affine slice `u ↦ (u, c)`,
     `ℝ^k → ℝⁿ`, is an integral manifold of `span(e₁, …, e_k)` with carrier `ℝ^k`; the
     differential of the slice at every point has image exactly `span(e₁, …, e_k)`.
   - Equality, not containment: for `j < k` the immersion `u ↦ (u, 0, c)` of `ℝ^j` into the
@@ -1635,8 +1647,8 @@ stronger quantifier order.
   is `TauCeti.boundaryRestriction` (`Boundary/Integration.lean`), the pullback along the subtype
   inclusion, for forms with values in any topological module, and it commutes with `d` for a
   `C¹` form on a `C²` manifold (`TauCeti.boundaryRestriction_mextDeriv`,
-  `Boundary/Restriction.lean`); `IsOutwardPointing` (the signature of Tau Ceti's
-  `TauCeti.IsOutwardPointing`) with a smooth outward field, Tau Ceti's
+  `Boundary/Restriction.lean`); Tau Ceti's `TauCeti.IsOutwardPointing`
+  (`Boundary/Orientation.lean`) with a smooth outward field, Tau Ceti's
   `TauCeti.exists_isOutwardPointingField` (`Boundary/OutwardExistence.lean`,
   [Lee, Prop. 15.33]); the outward-first boundary orientation `TauCeti.boundaryOrientation`
   (`Boundary/InducedOrientation.lean`), an orientation of the boundary manifold indexed by
@@ -1680,7 +1692,7 @@ stronger quantifier order.
     `[0, ∞)` the single boundary point gets the negative orientation of `ℝ⁰`, matching the left
     endpoint of an interval, and reversing the ambient orientation reverses both.
   - On `[0, ∞)` over `𝓡∂ 1`, at the boundary point `0` the vector `−∂ₜ` is outward
-    (`IsOutwardPointing`: the constrained coordinate of its chart image is `−1 < 0`) and `+∂ₜ`
+    (`TauCeti.IsOutwardPointing`: the constrained coordinate of its chart image is `−1 < 0`) and `+∂ₜ`
     is not; at an interior point no vector is outward, by the first conjunct.
   - On the closed half-plane `{x₀ ≥ 0}`, at a boundary point `−e₀ + 5 e₁` is outward and `e₁`
     is not: only the constrained coordinate decides, and a definition reading the last
@@ -1867,8 +1879,8 @@ stronger quantifier order.
   by the absolute determinant change-of-variables formula. This uses 5.2's
   integral construction and not 5.5b's faces or corner Stokes. Retain the
   elementary gates: the half-space interval FTC from 5.3,
-  `|∫_{S¹} dθ|=2π` for `circleAngularForm`, the pullback to the circle of the plane form
-  `x dy − y dx` (`planeAngularForm`), and the unit-square Green formula
+  `|∫_{S¹} dθ|=2π` for `TauCeti.circleAngularForm`, the pullback to the circle of the plane form
+  `x dy − y dx` (`TauCeti.planeAngularForm`), and the unit-square Green formula
   from the independent flat theorem. Circle volume and 12.4 consume this lane. *Needs:* 5.2;
   Mathlib's absolute-determinant change of variables (`MeasureTheory/Function/Jacobian.lean`);
   for the gates, 5.3 (the interval) and 5.6.2's flat rectangle identities (the square).
@@ -1882,11 +1894,11 @@ stronger quantifier order.
     `T ∘ v` with `T` invertible: `Density V (dim V) ≅ ℝ`; and it is not a top form: on `ℝ` the
     form `dx` has `dx(−1) = −1` while a density satisfies `toFun (−1) = |−1| · toFun 1`, so
     `v ↦ dx v` is not a `Density`.
-  - `planeAngularForm` at `z = 1` is `dy` and at `z = i` is `−dx`, each giving `1` on the
+  - `TauCeti.planeAngularForm` at `z = 1` is `dy` and at `z = i` is `−dx`, each giving `1` on the
     counterclockwise unit tangent; pulled back along `t ↦ exp(it)` it is
     `cos t · cos t dt − sin t · (−sin t) dt = dt`, so its integral over `[0, 2π]` is `2π`, and
     the convention `y dx − x dy` would give `−2π`. At `z = 0` the form is `0`.
-  - `circleAngularForm` at `z = x + iy` on the tangent vector `iz = −y + ix` is
+  - `TauCeti.circleAngularForm` at `z = x + iy` on the tangent vector `iz = −y + ix` is
     `x · x − y · (−y) = 1`; it vanishes nowhere, hence orients the circle, is closed, and is not
     exact, since `|∫_{S¹} dθ| = 2π ≠ 0` while an exact `df` integrates to `f(end) − f(start) = 0`
     around the loop. `RoughDensity I M (dim)` contains `|ω|` for every top form `ω` and the
@@ -2394,8 +2406,8 @@ of this roadmap's earlier editions they realize; nothing in 6.1–6.4 is a targe
   `(−1)^(kl)` (`DeRham/Algebra.lean`), and the action `TauCeti.compactlySupportedDeRhamCohomology.wedge`
   of `H^•_dR` on `H^•_c`; `H^k_dR(M) = 0` for `k > dim M`. The names deRhamComplex,
   deRhamCohomology, closedForms, exactForms and deRhamCohomology.map under which consumers cite
-  6.1 are these `TauCeti` declarations; `closedForms` of 1.3 is the kernel of `mextDerivₗ`, which
-  is how `TauCeti.closedForms` is defined.
+  6.1 are these `TauCeti` declarations; `TauCeti.closedForms` of 1.3 is by definition the kernel
+  of `TauCeti.mextDerivₗ`.
 - **6.2 Degree zero and the Poincaré lemma.** `H⁰_dR(M) ≃ LocallyConstant M ℝ` is
   `TauCeti.deRhamCohomologyZeroEquiv`, one-dimensional for connected `M` and of dimension the
   number of points for a finite discrete `M` (`DeRham/DegreeZero.lean`). The flat Poincaré lemma
@@ -2613,12 +2625,16 @@ with de Rham cohomology on those carriers, and never a second singular theory.*
   poincarePairing under which consumers cite 9.1 is this declaration. ⚠ "boundaryless" is what
   makes the pairing well defined on classes: on `[0, 1]`, `[dx] = 0` in `H¹_dR` while
   `∫₀¹ dx = 1`.
-- **9.2 Top cohomology.** Prove `H^n_c(M) ≃ ℝ` by integration for a connected oriented
-  boundaryless `M` of dimension `n` [Lee, Thm. 17.30]: a compactly supported `n`-form is a
+- **9.2 Top cohomology.** Prove that integration
+  `TauCeti.compactlySupportedDeRhamCohomology.integral o : H^n_c(M) → ℝ` is bijective for a
+  connected oriented boundaryless Hausdorff σ-compact smooth `M` of dimension `n`
+  (`bijective_integral_compactlySupportedDeRhamCohomology`) [Lee, Thm. 17.30]: a compactly supported `n`-form is a
   finite sum of forms supported in coordinate balls, a chain of overlapping coordinate balls
   joins any two of them
   (connectedness), and on a coordinate ball 6.4's `H^n_c(E) ≃ ℝ` says that a form of integral
-  zero is compactly supported exact. Prove `H^n_c(M) = 0` for a connected nonorientable `M` by
+  zero is compactly supported exact. Prove `H^n_c(M) = 0` for a connected nonorientable boundaryless
+  Hausdorff σ-compact smooth `M`
+  (`subsingleton_compactlySupportedDeRhamCohomology_of_not_orientable`) by
   descent along the orientation cover of 2.4 [Lee, Thm. 17.34]: the pullback of a compactly
   supported top form to the cover, which is connected and oriented, is invariant under the deck
   involution, which reverses the orientation, so it has integral zero and is `dη` with `η`
@@ -2628,8 +2644,8 @@ with de Rham cohomology on those carriers, and never a second singular theory.*
   `H^n_dR(M) = 0` for compact connected nonorientable `M`. *Needs:* 6.4; 2.4; 5.2–5.3.
 - **9.3 Duality.** Prove: for a Hausdorff σ-compact oriented boundaryless smooth `M` of
   dimension `n`, the map `H^k_dR(M) → (H^(n−k)_c(M))^*` induced by 9.1's pairing is a linear
-  isomorphism for every `k`, with no compactness hypothesis (cited by consumers as
-  poincareDuality) [Lee, Problems 18-6 to 18-8; Bott–Tu, I §5], by 7.4 with `P(U)` = "duality
+  isomorphism for every `k`, with no compactness hypothesis (`bijective_poincarePairing`, stated
+  for an orientation indexed by `Fin (k + l)`; cited by consumers as poincareDuality) [Lee, Problems 18-6 to 18-8; Bott–Tu, I §5], by 7.4 with `P(U)` = "duality
   holds for `U` in every degree": on a convex open subset of `range I` both sides are `ℝ` in the
   degrees `k = 0`, `n − k = n` and `0` otherwise (6.3, 6.4); the Mayer–Vietoris step is the five
   lemma for 7.1's sequence and the dual of 7.3's, which the pairing intertwines up to a sign; and
@@ -2686,10 +2702,10 @@ signed count of 10.3 are Tau Ceti's; the rest are targets.*
   dimension, changes sign under either orientation reversal, and has the parity of the number of
   preimages over a regular value. The name degreeAtRegularValue under which consumers cite 10.3
   is this declaration. Targets, for a smooth `f : M → N` between compact connected oriented
-  boundaryless manifolds of the same dimension `n ≥ 1`: the integral formula
+  boundaryless Hausdorff manifolds of the same dimension `n ≥ 1`: the integral formula
   `∫_M f^*ω = (degreeAtRegularValue o o' f y) · ∫_N ω` for every regular value `y` and every
-  smooth top form `ω` on `N` [Lee, Thm. 17.35] (cited by consumers as
-  integralTopForm_mpullback_eq_degreeAtRegularValue_mul), by choosing a chart neighbourhood of
+  smooth top form `ω` on `N` [Lee, Thm. 17.35]
+  (`integralTopForm_mpullback_eq_degreeAtRegularValue_mul`), by choosing a chart neighbourhood of
   `y` evenly covered by the finitely many preimages (10.1), a form `ω₀` supported there with
   `∫_N ω₀ = ∫_N ω` (9.2: `ω − ω₀` is then compactly supported exact, and `f^*` of an exact form
   integrates to zero by 5.3's boundaryless Stokes), a diffeomorphism isotopic to the identity
@@ -2841,16 +2857,16 @@ Riesz duality.*
   (`TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian`) and, for a `C²` function on a
   finite-dimensional inner product space with its constant metric, agreement with Mathlib's flat
   Laplacian (`TauCeti.Manifold.laplaceBeltrami_eq_laplacian`); 12.3 consumes them by name and
-  plans the `Δ` notation instance. `divergence` of `Suggested.lean` is the signature of
-  `TauCeti.Manifold.divergence`, with the same body, kept because the divergence theorem of 12.5 is stated on it.
+  plans the `Δ` notation instance. The divergence theorem of 12.5 is stated on
+  `TauCeti.Manifold.divergence`.
   *Needs:* 12.2; Mathlib's
   `CovariantDerivative.leviCivitaConnection` and `InnerProductSpace.instLaplacian`; Tau Ceti's
   `CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`.
   **Checks.**
-  - On flat `ℝⁿ`, `divergence` of the radial field `x` is `n` and of the rotation field
+  - On flat `ℝⁿ`, `TauCeti.Manifold.divergence` of the radial field `x` is `n` and of the rotation field
     `(−y, x)` is `0`; for the conformal metric `g = e^(2x) δ` on `ℝ²` the divergence of the
     constant field `∂₁` is `2` (`div_g X = Σ ∂ᵢXᵢ + 2 X · ∇u` for `g = e^(2u) δ` in dimension
-    `2`), while the flat trace would give `0`: `divergence` sees the Levi-Civita connection.
+    `2`), while the flat trace would give `0`: `TauCeti.Manifold.divergence` sees the Levi-Civita connection.
   - The Hessian of `‖x‖²` on flat `ℝⁿ` is `2 ⟪v, w⟫`, and of `x₁ x₂` is `1` on `(e₁, e₂)` and on
     `(e₂, e₁)` and `0` on `(e₁, e₁)`; for `g = e^(2x) δ` on `ℝ²` and `f = x₁`, whose flat second
     derivative vanishes, the Hessian at `(e₂, e₂)` is `e^(−2x) Γ²₂₁ ⟪∂₂, ∂₂⟫_g = 1`, so the
@@ -3036,7 +3052,7 @@ Each is a tempting mistake with its refutation.
 - **"[Lee]'s boundary-orientation signs transfer verbatim."** Mathlib's half-space constrains the
   first coordinate, [Lee]'s the last.
 - **"Δ = −div ∘ grad."** This repository pins `Δ = div ∘ grad` (12.5's flat gate).
-- **"`mpullback (g ∘ f) = mpullback f ∘ mpullback g` unconditionally."** `mfderiv` is junk-valued;
+- **"`TauCeti.mpullback (g ∘ f) = TauCeti.mpullback f ∘ TauCeti.mpullback g` unconditionally."** `mfderiv` is junk-valued;
   the chain rule needs differentiability (0.3).
 - **"The smooth structure of a covering space is an instance on the total space."** It depends on
   the map (2.3). `p(t) = exp(i t³)` is a covering map `ℝ → S¹`, since the cube is a homeomorphism
@@ -3127,7 +3143,7 @@ constructions they share with it and their single owners.
   (3, 3.5), the de Rham theorem (8.5) and the degree (10).
 - **MorseTheory**: flows (3), 5.1's boundary orientation, the degree (10) and 12.2's gradient
   (Tau Ceti's `TauCeti.Manifold.mgradient`); **MorseNovikov**: layers 0–3, 5–6, 8, 10 and 12, and
-  `circleAngularForm`, the flow of a `C¹` field on a closed manifold being Tau Ceti's
+  `TauCeti.circleAngularForm`, the flow of a `C¹` field on a closed manifold being Tau Ceti's
   `TauCeti.globalFlow`, complete by `TauCeti.isCompleteVectorField_of_compactSpace` (3.3).
 - **RiemannianGeometry**: layers 0–3, 5–10 and 12, with 12.3's Laplace–Beltrami operator
   (Tau Ceti's `TauCeti.Manifold.laplaceBeltrami`).
