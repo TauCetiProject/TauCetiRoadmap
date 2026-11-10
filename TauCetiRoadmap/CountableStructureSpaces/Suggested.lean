@@ -42,8 +42,6 @@ README gives its explicit construction. Names and namespaces are provisional.
 
 @[expose] public section
 
-set_option autoImplicit false
-
 universe u v w w' u' v' u₁ v₁ u₂ v₂
 
 namespace TauCetiRoadmap.CountableStructureSpaces
