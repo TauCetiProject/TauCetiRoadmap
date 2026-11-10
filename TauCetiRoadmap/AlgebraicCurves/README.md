@@ -72,8 +72,8 @@ comparison contract instead of a second proof.
   Layer 3; §8.9 states the boundary.
 - *Moduli of stable curves* and the finiteness of automorphism groups of stable curves over a
   base: [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.15, which consumes
-  this roadmap's function-field theory; §11.4 here proves the function-field statement over a
-  perfect field without moduli.
+  this roadmap's function-field theory; §11.4 here proves the function-field statement over every
+  field, under positive genus over the algebraic closure, without moduli.
 
 **Outside the roadmap.** Nonspecial-divisor refinements and Brill–Noether theory; generic
 classicality of gap sequences and the Weierstrass-point theory of positive characteristic
@@ -106,8 +106,9 @@ constantly and are always explicit.
   regular model for genus invariance under arbitrary constant extension (§8.2); a separating
   element for the one-dimensional Kähler module (§9.1); separable residue extensions for the
   completion charts and the residue transport (§9.2); perfect `k` for the trace-residue sum
-  (§9.3), for the Weil-divisor form of the elliptic differential (§10.3) and for finiteness of
-  automorphism groups (§11.4); tameness for the Hurwitz bound (§11.5).
+  (§9.3) and for the Weil-divisor form of the elliptic differential (§10.3); positive genus over
+  the algebraic closure for finiteness of automorphism groups (§11.4, automatic over perfect `k`);
+  tameness for the Hurwitz bound (§11.5).
 
 Generic separable generation plus exact constants is a **regular field extension**
 (geometrically integral generic point), a weaker condition than smoothness of the regular
@@ -182,11 +183,16 @@ predicate has its own name and a comparison theorem, never a redefinition.
   (`SInteger.lean`); `IsIntegralClosure.isDedekindDomain` and
   `integralClosure.isFractionRing_of_finite_extension`;
   `IsDedekindDomain.HeightOneSpectrum.valuationOfNeZero` (`SelmerGroup.lean`).
-- **Ramification bookkeeping**, `Mathlib/NumberTheory/RamificationInertia/`:
-  `Ideal.ramificationIdx`, `Ideal.inertiaDeg` and `Ideal.sum_ramification_inertia`
-  (`∑_{P ∣ p} e · f = [L : K]` for a Dedekind `R` with `p` maximal and nonzero), the Galois
-  action on `primesOver`, decomposition and inertia fields. Their docstrings announce
-  replacement by `ramificationIdx'` and `inertiaDeg'`, so reconciliation lemmas are stated once
+- **Ramification bookkeeping**, `Mathlib/RingTheory/RamificationInertia/`: `Ideal.ramificationIdx`
+  (the length of `S_q/pS_q` at a prime `q` of `S` over `p`) and `Ideal.inertiaDeg`, with the
+  fundamental identity `Ideal.sum_ramification_inertia_eq_finrank` (`Basic.lean`:
+  `∑_{q ∣ p} e · f = rank_R S` for a domain `R`, a finite flat `R`-algebra `S` and a prime `p`); the
+  Galois action on `primesOver`, `Ideal.ramificationIdxIn`, `Ideal.inertiaDegIn` and
+  `Ideal.ncard_primesOver_mul_ramificationIdxIn_mul_inertiaDegIn` in
+  `Mathlib/NumberTheory/RamificationInertia/Galois.lean`. The module
+  `Mathlib/NumberTheory/RamificationInertia/Basic.lean`, with `Ideal.sum_ramification_inertia`
+  stated for the older `Ideal.ramificationIdx'` and `Ideal.inertiaDeg'`, is deprecated at the pin
+  and is not consumed. Reconciliation lemmas with the place invariants `e` and `f` are stated once,
   and consumers stay off the raw definitions.
 - **The different ideal**, `Mathlib/RingTheory/DedekindDomain/Different.lean`:
   `Submodule.traceDual`, `FractionalIdeal.dual`, `differentIdeal` with `coeIdeal_differentIdeal`,
@@ -293,10 +299,14 @@ Layer 11 proves finiteness of automorphism groups and the Hurwitz bound; Layer 1
 regular projective model, the anti-equivalence and the comparison with the scheme-theoretic
 Riemann–Roch. Layers 0–1 are sequential; Layer 2 needs Layer 0 only; Layer 4 is the critical
 path; Layer 6 needs Layers 0–3 and runs in parallel with Layers 4–5; Layer 7 needs Layers 4–6;
-Layer 9's first section needs Layers 0–3 and its comparison Layer 7; the early model of §12B.0
-needs Layer 2 only. Each layer ends with its examples and its dependencies; a `*Needs:*` line
-lists what each target's statement and route use, so that a target proved by another route is
-not blocked behind an unrelated layer.
+Layer 9's first section needs Layers 0–3 and its comparison Layer 7. Layer 8 and §12B.0
+interleave item by item: §8.1 items 1–2 (Layer 0 only), then the early model of §12B.0 (Layers 0
+and 2) with 12B.0a–b, then §8.1 item 3, then 12B.0c (after Layers 3–5) and §§8.2 and 8.5. Each
+layer ends with its examples and its dependencies; a `*Needs:*` line lists what each target's
+statement and route use, so that a target proved by another route is not blocked behind an
+unrelated layer. The anchor `#layer-8-constant-field-extensions-galois-ramification-and-inseparability-`
+of the former Layer 8 heading is now
+`#layer-8-constant-field-extensions-galois-ramification-and-inseparability`.
 
 ## Layer 0: function fields, constant fields, and places
 
@@ -531,9 +541,17 @@ normalized valuations agree there. The places with `ord_P x < 0` are exactly the
 `R_{1/x}` over the ideal `(x⁻¹)`, the places over `P_∞`; identify their local rings and residue
 maps, and deduce finiteness of the pole fibre from the finite normalization fibre. The place set
 is the compatible union of the two charts used by the divisor, ramification, different and
-scheme layers. Holomorphy rings `𝒪_S` (Stichtenoth §3.2) are then Mathlib's S-integers
-`Set.integer`. The divisor-level bridge is §3.6.
-*Needs:* §§2.1–2.2; Mathlib `IsLocalization`, `Set.integer`.
+scheme layers. Holomorphy rings `𝒪_S = ⋂_{P∈S} 𝒪_P` (Stichtenoth Def. 3.2.2; the pinned
+`TauCeti.holomorphyRing`) are then Mathlib's S-integers with the complementary index set: for `x`
+with no pole in `S`, `𝒪_S = Set.integer T F` for `R = R_x` and `T` the height-one primes of `R_x`
+whose places are not in `S`, since `Set.integer T F` imposes integrality exactly at the primes
+outside `T` (`Mathlib/RingTheory/DedekindDomain/SInteger.lean`). Both directions are pinned for
+every Dedekind affine model `R`: `TauCeti.holomorphyRing_eq_restrictScalars_integer` (for `S` a set
+of places finite on `R`) and `Set.restrictScalars_integer_eq_holomorphyRing`, in
+`TauCeti/FieldTheory/FunctionField/AffineModel/SInteger.lean`. The divisor-level bridge is §3.6.
+*Needs:* §§2.1–2.2; Tau Ceti `TauCeti.holomorphyRing`,
+`TauCeti.holomorphyRing_eq_restrictScalars_integer`, `Set.restrictScalars_integer_eq_holomorphyRing`;
+Mathlib `IsLocalization`, `Set.integer`.
 
 **Checks.**
 
@@ -542,6 +560,9 @@ scheme layers. Holomorphy rings `𝒪_S` (Stichtenoth §3.2) are then Mathlib's 
 - For `y² = x³ − x` over `ℚ` there is one place over `P_∞`, with `ord x = −2` and `ord y = −3`.
 - For `y² = x⁴ + 1` over `ℚ`, `(y/x²)² = 1 + x⁻⁴` takes the value `1` at infinity, so there are
   two rational places over `P_∞`, each with `ord x = −1`: the pole fibre need not be one place.
+- On `k(X)` with `x = X` and `S = {P_X}`, `𝒪_S = k[X]_(X)`, and `T` is every height-one prime of
+  `k[X]` but `(X)`, so `Set.integer T = k[X]_(X)`; indexing by the primes of `S` itself would give
+  `Set.integer {(X)} = k[X][1/X]`, the functions integral away from `P_X`.
 
 ### Examples
 
@@ -939,8 +960,10 @@ components named above; Mathlib completions and Laurent series.
 
 Stichtenoth §§3.1–3.3 and §3.7. `F′/k′` over `F/k` with `[F′ : F]` finite. Stichtenoth's Ch. 3
 carries a chapter-wide "`k` perfect"; by an audit of which proofs consume it, Thm. 3.1.11,
-Thm. 3.3.7, Def. 3.4.3, Thm. 3.4.6, Thm. 3.4.13, Thm. 3.5.10 and Thm. 3.8.7 do not, and every
-statement here carries only its true hypotheses.
+Thm. 3.3.7, Def. 3.4.3, Thm. 3.4.6, Thm. 3.4.13 and Thm. 3.5.10 do not, and Hilbert's different
+formula (Thm. 3.8.7) consumes it only through the separability of the residue extensions, which
+§8.7 assumes explicitly (§8.8's fierce biquadratic extension refutes the formula without it).
+Every statement here carries only its true hypotheses.
 
 ### 6.1 Setup, lying over, and the invariants e and f
 
@@ -986,14 +1009,15 @@ is a separate statement under linear disjointness of `F` and `k′` over `k` (eq
 
 The fundamental identity `∑_{P′∣P} e(P′∣P) · f(P′∣P) = [F′ : F]` (Thm. 3.1.11, no perfectness) is the
 pinned `TauCeti.Place.sum_ramificationIdx_mul_relativeDegree_eq_finrank_of_isFunctionField`, proved
-through the affine models: Mathlib's `Ideal.sum_ramification_inertia` over `R_x ⊆ R′_x`, with one bridge each
-identifying `e` with `Ideal.ramificationIdx` and `f` with `Ideal.inertiaDeg`, plus the chart swap
-for the places over `P_∞`. Corollaries: the number of places over `P`, `e` and `f` are at most
+through the affine models: Mathlib's `Ideal.sum_ramification_inertia_eq_finrank` over `R_x ⊆ R′_x`
+(`R′_x` is finite over the Dedekind `R_x` by §2.1 and torsion-free, hence flat, of rank `[F′ : F]`),
+with one bridge each identifying `e` with `Ideal.ramificationIdx` and `f` with `Ideal.inertiaDeg`,
+plus the chart swap for the places over `P_∞`. Corollaries: the number of places over `P`, `e` and `f` are at most
 `[F′ : F]` (Cor. 3.1.12); split and totally ramified places (Def. 3.1.13); the Eisenstein-type
 total-ramification criterion (Prop. 3.1.15, through Mathlib's `Polynomial.IsEisensteinAt`).
 *Needs:* §6.1, Layer 2; Tau Ceti
 `TauCeti.Place.sum_ramificationIdx_mul_relativeDegree_eq_finrank_of_isFunctionField`; Mathlib
-`Ideal.sum_ramification_inertia`, `Ideal.ramificationIdx`, `Ideal.inertiaDeg`.
+`Ideal.sum_ramification_inertia_eq_finrank`, `Ideal.ramificationIdx`, `Ideal.inertiaDeg`.
 
 **Checks.**
 
@@ -1006,7 +1030,9 @@ total-ramification criterion (Prop. 3.1.15, through Mathlib's `Polynomial.IsEise
 
 Holomorphy rings `𝒪_S = ⋂_{P∈S} 𝒪_P`, integrally closed subrings are holomorphy rings
 (Def. 3.2.2, Thm. 3.2.6 with no exact-constants hypothesis by Rem. 3.2.7, Cor. 3.2.8) and for
-finite `S` they are principal ideal domains (Prop. 3.2.10). The integral closure `𝒪′_P` of `𝒪_P`
+finite `S` they are principal ideal domains (Prop. 3.2.10): the pinned `TauCeti.holomorphyRing`,
+`TauCeti.holomorphyRing_setOf_subset_integers`, `TauCeti.coe_holomorphyRing_subset_integers_iff`
+and `TauCeti.isPrincipalIdealRing_holomorphyRing`, none with an exactness hypothesis. The integral closure `𝒪′_P` of `𝒪_P`
 in `F′` has local integral bases for separable `F′/F`, and almost every basis of `F′/F` is one
 (Cor. 3.3.5, Thm. 3.3.6; `TauCeti.Place.finite_setOf_not_isIntegralBasis`). **Kummer's theorem**,
 with the hypotheses split as in the source: `F′ = F(y)` with `y` integral over `𝒪_P` and `φ` its
@@ -1015,8 +1041,10 @@ minimal polynomial, and `φ̄ = ∏ γᵢ^{εᵢ}` over `F_P`. Conclusion A (Thm
 `f(Pᵢ′∣P) ≥ deg γᵢ`. Conclusion B (Cor. 3.3.8, under `𝒪′_P = 𝒪_P[y]`, that is `P` prime to the
 conductor of `𝒪_P[y]`): these are all the places over `P`, with `e = εᵢ` and `f = deg γᵢ`. No
 statement cites Kummer without saying which conclusion it uses.
-*Needs:* §6.3; Tau Ceti `TauCeti.Place.finite_setOf_not_isIntegralBasis`,
-`TauCeti.Place.exists_injective_restrict_eq`; Mathlib `AdjoinRoot`, `conductor_mul_differentIdeal`.
+*Needs:* §6.3; Tau Ceti `TauCeti.holomorphyRing`, `TauCeti.holomorphyRing_setOf_subset_integers`,
+`TauCeti.coe_holomorphyRing_subset_integers_iff`, `TauCeti.isPrincipalIdealRing_holomorphyRing`,
+`TauCeti.Place.finite_setOf_not_isIntegralBasis`, `TauCeti.Place.exists_injective_restrict_eq`;
+Mathlib `AdjoinRoot`, `conductor_mul_differentIdeal`.
 
 **Checks.**
 
@@ -1214,10 +1242,18 @@ asserted on `K ⊗[k] F` unless a domain theorem supplies it. Keep the perfect-`
    `IsIntegrallyClosedIn k F`. Its tensor-domain criterion: `K ⊗[k] F` is a domain for every
    field extension `K/k` (the pinned `TauCeti.isDomain_tensorProduct_of_separating`, which gives
    `IsDomain (F ⊗[k] A)` for every `k`-algebra `A` that is a domain, from exact constants and a
-   transcendental `x` with `F/k(x)` separable). Its fraction field has exact constants `K` and is
-   again a function field; prove the induced scalar maps, linear disjointness and
-   `[F : k(x)] = [F_K : K(x)]`. Over perfect `k`, exact constants imply this condition. None of
-   these statements says that the closed local rings stay regular after base change.
+   transcendental `x` with `F/k(x)` separable); prove the converse through separable generation
+   and relative algebraic closure, so that regularity is equivalent to the tensor-domain
+   condition. The fraction field `F_K` has exact constants `K` and is again a function field.
+   Build the tensor-domain and fraction-field maps for every `K/k`, with identity, composition and
+   uniqueness laws; these are field-map statements, not full faithfulness of base change. For a
+   separating `t`, identify `Frac(K ⊗[k] F) ≃ₐ[K] K(t) ⊗[k(t)] F` (localize at the nonzero
+   polynomials in `t`; this finite `K(t)`-algebra is a domain, hence a field), with both maps on
+   pure tensors, inverse equations, basis transport, linear disjointness and
+   `[F : k(t)] = [F_K : K(t)]`; prove scalar stability of regular extensions, also for extensions
+   that are not finitely generated, by finite subextension descent. Over perfect `k`, exact
+   constants imply this condition. None of these statements says that the closed local rings stay
+   regular after base change.
 3. **Smooth-model branch**: the regular projective model `X_F` of §12B.0 with a smooth structure
    morphism and geometric integrality. Prove that its `K`-base change is smooth, proper and
    geometrically integral and is the regular model of `Frac(K ⊗[k] F)`, the identity of fraction
@@ -1228,8 +1264,10 @@ The perfect-`k` statements keep their degree formulas explicit: for `F′/F` wit
 `k′/k`, `deg_{k′}(Con_{F′/F} A) = [F′ : F k′] · deg_k A` (Cor. 3.6.4) and
 `[F′ : F] = [F′ k̄ : F k̄] · [k′ : k]` (Prop. 3.6.6); the geometric irreducibility criterion
 (Cor. 3.6.8) over perfect `k`, and over arbitrary `k` with separable generation explicit.
-*Needs:* Layers 0–7, §12B.0 for item 3; Tau Ceti `TauCeti.isDomain_tensorProduct_of_separating`,
-`TauCeti.constantCompositum`; Mathlib `TensorProduct`, `exists_isTranscendenceBasis_and_isSeparable_of_perfectField`.
+*Needs:* items 1–2: Layer 0; Tau Ceti `TauCeti.isDomain_tensorProduct_of_separating`,
+`TauCeti.constantCompositum`; Mathlib `TensorProduct`, `IsLocalization`,
+`exists_isTranscendenceBasis_and_isSeparable_of_perfectField`. Item 3: the model of §12B.0 with
+12B.0a–b. The perfect-`k` degree formulas: Layer 3 (degrees) and §6.2 (the conorm).
 
 **Checks.**
 
@@ -1915,42 +1953,88 @@ Hasse–Schmidt theory of non-classical curves is outside the roadmap.
 
 ### 11.4 Finiteness for g ≥ 2
 
-The headline theorem: over a perfect field `k`, a function field with exact constants and genus
-`g ≥ 2` has finitely many `k`-automorphisms, in every characteristic (`finite_algEquiv_of_two_le_genus`).
-Over algebraically closed `k` this is Rosenlicht's theorem (Rosenlicht 1955, §2, Theorem, p. 4). The pinned
-`TauCeti.finite_algEquiv_of_two_le_genus` is the case of an algebraically closed field on which the
-gaps at every place are pairwise distinct (characteristic zero or `p ≥ 2g − 1`), proved through
-§11.3's counts and §11.2's rigidity in the non-hyperelliptic case
-(`TauCeti.finite_algEquiv_of_not_isHyperellipticFunctionField`) and through the branch places of the
-index-two subfield in the hyperelliptic case (`TauCeti.finite_algEquiv_of_finrank_adjoin_eq_two`). The
-route of the general theorem:
+The headline theorem, over an arbitrary field `k`: let `F/k` have exact constants and genus
+`g ≥ 2`, let `K` be an algebraic closure of `k` (`[IsAlgClosure k K]`) and let `F′` be a field
+generated by `F` and `K` (the scalar tower of the conventions table with
+`TauCeti.constantCompositum F K F′ = ⊤`). If `g(F′/K) > 0`, then `F` has finitely many
+`k`-automorphisms (`finite_algEquiv_of_two_le_genus_of_genus_constantCompositum_pos`; Rosenlicht
+1955, §3, p. 5, with §2, Theorem, p. 4). Since the genus never increases under algebraic constant
+extension (the pinned `TauCeti.genus_le_genus_of_constantCompositum_eq_top`), `g(F′/K) ≥ 2` already
+implies `g ≥ 2`; the theorem also covers a drop from `g ≥ 2` to `g(F′/K) = 1`.
 
-1. *Perfect to algebraically closed.* Over perfect `k` with exact constants, `F/k` is separably
-   generated, so `F ⊗[k] k̄` is a domain (§8.1 item 2), algebraic over `F`, hence a field; it has the
-   genus of `F` (§8.2, the smooth-model branch holding over perfect `k`), and `σ ↦ σ ⊗ id` embeds
-   `Aut(F/k)` into `Aut(F ⊗[k] k̄ / k̄)`.
-2. *The tricanonical model.* Over algebraically closed `k`, `deg 3W = 6g − 6 > 2g − 2`, so
-   `ℓ(3W) = 5g − 5` by Riemann–Roch, the map to `ℙ(L(3W))` embeds the regular model of §12B, and every
-   automorphism, permuting the canonical divisors, acts by a projective transformation
-   (Rosenlicht 1955, §2, first Lemma, pp. 2–3).
-3. *An algebraic group.* The transformations preserving the image are the `k`-points of a closed
-   subgroup `G′` of `PGL_{5g−5}`, cut out by the forms of a fixed degree `N` vanishing on the image,
-   whose identity component `G` has finite index (Rosenlicht 1955, §2, second Lemma, pp. 3–4).
-4. *`G` is trivial.* With the Abel–Jacobi map `φ : X → Jac X` normalized at `P₀`, the rigidity of
-   morphisms from `G × X` to an abelian variety gives `φ(σP) = φ(σP₀) + φ(P)` for `σ ∈ G`; since `φ(X)`
-   is a curve generating `Jac X`, of dimension `g ≥ 2`, `σP₀ = P₀`, so `σP − P` is principal for every
-   `P`, and `σ = 1` because `g > 0` (Rosenlicht 1955, proof of the Theorem of §2, p. 4).
+Over a perfect `k` it reads: a function field with exact constants and genus `g ≥ 2` has finitely
+many `k`-automorphisms, in every characteristic (`finite_algEquiv_of_two_le_genus`). Here `F/k` is
+separably generated
+(`TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_perfectField`), so
+`F ⊗[k] k̄` is a domain (the pinned `TauCeti.isDomain_tensorProduct_of_separating`), algebraic over
+`F` and hence a field `F′`, and `F′/k̄` has genus `g` because `k̄/k` is separable (the pinned
+`TauCeti.genus_eq_genus_of_constantCompositum_eq_top`, which needs no smooth model).
 
-The perfectness hypothesis cannot be dropped to an arbitrary field: over a separably closed
-imperfect field the exceptional fields `k(x, y₁, …, yₙ)` with `yᵢ^p − yᵢ = aᵢ x^{p^{mᵢ}} + bᵢ` and
-`aᵢ ∉ k^p` have infinitely many automorphisms `x ↦ x + β`, `yᵢ ↦ yᵢ + αᵢ` (Rosenlicht 1955, §3,
-Theorem and its converse, p. 10), and their genus drops to `0` over `k̄`.
-*Needs:* §§3.4, 4.4, 8.1, 8.2, 11.1–11.3, §12B (the pinned model and
+The pinned `TauCeti.finite_algEquiv_of_two_le_genus` is the case of an algebraically closed field
+on which the gaps at every place are pairwise distinct (characteristic zero or `p ≥ 2g − 1`),
+proved through §11.3's counts and §11.2's rigidity in the non-hyperelliptic case
+(`TauCeti.finite_algEquiv_of_not_isHyperellipticFunctionField`) and through the branch places of
+the index-two subfield in the hyperelliptic case (`TauCeti.finite_algEquiv_of_finrank_adjoin_eq_two`).
+The route of the general theorem:
+
+1. *Extension to the compositum.* Prove that every `k`-automorphism `σ` of `F` extends uniquely to
+   a `K`-automorphism of `F′`, giving an injective homomorphism `Aut(F/k) → Aut(F′/K)`. Exactness
+   makes `k` separably closed in `F`, so `F ⊗[k] k^sep` is a field; `K/k^sep` is purely
+   inseparable, so the nilradical is the only prime ideal of `F ⊗[k] K`; the image of `F ⊗[k] K`
+   in `F′` is a domain integral over `F` that generates `F′`, so `F′` is the residue field of that
+   prime, which `σ ⊗ id` preserves. `F′/K` is a function field with exact constants `K`.
+2. *Geometric genus at least two.* If `g(F′/K) ≥ 2`, `Aut(F′/K)` is finite by Rosenlicht's
+   theorem over the algebraically closed `K` (Rosenlicht 1955, §2, Theorem, p. 4), in three steps.
+   - *The tricanonical model.* `deg 3W = 6g′ − 6 > 2g′ − 2` for `g′ = g(F′/K)`, so
+     `ℓ(3W) = 5g′ − 5` by Riemann–Roch, the map to `ℙ(L(3W))` embeds the regular model of §12B, and
+     every automorphism, permuting the canonical divisors, acts by a projective transformation
+     (Rosenlicht 1955, §2, first Lemma, pp. 2–3).
+   - *An algebraic group.* Prove that the projective transformations preserving the image are the
+     `K`-points of a closed subgroup scheme `G′` of `PGL_{5g′−5}` (the pinned
+     `TauCeti.ProjectiveGeneralLinear.groupScheme`), cut out by the forms of a fixed degree `N`
+     vanishing on the image and acting on it by a morphism `G′ × X → X`, and that the reduced
+     identity component `G` (the quotient of the reduced coordinate ring by the pinned
+     `TauCeti.HopfAlgebra.identityComponentHopfIdeal`) has finite index in `G′(K)` (Rosenlicht 1955,
+     §2, second Lemma, pp. 3–4).
+   - *`G` is trivial.* Let `φ : X → Jac X` be the Abel–Jacobi map normalized at a point `P₀`.
+     Apply the rigidity lemma (the pinned `TauCeti.AlgebraicGeometry.eq_snd_comp_lift_comp`), with
+     the proper geometrically integral curve `X` as first factor, `G` as second factor and
+     `Jac X` as target, to `(P, σ) ↦ φ(σP) − φ(P) − φ(σP₀)`. This map sends `X × {e}` to `0`, so it
+     equals its value at `(P₀, σ)`, which is `0`: hence `φ(σP) = φ(σP₀) + φ(P)` for `σ ∈ G`. Since
+     `φ(X)` is a curve generating `Jac X`, of dimension `g′ ≥ 2`, `σP₀ = P₀`, so `σP − P` is
+     principal for every `P`, and `σ = 1` because `g′ > 0` (Rosenlicht 1955, proof of the Theorem
+     of §2, p. 4).
+3. *Geometric genus one.* If `g(F′/K) = 1` while `g ≥ 2`, suppose `Aut(F/k)` infinite. Its fixed
+   field has infinite index in `F`, so it is algebraic over `k` and equals `k` by exactness. Prove
+   that a field is separably generated over the fixed field of any group of its automorphisms
+   (Rosenlicht 1955, §3, Lemma, pp. 4–5); hence `F/k` is separably generated (§3, Corollary, p. 5),
+   the generic point of the regular model `X_F` of §12B is smooth over `k`, and the closed points
+   at which `X_F` is not smooth form a finite set. `Aut(F/k)` permutes this set through the
+   anti-equivalence of §12C, and the set is nonempty, since a smooth `X_F` would keep the genus
+   (the pinned `TauCeti.AlgebraicGeometry.genus_eq_genus_functionField_of_constantCompositum_eq_top`).
+   A subgroup of finite index fixes one such point `P` and one of the finitely many places of `F′`
+   over it, and embeds through step 1 into the group of `K`-automorphisms of the genus-one field
+   `F′` fixing a place. That group meets the translations trivially, so it embeds into the finite
+   quotient of §11.1 by the translations, and is finite. This contradicts the choice of
+   `Aut(F/k)` (Rosenlicht 1955, §3, p. 5).
+
+The hypothesis `g(F′/K) > 0` cannot be dropped: over a separably closed imperfect field the
+exceptional fields `k(x, y₁, …, yₙ)` with `yᵢ^p − yᵢ = aᵢ x^{p^{mᵢ}} + bᵢ` and `aᵢ ∉ k^p` have
+infinitely many automorphisms `x ↦ x + β`, `yᵢ ↦ yᵢ + αᵢ` (Rosenlicht 1955, §3, Theorem and its
+converse, p. 10), and their genus drops to `0` over `k̄`. Neither can `g ≥ 2`: an elliptic function
+field over `ℚ` with a rational point of infinite order has infinitely many translations.
+*Needs:* §§3.4, 4.4, 8.1, 8.2, 8.5, 11.1–11.3, §12B (the pinned model) and §12C (the pinned
 `TauCeti.AlgebraicGeometry.RegularProjectiveCurveCat.equivFunctionFieldCat`); JacobianChallenge
 Layers E–F (abelian varieties, `Jac X`, the Abel–Jacobi map and its Albanese property); Tau Ceti
-`TauCeti.finite_algEquiv_of_two_le_genus`, `TauCeti.finite_algEquiv_of_not_isHyperellipticFunctionField`,
+`TauCeti.constantCompositum`, `TauCeti.genus_le_genus_of_constantCompositum_eq_top`,
+`TauCeti.genus_eq_genus_of_constantCompositum_eq_top`,
+`TauCeti.AlgebraicGeometry.genus_eq_genus_functionField_of_constantCompositum_eq_top`,
+`TauCeti.ProjectiveGeneralLinear.groupScheme`, `TauCeti.HopfAlgebra.identityComponentHopfIdeal`,
+`TauCeti.AlgebraicGeometry.eq_snd_comp_lift_comp`, `TauCeti.finite_algEquiv_of_two_le_genus`,
+`TauCeti.finite_algEquiv_of_not_isHyperellipticFunctionField`,
 `TauCeti.finite_algEquiv_of_finrank_adjoin_eq_two`, `TauCeti.isDomain_tensorProduct_of_separating`,
-`TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_perfectField`.
+`TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_perfectField`; Mathlib
+`IsAlgClosure`, `TensorProduct`.
 
 **Checks.**
 
@@ -1959,10 +2043,23 @@ Layers E–F (abelian varieties, `Jac X`, the Abel–Jacobi map and its Albanese
   apply to it (§11.3), the headline does.
 - Over a separably closed imperfect field of characteristic `5`, `y⁵ − y = a x⁵` with `a ∉ k⁵` has
   exact constants, genus `(5 − 1)(5 − 2)/2 = 6` and infinitely many automorphisms `x ↦ x + β`,
-  `y ↦ y + α` with `α⁵ − α = a β⁵` (Rosenlicht 1955, §3, p. 10): the perfectness hypothesis is
-  load-bearing.
-- A genus-one field over `ℂ` has infinitely many automorphisms (§11.1): the genus hypothesis is
-  load-bearing.
+  `y ↦ y + α` with `α⁵ − α = a β⁵` (Rosenlicht 1955, §3, p. 10). Over `k̄`, `w = y − a^{1/5} x` has
+  `w⁵ = y⁵ − a x⁵ = y`, so `x = (w⁵ − w)/a^{1/5}` and `F′ = k̄(w)` has genus `0`: the hypothesis
+  `g(F′/K) > 0` is load-bearing, and so is perfectness in the perfect-field form.
+- `y² = x⁵ − 1` over the imperfect `𝔽₃(t)` has a rational place at `∞`, hence exact constants, and
+  genus `2`; `x⁵ − 1` is separable in characteristic `3`, so the model is smooth and the genus stays
+  `2` over `k̄`. The general theorem gives a finite automorphism group; the perfect-field form does
+  not apply.
+- `y² = (x³ − t)(x² − 1)` over `𝔽₃(t)` has genus `(5 − 1)/2 = 2` (squarefree of degree `5`, exact
+  constants from the rational place at `∞`); over `k̄`, with `τ³ = t`, `u = y/(x − τ)` satisfies
+  `u² = (x − τ)(x² − 1)`, so `g(F′/K) = 1`. The general theorem applies through step 3, while a
+  hypothesis `g(F′/K) = g` would not. Directly: an automorphism maps the canonical subfield
+  `𝔽₃(t)(x)` (the unique subfield of degree two and genus `0`) to itself and permutes its three
+  rational branch places `1`, `−1`, `∞`, which determine a Möbius transformation, so at most
+  `2 · 6 = 12` automorphisms exist.
+- A genus-one field over `ℂ` has infinitely many automorphisms (§11.1), and so has `y² = x³ − 2`
+  over `ℚ`, translated by the multiples of the point `(3, 5)` of infinite order: the hypothesis
+  `g ≥ 2` is load-bearing although `g(F′/K) = 1 > 0`.
 
 ### 11.5 The Hurwitz bound
 
@@ -2049,17 +2146,13 @@ and two charts, and Mathlib's `Spec`, gluing, finite and projective morphisms an
 the closed-point, place, local-ring and residue dictionaries; maps come from the rational map on
 function fields extended through every DVR by properness, refining affine charts as necessary.
 
-**12B.0a, generic regular constants.** Prove the regular-field equivalence of §8.1 item 2 through
-separable generation and relative algebraic closure, and build its tensor-domain and fraction-field
-maps for every `K/k` with identity, composition and uniqueness laws; these are field-map statements,
-not full faithfulness of base change. For a separating `t`, identify
-`Frac(K ⊗[k] F) ≃ₐ[K] K(t) ⊗[k(t)] F` (localize at the nonzero polynomials in `t`; this finite
-`K(t)`-algebra is a domain, hence a field), with both maps on pure tensors, inverse equations, basis
-transport and `[F : k(t)] = [F_K : K(t)]`; prove scalar stability of regular extensions, also for
-extensions that are not finitely generated, by finite subextension descent. In characteristic zero
-with exact constants, separable generation is Mathlib's perfect-field theorem; with `X_F` smooth and
-geometrically integral (12B.0b) this is the generic input BelyiMaps consumes in its Layer 9
-(algebraic Belyi pairs, 9.1).
+**12B.0a, generic regular constants.** The regular-field statements are those of §8.1 item 2,
+consumed here: the equivalence of regularity with the tensor-domain condition, the tensor-domain
+and fraction-field maps for every `K/k` with their laws, the identification
+`Frac(K ⊗[k] F) ≃ₐ[K] K(t) ⊗[k(t)] F` for a separating `t` with `[F : k(t)] = [F_K : K(t)]`, and
+scalar stability. In characteristic zero with exact constants, separable generation is Mathlib's
+perfect-field theorem; with `X_F` smooth and geometrically integral (12B.0b) this is the generic
+input BelyiMaps consumes in its Layer 9 (algebraic Belyi pairs, 9.1).
 
 **12B.0b, whole-model geometric regularity.** Prove smooth ↔ geometrically regular for the model;
 geometric integrality from generic regularity; smoothness over perfect `k`. Over imperfect `k`
@@ -2094,9 +2187,10 @@ specified branch sections to a finitely generated subfield over `ℚ`, then to i
 the ambient field; faithful field extension reflects geometric integrality and finite étaleness off
 those sections. BelyiMaps consumes this in its 10.6 together with its own finite enumeration and
 owns the fixed-`t` Hom comparison of its 9.1.
-*Needs:* Layers 0, 2, 3 (for 12B.0c), 4–5 (for the repartition comparison), §8.1; Tau Ceti
-`TauCeti.AlgebraicGeometry.twoChartModel`; Mathlib `AlgebraicGeometry.Scheme`, `Spec`, `IsProper`,
-`Smooth`, `GeometricallyIntegral`, `Module.Flat`.
+*Needs:* the model and its dictionaries: Layers 0 and 2; 12B.0a–b: §8.1 item 2; 12B.0c: Layer 3,
+and Layers 4–5 for the repartition comparison; 12B.0d: 12B.0b and §7.1 (the trace-dual different);
+Tau Ceti `TauCeti.AlgebraicGeometry.twoChartModel`; Mathlib `AlgebraicGeometry.Scheme`, `Spec`,
+`IsProper`, `Smooth`, `GeometricallyIntegral`, `Module.Flat`.
 
 **Checks.**
 
@@ -2240,8 +2334,8 @@ Riemann–Roch, Serre duality); Tau Ceti
 
 ### Dependencies
 
-Layers 0–5 and §8.1; JacobianChallenge Layers A–B for 12E; Mathlib schemes; Tau Ceti's two-chart model,
-scheme Weil divisors and the anti-equivalence named above.
+Layers 0–5, §7.1 (for 12B.0d) and §8.1 items 1–2; JacobianChallenge Layers A–B for 12E; Mathlib
+schemes; Tau Ceti's two-chart model, scheme Weil divisors and the anti-equivalence named above.
 
 ## Downstream consumers
 
@@ -2250,8 +2344,8 @@ scheme Weil divisors and the anti-equivalence named above.
   Layer 0 (places, Dedekind instance, point dictionary) and Layer 1 (Kähler basis,
   regular/nonvanishing differential, unramifiedness); the four statements of §10.2 are its named
   interfaces.
-- BelyiMaps consumes the pinned carriers, Layers 6–7 (ramification, Riemann–Hurwitz), 12B.0a for
-  its 9.1 and 12B.0d for its 10.6.
+- BelyiMaps consumes the pinned carriers, Layers 6–7 (ramification, Riemann–Hurwitz), §8.1 item 2
+  through 12B.0a for its 9.1 and 12B.0d for its 10.6.
 - SchemeAndStackFoundations consumes Layers 0–12 for function fields, divisors, Riemann–Roch,
   Hurwitz's formula, constant-field extension, the regular projective model and the
   anti-equivalence, and restates none of it.
@@ -2290,8 +2384,10 @@ scheme Weil divisors and the anti-equivalence named above.
   (ramification groups); Layers 7–8.
 - **[Rosenlicht1955]** M. Rosenlicht, *Automorphisms of function fields*, Trans. Amer. Math. Soc. 79
   (1955), 1–11, [doi:10.1090/S0002-9947-1955-0070211-3](https://doi.org/10.1090/S0002-9947-1955-0070211-3):
-  §2, Theorem (finiteness over an algebraically closed field) and its two lemmas; §3, the
-  exceptional fields over imperfect fields (§11.4).
+  §2, Theorem (finiteness over an algebraically closed field) and its two lemmas; §3, finiteness
+  over an arbitrary field when the genus stays positive over `k̄` (p. 5), the Lemma and Corollary
+  on separable generation over a fixed field (pp. 4–5) and the exceptional fields over imperfect
+  fields (p. 10) (§11.4).
 - **[DeligneMumford1969]** P. Deligne, D. Mumford, *The irreducibility of the space of curves of given
   genus*, Publ. Math. IHÉS 36 (1969), 75–109,
   [Numdam](http://www.numdam.org/item/PMIHES_1969__36__75_0/): Theorem (1.11), finiteness and
