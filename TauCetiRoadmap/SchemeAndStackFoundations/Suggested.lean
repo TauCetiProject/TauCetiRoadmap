@@ -1,14 +1,26 @@
 import Mathlib
 import TauCeti.Algebra.BrauerGroup.Group
+import TauCeti.Algebra.Module.PseudoCoherent.Basic
+import TauCeti.AlgebraicGeometry.AlgebraicSpace.Basic
+import TauCeti.AlgebraicGeometry.Chow.Basic
 import TauCeti.AlgebraicGeometry.Cohomology.Genus
 import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
 import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
+import TauCeti.AlgebraicGeometry.Modules.PseudoCoherent.Basic
 import TauCeti.AlgebraicGeometry.Modules.Quasicoherent.Kernels
 import TauCeti.AlgebraicGeometry.Modules.Tilde.Basic
 import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
+import TauCeti.AlgebraicGeometry.Morphisms.Thickening
+import TauCeti.AlgebraicGeometry.ProjectiveSpectrum.ProjectiveOver
+import TauCeti.AlgebraicGeometry.Scheme.Regular.Scheme
 import TauCeti.AlgebraicGeometry.VectorBundle.FixedRank
+import TauCeti.CategoryTheory.Limits.Replete
+import TauCeti.RingTheory.Japanese
+import TauCeti.RingTheory.Nagata
+import TauCeti.RingTheory.RegularLocalRing.GRing
+import TauCeti.RingTheory.RegularLocalRing.Locus
 
 /-!
 # Scheme, stack, cohomology and intersection foundations: target signatures
@@ -35,9 +47,9 @@ Headline theorems that are not statable at the pins, and what each lacks:
   with `Pic(X) → Pic_{X/k}(k)` of cokernel in `Br(k)` (on a pointless real conic the degrees of
   line bundles are `2ℤ` and those of `Pic_{X/k}(ℝ)` are `ℤ`). Neither pin has a scheme
   representing the relative Picard functor or its degree-`d` parts, nor a map from its `k`-points
-  to `Br(k)`. Tau Ceti has the presheaf `TauCeti.AlgebraicGeometry.relativePicardPresheaf` at both
-  pins, and at `2fd255d9` also its fppf sheafification `relativePicardFppfSheaf` and the
-  degree-zero subsheaf `relativePicardDegreeZeroFppfSheaf`, neither with a representability claim.
+  to `Br(k)`. Tau Ceti has the presheaf `TauCeti.AlgebraicGeometry.relativePicardPresheaf`, its fppf
+  sheafification `relativePicardFppfSheaf` and the degree-zero subsheaf
+  `relativePicardDegreeZeroFppfSheaf`, none with a representability claim.
 * §4.4: Schlessinger's theorem. Its statement needs the Artinian coefficient category `C_Λ` with
   its fibre products along small extensions, the dual numbers as an object, the vector-space
   structure on tangent spaces and pro-representable hulls in `Ĉ_Λ`; none is at the pins, and
@@ -63,29 +75,20 @@ open scoped _root_.TensorProduct ZeroObject
 
 namespace PseudoCoherence
 
-/-- A module with a resolution by finite free modules in nonnegative chain degrees.
-Stacks, Definition 15.66.1 (064Q). Tau Ceti's `TauCeti.Huber.IsPseudoCoherentOver A M ⊤`. -/
-def IsPseudoCoherentModule (A : Type u) [CommRing A] (M : ModuleCat.{u} A) : Prop :=
-  ∃ P : ChainComplex (ModuleCat.{u} A) ℕ,
-    (∀ n, Module.Free A (P.X n) ∧ Module.Finite A (P.X n)) ∧
-    Nonempty (P.homology 0 ≅ M) ∧ ∀ n : ℕ, IsZero (P.homology (n + 1))
+/-- Pseudo-coherence of a bundled module: Tau Ceti's `TauCeti.Huber.IsPseudoCoherentOver A M ⊤`, a
+resolution by finite free modules (Stacks, Definition 15.66.1 (064Q)). This is the name under
+which AdicEtaleGeometry imports §0.5's module predicate. -/
+abbrev IsPseudoCoherentModule (A : Type u) [CommRing A] (M : ModuleCat.{u} A) : Prop :=
+  TauCeti.Huber.IsPseudoCoherentOver A M ⊤
 
-/-- Zariski-local resolutions of a module sheaf by finite free module sheaves.
-Stacks, §36.10 (08E4). Tau Ceti's `AlgebraicGeometry.Scheme.Modules.IsPseudoCoherent`. -/
-def IsPseudoCoherentSheaf {X : Scheme.{u}} (F : X.Modules) : Prop :=
-  ∀ x : X, ∃ U : X.Opens, x ∈ U ∧
-    ∃ P : ChainComplex U.toScheme.Modules ℕ,
-      (∀ n, ∃ r : ℕ, Nonempty (P.X n ≅
-        (SheafOfModules.free (R := U.toScheme.ringCatSheaf) (ULift.{u} (Fin r))))) ∧
-      Nonempty (P.homology 0 ≅ F.restrict U.ι) ∧
-      ∀ n : ℕ, IsZero (P.homology (n + 1))
-
-/-- The affine criterion needs quasi-coherence besides pseudo-coherent sections.
-Stacks, Lemmas 36.10.1–36.10.2 (08E4). -/
+/-- The affine criterion for Tau Ceti's pseudo-coherent module sheaves (`Scheme.Modules.IsPseudoCoherent`:
+finite free resolutions on an open neighbourhood of every point): a module sheaf is pseudo-coherent
+iff it is quasi-coherent and its sections over every affine open have a resolution by finite free
+modules (`TauCeti.Huber.IsPseudoCoherentOver _ _ ⊤`). Pseudo-coherent sections alone do not
+suffice. Stacks, Lemmas 36.10.1–36.10.2 (08E4). -/
 theorem isPseudoCoherentSheaf_iff_affineOpens {X : Scheme.{u}} (F : X.Modules) :
-    IsPseudoCoherentSheaf F ↔ F.IsQuasicoherent ∧
-      ∀ U : X.affineOpens, IsPseudoCoherentModule Γ(X, U.1)
-        (ModuleCat.of Γ(X, U.1) Γ(F, U.1)) := by
+    F.IsPseudoCoherent ↔ F.IsQuasicoherent ∧
+      ∀ U : X.affineOpens, TauCeti.Huber.IsPseudoCoherentOver Γ(X, U.1) Γ(F, U.1) ⊤ := by
   sorry
 
 end PseudoCoherence
@@ -113,74 +116,41 @@ theorem unibranch_finite_components {X Y : Scheme.{u}} [IsLocallyNoetherian X]
 
 /-! ### §0.20 Japanese and Nagata rings -/
 
-/-- A domain is Japanese (N-2) if its integral closure in every finite extension of its fraction
-field is a finite module, inseparable extensions included. Stacks, Definition 10.161.1 (032F).
-The body of Tau Ceti's `TauCeti.Ring.IsJapanese`. -/
-def Ring.IsJapanese (R : Type u) [CommRing R] [IsDomain R] : Prop :=
-  ∀ (L : Type u) [Field L] [Algebra R L] [Algebra (FractionRing R) L]
-    [IsScalarTower R (FractionRing R) L] [FiniteDimensional (FractionRing R) L],
-    Module.Finite R (integralClosure R L)
-
-/-- A ring is Nagata if it is Noetherian and every quotient by a prime is Japanese.
-Stacks, Definition 10.162.1 (032R). The fields of Tau Ceti's `TauCeti.Ring.IsNagata`. -/
-def Ring.IsNagata (R : Type u) [CommRing R] : Prop :=
-  IsNoetherianRing R ∧ ∀ (p : Ideal R) [p.IsPrime], Ring.IsJapanese (R ⧸ p)
-
-/-- A complete Noetherian local domain is Japanese. Stacks, Lemma 10.162.8 (032W). -/
+/-- A complete Noetherian local domain is Japanese (Tau Ceti's `TauCeti.Ring.IsJapanese`: the
+integral closure in every finite extension of the fraction field, inseparable ones included, is a
+finite module). Stacks, Lemma 10.162.8 (032W). -/
 theorem Ring.IsJapanese.of_complete_local (A : Type u) [CommRing A] [IsDomain A]
     [IsLocalRing A] [IsNoetherianRing A] [IsAdicComplete (IsLocalRing.maximalIdeal A) A] :
-    Ring.IsJapanese A := by
+    TauCeti.Ring.IsJapanese A := by
   sorry
 
-/-- A complete Noetherian local ring is Nagata. Stacks, Lemma 10.162.8 (032W). -/
+/-- A complete Noetherian local ring is Nagata (Tau Ceti's `TauCeti.Ring.IsNagata`: Noetherian with
+every quotient by a prime Japanese). Stacks, Lemma 10.162.8 (032W). -/
 theorem Ring.IsNagata.of_complete_local (A : Type u) [CommRing A] [IsLocalRing A]
     [IsNoetherianRing A] [IsAdicComplete (IsLocalRing.maximalIdeal A) A] :
-    Ring.IsNagata A := by
+    TauCeti.Ring.IsNagata A := by
   sorry
 
 /-! ### §0.21 Regular maps, G-rings, J-2 rings and excellent rings -/
 
 namespace Excellence
 
-/-- Noetherian geometric regularity over a field, tested after finite purely inseparable
-extensions. Stacks, Lemma 10.166.1 and Definition 10.166.2. The fields of Tau Ceti's
-`TauCeti.Excellence.GeometricallyRegular`. -/
-def GeometricallyRegular (k B : Type u) [Field k] [CommRing B] [Algebra k B] : Prop :=
-  IsNoetherianRing B ∧
-    ∀ (L : Type u) [Field L] [Algebra k L], Module.Finite k L →
-      IsPurelyInseparable k L → IsRegularRing (L ⊗[k] B)
-
-/-- Flat with geometrically regular fibres. Stacks, Definition 15.42.1. The fields of Tau Ceti's
-`TauCeti.Excellence.RegularAlgebraMap`. -/
-def RegularAlgebraMap (R B : Type u) [CommRing R] [CommRing B] [Algebra R B] : Prop :=
-  Module.Flat R B ∧ ∀ p : PrimeSpectrum R,
-    GeometricallyRegular p.asIdeal.ResidueField (p.asIdeal.Fiber B)
-
-/-- The regular locus; it need not be open. Stacks, §15.48. Tau Ceti's
-`TauCeti.Excellence.regularLocus`. -/
-def regularLocus (R : Type u) [CommRing R] : Set (PrimeSpectrum R) :=
-  {p | IsRegularLocalRing (Localization.AtPrime p.asIdeal)}
-
-/-- G-rings: Noetherian, with regular formal fibres at every prime. Stacks, Definition 15.51.1.
-The fields of Tau Ceti's `TauCeti.Excellence.IsGRing`. -/
-def IsGRing (R : Type u) [CommRing R] : Prop :=
-  IsNoetherianRing R ∧ ∀ p : PrimeSpectrum R,
-    RegularAlgebraMap (Localization.AtPrime p.asIdeal)
-      (AdicCompletion (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal))
-        (Localization.AtPrime p.asIdeal))
-
-/-- J-2 rings: Noetherian, and every finite-type algebra has open regular locus.
+/-- J-2 rings: Noetherian, and every finite-type algebra has open regular locus (Tau Ceti's
+`TauCeti.Excellence.regularLocus`, the primes with regular localization).
 Stacks, Definition 15.48.1 (3). -/
 def IsJ2 (R : Type u) [CommRing R] : Prop :=
   IsNoetherianRing R ∧ ∀ (B : Type u) [CommRing B] [Algebra R B],
-    Algebra.FiniteType R B → IsOpen (regularLocus B)
+    Algebra.FiniteType R B → IsOpen (TauCeti.Excellence.regularLocus B)
 
-/-- Stacks, Definition 15.53.1 (1); no catenarity is required. -/
-def IsQuasiExcellentRing (R : Type u) [CommRing R] : Prop := IsGRing R ∧ IsJ2 R
+/-- Quasi-excellent rings: G-rings (Tau Ceti's `TauCeti.Excellence.IsGRing`, Noetherian with
+regular formal fibres at every prime) that are J-2. Stacks, Definition 15.53.1 (1); no catenarity
+is required. -/
+def IsQuasiExcellentRing (R : Type u) [CommRing R] : Prop :=
+  TauCeti.Excellence.IsGRing R ∧ IsJ2 R
 
 /-- Quasi-excellent rings are Nagata. Stacks, Lemma 15.53.5 (07QV). -/
 theorem IsQuasiExcellentRing.isNagata (R : Type u) [CommRing R]
-    (h : IsQuasiExcellentRing R) : Ring.IsNagata R := by
+    (h : IsQuasiExcellentRing R) : TauCeti.Ring.IsNagata R := by
   sorry
 
 end Excellence
@@ -255,34 +225,16 @@ end Layer0
 section Layer1
 
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.Opposite _root_.AlgebraicGeometry
-
-/-- Presheaves of sets on the big category of schemes; Tau Ceti's
-`TauCeti.AlgebraicGeometry.SchemePresheaf`. -/
-abbrev SchemePresheaf := Scheme.{u}ᵒᵖ ⥤ Type u
+open TauCeti.AlgebraicGeometry (SchemePresheaf)
+open TauCeti.AlgebraicGeometry.Spaces (IsAlgebraicSpace EtaleAtlas)
 
 /-! ### §1.3–§1.10 Algebraic spaces -/
 
 namespace Spaces
 
-/-- The diagonal `F → F × F` is relatively representable by schemes; Tau Ceti's
-`TauCeti.AlgebraicGeometry.Spaces.RepresentableDiagonal`. -/
-def RepresentableDiagonal (F : SchemePresheaf.{u}) : Prop :=
-  yoneda.relativelyRepresentable (prod.lift (𝟙 F) (𝟙 F))
-
-/-- `a : h_U → F` is representable, and étale and surjective after every base change to a
-scheme; the fields of Tau Ceti's `TauCeti.AlgebraicGeometry.Spaces.EtaleAtlas`. -/
-def EtaleAtlas (F : SchemePresheaf.{u}) (U : Scheme.{u}) (a : yoneda.obj U ⟶ F) : Prop :=
-  MorphismProperty.presheaf (@Etale : MorphismProperty Scheme.{u}) a ∧
-    MorphismProperty.presheaf (@Surjective : MorphismProperty Scheme.{u}) a
-
-/-- An algebraic space: an fppf sheaf with representable diagonal and an étale atlas.
-Stacks, Definition 65.6.1 (025Y). The fields of Tau Ceti's
-`TauCeti.AlgebraicGeometry.Spaces.IsAlgebraicSpace`. -/
-def IsAlgebraicSpace (F : SchemePresheaf.{u}) : Prop :=
-  Presheaf.IsSheaf Scheme.fppfTopology F ∧ RepresentableDiagonal F ∧
-    ∃ (U : Scheme.{u}) (a : yoneda.obj U ⟶ F), EtaleAtlas F U a
-
-/-- The object property of being an algebraic space. -/
+/-- The object property of being an algebraic space (Tau Ceti's
+`TauCeti.AlgebraicGeometry.Spaces.IsAlgebraicSpace`: an fppf sheaf with representable diagonal and
+an étale atlas; Stacks, Definition 65.6.1 (025Y)). -/
 def isAlgebraicSpace : ObjectProperty SchemePresheaf.{u} := fun F => IsAlgebraicSpace F
 
 /-- The category of algebraic spaces. -/
@@ -304,15 +256,20 @@ def AlgSpace.pullbackSnd {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) :
     AlgSpace.pullbackObj f g ⟶ G :=
   ObjectProperty.homMk (pullback.snd (f.hom : F.obj ⟶ H.obj) (g.hom : G.obj ⟶ H.obj))
 
-/-- A property of scheme morphisms, read on a square of étale atlases.
-Stacks, Lemma 67.22.1 (03MJ) and Definition 67.22.2 (04RD). -/
+/-- A property of scheme morphisms, read on one square: an étale atlas `a : h_U → F`, an étale
+`b : h_V → G` and `h : U → V` over `f` with `P h` (Stacks, Lemma 67.22.1 (03MJ) (2) and
+Definition 67.22.2 (04RD)). It is independent of the square, and agrees with `P` on morphisms of
+schemes, when `P` is étale local on source-and-target in the sense of Stacks, Definition 35.32.3
+(04QZ); local on the source and on the target separately is not enough (Example 35.32.2 (04QY)). -/
 def EtaleLocal (P : MorphismProperty Scheme.{u}) {F G : AlgSpace.{u}} (f : F ⟶ G) : Prop :=
   ∃ (U V : Scheme.{u}) (a : yoneda.obj U ⟶ F.obj) (b : yoneda.obj V ⟶ G.obj) (h : U ⟶ V),
-    EtaleAtlas F.obj U a ∧ MorphismProperty.presheaf (@Etale : MorphismProperty Scheme.{u}) b ∧
+    EtaleAtlas a ∧ MorphismProperty.presheaf (@Etale : MorphismProperty Scheme.{u}) b ∧
       a ≫ isAlgebraicSpace.ι.map f = yoneda.map h ≫ b ∧ P h
 
-/-- For `P` étale local on source and target and stable under base change, `P` passes to the
-specified second projection of a fibre product. Stacks, §67.22 (03MJ, 04RD). -/
+/-- For `P` étale local on the source and on the target (Mathlib's two classes for
+`Scheme.etalePrecoverage`) and stable under base change, `P` passes to the specified second
+projection of a fibre product: the square pulled back along an atlas of `G` has top arrow a base
+change of the given one. Stacks, §67.22 (03MJ, 04RD). -/
 theorem EtaleLocal.baseChange (P : MorphismProperty Scheme.{u})
     [P.IsLocalAtSource Scheme.etalePrecoverage] [P.IsLocalAtTarget Scheme.etalePrecoverage]
     [P.IsStableUnderBaseChange] {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H)
@@ -374,7 +331,7 @@ theorem Torsor.trivial_iff_section {S : Scheme.{u}} (G : GroupSpace S)
   sorry
 
 /-- An fppf sheaf with a pseudo-torsor action, trivial on an fppf cover, is an algebraic space
-and a torsor. Stacks, Lemma 80.11.1 (04SK); Poonen, Theorem 6.5.10 (i). -/
+and a torsor. Stacks, Lemma 80.11.1 (04SK); Poonen, Remark 6.5.11, p. 182. -/
 theorem torsorRepresentability {S : Scheme.{u}} (G : GroupSpace S) (P : Over (yoneda.obj S))
     [ModObj G.obj P] (hP : Presheaf.IsSheaf Scheme.fppfTopology P.left)
     (hpseudo : IsIso (lift (act G P) (snd G.obj P)))
@@ -391,7 +348,7 @@ theorem artinBootstrap (F : SchemePresheaf.{u}) (hF : Presheaf.IsSheaf Scheme.fp
     (U : SchemePresheaf.{u}) (hU : IsAlgebraicSpace U) (a : U ⟶ F)
     (ha : ∀ (T : Scheme.{u}) (y : yoneda.obj T ⟶ F), IsAlgebraicSpace (pullback a y))
     (hflat : ∀ (T : Scheme.{u}) (y : yoneda.obj T ⟶ F) (V : Scheme.{u})
-      (b : yoneda.obj V ⟶ pullback a y), EtaleAtlas (pullback a y) V b →
+      (b : yoneda.obj V ⟶ pullback a y), EtaleAtlas b →
         ∃ h : V ⟶ T, yoneda.map h = b ≫ pullback.snd a y ∧ Flat h ∧
           LocallyOfFinitePresentation h)
     (hsurj : Presheaf.IsLocallySurjective Scheme.fppfTopology a) :
@@ -546,15 +503,16 @@ end Nisnevich
 
 namespace Proetale
 
-/-- Limits of towers of epimorphisms have epimorphic legs. Bhatt–Scholze 2014, Definition
-3.1.1. Tau Ceti's `TauCeti.IsReplete` with `TauCeti.IsReplete.epi_π_app`. -/
-def IsReplete (T : Type w) [Category.{v} T] : Prop :=
-  ∀ (F : ℕᵒᵖ ⥤ T) (_ : ∀ n : ℕ, Epi (F.map (homOfLE (Nat.le_succ n)).op))
-    (c : Cone F) (_ : IsLimit c) (m : ℕ), Epi (c.π.app (Opposite.op m))
+/-- Repleteness: Tau Ceti's `TauCeti.IsReplete` (in a tower of epimorphisms the limit projection to
+the first term is an epimorphism, and then every projection is, `TauCeti.IsReplete.epi_π_app`;
+Bhatt–Scholze 2014, Definition 3.1.1). This is the name under which EnhancedDerivedSheaves imports
+§2.17's predicate. -/
+abbrev IsReplete (T : Type w) [Category.{v} T] : Prop := TauCeti.IsReplete T
 
-/-- The pro-étale topos is replete. Bhatt–Scholze 2014, Proposition 4.2.8. -/
+/-- The pro-étale topos is replete (Tau Ceti's `TauCeti.IsReplete`).
+Bhatt–Scholze 2014, Proposition 4.2.8. -/
 theorem isReplete_proetale (X : Scheme.{u}) :
-    IsReplete (Sheaf (Scheme.ProEt.topology X) (Type u)) := by
+    TauCeti.IsReplete (Sheaf (Scheme.ProEt.topology X) (Type u)) := by
   sorry
 
 end Proetale
@@ -835,25 +793,18 @@ namespace Formal
 
 /-! ### §4.1 Thickenings and the infinitesimal lifting criterion -/
 
-/-- A thickening: a closed immersion surjective on points. Stacks, Definition 37.2.1 (04EX).
-Tau Ceti's `TauCeti.AlgebraicGeometry.IsThickening`. -/
-class IsThickening {Z X : Scheme.{u}} (i : Z ⟶ X) : Prop extends IsClosedImmersion i,
-  Surjective i
-
-/-- A first-order thickening: a closed immersion whose ideal squares to zero.
-Stacks, Definition 37.2.1 (04EX). Tau Ceti's `TauCeti.AlgebraicGeometry.IsFirstOrderThickening`. -/
-class IsFirstOrderThickening {Z X : Scheme.{u}} (i : Z ⟶ X) : Prop extends IsClosedImmersion i where
-  ker_mul_self : i.ker * i.ker = ⊥
-
-/-- Lifts exist along affine first-order thickenings over the base.
-Stacks, Definition 37.11.1 (02H0). -/
+/-- Lifts exist along affine first-order thickenings over the base (Tau Ceti's
+`TauCeti.AlgebraicGeometry.IsFirstOrderThickening`: a closed immersion whose ideal sheaf squares
+to zero, Stacks, Definition 37.2.1 (04EX)). Stacks, Definition 37.11.1 (02H0). -/
 class FormallySmooth {X S : Scheme.{u}} (f : X ⟶ S) : Prop where
-  exists_lift : ∀ {T T' : Scheme.{u}} [IsAffine T'] (i : T ⟶ T') [IsFirstOrderThickening i]
+  exists_lift : ∀ {T T' : Scheme.{u}} [IsAffine T'] (i : T ⟶ T')
+    [TauCeti.AlgebraicGeometry.IsFirstOrderThickening i]
     (g : T ⟶ X) (h : T' ⟶ S), g ≫ f = i ≫ h → ∃ l : T' ⟶ X, i ≫ l = g ∧ l ≫ f = h
 
 /-- Unique lifts along affine first-order thickenings. Stacks, Definition 37.8.1 (02HG). -/
 class FormallyEtale {X S : Scheme.{u}} (f : X ⟶ S) : Prop where
-  existsUnique_lift : ∀ {T T' : Scheme.{u}} [IsAffine T'] (i : T ⟶ T') [IsFirstOrderThickening i]
+  existsUnique_lift : ∀ {T T' : Scheme.{u}} [IsAffine T'] (i : T ⟶ T')
+    [TauCeti.AlgebraicGeometry.IsFirstOrderThickening i]
     (g : T ⟶ X) (h : T' ⟶ S), g ≫ f = i ≫ h → ∃! l : T' ⟶ X, i ≫ l = g ∧ l ≫ f = h
 
 /-- Infinitesimal lifting criterion. Stacks, Lemma 37.11.7 (02H6). -/
@@ -884,12 +835,13 @@ def levelMap (X : ℕ → Scheme.{u}) (ι : ∀ n, X n ⟶ X (n + 1)) : ∀ n, X
   | 0 => 𝟙 _
   | n + 1 => levelMap X ι n ≫ ι n
 
-/-- A tower of thickenings in which `X n` is cut out in `X (n + 1)` by the `(n + 1)`-st power
-of the ideal of `X 0`. Stacks, Definition 87.9.9 (0AIF). -/
+/-- A tower of thickenings (Tau Ceti's `TauCeti.AlgebraicGeometry.IsThickening`: closed immersions
+surjective on points) in which `X n` is cut out in `X (n + 1)` by the `(n + 1)`-st power of the
+ideal of `X 0`. Stacks, Definition 87.9.9 (0AIF). -/
 structure AdicThickeningSystem where
   X : ℕ → Scheme.{u}
   ι : ∀ n, X n ⟶ X (n + 1)
-  isThickening : ∀ n, IsThickening (ι n)
+  isThickening : ∀ n, TauCeti.AlgebraicGeometry.IsThickening (ι n)
   adic : ∀ n, (ι n).ker = (levelMap X ι (n + 1)).ker ^ (n + 1)
 
 /-- Coherent formal modules: finitely presented modules on the levels with compatible
@@ -1004,12 +956,6 @@ theorem generic_flatness {X S : Scheme.{u}} (f : X ⟶ S) [IsIntegral S] [Locall
     [QuasiCompact f] : ∃ U : S.Opens, Dense (U : Set S) ∧ Flat (f ∣_ U) := by
   sorry
 
-/-- Regular schemes: locally Noetherian with regular local rings; the fields of Tau Ceti's
-`TauCeti.AlgebraicGeometry.IsRegular`. -/
-class IsRegular (X : Scheme.{u}) : Prop where
-  isLocallyNoetherian : IsLocallyNoetherian X
-  isRegularLocalRing : ∀ x : X, IsRegularLocalRing (X.presheaf.stalk x)
-
 /-- Strict normal crossings data: finitely many components. de Jong 1996, 2.4. -/
 structure SNCData (X : Scheme.{u}) where
   ι : Type u
@@ -1026,10 +972,12 @@ def SNCData.stratum {X : Scheme.{u}} (C : SNCData X) (J : Finset C.ι) : X.Ideal
 def SNCData.divisor {X : Scheme.{u}} (C : SNCData X) : X.IdealSheafData :=
   ∏ i, C.comp i
 
-/-- Every nonempty partial intersection is regular of the expected codimension. -/
+/-- Every nonempty partial intersection is regular (Tau Ceti's
+`TauCeti.AlgebraicGeometry.IsRegular`: locally Noetherian with regular local rings) of the expected
+codimension. -/
 def SNCData.IsTransverse {X : Scheme.{u}} (C : SNCData X) : Prop :=
   ∀ J : Finset C.ι, J.Nonempty →
-    IsRegular (C.stratum J).subscheme ∧
+    TauCeti.AlgebraicGeometry.IsRegular (C.stratum J).subscheme ∧
     ∀ y : (C.stratum J).subscheme,
       ringKrullDim (X.presheaf.stalk ((C.stratum J).subschemeι y)) =
         ringKrullDim ((C.stratum J).subscheme.presheaf.stalk y) + (J.card : WithBot ℕ∞)
@@ -1064,19 +1012,6 @@ theorem node_local_structure_dvr (R : Type u) [CommRing R] [IsDomain R]
           Ideal.Quotient.mk (J (π ^ n)) (MvPolynomial.X 1)) := by
   sorry
 
-/-- A scheme `X` with structure morphism `g : X ⟶ Spec R` is projective over `R` when for some
-`n` it admits a closed immersion over `R` into projective `n`-space `ℙⁿ_R`, the homogeneous
-spectrum of `R[T₀, …, Tₙ]` graded by total degree (Hartshorne, *Algebraic Geometry*, II.4,
-p. 103). Over a field or a local ring this is projectivity in the sense of de Jong 1996. -/
-def IsProjectiveOverSpec (R : Type u) [CommRing R] {X : Scheme.{u}}
-    (g : X ⟶ Spec (CommRingCat.of R)) : Prop :=
-  ∃ n : ℕ,
-    letI : GradedAlgebra (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R) :=
-      MvPolynomial.gradedAlgebra
-    ∃ i : X ⟶ Proj (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R),
-      IsClosedImmersion i ∧
-        i ≫ Proj.toSpecZero _ ≫ Spec.map (CommRingCat.ofHom (algebraMap R _)) = g
-
 /-- An integral variety acquires, after a finite field extension, a geometrically integral
 reduced component altering it; no separability is required. de Jong 1996, 4.5, p. 66. -/
 theorem curve_fibration_field_reduction (k : Type u) [Field k] {X : Scheme.{u}}
@@ -1094,14 +1029,18 @@ theorem curve_fibration_field_reduction (k : Type u) [Field k] {X : Scheme.{u}}
 
 /-- de Jong's alteration theorem over a field: a regular projective compactification of an
 alteration with strict normal crossings boundary containing the preimage of `Z`, generically
-étale over a perfect field. de Jong 1996, Theorem 4.1 and Remark 4.2, p. 66. -/
+étale over a perfect field. Projective over `k` is Tau Ceti's `Scheme.IsProjectiveOver k` for the
+structure map `X̄₁ ↘ Spec k`: a closed subscheme over `k` of `Proj (Sym_k M)` for a finite `k`-module
+`M`, equivalently of some `ℙⁿ_k` (Hartshorne, *Algebraic Geometry*, II.4, p. 103).
+de Jong 1996, Theorem 4.1 and Remark 4.2, p. 66. -/
 theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
     (f : X ⟶ Spec (CommRingCat.of k)) [IsIntegral X] [IsSeparated f] [LocallyOfFiniteType f]
     [QuasiCompact f] (Z : X.IdealSheafData) (hZ : Z ≠ ⊥) :
     ∃ (X₁ : Scheme.{u}) (_ : IsIntegral X₁) (φ : X₁ ⟶ X) (_ : IsAlteration φ)
-      (Xbar₁ : Scheme.{u}) (j : X₁ ⟶ Xbar₁) (g : Xbar₁ ⟶ Spec (CommRingCat.of k))
+      (Xbar₁ : Scheme.{u}) (_ : Xbar₁.Over (Spec (CommRingCat.of k))) (j : X₁ ⟶ Xbar₁)
       (B : Xbar₁.IdealSheafData),
-      IsOpenImmersion j ∧ j ≫ g = φ ≫ f ∧ IsProjectiveOverSpec k g ∧ IsRegular Xbar₁ ∧
+      IsOpenImmersion j ∧ j ≫ (Xbar₁ ↘ Spec (CommRingCat.of k)) = φ ≫ f ∧
+      Xbar₁.IsProjectiveOver k ∧ TauCeti.AlgebraicGeometry.IsRegular Xbar₁ ∧
       IsStrictNormalCrossings B ∧
       (B.support : Set Xbar₁) = (Set.range j)ᶜ ∪ j '' (φ ⁻¹' (Z.support : Set X)) ∧
       ((PerfectField k) → IsAlteration.IsGenericallyEtale φ) := by
@@ -1148,8 +1087,9 @@ def IsStrictSemistablePair {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteVal
     IsStrictNormalCrossings ((TauCeti.specialFiberι R f).ker * H.divisor) ∧
     ∀ J : Finset H.ι, J.Nonempty → SemistableConditions K ((H.stratum J).subschemeι ≫ f)
 
-/-- The semistable alteration theorem over a trait, with projective compactification.
-de Jong 1996, Theorem 6.5 and Diagram 6.6, p. 83. -/
+/-- The semistable alteration theorem over a trait, with projective compactification (Tau Ceti's
+`Scheme.IsProjectiveOver R₁` for the structure map `X̄₁ ↘ Spec R₁`). de Jong 1996, Theorem 6.5 and
+Diagram 6.6, p. 83. -/
 theorem semistable_alteration_theorem (R : Type u) [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [IsTrait R]
     {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R)) [IsSVariety f]
@@ -1161,13 +1101,15 @@ theorem semistable_alteration_theorem (R : Type u) [CommRing R] [IsDomain R]
       IsLocalHom (algebraMap R R₁) ∧ IsTrait R₁ ∧
       ∃ (X₁ : Scheme.{u}) (_ : IsIntegral X₁) (φ : X₁ ⟶ X) (_ : IsAlteration φ)
         (f₁ : X₁ ⟶ Spec (CommRingCat.of R₁)) (Xbar₁ : Scheme.{u})
-        (g : Xbar₁ ⟶ Spec (CommRingCat.of R₁)) (j : X₁ ⟶ Xbar₁) (H : SNCData Xbar₁),
-        IsSVariety f₁ ∧ IsOpenImmersion j ∧ IsProjectiveOverSpec R₁ g ∧
-        IsStrictSemistablePair (FractionRing R₁) g H ∧
-        GeometricallyIrreducible (TauCeti.genericFiber R₁ (FractionRing R₁) g).hom ∧
-        j ≫ g = f₁ ∧
+        (_ : Xbar₁.Over (Spec (CommRingCat.of R₁))) (j : X₁ ⟶ Xbar₁) (H : SNCData Xbar₁),
+        IsSVariety f₁ ∧ IsOpenImmersion j ∧ Xbar₁.IsProjectiveOver R₁ ∧
+        IsStrictSemistablePair (FractionRing R₁) (Xbar₁ ↘ Spec (CommRingCat.of R₁)) H ∧
+        GeometricallyIrreducible
+          (TauCeti.genericFiber R₁ (FractionRing R₁) (Xbar₁ ↘ Spec (CommRingCat.of R₁))).hom ∧
+        j ≫ (Xbar₁ ↘ Spec (CommRingCat.of R₁)) = f₁ ∧
         f₁ ≫ Spec.map (CommRingCat.ofHom (algebraMap R R₁)) = φ ≫ f ∧
-        Set.range (TauCeti.specialFiberι R₁ g) ∪ (H.divisor.support : Set Xbar₁) =
+        Set.range (TauCeti.specialFiberι R₁ (Xbar₁ ↘ Spec (CommRingCat.of R₁))) ∪
+            (H.divisor.support : Set Xbar₁) =
           (Set.range j)ᶜ ∪ j '' (φ ⁻¹' Z) := by
   sorry
 
@@ -1185,73 +1127,24 @@ open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry
 
 namespace Chow
 
-variable (κ : Type u) [Field κ]
+open TauCeti.AlgebraicGeometry.Chow (cyclesOfDimension RatEquiv)
 
-/-- Cycles of dimension `k`: coefficients supported at points `x` with `Order.height x = k`,
-the dimension of the closure of `x` in Mathlib's specialisation order.
-Stacks, Definition 42.8.1 (02QR) and Lemma 42.7.5 (02QO). Tau Ceti's
-`TauCeti.AlgebraicGeometry.Chow.cyclesOfDimension X k`. -/
-def cyclesOfDimension (X : Scheme.{u}) [X.Over (Spec (.of κ))]
-    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : AddSubgroup (AlgebraicCycle X ℤ) :=
-  Function.locallyFinsuppWithin.supported ℤ Set.univ
-    {x : X | ∃ n : ℕ, k = (n : ℤ) ∧ Order.height x = n}
+/-- A coproduct of locally Noetherian schemes is locally Noetherian: the summands form an open
+cover of it. This makes Tau Ceti's rational equivalence `TauCeti.AlgebraicGeometry.Chow.RatEquiv`
+available on `∐ X`. -/
+instance isLocallyNoetherian_sigma (I : Type u) (X : I → Scheme.{u})
+    [hX : ∀ i, IsLocallyNoetherian (X i)] : IsLocallyNoetherian (∐ X) :=
+  (isLocallyNoetherian_iff_openCover (sigmaOpenCover X)).mpr fun i => hX i
 
-attribute [local instance] Classical.propDecidable
-
-/-- Rational equivalence: the subgroup generated by the sums of principal divisors on a locally
-finite family of integral closed subschemes of dimension `k + 1` (these sums already form a
-subgroup). Stacks, Definition 42.19.1 (02RW). Tau Ceti's
-`TauCeti.AlgebraicGeometry.Chow.RatEquiv X k`, whose families give `W j` dimension `k + 1` as the
-height of its generic point. -/
-def RatEquiv (X : Scheme.{u}) [X.Over (Spec (.of κ))]
-    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) :
-    AddSubgroup (cyclesOfDimension κ X k) :=
-  AddSubgroup.closure {α | ∃ (J : Type u) (W : J → Scheme.{u}) (i : ∀ j, W j ⟶ X)
-    (_ : ∀ j, IsIntegral (W j)) (_ : ∀ j, IsLocallyNoetherian (W j))
-    (r : ∀ j, (W j).functionFieldˣ),
-      (∀ j, IsClosedImmersion (i j)) ∧
-      (∀ j, ∃ n : ℕ, k + 1 = (n : ℤ) ∧ topologicalKrullDim (W j) = n) ∧
-      LocallyFinite (fun j => Set.range (i j)) ∧
-      ∀ x : X, α.val x = ∑ᶠ j, ∑ᶠ w : W j,
-        if (i j) w = x then (W j).ord (r j) w else 0}
-
-/-- `CH_k(X)`: `k`-cycles modulo rational equivalence; Tau Ceti's
-`TauCeti.AlgebraicGeometry.Chow.ChowGroup X k`. -/
-def ChowGroup (X : Scheme.{u}) [X.Over (Spec (.of κ))]
-    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : Type u :=
-  cyclesOfDimension κ X k ⧸ RatEquiv κ X k
-
-/-- `CH_k(X)` is an abelian group: the quotient of the group of `k`-cycles by rational
-equivalence. -/
-instance (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))]
-    (k : ℤ) : AddCommGroup (ChowGroup κ X k) :=
-  inferInstanceAs (AddCommGroup (cyclesOfDimension κ X k ⧸ RatEquiv κ X k))
-
-/-- A coproduct of schemes over `κ` lies over `κ` through the induced map. -/
-instance coprodOver (I : Type u) (X : I → Scheme.{u}) [∀ i, (X i).Over (Spec (.of κ))] :
-    (∐ X).Over (Spec (.of κ)) :=
-  ⟨Sigma.desc fun i => X i ↘ Spec (.of κ)⟩
-
-/-- A coproduct of schemes locally of finite type over `κ` is locally of finite type over `κ`,
-since the property is local on the source. -/
-instance coprod_locallyOfFiniteType (I : Type u) (X : I → Scheme.{u})
-    [∀ i, (X i).Over (Spec (.of κ))] [∀ i, LocallyOfFiniteType (X i ↘ Spec (.of κ))] :
-    LocallyOfFiniteType ((∐ X) ↘ Spec (.of κ)) :=
-  haveI : IsZariskiLocalAtSource @LocallyOfFiniteType.{u} :=
-    HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.FiniteType)
-  show LocallyOfFiniteType (Sigma.desc fun i => X i ↘ Spec (.of κ)) from
-    IsZariskiLocalAtSource.sigmaDesc fun _ => inferInstance
-
-/-- Chow groups of a coproduct, for any small family: a `k`-cycle on `∐ X i` is rationally
-equivalent to zero iff its restriction to every `X i` is. As the `k`-cycles on `∐ X i` are the
-families of `k`-cycles on the `X i`, restriction identifies `CH_k(∐ X i)` with `∏ CH_k(X i)`.
-Stacks, Definition 42.19.1 (02RW). -/
-theorem CH_coprod (I : Type u) (X : I → Scheme.{u})
-    [∀ i, (X i).Over (Spec (.of κ))]
-    [∀ i, LocallyOfFiniteType (X i ↘ Spec (.of κ))] (k : ℤ)
-    (α : cyclesOfDimension κ (∐ X) k) :
-    α ∈ RatEquiv κ (∐ X) k ↔
-      ∀ i, ∃ β ∈ RatEquiv κ (X i) k, ∀ x : X i, β.val x = α.val (Sigma.ι X i x) := by
+/-- Chow groups of a coproduct, for any small family of locally Noetherian schemes: a `k`-cycle
+on `∐ X i` (Tau Ceti's `TauCeti.AlgebraicGeometry.Chow.cyclesOfDimension`, graded by the height of
+points) is rationally equivalent to zero iff its restriction to every `X i` is. As the `k`-cycles
+on `∐ X i` are the families of `k`-cycles on the `X i`, restriction identifies `CH_k(∐ X i)` with
+`∏ CH_k(X i)`. Stacks, Definition 42.19.1 (02RW). -/
+theorem CH_coprod (I : Type u) (X : I → Scheme.{u}) [∀ i, IsLocallyNoetherian (X i)] (k : ℤ)
+    (α : cyclesOfDimension (∐ X) k) :
+    α ∈ RatEquiv (∐ X) k ↔
+      ∀ i, ∃ β ∈ RatEquiv (X i) k, ∀ x : X i, β.val x = α.val (Sigma.ι X i x) := by
   sorry
 
 /-! ### §5.9 The intersection pairing on a surface -/
@@ -1280,7 +1173,7 @@ V, Theorem 1.9, from which it follows in turn by testing against an ample class:
 hyperplane form of the signature `(1, ρ − 1)` of Remark 1.9.1. -/
 theorem hodge_index (k : Type u) [Field k] [IsAlgClosed k] (S : Scheme.{u})
     [S.Over (Spec (.of k))] [IsIntegral S] [SmoothOfRelativeDimension 2 (S ↘ Spec (.of k))]
-    (hS : Formal.DeJong.IsProjectiveOverSpec k (S ↘ Spec (.of k)))
+    [S.IsProjectiveOver k]
     (H D : TauCeti.AlgebraicGeometry.InvertibleSheaf S)
     (hH : 0 < Chow.intersectionNumber k S H H) (hDH : Chow.intersectionNumber k S D H = 0) :
     Chow.intersectionNumber k S D D ≤ 0 ∧
