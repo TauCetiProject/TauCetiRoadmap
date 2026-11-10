@@ -12,44 +12,50 @@ public import TauCeti.LinearAlgebra.SymmetricPower.Basic
 public import TauCeti.Algebra.Lie.UniversalEnveloping.Prod
 public import TauCeti.Algebra.Lie.UniversalEnveloping.Abelian
 public import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Finite
+public import TauCeti.Algebra.Lie.UniversalEnveloping.Rees.ZeroFiber
+public import TauCeti.Algebra.CayleyDickson.Quaternion
+public import TauCeti.Algebra.Lie.GeneralLinear.Carrier
+public import TauCeti.Algebra.Lie.Multiplicity
+public import TauCeti.Combinatorics.Young.LittlewoodRichardson.Basic
+public import TauCeti.LinearAlgebra.RootSystem.Weyl.Affine.Alcove
 
 /-!
 # Lie highest weights: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the headline
 theorems against the pinned APIs: the normalized polynomial/symmetric-power comparison, the
-central-monic finiteness adapter, normalized PBW symmetrization, the invariant-form symmetry
-sign, the split Serre presentation, the exceptional split identifications G2, F4, E8 and E6/E7,
-and the normalized center of an abelian direct product.
+central-monic finiteness adapter, the first-order bracket on the zero fibre of the PBW Rees
+algebra, normalized PBW symmetrization, the invariant-form symmetry sign, the split Serre
+presentation, the exceptional split identifications G2, F4, E8 and E6/E7, the compact real
+form of G2 on the division octonions and its complexification, the Littlewood-Richardson
+multiplicities of the general linear Lie algebra, the normalized center of an abelian direct
+product, and uniqueness of closed-alcove representatives under the affine Weyl group.
 The central-monic finiteness adapter retains its arbitrary-field coefficient subalgebra.
 The native highest-weight classification, Weyl formulas, complete reducibility, rank-one
 spectrum and dimensions, general-linear classification, the minuscule and dual-standard
 Pieri rules, the Lie and Weyl invariants with the Killing-orthogonal restriction and
-Chevalley's restriction theorem, and the Harish-Chandra isomorphisms with the
-central-character orbit theorem are supplier contracts in README.md, consumed by name and
-not restated here.
+Chevalley's restriction theorem, the Harish-Chandra isomorphisms with the
+central-character orbit theorem, the PBW Rees algebra with its fibres at zero and one, the
+Cayley-Dickson double with the real division octonions, the affine and extended affine Weyl
+groups with the fundamental alcove, and the differentiation of rational representations of
+the general linear group are supplier contracts in README.md, consumed by name and not
+restated here.
 
-The compact real-form comparisons lack the positive division-octonion and formally real
-Albert carriers. The Vinberg E8 and Freudenthal E6/E7 model comparisons lack their constructed
-brackets and modules; the dimensions of the native Serre algebras are statable below.
-The closed-alcove headline lacks the constructed affine Weyl action, and the compact-center
-headline lacks a compact Lie group's maximal torus and its period lattice. The LR
-application lacks the Littlewood-Richardson tableau carrier. The Rees special-fibre and
-first-order Poisson comparison lack the constructed filtered Rees algebra and its fibre
-maps. The polynomial derivative comparison likewise needs the zero-fibre bracket
-and its comparison with the symmetric algebra. The rational Weyl and finite Fourier
-identities are adapters of the native character theorem and Fourier orthogonality;
-the generic distributional reconstruction belongs to TensorProductCombinatorics §1.6.
-Category-O linkage lacks its category and integral block carriers. None is replaced
+The following headlines are not statable at the pins. The formally real Albert algebra and
+the compact form of F4 lack the Albert carrier over the division octonions: the pinned
+`TauCeti.AlbertAlgebra` is the split one. The Vinberg E8 and Freudenthal E6/E7 model
+comparisons lack their constructed brackets and modules; the dimensions of the native Serre
+algebras are stated below. The polynomial derivative comparison of the zero-fibre bracket
+with the linear Poisson formula needs that bracket as a constructed map; the pin has the
+zero-fibre specialization but no bracket, so only its existence and defining equation are
+stated. Category-O linkage lacks its category and integral block carriers. None is replaced
 here by admitted data.
 
-The type-A identification of a rational irreducible GL_n-character with the
-determinant-shifted Schur polynomial is statable, but it is the headline of ClassicalGroups
-Layer 4; this roadmap gives an independent Haar-measure proof of it and does not restate it.
-The regular extension of unitary representations uses the supplier gaps named in README.md;
-the torus period lattice and Littlewood-Richardson rule are supplied by ConvexityToric T1
-and SchurWeyl §7.2; the compact Frobenius-Schur criterion is native at the pin
-(`ContRepresentation.frobeniusSchurIndicator_trichotomy`) and is a supplier contract.
+The rational Weyl and finite Fourier identities are adapters of the native character
+theorem and Fourier orthogonality; the generic distributional reconstruction belongs to
+TensorProductCombinatorics §1.6. The type-A identification of a rational irreducible
+GL_n-character with the determinant-shifted Schur polynomial is the headline of
+ClassicalGroups Layer 4 and is not restated.
 -/
 
 @[expose] public section
@@ -88,6 +94,19 @@ theorem module_finite_of_central_monic_relations (K : Type u) [Field K]
         ∑ j : Fin d, (c j : UniversalEnvelopingAlgebra K L) *
           (UniversalEnvelopingAlgebra.ι K (b i)) ^ (j : ℕ) = 0) :
     Module.Finite R (UniversalEnvelopingAlgebra K L) := sorry
+
+/-- On the zero fibre of the PBW Rees algebra of a free Lie algebra over a commutative ring,
+the commutator divided by the central parameter is a well-defined bilinear bracket on the
+symmetric algebra: whenever `a * b - b * a = ħ * c` in the Rees algebra, the bracket of the
+zero-fibre classes of `a` and `b` is the class of `c`. -/
+theorem exists_reesZeroFiberBracket (R : Type u) [CommRing R]
+    (L : Type v) [LieRing L] [LieAlgebra R L] [Module.Free R L] :
+    ∃ B : SymmetricAlgebra R L →ₗ[R] SymmetricAlgebra R L →ₗ[R] SymmetricAlgebra R L,
+      ∀ a b c : TauCeti.UniversalEnvelopingAlgebra.reesAlgebra R L,
+        a * b - b * a = TauCeti.UniversalEnvelopingAlgebra.reesParameter R L * c →
+        B (TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero R L a)
+            (TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero R L b) =
+          TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero R L c := sorry
 
 /-- Over a characteristic-zero field, PBW symmetrization is the unique linear
 comparison whose value on every symmetric monomial is the average of all ordered words.
@@ -136,11 +155,11 @@ end General
 section Serre
 variable {K : Type*} [Field K] [CharZero K]
 variable {L : Type u} [LieRing L] [LieAlgebra K L] [LieAlgebra.IsKilling K L]
-  [FiniteDimensional K L] [LieAlgebra.IsSimple K L]
+  [FiniteDimensional K L]
 variable {H : LieSubalgebra K L} [H.IsCartanSubalgebra] [IsTriangularizable K H L]
 
-/-- The normalized simple-root Serre lift is injective over every characteristic-zero
-split field. Its coroots and generating raising/lowering families are fixed in the hypotheses. -/
+/-- The normalized simple-root Serre lift of a split Killing-semisimple Lie algebra is
+injective over every characteristic-zero field. Its coroots and generating raising/lowering families are fixed in the hypotheses. -/
 theorem serreLift_injective_of_base
     (base : (LieAlgebra.IsKilling.rootSystem H).Base) {e f : ↥base.support → L}
     (hS : TauCeti.IsSerreSystem K base.cartanMatrix.transpose
@@ -170,7 +189,39 @@ theorem finrank_e6_e7 (K : Type*) [Field K] [CharZero K] :
     Module.finrank K (LieAlgebra.e₆ (R := K)) = 78 ∧
       Module.finrank K (LieAlgebra.e₇ (R := K)) = 133 := sorry
 
-/-! ## Layer 9: the normalized product center -/
+/-- The complexification of the real division octonions is the split complex octonion
+algebra: a complex-linear equivalence preserving the unit and the nonassociative product. -/
+theorem exists_complexified_divisionOctonion_equiv :
+    ∃ e : ℂ ⊗[ℝ] TauCeti.DivisionOctonionReal ≃ₗ[ℂ] TauCeti.Octonion ℂ,
+      e 1 = 1 ∧ ∀ x y, e (x * y) = e x * e y := sorry
+
+/-- The derivations of the real division octonions form the compact real form of G2: the
+algebra has dimension 14 and its Killing form is negative definite. -/
+theorem compact_g2_derivation_divisionOctonion :
+    Module.finrank ℝ (TauCeti.derivationLieAlgebra ℝ TauCeti.DivisionOctonionReal) = 14 ∧
+      ∀ D : TauCeti.derivationLieAlgebra ℝ TauCeti.DivisionOctonionReal, D ≠ 0 →
+        killingForm ℝ (TauCeti.derivationLieAlgebra ℝ TauCeti.DivisionOctonionReal) D D < 0 :=
+  sorry
+
+/-! ## Layer 9: Littlewood-Richardson multiplicities and the normalized product center -/
+
+section GeneralLinear
+
+attribute [local instance 100] LieRing.ofAssociativeRing
+
+/-- For Young diagrams with at most `n` rows, the multiplicity of the irreducible
+`gl_n(ℂ)`-module of highest weight `ν` in the tensor product of those of highest weights `λ`
+and `μ` is the number of Littlewood-Richardson tableaux of shape `ν/λ` and content `μ`. -/
+theorem isotypicMultiplicity_tensor_glIrreducible_eq_card_lrTableau (n : ℕ)
+    (lam mu nu : YoungDiagram) (hlam : lam.colLen 0 ≤ n) (hmu : mu.colLen 0 ≤ n)
+    (hnu : nu.colLen 0 ≤ n) :
+    LieModule.isotypicMultiplicity ℂ (Matrix (Fin n) (Fin n) ℂ)
+        (TauCeti.glIrreducible n (fun i : Fin n => (lam.rowLen i : ℂ)) ⊗[ℂ]
+          TauCeti.glIrreducible n (fun i : Fin n => (mu.rowLen i : ℂ)))
+        (TauCeti.glIrreducible n (fun i : Fin n => (nu.rowLen i : ℂ))) =
+      Nat.card (TauCeti.LRTableau lam nu mu) := sorry
+
+end GeneralLinear
 
 section ReductiveCenter
 variable (K : Type u) [Field K]
@@ -197,5 +248,18 @@ theorem exists_productCenterEquiv :
         (Subalgebra.center K (UniversalEnvelopingAlgebra K S)).val (e z) =
           productEnveloping K Z S (z : UniversalEnvelopingAlgebra K (Z × S)) := sorry
 end ReductiveCenter
+
+/-! ## Layer 10: closed-alcove representatives -/
+
+/-- Two points of the closed fundamental alcove in one orbit of the affine Weyl group are
+equal: with the native covering theorem, every orbit meets the closed alcove exactly once. -/
+theorem eq_of_mem_closedFundamentalAlcove_of_mem_affineWeylGroup
+    {ι R M N : Type*} [Field R] [LinearOrder R] [IsStrictOrderedRing R] [Archimedean R]
+    [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
+    (P : RootPairing ι R M N) (b : P.Base) [Finite ι] [Nonempty ι]
+    [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible] (x : N)
+    (hx : x ∈ RootPairing.closedFundamentalAlcove P b) (f : N ≃ᵃ[R] N)
+    (hf : f ∈ P.affineWeylGroup) (hfx : f x ∈ RootPairing.closedFundamentalAlcove P b) :
+    f x = x := sorry
 
 end TauCetiRoadmap.RepresentationTheory.LieHighestWeight
