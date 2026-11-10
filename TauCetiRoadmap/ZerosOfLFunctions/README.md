@@ -88,20 +88,36 @@ not the roadmap.
 - constructing L-functions, continuing them, or proving functional equations (the L-functions
   roadmap); no zero theorem here is stated for a bare record without the continuation of its
   family;
-- proving the Riemann hypothesis, the generalized Riemann hypothesis, or the nonexistence of
-  exceptional zeros; Siegel's theorem and every lower bound for `1 − β` uniform in the conductor,
-  so no implied constant of an effective prime count here (8.5–8.8) is uniform in the modulus or
-  the character (the width `c` of an error `O(x exp(−c √log x))` is uniform in the modulus in 8.7
-  and its `K = ℚ` case);
-- identifying an exceptional zero with the zero of a quadratic character's L-function (a
-  Stark-type statement), and the Landau–Page statement across a family of characters;
+- proving the Riemann hypothesis or the generalized Riemann hypothesis;
+- the nonexistence of exceptional zeros, Siegel's theorem and every lower bound for `1 − β`
+  uniform in the conductor, so no implied constant of an effective prime count here (8.5–8.8) is
+  uniform in the modulus or the character (the width `c` of an error `O(x exp(−c √log x))` is
+  uniform in the modulus in 8.7 and its `K = ℚ` case). Over `ℚ` they have owners: Siegel's
+  ineffective bound `L(1, χ) ≥ c_ε q^{−ε}` for primitive real characters is
+  [ImaginaryQuadraticClassNumber](../ImaginaryQuadraticClassNumber/README.md) H2.4, and
+  [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md) states the conductor-uniform
+  bound for `1 − β` at a real zero of a primitive real Dirichlet L-function (§0.34), the effective
+  form of Siegel's theorem (§0.9) and the exception-free forms over `ℚ` of 6.3–6.4 and 8.6–8.8
+  (§§0.1, 0.18, 0.32), built on Layers 6 and 8 here;
+- identifying an exceptional zero of `ζ_K` with a zero of `ζ_F` for a quadratic subfield `F ⊆ K`,
+  that is of the L-function of a quadratic character (Heilbronn's theorem for Galois `K`,
+  AnalyticNumberTheoryPartI §2.39, with Stark's form for a `K` that need not be Galois in the proof
+  of its §2.31e), and
+  the Landau–Page statement across a family of characters (over `ℚ`, in its exception-free
+  bounded-height form, AnalyticNumberTheoryPartI §0.6);
 - interval arithmetic, numerical evaluation of zeros, and decimal constants: constants in the
   zero-free regions and the effective estimates are existential, with their dependence pinned;
 - Weierstrass factorization beyond genus `0` and `1`: elementary factors `E_p` for `p ≥ 2` and
-  Hadamard's theorem beyond order one;
+  their products (AnalyticNumberTheoryPartI §0.15), and Hadamard's theorem beyond order one
+  (AnalyticNumberTheoryPartI §0.23);
 - subconvexity: no target improves the exponent `1/4` of Layer 3;
-- Artin L-functions of degree greater than one, Brauer induction, and effective Chebotarev for a
-  nonabelian class, which needs them; the Selberg class and converse theorems;
+- Artin L-functions of degree greater than one and their continuation by Brauer induction
+  (AnalyticNumberTheoryPartI §2.18a), and effective Chebotarev for a nonabelian class
+  (AnalyticNumberTheoryPartI §2.49); the Selberg class and converse theorems;
+- the full asymptotic expansion of the logarithmic integral `li`
+  ([SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+  §8.4, a consumer of 1.2–1.3 here); 8.9 proves only its two-term case for the offset `Li`,
+  `Li x − x/log x ∼ x/log² x`;
 - the generic residue calculus itself (Tau Ceti), which Layer 7 consumes and specializes to
   rectangles.
 
@@ -2165,11 +2181,25 @@ the prime terms by Mellin inversion `mellinInv_mellin_eq`. The supporting facts 
 is entire and decays faster than any power of `|Im s|` on vertical strips; the zero side is
 absolutely summable by 4.5 against that decay, stronger than Lang's symmetric limit. The zero side
 is `∑'`: the summand family has infinite support in general, and the finsum would be the junk `0`.
-At `K = ℚ` this is `riemannZeta_weilExplicitFormula`.
 
-*Needs:* 8.2, 4.5, 1.4, 1.4a (the reflection of `Λ_K'/Λ_K`); Mathlib `mellin`,
-`mellinInv_mellin_eq`; L-functions Layer 3 `completedDedekindZeta_one_sub`; Tau Ceti
-`TauCeti.hasSum_idealTerm_vonMangoldt` (L-functions Layer 8) for the prime side on `Re s = 2`.
+For every `K` this is `dedekindZeta_weilExplicitFormula`, stated on Tau Ceti's
+`TauCeti.LFunctions.heckeLFunctionC` of the trivial primitive ray-class character, which is the
+continued `ζ_K`, with `m_ρ` read as the positive part of its divisor at the points of the open strip
+`Ioo 0 1 ×ℂ univ` and the prime side over the nonzero ideals of `𝓞 K` with
+`TauCeti.IdealArithmeticFunction.vonMangoldt`. The two readings of `m_ρ` agree: the zeros of `Λ_K`
+lie in the closed strip (5.6a), none lies on `Re s = 0` or `Re s = 1` (6.5), and on `Re s > 0` the
+factors `|d_K|^{s/2}` and `γ_K` have neither zeros nor poles, so the zeros of `ζ_K` in the open
+strip are those of `Λ_K`, with the same multiplicities. At `K = ℚ`, where `log |d_ℚ| = 0`, `r₁ = 1`,
+`r₂ = 0` and the nonzero ideals of `ℤ` are the `(n)` with `n ≥ 1`, it is
+`riemannZeta_weilExplicitFormula`, stated on Mathlib's `completedRiemannZeta`.
+
+*Needs:* 8.2, 4.5, 1.4, 1.4a (the reflection of `Λ_K'/Λ_K`), 5.6a and 6.5 (the zeros of `Λ_K` on
+the open strip); Mathlib `mellin`, `mellinInv_mellin_eq`, `NumberField.discr`,
+`NumberField.InfinitePlace.nrRealPlaces`, `NumberField.InfinitePlace.nrComplexPlaces`; L-functions
+Layer 3 `completedDedekindZeta_one_sub`; Tau Ceti `TauCeti.hasSum_idealTerm_vonMangoldt`
+(L-functions Layer 8) for the prime side on `Re s = 2`; for the statement, Tau Ceti
+`TauCeti.LFunctions.heckeLFunctionC`, `TauCeti.LFunctions.PrimitiveRayClassCharacter` and
+`TauCeti.IdealArithmeticFunction.vonMangoldt`.
 
 **Checks** for the test class and the formula.
 
@@ -2180,6 +2210,13 @@ At `K = ℚ` this is `riemannZeta_weilExplicitFormula`.
   the zero side subtracts `P` from the left, so the identity fails by exactly `P`.
 - The archimedean term at `K = ℚ` contains `−(log π) φ(1)`, from the constant `−(log π)/2` of
   `logDeriv Gammaℝ` integrated against `φ̃(s) + φ̃(1 − s)`.
+- `K = ℚ(i)`: `|d_K| = 4`, so the discriminant term is `(log 4) φ(1) ≈ 1.3863 φ(1)`, the constant
+  `½ log 4` of `Λ_K'/Λ_K` integrated once against `φ̃(s)` and once against `φ̃(1 − s)`, each giving
+  `φ(1)` by Mellin inversion at `y = 1`; keeping only the `φ̃(s)` half gives `(log 2) φ(1)`. The
+  archimedean term is `logDeriv Gammaℂ` alone (`r₁ = 0`, `r₂ = 1`).
+- `K = ℚ(√5)`: `ζ_K` has a simple zero at `s = 0` (the order `r₁ + r₂ − 1 = 1` of 8.3), where `Λ_K`
+  has a pole. Reading `m_ρ` on the closed strip `Icc 0 1 ×ℂ univ` of `ζ_K` would add `φ̃(0)` to the
+  zero side, which for a nonnegative nonzero `φ` is positive; the open strip excludes it.
 
 ### 8.5 The prime ideal theorem with an error term
 

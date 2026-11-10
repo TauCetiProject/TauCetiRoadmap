@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Analysis.SpecialFunctions.LogIntegral
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.Counting
+import TauCeti.NumberTheory.ArithmeticDirichletSeries.VonMangoldt
 import TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt
 import TauCeti.NumberTheory.LFunctions.Hecke.Basic
 import TauCeti.NumberTheory.LFunctions.Hecke.Primitive
@@ -39,8 +40,9 @@ Stated here:
 * Layer 7, the Riemann–von Mangoldt formula for `ζ`, its form uniform in the degree and the
   conductor for primitive ray-class L-functions (7.5), which at the trivial character is the
   count for the Dedekind zeta function, and its conductor-uniform Dirichlet instance;
-* Layer 8, the truncated explicit formula for `Chebyshev.psi`, the Weil explicit formula for `ζ`
-  over smooth compactly supported test functions, the effective prime ideal theorem over an
+* Layer 8, the truncated explicit formula for `Chebyshev.psi`, the Weil explicit formula for the
+  Dedekind zeta function of an arbitrary number field (8.4) over smooth compactly supported test
+  functions, with its `K = ℚ` form for `ζ`, the effective prime ideal theorem over an
   arbitrary number field (8.5), the effective prime count in a ray class with its width uniform
   over the fields of degree `n` (8.7) and its `K = ℚ` case for arithmetic progressions, and the
   effective Chebotarev count for an abelian extension (8.8).
@@ -48,25 +50,32 @@ Stated here:
 Not stated here:
 
 * the completed Dedekind zeta function and the completed Hecke L-functions of L-functions Layers 3
-  and 5, which are not at the pins. The counts of 7.5 over a general field are therefore stated on
-  the continued function over the open strip `0 < Re s < 1`, where its zeros are those of the
-  completion with the same multiplicities and the trivial zero at `0` is left out;
+  and 5, which are not at the pins. The counts of 7.5 and the Weil formula 8.4 over a general field
+  are therefore stated on the continued function over the open strip `0 < Re s < 1`, where its
+  zeros are those of the completion with the same multiplicities and the trivial zero at `0` is
+  left out;
+* the Weil formula of 8.6 for a nontrivial character: its archimedean term is the logarithmic
+  derivative of the gamma factor of the L-functions roadmap's Hecke record `heckeData χ` (Layer 5),
+  whose gamma shifts are not at the pins and are not redefined here. The trivial character's
+  formula is 8.4, `dedekindZeta_weilExplicitFormula`, whose gamma factor `Γℝ^{r₁} Γℂ^{r₂}` is read
+  off the places of `K`;
 * the exceptional-zero terms of 8.5–8.8, which 6.3 defines from the region constant of 6.4, a
   witness of a theorem stated here with `sorry`. For a fixed field, modulus or extension each is
   `O(x^β)` with `β < 1` and is absorbed by the error term, which is the form in which 8.5, 8.7 and
   8.8 are stated.
 
 The growth, gamma-factor, conductor, counting, rectangle-contour and certificate statements of
-Layers 0–2, 4, 7.1–7.3 and 9, the explicit formulas 8.3, 8.4 and 8.6 over a general field, and the
-convexity bound 3.4 for a general record are README targets: they are general statements about
-Tau Ceti's analytic records `TauCeti.LFunctions.AnalyticLFunctionData`, or lemmas on the way to the
-headlines.
+Layers 0–2, 4, 7.1–7.3 and 9, the truncated explicit formula 8.3 over a general field and its
+Hecke instance in 8.6, and the convexity bound 3.4 for a general record are README targets: they
+are general statements about Tau Ceti's analytic records `TauCeti.LFunctions.AnalyticLFunctionData`,
+or lemmas on the way to the headlines (8.5 is assembled from 8.3, and 8.7 from the Hecke instance
+of 8.3 and 8.5 in 8.6).
 -/
 
 namespace TauCetiRoadmap.ZerosOfLFunctions
 
 open Complex Filter Asymptotics Set
-open scoped Real ContDiff
+open scoped Real ContDiff nonZeroDivisors
 
 /-- **Layer 0.1, the order predicate.** `f` has order at most `A`: for every `A' > A`,
 `f(s) = O(exp ‖s‖^{A'})` as `‖s‖ → ∞`. Entirety is a hypothesis of the theorems that use the
@@ -271,6 +280,42 @@ theorem chebyshevPsi_explicitFormula :
               ((MeromorphicOn.divisor completedRiemannZeta univ ρ).toNat : ℂ) * (x : ℂ) ^ ρ / ρ) -
             ((Real.log (2 * π) : ℝ) : ℂ) - ((Real.log (1 - x ^ (-2 : ℤ)) / 2 : ℝ) : ℂ))‖ ≤
         C * x * Real.log x ^ 2 / T := sorry
+
+/-- **Layer 8.4, the Weil explicit formula for the Dedekind zeta function.** Let `K` be a number
+field with `r₁` real and `r₂` complex places, and `φ` smooth with compact support in `(0, ∞)`, with
+Mellin transform `φ̃`. With `m_ρ` the multiplicity of `ρ` as a zero of `ζ_K` in the open strip
+`0 < Re ρ < 1`, the family `ρ ↦ m_ρ φ̃(ρ)` over `ℂ` is summable, and
+`∑_ρ m_ρ φ̃(ρ) = φ̃(0) + φ̃(1) + (log |d_K|) φ(1) + A_K(φ) − ∑_𝔞 Λ_K(𝔞) (φ(𝔑𝔞) + φ(1/𝔑𝔞)/𝔑𝔞)`,
+the last sum over the nonzero ideals `𝔞` of `𝓞 K` with the ideal von Mangoldt function `Λ_K`, where
+`A_K(φ) = (2π)⁻¹ ∫ (r₁ Γℝ'/Γℝ + r₂ Γℂ'/Γℂ)(2 + it) (φ̃(2 + it) + φ̃(−1 − it)) dt` is the
+archimedean term (Lang, *Algebraic Number Theory*, XVII §3, Theorem 3.1, for this test class).
+Here `ζ_K` is `heckeLFunctionC` of the trivial primitive ray-class character. On the open strip
+its zeros are those of `Λ_K(s) = |d_K|^{s/2} Γℝ(s)^{r₁} Γℂ(s)^{r₂} ζ_K(s)` with the same
+multiplicities, and `Λ_K` has no zeros off the open strip; the poles of `Λ_K` at `0` and `1` give
+`φ̃(0) + φ̃(1)`, and `(log |d_K|) φ(1)` is the constant `½ log |d_K|` of `Λ_K'/Λ_K` integrated once
+against `φ̃(s)` and once against `φ̃(1 − s)`. At `K = ℚ` this is `riemannZeta_weilExplicitFormula`.
+-/
+theorem dedekindZeta_weilExplicitFormula (K : Type*) [Field K] [NumberField K] (φ : ℝ → ℂ)
+    (hφ : ContDiff ℝ ∞ φ) (hsupp : HasCompactSupport φ) (hpos : tsupport φ ⊆ Ioi 0) :
+    Summable (fun ρ : ℂ ↦ (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.LFunctions.heckeLFunctionC
+          (1 : TauCeti.LFunctions.PrimitiveRayClassCharacter K).character) univ ρ).toNat : ℂ) *
+          mellin φ ρ) ρ) ∧
+      ∑' ρ : ℂ, (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.LFunctions.heckeLFunctionC
+          (1 : TauCeti.LFunctions.PrimitiveRayClassCharacter K).character) univ ρ).toNat : ℂ) *
+          mellin φ ρ) ρ =
+        mellin φ 0 + mellin φ 1 + (Real.log |(NumberField.discr K : ℝ)| : ℂ) * φ 1 +
+          (2 * π : ℂ)⁻¹ * (∫ t : ℝ,
+            ((NumberField.InfinitePlace.nrRealPlaces K : ℂ) * logDeriv Gammaℝ (2 + t * I) +
+              (NumberField.InfinitePlace.nrComplexPlaces K : ℂ) * logDeriv Gammaℂ (2 + t * I)) *
+            (mellin φ (2 + t * I) + mellin φ (1 - (2 + t * I)))) -
+          ∑' 𝔞 : (Ideal (NumberField.RingOfIntegers K))⁰,
+            TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) 𝔞 *
+              (φ (Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K))) +
+                φ ((Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℝ))⁻¹ /
+                  (Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℂ)) :=
+  sorry
 
 /-- **Layer 8.4 at `K = ℚ`, the Weil explicit formula.** For `φ` smooth with compact support in
 `(0, ∞)` and Mellin transform `φ̃`, the family `ρ ↦ m_ρ φ̃(ρ)` over the zeros of the completed
