@@ -173,7 +173,7 @@ theorem HasExtensionProperty.infinite {G : SimpleGraph V} (hG : G.HasExtensionPr
 /-- The converse of Tau Ceti's `SimpleGraph.Iso.toLanguageEquiv`: an equivalence of the
 graph-language structures is a graph isomorphism. -/
 def Language.Equiv.toSimpleGraphIso {G : SimpleGraph V} {H : SimpleGraph W}
-    (e : letI := G.structure; letI := H.structure; V ≃[Language.graph] W) : G ≃g H :=
+    (e : @Language.Equiv Language.graph V W G.structure H.structure) : G ≃g H :=
   letI := G.structure
   letI := H.structure
   ⟨e.toEquiv, fun {a b} => e.map_rel Language.adj ![a, b]⟩
@@ -204,8 +204,7 @@ noncomputable def radoAxioms : Language.graph.Theory :=
   Language.Theory.simpleGraph ∪ {φ | ∃ r s, φ = extensionSentence r s}
 
 theorem model_radoAxioms_iff (G : SimpleGraph V) :
-    (letI : Language.graph.Structure V := G.structure
-     V ⊨ radoAxioms) ↔ G.HasExtensionProperty := by
+    @Theory.Model Language.graph V G.structure radoAxioms ↔ G.HasExtensionProperty := by
   sorry
 
 /-- The ordered binary presentation of `TauCeti.radoGraph`. Tau Ceti's `TauCeti.radoGraph_adj`
