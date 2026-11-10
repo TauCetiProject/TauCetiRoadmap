@@ -58,8 +58,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
    15.2.3).
 2. **Derivatives and contiguous relations** (DLMF §15.5).
 3. **The hypergeometric equation and Riemann's equation** (DLMF §15.10(i), §15.11).
-4. **Elementary functions and unit argument** (DLMF §15.4(i)–(ii), the circle of convergence in
-   §15.2(i)).
+4. **Elementary functions and unit argument** (DLMF §15.4(i)–(ii) without 15.4.21–15.4.23, the
+   circle of convergence in §15.2(i)).
 5. **Linear transformations and connection formulas** (DLMF §15.8(i)–(ii), §15.10(ii), 15.2.3,
    15.4.21–15.4.23).
 6. **Integral representations** (DLMF §15.6).
@@ -789,7 +789,8 @@ DLMF 15.4.21–15.4.23: the limits as `z → 1−` for `c = a + b`, for `Re(c �
 `c ≠ a + b`, and for `Re(c − a − b) < 0`, with DLMF's right-hand sides and with the third
 parameter outside `{0, −1, −2, …}` (`tendsto_gaussHypergeometric_div_neg_log`,
 `tendsto_cpow_mul_gaussHypergeometric_sub`, `tendsto_gaussHypergeometric_div_cpow_one_sub`).
-The routes are those of DLMF's notes to §15.4(ii):
+The routes of 15.4.21 and 15.4.22 are those of DLMF's notes to §15.4(ii). For 15.4.23 the Euler
+transformation replaces the note's 15.8.4:
 - 15.4.21 is the leading term of 15.8.10 at `m = 0` (5.2), `−log(1 − z)/(Γ(a) Γ(b))`, multiplied
   by `Γ(a + b)`, for `a, b ∉ {0, −1, −2, …}`; otherwise `F` is a polynomial and both sides are `0`;
 - 15.4.22 follows from 15.8.4 (5.1), where `c − a − b ∉ ℤ`, and the reflection formula: the
