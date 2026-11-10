@@ -16,9 +16,9 @@ theorem, Poincaré duality, the equality of the two definitions of the mapping d
 ball theorem, Green's theorem for absolutely continuous planar cycles and for finite
 type-I/type-II divisions, and the Laplace–Beltrami operator with the Riemannian divergence
 theorem; everything below them is reusable library. Its consumers include
-DeRhamCohomologyAndDuality (the relative de Rham theory, the comparison of integration with
-singular fundamental classes and finite-parameter relative transversality, all built on the forms,
-orientations, integration, de Rham cohomology, smooth chains and degree of this roadmap) and the
+DeRhamCohomologyAndDuality (the relative de Rham theory and the comparison of integration with
+singular fundamental classes, built on the smoothing equivalence, chain integration and de Rham
+isomorphism of 8.3–8.5, and finite-parameter relative transversality) and the
 algebraic-topology, geometric-topology, Heegaard Floer and Lie-groups roadmaps. Suggested homes,
 by Mathlib's layout:
 `TauCeti/Geometry/Manifold/{DifferentialForm,Orientation,Flow,Distribution,Integration,DeRham,SmoothSingular,Degree,Riemannian}/`
@@ -35,9 +35,9 @@ sequences and the Mayer–Vietoris induction principle (layer 7), smooth singula
 integration over them and the de Rham theorem (layer 8), the Poincaré pairing and Poincaré
 duality (layer 9), null sets, Sard's theorem on manifolds and the Brouwer mapping degree
 (layer 10), the hairy ball theorem (layer 11) and the Riemannian calculus (layer 12). Citations
-of a single section 5.5 (densities and Stokes with corners) refer to 5.5a (densities) and 5.5b
+of a single section 5.5 (densities and Stokes with corners) resolve to 5.5a (densities) and 5.5b
 (smooth faces, abstract boundary and corner Stokes). Citations of the layer 4 names
-Distribution, IsInvolutive and leafThrough refer to the family `D` with
+Distribution, IsInvolutive and leafThrough resolve to the family `D` with
 `TauCeti.IsContMDiffDistribution`, to `TauCeti.IsInvolutiveDistribution` and to the leaf of
 `Distribution.exists_leaf` (4.2–4.4).
 
@@ -110,18 +110,16 @@ neighbourhoods and gluing are GeometricTopology's.
 
 One owner per shared construction, stated identically on both sides.
 
-- **DeRhamCohomologyAndDuality** consumes this roadmap: the forms, the exterior derivative and
-  `closedForms` (0–1), orientations and the orientation-cover descent API (2), flows and
-  homogeneity of flows (3), the integral of top forms, the boundary orientation and Stokes
-  (5.1–5.3), the homotopy operator and Stokes on `M × Icc 0 1` (5.4), the standard simplex
-  `fullSimplex` with its barycentric bridge (5.5b), the de Rham complex, `H^•_dR`, `H^•_c`, the
-  Poincaré lemmas and path integration (6), the Mayer–Vietoris sequences (7), smooth singular
-  chains, the smoothing equivalence, chain integration and the de Rham isomorphism (8), the
-  Poincaré pairing and duality (9), regular values, Sard and the degree (10) and the hairy ball
-  theorem (11). It owns the relative de Rham theory, the fundamental-class comparison, relative
-  transversality, and the strict inward cone, strictly inward fields, their forward semiflow and
-  inward domination (its §§2.1–2.2), built on the flows of layer 3. No layer here consumes any
-  of its material.
+- **DeRhamCohomologyAndDuality** consumes 8.3–8.5 by section: the absolute smoothing
+  equivalence (8.3), chain integration with Stokes for smooth simplices and chains and the de Rham
+  homomorphism with its naturality (8.4), and the de Rham isomorphism on every open of a
+  Hausdorff σ-compact finite-dimensional manifold (8.5). The forms, orientations, flows,
+  integration of top forms, de Rham complexes, Mayer–Vietoris sequences, Poincaré pairing and
+  smooth singular simplices it also uses are Tau Ceti declarations, which it takes from Tau Ceti
+  directly; it consumes no target of layers 9–11. It owns the relative de Rham theory, the
+  fundamental-class comparison, relative transversality, and the strict inward cone, strictly
+  inward fields, their forward semiflow and inward domination (its §§2.1–2.2). No layer here
+  consumes any of its material.
 - **Universal covers** owns π₁, deck groups, the classification and πₙ; 2.4 and 6.3's periods
   consume them.
 - **Geometric topology** consumes the orientation interface (2), the canonical
@@ -671,7 +669,7 @@ The numbered order is not an additional dependency edge.
   homotopy operator; 7 needs 6 and partitions of unity; 8 needs 7.4, 8.1–8.2 and 5.5b's
   simplex; 9 needs 5.2–5.3, 6.3–6.4, 7.1–7.4 and 2.4's descent; 10 needs 2, 3.3, 5.2–5.4, 9.2
   and the flat Morse–Sard theorem; 11 needs 10.5. 6 and 7.1–7.3 are in the library, so 7.4 and
-  8.3 can start at once. DeRhamCohomologyAndDuality is downstream of every layer here.
+  8.3 can start at once. DeRhamCohomologyAndDuality is downstream of 8.3–8.5.
 
 Claim single numbered items or smaller; the headline theorems 5.5b's corner Stokes,
 8.5, 9.3, 10.4, 11.1 and 12.5 remain staged claims with reusable intermediate results. All general-model,
@@ -1342,9 +1340,17 @@ Geometric Topology.
   boundaryless manifolds, a trajectory remaining in a compact subset through
   a compact time interval inside J extends through that interval; compact M
   gives global flow on every such interval (`timeDependentFlowDomain_eq_univ`, for an interval J).
-  `exists_timeDependentFlow` is the independent C¹ Banach local target on
-  ℝ×M, proved via 3.1, whose finite-dimensional case is Tau Ceti's theorem of the same name;
-  it is not asserted to follow from the C∞ slab theorem.
+  `exists_timeDependentFlow` is the independent `C¹` Banach local target on the time slab `ℝ`:
+  for a jointly `C¹` field, near every initial time `t₀` and point `x₀`, a family `Ψ t (s, x)`
+  of solutions, the one through `x` at time `s` read at time `t`, which depends `C¹` jointly on
+  `(t, s, x)` at `(t₀, t₀, x₀)`. The joint dependence is what 3.1 contributes, through the
+  suspension; existence of each solution separately, with no dependence on the initial data, is
+  Mathlib's `exists_isMIntegralCurveAt_of_contMDiffAt` for the suspension `(1, v)` and needs no
+  3.1. For finite-dimensional models it follows from Tau Ceti's `TauCeti.exists_timeDependentFlow`,
+  whose family is `TauCeti.timeDependentFlowOf v s t x`, with
+  `TauCeti.isOpen_timeDependentFlowDomain` and the joint smoothness
+  `TauCeti.contMDiffOn_timeDependentFlowOf` for `n = 1`; it is not asserted to follow from the
+  `C^∞` slab theorem.
   For a disconnected open J, the maximal domain stays within the connected
   time component of its initial time, as the suspension domain requires.
   HeegaardFloer Lane F2, item 1 (its symplectic and almost-complex foundations, Darboux and
@@ -1354,8 +1360,8 @@ Geometric Topology.
   this same finite-dimensional specialization. *Needs:* 3.2's `flowOf` and `flowDomain`; Tau
   Ceti's finite-dimensional maximal flow (`IntegralCurve/Flow.lean`) and time-dependent flow on
   `ℝ` (`Flow/TimeDependent.lean`) for the finite-dimensional specialization; 3.1–3.2 for the
-  Banach specialization and `exists_timeDependentFlow`; Mathlib's open-submanifold and product
-  atlases.
+  Banach specialization; 3.1 for `exists_timeDependentFlow`; Mathlib's open-submanifold and
+  product atlases.
   **Checks.**
   - `suspendedTimeField J v` at `(s, x)` is `(1, v s x)`: its time component is the unit field,
     so the suspended curve through `(s, x)` has time coordinate `s + τ` at elapsed time `τ`,
@@ -1370,6 +1376,12 @@ Geometric Topology.
     For a disconnected `J = (0, 1) ∪ (2, 3)` and `v = 0`, a triple with `s ∈ (0, 1)` and
     `t ∈ (2, 3)` is not in the domain, because the suspended curve in `↥J × M` leaves `↥J` at
     elapsed time `1 − s`: the domain stays in the time component of the initial time.
+  - The joint `C¹` clause of the local `C¹` target is not implied by its other clauses: for
+    `v = 0` on `M = ℝ` at `(t₀, x₀) = (0, 1)`, the family equal to `x` when `|t − s| < δ(x)` and
+    to `0` otherwise, with `δ(x) = |x − 1|` for `x ≠ 1` and `δ(1) = 1`, starts at `x` and solves
+    `x' = 0` near every initial time, but its value is `0` at `(t, s, x) = (ε, 0, 1 + ε/2)` and
+    `1` at `(0, 0, 1)`, so it is not continuous there. The flow `Ψ t (s, x) = x` satisfies every
+    clause, and for `v s x = s` so does `x + (t² − s²)/2`, a polynomial in `(t, s, x)`.
 
 ### Layer 4: distributions, Frobenius and leaves
 
@@ -3095,8 +3107,8 @@ nor the metric length foundations depend on the sharp isoperimetric theorem.
 The roadmaps below consume this one, by layer or section; *Scope and ownership* records the
 constructions they share with it and their single owners.
 
-- **DeRhamCohomologyAndDuality**: every layer, for its relative de Rham theory, the comparison
-  with singular fundamental classes and relative transversality (*Scope and ownership*).
+- **DeRhamCohomologyAndDuality**: 8.3–8.5, for its relative de Rham theory and the comparison
+  with singular fundamental classes (*Scope and ownership*).
 - **AlgebraicTopology**: Layer 2's tangent orientations (`orientationAt`,
   `Manifold.Orientation.pullback`), 5.1's outward-first boundary orientation and 5.5b's
   `fullSimplex` with `fullSimplexEquivStdSimplex`, for its 6.3; the degree of 10.5, which its 6.5

@@ -93,7 +93,7 @@ unbundled and stated at their point of use; finite dimension, Hausdorffness and 
 written wherever they are used; measure statements carry `[MeasurableSpace M] [BorelSpace M]`.
 The de Rham complex and cohomology, Mayer–Vietoris, smooth chains and the de Rham theorem,
 Poincaré duality, Sard's theorem on manifolds, the degree and the hairy ball theorem (layers 6–11)
-are this roadmap's; DeRhamCohomologyAndDuality consumes them for its relative theory.
+are this roadmap's; DeRhamCohomologyAndDuality consumes 8.3–8.5 for its relative theory.
 -/
 
 public section
@@ -681,16 +681,23 @@ theorem exists_chart_mfderiv_eq_const [FiniteDimensional ℝ E] [IsManifold I 1 
       x ∈ e.source ∧ ∀ y ∈ e.source, mfderiv I 𝓘(ℝ, E) (I ∘ e) y (v y) = u :=
   sorry
 
-/-- **Layer 3.5, time-dependent flows** [Lee, Thm. 9.48]: a time-dependent `C¹` field on an open
-time slab has a local flow solving the nonautonomous equation, by the autonomous trick on
-`ℝ × M`. -/
+/-- **Layer 3.5, the local `C¹` time-dependent flow** [Lee, Thm. 9.48]: a jointly `C¹`
+time-dependent field on the time slab `ℝ` over a Banach model has, near every initial time `t₀`
+and point `x₀`, a family `Ψ t (s, x)` of solutions, the one through `x` at time `s` read at time
+`t`, which start at their initial point, solve the nonautonomous equation at times near their
+initial time, and depend `C¹` jointly on the final time, the initial time and the initial point
+at `(t₀, (t₀, x₀))`. The joint dependence is what 3.1 supplies, through the autonomous suspension
+`(1, v)` on `ℝ × M`; existence of each solution separately is Mathlib's
+`exists_isMIntegralCurveAt_of_contMDiffAt` for the suspension. -/
 theorem exists_timeDependentFlow [IsManifold I 1 M] {v : ℝ → (x : M) → TangentSpace I x}
     (hv : ContMDiff (𝓘(ℝ, ℝ).prod I) I.tangent 1
       (fun p : ℝ × M ↦ (⟨p.2, v p.1 p.2⟩ : TangentBundle I M))) (t₀ : ℝ) (x₀ : M) :
     ∃ (U : Set (ℝ × M)) (Ψ : ℝ → ℝ × M → M), IsOpen U ∧ (t₀, x₀) ∈ U ∧
       (∀ p ∈ U, Ψ p.1 p = p.2) ∧
-      ∀ p ∈ U, ∀ᶠ t in 𝓝 p.1, HasMFDerivAt 𝓘(ℝ, ℝ) I (fun s ↦ Ψ s p) t
-        (ContinuousLinearMap.smulRight (1 : ℝ →L[ℝ] ℝ) (v t (Ψ t p))) :=
+      (∀ p ∈ U, ∀ᶠ t in 𝓝 p.1, HasMFDerivAt 𝓘(ℝ, ℝ) I (fun s ↦ Ψ s p) t
+        (ContinuousLinearMap.smulRight (1 : ℝ →L[ℝ] ℝ) (v t (Ψ t p)))) ∧
+      ContMDiffAt ((𝓘(ℝ, ℝ)).prod ((𝓘(ℝ, ℝ)).prod I)) I 1
+        (fun q : ℝ × (ℝ × M) ↦ Ψ q.1 q.2) (t₀, (t₀, x₀)) :=
   sorry
 
 end Flows
