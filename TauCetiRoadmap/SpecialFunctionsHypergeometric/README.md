@@ -60,7 +60,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
 3. **The hypergeometric equation and Riemann's equation** (DLMF §15.10(i), §15.11).
 4. **Elementary functions and unit argument** (DLMF §15.4(i)–(ii), the circle of convergence in
    §15.2(i)).
-5. **Linear transformations and connection formulas** (DLMF §15.8(i)–(ii), §15.10(ii), 15.2.3).
+5. **Linear transformations and connection formulas** (DLMF §15.8(i)–(ii), §15.10(ii), 15.2.3,
+   15.4.21–15.4.23).
 6. **Integral representations** (DLMF §15.6).
 7. **Quadratic transformations** (DLMF §15.8(iii)–(iv), 15.4.26–15.4.30).
 8. **Cubic transformations** (DLMF §15.8(v), 15.4.31–15.4.34).
@@ -78,8 +79,8 @@ specified in the layers:
 | 15.6.1 | Euler's integral, which defines `𝐅` (1.2). |
 | 15.5.1–15.5.16, 15.5.16_5, 15.5.17–15.5.21 | Derivatives and contiguous relations (Layer 2). |
 | 15.10.1–15.10.10, 15.11.1–15.11.8 | The equation, its local solutions, Wronskians and Riemann's equation (Layer 3). |
-| 15.4.1–15.4.25, the three statements on `|z| = 1` of §15.2(i) | Elementary functions, values and limits at `z = 1`, Dougall's sum, the circle of convergence (Layer 4). |
-| 15.2.3, 15.8.1–15.8.12, 15.10.11–15.10.36 | Linear transformations, their limiting cases, Kummer's 24 solutions, the connection formulas, the jump across the cut (Layer 5). |
+| 15.4.1–15.4.20, 15.4.24–15.4.25, the three statements on `|z| = 1` of §15.2(i) | Elementary functions, Gauss's sum and the value at `z = 1`, Chu–Vandermonde, Dougall's sum, the circle of convergence (Layer 4). |
+| 15.2.3, 15.8.1–15.8.12, 15.10.11–15.10.36, 15.4.21–15.4.23 | Linear transformations, their limiting cases, Kummer's 24 solutions, the connection formulas, the jump across the cut, the limits at `z = 1` for `Re(c − a − b) ≤ 0` (Layer 5). |
 | 15.6.2, 15.6.2_5, 15.6.3–15.6.9 | Loop, half-line, Mellin–Barnes and fractional integrals (Layer 6). |
 | 15.8.13–15.8.30, 15.4.26–15.4.30 | Quadratic transformations and their special values (Layer 7). |
 | 15.8.31–15.8.33, 15.4.31–15.4.34 | Cubic transformations and their special values (Layer 8). |
@@ -343,7 +344,7 @@ holomorphic in `(a, z)` and continuous in `t`. Prove:
     step only reads `S_{p,q}`
     at parameters that lie in the region of the previous step;
   - `S_{p,q} = E` on the region of Euler's integral, because `E` satisfies the shift relations
-    there (proved on the disk from the series, 1.3, and extended by the identity theorem);
+    there (proved on the disk from the series, 1.1, and extended by the identity theorem);
   - compatibility: `S_{p,q} = S_{p′,q′}` on `R_{p,q} ∩ R_{p′,q′}`, by the identity theorem in `c`
     and then in `b` on the convex slices of the intersection, from their agreement with `E`;
 - **existence** (`exists_isEulerContinuation`): the sets `R_{p,q}` cover `ℂ³ × {1 − z ∈ slitPlane}`
@@ -635,10 +636,6 @@ elementary side is holomorphic, which gives the following.
   `c` with `Re(c − a − b) > 0`, and `regularizedGaussHypergeometric a b c z` tends to this value
   as `z → 1` in the cut plane. The continued function itself is not evaluated at `z = 1`, where
   its value is the junk `0`;
-- 15.4.21–15.4.23: the limits as `z → 1−` for `c = a + b`, for `Re(c − a − b) = 0` with
-  `c ≠ a + b`, and for `Re(c − a − b) < 0`, with DLMF's right-hand sides and with the third
-  parameter outside `{0, −1, −2, …}` (`tendsto_gaussHypergeometric_div_neg_log`,
-  `tendsto_cpow_mul_gaussHypergeometric_sub`, `tendsto_gaussHypergeometric_div_cpow_one_sub`);
 - 15.4.24 (Chu–Vandermonde, `ordinaryHypergeometric_neg_nat_one`): `₂F₁ (−n) b c 1 = (c − b)ₙ/(c)ₙ`
   for `n : ℕ` and `c` with `(c)ₙ ≠ 0`;
 - 15.4.25 (Dougall, `hasSum_dougall`): for `Re(c + d − a − b) > 1` and `a, b ∉ ℤ`, the
@@ -785,6 +782,26 @@ Gamma functions in numerators are not poles:
   form with `i` replaced by `−i` holds.
 
 *Needs:* 5.1–5.3.
+
+### 5.5 Limits at unit argument
+
+DLMF 15.4.21–15.4.23: the limits as `z → 1−` for `c = a + b`, for `Re(c − a − b) = 0` with
+`c ≠ a + b`, and for `Re(c − a − b) < 0`, with DLMF's right-hand sides and with the third
+parameter outside `{0, −1, −2, …}` (`tendsto_gaussHypergeometric_div_neg_log`,
+`tendsto_cpow_mul_gaussHypergeometric_sub`, `tendsto_gaussHypergeometric_div_cpow_one_sub`).
+The routes are those of DLMF's notes to §15.4(ii):
+- 15.4.21 is the leading term of 15.8.10 at `m = 0` (5.2), `−log(1 − z)/(Γ(a) Γ(b))`, multiplied
+  by `Γ(a + b)`, for `a, b ∉ {0, −1, −2, …}`; otherwise `F` is a polynomial and both sides are `0`;
+- 15.4.22 follows from 15.8.4 (5.1), where `c − a − b ∉ ℤ`, and the reflection formula: the
+  coefficient of `(1 − z)^{c−a−b}` is `Γ(c) Γ(a + b − c)/(Γ(a) Γ(b))`, and the other term differs
+  from its value at `z = 1` by `O(|1 − z|)`;
+- 15.4.23 follows from the Euler transformation 15.8.1 (5.1) and 15.4.20 for
+  `F(c − a, c − b; c; ·)`, whose parameter excess is `Re(a + b − c) > 0`. This route also covers
+  integer `c − a − b < 0`, where the `sin` factor of 15.8.4 vanishes.
+
+5.1 and 5.2 use only 15.4.20 from 4.2, so there is no cycle.
+
+*Needs:* 4.2 (15.4.20), 5.1, 5.2; Mathlib `Complex.Gamma_mul_Gamma_one_sub`.
 
 ### Examples
 

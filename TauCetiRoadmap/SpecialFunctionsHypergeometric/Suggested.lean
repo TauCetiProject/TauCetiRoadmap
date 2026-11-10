@@ -234,24 +234,6 @@ theorem hasSum_dougall {a b c d : ℂ} (ha : ∀ n : ℤ, a ≠ n) (hb : ∀ n :
         ((Gamma (c - a))⁻¹ * (Gamma (d - a))⁻¹ * (Gamma (c - b))⁻¹ * (Gamma (d - b))⁻¹)) :=
   sorry
 
-/-- **4.2** DLMF 15.4.21. -/
-theorem tendsto_gaussHypergeometric_div_neg_log {a b : ℂ} (hc : ∀ k : ℕ, a + b ≠ -k) :
-    Tendsto (fun x : ℝ => gaussHypergeometric a b (a + b) x / -Complex.log (1 - (x : ℂ)))
-      (𝓝[<] 1) (𝓝 (Gamma (a + b) * ((Gamma a)⁻¹ * (Gamma b)⁻¹))) := sorry
-
-/-- **4.2** DLMF 15.4.22. -/
-theorem tendsto_cpow_mul_gaussHypergeometric_sub {a b c : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
-    (h : (c - a - b).re = 0) (hne : c ≠ a + b) :
-    Tendsto (fun x : ℝ => (1 - (x : ℂ)) ^ (a + b - c) * (gaussHypergeometric a b c x -
-        Gamma c * Gamma (c - a - b) * ((Gamma (c - a))⁻¹ * (Gamma (c - b))⁻¹)))
-      (𝓝[<] 1) (𝓝 (Gamma c * Gamma (a + b - c) * ((Gamma a)⁻¹ * (Gamma b)⁻¹))) := sorry
-
-/-- **4.2** DLMF 15.4.23. -/
-theorem tendsto_gaussHypergeometric_div_cpow_one_sub {a b c : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
-    (h : (c - a - b).re < 0) :
-    Tendsto (fun x : ℝ => gaussHypergeometric a b c x / (1 - (x : ℂ)) ^ (c - a - b)) (𝓝[<] 1)
-      (𝓝 (Gamma c * Gamma (a + b - c) * ((Gamma a)⁻¹ * (Gamma b)⁻¹))) := sorry
-
 /-- **4.3** §15.2(i): on `|z| = 1` the series converges absolutely when `Re(c − a − b) > 0`. -/
 theorem summable_norm_gaussTerm_of_re_pos {a b c z : ℂ} (hc : ∀ k : ℕ, c ≠ -k) (hz : ‖z‖ = 1)
     (h : 0 < (c - a - b).re) :
@@ -348,6 +330,24 @@ theorem gaussHypergeometric_eq_w5_w6_of_im_neg {a b c z : ℂ} (hc : ∀ k : ℕ
         Gamma c * Gamma (a - b) / (Gamma a * Gamma (c - b)) *
           (cexp (-(b * π * I)) * z ^ (-b) * gaussHypergeometric b (b - c + 1) (b - a + 1) z⁻¹) :=
   sorry
+
+/-- **5.5** DLMF 15.4.21. -/
+theorem tendsto_gaussHypergeometric_div_neg_log {a b : ℂ} (hc : ∀ k : ℕ, a + b ≠ -k) :
+    Tendsto (fun x : ℝ => gaussHypergeometric a b (a + b) x / -Complex.log (1 - (x : ℂ)))
+      (𝓝[<] 1) (𝓝 (Gamma (a + b) * ((Gamma a)⁻¹ * (Gamma b)⁻¹))) := sorry
+
+/-- **5.5** DLMF 15.4.22. -/
+theorem tendsto_cpow_mul_gaussHypergeometric_sub {a b c : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
+    (h : (c - a - b).re = 0) (hne : c ≠ a + b) :
+    Tendsto (fun x : ℝ => (1 - (x : ℂ)) ^ (a + b - c) * (gaussHypergeometric a b c x -
+        Gamma c * Gamma (c - a - b) * ((Gamma (c - a))⁻¹ * (Gamma (c - b))⁻¹)))
+      (𝓝[<] 1) (𝓝 (Gamma c * Gamma (a + b - c) * ((Gamma a)⁻¹ * (Gamma b)⁻¹))) := sorry
+
+/-- **5.5** DLMF 15.4.23. -/
+theorem tendsto_gaussHypergeometric_div_cpow_one_sub {a b c : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
+    (h : (c - a - b).re < 0) :
+    Tendsto (fun x : ℝ => gaussHypergeometric a b c x / (1 - (x : ℂ)) ^ (c - a - b)) (𝓝[<] 1)
+      (𝓝 (Gamma c * Gamma (a + b - c) * ((Gamma a)⁻¹ * (Gamma b)⁻¹))) := sorry
 
 /-! ### Layer 6: integral representations -/
 
