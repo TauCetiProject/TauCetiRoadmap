@@ -154,6 +154,8 @@ degrees of bundles are with their owners.
   `TauCeti.Real.legendreK_one_div_sqrt_two`;
   `TauCeti/Analysis/SpecialFunctions/EllipticIntegral/Gauss.lean`:
   `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`.
+- `TauCeti/NumberTheory/ModularForms/JacobiTheta/OneVariable.lean`:
+  `TauCeti.tendsto_jacobiTheta_comap_im_atTop`.
 
 **From GeometryOfNumbersAndQuadraticArithmetic.**
 
@@ -353,7 +355,7 @@ Ceti `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`, `K(k) = π/(2 agm(1, √(1 
 `b` tend to `1`, and Mathlib `NNReal.min_le_agm` and `NNReal.agm_le_max` give `agm(a², b²) = 1`.
 *Needs:* Mathlib `jacobiTheta`, `NNReal.agm`, `NNReal.agm_mul_distrib`, `NNReal.agm_eq_agm_gm_am`,
 `NNReal.min_le_agm`, `NNReal.agm_le_max`; Tau Ceti `TauCeti.Real.legendreK`,
-`TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`.
+`TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`, `TauCeti.tendsto_jacobiTheta_comap_im_atTop`.
 
 **API.**
 
@@ -363,8 +365,9 @@ Ceti `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`, `K(k) = π/(2 agm(1, √(1 
 - Positivity: `0 < b ≤ a`. The difference `a − b` is twice the sum of `exp(−πtn²)` over odd `n`;
   by the second identity `b(t) = b(2t)²/a(t) ≥ 0`, and `b(t) = 0` would give `b(2ᵏt) = 0` for every
   `k`, against `b(2ᵏt) → 1`. So `k² = 1 − (b/a)⁴` lies in `[0, 1)`.
-- Limits: `a(t) → 1` and `b(t) → 1` as `t → ∞`, since `|a − 1|` and `|b − 1|` are at most
-  `2∑_(n ≥ 1) exp(−πtn)`.
+- Limits: `a(t) → 1` and `b(t) → 1` as `t → ∞`, by Tau Ceti
+  `TauCeti.tendsto_jacobiTheta_comap_im_atTop` along `t ↦ t·i` and `t ↦ t·i + 1`, whose imaginary
+  parts are `t`.
 
 **Checks.**
 
@@ -412,9 +415,9 @@ its API.
 Mathlib: `ZLattice.covolume`, `IsZLattice`, `WithLp`, `AddSubgroup.relIndex`, `jacobiTheta`,
 `Real.tsum_exp_neg_mul_int_sq`, `NNReal.agm` and its lemmas, `Real.Gamma`,
 `Real.Gamma_mul_Gamma_one_sub`. Tau Ceti: `ZLattice.dual`, Poisson summation and the Gaussian
-(`TauCeti/Analysis`), `TauCeti.Real.legendreK`, `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`
-and `TauCeti.Real.legendreK_one_div_sqrt_two`. GeometryOfNumbersAndQuadraticArithmetic §§4.4.4,
-4.4.6 and 4.4.7.
+(`TauCeti/Analysis`), `TauCeti.Real.legendreK`, `TauCeti.Real.legendreK_eq_pi_div_two_mul_agm`,
+`TauCeti.Real.legendreK_one_div_sqrt_two` and `TauCeti.tendsto_jacobiTheta_comap_im_atTop`.
+GeometryOfNumbersAndQuadraticArithmetic §§4.4.4, 4.4.6 and 4.4.7.
 
 ## Layer 2: cosets and admissible extensions
 
