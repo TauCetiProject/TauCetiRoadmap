@@ -911,13 +911,16 @@ principal block `{1, sgn}` and the defect-zero block `{std}`) and at `p = 3`
 
 ### Dependencies
 
-Layers 3–7.
+Layers 0–7.
 
 ## Downstream consumers
 
-- **GlaubermanZStar**: at `p = 2`, the interfaces of §8.4: sections, the splitting modular system,
-  the block partition, the principal block and its kernel, generalized decomposition numbers, the
-  second main theorem, block-section orthogonality and the local third main theorem.
+- **GlaubermanZStar**: at `p = 2`, the interfaces of §8.4: the sections (§0.1); the splitting
+  modular system, its root lifting (§1.1) and the compatibility of the decomposition map with a
+  change of splitting modular system (§2.4); the central-character description of the block
+  partition and the principal block (§§4.2–4.3); generalized decomposition numbers (§5.1); the
+  second main theorem and block-section orthogonality (§7.2); the local third main theorem (§7.3);
+  normal `p'`-subgroups, the kernel theorem and the modular containment (§§8.2–8.3).
 
 ## References
 
