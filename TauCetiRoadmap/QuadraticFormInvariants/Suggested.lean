@@ -60,32 +60,6 @@ noncomputable def localHasse {n : ℕ} (w : Fin n → Kˣ) : ℤˣ :=
 
 end Layer6C
 
-/-! ## Layer 6D: the classification and its corollaries -/
-
-section Layer6D
-
-variable {K : Type u} [Field K]
-
-/-- **Layer 6D, the local classification** (O'Meara 63:20, Serre *CiA* IV.2.3), Tau Ceti's
-`QuadraticForm.equivalent_iff_finrank_eq_and_discr_eq_and_localHasse_eq`: over a nonarchimedean
-local field two regular forms are isometric exactly when their dimensions, discriminants and local
-Hasse invariants agree. The class-level form is
-`TauCeti.RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq`. -/
-example [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-    [Invertible (2 : K)] {V : Type v} {W : Type w}
-    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
-    [AddCommGroup W] [Module K W] [FiniteDimensional K W]
-    (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (R : QuadraticForm K W)
-    (hR : R.Nondegenerate) :
-    Q.Equivalent R ↔ Module.finrank K V = Module.finrank K W ∧
-      TauCeti.RegularFormClass.discr (TauCeti.formClass Q hQ) =
-        TauCeti.RegularFormClass.discr (TauCeti.formClass R hR) ∧
-      TauCeti.RegularFormClass.localHasse (TauCeti.formClass Q hQ) =
-        TauCeti.RegularFormClass.localHasse (TauCeti.formClass R hR) :=
-  QuadraticForm.equivalent_iff_finrank_eq_and_discr_eq_and_localHasse_eq Q hQ hR
-
-end Layer6D
-
 /-! ## Layer 6E: the two Hasse invariants agree -/
 
 section Layer6E

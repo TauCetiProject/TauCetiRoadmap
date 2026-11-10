@@ -337,12 +337,21 @@ Each layer states its results against this list.
   Tau Ceti and that roadmap declares no copy of them: it, and this roadmap, consume
   `TauCeti.ClassFieldTheory.muNRep`, `TauCeti.ClassFieldTheory.kummerClass`,
   `TauCeti.ClassFieldTheory.kummerCupPairing`, `TauCeti.ClassFieldTheory.localSymbol`,
-  `TauCeti.ClassFieldTheory.invMap`, `TauCeti.ClassFieldTheory.h2MuEquivZMod`,
-  `TauCeti.ClassFieldTheory.finiteHilbertInvariantAt` and
+  `TauCeti.ClassFieldTheory.invMap`, `TauCeti.ClassFieldTheory.finiteHilbertInvariantAt` and
   `TauCeti.ClassFieldTheory.hilbertProductFormula` under these names
   (`TauCeti/NumberTheory/ClassFieldTheory/`, files `MuNRep.lean`, `Local/Symbol.lean`,
-  `Brauer/Invariant.lean`, `Brauer/RootsOfUnity.lean` and `Global/Hilbert/`). The comparisons of
-  Layers 6C and 7C and the product formula are stated on Tau Ceti's objects
+  `Brauer/Invariant.lean` and `Global/Hilbert/`). That roadmap names the degree-two identification
+  `H²(F, μ_n) ≃ ZMod n` only as the characteristic-zero existence statement
+  `TauCeti.ClassFieldTheory.h2MuEquivZMod_mixed` (its Layer 5) and as the transport
+  `TauCeti.ClassFieldTheory.h2EquivZModOfMuNRepIso` to coefficients isomorphic to `μ_n` (its table
+  of names used elsewhere). The normalized equivalence on `μ_n` itself,
+  `TauCeti.ClassFieldTheory.h2MuEquivZMod`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Brauer/RootsOfUnity.lean`), from which that transport is
+  defined and which 6C item 13 and 6E's second milestone use, is Tau Ceti's and is consumed from
+  Tau Ceti directly: it reads `invMap` through the Kummer coefficient map
+  `TauCeti.ClassFieldTheory.h2MuToBr` and is defined for every nonarchimedean local field
+  `F : Type` in which `n` is invertible, local fields of odd positive characteristic included. The
+  comparisons of Layers 6C and 7C and the product formula are stated on Tau Ceti's objects
   (`TauCeti.hilbertSymbol_eq_cohomological`, `TauCeti.hilbertSymbol_productFormula`).
 - **From TauCetiRoadmap.ProfiniteCohomology** ([Layers 0–4, 8–10, 12 and 13](../ProfiniteCohomology/README.md)):
   discrete modules, the openness of stabilizers and continuous sections of quotient maps, through
@@ -1778,8 +1787,11 @@ Layer 7B in the build order.
 `ι [(a,b)] = (a) ∪ (b)` (milestones 4 and 6), and item 3's transport
 `TauCeti.ClassFieldTheory.brauerGroupEquivBr` of the comparison onto Class Field Theory's carrier
 `Br K`; TauCetiRoadmap.ClassFieldTheory Layer 5 for `Br K`, the local invariant
-`TauCeti.ClassFieldTheory.invMap`, the normalized invariant `TauCeti.ClassFieldTheory.h2MuEquivZMod`
-and the local symbol.
+`TauCeti.ClassFieldTheory.invMap` and the local symbol; Tau Ceti's normalized invariant
+`TauCeti.ClassFieldTheory.h2MuEquivZMod`
+(`TauCeti/NumberTheory/ClassFieldTheory/Brauer/RootsOfUnity.lean`), the reading of `invMap`
+through `TauCeti.ClassFieldTheory.h2MuToBr` for every nonarchimedean local field `K : Type` in
+which `2` is invertible.
 
 ### Examples
 
@@ -1825,8 +1837,10 @@ and the local symbol.
 Mathlib's local-field, `FractionalIdeal`, `QuadraticAlgebra`, `legendreSym` and `ℚ_[p]` APIs;
 Tau Ceti's `TauCeti/NumberTheory/LocalField/` (`Uniformizer`, `Squares`, `SquareClass`,
 `SquareClasses`, `UnitFiltration/`, `QuadraticForm/`, `Quaternion/`, `AlgebraicExtension/`,
-`FiniteExtension/`), `TauCeti/NumberTheory/HilbertSymbol/`, `TauCeti/NumberTheory/Padics/SerreSigns.lean`
-and `TauCeti/FieldTheory/GaloisCohomology/MuTwo/LocalSymbol.lean`; Layers 0 to 5 of this roadmap,
+`FiniteExtension/`), `TauCeti/NumberTheory/HilbertSymbol/`, `TauCeti/NumberTheory/Padics/SerreSigns.lean`,
+`TauCeti/FieldTheory/GaloisCohomology/MuTwo/LocalSymbol.lean` and, for the normalized invariant
+`TauCeti.ClassFieldTheory.h2MuEquivZMod` of 6E's second milestone,
+`TauCeti/NumberTheory/ClassFieldTheory/Brauer/RootsOfUnity.lean`; Layers 0 to 5 of this roadmap,
 with 6E's second milestone after Layer 7B and 6C's item 13 after Layer 7C; no other part of Layer 6
 needs Layer 7; TauCetiRoadmap.LocalFieldsRamification Layers 0 to 2;
 TauCetiRoadmap.ClassFieldTheory Layers 5 and 14.
