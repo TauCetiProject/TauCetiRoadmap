@@ -1,13 +1,14 @@
 import Mathlib
+import TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction
 
 /-!
 # Belyi maps, dessins d'enfants, and three-point covers: target signatures
 
 This file is not the roadmap; the roadmap is `README.md`. This file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, as far as the pinned carriers make
-them statable, and declares the two group-theoretic lemmas of README §Pinned conventions that the
-PeripheralActions roadmap consumes by name (`conjugation_transfer` and
-`opposite_third_peripheral`).
+them statable (Layer 13.5 is the one that is), and declares the two group-theoretic lemmas of
+README §Pinned conventions that the PeripheralActions roadmap consumes by name
+(`conjugation_transfer` and `opposite_third_peripheral`).
 
 ## Headline theorems proved in Tau Ceti
 
@@ -40,22 +41,14 @@ Tau Ceti revision `2fd255d997f4`, the revision README §Exact supplier contracts
 
 ## Headline theorems not stated here
 
-* Layer 13.5 (`Gal(ℚ̄/ℚ)` acts faithfully on isomorphism classes of algebraic Belyi pairs over
-  `ℚ̄`). Its statement is `FaithfulSMul` of `AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ` on
-  `TauCeti.AlgebraicBelyiPair.IsoClass (AlgebraicClosure ℚ)`, for the Galois action that the module
-  `TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction` declares. Tau Ceti has that module, and
-  the carrier `TauCeti.AlgebraicBelyiPair`, from revision `2fd255d997f4`; the revision this
-  repository's `lake-manifest.json` pins for this file has neither, and Mathlib has no algebraic
-  Belyi pair, so the statement cannot be written against it.
 * Layer 9.8 (analytic and algebraic Belyi pairs over `ℂ` have the same isomorphism classes),
   Layer 10.7 (every algebraic Belyi pair over `ℂ` is the base change of one over `ℚ̄`) and Layer
-  11.6 (a pair with trivial automorphism group is defined over its field of moduli). Besides the
-  carriers `TauCeti.AnalyticBelyiPair` and `TauCeti.AlgebraicBelyiPair`, absent from the pinned
-  revision as above, each needs a construction of the roadmap that revision `2fd255d997f4` does
-  not have either: the algebraic pair of an analytic pair, which rests on the bijection between
-  points and places (README 9.4, 9.5); base change of a pair along the transcendental extension
-  `ℚ̄ ⊂ ℂ` (README 9.1C); and the field-of-definition certificate, a pair over a number field
-  with an isomorphism of its base change (README 11.5).
+  11.6 (a pair with trivial automorphism group is defined over its field of moduli). Each needs
+  a construction of the roadmap that the pinned Tau Ceti does not have: the algebraic pair of an
+  analytic pair, which rests on the bijection between points and places (README 9.4, 9.5); base
+  change of a pair along the transcendental extension `ℚ̄ ⊂ ℂ` (README 9.1C); and the
+  field-of-definition certificate, a pair over a number field with an isomorphism of its base
+  change (README 11.5).
 * Layer 12.6 (the geometric fundamental group is the profinite completion of `FreeGroup (Fin 2)`)
   and Layer 12.11 (the branch-cycle theorem). There is no carrier for the Galois group of the
   maximal extension of `ℚ̄(t)` unramified outside the three marked places, nor for the outer
@@ -94,5 +87,15 @@ theorem conjugation_transfer {G : Type u} [Group G] (φ : G ≃* G) (pow : G →
     simp [map_mul, map_inv, hx]
   rw [h, hpow]
   group
+
+/-! ## Layer 13: the pro-`ℓ` peripheral theorem and faithfulness -/
+
+/-- **Layer 13.5, faithfulness of the Galois action on dessins.** The absolute Galois group of
+`ℚ` acts faithfully on the isomorphism classes of algebraic Belyi pairs over `ℚ̄`, for the action
+`TauCeti.AlgebraicBelyiPair.IsoClass.instMulAction` by conjugation of the constants (Lenstra's
+argument; Girondo–González-Diez, Theorem 4.49). -/
+theorem faithfulSMul_absoluteGaloisGroup_isoClass :
+    FaithfulSMul (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ)
+      (TauCeti.AlgebraicBelyiPair.IsoClass (AlgebraicClosure ℚ)) := sorry
 
 end TauCetiRoadmap.BelyiMaps

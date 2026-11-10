@@ -72,9 +72,9 @@ branched covers by their unbranched parts (7.7), analytic Riemann existence for 
 covers (8.6), Belyi's polynomial lemma (10.3), the existence of a Belyi map on a function field
 over an algebraic extension of `ℚ` (10.4), and the polynomial form of faithfulness (13.5).
 `Suggested.lean` states the headline theorems that remain, as far as the carriers of the Tau Ceti
-revision in `lake-manifest.json` make them statable; that revision has no algebraic Belyi pair,
-so none is, and the file's docstring names the headlines Tau Ceti proves and, for each of the
-others, what is missing.
+revision in `lake-manifest.json` make them statable; Layer 13.5 is the one that is, and the
+file's docstring names the headlines Tau Ceti proves and, for each of the others, what is
+missing.
 
 What remains is:
 
@@ -125,7 +125,7 @@ outer-automorphism carrier.
 
 ## Boundaries
 
-Seven roadmaps supply material to this one. The boundaries are stated once here.
+Eleven roadmaps supply material to this one. The boundaries are stated once here.
 
 There is no dependency on `LocalGaloisGroups`, `ClassFieldTheory` or `PeripheralActions`. The
 supply between this roadmap and PeripheralActions runs one way: PeripheralActions consumes from
@@ -330,7 +330,7 @@ faithfulness; the LMFDB record certificates.
 
 ```text
 from A   0.1, 0.4–0.7, 1.1–1.6, 2.6, 3.4, 3.5
-from B   5.6, 6.1, 6.3, 7.1, 8.7, 9.1, 9.5–9.8, 10.2, 10.3, 10.7,
+from B   5.6, 6.1, 6.3, 7.1, 8.7, 9.1, 9.1C, 9.5–9.8, 10.2, 10.3, 10.7,
          11.1, 11.3, 11.5, 11.7
 ```
 
@@ -563,7 +563,7 @@ prose in their roadmap, and no supplier's object has a local copy here.
 | 1.6, 14.1, 14.5 | `PolynomialGaloisGroups` Layer 6 | the transitive reference family and label predicate in degrees `1` to `5` | `TauCeti.numTransitiveGroups`, `TauCeti.TransitiveGroupIndex`, `TauCeti.referenceSubgroup`, `TauCeti.TransitiveGroupLabel`; `numTransitiveGroups n = 0` for `n > 5` at the pin, and degrees `6` to `11` are the gap below |
 | 3.2 | CharacterTheory Layer 1 | class sums and structure constants | `TauCeti.classSum`, `TauCeti.structureConstant`, `TauCeti.classSum_mul` |
 | 3.2 | CharacterTheory Layer 3 | the character table and column orthogonality | `TauCeti.characterTable`, `TauCeti.card_conjClass_mul_sum_characterTable_mul_characterTable_inv` |
-| 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `TauCeti.centralCharacter`; the character formula for structure constants that the conversion feeds is proved directly as `TauCeti.structureConstant_eq_sum_characterTable` |
+| 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `TauCeti.Representation.centralCharacter`; the character formula for structure constants that the conversion feeds is proved directly as `TauCeti.structureConstant_eq_sum_characterTable` |
 | 5.1, 6.2 | UniversalCovers milestone 2 | semilocal simple connectivity | `TauCeti.SemilocallySimplyConnectedSpace` (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean`); no local copy is exported |
 | 5.6 | AlgebraicTopology Stage 1 | Seifert–van Kampen for two open sets with simply connected intersection | `TauCeti.vanKampenLift`, `TauCeti.vanKampenLift_bijective`, `TauCeti.vanKampenEquiv` and `TauCeti.vanKampenEquiv_toMonoidHom` (`TauCeti/AlgebraicTopology/FundamentalGroup/VanKampen.lean`), with the hypotheses of Layer 5.5. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
 | 5.7, 6.3 | UniversalCovers milestone 7 | basepoint change on subgroups, and the recovered subgroup under a change of lift | `FundamentalGroup.basepointChangeSubgroup` (conjugation of a subgroup along a path); `IsCoveringMap.range_mapOfEq_monodromy` (moving the lift along a loop conjugates the recovered subgroup); `IsCoveringMap.range_mapOfEq_monodromy_path` (moving it along a path applies `basepointChangeSubgroup`) |
@@ -615,9 +615,9 @@ declares the two §Pinned conventions lemmas PeripheralActions consumes; its doc
 headline theorems Tau Ceti proves and, for those it does not state, what is missing. Layer 13.5
 is the one remaining headline with a native statement, `FaithfulSMul` of
 `AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ` on
-`TauCeti.AlgebraicBelyiPair.IsoClass (AlgebraicClosure ℚ)`; it enters the file with the module
-`TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction`, which Tau Ceti has from revision
-`2fd255d997f4`.
+`TauCeti.AlgebraicBelyiPair.IsoClass (AlgebraicClosure ℚ)`; the file states it as
+`faithfulSMul_absoluteGaloisGroup_isoClass` and imports
+`TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction` for the action.
 
 ### Layer 0: permutation triples
 
@@ -3633,7 +3633,7 @@ unbounded, which is the gap the phrase "the monodromy is finite, so the field is
 hides.
 
 *Source:* Girondo–González-Diez **Proposition 1.89** is the first half exactly —
-`[ℂ(f) : M(S)] ≤ deg f` by the elementary symmetric functions of the fibre values — and
+`[M(S) : ℂ(f)] ≤ deg f` by the elementary symmetric functions of the fibre values — and
 **Corollary 1.93(iv)** upgrades it to the equality `deg f = [M(S) : ℂ(f)]`. Forster proves the
 same over a general base as **8.3** (`π* : ℳ(X) → ℳ(Y)` is algebraic of degree `deg π`), by
 the elementary-symmetric-function argument of **8.1** and **8.2**; his separating input is
@@ -5314,7 +5314,9 @@ the polynomial form of faithfulness `TauCeti.exists_polynomial_criticalValues_su
 for a field `K` algebraic over `ℚ` and a ring endomorphism `σ ≠ id` of `K`, some nonconstant
 `P ∈ K[x]` with all critical values in `{0, 1}` is not carried to `P^σ` by any affine change of
 variable. The passage to isomorphism classes of algebraic Belyi pairs, and hence the statement
-of this milestone, remains.
+of this milestone, remains; `Suggested.lean` states it as
+`faithfulSMul_absoluteGaloisGroup_isoClass`, for the action
+`TauCeti.AlgebraicBelyiPair.IsoClass.instMulAction` of `AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ`.
 
 ### Layer 14: LMFDB assertion semantics
 
