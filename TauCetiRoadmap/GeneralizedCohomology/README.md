@@ -68,9 +68,10 @@ equivalences of arbitrary symmetric spectra.
   states homotopy excision on these carriers.
 - Tau Ceti's gaps `PartitionOfUnity.gap` of a partition of unity and the countable partition of
   unity `PartitionOfUnity.gapPartition` grouping them by size, with the glued trivializations
-  `PartitionOfUnity.gapTrivialization` of a bundle over its positive sets: the countable
+  `PartitionOfUnity.gapTrivialization` of a bundle with nonempty model fibre and nonempty
+  fibres over its positive sets: the countable
   refinement of a numerable cover by disjoint unions of open sets each inside a member of the
-  cover. G3.5 consumes it rather than proving it.
+  cover. G3.5 consumes it and supplies the empty-fibre case and transport for arbitrary projections.
 - Tau Ceti's intrinsic normal bundles and tubular neighbourhoods of smooth embeddings, in plain,
   Riemannian, closed-disc and Euclidean forms, and smooth Riemannian metrics on vector bundles.
   G5.2 and G5.7 consume them.
@@ -300,8 +301,9 @@ versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
   `PartitionOfUnity.gapPartition`, the locally finite partition of unity indexed by ℕ whose n-th
   function is n times the sum of the gaps of the n-element sets; and
   `PartitionOfUnity.gapTrivialization` (`Topology/FiberBundle/GapTrivialization.lean`), for a
-  partition subordinate to the base sets of bundle charts the glued trivialization over the
-  positive set of the n-th function, these base sets covering
+  family E over B with a topology on `Bundle.TotalSpace F E`, requires `Nonempty F` and
+  `∀ b, Nonempty (E b)`. For a partition subordinate to charts of its projection it gives the
+  glued trivialization over the positive set of the n-th function, these base sets covering
   (`PartitionOfUnity.subset_iUnion_gapTrivialization_baseSet`) and locally finite
   (`PartitionOfUnity.locallyFinite_gapTrivialization_baseSet`). No metric, rank, countability
   or paracompactness hypothesis is imposed.
@@ -475,7 +477,7 @@ quaternionic adapters of G4.0 built first. G5 constructs duality, Thom spectra, 
 ring spectra and their orientations, and the rational comparisons, from G2–G4. Each layer ends
 with its examples and its dependencies.
 
-## G1. Reduced, relative and multiplicative theories
+## Layer 1: Reduced, relative and multiplicative theories
 
 G1 starts with the pointed topological/CW suppliers. It states and develops
 axiomatic theories independently of their G2 spectral representation.
@@ -729,7 +731,9 @@ proves only 2σ²=0. Prove the bimodule/Koszul action on the shifted summand.
 
 G1 uses AlgebraicTopology Stages 2–4, 4.4 and 4.5 for the pointed CW substrate, pairs, cofibrations and the pair-to-mapping-cone comparison, and Mathlib's `TopPair.HomologyPretheory` for the shape of homology theories. It uses no spectral model.
 
-## G2. A concrete spectral model and represented theories
+<a id="g2-a-concrete-spectral-model-and-represented-theories"></a>
+
+## Layer 2: A concrete spectral model and represented theories
 
 ### 2.1 Pointed simplicial substrate and the Kan–Quillen model (G2.1)
 
@@ -2249,7 +2253,7 @@ EllipticCohomology E2's finite-action towers.
 
 G2.1 uses Tau Ceti's pointed simplicial sets, Mathlib's generating classes of simplicial sets, AlgebraicTopology Stages 4.5, 4.7, 4.8 and 8.2 and CharacteristicClasses C1.2. G2.2 uses Tau Ceti's symmetric spectra. G2.3 and G2.4 use G2.1–2.2. G2.5 uses G2.1–2.4, AlgebraicTopology Stages 2–5 (with 4.4 and 4.5) and 8.11b, Tau Ceti's relative homotopy sets of based pairs and Mathlib's CW subcomplexes. G2.6 uses G2.3–2.5. G2.7 uses Tau Ceti's path fibration and AlgebraicTopology Stages 4.5, 5.5, 8.8c and 8.11b. G2.8 uses G2.1–2.4. G2.9 uses CharacteristicClasses C1.1b, AlgebraicTopology Stage 4.5 and RepresentationTheory LieGroups Layer 2; the low-rank homotopy of GL_k(ℝ) that uses G4.0a is G4.6. G2.10 uses G2.1, Tau Ceti's path theory and AlgebraicTopology Stage 5.5. G2.11 uses G2.1–2.5 and G2.9 and precedes G5.7.
 
-## G3. Brown representation, arbitrary CW and infinite comparisons
+## Layer 3: Brown representation, arbitrary CW and infinite comparisons
 
 ### 3.1 Brown on arbitrary CW (G3.1)
 
@@ -2450,9 +2454,18 @@ Ceti's countable refinement by gaps: V_n is the
 positive set of the n-th function of `PartitionOfUnity.gapPartition`, the
 disjoint union over n-element index sets E of the positive sets of the gaps
 `PartitionOfUnity.gap`, each inside the chart base set of every index of E,
-and `PartitionOfUnity.gapTrivialization` is the glued trivialization over
-V_n; these V_n cover the base and form a locally finite family. No
-paracompactness is used. The finite unions of the V_n give the required
+and these V_n cover the base and form a locally finite family. For a
+projection p:Z→B, put E_b = {z ∈ Z | p(z)=b} and give `Bundle.TotalSpace F E`
+the topology transported from Z by the bijection (b,z)↦z, whose inverse is
+z↦(p(z),z); transport the supplied charts along this homeomorphism over B.
+If F is nonempty, every E_b is nonempty: choose a chart containing b and
+apply its inverse to (b,v) for v∈F. These instances allow
+`PartitionOfUnity.gapTrivialization` to supply the glued chart over V_n;
+transport it back to p. If F is empty, the covering charts force Z to be
+empty. The unique homeomorphism p⁻¹(V_n)≃V_n×F between empty spaces then
+supplies the chart over V_n directly, with the unique total forward and
+inverse maps between Z and B×F. The gap partition and its cover are the
+same in both cases. No paracompactness is used. The finite unions of the V_n give the required
 exhaustion. The argument uses the disjoint-union axiom and finite
 trivializing-piece complexity, not a finite-CW hypothesis on those opens
 (May, *A Concise Course in Algebraic Topology*, Chapter 7, §4, p. 51, for
@@ -2482,6 +2495,8 @@ the classification of vector bundles).
 - For X = ℝ with U_i = (−i, i), every compact sphere map lands in some U_i and the telescope of the intervals is contractible, as ℝ is.
 - Openness is needed: the closed subspaces X_i = {0} ∪ [1/i, 1] increase to [0,1], but each has two path components, so their telescope has two path components while [0,1] is connected.
 - For a bundle trivial over the whole base, with the one-member partition ρ ≡ 1, the only positive gap is that of the one-element index set, equal to 1 everywhere, so V₁ = B and V_n = ∅ for n ≠ 1, and the exhaustion is constant.
+- For ∅→{*} with F=∅ and partition (1), φ₁=1 and all other φ_n=0: the chart over V₁={*} is ∅≃{*}×∅, and every other chart has empty domain and target. The supplier's nonempty instances do not exist, but W_n={*} for n≥1 and f=1 still give the exhaustion.
+- For {*}→{*} with one-point F and partition (1), the fibre-total-space bijection and the gap chart over V₁ are identities; the chart inverse sends (*,*) to *. Thus the nonempty branch has the same φ₁=1, W_n={*} for n≥1 and f=1 as the empty-fibre branch, with a nonempty chart domain.
 - For the cover of S¹ by two open arcs with ρ₁ + ρ₂ = 1, the gap refinement gives V₁ = {ρ₁ ≠ ρ₂}, the disjoint union of {ρ₁ > ρ₂} inside the first arc and {ρ₂ > ρ₁} inside the second, and V₂ = {ρ₁ > 0, ρ₂ > 0}, inside both arcs; a point with ρ₁ = ρ₂ = ½ lies in V₂, so V₁ and V₂ cover S¹. Without the positivity requirement on the members of E, the two-element set would be a top segment everywhere and V₂ would be all of S¹, which lies in neither arc.
 
 ### 3.6 Phantom and mapping-spectrum control (G3.6)
@@ -2596,7 +2611,8 @@ the cover map R-linear. Rectify through G2's module model and verify
 all action coherences; for k>0 this is not a unital ring structure.
 For connective commutative spectral rings construct the structured zeroth
 Postnikov refinement on Mathlib `CommMon` over G2.4's constructed
-symmetric monoidal spectral carrier.
+symmetric monoidal spectral carrier (Lurie, *Higher Algebra*, Propositions
+7.1.3.15 and 7.1.3.18, pp. 1218–1219, for structured truncation and discrete algebras).
 Use its positive-flat commutative-ring model and the same HA of G2.7
 for a native commutative coefficient ring A. Consume G2.5's identification
 of sphere homotopy with the stabilized sphere colimit of G2.5; identify π₀S
@@ -2676,7 +2692,15 @@ KO covers, ABP characteristic maps and String/bordism coefficients.
 
 - `τ_(≥0)KU = ku` with `π_* ku = ℤ[β]`, |β| = 2.
 - For HA, `τ_(≥k)HA = HA` for k ≤ 0 and 0 for k > 0.
-- The map `τ_(≥k)E → E` is an isomorphism on π_n for n ≥ k and `π_n τ_(≥k)E = 0` for n < k.
+- For E=Σ⁻¹Hℤ∨Hℤ∨ΣHℤ and k=0, the cover is Hℤ∨ΣHℤ and the truncation is Σ⁻¹Hℤ. In degrees (−1,0,1) their homotopy groups are (0,ℤ,ℤ) and (ℤ,0,0); the maps to and from E are the summand inclusion and projection. This distinguishes the two directions.
+- For the same E and k=1, the cover is ΣHℤ and the truncation is Σ⁻¹Hℤ∨Hℤ, with groups (0,0,ℤ) and (ℤ,ℤ,0) in those degrees. In particular degree 0 is retained by τ_(<1), excluding a cutoff at <0.
+- For the same E and k=−1, the cover is E and the truncation is 0, with groups (ℤ,ℤ,ℤ) and (0,0,0). The degree −1 summand belongs to the cover, excluding the strict cutoff >−1 (Schwede, *Symmetric spectra*, Chapter II, Theorems 8.1 and 8.3, pp. 295–297).
+- The constant identity tower HA has holim≃HA: on ∏_r A the difference sends (a_r) to (a_r−a_(r+1)), with kernel the constant sequences A and cokernel 0. Thus π₀ holim=A and π₋₁ holim=0, excluding a product of independent copies of HA.
+- The tower HA with every bonding map zero has holim≃0: 1−shift is the identity, so both its kernel and cokernel are 0. This distinguishes the bonding maps from those of the identity tower, even though the terms agree.
+- For the multiplication-by-2 tower Hℤ, π₀ holim=0 and π₋₁ holim=ℤ₂/ℤ≠0, where ℤ₂ denotes the 2-adic integers. The cokernel identification sends (b_r) to the class of Σ_(r≥0)2^r b_r; a difference (a_r−2a_(r+1)) sums to the integer a₀. The sequence (1,0,1,0,…) represents −1/3 modulo ℤ and is nonzero. This detects the lim¹ degree shift and excludes the ordinary inverse limit of the degree-zero Eilenberg–Mac Lane models, which is zero (the kernel/cokernel description is Hatcher, *Algebraic Topology*, §3.F, pp. 312–313).
+- For the commutative sphere ring, P0S≃Hℤ and the map sends 1 to 1 on π₀=ℤ; π₁ changes from ℤ/2 to 0. Thus P0 is neither the identity on rings nor the zero map on units (Hatcher, *Algebraic Topology*, Corollary 4J.4, p. 474, for the first stable stem).
+- For H𝔽₂, P0(H𝔽₂)≃H𝔽₂: π₀=𝔽₂, the unit remains 1, and π_n=0 for n≠0. This excludes replacing every coefficient ring by ℤ.
+- For R the derived free commutative ring on a positive-flat cofibrant sphere K₀≃S, π₀R=ℤ[t] and P0R≃Hℤ[t]. The derived mapping space from R to Hℤ is discrete with one point for each integer a, sending t to a; t↦0 and t↦1 are distinct and both send 1 to 1. This tests the free-ring mapping property and the preservation of the generator, using G2.8's free comparison and the structured truncation above.
 
 ### 3.9 Integral localization and derived prime completion (G3.9)
 
@@ -2778,7 +2802,7 @@ of lim¹ for surjective towers.)
 **Checks.**
 
 - For finite-dimensional X the skeletal tower is eventually constant, so lim¹ vanishes and Map(X,Y) ≃ Map(X^m,Y) for m ≥ dim X.
-- For X = CP∞ and Y = K(ℤ,2) the stages give π₀ Map(CP^m, K(ℤ,2)) = H²(CP^m) = ℤ with bijective restrictions and π₁ Map(CP^m, K(ℤ,2)) = H¹(CP^m) = 0, so [CP∞, K(ℤ,2)] = ℤ with no lim¹ term.
+- For X=CP∞ and Y=K(ℤ,2), π₀ Map(CP⁰,Y)=H²(CP⁰;ℤ)=0 is a singleton, whereas π₀ Map(CP^m,Y)=H²(CP^m;ℤ)=ℤ for m≥1. The component tower is 0←ℤ←id ℤ←id⋯: the first restriction ℤ→0 is not injective, and only restrictions between positive stages are bijections. Its limit consists of (0,a,a,…) for a∈ℤ. At every stage π₁ Map(CP^m,Y)=H¹(CP^m;ℤ)=0, so lim¹=0 and [CP∞,K(ℤ,2)]=ℤ. The actual skeletal filtration repeats CP^m in dimensions 2m and 2m+1 and has the same limits (Hatcher, *Algebraic Topology*, Example 0.6, pp. 6–7, and Theorem 3.19, p. 220).
 - The nonabelian lim¹ of a tower of surjections, in particular of a constant tower, is a single point, as in the abelian case.
 
 ### Examples
@@ -2791,7 +2815,9 @@ of lim¹ for surjective towers.)
 
 G3.4's telescope and Milnor construction uses G1 and Tau Ceti's towers of modules and precedes G3.1 and G3.3; its spectral version uses G2. G3.1 uses G1 and the CW substrate; G3.2 and G3.6 use G2.3–2.5. G3.5 uses G3.4, G1.3 and Tau Ceti's gap refinement of partitions of unity. G3.8 uses G2.4, G2.7 and G2.8; G3.9 follows G3.8. G3.10 uses G2.10, AlgebraicTopology Stages 4–5 and Tau Ceti's towers of groups.
 
-## G4. Generalized Leray–Hirsch, Thom and Euler theory
+<a id="g4-generalized-lerayhirsch-thom-and-euler-theory"></a>
+
+## Layer 4: Generalized Leray–Hirsch, Thom and Euler theory
 
 ### 4.0 Quaternionic bundle and manifold adapters (G4.0)
 
@@ -3458,7 +3484,9 @@ branch.
 
 G4.0a uses G2.9's join classifier, CharacteristicClasses C1.1b, TopologicalKTheory T1.5–T1.6, RepresentationTheory SpinRepresentations Layer 7, SpinGeometry G4.1, AlgebraicTopology Stages 2.5 and 4.4 and Tau Ceti's Spin(3), Spin(4) and quaternionic data, and precedes G4.6. G4.0b adds SmoothBundlesConnections B1.4, the embedded-unitary Lie data, TopologicalKTheory T1.5's smooth Grassmannian upgrade and ComplexKahlerGeometry K7's sphere adapter. G4.1–4.4 use G1 and G3 for the cell and cover proofs and G2 for the concrete examples; G4.2 uses CharacteristicClasses C2.1. G4.6 uses G2.9, G4.0a and TopologicalKTheory T1.5 and T1.5a.
 
-## G5. Finite duality, Thom spectra and rational Hurewicz
+<a id="g5-finite-duality-thom-spectra-and-rational-hurewicz"></a>
+
+## Layer 5: Finite duality, Thom spectra and rational Hurewicz
 
 ### 5.0 Stable Spin classifier, before Thom/ABS (G5.0)
 
