@@ -4477,13 +4477,15 @@ Bott, *An application of the Morse theory to the topology of Lie-groups*, §1.
 - **DGFloerPartII** consumes Layer 1 items 1, 5 and 6, Layer 2, Layer 4 item 1, Layer 5 items 4–6,
   Layer 6 items 3–4, Layer 10 and Layer 11, for Theorem B, the manifolds abundant with
   2-spheres, the projective loop-space computations and the knotted hypersurfaces.
-- Citations of Layer 1 items 2–4 for the ordinary theory resolve to AlgebraicTopology through
-  the numbering note (Scope and ownership): those of GeneralizedCohomology (G2.10, G5),
-  CharacteristicClasses (the connected-map comparison), MorseTheory M5, ComplexKahlerGeometry,
-  RiemannianGeometry R3, StableHomotopyKTheory, HeegaardFloer, TopologicalKTheory T1.5,
-  SeibergWittenTheory SW3.3a, ReductiveGroups, BordismFormalGroups, SpinRepresentations and
-  DGFloerPartII. None of these consumes the ordinary theory from this roadmap, and
-  AlgebraicTopology consumes nothing of Layer 1.
+- Every citation of Layer 1 items 2–4 for the ordinary theory, whichever roadmap makes it,
+  resolves to AlgebraicTopology through the numbering note (Scope and ownership). Among them are
+  those of GeneralizedCohomology (G2.10, G5), CharacteristicClasses (the connected-map
+  comparison), MorseTheory M5, ComplexKahlerGeometry, RiemannianGeometry R3,
+  StableHomotopyKTheory, StringOrientation (the homotopy-fibre exact sequence, the homological
+  and multiplicative cohomological Serre spectral sequences, and Hurewicz modulo a Serre class),
+  HeegaardFloer, TopologicalKTheory T1.5, SeibergWittenTheory SW3.3a, ReductiveGroups,
+  BordismFormalGroups, SpinRepresentations and DGFloerPartII. None of these consumes the
+  ordinary theory from this roadmap, and AlgebraicTopology consumes nothing of Layer 1.
 
 ## Worked examples
 
