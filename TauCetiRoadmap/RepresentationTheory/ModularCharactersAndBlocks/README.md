@@ -577,7 +577,9 @@ GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`,
   `⟨Φ_1, φ_std⟩ = (2·2 + 2·2·(−1))/6 = 0`, the values of §R17.5.11 for a cover and a simple.
 - Beyond covers and simples, `C₂` at `p = 2` with `P = U = k[C₂]`: only `1` is `2`-regular, and the
   formula gives `2·2/2 = 2 = dim End(k[C₂])` for a non-simple `U`; with the trivial module, which is
-  not projective, in place of `P` it would give `1/2`, so projectivity of `P` is needed.
+  not projective, in place of both `P` and `U` (its Brauer character in place of `Φ_P`) it would
+  give `1·1/2 = 1/2`, whereas `dim End(k) = 1`, so projectivity of `P` is needed. Replacing `P`
+  alone shows nothing: the formula gives `1·2/2 = 1 = dim Hom(k, k[C₂])`, the socle `k(1 + t)`.
 - Orientation: for the path algebra of `A₂` the native Cartan matrix is `[[1,0],[1,1]]` and
   QuiverRepresentations' is its transpose `[[1,1],[0,1]]`; group-algebra Cartan matrices are
   symmetric and cannot detect a transposition, so the comparison with QuiverRepresentations is
