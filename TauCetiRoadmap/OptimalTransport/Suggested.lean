@@ -3,6 +3,23 @@ import TauCeti.MeasureTheory.OptimalTransport.Coupling
 import TauCeti.MeasureTheory.OptimalTransport.Cost.Basic
 import TauCeti.MeasureTheory.OptimalTransport.Monge
 import TauCeti.MeasureTheory.OptimalTransport.Wasserstein.Basic
+import TauCeti.MeasureTheory.OptimalTransport.Wasserstein.Space
+import TauCeti.MeasureTheory.OptimalTransport.Wasserstein.PotentialEnergy
+import TauCeti.MeasureTheory.OptimalTransport.Wasserstein.InternalEnergy.Basic
+import TauCeti.MeasureTheory.OptimalTransport.Wasserstein.GeneralizedGeodesic.Convex
+import TauCeti.MeasureTheory.OptimalTransport.Cost.Partial.Basic
+import TauCeti.MeasureTheory.OptimalTransport.Duality.Basic
+import TauCeti.MeasureTheory.OptimalTransport.Twist.CExponential
+import TauCeti.MeasureTheory.OptimalTransport.Twist.MaTrudingerWang
+import TauCeti.MeasureTheory.OptimalTransport.Entropic.Duality
+import TauCeti.MeasureTheory.OptimalTransport.Entropic.SinkhornDivergence
+import TauCeti.MeasureTheory.OptimalTransport.MetricMeasure.Basic
+import TauCeti.MeasureTheory.OptimalTransport.MetricMeasure.CurvatureDimension
+import TauCeti.MeasureTheory.OptimalTransport.GromovWasserstein.Space
+import TauCeti.MeasureTheory.Function.CheegerEnergy
+import TauCeti.Analysis.GradientFlow.EVI.Basic
+import TauCeti.Analysis.GradientFlow.MoreauYosida.Basic
+import TauCeti.Analysis.PositiveDefinite.Kernel.Universal
 import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 
 /-!
@@ -13,15 +30,25 @@ the roadmap against the pinned Mathlib and Tau Ceti, each with `sorry`. It is th
 of the finished roadmap, not a list of its targets.
 
 The carriers are Tau Ceti's couplings `TauCeti.IsCoupling`, transport cost
-`TauCeti.transportCost`, optimal couplings `TauCeti.IsOptimalCoupling`, Kantorovich-optimal maps
-`TauCeti.IsKantorovichOptimalTransportMap`, Wasserstein distance `TauCeti.wassersteinEDist` and
-finite moments `TauCeti.HasFiniteMoment`, Tau Ceti's Riemannian volume
-`TauCeti.riemannianVolume`, and Mathlib's Riemannian distance, Hausdorff dimension, Hölder maps,
-homeomorphisms, iterated derivatives, multivariate Gaussian laws, Kullback–Leibler divergence and
-separable measures.
+`TauCeti.transportCost`, relaxed transport value `TauCeti.relaxedTransportCost`, dual pairs
+`TauCeti.DualFeasible` and `TauCeti.kantorovichDualValue`, optimal couplings
+`TauCeti.IsOptimalCoupling`, Kantorovich-optimal maps `TauCeti.IsKantorovichOptimalTransportMap`,
+`c`-convex sets `TauCeti.IsCConvexSet`, the weak Ma–Trudinger–Wang condition
+`TauCeti.SatisfiesWeakMTW`, Wasserstein distance `TauCeti.wassersteinEDist`, finite moments
+`TauCeti.HasFiniteMoment`, the Wasserstein space `TauCeti.WassersteinSpace`, evolution
+variational inequalities `TauCeti.IsEVISolution`, convexity along generalized geodesics
+`TauCeti.GeneralizedGeodesicallyConvex`, the JKO step `TauCeti.moreauYosidaResolvent`, the
+energies `TauCeti.boltzmannEntropy` and `TauCeti.potentialEnergy`, the Sinkhorn divergence
+`TauCeti.sinkhornDivergence` with its Gibbs kernel `TauCeti.entropicGibbsKernel` and universal
+kernels `TauCeti.IsUniversalKernel`, metric-measure spaces `TauCeti.MetricMeasureSpace` with the
+condition `TauCeti.MetricMeasureSpace.CurvatureDimensionInfinity`, the Cheeger energy
+`TauCeti.cheegerEnergy`, the Gromov–Wasserstein quotient `TauCeti.GromovWassersteinSpace`, Tau
+Ceti's Riemannian volume `TauCeti.riemannianVolume`, and Mathlib's Riemannian distance, Hausdorff
+dimension, Hölder maps, homeomorphisms, iterated derivatives, gradient and Laplacian,
+multivariate Gaussian laws, Kullback–Leibler divergence and separable measures.
 
-The following headline theorems of `README.md` are proved in Tau Ceti at revision `2fd255d9`,
-the revision pinned by the roadmap repository's main branch, so they are not restated here.
+The following headline theorems of `README.md` are proved in Tau Ceti at the pinned
+revision `2fd255d9`, so they are not restated here.
 
 * Primal attainment for lower semicontinuous costs on Polish spaces (Layer 1.5):
   `TauCeti.exists_isOptimalCoupling`.
@@ -74,27 +101,6 @@ carrier named.
 * The Gigli–Rajala–Sturm optimal-map theorem (Layer 14.8) needs the `RCD*(K,N)` condition, that
   is a curvature-dimension condition with finite `N` and infinitesimal Hilbertianity; neither
   library has a curvature-dimension condition with finite `N`.
-
-The following headline theorems of `README.md` are stated on carriers of Tau Ceti that the Tau
-Ceti pinned by this file's manifest does not contain, so they are not statable at these pins;
-each names the carrier it needs.
-
-* The Borel-cost duality through the relaxed primal (Layer 2.5) needs the relaxed transport
-  value `TauCeti.relaxedTransportCost`.
-* The Figalli–Kim–McCann Hölder-continuity theorem (Layer 6.14) needs the weak
-  Ma–Trudinger–Wang condition `TauCeti.SatisfiesWeakMTW` and `c`-convexity of sets
-  `TauCeti.IsCConvexSet`.
-* Convergence of the Jordan–Kinderlehrer–Otto scheme (Layer 11.7) needs evolution variational
-  inequalities `TauCeti.IsEVISolution`, convexity along generalized geodesics
-  `TauCeti.GeneralizedGeodesicallyConvex` and the JKO step `TauCeti.moreauYosidaResolvent`, and
-  its Fokker–Planck part the signed Boltzmann entropy `TauCeti.boltzmannEntropy`.
-* Metrization of weak convergence by the Sinkhorn divergence (Layer 13.4) needs
-  `TauCeti.sinkhornDivergence`.
-* The identification of the heat flow on `RCD(K,∞)` spaces (Layer 14.7) needs the Cheeger
-  energy `TauCeti.cheegerEnergy` and the condition
-  `TauCeti.MetricMeasureSpace.CurvatureDimensionInfinity`.
-* Completeness of the Gromov–Wasserstein quotient exactly when the target is complete
-  (Layer 15.5) needs `TauCeti.GromovWassersteinSpace`.
 -/
 
 noncomputable section
@@ -103,6 +109,26 @@ open MeasureTheory ProbabilityTheory InformationTheory Set Filter
 open scoped ENNReal NNReal RealInnerProductSpace MatrixOrder Matrix.Norms.L2Operator Manifold Bundle
 
 namespace TauCetiRoadmap.OptimalTransport
+
+/-! ## Layer 2: Kantorovich duality, transforms, and optimality certificates -/
+
+/-- **Duality for Borel costs through the relaxed primal** (Beiglböck–Léonard–Schachermayer,
+arXiv:0911.4347v2, Theorem 1.2, p. 3). Let `μ` and `ν` be Borel probability measures on Polish
+spaces and `c : X × Y → [0, ∞]` a Borel cost. The relaxed primal value, the limit as `ε ↓ 0` of
+the least cost of a measure of mass at least `1 - ε` with marginals at most `μ` and `ν`, equals
+the supremum of `∫ φ dμ + ∫ ψ dν` over the integrable pairs with `φ x + ψ y ≤ c (x, y)`
+everywhere; both sides may be `∞`. No lower semicontinuity is assumed, and the ordinary primal
+value may be strictly larger. -/
+theorem relaxedTransportCost_eq_sSup_ofReal_kantorovichDualValue
+    {X Y : Type*} [TopologicalSpace X] [PolishSpace X] [MeasurableSpace X] [BorelSpace X]
+    [TopologicalSpace Y] [PolishSpace Y] [MeasurableSpace Y] [BorelSpace Y]
+    (μ : Measure X) (ν : Measure Y) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+    {c : X × Y → ℝ≥0∞} (hc : Measurable c) :
+    TauCeti.relaxedTransportCost c μ ν =
+      sSup {r : ℝ≥0∞ | ∃ (φ : X → ℝ) (ψ : Y → ℝ), Integrable φ μ ∧ Integrable ψ ν ∧
+        TauCeti.DualFeasible (fun z ↦ (c z : EReal)) φ ψ ∧
+        ENNReal.ofReal (TauCeti.kantorovichDualValue μ ν φ ψ) = r} := by
+  sorry
 
 /-! ## Layer 5: convex analysis, Brenier, and polar factorization -/
 
@@ -194,6 +220,61 @@ theorem exists_homeomorph_holderOnWith_of_isKantorovichOptimalTransportMap {n : 
           ∃ C : ℝ≥0, HolderOnWith C β (fun x => (h x : EuclideanSpace ℝ (Fin n))) K := by
   sorry
 
+/-- A target set `V` is **strongly `c`-convex with respect to** a source set `U` when it is
+`c`-convex with respect to `U` and, for every `x ∈ U`, the set of momenta `-Dₓ c (x, y)` of the
+points `y ∈ V` is strongly convex: for one radius `R`, every boundary point `p` of that set lies
+on a sphere of radius `R` whose closed ball contains the set (Figalli–Kim–McCann,
+arXiv:1107.1014v1, condition (B2)s, p. 5). Strong `c`-convexity of the source with respect to the
+target is this condition for the swapped cost `fun z ↦ c z.swap`. -/
+def IsStronglyCConvexSet {E Y : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (c : E × Y → ℝ) (U : Set E) (V : Set Y) : Prop :=
+  TauCeti.IsCConvexSet c U V ∧ ∀ x ∈ U, ∃ R : ℝ,
+    ∀ p ∈ frontier ((fun y ↦ -fderiv ℝ (fun x' ↦ c (x', y)) x) '' V), ∃ a : StrongDual ℝ E,
+      dist p a = R ∧ (fun y ↦ -fderiv ℝ (fun x' ↦ c (x', y)) x) '' V ⊆ Metric.closedBall a R
+
+/-- **Figalli–Kim–McCann: Hölder continuity and injectivity of optimal maps** (Figalli–Kim–McCann,
+arXiv:1107.1014v1, Theorem 2.1, p. 6, with Corollary 9.6 for the exponent). For every dimension
+`n` and every `L` there is an exponent `α > 0` with the following property. Let `U, V ⊆ ℝⁿ` be
+bounded open sets and `c` a cost of class `C⁴` on an open set containing `closure U × closure V`,
+nonnegative on `U × V` (a constant shift arranges this without changing optimal maps), such that
+for all `x ∈ closure U` and `y ∈ closure V` the maps `x' ↦ D_y c (x', y)` and `y' ↦ Dₓ c (x, y')`
+are injective on `closure U` and `closure V` and the mixed derivative `D_y Dₓ c (x, y)` is
+injective (B1), `V` is strongly `c`-convex with respect to `closure U` and `U` is strongly
+`c`-convex with respect to `closure V` for the swapped cost (B2), (B2)s, and `c` satisfies the weak
+Ma–Trudinger–Wang condition on `U × V` (B3). Let `f` and `g` be probability densities on `U` and
+`V` with `f x ≤ C g y` for almost every `(x, y) ∈ U × V` and one constant `C`, and let `U' ⊆ U`
+be open with `f x ≤ L g y` and `g y ≤ L f x` for almost every `(x, y) ∈ U' × V`. Then some
+transport map from `f dx` to `g dy` attains the Kantorovich value, is injective on `U'`, and is
+Hölder of exponent `α` on every compact subset of `U'`. -/
+theorem exists_isKantorovichOptimalTransportMap_injOn_holderOnWith_of_satisfiesWeakMTW
+    (n : ℕ) (L : ℝ≥0) :
+    ∃ α : ℝ≥0, 0 < α ∧ ∀ {U V U' : Set (EuclideanSpace ℝ (Fin n))}
+      {W : Set (EuclideanSpace ℝ (Fin n) × EuclideanSpace ℝ (Fin n))}
+      {c : EuclideanSpace ℝ (Fin n) × EuclideanSpace ℝ (Fin n) → ℝ}
+      {f g : EuclideanSpace ℝ (Fin n) → ℝ≥0∞},
+      IsOpen U → Bornology.IsBounded U → IsOpen V → Bornology.IsBounded V →
+      IsOpen W → closure U ×ˢ closure V ⊆ W → ContDiffOn ℝ 4 c W →
+      (∀ z ∈ U ×ˢ V, 0 ≤ c z) →
+      (∀ y ∈ closure V, InjOn (fun x => fderiv ℝ (fun y' => c (x, y')) y) (closure U)) →
+      (∀ x ∈ closure U, InjOn (fun y => fderiv ℝ (fun x' => c (x', y)) x) (closure V)) →
+      (∀ x ∈ closure U, ∀ y ∈ closure V,
+        Function.Injective (fderiv ℝ (fun y' => fderiv ℝ (fun x' => c (x', y')) x) y)) →
+      IsStronglyCConvexSet c (closure U) V →
+      IsStronglyCConvexSet (fun z => c z.swap) (closure V) U →
+      TauCeti.SatisfiesWeakMTW c U V →
+      Measurable f → Measurable g →
+      IsProbabilityMeasure ((volume.restrict U).withDensity f) →
+      IsProbabilityMeasure ((volume.restrict V).withDensity g) →
+      (∃ C : ℝ≥0, ∀ᵐ z ∂(volume.restrict U).prod (volume.restrict V), f z.1 ≤ C * g z.2) →
+      IsOpen U' → U' ⊆ U →
+      (∀ᵐ z ∂(volume.restrict U').prod (volume.restrict V),
+        f z.1 ≤ L * g z.2 ∧ g z.2 ≤ L * f z.1) →
+      ∃ T : EuclideanSpace ℝ (Fin n) → EuclideanSpace ℝ (Fin n),
+        TauCeti.IsKantorovichOptimalTransportMap (fun z => ENNReal.ofReal (c z))
+          ((volume.restrict U).withDensity f) ((volume.restrict V).withDensity g) T ∧
+        InjOn T U' ∧ ∀ K ⊆ U', IsCompact K → ∃ C : ℝ≥0, HolderOnWith C α T K := by
+  sorry
+
 /-! ## Layer 7: Riemannian Brenier–McCann transport -/
 
 /-- **McCann's theorem** (McCann 2001, Theorems 8 and 9, on compact manifolds; Fathi–Figalli,
@@ -239,6 +320,55 @@ theorem exists_isKantorovichOptimalTransportMap_edist_riemannian
     (hμ1 : TauCeti.HasFiniteMoment 1 μ) (hν1 : TauCeti.HasFiniteMoment 1 ν)
     (hμ : μ ≪ TauCeti.riemannianVolume I M) :
     ∃ T : M → M, TauCeti.IsKantorovichOptimalTransportMap (fun z => edist z.1 z.2) μ ν T := by
+  sorry
+
+/-! ## Layer 11: entropy, Wasserstein differential calculus, JKO, and PDE flows -/
+
+/-- **Convergence of the Jordan–Kinderlehrer–Otto scheme** (Ambrosio–Gigli–Savaré 2008,
+Theorem 4.0.4 under Assumption 4.0.1; Ambrosio–Gigli, *A user's guide to optimal transport*,
+Theorem 3.25, p. 64, for `λ ≥ 0`). Let `Φ : P₂(ℝⁿ) → (-∞, ∞]` be lower semicontinuous for `W₂`
+and `λ`-convex along generalized geodesics with every base, and let `Φ μ₀ < ∞`. Then an `EVI_λ`
+solution `u` of `Φ` starts from `μ₀`, and for all time steps `τ j → 0` and all sequences of JKO
+steps `J j` from `μ₀` with step `τ j`, the piecewise constant interpolants
+`t ↦ J j ⌈t / τ j⌉` converge to `u` in `W₂`, uniformly on every bounded time interval. -/
+theorem exists_isEVISolution_tendstoUniformlyOn_moreauYosidaResolvent {n : ℕ}
+    {Φ : TauCeti.WassersteinSpace 2 (EuclideanSpace ℝ (Fin n)) → EReal} {lam : ℝ}
+    (hΦ_lsc : LowerSemicontinuous Φ) (hΦ_bot : ∀ μ, Φ μ ≠ ⊥)
+    (hΦ_conv : ∀ μ, TauCeti.GeneralizedGeodesicallyConvex lam Φ μ)
+    {μ₀ : TauCeti.WassersteinSpace 2 (EuclideanSpace ℝ (Fin n))} (hμ₀ : Φ μ₀ ≠ ⊤) :
+    ∃ u : ℝ → TauCeti.WassersteinSpace 2 (EuclideanSpace ℝ (Fin n)),
+      u 0 = μ₀ ∧ TauCeti.IsEVISolution lam Φ u ∧
+      ∀ (τ : ℕ → ℝ≥0) (J : ℕ → ℕ → TauCeti.WassersteinSpace 2 (EuclideanSpace ℝ (Fin n))),
+        (∀ j, τ j ≠ 0) → Tendsto τ atTop (nhds 0) → (∀ j, J j 0 = μ₀) →
+        (∀ j k, J j (k + 1) ∈ TauCeti.moreauYosidaResolvent Φ (τ j) (J j k)) →
+        ∀ T : ℝ, TendstoUniformlyOn (fun j (t : ℝ) => J j ⌈t / (τ j : ℝ)⌉₊) u atTop (Icc 0 T) := by
+  sorry
+
+/-- **The Fokker–Planck equation as the gradient flow of the free energy**
+(Jordan–Kinderlehrer–Otto 1998; Ambrosio–Gigli–Savaré 2008, Theorem 11.2.8). Let `V ∈ C²(ℝⁿ)`
+with `∇²V ≥ λ`, that is `V - (λ / 2) ‖·‖²` convex, and let `u` be an `EVI_λ` solution in `P₂(ℝⁿ)`
+of the free energy `μ ↦ Ent(μ) + ∫ V dμ`, with the Boltzmann entropy relative to Lebesgue
+measure. Then `u` solves `∂ₜρ = Δρ + div(ρ ∇V)` in distributions on `(0, ∞) × ℝⁿ`:
+`∫₀^∞ ∫ (∂ₜζ + Δζ - ⟪∇V, ∇ζ⟫) d(u t) dt = 0` for every smooth compactly supported `ζ` whose
+support lies in `(0, ∞) × ℝⁿ`. -/
+theorem integral_fokkerPlanck_eq_zero_of_isEVISolution {n : ℕ}
+    {V : EuclideanSpace ℝ (Fin n) → ℝ} {lam : ℝ} (hV : ContDiff ℝ 2 V)
+    (hV_conv : ConvexOn ℝ univ fun x => V x - lam / 2 * ‖x‖ ^ 2)
+    {u : ℝ → TauCeti.WassersteinSpace 2 (EuclideanSpace ℝ (Fin n))}
+    (hu : TauCeti.IsEVISolution lam
+      (fun μ : TauCeti.WassersteinSpace 2 (EuclideanSpace ℝ (Fin n)) =>
+        TauCeti.boltzmannEntropy volume
+            ((μ : ProbabilityMeasure (EuclideanSpace ℝ (Fin n))) :
+              Measure (EuclideanSpace ℝ (Fin n))) +
+          TauCeti.potentialEnergy V
+            ((μ : ProbabilityMeasure (EuclideanSpace ℝ (Fin n))) :
+              Measure (EuclideanSpace ℝ (Fin n)))) u)
+    (ζ : ℝ × EuclideanSpace ℝ (Fin n) → ℝ) (hζ : ContDiff ℝ (⊤ : ℕ∞) ζ)
+    (hζ_supp : HasCompactSupport ζ) (hζ_pos : tsupport ζ ⊆ Ioi 0 ×ˢ univ) :
+    ∫ t in Ioi (0 : ℝ), ∫ x, (deriv (fun s => ζ (s, x)) t +
+      Laplacian.laplacian (fun y => ζ (t, y)) x -
+      ⟪gradient V x, gradient (fun y => ζ (t, y)) x⟫)
+        ∂((u t : ProbabilityMeasure (EuclideanSpace ℝ (Fin n))) : Measure _) = 0 := by
   sorry
 
 /-! ## Layer 12: Fréchet and Wasserstein barycenters -/
@@ -302,6 +432,66 @@ theorem exists_rnDeriv_eq_exp_add_of_isCoupling_of_forall_klDiv_le
       ∀ (φ' : X → ℝ) (ψ' : Y → ℝ), Measurable φ' → Measurable ψ' →
         γ.rnDeriv R =ᵐ[R] (fun z => ENNReal.ofReal (Real.exp (φ' z.1 + ψ' z.2))) →
         ∃ a : ℝ, φ' =ᵐ[μ] (fun x => φ x + a) ∧ ψ' =ᵐ[ν] (fun y => ψ y - a) := by
+  sorry
+
+/-- **The Sinkhorn divergence metrizes weak convergence** (Feydy–Séjourné–Vialard–Amari–
+Trouvé–Peyré 2019, Theorem 1). Let `X` be a compact metric space, `c` a Lipschitz cost and
+`ε > 0`, and suppose that the Gibbs kernel `exp (-c / ε)` is positive semidefinite and universal.
+Then a sequence of probability measures `μs i` converges weakly to `μ` exactly when the Sinkhorn
+divergences `S_ε (μs i, μ)` tend to `0`. -/
+theorem tendsto_sinkhornDivergence_zero_iff_tendsto
+    {X : Type*} [MetricSpace X] [CompactSpace X] [MeasurableSpace X] [BorelSpace X]
+    {c : X × X → ℝ≥0} (hc : ∃ K : ℝ≥0, LipschitzWith K c) {ε : ℝ≥0} (hε : ε ≠ 0)
+    (hk : Matrix.PosSemidef (TauCeti.entropicGibbsKernel (fun z => (c z : ℝ≥0∞)) ε))
+    (hku : TauCeti.IsUniversalKernel (TauCeti.entropicGibbsKernel (fun z => (c z : ℝ≥0∞)) ε))
+    (μs : ℕ → ProbabilityMeasure X) (μ : ProbabilityMeasure X) :
+    Tendsto (fun i => TauCeti.sinkhornDivergence (fun z => (c z : ℝ≥0∞)) ε
+        (μs i : Measure X) (μ : Measure X)) atTop (nhds 0) ↔
+      Tendsto μs atTop (nhds μ) := by
+  sorry
+
+/-! ## Layer 14: synthetic curvature, nonsmooth heat flow, and optimal maps -/
+
+/-- **The heat flow on `RCD(K, ∞)` spaces is the `EVI_K` flow of the entropy**
+(Ambrosio–Gigli–Savaré, *Calculus and heat flow*, Theorem 9.3 (iii);
+Ambrosio–Gigli–Mondino–Rajala, arXiv:1207.4924v2, Theorems 6.1 and 6.2, pp. 30–31). Let
+`(X, d, m)` be a complete separable metric space with a reference measure finite on bounded sets
+that satisfies `CD(K, ∞)` and whose Cheeger energy is a quadratic form, in the sense of the
+parallelogram identity. Let `f` be the `L²(m)` gradient flow of the Cheeger energy, that is an
+`EVI₀` solution in `L²(m)`, starting from a nonnegative density `f 0` of a law `μ₀` of finite
+second moment. Then the laws `(f t) m` are probability measures of finite second moment, and the
+curve `t ↦ (f t) m` is an `EVI_K` solution in `P₂(X)` of the Boltzmann entropy relative to `m`
+starting from `μ₀`. -/
+theorem exists_isEVISolution_boltzmannEntropy_of_isEVISolution_cheegerEnergy
+    {X : Type*} [MetricSpace X] [MeasurableSpace X] [CompleteSpace X]
+    [SecondCountableTopology X] [BorelSpace X] (M : TauCeti.MetricMeasureSpace X) {K : ℝ}
+    (hCD : M.CurvatureDimensionInfinity K)
+    (hquad : ∀ g h : Lp ℝ 2 M.reference,
+      TauCeti.cheegerEnergy M.reference (g + h) + TauCeti.cheegerEnergy M.reference (g - h) =
+        2 * TauCeti.cheegerEnergy M.reference g + 2 * TauCeti.cheegerEnergy M.reference h)
+    {f : ℝ → Lp ℝ 2 M.reference}
+    (hf : TauCeti.IsEVISolution 0
+      (fun g : Lp ℝ 2 M.reference => ((TauCeti.cheegerEnergy M.reference g : ℝ≥0∞) : EReal)) f)
+    (hf_nonneg : 0 ≤ᵐ[M.reference] f 0) {μ₀ : TauCeti.WassersteinSpace 2 X}
+    (hμ₀ : ((μ₀ : ProbabilityMeasure X) : Measure X) =
+      M.reference.withDensity fun x => ENNReal.ofReal (f 0 x)) :
+    ∃ u : ℝ → TauCeti.WassersteinSpace 2 X, u 0 = μ₀ ∧
+      (∀ t, 0 ≤ t → ((u t : ProbabilityMeasure X) : Measure X) =
+        M.reference.withDensity fun x => ENNReal.ofReal (f t x)) ∧
+      TauCeti.IsEVISolution K (fun μ : TauCeti.WassersteinSpace 2 X =>
+        TauCeti.boltzmannEntropy M.reference ((μ : ProbabilityMeasure X) : Measure X)) u := by
+  sorry
+
+/-! ## Layer 15: measured kernels and Gromov–Wasserstein -/
+
+/-- **Completeness of the Gromov–Wasserstein space** (Bauer–Mémoli–Needham–Nishino 2025,
+Theorem 39, p. 30). For `1 ≤ p ≤ ∞` and a metric target `Z`, the space of weak-isomorphism
+classes of measured `Z`-valued kernels of finite `p`-size on standard Borel probability spaces,
+with the Gromov–Wasserstein metric, is complete exactly when `Z` is complete. No separability of
+`Z` is assumed. -/
+theorem completeSpace_gromovWassersteinSpace_iff {p : ℝ≥0∞} [Fact (1 ≤ p)]
+    {Z : Type*} [MetricSpace Z] :
+    CompleteSpace (TauCeti.GromovWassersteinSpace p Z) ↔ CompleteSpace Z := by
   sorry
 
 end TauCetiRoadmap.OptimalTransport

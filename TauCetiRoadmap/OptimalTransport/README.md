@@ -558,7 +558,11 @@ consumed with exactly the hypotheses recorded here.
   measurable cost whose Gibbs kernel `exp(-c/ε)` is continuous and positive semidefinite and for
   `ε > 0`, it is nonnegative on probability measures, and if moreover the space is Borel with
   `HasOuterApproxClosed` and the kernel is universal, it vanishes exactly on the diagonal (Layer
-  13.4).
+  13.4).  The Gibbs kernel is `TauCeti.entropicGibbsKernel c ε x y`
+  (`…/OptimalTransport/Entropic/Duality.lean`), the real number `exp(-c(x,y)/ε)`, equal to `0`
+  where the cost is infinite, and `TauCeti.IsUniversalKernel k`
+  (`TauCeti/Analysis/PositiveDefinite/Kernel/Universal.lean`) says that the continuous sections
+  `k x` span a dense subspace of `C(X)`.
 * `TauCeti.tendsto_entropicTransportCost_nhdsGT_zero`,
   `TauCeti.tendsto_entropicTransportCost_transportCost`,
   `TauCeti.tendsto_entropicTransportCost_transportCost_of_le_add` and
@@ -1049,6 +1053,10 @@ these declarations on its `*Needs:*` line (for a range of subsections, the first
   (`…/OptimalTransport/MetricMeasure/TransportationDistance.lean`) and
   `TauCeti.gromovProkhorovEDist` (`…/OptimalTransport/MetricMeasure/GromovProkhorov.lean`):
   Sturm's transportation distance and the Gromov--Prokhorov distance (Layers 14.4 and 15.6).
+  `TauCeti.cheegerEnergy m` (`TauCeti/MeasureTheory/Function/CheegerEnergy.lean`): the lower
+  semicontinuous envelope on `L²(m)`, with values in `[0,∞]`, of `(1/2)∫|Du|² dm` over the
+  Lipschitz functions `u`, `|Du|` the local Lipschitz constant (Layers 14.3 and 14.7); it does not
+  include the parallelogram identity, which is a hypothesis where it is used.
   `TauCeti.AreWeaklyIsomorphicKernels` (`…/OptimalTransport/GromovWasserstein/WeakIsomorphism.lean`),
   `TauCeti.gromovWassersteinDistortion`, `TauCeti.gromovWassersteinEDist`,
   `TauCeti.gromovWassersteinEDist_comm` and `TauCeti.gromovWassersteinEDist_triangle`
@@ -1559,7 +1567,12 @@ transport problem*, arXiv:0911.4347v2, (6) and (7), pp. 2--3).  These are Tau Ce
 on measurable spaces with the mass condition `μ univ ≤ π univ + ε`.  Prove the following.
 
 * `P^ε` is antitone in `ε`, `P^rel ≤ P`, and `P^rel = D`, both sides possibly `∞` (their
-  Theorem 1.2, p. 3).  The inequality `D ≤ P^rel`, for real integrable feasible pairs and a
+  Theorem 1.2, p. 3).  The equality is `relaxedTransportCost_eq_sSup_ofReal_kantorovichDualValue`,
+  with `D` the supremum of the positive parts of the values `TauCeti.kantorovichDualValue` of
+  the real integrable pairs satisfying `TauCeti.DualFeasible`; the zero pair is feasible, so `D ≥ 0`,
+  and the source's pairs with values in `[-∞,∞)` give the same supremum, because
+  `(min(max(φ,-k),m), max(min(ψ,k),-m))` is a real feasible pair for a nonnegative cost whose
+  value tends to that of `(φ,ψ)` as `m → ∞` and then `k → ∞`.  The inequality `D ≤ P^rel`, for real integrable feasible pairs and a
   finite `μ` with `μ univ = ν univ`, is Tau Ceti's
   `TauCeti.DualFeasible.ofReal_kantorovichDualValue_le_relaxedTransportCost`.
 * `P = P^rel`, and hence `P = D`, in each of three cases: `c` is lower semicontinuous (their
@@ -2849,19 +2862,36 @@ optimal map is discontinuous (survey, Theorem 4.5, p. 38).  Since connectedness 
 `∂ᶜψ(x̄)` implies A3w, failure of A3w yields such densities.
 
 Formalize FKM Theorem 2.1 (Figalli--Kim--McCann, arXiv:1107.1014v1, p. 6).  Let `U, V ⊆ ℝⁿ` be
-bounded open sets and let `c ∈ C⁴(cl(U × V))` satisfy (B0)--(B3) and (B2)s (pp. 4--5): (B1) asks
-that `x ↦ -D_y c(x,ỹ)` and `y ↦ -D_x c(x̃,y)` be diffeomorphisms onto their ranges (item 12's A1,
-A1* and A2), (B2) that `U_ỹ = -D_y c(U,ỹ)` and `V_x̃ = -D_x c(x̃,V)` be convex for every
-`(x̃,ỹ) ∈ U × V`, (B3) is A3w, and (B2)s asks that both `U_ỹ` and `V_x̃` be strongly convex:
-each boundary point is touched from outside by a sphere of one radius `R` enclosing the set.  Let
+bounded open sets and let `c ∈ C⁴(cl U × cl V)` satisfy (B0)--(B3) and (B2)s (pp. 4--5), each
+condition being imposed at every `(x̃,ỹ) ∈ cl U × cl V` (the coordinates of their Definition 4.1,
+p. 11, are taken from points of the closures): (B1) asks that `x ↦ -D_y c(x,ỹ)` on `cl U` and
+`y ↦ -D_x c(x̃,y)` on `cl V` be diffeomorphisms onto their ranges (item 12's A1, A1* and A2), (B2)
+that `U_ỹ = -D_y c(U,ỹ)` and `V_x̃ = -D_x c(x̃,V)` be convex, (B3) is A3w, and (B2)s asks that both
+`U_ỹ` and `V_x̃` be strongly convex: for one radius `R`, each boundary point lies on a sphere of
+radius `R` whose ball contains the set.  Since Tau Ceti's `TauCeti.IsCConvexSet` and
+`TauCeti.SatisfiesWeakMTW` read the momenta through Fréchet derivatives, the cost is taken of class
+`C⁴` on an open set containing `cl U × cl V`, so that its derivatives at base points of the
+boundary are those of the cost.  Define `IsStronglyCConvexSet c U V`, strong `c`-convexity of `V`
+with respect to `U`, as `TauCeti.IsCConvexSet c U V` together with strong convexity of the momenta
+`-D_x c(x,V)` for every `x ∈ U`; (B2) and (B2)s are `IsStronglyCConvexSet c (cl U) V` and the same
+condition for the swapped cost with `U` and `V` exchanged.  (B1) is injectivity of
+`x ↦ D_y c(x,ỹ)` on `cl U` and of `y ↦ D_x c(x̃,y)` on `cl V` together with injectivity of the
+mixed derivative `D_y D_x c(x̃,ỹ)`; (B3), a closed condition on the continuous fourth derivatives,
+is `TauCeti.SatisfiesWeakMTW c U V` on the open sets.  Let
 `f⁺` and `f⁻` be probability densities on `U` and `V` with `f⁺/f⁻ ∈ L∞(U × V)`, the function
-`(x,y) ↦ f⁺(x)/f⁻(y)`, and `f⁻/f⁺ ∈ L∞(U' × V)` for an open `U' ⊆ U`.  Prove that the optimal
+`(x,y) ↦ f⁺(x)/f⁻(y)`, and `f⁻/f⁺ ∈ L∞(U' × V)` for an open `U' ⊆ U`; these are stated without
+quotients, as `f⁺(x) ≤ C f⁻(y)` almost everywhere on `U × V` and `f⁺(x) ≤ L f⁻(y)`,
+`f⁻(y) ≤ L f⁺(x)` almost everywhere on `U' × V`, which for probability densities force `f⁻` to be
+essentially bounded below on `V`.  Prove that the optimal
 transport problem from `f⁺ dx` to `f⁻ dy` is solved by a map that is locally Hölder continuous and
-one-to-one on `U'`, with Hölder exponent depending only on `n` and `‖log(f⁺/f⁻)‖_{L∞(U' × V)}`.
+one-to-one on `U'`, with Hölder exponent depending only on `n` and `‖log(f⁺/f⁻)‖_{L∞(U' × V)}`
+(their Corollary 9.6, p. 44): for every `n` and `L` one exponent `α > 0` serves all such data.  This
+is `exists_isKantorovichOptimalTransportMap_injOn_holderOnWith_of_satisfiesWeakMTW`, for a cost
+nonnegative on `U × V`, which a constant shift arranges.
 Keep A3s and global classical second-boundary-value regularity as separate targets requiring
 uniform mutual `c`-convexity and the cited smooth boundary/cost/density hypotheses.
 
-*Needs:* items 12--13.
+*Needs:* items 12--13; Tau Ceti `TauCeti.IsCConvexSet` and `TauCeti.SatisfiesWeakMTW`.
 
 **Checks.**
 
@@ -2871,6 +2901,12 @@ uniform mutual `c`-convexity and the cited smooth boundary/cost/density hypothes
   touching the middle of an edge from outside cannot enclose the edge's endpoints.
 * For the same cost with `U = V` the unit disc and uniform densities, `‖log(f⁺/f⁻)‖_{L∞} = 0`
   and the optimal map is the identity.
+* In dimension `1` with `c(x,y) = (x-y)²/2`, intervals `U`, `V` are strongly convex (`R` is half
+  the length), the optimal map is increasing with `T' = f⁺/f⁻∘T ∈ [1/L, L]` on `U'`, so it is
+  injective and Lipschitz there: every exponent `α ≤ 1` serves, and no exponent above `1` does
+  unless `T` is constant.
+* A segment in `ℝ²` is convex and not strongly convex: no ball has the segment's midpoint on its
+  sphere and contains the segment.  A single point is strongly convex with `R = 0`.
 * If `f⁻` vanishes on a subset of `V` of positive measure, `f⁺/f⁻` is not essentially bounded on
   `U × V` and the theorem does not apply: the effective target is then a smaller set, which need
   not satisfy (B2).
@@ -4087,7 +4123,12 @@ along the generalized geodesics of Layer 9.4 for some `λ ∈ ℝ` (item 6's hyp
 `t ∈ ((k-1)τ, kτ]` be Layer 10.4's discrete solution.
 
 1. *Metric convergence.*  As `τ ↓ 0`, `μ^τ_t` converges in `W₂`, locally uniformly in
-   `t ∈ [0,∞)`, to the unique `EVI_λ` solution `(μₜ)` of Layer 10.3 starting from `μ₀`.  For
+   `t ∈ [0,∞)`, to the unique `EVI_λ` solution `(μₜ)` of Layer 10.3 starting from `μ₀`.  This is
+   `exists_isEVISolution_tendstoUniformlyOn_moreauYosidaResolvent`: an `EVI_λ` solution
+   (`TauCeti.IsEVISolution`) starts from `μ₀`, and for every sequence of steps `τ_j → 0` and all
+   sequences of JKO steps from `μ₀` (members of `TauCeti.moreauYosidaResolvent`), the interpolants
+   `t ↦ μ^{τ_j}_{⌈t/τ_j⌉}` converge to it uniformly on every `[0,T]`; `1 + λτ_j > 0` holds for
+   large `j` and is not assumed.  For
    `λ ≥ 0` this is Ambrosio--Gigli, *A user's guide to optimal transport*, Theorem 3.25, p. 64,
    under their Assumption 3.24 (p. 64), and their a priori estimate (3.32) bounds `W₂(μₜ, μ^τ_t)`
    by a multiple of `√τ` depending only on the energy drop `Φ(μ₀) - Φ(μₜ)`.  Convexity along
@@ -4103,6 +4144,11 @@ along the generalized geodesics of Layer 9.4 for some `λ ∈ ℝ` (item 6's hyp
    satisfies the hypotheses above, by McCann's condition for `r log r` (Layer 9.5, item 5), the
    lower semicontinuity of item 2, and the `λ`-convexity of `V`.  Then `μₜ = ρₜ dx` for `t > 0`, and `ρ` solves `∂ₜρ = Δρ + div(ρ∇V)` in
    distributions: `∫₀^∞ ∫ (∂ₜζ + Δζ - ∇V·∇ζ) ρₜ dx dt = 0` for every `ζ ∈ C_c^∞((0,∞) × ℝⁿ)`.
+   This is `integral_fokkerPlanck_eq_zero_of_isEVISolution`, stated for every `EVI_λ` solution of
+   `μ ↦ TauCeti.boltzmannEntropy volume μ + TauCeti.potentialEnergy V μ` on
+   `TauCeti.WassersteinSpace 2 ℝⁿ`, with `∇²V ≥ λI` in the form that `V - (λ/2)‖·‖²` is convex and
+   the integral taken against the laws `μₜ`; neither summand is `-∞` on `P₂(ℝⁿ)`, the entropy by
+   item 2 and the potential energy because `V` is bounded below by a quadratic.
    Route: an `EVI_λ` curve of absolutely continuous laws is a subdifferential flow, `-vₜ ∈ ∂Φ(μₜ)`
    for its tangent velocity `vₜ` of item 3 (Ambrosio--Gigli, Proposition 3.28, p. 70); item 5's
    subdifferential of `Φ` gives `-vₜ = ∇ρₜ/ρₜ + ∇V` with `ρₜ ∈ W^{1,1}_loc(ℝⁿ)` for almost
@@ -4648,7 +4694,11 @@ signed-Radon-measure energy/separation lemmas used below.  Then formalize
 for a symmetric Lipschitz cost `C` whose Gibbs kernel
 `k_ε(x,y)=exp(-C(x,y)/ε)` is positive universal, define the Sinkhorn negentropy
 `F_ε(α)=-OT_ε(α,α)/2`, prove its strict convexity, and prove `S_ε ≥ 0`, definiteness,
-separate convexity/smoothness, and metrization of weak convergence.  Nonnegativity and
+separate convexity/smoothness, and metrization of weak convergence: `αₙ ⇀ α` exactly when
+`S_ε(αₙ,α) → 0` (their (7)), which is `tendsto_sinkhornDivergence_zero_iff_tendsto`, for a
+Lipschitz cost with values in `[0,∞)` whose Gibbs kernel `TauCeti.entropicGibbsKernel` is positive
+semidefinite and universal (`TauCeti.IsUniversalKernel`); symmetry of the cost follows from
+positive semidefiniteness of the kernel.  Nonnegativity and
 definiteness on a compact space, for a bounded measurable cost whose Gibbs kernel is continuous
 and positive semidefinite (and universal, for definiteness, on a Borel space with
 `HasOuterApproxClosed`), are Tau Ceti's `TauCeti.sinkhornDivergence_nonneg` and
@@ -5149,8 +5199,21 @@ Prove that on `RCD(K,∞)` spaces the `L²(m)` gradient flow of Cheeger energy o
 densities/functions corresponds, through `ρ ↦ ρ m` in the unit-mass finite-entropy
 regime, to the `W₂` `EVI_K` gradient flow of Boltzmann entropy on `P₂(X)` (Ambrosio--Gigli--Savaré,
 *Calculus and heat flow*, Theorem 9.3, p. 68, under `CD(K,∞)`; AGS arXiv:1109.0222v2,
-Theorem 5.1, p. 40, for the equivalence of `RCD(K,∞)` with the existence of `EVI_K` flows).  The
-two flows do not literally have the same carrier.  Then enumerate the consequences instead of
+Theorem 5.1, p. 40, for the equivalence of `RCD(K,∞)` with the existence of `EVI_K` flows, under
+their strong `CD(K,∞)` condition and a probability reference measure of finite second moment;
+Ambrosio--Gigli--Mondino--Rajala, *Riemannian Ricci curvature lower bounds in metric measure
+spaces with σ-finite measure*, arXiv:1207.4924v2, Theorems 6.1 and 6.2, pp. 30--31, for
+`CD(K,∞)` as in item 2 and a reference measure finite on bounded sets).  The
+two flows do not literally have the same carrier.  The precise statement is
+`exists_isEVISolution_boltzmannEntropy_of_isEVISolution_cheegerEnergy`: let the metric-measure
+space (`TauCeti.MetricMeasureSpace`) satisfy `TauCeti.MetricMeasureSpace.CurvatureDimensionInfinity`
+with constant `K` and let `TauCeti.cheegerEnergy` satisfy the parallelogram identity
+`Ch(g+h) + Ch(g-h) = 2Ch(g) + 2Ch(h)` on `L²(m)`; if `(fₜ)` is an `EVI₀` solution of the Cheeger
+energy in `L²(m)` (the `L²` gradient flow of a convex lower semicontinuous functional) and `f₀ ≥ 0`
+is the density of a law `μ₀ ∈ P₂(X)`, then every `fₜ m`, `t ≥ 0`, is a law in `P₂(X)` and
+`t ↦ fₜ m` is an `EVI_K` solution of `TauCeti.boltzmannEntropy m` starting from `μ₀`.  Here
+`f₀ ∈ L²(m)` gives `∫ f₀ log⁺ f₀ dm ≤ ∫ f₀² dm < ∞`, and the growth bound on `m` that `CD(K,∞)`
+implies bounds the negative part by the second moment, so the entropy of `μ₀` is finite.  Then enumerate the consequences instead of
 claiming the estimates "available" from the theory.  The two intended statements are the
 dual heat-flow contraction
 `W_p(H_t^* μ, H_t^* ν) ≤ exp(-K t) W_p(μ,ν)`
@@ -5172,7 +5235,21 @@ the pointwise `W_∞` coupling.  If only the `W₂` consequence is wanted, say t
 there.  Any further consequence--entropy dissipation, regularization, Harnack--is named
 individually or is not on the roadmap.
 
-*Needs:* items 3 and 5; Layers 10.3 and 11.2.
+*Needs:* items 3 and 5; Layers 10.3 and 11.2; Tau Ceti `TauCeti.cheegerEnergy`,
+`TauCeti.MetricMeasureSpace.CurvatureDimensionInfinity` and `TauCeti.IsEVISolution`.
+
+**Checks.**
+
+* On `(ℝ, |·|, Lebesgue)`, `K = 0`: the `L²` flow of `Ch(f) = (1/2)∫|f'|²` is `∂ₜf = f''`, and
+  from the density of `N(0,s²)` it gives `N(0, s² + 2t)`, the entropy flow of Layer 11.7's last
+  Check; the normalisation `Ch(f) = ∫|f'|²` would give variance `s² + 4t`.
+* On a one-point space with `m = δ`, `L²(m) = ℝ`, `Ch ≡ 0`, the flow is constant, `f₀ = 1`, and the
+  constant curve `δ` satisfies `EVI_K` for every `K`: both sides of the inequality are `0`.
+* On `ℝ²` with the `ℓ^∞` norm and Lebesgue measure (item 3's second Check) the Cheeger energy
+  fails the parallelogram identity and the theorem does not apply: the space is `CD(0,∞)`, and its
+  `L²` heat flow is nonlinear.
+* A density `f₀` with a negative part is excluded: `m.withDensity (max f₀ 0)` is then not the
+  signed measure `f₀ m`.
 
 ### 14.8 Optimal maps on nonsmooth spaces
 
@@ -5314,7 +5391,9 @@ measure-preserving isometry; without full support, pass to supports.
 
 For `p ∈ [1,∞]` and the Polish-carrier strongly measurable kernel category, prove
 that the weak-isomorphism quotient is complete exactly when the metric target `Z` is
-complete (BMNN Theorem 39), working objectwise in the countable union of separable
+complete (BMNN Theorem 39, p. 30; `completeSpace_gromovWassersteinSpace_iff` for
+`TauCeti.GromovWassersteinSpace`, whose presentations have standard Borel carriers in one fixed
+universe), working objectwise in the countable union of separable
 essential ranges.  When `Z` is separable and `1 ≤ p < ∞`, prove separability and
 density of finite uniform kernels (BMNN Propositions 36 and 38), with no `p=∞`
 separability claim.  Prove the common-parametrization estimate: if
@@ -5851,6 +5930,9 @@ stage of which is reusable on its own.
   bounded from below](https://arxiv.org/abs/1109.0222), 2014, theorem numbers from arXiv v2;
   G. Savaré, [Self-improvement of the Bakry--Émery condition and Wasserstein contraction of the
   heat flow in `RCD(K,∞)` metric measure spaces](https://arxiv.org/abs/1304.0643), 2014;
+  L. Ambrosio, N. Gigli, A. Mondino, and T. Rajala, [Riemannian Ricci curvature lower bounds in
+  metric measure spaces with σ-finite measure](https://arxiv.org/abs/1207.4924), 2015, theorem
+  numbers from arXiv v2;
   N. Gigli, A. Mondino, and G. Savaré, [Convergence of pointed non-compact metric measure spaces
   and stability of Ricci curvature bounds and heat flows](https://arxiv.org/abs/1311.4907), 2015;
   J. Lott and C. Villani, *Ricci curvature for metric-measure spaces via optimal transport*,
