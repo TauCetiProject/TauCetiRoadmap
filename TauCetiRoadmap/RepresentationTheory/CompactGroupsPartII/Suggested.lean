@@ -15,10 +15,11 @@ base roadmap are inputs, identified in the README's supplier contracts.
 
 Not stated, each for a carrier the pins lack:
 
-* the Layer 6 classification of irreducible representations by dominant characters
+* the Layer 6 simply connected compact cocharacter/coroot-lattice equality,
+  classification of irreducible representations by dominant characters
   and the formal-character basis of the Weyl invariants: the pins have maximal tori
   (`TauCeti.Lie.IsMaximalTorus`, with the character lattice `PontryaginDual`) but
-  neither the root characters with a positive system of a compact connected Lie
+  neither the root characters and real coroots with a positive system of a compact connected Lie
   group, nor its finite central cover, nor the formal character of a continuous
   representation restricted to a maximal torus;
 * the full multiplicity-space metric comparison: it needs the chosen unitary

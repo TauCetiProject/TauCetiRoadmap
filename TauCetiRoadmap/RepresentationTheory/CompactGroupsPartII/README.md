@@ -21,8 +21,12 @@ complete reducibility; matrix coefficients, their star-algebra, Schur orthogonal
 convolution and uniform/L² density; the native irreducible skeleton and identified
 Peter–Weyl basis; trace characters and the central L² character basis;
 Frobenius–Schur forms and structure maps; and SU(2) classification and Weyl integration.
-The exact native interfaces are listed below. The remaining comparisons preserve
-these objects and their coefficient convention.
+The base roadmap's “What is not consumable, and is a build item here” comparison
+targets own the forgetful correspondence with finite-dimensional algebraic
+representations, its character comparison, the identification of continuous and
+algebraic intertwiners, and finite-dimensional irreducibility comparison.
+The exact native interfaces are listed below. §0.1 adds only tensor and dual
+compatibility of that correspondence, preserving its underlying maps.
 
 This roadmap owns field-general orbit finiteness and compact strongly continuous
 Banach density. AutomorphicFormsOnReductiveGroups §2.1 owns the complete locally
@@ -43,10 +47,10 @@ the comparison with Mathlib's `LieAlgebra.IsKilling.rootSystem`; its Layer 7
 compact connected semisimple group and the finiteness of its fundamental group.
 SymplecticGeometry/ConvexityToric T1 owns the 2π-normalized period and weight
 dictionary of a compact torus, the integer pairing of characters with coroots and
-the finite-index lattice comparison under a central isogeny; LieHighestWeight
-Layer 10 owns the equality of the cocharacter lattice of a simply connected
-compact semisimple group with its coroot lattice. Layer 6 here cites these and
-owns only what they do not state: the closed derived subgroup and the commuting
+the finite-index lattice comparison under a central isogeny. §6.5 owns the
+compact-group equality of the cocharacter and coroot lattices for a simply
+connected compact semisimple group, proved using Lie integration and the pinned
+highest-weight modules. Layer 6 also owns the closed derived subgroup and the commuting
 product, the finite central cover with the descent of characters, the dominance
 comparison, the classification of irreducible representations by dominant
 characters and the formal-character basis of the Weyl invariants. The rest of
@@ -69,8 +73,9 @@ convolution, and it proves the exact norm identity and the adjoint comparison.
 LieHighestWeight Layers 7 and 9 own the algebraic universal-enveloping center
 and reductive trace-form comparison; CharacteristicClasses §C5.1 owns compact invariant
 polynomial restriction. Neither is a premise for group-character descent.
-The Hilbert-basis separability bridge in Layer 3 uses metric
-separation and countable support, without a BanachSpaceTheory supplier claim.
+BanachSpaceTheory B5 owns the equivalence between separability of a complete
+real or complex inner-product space and countability of a Hilbert-basis index.
+Layer 3 owns its Peter–Weyl application and compact-group countability criteria.
 
 ## Conventions
 
@@ -143,6 +148,12 @@ irreducibility uses closed invariant subspaces and is a different condition.
   the root system of a finite-dimensional Killing Lie algebra with a splitting
   Cartan subalgebra. Layer 6 uses it for the complexified derived pair of a
   compact connected Lie group.
+- `RootPairing.Base.toCoweightBasis` and
+  `RootPairing.Base.toCoweightBasis_apply` in
+  `Mathlib/LinearAlgebra/RootSystem/Base.lean`, with
+  `Module.Basis.dualBasis_apply_self` in `Mathlib/LinearAlgebra/Dual/Basis.lean`:
+  the simple coroots form a basis, whose dual fundamental weights take
+  values 1 and 0 on the corresponding and other simple coroots.
 
 ### From Tau Ceti
 
@@ -162,6 +173,17 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
   `ContRepresentation.isUnitarizable`, for finite-dimensional actions with
   continuous parameter; `Compact/UnitaryModel.lean`:
   `ContRepresentation.exists_isUnitary_congr`.
+- `Continuous/Intertwining.lean`: `ContRepresentation.intertwiningMapEquiv`,
+  `ContRepresentation.intertwiningMapEquiv_id`,
+  `ContRepresentation.intertwiningMapEquiv_comp` and
+  `ContRepresentation.nonempty_equiv_iff` identify continuous and algebraic
+  intertwiners and equivalences for finite-dimensional Hausdorff complex
+  representations, preserving underlying maps, identities and composition.
+  `FDRep/Basic.lean`: `FDRep.ofShrink`, `FDRep.ofShrinkEquiv` and
+  `FDRep.character_ofShrink` give the universe-compatible algebraic object,
+  its equivalence with the original action and preservation of its character.
+  For trivial ℂ the Hom comparison fixes 2I and 3I and their composite 6I;
+  shrinking the C₃ character preserves its value ω at a generator.
 - `Continuous/Unitary/Basic.lean`: `ContRepresentation.IsUnitary`;
   `Continuous/OrthogonalDecomposition.lean`:
   `ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition`;
@@ -271,17 +293,24 @@ covering kernel. SymplecticGeometry/ConvexityToric T1 supplies the 2π-normalize
 period and weight dictionary of a compact torus (characters identified by
 `(1/i)dχ`, with integer values on `(2π)⁻¹ ker exp`), the integer pairing of
 characters with coroots and the finite-index lattice comparison under a central
-isogeny. LieHighestWeight Layer 10 supplies `Y = Q∨` for the maximal torus of a
-simply connected compact semisimple group. The semisimple highest-weight theory
-itself is consumed through the Mathlib and Tau Ceti declarations listed above,
-not through a layer of LieHighestWeight.
+isogeny. The semisimple highest-weight theory is consumed through the Mathlib
+and Tau Ceti declarations listed above; §6.5 combines it with Lie integration
+and the period dictionary to prove the simply connected compact cocharacter
+comparison.
+BanachSpaceTheory B5 supplies: for every complete real or complex inner-product
+space with a Hilbert basis indexed by I, separability is equivalent to
+countability of I. Layer 3 applies the complex case to the native Peter–Weyl basis.
 OperatorTheory/OperatorIdeals Part C supplies Hilbert–Schmidt operators and their
 compactness for Layer 0. The base roadmap (RepresentationTheory, CompactGroups) supplies
 its Layers 0–6 and its engine case through the Tau Ceti declarations listed above:
 Layer 0 Haar averaging and bi-invariance, Layers 1–2 unitarization and complete
 reducibility, Layers 3–4 matrix coefficients and Schur orthogonality, Layer 5 the
 Peter–Weyl basis and density, Layer 6 characters, and the engine case the SU(2)
-classification and Weyl integration. No supplier is required to construct Haar,
+classification and Weyl integration. Its “What is not consumable, and is a build
+item here” comparison targets supply the continuous-to-algebraic correspondence,
+character compatibility and finite-dimensional irreducibility comparison;
+§0.1 consumes these together with the pinned Hom and shrinking maps.
+No supplier is required to construct Haar,
 unitarization, Peter–Weyl or the SU(2) classification a second time.
 
 ## How to read the build
@@ -296,41 +325,46 @@ all targets and Checks; `Suggested.lean` carries headline acceptance statements.
 
 ## Layer 0: comparisons with the base theory
 
-### 0.1 Finite-dimensional categorical comparison
+### 0.1 Tensor and dual compatibility
 
-Construct the equivalence between finite-dimensional continuous complex actions
-and the full subcategory of `FDRep ℂ G` with continuous parameter maps. Prove that
-it identifies algebraic and continuous intertwiners, subrepresentations, trace
-characters, direct sums, tensors and duals. All finite-dimensional linear maps
-are continuous, but continuity of the group parameter is a separate hypothesis.
-Compare closed-subspace irreducibility with the nonzero algebraic definition.
-These comparisons use the concrete forgetful functor and are not a replacement
-representation category. This is a deduction from
-`LinearMap.continuous_of_finiteDimensional` and the defining equations of
-`ContIntertwiningMap` and `FDRep`; it does not invoke a categorical theorem
-from Knapp.
+For finite-dimensional continuous complex representations, use the base
+roadmap's continuous-to-algebraic correspondence and the pinned intertwiner
+and shrinking maps. Construct its tensor comparison from the algebraic image
+of V⊗W to the tensor product of the algebraic images of V and W, and its dual
+comparison from the algebraic image of V* to the dual of the algebraic image
+of V. After transport through the shrinking equivalences, the former sends
+v⊗w to v⊗w and the latter sends a functional to the same functional.
+Prove naturality and compatibility with tensor associativity, the trivial-line
+unit and evaluation and coevaluation. These are deductions from the usual
+finite-dimensional tensor and dual maps and automatic continuity; the new
+obligation is their compatibility with the supplied correspondence.
 
-Its API identifies composition, identities, equivalences, tensor products,
-duals and trace, and restricts to the same invariant subspaces.
+- For intertwiners A:V→V' and B:W→W', the tensor comparison identifies the
+  image of A⊗B with the tensor product of their images, and the dual comparison
+  identifies the image of A*:V'*→V* with the dual of the image of A.
+- The associativity and unit comparison diagrams commute on pure tensors;
+  evaluation V*⊗V→ℂ and coevaluation ℂ→V⊗V* are preserved, including their
+  two contraction identities.
+- The transported tensor and dual actions have trace characters χ_Vχ_W and
+  g↦χ_V(g⁻¹), respectively, by the algebraic character identities.
 
-- Forgetting continuity preserves each intertwiner's underlying linear map.
-- Restoring continuity by finite dimensionality is inverse on every Hom space.
-- The tensor and dual comparison maps have the usual underlying linear maps;
-  on characters these give multiplication and evaluation at the inverse.
-
-*Needs:* Mathlib `FDRep`, `ContIntertwiningMap`,
-`LinearMap.continuous_of_finiteDimensional` and finite-dimensional subspace topology.
+*Needs:* CompactGroups' “What is not consumable, and is a build item here”
+comparison targets; `ContRepresentation.intertwiningMapEquiv`;
+`FDRep.ofShrink`, `FDRep.ofShrinkEquiv`, `FDRep.character_ofShrink`;
+Mathlib finite-dimensional tensors, duals, `FDRep` character identities and
+`LinearMap.continuous_of_finiteDimensional`.
 
 **Checks.**
 
-- The zero action has a one-point subrepresentation lattice and is not
-  irreducible on either side; trivial ℂ has two subrepresentations and is
-  irreducible on both sides.
-- For trivial ℂ, the intertwiners 2I and 3I compose to 6I before and after
-  the comparison, and the identity stays I, excluding a rescaled Hom map.
-- For the C₃ character with value ω at a generator, the tensor square has
-  trace ω² and the dual has trace ω⁻¹=ω² on both sides; replacing dual by
-  the original action would give ω instead.
+- For trivial ℂ, the supplied Hom map fixes 2I and 3I and their composite 6I;
+  their tensor product also acts by 6 on 1⊗1, excluding a rescaled comparison.
+- For the C₃ character with value ω at a generator, shrinking preserves ω,
+  the tensor square has trace ω² and the dual has trace ω⁻¹=ω²;
+  replacing the dual by the original action would give ω instead.
+- On ℂ² with dual basis e₁*,e₂*, evaluation sends e₁*⊗e₂ to 0 and
+  e₁*⊗e₁ to 1; coevaluation sends 1 to e₁⊗e₁*+e₂⊗e₂*, and contracting
+  with e₁ returns e₁. On V=0 coevaluation is zero and the contraction
+  is the unique map 0→0, its identity.
 
 ### 0.2 Continuous kernels and Hilbert–Schmidt operators
 
@@ -614,11 +648,10 @@ direction, countably many irreducible models give the continuous homomorphism
 Prove injectivity using the native Peter–Weyl theorem's point-separating matrix coefficients. Compactness
 and the Hausdorff target make this a topological embedding; the product is
 metrizable. Consume the existing countable-product and compact metrization APIs,
-and build the Hilbert-basis countability bridge here: a complex Hilbert space
-with a Hilbert basis indexed by I is separable iff I is countable. In the forward
-direction distinct unit vectors have distance √2, so disjoint balls of radius
-1/3 inject into a countable dense set. Conversely finite rational-complex
-linear combinations of a countable basis form a countable dense set.
+and apply BanachSpaceTheory B5's Hilbert-basis criterion: a complete complex
+inner-product space with a Hilbert basis indexed by I is separable iff I is
+countable. Applied to the Peter–Weyl index of triples (π,i,j), it gives exactly
+the separability-to-dual-countability step above.
 Use `Summable.countable_support_ennreal` for the support of each expansion. The metrization criterion
 is downstream of general Peter–Weyl.
 
@@ -644,7 +677,7 @@ preceding metric argument. Etingof §37.1, p.199, and Theorem 37.5, p.202,
 cover the countable-base setting only.
 
 
-*Needs:* Native Peter–Weyl basis and separation; Mathlib compact metrization, countable products and Summable.countable_support_ennreal.
+*Needs:* Native Peter–Weyl basis and separation; BanachSpaceTheory B5; Mathlib compact metrization, countable products and Summable.countable_support_ennreal.
 
 **Checks.**
 
@@ -660,7 +693,7 @@ The uncountable product has nonseparable L², yet each individual L² expansion 
 
 ### Dependencies
 
-Native Peter–Weyl basis and separation; Mathlib compact metrization, countable products and Summable.countable_support_ennreal.
+Native Peter–Weyl basis and separation; BanachSpaceTheory B5; Mathlib compact metrization, countable products and Summable.countable_support_ennreal.
 
 ## Layer 4: characters of arbitrary products
 
@@ -1003,12 +1036,26 @@ it is `λ_(ξ_α)`, equal to `iα_ℝ` on 𝔱', and its coroot in 𝔥 is
 the simply connected cover of a compact connected semisimple Lie group is
 compact and its covering kernel is finite. ConvexityToric T1: `ℓ_χ(α_ℝ∨) ∈ ℤ` for
 every χ∈X and every root α, and the finite-index comparison of the period
-lattices under a central isogeny. LieHighestWeight Layer 10: for a simply
-connected compact semisimple group the cocharacter lattice of a maximal torus
-is the coroot lattice Q∨.
+lattices under a central isogeny, with the real coroots lying in the
+2π-normalized period lattice.
 
 The targets of this subsection are the following.
 
+- For every simply connected compact connected semisimple Lie group S with
+  maximal torus T_S, prove `Y = Q∨`, where `Y = (2π)⁻¹ ker exp_(T_S)` and Q∨
+  is the integer span of the real coroots. One route integrates each fundamental
+  highest-weight module of the complexified Lie algebra to S using LieGroups
+  Layer 4. Its top line is stable under the torus: its Cartan stability gives
+  stability under exponentials, and the torus exponential is surjective.
+  Restriction to that line is a continuous circle character, whose differential
+  is the fundamental weight; compactness makes its scalar values unitary.
+  By ConvexityToric T1 its real functional takes integer values on Y.
+  Under λ ↦ (1/i)λ|_(Lie T_S), these weights are dual to the simple
+  real coroot basis, so every
+  y∈Y has integer coordinates in that basis and lies in Q∨. The reverse
+  inclusion follows from the coroot periods `exp(2πα_ℝ∨)=1` of T1.
+  This proves the equality without using the compact-group classification
+  of §6.6 (Knapp, Theorem 5.107 and its proof, p.334).
 - Prove that the connected Lie subgroup K_der of K with Lie algebra 𝔨_der is
   closed, and that multiplication `Z(K)^0 × K_der → K` is a surjective
   homomorphism of commuting factors (Knapp, Theorem 4.29, pp.250–251). K_der is
@@ -1031,11 +1078,11 @@ The targets of this subsection are the following.
   `TauCeti.IsDominantIntegral` for b, using `λ_χ(H_α) = 2⟨λ_χ,α⟩/|α|²`, the form
   in which Knapp states integrality (Proposition 4.59, p.265). Dominance depends only on 𝔱'.
 
-Read on lattices, these give two statements that need no proof beyond their
-suppliers. For K_der,sc the map χ ↦ λ_χ restricted to 𝔥 is a bijection from
+Read on lattices, these targets and the period dictionary give the following
+comparisons. For K_der,sc the map χ ↦ λ_χ restricted to 𝔥 is a bijection from
 X*(T_sc) onto the weight lattice P_der of (𝔤', 𝔥): by ConvexityToric T1 the
 character lattice is the integral dual of the cocharacter lattice, which is Q∨ by
-LieHighestWeight Layer 10, and the integral dual of Q∨ is P_der (the statement
+the preceding simply connected target, and the integral dual of Q∨ is P_der (the statement
 of Knapp, Theorem 5.107, p.334). Under a finite covering of compact connected
 groups the character lattice of the quotient has index the kernel order in that
 of the cover, by ConvexityToric T1 (the statement of Knapp, Proposition 4.67,
@@ -1058,12 +1105,22 @@ duals and intertwiners, and their composites are identity.
 *Needs:* LieGroups Layers 0 and 4–5 for the exponential, integration and
 covering groups; LieGroups Layer 5A, Layer 6 (maximal tori; compact real roots
 and the Weyl comparison) and Layer 7 (compact semisimple integration);
-ConvexityToric T1; LieHighestWeight Layer 10; §6.2's notation; Mathlib
-`LieAlgebra.IsKilling.rootSystem`; Tau Ceti `TauCeti.integralWeightLattice` and
-`TauCeti.IsDominantIntegral`.
+ConvexityToric T1; §6.2's notation; Mathlib
+`LieAlgebra.IsKilling.rootSystem`, `RootPairing.Base.toCoweightBasis` and
+`Module.Basis.dualBasis_apply_self`; Tau Ceti `TauCeti.integralWeightLattice`,
+`TauCeti.IsDominantIntegral`, `TauCeti.irreducibleQuotient` and
+`TauCeti.finiteDimensional_irreducibleQuotient_of_isDominantIntegral`.
 
 **Checks.**
 
+- For SU(2), put H_R=diag(i,−i). Then exp(2πH_R)=I and
+  exp(πH_R)=−I, so Y=ℤH_R=Q∨. The fundamental character pairs to 1
+  with H_R and to 1/2 with H_R/2, excluding the larger lattice.
+  In SO(3), exp(πH_R)=1 under the covering Lie-algebra identification,
+  so Y=(1/2)ℤH_R strictly contains Q∨=ℤH_R; the fundamental SU(2)
+  character does not descend. Simply connectedness is essential.
+- For the trivial semisimple group, the torus has dimension 0 and
+  Y=Q∨=0; there are no fundamental weights and both inclusions hold.
 - For Circle, the center/derived Lie dimensions are 1+0=1 and q is
   Circle×{1}→Circle with kernel of size 1; the semisimple cover is {1}, not ℝ.
 - For SO(3), the simply connected derived cover is SU(2) and q has
@@ -1321,7 +1378,7 @@ The U(2) criterion is a deduction from the global highest-weight classification 
 
 ### Dependencies
 
-Native compact characters, complete reducibility and SU(2) classification; the pinned torus, root-system and highest-weight declarations of the supplier contracts; LieGroups Layers 0, 2–5, 5A, 6 and 7 (compact semisimple integration); ConvexityToric T1; LieHighestWeight Layer 10; the finite-cover and dominance targets of this layer.
+Native compact characters, complete reducibility and SU(2) classification; the pinned torus, root-system and highest-weight declarations of the supplier contracts; LieGroups Layers 0, 2–5, 5A, 6 and 7 (compact semisimple integration); ConvexityToric T1; the compact cocharacter, finite-cover and dominance targets of this layer.
 
 ## Layer 7: unitary SU(2) actions and embeddings
 
