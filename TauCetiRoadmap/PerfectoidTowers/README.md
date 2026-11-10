@@ -483,7 +483,7 @@ The [HJ] locators in this layer refer to [arXiv:2011.03951v2](https://arxiv.org/
 Actions on rings are left actions; the induced action on valuations is the right action
 `v·g = v ∘ g`. The P8 quotient signatures `ρ : G →* Aut X` take left actions
 of `G`, equivalently right actions of `Gᵐᵒᵖ`: Mathlib's multiplication satisfies
-`(ρ (g * h)).hom = (ρ h).hom ≫ (ρ g).hom`.
+`(ρ (g * h)).asIso.hom = (ρ h).asIso.hom ≫ (ρ g).asIso.hom`.
 In *affinoid_perfectoid_quotient* the resulting pullback on sections is
 `(ρ g)^* a = g⁻¹ • a`. The `VQuotient.*` statements and P9 towers use right
 `G`-actions, encoded by `Gᵐᵒᵖ →* Aut X`; applying those quotient comparisons to a
@@ -809,7 +809,7 @@ field, so the construction retains the sheaf and valuation data.
 **Checks.**
 
 - *quotient_left_action_mul* — on the v-ringed-space carrier,
-  `(ρ (g * h)).hom = (ρ h).hom ≫ (ρ g).hom`; the noncommuting computation
+  `(ρ (g * h)).asIso.hom = (ρ h).asIso.hom ≫ (ρ g).asIso.hom`; the noncommuting computation
   *action_order_two_terms* above distinguishes this left action from a right action.
 - *quotient_empty* — the quotient of the empty v-ringed space has no points.
 - *quotient_single_orbit* — a transitive action on the point space gives exactly one quotient
@@ -1062,7 +1062,7 @@ affinoid perfectoid cover, or the hypotheses of *perfectoid-finite-quotient*). T
 equivalent: (a) `q : X → X/G` is a finite étale `G`-torsor, i.e. finite étale with
 `t : X × G ≅ X ×_{X/G} X`, where `s_g`, the section `X → X × G` of
 `PerfectoidSpace.prodProfinite` at the point `g` (PerfectoidSpaces P6.8) followed by `t.hom`, satisfies
-`s_g ≫ fst = 𝟙 X` and `s_g ≫ snd = (ρ g).hom` (that is, `s_g ≫ snd = ρ g`
+`s_g ≫ fst = 𝟙 X` and `s_g ≫ snd = (ρ g).asIso.hom` (that is, `s_g ≫ snd = ρ g`
 when writing automorphisms as maps); thus `(x, g)` maps to `(x, g • x)`; (b) `G` acts freely on `X^◇`, i.e.
 `X^◇ × G → X^◇ ×_{X^◇/G} X^◇` is injective; (c) every geometric point `Spa(C, C⁺) → X` has trivial
 stabilizer in `G`. Conversely, if `Y → X` is a surjective finite étale map of perfectoid spaces

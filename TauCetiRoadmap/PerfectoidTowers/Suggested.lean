@@ -1,7 +1,7 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Comap
 import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Adic
-import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid
+import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid.Basic
 
 /-!
 # Perfectoid towers: target signatures
@@ -121,19 +121,19 @@ through it, and on points it is a quotient map whose fibres are the orbits (Hans
 Huber's category `V`, so this is the universal property in `V` restricted to pre-adic spaces. -/
 structure IsCategoricalQuotient {X Y : PreAdicSpace.{u}} (ρ : G →* Aut X) (q : X ⟶ Y) : Prop where
   /-- `q` is `G`-invariant. -/
-  invariant : ∀ g : G, (ρ g).hom ≫ q = q
+  invariant : ∀ g : G, (ρ g).asIso.hom ≫ q = q
   /-- Every `G`-invariant morphism out of `X` factors uniquely through `q`. -/
-  universal : ∀ (Z : PreAdicSpace.{u}) (f : X ⟶ Z), (∀ g : G, (ρ g).hom ≫ f = f) →
+  universal : ∀ (Z : PreAdicSpace.{u}) (f : X ⟶ Z), (∀ g : G, (ρ g).asIso.hom ≫ f = f) →
     ∃! k : Y ⟶ Z, q ≫ k = f
   /-- On points, `q` is a quotient map. -/
   isQuotientMap : IsQuotientMap q.base
   /-- The fibres of `q` on points are the `G`-orbits. -/
-  fibres : ∀ x y : X, q.base x = q.base y ↔ ∃ g : G, (ρ g).hom.base x = y
+  fibres : ∀ x y : X, q.base x = q.base y ↔ ∃ g : G, (ρ g).asIso.hom.base x = y
 
 -- Negative control: if some group element acts nontrivially, the identity is not a quotient.
 example {X : PreAdicSpace.{u}} (ρ : G →* Aut X) (g : G) (hg : ρ g ≠ 1) :
     ¬ IsCategoricalQuotient ρ (𝟙 X) := fun h ↦
-  hg (Iso.ext ((Category.comp_id (ρ g).hom).symm.trans (h.invariant g)))
+  hg (Aut.ext (Iso.ext ((Category.comp_id (ρ g).asIso.hom).symm.trans (h.invariant g))))
 
 /-- An affinoid pre-adic space `Spa(A, A⁺)` with `A` a Tate ring. -/
 def isTateAffinoidModel : ObjectProperty PreAdicSpace.{u} := fun X ↦
@@ -161,9 +161,9 @@ theorem exists_isCategoricalQuotient_of_invertible_order [Fintype G] (X : PreAdi
     (hX : PreAdicSpace.isAdic X) (ρ : G →* Aut X)
     (horder : IsUnit (Fintype.card G : X.toRingPresheafedSpace.presheaf.obj (Opposite.op ⊤)))
     (hcov : ∀ x : X, ∃ U : TopologicalSpace.Opens X, x ∈ U ∧
-      (∀ g : G, (ρ g).hom.base ⁻¹' U = U) ∧ isTateAffinoid (X.restrict U.isOpenEmbedding)) :
+      (∀ g : G, (ρ g).asIso.hom.base ⁻¹' U = U) ∧ isTateAffinoid (X.restrict U.isOpenEmbedding)) :
     ∃ (Y : PreAdicSpace.{u}) (q : X ⟶ Y), PreAdicSpace.isAdic Y ∧ IsCategoricalQuotient ρ q ∧
-      ∀ U : TopologicalSpace.Opens X, (∀ g : G, (ρ g).hom.base ⁻¹' U = U) →
+      ∀ U : TopologicalSpace.Opens X, (∀ g : G, (ρ g).asIso.hom.base ⁻¹' U = U) →
         isTateAffinoid (X.restrict U.isOpenEmbedding) →
         ∃ V : TopologicalSpace.Opens Y, q.base ⁻¹' V = U ∧
           isTateAffinoid (Y.restrict V.isOpenEmbedding) :=
