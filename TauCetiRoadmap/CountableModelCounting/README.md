@@ -881,8 +881,12 @@ All four are packaged as `exists_internalScottRank_omega_with_large_bfClass`.
 
 **Consequences for the counting interfaces.**
 
+* `Language.Equiv.internalScottRank_eq`: for `M`, `N` in one universe and `e : M ≃[L] N`,
+  `internalScottRank M = internalScottRank N` (orbit ranks are carried along `e` by
+  `FirstOrder.Language.Equiv.bfEquiv`), the counterpart of (S5)'s `Language.Equiv.scottHeight_eq`.
 * `not_isIsolatingRank_internalScottRank`: transport `M` and one `N_z` to codes on `ℕ`; they are
-  `bfEquivSetoid ω`-equivalent and not isomorphic, while the internal rank of `M` is `ω`.
+  `bfEquivSetoid ω`-equivalent and not isomorphic, while the internal rank of the code of `M` is
+  `ω`, the rank of `M`, by `Language.Equiv.internalScottRank_eq`.
 * Every isolating rank `ρ` satisfies `ω < ρ (code of M)` (otherwise `isolates_of_le` at level `ω`).
 * The `bfEquivSetoid ω`-class of the code of `M` meets `𝔠` isomorphism classes: the one-sidedness of
   isolation in Layer 1 is necessary, and countably many classes at the levels below a limit do not

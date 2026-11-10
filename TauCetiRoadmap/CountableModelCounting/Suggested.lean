@@ -717,6 +717,15 @@ end Layer5
 
 /-! ## Layer 6: row assemblies and a structure of internal Scott rank `ω` -/
 
+/-- **Layer 6 milestone.** The internal Scott rank is an isomorphism invariant: orbit ranks are
+carried along the isomorphism by `FirstOrder.Language.Equiv.bfEquiv`. Both structures lie in one
+universe, as for Tau Ceti's `FirstOrder.Language.Equiv.scottHeight_eq`, since the rank of
+`M : Type w` lies in `Ordinal.{w}`. -/
+theorem Language.Equiv.internalScottRank_eq [L.IsRelational] {M N : Type w} [L.Structure M]
+    [L.Structure N] (e : M ≃[L] N) :
+    internalScottRank (L := L) M = internalScottRank (L := L) N := by
+  sorry
+
 namespace RowAssembly
 
 /-- Labels: nonempty words over `U`. -/
