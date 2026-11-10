@@ -83,11 +83,9 @@ Planned by other roadmaps, and imported by name and section:
   agreement with the ordinary character of a stable lattice on `p`-regular elements, and recognition
   of composition factors. Layer 2 specializes `τ` to the one fixed by the modular system and adds
   the remaining formulas.
-- LocalFiniteGroupTheory, §L1: the relative cores `pCore p H` and `pPrimeCore p H`; `O_{p'}(G)` is
-  `pPrimeCore p ⊤`. Layer 8 consumes them; Layers 0–7 need only Mathlib's Sylow theory.
 
-The Fong–Swan lifting theorem for `p`-solvable groups is GL2AutomorphicRepresentationsAndTransfer
-§R17.5.12 and is not restated here.
+The Fong–Swan lifting theorem for finite solvable groups is
+GL2AutomorphicRepresentationsAndTransfer §R17.5.12 and is not restated here.
 
 ## Conventions
 
@@ -188,11 +186,6 @@ subgroups.
 additivity on exact sequences, agreement with the ordinary character of a full stable lattice on
 `p`-regular elements, and the fact that two modules have the same Brauer character exactly when
 they have the same composition factors with multiplicity.
-
-### From TauCetiRoadmap.LocalFiniteGroupTheory
-
-§L1: `pCore p H`, `pPrimeCore p H`, normality, the containment of every normal `p'`-subgroup in
-`pPrimeCore p ⊤`, and `pPrimeCore p H` for `S₃` at `p = 2` equal to the cyclic subgroup of order `3`.
 
 ## How to read the build
 
@@ -839,7 +832,24 @@ ordinary and Brauer characters and isomorphic defect groups (Martínez, Theorem 
 Sambale, Theorem 1.24, p. 18); in particular `B₀(G/N)` is `B₀(G)`. Develop block covering for the
 other `G`-orbits of characters of `N` (Martínez, Definition 7.3 and Theorem 7.7, pp. 44–45).
 
+Define the `p'`-core `O_{p'}(G)` of the finite group `G` as the supremum in `Subgroup G` of the
+normal subgroups `N` with `Nat.Coprime p (Nat.card N)`. Its API:
+
+- `O_{p'}(G)` has order prime to `p`: for normal subgroups `N₁`, `N₂` the product `N₁N₂` is a
+  normal subgroup of order `|N₁| |N₂| / |N₁ ∩ N₂|`, and `G` has finitely many subgroups.
+- `O_{p'}(G)` is normal, indeed characteristic, since an automorphism of `G` permutes the normal
+  subgroups of order prime to `p`.
+- A normal subgroup of `G` is contained in `O_{p'}(G)` exactly when its order is prime to `p`.
+- `O_{p'}(G / O_{p'}(G)) = 1`: the preimage in `G` of a normal `p'`-subgroup of the quotient is a
+  normal subgroup of order prime to `p`.
+
+*Needs:* Mathlib `Subgroup.Normal`, `Subgroup.Characteristic`, `Nat.card`, `Nat.Coprime`.
+
 **Checks.**
+- `S₃`, whose normal subgroups have orders `1`, `3`, `6`: `O_{2'}(S₃) = C₃` and `O_{3'}(S₃) = 1`.
+  The largest normal `p`-subgroup, a wrong model, would give `1` and `C₃`, the reverse.
+- `A₄`, whose normal subgroups have orders `1`, `4`, `12`: `O_{3'}(A₄) = V₄` and `O_{2'}(A₄) = 1`.
+- A `p`-group gives `1`; a group of order prime to `p` gives `G`; the trivial group gives `1`.
 - `S₃`, `p = 2`, `N = C₃`: `e_N = 1 + r + r²` (as `3 = 1`), `k[S₃] e_N` has basis `e_N`, `(12) e_N`
   and is `𝔽₂[C₂]`.
 - The standard character of `S₃` restricts to `ζ₃ + ζ₃²` on `C₃` and lies in the other block.
@@ -847,14 +857,14 @@ other `G`-orbits of characters of `N` (Martínez, Definition 7.3 and Theorem 7.7
 
 ### 8.3 The kernel of the principal block
 
-Prove `⋂_{χ ∈ Irr(B₀(G))} ker χ = pPrimeCore p ⊤` as subgroups of `G` (Navarro, Theorem 6.10).
+Prove `⋂_{χ ∈ Irr(B₀(G))} ker χ = O_{p'}(G)` as subgroups of `G` (Navarro, Theorem 6.10).
 Route: `⊇` from §8.2 with
 `N = O_{p'}(G)`; `⊆` because the projective character `Φ_1` of the trivial module is a
 `ℤ`-combination of `Irr(B₀)` (§4.2), hence constant on cosets of the intersection `K`, and
 `Φ_1(1) ≠ 0` while `Φ_1` vanishes off the `p`-regular elements (§3.1), so `K` is a `p'`-group.
 Prove the modular containment: every simple module in `B₀(G)` is trivial on `O_{p'}(G)`, so its
 Brauer character equals its degree there; it is not an equality, since normal `p`-subgroups also
-act trivially. *Needs:* §§3.1, 4.2, 8.2; LocalFiniteGroupTheory §L1.
+act trivially. *Needs:* §§3.1, 4.2, 8.2.
 
 **Checks.**
 - `S₃`, `p = 2`: `ker 1 ∩ ker sgn = C₃ = O_{2'}(S₃)`.
@@ -878,7 +888,7 @@ principal block `{1, sgn}` and the defect-zero block `{std}`) and at `p = 3`
 
 ### Dependencies
 
-Layers 3–7; LocalFiniteGroupTheory §L1.
+Layers 3–7.
 
 ## Downstream consumers
 
