@@ -170,6 +170,7 @@ body:
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - StochasticCalculus
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
