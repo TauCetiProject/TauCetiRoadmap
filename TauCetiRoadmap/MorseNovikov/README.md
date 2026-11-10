@@ -128,9 +128,18 @@ fiber hypotheses, and `exists_contMDiffAt_localFlow`
 finite-dimensional hypotheses. Global completeness in the compact application
 is `TauCeti.isCompleteVectorField_of_compactSpace`
 (Geometry/Manifold/Flow/Complete.lean), for C¹ fields on a compact boundaryless
-manifold. Consume `TopPair.singularHomology` and `TopPair.singularHomologyMap`
+manifold. Consume `TauCeti.IsNondegenerateFixedPt` and
+`TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`
+(Geometry/Manifold/MFDeriv/FixedPoint.lean), for a finite-dimensional model over a
+complete field and a compact Hausdorff manifold: the first is §6.5's nondegeneracy
+hypothesis (1 is not an eigenvalue of df_x), the second the finiteness of its fixed set.
+Consume `TopPair.singularHomology` and `TopPair.singularHomologyMap`
 (AlgebraicTopology/Singular/Relative.lean) for rational singular homology and its
-induced maps; absolute homology of M is that of the pair (M,∅).
+induced maps; absolute homology of M is that of the pair (M,∅), by the natural
+isomorphism `TopPair.singularHomologyInclIso` (AlgebraicTopology/Singular/Empty.lean).
+For a space of finite CW type, `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`
+(AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean) compares §7.3's
+alternating Betti sum with `TauCeti.eulerChar`.
 The vector-space `stableSet_eq_biUnion_orbit_localInvariantSet_Ici`
 (Analysis/Calculus/Morse/LocalToGlobal.lean) retains its Lipschitz and convergence
 hypotheses. The Banach-domain `isMeagre_image_criticalPoints_of_isFredholm`
@@ -182,10 +191,14 @@ No strict cellular-to-singular chain map is assumed.
 
 Consume Layer 1 for collars and smooth gluing; Layer 3 for the C∞ family topology;
 Layers 4–5 for meridian/Seifert longitude, Conway-normalized Alexander polynomial
-and zero-slope surgery; Layer 11 and the smoothing-and-triangulation comparison
+and zero-slope surgery, and in particular §4.4 for the infinite cyclic cover of a knot
+exterior, its Alexander module H₁(X∞;ℤ) over ℤ[t,t⁻¹], the Seifert presentation
+`tV−Vᵀ`, the Fox presentation from a Wirtinger presentation, the agreement of these
+routes up to units, and Δ_K as the order of the module; Layer 11 and the smoothing-and-triangulation comparison
 for smooth triangulations, simplex-cell structures, signed boundaries and
-cellularity of simplicial maps. Layer 6 below constructs the equivariant
-knot/surgery chain comparison and the finite simplicial chain adapter.
+cellularity of simplicial maps. Layer 6 below constructs the based equivariant
+cellular complex of the surgery cover, its identification with §4.4's presentation,
+and the finite simplicial chain adapter.
 
 ## How to read the build
 
@@ -591,12 +604,12 @@ Prove the exact-form specialization is the group-ring equivariant ordinary Morse
 complex. Prove the large-gradient comparison for β=α+C df with C sufficiently
 large and a chosen Morse–Smale f: after positive rescaling to df+C⁻¹α, the relevant
 critical points and lifted incidence counts correspond, and the flow has no periodic
-orbits. Supply the structural-stability/entry-exit and support argument; cohomology
+orbits (rt3 Lemma 4.1, p. 235, whose proof on p. 236 is a small-perturbation argument). Supply the structural-stability/entry-exit and support argument; cohomology
 equality and a formal small-perturbation sentence are not proofs. Complete the
 Morse-to-cellular chain identification for the triangulation-adapted model and
 compare it with ordinary singular homology.
 
-The homology comparison is rt3 equation (1.4), p. 213. The triangulation-adapted model is rt3 Example 1.8, p. 215, built from the triangulation vector field of Appendix B. The controlled chain-homotopy equivalence, subdivision and prism estimates are stronger targets whose construction is specified here.
+The homology comparison is rt3 equation (1.4), p. 213. The triangulation-adapted model, built from the triangulation vector field of Appendix B, is sketched in rt3 Example 1.8, p. 215; Remark 4.3, p. 237 records that the sketch is not rigorous, so the model is constructed here. The controlled chain-homotopy equivalence, subdivision and prism estimates are stronger targets whose construction is specified here.
 
 The API includes:
 
@@ -1136,7 +1149,7 @@ apply N3's large-gradient comparison and N6's invariance to α+C df. Positive
 rescaling preserves N1's completion. Keep the torsion of the comparison map
 visible; an arbitrary quasi-isomorphism cannot substitute for the based calculation.
 
-Use rt3 Lemmas 2.7–2.9, pp. 220–221 and §4, pp. 237–238; the exact triangulation-adapted case is rt3 Example 1.8, p. 215; based large-gradient comparison is part of the construction, not a consequence of an unbased quasi-isomorphism.
+Use rt3 Lemmas 2.7–2.9, pp. 220–221 and §4, Lemma 4.1 and the deduction of Theorem B, pp. 235–236; the exact case is classical (rt3 Example 1.8, p. 215, citing Milnor's Whitehead torsion), and the triangulation-adapted route to it is only sketched there; based large-gradient comparison is part of the construction, not a consequence of an unbased quasi-isomorphism.
 
 The API includes:
 
@@ -1233,9 +1246,13 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   for a larger abelian cover under its actual support hypotheses.
 * Zero-slope surgery X_K on an oriented knot in S³, using GT's meridian/Seifert
   longitude and Conway-normalized Δ_K. Construct H₁(X_K)=ℤ and the corresponding
-  infinite cyclic cover. Build the knot-complement cellular/Fox or Seifert-matrix
-  Alexander module, prove the polynomial/module presentation comparison, and
-  attach the filling chain complex. Prove
+  infinite cyclic cover. The Alexander module of the knot exterior, its Seifert and
+  Fox presentations and Δ_K as its order are GeometricTopology §4.4's. Build here the
+  based equivariant cellular complex of the infinite cyclic cover of the exterior
+  from a finite CW model with chosen lifted cells, identify its first homology with
+  §4.4's Alexander module compatibly with that presentation, and attach the lifted
+  filling cells of the solid torus whose meridian is glued to the Seifert longitude.
+  Prove
   `τcell(X̃_K)=Δ_K(t)/(1−t)^2 mod ±t^ℤ`.
   Thus the total dynamical invariant for every admissible integral-period form
   representing the generator has this value in the correctly directed completion.
@@ -1247,7 +1264,7 @@ The API includes:
 
 - Mapping-torus chains are the equivariant cone of 1−tφ#, with downward monodromy fixed.
 - The simplicial chain adapter, subdivision homotopies and homology comparison identify the native homology endomorphism.
-- The knot-surgery complex realizes the Alexander module and the filling contributions, with the stated meridian/longitude normalization.
+- The based knot-surgery complex has first homology GeometricTopology §4.4's Alexander module, compatibly with its presentation, and adds the filling cells with the stated meridian/longitude normalization.
 
 **Checks.**
 
@@ -1257,14 +1274,17 @@ The API includes:
 - On the boundary of a triangle the simplicial chain adapter has H₀=R and H₁=R; reversing one edge's vertex order multiplies its basis element by −1. A simplicial map collapsing an edge sends it to 0, and one reversing an edge sends it to minus the image edge.
 - For one subdivision of e=[v₀,v₁] with barycenter b, Sd(e)=[v₀,b]+[b,v₁]; the last-vertex map sends b to v₁, hence [v₀,b] to e and [b,v₁] to 0, so λ#∘Sd is the identity on chains.
 
-*Needs:* §6.3; Layer 5 local index; AlgebraicTopology Stages 2–7; GeometricTopology Layers 4–5 and 11.
+*Needs:* §6.3; Layer 5 local index; AlgebraicTopology Stages 2–7; GeometricTopology Layers 4–5 (§4.4 for the Alexander module, its presentations and Δ_K) and 11.
 
 ### 6.5 Native Lefschetz signature
 
 For a finite-dimensional smooth compact Hausdorff manifold M
 modeled on a boundaryless model with corners I, and a smooth self-map f, assume
-det(1−df_x)≠0 at every fixed point. Prove `lefschetz_fixed_point_formula`:
-the finite sum of these determinant signs equals
+every fixed point is nondegenerate in the sense of Tau Ceti's
+`TauCeti.IsNondegenerateFixedPt`: 1 is not an eigenvalue of df_x, which in finite
+dimension says det(1−df_x)≠0. The fixed set is then finite by
+`TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`. Prove
+`lefschetz_fixed_point_formula`: the finite sum of the determinant signs equals
 Σ(i=0,…,dim M)(−1)^i tr(f_*:H_i(M;ℚ)→H_i(M;ℚ)). Neither orientability,
 connectedness nor nonemptiness is required, and second countability is not a
 hypothesis: it follows from compactness. M and its model may lie in any universe.
@@ -1279,6 +1299,14 @@ neighbourhood retracts is Dold, Lectures on Algebraic Topology, Chapter VII, §6
 (the Lefschetz–Hopf theorem); §§5.2 and 6.4 construct the stronger local-index
 equality.
 
+**Checks.**
+
+- A point has fixed-point contribution 1 and H₀-trace 1; the empty manifold gives 0 on both sides.
+- Circle reflection has two contributions +1,+1, hence 2=1−(−1); a nontrivial rotation has no contributions and 0=1−1.
+- The squaring map z↦z² of S¹ fixes only 1, where df=2 and det(1−2)=−1; the right side is 1−2=−1.
+- A rotation of S² by an angle θ∉{0,π} descends to ℝP² with one fixed point, where det(1−R_θ)=2−2cos θ>0; ℝP² has rational homology ℚ in degree 0 only, so both sides are 1 on a nonorientable manifold.
+- Translation on ℝ has no fixed points but H₀-trace 1; compactness excludes this false 0=1 test.
+
 Define `fixedPointDet` f x as the determinant of 1−df_x, with df_x given by
 `mfderiv` in the charts at x and f(x). At a fixed point these charts coincide, so
 it is the determinant of 1−df_x as an endomorphism of T_xM, not of a map between
@@ -1286,6 +1314,7 @@ unconnected fibers. Define `fixedPointSign` as 1 when `fixedPointDet` is positiv
 and −1 otherwise. Their API includes:
 
 - For a smooth f and a fixed point x, `fixedPointDet` is det(1−df_x) for the intrinsic derivative with the fixed-point target identification.
+- For a smooth f on a manifold with a finite-dimensional model and a fixed point x, `fixedPointDet` I f x≠0 if and only if `TauCeti.IsNondegenerateFixedPt` I f x, since det(1−D)≠0 exactly when 1−D is injective in finite dimension.
 - A chart change conjugates the matrix of df_x and preserves det(1−df_x); under the nondegeneracy hypothesis `fixedPointSign` is sgn det(1−df_x).
 - At a fixed point of f, the derivative of an iterate is the corresponding power.
 
@@ -1294,6 +1323,7 @@ and −1 otherwise. Their API includes:
 - For f(x)=−x at 0 in ℝ, df_0=[−1], hence `fixedPointDet` is 2 and `fixedPointSign` is +1.
 - For f(x)=2x, the determinant is −1; conjugating by x↦3x leaves it −1.
 - On a zero-dimensional tangent space, the determinant is 1 even though the unique derivative is also the zero map; in positive dimension the identity gives determinant 0 and fails the hypothesis.
+- On an infinite-dimensional model `LinearMap.det` is 1 for every endomorphism, so the identity would have `fixedPointDet` 1 although every tangent vector is fixed and the fixed point is not nondegenerate; the equivalence with `TauCeti.IsNondegenerateFixedPt` needs the finite-dimensional model.
 
 Define `rationalHomologyMap` as the underlying linear map of Tau Ceti's
 `TopPair.singularHomologyMap` on the pair (M,∅), with coefficient object
@@ -1309,17 +1339,10 @@ Define `rationalHomologyMap` as the underlying linear map of Tau Ceti's
 - A circle rotation acts by 1 in both degrees, giving trace sum 0.
 - A map interchanging two points acts on H₀ by [[0,1],[1,0]], with trace 0; a constant map of the two points has trace 1, equal to its single fixed point count.
 
-**Checks.**
-
-- A point has fixed-point contribution 1 and H₀-trace 1; the empty manifold gives 0 on both sides.
-- Circle reflection has two contributions +1,+1, hence 2=1−(−1); a nontrivial rotation has no contributions and 0=1−1.
-- The squaring map z↦z² of S¹ fixes only 1, where df=2 and det(1−2)=−1; the right side is 1−2=−1.
-- A rotation of S² by an angle θ∉{0,π} descends to ℝP² with one fixed point, where det(1−R_θ)=2−2cos θ>0; ℝP² has rational homology ℚ in degree 0 only, so both sides are 1 on a nonorientable manifold.
-- Translation on ℝ has no fixed points but H₀-trace 1; compactness excludes this false 0=1 test.
-
 *Needs:* §6.4 finite-triangulation adapter and Hopf trace route; §5.2 local index;
 Mathlib `mfderiv`, `LinearMap.det`, `LinearMap.trace` and `TopPair.incl`; Tau Ceti
-`TopPair.singularHomologyMap`.
+`TopPair.singularHomologyMap`, `TauCeti.IsNondegenerateFixedPt` and
+`TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`.
 
 ### Examples
 
@@ -1386,7 +1409,7 @@ particular Euler structure, even though trajectory counts use its negative flow;
 Do not assert sign removal by a homology orientation for dynamical torsion without
 building that separate sign comparison; the definite theorem here retains ±1.
 
-Use rt3 Appendix B, Definitions B.3–B.4, pp. 241–242 and Theorem B, p. 215; the determinant-volume formulation retains the torsor action when the complex is zero. The normalization T_m(ξ₀)=1 for a nonsingular field is rt3 Example 1.9, p. 215; the refined I:E(X)→Q(Λ)/±1 is Definition 1.5, p. 214; the refined equality is equation (1.5), p. 215; and Remark 1.6, p. 214 leaves sign removal by a homology orientation for the Morse-theoretic torsion open.
+Use rt3 Appendix B, Definitions B.3–B.4, pp. 241–242 and Theorem B, p. 215; the determinant-volume formulation retains the torsor action when the complex is zero. The normalization T_m(ξ₀)=1 for a nonsingular field is rt3 Example 1.9, p. 215; the refined I:E(X)→Q(Λ)/±1 is Definition 1.5, p. 214; rt3 states the refined equality as equation (1.5), p. 215, with a proof sketch, and Remark 4.3, p. 237 makes the sketch depend on a rigorous version of Example 1.8, so the refined equality is proved here; and Remark 1.6, p. 214 leaves sign removal by a homology orientation for the Morse-theoretic torsion open.
 
 The API includes:
 
@@ -1412,7 +1435,7 @@ tangent-bundle chart at (p,V(p)) and projected to the fiber by
 their geometric API assumes a smooth field on a boundaryless smooth manifold:
 
 - The fiber component is the derivative at p of the coordinate expression of V in the chart at p.
-- At a zero of V, another chart conjugates this derivative; its determinant sign is intrinsic, and at a nondegenerate zero `zeroSign` is the local index sgn det(dV_p).
+- At a zero of V, another chart conjugates this derivative; its determinant sign is intrinsic, and at a nondegenerate zero `zeroSign` is the local index sgn det(dV_p), the index of a nondegenerate zero in Milnor, Topology from the Differentiable Viewpoint, §6.
 - For a Morse gradient the determinant sign is (−1)^index, agreeing with the signed zero cycle of §7.1.
 
 **Checks.**
@@ -1424,7 +1447,21 @@ their geometric API assumes a smooth field on a boundaryless smooth manifold:
 Define `rationalBetti` M i as the dimension over ℚ of the rational singular
 homology of the pair (M,∅) in degree i, with coefficient object `ULift ℚ` in the
 universe of M; its alternating sum over degrees 0 to dim M is χ(M)
-(AlgebraicTopology Stage 7).
+(AlgebraicTopology Stage 7). Since `Module.finrank` is 0 on an infinite-dimensional
+space, `rationalBetti` is the actual dimension only where the homology is
+finite-dimensional, which the first bullet proves for compact manifolds. Its API includes:
+
+- For a compact Hausdorff manifold M, every H_i(M;ℚ) is finite-dimensional: a compact manifold is a compact Euclidean neighbourhood retract and so has finitely generated integral homology (Hatcher, Corollaries A.8–A.9, p. 527), and H_i(M;ℚ)=H_i(M;ℤ)⊗ℚ.
+- For a compact Hausdorff n-manifold M, `rationalBetti` M i=0 for every i>n (Hatcher, Lemma 3.27(b), p. 236, with A=M).
+- Homotopy equivalent spaces have the same `rationalBetti` in every degree, by homotopy invariance of singular homology and the natural isomorphism `TopPair.singularHomologyInclIso` between the homology of (M,∅) and that of M.
+- When M has finite CW type, the alternating sum of `rationalBetti` M i over all degrees is `TauCeti.eulerChar` M, by `TauCeti.eulerChar_eq_finsum_finrank_singularHomology` over the division ring `ULift ℚ` after `TopPair.singularHomologyInclIso`. No pinned instance gives finite CW type to a compact manifold, so `poincare_hopf` states the alternating sum itself.
+
+**Checks.**
+
+- A point has `rationalBetti` 1 in degree 0 and 0 above; two points have 2 in degree 0.
+- The circle has (1,1), with alternating sum 0=χ(S¹); a definition through reduced homology would give (0,1) and sum −1.
+- ℝP² has (1,0,0), with alternating sum 1; 𝔽₂ coefficients would give (1,1,1), so the coefficient field is part of the definition even though the alternating sum agrees.
+- An infinite discrete space has infinite-dimensional H₀, on which `Module.finrank` is 0; the finiteness bullet needs compactness.
 
 Prove `poincare_hopf` for every smooth vector field V on a finite-dimensional
 compact Hausdorff smooth manifold M with a boundaryless model I, in any universe:
@@ -1443,7 +1480,8 @@ follows from compactness
 
 *Needs:* §7.1 zero-locus comparison and Morse/Euler route; Mathlib tangent bundles,
 `mfderiv`, `ContinuousLinearMap.snd`, `LinearMap.det`, `Module.finrank` and
-`TopPair.incl`; Tau Ceti `TopPair.singularHomology`.
+`TopPair.incl`; Tau Ceti `TopPair.singularHomology`, `TopPair.singularHomologyInclIso`
+and `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`.
 
 ### Examples
 

@@ -2,6 +2,7 @@ module
 
 public import Mathlib
 public import TauCeti.AlgebraicTopology.Singular.Relative
+public import TauCeti.Geometry.Manifold.MFDeriv.FixedPoint
 
 /-!
 # Morse–Novikov homology and dynamical Reidemeister torsion: target signatures
@@ -11,27 +12,43 @@ roadmap's headline theorems that are statable against the pinned Mathlib and Tau
 nondegenerate Lefschetz fixed-point formula `lefschetz_fixed_point_formula` (README §6.5) and
 the nondegenerate vector-field Poincaré–Hopf theorem `poincare_hopf` (README §7.3). Both are
 universe-polymorphic in the manifold and its model and assume neither orientability,
-connectedness nor second countability. The local signs `fixedPointDet`, `fixedPointSign`,
+connectedness nor second countability. Nondegeneracy of a fixed point is Tau Ceti's
+`TauCeti.IsNondegenerateFixedPt`. The local signs `fixedPointDet`, `fixedPointSign`,
 `zeroDet` and `zeroSign` are read through Mathlib's `mfderiv` and `LinearMap.det`; rational
 singular homology is Tau Ceti's homology of the pair `(M, ∅)` with coefficient object
 `ULift ℚ` in the universe of `M`, giving `rationalHomologyMap` and `rationalBetti`.
 
-The remaining headlines are not statable at these pins without substantial new
-constructions. Layer 1's completion and universal property lack the period-controlled
-completed group ring and topology. Layer 2's compactification and gluing lack the
-closed-one-form cutoff trajectory spaces. Layer 3's continuation, completed cellular
-comparison and top-degree vanishing lack the Novikov complex
-and controlled cellular/singular chain models. Layer 4's Novikov inequalities, torsion
-decomposition and transformation laws lack the based determinant-line torsion construction
-and the Novikov ring. Layer 5's integral zeta product and cover-norm theorem lack the
-periodic orbit counting series and its completion. Layer 6's dynamical torsion invariance,
-cellular equality and mapping-torus/knot-surgery torsion formulas lack these torsion
-and zeta carriers; the continuous fixed-point-index strengthening also lacks its
-local index construction. Layer 7's Euler-refined equality lacks the Euler-structure
-torsor and its determinant-volume normalization. None is replaced by admitted data.
+Several algebraic headlines are proved at the pinned Tau Ceti and are therefore not restated
+here: Layer 1's completion `TauCeti.NovikovSeries`, its universal property
+`TauCeti.NovikovSeries.completionPkg`, its functoriality `TauCeti.NovikovSeries.mapRingHom` and
+its domain theorem `TauCeti.NovikovSeries.isDomain_of_fg`; Layer 4's based torsion
+`HomologicalComplex.reidemeisterTorsion` with its basis-change law
+`HomologicalComplex.reidemeisterTorsion_eq_mul_finprod_det_toMatrix`, its homology-basis form
+`HomologicalComplex.reidemeisterTorsionWithHomology` and its componentwise form
+`HomologicalComplex.componentwiseReidemeisterTorsion`; and Layer 5's integral product formula
+`TauCeti.NovikovSeries.orbitZeta_eq_mapRingHom_eulerProduct` for the algebraic orbit zeta
+function `TauCeti.NovikovSeries.orbitZeta`.
 
-The `AbelianCoverHomology` section records the integer coordinate calibration of
-the Klein-bottle abelian cover of §2.3.
+The remaining headlines are not statable at these pins. Layer 2's compactification and gluing
+lack the cutoff trajectory spaces of a closed one-form on an abelian cover. Layer 3's comparison
+of Novikov homology with completed cellular homology, its top-degree vanishing and Layer 4's
+Novikov inequalities lack Novikov homology of a closed one-form: the pins have no complex built
+from signed trajectory counts of a closed one-form on an abelian cover. Layer 5's flow zeta
+function and cover-norm theorem lack the periodic-orbit data of a closed one-form: the deck
+classes of the closed orbits of its negative dual flow and their return-map signs. Layer 6's
+dynamical torsion invariance and its equality with cellular torsion lack both carriers, and the
+mapping-torus formula for the flow zeta function lacks the periodic-orbit data. The cellular
+torsion formulas for the mapping torus and the zero surgery lack a based cellular torsion of an
+abelian cover of a finite CW complex: the pinned equivariant cellular chains
+`TauCeti.cellularChainComplexRep` and the componentwise torsion
+`HomologicalComplex.componentwiseReidemeisterTorsion` are not joined by a basis of lifted cells
+and a scalar extension to the total quotient ring. The zero-surgery formula lacks, in addition,
+the Alexander polynomial of a knot in the 3-sphere: the pinned `TauCeti.KnotTheory.alexander` is
+defined on a Seifert matrix, and no pinned declaration produces a Seifert matrix from a smooth
+knot `TauCeti.SmoothCircleEmbedding` (the pinned `TauCeti.BraidWord.seifertMatrix` is that of a
+closed braid word). The continuous fixed-point-index form `Σ ind = L(f)` of §§5.2 and 6.4 lacks a
+local fixed-point index of a continuous map. Layer 7's refined equality lacks both carriers of
+Layer 6 and, in addition, the Euler-structure torsor. None is replaced by admitted data.
 -/
 
 @[expose] public section
@@ -69,11 +86,13 @@ def rationalHomologyMap {M : Type u} [TopologicalSpace M] (f : C(M, M)) (i : ℕ
     (ModuleCat.of ℚ (ULift.{u} ℚ)) i).hom
 
 /-- **Lefschetz fixed-point formula** (README §6.5). For a smooth self-map `f` of a compact
-Hausdorff boundaryless manifold `M` all of whose fixed points are nondegenerate, the sum of the
-signs `sgn det(1 − df_x)` over the fixed points equals the alternating sum of the traces of
-`f_*` on the rational singular homology of `M` in degrees `0` to `dim M`. Neither
-orientability, connectedness nor second countability is assumed. The fixed set is finite under
-these hypotheses, so the finite sum is the actual signed count. Hatcher, Algebraic Topology,
+Hausdorff boundaryless manifold `M` all of whose fixed points are nondegenerate
+(`TauCeti.IsNondegenerateFixedPt`: `1` is not an eigenvalue of `df_x`), the sum of the signs
+`sgn det(1 − df_x)` over the fixed points equals the alternating sum of the traces of `f_*` on
+the rational singular homology of `M` in degrees `0` to `dim M`. Neither orientability,
+connectedness nor second countability is assumed. The fixed set is finite under these
+hypotheses (`TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`), so the finite sum is the
+actual signed count, and at each fixed point `det(1 − df_x) ≠ 0`. Hatcher, Algebraic Topology,
 §2.C, Theorem 2C.3, p. 179, is the Lefschetz fixed-point theorem for retracts of finite
 simplicial complexes, with the trace formula in its proof, p. 181; the index form `Σ ind = L(f)`
 for compact Euclidean neighbourhood retracts is Dold, Lectures on Algebraic Topology,
@@ -85,7 +104,7 @@ theorem lefschetz_fixed_point_formula {E : Type*} [NormedAddCommGroup E] [Normed
     [I.Boundaryless] {M : Type u} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
     [CompactSpace M] [T2Space M]
     (f : M → M) (hf : ContMDiff I I ∞ f)
-    (hnd : ∀ x ∈ Function.fixedPoints f, fixedPointDet I f x ≠ 0) :
+    (hnd : ∀ x ∈ Function.fixedPoints f, TauCeti.IsNondegenerateFixedPt I f x) :
     ((∑ᶠ x ∈ Function.fixedPoints f, fixedPointSign I f x : ℤ) : ℚ) =
       ∑ i ∈ Finset.range (Module.finrank ℝ E + 1), (-1 : ℚ) ^ i *
         LinearMap.trace ℚ _ (rationalHomologyMap ⟨f, hf.continuous⟩ i) := by
@@ -107,7 +126,8 @@ def zeroDet {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 /-- The local index of a zero of a vector field: `1` when `zeroDet` is positive and `-1`
 otherwise, so that at a nondegenerate zero it is `sgn det(dv_p)`, the Poincaré–Hopf index
-(Hutchings, Forum Math. 14 (2002), Appendix B, p. 241, the sign of a nondegenerate zero). -/
+(Milnor, Topology from the Differentiable Viewpoint, §6: the index of a nondegenerate zero is
+`+1` or `−1` according to the sign of the determinant of its derivative). -/
 def zeroSign {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     {H : Type*} [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
     {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I 1 M]
@@ -136,38 +156,5 @@ theorem poincare_hopf {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     ((∑ᶠ p ∈ {p | v p = 0}, zeroSign I v p : ℤ) : ℚ) =
       ∑ i ∈ Finset.range (Module.finrank ℝ E + 1), (-1 : ℚ) ^ i * (rationalBetti M i : ℚ) := by
   sorry
-
-/-! ## Layer 2 (§2.3): Abelian-cover homology coordinate calibration -/
-
-section AbelianCoverHomology
-
-/-! These integer maps calibrate the proposed geometric covering map of the
-Klein bottle (README.md, N2, is definitive); they do not construct the cover,
-fundamental group or homology identifications. -/
-
-namespace AbelianCoverHomology
-
-/-- The generator of the length-two fiber projects to twice the fiber loop. -/
-def doubling : ℤ →+ ℤ where
-  toFun n := 2 * n
-  map_zero' := by simp
-  map_add' a b := by simp [mul_add]
-
-/-- The section coordinate is zero and twice a fiber class vanishes modulo two. -/
-def fiberMap : ℤ →+ ℤ × ZMod 2 :=
-  (0 : ℤ →+ ℤ).prod ((Int.castAddHom (ZMod 2)).comp doubling)
-
-theorem doubling_injective : Function.Injective doubling := by
-  sorry
-
-theorem fiberMap_eq_zero : fiberMap = 0 := by
-  sorry
-
-theorem fiberMap_not_injective : ¬ Function.Injective fiberMap := by
-  sorry
-
-end AbelianCoverHomology
-
-end AbelianCoverHomology
 
 end TauCetiRoadmap.MorseNovikov
