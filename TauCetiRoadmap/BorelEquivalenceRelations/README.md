@@ -46,7 +46,7 @@ perfect set theorem for Borel sets, Kuratowski–Ulam and Mycielski) is Tau Ceti
 is consumed, not rebuilt; see [Existing library and ownership](#existing-library-and-ownership).
 
 The roadmap has no model-theoretic content and no model-theoretic dependency. Its principal
-consumer is the [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) roadmap, which
+consumer is the [CountableModelCounting](../CountableModelCounting/README.md) roadmap, which
 counts countable models through the interface of Layer 4.
 
 ## Scope and dependency order
@@ -192,8 +192,7 @@ of 0.1, the functional Borel graphs of 0.3, the standard Borel cardinality bound
 antichains and countable splits of 0.5, and Layers 1.3–5.
 
 The Tau Ceti measurable-selection module `TauCeti.MeasureTheory.MeasurableSpace.Selection`
-(Kuratowski–Ryll-Nardzewski, [Tau Ceti #13809](https://github.com/TauCetiProject/TauCeti/pull/13809))
-is related but not consumed: no milestone here needs a selector.
+(Kuratowski–Ryll-Nardzewski) is related but not consumed: no milestone here needs a selector.
 
 ---
 
@@ -531,7 +530,7 @@ continuous injection `ψ` of Cantor space whose distinct points are pullback-ine
 
 ### 4.3 The consumer interface
 
-The counting of countable models in [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318))
+The counting of countable models in [CountableModelCounting](../CountableModelCounting/README.md)
 consumes the following, and nothing about structures is stated here:
 
 - the antichain vocabulary `HasCantorAntichainOn`, `HasPerfectAntichainOn` and `IsThinOn`, with
@@ -697,14 +696,14 @@ The following belong to separate roadmaps.
 - Everything about spaces of countable structures: the structure space, model classes,
   López–Escobar and the Borel complexity of isomorphism belong to
   [CountableStructureSpaces](../CountableStructureSpaces/README.md) ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)); the counting of countable
-  models belongs to [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)).
+  models belongs to [CountableModelCounting](../CountableModelCounting/README.md).
 
 ## Coordination
 
 - **Infinitary logic.** The [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md) roadmap lists the
   Silver and G₀ dichotomies among the invariant descriptive set theory it leaves to separate
   roadmaps; this is the general part of that material. It is consumed by
-  [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) through the interface of 4.3, and
+  [CountableModelCounting](../CountableModelCounting/README.md) through the interface of 4.3, and
   this roadmap consumes nothing from either.
 - **Spaces of countable structures.**
   [CountableStructureSpaces](../CountableStructureSpaces/README.md) ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) consumes four general
@@ -731,7 +730,7 @@ The following belong to separate roadmaps.
 
 A Lean formalization of most of this roadmap exists in
 [`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic) (Apache-2.0)
-at checkpoint
+at revision
 [`518a366`](https://github.com/cameronfreer/infinitary-logic/tree/518a366cba97b1ae8c4dc64a297a396939bc3e0b),
 sorry-free with axioms `propext`, `Classical.choice` and `Quot.sound`. It is a proof-script
 reference, not the specification: its public statements assume a metric, a complete metric and
@@ -793,4 +792,4 @@ is the proof map of the Silver and G₀ formalization.
   relations", *Journal of the American Mathematical Society* 3 (1990), 903–928. Cited for the
   out-of-scope general dichotomy.
 - `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic and the descriptive
-  set theory above, checkpoint `518a366`.
+  set theory above, revision `518a366`.
