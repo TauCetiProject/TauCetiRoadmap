@@ -364,8 +364,9 @@ The roadmaps consumed, with the relative links used throughout:
   `𝒳_H`), §§5.8–5.12 (the coarse curve `X_H`, the `j`-degree, the cusp divisor, cusps away
   from the level with their widths and Galois action, the cyclotomic structure), §§5.15–5.17
   (level maps, quotients, the Katz–Mazur comparison), §6.1 (compact analytic–algebraic
-  comparison), §6.3 and §8.3 (cusp and component fields), §9.6 (Cartan curves), §9.7 (rational
-  points of `X_H` and Galois images), §5.14 (the twisted curves `X(ρ)`), Layer 13 (modular
+  comparison), §6.3 and §8.3 (cusp and component fields), §8.2 (the function field of `X₀(N)`
+  over `ℚ` as the field `ℚ(j(q), j(q^N))` of `q`-expansions), §9.3 (the Fricke involution),
+  §9.6 (Cartan curves), §9.7 (rational points of `X_H` and Galois images), §5.14 (the twisted curves `X(ρ)`), Layer 13 (modular
   Jacobians) and Layer 16 (the quotients `A_f` of §16.2, `dim A_f = [K_f : ℚ]` of §16.3).
 - [ModularCurves](../ModularCurves/README.md) (MC): Convention 5 (the right action on frames),
   Layer 2 (isogenies and the Weil pairing at scheme level), Layer 5A (for `N ≥ 4`, `Y₁(N)` over
@@ -511,6 +512,7 @@ Every object below is used under its supplier's name and is not defined again he
 | The Tate normal form `tateNormalForm`, `existsUnique_variableChange_tateNormalForm`, `existsUnique_tateNormalForm` | Tau Ceti `TauCeti.AlgebraicGeometry.EllipticCurve.TateNormalForm`, `…Scheme.TateNormalForm` |
 | `Y₁(N)` for `N ≥ 4` as the exact-order-`N` locus of the universal Tate normal form, representing `[Γ₁(N)]` | MC Layer 5A |
 | Eta quotients and their orders at the cusps | MF §0.2 |
+| The function field of `X₀(N)_ℚ` as `ℚ(j(q), j(q^N))`, and the Fricke involution on it | MC2 §§8.2, 9.3 |
 | Frey's criterion, Abramovich's gonality bound, isolated and parametrized points | CMG Layers 7–8 |
 | Model data, complete models and closed immersions, instantiated at six modular curves in 6.4 | CMG §§2.1, 2.5, 9.1 |
 | The prime-to-`p` conductor `N(ρ̄)` of a residual representation | AGR §3.3 |
@@ -1571,8 +1573,10 @@ the product `MonoidHom.pi` of Tau Ceti's `tateModuleGaloisRepresentation ℓ` in
   `−I ∈ H`.
 - **Invariance.** `adelicImage` is invariant under `K`-isomorphism. For a `K`-isogeny
   `φ : E → E'` the two classes are `GL₂(𝔸_f)`-conjugate: in frames `ρ_{E'} = A ρ_E A⁻¹` with `A`
-  the matrix of `T̂φ` (3.2). When members of the two classes are commensurable is 4.5's last
-  bullet: always without CM, and with CM exactly when the two endomorphism rings agree. Base
+  the matrix of `T̂φ` (3.2). Commensurability of members of the two classes is 4.5's last
+  bullet: without CM every member of one class is commensurable with every member of the other;
+  with CM some member of one is commensurable with some member of the other exactly when the two
+  endomorphism rings agree, and when they differ no pair of members is. Base
   change: `adelicImage (E_L)` is the class of `ρ_E(G_L)`, of finite index `≤ [L : K]` in a member
   of `adelicImage E`.
 - **Open images.** "The adelic image is open" is AGR §6.4's *IsGaloisGeneric* for `g = 1`
@@ -1999,14 +2003,18 @@ For `E` with CM by the imaginary quadratic order `𝒪` (convention 11), `F := �
   case above reduced mod `ℓ`; Serre 1972 §4.5 for the general shape), and the index at the
   finitely many `ℓ ∣ N_E` is a computation on the stored images.
 - **Isogenous curves.** Let `φ : E → E'` be a `K`-isogeny, so that `ρ_{E'} = A ρ_E A⁻¹` in frames
-  with `A ∈ GL₂(𝔸_f)` the matrix of `T̂φ` (3.2–3.3). Without CM, members of the two classes are
-  commensurable (they meet in a subgroup of finite index in both), since both images are open
-  (4.4). With CM, members of the two classes are commensurable exactly when
-  `End(E_{K̄}) = End(E'_{K̄})`, the same order `𝒪` of `F`. If so, `T̂φ` is `𝒪 ⊗ ẑ`-linear (`φ`
+  with `A ∈ GL₂(𝔸_f)` the matrix of `T̂φ` (3.2–3.3). Two subgroups are
+  commensurable when they meet in a subgroup of finite index in both. Without CM, every member of
+  `adelicImage E` is commensurable with every member of `adelicImage E'`, since all of them are
+  open in `GL₂(Ẑ)` (4.4). With CM, some member of `adelicImage E` is commensurable with some
+  member of `adelicImage E'` exactly when `End(E_{K̄}) = End(E'_{K̄})`, the same order `𝒪` of
+  `F`; when the orders differ no pair of members is commensurable, and when they agree not every
+  pair is (the last Check). If the orders agree, `T̂φ` is `𝒪 ⊗ ẑ`-linear (`φ`
   commutes with the action of `𝒪` normalised on invariant differentials), so in frames adapted to
   `𝒪 ⊗ ẑ`-bases of the two free rank-one `𝒪 ⊗ ẑ`-modules `A` is multiplication by an element of
-  `(F ⊗ 𝔸_f)ˣ`; it commutes with `ρ_E(G_{KF}) ≤ C_𝒪(ẑ)`, and the two images agree on `G_{KF}`, of
-  index at most two in `G_K`. If the orders differ, choose `ℓ` at which their conductors have
+  `(F ⊗ 𝔸_f)ˣ`; it commutes with `ρ_E(G_{KF}) ≤ C_𝒪(ẑ)`, so the members of the two classes read in
+  these adapted frames both contain `ρ_E(G_{KF}) = ρ_{E'}(G_{KF})`, with index at most two. If
+  the orders differ, choose `ℓ` at which their conductors have
   different `ℓ`-adic valuations. An open subgroup of the `ℓ`-adic image of `G_{KF}` spans the
   `ℚ_ℓ`-algebra `F ⊗ ℚ_ℓ` inside `M₂(ℚ_ℓ)` (it is open in `(𝒪 ⊗ ℤ_ℓ)ˣ`, NEI §4.0), and the
   intersection of that algebra with `M₂(ℤ_ℓ)` is the multiplier ring `𝒪 ⊗ ℤ_ℓ` of the lattice
@@ -2034,6 +2042,18 @@ For `E` with CM by the imaginary quadratic order `𝒪` (convention 11), `F := �
   `x(x² − 6x + 1)`, and `x ↦ x + 2` takes it to `x³ − 11x − 14`. No members of their adelic images
   are commensurable: at `ℓ = 2` the multiplier rings are `ℤ₂[i]` and `ℤ₂[2i]`, of discriminants
   `−4` and `−16`. Commensurability of all isogenous curves would hold only without CM.
+- (rejection) With CM, two members of one class need not be commensurable, so the CM statement is
+  about some pair and not about every pair. Take `E' = E : y² = x³ − x` over `ℚ`, `φ = id`,
+  `𝒪 = ℤ[i]`, let `H = ρ_E(G_ℚ) ≤ N_𝒪(ẑ)` in a frame adapted to the basis `(1, i)`, and let
+  `g ∈ GL₂(Ẑ)` have every component `[[1, 1], [0, 1]]`. In that basis `𝒪 ⊗ ℤ_ℓ` is the ring of
+  matrices `[[x, −y], [y, x]]`, and `g² = [[1, 2], [0, 1]]` is not one of them; as
+  `[N_𝒪(ℤ_ℓ) : C_𝒪(ℤ_ℓ)] = 2`, the component `g_ℓ` is not in `N_𝒪(ℤ_ℓ)`, the normaliser of
+  `C_𝒪(ℤ_ℓ)` in `GL₂(ℤ_ℓ)` (0.3). Hence `C_𝒪(ℤ_ℓ) ∩ g N_𝒪(ℤ_ℓ) g⁻¹` is a proper subgroup of
+  `C_𝒪(ℤ_ℓ)` for every `ℓ`: were it all of `C_𝒪(ℤ_ℓ)`, a subgroup of index at most two of
+  `g⁻¹ C_𝒪(ℤ_ℓ) g` would lie in `C_𝒪(ℤ_ℓ)`, the two copies of `F ⊗ ℚ_ℓ` it spans would agree,
+  and `g_ℓ` would normalise `𝒪 ⊗ ℤ_ℓ = (F ⊗ ℚ_ℓ) ∩ M₂(ℤ_ℓ)`. Since `H` is open in `N_𝒪(ẑ)`, it
+  contains `∏_{ℓ ≥ ℓ₀} C_𝒪(ℤ_ℓ)` for some `ℓ₀`, so `[H : H ∩ gHg⁻¹] ≥ 2^k` for every `k`: the
+  members `H` and `gHg⁻¹` of `adelicImage E` are not commensurable.
 
 ### Examples
 
@@ -2670,11 +2690,45 @@ cited fact:
      `W := 2(U² + 3U + 2)V + U³ + 4U² + 4U`, resp. `W := 2(U − 1)²V − U³ + U − 1`, and setting
      `u = −(U + 2)/U`, `v = −2W/U³`, resp. `x = −1/U`, `y = W/U³` (the first Check below).
    - **Models of `X₀(21)` and `X₀(27)`** (Ligozat 1975, §4.1, Lemma 4.1.1 and its Corollary,
-     p. 42; (4.2.5)–(4.2.6), pp. 44–45). Fricke's modular functions `τ, σ` of level `N` (eta quotients,
-     MF §0.2) satisfy `σ² = F_N(τ)` for a polynomial `F_N ∈ ℤ[T]` with distinct roots, and `j(z)`,
-     `j(Nz)` are rational functions of `(τ, σ)` over `ℚ`; as `(j(z), j(Nz))` determines `z` modulo
-     `Γ₀(N)` away from finitely many points, `z ↦ (τ(z), σ(z))` is birational from `X₀(N)` onto that
-     curve, and Ligozat's change of variables (4.2.5) carries it to a minimal Weierstrass model.
+     p. 42; the tables (4.2.4), p. 44, and (4.2.5)–(4.2.6), pp. 44–45). Each model is generated
+     by two modular functions `τ, σ` for `Γ₀(N)`, Fricke's functions of Ligozat's §4.1, given
+     here by formulas in eta quotients. Each eta quotient below satisfies MF §0.2's criterion for
+     invariance under `Γ₀(N)` with trivial character, and MF §0.2's formula gives its order at
+     every cusp; it has no zero or pole on the upper half-plane and an integral `q`-expansion. A
+     modular function for `Γ₀(N)` that is meromorphic at the cusps and has a rational
+     `q`-expansion at `∞` lies in `ℚ(X₀(N))`: MC2 §8.2 identifies `ℚ(X₀(N))` with
+     `ℚ(j(q), j(q^N)) ⊂ ℚ((q))` and `ℂ(X₀(N))` with `ℂ(j(q), j(q^N))`, and an element of the
+     second with rational coefficients lies in the first, because elements of `ℚ((q))` that are
+     linearly independent over `ℚ` stay so over `ℂ`. A smooth projective curve is determined by
+     its function field (AC 12C).
+     - `N = 21`. Put `τ := η(3z)²η(7z)²/(η(z)²η(21z)²) = q⁻¹ + 2 + 5q + O(q²)`. It has simple
+       poles at the cusps `∞` and `0`, simple zeros at the cusps `1/3` and `1/7`, and by the
+       transformation law of `η` under `z ↦ −1/z` it is invariant under the Fricke involution
+       `W₂₁ : z ↦ −1/(21z)` (MC2 §9.3). So `[ℚ(X₀(21)) : ℚ(τ)] = 2` and `ℚ(τ)` is the fixed field
+       of `W₂₁`. Put `u := η(3z)³η(7z)/(η(z)η(21z)³) = q⁻² + q⁻¹ + 2 + O(q²)`, with a double pole
+       at `∞`, a double zero at `1/3` and no other zero or pole; the same law gives
+       `u ∘ W₂₁ = 7·η(3z)η(7z)³/(η(z)³η(21z)) = 7 + 21q + O(q²)`, with a double pole at `0`. Put
+       `σ := u − u ∘ W₂₁ = q⁻² + q⁻¹ − 5 − 21q + O(q²)`. Then `σ ∘ W₂₁ = −σ`, and `σ` has double
+       poles at `∞` and `0` and no others, so `σ²` is a `W₂₁`-invariant function whose only poles
+       are of order `4` at the two poles of `τ`: a polynomial in `τ` of degree at most `4`, fixed
+       by the coefficients of `q⁻⁴, …, q⁰` of `σ²`, which are `1, 2, −9, −52, −139`. The target is
+       `σ² = F₂₁(τ)` with `F₂₁ = T⁴ − 6T³ − 17T² − 6T + 1` (the row `N = 21` of Ligozat's table
+       (4.2.4)). As `σ ≠ 0` is not `W₂₁`-invariant, `σ ∉ ℚ(τ)` and `ℚ(X₀(21)) = ℚ(τ, σ)`: `X₀(21)`
+       is the smooth projective model of `σ² = F₂₁(τ)`. The substitution
+       `τ = (y + 2x + 3)/(x − 5)`, `σ = τ² − 3τ − 2x − 3`, with inverse
+       `x = (τ² − 3τ − 3 − σ)/2`, `y = τ(x − 5) − 2x − 3` (Ligozat's (4.2.5)), carries that curve
+       to `y² + xy = x³ − 4x − 1` (the row `N = 21` of his table (4.2.6)).
+     - `N = 27`. Put `τ := 9·η(9z)³/η(z)³ = 9q + 27q² + O(q³)` and
+       `σ := 3·η(3z)⁴/(η(z)³η(9z)) = 3 + 9q + 27q² + O(q³)`. On `X₀(27)` the function `τ` has a
+       triple pole at the cusp `0`, simple zeros at the cusps `∞`, `1/9`, `2/9` and no other zero
+       or pole, and `σ` has a double pole at the cusp `0`, simple zeros at the cusps `1/3`, `2/3`
+       and no other zero or pole. So `[ℚ(X₀(27)) : ℚ(τ)] = 3` and `[ℚ(X₀(27)) : ℚ(σ)] = 2`, and
+       `ℚ(X₀(27)) = ℚ(τ, σ)` because its degree over `ℚ(τ, σ)` divides both `3` and `2`. The
+       difference `σ³ − (9τ² + 27τ + 27)` has at most a pole of order `6`, at the cusp `0`, and
+       vanishes to order at least `7` at `∞` (compare the coefficients of `q⁰, …, q⁶`), so it is
+       zero. The target is `σ³ = 9τ² + 27τ + 27`, and with `x = σ`, `y = 3τ + 4` this is
+       `y² + y = x³ − 7` (the row `N = 27` of table (4.2.6)); with `X = 4σ`, `Y = 24τ + 36` it is
+       `Y² = X³ − 432`, the form of the row `N = 27` of table (4.2.4).
      Targets: `X₀(21) ≅ y² + xy = x³ − 4x − 1` and `X₀(27) ≅ y² + y = x³ − 7`.
    The rational points:
    - `N ∈ {14, 15}`: with a rational cusp as origin the model above is an elliptic curve over `ℚ`;
@@ -2735,7 +2789,7 @@ proves the classification once the three declared gaps `gap:x1-16-rational-point
 *Needs:* 1.2–1.3, 5.1–5.2, 5.9, 6.3; EI §8.8; EM2 §§5.0b, 6.0d; `gap:nebentypus-rank-zero` (at
 `N = 25` only); `gap:x1-16-rational-points`, `gap:x1-18-rational-points` (at `N = 16, 18` only);
 ED §§3.10–3.11, 3.20; Tau Ceti `WeierstrassCurve.existsUnique_variableChange_tateNormalForm`;
-MC Layer 5A; MC2 §5.17; MF §0.2; AC 12C; CMG §§2.1, 2.5, 9.1; Mathlib `fermatLastTheoremThree`;
+MC Layer 5A; MC2 §§5.17, 8.2, 9.3; MF §0.2; AC 12C; CMG §§2.1, 2.5, 9.1; Mathlib `fermatLastTheoremThree`;
 EC Layer 6.
 
 **Checks.**
@@ -2760,6 +2814,20 @@ EC Layer 6.
 - (rejection) `ℤ/16` and `(ℤ/2)³` have orders `16` and `8`, both orders of groups in the list,
   but neither is one of the fifteen groups: the classification is up to isomorphism, not by order.
 - `ℤ/2 × ℤ/8` is realised by `210.e6` and `ℤ/12` by `90.c7` (worked example 9).
+- `N = 21`: `σ` is not an eta quotient. The point `z₀ = i/√21` of the upper half-plane is fixed
+  by `W₂₁`, so `σ(z₀) = −σ(z₀) = 0`, while an eta quotient has no zero on the upper half-plane.
+  With `q = e^{−2π/√21} ≈ 0.2538` the series give `τ(z₀) ≈ 8.1691`, the largest root
+  `(3 + 2√7 + √(33 + 12√7))/2` of `F₂₁` (`F₂₁(T)/T² = w² − 6w − 19` in `w = T + 1/T`, with roots
+  `w = 3 ± 2√7`). (rejection) `τ` alone does not generate: it is `W₂₁`-invariant, of degree `2`.
+- `N = 21`: the quartic `F₂₁` has invariants `I = 12ae − 3bd + c² = 193` and
+  `J = 72ace + 9bcd − 27ad² − 27eb² − 2c³ = 1150`, and `y² + xy = x³ − 4x − 1` has `c₄ = 193`,
+  `c₆ = 575 = J/2`: both curves have the Jacobian `y² = x³ − 5211x − 31050`. Under the
+  substitution the two poles of `τ` are the origin and `(5, 8)`; at `(5, −13)` the numerator
+  `y + 2x + 3` vanishes as well.
+- `N = 27`: at the cusp `∞` (`q = 0`) the functions take the values `τ = 0`, `σ = 3`, the point
+  `(x, y) = (3, 4)`; the cusp `0` is the origin; and `τ = −3`, `σ = 3` is `(3, −5)`, the
+  non-cuspidal rational point. The cusp orders of `τ` sum to `−3 + 1 + 1 + 1 = 0` and those of
+  `σ` to `−2 + 1 + 1 = 0`.
 - `N = 27`: the point `(x, y) = (3, 4)` of `y² + y = x³ − 7` goes to `(X, Y) = (12, 36)` on
   `Y² = X³ − 432` (`36² = 1296 = 1728 − 432`) and to `(x : y : z) = (1 : 0 : 1)` on the Fermat
   cubic; `(12, −36)` goes to `(0 : 1 : 1)` and the origin to `(1 : −1 : 0)`: the three rational
@@ -3254,8 +3322,8 @@ targets and are not stated. Each item names the milestone that computes it.
   `N = 11, 13, 14, 15, 16, 17, 18`), §2, pp. 642–645 (the raw forms from the Tate normal form and
   the birational substitutions).
 - G. Ligozat, *Courbes modulaires de genre 1*, Mém. Soc. Math. France 43 (1975): §4.1, Lemma
-  4.1.1 and its Corollary, p. 42 (Fricke's functions as a birational model of `X₀(N)`), (4.2.5)
-  and the table (4.2.6), pp. 44–45 (minimal Weierstrass equations of the genus-one `X₀(N)`).
+  4.1.1 and its Corollary, p. 42 (Fricke's functions as a birational model of `X₀(N)`), the
+  table (4.2.4), p. 44 (Fricke's equations), (4.2.5) and the table (4.2.6), pp. 44–45 (minimal Weierstrass equations of the genus-one `X₀(N)`).
 - P. L. Clark, B. Cook, J. Stankewicz, *Torsion points on elliptic curves with complex
   multiplication* (with an appendix by A. Rice), Int. J. Number Theory 9 (2013).
 - D. Abramovich, *A linear lower bound on the gonality of modular curves*, Int. Math. Res. Notices
