@@ -40,7 +40,8 @@ Headline theorems that are not statable at the pins, and what each lacks:
   need the Sobolev scale of a unitary representation, hence the derived representation on smooth
   vectors and the closed Nelson operator, which are not at the pins; the BCH bidifferential
   coefficients `C_j` are Taylor coefficients of the Baker–Campbell–Hausdorff series, of which the
-  pins have only the local logarithm, so writing them would be a long ad hoc encoding.
+  pins have only the local logarithm with its expansion through the bracket term, so writing them
+  would be a long ad hoc encoding.
 * Uniform Plancherel–Sobolev summability, the Plancherel formula for Ξ-integrable functions and
   the relative Plancherel disintegration (README §§4.2, 4.4, 4.6; Lemmas A.3, A.4 and 18.1): the
   pins have no tempered duals of reductive groups with their Plancherel measures, no Sobolev
@@ -66,7 +67,7 @@ Headline theorems that are not statable at the pins, and what each lacks:
   no branching coefficients `L(Π, Σ)`, Tamagawa numbers or Plancherel measures.
 
 The exponential map of a smooth Lie group is Tau Ceti's `mulInvariantExp`, which needs the `C³`
-regularity supplied by the local instance `LieGroup.minSmoothnessThree`.
+regularity supplied by the local instance `LieGroup.minSmoothness_of_isRCLikeNormedField`.
 -/
 
 open scoped ContDiff Manifold FourierTransform SchwartzMap Topology
@@ -77,7 +78,7 @@ open Polynomial Matrix
 
 namespace TauCetiRoadmap.QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups
 
-attribute [local instance] LieGroup.minSmoothnessThree
+attribute [local instance] LieGroup.minSmoothness_of_isRCLikeNormedField
 
 universe u
 
