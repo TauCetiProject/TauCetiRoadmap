@@ -1,16 +1,20 @@
 module
 
 import Mathlib
+import TauCeti.GroupTheory.OrderOfElement.PPart
+import TauCeti.RepresentationTheory.CharacterTable.Table
 import TauCeti.RingTheory.Idempotents.Primitive.Basic
 
 /-!
 # Modular characters and blocks: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the three
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the five
 definitions they need: block idempotents (primitive idempotents of the centre of the group
-algebra), the Brauer coefficient projection, and defect groups as maximal `p`-subgroups on which
-the Brauer projection of a block idempotent is nonzero. A block is principal when its idempotent
+algebra), the Brauer coefficient projection, defect groups as maximal `p`-subgroups on which
+the Brauer projection of a block idempotent is nonzero, the central-character relation that
+sorts the complex irreducible characters into `p`-blocks modulo a maximal ideal of the algebraic
+integers containing `p`, and the `p'`-core `O_{p'}(G)`. A block is principal when its idempotent
 has nonzero augmentation, written with the native `MonoidAlgebra.lift`.
 
 Headline theorems of the roadmap that are not statable at the pins:
@@ -21,10 +25,11 @@ Headline theorems of the roadmap that are not statable at the pins:
   the pinned Tau Ceti has neither (its `TauCeti.reductionK0` reduces `ℤ`-forms only).
 * Generalized decomposition numbers, their orthogonality relations and Brauer's second main
   theorem (Layers 5 and 7). They need Brauer characters of centralizers.
-* The ordinary block partition, block-section orthogonality and the kernel theorem
-  `⋂_{χ ∈ Irr(B₀)} ker χ = O_{p'}(G)` (Layers 4, 7 and 8). They need the partition of the
-  complex irreducible characters into `p`-blocks through a `p`-modular system, and the core
-  `O_{p'}(G)`, which is not at the pinned Mathlib.
+* The agreement of the central-character relation with the partition of the ordinary irreducible
+  characters by the block idempotents of `O[G]` (Layer 4). It needs the ordinary characters over
+  the fraction field `K` of a splitting `p`-modular system and their central idempotents in
+  `K[G]`; `K` is not algebraically closed, and the pinned
+  `TauCeti.Representation.primitiveCentralIdempotent` requires an algebraically closed field.
 -/
 
 namespace TauCetiRoadmap.ModularCharactersAndBlocks
@@ -79,6 +84,20 @@ theorem card_simpleModules_eq_card_pRegularClasses {G k : Type u} [Group G] [Fin
       Fintype.card ι =
         Nat.card {C : ConjClasses G // ∃ g : G, ConjClasses.mk g = C ∧ (orderOf g).Coprime p} :=
   sorry
+
+/-! ## Layer 4: blocks in the three coefficient rings -/
+
+/-- **The central-character block relation.** For an ideal `M` of the algebraic integers
+`integralClosure ℤ ℂ`, the functions `χ, ψ : G → ℂ` are related when, for every `g` with
+conjugacy class `C`, the difference `|C| χ(g) / χ(1) - |C| ψ(g) / ψ(1)` lies in `M`. On
+irreducible characters both terms are the central characters `ω_χ(K_C)` and `ω_ψ(K_C)`, which are
+algebraic integers; for `M` maximal with `p ∈ M` the relation is equality of central characters
+modulo `M`, and its classes are the `p`-blocks of ordinary characters (Sambale, Definition 1.6,
+p. 15, with the residue field of the modular system replaced by the algebraic integers modulo
+`M`). -/
+def SameBlock {G : Type*} [Group G] (M : Ideal (integralClosure ℤ ℂ)) (χ ψ : G → ℂ) : Prop :=
+  ∀ g : G, ∃ m ∈ M, (m : ℂ) =
+    (Nat.card (ConjClasses.mk g).carrier : ℂ) * (χ g / χ 1 - ψ g / ψ 1)
 
 /-! ## Layer 6: Brauer maps and defect groups -/
 
@@ -146,6 +165,21 @@ theorem brauer_first_main {G : Type*} [Group G] [Finite G] {k : Type*} [Field k]
         MonoidAlgebra.mapDomain ((↑) : Subgroup.normalizer (D : Set G) → G)
           (b.1 : MonoidAlgebra k (Subgroup.normalizer (D : Set G))) ≠ 0 := sorry
 
+open scoped Classical in
+/-- **Block-section orthogonality.** Let `M` be a maximal ideal of the algebraic integers with
+`p ∈ M`. If the `p`-parts of `g` and `h` are not conjugate, then for every irreducible complex
+character `ψ` the sum of `χ(g) conj(χ(h))` over the irreducible characters `χ` in the block of
+`ψ` vanishes (Martínez, Corollary 2.4, p. 11, for `g` `p`-regular and `h` `p`-singular; in
+general, expand `χ(g)` and `χ(h)` in generalized decomposition numbers and apply the block form of
+their orthogonality, Sambale, Theorem 1.14, p. 16). -/
+theorem sum_sameBlock_mul_conj_eq_zero {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
+    (M : Ideal (integralClosure ℤ ℂ)) [M.IsMaximal] (hpM : (p : integralClosure ℤ ℂ) ∈ M)
+    (j : Fin (Nat.card (ConjClasses G))) {g h : G}
+    (hgh : ¬ IsConj (TauCeti.pPart p g) (TauCeti.pPart p h)) :
+    ∑ i with SameBlock M (TauCeti.irreducibleCharacter ℂ i) (TauCeti.irreducibleCharacter ℂ j),
+      TauCeti.irreducibleCharacter ℂ i g * starRingEnd ℂ (TauCeti.irreducibleCharacter ℂ i h) =
+      0 := sorry
+
 /-- **Brauer's third main theorem, local form.** Let `P` be a `p`-subgroup and
 `P C_G(P) ≤ H ≤ N_G(P)`, and let `e₀` be the principal block idempotent of `k[G]`. A block
 idempotent `b` of `k[H]` satisfies `Br_P(e₀) b ≠ 0` in `k[G]` exactly when `b` is principal
@@ -160,5 +194,23 @@ theorem brauer_third_main_local {G : Type*} [Group G] [Finite G] {k : Type*} [Fi
           (brauerProjection P (e₀ : MonoidAlgebra k G)) *
         MonoidAlgebra.mapDomain ((↑) : H → G) (b : MonoidAlgebra k H) ≠ 0 ↔
       MonoidAlgebra.lift k k H 1 (b : MonoidAlgebra k H) ≠ 0 := sorry
+
+/-! ## Layer 8: normal subgroups and finite-group interfaces -/
+
+/-- The **`p'`-core** `O_{p'}(G)`: the supremum of the normal subgroups of `G` whose order is
+prime to `p`. For a finite group it is a characteristic subgroup of order prime to `p`, and it
+contains every normal subgroup of order prime to `p`. -/
+def pPrimeCore (p : ℕ) (G : Type*) [Group G] : Subgroup G :=
+  sSup {N : Subgroup G | N.Normal ∧ (Nat.card N).Coprime p}
+
+/-- **The kernel of the principal block is the `p'`-core.** Let `M` be a maximal ideal of the
+algebraic integers with `p ∈ M`. An element `g` lies in `O_{p'}(G)` exactly when `χ(g) = χ(1)`
+for every irreducible complex character `χ` in the block of the trivial character; that is,
+`⋂_{χ ∈ Irr(B₀(G))} ker χ = O_{p'}(G)` (Navarro, Theorem 6.10). -/
+theorem mem_pPrimeCore_iff_forall_principalBlock {G : Type*} [Group G] [Finite G] {p : ℕ}
+    [Fact p.Prime] (M : Ideal (integralClosure ℤ ℂ)) [M.IsMaximal]
+    (hpM : (p : integralClosure ℤ ℂ) ∈ M) (g : G) :
+    g ∈ pPrimeCore p G ↔
+      ∀ χ ∈ TauCeti.irreducibleCharacters ℂ G, SameBlock M χ (fun _ ↦ 1) → χ g = χ 1 := sorry
 
 end TauCetiRoadmap.ModularCharactersAndBlocks
