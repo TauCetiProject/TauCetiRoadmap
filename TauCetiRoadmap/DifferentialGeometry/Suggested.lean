@@ -6,8 +6,8 @@ public import TauCeti.Geometry.Manifold.Distribution
 public import TauCeti.Geometry.Manifold.IntegralCurve.Flow
 public import TauCeti.Geometry.Manifold.IntegralCurve.Maximal
 public import TauCeti.Geometry.Manifold.LocallyFlat.Basic
-public import TauCeti.Geometry.Manifold.Orientation
-public import TauCeti.Geometry.Manifold.Riemannian.Sphere
+public import TauCeti.Geometry.Manifold.Orientation.OrientedAtlas
+public import TauCeti.Geometry.Manifold.Riemannian.Sphere.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
 public import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
