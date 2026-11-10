@@ -66,7 +66,11 @@ variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
   [TauCeti.Comodule ℂ A H]
 variable {ι : Type w} [Fintype ι] [DecidableEq ι]
 
-/-- Haar invariance on the core is stated by actual slice equations. -/
+/-- A positive normalized two-sided invariant integral on a complex Hopf algebra `A` with a
+star operation (§3.1): a linear functional `h : A → ℂ` with `h 1 = 1`, with
+`(id ⊗ h) (Δ a) = h a • 1` and `(h ⊗ id) (Δ a) = h a • 1` for every `a`, and with
+`0 ≤ h (star a * a)` for every `a`. The normalization and the two invariance equations are those
+of Neshveyev–Tuset, Theorem 1.6.6, Step 1, p. 18. -/
 structure AlgebraicHaar where
   functional : A →ₗ[ℂ] ℂ
   normalized : functional 1 = 1
@@ -78,8 +82,15 @@ structure AlgebraicHaar where
       (Coalgebra.comul (R := ℂ) a)) = functional a • (1 : A)
   positive : ∀ a : A, 0 ≤ functional (star a * a)
 
-/-- The matrix Ft is the pre-antipode F̃ in the README, rather than its transpose F.
-Star preservation of the coproduct is the native `TauCeti.StarCoalgebra`. -/
+/-- Weighted Schur orthogonality (§3.1). Let `A` be a complex Hopf star algebra whose coproduct
+preserves the star (the native `TauCeti.StarCoalgebra`), `h` a positive normalized two-sided
+invariant integral on `A`, and `H` an irreducible finite-dimensional comodule with an inner
+product whose coefficient matrix `u` in the orthonormal basis `b` is unitary. Then there is a
+positive definite matrix `Ft` (the README's `F̃`) with `Tr F̃ = Tr F̃⁻¹`,
+`h (u_ij⋆ u_kl) = δ_jl (F̃⁻¹)_ik / Tr F̃⁻¹` and `h (u_ij u_kl⋆) = δ_ik F̃_jl / Tr F̃`.
+`F̃` is the transpose of the matrix `F = (f₁(u_ij))` of the Woronowicz character `f₁` (§3.2):
+in Neshveyev–Tuset, Theorem 1.4.2, p. 9, the weight is `ρ = F` (Definition 1.7.1, p. 21), so
+`F̃ = ρᵗ`. -/
 theorem schur_orthogonality [TauCeti.StarCoalgebra ℂ A]
     [IsSimpleOrder (TauCeti.Subcomodule ℂ A H)]
     (h : AlgebraicHaar (A := A)) (b : OrthonormalBasis ι ℂ H)
