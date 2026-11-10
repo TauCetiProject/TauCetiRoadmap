@@ -353,7 +353,7 @@ theorems and acceptance checks.
 | 1 | the stratification bound applied to a set of codes meeting one isomorphism class |
 | 2 | equivalence relations with all classes infinite: internal Scott rank `1` throughout and exactly `ℵ₀` countable models |
 | 3 | equivalence relations: an explicit perfect set of pairwise non-isomorphic models |
-| 4 | a concentrated class is back-and-forth scattered, hence thin |
+| 4 | a concentrated class is back-and-forth scattered, hence thin in a countable relational language |
 | 5 | `VaughtConjecture.cardinal` and the CH and ¬CH reformulations |
 | 6 | the internal Scott rank is not an isolating rank |
 
@@ -567,9 +567,9 @@ analyticity, Borelness or invariance of `K` is assumed where none is stated.
 
 * `BFScattered K`: for every `α < ω₁`, `K` meets countably many `bfEquivSetoid α`-classes (classes
   of the restricted relation, not codes). `BFScattered.mono`.
-* `not_hasCantorAntichainOn_of_bfScattered`: `K` carries no Cantor antichain for isomorphism (the
-  range of one is analytic, (S7) finds one level separating it, and the class map at that level
-  would inject Cantor space into a countable set). With countably many relation symbols, `K` is
+* `not_hasCantorAntichainOn_of_bfScattered`: with countably many relation symbols, `K` carries no
+  Cantor antichain for isomorphism (the range of one is analytic, (S7) finds one level separating
+  it, and the class map at that level would inject Cantor space into a countable set), and so is
   thin (`IsThinOn`, by E0).
 * The observation adapter: maps `obs α` on `K` with countably many realized values at each level,
   equal values implying `bfEquivSetoid α`, give `BFScattered K`.
@@ -588,12 +588,13 @@ Layer 3; scattered implies thin by 4a. Corollary: fewer than `𝔠` models on `�
 
 **4d. Concentration.** `ConcentratedAtBFLevels C`: at each level `α < ω₁` some centre `k` (possibly
 outside `C`, depending on `α`) has all but countably many classes of `C` in its level-`α` class.
-Prove: monotonicity; countably many classes imply concentrated; concentrated implies
-`BFScattered` (hence thin); **saturation**: if `B` and `C \ B` are analytic and `B` is closed under
-isomorphism within `C`, then from some `α < ω₁` on, `bfEquivSetoid`-equivalent members of `C` lie on
-the same side of `B` (by S7), and conversely saturation at a single level implies that invariance;
-and **one side is small**: for concentrated `C` and such a `B` (or `B = C ∩ D` with `D` Borel and
-`C` analytic), `B` or `C \ B` meets only countably many classes.
+Prove: monotonicity; countably many classes imply concentrated; concentrated implies `BFScattered`
+(hence thin, with countably many relation symbols); **saturation**: if `B` and `C \ B` are analytic
+and `B` is closed under isomorphism within `C`, then from some `α < ω₁` on,
+`bfEquivSetoid`-equivalent members of `C` lie on the same side of `B` (by S7), and conversely
+saturation at a single level implies that invariance; and **one side is small**: for concentrated
+`C` and such a `B` (or `B = C ∩ D` with `D` Borel and `C` analytic), `B` or `C \ B` meets only
+countably many classes.
 
 **4e. Sentence spectra and Borel observables.** `sentenceTheory θ c : ℕ → Bool`, the truth sequence
 of a countable list of sentences, measurable and isomorphism invariant. Build:
@@ -662,8 +663,8 @@ continuously embedded Cantor subcopy of any Cantor antichain), with `no_cantorAn
 on the range of every Borel `f : (ℕ → Bool) → RelationalConfiguration L ℕ` into `C` with pairwise
 non-isomorphic values.
 
-**Acceptance check.** A concentrated class is back-and-forth scattered (4d), hence thin (4a), with
-no analyticity hypothesis.
+**Acceptance check.** In a countable relational language, a concentrated class is back-and-forth
+scattered (4d), hence thin (4a), with no analyticity hypothesis.
 
 ⚠ **API warning.** Thinness of an arbitrary class does not give a complete countable list of
 sentences: countable sentence spectra quantify over each list separately, and a thin Borel class
