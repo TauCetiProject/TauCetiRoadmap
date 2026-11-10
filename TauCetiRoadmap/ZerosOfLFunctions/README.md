@@ -59,9 +59,9 @@ not the roadmap.
   which Tau Ceti realizes the records and predicates of Layer 0, the Dirichlet record of Layer 4,
   the primitive characters, presented Hecke L-functions and Euler corrections of Layer 5, the
   `3-4-1` combination of Layer 7 and the Dedekind von Mangoldt identity and positivity of Layer 8;
-- the residue calculus — winding numbers, null-homology, residues, the argument principle for a
-  null-homologous closed piecewise-`C¹` curve, the continuous argument lift, and the
-  winding-number form of `∮ f'/f` — as Tau Ceti realizes the
+- the residue calculus — winding numbers, null-homology, residues, the residue theorem and the
+  argument principle for a null-homologous closed piecewise-`C¹` curve, the continuous argument
+  lift, and the winding-number form of `∮ f'/f` — as Tau Ceti realizes the
   [contour integration roadmap](../../Completed/ContourIntegration/README.md);
 - ideal arithmetic functions, the ideal von Mangoldt function, the prime count `π_K` and
   Chebyshev's `ϑ_K` and `ψ_K` over a set of primes, the higher-prime-power estimate for
@@ -120,7 +120,7 @@ not the roadmap.
   §8.4, a consumer of 1.2–1.3 here); 8.9 proves only its two-term case for the offset `Li`,
   `Li x − x/log x ∼ x/log² x`;
 - the generic residue calculus itself (Tau Ceti), which Layer 7 consumes and specializes to
-  rectangles.
+  rectangles, and Layer 8 applies on those rectangles to its contour shifts.
 
 ## Conventions
 
@@ -271,6 +271,22 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
   meromorphic at the points of `S` with integer orders `ord`, and a closed piecewise-`C¹`
   null-homologous curve in `U` avoiding `S`, evaluates `∫ γ' · (f'/f)(γ)` as
   `2πi ∑_{z ∈ S} windingNumber γ z · ord z`; `TauCeti.Contour.residue_logDeriv_eq_meromorphicOrderAt`;
+  the residue theorem `TauCeti.Contour.classicalResidueTheorem_nullHomologous`
+  (`Residue/Cycle.lean`), which for `f` differentiable on an open `U` off a finite set `S` and
+  meromorphic at the points of `S` in `U`, and a closed piecewise-`C¹` null-homologous curve `γ` in
+  `U` avoiding `S`, evaluates `∫ γ' · f(γ)` as `2πi ∑_{s ∈ S} windingNumber γ s · residue f s`,
+  with the residue `TauCeti.Contour.residue` (`Residue/Basic.lean`), for the contour shifts of 8.2,
+  8.4 and 8.6; for the residues of their integrands,
+  `TauCeti.Contour.logDeriv_eventuallyEq_principalPart` (`Argument/Principle.lean`: near a point
+  `s` where `F` has order `n`, `logDeriv F` agrees off `s` with `n (z − s)⁻¹ + logDeriv h` for some
+  `h` analytic and nonvanishing at `s`), `TauCeti.Contour.analyticAt_logDeriv_of_analyticAt`
+  (`LogDerivFTC.lean`), `TauCeti.Contour.residue_eq_of_tendsto_sub_mul`
+  (`Residue/SimplePole.lean`: a function meromorphic at `s` has residue `L` there when
+  `(z − s) f(z) → L`), `TauCeti.Contour.residue_add` and
+  `TauCeti.Contour.residue_div_sub_pow_of_analyticAt` (`Residue/Basic.lean`: for `g` analytic at
+  `s`, `g(z)/(z − s)^(k+1)` has residue `iteratedDeriv k g s / k!`), which give the residue
+  `g(s) n` of `g · logDeriv F` at `s` for `g` analytic at `s`, and the residue
+  `−n g′(0) − (logDeriv h)(0) g(0)` of `−logDeriv F(z) g(z)/z` at `0`;
   `TauCeti.Contour.windingNumber_comp_eq_integral_logDeriv` (`LogDerivFTC.lean`), the winding
   number of the image curve `f ∘ γ` about `0`, with
   `TauCeti.Contour.intervalIntegrable_deriv_smul_logDeriv`;
@@ -2146,7 +2162,15 @@ vanishes to order `r₁ + r₂ − 1` and `c_K = lim_{s→0} ((−ζ'_K/ζ_K)(s)
 The horizontal edges are bounded by 5.6 and 1.4, with `T` chosen at distance `≫ 1/log q(iT)` from
 every ordinate by 4.5 (Davenport §17).
 
-*Needs:* 8.1, 7.2, 5.6, 1.4, 1.5, 4.5.
+*Needs:* 8.1; 7.1 for the rectangle and Tau Ceti
+`TauCeti.Contour.classicalResidueTheorem_nullHomologous` for the shift, with the residues read off
+`TauCeti.Contour.logDeriv_eventuallyEq_principalPart`: at `1`, at each `ρ` and at each trivial
+zero `x^s/s` is analytic, and the residue is minus the order times its value
+(`TauCeti.Contour.residue_eq_of_tendsto_sub_mul`), while at `0`, where `x^s/s` itself has a pole
+and the integrand a pole of order `2` exactly when `r₁ + r₂ ≥ 2`, the residue is
+`c_K − (r₁ + r₂ − 1) log x` (`TauCeti.Contour.residue_add`,
+`TauCeti.Contour.residue_div_sub_pow_of_analyticAt`, the derivative of `x^s` at `0` being
+`log x`); 5.6, 1.4, 1.5, 4.5.
 
 ### 8.3 The truncated formula
 
@@ -2222,7 +2246,12 @@ strip are those of `Λ_K`, with the same multiplicities. At `K = ℚ`, where `lo
 `r₂ = 0` and the nonzero ideals of `ℤ` are the `(n)` with `n ≥ 1`, it is
 `riemannZeta_weilExplicitFormula`, stated on Mathlib's `completedRiemannZeta`.
 
-*Needs:* 8.2, 4.5, 1.4, 1.4a (the reflection of `Λ_K'/Λ_K`), 5.6a and 6.5 (the zeros of `Λ_K` on
+*Needs:* 7.1 and Tau Ceti `TauCeti.Contour.classicalResidueTheorem_nullHomologous` for the shift,
+with the residue `m_ρ φ̃(ρ)` at a zero `ρ` and `−φ̃(0)`, `−φ̃(1)` at the poles read off
+`TauCeti.Contour.logDeriv_eventuallyEq_principalPart` and
+`TauCeti.Contour.residue_eq_of_tendsto_sub_mul` (`φ̃` is entire, so the residue of
+`(Λ_K'/Λ_K) φ̃` at a point of order `n` of `Λ_K` is `n` times the value of `φ̃`); the edge bounds of
+8.2, 4.5, 1.4, 1.4a (the reflection of `Λ_K'/Λ_K`), 5.6a and 6.5 (the zeros of `Λ_K` on
 the open strip); Mathlib `mellin`, `mellinInv_mellin_eq`, `NumberField.discr`,
 `NumberField.InfinitePlace.nrRealPlaces`, `NumberField.InfinitePlace.nrComplexPlaces`; L-functions
 Layer 3 `completedDedekindZeta_one_sub`; Tau Ceti `TauCeti.hasSum_idealTerm_vonMangoldt`
@@ -2337,16 +2366,19 @@ where `χ⁻¹` has the conductor and the shifts of `χ` and the values `conj χ
 inversion on `Re s = 2` against the series of `−logDeriv L(χ, ·)` and `−logDeriv L(χ⁻¹, ·)`.
 
 *Needs:* for the truncated formula and the estimate of `ψ_K(x, χ)`: 8.1, and the arguments of
-8.2, 8.3 and 8.5 run for `Λ(χ, ·)`, with their inputs 7.2, 5.6, 1.4, 1.5 and 4.5, the region
-6.3–6.4 in place of 6.2–6.3, and 6.5 for the order of `L(χ, ·)` at `s = 0`; Arithmetic Dirichlet
-Series §2.3, at the pin
+8.2, 8.3 and 8.5 run for `Λ(χ, ·)`, with their inputs (7.1, the residue theorem and residue
+lemmas of 8.2, 5.6, 1.4, 1.5 and 4.5), the region 6.3–6.4 in place of 6.2–6.3, and 6.5 for the
+order of `L(χ, ·)` at `s = 0`; Arithmetic Dirichlet Series §2.3, at the pin
 `TauCeti.MultiplicativeIdealWeight.logDeriv_LSeries_eq_neg_tsum_vonMangoldtTransform` for the
 weight of `χ`, which makes `ψ_K(x, χ)` the summatory function of the coefficients of
 `−logDeriv (heckeLFunctionC χ.character)` on `Re s > 1`, which the Dedekind identity
 `TauCeti.hasSum_idealTerm_vonMangoldt` of 8.3 does not give. For the Weil formula
-`heckeLFunction_weilExplicitFormula`: the argument of 8.4 run for `Λ(χ, ·)`, with 7.2 for the
-residues and the edge bounds of 8.2 (5.6, 1.4 and 4.5 for `χ`); 1.5 for the zeros and poles of
-`γ_χ`; 5.6a and 6.5 (the zeros of `Λ(χ, ·)` on the open strip); the same Arithmetic Dirichlet
+`heckeLFunction_weilExplicitFormula`: the argument of 8.4 run for `Λ(χ, ·)`, with the rectangle
+of 7.1 and Tau Ceti `TauCeti.Contour.classicalResidueTheorem_nullHomologous` for the shift, the
+residue `m_ρ φ̃(ρ)` at a zero `ρ` read off `TauCeti.Contour.logDeriv_eventuallyEq_principalPart`
+and `TauCeti.Contour.residue_eq_of_tendsto_sub_mul`, and the edge bounds of 8.2 (5.6, 1.4 and 4.5
+for `χ`); 1.5 for the zeros and poles of `γ_χ`; 5.6a and 6.5 (the zeros of `Λ(χ, ·)` on the open
+strip); the same Arithmetic Dirichlet
 Series §2.3 identity for the weights of `χ` and `χ⁻¹`; L-functions Layer 5 `heckeData`,
 `differentiable_completedHeckeLFunction` and `completedHeckeLFunction_one_sub`; Tau Ceti
 `TauCeti.GlobalNumberFields.HeckeCharacter.isFiniteOrder_ofRayClassCharacter` (the finite-order
@@ -2671,9 +2703,10 @@ Arithmetic Dirichlet Series §§2.3, 4.2–4.3, 5.2, 6.1–6.4, 10.1–10.2; Glo
 Layers 2, 3E, 9;
 Number Field Arithmetic §2.3; Chebotarev Layers 11, 13–14. Mathlib Mellin transform and
 `IsAbelianGalois`. Layers 1.4,
-1.4a, 1.5, 4.5, 5.6, 5.6a, 6, 7.2. L-functions Layers 2, 3, 5. Tau Ceti
-`TauCeti.hasSum_idealTerm_vonMangoldt` (L-functions Layer 8; 8.3, 8.4), the real parities of
-Hecke characters and the infinite part of the conductor
+1.4a, 1.5, 4.5, 5.6, 5.6a, 6, 7.1. L-functions Layers 2, 3, 5. Tau Ceti
+`TauCeti.Contour.classicalResidueTheorem_nullHomologous` with the residue lemmas of the contour
+contract (8.2, 8.4, 8.6), `TauCeti.hasSum_idealTerm_vonMangoldt` (L-functions Layer 8; 8.3, 8.4),
+the real parities of Hecke characters and the infinite part of the conductor
 `TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff` (8.6), ray-class reciprocity
 `TauCeti.ClassFieldTheory.rayClassArtinMap` (Class Field Theory Layer 12; 8.8) and
 `TauCeti.Real.logIntegral_eq_div_log_sub_add` (Arithmetic Dirichlet Series §6.2; 8.9).
