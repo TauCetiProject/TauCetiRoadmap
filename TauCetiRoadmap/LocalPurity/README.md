@@ -154,9 +154,8 @@ Downstream consumers.
   `Scheme.ker_morphismRestrict_ideal` (for `f` quasi-compact and an open `V` of the target, the
   kernel ideal of the restriction of `f` over `V` is that of `f` on `V`)
   (`Mathlib/AlgebraicGeometry/IdealSheaf/Basic.lean`): together, Morphisms, Lemma 29.6.3 (01R8).
-- `IsRegularLocalRing` (a Noetherian local ring whose maximal ideal needs `ringKrullDim` generators),
-  `IsRegularRing` and `IsRegularLocalRing.of_isRegularRing_of_isLocalRing`
-  (`Mathlib/RingTheory/RegularLocalRing/Defs.lean`);
+- `IsRegularLocalRing` (a Noetherian local ring whose maximal ideal needs `ringKrullDim` generators)
+  and `IsRegularRing` (`Mathlib/RingTheory/RegularLocalRing/Defs.lean`);
   `ringKrullDim_quotient_span_singleton_succ_eq_ringKrullDim_of_mem_jacobson` (for a Noetherian
   ring and a non-zero-divisor `x` in its Jacobson radical, `dim R ⧸ (x) + 1 = dim R`,
   `Mathlib/RingTheory/KrullDimension/Regular.lean`).
@@ -179,7 +178,7 @@ Downstream consumers.
   `Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat` (`Mathlib/RingTheory/Etale/Descent.lean`);
   `Module.Flat.projective_of_finitePresentation` and `Module.finitePresentation_of_projective`.
 - `Algebra.Etale`, `Algebra.IsEtaleAt` (the localization at the prime is formally étale),
-  `Algebra.IsUnramifiedAt`, `Module.IsTorsionFree`, `Algebra.HasGoingDown`, and
+  `Algebra.IsUnramifiedAt`, `Module.IsTorsionFree`, and
   `IsIntegralClosure.finite` (`Mathlib/RingTheory/DedekindDomain/IntegralClosure.lean`: the integral
   closure of a Noetherian integrally closed domain in a finite separable extension of its fraction
   field is finite).
@@ -274,8 +273,10 @@ Downstream consumers.
 
 **From TauCetiRoadmap.SchemeAndStackFoundations.** §0.9 `finite_presentation_limits` (over a
 cofiltered limit of quasi-compact quasi-separated schemes with affine transition maps, schemes of
-finite presentation, their morphisms and the properties finite and étale descend to a finite
-stage); §0.14 *henselian_finiteEtale_equivalence* (More on Algebra, Lemma 15.13.2 (09ZL): for a
+finite presentation and their morphisms descend to a finite stage, Limits, Lemma 32.10.1 (01ZM),
+and the properties proper, finite, étale and closed immersion of a morphism between them are
+inherited from a finite stage, Lemmas 32.13.1 (081F), 32.8.3 (01ZO), 32.8.10 (07RP) and 32.8.5
+(01ZP)); §0.14 *henselian_finiteEtale_equivalence* (More on Algebra, Lemma 15.13.2 (09ZL): for a
 henselian pair `(R, I)`, base change is an equivalence from finite étale `R`-algebras to finite
 étale `R/I`-algebras) and *henselian_pair_characterisations* (for a henselian pair `(R, I)` and a
 finite `R`-algebra `S`, idempotents of `S/IS` lift uniquely to `S`); §2.6
@@ -665,10 +666,13 @@ applies.
 - For `A` a complete normal local domain of dimension `≥ 3` and `0 ≠ f ∈ 𝔪`, the local-cohomology
   hypothesis of *finiteEtale_extend_of_localCohomology* holds even when `depth A = 2` (Stacks, the
   remark before Lemma 58.20.5 (0EK6)); this is the case 0BLS covers and 0BLM does not.
-- For `A = k⟦x, y⟧`, the anti-equivalence of §1.2 sends the cover `U ⊔ U` to `A × A`. The
-  restriction of `Spec A[z]/(z² − x)` to `U` is not a finite étale cover of `U`, being ramified
-  along the curve `x = 0`, which matches the exclusion of `A[z]/(z² − x)` from
-  `FiniteNormalPuncturedEtaleAlg A`.
+- For `A = k⟦x, y⟧`, the anti-equivalence of §1.2 sends the cover `U ⊔ U` to `A × A`. For
+  `char k ≠ 2`, the restriction of `Spec A[z]/(z² − x)` to `U` is not a finite étale cover of `U`:
+  it is étale at every prime not containing `z`, where `x = z²` and the derivative `2z` are units,
+  and ramified at the prime `(z)` over the curve `x = 0`, which matches the exclusion of
+  `A[z]/(z² − x)` from `FiniteNormalPuncturedEtaleAlg A`. For `char k = 2` the derivative `2z`
+  vanishes, so `Ω_{B/A} = B·dz` is nonzero at every prime of `B = A[z]/(z² − x)`, and `B` is étale
+  at no prime; it is excluded as well.
 
 ### Dependencies
 
@@ -707,8 +711,8 @@ hence finite normal and torsion free, and Tau Ceti's
 `TauCeti.IsLocalRing.restrictPuncturedSpec.fullyFaithful` gives `B ≅ C`. The proof is by
 induction on `d`, as in Stacks. For `d = 2`, (2) is Tau Ceti's
 `TauCeti.Algebra.etale_of_finiteNormal_of_ringKrullDim_eq_two`, whose hypotheses (normality at the
-maximal ideals of `B`, unramifiedness at the primes not over `𝔪`) follow from those of (2). For
-`d ≥ 3`, an element `f ∈ 𝔪 ∖ 𝔪²` gives `A ⧸ Ideal.span {f}` regular
+maximal ideals of `B`, `Algebra.IsUnramifiedAt` at the primes not over `𝔪`) follow from those of
+(2). For `d ≥ 3`, an element `f ∈ 𝔪 ∖ 𝔪²` gives `A ⧸ Ideal.span {f}` regular
 (`TauCeti.IsRegularLocalRing.quotient_span_singleton`) of dimension `d − 1 ≥ 2`: `f` is a nonzero
 element of the domain `A`, hence a non-zero-divisor, and lies in the Jacobson radical `𝔪`, so
 `dim A ⧸ Ideal.span {f} + 1 = d`
@@ -722,7 +726,8 @@ induction hypothesis, extends the restriction of a cover `V` of `U` to `U_0`, an
 `TauCeti.IsRegularLocalRing.quotient_span_singleton`, `TauCeti.IsRegularLocalRing.depth_eq_ringKrullDim`,
 `TauCeti.IsRegularLocalRing.isDomain`, `TauCeti.isRegularRing_of_isRegularLocalRing`,
 `TauCeti.IsRegularRing.isIntegrallyClosed`; Mathlib `IsRegularLocalRing`, `Algebra.Etale`,
-`Algebra.IsEtaleAt`, `ringKrullDim_quotient_span_singleton_succ_eq_ringKrullDim_of_mem_jacobson`.
+`Algebra.IsEtaleAt`, `Algebra.IsUnramifiedAt`,
+`ringKrullDim_quotient_span_singleton_succ_eq_ringKrullDim_of_mem_jacobson`.
 
 **Checks.**
 - For `A = k⟦x, y⟧` and `B = A × A/𝔪`, `B` is finite and normal, étale at every prime not lying
@@ -746,10 +751,15 @@ schemes over `U` and over `Spec 𝒪_{S,s}` whose restrictions to `V` are isomor
 presented scheme over an open `U' ⊇ U ∪ {s}`, uniquely up to shrinking `U'`; and if both are
 separated, proper, finite or étale, the glued scheme has the same property after shrinking `U'`.
 The proof applies SchemeAndStackFoundations §0.9 `finite_presentation_limits` to `Spec 𝒪_{S,s}` as
-the limit of its affine open neighbourhoods. Prove `finiteEtale_extend_of_purity` (Stacks, Lemma
-58.21.6 (0EY7)): for a Noetherian scheme `X` and an open `U ⊆ X` with
-`TauCeti.IsLocalRing.PurityHolds 𝒪_{X,x}` for every `x ∉ U`, restriction from finite étale schemes
-over `X` to finite étale schemes over `U` is essentially surjective. The proof is Noetherian
+the limit of its affine open neighbourhoods `W`. For the given scheme `Y` over `Spec 𝒪_{S,s}` and
+its descent `Y_W` to some `W`, the clauses of §0.9 make `Y_W → W` proper, finite or étale when
+`Y` is, after shrinking `W`; separatedness follows from the closed-immersion clause applied to the
+diagonal `Y_W → Y_W ×_W Y_W`, a morphism between schemes of finite presentation over `W` whose
+limit is the diagonal of `Y` (Limits, Lemma 32.8.6 (01ZQ), a step of this target). Each property
+then holds over `U` and over `W`, hence over `U ∪ W`, being local on the base. Prove
+`finiteEtale_extend_of_purity` (Stacks, Lemma 58.21.6 (0EY7)): for a Noetherian scheme `X` and an
+open `U ⊆ X` with `TauCeti.IsLocalRing.PurityHolds 𝒪_{X,x}` for every `x ∉ U`, restriction from
+finite étale schemes over `X` to finite étale schemes over `U` is essentially surjective. The proof is Noetherian
 induction on the complement: at the generic point `x` of an irreducible component of `X ∖ U`, the
 preimage of `U` in `Spec 𝒪_{X,x}` is its punctured spectrum, purity extends the cover there, and
 *spread_from_localScheme* extends it to a larger open. Prove *restrictOpen_fullyFaithful_of_depth*
@@ -867,8 +877,10 @@ counterpart.
 This section is secondary; it maps targets to an existing formalization and prescribes nothing.
 The repository https://github.com/tdupu/pcfawd-formalization (Apache-2.0; T. Dupuy, T. Tucker,
 Z. Wang; Lean 4, Mathlib), built for the "PCF all the way down" theorem, contains a development of
-this material; Tau Ceti's punctured spectrum, purity, sections and full faithfulness modules are
-ported from it. Paths are under `library/Pcf/Stacks/Purity/` at commit `d28f90d`.
+this material. Tau Ceti's modules on the punctured spectrum and on restriction to it and purity
+(`AlgebraicGeometry/PuncturedSpectrum.lean`, `AlgebraicGeometry/FiniteEtale/PuncturedSpectrum.lean`)
+record that they are ported from it, at commit `9a20b3f`. The paths in the table are under
+`library/Pcf/Stacks/Purity/` at the later commit `d28f90d`.
 
 | § | Existing declarations | Files |
 | --- | --- | --- |
