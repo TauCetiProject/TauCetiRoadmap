@@ -30,13 +30,18 @@ It leaves the following to the named owners and consumes them by section.
   PD-A36–A45 and PD-B23–B36); the trace-class and Hilbert–Schmidt ideals (OperatorIdeals
   OI-B29–B41); and general principal angles. Its spectral sub-roadmap, SelfAdjointSpectralTheory,
   is a consumer of this roadmap (its SA-B85 consumes V4.0.Fields), so nothing here is taken from
-  it: the bounded Borel calculus and projection-valued measure of a unital representation of
-  `C(K)` and of a normal operator, with the null filter, vector identity, bounded convergence and
-  commutant law (V2.BorelCalculus); the cyclic multiplication models, control measures,
-  measurable multiplicity, the essentially bounded symbol quotient and the classification of
-  representations of `C(K)` and `C₀(X)` by control class and multiplicity (V4.0.Multiplication);
-  and the resolvent, Cayley transform and spectral measure of a self-adjoint `LinearPMap`
-  operator (V10.ClosedOperators) are owned here, at the generality this roadmap uses. V2, V4 and
+  it. The projection-valued-measure carrier `TauCeti.ProjValMeasure` with its integral, null
+  filter, vector identity and dominated convergence; the Riesz measures, polarized measures and
+  Borel extension of a unital representation of `C(K)`, and the Riesz measures of a normal
+  operator; and the resolvent estimates and Cayley transform of a self-adjoint `LinearPMap` are
+  implemented in Tau Ceti at the pin and are consumed from there (From Tau Ceti below). Owned
+  here, at the generality this roadmap uses: multiplicativity of that Borel extension, its
+  spectral measure as a `TauCeti.ProjValMeasure`, the essential-supremum norm and the commutant
+  law, for representations of `C(K)` and for normal operators (V2.BorelCalculus); the cyclic
+  multiplication models, control measures, measurable multiplicity, the essentially bounded
+  symbol quotient and the classification of representations of `C(K)` and `C₀(X)` by control
+  class and multiplicity (V4.0.Multiplication); and the inverse Cayley correspondence and the
+  spectral measure of a self-adjoint `LinearPMap` operator (V10.ClosedOperators). V2, V4 and
   V10 add what is about algebras: membership of Borel-calculus values and
   polar factors in the generated von Neumann algebra, the canonical trace functional with its
   cyclicity and the trace-class duality, the inverse Cayley correspondence, the multiplier-form
@@ -335,7 +340,84 @@ nuclear norm below c is induced by a projective tensor of norm below c)
 `TauCeti.CompletedProjectiveTensor.exists_hasSum_tmul_of_norm_lt` (a completed projective tensor
 of norm below c is a convergent series `Σ xₙ⊗yₙ` with `Σ‖xₙ‖‖yₙ‖<c`)
 (`TauCeti/Analysis/Normed/Module/TensorProduct/Series.lean`).
-Each is used as stated at the pin.
+The Borel-calculus inputs of V2.BorelCalculus, on a complete complex Hilbert space H. The
+projection-valued measure `TauCeti.ProjValMeasure` on a measurable space X: projections `P(B)` of
+the measurable sets with finite diagonal measures `diag ξ`, `⟪ξ,P(B)ξ⟫=diag ξ (B)`, `P(X)=1` and
+`P(B∩C)=P(B)P(C)`, with strong countable additivity
+`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint`
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Basic.lean`); the commutative C*-algebra
+`TauCeti.BoundedBorelFunction X` of bounded measurable complex functions with the supremum norm
+(`TauCeti/MeasureTheory/Function/BoundedBorel.lean`); the integral
+`TauCeti.ProjValMeasure.integral`, a unital star algebra homomorphism from the bounded Borel
+functions into `B(H)`, with `TauCeti.ProjValMeasure.integral_indicator` (`∫1_B dP=P(B)`),
+`TauCeti.ProjValMeasure.eq_integral_of_continuous` (a continuous map agreeing with the integral on
+simple functions is the integral), `TauCeti.ProjValMeasure.norm_integral_le` (`|f|≤c` pointwise
+gives `‖∫f dP‖≤c`), the vector identity `TauCeti.ProjValMeasure.norm_sq_integral_apply`
+(`‖(∫f dP)ξ‖²=∫|f|²d(diag ξ)`) and `TauCeti.ProjValMeasure.integral_apply_eq_zero_iff` (`(∫f dP)ξ=0`
+iff f=0 `diag ξ`-almost everywhere)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Integral.lean`); the null filter
+`TauCeti.ProjValMeasure.ae`, the sets conull for every diagonal measure, with
+`TauCeti.ProjValMeasure.proj_eq_zero_iff_compl_mem_ae`
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Null.lean`);
+`TauCeti.ProjValMeasure.integral_eq_integral_iff` (two integrals agree iff the functions agree
+P-almost everywhere) and dominated convergence
+`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence` (functions bounded
+by a common constant and converging P-almost everywhere along a countably generated filter have
+strongly converging integrals)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/DominatedConvergence.lean`); the polarized
+measures `TauCeti.ProjValMeasure.polarizedComplexMeasure` with
+`TauCeti.ProjValMeasure.polarizedComplexMeasure_apply` (value `⟪ψ,P(B)ξ⟫` on B) and the variation
+bound `TauCeti.ProjValMeasure.polarizedComplexMeasure_variation_univ_le` (at most `‖ψ‖‖ξ‖`)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Polarization.lean`,
+`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Variation.lean`); and the pushforward
+`TauCeti.ProjValMeasure.map` along a measurable map with the change of variables
+`TauCeti.ProjValMeasure.integral_map`
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Map.lean`). For a unital star representation π
+of `C(K,ℂ)` on H, K compact Hausdorff with its Borel σ-algebra: the finite regular Riesz measure
+`StarAlgHom.representationDiagMeasure` of `f↦⟪ξ,π(f)ξ⟫`, with
+`StarAlgHom.integral_representationDiagMeasure` (`∫f dμ_ξ=⟪ξ,π(f)ξ⟫` for continuous f),
+`StarAlgHom.representationDiagMeasure_univ` (mass `‖ξ‖²`) and
+`StarAlgHom.integral_norm_sq_representationDiagMeasure` (`∫|f|²dμ_ξ=‖π(f)ξ‖²` for continuous f)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/DiagonalMeasure.lean`); the
+polarized complex measures `StarAlgHom.representationPolarizedMeasure`, conjugate-linear in the
+first vector, with `StarAlgHom.integral_representationPolarizedMeasure` (`∫f dμ_(ψ,ξ)=⟪ψ,π(f)ξ⟫` for
+continuous f), `StarAlgHom.representationPolarizedMeasure_swap_apply` (`μ_(ξ,ψ)(B)` is the conjugate
+of `μ_(ψ,ξ)(B)`) and `StarAlgHom.variation_representationPolarizedMeasure_univ_le` (variation at
+most `2‖ψ‖‖ξ‖`)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/PolarizedMeasure.lean`); and the
+Borel extension `StarAlgHom.representationBorelOperator`, a complex linear map from the bounded
+Borel functions on K into `B(H)` with `⟪ψ,π(f)ξ⟫=∫f dμ_(ψ,ξ)`
+(`StarAlgHom.inner_representationBorelOperator`) that agrees with π on continuous functions
+(`StarAlgHom.representationBorelOperator_ofContinuousMap`), bounded through
+`StarAlgHom.norm_integral_representationPolarizedMeasure_le` (`‖∫f dμ_(ψ,ξ)‖≤2·sup|f|·‖ψ‖‖ξ‖`), and
+not shown multiplicative at the pin
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/BorelOperator.lean`). For a
+normal operator a, `ContinuousLinearMap.diagMeasure`, the Riesz measure on `spectrum ℂ a` of its
+continuous calculus `cfcHom`, with `ContinuousLinearMap.integral_diagMeasure_eq_inner_cfc`
+(`TauCeti/Analysis/InnerProductSpace/BorelCalculus/DiagonalMeasure.lean`). The resolvent and Cayley
+inputs of V10.ClosedOperators, for a self-adjoint partial linear map T on H (Mathlib's
+`IsSelfAdjoint` for the adjoint `LinearPMap.adjoint`): every nonreal λ is a resolvent point,
+`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, with `‖(λ−T)⁻¹‖≤|Im λ|⁻¹`,
+`IsSelfAdjoint.norm_resolvent_le` (`TauCeti/Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`);
+the Cayley transform `LinearPMap.cayley`, `U=1+2i(−i−T)⁻¹`, which is `(T−i)(T+i)⁻¹`, with
+`LinearPMap.mem_graph_iff_exists_cayley` (the graph of T is `{(x−Ux, i(x+Ux)) : x∈H}`) and
+`LinearPMap.cayley_apply_eq_self_iff` (`Ux=x` only for x=0)
+(`TauCeti/Analysis/Normed/Operator/LinearPMap/Cayley.lean`), and its unitarity and normality
+`IsSelfAdjoint.cayley_mem_unitary` and `IsSelfAdjoint.isStarNormal_cayley`
+(`TauCeti/Analysis/InnerProductSpace/LinearPMap/Cayley.lean`). The GNS covariance of V4.Normality.
+For a point-norm continuous action α of a topological group G on a C*-algebra A
+(`TauCeti.CStarAction`) and a positive functional φ with `φ∘α_g=φ`, the GNS implementing group
+`TauCeti.CStarAction.gnsImplementingGroup`, the strongly continuous unitary representation of G on
+the GNS space extending `[b]↦[α_g(b)]`, with
+`TauCeti.CStarAction.inner_gnsImplementingGroup_apply_coe` (`⟪[a],U_g[b]⟫=φ(a*α_g(b))`), and the
+covariant pair `TauCeti.CStarAction.gnsCovariantRepresentation` of Mathlib's GNS representation with
+that group, `U_gπ_φ(a)U_g*=π_φ(α_g(a))` (`TauCeti/Analysis/CStarAlgebra/Action/Covariant/GNS.lean`).
+The separating theorem of Layer 6: for a β-KMS state ω of a point-norm continuous real action on a
+unital C*-algebra A, `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`, an
+operator x of `π_ω(A)''` with `x[1]=0` is zero
+(`TauCeti/Analysis/CStarAlgebra/Action/KMS/Separating.lean`), and
+`TauCeti.CStarAction.isKMSState_zero_iff`, the 0-KMS states are the tracial states, for every action
+(`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`). Each is used as stated at the pin.
 
 **From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
 annihilators, quotient duals, adjoints and Goldstine, the weak and weak-star continuity criteria
@@ -368,8 +450,9 @@ Hilbert–Schmidt energy, its basis independence, the Hilbert–Schmidt norm wit
 domination, adjoint invariance and ideal inequality, and the Hilbert–Schmidt family
 (OI-B32–B41). Each is assumed for arbitrary complex Hilbert spaces. Nothing is consumed from
 the spectral sub-roadmap SelfAdjointSpectralTheory, which consumes V4.0.Fields; the spectral
-inputs of V2, V4, V5 and V10 are the targets V2.BorelCalculus, V4.0.Multiplication and
-V10.ClosedOperators.
+inputs of V2, V4, V5 and V10 are Tau Ceti's projection-valued measures, Borel extension,
+resolvent and Cayley transform (From Tau Ceti) and the targets V2.BorelCalculus,
+V4.0.Multiplication and V10.ClosedOperators.
 
 **From TauCetiRoadmap.AmenableGroups.** [Layers 5–7](../AmenableGroups/README.md#layer-5-følner-criteria-for-arbitrary-discrete-groups)
 invariant means, discrete Følner theory and abelian amenability, and from
@@ -424,12 +507,12 @@ V8.LCHRegularNormalBridge and the compact-action and dense-translation targets, 
 V8.GroupApplications follows V8.SubgroupCosets. In V11 the harmonic-analysis layer is built as
 V11.DoubleDualEmbedding, then V11.UnitizationCharacters and V11.FourierUniqueness, then
 inversion, Plancherel and duality. V13b.SpatialNorm opens V13b.
-V2.BorelCalculus uses only Layer 0's states, Mathlib's continuous calculus and Layer 1's
-topologies and bicommutant theorem, and precedes Fields; V4.0.Multiplication consumes Fields and
-V2.BorelCalculus. V4.AbelianClassification, V4.AbelianLocalizable and
-V4.AbelianRepresentationMultiplicity close Layer 4, after Fields, V4.0.Multiplication and
-V4.Normality; the elementary V2 carriers, V2.BorelCalculus, the single-generator construction
-and the given-measure multiplication/MASA theorem precede Fields.
+V2.BorelCalculus uses only Tau Ceti's projection-valued measures and Borel extension, Mathlib's
+continuous calculus and Layer 1's topologies and bicommutant theorem, and precedes Fields;
+V4.0.Multiplication consumes Fields and V2.BorelCalculus. V4.AbelianClassification,
+V4.AbelianLocalizable and V4.AbelianRepresentationMultiplicity close Layer 4, after Fields,
+V4.0.Multiplication and V4.Normality; the elementary V2 carriers, V2.BorelCalculus, the
+single-generator construction and the given-measure multiplication/MASA theorem precede Fields.
 V4.0.Decomposition consumes Fields, V4.Normality and V4.0.Multiplication and owns
 spectral/central reduction and measurable selection; V5's measurable
 trivialization and the central-reduction applications consume Decomposition. V5 delivers
@@ -510,6 +593,7 @@ BanachSpaceTheory B1's weak-dual comparison.
 - The GNS space of `tr/2` on `M₂(ℂ)` is `M₂(ℂ)` with the Hilbert–Schmidt inner product, of
   dimension 4 and with cyclic vector 1; the GNS space of `x↦x₁₁` is ℂ² with cyclic vector `e₁`, so
   the GNS dimension separates the two states.
+
 **V0.SeparableFaithful — separable carriers and the ℓ² refinement.** For a
 separable complex C*-algebra A, possibly nonunital, construct a faithful
 nondegenerate representation on a separable complete complex Hilbert space.
@@ -777,44 +861,61 @@ by `SOT-lim (a/‖a‖)^(1/n)` for a≠0, with zero-constant polynomial approxim
 *Needs:* Mathlib's nonunital continuous functional calculus; Layer 1's strong topology.
 
 **V2.BorelCalculus — the bounded Borel calculus and spectral measure.** For a compact Hausdorff
-space K and a unital representation π of `C(K)` on an arbitrary complex Hilbert space H (a
-unital star homomorphism into `B(H)`), construct for ξ∈H the finite regular Borel measure μ_ξ
-on K representing the positive functional `f↦⟨ξ,π(f)ξ⟩` on `C(K)` (`RealRMK.rieszMeasure`,
-applied to real and imaginary parts), and by polarization the complex measures μ_(ξ,η) with
-`⟨ξ,π(f)η⟩=∫f dμ_(ξ,η)` for continuous f and total variation at most ‖ξ‖‖η‖. For a bounded
-Borel function f on K define π(f) as the operator of the bounded sesquilinear form
-`(ξ,η)↦∫f dμ_(ξ,η)`, and the spectral measure `P(B)=π(1_B)` for Borel B⊆K. Prove the following.
+space K with its Borel σ-algebra and a unital representation π of `C(K)` on an arbitrary
+complex Hilbert space H (a unital star homomorphism into `B(H)`), consume Tau Ceti's finite
+regular Riesz measures μ_ξ of the positive functionals `f↦⟨ξ,π(f)ξ⟩`, of mass ‖ξ‖²
+(`StarAlgHom.representationDiagMeasure`), their polarizations μ_(ξ,η) with
+`⟨ξ,π(f)η⟩=∫f dμ_(ξ,η)` for continuous f (`StarAlgHom.representationPolarizedMeasure`), and
+the Borel extension: for a bounded Borel function f on K, π(f) is the operator of the bounded
+sesquilinear form `(ξ,η)↦∫f dμ_(ξ,η)`, complex linear in f and equal to π on continuous
+functions (`StarAlgHom.representationBorelOperator`). Define the spectral measure `P(B)=π(1_B)`
+for Borel B⊆K. Prove the following.
 
-- f↦π(f) is a unital star homomorphism from the bounded Borel functions on K into `B(H)` with
-  `‖π(f)‖≤sup|f|`, extending π: multiplicativity holds first for indicators, from
-  `f dμ_(ξ,η)=dμ_(ξ,π(f)η)=dμ_(π(f̄)ξ,η)` for continuous f, extended to Borel f by regularity
-  of the measures, then for simple functions, then by uniform approximation.
-- P is a projection-valued measure: `P(K)=1`, `P(B∩C)=P(B)P(C)`, `P(B)*=P(B)`, countably
-  additive in the strong topology, with `μ_(ξ,η)(B)=⟨ξ,P(B)η⟩`.
-- The vector identity `‖π(f)ξ‖²=∫|f|²dμ_ξ`; in particular `π(f)ξ=0` iff f=0 μ_ξ-almost
-  everywhere.
-- The null filter: P(B)=0 iff μ_ξ(B)=0 for every ξ; π(f)=π(g) iff f=g outside a P-null set;
-  and `‖π(f)‖` is the P-essential supremum of |f|, the supremum of the c≥0 with
-  `P({|f|≥c})≠0`.
+- π is multiplicative on indicators, `P(B)P(C)=P(B∩C)`: from
+  `f dμ_(ξ,η)=dμ_(ξ,π(f)η)=dμ_(π(f̄)ξ,η)` for continuous f, extended to Borel f by regularity of
+  the measures, with `π(f̄)=π(f)*` because exchanging the vectors conjugates μ_(ξ,η)
+  (`StarAlgHom.representationPolarizedMeasure_swap_apply`).
+- P with the diagonal measures μ_ξ is a `TauCeti.ProjValMeasure`: `P(K)=1`, `P(B∩C)=P(B)P(C)` and
+  `⟨ξ,P(B)ξ⟩=μ_ξ(B)`. Its integral is π, `π(f)=∫f dP` (`TauCeti.ProjValMeasure.integral`): both are
+  continuous in f, π by the form bound `‖⟨ψ,π(f)ξ⟩‖≤2·sup|f|·‖ψ‖‖ξ‖`
+  (`StarAlgHom.norm_integral_representationPolarizedMeasure_le`), and they agree on simple functions
+  (`TauCeti.ProjValMeasure.integral_indicator` and
+  `TauCeti.ProjValMeasure.eq_integral_of_continuous`). Hence f↦π(f) is a unital star homomorphism
+  from the bounded Borel functions on K into `B(H)` extending π, with `‖π(f)‖≤sup|f|`
+  (`TauCeti.ProjValMeasure.norm_integral_le`), P is countably additive in the strong topology
+  (`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint`), and `μ_(ξ,η)(B)=⟨ξ,P(B)η⟩` with total
+  variation at most ‖ξ‖‖η‖ (`TauCeti.ProjValMeasure.polarizedComplexMeasure_apply` and
+  `TauCeti.ProjValMeasure.polarizedComplexMeasure_variation_univ_le`).
+- Through `π(f)=∫f dP`, the vector identity `‖π(f)ξ‖²=∫|f|²dμ_ξ` and its consequence that
+  `π(f)ξ=0` iff f=0 μ_ξ-almost everywhere are `TauCeti.ProjValMeasure.norm_sq_integral_apply`
+  and `TauCeti.ProjValMeasure.integral_apply_eq_zero_iff`.
+- The null filter: P(B)=0 iff μ_ξ(B)=0 for every ξ
+  (`TauCeti.ProjValMeasure.proj_eq_zero_iff_compl_mem_ae`), and π(f)=π(g) iff f=g outside a
+  P-null set (`TauCeti.ProjValMeasure.integral_eq_integral_iff`), are consumed. Prove that
+  `‖π(f)‖` is the P-essential supremum of |f|, the supremum of the c≥0 with `P({|f|≥c})≠0`.
 - Bounded convergence: if bounded Borel f_n converge pointwise on K to f with
-  `sup_n sup|f_n|<∞`, then π(f_n)→π(f) strongly, by dominated convergence in each `L²(μ_ξ)`
-  through the vector identity; an increasing sequence of nonnegative Borel functions with
-  bounded supremum converges strongly to that supremum.
+  `sup_n sup|f_n|<∞`, then π(f_n)→π(f) strongly
+  (`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence`, along the
+  sequence filter); in particular, for an increasing sequence of nonnegative Borel functions with
+  bounded supremum, the operators converge strongly to π of that supremum.
 - The commutant law: an operator y commutes with every π(f), f bounded Borel, iff it commutes
   with every π(f), f continuous (the measures `μ_(ξ,y*η)` and `μ_(yξ,η)` then agree); hence
   every π(f) and every P(B) lies in the von Neumann algebra generated by π(`C(K)`), by the
   bicommutant theorem of V1.
 
 For a normal bounded operator a (`IsStarNormal a`) take K=σ(a) and π the continuous calculus
-`cfc` of a, writing f(a) for π(f) and P_a for P: this is the bounded Borel calculus of a, with
+`cfcHom` of a, whose Riesz measures μ_ξ are Tau Ceti's `ContinuousLinearMap.diagMeasure`,
+writing f(a) for π(f) and P_a for P: this is the bounded Borel calculus of a, with
 `a=∫z dP_a(z)` and, by Fuglede's theorem `IsStarNormal.commute_star_right`, the commutant law
 in the form that y commutes with every f(a) iff y commutes with a (Peterson, Theorems
 2.7.4–2.7.6, pp. 33–35; Anantharaman–Popa, §2.2, pp. 31–32). Include H=0, where every π(f)=0
 and a normal operator has empty spectrum, and K a point, where π(f)=f(pt)·1 and P is the point
 mass at pt times 1.
-*Needs:* Mathlib `cfc`, `IsStarNormal`, `IsStarNormal.commute_star_right`,
-`RealRMK.rieszMeasure` and `essSup`; V0's positive functionals; Layer 1's strong topology and
-bicommutant theorem.
+*Needs:* Mathlib `cfc`, `IsStarNormal`, `IsStarNormal.commute_star_right` and `essSup`; Tau Ceti
+`StarAlgHom.representationDiagMeasure`, `StarAlgHom.representationPolarizedMeasure`,
+`StarAlgHom.representationBorelOperator`, `ContinuousLinearMap.diagMeasure` and
+`TauCeti.ProjValMeasure` with its integral, null filter and dominated convergence; Layer 1's
+strong topology and bicommutant theorem.
 
 **Checks.**
 
@@ -1094,8 +1195,9 @@ This elementary Hilbert/projection result is consumed by V5.LatticeFinite.
 - Layers 0 and 1.
 - Mathlib nonunital continuous functional calculus.
 - OperatorTheory PolarDecomposition PD-A36–A45 and PD-B23–B36, and V2.BorelCalculus, for the
-  membership results; Mathlib `cfc`, `IsStarNormal.commute_star_right` and
-  `RealRMK.rieszMeasure` for V2.BorelCalculus.
+  membership results; Mathlib `cfc` and `IsStarNormal.commute_star_right`, and Tau Ceti's
+  projection-valued measures, Riesz and polarized measures and Borel extension
+  (`TauCeti.ProjValMeasure`, `StarAlgHom.representationBorelOperator`), for V2.BorelCalculus.
 - Mathlib `L∞`, `essSup` and `Lp` multiplication for the given-measure multiplication algebras.
 - Mathlib `ContinuousLinearMap.rTensor`, `ContinuousLinearMap.lTensor`,
   `ContinuousLinearMap.completion` and `StarSubalgebra.centralizer` for the amplifications and
@@ -1424,13 +1526,21 @@ in M), cyclicity for M iff separation for M' (`isCyclic_iff_isSeparating_commuta
 separability), and normal faithful
 representations preserving the intrinsic predual. Include positive-functional
 domination and the Radon–Nikodym operator in the commutant for a dominated
-vector functional. Prove state-preserving automorphisms are canonically
-unitarily implementable in GNS. Prove every normal star homomorphism is
+vector functional. A state-preserving star automorphism α of a C*-algebra is unitarily
+implemented in the GNS space of the state φ by Tau Ceti's
+`TauCeti.CStarAction.gnsImplementingGroup`, applied to the discrete group `Multiplicative ℤ`
+acting by the powers of α: U is the unitary `[b]↦[α(b)]`, with `⟪[a],U[b]⟫=φ(a*α(b))`
+(`TauCeti.CStarAction.inner_gnsImplementingGroup_apply_coe`) and `Uπ_φ(x)U*=π_φ(α(x))`
+(`TauCeti.CStarAction.gnsCovariantRepresentation`). For a unital algebra prove that U is the only
+unitary that fixes the GNS vector Ω_φ and satisfies this covariance, since such a unitary sends
+`[x]=π_φ(x)Ω_φ` to `π_φ(α(x))Ω_φ=[α(x)]`. Prove every normal star homomorphism is
 represented by amplification, reducing projection and spatial identification
 of its image, with kernel a central summand.
 *Needs:* V4.Core, V4.PositivePredual, V0's GNS, Layer 1's topologies and Kaplansky theorem, Layer 2's
 tensor embeddings and corner restriction for their normality, Mathlib
-orthogonal projections for the Radon–Nikodym operator in the commutant.
+orthogonal projections for the Radon–Nikodym operator in the commutant, Tau Ceti
+`TauCeti.CStarAction.gnsImplementingGroup` and `TauCeti.CStarAction.gnsCovariantRepresentation`
+for the implementing unitary.
 
 **Checks.**
 
@@ -1441,6 +1551,11 @@ orthogonal projections for the Radon–Nikodym operator in the commutant.
   "cyclic" cannot be replaced by "nonzero".
 - On the zero Hilbert space the vector 0 is both cyclic and separating for the zero algebra;
   on a nonzero space the vector 0 is neither.
+- On `M₂(ℂ)` with `φ=tr/2` and `α=Ad u`, `u=diag(1,−1)`, φ∘α=φ; the GNS space is `M₂(ℂ)` with
+  `⟪a,b⟫=tr(a*b)/2` and `Ω_φ=1`. Both `[b]↦[ubu*]` and `[b]↦[ub]` are unitaries covariant for
+  α, but only the first fixes `Ω_φ` (the second sends it to `u≠1`), and it is the implementing
+  unitary: `⟪[e₁₂],U[e₁₂]⟫=φ(e₂₁·(−e₁₂))=−1/2`, while `[b]↦[ub]` gives `φ(e₂₁e₁₂)=1/2`, so the
+  fixed-vector condition is what makes the implementation canonical.
 
 **Faithful C*-states and normal GNS extensions.** Distinguish a faithful state
 on a C*-algebra, faithfulness of its GNS representation, and faithfulness of
@@ -1722,7 +1837,7 @@ corner, consume Mathlib's unital commutative Gelfand duality
 `gelfandStarTransform` under `CommCStarAlgebra`) with C(X_i), and that
 state's cyclic faithful normal GNS representation. X_i may be nonmetrizable.
 Consume V0/GNS, V4.Normality's normal-image theorem, Mathlib's
-Riesz–Markov–Kakutani measure `RealRMK.rieszMeasure` for the state on C(X_i), and the
+Riesz–Markov–Kakutani measure `RealRMK.rieszMeasure` for the state on C(X_i), and
 V2's given-finite-measure multiplication/MASA theorem. Its finite Radon Riesz measure μ_i
 and continuous-function L² density identify the cyclic GNS carrier with
 L²(μ_i). Bounded continuous approximations to bounded measurable symbols,
@@ -1813,6 +1928,8 @@ these later classification applications.
   1's Kaplansky theorem and bounded-set metrizability, Mathlib `L∞` and `essSup`, commutative
   Gelfand duality and `RealRMK.rieszMeasure` for V4.AbelianClassification, V4.AbelianLocalizable
   and V4.AbelianRepresentationMultiplicity.
+- Tau Ceti's GNS implementing group (`TauCeti.CStarAction.gnsImplementingGroup`,
+  `TauCeti.CStarAction.gnsCovariantRepresentation`) for V4.Normality.
 
 ## Layer 5: Projection comparison and finite factors
 
@@ -2036,16 +2153,23 @@ supports, the type decomposition below for the semifinite pieces, Mathlib `ℝ�
 
 For a faithful normal tracial state τ construct L²(M,τ) as the
 GNS completion, left and right actions, their norm bounds, the dense
-canonical map, tracial inner product, conjugation `J(xΩ)=x*Ω`, and `JMJ=M'`
-(Anantharaman–Popa, §7.1, pp. 97–100, and Theorem 7.1.1, p. 99; Peterson, §4.5, pp. 66–68, and
-Proposition 4.7.12, pp. 73–74). State it spatially as `exists_conj_commutant_eq_of_isCyclic`: if
-Ω is a cyclic vector for M⊆B(H) whose vector state is tracial, then Ω is separating, `(H,Ω)` is
-`L²(M,τ)` for that state by V0's GNS uniqueness, and `xΩ↦x*Ω` extends to a conjugate-linear
-isometric involution J of H with `JMJ=M'`. Prove completeness
-of the operator unit ball for the L² metric and its strong-topology equivalence on bounded
-sets. Construct the hyperfinite tensor model from the compatible algebras `M_(2^n)(ℂ)` and
-product trace; prove its GNS closure is a II₁ factor.
-*Needs:* V0's GNS, V4.Normality, V5's trace, Mathlib `Matrix` for the `M_(2^n)(ℂ)` tower.
+canonical map, tracial inner product, conjugation `J(xΩ)=x*Ω`, and `JMJ=M'` (Anantharaman–Popa,
+§7.1, pp. 97–100, and Theorem 7.1.1, p. 99; Peterson, §4.5, pp. 66–68, and Proposition 4.7.12, pp.
+73–74). State it spatially as `exists_conj_commutant_eq_of_isCyclic`: if Ω is a cyclic vector for
+M⊆B(H) whose vector state is tracial, then Ω is separating, `(H,Ω)` is `L²(M,τ)` for that state by
+V0's GNS uniqueness, and `xΩ↦x*Ω` extends to a conjugate-linear isometric involution J of H with
+`JMJ=M'`. The separating property is Tau Ceti's: for H≠0 normalize Ω, so that its vector state τ on
+M, with Layer 1's C*-algebra structure, is a tracial state; by
+`TauCeti.CStarAction.isKMSState_zero_iff` it is a 0-KMS state of the trivial real action, so
+`TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero` makes the GNS vector `[1]`
+separating for `π_τ(M)''`, and the GNS unitary `[x]↦xΩ`, which carries `π_τ(M)''` onto `M''=M` and
+`[1]` to Ω, transports this to Ω. On H=0 there is nothing to prove. Prove completeness of the
+operator unit ball for the L² metric and its strong-topology equivalence on bounded sets. Construct
+the hyperfinite tensor model from the compatible algebras `M_(2^n)(ℂ)` and product trace; prove its
+GNS closure is a II₁ factor.
+*Needs:* V0's GNS, V4.Normality, V5's trace, Tau Ceti `TauCeti.CStarAction.isKMSState_zero_iff`
+and `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero` for the separating
+property, Mathlib `Matrix` for the `M_(2^n)(ℂ)` tower.
 
 For an arbitrary faithful normal semifinite trace construct L² from
 the finite square-integrable ideal with inner product ⟨x,y⟩=τ(x*y). Build its
@@ -2187,6 +2311,8 @@ above; Mathlib `IsModularLattice` and Boolean algebras.
 ### Dependencies
 
 - Layers 0 and 2–5, with V4.Core's canonical trace of B(H).
+- Tau Ceti's KMS separating theorem `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`
+  and `TauCeti.CStarAction.isKMSState_zero_iff` for the tracial standard form.
 
 ## Layer 7: Hilbert modules, coupling dimension, and index
 
@@ -2817,13 +2943,15 @@ holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–d
 
 **V10.ClosedOperators — pre-tracial closed-operator calculus.**
 Use Mathlib's `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and
-`LinearPMap.isSelfAdjoint_def`. For a self-adjoint T prove, for ξ in its domain and λ∈ℂ,
-`‖(T−λ)ξ‖²=‖(T−Re λ)ξ‖²+(Im λ)²‖ξ‖²`; hence for λ∉ℝ that `T−λ` is injective with closed
-range, that its range is dense (its orthogonal complement is `ker(T*−λ̄)=ker(T−λ̄)=0`), so that
-`T−λ` is a bijection of its domain onto H with `‖(T−λ)⁻¹‖≤|Im λ|⁻¹` (Reed–Simon I, Theorem
-VIII.3); that the Cayley transform `U=(T−i)(T+i)⁻¹` is unitary, an isometry of `range(T+i)=H`
-onto `range(T−i)=H`; that 1 is not an eigenvalue of U (`Uη=η` with `η=(T+i)ξ` forces `2iξ=0`);
-and that `range(1−U)` is the domain of T (Rudin, *Functional Analysis*, Theorem 13.19). Prove the inverse correspondence: a unitary U for which 1 is not an eigenvalue is the Cayley
+`LinearPMap.isSelfAdjoint_def`. For a self-adjoint T consume Tau Ceti's resolvent and Cayley
+transform: every λ∉ℝ is a resolvent point with `‖(T−λ)⁻¹‖≤|Im λ|⁻¹`
+(`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, `IsSelfAdjoint.norm_resolvent_le`; Reed–Simon
+I, Theorem VIII.3); the Cayley transform `U=LinearPMap.cayley T`, `1+2i(−i−T)⁻¹`, which is
+`(T−i)(T+i)⁻¹`, is unitary (`IsSelfAdjoint.cayley_mem_unitary`); 1 is not an eigenvalue of U
+(`LinearPMap.cayley_apply_eq_self_iff`); and the graph of T is `{(x−Ux, i(x+Ux)) : x∈H}`
+(`LinearPMap.mem_graph_iff_exists_cayley`), so `range(1−U)` is the domain of T and
+`T=i(1+U)(1−U)⁻¹` there (Rudin, *Functional Analysis*, Theorem 13.19). Prove the inverse
+correspondence: a unitary U for which 1 is not an eigenvalue is the Cayley
 transform of exactly one self-adjoint operator, `T=i(1+U)(1−U)⁻¹` on the domain `range(1−U)`
 (Rudin, *Functional Analysis*, Thm 13.19). Extend this to arbitrary densely
 defined closed operators T: self-adjointness/positivity of T*T and TT*, equality of domains
@@ -2840,7 +2968,9 @@ real measurable f on domain `{g : ∫|fg|²<∞}` (Reed–Simon I, Thm VIII.4). 
 spectral measure of T from V2.BorelCalculus applied to the normal operator U: its spectral
 measure P_U gives no mass to the point 1, because `P_U({1})` is the projection onto
 `ker(U−1)=0` (by the vector identity, `(U−1)ξ=0` iff μ_ξ is carried by {1}), so P_T is the
-image of P_U under the inverse Cayley map `z↦i(1+z)/(1−z)` from the circle without 1 onto ℝ;
+image of P_U under the inverse Cayley map `z↦i(1+z)/(1−z)` from the circle without 1 onto ℝ,
+given any real value at the P_U-null point 1 (`TauCeti.ProjValMeasure.map`, with the change of
+variables `TauCeti.ProjValMeasure.integral_map`);
 prove `⟨ξ,Tη⟩=∫t dμ^T_(ξ,η)(t)` for η in the domain, which equals `{ξ : ∫t² dμ^T_ξ<∞}`
 (Rudin, Theorem 13.30). Apply the cyclic multiplication model of V4.0.Multiplication to U and
 pull the coordinate back to the real line along the inverse Cayley map; prove the unbounded
@@ -2850,7 +2980,9 @@ direct-sum form without separability. Extend the adjoint and
 closed-graph machinery to conjugate-linear partial maps using the conjugate Hilbert space;
 prove graph orthogonality, closure and polar-decomposition statements with domains explicit.
 *Needs:* Mathlib `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed`, `LinearPMap.isSelfAdjoint_def`;
-V2.BorelCalculus and V4.0.Multiplication; PolarDecomposition PD-A36 and
+Tau Ceti `IsSelfAdjoint.norm_resolvent_le`, `LinearPMap.cayley`, `IsSelfAdjoint.cayley_mem_unitary`,
+`LinearPMap.cayley_apply_eq_self_iff`, `LinearPMap.mem_graph_iff_exists_cayley` and
+`TauCeti.ProjValMeasure.map`; V2.BorelCalculus and V4.0.Multiplication; PolarDecomposition PD-A36 and
 PD-B23–B36 for the bounded transform in the unbounded polar decomposition; the conjugate Hilbert space;
 Reed–Simon I, Theorems VIII.3–VIII.4, and Rudin, Theorems 13.19 and 13.30, are the sources.
 
@@ -3408,8 +3540,10 @@ Bost–Connes Theorem 5, Laca–Raeburn and Neshveyev are the sources (Reference
 ### Dependencies
 
 - Layers 0–8.
-- Mathlib `LinearPMap.adjoint` and `LinearPMap.adjoint_isClosed`; V2.BorelCalculus,
-  V4.0.Multiplication and PolarDecomposition, for V10.ClosedOperators; Tau Ceti `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`.
+- Mathlib `LinearPMap.adjoint` and `LinearPMap.adjoint_isClosed`, Tau Ceti's self-adjoint
+  resolvent and Cayley transform (`IsSelfAdjoint.norm_resolvent_le`, `LinearPMap.cayley`) and
+  `TauCeti.ProjValMeasure.map`, V2.BorelCalculus, V4.0.Multiplication and PolarDecomposition, for
+  V10.ClosedOperators; Tau Ceti `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`.
 - Mathlib `IsHeckeTriple` and `HeckeRing` and Tau Ceti's Hecke-ring modules for V10.Hecke; GlobalNumberFields Layer 4 for V10.AffineHecke;
   Tau Ceti's prime number theorem in arithmetic progressions
   (`NumberField.Chebotarev.tendsto_primeCount_primesCongruent`), Mathlib's
