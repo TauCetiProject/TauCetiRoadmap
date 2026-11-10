@@ -65,9 +65,9 @@ carrier named.
   open set.
 * The `p = 1` BV theory of Abedi–Li–Schultz (Layer 8.5) needs the Skorokhod topology on càdlàg
   paths; Mathlib has only the càdlàg predicate `IsCadlag`.
-* The Riemannian Benamou–Brenier formula (Layer 8.9) needs the continuity equation for a
-  time-dependent vector field on a manifold, and with it the Riemannian divergence; neither
-  library states a continuity equation on a manifold.
+* The Riemannian Benamou–Brenier formula on a compact manifold (Layer 8.9) needs the continuity
+  equation for a time-dependent vector field on a manifold, and with it the Riemannian
+  divergence; neither library states a continuity equation on a manifold.
 * Brownian Schrödinger bridges and the Schilder limit (Layer 13.12–13.13) need the Brownian law
   on `C([0,1]; ℝⁿ)`; Mathlib has only the predicates `ProbabilityTheory.IsPreBrownianReal` and
   `ProbabilityTheory.IsBrownianReal` on real-valued processes.
@@ -84,9 +84,10 @@ each names the carrier it needs.
 * The Figalli–Kim–McCann Hölder-continuity theorem (Layer 6.14) needs the weak
   Ma–Trudinger–Wang condition `TauCeti.SatisfiesWeakMTW` and `c`-convexity of sets
   `TauCeti.IsCConvexSet`.
-* Convergence of the Jordan–Kinderlehrer–Otto scheme (Layer 11.7) needs the signed Boltzmann
-  entropy `TauCeti.boltzmannEntropy` and evolution variational inequalities
-  `TauCeti.IsEVISolution`.
+* Convergence of the Jordan–Kinderlehrer–Otto scheme (Layer 11.7) needs evolution variational
+  inequalities `TauCeti.IsEVISolution`, convexity along generalized geodesics
+  `TauCeti.GeneralizedGeodesicallyConvex` and the JKO step `TauCeti.moreauYosidaResolvent`, and
+  its Fokker–Planck part the signed Boltzmann entropy `TauCeti.boltzmannEntropy`.
 * Metrization of weak convergence by the Sinkhorn divergence (Layer 13.4) needs
   `TauCeti.sinkhornDivergence`.
 * The identification of the heat flow on `RCD(K,∞)` spaces (Layer 14.7) needs the Cheeger
