@@ -220,7 +220,7 @@ cites its theorems, restating a few of them in the form used here. Files are und
   `TauCeti.IsIsolatingRank.isolates_of_le`, `TauCeti.IsIsolatingRank.of_le`,
   `TauCeti.IsIsolatingRank.exists_unbounded_of_not_countable` and
   `exists_rank_bound_of_countable_isoClasses` (the target `exists_bound_of_countable`, for any
-  invariant map below `ω₁`); `isIsolatingRank_scottHeight` and `TauCeti.exists_isIsolatingRank`,
+  invariant map below `ω₁`); `TauCeti.isIsolatingRank_scottHeight` and `TauCeti.exists_isIsolatingRank`,
   which need no countability of `L`; `mk_isoClasses_le_aleph_one_of_countable_levels`, also without
   countability of `L`; `Setoid.IsolatedBy`, written `R.IsolatedBy E`, with
   `Setoid.IsolatedBy.countable_quotient` and `Setoid.IsolatedBy.lift_mk_quotient_le`; and the
@@ -411,7 +411,7 @@ Build:
   languages, the induced homeomorphism of code spaces on every carrier (Tau Ceti's
   `LEquiv.onConfiguration`, `ModelTheory/RelationalConfiguration/LanguageMap.lean`), preserving
   isomorphism and sending `modelsOf φ` onto `modelsOf (e.toLHom.onBoundedFormulaInf φ)`; hence
-  `lift_countableModelCount_onBoundedFormulaInf` (equality after `Cardinal.lift`) and
+  Tau Ceti's `LEquiv.lift_countableModelCount_onBoundedFormulaInf` (equality after `Cardinal.lift`) and
   `hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff`. Applied to (M4)'s
   `L.smallPresentationEquiv` for countable relational `L` (whose function symbols are countable, as
   there are none), they move every count and perfect set to `Language.{0, 0}`. Carriers in other
@@ -454,7 +454,7 @@ Build:
   no least isolating rank is asserted); `exists_unbounded_of_not_countable` (on a set meeting
   uncountably many classes, every isolating rank lies below one that is unbounded there);
   `exists_bound_of_countable` (countably many classes give a bound).
-* **The instance.** `isIsolatingRank_scottHeight`: `c ↦ scottHeight ℕ` of the decoded structure is
+* **The instance.** Tau Ceti's `TauCeti.isIsolatingRank_scottHeight`: `c ↦ scottHeight ℕ` of the decoded structure is
   an isolating rank (S5). In (S5)'s convention the Scott height of `M : Type w` lies in
   `Ordinal.{w}` and external stabilization quantifies over all countable `N : Type`, finite ones
   included; for codes on `ℕ` it lies in `Ordinal.{0}`, as the contract requires. Hence
@@ -736,7 +736,7 @@ Prove, with exactly the hypotheses shown:
   its semantic API;
 * universes: `vaughtConjecture_iff_forall_universe`, the conjecture over `Language.{0, 0}` equals
   the conjecture over countable relational languages in any universe, by the transport results of
-  Layer 0 ((M4)'s `smallPresentationEquiv`, `lift_countableModelCount_onBoundedFormulaInf`,
+  Layer 0 ((M4)'s `smallPresentationEquiv`, `LEquiv.lift_countableModelCount_onBoundedFormulaInf`,
   `hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff`); carriers in other universes are
   covered by `classOf`. The same transport is stated for `FirstOrderVaughtConjecture`.
 

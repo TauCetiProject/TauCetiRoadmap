@@ -93,19 +93,11 @@ theorem countable_or_hasPerfectSetOfNonisoModelsOn_fin [Countable (Σ l, L.Relat
 
 end Layer0
 
-/-! ## Layer 0: transport between presentations of a countable language -/
+/-! ## Layer 0: transport between presentations of a countable language
 
-section Transport
-
-/-- **Layer 0 milestone, transport of the count.** A language equivalence between relational
-languages preserves the number of countable models and perfectly many countable models. -/
-theorem lift_countableModelCount_onBoundedFormulaInf {L' : FirstOrder.Language.{u', v'}}
-    [L.IsRelational] [L'.IsRelational] (e : L ≃ᴸ L') (φ : L.Sentenceω) :
-    Cardinal.lift.{v'} (countableModelCount φ) =
-      Cardinal.lift.{v} (countableModelCount (e.toLHom.onBoundedFormulaInf φ)) :=
-  e.lift_countableModelCount_onBoundedFormulaInf φ
-
-end Transport
+Tau Ceti's `LEquiv.lift_countableModelCount_onBoundedFormulaInf` and
+`LEquiv.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff` transport the count and perfectly
+many countable models along a language equivalence. -/
 
 /-! ## Layer 0 acceptance check: a perfect set at the finite tier `Fin 1` -/
 
@@ -158,14 +150,8 @@ section Layer1
 
 variable [L.IsRelational]
 
-/-- **Layer 1 milestone, the instance.** The Scott height (values in `Ordinal.{0}` for structures
-on `ℕ`), read on codes, is an isolating rank, by `nonempty_equiv_of_bfEquiv_of_scottHeight_le`,
-`scottHeight_lt_omega_one` and `Language.Equiv.scottHeight_eq`; this is Tau Ceti's
-`TauCeti.isIsolatingRank_scottHeight`. -/
-theorem isIsolatingRank_scottHeight :
-    IsIsolatingRank
-      (fun c : RelationalConfiguration L ℕ => @scottHeight L _ ℕ c.toStructure) :=
-  TauCeti.isIsolatingRank_scottHeight L
+/- The instance: the Scott height read on codes is an isolating rank, Tau Ceti's
+`TauCeti.isIsolatingRank_scottHeight`, which needs no countability of `L`. -/
 
 /-- The image of a set `K` of codes in the quotient by isomorphism is the quotient of isomorphism
 restricted to `K`, the form in which Tau Ceti states its counting results. -/
@@ -528,7 +514,7 @@ theorem vaughtConjecture_iff_forall_isIsolatingRank_bounded :
 
 /-- **Layer 5 milestone, universes.** The conjecture over `Language.{0, 0}` is the conjecture over
 countable relational languages in any universe, by `smallPresentationEquiv` and
-`lift_countableModelCount_onBoundedFormulaInf`. -/
+Tau Ceti's `LEquiv.lift_countableModelCount_onBoundedFormulaInf`. -/
 theorem vaughtConjecture_iff_forall_universe :
     VaughtConjecture ↔
       ∀ (L : FirstOrder.Language.{u, v}) [L.IsRelational] [Countable (Σ l, L.Relations l)]
