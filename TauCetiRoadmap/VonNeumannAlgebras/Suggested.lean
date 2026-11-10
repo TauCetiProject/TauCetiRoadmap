@@ -594,10 +594,11 @@ theorem exists_linearIsometryEquiv_withLp_of_generalPosition {p q : H →L[ℂ] 
 
 /-- Property Γ of a II₁ factor in Dixmier's form: for a tracial state `τ` of `M` there is a
 sequence of unitaries `u_n ∈ M` with `τ(u_n) = 0` that is asymptotically central in the trace
-norm, `‖u_n y − y u_n‖₂ → 0` for every `y ∈ M`, where `‖z‖₂² = τ(z* z)` (README, Layer 12;
-Jones, Definition 16.1.1, p. 107; for separable II₁ factors the equivalence with a nontrivial
-central sequence and with the finite-set form of Anantharaman–Popa, Definition 15.2.1 and
-Remark 15.2.2, pp. 261–262, is a README target). The predicate is meant for II₁ factors, whose
+norm, `‖u_n y − y u_n‖₂ → 0` for every `y ∈ M`, where `‖z‖₂² = τ(z* z)` (README, Layer 12; the form
+of Anantharaman–Popa, Theorem 15.2.3(iv), p. 262; Jones, Definition 16.1.1, p. 107, defines Γ
+by a nontrivial central sequence; for separable II₁ factors the equivalence of the two, and
+with the finite-set form, is a README target: Anantharaman–Popa, Theorem 15.2.3, p. 262, with
+Remarks 15.2.2, p. 262). The predicate is meant for II₁ factors, whose
 tracial state is unique. `M₂(ℂ)` does not have it: a limit point of such a sequence would be a
 central unitary of trace `0`, while the central unitaries are scalars of modulus one. -/
 def HasPropertyGamma (M : VonNeumannAlgebra H) : Prop :=

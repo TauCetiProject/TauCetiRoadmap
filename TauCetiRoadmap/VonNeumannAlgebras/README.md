@@ -4125,11 +4125,12 @@ For every von Neumann algebra with a faithful normal tracial state,
 define bounded central sequences and their L² convergence and triviality predicates.
 For a type II₁ factor define property Γ by existence of a sequence of trace-zero
 central unitaries: `HasPropertyGamma` asks for a tracial state τ and unitaries u_n of M with
-`τ(u_n)=0` and `‖u_ny−yu_n‖₂→0` for every y∈M, where `‖z‖₂²=τ(z*z)` (Jones, Definition 16.1.1,
-p. 107). For separable II₁ factors, prove Dixmier's equivalence with
+`τ(u_n)=0` and `‖u_ny−yu_n‖₂→0` for every y∈M, where `‖z‖₂²=τ(z*z)` (the form of
+Anantharaman–Popa, Theorem 15.2.3(iv), p. 262; Jones, Definition 16.1.1, p. 107, defines Γ by
+a nontrivial central sequence). For separable II₁ factors, prove Dixmier's equivalence with
 existence of a nontrivial bounded central sequence and with the usual finite-set
-approximation formulation (Anantharaman–Popa, §15.2, pp. 261–266; Jones, §§16.1–16.2,
-p. 107). These property Γ equivalences are factor statements;
+approximation formulation (Anantharaman–Popa, Theorem 15.2.3, p. 262, with Remarks 15.2.2,
+p. 262, for the finite-set and sequential forms; Jones, §§16.1–16.2, p. 107). These property Γ equivalences are factor statements;
 they are not asserted for arbitrary tracial algebras.
 *Needs:* V6's tracial L² and bounded-set topology, V5's trace; the ultraproduct below for the
 Dixmier equivalence.
