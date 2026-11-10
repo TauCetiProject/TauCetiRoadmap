@@ -6,11 +6,23 @@ public import Mathlib
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib and Tau Ceti, each admitted with `sorry`,
-together with the few definitions those statements need: the normalized scalar trace of a
-finite real Clifford algebra (G1.3), the multiplicity space of a Clifford module and its
-evaluation isomorphism (G1.3), the negative-metric Clifford relations and the chirality
-decomposition of a Hermitian Clifford module (G1–G2), the frame independence of the Dirac
-contraction (G6.1), and the parity theorem for conjugate-linear square roots of `−1` (G6.7).
+together with the few definitions those statements need: the negative-metric Clifford relation of
+a geometric Clifford action (G1.2), the frame independence of the Dirac contraction (G6.1), and the
+parity theorem for conjugate-linear square roots of `−1` (G6.7).
+
+The finite Clifford-module algebra of G1–G2 is proved by the pinned Tau Ceti and is therefore not
+restated here:
+
+* the scalar trace and its regular-trace formula, positivity and faithfulness (G1.3):
+  `CliffordAlgebra.scalarTrace`, `CliffordAlgebra.trace_mulLeft_eq_two_pow_mul_scalarTrace`,
+  `CliffordAlgebra.scalarTrace_reverse_mul_self_nonneg` and
+  `CliffordAlgebra.scalarTrace_reverse_mul_self_eq_zero_iff`;
+* the multiplicity evaluation `S ⊗ Hom_Cl(S, E) ≃ E` (G1.3):
+  `TauCeti.isotypicTensorEquivOfBijective`;
+* the chirality operator, its square, its anticommutation with vectors and the half-spin
+  splitting (G2.1): `CliffordAlgebra.complexVolume`, `CliffordAlgebra.complexVolume_mul_self`,
+  `CliffordAlgebra.complexVolume_mul_ι_of_even` and
+  `CliffordAlgebra.isCompl_eigenspace_complexVolume`.
 
 Not statable at the pins, and therefore stated nowhere in this file:
 
@@ -38,72 +50,6 @@ open scoped Manifold ContDiff TensorProduct
 
 /-! ## G1: Negative-metric Clifford modules and their positive metrics -/
 
-section ScalarTrace
-
-variable {V : Type*} [AddCommGroup V] [Module ℝ V] (Q : QuadraticForm ℝ V)
-
-/-- G1.3: the scalar part `τ(a)` of a Clifford element, the degree-zero coefficient of its
-image under the Chevalley comparison `CliffordAlgebra.equivExterior` (the unit is the only
-basis monomial of degree zero), read off by `ExteriorAlgebra.algebraMapInv`. -/
-def cliffordScalarTrace : CliffordAlgebra Q →ₗ[ℝ] ℝ :=
-  (ExteriorAlgebra.algebraMapInv (R := ℝ) (M := V)).toLinearMap ∘ₗ
-    (CliffordAlgebra.equivExterior Q).toLinearMap
-
-/-- G1.3: on a finite-dimensional `V` the scalar part is the normalized regular trace,
-`2^(dim V) · τ(a) = tr(L_a)` with `L_a` left multiplication by `a`, for every quadratic form `Q`
-(Nicolaescu, Lectures on the Geometry of Manifolds, §12.1.2, pp. 626–629, with the ordered
-monomial basis of an orthogonal basis). -/
-theorem cliffordScalarTrace_mul_two_pow [FiniteDimensional ℝ V] (a : CliffordAlgebra Q) :
-    (2 : ℝ) ^ Module.finrank ℝ V * cliffordScalarTrace Q a =
-      LinearMap.trace ℝ (CliffordAlgebra Q) (LinearMap.mulLeft ℝ a) := by
-  sorry
-
-/-- G1.3: for positive definite `Q` on a finite-dimensional `V`, the pairing
-`τ(reverse(a) · a)` is nonnegative; in an orthogonal basis it is `Σ_I a_I² Π_(i∈I) Q(e_i)`. -/
-theorem cliffordScalarTrace_reverse_mul_self_nonneg [FiniteDimensional ℝ V] (hQ : Q.PosDef)
-    (a : CliffordAlgebra Q) :
-    0 ≤ cliffordScalarTrace Q (CliffordAlgebra.reverse a * a) := by
-  sorry
-
-/-- G1.3: for positive definite `Q` on a finite-dimensional `V` the trace pairing is faithful:
-`τ(reverse(a) · a) = 0` only for `a = 0`. -/
-theorem cliffordScalarTrace_reverse_mul_self_eq_zero_iff [FiniteDimensional ℝ V]
-    (hQ : Q.PosDef) (a : CliffordAlgebra Q) :
-    cliffordScalarTrace Q (CliffordAlgebra.reverse a * a) = 0 ↔ a = 0 := by
-  sorry
-
-end ScalarTrace
-
-section Multiplicity
-
-variable {V S E : Type*} [AddCommGroup V] [Module ℂ V]
-  [AddCommGroup S] [Module ℂ S] [AddCommGroup E] [Module ℂ E]
-  (Q : QuadraticForm ℂ V) (ρ : CliffordAlgebra Q ≃ₐ[ℂ] Module.End ℂ S)
-  (σ : CliffordAlgebra Q →ₐ[ℂ] Module.End ℂ E)
-
-/-- G1.3: the multiplicity space `Hom_Cl(S, E)` of a Clifford module `E` relative to the
-module `S` on which the Clifford algebra acts as all of `End_ℂ(S)`: the complex-linear maps
-`S → E` intertwining the two actions. -/
-def multiplicitySpace : Submodule ℂ (S →ₗ[ℂ] E) where
-  carrier := {T | ∀ a s, T (ρ a s) = σ a (T s)}
-  zero_mem' := by simp
-  add_mem' := by
-    intro T U hT hU a s
-    simp only [LinearMap.add_apply, map_add, hT a s, hU a s]
-  smul_mem' := by
-    intro z T hT a s
-    simp only [LinearMap.smul_apply, map_smul, hT a s]
-
-/-- G1.3: the evaluation isomorphism `S ⊗ Hom_Cl(S, E) ≃ E`, `s ⊗ T ↦ T(s)`, for a
-finite-dimensional nonzero `S` and an arbitrary Clifford module `E`, with no finiteness or
-topology on `E` (Nicolaescu, Corollary 12.1.22, p. 632). -/
-theorem exists_multiplicityEvaluation [FiniteDimensional ℂ S] [Nontrivial S] :
-    ∃ e : S ⊗[ℂ] multiplicitySpace Q ρ σ ≃ₗ[ℂ] E,
-      ∀ (s : S) (T : multiplicitySpace Q ρ σ), e (s ⊗ₜ[ℂ] T) = T.val s := by
-  sorry
-
-end Multiplicity
-
 section MetricAction
 
 variable {V S : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
@@ -127,42 +73,6 @@ theorem cliffordMultiplication_anticommutator (h : IsGeometricAction Q ρ) (v w 
     cliffordMultiplication Q ρ v * cliffordMultiplication Q ρ w +
       cliffordMultiplication Q ρ w * cliffordMultiplication Q ρ v =
       (-2 * inner ℝ v w) • (1 : Module.End ℂ S) := by
-  sorry
-
-/-! ## G2: Volume, chirality and exterior-form comparisons -/
-
-/-- G2.1: the chirality operator `Γ = i^ℓ c(e₁) ⋯ c(e_(2ℓ))` of an ordered orthonormal frame
-of an even-dimensional `V`; the frame's order fixes the orientation. -/
-def chirality {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V) : Module.End ℂ S :=
-  Complex.I ^ ℓ • ((List.ofFn fun i => cliffordMultiplication Q ρ (b i)).prod)
-
-/-- G2.1: `Γ² = 1` for a geometric action: squaring the product of `2ℓ` anticommuting
-generators of square `−1` gives `(c₁ ⋯ c_(2ℓ))² = (−1)^(ℓ(2ℓ−1)) · (−1)^(2ℓ) = (−1)^ℓ`, which
-`i^(2ℓ) = (−1)^ℓ` cancels. -/
-theorem chirality_sq {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V)
-    (h : IsGeometricAction Q ρ) : chirality Q ρ b * chirality Q ρ b = 1 := by
-  sorry
-
-/-- G2.1: `Γ` anticommutes with every `c(v)`, since `v` anticommutes with each of the `2ℓ`
-frame generators but the one it is parallel to, and `2ℓ − 1` is odd. -/
-theorem chirality_anticommutes {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V)
-    (h : IsGeometricAction Q ρ) (v : V) :
-    chirality Q ρ b * cliffordMultiplication Q ρ v =
-      -(cliffordMultiplication Q ρ v * chirality Q ρ b) := by
-  sorry
-
-/-- G2.1: the positive spinors `S⁺`, the `+1` eigenspace of `Γ`. -/
-def positiveSpinors {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V) : Submodule ℂ S :=
-  LinearMap.ker (chirality Q ρ b - LinearMap.id)
-
-/-- G2.1: the negative spinors `S⁻`, the `−1` eigenspace of `Γ`. -/
-def negativeSpinors {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V) : Submodule ℂ S :=
-  LinearMap.ker (chirality Q ρ b + LinearMap.id)
-
-/-- G2.1: `S = S⁺ ⊕ S⁻` for a geometric action, by the projections `(Id ± Γ)/2`. -/
-theorem isCompl_spinors {ℓ : ℕ} (b : OrthonormalBasis (Fin (2 * ℓ)) ℝ V)
-    (h : IsGeometricAction Q ρ) :
-    IsCompl (positiveSpinors Q ρ b) (negativeSpinors Q ρ b) := by
   sorry
 
 end MetricAction
