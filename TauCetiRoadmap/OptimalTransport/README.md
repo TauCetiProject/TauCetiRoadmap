@@ -1,6 +1,6 @@
 # Roadmap: optimal transport and Wasserstein geometry
 
-Optimal transport is not one theorem.  Its reusable core is a chain of structures:
+**Summary.** Optimal transport is not one theorem.  Its reusable core is a chain of structures:
 couplings and pushforwards, lower-semicontinuous minimization, Kantorovich duality,
 Wasserstein geometry, transport maps, convex and Monge--Ampère theory, dynamic plans and
 continuity equations, and metric gradient flows.  Entropic transport, barycenters, and
@@ -13,7 +13,7 @@ required milestones**.  The bar for completion is a library in which a researche
 state a new transport problem at its natural level of generality without rebuilding the
 measure-theoretic or geometric foundations.
 
-## Reference spine and scope
+## Scope and ownership
 
 Cédric Villani's [*Optimal Transport: Old and
 New*](https://link.springer.com/book/10.1007/978-3-540-71050-9) is the main classical
@@ -47,13 +47,44 @@ order, and several required subjects matured after Villani's books:
   [Gromov--Wasserstein paper](https://doi.org/10.1007/s10208-011-9093-5) guide the two
   corresponding layers.
 
-This is a foundation for the subject, not a catalogue of every constraint used in an
-application.  Multi-marginal transport belongs here because it is structural and feeds
-barycenters.  Mass-varying, partial, martingale, causal, and stochastic-control variants
-must be able to extend the public coupling/cost/duality APIs, but their specialized
-representation theorems are not prerequisites for completion of this roadmap.
+The roadmap owns the structural theory of the subject.  Multi-marginal transport belongs
+to it because it feeds barycenters.  Mass-varying, partial, martingale, causal, and
+stochastic-control variants are outside its scope: the public coupling, cost, and duality
+APIs must admit them as extensions, and their specialized representation theorems are not
+targets here.
 
-## The generality contract
+Ownership against other developments is as follows.
+
+* This roadmap owns couplings, transport costs, Kantorovich duality, Wasserstein spaces,
+  transport maps, the Monge--Ampère theory of transport, dynamic plans, metric gradient
+  flows, entropic transport, barycenters, synthetic curvature defined through transport, and
+  Gromov--Wasserstein.  Tau Ceti's optimal-transport library (`TauCeti.IsCoupling`,
+  `TauCeti.transportCost`, `TauCeti.wassersteinEDist` and the declarations built on them) is
+  this roadmap's implementation; its implemented targets stay in the layers below as their
+  specification.
+* The [Hopf--Rinow roadmap](../../Completed/HopfRinow/README.md), Layers 1--4, owns the
+  Levi-Civita connection, exponential maps, completeness, minimizing geodesics, and metric
+  length and geodesic spaces.
+  [RiemannianGeometry](../RiemannianGeometry/README.md), R2--R3 and R4.6, owns Jacobi fields,
+  conjugate points, injectivity radius, the cut locus, its measurability and volume-nullity,
+  and smoothness of squared distance off the cut relation.  The
+  [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, owns Riemannian
+  volume and curvature.  Layer 7 here owns squared-distance semiconcavity and the
+  transport-facing measurable selections.
+* [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G2, owns the weighted area
+  formula for Lipschitz maps.  Layer 6 here owns only its extension to approximately
+  differentiable gradients of convex functions.
+* The [PDE roadmap](../PDE/README.md), Layers 1, 2 and 6, owns weak-derivative Sobolev spaces,
+  Hölder spaces, bounded mean oscillation, and the concrete heat semigroup; the
+  [one-parameter-semigroups roadmap](../../Completed/OneParameterSemigroups/README.md) owns
+  C₀ semigroups, generators, resolvents, and the Hille--Yosida theorem.
+* Mathlib owns the Kullback--Leibler divergence `InformationTheory.klDiv`, its
+  composition-product chain rule, and its data-processing inequalities, which Layer 11
+  consumes.
+
+## Conventions
+
+### The generality contract
 
 "As general as possible" means **the strongest mathematically valid statement with its
 real hypotheses visible**.  It does not mean putting every theorem behind the largest
@@ -90,7 +121,9 @@ typeclass context.  The development follows these rules.
    only on an ordinary metric base with the measurable-distance/standard-Borel
    compatibility stated in Layer 3 is the usual moment subtype provably one component.
    At `p = ∞`, prove that the same definition is the essential-supremum formula for
-   `W_∞`.  Theorems specialize to `p = 1` or `p = 2` only when their mathematics does.
+   `W_∞` whenever the ground distance is jointly measurable; without that hypothesis
+   Mathlib's `eLpNorm` is `∞` on a function that is not almost everywhere strongly
+   measurable, at every exponent.  Theorems specialize to `p = 1` or `p = 2` only when their mathematics does.
 6. **Metric and linear dynamics are separate.**  Dynamic plans, absolutely continuous
    curves, metric derivatives, and displacement geodesics live on complete separable
    metric or geodesic spaces.  Vector fields, divergence, the Eulerian continuity
@@ -117,15 +150,16 @@ This tiered design is more general than any one textbook while remaining reviewa
 general abstract result is paired with the canonical Polish, Euclidean, Riemannian,
 finite, and metric-measure specializations that make its hypotheses usable.
 
-## Pinned conventions
+### Pinned conventions
 
 Convention mismatches in this subject silently change formulas.  Fix these before code is
 written.
 
-* `Measure.IsCoupling π μ ν` takes the plan first and means Mathlib's marginal measures
-  `π.fst = μ` and `π.snd = ν`.  This order agrees with the closest substantial Lean prior
-  art and supports dot notation such as `hπ.map`.  A bundled probability
-  coupling is a subtype/set of `ProbabilityMeasure (X × Y)` satisfying this relation.
+* The coupling relation `TauCeti.IsCoupling π μ ν` takes the plan first and means
+  Mathlib's marginal measures `π.fst = μ` and `π.snd = ν`.  This order agrees with the
+  closest substantial Lean prior art and supports dot notation such as `hπ.map`.  The
+  bundled probability coupling `TauCeti.Coupling μ ν` is the subtype of
+  `ProbabilityMeasure (X × Y)` satisfying this relation.
   Use `ProbabilityMeasure`; do not introduce a synonym such as `ProbDist`.
 * Use Mathlib's `ProbabilityTheory.HasLaw T ν μ` for transport-map feasibility; do not
   introduce an `IsTransportMap` synonym.  Its argument order is function, target law,
@@ -133,7 +167,7 @@ written.
   measurability is part of a theorem.  Map-induced plans are
   `Measure.map (fun x ↦ (x,T x)) μ`; equality and uniqueness of maps are always
   `μ`-a.e.
-* The root `transportCost c μ ν` takes raw measures and is the infimum of
+* The root `TauCeti.transportCost c μ ν` takes raw measures and is the infimum of
   `∫⁻ z, c z ∂π` over proofs that `π` couples them.  Empty feasible sets--including
   unequal-mass data--and infinite costs retain value `∞`.  Probability wrappers use the
   bundled coupling subtype; probability measures always have the product coupling, so
@@ -147,8 +181,13 @@ written.
   `inf_{π ∈ Coupling μ ν} eLpNorm (fun z ↦ edist z.1 z.2) p π`.  When
   `1 ≤ p < ∞`, prove it equals
   `(inf_π ∫ d(x,y)^p dπ)^(1/p)`; the `MemLp` finite-moment subtype gets the real-valued
-  `dist`.  At `p = ∞`, prove it equals the infimum of the `π`-essential supremum of `d`,
-  not merely a limit as finite exponents grow.
+  `dist`.  At `p = ∞` and for a jointly measurable ground distance, prove it equals the
+  infimum of the `π`-essential supremum of `d`, not merely a limit as finite exponents grow;
+  this is `TauCeti.wassersteinEDist_top`.  The measurability hypothesis is load-bearing: on
+  the two-point discrete metric space with the trivial σ-algebra, the only coupling of the
+  only probability law has a distance function that is not almost everywhere strongly
+  measurable, so the `eLpNorm` side is `∞` while the essential supremum is `1`; with the
+  full σ-algebra and marginals `δ₀`, `δ₁` both sides are `1`.
 * Quadratic Wasserstein distance uses `d(x,y)^2`.  The Euclidean Brenier potential and
   Legendre formulas use `c(x,y) = ‖x-y‖² / 2`.  Every bridge theorem accounts for this
   factor.
@@ -180,7 +219,9 @@ written.
 * `GW_p` uses the full pairwise distortion integral and no hidden factor `1/2`.  State
   comparison lemmas for sources that use the half-distance convention.
 
-## Inventory: what current Mathlib gives us (consume)
+## Exact supplier contracts
+
+### From Mathlib
 
 The pinned Mathlib revision has much of the measure-theoretic substrate, but no public
 optimal-transport namespace or Wasserstein metric.  Consume the following rather than
@@ -219,9 +260,13 @@ rebuilding it.
   `InformationTheory.klDiv_compProd_eq_add`, which states
   `klDiv (μ ⊗ₘ κ) (ν ⊗ₘ η) = klDiv μ ν + klDiv (μ ⊗ₘ κ) (μ ⊗ₘ η)`
   with no hypotheses on the measurable spaces, and
-  `InformationTheory.klDiv_compProd_left`.  Consume these rather than restating them.
-  Extend the definition with the lower-semicontinuity, strict-convexity,
-  data-processing, tensorization, and variational theory needed by entropic OT, and with
+  `InformationTheory.klDiv_compProd_left`, and the data-processing inequalities for finite
+  measures in `Mathlib/InformationTheory/KullbackLeibler/DataProcessing.lean`:
+  `InformationTheory.klDiv_map_le` (`klDiv (μ.map g) (ν.map g) ≤ klDiv μ ν` for measurable
+  `g`), `InformationTheory.klDiv_trim_le` (restriction to a sub-σ-algebra), and
+  `InformationTheory.klDiv_comp_right_le` (composition with a Markov kernel).  Consume these
+  rather than restating them.  Extend the definition with the lower-semicontinuity,
+  strict-convexity, tensorization, and variational theory needed by entropic OT, and with
   the conditional form that file records as open,
   `klDiv (μ ⊗ₘ κ) (ν ⊗ₘ η) = klDiv μ ν + ∫⁻ x, klDiv (κ x) (η x) ∂μ`,
   whose obstruction is measurability of `x ↦ klDiv (κ x) (η x)`; the disintegration
@@ -246,30 +291,77 @@ rebuilding it.
   extended-valued functions, the local-to-a.e. wrapper, and any intrinsic-interior
   generalization.
 
-The audit also found genuine prerequisites that must be built in the layers below:
+The following prerequisites are not in Mathlib and are targets of the layers below:
 
 * lower-semicontinuity of parameterized `lintegral` in the strength needed for transport,
   plus compactness and closedness of coupling sets;
 * a coherent extended-real convex-conjugate, subgradient, Legendre-transform, and
   Aleksandrov Monge--Ampère API, together with Euclidean approximate differentiability,
-  approximate Jacobians, and the area formula in the strength needed for gradients of
-  convex functions;
-* metric derivatives, absolutely continuous metric-valued curves, length/geodesic-space
-  infrastructure, probability measures on path space, and a reusable CAT(0)/Hadamard-
+  approximate Jacobians, and the extension of GeometricMeasureTheory G2's Lipschitz area
+  formula to approximately differentiable gradients of convex functions;
+* metric derivatives, absolutely continuous metric-valued curves on the Hopf--Rinow
+  roadmap's length and geodesic spaces, probability measures on path space, and a reusable
+  CAT(0)/Hadamard-
   space predicate with its CN/strong-convexity API; separately, the opposite-sign
   Alexandrov curvature-bounded-below (`CBB(κ)`) predicate and comparison API needed for
   Alexandrov transport and Sturm's moduli space;
 * distributional continuity equations with measure-valued time slices and vector-valued
   fluxes;
 * the advanced `InformationTheory.klDiv` API--lower semicontinuity, strict convexity, the
-  conditional/disintegration chain rule missing from `ChainRule.lean`, data processing,
-  tensorization, Pinsker, and variational formulas--plus
+  conditional/disintegration chain rule missing from `ChainRule.lean`, tensorization,
+  Pinsker, and variational formulas--plus
   signed extended Boltzmann entropy and finite-reference bridge lemmas; a continuous
   positive-definite/universal-kernel and signed-Radon-energy API for Sinkhorn divergences;
 * the nonsmooth energy and weak-gradient substrate needed to state `RCD`, where that layer
   goes beyond ordinary `CD`.
 
 Do not assume these gaps away.  Each is a named target below before anything consumes it.
+
+### From Tau Ceti
+
+Tau Ceti's optimal-transport library implements this roadmap's foundational targets.
+`Suggested.lean` and the later layers consume the following declarations by name, with the
+meaning stated.
+
+* `TauCeti.IsCoupling π μ ν` and the bundled `TauCeti.Coupling μ ν`
+  (`TauCeti/MeasureTheory/OptimalTransport/Coupling.lean`): the two marginal equalities of
+  Layer 0.1, with no topology and no normalization.
+* `TauCeti.transportCost c μ ν` and `TauCeti.IsOptimalCoupling c π μ ν`
+  (`TauCeti/MeasureTheory/OptimalTransport/Cost/Basic.lean`): the extended Kantorovich value
+  of Layer 1.1 for `c : X × Y → ℝ≥0∞`, and a coupling attaining it.
+* `TauCeti.IsKantorovichOptimalTransportMap c μ ν T`
+  (`TauCeti/MeasureTheory/OptimalTransport/Monge.lean`): a map with
+  `ProbabilityTheory.HasLaw T ν μ` whose cost equals `TauCeti.transportCost c μ ν`
+  (Layer 4.1).
+* `TauCeti.wassersteinEDist p μ ν`, `TauCeti.wassersteinEDist_top`, and
+  `TauCeti.HasFiniteMoment p μ` (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/Basic.lean`):
+  the `eLpNorm` definition of `W_p` on raw measures (Layer 3.1), its essential-supremum form
+  at `p = ∞` for a jointly measurable ground distance, and finite `p`-moment about some
+  basepoint.
+* `Matrix.exists_sinkhorn_scaling` (`TauCeti/Data/Matrix/Scaling/Basic.lean`): the
+  Sinkhorn--Knopp scaling theorem for strictly positive rectangular kernels and strictly
+  positive marginals of equal mass (Layer 13.8).
+* `TauCeti.riemannianVolume I M`
+  (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`): the Riemannian volume
+  measure of a Riemannian manifold with continuous metric, consumed by Layer 7.
+
+### From other roadmaps
+
+* [Hopf--Rinow](../../Completed/HopfRinow/README.md), Layers 1--4: the Levi-Civita
+  connection, exponential maps and local logarithms, completeness, minimizing geodesics,
+  and metric length and geodesic spaces (Layers 7--9).
+* [RiemannianGeometry](../RiemannianGeometry/README.md), R2--R3 and R4.6: Jacobi fields,
+  conjugate points, injectivity radius, the cut locus with its measurability and
+  volume-nullity, and smoothness of squared distance off the cut relation (Layer 7).
+* [Geometric topology](../GeometricTopology/README.md), Layer 7: Riemannian volume and
+  curvature (Layers 7 and 14).
+* [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G2: the weighted area
+  formula for Lipschitz maps `f : ℝᵐ → ℝⁿ`, `m ≤ n`, with extended multiplicity (Layer 6.6).
+* [PDE](../PDE/README.md), §1.1 (A1), §1.6 (A6), §1.7 (A7), §2.4 (B11) and §6.3 (F26): weak
+  derivatives and Sobolev spaces, Rellich--Kondrachov, Hölder spaces, bounded and vanishing
+  mean oscillation, and the concrete heat semigroup (Layers 5.9, 6 and 11).
+* [One-parameter semigroups](../../Completed/OneParameterSemigroups/README.md), Part A:
+  C₀ semigroups, generators, resolvents, and Hille--Yosida (Layer 11.9).
 
 ## Existing Lean work and coordination
 
@@ -336,104 +428,149 @@ longer publicly accessible.  Contact them as well, re-run all searches, and open
 Zulip design thread before beginning Layer 0.  This subject needs agreement on integrating
 the Vlasov/Econlib work, `ProbabilityMeasure`, `klDiv`, and extended costs.
 
-## The build, in dependency layers
+## How to read the build
 
 The numbering is a dependency order.  A layer is complete only when its definitions have
 the basic algebraic, measurable, topological, and extensionality API described here; a
 single headline theorem does not discharge it.  Claims and implementation PRs should
-take coherent slices inside a layer rather than claim the entire roadmap.
+take coherent slices inside a layer rather than claim the entire roadmap.  Layers 0--3 are
+the common spine: couplings, primal attainment, duality, and Wasserstein spaces.  Layers
+4--7 build transport maps: the Monge problem, Brenier's theorem, Monge--Ampère regularity,
+and Riemannian transport.  Layers 8--11 build dynamics: dynamic plans and
+Benamou--Brenier, displacement convexity, metric gradient flows, and the Wasserstein
+gradient flows of entropy.  Layers 12--15 apply this to barycenters, entropic transport,
+synthetic curvature, and Gromov--Wasserstein, and Layer 16 assembles the public API.
 
-### Layer 0: transport plans, maps, kernels, and gluing
+## Layer 0: transport plans, maps, kernels, and gluing
 
 Build the definition-level foundation on arbitrary measurable spaces.
 
-1. Define the raw coupling relation for arbitrary measures and the bundled probability
-   coupling space.  Prove that a coupling forces equal total mass, marginal formulas, and
-   extensionality, consuming Mathlib's `measurable_fst` and `measurable_snd`.  Prove
-   nonemptiness via product couplings for probabilities and normalized products for finite
-   equal-mass measures (including the zero-mass case), swap, map/pushforward in either
-   coordinate, and invariance under measurable equivalences.
-2. Use `ProbabilityTheory.HasLaw` for transport maps and build only the OT-specific graph
-   coupling interface around it.  Reuse `ProbabilityTheory.HasLaw.comp`,
-   `ProbabilityTheory.HasLaw.congr`, and `MeasureTheory.MeasurePreserving.hasLaw`; prove
-   the graph plan's two marginal identities and the implication from a Monge map to a
-   Kantorovich plan.  Add identity and measurable-equivalence examples without
-   introducing a parallel transport-map predicate.
-3. Consume `ProbabilityTheory.condDistrib`,
-   `ProbabilityTheory.compProd_map_condDistrib`, and Mathlib's
-   `MeasureTheory.Measure.IsCondKernel`/`MeasureTheory.Measure.disintegrate` API to
-   specialize standard-Borel disintegration to couplings.  Prove only the OT-facing
-   marginal and reconstruction corollaries, plus reconstruction from a marginal and a
-   probability kernel.  Derive the coupling-facing a.e.-kernel uniqueness corollary from
-   `ProbabilityTheory.eq_condKernel_of_measure_eq_compProd` and its kernel analogue.
-4. Prove the gluing lemma: couplings of `(μ,ν)` and `(ν,σ)` admit a joint law on
-   `X × Y × Z` with the prescribed two-coordinate marginals.  The one-sided theorem
-   obtained by disintegrating the second coupling needs only `Z` standard Borel; give the
-   symmetric theorem obtained by disintegrating the first coupling under the corresponding
-   hypothesis on `X`.  Derive composition of couplings and finite-chain gluing.  For
-   countable chains, consume Mathlib's Ionescu--Tulcea API--
-   `ProbabilityTheory.Kernel.partialTraj`, `ProbabilityTheory.Kernel.traj`, and
-   `ProbabilityTheory.Kernel.trajMeasure`--after obtaining the required transition
-   kernels from `ProbabilityTheory.condDistrib`.  Prove that the resulting trajectory law
-   has the requested finite marginals using
-   `ProbabilityTheory.Kernel.traj_map_frestrictLe` and Mathlib's
-   `MeasureTheory.IsProjectiveLimit`/`MeasureTheory.isProjectiveLimit_nat_iff` API.  Then
-   prove the arbitrary countable standard-Borel projective-family extension theorem by
-   building only the missing factorization/existence bridge over this API; do not
-   reimplement Ionescu--Tulcea or its Carathéodory construction.
-5. Define multi-marginal couplings indexed by a finite type, their projections and
-   reindexing, product nonemptiness, marginal replacement, and reduction to the
-   two-marginal API.
+### 0.1 Couplings and bundled probability couplings
 
-Acceptance checks: a coupling of two Dirac measures is unique; if the first marginal is
+Define the raw coupling relation for arbitrary measures and the bundled probability
+coupling space.  Prove that a coupling forces equal total mass, marginal formulas, and
+extensionality, consuming Mathlib's `measurable_fst` and `measurable_snd`.  Prove
+nonemptiness via product couplings for probabilities and normalized products for finite
+equal-mass measures (including the zero-mass case), swap, map/pushforward in either
+coordinate, and invariance under measurable equivalences.
+
+### 0.2 Transport maps and graph plans
+
+Use `ProbabilityTheory.HasLaw` for transport maps and build only the OT-specific graph
+coupling interface around it.  Reuse `ProbabilityTheory.HasLaw.comp`,
+`ProbabilityTheory.HasLaw.congr`, and `MeasureTheory.MeasurePreserving.hasLaw`; prove
+the graph plan's two marginal identities and the implication from a Monge map to a
+Kantorovich plan.  Add identity and measurable-equivalence examples without
+introducing a parallel transport-map predicate.
+
+### 0.3 Disintegration of couplings
+
+Consume `ProbabilityTheory.condDistrib`,
+`ProbabilityTheory.compProd_map_condDistrib`, and Mathlib's
+`MeasureTheory.Measure.IsCondKernel`/`MeasureTheory.Measure.disintegrate` API to
+specialize standard-Borel disintegration to couplings.  Prove only the OT-facing
+marginal and reconstruction corollaries, plus reconstruction from a marginal and a
+probability kernel.  Derive the coupling-facing a.e.-kernel uniqueness corollary from
+`ProbabilityTheory.eq_condKernel_of_measure_eq_compProd` and its kernel analogue.
+
+### 0.4 Gluing and countable chains
+
+Prove the gluing lemma: couplings of `(μ,ν)` and `(ν,σ)` admit a joint law on
+`X × Y × Z` with the prescribed two-coordinate marginals.  The one-sided theorem
+obtained by disintegrating the second coupling needs only `Z` standard Borel; give the
+symmetric theorem obtained by disintegrating the first coupling under the corresponding
+hypothesis on `X`.  Derive composition of couplings and finite-chain gluing.  For
+countable chains, consume Mathlib's Ionescu--Tulcea API--
+`ProbabilityTheory.Kernel.partialTraj`, `ProbabilityTheory.Kernel.traj`, and
+`ProbabilityTheory.Kernel.trajMeasure`--after obtaining the required transition
+kernels from `ProbabilityTheory.condDistrib`.  Prove that the resulting trajectory law
+has the requested finite marginals using
+`ProbabilityTheory.Kernel.traj_map_frestrictLe` and Mathlib's
+`MeasureTheory.IsProjectiveLimit`/`MeasureTheory.isProjectiveLimit_nat_iff` API.  Then
+prove the arbitrary countable standard-Borel projective-family extension theorem by
+building only the missing factorization/existence bridge over this API; do not
+reimplement Ionescu--Tulcea or its Carathéodory construction.
+
+### 0.5 Multi-marginal couplings
+
+Define multi-marginal couplings indexed by a finite type, their projections and
+reindexing, product nonemptiness, marginal replacement, and reduction to the
+two-marginal API.
+
+### Examples
+
+A coupling of two Dirac measures is unique; if the first marginal is
 `δ_x`, then the unique coupling with second marginal `ν` is
 `Measure.map (fun y ↦ (x,y)) ν`--which is not a Monge plan from `δ_x` when `ν` is
 non-Dirac.  Finite
 probability vectors give exactly nonnegative matrices with the prescribed row and column
 sums, and gluing those matrices agrees with the measure-theoretic construction.
 
-### Layer 1: transport cost, compactness, existence, and stability
+### Dependencies
+
+Mathlib measure theory, kernels, `MeasureTheory.Measure.condKernel`, `ProbabilityTheory.condDistrib`, the Ionescu--Tulcea kernels `ProbabilityTheory.Kernel.traj`, and `MeasureTheory.IsProjectiveLimit`.
+
+## Layer 1: transport cost, compactness, existence, and stability
 
 Build the primal problem without compactness in its definition.
 
-1. Define the extended transport cost and the set of optimal couplings.  Prove monotonicity
-   in the cost; scaling by a positive constant (and the zero-scaling law under nonempty
-   feasibility); addition of integrable split marginal terms; invariance under `π`-a.e.
-   equality for a fixed plan or under equality a.e. for **every** feasible coupling;
-   symmetry for symmetric costs; functoriality under measurable equivalences; and exact
-   formulas for Dirac marginals and graph plans.  Equality merely `μ⊗ν`-a.e. does not
-   control singular couplings.  In parallel build the bounded-below signed interface: for
-   integrable real functions `a,b` and an `EReal` cost `c ≥ a ⊕ b`, integrate the
-   nonnegative residual and reconstruct the signed extended value from the two fixed
-   marginal integrals.  Prove that this value is independent of the chosen split lower
-   bound and agrees with the nonnegative `ℝ≥0∞` interface when both apply.
-2. When the factor/product topologies have measurable opens, build the weak topology on a
-   fixed-marginal coupling subtype by inheritance from `ProbabilityMeasure`.  Consume
-   `MeasureTheory.ProbabilityMeasure.continuous_map` for the continuous coordinate
-   projections.  Prove that the coupling set is closed when the marginal
-   probability-measure spaces are `T1`, and give the Polish/Borel theorem as the canonical
-   specialization.  Do not introduce another notion of weak convergence.
-3. Consume `MeasureTheory.IsTightMeasureSet.prodMk` to derive tightness of the coupling
-   family from tightness of its two fixed marginals.  Prove relative compactness by
-   Prokhorov and compactness of the coupling set on Polish spaces.  Supply compact
-   metrizable corollaries and a separate abstract theorem for spaces satisfying the
-   Prokhorov compactness property; do not infer it from Radon regularity alone.
-4. In the weak/Borel regime of item 2, prove lower semicontinuity of
-   `π ↦ ∫⁻ c dπ` for nonnegative lower-semicontinuous `c`, first for bounded truncations
-   and then by monotone convergence.  Include a reusable theorem for costs bounded below
-   by integrable marginal terms.
-5. Prove primal attainment for lower-semicontinuous costs on Polish spaces and the direct
-   method theorem under abstract compactness/lower-semicontinuity hypotheses.  Separate
-   finite-value existence from the fact that an optimizer exists with value `∞`.
-6. Prove stability under varying marginals/costs: require explicitly that every feasible
-   `π_n ⇀ π` satisfies
-   `liminf_n ∫ c_n dπ_n ≥ ∫ c dπ`, and prove tightness/relative compactness of optimizer
-   subsequences.  Under an explicit recovery-coupling condition, prove convergence of
-   values and subsequential convergence of optimizers.  State the fixed-cost
-   lower-semicontinuous corollary separately.  Only Layer 10 later packages these
-   conditions as Γ-liminf, Γ-limsup, and equicoercivity.
+### 1.1 Transport cost and the signed interface
 
-Acceptance checks: solve every `2 × 2` discrete problem by enumerating its coupling
+Define the extended transport cost and the set of optimal couplings.  Prove monotonicity
+in the cost; scaling by a positive constant (and the zero-scaling law under nonempty
+feasibility); addition of integrable split marginal terms; invariance under `π`-a.e.
+equality for a fixed plan or under equality a.e. for **every** feasible coupling;
+symmetry for symmetric costs; functoriality under measurable equivalences; and exact
+formulas for Dirac marginals and graph plans.  Equality merely `μ⊗ν`-a.e. does not
+control singular couplings.  In parallel build the bounded-below signed interface: for
+integrable real functions `a,b` and an `EReal` cost `c ≥ a ⊕ b`, integrate the
+nonnegative residual and reconstruct the signed extended value from the two fixed
+marginal integrals.  Prove that this value is independent of the chosen split lower
+bound and agrees with the nonnegative `ℝ≥0∞` interface when both apply.
+
+### 1.2 The weak topology on coupling sets
+
+When the factor/product topologies have measurable opens, build the weak topology on a
+fixed-marginal coupling subtype by inheritance from `ProbabilityMeasure`.  Consume
+`MeasureTheory.ProbabilityMeasure.continuous_map` for the continuous coordinate
+projections.  Prove that the coupling set is closed when the marginal
+probability-measure spaces are `T1`, and give the Polish/Borel theorem as the canonical
+specialization.  Do not introduce another notion of weak convergence.
+
+### 1.3 Tightness and compactness of coupling sets
+
+Consume `MeasureTheory.IsTightMeasureSet.prodMk` to derive tightness of the coupling
+family from tightness of its two fixed marginals.  Prove relative compactness by
+Prokhorov and compactness of the coupling set on Polish spaces.  Supply compact
+metrizable corollaries and a separate abstract theorem for spaces satisfying the
+Prokhorov compactness property; do not infer it from Radon regularity alone.
+
+### 1.4 Lower semicontinuity of the cost functional
+
+In the weak/Borel regime of item 2, prove lower semicontinuity of
+`π ↦ ∫⁻ c dπ` for nonnegative lower-semicontinuous `c`, first for bounded truncations
+and then by monotone convergence.  Include a reusable theorem for costs bounded below
+by integrable marginal terms.
+
+### 1.5 Primal attainment
+
+Prove primal attainment for lower-semicontinuous costs on Polish spaces and the direct
+method theorem under abstract compactness/lower-semicontinuity hypotheses.  Separate
+finite-value existence from the fact that an optimizer exists with value `∞`.
+
+### 1.6 Stability of optimal plans
+
+Prove stability under varying marginals/costs: require explicitly that every feasible
+`π_n ⇀ π` satisfies
+`liminf_n ∫ c_n dπ_n ≥ ∫ c dπ`, and prove tightness/relative compactness of optimizer
+subsequences.  Under an explicit recovery-coupling condition, prove convergence of
+values and subsequential convergence of optimizers.  State the fixed-cost
+lower-semicontinuous corollary separately.  Only Layer 10 later packages these
+conditions as Γ-liminf, Γ-limsup, and equicoercivity.
+
+### Examples
+
+Solve every `2 × 2` discrete problem by enumerating its coupling
 interval.  On ordered finite supports, if
 `c(x₁,y₁)+c(x₂,y₂) ≤ c(x₁,y₂)+c(x₂,y₁)` whenever `x₁≤x₂` and
 `y₁≤y₂`, prove that
@@ -441,454 +578,639 @@ uncrossing terminates and the monotone coupling is optimal; specialize this to
 `c(x,y)=|x-y|^p` for `p≥1`.  Show that an infinite barrier cost correctly encodes a
 closed transport constraint.
 
-### Layer 2: Kantorovich duality, transforms, and optimality certificates
+### Dependencies
+
+Layer 0; Mathlib weak convergence of probability measures, `MeasureTheory.IsTightMeasureSet.prodMk`, Prokhorov's theorem, and `MeasureTheory.ProbabilityMeasure.continuous_map`.
+
+## Layer 2: Kantorovich duality, transforms, and optimality certificates
 
 This layer builds the dual theory at the same level of care as the primal.
 
-1. Define dual-feasible potential pairs and their value, with integrability conditions
-   that make the two marginal integrals meaningful.  Prove weak duality once for the
-   general interface.
-2. Build the finite-real and extended-cost infimal `c`-transform interfaces,
-   `c`-concave functions, `c`-superdifferentials, contact sets, and normalization modulo
-   additive constants.  Even for real `c,φ`, the infimum may be `-∞`, so the transform has
-   an extended-real codomain.  Pin safe subtraction/normalization rules so no theorem
-   hides `∞-∞`.  Prove order reversal, double-transform inequalities, feasibility, and
-   improvement of a feasible pair by `c`-transformation.  For Polish `X,Y`, if the safely
-   defined integrand `(x,y) ↦ c(x,y)-φ(x)` is Borel, prove that
-   `{y | φᶜ(y)<a}` is analytic for every `a`.  Build the missing reusable theorem that
-   every analytic subset of a Polish space is measurable in `η.completion` for every
-   finite Borel measure `η`; apply it to each such sublevel, use that explicit
-   completion-level statement in downstream integration, and do not claim Borel
-   measurability in general.
-   If every section `y ↦ c(x,y)` is continuous, prove that the infimal transform is upper
-   semicontinuous.  Separately, if `X` is compact metrizable and the integrand is lower
-   semicontinuous, prove attainment of the infimum and lower semicontinuity of the
-   transform; with both hypotheses it is continuous.  Record Borel measurability as a
-   corollary in these topological regimes.
-3. Prove finite-dimensional linear-programming duality for finite spaces, including
-   primal and dual attainment and complementary slackness.  Connect it definitionally or
-   by transparent equivalences to the measure API.
-4. Prove strong Kantorovich duality for continuous finite costs on compact metrizable
-   spaces.  Then prove the Polish lower-semicontinuous theorem for
-   `c ≥ a ⊕ b`, with `a,b` upper-semicontinuous and integrable against the marginals,
-   comparing bounded-continuous and integrable dual classes.  For a real-valued cost,
-   finite primal value, and an integrable split upper envelope `c ≤ c_X ⊕ c_Y`, prove dual
-   attainment; without that attainment theorem's hypotheses prove only equality of
-   values.
-5. Add the post-Villani Borel-cost regimes explicitly: finite-valued nonnegative Borel
-   costs on Polish spaces following Beiglböck--Schachermayer, and extended-valued Borel
-   costs through the relaxed partial-transport primal of
-   Beiglböck--Léonard--Schachermayer.  Prove when the relaxed and ordinary primals agree.
-   Do not present an unrelaxed arbitrary-Borel theorem where a duality gap can occur.
-6. Prove finite multi-marginal duality with the constraint
-   `∑ i, φ_i(x_i) ≤ c(x)`, dual attainment in the finite case, and complementary
-   slackness.  Connect it to the multi-marginal coupling API from Layer 0.
-7. Define finite `c`-cyclical monotonicity.  For finite-valued lower-semicontinuous costs
-   on Polish spaces, prove the Schachermayer--Teichmann equivalence between finite-cost
-   optimality and concentration on a `c`-cyclically monotone set.  Separately formalize
-   their strong-monotonicity/contact-potential representation with its exact Borel and
-   extended-value conventions; do not call those potentials integrable dual optimizers.
-   Concentration on the contact set of an **integrable dual optimizer** is equivalent to
-   optimality only in the dual-attainment regime of item 4, including its split upper
-   envelope.  Give the extended-valued cost regime only with its additional
-   measurability/relaxation hypotheses.
-   Keep concentration on a measurable set distinct from containment of topological
-   support, which additionally needs closedness/continuity.
-8. Package complementary slackness/contact-set concentration as an optimality
-   certificate usable by later map, barycenter, and entropic layers.
+### 2.1 Dual feasibility and weak duality
+
+Define dual-feasible potential pairs and their value, with integrability conditions
+that make the two marginal integrals meaningful.  Prove weak duality once for the
+general interface.
+
+### 2.2 The `c`-transform
+
+Build the finite-real and extended-cost infimal `c`-transform interfaces,
+`c`-concave functions, `c`-superdifferentials, contact sets, and normalization modulo
+additive constants.  Even for real `c,φ`, the infimum may be `-∞`, so the transform has
+an extended-real codomain.  Pin safe subtraction/normalization rules so no theorem
+hides `∞-∞`.  Prove order reversal, double-transform inequalities, feasibility, and
+improvement of a feasible pair by `c`-transformation.  For Polish `X,Y`, if the safely
+defined integrand `(x,y) ↦ c(x,y)-φ(x)` is Borel, prove that
+`{y | φᶜ(y)<a}` is analytic for every `a`.  Build the missing reusable theorem that
+every analytic subset of a Polish space is measurable in `η.completion` for every
+finite Borel measure `η`; apply it to each such sublevel, use that explicit
+completion-level statement in downstream integration, and do not claim Borel
+measurability in general.
+If every section `y ↦ c(x,y)` is continuous, prove that the infimal transform is upper
+semicontinuous.  Separately, if `X` is compact metrizable and the integrand is lower
+semicontinuous, prove attainment of the infimum and lower semicontinuity of the
+transform; with both hypotheses it is continuous.  Record Borel measurability as a
+corollary in these topological regimes.
+
+### 2.3 Finite linear-programming duality
+
+Prove finite-dimensional linear-programming duality for finite spaces, including
+primal and dual attainment and complementary slackness.  Connect it definitionally or
+by transparent equivalences to the measure API.
+
+### 2.4 Strong Kantorovich duality
+
+Prove strong Kantorovich duality for continuous finite costs on compact metrizable
+spaces.  Then prove the Polish lower-semicontinuous theorem (Villani 2009, Theorem 5.10,
+parts (i) and (iii)) for
+`c ≥ a ⊕ b`, with `a,b` upper-semicontinuous and integrable against the marginals,
+comparing bounded-continuous and integrable dual classes.  For a real-valued cost,
+finite primal value, and an integrable split upper envelope `c ≤ c_X ⊕ c_Y`, prove dual
+attainment; without that attainment theorem's hypotheses prove only equality of
+values.
+
+### 2.5 Borel-cost duality
+
+Add the post-Villani Borel-cost regimes explicitly: finite-valued nonnegative Borel
+costs on Polish spaces following Beiglböck--Schachermayer, and extended-valued Borel
+costs through the relaxed partial-transport primal of
+Beiglböck--Léonard--Schachermayer.  Prove when the relaxed and ordinary primals agree.
+Do not present an unrelaxed arbitrary-Borel theorem where a duality gap can occur.
+
+### 2.6 Finite multi-marginal duality
+
+Prove finite multi-marginal duality with the constraint
+`∑ i, φ_i(x_i) ≤ c(x)`, dual attainment in the finite case, and complementary
+slackness.  Connect it to the multi-marginal coupling API from Layer 0.
+
+### 2.7 Cyclical monotonicity and optimality
+
+Define finite `c`-cyclical monotonicity.  For finite-valued lower-semicontinuous costs
+on Polish spaces, prove the Schachermayer--Teichmann equivalence between finite-cost
+optimality and concentration on a `c`-cyclically monotone set.  Separately formalize
+their strong-monotonicity/contact-potential representation with its exact Borel and
+extended-value conventions; do not call those potentials integrable dual optimizers.
+Concentration on the contact set of an **integrable dual optimizer** is equivalent to
+optimality only in the dual-attainment regime of item 4, including its split upper
+envelope.  Give the extended-valued cost regime only with its additional
+measurability/relaxation hypotheses.
+Keep concentration on a measurable set distinct from containment of topological
+support, which additionally needs closedness/continuity.
+
+### 2.8 Optimality certificates
+
+Package complementary slackness/contact-set concentration as an optimality
+certificate usable by later map, barycenter, and entropic layers.
 
 The named summit is general Kantorovich duality, not merely its finite or compact special
 case.  The Vlasov and Econlib finite-approximation arguments are candidate inputs after
 API coordination.
 
-### Layer 3: Wasserstein distances and topology
+### Examples
+
+Cyclical monotonicity for `c(x,y) = (x-y)²` on `{0,1}`: the empty family (`n = 0`) gives
+`0 ≤ 0`; for `Γ = {(0,0),(1,1)}` the swap gives `0 ≤ c(0,1) + c(1,0) = 2`, so `Γ` is
+`c`-cyclically monotone; for the anti-diagonal `{(0,1),(1,0)}` the swap gives `2 ≤ 0`, so it is
+not.  A definition with the inequality reversed accepts the anti-diagonal and rejects the
+diagonal.  The infimal `c`-transform on `X = Y = {0,1}` with `c(x,y) = |x-y|` and
+`φ = (0,1)` is `φᶜ = (0,-1)`; the pair `(φ, φᶜ)` is dual feasible with contact set
+`{(0,0),(1,0),(1,1)}`, whereas the supremal transform would give `φᶜ(1) = 1` and violate
+`φ(1) + φᶜ(1) ≤ c(1,1) = 0`.  For `μ = δ₀` and `ν` uniform on `{0,1}` with the same cost, the
+unique coupling costs `1/2`, and the dual pair `φ(0) = 0`, `ψ = (0,1)` attains the dual value
+`1/2`.
+
+### Dependencies
+
+Layers 0--1; Mathlib analytic sets, measure completions, and finite-dimensional linear algebra.
+
+## Layer 3: Wasserstein distances and topology
 
 For every `p : ℝ≥0∞` with `1 ≤ p`, build the extended distance on all probability laws
 and its honest finite-distance components.  The `p=∞` endpoint uses Mathlib's `eLpNorm`
 convention but has a different topology from the finite-exponent spaces.
 
-1. Define `W_p` as the infimum, over couplings, of the `eLpNorm` of ground `edist`.
-   Define the `p`-moment condition with `MemLp` about a basepoint.  Under `μ`-a.e.
-   measurability of all distance sections--in particular for a Borel metric structure--
-   prove basepoint-independence.  In an extended metric space, make the corresponding
-   claim only inside a fixed finite-distance component.  Under joint measurability of the
-   ground `edist`, prove symmetry and monotonicity in `p`.  Under a standard-Borel
-   measurable structure and measurable ground `edist`, prove the triangle inequality by
-   gluing plus Minkowski.  Under the Polish/Borel metric hypotheses, prove
-   `W_p=0 ↔ μ=ν` on a genuine metric base; on a pseudometric base give the induced
-   measurable quotient/pushforward statement instead.  For `p < ∞`, prove the exact
-   bridge to the integral-of-`edist^p`/root formula and Layer 1's transport cost.
-2. In the standard-Borel/measurable-distance regime of item 1, define a
-   `PseudoEMetricSpace` component anchored at a reference law `μ₀` by finite `W_p`
-   distance.  On an ordinary `PseudoMetricSpace` with measurable distance sections,
-   define `P_p(X)` by finite moment about one/every basepoint and prove that it is the
-   component anchored at a Dirac law `δ_{x₀}`, through the unique coupling identity
-   `W_p(δ_{x₀},μ)=‖d(x₀,·)‖_{Lᵖ(μ)}`.  A general anchor gives that same set exactly
-   when `μ₀ ∈ P_p(X)`; state that hypothesis wherever the identification is used, and
-   record the guardrail that without it the anchored component is a different set--a
-   Cauchy law lies in its own finite-`W₂` component but not in `P₂(ℝ)`.  At `p=∞` the
-   moment condition reads `MemLp _ ∞`, so `P_∞(X)` is the laws at essentially bounded
-   ground distance from a basepoint; prove the `δ_{x₀}` identification there too, and
-   keep the metric, topological, and density statements for that endpoint in item 6
-   rather than inheriting them from `1 ≤ p < ∞`.  Give it a `PseudoMetricSpace`; under
-   the Polish/Borel hypotheses give a genuine `MetricSpace` when the ground distance
-   separates points, and otherwise a quotient metric.  Consume
-   `Subtype.instMeasurableSpace`, which definitionally pulls back the measurable
-   structure from `ProbabilityMeasure`; do not add a second measurable-space instance.
-   For `1 ≤ p < ∞`, under the Polish/Borel
-   hypotheses, prove that this inherited structure is the Borel σ-algebra of the `W_p`
-   topology, hence that opens are measurable; do the same for anchored components.  This
-   compatibility is a prerequisite for population laws `P ∈ P_p(P_p(X))` in Layer 12.
-   For `p=∞` and genuinely extended anchored components, choose and compare measurable
-   structures explicitly, claim equality only under a sourced theorem, and prove the
-   measurability needed by later uses.  Prove compatibility among `dist`, `edist`,
-   `eLpNorm`, the primal cost, and optimal couplings.
-3. For `1 ≤ p < ∞`, prove separability and completeness of `P_p(X)` when `X` has those
-   properties.  Then prove this definite list on a Polish `X`, rather than "compactness and
-   approximation" generically: a family in `P_p(X)` is relatively compact exactly when it
-   is tight and its `p`-moment tails about one basepoint are uniformly integrable, and
-   compact when it is also closed; finitely supported probability measures are dense in
-   `P_p(X)`; for i.i.d. `X_i ∼ μ ∈ P_p(X)`, `W_p(n⁻¹∑_{i=1}^n δ_{X_i}, μ) → 0` almost
-   surely; and the `N`-point quantization error
-   `e_{N,p}(μ) = inf {W_p(μ,ν) | card (support ν) ≤ N}` tends to `0`.  Existence of a best
-   `N`-point quantizer and any quantitative rate are separate targets carrying their own
-   properness, finite-dimensional, or regularity hypotheses.  State them as such; do not
-   fold them into the convergence statements above.
-4. For `1 ≤ p < ∞`, characterize `W_p` convergence as weak convergence plus
-   convergence/uniform integrability of `p`-moments.  Prove lower semicontinuity under
-   weak convergence and continuity under the stronger topology.
-5. Prove functorial estimates, each written out rather than called standard.  Pushforward
-   by an `L`-Lipschitz map is `L`-Lipschitz in `W_p`.  For products, fix the `ℓᵖ` product
-   metric--in Lean the metric carried by `WithLp p (X × Y)`, not Mathlib's default sup
-   metric on `X × Y`--and prove the equality
-   `W_p(μ₁⊗μ₂,ν₁⊗ν₂)^p = W_p(μ₁,ν₁)^p + W_p(μ₂,ν₂)^p`.
-   For a probability vector `(a_i)`, prove the mixture bound
-   `W_p(∑ a_i μ_i, ∑ a_i ν_i)^p ≤ ∑ a_i W_p(μ_i,ν_i)^p`.
-   On a normed additive group, prove `W_p(μ*η,ν*η) ≤ W_p(μ,ν)`, with translation as its
-   specialization.  For a Markov kernel `K`, take the pointwise Wasserstein-Lipschitz
-   hypothesis `W_p(K(x,·),K(y,·)) ≤ L d(x,y)` and deduce `W_p(μK,νK) ≤ L W_p(μ,ν)` by
-   gluing.  That proof consumes a measurably chosen family of optimal or near-optimal
-   couplings of `K(x,·)` and `K(y,·)`, so record the standard-Borel/Polish hypotheses
-   supporting the selection, together with the measurability and moment hypotheses that
-   place `μK` in the intended finite-moment space.  The maximum-form product and mixture
-   statements for `p=∞` belong to item 6, stated separately.
-6. Prove that the `p=∞` specialization is the infimum of coupling-wise essential suprema
-   and give it the conventional notation `W_∞`.  Build its anchored finite-distance
-   components.  If `X` is a complete separable metric space with its Borel structure,
-   prove that every anchored finite-`W_∞` component is complete, using near-optimal
-   consecutive couplings and Layer 0's countable gluing; give the global theorem only
-   when the carrier has a single finite-`W_∞` component.  State any stronger
-   nonseparable/Radon version separately with its own coupling-extension hypothesis.
-   Characterize `W_∞` convergence by couplings whose essential-supremum displacements
-   tend to zero, not by weak convergence plus moments; record that finite support need not
-   be dense and separability can fail.  On every Polish metric space and for all
-   `μ,ν ∈ P(X)`, prove, as an identity in `[0,∞]`,
-   `W_∞(μ,ν) = sup_{1≤p<∞} W_p(μ,ν) = lim_{p→∞} W_p(μ,ν)`, and prove
-   attainment of the `W_∞` infimum.  Retaining infinite values removes any need for a
-   bounded-support or all-moments hypothesis; follow
-   [Givens--Shortt Proposition 1](https://doi.org/10.1307/mmj/1029003026).  Give item 5's
-   product and mixture estimates their maximum forms here: for the sup product metric on
-   `X × Y`, prove `W_∞(μ₁⊗μ₂,ν₁⊗ν₂) = max (W_∞(μ₁,ν₁)) (W_∞(μ₂,ν₂))`, and for a
-   probability vector `(a_i)` prove
-   `W_∞(∑ a_i μ_i, ∑ a_i ν_i) ≤ max_{i | a_i>0} W_∞(μ_i,ν_i)`, consuming the attainment
-   just proved.
-7. Consume `ProbabilityTheory.cdf` on `ℝ`; build the generalized inverse/quantile of a
-   Borel probability law, its measurability and pushforward of uniform measure, and the
-   optimal monotone quantile coupling.  For every `p ∈ [1,∞]`, prove that `W_p` is the
-   `Lᵖ(0,1)` distance of the two quantiles, with the integral/root and essential-supremum
-   formulas at the corresponding endpoints.
-8. Prove Kantorovich--Rubinstein duality for `W_1` on Polish metric spaces with finite
-   first moments, normalized at a basepoint.  Derive the bounded-Lipschitz and compact
-   variants and compare with Mathlib's weak-convergence metrics.
-9. Build the shared measured-metric carrier used by Layers 14--15: a complete separable
-   metric carrier, a Borel reference measure finite on bounded sets, support/full-support
-   reduction, and measure-preserving isometries.  The transported `ProbabilityMeasure`
-   remains separate from this reference measure.  Do not yet impose curvature, a kernel,
-   or a quotient.
+### 3.1 The Wasserstein distance
 
-Acceptance checks: on a metric base, `W_p(δ_x,δ_y)=d(x,y)` and zero distance separates
+Define `W_p` as the infimum, over couplings, of the `eLpNorm` of ground `edist`.
+Define the `p`-moment condition with `MemLp` about a basepoint.  Under `μ`-a.e.
+measurability of all distance sections--in particular for a Borel metric structure--
+prove basepoint-independence.  In an extended metric space, make the corresponding
+claim only inside a fixed finite-distance component.  Under joint measurability of the
+ground `edist`, prove symmetry and monotonicity in `p`.  Under a standard-Borel
+measurable structure and measurable ground `edist`, prove the triangle inequality by
+gluing plus Minkowski.  Under the Polish/Borel metric hypotheses, prove
+`W_p=0 ↔ μ=ν` on a genuine metric base; on a pseudometric base give the induced
+measurable quotient/pushforward statement instead.  For `p < ∞`, prove the exact
+bridge to the integral-of-`edist^p`/root formula and Layer 1's transport cost.
+
+### 3.2 Finite-distance components and `P_p(X)`
+
+In the standard-Borel/measurable-distance regime of item 1, define a
+`PseudoEMetricSpace` component anchored at a reference law `μ₀` by finite `W_p`
+distance.  On an ordinary `PseudoMetricSpace` with measurable distance sections,
+define `P_p(X)` by finite moment about one/every basepoint and prove that it is the
+component anchored at a Dirac law `δ_{x₀}`, through the unique coupling identity
+`W_p(δ_{x₀},μ)=‖d(x₀,·)‖_{Lᵖ(μ)}`.  A general anchor gives that same set exactly
+when `μ₀ ∈ P_p(X)`; state that hypothesis wherever the identification is used, and
+record the guardrail that without it the anchored component is a different set--a
+Cauchy law lies in its own finite-`W₂` component but not in `P₂(ℝ)`.  At `p=∞` the
+moment condition reads `MemLp _ ∞`, so `P_∞(X)` is the laws at essentially bounded
+ground distance from a basepoint; prove the `δ_{x₀}` identification there too, and
+keep the metric, topological, and density statements for that endpoint in item 6
+rather than inheriting them from `1 ≤ p < ∞`.  Give it a `PseudoMetricSpace`; under
+the Polish/Borel hypotheses give a genuine `MetricSpace` when the ground distance
+separates points, and otherwise a quotient metric.  Consume
+`Subtype.instMeasurableSpace`, which definitionally pulls back the measurable
+structure from `ProbabilityMeasure`; do not add a second measurable-space instance.
+For `1 ≤ p < ∞`, under the Polish/Borel
+hypotheses, prove that this inherited structure is the Borel σ-algebra of the `W_p`
+topology, hence that opens are measurable; do the same for anchored components.  This
+compatibility is a prerequisite for population laws `P ∈ P_p(P_p(X))` in Layer 12.
+For `p=∞` and genuinely extended anchored components, choose and compare measurable
+structures explicitly, claim equality only under a sourced theorem, and prove the
+measurability needed by later uses.  Prove compatibility among `dist`, `edist`,
+`eLpNorm`, the primal cost, and optimal couplings.
+
+### 3.3 Separability, completeness, compactness, and quantization
+
+For `1 ≤ p < ∞`, prove separability and completeness of `P_p(X)` when `X` has those
+properties.  Then prove this definite list on a Polish `X`, rather than "compactness and
+approximation" generically: a family in `P_p(X)` is relatively compact exactly when it
+is tight and its `p`-moment tails about one basepoint are uniformly integrable, and
+compact when it is also closed; finitely supported probability measures are dense in
+`P_p(X)`; for i.i.d. `X_i ∼ μ ∈ P_p(X)`, `W_p(n⁻¹∑_{i=1}^n δ_{X_i}, μ) → 0` almost
+surely; and the `N`-point quantization error
+`e_{N,p}(μ) = inf {W_p(μ,ν) | card (support ν) ≤ N}` tends to `0`.  Existence of a best
+`N`-point quantizer and any quantitative rate are separate targets carrying their own
+properness, finite-dimensional, or regularity hypotheses.  State them as such; do not
+fold them into the convergence statements above.
+
+### 3.4 Wasserstein convergence
+
+For `1 ≤ p < ∞`, characterize `W_p` convergence as weak convergence plus
+convergence/uniform integrability of `p`-moments.  Prove lower semicontinuity under
+weak convergence and continuity under the stronger topology.
+
+### 3.5 Functorial estimates
+
+Prove functorial estimates, each written out rather than called standard.  Pushforward
+by an `L`-Lipschitz map is `L`-Lipschitz in `W_p`.  For products, fix the `ℓᵖ` product
+metric--in Lean the metric carried by `WithLp p (X × Y)`, not Mathlib's default sup
+metric on `X × Y`--and prove the equality
+`W_p(μ₁⊗μ₂,ν₁⊗ν₂)^p = W_p(μ₁,ν₁)^p + W_p(μ₂,ν₂)^p`.
+For a probability vector `(a_i)`, prove the mixture bound
+`W_p(∑ a_i μ_i, ∑ a_i ν_i)^p ≤ ∑ a_i W_p(μ_i,ν_i)^p`.
+On a normed additive group, prove `W_p(μ*η,ν*η) ≤ W_p(μ,ν)`, with translation as its
+specialization.  For a Markov kernel `K`, take the pointwise Wasserstein-Lipschitz
+hypothesis `W_p(K(x,·),K(y,·)) ≤ L d(x,y)` and deduce `W_p(μK,νK) ≤ L W_p(μ,ν)` by
+gluing.  That proof consumes a measurably chosen family of optimal or near-optimal
+couplings of `K(x,·)` and `K(y,·)`, so record the standard-Borel/Polish hypotheses
+supporting the selection, together with the measurability and moment hypotheses that
+place `μK` in the intended finite-moment space.  The maximum-form product and mixture
+statements for `p=∞` belong to item 6, stated separately.
+
+### 3.6 The exponent-`∞` distance
+
+For a jointly measurable ground distance, prove that the `p=∞` specialization is the
+infimum of coupling-wise essential suprema (`TauCeti.wassersteinEDist_top`) and give it
+the conventional notation `W_∞`.  Build its anchored finite-distance
+components.  If `X` is a complete separable metric space with its Borel structure,
+prove that every anchored finite-`W_∞` component is complete, using near-optimal
+consecutive couplings and Layer 0's countable gluing; give the global theorem only
+when the carrier has a single finite-`W_∞` component.  State any stronger
+nonseparable/Radon version separately with its own coupling-extension hypothesis.
+Characterize `W_∞` convergence by couplings whose essential-supremum displacements
+tend to zero, not by weak convergence plus moments; record that finite support need not
+be dense and separability can fail.  On every Polish metric space and for all
+`μ,ν ∈ P(X)`, prove, as an identity in `[0,∞]`,
+`W_∞(μ,ν) = sup_{1≤p<∞} W_p(μ,ν) = lim_{p→∞} W_p(μ,ν)`, and prove
+attainment of the `W_∞` infimum.  Retaining infinite values removes any need for a
+bounded-support or all-moments hypothesis; follow
+[Givens--Shortt Proposition 1](https://doi.org/10.1307/mmj/1029003026).  Give item 5's
+product and mixture estimates their maximum forms here: for the sup product metric on
+`X × Y`, prove `W_∞(μ₁⊗μ₂,ν₁⊗ν₂) = max (W_∞(μ₁,ν₁)) (W_∞(μ₂,ν₂))`, and for a
+probability vector `(a_i)` prove
+`W_∞(∑ a_i μ_i, ∑ a_i ν_i) ≤ max_{i | a_i>0} W_∞(μ_i,ν_i)`, consuming the attainment
+just proved.
+
+### 3.7 The quantile coupling on the line
+
+Consume `ProbabilityTheory.cdf` on `ℝ`; build the generalized inverse/quantile of a
+Borel probability law, its measurability and pushforward of uniform measure, and the
+optimal monotone quantile coupling.  For every `p ∈ [1,∞]`, prove that `W_p` is the
+`Lᵖ(0,1)` distance of the two quantiles, with the integral/root and essential-supremum
+formulas at the corresponding endpoints.
+
+### 3.8 Kantorovich--Rubinstein duality
+
+Prove Kantorovich--Rubinstein duality for `W_1` on Polish metric spaces with finite
+first moments, normalized at a basepoint.  Derive the bounded-Lipschitz and compact
+variants and compare with Mathlib's weak-convergence metrics.
+
+### 3.9 The measured-metric carrier
+
+Build the shared measured-metric carrier used by Layers 14--15: a complete separable
+metric carrier, a Borel reference measure finite on bounded sets, support/full-support
+reduction, and measure-preserving isometries.  The transported `ProbabilityMeasure`
+remains separate from this reference measure.  Do not yet impose curvature, a kernel,
+or a quotient.
+
+### Examples
+
+On a metric base, `W_p(δ_x,δ_y)=d(x,y)` and zero distance separates
 laws; a pseudometric example exercises the quotient statement.  Translations of a fixed
 law in a normed space have the expected upper bound and equality in the canonical cases;
-the one-dimensional quantile formula computes `W_p`.
+the one-dimensional quantile formula computes `W_p`.  The exponent-`∞` identity needs a jointly measurable ground distance: on the two-point
+discrete space with the trivial σ-algebra the `eLpNorm` side is `∞` and the essential-supremum
+side is `1`.
 
-### Layer 4: the Monge problem and abstract transport maps
+### Dependencies
+
+Layers 0--2; Mathlib `eLpNorm`, `MemLp`, Minkowski, `ProbabilityTheory.cdf`, and the Lévy--Prokhorov metric.
+
+## Layer 4: the Monge problem and abstract transport maps
 
 Treat deterministic transport as a problem in its own right before proving Brenier.
 
-1. Define the Monge feasible set using `ProbabilityTheory.HasLaw T ν μ`, and define its
-   value by integrating the cost of such a.e.-measurable maps.  Prove the relaxation
-   inequality from Monge to Kantorovich and characterize equality for a graph coupling.
-2. Build the basic feasibility theory.  Under `MeasurableSingletonClass Y`, for a point
-   atom `x`, every transport map satisfies `ν({T x}) ≥ μ({x})`; a standard-Borel target
-   is a sufficient corollary.  If `A` is measurable, `0 < μ A`, and every measurable
-   `B ⊆ A` has `μ B = 0` or `μ B = μ A`, prove the corresponding atom-set theorem under
-   its standard-Borel target hypothesis.  Use Mathlib's `MeasureTheory.NoAtoms μ` for the
-   nonatomic corollaries: a nonatomic standard probability space admits a measurable map
-   to every standard-Borel target law.  Include exact atomic/nonatomic decompositions
-   rather than claiming every Monge problem is feasible.
-3. Let `X,Y` be Polish, `μ ∈ P(X)` nonatomic, and `ν ∈ P(Y)`.  Prove that the
-   graph couplings `{(id,T)_{#}μ | T : X → Y Borel, T_{#}μ=ν}` are narrowly dense
-   in `Π(μ,ν)`.  Hence Monge and Kantorovich values agree for bounded continuous real
-   costs, while the Monge infimum need not be attained.  Then formalize
-   [Pratelli Theorem B](https://www.numdam.org/item/AIHPB_2007__43_1_1_0/): for
-   continuous `c : X×Y → [0,∞]`, possibly unbounded or infinite-valued,
-   the Monge infimum equals the Kantorovich minimum, possibly `∞`, under the same
-   nonatomic-source hypothesis.  For finite equal-mass measures, normalize and handle
-   zero mass separately.
-4. For Polish `X,Y`, fixed `μ ∈ P(X)`, Borel maps `T_n,T : X → Y`, and graph plans
-   `(ι,T_n)_{#}μ`, prove the AGS graph-plan theorem: narrow convergence to
-   `(ι,T)_{#}μ` is equivalent to
-   `MeasureTheory.TendstoInMeasure μ atTop T_n T`.  Under this convergence, prove `Lᵖ`
-   convergence for `1 ≤ p < ∞` exactly when `{d_Y(T_n(·),ȳ)ᵖ}` satisfies Mathlib's
-   `MeasureTheory.UniformIntegrable` predicate for one (hence every) basepoint `ȳ`.
-   Consume the existing convergence-in-measure and uniform-integrability lemmas.
-   A varying-source theorem must first choose comparison couplings or identifications;
-   do not define convergence in a moving source measure or recover pointwise convergence
-   from narrow convergence alone.
-5. Prove the reusable **abstract twist theorem**.  Starting from a dual contact set, a
-   potential differentiable `μ`-a.e., source differentiability of `c`, and injectivity of
-   `y ↦ Dₓc(x,y)`, show that each contact fiber is a singleton almost everywhere and that
-   an optimizer concentrated on contact has singleton conditional fibers there.  Formulate
-   local semiconcavity or superdifferentiability assumptions separately from twist.
-6. Build measurable-selection lemmas that turn the pointwise singleton formula into a
-   measurable/a.e.-measurable map.  Then prove that the optimizer is induced by that map
-   and that the map is unique `μ`-a.e.  The formula involving an inverse derivative is a
-   theorem, not a noncomputable definition with hidden existence.
+### 4.1 The Monge problem
 
-Acceptance checks: an atomic source/non-atomic target demonstrates infeasibility; a
+Define the Monge feasible set using `ProbabilityTheory.HasLaw T ν μ`, and define its
+value by integrating the cost of such a.e.-measurable maps.  Prove the relaxation
+inequality from Monge to Kantorovich and characterize equality for a graph coupling.
+
+### 4.2 Feasibility of transport maps
+
+Build the basic feasibility theory.  Under `MeasurableSingletonClass Y`, for a point
+atom `x`, every transport map satisfies `ν({T x}) ≥ μ({x})`; a standard-Borel target
+is a sufficient corollary.  If `A` is measurable, `0 < μ A`, and every measurable
+`B ⊆ A` has `μ B = 0` or `μ B = μ A`, prove the corresponding atom-set theorem under
+its standard-Borel target hypothesis.  Use Mathlib's `MeasureTheory.NoAtoms μ` for the
+nonatomic corollaries: a nonatomic standard probability space admits a measurable map
+to every standard-Borel target law.  Include exact atomic/nonatomic decompositions
+rather than claiming every Monge problem is feasible.
+
+### 4.3 Density of graph couplings and Pratelli's theorem
+
+Let `X,Y` be Polish, `μ ∈ P(X)` nonatomic, and `ν ∈ P(Y)`.  Prove that the
+graph couplings `{(id,T)_{#}μ | T : X → Y Borel, T_{#}μ=ν}` are narrowly dense
+in `Π(μ,ν)`.  Hence Monge and Kantorovich values agree for bounded continuous real
+costs, while the Monge infimum need not be attained.  Then formalize
+[Pratelli Theorem B](https://www.numdam.org/item/AIHPB_2007__43_1_1_0/): for
+continuous `c : X×Y → [0,∞]`, possibly unbounded or infinite-valued,
+the Monge infimum equals the Kantorovich minimum, possibly `∞`, under the same
+nonatomic-source hypothesis.  For finite equal-mass measures, normalize and handle
+zero mass separately.
+
+### 4.4 Convergence of graph plans
+
+For Polish `X,Y`, fixed `μ ∈ P(X)`, Borel maps `T_n,T : X → Y`, and graph plans
+`(ι,T_n)_{#}μ`, prove the AGS graph-plan theorem: narrow convergence to
+`(ι,T)_{#}μ` is equivalent to
+`MeasureTheory.TendstoInMeasure μ atTop T_n T`.  Under this convergence, prove `Lᵖ`
+convergence for `1 ≤ p < ∞` exactly when `{d_Y(T_n(·),ȳ)ᵖ}` satisfies Mathlib's
+`MeasureTheory.UniformIntegrable` predicate for one (hence every) basepoint `ȳ`.
+Consume the existing convergence-in-measure and uniform-integrability lemmas.
+A varying-source theorem must first choose comparison couplings or identifications;
+do not define convergence in a moving source measure or recover pointwise convergence
+from narrow convergence alone.
+
+### 4.5 The abstract twist theorem
+
+Prove the reusable **abstract twist theorem**.  Starting from a dual contact set, a
+potential differentiable `μ`-a.e., source differentiability of `c`, and injectivity of
+`y ↦ Dₓc(x,y)`, show that each contact fiber is a singleton almost everywhere and that
+an optimizer concentrated on contact has singleton conditional fibers there.  Formulate
+local semiconcavity or superdifferentiability assumptions separately from twist.
+
+### 4.6 Measurable selection of optimal maps
+
+Build measurable-selection lemmas that turn the pointwise singleton formula into a
+measurable/a.e.-measurable map.  Then prove that the optimizer is induced by that map
+and that the map is unique `μ`-a.e.  The formula involving an inverse derivative is a
+theorem, not a noncomputable definition with hidden existence.
+
+### Examples
+
+An atomic source/non-atomic target demonstrates infeasibility; a
 nonatomic source realizes a prescribed finite law by a partition; deterministic plans
 approximate a non-graph coupling; and a twist-cost finite example recovers a unique map
 from complementary slackness.
 
-### Layer 5: convex analysis, Brenier, and polar factorization
+### Dependencies
+
+Layers 0--3; Mathlib `ProbabilityTheory.HasLaw`, `MeasureTheory.NoAtoms`, `MeasureTheory.TendstoInMeasure`, and `MeasureTheory.UniformIntegrable`.
+
+## Layer 5: convex analysis, Brenier, and polar factorization
 
 The Euclidean quadratic theorem rests on a reusable convex-analysis tower.  Build that
 tower rather than hiding it inside the final proof.
 
-1. On a separated real dual pair `(E,F,⟪·,·⟫)`, build proper `EReal`-valued convex
-   functions, Legendre--Fenchel conjugates, Fenchel--Young, subgradients,
-   conjugate-subgradient reciprocity, and the algebraic Rockafellar theorem for cyclically
-   monotone sets.  Under compatible Hausdorff locally convex topologies, prove the
-   lower-semicontinuous Fenchel--Moreau theorem.  Consume Mathlib's `SeparatingDual` and
-   `LocallyConvexSpace` vocabulary where applicable, and state the general-purpose additions
-   at the generality that vocabulary supports.
-2. Specialize the dual-pair tower to finite-dimensional real spaces: build epigraphs and
-   effective domains; consume Mathlib's `affineSpan` and `intrinsicInterior` API for
-   relative interiors, adding only the convex-analysis bridge lemmas it lacks; and prove
-   the finite-dimensional coercivity and attainment consequences.  Bridge the proper
-   extended-valued convex API
-   to Mathlib's real-valued API: on the interior of the effective domain, define the real
-   representative, prove coercion
-   agreement and `ConvexOn ℝ`, and handle the boundary/null-set statement needed by the
-   intended source measure.  Then consume `ConvexOn.locallyLipschitzOn_interior`,
-   `LocallyLipschitzOn.exists_lipschitzOnWith_of_compact`, and
-   `LipschitzOnWith.ae_differentiableWithinAt` to obtain Rademacher differentiability via
-   a countable compact exhaustion.  Build an intrinsic-interior variant only where
-   lower-dimensional domains are genuinely claimed.  Alexandrov twice differentiability
-   and positivity of the distributional Hessian remain new prerequisites for both maps
-   and Monge--Ampère regularity.
-3. Consume `ProbabilityTheory.multivariateGaussian`, `Matrix.PosDef`/`Matrix.PosSemidef`,
-   and Mathlib's continuous-functional-calculus square-root API.  Build the
-   positive-definite matrix square-root, inverse/geometric-mean identities, and Gaussian
-   covariance-pushforward lemmas used by the Brenier map, the closed `W₂` formula,
-   interpolation, and barycenters.
-4. Consume item 1's Rockafellar theorem and connect ordinary cyclic monotonicity to
-   `c`-cyclical monotonicity for `c(x,y)=‖x-y‖²/2`.
-5. Prove **Brenier's theorem** in its strong standard form: for
-   `μ,ν ∈ P₂(ℝⁿ)` with `μ` absolutely continuous with respect to Lebesgue measure, the
-   quadratic problem has a unique optimal plan, induced by `∇u` for a proper
-   lower-semicontinuous extended-valued convex `u`.  Prove that `u` is finite and
-   differentiable `μ`-a.e.; the total transport map is an a.e. representative selected
-   from its gradient/subgradient, not a globally defined gradient at every point.  The
-   target need not be absolutely continuous.
-6. Prove converse optimality for gradients of convex functions, a.e. uniqueness of the
-   map, the inverse relation through `∇u*` when the target is also absolutely continuous,
-   and the following potential-uniqueness tier.  If `Ω⊆ℝⁿ` is connected and open,
-   `μ(Ω)=1`, and `μ|_Ω` is equivalent to Lebesgue measure on `Ω`, then two convex
-   potentials finite on `Ω` that induce the same map `μ`-a.e. differ by one constant on
-   `Ω`.  Prove the relative-interior analogue in `affineSpan(Ω)` using affine Lebesgue
-   measure; make no global constant claim across disconnected source components.
-7. Prove the exact stronger quadratic source theorem: for `μ,ν ∈ P₂(ℝⁿ)`, assume
-   `μ(E)=0` for every Borel `E` covered by countably many `(n-1)`-dimensional Lipschitz
-   submanifolds.  Prove the same existence and, at finite optimal value, a.e.-uniqueness
-   of the optimal graph map and coupling as in item 5.  Keep the familiar
-   absolutely-continuous corollary as the public entry point.
-8. Prove the Gangbo--McCann extension for `c(x,y)=h(x-y)`.  Take continuous
-   `h : ℝᵈ → [0,∞)` satisfying their (H1) strict convexity, (H3) superlinear growth
-   `h(x)/‖x‖ → ∞`, and the exact (H2) level-set condition at infinity: for every
-   height `r < ∞` and aperture `θ ∈ (0,π)`, every sufficiently distant vertex `p`
-   admits `z ≠ 0` such that `h(x) ≤ h(p)` throughout the truncated cone
-   `{x | ‖x-p‖·‖z‖ cos(θ/2) ≤ ⟨z,x-p⟩ ≤ r‖z‖}`.  For Borel probability laws
-   with `μ ≪ Leb`, construct a `c`-concave `φ`, the map
-   `T(x)=x-∇(h*)(∇φ(x))`, and its graph/cyclical optimality.  When the optimal
-   value is finite, prove a.e. uniqueness of both this map and the optimal coupling;
-   make no uniqueness assertion in the all-`∞` case.  Identify `∇(h*)`
-   with `(∇h)⁻¹` only under the differentiability hypotheses that make this formula
-   valid.  State the countably `(d-1)`-rectifiable-null source extension separately,
-   retaining (H1)--(H3) and requiring exactly `h ∈ C¹,¹_loc(ℝᵈ)` as in the cited
-   theorem.
-9. Formalize Brenier's original polar factorization for `1 ≤ p < ∞`.  First consume
-   PDE Lane A.1's weak derivatives to define the weighted space `W¹,p(Ω,P)`, its norm
-   `(∫Ω (|v|^p+‖∇v‖^p) dP)^(1/p)`, and its completeness.  Express the required
-   compact inclusion concretely: every sequence bounded in this norm has an
-   `Lᵖ(Ω,P)`-convergent subsequence.  Let `(X,μ)` be a
-   probability space isomorphic modulo null sets to the nonatomic unit interval.  Let
-   `Ω ⊂ ℝᵈ` be bounded, connected, and open, and let `P` be a Borel probability on
-   `cl Ω`, with `P(∂Ω)=0` and density `ρ` on `Ω` that is positive and bounded away from
-   zero on every compact subset of `Ω`; assume that concrete weighted compactness
-   property.  For `U ∈ Lᵖ(X,μ;ℝᵈ)` satisfying
-   `μ(U⁻¹(E))=0` for every Lebesgue-null `E`, prove
-   `U = ∇Ψ ∘ s`, where `∇Ψ` is the unique monotone rearrangement of `U` on `(Ω,P)` and
-   `s : (X,μ) → (Ω,P)` is the unique measure-preserving maximizer in Brenier's theorem.
-   Distinguish the two uniqueness statements, and state the continuity theorem rather than
-   deferring to "the sourced topologies".  Under the weighted compactness assumption
-   already imposed here, and following Brenier's Theorem 1.2(c), prove that the
-   rearrangement `U ↦ ∇Ψ` is continuous from `Lᵖ(X,μ;ℝᵈ)` to `Lᵖ(Ω,P;ℝᵈ)` with no
-   nondegeneracy hypothesis, and that on the nondegenerate set carrying the relative `Lᵖ`
-   topology--where `s` is the unique factor--the pair `U ↦ (∇Ψ,s)` is continuous into
-   `Lᵖ(Ω,P;ℝᵈ) × L^q(X,μ;ℝᵈ)` for every finite `1 ≤ q < ∞`.  Give the smooth bounded `Ω`
-   with normalized Lebesgue `P`
-   specialization, where the compact-embedding hypothesis follows by bridging PDE Lane
-   A.6's Rellich--Kondrachov theorem to the weighted definition.
+### 5.1 Convex duality on dual pairs
+
+On a separated real dual pair `(E,F,⟪·,·⟫)`, build proper `EReal`-valued convex
+functions, Legendre--Fenchel conjugates, Fenchel--Young, subgradients,
+conjugate-subgradient reciprocity, and the algebraic Rockafellar theorem for cyclically
+monotone sets.  Under compatible Hausdorff locally convex topologies, prove the
+lower-semicontinuous Fenchel--Moreau theorem.  Consume Mathlib's `SeparatingDual` and
+`LocallyConvexSpace` vocabulary where applicable, and state the general-purpose additions
+at the generality that vocabulary supports.
+
+### 5.2 Finite-dimensional convex analysis
+
+Specialize the dual-pair tower to finite-dimensional real spaces: build epigraphs and
+effective domains; consume Mathlib's `affineSpan` and `intrinsicInterior` API for
+relative interiors, adding only the convex-analysis bridge lemmas it lacks; and prove
+the finite-dimensional coercivity and attainment consequences.  Bridge the proper
+extended-valued convex API
+to Mathlib's real-valued API: on the interior of the effective domain, define the real
+representative, prove coercion
+agreement and `ConvexOn ℝ`, and handle the boundary/null-set statement needed by the
+intended source measure.  Then consume `ConvexOn.locallyLipschitzOn_interior`,
+`LocallyLipschitzOn.exists_lipschitzOnWith_of_compact`, and
+`LipschitzOnWith.ae_differentiableWithinAt` to obtain Rademacher differentiability via
+a countable compact exhaustion.  Build an intrinsic-interior variant only where
+lower-dimensional domains are genuinely claimed.  Alexandrov twice differentiability
+and positivity of the distributional Hessian remain new prerequisites for both maps
+and Monge--Ampère regularity.
+
+### 5.3 Positive-definite matrices and Gaussian laws
+
+Consume `ProbabilityTheory.multivariateGaussian`, `Matrix.PosDef`/`Matrix.PosSemidef`,
+and Mathlib's continuous-functional-calculus square-root API.  Build the
+positive-definite matrix square-root, inverse/geometric-mean identities, and Gaussian
+covariance-pushforward lemmas used by the Brenier map, the closed `W₂` formula,
+interpolation, and barycenters.
+
+### 5.4 Rockafellar's theorem and the quadratic cost
+
+Consume item 1's Rockafellar theorem and connect ordinary cyclic monotonicity to
+`c`-cyclical monotonicity for `c(x,y)=‖x-y‖²/2`.
+
+### 5.5 Brenier's theorem
+
+Prove **Brenier's theorem** in its strong standard form: for
+`μ,ν ∈ P₂(ℝⁿ)` with `μ` absolutely continuous with respect to Lebesgue measure, the
+quadratic problem has a unique optimal plan, induced by `∇u` for a proper
+lower-semicontinuous extended-valued convex `u`.  Prove that `u` is finite and
+differentiable `μ`-a.e.; the total transport map is an a.e. representative selected
+from its gradient/subgradient, not a globally defined gradient at every point.  The
+target need not be absolutely continuous.
+
+### 5.6 Converse optimality and uniqueness of potentials
+
+Prove converse optimality for gradients of convex functions, a.e. uniqueness of the
+map, the inverse relation through `∇u*` when the target is also absolutely continuous,
+and the following potential-uniqueness tier.  If `Ω⊆ℝⁿ` is connected and open,
+`μ(Ω)=1`, and `μ|_Ω` is equivalent to Lebesgue measure on `Ω`, then two convex
+potentials finite on `Ω` that induce the same map `μ`-a.e. differ by one constant on
+`Ω`.  Prove the relative-interior analogue in `affineSpan(Ω)` using affine Lebesgue
+measure; make no global constant claim across disconnected source components.
+
+### 5.7 Sources null on Lipschitz hypersurfaces
+
+Prove the exact stronger quadratic source theorem: for `μ,ν ∈ P₂(ℝⁿ)`, assume
+`μ(E)=0` for every Borel `E` covered by countably many `(n-1)`-dimensional Lipschitz
+submanifolds.  Prove the same existence and, at finite optimal value, a.e.-uniqueness
+of the optimal graph map and coupling as in item 5.  Keep the familiar
+absolutely-continuous corollary as the public entry point.
+
+### 5.8 Strictly convex costs
+
+Prove the Gangbo--McCann extension for `c(x,y)=h(x-y)`.  Take continuous
+`h : ℝᵈ → [0,∞)` satisfying their (H1) strict convexity, (H3) superlinear growth
+`h(x)/‖x‖ → ∞`, and the exact (H2) level-set condition at infinity: for every
+height `r < ∞` and aperture `θ ∈ (0,π)`, every sufficiently distant vertex `p`
+admits `z ≠ 0` such that `h(x) ≤ h(p)` throughout the truncated cone
+`{x | ‖x-p‖·‖z‖ cos(θ/2) ≤ ⟨z,x-p⟩ ≤ r‖z‖}`.  For Borel probability laws
+with `μ ≪ Leb`, construct a `c`-concave `φ`, the map
+`T(x)=x-∇(h*)(∇φ(x))`, and its graph/cyclical optimality.  When the optimal
+value is finite, prove a.e. uniqueness of both this map and the optimal coupling
+(Gangbo--McCann, Theorem 1.2); in that finite-value case, existence of a
+Kantorovich-optimal map whose graph plan is the only optimal coupling is
+`exists_isKantorovichOptimalTransportMap_of_strictConvexOn`.  Make no uniqueness
+assertion in the all-`∞` case.  Identify `∇(h*)`
+with `(∇h)⁻¹` only under the differentiability hypotheses that make this formula
+valid.  State the countably `(d-1)`-rectifiable-null source extension separately,
+retaining (H1)--(H3) and requiring exactly `h ∈ C¹,¹_loc(ℝᵈ)` as in the cited
+theorem.
+
+### 5.9 Polar factorization
+
+Formalize Brenier's original polar factorization for `1 ≤ p < ∞`.  First consume
+PDE §1.1 (A1)'s weak derivatives to define the weighted space `W¹,p(Ω,P)`, its norm
+`(∫Ω (|v|^p+‖∇v‖^p) dP)^(1/p)`, and its completeness.  Express the required
+compact inclusion concretely: every sequence bounded in this norm has an
+`Lᵖ(Ω,P)`-convergent subsequence.  Let `(X,μ)` be a
+probability space isomorphic modulo null sets to the nonatomic unit interval.  Let
+`Ω ⊂ ℝᵈ` be bounded, connected, and open, and let `P` be a Borel probability on
+`cl Ω`, with `P(∂Ω)=0` and density `ρ` on `Ω` that is positive and bounded away from
+zero on every compact subset of `Ω`; assume that concrete weighted compactness
+property.  For `U ∈ Lᵖ(X,μ;ℝᵈ)` satisfying
+`μ(U⁻¹(E))=0` for every Lebesgue-null `E`, prove
+`U = ∇Ψ ∘ s`, where `∇Ψ` is the unique monotone rearrangement of `U` on `(Ω,P)` and
+`s : (X,μ) → (Ω,P)` is the unique measure-preserving maximizer in Brenier's theorem.
+Distinguish the two uniqueness statements, and state the continuity theorem rather than
+deferring to "the sourced topologies".  Under the weighted compactness assumption
+already imposed here, and following Brenier's Theorem 1.2(c), prove that the
+rearrangement `U ↦ ∇Ψ` is continuous from `Lᵖ(X,μ;ℝᵈ)` to `Lᵖ(Ω,P;ℝᵈ)` with no
+nondegeneracy hypothesis, and that on the nondegenerate set carrying the relative `Lᵖ`
+topology--where `s` is the unique factor--the pair `U ↦ (∇Ψ,s)` is continuous into
+`Lᵖ(Ω,P;ℝᵈ) × L^q(X,μ;ℝᵈ)` for every finite `1 ≤ q < ∞`.  Give the smooth bounded `Ω`
+with normalized Lebesgue `P`
+specialization, where the compact-embedding hypothesis follows by bridging PDE §1.6
+(A6)'s Rellich--Kondrachov theorem to the weighted definition.
 
 The main primary source is Brenier's [polar factorization
 paper](https://doi.org/10.1002/cpa.3160440402); the strictly convex difference-cost route
 follows Gangbo--McCann's [geometry of optimal
 transportation](https://www.math.toronto.edu/mccann/assignments/477/GangboMcCann96.pdf).
 
-Acceptance checks: monotone rearrangement on `ℝ` agrees with the gradient of a convex
+### Examples
+
+Monotone rearrangement on `ℝ` agrees with the gradient of a convex
 potential; the Brenier map between nondegenerate Gaussians has the standard positive
 matrix formula; conjugate potentials give inverse maps; and the graph plan of `∇u`
 saturates the quadratic dual constraint.
 
-### Layer 6: Monge--Ampère measures, equations, and regularity
+### Dependencies
+
+Layers 0--4; Mathlib convexity, `SeparatingDual`, `LocallyConvexSpace`, `intrinsicInterior`, `LipschitzOnWith.ae_differentiableWithinAt`, `ProbabilityTheory.multivariateGaussian`, and the matrix continuous functional calculus; PDE §1.1 (A1) and §1.6 (A6) for item 9.
+
+## Layer 6: Monge--Ampère measures, equations, and regularity
 
 This is a full regularity layer, not a one-line determinant corollary of Brenier.
 
-#### 6A. Aleksandrov weak theory
+### 6A. Aleksandrov weak theory
 
-1. For an open convex `Ω ⊆ ℝⁿ` and finite convex `u : Ω → ℝ`, define the
-   subgradient image and Aleksandrov measure `MA_u(E)=Lebesgue(∂u(E))`.  Prove that this
-   is a locally finite Borel measure.  For `u ∈ C²(Ω)`, prove
-   `MA_u = det(D²u) dx`.
-2. Build examples with singular Monge--Ampère mass.  Under locally uniform convergence
-   of convex functions on an open domain, prove convergence of the locally finite
-   Aleksandrov measures against compactly supported continuous tests (equivalently, on
-   relatively compact continuity sets); upgrade this to narrow convergence only with
-   finite total mass and tightness.  Prove the comparison principle, the Aleksandrov
-   maximum principle, and Alexandrov's twice-differentiability theorem.
-3. Define Aleksandrov, viscosity, a.e./Sobolev, and classical solutions separately, and
-   name each bridge rather than referring to "the equivalences".  A convex `C²` solution
-   induces the corresponding Aleksandrov measure.  For continuous `f > 0`, a continuous
-   convex function is an Aleksandrov solution of `MA_u = f dx` if and only if it is a
-   convex viscosity solution; strict positivity is used there, so any degenerate `f ≥ 0`
-   viscosity result is a separate statement.  The a.e. Hessian determines only the
-   absolutely continuous part, so prove the decomposition
-   `MA_u = det(D²u) dx + (MA_u)^s` and treat `det D²u = f` a.e. as strictly weaker: it
-   gives the Aleksandrov identity only after a further theorem rules out `(MA_u)^s`, with
-   local `C^{1,1}` plus the area formula as one concrete sufficient regime.  Keep the
-   counterexample that forces this--a convex function satisfying `det D²u = f` almost
-   everywhere whose Aleksandrov measure still carries singular mass--along with the others
-   showing why the notions differ outside these regimes.
-4. Prove the convex Dirichlet problem in its standard strictly convex form: for `Ω ⊆ ℝⁿ`
-   bounded and strictly convex, a finite Borel measure `μ` on `Ω`, and `g ∈ C(∂Ω)`, there
-   is a unique convex `u ∈ C(cl Ω)` with `MA_u = μ` and `u = g` on `∂Ω`.  Strict convexity
-   is exactly what admits arbitrary continuous boundary data; a merely bounded convex `Ω`
-   is a different theorem, in which the datum satisfies an admissibility/convex-trace
-   condition or the boundary condition is weakened, so do not present it as the same
-   result.  For stability prove a named theorem rather than the word: in the zero-boundary
-   formulation, Hausdorff convergence of bounded convex domains together with a uniform
-   mass bound and weak-* convergence of the right-hand sides gives uniform convergence of
-   the solutions.  A fixed-domain, varying-boundary-data version carries its own measure
-   topology and the hypotheses that preserve the boundary trace.
+### 6.1 The Aleksandrov Monge--Ampère measure
 
-#### 6B. The transport equation
+For an open convex `Ω ⊆ ℝⁿ` and finite convex `u : Ω → ℝ`, define the
+subgradient image and Aleksandrov measure `MA_u(E)=Lebesgue(∂u(E))`.  Prove that this
+is a locally finite Borel measure.  For `u ∈ C²(Ω)`, prove
+`MA_u = det(D²u) dx`.
 
-5. For source and target densities `f` and `g`, define the weighted weak measure
-   `MA_{u,g}(E)=∫_{∂u(E)} g(y)dy`.  Under essential injectivity and target-coverage
-   hypotheses, prove `MA_{u,g}=f dx` for the Brenier potential before dividing by
-   `g(∇u)`.
-6. First build the Euclidean approximate-differentiability and approximate-Jacobian API,
-   including the area formula in the strength needed for a.e.-twice-differentiable
-   gradients of convex functions.  Then derive the a.e. Jacobian equation
-   `f(x)=g(∇u(x)) det(D²u(x))`.  State the second boundary condition first in its honest
-   set-valued form, then upgrade it when regularity permits.
-7. Prove exactly when a Brenier solution is an Aleksandrov solution.  Convexity of the
-   target support is load-bearing: singular subgradient mass not seen by `g` cannot be
-   discarded in general.
+### 6.2 Singular mass, convergence, and maximum principles
 
-The regularity sublayers consume the [PDE roadmap](../PDE/README.md), Lane A.1, for the
-weak-derivative Sobolev API and Lane A.7 for Hölder spaces.  Build the missing local
-vanishing-mean-oscillation (VMO) and quantitative oscillation-modulus API here, with a
-bridge to PDE's bounded-mean-oscillation API, before using those notions in section-local
-estimates.
+Build examples with singular Monge--Ampère mass.  Under locally uniform convergence
+of convex functions on an open domain, prove convergence of the locally finite
+Aleksandrov measures against compactly supported continuous tests (equivalently, on
+relatively compact continuity sets); upgrade this to narrow convergence only with
+finite total mass and tightness.  Prove the comparison principle, the Aleksandrov
+maximum principle, and Alexandrov's twice-differentiability theorem.
 
-#### 6C. Quadratic Caffarelli theory
+### 6.3 Solution concepts and their bridges
 
-8. Define convex sections
-   `S_u(x,h;p)={y | u(y)<u(x)+⟨p,y-x⟩+h}` for `p ∈ ∂u(x)`, with the gradient
-   specialization at differentiability points.  Build affine/John normalization,
-   section nesting, localization and engulfing, volume scaling, and the section-adapted
-   Vitali covering package before any estimate consumes normalized sections.  Then, for
-   bounded Euclidean source and convex target domains with densities bounded above and
-   below by positive constants, prove local strict convexity, local `C¹,α`, and local
-   `W²,1+ε` regularity of the Brenier potential.  State estimates on normalized convex
-   sections compactly contained in the domain, carry `0 < λ ≤ f ≤ Λ`, strict convexity,
-   section normalization/distance, and quantitative dependence of constants visibly.
-9. Add the sharper section-local tiers for a strictly convex Aleksandrov solution with
-   `0 < λ ≤ f ≤ Λ`: continuity or vanishing-mean-oscillation (VMO) control of `f`
-   with its modulus gives `W²,p` for every fixed finite `p`; `f ∈ C⁰,α` gives `C²,α`.
-   State the bootstrap as a theorem instead of "higher interior regularity": for every
-   integer `k ≥ 0` and every `0 < α < 1`, such a solution with `f ∈ C^{k,α}_loc` lies in
-   `C^{k+2,α}_loc`.  The `k=0` step carries the normalized-section hypotheses and
-   estimates; for `k ≥ 1` use the ordinary interior Schauder bootstrap on relatively
-   compact subdomains, available once the `C^{2,α}` conclusion has made the differentiated
-   Monge--Ampère equation uniformly elliptic.  Smooth `f` then gives `C^∞`.  Make the
-   constants depend visibly on the dimension, the quantitative section geometry or
-   strict-convexity input at the base step, the distance to the boundary, `λ`, `Λ`, and
-   the relevant `C^{k,α}` norm of `f`.  Do not state any of these from positivity without
-   the normalized-section and oscillation hypotheses.
-10. Prove global boundary regularity and smooth-diffeomorphism results for smooth uniformly
-    convex source and target domains with smooth densities bounded away from zero and
-    infinity.  Build the boundary estimates they consume rather than importing a theorem
-    name as an axiom.
-11. Formalize regression examples: a disconnected or nonconvex target can make a Brenier
-    map discontinuous despite smooth positive data; density bounds alone do not imply all
-    `W²,p` estimates; and strict convexity cannot be omitted in higher dimensions.
+Define Aleksandrov, viscosity, a.e./Sobolev, and classical solutions separately, and
+name each bridge rather than referring to "the equivalences".  A convex `C²` solution
+induces the corresponding Aleksandrov measure.  For continuous `f > 0`, a continuous
+convex function is an Aleksandrov solution of `MA_u = f dx` if and only if it is a
+convex viscosity solution; strict positivity is used there, so any degenerate `f ≥ 0`
+viscosity result is a separate statement.  The a.e. Hessian determines only the
+absolutely continuous part, so prove the decomposition
+`MA_u = det(D²u) dx + (MA_u)^s` and treat `det D²u = f` a.e. as strictly weaker: it
+gives the Aleksandrov identity only after a further theorem rules out `(MA_u)^s`, with
+local `C^{1,1}` plus the area formula as one concrete sufficient regime.  Keep the
+counterexample that forces this--a convex function satisfying `det D²u = f` almost
+everywhere whose Aleksandrov measure still carries singular mass--along with the others
+showing why the notions differ outside these regimes.
 
-#### 6D. General costs, Ma--Trudinger--Wang (MTW), and partial regularity
+### 6.4 The convex Dirichlet problem
 
-12. For costs with the regularity required by each derivative, define A1 source twist,
-    A1* target twist, A2 mixed-Hessian nondegeneracy, the `c`-exponential, `c`-segments,
-    mutual and uniform source/target `c`-convexity, and the weak A3w and strong A3s
-    Ma--Trudinger--Wang conditions.  Each is a separate predicate with bridge lemmas to the
-    abstract twist layer; MTW derivative statements carry at least the cited `C⁴` cost
-    regularity.
-13. Derive the general generated-Jacobian/`c`-Monge--Ampère equation, including the
-    `det D²_xy c` factor and the sign convention pinned by the chosen `c`-exponential.
-    For bounded open `U,V ⊆ ℝⁿ`, a cost `c ∈ C⁴(cl U × cl V)` satisfying the
-    bi-twist/nondegeneracy condition (B1) of
-    [Figalli--Kim--McCann (FKM)](https://arxiv.org/abs/1107.1014), and a `c`-convex
-    potential `u = u^{c*c}`, define `|∂ᶜ u|(E)=Lebesgue(∂ᶜ u(E))`; prove FKM Lemma 3.1,
-    including that this is a Borel measure of mass `Lebesgue(V)` and its pushforward
-    representation through the a.e. inverse contact map.
-14. Under the cited `C⁴`, A1/A1*, A2, A3w, and mutual `c`-convexity hypotheses, prove
-    Loeper's maximum principle/contact-set connectedness.  Prove that failure of A3w can
-    yield discontinuous maps for smooth positive data.  Formalize FKM Theorem 2.1 on
-    bounded open `U,V`: `c ∈ C⁴(cl U × cl V)` satisfies their bi-twist,
-    nondegeneracy, mutual `c`/`c*`-convexity, A3w, and strong target `c*`-convexity
-    conditions (B0--B3 and B2s); on open `U' ⊆ U`, both density ratios are essentially
-    bounded in the theorem's stated domains.  Prove that the optimal map is locally
-    Hölder and one-to-one on `U'`, with the exponent's dependence recorded.  Keep A3s and
-    global classical second-boundary-value regularity as separate targets requiring
-    uniform mutual `c`-convexity and the cited smooth boundary/cost/density hypotheses.
-15. Prove De Philippis--Figalli partial regularity without MTW for
-    `c ∈ C²,α_loc` satisfying A1/A1* and A2, bounded Euclidean domains, and **continuous**
-    source and target probability densities locally bounded away from zero and infinity.
-    Produce relatively closed null sets `Σ_X,Σ_Y` such that the optimal map is a
-    `C⁰,β_loc` homeomorphism between their complements for every `β < 1`.  With
-    `c ∈ Cᵏ⁺²,α_loc` and `Cᵏ,α_loc` densities, prove the corresponding
-    `Cᵏ⁺¹,α_loc` diffeomorphism off those two singular sets.
+Prove the convex Dirichlet problem in its standard strictly convex form: for `Ω ⊆ ℝⁿ`
+bounded and strictly convex, a finite Borel measure `μ` on `Ω`, and `g ∈ C(∂Ω)`, there
+is a unique convex `u ∈ C(cl Ω)` with `MA_u = μ` and `u = g` on `∂Ω`.  Strict convexity
+is exactly what admits arbitrary continuous boundary data; a merely bounded convex `Ω`
+is a different theorem, in which the datum satisfies an admissibility/convex-trace
+condition or the boundary condition is weakened, so do not present it as the same
+result.  For stability prove a named theorem rather than the word: in the zero-boundary
+formulation, Hausdorff convergence of bounded convex domains together with a uniform
+mass bound and weak-* convergence of the right-hand sides gives uniform convergence of
+the solutions.  A fixed-domain, varying-boundary-data version carries its own measure
+topology and the hypotheses that preserve the boundary trace.
+
+### 6B. The transport equation
+
+### 6.5 The weighted transport measure
+
+For source and target densities `f` and `g`, define the weighted weak measure
+`MA_{u,g}(E)=∫_{∂u(E)} g(y)dy`.  Under essential injectivity and target-coverage
+hypotheses, prove `MA_{u,g}=f dx` for the Brenier potential before dividing by
+`g(∇u)`.
+
+### 6.6 The Jacobian equation
+
+First build the Euclidean approximate-differentiability and approximate-Jacobian API,
+and extend GeometricMeasureTheory G2's area formula for Lipschitz maps to
+a.e.-twice-differentiable gradients of convex functions, covering the set of
+approximate differentiability, up to a null set, by countably many pieces on which the
+gradient is Lipschitz.  Then derive the a.e. Jacobian equation
+`f(x)=g(∇u(x)) det(D²u(x))`.  State the second boundary condition first in its honest
+set-valued form, then upgrade it when regularity permits.
+
+### 6.7 Brenier and Aleksandrov solutions
+
+Prove exactly when a Brenier solution is an Aleksandrov solution.  Convexity of the
+target support is load-bearing: singular subgradient mass not seen by `g` cannot be
+discarded in general.
+
+The regularity sublayers consume the [PDE roadmap](../PDE/README.md), §1.1 (A1), for the
+weak-derivative Sobolev API, §1.7 (A7) for Hölder spaces, and §2.4 (B11) for
+vanishing mean oscillation (VMO) on `ℝⁿ` with its modulus `η(r)`.  Build here only the
+local version on a domain and the quantitative oscillation modulus used in section-local
+estimates, with its bridge to §2.4.
+
+### 6C. Quadratic Caffarelli theory
+
+### 6.8 Caffarelli's interior regularity
+
+Define convex sections
+`S_u(x,h;p)={y | u(y)<u(x)+⟨p,y-x⟩+h}` for `p ∈ ∂u(x)`, with the gradient
+specialization at differentiability points.  Build affine/John normalization,
+section nesting, localization and engulfing, volume scaling, and the section-adapted
+Vitali covering package before any estimate consumes normalized sections.  Then, for
+bounded Euclidean source and convex target domains with densities bounded above and
+below by positive constants, prove local strict convexity, local `C¹,α`, and local
+`W²,1+ε` regularity of the Brenier potential (Caffarelli; De Philippis--Figalli survey,
+Theorem 3.3).  The Hölder continuity of the optimal map on compact subsets of the
+source, for bounded open `X` and bounded open convex `Y` with both densities between
+`λ` and `λ⁻¹`, is
+`exists_holderOnWith_of_isKantorovichOptimalTransportMap_of_convex`.  State estimates on normalized convex
+sections compactly contained in the domain, carry `0 < λ ≤ f ≤ Λ`, strict convexity,
+section normalization/distance, and quantitative dependence of constants visibly.
+
+### 6.9 Higher interior regularity
+
+Add the sharper section-local tiers for a strictly convex Aleksandrov solution with
+`0 < λ ≤ f ≤ Λ`: continuity or vanishing-mean-oscillation (VMO) control of `f`
+with its modulus gives `W²,p` for every fixed finite `p`; `f ∈ C⁰,α` gives `C²,α`.
+State the bootstrap as a theorem instead of "higher interior regularity": for every
+integer `k ≥ 0` and every `0 < α < 1`, such a solution with `f ∈ C^{k,α}_loc` lies in
+`C^{k+2,α}_loc`.  The `k=0` step carries the normalized-section hypotheses and
+estimates; for `k ≥ 1` use the ordinary interior Schauder bootstrap on relatively
+compact subdomains, available once the `C^{2,α}` conclusion has made the differentiated
+Monge--Ampère equation uniformly elliptic.  Smooth `f` then gives `C^∞`.  Make the
+constants depend visibly on the dimension, the quantitative section geometry or
+strict-convexity input at the base step, the distance to the boundary, `λ`, `Λ`, and
+the relevant `C^{k,α}` norm of `f`.  Do not state any of these from positivity without
+the normalized-section and oscillation hypotheses.
+
+### 6.10 Global regularity
+
+Prove global boundary regularity and smooth-diffeomorphism results for smooth uniformly
+convex source and target domains with smooth densities bounded away from zero and
+infinity.  Build the boundary estimates they consume rather than importing a theorem
+name as an axiom.
+
+### 6.11 Regression examples
+
+Formalize regression examples: a disconnected or nonconvex target can make a Brenier
+map discontinuous despite smooth positive data; density bounds alone do not imply all
+`W²,p` estimates; and strict convexity cannot be omitted in higher dimensions.
+
+### 6D. General costs, Ma--Trudinger--Wang (MTW), and partial regularity
+
+### 6.12 Twist, nondegeneracy, and the MTW conditions
+
+For costs with the regularity required by each derivative, define A1 source twist,
+A1* target twist, A2 mixed-Hessian nondegeneracy, the `c`-exponential, `c`-segments,
+mutual and uniform source/target `c`-convexity, and the weak A3w and strong A3s
+Ma--Trudinger--Wang conditions.  Each is a separate predicate with bridge lemmas to the
+abstract twist layer; MTW derivative statements carry at least the cited `C⁴` cost
+regularity.
+
+### 6.13 The generated Jacobian equation
+
+Derive the general generated-Jacobian/`c`-Monge--Ampère equation, including the
+`det D²_xy c` factor and the sign convention pinned by the chosen `c`-exponential.
+For bounded open `U,V ⊆ ℝⁿ`, a cost `c ∈ C⁴(cl U × cl V)` satisfying the
+bi-twist/nondegeneracy condition (B1) of
+[Figalli--Kim--McCann (FKM)](https://arxiv.org/abs/1107.1014), and a `c`-convex
+potential `u = u^{c*c}`, define `|∂ᶜ u|(E)=Lebesgue(∂ᶜ u(E))`; prove FKM Lemma 3.1,
+including that this is a Borel measure of mass `Lebesgue(V)` and its pushforward
+representation through the a.e. inverse contact map.
+
+### 6.14 Loeper's maximum principle and Figalli--Kim--McCann
+
+Under the cited `C⁴`, A1/A1*, A2, A3w, and mutual `c`-convexity hypotheses, prove
+Loeper's maximum principle/contact-set connectedness.  Prove that failure of A3w can
+yield discontinuous maps for smooth positive data.  Formalize FKM Theorem 2.1 on
+bounded open `U,V`: `c ∈ C⁴(cl U × cl V)` satisfies their bi-twist,
+nondegeneracy, mutual `c`/`c*`-convexity, A3w, and strong target `c*`-convexity
+conditions (B0--B3 and B2s); on open `U' ⊆ U`, both density ratios are essentially
+bounded in the theorem's stated domains.  Prove that the optimal map is locally
+Hölder and one-to-one on `U'`, with the exponent's dependence recorded.  Keep A3s and
+global classical second-boundary-value regularity as separate targets requiring
+uniform mutual `c`-convexity and the cited smooth boundary/cost/density hypotheses.
+
+### 6.15 Partial regularity
+
+Prove De Philippis--Figalli partial regularity without MTW for
+`c ∈ C²,α_loc` satisfying A1/A1* and A2, bounded Euclidean domains, and **continuous**
+source and target probability densities locally bounded away from zero and infinity.
+Produce relatively closed null sets `Σ_X,Σ_Y` such that the optimal map is a
+`C⁰,β_loc` homeomorphism between their complements for every `β < 1`.  With
+`c ∈ Cᵏ⁺²,α_loc` and `Cᵏ,α_loc` densities, prove the corresponding
+`Cᵏ⁺¹,α_loc` diffeomorphism off those two singular sets.
 
 Use the De Philippis--Figalli [Monge--Ampère and optimal-transport
 survey](https://www.ams.org/journals/bull/2014-51-04/S0273-0979-2014-01459-4/S0273-0979-2014-01459-4.pdf)
@@ -898,7 +1220,20 @@ as the statement checklist.  The MTW branch is governed by the
 is De Philippis--Figalli [partial
 regularity](https://www.numdam.org/item/10.1007/s10240-014-0064-7.pdf).
 
-### Layer 7: Riemannian Brenier--McCann transport
+### Examples
+
+For `u(x) = ‖x‖²/2` on `ℝⁿ`, `∂u(E) = E`, so `MA_u` is Lebesgue measure, matching
+`det D²u = 1`.  For `u(x) = ‖x‖` on `ℝ²`, `∂u(0)` is the closed unit disc and `∂u(x)` is the
+single unit vector `x/‖x‖` elsewhere, so `MA_u = π δ₀` while `det D²u = 0` away from the
+origin: this is the singular-mass example that item 3's decomposition must keep.  For the
+uniform laws on `[0,1]` and on `[0,2]`, the Brenier potential is `u(x) = x²`, the map is
+`T(x) = 2x`, and the Jacobian equation of item 6 reads `1 = (1/2)·2`.
+
+### Dependencies
+
+Layer 5; GeometricMeasureTheory G2 for the Lipschitz area formula; PDE §1.1 (A1), §1.7 (A7), and §2.4 (B11).
+
+## Layer 7: Riemannian Brenier--McCann transport
 
 The [Hopf--Rinow roadmap](../HopfRinow/README.md), Layers 1--4, supplies the Levi-Civita
 connection, interval-aware geodesics, exponential maps and their local inverse logarithms on
@@ -911,59 +1246,82 @@ measurable/a.e. selections used below.
 owns injectivity radius, cut-locus measurability and volume-nullity. No
 global single-valued logarithm is introduced across the cut locus.
 
-1. For finite-dimensional boundaryless Riemannian manifolds, consume the Hopf--Rinow roadmap's
-   exponential map, local logarithm, completeness, and minimizing-geodesic APIs. Consume
-   RiemannianGeometry R2–R3/R4.6 for Jacobi fields, conjugate points, injectivity radius
-   and cut-locus measurability/volume-nullity. Build squared-distance semiconcavity,
-   the measurable/a.e. minimizing-initial-velocity selections, and the a.e. differentiability
-   facts used by transport.  State connectedness, geodesic completeness, and moment hypotheses
-   separately from compactness.
-2. Using the Hopf--Rinow roadmap's exponential and minimizing-geodesic APIs, specialize Layer 2's
-   `c`-concave/contact API to `c(x,y)=d(x,y)²/2`.  At every differentiability point `x` of the
-   semiconcave potential `φ`, prove that each contact endpoint `y` is joined to `x` by a unique
-   minimizing geodesic, that its initial velocity is `-∇φ(x)`, and hence that
-   `y=exp_x(-∇φ(x))`.  Do not strengthen this to
-   `y ∉ Cut(x)`: differentiability of `d(·,y)²/2` at `x` is equivalent to uniqueness of
-   the minimizing geodesic, and a first conjugate point is a cut point that can still be
-   joined to `x` by a unique minimizing one, so cut-locus avoidance does not follow.
-   State every cut-locus claim separately, from item 1's measurability and volume-nullity
-   of the cut locus and with its own hypotheses.  Deduce the displayed pointwise
-   conclusion volume-a.e., and hence `μ`-a.e. only when `μ ≪ volume`; connect the sign
-   convention to the Riemannian exponential map.
-3. Using those consumed geodesic results and the Geometric Topology roadmap's volume, prove
-   **McCann's theorem**: for finite-second-moment laws on a finite-dimensional, connected,
-   boundaryless, geodesically complete smooth Riemannian manifold, with source absolutely
-   continuous with respect to Riemannian volume, the unique quadratic optimal plan is induced by
-   `T(x)=exp_x(-∇φ(x))`.  Give the compact-manifold statement, where moments are
-   automatic, as a corollary rather than the root theorem.
-4. Prove the inverse-map result when the target is also absolutely continuous.  Define the
-   Riemannian interpolation explicitly by
-   `μ_t = Measure.map (fun x ↦ exp_x (-t • ∇φ x)) μ`, prove its minimizing-geodesic and
-   cut-locus properties, and require Layer 9 to identify it with the generic displacement
-   interpolation.  For Riemannian polar factorization, let `M` be a connected compact
-   `C³` boundaryless Riemannian manifold with normalized volume `m`, and let
-   `s : M → M` be Borel with `s_#m ≪ m`.  Prove the a.e.-unique factorization
-   `s=T∘u`, where `u_#m=m` and `T(x)=exp_x(-∇ψ(x))` is the unique quadratic optimal
-   map from `m` to `s_#m`, with the `c`-concavity convention `ψᶜᶜ=ψ`.  Prove
-   uniqueness of the potential modulo constants, select the representative satisfying
-   `∫ ψ dm=0`, and distinguish uniqueness of `u`, `T`, and that representative.
-5. On RiemannianGeometry R4.6's open subset of `M×M` where `d²/2` is smooth,
-   away from the cut-locus relation,
-   connect the smooth general-cost MTW predicates from Layer 6 to Riemannian squared
-   distance.  Every regularity theorem carries a transport-domain/cut-locus-avoidance
-   hypothesis strong enough for its derivatives and estimates.  Do not claim that
-   nonnegative sectional curvature by itself implies regularity; MTW and cut-locus
-   geometry are stronger requirements.
-6. Develop the non-twist cost `c=d` through transport rays.  First prove the exact
-   Feldman--McCann theorem on a complete connected Riemannian manifold for two
-   compactly-supported nonnegative `L¹` volume densities of equal mass.  Then prove
-   Figalli's one-sided-absolute-continuity, noncompact extension: for probability laws
-   `μ,ν` on a smooth manifold with complete Riemannian metric,
-   `μ ≪ volume`, and `∫ d(x,y) dμ(x)dν(y)<∞`--equivalently, both laws have finite first
-   moment--there is a Monge minimizer whose graph plan is Kantorovich-optimal.  Record that
-   uniqueness generally fails; the `p=1` branch is not a strict-convexity corollary.
-7. Prove the Riemannian squared-distance specialization of Layer 6's partial-regularity
-   theorem after all cut-locus and coordinate prerequisites above have landed.
+### 7.1 Riemannian prerequisites
+
+For finite-dimensional boundaryless Riemannian manifolds, consume the Hopf--Rinow roadmap's
+exponential map, local logarithm, completeness, and minimizing-geodesic APIs. Consume
+RiemannianGeometry R2–R3/R4.6 for Jacobi fields, conjugate points, injectivity radius
+and cut-locus measurability/volume-nullity. Build squared-distance semiconcavity,
+the measurable/a.e. minimizing-initial-velocity selections, and the a.e. differentiability
+facts used by transport.  State connectedness, geodesic completeness, and moment hypotheses
+separately from compactness.
+
+### 7.2 Contact points and the exponential map
+
+Using the Hopf--Rinow roadmap's exponential and minimizing-geodesic APIs, specialize Layer 2's
+`c`-concave/contact API to `c(x,y)=d(x,y)²/2`.  At every differentiability point `x` of the
+semiconcave potential `φ`, prove that each contact endpoint `y` is joined to `x` by a unique
+minimizing geodesic, that its initial velocity is `-∇φ(x)`, and hence that
+`y=exp_x(-∇φ(x))`.  Do not strengthen this to
+`y ∉ Cut(x)`: differentiability of `d(·,y)²/2` at `x` is equivalent to uniqueness of
+the minimizing geodesic, and a first conjugate point is a cut point that can still be
+joined to `x` by a unique minimizing one, so cut-locus avoidance does not follow.
+State every cut-locus claim separately, from item 1's measurability and volume-nullity
+of the cut locus and with its own hypotheses.  Deduce the displayed pointwise
+conclusion volume-a.e., and hence `μ`-a.e. only when `μ ≪ volume`; connect the sign
+convention to the Riemannian exponential map.
+
+### 7.3 McCann's theorem
+
+Using those consumed geodesic results and the Geometric Topology roadmap's volume, prove
+**McCann's theorem**: for finite-second-moment laws on a finite-dimensional, connected,
+boundaryless, geodesically complete smooth Riemannian manifold, with source absolutely
+continuous with respect to Riemannian volume, the unique quadratic optimal plan is induced by
+`T(x)=exp_x(-∇φ(x))`.  Give the compact-manifold statement, where moments are
+automatic, as a corollary rather than the root theorem.  Existence of a
+Kantorovich-optimal map whose graph plan is the only optimal coupling, for the cost
+`d²/2` of the Riemannian distance and without the exponential formula, is
+`exists_isKantorovichOptimalTransportMap_riemannian`.
+
+### 7.4 Inverse maps, interpolation, and Riemannian polar factorization
+
+Prove the inverse-map result when the target is also absolutely continuous.  Define the
+Riemannian interpolation explicitly by
+`μ_t = Measure.map (fun x ↦ exp_x (-t • ∇φ x)) μ`, prove its minimizing-geodesic and
+cut-locus properties, and require Layer 9 to identify it with the generic displacement
+interpolation.  For Riemannian polar factorization, let `M` be a connected compact
+`C³` boundaryless Riemannian manifold with normalized volume `m`, and let
+`s : M → M` be Borel with `s_#m ≪ m`.  Prove the a.e.-unique factorization
+`s=T∘u`, where `u_#m=m` and `T(x)=exp_x(-∇ψ(x))` is the unique quadratic optimal
+map from `m` to `s_#m`, with the `c`-concavity convention `ψᶜᶜ=ψ`.  Prove
+uniqueness of the potential modulo constants, select the representative satisfying
+`∫ ψ dm=0`, and distinguish uniqueness of `u`, `T`, and that representative.
+
+### 7.5 MTW conditions for Riemannian squared distance
+
+On RiemannianGeometry R4.6's open subset of `M×M` where `d²/2` is smooth,
+away from the cut-locus relation,
+connect the smooth general-cost MTW predicates from Layer 6 to Riemannian squared
+distance.  Every regularity theorem carries a transport-domain/cut-locus-avoidance
+hypothesis strong enough for its derivatives and estimates.  Do not claim that
+nonnegative sectional curvature by itself implies regularity; MTW and cut-locus
+geometry are stronger requirements.
+
+### 7.6 The distance cost on manifolds
+
+Develop the non-twist cost `c=d` through transport rays.  First prove the exact
+Feldman--McCann theorem on a complete connected Riemannian manifold for two
+compactly-supported nonnegative `L¹` volume densities of equal mass.  Then prove
+Figalli's one-sided-absolute-continuity, noncompact extension: for probability laws
+`μ,ν` on a smooth manifold with complete Riemannian metric,
+`μ ≪ volume`, and `∫ d(x,y) dμ(x)dν(y)<∞`--equivalently, both laws have finite first
+moment--there is a Monge minimizer whose graph plan is Kantorovich-optimal.  Record that
+uniqueness generally fails; the `p=1` branch is not a strict-convexity corollary.
+
+### 7.7 Riemannian partial regularity
+
+Prove the Riemannian squared-distance specialization of Layer 6's partial-regularity
+theorem after all cut-locus and coordinate prerequisites above have landed.
 
 McCann's original [polar factorization on Riemannian
 manifolds](https://doi.org/10.1007/PL00001679) is the primary source; Villani, Chapter 10,
@@ -975,120 +1333,165 @@ one-sided noncompact theorem follows Figalli,
 [The Monge problem on non-compact manifolds](https://cvgmt.sns.it/media/doc/paper/1313/transportdist.pdf),
 Theorem 1.1 and its distance-cost specialization.
 
-### Layer 8: metric curves, dynamic plans, and Benamou--Brenier
+### Examples
+
+On `ℝⁿ` with the Euclidean metric, `exp_x(v) = x + v`; for the `c`-concave potential
+`φ(x) = ‖x‖²/2 - u(x)` the map `exp_x(-∇φ(x))` equals `∇u(x)`, so McCann's theorem reduces to
+Brenier's.  On the unit circle `ℝ/2πℤ`, `d(·,y)²/2` fails to be differentiable exactly at the
+antipode `y + π`, where two minimizing geodesics start; the cut locus of `y` is that single
+point, a volume-null set, as item 1 consumes from RiemannianGeometry R4.6.
+
+### Dependencies
+
+Layers 2, 5 and 6; Hopf--Rinow Layers 1--4; RiemannianGeometry R2--R3 and R4.6; geometric topology Layer 7.
+
+## Layer 8: metric curves, dynamic plans, and Benamou--Brenier
 
 Consume metric curve length, length spaces, and constant-speed geodesic spaces from the shared API
 owned by the [Hopf--Rinow roadmap](../HopfRinow/README.md), Layer 4.  Build the remaining maximally
 general path-space theory first, then the Eulerian specialization.
 
-1. Define `ACᵖ([0,T];X)`, metric derivatives, `p`-energy/action, and measurable families of
-   curves, reusing the consumed metric length and geodesic-space notions.  Prove the
-   fundamental theorem for absolutely continuous metric-valued curves, reparameterization,
-   and lower semicontinuity of action.  Split compactness into its two genuinely different
-   theorems rather than one clause.  First, the deterministic Arzelà--Ascoli theorem on
-   `C([0,T];X)`: a common modulus of continuity together with relative compactness of the
-   values at each time--equivalently at a dense set of times--or an explicit
-   compact-containment/coercive-function hypothesis.  Equicontinuity and a common initial
-   point do not suffice on a nonproper carrier, and the regression example is
-   `γ_n(t)=t e_n` in an infinite-dimensional Hilbert space: equi-Lipschitz, all starting at
-   zero, with no uniformly convergent subsequence.  Second, tightness for probability laws
-   on path space: tight time marginals plus a uniform probabilistic modulus-of-continuity
-   bound.  When an expected `p`-action bound is what supplies that modulus, state the range
-   `p > 1` and the Hölder/Markov estimate used, and record that the action bound supplies
-   only the modulus--pointwise or dense-time tightness on an arbitrary nonproper carrier
-   remains a separate hypothesis.  Build the reusable Alexandrov
-   curvature-bounded-below predicate `CBB(κ)`, its
-   triangle/quadruple comparison formulations, their equivalence in the applicable
-   geodesic category, and basic isometry/geodesic-invariance API.  Keep lower curvature
-   bounds distinct from CAT(0)'s upper bound.
-2. Build continuous path space with its Borel structure, evaluation maps `e_t`, endpoint
-   laws, dynamic plans, and plans concentrated on base-space geodesics.  Prove
-   measurability of all evaluation and action functionals used later.  On a complete
-   separable geodesic space, prove that the endpoint/constant-speed-geodesic relation is
-   closed.  Build the Jankov--von Neumann uniformization theorem for analytic relations
-   between standard-Borel/Polish spaces, using Layer 2's
-   analytic-set/completion-measurability bridge, and apply it to this relation.  Relative
-   to each fixed endpoint law, pass through its
-   completion and choose a Borel representative equal almost everywhere.  Keep a global
-   Borel geodesic bicombing as stronger input data, not as an automatic consequence of
-   Polish geodesicity.
-3. Prove Lisini's superposition theorem: for complete separable `X` and
-   `1 < p < ∞`, every
-   `ACᵖ` curve in `P_p(X)` is represented by a probability law on `ACᵖ` paths with the
-   exact averaged-speed/minimality relation.  No geodesicity or local compactness is
-   assumed here.
-4. In complete separable geodesic spaces and for `1 < p < ∞`, characterize Wasserstein
-   geodesics by optimal dynamic plans concentrated on constant-speed base geodesics.
-   Prove that every two-time projection is optimal and obtain the metric dynamic-action
-   formula.
-5. Develop the `p=1` endpoint separately through BV path lifts and total-variation
-   measures.  This is not item 3 read at `p=1`: Lisini's superposition principle covers
-   `1 < p < ∞`, and his Wasserstein--Orlicz extension does not reach `d¹` either.  The
-   source is Abedi--Li--Schultz, [Absolutely continuous and BV-curves in 1-Wasserstein
-   spaces](https://arxiv.org/abs/2209.04268).  On a complete separable `X` and
-   `I=[0,1]`, build the Skorokhod space `D(I;X)` of càdlàg curves with its Polish
-   structure, the Borel subset `BV(I;X)`, and the total-variation measure `|Dγ| ∈ M(I)`
-   of such a curve.  Following their Remark 3.2, prove that `γ ↦ |Dγ|(A)` is Borel for
-   every Borel `A ⊆ I`--from lower semicontinuity of the variation on open sets--so that
-   `A ↦ ∫ |Dγ|(A) dπ(γ)` is a measure and is integrated against nonnegative Borel
-   `f : I → ℝ` as `∫∫ f(t) d|Dγ|(t) dπ(γ)`.  Prove their Theorem 3.1 first: if
-   `π ∈ P(D(I;X))` is concentrated on `BV(I;X)` with `∫ |Dγ|(I) dπ(γ) < ∞` and
-   `(e₀)_#π ∈ P₁(X)`, then `t ↦ μ_t=(e_t)_#π` lies in `BV(I;P₁(X))` and
-   `|Dμ| ≤ ∫ |Dγ| dπ(γ)` as measures, so equality is an optimality condition among lifts
-   exactly as at `1 < p < ∞`.  Then prove their Theorem 3.3: every
-   `(μ_t) ∈ BV(I;P₁(X))` admits `π̃ ∈ P(D(I;X))` concentrated on `BV(I;X)` with
-   `(e_t)_#π̃=μ_t` for all `t ∈ I` and the exact identity `|Dμ| = ∫ |Dγ| dπ̃(γ)`, whose
-   absolutely continuous part in the Lebesgue decomposition satisfies
-   `|μ̇_t| = lim_{h→0} ∫ d(γ_t,γ_{t+h})/|h| dπ̃(γ) = lim_{h→0} ∫ |Dγ|([t,t+h])/|h| dπ̃(γ)`
-   for `L¹`-a.e. `t`; deduce that `(μ_t) ∈ AC¹(I;P₁(X))` gives `|Dμ|=|μ̇|L¹` and
-   characterizes the metric speed.  Include their Example 1.1, `μ_t=(1-t)δ₀+tδ₁` on `ℝ`,
-   as the regression test: a constant-speed `W₁` geodesic that admits no lift on
-   continuous curves at all, lifted instead by the uniform mixture of the jump paths
-   `γ^{(α)}_t=1_{[α,1]}(t)`.  It is why the `1 < p < ∞` theorem cannot simply be
-   generalized.
-6. Let `(X,τ,d)` be an extended Polish space in Lisini's sense: `τ` is induced by a
-   complete separable metric, `d` is an extended complete metric, `d`-convergence implies
-   `τ`-convergence, and `d` is `τ×τ` lower semicontinuous.  For the Orlicz function
-   `ψ∞` equal to `0` on `[0,1]` and `∞` on `(1,∞)`, prove the superposition principle
-   for `AC^{ψ∞}` curves and
-   `|μ′|(t)=ess sup_η |u′_η|(t)`.  Prove that endpoint-optimal plans concentrated
-   on constant-speed `d`-geodesics generate `W_∞` geodesics, and that every representing
-   superposition plan for a `W_∞` geodesic that satisfies the exact Orlicz speed identity
-   supplied by Lisini's superposition theorem has optimal two-time marginals.  Do not
-   claim that its sample paths are geodesics: Lisini's converse uses strict convexity,
-   which `ψ∞` lacks.
-7. On finite-dimensional normed spaces, define distributional solutions of
-   `∂ₜμₜ + div(vₜ μₜ)=0`, including measurable time slices, vector-valued flux measures,
-   test functions, and boundary-time terms.  Name the two superposition statements instead
-   of writing "both directions", since one builds a field by conditional expectation and
-   the other asserts concentration on integral curves of a given field.  Lagrangian from
-   Eulerian: if a narrowly continuous `μ_t` and a Borel field `v_t` solve the continuity
-   equation with `∫₀ᵀ∫‖v_t‖^p dμ_t dt < ∞`, construct a law `η` on `ACᵖ` paths with
-   `(e_t)_#η=μ_t` and `γ̇_t=v_t(γ_t)` for `dt⊗η`-almost every `(t,γ)`.  Eulerian from
-   Lagrangian: from a dynamic plan `η` of finite averaged action, construct its
-   vector-valued flux, disintegrate over `e_t` to obtain the barycentric field `v_t`, and
-   prove the continuity equation together with `∫∫‖v_t‖^p dμ_t dt ≤ ∫ A_p(γ) dη(γ)`.  For
-   `1 < p < ∞`, state the minimal-velocity conclusion as the exact relation
-   `‖v_t‖_{Lᵖ(μ_t)}=|μ′|(t)` for a.e. `t`, and prove uniqueness of the minimal field only
-   under the strict convexity that gives it; do not leave uniqueness implicit for an
-   arbitrary normed space.
-8. Prove the Eulerian **Benamou--Brenier formula** for `1 < p < ∞`, with `p=2` as the
-   named classical theorem:
-   `W_p(μ₀,μ₁)^p = inf ∫₀¹ ∫ ‖v_t(x)‖^p dμ_t(x)dt`
-   over continuity-equation solutions.  Prove attainment.  For a Monge map `T` with
-   finite `p`-displacement, put `F_t(x)=(1-t)x+tT(x)` and
-   `μ_t = Measure.map F_t μ`.  Define the Lagrangian vector flux and, by disintegrating
-   `μ` over `F_t`, the barycentric Eulerian velocity
-   `v_t(y)=E_μ[T(X)-X | F_t(X)=y]`.  Prove the continuity equation and the action bound
-   `∫₀¹∫‖v_t‖^p dμ_t dt ≤ ∫‖T-id‖^p dμ`.  If `F_t` is a.e. injective,
-   prove `v_t(F_t(x))=T(x)-x` a.e.  If the graph plan of `T` is optimal, prove that
-   `μ_t` is the displacement geodesic and that the action bound is an equality; Layer 9
-   identifies precisely this optimal tier with its generic displacement-interpolation
-   relation.
-9. Extend the Eulerian formula to smooth complete Riemannian manifolds once divergence,
-   Riemannian volume, and time-dependent vector fields exist.  State a structured Banach
-   or nonsmooth metric-measure version only after its differential/divergence API is
-   actually built.
+### 8.1 Absolutely continuous curves and compactness
+
+Define `ACᵖ([0,T];X)`, metric derivatives, `p`-energy/action, and measurable families of
+curves, reusing the consumed metric length and geodesic-space notions.  Prove the
+fundamental theorem for absolutely continuous metric-valued curves, reparameterization,
+and lower semicontinuity of action.  Split compactness into its two genuinely different
+theorems rather than one clause.  First, the deterministic Arzelà--Ascoli theorem on
+`C([0,T];X)`: a common modulus of continuity together with relative compactness of the
+values at each time--equivalently at a dense set of times--or an explicit
+compact-containment/coercive-function hypothesis.  Equicontinuity and a common initial
+point do not suffice on a nonproper carrier, and the regression example is
+`γ_n(t)=t e_n` in an infinite-dimensional Hilbert space: equi-Lipschitz, all starting at
+zero, with no uniformly convergent subsequence.  Second, tightness for probability laws
+on path space: tight time marginals plus a uniform probabilistic modulus-of-continuity
+bound.  When an expected `p`-action bound is what supplies that modulus, state the range
+`p > 1` and the Hölder/Markov estimate used, and record that the action bound supplies
+only the modulus--pointwise or dense-time tightness on an arbitrary nonproper carrier
+remains a separate hypothesis.  Build the reusable Alexandrov
+curvature-bounded-below predicate `CBB(κ)`, its
+triangle/quadruple comparison formulations, their equivalence in the applicable
+geodesic category, and basic isometry/geodesic-invariance API.  Keep lower curvature
+bounds distinct from CAT(0)'s upper bound.
+
+### 8.2 Path space and geodesic selection
+
+Build continuous path space with its Borel structure, evaluation maps `e_t`, endpoint
+laws, dynamic plans, and plans concentrated on base-space geodesics.  Prove
+measurability of all evaluation and action functionals used later.  On a complete
+separable geodesic space, prove that the endpoint/constant-speed-geodesic relation is
+closed.  Build the Jankov--von Neumann uniformization theorem for analytic relations
+between standard-Borel/Polish spaces, using Layer 2's
+analytic-set/completion-measurability bridge, and apply it to this relation.  Relative
+to each fixed endpoint law, pass through its
+completion and choose a Borel representative equal almost everywhere.  Keep a global
+Borel geodesic bicombing as stronger input data, not as an automatic consequence of
+Polish geodesicity.
+
+### 8.3 Lisini's superposition theorem
+
+Prove Lisini's superposition theorem: for complete separable `X` and
+`1 < p < ∞`, every
+`ACᵖ` curve in `P_p(X)` is represented by a probability law on `ACᵖ` paths with the
+exact averaged-speed/minimality relation.  No geodesicity or local compactness is
+assumed here.
+
+### 8.4 Wasserstein geodesics and optimal dynamic plans
+
+In complete separable geodesic spaces and for `1 < p < ∞`, characterize Wasserstein
+geodesics by optimal dynamic plans concentrated on constant-speed base geodesics.
+Prove that every two-time projection is optimal and obtain the metric dynamic-action
+formula.
+
+### 8.5 The `p = 1` endpoint
+
+Develop the `p=1` endpoint separately through BV path lifts and total-variation
+measures.  This is not item 3 read at `p=1`: Lisini's superposition principle covers
+`1 < p < ∞`, and his Wasserstein--Orlicz extension does not reach `d¹` either.  The
+source is Abedi--Li--Schultz, [Absolutely continuous and BV-curves in 1-Wasserstein
+spaces](https://arxiv.org/abs/2209.04268).  On a complete separable `X` and
+`I=[0,1]`, build the Skorokhod space `D(I;X)` of càdlàg curves with its Polish
+structure, the Borel subset `BV(I;X)`, and the total-variation measure `|Dγ| ∈ M(I)`
+of such a curve.  Every BV curve, in `X` or in `P₁(X)`, is taken in its càdlàg
+representative, unique up to its value at `t = 1`, so that
+`d(γ_s,γ_t) ≤ |Dγ|((s,t])` holds for all `0 ≤ s ≤ t < 1` and every evaluation `e_t`
+is defined at every time (their Remark 2.20).  Following their Remark 3.2, prove that `γ ↦ |Dγ|(A)` is Borel for
+every Borel `A ⊆ I`--from lower semicontinuity of the variation on open sets--so that
+`A ↦ ∫ |Dγ|(A) dπ(γ)` is a measure and is integrated against nonnegative Borel
+`f : I → ℝ` as `∫∫ f(t) d|Dγ|(t) dπ(γ)`.  Prove their Theorem 3.1 first: if
+`π ∈ P(D(I;X))` is concentrated on `BV(I;X)` with `∫ |Dγ|(I) dπ(γ) < ∞` and
+`(e₀)_#π ∈ P₁(X)`, then `t ↦ μ_t=(e_t)_#π` lies in `BV(I;P₁(X))` and
+`|Dμ| ≤ ∫ |Dγ| dπ(γ)` as measures, so equality is an optimality condition among lifts
+exactly as at `1 < p < ∞`.  Then prove their Theorem 3.3: every
+`(μ_t) ∈ BV(I;P₁(X))` admits `π̃ ∈ P(D(I;X))` concentrated on `BV(I;X)` with
+`(e_t)_#π̃=μ_t` for all `t ∈ I` and the exact identity `|Dμ| = ∫ |Dγ| dπ̃(γ)`, whose
+absolutely continuous part in the Lebesgue decomposition satisfies
+`|μ̇_t| = lim_{h→0} ∫ d(γ_t,γ_{t+h})/|h| dπ̃(γ) = lim_{h→0} ∫ |Dγ|(J_{t,h})/|h| dπ̃(γ)`
+for `L¹`-a.e. `t`, where `J_{t,h} = [min(t,t+h), max(t,t+h)]` is the closed interval
+between `t` and `t+h` (their Theorem 3.3 and equation (3.6), p. 19, which write
+`[t,t+h]`; read as an ordered interval that set is empty for `h < 0`: for `μ_t = δ_t`
+on `ℝ` and the lift `γ(t) = t`, the speed and the distance quotient are `1`, the
+ordered-interval quotient is `0` for `h < 0`, and the quotient over `J_{t,h}` is `1`); deduce that `(μ_t) ∈ AC¹(I;P₁(X))` gives `|Dμ|=|μ̇|L¹` and
+characterizes the metric speed.  Include their Example 1.1, `μ_t=(1-t)δ₀+tδ₁` on `ℝ`,
+as the regression test: a constant-speed `W₁` geodesic that admits no lift on
+continuous curves at all, lifted instead by the uniform mixture of the jump paths
+`γ^{(α)}_t=1_{[α,1]}(t)`.  It is why the `1 < p < ∞` theorem cannot simply be
+generalized.
+
+### 8.6 The `W_∞` endpoint
+
+Let `(X,τ,d)` be an extended Polish space in Lisini's sense: `τ` is induced by a
+complete separable metric, `d` is an extended complete metric, `d`-convergence implies
+`τ`-convergence, and `d` is `τ×τ` lower semicontinuous.  For the Orlicz function
+`ψ∞` equal to `0` on `[0,1]` and `∞` on `(1,∞)`, prove the superposition principle
+for `AC^{ψ∞}` curves and
+`|μ′|(t)=ess sup_η |u′_η|(t)`.  Prove that endpoint-optimal plans concentrated
+on constant-speed `d`-geodesics generate `W_∞` geodesics, and that every representing
+superposition plan for a `W_∞` geodesic that satisfies the exact Orlicz speed identity
+supplied by Lisini's superposition theorem has optimal two-time marginals.  Do not
+claim that its sample paths are geodesics: Lisini's converse uses strict convexity,
+which `ψ∞` lacks.
+
+### 8.7 The continuity equation
+
+On finite-dimensional normed spaces, define distributional solutions of
+`∂ₜμₜ + div(vₜ μₜ)=0`, including measurable time slices, vector-valued flux measures,
+test functions, and boundary-time terms.  Name the two superposition statements instead
+of writing "both directions", since one builds a field by conditional expectation and
+the other asserts concentration on integral curves of a given field.  Lagrangian from
+Eulerian: if a narrowly continuous `μ_t` and a Borel field `v_t` solve the continuity
+equation with `∫₀ᵀ∫‖v_t‖^p dμ_t dt < ∞`, construct a law `η` on `ACᵖ` paths with
+`(e_t)_#η=μ_t` and `γ̇_t=v_t(γ_t)` for `dt⊗η`-almost every `(t,γ)`.  Eulerian from
+Lagrangian: from a dynamic plan `η` of finite averaged action, construct its
+vector-valued flux, disintegrate over `e_t` to obtain the barycentric field `v_t`, and
+prove the continuity equation together with `∫∫‖v_t‖^p dμ_t dt ≤ ∫ A_p(γ) dη(γ)`.  For
+`1 < p < ∞`, state the minimal-velocity conclusion as the exact relation
+`‖v_t‖_{Lᵖ(μ_t)}=|μ′|(t)` for a.e. `t`, and prove uniqueness of the minimal field only
+under the strict convexity that gives it; do not leave uniqueness implicit for an
+arbitrary normed space.
+
+### 8.8 The Benamou--Brenier formula
+
+Prove the Eulerian **Benamou--Brenier formula** for `1 < p < ∞`, with `p=2` as the
+named classical theorem:
+`W_p(μ₀,μ₁)^p = inf ∫₀¹ ∫ ‖v_t(x)‖^p dμ_t(x)dt`
+over continuity-equation solutions.  Prove attainment.  For a Monge map `T` with
+finite `p`-displacement, put `F_t(x)=(1-t)x+tT(x)` and
+`μ_t = Measure.map F_t μ`.  Define the Lagrangian vector flux and, by disintegrating
+`μ` over `F_t`, the barycentric Eulerian velocity
+`v_t(y)=E_μ[T(X)-X | F_t(X)=y]`.  Prove the continuity equation and the action bound
+`∫₀¹∫‖v_t‖^p dμ_t dt ≤ ∫‖T-id‖^p dμ`.  If `F_t` is a.e. injective,
+prove `v_t(F_t(x))=T(x)-x` a.e.  If the graph plan of `T` is optimal, prove that
+`μ_t` is the displacement geodesic and that the action bound is an equality; Layer 9
+identifies precisely this optimal tier with its generic displacement-interpolation
+relation.
+
+### 8.9 The Riemannian Benamou--Brenier formula
+
+Extend the Eulerian formula to smooth complete Riemannian manifolds once divergence,
+Riemannian volume, and time-dependent vector fields exist.  State a structured Banach
+or nonsmooth metric-measure version only after its differential/divergence API is
+actually built.
 
 The original Euclidean theorem is Benamou--Brenier,
 [doi:10.1007/s002110050002](https://doi.org/10.1007/s002110050002).  The more general
@@ -1097,64 +1500,101 @@ Wasserstein curves](https://cvgmt.sns.it/paper/568/); the extended endpoint foll
 [Wasserstein--Orlicz theory](https://www.numdam.org/articles/10.1051/cocv/2015020/), which
 does not cover `d¹`, and the `p=1` endpoint follows Abedi--Li--Schultz.
 
-Acceptance checks: moving a Dirac mass along a base geodesic has exactly the base action;
+### Examples
+
+Moving a Dirac mass along a base geodesic has exactly the base action;
 linear interpolation of an optimal Euclidean plan gives the expected `W_p` geodesic;
 the map-induced linear curve satisfies the barycentric velocity/action theorem, with the
 pullback formula tested under an injectivity hypothesis; and the continuity
 equation for a translating density has the expected constant velocity.
 
-### Layer 9: displacement geometry and convexity
+### Dependencies
+
+Layers 0, 2 and 3; Hopf--Rinow Layer 4; geometric topology Layer 7 for item 9.
+
+## Layer 9: displacement geometry and convexity
 
 Turn `P_p(X)` from a metric space into a usable geodesic space.
 
-1. Define displacement interpolations from an optimal dynamic plan, consuming Layer 8's
-   measure-relative geodesic selector when no Borel bicombing is supplied, and prove
-   independence from presentation only when the relevant optimal plan/geodesic is unique.
-   Prove that Layers 7 and 8's explicit Riemannian and Euclidean map-induced curves agree
-   with this generic relation.  Define generalized geodesics based at a third measure
-   through a glued three-plan.
-2. Prove that `P_p(X)` is geodesic when `X` is complete, separable, and geodesic, and
-   characterize constant-speed geodesics in the finite `1 < p < ∞` regime.  Prove
-   uniqueness only from the
-   combination of almost-everywhere unique base geodesics and uniqueness of the endpoint
-   optimizer; nonbranching alone is not silently promoted to uniqueness.
-3. Define ordinary geodesic convexity, strong/weak displacement convexity, and convexity
-   along generalized geodesics, all with a visible parameter `λ`.  Develop endpoint,
-   restriction, lower-semicontinuity, and stability lemmas for each notion.
-4. Prove convexity of squared Wasserstein distance along generalized geodesics in the
-   Euclidean `W₂` setting.  This is the load-bearing estimate for resolvents and minimizing
-   movements and cannot be replaced by an incorrect assertion of convexity along every
-   ordinary geodesic.
-5. Define potential energy `μ ↦ ∫ V dμ`, symmetric interaction energy
-   `μ ↦ (1/2)∫ W d(μ⊗μ)`, and internal energy relative to `m`, with
-   `∫ U(ρ) dm` on the absolutely continuous part and the recession constant multiplying
-   singular mass.  Pin safe `EReal` and integrability conventions before algebra.  Then
-   state each convexity regime with its own hypotheses rather than calling any of them
-   standard.  For internal energy relative to Lebesgue measure on `ℝⁿ`, prove McCann's
-   condition: for convex lower-semicontinuous `U` with `U(0)=0`, displacement convexity
-   follows when `s ↦ s^n U(s^(-n))` is convex and nonincreasing on `(0,∞)`, with the
-   recession convention above for singular mass.  This is not by itself a theorem for
-   internal energy relative to a general reference `m`; that version needs Layer 14's
-   curvature-dimension hypotheses and belongs there.  For potential energy, prove that
-   `λ`-convex `V` gives `λ`-displacement-convex `μ ↦ ∫ V dμ`, with its growth and domain
-   assumptions visible.  For interaction energy, prove the exact statement, not a
-   transplanted one: `μ ↦ (1/2)∫ W d(μ⊗μ)` is invariant under translating `μ`, so it is
-   never globally `λ`-displacement convex on `P₂(ℝⁿ)` for any `λ>0`, however strongly
-   convex `W` is.  The strong-convexity remainder is proportional to
-   `W₂(μ₀,μ₁)² - |∫x dμ₀ - ∫x dμ₁|²`, so prove global displacement convexity for convex
-   symmetric `W`, and obtain a positive modulus only on a fixed-barycenter class or by
-   retaining that variance-type remainder.  The signed Boltzmann-entropy instance is proved
-   in Layer 11 after that functional exists.
-6. Consume Layer 3's quantile-coupling theorem to develop the one-dimensional quantile
-   isometry, geodesics, geodesic convexity, and pointwise minimization identities without
-   Euclidean-density assumptions.  Layer 12 consumes those identities for barycenter
-   formulas.
+### 9.1 Displacement interpolations
+
+Define displacement interpolations from an optimal dynamic plan, consuming Layer 8's
+measure-relative geodesic selector when no Borel bicombing is supplied, and prove
+independence from presentation only when the relevant optimal plan/geodesic is unique.
+Prove that Layers 7 and 8's explicit Riemannian and Euclidean map-induced curves agree
+with this generic relation.  Define generalized geodesics based at a third measure
+through a glued three-plan.
+
+### 9.2 The geodesic structure of `P_p(X)`
+
+Prove that `P_p(X)` is geodesic when `X` is complete, separable, and geodesic, and
+characterize constant-speed geodesics in the finite `1 < p < ∞` regime.  Prove
+uniqueness only from the
+combination of almost-everywhere unique base geodesics and uniqueness of the endpoint
+optimizer; nonbranching alone is not silently promoted to uniqueness.
+
+### 9.3 Displacement convexity
+
+Define ordinary geodesic convexity, strong/weak displacement convexity, and convexity
+along generalized geodesics, all with a visible parameter `λ`.  Develop endpoint,
+restriction, lower-semicontinuity, and stability lemmas for each notion.
+
+### 9.4 Generalized geodesics and squared distance
+
+Prove convexity of squared Wasserstein distance along generalized geodesics in the
+Euclidean `W₂` setting.  This is the load-bearing estimate for resolvents and minimizing
+movements and cannot be replaced by an incorrect assertion of convexity along every
+ordinary geodesic.
+
+### 9.5 Potential, interaction, and internal energies
+
+Define potential energy `μ ↦ ∫ V dμ`, symmetric interaction energy
+`μ ↦ (1/2)∫ W d(μ⊗μ)`, and internal energy relative to `m`, with
+`∫ U(ρ) dm` on the absolutely continuous part and the recession constant multiplying
+singular mass.  Pin safe `EReal` and integrability conventions before algebra.  Then
+state each convexity regime with its own hypotheses rather than calling any of them
+standard.  For internal energy relative to Lebesgue measure on `ℝⁿ`, prove McCann's
+condition: for convex lower-semicontinuous `U` with `U(0)=0`, displacement convexity
+follows when `s ↦ s^n U(s^(-n))` is convex and nonincreasing on `(0,∞)`, with the
+recession convention above for singular mass.  This is not by itself a theorem for
+internal energy relative to a general reference `m`; that version needs Layer 14's
+curvature-dimension hypotheses and belongs there.  For potential energy, prove that
+`λ`-convex `V` gives `λ`-displacement-convex `μ ↦ ∫ V dμ`, with its growth and domain
+assumptions visible.  For interaction energy, prove the exact statement, not a
+transplanted one: `μ ↦ (1/2)∫ W d(μ⊗μ)` is invariant under translating `μ`, so it is
+never globally `λ`-displacement convex on `P₂(ℝⁿ)` for any `λ>0`, however strongly
+convex `W` is.  The strong-convexity remainder is proportional to
+`W₂(μ₀,μ₁)² - |∫x dμ₀ - ∫x dμ₁|²`, so prove global displacement convexity for convex
+symmetric `W`, and obtain a positive modulus only on a fixed-barycenter class or by
+retaining that variance-type remainder.  The signed Boltzmann-entropy instance is proved
+in Layer 11 after that functional exists.
+
+### 9.6 One-dimensional quantile geometry
+
+Consume Layer 3's quantile-coupling theorem to develop the one-dimensional quantile
+isometry, geodesics, geodesic convexity, and pointwise minimization identities without
+Euclidean-density assumptions.  Layer 12 consumes those identities for barycenter
+formulas.
 
 The public API must distinguish a selected interpolation from the proposition that a
 curve is a displacement interpolation.  This lets later uniqueness theorems improve a
 relation into a function without changing foundational definitions.
 
-### Layer 10: abstract metric gradient flows
+### Examples
+
+On `ℝ`, the displacement interpolation from `δ₀` to `δ₂` is `μ_t = δ_{2t}`, and
+`W₂(δ₀, δ_{2t}) = 2t = t W₂(δ₀, δ₂)`.  For `V(x) = x²/2`, `∫ V dμ_t = 2t²`, which equals
+`(1-t)·0 + t·2 - (1/2)t(1-t)·4`: the pinned `1`-convexity inequality holds with equality,
+while a convention without the factor `1/2` would demand `2t² ≤ 4t² - 2t`, false at
+`t = 1/2`.  For `W(x) = x²`, the interaction energy `(1/2)∫ W d(μ_t ⊗ μ_t)` is `0` along this
+translation while `W₂(μ₀,μ₁)² = 4` equals the squared mean displacement, so the remainder of
+item 5 vanishes and no positive modulus is available.
+
+### Dependencies
+
+Layers 3, 7 and 8.
+
+## Layer 10: abstract metric gradient flows
 
 Build the Ambrosio--Gigli--Savaré theory on an anchored finite-distance component
 `D(x_*)={x | edist x x_* < ∞}` of a general extended metric space before specializing it
@@ -1163,527 +1603,719 @@ not change the resulting theory.  Every test point in a distance-dependent inequ
 in that component (and in the energy domain when the formula requires a finite energy);
 ordinary metric spaces receive the global corollaries.
 
-1. On Layer 8's `p`-absolutely-continuous metric-valued curves, define proper
-   lower-semicontinuous extended-real energies, descending and relaxed slopes, and local
-   and strong upper gradients.  For `1 < p < ∞` and its conjugate `q`, define the
-   conjugate-exponent energy-dissipation inequality.  Recover the quadratic `p=q=2` API
-   as the standard notation and treat endpoint exponents through separately justified
-   statements.
-2. Define curves of maximal slope and energy-dissipation equalities.  Prove the chain-rule
-   implications under strong-upper-gradient hypotheses and keep existence separate from
-   a definition that merely packages an equality.
-3. Consume Layer 9's componentwise `λ`-geodesic-convexity predicates and define `EVI_λ`
-   solutions, quantifying its comparison point over the same finite-distance component
-   and the effective domain of the energy.  Prove that EVI implies the energy-dissipation
-   identity, contraction, and uniqueness.  Separate the pointwise regularization estimates
-   from the semigroup, which is not a consequence of one EVI curve existing.  With
-   `I_λ(t)=∫₀ᵗ exp(λs)ds`, integrating the EVI gives the concrete energy-regularization
-   estimate
-   `Φ(x_t) ≤ Φ(y) + (d(x₀,y)² - exp(λt) d(x_t,y)²)/(2 I_λ(t))`
-   for `t>0` and `y ∈ Dom(Φ)` in the same finite-distance component as `x₀`; enumerate the
-   finite-energy and positive-time slope and local-Lipschitz conclusions wanted from it,
-   under their usual hypotheses.  A semigroup needs three further hypotheses made visible:
-   existence of an EVI solution from every point of the chosen initial domain, uniqueness,
-   and closure under time translation.  Only then define `S_t x` and prove
-   `S_{t+s}=S_t ∘ S_s`.  Do not assert the converse or EVI existence on every geodesic
-   metric space.
-4. Define the Moreau--Yosida functional, resolvent set/map when single-valued, implicit
-   Euler step, discrete variational interpolation, and De Giorgi interpolation.  Interpret
-   the squared-distance penalty as `∞` outside the anchor's finite-distance component,
-   prove that every finite-energy resolvent and minimizing-movement step remains in that
-   component, and prove the discrete energy and slope estimates there.
-5. Define minimizing movements and generalized minimizing movements.  Prove compactness
-   and convergence from coercivity, lower semicontinuity, and the exact compactness
-   hypothesis on sublevels; prove convergence to a maximal-slope or EVI flow when the
-   corresponding assumptions hold.
-6. Define sequential Γ-liminf, recovery sequences, Γ-convergence, and equicoercivity for
-   extended-real functionals on a topological carrier.  On metrizable carriers, prove
-   equivalence with the neighborhood definition and with the compact-sublevel
-   formulation when the common sublevel closures are compact; give a more general
-   first-countable theorem only with the additional hypothesis that sequentially compact
-   subsets are compact.  Prove the basic stability lemmas.  For varying carriers, first
-   give comparison maps into a named
-   common Hausdorff ambient space, or an equivalent explicit convergence structure; do
-   not use a bare `d_n` across unidentified types.  Separate static resolvent stability
-   from dynamic flow stability.  For resolvents, assume
-   Γ-convergence and equicoercivity of `Φ_n + d_n²(·,x_n)/(2τ)` in that interface and
-   prove convergence of minima plus subsequential convergence of minimizers.  In the same
-   fixed- or varying-carrier convergence interface, formalize the Sandier--Serfaty scheme
-   for curves of maximal slope:
-   well-prepared initial data, trajectory compactness, energy and metric-action liminf
-   inequalities, and the slope liminf
-   `|∂Φ|(x) ≤ liminf_n |∂Φ_n|(x_n)`; alternatively assume a common `EVI_λ`
-   structure.  Prove passage through the energy--dissipation inequality.  Plain
-   Γ-convergence and equicoercivity alone are not a dynamic-flow theorem.  Develop
-   product/sum rules for energies and flows separately.
+### 10.1 Slopes and upper gradients
 
-Acceptance checks: for `Φ(x)=‖x‖²/2` on a Hilbert space, the resolvent is
+On Layer 8's `p`-absolutely-continuous metric-valued curves, define proper
+lower-semicontinuous extended-real energies, descending and relaxed slopes, and local
+and strong upper gradients.  For `1 < p < ∞` and its conjugate `q`, define the
+conjugate-exponent energy-dissipation inequality.  Recover the quadratic `p=q=2` API
+as the standard notation and treat endpoint exponents through separately justified
+statements.
+
+### 10.2 Curves of maximal slope
+
+Define curves of maximal slope and energy-dissipation equalities.  Prove the chain-rule
+implications under strong-upper-gradient hypotheses and keep existence separate from
+a definition that merely packages an equality.
+
+### 10.3 Evolution variational inequalities
+
+Consume Layer 9's componentwise `λ`-geodesic-convexity predicates and define `EVI_λ`
+solutions, quantifying its comparison point over the same finite-distance component
+and the effective domain of the energy.  Prove that EVI implies the energy-dissipation
+identity, contraction, and uniqueness.  Separate the pointwise regularization estimates
+from the semigroup, which is not a consequence of one EVI curve existing.  With
+`I_λ(t)=∫₀ᵗ exp(λs)ds`, integrating the EVI gives the concrete energy-regularization
+estimate
+`Φ(x_t) ≤ Φ(y) + (d(x₀,y)² - exp(λt) d(x_t,y)²)/(2 I_λ(t))`
+for `t>0` and `y ∈ Dom(Φ)` in the same finite-distance component as `x₀`; enumerate the
+finite-energy and positive-time slope and local-Lipschitz conclusions wanted from it,
+under their usual hypotheses.  A semigroup needs three further hypotheses made visible:
+existence of an EVI solution from every point of the chosen initial domain, uniqueness,
+and closure under time translation.  Only then define `S_t x` and prove
+`S_{t+s}=S_t ∘ S_s`.  Do not assert the converse or EVI existence on every geodesic
+metric space.
+
+### 10.4 Moreau--Yosida resolvents and implicit Euler steps
+
+Define the Moreau--Yosida functional, resolvent set/map when single-valued, implicit
+Euler step, discrete variational interpolation, and De Giorgi interpolation.  Interpret
+the squared-distance penalty as `∞` outside the anchor's finite-distance component,
+prove that every finite-energy resolvent and minimizing-movement step remains in that
+component, and prove the discrete energy and slope estimates there.
+
+### 10.5 Minimizing movements
+
+Define minimizing movements and generalized minimizing movements.  Prove compactness
+and convergence from coercivity, lower semicontinuity, and the exact compactness
+hypothesis on sublevels; prove convergence to a maximal-slope or EVI flow when the
+corresponding assumptions hold.
+
+### 10.6 Γ-convergence and stability of flows
+
+Define sequential Γ-liminf, recovery sequences, Γ-convergence, and equicoercivity for
+extended-real functionals on a topological carrier.  On metrizable carriers, prove
+equivalence with the neighborhood definition and with the compact-sublevel
+formulation when the common sublevel closures are compact; give a more general
+first-countable theorem only with the additional hypothesis that sequentially compact
+subsets are compact.  Prove the basic stability lemmas.  For varying carriers, first
+give comparison maps into a named
+common Hausdorff ambient space, or an equivalent explicit convergence structure; do
+not use a bare `d_n` across unidentified types.  Separate static resolvent stability
+from dynamic flow stability.  For resolvents, assume
+Γ-convergence and equicoercivity of `Φ_n + d_n²(·,x_n)/(2τ)` in that interface and
+prove convergence of minima plus subsequential convergence of minimizers.  In the same
+fixed- or varying-carrier convergence interface, formalize the Sandier--Serfaty scheme
+for curves of maximal slope:
+well-prepared initial data, trajectory compactness, energy and metric-action liminf
+inequalities, and the slope liminf
+`|∂Φ|(x) ≤ liminf_n |∂Φ_n|(x_n)`; alternatively assume a common `EVI_λ`
+structure.  Prove passage through the energy--dissipation inequality.  Plain
+Γ-convergence and equicoercivity alone are not a dynamic-flow theorem.  Develop
+product/sum rules for energies and flows separately.
+
+### Examples
+
+For `Φ(x)=‖x‖²/2` on a Hilbert space, the resolvent is
 `x ↦ x/(1+τ)` and the flow is `e⁻ᵗx`; EVI gives the `e^{-λt}` contraction estimate; and
 the discrete energy is monotone along every valid minimizing-movement sequence.
 
-### Layer 11: entropy, Wasserstein differential calculus, JKO, and PDE flows
+### Dependencies
+
+Layers 8 and 9.
+
+## Layer 11: entropy, Wasserstein differential calculus, JKO, and PDE flows
 
 This layer consumes Layers 8--10 and the weak PDE infrastructure in the
 [PDE roadmap](../PDE/README.md).  Where the PDE roadmap does not provide a needed
 continuity-equation, Sobolev, or compactness lemma, build and expose the bridge here before
 using it.
 
-1. Extend Mathlib's nonnegative `InformationTheory.klDiv` for probability/finite
-   references.  Consume `InformationTheory.klDiv_compProd_eq_add` and
-   `klDiv_compProd_left` for the composition-product chain rule; the genuinely missing
-   piece is the conditional form
-   `klDiv (μ ⊗ₘ κ) (ν ⊗ₘ η) = klDiv μ ν + ∫⁻ x, klDiv (κ x) (η x) ∂μ`,
-   so supply the measurability of `x ↦ klDiv (κ x) (η x)` that it needs--on standard-Borel
-   targets, or under whatever weaker hypothesis the proof actually uses--and derive the
-   disintegration corollaries from it.  Prove strict convexity, lower semicontinuity,
-   change of reference, data processing, tensorization, Pinsker, and the Donsker--Varadhan
-   variational formula, always retaining its finite-mass correction.  This slice is the
-   entropy dependency of Layer 13.
-2. Specialize Layer 9's internal-energy functional to `U(r)=r log r`, whose recession
-   constant is `∞`, and expose the result as the signed extended-real Boltzmann entropy
-   `Ent_m(μ) : EReal` for every finite or probability measure `μ` and a σ-finite or
-   boundedly finite reference `m` in the regime needed by AGS/RCD.  Prove that this one
-   root has the following explicit formula.  When `μ ≪ m`, choose a Radon--Nikodym
-   density `ρ` and safely
-   combine the positive and negative `lintegral`s of `ρ log ρ`: if the positive-part
-   integral is infinite, set the value to `+∞`; otherwise subtract the negative-part
-   integral, allowing `-∞`.  Prove independence of the density representative.  Set the
-   value to `∞` when `μ ≪̸ m`.  Specify the finite, `+∞`, and `-∞` criteria, prove the
-   finite-reference bridge
-   `klDiv μ m = Ent_m(μ) + m(univ) - μ(univ)`, and build lower-semicontinuity/coercivity
-   statements in the following reference regime.  On a complete separable metric space,
-   assume the Borel reference satisfies
-   `0<Z_a=∫ exp(-a d(x,x₀)²)dm<∞` for some `a>0`--both bounds, since `m_a` below must be a
-   probability measure--and define `m_a=Z_a⁻¹ exp(-a d(x,x₀)²)m`.  Keep the mass
-   correction visible in the change-of-reference identity, because this item admits finite
-   measures and not only probability measures: with `M=μ(univ)`, Mathlib's finite-measure
-   convention gives
-   `klDiv μ m_a = Ent_m(μ) + a∫d(x,x₀)²dμ + M log Z_a + 1 - M`,
-   which collapses to `Ent_m(μ)+a∫d(x,x₀)²dμ+log Z_a` exactly when `M=1`.  Prove the
-   general form, and restrict to `μ ∈ P₂(X)` before the corresponding `W₂`
-   lower-semicontinuity and tightness/coercivity of sublevels, which are deduced after
-   adding a moment coefficient strictly larger than `a`.  This is the entropy functional
-   used by gradient and heat flows; it may be negative and is not `ℝ≥0∞`.
-3. On `P₂(ℝⁿ)`, define tangent velocity fields as the `L²(μ)` closure of gradients and
-   prove existence/uniqueness of the minimal-norm representative of an absolutely
-   continuous curve.  Relate it to Layer 8's distributional continuity equation and
-   metric derivative.
-4. Define strong, extended, and limiting Wasserstein subdifferentials and their scalar
-   slope.  Prove the subdifferential inequality along optimal plans/generalized geodesics,
-   closedness, minimal selection, and the equivalence with velocity fields under the AGS
-   hypotheses.
-5. Consume Layer 9's potential, symmetric-interaction, and internal-energy definitions;
-   compute their first variations and subdifferentials, together with those of Boltzmann
-   entropy.  Prove their displacement or generalized-geodesic convexity under the exact
-   convexity, reference, and growth assumptions.
-6. Define the Jordan--Kinderlehrer--Otto step
-   `μ ↦ argmin_ν (Φ(ν) + W₂(ν,μ)²/(2τ))`.  Consume Layer 10's direct-method
-   theorem with its hypotheses visible: the penalized functional is proper and narrowly
-   sequentially lower semicontinuous, and one finite sublevel is narrowly sequentially
-   compact.  Give the standard sufficient criterion through tightness plus uniform
-   integrability of squared distance on penalized sublevels; neither `P₂(ℝⁿ)` nor a
-   merely `W₂`-bounded set is proper.  If `Φ` is additionally `λ`-convex along generalized
-   geodesics based at the previous iterate, then the objective is `(λ+1/τ)`-convex along
-   those curves; prove uniqueness when `1+λτ>0`.  Do not silently replace generalized-
-   geodesic convexity by ordinary displacement convexity.  Prove Euler--Lagrange
-   conditions, discrete estimates, and compactness of interpolants.
-7. Prove convergence of JKO schemes to Wasserstein gradient flows and then to weak PDE
-   solutions for the named energies.  The theorem must identify both the metric flow and
-   the PDE solution concept rather than ending at an unspecified limit curve.
-8. Deliver the canonical equations.  Boltzmann entropy gives heat flow, and entropy plus
-   a potential gives Fokker--Planck.  On `ℝⁿ`, define
-   `U_m(r)=r^m/(m-1)`: for `m>1` prove the porous-medium flow, and for
-   `1-1/n<m<1` (read `0<m<1` when `n=1`) prove fast diffusion.  Treat the
-   displacement-convex endpoint `m=1-1/n` separately for `n≥2`, and treat `m=1` by the
-   signed Boltzmann entropy rather than the singular formula for `U_m`.  At each power
-   tier take initial data `ρ₀ dx ∈ P₂(ℝⁿ)` with finite `∫ U_m(ρ₀)dx`; prove
-   the moment/energy bound that makes every JKO functional bounded below and coercive,
-   including the endpoint bound, and obtain a narrowly continuous `P₂` curve satisfying
-   the energy-dissipation inequality and the distributional identity
-   `∫∫ (ρ ∂_tζ+ρ^m Δζ) dxdt=0` for compactly supported smooth tests,
-   with `ρ,ρ^m∈L¹_loc`.  Interaction energy gives aggregation, and sums give the
-   corresponding drift-diffusion equations under the named coercivity hypotheses of
-   their component energies.
-9. Prove energy dissipation, mass preservation, positivity, and contraction/uniqueness
+### 11.1 Relative entropy
+
+Extend Mathlib's nonnegative `InformationTheory.klDiv` for probability/finite
+references.  Consume `InformationTheory.klDiv_compProd_eq_add` and
+`klDiv_compProd_left` for the composition-product chain rule; the genuinely missing
+piece is the conditional form
+`klDiv (μ ⊗ₘ κ) (ν ⊗ₘ η) = klDiv μ ν + ∫⁻ x, klDiv (κ x) (η x) ∂μ`,
+so supply the measurability of `x ↦ klDiv (κ x) (η x)` that it needs--on standard-Borel
+targets, or under whatever weaker hypothesis the proof actually uses--and derive the
+disintegration corollaries from it.  Consume Mathlib's data-processing inequalities
+`InformationTheory.klDiv_map_le`, `InformationTheory.klDiv_trim_le`, and
+`InformationTheory.klDiv_comp_right_le`.  Prove strict convexity, lower
+semicontinuity, change of reference, tensorization, Pinsker, and the Donsker--Varadhan
+variational formula, always retaining its finite-mass correction.  This slice is the
+entropy dependency of Layer 13.
+
+### 11.2 Boltzmann entropy
+
+Specialize Layer 9's internal-energy functional to `U(r)=r log r`, whose recession
+constant is `∞`, and expose the result as the signed extended-real Boltzmann entropy
+`Ent_m(μ) : EReal` for every finite or probability measure `μ` and a σ-finite or
+boundedly finite reference `m` in the regime needed by AGS/RCD.  Prove that this one
+root has the following explicit formula.  When `μ ≪ m`, choose a Radon--Nikodym
+density `ρ` and safely
+combine the positive and negative `lintegral`s of `ρ log ρ`: if the positive-part
+integral is infinite, set the value to `+∞`; otherwise subtract the negative-part
+integral, allowing `-∞`.  Prove independence of the density representative.  Set the
+value to `∞` when `μ ≪̸ m`.  Specify the finite, `+∞`, and `-∞` criteria, prove the
+finite-reference bridge
+`klDiv μ m = Ent_m(μ) + m(univ) - μ(univ)`, and build lower-semicontinuity/coercivity
+statements in the following reference regime.  On a complete separable metric space,
+assume the Borel reference satisfies
+`0<Z_a=∫ exp(-a d(x,x₀)²)dm<∞` for some `a>0`--both bounds, since `m_a` below must be a
+probability measure--and define `m_a=Z_a⁻¹ exp(-a d(x,x₀)²)m`.  Keep the mass
+correction visible in the change-of-reference identity, because this item admits finite
+measures and not only probability measures: with `M=μ(univ)`, Mathlib's finite-measure
+convention gives
+`klDiv μ m_a = Ent_m(μ) + a∫d(x,x₀)²dμ + M log Z_a + 1 - M`,
+which collapses to `Ent_m(μ)+a∫d(x,x₀)²dμ+log Z_a` exactly when `M=1`.  Prove this
+identity for finite measures with `∫d(x,x₀)²dμ < ∞`.  Under that moment bound the
+inequality `r log r ≥ r log s + r - s`, applied with `s = Z_a⁻¹ exp(-a d(x,x₀)²)`, makes
+the negative part of `ρ log ρ` integrable, so `Ent_m(μ) ∈ (-∞,∞]` and the right side is a
+well-defined sum.  Without the moment bound the identity fails: on `ℝ` with Lebesgue
+reference, `a = 1` and `x₀ = 0`, the probability density `1/(x (log x)²)` on `[e,∞)`
+has `Ent_m(μ) = -∞`, infinite second moment, and `klDiv μ m_a = ∞`, while the right side
+is the indeterminate `-∞ + ∞`, which Mathlib's `EReal` addition evaluates to `-∞`
+(`EReal.bot_add`).  For `μ = 2m_a` both sides equal `2 log 2 - 1`, and for `μ = m_a`
+both are `0`.  Then, on `P₂(X)`, deduce the corresponding `W₂` lower-semicontinuity and
+tightness/coercivity of sublevels after adding a moment coefficient strictly larger than
+`a`.  This is the entropy functional
+used by gradient and heat flows; it may be negative and is not `ℝ≥0∞`.
+
+### 11.3 Tangent velocity fields
+
+On `P₂(ℝⁿ)`, define tangent velocity fields as the `L²(μ)` closure of gradients and
+prove existence/uniqueness of the minimal-norm representative of an absolutely
+continuous curve.  Relate it to Layer 8's distributional continuity equation and
+metric derivative.
+
+### 11.4 Wasserstein subdifferentials
+
+Define strong, extended, and limiting Wasserstein subdifferentials and their scalar
+slope.  Prove the subdifferential inequality along optimal plans/generalized geodesics,
+closedness, minimal selection, and the equivalence with velocity fields under the AGS
+hypotheses.
+
+### 11.5 First variations of energies
+
+Consume Layer 9's potential, symmetric-interaction, and internal-energy definitions;
+compute their first variations and subdifferentials, together with those of Boltzmann
+entropy.  Prove their displacement or generalized-geodesic convexity under the exact
+convexity, reference, and growth assumptions.
+
+### 11.6 The JKO step
+
+Define the Jordan--Kinderlehrer--Otto step
+`μ ↦ argmin_ν (Φ(ν) + W₂(ν,μ)²/(2τ))`.  Consume Layer 10's direct-method
+theorem with its hypotheses visible: the penalized functional is proper and narrowly
+sequentially lower semicontinuous, and one finite sublevel is narrowly sequentially
+compact.  Give the standard sufficient criterion through tightness plus uniform
+integrability of squared distance on penalized sublevels; neither `P₂(ℝⁿ)` nor a
+merely `W₂`-bounded set is proper.  If `Φ` is additionally `λ`-convex along generalized
+geodesics based at the previous iterate, then the objective is `(λ+1/τ)`-convex along
+those curves; prove uniqueness when `1+λτ>0`.  Do not silently replace generalized-
+geodesic convexity by ordinary displacement convexity.  Prove Euler--Lagrange
+conditions, discrete estimates, and compactness of interpolants.
+
+### 11.7 Convergence of JKO schemes
+
+Prove convergence of JKO schemes to Wasserstein gradient flows and then to weak PDE
+solutions for the named energies.  The theorem must identify both the metric flow and
+the PDE solution concept rather than ending at an unspecified limit curve.
+
+### 11.8 The canonical equations
+
+Deliver the canonical equations.  Boltzmann entropy gives heat flow, and entropy plus
+a potential gives Fokker--Planck.  On `ℝⁿ`, define
+`U_m(r)=r^m/(m-1)`: for `m>1` prove the porous-medium flow, and for
+`1-1/n<m<1` (read `0<m<1` when `n=1`) prove fast diffusion.  Treat the
+displacement-convex endpoint `m=1-1/n` separately for `n≥2`, and treat `m=1` by the
+signed Boltzmann entropy rather than the singular formula for `U_m`.  At each power
+tier take initial data `ρ₀ dx ∈ P₂(ℝⁿ)` with finite `∫ U_m(ρ₀)dx`; prove
+the moment/energy bound that makes every JKO functional bounded below and coercive,
+including the endpoint bound, and obtain a narrowly continuous `P₂` curve satisfying
+the energy-dissipation inequality and the distributional identity
+`∫∫ (ρ ∂_tζ+ρ^m Δζ) dxdt=0` for compactly supported smooth tests,
+with `ρ,ρ^m∈L¹_loc`.  Interaction energy gives aggregation, and sums give the
+corresponding drift-diffusion equations under the named coercivity hypotheses of
+their component energies.
+
+### 11.9 Linear flows and semigroups
+
+Prove energy dissipation, mass preservation, positivity, and contraction/uniqueness
    where EVI applies.  Express each linear flow through the abstract C₀/contraction-
    semigroup API of the
    [one-parameter-semigroups roadmap](../OneParameterSemigroups/README.md), and prove that
    the entropy flow agrees with the concrete heat semigroup built in the
-   [PDE roadmap](../PDE/README.md), Lane F.  Construct the Ornstein--Uhlenbeck/
+   [PDE roadmap](../PDE/README.md), §6.3 (F26).  Construct the Ornstein--Uhlenbeck/
    Fokker--Planck semigroup and its generator here unless an explicit upstream dependency
    has landed, then prove its agreement with the Wasserstein flow.  For each agreement
    theorem, name the Banach realization--for example `L¹` densities or signed measures--
    identify the probability orbit inside it, identify the closed generator with the PDE
    operator, and only then invoke C₀-semigroup uniqueness; a nonlinear EVI semigroup on
    `P₂` is not definitionally the same object as a linear Banach-space semigroup.
-10. Extend the tangent/subdifferential/flow theory to smooth complete Riemannian manifolds
-   once the differential and volume infrastructure exists.  The nonsmooth metric-measure
-   entropy/heat identification belongs to Layer 14 after Cheeger energy is built.
+
+### 11.10 Riemannian Wasserstein calculus
+
+On a smooth, connected, complete, finite-dimensional Riemannian manifold `M`, define the
+tangent space of `P₂(M)` at `μ` as the `L²(μ)` closure of gradients of compactly
+supported smooth functions, and prove items 3 and 4 there, with the geometric-topology
+roadmap's Riemannian volume in place of Lebesgue measure.  The identification of the
+heat flow with the `W₂` gradient flow of Boltzmann entropy on such a manifold with Ricci
+curvature bounded below is the smooth case of Layer 14.7, through Layer 14.6's smooth
+characterization of the curvature-dimension condition; its general form is the
+identification of the two gradient flows on `CD(K,∞)` spaces (Ambrosio--Gigli--Savaré,
+*Calculus and heat flow in metric measure spaces*, Theorem 9.3 in arXiv v4).
 
 The named summit is the JKO construction of weak Fokker--Planck and porous-medium
 solutions, following the original [Jordan--Kinderlehrer--Otto
 paper](https://doi.org/10.1137/S0036141096303359) and AGS.
 
-Acceptance checks: Gaussian heat flow has the expected covariance growth; a confining
+### Examples
+
+Gaussian heat flow has the expected covariance growth; a confining
 quadratic potential yields the Ornstein--Uhlenbeck/Fokker--Planck flow; the JKO step
 decreases energy; and the metric and weak-distributional formulations agree for a smooth
 positive solution.
 
-### Layer 12: Fréchet and Wasserstein barycenters
+### Dependencies
+
+Layers 3 and 8--10; Mathlib `InformationTheory.klDiv` and its data-processing inequalities; PDE §6.3 (F26); one-parameter semigroups Part A.
+
+## Layer 12: Fréchet and Wasserstein barycenters
 
 Start with barycenters in an arbitrary measurable metric space, then specialize to the
 Wasserstein space.  This prevents Euclidean `W₂` assumptions from contaminating the basic
 API.
 
-1. For `1 ≤ p < ∞` and a probability law `P` on a measurable pseudometric space whose
-   distance sections are measurable--for example a Borel metric space--define both the
-   `Lᵖ` Fréchet radius `x ↦ ‖d(x,·)‖_{Lᵖ(P)}` and the power functional
-   `x ↦ ∫ d(x,y)^p dP(y)`; prove their exact value relation and equality of minimizer
-   sets.  Distinguish raw extended minimizers from finite Fréchet barycenters by requiring
-   finite radius somewhere, so an identically-`∞` functional does not make every point a
-   barycenter.  Include finite weighted families as a transparent specialization,
-   allowing zero weights but normalizing total mass.  At `p=∞`, use the essential-
-   supremum radius and define finite Chebyshev centers separately.  For a Polish metric
-   space with its Borel structure, prove that this radius equals the supremum of the
-   distance over the topological support.
-2. State the proper-space theorem explicitly rather than as "existence in proper settings".
-   Write `R_p(x)=‖d(x,·)‖_{Lᵖ(P)}` and assume it finite at one point.  Minkowski's
-   inequality then gives `|R_p(x)-R_p(y)| ≤ d(x,y)`, so `R_p` is `1`-Lipschitz and lower
-   semicontinuity is automatic; the reverse triangle inequality gives
-   `R_p(x) ≥ d(x,x₀)-R_p(x₀)`, so every finite-radius sublevel is bounded.  On a proper
-   metric space those sublevels are therefore compact, the radius attains its minimum, and
-   the finite minimizer set is compact--prove exactly that chain, and the analogous
-   essential-supremum argument at `p=∞`.  Any broader existence criterion must name the
-   compact-sublevel or coercive-function hypothesis that replaces properness rather than
-   gesturing at coercivity.  After Layer 8's geodesic infrastructure, define a reusable
-   CAT(0)/Hadamard-space predicate, prove the CN inequality and strong convexity of squared
-   distance, and derive quadratic barycenter uniqueness; state no uniqueness theorem in a
-   general geodesic space.
-3. Fix the carrier regime used by items 4--5 and 8: `1 ≤ p < ∞` and a separable, locally
-   compact, complete, geodesic space `X`.  Build the base-space selection first, since the
-   existence theorem consumes it.  Prove Le Gouic--Loubes' Lemma 7: for finitely many
-   positive weights summing to one there is a Borel *barycenter application* `X^J → X`
-   sending a `J`-tuple to a barycenter of the corresponding weighted combination of Dirac
-   laws.  Consume it for their Theorem 8, the finitely supported case: for
-   `P = ∑_j λ_j δ_{μ_j}` in `P_p(P_p(X))`, prove the multi-marginal formulation and
-   existence of a barycenter.  Do not assume or claim that `P_p(X)` itself is proper.
-4. If `P_j → P` in `W_p(P_p(X))` and each `P_j` has a barycenter, prove that every sequence
-   of barycenters is precompact and that every limit point is a barycenter of `P`.
-   Uniqueness may upgrade this to convergence of the full sequence, but it is not part of
-   the compactness theorem.
-5. For general `P ∈ P_p(P_p(X))` in item 3's carrier regime, define population Wasserstein
-   barycenters and prove the Le Gouic--Loubes existence theorem: the Fréchet functional is
-   measurable and attains its minimum.  Assemble it in their order--item 3's finitely
-   supported case, density of finitely supported laws in `P_p(P_p(X))`, and item 4 applied
-   to the approximating sequence--so that no step reaches forward to a later item.
-6. Relate finite Euclidean `W₂` barycenters to a multi-marginal transport problem through
-   a measurable pointwise-barycenter selector, which item 3 supplies in general and which
-   is the explicit weighted average on `ℝⁿ`.  Prove the multi-marginal primal and dual
-   formulas rather than using the selector without a measurability theorem.
-7. For normalized positive weights, define Agueh--Carlier's "vanishes on small sets"
-   predicate exactly as in their Definition 3.2: `μ(A)=0` for every Borel `A⊆ℝⁿ`
-   whose Hausdorff dimension is less than `n-1`.  Prove existence and uniqueness in
-   `P₂(ℝⁿ)` when one positive-weight input has this property; absolute continuity is
-   a standard sufficient corollary.  Develop the multi-map optimality conditions.  If
-   that input has density in `L∞`, prove the separate Agueh--Carlier estimate
-   `‖ρ_bar‖_∞ ≤ λ_j^(-n) ‖ρ_j‖_∞`; do not infer this density bound from the
-   small-set predicate alone.
-8. Prove the quadratic one-dimensional formula
-   `Q_bar(s)=∑ i, λ_i Q_i(s)`.  For normalized nonnegative weights and Gaussian
-   inputs `N(m_i,S_i)`, assume some `λ_j>0` has `S_j` positive definite.  Prove that the
-   unique Gaussian barycenter has mean `m̄=∑_i λ_i m_i`, positive-definite covariance
-   `S`, and the exact fixed-point equation
-   `S=∑_i λ_i (S^(1/2) S_i S^(1/2))^(1/2)`.  Treat the all-semidefinite tier
-   separately without importing uniqueness or inverse-matrix claims from the
-   nondegenerate theorem.
-   For two inputs with weights `1-t,t`, prove that the `p=2` barycenter is at geodesic time
-   `t`; for `1<p<∞`, pin the general time
-   `t^(1/(p-1)) / ((1-t)^(1/(p-1)) + t^(1/(p-1)))`.  For i.i.d. random input laws with
-   distribution `P ∈ P_p(P_p(X))` in item 3's carrier regime, prove the empirical laws
-   converge almost surely to `P` in `W_p` by building the required finite-moment strong
-   law.  Each empirical law is finitely supported, so item 3 already gives it a barycenter;
-   consume item 4 on that almost-sure event.  For every choice of barycenter of each
-   empirical law the resulting sequence is precompact, every limit is a population
-   barycenter, and the full sequence converges when that barycenter is unique.  State it
-   in exactly that choice-free form.  Item 3's Borel barycenter application selects in the
-   base space `X`, and the local compactness it needs is not available for `P_p(X)`, so do
-   not silently treat "the" empirical barycenter as a random element; a statement about a
-   random element needs its own measurable-selection theorem, stated and proved here.
+### 12.1 Fréchet radii and barycenters
+
+For `1 ≤ p < ∞` and a probability law `P` on a measurable pseudometric space whose
+distance sections are measurable--for example a Borel metric space--define both the
+`Lᵖ` Fréchet radius `x ↦ ‖d(x,·)‖_{Lᵖ(P)}` and the power functional
+`x ↦ ∫ d(x,y)^p dP(y)`; prove their exact value relation and equality of minimizer
+sets.  Distinguish raw extended minimizers from finite Fréchet barycenters by requiring
+finite radius somewhere, so an identically-`∞` functional does not make every point a
+barycenter.  Include finite weighted families as a transparent specialization,
+allowing zero weights but normalizing total mass.  At `p=∞`, use the essential-
+supremum radius and define finite Chebyshev centers separately.  For a Polish metric
+space with its Borel structure, prove that this radius equals the supremum of the
+distance over the topological support.
+
+### 12.2 Existence on proper spaces and CAT(0) uniqueness
+
+State the proper-space theorem explicitly rather than as "existence in proper settings".
+Write `R_p(x)=‖d(x,·)‖_{Lᵖ(P)}` and assume it finite at one point.  Minkowski's
+inequality then gives `|R_p(x)-R_p(y)| ≤ d(x,y)`, so `R_p` is `1`-Lipschitz and lower
+semicontinuity is automatic; the reverse triangle inequality gives
+`R_p(x) ≥ d(x,x₀)-R_p(x₀)`, so every finite-radius sublevel is bounded.  On a proper
+metric space those sublevels are therefore compact, the radius attains its minimum, and
+the finite minimizer set is compact--prove exactly that chain, and the analogous
+essential-supremum argument at `p=∞`.  Any broader existence criterion must name the
+compact-sublevel or coercive-function hypothesis that replaces properness rather than
+gesturing at coercivity.  After Layer 8's geodesic infrastructure, define a reusable
+CAT(0)/Hadamard-space predicate, prove the CN inequality and strong convexity of squared
+distance, and derive quadratic barycenter uniqueness; state no uniqueness theorem in a
+general geodesic space.
+
+### 12.3 Finitely supported population laws
+
+Fix the carrier regime used by items 4--5 and 8: `1 ≤ p < ∞` and a separable, locally
+compact, complete, geodesic space `X`.  Build the base-space selection first, since the
+existence theorem consumes it.  Prove Le Gouic--Loubes' Lemma 7: for finitely many
+positive weights summing to one there is a Borel *barycenter application* `X^J → X`
+sending a `J`-tuple to a barycenter of the corresponding weighted combination of Dirac
+laws.  Consume it for their Theorem 8, the finitely supported case: for
+`P = ∑_j λ_j δ_{μ_j}` in `P_p(P_p(X))`, prove the multi-marginal formulation and
+existence of a barycenter.  Do not assume or claim that `P_p(X)` itself is proper.
+
+### 12.4 Stability of barycenters
+
+If `P_j → P` in `W_p(P_p(X))` and each `P_j` has a barycenter, prove that every sequence
+of barycenters is precompact and that every limit point is a barycenter of `P`.
+Uniqueness may upgrade this to convergence of the full sequence, but it is not part of
+the compactness theorem.
+
+### 12.5 Population barycenters
+
+For general `P ∈ P_p(P_p(X))` in item 3's carrier regime, define population Wasserstein
+barycenters and prove the Le Gouic--Loubes existence theorem: the Fréchet functional is
+measurable and attains its minimum.  Assemble it in their order--item 3's finitely
+supported case, density of finitely supported laws in `P_p(P_p(X))`, and item 4 applied
+to the approximating sequence--so that no step reaches forward to a later item.
+
+### 12.6 The multi-marginal formulation
+
+Relate finite Euclidean `W₂` barycenters to a multi-marginal transport problem through
+a measurable pointwise-barycenter selector, which item 3 supplies in general and which
+is the explicit weighted average on `ℝⁿ`.  Prove the multi-marginal primal and dual
+formulas rather than using the selector without a measurability theorem.
+
+### 12.7 Agueh--Carlier existence and uniqueness
+
+For normalized nonnegative weights `λ_i`, define Agueh--Carlier's "vanishes on small
+sets" predicate exactly as in their Definition 3.2: `μ(A)=0` for every Borel `A⊆ℝⁿ`
+whose Hausdorff dimension is at most `n-1`.  For inputs `μ_i ∈ P₂(ℝⁿ)` of which one
+with positive weight has this property, prove that exactly one probability measure
+minimizes `ν ↦ ∑ i, λ_i W₂(ν,μ_i)²` (existence: their Proposition 2.3; uniqueness: their
+Proposition 3.5); this is
+`existsUnique_isMinOn_sum_wassersteinEDist_sq_of_dimH_le`.  The bound "at most `n-1`" is
+load-bearing: the two segment laws in the Examples below vanish on every set of
+dimension less than `n-1 = 1` and have two barycenters.  Absolute continuity is a
+standard sufficient corollary.  Develop the multi-map optimality conditions.  If that
+input has density in `L∞`, prove the separate Agueh--Carlier estimate
+`‖ρ_bar‖_∞ ≤ λ_j^(-n) ‖ρ_j‖_∞` (their Theorem 5.1 and Remark 5.2); do not infer this
+density bound from the small-set predicate alone.
+
+### 12.8 One-dimensional, Gaussian, and empirical barycenters
+
+Prove the quadratic one-dimensional formula
+`Q_bar(s)=∑ i, λ_i Q_i(s)`.  For normalized nonnegative weights and Gaussian
+inputs `N(m_i,S_i)`, assume some `λ_j>0` has `S_j` positive definite.  Prove that the
+unique Gaussian barycenter has mean `m̄=∑_i λ_i m_i`, positive-definite covariance
+`S`, and the exact fixed-point equation
+`S=∑_i λ_i (S^(1/2) S_i S^(1/2))^(1/2)` (Agueh--Carlier, Theorem 6.1, when every `S_i` is
+positive definite; Álvarez-Esteban--del Barrio--Cuesta-Albertos--Matrán, Theorem 4.2 and
+Corollary 4.5, when one is); in Lean, with the barycenters taken over all probability
+measures, this is
+`exists_posDef_forall_isMinOn_sum_wassersteinEDist_sq_multivariateGaussian_iff`.  Treat
+the all-semidefinite tier separately without importing uniqueness or inverse-matrix
+claims from the nondegenerate theorem.
+For two inputs with weights `1-t,t`, prove that the `p=2` barycenter is at geodesic time
+`t`; for `1<p<∞`, pin the general time
+`t^(1/(p-1)) / ((1-t)^(1/(p-1)) + t^(1/(p-1)))`.  For i.i.d. random input laws with
+distribution `P ∈ P_p(P_p(X))` in item 3's carrier regime, prove the empirical laws
+converge almost surely to `P` in `W_p` by building the required finite-moment strong
+law.  Each empirical law is finitely supported, so item 3 already gives it a barycenter;
+consume item 4 on that almost-sure event.  For every choice of barycenter of each
+empirical law the resulting sequence is precompact, every limit is a population
+barycenter, and the full sequence converges when that barycenter is unique.  State it
+in exactly that choice-free form.  Item 3's Borel barycenter application selects in the
+base space `X`, and the local compactness it needs is not available for `P_p(X)`, so do
+not silently treat "the" empirical barycenter as a random element; a statement about a
+random element needs its own measurable-selection theorem, stated and proved here.
 
 The population theory follows Le Gouic--Loubes,
 [arXiv:1506.04153](https://arxiv.org/abs/1506.04153); the finite Euclidean theory follows
 Agueh--Carlier's [barycenter paper](https://doi.org/10.1137/100805741).
 
-Acceptance checks: barycenters of Dirac laws reduce to base-space Fréchet means; a
+### Examples
+
+Barycenters of Dirac laws reduce to base-space Fréchet means; a
 two-law quadratic barycenter lies at the weight-time of a displacement geodesic;
 one-dimensional quadratic quantiles average with the input weights; and quadratic
 Gaussian barycenters with a positive-weight nondegenerate input have mean `m̄` and satisfy
 the exact positive-definite matrix equation above.  A nonquadratic two-law example
-checks the reparameterized time above.
+checks the reparameterized time above.  Two uniform laws on the segments `{(s,0) | |s| ≤ 1}` and `{(0,t) | |t| ≤ 1}` in `ℝ²`,
+with weights `1/2`, both vanish on every set of Hausdorff dimension less than `1`, yet the
+couplings `t = s` and `t = -s` give two different midpoint laws, each of quadratic objective
+`(1/4)E(s² + t²) = 1/6`; the predicate of item 7, with dimension at most `n - 1 = 1`, excludes
+both laws, since each gives mass `1` to its segment.
 
-### Layer 13: entropic transport, Sinkhorn, and Schrödinger bridges
+### Dependencies
+
+Layers 0.5, 2.6, 3, 5, 8 and 9.
+
+## Layer 13: entropic transport, Sinkhorn, and Schrödinger bridges
 
 Build this from the finite/probability `InformationTheory.klDiv` slice in Layer 11.1, not
 from the signed Boltzmann entropy.  Matrix scaling is a finite specialization of a
 measurable entropy-projection theory, not the definition of entropic transport.
 
-#### 13A. Static entropic transport
+### 13A. Static entropic transport
 
-1. Define the static Schrödinger problem
-   `inf { klDiv π R | π ∈ Coupling μ ν }` for an explicit reference probability measure
-   or finite reference measure `R`.  Define cost-regularized OT separately as
-   `∫ c dπ + ε klDiv π (μ ⊗ ν)`.  For `ε>0` and
-   `Z=∫ exp(-c/ε)d(μ⊗ν)` satisfying `0<Z<∞`, define the Gibbs probability
-   `R=Z⁻¹ exp(-c/ε)(μ⊗ν)` and prove the exact identity
-   `∫ c dπ+ε klDiv π (μ⊗ν)=ε klDiv π R-ε log Z`.  Keep `Z=0` and
-   support-constrained infinite costs as separate degenerate statements.
-2. Let `(X,ℱ_X,μ)` and `(Y,ℱ_Y,ν)` be separable probability spaces--equivalently,
-   `L¹(μ)` and `L¹(ν)` are separable--and let `R ∈ P(X×Y)`.  Following Nutz Theorem 2.1,
-   if `{ π ∈ Π(μ,ν) | klDiv π R < ∞ }` is nonempty, prove existence and uniqueness
-   of the entropy minimizer.  Extend this to finite nonzero `R` by normalization.  Name
-   the data that varies before claiming stability, since the marginals, the reference `R`,
-   the cost, and `ε` give different theorems.  On fixed Polish `X` and `Y`, the intended
-   statement starts from joint weak lower semicontinuity--`π_n ⇒ π` and `R_n ⇒ R` imply
-   `klDiv π R ≤ liminf_n klDiv π_n R_n`--and adds `μ_n ⇒ μ`, `ν_n ⇒ ν` plus tightness to
-   get cluster points of feasible minimizers together with the liminf inequality.  Mark the
-   boundary explicitly: convergence of values and of minimizers needs a recovery sequence
-   of couplings with the exact varying marginals, so state either that construction or a
-   separately sourced sufficient theorem supplying it, and do not present the liminf half
-   as the whole result.  Keep topology out of the root definition, and do not advertise
-   arbitrary measurable spaces without a separate proof.
-3. Prove entropic duality and the Gibbs/Schrödinger density
-   `dπ/d(μ⊗ν)=exp((φ⊕ψ-c)/ε)`, splitting the full-support and support-constrained regimes
-   rather than saying "up to constants" once.  Under finite-entropy feasibility and
-   `R ∼ μ⊗ν`--which in the Gibbs formulation requires the cost to be finite `μ⊗ν`-almost
-   everywhere--Nutz's Theorem 2.1 gives real measurable potentials, unique modulo one
-   global additive constant.  Integrability of the potentials is a further conclusion,
-   under `log(dR/d(μ⊗ν)) ∈ L¹(μ⊗ν)`, equivalently `c ∈ L¹(μ⊗ν)` after normalization; state
-   it as such.  If only `R ≪ μ⊗ν` and the reference has support zeros, uniqueness weakens
-   to one normalization per connected component of the bipartite support graph, not one
-   additive constant: the two-point diagonal reference already exhibits this, since its two
-   diagonal equations constrain `φ_i+ψ_i` independently and leave a constant on each
-   component.  Name that support-component theorem separately, and treat infinite costs
-   under it.
-4. Say which function is being differentiated before asking for smoothness: the regularized
-   value may vary in the marginals, in the cost or Gibbs kernel, or in `ε`, and the
-   topology and the differentiability statement differ in each case.  Prove the finite
-   theorem explicitly.  On finite spaces, for `ε>0`, a strictly positive Gibbs kernel
-   `K_{ij}=exp(-C_{ij}/ε)`, and strictly positive marginals, prove smooth dependence of the
-   value and of the normalized dual potentials on `(a,b,C)`, together with the envelope
-   formula `D_C OT_ε[H]=∑_{i,j} π^*_{ij} H_{ij}`, which is a genuine derivative because the
-   regularized optimizer is unique.  For the marginal directions, pin the dual convention
-   to item 1's marginal-dependent reference `a ⊗ b`; with those potentials the intrinsic
-   formula on tangent perturbations `∑_i h_i = ∑_j k_j = 0` is
-   `D_{a,b} OT_ε[(h,k)] = ∑_i f_i h_i + ∑_j g_j k_j`.
-   Potentials for a fixed reference measure are shifted by marginal entropy terms and must
-   not be substituted into it.  Distinguish differentiation in `C` from differentiation in
-   `K`: under `C=-ε log K` the latter acquires the factor `-ε/K_{ij}`.  Smoothness in the
-   marginals needs the relative interior, so do not state it with zero coordinates allowed.
-   Boundary continuity is then a separate statement: in the compact continuous-kernel
-   setting, name the topology on measures and the intended derivative--directional,
-   Fréchet, or Hadamard--or restrict this item to the one continuity theorem the
-   Sinkhorn-divergence result below actually consumes.  Keep strict convexity of the plan
-   objective distinct from the generally non-strict marginal-value functional.  Define the
-   debiased
-   Sinkhorn divergence by
-   `S_ε(μ,ν)=OT_ε(μ,ν)-OT_ε(μ,μ)/2-OT_ε(ν,ν)/2`;
-   first build continuous positive-definite and universal-kernel predicates on compact
-   spaces, with universality expressed by density of kernel sections in `C(X)`, and the
-   signed-Radon-measure energy/separation lemmas used below.  Then formalize
-   [Feydy--Séjourné--Vialard--Amari--Trouvé--Peyré, Theorem
-   1](https://proceedings.mlr.press/v89/feydy19a/feydy19a.pdf): on a compact metric space,
-   for a symmetric Lipschitz cost `C` whose Gibbs kernel
-   `k_ε(x,y)=exp(-C(x,y)/ε)` is positive universal, define the Sinkhorn negentropy
-   `F_ε(α)=-OT_ε(α,α)/2`, prove its strict convexity, and prove `S_ε ≥ 0`, definiteness,
-   separate convexity/smoothness, and metrization of weak convergence.  Distinguish pointwise
-   positivity from positive-definiteness and universality.  Give bounded-support
-   Euclidean `C(x,y)=‖x-y‖` and `‖x-y‖²` specializations.  Strict convexity of the plan
-   objective alone does not imply these claims as functions of marginals or cost.
-5. Prove the zero-temperature limit: Γ-convergence/equicoercivity of regularized problems,
-   convergence of values, and optimality of weak cluster points under continuous or
-   integrably dominated costs.  If the optimal face contains a plan with finite
-   `klDiv (·) (μ⊗ν)`, prove selection of the optimal plan minimizing that exact KL
-   functional.  Do not claim potential convergence from plan convergence alone.
-6. Write the entropic barycenter objective out, since several inequivalent functionals carry
-   that name.  Take minimizers over `ν` of
-   `F_ε(ν) = ∑_i λ_i inf_{π ∈ Π(ν,μ_i)} [∫ d(x,y)^p dπ + ε klDiv π (ν⊗μ_i)]`,
-   and record that regularizing the entropy of the barycenter itself, using a fixed ambient
-   reference, or replacing `OT_ε` by the debiased Sinkhorn divergence are different
-   functionals with different minimizers and bias.  Fix the optimization domain and every
-   entropy reference explicitly.  Then state the convergence theorem with its topology and
-   its mechanism: Γ-convergence of exactly these objectives, equicoercivity giving cluster
-   points, and uniqueness of the unregularized barycenter giving convergence of the full
-   sequence.
+### 13.1 The static Schrödinger problem
 
-#### 13B. Iterative proportional fitting and finite Sinkhorn
+Define the static Schrödinger problem
+`inf { klDiv π R | π ∈ Coupling μ ν }` for an explicit reference probability measure
+or finite reference measure `R`.  Define cost-regularized OT separately as
+`∫ c dπ + ε klDiv π (μ ⊗ ν)`.  For `ε>0` and
+`Z=∫ exp(-c/ε)d(μ⊗ν)` satisfying `0<Z<∞`, define the Gibbs probability
+`R=Z⁻¹ exp(-c/ε)(μ⊗ν)` and prove the exact identity
+`∫ c dπ+ε klDiv π (μ⊗ν)=ε klDiv π R-ε log Z`.  Keep `Z=0` and
+support-constrained infinite costs as separate degenerate statements.
 
-7. Define alternating marginal normalization as alternating relative-entropy projections
-   on general measurable spaces.  Prove that each half-step enforces one marginal, the KL
-   Pythagorean/telescoping identities, and convergence of marginal errors under a feasible
-   finite-entropy hypothesis.  Add convergence of couplings and potentials only with the
-   required tightness, exponential-integrability, or bounded-kernel hypotheses.
-8. Specialize to finite probability vectors and a rectangular nonnegative matrix kernel.
-   Characterize feasibility by nonemptiness of the prescribed-marginal transport polytope
-   on `supp K`, and characterize a scaling using every allowed edge by the corresponding
-   relative-interior/full-support condition.  Scaling-vector ambiguity is one scalar per
-   connected component of the support bipartite graph.  State the classical total-support
-   criterion only for square doubly stochastic scaling, and prove Sinkhorn--Knopp directly
-   for a strictly positive kernel.
-9. Prove convergence of alternating row/column scaling.  For a strictly positive finite
-   kernel, build Hilbert's projective metric and Birkhoff contraction, define
-   `Δ(K)=sup_{i,i',j,j'} log((K_ij K_i'j')/(K_ij' K_i'j))`, and prove contraction
-   factor `tanh(Δ(K)/4)` for each positive kernel map (hence the explicitly multiplied
-   factors for a full row--column iteration).  Derive potential-oscillation, marginal-
-   residual, and objective-gap rates with their dependence on `min K`, `max K`, and the
-   positive marginal entries visible.  Treat kernels with support zeros only under their
-   separately sourced support/indecomposability regime.  Provide exact
-   rational/algebraic examples and a real-arithmetic iteration with certified residual
-   and objective-gap bounds; log-domain stabilization must refine the same mathematical
-   algorithm.
-10. Prove that the finite matrix objective, dual, potentials, and iterations agree with the
-   generic measure-theoretic definitions on finite types.  The existing LeanTriathlon
-   statement is a prototype only; this equivalence is the acceptance boundary.
+### 13.2 Existence, uniqueness, and stability of entropic minimizers
 
-#### 13C. Dynamic Schrödinger theory
+Let `(X,ℱ_X,μ)` and `(Y,ℱ_Y,ν)` be separable probability spaces--equivalently,
+`L¹(μ)` and `L¹(ν)` are separable--and let `R ∈ P(X×Y)`.  Following Nutz Theorem 2.1,
+if `{ π ∈ Π(μ,ν) | klDiv π R < ∞ }` is nonempty, prove existence and uniqueness
+of the entropy minimizer.  Extend this to finite nonzero `R` by normalization.  Name
+the data that varies before claiming stability, since the marginals, the reference `R`,
+the cost, and `ε` give different theorems.  On fixed Polish `X` and `Y`, the intended
+statement starts from joint weak lower semicontinuity--`π_n ⇒ π` and `R_n ⇒ R` imply
+`klDiv π R ≤ liminf_n klDiv π_n R_n`--and adds `μ_n ⇒ μ`, `ν_n ⇒ ν` plus tightness to
+get cluster points of feasible minimizers together with the liminf inequality.  Mark the
+boundary explicitly: convergence of values and of minimizers needs a recovery sequence
+of couplings with the exact varying marginals, so state either that construction or a
+separately sourced sufficient theorem supplying it, and do not present the liminf half
+as the whole result.  Keep topology out of the root definition, and do not advertise
+arbitrary measurable spaces without a separate proof.
 
-11. For a reference law `R` on path space, define endpoint-constrained entropy
-    minimization.  Entropy disintegration first yields
-    `dP*/dR=(dπ*/dR₀₁)(X₀,X₁)` for the optimal endpoint coupling.  Derive the stronger
-    factorization `f(X₀)g(X₁)R` only under Layer 13A's static dual-potential hypotheses.
-12. On `C([0,1];ℝⁿ)`, build the Brownian probability law `R^ε_r` with explicit
-    initial law `r ∈ P(ℝⁿ)`, transition density
-    `p^ε_t(x,y)=(2πεt)^(-n/2) exp(-‖x-y‖²/(2εt))`, and generator
-    `(ε/2)Δ`; prove its endpoint law, disintegration, Markov, and reciprocal-process
-    facts.  Separately construct the σ-finite reversible Brownian path reference with
-    Lebesgue initial measure and the relative-entropy extension needed to use it.  For
-    endpoint densities in its finite-entropy feasible regime, construct the Schrödinger
-    bridge `f(X₀)g(X₁)R^ε_Leb`.  With the heat semigroup `P^ε_t`, set
-    `f_t=P^ε_t f`, `g_t=P^ε_{1-t}g`, and `ρ_t=f_tg_t`; prove
-    `∂_t f_t=(ε/2)Δf_t`, `∂_t g_t=-(ε/2)Δg_t`, and the exact forward/backward
-    Fokker--Planck equations
-    `∂_tρ+div(ρ ε∇log g_t)=(ε/2)Δρ` and
-    `∂_tρ+div(-ρ ε∇log f_t)=-(ε/2)Δρ`, first for smooth positive
-    data and then in the finite-entropy weak class.  Generalize to manifolds or abstract
-    Markov references only after their path-law and heat-kernel APIs have landed.
-13. With the same generator convention, build Schilder's path-space large-deviation
-    principle in Laplace-principle form for `√ε`-Brownian paths, including exponential
-    tightness, and derive the endpoint rate `‖x-y‖²/2`.  In Layer 10's Γ-convergence
-    interface, prove equicoercivity and Γ-convergence of `ε` times constrained path entropy
-    to kinetic action.  Pin the effective domain before stating any endpoint-constrained
-    result.  Marginalizing `π ≪ R^ε₀₁` gives `μ ≪ (R^ε₀₁)₀` and `ν ≪ (R^ε₀₁)₁`, so exact
-    endpoints are unavailable for general `μ,ν ∈ P₂(ℝⁿ)`: both endpoint marginals of item
-    12's reversible reference are Lebesgue, and for `μ=δ_a`, `ν=δ_b` with `a≠b` the unique
-    coupling has finite quadratic cost `‖a-b‖²/2` while every `π ∈ Π(μ,ν)` has
-    `klDiv(π,R^ε₀₁)=∞` at every `ε>0`.  Keep that pair as a guardrail counterexample.
-    Define the plan domain by finite quadratic cost together with finite Boltzmann entropy
-    `Ent_{vol⊗vol}(π)`, where the moment bound already forces the negative part to be
-    finite, and the endpoint domain by `μ,ν ∈ P₂(ℝⁿ)` with `Ent_vol(μ),Ent_vol(ν)<∞`,
-    so that `μ⊗ν` witnesses feasibility.  On the plan domain prove the exact identity
-    `ε klDiv(π,R^ε₀₁) = (1/2)∫‖x-y‖²dπ + ε Ent_{vol⊗vol}(π) + ε(n/2)log(2πε)`,
-    whose error terms vanish as `ε ↓ 0`, so the constant sequence `π_ε=π` is already a
-    recovery sequence with exact endpoints.  For an arbitrary finite-quadratic-cost `π`
-    prove the relaxed recovery theorem instead: Gaussian mollification gives plans `π_ε`
-    in the plan domain with `π_ε → π` in `W₂`, marginals converging to `μ` and `ν`, and
-    `limsup ε klDiv(π_ε,R^ε₀₁) ≤ (1/2)∫‖x-y‖²dπ`; those endpoints converge and are not
-    exact.  Prove the matching liminf along sequences of uniformly bounded second moment,
-    and bridge-law tightness for fixed endpoints in the endpoint domain.  Over that same
-    endpoint domain deduce convergence of values, global minimizers, and entropic
-    interpolations to Layer 9 displacement interpolations, giving full convergence when
-    the quadratic optimizer is unique and only cluster-point convergence otherwise.
+### 13.3 Entropic duality and Schrödinger potentials
+
+Prove entropic duality and the Gibbs/Schrödinger density
+`dπ/d(μ⊗ν)=exp((φ⊕ψ-c)/ε)`, splitting the full-support and support-constrained regimes
+rather than saying "up to constants" once.  Under finite-entropy feasibility and
+`R ∼ μ⊗ν`--which in the Gibbs formulation requires the cost to be finite `μ⊗ν`-almost
+everywhere--Nutz's Theorem 2.1 gives real measurable potentials, unique modulo one
+global additive constant
+(`exists_rnDeriv_eq_exp_add_of_isCoupling_of_forall_klDiv_le`).  Integrability of the potentials is a further conclusion,
+under `log(dR/d(μ⊗ν)) ∈ L¹(μ⊗ν)`, equivalently `c ∈ L¹(μ⊗ν)` after normalization; state
+it as such.  If only `R ≪ μ⊗ν` and the reference has support zeros, uniqueness weakens
+to one normalization per connected component of the bipartite support graph, not one
+additive constant: the two-point diagonal reference already exhibits this, since its two
+diagonal equations constrain `φ_i+ψ_i` independently and leave a constant on each
+component.  Name that support-component theorem separately, and treat infinite costs
+under it.
+
+### 13.4 Differentiability and Sinkhorn divergences
+
+Say which function is being differentiated before asking for smoothness: the regularized
+value may vary in the marginals, in the cost or Gibbs kernel, or in `ε`, and the
+topology and the differentiability statement differ in each case.  Prove the finite
+theorem explicitly.  On finite spaces, for `ε>0`, a strictly positive Gibbs kernel
+`K_{ij}=exp(-C_{ij}/ε)`, and strictly positive marginals, prove smooth dependence of the
+value and of the normalized dual potentials on `(a,b,C)`, together with the envelope
+formula `D_C OT_ε[H]=∑_{i,j} π^*_{ij} H_{ij}`, which is a genuine derivative because the
+regularized optimizer is unique.  For the marginal directions, pin the dual convention
+to item 1's marginal-dependent reference `a ⊗ b`; with those potentials the intrinsic
+formula on tangent perturbations `∑_i h_i = ∑_j k_j = 0` is
+`D_{a,b} OT_ε[(h,k)] = ∑_i f_i h_i + ∑_j g_j k_j`.
+Potentials for a fixed reference measure are shifted by marginal entropy terms and must
+not be substituted into it.  Distinguish differentiation in `C` from differentiation in
+`K`: under `C=-ε log K` the latter acquires the factor `-ε/K_{ij}`.  Smoothness in the
+marginals needs the relative interior, so do not state it with zero coordinates allowed.
+Boundary continuity is then a separate statement: in the compact continuous-kernel
+setting, name the topology on measures and the intended derivative--directional,
+Fréchet, or Hadamard--or restrict this item to the one continuity theorem the
+Sinkhorn-divergence result below actually consumes.  Keep strict convexity of the plan
+objective distinct from the generally non-strict marginal-value functional.  Define the
+debiased
+Sinkhorn divergence by
+`S_ε(μ,ν)=OT_ε(μ,ν)-OT_ε(μ,μ)/2-OT_ε(ν,ν)/2`;
+first build continuous positive-definite and universal-kernel predicates on compact
+spaces, with universality expressed by density of kernel sections in `C(X)`, and the
+signed-Radon-measure energy/separation lemmas used below.  Then formalize
+[Feydy--Séjourné--Vialard--Amari--Trouvé--Peyré, Theorem
+1](https://proceedings.mlr.press/v89/feydy19a/feydy19a.pdf): on a compact metric space,
+for a symmetric Lipschitz cost `C` whose Gibbs kernel
+`k_ε(x,y)=exp(-C(x,y)/ε)` is positive universal, define the Sinkhorn negentropy
+`F_ε(α)=-OT_ε(α,α)/2`, prove its strict convexity, and prove `S_ε ≥ 0`, definiteness,
+separate convexity/smoothness, and metrization of weak convergence.  Distinguish pointwise
+positivity from positive-definiteness and universality.  Give bounded-support
+Euclidean `C(x,y)=‖x-y‖` and `‖x-y‖²` specializations.  Strict convexity of the plan
+objective alone does not imply these claims as functions of marginals or cost.
+
+### 13.5 The zero-temperature limit
+
+Prove the zero-temperature limit: Γ-convergence/equicoercivity of regularized problems,
+convergence of values, and optimality of weak cluster points under continuous or
+integrably dominated costs.  If the optimal face contains a plan with finite
+`klDiv (·) (μ⊗ν)`, prove selection of the optimal plan minimizing that exact KL
+functional.  Do not claim potential convergence from plan convergence alone.
+
+### 13.6 Entropic barycenters
+
+Write the entropic barycenter objective out, since several inequivalent functionals carry
+that name.  Take minimizers over `ν` of
+`F_ε(ν) = ∑_i λ_i inf_{π ∈ Π(ν,μ_i)} [∫ d(x,y)^p dπ + ε klDiv π (ν⊗μ_i)]`,
+and record that regularizing the entropy of the barycenter itself, using a fixed ambient
+reference, or replacing `OT_ε` by the debiased Sinkhorn divergence are different
+functionals with different minimizers and bias.  Fix the optimization domain and every
+entropy reference explicitly.  Then state the convergence theorem with its topology and
+its mechanism: Γ-convergence of exactly these objectives, equicoercivity giving cluster
+points, and uniqueness of the unregularized barycenter giving convergence of the full
+sequence.
+
+### 13B. Iterative proportional fitting and finite Sinkhorn
+
+### 13.7 Iterative proportional fitting
+
+Define alternating marginal normalization as alternating relative-entropy projections
+on general measurable spaces.  Prove that each half-step enforces one marginal, the KL
+Pythagorean/telescoping identities, and convergence of marginal errors under a feasible
+finite-entropy hypothesis.  Add convergence of couplings and potentials only with the
+required tightness, exponential-integrability, or bounded-kernel hypotheses.
+
+### 13.8 Finite matrix scaling
+
+Specialize to finite probability vectors and a rectangular nonnegative matrix kernel.
+Characterize feasibility by nonemptiness of the prescribed-marginal transport polytope
+on `supp K`, and characterize a scaling using every allowed edge by the corresponding
+relative-interior/full-support condition.  Scaling-vector ambiguity is one scalar per
+connected component of the support bipartite graph.  State the classical total-support
+criterion only for square doubly stochastic scaling, and prove Sinkhorn--Knopp directly
+for a strictly positive kernel (Tau Ceti's `Matrix.exists_sinkhorn_scaling`).
+
+### 13.9 Convergence of the Sinkhorn iteration
+
+Prove convergence of alternating row/column scaling.  For a strictly positive finite
+kernel, build Hilbert's projective metric and Birkhoff contraction, define
+`Δ(K)=sup_{i,i',j,j'} log((K_ij K_i'j')/(K_ij' K_i'j))`, and prove contraction
+factor `tanh(Δ(K)/4)` for each positive kernel map (hence the explicitly multiplied
+factors for a full row--column iteration).  Derive potential-oscillation, marginal-
+residual, and objective-gap rates with their dependence on `min K`, `max K`, and the
+positive marginal entries visible.  Treat kernels with support zeros only under their
+separately sourced support/indecomposability regime.  Exact rational instances, such as
+the contraction factor `1/3` of `K = [[2,1],[1,2]]` in the Examples below, are Checks of
+these theorems.
+
+### 13.10 Agreement of the finite and measure-theoretic theories
+
+Prove that the finite matrix objective, dual, potentials, and iterations agree with the
+generic measure-theoretic definitions on finite types.  The existing LeanTriathlon
+statement is a prototype only; this equivalence is the acceptance boundary.
+
+### 13C. Dynamic Schrödinger theory
+
+### 13.11 Dynamic entropy minimization
+
+For a reference law `R` on path space, define endpoint-constrained entropy
+minimization.  Entropy disintegration first yields
+`dP*/dR=(dπ*/dR₀₁)(X₀,X₁)` for the optimal endpoint coupling.  Derive the stronger
+factorization `f(X₀)g(X₁)R` only under Layer 13A's static dual-potential hypotheses.
+
+### 13.12 Brownian Schrödinger bridges
+
+On `C([0,1];ℝⁿ)`, build the Brownian probability law `R^ε_r` with explicit
+initial law `r ∈ P(ℝⁿ)`, transition density
+`p^ε_t(x,y)=(2πεt)^(-n/2) exp(-‖x-y‖²/(2εt))`, and generator
+`(ε/2)Δ`; prove its endpoint law, disintegration, Markov, and reciprocal-process
+facts.  Separately construct the σ-finite reversible Brownian path reference with
+Lebesgue initial measure and the relative-entropy extension needed to use it.  For
+endpoint densities in its finite-entropy feasible regime, construct the Schrödinger
+bridge `f(X₀)g(X₁)R^ε_Leb`.  With the heat semigroup `P^ε_t`, set
+`f_t=P^ε_t f`, `g_t=P^ε_{1-t}g`, and `ρ_t=f_tg_t`; prove
+`∂_t f_t=(ε/2)Δf_t`, `∂_t g_t=-(ε/2)Δg_t`, and the exact forward/backward
+Fokker--Planck equations
+`∂_tρ+div(ρ ε∇log g_t)=(ε/2)Δρ` and
+`∂_tρ+div(-ρ ε∇log f_t)=-(ε/2)Δρ`, first for smooth positive
+data and then in the finite-entropy weak class.  Generalize to manifolds or abstract
+Markov references only after their path-law and heat-kernel APIs have landed.
+
+### 13.13 Schilder's principle and the small-noise limit
+
+With the same generator convention, build Schilder's path-space large-deviation
+principle in Laplace-principle form for `√ε`-Brownian paths, including exponential
+tightness, and derive the endpoint rate `‖x-y‖²/2`.  In Layer 10's Γ-convergence
+interface, prove equicoercivity and Γ-convergence of `ε` times constrained path entropy
+to kinetic action (Léonard, *From the Schrödinger problem to the Monge--Kantorovich
+problem*, Proposition 3.4 and Theorems 3.6--3.7: there the reference has a fixed initial
+law and the endpoint marginals converge along a recovery sequence; the survey's
+Informal Statement 5.1 points to this paper and is not itself a rigorous statement).
+Pin the effective domain before stating any endpoint-constrained
+result.  Marginalizing `π ≪ R^ε₀₁` gives `μ ≪ (R^ε₀₁)₀` and `ν ≪ (R^ε₀₁)₁`, so exact
+endpoints are unavailable for general `μ,ν ∈ P₂(ℝⁿ)`: both endpoint marginals of item
+12's reversible reference are Lebesgue, and for `μ=δ_a`, `ν=δ_b` with `a≠b` the unique
+coupling has finite quadratic cost `‖a-b‖²/2` while every `π ∈ Π(μ,ν)` has
+`klDiv(π,R^ε₀₁)=∞` at every `ε>0`.  Keep that pair as a guardrail counterexample.
+Define the plan domain by finite quadratic cost together with finite Boltzmann entropy
+`Ent_{vol⊗vol}(π)`, where the moment bound already forces the negative part to be
+finite, and the endpoint domain by `μ,ν ∈ P₂(ℝⁿ)` with `Ent_vol(μ),Ent_vol(ν)<∞`,
+so that `μ⊗ν` witnesses feasibility.  On the plan domain prove the exact identity
+`ε klDiv(π,R^ε₀₁) = (1/2)∫‖x-y‖²dπ + ε Ent_{vol⊗vol}(π) + ε(n/2)log(2πε)`,
+whose error terms vanish as `ε ↓ 0`, so the constant sequence `π_ε=π` is already a
+recovery sequence with exact endpoints.  For an arbitrary finite-quadratic-cost `π`
+prove the relaxed recovery theorem instead: Gaussian mollification gives plans `π_ε`
+in the plan domain with `π_ε → π` in `W₂`, marginals converging to `μ` and `ν`, and
+`limsup ε klDiv(π_ε,R^ε₀₁) ≤ (1/2)∫‖x-y‖²dπ`; those endpoints converge and are not
+exact.  Prove the matching liminf along sequences of uniformly bounded second moment,
+and bridge-law tightness for fixed endpoints in the endpoint domain.  Over that same
+endpoint domain deduce convergence of values, global minimizers, and entropic
+interpolations to Layer 9 displacement interpolations, giving full convergence when
+the quadratic optimizer is unique and only cluster-point convergence otherwise.
 
 Use Nutz's [entropic optimal-transport
 notes](https://www.math.columbia.edu/~mnutz/docs/EOT_lecture_notes.pdf) for the measurable
-static theory, Léonard's [Schrödinger survey](https://arxiv.org/abs/1308.0215) for the
+static theory, Léonard's [Schrödinger survey](https://arxiv.org/abs/1308.0215) and his
+[Schrödinger-to-Monge--Kantorovich paper](https://arxiv.org/abs/1011.2564) for the
 dynamic theory, and Sinkhorn--Knopp's [matrix-scaling
 paper](https://msp.org/pjm/1967/21-2/pjm-v21-n2-p14-p.pdf) for finite support conditions.
 
-Acceptance checks: zero cost in cost-regularized OT with reference `μ⊗ν` gives the product
+### Examples
+
+Zero cost in cost-regularized OT with reference `μ⊗ν` gives the product
 coupling; an exact `2 × 2` scaling has the prescribed row and column sums; abstract IPFP
 and matrix Sinkhorn coincide on finite types; marginal KL errors telescope; and entropic
-optimizers converge to an ordinary optimal plan as `ε ↓ 0` in the stated regime.
+optimizers converge to an ordinary optimal plan as `ε ↓ 0` in the stated regime.  For `K = [[2,1],[1,2]]`, the projective diameter is `Δ(K) = log 4` and the contraction
+factor is `tanh(log 4 / 4) = 1/3`.  For Brownian motion with generator `(ε/2)Δ`, the path
+`γ(t) = 2t` on `[0,1]` has kinetic action `(1/2)∫|γ̇|² = 2`, equal to the endpoint rate
+`|2 - 0|²/2 = 2`; omitting the factor `1/2` gives `4` and breaks the match.
 
-### Layer 14: synthetic curvature, nonsmooth heat flow, and optimal maps
+### Dependencies
+
+Layers 0--2, 9, 10, and 11.1--11.2; Mathlib `InformationTheory.klDiv` and the matrix and finite-sum APIs.
+
+## Layer 14: synthetic curvature, nonsmooth heat flow, and optimal maps
 
 Villani's Wasserstein-geometric curvature theory is part of the roadmap, and it is also
 the correct foundation for extending Brenier--McCann beyond smooth manifolds.  This layer
 must build its nonsmooth analytic vocabulary rather than declare `RCD` as an opaque
 predicate.
 
-1. Consume Layer 3's shared measured-metric carrier and work with its full-support Borel
-   reference measure finite on bounded sets (or a probability reference in normalized
-   statements).  Local finiteness alone is not substituted on a nonproper carrier.  Keep
-   the reference measure separate from the transported probability law.
-2. Build distortion coefficients, entropy-power functionals, essential nonbranching,
-   measure-contraction properties, and displacement convexity along a selected optimal
-   dynamic plan.  Define the curvature-dimension conditions `CD(K,N)`, reduced
-   `CD*(K,N)`, and `MCP(K,N)` in the exact finite and infinite-dimensional regimes, with
-   bridge theorems among conventions rather than one overloaded predicate.
-3. Build minimal weak upper gradients, Cheeger energy, its relaxed `W¹,²` domain,
-   infinitesimal Hilbertianity, and the associated `L²` heat flow/Dirichlet form.  Pin
-   `RCD(K,∞)` to mean infinitesimally Hilbertian `CD(K,∞)`, and define finite-dimensional
-   `RCD*(K,N)` analogously.  Prove the EVI characterization as a theorem rather than using
-   it as a second definition.
-4. Define Sturm's `L²` transportation distance `D` on normalized finite-variance
-   metric-measure spaces as the infimum of `W₂` between the two reference laws over
-   pseudometrics on their disjoint union that restrict to the original metrics.  Prove
-   presentation/quotient invariance and the compactness and convergence API used below.
-   Make Layer 15's scalar `p=2` distortion theory prove explicit comparison/bridge lemmas
-   to `D` rather than duplicate this construction.
-5. For normalized finite-variance `RCD(K,∞)` spaces, prove stability under Sturm
-   `D`-convergence and convergence of heat flows (AGS Theorem 6.11), and prove
-   nonbranching `ℓ²`-product tensorization (Theorem 6.13).  Formalize the precise global-
-   to-local and local-to-global statements of AGS Theorems 6.20 and 6.22, including their
-   geodesicity, null-boundary, quadratic-Cheeger-energy, and nonbranching assumptions.
-   Treat finite-`N` `CD*` tensorization/local-to-global separately and incorporate Sturm's
-   2024 corrigendum: do not state blanket tensorization from the original Bacher--Sturm
-   proof.  Prove the elementary implications among curvature-dimension conditions, and
-   do not infer nonbranching from a curvature bound unless the theorem supplies it.
-6. Write the smooth weighted comparison out, since the finite- and infinite-dimensional
-   conventions part company exactly here.  For a complete, connected, boundaryless
-   `n`-dimensional weighted manifold `(M,g,m=e^{-V} vol_g)` with `V ∈ C²(M)`, prove
-   `RCD(K,∞) ⇔ Ric_g + Hess V ≥ K g`
-   and, for `N>n`,
-   `RCD*(K,N) ⇔ Ric_g + Hess V - (dV⊗dV)/(N-n) ≥ K g`,
-   accounting for the selected `CD` versus `CD*` convention, which encodes the same tensor
-   inequality in the smooth setting.  Pin the sign convention `m=e^{-V} vol_g`.  Prove that
-   at `N=n` a finite lower bound forces `V` constant, record that an `n`-dimensional smooth
-   weighted manifold with `N<n` lies outside the finite-`N` theory, and treat a manifold
-   with boundary through a separate convex-boundary formulation.  This consumes curvature
-   and volume from the geometric-topology roadmap.
-7. Prove that on `RCD(K,∞)` spaces the `L²(m)` gradient flow of Cheeger energy on
-   densities/functions corresponds, through `ρ ↦ ρ m` in the unit-mass finite-entropy
-   regime, to the `W₂` `EVI_K` gradient flow of Boltzmann entropy on `P₂(X)`.  The two flows
-   do not literally have the same carrier.  Then enumerate the consequences instead of
-   claiming the estimates "available" from the theory.  The two intended statements are the
-   dual heat-flow contraction
-   `W_p(H_t^* μ, H_t^* ν) ≤ exp(-K t) W_p(μ,ν)`
-   and the Bakry--Émery gradient estimate
-   `|D H_t f|² ≤ exp(-2 K t) H_t(|Df|²)`,
-   the latter `m`-almost everywhere on its precise Sobolev domain--`W^{1,2} ∩ L∞` in
-   Savaré's formulation--with `|Df|` the minimal weak upper gradient of item 3.  Make the
-   ambient assumptions on `(X,d,m)`, `H_t`, and its dual `H_t^*` visible; Savaré's
-   formulation assumes a complete separable length space, full support, and a
-   Gaussian-type volume-growth bound on `m`.  Name the range of `p` and the proof: `p=2` on
-   `P₂(X)` follows directly from `EVI_K`, whereas all `p ∈ [1,∞]` uses Kuwada duality and
-   Savaré's self-improvement of the Bakry--Émery estimate, followed by measurable gluing of
-   the pointwise `W_∞` coupling.  If only the `W₂` consequence is wanted, say that and stop
-   there.  Any further consequence--entropy dissipation, regularization, Harnack--is named
-   individually or is not on the roadmap.
-8. For `1 ≤ N < ∞`, prove the Gigli--Rajala--Sturm nonsmooth optimal-map theorem on
-   `RCD*(K,N)` spaces for `μ₀,μ₁ ∈ P₂(X)` with `μ₀ ≪ m`: the quadratic optimal
-   coupling is unique and induced by a map.  For `1 < N < ∞`, separately add the
-   essentially nonbranching `MCP(K,N)` version, with its boundedly-finite/full-support
-   reference, moment, and source-absolute-continuity hypotheses all visible.  Consume
-   Layer 8's `CBB(κ)` API for Bertrand's Theorem 1.1: on a finite-dimensional complete,
-   connected, locally compact geodesic `CBB(κ)` Alexandrov space with `n`-dimensional
-   Hausdorff measure `Hⁿ`, if the Borel probabilities `μ₀,μ₁` have compact support
-   and `μ₀ ≪ Hⁿ`, every quadratic optimal plan is the graph of a Borel map and the
-   Monge/Kantorovich optimizer is unique a.e.; construct it from a `d²/2`-concave
-   potential and the Alexandrov exponential on the regular set.  Separately prove the
-   noncompact-support quadratic specialization of Bertrand's Theorem 4.2 under
-   `∫ d(x,y)² d(μ₀⊗μ₁)(x,y) < ∞`.
-9. Relate smooth McCann transport from Layer 7 to the nonsmooth theorem without claiming
-   that the latter supplies a differentiable exponential-map formula.
+### 14.1 The reference measure
+
+Consume Layer 3's shared measured-metric carrier and work with its full-support Borel
+reference measure finite on bounded sets (or a probability reference in normalized
+statements).  Local finiteness alone is not substituted on a nonproper carrier.  Keep
+the reference measure separate from the transported probability law.
+
+### 14.2 Curvature-dimension conditions
+
+Build distortion coefficients, entropy-power functionals, essential nonbranching,
+measure-contraction properties, and displacement convexity along a selected optimal
+dynamic plan.  Define the curvature-dimension conditions `CD(K,N)`, reduced
+`CD*(K,N)`, and `MCP(K,N)` in the exact finite and infinite-dimensional regimes, with
+bridge theorems among conventions rather than one overloaded predicate.
+
+### 14.3 Cheeger energy and `RCD`
+
+Build minimal weak upper gradients, Cheeger energy, its relaxed `W¹,²` domain,
+infinitesimal Hilbertianity, and the associated `L²` heat flow/Dirichlet form.  Pin
+`RCD(K,∞)` to mean infinitesimally Hilbertian `CD(K,∞)`, and define finite-dimensional
+`RCD*(K,N)` analogously.  Prove the EVI characterization as a theorem rather than using
+it as a second definition.
+
+### 14.4 Sturm's transportation distance
+
+Define Sturm's `L²` transportation distance `D` on normalized finite-variance
+metric-measure spaces as the infimum of `W₂` between the two reference laws over
+pseudometrics on their disjoint union that restrict to the original metrics.  Prove
+presentation/quotient invariance and the compactness and convergence API used below.
+Make Layer 15's scalar `p=2` distortion theory prove explicit comparison/bridge lemmas
+to `D` rather than duplicate this construction.
+
+### 14.5 Stability, tensorization, and globalization
+
+For normalized finite-variance `RCD(K,∞)` spaces, prove stability under Sturm
+`D`-convergence and convergence of heat flows (AGS Theorem 6.11), and prove
+nonbranching `ℓ²`-product tensorization (Theorem 6.13).  Formalize the precise global-
+to-local and local-to-global statements of AGS Theorems 6.20 and 6.22, including their
+geodesicity, null-boundary, quadratic-Cheeger-energy, and nonbranching assumptions.
+Treat finite-`N` `CD*` tensorization/local-to-global separately and incorporate Sturm's
+2024 corrigendum: do not state blanket tensorization from the original Bacher--Sturm
+proof.  Prove the elementary implications among curvature-dimension conditions, and
+do not infer nonbranching from a curvature bound unless the theorem supplies it.
+
+### 14.6 Smooth weighted manifolds
+
+Write the smooth weighted comparison out, since the finite- and infinite-dimensional
+conventions part company exactly here.  For a complete, connected, boundaryless
+`n`-dimensional weighted manifold `(M,g,m=e^{-V} vol_g)` with `V ∈ C²(M)`, prove
+`RCD(K,∞) ⇔ Ric_g + Hess V ≥ K g`
+and, for `N>n`,
+`RCD*(K,N) ⇔ Ric_g + Hess V - (dV⊗dV)/(N-n) ≥ K g`,
+accounting for the selected `CD` versus `CD*` convention, which encodes the same tensor
+inequality in the smooth setting.  Pin the sign convention `m=e^{-V} vol_g`.  Prove that
+at `N=n` a finite lower bound forces `V` constant, record that an `n`-dimensional smooth
+weighted manifold with `N<n` lies outside the finite-`N` theory, and treat a manifold
+with boundary through a separate convex-boundary formulation.  This consumes curvature
+and volume from the geometric-topology roadmap.
+
+### 14.7 Heat flow on `RCD` spaces
+
+Prove that on `RCD(K,∞)` spaces the `L²(m)` gradient flow of Cheeger energy on
+densities/functions corresponds, through `ρ ↦ ρ m` in the unit-mass finite-entropy
+regime, to the `W₂` `EVI_K` gradient flow of Boltzmann entropy on `P₂(X)`.  The two flows
+do not literally have the same carrier.  Then enumerate the consequences instead of
+claiming the estimates "available" from the theory.  The two intended statements are the
+dual heat-flow contraction
+`W_p(H_t^* μ, H_t^* ν) ≤ exp(-K t) W_p(μ,ν)`
+and the Bakry--Émery gradient estimate
+`|D H_t f|² ≤ exp(-2 K t) H_t(|Df|²)`,
+the latter `m`-almost everywhere on its precise Sobolev domain--`W^{1,2} ∩ L∞` in
+Savaré's formulation--with `|Df|` the minimal weak upper gradient of item 3.  Make the
+ambient assumptions on `(X,d,m)`, `H_t`, and its dual `H_t^*` visible; Savaré's
+formulation assumes a complete separable length space, full support, and a
+Gaussian-type volume-growth bound on `m`.  Name the range of `p` and the proof: `p=2` on
+`P₂(X)` follows directly from `EVI_K`, whereas all `p ∈ [1,∞]` uses Kuwada duality and
+Savaré's self-improvement of the Bakry--Émery estimate, followed by measurable gluing of
+the pointwise `W_∞` coupling.  If only the `W₂` consequence is wanted, say that and stop
+there.  Any further consequence--entropy dissipation, regularization, Harnack--is named
+individually or is not on the roadmap.
+
+### 14.8 Optimal maps on nonsmooth spaces
+
+For `1 ≤ N < ∞`, prove the Gigli--Rajala--Sturm nonsmooth optimal-map theorem on
+`RCD*(K,N)` spaces for `μ₀,μ₁ ∈ P₂(X)` with `μ₀ ≪ m`: the quadratic optimal
+coupling is unique and induced by a map.  For `1 < N < ∞`, separately add the
+essentially nonbranching `MCP(K,N)` version, with its boundedly-finite/full-support
+reference, moment, and source-absolute-continuity hypotheses all visible.  Consume
+Layer 8's `CBB(κ)` API for Bertrand's Theorem 1.1: on a finite-dimensional complete,
+connected, locally compact geodesic `CBB(κ)` Alexandrov space with `n`-dimensional
+Hausdorff measure `Hⁿ`, if the Borel probabilities `μ₀,μ₁` have compact support
+and `μ₀ ≪ Hⁿ`, every quadratic optimal plan is the graph of a Borel map and the
+Monge/Kantorovich optimizer is unique a.e.; construct it from a `d²/2`-concave
+potential and the Alexandrov exponential on the regular set.  Separately prove the
+noncompact-support quadratic specialization of Bertrand's Theorem 4.2 under
+`∫ d(x,y)² d(μ₀⊗μ₁)(x,y) < ∞`.
+
+### 14.9 Smooth and nonsmooth transport
+
+Relate smooth McCann transport from Layer 7 to the nonsmooth theorem without claiming
+that the latter supplies a differentiable exponential-map formula.
 
 Primary sources are Lott--Villani,
 [Ricci curvature for metric-measure spaces via optimal
@@ -1698,13 +2330,19 @@ essentially nonbranching extension follows
 noncompact extension follow Bertrand's [existence and uniqueness of optimal maps on
 Alexandrov spaces](https://arxiv.org/abs/0705.0437), Theorems 1.1 and 4.2.
 
-Acceptance checks: the Euclidean reference space satisfies the expected curvature
+### Examples
+
+The Euclidean reference space satisfies the expected curvature
 condition; the smooth Ricci lower-bound theorem round-trips through the synthetic
 definition; entropy flow agrees with the heat semigroup; and a source density on an RCD
 space has a unique map-induced quadratic optimizer without any smooth exponential map in
 the statement.
 
-### Layer 15: measured kernels and Gromov--Wasserstein
+### Dependencies
+
+Layers 3.9, 8--10 and 11.2; geometric topology Layer 7.
+
+## Layer 15: measured kernels and Gromov--Wasserstein
 
 The root measured-kernel object is `(X, μ, ω)` with a measurable carrier `X`, probability
 law `μ`, an arbitrary metric target `Z` equipped with its Borel measurable structure, and
@@ -1721,111 +2359,155 @@ assumptions or creating a second dialect.  The target-valued route follows
 [Bauer--Mémoli--Needham--Nishino (BMNN)](https://www.jmlr.org/papers/volume26/24-2189/24-2189.pdf);
 the theorem numbers below refer to that paper.
 
-1. At the measurable root, define measured kernels, pullback along measure-preserving
-   maps, weak isomorphism through a common probability parametrization, products,
-   restrictions, and finite weighted kernels.  Prove that all definitions are invariant
-   under a.e. equality of `ω`.  Define support/full-support representatives only on the
-   topological/Polish specialization that makes those notions available.
-2. For `p : ℝ≥0∞` with `1 ≤ p`, define the raw distortion of a coupling using the
-   `eLpNorm` of `d_Z(ω_X(x,x'),ω_Y(y,y'))` against `π⊗π`, and define `GW_p` by taking its
-   infimum.  Prove the finite-`p` integral/root formula and the `p=∞` essential-supremum
-   formula.  Follow this roadmap's no-`1/2` convention and prove the exact conversion
-   `GW_roadmap = 2 · GW_BMNN` to sources using the half-distance convention.
-3. Prove symmetry on the unrestricted measurable root.  Under standard-Borel carrier
-   hypotheses--or an abstract coupling-gluing property--prove the triangle inequality
-   from Layer 0 gluing and Minkowski.  For every `p ∈ [1,∞]`, generalize BMNN Theorem 26
-   to show that measurable `Lᵖ`
-   kernels on Polish carriers with Borel probability laws and an arbitrary metric target
-   `Z` admit an optimal GW coupling, without continuity or lower-semicontinuity
-   assumptions on the kernels.  Reduce each pair to the closure of the union of its two
-   separable essential ranges; the published global complete-separable target is not used
-   by the attainment proof.  At `p=∞`, make the `L∞`/essential-boundedness hypothesis
-   explicit.  Give the continuous metric-kernel Polish theorem as a direct specialization
-   rather than the foundation.
-4. In the Polish-carrier category of item 3, characterize zero distance as weak
-   isomorphism, form the quotient, and give the quotient a genuine metric.  For
-   full-support metric-measure spaces, prove that weak isomorphism reduces to a
-   measure-preserving isometry; without full support, pass to supports.
-5. For `p ∈ [1,∞]` and the Polish-carrier strongly measurable kernel category, prove
-   that the weak-isomorphism quotient is complete exactly when the metric target `Z` is
-   complete (BMNN Theorem 39), working objectwise in the countable union of separable
-   essential ranges.  When `Z` is separable and `1 ≤ p < ∞`, prove separability and
-   density of finite uniform kernels (BMNN Propositions 36 and 38), with no `p=∞`
-   separability claim.  Prove the common-parametrization estimate: if
-   `f_n : Ω → X_n` and `f : Ω → X` push one probability `λ` to the respective laws,
-   then `GW_p(X_n,X)` is at most the `Lᵖ(λ²)` distance between the pulled-back kernels;
-   deduce GW convergence when that bound tends to zero.  Given a Borel geodesic
-   bicombing on `Z`, construct quotient geodesics for every `p ∈ [1,∞]` by interpolation
-   over an optimal coupling (BMNN Theorem 45).  For a complete separable geodesic target
-   without such a bicombing, consume Layer 8's universally measurable selector relative
-   to the fixed optimal endpoint law and its Borel almost-everywhere representative.
-   Do not promote this measure-relative construction to a global Borel selector.
-6. For compact unmeasured spaces, consume Mathlib's `GromovHausdorff.ghDist`,
-   `ghDist_le_hausdorffDist`, `ghDist_eq_hausdorffDist`, `optimalGHInjl`, and
-   `optimalGHInjr` rather than rebuilding their realized common-ambient presentation.
-   Consume `MeasureTheory.levyProkhorovEDist`, Hausdorff-distance, and isometry APIs, and
-   build only the measured common-ambient extension needed below.  Define
-   Gromov--Prokhorov distance by infimizing
-   Lévy--Prokhorov distance over common isometric embeddings.  Define the chosen
-   measured-Gromov--Hausdorff convergence by simultaneous
-   Hausdorff convergence of supports and Prokhorov convergence of pushed-forward laws;
-   prove presentation invariance and descent to the support quotient.  Then specialize
-   to complete separable metric-measure spaces with `d ∈ Lᵖ(μ⊗μ)`, recover Mémoli's
-   compact full-support Gromov--Wasserstein theory, and prove only sourced comparison
-   implications with those two notions.  A Gromov--Prokhorov-to-`GW_p` implication must
-   carry uniform `p`-integrability of distance kernels; a measured-Gromov--Hausdorff
-   comparison must carry its support/noncollapse control.  Compactness alone does not
-   identify these topologies.
-7. Consume Layer 8's Alexandrov lower-curvature API.  For scalar `L²` distortion, build
-   Sturm's geodesic "space of spaces," its tangent-cone description, and its `CBB(0)`
-   theorem.  Keep this lower curvature bound on the moduli space distinct from CAT(0) and
-   from the `CD/RCD` curvature of an individual space.
-8. First construct an a.e.-canonical outgoing section-law map
-   `x ↦ (ω(x,·))_#μ` and its incoming analogue.  Choose a jointly strongly measurable
-   representative of `ω`; use its strong measurability into the Borel measurable target
-   to obtain the a.e.-measurability required by `Measure.map`, form its section laws, and
-   use Fubini to prove that their
-   `p`-moments are finite almost everywhere, and default the exceptional sections to the
-   Dirac law at the chosen basepoint.  Prove that the resulting map into `P_p(Z)` is
-   measurable and is unchanged almost everywhere when the representative or exceptional
-   default changes.  Define outgoing and incoming `p`-eccentricity, `p`-size, and kernel
-   distributions from this API; make their basepoint and `p=∞` conventions explicit and
-   prove their measurability, integrability, and a.e.-invariance.  State separately the
-   measurable profile-coupling-lift property needed by the hierarchy below.  First prove
-   the hierarchy under that abstract gate; then establish the gate for standard-Borel
-   carriers with Borel kernels and complete separable target `Z`.  Following BMNN
-   Theorem 50, set
-   `C(x,y)=W_p((ω_X(x,·))_#μ_X,(ω_Y(y,·))_#μ_Y)` and prove, in this roadmap's
-   no-`1/2` convention,
-   `GW_p(X,Y) ≥ inf_{π∈Π(μ_X,μ_Y)} ‖C‖_{Lᵖ(π)} ≥
-   W_p((ecc_X)_#μ_X,(ecc_Y)_#μ_Y) ≥ |size_{p,z₀}(X)-size_{p,z₀}(Y)|`.
-   Using the a.e.-measurable `Measure.map` construction above, unconditionally form the
-   kernel pushforwards on this `p`-component and prove the independent kernel-distribution
-   bound
-   `GW_p(X,Y) ≥ W_p((ω_X)_#μ_X²,(ω_Y)_#μ_Y²)` and the incoming analogues.
-   Prove `GW_p(X,{z})=size_{p,z}(X)` and the resulting 1-Lipschitz stability of size,
-   eccentricity-distribution, and kernel-distribution invariants; avoid an open-ended
-   promise of unspecified equality characterizations.
-9. Show that finite weighted distance matrices give exactly the standard nonconvex
-   quadratic GW objective.  Build exact small examples and certified objective/lower-bound
-   calculations.
-10. Define entropically regularized finite GW by writing its objective, not by naming it.
-    For the quadratic problem, minimize over `π ∈ Π(μ_X,μ_Y)` the unrooted functional
-    `∑_{i,i',j,j'} d_Z(ω_X(i,i'),ω_Y(j,j'))² π_{ij} π_{i'j'} + ε klDiv π (μ_X⊗μ_Y)`,
-    which regularizes the squared distortion and not the already square-rooted `GW₂` value.
-    Choose the KL convention above and record the bridge to the frequently used `-ε H(π)`
-    convention, which differs on a fixed coupling polytope by the constant marginal term
-    `klDiv π (μ_X⊗μ_Y) = -H(π) + H(μ_X) + H(μ_Y)`.
-    For general finite `p`, say whether the `p`th distortion power is what gets
-    regularized; the formula does not extend to `p=∞`.  Relate this to the generic kernel
-    definition.  Use compactness of the finite coupling polytope and continuity of the
-    quadratic distortion plus entropy to prove existence of global minimizers of that exact
-    functional.  As `ε↓0`, prove convergence of optimal values and that every cluster point
-    of its global minimizers is an unregularized global minimizer.  The objective remains
-    nonconvex: make no algorithmic global-convergence claim in this roadmap without first
-    naming an update and a sourced stationarity theorem.  Give GW barycenters their own
-    written objective and normalization through the same measured-kernel API, rather than
-    carrying them as an unnamed extension.
+### 15.1 Measured kernels
+
+At the measurable root, define measured kernels, pullback along measure-preserving
+maps, weak isomorphism through a common probability parametrization, products,
+restrictions, and finite weighted kernels.  Prove that all definitions are invariant
+under a.e. equality of `ω`.  Define support/full-support representatives only on the
+topological/Polish specialization that makes those notions available.
+
+### 15.2 Distortion and the Gromov--Wasserstein distance
+
+For `p : ℝ≥0∞` with `1 ≤ p`, define the raw distortion of a coupling using the
+`eLpNorm` of `d_Z(ω_X(x,x'),ω_Y(y,y'))` against `π⊗π`, and define `GW_p` by taking its
+infimum.  Prove the finite-`p` integral/root formula and the `p=∞` essential-supremum
+formula.  Follow this roadmap's no-`1/2` convention and prove the exact conversion
+`GW_roadmap = 2 · GW_BMNN` to sources using the half-distance convention.
+
+### 15.3 Symmetry, the triangle inequality, and attainment
+
+Prove symmetry on the unrestricted measurable root.  Under standard-Borel carrier
+hypotheses--or an abstract coupling-gluing property--prove the triangle inequality
+from Layer 0 gluing and Minkowski.  For every `p ∈ [1,∞]`, generalize BMNN Theorem 26
+to show that measurable `Lᵖ`
+kernels on Polish carriers with Borel probability laws and an arbitrary metric target
+`Z` admit an optimal GW coupling, without continuity or lower-semicontinuity
+assumptions on the kernels.  Reduce each pair to the closure of the union of its two
+separable essential ranges; the published global complete-separable target is not used
+by the attainment proof.  At `p=∞`, make the `L∞`/essential-boundedness hypothesis
+explicit.  Give the continuous metric-kernel Polish theorem as a direct specialization
+rather than the foundation.
+
+### 15.4 Zero distance and the quotient
+
+In the Polish-carrier category of item 3, characterize zero distance as weak
+isomorphism, form the quotient, and give the quotient a genuine metric.  For
+full-support metric-measure spaces, prove that weak isomorphism reduces to a
+measure-preserving isometry; without full support, pass to supports.
+
+### 15.5 Completeness, separability, and geodesics
+
+For `p ∈ [1,∞]` and the Polish-carrier strongly measurable kernel category, prove
+that the weak-isomorphism quotient is complete exactly when the metric target `Z` is
+complete (BMNN Theorem 39), working objectwise in the countable union of separable
+essential ranges.  When `Z` is separable and `1 ≤ p < ∞`, prove separability and
+density of finite uniform kernels (BMNN Propositions 36 and 38), with no `p=∞`
+separability claim.  Prove the common-parametrization estimate: if
+`f_n : Ω → X_n` and `f : Ω → X` push one probability `λ` to the respective laws,
+then `GW_p(X_n,X)` is at most the `Lᵖ(λ²)` distance between the pulled-back kernels;
+deduce GW convergence when that bound tends to zero.  Given a Borel geodesic
+bicombing on `Z`, construct quotient geodesics for every `p ∈ [1,∞]` by interpolation
+over an optimal coupling (BMNN Theorem 45).  For a complete separable geodesic target
+without such a bicombing, consume Layer 8's universally measurable selector relative
+to the fixed optimal endpoint law and its Borel almost-everywhere representative.
+Do not promote this measure-relative construction to a global Borel selector.
+
+### 15.6 Gromov--Prokhorov and measured Gromov--Hausdorff comparisons
+
+For compact unmeasured spaces, consume Mathlib's `GromovHausdorff.ghDist`,
+`ghDist_le_hausdorffDist`, `ghDist_eq_hausdorffDist`, `optimalGHInjl`, and
+`optimalGHInjr` rather than rebuilding their realized common-ambient presentation.
+Consume `MeasureTheory.levyProkhorovEDist`, Hausdorff-distance, and isometry APIs, and
+build only the measured common-ambient extension needed below.  Define
+Gromov--Prokhorov distance by infimizing
+Lévy--Prokhorov distance over common isometric embeddings.  Define the chosen
+measured-Gromov--Hausdorff convergence by simultaneous
+Hausdorff convergence of supports and Prokhorov convergence of pushed-forward laws;
+prove presentation invariance and descent to the support quotient.  Then specialize
+to complete separable metric-measure spaces with `d ∈ Lᵖ(μ⊗μ)`, recover Mémoli's
+compact full-support Gromov--Wasserstein theory, and prove only sourced comparison
+implications with those two notions.  A Gromov--Prokhorov-to-`GW_p` implication must
+carry uniform `p`-integrability of distance kernels; a measured-Gromov--Hausdorff
+comparison must carry its support/noncollapse control.  Compactness alone does not
+identify these topologies.
+
+### 15.7 Sturm's space of spaces
+
+Consume Layer 8's Alexandrov lower-curvature API.  For scalar `L²` distortion, build
+Sturm's geodesic "space of spaces," its tangent-cone description, and its `CBB(0)`
+theorem.  Keep this lower curvature bound on the moduli space distinct from CAT(0) and
+from the `CD/RCD` curvature of an individual space.
+
+### 15.8 Section laws and lower bounds
+
+First construct an a.e.-canonical outgoing section-law map
+`x ↦ (ω(x,·))_#μ` and its incoming analogue.  Choose a jointly strongly measurable
+representative of `ω`; use its strong measurability into the Borel measurable target
+to obtain the a.e.-measurability required by `Measure.map`, form its section laws, and
+use Fubini to prove that their
+`p`-moments are finite almost everywhere, and default the exceptional sections to the
+Dirac law at the chosen basepoint.  Prove that the resulting map into `P_p(Z)` is
+measurable and is unchanged almost everywhere when the representative or exceptional
+default changes.  Define outgoing and incoming `p`-eccentricity, `p`-size, and kernel
+distributions from this API; make their basepoint and `p=∞` conventions explicit and
+prove their measurability, integrability, and a.e.-invariance.  State separately the
+measurable profile-coupling-lift property needed by the hierarchy below.  First prove
+the hierarchy under that abstract gate; then establish the gate for standard-Borel
+carriers with Borel kernels and complete separable target `Z`.  Following BMNN
+Theorem 50, set
+`C(x,y)=W_p((ω_X(x,·))_#μ_X,(ω_Y(y,·))_#μ_Y)` and prove, in this roadmap's
+no-`1/2` convention, the three inequalities
+`GW_p(X,Y) ≥ inf_{π∈Π(μ_X,μ_Y)} ‖C‖_{Lᵖ(π)}`,
+`inf_{π∈Π(μ_X,μ_Y)} ‖C‖_{Lᵖ(π)} ≥ W_p((ecc_X)_#μ_X,(ecc_Y)_#μ_Y)`, and
+`W_p((ecc_X)_#μ_X,(ecc_Y)_#μ_Y) ≥ |size_{p,z₀}(X)-size_{p,z₀}(Y)|`.
+Using the a.e.-measurable `Measure.map` construction above, unconditionally form the
+kernel pushforwards on this `p`-component and prove the independent kernel-distribution
+bound
+`GW_p(X,Y) ≥ W_p((ω_X)_#μ_X²,(ω_Y)_#μ_Y²)` and the incoming analogues.
+Prove `GW_p(X,{z})=size_{p,z}(X)` and the resulting 1-Lipschitz stability of size,
+eccentricity-distribution, and kernel-distribution invariants; avoid an open-ended
+promise of unspecified equality characterizations.
+
+### 15.9 Finite Gromov--Wasserstein
+
+Show that finite weighted distance matrices give exactly the standard nonconvex
+quadratic GW objective.  Give small exact examples, such as the uniform two-point spaces
+of the Examples below, as Checks of that identification.
+
+### 15.10 Entropic Gromov--Wasserstein and barycenters
+
+Define entropically regularized finite GW by writing its objective, not by naming it.
+For the quadratic problem, minimize over `π ∈ Π(μ_X,μ_Y)` the unrooted functional
+`∑_{i,i',j,j'} d_Z(ω_X(i,i'),ω_Y(j,j'))² π_{ij} π_{i'j'} + ε klDiv π (μ_X⊗μ_Y)`,
+which regularizes the squared distortion and not the already square-rooted `GW₂` value.
+Choose the KL convention above and record the bridge to the frequently used `-ε H(π)`
+convention, which differs on a fixed coupling polytope by the constant marginal term
+`klDiv π (μ_X⊗μ_Y) = -H(π) + H(μ_X) + H(μ_Y)`.
+For general finite `p`, say whether the `p`th distortion power is what gets
+regularized; the formula does not extend to `p=∞`.  Relate this to the generic kernel
+definition.  Use compactness of the finite coupling polytope and continuity of the
+quadratic distortion plus entropy to prove existence of global minimizers of that exact
+functional.  As `ε↓0`, prove convergence of optimal values and that every cluster point
+of its global minimizers is an unregularized global minimizer.  The objective remains
+nonconvex: make no algorithmic global-convergence claim in this roadmap without first
+naming an update and a sourced stationarity theorem.  Define GW barycenters by an
+explicit objective.  Fix `1 ≤ p < ∞`, finitely many scalar measured kernels
+`(Y_j, ν_j, ω_j)` on finite carriers with real values, weights `w_j ≥ 0` summing to one,
+a prescribed finite barycenter carrier `ι` with probability vector `μ`, and `ε ≥ 0`.
+Minimize, over real kernels `ω : ι × ι → ℝ` and couplings `π_j ∈ Π(μ,ν_j)`, the sum
+`∑_j w_j (∑_{i,i',k,k'} |ω(i,i') - ω_j(k,k')|^p π_j(i,k) π_j(i',k') + ε klDiv π_j (μ⊗ν_j))`.
+At `ε = 0` its value at a kernel `ω` is `∑_j w_j GW_p((ι,μ,ω), Y_j)^p`, the `p`th power
+of the distance, with no factor `1/2`.  Prove that a minimizer exists for every
+`ε ≥ 0`, with no symmetry, metric, or boundedness constraint on `ω` (the fixed-law
+formulation of Peyré--Cuturi--Solomon), and that every coupling of positive weight in a
+minimizer solves its own entropic GW problem against the minimizing kernel.  Make no
+uniqueness claim: for one-point kernels with values `0` and `2` and weights `1/2`, the
+`p = 1` objective `(|z| + |z-2|)/2` is minimized by every `z ∈ [0,2]`.  Minimizing
+`∑_j w_j GW_p` without the `p`th power is a different problem; in that example it has
+the minimizers `[0,2]` even at `p = 2`.  There is no essential-supremum (`p = ∞`)
+barycenter objective, and no existence theorem over the full weak-isomorphism quotient
+with a free carrier is part of this roadmap.
 
 The general measured-kernel route follows Bauer--Mémoli--Needham--Nishino,
 [*The Z-Gromov-Wasserstein
@@ -1834,38 +2516,70 @@ specialization follows Mémoli's [foundational
 paper](https://doi.org/10.1007/s10208-011-9093-5), and the `L²` moduli-space geometry
 follows Sturm's [space of spaces](https://arxiv.org/abs/1208.0434).
 
-Acceptance checks: a measure-preserving isometry has zero GW distance and the converse
+### Examples
+
+A measure-preserving isometry has zero GW distance and the converse
 holds after full-support reduction; with this roadmap's convention,
 `GW_p(X,*)=‖d_X‖_{Lᵖ(μ⊗μ)}`; uniform two-point metric spaces with nonzero distances `a,b`
 have distance `2^{-1/p}|a-b|`; the triangle coupling is constructed explicitly by gluing;
-and the finite matrix objective is exactly the generic measured-kernel objective.
+and the finite matrix objective is exactly the generic measured-kernel objective.  For the one-point kernels with values `0` and `2` and weights `1/2`, the
+fixed-carrier objective of item 10 is `(|z|^p + |z-2|^p)/2`: at `p = 1` every `z ∈ [0,2]`
+minimizes with value `1`, while at `p = 2` it is `(z-1)² + 1`, with unique minimizer `z = 1`.
 
-### Layer 16: public API, extraction, and end-to-end examples
+### Dependencies
+
+Layers 0--3, 8, 12 and 13; Mathlib `GromovHausdorff.ghDist` and `MeasureTheory.levyProkhorovEDist`.
+
+## Layer 16: public API, extraction, and end-to-end examples
 
 The earlier layers are not internal scaffolding to discard.  Finish them as a discoverable
 library.
 
-1. Organize general material under stable namespaces such as
-   `MeasureTheory.OptimalTransport`, `MeasureTheory.ProbabilityMeasure.Wasserstein`,
-   `Analysis.Convex.MongeAmpere`, `Analysis.GradientFlow`, and
-   `MetricGeometry.GromovWasserstein`, following upstream naming feedback.  Avoid a single
-   file or namespace that imports all PDE, Riemannian, computational, and metric-measure
-   dependencies.
-2. Provide extensionality/simp lemmas, coercions, continuity/measurability instances,
-   finite/Dirac/product specializations, and theorem aliases only where Mathlib convention
-   calls for them.  Definitions must not expose arbitrary basepoints, normalizations, or
-   representatives.
-3. Keep the general-purpose additions--gluing, lower-semicontinuous integral lemmas,
-   extended convex duality, metric curves, the advanced `klDiv` API, signed Boltzmann
-   entropy, and Fréchet means--separate from the transport-specific material, each stated
-   at its own natural generality, so nothing reusable is trapped behind a Wasserstein
-   hypothesis.
-4. Write module documentation that maps hypotheses to the theorem regimes in this
-   roadmap.  Each headline theorem should have a compact canonical corollary and a link to
-   the more general form, not a proliferation of unrelated re-statements.
-5. Maintain executable finite examples and mathematically exact regression tests.  A
-   floating-point wrapper reports certified residuals/error bounds and never replaces the
-   exact theorem it approximates.
+### 16.1 Namespaces
+
+Organize general material under stable namespaces such as
+`MeasureTheory.OptimalTransport`, `MeasureTheory.ProbabilityMeasure.Wasserstein`,
+`Analysis.Convex.MongeAmpere`, `Analysis.GradientFlow`, and
+`MetricGeometry.GromovWasserstein`, following upstream naming feedback.  Avoid a single
+file or namespace that imports all PDE, Riemannian, computational, and metric-measure
+dependencies.
+
+### 16.2 Basic API conventions
+
+Provide extensionality/simp lemmas, coercions, continuity/measurability instances,
+finite/Dirac/product specializations, and theorem aliases only where Mathlib convention
+calls for them.  Definitions must not expose arbitrary basepoints, normalizations, or
+representatives.
+
+### 16.3 General-purpose additions
+
+Keep the general-purpose additions--gluing, lower-semicontinuous integral lemmas,
+extended convex duality, metric curves, the advanced `klDiv` API, signed Boltzmann
+entropy, and Fréchet means--separate from the transport-specific material, each stated
+at its own natural generality, so nothing reusable is trapped behind a Wasserstein
+hypothesis.
+
+### 16.4 Module documentation
+
+Write module documentation that maps hypotheses to the theorem regimes in this
+roadmap.  Each headline theorem should have a compact canonical corollary and a link to
+the more general form, not a proliferation of unrelated re-statements.
+
+### 16.5 Finite examples
+
+Keep the finite examples of every layer as exact theorems about the finite
+specializations, stated through the same public definitions as the general theory.
+
+### Examples
+
+The finite specialization of `TauCeti.transportCost` for `δ₀`, `δ₂` on `ℝ` with
+`c(x,y) = (x-y)²` is `4`, and `TauCeti.wassersteinEDist 2` of the pair is `2`; the quadratic
+Fréchet barycenter of the law giving mass `1/2` to `0` and to `2` is the point `1`, at radius
+`1`.  Each value is the same through the finite matrix API and through the measure API.
+
+### Dependencies
+
+Layers 0--15.
 
 ## Named completion targets
 
@@ -1975,9 +2689,7 @@ guardrails.
   the concrete heat semigroup.  Layer 11 constructs any remaining concrete linear Markov
   semigroups it names and proves that the linear Wasserstein gradient flows agree with
   those semigroups.  One-parameter semigroups also owns the abstract Hille--Yosida
-  generation theorem; PDE Lane F.26 should consume that theorem for its concrete heat
-  realization rather than build a competing abstract API, so coordinate that sibling
-  overlap before either bridge lands.
+  generation theorem, which PDE §6.3 (F26) consumes for its concrete heat realization.
 
 These links are dependencies, not permissions to skip missing glue.  If a sibling target
 has not landed, the consuming OT claim waits or explicitly takes the bridge as part of its
@@ -2003,6 +2715,17 @@ API and one or two named theorems: gluing; lsc cost and attainment; finite duali
 raw GW plus its triangle inequality.  Brenier, Benamou--Brenier, Caffarelli regularity,
 JKO-to-PDE, RCD optimal maps, and the GW quotient metric each deserve staged claims whose
 PRs leave every landed intermediate reusable.
+
+## Downstream consumers
+
+* [RandomMatrices](../RandomMatrices/README.md) consumes Layers 0--3 (couplings and
+  Wasserstein distances) for its eigenvalue coupling and spectral `W₁` and `W₂` corollaries.
+* [StandardDistributions](../StandardDistributions/README.md) leaves to this roadmap the
+  Gaussian Brenier and `W₂` formulas, interpolation and barycenters, their positive-definite
+  square-root and geometric-mean identities (Layers 5.3 and 12.8), and the quantile
+  construction (Layer 3.7).
+* [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) consumes Layer 2's finite-measure
+  completion theorem for analytic sets and Layer 8.2's Jankov--von Neumann uniformization.
 
 ## References
 
@@ -2076,7 +2799,9 @@ PRs leave every landed intermediate reusable.
 * M. Agueh and G. Carlier, [Barycenters in the Wasserstein
   space](https://doi.org/10.1137/100805741), 2011; T. Le Gouic and J.-M. Loubes,
   [Existence and consistency of Wasserstein
-  barycenters](https://arxiv.org/abs/1506.04153), 2017.
+  barycenters](https://arxiv.org/abs/1506.04153), 2017; P. C. Álvarez-Esteban, E. del
+  Barrio, J. A. Cuesta-Albertos, and C. Matrán, [A fixed-point approach to barycenters in
+  Wasserstein space](https://arxiv.org/abs/1511.05355), 2016.
 
 ### Entropy, curvature, and Gromov--Wasserstein
 
@@ -2100,7 +2825,13 @@ PRs leave every landed intermediate reusable.
   matching](https://doi.org/10.1007/s10208-011-9093-5), 2011; H. Bauer, F. Mémoli, T.
   Needham, and M. Nishino, [The `Z`-Gromov--Wasserstein
   distance](https://www.jmlr.org/papers/volume26/24-2189/24-2189.pdf), 2025; K.-T. Sturm,
-  [The space of spaces](https://arxiv.org/abs/1208.0434), 2012.
+  [The space of spaces](https://arxiv.org/abs/1208.0434), 2012; G. Peyré, M. Cuturi, and
+  J. Solomon, [Gromov--Wasserstein averaging of kernel and distance
+  matrices](https://proceedings.mlr.press/v48/peyre16.html), 2016.
+* C. Léonard, [From the Schrödinger problem to the Monge--Kantorovich
+  problem](https://arxiv.org/abs/1011.2564), 2012; L. Ambrosio, N. Gigli, and G. Savaré,
+  [Calculus and heat flow in metric measure spaces and applications to spaces with Ricci
+  bounds from below](https://arxiv.org/abs/1106.2090), 2014.
 
 ## Acknowledgements and provenance
 

@@ -1,236 +1,186 @@
 import Mathlib
+import TauCeti.MeasureTheory.OptimalTransport.Coupling
+import TauCeti.MeasureTheory.OptimalTransport.Cost.Basic
+import TauCeti.MeasureTheory.OptimalTransport.Monge
+import TauCeti.MeasureTheory.OptimalTransport.Wasserstein.Basic
+import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 
 /-!
 # Optimal transport and Wasserstein geometry: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+This file is not the roadmap: the roadmap is `README.md`. This file states headline theorems of
+the roadmap against the pinned Mathlib and Tau Ceti, each with `sorry`. It is the acceptance test
+of the finished roadmap, not a list of its targets.
 
-The first compiled targets cover the common spine (Layers 0--3), the Monge problem
-(Layer 4), the map-facing form of Brenier (Layer 5), the ambient Fréchet-barycenter
-definitions (Layer 12), and a finite Sinkhorn theorem (Layer 13). The roadmap requires much
-more: general and Borel-cost duality,
-Monge--Ampère/Ma--Trudinger--Wang (MTW) regularity, Riemannian and nonsmooth McCann theory,
-dynamic plans and Benamou--Brenier, metric and Wasserstein gradient flows/Jordan--
-Kinderlehrer--Otto (JKO), population barycenters, measurable iterative proportional
-fitting (IPFP) and Schrödinger bridges, curvature-dimension (CD) and Riemannian
-curvature-dimension (RCD) theory, and measured-kernel Gromov--Wasserstein.
+The carriers are Tau Ceti's couplings `TauCeti.IsCoupling`, transport cost
+`TauCeti.transportCost`, optimal couplings `TauCeti.IsOptimalCoupling`, Kantorovich-optimal maps
+`TauCeti.IsKantorovichOptimalTransportMap`, Wasserstein distance `TauCeti.wassersteinEDist` and
+finite moments `TauCeti.HasFiniteMoment`, Tau Ceti's Riemannian volume
+`TauCeti.riemannianVolume`, and Mathlib's Riemannian distance, Hausdorff dimension, Hölder maps,
+multivariate Gaussian laws, Kullback–Leibler divergence and separable measures.
 
-As those prerequisites become expressible, add their representative signatures here.
-Use Mathlib's `ProbabilityMeasure`, `ProbabilityTheory.HasLaw`,
-`InformationTheory.klDiv`, `MemLp`, `eLpNorm`, and extended exponent `p : ℝ≥0∞`;
-do not create private synonyms. The eventual implementation belongs in coordinated
-Mathlib/Tau Ceti namespaces, after reconciling the Vlasov and Econlib prior work described
-in `README.md`.
+The following headline theorems of `README.md` are not stated here; each needs the carrier named.
+
+* Kantorovich duality for extended-valued Borel costs (Layer 2.5) needs the relaxed
+  partial-transport value.
+* The Figalli–Kim–McCann Hölder theorem and De Philippis–Figalli partial regularity
+  (Layer 6.13–6.15) need `c`-convexity of domains and the Ma–Trudinger–Wang conditions on a
+  `C⁴` cost.
+* The `p = 1` BV theory of Abedi–Li–Schultz (Layer 8.5) needs the Skorokhod space of càdlàg
+  paths with its Polish structure and the variation measure of a BV curve.
+* Convergence of the JKO scheme to Fokker–Planck and porous-medium solutions (Layer 11.7–11.8)
+  needs the JKO scheme and the signed Boltzmann entropy on `P₂(ℝⁿ)`.
+* The Sinkhorn-divergence theorem (Layer 13.4) needs positive universal kernels.
+* Brownian Schrödinger bridges and the Schilder limit (Layer 13.12–13.13) need Wiener measure on
+  `C([0,1]; ℝⁿ)`.
+* `RCD(K,∞)` heat flow and optimal maps on `RCD*(K,N)` spaces (Layer 14.7–14.8) need
+  infinitesimal Hilbertianity and the `RCD` conditions.
+* The Gromov–Wasserstein quotient theorems (Layer 15.4–15.8) need the measured-kernel
+  Gromov–Wasserstein distance and its weak-isomorphism quotient.
 -/
 
 noncomputable section
 
-open scoped BigOperators ENNReal NNReal
-open MeasureTheory Topology
+open MeasureTheory ProbabilityTheory InformationTheory Set Filter
+open scoped ENNReal NNReal RealInnerProductSpace MatrixOrder Matrix.Norms.L2Operator Manifold Bundle
 
 namespace TauCetiRoadmap.OptimalTransport
 
-universe u v w
+/-! ## Layer 5: convex analysis, Brenier, and polar factorization -/
 
-variable {X : Type u} {Y : Type v} {Z : Type w}
-
-/-! ## Layer 0: transport plans, maps, and gluing -/
-
-namespace Measure
-
-/-- A measure on `X × Y` whose first and second marginals are `μ` and `ν`. -/
-structure IsCoupling [MeasurableSpace X] [MeasurableSpace Y]
-    (π : Measure (X × Y)) (μ : Measure X) (ν : Measure Y) : Prop where
-  fst_eq : π.fst = μ
-  snd_eq : π.snd = ν
-
-end Measure
-
-/-- Probability measures on `X × Y` whose marginals are `μ` and `ν`. -/
-abbrev Coupling [MeasurableSpace X] [MeasurableSpace Y]
-    (μ : ProbabilityMeasure X) (ν : ProbabilityMeasure Y) :=
-  {π : ProbabilityMeasure (X × Y) //
-    Measure.IsCoupling π.toMeasure μ.toMeasure ν.toMeasure}
-
-/-- Finite measures of equal mass admit a coupling, including when both have zero mass. -/
-theorem exists_coupling_of_isFiniteMeasure [MeasurableSpace X] [MeasurableSpace Y]
-    (μ : Measure X) (ν : Measure Y) [IsFiniteMeasure μ] [IsFiniteMeasure ν]
-    (hmass : μ Set.univ = ν Set.univ) :
-    ∃ π : Measure (X × Y), Measure.IsCoupling π μ ν := by
+/-- **Gangbo–McCann for strictly convex costs** (Gangbo–McCann 1996, Theorem 1.2). Let
+`h : ℝᵈ → [0, ∞)` be strictly convex, superlinear (`h x / ‖x‖ → ∞` at infinity), and satisfy the
+cone condition (H2): for every height `r` and aperture `θ ∈ (0, π)`, every vertex `p` far enough
+from the origin admits `z ≠ 0` such that `h ≤ h p` on the truncated cone
+`{x | ‖x - p‖ ‖z‖ cos (θ / 2) ≤ ⟪z, x - p⟫ ≤ r ‖z‖}`. If `μ` is absolutely continuous and the
+transport cost of `c (x, y) = h (x - y)` from `μ` to `ν` is finite, there is a transport map `T`
+attaining the Kantorovich value, and its graph plan is the only optimal coupling. -/
+theorem exists_isKantorovichOptimalTransportMap_of_strictConvexOn {d : ℕ}
+    (h : EuclideanSpace ℝ (Fin d) → ℝ) (h_nonneg : ∀ x, 0 ≤ h x)
+    (h_strict : StrictConvexOn ℝ univ h)
+    (h_superlinear : Tendsto (fun x => h x / ‖x‖) (Bornology.cobounded _) atTop)
+    (h_cone : ∀ r θ : ℝ, 0 < θ → θ < Real.pi → ∃ R : ℝ, ∀ p, R < ‖p‖ →
+      ∃ z, z ≠ 0 ∧ ∀ x, ‖x - p‖ * ‖z‖ * Real.cos (θ / 2) ≤ ⟪z, x - p⟫ →
+        ⟪z, x - p⟫ ≤ r * ‖z‖ → h x ≤ h p)
+    (μ ν : Measure (EuclideanSpace ℝ (Fin d))) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+    (hμ : μ ≪ volume)
+    (hfin : TauCeti.transportCost (fun z => ENNReal.ofReal (h (z.1 - z.2))) μ ν ≠ ∞) :
+    ∃ T : EuclideanSpace ℝ (Fin d) → EuclideanSpace ℝ (Fin d),
+      TauCeti.IsKantorovichOptimalTransportMap (fun z => ENNReal.ofReal (h (z.1 - z.2))) μ ν T ∧
+      ∀ γ, TauCeti.IsOptimalCoupling (fun z => ENNReal.ofReal (h (z.1 - z.2))) γ μ ν ↔
+        γ = μ.map fun x => (x, T x) := by
   sorry
 
-/-- The type of probability couplings of any two probability measures is nonempty. -/
-theorem coupling_nonempty [MeasurableSpace X] [MeasurableSpace Y]
-    (μ : ProbabilityMeasure X) (ν : ProbabilityMeasure Y) :
-    Nonempty (Coupling μ ν) := by
+/-! ## Layer 6: Monge–Ampère measures, equations, and regularity -/
+
+/-- **Caffarelli's interior regularity of the Brenier map** (Caffarelli 1992; De Philippis–Figalli
+survey, Theorem 3.3). Let `X, Y ⊆ ℝⁿ` be bounded open sets with `Y` convex, and let `μ = f dx` on
+`X` and `ν = g dy` on `Y` be probability measures whose densities are bounded below by `λ > 0`
+and above by `λ⁻¹` almost everywhere on their sets. Then every quadratic Kantorovich-optimal map
+from `μ` to `ν` agrees `μ`-almost everywhere with a map that is Hölder of one positive exponent on
+every compact subset of `X`. -/
+theorem exists_holderOnWith_of_isKantorovichOptimalTransportMap_of_convex {n : ℕ}
+    {X Y : Set (EuclideanSpace ℝ (Fin n))} (hXo : IsOpen X) (hXb : Bornology.IsBounded X)
+    (hYo : IsOpen Y) (hYb : Bornology.IsBounded Y) (hYc : Convex ℝ Y)
+    {f g : EuclideanSpace ℝ (Fin n) → ℝ≥0∞} (hf : Measurable f) (hg : Measurable g)
+    {l : ℝ} (hl : 0 < l)
+    (hfl : ∀ᵐ x ∂volume.restrict X, ENNReal.ofReal l ≤ f x ∧ f x ≤ ENNReal.ofReal l⁻¹)
+    (hgl : ∀ᵐ y ∂volume.restrict Y, ENNReal.ofReal l ≤ g y ∧ g y ≤ ENNReal.ofReal l⁻¹)
+    [IsProbabilityMeasure ((volume.restrict X).withDensity f)]
+    [IsProbabilityMeasure ((volume.restrict Y).withDensity g)]
+    {T : EuclideanSpace ℝ (Fin n) → EuclideanSpace ℝ (Fin n)}
+    (hT : TauCeti.IsKantorovichOptimalTransportMap
+      (fun z => ENNReal.ofReal (‖z.1 - z.2‖ ^ 2 / 2))
+      ((volume.restrict X).withDensity f) ((volume.restrict Y).withDensity g) T) :
+    ∃ α : ℝ≥0, 0 < α ∧ ∃ S : EuclideanSpace ℝ (Fin n) → EuclideanSpace ℝ (Fin n),
+      T =ᵐ[(volume.restrict X).withDensity f] S ∧
+      ∀ K ⊆ X, IsCompact K → ∃ C : ℝ≥0, HolderOnWith C α S K := by
   sorry
 
-/-- If `Z` is standard Borel, couplings of `(μ,ν)` and `(ν,ρ)` are the two pair
-marginals of a probability measure on `X × (Y × Z)`. -/
-theorem exists_gluing [MeasurableSpace X] [MeasurableSpace Y] [MeasurableSpace Z]
-    [StandardBorelSpace Z]
-    {μ : ProbabilityMeasure X} {ν : ProbabilityMeasure Y} {ρ : ProbabilityMeasure Z}
-    (πXY : Coupling μ ν) (πYZ : Coupling ν ρ) :
-    ∃ γ : ProbabilityMeasure (X × (Y × Z)),
-      Measure.map (fun z => (z.1, z.2.1)) γ.toMeasure = πXY.1.toMeasure ∧
-      Measure.map (fun z => (z.2.1, z.2.2)) γ.toMeasure = πYZ.1.toMeasure := by
-  sorry
+/-! ## Layer 7: Riemannian Brenier–McCann transport -/
 
-/-! ## Layer 1: transport cost and primal attainment -/
-
-/-- The infimum of `∫⁻ c dπ` over raw-measure couplings of `μ` and `ν`. -/
-def transportCost [MeasurableSpace X] [MeasurableSpace Y]
-    (c : X × Y → ℝ≥0∞) (μ : Measure X) (ν : Measure Y) : ℝ≥0∞ :=
-  ⨅ π : Measure (X × Y), ⨅ _hπ : Measure.IsCoupling π μ ν, ∫⁻ z, c z ∂π
-
-/-- A probability coupling whose `c`-cost equals the Kantorovich value. -/
-def IsOptimalCoupling [MeasurableSpace X] [MeasurableSpace Y]
-    (c : X × Y → ℝ≥0∞) (μ : ProbabilityMeasure X) (ν : ProbabilityMeasure Y)
-    (π : Coupling μ ν) : Prop :=
-  (∫⁻ z, c z ∂π.1.toMeasure) = transportCost c μ.toMeasure ν.toMeasure
-
-/-- A lower-semicontinuous nonnegative extended cost on two Polish spaces admits an
-optimal probability coupling. -/
-theorem exists_isOptimalCoupling
-    [PseudoMetricSpace X] [MeasurableSpace X] [BorelSpace X] [PolishSpace X]
-    [PseudoMetricSpace Y] [MeasurableSpace Y] [BorelSpace Y] [PolishSpace Y]
-    (c : X × Y → ℝ≥0∞) (hc : LowerSemicontinuous c)
-    (μ : ProbabilityMeasure X) (ν : ProbabilityMeasure Y) :
-    ∃ π : Coupling μ ν, IsOptimalCoupling c μ ν π := by
-  sorry
-
-/-! ## Layer 2: Kantorovich duality and optimality certificates -/
-
-/-- Kantorovich dual feasibility with convention `φ x + ψ y ≤ c (x,y)`. -/
-def DualFeasible (c : X × Y → ℝ) (φ : X → ℝ) (ψ : Y → ℝ) : Prop :=
-  ∀ x y, φ x + ψ y ≤ c (x, y)
-
-/-- A set is `c`-cyclically monotone when every finite reassignment of its second
-coordinates has at least the original total cost. -/
-def IsCCyclicallyMonotone (c : X × Y → ℝ) (Γ : Set (X × Y)) : Prop :=
-  ∀ (n : ℕ) (z : Fin n → X × Y) (σ : Equiv.Perm (Fin n)),
-    (∀ i, z i ∈ Γ) →
-      (∑ i, c (z i)) ≤ ∑ i, c ((z i).1, (z (σ i)).2)
-
-/-- The contact set of a dual-feasible pair is `c`-cyclically monotone. -/
-theorem DualFeasible.isCCyclicallyMonotone_contact
-    {c : X × Y → ℝ} {φ : X → ℝ} {ψ : Y → ℝ} (h : DualFeasible c φ ψ) :
-    IsCCyclicallyMonotone c {z | φ z.1 + ψ z.2 = c z} := by
-  sorry
-
-/-! ## Layer 3: Wasserstein distance and finite-distance components -/
-
-/-- A probability measure has finite `p`-moment if its real-valued distance from some
-basepoint belongs to `Lᵖ`. -/
-def HasFiniteMoment [MeasurableSpace X] [PseudoMetricSpace X]
-    (p : ℝ≥0∞) (μ : ProbabilityMeasure X) : Prop :=
-  ∃ x₀ : X, MemLp (fun x => dist x x₀) p μ.toMeasure
-
-/-- Probability measures on a pseudometric space with finite `p`-moment. -/
-def WassersteinSpace (p : ℝ≥0∞) (X : Type u)
-    [MeasurableSpace X] [PseudoMetricSpace X] :=
-  {μ : ProbabilityMeasure X // HasFiniteMoment p μ}
-
-/-- The infimum, over couplings of `μ` and `ν`, of the `Lᵖ` norm of the ground extended
-distance. -/
-def wassersteinEDist [MeasurableSpace X] [PseudoEMetricSpace X]
-    (p : ℝ≥0∞) (μ ν : ProbabilityMeasure X) : ℝ≥0∞ :=
-  ⨅ π : Coupling μ ν,
-    eLpNorm (fun z : X × X => edist z.1 z.2) p π.1.toMeasure
-
-/-- Probability measures at finite `p`-Wasserstein extended distance from `μ₀`. -/
-def WassersteinComponent [MeasurableSpace X] [PseudoEMetricSpace X]
-    (p : ℝ≥0∞) (μ₀ : ProbabilityMeasure X) :=
-  {μ : ProbabilityMeasure X // wassersteinEDist p μ₀ μ ≠ ∞}
-
-/-- On a standard Borel extended pseudometric space with measurable ground distance,
-`wassersteinEDist p` satisfies the triangle inequality when `1 ≤ p`. -/
-theorem wassersteinEDist_triangle
-    [PseudoEMetricSpace X] [MeasurableSpace X] [StandardBorelSpace X]
-    (hedist : Measurable fun z : X × X => edist z.1 z.2)
-    (p : ℝ≥0∞) (hp : 1 ≤ p) (μ ν ρ : ProbabilityMeasure X) :
-    wassersteinEDist p μ ρ ≤ wassersteinEDist p μ ν + wassersteinEDist p ν ρ := by
-  sorry
-
-/-- At exponent `∞`, Wasserstein extended distance is the infimum of the coupling-wise
-essential suprema of the ground distance. -/
-theorem wassersteinEDist_top [MeasurableSpace X] [PseudoEMetricSpace X]
-    (μ ν : ProbabilityMeasure X) :
-    wassersteinEDist ∞ μ ν =
-      ⨅ π : Coupling μ ν,
-        eLpNormEssSup (fun z : X × X => edist z.1 z.2) π.1.toMeasure := by
-  sorry
-
-/-! ## Layer 4: the Monge problem and abstract transport maps -/
-
-/-- The extended cost of a deterministic map under the source measure `μ`. -/
-def transportMapCost [MeasurableSpace X] [MeasurableSpace Y]
-    (c : X × Y → ℝ≥0∞) (μ : Measure X) (T : X → Y) : ℝ≥0∞ :=
-  ∫⁻ x, c (x, T x) ∂μ
-
-/-- The infimum of deterministic transport cost over maps with target law `ν` under `μ`. -/
-def mongeCost [MeasurableSpace X] [MeasurableSpace Y]
-    (c : X × Y → ℝ≥0∞) (μ : Measure X) (ν : Measure Y) : ℝ≥0∞ :=
-  ⨅ T : X → Y, ⨅ _hT : ProbabilityTheory.HasLaw T ν μ, transportMapCost c μ T
-
-/-- A map with target law `ν` under `μ` whose cost equals the Monge value. -/
-def IsMongeMinimizer [MeasurableSpace X] [MeasurableSpace Y]
-    (c : X × Y → ℝ≥0∞) (μ : Measure X) (ν : Measure Y) (T : X → Y) : Prop :=
-  ProbabilityTheory.HasLaw T ν μ ∧ transportMapCost c μ T = mongeCost c μ ν
-
-/-- A map with target law `ν` under `μ` whose cost equals the Kantorovich value. -/
-def IsKantorovichOptimalTransportMap [MeasurableSpace X] [MeasurableSpace Y]
-    (c : X × Y → ℝ≥0∞) (μ : Measure X) (ν : Measure Y) (T : X → Y) : Prop :=
-  ProbabilityTheory.HasLaw T ν μ ∧ transportMapCost c μ T = transportCost c μ ν
-
-/-! ## Layer 5: Brenier's theorem -/
-
-/-- For finite-second-moment Euclidean laws with absolutely continuous source, there is
-an almost-everywhere unique map attaining the quadratic Kantorovich value. -/
-theorem exists_isKantorovichOptimalTransportMap_quadratic_of_ac {n : ℕ}
-    (μ ν : WassersteinSpace 2 (EuclideanSpace ℝ (Fin n)))
-    (hμ : μ.1.toMeasure ≪ volume) :
-    ∃ T : EuclideanSpace ℝ (Fin n) → EuclideanSpace ℝ (Fin n),
-      IsKantorovichOptimalTransportMap
-        (fun z => edist z.1 z.2 ^ (2 : ℕ)) μ.1.toMeasure ν.1.toMeasure T ∧
-      ∀ S, IsKantorovichOptimalTransportMap
-          (fun z => edist z.1 z.2 ^ (2 : ℕ)) μ.1.toMeasure ν.1.toMeasure S →
-        S =ᵐ[μ.1.toMeasure] T := by
+/-- **McCann's theorem** (McCann 2001; Villani 2009, Chapter 10). Let `M` be a finite-dimensional,
+connected, boundaryless, complete smooth Riemannian manifold whose extended distance is the
+Riemannian distance. For probability measures `μ` and `ν` of finite second moment with `μ`
+absolutely continuous with respect to Riemannian volume, there is a transport map attaining the
+Kantorovich value for the cost `d² / 2`, and its graph plan is the only optimal coupling. -/
+theorem exists_isKantorovichOptimalTransportMap_riemannian
+    {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+    {M : Type*} [EMetricSpace M] [ChartedSpace H M] [IsManifold I (⊤ : ℕ∞) M]
+    [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
+    [Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I (⊤ : ℕ∞) E (fun x : M ↦ TangentSpace I x)]
+    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)]
+    [IsRiemannianManifold I M] [ConnectedSpace M] [CompleteSpace M]
+    (μ ν : Measure M) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+    (hμ2 : TauCeti.HasFiniteMoment 2 μ) (hν2 : TauCeti.HasFiniteMoment 2 ν)
+    (hμ : μ ≪ TauCeti.riemannianVolume I M) :
+    ∃ T : M → M,
+      TauCeti.IsKantorovichOptimalTransportMap (fun z => edist z.1 z.2 ^ 2 / 2) μ ν T ∧
+      ∀ γ, TauCeti.IsOptimalCoupling (fun z => edist z.1 z.2 ^ 2 / 2) γ μ ν ↔
+        γ = μ.map fun x => (x, T x) := by
   sorry
 
 /-! ## Layer 12: Fréchet and Wasserstein barycenters -/
 
-/-- The `Lᵖ(P)` norm of the extended distance from `x`. -/
-def frechetRadius [MeasurableSpace X] [PseudoEMetricSpace X]
-    (p : ℝ≥0∞) (P : ProbabilityMeasure X) (x : X) : ℝ≥0∞ :=
-  eLpNorm (fun y => edist x y) p P.toMeasure
+/-- **Agueh–Carlier existence and uniqueness of quadratic barycenters** (Agueh–Carlier 2011,
+Proposition 2.3, Definition 3.2 and Proposition 3.5). For finitely many laws `μ i` of finite
+second moment on `ℝⁿ` and weights `w i ≥ 0` summing to one, suppose that one input `μ j` of
+positive weight vanishes on small sets: `μ j A = 0` for every Borel `A` of Hausdorff dimension at
+most `n - 1`. Then exactly one probability measure minimizes `ν ↦ ∑ i, w i W₂(ν, μ i)²`. -/
+theorem existsUnique_isMinOn_sum_wassersteinEDist_sq_of_dimH_le {n : ℕ} {ι : Type*} [Fintype ι]
+    (w : ι → ℝ≥0) (hw : ∑ i, w i = 1) (μ : ι → Measure (EuclideanSpace ℝ (Fin n)))
+    [∀ i, IsProbabilityMeasure (μ i)] (hμ : ∀ i, TauCeti.HasFiniteMoment 2 (μ i))
+    {j : ι} (hj : w j ≠ 0)
+    (hsmall : ∀ A, MeasurableSet A → dimH A ≤ ((n - 1 : ℕ) : ℝ≥0∞) → μ j A = 0) :
+    ∃! ν : ProbabilityMeasure (EuclideanSpace ℝ (Fin n)),
+      IsMinOn (fun ν : ProbabilityMeasure (EuclideanSpace ℝ (Fin n)) =>
+        ∑ i, (w i : ℝ≥0∞) * TauCeti.wassersteinEDist 2 (ν : Measure _) (μ i) ^ 2) univ ν := by
+  sorry
 
-/-- A finite-radius minimizer of the Fréchet radius for an exponent `1 ≤ p < ∞`. -/
-def IsFrechetBarycenter [MeasurableSpace X] [PseudoEMetricSpace X]
-    (p : ℝ≥0∞) (P : ProbabilityMeasure X) (x : X) : Prop :=
-  1 ≤ p ∧ p ≠ ∞ ∧ (∃ y, frechetRadius p P y ≠ ∞) ∧
-    IsMinOn (frechetRadius p P) Set.univ x
+/-- **Quadratic barycenters of Gaussian laws** (Agueh–Carlier 2011, Theorem 6.1;
+Álvarez-Esteban–del Barrio–Cuesta-Albertos–Matrán 2016, Theorem 4.2). Let `N(m k, C k)` be
+finitely many Gaussian laws on `ℝⁿ` with positive semidefinite covariances, and let `w k ≥ 0` be
+weights summing to one, one of them positive on an input with positive definite covariance. Then
+there is a positive definite `S` with `S = ∑ k, w k (S^(1/2) C k S^(1/2))^(1/2)` such that the
+quadratic barycenters of the inputs are exactly the Gaussian law with mean `∑ k, w k m k` and
+covariance `S`. -/
+theorem exists_posDef_forall_isMinOn_sum_wassersteinEDist_sq_multivariateGaussian_iff
+    {n : ℕ} {κ : Type*} [Fintype κ] (w : κ → ℝ≥0) (hw : ∑ k, w k = 1)
+    (m : κ → EuclideanSpace ℝ (Fin n)) (C : κ → Matrix (Fin n) (Fin n) ℝ)
+    (hC : ∀ k, (C k).PosSemidef) {j : κ} (hj : w j ≠ 0) (hCj : (C j).PosDef) :
+    ∃ S : Matrix (Fin n) (Fin n) ℝ, S.PosDef ∧
+      S = ∑ k, (w k : ℝ) • CFC.sqrt (CFC.sqrt S * C k * CFC.sqrt S) ∧
+      ∀ ν : ProbabilityMeasure (EuclideanSpace ℝ (Fin n)),
+        IsMinOn (fun ν : ProbabilityMeasure (EuclideanSpace ℝ (Fin n)) =>
+          ∑ k, (w k : ℝ≥0∞) *
+            TauCeti.wassersteinEDist 2 (ν : Measure _) (multivariateGaussian (m k) (C k)) ^ 2)
+          univ ν ↔
+        (ν : Measure _) = multivariateGaussian (∑ k, (w k : ℝ) • m k) S := by
+  sorry
 
-/-- A finite-radius minimizer of the essential-supremum Fréchet radius. -/
-def IsChebyshevCenter [MeasurableSpace X] [PseudoEMetricSpace X]
-    (P : ProbabilityMeasure X) (x : X) : Prop :=
-  (∃ y, frechetRadius ∞ P y ≠ ∞) ∧ IsMinOn (frechetRadius ∞ P) Set.univ x
+/-! ## Layer 13: entropic transport, Sinkhorn, and Schrödinger bridges -/
 
-/-! ## Layer 13: entropic transport and finite Sinkhorn scaling -/
-
-/-- A strictly positive rectangular matrix and strictly positive marginals of equal mass
-admit strictly positive diagonal scaling factors with those row and column sums. -/
-theorem exists_sinkhorn_scaling {n m : ℕ} [NeZero n] [NeZero m]
-    (K : Matrix (Fin n) (Fin m) ℝ) (a : Fin n → ℝ) (b : Fin m → ℝ)
-    (hK : ∀ i j, 0 < K i j) (ha : ∀ i, 0 < a i) (hb : ∀ j, 0 < b j)
-    (hmass : ∑ i, a i = ∑ j, b j) :
-    ∃ (u : Fin n → ℝ) (v : Fin m → ℝ),
-      (∀ i, 0 < u i) ∧ (∀ j, 0 < v j) ∧
-      (∀ i, ∑ j, u i * K i j * v j = a i) ∧
-      (∀ j, ∑ i, u i * K i j * v j = b j) := by
+/-- **Schrödinger potentials** (Nutz, *Introduction to Entropic Optimal Transport*, Theorem 2.1).
+Let `μ` and `ν` be separable probability measures and `R` a probability measure on `X × Y`
+equivalent to `μ ⊗ ν`, and suppose some coupling of `μ` and `ν` has finite relative entropy
+with respect to `R`. If `π` is a coupling minimizing `klDiv · R`, then there are measurable real
+functions `φ` and `ψ` with `dπ / dR = exp (φ ⊕ ψ)` `R`-almost everywhere, and any other such pair
+differs from `(φ, ψ)` by `(a, -a)` almost everywhere, for one real `a`. -/
+theorem exists_rnDeriv_eq_exp_add_of_isCoupling_of_forall_klDiv_le
+    {X Y : Type*} [MeasurableSpace X] [MeasurableSpace Y]
+    (μ : Measure X) (ν : Measure Y) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+    [IsSeparable μ] [IsSeparable ν] (R : Measure (X × Y)) [IsProbabilityMeasure R]
+    (hRμν : R ≪ μ.prod ν) (hμνR : μ.prod ν ≪ R)
+    (hfin : ∃ γ, TauCeti.IsCoupling γ μ ν ∧ klDiv γ R ≠ ∞)
+    {γ : Measure (X × Y)} (hγ : TauCeti.IsCoupling γ μ ν)
+    (hmin : ∀ γ', TauCeti.IsCoupling γ' μ ν → klDiv γ R ≤ klDiv γ' R) :
+    ∃ (φ : X → ℝ) (ψ : Y → ℝ), Measurable φ ∧ Measurable ψ ∧
+      γ.rnDeriv R =ᵐ[R] (fun z => ENNReal.ofReal (Real.exp (φ z.1 + ψ z.2))) ∧
+      ∀ (φ' : X → ℝ) (ψ' : Y → ℝ), Measurable φ' → Measurable ψ' →
+        γ.rnDeriv R =ᵐ[R] (fun z => ENNReal.ofReal (Real.exp (φ' z.1 + ψ' z.2))) →
+        ∃ a : ℝ, φ' =ᵐ[μ] (fun x => φ x + a) ∧ ψ' =ᵐ[ν] (fun y => ψ y - a) := by
   sorry
 
 end TauCetiRoadmap.OptimalTransport
