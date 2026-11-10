@@ -27,7 +27,10 @@ import TauCeti.NumberTheory.NumberField.Global.Places.Extension
 import TauCeti.NumberTheory.Transcendental.AlgebraicLogs
 import TauCeti.NumberTheory.Transcendental.GelfondSchneider.Theorem
 import TauCeti.NumberTheory.Transcendental.Lindemann.Theorem
+import TauCeti.NumberTheory.UnitEquation.ExponentBound
+import TauCeti.NumberTheory.UnitEquation.FinitelyGenerated
 import TauCeti.NumberTheory.UnitEquation.Nondegenerate
+import TauCeti.NumberTheory.UnitEquation.RatSUnit
 import TauCeti.RingTheory.MvPolynomial.HasseDeriv.DegreeBound
 import TauCeti.RingTheory.MvPolynomial.SeparateVariable
 import TauCeti.RingTheory.MvPolynomial.WeightedIndex
@@ -53,8 +56,10 @@ by `#check`. These are bounded-degree Northcott finiteness, Kronecker's theorem 
 one, the den/house lower bound, Dirichlet's theorem for systems of linear forms, Kronecker's
 approximation theorem, the almost-everywhere irrationality exponent, Roth's theorem in its real,
 complex and Liouville-exponent forms, the Thue–Roth inequality for binary forms, Thue's
-approximation and Thue-equation theorems, the Lindemann–Weierstrass theorem in both forms and the
-real Gelfond–Schneider theorem.
+approximation and Thue-equation theorems, the Lindemann–Weierstrass theorem in both forms, the
+real Gelfond–Schneider theorem, and the exponent bounds of README §§4.3 and 4.5 for the unit
+equation, the rational `S`-unit equation and unit equations in finitely generated groups, which
+take the lower bound for linear forms in logarithms as a hypothesis.
 
 Headline theorems of the README that are not statable at the pins, and what each lacks:
 * the effectivity of the Layer 4 bounds (a computable constant) is not expressible in a `Prop`; the
@@ -88,6 +93,9 @@ namespace TauCetiRoadmap.DiophantineApproximationAndTranscendence
 #check @TauCeti.linearIndependent_exp
 #check @TauCeti.algebraicIndependent_exp
 #check @TauCeti.transcendental_rpow
+#check @TauCeti.NumberField.Units.max_abs_le_of_mul_add_mul_eq_one
+#check @TauCeti.abs_padicValRat_le_of_add_eq_one
+#check @TauCeti.NumberField.SUnit.max_abs_le_of_mul_add_mul_eq_one
 
 noncomputable section
 
@@ -654,18 +662,19 @@ theorem matveev {n : ℕ} (hn : 1 ≤ n) {K : Type*} [Field K] [NumberField K] (
         Real.log (Real.exp 1 * ((Finset.univ.sup fun j ↦ (b j).natAbs : ℕ) : ℝ)) <
       Real.log ‖∑ j, (b j : ℂ) * l j‖ := sorry
 
-/-- **The Laurent–Mignotte–Nesterenko bound for two logarithms** (E19, ch. 5, Exercise 5.4): for
-positive rationals `a₁, a₂ ≠ 1` and nonzero integers `b₁, b₂` with
-`Λ = b₁ log a₁ - b₂ log a₂ ≠ 0`,
-`log|Λ| ≥ -24.34 (max(log(|b₁|/log H(a₂) + |b₂|/log H(a₁)) + 0.14, 21))² log H(a₁) log H(a₂)`,
-with `H` the height of a rational number. -/
+/-- **The Laurent–Mignotte–Nesterenko bound for two logarithms** (LMN95, Corollaire 2 at
+`D = 1`; E19, ch. 5, Exercise 5.4): for positive rationals `a₁, a₂ ≠ 1` and nonzero integers
+`b₁, b₂` with `Λ = b₁ log a₁ - b₂ log a₂ ≠ 0`, put `log Aᵢ = max(log H(aᵢ), 1)`, with `H` the
+height of a rational number. Then
+`log|Λ| ≥ -24.34 (max(log(|b₁|/log A₂ + |b₂|/log A₁) + 0.14, 21))² log A₁ log A₂`.
+The floor `1` is Corollaire 2's condition `log Aᵢ ≥ 1/D`; it matters only for `aᵢ ∈ {2, 1/2}`. -/
 theorem laurent_mignotte_nesterenko (a₁ a₂ : ℚ) (h₁ : 0 < a₁) (h₂ : 0 < a₂) (h₁' : a₁ ≠ 1)
     (h₂' : a₂ ≠ 1) (b₁ b₂ : ℤ) (hb₁ : b₁ ≠ 0) (hb₂ : b₂ ≠ 0)
     (hΛ : b₁ * Real.log a₁ - b₂ * Real.log a₂ ≠ 0) :
-    let H₁ : ℝ := max a₁.num.natAbs a₁.den
-    let H₂ : ℝ := max a₂.num.natAbs a₂.den
-    (-24.34) * (max (Real.log (abs (b₁ : ℝ) / Real.log H₂ + abs (b₂ : ℝ) / Real.log H₁) + 0.14) 21) ^ 2 *
-        Real.log H₁ * Real.log H₂ ≤ Real.log (abs (b₁ * Real.log a₁ - b₂ * Real.log a₂)) := sorry
+    let logA₁ : ℝ := max (Real.log ((max a₁.num.natAbs a₁.den : ℕ) : ℝ)) 1
+    let logA₂ : ℝ := max (Real.log ((max a₂.num.natAbs a₂.den : ℕ) : ℝ)) 1
+    (-24.34) * (max (Real.log (abs (b₁ : ℝ) / logA₂ + abs (b₂ : ℝ) / logA₁) + 0.14) 21) ^ 2 *
+        logA₁ * logA₂ ≤ Real.log (abs (b₁ * Real.log a₁ - b₂ * Real.log a₂)) := sorry
 
 /-- Yu's explicit `𝔭`-adic bound (Compositio 91 (1994), §0.1), stated through the `𝔭`-adic
 absolute value with base `N𝔭 = p^{f_𝔭}`: `ord_𝔭(Λ) < Φ log(dB)`. -/
@@ -743,31 +752,6 @@ theorem tijdeman_gap (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) {x y : ℕ}
       ∏ p ∈ S, max 1 (Real.log p)
     (y : ℝ) * (Real.exp 1 * Real.log y / Real.log 2) ^ (-C) ≤ y - x := sorry
 
-/-- **The effective unit equation** (README §4.3): let `K` have unit rank `r ≥ 1` with a system
-`u` of `r` independent units, and suppose that for every embedding `σ`, every `γ` that is a
-root-of-unity multiple of `α` or `β` and every exponent vector `k` with `σ(γ uᵏ) ≠ 1`, the
-Baker-type bound `|σ(γ uᵏ) - 1| ≥ (e·max(1, maxⱼ |kⱼ|))^(-C′)` holds. Then every solution of
-`αx + βy = 1` in units `x = ζ_x u^(k_x)`, `y = ζ_y u^(k_y)` has exponents of size at most
-`max(1, 2A + 2B(log(2B) - 1))`, where `A` and `B` are explicit in `C′`, the degree, the houses of
-`α` and `β` and the norm of the coordinate map of the logarithmic-embedding basis of `u`. -/
-theorem unitEquation_exponent_bound {K : Type*} [Field K] [NumberField K]
-    {u : Fin (rank K) → (𝓞 K)ˣ} (hu : IsMaxRank u) (hr : 1 ≤ rank K)
-    {α β : K} (hα : α ≠ 0) (hβ : β ≠ 0) {C' : ℝ} (hC' : 0 < C')
-    (hLB : ∀ (σ : K →+* ℂ) (γ : K), (∃ ζ ∈ torsion K, γ = α * (ζ : K) ∨ γ = β * (ζ : K)) →
-      ∀ e : Fin (rank K) → ℤ, σ (γ * ∏ j, ((u j : 𝓞 K) : K) ^ e j) ≠ 1 →
-        (Real.exp 1 * max 1 ((Finset.univ.sup fun j => (e j).natAbs : ℕ) : ℝ)) ^ (-C') ≤
-          ‖σ (γ * ∏ j, ((u j : 𝓞 K) : K) ^ e j) - 1‖)
-    (x y : (𝓞 K)ˣ) (hxy : α * (x : K) + β * (y : K) = 1)
-    (ζx ζy : (𝓞 K)ˣ) (hζx : ζx ∈ torsion K) (hζy : ζy ∈ torsion K)
-    (ex ey : Fin (rank K) → ℤ) (hx : x = ζx * ∏ j, u j ^ ex j) (hy : y = ζy * ∏ j, u j ^ ey j) :
-    let d : ℝ := Module.finrank ℚ K
-    let κ : ℝ := 2 * (d - 1) *
-      ‖((basisOfIsMaxRank hu).equivFunL : logSpace K →L[ℝ] (Fin (rank K) → ℝ))‖
-    let A : ℝ := κ * (d - 1) * (Real.log (max (TauCeti.house α) (TauCeti.house β)) + C')
-    let B : ℝ := κ * (d - 1) * C'
-    ((Finset.univ.sup fun j => max (ex j).natAbs (ey j).natAbs : ℕ) : ℝ) ≤
-      max 1 (2 * A + 2 * B * (Real.log (2 * B) - 1)) := sorry
-
 /-- **Baker's theorem on superelliptic equations** (E19, ch. 5, Theorem 5.14), with the explicit
 bounds of Bérczes–Evertse–Győry (BEG13, Theorems 2.1 and 2.2 at `K = ℚ`, `S = {∞}`): for
 `f ∈ ℤ[X]` separable over `ℚ` of degree `N`, `n ≥ 2` with `N ≥ 2` if `n ≥ 3` and `N ≥ 3` if
@@ -807,54 +791,6 @@ Tijdeman's `C` is effectively computable; this statement records only its existe
 theorem tijdeman_catalan :
     ∃ C : ℕ, ∀ x y m n : ℕ, 2 ≤ x → 2 ≤ y → 2 ≤ m → 2 ≤ n →
       (x : ℤ) ^ m - (y : ℤ) ^ n = 1 → x ^ m ≤ C ∧ y ^ n ≤ C := sorry
-
-/-- **The effective rational `S`-unit equation** (README §4.5): if every `±∏_{q ∈ S} q^(b_q) ≠ 1`
-with `b_p = 0` satisfies the `p`-adic bound `|±∏ q^(b_q) - 1|_p ≥ (e max(1, |b|))^(-C)` at every
-`p ∈ S`, then every solution of `x + y = 1` in `S`-units has
-`|v_p(x)|, |v_p(y)| ≤ max(1, (2C/log 2) log(2C/log 2))` at every prime `p`. -/
-theorem sUnitEquation_exponent_bound (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) {C : ℝ}
-    (hC : 0 < C)
-    (hLB : ∀ p ∈ S, ∀ (ε : ℤˣ) (b : S → ℤ), (∀ hp : p ∈ S, b ⟨p, hp⟩ = 0) →
-      (ε : ℚ) * ∏ q : S, ((q : ℕ) : ℚ) ^ b q ≠ 1 →
-      (Real.exp 1 * max 1 ((Finset.univ.sup fun q => (b q).natAbs : ℕ) : ℝ)) ^ (-C) ≤
-        ((padicNorm p ((ε : ℚ) * ∏ q : S, ((q : ℕ) : ℚ) ^ b q - 1) : ℚ) : ℝ))
-    (x y : ℚˣ) (hx : x ∈ (Set.unit {v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ) | (Rat.HeightOneSpectrum.primesEquiv v).1 ∈ S} ℚ)) (hy : y ∈ (Set.unit {v : IsDedekindDomain.HeightOneSpectrum (𝓞 ℚ) | (Rat.HeightOneSpectrum.primesEquiv v).1 ∈ S} ℚ)) (hxy : (x : ℚ) + y = 1)
-    (p : ℕ) :
-    (|padicValRat p (x : ℚ)| : ℝ) ≤ max 1 (2 * C / Real.log 2 * Real.log (2 * C / Real.log 2)) ∧
-      (|padicValRat p (y : ℚ)| : ℝ) ≤
-        max 1 (2 * C / Real.log 2 * Real.log (2 * C / Real.log 2)) := sorry
-
-/-- **The effective `S`-unit equation over a number field** (README §4.5): let `γ₁, …, γ_t` be
-`S`-units of `K` and `κ > 0` with `|z_j| ≤ κ h(ζ γᶻ)` for every root of unity `ζ` and every
-exponent vector `z`. Suppose that for every `c` that is a root-of-unity multiple of `a` or `b`
-and every `z` with `c γᶻ ≠ 1`, the archimedean bounds `|σ(c γᶻ) - 1| ≥ (e·max(1, maxⱼ |zⱼ|))^(-C)`
-and the `v`-adic bounds `|c γᶻ - 1|_v ≥ (e·max(1, maxⱼ |zⱼ|))^(-C)` for `v ∈ S` hold. Then every
-solution of `ax + by = 1` with `x = ζ_x γ^(z_x)` and `y = ζ_y γ^(z_y)` has exponents of size at
-most `max(1, 2A + 2B(log(2B) - 1))`, with `A` and `B` explicit in `κ`, `C`, the number of places
-in `S` and at infinity, and the sizes of `a` and `b`. -/
-theorem gyoryEquation_exponent_bound {K : Type*} [Field K] [NumberField K] {t : ℕ}
-    (γ : Fin t → K) (hγ0 : ∀ j, γ j ≠ 0) (S : Finset (FinitePlace K))
-    (hS : ∀ j, ∀ v : FinitePlace K, v ∉ S → v (γ j) = 1) {κ : ℝ} (hκ : 0 < κ)
-    (hκbound : ∀ (ζ : K), (∃ n : ℕ, 0 < n ∧ ζ ^ n = 1) → ∀ (z : Fin t → ℤ) (j : Fin t),
-      |(z j : ℝ)| ≤ κ * Height.logHeight₁ (ζ * ∏ i, γ i ^ z i))
-    {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) {C : ℝ} (hC : 0 < C)
-    (hLBinf : ∀ (σ : K →+* ℂ) (c : K), (∃ ζ : K, (∃ n : ℕ, 0 < n ∧ ζ ^ n = 1) ∧
-        (c = a * ζ ∨ c = b * ζ)) → ∀ z : Fin t → ℤ, c * ∏ j, γ j ^ z j ≠ 1 →
-      (Real.exp 1 * max 1 ((Finset.univ.sup fun j => (z j).natAbs : ℕ) : ℝ)) ^ (-C) ≤
-        ‖σ (c * ∏ j, γ j ^ z j) - 1‖)
-    (hLBfin : ∀ v ∈ S, ∀ (c : K), (∃ ζ : K, (∃ n : ℕ, 0 < n ∧ ζ ^ n = 1) ∧
-        (c = a * ζ ∨ c = b * ζ)) → ∀ z : Fin t → ℤ, c * ∏ j, γ j ^ z j ≠ 1 →
-      (Real.exp 1 * max 1 ((Finset.univ.sup fun j => (z j).natAbs : ℕ) : ℝ)) ^ (-C) ≤
-        v (c * ∏ j, γ j ^ z j - 1))
-    (ζx ζy : K) (hζx : ∃ n : ℕ, 0 < n ∧ ζx ^ n = 1) (hζy : ∃ n : ℕ, 0 < n ∧ ζy ^ n = 1)
-    (zx zy : Fin t → ℤ)
-    (hxy : a * (ζx * ∏ j, γ j ^ zx j) + b * (ζy * ∏ j, γ j ^ zy j) = 1) :
-    let s : ℝ := S.card + Fintype.card (InfinitePlace K)
-    let M : ℝ := max (max (TauCeti.house a) (TauCeti.house b)) (⨆ v ∈ S, max (v a) (v b))
-    let A : ℝ := 2 * κ * s * (Real.log M + C)
-    let B : ℝ := 2 * κ * s * C
-    ((Finset.univ.sup fun j => max (zx j).natAbs (zy j).natAbs : ℕ) : ℝ) ≤
-      max 1 (2 * A + 2 * B * (Real.log (2 * B) - 1)) := sorry
 
 end DiophantineApproximation
 
