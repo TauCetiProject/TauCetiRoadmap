@@ -18,100 +18,173 @@ body:
       label: Roadmap area
       description: Which roadmap does this intention sit in?
       options:
-        - AdicSpaces
+        - AbhyankarLemma
+        - AdicEtaleGeometry
         - AdicSpacesPartII
+        - AdicSpacesPartIII
+        - AdicSpacesPartIV
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
-        - AnalyticToricGeometry
+        - AnalyticNumberTheoryPartI
+        - AsymptoticExpansions
+        - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
         - BordismFormalGroups
+        - BorelEquivalenceRelations
+        - CFSGBasicProperties
         - CFSGStatement
-        - Chebotarev
+        - CStarAlgebras
+        - CharacteristicClasses
+        - ChevalleyGroups
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - ClusterAlgebras
+        - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
         - ComplexCurveModuli
-        - ConformalMapping
+        - ComplexKahlerGeometry
+        - ComplexManifolds
+        - ComplexTori
+        - ComputabilityTheory
+        - ConformalMappingPartII
+        - CountableModelCounting
         - DGAInfinity
         - DGFloer
-        - DenseGraphLimits
+        - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
+        - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
-        - Exchangeability
+        - EllipticIntegrals
+        - EnhancedDerivedSheaves
+        - EquivariantIntersectionTheory
+        - EtaleCohomologyFoundations
+        - EtaleMassFormula
+        - FactorRigidity
         - FinancialMathematics
+        - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
+        - FlagVarieties
         - FormalLaurentPuiseux
+        - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
+        - GeometricCurrents
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
-        - GlobalNumberFields
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
+        - GroebnerGeometry
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
-        - HeightsAndUnits
-        - HopfRinow
+        - HilbertModules
+        - HopfologicalAlgebra
         - Hyperfunctions
-        - InfinitaryLogic
+        - ImaginaryQuadraticClassNumber
+        - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
+        - KacMoody
         - KhovanovHomology
-        - LocalFieldsRamification
-        - LocalGaloisGroups
+        - LFunctions
+        - LieGroupoidsPoisson
+        - LinearFormsInLogarithms
+        - LocalPurity
+        - LocalVariationalFieldTheory
+        - MarkovChainsAndRenewal
         - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
         - MorseNovikov
         - MorseTheory
+        - Neuromanifolds
         - NewtonPolygons
+        - NilpotentOrbits
         - NoncommutativeGeometry
-        - NumberFieldArithmetic
-        - OneParameterSemigroups
+        - NoncommutativeIntegration
+        - NoncongruenceModularForms
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
-        - OrthogonalSpinGroups
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
-        - PeripheralActions
+        - PerfectoidSpaces
         - PivotalSpherical
-        - PolynomialGaloisGroups
+        - Poincare3D
+        - PolylogarithmFunctions
         - PositiveScalarCurvature
-        - ProfiniteArithmetic
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
-        - ProfiniteProPGroups
+        - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
+        - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
-        - RealAlgebraicGeometry
+        - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
+        - RandomMatrices
+        - Rank24LatticeConstructions
+        - RealAnalyticGeometry
         - ReductiveGroups
+        - ReductiveGroupsPartII
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
+        - RiemannianGeometry
         - RigidAnalyticGeometry
+        - RootSystemsPartII
+        - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
         - SchubertGeometry
+        - SeibergWittenTheory
+        - SmoothBundlesConnections
+        - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsParabolicCylinder
         - SpinGeometry
+        - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Subfactors
+        - SubspaceTheorem
+        - SuccessiveMinima
+        - SymplecticFieldTheory
+        - SymplecticGeometry
+        - TauberianBoundaryConvergence
         - TaubesGromov
+        - TemperleyLieb
+        - TensorProductCombinatorics
+        - ThetaSeries
+        - TopologicalKTheory
+        - TopologicalSheafCohomology
+        - TypeAHeckeAlgebras
+        - VonNeumannAlgebras
         - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
