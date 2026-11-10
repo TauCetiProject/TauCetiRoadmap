@@ -1525,9 +1525,11 @@ where `N±_K(T)` counts the zeros of `ζ_K` with `0 < Re ρ < 1` and `|Im ρ| �
 the count used here. The absolute constant follows: for `T ≥ 2`, put `L = log(|d_K| T^n)`; then
 `(T + 2)/(2π) ≤ T/π < T`, `r₁/4 ≤ n/4`, `4.51954 ≤ 4.51954 n` and `L ≥ n log 2`, so the error is
 at most `0.22737 L + 27.795 n ≤ (0.22737 + 27.795/log 2) L < 41 L`. Trudgian, Theorem 2, states
-the same count with smaller constants, but Bennett, Martin, O'Bryant and Rechnitzer (§1, p. 2)
-report that the proofs of Trudgian's Theorems 1 and 2 are incomplete (a parameter inequality is
-wrongly treated as redundant), and Hasanalizade–Shen–Wong (§1, pp. 1–2) prove Theorem 1.1 to
+the same count, without the term `r₁/4`, with the error
+`0.317 (log |d_K| + n log T) + 6.333 n + 3.482` for `T ≥ 1` (a larger leading constant and smaller
+secondary ones), but Bennett, Martin, O'Bryant and Rechnitzer (§1, p. 2) report that the proofs
+of Trudgian's Theorems 1 and 2 are incomplete (a parameter inequality is wrongly treated as
+redundant), and Hasanalizade–Shen–Wong (§1, pp. 1–2) prove Theorem 1.1 to
 repair the Dedekind case. For `Λ(χ, ·)` the argument of 7.4 on *entireCompletion* is the proof,
 and gives a constant depending on `n`.
 
