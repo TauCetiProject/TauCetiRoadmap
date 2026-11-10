@@ -365,8 +365,8 @@ The specification, for relational `L`:
   isomorphism; hence `modelsOf φ` is measurable for the invariant σ-algebra;
 - **model spaces**: `standardBorelSpace_modelsOf` (Mathlib's `MeasurableSet.standardBorel`) and
   clopenability (`MeasurableSet.isClopenable`); the cardinality bound for `modelsOf φ`;
-- **Gδ model classes**: `polishSpace_modelsOf_of_isGδ` and its standard-Borel form, from
-  `IsGδ.polishSpace` and `IsGδ.standardBorelSpace` (BorelEquivalenceRelations). Closure of the Gδ
+- **Gδ model classes**: a Gδ model class is Polish and standard Borel in the subspace structures,
+  directly by `IsGδ.polishSpace` and `IsGδ.standardBorelSpace` (BorelEquivalenceRelations). Closure of the Gδ
   property under finite and countable conjunction. For a first-order sentence embedded by `toInf`:
   a quantifier-free matrix gives clopen sets, a universal sentence (`IsUniversal`) a closed set,
   and a `∀∃` sentence (`ψ.alls` with `ψ.IsExistential`) a Gδ set (`isGδ_modelsOf_toInf_alls`);
@@ -483,9 +483,11 @@ Still to build: `stabilizesCompletely_iff_univ`, `selfStabilizationOrdinal_le_sc
   - `scottHeight_le_selfStabilizationOrdinal_add_omega0` (every `M`), from the constant-chain
     bound at `s(M)`;
   - `internalScottRank_le_succ_scottHeight` (countable `M`) and
-    `scottHeight_le_internalScottRank_add_omega0` (every `M`), with
-    `orbitRank_le_scottHeight`, combining the above with the InfinitaryLogic comparisons
-    `s(M) ≤ SR(M) ≤ s(M) + 1`.
+    `scottHeight_le_internalScottRank_add_omega0` (every `M`), combining the above with the
+    InfinitaryLogic comparisons `s(M) ≤ SR(M) ≤ s(M) + 1`;
+  - `orbitRank_le_scottHeight` (countable `M`): every tuple of `M` has orbit rank at most SH(M),
+    by Tau Ceti's `orbitRank_le_selfStabilizationOrdinal` and
+    `selfStabilizationOrdinal_le_scottHeight`.
 
   So s(M) ≤ SH(M) ≤ s(M) + ω and SR(M) ≤ SH(M) + 1 ≤ SR(M) + ω + 1. The bound SH ≤ SR + ω is
   attained by the countably infinite pure set (SR = 1, SH = ω), and the pure sets of size `m`
@@ -540,8 +542,8 @@ height is the right parameter for the height comparison.
 
 ### 5.1 The easy direction
 
-`lopezEscobar_easy`: for every `φ : L.Sentenceω`, `modelsOf φ` is Borel and isomorphism
-invariant. This is Layer 2.
+For every `φ : L.Sentenceω`, `modelsOf φ` is Borel (`measurableSet_modelsOf`) and isomorphism
+invariant (`isomorphismInvariant_modelsOf`). This is Layer 2.
 
 ### 5.2 The PC sentence of a tree
 

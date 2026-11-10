@@ -210,6 +210,10 @@ PR #41946. -/
 def body {A : Type*} (T : tree A) : Set (ℕ → A) :=
   {x | ∀ n, initialSegment x n ∈ T}
 
+/-- **Layer 3.** The body is monotone in the tree. -/
+theorem body_mono {A : Type*} {S T : tree A} (h : S ≤ T) : body S ⊆ body T :=
+  fun _ hx n => h (hx n)
+
 /-- Strict extension on the nodes of a tree: `y` properly extends `x`. -/
 def StrictExt {A : Type*} (T : tree A) (y x : T) : Prop :=
   (x : List A) <+: y ∧ (x : List A) ≠ y
@@ -305,6 +309,15 @@ theorem bfEquiv_of_selfStabilizesCompletely [L.IsRelational] {M : Type w} {N : T
       (lt_add_of_pos_right β Ordinal.omega0_pos)
   · exact hab.mono hγ
 
+/-- **Layer 4 milestone.** Testing external stabilization against countable structures in any
+other universe gives the same predicate as testing against countable structures in `Type`. -/
+theorem stabilizesCompletely_iff_univ [L.IsRelational] {M : Type w} [L.Structure M]
+    {β : Ordinal.{w}} :
+    StabilizesCompletely (L := L) M β ↔
+      ∀ (N : Type w') [L.Structure N] [Countable N] (n : ℕ) (a : Fin n → M) (b : Fin n → N),
+        BFEquiv (L := L) β n a b → BFEquiv (L := L) (β + 1) n a b := by
+  sorry
+
 /-- **Layer 4 milestone, comparison with internal stabilization.** -/
 theorem selfStabilizationOrdinal_le_scottHeight [L.IsRelational] (M : Type w) [L.Structure M]
     [Countable M] :
@@ -316,6 +329,14 @@ theorem internalScottRank_le_succ_scottHeight [L.IsRelational] (M : Type w) [L.S
     [Countable M] :
     internalScottRank (L := L) M ≤ Order.succ (scottHeight (L := L) M) := by
   sorry
+
+/-- **Layer 4 milestone, comparison with orbit ranks.** In a countable structure every tuple has
+orbit rank at most the Scott height: the library's `orbitRank_le_selfStabilizationOrdinal` with
+`selfStabilizationOrdinal_le_scottHeight`. -/
+theorem orbitRank_le_scottHeight [L.IsRelational] {M : Type w} [L.Structure M] [Countable M]
+    {n : ℕ} (a : Fin n → M) :
+    orbitRank (L := L) a ≤ scottHeight (L := L) M :=
+  (orbitRank_le_selfStabilizationOrdinal a).trans (selfStabilizationOrdinal_le_scottHeight M)
 
 /-- **Layer 4 milestone, isomorphism is Borel under bounded Scott height.** -/
 theorem measurableSet_iso_inter_of_scottHeight_le [L.IsRelational]
@@ -557,6 +578,11 @@ def codeRel [L.IsRelational] (lt : L.Relations 2) (c : RelationalConfiguration L
 /-- **Layer 6, the coded well-order class** `WO`. -/
 def wellOrderClass [L.IsRelational] (lt : L.Relations 2) : Set (RelationalConfiguration L ℕ) :=
   {c | IsWellOrder ℕ (codeRel lt c)}
+
+/-- **Layer 6 milestone.** `WO` is isomorphism invariant. -/
+theorem isomorphismInvariant_wellOrderClass [L.IsRelational] (lt : L.Relations 2) :
+    IsomorphismInvariant (wellOrderClass lt) := by
+  sorry
 
 /-- **Layer 6 milestone.** Every countably infinite ordinal is the order type of a code in `WO`. -/
 theorem exists_mem_wellOrderClass_type_eq [L.IsRelational] (lt : L.Relations 2)
