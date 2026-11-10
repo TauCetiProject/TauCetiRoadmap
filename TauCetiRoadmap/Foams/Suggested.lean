@@ -22,8 +22,10 @@ evaluation (0.2–0.7, 1.1). Planar reconstruction needs the trace quotient and 
 (2.1–2.7). The concrete monoidal 2-categories and spatiality need closure-state 2-homs, composition
 and chosen duality cells (Layers 3–5). Progressive spanning needs typed expressions and their
 compiler (Layer 6). The canopolis requires disk categories and insertion (Layer 7).
-KH1 needs KhovanovHomology K2's chosen graded Frobenius object, KH2 its circle tensors and the
-nilvalent state functor, KH3 the compiler, and KH4 the formal surface category and disk action.
+KH1 needs the even-supported graded Frobenius interface of 0.8 and the shift and reversal
+comparisons of 0.10, KH2 the nilvalent state functor, KH3 the compiler, and KH4 KhovanovHomology
+K2's formal surface category and the disk action. The dual-number Frobenius algebra and the
+circle tensors themselves are native.
 -/
 
 namespace TauCetiRoadmap.Foams

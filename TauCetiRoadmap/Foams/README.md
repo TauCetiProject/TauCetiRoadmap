@@ -288,7 +288,7 @@ the nonequivariant specialization sends them to zero.
 
 | Supplier and section | Contract consumed | Foams construction |
 | --- | --- | --- |
-| [KhovanovHomology, K1–K2 and K3 closed evaluation][khovanov] | Finite planar calculus, formal surface category and relations, and closed evaluation | KH1–KH4, using the native algebra and circle tensors listed above |
+| [KhovanovHomology, K1–K2 and K3 closed evaluation][khovanov] | Finite planar calculus, formal surface category and relations, and closed evaluation | Planar web calculus in 0.9 and 2.4, disk diagrams in 7.2, and the formal-surface comparison KH4 |
 | [TemperleyLieb, Layer 2][tl] | Ordinary monoidal presentations and their interpretation property | The planar web-presentation infrastructure of 0.9 |
 | [KhovanovHomology, G][khovanov-geometry] | Finite plane realizations, polygonal complement and boundary-orientation dictionaries, controlled smoothing and relative extension | Relative-boundary disk diagrams, collar transport and insertion in Layer 7 |
 | [GeometricTopology, 2.2][geometric-schoenflies] and [3.3][geometric-isotopy] | Boundary-parametrized Schoenflies and relative isotopy extension with their collar and regularity hypotheses | Prove the interior-arc and boundary-relative disk-with-holes comparisons in Layer 7 |
@@ -601,9 +601,9 @@ gradings whenever the target also satisfies
 these hypotheses. Finite projectivity alone does not supply the homogeneous
 basis required for circle decompositions.
 
-For the ordinary rank-two instance, consume KhovanovHomology K2's native
-DualNumber R carrier, chosen coalgebra, perfect trace pairing and base-change
-comparison. Prove that the coproduct reconstructed from its trace by this
+For the ordinary rank-two instance, use the native DualNumber R carrier with
+`TauCeti.Khovanov.coalgebra`, its perfect trace pairing and base-change comparison,
+listed under From Tau Ceti. Prove that the coproduct reconstructed from its trace by this
 general interface equals the chosen Khovanov coproduct. This specialization
 does not replace the finite-free theory for general A.
 
@@ -623,8 +623,8 @@ perfect-pairing and Frobenius-coalgebra interfaces. Its foam application follows
 [Goertz–Marino–Wedrich v1, Example 2.9, p. 12, Lemma 3.32, p. 26, Definition 3.35, p. 28][gmw].
 
 *Needs:* Statement: native finite free commutative algebras, perfect pairings and Frobenius
-coalgebras. Proof: dual bases and tensor universal properties; KhovanovHomology K2 for the chosen
-rank-two instance.
+coalgebras. Proof: dual bases and tensor universal properties; the native Khovanov Frobenius
+algebra listed under From Tau Ceti for the chosen rank-two instance.
 
 ### 0.9 Web presentations and reduction coefficients
 
@@ -901,9 +901,10 @@ graded. Proof: its handle identities and the nilvalent presentation.
 
 For every commutative ring R concentrated in degree zero, specialize to
 A = DualNumber R, with X its square-zero generator, ε(1)=0 and ε(X)=1,
-using KhovanovHomology K2's chosen Frobenius structure. Put 1 in degree zero
-and X in degree −2, so c=−1. Identify the circle A{1} with K2's quantum
-object V: 1 has degree +1 and X degree −1. The circle multiplication and
+using the native chosen Frobenius structure `TauCeti.Khovanov.coalgebra`.
+Put 1 in degree zero and X in degree −2, so c=−1. Identify the circle A{1}
+with the one-circle native circle tensor V under `TauCeti.Khovanov.circleQuantumGrading`:
+1 has degree +1 and X degree −1. The circle multiplication and
 comultiplication have degree −1, and its unit and counit degree +1.
 
 Prove the degree-reversal comparison with the c=1 example: for
@@ -914,7 +915,7 @@ even support. Use unsigned symmetry on quantum tensor factors, including
 odd-degree circle states; cochain signs are outside this construction.
 
 - Supply the grading reversal, trace/coalgebra identification and coefficient-change compatibility
-  for KhovanovHomology K2’s chosen object.
+  for the native chosen object.
 
 **Checks.**
 
@@ -923,11 +924,11 @@ odd-degree circle states; cochain signs are outside this construction.
 - m(1⊗1)=1 lowers degree from 2 to 1; Δ(1)=1⊗X+X⊗1 lowers degree from 1 to 0. Both maps have degree −1.
 
 This comparison is owned here. Use [Bar-Natan v2, Definition 7.1 and Proposition 7.2, p. 1470][bn]
-to identify the conventions of the K2 contract. Bar-Natan writes ǫ for the unit and η for
-the counit; this roadmap uses η and ε respectively.
+to identify the conventions of the native Frobenius algebra. Bar-Natan writes ǫ for the unit
+and η for the counit; this roadmap uses η and ε respectively.
 
-*Needs:* Statement: 0.8, 1.3 and KhovanovHomology K2. Proof: its explicit four maps and the shift
-formulas of 0.10.
+*Needs:* Statement: 0.8, 1.3 and the native Khovanov Frobenius algebra listed under From Tau Ceti.
+Proof: its explicit four maps and the shift formulas of 0.10.
 
 
 ### Examples
@@ -938,8 +939,8 @@ torus in 1.3 has value 2 in either orientation model.
 ### Dependencies
 
 Sections 1.1–1.2 use Layer 0’s gl(N) records and coefficient rings. Section 1.3 uses the nilvalent
-and Frobenius branches. KH1 also consumes KhovanovHomology K2. No universal construction or
-reconstruction theorem is used.
+and Frobenius branches. KH1 also consumes the native Khovanov Frobenius algebra. No universal
+construction or reconstruction theorem is used.
 
 ## Layer 2: state spaces and reconstruction
 
@@ -1579,13 +1580,12 @@ Proof: its dual basis and the nilvalent surface presentation, including unorient
 
 For KH1's instance and each finite circle set I, construct a natural graded
 R-linear isomorphism from the unoriented nilvalent state space of those
-circles to KhovanovHomology K2's indexed tensor of copies of V. Construct
+circles to the native circle tensor `TauCeti.Khovanov.CircleTensor`. Construct
 the oriented comparison through orientation forgetting. Match the decorated
-disk basis with K2's enhanced-state basis, including the empty set of circles.
+disk basis with the native basis `TauCeti.Khovanov.circleBasis`, including the empty set of circles.
 Prove compatibility with relabelling, disjoint union, the trace pairing and
 birth, death, merge and split maps, retaining the unaffected circle factors.
-Use the maps and coefficient comparisons owned by K2, rather than specifying
-a second circle-tensor theory.
+Use the maps and coefficient comparisons of the native circle-tensor theory.
 
 For any homomorphism of commutative coefficient rings R → S, prove this
 comparison commutes with the scalar-extension isomorphisms on both sides.
@@ -1607,8 +1607,8 @@ with formal surface presentations is KH4, after disk insertion is available.
 This comparison is developed here between the two named state constructions. The four surface maps
 use [Bar-Natan v2, Definition 7.1 and Proposition 7.2, p. 1470][bn].
 
-*Needs:* Statement: KH1, 2.12 and KhovanovHomology K2’s indexed circle tensors. Proof: the explicit
-disk dual basis and scalar-change formulas.
+*Needs:* Statement: KH1, 2.12 and the native circle tensors listed under From Tau Ceti.
+Proof: the explicit disk dual basis and scalar-change formulas.
 
 
 ### Examples
@@ -2199,7 +2199,7 @@ involution. Prove compiler compatibility with the orientation-forgetting
 nilvalent branch.
 
 **KH3 (ordinary Khovanov generators).** In KH1's specialization, prove that
-the compiled circle opening, closing, merge and split act under KH2 by K2's
+the compiled circle opening, closing, merge and split act under KH2 by the native
 unit, counit, multiplication and comultiplication. Include identities,
 decorations and unaffected factors, and prove compatibility with vertical
 composition, horizontal composition, tensor and orientation forgetting.
@@ -2224,7 +2224,8 @@ Construct the compiler generators here. Compare the adjunction pictures with [Dy
 3–4][gw-cob].
 
 *Needs:* Statement: Layers 4–5 and finite abstract generators. Proof: 0.2 admissibility, 2.11–2.13
-Frobenius maps and the chosen duality cells; KH3 additionally consumes KhovanovHomology K2.
+Frobenius maps and the chosen duality cells; KH3 additionally consumes the native Khovanov
+Frobenius algebra.
 
 ### 6.2 Merge–split adjunctions
 
