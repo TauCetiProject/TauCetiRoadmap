@@ -219,7 +219,7 @@ a **global** FL diffeomorphism. Define energy E_L=⟨FL(v),v⟩−L(v), Cartan f
 Euler–Lagrange equations and Hamilton's equations, including second-order property of the flow and
 invariance under configuration coordinate changes. Build kinetic-plus-potential systems from a smooth
 positive definite metric and potential, and prove fiber Hessian/Legendre/energy formulas. Metric
-geodesic flow is the kinetic Hamiltonian flow via Legendre and the Levi–Civita connection of [HopfRinow](../../HopfRinow/README.md).
+geodesic flow is the kinetic Hamiltonian flow via Legendre and the Levi–Civita connection of [HopfRinow](../../../Completed/HopfRinow/README.md).
 
 For time-dependent L or H build extended phase space T*(Q×R), Hamiltonian p_t+H(t,q,p), and
 nonautonomous equations; a conserved quantity criterion includes ∂_tF+{F,H}=0. Prove variation of

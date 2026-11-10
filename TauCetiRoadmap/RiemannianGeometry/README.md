@@ -10,6 +10,13 @@ their coordinate, naturality, regularity, and computational APIs.
 The definitive specification is this README. `Suggested.lean` gives selected
 interfaces and is not an exhaustive checklist.
 
+The sub-roadmap [Local geometry of Riemannian surfaces](Surfaces/README.md) owns polar
+coordinates and normal strips on surfaces, integration up to normal cut times on surface
+domains, Gauss–Bonnet for disks with corners and the turning theorem with corners,
+nonpositively curved normal balls without completeness, and conformal invariance of the
+surface Dirichlet energy. It is independently definitive and states its boundaries with the
+milestones below.
+
 ## Conventions and suppliers
 
 Work with finite-dimensional real, Hausdorff, second-countable, boundaryless smooth
@@ -51,7 +58,7 @@ immersions use trace B=0 and are treated separately from the average formula.
 
 Consume these exact suppliers:
 
-- [HopfRinow](../HopfRinow/README.md), Layers 0–4: the reconciled distance and
+- [HopfRinow](../../Completed/HopfRinow/README.md), Layers 0–4: the reconciled distance and
   piecewise smooth length, Levi-Civita existence/uniqueness/regularity, intrinsic
   covariant differentiation along curves, geodesic spray/flow, natural-domain
   `TauCeti.Manifold.riemannianExp`, normal balls/logarithms, Gauss lemma, first
@@ -111,7 +118,7 @@ Consume these exact suppliers:
   projective examples, after the early G4.0b smooth carriers.
 - [CharacteristicClasses C2.0](../CharacteristicClasses/README.md): relative
   bundle disc/sphere CW models and disc-attachment comparison consumed by R3.
-- [ConformalMapping L3/L5](../ConformalMapping/README.md) supplies the Riemann map/closed-disc Jordan correspondence and plane separation/filled-hull floor. [GeometricMeasureTheory G1/G6](../GeometricMeasureTheory/README.md) and [DifferentialGeometry5.6](../DifferentialGeometry/README.md) supply rectifiable length/arclength, Jordan index, proximity/reparametrization and trace-area-zero comparisons. [GeometricMeasureTheory G3–G5](../GeometricMeasureTheory/README.md#g3--distributional-bv-and-variation-measures) supplies the generic BV/variation/perimeter floor; R4.9 constructs its spherical chart comparisons and symmetrization applications. R4.9 constructs the spherical component-cover, annular, round-regularization and finite-family shortening applications. [Isoperimetry I3/I6](../Isoperimetry/README.md#i6--full-planar-jordan-theorem-and-compatibility) supplies the Euclidean Jordan inequality for the normal-chart weak small-area application; R4.9 owns spherical symmetrization and the sharp spherical utility.
+- [ConformalMapping L3/L5](../../Completed/ConformalMapping/README.md) supplies the Riemann map/closed-disc Jordan correspondence and plane separation/filled-hull floor. [GeometricMeasureTheory G1/G6](../GeometricMeasureTheory/README.md) and [DifferentialGeometry5.6](../DifferentialGeometry/README.md) supply rectifiable length/arclength, Jordan index, proximity/reparametrization and trace-area-zero comparisons. [GeometricMeasureTheory G3–G5](../GeometricMeasureTheory/README.md#g3--distributional-bv-and-variation-measures) supplies the generic BV/variation/perimeter floor; R4.9 constructs its spherical chart comparisons and symmetrization applications. R4.9 constructs the spherical component-cover, annular, round-regularization and finite-family shortening applications. [Isoperimetry I3/I6](../Isoperimetry/README.md#i6--full-planar-jordan-theorem-and-compatibility) supplies the Euclidean Jordan inequality for the normal-chart weak small-area application; R4.9 owns spherical symmetrization and the sharp spherical utility.
 - [CharacteristicClasses C1.5/C2/C3](../CharacteristicClasses/README.md) supplies the ordinary finite RP²/cup/Thom comparisons used on the tautological disk bundle in R4.9; [AlgebraicTopology Stage6](../AlgebraicTopology/README.md) supplies its absolute cup/relative cap, singular small-chain and homotopy APIs. R4.9 owns the direct relative cover cocycle on its curve space and the particular finite cycle/cap-localization adapters.
 - Native Mathlib `Besicovitch.exist_disjoint_covering_families` and its finite-dimensional normed-real-space instance supply disjoint closed-ball color families and open-ball covering for R4.9's finite geometric parameter cutoffs. R4.9 constructs the finite extraction, cutoffs and geometric-operator estimates. Its principal shortening route is length-controlled round regularization followed by the actual-metric smooth flow, with its own finite-time blowup, local exit-cost and family-stopping applications.
 - [SpinGeometry G1.2/G2.2/G3.4](../SpinGeometry/README.md): the finite Clifford
@@ -216,6 +223,21 @@ suspension-map comparison for sphere Freudenthal connectivity.
    from R2's Jacobi equation, not an assumed Taylor formula for exp. In
    particular for unit T,Y with Y⊥T,
    `|d exp_(tT)(tY)|²=t²−⅓K(T,Y)t⁴+O(t⁵)`.
+5. Let N be a fixed smooth Riemannian n-manifold, C⊂N compact, `p_j∈C`,
+   `E_j:ℝⁿ→T_(p_j)N` linear isometries and `λ_j→∞`. For each fixed L>0 prove
+   that `F_j(x)=exp_(p_j)(E_j(x)/λ_j)` is defined on a neighbourhood of the
+   closed Euclidean L-ball and is a diffeomorphism onto its image for all large
+   j, and that `g_j=λ_j²F_j*g` converges to the Euclidean metric in every C^m
+   norm on that ball: uniform convergence of all coefficient derivatives of order
+   at most m. Include convergence of the inverse coefficients and the volume
+   densities, and convergence of the Christoffel symbols to zero with every fixed
+   finite number of derivatives. Make the coefficient bounds uniform over the
+   centres in C and all orthonormal frames, consuming SBC B6.0's uniform normal
+   radius and smooth dependence of the exponential map on its base point;
+   constants depend on g and C, and sectional-curvature bounds alone do not
+   supply the higher-derivative bounds. Identify the sectional curvature of g_j
+   with λ_j⁻² times that of g by the constant-scaling law of this section, and
+   check that a Euclidean metric is unchanged by the construction.
 
 The algebra/connection part precedes R2; the jet computations follow it.
 Use Mathlib's tensor, Gram, continuous-linear-map and finite-dimensional spectral
@@ -618,7 +640,15 @@ stable homotopy calculations remain with
    normal directions gives the model pullback metric and local isometry.
    On a smooth normal-distance domain derive radial Hessian zero and the
    corresponding transverse lower/upper bounds by `(s_κ'/s_κ)g`, together
-   with the Laplacian trace and the scalar sign dictionary. Derive Günther
+   with the Laplacian trace and the scalar sign dictionary. There let S be the
+   Hessian endomorphism of r on the orthogonal complement of grad r; in a
+   parallel trivialization along each unit-speed radial geodesic γ prove
+   `S′+S²+R(·,γ′)γ′=0` and `tS(t)→Id` in operator norm as t↓0, and derive the
+   lower bound under radial `K≤κ` and the upper bound under radial `K≥κ` by
+   comparison with `s_κ'/s_κ`, before the first positive model zero. Prove
+   that r² extends smoothly across p with `Hess(r²)_p=2g_p`, and that under
+   radial `K≤κ` the Hessian of r² is positive definite on every such normal ball
+   of radius below `π/(2√κ)` when κ>0, and on every such ball when κ≤0. Derive Günther
    lower-volume comparison from sectional upper bounds: on connected complete M
    with K≤κ, at p use 0<r<inj(p), and also r<π/√κ when κ>0, to conclude
    Vol_g(B(p,r))≥Vol_κ(B_κ(r)) in the model of the same dimension. Treat the
@@ -889,7 +919,7 @@ After smooth one-sided boundaries have been constructed, prove the conditional a
 
 For every finite-length Jordan image γ construct smooth nested inside/outside conformal approximants with boundary lengths converging to L_g₀(γ), using the Poisson/BV theorem below. The two fixed complementary balls give common survival. Monotonicity gives the uniform length ceiling directly from these initial lengths, and dissipation supplies the intermediate good slice for the conditional one-sided smooth-boundary theorem. Apply conditional annulus nonfattening only after those boundaries exist. This produces the finite-length positive-time round engine without spacing, foliation length estimates or a Dirichlet wedge premise.
 
-Construct the positive Poisson/BV adapter on actual continuous finite-variation boundary traces. Consume [ConformalMapping L3/L5](../ConformalMapping/README.md) for the holomorphic disc map, its continuous injective closed-disc extension and Cauchy floor, and [GeometricMeasureTheory G1](../GeometricMeasureTheory/README.md#g1--rectifiable-curves-and-arclength) for arclength factorization. In a stereographic chart away from a pole in the other component write `z=Z∘ell`, with ell the continuous cumulative Euclidean variation and Z a unit-speed Lipschitz representative. Prove the derivative-measure substitution `Dz=(Z′∘ell)Dell`, `ell_*Dell=ds` and `|Dz|=Dell`, with generalized-inverse handling of constant pieces. Deduce `∫||dDz/d|Dz|||_(g(z))d|Dz|=∫||Z′||_(g(Z))ds=L_g(z)` from the Lipschitz metric-derivative identity. Derive the positive Poisson representation from Cauchy and harmonic uniqueness, with `P_r(θ)=(1−r²)/(1−2r cosθ+r²)` of average1. Finite-measure Fubini gives `D(P_r*z)=P_r*Dz`. Positivity and convexity give the norm bound; split near and far angular pairs and use uniform metric continuity and the vanishing Poisson tail to prove the weighted length limsup. Uniform convergence and lower semicontinuity give equality. Apply the theorem to radial maps for both complementary domains, retaining trace, orientation and nesting laws.
+Construct the positive Poisson/BV adapter on actual continuous finite-variation boundary traces. Consume [ConformalMapping L3/L5](../../Completed/ConformalMapping/README.md) for the holomorphic disc map, its continuous injective closed-disc extension and Cauchy floor, and [GeometricMeasureTheory G1](../GeometricMeasureTheory/README.md#g1--rectifiable-curves-and-arclength) for arclength factorization. In a stereographic chart away from a pole in the other component write `z=Z∘ell`, with ell the continuous cumulative Euclidean variation and Z a unit-speed Lipschitz representative. Prove the derivative-measure substitution `Dz=(Z′∘ell)Dell`, `ell_*Dell=ds` and `|Dz|=Dell`, with generalized-inverse handling of constant pieces. Deduce `∫||dDz/d|Dz|||_(g(z))d|Dz|=∫||Z′||_(g(Z))ds=L_g(z)` from the Lipschitz metric-derivative identity. Derive the positive Poisson representation from Cauchy and harmonic uniqueness, with `P_r(θ)=(1−r²)/(1−2r cosθ+r²)` of average1. Finite-measure Fubini gives `D(P_r*z)=P_r*Dz`. Positivity and convexity give the norm bound; split near and far angular pairs and use uniform metric continuity and the vanishing Poisson tail to prove the weighted length limsup. Uniform convergence and lower semicontinuity give equality. Apply the theorem to radial maps for both complementary domains, retaining trace, orientation and nesting laws.
 
 Prove the finite-length engine’s own initial Fréchet and exact-length trace. Use fixed nested Schoenflies annuli around γ and smooth inner/outer barriers to trap each positive-time image for small time. Prove degree one in each annulus by the actual Jordan/avoidance and parametrized annulus laws. Constant-speed representatives have a uniform Lipschitz ceiling; every uniform subsequential limit has image γ, degree one and length≤L_g₀(γ). Use γ’s arclength homeomorphism and variation to show that any genuine backtracking would add positive length, so the limit is a monotone one-traversal parametrization. This proves unoriented Fréchet convergence; metric lower semicontinuity gives the exact length trace. Construct the required topological annuli and degree homotopies, including the absence of a nearest-point map for a rough γ.
 
@@ -1477,7 +1507,9 @@ R3/AT8.11a ordinary path carrier and DGFloer's standing Moore comparison. R5a us
 bundle/normal interfaces and R1; R5a.1's density lemma precedes R5a.2 and R5b.
 R4.9 uses R4.6's short-geodesic/injectivity estimates, the geodesic ODE, the planar Jordan/arclength/winding theorems, and finite AT/CC constructions. Its topological order is the Fréchet-plus-length carrier and component cover, relative cocycle/finite Thom detection, positive widths, and finite parameter carriers. The shared periodic normal-graph theorem, general nonzero linear zero-number theorem, interior parabolic-box compactness and scalar Harnack feed their stated g₀/arbitrary-g applications; the fixed-endpoint construction separately uses the Dirichlet boundary theorem. The round closed small-length two-point comparison precedes its Type-II exclusion and circular Type-I/stability output. Final entry neighbourhoods consume the local exit constants before the global curvature-gap theorem. The round branch then constructs its finite-length Jordan smoothing/trace and weak-set avoidance outputs; its finite-collapse conclusion consumes the arbitrary-g finite-time alternative plus the Gauss–Bonnet area ODE, while circular-singularity asymptotics and great-circle convergence are separate outputs with the routes stated in R4.9.6a. The arbitrary-g branch separately proves the finite-time BI/BII exclusion, the immortal derivative estimate as a reusable output, compact primitive geodesic sets, and smooth local graph/exit estimates. The safe family clock, intrinsic restriction/cubical face-identification laws and compatible-choice comparisons feed uniform point-relative finite-family localization and cap/minimax realization. No minimax or three-geodesic conclusion is an input to either smooth-flow analysis. R4.8's distinct-endpoint path theorem and DGF's free-loop Morse/Bott machinery keep their separate scopes.
 R5b additionally uses PDE and VariationalMethods, with no CalibratedGeometry
-input. R6's Euclidean comparison follows R5a and
+input. R1's item 5 follows R1's normal jets and SBC B6.0. The Surfaces
+sub-roadmap uses HopfRinow, R1, R2, R3, R4.2, R4.9.6a's signed planar turning
+theorem and R6, and supplies nothing to this roadmap. R6's Euclidean comparison follows R5a and
 consumes GT Layer 1's chart Hessian/normal-derivative pairing. GT's nearest-point
 theorem has no R6 input. General
 R6 focal/Jacobi/index theory then uses R2–R3/R5a and R4.2’s moving-endpoint comparison. R7 uses R1, DG/SBC, PDO P1 and K5a;
