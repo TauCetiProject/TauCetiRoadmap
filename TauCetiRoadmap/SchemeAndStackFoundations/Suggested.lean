@@ -727,13 +727,11 @@ abbrev cohomologyDim (X : Scheme.{u}) [X.Over (Spec (.of k))] (M : X.Modules) (i
 abbrev structureModule (X : Scheme.{u}) : X.Modules := _root_.SheafOfModules.unit X.ringCatSheaf
 
 /-- A curve (integral, separated, of finite type and of dimension one over `k`) is affine and not
-proper, or proper and not affine. Stacks, Lemmas 0A27 and 0A26. Quasi-compactness is not assumed:
-an integral separated scheme of dimension one locally of finite type over a field is
-quasi-compact, since its normalization is an open subscheme of the regular projective curve with
-the same function field. -/
+proper, or proper and not affine. Stacks, Lemmas 0A27 and 0A26. Finite type is written as
+`LocallyOfFiniteType` together with `QuasiCompact`. -/
 theorem isAffine_or_isProper (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsIntegral X]
     [IsSeparated (X ↘ Spec (.of k))] [LocallyOfFiniteType (X ↘ Spec (.of k))]
-    (hdim : topologicalKrullDim X = 1) :
+    [QuasiCompact (X ↘ Spec (.of k))] (hdim : topologicalKrullDim X = 1) :
     (IsAffine X ∧ ¬ IsProper (X ↘ Spec (.of k))) ∨
       (¬ IsAffine X ∧ IsProper (X ↘ Spec (.of k))) := by
   sorry

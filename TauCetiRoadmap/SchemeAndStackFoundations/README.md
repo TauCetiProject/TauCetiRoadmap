@@ -1898,7 +1898,7 @@ not only at `m`). Define `Scheme.IsCMQuasiExcellent X` for a locally Noetherian 
 fibre of every local ring `O_{X,x}` is Cohen–Macaulay, and every integral closed subscheme of `X`
 has a nonempty Cohen–Macaulay open subscheme; `Scheme.IsCMExcellent X`: moreover `X` is universally
 catenary; `Scheme.IsSnQuasiExcellent n X`: the same with `(S_n)` in place of Cohen–Macaulay
-(Česnavičius 2021, Definition 1.2 and the sentence after it, p. 2; §2.8, pp. 6–7). API:
+(Česnavičius 2021, Definition 1.2, p. 2, for the first two; §2.10, p. 7, for the third). API:
 `isLocallyNoetherian`, `isCohenMacaulay_formalFibre`, `exists_isCohenMacaulay_open`,
 `isSnQuasiExcellent_of_isCMQuasiExcellent`, `isCMQuasiExcellent_iff_of_openCover`,
 `IsCMQuasiExcellent.of_finiteType`. Prove `quasiExcellent_cm_sn`: quasi-excellent schemes (§0.21)
@@ -5665,10 +5665,9 @@ is the smooth connected case. *Needs:* §0.7, §2.6; Tau Ceti `Scheme.Modules.Co
   dimension `[L : k] > 1` over `L`, so the conclusion `H⁰(X_K) = K` fails without `H⁰ = k`.
 
 *Lean:* `Curve.cohomologyDim`, `Curve.structureModule`, `Curve.isAffine_or_isProper` (the
-dichotomy, assuming `LocallyOfFiniteType` and no quasi-compactness: an integral separated scheme of
-dimension one locally of finite type over a field is quasi-compact, since its normalization is an
-open subscheme of the regular projective curve with the same function field; projectivity of
-proper curves is specified here only), `Curve.baseChange`, `Curve.genus_baseChange`.
+dichotomy, with finite type written as `LocallyOfFiniteType` together with `QuasiCompact`, as in
+the definition of a curve and in Stacks, Lemma 33.43.10 (0A27); projectivity of proper curves is
+specified here only), `Curve.baseChange`, `Curve.genus_baseChange`.
 
 ### 3.2 Riemann–Hurwitz for schemes, the projective line, genus one, degree bounds
 
@@ -5875,7 +5874,8 @@ when `X` is locally factorial. Compare its inverse with pinned
 `SchemeWeilDivisor.classGroupToLineBundleClass` and
 `SchemeWeilDivisor.classGroupAddEquivLineBundleClass` only for Noetherian regular integral curves,
 where the pinned coheight-at-most-one hypothesis holds.
-Source: Stacks, §§31.27–31.28 (0BE4, 0BE6), Lemmas 31.28.6–31.28.7 (0BE8, 0BE9).
+Source: Stacks, Definitions 31.27.7 (0BE4) and 31.28.4 (0BE6), Lemmas 31.28.6–31.28.7 (0BE8,
+0BE9).
 *Needs:* Tau Ceti `Scheme.CartierDivisor.classGroupAddEquivLineBundleClass`,
 `Scheme.CartierDivisor.principalSubgroup_eq_ker`, `SchemeWeilDivisor`, `CodimensionOnePoint`;
 codimension-one valuations of rational sections.
@@ -5891,8 +5891,22 @@ codimension-one valuations of rational sections.
 
 Prove `picard_excision_sequence`: for `X` integral locally Noetherian, `D ⊆ X` an integral closed
 subscheme of codimension one with complement `U`, the sequence `ℤ → Cl(X) → Cl(U) → 0` is exact,
-with `1 ↦ [D]`, and `Pic(X) → Pic(U)` is surjective for `X` locally factorial (Stacks, Lemma 02RX);
-and `picard_units_sequence`: for `X` regular with `X ∖ U = D_1 ∪ ⋯ ∪ D_r` the union of
+with `1 ↦ [D]`, and `Pic(X) → Pic(U)` is surjective for `X` locally factorial (Hartshorne 1977,
+II, Proposition 6.5 (c), for `X` Noetherian, integral, separated and regular in codimension one).
+With Weil divisors, orders and principal divisors on a locally Noetherian integral scheme as in
+Stacks, Definitions 31.27.2 (0BE2), 31.27.3 (02RJ), 31.27.5 (0BE3) and 31.27.7 (0BE4), the argument
+needs none of these extra hypotheses. A prime divisor of `X` contained in `D` is `D`, so the prime
+divisors of `U` are the traces of those of `X` other than `D`. The closures in `X` of a locally
+finite family of closed subsets of `U` are locally finite, since a quasi-compact open `V ⊆ X` is
+Noetherian and `V ∩ U` is quasi-compact; this is the step in the proof of Stacks, Lemma 42.19.3
+(02RX), which is the same exactness for Chow groups of schemes locally of finite type over a base
+as in Situation 42.7.1. So restriction `Div(X) → Div(U)` is surjective with kernel `ℤ·[D]`. As
+`R(X) = R(U)` and `ord_Z(f)` is computed in the local ring at the generic point of `Z`, `div_X(f)`
+restricts to `div_U(f)`, so a divisor whose restriction is `div_U(f)` differs from `div_X(f)` by a
+multiple of `[D]`. For `X` locally factorial, so is `U`, `Pic → Cl` is an isomorphism on both
+(`classGroup_picard_locallyFactorial` above; Stacks, Lemma 31.28.7 (0BE9)), and it commutes with
+restriction to `U`; this gives the surjectivity of `Pic(X) → Pic(U)`. Prove
+`picard_units_sequence`: for `X` regular with `X ∖ U = D_1 ∪ ⋯ ∪ D_r` the union of
 integral closed subschemes of codimension one, the sequence `Γ(X, O)^× → Γ(U, O)^× → ⊕_i ℤ·[D_i] → Pic(X) → Pic(U) → 0` is exact, the second map being `u ↦ (ord_{D_i}(u))_i` (Hartshorne 1977, II,
 Proposition 6.5; Fulton 1998, Proposition 1.8 for the cycle-level statement).
 Define `PicardGroupoid C` for a symmetric monoidal category: every morphism is an isomorphism and
@@ -7379,6 +7393,22 @@ refer to `X'` (de Jong 1996, proof of Lemma 4.11, pp. 67–68). The projection f
 Jong 1996, §2.11, pp. 56–57, which assumes that `X` has a dense open subscheme geometrically reduced
 over `k`; for such `X` it applies to the composite with `π`.
 
+A route for `π` from §0.7a. Let `S = k[x_0, …, x_N]/I` with `I` the saturated homogeneous ideal of
+`X` (so `S ≠ 0`, as `X` is nonempty), and apply `exists_linear_normalization` to `S` with the tuple
+of the classes of `x_0, …, x_N`. Its parameters `y_0, …, y_e` are linear forms in the coordinates,
+hence homogeneous of degree one, and `S` is module-finite over `k[y_0, …, y_e]`. Then
+`S/(y_0, …, y_e)S` is a finite-dimensional graded `k`-algebra, so it vanishes in large degrees,
+every homogeneous prime of `S` containing all `y_i` contains `S_+`, and the centre
+`V_+(y_0, …, y_e) ⊆ ℙ^N_k` is disjoint from `X`. Over `D_+(y_i)` the projection `π : X → ℙ^e_k` is
+`Spec` of `k[y]_(y_i) → S_(y_i)` (Stacks, Lemma 27.11.1 (01MY)), and `S_(y_i)` is generated over
+`k[y]_(y_i)` by the `s/y_i^m`, for `s` running through homogeneous `k[y]`-module generators of `S`
+of degree `m`; so `π` is finite. It is surjective: over a homogeneous prime `q` of `k[y]` not
+containing `k[y]_+` there is a prime `p` of `S` (Stacks, Lemma 10.36.17 (00GQ)), the ideal
+generated by the homogeneous elements of `p` is a prime (Lemma 10.57.7 (00JT)) still lying over
+`q`, and it does not contain `S_+`. Hence `e = dim X = d` (Lemma 29.45.9 (0ECG)). The infinite
+field is the hypothesis of §0.7a; the Check on the three `𝔽₂`-points of `ℙ¹` below shows that no
+linear centre over `𝔽₂` need miss `X`. *Needs:* §0.7a; Mathlib `Proj`, `IsFinite`.
+
 Prove `curve_fibration` in the following reduced situation: `k` is algebraically closed,
 `X/k` is normal, integral and projective of dimension `d ≥ 1`, and `Z` is the support of
 an effective Cartier divisor on `X` (the empty divisor is allowed). There are a finite
@@ -7422,8 +7452,9 @@ sections `σ_i : Y' → X'` lying in the relative smooth locus, with
 `(φ⁻¹Z)_red ⊆ (f'⁻¹D₁)_red ∪ ⋃ᵢ σ_i(Y')`.
 The containment allows both vertical and horizontal boundary components
 ([de Jong 1996, Theorem 5.8, printed p. 79](https://www.numdam.org/item/PMIHES_1996__83__51_0.pdf);
-proof §§5.9–5.17). The generic smoothness conclusion in particular gives regular generic fibre. *Needs:* §4.11, §4.13, §4.15, §4.16,
-§4.17; StableReduction Layers 1, 3, 4; Tau Ceti `NodeAlgebra`; Mathlib `Flat`, `IsProper`.
+proof §§5.9–5.17). The generic smoothness conclusion in particular gives regular generic fibre. *Needs:* §0.7a (for
+`generic_projection`), §4.11, §4.13, §4.15, §4.16, §4.17; StableReduction Layers 1, 3, 4; Tau Ceti
+`NodeAlgebra`; Mathlib `Flat`, `IsProper`.
 
 The inputs to `curve_family_alteration` come from `curve_fibration` after the component
 and spreading reductions, or from the relative projection in de Jong §6.13 in the trait
@@ -7444,6 +7475,20 @@ it is not an input to the fibration helper or to StableReduction's reduction pro
   `X+√sY+√tZ`; its affine chart is nonreduced.
 - `[X:Y:Z] ↦ [X:Y]` is undefined at
   `[0:0:1]`. On `Z=1`, both coordinates vanish at the origin.
+- For the twisted cubic `X ⊆ ℙ³_k`, the image of `[s : t] ↦ [s³ : s²t : st² : t³]`, the
+  homogeneous coordinate ring is `S = k[s³, s²t, st², t³] ⊆ k[s, t]`. The forms `y_0 = x_0`,
+  `y_1 = x_3` normalize it: `(s²t)³ = (s³)²·t³` and `(st²)³ = s³·(t³)²`, so `S` is module-finite
+  over `k[s³, t³]`, `dim S = 2` and `e = 1 = d`. The centre `V_+(x_0, x_3)` misses `X`, since
+  `s³ = t³ = 0` forces `s = t = 0`, and `π` is `[s : t] ↦ [s³ : t³]`, finite of degree `3`. The
+  forms `x_1, x_2` fail: the centre `V_+(x_1, x_2)` contains the points `[1 : 0 : 0 : 0]` and
+  `[0 : 0 : 0 : 1]` of `X`, and `x_0^m ∉ (x_1, x_2)S` for every `m` (evaluate at `s = 1`, `t = 0`),
+  so `S` is not module-finite over `k[x_1, x_2]`.
+- Over `𝔽₂` let `X ⊆ ℙ¹` be the reduced subscheme of the three rational points, with homogeneous
+  coordinate ring `𝔽₂[u, v]/(uv(u + v))`, so `d = 0`. Each of the three nonzero linear forms `u`,
+  `v`, `u + v` vanishes at one of these points, so no centre defined over `𝔽₂` misses `X` and no
+  finite linear projection `X → ℙ⁰` over `𝔽₂` exists; this is §0.7a's finite-field Check read
+  projectively. Over an infinite field `k` a form `au + bv` with `a`, `b` and `a + b` all nonzero
+  exists, and its centre misses the three points.
 - The incidence surface
   `Bl_[0:0:1] ℙ² ⊆ ℙ² × ℙ¹`, with equation `XV=YU`, projects to `ℙ¹` with
   fibres `ℙ¹`. On `U≠0, Z≠0`, put `t=V/U`; its chart is `(x,t) ↦ (x,xt)`
@@ -7726,8 +7771,9 @@ completion of `𝔸¹` at the origin, the blow-up of `𝔸²` at the origin as t
 
 ### Dependencies
 
-Layer 0: §0.9 (limits), §0.17–§0.21 (Serre conditions, Nagata, excellence), §0.23 (universal
-homeomorphisms). Layer 1: §1.18–§1.20 (stacks). Layer 2: §2.3 (torsors), §2.6 (quasi-coherent
+Layer 0: §0.7a (linear Noether normalization, for the finite linear projection of §4.18), §0.9
+(limits), §0.17–§0.21 (Serre conditions, Nagata, excellence), §0.23 (universal homeomorphisms).
+Layer 1: §1.18–§1.20 (stacks). Layer 2: §2.3 (torsors), §2.6 (quasi-coherent
 cohomology). Layer 3: §3.6 (Picard schemes of curves, for level structures). Mathlib and Tau Ceti
 as listed; StableReduction Layers 0–4, 9; JacobianChallenge Layers C, E.
 
