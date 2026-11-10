@@ -21,14 +21,14 @@ the InfinitaryLogic roadmap (`FirstOrder.Language.BoundedFormulaω`, `Sentenceω
 roadmap, fragments (`FirstOrder.Language.Fragment`), the action of a language map on formulas
 (`FirstOrder.Language.LHom.onBoundedFormulaInf`) and complete Lω₁ω-types
 (`FirstOrder.Language.infinitaryType`, `realizedTypes`). There are no stand-ins. Skolem towers
-and the construction of the Ehrenfeucht–Mostowski term model are specified in the README only;
-the source and stretching theorems are stated here semantically.
+and the Ehrenfeucht–Mostowski term model `EM(J, Φ)` are constructions specified in the README
+only, so the targets about them (`realize_em_iff`, `isSkolemTemplate_templateOf`, `isEMSource_em`,
+`exists_total_of_cofinallyApproximated`, `isSkolemTemplate_of_approximated`) have no signature
+here; the source and stretching theorems are stated here semantically.
 Names are provisional.
 -/
 
 @[expose] public section
-
-set_option autoImplicit false
 
 universe u v w u' u'' v''
 
