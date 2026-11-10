@@ -23,25 +23,31 @@ definitive. This file states, against the pinned Mathlib and Tau Ceti, the headl
 the roadmap that the pinned libraries do not already prove: Amice's theorem (§4.4), the analytic
 level of an additive character (§4.6), the Amice bijection between locally analytic distributions
 and series on the open unit disc (§4.7), the adic universal character, the Amice-coordinate
-comparison and separation by weights (§5.3), and the analytic level of a weight (§5.4). It uses the
-pinned carriers `TauCeti.AnalyticStage` with `TauCeti.AnalyticStage.amiceMap` and
-`TauCeti.AnalyticStage.eval` (§§4.4, 4.6), `PadicInt.addChar_of_value_at_one` and
-`TauCeti.amiceRadius` (§4.6), the algebraic direct limit `TauCeti.LocallyAnalytic` with
-`TauCeti.LocallyAnalytic.ofStage` and `PowerSeries.OnOpenDisc` (§4.7), `TauCeti.WeightSpace` with
-`TauCeti.WeightSpace.finiteChar`, `TauCeti.WeightSpace.coord` and
-`TauCeti.WeightSpace.principalChar` (§§5.3–5.4), `AbstractMeasure` with
-`ContinuousMonoidHom.characterIntegralAlgHom`, and the completed-group-algebra equivalence
+comparison and separation by weights (§5.3), and joint injectivity of the annular evaluations
+(§5.6). It uses the pinned carriers `TauCeti.AnalyticStage` with
+`TauCeti.AnalyticStage.amiceMap` and `TauCeti.AnalyticStage.eval` (§§4.4, 4.6),
+`PadicInt.addChar_of_value_at_one` and `TauCeti.amiceRadius` (§4.6), the algebraic direct limit
+`TauCeti.LocallyAnalytic` with `TauCeti.LocallyAnalytic.ofStage` and `PowerSeries.OnOpenDisc`
+(§4.7), `TauCeti.WeightSpace` with `TauCeti.WeightSpace.finiteChar` and
+`TauCeti.WeightSpace.coord` (§5.3), `AbstractMeasure` with
+`ContinuousMonoidHom.characterIntegralAlgHom`, the completed-group-algebra equivalence
 `AbstractMeasure.completedGroupAlgebraEquiv` with the power-series coordinate
-`TauCeti.completedGroupAlgebra.powerSeriesCoordinate` (§5.3). The two definitions `distributions`
-and `binomialLA` exist only to state the §4.7 bijection. Every result the pinned libraries already
-prove is cited by name in the README, not restated here.
+`TauCeti.completedGroupAlgebra.powerSeriesCoordinate` (§5.3), and Mathlib's `MvPowerSeries`,
+`Ideal.span` and `PadicComplex` for the model `ℤ_p⟦T, U⟧ / (TU − p)` of the annular ring `H`
+and its points (§5.6). The two definitions `distributions` and `binomialLA` exist only to state
+the §4.7 bijection. Every result the pinned libraries already prove is cited by name in the
+README, not restated here.
 
-Two headline targets are not statable at the pins and nothing is stated in their place. The
+Three headline targets are not stated here. The analytic level of a weight (§5.4): its form for
+the principal part is `exists_eval_eq_addChar_iff` at `t = T_κ`, through the pinned
+`TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one`, so it adds nothing to this file;
+its form on `ℤ_pˣ`, analyticity of `κ` on the cosets of `1 + p^(h') ℤ_p`, needs locally analytic
+functions on `ℤ_pˣ`, and the only pinned carrier, `TauCeti.LocallyAnalytic`, lives on `ℤ_p`. The
 scalar analytic factors of §5.5: no pinned declaration extends a weight analytically from
 `1 + p^(h') ℤ_p` to `1 + p^(h') 𝒪_K` for a unit level `h' ≥ v_p(q)`, and the expansion of
-`κ(cz + d)` needs that extension. The annular coefficient ring `H` of §5.6: the ring is itself a
-target of the roadmap, so no carrier exists before the roadmap builds it. The remaining targets of
-§§4.4–5.6 are specified in the README.
+`κ(cz + d)` needs that extension. The Banach–Tate structure of §5.6: the gauge on `H[1/T]`, its
+completeness and the continuity of the annular evaluations need a normed-ring structure on
+`H[1/T]`, which the pins lack. The remaining targets of §§4.4–5.6 are specified in the README.
 -/
 
 @[expose] public section
@@ -55,7 +61,7 @@ noncomputable section
 
 variable {p : ℕ} [Fact p.Prime]
 
-/-! ## Layer 4: Amice's theorem, the analytic level of a character and distributions -/
+/-! ## Layer 4: Analytic stages and distributions on `ℤ_p` -/
 
 /-- **Amice's theorem** (§4.4; [Am] Théorème 2, p. 150, with `uₙ = n`; [Col] Théorème I.4.7,
 p. 15). For a complete ultrametric normed
@@ -140,7 +146,7 @@ theorem amiceTransform_distribution_bijective (K : Type*) [NormedField K]
         ∃! μ, μ ∈ distributions (p := p) K ∧ ∀ n, μ (binomialLA (p := p) K n) = F.coeff n := by
   sorry
 
-/-! ## Layer 5: the adic universal character, separation by weights and analytic levels -/
+/-! ## Layer 5: Characters, specialisation and coefficient rings -/
 
 section Adic
 
@@ -196,21 +202,17 @@ theorem measurePairing_injective :
       (κ : TauCeti.WeightSpace p ℂ_[p]) ↦ κ.weightTest.characterIntegralAlgHom μ := by
   sorry
 
-/-- **The analytic level of a weight** (§5.4). For a weight `κ` with values in a complete
-ultrametric normed `ℚ_p`-algebra `K` with multiplicative norm, the principal part
-`s ↦ κ(γ^s) = (1 + T_κ)^s` of `κ` (`TauCeti.WeightSpace.principalChar`) is the evaluation of a
-vector of the analytic stage `LA_h(K)` exactly when `‖T_κ‖ < r_h = p^(−1/((p−1)pʰ))`. Through
-`x ↦ log(x/ω(x̄))/q`, this is analyticity of `κ` on the cosets of `1 + p^(h + v_p(q)) ℤ_p` in
-`ℤ_pˣ`, the level `h + v_p(q)` of the README, and `r_h = p^(−q/((p−1)p^(h + v_p(q))))`. It follows
-from `exists_eval_eq_addChar_iff` and
-`TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one`. -/
-theorem exists_eval_eq_principalChar_iff (h : ℕ) {K : Type*} [NormedRing K] [NormMulClass K]
-    [NormOneClass K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [Module ℚ_[p] K]
-    [NormSMulClass ℚ_[p] K] [IsUltrametricDist K] [CompleteSpace K]
-    (κ : TauCeti.WeightSpace p K) :
-    (∃ f : TauCeti.AnalyticStage p h K,
-        ⇑(TauCeti.AnalyticStage.eval ℤ_[p] f) = κ.principalChar) ↔
-      ‖κ.coord‖ < TauCeti.amiceRadius p h := by
+/-- **Joint injectivity of the annular evaluations** (§5.6). On Mathlib's model
+`ℤ_p⟦T, U⟧ / (TU − p)` of the annular coefficient ring `H`, with `U = p/T`, a two-variable integral
+series `f = ∑ a_(i,j) Tⁱ Uʲ` has value `∑ a_(i,j) tⁱ (p/t)ʲ = 0` at every `t ∈ ℂ_p` with
+`p⁻¹ < |t| < 1` exactly when `f` is a multiple of `TU − p`. The values converge, since
+`|tⁱ (p/t)ʲ| = |t|ⁱ (p⁻¹/|t|)ʲ` tends to zero. No `t ∈ ℚ_p` lies in this annulus, so the points
+are taken in `ℂ_p`. -/
+theorem mem_span_iff_forall_eval_annulus (f : MvPowerSeries (Fin 2) ℤ_[p]) :
+    f ∈ Ideal.span {MvPowerSeries.X 0 * MvPowerSeries.X 1 - MvPowerSeries.C (p : ℤ_[p])} ↔
+      ∀ t : ℂ_[p], (p : ℝ)⁻¹ < ‖t‖ → ‖t‖ < 1 →
+        ∑' n : Fin 2 →₀ ℕ, algebraMap ℚ_[p] ℂ_[p] ((MvPowerSeries.coeff n f : ℤ_[p]) : ℚ_[p]) *
+          t ^ n 0 * ((p : ℂ_[p]) / t) ^ n 1 = 0 := by
   sorry
 
 end

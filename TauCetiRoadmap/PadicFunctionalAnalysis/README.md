@@ -30,7 +30,7 @@ discrete-valuation and characteristic-zero assumptions are imposed locally.
 
 Every milestone and check below is required. This README is definitive;
 [Suggested.lean](Suggested.lean) states, on the pinned carriers, the headline
-theorems of §§4.4, 4.6, 4.7, 5.3 and 5.4 that the pinned libraries do not prove.
+theorems of §§4.4, 4.6, 4.7, 5.3 and 5.6 that the pinned libraries do not prove.
 
 ## Scope and ownership
 
@@ -212,7 +212,7 @@ without a namespace in the target lists (`amiceMap_bijective_and_norm_eq`,
 `binomialLA`, `amiceTransform_distribution_bijective`,
 `exists_character_of_hasEval`, `eq_aeval_binomialSeries`,
 `amiceTransform_completedGroupAlgebra_compat`, `measurePairing_injective`,
-`exists_eval_eq_principalChar_iff`) are the declarations of
+`mem_span_iff_forall_eval_annulus`) are the declarations of
 [Suggested.lean](Suggested.lean), stated against the pinned carriers. A Check
 marked as an example in a pinned file is already formalised; the others are
 required.
@@ -293,9 +293,15 @@ module `M̃=M⁰/πM⁰` (`TauCeti.ResidueModule`), whose denominator is the ope
 ball for the discrete module norm (`TauCeti.mem_unitBallIdeal_smul_top_iff`).
 Completeness of closed submodules is Mathlib's.
 
-**Checks.** Equal topology alone does not give a linear comparison of ring
-norms: compare `|·|` and `|·|²` on `ℚ_p`. Over `ℂ_p`, rounding the norm to
-`p^ℤ` does not preserve the original scalar inequality.
+**Checks.**
+
+- `|·|` and `|·|²` on `ℚ_p` define the same topology, but no `C` gives
+  `|a|²≤C|a|` for all `a`: at `a=p^(−n)` this reads `p^(2n)≤Cp^n`. Equal
+  topology gives the power comparison, here with exponent `2` and constant
+  `1`, not a linear one.
+- Over `ℂ_p`, rounding norms up to `p^ℤ` loses the scalar inequality: for
+  `|a|=p^(−1/2)` and `x=1`, the rounded norm of `ax` is `1`, while `|a|` times
+  the rounded norm of `x` is `p^(−1/2)`.
 
 ### 0.4 Tate norms and topological gauges
 
@@ -335,9 +341,12 @@ Targets:
 
 - In the nonzero Hausdorff case promote the gauge to a normed Tate structure
   on a compatible model of `A`, transferring completeness exactly when the
-  original topological ring is complete. Keep the normed-to-topological
-  implication and the topological-to-chosen-gauge construction separate; do
-  not install them as mutually inverse global instances. *Needs:*
+  original topological ring is complete ([JN] Remark 2.1.3(1), p. 8, with `ϖ`
+  in the ring of definition; [KL] Remark 2.4.4, p. 39, omits that membership,
+  which the Check on `ϖ∈A₀` below shows is needed). Keep the
+  normed-to-topological implication and the topological-to-chosen-gauge
+  construction separate; do not install them as mutually inverse global
+  instances. *Needs:*
   `TauCeti.Huber.exists_tateSeminorm`,
   `TauCeti.Huber.t2Space_iff_forall_tateGauge_eq_zero_iff`,
   `TauCeti.Huber.tateGauge_one`, `TauCeti.NormedRing.IsTate` and
@@ -443,8 +452,10 @@ complete norms (`LinearMap.exists_bound_of_module_finite`,
 
 Target: for a commutative Noetherian Banach–Tate ring, state the normed bridge:
 a finite module with any Banach module norm carries the canonical topology, so
-the topological results above apply to it. Do not require a Noetherian ring of
-definition when only the Tate ring is Noetherian. General Banach modules are
+the topological results above apply to it ([JN] §2.1, p. 8, which carries
+[BGR] §3.7.3 over to Noetherian Banach–Tate rings by the open mapping
+theorem). Do not require a Noetherian ring of definition when only the Tate
+ring is Noetherian. General Banach modules are
 not assumed finite. *Needs:* `ContinuousLinearMap.isOpenMap_of_isTate` (§1.2)
 for a presentation `R^n→M`, `TauCeti.Huber.IsTateRing.isModuleTopology`,
 `LinearEquiv.exists_norm_bounds_of_module_finite`, Mathlib `IsModuleTopology`.
@@ -648,19 +659,33 @@ is a special case. Nothing remains beyond the checks.
 
 **Checks.**
 
-- A rescaled one-dimensional `ℚ_p`-space can be potentially but not
-  isometrically orthonormalisable.
-- A singleton satisfying orthogonality does not make a torsion
-  `ℚ_p⟨X⟩`-module free.
-- The shift is bounded.
+- `ℚ_p` with the norm `‖x‖=p^(1/2)|x|_p` is potentially orthonormalisable,
+  the identity to `ℚ_p` being a continuous linear equivalence, but not
+  orthonormalisable: its nonzero norms lie in `p^(1/2)p^ℤ`, which misses
+  `‖p‖^ℤ=p^ℤ` (`TauCeti.isONable_iff_discrete_norm`); in particular no vector
+  has the norm `1` of a basis vector.
+- Over `R=ℚ_p⟨X⟩`, take `M=R/(X)≅ℚ_p` with the quotient norm
+  `‖f mod X‖=|f(0)|`. The singleton `{1}` is orthogonal, as every singleton
+  is, but `X·1=0` while `‖X‖‖1‖=1`: it is neither orthonormal nor linearly
+  independent, and `M` is torsion, not free.
+- The backward shift `(c_n)↦(c_(n+1))` on `C₀(ℕ,ℚ_p)` has output-first matrix
+  with entries `1` at `(i,i+1)` and `0` elsewhere, null columns, and norm `1`,
+  the supremum of its entries
+  (`ContinuousLinearMap.ringOpNorm_eq_iSup_norm_matrixCoeff`); the forward
+  shift has its entries at `(i+1,i)` and is an isometry.
 - A matrix with entry `p` everywhere below the diagonal has non-null columns
   and is excluded, and a bidiagonal `1+pS` is an isometric automorphism (both
   are examples in `Topology/ContinuousMap/ZeroAtInfty/Triangular.lean`).
-- Split the constant-term sequence of `K⟨T⟩` and the two degenerate exact
-  sequences, also after completed extension.
-- For the transpose adapter, a `2×3` and a `3×2` matrix over `ℚ_p` composed in
-  both orders show `B(u∘v)=B(v)B(u)`, the reverse of the order for
-  `ContinuousLinearMap.matrixCoeff_comp`.
+- The constant-term sequence `0→T·K⟨T⟩→K⟨T⟩→K→0` splits by
+  `f↦(f−f(0),f(0))`, an isometry for the max norm on the product, since the
+  Gauss norm of `f` is `max(‖f−f(0)‖,|f(0)|)`. The degenerate sequences
+  `0→0→E→E→0` and `0→E→E→0→0` split by `E≃0×E` and `E≃E×0`, and stay split
+  after `K'⊗̂_K(−)`.
+- For the transpose adapter, take `v:ℚ_p²→ℚ_p³`, `v(a,b)=(b,a,0)`, and
+  `u:ℚ_p³→ℚ_p²`, `u(x,y,z)=(x,y)`, so that `u∘v` swaps the two coordinates.
+  Then `B(u∘v)=B(v)B(u)` is the `2×2` swap matrix, while `B(u)B(v)` is `3×3`,
+  with entries `1` at `(0,1)` and `(1,0)` only: the order is the reverse of
+  that in `ContinuousLinearMap.matrixCoeff_comp`.
 - For `P=0`, use `S=∅, C=1`; for a coordinate line or a module supported on a
   fixed finite set, take that coordinate set and `C=1`.
 - For the cyclic permutation `σ(0)=1, σ(1)=2, σ(2)=0` of `{0,1,2}`, the
@@ -939,15 +964,22 @@ Targets:
   and `log((1+u)(1+u'))=log(1+u)+log(1+u')` on these domains, and the bounds
   `‖exp z−1‖≤‖z‖`, `‖log(1+u)‖≤‖u‖` for `‖z‖,‖u‖<r_p`. Exact norm identities
   use a normed-field or isometric-scalar hypothesis; do not infer a
-  Banach-algebra identity from field-valued evaluations alone. *Needs:*
+  Banach-algebra identity from field-valued evaluations alone. Over `ℂ_p` the
+  logarithm series and its functional equation are [Col] §I.6, p. 27; the
+  algebra case runs the same coefficient estimates with `‖c•a‖≤‖c‖‖a‖` and
+  submultiplicativity in place of multiplicativity. *Needs:*
   Mathlib `NormedSpace.exp`, `NormedSpace.log` and
   `NonarchimedeanAddGroup.summable_of_tendsto_cofinite_zero`, with the scalar
   case `Padic.log_exp`, `Padic.exp_log`, `Padic.norm_exp_sub_one` as the model.
 - For `t∈A` with `‖t‖<r_p` and `x∈ℤ_p`, `(1+t)^x=exp(x log(1+t))`, where the
   left side is `PadicInt.addChar_of_value_at_one`, and
-  `‖(1+t)^x−1‖≤‖x‖‖t‖`, with equality over a normed field. Integral
-  exponents are not arbitrary elements of the unit ball of a coefficient
-  algebra. *Needs:* the previous target, `PadicInt.addChar_of_value_at_one`,
+  `‖(1+t)^x−1‖≤‖x‖‖t‖`, with equality over a normed field. Over `ℂ_p` the
+  identity is the expansion `exp(w log x)=Σ_n binom(w,n)(x−1)^n` of [Col] §I.6,
+  p. 27, near `x=1`, and [Am] Proposition 15, p. 177, gives the continuous
+  extension `a^x=Σ_n binom(x,n)(a−1)^n` for `v_p(a−1)>0`, equal to `exp(px)` at
+  `a=exp(p)` ([Am] §16.2, p. 177). Integral exponents are not arbitrary
+  elements of the unit ball of a coefficient algebra. *Needs:* the previous
+  target, `PadicInt.addChar_of_value_at_one`,
   `PadicInt.continuous_binomialSeries` for continuity in `x`, and density of
   `ℕ` in `ℤ_p`.
 - Over a finite extension of `ℚ_p`, the exponential and logarithm above agree
@@ -1026,12 +1058,13 @@ Targets:
     constant `1` (`TauCeti.AnalyticStage.norm_eval_le`).
   - A bounded measure `μ` in `AbstractMeasure ℤ_[p] K K` restricts to the
     distribution `f↦μ(TauCeti.LocallyAnalytic.eval K f)` with `‖μ‖_h≤‖μ‖`.
-    Restriction is injective, and its image is the set of distributions with
-    bounded moments ([Col] §II.3, no. 2, p. 31). *Needs:*
-    `TauCeti.LocallyAnalytic.eval_ofStage`, `TauCeti.AnalyticStage.norm_eval_le`,
+    Restriction is injective: the binomial functions `x↦binom(x,n)` are
+    evaluations of level-zero vectors, so the restriction determines the
+    moments of `μ`, and these determine `μ`. Its image is a target after the
+    Amice bijection below. *Needs:* `TauCeti.LocallyAnalytic.eval_ofStage`,
+    `TauCeti.AnalyticStage.norm_eval_le`, `TauCeti.AnalyticStage.eval_amiceTerm`,
     `AbstractMeasure.coeff_amiceTransform`,
-    `AbstractMeasure.mem_range_amiceTransform_iff`, and the Amice bijection
-    below for the image.
+    `AbstractMeasure.injective_amiceTransform`.
 
   **Checks.**
   - The derivative at zero is a distribution with `‖μ‖_h=p^h`: on the disc of
@@ -1088,6 +1121,15 @@ Targets:
   `TauCeti.AnalyticStage.norm_amiceTerm_le`,
   `TauCeti.onOpenDisc_iff_forall_bddAbove_norm_coeff_mul_norm_factorial`,
   `ZeroAtInftyContinuousMap.linearCombinationEquiv`, `Module.DirectLimit.lift`.
+- **Bounded measures.** A distribution is the restriction of a bounded measure
+  exactly when its moments `b_n` are bounded ([Col] §II.3, no. 2, p. 31).
+  Restrictions have `‖b_n‖≤‖μ‖`, since `‖binom(·,n)‖_sup≤1`. Conversely,
+  bounded moments make `Σ_n b_n T^n` the transform of a bounded measure
+  (`AbstractMeasure.mem_range_amiceTransform_iff`), whose restriction has the
+  same moments and so equals the given distribution by the uniqueness in the
+  Amice bijection. *Needs:* the restriction map of `distributions` above,
+  `AbstractMeasure.mem_range_amiceTransform_iff`,
+  `AbstractMeasure.coeff_amiceTransform`, `amiceTransform_distribution_bijective`.
 - **Integration of characters.** For a distribution `μ` and `z∈K` with
   `‖z‖<1`, the character `x↦(1+z)^x` is the evaluation of a vector of `LA_h(K)`
   for every `h` with `‖z‖<r_h`, and `μ` takes on it the value `A_μ(z)` of the
@@ -1115,6 +1157,22 @@ Targets:
   for the re-expansion, RestrictedPowerSeries §§1.3 and 2.2 for the
   two-variable coefficient model and translation, `AbstractMeasure.amiceTransformₐ`
   for the comparison.
+
+  **Checks.**
+  - `δ_a∗δ_b=δ_(a+b)`: `(δ_a∗δ_b)(f)=δ_b(y↦f(a+y))=f(a+b)`, with transform
+    `(1+T)^a(1+T)^b=(1+T)^(a+b)`. The convention
+    `(λ∗μ)(f)=μ(y↦λ(x↦f(x−y)))` would give `δ_1∗δ_1=δ_0`, with transform `1`
+    instead of `(1+T)²`.
+  - `δ_0` is the unit, `δ_0∗μ=μ∗δ_0=μ`, with transform `1`. A convolution built
+    from the multiplication of `ℤ_p`, `(λ∗μ)(f)=μ(y↦λ(x↦f(xy)))`, would make
+    `δ_0` absorbing instead: `(δ_0∗μ)(f)=f(0)μ(1)`.
+  - For the derivative at zero, `μ'(f)=f'(0)` with transform `log(1+T)`,
+    `μ'∗μ'` is `f↦f''(0)`: its moments are `b_2=1` and `b_3=−1`, the second
+    derivatives at `0` of `binom(x,2)` and `binom(x,3)`, and its transform is
+    `log(1+T)²=Σ_(n≥2) 2(−1)^n H_(n−1)T^n/n`, with `H_k` the harmonic numbers.
+    Its level-zero norm is `D_0=sup_n‖2(n−1)!H_(n−1)‖=‖2‖`, as the integers
+    `(n−1)!H_(n−1)` equal `1` at `n=2`; at `p=2` this is `2⁻¹<‖μ'‖_0²=1`, so
+    the bound `‖λ∗μ‖_h≤‖λ‖_h‖μ‖_h` is not an equality.
 
 ### Examples
 
@@ -1152,10 +1210,11 @@ Targets:
 
 ### Dependencies
 
-Layers 0–3 and RestrictedPowerSeries Layers 0–2 with §7.1. Sources: [Am]
-Théorème 2, p. 150, Théorème 3 and Corollaire 1, pp. 159–161; [Col] Théorème
-I.4.7 and Corollaire I.4.8, p. 15, §§II.2–II.4, pp. 29–37; [ST] Theorem 2.2,
-p. 9; [RJW] Theorem 3.43.
+Layers 0–3, RestrictedPowerSeries Layers 0–2 with §7.1, and
+LocalFieldsRamification Layer 1 for §4.5. Sources: [Am] Théorème 2, p. 150,
+Théorème 3 and Corollaire 1, pp. 159–161, Proposition 15 and §16.2, p. 177;
+[Col] Théorème I.4.7 and Corollaire I.4.8, p. 15, §I.6, p. 27, §§II.2–II.4,
+pp. 29–37; [ST] Theorem 2.2, p. 9; [RJW] Theorem 3.43.
 
 ## Layer 5: Characters, specialisation and coefficient rings
 
@@ -1192,7 +1251,8 @@ directions (`TauCeti.WeightSpace.ofCoord`, `TauCeti.weightSpaceEquiv`).
 Targets:
 
 - Through `TauCeti.weightSpaceEquiv`, identify the weights with values in
-  `ℂ_p` with `|Δ|` copies of the open unit disc. Their analytic-space structure
+  `ℂ_p` with `|Δ|` copies of the open unit disc ([LWX] Notation 2.1, p. 8;
+  [RJW] Remark 3.47, pp. 25–26, for odd `p`). Their analytic-space structure
   and universal analytic family are not constructed here. Field-valued weights
   take values of norm one (`ContinuousMonoidHom.norm_apply_eq_one_of_compactSpace`);
   in a general Banach algebra prove that the values of a weight form a bounded
@@ -1240,7 +1300,8 @@ Targets:
 
 - **The completed group algebra of `ℤ_pˣ`.** Extend the procyclic coordinate
   across the finite factor through `TauCeti.padicIntUnitsEquivZModUnitsProd`
-  to obtain
+  to obtain ([LWX] Notation 2.1, p. 8, for every `p`, with `q=4` at `p=2` as
+  in its §1.14)
 
   ```text
   Λ=ℤ_p[[ℤ_pˣ]] ≃ ℤ_p[Δ]⟦T⟧,      T=[γ]−1,
@@ -1312,13 +1373,14 @@ Target: for a weight `κ` with values in a complete ultrametric normed
 `ℚ_p`-algebra `K` with multiplicative norm, in particular a complete normed
 field over `ℚ_p`, the principal part `s↦κ(γ^s)=(1+T_κ)^s`
 (`TauCeti.WeightSpace.principalChar`) lies in the image of `LA_h(K)` exactly
-when `‖T_κ‖ < p^(−1/((p−1)p^h))`: `exists_eval_eq_principalChar_iff`. This is
-the case `t=T_κ` of §4.6 through
-`TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one`. Read on
-`ℤ_pˣ` through `x↦log(x/ω(x̄))/q` (`TauCeti.padicIntUnitsEquivZModUnitsProd`),
+when `‖T_κ‖ < p^(−1/((p−1)p^h))`. This is §4.6's `exists_eval_eq_addChar_iff`
+at `t=T_κ`, because the pinned
+`TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one` identifies the
+principal part with `χ_(T_κ)`. What this section adds is the reading on
+`ℤ_pˣ`: through `x↦log(x/ω(x̄))/q` (`TauCeti.padicIntUnitsEquivZModUnitsProd`),
 which carries the cosets of `1+p^(h')ℤ_p`, `h'≥v_p(q)`, onto the discs of
-`ℤ_p` modulo `p^(h'−v_p(q))`, it says that `κ` is analytic on unit discs
-modulo `p^(h')` exactly when
+`ℤ_p` modulo `p^(h'−v_p(q))`, the criterion says that `κ` is analytic on unit
+discs modulo `p^(h')` exactly when
 
 ```text
 ‖κ(exp(p^(h')))−1‖ < r_p,
@@ -1327,7 +1389,10 @@ equivalently ‖T_κ‖ < p^(−q/(p^(h')(p−1))),
 
 the level `h=h'−v_p(q)` of the principal part, since `q=p^(v_p(q))`. Every
 continuous field-valued weight satisfies it for some `h'`
-(`TauCeti.AnalyticStage.exists_eval_eq_addChar`). Give the locally algebraic
+(`TauCeti.AnalyticStage.exists_eval_eq_addChar`; [Col] §I.6, p. 27: a
+continuous `ℂ_p`-valued character of `ℚ_pˣ`, such as a weight extended by
+`δ(p)=1`, is `x↦exp(w log x)` on some `1+p^nℤ_p`, hence analytic on the cosets
+of that subgroup). Give the locally algebraic
 conductor bound, handling the minimum allowed level and the trivial
 finite-order character separately: for `κ(x)=x^kψ(x)` with conductor dividing
 `p^m`, every `h'≥max(m,v_p(q))` suffices. For Banach-algebra coefficients use
@@ -1343,7 +1408,7 @@ valuation formula of §5.2 for the conductor bound.
 Target: let `K` be a complete normed extension of `ℚ_p` and `κ` a `K`-valued
 weight that is analytic on unit discs modulo `p^(h')` for a unit level
 `h'≥v_p(q)`, that is (§5.4), `‖t_(h')‖<r_p` for `t_(h')=κ(exp(p^(h')))−1`; this
-is the principal-part level `h'−v_p(q)` of `exists_eval_eq_principalChar_iff`.
+is the principal-part level `h'−v_p(q)` of the §5.4 criterion.
 The bound `h'≥v_p(q)` gives `‖p^(h')‖<r_p`, so `exp(p^(h'))` converges. Extend
 `κ` analytically from `1+p^(h')ℤ_p` to `1+p^(h')𝒪_K` by
 `κ(1+u)=exp((log(1+u)/p^(h'))·log(1+t_(h')))`, which agrees with `κ` on
@@ -1366,10 +1431,10 @@ RestrictedPowerSeries for composition and coefficient estimates. For
 nonnegative algebraic weight the expansion agrees with `(cz+d)^k`. Matrix
 actions and the ordering convention in their cocycle identity belong to
 quaternionic modular-form theory; this section gives only scalar expansions.
-*Needs:* `exists_eval_eq_principalChar_iff` (§5.4) at the principal-part
-level `h'−v_p(q)`, the first two targets of §4.5 for the extension to
-`1+p^(h')𝒪_K`, RestrictedPowerSeries §§1.1 and 2.2 (Gauss norms,
-substitution) for the composition and the coefficient bounds,
+*Needs:* the §5.4 criterion at the principal-part level `h'−v_p(q)`, the
+first two targets of §4.5 for the extension to `1+p^(h')𝒪_K`,
+RestrictedPowerSeries §§1.1 and 2.2 (Gauss norms, substitution) for the
+composition and the coefficient bounds,
 `TauCeti.WeightSpace.principalChar` and
 `TauCeti.padicIntUnitsEquivZModUnitsProd`.
 
@@ -1400,17 +1465,28 @@ is an element of `H`. *Needs:* the ring `H` above, `TauCeti.NormedRing.IsTate`
 and `TauCeti.NormedRing.PseudoUniformizer` (with `ϖ=T`) for the gauge,
 `TauCeti.NormedRing.IsTate.isTateRing` for the topological property.
 
-At every `t∈ℂ_p` with `p⁻¹<|t|<1`, construct the evaluation `T↦t, U↦p/t` and
-prove continuity using divisibility bounds. The evaluations over this annulus
-in `ℂ_p` are jointly injective. There may be no such points over `ℚ_p`; that
-field alone cannot test injectivity. A general gauge-continuous specialisation
-need not be Lipschitz for arbitrary choices of `α`. For joint injectivity,
-take a radius `ρ∈p^ℚ∩(p⁻¹,1)` at which one term `‖d_m‖ρ^m` of a nonzero
-element strictly dominates the others (all but finitely many radii of each
-closed sub-interval); every `t` with `|t|=ρ` then gives a nonzero value.
-*Needs:* the gauge above, `ℂ_p` with Mathlib's `PadicComplex` norm and its
-algebraic closure for points of every norm in `p^ℚ`, and
-`HasSum.norm_eq_of_forall_norm_lt` (§0.1) for the dominant term.
+At every `t∈ℂ_p` with `p⁻¹<|t|<1`, construct the evaluation `T↦t, U↦p/t` of
+`H[1/T]` and prove its continuity for the gauge using divisibility bounds. A
+general gauge-continuous specialisation need not be Lipschitz for arbitrary
+choices of `α`. *Needs:* the gauge above and Mathlib's `PadicComplex`.
+
+The evaluations over this annulus are jointly injective on `H`. Through
+`H≃ℤ_p[[T,U]]/(TU−p)`, a series `f=Σ a_(ij)T^iU^j` with `a_(ij)∈ℤ_p` has value
+`Σ a_(ij)t^i(p/t)^j=0` at every such `t` exactly when `f` is a multiple of
+`TU−p`: `mem_span_iff_forall_eval_annulus`. The values converge, since
+`|t^i(p/t)^j|=|t|^i(p⁻¹/|t|)^j` tends to zero, and evaluation is
+multiplicative, so the multiples of `TU−p` vanish. Conversely, the value is
+`Σ_(m∈ℤ) d_m t^m` with the normal-form coefficients `d_m=Σ_(i−j=m) a_(ij)p^j`
+of `f`, and the normal form is zero exactly when `f` is a multiple of `TU−p`.
+For a nonzero normal form take a radius `ρ∈p^ℚ∩(p⁻¹,1)` at which one term
+`‖d_m‖ρ^m` strictly dominates the others (all but finitely many radii of each
+closed sub-interval); every `t` with `|t|=ρ` then gives a nonzero value. No
+`t∈ℚ_p` has `p⁻¹<|t|<1`, because `|ℚ_pˣ|=p^ℤ`, so `ℚ_p` alone cannot test
+injectivity. This statement does not involve the gauge. *Needs:* the ring `H`
+and its identification with `ℤ_p[[T,U]]/(TU−p)` above, Mathlib's
+`PadicComplex` with its dense algebraically closed subfield `PadicAlgCl` for
+points of every norm in `p^ℚ`, and `HasSum.norm_eq_of_forall_norm_lt` (§0.1)
+for the dominant term.
 
 Adjoin the finite factor by `H[Δ]`, compare it with the halo coefficient ring
 `ℤ_p⟦T,pT⁻¹⟧⊗ℤ_p[Δ]` of [LWX] Lemma 3.15, p. 21, and track the ideal `(p,T)=(T)` of
@@ -1424,10 +1500,22 @@ Fredholm series and slope bounds are outside this roadmap. *Needs:* the ring
 
 **Checks.**
 
-- At `p=2`, test both sign characters and `γ=exp(4)`.
-- Specialise the universal character at the trivial weight and at an
-  algebraic weight. Verify `T↦0`, the finite-character components, and the
-  generator-change formula.
+- At `p=2`, `Δ=(ℤ/4ℤ)ˣ={±1}` has the trivial and the sign character `ε`. The
+  weight `x↦ε(x mod 4)` has finite part `ε` and coordinate
+  `T=ε(exp(4))−1=0`, since `exp(4)≡1 mod 4`, so it shares its coordinate with
+  the trivial weight and is told apart only by its finite part. The weight
+  `κ(x)=x` also has finite part `ε`, through the sign section `ω(±1)=±1`, and
+  `‖T_κ‖=‖exp(4)−1‖=4⁻¹`. The choice `q=4` is forced: `exp(2)` diverges in
+  `ℚ_2`, since `‖2‖=2⁻¹=r_2`.
+- Specialisation at the trivial weight sends `T↦0` and every `[x]↦1`, the
+  binomial formula giving `1·(1+0)^(s(x))=1`. At `κ(x)=x^k`, `k∈ℤ`, the finite
+  part is `x̄↦ω(x̄)^k` and `T_κ=exp(kq)−1`, and the formula returns
+  `ω(x̄)^k exp(kq·s(x))=ω(x̄)^k(x/ω(x̄))^k=x^k`, with `s(x)=log(x/ω(x̄))/q`.
+  Dropping the finite part would give `(x/ω(x̄))^k`, which is `1` instead of
+  `−1` at `x=−1` for odd `k`.
+- Generator change at `γ'=γ^(−1)` for `κ(x)=x`: the formula `T'=(1+T)^u−1`
+  at `u=−1` gives `T'=exp(−q)−1=−T_κ/(1+T_κ)`, of norm `‖q‖`. The linearised
+  `T'=−T_κ` differs from it by `T_κ²/(1+T_κ)`, of norm `‖q‖²`.
 - The trivial weight has `T_κ=0` and is analytic at every level; the weight
   `κ(x)=x` over `ℚ_p` has `‖T_κ‖=‖exp(q)−1‖=‖q‖`, below `r_0=p^(−1/(p−1))`
   for every `p` (`p⁻¹<p^(−1/(p−1))` for odd `p`, `4⁻¹<2⁻¹` at `p=2`), so its
@@ -1439,11 +1527,27 @@ Fredholm series and slope bounds are outside this roadmap. *Needs:* the ring
   `max(‖c‖,1)=1`. Reading the principal-part level `h=0` of §5.4 as a unit
   level instead would ask for `exp(p⁰)=exp(1)`, which diverges since
   `‖1‖=1≥r_p`.
-- Test the halo normal forms `T`, `U`, `p=TU` and `(1−U)⁻¹=Σ U^j`; distinguish
-  formal equality from convergence in the gauge norm. Do not identify `H[Δ]`
-  with an integral product at `p=2`.
-- For universal specialisation also check `(1+T)^n` and the infinite series
-  `(1+T)⁻¹=Σ(−T)^j`, which is not `1−T`.
+- In `H`, `TU=p`, the normal form with `d_0=p` and all other `d_m=0`, while
+  neither factor is a unit: an inverse of `T` would have `d_(−1)=1`, against
+  `v_p(d_(−1))≥1`, and an inverse of `U` would be `T/p`, with `d_1=p⁻¹∉ℤ_p`.
+- `Σ_(j≥0)U^j`, the element with `d_(−j)=p^j` for `j≥0`, satisfies
+  `(1−U)Σ_jU^j=1`, so it is `(1−U)⁻¹` in `H`. In the gauge `‖U^j‖=1` for every
+  `j`, because `U^j=p^jT^(−j)` lies in `H` and `U^j/T` does not
+  (`v_p(p^j)=j<j+1`); consecutive partial sums differ by norm one, so the
+  series does not converge although its formal sum is an element of `H`.
+- `Σ_jU^j` is not in the `p`-adic completion of `ℤ_p[[T]][p/T]`: there
+  `v_p(d_(−j))−j→∞`, since an element is a polynomial in `U` plus `p^N` times
+  an element whose coefficients satisfy `v_p(d_(−j))≥j`, whereas here
+  `v_p(p^j)−j=0` for every `j`.
+- At `p=2`, `H[Δ]=H[δ]/(δ²−1)` has only the idempotents `0` and `1`: an
+  idempotent `a+bδ` needs `a²+b²=a` and `b(2a−1)=0`; as `2a−1` is a unit of the
+  local ring `H`, `b=0` and `a∈{0,1}`. The splitting idempotents `(1±δ)/2` need
+  `2` inverted, so `H[Δ]` is not `H×H`. At odd `p` the idempotents
+  `(p−1)⁻¹Σ_δ χ(δ)⁻¹δ` of the characters `χ` of `Δ` are integral and
+  `H[Δ]≅H^(p−1)`.
+- Under specialisation at a weight `κ`, `(1+T)^n↦κ(γ^n)` for `n∈ℕ` and
+  `(1+T)⁻¹=Σ_j(−T)^j↦κ(γ)⁻¹`; the truncation `1−T` would give `2−κ(γ)`, which
+  differs from `κ(γ)⁻¹` by `T_κ²/(1+T_κ)`.
 - In the maximum-norm dual-number algebra, `s↦1+sε` has `‖T_κ‖=1` and
   evaluation `F↦coeff₀(F)+coeff₁(F)ε`; it lies outside the small-norm
   subfamily.
@@ -1543,8 +1647,9 @@ and [LWX] §§2–3, Lemma 3.15.
 * **[Col]** P. Colmez,
   [*Fonctions d'une variable p-adique*](https://webusers.imj-prg.fr/~pierre.colmez/fonctionsdunevariable.pdf),
   especially I.3–I.4 and II.2–II.4.
-* **[ST]** P. Schneider and J. Teitelbaum, *p-adic Fourier theory*,
-  Documenta Math. **6** (2001), 447–481.
+* **[ST]** P. Schneider and J. Teitelbaum, [*p-adic Fourier theory*](https://arxiv.org/abs/math/0102012),
+  Documenta Math. **6** (2001), 447–481; page numbers refer to the arXiv
+  version math/0102012v1.
 * **[RJW]** J. Rodrigues Jacinto and C. Williams,
   [*An Introduction to p-adic L-functions*](https://arxiv.org/abs/2309.15692),
   especially §§3–4, Proposition 3.16, Theorem 3.25, Theorem 3.43 and
