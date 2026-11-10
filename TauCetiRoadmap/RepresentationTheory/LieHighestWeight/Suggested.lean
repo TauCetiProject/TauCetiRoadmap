@@ -6,7 +6,7 @@ public import TauCeti.LinearAlgebra.SymmetricAlgebra.LieModule
 public import TauCeti.LinearAlgebra.SymmetricAlgebra.Homogeneous
 public import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Homogeneous
 public import TauCeti.Algebra.Lie.Presentation.Serre.Killing
-public import TauCeti.Algebra.Octonion.Derivation
+public import TauCeti.Algebra.Octonion.Serre
 public import TauCeti.Algebra.AlbertAlgebra.Basic
 public import TauCeti.LinearAlgebra.SymmetricPower.Basic
 public import TauCeti.Algebra.Lie.UniversalEnveloping.Prod
@@ -46,9 +46,9 @@ here by admitted data.
 The type-A identification of a rational irreducible GL_n-character with the
 determinant-shifted Schur polynomial is statable, but it is the headline of ClassicalGroups
 Layer 4; this roadmap gives an independent Haar-measure proof of it and does not restate it.
-The regular extension of unitary representations, the torus period lattice and the
-Littlewood-Richardson rule are supplier gaps named in README.md, not headlines of this
-roadmap; the compact Frobenius-Schur criterion is native at the pin
+The regular extension of unitary representations uses the supplier gaps named in README.md;
+the torus period lattice and Littlewood-Richardson rule are supplied by ConvexityToric T1
+and SchurWeyl §7.2; the compact Frobenius-Schur criterion is native at the pin
 (`ContRepresentation.frobeniusSchurIndicator_trichotomy`) and is a supplier contract.
 -/
 
@@ -151,13 +151,13 @@ end Serre
 
 /-! ## Layer 8: exceptional split identifications -/
 
-/-- The derivations of the native split Zorn octonions are the split Serre algebra G2. -/
-theorem derivationOctonion_equiv_g2 (K : Type*) [Field K] [CharZero K] :
-    Nonempty (TauCeti.derivationLieAlgebra K (TauCeti.Octonion K) ≃ₗ⁅K⁆
-      LieAlgebra.g₂ (R := K)) := sorry
+/-- The normalized native Serre map from split G2 to derivations of the split Zorn
+ octonions is injective; together with its native surjectivity this identifies the two algebras. -/
+theorem octonionSerreLift_injective (K : Type*) [Field K] [CharZero K] :
+    Function.Injective (TauCeti.Octonion.g₂ToDerivationLieAlgebra (R := K)) := sorry
 
 /-- The derivations of the native split Albert product are the split Serre algebra F4. -/
-theorem derivationAlbert_equiv_f4 (K : Type*) [Field K] [CharZero K] :
+theorem nonempty_derivationAlbert_equiv_f4 (K : Type*) [Field K] [CharZero K] :
     Nonempty (TauCeti.derivationLieAlgebra K (TauCeti.AlbertAlgebra K) ≃ₗ⁅K⁆
       LieAlgebra.f₄ (R := K)) := sorry
 
