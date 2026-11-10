@@ -91,6 +91,9 @@ Tau Ceti provides:
 | Result | Target |
 |---|---|
 | Variation of parameters for `w″ + w′/z + (σ − ν²/z²) w = f` on the slit plane, `σ = ±1`: every solution is one particular solution plus a solution of the homogeneous equation | 1.2 |
+| The holomorphy of `𝐅₁₂(b₁, b₂; x)` in the parameters | 1.1 |
+| The equation of `𝐀_ν` | 7.1 |
+| The reciprocal-Gamma bounds on the lines `Re s = N + ½`, uniform in `N`, and on the strips of the line shifts | 3.2 |
 | The removable singularities of the Lommel function `S_{μ,ν}` and of `𝐀_ν` in the parameters | 6.1, 7.1 |
 | Debye's leading term for `I_ν(λν)` with complex `ν` in `|ph ν| ≤ π/2 − δ` and fixed `λ > 0` | 4.3 |
 | The power-series coefficients `c_k(λ)`, `a_k(λ)` and the saddle coefficients `b_k(λ)` of the scaled expansions | 4.3, 8.3 |
@@ -127,8 +130,9 @@ from SpecialFunctionsBessel.
   `(x : ℂ)`, and reality is `Complex.im _ = 0`. Derivatives are Mathlib's `deriv`; no derivative
   functions are introduced.
 - **The series.** `𝐅₁₂(b₁, b₂; x)` is Mathlib's `Complex.regularizedHGFun {1} {b₁, b₂} x`, entire
-  in `b₁`, `b₂` and `x` (Mathlib `Complex.analyticAt_regularizedHGFun_of_card_le` and the radius
-  lemma `Complex.radius_regularizedHGFunSeries_eq_top`). It is used only as this series.
+  in `x` for fixed `b₁`, `b₂` (Mathlib `Complex.analyticAt_regularizedHGFun_of_card_le` and the
+  radius lemma `Complex.radius_regularizedHGFunSeries_eq_top`). Its holomorphy in the parameters
+  is not in Mathlib; it is a target of 1.1. It is used only as this series.
 - **The definitions.** With principal powers, `J_ν = Complex.besselJ`, and SpecialFunctionsBessel's
   `Y_ν = Complex.besselY`, `I_ν = Complex.besselI`:
 
@@ -159,12 +163,16 @@ angerWeberA n z = (π cos nπ)⁻¹ ∂_ν(𝐉_ν(z) − J_ν(z))|_{ν=n}      
   its argument is not a pole. `(a)ₖ` is `(ascPochhammer ℂ k).eval a`, and `γ` is
   `Real.eulerMascheroniConstant`.
 - **Branches and the cut.** All powers and logarithms are principal. The functions of `z` are
-  holomorphic on `Complex.slitPlane`, except `𝐉_ν` and `𝐄_ν`, which are entire, and
-  `z ↦ (z/2)^{−ν−1} 𝐇_ν(z)`, `z ↦ (z/2)^{−ν−1} 𝐋_ν(z)` and `z ↦ z^{−μ−1} s_{μ,ν}(z)`, which are
-  entire and even. Their values on `(−∞, 0]` are those of the principal branch and are used only
-  where a formula of DLMF evaluates there. Statements involving `z e^{mπi}` are written for those
-  `z` for which `z e^{mπi}` has principal phase `ph z + mπ`, as in SpecialFunctionsBessel; the
-  other sheets are in the last section.
+  holomorphic on `Complex.slitPlane`, except `𝐉_ν` and `𝐄_ν`, which are entire. The normalized
+  functions `(z/2)^{−ν−1} 𝐇_ν(z)`, `(z/2)^{−ν−1} 𝐋_ν(z)` and `z^{−μ−1} s_{μ,ν}(z)` extend to entire
+  even functions, the series cores `𝐅₁₂(3/2, ν + 3/2; −z²/4)`, `𝐅₁₂(3/2, ν + 3/2; z²/4)` and
+  `¼ Γ(a) Γ(b) 𝐅₁₂(a + 1, b + 1; −z²/4)` (at regular parameters); the statements use the cores,
+  which equal the products for `z ≠ 0` in the slit plane. The products themselves, with Mathlib's
+  `0 ^ w`, are not continuous at `0` and are not used there. The values of the functions on
+  `(−∞, 0]` are those of the principal branch and are used only where a formula of DLMF evaluates
+  there. Statements involving `z e^{mπi}` are written for those `z` for which `z e^{mπi}` has
+  principal phase `ph z + mπ`, as in SpecialFunctionsBessel; the other sheets are in the last
+  section.
 - **Equations are not predicates.** A solution of an inhomogeneous Bessel equation on an open set
   `U` is stated with `DifferentiableOn ℂ w U` and the equation at each point of `U`, with `deriv`
   and `deriv^[2]`.
@@ -213,7 +221,8 @@ angerWeberA n z = (π cos nπ)⁻¹ ∂_ν(𝐉_ν(z) − J_ν(z))|_{ν=n}      
 - 4.3: the half-odd orders 10.16.1–10.16.2 and 10.39.1–10.39.2, for 2.1.
 - 5.1–5.2: the expansions of `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `K_ν`, `J_ν`, `Y_ν` and `I_ν` for large argument,
   for Layer 4 and 8.1.
-- 6.1: Debye's expansions of `I_ν`, `K_ν` for real large order, for the check in 4.3.
+- Its Conventions and 6.1: the Debye polynomials `Real.debyeU k` and Debye's expansions of `I_ν`,
+  `K_ν` for real large order, for the check in 4.3 and for 11.11.13_5 in 8.3.
 - 8.1: the primitive 10.22.1, and 8.4: the primitive 10.43.1, for Layer 5.
 - 9.1–9.2: the spherical functions and their explicit forms, for 2.1.
 
@@ -246,6 +255,7 @@ angerWeberA n z = (π cos nπ)⁻¹ ∂_ν(𝐉_ν(z) − J_ν(z))|_{ν=n}      
 ### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
 
 - 1.2: Stirling's formula in the sector `|ph s| ≤ π − δ` (DLMF 5.11.1), for 4.2 and 8.2.
+- 1.3: `log |Γ|` on vertical strips (DLMF 5.11.9), for the reciprocal-Gamma bounds of 3.2.
 
 ### From Mathlib
 
@@ -284,13 +294,21 @@ the formula it checks.
 
 The definitions of [Conventions](#conventions): `struveH`, `struveL`, `struveK`, `struveM`. The
 targets:
-- DLMF 11.2.1–11.2.2: `HasSum (fun k ↦ (−1)ᵏ (z/2)^{2k+ν+1} / (Γ(k + 3/2) Γ(k + ν + 3/2)))
-  (struveH ν z)` on the slit plane, and the same without `(−1)ᵏ` for `struveL`;
+- DLMF 11.2.1–11.2.2:
+  `HasSum (fun k ↦ (−1)ᵏ (z/2)^{2k+ν+1} / (Γ(k + 3/2) Γ(k + ν + 3/2))) (struveH ν z)` on the slit
+  plane, and the same without `(−1)ᵏ` for `struveL`;
 - DLMF 11.2.3–11.2.4: `𝐇₀(z) = (2/π) ∑ₖ (−1)ᵏ z^{2k+1}/((2k + 1)!!)²` and the same without
   `(−1)ᵏ` for `𝐋₀`, for all `z`;
-- holomorphy: `𝐇_ν`, `𝐋_ν`, `𝐊_ν`, `𝐌_ν` are holomorphic on the slit plane; `(z/2)^{−ν−1} 𝐇_ν(z)`
-  and `(z/2)^{−ν−1} 𝐋_ν(z)` are entire and even in `z`; at each point of the slit plane all four
+- holomorphy: `𝐇_ν`, `𝐋_ν`, `𝐊_ν`, `𝐌_ν` are holomorphic on the slit plane; the cores
+  `𝐅₁₂(3/2, ν + 3/2; ∓z²/4)` are entire and even in `z`, equal `(z/2)^{−ν−1} 𝐇_ν(z)` and
+  `(z/2)^{−ν−1} 𝐋_ν(z)` for `z ≠ 0` in the slit plane, and take the value
+  `(Γ(3/2) Γ(ν + 3/2))⁻¹` at `z = 0`; at each point of the slit plane all four
   are entire in `ν`; for `n ∈ {−1, 0, 1, …}`, `𝐇_n` and `𝐋_n` are entire;
+- holomorphy in the parameters (auxiliary): for fixed `x` and entire functions `b₁(w)`, `b₂(w)`,
+  `w ↦ 𝐅₁₂(b₁(w), b₂(w); x)` is entire. On a compact set of `w` there is `k₀` with
+  `Re bⱼ(w) + k₀ ≥ 1`, and `1/Γ(bⱼ + k) = (Γ(bⱼ + k₀) (bⱼ + k₀)_{k−k₀})⁻¹` with
+  `|(bⱼ + k₀)_{k−k₀}| ≥ (k − k₀)!` bounds the terms by `C |x|ᵏ/((k − k₀)!)²`, so the series
+  converges uniformly there. The holomorphy in `ν` above rests on it;
 - `𝐋_ν(z) = −i e^{−iνπ/2} 𝐇_ν(iz)` for `z` and `iz` in the slit plane with `ph(iz) = ph z + π/2`,
   and reality: `𝐇_ν(x)`, `𝐋_ν(x)` are real for real `ν` and `x > 0`.
 
@@ -332,8 +350,9 @@ parameters with SpecialFunctionsBessel's span of the homogeneous solutions.
 ### Examples
 
 - `𝐋₀(x) − I₀(x) = 𝐌₀(x) < 0` at `x = 1` (`−0.55582…`).
-- `𝐋_ν(x) = 𝐇_ν(x)` up to `O(x^{ν+5})` as `x → 0+`, the first two terms of 11.2.1 and 11.2.2
-  agreeing in absolute value.
+- For real `ν`, `𝐋_ν(x) − 𝐇_ν(x) = 2(x/2)^{ν+3}/(Γ(5/2) Γ(ν + 5/2)) + O(x^{ν+7})` as `x → 0+`,
+  with `(Γ(ν + 5/2))⁻¹`: the terms of 11.2.1 and 11.2.2 agree for even `k` and are opposite for
+  odd `k`. At `ν = 0` the difference is `4x³/(9π) + O(x⁷)`.
 
 ### Dependencies
 
@@ -383,8 +402,12 @@ DLMF 11.4.18–11.4.22 on the slit plane, as `HasSum`:
 - 11.4.19 for every `ν`, in `(z/2)ᵏ J_{k+ν+1/2}`;
 - 11.4.20 for `ν + ½ ∉ {0, −1, −2, …}`, in `(z/2)ᵏ J_{k+1/2}`;
 - 11.4.21: `𝐇₀(z) = (4/π) ∑ J_{2k+1}(z)/(2k + 1) = 2 ∑ (−1)ᵏ J²_{k+1/2}(z/2)`;
-- 11.4.22: `𝐇₁(z) = (2/π)(1 − J₀(z)) + (4/π) ∑ J_{2k+2}(z)/(4(k + 1)² − 1)
-  = 4 ∑ J_{2k+1/2}(z/2) J_{2k+3/2}(z/2)`.
+- 11.4.22:
+
+  ```text
+  𝐇₁(z) = (2/π)(1 − J₀(z)) + (4/π) ∑ J_{2k+2}(z)/(4(k + 1)² − 1)
+        = 4 ∑ J_{2k+1/2}(z/2) J_{2k+3/2}(z/2).
+  ```
 
 11.4.18 is the power series 11.2.1 with each power `(z/2)^{ν+2m+1}` expanded in `J_{ν+2m+1+2j}`
 by DLMF 10.23.15 and the absolutely convergent double sum rearranged.
@@ -424,10 +447,14 @@ Layer 1; SpecialFunctionsBessel 2.2, 2.4, 2.6, 4.3, 9.1–9.2.
 
 ### 3.1 Integrals over intervals and half-lines
 
-- DLMF 11.5.1 and 11.5.6 for `Re ν > −½` on the slit plane:
-  `𝐇_ν(z) = 2(z/2)^ν/(√π Γ(ν + ½)) ∫₀¹ (1 − t²)^{ν−1/2} sin(zt) dt
-  = 2(z/2)^ν/(√π Γ(ν + ½)) ∫₀^{π/2} sin(z cos θ) (sin θ)^{2ν} dθ`, and the same with `sinh` for
-  `𝐋_ν`.
+- DLMF 11.5.1 and 11.5.6 for `Re ν > −½` on the slit plane,
+
+  ```text
+  𝐇_ν(z) = 2(z/2)^ν/(√π Γ(ν + ½)) ∫₀¹ (1 − t²)^{ν−1/2} sin(zt) dt
+         = 2(z/2)^ν/(√π Γ(ν + ½)) ∫₀^{π/2} sin(z cos θ) (sin θ)^{2ν} dθ,
+  ```
+
+  and the same with `sinh` for `𝐋_ν`.
 - DLMF 11.5.2–11.5.3 for `Re z > 0`:
   `𝐊_ν(z) = 2(z/2)^ν/(√π Γ(ν + ½)) ∫₀^∞ e^{−zt} (1 + t²)^{ν−1/2} dt` for every `ν`, the integral
   absolutely convergent, and `𝐊₀(z) = (2/π) ∫₀^∞ e^{−z sinh t} dt`.
@@ -458,14 +485,31 @@ both sides are entire in `ν` (1.1, SpecialFunctionsBessel 1.2); for 11.5.4, the
   absolutely convergent along the line `Re s = c`, which separates the poles `0, 1, 2, …` from
   `−1, −2, …`. The condition `Re ν + 2c > −1` is the absolute convergence of the integrand,
   `O(|Im s|^{−2−Re ν−2c})`, and for `Re ν > −1` some `c` satisfies it.
-- DLMF 11.5.9: for `z ≠ 0`, `c ∈ (−1, 0)` and `h > 0`, the loop integral over the path from
-  `R + ih` to `c + ih` to `c − ih` to `R − ih` of `π csc(πs) (Γ(3/2 + s) Γ(3/2 + ν + s))⁻¹
-  (−z²/4)^s` tends to `2πi (z/2)^{−ν−1} 𝐋_ν(z)` as `R → ∞`, with `(−z²/4)^s` principal.
+- DLMF 11.5.9: for `z ≠ 0`, `c ∈ (−1, 0)` and `h > 0`, the loop integral over the path from `R + ih`
+  to `c + ih` to `c − ih` to `R − ih` of `π csc(πs) (Γ(3/2 + s) Γ(3/2 + ν + s))⁻¹ (−z²/4)^s` tends
+  to `2πi (z/2)^{−ν−1} 𝐋_ν(z)` as `R → ∞`, with `(−z²/4)^s` principal.
 
 11.5.8 is the line shift of AsymptoticExpansions 8.2 applied to the rectangles with right sides
-at `Re s = N + ½`: the residues at `s = 0, …, N` are the partial sums of 11.2.1, and the right
-sides tend to `0` by AsymptoticExpansions 8.6. 11.5.9 is the same with the rectangles truncated at
-`Im s = ±h`.
+at `Re s = N + ½`: the residues at `s = 0, …, N` are the partial sums of 11.2.1, and the
+integrals over the right sides tend to `0`. 11.5.9 is the same with the rectangles truncated at
+`Im s = ±h`. AsymptoticExpansions 8.2 assumes the integrability on both lines and the vanishing of
+the horizontal edges, and 8.6 bounds `Γ` from above on one fixed strip; the reciprocal factors
+need the following bounds, which this roadmap owns:
+- **the right lines** (auxiliary): for `x > 0` and `N` large, on `s = N + ½ + iy`,
+
+  ```text
+  |π csc(πs) (Γ(3/2 + s) Γ(3/2 + ν + s))⁻¹ (x²/4)^s|
+      ≤ C (1 + |y|)^{−2} (x/2)^{2N+1}/(Γ(N + 2) Γ(N + 2 + Re ν))
+  ```
+
+  with `C` independent of `N` and `y`, so the integral over the line tends to `0`. Proof:
+  `|sin(πs)| = cosh(πy)`; and `|Γ(σ + 1 + it)|/Γ(σ + 1) ≥ |Γ(σ + it)|/Γ(σ)` for `σ > 0` by
+  `Γ(σ + 1 + it) = (σ + it) Γ(σ + it)`, so with `m` steps from `σ₀ ∈ [2, 3)`,
+  `|Γ(σ₀ + m + it)|⁻¹ ≤ Γ(σ₀)/(Γ(σ₀ + m) |Γ(σ₀ + it)|)`, and ZerosOfLFunctions 1.3 bounds
+  `|Γ(σ₀ + it)|⁻¹` by `C (1 + |t|)^{1/2−σ₀} e^{π|t|/2}` uniformly for `σ₀ ∈ [2, 3]`;
+- **the strips** (auxiliary): for fixed `N`, the integrand is `O((1 + |y|)^{−2−Re ν−2 Re s})`
+  uniformly for `c ≤ Re s ≤ N + ½`, from the same lower bound for `|Γ|` on the strip, which gives
+  the integrability on both lines and the vanishing of the horizontal edges as `|Im s| → ∞`.
 
 **Checks.**
 - The residue of `π csc(πs)` at `s = k` is `(−1)ᵏ`. The poles `0, 1, 2, …` lie to the right of
@@ -473,7 +517,7 @@ sides tend to `0` by AsymptoticExpansions 8.6. 11.5.9 is the same with the recta
   `∑ (−1)ᵏ (x²/4)ᵏ/(Γ(3/2 + k) Γ(3/2 + ν + k)) = (x/2)^{−ν−1} 𝐇_ν(x)`. The loop of 11.5.9 is
   counterclockwise, and `(−1)ᵏ (−z²/4)ᵏ = (z²/4)ᵏ` gives 11.2.2.
 
-*Needs:* 1.1; AsymptoticExpansions 8.2, 8.6.
+*Needs:* 1.1; AsymptoticExpansions 8.2, 8.6; ZerosOfLFunctions 1.3.
 
 ### Examples
 
@@ -483,7 +527,7 @@ sides tend to `0` by AsymptoticExpansions 8.6. 11.5.9 is the same with the recta
 
 ### Dependencies
 
-Layers 1–2; SpecialFunctionsBessel 3.1; AsymptoticExpansions 8.2, 8.6.
+Layers 1–2; SpecialFunctionsBessel 3.1; AsymptoticExpansions 8.2, 8.6; ZerosOfLFunctions 1.3.
 
 ## Layer 4: asymptotic expansions of the Struve functions
 
@@ -497,16 +541,20 @@ Layers 1–2; SpecialFunctionsBessel 3.1; AsymptoticExpansions 8.2, 8.6.
   `|ph z| ≤ π/2 − δ`.
 
 11.6.1 is Watson's lemma in a sector (AsymptoticExpansions 4.2) applied to 11.5.2, with the
-rotation of the path for `|ph z| ≥ π/2`. 11.6.2
-is Laplace's method on the two paths from `0` to `∞` passing below and above `t = 1`, applied to
-the loop form of 11.5.4 (DLMF's Sources).
+rotation of the path for `|ph z| ≥ π/2`. 11.6.2 is first proved for `Re ν > −½` from the interval
+form 11.5.4 of 3.1: split `∫₀¹ e^{−zt} (1 − t²)^{ν−1/2} dt` at `t = ½`; the piece over `[½, 1]` is
+`O(e^{−|z| sin(δ)/2})` in `|ph z| ≤ π/2 − δ`, and Watson's lemma (AsymptoticExpansions 4.2) at
+`t = 0`, with `(1 − t²)^{ν−1/2} = ∑ₖ (−1)ᵏ C(ν − ½, k) t^{2k}`, gives the series, since
+`(2k)!/k! = 4ᵏ Γ(k + ½)/√π`. It extends to all `ν` by the recurrence
+`𝐌_{ν−1} = 𝐌_{ν+1} + (2ν/z) 𝐌_ν + (z/2)^ν/(√π Γ(ν + 3/2))` of 2.4, which the formal series
+satisfy; each step lowers `Re ν` by `1`. The loop form of 11.5.4 is not used.
 
 **Checks.**
 - `𝐊₀(10) = 0.06307 25164 03…`. The terms are `(2/(πz))(1 − z⁻² + 9z⁻⁴ − …)`; two terms give
   `0.06302 53574 4…` and three give `0.06308 26532 4…`, which bracket it, as the sign statement
   predicts.
 
-*Needs:* Layers 1, 3; SpecialFunctionsBessel 5.1–5.2; AsymptoticExpansions 4.2, 5.2, 5.4.
+*Needs:* Layers 1–3; SpecialFunctionsBessel 1.8, 5.1–5.2; AsymptoticExpansions 4.2, 5.2, 5.4.
 
 ### 4.2 Primitives and large order
 
@@ -572,7 +620,7 @@ ZerosOfLFunctions 1.2; Mathlib `PowerSeries`.
 
 ### Dependencies
 
-Layers 1–3; SpecialFunctionsBessel 5.1–5.2, 6.1; AsymptoticExpansions 1.5, 4.2, 5.2, 5.4–5.5;
+Layers 1–3; SpecialFunctionsBessel 1.8, 5.1–5.2, 6.1; AsymptoticExpansions 1.5, 4.2, 5.2, 5.4–5.5;
 ZerosOfLFunctions 1.2.
 
 ## Layer 5: integrals
@@ -582,7 +630,10 @@ ZerosOfLFunctions 1.2.
 - DLMF 11.7.1–11.7.4, as derivative statements on the slit plane: `(z^ν 𝐇_ν)′ = z^ν 𝐇_{ν−1}`,
   `(−z^{−ν} 𝐇_ν + 2^{−ν} z/(√π Γ(ν + 3/2)))′ = z^{−ν} 𝐇_{ν+1}`, and the `𝐋_ν` forms.
 - DLMF 11.7.5–11.7.6: `f_ν(z) = ∫₀^z t^ν 𝐇_ν(t) dt` along the segment `[0, z]` for `Re ν > −1`, and
-  `f_{ν+1}(z) = (2ν + 1) f_ν(z) − z^{ν+1} 𝐇_ν(z) + (z²/2)^{ν+1}/((ν + 1) √π Γ(ν + 3/2))`.
+  `f_{ν+1}(z) = (2ν + 1) f_ν(z) − z^{ν+1} 𝐇_ν(z) + z^{2ν+2}/(2^{ν+1} (ν + 1) √π Γ(ν + 3/2))`.
+  DLMF prints the last numerator as `(z²/2)^{ν+1}`; with principal powers that is
+  `exp((ν + 1) log(z²/2))`, which differs from `z^{2ν+2}/2^{ν+1} = exp((ν + 1)(2 log z − log 2))`
+  where `|ph z| > π/2`, and only the second is correct there.
 - DLMF 10.22.2: for `ν + ½ ∉ {0, −1, −2, …}` and every cylinder function `𝒞_ν = A J_ν + B Y_ν` with
   `A`, `B` independent of `ν`, the derivative of `√π 2^{ν−1} Γ(ν + ½) z (𝒞_ν 𝐇_{ν−1} − 𝒞_{ν−1} 𝐇_ν)`
   is `z^ν 𝒞_ν(z)`.
@@ -607,8 +658,13 @@ ZerosOfLFunctions 1.2.
   `∫₀^∞ t^{−ν−1} 𝐇_ν(t) dt = π/(2^{ν+1} Γ(ν + 1))` for `Re ν > −3/2`; and 11.7.11 for
   `|Re μ| < 1`, `Re ν > Re μ − 3/2`, with its value at `μ = 0` given by 11.7.10.
 - DLMF 11.7.12 with the corrected hypotheses: for `Re(μ + ν) > 0`, `Re μ > −3/2` and
-  `Re ν > −3/2`, `∫₀^∞ t^{−μ−ν} 𝐇_μ(t) 𝐇_ν(t) dt = √π Γ(μ + ν) / (2^{μ+ν} Γ(μ + ν + ½) Γ(μ + ½)
-  Γ(ν + ½))`. DLMF prints only `Re(μ + ν) > 0`; at `μ = 3`, `ν = −2` the integral diverges.
+  `Re ν > −3/2`,
+
+  ```text
+  ∫₀^∞ t^{−μ−ν} 𝐇_μ(t) 𝐇_ν(t) dt = √π Γ(μ + ν) / (2^{μ+ν} Γ(μ + ν + ½) Γ(μ + ½) Γ(ν + ½)).
+  ```
+
+  DLMF prints only `Re(μ + ν) > 0`; at `μ = 3`, `ν = −2` the integral diverges.
 
 **Checks.**
 - 11.7.10 at `ν = 0` is 11.7.8's first integral.
@@ -669,8 +725,13 @@ The definitions of [Conventions](#conventions): `lommelSmallS`, `lommelCapitalS`
 
 DLMF 11.9.7–11.9.8 on the slit plane, as `HasSum`, for `μ ± ν ∉ {−1, −2, −3, …}`; 11.9.7 also for
 `μ ∉ {−1, −2, …}` so that `Γ(k + μ + 1)` has no pole:
-`s_{μ,ν}(z) = 2^{μ+1} ∑ₖ (2k + μ + 1) Γ(k + μ + 1) / (k! (2k + μ − ν + 1)(2k + μ + ν + 1))
-J_{2k+μ+1}(z)` and 11.9.8 in `(z/2)ᵏ J_{k+(μ+ν+1)/2}(z)`.
+
+```text
+s_{μ,ν}(z) = 2^{μ+1} ∑ₖ (2k + μ + 1) Γ(k + μ + 1) / (k! (2k + μ − ν + 1)(2k + μ + ν + 1))
+               · J_{2k+μ+1}(z)
+```
+
+and 11.9.8 in `(z/2)ᵏ J_{k+(μ+ν+1)/2}(z)`.
 
 **Checks.**
 - 11.9.7 at `μ = ν` with 6.1 is 11.4.18.
@@ -710,10 +771,13 @@ The definitions of [Conventions](#conventions): `angerJ`, `weberE`, `angerWeberA
 - the removable singularities (auxiliary): for `z` in the slit plane, `ν ↦ 𝐀_ν(z)` is entire, so
   that 11.10.15, `𝐉_ν = J_ν + sin(νπ) 𝐀_ν`, holds for all `ν`;
 - DLMF 11.10.4: `𝐀_ν(z) = π⁻¹ ∫₀^∞ e^{−νt − z sinh t} dt` for `Re z > 0`, absolutely convergent;
-- DLMF 11.10.5–11.10.7: `𝐉_ν`, `𝐄_ν` and `𝐀_ν` solve the inhomogeneous Bessel equations
-  `w″ + w′/z + (1 − ν²/z²) w = f` with `f = (z − ν) sin(πν)/(πz²)`,
-  `−(z + ν + (z − ν) cos(πν))/(πz²)` and `(z + ν)/(πz²)` respectively, for `z ≠ 0` (`z` in the
-  slit plane for `𝐀_ν`).
+- DLMF 11.10.5–11.10.7: `𝐉_ν` and `𝐄_ν` solve the inhomogeneous Bessel equations
+  `w″ + w′/z + (1 − ν²/z²) w = f` with `f = (z − ν) sin(πν)/(πz²)` and
+  `f = −(z + ν + (z − ν) cos(πν))/(πz²)` respectively, for `z ≠ 0`;
+- the equation of `𝐀_ν` (auxiliary; DLMF does not number it): `𝐀_ν` solves the same equation
+  with `f = (z − ν)/(πz²)` for `z` in the slit plane. Off the integers it is 11.10.6 divided by
+  `sin νπ`, since `𝐉_ν − J_ν = sin(νπ) 𝐀_ν` and `J_ν` solves Bessel's equation; at integer
+  orders it follows by continuity in `ν`.
 
 **Checks.**
 - `𝐉_{1/2}(1) = 0.85516 53096 79…`, `𝐄_{1/2}(1) = 0.09950 75426 40…`,
@@ -828,6 +892,16 @@ With `a_k(λ)` of [Conventions](#conventions) and, for `0 < λ < 1`,
   `b_k(λ) = √2 β_{2k}` and `β_{2k}` are the coefficients of AsymptoticExpansions 5.1 (with
   `μ = 2`, `λ = 1`) for the phase `p(t) = λ sinh t − t` at its minimum
   `t₀ = arccosh(1/λ)` and `q = 1`; and the values `b₀ = (1 − λ²)^{−1/4}`, `b₁`, `b₂` of 11.11.13;
+- DLMF 11.11.13_5: for `0 < λ < 1` and every `k`,
+  `(½)ₖ b_k(λ) = (−1)ᵏ (1 − λ²)^{−1/4} U_k((1 − λ²)^{−1/2})`, with `U_k` SpecialFunctionsBessel's
+  `Real.debyeU k` (cast to `ℂ` where the statement is complex). Route: the substitution
+  `t = u + iπ/2` turns the phase `λ sinh t − t` into `iλ cosh u − u − iπ/2`, the phase of the
+  integral `½ ∫_ℝ e^{−ν(z cosh u − u)} du = K_ν(νz)` at `z = iλ`. For `z > 0`, Laplace's method
+  (AsymptoticExpansions 5.4) on that integral and the uniqueness of asymptotic expansions against
+  10.41.4 (SpecialFunctionsBessel 6.1) identify its saddle coefficients with
+  `(−1)ᵏ U_k(p) (1 + z²)^{−1/4}`, `p = (1 + z²)^{−1/2}`, with the normalization `(½)ₖ`. Both sides
+  are holomorphic in `z` along the segment from `1` to `iλ`, which avoids the branch points
+  `±i`, and the identity continues to `z = iλ`, where `1 + z² = 1 − λ²`;
 - DLMF 11.11.14–11.11.15: the leading terms `𝐀_{−ν}(λν) ∼ 1/(πν(λ − 1))` for `λ > 1` in
   `|ph ν| ≤ π − δ`, and `∼ (2/(πν))^{1/2} e^{−νμ(λ)}/(1 − λ²)^{1/4}` for `0 < λ < 1` in
   `|ph ν| ≤ π/2 − δ`.
@@ -840,11 +914,12 @@ For `Re(λν) > 0`, 11.10.4 gives `𝐀_{±ν}(λν) = π⁻¹ ∫₀^∞ e^{−
 smaller.
 
 **Checks.**
-- `a₀(λ) = 1/(1 + λ)` and `a₁(λ) = −λ/(2(1 + λ)⁴)` from the definition: `(t/(t + λ sinh t))³ =
-  (1 + λ)^{−3}(1 − λt²/(2(1 + λ)) + O(t⁴))`.
+- `a₀(λ) = 1/(1 + λ)` and `a₁(λ) = −λ/(2(1 + λ)⁴)` from the definition:
+  `(t/(t + λ sinh t))³ = (1 + λ)^{−3}(1 − λt²/(2(1 + λ)) + O(t⁴))`.
 - `b₀ = √2 (2p″(t₀))^{−1/2}` with `p″(t₀) = λ sinh t₀ = (1 − λ²)^{1/2}` is `(1 − λ²)^{−1/4}`.
 
-*Needs:* 7.1; AsymptoticExpansions 4.2, 5.1, 5.4–5.5; Mathlib `PowerSeries`.
+*Needs:* 7.1; SpecialFunctionsBessel Conventions, 6.1; AsymptoticExpansions 4.2, 5.1, 5.4–5.5;
+Mathlib `PowerSeries`.
 
 ### 8.4 The transition region
 
@@ -879,12 +954,13 @@ leading term `π⁻¹ e^{πi/6} Γ(⅓) (6/ν)^{1/3}/3`, with `Γ(⅓) Γ(⅔) =
 ### Examples
 
 - 11.11.14 is the first term of 11.11.10: `−π⁻¹ a₀(−λ) ν⁻¹ = −1/(π(1 − λ)ν) = 1/(πν(λ − 1))`.
-- `𝐀_ν(0) = (𝐉_ν(0) − J_ν(0))/sin νπ = 1/(πν)` for `ν ∉ ℤ` by 11.10.25, the value of 11.10.4 at
-  `z = 0`.
+- For `Re ν > 0`, `𝐀_ν(z) → 1/(πν)` as `z → 0` in `Re z > 0`: 11.10.4 at `z = 0` is
+  `π⁻¹ ∫₀^∞ e^{−νt} dt = 1/(πν)`, and dominated convergence gives the limit. For `ν ∉ ℤ` this
+  agrees with `(𝐉_ν(0) − J_ν(0))/sin νπ` by 11.10.25 and `J_ν(0) = 0`.
 
 ### Dependencies
 
-Layers 1, 4, 7; SpecialFunctionsBessel 5.1–5.2; SpecialFunctionsAiry 6.1;
+Layers 1, 4, 7; SpecialFunctionsBessel Conventions, 5.1–5.2, 6.1; SpecialFunctionsAiry 6.1;
 AsymptoticExpansions 4.2, 5.1–5.5, 6.2; ZerosOfLFunctions 1.2.
 
 ## Downstream consumers

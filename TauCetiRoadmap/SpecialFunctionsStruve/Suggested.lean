@@ -155,7 +155,9 @@ theorem hasSum_struveH (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
       (Gamma (k + 3 / 2) * Gamma (k + ν + 3 / 2))) (struveH ν z) := by
   sorry
 
-/-- `(z/2)^{−ν−1} 𝐇_ν(z)` is entire. -/
+/-- The core `𝐅₁₂(3/2, ν + 3/2; −z²/4)` is entire; it is the extension of `(z/2)^{−ν−1} 𝐇_ν(z)`
+from `z ≠ 0` in the slit plane. The literal product is not used at `z = 0`, where Mathlib's
+`0 ^ w` makes it discontinuous. -/
 theorem differentiable_struveH_div (ν : ℂ) :
     Differentiable ℂ fun z => 𝐅₁₂(3 / 2, ν + 3 / 2) (-(z ^ 2) / 4) := by
   sorry
