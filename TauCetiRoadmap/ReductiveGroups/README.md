@@ -1073,12 +1073,14 @@ algebra, consumed by Layer 8:
   change (`TauCeti.HopfIdeal.IsBorelOver.baseChange`). It records no positive system.
 - `TauCeti.Pinning` (`Pinning/Basic.lean`), for `H` smooth over `R` with
   `ConnectedSpace (PrimeSpectrum R)`: relative reductivity, a split maximal torus, a Borel
-  ideal containing it, and for every simple root an `R`-linear equivalence from `R` onto its
-  root space. The simple roots are read off from the torus and the Borel
-  (`TauCeti.SplitMaximalTorus.IsSimpleRoot`: the adjoint weights whose weight space lies in the
-  Lie algebra of the Borel and which are not sums of two such); no root datum is an input, the
-  root spaces of the other roots are not asked to be free, and a disconnected or empty spectrum
-  is excluded by the instance.
+  subgroup containing it (the Borel's defining ideal lies in the torus's defining ideal,
+  `TauCeti.Pinning.borel_le_torus`), and for every simple root an `R`-linear equivalence from
+  `R` onto its root space. The simple roots are read off from the torus and the Borel: the
+  positive roots (`TauCeti.SplitMaximalTorus.IsPositiveRoot`) are the nontrivial adjoint
+  weights whose whole weight space lies in the Lie algebra of the Borel, and the simple roots
+  (`TauCeti.SplitMaximalTorus.IsSimpleRoot`) are the positive roots that are not sums of two
+  positive roots. No root datum is an input, the root spaces of the other roots are not asked
+  to be free, and a disconnected or empty spectrum is excluded by the instance.
 - `TauCeti.Pinning.comapOfIso` and `TauCeti.Pinning.comapOfIso_rootVector`
   (`Pinning/Isomorphism.lean`): transport of a pinning along an isomorphism of coordinate Hopf
   algebras, the root vectors being carried by its differential.
@@ -3742,6 +3744,12 @@ equivalence with normalized simple-root parameterizations.
 - Over 𝔽₂, twice a root-line generator is 0: the parameterization x_α(2t), a pinning over ℚ,
   reduces to the constant map and is not a pinning in characteristic 2.
 - For a torus the simple-root index set is empty; a pinning adds no root vectors.
+- For SL₂ over ℤ with torus t ↦ diag(t,t⁻¹) and the upper triangular Borel, the adjoint
+  weights are 0, α and −α, on H = E₁₁ − E₂₂, E₁₂ and E₂₁. The zero weight space ℤH lies in the
+  Lie algebra of the Borel but 0 is not a root, so the positive roots and the simple roots are
+  both {α}; counting the zero weight as positive would make α = α + 0 decomposable and leave
+  no simple root. For SL₃ with the upper triangular Borel the positive roots are α₁, α₂ and
+  α₁ + α₂, and the simple roots are α₁ and α₂.
 - Over Spec(k×k), taking B⁺ on one SL₂ component and B⁻ on the other gives signs
   (+,−), not a single constant positive system; such a Borel is not a pinning of the
   fixed constant root datum.
