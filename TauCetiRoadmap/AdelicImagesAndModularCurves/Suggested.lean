@@ -77,8 +77,10 @@ integral genus formula (Layer 1.2); `GSp₄` is defined by `g J gᵀ = ν J` wit
 **Exceptions to "every proof is `sorry`".** The instances, `continuous_red`, and the openness and
 subgroup fields of the definitions are proved.
 
-**Conditional route.** `mazur_torsion` is a theorem; the roadmap's proof of it rests at one step
-(the level `25`, `README.md` 6.4) on the declared supplier gap `gap:nebentypus-rank-zero`.
+**Conditional route.** `mazur_torsion` is a theorem; the roadmap's proof of it rests at three
+steps (`README.md` 6.4) on declared supplier gaps: the levels `16` and `18` on
+`gap:x1-16-rational-points` and `gap:x1-18-rational-points`, the level `25` on
+`gap:nebentypus-rank-zero`.
 -/
 
 namespace TauCetiRoadmap.AdelicImagesAndModularCurves
@@ -300,10 +302,10 @@ theorem genus_eq_of_isTwist {H₁ H₂ : OpenSubgroup GL2Zhat} (h : IsTwist H₁
     genus H₁ = genus H₂ := sorry
 
 /-- **Layer 2.8.** Gassmann-equivalent open subgroups have the same level, index and genus. The
-hypothesis is `FiniteGroupInvariants` 7.3's `Subgroup.AlmostConjugateOfFiniteIndex H₁.1 H₂.1`
-unfolded (every `γ` fixes equally many cosets of `H₁` and of `H₂`), since that roadmap's file
-cannot be imported; Tau Ceti main's `Subgroup.AlmostConjugate` is its finite-group form. No Gassmann
-predicate is declared here. -/
+hypothesis is `FiniteGroupInvariants` 7.3's `AlmostConjugateOfFiniteIndex H₁.1 H₂.1` unfolded
+(every `γ` fixes equally many cosets of `H₁` and of `H₂`), since that roadmap's file cannot be
+imported; Tau Ceti's `Subgroup.AlmostConjugate` (`TauCeti.GroupTheory.AlmostConjugate`) is its
+finite-group form. No Gassmann predicate is declared here. -/
 theorem level_index_genus_of_almostConjugate {H₁ H₂ : OpenSubgroup GL2Zhat}
     (h : ∀ γ : GL2Zhat, Nat.card (MulAction.fixedBy (GL2Zhat ⧸ H₁.1) γ) =
       Nat.card (MulAction.fixedBy (GL2Zhat ⧸ H₂.1) γ)) :
@@ -425,8 +427,9 @@ end Isogeny
 
 /-- **Layer 6.4 (Mazur's torsion theorem).** The torsion subgroup of `E(ℚ)` is isomorphic to
 `ℤ/n` with `1 ≤ n ≤ 10` or `n = 12`, or to `ℤ/2 × ℤ/2n` with `1 ≤ n ≤ 4` (Mazur 1977, Theorem (8),
-p. 35). The roadmap's route uses the declared supplier gap `gap:nebentypus-rank-zero` at the level
-`25` only. -/
+p. 35). The roadmap's route uses the declared supplier gaps `gap:x1-16-rational-points` and
+`gap:x1-18-rational-points` at the levels `16` and `18`, and `gap:nebentypus-rank-zero` at the
+level `25`, and no other. -/
 theorem mazur_torsion (E : WeierstrassCurve ℚ) [E.IsElliptic] :
     (∃ n ∈ ({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12} : Finset ℕ),
       Nonempty (AddCommGroup.torsion E.toAffine.Point ≃+ ZMod n)) ∨
