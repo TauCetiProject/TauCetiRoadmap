@@ -31,7 +31,7 @@ The three general upstream extensions are contracts for Part II of their respect
 
 ### From Mathlib
 
-Mathlib pin: `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
+Mathlib pin: `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
 
 | Declarations | File and exact use |
 | --- | --- |
@@ -56,7 +56,7 @@ Mathlib pin: `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
 
 ### From Tau Ceti
 
-Tau Ceti pin: `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. `TauCeti.CuspFormClass.eichlerIntegral_slash_apply` in `TauCeti/NumberTheory/ModularForms/EichlerIntegral/Transformation.lean` requires integral weight k=n+2, arithmetic level and positive strict periods; it fixes the boundary with the holomorphic integral-weight theory and is not a shadow-completion theorem.
+Tau Ceti pin: `2fd255d997f47c0b5d834ee416c7015d55444ce5`. `TauCeti.CuspFormClass.eichlerIntegral_slash_apply` in `TauCeti/NumberTheory/ModularForms/EichlerIntegral/Transformation.lean` requires integral weight k=n+2, arithmetic level and positive strict periods; it fixes the boundary with the holomorphic integral-weight theory and is not a shadow-completion theorem.
 
 The module `TauCeti.Analysis.SpecialFunctions.Erf` in `TauCeti/Analysis/SpecialFunctions/Erf.lean` supplies `TauCeti.Real.erf`, `erfc`, `erf_zero`, `erfc_zero`, `erf_neg`, `hasDerivAt_erf`, `erf_pos`, `erf_lt_one` and `abs_erf_lt_one`. Its convention is erf(x)=(2/√π)∫₀ˣexp(−u²)du and erfc=1−erf. Section 5.3 uses the real adapters E(x)=erf(√π·x) and β(t)=erfc(√(πt)) for t≥0, including t=0.
 
