@@ -184,6 +184,24 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
   its equivalence with the original action and preservation of its character.
   For trivial ℂ the Hom comparison fixes 2I and 3I and their composite 6I;
   shrinking the C₃ character preserves its value ω at a generator.
+- `Continuous/TensorProduct.lean`: `ContRepresentation.tprod` and
+  `ContRepresentation.continuous_tprod` give the tensor product of two
+  continuous representations, acting by π(g)⊗ρ(g), and its continuity. They are
+  stated on inner-product spaces, and no character identity for this carrier is
+  supplied. `Continuous/LinHom.lean`: `ContRepresentation.linHom`,
+  `ContRepresentation.continuous_linHom` and
+  `ContRepresentation.character_linHom` give the action
+  T↦ρ(g)∘T∘π(g⁻¹) on continuous linear maps between normed spaces, its
+  continuity for a topological group, and its character
+  `χ_π(g⁻¹)·χ_ρ(g)` in finite dimension; `Continuous/Character.lean`:
+  `ContRepresentation.character_trivial` gives the constant character of a
+  trivial action. With ρ the trivial line the action is the dual
+  f↦f∘π(g⁻¹) with character g↦χ_π(g⁻¹): for the C₃ character with value ω
+  this is `ω⁻¹·1=ω²`.
+- `Compact/Finite.lean`: `TauCeti.integral_haarProb` and
+  `ContRepresentation.inner_gramOperator_eq_inv_mul_sum`: for a finite
+  discrete group, the normalized Haar integral is `|G|⁻¹Σ_g` and the
+  unitarizing Gram form is `⟪v,Tw⟫=|G|⁻¹Σ_g⟪π(g)v,π(g)w⟫`.
 - `Continuous/Unitary/Basic.lean`: `ContRepresentation.IsUnitary`;
   `Continuous/OrthogonalDecomposition.lean`:
   `ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition`;
@@ -329,8 +347,16 @@ all targets and Checks; `Suggested.lean` carries headline acceptance statements.
 
 For finite-dimensional continuous complex representations, use the base
 roadmap's continuous-to-algebraic correspondence and the pinned intertwiner
-and shrinking maps. Construct its tensor comparison from the algebraic image
-of V⊗W to the tensor product of the algebraic images of V and W, and its dual
+and shrinking maps. The continuous tensor product V⊗W is the pinned
+`ContRepresentation.tprod`; it is stated for inner-product spaces, so V and W
+are taken on inner-product models here (a unitarized model, or a Euclidean
+coordinate model; either is equivalent to the given representation by the
+identity or a coordinate map, and `ContRepresentation.nonempty_equiv_iff`
+carries the equivalence to the algebraic images). The
+continuous dual V* is the pinned `ContRepresentation.linHom` from V into
+`ContRepresentation.trivial` on the line ℂ, with action f↦f∘π(g⁻¹); neither
+carrier is constructed again. Construct the tensor comparison from the algebraic image
+of V⊗W to the tensor product of the algebraic images of V and W, and the dual
 comparison from the algebraic image of V* to the dual of the algebraic image
 of V. After transport through the shrinking equivalences, the former sends
 v⊗w to v⊗w and the latter sends a functional to the same functional.
@@ -345,12 +371,18 @@ obligation is their compatibility with the supplied correspondence.
 - The associativity and unit comparison diagrams commute on pure tensors;
   evaluation V*⊗V→ℂ and coevaluation ℂ→V⊗V* are preserved, including their
   two contraction identities.
-- The transported tensor and dual actions have trace characters χ_Vχ_W and
-  g↦χ_V(g⁻¹), respectively, by the algebraic character identities.
+- The tensor action `ContRepresentation.tprod` has trace character χ_Vχ_W,
+  by the algebraic tensor character identity applied to its underlying
+  representation. The dual character g↦χ_V(g⁻¹) is not a target: it is
+  `ContRepresentation.character_linHom` with
+  `ContRepresentation.character_trivial` on the line.
 
 *Needs:* CompactGroups' “What is not consumable, and is a build item here”
 comparison targets; `ContRepresentation.intertwiningMapEquiv`;
 `FDRep.ofShrink`, `FDRep.ofShrinkEquiv`, `FDRep.character_ofShrink`;
+`ContRepresentation.tprod`, `ContRepresentation.continuous_tprod`,
+`ContRepresentation.linHom`, `ContRepresentation.continuous_linHom`,
+`ContRepresentation.character_linHom`, `ContRepresentation.character_trivial`;
 Mathlib finite-dimensional tensors, duals, `FDRep` character identities and
 `LinearMap.continuous_of_finiteDimensional`.
 
@@ -530,9 +562,11 @@ isotypic tensor decomposition and its comparison are constructed here.
   the unique form is vacuously positive definite. For one copy of an
   irreducible the product is ℂ and its positive cone is the positive reals.
 
-For finite discrete groups compare native unitarization's Haar average with
-`|G|⁻¹ Σ_g⟪π(g)v,π(g)w⟫`; the unnormalized sum is |G| times that form.
-This is a specialization of normalized Haar, with |G|≥1.
+For finite discrete groups the unitarizing form is the pinned group average
+`|G|⁻¹ Σ_g⟪π(g)v,π(g)w⟫`, by
+`ContRepresentation.inner_gramOperator_eq_inv_mul_sum` and
+`TauCeti.integral_haarProb`; it is cited, not proved here. The unnormalized
+sum is |G| times that form, with |G|≥1.
 
 ### Examples
 
@@ -1466,12 +1500,10 @@ characters, so a consumer placed after TopologicalKTheory reads it on that ring.
 ## References
 
 - A. W. Knapp, *Lie Groups Beyond an Introduction*, digital second edition (2021),
-  author-distributed version: Proposition 2.13 p.136;
-  Proposition 4.8 and Corollary 4.9 p.240;
-  Proposition 4.24 and Corollaries 4.25–4.26 p.249;
-  Theorem 4.29 pp.250–251; equations (4.31)–(4.32) pp.253–254;
+  author-distributed version: Proposition 4.8 and Corollary 4.9 p.240;
+  Theorem 4.29 pp.250–251;
   Propositions 4.58–4.59 pp.264–265; Proposition 4.67 p.267;
-  Theorem 4.69 p.268; Theorem 5.107 p.334;
+  Theorem 5.107 p.334;
   Theorem 5.110 and its proof pp.335–336.
   [Legal author edition](https://www.math.stonybrook.edu/~aknapp/download/Beyond2.pdf).
 - P. Etingof, *Lie Groups and Lie Algebras II*, MIT 18.755 (Spring 2024),
