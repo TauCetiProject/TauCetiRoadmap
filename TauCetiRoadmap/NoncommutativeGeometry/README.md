@@ -340,8 +340,12 @@ rebuild them.
   numbers, with completeness and the inclusions S_p⊆S_q for 1≤p≤q
   (`Analysis/OperatorIdeal/Family/Schatten`, `…/TraceClass`); the
   logarithmic ideal `OperatorIdealFamily.logarithmic` with its gauge,
-  ideal laws, completeness, adjoint invariance, compactness of its members
-  and the trace-class inclusion (`…/Logarithmic`); `GeneralizedLimit` with
+  ideal laws, completeness, adjoint invariance, compactness of its members,
+  the trace-class inclusion and the approximation-number bound
+  `(N+1)a_N(T)≤‖T‖_(1,∞)log(N+2)`, with ‖T‖_(1,∞) that gauge, for every
+  N and every bounded T
+  (`TauCeti.OperatorIdealFamily.mul_singularValue_le_gauge_logarithmic_mul`,
+  `…/Logarithmic`); `GeneralizedLimit` with
   `IsDilationInvariant`, its unfolding
   `TauCeti.GeneralizedLimit.IsDilationInvariant.map_dilate`,
   `ω(n↦f(⌊n/k⌋))=ω(f)` for dilation-invariant ω, every bounded f and
@@ -1162,7 +1166,8 @@ The Marcinkiewicz logarithmic trace ideal
 `L^(1,∞)={T compact : sup_(N≥1) (log(1+N))⁻¹ Σ_(j<N)μ_j(T)<∞}`,
 
 on OperatorIdeals' singular values, is the pinned
-`OperatorIdealFamily.logarithmic`, with its quasi-norm, ideal laws,
+`OperatorIdealFamily.logarithmic`, with its quasi-norm ‖T‖_(1,∞), the
+supremum above, its ideal laws,
 completeness, adjoint and unitary invariance, compactness of its members
 and the finite-rank and trace-class inclusions. Distinguish it from the
 weak trace class `S_(1,∞)={T: sup_(j≥0)(j+1)μ_j(T)<∞}`, defined from
@@ -1203,7 +1208,9 @@ gives ≤. For ≥, Ky Fan superadditivity with k=l=N gives
 `m(N)=σ_N(S+T)/log(1+N)`, and `log(1+2N)/log(1+N)→1` with m bounded. It
 remains to show `ω(N↦m(2N))=ω(m)`: the dilation by 2 of `N↦m(2N)` is
 `n↦m(2⌊n/2⌋)`, which differs from m by at most one consecutive difference
-`m(n)−m(n−1)`, and these tend to 0 since `μ_N≤σ_N/N` and m is bounded;
+`m(n)−m(n−1)`, and these tend to 0 since m is bounded and the pinned
+`TauCeti.OperatorIdealFamily.mul_singularValue_le_gauge_logarithmic_mul`
+at N=n−1 gives `nμ_(n−1)(S+T)≤‖S+T‖_(1,∞)log(1+n)`;
 a generalized limit vanishes on null sequences, and dilation invariance
 (`TauCeti.GeneralizedLimit.IsDilationInvariant.map_dilate`) identifies
 the two. Membership and positivity are both needed for the pinned
@@ -1298,7 +1305,7 @@ trace; the non-measurable operator with Dixmier traces `2/3+(log 2)/9` and
 
 ### Dependencies
 
-*Needs:* NoncommutativeIntegration §1.4 and §1.6 at M=B(H) (Hölder's inequality, the weak Schatten classes and the weak trace class `S_(1,∞)` with their quasi-norm, adjoint and ideal bounds); VonNeumannAlgebras V4.Core (the trace on trace class and the trace-class duality of B(H)); Tau Ceti `OperatorIdealFamily.logarithmic`, `GeneralizedLimit`, `IsDilationInvariant`, `TauCeti.GeneralizedLimit.IsDilationInvariant.map_dilate`, `dixmierTrace` and `ContinuousLinearMap.IsPositive.kyFanGauge_add_kyFanGauge_le`; OperatorTheory/OperatorIdeals Part A (OI-A17, OI-A20, OI-A22, OI-A30) and Part B.
+*Needs:* NoncommutativeIntegration §1.4 and §1.6 at M=B(H) (Hölder's inequality, the weak Schatten classes and the weak trace class `S_(1,∞)` with their quasi-norm, adjoint and ideal bounds); VonNeumannAlgebras V4.Core (the trace on trace class and the trace-class duality of B(H)); Tau Ceti `OperatorIdealFamily.logarithmic`, `TauCeti.OperatorIdealFamily.mul_singularValue_le_gauge_logarithmic_mul`, `GeneralizedLimit`, `IsDilationInvariant`, `TauCeti.GeneralizedLimit.IsDilationInvariant.map_dilate`, `dixmierTrace` and `ContinuousLinearMap.IsPositive.kyFanGauge_add_kyFanGauge_le`; OperatorTheory/OperatorIdeals Part A (OI-A17, OI-A20, OI-A22, OI-A30) and Part B.
 
 ## N5. Spectral triples and the Hochschild class
 
@@ -1382,8 +1389,10 @@ For integer n≥1 of the module's parity, initially invertible D, assume
 0), F=sign D, and the preceding regularity and bounded commutators. For
 n=1 this is D⁻¹∈L^(1,∞); for n≥2 it is strictly weaker than
 D⁻¹∈L^(n,∞), which implies it by N4. Prove finite summability in every
-larger exponent: `μ_j(|D|⁻ⁿ)≤σ_(j+1)(|D|⁻ⁿ)/(j+1)=O(log(2+j)/(j+1))`,
-so |D|⁻¹∈S_q for every q>n, and
+larger exponent: the pinned
+`TauCeti.OperatorIdealFamily.mul_singularValue_le_gauge_logarithmic_mul`
+gives `(j+1)μ_j(|D|⁻ⁿ)≤‖|D|⁻ⁿ‖_(1,∞)log(2+j)` with N4's quasi-norm, and
+`μ_j(|D|⁻¹)=μ_j(|D|⁻ⁿ)^(1/n)`, so |D|⁻¹∈S_q for every q>n, and
 `[F,π(a)]=([D,π(a)]−Fδ(π(a)))|D|⁻¹` lies in S_q, continuously in a;
 taking n<q≤n+1, construct N3's character τ_n. Prove the Hochschild-class theorem: for every
 dilation-invariant generalized limit ω, with N4's linear Dixmier trace
@@ -1422,7 +1431,12 @@ local index formula.
   z⁻¹ and their commutators with D lie in every δ-domain. The singular
   values of `|D|⁻¹` are 2,2,2/3,2/3,2/5,…, with
   `σ_(2M)(|D|⁻¹)=4(H_(2M)−H_M/2)=2log M+O(1)`, so |D|⁻¹∈L^(1,∞) and
-  `Tr_ω(|D|⁻¹)=2` for every ω. On the Hochschild cycle z⁻¹⊗z, a cycle
+  `Tr_ω(|D|⁻¹)=2` for every ω. Its quasi-norm is
+  `‖|D|⁻¹‖_(1,∞)=σ_2/log 3=4/log 3≈3.641`, the supremum taken at N=2,
+  and there the bound of the summability step is an equality,
+  `2μ_1(|D|⁻¹)=4=‖|D|⁻¹‖_(1,∞)log 3`; with log(1+j) in place of
+  log(2+j) it would fail at j=0, where the right side vanishes and
+  `μ_0=2`. On the Hochschild cycle z⁻¹⊗z, a cycle
   since `b(z⁻¹⊗z)=z⁻¹z−zz⁻¹=0`, `φ_ω(z⁻¹,z)=λ₁Tr_ω(|D|⁻¹)=2λ₁`, and
   N3's character gives `λ₁τ₁(z⁻¹,z)=λ₁Tr(z⁻¹[F,z])=2λ₁`: the two
   agree, as the theorem requires.
@@ -1459,7 +1473,7 @@ D=diag(k+1/2) on ℓ²(ℤ) with `Tr_ω(|D|⁻¹)=2` and
 
 ### Dependencies
 
-*Needs:* N3, N4; Tau Ceti `LinearPMap.HasCompactResolvent`, the compact-resolvent eigenbasis and the Fredholm perturbation theorems of the Tau Ceti contract; OperatorTheory/SelfAdjointSpectralTheory SA-E and its `LinearPMap` closed operators; Mathlib's compact self-adjoint spectral theorem.
+*Needs:* N3, N4; Tau Ceti `OperatorIdealFamily.logarithmic` and `TauCeti.OperatorIdealFamily.mul_singularValue_le_gauge_logarithmic_mul`; Tau Ceti `LinearPMap.HasCompactResolvent`, the compact-resolvent eigenbasis and the Fredholm perturbation theorems of the Tau Ceti contract; OperatorTheory/SelfAdjointSpectralTheory SA-E and its `LinearPMap` closed operators; Mathlib's compact self-adjoint spectral theorem.
 
 ## N6. Smooth noncommutative two-tori and differential calculus
 
