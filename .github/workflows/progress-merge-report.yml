@@ -1,0 +1,87 @@
+name: progress-merge-report
+
+# One progress report: look at the merge queue, then validate the report and land it.
+#
+# Called by progress-merge.yml, once per report and one report at a time. The look at the queue is
+# here, and not only before the reports are handed out, because a report is validated and landed
+# some time after it is picked: behind the reports ahead of it, and behind a wait for a runner. A
+# pull request that joins the queue in that time holds every report not yet started.
+#
+# This file holds the pin of the TauCetiProgress gate. See progress-merge.yml for why it is a full
+# SHA and what must move with it.
+
+on:
+  workflow_call:
+    inputs:
+      pr:
+        description: The pull request number to consider.
+        required: true
+        type: number
+      force:
+        description: Land the report whatever the merge queue holds (a dispatch by hand).
+        required: false
+        default: false
+        type: boolean
+      app_id:
+        description: Numeric id of the App whose token performs the merge; see progress-merge.yml.
+        required: true
+        type: string
+    secrets:
+      APP_PRIVATE_KEY:
+        required: true
+
+# The floor. `hold` needs no more than this; the `gate` job raises its own.
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  hold:
+    runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.queue.outputs.go }}
+    steps:
+      # The test of progress-merge.yml's step of the same name, for this one report and at the last
+      # moment this repository controls: the gate's own jobs follow directly. Keep the two in step.
+      # A report held here stays open and is offered again by the next scheduled run.
+      - name: Hold while the merge queue is busy
+        id: queue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE: ${{ inputs.force }}
+          PR: ${{ inputs.pr }}
+        run: |
+          set -euo pipefail
+          if [ "$FORCE" = "true" ]; then
+            echo "dispatched by hand; #$PR proceeds whatever the merge queue holds"
+            echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          q=$(gh api graphql -f query='query($o:String!,$n:String!){ repository(owner:$o,name:$n){ mergeQueue(branch:"main"){ entries(first:1){ totalCount nodes{ enqueuedAt } } } } }' \
+               -f o="${GITHUB_REPOSITORY%/*}" -f n="${GITHUB_REPOSITORY#*/}" --jq '.data.repository.mergeQueue.entries | "\(.totalCount) \(.nodes[0].enqueuedAt // "")"')
+          total=${q%% *}; oldest=${q#* }
+          if [ "$total" != 0 ] && [ -n "$oldest" ] && [ $(( $(date -u +%s) - $(date -u -d "$oldest" +%s) )) -lt 7200 ]; then
+            echo "::notice::merge queue holds $total entr(y/ies) (oldest enqueued $oldest); progress report #$PR waits for the next scheduled run"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  gate:
+    needs: hold
+    if: needs.hold.outputs.go == 'true'
+    # Pinned to a full TauCetiProgress SHA. `progress_ref` must be the SAME SHA: it selects the
+    # validator code checked out inside, and a mismatch would validate with different rules than the
+    # ones reviewed here.
+    # `write` here and nowhere else: the called workflow narrows it again to the one job that
+    # explains a refusal on the pull request, and a called workflow cannot exceed what this grants.
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@74d2a99278636a35a4b239bd63ba7b0a807bd6eb
+    with:
+      runs_on: '"ubuntu-latest"'
+      pr: ${{ inputs.pr }}
+      progress_ref: 74d2a99278636a35a4b239bd63ba7b0a807bd6eb
+      app_id: ${{ inputs.app_id }}
+    secrets:
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}

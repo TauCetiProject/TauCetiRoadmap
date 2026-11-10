@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   announce:
-    # Same full SHA as progress-merge.yml uses; bump both together.
+    # Same full SHA as progress-merge-report.yml uses; bump both together.
     uses: TauCetiProject/TauCetiProgress/.github/workflows/announce.yml@74d2a99278636a35a4b239bd63ba7b0a807bd6eb
     with:
       runs_on: '"ubuntu-latest"'
