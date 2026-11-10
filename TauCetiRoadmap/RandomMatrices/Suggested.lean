@@ -13,7 +13,8 @@ extreme eigenvalues (Layer 4); the almost-sure Marchenko–Pastur law and the ex
 of sample covariance matrices (Layer 4); the Hanson–Wright inequality and the Hermitian matrix
 Bernstein inequality (Layer 2); the ordered eigenvalue densities of GOE and GUE with their
 Gaussian Selberg normalisation (Layer 5); the rank-one spiked largest eigenvalue (Layer 7); the
-central limit theorem for polynomial linear statistics of GOE and GUE (Layer 8); the
+central limit theorem for polynomial linear statistics of GOE and GUE, the Tracy–Widom limit
+`F₂` of the GUE largest eigenvalue and the GUE bulk gap probability (Layer 8); the
 Rudelson–Vershynin least-singular-value bound and the almost-sure circular law (Layer 11).
 
 Not statable at the pins, each for the carrier named:
@@ -21,9 +22,9 @@ Not statable at the pins, each for the carrier named:
   central limit theorem, `L_{Dₙ+√t Hₙ} → ν ⊞ SC_t`, the population-covariance law `ν ⊠ MP_y`):
   Mathlib has no noncommutative probability space, no free independence and no free
   convolution;
-* the Tracy–Widom limits `F₂` and `F₁`, and the sine and Airy limits of GUE and GOE: neither
-  Mathlib nor Tau Ceti has the Airy function (SpecialFunctionsAiry builds it), and Mathlib has no
-  Fredholm determinant on `L²`, no determinantal point process and no space of locally finite
+* the Tracy–Widom limit `F₁` of GOE: it is written through the Hastings–McLeod solution of
+  Painlevé II, whose existence is a theorem of §8.5;
+* the Airy and sine point-process limits of GUE and GOE: Mathlib has no space of locally finite
   configurations with its vague topology;
 * the large deviation principles at speed `n²` for the beta-gas empirical measure and at speed
   `n` for the Gaussian largest eigenvalue: Mathlib has no large deviation principle and no
@@ -318,6 +319,51 @@ theorem gaussianEnsemble_linear_statistic_clt (β : ℕ) (hβ : β = 1 ∨ β = 
       (gaussianReal 0 (Real.toNNReal ((2 * β : ℝ)⁻¹ * ∑ k ∈ Finset.Icc 1 f.natDegree,
         (k : ℝ) * ((2 / Real.pi) *
           ∫ θ in (0 : ℝ)..Real.pi, f.eval (2 * Real.cos θ) * Real.cos (k * θ)) ^ 2))) := by
+  sorry
+
+/-! ## Layer 8: bulk and edge limits -/
+
+/-- The real Airy function `Ai`, a local copy of SpecialFunctionsAiry 1.1, which owns it:
+`Ai(x) = 3^{−2/3} 𝐅(⅔, x³/9) − 3^{−4/3} x 𝐅(4/3, x³/9)` with Mathlib's regularized `₀F₁`. -/
+def airyAi (x : ℝ) : ℝ :=
+  ((3 : ℂ) ^ (-(2 / 3 : ℂ)) * Complex.regularizedHGFun 0 {2 / 3} ((x : ℂ) ^ 3 / 9) -
+    (3 : ℂ) ^ (-(4 / 3 : ℂ)) * x * Complex.regularizedHGFun 0 {4 / 3} ((x : ℂ) ^ 3 / 9)).re
+
+/-- The Airy kernel `K_Ai(x,y) = ∫₀^∞ Ai(x+t) Ai(y+t) dt`, a local copy of SpecialFunctionsAiry
+8.5, which owns it with its closed forms and exponential bounds. -/
+def airyKernel (x y : ℝ) : ℝ :=
+  ∫ t in Set.Ioi (0 : ℝ), airyAi (x + t) * airyAi (y + t)
+
+/-- The sine kernel `sin(π(x−y))/(π(x−y))`, with value `1` on the diagonal. -/
+def sineKernel (x y : ℝ) : ℝ :=
+  if x = y then 1 else Real.sin (Real.pi * (x - y)) / (Real.pi * (x - y))
+
+/-- The Fredholm determinant `det(I − K)` on `L²(A)`, written as its series (AGZ (3.1.6)):
+`∑ₖ ((−1)^k/k!) ∫_{A^k} det[K(xᵢ, xⱼ)] dx`. -/
+def fredholmDet (K : ℝ → ℝ → ℝ) (A : Set ℝ) : ℝ :=
+  ∑' k : ℕ, ((-1 : ℝ) ^ k / k.factorial) *
+    ∫ x in Set.univ.pi (fun _ : Fin k ↦ A), (Matrix.of fun i j ↦ K (x i) (x j)).det
+
+/-- **Tracy–Widom limit of the GUE largest eigenvalue** (AGZ Theorems 3.1.4–3.1.5). For GUE
+matrices `Hₙ`, `P(n^{2/3}(λ_max(Hₙ) − 2) ≤ s) → F₂(s) = det(I − K_Ai)` on `L²(s, ∞)`. -/
+theorem gue_largest_eigenvalue_tracyWidom
+    (P : Measure Ω) [IsProbabilityMeasure P] (G : ∀ n : ℕ, Ω → Fin (n + 1) × Fin (n + 1) → ℝ)
+    (hG : ∀ n, HasLaw (G n) (Measure.pi fun _ ↦ gaussianReal 0 1) P) (s : ℝ) :
+    Tendsto (fun n : ℕ ↦ P.real {ω | ((n + 1 : ℕ) : ℝ) ^ ((2 : ℝ) / 3) *
+        ((⨆ i, (gaussianEnsemble_isHermitian 2 (n + 1) (G n ω)).eigenvalues i) - 2) ≤ s})
+      atTop (𝓝 (fredholmDet airyKernel (Set.Ioi s))) := by
+  sorry
+
+/-- **Bulk gap probability of GUE** (AGZ Theorem 3.1.1). For `|E| < 2` and compact `A`, the
+probability that no eigenvalue of `Hₙ`, scaled by `n ρ_SC(E) (λ − E)` with
+`ρ_SC(E) = √(4 − E²)/(2π)`, lies in `A` tends to `det(I − K_sine)` on `L²(A)`. -/
+theorem gue_bulk_gap
+    (P : Measure Ω) [IsProbabilityMeasure P] (G : ∀ n : ℕ, Ω → Fin (n + 1) × Fin (n + 1) → ℝ)
+    (hG : ∀ n, HasLaw (G n) (Measure.pi fun _ ↦ gaussianReal 0 1) P)
+    (E : ℝ) (hE : |E| < 2) (A : Set ℝ) (hA : IsCompact A) :
+    Tendsto (fun n : ℕ ↦ P.real {ω | ∀ i, ((n + 1 : ℕ) : ℝ) * Real.sqrt (4 - E ^ 2) /
+        (2 * Real.pi) * ((gaussianEnsemble_isHermitian 2 (n + 1) (G n ω)).eigenvalues i - E) ∉ A})
+      atTop (𝓝 (fredholmDet sineKernel A)) := by
   sorry
 
 /-! ## Layer 11: small singular values and the circular law -/

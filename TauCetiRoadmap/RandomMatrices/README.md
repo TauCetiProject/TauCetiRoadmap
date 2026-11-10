@@ -1039,9 +1039,9 @@ Prove Hermite bulk and turning-point asymptotics with uniform bounds strong enou
 correlation functions and gap probabilities. For GUE and `E ∈ (-2,2)`, scale by
 `nρ_SC(E)(λ-E)`; the limiting kernel is `sin(π(x-y))/(π(x-y))` with diagonal value 1. At the upper
 edge use `n^(2/3)(λ-2)` and the Airy kernel `K_Ai(x,y) = ∫₀^∞ Ai(x+t)Ai(y+t) dt`. The Airy
-function, its equation `Ai'' = s Ai`, its integral representations, its expansions on the real
-line, its decay and the Airy kernel with its closed forms and exponential bounds are consumed from
-SpecialFunctionsAiry (see [Exact supplier contracts](#from-taucetiroadmap-roadmaps)); this
+function, its equation `Ai''(x) = x Ai(x)`, its integral representations, its expansions on the
+real line, its decay and the Airy kernel with its closed forms and exponential bounds are consumed
+from SpecialFunctionsAiry (see [Exact supplier contracts](#from-taucetiroadmap-roadmaps)); this
 section proves the matching of the scaled Hermite kernel with `K_Ai` at the edge and the tail
 control of the scaled kernels on unbounded intervals. Define `F₂(s) = det(I-K_Ai)` on
 `L²(s,∞)`, prove it is a continuous distribution function and
@@ -1049,11 +1049,21 @@ control of the scaled kernels on unbounded intervals. Define `F₂(s) = det(I-K_
 sine-process gap distributions. *Needs:* §§8.2–8.3; OrthogonalL2Bases Parts A–B;
 SpecialFunctionsAiry 1.1–1.2, Layer 2, 3.2, 3.4, 3.6 and 8.5.
 
+`Suggested.lean` writes the Fredholm determinant as its series, AGZ (3.1.6):
+`fredholmDet K A = ∑ₖ ((-1)^k/k!) ∫_{A^k} det[K(xᵢ,xⱼ)] dx`. It defines `airyAi` and
+`airyKernel` as local copies of SpecialFunctionsAiry 1.1 and 8.5, and `sineKernel`, equal to `1` on
+the diagonal. It states the edge limit `gue_largest_eigenvalue_tracyWidom`,
+`P(n^(2/3)(λ_max - 2) ≤ s) → fredholmDet airyKernel (s,∞)` (AGZ Theorems 3.1.4–3.1.5), and the
+bulk gap `gue_bulk_gap`: for `|E| < 2` and compact `A`, the probability that no eigenvalue scaled
+by `nρ_SC(E)(λ-E)` lies in `A` tends to `fredholmDet sineKernel A` (AGZ Theorem 3.1.1).
+
 **Checks.**
 
 - `K_Ai(x,x) = Ai'(x)² - x Ai(x)²` is positive, and `∫_s^∞ K_Ai(x,x) dx < ∞` for every `s` by
   the bound of SpecialFunctionsAiry 8.5, so `tr K_Ai` on `L²(s,∞)` is finite.
 - `F₂(s) → 1` as `s → ∞` and `F₂` is nondecreasing.
+- `F₂(s) → 0` as `s → −∞` (AGZ Theorem 3.1.5), and `1 − F₂(s) ≤ ∫_s^∞ K_Ai(x,x) dx`, since
+  `P(λ_max > s) ≤ E N(s,∞)`. A determinant on `L²(−∞,s)` fails both.
 
 ### 8.5 GOE: Pfaffians and Painlevé II
 
