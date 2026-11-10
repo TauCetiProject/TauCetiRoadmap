@@ -88,7 +88,7 @@ noncomputable def iteratedTwoPow (κ : Cardinal.{u}) : ℕ → Cardinal.{u}
 /-- On the beth scale the iterated exponential is a shift of the index. -/
 theorem iteratedTwoPow_beth (α : Ordinal.{u}) (n : ℕ) :
     iteratedTwoPow (ℶ_ α) n = ℶ_ (α + n) := by
-  sorry
+  induction n <;> simp_all [iteratedTwoPow, ← add_assoc, Cardinal.beth_add_one]
 
 /-- **Layer 0, the pigeonhole principle** `κ⁺ → (κ⁺)¹_κ`, from the regularity of successor
 cardinals. -/
@@ -141,8 +141,8 @@ def IsIndiscernibleOn {J : Type u'} [LinearOrder J] {M : Type w} [L.Structure M]
 /-- Indiscernibility passes to subsequences. -/
 theorem IsIndiscernibleOn.comp {J : Type u'} [LinearOrder J] {K : Type*} [LinearOrder K]
     {M : Type w} [L.Structure M] {a : J → M} {Δ : Set (Σ n, L.BoundedFormulaω Empty n)}
-    (h : IsIndiscernibleOn a Δ) (e : K ↪o J) : IsIndiscernibleOn (a ∘ e) Δ := by
-  sorry
+    (h : IsIndiscernibleOn a Δ) (e : K ↪o J) : IsIndiscernibleOn (a ∘ e) Δ :=
+  fun p hp s t => h p hp (s.trans e) (t.trans e)
 
 /-- An Ehrenfeucht–Mostowski template: for each arity, the formulas declared true of increasing
 tuples. The README pins its coherence, completeness and Skolem conditions. -/
@@ -162,12 +162,12 @@ def EMTemplate.RealizesOn (Φ : EMTemplate L) {J : Type u'} [LinearOrder J] {M :
   ∀ p ∈ Δ, ∀ t : Fin p.1 ↪o J,
     BoundedFormulaInf.Realize p.2 (Empty.elim : Empty → M) (a ∘ t) ↔ p.2 ∈ Φ.formulas p.1
 
-/-- On an infinite index order, indiscernibility on `Δ` is realization of the sequence's own
-template on `Δ`. -/
-theorem isIndiscernibleOn_iff_realizesOn_templateOf {J : Type u'} [LinearOrder J] [Infinite J]
+/-- Indiscernibility on `Δ` is realization of the sequence's own template on `Δ`. -/
+theorem isIndiscernibleOn_iff_realizesOn_templateOf {J : Type u'} [LinearOrder J]
     {M : Type w} [L.Structure M] (a : J → M) (Δ : Set (Σ n, L.BoundedFormulaω Empty n)) :
-    IsIndiscernibleOn a Δ ↔ (templateOf a).RealizesOn a Δ := by
-  sorry
+    IsIndiscernibleOn a Δ ↔ (templateOf a).RealizesOn a Δ :=
+  ⟨fun h p hp t => ⟨fun ht s => (h p hp t s).1 ht, fun hall => hall t⟩,
+    fun h p hp s t => ⟨fun hs => (h p hp s).1 hs t, fun ht => (h p hp t).1 ht s⟩⟩
 
 /-- The formula `x₀ ≠ x₁` on two bound positions. -/
 def disEq : L.BoundedFormulaω Empty 2 :=
@@ -182,7 +182,9 @@ the Morley seed. -/
 theorem isIndiscernibleOn_morleySeed {J : Type u'} [LinearOrder J] {M : Type w} [L.Structure M]
     (φ : L.Sentenceω) {a : J → M} (ha : Function.Injective a) :
     IsIndiscernibleOn a (morleySeed φ) := by
-  sorry
+  rintro p (rfl | rfl) s t
+  · rw [Subsingleton.elim (a ∘ ⇑s) (a ∘ ⇑t)]
+  · simp [disEq, ha.eq_iff, s.injective.eq_iff, t.injective.eq_iff]
 
 end Indiscernibles
 
@@ -368,9 +370,10 @@ theorem morley_hanf (φ : L.Sentenceω) :
     IsHanfBound φ (ℶ_ (Ordinal.omega.{w} 1)) := by
   sorry
 
+/-- **Layer 3.** The Hanf number of every Lω₁ω sentence is at most `ℶ_ω₁`, by `morley_hanf`. -/
 theorem hanfNumber_le_beth_omega_one (φ : L.Sentenceω) :
-    hanfNumber.{u, v, w} φ ≤ ℶ_ (Ordinal.omega.{w} 1) := by
-  sorry
+    hanfNumber.{u, v, w} φ ≤ ℶ_ (Ordinal.omega.{w} 1) :=
+  csInf_le' (morley_hanf φ)
 
 /-- **Layer 3, Morley's omitting-types theorem**, over any language. Partial first-order types are
 tagged with their arity. Countability of each type is a hypothesis separate from countability of
@@ -438,9 +441,11 @@ finite number of variables. -/
 def IsLω₁ωSmall (M : Type w) [L.Structure M] : Prop :=
   ∀ n, (realizedTypes (L := L) M n).Countable
 
+/-- **Layer 5 acceptance check.** Every countable structure is Lω₁ω-small: its `n`-tuples are
+countably many. -/
 theorem isLω₁ωSmall_of_countable (M : Type w) [L.Structure M] [Countable M] :
-    IsLω₁ωSmall (L := L) M := by
-  sorry
+    IsLω₁ωSmall (L := L) M :=
+  fun _ => (Set.countable_range (infinitaryType M)).mono fun _ hp => mem_realizedTypes.1 hp
 
 /-- A linear order is highly order-transitive when any two increasing tuples of the same length
 are conjugate by an order automorphism. -/

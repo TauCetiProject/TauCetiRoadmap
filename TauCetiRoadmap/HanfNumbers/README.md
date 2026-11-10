@@ -380,9 +380,9 @@ sequence's increasing tuples realize the same equality pattern.
 - **Coherence**: `Φ` is coherent on a set `Δ` closed under reindexing when `ψ ∈ Φ` iff
   `mapBound r ψ ∈ Φ` for every order embedding `r : Fin n ↪o Fin m` with `ψ ∈ Δ`.
 
-Theorems: on an infinite index order, `IsIndiscernibleOn a Δ ↔ (templateOf a).RealizesOn a Δ`
-(`isIndiscernibleOn_iff_realizesOn_templateOf`); the template of an indiscernible sequence is
-coherent on any reindexing-closed `Δ`; if `a` is indiscernible on `Δ`, a subsequence along
+Theorems: `IsIndiscernibleOn a Δ ↔ (templateOf a).RealizesOn a Δ`
+(`isIndiscernibleOn_iff_realizesOn_templateOf`, over any index order); on an infinite index order,
+the template of an indiscernible sequence is coherent on any reindexing-closed `Δ`; if `a` is indiscernible on `Δ`, a subsequence along
 `K ↪o J` with `K` infinite has the same template on `Δ`, since each formula of `Δ` has one truth
 value on all increasing tuples of `J` and `K` has increasing tuples of every arity (without
 indiscernibility this fails: `P(a n) ↔ n ≥ 1` along `succ : ℕ ↪o ℕ` puts `P(x₀)` in the
