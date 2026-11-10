@@ -57,8 +57,10 @@ def IsCanonicalGrossCharacter {K : Type*} [Field K] [NumberField K]
         NumberField.IsCMField.complexConj K x ∈ (b.1 : FractionalIdeal (𝓞 K)⁰ K)) →
       ψ.idealCharacter b = star (ψ.idealCharacter a)) ∧
     (∀ a : primeToSubgroup m,
-      (ψ.idealCharacter (principalIdealPrimeTo m a) : ℂ) = φ (a.1 : K) ∨
-      (ψ.idealCharacter (principalIdealPrimeTo m a) : ℂ) = -φ (a.1 : K)) ∧
+      (ψ.idealCharacter
+          (TauCeti.NumberFieldArithmetic.principalIdealAway K m.support a) : ℂ) = φ (a.1 : K) ∨
+      (ψ.idealCharacter
+          (TauCeti.NumberFieldArithmetic.principalIdealAway K m.support a) : ℂ) = -φ (a.1 : K)) ∧
     (∀ v : IsDedekindDomain.HeightOneSpectrum (𝓞 K),
       v.asIdeal ∣ ψ.finiteConductor →
       (NumberField.discr K : 𝓞 K) ∈ v.asIdeal)
