@@ -164,10 +164,11 @@ variable {J : Type u} [DecidableEq J] (G : J → Type v)
   [∀ j, CommGroup (G j)] [∀ j, TopologicalSpace (G j)]
   [∀ j, IsTopologicalGroup (G j)] [∀ j, CompactSpace (G j)] [∀ j, T2Space (G j)]
 
-/-- The chosen topology on the direct sum is explicitly discrete.
+/-- The topology on the direct sum is a hypothesis and is discrete.
 The equation on its generators pins the isomorphism to coordinate evaluation. -/
-theorem exists_productDualEquiv :
-    letI : TopologicalSpace (Multiplicative (⨁ j, Additive (PontryaginDual (G j)))) := ⊥
+theorem exists_productDualEquiv
+    [TopologicalSpace (Multiplicative (⨁ j, Additive (PontryaginDual (G j))))]
+    [DiscreteTopology (Multiplicative (⨁ j, Additive (PontryaginDual (G j))))] :
     ∃ e : Multiplicative (⨁ j, Additive (PontryaginDual (G j))) ≃ₜ*
         PontryaginDual (∀ j, G j),
       ∀ (j : J) (χ : PontryaginDual (G j)) (x : ∀ j, G j),
