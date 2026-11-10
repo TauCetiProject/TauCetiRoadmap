@@ -169,15 +169,11 @@ theorem mem_stabilizer_iff [L.IsRelational] (σ : Equiv.Perm α) (c : Relational
         @RelMap L α c.toStructure l R (σ ∘ v) ↔ @RelMap L α c.toStructure l R v := by
   sorry
 
-/-- **Action invariance** of a class of codes. Isomorphism invariance is the library's
-`RelationalConfiguration.IsomorphismInvariant`. -/
-def ActionInvariant (B : Set (RelationalConfiguration L α)) : Prop :=
-  ∀ σ : Equiv.Perm α, (σ • ·) ⁻¹' B = B
-
-/-- **Layer 1 milestone.** The two invariance notions coincide. -/
-theorem actionInvariant_iff_isomorphismInvariant [L.IsRelational]
+/-- **Layer 1 milestone.** Action invariance, Mathlib's `MulAction.IsFixedBlock`, is the
+library's isomorphism invariance `RelationalConfiguration.IsomorphismInvariant`. -/
+theorem isFixedBlock_iff_isomorphismInvariant [L.IsRelational]
     (B : Set (RelationalConfiguration L α)) :
-    ActionInvariant B ↔ IsomorphismInvariant B := by
+    MulAction.IsFixedBlock (Equiv.Perm α) B ↔ IsomorphismInvariant B := by
   sorry
 
 /-- **Layer 1 milestone, the invariant σ-algebra.** Measurability for the infimum over `σ` of
@@ -186,7 +182,7 @@ invariance. -/
 theorem measurableSet_iInf_invariants_iff (B : Set (RelationalConfiguration L α)) :
     MeasurableSet[⨅ σ : Equiv.Perm α,
         MeasurableSpace.invariants (fun c : RelationalConfiguration L α => σ • c)] B ↔
-      MeasurableSet B ∧ ActionInvariant B := by
+      MeasurableSet B ∧ MulAction.IsFixedBlock (Equiv.Perm α) B := by
   sorry
 
 /-- **Layer 1 milestone.** The saturation of an analytic class is analytic, for every language.
@@ -619,7 +615,8 @@ theorem lopezEscobar_iff [L.IsRelational] [∀ n, Countable (L.Relations n)]
 /-- **Layer 5 headline, action form.** -/
 theorem lopezEscobar_action_iff [L.IsRelational] [∀ n, Countable (L.Relations n)]
     {B : Set (RelationalConfiguration L ℕ)} :
-    (MeasurableSet B ∧ ActionInvariant B) ↔ ∃ φ : L.Sentenceω, B = modelsOf φ := by
+    (MeasurableSet B ∧ MulAction.IsFixedBlock (Equiv.Perm ℕ) B) ↔
+      ∃ φ : L.Sentenceω, B = modelsOf φ := by
   sorry
 
 /-- **Layer 5 headline, the invariant σ-algebra is the definable one.** -/
@@ -641,35 +638,26 @@ theorem analyticSet_iff_exists_pc [L.IsRelational] [∀ n, Countable (L.Relation
 
 open Set in
 /-- **Layer 6.** Saturation for the orbit relation, in the form of invariant Lusin separation for
-analytic equivalence relations, is `ActionInvariant`, for every language. The library proves the
+analytic equivalence relations, is action invariance, for every language. The library proves the
 relational case for the isomorphism setoid
 (`RelationalConfiguration.isomorphismInvariant_iff_preimage_image_quotientMk`). -/
-theorem saturated_iff_actionInvariant {B : Set (RelationalConfiguration L ℕ)} :
+theorem saturated_iff_isFixedBlock {B : Set (RelationalConfiguration L ℕ)} :
     Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (RelationalConfiguration L ℕ)) ⁻¹'
         (Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (RelationalConfiguration L ℕ)) '' B) = B ↔
-      ActionInvariant B := by
+      MulAction.IsFixedBlock (Equiv.Perm ℕ) B := by
   constructor
-  · intro h σ
-    ext x
-    simp only [mem_preimage]
-    constructor
-    · intro hx
-      rw [← h]
-      exact ⟨σ • x, hx, Quotient.sound (MulAction.mem_orbit x σ)⟩
-    · intro hx
-      have : σ • x ∈
-          Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (RelationalConfiguration L ℕ)) ⁻¹'
-            (Quotient.mk (MulAction.orbitRel (Equiv.Perm ℕ) (RelationalConfiguration L ℕ)) ''
-              B) :=
-        ⟨x, hx, Quotient.sound (MulAction.mem_orbit_iff.mpr ⟨σ⁻¹, inv_smul_smul σ x⟩)⟩
-      rwa [h] at this
+  · intro h
+    refine MulAction.isInvariantBlock_iff_isFixedBlock.1 fun σ => ?_
+    rintro _ ⟨x, hx, rfl⟩
+    rw [← h]
+    exact ⟨x, hx, Quotient.sound (MulAction.mem_orbit_iff.mpr ⟨σ⁻¹, inv_smul_smul σ x⟩)⟩
   · intro h
     ext x
     constructor
     · rintro ⟨y, hy, hxy⟩
       obtain ⟨g, rfl⟩ := MulAction.mem_orbit_iff.mp (Quotient.exact hxy)
-      have : x ∈ (fun c => g • c) ⁻¹' B := hy
-      rwa [h g] at this
+      rw [← h g⁻¹]
+      exact ⟨g • x, hy, inv_smul_smul g x⟩
     · intro hx; exact ⟨x, hx, rfl⟩
 
 /-- **Layer 6 milestone, invariant analytic separation**, for every language. The route through
@@ -677,15 +665,15 @@ the library's `Setoid.exists_invariant_measurableSet_separating` and
 `RelationalConfiguration.analyticSet_setOf_isoSetoid` covers relational languages. -/
 theorem invariant_analytic_separation [∀ n, Countable (L.Relations n)]
     {A B : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A) (hB : AnalyticSet B)
-    (hinv : ActionInvariant B) (hd : Disjoint A B) :
-    ∃ C, A ⊆ C ∧ Disjoint B C ∧ MeasurableSet C ∧ ActionInvariant C := by
+    (hinv : MulAction.IsFixedBlock (Equiv.Perm ℕ) B) (hd : Disjoint A B) :
+    ∃ C, A ⊆ C ∧ Disjoint B C ∧ MeasurableSet C ∧ MulAction.IsFixedBlock (Equiv.Perm ℕ) C := by
   sorry
 
 /-- **Layer 6 milestone.** A sentence separates an analytic class from a disjoint invariant
 analytic class. -/
 theorem exists_sentence_separating [L.IsRelational] [∀ n, Countable (L.Relations n)]
     {A B : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A) (hB : AnalyticSet B)
-    (hinv : ActionInvariant B) (hd : Disjoint A B) :
+    (hinv : MulAction.IsFixedBlock (Equiv.Perm ℕ) B) (hd : Disjoint A B) :
     ∃ θ : L.Sentenceω, A ⊆ modelsOf θ ∧ Disjoint B (modelsOf θ) := by
   sorry
 

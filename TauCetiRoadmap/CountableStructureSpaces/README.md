@@ -82,8 +82,11 @@ Layer 5; the well-order results use Layers 0–3 and the easy direction of Lópe
 5. **Borel.** "Borel" means `MeasurableSet` for the product σ-algebra. Under the countability
    hypotheses the `BorelSpace` instance identifies it with the Borel σ-algebra of the Polish
    topology; state results as `MeasurableSet` and let the instance do the identification.
-6. **Invariance.** `ActionInvariant B` means `(σ • ·) ⁻¹' B = B` for every `σ`.
-   `IsomorphismInvariant B` is Tau Ceti's `RelationalConfiguration.IsomorphismInvariant`:
+6. **Invariance.** Action invariance of `B` is Mathlib's
+   `MulAction.IsFixedBlock (Equiv.Perm α) B`: `σ • B = B` for every `σ`, equivalently
+   `(σ • ·) ⁻¹' B = B`. Mathlib's `isInvariantBlock_iff_isFixedBlock` identifies it with the
+   one-sided `MulAction.IsInvariantBlock`, the form Tau Ceti states its results in; there is no
+   separate invariance predicate. `IsomorphismInvariant B` is Tau Ceti's `RelationalConfiguration.IsomorphismInvariant`:
    membership passes to every code naming an isomorphic structure. The two coincide (Layer 1). The invariant σ-algebra is
    `⨅ σ, MeasurableSpace.invariants (σ • ·)`, Mathlib's single-map construction taken over the
    group; there is no new σ-algebra constructor.
@@ -185,9 +188,8 @@ the roadmap's form and proves them by the library's theorems. It proves no perfe
 `G₀` or Borel-reducibility theorem, and none of the general Polish-space lemmas listed above; those
 belong to the BorelEquivalenceRelations roadmap. It counts no models; that belongs to the
 CountableModelCounting roadmap, which uses the Tau Ceti declarations above directly and consumes,
-from the remaining targets here, `ActionInvariant` with
-`actionInvariant_iff_isomorphismInvariant`, `isomorphismInvariant_modelsOf`,
-`exists_sentence_separating` and `exists_uniform_bfSeparation`.
+from the remaining targets here, `isomorphismInvariant_modelsOf`, `exists_sentence_separating`
+and `exists_uniform_bfSeparation`.
 
 The following Mathlib proposal fixes the shape of targets here. Those targets are built in Tau
 Ceti now, named and stated as the proposal does, and replaced by Mathlib's declarations when it
@@ -301,8 +303,8 @@ is locally constant. It gives the closed range, continuity of multiplication
   `orbitRel_iff_nonempty_equiv`, from Tau Ceti's `isoSetoid_eq_orbitRel`.
 - **Stabilizers are automorphism groups**: `mem_stabilizer_iff`, and stabilizers are closed
   subgroups.
-- **Invariance**: `ActionInvariant` and `IsomorphismInvariant` with
-  `actionInvariant_iff_isomorphismInvariant`; both are closed under complement, countable union
+- **Invariance**: `MulAction.IsFixedBlock (Equiv.Perm α)` and `IsomorphismInvariant` with
+  `isFixedBlock_iff_isomorphismInvariant`; both are closed under complement, countable union
   and countable intersection, and contain `∅` and `univ`.
 - **The invariant σ-algebra**: `measurableSet_iInf_invariants_iff`, measurability for
   `⨅ σ, MeasurableSpace.invariants (σ • ·)` is measurability together with action invariance. It
@@ -591,7 +593,7 @@ isomorphism invariant then `B = modelsOf φ` for some `φ : L.Sentenceω`. Proof
 ### 5.4 Packaging
 
 - `lopezEscobar_iff`: Borel and isomorphism invariant ⟺ `∃ φ, B = modelsOf φ`;
-- `lopezEscobar_action_iff`: the same with `ActionInvariant`;
+- `lopezEscobar_action_iff`: the same with `MulAction.IsFixedBlock (Equiv.Perm ℕ) B`;
 - `measurableSet_iInf_invariants_iff_exists_modelsOf`: the invariant σ-algebra is exactly the
   collection of model classes, `{B | MeasurableSet[⨅ σ, invariants (σ • ·)] B} = range modelsOf`;
 - `analyticSet_iff_exists_pc`: an isomorphism-invariant class of codes is analytic exactly when it
@@ -619,8 +621,8 @@ presentation.
   and `B` are disjoint, there is an invariant Borel `C ⊇ A` disjoint from `B`. This is
   `Setoid.exists_invariant_measurableSet_separating` (BorelEquivalenceRelations, implemented in
   Tau Ceti) for the orbit relation,
-  whose graph is analytic (`analyticSet_orbitRel_graph`, Layer 1), once `ActionInvariant` is
-  identified with saturation for the orbit relation (`saturated_iff_actionInvariant`).
+  whose graph is analytic (`analyticSet_orbitRel_graph`, Layer 1), once action invariance is
+  identified with saturation for the orbit relation (`saturated_iff_isFixedBlock`).
 - `exists_sentence_separating`: by López–Escobar, the separator is `modelsOf θ` for a single
   sentence `θ`.
 
