@@ -8,7 +8,7 @@ stabilizers, measure normalization or reconstruction theorem is not the intended
 ## Scope and ownership
 
 This roadmap owns compact Hamiltonian fixed-locus and weight geometry, moment-map
-Morse theory, torus and Kirwan convexity, the two-sided Schur–Horn theorem, the word121
+Morse theory, torus and Kirwan convexity, Kostant's projection theorem, the word121
 moment polygon, Duistermaat–Heckman applications, and smooth and orbifold toric classification.
 It develops the existing ConvexityToric layers in their original order.
 
@@ -18,8 +18,12 @@ Orbifolds O1–O5, specifically O4-T, owns generic classifying/coarse maps and r
 bundles. Layer 4 specializes them to the Hamiltonian level bundle. SchubertGeometry S2,
 S9 and its word121 acceptance calculation own the incidence threefold, its flag map and
 complex realization. Layer 3 owns its symplectic form and moment image.
-OperatorTheory/Majorization Part A, MAJ-A18–A25, owns forward diagonal inequalities;
-Layer 3 adds realization of every majorized diagonal and the exact unitary-orbit image.
+Tau Ceti owns the Schur–Horn theorem in both directions and its majorization form
+(`TauCeti/Analysis/InnerProductSpace/SchurHorn.lean`), with Rado's description of the
+permutohedron; Layer 3 identifies the diagonal moment image of a U(n) coadjoint orbit with
+that theorem. Tau Ceti also owns the tangent representation of a stabilizer, the linear polar
+compatible complex structure and the linear weight model with its moment map; Layer 1.2 owns
+their manifold-level counterparts.
 LieGroups Layer 6 owns maximal tori, conjugacy, the Weyl comparison and the compact real
 root adapter: adjoint root characters, invariant-metric coroots and rank-one SU(2)
 representatives. Layer 1 adds only the integral period/character/isogeny normalization
@@ -94,6 +98,41 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   `TauCeti/Geometry/Manifold/Riemannian/Isometry/Exponential.lean`: on finite-dimensional
   smooth boundaryless Hausdorff manifolds with smooth Riemannian metrics, it intertwines
   exponential maps with the actual differential; completeness is not assumed.
+  For fixed points use `TauCeti.tangentRepresentation` in
+  `TauCeti/Geometry/Manifold/GroupAction/TangentRepresentation.lean`: for a group acting on a
+  manifold by maps differentiable at x, the stabilizer of x acts on T_xM by derivatives, as
+  a `ContRepresentation` whose multiplicativity is the chain rule; no topology on the group
+  is used. For linear symplectic forms on a finite-dimensional real inner product space use,
+  in `TauCeti/Geometry/Symplectic/PolarCompatible.lean`,
+  `TauCeti.SymplecticForm.polarComplexStructure` (the polar factor J of the operator A with
+  ⟪Au,v⟫=ω(u,v)), `TauCeti.SymplecticForm.compatible_polarComplexStructure` (J²=−1,
+  ω-invariance and ω(v,Jv)>0 for v≠0), `TauCeti.SymplecticForm.apply_polarComplexStructure`
+  (ω(u,Jv)=⟪|A|u,v⟫), `TauCeti.SymplecticForm.IsSymplectomorphism.polarComplexStructure_apply`
+  (a linear isometric symplectomorphism intertwines the polar structures) and
+  `TauCeti.SymplecticForm.exists_compatible_forall_isComplexLinearMap` (a continuous linear
+  representation of a compact group preserving ω preserves some compatible complex
+  structure). These are statements about one vector space, with no smoothness in a parameter.
+  The linear weight model is in `TauCeti/Geometry/Symplectic/Hamiltonian/WeightModel.lean`,
+  on pairs (q,p) of Euclidean vectors indexed by a finite type with the standard form:
+  `TauCeti.weightRotation`, `TauCeti.weightMomentMap` (μ(q,p)=−½Σ(qᵢ²+pᵢ²)αᵢ for weights
+  αᵢ∈t*), `TauCeti.hamiltonianVectorField_weightMomentMap` (the Hamiltonian field of μ_ξ
+  generates the rotation by the angles αᵢ(ξ)), `TauCeti.range_weightMomentMap` (the image is
+  the cone on the −αᵢ), `TauCeti.weightRotation_apply_eq_self_iff` (a rotation fixes z exactly
+  when its angle is in 2πℤ on every nonzero coordinate) and
+  `TauCeti.finrank_range_weightInfinitesimalAction` (the orbit rank is the rank of the weights
+  of the nonzero coordinates). The weights there are arbitrary real covectors; no lattice
+  and no manifold chart is involved.
+  For the diagonal of a self-adjoint operator use, in
+  `TauCeti/Analysis/InnerProductSpace/SchurHorn.lean`,
+  `LinearMap.IsSymmetric.range_re_inner_apply_self_eq_convexHull_eigenvalues_comp_perm` (for a
+  symmetric operator T on an n-dimensional real or complex inner product space, the tuples
+  (Re⟪T eₖ,eₖ⟫)ₖ over all orthonormal bases e are exactly the convex hull of the
+  rearrangements of the eigenvalues, with no distinctness assumption and n=0 included),
+  `LinearMap.IsSymmetric.exists_orthonormalBasis_re_inner_apply_self_eq_iff` (the same set
+  described by majorization: prefix sums of the decreasing rearrangement and the trace) and
+  `LinearMap.IsSymmetric.exists_orthonormalBasis_re_inner_apply_self_eq_of_mem_convexHull`
+  (Horn's realization), with Rado's theorem `TauCeti.mem_convexHull_range_comp_perm_iff` in
+  `TauCeti/Analysis/Convex/PermutationOrbit.lean`.
   For abstract Weyl chambers use `RootPairing.dominantChamber` and
   `RootPairing.openDominantChamber` in `TauCeti/LinearAlgebra/RootSystem/Chamber.lean`
   (the weak and strict sign cones of the simple coroots of a base of a root pairing over an
@@ -302,12 +341,19 @@ For each fixed p choose a tangent ball on which exp_p is a diffeomorphism onto i
 image. Every d(k)_p preserves that same ball, so equivariance and injectivity identify
 the common fixed set in its image with the ball's intersection with the common fixed
 subspace. This supplies the embedded charts and tangent identity without intersecting
-submanifolds transversely. Construct the derivative representation at p using native
-`Representation ℝ K (TangentSpace I p)` and its `Representation.invariants` submodule.
+submanifolds transversely. The derivative representation at p is Tau Ceti's
+`TauCeti.tangentRepresentation` (the stabilizer of a common fixed point is all of K), and
+the common fixed subspace is the `Representation.invariants` submodule of its underlying
+representation.
 
 Polar-normalize the bundle endomorphism A defined by `g(Au,v)=ω(u,v)`:
-`J=A(−A²)^(−1/2)`. Prove smoothness, `J²=−1`, positivity `ω(v,Jv)>0` for v≠0,
-and invariance under every element of K. The common fixed tangent subspace is J-stable;
+`J=A(−A²)^(−1/2)`. On each tangent space, with the inner product g_p, this J is Tau Ceti's
+`TauCeti.SymplecticForm.polarComplexStructure`; `J²=−1` and positivity `ω(v,Jv)>0` for v≠0
+are `TauCeti.SymplecticForm.compatible_polarComplexStructure`, and invariance under every
+element of K is `TauCeti.SymplecticForm.IsSymplectomorphism.polarComplexStructure_apply`
+applied to the derivatives, which are isometric symplectomorphisms of the tangent spaces.
+The target here is that these fibrewise structures form a smooth bundle endomorphism of TM.
+The common fixed tangent subspace is J-stable;
 testing a vector against Jv proves nondegeneracy of the restricted form. This uses the
 given invariant metric directly. As examples, an irrational rotation of the first
 factor of ℂ² generates an infinite cyclic group with fixed locus `{0}×ℂ`; the
@@ -320,7 +366,9 @@ the derivative representation, ρ(k)Jv=Jρ(k)v=Jv for every fixed v. For the inv
 
 For a compact Lie group with a smooth symplectic action, average a smooth Riemannian
 metric and apply this theorem and its polar construction. Averaging an arbitrary
-compatible J does not preserve J²=−1. Construct an equivariant tubular neighborhood;
+compatible J does not preserve J²=−1. At a single fixed point the linear statement, an
+invariant compatible complex structure on the tangent space, is
+`TauCeti.SymplecticForm.exists_compatible_forall_isComplexLinearMap`. Construct an equivariant tubular neighborhood;
 prove equivariant Darboux near a fixed point and relative normal form along a fixed
 component using equivariant Moser, with GeometricTopology Layer1's generic tubular
 neighborhood as the nonequivariant floor.
@@ -330,7 +378,12 @@ For a torus-fixed p choose a unitary weight decomposition of its tangent space. 
 **μ=μ(p)−½Σαᵢ(qᵢ²+pᵢ²)** for true complex weights αᵢ of
 `zᵢ↦exp(i⟨αᵢ,ξ⟩)zᵢ` in compatible complex coordinates. Thus the local image germ agrees with the germ of
 μ(p)−cone{αᵢ}, and index of μ^ξ is twice the number of positive αᵢ(ξ). Relate integer αᵢ to the lattice, not just a chosen list of real vectors. Zero weights give fixed
-tangent directions. Prove the quadratic identity, stabilizers, orbit rank and local moment cone.
+tangent directions. The linear model is Tau Ceti's `TauCeti.weightMomentMap`, with the same sign, whose
+quadratic identity, moment cone, stabilizers and orbit rank are
+`TauCeti.hamiltonianVectorField_weightMomentMap`, `TauCeti.range_weightMomentMap`,
+`TauCeti.weightRotation_apply_eq_self_iff` and `TauCeti.finrank_range_weightInfinitesimalAction`.
+Transport these four statements to M through the equivariant Darboux chart at p, with μ(p)
+added, and prove the lattice statement for integer weights.
 For nonfixed orbits of general proper Hamiltonian actions of arbitrary finite-dimensional Lie groups consume HamiltonianReduction R3.1's full proper-orbit symplectic slice/Marle–Guillemin–Sternberg model, including its m*, coadjoint and slice directions, compact stabilizer and moment normalization. Construct its coordinate-compatible compact-torus specialization here and use it for global convexity and singularity descriptions. Its equivariant tube and relative Moser flow-germ theorem apply along the actual proper orbit; the compact-orbit averaging argument is a specialization.
 
 The common fixed-set and polar-complex-structure API includes:
@@ -358,12 +411,14 @@ For the fixed-locus proof use Cannas da Silva, Homework 21, exercise 2, p. 174,
 with the specified invariant metric supplying the same equivariant exponential argument
 for arbitrary K; the polar construction is Proposition 12.6, p. 70.
 The local model and quadratic weight formula use Hilgert–Neeb–Plank, Lemmas 2.1–2.2,
-pp. 141–143. Translate their infinitesimal-action and compatible-complex-structure
+pp. 140–143. Translate their infinitesimal-action and compatible-complex-structure
 conventions to the positive fundamental field and ω(v,Jv)>0 used here; the weight +1
 calculation above fixes the resulting minus sign.
 
-*Needs:* HopfRinow Layers 1 and 4; Tau Ceti's Riemannian-isometry exponential identity;
-HeegaardFloer §4.1; GeometricTopology Layer 1;
+*Needs:* HopfRinow Layers 1 and 4; Tau Ceti's Riemannian-isometry exponential identity,
+`TauCeti.tangentRepresentation`, `TauCeti.SymplecticForm.polarComplexStructure` with its
+compatibility, naturality and compact-group theorems, and `TauCeti.weightMomentMap` with its
+image, stabilizer and orbit-rank theorems; HeegaardFloer §4.1; GeometricTopology Layer 1;
 HamiltonianReduction R3.1; Layer 1.1's weight dictionary.
 
 ### Examples
@@ -373,7 +428,8 @@ from the preserved-metric hypothesis. The weight +1 and −1 planes pin the mome
 
 ### Dependencies
 
-LieGroups Layers 1, 2 and 6, Tau Ceti's Weyl chambers and moment maps, HamiltonianReduction R3.1,
+LieGroups Layers 1, 2 and 6, Tau Ceti's Weyl chambers, moment maps, tangent representation,
+polar complex structure and weight model, HamiltonianReduction R3.1,
 HopfRinow Layers 1 and 4, HeegaardFloer §4.1 and GeometricTopology Layer 1.
 
 ## Layer 2: Morse–Bott and moment-map topology
@@ -532,9 +588,18 @@ requires its properness, local-cone and local-fiber-connectedness targets above
 Prove Kostant **compact coadjoint-orbit projection convexity**, `pr_t*(K·ν)=conv(W·ν)` for ν∈t*;
 this is the precise version meant here, not the different nonlinear Iwasawa projection theorem.
 For U(n), fix ⟨H,X⟩=−i tr(HX) with diagonal X=i diag(θ), so μ is the diagonal list, and show the diagonal moment image is the permutahedron of
-eigenvalues. The headline `schur_horn` states Schur–Horn in both directions for every n≥0;
-prove its equivalence with majorization (partial sums of
-sorted entries and total trace). Repeated eigenvalues give lower-dimensional smooth coadjoint orbits but the same convex-hull
+eigenvalues. The Schur–Horn theorem in both directions, for every n≥0 and with no
+distinctness assumption, is Tau Ceti's
+`LinearMap.IsSymmetric.range_re_inner_apply_self_eq_convexHull_eigenvalues_comp_perm`, and its
+majorization form (partial sums of sorted entries and total trace) is
+`LinearMap.IsSymmetric.exists_orthonormalBasis_re_inner_apply_self_eq_iff`; neither is a
+target here. The target of this section is the matrix corollary and its comparison with
+Kostant's theorem: for U∈U(n) and a real tuple s the diagonal of `U diag(s) U*` ranges
+exactly over the convex hull of the permutations of s. Obtain it from the pinned theorem
+applied to the diagonal operator of s on ℂⁿ: the rows of U form an orthonormal basis e
+with `(U diag(s) U*)ₖₖ=⟪diag(s)eₖ,eₖ⟫`, every orthonormal basis arises so, and the
+eigenvalues of a diagonal operator are a rearrangement of its entries, so both tuples have
+the same permutation orbit. Identify this set with pr_t*(K·ν) for K=U(n). Repeated eigenvalues give lower-dimensional smooth coadjoint orbits but the same convex-hull
 statement. Construct a 2×2 Hermitian matrix for every majorized diagonal and given eigenvalues and rank-one CP^(n−1) simplex as acceptance cases.
 
 **Checks.**
@@ -546,8 +611,10 @@ statement. Construct a 2×2 Hermitian matrix for every majorized diagonal and gi
 
 The coadjoint projection form follows from Cannas da Silva, Theorem 27.1, applied
 to the compact orbit; the matrix identification and the two-sided realization are
-this section's application. *Needs:* HamiltonianReduction R2; Layer 3.1;
-OperatorTheory/Majorization Part A, MAJ-A18–A25, for the forward comparison;
+this section's application. *Needs:* HamiltonianReduction R2; Layer 3.1; Tau Ceti
+`LinearMap.IsSymmetric.range_re_inner_apply_self_eq_convexHull_eigenvalues_comp_perm`,
+`LinearMap.IsSymmetric.exists_orthonormalBasis_re_inner_apply_self_eq_iff` and
+`TauCeti.mem_convexHull_range_comp_perm_iff`;
 Mathlib `Matrix.unitaryGroup` and `convexHull`.
 
 ### 3.3 The word121 Bott–Samelson moment polygon
@@ -662,7 +729,7 @@ locus, rather than identifying diagrams by their vertex counts.
 The two image theorems are `BottSamelson.incidence_moment_range` and
 `BottSamelson.fixedMoment_convexHull` in `Suggested.lean`.
 For the product-Grassmannian construction compare
-[Escobar, *Brick manifolds and toric varieties of brick polytopes*, §3.2, p. 8, and §4.1, pp. 12–13](https://www.combinatorics.org/ojs/index.php/eljc/article/download/v23i2p25/pdf/);
+[Escobar, *Brick manifolds and toric varieties of brick polytopes*, §3.2, pp. 6–8, and §4.1, pp. 12–13](https://www.combinatorics.org/ojs/index.php/eljc/article/download/v23i2p25/pdf/);
 the explicit weights, signs, inequalities and boundary maps above are
 part of this target.
 
@@ -685,12 +752,12 @@ The finite-list inequality theorem uses only convex geometry once the values are
 
 ### Examples
 
-Schur–Horn includes repeated and empty spectra. The word121 example has complexity 1,
+The diagonal image of a U(n) orbit includes repeated and empty spectra. The word121 example has complexity 1,
 including nonvertex fixed values; its zero-weight boundary uses the flag projection.
 
 ### Dependencies
 
-Layers 1–2; HamiltonianReduction R2/R3.1; OperatorTheory/Majorization Part A;
+Layers 1–2; HamiltonianReduction R2/R3.1; Tau Ceti's Schur–Horn and Rado theorems;
 SchubertGeometry S2/S9; ComplexKahlerGeometry K7.2. The gradient-convergence route
 uses the specialized polynomial gradient inequality stated in §3.1.
 
@@ -1026,6 +1093,6 @@ Conrad–Landesman, [*Compact Lie Groups*, Spring 2018](https://math.stanford.ed
 §18, p. 82, Appendix Q, pp. 248–253, and Appendix R, Proposition R.2.1, pp. 254–256,
 for the rank-one kernel bound, the integral coroot cocharacter and the isogeny lattice comparison.
 Escobar, [*Brick manifolds and toric varieties of brick polytopes*](https://www.combinatorics.org/ojs/index.php/eljc/article/download/v23i2p25/pdf/),
-Electronic Journal of Combinatorics 23(2) (2016), P2.25, §3.2 p. 8 and §4.1 pp. 12–13.
+Electronic Journal of Combinatorics 23(2) (2016), P2.25, §3.2 pp. 6–8 and §4.1 pp. 12–13.
 Hilgert–Neeb–Plank, *Symplectic convexity theorems and coadjoint orbits*, Compositio
-Mathematica 94 (1994), Lemmas 2.1–2.2, pp. 141–143, and Theorems 3.10 and 4.1, pp. 149–151.
+Mathematica 94 (1994), Lemmas 2.1–2.2, pp. 140–143, and Theorems 3.10 and 4.1, pp. 149–151.

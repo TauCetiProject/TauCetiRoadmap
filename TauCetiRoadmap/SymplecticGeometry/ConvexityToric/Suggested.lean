@@ -11,7 +11,7 @@ public import TauCeti.Geometry.Toric.Algebraic.Lattice
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs, with simple definitions on native carriers.
-The statable headlines are torus convexity with connected fibers, Schur–Horn,
+The statable headlines are torus convexity with connected fibers,
 the word121 Bott–Samelson moment image and its exact polygon, toric orbit fibers,
 and the Delzant property of a symplectic toric moment image.
 
@@ -82,16 +82,6 @@ theorem torus_convexity
       ∀ c : StrongDual ℝ EG, IsPreconnected (μ ⁻¹' {c}) := by
   sorry
 end Hamiltonian
-
-/-- Schur–Horn: diagonals of all unitary conjugates of a real diagonal matrix are
-exactly the convex hull of permutations of its spectrum, with no distinctness assumption. -/
-theorem schur_horn (n : ℕ) (spectrum : Fin n → ℝ) :
-    {x : Fin n → ℝ | ∃ U : Matrix.unitaryGroup (Fin n) ℂ,
-      x = fun i ↦ (((U : Matrix (Fin n) (Fin n) ℂ) *
-        Matrix.diagonal (fun j ↦ (spectrum j : ℂ)) *
-        star (U : Matrix (Fin n) (Fin n) ℂ)) i i).re} =
-      convexHull ℝ (Set.range (fun p : Equiv.Perm (Fin n) ↦ spectrum ∘ p)) := by
-  sorry
 
 namespace BottSamelson
 /-- The standard three-dimensional Hermitian space. -/
