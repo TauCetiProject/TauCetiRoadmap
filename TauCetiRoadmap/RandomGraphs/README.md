@@ -393,7 +393,7 @@ i\sim j
 
 Identify $`R`$ with the constructed Fraïssé limit.
 
-The supplier provides countable uniqueness (`HasExtensionProperty.nonempty_iso`), the
+The supplier provides countable uniqueness (`SimpleGraph.HasExtensionProperty.nonempty_iso`), the
 characterization `TauCeti.nonempty_iso_radoGraph_iff` of the countable graphs isomorphic to $`R`$
 (`ModelTheory/Scott/RandomGraph.lean`; its backward direction is the prototype's
 `nonempty_iso_rado`) and the extension-pair bridge. Export, in addition, the characterization of $`R`$ as the Fraïssé limit,
