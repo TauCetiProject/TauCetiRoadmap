@@ -7,7 +7,7 @@ averaging (its Layer 0), unitarizability (Layer 1), complete reducibility (Layer
 matrix coefficients (Layer 3), Schur orthogonality (Layer 4), the Peter–Weyl theorem
 (Layer 5), characters of compact groups (Layer 6) and the engine case SU(2) with its
 symmetric-power classification. Part II builds on these.
-The comparison targets concern invariant metrics, G-finite vectors in Banach
+The comparison targets concern invariant metrics and unitary equivalence, G-finite vectors in Banach
 representations, metrizability, duals of arbitrary products, compact abelian
 Fourier bases, global forms with their torus characters and unitary conjugacy of SU(2) actions.
 
@@ -90,6 +90,9 @@ normalized multiplicity inner product. §1.3 keeps only the finite-dimensional c
 with standard coordinates `ℂ^{m_i}` in place of `Hom_K(S_i,V)`, built directly from
 the pinned orthogonal irreducible decomposition and Schur; it does not consume M0,
 because M0 consumes the density theorem of §2.1.
+The pinned Tau Ceti replaces an equivalence of unitary representations by a unitary
+one only for an irreducible source (`ContRepresentation.exists_linearIsometryEquiv_congr_eq`);
+§1.4 owns the general finite-dimensional case, from equality of characters.
 
 ## Conventions
 
@@ -172,6 +175,14 @@ irreducibility uses closed invariant subspaces and is a different condition.
   `Mathlib/RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean`: over any
   commutative ring, the symmetric polynomials in n variables are freely generated
   by the elementary symmetric polynomials e₁,…,e_n. §6.8 applies it over ℤ.
+- The C*-algebra structure on `E →L[ℂ] E` for a complete complex inner-product
+  space E, in `Mathlib/Analysis/CStarAlgebra/ContinuousLinearMap.lean`;
+  `CFC.sqrt` in
+  `Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean`,
+  the positive square root of a positive element, and `Commute.cfcₙ_nnreal` in
+  `Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Commute.lean`: a
+  function of an element by the functional calculus commutes with everything that
+  commutes with the element. §1.4 applies them to `T†T`.
 
 ### From Tau Ceti
 
@@ -235,6 +246,13 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
   `ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition`;
   `Continuous/Schur.lean`:
   `ContRepresentation.exists_eq_smul_one_of_isIrreducible`.
+  `Continuous/InvariantComplement.lean`:
+  `ContRepresentation.IsUnitary.isSemisimpleRepresentation`, complete
+  reducibility of a finite-dimensional unitary representation of any group, with no
+  topology on the group; `Semisimple.lean`:
+  `Representation.nonempty_equiv_of_character_eq_of_isSemisimpleRepresentation`,
+  which over a field of characteristic zero makes two finite-dimensional semisimple
+  representations of any monoid with equal characters equivalent. Used in §1.4.
 - `Continuous/MatrixCoefficient.lean` and `Compact/MatrixCoefficient.lean`:
   `ContRepresentation.matrixCoeff` and `ContRepresentation.matrixCoeffLp`;
   `Compact/SchurOrthogonality.lean`:
@@ -311,8 +329,9 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
   `TauCeti.Lie.IsMaximalTorus.finite_normalizerQuotient`, finiteness of
   `W = N_K(T)/T` for a compact Lie group. Used in §§6.1, 6.2 and 6.4. For a
   general compact connected Lie group the pins have no root characters, positive
-  system or conjugacy theorem for maximal tori; for U(n) they have all three torus
-  facts of the next item.
+  system or conjugacy theorem for maximal tori. For U(n) they have element
+  conjugacy into the diagonal torus, conjugacy of maximal tori and the Weyl group
+  `Equiv.Perm (Fin n)` (next item), but no root characters and no positive system.
 - `TauCeti/Analysis/Matrix/UnitaryGroup/Torus.lean`, `MaximalTorus.lean` and
   `Weyl.lean`: `TauCeti.unitaryTorusHom` (the injective continuous homomorphism
   `(Fin n → Circle) → U(n)`, z ↦ diag(z)) with range `TauCeti.unitaryTorus`;
@@ -392,7 +411,8 @@ unitarization, Peter–Weyl or the SU(2) classification a second time.
 ## How to read the build
 
 Layer 0 compares the continuous representation interfaces and continuous kernels.
-Layer 1 classifies invariant metrics; Layer 2 proves Banach orbit-finite density;
+Layer 1 classifies invariant metrics and proves that unitary representations with
+equal characters are unitarily equivalent; Layer 2 proves Banach orbit-finite density;
 Layer 3 relates countability and metrizability; Layer 4 handles arbitrary products;
 Layer 5 identifies abelian Fourier bases; Layer 6 constructs global-form descent
 and the formal-character basis of the Weyl invariants; Layer 7 classifies unitary SU(2) actions. Layers 1,
@@ -674,6 +694,60 @@ For finite discrete groups the unitarizing form is the pinned group average
 `TauCeti.integral_haarProb`; it is cited, not proved here. The unnormalized
 sum is |G| times that form, with |G|≥1.
 
+### 1.4 Unitary equivalence from characters
+
+The signature `exists_linearIsometryEquiv_of_character_eq` states that two
+finite-dimensional unitary complex `ContRepresentation`s π on V and ρ on W of any
+group with the same trace character are unitarily equivalent: some linear isometry
+e:V≃W satisfies `e(π(g)v)=ρ(g)(e v)` for every g and v. Neither compactness nor
+continuity of the group parameter is assumed. It extends the irreducible case,
+the pinned `ContRepresentation.exists_linearIsometryEquiv_congr_eq`, to every
+finite-dimensional unitary representation, and §7.1 applies it to SU(2) acting
+on ℂⁿ, where e is a unitary matrix conjugating one action into the other.
+
+The proof is a deduction from pinned declarations. A unitary action is semisimple
+(`ContRepresentation.IsUnitary.isSemisimpleRepresentation`), so equal characters
+give an algebraic equivalence
+(`Representation.nonempty_equiv_of_character_eq_of_isSemisimpleRepresentation`, ℂ
+having characteristic zero), and `ContRepresentation.nonempty_equiv_iff` makes it
+a continuous equivalence T:V→W. Taking adjoints in `Tπ(g)=ρ(g)T` and using
+`π(g)†=π(g⁻¹)`, `ρ(g)†=ρ(g⁻¹)` shows that T† intertwines ρ with π, so `T†T` is a
+self-intertwiner of π with `⟪v,T†Tv⟫=‖Tv‖²>0` for v≠0. Its positive square root
+`P=CFC.sqrt(T†T)` in the C*-algebra `V →L[ℂ] V` satisfies `P²=T†T`, is invertible,
+and commutes with every π(g) by `Commute.cfcₙ_nnreal`. The polar factor `U=TP⁻¹`
+then satisfies `U†U=P⁻¹T†TP⁻¹=1` and `Uπ(g)=Tπ(g)P⁻¹=ρ(g)U`.
+
+- Equal characters force equal dimensions: the character at the identity is the
+  dimension, and ℂ has characteristic zero.
+- Conversely a unitary intertwiner e gives `ρ(g)=eπ(g)e⁻¹`, so the characters
+  agree; equality of characters is therefore equivalent to unitary equivalence.
+- For an irreducible source `T†T` is a positive scalar c by scalar Schur,
+  `P=√c·I`, and the polar factor is the rescaling `c^(-1/2)T` of the pinned
+  irreducible theorem.
+
+*Needs:* Mathlib adjoints, `CFC.sqrt` and `Commute.cfcₙ_nnreal` on `V →L[ℂ] V`;
+Tau Ceti `ContRepresentation.IsUnitary.isSemisimpleRepresentation`,
+`Representation.nonempty_equiv_of_character_eq_of_isSemisimpleRepresentation` and
+`ContRepresentation.nonempty_equiv_iff`.
+
+**Checks.**
+
+- For SU(2) on ℂ², the standard action g and the conjugate action ḡ have the
+  same character, since the trace a+ā of g=[[a,−b̄],[b,ā]] is real. The unitary
+  J=[[0,−1],[1,0]] gives `JgJ⁻¹=[[ā,−b],[b̄,a]]=ḡ`, so J is a unitary intertwiner;
+  the identity is not one, since g=diag(i,−i) has ḡ=diag(−i,i)≠g.
+- The trivial and the standard SU(2) actions on ℂ² have characters 2 and −2 at
+  −I, so the hypothesis fails, as it must: no isometry conjugates I into −I.
+- For G=ℤ, the actions n↦diag(1,(−1)ⁿ) and n↦Sⁿ with S the coordinate swap both
+  have character 1+(−1)ⁿ. The equivalence B=[[1,1],[1,−1]] has `B†B=2I` and
+  stretches e₁ to length √2; its polar factor `B/√2` is the unitary intertwiner,
+  and `(B/√2)diag(1,−1)(B/√2)⁻¹=S`.
+- For G=ℤ, the unipotent action n↦[[1,n],[0,1]] on ℂ² has the constant character 2
+  of the trivial action but is not equivalent to it; it is not unitary, since it
+  sends e₂ to (1,1) of length √2, so the unitarity hypothesis excludes it.
+- On V=W=0 both characters vanish and the unique map is the isometry; trivial ℂ
+  against trivial ℂ² has characters 1 and 2 at the identity, and no isometry exists.
+
 ### Examples
 
 The C₃ average is one third of the unnormalized sum; for the trivial action both give h and 3h respectively.
@@ -684,7 +758,11 @@ Native unitarization, unitary-intertwiner comparison
 (`ContRepresentation.exists_linearIsometryEquiv_congr_eq`), complete
 reducibility and scalar Schur; for finite groups,
 `ContRepresentation.inner_gramOperator_eq_inv_mul_sum` and
-`TauCeti.integral_haarProb`; finite-dimensional Hermitian linear algebra.
+`TauCeti.integral_haarProb`; finite-dimensional Hermitian linear algebra; for §1.4,
+`ContRepresentation.IsUnitary.isSemisimpleRepresentation`,
+`Representation.nonempty_equiv_of_character_eq_of_isSemisimpleRepresentation`,
+`ContRepresentation.nonempty_equiv_iff` and Mathlib's `CFC.sqrt` with
+`Commute.cfcₙ_nnreal`.
 
 ## Layer 2: G-finite vectors in Banach representations
 
@@ -1557,6 +1635,11 @@ The U(2) criterion is a deduction from the global highest-weight classification 
 The signatures `su2_multiplicities_and_faithfulness` and
 `exists_su2_of_multiplicities` state uniqueness of the character multiplicities,
 their realization and the faithful-action criterion on the native SU(2) carrier.
+With §1.4's `exists_linearIsometryEquiv_of_character_eq` at G=SU(2) and V=W=ℂⁿ
+they give the classification up to U(n)-conjugacy: two continuous unitary actions
+on ℂⁿ with the same multiplicities have the same character, hence are conjugate by
+a unitary matrix, and conjugate actions have the same character, hence the same
+multiplicities.
 
 For every
   n≥0 classify continuous group homomorphisms SU(2)→U(n), with conjugacy by
@@ -1566,7 +1649,7 @@ For every
   m_d copies of a fixed unitary model of Sym^d(ℂ²), transported to ℂⁿ by a
   unitary basis. Prove independence of that basis, exhaustiveness and uniqueness.
   In particular an invertible complex intertwiner between two unitary models
-  can be replaced by a unitary intertwiner using its positive polar factor.
+  can be replaced by a unitary intertwiner using its positive polar factor (§1.4).
   These are complex representation multiplicities, including for irreducibles
   of real or quaternionic type; no real-dimension count replaces d+1.
 
@@ -1598,7 +1681,7 @@ For every
   and there are no embeddings; for n=2,3,4 the numbers of embedding classes
   are respectively 1,1,3. This is a deduction from the symmetric-power classification and the displayed kernel computation.
 
-*Needs:* Native SU(2) classification and torus formulas; native unitary intertwiner comparison; LieGroups Layers 0, 2 and 3 for the smooth embedding comparison only.
+*Needs:* Native SU(2) classification and torus formulas; native unitary intertwiner comparison; §1.4's `exists_linearIsometryEquiv_of_character_eq` for U(n)-conjugacy; LieGroups Layers 0, 2 and 3 for the smooth embedding comparison only.
 
 **Checks.**
 
@@ -1609,6 +1692,9 @@ For every
   eigenvalues are −1,−1 and 1,1,1, distinguishing odd and even d.
 - Sym⁰ has kernel all of SU(2); Sym¹ has kernel {I}; Sym² has kernel {±I}. Thus even representation dimension, not even highest weight, detects a faithful irreducible.
 - For Sym¹⊕Sym¹, the kernel is {I}∩{I}={I} and dimension is 4; its multiplicity is complex multiplicity 2, including the quaternionic type of Sym¹.
+- The standard action on ℂ² and its conjugate g↦ḡ both have the multiplicity list
+  of one Sym¹, since their traces a+ā agree; they are conjugate by
+  J=[[0,−1],[1,0]]∈U(2) and not by the identity, since g=diag(i,−i) has ḡ≠g.
 
 ### Examples
 
@@ -1616,7 +1702,7 @@ Partitions containing an even part give precisely the faithful actions. Compactn
 
 ### Dependencies
 
-Native SU(2) classification and torus formulas; native unitary intertwiner comparison; LieGroups Layers 0, 2 and 3 for the smooth embedding comparison only.
+Native SU(2) classification and torus formulas; native unitary intertwiner comparison; §1.4's `exists_linearIsometryEquiv_of_character_eq` for U(n)-conjugacy; LieGroups Layers 0, 2 and 3 for the smooth embedding comparison only.
 
 ## Downstream consumers
 

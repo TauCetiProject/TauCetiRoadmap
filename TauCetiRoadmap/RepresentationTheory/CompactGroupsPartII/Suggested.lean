@@ -9,9 +9,11 @@ import TauCeti.RepresentationTheory.SU2.Exhaustion
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: the Hilbert–Schmidt energy of a
 continuous-kernel integral operator, irreducible positive-scalar metric
-classification, U(2) weight recognition, Banach G-finite density, compact-group
-countability, duals of arbitrary products, compact abelian Fourier theory, and SU(2)
-multiplicities and faithfulness.
+classification, unitary equivalence of unitary representations with equal characters,
+U(2) weight recognition, Banach G-finite density, compact-group countability, duals of
+arbitrary products, compact abelian Fourier theory, and SU(2) multiplicities and
+faithfulness, which with the unitary equivalence classify unitary SU(2) actions on `ℂⁿ`
+up to `U(n)`-conjugacy.
 The implemented Haar, unitarization, Peter–Weyl, character and SU(2) theorems of the
 base roadmap are inputs, identified in the README's supplier contracts.
 
@@ -71,6 +73,24 @@ theorem positive_selfIntertwiner_existsUnique_scalar
     (hpos : ∀ v : V, v ≠ 0 → 0 < (⟪v, T v⟫_ℂ).re) :
     ∃! c : ℝ, 0 < c ∧ T.toContinuousLinearMap =
       (c : ℂ) • ContinuousLinearMap.id ℂ V := by
+  sorry
+
+/-- Two finite-dimensional unitary complex representations of a group with the same
+trace character are unitarily equivalent: a linear isometry carries one action onto
+the other. Neither compactness nor continuity of the group parameter is needed: a
+unitary action is semisimple, so equal characters give an equivalence, and the unitary
+factor of its polar decomposition still intertwines. For `G = SU(2)` and
+`V = W = ℂⁿ` the isometry is a unitary matrix conjugating one action into the other,
+which with the Layer 7 multiplicities classifies unitary SU(2) actions on `ℂⁿ` up to
+`U(n)`-conjugacy. -/
+theorem exists_linearIsometryEquiv_of_character_eq
+    {G V W : Type*} [Group G]
+    [NormedAddCommGroup V] [InnerProductSpace ℂ V] [FiniteDimensional ℂ V]
+    [NormedAddCommGroup W] [InnerProductSpace ℂ W] [FiniteDimensional ℂ W]
+    (π : ContRepresentation ℂ G V) (ρ : ContRepresentation ℂ G W)
+    (hπ : _root_.ContRepresentation.IsUnitary π) (hρ : _root_.ContRepresentation.IsUnitary ρ)
+    (h : ∀ g : G, π.toRepresentation.character g = ρ.toRepresentation.character g) :
+    ∃ e : V ≃ₗᵢ[ℂ] W, ∀ (g : G) (v : V), e (π g v) = ρ g (e v) := by
   sorry
 
 /-! ## Layer 2: G-finite vectors in Banach representations -/
