@@ -233,8 +233,9 @@ Suggested home: `TauCeti/SetTheory/Cardinal/Partition/{Basic, EndHomogeneous, Er
 This layer is pure combinatorics with no logic in it. It owns exactly the partition results that
 the Morley–Hanf construction uses: the pigeonhole principle for successor cardinals, end-homogeneous
 sets, the finite-exponent Erdős–Rado theorem with the colour bound `κ`, and the `ω₁`-pigeonhole
-principle. Infinite Ramsey and the rest of the partition calculus are
-[out of scope](#out-of-scope).
+principle. The infinite Ramsey theorem is built in
+[BanachSpaceTheory](../BanachSpaceTheory/README.md) §B4.1, the rest of the partition calculus is
+[out of scope](#out-of-scope), and this roadmap uses neither.
 
 ### 0.1 Vocabulary
 
@@ -908,11 +909,13 @@ Discharge these alongside the layers; they check that the API describes real str
 
 The following belong to separate roadmaps.
 
-- **The rest of the partition calculus**, as a future combinatorics roadmap: Ramsey's theorem and
-  the infinite Ramsey theorem `ω → (ω)ⁿ_k`, canonical Ramsey theorems, Erdős–Rado at infinite
-  exponents, negative partition relations (Sierpiński's `2^κ ↛ (κ⁺)²₂`), the Erdős–Dushnik–Miller
-  theorem, polarized relations, Erdős cardinals and large-cardinal partition properties. Layer 0
-  contains exactly what the Morley–Hanf and small-model constructions use.
+- **The infinite Ramsey theorem** `ω → (ω)ⁿ_k` for finite colourings of `[ℕ]^n` is built in
+  [BanachSpaceTheory](../BanachSpaceTheory/README.md) §B4.1, and is not used here.
+- **The rest of the partition calculus** is outside this roadmap and not used by it: the finite
+  Ramsey theorem, canonical Ramsey theorems, Erdős–Rado at infinite exponents, negative partition
+  relations (Sierpiński's `2^κ ↛ (κ⁺)²₂`), the Erdős–Dushnik–Miller theorem, polarized relations,
+  Erdős cardinals and large-cardinal partition properties. Layer 0 contains exactly what the
+  Morley–Hanf and small-model constructions use.
 - **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)): countable fragments, consistency properties and model existence,
   omitting types, downward Löwenheim–Skolem, types and isolation, Morleyization, PC classes,
   interpolation and the well-ordering applications. Consumed here only through the IME sections
