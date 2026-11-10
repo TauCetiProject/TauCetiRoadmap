@@ -1,11 +1,18 @@
 name: progress-merge-report
 
-# One progress report: look at the merge queue, then validate the report and land it.
+# One progress report: look at the merge queue, validate the report and land it, and, if it was
+# refused, note on the refusal which head was refused.
 #
 # Called by progress-merge.yml, once per report and one report at a time. The look at the queue is
 # here, and not only before the reports are handed out, because a report is validated and landed
 # some time after it is picked: behind the reports ahead of it, and behind a wait for a runner. A
 # pull request that joins the queue in that time holds every report not yet started.
+#
+# What this does not cover. After the look at the queue, the gate's two jobs each wait for a runner,
+# and the pinned gate moves `main` without looking at the queue itself. A pull request that joins
+# the queue in that interval is still reset by a report already let through. Only a test inside the
+# gate's landing step, next to the update of `main`, closes that interval; it comes with a later
+# pin.
 #
 # This file holds the pin of the TauCetiProgress gate. See progress-merge.yml for why it is a full
 # SHA and what must move with it.
@@ -30,7 +37,7 @@ on:
       APP_PRIVATE_KEY:
         required: true
 
-# The floor. `hold` needs no more than this; the `gate` job raises its own.
+# The floor. `hold` needs no more than this; the `gate` and `record` jobs raise their own.
 permissions:
   contents: read
   pull-requests: read
@@ -40,6 +47,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       go: ${{ steps.queue.outputs.go }}
+      head: ${{ steps.queue.outputs.head }}
+      seen: ${{ steps.queue.outputs.seen }}
     steps:
       # The test of progress-merge.yml's step of the same name, for this one report and at the last
       # moment this repository controls: the gate's own jobs follow directly. Keep the two in step.
@@ -52,14 +61,36 @@ jobs:
           PR: ${{ inputs.pr }}
         run: |
           set -euo pipefail
+          # For the `record` job: the head this run starts from, and the last comment already on the
+          # pull request, so that a refusal written by this run can be told from an earlier one.
+          pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR" --jq '"\(.state) \(.head.sha)"')
+          state=${pr%% *}
+          echo "head=${pr#* }" >> "$GITHUB_OUTPUT"
+          seen=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR/comments?per_page=100" --jq '.[].id' | sort -n | tail -n 1)
+          echo "seen=${seen:-0}" >> "$GITHUB_OUTPUT"
+          # A report that another run has landed in the meantime is closed. Offering it to the gate
+          # would only earn it a refusal.
+          if [ "$FORCE" != "true" ] && [ "$state" != open ]; then
+            echo "#$PR is $state; nothing to do"
+            echo "go=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          # The queue is read on every path, so that a dispatch by hand also shows what it held and
+          # that this token can read it. Only an automatic run depends on the answer.
+          if q=$(gh api graphql -f query='query($o:String!,$n:String!){ repository(owner:$o,name:$n){ mergeQueue(branch:"main"){ entries(first:1){ totalCount nodes{ enqueuedAt } } } } }' \
+               -f o="${GITHUB_REPOSITORY%/*}" -f n="${GITHUB_REPOSITORY#*/}" --jq '.data.repository.mergeQueue.entries | "\(.totalCount) \(.nodes[0].enqueuedAt // "")"'); then
+            total=${q%% *}; oldest=${q#* }
+            echo "merge queue: $total entr(y/ies), oldest enqueued ${oldest:-never}"
+          elif [ "$FORCE" = "true" ]; then
+            echo "::warning::the merge queue could not be read; dispatched by hand, #$PR proceeds"
+            total=0; oldest=""
+          else
+            echo "::error::the merge queue could not be read; #$PR is not offered to the gate"
+            exit 1
+          fi
           if [ "$FORCE" = "true" ]; then
             echo "dispatched by hand; #$PR proceeds whatever the merge queue holds"
-            echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
-          fi
-          q=$(gh api graphql -f query='query($o:String!,$n:String!){ repository(owner:$o,name:$n){ mergeQueue(branch:"main"){ entries(first:1){ totalCount nodes{ enqueuedAt } } } } }' \
-               -f o="${GITHUB_REPOSITORY%/*}" -f n="${GITHUB_REPOSITORY#*/}" --jq '.data.repository.mergeQueue.entries | "\(.totalCount) \(.nodes[0].enqueuedAt // "")"')
-          total=${q%% *}; oldest=${q#* }
-          if [ "$total" != 0 ] && [ -n "$oldest" ] && [ $(( $(date -u +%s) - $(date -u -d "$oldest" +%s) )) -lt 7200 ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          elif [ "$total" != 0 ] && [ -n "$oldest" ] && [ $(( $(date -u +%s) - $(date -u -d "$oldest" +%s) )) -lt 7200 ]; then
             echo "::notice::merge queue holds $total entr(y/ies) (oldest enqueued $oldest); progress report #$PR waits for the next scheduled run"
             echo "go=false" >> "$GITHUB_OUTPUT"
           else
@@ -85,3 +116,47 @@ jobs:
       app_id: ${{ inputs.app_id }}
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+
+  # The gate explains a refusal in a comment that does not name the head it refused. This job adds
+  # that head, as a last line the reader does not see, so that the scheduled run in
+  # progress-merge.yml can tell a refused head from one pushed since. The line is trusted there only
+  # at the very end of a comment by `github-actions[bot]`: the refusal quotes text from the pull
+  # request, but always ends with the gate's own closing sentence, so nothing quoted can stand last.
+  #
+  # The head is the one `hold` saw, and it is noted only if it is still the head now, so the gate in
+  # between validated that head. Best effort: a refusal left without the line is handled by the
+  # commit-date rule in progress-merge.yml.
+  record:
+    needs: [hold, gate]
+    if: always() && needs.hold.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Note the refused head on the refusal
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ inputs.pr }}
+          HEAD: ${{ needs.hold.outputs.head }}
+          SEEN: ${{ needs.hold.outputs.seen }}
+        run: |
+          set -uo pipefail
+          if ! [[ "$HEAD" =~ ^[0-9a-f]{40}$ ]] || ! [[ "$SEEN" =~ ^[0-9]+$ ]]; then
+            echo "::warning::the hold job recorded no head for #$PR; nothing noted"; exit 0
+          fi
+          now=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR" --jq .head.sha) || now=""
+          if [ "$now" != "$HEAD" ]; then
+            echo "the head of #$PR moved from $HEAD to ${now:-unknown} during the run; nothing noted"; exit 0
+          fi
+          # `$SEEN` is digits only (checked above), so it is safe inside the filter.
+          id=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR/comments?per_page=100" \
+            --jq ".[] | select(.id > $SEEN) | select(.user.login == \"github-actions[bot]\") | select(.body | startswith(\"The automated progress gate did not merge this pull request.\")) | .id" \
+            | sort -n | tail -n 1) || id=""
+          if [ -z "$id" ]; then echo "no refusal of #$PR by this run"; exit 0; fi
+          if gh api "repos/$GITHUB_REPOSITORY/issues/comments/$id" --jq .body > refusal.md \
+             && printf '\n\n<!-- progress-gate-refused-head: %s -->\n' "$HEAD" >> refusal.md \
+             && gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -F body=@refusal.md > /dev/null; then
+            echo "noted on refusal $id that the refused head of #$PR is $HEAD"
+          else
+            echo "::warning::could not note the refused head on refusal $id of #$PR"
+          fi

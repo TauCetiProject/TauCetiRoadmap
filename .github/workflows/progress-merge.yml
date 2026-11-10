@@ -31,6 +31,21 @@ on:
         description: Pull request number to consider.
         required: true
         type: number
+      wait_for_queue:
+        description: Treat the report as an automatic run does and hold it while the merge queue is busy.
+        required: false
+        default: false
+        type: boolean
+
+# Scheduled runs take turns: a run that outlasts the twenty minutes is not joined by the next, so
+# the reports the schedule lets through go one at a time across runs as well as within one. Only
+# the schedule shares a group. Every other run is alone in its own, because a shared group keeps
+# one waiting run and drops the older one, which pull request events could be used to do to a
+# waiting report (see "DELIBERATELY NOT SERIALISED" in the gate). Nobody outside can cause a
+# scheduled run, and a dropped scheduled run loses nothing: the next one reads the same reports.
+concurrency:
+  group: ${{ github.event_name == 'schedule' && 'progress-merge-schedule' || format('progress-merge-{0}', github.run_id) }}
+  cancel-in-progress: false
 
 # The floor. `resolve` needs no more than this; the `gate` job raises its own, because a called
 # workflow can never exceed what the caller grants.
@@ -99,20 +114,33 @@ jobs:
               # refusal. So a refused report is not offered again while its head is the one that was
               # refused, except once the refusal is a day old: some refusals lapse with time or with
               # `main` (the cadence, a roadmap that has since merged). A report that was only held
-              # for the queue has no refusal on its head and is always offered. The head's commit
-              # date is its author's to choose; a false one can only earn the author's own report
-              # more or fewer retries, and a push re-runs the gate anyway.
+              # for the queue has no refusal on its head and is always offered.
+              #
+              # Which head was refused is read from the last line of the refusal, written by the
+              # `record` job of progress-merge-report.yml; see there for why only the last line is
+              # trusted. A refusal without that line (the note failed) falls back to dates: the
+              # report waits if its head was committed before the refusal. That date is the
+              # author's to choose; a false one can only earn the author's own report more or fewer
+              # retries.
               now=$(date -u +%s); keep=""
               while read -r number sha; do
                 [ -n "$number" ] || continue
-                refused=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$number/comments?per_page=100" \
-                  --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("The automated progress gate did not merge this pull request.")) | .created_at' \
-                  | sort | tail -n 1) || refused=""
+                # The latest refusal: when it was written and the head noted on it, `-` for none.
+                refusal=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$number/comments?per_page=100" \
+                  --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("The automated progress gate did not merge this pull request.")) | "\(.created_at) \([.body | capture("\n<!-- progress-gate-refused-head: (?<head>[0-9a-f]{40}) -->\\s*$").head][0] // "-")"' \
+                  | sort | tail -n 1) || refusal=""
+                refused=${refusal%% *}; noted=${refusal#* }
                 if [ -n "$refused" ] && [ $(( now - $(date -u -d "$refused" +%s) )) -lt 86400 ]; then
-                  changed=$(gh api "repos/$GITHUB_REPOSITORY/commits/$sha" --jq .commit.committer.date) || changed=""
-                  if [ -n "$changed" ] && [ "$(date -u -d "$changed" +%s)" -le "$(date -u -d "$refused" +%s)" ]; then
-                    echo "#$number was refused at $refused and its head is unchanged since; not offered again yet"
+                  if [ "$noted" = "$sha" ]; then
+                    echo "#$number was refused at $refused on its present head; not offered again yet"
                     continue
+                  fi
+                  if [ "$noted" = "-" ]; then
+                    changed=$(gh api "repos/$GITHUB_REPOSITORY/commits/$sha" --jq .commit.committer.date) || changed=""
+                    if [ -n "$changed" ] && [ "$(date -u -d "$changed" +%s)" -le "$(date -u -d "$refused" +%s)" ]; then
+                      echo "#$number was refused at $refused (head not noted) and its head was committed before that; not offered again yet"
+                      continue
+                    fi
                   fi
                 fi
                 keep="$keep $number"
@@ -124,7 +152,7 @@ jobs:
       # minutes starved the queue for hours (2026-11-09: #451 passed its group build four times and
       # was reset each time). While the queue holds entries, reports wait for the next scheduled run;
       # a queue whose oldest entry is over two hours old is stuck for other reasons and does not hold
-      # them back. A dispatch by hand always proceeds.
+      # them back. A dispatch by hand always proceeds, unless it asks to wait as an automatic run does.
       #
       # This check keeps a busy queue from costing a runner per waiting report. It is not the one
       # that protects the queue: each report is checked again, just before its own validation, by
@@ -133,13 +161,13 @@ jobs:
         id: hold
         env:
           GH_TOKEN: ${{ github.token }}
-          EVENT: ${{ github.event_name }}
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && !inputs.wait_for_queue }}
           PICKED: ${{ steps.pick.outputs.prs }}
         run: |
           set -euo pipefail
           # A JSON list of the numbers picked; `[]` when there are none.
           list=$(jq -nc --arg picked "$PICKED" '[$picked | splits("[ \n]+") | select(test("^[0-9]+$")) | tonumber]')
-          if [ "$list" = "[]" ] || [ "$EVENT" = workflow_dispatch ]; then echo "prs=$list" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ "$list" = "[]" ] || [ "$FORCE" = "true" ]; then echo "prs=$list" >> "$GITHUB_OUTPUT"; exit 0; fi
           q=$(gh api graphql -f query='query($o:String!,$n:String!){ repository(owner:$o,name:$n){ mergeQueue(branch:"main"){ entries(first:1){ totalCount nodes{ enqueuedAt } } } } }' \
                -f o="${GITHUB_REPOSITORY%/*}" -f n="${GITHUB_REPOSITORY#*/}" --jq '.data.repository.mergeQueue.entries | "\(.totalCount) \(.nodes[0].enqueuedAt // "")"')
           total=${q%% *}; oldest=${q#* }
@@ -154,7 +182,9 @@ jobs:
     needs: resolve
     if: needs.resolve.outputs.prs != '[]'
     # One report at a time, each with its own look at the merge queue: a queue that fills while an
-    # earlier report is being validated holds the later ones.
+    # earlier report is being validated holds the later ones. This orders the reports of one run.
+    # A report's own pull request event starts a run of its own, which can let that report through
+    # at the same moment; see "What this does not cover" in progress-merge-report.yml.
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -168,8 +198,8 @@ jobs:
     uses: ./.github/workflows/progress-merge-report.yml
     with:
       pr: ${{ matrix.pr }}
-      # A dispatch by hand lands its report whatever the queue holds.
-      force: ${{ github.event_name == 'workflow_dispatch' }}
+      # A dispatch by hand lands its report whatever the queue holds, unless it asked to wait.
+      force: ${{ github.event_name == 'workflow_dispatch' && !inputs.wait_for_queue }}
       # There is deliberately no author allowlist. Anyone may publish a progress report, including
       # from a fork: what bounds this is the shape of the diff (two generated files, one roadmap,
       # append-only log, window ending in published history), not who sent it. See
