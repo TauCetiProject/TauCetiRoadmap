@@ -942,7 +942,10 @@ base-change theorem there; this does not require smooth triangulation.
 Prove the smooth-principal-bundle comparison needed by these approximations:
 continuous reductions to compact G and continuous principal isomorphisms
 over smooth bases admit smooth representatives, including relative homotopy
-versions. Use U(N)/G associated sections and relative Whitney approximation,
+versions (Müller–Wockel, *Equivalences of smooth and continuous principal
+bundles with infinite-dimensional structure group*, Proposition I.13 for a
+finite-dimensional structure group, and Theorems II.11 and II.12 for bundles
+and for equivalences relative to a closed subset of the base). Use U(N)/G associated sections and relative Whitney approximation,
 proving that section smoothing retains the reduction and prescribed data.
 A smooth bundle classified by a smooth finite-approximation map has its
 connection classes equal to pullbacks of universal classes by naturality.
@@ -958,7 +961,9 @@ Eilenberg–MacLane identification of C1.5a and ordinary line
 classification. Prove
 `H*(CP∞;Z)=Z[h]`, `H*(RP∞;F2)=F2[a]` and
 `H*(RP∞;Z)=Z[y]/(2y)`, |h|=2, |a|=1, |y|=2, with `y=β(a)` and
-its actual cup powers. Compare BU(1), BO(1) and the double-cover model,
+its actual cup powers. Compare BU(1) and BO(1) with these CP∞ and RP∞
+carriers, and RP∞ with the quotient S∞/{±1} of T1.6's universal double
+cover, by the universal-bundle maps.
 For T=(S¹)^m construct the compatible finite models
 `ET_N=(S^(2N+1))^m`, `BT_N=(CP^N)^m`, their free action, quotient
 and colimit universal bundles. Prove ET contractible by finite-stage
@@ -1445,7 +1450,10 @@ supply the simplex differentials used in this construction.
 
 Construct oriented and orientation-twisted embedding Gysin by Thom followed by tubular open
 extension; prove independence, isotopy, composition, transverse base change,
-self-intersection and the projection formula. Consume GT's normal/tubular
+self-intersection and the projection formula (Bott–Tu, *Differential Forms
+in Algebraic Topology*, §6, for the Thom isomorphism, the Thom class of a
+normal bundle as the dual class of the submanifold, and the projection
+formula). Consume GT's normal/tubular
 maps and supply orientation/support comparisons. Noncompact embeddings use
 proper maps and compact-support groups; a bare Thom class on a noncompact
 base is a fibre-support multiplier, not a compact-support class.
@@ -1462,7 +1470,9 @@ base is a fibre-support multiplier, not a compact-support class.
 
 Construct fibre integration for proper smooth submersions with compact fibres, using the vertical
 orientation system and its chosen-orientation specialization: export
-`p!:H^k(E;o(Tp)⊗p*L)→H^(k−d)(B;L)` for every displayed local system L.
+`p!:H^k(E;o(Tp)⊗p*L)→H^(k−d)(B;L)` for every displayed local system L
+(Bott–Tu §6, for integration along the fibre of an oriented bundle on forms
+and its projection formula).
 Build both ordinary and compact-support cohomology, composition,
 base change, projection formula and orientation signs. Build fibrewise
 embeddings and tubular comparison with a normal bundle, using a proper
@@ -1507,7 +1517,12 @@ and the Euler-weighted identity `p!(e(Tp)∪p*a)=χ(F) a` componentwise.
 ### 2.6 Flag-bundle transfer over paracompact bases (C2.6)
 
 For an associated G/T bundle over a numerable principal bundle for compact connected G over a paracompact base, construct cohomological fibre integration without assuming
-the base is a manifold. Embed G/T equivariantly as the adjoint orbit of a
+the base is a manifold. The Euler-integral input, a closed top-degree form
+on the fibre with nonzero integral and the transfer `T(φ)=π_*(Ψ∧φ)` built
+from it, is Dupont, *Curvature and Characteristic Classes*, Lemma 8.30 and
+its proof, pp. 125–129, which work with forms on a simplicial manifold; the
+construction below over a paracompact base without a manifold structure is
+this item's own. Embed G/T equivariantly as the adjoint orbit of a
 regular torus element in g, prove its normal bundle and uniform equivariant
 tubular neighbourhood using the invariant inner product and nearest-point
 uniqueness, and associate those maps over the base. Define
@@ -1702,10 +1717,12 @@ Milnor–Stasheff §14, including the rank-reduction quotient bundle.
 
 ### 3.3 Pontryagin classes and integral Bockstein classes (C3.3)
 
-Define integral Pontryagin classes from complexification; prove conjugation,
+Define integral Pontryagin classes from complexification, `p_i(E)=(−1)^i c_(2i)(E_C)`
+(Hatcher, *Vector Bundles and K-Theory*, §3.2, p. 94); prove conjugation,
 2-torsion of odd complexification Chern classes, stabilization, naturality,
 rank vanishing and `p_i mod2=w_(2i)^2`. For k≥1 export the exact Whitney correction
-`p_k(E⊕F)=Σ_(a+b=k)p_a(E)p_b(F)+(-1)^k Σ_(a+b=k−1)c_(2a+1)(E_C)c_(2b+1)(F_C)`.
+`p_k(E⊕F)=Σ_(a+b=k)p_a(E)p_b(F)+(-1)^k Σ_(a+b=k−1)c_(2a+1)(E_C)c_(2b+1)(F_C)`
+(Milnor–Stasheff Theorem 15.3 states the product formula modulo elements of order 2).
 Prove its difference annihilated by2 and multiplicativity over Z[1/2]/Q;
 the formal-series form, over any commutative ring, is that twice the
 difference between an even coefficient of a product of two power series
@@ -2000,7 +2017,11 @@ comparison retains the distinction between an integral class and its real image.
 
 Construct the universal Chern–Weil map degreewise on C1's finite smooth
 Stiefel approximations; prove stable-degree compatibility, independence of
-universal connection and agreement with smooth-bundle pullback classes.
+universal connection and agreement with smooth-bundle pullback classes
+(Dupont, *Curvature and Characteristic Classes*, Theorem 6.13 a)–d),
+pp. 94–95, proved there on the simplicial model of BG: the canonical map
+I*(G)→H*(BG), its agreement with the Chern–Weil map of a smooth bundle,
+multiplicativity, and naturality in G).
 Do not apply ordinary manifold de Rham cohomology directly to BG.
 Prove all comparison squares for cohomology coefficients, connections,
 orientation, realification and complexification.
@@ -2129,7 +2150,8 @@ Borel `H*(BG;R)≃H*(BT;R)^W`. This is the proof spine of Dupont1978 §8.
 
 For disconnected compact G prove π₀(G) finite and
 `H*(BG;K)=H*(BG⁰;K)^π₀(G)` for K=Q or R by the finite-cover/transfer model of
-C1's universal bundle. Compare with invariants of I(G⁰). For a torus of
+C1's universal bundle (Dupont, *Curvature and Characteristic Classes*,
+Theorem 8.1, the last step of its proof, p. 129). Compare with invariants of I(G⁰). For a torus of
 G⁰ construct the extended normalizer group and its finite-component
 action, rather than treating a disconnected group as connected. Descend
 the rational statement by the integral character lattice, finite-degree
@@ -2164,7 +2186,9 @@ Pull an oriented real bundle to its associated oriented-plane flag and
 use item2/C2.6 to prove rational injectivity on any displayed base. Prove
 the Pfaffian product on ordered 2-plane curvature blocks, compare each
 plane with its complex line and B6 normalization, and descend to identify
-C4's Pfaffian class with the real image of the integral Euler class.
+C4's Pfaffian class with the real image of the integral Euler class
+(Dupont, *Curvature and Characteristic Classes*, Corollary 8.37(i), p. 131,
+which gives formula (7.39), p. 111).
 
 ### Examples
 
@@ -2663,8 +2687,9 @@ on a base of displayed cohomological dimension.
 ### 6.2 The Chern character (C6.2)
 
 Construct `ch_j(E)` as the rational Newton polynomial in integral c_i,
-normalized by j!, with ch₀=rank. Prove root exponentials, additivity,
-multiplicativity, dual/conjugate and line-twist identities using C3's
+normalized by j!, with ch₀=rank (Hatcher, *Vector Bundles and K-Theory*,
+§4.1, p. 109). Prove root exponentials, additivity and multiplicativity
+(Proposition 4.2, p. 110), dual/conjugate and line-twist identities using C3's
 integral flag theorem. Descend by TopK's actual SplitK0 universal/ring
 properties; ch(pt) is Z→Q. Construct relative ch using the doubled-space
 kernel comparison of TopK T7.4 and the corresponding singular-cohomology
@@ -2741,7 +2766,11 @@ rationally equivalent to all its singular cohomology.
 For the dual-Koszul Thom class of a complex bundle prove
 `ch(Thom_K(a))=Thom_H(ch(a)·Td(E)^−1)`; the zero-section expression is
 ch(λ_(−1)(E*))=∏(1−exp(−x_j)). For the wedge convention prove the correction
-`(-1)^r exp(c₁(E)) Td(E)^−1`, and its point value (-1)^r.
+`(-1)^r exp(c₁(E)) Td(E)^−1`, and its point value (-1)^r
+(Landweber, *K-theory and elliptic operators*, §1.7, pp. 13–14, compares
+the two Thom isomorphisms for the wedge convention and computes the
+correction in roots as `∏(1−exp(x_j))/x_j`, which is the displayed class;
+the dual-Koszul form is the same computation for E*).
 Construct the universal correction on compact products `(CP^N)^r` and
 pass their degreewise compatible coefficients to Q[[x₁,…,x_r]]. There
 multiplication by ∏x_j is injective, so the zero-section identity determines
@@ -2752,12 +2781,25 @@ in completed ordinary cohomology with the period symbol suppressed; for
 the degree0 folded K-Thom map its graded version includes the factor v^r
 multiplying the cohomological Thom map of real rank2r.
 
+**Checks.**
+- In rank 1 with root x the wedge-convention zero-section class is ch(1−L)=1−e^x, so the
+  correction is (1−e^x)/x=−1−x/2−x²/6−…, equal to −e^x·(1−e^(−x))/x=(−1)¹exp(c₁)Td(L)^−1;
+  dropping exp(c₁) would give −(1−e^(−x))/x=−1+x/2−…, with the wrong sign of the x-term.
+- For the dual-Koszul convention in rank 1 the zero-section class is 1−e^(−x) and the correction
+  is (1−e^(−x))/x=1−x/2+x²/6−…=Td(L)^−1, with point value 1.
+- In rank 0 both Thom maps are the identity and the correction is 1=(−1)⁰exp(0)Td(0)^−1.
+
 ### 6.5 Riemann–Roch for embedding pushforwards (C6.5)
 
 For embeddings with a specified complex normal bundle prove the
 cohomological/K-theoretic pushforward comparison
 `ch(f!_K a)=f!_H(ch(a)·Td(ν)^−1)` for complex normal ν, with the normal Todd factor,
-support, orientation and composition conventions fixed. This is a Riemann–Roch identity for the constructed
+support, orientation and composition conventions fixed. Both pushforwards
+are the Thom map of ν followed by the open extension from a tubular
+neighbourhood (Landweber, *K-theory and elliptic operators*, §2.2, p. 16,
+for the K-theory pushforward of an embedding), so the identity is C6.4's
+Thom comparison for ν (the same source, §1.7, pp. 13–14) together with
+naturality of ch for the extension map. This is a Riemann–Roch identity for the constructed
 pushforwards; analytic index equality is a separate consumer.
 
 ### Examples
@@ -2820,7 +2862,8 @@ twelve consumes it.
 Translate the ordered half-spin weights and exterior λ-characters into
 exponential root products. For the ordered roots x₁,…,x_r name the
 summand with an even number of negative half-weight signs S_high⁺; then
-`ch(S_high⁺)−ch(S_high⁻)=∏(exp(x_j/2)−exp(−x_j/2))`. Compare this with
+`ch(S_high⁺)−ch(S_high⁻)=∏(exp(x_j/2)−exp(−x_j/2))` (Atiyah–Hirzebruch,
+*Riemann–Roch theorems for differentiable manifolds*, §4, p. 281). Compare this with
 SpinRepresentations' S⁺=Λ_even and S⁻=Λ_odd: when the exterior vacuum
 has weight −Σx_j/2, its even-minus-odd character is (-1)^r times that
 product. Prove the actual weight-basis identification before transporting
@@ -2846,7 +2889,9 @@ their own geometric owners.
 
 Acceptance: construct the projective Euler sequence from the tautological
 line and tangent chart derivatives, proving its bundle exactness; thus CP^n
-has c(TCP^n)=(1+h)^(n+1) and its Euler number is n+1;
+has c(TCP^n)=(1+h)^(n+1) and its Euler number is n+1 (Cohen, *The Topology
+of Fiber Bundles*, Theorem 1.16, p. 25, for `TCPⁿ⊕ε≅(γ*)^⊕(n+1)`, and
+formula (4.1), p. 103, for the total Chern class);
 construct the smooth bundle isomorphism from the native tangent bundle
 of S^n to the bundle with fibre x^⊥ by differentiating the ambient
 inclusion, prove its smooth local inverse, and extend by the radial
@@ -2877,14 +2922,15 @@ these charts to construct
 `T(RP^m) ≅ Hom(γ,γ^⊥)`. Identify End(γ) with the trivial real line by
 scalar multiplication and γ* with γ by the Euclidean metric. Prove the
 resulting actual bundle isomorphism
-`T(RP^m) ⊕ ε¹ ≅ γ^(⊕(m+1))`, including its chart overlap comparison.
+`T(RP^m) ⊕ ε¹ ≅ γ^(⊕(m+1))`, including its chart overlap comparison
+(Cohen, *The Topology of Fiber Bundles*, Theorem 1.15, p. 24).
 From AT4.6's mod2 cellular complex and C1.5's finite-stage cup
 comparison prove restriction from RP∞ is an isomorphism through degree m
 and the finite-stage groups vanish above m. Match the pulled-back
 tautological lines using T1.5–T1.6 to prove w₁(γ)=a and the actual ring
 isomorphism `H*(RP^m;F₂)=F₂[a]/(a^(m+1))`. C3.2's Whitney and
 normalization laws then give
-`w(T(RP^m))=(1+a)^(m+1)`. Export its degree-j components
+`w(T(RP^m))=(1+a)^(m+1)` (Cohen, Theorem 3.22, p. 103). Export its degree-j components
 `w_j(T(RP^m))=binom(m+1,j) a^j`, with coefficients reduced mod2.
 
 For a smooth immersion f:M^m→ℝ^(m+q), q≥0, of a closed smooth
@@ -2900,7 +2946,7 @@ paracompactness of the Hausdorff second-countable base. Thus these native
 tangent/normal bundles lie in C3's numerable continuous category. Prove
 the bundle isomorphism
 `TM ⊕ ν_f ≅ ε^(m+q)` induced by df and the complement, and consequently
-`w(ν_f)w(TM)=1`. Define the inverse total tangent class w̄(M) in
+`w(ν_f)w(TM)=1` (Cohen, Proposition 3.27, p. 105). Define the inverse total tangent class w̄(M) in
 the degree-≤m quotient of H*(M;F₂), prove existence and uniqueness
 using the nilpotent positive-degree ideal, and prove the reusable obstruction:
 for 1≤j≤m, w̄_j(M)≠0 excludes every such immersion with q<j.
@@ -2911,8 +2957,8 @@ For m=2^k, k≥1, compute in the displayed truncated ring
 `(1+a)^(m−1)=Σ_(j=0)^(m−1) a^j` by characteristic2 Frobenius.
 Thus w̄_(m−1)(RP^m)=a^(m−1)≠0, and RP^m admits no smooth immersion
 into ℝ^(2m−2), whose required normal rank would be m−2
-(`not_exists_isImmersion_realProjectiveSpace`, with Mathlib's
-`Manifold.IsImmersion`). That statement takes RP^m to be the orbit space of
+(Cohen, Corollary 3.28, p. 106; `not_exists_isImmersion_realProjectiveSpace`,
+with Mathlib's `Manifold.IsImmersion`). That statement takes RP^m to be the orbit space of
 the antipodal action of ℤˣ on the unit sphere S^m⊂ℝ^(m+1), the model of the
 pinned `TauCeti.RealProjectiveSpace`, with Mathlib's quotient charts
 `MulAction.instChartedSpaceQuotient`. The smooth-action instance
@@ -3072,14 +3118,17 @@ LieGroups Layer 2 and the pinned `Quaternion.toComplexMatrix`.
 
 - Milnor–Stasheff, *Characteristic Classes*, Annals of Mathematics Studies 76, Princeton 1974, §4, §§9–15, 18–19 and AppendixC, for Thom, Euler, universal classes, the L-genus coefficients and curvature; Theorem15.3 records the integral Pontryagin correction and Lemma18.1 the Thom-space cell structure. Cited by locator; no legal open copy.
 - Milnor, *Topology from the Differentiable Viewpoint*, §6, for the index of a vector field and the Poincaré–Hopf sum used in C2.3's worked example.
-- Cohen, [*The Topology of Fiber Bundles*](https://math.stanford.edu/~ralph/fiber.pdf), Chapter1 §2.2 and Chapter3 §4.2, for projective tangent bundles and the normal characteristic-class obstruction to immersions.
+- Cohen, [*The Topology of Fiber Bundles*](https://math.stanford.edu/~ralph/fiber.pdf), Chapter1 §2.2 (Theorems 1.15 and 1.16, pp. 24–25) and Chapter3 §4 (Theorem 3.22 and formula (4.1), p. 103; Proposition 3.27 and Corollary 3.28, pp. 105–106), for projective tangent bundles and the normal characteristic-class obstruction to immersions.
 - Dupont, [*Fibre Bundles and Chern–Weil Theory*](https://data.math.au.dk/publications/ln/2003/imf-ln-2003-69.pdf), §2 and Example4.3 for orthonormal frame bundles, §§9–10 for invariant curvature forms, polarization, connection independence (Theorem 9.5, Lemma 9.6) and classical polynomials, and AppendixA for invariant forms on compact groups.
 - Alekseev–Meinrenken, [*Lie theory and the Chern–Weil homomorphism*](https://arxiv.org/abs/math/0308135), §3.1, for the Weil algebra and its basic subcomplex.
 - Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Theorem3C.4 for Hopf's theorem, §3.G for the degrees of the simple types and Corollary4D.3 for the integral cohomology of U(n) and SU(n).
-- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), version 2.2: §1.1, p. 16, and §1.2, pp. 22–26, for disk and sphere bundles, clutching and the Gram–Schmidt retraction; §3.1, pp. 77–86, Theorems 3.1, 3.2 and 3.9 and Proposition 3.10, for the projective-bundle definitions of w and c, the universal mod 2 and unitary rings and the classification of line bundles; §3.2, pp. 88–95, Propositions 3.12 and 3.14 and Theorem 3.16, for the Thom pair, the mod 2 cohomology of the oriented Grassmannians, the Euler class of TSⁿ and the oriented rings after inverting 2; §4.1, Propositions 4.3 and 4.5, pp. 110–111, for the rational Chern-character isomorphism.
-- Dupont, [*Curvature and Characteristic Classes*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/dupont2.pdf), §§4–8, especially §8's restriction/fibre-integration proof and Chevalley appendix, for universal Chern–Weil and disconnected groups; Chapter 4, Exercise 3, for the Chern–Simons transgression forms.
+- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), version 2.2: §1.1, p. 16, and §1.2, pp. 22–26, for disk and sphere bundles, clutching and the Gram–Schmidt retraction; §3.1, pp. 77–86, Theorems 3.1, 3.2 and 3.9 and Proposition 3.10, for the projective-bundle definitions of w and c, the universal mod 2 and unitary rings and the classification of line bundles; §3.2, pp. 88–95, Propositions 3.12 and 3.14 and Theorem 3.16, for the Thom pair, the mod 2 cohomology of the oriented Grassmannians, the Euler class of TSⁿ and the oriented rings after inverting 2; §3.2, p. 94, for the definition of the Pontryagin classes; §4.1, pp. 109–111, Propositions 4.2, 4.3 and 4.5, for the Chern character, its additivity and multiplicativity and the rational Chern-character isomorphism.
+- Dupont, [*Curvature and Characteristic Classes*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/dupont2.pdf), §§4–8, especially §8's restriction/fibre-integration proof and Chevalley appendix, for universal Chern–Weil and disconnected groups (Theorem 6.13, pp. 94–95; Theorem 8.1 and Lemma 8.30, pp. 125–129; Corollary 8.37, p. 131); Chapter 4, Exercise 3, for the Chern–Simons transgression forms.
 - Bott–Tu, *Differential Forms in Algebraic Topology*, Graduate Texts in Mathematics 82, §§6,11–14,20–23, for fibre integration, Thom and projective splitting. Cited by locator; no legal open copy.
 - tom Dieck, [*Algebraic Topology*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/diecktop.pdf), §9.5 for arbitrary-space connected-map chain compression, §§13.1–13.3 for countable partition reduction and numerable local-to-global homotopy equivalence, §14.4 for the strong Milnor join and universal bundle comparisons.
 - May, [*A Concise Course in Algebraic Topology*](https://www.irif.fr/~mellies/mpri/mpri-ens/biblio/Peter-May-A-Concise-Course-In-Algebraic-Topology.pdf), Chapter16 §§2–3, for the nondegenerate-simplex CW realization and counit weak equivalence via relative simplicial approximation.
 - Milnor, *Construction of Universal Bundles, II*, Annals of Mathematics 63 (1956), §§2–3, for the join construction of C1.1b. Cited by locator; no legal open copy.
+- Müller–Wockel, [*Equivalences of smooth and continuous principal bundles with infinite-dimensional structure group*](https://arxiv.org/abs/math/0604142), Advances in Geometry 9 (2009), arXiv version 3: Proposition I.13 and Theorems II.11 and II.12, for the smooth representatives of C1.4.
+- Landweber, [*K-theory and elliptic operators*](https://arxiv.org/abs/math/0504555), §1.7, pp. 13–14, for the comparison of the K-theory and cohomology Thom isomorphisms under the Chern character, and §2.2, p. 16, for the K-theory pushforward of an embedding.
+- Atiyah–Hirzebruch, [*Riemann–Roch theorems for differentiable manifolds*](https://www.ams.org/journals/bull/1959-65-04/S0002-9904-1959-10344-X/), Bulletin of the American Mathematical Society 65 (1959), §4, p. 281, for the difference of the half-spin characters.
 - Zentner, [*Instanton exercise sheet 2*](https://www.maths.dur.ac.uk/users/raphael.zentner/exercice_sheet_instantons2.pdf), Exercise 2, for the adjoint-bundle Pontryagin formula of C7.AdjointHopfObstruction.
