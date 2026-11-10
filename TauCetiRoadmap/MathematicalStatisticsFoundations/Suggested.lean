@@ -37,7 +37,7 @@ namespace TauCetiRoadmap.MathematicalStatisticsFoundations
 
 attribute [local instance] Classical.propDecidable
 
-/-! ### Layer 1: experiments, densities and tests -/
+/-! ## Layer 1: experiments, densities and tests -/
 
 section Layer1
 
@@ -94,10 +94,6 @@ def thresholdTest {α : Type*} [LinearOrder α] (T : X → α) (c : α) (γ : �
 def intervalTest (t c₁ c₂ γ₁ γ₂ : ℝ) : ℝ :=
   if c₁ < t ∧ t < c₂ then 1 else if t = c₁ then γ₁ else if t = c₂ then γ₂ else 0
 
-/-- **1.4** Coverage at least `1 - α`. -/
-def HasConfidenceCoverage (P : Θ → Measure X) (C : X → Set Θ) (α : ℝ) : Prop :=
-  ∀ θ, MeasurableSet {x | θ ∈ C x} ∧ 1 - α ≤ (P θ).real {x | θ ∈ C x}
-
 /-- **1.5** The risk of a randomized rule for a real loss. -/
 def risk {A : Type*} [MeasurableSpace A] (P : Θ → Measure X) (L : Θ → A → ℝ) (κ : Kernel X A)
     (θ : Θ) : ℝ :=
@@ -109,7 +105,7 @@ def IsGarbling {Y : Type*} [MeasurableSpace Y] (P : Θ → Measure X) (Q : Θ �
 
 end Layer1
 
-/-! ### Layer 2: sufficiency and completeness -/
+/-! ## Layer 2: sufficiency and completeness -/
 
 section Layer2
 
@@ -184,7 +180,7 @@ def uStatistic {E : Type*} (m n : ℕ) (h : (Fin m → E) → ℝ) (x : Fin n �
 
 end Layer2
 
-/-! ### Layer 3: natural exponential families -/
+/-! ## Layer 3: natural exponential families -/
 
 section Layer3
 
@@ -198,9 +194,10 @@ def naturalParameterSpace (ν : Measure X) (T : X → E) : Set E :=
 def logPartition (ν : Measure X) (T : X → E) (η : E) : ℝ :=
   Real.log (∫ x, Real.exp (inner ℝ η (T x)) ∂ν)
 
-/-- **3.1** The law of the natural exponential family at `η`. -/
+/-- **3.1** The law of the natural exponential family at `η`: Mathlib's exponential tilt of `ν`
+by `⟪η, T⟫`. -/
 def exponentialFamilyMeasure (ν : Measure X) (T : X → E) (η : E) : Measure X :=
-  ν.withDensity (fun x ↦ ENNReal.ofReal (Real.exp (inner ℝ η (T x) - logPartition ν T η)))
+  ν.tilted fun x ↦ inner ℝ η (T x)
 
 /-- **3.1** Minimality: no nonzero linear functional of `T` is a.e. constant. -/
 def IsMinimalExponentialFamily (ν : Measure X) (T : X → E) : Prop :=
@@ -257,17 +254,6 @@ theorem exists_isMaxOn_logLikelihood_iff_mem_interior_convexHull_support (ν : M
 
 end Layer3
 
-/-- **3.8** The Pitman–Koopman–Darmois theorem. For each sample size in `N`, one statistic `T`
-serves every `θ`; only the monotone function `H` depends on `θ`. -/
-theorem exists_exponential_family_of_monotone_sufficient_statistics {Θ X : Type*}
-    [MeasurableSpace X] (P : Θ → Measure X) [∀ θ, IsProbabilityMeasure (P θ)] (P₀ : Measure X)
-    [IsProbabilityMeasure P₀] (heq : ∀ θ, P θ ≪ P₀ ∧ P₀ ≪ P θ) (N : Set ℕ) (hN : N.Infinite)
-    (h1 : 1 ∈ N)
-    (hmon : ∀ n ∈ N, ∃ T : (Fin n → X) → ℝ, Measurable T ∧ ∀ θ, ∃ H : ℝ → ℝ, Monotone H ∧
-      HasDensity (Measure.pi fun _ : Fin n ↦ P θ) (Measure.pi fun _ : Fin n ↦ P₀) (H ∘ T)) :
-    ∃ T : X → ℝ, Measurable T ∧ ∀ θ, ∃ C > 0, ∃ a : ℝ,
-      HasDensity (P θ) P₀ (fun x ↦ C * Real.exp (a * T x)) := sorry
-
 /-- **3.4** Completeness of the natural statistic. -/
 theorem isCompleteStatistic_withDensity_exp_inner {X : Type*} [MeasurableSpace X] {d : ℕ}
     (ν : Measure X) (T : X → EuclideanSpace ℝ (Fin d)) (hT : Measurable T)
@@ -300,7 +286,18 @@ theorem exists_kernel_conditional_exponential_family {X E F : Type*} [Measurable
         P.map (fun x ↦ (S x, T x)) = P.map S ⊗ₘ conditionalExponentialKernel κ (WithLp.ofLp p).1 :=
   sorry
 
-/-! ### Layer 4: unbiased estimation and information -/
+/-- **3.8** The Pitman–Koopman–Darmois theorem. For each sample size in `N`, one statistic `T`
+serves every `θ`; only the monotone function `H` depends on `θ`. -/
+theorem exists_exponential_family_of_monotone_sufficient_statistics {Θ X : Type*}
+    [MeasurableSpace X] (P : Θ → Measure X) [∀ θ, IsProbabilityMeasure (P θ)] (P₀ : Measure X)
+    [IsProbabilityMeasure P₀] (heq : ∀ θ, P θ ≪ P₀ ∧ P₀ ≪ P θ) (N : Set ℕ) (hN : N.Infinite)
+    (h1 : 1 ∈ N)
+    (hmon : ∀ n ∈ N, ∃ T : (Fin n → X) → ℝ, Measurable T ∧ ∀ θ, ∃ H : ℝ → ℝ, Monotone H ∧
+      HasDensity (Measure.pi fun _ : Fin n ↦ P θ) (Measure.pi fun _ : Fin n ↦ P₀) (H ∘ T)) :
+    ∃ T : X → ℝ, Measurable T ∧ ∀ θ, ∃ C > 0, ∃ a : ℝ,
+      HasDensity (P θ) P₀ (fun x ↦ C * Real.exp (a * T x)) := sorry
+
+/-! ## Layer 4: unbiased estimation and information -/
 
 section Layer4
 
@@ -346,6 +343,22 @@ theorem isMinimumVarianceUnbiasedEstimator_of_isCompleteStatistic (P : Θ → Me
     (hu : IsUnbiasedEstimator P (r ∘ T) g) (h2 : ∀ θ, MemLp (r ∘ T) 2 (P θ)) :
     IsMinimumVarianceUnbiasedEstimator P (r ∘ T) g := sorry
 
+/-- **4.2** In the `n`-sample model over a complete family closed under binary mixtures, a
+square-integrable U-statistic is UMVU for its mean. -/
+theorem isMinimumVarianceUnbiasedEstimator_uStatistic {C : Set (ProbabilityMeasure X)}
+    (hc : ∀ f : X → ℝ, Measurable f →
+      (∀ P ∈ C, Integrable f (P : Measure X) ∧ ∫ x, f x ∂(P : Measure X) = 0) →
+      ∀ P ∈ C, ∀ᵐ x ∂(P : Measure X), f x = 0)
+    (hconv : ∀ P ∈ C, ∀ Q ∈ C, ∀ a : ℝ≥0, a ≤ 1 →
+      ∃ R ∈ C, (R : Measure X) = (a : ℝ≥0∞) • (P : Measure X) +
+        ((1 - a : ℝ≥0) : ℝ≥0∞) • (Q : Measure X))
+    {m n : ℕ} (hmn : m ≤ n) (h : (Fin m → X) → ℝ) (hh : Measurable h)
+    (hint : ∀ P ∈ C, Integrable h (Measure.pi fun _ : Fin m ↦ (P : Measure X)))
+    (h2 : ∀ P ∈ C, MemLp (uStatistic m n h) 2 (Measure.pi fun _ : Fin n ↦ (P : Measure X))) :
+    IsMinimumVarianceUnbiasedEstimator (fun P : C ↦ Measure.pi fun _ : Fin n ↦ (P.val : Measure X))
+      (uStatistic m n h) (fun P ↦ ∫ x, h x ∂(Measure.pi fun _ : Fin m ↦ (P.val : Measure X))) :=
+  sorry
+
 /-- **4.3** The score of a real-parameter likelihood. -/
 def likelihoodScore (f : ℝ → X → ℝ) (θ : ℝ) (x : X) : ℝ :=
   deriv (fun t ↦ Real.log (f t x)) θ
@@ -356,7 +369,7 @@ def fisherInformation (P : ℝ → Measure X) (f : ℝ → X → ℝ) (θ : ℝ)
 
 /-- **4.3** The information inequality for a regular real-parameter model: the integrals
 `∫ f_t dμ` and `∫ W f_t dμ` are differentiated under the integral sign at `θ`. -/
-theorem sq_deriv_div_fisherInformation_le_variance (P : ℝ → Measure X)
+theorem sq_deriv_le_variance_mul_fisherInformation (P : ℝ → Measure X)
     [∀ θ, IsProbabilityMeasure (P θ)] (μ : Measure X) (f : ℝ → X → ℝ)
     (hf : ∀ θ, HasDensity (P θ) μ (f θ)) (hpos : ∀ θ x, 0 < f θ x) (W : X → ℝ) (θ : ℝ)
     (hW : MemLp W 2 (P θ)) (hd : ∀ x, DifferentiableAt ℝ (fun t ↦ f t x) θ)
@@ -405,7 +418,7 @@ theorem pitmanEstimator_minimum_equivariant_risk {n : ℕ} (P : Measure ℝ) [Is
 
 end Layer4
 
-/-! ### Layer 5: order statistics and Gaussian samples -/
+/-! ## Layer 5: order statistics and Gaussian samples -/
 
 /-- **5.1** The law of the ranks: for an atomless law, the sorting permutation is uniform on the
 `n!` permutations and independent of the vector of order statistics. -/
@@ -427,7 +440,7 @@ theorem gaussian_sample_mean_residual_laws (n : ℕ) (hn : 2 ≤ n) (m : ℝ) (v
       P.map (fun x ↦ Real.sqrt n * (mean x - m) / Real.sqrt (ss x / (n - 1 : ℕ))) =
         TauCeti.Probability.studentTMeasure (n - 1 : ℕ) := sorry
 
-/-! ### Layer 6: tests -/
+/-! ## Layer 6: tests -/
 
 section Layer6
 
@@ -487,14 +500,16 @@ theorem integral_le_of_generalized_neyman_pearson {m : ℕ} (μ : Measure X) (f�
     (hconstraints : ∀ i, k i * ∫ x, ψ x * f i x ∂μ ≤ k i * ∫ x, φ x * f i x ∂μ) :
     ∫ x, ψ x * f₀ x ∂μ ≤ ∫ x, φ x * f₀ x ∂μ := sorry
 
-/-- **6.3** The Karlin–Rubin theorem. -/
+/-- **6.3** The Karlin–Rubin theorem: the threshold test is UMP for the one-sided problem, and
+its power function is nondecreasing. -/
 theorem isUniformlyMostPowerfulTest_of_monotone_likelihood_ratio (P : ℝ → Measure X)
     (μ : Measure X) [∀ θ, IsProbabilityMeasure (P θ)] (f : ℝ → X → ℝ)
     (hf : ∀ θ, HasDensity (P θ) μ (f θ)) (hpos : ∀ θ x, 0 < f θ x) (T : X → ℝ)
     (hT : Measurable T)
     (hmlr : ∀ a b, a < b → ∃ r : ℝ → ℝ, Monotone r ∧ ∀ x, f b x / f a x = r (T x))
     (θ₀ c γ α : ℝ) (hγ : γ ∈ Icc 0 1) (hsize : ∫ x, thresholdTest T c γ x ∂P θ₀ = α) :
-    IsUniformlyMostPowerfulTest P (Iic θ₀) (Ioi θ₀) α (thresholdTest T c γ) := sorry
+    IsUniformlyMostPowerfulTest P (Iic θ₀) (Ioi θ₀) α (thresholdTest T c γ) ∧
+      Monotone (testPower P (thresholdTest T c γ)) := sorry
 
 /-- **6.3** Essential completeness of the one-sided threshold tests: for a loss of rejecting
 minus accepting `L θ`, positive below `θ₀` and negative above, every test is matched at every
@@ -604,7 +619,7 @@ theorem isUniformlyMostPowerfulUnbiasedTest_conditional_one_sided {l : ℕ} (ν 
 
 end Layer6
 
-/-! ### Layer 7: decision theory -/
+/-! ## Layer 7: decision theory -/
 
 section Layer7
 
@@ -684,7 +699,7 @@ theorem isAdmissibleRisk_of_blyth {d : ℕ} (K : Set (EuclideanSpace ℝ (Fin d)
 dimension `q < n`, the residual variance `s²` with `n - q` degrees of freedom, a subspace
 `S ≤ L` of dimension `r ≥ 1` and `f` the `(1 - α)`-quantile of `F_{r, n - q}`, the intervals
 `|⟪u, μ̂ - μ⟫| ≤ √(r f) s ‖u‖`, `u ∈ S`, hold simultaneously with probability exactly `1 - α`. -/
-theorem hasConfidenceCoverage_scheffe {n q r : ℕ} (hqn : q < n)
+theorem measureReal_scheffe_event_eq_one_sub {n q r : ℕ} (hqn : q < n)
     (L S : Submodule ℝ (EuclideanSpace ℝ (Fin n)))
     (hL : Module.finrank ℝ L = q) (hSL : S ≤ L) (hS : Module.finrank ℝ S = r) (hr : 1 ≤ r)
     (μ : EuclideanSpace ℝ (Fin n)) (hμ : μ ∈ L) (σ : ℝ) (hσ : 0 < σ) (α : ℝ)
@@ -721,7 +736,7 @@ theorem isMoreInformative_iff_isGarbling {X Y : Type*} [Fintype Θ] [MeasurableS
 
 end Layer7
 
-/-! ### Layer 8: convergence and stochastic algebra -/
+/-! ## Layer 8: convergence and stochastic algebra -/
 
 section Layer8
 
@@ -730,13 +745,6 @@ variable {Ω Ω' E F : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω']
 /-- **8.2** Boundedness in probability, measured by the outer measure. -/
 def IsBoundedInProbability [SeminormedAddCommGroup E] (μ : Measure Ω) (X : ℕ → Ω → E) : Prop :=
   ∀ ε > 0, ∃ C > 0, ∀ᶠ n in atTop, μ.real {ω | C < ‖X n ω‖} ≤ ε
-
-/-- **8.2** In a finite-dimensional real normed space, boundedness in probability is tightness
-of the laws. -/
-theorem isBoundedInProbability_iff_isTightMeasureSet [NormedAddCommGroup E] [NormedSpace ℝ E]
-    [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E] {μ : Measure Ω}
-    [IsFiniteMeasure μ] {X : ℕ → Ω → E} (hX : ∀ n, AEMeasurable (X n) μ) :
-    IsBoundedInProbability μ X ↔ IsTightMeasureSet (range fun n ↦ μ.map (X n)) := sorry
 
 /-- **8.3** `O_P(1) · o_P(1) = o_P(1)`. -/
 theorem tendstoInMeasure_mul_zero_of_isBoundedInProbability (μ : Measure Ω) [IsFiniteMeasure μ]
@@ -796,25 +804,6 @@ theorem isContiguous_of_absolutelyContinuous_of_uniformlyIntegrable {ι : Type*}
     IsContiguous l P Q := sorry
 
 end Layer8
-
-/-! ### Layer 4, continued: optimality of U-statistics -/
-
-/-- **4.2** In the `n`-sample model over a complete family closed under binary mixtures, a
-square-integrable U-statistic is UMVU for its mean. -/
-theorem isMinimumVarianceUnbiasedEstimator_uStatistic {X : Type*} [MeasurableSpace X]
-    {C : Set (ProbabilityMeasure X)}
-    (hc : ∀ f : X → ℝ, Measurable f →
-      (∀ P ∈ C, Integrable f (P : Measure X) ∧ ∫ x, f x ∂(P : Measure X) = 0) →
-      ∀ P ∈ C, ∀ᵐ x ∂(P : Measure X), f x = 0)
-    (hconv : ∀ P ∈ C, ∀ Q ∈ C, ∀ a : ℝ≥0, a ≤ 1 →
-      ∃ R ∈ C, (R : Measure X) = (a : ℝ≥0∞) • (P : Measure X) +
-        ((1 - a : ℝ≥0) : ℝ≥0∞) • (Q : Measure X))
-    {m n : ℕ} (hmn : m ≤ n) (h : (Fin m → X) → ℝ) (hh : Measurable h)
-    (hint : ∀ P ∈ C, Integrable h (Measure.pi fun _ : Fin m ↦ (P : Measure X)))
-    (h2 : ∀ P ∈ C, MemLp (uStatistic m n h) 2 (Measure.pi fun _ : Fin n ↦ (P : Measure X))) :
-    IsMinimumVarianceUnbiasedEstimator (fun P : C ↦ Measure.pi fun _ : Fin n ↦ (P.val : Measure X))
-      (uStatistic m n h) (fun P ↦ ∫ x, h x ∂(Measure.pi fun _ : Fin m ↦ (P.val : Measure X))) :=
-  sorry
 
 #check @ProbabilityTheory.IsBayesEstimator
 #check @ProbabilityTheory.bayesRisk

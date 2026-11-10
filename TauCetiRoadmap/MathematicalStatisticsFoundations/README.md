@@ -19,7 +19,7 @@ It also builds a **starting vocabulary for later statistics roadmaps**:
   asymptotic, nonparametric, Bayesian, linear-model, time-series and survival statistics.
 
 The material is the standard graduate content of Pfanzagl, Schervish, Brown and Ferguson (see
-[References](#references)). Each headline carries a locator in one of these texts.
+[References](#references)). Each headline carries a locator in a text listed under References.
 
 **This roadmap is a base.** Layers 8 and 9 provide vocabulary for later roadmaps on five areas:
 asymptotic and robust statistics; nonparametric and high-dimensional statistics; Bayesian
@@ -42,7 +42,12 @@ The roadmap is complete when Tau Ceti proves all of the following.
    theorem, completeness of symmetric statistics, and U-statistics.
 3. **Natural exponential families.** Convexity, Laplace determinacy, analyticity and moments of
    the log partition function, completeness, the mean parametrization, maximum likelihood,
-   conditional families and the Pitman–Koopman–Darmois theorem.
+   conditional families and the Pitman–Koopman–Darmois theorem. The family law is Mathlib's
+   exponential tilt `Measure.tilted`, and the case `E = ℝ` of 3.1–3.3 is already Mathlib's:
+   `integrableExpSet`, `convex_integrableExpSet`, `cgf`, `analyticOnNhd_cgf`,
+   `integral_tilted_mul_self` and `variance_tilted_mul`
+   (`Mathlib/Probability/Moments/IntegrableExpMul.lean`, `Basic.lean`, `MGFAnalytic.lean`,
+   `Tilted.lean`). Layer 3 owns the finite-dimensional case.
 4. **Unbiased estimation and information.** Rao–Blackwell, Lehmann–Scheffé, the covariance
    characterization of UMVU estimators, the optimality of U-statistics, the information
    inequality, Stein's identity, the James–Stein estimator and the Pitman estimator.
@@ -166,10 +171,16 @@ These are fixed for every target. A statement that departs from them is a differ
   `Measure.ext_of_charFun`.
 - **Convergence:** `TendstoInMeasure`, `TendstoInDistribution`,
   `TendstoInDistribution.continuous_comp`, `tendstoInDistribution_of_tendstoInMeasure_sub`,
-  `IsTightMeasureSet`, `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`.
+  `IsTightMeasureSet`, `isTightMeasureSet_range_iff_tendsto_limsup_measure_norm_gt`,
+  `ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`.
 - **Decision theory:** `avgRisk`, `bayesRisk`, `minimaxRisk`, `IsBayesEstimator` and the
   posterior `P†π` of `Mathlib/Probability/Decision`.
 - **Divergences:** `tvDist`, `etvDist`, `klDiv`.
+- **Tilting and cumulants:** `Measure.tilted` with `isProbabilityMeasure_tilted`, `tilted_tilted`,
+  `tilted_absolutelyContinuous` and `absolutelyContinuous_tilted`
+  (`Mathlib/MeasureTheory/Measure/Tilted.lean`); the scalar case of Layer 3: `integrableExpSet`,
+  `convex_integrableExpSet`, `cgf`, `analyticOnNhd_cgf`, `integral_tilted_mul_self` and
+  `variance_tilted_mul`.
 - **Analysis:** Sion's minimax theorem (`Sion.minimax'`, `Sion.exists_isSaddlePointOn`) and
   `IsSaddlePointOn`; Banach–Alaoglu (`WeakDual.isCompact_polar`) and `InnerProductSpace.toDual`;
   analytic functions (`AnalyticOnNhd`, `HasFPowerSeriesOnBall`);
@@ -178,7 +189,8 @@ These are fixed for every target. A statement that departs from them is a differ
   `integral_mul_fderiv_eq_neg_fderiv_mul_of_integrable`; convex hulls, the separation theorems
   `geometric_hahn_banach_open_point` and `geometric_hahn_banach_point_closed`, Jensen's
   inequality `ConvexOn.map_integral_le`, and the inverse function theorem
-  (`HasStrictFDerivAt.toOpenPartialHomeomorph`).
+  (`HasStrictFDerivAt.toOpenPartialHomeomorph`) with its analytic form
+  `OpenPartialHomeomorph.analyticAt_symm`.
 - **Sorting:** `Tuple.sort` and `Function.FactorsThrough`.
 - **Markov kernels and sparsity:** `Kernel.IsReversible`, `Kernel.IsReversible.invariant`,
   `Kernel.ofFunOfCountable`, `hammingNorm` and `hammingDist_triangle`.
@@ -210,9 +222,11 @@ These are fixed for every target. A statement that departs from them is a differ
 
 [StandardDistributions](../StandardDistributions/README.md) is the owner of the laws above. This
 roadmap consumes its 4.6 (extrema and order statistics: the uniform order statistics, their beta
-laws and the chamber formula), its 7.2 (lower and upper quantiles) and its Gaussian, chi-squared,
-Student and Fisher–Snedecor laws in Layers 1 and 4. Where these are already in the pinned Tau
-Ceti, the names above are the contract. Layer 5 takes nothing from 4.6 that 4.6 excludes.
+laws and the chamber formula), its 7.2 (lower and upper quantiles), its 7.8 (exponential tilting,
+built on Mathlib's `Measure.tilted`, which is the family law of Layer 3) and its Gaussian,
+chi-squared, Student and Fisher–Snedecor laws in Layers 1 and 4. Where these are already in the
+pinned Tau Ceti, the names above are the contract. Layer 5 takes nothing from 4.6 that 4.6
+excludes.
 
 ### From MarkovChainsAndRenewal
 
@@ -257,6 +271,11 @@ statistics roadmaps share.
   measurable, and for its pushforwards; and the pushforward of a density that factors through a
   map: `(ν.withDensity (k ∘ φ)).map φ = (ν.map φ).withDensity k`.
 
+These are Schervish, Thm A.54, p. 591 (a nonnegative measurable density defines a measure), and
+Thm A.74 with (A.76), pp. 597–598 (`∫ g dP = ∫ g f dμ` for `P`-integrable `g`); the transfer
+without an integrability hypothesis is by the same argument, with Lean's junk value `0` on both
+sides.
+
 *Needs:* Mathlib `Measure.withDensity`, `integral_withDensity_eq_integral_toReal_smul`.
 
 **Checks.**
@@ -282,11 +301,17 @@ statistics roadmaps share.
 
 **Checks.**
 
-- `mixtureWeight`: the values at `0, 1, 2` are `1/2, 1/4, 1/8`, and their sum over `ℕ` is `1`; the
-  weights `2^{-n}` would sum to `2`.
+- `mixtureWeight`: the values at `0` and `2` are `1/2` and `1/8`; the weights `2^{-n}` would give
+  `1` at `0`.
+- `mixtureWeight`: the sum over `ℕ` is `1`; the weights `2^{-n}` would sum to `2`.
+- `mixtureWeight`: every weight is positive, so a set that is null for a mixture is null for
+  every component.
 - `countableMixture`: for `P n = δₙ` on `ℕ` and `θs = id`, the mixture gives `{3}` the mass `1/16`
   and charges every point.
 - `countableMixture`: for `θs` constant `θ₀`, the mixture is `P θ₀`.
+- `countableMixture`: for `P θ = δ_θ` on `ℝ` and `θs n = 1/(n + 1)`, the mixture gives `{1}` the
+  mass `1/2` and `(0, 1/2]` the mass `1/2`, and `{0}` the mass `0` although `0` is a limit of the
+  atoms.
 
 ### 1.3 Tests and their power
 
@@ -313,19 +338,40 @@ tests (Schervish, Def 4.91, p. 254).
 **Checks.**
 
 - `thresholdTest id 0 (1/2)` takes the values `0, 1/2, 1` at `-1, 0, 1`.
+- `thresholdTest id 2 0` on `ℕ` takes the values `0, 0, 1` at `1, 2, 3`.
+- `thresholdTest id 0 1` is the indicator of `{x ≥ 0}`: its value at `0` is `1`, where the strict
+  threshold alone would give `0`.
 - `intervalTest t 0 1 α α` takes the values `α, 1, α, 0` at `t = 0, 1/2, 1, 2`.
+- `intervalTest 0 0 0 γ₁ γ₂ = γ₁`: for `c₁ = c₂` the open interval is empty and the left endpoint
+  clause applies.
+- `intervalTest (1/2) 1 0 γ₁ γ₂ = 0`: for `c₁ > c₂` the test rejects nowhere.
 - `IsStatisticalTest`: the constant `1/2` is a test; `2` and the non-measurable indicator of a
   Vitali set are not.
 - `testPower`: for `P θ = N(θ, 1)` and the indicator of `{x > 1.645}`, the power is about `0.05`
   at `θ = 0` and `0.259` at `θ = 1`.
+- `testPower`: the constant test `α` has power `α` at every `θ`.
+- `testPower`: for `P θ = Bern(θ)` on `{0, 1}`, the test `φ x = x` has power `θ` and `1 - φ` has
+  power `1 - θ`.
 - `HasTestLevel` with `H₀ = ∅`: every test has every level, even `α = -1`.
-- `IsSimilarTest`: the constant `α` is similar of size `α` on every set; the indicator above is
-  not similar on `{0, 1}`.
+- `HasTestLevel`: for `N(θ, 1)` the indicator of `{x > 1.645}` has level `0.05` on `H₀ = (-∞, 0]`,
+  where its power is at most `0.05`, and not on `H₀ = (-∞, 1]`, where its power at `1` is `0.259`.
+- `HasTestLevel`: the constant `-1` has power `-1 ≤ α` everywhere but is not a test, so it has no
+  level.
+- `IsSimilarTest`: the constant `α` is similar of size `α` on every set.
+- `IsSimilarTest`: the indicator of `{x > 1.645}` under `N(θ, 1)` is not similar on `{0, 1}`.
+- `IsSimilarTest`: on `B = ∅` every test is similar of every size, even `5`.
 - `IsUniformlyMostPowerfulTest`: for `Θ = {0, 1}`, `H₀ = {0}`, `H₁ = {1}`, the Neyman–Pearson test
   above is UMP at level `0.05`; the constant `0.05` has level `0.05` but power `0.05 < 0.259`, so
   it is not.
+- `IsUniformlyMostPowerfulTest`: for `H₁ = ∅` every test of level `α` is UMP.
+- `IsUniformlyMostPowerfulTest`: for `H₀ ≠ ∅` and `α < 0` no test has level `α`, so none is UMP;
+  for `α ≥ 1` the constant `1` is UMP.
 - `IsUniformlyMostPowerfulUnbiasedTest`: the constant `α` is unbiased of level `α`; a test with
   power below `α` somewhere on `H₁` is not unbiased.
+- `IsUniformlyMostPowerfulUnbiasedTest`: in the two-point problem above, the Neyman–Pearson test
+  is UMPU at level `0.05`, being UMP with power `0.259 ≥ 0.05`; the constant `0.05` is unbiased but
+  not UMPU.
+- `IsUniformlyMostPowerfulUnbiasedTest`: for `H₁ = ∅` every test of level `α` is UMPU.
 
 ### 1.4 Confidence sets
 
@@ -415,11 +461,23 @@ Mathlib only.
   constant statistic is sufficient only for a family with one law.
 - `IsCompleteStatistic`: for `Bern(p)²`, `p ∈ (0, 1)`, the sum is complete; the identity is not,
   because `g = x₁ - x₂` has mean `0` for every `p` and is not a.e. `0`.
-- `IsBoundedlyCompleteStatistic`: every complete statistic is boundedly complete; for one law
-  `δ₀`, every statistic is complete.
+- `IsCompleteStatistic`: for the one-law family `{δ₀}`, every statistic is complete.
+- `IsCompleteStatistic`: for `N(θ, 1)²`, `θ ∈ ℝ`, the statistic `x₁ - x₂` is not complete: `g = id`
+  has mean `0` for every `θ`.
+- `IsBoundedlyCompleteStatistic`: the sum for `Bern(p)²` is complete, hence boundedly complete.
+- `IsBoundedlyCompleteStatistic`: for the one-law family `{δ₀}`, every statistic is.
+- `IsBoundedlyCompleteStatistic`: for `N(θ, 1)²`, `x₁ - x₂` is not: the bounded `g = sign` has mean
+  `0` for every `θ`, by the symmetry of `N(0, 2)`.
 - `IsAncillaryStatistic`: for `N(θ, 1)²`, `x₁ - x₂` is ancillary with law `N(0, 2)`; `x₁` is not.
+- `IsAncillaryStatistic`: a constant statistic is ancillary for every family; for `Bern(p)²` the
+  indicator of `x₁ ≠ x₂` is not, its mean `2p(1 - p)` depending on `p`.
+- `IsAncillaryStatistic`: for `N(0, σ²)²`, `σ > 0`, the ratio `x₁ / x₂` is ancillary with the
+  standard Cauchy law.
 - `IsMinimalSufficientStatistic`: for `Bern(p)²` the sum is minimal sufficient; the identity is
   sufficient but not minimal, since it is not a function of the sum.
+- `IsMinimalSufficientStatistic`: for a one-law family a constant statistic is minimal sufficient.
+- `IsMinimalSufficientStatistic`: for `N(θ, 1)²` the sum `x₁ + x₂` is minimal sufficient, and so is
+  `2 (x₁ + x₂)`; the pair `(x₁ + x₂, x₁ - x₂)` is sufficient but not minimal.
 
 ### 2.2 Factorization and minimal sufficiency
 
@@ -502,25 +560,35 @@ Layer 1.
 For a measure `ν` on `X` and a statistic `T : X → E` into a real inner product space:
 - `naturalParameterSpace ν T = {η | Integrable (fun x ↦ exp ⟪η, T x⟫) ν}`;
 - `logPartition ν T η = log ∫ exp ⟪η, T x⟫ dν`;
-- `exponentialFamilyMeasure ν T η = ν.withDensity (exp (⟪η, T⟫ - logPartition ν T η))`;
+- `exponentialFamilyMeasure ν T η = ν.tilted (fun x ↦ ⟪η, T x⟫)`, Mathlib's exponential tilt,
+  whose density is `exp ⟪η, T⟫ / ∫ exp ⟪η, T⟫ dν`; StandardDistributions 7.8 builds tilting on the
+  same definition;
 - `IsMinimalExponentialFamily ν T`: no nonzero `⟪u, T⟫` is `ν`-a.e. constant.
 
 These are Brown's natural exponential family and its minimality (Brown, Def 1.1, pp. 1–2). The
-targets: the natural parameter space is convex (Brown, Thm 1.13(i), p. 19; Pfanzagl, Thm 1.6.5,
-p. 23); for `ν ≠ 0` and `η` in it the family law is a probability measure; two parameters are
-related by an exponential tilt; and the laws of the family and `ν` are mutually absolutely
-continuous.
+target is that the natural parameter space is convex (Brown, Thm 1.13(i), p. 19; Pfanzagl,
+Thm 1.6.5, p. 23); for `E = ℝ` it is Mathlib's `convex_integrableExpSet`. For `ν ≠ 0` and `η` in
+the natural parameter space, the family law is a probability measure, two parameters are related
+by an exponential tilt, and the laws of the family and `ν` are mutually absolutely continuous;
+these are Mathlib's `isProbabilityMeasure_tilted`, `tilted_tilted`, `tilted_absolutelyContinuous`
+and `absolutelyContinuous_tilted`, consumed, not restated.
 
-*Needs:* 1.1; Mathlib `Measure.withDensity`, `ConvexOn`, Hölder's inequality.
+*Needs:* 1.1; Mathlib `Measure.tilted`, `ConvexOn`, Hölder's inequality.
 
 **Checks.**
 
 - `naturalParameterSpace`: for `ν = e^{-|x|} dx` and `T = id` it is `(-1, 1)`; for Lebesgue
   measure it is `∅`; for the Cauchy law it is `{0}`.
+- `naturalParameterSpace`: for `E = ℝ` it is Mathlib's `integrableExpSet T ν`.
 - `logPartition`: for `ν = δ₀ + δ₁` and `T = id` it is `log (1 + e^η)`, whose derivative at `0` is
   `1/2`.
-- `exponentialFamilyMeasure`: for `ν = δ₀ + δ₁` it is `Bern(e^η / (1 + e^η))`; for `ν = 0` it is
-  `0`, not a probability.
+- `logPartition`: for `ν = N(0, 1)` and `T = id` it is `η²/2`; for Lebesgue measure at `η = 0` the
+  integral is the junk `0` and the value is `log 0 = 0`.
+- `logPartition`: for `E = ℝ` it is Mathlib's `cgf T ν`.
+- `exponentialFamilyMeasure`: for `ν = δ₀ + δ₁` it is `Bern(e^η / (1 + e^η))`.
+- `exponentialFamilyMeasure`: for `ν = N(0, 1)` and `T = id` it is `N(η, 1)`.
+- `exponentialFamilyMeasure`: for `ν = 0` it is `0`, not a probability; for Lebesgue measure and
+  `η = 0` it is `0`, not Lebesgue measure, since the normalizing integral is the junk `0`.
 - `IsMinimalExponentialFamily`: `δ₀ + δ₁` with `T = id` is minimal; `δ₀` is not, since
   `⟪1, x⟫ = 0` a.e.; on `ℝ²`, `δ₀ + δ_{(1,1)}` is not, since `x₁ - x₂ = 0` a.e.
 
@@ -584,7 +652,8 @@ derivative, the covariance, is positive definite by minimality. The nonemptiness
 needed: for Lebesgue measure on `ℝ`, `N = ∅` while the interior is `ℝ`. Surjectivity is 3.6
 applied to `t` in the interior.
 
-*Needs:* 3.3; Mathlib `HasStrictFDerivAt.toOpenPartialHomeomorph`, `AnalyticOnNhd`.
+*Needs:* 3.3; Mathlib `HasStrictFDerivAt.toOpenPartialHomeomorph`,
+`OpenPartialHomeomorph.analyticAt_symm`, `AnalyticOnNhd`.
 
 ### 3.6 Maximum likelihood
 
@@ -693,9 +762,10 @@ Layers 1–2 (2.1 for completeness in 3.4).
   since every mean is affine in `p`.
 - `IsMinimumVarianceUnbiasedEstimator`: for `Bern(p)²`, `(x₁ + x₂)/2` is UMVU for `p` with
   variance `p(1 - p)/2`; `x₁` has variance `p(1 - p)` and is not.
-- `IsMinimumVarianceUnbiasedEstimator`: for the laws on `ℝ` with a finite mean, the density
-  `2 (1 + x)⁻³` on `x ≥ 0` has infinite second moment, so no estimator is square-integrable
-  under every law and nothing is UMVU in that model.
+- `IsMinimumVarianceUnbiasedEstimator`: for one observation from the laws on `ℝ` with a finite
+  mean, the only unbiased estimator of the mean is `x`, since `δ(a) = a` under every Dirac law
+  `δ_a`. It is not square-integrable under the law of density `2 (1 + x)⁻³` on `x ≥ 0`, so the
+  mean has no UMVU estimator in that model, while `W ≡ 0` is UMVU for `g ≡ 0`.
 
 ### 4.2 Rao–Blackwell and Lehmann–Scheffé
 
@@ -734,7 +804,7 @@ Layers 1–2 (2.1 for completeness in 3.4).
   `x²` gives `M = [[1, 1], [1, 0]]` and `uᵀ M u = -1` at `u = (1, -1)`. The matrix is shared
   vocabulary: it is the limiting covariance of the asymptotic roadmaps. The matrix information
   inequality is in the boundary list.
-- **Information inequality** (`sq_deriv_div_fisherInformation_le_variance`): for a real
+- **Information inequality** (`sq_deriv_le_variance_mul_fisherInformation`): for a real
   parameter, everywhere positive densities `f θ` with respect to `μ`, a square-integrable `W`,
   and the differentiation-under-the-integral identities
   `d/dθ ∫ f θ dμ = ∫ ∂_θ f θ dμ` and `d/dθ ∫ W f θ dμ = ∫ W ∂_θ f θ dμ` at `θ`, together with
@@ -750,12 +820,16 @@ Layers 1–2 (2.1 for completeness in 3.4).
 
 **Checks.**
 
-- `likelihoodScore`: for `f θ x = φ(x - θ)`, the `N(θ, 1)` density, the score is `x - θ`; for
-  `f θ x = θ e^{-θ x}` on `x > 0` it is `1/θ - x`.
+- `likelihoodScore`: for `f θ x = φ(x - θ)`, the `N(θ, 1)` density, the score is `x - θ`.
+- `likelihoodScore`: for `f θ x = θ e^{-θ x}` on `x > 0` it is `1/θ - x`.
+- `likelihoodScore`: for `Bern(p)` with the counting density `p^x (1 - p)^{1-x}`, `p ∈ (0, 1)`, it
+  is `x/p - (1 - x)/(1 - p)`: `1/p` at `1` and `-1/(1 - p)` at `0`.
 - `fisherInformation`: `1` for `N(θ, 1)`; `1/θ²` for the exponential law of rate `θ`;
   `1/(p(1 - p))` for `Bern(p)` with the counting density.
-- `fisherInformation`: for a family whose density does not depend on `θ` it is `0`, and the
-  information inequality then says only that `0 ≤ 0` when the mean of `W` is constant.
+- `fisherInformation`: for a family whose density does not depend on `θ` it is `0`, so the
+  hypothesis `fisherInformation P f θ > 0` of the information inequality fails.
+- Information inequality: for the exponential law of rate `θ` and `W = x`, the mean is `1/θ`, and
+  `(d/dθ θ⁻¹)² = θ⁻⁴ = Var[W] · fisherInformation = θ⁻² · θ⁻²`, with equality.
 
 ### 4.4 Stein's identity and James–Stein
 
@@ -809,7 +883,8 @@ Layers 1–2 (2.1 for completeness in 3.4).
 
 ### Dependencies
 
-Layers 1–3.
+Layers 1–2; Tau Ceti's Gaussian density `multivariateGaussianPDFReal` and
+`integrableOn_norm_rpow_ball`.
 
 ## Layer 5: order statistics and Gaussian samples
 
@@ -910,9 +985,18 @@ Layer 1, and the Tau Ceti order statistics, chi-squared, Student and Gaussian pr
 **Checks.**
 
 - `npLikelihoodRatio`: for `P = δ₀`, `Q = δ₁` it is `0` at `0` and the junk `1/0 = 0` at `1`,
-  where `dP/d(P+Q) = 0`; for `P = Q` it is `1` a.e.
+  where `dP/d(P+Q) = 0`.
+- `npLikelihoodRatio`: for `P = Q` it is `1` a.e.
+- `npLikelihoodRatio`: for `P = (δ₀ + δ₁)/2` and `Q = (δ₀ + 3δ₁)/4` it is `1/2` at `0` and `3/2` at
+  `1`.
 - `npTest`: for `P = δ₀`, `Q = δ₁`, `t = 1` it is `0` at `0` and `1` at `1`, and its sum of
   errors `0` is the minimum.
+- `npTest`: for `P = (δ₀ + δ₁)/2`, `Q = (δ₀ + 3δ₁)/4` and `t = 2`, the threshold `t⁻¹ = 1/2` is
+  met at `0` and exceeded at `1`, so the test is `(η, 1)`. A test `T` has sum of errors
+  `2 - T(1)`, with minimum `1`, which `npTest` attains for every `η`; the threshold `t` in place of
+  `t⁻¹` would give the test `(0, 0)`, with sum of errors `2`.
+- `npTest`: for `P = Q` a probability and `t = 1`, the ratio is `t⁻¹ = 1` a.e., so the test is `η`
+  a.e., with sum of errors `η + (1 - η) = 1`.
 - `npSumError`: the constant tests `0` and `1` have sums of errors `t Q(X)` and `P(X)`; for
   `P = Q` a probability and `t = 1` every test has sum of errors `1`.
 - `exists_neyman_pearson_test`: for `N(0, 1)` against `N(1, 1)` and `α = 0.05`, `k = e^{1.145}`
@@ -1096,7 +1180,10 @@ although the second dominates it everywhere and has smaller supremum.
 - `IsAdmissibleRisk`: among the risk vectors `(1, 2)`, `(1.1, 1.1)` and `(2, 2)` on two
   parameters, the first two are admissible and `(2, 2)` is not.
 - `IsBayesRule`: for the same vectors and the prior `(1/2, 1/2)`, the Bayes rule is `(1.1, 1.1)`
-  with Bayes risk `1.1`; for the prior `δ₀` only `(1, 2)` is Bayes.
+  with Bayes risk `1.1`, against `1.5` and `2`.
+- `IsBayesRule`: for the prior `δ₀` only `(1, 2)` is Bayes, with Bayes risk `1`.
+- `IsBayesRule`: for the zero prior every rule is Bayes; on `Θ = ℕ` with `π {n} = 2^{-(n+1)}`, a
+  rule with risk `2^{n+1}` is not integrable and so is not Bayes.
 - `IsMinimaxRule`: for the same vectors, `(1.1, 1.1)` is minimax with maximum `1.1`; `(1, 2)` has
   maximum `2` and is not.
 - `IsMinimaxRule`: a rule with risk `θ` on `Θ = ℕ` is not bounded above and is never minimax; if
@@ -1117,8 +1204,8 @@ although the second dominates it everywhere and has smaller supremum.
     linear function of `δ` in `L²(μ)`, since the densities are at most `1`. The rules form a bounded
     closed convex set in `L²(μ)`, which is weakly compact (Banach–Alaoglu,
     `WeakDual.isCompact_polar`, through the Riesz isomorphism `InnerProductSpace.toDual`).
-  - Sion's theorem (`Sion.exists_isSaddlePointOn`) applied to `(π, r) ↦ ∑ θ, π θ r θ` on the prior
-    simplex times the risk set gives the saddle point.
+  - Sion's theorem (Sion, Thm 3.4, p. 174; `Sion.exists_isSaddlePointOn`) applied to
+    `(π, r) ↦ ∑ θ, π θ r θ` on the prior simplex times the risk set gives the saddle point.
 - **Complete class theorem** (`exists_admissible_bayes_risk_le_of_closed_convex`): let `C` be a
   closed convex set of risk vectors in `ℝ^d`, `d > 0`, bounded below. Every point of `C` is
   dominated by an admissible point of `C` that is Bayes for a prior on the `d` parameter values
@@ -1147,7 +1234,7 @@ although the second dominates it everywhere and has smaller supremum.
 
 ### 7.4 Simultaneous intervals
 
-- **Scheffé's simultaneous intervals** (`hasConfidenceCoverage_scheffe`). Let
+- **Scheffé's simultaneous intervals** (`measureReal_scheffe_event_eq_one_sub`). Let
   `Y ~ N(μ, σ² I)` in `EuclideanSpace ℝ (Fin n)` with `σ > 0`, let `μ` range over a subspace `L`
   of dimension `q < n`, let `S ≤ L` be a subspace of dimension `r ≥ 1`, and let `α ∈ (0, 1)`.
   Put
@@ -1170,9 +1257,10 @@ projection laws; Mathlib `multivariateGaussian`, `Submodule.orthogonalProjection
 
 ### 7.5 Comparison of experiments
 
-- `IsMoreInformative P Q` (Blackwell): for every finite action set `Fin n` and every bounded loss,
-  every randomized rule based on `Q` is matched at every parameter by a rule based on `P` with
-  risk at most its risk.
+- `IsMoreInformative P Q`: for every finite action set `Fin n` and every bounded loss, every
+  randomized rule based on `Q` is matched at every parameter by a rule based on `P` with risk at
+  most its risk (Blackwell–Girshick, Def 12.2.1, p. 328, for finite sample spaces; Strasser,
+  Def 49.5, p. 260).
 - A garbling is less informative, by 1.5.
 - **Strassen's theorem** (`exists_dilation_of_convexOrder`): for probability measures `σ, τ`
   carried by a compact convex subset of `ℝ^d` with `∫ ψ dσ ≤ ∫ ψ dτ` for every continuous convex
@@ -1215,7 +1303,9 @@ projection laws; Mathlib `multivariateGaussian`, `Submodule.orthogonalProjection
   `Q θ = δ₀`; `N(θ, 1)` is more informative than the law of `1{x > 0}` under `N(θ, 1)`.
 - `IsMoreInformative`: on `Θ = {0, 1}`, `Q θ = δ_θ` is not less informative than `P θ = N(θ, 1)`:
   the rule `a = y` has risk `0` under the 0–1 loss, which no rule based on `P` attains.
-- `IsMoreInformative` with `Θ = ∅` holds between any two experiments.
+- `IsMoreInformative` with `Θ = ∅` holds whenever `Y` is nonempty: no Markov kernel `Y → Fin 0`
+  exists, and for `n ≥ 1` a constant kernel serves. With `Y = ∅` and `X = ℝ` it fails at `n = 0`:
+  the empty kernel on `Y` is Markov, and no Markov kernel `ℝ → Fin 0` exists.
 
 ### Examples
 
@@ -1226,7 +1316,7 @@ projection laws; Mathlib `multivariateGaussian`, `Submodule.orthogonalProjection
 
 ### Dependencies
 
-Layers 1–6 (1.5, 2.2, 5.2, 6.2).
+Layers 1, 2 and 5 (1.5, 2.2, 5.2).
 
 ## Layer 8: convergence and stochastic algebra
 
@@ -1248,15 +1338,18 @@ Layers 1–6 (1.5, 2.2, 5.2, 6.2).
 - `IsBoundedInProbability μ X`, for `X : ℕ → Ω → E` and `E` a seminormed group: for every `ε > 0`
   there is `C > 0` with `μ.real {C < ‖X n‖} ≤ ε` eventually. The sets are measured by the outer
   measure, so no measurability of `X n` is required.
-- `isBoundedInProbability_iff_isTightMeasureSet`: for a finite-dimensional real normed space `E`
-  with its Borel σ-algebra, a.e.-measurable `X n` and finite `μ`, boundedness in probability is
-  tightness of the laws (van der Vaart, §2.1, p. 8, for `ℝ^k`). In infinite dimension only
-  boundedness follows: the unit vectors of `ℓ²` are bounded in probability, and their Dirac laws are
-  not tight.
+- For a proper normed group `E` with its Borel σ-algebra, a.e.-measurable `X n` and finite `μ`,
+  boundedness in probability is tightness of the laws `μ.map (X n)` (van der Vaart, §2.1, p. 8,
+  for `ℝ^k`). This is the adapter from Mathlib's
+  `isTightMeasureSet_range_iff_tendsto_limsup_measure_norm_gt`, whose limit statement is
+  boundedness in probability written out for the laws. In a space that is not proper only
+  boundedness follows: the unit vectors of `ℓ²` are bounded in probability, and their Dirac laws
+  are not tight.
 - Sequences converging in law or in probability are bounded in probability (van der Vaart, Thm
   2.4(i), p. 8); so are sums, scalar multiples, and sequences dominated in norm by a bounded one.
 
-*Needs:* 8.1; Mathlib `IsTightMeasureSet`.
+*Needs:* 8.1; Mathlib `IsTightMeasureSet`,
+`isTightMeasureSet_range_iff_tendsto_limsup_measure_norm_gt`.
 
 **Checks.**
 
@@ -1425,6 +1518,8 @@ The U-statistic is 2.4.
 - Kolmogorov distance: `δ₀` and `δ₁` are at distance `1`; `δ₀` and `δ_ε` are at distance `1` for
   every `ε > 0`, while their total variation is `2`.
 - Huber score: at `k = 1` it takes the values `-1, 1/2, 1` at `-3, 1/2, 3`; at `k = 0` it is `0`.
+- Kolmogorov–Smirnov statistic: for `n = 1` and `P` uniform on `[0, 1]` it is `1/2` at `X 0 = 1/2`
+  (at `t = 1/2`) and `1` at `X 0 = 0` (at `t = 0`).
 
 ### 9.3 Nonparametric and high-dimensional objects
 
@@ -1457,6 +1552,8 @@ The U-statistic is 2.4.
   `(0)`, it is `1` on `[-1/2, 1/2]`; for the sample `(0, 2)` it is `1/2` at `0` and `0` at `1`.
 - Best sparse error: for `x = (3, -1, 2)` and `s = 1` it is `3`; for `s = 0` it is `‖x‖₁ = 6`; for
   `s = 3` it is `0`.
+- Restricted `ℓ¹` norm: for `x = (3, -1, 2)` it is `3` on `S = {1, 2}` (zero-indexed), the best
+  `1`-sparse error, `0` on `S = ∅`, and `6` on all three coordinates.
 - Benjamini–Hochberg: for `p = (0.01, 0.04, 0.5)` and `α = 0.1` the count is `2` with rejection
   set of size `2`; for `p = (-1, -1)` and `α = -3` the count is `0` with rejection set of size `2`.
 - Restricted isometry: the identity has the property with `δ = 0` for every order; the matrix
@@ -1537,6 +1634,11 @@ Exchangeability (completed), Layer 8.
 - Latin squares: `(i, j) ↦ i + j` in `ZMod 3` is Latin; `(i, j) ↦ i` is not; in `ZMod 4`, `a = 2`
   gives a square that is not Latin, so primality is used.
 - Scatter matrix: for the scalars `(0, 2)` it is `2`; for one observation it is `0`.
+- Quadratic form: for `A = diag(1, -1)` it is `0` at `(1, 1)` and `-1` at `(0, 1)`, negative since
+  `A` is not positive semidefinite; for `A = I` it is `‖x‖²`.
+- Gaussian negative log-likelihood: for `d = 1`, the sample `(0, 2)`, `m = 1` and `C = 1` it is
+  `log 1 + ½ (1 + 1) = 1`, the minimum, at `(x̄, scatter / n) = (1, 1)`; at `C = 2` it is
+  `log 2 + ½ = 1.193…`.
 
 ### 9.6 Dependent-data and survival objects
 
@@ -1577,6 +1679,9 @@ Exchangeability (completed), Layer 8.
 - Kaplan–Meier: for `T = (1, 2)` with the second censored at `1.5`, at `t = 2` it is `1/2`.
 - Weak stationarity: a constant sequence `X t = v` is stationary; `X t = t v` is not.
 - Sample autocovariance: for `(1, -1)` at `h = 0` it is `1`, at `h = 1` it is `-1/2`.
+- i.i.d. noise: i.i.d. Rademacher signs `±1` are i.i.d. noise of variance `1`, with
+  `γ h = 1_{h = 0}`; one sign repeated at every time is not independent, and i.i.d. `N(1, 1)`
+  variables do not have mean `0`.
 
 ### Examples
 
@@ -1676,7 +1781,6 @@ Related libraries:
 
 The locators refer to these editions; page numbers are printed page numbers.
 
-- D. Blackwell, Equivalent comparisons of experiments, *Ann. Math. Statist.* 24 (1953), 265–272.
 - L. D. Brown, *Fundamentals of Statistical Exponential Families*, IMS Lecture Notes 9, 1986.
 - G. Casella and R. L. Berger, *Statistical Inference*, 2nd ed., CRC Press, 2024 (reissue of the
   Duxbury 2002 edition).
