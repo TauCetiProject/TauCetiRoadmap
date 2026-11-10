@@ -126,11 +126,13 @@ or interpolation theorems (checked at the pinned Mathlib); all are targets here.
 
 This roadmap owns the objects in the layers below. Its sibling roadmaps consume them:
 
-* **[CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) (spaces of countable structures and López–Escobar) consumes exactly
-  `PCMem` and `pcSeparation`, in the sum-language form of Layer 7, for the hard direction of
-  López–Escobar. It owns the structure space, López–Escobar and the non-Borelness of the well-order
-  class.
-* **[HanfNumbers](../HanfNumbers/README.md)** ([#1319](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319)) (Ehrenfeucht–Mostowski models and Hanf numbers) consumes:
+* **CountableStructureSpaces** (proposed in
+  [#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) (spaces of countable
+  structures and López–Escobar) consumes exactly `PCMem` and `pcSeparation`, in the sum-language
+  form of Layer 7, for the hard direction of López–Escobar. It owns the structure space,
+  López–Escobar and the non-Borelness of the well-order class.
+* **HanfNumbers** (proposed in [#1319](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319))
+  (Ehrenfeucht–Mostowski models and Hanf numbers) consumes:
   * from 0.1, `onBoundedFormulaInf` and `realize_onBoundedFormulaInf`;
   * from 0.2, `functionsIn`, `relationsIn`, their countability lemmas and
     `realize_congr_of_agreeOn`;
@@ -150,19 +152,16 @@ This roadmap owns the objects in the layers below. Its sibling roadmaps consume 
   It does not consume model existence, direct limits, the cardinal-bound Löwenheim–Skolem theorem
   or `fragmentType`. It owns smallness (`Lω₁ω`-small structures), small models, complete sentences
   and everything about indiscernibles and Hanf numbers.
-* **[CountableModelCounting](../CountableModelCounting/README.md)** ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) consumes `onBoundedFormulaInf`, `realize_onBoundedFormulaInf`,
-  `Fragment`, `Fragment.generated`, `Fragment.generated_countable`, `Fragment.slice` with the
-  realized truth assignment, `fragmentType`, `morleyize`, `lhomMorleyize`, `morleyExpansion`, the
-  relational and countable instances of `morleyize`, `nonempty_morleyEquiv_iff`,
-  `Theoryω.conjunction`, `smallPresentation` and `smallPresentationEquiv`.
+* **[CountableModelCounting](../CountableModelCounting/README.md)** consumes `onBoundedFormulaInf`,
+  `realize_onBoundedFormulaInf`, `Fragment`, `Fragment.generated`, `Fragment.generated_countable`,
+  `Fragment.slice` with the realized truth assignment, `fragmentType`, `morleyize`, `lhomMorleyize`,
+  `morleyExpansion`, the relational and countable instances of `morleyize`,
+  `nonempty_morleyEquiv_iff`, `Theoryω.conjunction`, `smallPresentation` and
+  `smallPresentationEquiv`.
 
-This roadmap owns these interfaces. Where Tau Ceti `2fd255d99` implements one (see
-[Tau Ceti implementation](#tau-ceti-implementation)), the sibling prototypes import the Tau Ceti
-declaration. An interface it does not implement, such as `pcSeparation`, is reproduced in the
-consuming prototype as a marked stand-in, recording the revision of this roadmap it was checked
-against. The copies are prototype scaffolding, not authorization to implement a parallel API in
-Tau Ceti. Changes to the interface here are propagated to the copies and rechecked by substituting
-these declarations for them.
+This roadmap owns these interfaces, and no sibling roadmap builds a parallel API for them.
+Consumers cite them by name and section of this roadmap; where Tau Ceti implements one (see
+[Tau Ceti implementation](#tau-ceti-implementation)), they use the Tau Ceti declaration.
 
 ## Layer 0: the signature calculus of infinitary formulas
 
@@ -199,8 +198,9 @@ once, generic in the carrier `ι` wherever the statement allows.
   function and relation symbols occurring in `φ` give `φ` the same truth value at every
   assignment.
 * For `L[[γ]]`-formulas, the **constant support** is the set of `c : γ` whose constant occurs, read
-  off `functionsIn`. Follow the set-valued shape of the free-variable support of
-  [Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547).
+  off `functionsIn`. Follow the set-valued shape of Tau Ceti's free-variable support
+  `BoundedFormulaInf.freeVarSupport`
+  ([`Infinitary/FreeVarSupport.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Infinitary/FreeVarSupport.lean)).
 
 ### 0.3 Sublanguages and expansions
 
@@ -973,10 +973,11 @@ The following belong to separate roadmaps or to the named sibling.
   the well-order class (CountableStructureSpaces); **indiscernibles, Ehrenfeucht–Mostowski models,
   Hanf numbers, smallness, small models and complete sentences** (HanfNumbers); **counting
   countable models** (CountableModelCounting).
-* **Borel equivalence relations and Silver's theorem** ([BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317))). Scott
-  processes; the general Glimm–Effros dichotomy of Harrington, Kechris and Louveau and
-  Gandy–Harrington effective topology; and the coanalytic form of Silver's theorem and Burgess's
-  dichotomy for analytic equivalence relations belong to separate roadmaps.
+* **Borel equivalence relations and Silver's theorem**
+  ([BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)). Scott processes; the
+  general Glimm–Effros dichotomy of Harrington, Kechris and Louveau and Gandy–Harrington effective
+  topology; and the coanalytic form of Silver's theorem and Burgess's dichotomy for analytic
+  equivalence relations belong to separate roadmaps.
 * L_κλ for `κ > ω₁` beyond L∞ω, many-sorted logic, and effective versions of these theorems. Craig
   interpolation fails in L_κω for `κ > ω₁` (Malitz), so nothing here generalizes past ω₁.
 
@@ -984,15 +985,15 @@ The following belong to separate roadmaps or to the named sibling.
 
 * **Parent roadmap.** Everything rests on the [InfinitaryLogic
   roadmap](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation
-  (`TauCeti.ModelTheory.Infinitary`, `BackAndForth`, `Scott`; Scott's theorem in [Tau Ceti
-  #18977](https://github.com/TauCetiProject/TauCeti/pull/18977), forward Karp and `InfEquivAt` in
-  [#18194](https://github.com/TauCetiProject/TauCeti/pull/18194)). The parent did not build language
+  (`TauCeti.ModelTheory.Infinitary`, `BackAndForth`, `Scott`; Scott's theorem in
+  [`Scott/Isomorphism.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/Isomorphism.lean), forward Karp and `InfEquivAt` in
+  [`BackAndForth/Karp.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Karp.lean)). The parent did not build language
   maps (`onBoundedFormulaInf` and its naturality for `reindex`); they are built here.
-* **Tau Ceti pull requests.** The free-variable support of
-  [Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547) fixes the set-valued
-  shape followed by the occurrence sets and the constant support. The random-graph worked example
-  [Tau Ceti #18726](https://github.com/TauCetiProject/TauCeti/pull/18726) uses the parent's
-  syntax and is unaffected.
+* **Tau Ceti.** The free-variable support of
+  [`Infinitary/FreeVarSupport.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Infinitary/FreeVarSupport.lean) fixes the set-valued
+  shape followed by the occurrence sets and the constant support. The random-graph example
+  [`Scott/RandomGraph.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/RandomGraph.lean) uses the parent's syntax and none of the
+  interfaces of this roadmap.
 * **Mathlib.** The open
   [mathlib4#42758](https://github.com/leanprover-community/mathlib4/pull/42758) proposes the
   infinitary syntax and semantics the parent follows;
@@ -1008,7 +1009,7 @@ The following belong to separate roadmaps or to the named sibling.
 
 A Lean formalization of most of this material exists in
 [`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic) (Apache-2.0,
-Cameron Freer), at checkpoint
+Cameron Freer), at revision
 [`518a366`](https://github.com/cameronfreer/infinitary-logic/tree/518a366cba97b1ae8c4dc64a297a396939bc3e0b),
 sorry-free with axioms `propext`, `Classical.choice`, `Quot.sound`. It is a proof-script reference,
 not the specification; credit `cameronfreer/infinitary-logic` in ported files and record intentional
@@ -1094,5 +1095,5 @@ rather than in `Type`.
   function symbols, and Theorem 4.6 his relative preservation theorem.
 * S. Gao, *Invariant Descriptive Set Theory*, CRC Press, 2009: fragments over a countable language,
   for comparison with Layer 1.
-* `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic, checkpoint
+* `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic, revision
   `518a366`.
