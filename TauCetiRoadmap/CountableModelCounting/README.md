@@ -584,7 +584,8 @@ countably many classes (the set itself may be uncountable) has one level `γ < �
 
 **4c. Thin sentences are exactly the scattered ones.**
 `bfScattered_modelsOf_iff_isThinOnNatModels`: thin implies scattered by the one-level step of
-Layer 3; scattered implies thin by 4a. Corollary: fewer than `𝔠` models on `ℕ` implies scattered.
+Layer 3; scattered implies thin by 4a. This is Theorem 3.3, (a)⇔(b), of Baldwin, Friedman,
+Koerwien and Laskowski. Corollary: fewer than `𝔠` models on `ℕ` implies scattered.
 
 **4d. Concentration.** `ConcentratedAtBFLevels C`: at each level `α < ω₁` some centre `k` (possibly
 outside `C`, depending on `α`) has all but countably many classes of `C` in its level-`α` class.
@@ -809,10 +810,12 @@ the parent roadmap. In order:
    classes (scatteredness) and is large, so one of its classes is large; take `A_{σ0}`, `A_{σ1}`
    there.
 5. **The reduction.** `exists_minimallyUncountableOn_and_of_bfScattered`: under the hypotheses of
-   step 4 some `Θ ⊓ θ` has minimally uncountable models. Otherwise, for each `X : ℕ → Bool`, step
-   3 applied to `A_{X↾1}, A_{X↾2}, …` with levels `α_0, α_1, …` (consecutive codes are equivalent at
-   `α_{i+1} ≥ α_i + ω`) gives a code `A_X` with `bfEquivSetoid α_i A_X A_{X↾(i+1)}` for all `i`.
-   Each `A_X` lies in `C_∅ ⊆ modelsOf Θ`. If `X`, `Y` first differ at `i`, then
+   step 4 some `Θ ⊓ θ` has minimally uncountable models (the minimal counterexamples of Harnik and
+   Makkai; Montalbán's Theorem XII.7 is the minimally unbounded form). Otherwise, for each
+   `X : ℕ → Bool`, step 3 applied to `A_{X↾1}, A_{X↾2}, …` with levels `α_0, α_1, …`
+   (consecutive codes are equivalent at `α_{i+1} ≥ α_i + ω`) gives a code `A_X` with
+   `bfEquivSetoid α_i A_X A_{X↾(i+1)}` for all `i`. Each `A_X` lies in `C_∅ ⊆ modelsOf Θ`. If `X`,
+   `Y` first differ at `i`, then
    `A_X ~ A_{X↾(i+2)} ~ A_{X↾(i+1)}` and likewise for `Y` at level `α_{i+1}`, while `A_{X↾(i+1)}`
    and `A_{Y↾(i+1)}` are inequivalent at `α_{i+1}`; so `A_X`, `A_Y` are inequivalent at
    `β := sup_i α_i < ω₁`. That gives continuum many level-`β` classes in `modelsOf Θ`, contradicting
@@ -1010,9 +1013,14 @@ here.
 * J. R. Steel, "On Vaught's conjecture", in *Cabal Seminar 76–77*, Lecture Notes in Mathematics
   689, Springer, 1978, 193–208: the perfect-set ("strong") form and minimal counterexamples.
 * J. Baldwin, S. Friedman, M. Koerwien and M. C. Laskowski, "Three red herrings around Vaught's
-  conjecture", *Trans. Amer. Math. Soc.* 368 (2016), 3673–3694: the "absolute" form; their
-  Lemma 3.4 (as cited by Andrews et al., below) identifies Morley's scattered sentences with those
-  lacking perfectly many models.
+  conjecture", *Trans. Amer. Math. Soc.* 368 (2016), 3673–3694: the "absolute" form. Their
+  Theorem 3.3 and Lemma 3.4 relate Morley's scattered sentences to those lacking perfectly many
+  models: Theorem 3.3, (a)⇔(b), says that a sentence has no perfect set of countable models iff
+  it has countably many `α`-equivalence classes of models for each countable `α` (Layer 4c), and
+  Lemma 3.4 that such a sentence realizes countably many `F`-types for every countable fragment
+  `F` containing it. Page numbers refer to the
+  [preprint of 17 September 2014](https://www.math.umd.edu/~laskow/Pubs/redherringsaug2814.pdf)
+  on Laskowski's page: Theorem 3.3 on p. 12, Lemma 3.4 on p. 13.
 * U. Andrews, I. Goldbring, S. Hachtman, H. J. Keisler and D. Marker, [Scattered sentences have few
   separable randomizations](https://people.math.wisc.edu/~hkeisler/scatteredfew13.pdf): §1–§2 state
   the three forms (Vaught's, the absolute form "if `φ` is scattered then countably many", and
@@ -1038,7 +1046,8 @@ here.
   via Silver; scattered and unbounded sentences, Definition XII.1) and §XII.2 (Definition XII.4,
   minimally unbounded sentences; Lemma XII.5, level classes are sentences; Lemma XII.6, the limit
   model, with hypothesis `≡_{α_i + 3}` in its block-move convention; Theorem XII.7, the reduction to
-  a minimally unbounded counterexample; Lemma XII.8, the club lemma). Checked against that PDF. The
-  source notes that Lemma XII.8 as stated omits the per-level countability hypothesis its proof
-  uses; the targets here carry it.
+  a minimally unbounded counterexample; Lemma XII.8, the club lemma), cited from the draft
+  compiled on 22 April 2025. Lemma XII.8 (p. 220) assumes only that `Θ` is minimally unbounded,
+  but its proof (p. 221) uses that the models of `Θ` have countably many `≡_β`-classes; the
+  targets here assume back-and-forth scatteredness.
 * `cameronfreer/infinitary-logic`, Lean 4 formalization, checkpoint `518a366`.
