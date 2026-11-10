@@ -348,8 +348,8 @@ first-order image fragment.
 
 * `exists_aElementary_substructure`: every `X ⊆ M` lies in an `A`-elementary substructure `N` with
 
-  ```math
-  |N| \le \max(\aleph_0,\ |X|,\ |A|,\ |\textstyle\sum_n L_{\mathrm{fun},n}|),
+  ```text
+  |N| ≤ max(ℵ₀, |X|, |A|, |Σ n, L.Functions n|),
   ```
 
   stated with `Cardinal.lift` into `max u v w`, since the three cardinals start in three universes.
