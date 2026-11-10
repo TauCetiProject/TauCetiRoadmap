@@ -1,37 +1,65 @@
-<!--tauceti-status:v1 {"roadmap":"SymplecticGeometry","to_sha":"ddc3f9753f417f1da50c6e93cc2df70a735752ea","ts":"2026-10-23T22:40:07+11:00"}-->
+<!--tauceti-status:v1 {"roadmap":"SymplecticGeometry","to_sha":"e583e15d3be177d86491854d1db508f6edfe5ee7","ts":"2026-11-07T20:34:01+00:00"}-->
 # Status: SymplecticGeometry
 
-This file documents the status of the SymplecticGeometry roadmap up until `ddc3f97` (2026-10-23T22:40:07+11:00). There may have been subsequent updates.
+This file documents the status of the SymplecticGeometry roadmap up until `e583e15` (2026-11-07T20:34:01+00:00). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** The cotangent phase space is in place: on the cotangent bundle of any manifold, the Liouville form and ω = −dλ are built, along with cotangent lifts and fibre translations, and the linear Lagrangian algebra is complete. Embedded Lagrangians, generating functions, reduction, convexity, integrable systems, contact geometry and the symplectic suspension S0–S2 have not begun. The one exception is the positive-period circle, whose manifold structure has started.
+**At a glance.** The cotangent phase space and the basic layer of contact geometry are in place. Contact forms, Reeb and contact Hamiltonian dynamics, contactization and Legendrians are all built. The matrix polar package, positive-period circles and the suspension carrier are well advanced. Moment maps, reduction, most convexity, Liouville–Arnold and every neighbourhood or stability theorem have not begun, or exist only as ingredients.
 
 ### Named results
 
-- **The cotangent bundle is symplectic** — ω = −dλ on T*M is [closed and nondegenerate](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Cotangent/Bundle/Liouville.html#TauCeti.CotangentBundle.isSymplectic_symplecticForm), and [in each bundle chart it is the existing linear cotangent form](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Cotangent/Bundle/Liouville.html#TauCeti.CotangentBundle.inChartAt_symplecticForm_apply). This is the evidence the roadmap asks for that the conventions agree.
-- **The tautological property of the Liouville form** — pulling λ back along the section of T*M defined by a one-form α [gives back α](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Cotangent/Bundle/Liouville.html#TauCeti.CotangentBundle.mpullback_liouvilleForm).
-- **Cotangent lifts are symplectic** — the lift (q,p) ↦ (h q, p∘(dh)⁻¹) of a diffeomorphism [pulls ω back to ω](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Cotangent/Bundle/Lift.html#Diffeomorph.mpullback_cotangent_symplecticForm), preserves λ, and respects identity, composition and inverses.
-- **Closed one-forms give symplectic fibre translations** — translating fibres by α changes λ by π*α, and [preserves ω exactly when dα = 0](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Cotangent/Bundle/Fiberwise.html#TauCeti.CotangentBundle.mpullback_vectorBundleTranslateDiffeomorph_symplecticForm_eq_self_iff).
-- **Lagrangian means maximal isotropic** — in any finite-dimensional symplectic vector space, [a subspace is Lagrangian exactly when it is maximal isotropic](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Lagrangian/Basic.html#TauCeti.SymplecticForm.isLagrangian_iff_maximal_isIsotropic), including the zero-dimensional cases.
+- **The cotangent bundle is symplectic**: ω = −dλ on T*M is [closed and nondegenerate](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Cotangent/Bundle/Liouville.html#TauCeti.CotangentBundle.isSymplectic_symplecticForm).
+- **The contact criteria**: a one-form on a (2n+1)-manifold is contact exactly when [α ∧ (dα)ⁿ vanishes nowhere](https://taucetiproject.org/docs/TauCeti/Geometry/Contact/Volume.html#TauCeti.SmoothForm.isContactForm_iff_wedge_wedgePow_apply_ne_zero), and exactly when [the Levi form of its kernel is nondegenerate](https://taucetiproject.org/docs/TauCeti/Geometry/Contact/Levi.html#TauCeti.SmoothForm.isContactForm_iff_forall_bijective_distributionLeviForm).
+- **Contactization**: on W × ℝ the form dz − θ [is contact exactly when −dθ is nondegenerate](https://taucetiproject.org/docs/TauCeti/Geometry/Contact/Contactization.html#TauCeti.SmoothForm.isContactForm_contactization_iff). On the one-jet space T*M × ℝ, [one-jets of functions are Legendrian embeddings](https://taucetiproject.org/docs/TauCeti/Geometry/Contact/OneJet.html#TauCeti.CotangentBundle.isLegendrianEmbedding_contactization_liouvilleForm).
+- **Connectedness of Sp(2n, ℝ)**: the positive polar factor of a symplectic matrix contracts inside the group, so [the real symplectic group is path connected](https://taucetiproject.org/docs/TauCeti/Analysis/Matrix/SymplecticGroup/Connected.html#Matrix.isPathConnected_symplecticGroup).
+- **The Schur–Horn theorem**: the diagonals of the unitary conjugates of diag(w) are [exactly the convex hull of the rearrangements of w](https://taucetiproject.org/docs/TauCeti/Analysis/Matrix/UnitaryGroup/SchurHorn.html#Matrix.range_re_diag_unitary_mul_diagonal_mul_star). Majorization, via [Rado's theorem](https://taucetiproject.org/docs/TauCeti/Analysis/Convex/PermutationOrbit.html#TauCeti.mem_convexHull_range_comp_perm_iff), gives an equivalent form.
 
 ### Notable definitions and infrastructure
 
-- **The cotangent bundle** [`CotangentBundle`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/VectorBundle/Cotangent.html#TauCeti.CotangentBundle) is the total space of the continuous-dual tangent bundle, with its native charts, and its transition maps are [(q,p) ↦ (φ q, p∘(dφ_q)⁻¹)](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/VectorBundle/Cotangent.html#TauCeti.CotangentBundle.extChartAt_extChartAt_symm). Bundle projections are [submersions](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/VectorBundle/Submersion.html#Bundle.isSubmersion_proj). Everything above is built on this.
-- **Symplectic subspaces** [`IsSymplectic`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Lagrangian/Basic.html#TauCeti.SymplecticForm.IsSymplectic) complete the four linear predicates that C2's tangent-image definitions are meant to specialise.
-- **The circle as a manifold**: `AddCircle p` is [a smooth manifold](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Instances/AddCircle.html#AddCircle.instIsManifold), obtained as the quotient of a period line by ℤ, and the projection from ℝ is [a local diffeomorphism](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Instances/AddCircle.html#AddCircle.isLocalDiffeomorph_coe). I2.0 and S0 both start from this.
+- **Contact Hamiltonian vector fields** [`contactHamiltonianVectorField`](https://taucetiproject.org/docs/TauCeti/Geometry/Contact/Hamiltonian.html#TauCeti.SmoothForm.contactHamiltonianVectorField) invert the contact flat map; the Reeb field is the case f = 1. Contact flows and the Jacobi bracket rest on this.
+- **The smooth mapping torus** [`SmoothMappingTorus`](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Instances/MappingTorus.html#TauCeti.SmoothMappingTorus) carries its suspension flow, time and fibre forms, orientation and embedded closed orbits, which is the carrier S0–S2 need.
+- **The positive-period circle package** starts from the [time form dt_p](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/DifferentialForm/AddCircle.html#AddCircle.timeForm) and extends to tori and the [total family of circles](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Instances/CircleFamily.html#TauCeti.CircleFamily) with its forms β, η and dp ∧ η.
 
 ### Roadmap coverage
 
-The roadmap has five sub-roadmaps plus the root suspension layers S0–S2. In **CotangentLagrangian**, C1 is partial. Items 1–2 (the bundle, λ, ω and the chart identification) are done. Item 3 has the lift and its preservation laws but no group-action equivariance and no pullback relation along general maps. Item 4 has fibre translation and dilation (dilation covers negation), but not open restriction or the product T*(M×N). The library also proves that the radial Euler field Z satisfies ι_Zω = −λ and L_Zω = ω, which is part of C2.2. Of C2, only the linear-algebra paragraph is done. Tangent-image predicates for embeddings and immersions, the matrix polar packages C2.0–C2.1, exact Lagrangians, conormals and examples are all missing, as are C3 and C4. In **IntegrableSystems**, I2.0 is partial: the quotient atlas and local diffeomorphism are there, but the group structure, the time form dt_p, orientation and families are not. I1 and I2–I4 are untouched. **HamiltonianReduction**, **ConvexityToric**, **ContactGeometry** and S0–S2 are untouched.
+The evidence for the latest window was truncated, so some layers may be further along than stated.
+
+- **CotangentLagrangian.**
+  - C1: items 1–2 are done, and item 3 now includes the equivariant cotangent-lifted action. General pullback relations, open restriction and T*(M×N) are missing.
+  - C2: only the linear algebra is done.
+  - C2.0: largely done. The ambient polar-coordinate diffeomorphisms and the SL(2,ℂ) ±I equivariance are not in evidence.
+  - C2.1: partial. Connectedness, Sp-polar preservation, the Killing form and the Cartan involution are in. Realification, the intersection identities, maximal compactness and the adjoint comparison are not.
+  - C2.2: partial. It has only Kodaira–Thurston topology.
+  - C3: untouched.
+  - C4: only a relative Poincaré lemma on convex neighbourhoods.
+- **ContactGeometry.**
+  - CG1: essentially done.
+  - CG2: done except the worked eˣ example and the separation of the contactomorphism notions.
+  - CG3: ingredients only.
+  - CG4–CG6: partial. Contactization, the sphere, the Legendrian API, conformal symplectic normal spaces and the Jacobi bracket are in. Symplectization, the neighbourhood theorems and the symplectization comparison are missing.
+- **HamiltonianReduction.**
+  - R1: partial. It has fundamental vector fields and stabilizers, but no moment maps.
+  - R2: partial. It has the algebraic KKS form and the so(3) and Heisenberg models, but no orbit manifold.
+  - R1a and R2a–R5: untouched.
+- **ConvexityToric.**
+  - T3: only the U(n) Schur–Horn cases are done.
+  - T1, T2, T4 and T5: untouched.
+- **IntegrableSystems.**
+  - I2.0: largely done. The uniform Cᵏ estimates on compact period sectors are not in evidence.
+  - I1–I4: untouched, beyond rank tools and Kronecker's density theorem.
+- **Suspensions.**
+  - S0: partial. Ω is not yet shown symplectic.
+  - S1: partial. Closed orbits and their homology classes are in, but not the block structure or the areas.
+  - S2: untouched.
 
 ## The frontier
 
-- **Finish C1** — the open-restriction identification T*U ≅ π⁻¹(U), the product T*(M×N) ≅ T*M × T*N with λ a sum and ω a product, equivariance of cotangent lifts under group actions, and cotangent pullback along a general smooth map as a relation.
-- **Tangent-image Lagrangian predicates (C2)** — define symplectic, isotropic, coisotropic and Lagrangian embeddings through their tangent images, using the linear predicates now available, together with Lagrangian immersions. Then do the basic examples: the zero section, graphs of closed one-forms, and conormals.
-- **Exact Lagrangians and the cotangent-lift classification (C2.2)** — the Liouville field is in hand. What remains is its flow-rescaling laws and the theorem that every λ-preserving symplectomorphism of T*M is a cotangent lift.
-- **Circle group and time form (I2.0)** — smoothness of the group operations and translations, the form dt_p with q_p*dt_p = dt, and the oriented atlas. These are prerequisites for S0's mapping torus and for the I2 action-angle charts.
-- **First moment-map layer (R1)** — nothing has landed. It consumes the HamiltonianSystems API that the root README names, not machinery from this roadmap.
+- **Contact Darboux and Gray stability (CG3).** The contact-Moser vector field and the pointwise linear normal form are in place. What remains is integrating the Moser flow on a shrunken chart, and the relative Gray theorem.
+- **The suspension symplectic form (S0).** Prove Ω = ds∧dt + ω_v closed and nondegenerate on S¹ × Y_φ. This opens S1's block structure and the orbit-torus areas.
+- **Group-level moment maps (R1).** Fundamental vector fields and smooth cotangent-lifted actions are ready. Next come equivariant moment maps and the cotangent-lift example μ(q,p)(ξ) = p(ξ_Q q).
+- **Maximal compactness and realification (C2.1).** The lemma that a compact subgroup's only positive-definite element is the identity already exists. Still needed are the realify map, the intersection identities, and the maximality of U(n) in GL(n,ℂ) and in Sp(2n,ℝ).
+- **Kodaira–Thurston as a symplectic non-Kähler manifold (C2.2).** The topology is done. Still needed are the symplectic form, and the odd-b₁ obstruction, which depends on ComplexKahlerGeometry's Hodge parity theorem.
