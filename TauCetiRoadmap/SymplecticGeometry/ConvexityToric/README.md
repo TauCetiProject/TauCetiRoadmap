@@ -462,7 +462,7 @@ dual-character hyperplane class; hence `H*(BT;ℤ)=ℤ[u₁,…,u_m]` and a weig
 equivariant Euler classes. Compare Borel constructions to those existing models.
 Build the Borel fibration M_T→BT, equivariant Thom classes, Euler classes, localization by
 nonzero weights, Leray–Hirsch and integral equivariant formality when ordinary cohomology is
-free/even. These constructions are explicit targets here over AT’s ordinary cohomology.
+free/even. These constructions are explicit targets here over AlgebraicTopology Stage 6's ordinary cohomology.
 Build equivariant Morse exact sequences and prove rational perfection.
 Integral conclusions require their own proof and torsion hypotheses: when fixed points are isolated,
 even cells give free integral homology/cohomology, vanishing odd groups, rank H^(2k) equal to the number of critical points of index 2k, unique maximum/minimum and simple connectedness. Do not assert these conclusions for arbitrary
@@ -588,7 +588,9 @@ requires its properness, local-cone and local-fiber-connectedness targets above
 
 ### 3.2 Coadjoint projections and Schur–Horn
 
-Prove Kostant **compact coadjoint-orbit projection convexity**, `pr_t*(K·ν)=conv(W·ν)` for ν∈t*;
+For a compact connected Lie group K with maximal torus T, Weyl group W=N_K(T)/T and
+restriction map pr_t*:k*→t*, prove Kostant **compact coadjoint-orbit projection convexity**,
+`pr_t*(K·ν)=conv(W·ν)` for ν∈t* (embedded in k* as the T-fixed covectors);
 this is the precise version meant here, not the different nonlinear Iwasawa projection theorem.
 For U(n), fix ⟨H,X⟩=−i tr(HX) with diagonal X=i diag(θ), so μ is the diagonal list, and show the diagonal moment image is the permutahedron of
 eigenvalues. The Schur–Horn theorem in both directions, for every n≥0 and with no
@@ -611,6 +613,10 @@ statement. Construct a 2×2 Hermitian matrix for every majorized diagonal and gi
   (√t,√(1−t)) realizes the first coordinate; t=1/2 gives (1,1).
 - Spectrum (1,1) gives only (1,1), since UIdU*=Id. A strict-spectrum hypothesis would lose this case.
 - The empty spectrum has one empty diagonal and one permutation, so both sets are the singleton {()}.
+- Connectedness of K is needed in the coadjoint form. For K=O(2), T=SO(2), t*=k*=ℝ, the Weyl
+  group N_K(T)/T has order 2 and acts by −1; for ν=1 the orbit K·ν is {1,−1}, which is its
+  own projection, while conv(W·ν)=[−1,1]. For K=SO(2) both sides are {ν}, and for K=SU(2)
+  the orbit of ν is a round sphere whose projection to the axis t* is the segment [−ν,ν].
 
 The coadjoint projection form follows from Cannas da Silva, Theorem 27.1, applied
 to the compact orbit; the matrix identification and the two-sided realization are
@@ -787,13 +793,13 @@ These are Hamiltonian applications of that measure, with its symplectic normaliz
 *Needs:* SmoothBundlesConnections B2.4; DifferentialGeometry §5.5; Layer 1.1's
 `HamiltonianTorusData`.
 
-For a Hamiltonian torus space with **proper** μ define DH measure as μ_*Liouville
+For a Hamiltonian torus space with **proper** μ define the Duistermaat–Heckman (DH) measure as μ_*Liouville
 (Cannas da Silva, Definition 30.2 and Theorem 30.3, p. 191). Properness gives
 local finiteness even when M is noncompact. For compact connected M and an effective action prove
 absolute continuity with respect to the lattice-normalized Lebesgue measure on t*, with polynomial
 density on each connected chamber of regular values of degree at most n−m. For a noneffective action
 state absolute continuity on its affine support, not full ambient t*. Prove density from reduced volume
-and orbit period, including finite generic stabilizers when applicable. For each locally-free Hamiltonian chamber use R3's actual possibly ineffective proper étale slice presentation S and restricted symplectic form. Construct the actual level principal-torus orbibundle using Orbifolds O4, item 1 (orbibundles and principal bundles): for the left T-action on Z and a slice object x, put P=S₀×T, with right action (x,t)·k=(x,tk), and let a retained arrow h:x→y act by (x,t)↦(y,ht). The map (x,t)↦t⁻¹x is arrow-invariant and right-equivariant for z·k=k⁻¹z; prove these formulas and their slice-refinement comparisons. Construct a T-invariant connection on the locally-free level by an invariant orbit/horizontal splitting, with α(ξ_right)=ξ; its pullback gives the arrow-invariant principal connection on P. This is a CT specialization of O4's generic bundle/connection API, not an additional object assumed from R3. Consume [Orbifolds O1–O5](../../Orbifolds/README.md)'s generic presentations, invariant forms, represented bundles, classifying/coarse/de Rham comparisons and full-isotropy integration. O4-T supplies the normalized thin/CW and principal-torus comparison on the same model, with T1's actual character-basis/period datum. Prove that T4's concrete level bundle and R3's restricted symplectic form identify with these carriers before evaluating classes or integrals. O7's later completed-model comparison is not a prerequisite.
+and orbit period, including finite generic stabilizers when applicable. For each locally-free Hamiltonian chamber use R3's actual possibly ineffective proper étale slice presentation S and restricted symplectic form. Construct the actual level principal-torus orbibundle using Orbifolds O4, item 1 (orbibundles and principal bundles): for the left T-action on Z and a slice object x, put P=S₀×T, with right action (x,t)·k=(x,tk), and let a retained arrow h:x→y act by (x,t)↦(y,ht). The map (x,t)↦t⁻¹x is arrow-invariant and right-equivariant for z·k=k⁻¹z; prove these formulas and their slice-refinement comparisons. Construct a T-invariant connection on the locally-free level by an invariant orbit/horizontal splitting, with α(ξ_right)=ξ; its pullback gives the arrow-invariant principal connection on P. This is a specialization in this roadmap of Orbifolds O4's generic bundle/connection API, not an additional object assumed from R3. Consume [Orbifolds O1–O5](../../Orbifolds/README.md)'s generic presentations, invariant forms, represented bundles, classifying/coarse/de Rham comparisons and full-isotropy integration. O4-T supplies the normalized thin/CW and principal-torus comparison on the same model, with T1's actual character-basis/period datum. Prove that T4's concrete level bundle and R3's restricted symplectic form identify with these carriers before evaluating classes or integrals. O7's later completed-model comparison is not a prerequisite.
 
 Construct the application classifier κ on O4-T's diagonal-Sing CW model `BS` from that theorem's intrinsic represented bundle, with its object/refinement comparisons. For every dual character χ pull back the normalized integral class `h_χ=-u_χ` to `H²(BS;ℤ)`, take its rational image and use O4-S for coarse rational cohomology. Prove O4-W/O4-T identifies its real image with the actual connection curvature `[F_χ/(2π)]` in R3's invariant-form complex. The arbitrary reduced symplectic class lies in real `H²(Ω(S))≃H²(BS;ℝ)` and need not be rational. Retain actual character-basis, atlas, connection and refinement maps; agreement on small charts alone does not identify these classes.
 
@@ -825,7 +831,7 @@ of reduced spaces and principal bundles. With connection α valued in t, invaria
 ι_ξMω=dμ_ξ and π*ω_red=i*ω, use the principal right action z·g=g⁻¹z,
 α(ξ^right)=ξ and therefore α(ξ^left)=−ξ, with curvature F=dα. Prove the variation identity (Cannas da Silva, Proposition 30.7 and
 Theorem 30.8, p. 194, transported from its left-connection convention):
-**[ω_red(c)] = [ω_red(c₀)] + ⟨c−c₀,[F]⟩**. For a circle write `[F/(2π)]=c₁(P)_ℝ` in SBC B6.2’s convention: c₁(P) is the class of the dual-character associated line. It is the positive h class, whereas T2’s standard-character line has class u=−h. Thus the same variation formula is +2π(c−c₀)c₁(P)_ℝ. Derive the sign from λ_level=λ_horizontal−⟨c,α⟩ and ω=−dλ.
+**[ω_red(c)] = [ω_red(c₀)] + ⟨c−c₀,[F]⟩**. For a circle write `[F/(2π)]=c₁(P)_ℝ` in SmoothBundlesConnections B6.2’s convention: c₁(P) is the class of the dual-character associated line. It is the positive h class, whereas T2’s standard-character line has class u=−h. Thus the same variation formula is +2π(c−c₀)c₁(P)_ℝ. Derive the sign from λ_level=λ_horizontal−⟨c,α⟩ and ω=−dλ.
 A connection normalized on left fundamental fields is −α and has negative curvature;
 its equivalent variation formula has a minus sign. Keep this adapter explicit. Prove Gauss–Manin transport and polynomial volume by expanding the
 powers of this class. Over a contractible chamber U with locally free
@@ -845,7 +851,7 @@ its height interval. C^m with reversed standard rotation z_j↦e^(-iθ_j)z_j and
 density=(2π)^m vol(M_c); for toric M total volume=(2π)^n vol(Δ). Prove the CP²
 simplex/product formulas and weighted-circle factors. As a curvature-sign test, reduce C²
 by the diagonal reversed circle action at μ=(|z₁|²+|z₂|²)/2=c>0: its quotient is CP¹
-with area 2πc, and the positive Hopf right connection has SBC B6.2’s dual-character class `c₁(P)` with real image `[F/(2π)]` equal to the positive generator. The standard-character line has the negative class. Verify `[ω_c]=2πc c₁(P)_ℝ` and compare measure variation with reduced cohomology variation directly.
+with area 2πc, and the positive Hopf right connection has SmoothBundlesConnections B6.2’s dual-character class `c₁(P)` with real image `[F/(2π)]` equal to the positive generator. The standard-character line has the negative class. Verify `[ω_c]=2πc c₁(P)_ℝ` and compare measure variation with reduced cohomology variation directly.
 
 For chamber identifications, curvature and volume prove:
 
@@ -1019,7 +1025,7 @@ Pull the reduced form back to each slice and prove it is respectively
 `d(Re w)∧d(Im w)` and `d(Re u)∧d(Im u)`. Using T4's inverse-stabilizer
 integration, the first chart, whose omitted pole has measure zero, gives
 `area(E_ε/S¹)=(1/a)π(2ε/b)=2πε/(ab)`.
-At the notes' level ε=1/2 this is π/(ab). Compare the a=b=1 case with
+At ε=1/2 this is π/(ab). Compare the a=b=1 case with
 T4's Hopf reduction and its curvature convention. These slice calculations
 consume R3's locally-free reduction and T4's orbifold forms/integration;
 they do not require the general classification below.
@@ -1062,7 +1068,7 @@ AlgebraicTopology Stage 6; CharacteristicClasses C1–C3.
 
 ## Downstream consumers
 
-T4 consumes Orbifolds O4-N/S/R/K/W/T and O5 on R3's actual Hamiltonian presentation and symplectic form and on the level principal-torus orbibundle constructed in T4; T1 supplies the character/period datum. Generic O1–O5 proofs do not consume CT's integration, volume, convexity or DH endpoints. O7's completed-model comparisons are later and are not inputs to either construction. T1→T2→T3. T4's Liouville applications use SmoothBundlesConnections B2.4's density measure; T4's Duistermaat–Heckman theory additionally consumes R3 reduction,
+T4 consumes Orbifolds O4-N/S/R/K/W/T and O5 on R3's actual Hamiltonian presentation and symplectic form and on the level principal-torus orbibundle constructed in T4; T1 supplies the character/period datum. Generic O1–O5 proofs do not consume this roadmap's integration, volume, convexity or DH endpoints. O7's completed-model comparisons are later and are not inputs to either construction. T1→T2→T3. T4's Liouville applications use SmoothBundlesConnections B2.4's density measure; T4's Duistermaat–Heckman theory additionally consumes R3 reduction,
 independently of full Kirwan;
 T5 consumes torus convexity/reduction, T2 integral equivariant cohomology and T4 exact volumes. Check isolated versus positive-dimensional fixed loci,
 noneffective versus full-dimensional DH support, nonabelian chamber versus full image, central torus
