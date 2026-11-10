@@ -395,8 +395,7 @@ Identify $`R`$ with the constructed Fraïssé limit.
 
 The supplier provides countable uniqueness (`SimpleGraph.HasExtensionProperty.nonempty_iso`), the
 characterization `TauCeti.nonempty_iso_radoGraph_iff` of the countable graphs isomorphic to $`R`$
-(`ModelTheory/Scott/RandomGraph.lean`; its backward direction is the prototype's
-`nonempty_iso_rado`) and the extension-pair bridge. Export, in addition, the characterization of $`R`$ as the Fraïssé limit,
+(`ModelTheory/Scott/RandomGraph.lean`) and the extension-pair bridge. Export, in addition, the characterization of $`R`$ as the Fraïssé limit,
 the complement isomorphism, universality for countable graphs, rooted universality into any
 extension-property graph (from Milestone 3), and extension of finite induced isomorphisms to
 automorphisms. Give explicit finite graph embeddings, including complete, empty, path and
@@ -928,7 +927,7 @@ For $`n\ge2k`$, the bound
 
 gives the integrable dominator $`\exp(-\sum_i u_i/(4k))`$ after scaling.
 Thus the moment limit is $`2^k`$, and 11.1 applies. Prove the $`k=0`$ case separately.
-As an elementary check, $`\mathbb E Z_n=2(1-2^{-n})`$ for $`n\ge1`$.
+As an elementary check, $`\mathbb E Z_n=2(1-2^{-n})`$ for every $`n`$; both sides vanish at $`n=0`$.
 
 Construct the FO sentence $`\forall x\,\exists y\,\mathrm{Adj}(x,y)`$ and derive
 

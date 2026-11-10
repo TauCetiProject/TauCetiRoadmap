@@ -64,8 +64,10 @@ def StrongAmalgamation (K : Set (Bundled.{w} L.Structure)) : Prop :=
           Set.range i ∩ Set.range j = Set.range (i.comp f)
 
 theorem StrongAmalgamation.amalgamation {K : Set (Bundled.{w} L.Structure)}
-    (h : StrongAmalgamation K) : Amalgamation K := by
-  sorry
+    (h : StrongAmalgamation K) : Amalgamation K :=
+  fun A B C f g hA hB hC =>
+    let ⟨D, i, j, hD, hc, _⟩ := h A B C f g hA hB hC
+    ⟨D, i, j, hD, hc⟩
 
 /-- No relation-symbol countability, nonempty-carrier or infinitude premise. -/
 theorem exists_isFraisseLimit_of_isFraisse
@@ -162,8 +164,8 @@ theorem hasExtensionProperty_iff (G : SimpleGraph V) :
   sorry
 
 theorem HasExtensionUpTo.mono {G : SimpleGraph V} {d e : ℕ}
-    (h : HasExtensionUpTo G d) (hed : e ≤ d) : HasExtensionUpTo G e := by
-  sorry
+    (h : HasExtensionUpTo G d) (hed : e ≤ d) : HasExtensionUpTo G e :=
+  fun U Z hUZ hc => h U Z hUZ (hc.trans hed)
 
 /-- Full extension supplies arbitrarily many witnesses, so the carrier is infinite. -/
 theorem HasExtensionProperty.infinite {G : SimpleGraph V} (hG : G.HasExtensionProperty) :
@@ -214,10 +216,6 @@ theorem radoGraph_adj (i j : ℕ) :
       (i < j ∧ Nat.testBit j i = true) ∨
       (j < i ∧ Nat.testBit i j = true) := by
   sorry
-
-theorem nonempty_iso_rado [Countable V] (G : SimpleGraph V)
-    (hG : G.HasExtensionProperty) : Nonempty (G ≃g TauCeti.radoGraph) :=
-  TauCeti.nonempty_iso_radoGraph_iff.mpr hG
 
 /-- Rooted universality into an extension-property graph of arbitrary cardinality. -/
 theorem exists_graphEmbedding_over_root {A : Type w} [Finite A] [Countable V]
@@ -386,8 +384,10 @@ later milestones: every formula is equivalent modulo `T_R` to a quantifier-free 
 theorem exists_isQF_equivalent {m : ℕ} (φ : Language.graph.Formula (Fin m)) :
     ∃ ψ : Language.graph.Formula (Fin m), ψ.IsQF ∧
       ∀ (M : Type w) [Language.graph.Structure M], M ⊨ radoAxioms →
-        ∀ a : Fin m → M, ψ.Realize a ↔ φ.Realize a := by
-  sorry
+        ∀ a : Fin m → M, ψ.Realize a ↔ φ.Realize a :=
+  let ⟨_, _, hQ⟩ := exists_computable_quantifierElimination.{w}
+  let ⟨ψ, _, hψ⟩ := hQ m φ
+  ⟨ψ, hψ⟩
 
 /-- **Decidability of the Rado theory.** The prototype contract for the decision procedure: a
 computable test on codes of sentences that answers truth in the Rado graph. -/
@@ -623,7 +623,10 @@ def cardEq (m : ℕ) : Language.graph.Sentence :=
 
 theorem satisfies_cardEq_iff (G : SimpleGraph V) (m : ℕ) :
     Satisfies G (cardEq m) ↔ Cardinal.mk V = m := by
-  sorry
+  let _ := G.structure
+  simp only [Satisfies, cardEq, Sentence.realize_inf, Sentence.realize_not,
+    Sentence.realize_cardGe, Nat.cast_succ, Cardinal.natCast_add_one_le_iff, not_lt]
+  exact and_comm.trans le_antisymm_iff.symm
 
 /-- `Θ_even`, the countable disjunction of `CardEq (2 m)`. -/
 def evenSentenceInf : Language.graph.Sentenceω :=
@@ -734,7 +737,7 @@ def productGraphon : Graphon I (volume : Measure I) where
     (unitInterval.mul_mem x.2 y.2).2⟩⟩
   mem01' x y := unitInterval.mul_mem x.2 y.2
 
-theorem productGraphon_isolated_expectation (n : ℕ) (hn : 1 ≤ n) :
+theorem productGraphon_isolated_expectation (n : ℕ) :
     (∫ G : SimpleGraph (Fin n), (isolatedCount G : ℝ) ∂sampleGraph productGraphon n) =
       2 * (1 - (1 / 2 : ℝ) ^ n) := by
   sorry
