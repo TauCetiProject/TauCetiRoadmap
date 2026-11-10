@@ -38,8 +38,9 @@ The required endpoints include the following constructions and comparisons.
 - Spatial duality, explicit elementary abstract foams and their compiler,
   progressive spanning, and functorial disk insertion with its comparisons.
 
-KhovanovHomology K2 owns the chosen rank-two Frobenius algebra, circle tensors
-and formal surface category modulo sphere, torus and four-tube relations.
+Use the native chosen rank-two Frobenius algebra and circle tensors.
+KhovanovHomology K2 supplies the formal surface category modulo sphere,
+torus and four-tube relations.
 Its K3 closed-evaluation construction supplies the formal surface evaluation.
 Foams owns KH1 (grading, 1.4), KH2 (states, 2.13), KH3 (generators, 6.1)
 and KH4 (formal surfaces, 7.4), using these contracts. The general Frobenius
@@ -196,9 +197,28 @@ the nonequivariant specialization sends them to zero.
 ### From Tau Ceti
 
 - Use `TauCeti.MorphismIdeal`, its quotient, quotient functor, zero criterion
-  and lift, together with the additive quotient infrastructure. Verify tensor
-  stability for the foam ideal using TemperleyLieb's contract below.
-  [Morphism ideals and quotients][tc-ideal]
+  and lift, together with the additive quotient infrastructure.
+  `TauCeti.MonoidalIdeal`, `TauCeti.MonoidalQuotient` and
+  `TauCeti.toMonoidalQuotient` supply tensor ideals and monoidal quotient descent
+  for monoidal preadditive categories, with linear descent when the source is
+  monoidal linear. Prove tensor stability of the foam ideals here.
+  [Morphism ideals and quotients][tc-ideal] · [Monoidal quotients][tc-monoidal-quotient]
+- Use `CategoryTheory.Mat_.instMonoidalCategory` for the monoidal structure on
+  the finite additive envelope of a monoidal preadditive category, and
+  `CategoryTheory.Idempotents.Karoubi.instMonoidalCategory` for the monoidal
+  idempotent completion of a monoidal category, together with their strong
+  monoidal embeddings. [Additive envelopes][tc-monoidal-mat]
+  · [Idempotent completions][tc-monoidal-karoubi]
+- `CategoryTheory.ExactPairing.rightMate` and
+  `CategoryTheory.ExactPairing.leftMate` take explicit chosen pairings.
+  `TauCeti.rightDualFunctorMonoidal` and `TauCeti.doubleRightDualFunctor`
+  supply monoidal dual functors for right rigid categories.
+  `TauCeti.PivotalCategory`, `TauCeti.pivotalExactPairing`, `TauCeti.leftTrace`
+  and `TauCeti.rightTrace` supply ordinary pivotal structure and traces on
+  rigid categories. Match these interfaces with the chosen foam pairings;
+  the higher spatial duality is constructed in Layer 5.
+  [Chosen-pairing mates][tc-mates] · [Dual functors][tc-dual-functors]
+  · [Pivotal categories][tc-pivotal] · [Traces][tc-traces]
 - The graded-module category and its shifts supply internally graded modules
   with degree-preserving maps. Use `TauCeti.GradedModuleCat.shiftFunctor`,
   `TauCeti.GradedModuleCat.shiftFunctorZeroIso` and
@@ -228,8 +248,15 @@ the nonequivariant specialization sends them to zero.
   graded bases. [Khovanov Frobenius algebra][tc-khov-frobenius]
   · [Circle tensors][tc-khov-circles]
 - `TauCeti.hsymm_mul_diagramSchurPoly` and `TauCeti.hsymm_mul_schurPoly`
-  give the complete-symmetric Pieri rule. The elementary-symmetric rule is the
-  separate SchurWeyl contract below. [Complete-symmetric Pieri][tc-pieri]
+  give the complete-symmetric Pieri rule; `TauCeti.esymm_mul_diagramSchurPoly`
+  and `TauCeti.esymm_mul_schurPoly` give the elementary-symmetric rule.
+  `TauCeti.schurPolyBasis` and `TauCeti.coe_schurPolyBasis` supply the Schur
+  basis of symmetric homogeneous polynomials in a finite alphabet over a
+  commutative ring. `TauCeti.diagramSchurPoly_eq_det_esymmInt` gives dual
+  Jacobi–Trudi when the determinant size is at least the diagram's number of
+  columns. Section 2.11 constructs the rectangular basis in the circle-algebra
+  quotient and its pairing. [Pieri rules][tc-pieri] · [Schur bases][tc-schur-basis]
+  · [Dual Jacobi–Trudi][tc-dual-jt]
 - `TauCeti.PermutationTriple.ribbonGraph`,
   `TauCeti.PermutationTriple.facePerm_ribbonGraph` and
   `TauCeti.PermutationTriple.isConnected_ribbonGraph` compare permutation triples
@@ -243,17 +270,28 @@ the nonequivariant specialization sends them to zero.
   [Permutation triples][tc-permutations] · [Bipartite ribbon graphs][tc-ribbon]
   · [Forward comparison][tc-ribbon-forward] · [Reverse comparison][tc-ribbon-reverse]
   · [Euler characteristic][tc-ribbon-euler]
+- `TauCeti.SpanningTreeContraction`, `TauCeti.nonempty_spanningTreeContraction` and
+  `TauCeti.SpanningTreeContraction.isNoncrossingMatching_permCongr_matching_iff`
+  apply to a rotation and an edge involution on a nonempty connected finite set
+  of darts. They contract a spanning tree to a one-vertex chord diagram with the
+  same boundary cycles and characterize Euler equality by noninterleaving of its
+  bands after cyclic numbering. `Equiv.Perm.IsNoncrossingMatching` specifies that
+  condition, and `TauCeti.orbitCount_finRotate_mul_add_orbitCount_add_two_le`
+  bounds the boundary-cycle count when two bands interleave.
+  `TauCeti.PDCode.IsPlanar`, defined using `TauCeti.PDCode.toPermutationTriple`,
+  is the four-valent specialization; `TauCeti.PDCode.isPlanar_iff_isNoncrossingMatching`
+  gives its chord criterion for connected codes.
+  [Spanning-tree contraction][tc-ribbon-contraction] · [Chord diagrams][tc-chord]
+  · [PD-code planarity][tc-pd-planar] · [PD-code chord criterion][tc-pd-chord]
 
 ### From other roadmaps
 
 | Supplier and section | Contract consumed | Foams construction |
 | --- | --- | --- |
-| [PivotalSpherical, Layers 0–2][pivotal] | Ordinary chosen dual pairs, mates, monoidal dual functor, pivotal structure and traces | Match chosen foam pairings, then construct higher spatial duality |
-| [KhovanovHomology, K1–K2 and K3 closed evaluation][khovanov] | Finite planar calculus, chosen graded Frobenius algebra, circle tensors, formal surface relations and evaluation | KH1–KH4 |
-| [TemperleyLieb, Layer 2 and Layers 6–7][tl] | Ordinary presentations, categorical tensor ideals, additive/monoidal envelopes and quotient descent | Verify the foam ideals and higher-operation compatibility |
+| [KhovanovHomology, K1–K2 and K3 closed evaluation][khovanov] | Finite planar calculus, formal surface category and relations, and closed evaluation | KH1–KH4, using the native algebra and circle tensors listed above |
+| [TemperleyLieb, Layer 2][tl] | Ordinary monoidal presentations and their interpretation property | The planar web-presentation infrastructure of 0.9 |
 | [KhovanovHomology, G][khovanov-geometry] | Finite plane realizations, polygonal complement and boundary-orientation dictionaries, controlled smoothing and relative extension | Relative-boundary disk diagrams, collar transport and insertion in Layer 7 |
 | [GeometricTopology, 2.2][geometric-schoenflies] and [3.3][geometric-isotopy] | Boundary-parametrized Schoenflies and relative isotopy extension with their collar and regularity hypotheses | Prove the interior-arc and boundary-relative disk-with-holes comparisons in Layer 7 |
-| [RepresentationTheory/SchurWeyl, Layer 7][schur] | Young-diagram identities, Schur bases, dual Jacobi–Trudi and both horizontal- and vertical-strip Pieri rules | Decoration substitutions, integral circle pairing and foam decomposition maps |
 
 The general constructions in these supplier contracts retain their owners.
 Closed-web planarity uses the permutation-triple and ribbon-graph interfaces
@@ -1032,13 +1070,10 @@ rotation, not whether the underlying graph admits some planar rotation.
 Zero-labeled edges remain in this test until erased.
 
 Reuse Tau Ceti's permutation-triple/ribbon-graph comparisons and Euler-count
-results listed above. Consume the general spanning-tree,
-boundary-cycle and noninterleaving chord lemmas developed for
-[KhovanovHomology K1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/KhovanovHomology/README.md#k1-resolution-circles-and-local-planar-calculus),
-stated on Tau Ceti's permutation triples and associated ribbon graphs. The native
-PD-code specialization, `TauCeti.PDCode.IsPlanar`, uses
-`TauCeti.PDCode.toPermutationTriple` for its Euler criterion.
-[PD-code planarity][tc-pd-planar] Construct the trivalent-web adapter here:
+results listed above. Apply the native spanning-tree contraction and
+noninterleaving criterion to the pair (ρ, τ) on each nonempty component; they
+apply directly to rotations and edge involutions on finite dart sets.
+Construct the trivalent-web adapter here:
 preserve the specified rotations, labels and vertex-free circles, and
 prove independence of auxiliary subdivision. A theorem about four-valent
 PD-codes alone does not supply this adapter. Prove the criterion equivalent
@@ -1071,7 +1106,8 @@ cited under From Tau Ceti. For the rotation-system convention see
 cyclic-order compatibility.
 
 *Needs:* Statement: 0.1, effective rotations and native bipartite ribbon graphs.
-Proof: the native permutation-triple/ribbon-graph and Euler-count comparisons;
+Proof: the native permutation-triple/ribbon-graph and Euler-count comparisons and
+spanning-tree contraction;
 the subdivision and component-count adapter constructed here; 0.9 and KhovanovHomology K1
 for planar presentations.
 
@@ -1429,8 +1465,10 @@ indexed by 0≤i,j<N−a. Here λ′_i is column i's length, and
 All index subtractions occur in ℤ. The polynomial is defined over ℤ and mapped
 to the quotient over Λ_N. Require the prescribed Schur classes themselves to
 form a basis, the number of rectangle diagrams to be binomial(N,a), and each
-representative to be weighted homogeneous of degree 2|λ|. Use SchurWeyl Layer 7's
-dual Jacobi–Trudi identity to identify this determinant with its Schur polynomial.
+representative to be weighted homogeneous of degree 2|λ|. Use
+`TauCeti.diagramSchurPoly_eq_det_esymmInt` in a variables with determinant size
+N−a to identify this determinant with its Schur polynomial; the rectangle
+condition supplies the required column bound.
 
 Write ζ_a for the Λ_N-linear coefficient of the top rectangular Schur basis
 element: it is 1 there and zero on the other basis elements. Identify it with
@@ -1489,13 +1527,15 @@ coefficient change, with trace
   ratio contributes (−1)^aσ.
 
 Use [Wu v2, Theorem 2.10 and Remark 2.11, p. 9, Proposition 3.13, p. 13 and proof p.
-22][wu-equivariant], which works over complex coefficients. Prove the integral presentation and dual
+14][wu-equivariant], which works over complex coefficients. Prove the integral presentation and dual
 pairing here. The extra sign is from [Ehrig–Tubbenhauer–Wedrich v2, Example 2.5, p. 6, Remark 2.24,
 p. 14][etw], not attributed to Wu.
 
 *Needs:* Statement: polynomial quotients and Young diagrams for the algebraic acceptance statement;
-0.8, 0.10, 1.2 and 2.10 for the foam comparisons, with 0≤a≤N throughout. Proof: SchurWeyl Layer 7, integral
-symmetric-polynomial pairing identities and contextual circle/neck-cutting relations from 2.6.
+0.8, 0.10, 1.2 and 2.10 for the foam comparisons, with 0≤a≤N throughout. Proof: the native
+finite-alphabet Schur bases, dual Jacobi–Trudi and Pieri rules listed above;
+the integral quotient and pairing identities constructed here; and contextual
+circle/neck-cutting relations from 2.6.
 
 ### 2.12 Bar-Natan state spaces and circle decompositions
 
@@ -2104,7 +2144,7 @@ Remarks 4.41–4.42, pp. 53–54.
 
 *Needs:* Statement: Layer 3’s structure, Barrett–Meusburger–Schaumann duality/spatiality data and
 the concrete categories of Layer 4. Proof: the explicit structural foam models and ordinary
-chosen-pairing mates from PivotalSpherical Layers 0–2.
+chosen-pairing mates from the native interfaces listed above.
 
 
 ### Examples
@@ -2115,7 +2155,7 @@ the ungraded view with those degrees recorded.
 
 ### Dependencies
 
-Use Layers 3–4 and the ordinary chosen-duality contract of PivotalSpherical. Construct the abstract
+Use Layers 3–4 and the native ordinary chosen-duality interfaces. Construct the abstract
 duality models before Layer 6 names them as generators. No compiler-spanning theorem is an input.
 
 ## Layer 6: foam compiler and graphical relations
@@ -2535,7 +2575,8 @@ Index categories by boundary profiles: finite ordered lists of signed labels,
 read from a marked point on an oriented disk boundary. Use both label
 theories of Layer 0. An operation is an oriented disk with numbered input
 holes and marked boundary points, containing disjoint oriented labeled arcs
-and circles that match the profiles. Reverse the boundary-orientation
+and circles that match the profiles. The complementary regions are unshaded;
+orientations and labels belong to the strands. Reverse the boundary-orientation
 convention on input holes when specifying the matching rule. Trivalent web
 vertices belong to the inserted objects, not to these connecting diagrams.
 Choose boundary parametrizations and collars for gluing. Use ordinary planar
@@ -2814,6 +2855,13 @@ extending a cited result are assigned explicitly in the relevant topic.
 [ml-frobenius]: https://leanprover-community.github.io/mathlib4_docs/Mathlib/RingTheory/Coalgebra/IsFrobenius.html
 [ml-symmetric]: https://leanprover-community.github.io/mathlib4_docs/Mathlib/RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.html
 [tc-ideal]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/Preadditive/MorphismIdeal/Basic.lean
+[tc-monoidal-quotient]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/Monoidal/Envelope/Quotient.lean
+[tc-monoidal-mat]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/Monoidal/Envelope/Mat/Basic.lean
+[tc-monoidal-karoubi]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/Monoidal/Envelope/Karoubi/Basic.lean
+[tc-mates]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/Monoidal/Rigid/Mate.lean
+[tc-dual-functors]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/Monoidal/Rigid/DualFunctor.lean
+[tc-pivotal]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/Monoidal/Pivotal/Basic.lean
+[tc-traces]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/Monoidal/Pivotal/Trace.lean
 [tc-graded]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Basic.lean
 [tc-graded-shift]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Shift.lean
 [tc-graded-abelian]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Abelian.lean
@@ -2824,19 +2872,22 @@ extending a cited result are assigned explicitly in the relevant topic.
 [tc-projective]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Projective.lean
 [tc-nakayama]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Module/GradedModule/Nakayama.lean
 [tc-pieri]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/Pieri.lean
+[tc-schur-basis]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/Basis.lean
+[tc-dual-jt]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/DualJacobiTrudi.lean
 [tc-permutations]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/PermutationTriple/Basic.lean
 [tc-ribbon]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/Basic.lean
 [tc-ribbon-forward]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/OfPermutationTriple.lean
 [tc-ribbon-reverse]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/ToPermutationTriple.lean
 [tc-ribbon-euler]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/EulerCharacteristic.lean
+[tc-ribbon-contraction]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/Contraction.lean
+[tc-chord]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/ChordDiagram.lean
 [tc-pd-planar]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/KnotTheory/PDCode/Planar.lean
-[pivotal]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md#layer-0-the-dual-and-double-dual-functors
+[tc-pd-chord]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/KnotTheory/PDCode/ChordDiagram.lean
 [khovanov]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/KhovanovHomology/README.md#k2-the-rank-two-frobenius-object-and-circle-tensors
 [khovanov-geometry]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/KhovanovHomology/README.md#g-plane-geometry-relative-extension-and-smooth-link-comparison
 [geometric-schoenflies]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GeometricTopology/README.md#22-the-generalized-schoenflies-theorem
 [geometric-isotopy]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GeometricTopology/README.md#33-isotopy-extension
-[tl]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/TemperleyLieb/README.md#layer-7-the-karoubi-envelope-and-the-root-of-unity-quotient
-[schur]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SchurWeyl/README.md#layer-7-symmetric-functions-the-frobenius-characteristic-and-rsk
+[tl]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/TemperleyLieb/README.md#layer-2-the-diagram-category-and-its-presentation
 
 ## Contributors
 
