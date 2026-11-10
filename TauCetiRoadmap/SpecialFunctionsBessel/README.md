@@ -1572,6 +1572,10 @@ SpecialFunctionsEiLiErfIncompleteGamma.
 - **SpecialFunctionsConfluent** consumes `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν` and `K_ν` with their
   equations and connection formulas, the Kummer form 10.39.5 of `I_ν` and the integral 10.32.9 of
   `K_ν`.
+- **SpecialFunctionsStruve** consumes `Y_ν`, `I_ν`, `K_ν` and the Hankel functions with their
+  equations, connection formulas, recurrences, integral representations and large-argument
+  expansions, the primitives 10.22.1 and 10.43.1, the spherical functions, and the Debye
+  polynomials `Real.debyeU` with Debye's expansions (Layers 1–6, 8 and 9).
 - **StandardDistributions** can state the densities of the noncentral chi-squared, von Mises and
   normal-inverse-Gaussian laws through `I_ν` and `K_ν` from here.
 - A roadmap for the uniform expansions of DLMF §10.20 consumes Layers 1, 5 and 6 and the Airy
