@@ -256,7 +256,8 @@ the nonequivariant specialization sends them to zero.
 | [RepresentationTheory/SchurWeyl, Layer 7][schur] | Young-diagram identities, Schur bases, dual Jacobi–Trudi and both horizontal- and vertical-strip Pieri rules | Decoration substitutions, integral circle pairing and foam decomposition maps |
 
 The general constructions in these supplier contracts retain their owners.
-Closed-web planarity uses the finite-map interfaces. Layer 7 additionally
+Closed-web planarity uses the permutation-triple and ribbon-graph interfaces
+listed under From Tau Ceti. Layer 7 additionally
 constructs the relative-boundary comparisons required by its disk operations.
 
 ## How to read the build
@@ -1034,8 +1035,11 @@ Reuse Tau Ceti's permutation-triple/ribbon-graph comparisons and Euler-count
 results listed above. Consume the general spanning-tree,
 boundary-cycle and noninterleaving chord lemmas developed for
 [KhovanovHomology K1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/KhovanovHomology/README.md#k1-resolution-circles-and-local-planar-calculus),
-stated on the shared finite-map carriers. Construct the trivalent-web adapter
-here: preserve the specified rotations, labels and vertex-free circles, and
+stated on Tau Ceti's permutation triples and associated ribbon graphs. The native
+PD-code specialization, `TauCeti.PDCode.IsPlanar`, uses
+`TauCeti.PDCode.toPermutationTriple` for its Euler criterion.
+[PD-code planarity][tc-pd-planar] Construct the trivalent-web adapter here:
+preserve the specified rotations, labels and vertex-free circles, and
 prove independence of auxiliary subdivision. A theorem about four-valent
 PD-codes alone does not supply this adapter. Prove the criterion equivalent
 to existence of a crossing-free web presentation, preserving labels and cyclic
@@ -1048,8 +1052,8 @@ Foam₁ᵖˡ as its trace quotient. Prove that the fillings, outgoing tests and
 ideals I₁,I₂ on retained objects agree with those in the unrestricted theory.
 No chosen presentation or embedding is part of an object.
 
-- Supply the effective rotation system, componentwise Euler test, finite-map adapters and closure
-  under the prescribed planar operations.
+- Supply the effective rotation system, componentwise Euler test, permutation-triple
+  adapters and closure under the prescribed planar operations.
 
 **Checks.**
 
@@ -1061,9 +1065,10 @@ No chosen presentation or embedding is part of an object.
   passes the componentwise condition vacuously. Two planar components each have value 2, not a
   combined requirement of 2.
 
-Construct the web adapter here from the cited finite-map contract. For the rotation-system
-convention see [Erickson, Planar Graphs, “Rotation systems”][erickson]. This test
-retains cyclic-order compatibility.
+Construct the web adapter here from the permutation-triple/ribbon-graph comparisons
+cited under From Tau Ceti. For the rotation-system convention see
+[Erickson, Planar Graphs, “Rotation systems”][erickson]. This test retains
+cyclic-order compatibility.
 
 *Needs:* Statement: 0.1, effective rotations and native bipartite ribbon graphs.
 Proof: the native permutation-triple/ribbon-graph and Euler-count comparisons;
@@ -2533,16 +2538,23 @@ holes and marked boundary points, containing disjoint oriented labeled arcs
 and circles that match the profiles. Reverse the boundary-orientation
 convention on input holes when specifying the matching rule. Trivalent web
 vertices belong to the inserted objects, not to these connecting diagrams.
-Construct fixed boundary collars and the relative-boundary comparison
-for diagrams in disks with holes. Use KhovanovHomology K1's finite planar
+Choose boundary parametrizations and collars for gluing. Use ordinary planar
+equivalence: orientation-preserving planar diffeomorphisms carry the numbered
+input disks, marked boundary data and oriented labeled strands to matching
+data. Input disks and their marked data may move together during planar
+isotopy. For representatives with the same parametrized boundaries, comparison
+maps fix those boundaries pointwise, with all boundary-fixing mapping classes
+allowed. Prove independence under compatible changes of parametrizations and
+collars, and construct the relative-boundary comparisons used in gluing.
+Use KhovanovHomology K1's finite planar
 calculus and G's plane realizations, complement and boundary-orientation
 dictionaries, controlled smoothing and relative extension. Use GeometricTopology
 2.2's boundary-parametrized Schoenflies theorem and 3.3's relative isotopy
 extension with their collar and regularity hypotheses. Prove the interior-arc,
 boundary-relative disk-with-holes and subdivision statements here, including
 the comparison between the piecewise-linear diagrams and controlled smooth
-roundings. Take operations up to boundary-preserving planar isotopy and prove identity,
-substitution, associativity, boundary transport and relabeling laws. This
+roundings. Take operations up to the ordinary planar equivalence just specified,
+and prove identity, substitution, associativity, boundary transport and relabeling laws. This
 collection with substitution is the colored planar operad acting on the
 categories; no separate general operad theory is a prerequisite.
 
@@ -2574,8 +2586,8 @@ the stated canopolis. Prove that negligible relations are preserved by
 every planar insertion by completing any output closing test to a test on
 the replaced input. The abstract tests remain those of Layer 2.
 
-- Supply relative-boundary diagram equivalence, insertion and its representative independence, the
-  disk categories and descent of all evaluated relations.
+- Supply ordinary planar diagram equivalence, boundary transport for gluing, insertion and its
+  representative independence, the disk categories and descent of all evaluated relations.
 
 **Checks.**
 
@@ -2585,9 +2597,14 @@ the replaced input. The abstract tests remain those of Layer 2.
   an identity annulus multiplies by 1.
 - Relabelling two input holes exchanges their tensor factors by the unsigned swap. A diagram with an
   endpoint of label 1 attached to an endpoint of label 2 is not an allowed insertion.
+- A radial annular diagram and its image under a full Dehn twist represent the same operation:
+  the twist fixes both parametrized boundary circles and extends over the input disk. Its insertion
+  functor is therefore the identity functor, as for the radial annulus.
 
-Construct these disk actions and relative-boundary comparisons here. [Bar-Natan v2, Definition 8.1,
-pp. 1473–1474][bn] supplies the structure definition; [Ehrig–Tubbenhauer–Wedrich v2, Definition
+Construct these disk actions and boundary-transport comparisons here. [Bar-Natan v2, Definition
+5.1, p. 1464, and Definition 8.1, pp. 1473–1474][bn] supply the planar diagrams and canopolis
+structure; [Jones, Definition 2.3.1, p. 6][jones-planar] makes ordinary planar invariance explicit.
+[Ehrig–Tubbenhauer–Wedrich v2, Definition
 2.10, p. 8][etw] supplies the foam insertion model.
 
 *Needs:* Statement: 7.1, finite planar diagrams with marked boundary collars and the state
@@ -2764,6 +2781,7 @@ extending a cited result are assigned explicitly in the relevant topic.
 - [Goertz–Wedrich, *A note on TQFTs for orientable 2-dimensional cobordisms*,
   arXiv:2511.19373v2][gw-cob].
 - [Bar-Natan, *Khovanov’s homology for tangles and cobordisms*, arXiv:math/0410495v2][bn].
+- [Jones, *Quadratic Tangles in Planar Algebras*, arXiv:1007.1158v2][jones-planar].
 - [Erickson, *Computational Topology: Planar Graphs*, 2023 course notes][erickson].
 
 [gmw]: https://arxiv.org/abs/2602.11120v1
@@ -2782,6 +2800,7 @@ extending a cited result are assigned explicitly in the relevant topic.
 [dw]: https://arxiv.org/abs/2504.08496v1
 [gw-cob]: https://arxiv.org/abs/2511.19373v2
 [bn]: https://arxiv.org/abs/math/0410495v2
+[jones-planar]: https://arxiv.org/pdf/1007.1158v2
 [erickson]: https://jeffe.web.engr.illinois.edu/teaching/comptop/2023/notes/09-planar-graphs.html
 
 [ml-bicat]: https://leanprover-community.github.io/mathlib4_docs/Mathlib/CategoryTheory/Bicategory/Strict/Basic.html
@@ -2798,7 +2817,7 @@ extending a cited result are assigned explicitly in the relevant topic.
 [tc-graded]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Basic.lean
 [tc-graded-shift]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Shift.lean
 [tc-graded-abelian]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Category/GradedModuleCat/Abelian.lean
-[tc-graded-tensor]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Module/GradedModule/TensorProduct.lean
+[tc-graded-tensor]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Module/GradedModule/TensorProduct/Basic.lean
 [tc-frobenius]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Algebra/Algebra/Frobenius/Basic.lean
 [tc-khov-frobenius]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/KnotTheory/Khovanov/Frobenius.lean
 [tc-khov-circles]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/KnotTheory/Khovanov/CircleTensor.lean
@@ -2810,6 +2829,7 @@ extending a cited result are assigned explicitly in the relevant topic.
 [tc-ribbon-forward]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/OfPermutationTriple.lean
 [tc-ribbon-reverse]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/ToPermutationTriple.lean
 [tc-ribbon-euler]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/RibbonGraph/EulerCharacteristic.lean
+[tc-pd-planar]: https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/KnotTheory/PDCode/Planar.lean
 [pivotal]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PivotalSpherical/README.md#layer-0-the-dual-and-double-dual-functors
 [khovanov]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/KhovanovHomology/README.md#k2-the-rank-two-frobenius-object-and-circle-tensors
 [khovanov-geometry]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/KhovanovHomology/README.md#g-plane-geometry-relative-extension-and-smooth-link-comparison
