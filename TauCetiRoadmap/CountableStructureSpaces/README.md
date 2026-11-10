@@ -184,8 +184,9 @@ internal rank, the tree material of Layer 3, the forms of López–Escobar in La
 relative form belongs to the [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) roadmap), separation by invariant Borel sets and sentences for the logic
 action, and the well-order class. Where Tau Ceti at the pin already implements a target (the
 supplier rows above that name layers of this roadmap), the implementation is the interface: the
-remaining targets are stated over it, and `Suggested.lean` states the implemented milestones in
-the roadmap's form and proves them by the library's theorems. It proves no perfect-set, Silver,
+remaining targets are stated over it. `Suggested.lean` cites the implemented milestones and
+restates only those whose form here differs from the library's (indexing, conventions, generality
+or vocabulary), proving them by the library's theorems. It proves no perfect-set, Silver,
 `G₀` or Borel-reducibility theorem, and none of the general Polish-space lemmas listed above; those
 belong to the BorelEquivalenceRelations roadmap. It counts no models; that belongs to the
 CountableModelCounting roadmap, which uses the Tau Ceti declarations above directly and consumes,
@@ -289,8 +290,8 @@ For `[TopologicalSpace α] [DiscreteTopology α]`, the topology of Convention 4 
   `fixingSubgroup (Equiv.Perm α) s` of finite sets `s` form a neighbourhood basis of `1`; each is
   an open, hence closed, subgroup. In particular the inverse coordinate of the embedding adds no
   open sets, because fixing `σ` on a finite set fixes `σ⁻¹` on its image;
-- `isTopologicalGroup_perm`, and `polishSpace_perm` for countable `α`, from the closed embedding
-  into a Polish product. For `α = ℕ` this is S∞; for finite `α` the topology is discrete.
+- the topological-group instance `Equiv.Perm.instIsTopologicalGroup` and, for countable `α`, the
+  Polish instance `Equiv.Perm.instPolishSpace`, from the closed embedding into a Polish product. For `α = ℕ` this is S∞; for finite `α` the topology is discrete.
 
 ### 1.2 The logic action
 
@@ -309,8 +310,8 @@ for languages with function symbols.
 - `continuousSMul_relationalConfiguration`: the action is jointly continuous, for every language. Under
   the countability hypotheses the coding space on `ℕ` is therefore a Polish S∞-space.
 - **Orbits are isomorphism classes.** `σ` is an isomorphism from `c.toStructure` to
-  `(σ • c).toStructure`, and every isomorphism between decoded structures is of this form:
-  `orbitRel_iff_nonempty_equiv`, from Tau Ceti's `isoSetoid_eq_orbitRel`.
+  `(σ • c).toStructure`, and every isomorphism between decoded structures is of this form: Tau
+  Ceti's `isoSetoid_eq_orbitRel` with `isoSetoid_apply`.
 - **Stabilizers are automorphism groups**: `mem_stabilizer_iff`, and stabilizers are closed
   subgroups.
 - **Invariance**: `MulAction.IsFixedBlock (Equiv.Perm α)` and `IsomorphismInvariant` with
@@ -343,25 +344,23 @@ and the constructor equations, measurability of satisfaction (`measurableSet_set
 `measurableSet_modelsOf`) and `standardBorelSpace_modelsOf`, all on every countable carrier, and
 `Language.Equiv.mem_modelsOf_iff` across carriers, from which `isomorphismInvariant_modelsOf`
 follows in one step; clopenability is Mathlib's `MeasurableSet.isClopenable` applied to
-`measurableSet_modelsOf`. Still to build: the named sets `modelsOfBounded`, locality, the Gδ model
-classes and the graph events.
+`measurableSet_modelsOf`. Still to build: locality, the Gδ model classes and the graph events.
 
 The specification, for relational `L`:
 
-- `modelsOfBounded φ v xs : Set (RelationalConfiguration L α)` for `φ : L.BoundedFormulaω β n` and
-  assignments `v : β → α`, `xs : Fin n → α`, and `modelsOf φ` for `φ : L.Sentenceω`, with
-  `mem_modelsOf` (membership is `SentenceInf.Realize` in the decoded structure);
+- `modelsOf φ` for `φ : L.Sentenceω`, with `mem_modelsOf` (membership is `SentenceInf.Realize` in
+  the decoded structure), and, for `φ : L.BoundedFormulaω β n` and assignments `v : β → α`,
+  `xs : Fin n → α`, the set `{c | φ.Realize v xs}` of codes whose decoded structure satisfies `φ`
+  there (the set of `measurableSet_setOf_realize`);
 - the **constructor equations**: `modelsOf ⊥ = ∅`, `modelsOf ⊤ = univ`, negation is complement,
   binary and countable conjunction and disjunction are intersection and union (`iInf`, `iSup`,
   and the coded forms `iInfAlong`, `iSupAlong`), and the quantifier steps are the intersection and
   union over the carrier;
-- **satisfaction is Borel**: `measurableSet_modelsOfBounded` and `measurableSet_modelsOf` for
-  every relational `L` and countable `α`, by induction on the formula. An atomic formula is a
-  basic cylinder or (an equality of variables) `∅` or `univ`; the quantifier steps are countable
-  because the carrier is. No countability of the language is used;
-- **locality**: `modelsOfBounded φ v xs` depends only on the values of the assignment on
+- **satisfaction is Borel**: `measurableSet_setOf_realize` and `measurableSet_modelsOf` for every
+  relational `L` and countable `α`. No countability of the language is used;
+- **locality**: `{c | φ.Realize v xs}` depends only on the values of the assignment on
   `freeVarSupport φ` (InfinitaryLogic Layer 0), and transforms under the action by
-  `σ • modelsOfBounded φ v xs = modelsOfBounded φ (σ ∘ v) (σ ∘ xs)`;
+  `σ • {c | φ.Realize v xs} = {c | φ.Realize (σ ∘ v) (σ ∘ xs)}`;
 - **invariance**: `isomorphismInvariant_modelsOf`, from invariance of realization under
   isomorphism; hence `modelsOf φ` is measurable for the invariant σ-algebra;
 - **model spaces**: `standardBorelSpace_modelsOf` (Mathlib's `MeasurableSet.standardBorel`) and
@@ -430,24 +429,21 @@ relation symbols.
 `isoSetoid` with `isoSetoid_eq_orbitRel` and (relational, countable) analyticity of its graph, and
 `bfEquivSetoid` with its measurability and `isoSetoid_le_bfEquivSetoid`; and
 `realize_scottSentence_iff` (`ModelTheory/Scott/Isomorphism.lean`), which gives
-`setOf_iso_eq_modelsOf_scottSentence` directly. Still to build: the named pair sets
-`bfEquivSet`.
+`setOf_iso_eq_modelsOf_scottSentence` directly. Section 4.1 is therefore complete at the pin; the
+statements below fix how the later layers use it.
 
-- `bfEquivSet β n a b`, the code pairs whose decoded structures satisfy `BFEquiv β n a b`, and
-  `measurableSet_bfEquivSet` for `β < ω₁` and countable relation symbols, by induction on `β`:
-  at `0` a countable intersection over atomic indices; at a successor the previous level and the
-  forth and back clauses, countable intersections of countable unions; at a limit `β < ω₁` a
-  countable intersection. The single-structure form is a cross-check: for a fixed countable `M`,
-  a tuple `a` of `M` and `b : Fin n → ℕ`, the codes `d` with `BFEquiv β n a b` (comparing `M` with
-  the structure named by `d`) form `modelsOfBounded (scottFormula a β) Empty.elim b`, by
-  `realize_scottFormula_iff_bfEquiv`.
+- The code pairs whose decoded structures satisfy `BFEquiv β n a b` at fixed tuples `a b` form a
+  Borel set for `β < ω₁` and countable relation symbols (`measurableSet_setOf_bfEquiv`). The
+  single-structure form is a cross-check: for a fixed countable `M`, a tuple `a` of `M` and
+  `b : Fin n → ℕ`, the codes `d` with `BFEquiv β n a b` (comparing `M` with the structure named by
+  `d`) are the codes satisfying `scottFormula a β` at `b`, by `realize_scottFormula_iff_bfEquiv`.
 - `isoSetoid L α`, the isomorphism relation on `RelationalConfiguration L α` (the decoded
   structures are isomorphic), for every carrier and in particular for `ℕ` and each `Fin n`, with
   `isoSetoid_eq_orbitRel` (it is the orbit relation of the logic action) and, for countable `α`
   and countably many relation symbols, analyticity of its graph.
 - `bfEquivSetoid L α β`, back-and-forth equivalence of the empty tuples as an equivalence relation
   on codes, assembled from `TauCeti.BFEquiv.refl`, `symm` and `trans`, with
-  `measurableSet_bfEquivSetoid` for `β < ω₁` and `isoSetoid_le_bfEquivSetoid`.
+  `measurableSet_setOf_bfEquivSetoid` for `β < ω₁` and `isoSetoid_le_bfEquivSetoid`.
 - **Isomorphism classes are Borel**: `setOf_iso_eq_modelsOf_scottSentence`, the class of `c` is
   the model class of the Scott sentence of the structure `c` names, by `realize_scottSentence_iff`;
   hence each orbit is Borel and invariant.
@@ -456,7 +452,7 @@ relation symbols.
 
 `StabilizesCompletely` and `scottHeight` are Tau Ceti's (Convention 8). Tau Ceti also proves
 `bfEquiv_of_le`, `mono`, `stabilizesCompletely_scottHeight`, `scottHeight_lt_omega_one`,
-`scottHeight_congr` (as `Language.Equiv.scottHeight_eq`), the countable case
+`Language.Equiv.scottHeight_eq` (invariance under isomorphism), the countable case
 `stabilizesCompletely_add_omega0`, `scottHeight_le_selfStabilizationOrdinal_add_omega0`,
 `scottHeight_le_internalScottRank_add_omega0` and the height comparison, and the constant-chain
 bound for arbitrary `N` follows from `SelfStabilizesCompletely.bfEquiv_add_one_of_isSuccLimit` at
@@ -479,7 +475,8 @@ Still to build: `stabilizesCompletely_iff_univ`, `selfStabilizationOrdinal_le_sc
   `stabilizesCompletely_add_omega0`, says that `M` stabilizes externally at `β + ω` in the sense of
   Convention 8;
 - `stabilizesCompletely_scottHeight` (the infimum is attained, the set being nonempty by the
-  constant-chain bound), `scottHeight_lt_omega_one` for countable `M`, and `scottHeight_congr`;
+  constant-chain bound), `scottHeight_lt_omega_one` for countable `M`, and
+  `Language.Equiv.scottHeight_eq`;
 - **comparison with the internal rank**, for countable `M` where stated:
   - `selfStabilizationOrdinal_le_scottHeight` (countable `M`): external stabilization at `β`,
     applied to a copy of `M` in `Type`, is internal stabilization at `β`;
@@ -506,7 +503,7 @@ Still to build: `stabilizesCompletely_iff_univ`, `selfStabilizationOrdinal_le_sc
 - `measurableSet_setOf_selfStabilizationOrdinal_le`: for `β < ω₁` the codes with
   `s(c) ≤ β` form a Borel set, because `s(c) ≤ β` is self-stabilization at `β` (attainment and
   upward propagation), a countable intersection over pairs of tuples of conditions read off
-  `bfEquivSet` along the diagonal.
+  back-and-forth equivalence of tuples (`measurableSet_setOf_bfEquiv`) along the diagonal.
 
 ### 4.4 Forced back-and-forth trees and uniform separation
 
@@ -525,7 +522,7 @@ Still to build: `stabilizesCompletely_iff_univ`, `selfStabilizationOrdinal_le_sc
 - `measurableSet_iso_inter_iff_exists_bfLevel`: isomorphism restricted to `modelsOf φ` is Borel
   exactly when some `β < ω₁` makes `bfEquivSetoid L ℕ β` agree with isomorphism on `modelsOf φ`. The
   forward direction applies uniform separation to the complement, which is Borel and hence
-  analytic; the converse is `measurableSet_bfEquivSetoid`.
+  analytic; the converse is `measurableSet_setOf_bfEquivSetoid`.
 
 **Acceptance check.** In the language of one unary predicate, the codes of `P = 2ℕ` and
 `P = 3ℕ` are isomorphic, and `bfEquivSetoid L ℕ β` relates them for every `β`.

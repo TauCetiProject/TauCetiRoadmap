@@ -58,38 +58,12 @@ The coding space on a carrier `α` is `RelationalConfiguration L α`: a code say
 `atom R x` (a relation symbol with a tuple of its arity), whether the relation holds there. It is
 a type synonym for `Atom L α → Bool`, with the product topology and σ-algebra for every language
 and carrier, and is compact, Polish and standard Borel once the relation symbols of each arity and
-the carrier are countable. -/
+the carrier are countable. Decoding and encoding with both round trips (`toStructure`,
+`ofStructure`), transport (`Equiv.encodeVia`, `Equiv.nonempty_equiv_encodeVia`), the clopen
+cylinders (`isClopen_setOf_eval`), the cardinality bound (`mk_le_continuum`) and the graph coding
+(`SimpleGraph.measurableEmbedding_toRelationalConfiguration`) are the library's. -/
 
 variable {L : FirstOrder.Language.{u, v}} {α : Type w}
-
-example [∀ n, Countable (L.Relations n)] : StandardBorelSpace (RelationalConfiguration L ℕ) :=
-  inferInstance
-
-example [∀ n, Countable (L.Relations n)] :
-    StandardBorelSpace (RelationalConfiguration L ℕ × RelationalConfiguration L ℕ) :=
-  inferInstance
-
-/-- **Layer 0 milestone.** Decoding then encoding is the identity on codes. -/
-theorem ofStructure_toStructure [L.IsRelational] (c : RelationalConfiguration L α) :
-    @ofStructure L α c.toStructure = c :=
-  RelationalConfiguration.ofStructure_toStructure c
-
-/-- **Layer 0 milestone.** Encoding then decoding is the identity on structures of a relational
-language. -/
-theorem toStructure_ofStructure [L.IsRelational] (S : L.Structure α) :
-    (@ofStructure L α S).toStructure = S :=
-  RelationalConfiguration.toStructure_ofStructure S
-
-/-- **Layer 0 milestone.** The code transported along a bijection names a structure isomorphic to
-the source. -/
-theorem nonempty_equiv_encodeVia [L.IsRelational] {M : Type*} [L.Structure M] (e : M ≃ α) :
-    Nonempty (@Language.Equiv L M α _ (e.encodeVia (L := L)).toStructure) :=
-  e.nonempty_equiv_encodeVia
-
-/-- **Layer 0 milestone.** The basic cylinders are clopen. -/
-theorem isClopen_setOf_eval (a : Atom L α) :
-    IsClopen {c : RelationalConfiguration L α | c.eval a = true} :=
-  RelationalConfiguration.isClopen_setOf_eval a true
 
 /-- **Layer 0, the query code.** The coordinates of a code read along a fixed enumeration of the
 atoms, padded with `false`; the embedding of the coding space into Cantor space. -/
@@ -103,22 +77,12 @@ theorem isClosedEmbedding_queryCode [∀ n, Countable (L.Relations n)] :
     IsClosedEmbedding (queryCode (L := L)) := by
   sorry
 
-/-- **Layer 0 milestone.** A coding space on a countable carrier has at most continuum many
-points. -/
-theorem mk_le_continuum [∀ n, Countable (L.Relations n)] [Countable α] :
-    Cardinal.mk (RelationalConfiguration L α) ≤ Cardinal.continuum :=
-  RelationalConfiguration.mk_le_continuum L α
-
-/-- **Layer 0 graph example.** Coding is a measurable embedding of Mathlib's measurable space of
-graphs on `ℕ`. -/
-theorem measurableEmbedding_graphCode :
-    MeasurableEmbedding (SimpleGraph.toRelationalConfiguration : SimpleGraph ℕ → _) :=
-  SimpleGraph.measurableEmbedding_toRelationalConfiguration
-
 /-! ## Layer 1: the logic action of `S∞`
 
 `Equiv.Perm α` carries the topology of pointwise convergence (induced by `σ ↦ (σ, σ⁻¹)`), and acts
-on `RelationalConfiguration L α` by relabelling, for every language. -/
+on `RelationalConfiguration L α` by relabelling, for every language. For a discrete `α` the library
+makes it a topological group, Polish when `α` is countable, and identifies isomorphism of codes
+with the orbit relation (`RelationalConfiguration.isoSetoid_eq_orbitRel`). -/
 
 section PermTopology
 
@@ -133,15 +97,6 @@ theorem hasBasis_nhds_one_fixingSubgroup :
       (fun s => (fixingSubgroup (Equiv.Perm α) (s : Set α) : Set (Equiv.Perm α))) :=
   Equiv.Perm.hasBasis_nhds_one_fixingSubgroup.to_hasBasis
     (fun s hs => ⟨hs.toFinset, trivial, by simp⟩) (fun s _ => ⟨s, s.finite_toSet, subset_rfl⟩)
-
-/-- **Layer 1 milestone.** The permutation group of a discrete space is a topological group. -/
-theorem isTopologicalGroup_perm : IsTopologicalGroup (Equiv.Perm α) :=
-  inferInstance
-
-/-- **Layer 1 milestone.** The permutation group of a countable discrete space is Polish; for
-`α = ℕ` this is `S∞`. -/
-theorem polishSpace_perm [Countable α] : PolishSpace (Equiv.Perm α) :=
-  inferInstance
 
 end PermTopology
 
@@ -163,13 +118,6 @@ theorem continuousSMul_relationalConfiguration [TopologicalSpace α] [DiscreteTo
   exact (continuous_uncurry_restrict (L := L) (V := α) (W := α)).comp
     ((continuous_pi fun x => (Equiv.Perm.continuous_inv_apply x).comp continuous_fst).prodMk
       continuous_snd)
-
-/-- **Layer 1 milestone, orbits are isomorphism classes.** -/
-theorem orbitRel_iff_nonempty_equiv [L.IsRelational] (c d : RelationalConfiguration L α) :
-    (MulAction.orbitRel (Equiv.Perm α) (RelationalConfiguration L α)) c d ↔
-      Nonempty (@Language.Equiv L α α c.toStructure d.toStructure) := by
-  rw [← isoSetoid_eq_orbitRel]
-  exact isoSetoid_apply
 
 /-- **Layer 1 milestone, stabilizers are automorphism groups.** -/
 theorem mem_stabilizer_iff [L.IsRelational] (σ : Equiv.Perm α) (c : RelationalConfiguration L α) :
@@ -227,24 +175,9 @@ theorem analyticSet_orbitRel_graph [∀ n, Countable (L.Relations n)] :
 
 /-! ## Layer 2: satisfaction and model classes
 
-The model class of an infinitary sentence is the library's `RelationalConfiguration.modelsOf`. -/
-
-/-- The codes in which a bounded formula holds at the given assignments. -/
-def modelsOfBounded [L.IsRelational] {β : Type u'} {n : ℕ} (φ : L.BoundedFormulaω β n)
-    (v : β → α) (xs : Fin n → α) : Set (RelationalConfiguration L α) :=
-  {c | letI : L.Structure α := c.toStructure; φ.Realize v xs}
-
-/-- **Layer 2 milestone, satisfaction is Borel**: measurable for the product σ-algebra, for every
-relational language and countable carrier. -/
-theorem measurableSet_modelsOfBounded [L.IsRelational] [Countable α] {β : Type u'} {n : ℕ}
-    (φ : L.BoundedFormulaω β n) (v : β → α) (xs : Fin n → α) :
-    MeasurableSet (modelsOfBounded φ v xs) :=
-  RelationalConfiguration.measurableSet_setOf_realize φ v xs
-
-/-- **Layer 2 milestone.** -/
-theorem measurableSet_modelsOf [L.IsRelational] [Countable α] (φ : L.Sentenceω) :
-    MeasurableSet (modelsOf φ : Set (RelationalConfiguration L α)) :=
-  RelationalConfiguration.measurableSet_modelsOf φ
+The model class of an infinitary sentence is the library's `RelationalConfiguration.modelsOf`, with
+Borel satisfaction (`measurableSet_setOf_realize`, `measurableSet_modelsOf`) and the
+`standardBorelSpace_modelsOf` instance. -/
 
 /-- **Layer 2 milestone.** Model classes are isomorphism invariant, by the library's
 `Language.Equiv.mem_modelsOf_iff`. -/
@@ -252,11 +185,6 @@ theorem isomorphismInvariant_modelsOf [L.IsRelational] (φ : L.Sentenceω) :
     IsomorphismInvariant (modelsOf φ : Set (RelationalConfiguration L α)) :=
   isomorphismInvariant_iff.2 fun _ _ h hc =>
     ((Classical.choice (isoSetoid_apply.1 h)).mem_modelsOf_iff φ).1 hc
-
-/-- **Layer 2 milestone.** A model class is standard Borel in the subspace σ-algebra. -/
-theorem standardBorelSpace_modelsOf [L.IsRelational] [∀ n, Countable (L.Relations n)]
-    (φ : L.Sentenceω) : StandardBorelSpace (modelsOf φ : Set (RelationalConfiguration L ℕ)) :=
-  inferInstance
 
 /-- **Layer 2 milestone.** For a first-order `∀∃` sentence the model class is Gδ: the matrix is
 clopen, an existential quantifier gives a countable union, a universal one a countable
@@ -343,36 +271,14 @@ Isomorphism of codes is the library's `RelationalConfiguration.isoSetoid L α`, 
 equivalence of the empty tuples at level `β` is `RelationalConfiguration.bfEquivSetoid L α β`
 (assembled from `TauCeti.BFEquiv.refl`, `symm` and `trans`), and external stabilization and the
 Scott height are `TauCeti.StabilizesCompletely` and `TauCeti.scottHeight`, which test against
-countable structures in `Type`. -/
-
-/-- **Layer 4, back-and-forth equivalence on the pair space**, at fixed tuples. -/
-def bfEquivSet [L.IsRelational] (β : Ordinal.{0}) (n : ℕ) (a b : Fin n → ℕ) :
-    Set (RelationalConfiguration L ℕ × RelationalConfiguration L ℕ) :=
-  {p | @BFEquiv L _ ℕ ℕ p.1.toStructure p.2.toStructure β n a b}
-
-/-- **Layer 4 milestone.** Back-and-forth equivalence at a countable level is Borel. -/
-theorem measurableSet_bfEquivSet [L.IsRelational] [∀ n, Countable (L.Relations n)]
-    {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1) (n : ℕ) (a b : Fin n → ℕ) :
-    MeasurableSet (bfEquivSet (L := L) β n a b) :=
-  RelationalConfiguration.measurableSet_setOf_bfEquiv hβ a b
-
-/-- **Layer 4 milestone.** On every carrier, isomorphism is the orbit relation of the logic
-action. -/
-theorem isoSetoid_eq_orbitRel [L.IsRelational] :
-    isoSetoid L α = MulAction.orbitRel (Equiv.Perm α) (RelationalConfiguration L α) :=
-  RelationalConfiguration.isoSetoid_eq_orbitRel
-
-/-- **Layer 4 milestone.** At a countable level, back-and-forth equivalence of codes is Borel. -/
-theorem measurableSet_bfEquivSetoid [L.IsRelational] [∀ n, Countable (L.Relations n)]
-    {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1) :
-    MeasurableSet {p : RelationalConfiguration L ℕ × RelationalConfiguration L ℕ |
-      (bfEquivSetoid L ℕ β) p.1 p.2} :=
-  RelationalConfiguration.measurableSet_setOf_bfEquivSetoid hβ
-
-/-- **Layer 4 milestone.** Isomorphism refines every back-and-forth level. -/
-theorem isoSetoid_le_bfEquivSetoid [L.IsRelational] (β : Ordinal.{0}) :
-    isoSetoid L ℕ ≤ bfEquivSetoid L ℕ β :=
-  RelationalConfiguration.isoSetoid_le_bfEquivSetoid β
+countable structures in `Type`. The library proves Borelness of back-and-forth equivalence
+(`measurableSet_setOf_bfEquiv`, `measurableSet_setOf_bfEquivSetoid`),
+`isoSetoid_le_bfEquivSetoid`, the Scott-height API (`StabilizesCompletely.mono`,
+`stabilizesCompletely_scottHeight`, `scottHeight_lt_omega_one`, `Language.Equiv.scottHeight_eq`,
+`SelfStabilizesCompletely.stabilizesCompletely_add_omega0`), the upper comparisons
+`scottHeight_le_selfStabilizationOrdinal_add_omega0` and
+`scottHeight_le_internalScottRank_add_omega0`, and the height comparison
+`nonempty_equiv_of_bfEquiv_of_scottHeight_le`. -/
 
 /-- **Layer 4 milestone, isomorphism classes are Borel**: the class of a code is the model class
 of the Scott sentence of the structure it names, by the library's `realize_scottSentence_iff`. -/
@@ -383,23 +289,6 @@ theorem setOf_iso_eq_modelsOf_scottSentence [L.IsRelational] [∀ n, Countable (
   ext d
   rw [Set.mem_ofPred_eq, isoSetoid_apply, mem_modelsOf]
   exact (@realize_scottSentence_iff L _ _ ℕ c.toStructure _ ℕ d.toStructure _).symm
-
-/-- **Layer 4 milestone, upward closure.** External stabilization persists at every higher
-level. -/
-theorem stabilizesCompletely_mono [L.IsRelational] {M : Type w} [L.Structure M]
-    {β γ : Ordinal.{w}} (h : StabilizesCompletely (L := L) M β) (hβγ : β ≤ γ) :
-    StabilizesCompletely (L := L) M γ :=
-  h.mono hβγ
-
-/-- **Layer 4 milestone, the infimum is attained.** -/
-theorem stabilizesCompletely_scottHeight [L.IsRelational] (M : Type w) [L.Structure M] :
-    StabilizesCompletely (L := L) M (scottHeight (L := L) M) :=
-  TauCeti.stabilizesCompletely_scottHeight M
-
-/-- **Layer 4 milestone.** Scott height is an isomorphism invariant. -/
-theorem scottHeight_congr [L.IsRelational] {M N : Type w} [L.Structure M] [L.Structure N]
-    (e : M ≃[L] N) : scottHeight (L := L) M = scottHeight (L := L) N :=
-  e.scottHeight_eq
 
 /-- **Layer 4 milestone, the constant-chain bound.** If `M` stabilizes internally at `β`, then
 back-and-forth equivalence at `β + ω` between a tuple of `M` and a tuple of any structure `N`, of
@@ -417,52 +306,17 @@ theorem bfEquiv_of_selfStabilizesCompletely [L.IsRelational] {M : Type w} {N : T
       (lt_add_of_pos_right β Ordinal.omega0_pos)
   · exact hab.mono hγ
 
-/-- **Layer 4 milestone, the countable case.** Internal stabilization at `β` gives external
-stabilization at `β + ω`: the case of `bfEquiv_of_selfStabilizesCompletely` with `N` countable
-and the next level. -/
-theorem stabilizesCompletely_add_omega0 [L.IsRelational] {M : Type w} [L.Structure M]
-    {β : Ordinal.{w}} (h : SelfStabilizesCompletely (L := L) M β) :
-    StabilizesCompletely (L := L) M (β + Ordinal.omega0) :=
-  h.stabilizesCompletely_add_omega0
-
-/-- **Layer 4 milestone.** -/
-theorem scottHeight_lt_omega_one [L.IsRelational] (M : Type w) [L.Structure M] [Countable M] :
-    scottHeight (L := L) M < Ordinal.omega 1 :=
-  TauCeti.scottHeight_lt_omega_one M
-
 /-- **Layer 4 milestone, comparison with internal stabilization.** -/
 theorem selfStabilizationOrdinal_le_scottHeight [L.IsRelational] (M : Type w) [L.Structure M]
     [Countable M] :
     selfStabilizationOrdinal (L := L) M ≤ scottHeight (L := L) M := by
   sorry
 
-/-- **Layer 4 milestone.** -/
-theorem scottHeight_le_selfStabilizationOrdinal_add_omega0 [L.IsRelational] (M : Type w)
-    [L.Structure M] :
-    scottHeight (L := L) M ≤ selfStabilizationOrdinal (L := L) M + Ordinal.omega0 :=
-  TauCeti.scottHeight_le_selfStabilizationOrdinal_add_omega0 M
-
 /-- **Layer 4 milestone, comparison with `internalScottRank`.** -/
 theorem internalScottRank_le_succ_scottHeight [L.IsRelational] (M : Type w) [L.Structure M]
     [Countable M] :
     internalScottRank (L := L) M ≤ Order.succ (scottHeight (L := L) M) := by
   sorry
-
-/-- **Layer 4 milestone.** -/
-theorem scottHeight_le_internalScottRank_add_omega0 [L.IsRelational] (M : Type w)
-    [L.Structure M] :
-    scottHeight (L := L) M ≤ internalScottRank (L := L) M + Ordinal.omega0 :=
-  TauCeti.scottHeight_le_internalScottRank_add_omega0 M
-
-/-- **Layer 4 milestone, the height comparison.** Back-and-forth equivalence of the empty tuples
-at a level at least the Scott height of one side is isomorphism, between countable structures. The
-library allows `N` in another universe. -/
-theorem nonempty_equiv_of_bfEquiv_of_scottHeight_le [L.IsRelational] {M N : Type w}
-    [L.Structure M] [L.Structure N] [Countable M] [Countable N] {β : Ordinal.{w}}
-    (hβ : scottHeight (L := L) M ≤ β)
-    (h : BFEquiv (L := L) β 0 (Fin.elim0 : Fin 0 → M) (Fin.elim0 : Fin 0 → N)) :
-    Nonempty (M ≃[L] N) :=
-  TauCeti.nonempty_equiv_of_bfEquiv_of_scottHeight_le hβ h
 
 /-- **Layer 4 milestone, isomorphism is Borel under bounded Scott height.** -/
 theorem measurableSet_iso_inter_of_scottHeight_le [L.IsRelational]
