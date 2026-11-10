@@ -2,6 +2,8 @@ import Mathlib
 import TauCeti.AlgebraicTopology.SimplicialSet.WeakEquivalence
 import TauCeti.Topology.Homotopy.HurewiczFibration.Basic
 import TauCeti.AlgebraicTopology.Homotopy.Hurewicz.Basic
+import TauCeti.AlgebraicTopology.Homotopy.Relative.Basic
+import TauCeti.Topology.Category.TopPair
 
 /-!
 # Generalized cohomology, spectra and orientations: target signatures
@@ -17,6 +19,9 @@ Statable at the pins, and stated below:
   `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences`;
 * the unit half of the Quillen equivalence of realization and `Sing` (G2.1), on Mathlib's
   `sSetTopAdj`; the counit half is CharacteristicClasses C1.2b's;
+* homotopy excision for a CW complex that is the union of two subcomplexes (G2.5), on Tau Ceti's
+  relative homotopy sets `TauCeti.RelHomotopyGroup` of the based pairs `TauCeti.BasedTopPair`
+  of nested subsets `TopPair.ofInclusion`, and Mathlib's `Topology.RelCWComplex.Subcomplex`;
 * the Hurewicz–Dold theorem for numerable locally trivial maps (G2.10), on Tau Ceti's
   `TauCeti.IsHurewiczFibration` and Mathlib's `Bundle.Trivialization` and `PartitionOfUnity`;
 * the comparison theorem for extraordinary homology theories on CW complexes (G3.3), on Mathlib's
@@ -34,8 +39,8 @@ Headline theorems of the roadmap that are not statable at the pins, with the mis
 * the stable model structure on symmetric spectra and the stable homotopy category (G2.3,
   G2.4): Tau Ceti has `TauCeti.SymmetricSpectrum` with its point-set smash product, but no
   stable equivalences;
-* the Freudenthal suspension theorem and homotopy excision (G2.5): there is no topological
-  reduced suspension of pointed spaces and no suspension homomorphism on homotopy groups;
+* the Freudenthal suspension theorem (G2.5): there is no topological reduced suspension of
+  pointed spaces and no suspension homomorphism on homotopy groups;
 * the Quillen equivalence of symmetric and sequential spectra (G2.5): there are no sequential
   spectra;
 * Brown representability (G3.1): Tau Ceti has the pointed homotopy category
@@ -48,8 +53,10 @@ Headline theorems of the roadmap that are not statable at the pins, with the mis
   `lim¹ E^(q-1)(X_i) → E^q(X)`; asserting only an abstract isomorphism of the kernel of restriction
   with `lim¹` would drop that natural map, so nothing is stated;
 * the Leray–Hirsch and Thom isomorphisms (G4.1, G4.3): Mathlib's homology pretheories carry no
-  product (no cross or cup product on a theory, so no module structure over the base), and there
-  are no Thom spaces of vector bundles;
+  product (no cross or cup product on a theory, so no module structure over the base and no
+  `E`-orientation); Tau Ceti's Thom pairs `TauCeti.thomPair` and Thom classes
+  `TauCeti.IsThomClass` are for singular cohomology only, and there are no Thom spaces of vector
+  bundles;
 * Spanier–Whitehead duality (G5.1) and the stable rational Hurewicz isomorphism
   `π_n E ⊗ ℚ ≅ H_n(E; ℚ)` (G5.6): there is no stable homotopy category.
 -/
@@ -88,6 +95,54 @@ The route is the triangle identity `ε_|X| ∘ |η_X| = id`, the counit theorem 
 of three. README G2.1. -/
 theorem sSetTopAdj_unit_weakEquivalence (X : SSet.{u}) :
     WeakEquivalence (sSetTopAdj.unit.app X) := by
+  sorry
+
+/-- The based pair `(t, s, a)` of nested subsets `s ⊆ t` of a space, based at a point `a ∈ s`:
+Tau Ceti's topological pair `TopPair.ofInclusion` of the inclusion `s ↪ t` with its basepoint.
+Its relative homotopy set `TauCeti.RelHomotopyGroup (Fin i)` is `π_(i+1)(t, s, a)`. README
+G2.5. -/
+abbrev subsetPair {X : TopCat.{u}} {s t : Set X} (hst : s ⊆ t) (a : s) :
+    TauCeti.BasedTopPair.{u} :=
+  ⟨TopPair.ofInclusion hst, a⟩
+
+/-- The inclusion of based pairs `(t, s, a) → (t', s', a)` for `s ⊆ s'` and `t ⊆ t'`, Tau
+Ceti's `TopPair.ofInclusionMap` of the inclusion `t ↪ t'`. README G2.5. -/
+def subsetPairInclusion {X : TopCat.{u}} {s t s' t' : Set X} (hst : s ⊆ t) (hst' : s' ⊆ t')
+    (hs : s ⊆ s') (ht : t ⊆ t') (a : s) :
+    subsetPair hst a ⟶ subsetPair hst' ⟨a, hs a.2⟩ where
+  toTopPairHom := TopPair.ofInclusionMap hst hst' (ContinuousMap.inclusion ht) fun _ hx ↦ hs hx
+  map_basepoint := rfl
+
+/-- **`m`-connected pairs.** The pair `(t, s)` of nested subsets `s ⊆ t` is `m`-connected in
+Hatcher's sense (*Algebraic Topology*, Section 4.1, p. 346): every point of `t` is joined by a
+path in `t` to a point of `s`, and the relative homotopy set `π_(i+1)(t, s, a)` is trivial for
+`i + 1 ≤ m` at every basepoint `a ∈ s`. For `m = 0` only the path condition is imposed, which is
+Hatcher's condition in degree `0`, where no relative `π₀` is defined. README G2.5. -/
+def IsConnectedPair {X : TopCat.{u}} {s t : Set X} (hst : s ⊆ t) (m : ℕ) : Prop :=
+  (∀ x ∈ t, ∃ a ∈ s, JoinedIn t x a) ∧
+    ∀ (a : s) (i : ℕ), i + 1 ≤ m →
+      Subsingleton (TauCeti.RelHomotopyGroup (Fin i) (subsetPair hst a))
+
+/-- **Homotopy excision.** Let `X` be a CW complex that is the union of subcomplexes `A` and `B`
+whose intersection `C = A ∩ B` is nonempty and connected. If `(A, C)` is `m`-connected and
+`(B, C)` is `n`-connected, then at every basepoint `c ∈ C` the inclusion of pairs
+`(A, C) → (X, B)`, with `X` read as `Set.univ`, induces a bijection
+`π_(i+1)(A, C, c) → π_(i+1)(X, B, c)` for `i + 1 < m + n` and a surjection for `i + 1 = m + n`
+(Hatcher, *Algebraic Topology*, Theorem 4.23, p. 360). For `m = n = 0` nothing is asserted.
+Applied to the two cones of a suspension it gives the Freudenthal suspension theorem (Hatcher,
+Corollary 4.24), which needs a suspension the pins lack. README G2.5. -/
+theorem homotopyExcision {X : TopCat.{u}} [T2Space X] [Topology.CWComplex (Set.univ : Set X)]
+    (A B : Topology.RelCWComplex.Subcomplex (Set.univ : Set X))
+    (hAB : (A : Set X) ∪ B = Set.univ) (hC : IsConnected ((A : Set X) ∩ B)) (m n : ℕ)
+    (hA : IsConnectedPair (Set.inter_subset_left : (A : Set X) ∩ B ⊆ A) m)
+    (hB : IsConnectedPair (Set.inter_subset_right : (A : Set X) ∩ B ⊆ B) n)
+    (c : ((A : Set X) ∩ B : Set X)) (i : ℕ) :
+    (i + 1 < m + n → Function.Bijective (TauCeti.RelHomotopyGroup.map (N := Fin i)
+      (subsetPairInclusion Set.inter_subset_left (Set.subset_univ (B : Set X))
+        Set.inter_subset_right (Set.subset_univ _) c))) ∧
+    (i + 1 = m + n → Function.Surjective (TauCeti.RelHomotopyGroup.map (N := Fin i)
+      (subsetPairInclusion Set.inter_subset_left (Set.subset_univ (B : Set X))
+        Set.inter_subset_right (Set.subset_univ _) c))) := by
   sorry
 
 /-- **Hurewicz–Dold theorem for numerable locally trivial maps.** A map `p : Z → B` that is
