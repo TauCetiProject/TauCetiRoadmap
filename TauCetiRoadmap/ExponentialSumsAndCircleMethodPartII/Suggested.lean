@@ -7,12 +7,17 @@ public import Mathlib
 
 The roadmap is `README.md`; this file is not the roadmap. It states, each with `sorry` and
 against the pinned Mathlib, the roadmap's headline theorems that are statable there: the uniform
-polar count outside a Hankel-rank arc (`minor_arc_polar_count`, README §8.9) and geometric
+polar count outside a Hankel-rank arc (`minor_arc_polar_count`, README §8.9), geometric
 irreducibility of the fixed-leading-vector mapping scheme in its expected dimension
-(`mapping_geometrically_irreducible`, README §10.8). It defines only what these need, on native
-polynomial, matrix and finite-function carriers: the coefficient presentation `mappingPolynomial`,
-`mappingEquation` and `mappingIdeal` (§3.1), the `residuePhase` (§3.4), the `hankelMatrix` (§4.1)
-and the `polarCount` (§8.8), whose iterated differences are Mathlib's `fwdDiff`.
+(`mapping_geometrically_irreducible`, README §10.8) and the compact-open obstruction for the
+cubic Fermat hypersurface in `ℂ⁴⁰` (`compactOpen_germ_obstruction`, README §11.12). It defines
+only what these need, on native polynomial, matrix, finite-function, projective-space and
+compact-open carriers: the coefficient presentation `mappingPolynomial`, `mappingEquation` and
+`mappingIdeal` (§3.1), the `residuePhase` (§3.4), the `hankelMatrix` (§4.1), the `polarCount`
+(§8.8), whose iterated differences are Mathlib's `fwdDiff`, the points `finitePoint` and
+`pointNearInfinity` of the projective line and the germ condition `PrescribedGerm` (§11.1), the
+compact-open germ space `Hco` (§11.2), and the Fermat data `fermatCubic`, `fermatCubicClosure`
+and `fermatLeadingVector` (§11.6).
 
 The following headline theorems are not statable at the pins.
 * The finite-grid degree bound and the polynomial-box bound (§§0.2, 1.1) lack a geometric
@@ -23,12 +28,13 @@ The following headline theorems are not statable at the pins.
   bounded constructible complexes with coefficients in a finite extension of `ℚ_ℓ`, their
   compact-support six operations, Artin–Schreier sheaves and the relative spectral sequence of a
   finite filtration.
-* End winding, the compact-open double-loop obstruction and the trace-pairing counterexample
-  (§§11.9–11.12, 13.2) lack the space of continuous maps from the complex projective line to the
-  projective closure of `X` with prescribed germ at infinity, its topology and local lifts, and the
-  comparison of singular and `ℓ`-adic cohomology.
-* The conditional comparison with `Ω²X` and conditional degeneration (§§12.5, 13.3) lack, in
-  addition, the stronger germ topology and the trace and cup-product pairing.
+* The trace-pairing counterexample (§13.2) lacks compactly supported cohomology of the mapping
+  scheme, singular or `ℓ`-adic, its comparison with singular cohomology, and the cup-product
+  trace pairing of §13.1.
+* The conditional comparison with `Ω²X` and conditional degeneration (§§12.5, 13.3) assume the
+  stronger-germ comparison data of §12.4, whose compact-family condition is phrased in the
+  normalized product charts of the projective closure along its boundary and the weighted collar
+  seminorms of §12.1; the pins have neither, and §13.3 also lacks what §13.2 lacks.
 
 The irreducibility headline uses native polynomial coordinate rings: algebraic closedness makes
 its Jacobian conditions exact smoothness tests and makes irreducibility geometric, and a prime
@@ -152,6 +158,68 @@ theorem mapping_geometrically_irreducible
     (mappingIdeal d f x).radical.IsPrime ∧
       ringKrullDim (MvPolynomial (Fin d × Fin n) K ⧸ mappingIdeal d f x) =
         (d * (n - k) : ℕ) := by
+  sorry
+
+/-! ## Layer 11: infinity germs and the compact-open obstruction -/
+
+open Asymptotics Filter Topology
+
+/-- The point `[T : 1]` of the complex projective line, the image of the finite point `T`
+(README §11.1). -/
+def finitePoint (T : ℂ) : Projectivization ℂ (Fin 2 → ℂ) :=
+  Projectivization.mk ℂ ![T, 1] (fun h => by simpa using congrFun h 1)
+
+/-- The point `[1 : z]` of the complex projective line: for `z ≠ 0` it is `finitePoint (1 / z)`,
+and at `z = 0` it is the point at infinity, so `z` is the coordinate `1 / T` there
+(README §11.1). -/
+def pointNearInfinity (z : ℂ) : Projectivization ℂ (Fin 2 → ℂ) :=
+  Projectivization.mk ℂ ![1, z] (fun h => by simpa using congrFun h 0)
+
+/-- The prescribed-germ condition (README §11.1, BS20 (7.1)) on a continuous map `F` from the
+complex projective line to a subset `Y` of `ℙⁿ(ℂ)` whose homogeneous coordinate `0` is the
+homogenizing one: every finite point goes to the affine chart `x₀ ≠ 0`, and in the coordinate
+`z = 1 / T` at infinity `F` has a homogeneous lift `(z^d + O(z^(d+1)), x + O(z))`. The lift,
+its radius and the implied constants depend on `F`; no uniformity over families is imposed. -/
+def PrescribedGerm {n : ℕ} (Y : Set (Projectivization ℂ (Fin (n + 1) → ℂ))) (d : ℕ)
+    (x : Fin n → ℂ) (F : C(Projectivization ℂ (Fin 2 → ℂ), Y)) : Prop :=
+  (∀ T : ℂ, (F (finitePoint T)).1.rep 0 ≠ 0) ∧
+    ∃ w : ℂ → Fin (n + 1) → ℂ,
+      (∀ᶠ z in 𝓝[≠] 0, ∃ hw : w z ≠ 0,
+        Projectivization.mk ℂ (w z) hw = (F (pointNearInfinity z)).1) ∧
+      (∀ i : Fin n, (fun z => w z i.succ - x i) =O[𝓝[≠] 0] fun z => z) ∧
+      (fun z => w z 0 - z ^ d) =O[𝓝[≠] 0] fun z => z ^ (d + 1)
+
+/-- The compact-open prescribed-germ space `Hco` (README §11.2): the maps satisfying
+`PrescribedGerm`, with the subspace topology of the compact-open topology on
+`C(ℙ¹(ℂ), Y)`. -/
+abbrev Hco {n : ℕ} (Y : Set (Projectivization ℂ (Fin (n + 1) → ℂ))) (d : ℕ)
+    (x : Fin n → ℂ) : Type :=
+  {F : C(Projectivization ℂ (Fin 2 → ℂ), Y) // PrescribedGerm Y d x F}
+
+/-- The affine cubic Fermat hypersurface `Σ_(j=1)^40 x_j³ = 1` in `ℂ⁴⁰` (README §11.6). -/
+def fermatCubic : Set (Fin 40 → ℂ) := {y | ∑ i, y i ^ 3 = 1}
+
+/-- The projective closure `Σ_(j=1)^40 x_j³ = x₀³` of `fermatCubic` in `ℙ⁴⁰(ℂ)`, with
+homogenizing coordinate `x₀`; the equation is homogeneous, so the condition does not depend on
+the representative (README §11.6). -/
+def fermatCubicClosure : Set (Projectivization ℂ (Fin 41 → ℂ)) :=
+  {p | ∑ i : Fin 40, p.rep i.succ ^ 3 = p.rep 0 ^ 3}
+
+/-- The leading vector `(1, ζ, 0, …, 0)` of the Fermat reference map (README §11.6). -/
+def fermatLeadingVector (ζ : ℂ) : Fin 40 → ℂ := Pi.single 0 1 + Pi.single 1 ζ
+
+/-- **Compact-open obstruction** (README §11.12). For the cubic Fermat hypersurface `X` in
+`ℂ⁴⁰`, degree `d = 2` and leading vector `(1, ζ, 0, …, 0)` with `ζ³ = -1`, some point of the
+compact-open germ space `Hco` has a fundamental group surjecting onto `ℤ` (end winding,
+README §§11.9–11.11), and `Hco` is not homotopy equivalent to the double loop space `Ω²X`,
+which is connected and simply connected. This refutes the compact-open reading of BS20
+Lemma 7.2. -/
+theorem compactOpen_germ_obstruction (ζ : ℂ) (hζ : ζ ^ 3 = -1) (x₀ : fermatCubic) :
+    (∃ g : Hco fermatCubicClosure 2 (fermatLeadingVector ζ),
+        ∃ φ : FundamentalGroup (Hco fermatCubicClosure 2 (fermatLeadingVector ζ)) g →*
+          Multiplicative ℤ, Function.Surjective φ) ∧
+      ¬ Nonempty (ContinuousMap.HomotopyEquiv
+        (Hco fermatCubicClosure 2 (fermatLeadingVector ζ)) (GenLoop (Fin 2) fermatCubic x₀)) := by
   sorry
 
 end TauCetiRoadmap.ExponentialSumsAndCircleMethodPartII

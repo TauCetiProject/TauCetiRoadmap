@@ -4,13 +4,13 @@
 
 The arithmetic argument is the polar-count argument of BS20 §6, combined here with the geometric Fourier transform and cohomological differencing. The sharp minor estimate is a proposition used only as an explicit hypothesis. A stronger germ topology and its comparison are specified as data, and trace perfection is a separate conjecture; the conservative theorems require none of these hypotheses.
 
-`README.md` is definitive. `Suggested.lean` states, against the pinned Mathlib, the two end theorems that are statable there, `minor_arc_polar_count` (§8.9) and `mapping_geometrically_irreducible` (§10.8), with the six definitions they need: `mappingPolynomial`, `mappingEquation` and `mappingIdeal` (§3.1), `residuePhase` (§3.4), `hankelMatrix` (§4.1) and `polarCount` (§8.8). Every other target, API list and Check lives here.
+`README.md` is definitive. `Suggested.lean` states, against the pinned Mathlib, the three end theorems that are statable there, `minor_arc_polar_count` (§8.9), `mapping_geometrically_irreducible` (§10.8) and `compactOpen_germ_obstruction` (§11.12), with the definitions they need: `mappingPolynomial`, `mappingEquation` and `mappingIdeal` (§3.1), `residuePhase` (§3.4), `hankelMatrix` (§4.1), `polarCount` (§8.8), `finitePoint`, `pointNearInfinity` and `PrescribedGerm` (§11.1), `Hco` (§11.2), and `fermatCubic`, `fermatCubicClosure` and `fermatLeadingVector` (§11.6). Every other target, API list and Check lives here.
 
 ## Scope and ownership
 
 This roadmap owns the affine intersection and finite-grid applications (Layer 0); strict polynomial boxes and the polynomial lattices of 𝔽_q((T⁻¹))ᴺ with their orthogonal bases, successive minima, adjoint minima and the shrinking inequality for symmetric lattices (Layer 1); the prime-choice adapters (Layer 2); the coefficient mapping scheme, the residue phase, the 𝔾_a-equivariant Artin–Schreier cancellation lemma and the exponential-sum complex (Layer 3); reduced Hankel arcs and their Padé charts (Layer 4); major-arc cancellation and configuration descent (Layer 5); the universal-pair monodromy element and its two-factor Goursat argument (Layer 6); the localization-filtration adapter and the first page (Layer 7); geometric Weyl differencing, the polar count and the count-to-dimension adapter (Layer 8); conservative minor-arc vanishing (Layer 9); the comparison, irreducibility and the small-degree counterexample (Layer 10); and the prescribed-germ obstruction and controlled-collar applications (Layers 11–13). Layers 11–12 and §13.2 contain original examples and local collar arguments in the setting of BS20 §7.
 
-Mathlib owns polynomial evaluation and homogeneous components, matrix rank, Laurent series, the infinity valuation, forward differences, the componentwise Krull height theorem, primes in progressions, quadratic reciprocity, Jacobson spaces, compact-open currying, the fundamental group of the additive circle with its winding number, and the spectral-object carrier; Tau Ceti owns the oriented fundamental-group equivalence of the complex unit circle. The affine dimension translation of §0.1 differs from Krull height by its finite-type geometric component statement. The finite localization adapter of §7.1 differs from a generic filtered-complex spectral sequence by constructing the filtration from geometric localization and identifying its compact-support abutment.
+Mathlib owns polynomial evaluation and homogeneous components, matrix rank, Laurent series, the infinity valuation, forward differences, the componentwise Krull height theorem, primes in progressions, quadratic reciprocity, Jacobson spaces, compact-open currying, the fundamental group of the additive circle with its winding number, the spectral-object carrier, projective space with its quotient topology, big-O asymptotics, fundamental groups, generalized loop spaces and homotopy equivalences; Tau Ceti owns the oriented fundamental-group equivalence of the complex unit circle. The affine dimension translation of §0.1 differs from Krull height by its finite-type geometric component statement. The finite localization adapter of §7.1 differs from a generic filtered-complex spectral sequence by constructing the filtration from geometric localization and identifying its compact-support abutment.
 
 SchemeAndStackFoundations §§0.7–0.9 and §5.12 own finite-type dimensions, spreading and projective intersection degree; this roadmap supplies the arbitrary finite-grid application of §0.2. It differs from the uniform Lang–Weil bounds of SieveMethodsAndPrimePatterns §5.4, *Uniform algebraic point counts*, by allowing an arbitrary finite grid S⊂K and an explicit cumulative-degree constant; that Lang–Weil estimate is consumed in §8.10. EtaleCohomologyFoundations §§F.0–F.6 own coefficient categories, proper supports, the six operations and realization. FourierDeligneTransform §§2.2–2.5 own the Artin–Schreier sheaves L_ψ with their tensor, base-extension, coefficient-change and trace laws and their acyclicity, §2.8 their cohomology on the line, §3.4 Fourier orthogonality on a vector bundle, and §5.3 Fourier sheaves on the line; here only the 𝔾_a-equivariant cancellation lemma (§3.4a) and the one-parameter application (§5.8) are targets. EtaleDualityAndPerverseSheaves §0.4, *Top-degree compactly supported cohomology of a variety*, owns the top-component formula for singular schemes, and its §§0.6, 3.2–3.8 and 4.1–4.7 own duality, coefficient extension, comparison, Lefschetz and complete-intersection Betti numbers; only the componentwise irreducibility criterion (§10.7) is a target here. The polynomial polar-count argument belongs here in §§8.7–8.10, and so do its function-field lattice inputs (§§1.2–1.5). The finite-length rectangular-rank form in §4.4 differs from the infinite eventual-determinant criterion of ClassicalArithmeticCompletion §6.44.
 
@@ -37,6 +37,8 @@ Use `MvPolynomial.eval₂Hom` in `Mathlib/Algebra/MvPolynomial/Eval.lean:158`, `
 Use `Matrix.rank` in `Mathlib/LinearAlgebra/Matrix/Rank.lean:134` for the field-point rank test, and `LaurentSeries` in `Mathlib/RingTheory/LaurentSeries.lean:101` for coefficient expansions. `RatFunc.inftyValuation` in `Mathlib/FieldTheory/RatFunc/Valuation.lean:83` fixes the infinity absolute-value convention; its completion is the supplied completion, not a new carrier. Use `fwdDiff` in `Mathlib/Algebra/Group/ForwardDiff.lean:40`, `fwdDiff h f n = f (n + h) − f n`, for the iterated differences of the polar count; it is the negative of the difference Δ_h of §8.1. Use `Ideal.height_le_spanRank_toENat_of_mem_minimalPrimes` in `Mathlib/RingTheory/Ideal/KrullsHeightTheorem.lean:185` on each minimal prime in a Noetherian ring. This is the componentwise form needed in Layer 0.
 
 Use `Nat.forall_exists_prime_gt_and_modEq` in `Mathlib/NumberTheory/LSeries/PrimesInAP.lean:463`, for nonzero modulus and a coprime residue; `legendreSym.quadratic_reciprocity` and `legendreSym.at_two` in `Mathlib/NumberTheory/LegendreSymbol/QuadraticReciprocity.lean:107` and line 60, retaining their prime, oddness and distinctness assumptions. Use `CategoryTheory.Abelian.SpectralObject` in `Mathlib/Algebra/Homology/SpectralObject/Basic.lean:41` as the spectral carrier. Use `ContinuousMap.curry` in `Mathlib/Topology/CompactOpen.lean:430`; evaluation on compact source spaces gives the family criterion used here. Use `nonempty_inter_closedPoints` in `Mathlib/Topology/JacobsonSpace.lean:105`, together with `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace` in `Mathlib/AlgebraicGeometry/Morphisms/FiniteType.lean:112`, for nonempty locally closed supports over finite fields. Neither declaration supplies constructibility of a cohomology support. Use `AddCircle.windingNumberIso` in `Mathlib/Topology/Covering/FundamentalGroupCircle.lean:49` with `AddCircle.windingNumber_eq_div` at line 61: the winding number of a loop is (f 1 − f 0)/p for any continuous real lift f.
+
+Use `Projectivization.instTopologicalSpace` in `Mathlib/Topology/Algebra/Projectivization.lean:44`, the quotient topology from the nonzero vectors, with `Projectivization.continuous_mk` at line 61 and `Projectivization.rep` in `Mathlib/LinearAlgebra/Projectivization/Basic.lean:91`; only conditions that are homogeneous in the representative are imposed through `Projectivization.rep`. Use `Asymptotics.IsBigO` in `Mathlib/Analysis/Asymptotics/Defs.lean:87` along the punctured neighbourhood filter for the germ condition, and the compact-open topology on `ContinuousMap` with its subtype topology for the germ space. Use `FundamentalGroup` in `Mathlib/AlgebraicTopology/FundamentalGroupoid/FundamentalGroup.lean:34`, `GenLoop` in `Mathlib/Topology/Homotopy/HomotopyGroup.lean:98`, the maps of the square I² sending its boundary to the basepoint, which is the model of Ω²X, and `ContinuousMap.HomotopyEquiv` in `Mathlib/Topology/Homotopy/Equiv.lean:43`.
 
 ### From Tau Ceti
 
@@ -448,7 +450,7 @@ A proof route is as follows. Closedness follows from the determinantal model. Ex
 
 ### 4.3 Exact automatic-full range
 
-If m≥ceil(L/2), A_m^L=A^L. The preceding threshold cannot in general be replaced by floor(L/2): for L=9 the vector with b₅=1 and all other entries zero has rank H₄=5. (BS20, §2, Lemma 2.4(3), p.903; used with the ceiling in §5, proof of Proposition 2.6, p.934; BS20 line 453.)
+If m≥ceil(L/2), A_m^L=A^L. The preceding threshold cannot in general be replaced by floor(L/2): for L=9 the vector with b₅=1 and all other entries zero has rank H₄=5. (BS20, §2, Lemma 2.4(3), p.903, BS20 line 469; applied in §5, proof of Proposition 2.6, p.934, BS20 line 1845, where the printed floor ⌊kd/2⌋ has to be replaced by the ceiling, see §9.3.)
 
 A proof route is as follows. At the ceiling threshold the number L−m of rows is at most m. For the odd-length test compute the anti-identity matrix of size five.
 
@@ -855,7 +857,7 @@ For a Fermat parameter with ζᵏ=−1, x=(1,ζ,0,…) is nonzero and lies on th
 
 ### 7.1 Finite localization filtration
 
-For a finite closed filtration ∅=Y₋₁⊂Y₀⊂⋯⊂Y_d=Y of a separated finite-type scheme and a bounded constructible E-complex K, construct the compact-support spectral sequence E₁^(m,s)=H_c^(m+s)(Y_m∖Y_(m−1),K)⇒H_c^(m+s)(Y,K), with d_r of bidegree (r,1−r). Construct its finite filtration on the abutment, naturality, finite coefficient extension and relative sheaf form from the enhanced localization triangles, using the supplied spectral-object carrier. (STACKS, §12.24 (012K), Lemma 12.24.13 (0BK5), STACKS line 2964 and line 3202 (Homology).)
+For a finite closed filtration ∅=Y₋₁⊂Y₀⊂⋯⊂Y_d=Y of a separated finite-type scheme and a bounded constructible E-complex K, construct the compact-support spectral sequence E₁^(m,s)=H_c^(m+s)(Y_m∖Y_(m−1),K)⇒H_c^(m+s)(Y,K), with d_r of bidegree (r,1−r). Construct its finite filtration on the abutment, naturality, finite coefficient extension and relative sheaf form from the enhanced localization triangles, using the supplied spectral-object carrier. (STACKS, Homology, §12.24 (012K), Lemma 12.24.13 (0BK5).)
 
 - Construct a Mathlib spectral object from the finite localization triangles.
 - E₁^(m,s)=H_c^(m+s)(Y_m∖Y_(m−1),K).
@@ -1140,7 +1142,7 @@ A proof route is as follows. For d≤m<L/2 combine §9.1, §8.6 and the geometri
 - For the scalar cubic test k=3, n=1, d=m=2 the cutoff is 1·(4−⌊2/2⌋/2)=3.5, so vanishing starts in degree 4; the inequality is strict in the cohomological degree.
 - The last odd-L stratum lies below L/2 and is covered by the estimate.
 
-### 9.3 Correct finite stratification of the minor arcs
+### 9.3 Finite stratification of the minor arcs by Hankel rank
 
 For L=kd and d≥k−1≥2, A^L∖A_d is the disjoint union of A_(m+1)∖A_m over d≤m≤ceil(L/2)−1. The ceiling is required at odd L. (BS20, §5, proof of Proposition 2.6 (end of §5), p. 934; with ceiling in place of the printed floor; BS20 line 1815.)
 
@@ -1233,7 +1235,7 @@ A proof route is as follows. For U=A^L∖A_d, the compact-support triangle is R�
 - At k=3,d=2,n=40 it is i>−4.
 - Tate twists are retained over finite fields; dimension statements alone do not recover Frobenius.
 
-### 10.3 Original sharp comparison target, explicitly gated
+### 10.3 Comparison in the sharp range under the sharp minor-arc hypothesis
 
 Assume SharpMinorArcBound(d,f,x,E,ψ) from §9.5. Then the normalized major-arc comparison holds for i>−4(tδ−1); its adjacent-degree vanishing follows from that same strict cutoff. This is the range printed in Theorem 1.1, not a consequence of the conservative argument. (BS20, §1, Theorem 1.1, p. 894; §2, Theorem 2.7(3) and (2.3), p. 906; BS20 line 38.)
 
@@ -1325,7 +1327,7 @@ A proof route is as follows. Check the gradient equations for affine and leading
 - At n=2 the displayed restricted equation is 1=0, so this construction needs n≥3.
 - Zero leading coordinates do not define a zero projective point.
 
-### 10.10 Unproved E1-degeneration proposition
+### 10.10 The E₁-degeneration conjecture as a proposition
 
 Define the unproved proposition DegenerationConjecture(d,f,x,E): for every i>−4(tδ−1), H_c^(i+2D)(Mor,E) is isomorphic as an E-vector space to the direct sum over m≥0 of (H_c^(i+m(n−1))(PConf_m,E)⊗V^⊗m⊗sgn^(n−1))^(S_m). The main geometric, degree and characteristic hypotheses are part of the proposition’s parameters. No canonical splitting, Frobenius-compatible splitting or proof is supplied. Distinguish this from E₁ degeneration of the actual spectral sequence, whose abutment comparison is only known in the conservative range. (BS20, §1, Conjecture 1.3, p. 897; BS20 line 164.)
 
@@ -1358,6 +1360,8 @@ For n=40,k=3,d=2, D=74, t=1, δ=3 and tδ=3>2. Comparison holds for i>−4, incl
 
 Over C fix the same leading vector x, P=[x:0] and d≥1. A prescribed-germ map is a continuous F:P¹(C)→X̄ with F(∞)=P, F(C)⊂X, and a local homogeneous lift [x₁+O(|z|):⋯:x_n+O(|z|):z^d+O(|z|^(d+1))] for z=1/T near zero. The radius and constants in this condition are allowed to depend on F. This defines the set of maps; a topology and a rule for compact families are additional data. (BS20, §7, definition of Hom_(d,P)(C,X) and (7.1), p. 940; BS20 line 2142.)
 
+The acceptance definition `PrescribedGerm` states this condition for a continuous map from the complex projective line to any subset Y⊂Pⁿ(C) whose homogeneous coordinate x₀ is the homogenizing one, in the instance Y=X̄. It uses `finitePoint`, the point [T:1] of a finite T, and `pointNearInfinity`, the point [1:z], which is [1/z:1] for z≠0 and ∞ at z=0. It requires every finite point to map into the chart x₀≠0 and asks for a lift w(z) of F([1:z]) on a punctured neighbourhood of z=0 with w₀(z)−z^d=O(z^(d+1)) and w_j(z)−x_j=O(z); the lift and the constants depend on F. Since x≠0, continuity of F and d≥1 force F(∞)=P.
+
 - Specify the pointwise local homogeneous asymptotic condition with the fixed leading vector.
 - In normalized product coordinates u=O(|z|) and v/z^d=1+O(|z|).
 - Every polynomial tuple with prescribed leading vector satisfies this germ.
@@ -1365,7 +1369,7 @@ Over C fix the same leading vector x, P=[x:0] and d≥1. A prescribed-germ map i
 
 A proof route is as follows. Use local product coordinates for the smooth boundary to express an invariant germ condition with its leading normal coefficient fixed by x. Separate membership of an individual map from uniform bounds for a family of maps.
 
-*Needs:* §3.3.
+*Needs:* §3.3; `Projectivization.instTopologicalSpace`; `Asymptotics.IsBigO`.
 
 **Checks.**
 
@@ -1375,7 +1379,7 @@ A proof route is as follows. Use local product coordinates for the smooth bounda
 
 ### 11.2 Compact-open prescribed-germ mapping space
 
-Hco is the set of prescribed-germ maps equipped with the subspace compact-open topology from C(P¹(C),X̄(C)). Germ radii and constants are pointwise data and are not locally uniform by definition. A parameter family is continuous exactly when its map to the ambient compact-open space is continuous and every member satisfies the germ condition. (BS20, §7, equation (7.1) and Lemma 7.2, pp.940–941; topology specified here as a test interpretation; BS20 line 2142.)
+Hco is the set of prescribed-germ maps equipped with the subspace compact-open topology from C(P¹(C),X̄(C)). Germ radii and constants are pointwise data and are not locally uniform by definition. A parameter family is continuous exactly when its map to the ambient compact-open space is continuous and every member satisfies the germ condition. (BS20, §7, equation (7.1) and Lemma 7.2, pp.940–941; topology specified here as a test interpretation; BS20 line 2142.) The acceptance definition `Hco` is the subtype of C(P¹(C),Y) cut out by `PrescribedGerm`, with its subspace topology.
 
 - Use the subtype topology on the prescribed-germ subset of C(P¹,X̄).
 - The inclusion into the supplied compact-open continuous-map space is continuous.
@@ -1445,7 +1449,7 @@ A proof route is as follows. Check the clamped function on its three intervals a
 
 ### 11.6 Fermat hypersurface and polynomial reference map
 
-For k≥3,n≥3,d≥1 choose ζ∈C with ζ^k=−1 and let X={Σx_j^k=1}. Its closure {Σx_j^k=x₀^k} and boundary are smooth. With x=(1,ζ,0,…,0), P=[x:0], the tuple g=(T^d,ζT^d,1,0,…,0) belongs to Mor_(d,x), and its extension gives a specified basepoint of Hco. (Original to this roadmap; BS20 supplies the setting refined here: §7, equation (7.1), p.940; BS20 line 2142.)
+For k≥3,n≥3,d≥1 choose ζ∈C with ζ^k=−1 and let X={Σx_j^k=1}. Its closure {Σx_j^k=x₀^k} and boundary are smooth. With x=(1,ζ,0,…,0), P=[x:0], the tuple g=(T^d,ζT^d,1,0,…,0) belongs to Mor_(d,x), and its extension gives a specified basepoint of Hco. (Original to this roadmap; BS20 supplies the setting refined here: §7, equation (7.1), p.940; BS20 line 2142.) The acceptance file fixes k=3 and n=40, the instance of §11.12: `fermatCubic` is X={Σ_(j=1)^40 x_j³=1}⊂C⁴⁰, `fermatCubicClosure` is its closure {Σ_(j=1)^40 x_j³=x₀³}⊂P⁴⁰(C), whose equation is homogeneous and hence independent of the representative, and `fermatLeadingVector` ζ is (1,ζ,0,…,0), on the leading cone exactly when ζ³=−1. `fermatCubic` is the Fermat fibre of AlgebraicTopologyPartII §5.4 with forty exponents all equal to 3, restated in the acceptance file because a roadmap's Lean file imports no other roadmap.
 
 - Build (T^d,ζT^d,1,0,…).
 - The k-th power sum equals one and the leading vector is (1,ζ,0,…).
@@ -1539,13 +1543,15 @@ A proof route is as follows. Compute v=1/a_s in the chart, then use §11.5 and �
 - The reciprocal normal coordinate reverses the sign.
 - Surjectivity follows from the value −1 and the group law.
 
-### 11.12 Compact-open interpretation of Lemma7.2 fails in the main range
+### 11.12 The compact-open germ space is not homotopy equivalent to Ω²X
 
 For the cubic Fermat hypersurface in C^40 and d=2, the nonempty compact-open space Hco has π₁ surjecting onto Z. X is homotopy equivalent to a bouquet of 2⁴⁰ spheres S³⁹ (AlgebraicTopologyPartII §§4.1–4.2, with μ=(k−1)ⁿ), and π₂X=π₃X=0 (AlgebraicTopologyPartII §5.4, since n=40≥5), so Ω²X is connected and simply connected. Thus Hco is not homotopy equivalent, or weakly equivalent, to Ω²X. This disproves the compact-open interpretation of Lemma 7.2. (Original to this roadmap; BS20 §7, Lemma 7.2, pp. 940–941 supplies the setting refined here, and Lemma 7.6, p. 944 supplies the bouquet route; BS20 line 2142.)
 
+The acceptance headline `compactOpen_germ_obstruction` states this for every ζ with ζ³=−1 and every basepoint x₀ of X: some point of `Hco` for `fermatCubicClosure`, d=2 and `fermatLeadingVector` ζ has a fundamental group admitting a surjective homomorphism onto ℤ, and that space is not homotopy equivalent to `GenLoop` on the square at x₀, Mathlib's model of Ω²X. Weak equivalence is not part of the Lean statement.
+
 A proof route is as follows. Use §11.6 and §11.11 for the left side. Import the Fermat double-loop simple connectivity of AlgebraicTopologyPartII §5.4. Compare fundamental groups, without assuming the disputed germ straightening.
 
-*Needs:* §11.11; AlgebraicTopology Stage 8; AlgebraicTopologyPartII §§4.1–4.2 and §5.4, *Fermat double-loop simple connectivity*.
+*Needs:* §11.11; AlgebraicTopology Stage 8; AlgebraicTopologyPartII §§4.1–4.2 and §5.4, *Fermat double-loop simple connectivity*; `FundamentalGroup`; `GenLoop`; `ContinuousMap.HomotopyEquiv`.
 
 **Checks.**
 
@@ -1558,7 +1564,7 @@ For r=1/4 the phase at s=0,3/8,1 is respectively 1,−1,1 and its lifted endpoin
 
 ### Dependencies
 
-§3.3; `ContinuousMap.curry`; §3.1; `AddCircle.windingNumber_eq_div`; `Circle.fundamentalGroupMulEquiv`; `Circle.fundamentalGroupMulEquiv_expLoop`; AlgebraicTopology Stage 8; AlgebraicTopologyPartII §§4.1–4.2 and §5.4, *Fermat double-loop simple connectivity*.
+§3.3; `ContinuousMap.curry`; §3.1; `AddCircle.windingNumber_eq_div`; `Circle.fundamentalGroupMulEquiv`; `Circle.fundamentalGroupMulEquiv_expLoop`; `Projectivization.instTopologicalSpace`; `Asymptotics.IsBigO`; `FundamentalGroup`; `GenLoop`; `ContinuousMap.HomotopyEquiv`; AlgebraicTopology Stage 8; AlgebraicTopologyPartII §§4.1–4.2 and §5.4, *Fermat double-loop simple connectivity*.
 
 ## Layer 12: Controlled collars and the stronger topology
 
@@ -1600,7 +1606,7 @@ A proof route is as follows. Use convexity of the tangential ball and of the nor
 - If |w−1|<1/2 then |1+(1−tχ)(w−1)|>1/2 for all t,χ∈[0,1].
 - A collar already standard on the inner disc may have nonstandard transition annulus, which this homotopy changes; it is not fixed pointwise as an SDR would require.
 
-### 12.3 Fixed-collar extension-space comparison contract
+### 12.3 Extension spaces of a based loop and the double loop space
 
 Let β:S¹→X be a based loop and choose an extension β̃:D²→X. Its compact-open extension space Ext(β) is homotopy equivalent to Ω²X after choosing that reference extension. The based restriction Map_*(D²,X)→Map_*(S¹,X) is a Hurewicz fibration by the CW boundary cofibration; its total space contracts by a disc contraction fixing the boundary basepoint. This is the disc-pair application of DGFloer Layer 2 items 2–3. (Original to this roadmap; BS20 supplies the setting refined here: §7, Lemma 7.2, pp.940–941; BS20 line 2142.)
 
@@ -1656,7 +1662,7 @@ For u=az and w=1+bz, weighted distances from the standard collar are ||a|| and |
 
 ## Layer 13: Trace comparison and conditional degeneration
 
-### 13.1 Unproved algebraic-to-continuous trace comparison
+### 13.1 The algebraic-to-continuous trace comparison conjecture
 
 For K=C and the main degree/geometric hypotheses, fix a topology H on the prescribed-germ set, a continuous ι:Mor^an→H (supplied by StrongGermData when that hypothesis is used), and a geometrically justified degree-2D trace τ; §10.8 supplies τ when tδ>k−1, while outside that range its justification is an additional hypothesis. Define the pairing H_c^(2D−j)(Mor,Q)⊗H^j(H,Q)→Q by pullback along ι, compact-support cup product and τ. TraceComparisonConjecture(H,ι,τ) is the unproved proposition that this pairing is perfect for every 0≤j<4(tδ−1). Its content depends on H. The compact-open instance is false in the Fermat example. (BS20, §7, Conjecture 7.1, p. 940; BS20 line 2142.)
 
@@ -1675,7 +1681,7 @@ A proof route is as follows. Use the analytic comparison preserving compact supp
 - j=4(tδ−1), when integral, is excluded.
 - For the cubic forty-variable example, the algebraic factor at j=1 is zero but H¹(Hco,Q) is nonzero, so perfection fails.
 
-### 13.2 Conjecture 7.1 fails for the compact-open germ space in the Fermat example
+### 13.2 Trace perfection fails for the compact-open germ space in the Fermat example
 
 For X={Σ_(j=1)^40 x_j³=1}, d=2 and the compact-open Hco, D=74 and tδ=3. End winding implies H¹(Hco,Q)≠0, whereas §10.5 in the conservative range i>−4 gives H_c^147(Mor,Q)=0. Since j=1 lies in 0≤j<8, the pairing demanded by the compact-open reading of Conjecture 7.1 is not perfect. (Original to this roadmap; BS20 §7, Conjecture 7.1 and (7.1), p. 940 supplies the setting refined here; BS20 line 2142.)
 
