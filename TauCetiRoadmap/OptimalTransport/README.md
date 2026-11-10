@@ -2642,16 +2642,25 @@ section nesting, localization and engulfing, volume scaling, and the section-ada
 Vitali covering package before any estimate consumes normalized sections.  Tau Ceti's
 `TauCeti.convexSection Ω u x ℓ h` is the section `{y ∈ Ω | u(y) < u(x) + ℓ(y-x) + h}` with slope
 a linear functional `ℓ`, and three parts of the package are proved for it, each for `u` convex on
-an open `Ω`, a supporting slope at the centre, bounded sections with closure in `Ω`, and constants
-depending only on the space and the Haar measure.  The volume estimates are
+an open `Ω` and with constants `C`, `A` depending only on the space and the Haar measure; the
+further hypotheses differ from part to part and are stated with each.  The volume estimates, for a
+section `S` centred in `Ω` that is bounded with closure in `Ω`, are
 `TauCeti.exists_ofReal_pow_le_mul_measure_convexSection_mul_mongeAmpereMeasure`,
-`hⁿ ≤ C |S| MA_u(S)`, and `TauCeti.exists_mul_measure_convexSection_sq_le_mul_ofReal_pow`,
-`λ|S|² ≤ C hⁿ` when `MA_u ≥ λ dx` on `Ω`.  Engulfing is
-`TauCeti.exists_convexSection_subset_convexSection`: when `λ dx ≤ MA_u ≤ Λ dx` with `λ > 0` and
-`S(x,2h)` is bounded with closure in `Ω`, the section `S(x,h)` lies in the section of height
-`(1 + CΛ/λ)h` at each of its points, for every supporting slope there.  The covering lemma is
-`TauCeti.exists_countable_pairwiseDisjoint_convexSection_measure_le`, a countable disjoint
-subfamily carrying a fixed fraction of the measure of the union.  Then, for
+`hⁿ ≤ C |S| MA_u(S)` for every slope, and
+`TauCeti.exists_mul_measure_convexSection_sq_le_mul_ofReal_pow`,
+`λ|S|² ≤ C hⁿ` when the slope is supporting at the centre and `MA_u ≥ λ dx` on `Ω`.  Engulfing is
+`TauCeti.exists_convexSection_subset_convexSection`: when `λ dx ≤ MA_u ≤ Λ dx` on `Ω` with
+`λ > 0`, the slope at `x` is supporting and `S(x,2h)` is bounded with closure in `Ω`, the section
+`S(x,h)` lies in the section of height `(1 + CΛ/λ)h` at each of its points, for every supporting
+slope there.  The covering lemma is
+`TauCeti.exists_countable_pairwiseDisjoint_convexSection_measure_le`.  Assume
+`λ dx ≤ MA_u ≤ Λ dx` on `Ω` with `λ > 0`, put `θ = 1 + CΛ/λ`, and let `D` be a set and `H` a
+height such that every section of height `H` centred at a point of `D`, with any supporting slope
+there, is bounded with closure in `Ω`.  Then every family of sections `S_i = S(x_i,h_i) ⊆ D` with
+centres in `Ω`, supporting slopes at the centres and positive heights satisfying `4θh_i ≤ H` and
+`2θ²h_i ≤ H` has a countable pairwise disjoint subfamily `(S_j)` with
+`|⋃ S_i| ≤ √(A(2θ²)ⁿΛ/λ) |⋃ S_j|`.  The fraction of the measure that the subfamily carries
+depends on `Λ/λ` and tends to `0` as `Λ/λ → ∞`; it is not uniform over convex `u`.  Then, for
 bounded Euclidean source and convex target domains with densities bounded above and
 below by positive constants, prove local strict convexity, local `C¹,α`, and local
 `W²,1+ε` regularity of the Brenier potential (Caffarelli; De Philippis--Figalli survey,
@@ -2677,6 +2686,11 @@ Theorems 2.14, 2.21 and 3.3.
   not centred at `0`.
 * For an affine `u` every section is the whole space, so the section estimates need strict
   convexity.
+* For `u(x) = ‖x‖²/2` on `Ω = D = ℝⁿ`, `MA_u = dx`, so `λ = Λ = 1` and `θ = 1 + C`; the covering
+  lemma is then the Vitali lemma for balls of radius `√(2h_i) ≤ √(H/(2θ))`, with the constant
+  `√(A(2θ²)ⁿ)` depending on `n` alone.  The height bound cannot be dropped: the sections
+  `S(0,k)`, `k = 1, 2, …`, are nested balls with union `ℝⁿ`, a pairwise disjoint subfamily of them
+  is a single ball, and no constant bounds `|ℝⁿ| = ∞` by its finite measure.
 
 ### 6.9 Higher interior regularity
 
@@ -2719,13 +2733,50 @@ diameter although both densities are constant.
 
 ### 6.11 Regression examples
 
-Formalize regression examples: a disconnected or nonconvex target can make a Brenier
-map discontinuous despite smooth positive data; density bounds alone do not imply all
-`W²,p` estimates; and strict convexity cannot be omitted in higher dimensions.
+Formalize three regression examples.
 
-*Needs:* items 7--9.
-Implemented in Tau Ceti by
-`TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_not_continuousOn`.
+1. A disconnected or nonconvex target can make a Brenier map discontinuous despite smooth
+   positive data.  Implemented in Tau Ceti by
+   `TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_not_continuousOn`.
+2. Density bounds alone do not give every `W²,p` estimate: for every `p > 1` there are a
+   constant `λ(p) > 0`, a function `f` with `λ(p) ≤ f ≤ 1/λ(p)` and an Aleksandrov solution of
+   `det D²u = f` that is not in `W²,p_loc` (X.-J. Wang's counterexample, quoted in the
+   De Philippis--Figalli survey, p. 18).  This is why item 9 asks for continuity of `f` before
+   it gives `W²,p_loc` for every finite `p`, and why item 8 stops at `W²,1+ε`.
+3. Strict convexity cannot be omitted from item 9 in dimension `n ≥ 3`.  Put `a = 2 - 2/n` and
+   fix `ρ > 0` with `ρ² < (n-2)/(3n-2)`.  On the slab `{(x₁,x') ∈ ℝ × ℝⁿ⁻¹ | x₁² < ρ²}` the
+   function `u(x₁,x') = ‖x'‖^a (1 + x₁²)` is convex, of class `C^{1,1-2/n}_loc` and not `C²`, and it
+   is an Aleksandrov solution of
+
+       det D²u = 2 a^(n-1) (1 + x₁²)^(n-2) ((a-1) - (a+1) x₁²),
+
+   whose right-hand side is smooth and bounded below by a positive constant on the slab.  It
+   vanishes on the segment `{x' = 0}`, so it is not strictly convex (De Philippis--Figalli survey,
+   (2.26), p. 18; the determinant and the domain are computed here, because the factor
+   `1 - x₁²` and the ball `B_{1/2}` printed there do not agree with the Hessian for `n = 3`).  In
+   dimension two there is no such example: every Aleksandrov solution of `det D²u ≥ λ > 0` is
+   strictly convex (Alexandrov, quoted on the same page).
+
+*Needs:* items 7--9; De Philippis--Figalli survey, p. 18.
+
+**Checks.**
+
+* With `r = ‖x'‖` and `h = 1 + x₁²`, the Hessian of `r^a h` off `{x' = 0}` has the eigenvalue
+  `a r^(a-2) h` with multiplicity `n-2` on the directions tangent to the sphere in `x'`, and
+  a `2 × 2` block in the `x₁` and radial directions with entries `2r^a`, `2a x₁ r^(a-1)`,
+  `a(a-1) r^(a-2) h`, of determinant `2a r^(2a-2) ((a-1) - (a+1)x₁²)`.  The total power of `r` is
+  `(n-2)(a-2) + 2a - 2 = na - 2n + 2 = 0`, which is what fixes `a = 2 - 2/n`.
+* For `n = 3`, `a = 4/3` and the determinant is `(32/27)(1 + x₁²)(1 - 7x₁²)`: it is `640/2187 > 0`
+  at `x₁ = 1/3` and `-10/9 < 0` at `x₁ = 1/2`, so the slab must have `ρ² < 1/7 = (n-2)/(3n-2)`
+  and `ρ = 1/2` is too large.
+* For `n = 2` the same formula gives `a = 1` and `-4x₁² ≤ 0`: `‖x'‖(1 + x₁²)` is not convex, in
+  agreement with the two-dimensional strict-convexity theorem.
+* Since `a > 1`, `u` is `C¹` with `∇u = 0` on `{x' = 0}`, so the subdifferential image of that
+  segment is the single point `0` and the Aleksandrov measure has no singular part there; a
+  definition of Aleksandrov solution that only tests the pointwise determinant off the segment
+  would not see this.
+* `∂²u/∂r² = a(a-1) r^(a-2) h` is unbounded as `r → 0` because `a < 2`, which is the failure of
+  `C²`; `∇_{x'}u = a r^(a-1) h x'/r` is Hölder of exponent `a - 1 = 1 - 2/n` and no better.
 
 ### 6D. General costs, Ma--Trudinger--Wang (MTW), and partial regularity
 
@@ -4867,10 +4918,15 @@ reference processes are outside this roadmap (see Scope and ownership).
 
 With the same generator convention, build Schilder's path-space large-deviation
 principle in Laplace-principle form for `√ε`-Brownian paths, including exponential
-tightness, and derive the endpoint rate `‖x-y‖²/2`.  In Layer 10's Γ-convergence
+tightness (Schilder's theorem as stated in Léonard, *From the Schrödinger problem to the
+Monge--Kantorovich problem*, arXiv:1011.2564v1, Theorem 3.9, p. 17: the paths `x + √ε B` on
+`C([0,1],ℝⁿ)` with the uniform topology satisfy the large-deviation principle with scale `1/ε`
+and rate `∫₀¹ ‖ω̇ₜ‖²/2 dt` on absolutely continuous paths from `x`, `∞` elsewhere; proof in
+Dembo--Zeitouni, *Large Deviations Techniques and Applications*, Theorem 5.2.3), and derive
+the endpoint rate `‖x-y‖²/2`.  In Layer 10's Γ-convergence
 interface, prove equicoercivity and Γ-convergence of `ε` times constrained path entropy
-to kinetic action (Léonard, *From the Schrödinger problem to the Monge--Kantorovich
-problem*, Proposition 3.4 and Theorems 3.6--3.7: there the reference has a fixed initial
+to kinetic action (Léonard, the same paper, Proposition 3.4, p. 14, Theorem 3.6, p. 15, and
+Theorem 3.7, pp. 15--16: there the reference has a fixed initial
 law and the endpoint marginals converge along a recovery sequence; the survey's
 Informal Statement 5.1 points to this paper and is not itself a rigorous statement).
 Pin the effective domain before stating any endpoint-constrained
@@ -4901,10 +4957,17 @@ endpoint domain deduce convergence of values, global minimizers, and entropic
 interpolations to Layer 9 displacement interpolations, giving full convergence when
 the quadratic optimizer is unique and only cluster-point convergence otherwise.
 
-*Needs:* items 11--12; Layers 9.1, 10.6 and 11.2.
+*Needs:* items 11--12; Layers 9.1, 10.6 and 11.2; Léonard, *From the Schrödinger problem to the
+Monge--Kantorovich problem*, Proposition 3.4 and Theorems 3.6, 3.7 and 3.9; Dembo--Zeitouni,
+Theorem 5.2.3.
 
 **Checks.**
 
+* With `k = 1/ε`, Léonard's process `x + √(1/k) B` is the `√ε`-Brownian path of item 12's
+  generator `(ε/2)Δ`.  For `n = 1`, `x = 0` and `γ(t) = 2t` the rate is `∫₀¹ 2²/2 dt = 2`, the
+  endpoint rate `|2-0|²/2 = 2`; the path `γ(t) = 2t²` has the same endpoints and the larger rate
+  `∫₀¹ (4t)²/2 dt = 8/3`.  The generator `εΔ` would give the rate `∫₀¹ ‖ω̇ₜ‖²/4 dt` and the value
+  `1`.
 * For `π = N(0, I₂)` on `ℝ × ℝ` and `ε = 1`, the cost is `(1/2)E|x-y|² = 1` and
   `Ent_{vol⊗vol}(π) = -log(2πe)`, so the identity gives
   `Ent_{R¹₀₁}(π) = 1 - log(2πe) + (1/2)log(2π) = -(1/2)log(2π)`; integrating
@@ -5779,7 +5842,9 @@ stage of which is reusable on its own.
   J. Solomon, [Gromov--Wasserstein averaging of kernel and distance
   matrices](https://proceedings.mlr.press/v48/peyre16.html), 2016.
 * C. Léonard, [From the Schrödinger problem to the Monge--Kantorovich
-  problem](https://arxiv.org/abs/1011.2564), 2012; L. Ambrosio, N. Gigli, and G. Savaré,
+  problem](https://arxiv.org/abs/1011.2564), 2012, theorem and page numbers from arXiv v1;
+  A. Dembo and O. Zeitouni, *Large Deviations Techniques and Applications*, second edition,
+  Springer, 1998; L. Ambrosio, N. Gigli, and G. Savaré,
   [Calculus and heat flow in metric measure spaces and applications to spaces with Ricci
   bounds from below](https://arxiv.org/abs/1106.2090), 2014, theorem numbers from arXiv v4.
 * L. Ambrosio, N. Gigli, and G. Savaré, [Metric measure spaces with Riemannian Ricci curvature
