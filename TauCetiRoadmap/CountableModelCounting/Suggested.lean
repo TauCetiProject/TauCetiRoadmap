@@ -164,7 +164,7 @@ on `ℕ`), read on codes, is an isolating rank, by `nonempty_equiv_of_bfEquiv_of
 `TauCeti.isIsolatingRank_scottHeight`. -/
 theorem isIsolatingRank_scottHeight :
     IsIsolatingRank
-      (fun c : RelationalConfiguration L ℕ => letI := c.toStructure; scottHeight (L := L) ℕ) :=
+      (fun c : RelationalConfiguration L ℕ => @scottHeight L _ ℕ c.toStructure) :=
   TauCeti.isIsolatingRank_scottHeight L
 
 /-- The image of a set `K` of codes in the quotient by isomorphism is the quotient of isomorphism
@@ -223,7 +223,7 @@ rank of the models on `ℕ` gives the same dichotomy: by
 theorem countableModelCount_le_aleph0_or_hasPerfectlyMany_of_internalScottRank_le
     {φ : L.Sentenceω} {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1)
     (hb : ∀ c ∈ (modelsOf φ : Set (RelationalConfiguration L ℕ)),
-      letI := c.toStructure; internalScottRank (L := L) ℕ ≤ β) :
+      @internalScottRank L _ ℕ c.toStructure ≤ β) :
     countableModelCount φ ≤ ℵ₀ ∨ HasPerfectlyManyCountableModels φ := by
   sorry
 
@@ -374,7 +374,7 @@ theorem morleyCode_inl (c : RelationalConfiguration L ℕ) {l : ℕ} (R : L.Rela
 theorem morleyCode_inr_eq_true_iff (c : RelationalConfiguration L ℕ) {l : ℕ}
     (φ : {φ : L.BoundedFormulaω Empty l // ⟨l, φ⟩ ∈ Φ}) (v : Fin l → ℕ) :
     (morleyCode Φ c).eval (atom (Sum.inr φ : (L.morleyize Φ).Relations l) v) = true ↔
-      (letI : L.Structure ℕ := c.toStructure; φ.1.Realize Empty.elim v) := by
+      @BoundedFormulaInf.Realize L ℕ Empty ℕ c.toStructure l φ.1 Empty.elim v := by
   rw [morleyCode,
     @RelationalConfiguration.eval_ofStructure _ _ (@morleyExpansion L Φ ℕ c.toStructure)]
   simp only [decide_eq_true_eq]
@@ -417,7 +417,8 @@ theorem range_morleyCode :
     Set.range (morleyCode Φ) =
       {e | ∀ (l : ℕ) (φ : {φ : L.BoundedFormulaω Empty l // ⟨l, φ⟩ ∈ Φ}) (v : Fin l → ℕ),
         e.eval (atom (Sum.inr φ : (L.morleyize Φ).Relations l) v) = true ↔
-          (letI : L.Structure ℕ := (morleyBase Φ e).toStructure; φ.1.Realize Empty.elim v)} := by
+          @BoundedFormulaInf.Realize L ℕ Empty ℕ (morleyBase Φ e).toStructure l φ.1 Empty.elim
+            v} := by
   sorry
 
 /-- **Layer 4g milestone, Morleyization transport.** A class of base codes carries a Cantor
@@ -692,7 +693,7 @@ theorem exists_internalScottRank_omega_with_large_bfClass :
 /-- **Layer 6 milestone.** The internal Scott rank, read on codes, is not an isolating rank. -/
 theorem not_isIsolatingRank_internalScottRank :
     ¬ IsIsolatingRank (L := lang ℕ Language.empty)
-        (fun c => letI := c.toStructure; internalScottRank (L := lang ℕ Language.empty) ℕ) := by
+        (fun c => @internalScottRank (lang ℕ Language.empty) _ ℕ c.toStructure) := by
   sorry
 
 end RowAssembly
