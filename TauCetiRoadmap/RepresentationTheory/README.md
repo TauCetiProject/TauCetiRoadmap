@@ -47,6 +47,10 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 - [**Compact groups, Haar measure, and the Peter-Weyl theorem**](CompactGroups/README.md) - Haar
   averaging and complete reducibility, matrix coefficients, Schur orthogonality in L²(G), the Peter-Weyl
   theorem, characters of compact groups, and the SU(2) and maximal-torus engine.
+- [**Compact groups, part II**](CompactGroupsPartII/README.md) - builds on the compact-groups roadmap:
+  invariant Hermitian metrics, G-finite vectors in Banach representations, countability and
+  metrizability, characters of arbitrary products, compact abelian Fourier theory, global forms and
+  representation rings, and unitary SU(2) actions.
 - [**Lie groups and the Lie algebra correspondence**](LieGroups/README.md) - the smooth-group side:
   the exponential map and one-parameter subgroups, `Ad`/`ad`, the closed-subgroup theorem, the Lie
   functor and Baker-Campbell-Hausdorff, Lie's third theorem, maximal-torus conjugacy and the general
@@ -92,6 +96,10 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   smooth-group ↔ Lie-algebra correspondence that the highest-weight and compact-group roadmaps
   presuppose, and abstracts the general Weyl integration formula the compact-group roadmap proves only
   for SU(2).
+- **Compact groups → compact groups, part II.** Part II consumes the Haar, unitarization, Peter-Weyl,
+  character and SU(2) results of the compact-groups roadmap, and for its global forms the Lie-groups
+  roadmap's maximal tori and coverings and the highest-weight roadmap's dominant integral
+  classification.
 - **Spin representations complete the classical groups.** The spin and half-spin representations are the
   fundamental representations of types B and D that are not realized in tensor powers of the standard
   representation, so they finish the classical-groups picture.
