@@ -327,6 +327,8 @@ namespace Groups
 
 open Spaces _root_.CategoryTheory.MonoidalCategory _root_.CategoryTheory.CartesianMonoidalCategory
 
+/-- The cartesian monoidal structure on presheaves over `A`: the product is the fibre product
+over `A`. Group objects of `Over h_S` are taken for this structure. -/
 noncomputable instance (A : SchemePresheaf.{u}) : CartesianMonoidalCategory (Over A) :=
   Over.cartesianMonoidalCategory A
 
@@ -561,6 +563,7 @@ end Proetale
 
 namespace Coherent
 
+/-- The standard derived category of `O_X`-modules, the ambient category of §2.18. -/
 instance instHasDerivedCategoryModules (X : Scheme.{u}) : HasDerivedCategory X.Modules :=
   HasDerivedCategory.standard _
 
@@ -570,6 +573,7 @@ def DQCoh (X : Scheme.{u}) : Type (u + 1) :=
   ObjectProperty.FullSubcategory (fun K : DerivedCategory X.Modules =>
     ∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent)
 
+/-- `D_QCoh(O_X)` is a category: the full subcategory structure on its defining property. -/
 instance (X : Scheme.{u}) : Category.{u + 1} (DQCoh X) := by
   unfold DQCoh; infer_instance
 
@@ -750,6 +754,7 @@ abbrev baseChange (X : Scheme.{u}) [X.Over (Spec (.of k))] (K : Type u) [Field K
     [Algebra k K] : Scheme.{u} :=
   pullback (X ↘ Spec (.of k)) (Spec.map (CommRingCat.ofHom (algebraMap k K)))
 
+/-- The base change `X_K` lies over `Spec K` through the second projection. -/
 instance (X : Scheme.{u}) [X.Over (Spec (.of k))] (K : Type u) [Field K] [Algebra k K] :
     (baseChange k X K).Over (Spec (.of K)) := ⟨pullback.snd _ _⟩
 
@@ -1216,6 +1221,8 @@ def ChowGroup (X : Scheme.{u}) [X.Over (Spec (.of κ))]
     [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : Type u :=
   cyclesOfDimension κ X k ⧸ RatEquiv κ X k
 
+/-- `CH_k(X)` is an abelian group: the quotient of the group of `k`-cycles by rational
+equivalence. -/
 instance (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))]
     (k : ℤ) : AddCommGroup (ChowGroup κ X k) :=
   inferInstanceAs (AddCommGroup (cyclesOfDimension κ X k ⧸ RatEquiv κ X k))

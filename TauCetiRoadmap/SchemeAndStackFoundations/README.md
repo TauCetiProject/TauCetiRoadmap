@@ -946,10 +946,17 @@ are torsion-free over the base stalks, hence flat
 ([Stacks, Lemma 15.22.11](https://stacks.math.columbia.edu/tag/0AUW)). Pure relative dimension is a
 separate hypothesis in §5.2, including for finite-type morphisms. Prove
 `generic_fibre_spreading`: for `f : X → S` of finite presentation with `S` integral and the generic
-fibre `X_η` geometrically reduced (irreducible, integral, connected, normal, smooth), the same holds
-for the fibres over a dense open of `S`; and `fibre_locus_constructible`: the locus of `s` where `X_s`
-has a given one of these properties is constructible (Stacks, Lemmas 37.26.2 (0576), 37.26.4 (0578),
-37.26.5 (0579)). Prove `flat_proper_fibre_loci`: for `f` proper and flat of finite presentation, the
+fibre `X_η` geometrically reduced (geometrically irreducible, integral, connected, normal; smooth),
+the same holds for the fibres over a dense open of `S`; and `fibre_locus_constructible`: the locus
+of `s` where `X_s` has a given one of these properties is locally constructible. The locators, property by property
+(dense open, then locus): geometrically reduced, Stacks, Lemmas 37.26.4 (0578) and 37.26.5 (0579);
+geometrically irreducible, Lemmas 37.27.5 (0559) and 37.27.7 (055B) with `n = 1`; geometrically
+connected, Lemmas 37.28.4 (055G) and 37.28.6 (055I) with `n = 1`; geometrically integral, EGA IV₃,
+Theorem 9.7.7 (iv), p. 79; geometrically normal and smooth, EGA IV₃, Proposition 9.9.4 (iii) and (i),
+p. 93, and Corollary 9.9.5, p. 94 (a fibre is smooth iff it is geometrically regular at every point).
+In the last three cases the dense open follows from the locus statement, because a constructible set
+containing the generic point of an irreducible space contains a dense open (Stacks, Lemma 5.15.15
+(005K)). Prove `flat_proper_fibre_loci`: for `f` proper and flat of finite presentation, the
 loci where the fibre is geometrically reduced, respectively geometrically integral, are open (EGA
 IV₃, Theorem 12.2.4 (v) and (viii), p. 183). Prove `fibre_power_irreducible`: for `f : X → S` flat of
 finite presentation with geometrically irreducible fibres, every fibre power `X ×_S ⋯ ×_S X` has
@@ -1425,7 +1432,9 @@ Lemma 10.161.3 (032G)), finite extension domains (`:228`), the N-1 local criteri
 `isN1_iff_exists_isIntegrallyClosed_localization_away_and_isN1_localization_atPrime` (`:629`, Lemma
 10.161.15 (0333)), `TauCeti.Ring.IsJapanese.polynomial` (`TauCeti/RingTheory/IntegralClosure/MvPolynomial.lean:82`,
 Lemma 10.161.13 (032O)); finite algebras, quotients, fields and localisations of Nagata rings are Nagata
-(`Nagata.lean:76`, `:86`, `:109`, `:124`; Lemma 10.162.6 (032U)), being Nagata is local on `Spec R`
+(`Nagata.lean:76`, `:86`, `:109`, `:124`; finite algebras, hence quotients, by Lemma 10.162.5 (032T),
+localisations by Lemma 10.162.6 (032U), fields from Definition 10.162.1 (032R), the integral closure
+of a field in a finite extension being that extension), being Nagata is local on `Spec R`
 (`:171`, Lemmas 032U, 032V), and Nagata equals Japanese in dimension `≤ 1` (`:178`);
 `IsUniversallyJapanese.isNagata` (`UniversallyJapanese.lean:112`, the direction "universally
 Japanese and Noetherian implies Nagata" of Proposition 10.162.15 (0334)) and
@@ -1729,8 +1738,9 @@ Every global pfp API result below carries that qcqs scope, including the source 
 base changes. API: `PerfectlyFinitelyPresented.perfection` (the
 perfection of a finitely presented morphism is pfp), `.comp`, `.of_etale`, `.baseChange`,
 `.of_isOpenImmersion`. Prove `pfp_characterisations`: pfp is local on source and target, stable
-under composition and base change, and every pfp morphism of affine perfect schemes is a cofiltered
-limit of finitely presented ones (Bhatt–Scholze 2017, Proposition 3.11, p. 12); and `pfp_models`:
+under composition and base change, and `f : X → Y` is pfp iff `colim Hom_Y(Z_i, X) → Hom_Y(lim Z_i, X)`
+is bijective for every cofiltered system `{Z_i}` of perfect qcqs schemes over `Y` with affine transition
+maps (Bhatt–Scholze 2017, Proposition 3.11 (i)–(iii), p. 12); and `pfp_models`:
 every pfp morphism `X → Y` is the perfection of a finitely presented morphism `X_0 → Y_0` of
 `𝔽_p`-schemes with `Y = Y_0^perf` (Proposition 3.13, p. 13). Define `PerfectlyProper f`: pfp,
 separated and universally closed (Bhatt–Scholze 2017, Definition 3.14, p. 13), with `.perfection`,
