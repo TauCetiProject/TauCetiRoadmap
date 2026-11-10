@@ -1270,27 +1270,83 @@ principle on `ball c R`, for `M > 0`).
 
 ### 4.4 The local count for the two families
 
-For `Λ` of `dedekindZetaData K` or of `heckeData χ`, and `T ≥ 2`, the number of zeros of
+For `Λ` of `dedekindZetaData K` or of `heckeData χ`, and every `T ≥ 0`, the number of zeros of
 *entireCompletion* in `closedBall (1/2 + iT) 1` is `O(log analyticConductorAt d (iT))`, the
 constant depending on the degree only. At `K = ℚ` the disc lies in the strip `|Im s − T| ≤ 1`,
-whose zero count is `O(log T)` for `ζ` (Davenport §15) and `O(log (q (T + 2)))` for a primitive
-Dirichlet `L(s, χ)` (Davenport §16); the general statement is proved here. Route: base point
-`c = 2 + iT`, where the Euler product gives `‖continuedL d c‖ ≥ ζ_K(2)^{−1}`; radii `3` and
-`4`; and the ratio bound
-`sup_{sphere c 4} ‖entireCompletion d‖ / ‖entireCompletion d c‖ ≤ analyticConductorAt d (iT)^B`,
-in which the two gamma factors are compared on the same height range by 1.5 and the uncompleted
-factor is bounded by the wide-strip corollary of 3.4. Bounding *entireCompletion* alone and
-dividing would leave `exp(+π n T/4)` in the ratio.
+whose zero count is `O(log (T + 2))` for `ζ` (Davenport §15) and `O(log (q (T + 2)))` for a
+primitive Dirichlet `L(s, χ)` modulo `q` (Davenport §16); the general statement is proved here.
 
-*Needs:* 4.3, 1.5, 1.6, 2.2, 3.4, 3.1; L-functions Layers 3 and 5 for the Euler product on
-`Re s = 2`.
+Route: base point `c = 2 + iT`, where the Euler product gives `‖continuedL d c‖ ≥ ζ_K(2)^{−1}`;
+radii `3` and `4`, so that 4.3 on `closedBall c 3` covers the disc; and the ratio bound
+`sup_{sphere c 4} ‖entireCompletion d‖ / ‖entireCompletion d c‖ ≤ analyticConductorAt d (iT)^B`,
+`B` depending on the degree only. The sphere has real parts in `[−2, 6]` and heights in
+`[T − 4, T + 4]`, and the ratio bound is proved separately on two ranges of `T`, split at a
+height `T₁` depending on the degree only. Throughout, the constants taken from 1.5 and 3.4 depend
+on the degree only: the gamma shifts of the two families lie in `{0, 1}`, the only possible pole of
+*continuedL* is `1`, and the coefficients are dominated by those of `ζ(s)^n`.
+
+- **High range**, `T ≥ T₁`, where `T₁ − 4` is at least a threshold `T₀ > 0` of the wide-strip
+  corollary of 3.4 (the pole `1` has height `0`) and at least the height from which the `O(1)` of
+  1.5 holds for each of the finitely many gamma factors of degree `n`: the two gamma factors are
+  compared on the same height range by 1.5, and the uncompleted factor is bounded by the
+  wide-strip corollary of 3.4. Bounding *entireCompletion* alone and dividing would leave
+  `exp(+π n T/4)` in the ratio.
+- **Low range**, `0 ≤ T < T₁`: the sphere can reach heights below `T₀`, where neither input
+  applies; for `ζ_K` it passes at `T = 0` through `−2`, a pole of `γ` and a trivial zero, and at
+  `T = √15` through the pole `1`. Reflect instead:
+  `‖entireCompletion d s‖ = ‖entireCompletion d (1 − conj s)‖` for every `s`, since
+  `HasFunctionalEquation.eventuallyEq` with `dual_completed` gives `Λ(s) = ε conj Λ(1 − conj s)`
+  as germs with `‖ε‖ = 1`, and `polarOrder_one_sub_conj` changes the clearing polynomial `P₀` of
+  Layer 0 only by conjugation and the sign `(−1)^{deg P₀}` under `s ↦ 1 − conj s`. This carries the
+  part of the sphere with `Re s < 1/2` into `[1/2, 3] × [T − 4, T + 4]`, at the same heights. On
+  `Re s ≥ 1/2` every gamma shift of the two families is `0` or `1`, so `γ` is regular there and
+  *entireCompletion* `d = Q · N^{s/2} γ · poleClearedContinuedL d P`, with `P` the clearing
+  polynomial of 3.4 and `Q = P₀/P` (`X` for `ζ_K` and the trivial character, `1` otherwise).
+  Bound `‖γ(s)‖ ≤ γ(Re s)` by 1.3a, `‖N^{s/2}‖ ≤ N³`, the pole-cleared factor by the strip bound
+  of 3.4 on `1/2 ≤ Re s ≤ 1 + δ` and by `‖P(s)‖ ζ(1 + δ)^n` from the Dirichlet series on
+  `Re s ≥ 1 + δ`; at `c`, bound `‖γ(c)‖` below on the compact segment
+  `{2 + it : 0 ≤ t ≤ T₁}`, uniformly over the gamma factors of degree `n`. On this range
+  `N ≤ analyticConductorAt d (iT) ≤ C N` (2.2), so the ratio is at most a constant times a fixed
+  power of `N`, and hence at most `analyticConductorAt d (iT)^B`, since
+  `analyticConductorAt d (iT) ≥ 3`.
+
+*Needs:* 4.3, 1.3a, 1.5, 1.6, 2.2, 3.4, 3.1; Layer 0 *entireCompletion*; L-functions Layers 3 and
+5 for the Euler product on `Re s = 2` and the gamma shifts of the two families; Tau Ceti
+`TauCeti.LFunctions.AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq`,
+`TauCeti.LFunctions.AnalyticLFunctionData.dual_completed` and the fields
+`HasFunctionalEquation.norm_rootNumber` and `HasFunctionalEquation.polarOrder_one_sub_conj`
+(L-functions Layer 0).
+
+**Checks.**
+
+- For `ζ` at `T = 0` the sphere `sphere 2 4` passes through `−2`. Near it `‖Gammaℝ(s)‖` is about
+  `1.6 · 10⁴` at distance `4 · 10⁻⁴` while `‖ζ(s)‖ ≈ 1.2 · 10⁻⁵`, so separate bounds for the gamma
+  factor and the uncompleted factor are unbounded on the sphere; the product stays near
+  `zetaEntireCompletion (−2) = zetaEntireCompletion 3 = 6 Λ(3) ≈ 1.14788`, the value the
+  reflection gives.
+- For `ζ` at `T = √15` the sphere about `2 + i√15` passes through `1`, since
+  `‖1 − (2 + i√15)‖ = 4`: `‖ζ‖` exceeds `2500` at distance `4 · 10⁻⁴` from `1` on the sphere,
+  while the pole-cleared factor `(s − 1) ζ(s)` stays near `1`.
+- For `ζ` at `T = 0` the maximum of `‖zetaEntireCompletion‖` on `sphere 2 4` is
+  `zetaEntireCompletion 6 ≈ 1.96865`, at the point farthest from `1/2`, against
+  `zetaEntireCompletion 2 = π/3`; Jensen allows at most `log (1.96865 · 3/π)/log (4/3) ≈ 2.19`
+  zeros in `closedBall 2 3`, which contains none.
 
 ### 4.5 Counting functions
 
-`N(T + 1) − N(T) = O(log analyticConductorAt d (iT))` for `T ≥ 2`, and
-`N(T) = O(T log analyticConductorAt d (iT))`, from 4.4 by subdividing into unit-height rectangles
-inside discs of radius `√2/2` centred on the critical line (Titchmarsh, Theorem 9.2, is the
-`K = ℚ` case).
+For the two families, `N(T + 1) − N(T) = O(log analyticConductorAt d (iT))` for every `T ≥ 0`,
+and `N(T) = O(T log analyticConductorAt d (iT))` for every `T ≥ 1`, the constants depending on the
+degree only (Titchmarsh, Theorem 9.2, is the `K = ℚ` case). Route: the rectangle
+`Icc 0 1 ×ℂ Ioc T (T + 1)` lies in `closedBall (1/2 + i(T + 1/2)) (√2/2)`, inside the disc of 4.4
+at height `T + 1/2`; the zeros of `Λ` and of *entireCompletion* agree with multiplicity (4.2, and
+*entireCompletion* does not vanish on `polarOrder.support`); and
+`analyticConductorAt d (i(T + 1/2)) ≤ (7/6)^n analyticConductorAt d (iT)`, since each of the `n`
+archimedean factors is at least `3` and grows by at most `1/2`. Summing the first clause at the
+heights `k = 0, 1, …, ⌈T⌉ − 1`, which uses 4.4 at `1/2` and `3/2`, below `2`, gives the second, as
+`analyticConductorAt d (it)` is nondecreasing in `t ≥ 0` for real shifts and `⌈T⌉ ≤ 2T`. The
+second clause starts at a positive height: stated for every `T > 0` and evaluated at the least
+positive ordinate `γ₁` of a member, it would give `γ₁ ≥ 1/(C log analyticConductorAt d (iγ₁))`
+uniformly in the family, a lower bound no theorem here provides.
 
 Define `N(T)` and `N±(T)` as in the conventions.
 
@@ -1301,7 +1357,7 @@ Define `N(T)` and `N±(T)` as in the conventions.
   character `χ` from `Λ(χ, conj s) = conj Λ(χ, s)`, and for a general `χ` the count of `χ` above
   the axis is the count of `χ⁻¹` below it.
 
-*Needs:* 4.1, 4.4.
+*Needs:* 4.1, 4.2, 4.4; 2.1 for the archimedean factors.
 
 **Checks.**
 
@@ -1311,6 +1367,12 @@ Define `N(T)` and `N±(T)` as in the conventions.
   `χ̄`, and the two differ from each other in general.
 - `N±` for `ζ` at `T = 100` is `58`, twice `N(100) = 29`; a symmetric count that also included the
   real axis would add the multiplicity of any real zero.
+- The square `Icc 0 1 ×ℂ Ioc 0 1` lies in `closedBall (1/2 + i/2) 1`: its farthest points `0`,
+  `1`, `i` and `1 + i` are at distance `√2/2 ≈ 0.7071` from the centre. Every disc of 4.4 at a
+  height `T ≥ 2` lies in `Im s ≥ 1` and misses the zeros with `0 < Im ρ < 1`, so the bound for
+  `N(1)`, and with it the clause for `N(T)`, needs 4.4 at `T = 1/2`.
+- For `ζ`, `analyticConductorAt d (iT) = T + 3`, and `(T + 7/2)/(T + 3) ≤ 7/6` for `T ≥ 0`, with
+  equality at `T = 0`: the shift by `1/2` in height costs at most the factor `(7/6)^n` with `n = 1`.
 
 ### 4.6 The comparison with Nevanlinna theory
 
@@ -1341,8 +1403,10 @@ function of the positive part of the divisor, and not the signed
 
 ### Dependencies
 
-Mathlib Jensen and divisor API, Nevanlinna counting. Layers 0, 1.5, 1.6, 2, 3.4, 3.1 (4.4–4.5).
-L-functions Layers 0, 3, 5.
+Mathlib Jensen and divisor API, Nevanlinna counting. Layers 0, 1.3a, 1.5, 1.6, 2, 3.4, 3.1
+(4.4–4.5). L-functions Layers 0, 3, 5; at Layer 0, for 4.4, `HasFunctionalEquation.eventuallyEq`,
+`dual_completed` and the fields `HasFunctionalEquation.norm_rootNumber` and
+`HasFunctionalEquation.polarOrder_one_sub_conj`.
 
 ## Layer 5: Hadamard factorization
 
