@@ -25,6 +25,8 @@ body:
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
+        - AnalyticNumberTheoryPartI
+        - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -32,6 +34,7 @@ body:
         - BorelEquivalenceRelations
         - CFSGBasicProperties
         - CFSGStatement
+        - CStarAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
@@ -45,10 +48,13 @@ body:
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
+        - ConformalMappingPartII
         - CountableModelCounting
         - DGAInfinity
         - DGFloer
+        - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
+        - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - ECM
@@ -56,8 +62,14 @@ body:
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
+        - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
+        - EtaleMassFormula
+        - FactorRigidity
         - FinancialMathematics
+        - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
+        - FlagVarieties
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -73,18 +85,24 @@ body:
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HilbertModules
+        - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
         - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
+        - KacMoody
         - KhovanovHomology
         - LFunctions
         - LieGroupoidsPoisson
+        - LinearFormsInLogarithms
         - LocalPurity
+        - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
         - MorseNovikov
@@ -93,6 +111,8 @@ body:
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeGeometry
+        - NoncommutativeIntegration
+        - NoncongruenceModularForms
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
@@ -102,13 +122,20 @@ body:
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
         - PivotalSpherical
+        - Poincare3D
+        - PolylogarithmFunctions
         - PositiveScalarCurvature
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
@@ -117,29 +144,41 @@ body:
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - RootSystemsPartII
+        - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SobolevPolynomialApproximation
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
+        - SymplecticFieldTheory
         - SymplecticGeometry
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
+        - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VonNeumannAlgebras
         - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
