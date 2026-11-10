@@ -9,19 +9,18 @@ headline theorems that are statable against the pinned Mathlib and Tau Ceti, eac
 together with the three definitions their statements need. It writes the noise matrix with
 the GOE and GUE coordinates of RandomMatrices §5.1 and uses Tau Ceti's `Matrix.spectralMeasure`.
 
-Stated here: pathwise existence and uniqueness for the Dyson system with real `β ≥ 1` from a
-strictly ordered start (Layer 1); the eigenvalue equation from a strictly ordered real diagonal
-start and the absence of eigenvalue collisions at positive times from any real diagonal start,
-for symmetric and Hermitian matrix Brownian motion (Layer 2); and the hydrodynamic limit of its
+Stated here: pathwise existence and uniqueness for the Dyson system with real `β ≥ 1` from an
+ordered start (Layer 1); the eigenvalue equation from an ordered real diagonal start and the
+absence of eigenvalue collisions at positive times from any real diagonal start, for symmetric
+and Hermitian matrix Brownian motion (Layer 2); and the hydrodynamic limit of its
 empirical spectral measures, uniformly on compact time intervals, with the limit characterized by
 its Stieltjes equation (Layer 3). The Dyson noise is additive, so the system is a pathwise
 integral identity, `IsDysonSolution`, and needs no stochastic integral.
 
 Not statable at the pins, each for the carrier named:
-* adaptedness of the solution to the Brownian filtration (a strong solution), uniqueness in law,
-  and starts in the closed chamber (AGZ Proposition 4.3.5): they need a filtration-relative
-  Brownian predicate and a weak-solution notion, which StochasticCalculus supplies and the pins
-  do not have;
+* adaptedness of the solution to the Brownian filtration (a strong solution) and uniqueness in
+  law: they need a filtration-relative Brownian predicate and a weak-solution notion, which
+  StochasticCalculus supplies and the pins do not have;
 * the identification of the hydrodynamic limit as `ν ⊞ SC_t`: the pins have no free convolution
   of probability measures.
 -/
@@ -37,22 +36,25 @@ variable {Ω : Type*}
 
 /-! ## Layer 1: the Dyson system -/
 
-/-- A continuous process in the open chamber solving the Dyson system of size `n` and parameter
-`β` from `x`, driven by `B`, as a pathwise integral identity. Adaptedness to the filtration of
-`B` is not part of it. -/
+/-- A continuous process, in the open chamber at positive times, solving the Dyson system of size
+`n` and parameter `β` from `x`, driven by `B`, as a pathwise integral identity with integrable
+drift. Adaptedness to the filtration of `B` is not part of it. -/
 def IsDysonSolution [MeasurableSpace Ω] (β : ℝ) (n : ℕ) (x : Fin n → ℝ) (P : Measure Ω)
     (B : Fin n → ℝ≥0 → Ω → ℝ) (X : ℝ≥0 → Ω → Fin n → ℝ) : Prop :=
-  ∀ᵐ ω ∂P, Continuous (fun t ↦ X t ω) ∧ (∀ t, StrictAnti (X t ω)) ∧
-    ∀ (t : ℝ≥0) (i : Fin n), X t ω i = x i + Real.sqrt (2 / (β * n)) * B i t ω +
-      ∫ s in (0 : ℝ)..t, (n : ℝ)⁻¹ * ∑ j ∈ Finset.univ.erase i,
-        (X s.toNNReal ω i - X s.toNNReal ω j)⁻¹
+  ∀ᵐ ω ∂P, Continuous (fun t ↦ X t ω) ∧ (∀ t, 0 < t → StrictAnti (X t ω)) ∧
+    ∀ (t : ℝ≥0) (i : Fin n),
+      IntervalIntegrable (fun s : ℝ ↦ ∑ j ∈ Finset.univ.erase i,
+        (X s.toNNReal ω i - X s.toNNReal ω j)⁻¹) volume 0 t ∧
+      X t ω i = x i + Real.sqrt (2 / (β * n)) * B i t ω +
+        ∫ s in (0 : ℝ)..t, (n : ℝ)⁻¹ * ∑ j ∈ Finset.univ.erase i,
+          (X s.toNNReal ω i - X s.toNNReal ω j)⁻¹
 
-/-- **The Dyson system for `β ≥ 1`** (AGZ Lemma 4.3.3, without the filtration). From a strictly
-ordered start, independent Brownian motions drive a solution that stays in the open chamber, and
-any two solutions agree almost surely. Adaptedness, uniqueness in law and closed-chamber starts
-are not stated here. -/
+/-- **The Dyson system for `β ≥ 1`** (AGZ Lemma 4.3.3 and Proposition 4.3.5, without the
+filtration). From an ordered start, coincident coordinates included, independent Brownian motions
+drive a solution that lies in the open chamber at positive times, and any two solutions agree
+almost surely. Adaptedness and uniqueness in law are not stated here. -/
 theorem dysonSystem_exists_unique [MeasurableSpace Ω] (β : ℝ) (hβ : 1 ≤ β) (n : ℕ)
-    (x : Fin n → ℝ) (hx : StrictAnti x) (P : Measure Ω) [IsProbabilityMeasure P]
+    (x : Fin n → ℝ) (hx : Antitone x) (P : Measure Ω) [IsProbabilityMeasure P]
     (B : Fin n → ℝ≥0 → Ω → ℝ) (hB : ∀ i, IsBrownianReal (B i) P)
     (hindep : iIndepFun (fun i ω t ↦ B i t ω) P) :
     (∃ X : ℝ≥0 → Ω → Fin n → ℝ, IsDysonSolution β n x P B X) ∧
@@ -102,10 +104,10 @@ theorem matrixBrownian_isHermitian (β n : ℕ) (d : Fin n → ℝ)
   (Matrix.isHermitian_diagonal_of_self_adjoint _ (by ext i; simp [Complex.conj_ofReal])).add
     (matrixBrownianNoise_isHermitian β n _)
 
-/-- **No collisions at positive times** (AGZ Theorem 4.3.2, the case of a real diagonal start). For `β ∈ {1, 2}`, independent
-standard Brownian coordinates and any real diagonal start, almost surely the ordered eigenvalues
-of matrix Brownian motion are distinct at every positive time, even when entries of `d`
-coincide. -/
+/-- **No collisions at positive times** (AGZ Theorem 4.3.2, the case of a real diagonal start).
+For `β ∈ {1, 2}`, independent standard Brownian coordinates and any real diagonal start, almost
+surely the ordered eigenvalues of matrix Brownian motion are distinct at every positive time,
+even when entries of `d` coincide. -/
 theorem matrixBrownian_eigenvalues_strictAnti [MeasurableSpace Ω] (β : ℕ) (hβ : β = 1 ∨ β = 2)
     (n : ℕ) (d : Fin n → ℝ) (P : Measure Ω) [IsProbabilityMeasure P]
     (B : Fin n × Fin n → ℝ≥0 → Ω → ℝ) (hB : ∀ ij, IsBrownianReal (B ij) P)
@@ -114,11 +116,12 @@ theorem matrixBrownian_eigenvalues_strictAnti [MeasurableSpace Ω] (β : ℕ) (h
       StrictAnti (matrixBrownian_isHermitian β n d B t ω).eigenvalues₀ := by
   sorry
 
-/-- **The eigenvalue equation** (AGZ Theorem 4.3.2, the case of a strictly ordered real diagonal
-start, without the filtration). For `β ∈ {1, 2}` the ordered eigenvalues of matrix Brownian motion
-solve the Dyson system for some independent Brownian motions on the same probability space. -/
+/-- **The eigenvalue equation** (AGZ Theorem 4.3.2, the case of a real diagonal start with
+decreasing entries, without the filtration). For `β ∈ {1, 2}` the ordered eigenvalues of matrix
+Brownian motion solve the Dyson system for some independent Brownian motions on the same
+probability space. -/
 theorem matrixBrownian_eigenvalues_dyson [MeasurableSpace Ω] (β : ℕ) (hβ : β = 1 ∨ β = 2)
-    (n : ℕ) (d : Fin n → ℝ) (hd : StrictAnti d) (P : Measure Ω) [IsProbabilityMeasure P]
+    (n : ℕ) (d : Fin n → ℝ) (hd : Antitone d) (P : Measure Ω) [IsProbabilityMeasure P]
     (B : Fin n × Fin n → ℝ≥0 → Ω → ℝ) (hB : ∀ ij, IsBrownianReal (B ij) P)
     (hindep : iIndepFun (fun ij ω t ↦ B ij t ω) P) :
     ∃ W : Fin n → ℝ≥0 → Ω → ℝ, (∀ i, IsBrownianReal (W i) P) ∧

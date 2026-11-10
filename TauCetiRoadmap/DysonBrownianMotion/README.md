@@ -183,15 +183,21 @@ The route is the truncation of Convention 4, noncollision from a logarithmic-gap
 nonexplosion from the quadratic Lyapunov estimate, and entrance from coincident starts by
 approximation from the open chamber. Since the noise is additive, the system is the pathwise
 identity `λᵢ(t) = xᵢ + √(2/(βn)) Bᵢ(t) + ∫₀ᵗ n⁻¹ ∑_{j≠i} (λᵢ(s)-λⱼ(s))⁻¹ ds` for paths in the open
-chamber. `Suggested.lean` writes it as `IsDysonSolution` and states the open-chamber case without
-the filtration, as pathwise existence and uniqueness, in `dysonSystem_exists_unique`. Pathwise
-uniqueness needs no adaptedness: on `[0, T]` two continuous solutions lie in a compact subset of
-the convex open chamber, where the drift is Lipschitz, and Gronwall's inequality applies.
-*Needs:* §0.1.
+chamber at positive times, with the drift integrable on `[0, t]`. `Suggested.lean` writes it as
+`IsDysonSolution` and states both cases without the filtration, as pathwise existence and
+uniqueness, in `dysonSystem_exists_unique`. Pathwise uniqueness needs no adaptedness. For the drift
+`F` and `x, y` in the open chamber, with `aᵢⱼ = xᵢ - xⱼ` and `bᵢⱼ = yᵢ - yⱼ`,
+`⟨F(x) - F(y), x - y⟩ = -n⁻¹ ∑_{i<j} (aᵢⱼ - bᵢⱼ)²/(aᵢⱼ bᵢⱼ) ≤ 0`. For two solutions driven by the
+same path, `D = X - Y` is the integral of an integrable function, so
+`|D(t)|² = 2∫₀ᵗ ⟨D, F(X) - F(Y)⟩ ds ≤ 0`. *Needs:* §0.1.
 
 **Checks.**
 
 - `n = 1`: the system is `dλ = √(2/β) dB`, and existence is that of Brownian motion.
+- The monotonicity identity at `n = 2`, `x = (2, 0)`, `y = (1, 0)`: `F(x) = (1/4, -1/4)`,
+  `F(y) = (1/2, -1/2)`, and both sides equal `-1/4`.
+- A coincident start, `n = 2`, `β = 2`, `x = (0, 0)`: the gap solves `dr = dW + r⁻¹ dt` from `0`,
+  a 3-dimensional Bessel process, and the drift is integrable, `E ∫₀ᵗ r⁻¹ ds = 2√(2t/π) < ∞`.
 - `n = 2`: the gap `r = λ₁ − λ₂` solves `dr = √(4/(βn)) dW + (2/(nr)) dt`, a scaled Bessel
   process of dimension `β + 1`, which avoids `0` exactly when `β ≥ 1`.
 - `β < 1` is excluded: by the previous Check the gap hits `0` with positive probability, so the
@@ -277,10 +283,10 @@ every `t > 0`. The steps:
 
 A complex Hermitian start that is not real symmetric, with `β = 1` noise, is not covered.
 `Suggested.lean` states two cases for real diagonal starts: the noncollision, from any such start,
-as `matrixBrownian_eigenvalues_strictAnti`; and, from a strictly ordered start, the equation as
-`matrixBrownian_eigenvalues_dyson`, with the eigenvalue process an `IsDysonSolution` for some
-independent Brownian motions on the same probability space. *Needs:* §§0.1, 1.1, 2.1; RandomMatrices
-§1.2.
+as `matrixBrownian_eigenvalues_strictAnti`; and, from a start with decreasing entries, coincident
+ones included, the equation as `matrixBrownian_eigenvalues_dyson`, with the eigenvalue process an
+`IsDysonSolution` for some independent Brownian motions on the same probability space. *Needs:*
+§§0.1, 1.1, 2.1; RandomMatrices §1.2.
 
 **Checks.**
 
