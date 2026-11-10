@@ -81,9 +81,10 @@ only through the upper bound and the existence of a global Hanf bound.
    `Finset.orderEmbOfFin` converts between them. Homogeneity, indiscernibility and templates are
    stated with `Fin n ↪o J` throughout.
 4. **`ω₁` and beth numbers.** Use `Ordinal.omega 1` with the scoped notation `ω₁`, and
-   `Cardinal.beth` with the scoped notation `ℶ_`. Mathlib's `ℶ_ 0 = ℵ₀` and `ℶ_ (succ o) = 2 ^ ℶ_
-   o`. The iterated exponential `ℶₙ(κ)` is a new definition `iteratedTwoPow κ n` (`ℶ₀(κ) = κ`,
-   `ℶₙ₊₁(κ) = 2 ^ ℶₙ(κ)`), with `iteratedTwoPow (ℶ_ α) n = ℶ_ (α + n)`.
+   `Cardinal.beth` with the scoped notation `ℶ_`. Mathlib's `ℶ_ 0 = ℵ₀` and `ℶ_ (o + 1) = 2 ^ ℶ_ o`
+   (`Cardinal.beth_add_one`). The iterated exponential `ℶₙ(κ)` is a new definition
+   `iteratedTwoPow κ n` (`ℶ₀(κ) = κ`, `ℶₙ₊₁(κ) = 2 ^ ℶₙ(κ)`), with
+   `iteratedTwoPow (ℶ_ α) n = ℶ_ (α + n)`.
 5. **The Morley–Hanf hypothesis.** "φ has models of cardinality at least ℶ_α for every α < ω₁" is
    written out as `∀ α < ω₁, ∃ M, M ⊨ φ ∧ ℶ_ α ≤ #M`. It is weaker than having one model of
    cardinality at least `ℶ_ω₁`, and every Layer 3 and Layer 5 headline is stated under it. This
@@ -101,9 +102,19 @@ only through the upper bound and the existence of a global Hanf bound.
    and Hanf number `1`, while its image in a language with one constant has no model and Hanf
    number `0`. The Ehrenfeucht–Mostowski construction of Layer 2 still allows empty index orders
    and empty structures.
-7. **Complete sentences** are semantic: `σ` is complete when, for every Lω₁ω sentence `ψ` of the
-   same language, all models of `σ` satisfy `ψ` or all satisfy `¬ψ`. `κ`-categoricity of `φ` means
-   any two models of `φ` of cardinality `κ` are isomorphic (`M ≃[L] N`).
+7. **Complete sentences** are semantic: `σ` is complete (`IsCompleteSentence σ`) when it has a
+   model in `Type w` and, for every Lω₁ω sentence `ψ` of the same language, all models of `σ` in
+   `Type w` satisfy `ψ` or all satisfy `¬ψ`. `κ`-categoricity of `φ` (`IsCategorical φ κ`) means
+   any two models of `φ` in `Type w` of cardinality `κ` are isomorphic (`M ≃[L] N`). These are the
+   sentence-level Lω₁ω forms of Mathlib's `FirstOrder.Language.Theory.IsComplete` (satisfiable,
+   and deciding every first-order sentence) and `Cardinal.Categorical`
+   (`Mathlib/ModelTheory/Satisfiability.lean`), which concern a first-order theory `T` and range
+   over its bundled models `T.ModelType`. They differ in three ways: they concern one Lω₁ω
+   sentence and decide every Lω₁ω sentence; their models lie in the fixed carrier universe `w`;
+   and their models may be empty, whereas `T.ModelType` has a nonempty carrier. Empty models must
+   count: over a language without constant symbols the empty structure is small, and a complete
+   sentence it satisfies decides `∃x (x = x)` and so has only empty models; 5.4 would fail for it
+   if satisfiability asked for a nonempty model.
 8. **No bundled hypotheses.** Countability of a language is carried as
    `[Countable (Σ n, L.Functions n)]` and `[Countable (Σ n, L.Relations n)]`, relationality as
    `[L.IsRelational]`, each only where used, as in the parent roadmap.
@@ -122,7 +133,7 @@ The following are suppliers, not requests to rebuild their objects.
 
 | Supplier | Consumed material |
 | --- | --- |
-| Mathlib cardinals and ordinals | `Cardinal.beth`, `Cardinal.beth_succ`, `Cardinal.beth_limit`, `Cardinal.beth_eq_preBeth`, `Cardinal.aleph0_le_beth`, `Cardinal.isRegular_succ`, `Cardinal.isRegular_aleph_one`, `Cardinal.infinite_pigeonhole_card`, `Cardinal.exists_uncountable_fiber`, `Ordinal.omega`, `Cardinal.ord`, `Ordinal.ToType`, `exists_wellFoundedLT`, `Cardinal.countable_toType_of_lt_omega_one` |
+| Mathlib cardinals and ordinals | `Cardinal.beth`, `Cardinal.beth_add_one`, `Cardinal.beth_limit`, `Cardinal.beth_eq_preBeth`, `Cardinal.aleph0_le_beth`, `Cardinal.isRegular_succ`, `Cardinal.isRegular_aleph_one`, `Cardinal.infinite_pigeonhole_card`, `Cardinal.exists_uncountable_fiber`, `Ordinal.omega`, `Cardinal.ord`, `Ordinal.ToType`, `exists_wellFoundedLT`, `Cardinal.countable_toType_of_lt_omega_one` |
 | Mathlib order theory | `OrderEmbedding` (`↪o`), `OrderIso` (`≃o`), `Finset.orderEmbOfFin`, `WellFoundedLT` |
 | Mathlib von Neumann hierarchy | `ZFSet.vonNeumann` (`V_`), `ZFSet.vonNeumann_add_one`, `ZFSet.mem_vonNeumann`, `ZFSet.isTransitive_vonNeumann`, `ZFSet.vonNeumann_subset_of_le`, `ZFSet.card_vonNeumann` (`card (V_ o) = preBeth o`), `ZFSet.card` |
 | Mathlib ordered fields | `HahnSeries` with the lexicographic order `Lex R⟦Γ⟧` and its `IsStrictOrderedRing` instance (`RingTheory/HahnSeries/Lex.lean`), `Subfield.closure`, `Subfield.cardinalMk_closure_le_max` |

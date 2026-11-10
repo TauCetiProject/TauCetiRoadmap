@@ -467,13 +467,17 @@ theorem exists_small_model_card_eq (φ : L.Sentenceω)
       IsLω₁ωSmall (L := L) N := by
   sorry
 
-/-- A sentence is complete when it decides every Lω₁ω sentence on its models in `Type w`. -/
+/-- A sentence is complete when it has a model in `Type w` and decides every Lω₁ω sentence on its
+models in `Type w`. This is the sentence-level Lω₁ω form of Mathlib's
+`FirstOrder.Language.Theory.IsComplete`, except that empty models count (README, Convention 7). -/
 def IsCompleteSentence (σ : L.Sentenceω) : Prop :=
+  (∃ (M : Type w) (_ : L.Structure M), SentenceInf.Realize σ M) ∧
   ∀ ψ : L.Sentenceω,
     (∀ (M : Type w) (_ : L.Structure M), SentenceInf.Realize σ M → SentenceInf.Realize ψ M) ∨
       (∀ (M : Type w) (_ : L.Structure M), SentenceInf.Realize σ M → ¬SentenceInf.Realize ψ M)
 
-/-- `φ` is `κ`-categorical: any two of its models of cardinality `κ` are isomorphic. -/
+/-- `φ` is `κ`-categorical: any two of its models in `Type w` of cardinality `κ` are isomorphic.
+This is the sentence-level Lω₁ω form of Mathlib's `Cardinal.Categorical`. -/
 def IsCategorical (φ : L.Sentenceω) (κ : Cardinal.{w}) : Prop :=
   ∀ (M N : Type w) (_ : L.Structure M) (_ : L.Structure N), SentenceInf.Realize φ M →
     SentenceInf.Realize φ N → #M = κ → #N = κ → Nonempty (M ≃[L] N)
