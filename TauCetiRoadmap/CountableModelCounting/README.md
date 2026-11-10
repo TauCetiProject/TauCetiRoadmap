@@ -187,19 +187,21 @@ needed here.
 ### Targets of this roadmap in Tau Ceti
 
 Tau Ceti implements the following targets at the pin; `Suggested.lean` uses its definitions and
-proves the corresponding statements by its theorems. Files are under `TauCeti/ModelTheory/`.
+cites its theorems, restating a few of them in the form used here. Files are under
+`TauCeti/ModelTheory/`.
 
 * **Layer 0** (`Counting/Classes.lean`, `Counting/LanguageEquiv.lean`, `Infinitary/Infinite.lean`):
   `RelationalConfiguration.isoSetoidOn V φ`, `CountableModelClasses`, `countableModelCount` with
   `countableModelCount_eq_add_sum`, `countableModelCount_le_add_aleph0_mul` and
   `countableModelCount_le_of_subset` (stated for inclusion of the model classes on `ℕ` and on each
-  `Fin n`), `classOf`, `classOf_eq_classOf_iff`, `classOf_surjective`, the tier lemmas
-  `exists_classOf_eq_inl_iff` and `exists_classOf_eq_inr_iff`, `countableModelCount_le_continuum`,
-  `HasPerfectlyManyCountableModels` with `HasPerfectlyManyCountableModels.countableModelCount_eq`,
+  `Fin n`), `classOf`, `TauCeti.classOf_eq_classOf_iff`, `TauCeti.classOf_surjective`, the tier
+  lemmas `exists_classOf_eq_inl_iff` and `exists_classOf_eq_inr_iff`,
+  `TauCeti.countableModelCount_le_continuum`, `HasPerfectlyManyCountableModels` with
+  `TauCeti.HasPerfectlyManyCountableModels.countableModelCount_eq`,
   `FirstOrder.Language.infiniteSentence` (the countable conjunction of Mathlib's
-  `Sentence.cardGe L n`) with `realize_infiniteSentence_iff`,
+  `Sentence.cardGe L n`) with `FirstOrder.Language.realize_infiniteSentence_iff`,
   `LEquiv.lift_countableModelCount_onBoundedFormulaInf`,
-  `LEquiv.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff`, and
+  `FirstOrder.Language.LEquiv.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff`, and
   `exists_language_zero_countableModelCount` (the move to `Language.{0, 0}`). The finite-carrier
   Borel graph `measurableSet_isoSetoid_fin` is
   `RelationalConfiguration.measurableSet_setOf_isoSetoid`
@@ -210,24 +212,25 @@ proves the corresponding statements by its theorems. Files are under `TauCeti/Mo
   `TauCeti/Data/Setoid/Isolation.lean`): `RelationalConfiguration.bfEquivSetoidOn V φ α` with
   `bfEquivSetoidOn_anti`, `isoSetoidOn_le_bfEquivSetoidOn`, `mk_quotient_bfEquivSetoidOn_le` and
   `measurableSet_setOf_bfEquivSetoidOn`; `RelationalConfiguration.scottSentenceAtLevel` with
-  `modelsOf_scottSentenceAtLevel`; `IsIsolatingRank` with `IsIsolatingRank.isolates_of_le`,
-  `TauCeti.IsIsolatingRank.of_le`, `TauCeti.IsIsolatingRank.exists_unbounded_of_not_countable` and
+  `TauCeti.RelationalConfiguration.modelsOf_scottSentenceAtLevel`; `IsIsolatingRank` with
+  `TauCeti.IsIsolatingRank.isolates_of_le`, `TauCeti.IsIsolatingRank.of_le`,
+  `TauCeti.IsIsolatingRank.exists_unbounded_of_not_countable` and
   `exists_rank_bound_of_countable_isoClasses` (the target `exists_bound_of_countable`, for any
-  invariant map below `ω₁`); `isIsolatingRank_scottHeight` and `exists_isIsolatingRank`, which need
-  no countability of `L`; `mk_isoClasses_le_aleph_one_of_countable_levels`, also without
+  invariant map below `ω₁`); `isIsolatingRank_scottHeight` and `TauCeti.exists_isIsolatingRank`,
+  which need no countability of `L`; `mk_isoClasses_le_aleph_one_of_countable_levels`, also without
   countability of `L`; `Setoid.IsolatedBy`, written `R.IsolatedBy E`, with
-  `Setoid.IsolatedBy.countable_quotient` (the target `Setoid.countable_quotient_of_isolatedBy`) and
-  `Setoid.IsolatedBy.lift_mk_quotient_le`; and the level-by-level transfer `bfTupleSetoid`,
-  `bfExtensionSpectra`, `bfTupleSetoid_add_one_iff`, `BFSmall`, `BFSmall.countable_quotient` and
-  `BFSmall.mk_isoClasses_le_aleph_one`. `BFSmall` and `bfTupleSetoid` are indexed by a family of
-  structures rather than by `(φ, C)`; on codes they apply to the structures decoded from `C`.
+  `Setoid.IsolatedBy.countable_quotient` and `Setoid.IsolatedBy.lift_mk_quotient_le`; and the
+  level-by-level transfer `bfTupleSetoid`, `bfExtensionSpectra`, `bfTupleSetoid_add_one_iff`,
+  `BFSmall`, `BFSmall.countable_quotient` and `BFSmall.mk_isoClasses_le_aleph_one`. `BFSmall` and
+  `bfTupleSetoid` are indexed by a family of structures rather than by `(φ, C)`; on codes they apply
+  to the structures decoded from `C`.
 * **Layer 4a–4b** (`Counting/Scattered/Basic.lean`): `BFScattered` with `BFScattered.mono` and
   `TauCeti.bfScattered_of_observation` (the observation adapter),
   `IsIsolatingRank.countable_isoClasses_iff_bounded`, `IsIsolatingRank.mk_isoClasses_eq_aleph_one`
   and `TauCeti.IsIsolatingRank.exists_rank_bound_iff`; and, in `Counting/Stratification.lean`,
   `TauCeti.IsIsolatingRank.exists_comap_isoSetoid_eq_bfEquivSetoid` (the code form of the
   isolating level).
-* **Layer 5**: the limit model `RelationalConfiguration.exists_limit_of_bfEquiv_chain`
+* **Layer 5**: the limit model `TauCeti.RelationalConfiguration.exists_limit_of_bfEquiv_chain`
   (`RelationalConfiguration/BackAndForth.lean`, levels in any ordinal universe).
 
 Tau Ceti states its counting results for the quotient of isomorphism restricted to a set `K` of
@@ -473,7 +476,7 @@ Build:
     `(α + 1)`-classes, and likewise with `ℵ₁` for `ℵ₀`;
   * *isolation*: `R.IsolatedBy E` (`Setoid.IsolatedBy`) for a countable family `E` (every point is
     pinned, up to `R`, by its class under some `E i`), with
-    `Setoid.countable_quotient_of_isolatedBy` and the general cardinal transfer; at a limit
+    `Setoid.IsolatedBy.countable_quotient` and the general cardinal transfer; at a limit
     `λ < ω₁`, pointwise isolation from the levels below `λ` carries countability through `λ`;
   * *assembly*: `BFSmall φ C`, the three local conditions (countably many level-0 classes of
     `n`-tuples, countably many realized extension spectra at every `α < ω₁`, and pointwise

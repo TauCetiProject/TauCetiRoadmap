@@ -1,7 +1,6 @@
 module
 
 public import Mathlib
-public import TauCeti.Data.Setoid.Isolation
 public import TauCeti.ModelTheory.Counting.Classes
 public import TauCeti.ModelTheory.Counting.LanguageEquiv
 public import TauCeti.ModelTheory.Counting.Levels
@@ -10,7 +9,6 @@ public import TauCeti.ModelTheory.Counting.Stratification
 public import TauCeti.ModelTheory.Infinitary.Infinite
 public import TauCeti.ModelTheory.ModelExistence.Morleyization
 public import TauCeti.ModelTheory.RelationalConfiguration.LanguageMap
-public import TauCeti.ModelTheory.RelationalConfiguration.LevelSentence
 public import TauCeti.ModelTheory.Scott.Height
 public import TauCeti.ModelTheory.Scott.Rank
 public import TauCeti.SetTheory.Descriptive.Antichain
@@ -73,26 +71,6 @@ theorem encodeVia_mem_modelsOf {α : Type} (φ : L.Sentenceω) {M : Type w} [L.S
     e.encodeVia (L := L) ∈ (modelsOf φ : Set (RelationalConfiguration L α)) :=
   RelationalConfiguration.mem_modelsOf.2 ((Equiv.realize_encodeVia e φ).2 hM)
 
-/-- **Layer 0 milestone.** Two countable models, in any two universes, have the same class
-exactly when they are isomorphic. -/
-theorem classOf_eq_classOf_iff (φ : L.Sentenceω) {M : Type w} {N : Type w'} [L.Structure M]
-    [L.Structure N] [Countable M] [Countable N] (hM : SentenceInf.Realize φ M)
-    (hN : SentenceInf.Realize φ N) :
-    classOf φ hM = classOf φ hN ↔ Nonempty (M ≃[L] N) :=
-  TauCeti.classOf_eq_classOf_iff hM hN
-
-/-- **Layer 0 milestone.** Every class is the class of a countable model in every universe. -/
-theorem classOf_surjective (φ : L.Sentenceω) (q : CountableModelClasses φ) :
-    ∃ (M : Type w) (_ : L.Structure M) (_ : Countable M) (hM : SentenceInf.Realize φ M),
-      classOf φ hM = q :=
-  TauCeti.classOf_surjective q
-
-/-- **Layer 0 milestone.** There are at most continuum many countable models. -/
-theorem countableModelCount_le_continuum [Countable (Σ l, L.Relations l)] (φ : L.Sentenceω) :
-    countableModelCount φ ≤ 𝔠 :=
-  haveI := countable_relations (L := L)
-  TauCeti.countableModelCount_le_continuum φ
-
 /-- **Layer 0 milestone.** Isomorphism of codes on `Fin n` is a finite union of graphs of
 relabellings, so it has Borel graph. -/
 theorem measurableSet_isoSetoid_fin [Countable (Σ l, L.Relations l)] (n : ℕ) :
@@ -105,12 +83,6 @@ theorem measurableSet_isoSetoid_fin [Countable (Σ l, L.Relations l)] (n : ℕ) 
 def HasPerfectSetOfNonisoModelsOn (α : Type) (φ : L.Sentenceω) : Prop :=
   (isoSetoid L α).HasPerfectAntichainOn (modelsOf φ)
 
-/-- **Layer 0 milestone.** Perfectly many countable models are continuum many. -/
-theorem HasPerfectlyManyCountableModels.countableModelCount_eq [Countable (Σ l, L.Relations l)]
-    {φ : L.Sentenceω} (h : HasPerfectlyManyCountableModels φ) : countableModelCount φ = 𝔠 :=
-  haveI := countable_relations (L := L)
-  TauCeti.HasPerfectlyManyCountableModels.countableModelCount_eq h
-
 /-- **Layer 0 milestone, the finite tiers.** For each `n`, the models of `φ` on `Fin n` are
 countably many up to isomorphism, or there is a perfect set of pairwise non-isomorphic ones:
 Silver's theorem for the Borel isomorphism relation on the Borel set of models. -/
@@ -118,13 +90,6 @@ theorem countable_or_hasPerfectSetOfNonisoModelsOn_fin [Countable (Σ l, L.Relat
     (φ : L.Sentenceω) (n : ℕ) :
     Countable (Quotient (isoSetoidOn (Fin n) φ)) ∨ HasPerfectSetOfNonisoModelsOn (Fin n) φ := by
   sorry
-
-omit [L.IsRelational] in
-/-- **Layer 0.** The sentence "the universe is infinite", `L.infiniteSentence`: for every `n`,
-there are `n` pairwise distinct elements. -/
-theorem realize_infiniteSentence_iff {M : Type w} [L.Structure M] :
-    SentenceInf.Realize L.infiniteSentence M ↔ Infinite M :=
-  FirstOrder.Language.realize_infiniteSentence_iff L
 
 end Layer0
 
@@ -139,13 +104,6 @@ theorem lift_countableModelCount_onBoundedFormulaInf {L' : FirstOrder.Language.{
     Cardinal.lift.{v'} (countableModelCount φ) =
       Cardinal.lift.{v} (countableModelCount (e.toLHom.onBoundedFormulaInf φ)) :=
   e.lift_countableModelCount_onBoundedFormulaInf φ
-
-theorem hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff
-    {L' : FirstOrder.Language.{u', v'}} [L.IsRelational] [L'.IsRelational] (e : L ≃ᴸ L')
-    (φ : L.Sentenceω) :
-    HasPerfectlyManyCountableModels (e.toLHom.onBoundedFormulaInf φ) ↔
-      HasPerfectlyManyCountableModels φ :=
-  e.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff φ
 
 end Transport
 
@@ -200,32 +158,14 @@ section Layer1
 
 variable [L.IsRelational]
 
-/-- **Layer 1 milestone.** Below `ω₁`, every back-and-forth class is the model class of a
-sentence. -/
-theorem modelsOf_scottSentenceAtLevel [Countable (Σ l, L.Relations l)]
-    (c : RelationalConfiguration L ℕ) {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1) :
-    (modelsOf (c.scottSentenceAtLevel β) : Set (RelationalConfiguration L ℕ)) =
-      {d | bfEquivSetoid L ℕ β c d} :=
-  RelationalConfiguration.modelsOf_scottSentenceAtLevel c hβ
-
 /-- **Layer 1 milestone, the instance.** The Scott height (values in `Ordinal.{0}` for structures
 on `ℕ`), read on codes, is an isolating rank, by `nonempty_equiv_of_bfEquiv_of_scottHeight_le`,
-`scottHeight_lt_omega_one` and `Language.Equiv.scottHeight_eq`. Tau Ceti's
-`TauCeti.isIsolatingRank_scottHeight` proves it with no countability hypothesis on `L`. -/
-theorem isIsolatingRank_scottHeight [Countable (Σ l, L.Relations l)] :
+`scottHeight_lt_omega_one` and `Language.Equiv.scottHeight_eq`; this is Tau Ceti's
+`TauCeti.isIsolatingRank_scottHeight`. -/
+theorem isIsolatingRank_scottHeight :
     IsIsolatingRank
       (fun c : RelationalConfiguration L ℕ => letI := c.toStructure; scottHeight (L := L) ℕ) :=
   TauCeti.isIsolatingRank_scottHeight L
-
-theorem exists_isIsolatingRank [Countable (Σ l, L.Relations l)] :
-    ∃ ρ : RelationalConfiguration L ℕ → Ordinal.{0}, IsIsolatingRank ρ :=
-  ⟨_, CountableModelCounting.isIsolatingRank_scottHeight⟩
-
-/-- **Layer 1.** An isolating rank isolates at every level at or above its value. -/
-theorem IsIsolatingRank.isolates_of_le {ρ : RelationalConfiguration L ℕ → Ordinal.{0}}
-    (hρ : IsIsolatingRank ρ) {c d : RelationalConfiguration L ℕ} {γ : Ordinal.{0}}
-    (hγ : ρ c ≤ γ) (h : bfEquivSetoid L ℕ γ c d) : isoSetoid L ℕ c d :=
-  hρ.isolates_of_le hγ h
 
 /-- The image of a set `K` of codes in the quotient by isomorphism is the quotient of isomorphism
 restricted to `K`, the form in which Tau Ceti states its counting results. -/
@@ -238,24 +178,15 @@ private noncomputable def quotientComapEquivImage (K : Set (RelationalConfigurat
 /-- **Layer 1 milestone, the stratification bound.** If at every level `β < ω₁` the codes of a
 set `K` fall into countably many back-and-forth classes, then `K` meets at most `ℵ₁`
 isomorphism classes: the classes of rank `β` inject into the level-`β` quotient. Tau Ceti's
-`TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels` proves it, with no countability hypothesis
-on `L`, for the quotient of isomorphism restricted to `K`. -/
-theorem mk_isoClasses_le_aleph_one_of_countable_levels [Countable (Σ l, L.Relations l)]
-    (K : Set (RelationalConfiguration L ℕ))
+`TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels` proves it for the quotient of isomorphism
+restricted to `K`. -/
+theorem mk_isoClasses_le_aleph_one_of_countable_levels (K : Set (RelationalConfiguration L ℕ))
     (hK : ∀ β < (Ordinal.omega 1 : Ordinal.{0}),
       Countable (Quotient ((bfEquivSetoid L ℕ β).comap
         (Subtype.val : K → RelationalConfiguration L ℕ)))) :
     #(Quotient.mk (isoSetoid L ℕ) '' K) ≤ ℵ₁ :=
   (Cardinal.mk_congr (quotientComapEquivImage K)).symm.trans_le
     (TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels K hK)
-
-/-- **Layer 1 milestone.** Countably many relations with countable quotients, isolating the
-target, give it a countable quotient. -/
-theorem _root_.Setoid.countable_quotient_of_isolatedBy {X : Type*} {I : Type*} [Countable I]
-    {E : I → Setoid X} {R : Setoid X} (hE : ∀ i, Countable (Quotient (E i)))
-    (h : R.IsolatedBy E) : Countable (Quotient R) :=
-  haveI := hE
-  h.countable_quotient
 
 end Layer1
 
@@ -528,8 +459,8 @@ def CardinalVaughtConjecture : Prop :=
     (φ : L.Sentenceω), HasVaughtCount φ
 
 /-- **Layer 5 milestone.** The perfect-set form implies the cardinal form. -/
-theorem VaughtConjecture.cardinal (h : VaughtConjecture) : CardinalVaughtConjecture := by
-  sorry
+theorem VaughtConjecture.cardinal (h : VaughtConjecture) : CardinalVaughtConjecture :=
+  fun L _ _ φ => (h L φ).imp_right HasPerfectlyManyCountableModels.countableModelCount_eq
 
 /-- **Layer 5 milestone.** Under the continuum hypothesis the cardinal form holds, by Morley's
 theorem. -/
@@ -685,19 +616,8 @@ the ambient isomorphism relation. -/
 theorem countable_quotient_isoSetoidOn_iff [L.IsRelational] (φ : L.Sentenceω) :
     Countable (Quotient (isoSetoidOn ℕ φ)) ↔
       (Quotient.mk (isoSetoid L ℕ) ''
-        (modelsOf φ : Set (RelationalConfiguration L ℕ))).Countable := by
-  sorry
-
-/-- **Layer 5 milestone, the limit model.** A sequence of codes, consecutive ones back-and-forth
-equivalent at `α i + ω` along a monotone sequence of levels, has a limit code back-and-forth
-equivalent to the `i`-th at level `α i`. The offset `ω` suffices because extending a tuple of
-length `n` costs `n` levels in the one-element convention of `BFEquiv` and the tuples of the
-construction grow without bound; no countability of the levels is needed. -/
-theorem exists_limit_of_bfEquiv_chain [L.IsRelational] (c : ℕ → RelationalConfiguration L ℕ)
-    (α : ℕ → Ordinal.{0}) (hα : Monotone α)
-    (hc : ∀ i, bfEquivSetoid L ℕ (α i + Ordinal.omega0) (c i) (c (i + 1))) :
-    ∃ d : RelationalConfiguration L ℕ, ∀ i, bfEquivSetoid L ℕ (α i) d (c i) :=
-  RelationalConfiguration.exists_limit_of_bfEquiv_chain hα hc
+        (modelsOf φ : Set (RelationalConfiguration L ℕ))).Countable :=
+  Setoid.countable_quotient_comap_val_iff
 
 /-- **Layer 5 milestone, the Harnik–Makkai reduction.** A sentence with back-and-forth scattered
 models on `ℕ` meeting uncountably many isomorphism classes has a minimally uncountable
@@ -750,11 +670,6 @@ def lang (U : Type) (Lc : FirstOrder.Language.{0, 0}) : FirstOrder.Language.{0, 
 
 instance (U : Type) (Lc : FirstOrder.Language.{0, 0}) : (lang U Lc).IsRelational :=
   fun _ => inferInstanceAs (IsEmpty PEmpty)
-
-/-- The assembled carrier: rows, and the points of every fiber. -/
-inductive Carrier {U : Type} (R : Type) (C : R → Label U → Type) : Type
-  | row (r : R)
-  | pt (r : R) (τ : Label U) (x : C r τ)
 
 /-- **Layer 6 milestone.** There is a countable structure of internal Scott rank exactly `ω`
 and a family, indexed by Cantor space, of countable structures that are pairwise
