@@ -15,7 +15,11 @@ between specified open neighborhoods; no theorem asserts a globally defined map 
 function. The conormal of Q⊂M uses covectors in T*_qM annihilating the image of T_qQ.
 
 Consume Tau Ceti's `SymplecticForm.IsIsotropic`, `IsCoisotropic`, `IsLagrangian`, linear cotangent
-form and Liouville identity. Consume ordinary Darboux and compact-manifold Moser with a given smooth symplectic path from
+form and Liouville identity. Tau Ceti also proves the following, which this roadmap consumes by
+name and does not restate: the Liouville and canonical symplectic forms of the cotangent bundle
+and their chart formulas (C1.2), the Lagrangian embedding predicate (C2), the realification of
+complex matrices and the maximal-compactness and connectedness theorems for GL(n,ℂ) and Sp(2n,ℝ)
+(C2.1), and the symplectic Witt extension (C4). Consume ordinary Darboux and compact-manifold Moser with a given smooth symplectic path from
 [HeegaardFloer](../../HeegaardFloer/README.md), F2.1. Generic differential-form calculus belong to
 [DifferentialGeometry](../../DifferentialGeometry/README.md); generic tubular neighborhoods belong to
 [GeometricTopology](../../GeometricTopology/README.md); bundle duals and smooth operations belong
@@ -24,19 +28,28 @@ lemmas needed to connect these interfaces are explicit work here or there, not a
 
 ## C1. Intrinsic cotangent phase space
 
-1. Define T*M as Mathlib `Bundle.TotalSpace (E →L[ℝ] ℝ) (fun x ↦ TangentSpace I x →L[ℝ] ℝ)` with
-   model `I.prod 𝓘(ℝ,E →L[ℝ] ℝ)`. Use the existing continuous-linear-map bundle charts and prove
+1. T*M is Tau Ceti's `TauCeti.CotangentBundle I M`, the Mathlib total space
+   `Bundle.TotalSpace (E →L[ℝ] ℝ) (fun x ↦ TangentSpace I x →L[ℝ] ℝ)`, with model
+   `I.prod 𝓘(ℝ,E →L[ℝ] ℝ)`; the family's statements name them `Cotangent I M` and
+   `cotangentModel I`. Use the existing continuous-linear-map bundle charts and prove
    projection smooth with `Manifold.IsSubmersion`; zero section and smooth one-form sections; local transition
    formula `(q,p)↦(φ(q),p∘(dφ_q)⁻¹)`; fiberwise addition/scaling and vector-bundle laws.
-2. Construct λ(v)=p(dπ(v)) as a globally smooth one-form (`liouville`). Establish naturality,
-   pullback by a smooth section s_α gives α (`liouville_section`, with the section smoothness
-   predicate `IsSmoothOneForm`), and the chart formula Σpᵢdqᵢ (`liouville_inChart`). Construct
-   ω=−dλ, prove closed and nondegenerate, and identify it with
-   `strongDualCotangentSymplecticForm` in charts (Cannas da Silva, §§2.2–2.3, pp. 9–10).
-   `canonicalForm_exists` states that a smooth two-form on T*M exists which is symplectic and has
-   this expression in every cotangent chart; since the chart expression at the chart centre is
-   the form itself, the chart identity fixes the form. This chart identification is required
-   evidence that no convention has changed.
+2. The Liouville form λ(v)=p(dπ(v)) is Tau Ceti's `TauCeti.CotangentBundle.liouvilleForm`, a
+   smooth one-form on T*M with the chart formula Σpᵢdqᵢ
+   (`TauCeti.CotangentBundle.inChartAt_liouvilleForm`). Its pullback by the section s_α of a
+   smooth one-form α is α (`TauCeti.CotangentBundle.mpullback_liouvilleForm`; pointwise, at every
+   point where s_α is differentiable, `TauCeti.CotangentBundle.mpullback_liouvilleForm_section`);
+   its naturality under diffeomorphisms is C1.3. The canonical form ω=−dλ is
+   `TauCeti.CotangentBundle.symplecticForm`
+   (`TauCeti.CotangentBundle.symplecticForm_eq_neg_mextDeriv`), named `canonicalForm` in the
+   family's statements. It is closed and nondegenerate
+   (`TauCeti.CotangentBundle.isSymplectic_symplecticForm`) and equals
+   `TauCeti.strongDualCotangentSymplecticForm` in every cotangent chart
+   (`TauCeti.CotangentBundle.inChartAt_symplecticForm_apply`; Cannas da Silva, §§2.2–2.3,
+   pp. 9–10). Since the chart expression at the chart centre is the form itself
+   (`TauCeti.RoughForm.inChartAt_extChartAt_self`), this chart identity fixes the form; it is the
+   evidence that no convention has changed. Consume these; none of them needs a
+   finite-dimensional or boundaryless base.
 3. A diffeomorphism f:M→N has cotangent lift `(q,p)↦(f(q),p∘(df_q)⁻¹)`.
    Prove identity/composition/inverse, preservation of λ and ω, equivariance for group actions.
    Define cotangent pullback along a general map as a relation over the map, rather than a false
@@ -50,7 +63,11 @@ lemmas needed to connect these interfaces are explicit work here or there, not a
 
 Define symplectic tangent images by disjointness from their symplectic orthogonal and nondegenerate
 restriction, then define symplectic/isotropic/coisotropic/Lagrangian embeddings through tangent images using existing
-linear predicates (`IsLagrangianEmbedding` for the Lagrangian case). Prove independence of parametrization, transport by symplectomorphisms, dimension
+linear predicates; the Lagrangian case is Tau Ceti's
+`TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianEmbedding`, a smooth immersion that is a
+topological embedding with Lagrangian tangent images, which on smooth embeddings is the
+tangent-image condition alone
+(`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianEmbedding_iff_of_isSmoothEmbedding`). Prove independence of parametrization, transport by symplectomorphisms, dimension
 bounds/equalities, products and restriction to open sets. Nonzero real rescaling of a
 symplectic form preserves all four tangent-subspace predicates; prove its form and primitive API. A Lagrangian immersion is a separate notion;
 define its `Manifold.IsImmersion` and tangent-isotropy/half-dimension predicate and prove its
@@ -124,12 +141,13 @@ use `finSumFinEquiv` to reach `Fin (n+n)` and then the equivalence
 `Matrix.reindex` identities. Identify `(x,y)` with
 `x+iy`, so multiplication by i is `J=[[0,−I],[I,0]]`.
 
-Define the realification `realify` of a complex matrix,
-`realify(X+iY)=Matrix.fromBlocks X (−Y) Y X`, and prove it is an injective ℝ-algebra
-homomorphism. Prove its image is exactly
-the matrices commuting with J and that it sends conjugate transpose to
-transpose. The induced map on units `GL_C → GL_R` is a topological group
-isomorphism onto the commuting-J subgroup: its inverse extracts the two real
+The realification of a complex matrix is Tau Ceti's `Matrix.realify`,
+`realify(X+iY)=Matrix.fromBlocks X (−Y) Y X`: an injective ℝ-algebra homomorphism
+(`Matrix.realifyAlgHom`, `Matrix.realify_injective`) that sends conjugate transpose to
+transpose (`Matrix.realify_conjTranspose`) and whose values commute with J
+(`Matrix.commute_J_realify`). Prove that its image is exactly the matrices commuting with J.
+The induced map on units `GL_C → GL_R` is Tau Ceti's `Matrix.GeneralLinearGroup.realify`.
+Prove it is a topological group isomorphism onto the commuting-J subgroup: its inverse extracts the two real
 blocks, and `realify(A⁻¹)=realify(A)⁻¹`. Prove this image is closed in `GL_R`.
 Do not use `Matrix.UnitaryGroup.embeddingGL` as a topological embedding; its
 comparison through matrix-to-linear-map equivalence is algebraic only.
@@ -167,11 +185,11 @@ homeomorphism. Avoid relying on a global matrix norm instance.
 
 First prove that the C2.0 polar factors of a symplectic matrix are themselves symplectic. For A=P U∈Sp_R, use the native membership/transpose identities and functional calculus to prove `JPJ⁻¹=P⁻¹`, hence `JP^sJ⁻¹=P^(−s)` for every real s. Thus every P^s is symplectic and U=P⁻¹A belongs to Sp_R∩O_R, the realified U(n). The positive-factor path contracts P to id.
 
-Prove U(n) connected by diagonalizing each unitary matrix, choosing eigenvalue phases, and writing it as exp(iH) for a Hermitian H; t↦exp(tiH) is a path from id. This constructs a path for each matrix, not a globally continuous unitary logarithm. Complex polar decomposition then proves GL(n,ℂ) connected (`generalLinearGroup_connectedSpace`, for the units of the complex matrix algebra) and its realified group C_R connected: combine a path to U with the positive Hermitian path P^t. The preceding symplectic polar preservation gives the analogous path inside Sp_R and proves Sp(2n,ℝ) connected (`symplecticGroup_isConnected`, for the native symplectic carrier as a subset of the matrix space). For n=0 all these groups are trivial.
+Tau Ceti proves U(n), GL(n,ℂ) and Sp(2n,ℝ) path connected, including for n=0: `Matrix.UnitaryGroup.instPathConnectedSpace` for `Matrix.unitaryGroup (Fin n) ℂ`, `TauCeti.instPathConnectedSpaceMatrixGeneralLinearGroup` for the units of the complex matrix algebra, and `Matrix.isPathConnected_symplecticGroup` for the native symplectic carrier as a subset of the real matrix space. Consume them, and prove the realified group C_R connected as the image of GL(n,ℂ) under the continuous units map `Matrix.GeneralLinearGroup.realify`.
 
-Prove directly that U(n) is maximal compact in GL(n,ℂ) (`unitaryGroup_maximal_compact`: the range of `Unitary.toUnits` in `GL_C` is `Maximal` among the compact subgroups of `GL_C`, so the statement includes its compactness). If compact K contains U(n), and A=P U∈K is the complex polar factorization, then P=A U⁻¹∈K. If P≠1, some positive eigenvalue λ differs from1, so replace P by P⁻¹ if necessary and take λ>1. The continuous real trace is bounded on K, whereas `Re(tr(P^k))=Σ_i λ_i^k≥λ^k` is unbounded. Hence P=1 for every A∈K and K=U(n). This proof consumes C2.0 and the compact/intersection identities above, with no generic maximal-compact theorem as a premise. LieGroups Layer7 retains the general compact-complexification theorem.
+U(n) is maximal compact in GL(n,ℂ): Tau Ceti proves that the unitary subgroup of `GL (Fin n) ℂ`, the range of `Unitary.toUnits`, is compact (`Matrix.GeneralLinearGroup.isCompact_unitarySubgroup`) and that every compact subgroup containing it equals it (`Matrix.GeneralLinearGroup.eq_unitarySubgroup_of_isCompact_of_le`), so it is `Maximal` among the compact subgroups of `GL_C`. Consume both. Their proof is trace growth on the positive polar factor: if a compact K contains U(n) and A=P U∈K, then P=A U⁻¹∈K; if P≠1, then after replacing P by P⁻¹ it has an eigenvalue λ>1, and `Re(tr(P^k))=Σ_i λ_i^k≥λ^k` is unbounded on K, whereas the continuous trace is bounded on the compact K. LieGroups Layer7 retains the general compact-complexification theorem.
 
-Prove directly that the realified U(n)=Sp_R∩O_R is maximal compact in Sp_R (`realifiedUnitary_maximal_compact_symplectic`: a compact subgroup of `GL_R` whose matrices are symplectic and which contains `realify U` for every unitary U consists of such matrices). For compact K≤Sp_R containing it, write A=P U using C2.0 and the Sp-preservation theorem. Then P=A U⁻¹∈K. Positive symplectic P≠1 has an eigenvalue larger than1 after inversion; `Re tr(P^k)=Σ_i λ_i^k≥λ^k` contradicts bounded trace on K. Thus P=1 and A∈U(n). Treat n=0 separately as the trivial case. Apply LieGroups Layer2's generic closed-subgroup structure theorem to the explicitly defined closed matrix subgroups and identify their embedded structures through the established topological group equivalences.
+The realified U(n)=Sp_R∩O_R is maximal compact in Sp_R: Tau Ceti proves that a compact subgroup of `GL (Fin n ⊕ Fin n) ℝ` contained in `TauCeti.GLSymplectic (Fin n) ℝ` and containing its orthogonal elements equals their intersection (`TauCeti.GLSymplectic.eq_inf_unitarySubgroup_of_isCompact_of_le`; as maximality among the compact subgroups of Sp_R, `TauCeti.GLSymplectic.maximal_isCompact_unitarySubgroup`), and that this intersection is the realification of U(n) (`Matrix.GeneralLinearGroup.range_realify_comp_toUnits`). Consume them. Their proof is the same trace growth, applied to the positive polar factor of a symplectic matrix, which is symplectic by the preservation theorem above. Apply LieGroups Layer2's generic closed-subgroup structure theorem to the explicitly defined closed matrix subgroups and identify their embedded structures through the established topological group equivalences.
 
 Construct the required separate Sp structural and adjoint-model comparison. For n≥1 prove its real Lie algebra semisimple, its group center `{±I}`, and that `θ(A)=A⁻ᵀ` is a smooth involutive automorphism preserving Sp_R. Compute `dθ(X)=−Xᵀ` and `B(X,Y)=(2n+2)tr(XY)`, so `−B(X,dθ(X))=(2n+2)tr(XXᵀ)>0` for X≠0. Use LieGroups Layer9's generic adjoint-model construction with this actual positive Cartan metric and finite center. Identify its compact adjoint subgroup with Ad(U(n)) and prove `Ad⁻¹(Ad(U(n)))=U(n)`, using the central kernel `{±I}⊂U(n)`. Give the matrix comparison: if A=P U and Ad(A) is orthogonal for the Cartan metric, Ad(P) is both positive self-adjoint and orthogonal, hence id; positivity and the central-kernel calculation force P=1. These structural, Killing and adjoint comparisons are required targets; they are not hypotheses of the two preceding trace-growth proofs.
 
@@ -404,20 +422,15 @@ Darboux theorem: two symplectic forms on an ambient manifold of the same
 dimension with equal pullbacks to Q have symplectomorphic germs at p by a map
 fixing Q as a germ (for Q a point this is Darboux, Cannas da Silva, Thm. 8.1, p. 46, proved
 from Thm. 7.4). The restricted two-form may have varying rank. First extend
-the identity of T_pQ to an ambient symplectic linear isomorphism. Own the
-finite-dimensional symplectic Witt-extension lemma used here (`symplectic_subspace_extension`,
-stated against Tau Ceti's `SymplecticForm`): any linear isomorphism preserving the restricted forms
-between arbitrary subspaces of equal-dimensional symplectic vector spaces,
-including degenerate subspaces, extends to a symplectic linear isomorphism; the case of two
-forms on one space, a subspace S and the identity of S is the extension of the identity of T_pQ
-used here. Both hypotheses are needed: without equal dimension no linear isomorphism exists, and
-the dilation by 2 of a symplectic plane preserves no symplectic form.
-Prove it as follows. For a subspace W, put R=rad(W) and choose a complement W₀ with
-W=R⊕W₀; the restricted form on W₀ is nondegenerate. In W₀^ω choose an isotropic dual R′
-paired nondegenerately with R, so R⊕R′ is symplectic. Then
-V=(R⊕R′⊕W₀)⊕(R⊕R′⊕W₀)^ω. Do the same for the target, carry matched bases of R, R′ and
-W₀ by the given isometry and the induced dual/symplectic bases, and extend by Darboux bases of the
-symplectic complements. This extends the isometry on W even when W is degenerate. Realize it by a local diffeomorphism fixing Q in
+the identity of T_pQ to an ambient symplectic linear isomorphism by Tau Ceti's symplectic Witt
+extension `TauCeti.SymplecticForm.exists_isSymplectomorphism_extend_linearEquiv`: for
+finite-dimensional symplectic vector spaces of equal dimension, a linear isomorphism between
+arbitrary subspaces, including degenerate ones, which carries one restricted form to the other
+extends to a linear symplectomorphism agreeing with it on the subspace. The case of two forms on
+one space, a subspace S and the identity of S is the extension of the identity of T_pQ used
+here. Both hypotheses are needed: without equal dimension no linear isomorphism exists, and the
+dilation by 2 of a symplectic plane preserves no nonzero bilinear form. Realize this extension
+by a local diffeomorphism fixing Q in
 adapted submanifold coordinates. The adjusted forms agree on the full ambient
 tangent space at p. Their affine path is symplectic on a common neighborhood of
 p for all t∈[0,1]. Apply the relative radial homotopy to their difference:
@@ -499,18 +512,20 @@ single contact predicate; its metric-radial comparison belongs to C2.2.
 ## Downstream consumers
 
 [HamiltonianReduction R1](../HamiltonianReduction/README.md#r1-smooth-actions-moment-maps-and-equivariance)
-consumes C1's cotangent form and lift for its cotangent momentum theorem. On a
-finite-dimensional smooth base, the form argument is an explicit
-`σ : TauCeti.SmoothTwoForm (cotangentModel I) (Cotangent I M)`, together with
-`σ.IsSymplectic` and the chart identity supplied by `canonicalForm_exists`:
-for every cotangent chart centre z₀, every w in that chart's target and every
-pair of model tangent vectors u,v, its coordinate value is
-`strongDualCotangentSymplecticForm u v`. The chart-target condition excludes
-the total chart inverse's values outside its domain. At each chart centre,
-`RoughForm.inChartAt_extChartAt_self` identifies this value with the
-intrinsic form, so these data determine σ uniquely.
+consumes C1's cotangent form and lift for its cotangent momentum theorem. Its
+form argument is `canonicalForm`, written σ below: Tau Ceti's
+`TauCeti.CotangentBundle.symplecticForm I M` on `Cotangent I M`, that is
+`TauCeti.CotangentBundle I M`, with model `cotangentModel I`. It is symplectic
+(`TauCeti.CotangentBundle.isSymplectic_symplecticForm`), and its chart identity is
+`TauCeti.CotangentBundle.inChartAt_symplecticForm_apply`: for every cotangent
+chart centre z₀, every w in that chart's target and every pair of model tangent
+vectors u,v, its coordinate value is `TauCeti.strongDualCotangentSymplecticForm u v`.
+The chart-target condition excludes the total chart inverse's values outside
+its domain. At each chart centre, `TauCeti.RoughForm.inChartAt_extChartAt_self`
+identifies this value with the intrinsic form, so the chart identity determines
+σ uniquely. Neither fact needs a finite-dimensional base.
 
-For a jointly smooth left action, R1 uses this σ to assert
+For a jointly smooth left action, R1 uses σ to assert
 `ι_(ξ_(T*M))σ=dH_ξ`, where `H_ξ(q,p)=p(ξ_M(q))` and ξ_(T*M) is the
 fundamental field of the inverse-derivative cotangent lift (Cannas da Silva,
 §18.1, exercise on p. 106). This supplies the form to R1; the group-action
