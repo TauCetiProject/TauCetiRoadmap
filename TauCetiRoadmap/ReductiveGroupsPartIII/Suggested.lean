@@ -138,8 +138,8 @@ theorem finrank_eq_one_of_embeddings_padic {K : Type u} [Field K] [NumberField K
 `F`, a finite set `S` of finite places and a finite set `S'` of archimedean places, and maximal tori
 `T v` of `G` over the completions at the places of `S` and `T' w` at those of `S'`, there is a maximal
 `F`-torus of `G` whose base change to each of these completions is conjugate, by a rational point of
-`G` over that completion, to the prescribed torus (KMPS22 Lemma 1.2.2; Borovoi98 Lemma 5.6.3;
-README §2.2). -/
+`G` over that completion, to the prescribed torus (Harder66 Lemma 5.5.3; KMPS22 Lemma 1.2.2;
+Borovoi98 Lemma 5.6.3; README §2.2). -/
 theorem exists_isMaximalTorus_conjugate {F : Type u} [Field F] [NumberField F]
     (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} F)
     (hH : TauCeti.reductiveCommHopfAlgProperty F H)

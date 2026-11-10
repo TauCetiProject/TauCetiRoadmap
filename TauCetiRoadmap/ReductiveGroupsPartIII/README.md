@@ -50,7 +50,21 @@ embedding classes, rational torus embeddings into quasi-split groups, local-to-g
 maximal tori, rational tori for common realizations and the odd unitary similitude Hasse
 principle. The cohomological Mumford–Tate conventions and their explicit normalization witnesses, the auxiliary groups of good-reduction descent, the common rational Frobenius
 class obtained from an auxiliary group, real elliptic representatives and the one-prime patching
-of rational representatives.
+of rational representatives. Five interfaces at the edge of the cohomology and building suppliers
+are owned here as well, each at the point where its supplier stops: the localization exact sequence
+of torus cohomology (§2.0; EndoscopicTransferAndUnitaryTraceComparison §1.2(b) identifies the
+global-mod-local group with `(X_*(T)_Γ)_tors` but not the map from local classes as the sum of
+local Tate–Nakayama maps); the openness of local regular-centralizer loci (§2.1a; its real case is
+ShimuraVarieties §P.5, which §2.1a consumes, and ReductiveGroupsPartII §RG2.0.2 supplies analytic
+charts and the inverse function theorem only); rational
+embeddings in a Galois-stable embedding class into a quasi-split group (§4.3;
+EndoscopicTransferAndUnitaryTraceComparison §1.6 transfers maximal tori from an inner form only);
+the fixer intersection and very special points for a closed immersion with identical derived
+groups (§5.3a; ReductiveGroupsPartII §§RG2.2.3–RG2.2.4 give building maps for field extensions,
+Weil restrictions, central surjections, Levi subgroups and the toral embedding into a `GL(V)`
+building, and §§RG2.3.3–RG2.3.4 fixers and very special points of a single group, but no fixer
+intersection along such an immersion); and the relative obstruction for an inner form (§5.7a;
+EndoscopicTransferAndUnitaryTraceComparison §1.15 states the case `G₀=G`).
 
 **Used from other roadmaps, not rebuilt.**
 
@@ -66,11 +80,6 @@ of rational representatives.
   §6.8 owns the tensor-isomorphism torsor between two fibre functors and the inner twist it
   produces; no target here consumes it. §5.1 fixes the conventions used by the arithmetic
   applications.
-- The localization exact sequence in §2.0, the local centralizer openness in §2.1a, the
-  Galois-stable maximal-torus embedding theorem in §4.3, the pointwise building intersection in
-  §5.3a and the relative inner-form obstruction in §5.7a are owned here. They extend the named
-  cohomology and building suppliers at precisely the interfaces those suppliers do not state.
-
 - The invariant coordinate algebras under simultaneous conjugation, `O[Hⁿ]^H` for a commutative
   Hopf algebra and every arity `n`, are **IntegralHeckeAndGaloisDeterminants** §0.7. The arity-one
   algebra is the algebra of regular class functions; Layer 0 proves only its presentation as an
@@ -212,8 +221,20 @@ roadmap.
   `TauCeti.PointTopology.isTopologicalGroup` (`…/PointTopology/Group.lean`): the topology on the
   `R`-points of an affine scheme induced from the product topology on `A → R`, for which the points
   of an affine group over a topological ring form a topological group. It is Hausdorff when `R` is
-  (`…/PointTopology/Separation.lean`). Local compactness of the points over a local field is not
-  taken from the pin; it is ReductiveGroupsPartII §RG2.0.2.
+  (`…/PointTopology/Separation.lean`).
+- `TauCeti.PointTopology.locallyCompactSpace_of_finiteType`
+  (`TauCeti/Topology/Algebra/PointTopology/Basic.lean`), made an instance on the convolution type as
+  `TauCeti.PointTopology.instLocallyCompactSpaceWithConv` (`…/PointTopology/Separation.lean`): the
+  points of a finite-type algebra with values in a locally compact T1 ring form a locally compact space.
+  `TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` (`…/PointTopology/Functoriality.lean`):
+  a surjection of coordinate rings, that is a closed immersion, induces a closed embedding of points
+  over a T1 ring. The coefficient rings are locally compact by Mathlib's `Padic.instProperSpace`
+  (`Mathlib/NumberTheory/Padics/ProperSpace.lean`; a proper space is locally compact) for `ℚ_[v]`,
+  and by
+  `IsDedekindDomain.HeightOneSpectrum.isNonarchimedeanLocalField_adicCompletion`
+  (`TauCeti/RingTheory/DedekindDomain/AdicValuation/ValuativeRel.lean`; Mathlib's
+  `IsNonarchimedeanLocalField` includes local compactness) for the finite completions of a number
+  field.
 - `TauCeti.splitTorusCommHopfAlgProperty` and `TauCeti.torusCommHopfAlgProperty`
   (`TauCeti/Algebra/AlgebraicGroup/Torus/Basic.lean`): split tori of finite rank, rank zero included,
   and tori as the finite-type Hopf algebras that become split over an algebraic closure.
@@ -233,8 +254,9 @@ of split connected reductive groups, highest-weight order and Weyl characters.
 
 ### From TauCetiRoadmap.ReductiveGroupsPartII
 
-§RG2.0.1–RG2.0.2: the point topology on local points, the topological group `G(F_v)` and its
-analytic charts and inverse function theorem over characteristic-zero local fields. §RG2.0a.1–RG2.0a.2:
+§RG2.0.2, *smooth-group-analytic-charts*: analytic charts on `G(F_v)` and the inverse function
+theorem over characteristic-zero local fields, used in §2.1a. The point topology itself, its local
+compactness and its closed embeddings are taken from the Tau Ceti pin. §RG2.0a.1–RG2.0a.2:
 Weil restriction of affine schemes and group schemes, with `Res_{k′/k}(G′)(R)≅G′(k′⊗R)`.
 §RG2.0a.3: the Deligne torus `S`. §RG2.2: enlarged buildings, apartments, affine root groups and
 their central functoriality. §RG2.3.3:
@@ -780,10 +802,15 @@ centralizer is `G(F)`-conjugate to `T` is open. For `X∈Lie(T)(F)` regular, the
 `(Z mod Lie(T),Y)↦[Z,X]+Y`. It is an isomorphism: after splitting `T`, its root-space factors
 are multiplication by the nonzero root values of `X`, and its torus factor is the identity.
 The local inverse function theorem gives an open neighborhood in the image at every such
-point. Include `F=ℝ,ℂ` as well as finite extensions of `ℚ_p`. Regularity supplies each required
-nonvanishing root value. This differential argument supplies the local input to Harder's
-approximation theorem (Borovoi98 Lemma 5.6.3, p.37; KMPS22 Lemma 1.2.2, p.14), rather than
-assuming the local openness assertion as part of that theorem.
+point. Include `F=ℂ` and finite extensions of `ℚ_p`; for `F=ℝ` the statement is the real
+regular-centralizer comparison of ShimuraVarieties §P.5. Regularity supplies each required
+nonvanishing root value. The openness is the step that the proof of Harder's lemma asserts
+without argument: a rational Lie element close to the chosen regular local elements has a
+centralizer of the prescribed local type (Harder66 proof of Lemma 5.5.3, printed p.407, Harder66
+lines 527–532). Harder chooses local elements with pairwise distinct root values, whereas
+regularity suffices for the differential argument above, which proves the step. Harder's
+approximation theorem itself is the consumer §2.2 (Borovoi98 Lemma 5.6.3, p.37; KMPS22 Lemma
+1.2.2, p.14).
 *Needs:* ReductiveGroups Layers 2 and 7 (Lie algebra, root spaces, centralizers);
 ReductiveGroupsPartII §RG2.0.2 (local analytic charts and inverse function theorem in the
 nonarchimedean case); ShimuraVarieties §P.5 (the real regular-centralizer comparison);
@@ -810,9 +837,9 @@ archimedean) and, for each `v∈S`, `T_v⊂G_{F_v}` a maximal `F_v`-torus. Prove
 approximation for `G(F)`. Route: choose regular semisimple `X_v∈Lie(G)(F_v)` with centralizer `T_v`. The
 set of regular semisimple elements whose centralizer is `G(F_v)`-conjugate to `T_v` is open. By weak
 approximation in the `F`-vector space `Lie(G)(F)`, choose `X∈Lie(G)(F)` in all these opens. Then `X` is
-regular semisimple, and its centralizer is a maximal `F`-torus with the required local types. (KMPS22
-Lemma 1.2.2, p.14, KMPS22 lines 625–629; Borovoi98 Lemma 5.6.3, p.37, Borovoi98 lines 1448–1451, which
-attribute it to Harder.)
+regular semisimple, and its centralizer is a maximal `F`-torus with the required local types. (Harder66
+Lemma 5.5.3 and its proof, p.407, Harder66 lines 524–532; KMPS22 Lemma 1.2.2, p.14, KMPS22 lines 625–629;
+Borovoi98 Lemma 5.6.3, p.37, Borovoi98 lines 1448–1451.)
 *Needs:* §2.1a (local centralizer openness);
 GlobalNumberFields Layer 1 (`TauCeti.GlobalNumberFields.weakApproximation_denseRange`, applied
 coordinatewise);
@@ -977,17 +1004,20 @@ The API consists of the following facts.
 
 For a number field `F`, a linear algebraic group `H` over `F`, a prime `l` and `γ∈H(F)`, `γ` is an
 `l`-unit when, for every finite place `v` of `F` not dividing `l`, the subgroup `{γⁿ : n∈ℤ}` is relatively
-compact in `H(F_v)` for the point topology of ReductiveGroupsPartII §RG2.0.2, which at the pin is
-`TauCeti.PointTopology.topology`. `IsPrimeUnit` is this predicate for `F=ℚ`, where the finite places not
+compact in `H(F_v)` for the point topology `TauCeti.PointTopology.topology`, in which `H(F_v)` is
+locally compact. `IsPrimeUnit` is this predicate for `F=ℚ`, where the finite places not
 dividing `l` are the primes `v≠l` and `F_v=ℚ_v`: the closure of `{γⁿ}` in `H(ℚ_v)` is compact. No condition is imposed at
 archimedean places: the source writes "every place `v∤l`", but its Lemma 2.2.4 needs finite places only,
 since `l` itself is an `l`-unit of `G_m`. Prove: relative compactness may be tested in one faithful closed
 embedding into `GL_n`; for a torus split over `L`, `γ` is an `l`-unit exactly when every character value
 `χ(γ)∈L^×` has valuation zero at all finite places of `L` not above `l`. (KMPS22 §2.2.3, p.25, KMPS22
 lines 1126–1128.)
-*Needs:* Tau Ceti `TauCeti.PointTopology.topology`, `TauCeti.PointTopology.isTopologicalGroup`;
-ReductiveGroupsPartII §§RG2.0.1–RG2.0.2 (closed embeddings give closed
-embeddings of local points, local compactness); ReductiveGroups Layers 1 and 4.
+*Needs:* Tau Ceti `TauCeti.PointTopology.topology`, `TauCeti.PointTopology.isTopologicalGroup`,
+`TauCeti.PointTopology.isClosedEmbedding_comap_of_surjective` (closed immersions give closed
+embeddings of local points) and `TauCeti.PointTopology.instLocallyCompactSpaceWithConv` (local
+compactness), with Mathlib `Padic.instProperSpace` and Tau Ceti
+`IsDedekindDomain.HeightOneSpectrum.isNonarchimedeanLocalField_adicCompletion` for the local
+coefficient fields; ReductiveGroups Layers 1 and 4.
 
 The API consists of the following facts.
 
@@ -1147,7 +1177,7 @@ hence an `l`-Weil point (§3.6), while `χ(x)` has positive valuation, so `x∉T
 power map is an isogeny, so `m`-th powers stay dense, and §3.5 makes them neat. The statement does not
 say that a single point generates a dense subgroup. (KMPS22 Lemma 2.2.10 and its proof, pp.28–29, KMPS22
 lines 1301–1322.)
-*Needs:* §§3.5–3.6; AdelicAlgebraicGroups §3.4 (*class-number-finite*).
+*Needs:* §3.4 (powers of Weil points); §§3.5–3.6; AdelicAlgebraicGroups §3.4 (*class-number-finite*).
 
 **Checks.**
 
@@ -1193,9 +1223,10 @@ of morphisms to separated schemes; ReductiveGroups Layer 3.
 
 ### Dependencies
 
-Layer 0 (semisimple points). ReductiveGroups Layers 1, 3, 4 and 7. ReductiveGroupsPartII §§RG2.0.1–RG2.0.2.
-DeligneWeightsAndPurity §§0.1–0.2. AdelicAlgebraicGroups §§3.4 and 4.3. Tau Ceti point topology, torus
-predicates, comodule point actions and base change of Hopf ideals. Mathlib scheme language.
+Layer 0 (semisimple points). ReductiveGroups Layers 1, 3, 4 and 7.
+DeligneWeightsAndPurity §§0.1–0.2. AdelicAlgebraicGroups §§3.4 and 4.3. Tau Ceti point topology with
+its local compactness and closed embeddings, torus predicates, comodule point actions and base change
+of Hopf ideals. Mathlib scheme language and local compactness of `ℚ_[v]`.
 
 ## Layer 4: Common realization tori and inner-form transfer
 
@@ -1539,9 +1570,9 @@ chooses `T`; §1.5 and §1.6 give the injection. That this datum is of Hodge typ
 triple, and the resulting Shimura-variety point, are geometric statements outside this roadmap. (KZ25
 Proposition 6.2.4 and its proof, pp.57–58, KZ25 lines 2559–2582; §6.2.5, KZ25 lines 2583–2591; Lemma
 6.2.6, KZ25 lines 2592–2618; proof of Theorem 6.2.7, KZ25 lines 2627–2646.)
-*Needs:* §1.5; §1.6; §2.2; ShimuraVarieties §7.0i.1; ReductiveGroupsPartII §§RG2.0a.1–RG2.0a.2, RG2.3.3
-(*compact-elements-in-hyperspecial-subgroups*, *fixer-versus-parahoric*) and RG2.3.4 (very special
-points) and §5.3a; AbelianSchemesAndArithmeticModuli §A1.3a.
+*Needs:* §1.5; §1.6; §2.2; §5.3a; ShimuraVarieties §7.0i.1; ReductiveGroupsPartII §§RG2.0a.1–RG2.0a.2,
+RG2.3.3 (*compact-elements-in-hyperspecial-subgroups*, *fixer-versus-parahoric*) and RG2.3.4 (very
+special points); AbelianSchemesAndArithmeticModuli §A1.3a.
 
 **Checks.**
 
@@ -1572,7 +1603,8 @@ faithful representation `V_B`. For the auxiliary group of §5.4 and `p>2`, the h
 Kisin–Zhou's geometric theorem (KZ25 Theorem 5.1.4, KZ25 lines 2104–2106) applied to the good-reduction
 point defined by the Serre tensor `A⊗O_F` (KZ25 lines 2641–2655). (KZ25 Theorem 6.2.7, Remark 6.2.8 and
 the proof of 6.2.7, p.59, KZ25 lines 2619–2655.)
-*Needs:* §0.6; §1.3; ShimuraVarieties §7.0i.1; §5.4 for the construction of `j`; AbelianSchemesAndArithmeticModuli
+*Needs:* §0.6; §1.3; §1.4 (inner-form identification of conjugacy quotients, for the change of
+complex embedding); ShimuraVarieties §7.0i.1; §5.4 for the construction of `j`; AbelianSchemesAndArithmeticModuli
 §A6.21; NeronModelsAndSemistableAbelianVarieties §§5.0a–5.0b, with the realization conventions of §5.1.
 
 **Checks.**
@@ -1740,11 +1772,11 @@ pp.60–61, KZ25 lines 2694–2718; for the compactness, KZ25 lines 2635–2638.
 
 ### Dependencies
 
-ArithmeticGaloisRepresentations §1.11, §0.6, §§1.3–1.6, §2.2. ShimuraData §§1.2–1.4, 4.2–4.3. ShimuraVarieties §§5.8 and
+§0.6, §§1.3–1.6 and §2.2 of this roadmap. ArithmeticGaloisRepresentations §1.11. ShimuraData §§1.2–1.4, 4.2–4.3. ShimuraVarieties §§5.8 and
 7.0i.1. AbelianSchemesAndArithmeticModuli §§A1.3a,
 A3.7, A3.9, A4.1, A5.1, A5.7, A6.11, A6.21. EndoscopicTransferAndUnitaryTraceComparison §§1.1, 1.2, 1.5, 1.6, 1.9, 1.11, 1.14, 1.15.
 ReductiveGroups Layers 4, 6 and 7. ReductiveGroupsPartII §§RG2.0a, RG2.2,
-RG2.3.3 and RG2.3.4, and §5.3a. NeronModelsAndSemistableAbelianVarieties §§5.0a–5.0b.
+RG2.3.3 and RG2.3.4. NeronModelsAndSemistableAbelianVarieties §§5.0a–5.0b.
 Chebotarev Layer 10.
 
 ## Downstream consumers
@@ -1827,6 +1859,8 @@ Honda–Tate theory for Shimura varieties (CM lifts of isogeny classes, KMPS22 �
   153–211; author-hosted retyped text: Lemma 5.6, internal p.55.
 - **Borovoi98.** M. Borovoi, *Abelian Galois cohomology of reductive groups*, Mem. AMS 132 (1998), no. 626;
   author text: Lemma 5.6.3, p.37.
+- **Harder66.** G. Harder, *Über die Galoiskohomologie halbeinfacher Matrizengruppen. II*, Math. Z. 92
+  (1966), 396–415: Lemma 5.5.3 and its proof, p.407.
 - **Deligne82.** P. Deligne, *Hodge cycles on abelian varieties* (notes by J. S. Milne), in LNM 900 (1982);
   revised author-hosted text: Main Theorem 2.11, p.19; §§3.4–3.6, pp.24–25; Theorem 3.8 and Lemma 3.9,
   pp.26–27.
