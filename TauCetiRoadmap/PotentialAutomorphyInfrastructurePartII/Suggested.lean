@@ -19,10 +19,10 @@ headline below needs at least one of these carriers.
 * Minimal, ordinary and fixed potentially crystalline type `R = T` on definite unitary groups
   (§§4.5–4.8). Lacks definite unitary automorphic Hecke modules, polarized global deformation
   rings and component conditions on local lifting rings.
-* Generic `R = T` with strong or weak primitivity (§§7.19–7.20). Lacks the polarized ordinary
-  deformation rings, their characteristic-polynomial subrings and ordinary Hecke comparison maps.
-* Minimal automorphy lifting with adequate residual image (§5.1; Thorne 2012, Theorem 7.1;
-  BLGGT14, Theorem 2.3.1). Lacks:
+* The generic `R_𝔭 = T_𝔭` theorem with weak primitivity (§7.19; Allen–Newton–Thorne,
+  Theorem 4.1). Lacks the polarized ordinary deformation rings, their characteristic-polynomial
+  subrings and ordinary Hecke comparison maps.
+* Minimal automorphy lifting with adequate residual image (§5.1; Thorne 2012, Theorem 7.1). Lacks:
   * regular algebraic conjugate self-dual cuspidal representations and their `l`-adic Galois
     representations (AutomorphicGaloisRepresentationsPartII AG2.0–AG2.6);
   * `𝒢_n`-valued polarized representations and adequate subgroups (ArithmeticGaloisRepresentations
@@ -30,30 +30,23 @@ headline below needs at least one of these carriers.
   * the components of local lifting rings (LocalGaloisDeformationRings).
 * Automorphy lifting at `p = 2` with strong residual oddness (§5.3; Thorne 2017, Theorem 5.1).
   Lacks the same carriers, and polarized deformation problems at `p = 2`.
-* Ordinary automorphy lifting (§5.5; Geraghty, Theorem 5.3.2; BLGGT14, Theorem 2.4.1). Lacks:
+* Ordinary automorphy lifting with relaxed-adequate image (§5.5). Lacks:
   * `ι`-ordinary automorphic representations (PotentialAutomorphyInfrastructure §3.44);
   * ordinary Galois representations of weight `λ`.
-* Finiteness of polarized deformation rings for fixed components and in the ordinary case
-  (§§5.6–5.7). Lacks polarized global deformation rings (GlobalGaloisDeformations §§8.1–8.4).
-* Potential ordinary automorphy of symplectic residual representations (§6.2; BLGGT14,
-  Theorem 3.1.2). Lacks Galois representations of automorphic representations, and the lisse sheaves
-  of the Dwork family.
-* Ordinary crystalline lifts with prescribed local behaviour (§6.3; BLGGT14, Proposition 3.2.1).
-  Lacks:
-  * `𝒢_n`-valued polarized representations and their global deformation rings with local
-    conditions given by components of local lifting rings (GlobalGaloisDeformations §§8.1–8.4,
-    LocalGaloisDeformationRings);
-  * ordinary representations of weight `λ` of local Galois groups.
-* Potentially diagonalizable automorphy lifting (§6.5; BLGGT14, Theorem 4.2.1). Lacks potentially
-  diagonalizable representations, which are defined through components of local lifting rings.
-* Residually reducible automorphy lifting and finiteness, with strong and with weak primitivity
-  (§§8.7–8.8, 8.17–8.18; Allen–Newton–Thorne, Theorems 6.1–6.2; Thorne 2015, Theorem 7.1). Lacks:
+* Finiteness of polarized deformation rings for fixed components and, with relaxed-adequate image,
+  in the ordinary case (§§5.6–5.7). Lacks polarized global deformation rings
+  (GlobalGaloisDeformations §§8.1–8.4).
+* Potential ordinary automorphy of symplectic residual representations with Steinberg places above
+  a prescribed finite set (§6.1). Lacks Galois representations of automorphic representations, and
+  the lisse sheaves of the Dwork family.
+* Finiteness of ordinary locally Steinberg deformation rings with weak primitivity and Thorne's
+  lifting theorem for two adequate constituents (§§8.7–8.8; Allen–Newton–Thorne, Theorem 6.2;
+  Thorne 2015, Theorem 7.1). Lacks:
   * pseudodeformation rings of `𝒢_n`-valued Schur residual representations;
   * ordinary Hecke algebras of definite unitary groups.
-* Vanishing of adjoint Bloch–Kato Selmer groups of unitary type (§9.7; Newton–Thorne 2023,
-  Theorem A). Lacks Bloch–Kato Selmer groups of Galois representations attached to automorphic
-  representations. The residue-field conclusion for semistable pseudodeformation rings at an
-  automorphic point (§9.8) additionally lacks those constrained pseudodeformation rings.
+* The semistable pseudodeformation ring is its residue field at an automorphic point with enormous
+  image (§9.7). Lacks Bloch–Kato Selmer groups of Galois representations attached to automorphic
+  representations and the constrained pseudodeformation rings.
 * The almost minimal integral `R = T` theorem for rigid residual representations (§10.2;
   Liu–Tian–Xiao–Zhang–Zhu, Theorem 3.6.3). Lacks:
   * the étale cohomology of unitary Shimura varieties with integral local systems;
@@ -68,9 +61,13 @@ headline below needs at least one of these carriers.
   Theorem 9.2.1). Lacks tame inertial types, potentially crystalline representations of fixed type,
   and automorphic representations with prescribed `K`-type.
 
-The generic Serre weight theorem of Le–Le Hung–Levin–Morra (Theorem 9.1.6) and the change-of-weight
-form of §10.5 (their Remark 9.2.2(1)) are not headlines of this roadmap: their proof uses change of
-weight and level (ModularityAndLanglandsExtensions §2.32), which comes after this roadmap.
+The lifting theorems of BLGGT14 with adequate image (Theorems 2.3.1, 2.4.1, 3.1.2 and 4.2.1),
+potential diagonalizability, the vanishing of adjoint Bloch–Kato Selmer groups of unitary type
+(Newton–Thorne, Theorem A) and the Allen–Newton–Thorne lifting theorem (Theorem 6.1) are headlines
+of ModularityAndLanglandsExtensions (§§2.1–2.2, 2.14–2.16, 4.1–4.2), not of this roadmap. The
+generic Serre weight theorem of Le–Le Hung–Levin–Morra (Theorem 9.1.6) and the change-of-weight
+form of §10.5 (their Remark 9.2.2(1)) are not stated by this roadmap: both rest on the
+modularity of obvious Serre weights, a Serre weight result for `GL_n` that it does not develop.
 -/
 
 namespace TauCetiRoadmap.PotentialAutomorphyInfrastructurePartII
