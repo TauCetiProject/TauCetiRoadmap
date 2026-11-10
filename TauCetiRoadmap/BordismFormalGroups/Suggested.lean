@@ -23,14 +23,18 @@ its Hopf algebroid of strict coordinate changes and the height ideals
 `FormalGroup.heightIdeal`; and the Lubin–Tate universal deformation theorem
 for a formal group of finite height (F5), over Mathlib's power series,
 complete noetherian local rings and `FormalGroup.map`, with the one
-definition it needs, the ⋆-isomorphisms `IsStarIso`. The rest of F1 (the
-`n`-series, the Lazard ring with its universality and polynomial theorem,
-the symmetric cocycle lemma, the coordinate-change Hopf algebroid with the
-invariance of the height ideals, the invariant differential, logarithm and
-exponential, the exponent-two normalized logarithm and its universal ring)
-consists of theorems of the pinned Tau Ceti, consumed by the README and
-stated nowhere here; so does the uniqueness of the ⋆-isomorphism in the
-Lubin–Tate theorem (`TauCeti.FormalGroupIso.eq_of_map_residue_eq`).
+definition it needs, the ⋆-isomorphisms `IsStarIso`. F1.5's algebraic
+theory of `p`-typical laws (Cartier's theorem, the universal `p`-typical
+ring `V` and its Hopf algebroid) is a README target on the route to the
+classification, not a headline, and is stated nowhere here. The rest of
+F1 (the `n`-series, the Lazard ring with its universality and polynomial
+theorem, the symmetric cocycle lemma, the coordinate-change Hopf algebroid
+with the invariance of the height ideals, the invariant differential,
+logarithm and exponential, the exponent-two normalized logarithm and its
+universal ring) consists of theorems of the pinned Tau Ceti, consumed by
+the README and stated nowhere here; so does the uniqueness of the
+⋆-isomorphism in the Lubin–Tate theorem
+(`TauCeti.FormalGroupIso.eq_of_map_residue_eq`).
 
 Not statable at the pins, and stated nowhere in this file: Quillen's theorem
 `L ≅ MU_*` and Thom's computation of `π_*MO` (the pinned point-set
