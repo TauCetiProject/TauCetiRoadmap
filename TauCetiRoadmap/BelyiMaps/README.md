@@ -20,8 +20,7 @@ The full programme is recorded below, from the combinatorics up:
   theorem in both directions;
 - fields of moduli and fields of definition, the Galois action on dessins, the branch-cycle
   theorem for the profinite fundamental group, the pro-`ℓ` peripheral-power theorem for the Galois
-  action (its generic group-theoretic form belongs to `PeripheralActions`), and faithfulness of
-  the Galois action;
+  action, and faithfulness of the Galois action;
 - the assertion semantics of LMFDB Belyi-map and passport records.
 
 The pinned Mathlib is favourable on exactly the substrate this roadmap starts from: the
@@ -33,8 +32,8 @@ mod-`n` and `ℓ`-adic cyclotomic characters are present (`modularCyclotomicChar
 `cyclotomicCharacter`). What Mathlib does not have: dessins, ribbon graphs, triangle groups,
 Riemann surfaces (the pin's only nontrivial complex manifold is `ℍ`), Seifert–van Kampen, the
 classification of covering spaces as an equivalence, étale fundamental groups, or any outer
-automorphism carrier. The current declarations use only the available substrate; the staged
-successors consume the missing pieces from their named owning roadmaps.
+automorphism carrier. Each missing piece is consumed from the roadmap that owns it, by name and
+section, as §Boundaries and §What Tau Ceti supplies record.
 
 Suggested homes, mirroring the Mathlib directories that own each notion. The directories are
 suggested homes for the code, not extra layers of this roadmap:
@@ -52,49 +51,59 @@ TauCeti/AlgebraicGeometry/Belyi/           -- Layers 9, 10, 11
 TauCeti/NumberTheory/Belyi/                -- Layers 12, 13, 14
 ```
 
-## Scope, implementation status, and staged successors
+## Scope, implementation status, and ownership
 
-This roadmap is Layers 0 to 7: the finite combinatorics, the thrice-punctured sphere, the
-classification of its finite covers, and their compactification to topological branched covers
-of the sphere. Tau Ceti implements most of it, and each implemented milestone carries a
-*Tau Ceti:* line naming the declarations that realize it. `Suggested.lean` states those
-milestones on the Tau Ceti declarations, closing each statement by the theorem that proves it,
-and keeps `sorry` only for targets that remain. What remains is:
+This roadmap is Layers 0 to 14, and it owns every milestone in them: the finite combinatorics
+(Layers 0–4), the thrice-punctured sphere and the classification of its finite covers (5–6),
+compactification to topological branched covers (7), compact Riemann surfaces and analytic
+Riemann existence (8), algebraic Belyi pairs and the analytic/algebraic comparison (9), Belyi's
+theorem (10), fields of moduli and of definition (11), the arithmetic fundamental group and the
+branch-cycle theorem (12), the pro-`ℓ` peripheral theorem and faithfulness (13), and the
+assertion semantics of LMFDB records (14). What it consumes is consumed by name and section from
+the roadmaps §Boundaries names, and nothing of theirs is planned again here.
 
-- Layer 1.6's degree6–11 passport-label/reference comparisons on the same native family,
-  consuming PolynomialGaloisGroups1D's explicit reference/classification extension, and the
-  Layer14 record/6T6 comparisons at their retained successor scope;
-- Layer 3.5's comparison of the degree-at-most-four table with the frozen database records;
-- in Layer 5, the edge cases and the chart description of `D∞*` in 5.1, and the examples, edge
-  cases and general pullback of `monodromyHom` in 5.3;
-- in Layer 6, the items 6.2 owns (finiteness of the fiber, functoriality of the associated cover
-  with its natural isomorphism and coproducts, the examples and edge cases), and in 6.3
-  naturality in maps of covers, the pullbacks along the four composite anharmonic maps, the
-  pointed counts `13, 71, 461`, and `subgroupConjSetoid` with `subgroupConjSetoid_iff`, which
-  `Suggested.lean` proves and Tau Ceti does not carry;
-- Layer 7 from the monodromy and uniqueness statements of 7.1 on: filling the punctures, the
-  branched covering map, uniqueness of the compactification, the ramification dictionary, the
-  embedded graph and the topological branched-cover carrier.
+Tau Ceti implements a large part of it. Each milestone that Tau Ceti implements, in whole or in
+part, carries a *Tau Ceti:* line naming the declarations that realize it and saying which of
+its items remain. The headline theorems Tau Ceti proves are: the Frobenius product-one formula
+(3.2), the passport-size formula (3.4),
+the triangle-group trichotomy (4.4, 4.5), the fundamental group of the thrice-punctured sphere
+(5.6), the classification of its finite covers (6.3), the classification of topological
+branched covers by their unbranched parts (7.7), analytic Riemann existence for three-point
+covers (8.6), Belyi's polynomial lemma (10.3), the existence of a Belyi map on a function field
+over an algebraic extension of `ℚ` (10.4), and the polynomial form of faithfulness (13.5).
+`Suggested.lean` states the headline theorems that remain, as far as the pinned carriers make
+them statable, and its docstring names those Tau Ceti proves and, for the others, the missing
+carrier.
 
-Layers 8 to 14 are retained below as a dependency specification for three successor roadmaps,
-and are not part of this roadmap's completion. Each has exactly one owner:
+What remains is:
 
-| Excluded material | Layers | Exact owner | Activated once |
-| --- | --- | --- | --- |
-| compact Riemann surfaces, ramification, analytic cohomology, and analytic Riemann existence | 8 | successor roadmap **`BelyiAnalyticCovers`** | a compact-surface owner (ModularForms Layer 10B) publishes one checked carrier and the Riemann–Roch/Riemann–Hurwitz API, and Layer 7 here is complete |
-| algebraic Belyi pairs, the analytic–algebraic comparison, Belyi's theorem, fields of moduli and of definition, and Weil descent | 9, 10, 11 | successor roadmap **`BelyiAlgebraicAndDescent`** | AlgebraicCurves publishes its curve/function-field anti-equivalence and extension-ramification carriers, and `BelyiAnalyticCovers` lands |
-| the arithmetic exact sequence and outer action, peripheral inertia, the branch-cycle theorem, the pro-`ℓ` peripheral-power theorem for the Galois action (its generic existence theorem belongs to `PeripheralActions`), faithfulness, and LMFDB record semantics | 12, 13, 14 | successor roadmap **`BelyiArithmeticActions`** | `BelyiAlgebraicAndDescent` lands; its generic suppliers `ProfiniteProPGroups` and `ProfiniteArithmetic` are already implemented in Tau Ceti |
+- in Layers 0–7: Layer 1.6's label semantics in degrees `6` to `11` and the `6T6` group
+  certificate of 14.6, both behind the supplier gap
+  `gap:transitive-groups-degree-six-to-eleven`; Layer 3.5's comparison of the
+  degree-at-most-four table with the database records; in Layer 5, the edge cases and the chart
+  description of `D∞*` in 5.1, and the examples, edge cases and general pullback of
+  `monodromyHom` in 5.3; in Layer 6, the items 6.2 owns (finiteness of the fiber, functoriality
+  of the associated cover with its natural isomorphism and coproducts, the examples and edge
+  cases), and in 6.3 naturality in maps of covers, the pullbacks along the four composite
+  anharmonic maps, the pointed counts `13, 71, 461`, and the conjugation orbit relation on
+  subgroups with its comparison to the supplier's conjugacy predicate; in Layer 7, the items its
+  *Tau Ceti:* lines list as remaining;
+- in Layers 8–14, every item that no *Tau Ceti:* line names, in particular the comparison of
+  analytic and algebraic Belyi pairs (9.4–9.8), the descent of Belyi pairs to `ℚ̄` (10.6, 10.7),
+  Weil descent and rigidity (11.4–11.6), the arithmetic fundamental group, its outer Galois
+  action and the branch-cycle theorem (12.4–12.12), the Galois-equivariant peripheral theorem
+  (13.1–13.4), faithfulness on isomorphism classes of Belyi pairs (13.5), and the certificates of
+  Layer 14 that its *Tau Ceti:* lines do not name.
 
 The generic constructions the arithmetic layers need, the profinite integers as a topological
 commutative **ring**, profinite exponentiation with its `ℤ_ℓ` comparison, and the continuous
-outer-automorphism carrier, are not Belyi mathematics, and are owned neither here nor by a Belyi
-successor. Their exact owner is [ProfiniteArithmetic](../ProfiniteArithmetic/README.md), the
-generic successor of `ProfiniteProPGroups`.
+outer-automorphism carrier, are not Belyi mathematics, and are not owned here. Their owner is
+[ProfiniteArithmetic](../../Completed/ProfiniteArithmetic/README.md), the generic successor of
+ProfiniteProPGroups, and Tau Ceti implements them; Layer 12 records the contract.
 
-An unresolved supplier contract is a scheduling block, not a theorem with a prose caveat. No
-Belyi-local stand-in for a supplier is exported. The split is combinatorial and topological /
-analytic / arithmetic, and it is drawn where the carriers actually become typeable rather than
-where the mathematics changes subject.
+No Belyi-local copy of a supplier's object is exported. Where a supplier lacks something this
+roadmap needs, the gap is declared under §What Tau Ceti supplies with what the supplier must
+provide.
 
 ## Prerequisites
 
@@ -106,8 +115,9 @@ and nothing else is allowed:
 - **Layer n.m.** An earlier milestone of this roadmap.
 - **Roadmap, Layer n.** A named layer of another roadmap in this repository.
 
-A milestone whose supplier has not yet landed is activated once it does, and then imports and
-`#check`s the exact declarations. No milestone defines a replacement `fullCycleType`,
+A milestone whose supplier provides its input as a prose milestone of that roadmap rather than
+a declaration consumes the declaration that milestone produces, by name. No milestone defines a
+replacement `fullCycleType`,
 transitive-group label, universal-cover class, Seifert–van Kampen theorem,
 compact-Riemann-surface API, free profinite group, profinite exponent ring, or
 outer-automorphism carrier.
@@ -116,28 +126,32 @@ outer-automorphism carrier.
 
 Seven roadmaps supply material to this one. The boundaries are stated once here.
 
-There is no dependency on `LocalGaloisGroups` or `ClassFieldTheory`. The generic group-theoretic
-peripheral-power theorem, that a free pro-`p` group of finite rank has, for every unit `u`, a
-continuous automorphism carrying each peripheral element to a conjugate of its `u`-th power, belongs
-to [PeripheralActions](../PeripheralActions/README.md), which proves it without the Galois action; Layers 13.3
-and 13.4 below state its instance for `Δ_ℓ` and record the arithmetic proof. The branch-cycle
-theorem and the Galois-equivariant peripheral statements are Belyi-specific; their generic groups,
-powers, and outer-automorphism carriers are Tau Ceti's implementations of `ProfiniteProPGroups`,
-extended by `ProfiniteArithmetic`. `PeripheralActions` consumes from here only the
-conjugation-transfer lemma `conjugation_transfer` and the word identity `opposite_third_peripheral`,
-and nothing from the arithmetic successor. Both are self-contained exports of §Pinned conventions,
-which precedes Layer 13, and neither depends on `PeripheralActions`; only the existence statements
-of 13.3 and 13.4 depend on it, so there is no cycle.
+There is no dependency on `LocalGaloisGroups`, `ClassFieldTheory` or `PeripheralActions`. The
+supply between this roadmap and PeripheralActions runs one way: PeripheralActions consumes from
+here the conjugation-transfer lemma `conjugation_transfer` and the word identity
+`opposite_third_peripheral`, both self-contained exports of §Pinned conventions, and this roadmap
+cites nothing of PeripheralActions. The two roadmaps prove different theorems about the same
+free pro-`ℓ` group. PeripheralActions proves, without any Galois action, that a free pro-`p`
+group of finite rank has for every unit `u` a continuous automorphism carrying each peripheral
+element to a conjugate of its `u`-th power. Layer 13.3 here proves that the outer Galois action
+on `Δ_ℓ` is peripheral of exponent `χ_ℓ(σ)`, an arithmetic statement about the image of
+`Gal(ℚ̄/ℚ)`; the bare existence statement is a consequence of it by cyclotomic surjectivity,
+recorded there as a remark and consumed by nothing. The branch-cycle theorem and the
+Galois-equivariant peripheral statements are Belyi-specific; their generic groups, powers, and
+outer-automorphism carriers are Tau Ceti's implementations of `ProfiniteProPGroups`, extended by
+`ProfiniteArithmetic`.
 
 **Character theory.** Class functions, irreducible characters, the character table, both
 orthogonality relations, class sums, structure constants, and central characters belong to
-[CharacterTheory](../RepresentationTheory/CharacterTheory/README.md). This roadmap proves none
-of them. It consumes, by name: `ClassFunction` (Layer 0), `classSum`, `structureConstant` and
-`classSum_mul` (Layer 1), `characterTable` and `char_column_orthogonality` (Layer 3), and
-`centralCharacter` with `centralCharacter_coordinate` and the conversion
-`ω_χ(K_j) = |C_j|·χ(g_j)/χ(1)` (Layer 4). The Frobenius product-one counting formula is on no
-roadmap; **this roadmap owns it** (Layer 3.2), together with the inverse-class operation on
-`ConjClasses` it needs.
+[CharacterTheory](../RepresentationTheory/CharacterTheory/README.md), and Tau Ceti implements
+them. This roadmap proves none of them. It consumes, by name, the class sums `TauCeti.classSum`,
+the structure constants `TauCeti.structureConstant` with `TauCeti.classSum_mul` (CharacterTheory
+Layer 1), the character table `TauCeti.characterTable` with column orthogonality
+`TauCeti.card_conjClass_mul_sum_characterTable_mul_characterTable_inv` (its Layer 3.5), and the
+central characters `TauCeti.Representation.centralCharacter` (its Layer 4.3). The Frobenius
+product-one counting formula, and the character formula for structure constants on the way to
+it, are on no roadmap; **this roadmap owns them** (Layer 3.2), together with the inverse-class
+operation on `ConjClasses` it needs.
 
 **Universal covers.** The covering-space classification, deck transformation groups, and the
 `N(H)/H` deck-group theorem belong to the completed
@@ -167,12 +181,12 @@ groupoid. Tau Ceti implements it as the general theorem `TauCeti.vanKampenEquiv`
 (`TauCeti/AlgebraicTopology/FundamentalGroup/VanKampen.lean`). Layer 5.5 below records exactly
 which declarations this roadmap requires of it and under which hypotheses; Layer 5.6
 **instantiates** them at the two-set cover of Layer 5.1 and reads off the values on the canonical
-generators, and that instantiation is what this roadmap owns. No Belyi-local copy, alias or
-stand-in for the theorem is exported.
+generators, and that instantiation is what this roadmap owns. No Belyi-local copy or alias of
+the theorem is exported.
 
 **Conformal mapping.** The local theory of holomorphic maps — Rouché, Hurwitz, the local
 degree `TauCeti.exists_localDegree`, holomorphic branch roots — belongs to
-[ConformalMapping](../ConformalMapping/README.md) (its L0), and Layer 8 consumes it for the
+[ConformalMapping](../../Completed/ConformalMapping/README.md) (its L0), and Layer 8 consumes it for the
 local normal form. Nothing here uses the Riemann mapping theorem, Montel, or the boundary
 correspondence. The `ℍ/Γ(2) ≅ ℂ∖{0,1}` λ-uniformization is that roadmap family's material
 (recorded there as belonging to ModularForms); no layer here consumes or supplies it — the
@@ -180,38 +194,41 @@ route to the fundamental group of the thrice-punctured sphere is AlgebraicTopolo
 Kampen theorem, applied to the cover of Layer 5.1, and no retraction onto a figure eight
 occurs anywhere in it.
 
-**Modular forms.** The compact-Riemann-surface cohomology chain — structure sheaf, sheaves of
-a divisor, finiteness of `H¹`, analytic Riemann–Roch, Serre duality by residues,
-Riemann–Hurwitz for finite holomorphic maps, and the existence of nonzero meromorphic sections
-of line bundles — is planned inside [ModularForms](../ModularForms/README.md) Layer 10B for
-general compact Riemann surfaces. `BelyiAnalyticCovers` does not begin until that owner
-publishes a compiled compact-Riemann-surface carrier, the sphere instance, and exact
-Riemann–Roch/Riemann–Hurwitz declarations. This roadmap exports no parallel hypothesis-stack
-interface. `X(Γ)`, modular curves, and everything `q`-expansion-flavoured stay in ModularForms;
-nothing here mentions `ℍ`.
+**Compact Riemann surfaces.** The complex-manifold vocabulary and the Riemann sphere belong to
+[ComplexManifolds](../ComplexManifolds/README.md). Finite holomorphic maps between compact
+Riemann surfaces, their local multiplicity and degree, pullback of divisors, topological genus
+and Riemann–Hurwitz belong to [FuchsianOrbifolds](../FuchsianOrbifolds/README.md) Layer 5,
+whose shared module Tau Ceti implements as `TauCeti.RiemannSurface.FiniteHolomorphicMap` and
+`TauCeti.RiemannSurface.degree`. The analytic cohomology chain — structure sheaf, sheaves of a
+divisor, finiteness of `H¹`, analytic Riemann–Roch, Serre duality by residues, the existence of
+nonzero meromorphic sections of line bundles, and the equality of analytic and topological
+genus — belongs to [ModularForms](../ModularForms/README.md) §10B for general compact Riemann
+surfaces. Layers 8 and 9 consume these by name and export no parallel interface. `X(Γ)`,
+modular curves, and everything `q`-expansion-flavoured stay in ModularForms; nothing here
+mentions `ℍ`.
 
 **Algebraic curves.** Function fields of one variable, places, divisors, Riemann–Roch,
 extensions with ramification and the different, Riemann–Hurwitz, and the regular-projective
 model with the curve/function-field anti-equivalence belong to the AlgebraicCurves roadmap —
 cited as AlgebraicCurves Layers 0–8 and 12; that roadmap's own contract table names this
-roadmap as the consumer of exactly those layers. Layer 9 here consumes them for the algebraic side of the comparison. The analytic
-comparison over `ℂ` — a compact Riemann surface with a Belyi function versus the regular
-projective model of its function field — is excluded there by name and belongs to
-`BelyiAlgebraicAndDescent` (Layers 9.4–9.7).
+roadmap as the consumer of exactly those layers. Layer 9 here consumes them for the algebraic
+side of the comparison, through Tau Ceti's carriers `TauCeti.IsFunctionField`, `TauCeti.Place`
+and `TauCeti.Divisor`. The analytic comparison over `ℂ` — a compact Riemann surface with a Belyi
+function versus the regular projective model of its function field — is excluded there by name
+and belongs to this roadmap (Layers 9.4–9.7).
 
 **Polynomial Galois groups.** The full cycle type `fullCycleType`, the transitive-group
 reference data `TransitiveGroupIndex`, `referenceSubgroup`, `numTransitiveGroups`, and the
-label predicate `TransitiveGroupLabel` belong to the PolynomialGaloisGroups roadmap (its
-Layers 0, 6, 7), and are Tau Ceti's `Equiv.Perm.fullCycleType`, `TauCeti.TransitiveGroupIndex`,
+label predicate `TransitiveGroupLabel` belong to the
+[PolynomialGaloisGroups](../../Completed/PolynomialGaloisGroups/README.md) roadmap (its Layers 0
+and 6), and are Tau Ceti's `Equiv.Perm.fullCycleType`, `TauCeti.TransitiveGroupIndex`,
 `TauCeti.referenceSubgroup`, `TauCeti.numTransitiveGroups` and `TauCeti.TransitiveGroupLabel`.
-Its pure Layer 1C supplies the degree-at-most-five native family; its Layer 1D extends
-that same reference/index/label API through degree `11`, with the fixed generator rows,
-completeness and exact lower-degree comparison proved there. Layer 1.6 consumes this single
-family through degree `11`, including the degree-six `6T6` record. At the pinned native
-revision the index is empty above degree five; the higher-degree extension is a definite
-producer in Layer 1D, not a claim that those native indices are already inhabited.
-Layer 1 here consumes them for LMFDB label semantics and adds no second `nTj` predicate and no
-second cycle-type-with-fixed-points definition. Blocks, primitivity, and transitivity are
+Its Layer 6 supplies the reference family in degrees `1` to `5`, and at the Tau Ceti pin
+`numTransitiveGroups n = 0` above degree five. The same family in degrees `6` to `11`, which
+Layer 1.6 and the `6T6` record of Layer 14.6 need, is a declared gap of that supplier
+(`gap:transitive-groups-degree-six-to-eleven`, §What Tau Ceti supplies); this roadmap adds no
+second family. Layer 1 here consumes them for LMFDB label semantics and adds no second `nTj`
+predicate and no second cycle-type-with-fixed-points definition. Blocks, primitivity, and transitivity are
 always Mathlib's `MulAction.IsBlock`, `MulAction.IsPreprimitive`, `MulAction.IsPretransitive`,
 as there.
 
@@ -225,15 +242,14 @@ their maximal pro-`p` quotients are specified by the ProfiniteProPGroups roadmap
 `TauCeti.zHat.maximalProPQuotientEquivPadicInt`. The **ring** structure on `ẑ`, which lives on
 Tau Ceti's own `TauCeti.zHat` (as `Additive TauCeti.zHat`), profinite exponentiation
 `x ^ᶻ a = TauCeti.zHat.lift x a` with its `ℤ_ℓ` comparison, and the continuous
-outer-automorphism carrier are owned by [ProfiniteArithmetic](../ProfiniteArithmetic/README.md),
-the generic successor of ProfiniteProPGroups, and are implemented in Tau Ceti. Neither set is
-owned or exported by the Belyi
-namespace, and neither has a second carrier anywhere. `BelyiArithmeticActions` will consume these
-exact public names for the cyclotomic and peripheral applications.
+outer-automorphism carrier are owned by
+[ProfiniteArithmetic](../../Completed/ProfiniteArithmetic/README.md), the generic successor of
+[ProfiniteProPGroups](../../Completed/ProfiniteProPGroups/README.md), and are implemented in Tau
+Ceti. Neither set is owned or exported by the Belyi namespace, and neither has a second carrier
+anywhere. Layers 12 and 13 consume these exact public names for the cyclotomic and peripheral
+applications.
 
-AlgebraicCurves, PolynomialGaloisGroups and ProfiniteProPGroups live at
-`../AlgebraicCurves/README.md`, `../PolynomialGaloisGroups/README.md` and
-`../ProfiniteProPGroups/README.md`.
+AlgebraicCurves lives at [`../AlgebraicCurves/README.md`](../AlgebraicCurves/README.md).
 
 What this roadmap supplies to other subjects:
 
@@ -241,16 +257,16 @@ What this roadmap supplies to other subjects:
   subject that counts covers or factorizations in finite groups;
 - finite bipartite ribbon graphs (Layer 2), reusable for maps and hypermaps on surfaces;
 - triangle groups (Layer 4);
-- in `BelyiAlgebraicAndDescent`, the Belyi-specific analytic/algebraic comparison, after the
-  compact-surface and AlgebraicCurves carriers land;
-- in `BelyiArithmeticActions`, the branch-cycle theorem and the pro-`ℓ` peripheral-power theorem
-  for the Galois action (Layers 12, 13), the Belyi-specific arithmetic application of
-  `ProfiniteArithmetic`'s generic infrastructure; the generic existence theorem itself belongs to
-  `PeripheralActions`.
+- the Belyi-specific analytic/algebraic comparison (Layer 9);
+- the branch-cycle theorem and the pro-`ℓ` peripheral-power theorem for the Galois action
+  (Layers 12, 13), the Belyi-specific arithmetic application of `ProfiniteArithmetic`'s generic
+  infrastructure;
+- the conjugation-transfer lemma and the third-peripheral word identity of §Pinned conventions,
+  consumed by PeripheralActions.
 
 ## Internal boundaries
 
-The roadmap is one roadmap, and its fifteen layers group into three sections with clean
+The roadmap's fifteen layers group into three sections with clean
 contracts between them, so that a reader can decide in one step which section owns a result.
 Each contract lists what the section exports and what it imports; nothing crosses a boundary
 except through these lists.
@@ -272,8 +288,7 @@ counts and the normalizer counting formula; `TriangleGroup` with its trichotomy.
 PolynomialGaloisGroups' `fullCycleType` and transitive-group data; CharacterTheory's class
 sums, structure constants, character table and central characters. **Nothing topological.**
 
-**B. Topology and geometry — Layers 5–11.** Layers 5–7 are this roadmap's; Layer 8 is
-`BelyiAnalyticCovers` and Layers 9–11 are `BelyiAlgebraicAndDescent`.
+**B. Topology and geometry — Layers 5–11.**
 *Exports:* `U` with its two-set cover, its six anharmonic self-homeomorphisms, peripheral loops
 and `π₁(U, b) ≃* FreeGroup (Fin 2)`; the three cover carriers (`ConnectedFiberNumberedCover`,
 `ConnectedPointedCover`, `ConnectedCover`), their quotient carriers, the forgetful maps between
@@ -293,25 +308,23 @@ definition, Weil descent, and `trueOrbitSize`.
 4.6            the normality criterion                      6.5
 ```
 
-and nothing else; UniversalCovers; AlgebraicTopology Stage 1; ConformalMapping L0; ModularForms
-Layer 10B; AlgebraicCurves. ⚠ `4.6` belongs on this list: Layer 6.5 classifies regular covers by
+and nothing else; UniversalCovers; AlgebraicTopology Stage 1; ConformalMapping L0;
+ComplexManifolds; FuchsianOrbifolds Layer 5; ModularForms §10B; AlgebraicCurves. ⚠ `4.6` belongs on this list: Layer 6.5 classifies regular covers by
 normality of the point stabilizer, which is Layer 4.6's criterion, so section B is not
 independent of Layer 4.
 
-**C. Arithmetic and database semantics — Layers 12–14, the successor roadmap
-`BelyiArithmeticActions`.**
+**C. Arithmetic and database semantics — Layers 12–14.**
 *Consumes from `ProfiniteArithmetic`:* the ring structure on `TauCeti.zHat`, the profinite
 exponentiation calculus through `TauCeti.zHat.lift` and its pro-`ℓ` comparison, and continuous
 outer automorphisms.
-*Consumes from Tau Ceti, which implements #244 `ProfiniteProPGroups`:* free profinite and free
+*Consumes from Tau Ceti, which implements `ProfiniteProPGroups`:* free profinite and free
 pro-`p` groups (`TauCeti.freeProfiniteGroup`, `TauCeti.freeProP`), the maximal pro-`p` quotient
 (`TauCeti.maximalProPQuotient`), and `TauCeti.zHat.maximalProPQuotientEquivPadicInt`.
 *Belyi-specific exports:* `π₁ᵍᵉᵒ` and the comparison isomorphism with its
 orientation; the arithmetic exact sequence and outer action; peripheral inertia; the
 `ẑ`-cyclotomic character; the branch-cycle theorem and its finite Nielsen-class corollary;
-the Galois-equivariant form of the pro-`ℓ` peripheral-power theorem and of its dyadic instance
-(the existence statements themselves are `PeripheralActions`'); faithfulness; the LMFDB
-record certificates.
+the Galois-equivariant pro-`ℓ` peripheral-power theorem and its dyadic instance;
+faithfulness; the LMFDB record certificates.
 *Imports:*
 
 ```text
@@ -356,16 +369,21 @@ in Mathlib's multiplication. Geometrically: the concatenated loop "`γ0`, then `
 is not this relation.** The LMFDB's knowl shows `σ_∞ σ_1 σ_0 = 1`, typographically the
 relation above; but the stored triples are computed left-to-right, so as *functions* they
 satisfy `σ0 ∘ σ1 ∘ σinf = id`, which in Mathlib's multiplication is `σ0 * σ1 * σinf = 1` —
-the **opposite** relation. The private provenance ledger verifies this against frozen records rather than
-inferring it from the display. The two conventions differ by the componentwise-inversion
-involution of Layer 0.1, and Layer 14.2 states that translation as a theorem about the
-stored data.
+the **opposite** relation. The record `3T2-3_2.1_2.1-a` is the check: it stores
+`(1,2,3)`, `(2,3)`, `(1,2)`, which `0`-indexed are `finRotate 3`, `swap 1 2`, `swap 0 1`, and
+their product in the order `σ0 * σ1 * σinf` is `1` while the product `σinf * σ1 * σ0` is not.
+The two conventions differ by the componentwise-inversion involution of Layer 0.1, and Layer
+14.2 states that translation as a theorem about the stored data.
 
-⚠ The rival convention also produces a *different* third permutation (`(σ1·σ0)⁻¹` versus
-`(σ0·σ1)⁻¹`), so a triple carried across without the involution has the wrong `σinf` and the
-wrong partition at `∞`. Every source citation in this roadmap records the source's
-composition order. The worked example `z ↦ z²` in `Suggested.lean` pins the reading here:
-`σ0 = σinf = (0 1)`, `σ1 = 1`.
+⚠ The rival convention also produces a *different* third permutation: `(σ1·σ0)⁻¹` versus
+`(σ0·σ1)⁻¹`. The two are conjugate (by `σ0`), so the partition at `∞` is the same and the
+passport cannot detect the error; what changes is the triple, and with it the isomorphism
+class. In degree `5`, `a = (1 2)(3 4)` and `b = (0 1 2 3)` give the triple `(a, b, (b·a)⁻¹)`,
+read without the involution, and the correctly translated `(a⁻¹, b⁻¹, a·b)`: the three cycle
+partitions agree (`[2,2,1]`, `[4,1]`, `[4,1]`), and no permutation conjugates the one triple
+simultaneously into the other. Every source citation in this roadmap records the source's
+composition order. The worked example `z ↦ z²` pins the reading here: `σ0 = σinf = (0 1)`,
+`σ1 = 1`.
 
 **Ordered branch points.** The branch points are ordered `0, 1, ∞`, in every triple,
 passport, and label. The action of permuting the three branch points is the explicit API of
@@ -491,8 +509,8 @@ is `conjugation_transfer`, stated generically because that is all the proof uses
 application supplies the hypothesis on `pow` from the naturality of its power under conjugation
 (Layer 12.2 here). It and `opposite_third_peripheral` are self-contained exports of this section:
 neither depends on Layers 12 and 13 or on `PeripheralActions`, which consumes both. Both mention
-no Belyi object: in Tau Ceti they belong in a shared module under `TauCeti/GroupTheory/`, which
-the arithmetic successor and `PeripheralActions` both import, not in the Belyi development.
+no Belyi object: Tau Ceti implements the lemma, for any endomorphism, as
+`TauCeti.map_conj_eq_conj_of_map_eq_conj` in `TauCeti/GroupTheory/ConjugationTransfer.lean`.
 
 **Profinite powers.** Powers `x ^ᶻ a` by `a ∈ ẑ` are the canonical operation of Layer 12.2,
 defined through the universal property of the profinite completion of `ℤ`; powers by
@@ -512,8 +530,7 @@ convention.
 
 ## What Mathlib supplies
 
-The load-bearing imports, against the pinned Mathlib (`9caeba1000`, Lean `v4.31.0-rc1`);
-The private provenance ledger carries the dated audit that produced this list:
+The load-bearing imports, against the Mathlib revision pinned in `lake-manifest.json`:
 
 | Area | Declarations |
 | --- | --- |
@@ -535,20 +552,18 @@ schemes, and any ribbon-graph or triangle-group object.
 
 ## What Tau Ceti supplies
 
-Every already-pinned consumed theorem gets an exact name or signature. A local agent cannot
-implement against an unnamed chain: it has to know what to `apply`. The table therefore
-distinguishes exact declarations from later supplier milestones whose carriers are intentionally
-still prose-only. Accepted non-portfolio suppliers may have an exact local interface signature;
-the three portfolio suppliers have no local stand-ins here.
+Every consumed theorem that exists at the pin gets its exact name, so that an implementer knows
+what to `apply`. The table distinguishes exact declarations from supplier milestones that are
+prose in their roadmap, and no supplier's object has a local copy here.
 
 | Consumer | Supplier | Object | Exact name, or local interface signature |
 | --- | --- | --- | --- |
 | 0.5, 1.1 | `PolynomialGaloisGroups` Layer 0 | cycle type with fixed points | `Equiv.Perm.fullCycleType`, computed by `Equiv.Perm.computedCycleType` (`Equiv.Perm.computedCycleType_eq_fullCycleType`) |
-| 1.6, 14.1, 14.5 | `PolynomialGaloisGroups` pure Layers 1C–1D | the single transitive reference family and label predicate through degree `11`, with exact native comparison through degree `5` | `TauCeti.numTransitiveGroups`, `TauCeti.TransitiveGroupIndex`, `TauCeti.referenceSubgroup`, `TauCeti.TransitiveGroupLabel`; Layer 1D specifies their higher-degree evolution and all 160 generator rows, not a second family |
+| 1.6, 14.1, 14.5 | `PolynomialGaloisGroups` Layer 6 | the transitive reference family and label predicate in degrees `1` to `5` | `TauCeti.numTransitiveGroups`, `TauCeti.TransitiveGroupIndex`, `TauCeti.referenceSubgroup`, `TauCeti.TransitiveGroupLabel`; `numTransitiveGroups n = 0` for `n > 5` at the pin, and degrees `6` to `11` are the gap below |
 | 3.2 | CharacterTheory Layer 1 | class sums and structure constants | `TauCeti.classSum`, `TauCeti.structureConstant`, `TauCeti.classSum_mul` |
 | 3.2 | CharacterTheory Layer 3 | the character table and column orthogonality | `TauCeti.characterTable`, `TauCeti.card_conjClass_mul_sum_characterTable_mul_characterTable_inv` |
 | 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `TauCeti.centralCharacter`; the character formula for structure constants that the conversion feeds is proved directly as `TauCeti.structureConstant_eq_sum_characterTable` |
-| 5.1, 6.2 | UniversalCovers milestone 2 | semilocal simple connectivity | `TauCeti.SemilocallySimplyConnectedSpace` (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean`); no local stand-in is exported |
+| 5.1, 6.2 | UniversalCovers milestone 2 | semilocal simple connectivity | `TauCeti.SemilocallySimplyConnectedSpace` (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean`); no local copy is exported |
 | 5.6 | AlgebraicTopology Stage 1 | Seifert–van Kampen for two open sets with simply connected intersection | `TauCeti.vanKampenLift`, `TauCeti.vanKampenLift_bijective`, `TauCeti.vanKampenEquiv` and `TauCeti.vanKampenEquiv_toMonoidHom` (`TauCeti/AlgebraicTopology/FundamentalGroup/VanKampen.lean`), with the hypotheses of Layer 5.5. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
 | 5.7, 6.3 | UniversalCovers milestone 7 | basepoint change on subgroups, and the recovered subgroup under a change of lift | `FundamentalGroup.basepointChangeSubgroup` (conjugation of a subgroup along a path); `IsCoveringMap.range_mapOfEq_monodromy` (moving the lift along a loop conjugates the recovered subgroup); `IsCoveringMap.range_mapOfEq_monodromy_path` (moving it along a path applies `basepointChangeSubgroup`) |
 | 6.2 | UniversalCovers milestones 2, 3 | the universal cover, its covering map, and the free properly discontinuous `π₁`-action | `TauCeti.UniversalCover x₀`, `TauCeti.UniversalCover.proj`, `TauCeti.UniversalCover.isCoveringMap`, `TauCeti.UniversalCover.simplyConnectedSpace`, `TauCeti.UniversalCover.isQuotientCoveringMap` |
@@ -557,26 +572,29 @@ the three portfolio suppliers have no local stand-ins here.
 | 6.4 | UniversalCovers milestones 4, 5 | deck groups, and deck group of the universal cover `≃* (π₁)ᵐᵒᵖ` | Mathlib's `deck p : Subgroup (E ≃ₜ E)`; `TauCeti.UniversalCover.deckFundamentalGroupEquiv x₀ : deck proj ≃* (FundamentalGroup X x₀)ᵐᵒᵖ`, and for any regular simply connected cover `TauCeti.Deck.IsRegular.deckFundamentalGroupEquiv` |
 | 6.5 | UniversalCovers milestone 8 | regular covers, and the deck groups `N(H)/H` and `π₁/H` | `TauCeti.Deck.isRegular_iff_fiber_isPretransitive`, `TauCeti.UniversalCover.isRegular_subgroupQuotientProj_iff_normal`, `TauCeti.UniversalCover.deckSubgroupQuotientProjEquiv`, `TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal` |
 | 8.2 | ConformalMapping L0 | the local degree of a holomorphic map | `TauCeti.exists_localDegree`, and the holomorphic branch-root extraction beside it |
-| 8.1–9.4 | ModularForms Layer 10B / compact-surface owner | compact Riemann-surface carrier, sphere instance, meromorphic functions, Riemann–Roch and Riemann–Hurwitz | **unresolved supplier contract**: no compiled carrier or theorem names are published, so this roadmap exports no local hypothesis-stack, meromorphic-field, divisor, degree, ramification, or cohomology stand-in. The successor must import and `#check` the supplier's map-derived invariants. |
-| 9.1, 9.4, 9.6 | `AlgebraicCurves` Layers 0, 1 | function fields, places, and divisors | exact declarations: `AlgebraicCurves.IsFunctionField`, Mathlib's `IsIntegrallyClosedIn`, `AlgebraicCurves.Place`, `AlgebraicCurves.Divisor` |
-| 9.1, 9.4, 9.6 | `AlgebraicCurves` Layer 6 | ramification index, residue degree, and the fundamental identity | **prose-only supplier milestones; no Lean declarations are pinned yet** |
-| 9.5, 10.7, 11.4 | `AlgebraicCurves` Layer 5 | Riemann–Roch and genus | exact declarations: `AlgebraicCurves.riemannRochSpace`, `AlgebraicCurves.genus` |
-| 9.1, 9.1C, 10.6, 10.7, 11.4 | `AlgebraicCurves` Layers 8, 12 | regular constant-extension fields, smooth geometrically integral models and their local base-change comparisons, with the explicit hypotheses below | **required corrected generic supplier cut, not a current API assertion**: algebraic constant extension alone is insufficient for `ℚ̄ ⊂ ℂ`; 9.1C owns only the fixed-`t` finite-cover consumer. No genus criterion is used to infer regularity. |
-| 9.1, 9.5 | `AlgebraicCurves` Layer 12 | the regular projective model and the anti-equivalence | **prose-only supplier milestones; no Lean declarations are pinned yet**. The reserved roadmap names are `regularModel`, `functionFieldEquiv`, and `regularModel_functionField`; **this roadmap never analytifies a scheme** — Layer 9.6 works with places, so only the place set and its `(e,f)` data are consumed, never a scheme-theoretic fiber |
-| 12.7, 13.1 | Tau Ceti | free profinite and free pro-`p` groups, the maximal pro-`p` quotient, and the maximal pro-`ℓ` quotient of `ẑ`, as `ProfiniteProPGroups` Layers 3 and 4 specify them | exact declarations: `TauCeti.freeProfiniteGroup`, `TauCeti.freeProfiniteGroup.of`, `TauCeti.freeProP`, `TauCeti.freeProP.of`, `TauCeti.freeProP.lift`, `TauCeti.proPKernel`, `TauCeti.map_proPKernel_eq`, `TauCeti.maximalProPQuotient`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt`; `BelyiArithmeticActions` imports and `#check`s them, and this roadmap exports no aliases or stand-ins. |
-| 12.1–12.3 | `ProfiniteArithmetic`, the generic successor of `ProfiniteProPGroups` | the ring structure on Tau Ceti's `TauCeti.zHat`, the `ẑ`-power `x ^ᶻ a = TauCeti.zHat.lift x a` with its `ℤ_ℓ` comparison, and the continuous outer-automorphism carrier | implemented in Tau Ceti, with the names that roadmap's `Suggested.lean` closes its targets with; these are generic group theory, not Belyi mathematics, and no alias or stand-in is exported here. |
+| 8.1–8.3 | ComplexManifolds; FuchsianOrbifolds Layer 5 | the Riemann sphere as a complex manifold, finite holomorphic maps, local multiplicity, degree, branch values, Riemann–Hurwitz | `OnePoint.instChartedSpace` and the `IsManifold 𝓘(ℂ) ω (OnePoint ℂ)` instance, `TauCeti.RiemannSurface.FiniteHolomorphicMap`, `TauCeti.RiemannSurface.localMultiplicity`, `TauCeti.RiemannSurface.degree`, `TauCeti.RiemannSurface.degree_eq_fiber_sum`, `TauCeti.RiemannSurface.FiniteHolomorphicMap.branchValues`; Riemann–Hurwitz is FuchsianOrbifolds Layer 5 item 3, with no Tau Ceti declaration at the pin |
+| 9.2–9.4, 10.7, 11.4 | ModularForms §10B | analytic cohomology, analytic Riemann–Roch, Serre duality, equality of analytic and topological genus | prose milestones of that roadmap; no Tau Ceti declaration at the pin |
+| 9.1, 9.4, 9.6 | `AlgebraicCurves` Layers 0, 1 | function fields, places, and divisors | `TauCeti.IsFunctionField`, Mathlib's `IsIntegrallyClosedIn`, `TauCeti.Place`, `TauCeti.Divisor` |
+| 9.1, 9.4, 9.6 | `AlgebraicCurves` Layer 6 | ramification index, residue degree, and the fundamental identity | `TauCeti.Place.ramificationIdx`, `TauCeti.Place.relativeDegree`; the fundamental identity as that layer states it |
+| 9.5, 10.7, 11.4 | `AlgebraicCurves` Layer 5 | Riemann–Roch and genus | `TauCeti.riemannRochSpace`, `TauCeti.genus` |
+| 9.1, 9.1C, 10.6, 10.7, 11.4, 12.4 | `AlgebraicCurves` Layer 8 item 2 and Layer 12, items 12B.0a, 12B.0b and 12B.0d | regular constant extension: for every extension `K/k` the fraction field of `K ⊗[k] F` and its comparison with `K(t) ⊗[k(t)] F` for a separating `t`; relative algebraic closure of `F` in `Frac(F ⊗[k] K)` when `k` is algebraically closed; smooth geometrically integral models and their base change; preservation of every geometric ramification index and of the branch locus under extension of algebraically closed characteristic-zero constants; descent of finitely many finite models to a finitely generated subfield | the named items of that roadmap as they are written there; algebraic constant extension alone (its Layer 8 package from Stichtenoth III.6) is not used for `ℚ̄ ⊂ ℂ`, and no genus criterion is used to infer regularity |
+| 9.1, 9.5 | `AlgebraicCurves` Layer 12 | the regular projective model and the anti-equivalence | prose milestones of that roadmap; **this roadmap never analytifies a scheme** — Layer 9.6 works with places, so only the place set and its `(e,f)` data are consumed, never a scheme-theoretic fiber |
+| 12.7, 13.1 | Tau Ceti | free profinite and free pro-`p` groups, the maximal pro-`p` quotient, and the maximal pro-`ℓ` quotient of `ẑ`, as `ProfiniteProPGroups` Layers 3 and 4 specify them | exact declarations: `TauCeti.freeProfiniteGroup`, `TauCeti.freeProfiniteGroup.of`, `TauCeti.freeProP`, `TauCeti.freeProP.of`, `TauCeti.freeProP.lift`, `TauCeti.proPKernel`, `TauCeti.map_proPKernel_eq`, `TauCeti.maximalProPQuotient`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt`; this roadmap exports no aliases or copies. |
+| 12.1–12.3 | `ProfiniteArithmetic`, the generic successor of `ProfiniteProPGroups` | the ring structure on Tau Ceti's `TauCeti.zHat`, the `ẑ`-power `x ^ᶻ a = TauCeti.zHat.lift x a` with its `ℤ_ℓ` comparison, and the continuous outer-automorphism carrier | implemented in Tau Ceti: the projections `TauCeti.zHat.toZMod` at positive moduli `n : ℕ+`, their compatibility `TauCeti.zHat.castHom_comp_toZMod`, the assembly `TauCeti.zHat.ringLift`, and the powers `TauCeti.zHat.lift`; these are generic group theory, not Belyi mathematics, and no alias or copy is exported here. |
 
-An exact portfolio row is imported only by the successor that consumes it, after the supplier
-lands on `main`; that successor must fail on a spelling or carrier change rather than selecting a
-local replacement. The UniversalCovers rows are exact Tau Ceti declarations; `Suggested.lean`
-imports their modules and states the Layer 5.7 and 6.2–6.5 consumers in the form this roadmap
-uses, each closed by the supplier declaration. The PolynomialGaloisGroups, CharacterTheory and
-AlgebraicTopology rows are exact Tau Ceti declarations too, and `Suggested.lean` states the
-milestones that consume them on those declarations. The compact-surface and AlgebraicCurves rows
-are scheduling contracts, not claims that declarations already exist, and `Suggested.lean`
-intentionally omits their consumers. The `ProfiniteArithmetic` row is the one owner of the three
-generic constructions it names. The Tau Ceti row for 12.7 and 13.1 names
-declarations that exist at the pin.
+What PolynomialGaloisGroups must provide (gap:transitive-groups-degree-six-to-eleven): the same
+family `TauCeti.numTransitiveGroups`, `TauCeti.TransitiveGroupIndex`, `TauCeti.referenceSubgroup`,
+`TauCeti.TransitiveGroupLabel` extended through degree `11`, with one proved generator row per
+conjugacy class of transitive subgroups (the counts are `16, 7, 50, 34, 45, 8` in degrees `6` to
+`11`), completeness of the list up to conjugacy in `S_n`, and the values in degrees `1` to `5`
+unchanged.
+
+Every row naming a Tau Ceti declaration names one that exists at the Tau Ceti pin; a consumer
+fails on a spelling or carrier change rather than selecting a local replacement. The rows whose
+right-hand column is a prose milestone of a named roadmap (analytic cohomology in ModularForms
+§10B, Riemann–Hurwitz in FuchsianOrbifolds Layer 5, the regular model in AlgebraicCurves Layer
+12) cite that roadmap's section and claim no declaration. The `ProfiniteArithmetic` row is the
+one owner of the three generic constructions it names.
 
 ## The build, in layers
 
@@ -588,8 +606,10 @@ form a **chain**, not four independent pieces; Layers 5–8 are topology and ana
 14 is the LMFDB interface. The §Ordering section records what genuinely runs in parallel,
 derived from the per-milestone prerequisite lines rather than asserted alongside them.
 
-`Suggested.lean` holds suggested signatures for the milestones whose carrier, index type, or
-map determines the layers below them. It is not a checklist, and it is not exhaustive.
+`Suggested.lean` is the roadmap's acceptance test: it states with `sorry` each remaining headline
+theorem that the pinned Mathlib and Tau Ceti make statable, and declares the two §Pinned
+conventions lemmas PeripheralActions consumes; its docstring lists the headline theorems Tau
+Ceti proves and, for those it does not state, the missing carrier.
 
 ### Layer 0: permutation triples
 
@@ -724,7 +744,7 @@ throughout:
 `TauCeti.orbitCount_swap_mul_of_sameCycle` and
 `TauCeti.orbitCount_swap_mul_add_one_of_not_sameCycle` the sign identity
 `Equiv.Perm.sign_eq_neg_one_pow_card_sub_orbitCount`, the comparison
-`Equiv.Perm.orbitCount_eq_card_parts_partition` with Mathlib's `Equiv.Perm.card_parts_partition`,
+`Equiv.Perm.orbitCount_eq_card_parts_partition` with Mathlib's `Equiv.Perm.parts_partition`,
 and invariance `TauCeti.orbitCount_conj` and `Equiv.orbitCount_permCongr`.
 
 #### 0.6 Euler characteristic and genus
@@ -900,7 +920,7 @@ smallest counterexamples have several classes in one passport, and Layer 3.5 exh
 
 #### 1.3 The normalizer formulation
 
-Fix an embedded pretransitive `G ≤ Equiv.Perm (Fin n)`. Prove the bijection between
+Fix `n ≠ 0` and an embedded pretransitive `G ≤ Equiv.Perm (Fin n)`. Prove the bijection between
 
 - isomorphism classes of connected triples with monodromy group conjugate to `G` and cycle
   data `(λ0, λ1, λinf)`, and
@@ -911,6 +931,11 @@ Fix an embedded pretransitive `G ≤ Equiv.Perm (Fin n)`. Prove the bijection be
 `S_n`-conjugate only through elements normalizing `G`, and inner conjugation is a proper
 subgroup of that in general. Every counting statement of Layer 3.4 passes through this
 milestone.
+
+⚠ `n ≠ 0` is needed, exactly as in connectedness (Layer 0.4). At `n = 0`, `G = ⊥ = ⊤` in
+`Equiv.Perm (Fin 0)` is pretransitive on the empty type and the empty partitions are the cycle
+data of `1`, so `(1, 1, 1)` is a generating triple and the normalizer has one orbit, while there
+is no connected triple and the class side is empty.
 
 *Prerequisites:* Layers 0.2, 0.3, 1.1; Mathlib `Subgroup.normalizer`.
 
@@ -963,8 +988,10 @@ passport row.
 
 #### 1.6 Label semantics at reference degrees
 
-For `1 ≤ n ≤ 11`, interpret the group component of an LMFDB passport label through the
-single PolynomialGaloisGroups reference family. The external string `nTj` denotes native
+For every degree `n` at which the PolynomialGaloisGroups reference family has entries,
+interpret the group component of an LMFDB passport label through that single family: degrees
+`1` to `5` through its Layer 6, and degrees `6` to `11` once the declared gap
+`gap:transitive-groups-degree-six-to-eleven` is filled. The external string `nTj` denotes native
 zero-based index `j-1`; validity requires `1 ≤ j ≤ numTransitiveGroups n` and ambient
 conjugacy of the passport's monodromy subgroup to `referenceSubgroup n (j-1)`. The
 label-semantics predicate is the existing `PassportSpec.HasLabel` on the stable data:
@@ -973,23 +1000,27 @@ under conjugating the reference subgroup, compatibility with sheet renumbering a
 of the label fields read from any connected triple in the passport. A final orbit letter
 is an external enumeration inside that passport, not a mathematical invariant (14.5).
 
-PolynomialGaloisGroups Layer 1D owns the degree 6–11 representatives, their completeness,
-uniqueness and exact label-order comparisons. Belyi adds no second `nTj` predicate or
-subgroup table. The required extension has counts `16,7,50,34,45,8` in degrees 6–11 and
-keeps all fourteen lower-degree reference groups and the conservative aliases unchanged.
-Its `6T6` comparison identifies the subgroup generated, in zero-based cycles, by
-`(0,2,4)(1,3,5)` and `(2,5)`; 14.6 must prove the actual record's monodromy conjugate to
-that subgroup, not merely of the same order or abstract type.
+The degree `6` to `11` representatives, their completeness and their label order belong to
+PolynomialGaloisGroups through that gap (§What Tau Ceti supplies); this roadmap adds no second
+`nTj` predicate or subgroup table. The extension has counts `16, 7, 50, 34, 45, 8` in degrees
+`6` to `11` and keeps the fourteen reference groups of degrees `1` to `5` unchanged. The
+`6T6` record of 14.6 is identified with the subgroup generated, in zero-based cycles, by
+`(0,2,4)(1,3,5)` and `(2,5)`; 14.6 proves the record's monodromy conjugate to that subgroup,
+not merely of the same order or abstract type.
 
-*Prerequisites:* Layer 1.1; PolynomialGaloisGroups Layers 1C–1D and their
-[fixed higher reference data](../PolynomialGaloisGroups/HighDegreeReferenceData.md).
+**Checks.**
+- In degree `3` the label `3T2` denotes `S₃` and `3T1` denotes `A₃`; a triple with monodromy
+  `S₃` has label `3T2` and not `3T1`, and swapping the two reference indices would give the
+  wrong label on `s3Triple`.
+- At degree `6`, where `numTransitiveGroups 6 = 0` at the pin, the index type is empty: no label
+  is asserted, and a construction producing an element of it would be a false use of `Fin 0`.
 
-*Native interface:* `TauCeti.PassportLabel`, `TauCeti.PassportSpec.HasLabel` and
-`hasLabel_conjugate_iff` already implement these semantics where native indices exist.
-At the pinned revision `numTransitiveGroups n = 0` for `n > 5`. Layer 1D evolves the same
-native family and supplies its explicit comparison proofs; no prototype may manufacture
-an element of the current `Fin 0`. The definitive higher-degree targets above remain
-required even where a current suggested signature cannot express their evolved index.
+*Prerequisites:* Layer 1.1; PolynomialGaloisGroups Layer 6, and the gap
+`gap:transitive-groups-degree-six-to-eleven` for degrees `6` to `11`.
+
+*Tau Ceti:* `TauCeti.PassportLabel`, `TauCeti.PassportSpec.HasLabel` and
+`hasLabel_conjugate_iff` implement these semantics in degrees `1` to `5`. The degrees `6` to
+`11` remain, behind the gap.
 
 ### Layer 2: dessins as finite bipartite ribbon graphs
 
@@ -1104,8 +1135,8 @@ Both preserve the relation, and the conjugators are exactly what makes them do s
 
 ⚠ **A conjugator on the wrong side does not work.** `(a, b, c) ↦ (b, a, a⁻¹ · c · a)` — the
 naive color swap — does **not** preserve the relation: it yields `a⁻¹ c a² b`, which is
-`a⁻¹a⁻¹b⁻¹a²b`, not `1`. `Suggested.lean` carries a `decide`-checked counterexample on
-`s3Triple`.
+`a⁻¹a⁻¹b⁻¹a²b`, not `1`. On `s3Triple` (`a = (0 1 2)`, `b = (0 1)`) that product sends `0`
+to `2`.
 
 **The six operations, each with the branch-point permutation it is named after, written out
 rather than schematized.** With `s = swap01` and `t = swap1Inf`, and with `ρ` the permutation
@@ -1153,8 +1184,8 @@ inferred.
   ⚠ The conjugator is `a`, not `b`. Two applications give
   `(a, b⁻¹ · c⁻¹ · b · c · b, b⁻¹ · c · b)` directly, and it is the relation — in the form
   `a = (c · b)⁻¹ = b⁻¹ · c⁻¹` — that rewrites those entries as conjugates by `a`. Conjugating
-  by `b` or `b⁻¹` instead moves the first component, which `t²` fixes; `Suggested.lean`
-  carries all three as `decide`-checked witnesses on `s3Triple`.
+  by `b` or `b⁻¹` instead moves the first component, which `t²` fixes; on `s3Triple` the
+  conjugates by `b` and by `b⁻¹` both differ from `t²`, and the conjugate by `a` equals it.
 
   The same phenomenon for the rotations is `rotInv_rot : rotInv (rot t) = b • t` — the
   conjugator there is **`b`**, not `a`, so `rotInv` is not the inverse of `rot` on triples
@@ -1198,7 +1229,7 @@ and the milestone is that they are one:
   triple action is *precomposition* with those automorphisms, which is where the
   contravariance above comes from;
 - *algebraic*, by postcomposing an algebraic Belyi pair `β` with an anharmonic Möbius
-  transformation of `ℙ¹` — Layer 9.1's `S₃`-action, owned by `BelyiAlgebraicAndDescent`.
+  transformation of `ℙ¹` — Layer 9.1's `S₃`-action.
   ⚠ Postcomposition inverts: the map whose puncture permutation is `ρ` realizes the operation
   labelled `ρ⁻¹`, so `rot` is realized by `t ↦ (t − 1)/t` and not by `t ↦ 1/(1 − t)`. Layer 9.1
   carries the table.
@@ -1292,12 +1323,10 @@ is recomputed here and compared:
   choice proves nothing about the classes; the passport fibers, and `passportSize P` as the
   cardinality of a computed `Finset`, with soundness and completeness stated as `Finset`
   equalities, so that the class lists and passport sizes are `#eval`-able at small degree and
-  `decide`-checked at `n ≤ 3`. The prototype carries those checks: `(isoClasses n).card` is
-  `1, 3, 7` for `n = 1, 2, 3` and one passport fiber has size `1`, all by kernel `decide`,
-  agreeing with the independent enumeration in the private provenance ledger. ⚠ At `n = 4` kernel reduction
-  does not complete in reasonable time; `#eval` gives `26` there, and that is recorded as a
-  computation rather than promoted to a theorem — `native_decide` would prove it but would add
-  a trusted-compiler axiom to a repository that has none.
+  `decide`-checked at `n ≤ 3`: `(isoClasses n).card` is `1, 3, 7` for `n = 1, 2, 3`, by kernel
+  `decide`. ⚠ At `n = 4` kernel reduction of the naive enumeration does not complete in
+  reasonable time; the count `26` there is proved by a separate argument (3.5), and
+  `native_decide` is not used, since it would add a trusted-compiler axiom.
 
   ⚠ For the passport fiber to be **computable** the monodromy group must enter as a `Finset`
   of permutations, which is also how the database presents it; a `Subgroup` carries no
@@ -1344,10 +1373,11 @@ in order:
      = (|Ci| * |Cj| / |G|) * Σ_χ χ(gᵢ) χ(gⱼ) χ(gₖ⁻¹) / χ(1)
    ```
 
-   over the irreducible characters, derived from `centralCharacter_coordinate`, column
-   orthogonality `char_column_orthogonality`, and the conversion
-   `ω_χ(K_j) = |C_j| · χ(g_j) / χ(1)` (CharacterTheory Layer 4). State it over `ℂ` as an
-   identity of complex numbers with the natural-number count cast in.
+   over the irreducible characters, derived from the central characters
+   `TauCeti.Representation.centralCharacter` (CharacterTheory Layer 4.3), column orthogonality
+   `TauCeti.card_conjClass_mul_sum_characterTable_mul_characterTable_inv` (its Layer 3.5), and
+   the conversion `ω_χ(K_j) = |C_j| · χ(g_j) / χ(1)`. State it over `ℂ` as an identity of
+   complex numbers with the natural-number count cast in.
 4. **The assembled product-one formula.**
 
    ```text
@@ -1376,12 +1406,24 @@ characteristic zero; and the worked check
 
 #### 3.3 Generating triples
 
-For a finite group `G` and classes as above, the count of triples that in addition generate
-`G`, by inclusion–exclusion over the subgroup lattice: define the generating count by strong
-downward recursion (`total H = Σ_{K ≤ H} generating K`, with the sum over actual subgroups,
-then regrouped by conjugacy with the multiplicity `[N_G(K) : K]`-bookkeeping stated
-explicitly), and prove the recursion. A Möbius-function closed form is stated only if the
-pin's incidence-algebra API supports it; the recursion is the milestone.
+For a finite group `G` and classes `C0, C1, Cinf` of `G` as above, the count of triples that in
+addition generate `G`, by inclusion–exclusion over the subgroup lattice: define the generating
+count by strong downward recursion, `total H = Σ_{K ≤ H} generating K` with the sum over actual
+subgroups `K` of `H`, and prove the recursion. Then regroup that sum by conjugacy **inside
+`H`**: `total H = Σ_ω generating K_ω · [H : N_H(K_ω)]`, the sum over the `H`-conjugacy classes
+`ω` of subgroups of `H` with a representative `K_ω`, because conjugate subgroups have equal
+generating counts and the class of `K` has `[H : N_H(K)]` members. The entry classes stay
+classes of `G`. The index bookkeeping is `[H : K] = [H : N_H(K)] · [N_H(K) : K]`; neither
+`[N_G(K) : K]` nor `[H : K]` is the multiplicity. A Möbius-function closed form is stated only
+if the pin's incidence-algebra API supports it; the recursion is the milestone.
+
+**Checks.**
+- `H = G = S₃` with `C0 = C1` the transpositions and `Cinf = {1}`: the product-one triples are
+  the three `(t, t, 1)`, each generating its own `⟨t⟩`. The class of `⟨(0 1)⟩` has three
+  members (`N(⟨t⟩) = ⟨t⟩`, index `3`) and generating count `1`, so the regrouped sum is
+  `1 · 3 = 3`; the multiplicity `[N_G(K) : K] = 1` would give `1`.
+- With `Cinf` the transpositions instead, there are no product-one triples (an odd product
+  is not `1`), and every term of the regrouped sum vanishes.
 
 *Prerequisites:* Layer 3.2; Mathlib `Subgroup` lattice, strong induction on finite
 subgroup lattices.
@@ -1393,6 +1435,10 @@ subgroup lattices.
 #### 3.4 From counts to passport sizes
 
 Combine Layers 1.3, 3.2, 3.3 into a formula, in these five steps, each its own statement:
+
+Throughout, `n ≠ 0` and `G ≤ S_n` is pretransitive; the counterexample of Layer 1.3 at
+`n = 0` shows the formula below fails without `n ≠ 0` (it gives `1` against a passport of size
+`0`).
 
 1. **Cycle types refine into `G`-classes.** For a pretransitive `G ≤ S_n` and a partition
    `λ` of `n`, the set `G_λ := {g ∈ G | fullCycleType g = λ}` is a union of `G`-conjugacy
@@ -1414,16 +1460,16 @@ Combine Layers 1.3, 3.2, 3.3 into a formula, in these five steps, each its own s
    `Σ_{τ ∈ N} #Fix(τ) = #orbits · |N|`, where `Fix(τ)` is the set of generating triples
    fixed by conjugation by `τ`, i.e. those whose three components commute with `τ`.
    But **on this set every stabilizer is the same group**: a `τ` fixing a generating triple
-   centralizes `⟨g0, g1⟩ = G`, so the stabilizer is `C_{S_n}(G)`, independent of the triple.
-   Prove that, and conclude the exact formula
+   centralizes `⟨g0, g1⟩ = G`, so the stabilizer is the centralizer `Z := C(G)` of `G` in
+   `S_n`, independent of the triple. Prove that, and conclude the exact formula
 
    ```text
-   passportSize P = genCountType G λ0 λ1 λinf * Nat.card (C_{S_n}(G)) / Nat.card N ,
+   passportSize P = genCountType G λ0 λ1 λinf * Nat.card Z / Nat.card N ,
    ```
 
    as an equality of natural numbers together with the divisibility that makes it one.
    Burnside is then a cross-check, not the route.
-5. **The centralizer bound.** For pretransitive `G`, `C_{S_n}(G)` acts semiregularly on
+5. **The centralizer bound.** For pretransitive `G`, its centralizer `Z` acts semiregularly on
    `Fin n`, so its order divides `n` (Layer 0.4's freeness argument applied to `G` in place
    of a triple's monodromy group); record this so the formula's right-hand side is bounded.
 
@@ -1450,8 +1496,11 @@ connected classes                 1    3    7   26
 ordered passports                 1    3    7   26
 ```
 
-so that **every ordered passport in degree `≤ 4` has size exactly `1`** — which is itself a
-milestone, and which holds whether or not the monodromy group is part of the passport datum.
+so that **every realized ordered passport in degree `≤ 4` has size exactly `1`** — every
+passport containing at least one connected triple — which is itself a milestone, and which
+holds whether or not the monodromy group is part of the passport datum. ⚠ An admissible
+passport can be empty: in degree `2`, `S₂` with all three partitions `[2]` would need three
+transpositions with product `1`, and `(0 1)³ = (0 1)`, so its size is `0`.
 
 ⚠ **Do not ask for a multi-class passport in degree `≤ 4`.** There is none. The smallest
 lives in degree `5`: monodromy `C₅`, ordered cycle partitions `([5],[5],[5])`, of size `3`.
@@ -1479,7 +1528,8 @@ the database lists all ordered classes, and none is needed.
 *Source:* Musty–Schiavone–Sijsling–Voight, *A database of Belyi maps*, **Algorithm 2.3.1**,
 for the one-representative-per-`S₃`-orbit tabulation.
 
-*Prerequisites:* Layers 2.6, 3.1, 3.4; the frozen snapshot in the private provenance ledger.
+*Prerequisites:* Layers 2.6, 3.1, 3.4; the thirteen LMFDB records of degree `≤ 4`, read from
+the database pages named by their labels (14.6).
 
 *Tau Ceti:* `TauCeti.ConnectedIsoClass.card_four`,
 `TauCeti.PermutationTriple.genus_eq_ite_of_degree_four`,
@@ -1528,8 +1578,10 @@ generator is determined. The presented group here degenerates the same way at pa
 
 A degree-`n` triple `t` whose component orders divide `(a, b, c)` induces
 `TriangleGroup a b c →* Equiv.Perm (Fin n)` sending `x, y, z` to `σ0, σ1, σinf`; its range
-is the monodromy group; `t` is connected iff the induced action on `Fin n` is
-pretransitive. Conversely a finite pretransitive action of `TriangleGroup a b c` on a
+is the monodromy group; `t` is connected iff `n ≠ 0` and the induced action on `Fin n` is
+pretransitive. ⚠ Pretransitivity alone is not enough: at `n = 0` the action on the empty set is
+pretransitive and no triple is connected. Conversely a finite pretransitive action of
+`TriangleGroup a b c` on a
 nonempty `Fin n` yields a connected triple with orders dividing `(a, b, c)`, and the two
 constructions are inverse up to relabeling. This is the classification of connected triples
 with bounded orders by conjugacy classes of transitive finite permutation representations of
@@ -1867,7 +1919,7 @@ Prove the four facts the rest of the layer runs on, each an explicit computation
   mobRotInv z ↦ (z − 1)/z         (0 ∞ 1)     b ↦ −1
   ```
 
-  `mob01` and `mob1Inf` generate, and `Suggested.lean` pins those two as `≃ₜ`; the other four
+  `mob01` and `mob1Inf` generate, and both are self-homeomorphisms `≃ₜ` of `U`; the other four
   are their composites, `mobRot = mob01 ∘ mob1Inf`, `mobRotInv = mob1Inf ∘ mob01` and
   `mob0Inf = mob01 ∘ mob1Inf ∘ mob01`. ⚠ Pulling covers back is **contravariant** in the map,
   so the composite of two Möbius transformations induces the *reverse* composite of branch-point
@@ -2251,11 +2303,11 @@ is a relation on the nose because 5.3 gives a homomorphism.
 
 Prove: `E` is path-connected iff the triple is connected (path lifting identifies the
 monodromy orbits on the fiber with the path components of `E`, and `n ≠ 0` matches
-`Nonempty E`) — with connectedness in the carrier this is the one-directional
-`ConnectedFiberNumberedCover.triple_isConnected`, and its converse is what makes 6.3(1)
-surjective; the degree is well-defined (the fiber cardinality is locally constant on the
-connected base, hence constant, which is `ConnectedCover.nonempty_ν_of` and is what lets the
-degree be pinned at `b` without loss); the triple is **unchanged** by an isomorphism of
+`Nonempty E`) — with connectedness in the carrier this says that the triple of a carrier is
+connected, and its converse is what makes 6.3(1) surjective; the degree is well-defined (the
+fiber cardinality is locally constant on the connected base, hence constant, so every fiber
+of a `ConnectedCover b n` is in bijection with `Fin n`, which is what lets the degree be
+pinned at `b` without loss); the triple is **unchanged** by an isomorphism of
 fiber-numbered covers (`connectedTriple_congr`); changing `ν` by `τ` relabels the triple by
 `τ` (Layer 0.2); changing the basepoint along a path conjugates it (5.7). Consequently the
 triple itself is an invariant of the fiber-numbered cover, and its **isomorphism class** is
@@ -2295,8 +2347,7 @@ The converse construction, and the place where a cover is built rather than anal
 general construction, for an arbitrary discrete `π₁`-set, is Tau Ceti's, from the completed
 [UniversalCovers](../../Completed/UniversalCovers/README.md) roadmap. This milestone consumes it by
 name, pins how its conventions meet this roadmap's, and owns the finite corollary and the
-instantiation at `U`. `Suggested.lean` restates each supplier statement below in the form
-consumed here, closed by the Tau Ceti declaration.
+instantiation at `U`.
 
 The standing hypotheses are exactly the supplier's:
 
@@ -2358,9 +2409,8 @@ The four statements this milestone consumes, each by name:
    every `γ`, **with no inverse and no `ᵐᵒᵖ`**. This is the supplier's
    `TauCeti.UniversalCover.monodromy_actionCoverFiberEquiv`, which states
    `monodromy γ (actionCoverFiberEquiv x S s) = actionCoverFiberEquiv x S (γ • s)`: the inverse
-   in `monodromy_basepointLift` cancels against the one in `mk_smul_left`. `Suggested.lean`
-   states it in exactly this form as `assocCoverNumbering_permCongr_monodromyHom`, with
-   `monodromyHom` Mathlib's `IsCoveringMap.monodromyPerm`. Reversing the sign in
+   in `monodromy_basepointLift` cancels against the one in `mk_smul_left`, with `monodromyHom`
+   Mathlib's `IsCoveringMap.monodromyPerm`. Reversing the sign in
    the diagonal action would produce `γ⁻¹` here, which is why the formula above is displayed
    rather than described.
 
@@ -2455,7 +2505,7 @@ combinatorial counterpart:
    The further identification with **subgroups of `π₁(U, b)` of index `n`**, pointed
    connected covers against subgroups and unpointed ones against conjugacy classes of
    subgroups, is UniversalCovers milestone 8 and is **not reproved here**; this roadmap
-   composes with Tau Ceti's theorems, and `Suggested.lean` restates them as closed checks. The
+   composes with Tau Ceti's theorems. The
    pointed half is `TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`: a
    pointed path-connected cover is isomorphic, over `X` and matching base points, to
    `TauCeti.UniversalCover.SubgroupQuotient x H` for exactly one `H`, and that `H` is its
@@ -2468,10 +2518,10 @@ combinatorial counterpart:
    and `IsCoveringMap.exists_homeomorph_comp_eq_iff_exists_range_eq_map_conj` for any two covers
    whose total spaces are path-connected and locally path-connected: forgetting the basepoint is passing to the conjugation **orbit** of the
    subgroup. The supplier states conjugacy as `∃ γ, K = H.map (MulAut.conj γ).toMonoidHom`;
-   this roadmap names the orbit relation
-   `subgroupConjSetoid := MulAction.orbitRel (ConjAct G) (Subgroup G)`, because
-   `ConjClasses (Subgroup G)` is a different and wrong object, and proves the two agree
-   (`subgroupConjSetoid_iff` in `Suggested.lean`).
+   this roadmap names the orbit relation of the conjugation action `ConjAct G` on `Subgroup G`,
+   `MulAction.orbitRel (ConjAct G) (Subgroup G)`, because `ConjClasses (Subgroup G)` is a
+   different and wrong object, and proves that the orbit relation holds between `H` and `K`
+   exactly when `∃ γ, K = H.map (MulAut.conj γ).toMonoidHom`.
 
    Equivalently, fix the marked label once and take
 
@@ -2658,9 +2708,11 @@ properness, not from this milestone.
 `isCoveringMapOn_zpow`.
 
 *Tau Ceti:* `TauCeti.puncturedDiscPow`, `isCoveringMap_puncturedDiscPow`,
-`puncturedDiscPowDeckMulEquiv` and
-`IsCoveringMap.exists_homeomorph_puncturedDiscPow_comp_eq_iff`. The monodromy of the local model
-and the uniqueness of the isomorphism up to the deck group remain.
+`puncturedDiscPowDeckMulEquiv`, the composition law `TauCeti.puncturedDiscPow_mul`, the monodromy
+`TauCeti.isCycleOn_monodromyPerm_puncturedDiscCircle`, the classification
+`IsCoveringMap.exists_homeomorph_puncturedDiscPow_comp_eq_iff`, and the uniqueness up to the deck
+group `TauCeti.existsUnique_rootsOfUnity_smul_homeomorph` with
+`IsCoveringMap.existsUnique_homeomorph_puncturedDiscPow_comp_eq`.
 
 #### 7.2 Filling the punctures
 
@@ -2693,9 +2745,16 @@ Fix for each puncture `q ∈ {0, 1, ∞}` the standard punctured-disc neighbourh
   separates); second countable (a countable base on `E` plus countably many basic
   neighbourhoods per added point, of which there are finitely many); locally homeomorphic
   to `ℂ` (the charts `φ_C`, and the charts of `E` elsewhere); connected when `E` is; and
-  **compact**, by the compact-core argument: `E ∖ ⋃_q p ⁻¹' D_q^*` is a closed subset of `E`
-  lying over the compact `U ∖ ⋃_q D_q^*`, hence compact for a finite-degree cover, and the
-  finitely many closed filled discs cover the rest.
+  **compact**, by the compact-core argument with **smaller** discs. Fix `0 < r < 1` and let
+  `D_q^*(r) ⊂ D_q^*` be the punctured disc of radius `r` in the standard coordinate at `q`
+  (`2z`, `2(1 − z)`, `2/z`). The core `E ∖ ⋃_q p ⁻¹' D_q^*(r)` is closed in `E` and lies over
+  `U ∖ ⋃_q D_q^*(r)`, which is closed and bounded in `ℂ` and avoids `0` and `1`, hence compact;
+  a finite-degree covering map is proper, so the core is compact. Over each component `C` of
+  `p ⁻¹' D_q^*` of degree `e`, the rest of `C` and its added point lie in
+  `φ_C⁻¹(closed disc of radius r^{1/e})`, the image of a compact disc **inside** the chart
+  domain `𝔻`, hence compact. ⚠ The closures of the full filled discs are not known to be
+  compact at this stage — their boundaries lie in `E`, over the circles `|w| = 1` that bound the
+  chart domains — so the covering by those closures proves nothing.
 
 **New object: `FilledCover`.** Basic API: the topology and its universal property (a map out
 of `FilledCover p` is continuous iff its restrictions to `E` and to each filled disc are);
@@ -2712,9 +2771,15 @@ infinite-degree cover of `U` fills to a non-compact surface.
 *Prerequisites:* Layers 0.5, 5.1, 6.1, 6.2, 7.1; Mathlib sum/quotient topology,
 `TopologicalSpace.IsTopologicalBasis`.
 
-*Tau Ceti:* at `∞` only, the bijection between the cycles of `σinf` and the components over the
-neighbourhood, `IsCoveringMap.sameCycleQuotientσinfEquivConnectedComponents`. Everything else
-remains.
+*Tau Ceti:* `TauCeti.FilledCover` with its local degrees `TauCeti.FilledCover.degree` and
+charts `TauCeti.FilledCover.chart`; the components over the three neighbourhoods as cycles,
+`IsCoveringMap.sameCycleQuotientσ0EquivConnectedComponents`, its `σ1` and `σinf` companions and
+`TauCeti.FilledCover.indexEquiv`; the topology through `TauCeti.PunctureFilling.continuous_iff`,
+`isOpenEmbedding_incl` and `denseRange_incl`; `TauCeti.FilledCover.t2Space`,
+`TauCeti.FilledCover.compactSpace` (through the compact core
+`IsCoveringMap.isCompact_preimage_compactCore`), `TauCeti.FilledCover.secondCountableTopology`
+and `TauCeti.PunctureFilling.connectedSpace`; functoriality `TauCeti.FilledCover.congr`; and the
+count `TauCeti.FilledCover.natCard_range_center`.
 
 #### 7.3 The branched covering map
 
@@ -2725,6 +2790,10 @@ universal property); properness and surjectivity; that the restriction over
 filled point coming from a cycle of length `e` the map is `w ↦ w^e` in the pinned charts.
 
 *Prerequisites:* Layers 7.1, 7.2; Mathlib `OnePoint`, properness API.
+
+*Tau Ceti:* `TauCeti.FilledCover.fillMap` with `continuous_fillMap`, `isProperMap_fillMap`,
+`surjective_fillMap`, `isCoveringMap_restrictPreimage_fillMap` and `fillMap_preimage_toOnePoint`,
+and the local model `TauCeti.FilledCover.isLocalPowerAt_fillMap_center`.
 
 #### 7.4 Uniqueness of the compactification
 
@@ -2759,6 +2828,12 @@ Layers 7.2 and 8.5 spell out.
 
 *Prerequisites:* Layers 7.2, 7.3.
 
+*Tau Ceti:* among topological branched covers (7.7), `TauCeti.TopBranchedCover.Iso.ofRestrict`,
+`TauCeti.TopBranchedCover.Iso.restrict_injective`, `TauCeti.TopBranchedCover.IsoClass.restrict_injective`
+and `TauCeti.TopBranchedCover.isoFilledCover`, with the ends description
+`TauCeti.FilledCover.map_chart_comap_nhds_zero`. The statement for a competitor that is not
+already a topological branched cover remains.
+
 #### 7.5 The ramification dictionary
 
 Over each `q ∈ {0, 1, ∞}` prove: the fiber of `fillMap` bijects with the cycles of `σ_q`;
@@ -2774,6 +2849,11 @@ ramified over all of them. Layer 0.8's degree-`2` example `4z(1−z)` is unramif
 
 *Prerequisites:* Layers 0.5, 7.2, 7.3.
 
+*Tau Ceti:* `TauCeti.TopBranchedCover.parts_ramificationPartition_zero`, its `one` and `inf`
+companions, `TauCeti.FilledCover.map_degree_overZero` with its companions, and
+`TauCeti.TopBranchedCover.localDegree_eq_one` off the marked fibres. The pointwise statement that
+the branch points are exactly the added points of cycles of length `> 1` remains.
+
 #### 7.6 The embedded graph
 
 The preimage `fillMap ⁻¹' [0, 1]` of the closed real segment, with black points over `0`,
@@ -2785,73 +2865,105 @@ theory of embedded graphs is developed — only these bijections.
 
 ⚠ **The rotations are not part of this milestone.** A cyclic order on the edges at a vertex
 is orientation data, and `FilledCover p` is at this stage only a charted topological
-surface: the charts of 7.2 are pinned only up to a rotation by a root of unity, and nothing
-so far chooses a coherent orientation across them. The statement that the counterclockwise
+surface: the charts of 7.2 are pinned only up to a rotation by a root of unity, and nothing in
+Layer 7 chooses a coherent orientation across them. The statement that the counterclockwise
 cyclic order at a black vertex is the cycle of `σ0` is Layer 8.7, after the complex
 structure of 8.5 supplies the orientation.
 
 *Prerequisites:* Layers 2.2, 7.2, 7.3, 7.5.
 
+*Tau Ceti:* the edges `IsCoveringMap.finEquivConnectedComponentsUnitSegment` and
+`TauCeti.FilledCover.edge`, with the incidences
+`TauCeti.FilledCover.center_overZero_mem_closure_edge_iff` and
+`center_overOne_mem_closure_edge_iff`. The assembled bijection with the graph of the Layer 2.2
+dessin remains.
+
 #### 7.7 Topological branched covers as a carrier
 
 The object Layer 8.6 classifies, defined here so that "isomorphism classes of connected
 topological branched covers of the sphere with branch values in `{0,1,∞}`" names something.
+With `marked := {0, 1, ∞} ⊆ OnePoint ℂ`, so that `U` is its complement through 5.1's open
+embedding, a **topological branched cover of degree `n`** is
 
-```lean
-/-- The marked points, as a set, so that `U` below names the same thing as in Layer 5.1. -/
-def marked : Set (OnePoint ℂ) := {0, 1, ∞}
-
-structure TopBranchedCover (n : ℕ) where
-  Z : Type
-  [instTop : TopologicalSpace Z]
-  [instCompact : CompactSpace Z]
-  [instConn : ConnectedSpace Z]
-  [instT2 : T2Space Z]
-  [instSecond : SecondCountableTopology Z]
-  [instCharted : ChartedSpace ℂ Z]
-  π : C(Z, OnePoint ℂ)
-  surj : Function.Surjective π
-  /-- Off the three marked points, `π` is an honest covering map of degree `n`. -/
-  isCovering : IsCoveringMap (marked.restrictPreimage π)
-  degree : ∀ y ∈ (marked : Set (OnePoint ℂ))ᶜ, Nat.card (π ⁻¹' {y}) = n
-  /-- Over each marked point, `π` is `w ↦ w ^ e` in some chart at the source and some
-  chart at the target, with a positive exponent. -/
-  localPower : ∀ z ∈ π ⁻¹' marked, ∃ e : ℕ, 0 < e ∧
-    ∃ (φ : OpenPartialHomeomorph Z ℂ) (ψ : OpenPartialHomeomorph (OnePoint ℂ) ℂ),
-      z ∈ φ.source ∧ π z ∈ ψ.source ∧ φ z = 0 ∧ ψ (π z) = 0 ∧
-      ∀ w ∈ φ.target, ψ (π (φ.symm w)) = w ^ e
+```text
+TopBranchedCover n :
+  Z                    a compact, connected, Hausdorff, second countable space
+  π : C(Z, OnePoint ℂ) surjective
+  over markedᶜ         π is a covering map:  IsCoveringMap (markedᶜ.restrictPreimage π)
+  degree               Nat.card (π ⁻¹' {y}) = n  for every y ∉ marked
+  local power          at every z with π z ∈ marked there are e, an open partial
+                       homeomorphism φ : Z → ℂ with z ∈ φ.source and φ z = 0, and one
+                       ψ : OnePoint ℂ → ℂ with ψ (π z) = 0, such that π maps φ.source into
+                       ψ.source and ψ (π (φ.symm w)) = w ^ e on φ.target
 ```
 
-⚠ The `ChartedSpace ℂ Z` instance is what "locally `ℂ`" means and is a **field**, not a
-side condition: without it `localPower` has no charts to quantify over. Properness is not a
-field — it follows from `CompactSpace Z` and `T2Space (OnePoint ℂ)` — and is proved, not
-assumed.
+⚠ **The covering condition is over the complement of the marked points.**
+`Set.restrictPreimage marked π` has type `π ⁻¹' marked → marked`, a map between finite discrete
+sets, which is always a covering map; a carrier stating that condition admits folds over
+unmarked values. Witness: let `β : T → OnePoint ℂ` be a degree-`4` Belyi map on a torus (`x²` on
+`y² = x³ − x`, branched over `0, 1, ∞`), let `h : ℝ/ℤ → ℝ/ℤ` be `[t] ↦ [a + 2t]` on `[0, 1/2]`
+and `[a + 2 − 2t]` on `[1/2, 1]`, continuous and exactly two-to-one with folds at `0` and `1/2`,
+and choose `a` so that the circle `{[a]} × ℝ/ℤ` misses the finite set `β ⁻¹' marked`. Then
+`β ∘ (h × id)` has eight points over every unmarked value, is a local homeomorphism near every
+point over a marked value (so the local power clause holds with the charts of `β`), and folds
+over unmarked values, so it is not a covering map over `markedᶜ`. It is not a branched cover.
 
-An **isomorphism** is a homeomorphism `Z ≃ₜ Z'` commuting with `π` and `π'`. Prove: the
-local degree `e` at a point is well defined (independent of the two charts, since any two
-choices differ by units and `w ↦ w^e` determines `e` as the order of vanishing); the fibers
-over the three marked points are finite; `Σ e = n` over each of them; and the restriction of
-an isomorphism to the unbranched part is an isomorphism of covers in the sense of 6.1.
+⚠ **The `MapsTo` clause is part of the local power condition.** An open partial homeomorphism
+is a total function with junk values off its source; without the requirement that `π` maps
+`φ.source` into `ψ.source`, the equation `ψ (π (φ.symm w)) = w ^ e` could be met by those junk
+values.
+
+No atlas is part of the data and none is needed: the local power models over the marked points
+and the covering map elsewhere give an open partial homeomorphism to `ℂ` at every point, and the
+local power condition quantifies over arbitrary open partial homeomorphisms, not over the charts
+of a chosen atlas. Properness is not a field either — it follows from `CompactSpace Z` and
+`T2Space (OnePoint ℂ)` — and is proved, not assumed.
+
+An **isomorphism** is a homeomorphism `Z ≃ₜ Z'` commuting with `π` and `π'`. Prove: the local
+degree `e` at a point is well defined, by a **topological** argument — in the model `w ↦ w ^ e`
+every value close to `0` other than `0` has exactly `e` preimages close to `0`, so `e` is the
+number of points near `z` over a point near `π z` other than `π z`, and two local power models at
+`z` have the same exponent; the charts are only homeomorphisms at this stage, so no argument
+through units or orders of vanishing is available; the fibers over the three marked points are
+finite; `Σ e = n` over each of them; and the restriction of an isomorphism to the unbranched part
+is an isomorphism of covers in the sense of 6.1.
 
 ⚠ *Nearby false statement:* `degree` cannot be stated as a single `Nat.card (π ⁻¹' {y}) = n`
 for **all** `y`. It fails at exactly the branch points, which is the entire content of the
 object; the hypothesis is restricted to the complement of `marked` above, and the marked
-fibers are governed by `localPower` and `Σ e = n` instead.
+fibers are governed by the local power condition and `Σ e = n` instead.
 
 7.2 and 7.3 construct a `TopBranchedCover n` from a connected finite cover of `U`, and 7.4
 says that construction is unique up to a unique isomorphism. Conversely, restricting `π`
-over `OnePoint ℂ ∖ {0,1,∞}` sends a `TopBranchedCover n` to a connected finite cover of
-`U`, and 7.4 makes the two constructions mutually inverse on isomorphism classes. That
-equivalence is what Layer 8.6 consumes; it is stated here rather than there because it is
-purely topological.
+over `markedᶜ`, identified with `U` by 5.1's open embedding, sends a `TopBranchedCover n` to a
+connected degree-`n` cover of `U` — connected because a connected surface stays connected when
+finitely many points are removed. The two constructions are mutually inverse on isomorphism
+classes. That equivalence is what Layer 8.6 consumes; it is stated here rather than there
+because it is purely topological.
+
+**Checks.**
+- The fold `β ∘ (h × id)` above satisfies every clause except the covering condition over
+  `markedᶜ`, and fails that one.
+- The sphere over itself, `π = id`, is a branched cover of degree `1` with `e = 1` everywhere; the
+  power map `z ↦ z^n` of the sphere is one of degree `n` with `e = n` at `0` and `∞` and `e = 1`
+  at the `n` points over `1`, so the local degrees over each marked point sum to `n`.
+- A constant map is excluded by surjectivity, and a degree-`0` cover cannot exist: the fibers
+  over unmarked points are nonempty, closed and discrete in a compact space, hence finite and of
+  positive cardinality.
 
 *Prerequisites:* Layers 6.1, 7.2–7.5.
 
-### Layer 8: Riemann surfaces and analytic Riemann existence
+*Tau Ceti:* `TauCeti.TopBranchedCover`, whose covering field is
+`IsCoveringMapOn π markedᶜ` (with `TauCeti.TopBranchedCover.isCoveringMap_restrictPreimage`) and
+whose local power condition is `TauCeti.IsLocalPowerAt`; the topological uniqueness of the
+exponent `TauCeti.IsLocalPowerAt.unique` and the local degree
+`TauCeti.TopBranchedCover.localDegree`; `TauCeti.TopBranchedCover.exists_mem_source`,
+`isProperMap`, `finsum_mem_preimage_singleton_localDegree`; the isomorphism classes
+`TauCeti.TopBranchedCover.IsoClass` with restriction `TauCeti.TopBranchedCover.IsoClass.restrict`;
+and the equivalence `TauCeti.TopBranchedCover.IsoClass.restrict_bijective`, from isomorphism
+classes of degree-`n` branched covers to `TauCeti.ConnectedCoverClass` of degree `n`.
 
-> **Owner:** successor roadmap `BelyiAnalyticCovers`. Retained here as a dependency
-> specification; no milestone of this layer is a declaration or a completion claim of
-> this roadmap.
+### Layer 8: Riemann surfaces and analytic Riemann existence
 
 #### 8.1 The carriers
 
@@ -2881,14 +2993,22 @@ another spelling is a named target of this milestone, not an assumption. Build:
      its chart representatives are `AnalyticAt ℂ` at every point;
   2. `mdifferentiable_iff_contMDiff_omega` — for maps between complex manifolds at
      analyticity exponent `ω`, `MDifferentiable 𝓘(ℂ) 𝓘(ℂ) f ↔ ContMDiff 𝓘(ℂ) 𝓘(ℂ) ω f`;
-  3. `mdifferentiable_toSphere_iff_meromorphicOn` — a map `X → OnePoint ℂ` other than the
-     constant `∞` is holomorphic iff, in each chart, the composite with the affine chart of
-     the sphere is `MeromorphicOn` in the pin's vocabulary, the poles being exactly the
-     preimage of `∞`.
+  3. `mdifferentiable_toSphere_iff` — on a connected Riemann surface, a map
+     `f : X → OnePoint ℂ` other than the constant `∞` is holomorphic iff its affine part
+     `g : X → ℂ` (the affine chart of the sphere after `f`, with any value where `f = ∞`) is
+     meromorphic at every point in the charts **and** `f` is the canonical sphere extension of
+     `g`: `f x` is the limit in `OnePoint ℂ` of `g y` as `y → x` with `y ≠ x`. Equivalently, the
+     chart representatives of `g`, given the value `0` where `f = ∞`, are `MeromorphicNFOn` on
+     the chart targets, and `f ⁻¹' {∞}` is exactly the set where their `meromorphicOrderAt` is
+     negative.
 
-  ⚠ (3) is the bridge Layer 9.2 turns into a field, and it is a **theorem about charts**,
-  not a definition: "meromorphic function" is not introduced as a primitive anywhere in this
-  roadmap.
+  ⚠ Meromorphy of `g` alone does **not** characterize holomorphy of `f`: it ignores the value
+  at a point (Mathlib's `MeromorphicAt.update_iff`). The map equal to `2` at `0` and to `1`
+  elsewhere has a meromorphic affine part with no poles and an empty preimage of `∞`, and is
+  not continuous at `0`; it fails the clause on the sphere extension (the limit at `0` is `1`)
+  and the normal-form clause. (3) is the bridge Layer 9.2 turns into a field, and it is a
+  **theorem about charts**, not a definition: "meromorphic function" is not introduced as a
+  primitive anywhere in this roadmap.
 - **the maximum principle.** From the pin's `MDifferentiable.isLocallyConstant` and
   `exists_eq_const_of_compactSpace`: a holomorphic function on a compact connected Riemann
   surface is constant.
@@ -2908,7 +3028,15 @@ Riemann surface. Second countability is likewise carried where used, and is not 
 from compactness plus charts without an argument.
 
 *Prerequisites:* Mathlib `IsManifold`, `ChartedSpace`, `OnePoint`,
-`Mathlib/Geometry/Manifold/Complex.lean`, `MeromorphicOn`.
+`Mathlib/Geometry/Manifold/Complex.lean`, `MeromorphicNFOn`, `meromorphicOrderAt`; ComplexManifolds
+for the sphere.
+
+*Tau Ceti:* the sphere `OnePoint.instChartedSpace` with its `IsManifold 𝓘(ℂ) ω` instance;
+comparison (2) as `TauCeti.contMDiff_iff_mdifferentiable`; for (3), the canonical sphere
+extension `TauCeti.RiemannSurface.sphereMap` with `TauCeti.RiemannSurface.mdifferentiable_sphereMap`
+and `TauCeti.RiemannSurface.MeromorphicFunction.sphereMap_finitePart`. The open-submanifold
+instances for `U` and `𝔻*`, comparison (1) as one equivalence, and (3) assembled as the stated
+equivalence remain.
 
 #### 8.2 The local normal form
 
@@ -2939,6 +3067,14 @@ cardinality is the **sum** of the indices over the fiber, and equals `e` only lo
 
 *Prerequisites:* Layer 8.1; ConformalMapping L0 (`TauCeti.exists_localDegree`, branch
 roots); Mathlib `analyticOrderAt`, `MeromorphicNFAt`, the identity theorem.
+
+*Tau Ceti:* `ramificationIndex` is FuchsianOrbifolds Layer 5's local multiplicity
+`TauCeti.RiemannSurface.localMultiplicity`, with the normal form
+`TauCeti.RiemannSurface.exists_chart_eq_pow_localMultiplicity`,
+`TauCeti.RiemannSurface.localMultiplicity_eq_one_iff`, composition
+`TauCeti.RiemannSurface.localMultiplicity_comp_of_eventually_mdifferentiableAt`, and finiteness
+of the branch locus `TauCeti.RiemannSurface.FiniteHolomorphicMap.finite_setOf_one_lt_localMultiplicity`.
+The value on `cyclicTriple`'s Belyi map remains.
 
 #### 8.3 Finiteness and the degree
 
@@ -2972,6 +3108,11 @@ constancy statement in the form given.
 
 *Prerequisites:* Layers 8.1, 8.2; Mathlib properness API, `IsCoveringMap`.
 
+*Tau Ceti:* `TauCeti.RiemannSurface.FiniteHolomorphicMap` with `TauCeti.RiemannSurface.degree`
+and `TauCeti.RiemannSurface.degree_eq_fiber_sum`; its branch values
+`TauCeti.RiemannSurface.FiniteHolomorphicMap.branchValues` with `finite_branchValues` and
+`isCoveringMap_restrictPreimage_compl`.
+
 #### 8.4 Analytic Belyi pairs
 
 An **analytic Belyi pair** is a compact connected Riemann surface `X` (8.1's stack) with a
@@ -2980,8 +3121,8 @@ nonconstant holomorphic `β : X → OnePoint ℂ` whose branch values lie in `{0
 **New object: `AnalyticBelyiPair`.** Basic API:
 
 - *Constructors and instances.* The structure; the equivalent formulation "`β` restricted
-  over `OnePoint ℂ ∖ {0,1,∞}` is a covering map" (equivalent by 8.3), which is the form
-  `Suggested.lean` prototypes because it is the one Layer 6 consumes directly.
+  over `OnePoint ℂ ∖ {0,1,∞}` is a covering map" (equivalent by 8.3), which is the form Layer
+  6 consumes directly.
 - *Examples.* `(OnePoint ℂ, z ↦ z^n)`, of degree `n` with partitions `[n], [1ⁿ], [n]`; and
   `(OnePoint ℂ, z ↦ 4z(1−z))`, of degree `2` with partitions `[1,1], [2], [2]`. ⚠ Both live
   on the sphere, which is the only Riemann surface this milestone has in hand. The
@@ -2997,6 +3138,11 @@ nonconstant holomorphic `β : X → OnePoint ℂ` whose branch values lie in `{0
 - *Downstream interfaces.* Layers 8.5, 8.6, 9.2–9.5, 10, 11.
 
 *Prerequisites:* Layers 6.1, 7.5, 8.1–8.3.
+
+*Tau Ceti:* `TauCeti.AnalyticBelyiPair` with `isCoveringMapOn` and `ofIsCoveringMapOn`, the
+examples `TauCeti.AnalyticBelyiPair.chebyshev` and the power maps, isomorphisms
+`TauCeti.AnalyticBelyiPair.Iso`, and the attached class `TauCeti.AnalyticBelyiPair.connectedIsoClass`.
+Invariance of the genus remains.
 
 #### 8.5 The complex structure on the filled cover
 
@@ -3029,10 +3175,8 @@ its invariants directly from the equation rather than by appeal to the classific
   transitively on a generic fiber, so the pair is regular with deck group `ℤ/4` — matching
   Layer 0.8's automorphism group of `torusTriple` and Layer 6.4's deck-group theorem.
 
-The frozen LMFDB record for this passport is `4T1-4_4_2.2-a` (retained in the private
-provenance ledger), whose curve
-friend is an elliptic curve over `ℚ`, so the example is also Layer 10.8's genus-one
-acceptance instance.
+The LMFDB record for this passport is `4T1-4_4_2.2-a`, whose curve friend is an elliptic curve
+over `ℚ`, so the example is also Layer 10.8's genus-one acceptance instance.
 
 *Source:* Forster **4.6** (the unique complex structure making a local homeomorphism
 holomorphic), then **8.4** for the continuation of an unbranched proper covering of `X ∖ A`
@@ -3047,6 +3191,14 @@ holomorphic. A compact topological surface generally carries many inequivalent c
 structures; it is the map, not the surface, that rigidifies the choice.
 
 *Prerequisites:* Layers 0.8, 6.4, 7.2, 7.3, 8.1, 8.2, 8.4; Mathlib removable singularities.
+
+*Tau Ceti:* the charts `TauCeti.FilledCover.chartedSpace` with `TauCeti.FilledCover.isManifold`,
+`TauCeti.FilledCover.mdifferentiable_fillMap`, the pair `TauCeti.ConnectedCover.toAnalyticBelyiPair`
+and uniqueness through `TauCeti.AnalyticBelyiPair.Iso.ofHomeomorph`; the superelliptic example
+`TauCeti.AnalyticBelyiPair.superelliptic` with `degree_β_superelliptic`,
+`map_localMultiplicity_fiber_zero_superelliptic` and
+`isRegular_monodromyTriple_superelliptic`. Its genus is read from the monodromy triple; the
+analytic genus through Riemann–Hurwitz remains.
 
 #### 8.6 Analytic Riemann existence for three-point covers
 
@@ -3068,9 +3220,10 @@ pair); that they are inverse uses 7.4's uniqueness for one composite and 6.3's f
 other. Prove that degree, the three ramification partitions, automorphism groups, and deck
 groups match through all four descriptions.
 
-**Genus reconciliation.** Apply ModularForms Layer 10B(v)'s Riemann–Hurwitz to `β`, with
-the genus of `OnePoint ℂ` computed here as the worked instance of that chain on 8.1's
-sphere (`g = 0`), to get the analytic genus of `X`; it equals the combinatorial genus of
+**Genus reconciliation.** Apply FuchsianOrbifolds Layer 5's Riemann–Hurwitz (its item 3) to
+`β`, with the genus of `OnePoint ℂ` computed here as the worked instance on 8.1's sphere
+(`g = 0`), to get the topological genus of `X`, which ModularForms §10B identifies with the
+analytic genus; it equals the combinatorial genus of
 Layer 0.6. Both sides are `Σ (e − 1)` over the three fibers, by 7.5 on the topological side
 and by 8.3 on the analytic side, so the reconciliation is an equality of two computations
 of the same sum — the milestone states it that way rather than as a coincidence of two
@@ -3081,7 +3234,19 @@ formulas.
 say that every compact Riemann surface admits a Belyi map — that is Layer 10, and it is
 false without the definability hypothesis over `ℚ̄`.
 
-*Prerequisites:* Layers 0.6, 2.4, 6.3, 7.3–7.7, 8.4, 8.5; ModularForms Layer 10B(v).
+*Prerequisites:* Layers 0.6, 2.4, 6.3, 7.3–7.7, 8.4, 8.5; FuchsianOrbifolds Layer 5 (degree,
+local multiplicity, Riemann–Hurwitz); ModularForms §10B (analytic genus) for the genus
+reconciliation only.
+
+*Tau Ceti:* `TauCeti.AnalyticBelyiPair.isoClassEquivConnectedIsoClass`, from isomorphism classes
+of analytic Belyi pairs of degree `n` to `TauCeti.ConnectedIsoClass n`, sending a pair to the
+class of its monodromy triple; `TauCeti.AnalyticBelyiPair.isoClassEquivConnectedCoverClass`,
+`TauCeti.AnalyticBelyiPair.toTopBranchedCoverIsoClass_bijective` and
+`TauCeti.AnalyticBelyiPair.nonempty_iso_iff_isoClass_monodromyTriple_eq`; the partitions
+`TauCeti.AnalyticBelyiPair.map_localMultiplicity_fiber_zero` with its companions; automorphisms
+`TauCeti.AnalyticBelyiPair.isoMulEquivAutomorphismGroup`; and on the dessin side
+`TauCeti.BipartiteRibbonGraph.connectedIsoClassEquiv`. The genus reconciliation remains, as does
+the four-way composite including dessins.
 
 #### 8.7 Orientation and the rotations of the embedded dessin
 
@@ -3112,21 +3277,19 @@ circle in the `z`-chart.
 
 *Prerequisites:* Layers 2.1, 2.2, 5.8, 6.1, 7.2, 7.6, 8.5.
 
+*Tau Ceti:* the radial edges in the filled charts, `TauCeti.FilledCover.incl_chart_overZero_mem_edge_iff`,
+`incl_chart_overOne_mem_edge_iff` and `incl_chart_overInf_mem_upperTriangle_iff`. The
+well-defined cyclic order of germs and the identification with the full ribbon graph remain.
+
 ### Layer 9: algebraic Belyi pairs and algebraization
 
-> **Owner:** successor roadmap `BelyiAlgebraicAndDescent`. Retained here as a dependency
-> specification; no milestone of this layer is a declaration or a completion claim of
-> this roadmap.
-
-In particular there is currently no public `AlgebraicBelyiPair`, compactification,
-meromorphic-function-field comparison, or algebraization theorem. `BelyiAlgebraicAndDescent` must
-make compactification, passage to the meromorphic function field, the AlgebraicCurves
-anti-equivalence, and ramification compatibility visible in its typed declaration chain before
-stating the comparison endpoint.
-
-This layer crosses from analysis to algebra. AlgebraicCurves supplies the algebraic side and
-ModularForms Layer 10B the analytic cohomology; the staged Belyi successor supplies the
-comparison, which neither supplier owns and which AlgebraicCurves excludes by name.
+This layer crosses from analysis to algebra. AlgebraicCurves supplies the algebraic side,
+FuchsianOrbifolds Layer 5 the degree theory of finite holomorphic maps and ModularForms §10B the
+analytic cohomology; this roadmap supplies the comparison, which no supplier owns and which
+AlgebraicCurves excludes by name. The comparison is stated through typed steps —
+compactification, passage to the meromorphic function field, the AlgebraicCurves
+anti-equivalence, and ramification compatibility — each its own milestone below, before the
+comparison endpoint of 9.8.
 
 #### 9.1 The algebraic carrier
 
@@ -3243,11 +3406,22 @@ of Layer 2.6's "the three actions agree", and it is what makes an `S₃`-orbit o
 *Prerequisites:* AlgebraicCurves Layers 0, 1, 6, 12; Layers 2.6, 5.1, 6.3; Mathlib `CharZero`,
 `IsAlgClosed`, the `GL(2)` Möbius action.
 
+*Tau Ceti:* the predicate `TauCeti.IsAlgebraicBelyiPair` and the bundled
+`TauCeti.AlgebraicBelyiPair` with its isomorphism classes `TauCeti.AlgebraicBelyiPair.IsoClass`;
+the marked places `TauCeti.Place.zeroOneInfty`; the local data `TauCeti.Place.localData` with
+`TauCeti.Place.sum_mul_localData` and `TauCeti.Place.weightedRamificationPartition`; the
+`S₃`-action through `RatFunc.branchPointAut` and `TauCeti.IsAlgebraicBelyiPair.of_branchPointAut`;
+the examples `TauCeti.isAlgebraicBelyiPair_ratFunc` and
+`TauCeti.isAlgebraicBelyiPair_adjoinRoot_X_pow_sub_C_X`; and base change along an algebraic
+constant extension, `TauCeti.isAlgebraicBelyiPair_iff_of_constantCompositum_eq_top`. Base change
+along a transcendental constant extension, the `ℚ`, `n = 3` example, the agreement of the
+algebraic `S₃`-action with the topological one, and the morphism-of-curves comparison remain.
+
 #### 9.1C Fixed-base extension of algebraically closed constants
 
-This early algebraic cut is independent of9.2's meromorphic field, the analytic comparison,
+This early algebraic cut is independent of 9.2's meromorphic field, the analytic comparison,
 Belyi's theorem and the arithmetic outer action. It supplies the finite-cover comparison
-used in10.6's finiteness argument;12.4 later combines it with10.7 for essential surjectivity.
+used in 10.6's finiteness argument; 12.4 later combines it with 10.7 for essential surjectivity.
 
 For an extension `k⊂L` of **algebraically closed fields of characteristic zero**, constant
 extension gives the required finite-cover comparison. For a finite separable function
@@ -3256,16 +3430,14 @@ field `E/k(t)`, use `E_L=L(t)⊗_{k(t)}E`, equivalently the function field
 of such fields use the componentwise finite étale algebra, retaining the empty product.
 Every morphism fixes the distinguished `t`.
 
-**Full faithfulness, as a finite-cover producer here.** Consume the following generic
-regular-extension lemma from the sole AlgebraicCurves Layers 8/12 owner: for an extension
-`L/k` with `k` algebraically closed and any field `F/k`, `F` is relatively algebraically
-closed in `Frac(F⊗_k L)`. Its required proof uses regularity of `L/k` and its stability
-under extension of scalars: `L⊗_k Fbar` is a domain for an algebraic closure `Fbar/F`, so
-this extension is geometrically integral over `F`. An element algebraic over `F` in its
-fraction field is therefore in `F`. Require the actual tensor/fraction-field comparison
-and inverse maps; neither an unrestricted genus claim nor only an algebraic-constant
-extension theorem supplies this cut. The regular field and model lemmas stay generic
-AlgebraicCurves work; the following fixed-`t` application is the BelyiMaps producer.
+**Full faithfulness, as a finite-cover producer here.** Consume the generic
+regular-extension statement of AlgebraicCurves Layer 12, item 12B.0a (from the regular-field
+equivalence of its Layer 8 item 2): for an extension `L/k` with `k` algebraically closed and
+any field `F/k`, `L/k` is regular and `F` is relatively algebraically closed in
+`Frac(F⊗_k L)`, together with the actual fraction-field maps, the comparison
+`Frac(L⊗_k F) ≃ L(t)⊗_{k(t)} F` for a separating `t`, and `[F:k(t)] = [F_L:L(t)]`. Neither an
+unrestricted genus claim nor the algebraic-constant extension package of its Layer 8 supplies
+this. The following fixed-`t` application is this roadmap's.
 
 Now let `E,F` be finite over `k(t)` and let `E_L→F_L` be an `L(t)`-embedding. The image of
 each element of `E` is algebraic over `k(t)`, hence algebraic over `F`; by the lemma it
@@ -3278,7 +3450,9 @@ replaced by an arbitrary number field.
 
 **Ramification and the finite-cover category.** Prove that this constant extension
 preserves the degree and all geometric ramification indices of a finite map over the fixed
-base `ℙ¹`. Use AlgebraicCurves12's regular projective models: over algebraically closed
+base `ℙ¹`. AlgebraicCurves Layer 12, items 12B.0b and 12B.0d, supplies the generic input; this
+milestone applies it over the fixed base. Use AlgebraicCurves Layer 12's regular projective
+models: over algebraically closed
 characteristic-zero `k` they are smooth and geometrically integral, their scalar extensions
 are smooth/normal, and a finite morphism remains finite under field base change. Match
 their function fields with the tensor/fraction-field presentations above. In a smooth local
@@ -3293,21 +3467,20 @@ the ordered geometric ramification partitions. Arbitrary field products and the 
 finite algebra are handled componentwise.
 
 The generic tensor/fraction-field, regularity, relative-algebraic-closure and smooth-model
-lemmas belong once to AlgebraicCurves Layers 8/12, using existing Mathlib carriers. Their
-required corrected scope is explicit here and must be written in that supplier; it is not
-certified by unrestricted statements elsewhere in its current programme. This cut owns the
-fixed-`k(t)` finite-cover application, the resulting inverse-on-Hom proof, and its Belyi
-ramification consumers. AlgebraicCurves8's theorem for **algebraic** constant extensions is
-consumed only at that scope; it is not substituted for transcendental constant extension.
-No full faithfulness of all curve morphisms, or of constant extension from an arbitrary
-number field, is claimed. No new generic carrier is defined here.
+statements belong once to AlgebraicCurves (its Layer 8 item 2 and Layer 12 items 12B.0a,
+12B.0b, 12B.0d), using existing Mathlib carriers. This cut owns the fixed-`k(t)` finite-cover
+application, the resulting inverse-on-Hom proof, and its Belyi ramification consumers.
+AlgebraicCurves' Layer 8 package for **algebraic** constant extensions is consumed only at that
+scope; it is not substituted for transcendental constant extension. No full faithfulness of
+all curve morphisms, or of constant extension from an arbitrary number field, is claimed. No
+new generic carrier is defined here.
 
-*Prerequisites:* AlgebraicCurves0/6's finite separable function fields and normalized places,
-and the corrected Layers 8/12 regular-extension and smooth geometrically integral model
-cut specified above; Mathlib tensor products, fraction fields, algebraic extensions and
-flat base change. For the local formulas the residue extensions are separable (here the
-closed-point residues are the algebraically closed characteristic-zero constant field).
-These generic supplier cuts have no BelyiMaps9.2–14 premise.
+*Prerequisites:* AlgebraicCurves Layers 0 and 6 (finite separable function fields and
+normalized places), its Layer 8 item 2 and its Layer 12 items 12B.0a, 12B.0b and 12B.0d;
+Mathlib tensor products, fraction fields, algebraic extensions and flat base change. For the
+local formulas the residue extensions are separable (here the closed-point residues are the
+algebraically closed characteristic-zero constant field). These supplier items have no premise
+in Layers 9.2–14 of this roadmap.
 
 #### 9.2 The meromorphic function field
 
@@ -3389,6 +3562,12 @@ the definition this milestone uses.
 
 *Prerequisites:* Layers 8.1–8.3; Mathlib `MeromorphicOn`, `analyticOrderAt`, `RatFunc ℂ`.
 
+*Tau Ceti:* `TauCeti.RiemannSurface.MeromorphicFunction` with its field and algebra structures,
+the order `TauCeti.RiemannSurface.MeromorphicFunction.order`, pullback
+`TauCeti.RiemannSurface.MeromorphicFunction.comapₐ` with `comapₐ_injective`, and the sphere
+computation `TauCeti.RiemannSurface.MeromorphicFunction.ratFuncEquiv`. The exact constant field
+remains.
+
 #### 9.3 The degree theorem
 
 For a nonconstant holomorphic `β : X → OnePoint ℂ` of degree `n` on a compact connected
@@ -3407,7 +3586,7 @@ two halves, each its own milestone:
 - **Some element has degree exactly `n`.** Three named lemmas, not one step:
   1. **Point separation.** For distinct `x≠y`, take `D=N[x]` with `N≥2g` large
      enough that both `D` and `D-[x]` are in the Riemann–Roch large-degree regime.
-     ModularForms10B gives `ℓ(D)-ℓ(D-[x])=1`, so a function in the difference has
+     ModularForms §10B gives `ℓ(D)-ℓ(D-[x])=1`, so a function in the difference has
      a pole of order exactly `N` at `x` and no pole at `y`. Choose `N≥2g+1` uniformly
      to avoid the genus-zero small-degree boundary. This supplies the independent
      pole-separation target, distinct from the regular simultaneous evaluation below.
@@ -3421,7 +3600,7 @@ two halves, each its own milestone:
       a fixed pair form the kernel of a nonzero complex-linear functional. A finite union
       of those proper hyperplanes is proper, so some combination has `n` distinct finite
       values. Prove this genericity lemma as well as the interpolation construction.
-      Pole-based separators from step1 alone cannot be used for this linear argument:
+      Pole-based separators from step 1 alone cannot be used for this linear argument:
       for `β=z³`, the pair-separators `1/(z-1),1/(z-1),1/(z-ω)` on the fiber
       `{1,ω,ω²}` have generic sums with poles at both `1` and `ω`, so both values are `∞`.
       The pole location outside the entire fiber is what makes evaluation linear.
@@ -3459,7 +3638,13 @@ not have uniformization and does not want it, so the milestone above gets its se
 function from the Riemann–Roch chain instead. An implementer following the citation to its
 proof would be led into chapter 2's Fuchsian machinery, which nothing else here uses.
 
-*Prerequisites:* Layers 8.2, 8.3, 9.2; ModularForms Layer 10B (i)–(iv).
+*Prerequisites:* Layers 8.2, 8.3, 9.2; ModularForms §10B (divisor sheaves, finiteness of `H¹`,
+analytic Riemann–Roch).
+
+*Tau Ceti:* the first half, `TauCeti.RiemannSurface.MeromorphicFunction.natDegree_minpoly_ratFunc_le`,
+and the degree of a separating element, `natDegree_minpoly_ratFunc_eq_degree`, conditional on
+point separation. The unconditional separation, the generation step and
+`[M(X) : ℂ(t)] = n` remain.
 
 #### 9.4 Points and places
 
@@ -3473,8 +3658,8 @@ of `M(X)/ℂ` (AlgebraicCurves Layer 0's `Place`), sending `x` to the valuation 
   What supplies a global witness is Riemann–Roch: for each `x` the spaces `L(k·x)` grow
   with `k`, so for `k` large `L(k·x) ⊋ L((k−1)·x)` and any element of the difference has
   `ord_x = −k`; taking two consecutive such `k` and dividing gives an element of order
-  exactly `−1`, hence `ord_x` is onto. Cite ModularForms Layer 10B(iii)'s Riemann–Roch and
-  10B(i)'s `𝒪_D` for the strict-growth statement, or state the "function with prescribed
+  exactly `−1`, hence `ord_x` is onto. Cite ModularForms §10B's Riemann–Roch and its divisor
+  sheaves `𝒪(D)` for the strict-growth statement, or state the "function with prescribed
   order at one point" consequence here as a named target of this milestone;
 - injective: by 9.3's separating function;
 - surjective: over each place of `ℂ(t)` the analytic fiber count `Σ e = n` of 8.3 matches the
@@ -3507,7 +3692,7 @@ regular projective model of `M(X)` matches everything:
   12's points-to-places dictionary);
 - `β` corresponds to the map induced by `t`;
 - analytic and algebraic ramification indices agree at each point;
-- the analytic genus (ModularForms 10B) equals AlgebraicCurves' genus: the two `L(D)` spaces
+- the analytic genus (ModularForms §10B) equals AlgebraicCurves' genus: the two `L(D)` spaces
   are literally the same subspace of `M(X)` under 9.4, so the two Riemann–Roch theorems
   compute the same function `ℓ`, and both read `g` off its large-degree regime;
 - the divisors of `β`, of `β − 1` and of `1/β` correspond, which is the statement Layer 14
@@ -3523,7 +3708,7 @@ with `F(f,h) ≡ 0`, the map `P ↦ (f(P), h(P))` is an isomorphism onto the cur
 ⚠ That proof invokes the separation property (Theorem 1.90), so it inherits the route caveat
 recorded at Layer 9.3.
 
-*Prerequisites:* Layers 9.1–9.4; AlgebraicCurves Layers 3, 5, 12; ModularForms Layer 10B.
+*Prerequisites:* Layers 9.1–9.4; AlgebraicCurves Layers 3, 5, 12; ModularForms §10B.
 
 #### 9.6 The local comparison at a place
 
@@ -3543,8 +3728,10 @@ field map `K_D→ℂ((s))`. Also record the map through the ring of convergent g
 `ℂ{s}` and its fraction field `ℂ({s})`; neither map makes `K_D` equal to `ℂ((s))`.
 
 Let `m∈𝒪(D)[Y]` be monic of degree `n∈ℕ`, separable over `K_D`, with discriminant nonzero
-on `D*`. If `n=0`, then `m=1`, the finite algebra and covering are empty products/empty
-objects, all sums are0 and the extension/ramification statements are vacuous; state that
+on `D*`. (A monic polynomial whose coefficients have poles at `p` is first brought to this form
+by the integral rescaling of 9.7 step 3; clearing denominators is not a substitute, since it
+destroys monicity.) If `n=0`, then `m=1`, the finite algebra and covering are empty products/empty
+objects, all sums are 0 and the extension/ramification statements are vacuous; state that
 case separately. For `n>0`, construct the following finite separable algebra and proofs.
 
 ```text
@@ -3570,7 +3757,7 @@ that whole product. The following six steps are definite targets, in proof order
    `V={(s,y)∈D*×ℂ | m(s,y)=0}` projects to a degree-`n` covering. Distinct simple roots
    give disjoint local holomorphic sections by the implicit-function theorem; a monic
    root bound on a smaller neighbourhood prevents roots escaping when those sections are
-   chosen. Apply7.1 to its connected components `W_i`: each is the cover `s=z^{d_i}`,
+   chosen. Apply 7.1 to its connected components `W_i`: each is the cover `s=z^{d_i}`,
    `d_i≥1`, and `Σ_i d_i=n`.
 3. **Convergent and formal component maps.** On each punctured model the coordinate `y_i`
    is bounded on a smaller neighbourhood of zero by the monic root bound, so it extends
@@ -3601,17 +3788,17 @@ that whole product. The following six steps are definite targets, in proof order
 6. **Global function-field comparison and the unramified case.** For a global finite
    separable `F/ℂ(t)` presented by an equation, form its scalar extension to `K_D` and
    then to `ℂ((s))`. Match integral closures and valuation localizations with the
-   global places of AlgebraicCurves Layers0/6; prove the normalized-order, residue and
+   global places of AlgebraicCurves Layers 0/6; prove the normalized-order, residue and
    ramification comparisons on these actual maps. The global fundamental identity is
    used only with its function-field hypotheses on `F/ℂ(t)`. The analytic local identity
-   was proved independently in step1. In particular the cover fills unramifiedly over
+   was proved independently in step 1. In particular the cover fills unramifiedly over
    `p` exactly when every `d_i=1`, equivalently every local completed factor has `e=1`.
    State this for the product algebra, not just the irreducible case.
 
 The full unramified criterion is: every `e_𝔭=1` iff every `d_i=1`, iff local monodromy at
 `p` is trivial, iff the punctured cover extends as a covering over `D`. Combining the
-filled-disc chart with8.2 proves `ramificationIndex β x=d_i=e_𝔭` at each added point;
-these are the outputs9.7–9.8 consume.
+filled-disc chart with 8.2 proves `ramificationIndex β x=d_i=e_𝔭` at each added point;
+these are the outputs 9.7–9.8 consume.
 
 The filled normalization has one point per component of the punctured preimage, not one
 point per original field factor or per point of the plane locus. The plane locus `{m=0}`
@@ -3624,13 +3811,13 @@ just constructed.
 The finite separable algebra, localization, trace-dual and monomial-Laurent lemmas here are
 part of this local comparison; generic lemmas are placed in the existing ring/valuation
 library and specialized on the displayed rings. The surface, Laurent-expansion and
-removable-singularity inputs are8.1–8.3/9.2 and the punctured-disc classification is7.1.
+removable-singularity inputs are 8.1–8.3/9.2 and the punctured-disc classification is 7.1.
 No scheme analytification, compactness of a noncompact disc, unproved global pole bound,
 or unrelated local-field finite-residue hypothesis is needed.
 
-*Prerequisites:* Layers7.1,8.1–8.3,9.1–9.2; Mathlib localization, fraction fields, integral
+*Prerequisites:* Layers 7.1,8.1–8.3,9.1–9.2; Mathlib localization, fraction fields, integral
 closure, trace pairing, finite modules/length, power and Laurent series; AlgebraicCurves
-Layers0/6 only for step6's global function-field comparison.
+Layers 0/6 only for step 6's global function-field comparison.
 
 #### 9.7 Analytification of an algebraic pair
 
@@ -3639,25 +3826,42 @@ the two constructions inverse. Route, in proof order:
 
 1. **A primitive element.** `F = ℂ(t)[y]/(m)` for a monic irreducible `m ∈ ℂ(t)[y]` of degree
    `n` — characteristic zero, so the extension is separable and the primitive element theorem
-   applies. Clearing denominators, the coefficients are holomorphic off a finite set.
+   applies. The coefficients `a_i` of `m` are rational functions of `t`, holomorphic off the
+   finite set of their poles. ⚠ Clearing denominators does **not** give 9.6's input, which is
+   a **monic** polynomial with holomorphic coefficients: multiplying `m` by a common
+   denominator destroys monicity.
 2. **The affine analytic model.** Let `Δ ⊂ OnePoint ℂ` be the finite set of poles of the
-   coefficients of `m`, the zeros of its discriminant, and the three marked points. Over
-   `OnePoint ℂ ∖ Δ` the vanishing locus of `m`, with the first projection, is a degree-`n`
-   covering map (9.6, step 2, applied on a disc about each point of the complement).
-3. **Extension over the unmarked bad points.** At each `p ∈ Δ ∖ {0,1,∞}`, 9.1 says `F` is
-   unramified over `p`, so by **9.6's unramified criterion** the local monodromy at `p` is trivial and
-   the covering extends across `p` as a covering. Iterating over the finitely many such `p`
+   coefficients of `m`, the zeros of its discriminant, and the three marked points. Over `OnePoint ℂ ∖ Δ` the vanishing locus of `m`, with the first projection, is a
+   degree-`n` covering map (9.6, step 2, applied on a disc about each point of the complement,
+   where the coefficients are holomorphic).
+3. **Integral rescaling at each point of `Δ`.** At `p ∈ Δ` choose a local parameter `s` (`t − p`,
+   or `1/t` at `∞`) and `N ∈ ℕ` with `N · (n − i) ≥` the pole order of `a_i` at `p` for every
+   `i < n`. Then `w := s^N · y` is a root of
+   `m_N(W) := s^(N·n) · m(W / s^N) = W^n + Σ_(i<n) s^(N·(n−i)) · a_i · W^i`, which is monic with
+   coefficients holomorphic on a disc `D` about `p`. Prove that `Y ↦ W / s^N` identifies
+   `K_D[Y]/(m)` with `K_D[W]/(m_N)` and that `(s, y) ↦ (s, s^N · y)` identifies the two root
+   spaces over `D*`, compatibly with the projections; the discriminants satisfy
+   `disc(m_N) = s^(N·n·(n−1)) · disc(m)`, so the rescaling creates no zero of the discriminant on
+   `D*`. Apply 9.6 to `m_N` and recover `y = s^(−N) · w` as a meromorphic function. Example:
+   `F = ℂ(u)`, `t = u²`, `y = u/(t − 2)` is a primitive element of a degree-`2` Belyi extension,
+   unramified at `t = 2`, with `m = Y² − t/(t − 2)²`, whose coefficient has a pole at `2` and both
+   of whose roots are unbounded near `2`; with `s = t − 2` and `N = 1`, `w = (t − 2)·y` has the
+   monic holomorphic equation `W² − t`.
+4. **Extension over the unmarked bad points.** At each `p ∈ Δ ∖ {0,1,∞}`, 9.1 says `F` is
+   unramified over `p`, so by **9.6's unramified criterion**, applied to the rescaled `m_N` of
+   step 3, the local monodromy at `p` is trivial and the covering extends across `p` as a
+   covering. Iterating over the finitely many such `p`
    gives a covering map over `OnePoint ℂ ∖ {0,1,∞}`. ⚠ 9.6 is load-bearing here and cannot
    be replaced by "fill the discriminant fibers with all `e = 1` by removability": the plane
    model is singular at such a point, and removability is a statement about functions, not
    about the local structure of a possibly singular curve.
-4. **Compactification.** Layers 7.2–7.4 and 8.5 compactify to an analytic Belyi pair, with
+5. **Compactification.** Layers 7.2–7.4 and 8.5 compactify to an analytic Belyi pair, with
    the local degrees at the three marked points given by 9.6 steps 4–6 applied at `0`, `1`
-   and `∞`.
-5. **Identification of the field.** Its meromorphic field is `F` over `ℂ(t)`: both are
+   and `∞` to the rescaled polynomials of step 3.
+6. **Identification of the field.** Its meromorphic field is `F` over `ℂ(t)`: both are
    degree-`n` extensions generated by `y`, and 9.3 makes the comparison a
    `ℂ(t)`-isomorphism.
-6. **Agreement of everything else.** Ramification indices agree by 9.6's completed/local/global comparison and8.2; the
+7. **Agreement of everything else.** Ramification indices agree by 9.6's completed/local/global comparison and 8.2; the
    points of the surface correspond to the places of `F` by 9.4; degrees, divisors and
    automorphism groups follow.
 
@@ -3669,7 +3873,8 @@ further.
 ⚠ *Nearby false statement:* step 2's covering property holds only off the discriminant. A
 milestone that takes the vanishing locus of `m` over all of `OnePoint ℂ ∖ {0,1,∞}` and calls
 it a cover is wrong wherever the discriminant vanishes, even though 9.1 guarantees the
-*final* map is unramified there — the resolution is step 3, and step 3 is 9.6.
+*final* map is unramified there — the resolution is step 4, which is 9.6 applied to the
+rescaled polynomial of step 3.
 
 *Prerequisites:* Layers 7.2–7.4, 8.5, 9.1, 9.3–9.6; Mathlib primitive element theorem.
 
@@ -3687,14 +3892,10 @@ function field with three marked places — carry the same invariants.
 
 ### Layer 10: Belyi's theorem
 
-> **Owner:** successor roadmap `BelyiAlgebraicAndDescent`. Retained here as a dependency
-> specification; no milestone of this layer is a declaration or a completion claim of
-> this roadmap.
+The theorem rests on the typed Layer 9 chain: compactification, the meromorphic function
+field, algebraization, and descent to `ℚ̄`.
 
-Its final declaration may be added only after the typed Layer-9 chain visibly supplies
-compactification, the meromorphic function field, algebraization, and descent to `ℚ̄`.
-
-The classical statement is an equivalence, and `BelyiAlgebraicAndDescent` builds both directions
+The classical statement is an equivalence, and this roadmap builds both directions
 separately, because they have nothing in common: one is an explicit construction of rational
 functions, the other a descent argument.
 
@@ -3715,12 +3916,34 @@ BranchValues (g ∘ f) = g '' (BranchValues f) ∪ BranchValues g ,
 ```
 
 together with the ramification multiplicativity `e_{g∘f}(x) = e_g(f x) · e_f(x)` it rests
-on, and the computation of `BranchValues` of a rational function as the image of the zeros
-of its derivative together with the images of the poles of order `> 1`. This bookkeeping is
-used at every step below and is stated once.
+on, and the computation of `BranchValues` of a nonconstant rational function `f = P/Q`
+(`P, Q` coprime, `p = deg P`, `q = deg Q`) in **both charts of the source**:
+
+- at a finite point `x` that is not a pole, `x` is a ramification point iff `f′(x) = 0`, with
+  branch value `f(x)`;
+- at a finite pole `x`, the ramification index is the pole order, so `∞` is a branch value iff
+  some finite pole has order `> 1`;
+- at `x = ∞`, read `f` in the chart `s = 1/x`: if `p > q` then `f(∞) = ∞` with index `p − q`; if
+  `p < q` then `f(∞) = 0` with index `q − p`; if `p = q` then `f(∞) = c`, the ratio of leading
+  coefficients, with index `q − deg(P − c·Q)`. The value `f(∞)` is a branch value iff that index
+  is `> 1`.
+
+⚠ The affine test alone misses ramification at `∞`: for `f = 1/x²` the derivative `−2/x³` has
+no finite zero and the finite pole gives the branch value `∞`, but in `s = 1/x` the map is `s²`,
+so `0 = f(∞)` is a branch value too. Counting the zeros of `f′` as a rational function on the
+whole sphere is not a substitute: `f = 1/x` is unramified, while `−1/x²` has a zero at `∞`. For
+a polynomial of degree `d ≥ 1` the third case says `∞` is a branch value iff `d ≥ 2`, which is
+what 10.3 uses. This bookkeeping is used at every step below and is stated once.
 
 *Prerequisites:* Layer 9.1; AlgebraicCurves Layer 6 (ramification in towers); Layer 8.2 for
 the analytic form.
+
+*Tau Ceti:* the place form `TauCeti.Place.branchPlaces_eq_image_union` with
+`TauCeti.Place.ramificationIdx_restrict_mul`; the analytic form
+`TauCeti.RiemannSurface.FiniteHolomorphicMap.branchValues_comp`; for polynomials
+`Polynomial.criticalValues_comp` and
+`TauCeti.RiemannSurface.FiniteHolomorphicMap.branchValues_spherePolynomial`. The computation for
+a general rational function in both charts remains.
 
 #### 10.2 The degree-reduction step
 
@@ -3746,23 +3969,26 @@ Prove Galois stability of this new set from the rational coefficients, and prove
 inequality using the displayed orbit removal and the derivative-root bound. This strictly
 decreasing natural measure gives a finite composite `p∈ℚ(X)` carrying `S` and every
 critical value created by the composition into `ℙ¹(ℚ)`; the branch-value union formula
-of10.1 propagates that assertion at each step. The base case has only rational points and
-uses the identity map. Layer10.3 handles the rational set, including infinity, by its
+of 10.1 propagates that assertion at each step. The base case has only rational points and
+uses the identity map. Layer 10.3 handles the rational set, including infinity, by its
 Möbius normalization and three-point construction.
 
 The **total** cardinality need not drop in this step: for
 `S={√2,-√2}`, `m=X²-2` gives `m(S)∪BranchValues(m)={0,-2,∞}` if infinity is included,
 and `{0,-2}` when only finite critical values are recorded. The number of nonrational
-points drops from2 to0 in either convention. Do not substitute total cardinality or the
+points drops from 2 to 0 in either convention. Do not substitute total cardinality or the
 degree of the field generated by `S` for the proved measure.
 
-*Source:* Köck, *Belyi's theorem revisited*, Lemma3.5 for degree reduction and the following
+*Source:* Köck, *Belyi's theorem revisited*, Lemma 3.5 for degree reduction and the following
 three-point step. The measure and estimates defining this target are the explicit ones
 above; no claim about an omitted argument or the measure of a different source auxiliary
 set is needed.
 
-*Prerequisites:* Layer10.1; Mathlib `minpoly`, separable conjugates in characteristic zero,
+*Prerequisites:* Layer 10.1; Mathlib `minpoly`, separable conjugates in characteristic zero,
 `Polynomial.derivative` and the root-count bound, finite sets and well-founded induction.
+
+*Tau Ceti:* `TauCeti.exists_polynomial_aeval_mem_range`, by a different induction than the
+measure `ν`.
 
 #### 10.3 The three-point step
 
@@ -3812,7 +4038,7 @@ for every finite S ⊂ ℙ¹(ℚ̄) with ∞ ∈ S there is a NONCONSTANT POLYNO
     q(∞) = ∞  and  BranchValues(q) ∪ q(S ∖ {∞}) ⊆ {0, 1, ∞} .
 ```
 
-Here `BranchValues(q)` has exactly the target-sphere meaning of10.1: the
+Here `BranchValues(q)` has exactly the target-sphere meaning of 10.1: the
 images of the ramification points of `q : ℙ¹ → ℙ¹`. It is not the source critical
 locus. For a characteristic-zero polynomial of degree d≥1 its finite branch
 values are the values at roots of q′; infinity is a branch value iff d≥2.
@@ -3823,7 +4049,7 @@ of the algebraic points). Maintain a nonconstant composite h∈ℚ[x] with
 `h(S) ∪ BranchValues(h) ∪ {∞} ⊆ T`. Initially h is the identity. Every stage g
 updates h to g∘h and T to
 `g(T) ∪ BranchValues(g) ∪ {∞}`;10.1's branch-composition containment preserves
-this invariant. Layer10.2's minimal-polynomial induction decreases the number
+this invariant. Layer 10.2's minimal-polynomial induction decreases the number
 of nonrational finite points of this augmented T and ends with all finite T
 rational. In particular, branch values introduced during rationalization are
 not forgotten. All these maps are polynomials fixing infinity.
@@ -3833,26 +4059,26 @@ this whole finite T, carrying its branch/image role as above. State the base
 cases explicitly, using nonconstant affine polynomials over ℚ:
 
 - N=0: take the identity.
-- N=1, with finite point a: take `x−a`, sending it to0.
-- N=2, with distinct finite points a,b: take `(x−a)/(b−a)`, sending them to0,1.
+- N=1, with finite point a: take `x−a`, sending it to 0.
+- N=2, with distinct finite points a,b: take `(x−a)/(b−a)`, sending them to 0,1.
 
-Each is degree1, fixes infinity and has **empty** branch-value set. For N≥3,
+Each is degree 1, fixes infinity and has **empty** branch-value set. For N≥3,
 choose the least finite point a and greatest c in the real order on ℚ and any
 third point b strictly between them. The affine A(x)=(x−a)/(c−a) sends them
-to0,r,1 with `r=m/(m+n)` for positive coprime integers m,n. Set g=B_(m,n)∘A.
-Then g maps a,c to0, b to1, infinity to infinity and has branch values contained
+to 0,r,1 with `r=m/(m+n)` for positive coprime integers m,n. Set g=B_(m,n)∘A.
+Then g maps a,c to 0, b to 1, infinity to infinity and has branch values contained
 in `{0,1,∞}`. Those three target values already occur in g(T). Consequently
 `T′=g(T) ∪ BranchValues(g) ∪ {∞}=g(T)` and
 `#(T′∖{∞})≤N−1`: two distinct finite points a,c merge, while no new finite
 branch value is added. Apply induction to T′, obtaining r₁, and take q=r₁∘g.
-Both `q(T)` and `BranchValues(q)` lie in `{0,1,∞}` by10.1. Composing with the
+Both `q(T)` and `BranchValues(q)` lie in `{0,1,∞}` by 10.1. Composing with the
 preceding rationalization h proves the displayed target for the original S.
 
 Composites remain nonconstant polynomials, their degrees multiply, and infinity
 is **fixed at every stage**. It is ramified only at stages/composites of degree
-at least2; affine and identity stages do not make it a critical value. For every
+at least 2; affine and identity stages do not make it a critical value. For every
 nonconstant polynomial the full pole fibre is still `{∞}`, with multiplicity
-its degree, exactly what Layer13.5 needs. No inversion or finite pole is introduced.
+its degree, exactly what Layer 13.5 needs. No inversion or finite pole is introduced.
 
 ⚠ **A general rational Belyi map does not suffice**, and this is not a stylistic preference.
 Layer 13.5 needs `P⁻¹(∞) = {∞}` so that every isomorphism of the resulting pairs fixes `∞`
@@ -3870,6 +4096,12 @@ displayed statement is that assertion made into a target.
 `Matrix.GeneralLinearGroup`/`Matrix.GeneralLinearGroup.det` and the `GL(2)` Möbius action
 on `OnePoint`.
 
+*Tau Ceti:* `TauCeti.belyiPolynomial` with `TauCeti.criticalValues_belyiPolynomial_subset`, and the
+polynomial Belyification `TauCeti.exists_polynomial_aeval_mem_criticalValues_subset`: for every
+finite set `S` of elements algebraic over `ℚ` there is a nonconstant `q ∈ ℚ[x]` with `q(S) ⊆ {0, 1}`
+and every finite critical value of `q` in `{0, 1}`. The rational-function version and the
+equality clause for the critical points remain.
+
 #### 10.4 A curve over `ℚ̄` admits a Belyi map
 
 For a function field `F/ℚ̄` (AlgebraicCurves' sense): choose any nonconstant `t₀ ∈ F` —
@@ -3883,6 +4115,10 @@ The degree is tracked through the composite and is not optimized; no milestone h
 bound on the degree of the resulting Belyi map.
 
 *Prerequisites:* Layers 9.1, 10.1–10.3; AlgebraicCurves Layers 0, 6.
+
+*Tau Ceti:* `TauCeti.IsFunctionField.exists_isAlgebraicBelyiPair`, for function fields over any
+algebraic extension of `ℚ`, with `TauCeti.IsFunctionField.exists_polynomial_isAlgebraicBelyiPair`
+for a given transcendental element.
 
 #### 10.5 Automorphisms of `ℂ`, and the moduli field of a pair
 
@@ -3927,6 +4163,15 @@ the commuting square `t ∘ f_σ = Proj(σ) ∘ t^σ`.
 *Prerequisites:* Layer 9.1; Mathlib field automorphisms, `IntermediateField`, infinite
 Galois theory. The conjugation of pairs is defined here for the abstract group `Aut(ℂ)`;
 Layer 11 restricts it to `Gal(ℚ̄/ℚ)` and consumes it there.
+
+*Tau Ceti:* statement 1 as `TauCeti.IsAlgClosed.fixedField_top_eq_bot`, statement 2 as
+`IntermediateField.fixingSubgroup_fixedField_of_fixingSubgroup_le`, statement 3 as
+`IntermediateField.finiteDimensional_fixedField_of_relIndex_ne_zero`,
+`IntermediateField.relfinrank_fixedField_le_relIndex` and
+`IntermediateField.relfinrank_fixedField_eq_relIndex`; the conjugate pair
+`TauCeti.AlgebraicBelyiPair.conj` and the moduli field
+`TauCeti.AlgebraicBelyiPair.IsoClass.fieldOfModuli`, with
+`TauCeti.AlgebraicBelyiPair.curveFieldOfModuli_le_fieldOfModuli`.
 
 #### 10.6 Finiteness in bounded degree, and the moduli field is a number field
 
@@ -3973,7 +4218,9 @@ the critical values are `K`-rational. Girondo–González-Diez **Proposition 2.6
 finiteness statement analytically. ⚠ Both proofs are the argument this roadmap already owns:
 Layer 5.6's free generation of `π₁` plus Layer 3.1's finite enumeration.
 
-*Prerequisites:* Layers 3.1, 5.6, 8.6, 9.1C, 9.8, 10.5; the corrected AlgebraicCurves Layers 8/12 regular-extension cut; finite presentation and faithful field descent. No 10.7 premise.
+*Prerequisites:* Layers 3.1, 5.6, 8.6, 9.1C, 9.8, 10.5; AlgebraicCurves Layer 8 item 2 and Layer
+12 items 12B.0a, 12B.0b and 12B.0d (regular constant extension and finite-model descent);
+finite presentation and faithful field descent. No 10.7 premise.
 
 #### 10.7 Belyi pairs descend to `ℚ̄`
 
@@ -3984,9 +4231,9 @@ descent datum.** In proof order:
 1. **A finite rational unbranched value.** Choose `Q ∈ ℚ`, viewed as a finite
    point of ℙ¹(ℚ), outside the branch values of t — possible since that set is
    finite and ℚ is infinite — and a place P of F over Q. This finite choice also
-   makes the local coordinate `t−Q` in step3 explicit.
+   makes the local coordinate `t−Q` in step 3 explicit.
 2. **A generator with a single pole, with the place count proved.**
-   Riemann–Roch on `(g+1)·[P]` (AlgebraicCurves Layer5, deg P=1 over ℂ) gives
+   Riemann–Roch on `(g+1)·[P]` (AlgebraicCurves Layer 5, deg P=1 over ℂ) gives
    z∈F∖ℂ whose only pole is P. Put E=ℂ(t,z)⊆F and p=P|E. This is a finite
    function-field extension F/E because E contains ℂ(t). The place p is a pole
    of z. Every place R of F above p is therefore a pole of z, so R=P: there is
@@ -3996,7 +4243,7 @@ descent datum.** In proof order:
    The fundamental identity for F/E at p now gives
    `[F:E]=Σ_(R|p)e(R/p)f(R/p)=1`. Hence F=ℂ(t,z). Both the unique-place and
    local-degree conclusions are required; being unramified at one place alone
-   would not imply global degree1.
+   would not imply global degree 1.
 3. **Rigidifying `z`.** Among such `z`, take the pole order `m := −ord_P(z)` **minimal**;
    then `{x ∈ F | ord_P x ≥ −m and ord_{P'} x ≥ 0 for P' ≠ P} = ℂ ⊕ ℂ·z`. Since `Q` is not a
    critical value, `t − Q` is a uniformizer at `P`, so `z` has a Laurent expansion in
@@ -4041,8 +4288,8 @@ over `ℚ̄`" is not an argument; it names no descent datum and no model.
 ⚠ *Nearby false statement:* a dense set of good specializations taking finitely many
 isomorphism classes does **not** put the generic fiber in one of those classes. That
 inference needs an isomorphism scheme, constructibility, or a rigidity theorem, none of
-which this roadmap has; the private provenance ledger records the specialization-and-pigeonhole route as
-rejected for exactly that reason.
+which this roadmap has, and the specialization-and-pigeonhole route is not used for that
+reason.
 
 *Source:* Köck **(2.2) Theorem** for steps 1–5 — "the curve `X/C` and the morphism `t` are
 defined over a finite extension of `M(X, t)`, and over `M(X, t)` itself if `t` is a Galois
@@ -4053,6 +4300,12 @@ on the *absolute* moduli field, which this roadmap consumes at Layer 11.4 for a 
 purpose.
 
 *Prerequisites:* Layers 9.1, 9.5–9.8, 10.4–10.6; AlgebraicCurves Layers 5, 6.
+
+*Tau Ceti:* step 2, `TauCeti.IsAlgebraicBelyiPair.exists_ord_neg_and_adjoin_simple_eq_top`; step 3,
+`TauCeti.IsAlgebraicBelyiPair.existsUnique_laurentCoeff_eq_one_and_adjoin_simple_eq_top`; step 4,
+`TauCeti.AlgebraicBelyiPair.pointedStabilizer` with `relIndex_pointedStabilizer_le_finrank` and
+`TauCeti.IsAlgebraicBelyiPair.map_minpoly_eq_of_laurentCoeff_eq_one_of_laurentCoeff_zero_eq_zero`.
+Step 5, the descent theorem itself and the classification corollary remain.
 
 #### 10.8 Acceptance examples
 
@@ -4066,10 +4319,6 @@ purpose.
 *Prerequisites:* Layers 10.4, 10.7.
 
 ### Layer 11: fields of moduli, fields of definition, and Galois orbits
-
-> **Owner:** successor roadmap `BelyiAlgebraicAndDescent`. Retained here as a dependency
-> specification; no milestone of this layer is a declaration or a completion claim of
-> this roadmap.
 
 #### 11.1 Galois conjugation of pairs
 
@@ -4089,6 +4338,11 @@ fix the attached triple. That it moves them is the entire subject: Layer 13.5 pr
 action is faithful.
 
 *Prerequisites:* Layers 9.1, 9.8; Mathlib `Field.absoluteGaloisGroup`.
+
+*Tau Ceti:* `TauCeti.AlgebraicBelyiPair.conj` with `conjAlgEquiv`, `conjRefl`, `conjTrans` and
+`finrank_conj`, and on classes `TauCeti.AlgebraicBelyiPair.IsoClass.conj` with its `MulAction`
+instance and `degree_smul`. Preservation of the genus and of the three ramification partitions
+remains.
 
 #### 11.2 Stabilizers and orbits
 
@@ -4115,6 +4369,9 @@ size in 11.7.
 smaller, and taking it would give a larger field with no descent meaning.
 
 *Prerequisites:* Layer 11.2; Mathlib infinite Galois correspondence.
+
+*Tau Ceti:* `TauCeti.AlgebraicBelyiPair.IsoClass.fieldOfModuli` with `fieldOfModuli_smul`. That
+the field of moduli is a number field remains, with 11.2.
 
 #### 11.4 Weil descent for function fields
 
@@ -4187,6 +4444,11 @@ variety's coordinate ring and not to `F` over `k`.
 *Prerequisites:* Layers 9.1, 10.7, 11.1; AlgebraicCurves Layer 8; Mathlib Galois descent for
 vector spaces, linear disjointness, infinite Galois theory.
 
+*Tau Ceti:* the generic finite-level semilinear descent `TauCeti.GaloisDescent.span_fixedField_eq_top`,
+`TauCeti.GaloisDescent.fixedFieldBaseChangeEquiv`, and its function-field form
+`TauCeti.GaloisDescent.constantCompositum_fixedField_eq_top`. The descent datum for Belyi pairs,
+the reduction to a finite level and the descent of `t`, separability and unramifiedness remain.
+
 #### 11.5 Fields of definition
 
 A **field-of-definition certificate** for `c` over a number field `k` is: an algebraic Belyi
@@ -4200,7 +4462,7 @@ level, so the certificate is finite data.
 be several, incomparable ones — and "the" field of definition is never written in this
 roadmap.
 
-⚠ **Signature requirement for the successor:** no theorem concluding that the field of moduli
+⚠ **Signature requirement:** no theorem concluding that the field of moduli
 is a field of definition may omit its effective descent input. It must expose either an actual
 descent datum with its cocycle condition, or the explicit automorphism hypothesis used in 11.6
 to construct that datum. Mere invariance of the isomorphism class is not a descent hypothesis.
@@ -4262,8 +4524,9 @@ cardinality `[S : H]`.
 
 ⚠ **The map need not be injective**, and the degree `[k : ℚ] = [G : H]` therefore need not
 equal `trueOrbitSize c = [G : S]`. Two embeddings can produce simultaneously conjugate
-triples, hence the *same* Belyi-pair isomorphism class; the private provenance ledger records witnesses in
-the frozen database.
+triples, hence the *same* Belyi-pair isomorphism class. Witness: the pair of `z ↦ z²`, defined
+over `ℚ`, presented over `k = ℚ(√2)`: its two embeddings give the same class, so `[G : H] = 2`
+while `trueOrbitSize c = [G : S] = 1`.
 
 ⚠ **Do not characterize the fibers by `Aut(k/ℚ)`.** For a nonnormal `k`, `Aut(k/ℚ)` is
 controlled by `N_G(H)/H` and is strictly smaller than what the fibers of `G/H ↠ G/S`
@@ -4278,18 +4541,20 @@ separate from `trueOrbitSize` for exactly this reason.
 
 *Prerequisites:* Layers 8.6, 9.8, 11.2, 11.3, 11.5, 11.6.
 
+*Tau Ceti:* `TauCeti.AlgebraicBelyiPair.IsoClass.trueOrbitSize` with `trueOrbitSize_eq_index`, and
+`TauCeti.AlgebraicBelyiPair.IsoClass.finrank_fieldOfModuli_eq_trueOrbitSize` for a Galois `k` and
+a closed stabilizer. The surjection `G/H ↠ G/S` and its fibers remain.
+
 ### Layer 12: profinite powers, the fundamental group, and the branch-cycle theorem
 
-> **Owner:** successor roadmap `BelyiArithmeticActions`; milestones 12.1–12.3 and 12.7 are
-> generic and belong to `ProfiniteArithmetic`. Retained here as a dependency specification; no
-> milestone of this layer is a declaration or a completion claim of this roadmap.
+Milestones 12.1–12.3 and 12.7 are generic profinite algebra owned by `ProfiniteArithmetic`;
+they are recorded here as the supplier contract the Belyi-specific milestones 12.4–12.12 consume.
 
-`BelyiArithmeticActions`, the successor that owns this layer, consumes three milestones of
-generic profinite algebra — the profinite integers as a **ring**, the exponentiation calculus, and
-its pro-`ℓ` specialization. Their exact owner is **`ProfiniteArithmetic`**, the generic successor
-to #244 named in that roadmap's opening section; they extend Tau Ceti's profinite group
-`TauCeti.zHat`, and they are owned neither by #244 itself nor by this roadmap. Tau Ceti
-implements them, so the Belyi-specific declarations in 12.4 onward consume them by name.
+The three milestones of generic profinite algebra — the profinite integers as a **ring**, the
+exponentiation calculus, and its pro-`ℓ` specialization — are owned by **`ProfiniteArithmetic`**,
+the generic successor of ProfiniteProPGroups; they extend Tau Ceti's profinite group
+`TauCeti.zHat`, and they are owned neither by ProfiniteProPGroups itself nor by this roadmap.
+Tau Ceti implements them, so the Belyi-specific milestones from 12.4 on consume them by name.
 
 The fundamental group's carrier is field-theoretic: the Galois theory of the maximal
 extension of `ℚ̄(t)` unramified outside the three marked places. Every object is then Mathlib Galois theory plus
@@ -4306,31 +4571,41 @@ pro-`p` quotients. That gives no multiplication of two profinite exponents, no u
 compatible projections to finite rings — yet 12.2's law `(x ^ᶻ a) ^ᶻ b = x ^ᶻ (a·b)`, 12.10's
 character `χ : Gal(ℚ̄/ℚ) →* ẑˣ` and 12.3's `ℓ`-adic component all need exactly those.
 `ProfiniteArithmetic` (its Layer 0) builds them as the ring structure on `TauCeti.zHat` itself;
-`BelyiArithmeticActions` only consumes its exact exported API.
+this roadmap only consumes its exact exported API.
 
 **Supplier object: the ring `ẑ = Additive TauCeti.zHat`.** There is one profinite-integers
-object. `BelyiArithmeticActions` cites the names and API, not the construction. Required:
+object. This roadmap cites the names and API, not the construction. Required:
 
 - *Carrier and instances.* A topological commutative ring structure on `Additive TauCeti.zHat`:
   `CommRing`, `IsTopologicalRing`, with the compactness, total disconnectedness and Hausdorffness
   of `TauCeti.zHat`. The group `TauCeti.zHat` and the ring `ẑ` are one object with two structures,
   so no milestone switches between carriers and no comparison isomorphism is needed.
-- *Projections.* Continuous ring homomorphisms `ẑ →+* ZMod n` for every `n`, with the
-  compatibility `ZMod m → ZMod n` for `n ∣ m`; the induced map to the inverse limit is an
-  isomorphism (the universal/limit property).
+- *Projections.* Continuous ring homomorphisms `ẑ →+* ZMod n` for every **positive** modulus
+  `n : ℕ+`, with the compatibility `ZMod m → ZMod n` for `n ∣ m`; the induced map to the inverse
+  limit over `ℕ+` is an isomorphism (the universal/limit property). ⚠ The modulus `0` is
+  excluded: `ZMod 0 = ℤ`, and a continuous map from the compact `ẑ` to the discrete `ℤ` has
+  finite image, while a unital ring homomorphism contains every integer in its image, so no
+  such projection exists.
 - *`ℓ`-adic components.* A continuous ring homomorphism `ẑ →+* ℤ_[ℓ]` for each prime `ℓ`,
   compatible with the `ZMod ℓ^k` projections and with Tau Ceti's
   `TauCeti.zHat.maximalProPQuotientEquivPadicInt`, and the theorem that the induced map to
   `∏_ℓ ℤ_[ℓ]` is a topological ring isomorphism.
 - *Units.* The unit group `ẑˣ` with its topology, and the criterion
-  `a ∈ ẑˣ ↔ ∀ n, image of a in ZMod n is a unit ↔ ∀ ℓ, component_ℓ a ∈ ℤ_[ℓ]ˣ`.
-- *The universal property for characters.* A compatible system of homomorphisms into
-  `(ZMod n)ˣ` assembles into one homomorphism into `ẑˣ`; this is what 12.10 uses to build the
-  cyclotomic character out of the pin's finite levels.
+  `a ∈ ẑˣ ↔ ∀ n : ℕ+, image of a in ZMod n is a unit ↔ ∀ ℓ, component_ℓ a ∈ ℤ_[ℓ]ˣ`.
+- *The universal property for characters.* A system of homomorphisms into `(ZMod n)ˣ`, one for
+  each `n : ℕ+`, compatible along divisibility, assembles into one homomorphism into `ẑˣ`; this
+  is what 12.10 uses to build the cyclotomic character out of the pin's finite levels.
 - *Edge cases.* `ẑ` is not a domain (it is `∏_ℓ ℤ_[ℓ]`); `ℤ → ẑ` is injective with dense image.
 
 *Prerequisites:* Tau Ceti `TauCeti.zHat` with its group API; Mathlib `ZMod`, `PadicInt`;
 `ProfiniteArithmetic` Layer 0.
+
+*Tau Ceti:* the ring structure on `Additive TauCeti.zHat`; the projections `TauCeti.zHat.toZMod`
+indexed by `n : ℕ+`, with `TauCeti.zHat.castHom_comp_toZMod` and the limit property
+`TauCeti.zHat.existsUnique_forall_toZMod_eq`; the components `TauCeti.zHat.component` and
+`TauCeti.zHat.ringEquivPiPadicInt`; the unit criteria `TauCeti.zHat.isUnit_iff_toZMod` and
+`TauCeti.zHat.isUnit_iff_component`, `TauCeti.zHat.unitsEquivPiPadicInt`, and the assembly of
+characters `TauCeti.zHat.unitsLift` over `ℕ+`.
 
 #### 12.2 The profinite exponentiation calculus
 
@@ -4372,6 +4647,9 @@ to commute.
 `TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv`, as `ProfiniteArithmetic` Layer 1.1
 generalizes them.
 
+*Tau Ceti:* `TauCeti.zpowHat` with `zpowHat_add`, `zpowHat_mul`, `map_zpowHat`, `conj_zpowHat`,
+`zpowHat_intCast` and `continuous_zpowHat_prod`.
+
 #### 12.3 Pro-`ℓ` powers and the component comparison
 
 On a pro-`ℓ` group the power depends only on the `ℓ`-adic component of the exponent. The
@@ -4401,27 +4679,30 @@ milestone applies `^[ℓ]` outside a pro-`ℓ` group.
 `TauCeti.maximalProPQuotient.lift`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt`;
 `ProfiniteArithmetic` Layer 1.3; Mathlib `Fact`, `PadicInt`.
 
+*Tau Ceti:* `TauCeti.zpowHat_eq_padicPow_component`.
+
 #### 12.4 The `ℚ̄`/`ℂ` comparison of finite covers
 
-Apply early9.1C to the fixed embedding `ℚ̄↪ℂ`: it gives full faithfulness for finite
+Apply 9.1C to the fixed embedding `ℚ̄↪ℂ`: it gives full faithfulness for finite
 covers over the distinguished `t`, field-valued constant extension, naturality, degree,
 ramification and automorphism comparisons. Its algebraically closed characteristic-zero
 constant hypothesis is essential to that statement; arbitrary number-field or all-curve
 morphisms are not covered by it.
 
-Essential surjectivity for three-point covers is10.7's number-field model with its regular
+Essential surjectivity for three-point covers is 10.7's number-field model with its regular
 constant extension and ramification comparison. Thus algebraic Belyi pairs over `ℚ̄` and
-over `ℂ` are equivalent. Combining with9.5–9.8 and6.3's **level2** gives connected triple
+over `ℂ` are equivalent. Combining with 9.5–9.8 and 6.3's **level 2** gives connected triple
 isomorphism classes, not literal numbered triples. Extend to all finite covers by the
-natural connected-component decomposition, including the empty cover;12.6 consumes this
+natural connected-component decomposition, including the empty cover; 12.6 consumes this
 whole-category equivalence and its natural comparison of fibre functors.
 
-*Source:* Szamuely, *Galois Groups and Fundamental Groups*, Theorem4.6.10 and
-Corollary4.6.11 for finite étale covers over an extension of algebraically closed
-characteristic-zero constants. Early9.1C supplies the full-faithfulness and ramification
-proof route;10.7 supplies the required essential surjectivity in the Belyi-pair formulation.
+*Source:* Szamuely, *Galois Groups and Fundamental Groups*, Theorem 4.6.10 and
+Corollary 4.6.11 for finite étale covers over an extension of algebraically closed
+characteristic-zero constants. 9.1C supplies the full-faithfulness and ramification
+proof route; 10.7 supplies the required essential surjectivity in the Belyi-pair formulation.
 
-*Prerequisites:* Layers6.3,9.1C,9.5–9.8,10.7; AlgebraicCurves at the explicit cuts of9.1C.
+*Prerequisites:* Layers 6.3, 9.1C, 9.5–9.8, 10.7; AlgebraicCurves Layer 8 item 2 and Layer 12
+items 12B.0a, 12B.0b and 12B.0d, as in 9.1C.
 
 #### 12.5 The geometric fundamental group
 
@@ -4484,12 +4765,12 @@ goes through fiber functors, and every bridge is a separate target:
 1. **The topological Galois category.** Use the full subcategory of the existing
    `TauCeti.CoveringSpace (TopCat.of U)` whose fiber over `b` is finite, with all maps of
    covers over `U`. It includes the empty cover and finite disjoint unions; it is not
-   Layer6.1's connected-only `ConnectedCover` carrier. Its fiber functor is
+   Layer 6.1's connected-only `ConnectedCover` carrier. Its fiber functor is
    `Fib_b(E)=p⁻¹{b}` to finite sets. Construct finite products, coproducts, images and
    connected-component decomposition in this category and prove the pin's
    `PreGaloisCategory` and `FiberFunctor` axioms. The existing arbitrary-action
    `UniversalCover.ActionCover` realizes empty as well as disconnected finite actions.
-   Compare each nonempty connected component with Layer6.1's numbered/pointed/bare
+   Compare each nonempty connected component with Layer 6.1's numbered/pointed/bare
    classifications, and prove this comparison natural in every cover map. Thus the
    connected results are retained and extended to the whole object category.
 2. **The algebraic Galois category.** ⚠ **Not** the finite subextensions of `Ω/ℚ̄(t)`. Those
@@ -4548,7 +4829,7 @@ its adjunction.
 #### 12.7 Continuous outer automorphisms
 
 Another generic `ProfiniteArithmetic` supplier milestone, placed in the generic profinite
-namespace so that it is reusable. `BelyiArithmeticActions` consumes it for the outer action and
+namespace so that it is reusable. Layer 12.8 consumes it for the outer action, and this roadmap
 defines no namesake carrier.
 
 **Supplier object: `ContinuousOut`.** For a profinite group `G`: the group of continuous
@@ -4579,6 +4860,12 @@ of `N` is inner. Stated generically here; applied in 12.8.
 
 *Prerequisites:* Mathlib `ContinuousMulEquiv`, `MulAut`, `QuotientGroup`; the pattern of
 `CategoryTheory/Galois/Topology.lean`.
+
+*Tau Ceti:* `TauCeti.ContinuousAut` and `TauCeti.ContinuousOut` with
+`TauCeti.ContinuousAut.congruenceTopology`, `TauCeti.ContinuousOut.mapClosedQuotient` for a
+topologically characteristic closed normal subgroup (`TauCeti.IsTopCharacteristic`),
+`TauCeti.ContinuousAut.eq_conj_of_toMulAut_eq_conj`, and the outer action of an extension
+`TauCeti.outerAction`.
 
 #### 12.8 The arithmetic extension and the outer action
 
@@ -4665,14 +4952,15 @@ inertia subgroups, `IsPrimitiveRoot`, roots of unity.
 
 #### 12.10 The `ẑ`-cyclotomic character
 
-Assemble the pin's `modularCyclotomicCharacter n`, over all `n`, into the continuous
+Assemble the pin's `modularCyclotomicCharacter n`, over all `n : ℕ+`, into the continuous
 
 ```text
 χ : Gal(ℚ̄/ℚ) →* ẑˣ
 ```
 
 on Layer 12.2's carrier, with the finite-level specification `σ ζ = ζ ^ χ_n(σ)` for every
-`n`-th root of unity, and with `ℓ`-adic components equal to the pin's
+`n`-th root of unity and every **positive** `n : ℕ+` (the levels 12.1 assembles), and with
+`ℓ`-adic components equal to the pin's
 `cyclotomicCharacter ℓ`. The compatibility across levels is the milestone; the pin supplies
 each level separately.
 
@@ -4682,8 +4970,8 @@ layers, and names it the cyclotomic character. The pin supplies the finite level
 compatibility across levels is the milestone.
 
 *Prerequisites:* Layer 12.1 (the ring `ẑ`, its unit group, and the universal property that
-assembles a compatible system of maps into `(ZMod n)ˣ` into one map into `ẑˣ`); Mathlib
-`modularCyclotomicCharacter`, `cyclotomicCharacter`.
+assembles a compatible system of maps into `(ZMod n)ˣ`, `n : ℕ+`, into one map into `ẑˣ`);
+Mathlib `modularCyclotomicCharacter`, `cyclotomicCharacter`.
 
 #### 12.11 The branch-cycle theorem
 
@@ -4725,7 +5013,7 @@ convention its source uses.
 representative it is not an element map on `P`. A representative may satisfy an on-the-nose
 equality — the identity representative does for `σ=1` — but the general theorem supplies
 conjugators, one for each peripheral element, which need not agree. No canonical lift is
-asserted. Layer13.3 constructs the actual representative/conjugator data needed there.
+asserted. Layer 13.3 constructs the actual representative/conjugator data needed there.
 
 *Source:* Szamuely **Remark 4.7.5** is the same theorem in the same generality and with the
 same proof: in the situation of his **Lemma 4.7.2**, the action of `Gal(k̄|k)` on the inertia
@@ -4741,8 +5029,8 @@ two independent sources on the direction is why it is stated rather than cited.
 Also: Stix, "On cuspidal sections of algebraic fundamental groups", ASPM 63 (2012),
 **Definition 37(i)**, in §7 ("Orientation and degree") — a commutative square whose content
 for an element of the decomposition group is exactly `γ x γ⁻¹ = x ^ χ(γ)`, with the
-**non-inverted** exponent, matching the Kummer computation above. ⚠ Three citation traps,
-each recorded in the private provenance ledger: the formula is in §7 and **not** in §3.3, which only sets
+**non-inverted** exponent, matching the Kummer computation above. ⚠ Three citation traps:
+the formula is in §7 and **not** in §3.3, which only sets
 up inertia and decomposition groups; "Definition 37" is numbered only in the published ASPM
 version, the arXiv preprint carrying the same content as unnumbered text; and Stix's `π₁` is
 the **opposite** group of the deck group, compensated by a matching inverse in his
@@ -4763,12 +5051,12 @@ The statement is about **conjugacy classes, one slot at a time** — a Nielsen-c
 statement — and it is not about a tuple of powers.
 
 Use different symbols for the degree and the exponent. Let `t` have degree `d`,
-monodromy group `G`, and exponent `N`. In the **left** conjugation convention of11.1,
+monodromy group `G`, and exponent `N`. In the **left** conjugation convention of 11.1,
 write `t^σ=(τ0,τ1,τinf)` for the triple of the `σ`-conjugate pair and put
 `v=χ_N(σ)⁻¹`. The inverse arises because the transported fibre action precomposes the
 original representation by the inverse of arithmetic conjugation, as proved below.
 For the corresponding right transport `t·σ:=t^{σ⁻¹}`, put instead `u=χ_N(σ)`.
-State both forms explicitly; the positive Kummer conjugation formula of12.11 is unchanged.
+State both forms explicitly; the positive Kummer conjugation formula of 12.11 is unchanged.
 For the left form:
 
 - `τ0` lies in the `S_d`-conjugacy class of `σ0 ^ v`, and likewise `τ1` of `σ1 ^ v` and
@@ -4786,8 +5074,7 @@ tuple of independently powered entries, because **that tuple is usually not a tr
 independently powering three elements of a nonabelian group destroys the product relation.
 For `σ0 = (0 1 2)`, `σ1 = (0 1)`, `σinf = (1 2)` in `S₃` — which satisfies
 `σinf·σ1·σ0 = 1` — and `u = 5`, the componentwise fifth powers give
-`(1 2)·(0 1)·(0 2 1)`, which sends `0 ↦ 1`. `Suggested.lean` carries this as a
-`decide`-checked counterexample. The class-by-class form above is what the branch-cycle
+`(1 2)·(0 1)·(0 2 1)`, which sends `0 ↦ 1`. The class-by-class form above is what the branch-cycle
 theorem gives, and it is all it gives.
 
 ⚠ Fried's (5.2) is likewise a statement about **conjugacy classes** and never about chosen
@@ -4797,48 +5084,42 @@ translation is where representatives are finally chosen, by the database rather 
 mathematics.
 
 **Monodromy image comparison precedes passport invariance.** Choose a representative
-`θ_σ` of12.8's continuous outer automorphism, given by conjugation by a lift of `σ`,
+`θ_σ` of 12.8's continuous outer automorphism, given by conjugation by a lift of `σ`,
 and a numbering of the conjugate fiber. If `H` is the stabilizer subgroup for the original
-cover, the conjugate field has stabilizer `θ_σ(H)`: an embedding of11.1's scalar-twisted
+cover, the conjugate field has stabilizer `θ_σ(H)`: an embedding of 11.1's scalar-twisted
 field is obtained by applying that lift. The left action on the transported cosets is
-therefore `g↦r(θ_σ⁻¹(g))`. Prove, via12.6's natural fibre equivalence, the exact formula
+therefore `g↦r(θ_σ⁻¹(g))`. Prove, via 12.6's natural fibre equivalence, the exact formula
 `r_conjugate = conjugation(τ) ∘ r ∘ θ_σ⁻¹`.
 This pins the inverse and proves the comparison for the whole representation. Since
 `θ_σ⁻¹` is surjective, `range(r∘θ_σ⁻¹)=range(r)`, so embedded monodromy groups are
-conjugate by the single permutation `τ`. Applying12.11 to `θ_σ⁻¹` gives the unit
+conjugate by the single permutation `τ`. Applying 12.11 to `θ_σ⁻¹` gives the unit
 exponent `v=χ_N(σ)⁻¹` used above. Changing representative introduces an inner
 conjugation and leaves this conclusion unchanged. This is the required monodromy
 producer; the common-power lemma `⟨σ0^u,σ1^u⟩=⟨σ0,σ1⟩` remains a separate finite fact.
 
 **Passport invariance.** Use that image comparison for the embedded group and primitivity.
 Use the branch-cycle class theorem for the three full cycle types, since unit powers and
-conjugation preserve them; use0.6 for genus and0.7 for geometry. Degree and the abstract
+conjugation preserve them; use 0.6 for genus and 0.7 for geometry. Degree and the abstract
 monodromy group are consequently fixed as well. Thus each Galois orbit lies in one
-passport, completing11.2's partial statement.
+passport, completing 11.2's partial statement.
 
 Slotwise conjugacy alone does not imply the image comparison. In `S₅`, let
 `a=(0,1,2,3,4)`, `b=(0,1,3,4,2)`. The triples `(a,a,a³)` and
-`(a,b,(b*a)⁻¹)` have all three entries5-cycles, so corresponding entries are conjugate
-with exponent1, but they generate `C₅` and `A₅` respectively. This is a counterexample
+`(a,b,(b*a)⁻¹)` have all three entries 5-cycles, so corresponding entries are conjugate
+with exponent 1, but they generate `C₅` and `A₅` respectively. This is a counterexample
 to that implication, not a claim that these two triples are Galois conjugate.
 
 ⚠ *Nearby false statement:* the converse fails, and its failure is the reason a passport is
-not a Galois orbit — the frozen `5T1-5_5_5` passport in the private provenance ledger has one passport
-and three orbits. Layer 14 never treats `pass_size` and `orbit_size` as the same datum.
+not a Galois orbit — the LMFDB passport `5T1-5_5_5` is one passport of size `3` with three
+Galois orbits, each of size `1` over `ℚ` (Layer 3.5's three classes). Layer 14 never treats `pass_size` and `orbit_size` as the same datum.
 
-*Prerequisites:* Layers0.5–0.7,1.1,1.4,11.1,12.6,12.8,12.11; the whole finite-monodromy
+*Prerequisites:* Layers 0.5–0.7,1.1,1.4,11.1,12.6,12.8,12.11; the whole finite-monodromy
 representation comparison above is an explicit target before the passport corollary.
 
 ### Layer 13: the pro-`ℓ` peripheral theorem and faithfulness
 
-> **Owner:** successor roadmap `BelyiArithmeticActions`, except that the existence statements of
-> 13.3 and 13.4 are instances of `PeripheralActions`' generic theorems (its Layers 2 and 4), which
-> are proved there for every free pro-`p` group of finite rank without the Galois action.
-> `BelyiArithmeticActions` owns the arithmetic route below and its Galois-equivariant
-> consequences. The two generic helpers 13.3 applies, `conjugation_transfer` and
-> `opposite_third_peripheral`, are exports of §Pinned conventions, not of this layer.
-> Retained here as a dependency specification; no milestone of this layer is a
-> declaration or a completion claim of this roadmap.
+The two generic helpers 13.3 applies, `conjugation_transfer` and `opposite_third_peripheral`,
+are exports of §Pinned conventions, not of this layer.
 
 #### 13.1 The pro-`ℓ` peripheral triple
 
@@ -4848,8 +5129,7 @@ For a **prime** `ℓ` — every statement of Layer 13 carries `[Fact ℓ.Prime]`
 canonical generators `TauCeti.freeProP.of` and the relation `C_ℓ * T_ℓ * P_ℓ = 1`. Tau Ceti
 defines this carrier as the maximal pro-`ℓ` quotient of `TauCeti.freeProfiniteGroup (Fin 2)`,
 the group `F̂₂` of §Pinned conventions; this roadmap neither redefines that quotient nor
-introduces an isomorphic replacement, and `PeripheralActions`' dyadic instance, with `e` the
-identity, is about this same carrier.
+introduces an isomorphic replacement.
 
 The outer action descends: `TauCeti.proPKernel ℓ` is topologically characteristic (Tau Ceti's
 `TauCeti.map_proPKernel_eq`, as `ProfiniteArithmetic`'s `isTopCharacteristic_proPKernel`), so
@@ -4863,6 +5143,9 @@ and 12.11's statements descend with `^ᶻ` becoming `^[ℓ]` by 12.3.
 
 *Prerequisites:* Layers 12.7, 12.11, 12.2, 12.3; Tau Ceti `TauCeti.freeProP`,
 `TauCeti.freeProP.of`, `TauCeti.map_proPKernel_eq`.
+
+*Tau Ceti:* the carrier `TauCeti.freeProP` with `TauCeti.freeProP.of`, and
+`TauCeti.isTopCharacteristic_proPKernel`. The descended outer action `ρ_ℓ` remains.
 
 #### 13.2 Cyclotomic surjectivity
 
@@ -4881,28 +5164,30 @@ compactness of Galois groups.
 
 #### 13.3 The peripheral-power theorem
 
-For every prime `ℓ` and every `u ∈ ℤ_[ℓ]ˣ` there exist a continuous automorphism `φ_u` of
-`Δ_ℓ` and elements `c_P, c_T, c_C` with
+For every prime `ℓ`, every `σ ∈ Gal(ℚ̄/ℚ)`, and every continuous automorphism `φ` of `Δ_ℓ`
+representing the outer class `ρ_ℓ(σ)` of 13.1, put `u := cyclotomicCharacter ℓ σ ∈ ℤ_[ℓ]ˣ`. Then
+there exist `c_P, c_T, c_C ∈ Δ_ℓ` with
 
 ```text
-φ_u P_ℓ = c_P⁻¹ · (P_ℓ ^[ℓ] u) · c_P ,
-φ_u T_ℓ = c_T⁻¹ · (T_ℓ ^[ℓ] u) · c_T ,
-φ_u C_ℓ = c_C⁻¹ · (C_ℓ ^[ℓ] u) · c_C .
+φ P_ℓ = c_P⁻¹ · (P_ℓ ^[ℓ] u) · c_P ,
+φ T_ℓ = c_T⁻¹ · (T_ℓ ^[ℓ] u) · c_T ,
+φ C_ℓ = c_C⁻¹ · (C_ℓ ^[ℓ] u) · c_C .
 ```
 
-As an existence statement this is `PeripheralActions` Layer 2 (`exists_peripheralAut`) for
-`F = Δ_ℓ` with `e` the identity and basis `(P_ℓ, T_ℓ)`. Its cusp is
-`(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹` (`opposite_third_peripheral`), and the statement for `C_ℓ`
-follows by the conjugation-transfer lemma of §Pinned conventions at `q = P_ℓ⁻¹`. The proof
-recorded here is the arithmetic one.
+Consequently, by 13.2, for every `u ∈ ℤ_[ℓ]ˣ` some automorphism `φ_u` representing an outer
+class in the image of `ρ_ℓ` satisfies the three equations.
 
-Arithmetic proof: choose `σ` with `cyclotomicCharacter ℓ σ = u` (13.2); take `ρ_ℓ(σ)` (13.1)
-and any representative automorphism `φ_u` of that outer class; the three conjugacy statements of
-12.11, descended by 13.1, say exactly that each `φ_u(X_ℓ)` is conjugate to `X_ℓ ^[ℓ] u`, and
-the conjugators are the witnesses.
+Proof: the three conjugacy statements of 12.11, descended by 13.1 with `^ᶻ χ(σ)` becoming
+`^[ℓ] u` by 12.3, say exactly that each `φ(X_ℓ)` is conjugate to `X_ℓ ^[ℓ] u`, and the
+conjugators are the witnesses; changing the representative `φ` within its outer class changes
+the three conjugators and nothing else. For a given `u`, 13.2 supplies `σ`.
+
+The existence of such an automorphism without any Galois action is a separate group-theoretic
+theorem of the PeripheralActions roadmap; nothing here uses it, and the statement here is about
+the image of `Gal(ℚ̄/ℚ)`.
 
 ⚠ **The three conjugators are independent.** Nothing asserts `c_P = c_T = c_C`; a single
-conjugator would say `φ_u` is inner-times-the-power-map on the whole group, which is false.
+conjugator would say `φ` is inner-times-the-power-map on the whole group, which is false.
 
 ⚠ The assignment `u ↦ φ_u` is **not** asserted to be a homomorphism, to be continuous, or to
 be canonical. Each is a strictly stronger statement and each is outside this roadmap.
@@ -4913,20 +5198,18 @@ peripheral element. Applying it with `q = P_ℓ` and `x = C_ℓ` gives the oppos
 element `(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹`, so consumers using that spelling need no new
 mathematics.
 
-*Prerequisites:* Layers 12.2, 13.1, 13.2; §Pinned conventions (`conjugation_transfer`,
-`opposite_third_peripheral`); `PeripheralActions` Layer 2 for the existence statement.
+*Prerequisites:* Layers 12.2, 12.3, 12.11, 13.1, 13.2; §Pinned conventions
+(`conjugation_transfer`, `opposite_third_peripheral`).
 
 #### 13.4 The dyadic instance
 
 The specialization to `ℓ = 2`, stated as its own named theorem with `u : ℤ_[2]ˣ` on
-`Δ_2 = TauCeti.freeProP 2 (Fin 2)`. As an existence statement it is `PeripheralActions` Layer 4, the
-reusable dyadic peripheral-power theorem, in the form `exists_peripheralPowerAutomorphism_two'`,
-whose third element `(T * P)⁻¹` is this roadmap's `C_2`; the unprimed
-`exists_peripheralPowerAutomorphism_two` is stated for `PeripheralActions`' cusp `(P * T)⁻¹`. This
-milestone records its arithmetic proof, and nothing in that proof mentions anything outside this
-roadmap.
+`Δ_2 = TauCeti.freeProP 2 (Fin 2)`, in both conventions for the third element: for `C_2 = (T_2 ·
+P_2)⁻¹` as in 13.3, and for `(P_2 · T_2)⁻¹ = P_2 · C_2 · P_2⁻¹` (`opposite_third_peripheral`)
+with the conjugator `P_2 · c_C · (φ P_2)⁻¹` computed by `conjugation_transfer`. The proof is 13.3's
+at `ℓ = 2`, and nothing in it mentions anything outside this roadmap.
 
-*Prerequisites:* Layer 13.3.
+*Prerequisites:* Layer 13.3; §Pinned conventions.
 
 #### 13.5 Faithfulness of the Galois action on dessins
 
@@ -5013,16 +5296,23 @@ faithfulness on dessins.
 *Prerequisites:* Layers 9.8, 10.2, 10.3, 11.1, 12.4; Mathlib `Polynomial.derivative`,
 `Polynomial.roots`, `Polynomial.comp`.
 
+*Tau Ceti:* `p_α` as `TauCeti.lenstraPolynomial`; the decomposition lemma as
+`Polynomial.eq_of_comp_eq_comp_of_monic` (part 1) and `Polynomial.eq_C_mul_add_C_of_comp_eq_comp`
+(part 2); steps 3–5 as `TauCeti.exists_criticalValues_comp_lenstraPolynomial_subset`,
+`Polynomial.map_comp_lenstraPolynomial` and `TauCeti.comp_lenstraPolynomial_comp_ne_map`; and
+the polynomial form of faithfulness `TauCeti.exists_polynomial_criticalValues_subset_comp_ne_map`:
+for a field `K` algebraic over `ℚ` and a ring endomorphism `σ ≠ id` of `K`, some nonconstant
+`P ∈ K[x]` with all critical values in `{0, 1}` is not carried to `P^σ` by any affine change of
+variable. The passage to isomorphism classes of algebraic Belyi pairs, and hence the statement
+of this milestone, remains.
+
 ### Layer 14: LMFDB assertion semantics
 
-> **Owner:** successor roadmap `BelyiArithmeticActions`. Retained here as a dependency
-> specification; no milestone of this layer is a declaration or a completion claim of
-> this roadmap.
-
 This layer says what a stored record asserts, mathematically. It certifies no database value
-and asserts nothing about the completeness of the database. The schema it mirrors is frozen,
-with its retrieval date, in the private provenance ledger; the milestones below cite that snapshot rather
-than the live site.
+and asserts nothing about the completeness of the database. The schema it mirrors is that of the
+LMFDB's `belyi_passports` and `belyi_galmaps` collections, as displayed on the database's Belyi
+pages; every record a milestone uses is named by its label, and a certificate is checked against
+the record data it is given, never against an unstated copy.
 
 #### 14.1 The passport record
 
@@ -5033,9 +5323,10 @@ together with a validity predicate tying each field to this roadmap's mathematic
 
 - `deg`, `lambdas`, `abc`, `g`, `geomtype` to the Layer 0.5–0.7 invariants of the passport
   (Layer 1.5);
-- `group` to Layer 1.6's label semantics through the single PolynomialGaloisGroups family
-  for `1 ≤ deg ≤ 11`, including the explicit higher reference comparisons; outside that
-  range it is parsed data with no group certificate, rather than a false use of `Fin 0`;
+- `group` to Layer 1.6's label semantics through the single PolynomialGaloisGroups family:
+  for `1 ≤ deg ≤ 5` through its Layer 6, for `6 ≤ deg ≤ 11` through the gap
+  `gap:transitive-groups-degree-six-to-eleven`; above degree `11` it is parsed data with no group
+  certificate, rather than a false use of `Fin 0`;
 - `pass_size` to Layer 3.4;
 - `is_primitive` to Layer 1.4;
 - `primitivization` to a carried block-system certificate (Layer 1.4), not to a derived
@@ -5060,8 +5351,11 @@ lemma rather than as a comment:
 - **`abc[i]` is the lcm of `lambdas[i]`**, which is Layer 0.7's
   `orderOf σ = (fullCycleType σ).lcm`, so `abc` is redundant given `lambdas` and the
   certificate proves the relation rather than carrying both as independent data.
-- ⚠ **`geomtype` is not a function of the genus.** The frozen records include `g = 0` with
-  `geomtype = "E"` and `g = 1` with `geomtype = "H"`. The field is exactly Layer 0.7's
+- ⚠ **`geomtype` is not a function of the genus.** Genus `0` occurs with `geomtype = "E"`: in
+  degree `5`, `σ0 = (1 2)(3 4)` and `σ1 = (0 1 2 3)` give cycle types `[2,2,1]`, `[4,1]`,
+  `[4,1]`, orders `(2,4,4)` and `χ = 3 + 2 + 2 − 5 = 2`. Genus `1` occurs with
+  `geomtype = "H"`: in degree `4`, a `3`-cycle and a `4`-cycle with `4`-cycle product give cycle
+  types `[3,1]`, `[4]`, `[4]`, orders `(3,4,4)` and `χ = 0`. The field is exactly Layer 0.7's
   `geometryType`, computed from `1/a + 1/b + 1/c` against `1`, and the certificate ties it
   there and nowhere near `g`.
 - **`pass_size` is a count of isomorphism classes, not of stored rows** — it is exactly
@@ -5070,6 +5364,11 @@ lemma rather than as a comment:
   `maxdegbf`, despite its name, is the **maximum orbit size** in the passport.
 
 *Prerequisites:* Layers 0.4–0.7, 1.1–1.6, 3.4, 11.7.
+
+*Tau Ceti:* `TauCeti.PermutationTriple.LMFDB.PassportRecord` with its validity predicate `TauCeti.PermutationTriple.LMFDB.PassportRecord.IsValidAt`,
+`TauCeti.PermutationTriple.LMFDB.PassportRecord.IsValidAt.abc_eq_orderTriple`, `IsValidAt.abc_eq_lcm_lambdas`,
+`IsValidAt.geomtype_eq_geometryType`, `IsValidAt.passSize_eq_passportSize` and, for the group
+field, `IsValidAt.transitiveGroupLabel_of_parse_groupString`.
 
 #### 14.2 The map-orbit record, and the translation of stored triples
 
@@ -5081,9 +5380,9 @@ distinctive content is three theorems, not a list of fields.
 stored data is the componentwise inverse of a triple in this roadmap's convention. The
 milestone states that the Layer 0.1 involution is the translation, and that it preserves
 every invariant the record asserts: degree, all three full cycle types, the monodromy group,
-connectedness, the automorphism group, the genus, and the passport. The private provenance ledger records
-the frozen records the translation was verified against, including which records are
-symmetric under the swap and therefore cannot verify it.
+connectedness, the automorphism group, the genus, and the passport. The record
+`3T2-3_2.1_2.1-a` is the check (§Pinned conventions); a record whose stored data is symmetric
+under the swap — `σ1 = σ0` and `σinf = 1`, say — satisfies both relations and verifies nothing.
 
 **Base field versus field of moduli.** The stored `base_field` is a field of **definition**
 (Layer 11.5), and the certificate keeps it distinct from the field of moduli (Layer 11.3).
@@ -5113,13 +5412,17 @@ With those apart, state each assertion against the right one:
   triple is the monodromy of the `i`-th complex embedding of the base field. That positional
   indexing is what `storedEmbeddingCount_eq_triplesLength` records, and the **schema
   assertion** is then `r.orbit_size = storedEmbeddingCount r`;
-- the field-of-definition certificate of Layer 11.5 gives a **surjection** from stored
-  embedding entries onto the true orbit classes, by Layer 11.7's `G/H ↠ G/S`;
+- the field-of-definition certificate of Layer 11.5 gives a map from stored embedding entries
+  **into** the true orbit of the class, whose image is the set of classes the stored entries
+  represent. It is the **surjection** of Layer 11.7's `G/H ↠ G/S` only together with a
+  **coverage certificate**: a proof that the stored embeddings are exactly the complex
+  embeddings of the stored base field `k`, each listed once, so that they enumerate `G/H`.
+  Per-entry validity does not prove coverage: a row listing one embedding of a quadratic base
+  field is valid entry by entry and misses the other;
 - ⚠ **that map need not be injective, so `r.orbit_size = trueOrbitSize c` is not asserted.**
-  It requires a separate certificate — that `H = S`, equivalently that the stored base field
-  is the field of moduli — which Layer 11.6 shows is not automatic. The private provenance ledger records
-  frozen records where several stored embeddings yield simultaneously conjugate triples,
-  hence one class.
+  It requires, besides coverage, a separate certificate — that `H = S`, equivalently that the
+  stored base field is the field of moduli — which Layer 11.6 shows is not automatic. A class
+  defined over `ℚ` but stored over `ℚ(√2)` gives two stored embeddings and one class.
 
 The floating-point embedding values themselves are a numerical annotation and are certified
 as nothing.
@@ -5135,6 +5438,12 @@ stored base field (Layer 9.1). ⚠ **`curve_label` is absent, not null**, on rec
 curve friend, so the Lean field is an `Option` keyed on key-presence.
 
 *Prerequisites:* Layers 0.1, 9.1, 11.3, 11.5, 11.7.
+
+*Tau Ceti:* `TauCeti.PermutationTriple.LMFDB.BelyiRecord` with `TauCeti.PermutationTriple.LMFDB.BelyiRecord.storedEmbeddingCount` and validity
+`TauCeti.PermutationTriple.LMFDB.BelyiRecord.IsValidFor`; the translation `TauCeti.PermutationTriple.LMFDB.StoredTriple.toTriple` with
+`TauCeti.PermutationTriple.LMFDB.StoredTriple.isConnected_toTriple_iff` and `hasPassport_toTriple_iff`; and the inequality
+`TauCeti.PermutationTriple.LMFDB.BelyiRecord.card_storedClasses_le_storedEmbeddingCount`. The comparison with
+`trueOrbitSize` and the field of moduli, and the coverage certificate, remain.
 
 #### 14.3 Certification levels
 
@@ -5157,7 +5466,7 @@ The rows that are easy to get wrong, and what they must say:
 
 | field | level | what the certificate must supply |
 | --- | --- | --- |
-| `group` / `nTj` | finite certificate for `1 ≤ deg ≤ 11`; parsed only above degree `11` | an **exact parser** and a proof that the index in the single extended reference family has `referenceSubgroup` conjugate to the passport's monodromy group (Layer 1.6 and PolynomialGaloisGroups 1D) — not a string or abstract-name comparison |
+| `group` / `nTj` | finite certificate for `1 ≤ deg ≤ 11` (degrees `6` to `11` behind the gap `gap:transitive-groups-degree-six-to-eleven`); parsed only above degree `11` | an **exact parser** and a proof that the index in the single reference family has `referenceSubgroup` conjugate to the passport's monodromy group (Layer 1.6) — not a string or abstract-name comparison |
 | `aut_group` | finite certificate **or** carrier only | either parse its generators and prove the generated subgroup equals the triple's centralizer (Layer 0.4), or mark it carrier-only; the roadmap does not accept the name alone as evidence |
 | `curve`, `map` | finite certificate | a parsed algebraic Belyi pair over the stored base field (Layer 9.1) whose invariants match the record; without the parse, carrier-only |
 | `primitivization` | finite certificate | a block system, the quotient triple it induces (Layer 1.4), and a proof that the quotient's passport is the referenced record's — not a label lookup |
@@ -5169,14 +5478,34 @@ The rows that are easy to get wrong, and what they must say:
 | `embeddings` values | carrier only | floating-point annotations |
 
 ⚠ **`Σ orbit_size = pass_size` is false in general and is not asserted.** With 14.2's two
-counts the failure is exactly describable: `Σ_r storedEmbeddingCount r` counts stored
-embedding entries, while `pass_size` counts simultaneous-conjugacy classes, and the map from
-the former to the latter is surjective but not injective. It fails precisely when the
-per-embedding triples of a single Galois orbit are simultaneously conjugate to one another;
-The private provenance ledger records the two witnesses in the current database. A certificate that
-assumed the sum formula would be unsound on real records.
+counts, `Σ_r storedEmbeddingCount r` counts stored embedding entries, while `pass_size` counts
+the simultaneous-conjugacy classes of the passport, and valid rows give only a map from the
+former into the latter. It can fail in two independent ways:
+
+- **duplication** — several stored entries give the same class, as when a row's base field
+  strictly contains the field of moduli (14.2);
+- **omission** — classes of the passport that no stored row represents. Valid rows do not prove
+  that their union covers the passport: keeping only one of the three rows of `5T1-5_5_5`, each
+  over `ℚ` with one embedding, gives a sum of `1` against `pass_size = 3`, with no duplicate
+  entry anywhere.
+
+The equation holds when a certificate supplies, for every row, coverage of the embeddings of
+its base field (14.2), pairwise distinctness of the represented Galois orbits, equality of each
+base field with the field of moduli, and that the represented classes are all the classes of the
+passport. The last is a statement about the table and needs its own proof: Algorithm 2.3.1 of
+Musty–Schiavone–Sijsling–Voight enumerates the combinatorial possibilities, which is distinct
+from computing and storing the maps. A certificate that assumed the sum formula would be unsound
+on real records.
 
 *Prerequisites:* Layers 0.4, 1.2, 1.4, 1.6, 3.4, 9.1, 11.7, 14.1, 14.2.
+
+*Tau Ceti:* `TauCeti.PermutationTriple.LMFDB.CertificationLevel` with the field classifications
+`TauCeti.PermutationTriple.LMFDB.PassportRecord.StoredField.certificationLevel` and
+`TauCeti.PermutationTriple.LMFDB.BelyiRecord.StoredField.certificationLevel`; the aggregation predicate
+`TauCeti.PermutationTriple.LMFDB.PassportRecord.IsAggregatedFrom`; and the inequalities
+`TauCeti.PermutationTriple.LMFDB.PassportRecord.card_mapRowClasses_le_sum_storedEmbeddingCount` and
+`TauCeti.PermutationTriple.LMFDB.PassportRecord.IsValidAt.card_mapRowClasses_le_passSize`, which are what valid rows prove
+without a coverage certificate.
 
 #### 14.4 The tabulated `S₃` representative
 
@@ -5188,8 +5517,9 @@ from the intrinsic ordered passport, and refuses to manufacture a canonical choi
 - **The certificate.** A `TabulatedPassport` record carries a stored ordered passport
   together with a proof that it is admissible (Layer 1.1); the assertion it supports is
   membership in the `S₃`-orbit of a given ordered passport, and nothing stronger.
-- **What is proved.** The stored classes are exactly the classes of the **stored** ordered
-  passport — not of its orbit: the orbit generally contains other ordered passports with
+- **What is proved.** The stored classes lie in the **stored** ordered passport — not merely in
+  its orbit — and are all of its classes only under a completeness certificate as in 14.3, since
+  valid rows do not prove that they cover a passport: the orbit generally contains other ordered passports with
   their own classes, and Layer 2.6's action moves between them. State the bijection between
   the classes of two ordered passports in one orbit, so that a consumer can transport a
   count without confusing the two.
@@ -5208,7 +5538,8 @@ which is where the one-representative-per-`S₃`-orbit tabulation is specified.
 #### 14.5 Label semantics
 
 The grammar of passport and map labels, with the mathematical meaning of each component:
-degree, the `nTj` group through Layer 1.6 for degrees `1` through `11` (above that the group
+degree, the `nTj` group through Layer 1.6 for degrees `1` through `11`, degrees `6` to `11`
+behind the gap of Layer 1.6 (above degree `11` the group
 component is parsed without a group certificate), and the three partitions. Prove that a valid record's
 label components agree with its certified invariants. ⚠ The trailing orbit letter
 is an external enumeration of the Galois orbits inside a passport — carrier-only in 14.3's
@@ -5218,9 +5549,12 @@ by any invariant, is the witness.
 
 *Prerequisites:* Layers 1.6, 14.1–14.4.
 
+*Tau Ceti:* `TauCeti.PermutationTriple.LMFDB.parsePassportLabel` with `TauCeti.PermutationTriple.LMFDB.partitions_of_parsePassportLabel_eq_some`,
+`TauCeti.PermutationTriple.LMFDB.parseMapLabel`, and `TauCeti.PermutationTriple.LMFDB.PassportRecord.IsValidAt.hasLabel_of_hasValidLabel`.
+
 #### 14.6 The frozen acceptance suite
 
-The five frozen records in the private provenance ledger — genus zero, positive genus, primitive,
+The records named by their labels below and in Layers 0.1, 8.5 and 12.12 — genus zero, positive genus, primitive,
 imprimitive, a passport with three Galois orbits, and links to both an elliptic and a
 genus-two curve — each carried through 14.1–14.5 at the highest certification level its data
 admits. ⚠ The database itself is complete only through degree `6` by its own account, and
@@ -5239,6 +5573,10 @@ reconciliation is one-directional by design: it does not claim that every enumer
 appears in the database.
 
 *Prerequisites:* Layers 3.5, 14.1–14.5.
+
+*Tau Ceti:* the degree-at-most-four table `TauCeti.PermutationTriple.LMFDB.smallDegreeRecords` with
+`TauCeti.PermutationTriple.LMFDB.unorderedCycleData_eq_classification`, and `TauCeti.PermutationTriple.LMFDB.isValidAt_torusPassportRecord`. The
+`6T6`/`3T1` group and primitivization certificates and the `5T1-5_5_5` record remain.
 
 ## Explicit scope exclusions
 
@@ -5264,8 +5602,8 @@ None of the following is part of this roadmap, at any layer, and none is "deferr
   or homomorphy of `u ↦ φ_u`, and local decomposition-group actions
   `Gal(ℚ̄_p/ℚ_p) → Out`;
 - Grothendieck–Teichmüller theory and anabelian reconstruction;
-- LMFDB `nTj` group certificates above degree `11`; the degree 6–11 extension and all of its
-  Layer 14 consumers are required through PolynomialGaloisGroups Layer 1D;
+- LMFDB `nTj` group certificates above degree `11`; degrees `6` to `11` are in scope, through
+  the gap `gap:transitive-groups-degree-six-to-eleven` of §What Tau Ceti supplies;
 - the inverse Galois problem beyond the monodromy groups the constructions here realize;
 - formalized counterexamples where Layer 11.6 records a cited structural warning.
 
@@ -5313,8 +5651,8 @@ The layer numbering is the citation order; the two-track structure is the parall
 
 ## References
 
-Primary sources, with the convention-sensitive role of each recorded; exact theorem numbers
-are verified against the copies recorded in the private provenance ledger before any milestone cites one.
+Primary sources, with the convention-sensitive role of each recorded. Theorem numbers are those
+of the editions named.
 
 - E. Girondo, G. González-Diez, *Introduction to Compact Riemann Surfaces and Dessins
   d'Enfants*, LMS Student Texts 79, CUP 2012 — the analytic theory at this roadmap's exact
@@ -5365,5 +5703,5 @@ are verified against the copies recorded in the private provenance ledger before
 - O. Forster, *Lectures on Riemann Surfaces*, GTM 81 — Layers 8.1–8.3, 8.5, 9.2 and 9.3
   directly (local normal form **2.1**, degree theorem **4.24**, continuation of coverings
   **8.4** with uniqueness **8.5**, and the degree of the meromorphic extension **8.3**), and
-  the cohomology chain ModularForms Layer 10B builds and Layers 8–9 consume (finiteness
+  the cohomology chain ModularForms §10B builds and Layers 8–9 consume (finiteness
   **14.10**, Riemann–Roch **16.9**, Serre duality **17.9**, Riemann–Hurwitz **17.14**).
