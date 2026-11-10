@@ -55,7 +55,7 @@ and direct categories finds no other owner.
 | --- | --- | --- |
 | Kan–Quillen model structure on `SSet`, simplicial weak equivalences | GeneralizedCohomology, G2 item 1 | Layers 4–5 |
 | Classifying spaces of small categories, homotopy colimits and Thomason's comparison, Quillen's Theorem B, the homology spectral sequence of a functor | StableHomotopyKTheory, §§1.21, 2.26, 2.29, 2.30, 2.34 | Layer 4 |
-| The characterization of Reedy structures by unique factorization, no endomorphisms in either class and no infinite descending chains | HigherToposTheory, F1.8 | 7.2 |
+| The characterization of Reedy structures by unique factorization, no non-identity endomorphisms in either class and no infinite descending chains | HigherToposTheory, F1.8 | 7.2 |
 | The generic `PicardGroupoid` and the graded Picard groupoids of schemes | SchemeAndStackFoundations, §3.4 | Layer 12 |
 | `CrossedModule` with its quotient groupoid, `coker ∂` and `ker ∂` | SchemeAndStackFoundations, §1.24 | Layer 12 |
 | The site-level `Stack.stackification` | SchemeAndStackFoundations, §1.18 | Layer 13 |
@@ -198,9 +198,10 @@ the homotopy fibre is a weak equivalence when every `d → d′` induces a homot
 4.4; §2.30, the homology spectral sequence of a functor, for 4.3.
 
 **From HigherToposTheory.** F1.8, the characterization of Reedy structures: a category admits a
-`ReedyStructure W₁ W₂ α` exactly when every morphism factors uniquely as a `W₁`-morphism followed
-by a `W₂`-morphism, no non-identity endomorphism lies in `W₁` or `W₂`, and the relation `≺₀` has no
-infinite descending chain, for 7.2.
+`ReedyStructure W₁ W₂ α` for some `α` as in convention 15 exactly when every morphism factors
+uniquely as a `W₁`-morphism followed by a `W₂`-morphism, no non-identity endomorphism lies in `W₁`
+or `W₂`, and the relation `≺₀` (`X ≺₀ Y` when `X ≠ Y` and there is a `W₂`-morphism `X ⟶ Y` or a
+`W₁`-morphism `Y ⟶ X`) has no infinite descending chain, for 7.2.
 
 **From SchemeAndStackFoundations.** §1.18, `Stack.stackification` for an arbitrary small site, for
 13.2; §1.24, `CrossedModule Ht H` with `.quotientCategory`, `.isGroupoid`, `.isoClasses`
@@ -920,10 +921,11 @@ products of direct categories are direct.
 
 Prove `IsDirect.of_reedyStructure` (a `ReedyStructure (identities C) ⊤ α` for any `α` as in
 convention 15 makes `C` direct) and `isDirect_iff_nonempty_reedyStructure` (with
-`α = Ordinal.{u}`). The equivalence is the case `W₁ = identities`, `W₂ = ⊤` of the
-characterization of HigherToposTheory F1.8: the factorization of `f` is the identity followed by
-`f`, unique; a direct category has no non-identity endomorphism (7.1); and `≺₀` is `DirectRel`,
-whose absence of infinite descending chains is `IsDirect`. A direct factorization of `f` is
+`α = Ordinal.{u}`). With some `α` in place of `Ordinal.{u}`, the equivalence is the case
+`W₁ = identities`, `W₂ = ⊤` of the characterization of HigherToposTheory F1.8: the factorization
+of `f` is the identity followed by `f`, unique; a direct category has no non-identity endomorphism
+(7.1); and `≺₀` is `DirectRel`, whose absence of infinite descending chains is `IsDirect`. The
+rank below gives `α = Ordinal.{u}`. A direct factorization of `f` is
 unique: the identity followed by `f`. The
 canonical degree `IsDirect.rank X := WellFounded.rank (DirectRel C) X` is raised by non-identity
 morphisms, satisfies `rank X = ⨆ (f : Y ⟶ X non-identity), Order.succ (rank Y)`, and is minimal:
