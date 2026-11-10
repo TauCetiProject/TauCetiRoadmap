@@ -940,7 +940,7 @@ the input 13.6.19; they are targets here because the Whittaker functions are.
 
 ### Dependencies
 
-Layers 1–4, 6; SpecialFunctionsEiLiErfIncompleteGamma; SpecialFunctionsBessel;
+Layers 1–4; SpecialFunctionsEiLiErfIncompleteGamma; SpecialFunctionsBessel;
 SpecialFunctionsAiry; SpecialFunctionsParabolicCylinder; QuantumFoundations §9.4; LaguerreJacobi;
 AutomorphicSpectralTheory §0.27.
 
@@ -971,8 +971,20 @@ AutomorphicSpectralTheory §0.28 (13.14.21 at `y > 0`).
 
 DLMF 13.2.23, 13.7.1–13.7.2, 13.14.20 and 13.19.1–13.19.2: 13.7.1 along the positive real axis
 for `a ∉ {0, −1, …}`; 13.7.2 in logarithmic coordinates for `−π/2 + δ ≤ ±Im w ≤ 3π/2 − δ`, as a
-two-sum expansion, unless `a` and `b − a` are both nonpositive integers; 13.2.23 and 13.14.20 for
-`|ph z| ≤ π/2 − δ`. 13.7.2 is 13.2.41 with 6.1 applied to both terms.
+two-sum expansion, unless `a` and `b − a` are both nonpositive integers; 13.2.23 for
+`a ∉ {0, −1, …}` and 13.14.20 for `2μ ∉ {−1, −2, …}` and `½ + μ − κ ∉ {0, −1, …}`, each for
+`|ph z| ≤ π/2 − δ`. 13.7.2 is 13.2.41 with 6.1 applied to both terms. In the excluded polynomial
+cases the right sides of 13.2.23 and 13.14.20 vanish, through `1/Γ(a)` and `1/Γ(½ + μ − κ)`, while
+the left sides do not.
+
+**Checks.**
+- 13.2.23 at `a = 0.3`, `b = 0.45`: the ratio `𝐌(a, b, z) Γ(a) e^{−z} z^{b−a}` is
+  `1.00362 22…` at `z = 30` and `1.00177 95…` at `z = 60`, in agreement with
+  `1 + (1 − a)(b − a)/z + O(z^{−2})`.
+- 13.2.23 at `a = −1`, `b = 1`, a negative control: `𝐌(−1, 1, z) = 1 − z`, which is `−4` at
+  `z = 5` and `−29` at `z = 30`, while `e^z z^{a−b}/Γ(a) = 0`.
+- 13.14.20 at `κ = 1`, `μ = ½`, a negative control: `M_{1,1/2}(z) = z e^{−z/2}`, which is
+  `0.41042 49931…` at `z = 5`, while the right side is `0`.
 
 *Needs:* 2.3, 6.1; AutomorphicSpectralTheory §0.28 (13.14.20 at `y > 0`).
 
@@ -1066,7 +1078,7 @@ infinitely many zeros accumulating at `0⁺` (DLMF 10.45.7). The layer also owns
 for `b ≥ 1` by 13.2.40, and Wimp's theorem: for real `a`, `b` with `2a − b > −1`, `U(a, b, z) ≠ 0`
 for `|ph z| ≤ π/2`, `z ≠ 0` (`kummerU_ne_zero`).
 
-*Needs:* Layers 1–2, 6.
+*Needs:* Layers 1–2, 6; 5.2 (13.6.10, for the counterexample).
 
 ### 7.3 Whittaker functions
 
