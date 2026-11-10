@@ -197,7 +197,7 @@ theorem isGδ_modelsOf_toInf_alls [L.IsRelational] {n : ℕ} (ψ : L.BoundedForm
 /-- **Layer 2 graph example.** Satisfaction of an `Lω₁ω` sentence is a measurable event on
 graphs on `ℕ`. -/
 theorem measurableSet_setOf_realize_graph (φ : Language.graph.Sentenceω) :
-    MeasurableSet {G : SimpleGraph ℕ | letI := G.structure; SentenceInf.Realize φ ℕ} := by
+    MeasurableSet {G : SimpleGraph ℕ | @SentenceInf.Realize Language.graph ℕ φ ℕ G.structure} := by
   sorry
 
 /-! ## Layer 3: trees, the analytic tree representation and boundedness -/
@@ -285,7 +285,7 @@ of the Scott sentence of the structure it names, by the library's `realize_scott
 theorem setOf_iso_eq_modelsOf_scottSentence [L.IsRelational] [∀ n, Countable (L.Relations n)]
     (c : RelationalConfiguration L ℕ) :
     {d | (isoSetoid L ℕ) c d} =
-      modelsOf (letI : L.Structure ℕ := c.toStructure; scottSentence (L := L) ℕ) := by
+      modelsOf (@scottSentence L _ ℕ c.toStructure _ _) := by
   ext d
   rw [Set.mem_ofPred_eq, isoSetoid_apply, mem_modelsOf]
   exact (@realize_scottSentence_iff L _ _ ℕ c.toStructure _ ℕ d.toStructure _).symm
@@ -323,7 +323,7 @@ theorem measurableSet_iso_inter_of_scottHeight_le [L.IsRelational]
     [∀ n, Countable (L.Relations n)] {φ : L.Sentenceω} {β : Ordinal.{0}}
     (hβ : β < Ordinal.omega 1)
     (hbound : ∀ c ∈ (modelsOf φ : Set (RelationalConfiguration L ℕ)),
-      (letI : L.Structure ℕ := c.toStructure; scottHeight (L := L) ℕ) ≤ β) :
+      @scottHeight L _ ℕ c.toStructure ≤ β) :
     MeasurableSet ({p : RelationalConfiguration L ℕ × RelationalConfiguration L ℕ |
         (isoSetoid L ℕ) p.1 p.2} ∩ (modelsOf φ ×ˢ modelsOf φ)) := by
   sorry
@@ -332,7 +332,7 @@ theorem measurableSet_iso_inter_of_scottHeight_le [L.IsRelational]
 theorem measurableSet_setOf_selfStabilizationOrdinal_le [L.IsRelational]
     [∀ n, Countable (L.Relations n)] {β : Ordinal.{0}} (hβ : β < Ordinal.omega 1) :
     MeasurableSet {c : RelationalConfiguration L ℕ |
-      (letI : L.Structure ℕ := c.toStructure; selfStabilizationOrdinal (L := L) ℕ) ≤ β} := by
+      @selfStabilizationOrdinal L _ ℕ c.toStructure ≤ β} := by
   sorry
 
 /-- The tree of the finite sequences all of whose prefixes satisfy `P`. -/
@@ -465,9 +465,8 @@ theorem exists_pcSentence [L.IsRelational] [∀ n, Countable (L.Relations n)]
     ∃ ψ : (L.sum pcWitnessLanguage).Sentenceω,
       (∀ (c : RelationalConfiguration L ℕ) (g : ℕ → ℕ),
         (fun n => (queryCode c n, g n)) ∈ body T →
-        letI : L.Structure ℕ := c.toStructure
-        letI : pcWitnessLanguage.Structure ℕ := standardWitness g
-        SentenceInf.Realize ψ ℕ) ∧
+        @SentenceInf.Realize (L.sum pcWitnessLanguage) ℕ ψ ℕ
+          (@Language.sumStructure L pcWitnessLanguage ℕ c.toStructure (standardWitness g))) ∧
       (∀ (M : Type w) [L.Structure M] [pcWitnessLanguage.Structure M], SentenceInf.Realize ψ M →
         ∃ e : M ≃ ℕ, ∃ g : ℕ → ℕ,
           (fun n => (queryCode (e.encodeVia (L := L)) n, g n)) ∈ body T) := by
@@ -505,7 +504,7 @@ theorem measurableSet_iInf_invariants_iff_exists_modelsOf [L.IsRelational]
 theorem analyticSet_iff_exists_pc [L.IsRelational] [∀ n, Countable (L.Relations n)]
     {B : Set (RelationalConfiguration L ℕ)} (hinv : IsomorphismInvariant B) :
     AnalyticSet B ↔ ∃ ψ : (L.sum pcWitnessLanguage).Sentenceω,
-      B = {c | letI : L.Structure ℕ := c.toStructure; LHom.PCMem LHom.sumInl ψ ℕ} := by
+      B = {c | @LHom.PCMem L (L.sum pcWitnessLanguage) LHom.sumInl ψ ℕ c.toStructure} := by
   sorry
 
 /-! ## Layer 6: separation and the well-order class -/
