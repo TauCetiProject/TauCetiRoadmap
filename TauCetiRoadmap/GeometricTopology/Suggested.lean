@@ -47,21 +47,26 @@ theorem (Layer 6.4) is reduced here to Levine's satellite theorem, whose proof i
 GeometricTopology, Part II's. The proofs of the Smale conjecture and of Cerf's theorem
 (Layer 3.4), the cyclic surgery theorem (Layer 5.4), the Gordon–Luecke theorem in its filling
 form (Layer 5.3) and on complements (Layer 8.1), the JSJ theorem (Layer 8.5), and of Thurston's
-Euler class inequality and Yazdi's theorem
-(Layer 10.5) are GeometricTopology, Part II's, which starts from these statements. The annulus
+Euler class inequality on irreducible manifolds and Yazdi's theorem (Layer 10.5) are
+GeometricTopology, Part II's, which starts from these statements; the closed hyperbolic form of
+Thurston's inequality is deduced here from the irreducible one (Layers 7.3 and 10.5). The annulus
 theorem is proved here in dimension at most three; its higher-dimensional proof is
 GeometricTopology, Part II's, and its four-dimensional proof is FourManifolds'. Geometrization,
-the Poincaré conjecture in its topological and its smooth form, Freedman's theorem, Watanabe's
-theorem, Agol's theorems and Manolescu's theorem in both its forms are stated here as the end
+the Poincaré conjecture in its topological form, Freedman's theorem, Watanabe's
+theorem, Agol's theorems (the virtual Haken theorem in its aspherical and its hyperbolic form) and
+Manolescu's theorem in both its forms are stated here as the end
 theorems the roadmap is built to state; their proofs are owned by the roadmaps named in the
 README's *Scope and ownership*. Property P, Property R, the theorem of Gabai, Meyerhoff and Milley
 on the Weeks manifold and Li's rank-versus-genus theorem are stated, not proved, by this roadmap
 (Layers 5.3, 7.4 and 9.2).
 
-Cerf's theorem is the pinned proposition `TauCeti.CerfTheorem`, every diffeomorphism of `S³`
-joined to an orthogonal one; the pinned `TauCeti.SmaleConjecture.cerfTheorem` derives it from the
-Smale conjecture, and `cerf_theorem` states it on its own, Cerf's proof being independent of
-Hatcher's. Not stated here although statable: the tubular neighbourhood theorem of Layer 1.5 is
+Not stated here although statable: the smooth Poincaré theorem, for closed simply connected smooth
+`3`-manifolds and on Mathlib's `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 3`, which
+Poincare3D states and proves (README, Layer 8.6); Cerf's theorem, the pinned
+`TauCeti.CerfTheorem`, which the
+pinned `TauCeti.SmaleConjecture.cerfTheorem` derives from `smale_conjecture`; Yazdi's theorem in
+its weakest native form `TauCeti.YazdiEulerClassOneTheorem`, the case of the empty family in
+`yazdi_infinite_family`; the tubular neighbourhood theorem of Layer 1.5 is
 proved at the pin (`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`), and so is
 Brown's bicollaring theorem for spheres (Layer 2.1, `TauCeti.brownBicollaring`).
 
@@ -84,10 +89,11 @@ Not statable at the pins:
 * the Novikov–Rosenberg theorem (Layer 10.2): the pinned foliations are smooth of a fixed
   leaf dimension but carry no transverse orientation, and incompressibility of a leaf is not
   expressed;
-* the general form of Thurston's Euler class inequality on closed irreducible `3`-manifolds and
-  the infinite family of Yazdi's theorem (Layer 10.5): the pins have no Thurston norm, so only
-  their closed hyperbolic forms, the pinned `TauCeti.ThurstonEulerClassInequality` and
-  `TauCeti.YazdiEulerClassOneTheorem`, are stated;
+* the norm form `x*(e(F)) ≤ 1` of Thurston's Euler class inequality and Gabai's realization of
+  the vertices of the dual unit ball by taut foliations (Layer 10.5): the pins have no Thurston
+  norm and no dual norm, so Thurston's inequality is stated in its surface form, on embedded
+  closed connected oriented surfaces of Euler characteristic at most zero, and Yazdi's theorem
+  with the sharpness of the surface inequality in place of `x*(e) = 1`;
 * Zeeman's conjecture (Layer 11.5) is statable, `TauCeti.ZeemanConjecture`, but open, so it is
   not asserted here; likewise the cosmetic surgery conjecture (Layer 5.3,
   `TauCeti.CosmeticSurgeryConjecture`), and the Akbulut–Kirby conjecture (Layer 5.3,
@@ -129,13 +135,6 @@ three-sphere is a homotopy equivalence (Hatcher, *A proof of the Smale conjectur
 theorem smale_conjecture : TauCeti.SmaleConjecture := by
   sorry
 
-/-- Cerf's theorem, orientation-free form: every smooth diffeomorphism of the round three-sphere
-is joined, in the weak Whitney topology, to the restriction of an orthogonal transformation of
-`ℝ⁴`; equivalently `Diff(S³)` has two path components, and equivalently `π₀(Diff⁺(S³)) = 0`
-(Cerf, Théorème 1; Layer 3.4). -/
-theorem cerf_theorem : TauCeti.CerfTheorem := by
-  sorry
-
 /-- Watanabe's theorem: `π₁(Diff(D⁴, ∂))`, based at the identity, has an element of infinite
 order, so `Diff(D⁴, ∂)` is not contractible and the four-dimensional Smale conjecture fails
 (Watanabe, Theorem 1.1 and Remark 1.2; Kirby's Problem 4.126; Layer 3.4). -/
@@ -144,7 +143,7 @@ theorem watanabe_theorem : TauCeti.WatanabeTheorem := by
 
 /-! ## Layer 4: knots and links -/
 
-/-- Markov's theorem, combinatorial form (Birman, Theorem 2.3; Lickorish, Theorem 16.10): the
+/-- Markov's theorem, combinatorial form (Birman, Theorem 2.3; Lickorish, Proposition 16.10): the
 braids represented by two words, on `n + 1` and `m + 1` strands, are Markov equivalent exactly
 when the oriented PD-codes of their closures are Reidemeister equivalent (Layer 4.2). -/
 theorem markov_theorem {n m : ℕ} (w : TauCeti.BraidWord (n + 1)) (v : TauCeti.BraidWord (m + 1)) :
@@ -282,8 +281,21 @@ hyperbolic `3`-manifold has a connected finite cover fibering over the circle. -
 theorem virtual_fibering_conjecture : TauCeti.VirtualFiberingConjecture := by
   sorry
 
-/-- Agol's virtual Haken theorem (Agol, Theorem 9.1, in its hyperbolic case): every closed
-hyperbolic `3`-manifold has a finite cover that is a closed Haken `3`-manifold. -/
+/-- Agol's virtual Haken theorem (Agol, *The virtual Haken conjecture*, Doc. Math. 18 (2013),
+Theorem 9.1): a closed connected aspherical `3`-manifold, one whose homotopy groups `π_k` vanish
+for every `k ≥ 2` at every base point, has a finite cover that is a closed Haken `3`-manifold
+(Layer 7.4). Asphericity excludes `S³`, `ℝP³` and `S² × S¹`, none of which is virtually Haken. -/
+theorem agol_virtually_haken_of_aspherical (M : Type u) [TopologicalSpace M] [T2Space M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) 0 M] [CompactSpace M]
+    [ConnectedSpace M]
+    (hM : ∀ (k : ℕ) (x : M), 2 ≤ k → Subsingleton (HomotopyGroup (Fin k) M x)) :
+    TauCeti.IsVirtuallyHaken M := by
+  sorry
+
+/-- Agol's virtual Haken theorem in its hyperbolic case, the pinned proposition: every closed
+hyperbolic `3`-manifold has a finite cover that is a closed Haken `3`-manifold. A closed
+hyperbolic manifold is aspherical, its universal cover being hyperbolic space (Layers 7.3
+and 7.4). -/
 theorem virtual_haken_conjecture : TauCeti.VirtualHakenConjecture := by
   sorry
 
@@ -389,16 +401,6 @@ theorem nonempty_homeomorph_sphere_of_simplyConnected (M : Type u) [TopologicalS
     Nonempty (M ≃ₜ sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) := by
   sorry
 
-/-- The Poincaré conjecture, smooth form (Perelman): a closed simply connected smooth
-`3`-manifold is diffeomorphic to the round three-sphere. It follows from the topological form
-`nonempty_homeomorph_sphere_of_simplyConnected` and the uniqueness of smooth structures on
-`3`-manifolds (Layers 8.6 and 11.2). -/
-theorem nonempty_diffeomorph_sphere_of_simplyConnectedSpace (M : Type u) [MetricSpace M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) ∞ M] [CompactSpace M]
-    [SimplyConnectedSpace M] :
-    Nonempty (M ≃ₘ⟮𝓡 3, 𝓡 3⟯ sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) := by
-  sorry
-
 /-! ## Layer 9: Heegaard splittings -/
 
 /-- Li's theorem, the pinned proposition (Li, *Rank and genus of 3-manifolds*, J. Amer. Math. Soc.
@@ -411,20 +413,49 @@ theorem li_rank_genus_theorem : TauCeti.LiRankGenusTheorem.{u} := by
 
 /-! ## Layer 10: foliations of 3-manifolds -/
 
-/-- Thurston's Euler class inequality, closed hyperbolic form (Thurston, *A norm for the homology
-of 3-manifolds*, Section 3; Yazdi, inequality (1)): on a closed connected orientable hyperbolic
-`3`-manifold, every Euler class of a smooth taut codimension-one foliation satisfies
-`|⟨e, f_*[S]⟩| ≤ −χ(S)` for every embedded closed connected oriented surface `S` with
-`χ(S) ≤ 0` (Layer 10.5). -/
+/-- Thurston's Euler class inequality on irreducible manifolds (Thurston, *A norm for the
+homology of 3-manifolds*, Mem. Amer. Math. Soc. 59 (1986), Section 3; Yazdi, inequality (1)): on a
+closed connected orientable smooth `3`-manifold in which every locally flat `2`-sphere bounds a
+`3`-ball, every Euler class `e` of a smooth taut codimension-one foliation satisfies
+`|⟨e, f_*[S]⟩| ≤ −χ(S)` for every embedding `f` of a closed connected oriented surface `S` with
+`χ(S) ≤ 0` (Layer 10.5). Irreducibility is needed: on `S² × S¹` with the product foliation a torus
+homologous to `S² × pt` has `|⟨e, [T]⟩| = 2 > 0 = −χ(T)`. The smoothness binder is stated at
+the level `∞ + 1`, which equals `∞`, as the pinned foliations of class `∞` ask. -/
+theorem thurston_euler_class_inequality_of_isSphereBoundsBall (M : Type) [TopologicalSpace M]
+    [T2Space M] [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) (∞ + 1) M]
+    [CompactSpace M] [ConnectedSpace M] [TauCeti.Orientable (𝓡 3) M]
+    (hM : TauCeti.IsSphereBoundsBall M) :
+    ∀ (F : TauCeti.Foliation (𝓡 3) ∞ M 2), F.Taut →
+      ∀ e : (TopCat.of M).singularCohomology (ModuleCat.of ℤ (ULift.{0} ℤ)) ℤ
+        (ModuleCat.of ℤ ℤ) 2, F.IsEulerClass e → TauCeti.EulerClassBounded e := by
+  sorry
+
+/-- Thurston's Euler class inequality, closed hyperbolic form, the pinned proposition: on a closed
+connected orientable hyperbolic `3`-manifold, every Euler class of a smooth taut codimension-one
+foliation satisfies `|⟨e, f_*[S]⟩| ≤ −χ(S)` for every embedded closed connected oriented surface
+`S` with `χ(S) ≤ 0`. It follows from
+`thurston_euler_class_inequality_of_isSphereBoundsBall`, a closed hyperbolic `3`-manifold being
+irreducible (Layers 7.3 and 10.5). -/
 theorem thurston_euler_class_inequality : TauCeti.ThurstonEulerClassInequality := by
   sorry
 
-/-- Yazdi's theorem, weakest form (Yazdi, *On Thurston's Euler class one conjecture*, Main
-Theorem): some closed connected orientable hyperbolic `3`-manifold carries an even integral class
-of degree two for which the Euler class inequality is sharp and which is the Euler class of no
-smooth taut codimension-one foliation, so Thurston's Euler class one conjecture fails
-(Layer 10.5). -/
-theorem yazdi_theorem : TauCeti.YazdiEulerClassOneTheorem := by
+/-- Yazdi's theorem (Yazdi, *On Thurston's Euler class one conjecture*, Acta Math. 225 (2020),
+Main Theorem, with Gabai–Yazdi's fully marked surface theorem): there are infinitely many closed
+connected orientable hyperbolic `3`-manifolds, each with an even integral class of degree two for
+which the Euler class inequality is sharp and which is the Euler class of no smooth taut
+codimension-one foliation. Infinitely many is stated as: given finitely many spaces `N i`, there
+is such a manifold homeomorphic to none of them. The case `k = 0` is the pinned
+`TauCeti.YazdiEulerClassOneTheorem`, which refutes Thurston's Euler class one conjecture
+(Layer 10.5). The smoothness of `M` is recorded at the level `∞`, which the hyperbolic metric
+asks, and at the equal level `∞ + 1`, which the pinned foliations of class `∞` ask. -/
+theorem yazdi_infinite_family (k : ℕ) (N : Fin k → Type) [∀ i, TopologicalSpace (N i)] :
+    ∃ (M : Type) (_ : MetricSpace M) (_ : ChartedSpace (EuclideanSpace ℝ (Fin 3)) M)
+      (_ : IsManifold (𝓡 3) ∞ M) (_ : IsManifold (𝓡 3) (∞ + 1) M) (_ : CompactSpace M)
+      (_ : ConnectedSpace M) (_ : TauCeti.Orientable (𝓡 3) M),
+        TauCeti.IsHyperbolic (I := 𝓡 3) (M := M) ∧ (∀ i, IsEmpty (M ≃ₜ N i)) ∧
+        ∃ e : (TopCat.of M).singularCohomology (ModuleCat.of ℤ (ULift.{0} ℤ)) ℤ
+          (ModuleCat.of ℤ ℤ) 2, Even e ∧ TauCeti.EulerClassNormOne e ∧
+            ∀ F : TauCeti.Foliation (𝓡 3) ∞ M 2, F.Taut → ¬ F.IsEulerClass e := by
   sorry
 
 /-! ## Layer 11: triangulations -/
