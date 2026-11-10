@@ -8,9 +8,9 @@ public import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Basic
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: full torsion monodromy and geometric
-Frey–Mazur over one-variable function fields. The definition of gonality below
-only expresses the minimum rational-subfield degree needed by these headlines;
-CanonicalModelsAndGonality Layers 1 and 9 own its general theory and proper-model comparison.
+Frey–Mazur over one-variable function fields. The definition of gonality below is
+CanonicalModelsAndGonality §1.1's, with the same body, repeated only so that these
+headlines elaborate; that roadmap's Layers 1 and 9 own its theory and proper-model comparison.
 
 The following headline theorems are not statable at the pins:
 * The compact and filling-sensitive cusped systole asymptotics and surviving witness
@@ -39,14 +39,13 @@ open scoped WeierstrassCurve
 
 attribute [local instance] AddSubgroup.torsionBy.zmodModule
 
-/-- The least finite degree over a transcendental singly generated subfield.
-For a one-variable function field this is a positive attained minimum. Over
-algebraically closed characteristic-zero constants it agrees with gonality of
-the smooth proper model. The total infimum is zero for an empty defining set;
+/-- Gonality as defined in CanonicalModelsAndGonality §1.1: the infimum of the degrees
+`[K : k(f)]` over transcendental `f`. On a one-variable function field every such degree is
+finite and positive and the infimum is attained; over algebraically closed constants it is the
+gonality of the smooth proper model. Outside one-variable function fields the value is zero;
 the headline theorems require a one-variable function field. -/
 noncomputable def gonality (k K : Type*) [Field k] [Field K] [Algebra k K] : ℕ :=
   sInf {n : ℕ | ∃ f : K, Transcendental k f ∧
-    FiniteDimensional (IntermediateField.adjoin k {f}) K ∧
     Module.finrank (IntermediateField.adjoin k {f}) K = n}
 
 /-! ## Layer 9: Actual torsion, descent and characteristic-zero fields -/
@@ -71,10 +70,11 @@ theorem full_monodromy (N : ℕ) (k K : Type u) [Field k] [IsAlgClosed k] [CharZ
   sorry
 
 open scoped Classical in
-/-- Uniform geometric Frey–Mazur (BT16 Theorem 2): the prime threshold depends
-only on the gonality bound, before the constant field and function field are chosen.
-An actual Galois-equivariant additive isomorphism of geometric p-torsion for two
-nonisotrivial elliptic curves gives an isogeny over the original function field. -/
+/-- Geometric Frey–Mazur over one-variable function fields (BT16 Theorem 2, stated there
+for a fixed constant field), with the threshold made independent of the constant field as in
+README §9.5: `M` is chosen before `k` and `K`. An actual Galois-equivariant additive
+isomorphism of geometric p-torsion for two nonisotrivial elliptic curves gives an isogeny
+over the original function field. -/
 theorem geometric_frey_mazur (N : ℕ) :
     ∃ M : ℕ, ∀ (k K : Type u) [Field k] [IsAlgClosed k] [CharZero k] [Field K] [Algebra k K]
       [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K] [FunctionField k K],
