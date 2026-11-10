@@ -384,7 +384,7 @@ theorem cohenMacaulay_action_concentration
     (N : Type u) [AddCommGroup N] [Module S N] [Module R N] [IsScalarTower S R N]
     (eN : ModuleCat.of S N ≅ H (a + l) C)
     (hact : ∀ (r : R) (x : N), eN.hom.hom (r • x) =
-      ((DerivedCategory.homologyFunctor (ModuleCat S) (a + l)).map (ρ r)).hom
+      ((DerivedCategory.homologyFunctor (ModuleCat S) (a + l)).map (ρ r).asHom).hom
         (eN.hom.hom x)) :
     (∀ i : ℤ, i ≠ a + l → IsZero (H i C)) ∧ Nontrivial N ∧
       Module.Finite S N ∧ Module.Finite R N ∧
@@ -406,7 +406,7 @@ theorem patched_dual_concentration
     (e : DerivedCategory.Q.obj P ≅ C)
     (hsupport : ∀ p ∈ derivedSupport C,
       ringKrullDim (R ⧸ p.asIdeal) ≤ (n - l : WithBot ℕ∞)) :
-    let D := TauCeti.linearHomComplex R P
+    let D := CochainComplex.linearHomComplex R P
       ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) 0).obj
         (ModuleCat.of R R))
     (∀ i : ℤ, i ≠ -a → IsZero (H i (DerivedCategory.Q.obj D))) ∧
