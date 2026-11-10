@@ -35,9 +35,9 @@ Stated here:
   degree `n` and their characters (6.4), and its Dirichlet instance with the normalization
   `c ≤ log 3 / 2`; and, from 6.4a, the order bound of the completed Dirichlet record and the
   finite-sum retained-zero inequality with the gamma constant;
-* Layer 7, the Riemann–von Mangoldt formula for `ζ`, and its form uniform in the degree and the
-  conductor for `ζ_K`, for primitive ray-class L-functions and for primitive Dirichlet
-  characters (7.5);
+* Layer 7, the Riemann–von Mangoldt formula for `ζ`, and its uniform forms (7.5): for `ζ_K` with
+  one constant for all number fields, for primitive ray-class L-functions with a constant
+  depending on the degree only, and for primitive Dirichlet characters with one constant;
 * Layer 8, the truncated explicit formula for `Chebyshev.psi` and the Weil explicit formula for
   `ζ` (8.3–8.4 at `K = ℚ`), the effective prime ideal theorem (8.5), the effective prime count in
   a ray class (8.7) with its `K = ℚ` case, and the effective abelian Chebotarev count (8.8).
@@ -211,16 +211,17 @@ noncomputable def gammaLogDerivBound : ℝ :=
   (|-Real.eulerMascheroniConstant - 2 * Real.log 2| +
     |2 - Real.eulerMascheroniConstant - 2 * Real.log 2| + |Real.log Real.pi|) / 2
 
-/-- **6.4a, the finite-sum retained-zero inequality.** For a primitive real `χ ≠ 1` of conductor
-`q ≥ 3`, any finite set `S` of zeros of `L(·, χ)` in the critical strip, each weighted by its
-analytic multiplicity `analyticOrderNatAt`, and `1 < σ ≤ 2`,
+/-- **6.4a, the finite-sum retained-zero inequality.** For a primitive `χ ≠ 1` of conductor
+`q`, real or not, any finite set `S` of zeros of `L(·, χ)` in the critical strip, each weighted
+by its analytic multiplicity `analyticOrderNatAt`, and `1 < σ ≤ 2`,
 `∑_{ρ ∈ S} m_ρ Re (1/(σ − ρ)) ≤ Re (L'/L)(σ, χ) + ½ log q + C_Γ`, with `C_Γ` fixed before `S`,
 `q`, `χ` and `σ`. The route is the partial-fraction expansion of `L'/L` with the real-part
 cancellation `Re B(χ) = −∑_ρ Re (1/ρ)` (Montgomery–Vaughan, Corollary 10.18, (10.37)–(10.38),
 pp. 352–353): every zero of the completion contributes `Re (1/(σ − ρ)) ≥ 0`, the zeros outside
-`S` are discarded, and the gamma term is at most `C_Γ`. -/
+`S` are discarded, and the gamma term is at most `C_Γ`. Reality of `χ` is not used, and
+`χ ≠ 1` forces `q ≥ 3`. -/
 theorem finite_zero_sum_le_logDeriv {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q)
-    (hq : 3 ≤ q) (hprim : χ.IsPrimitive) (hne : χ ≠ 1) (hreal : χ.IsQuadratic)
+    (hprim : χ.IsPrimitive) (hne : χ ≠ 1)
     (S : Finset ℂ) (hS : ∀ ρ ∈ S, 0 < ρ.re ∧ ρ.re < 1 ∧ χ.LFunction ρ = 0)
     (σ : ℝ) (hσ : 1 < σ) (hσ2 : σ ≤ 2) :
     (∑ ρ ∈ S, (analyticOrderNatAt χ.LFunction ρ : ℝ) * (1 / ((σ : ℂ) - ρ)).re) ≤
@@ -238,20 +239,21 @@ theorem riemannVonMangoldt :
       |(zeroCount completedRiemannZeta univ (Icc (0 : ℝ) 1 ×ℂ Ioc (0 : ℝ) T) : ℝ) -
           T / (2 * π) * Real.log (T / (2 * π * Real.exp 1))| ≤ C * Real.log T := sorry
 
-/-- **Layer 7.5 for `ζ_K`, uniform in the field.** For each degree `n` there is `C` such that for
-every number field `K` of degree `n` and every `T ≥ 2`, the number `N±_K(T)` of zeros of the
-continued Dedekind zeta function in `0 < Re s < 1`, `|Im s| ≤ T`, with multiplicity, satisfies
+/-- **Layer 7.5 for `ζ_K`, uniform in the field and the degree.** There is an absolute `C` such
+that for every number field `K`, of degree `n`, and every `T ≥ 2`, the number `N±_K(T)` of zeros
+of the continued Dedekind zeta function in `0 < Re s < 1`, `|Im s| ≤ T`, with multiplicity,
+satisfies
 `|N±_K(T) − (T/π) log (|d_K| (T/2πe)^n)| ≤ C log (|d_K| T^n)`. In the open strip these are the
 zeros of the completed function, which has none on the two edges; the open strip leaves out the
-trivial zero at `0`. The route is the argument principle on the entire completion (README 7.4);
-Trudgian, Theorem 2, has this main term. -/
-theorem riemannVonMangoldt_dedekindZeta (n : ℕ) :
-    ∃ C : ℝ, ∀ (K : Type*) [Field K] [NumberField K], Module.finrank ℚ K = n →
-      ∀ T : ℝ, 2 ≤ T →
-        |(zeroCount (TauCeti.meromorphicContinuation 1 (dedekindZeta K)) univ
-              (Ioo (0 : ℝ) 1 ×ℂ Icc (-T) T) : ℝ) -
-            T / π * Real.log (|(discr K : ℝ)| * (T / (2 * π * Real.exp 1)) ^ n)| ≤
-          C * Real.log (|(discr K : ℝ)| * T ^ n) :=
+trivial zero at `0`. With explicit constants this is Hasanalizade–Shen–Wong, Theorem 1.1, p. 2
+(arXiv:2102.04663v3), whose error `0.22737 log (|d_K| ((T + 2)/2π)^n) + 23.02528 n + 4.51954`,
+with the term `r₁/4`, is at most `41 log (|d_K| T^n)` for `T ≥ 2`. -/
+theorem riemannVonMangoldt_dedekindZeta :
+    ∃ C : ℝ, ∀ (K : Type*) [Field K] [NumberField K] (T : ℝ), 2 ≤ T →
+      |(zeroCount (TauCeti.meromorphicContinuation 1 (dedekindZeta K)) univ
+            (Ioo (0 : ℝ) 1 ×ℂ Icc (-T) T) : ℝ) -
+          T / π * Real.log (|(discr K : ℝ)| * (T / (2 * π * Real.exp 1)) ^ Module.finrank ℚ K)| ≤
+        C * Real.log (|(discr K : ℝ)| * T ^ Module.finrank ℚ K) :=
   sorry
 
 /-- **Layer 7.5 for primitive ray-class L-functions, uniform in the field and the conductor.** For

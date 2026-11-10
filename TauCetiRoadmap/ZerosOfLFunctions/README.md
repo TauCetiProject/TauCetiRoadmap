@@ -1297,8 +1297,9 @@ logarithms only, so that the bound is effective without a numerical computation.
 - A definition that used `ψ(1) = −γ_E` in place of `ψ(1/2)` would give
   `½ (0.57722 + 0.03649 + 1.14473) ≈ 0.87922 < 1.55412`, and fails at `s = 1`.
 
-**The retained-zero inequalities.** For a primitive nonprincipal real `χ` of conductor `q ≥ 3`,
-a real zero `0 < β < 1` of `L(·, χ)` and `1 < σ ≤ 2`, prove the one-zero inequality
+**The retained-zero inequalities.** For a primitive nonprincipal `χ` of conductor `q` (real or
+not; necessarily `q ≥ 3`, the moduli `1` and `2` carrying only the principal character), a real
+zero `0 < β < 1` of `L(·, χ)` and `1 < σ ≤ 2`, prove the one-zero inequality
 *one_zero_le_logDeriv*:
 
     1/(σ − β) ≤ Re (logDeriv L_χ)(σ) + ½ log q + C_Γ,
@@ -1314,9 +1315,12 @@ partial-fraction expansion of `L'/L` and the real-part cancellation `Re B(χ) = 
 which give `∑_ρ Re (1/(σ − ρ)) = Re (logDeriv L_χ)(σ) + ½ log q + logDeriv Gammaℝ (σ + κ)` with
 the sum over all zeros of the completion with multiplicity; every summand is nonnegative since
 `Re ρ < 1 < σ`, so the zeros outside `S`, and all copies of `β` but one, are discarded, and the
-gamma term is at most `C_Γ` by the bound above. A selected real zero may have any positive
-multiplicity. The principal character is excluded: its expansion carries the pole terms
-`1/s + 1/(s − 1)`.
+gamma term is at most `C_Γ` by the bound above, for either parity. No step uses reality of `χ`:
+both sources assume only that `χ` is primitive modulo `q > 1`, and for a non-real `χ` the value
+`(logDeriv L_χ)(σ)` is complex, which is why its real part stands on the right. The real
+characters are the case Analytic Number Theory Part I §0.34b consumes. A selected real zero may
+have any positive multiplicity. The principal character is excluded: its expansion carries the
+pole terms `1/s + 1/(s − 1)`.
 
 **The finite-family radius.** For every `Q : ℕ`, prove *bounded_level_zero_free*: one `δ_Q > 0`
 such that every nonprincipal character `χ` modulo `q` with `1 ≤ q ≤ Q` has `L(s, χ) ≠ 0` on
@@ -1344,6 +1348,11 @@ here.
 - The hypothesis `0 < Re ρ` on `S`: for even `χ` the trivial zero `ρ = 0` of `L(·, χ)` is not a
   zero of the completion; admitting it would add `1/σ` to the left side, and admitting all
   trivial zeros `−2n` would make the sum `∑_n 1/(σ + 2n)` diverge.
+- A non-real character: for a quartic `χ` modulo `5` (odd, `κ = 1`), `σ = 2` and `S = ∅` the
+  left side is `0`, and the right side is at least `−0.570 + 0.805 + 1.572 = 1.807`, from
+  `‖(L'/L)(2, χ)‖ ≤ −(ζ'/ζ)(2) ≈ 0.570` and `½ log 5 ≈ 0.805`. A statement restricted to real
+  characters would say nothing here, and one without the real part on the right would not be an
+  inequality of real numbers.
 - *bounded_level_zero_free* at `Q = 0` and `Q = 1`: the family is empty (`q = 1` carries only
   the principal character) and `δ = 1` serves; at `Q = 4` the family is `χ_{−3}` and `χ_{−4}`,
   with `L(1, χ_{−3}) = π/(3√3) ≈ 0.6046` and `L(1, χ_{−4}) = π/4 ≈ 0.7854`. A model that chose
@@ -1500,15 +1509,27 @@ discreteness of the ordinates, the main term moving by `O(η log T)` over an int
 ### 7.5 Uniformity in the conductor
 
 For `Λ_K` of degree `n`,
-`N±_K(T) = (T/π) log(|d_K| (T/(2πe))^n) + O(log(|d_K| T^n))` for `T ≥ 2`, with the implied constant
-depending only on `n` and chosen before `K`; and for `Λ(χ, ·)` the same with `|d_K| 𝔑𝔣` in place of
-`|d_K|`. The one-sided form halves the whole main term, `(T/2π) log(|d_K|(T/(2πe))^n)`; halving
+`N±_K(T) = (T/π) log(|d_K| (T/(2πe))^n) + O(log(|d_K| T^n))` for `T ≥ 2`, with an absolute
+implied constant, chosen before the degree and the field; and for `Λ(χ, ·)` the same with
+`|d_K| 𝔑𝔣` in place of `|d_K|` and the implied constant depending only on `n` and chosen before
+`K` and `χ`. The one-sided form halves the whole main term, `(T/2π) log(|d_K|(T/(2πe))^n)`; halving
 inside the logarithm (`|d_K|^{1/2}`) is false. Both statements are the argument of 7.4 run on
-*entireCompletion*, with 4.4–4.5 for the error; this route is the proof. Trudgian, Theorem 2,
-states the Dedekind count with this main term and explicit constants, but Bennett, Martin,
-O'Bryant and Rechnitzer (§1, p. 2) report that the proofs of Trudgian's
-Theorems 1 and 2 are incomplete (a parameter inequality is wrongly treated as redundant), so that
-paper is cited for the shape of the main term only.
+*entireCompletion*, with 4.4–4.5 for the error. The Dedekind statement, with explicit constants,
+is Hasanalizade–Shen–Wong, Theorem 1.1, p. 2 (arXiv v3 numbering): for every number field and
+every `T ≥ 1`, with `r₁` the number of real places,
+
+    |N±_K(T) − (T/π) log(|d_K| (T/(2πe))^n) + r₁/4|
+        ≤ 0.22737 log(|d_K| ((T + 2)/(2π))^n) + 23.02528 n + 4.51954,
+
+where `N±_K(T)` counts the zeros of `ζ_K` with `0 < Re ρ < 1` and `|Im ρ| ≤ T` with multiplicity,
+the count used here. The absolute constant follows: for `T ≥ 2`, put `L = log(|d_K| T^n)`; then
+`(T + 2)/(2π) ≤ T/π < T`, `r₁/4 ≤ n/4`, `4.51954 ≤ 4.51954 n` and `L ≥ n log 2`, so the error is
+at most `0.22737 L + 27.795 n ≤ (0.22737 + 27.795/log 2) L < 41 L`. Trudgian, Theorem 2, states
+the same count with smaller constants, but Bennett, Martin, O'Bryant and Rechnitzer (§1, p. 2)
+report that the proofs of Trudgian's Theorems 1 and 2 are incomplete (a parameter inequality is
+wrongly treated as redundant), and Hasanalizade–Shen–Wong (§1, pp. 1–2) prove Theorem 1.1 to
+repair the Dedekind case. For `Λ(χ, ·)` the argument of 7.4 on *entireCompletion* is the proof,
+and gives a constant depending on `n`.
 
 In the open strip `0 < Re s < 1` the zeros of `Λ_K` are those of the continued `ζ_K`, with the
 same multiplicities, because the conductor power and the gamma factor are analytic and nonzero
@@ -1517,8 +1538,9 @@ there; and neither completion has a zero on `Re s = 0` or `Re s = 1` (6.5). So `
 `Ioo 0 1 ×ℂ Icc (−T) T`; the open strip leaves out the trivial zero of `ζ_K` at `0`, of order
 `r₁ + r₂ − 1`. In this form the Dedekind statement is `riemannVonMangoldt_dedekindZeta` and the
 statement for a primitive finite-order ray-class character, with
-`TauCeti.LFunctions.heckeLFunctionC χ.character`, is `riemannVonMangoldt_heckeLFunction`, each
-constant chosen before `K` and `χ`. The degree-one instance for a primitive Dirichlet character
+`TauCeti.LFunctions.heckeLFunctionC χ.character`, is `riemannVonMangoldt_heckeLFunction`, the
+first with one constant for all number fields and the second with a constant depending on the
+degree and chosen before `K` and `χ`. The degree-one instance for a primitive Dirichlet character
 modulo `q`, uniform in `q`, is `riemannVonMangoldt_dirichlet` (Davenport §16; for conductor
 `q > 1` and `T ≥ 5/7`, with explicit constants,
 `|N(T, χ) − (T/π) log(qT/(2πe))| ≤ 0.298 log(qT) + 4.358`, Bennett–Martin–O'Bryant–Rechnitzer,
@@ -1943,8 +1965,13 @@ Layer 4.1; Layer 0 for *entireCompletion*; Layer 7.2 for the bridge. Mathlib `Ri
   large) and §2.1.2 (the explicit formula behind 6.4d).
 - T. S. Trudgian, *An improved upper bound for the error in the zero-counting formulae for
   Dirichlet L-functions and Dedekind zeta-functions*, Math. Comp. 84 (2015); arXiv:1206.1844 —
-  Theorem 2 (the Dedekind count, main term `(T/π) log(d_K (T/2πe)^{n_K})`), cited for the shape of
-  the main term only: its proof, like that of Theorem 1, is reported incomplete in the next entry.
+  Theorem 2 (the Dedekind count, main term `(T/π) log(d_K (T/2πe)^{n_K})`), cited as history
+  only: its proof, like that of Theorem 1, is reported incomplete in the next two entries.
+- E. Hasanalizade, Q. Shen, P.-J. Wong, *Counting zeros of Dedekind zeta functions*, Math. Comp.
+  91 (2022); arXiv:2102.04663 — Theorem 1.1, p. 2, in the arXiv v3 numbering (every number field,
+  `T ≥ 1`, zeros with `0 < β < 1` and `|γ| ≤ T`, main term `(T/π) log(d_K (T/2πe)^{n_K}) − r₁/4`,
+  error at most `0.22737 log(d_K ((T + 2)/2π)^{n_K}) + 23.02528 n_K + 4.51954`), and §1 on the
+  gap in Trudgian's proof.
 - M. A. Bennett, G. Martin, K. O'Bryant, A. Rechnitzer, *Counting zeros of Dirichlet
   L-functions*, Math. Comp. 90 (2021); arXiv:2005.02989 — Corollary 1.2 in the arXiv v1 numbering
   (characters of conductor `q > 1`, zeros with `0 < β < 1` and `|γ| ≤ T`, `T ≥ 5/7`, main term
