@@ -123,6 +123,7 @@ body:
         - PerfectoidSpaces
         - PivotalSpherical
         - Poincare3D
+        - PolylogarithmFunctions
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
@@ -133,6 +134,7 @@ body:
         - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
