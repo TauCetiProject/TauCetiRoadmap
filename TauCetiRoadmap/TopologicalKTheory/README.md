@@ -124,7 +124,7 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
 - [AlgebraicTopology](../AlgebraicTopology/README.md) supplies CW pairs,
   cofibrations, homotopies, relative homotopy sequences and ordinary
   (co)homology, and its Stage 5.5 supplies the based homotopy long exact
-  sequence used by T1.5. The bundle-to-Serre comparison is Tau Ceti's,
+  sequence used by T1.5 and T7.1. The bundle-to-Serre comparison is Tau Ceti's,
   in `Topology/Homotopy/SerreFibration/FiberBundle.lean`, with no
   hypothesis on the base: `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`
   makes a map whose every base point lies in the base set of a Mathlib
@@ -193,14 +193,7 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   and algebraic periodicity. Existing Tau Ceti `Spin.Structure`, `Spin.OddStructure`
   and `Spin.Polarization.CliffordAction` are consumed; algebraic periodicity does
   not prove topological periodicity.
-- [DGFloerPartII 4.2a–4.2c](../DGFloerPartII/README.md)
-  supplies the stable orthogonal and special orthogonal groups `O` and `SO`,
-  the colimits of the finite groups along the block inclusions with the new
-  coordinate last, with their finite-to-stable range (4.2a); the Clifford
-  chain of iterated minimal centrioles with its stabilization and its
-  Grassmannian member Ω₇ (4.2b); and the eight stable Bott maps, their
-  homotopy equivalences and real Bott periodicity `O ≃ Ω⁸O` with the stable
-  homotopy groups of `O` (4.2c). T1.5–T1.6
+- T1.5–T1.6
   consume Tau Ceti's finite Grassmannian and finite oriented carriers and own
   their Schubert cells, fixed-rank BO(n)/BSO(n), stable BO/BSO colimits,
   universal bundles and their finite-CW/numerable classification, and
@@ -208,15 +201,20 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   T1.6a also owns the lifted cells on the oriented carriers;
   CharacteristicClasses C1.1a–b consumes these same classifier carriers.
   Any distinct homogeneous model has a named comparison to
-  these carriers, not a second classifier definition. T7 is the only part
-  of this roadmap that consumes 4.2a–4.2c, because GeneralizedCohomology
-  G4.0 consumes T1.5–T1.6 and 4.2a–4.2b consume G4.0b. T7.1 owns the loop
-  comparisons ΩBO≃O and ΩBSO≃SO with 4.2a's `O` and `SO` and the
-  comparison of T1.6d's homogeneous tower with 4.2b's Grassmannian member
-  Ω₇; T7 owns the geometric
-  KO/ABS and multiplicative normalization. Consume 4.2a–4.2c's exact
-  stable-group, Bott-map and periodicity contract and construct unavailable
-  mathematics in Tau Ceti in that shape before its comparison is used.
+  these carriers, not a second classifier definition. T7.1 owns the stable
+  orthogonal and special orthogonal groups O and SO, the colimits of
+  Mathlib's `Matrix.orthogonalGroup (Fin n) ℝ` and
+  `Matrix.specialOrthogonalGroup (Fin n) ℝ` along the block inclusions with
+  the new coordinate last, the loop comparisons ΩBO≃O and ΩBSO≃SO, Real
+  K-theory of spaces with involution with its (1,1)-periodicity, real Bott
+  periodicity as the product with the degree −8 class b, the coefficient
+  ring, the geometric KO/ABS and multiplicative normalization, and the
+  eightfold stable Bott equivalence on ℤ×BO. Its inputs are T1–T6,
+  SpinRepresentations' Clifford classification and AlgebraicTopology; it
+  consumes no loop-space or Morse-theoretic proof of periodicity, and a
+  comparison of its eightfold equivalence with a chain of eight
+  single-loop equivalences belongs to the roadmap that constructs such a
+  chain.
 - Mathlib `Analysis/Normed/Operator/Fredholm/{Basic,Open}` supplies
   native Fredholm packages, composition, openness and local index constancy.
   Tau Ceti `Analysis/Fredholm/{SmallPerturbation,CompactPerturbation,ContinuousFamily}`
@@ -817,9 +815,9 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    stabilization preserving this virtual dimension. Prove the cofinal
    based homotopy equivalence over ℤ with BO×ℤ, carrying the label d to
    {d}×BO, and transport T1.6b's block sum to the tower along it. This
-   tower uses only T1.5's carriers and T1.6's stable carriers; its
-   comparison with the Grassmannian member Ω₇ of the Clifford chain is
-   T7.1's.
+   tower uses only T1.5's carriers and T1.6's stable carriers; T7.1
+   builds its eightfold stable Bott equivalence on the tower's finite
+   stages.
    T2.1 supplies the group-completion comparison for BU×ℤ.
    In rank one use Gr_1(𝕜^(N+1)): name `RP∞` for 𝕜=ℝ and `CP∞` for 𝕜=ℂ,
    with one cell in each nonnegative degree or each even nonnegative degree,
@@ -1487,10 +1485,39 @@ its characteristic-class consequences; G2.8 owns the generic
    degrees, reusing T1.6's unoriented BO classification and its oriented BSO
    comparison. First work on finite CW pairs.
 
+   Define the stable orthogonal group O and the stable special orthogonal
+   group SO as the colimits, in AlgebraicTopology Stage 4.5's compactly
+   generated spaces, of Mathlib's `Matrix.orthogonalGroup (Fin n) ℝ` and
+   `Matrix.specialOrthogonalGroup (Fin n) ℝ`, each with the subspace topology
+   of the matrix space, along the block inclusions ι_n(A)=diag(A,1), new
+   coordinate last.
+   - Each ι_n is a closed embedding and a group homomorphism, so every
+     compact subset of O lies in a finite stage, and O is a group whose
+     multiplication is continuous on the compactly generated product O×O and
+     whose inversion is continuous.
+   - The determinants of the finite stages are compatible with ι_n and
+     define a continuous homomorphism O→{±1} with kernel SO, an open and
+     closed subgroup of index 2.
+   - For a compact Hausdorff space K, a based map from K to O factors
+     through a finite stage, so π_i(O) is the colimit of the groups
+     π_i(O(n)) and likewise for SO.
+
+   **Checks.**
+   - n=0 and n=1: O(0) is the trivial group and ι_0 sends its element to
+     1∈O(1)={±1}; SO(1) is trivial while O(1) has two elements, which the
+     determinant separates, so π₀(O)=ℤ/2 and SO is connected.
+   - The map A↦diag(A,−1) sends the identity of O(n) to diag(1,…,1,−1), so
+     it is not a homomorphism and its colimit carries no group structure;
+     the determinant is also not compatible with it.
+   - The winding-one loop of SO(2) has nonzero class in π₁(SO)=ℤ/2 and its
+     double is null, by T1.5a's computation π₁(SO(3))=ℤ/2, the surjection
+     from π₁(SO(2)) and the stability of π₁(SO(n)) for n≥3; the single
+     stage SO(2) would give ℤ.
+
    Own the loop comparisons ΩBO≃O and ΩBSO≃SO: the based loop space of
    T1.6a's stableRealGrassmannian at its trivial-bundle basepoint is weakly
-   homotopy equivalent to DGFloerPartII 4.2a's stable `O`, and that of
-   T1.6a's stableOrientedGrassmannian to its `SO`. Route: the frame-span
+   homotopy equivalent to the stable group O just defined, and that of
+   T1.6a's stableOrientedGrassmannian to SO. Route: the frame-span
    maps V_n(ℝ^N)→Gr_n(ℝ^N) of T1.5a's orthonormal-frame carriers and their
    oriented versions V_n(ℝ^N)→finiteOrientedGrassmannian n N, through
    T1.6a's Stiefel-quotient comparison, are principal O(n)-, respectively
@@ -1501,8 +1528,8 @@ its characteristic-class consequences; G2.8 owns the generic
    then induce A↦diag(1,A), new coordinate first. Conjugation by the
    coordinate-reversal permutation matrices w_n, which satisfy
    w_(n+1)·diag(1,A)·w_(n+1)=diag(w_n·A·w_n,1), carries these maps strictly
-   to 4.2a's block inclusions ι_n(A)=diag(A,1), and so identifies the
-   fibres, the colimits of the finite groups, with 4.2a's `O` and `SO` as
+   to the block inclusions ι_n(A)=diag(A,1), and so identifies the
+   fibres, the colimits of the finite groups, with O and SO as
    topological groups. The total spaces are weakly contractible: every
    compact subset lies in a finite stage, and the (N−n−1)-connectivity of
    V_n(ℝ^N) (T1.5a) grows without bound along the diagonal N=2n. The based
@@ -1510,121 +1537,254 @@ its characteristic-class consequences; G2.8 owns the generic
    the connecting maps isomorphisms π_(i+1)(BO)≅π_i(O) and
    π_(i+1)(BSO)≅π_i(SO) for every i≥0, realized by the path-lifting maps
    ΩBO→O and ΩBSO→SO, which are therefore weak homotopy equivalences.
-   These are the fibration-sequence comparisons, not the composite of
-   4.2c's Bott map `O ≃ Ω(Ω₇)` with the Ω₇ comparison below. The first
-   identifies the coefficient groups by sphere clutching below, and the
-   bridge B_n below uses only the second; no agreement between the two
-   resulting isomorphisms `π_i(O) ≅ π_(i+1)(BO)` is asserted or used.
 
    **Checks.**
    - i=0, n=1, N=2: the loop of lines ℝ(cos θ,sin θ), θ∈[0,π], in Gr_1(ℝ²)
      lifts to the frame path from (1,0) to (−1,0)=f₀·(−1), so the connecting
      map sends the generator of π₁(BO)=ℤ/2 to −1∈O(1), the non-identity
-     element of π₀(O)=ℤ/2; replacing `O` by `SO` would send it to the only
+     element of π₀(O)=ℤ/2; replacing O by SO would send it to the only
      element of π₀(SO).
    - n=2, A=[[a,b],[c,d]]: w₃·diag(1,A)·w₃=[[d,c,0],[b,a,0],[0,0,1]]=
      diag(w₂·A·w₂,1); without the conjugation, diag(1,A)=[[1,0,0],[0,a,b],[0,c,d]]
      lies in ι₂(O(2)) only when c=0 and d=1, that is A=diag(±1,1), so the
      identity maps do not intertwine the two towers.
-   - i≡0,1,2,4,5,6 (mod 8): π_i(O) is ℤ/2 or 0, whose only automorphism is
-     the identity, so any two isomorphisms π_i(O)≅π_(i+1)(BO) agree there.
-     For i=3: inversion in O induces −1 on π₃(O)=ℤ, because the pointwise
+   - i=3: inversion in O induces −1 on π₃(O)=ℤ, because the pointwise
      product of sphere maps induces the sum and the pointwise product of a
      map with its pointwise inverse is constant; identifying the fibre by
-     f₀·g↦g⁻¹ instead of f₀·g↦g negates the connecting isomorphism
-     π₄(BO)→π₃(O). Equating it with the Bott composite would therefore need
-     a sign fixed by both conventions, which is why no such equation is
-     stated.
+     f₀·g↦g⁻¹ instead of f₀·g↦g therefore negates the connecting isomorphism
+     π₄(BO)→π₃(O). The exported comparison uses f₀·g↦g. For
+     i≡0,1,2,4,5,6 (mod 8) the group π_i(O) is ℤ/2 or 0 by the coefficient
+     table below, so the choice is invisible there.
 
-   Construct the comparison of T1.6d's homogeneous tower with DGFloerPartII
-   4.2b's Grassmannian member Ω₇ of the Clifford chain, cofinally comparing
-   the tower's stages ⊔_(0≤k≤2n) O(2n)/(O(k)×O(2n−k)), labelled by k−n,
-   with 4.2b's stages ⊔_(0≤p≤2n) G_p(ℝ^(2n)), labelled by d=p−n. Prove the
-   compatibility of T1.6d's added-first-line/append-last-ambient
-   stabilization with 4.2b's block stabilization, which appends the new
-   block's +1-eigenline last, up to the elementary coordinate homotopies:
-   the two stabilizations differ by composition with an element of
-   SO(2n+2), since each image leaves a line of the new ambient summand free,
-   a path from the identity in SO(2n+2) is the homotopy, and AT4.5's
-   `cofibrationTowerHomotopyEquivalence`, in its form for squares commuting
-   up to specified homotopies, compares the two telescopes. Composed with
-   T1.6d's equivalence with BO×ℤ this gives Ω₇≃ℤ×BO, carrying the
-   component of index d to {d}×BO and the base point J₇ into d=0. Transport
-   the block sum along it.
+   **Real bundles and (1,1)-periodicity.** A Real space is a compact
+   Hausdorff space X with a continuous involution τ, and a Real pair is a
+   Real space with a closed τ-invariant subspace. A Real bundle over X is a
+   finite-rank complex vector bundle E→X with a continuous involution of E
+   that covers τ and is conjugate-linear from E_x to E_(τx). Define KR(X) as
+   the group completion of the direct-sum monoid of isomorphism classes of
+   Real bundles, by T2.0's construction, with the tensor-product ring
+   structure, and the relative and compactly supported groups of Real pairs
+   and of locally compact Real spaces by T3's constructions carried out
+   with invariant subspaces and equivariant maps.
+   - Homotopy invariance, the exact sequence of a Real pair, excision and
+     the external product hold with the proofs of T1–T3, every auxiliary
+     choice being made compatible with the involution: a Hermitian metric
+     and a partition of unity by averaging, a generating family of sections
+     by adjoining its conjugates, so that every Real bundle is a Real
+     summand of a trivial bundle ℂ^N with the standard conjugation.
+   - When τ is the identity, the fixed points of the involution of E form a
+     real vector bundle whose complexification is E, and this identifies
+     KR(X) with KO(X) as rings.
+   - When X=Y×{±1} with τ exchanging the two copies, restriction to Y×{1}
+     identifies KR(X) with K(Y), and the pullback KR(Y)→KR(Y×{±1}) for a
+     trivial involution on Y is complexification c:KO(Y)→K(Y).
+   - Write ℝ^(p,q) for ℝ^p⊕ℝ^q with the involution (x,y)↦(−x,y), and
+     B^(p,q) and S^(p,q) for its closed unit ball and unit sphere. Define
+     KR^(p,q)(X,Y) as KR(X×B^(p,q), X×S^(p,q)∪Y×B^(p,q)). On trivial
+     involutions KR^(0,q) is the negative suspension degree KO^(−q) above.
 
-   Use DGFloerPartII 4.2a–4.2c's
-   actual stable groups with their finite-to-stable range, Clifford chain
-   with its stabilization and eight stable Bott maps with their homotopy
-   equivalences; identify the eight coefficient groups by sphere clutching.
-   Construct the category of finite-dimensional Z/2-graded real Clifford
+   The Real space ℝ^(1,1) is ℂ with complex conjugation, through
+   (x,y)↦y+ix, and its one-point compactification is ℂP¹ with the
+   conjugation of homogeneous coordinates, under which the tautological
+   line O(−1)⊂ℂP¹×ℂ² is a Real subbundle. The Real Bott class
+   β_R∈KR^(1,1)(pt) is the class [O(−1)]−1 of the Conventions with these
+   Real structures. Prove (1,1)-periodicity: for every Real pair (X,Y) and
+   all p,q≥0 the external product with β_R is an isomorphism
+   KR^(p,q)(X,Y)→KR^(p+1,q+1)(X,Y) (Atiyah, *K-theory and reality*, §2).
+   Route: T4's clutching proof with the involution carried along. A Real
+   clutching function over X×S¹, where S¹⊂ℂ carries conjugation, satisfies
+   f(τx,z̄)=conj(f(x,z)); its Laurent coefficients then satisfy
+   a_k(τx)=conj(a_k(x)), so the Fejér approximation and the linearization
+   of T4 stay Real, and the spectral projection of T4.4 over the
+   conjugation-invariant unit circle satisfies P(τx)=conj(P(x)), so its
+   image subbundles are Real.
+   Define KO^n(X,Y) for every integer n and every compact pair with
+   trivial involution as KR^(p,q)(X,Y) with q−p=−n, the groups for different
+   (p,q) being identified by powers of β_R; multiplication by a class of
+   KR^(p′,q′)(pt) commutes with these identifications.
+
+   **Checks.**
+   - X a point: a Real bundle is ℂ^n with a conjugate-linear involution,
+     whose fixed points form ℝ^n, so KR(pt)=ℤ. For Y a point,
+     KR(Y×{±1})=K(pt)=ℤ, whereas forgetting that τ exchanges the copies
+     would give ℤ².
+   - S^(1,0) is two points exchanged by the involution and S^(0,1) two
+     fixed points; S^(1,1) is the circle with conjugation, with exactly two
+     fixed points; S^(2,0) is the circle with the antipodal map, which is
+     free. The opposite sign convention (x,y)↦(x,−y) would exchange these.
+   - Forgetting the involutions sends β_R to T4's Bott class. Restricting
+     β_R along ℝ^(0,1)⊂ℝ^(1,1), the fixed points, gives the real points of
+     O(−1) over ℝP¹, the Möbius line, so β_R restricts to
+     η=[Möbius]−1∈KO^(−1)(pt), which is nonzero of order 2; a class whose
+     Real structure were trivial on fixed points would restrict to 0.
+   - Conjugating the contour integral: conj((1/2πi)∮(z−T)⁻¹dz) equals
+     −(1/2πi)∮(z̄−conj T)⁻¹dz̄, and conjugation reverses the orientation of
+     the circle, which restores the sign; at T=diag(0,2) both sides are
+     diag(1,0).
+
+   **The exact sequence of complexification.** For a compact pair with
+   trivial involution, the exact sequence of the Real pair
+   (B^(1,0),S^(1,0)), multiplied by the pair and by a ball B^(p,q′), reads, after
+   (1,1)-periodicity, for every integer q,
+
+       ⋯ → KO^(1−q) → KO^(−q) → K^(−q) → KO^(2−q) → KO^(1−q) → ⋯
+
+   Prove that the first map is the product with η, because forgetting the
+   support of β_R in the ℝ^(1,0) direction is its restriction to
+   ℝ^(0,1), computed in the third Check above, and that the second is
+   complexification c, by the identification of KR(Y×S^(1,0)) with K(Y).
+   The third map is the connecting map; no formula for it is used.
+
+   **Eightfold periodicity.** Write Cl(0,n) for the real Clifford algebra on
+   generators of square −1 and Cl(n,0) for the one on generators of square
+   +1. Construct the category of finite-dimensional Z/2-graded real Clifford
    modules, its restriction functors and the cokernels of their Grothendieck
    group maps; these graded-module interfaces are additional work here, beyond
-   SpinRepresentations' algebra classification. Define the real ABS classes
-   using those graded modules and Clifford
-   multiplication on the disc, modulo extension to one higher Clifford algebra.
-   Prove this respects that quotient and agrees with the sphere-clutching
-   comparison, and that graded tensor product corresponds to external product.
-   Compute the module restriction cokernels and tensor products in degrees0–8
-   from SpinRepresentations' real Clifford classification. Choose η in degree−1
-   as Möbius−1, a in degree−4 and b in degree−8 by the specified irreducible
-   module representatives, with negative quadratic form Cl(0,n): the raw
-   volume e₁⋯e₄ acts by −1 on the even part for a, and e₁⋯e₈ by +1
-   for b. Prove the
-   low-degree geometric comparison: Möbius clutching in degree1, the explicit
-   winding-one SO(2) loop and its stable Z/2 class in degree2, quaternionic Hopf
-   clutching in degree4, and the degree8 class compared with DGFloerPartII
-   4.2c's composite stable Bott map. In particular prove the Clifford tensor square of the
-   degree1 representative gives that nonzero stable loop; an additive table
-   alone cannot show η²≠0. Prove η² is the nonzero degree−2 generator,
-   `2η=η³=ηa=0` and `a²=4b`. On the Clifford-module quotient side prove
+   SpinRepresentations' algebra classification. For a graded Cl(0,n)-module
+   M=M⁰⊕M¹ define the real ABS class α_n(M)∈KO^(−n)(pt) by Clifford
+   multiplication v↦(c(v):M⁰→M¹) on the disc, an isomorphism on the sphere;
+   prove that it vanishes on modules that extend to Cl(0,n+1), so that α_n
+   is defined on the restriction cokernel, and that graded tensor product
+   corresponds to external product (Atiyah–Bott–Shapiro, *Clifford modules*,
+   §§6 and 11). For a graded Cl(n,0)-module N define the class
+   μ(N)∈KR^(n,0)(pt) by the Real complex over ℝ^(n,0) with symbol
+   y↦(i·c(y):N⁰⊗ℂ→N¹⊗ℂ), where the Real structure is conjugation of the
+   scalars; the symbol is Real because conj(i·c(y)w)=i·c(−y)conj(w).
+   Let λ₈ be the irreducible graded Cl(0,8)-module on whose even part the
+   volume e₁⋯e₈ acts by +1, b=α₈(λ₈), and N₈ an irreducible graded
+   Cl(8,0)-module. Prove the product formula `b·μ(N₈)=±β_R⁸` in
+   KR^(8,8)(pt), the sign being + for one of the two parities of N₈, which
+   is the one chosen. The class β_R⁸ is represented, up to the sign fixed
+   by T5's Koszul convention, by the Real complex on the exterior algebra
+   Λ(ℂ⁸)=Λ(ℝ⁸)⊗ℂ with symbol ε(z)−ε(z)*, where ε is exterior
+   multiplication and the adjoint is taken for the standard Hermitian
+   form. At z=s+it, with s in the fixed summand ℝ^(0,8) and t in the
+   negated summand ℝ^(8,0), this symbol is A(s)+i·B(t) with A(s)=ε(s)−ι(s)
+   and B(t)=ε(t)+ι(t), ι being contraction; these satisfy
+   `A(s)²=−|s|²`, `B(t)²=|t|²` and anticommute, so Λ(ℝ⁸) is a graded module
+   over the graded tensor product of Cl(0,8) and Cl(8,0), which is the full
+   matrix algebra of size 256 and has Λ(ℝ⁸) as its only irreducible
+   module. The graded tensor product of λ₈ and N₈ has the same dimension
+   16·16=256, so it is isomorphic to Λ(ℝ⁸) as a graded module up to the
+   parity of N₈, and the isomorphism carries one symbol to the other.
+
+   Prove real Bott periodicity: for every Real pair (X,Y) and all p,q≥0
+   the product with b is an isomorphism KR^(p,q)(X,Y)→KR^(p,q+8)(X,Y); in
+   particular `KO^n(X,Y)≅KO^(n−8)(X,Y)` for every compact pair and every
+   integer n (Atiyah, *K-theory and reality*, Theorem 3.10). Route: the
+   products with b and with μ(N₈) commute with each other and with the
+   product with β_R, because the block permutations of ℝ^(p+8,q+8) that
+   compare the two orders have determinant 1 on each of the two summands
+   and are joined to the identity through equivariant linear isometries.
+   Both composites are the product with ±β_R⁸, an isomorphism by
+   (1,1)-periodicity. Hence the product with b is injective on every
+   KR^(p,q) and surjective on KR^(p,q) for p≥8, and (1,1)-periodicity
+   carries the case (p,q) to the case (p+8,q+8).
+
+   **Checks.**
+   - n=1 and n=4 in place of 8: the irreducible graded modules of Cl(0,1)
+     and Cl(1,0) have dimension 2, and 2·2=4 exceeds dim Λ(ℝ¹)=2; those of
+     Cl(0,4) and Cl(4,0), both 2×2 quaternionic matrix algebras, have
+     dimension 8, and 8·8=64 exceeds dim Λ(ℝ⁴)=16. So no product formula
+     with β_R^n holds in these degrees, in agreement with K^(−1)(pt)=0
+     and with `c(a)=2u²` not being a generator.
+   - n=1 symbols on Λ(ℝ)=ℝ⊕ℝe: A(1) sends 1↦e, e↦−1 and B(1) sends 1↦e,
+     e↦1, so A(1)²=−1, B(1)²=1, and A(1)B(1)+B(1)A(1) sends 1↦−1+1=0 and
+     e↦e−e=0. With the sign of ι changed in B one gets B=A, which does not
+     anticommute with A.
+   - Forgetting the involutions sends KR^(8,8)(pt) to the compactly
+     supported group K(ℂ⁸)=ℤ, generated by β⁸, and b to c(b). The product
+     formula then makes c(b) a generator of K^(−8)(pt), in agreement with
+     `c(b)=u⁴` below; a class with c(b)=2u⁴ could not satisfy it.
+
+   **Coefficients.** Compute KO^(−n)(pt) for all n from the exact sequence
+   of complexification, K^*(pt)=ℤ[u,u⁻¹] of T4, periodicity and two
+   clutching computations. Write a_n for KO^(−n)(pt), for every integer n.
+   Degree 0 is ℤ with c an isomorphism onto K⁰(pt). Sphere clutching and
+   the loop comparison give a_1=π₀(O)=ℤ/2, generated by η, and
+   a_2=π₁(O)=ℤ/2 by T1.5a. Exactness of K^(−1)→a_(−1)→a_0→K⁰ with c
+   injective gives a_(−1)=0; exactness of a_0→K⁰→a_(−2)→a_(−1) with c
+   surjective gives a_(−2)=0; K¹→a_(−3)→a_(−2) gives a_(−3)=0; and
+   a_(−2)→K²→a_(−4)→a_(−3) gives a_(−4)≅ℤ. By periodicity these are
+   a_7=a_6=a_5=0 and a_4≅ℤ. The map a_2→a_3 is surjective because
+   K^(−3)=0, and a_3=a_(−5) injects into a_(−4)≅ℤ because K³=0, so the
+   torsion group a_3 vanishes. In degree 2 the connecting map
+   K^(−2)→a_0 has image the kernel 2ℤ of η, so it is injective, c vanishes
+   on a_2 and η:a_1→a_2 is surjective: `η²≠0`. In degree 4 the sequence
+   0→a_4→K^(−4)→a_2→0 shows that c maps a generator a of a_4 to ±2u², and
+   in degree 8 that c maps the generator b isomorphically to K^(−8)(pt).
+   The KO coefficients in degrees 0,−1,…,−7 are therefore
+   Z,Z/2,Z/2,0,Z,0,0,0, with periodicity given by this b, not just an
+   unnamed additive isomorphism, and π_i(O)≅a_(i+1) for every i≥0.
+
+   Choose η in degree−1 as Möbius−1, a in degree−4 and b in degree−8 by the
+   specified irreducible module representatives of Cl(0,n): the raw volume
+   e₁⋯e₄ acts by −1 on the even part for a, and e₁⋯e₈ by +1 for b.
+   Compute the module restriction cokernels and tensor products in
+   degrees 0–8 from SpinRepresentations' real Clifford classification, and
+   prove the low-degree geometric comparison: Möbius clutching in degree1,
+   the explicit winding-one SO(2) loop and its stable Z/2 class in degree2,
+   and quaternionic Hopf clutching in degree4. In particular prove that the
+   Clifford tensor square of the degree1 representative gives that nonzero
+   stable loop, in agreement with `η²≠0` above. Prove
+   `2η=η³=ηa=0` and `a²=4b`: the first three because a_1=ℤ/2 and
+   a_3=a_5=0, the last by applying the injective c in degree−8. On the
+   Clifford-module quotient side prove
    eightfold periodicity via a graded-Clifford Morita equivalence: construct
    tensoring with the degree8 irreducible graded module, prove it intertwines
    restriction, and compute its action on both simple-module generators using
    grading/volume-element signs and dimensions. The ungraded matrix-algebra
    periodicity of SpinRepresentations is an input to that proof, not the
    entire proof.
-   For every n≥0 prove the precise geometric bridge: the coefficient map B_n
-   induced by DGFloerPartII 4.2c's composite of the eight stable Bott
-   equivalences, read on ℤ×BO through the Ω₇ comparison above, satisfies
-   `B_n(α_n(m))=α_(n+8)(m⊗λ₈)` for the ABS maps α and chosen graded
-   degree8 module λ₈. Construct the pointed comparison homotopies from
-   4.2b–4.2c's concrete minimal-geodesic and stable Bott maps, respecting
-   the ordered eight
-   Clifford generators and stabilization; this full-degree compatibility is
-   a target here, beyond citing 4.2c's periodicity statement. Using
+   For every n≥0 the coefficient map B_n, the product with b from
+   KO^(−n)(pt) to KO^(−n−8)(pt), satisfies
+   `B_n(α_n(m))=α_(n+8)(m⊗λ₈)` for the ABS maps α and the chosen graded
+   degree8 module λ₈, by ABS multiplicativity. Using
    the degree0–7 clutching checks and the two periodic isomorphisms, prove
-   α_n bijective for every n. ABS multiplicativity then identifies B_n with
-   external product by b in every degree, including ηb≠0 and the other
-   torsion generators. No additive period table alone proves this bridge. This
+   α_n bijective for every n. No additive period table alone proves this.
+   This
    proves the ring, not just the additive table. Pin complexification by
    `c(a)=2u²`, `c(b)=u⁴`, where u is T4's degree−2 generator; compute c and r
    on all eight degrees with the real/quaternionic module comparisons.
    In particular prove `r(1)=2`, `r(u)=η²`, `r(u²)=a`, `r(u³)=0`,
-   `r(u⁴)=2b`, and c kills the η-torsion. The KO coefficients in degrees
-   0,−1,…,−7 are respectively Z,Z/2,Z/2,0,Z,0,0,0, with periodicity
-   given by this b, not just an unnamed additive isomorphism.
+   `r(u⁴)=2b`, and c kills the η-torsion; here r(u)≠0 is the winding-one
+   loop of degree2, and the others follow from `c(r(x))=x+conj(x)` with
+   conj(u)=−u and the injectivity of c in degrees −4 and −8.
+
+   Export the eightfold stable Bott equivalence on ℤ×BO: a based map from
+   ℤ×BO to the eightfold based loop space of ℤ×BO that induces the product
+   with b on homotopy groups and is therefore a weak homotopy equivalence.
+   Route: on each finite Grassmannian stage of T1.6d's tower, a finite CW
+   complex by T1.5's Schubert cells, the product of the tautological class
+   with b is a class in the reduced KO of its eightfold suspension, which
+   T1.6's classification represents by a based map to ℤ×BO; these maps are
+   compatible up to homotopy with the stabilizations, and the homotopy
+   extension property of the stage inclusions makes them strictly
+   compatible. This single eightfold equivalence, with the loop comparison
+   ΩBO≃O above, is the space-level form of real periodicity owned here; no
+   chain of eight single-loop equivalences is constructed.
 
    Multiplication by this actual b is a natural map of relative cohomology
-   theories. Prove it an isomorphism on finite CW pairs by the cell relative
-   groups and five-lemma induction. In degree0 use the attaching-map mapping
+   theories and an isomorphism on every compact pair by the periodicity
+   theorem above. On finite CW pairs the cell relative groups and five-lemma
+   induction recover the same statement from the coefficients: in degree0
+   use the attaching-map mapping
    cylinder pair `(M_f,∨S^(k−1))`, whose quotient is the attached skeleton,
    so KO⁰ of that skeleton is central in five defined nonpositive-degree
    exact-sequence terms; do not use an undefined positive-degree endpoint.
-   The construction precedes identifying a weak stable-space
-   equivalence with an arbitrary compact-source mapping equivalence. Extend
-   to all compact Hausdorff pairs by the following continuity theorem, owned
+   The following continuity theorem is owned
    here: represent a compact base by its finite-coordinate finite-polyhedral
    neighbourhood system in a cube and prove the K/KO groups are the filtered
    colimits of those finite CW groups. Supply the system and refinement maps;
    prove descent of matrix-projection representatives, stabilized isomorphisms
    and homotopies by uniform approximation and spectral projection, including
-   the relative data and X×I version. Then pass product-by-b and exact sequences
-   through that colimit, and through the compact-support colimit of T3.3.
+   the relative data and X×I version. Product-by-b and the exact sequences
+   pass through that colimit, and through the compact-support colimit of T3.3.
    Export the full Z-graded theory and coefficient ring
    `Z[η,a,b,b^−1]/(2η,η³,ηa,a²−4b)`, with degrees−1,−4,−8. Algebraic Clifford
-   periodicity supplies the module calculation, while the geometric identification
-   uses DGFloerPartII 4.2c's periodicity proof; neither substitutes for the
-   other.
+   periodicity supplies the module calculation, while the geometric
+   identification uses the Real (1,1)-periodicity above; neither substitutes
+   for the other.
 2. Compute K⁰(S¹)=Z, KO⁰(S¹)=Z⊕Z/2 and their geometric generators; the
    reduced real generator is Möbius−1. Compute the ring K⁰(S²)=Z[β]/(β²)
    with the specified gluing line, all complex sphere groups, and verify
@@ -1673,11 +1833,11 @@ splitting theorem; their Bott-sphere calculation uses the earlier T4 Bott
 comparison and no Hopf-invariant-one or bordism coefficient input. T4 precedes T5. T6 first constructs equivariant bundles and line Thom, then
 descent, the projective-family index and normalized transfer; only then does it prove
 general equivariant Thom and projective comparisons. T7's real
-periodicity consumes DGFloerPartII 4.2a–4.2c's proof, independently of the
-complex Thom and index developments. T1.5–T1.6 consume nothing from
-DGFloerPartII, since GeneralizedCohomology G4.0 consumes them and 4.2a–4.2b
-consume G4.0b; the loop comparisons ΩBO≃O and ΩBSO≃SO and the comparison
-of T1.6d's tower with Ω₇ are therefore T7.1's. Every analytic step in T4 concerns finite
+periodicity is proved in T7.1 from T4's clutching proof carried out with
+involutions and from the graded Clifford modules of SpinRepresentations,
+independently of the complex Thom and index developments; its coefficient
+computation uses T1.5a's first homotopy groups and the loop comparisons
+ΩBO≃O and ΩBSO≃SO, which are T7.1's. T1.5–T1.6 consume nothing from T7. Every analytic step in T4 concerns finite
 matrix/bundle families; no elliptic operator or index theorem proves Bott.
 
 - Atiyah–Bott, [*On the periodicity theorem for complex vector bundles*](https://doi.org/10.1007/BF02391772), Acta Math.112 (1964), 229–247, for the polynomial-clutching proof.
@@ -1686,6 +1846,7 @@ matrix/bundle families; no elliptic operator or index theorem proves Bott.
 - Freed's K-theory lectures, [notes by Arun Debray](https://www.math.purdue.edu/~adebray/lecture_notes/m392c_Knotes.pdf), §§5–6, for the companion-pencil, spectral bundle and inverse-independence proof spine, with uniform approximation and signs proved as specified above.
 - Segal, [*Equivariant K-theory*](https://www.numdam.org/item/PMIHES_1968__34__129_0/), Publ.Math.IHÉS34 (1968), for equivariant bundles, representation embeddings, descent and complex Thom theory.
 - Atiyah, [*Bott periodicity and the index of elliptic operators*](https://doi.org/10.1093/qmath/19.1.113), Quart.J.Math.19 (1968), §§2 and4 (especially Proposition4.9), for the minimal family-index transfer; prove the analytic bridges of T6.5 rather than importing a general index theorem.
+- Atiyah, [*K-theory and reality*](https://doi.org/10.1093/qmath/17.1.367), Quart. J. Math. Oxford 17 (1966), 367–386, §2 for (1,1)-periodicity and Theorem 3.10 for the eightfold periodicity of T7.1.
 - Atiyah–Bott–Shapiro, [*Clifford modules*](https://doi.org/10.1016/0040-9383(64)90003-5), Topology3 Supplement1 (1964), §§6 and11, for the graded-module product computation and its geometric comparison in T7.
 - Sibson, [*Existence theorems for H-space inverses*](https://doi.org/10.1017/S0305004100044029), Proc. Cambridge Philos. Soc. 65 (1969), pp. 19–21, for the connected CW H-space inverse of T7.0.
 - Mitchell, [*Notes on principal bundles and classifying spaces*](https://sites.math.washington.edu/~mitchell/Notes/prin.pdf) (2011), §§2–3 and Lemma 7.2, for the principal-bundle and classifying-space inputs of T6.4.
