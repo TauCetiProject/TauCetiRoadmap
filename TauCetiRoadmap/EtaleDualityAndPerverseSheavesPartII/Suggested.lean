@@ -3,6 +3,7 @@ module
 public import Mathlib
 public import TauCeti.RingTheory.RegularLocalRing.GRing
 public import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.Basic
+public import TauCeti.RingTheory.Perfectoid.Integral
 
 /-!
 # Étale duality and perverse sheaves, part II: target signatures
@@ -10,14 +11,17 @@ public import TauCeti.RepresentationTheory.Homological.ContCohomology.Cohomologi
 The roadmap is README.md; this file is not the roadmap. It states the headline
 Cohen–Gabber theorems in equal and mixed characteristic, the partial algebraization
 theorems, the local form of Gabber’s affine Lefschetz theorem, Gabber’s formula for the
-cohomological dimension of the fraction field of a henselian quasi-excellent local domain
-and Gabber’s cohomological-dimension bound against the pinned APIs. The three structures
+cohomological dimension of the fraction field of a henselian quasi-excellent local domain,
+Gabber’s cohomological-dimension bound and the algebraic tilting of étale cohomology of
+henselian perfectoid pairs against the pinned APIs. The three structures
 only bundle native rings, ideals, localizations, completions and generic fibres needed by
 those statements. The local affine Lefschetz theorem assumes Tau Ceti’s G-ring condition,
 which makes the completion map regular; for a noetherian local ring that condition is
 quasi-excellence (ILO I 5.3.1 and 5.5.1(ii)), but the proof only uses the regularity of
 the completion map (ILO XV 1.2.5). The fraction-field formula uses the same condition as
-quasi-excellence, and Tau Ceti’s cohomological dimension of the absolute Galois group.
+quasi-excellence, and Tau Ceti’s cohomological dimension of the absolute Galois group. The
+tilting statement uses Tau Ceti’s integral perfectoid predicate (the definition of
+CS24 §2.1.2) on the ϖ-adic completion, and Mathlib’s perfection of A/ϖ as the tilt.
 
 These remaining headlines are not statable at the pins without their missing
 geometric carriers and operations:
@@ -50,9 +54,12 @@ geometric carriers and operations:
   the étale category; an abstract t-structure is not that missing structure.
 * Local Lefschetz needs local étale cohomology with supports and its hypersurface
   restriction map.
-* Algebraic tilting of matched-open idempotents, étale cohomology and support
-  complexes needs henselian perfectoid pairs, sharp quotients, matched opens and
-  their derived étale sections. PreTilt alone supplies none of those hypotheses.
+* Tilting of cohomology with supports (README §8.6) needs étale cohomology with
+  supports in a closed subset.
+* The tilting of étale cohomology (README §8.5) is stated below in each degree,
+  natural in the coefficient group. Its functoriality in A and in the matched open
+  needs pullback of étale cohomology along morphisms of schemes and is not stated.
+  The comparison of idempotents (README §8.3) is a step of its proof, not a headline.
 
 There are no weakened stand-ins for these headlines. Absolute purity is supplied
 by LefschetzPencilsAndVanishingCycles §0.10, rather than stated again here.
@@ -337,6 +344,49 @@ theorem cohomologicalDimension_fractionRing_eq
     TauCeti.cohomologicalDimensionAt.{u} ℓ (Field.absoluteGaloisGroup (FractionRing A)) =
       (d : ℕ∞) + TauCeti.cohomologicalDimensionAt.{u} ℓ
         (Field.absoluteGaloisGroup (IsLocalRing.ResidueField A)) := by
+  sorry
+
+/-! ## Layer 8: Tilting étale cohomology of henselian perfectoid pairs -/
+
+/-- Algebraic tilting of étale cohomology (CS24 Theorem 2.2.7; CS24 line 827). Let p be a prime,
+A a ring and ϖ ∈ A with ϖ^p ∣ p, such that A is henselian along (ϖ), has bounded ϖ^∞-torsion
+and has an integral perfectoid ϖ-adic completion. Put A^♭ = lim_{x ↦ x^p} A/ϖ (Mathlib's
+`Perfection`); its coordinate-zero map A^♭ → A/ϖ is surjective, and its kernel is generated
+by an element ϖ^♭ whose sharp is a unit multiple of ϖ, so it identifies Spec(A/ϖ) with the
+closed subset V(ϖ^♭) of Spec A^♭. Let U ⊆ Spec A contain the
+locus where ϖ is invertible, let U^♭ ⊆ Spec A^♭ contain every point outside the image of
+Spec(A/ϖ), and let their complements correspond in Spec(A/ϖ). Then in each degree q there are
+isomorphisms H^q(U, G) ≅ H^q(U^♭, G), natural in the torsion abelian group G. The hypothesis
+`CharP (A ⧸ Ideal.span {ϖ}) p`, needed to form the perfection, excludes only the zero ring. -/
+theorem etaleCohomology_tilt (p : ℕ) [Fact p.Prime] (A : Type u) [CommRing A] (ϖ : A)
+    (hϖ : ϖ ^ p ∣ (p : A)) [HenselianRing A (Ideal.span {ϖ})]
+    (hbdd : ∃ N : ℕ, ∀ (a : A) (n : ℕ), ϖ ^ n * a = 0 → ϖ ^ N * a = 0)
+    [TauCeti.Perfectoid.IsIntegralPerfectoid p (AdicCompletion (Ideal.span {ϖ}) A)]
+    [CharP (A ⧸ Ideal.span {ϖ}) p]
+    (U : (AlgebraicGeometry.Spec (CommRingCat.of A)).Opens)
+    (V : (AlgebraicGeometry.Spec (CommRingCat.of (Perfection (A ⧸ Ideal.span {ϖ}) p))).Opens)
+    (hU : ∀ x : PrimeSpectrum A, ϖ ∉ x.asIdeal → x ∈ U)
+    (hV : ∀ y : PrimeSpectrum (Perfection (A ⧸ Ideal.span {ϖ}) p),
+      (∀ z : PrimeSpectrum (A ⧸ Ideal.span {ϖ}),
+        PrimeSpectrum.comap (Perfection.coeff (A ⧸ Ideal.span {ϖ}) p 0) z ≠ y) → y ∈ V)
+    (hUV : ∀ z : PrimeSpectrum (A ⧸ Ideal.span {ϖ}),
+      PrimeSpectrum.comap (Ideal.Quotient.mk (Ideal.span {ϖ})) z ∈ U ↔
+        PrimeSpectrum.comap (Perfection.coeff (A ⧸ Ideal.span {ϖ}) p 0) z ∈ V)
+    (q : ℕ) :
+    ∃ e : ∀ G : AddCommGrpCat.{u}, IsAddTorsion G →
+        (((CategoryTheory.constantSheaf U.toScheme.smallEtaleTopology AddCommGrpCat.{u}).obj
+            G).H q ≃+
+          ((CategoryTheory.constantSheaf V.toScheme.smallEtaleTopology AddCommGrpCat.{u}).obj
+            G).H q),
+      ∀ (G G' : AddCommGrpCat.{u}) (hG : IsAddTorsion G) (hG' : IsAddTorsion G') (f : G ⟶ G')
+        (x : ((CategoryTheory.constantSheaf U.toScheme.smallEtaleTopology
+          AddCommGrpCat.{u}).obj G).H q),
+        e G' hG' (CategoryTheory.Sheaf.H.map
+            ((CategoryTheory.constantSheaf U.toScheme.smallEtaleTopology
+              AddCommGrpCat.{u}).map f) q x) =
+          CategoryTheory.Sheaf.H.map
+            ((CategoryTheory.constantSheaf V.toScheme.smallEtaleTopology
+              AddCommGrpCat.{u}).map f) q (e G hG x) := by
   sorry
 
 end TauCetiRoadmap.EtaleDualityAndPerverseSheavesPartII
