@@ -30,7 +30,7 @@ sentences, and the small-model and completion theory.
 
 It continues the [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md), whose "Out of scope"
 list names Ehrenfeucht–Mostowski stretching, partition calculus and Morley–Hanf, and it consumes
-the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) roadmap for the specific interfaces listed under
+the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) roadmap for the specific interfaces listed under
 [Existing library and ownership](#existing-library-and-ownership).
 
 Suggested homes:
@@ -138,10 +138,10 @@ The following are suppliers, not requests to rebuild their objects.
 | Mathlib von Neumann hierarchy | `ZFSet.vonNeumann` (`V_`), `ZFSet.vonNeumann_add_one`, `ZFSet.mem_vonNeumann`, `ZFSet.isTransitive_vonNeumann`, `ZFSet.vonNeumann_subset_of_le`, `ZFSet.card_vonNeumann` (`card (V_ o) = preBeth o`), `ZFSet.card` |
 | Mathlib ordered fields | `HahnSeries` with the lexicographic order `Lex R⟦Γ⟧` and its `IsStrictOrderedRing` instance (`RingTheory/HahnSeries/Lex.lean`), `Subfield.closure`, `Subfield.cardinalMk_closure_le_max` |
 | Mathlib first-order logic | `FirstOrder.Language`, `Structure`, `Term`, `Term.realize`, `LHom` (`→ᴸ`) and `LHom.reduct`, `Language.sum`, `M ≃[L] N`, `Substructure.closure`; the first-order Skolem language `Language.skolem₁` fixes the shape of the Skolem functions of Layer 2 |
-| [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0 | `FirstOrder.Language.BoundedFormulaInf` with `L.BoundedFormulaω` and `L.Sentenceω`, `BoundedFormulaInf.Realize` and `SentenceInf.Realize` with their simp lemmas, `TauCeti.IndexCoding` and the coded connectives `BoundedFormulaInf.iInfAlong`/`iSupAlong`, `TauCeti.BoundedFormulaInf.subst` and `relabel`, `BoundedFormulaInf.mapBound` and `castLE`, and the finitary embedding `BoundedFormula.toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); Tau Ceti at this repository's pin (2fd255d99), [`ModelTheory/Infinitary/`](https://github.com/TauCetiProject/TauCeti/tree/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Infinitary)`{Syntax, Semantics, IndexCoding, CodedConnectives, Substitution, Operations}.lean` (Tau Ceti PRs [#17407](https://github.com/TauCetiProject/TauCeti/pull/17407), [#17576](https://github.com/TauCetiProject/TauCeti/pull/17576), [#17885](https://github.com/TauCetiProject/TauCeti/pull/17885)) |
-| InfinitaryLogic, Layers 1–3 | `TauCeti.BFEquiv` and `TauCeti.PotentialIso`, and the following Tau Ceti declarations at this repository's pin (Tau Ceti 2fd255d99): `TauCeti.scottSentence`, `TauCeti.realize_scottSentence_self` and `TauCeti.bfEquiv_of_realize_scottSentence` ([`Scott/Sentence.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/Sentence.lean)), the last for a model of any cardinality in any universe; `TauCeti.potentialIso_iff_bfEquiv_all` ([`BackAndForth/AllLevels.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/AllLevels.lean)); and the forward Karp direction `TauCeti.PotentialIso.infEquivAt` ([`BackAndForth/Karp.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Karp.lean), [#18194](https://github.com/TauCetiProject/TauCeti/pull/18194)). They are built on the parent's contracts as Tau Ceti implements them at the pin: Layer 3's `scottSentenceAt`, `realize_scottSentenceAt_self` and `isTupleBFSystem_of_realize_scottSentenceAt` (in any model `N`), as `TauCeti.scottSentenceAt`, `TauCeti.realize_scottSentenceAt_self` and `TauCeti.isTupleBFSystem_of_realize_scottSentenceAt` in `Scott/Sentence.lean`; and Layer 1's `potentialIso_iff_exists_isTupleBFSystem` and Karp theorem, as `TauCeti.potentialIso_iff_exists_isTupleBFSystem` ([`BackAndForth/Presentation.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Presentation.lean)) and `TauCeti.karp_theorem` (`BackAndForth/Karp.lean`). Except `PotentialIso` and `scottSentenceAt`, all of these assume `[L.IsRelational]`, as Layer 5.4 does |
+| [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0 | `FirstOrder.Language.BoundedFormulaInf` with `L.BoundedFormulaω` and `L.Sentenceω`, `BoundedFormulaInf.Realize` and `SentenceInf.Realize` with their simp lemmas, `TauCeti.IndexCoding` and the coded connectives `BoundedFormulaInf.iInfAlong`/`iSupAlong`, `TauCeti.BoundedFormulaInf.subst` and `relabel`, `BoundedFormulaInf.mapBound` and `castLE`, and the finitary embedding `BoundedFormula.toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); Tau Ceti at this repository's pin (2fd255d99), [`ModelTheory/Infinitary/`](https://github.com/TauCetiProject/TauCeti/tree/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Infinitary)`{Syntax, Semantics, IndexCoding, CodedConnectives, Substitution, Operations}.lean` |
+| InfinitaryLogic, Layers 1–3 | `TauCeti.BFEquiv` and `TauCeti.PotentialIso`, and the following Tau Ceti declarations at this repository's pin (Tau Ceti 2fd255d99): `TauCeti.scottSentence`, `TauCeti.realize_scottSentence_self` and `TauCeti.bfEquiv_of_realize_scottSentence` ([`Scott/Sentence.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/Sentence.lean)), the last for a model of any cardinality in any universe; `TauCeti.potentialIso_iff_bfEquiv_all` ([`BackAndForth/AllLevels.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/AllLevels.lean)); and the forward Karp direction `TauCeti.PotentialIso.infEquivAt` ([`BackAndForth/Karp.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Karp.lean)). They are built on the parent's contracts as Tau Ceti implements them at the pin: Layer 3's `scottSentenceAt`, `realize_scottSentenceAt_self` and `isTupleBFSystem_of_realize_scottSentenceAt` (in any model `N`), as `TauCeti.scottSentenceAt`, `TauCeti.realize_scottSentenceAt_self` and `TauCeti.isTupleBFSystem_of_realize_scottSentenceAt` in `Scott/Sentence.lean`; and Layer 1's `potentialIso_iff_exists_isTupleBFSystem` and Karp theorem, as `TauCeti.potentialIso_iff_exists_isTupleBFSystem` ([`BackAndForth/Presentation.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Presentation.lean)) and `TauCeti.karp_theorem` (`BackAndForth/Karp.lean`). Except `PotentialIso` and `scottSentenceAt`, all of these assume `[L.IsRelational]`, as Layer 5.4 does |
 
-**From the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) roadmap** (IME)
+**From the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) roadmap** (IME)
 this roadmap consumes exactly the following, cited by IME layer and section, and nothing else of
 it. Each item closes with its implementation in Tau Ceti at this repository's pin (2fd255d99),
 with names in `FirstOrder.Language` and paths under [`TauCeti/ModelTheory/`](https://github.com/TauCetiProject/TauCeti/tree/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory); the three
@@ -966,11 +966,11 @@ The following belong to separate roadmaps.
   relations (Sierpiński's `2^κ ↛ (κ⁺)²₂`), the Erdős–Dushnik–Miller theorem, polarized relations,
   Erdős cardinals and large-cardinal partition properties. Layer 0 contains exactly what the
   Morley–Hanf and small-model constructions use.
-- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)): countable fragments, consistency properties and model existence,
+- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)**: countable fragments, consistency properties and model existence,
   omitting types, downward Löwenheim–Skolem, types and isolation, Morleyization, PC classes,
   interpolation and the well-ordering applications. Consumed here only through the IME sections
   listed under [Existing library and ownership](#existing-library-and-ownership).
-- **[CountableStructureSpaces](../CountableStructureSpaces/README.md) ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)), [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)) and [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318))**: spaces of
+- **[CountableStructureSpaces](../CountableStructureSpaces/README.md) ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)), [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) and [CountableModelCounting](../CountableModelCounting/README.md)**: spaces of
   countable structures, López–Escobar, Borel equivalence relations, and counting countable models,
   including Morley's counting theorem and Vaught's conjecture.
 - The general Glimm–Effros dichotomy of Harrington, Kechris and Louveau and Gandy–Harrington
@@ -1011,11 +1011,9 @@ results:
 
 - **InfinitaryLogic.** The syntax, semantics, back-and-forth relations, Karp's forward direction and
   Scott sentences are the parent roadmap's, implemented in Tau Ceti at this repository's pin under
-  `TauCeti/ModelTheory/{Infinitary, BackAndForth, Scott}`; the free-variable support of
-  [Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547) is not needed here. The
-  Scott sentence used in Layer 5 is the parent's internal one, so no external Scott-height
-  convention enters this roadmap.
-- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) supplies language maps, occurrence sets, sublanguages, `substBounds`,
+  `TauCeti/ModelTheory/{Infinitary, BackAndForth, Scott}`. The Scott sentence used in Layer 5 is
+  the parent's internal one, so no external Scott-height convention enters this roadmap.
+- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** supplies language maps, occurrence sets, sublanguages, `substBounds`,
   theories, fragments, fragment elementarity with Löwenheim–Skolem, and complete types with
   isolation, and owns them; this roadmap builds no second version of any of them. This roadmap owns
   smallness, the Skolem tower and everything about indiscernibles and Hanf numbers, as IME's
@@ -1030,7 +1028,7 @@ results:
 
 A Lean formalization of this material exists in
 [`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic) (Apache-2.0,
-Cameron Freer). Cite checkpoint
+Cameron Freer). Cite commit
 [`518a366`](https://github.com/cameronfreer/infinitary-logic/tree/518a366cba97b1ae8c4dc64a297a396939bc3e0b),
 at which the library is free of `sorry` and its headline theorems depend only on `propext`,
 `Classical.choice` and `Quot.sound`. It works over `Language.{0, 0}` with carriers in `Type`. Its
@@ -1052,7 +1050,7 @@ below is "where to look", not a specification. Paths are relative to
   certifies that `morley_hanf` uses no declaration of `Combinatorics/InfiniteRamsey.lean`,
   `Combinatorics/InfiniteRamseyFamily.lean` or the legacy `Combinatorics/ErdosRado.lean`, and that
   it uses `finiteArityHomogeneousUpTo_beth_stage`. A declaration-level cone computation at this
-  checkpoint confirms that the partition results it uses are those of
+  commit confirms that the partition results it uses are those of
   `Combinatorics/PairErdosRadoGeneral.lean` (the point pigeonhole
   `exists_large_fiber_of_small_codomain` and the source embeddings, not the pair theorem
   `pairErdosRado_general` itself), `Combinatorics/EndHomogeneousErdosRado.lean`
@@ -1133,5 +1131,5 @@ below is "where to look", not a specification. Paths are relative to
   partition relation and the Erdős–Rado theorem.
 - A. Kanamori, *The Higher Infinite*, 2nd ed., Springer, 2003, the chapter "Partition
   Properties": Erdős cardinals and the inaccessibility of `κ(ω)` (Convention 9).
-- `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic, checkpoint
+- `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic, commit
   `518a366cba97b1ae8c4dc64a297a396939bc3e0b`.
