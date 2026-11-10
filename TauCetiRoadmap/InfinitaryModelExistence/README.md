@@ -30,9 +30,10 @@ The summits are:
 * **the boundedness theorems for well-orderings** of §4.4 of Marker's 2013 notes and the
   undefinability of well-ordering, for arbitrary languages (Layer 8).
 
-The interpolation and well-ordering theorems are proved for relational languages and transferred to
-languages with function symbols by the **graph translation** of Layer 6, a proof device with its own
-API.
+The interpolation theorems are proved for relational languages and transferred to languages with
+function symbols by the **graph translation** of Layer 6, a proof device with its own API. The
+well-ordering theorems are proved directly for arbitrary languages: model existence handles closed
+terms through its naming clause.
 
 Interpolation here is **sentence-level** throughout. The analogous statements for sets of sentences
 are false for Lω₁ω (see [Out of scope](#out-of-scope)), and no theorem of this roadmap claims them.
@@ -63,12 +64,12 @@ TauCeti/ModelTheory/WellOrdering.lean                -- boundedness of well-orde
 | L5 | Morleyization: the canonical definitional expansion and the first-order presentation of a countable fragment with omitted types | L0–L2, L4 | the Morley presentation of "the universe is finite", and an infinite model of its first-order theory from Mathlib's compactness |
 | L6 | the graph translation: graph language, graph expansion, formula translation, graph axioms, reconstruction, back-translation, entailment transfer | L0, L1 | back-translating a translated formula gives a formula with the same realization in every structure |
 | L7 | projective classes; Craig interpolation and PC separation; Lyndon; Malitz | L0–L3, L6 | the degenerate interpolants `⊥` and `⊤` |
-| L8 | boundedness and the undefinability of well-ordering (Marker's 2013 notes, §4.4) | L0–L3, L6 | a chain `RelChain lt f` from `ℚ` is never well-founded |
+| L8 | boundedness and the undefinability of well-ordering (Marker's 2013 notes, §4.4) | L0–L3 | a chain `RelChain lt f` from `ℚ` is never well-founded |
 
 L0 and L1 come first. L2 and L3 are independent of each other. L4 needs L3 (for the omitting types
 theorem) and L2 (for transporting types). L5 needs L4 only for the vocabulary of omission. L6 needs
-only L0 and L1. L7 and L8 need L3, the sublanguage machinery of L0 and the graph translation of L6,
-and use L2 to pass between model universes; they are independent of L4 and L5.
+only L0 and L1. L7 and L8 need L3 and the sublanguage machinery of L0; L7 also needs the graph
+translation of L6 and uses L2 to pass between model universes. Both are independent of L4 and L5.
 
 ## Standing conventions
 
@@ -82,7 +83,8 @@ Pin these once; every statement below uses them.
    instances to `Language.card ≤ ℵ₀`, and its names are the ones to use). The interpolation and
    well-ordering theorems hold for languages of any cardinality, with no countability hypothesis, by
    passing to the countable sublanguage of the symbols that occur. `[L.IsRelational]` appears in the
-   Lean statement of their relational cores, which are named milestones, and of Malitz's theorem.
+   Lean statement of the relational cores of the interpolation theorems, which are named milestones,
+   and of Malitz's theorem.
 2. **Syntax.** Lω₁ω is the parent's `BoundedFormulaω L α n = BoundedFormulaInf L ℕ α n`, with
    `Sentenceω L` its sentences. Members of fragments and types have **no free variables**: they are
    `BoundedFormulaω L Empty n`, and a tuple `a : Fin n → M` supplies the `n` bound positions as
@@ -602,11 +604,11 @@ The omitted types do mathematical work.
 
 Suggested home: `TauCeti/ModelTheory/Infinitary/GraphTranslation.lean`.
 
-The model-existence engines of Layers 7 and 8 are run over relational languages, where every closed
-term of `L[[ℕ]]` is a constant. This layer transfers sentence-level statements between `L` and a
+The model-existence engines of Layer 7 are run over relational languages, where every closed term
+of `L[[ℕ]]` is a constant. This layer transfers sentence-level statements between `L` and a
 relational language by the standard graph construction: an `n`-ary function symbol becomes an
-`(n + 1)`-ary relation symbol for its graph. It is a proof device for the theorems of Layers 7 and
-8: it translates single sentences and entailments together with the totality and functionality
+`(n + 1)`-ary relation symbol for its graph. It is a proof device for the theorems of Layer 7: it
+translates single sentences and entailments together with the totality and functionality
 axioms of the symbols they mention. This roadmap owns the graph-language translation and its
 semantic API, and no sibling roadmap builds a second one. Transferring Karp theory, back-and-forth
 analysis and Scott ranks across the translation is outside this series of roadmaps, and must reuse
@@ -801,21 +803,21 @@ Fix a binary relation symbol `lt : L.Relations 2` of an arbitrary language and w
   is a well-order. It is a different target from `not_exists_modelsOf_eq_wellOrderClass` of
   CountableStructureSpaces, which is about codes on `ℕ`; this one is about all structures.
 
-Every theorem below holds for arbitrary `L` of any cardinality, with no hypothesis on `L`; the
-relational cores (`exists_model_relChain_rat_relational` and its consequences) are named
-milestones. The transfer uses the symbol sublanguage of `φ` and `lt` (Layer 0) to remove symbol
-countability, and Layer 6 to remove function symbols: the well-ordered-chain hypothesis passes to
-`graphAxioms F ∧ relationalize φ` along the graph expansion, the conclusion returns along the
-reconstruction, and `lt` is a base relation, preserved on the nose by both.
+Each theorem of this layer holds for arbitrary `L` of any cardinality, with no hypothesis on `L`,
+and is proved directly, function symbols included. The symbol sublanguage of `φ` and `lt`
+(Layer 0) removes symbol countability: the well-ordered-chain hypothesis passes to the restriction
+of `φ` along the reducts, the conclusion returns along an expansion of the nonempty countable model
+(Mathlib's `LHom.defaultExpansion`), and `lt` is preserved on the nose by both. No graph
+translation is needed, because model existence handles closed terms through its `eq_name` clause.
 
-Route for the relational core. Add Henkin constants and rational constants `d_q` (coded into `ℕ`,
-rational constants at even indices), and let `D = {lt(d_q, d_r) : q < r}`. A sentence is
+Route, for `L` with countably many symbols. Add Henkin constants and rational constants `d_q` (coded
+into `ℕ`, rational constants at even indices), and let `D = {lt(d_q, d_r) : q < r}`. A sentence is
 *finitely supported* if it mentions only finitely many constants; a finite set of Lω₁ω sentences
 need not be, since a countable conjunction can mention infinitely many. Let `σ` be a finite set of
 finitely supported sentences, and `q₁ < … < qₙ` the rationals whose constants occur in `σ`. An
-*`α`-witness* for `σ` is a model `M` of `φ`, a chain `f : γ → M` (`RelChain lt f`) of some
-countable length `γ`, and an interpretation of the constants of `σ` in `M`, with `M ⊨ σ` and
-`d_{qᵢ}` interpreted as `f bᵢ`, where
+*`α`-witness* for `σ` is a model `M` of `φ`, a chain `f : γ → M` (`RelChain lt f`) of some countable
+length `γ`, and an interpretation of the constants of `σ` in `M`, with `M ⊨ σ` and `d_{qᵢ}`
+interpreted as `f bᵢ`, where
 
 ```text
 b₁ < … < bₙ,   α ≤ b₁,   bᵢ + α ≤ bᵢ₊₁ (1 ≤ i < n),   bₙ + α < γ,
@@ -860,15 +862,18 @@ The clause checks, each a target:
   reserve.
 * **`not_all`.** Choose a Henkin constant (odd index) not occurring in `σ`, which exists by finite
   support, and interpret it in each witness by an element witnessing the negated instance.
-* **Equality.** The closed terms of the relational `L[[ℕ]]` are its constants. `eq_refl`, and
-  `eq_name` with `c` the constant `t` itself, add `t = t`, placing `t` if it is a new rational and
-  interpreting it if it is a new Henkin constant. For `eq_subst`, the equation `t = t'` lies in
-  `σ`. If `inst φ t ∈ σ`, every witness satisfies it and the equation, hence `inst φ t'`. If
-  `inst φ t ∈ D`, the other constant of that atomic sentence may be new; place it, after which
-  `inst φ t'` holds because `t` and `t'` name the same chain point.
-* **Finite support and countability.** Each clause adds one sentence, which mentions at most one
-  constant not already in `σ` (subformulas mention no new constants), so `σ` stays finite and
-  finitely supported; every member is countable.
+* **Equality.** A closed term `t` of `L[[ℕ]]` mentions finitely many constants. `eq_refl` adds
+  `t = t`, placing the new rational constants of `t` and interpreting its new Henkin constants. For
+  `eq_name`, choose a Henkin constant `c` (odd index) occurring neither in `σ` nor in `t`, and
+  interpret it in each witness as the value of `t`; nothing else changes, since `c` occurs nowhere
+  else. For `eq_subst`, the equation `t = t'` lies in `{φ} ∪ σ`, so every witness satisfies it.
+  If `inst φ t ∈ {φ} ∪ σ`, every witness satisfies it too, hence `inst φ t'`. If `inst φ t ∈ D`,
+  place its rational constants that are new, after which `inst φ t'` holds because `t` and `t'`
+  have the same value.
+* **Finite support and countability.** Each clause adds one sentence, which mentions finitely many
+  constants not already in `σ` (subformulas mention no new constants, and a closed term mentions
+  finitely many), placed one at a time; so `σ` stays finite and finitely supported, and every
+  member is countable.
 
 `model_existence` applied to `{φ} ∪ D` gives a countable nonempty model of `φ` in which `q ↦ d_q`
 is a chain. Boundedness is the contrapositive (a well-founded relation has no chain from the
@@ -922,8 +927,8 @@ prove. The following chains must be visible:
 * fragment → Morley theory and types → first-order presentation;
 * inseparable pairs → model existence → relational Craig → graph translation → Craig → PC
   separation, with Lyndon and Malitz as refinements of the separator class;
-* the gap-and-reserve consistency property → model existence → the rational chain → graph
-  translation → boundedness → undefinability.
+* the gap-and-reserve consistency property → model existence → the rational chain → boundedness →
+  undefinability.
 
 A theorem proved for a privately redefined entailment, fragment notion or consistency property
 does not discharge its target.
@@ -1007,7 +1012,7 @@ universe-general statements here are part of the work. The map below says where 
 | L5 | `ModelTheory/Morleyization.lean`, `ModelTheory/MorleyizationElementary.lean` | the source has the definitional expansion only; the first-order presentation is new |
 | L6 | `Methods/Interpolation/{GraphLanguage, TermGraph, Relationalize, GraphAxioms, GraphReconstruction, BackTranslate}.lean`, `Lomega1omega/FiniteQuantification.lean`, `Methods/Interpolation/LyndonRelationalize.lean` (polarity); design in `docs/craig-audit.md` §9b | the source's `entails_graphTranslation` is in `CraigArbitrary.lean` |
 | L7 | `ModelTheory/PCClass.lean`; `Methods/Interpolation/*` (relational core: `CraigSublanguage`, `CraigRelational`, `CraigSeparation`, `PairedInsepFamily`, `Inseparability`, `ConstantElimination`; Lyndon: `Lomega1omega/Polarity.lean`, `Lomega1omega/PolaritySemantics.lean`, `LyndonSublanguage`; Malitz: `Lomega1omega/QuantifierClass.lean`, `BudgetedPair`, `MalitzSublanguage`); audits `docs/{craig,lyndon,malitz}-audit.md` | arbitrary-language headlines in `CraigArbitrary.lean` and `LyndonArbitrary.lean` (statements over `Language.{0, 0}` with no hypotheses on `L`); `pcSeparation` in sum form is new; the source's Malitz is relational, and `docs/malitz-audit.md` §D5 records why the translation cannot extend it |
-| L8 | `Methods/WellOrdering/*` (`ClosureFields`, `GapWitness`, `ModelExtraction`, `Boundedness`, `Undefinability`, `SymbolCountability`, `GraphTranslation`); audit `docs/wellordering-audit.md` | `GraphTranslation.lean` holds the arbitrary-language endpoints, with no hypotheses on `L` |
+| L8 | `Methods/WellOrdering/*` (`ClosureFields`, `GapWitness`, `ModelExtraction`, `Boundedness`, `Undefinability`, `SymbolCountability`, `GraphTranslation`); audit `docs/wellordering-audit.md` | the source proves relational cores and reaches function symbols through the graph translation in `GraphTranslation.lean`; Layer 8 proves the theorems directly for arbitrary `L` |
 
 ### Tau Ceti implementation
 
@@ -1029,7 +1034,7 @@ and the difference is recorded in the last column.
 | L5 | `ModelExistence/Morleyization.lean` | `morleyize`, `lhomMorleyize`, `morleyExpansion` with the instance `isExpansionOn_morleyExpansion`, `isRelational_morleyize`, `countable_relations_morleyize`, `definingTheory`, `eq_morleyExpansion_of_model_definingTheory`, `BoundedFormulaInf.unMorleyize`, `nonempty_morleyEquiv_iff`, `exists_morleyEmbedding_iff_aElementary` | none |
 | L6 | `Infinitary/GraphTranslation/{Language,Relationalize,Reconstruct,BackTranslate}.lean` | `GraphRelation`, `graphLanguage`, `graphExpansion`, `relSym`, `relSym_inter`; `BoundedFormulaInf.relationalize`, `realize_relationalize`, `relationsIn_relationalize`; `graphAxioms`, `reconstructStructure`, `BoundedFormulaInf.realize_relationalize_reconstructStructure`; `Term.backTranslate` (the roadmap's `ungraphTerm`), `BoundedFormulaInf.backTranslate`, `realize_backTranslate` | `backTranslate` works at every carrier; `graphAxioms F` is a theory, for any `F`, not one sentence |
 | L7 | `Interpolation/PCClass.lean` | `LHom.PCMem` (the roadmap's `PCMem`), `StrongHomClass.pcMem_iff`, `LHom.pcMem_id_iff`, `LHom.pcMem_comp_iff`, `LHom.pcMem_sumInl_inf_iff`, `LHom.pcMem_sumInl_sup_iff` | `pcMem_sumInl_sup_iff` assumes `[Nonempty (L₁.Structure M)]` and `[Nonempty (L₂.Structure M)]` in place of relational `L₁` and `L₂` |
-| L8 | `WellOrdering.lean` | `RelChain`, `RelChain.not_wellFounded`, `Sentenceω.HasWellOrderedChains`, `Sentenceω.exists_model_relChain_rat`, `Sentenceω.wellFounded_boundedness`, `Sentenceω.wellOrder_type_boundedness`, `wellOrdering_undefinable` | proved for arbitrary languages directly, with no relational core stated |
+| L8 | `WellOrdering.lean` | `RelChain`, `RelChain.not_wellFounded`, `Sentenceω.HasWellOrderedChains`, `Sentenceω.exists_model_relChain_rat`, `Sentenceω.wellFounded_boundedness`, `Sentenceω.wellOrder_type_boundedness`, `wellOrdering_undefinable` | none |
 
 Among the targets that `Suggested.lean` states, Tau Ceti `2fd255d99` does not implement
 `fragmentType`, `AElementary.fragmentType_comp`, `Theoryω.exists_countable_model_omitting`,

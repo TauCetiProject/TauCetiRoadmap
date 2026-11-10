@@ -19,8 +19,8 @@ file is **not** the roadmap and is **not exhaustive**: it records suggested Lean
 reviewers converge on names and signatures; discharging every statement here neither finishes a
 layer nor the roadmap.
 
-The interpolation and well-ordering theorems are stated for arbitrary languages; their relational
-cores are proved first and transferred by the graph translation of Layer 6.
+The interpolation theorems are stated for arbitrary languages; their relational cores are proved
+first and transferred by the graph translation of Layer 6.
 
 The infinitary syntax and semantics come from Tau Ceti's `TauCeti.ModelTheory.Infinitary.*`, and
 so do the definitions of this roadmap that Tau Ceti implements at this repository's pin (language
