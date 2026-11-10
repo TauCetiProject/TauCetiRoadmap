@@ -12,8 +12,8 @@ motion solve the Dyson system and do not collide at positive times), global stro
 uniqueness without collisions for every real `β ≥ 1`, and convergence of the empirical measure
 process, uniformly on compact time intervals, to the solution of a Burgers equation for the
 Stieltjes transform. For a compactly supported initial limit `ν` and uniformly bounded initial
-spectra, that limit is the free convolution `ν ⊞ SC_t`. [Suggested.lean](Suggested.lean) states the headline theorems
-that are statable against the pinned libraries; this README is the roadmap.
+spectra, that limit is the free convolution `ν ⊞ SC_t`. [Suggested.lean](Suggested.lean) states the
+headline theorems that are statable against the pinned libraries; this README is the roadmap.
 
 ## Scope and ownership
 
@@ -41,7 +41,8 @@ Owned elsewhere and consumed here:
 - StochasticCalculus owns finite-dimensional Brownian motion (S1), predictable `L²` Brownian
   integration, continuous integral processes and localization (S3.2–S3.4), brackets
   (S4.1–S4.3), the `C²` Itô formula on open domains (S5.1), Lévy's characterization (S5.5), and
-  strong, local and maximal solutions with Lyapunov nonexplosion (S9.1–S9.2).
+  strong, local and maximal solutions with Lyapunov nonexplosion (S9.1–S9.2), and weak solutions
+  with uniqueness in law from pathwise uniqueness (S9.3).
 
 ## Conventions
 
@@ -95,7 +96,7 @@ Owned elsewhere and consumed here:
 
 - RandomMatrices: §§1.1–1.2, 3.1–3.3, 5.1–5.3, 6.3 and 7.1, with the GOE and GUE coordinates
   and normalization of §5.1.
-- StochasticCalculus: S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.2, with
+- StochasticCalculus: S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.3, with
   `timeMeasure`, `IsFilteredBrownian` and `IsStrongSolution`.
 
 ## How to read the build
@@ -132,7 +133,8 @@ process and localization (S3.2–S3.4); quadratic and mutual variation with
 `[∫H dM, ∫K dN] = ∫ HK d[M,N]` (S4.1–S4.3); the `C²` Itô formula on an open domain stopped before
 its boundary, in coordinate form (S5.1); the vector Lévy characterization (S5.5); and strong
 solutions, pathwise uniqueness, local and maximal solutions with compatible truncations, and
-coercive `C²` Lyapunov nonexplosion (S9.1–S9.2). The construction of vector Brownian motion and
+coercive `C²` Lyapunov nonexplosion (S9.1–S9.2); weak solutions and uniqueness in law from
+pathwise uniqueness (S9.3). The construction of vector Brownian motion and
 its orthonormal components are consumed from S1.2, not restated. State and prove the two
 adapters that StochasticCalculus does not state:
 - the mutual bracket of two linear functionals of a Brownian motion `W` on a finite-dimensional
@@ -140,7 +142,7 @@ adapters that StochasticCalculus does not state:
   not, from the covariance of S1.2 and the bilinearity of S4.3;
 - the integrand classes for matrix noise: StochasticCalculus' predictable classes with
   Hilbert–Schmidt norms, localized at collision and exit times.
-*Needs:* StochasticCalculus S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.2.
+*Needs:* StochasticCalculus S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.3.
 
 **Checks.**
 
@@ -159,11 +161,11 @@ adapters that StochasticCalculus does not state:
 
 ### Dependencies
 
-StochasticCalculus S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.2.
+StochasticCalculus S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.3.
 
 ## Layer 1: the Dyson system for `β ≥ 1`
 
-**Sources:** AGZ §4.3.1, Lemma 4.3.3 and Proposition 4.3.5; PB ch. 9.
+**Sources:** AGZ §4.3.1, Lemma 4.3.3, Proposition 4.3.5 and the proof of Lemma 4.3.17; PB ch. 9.
 
 ### 1.1 Existence, uniqueness and noncollision
 
@@ -179,7 +181,13 @@ The Dyson system of size `n` and real parameter `β ≥ 1` is
 
 The route is the truncation of Convention 4, noncollision from a logarithmic-gap argument,
 nonexplosion from the quadratic Lyapunov estimate, and entrance from coincident starts by
-approximation from the open chamber. *Needs:* §0.1.
+approximation from the open chamber. Since the noise is additive, the system is the pathwise
+identity `λᵢ(t) = xᵢ + √(2/(βn)) Bᵢ(t) + ∫₀ᵗ n⁻¹ ∑_{j≠i} (λᵢ(s)-λⱼ(s))⁻¹ ds` for paths in the open
+chamber. `Suggested.lean` writes it as `IsDysonSolution` and states the open-chamber case without
+the filtration, as pathwise existence and uniqueness, in `dysonSystem_exists_unique`. Pathwise
+uniqueness needs no adaptedness: on `[0, T]` two continuous solutions lie in a compact subset of
+the convex open chamber, where the drift is Lipschitz, and Gronwall's inequality applies.
+*Needs:* §0.1.
 
 **Checks.**
 
@@ -195,7 +203,9 @@ The Ornstein–Uhlenbeck system is the Dyson system of §1.1 with the added drif
 `dλᵢ = √(2/(βn)) dBᵢ + (n⁻¹ ∑_{j≠i} (λᵢ-λⱼ)⁻¹ - λᵢ/2) dt`. Prove the two statements of §1.1 for
 it, by the proof of AGZ Lemma 4.3.3 with the same Lyapunov function, since the added drift is
 globally Lipschitz. Prove the Gaussian beta density of RandomMatrices §5.3 invariant, with the
-boundary terms needed to pass from formal generator symmetry to an invariant probability law.
+boundary terms needed to pass from formal generator symmetry to an invariant probability law
+(AGZ, proof of Lemma 4.3.17: the system (4.3.40) at `t = 1` is this one, and the generator
+computation there gives stationarity).
 *Needs:* §1.1; RandomMatrices §5.3.
 
 **Checks.**
@@ -266,8 +276,11 @@ every `t > 0`. The steps:
 - reduce a general start to a real diagonal one by the conjugation invariance of §2.1.
 
 A complex Hermitian start that is not real symmetric, with `β = 1` noise, is not covered.
-`Suggested.lean` states the noncollision for real diagonal starts as
-`matrixBrownian_eigenvalues_strictAnti`. *Needs:* §§0.1, 1.1, 2.1; RandomMatrices §1.2.
+`Suggested.lean` states two cases for real diagonal starts: the noncollision, from any such start,
+as `matrixBrownian_eigenvalues_strictAnti`; and, from a strictly ordered start, the equation as
+`matrixBrownian_eigenvalues_dyson`, with the eigenvalue process an `IsDysonSolution` for some
+independent Brownian motions on the same probability space. *Needs:* §§0.1, 1.1, 2.1; RandomMatrices
+§1.2.
 
 **Checks.**
 
@@ -295,15 +308,17 @@ Layers 0–1; RandomMatrices §§1.2, 5.1.
 ### 3.1 Convergence of the empirical measure process
 
 Prove the empirical-measure evolution against `C_c²` test functions, its martingale
-quadratic-variation estimate, tightness on finite time intervals, and the limiting weak
-equation. For initial empirical laws converging weakly to `ν` with
-`sup_n n⁻¹ ∑ᵢ log(1 + λᵢ(0)²) < ∞`, prove that `(L_n(t))_{t ≤ T}` converges uniformly on `[0,T]`
+quadratic-variation estimate, tightness on finite time intervals, and the limiting weak equation.
+For initial empirical laws converging weakly to `ν` with `sup_n n⁻¹ ∑ᵢ log(1 + λᵢ(0)²) < ∞`, and
+with the systems of all sizes defined on one probability space with no assumption on their joint law
+(AGZ Proposition 4.3.10 assumes none), prove that `(L_n(t))_{t ≤ T}` converges uniformly on `[0,T]`
 in the Lévy–Prokhorov metric, almost surely and in probability, to the unique family `μ_t` with
 `μ₀ = ν` whose Stieltjes transforms `G_t(z) = ∫ (z-x)⁻¹ dμ_t(x)` satisfy
-`G_t(z) = G_0(z) - ∫₀ᵗ G_s(z) ∂_z G_s(z) ds` for `z ∉ ℝ` (AGZ Proposition 4.3.10 for the
-particle system and every `β ≥ 1`; AGZ Corollary 4.3.11 for matrix Brownian motion from a real
-diagonal start). `Suggested.lean` states the matrix case `β = 1, 2`, in probability, as
-`matrixBrownian_hydrodynamic_limit`. *Needs:* §§1.1, 2.2; RandomMatrices §§3.1–3.2.
+`G_t(z) = G_0(z) - ∫₀ᵗ G_s(z) ∂_z G_s(z) ds` for `z ∉ ℝ` (AGZ Proposition 4.3.10 for the particle
+system and every `β ≥ 1`; AGZ Corollary 4.3.11 for matrix Brownian motion from a real diagonal
+start). Convergence in probability depends only on the law of each size. `Suggested.lean` states the
+matrix case `β = 1, 2`, in probability, as `matrixBrownian_hydrodynamic_limit`. *Needs:* §§1.1, 2.2;
+RandomMatrices §§3.1–3.2.
 
 **Checks.**
 

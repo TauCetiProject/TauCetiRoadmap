@@ -6,18 +6,22 @@ import TauCeti.Analysis.Matrix.SpectralMeasure
 
 This file is not the roadmap: the roadmap is `README.md`. This file states the roadmap's
 headline theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`,
-together with the two definitions their statements need. It writes the noise matrix with
+together with the three definitions their statements need. It writes the noise matrix with
 the GOE and GUE coordinates of RandomMatrices §5.1 and uses Tau Ceti's `Matrix.spectralMeasure`.
 
-Stated here: the absence of eigenvalue collisions at positive times for symmetric and Hermitian
-matrix Brownian motion started at a real diagonal matrix (Layer 2), and the hydrodynamic limit
-of its empirical spectral measures, uniformly on compact time intervals, with the limit
-characterized by its Stieltjes equation (Layer 3).
+Stated here: pathwise existence and uniqueness for the Dyson system with real `β ≥ 1` from a
+strictly ordered start (Layer 1); the eigenvalue equation from a strictly ordered real diagonal
+start and the absence of eigenvalue collisions at positive times from any real diagonal start,
+for symmetric and Hermitian matrix Brownian motion (Layer 2); and the hydrodynamic limit of its
+empirical spectral measures, uniformly on compact time intervals, with the limit characterized by
+its Stieltjes equation (Layer 3). The Dyson noise is additive, so the system is a pathwise
+integral identity, `IsDysonSolution`, and needs no stochastic integral.
 
 Not statable at the pins, each for the carrier named:
-* the `β ≥ 1` particle system of Layer 1 and the eigenvalue stochastic differential equation of
-  Layer 2: Mathlib has no Itô integral and no strong solution of a stochastic differential
-  equation;
+* adaptedness of the solution to the Brownian filtration (a strong solution), uniqueness in law,
+  and starts in the closed chamber (AGZ Proposition 4.3.5): they need a filtration-relative
+  Brownian predicate and a weak-solution notion, which StochasticCalculus supplies and the pins
+  do not have;
 * the identification of the hydrodynamic limit as `ν ⊞ SC_t`: the pins have no free convolution
   of probability measures.
 -/
@@ -30,6 +34,33 @@ open scoped ENNReal NNReal Topology BoundedContinuousFunction
 namespace TauCetiRoadmap.DysonBrownianMotion
 
 variable {Ω : Type*}
+
+/-! ## Layer 1: the Dyson system -/
+
+/-- A continuous process in the open chamber solving the Dyson system of size `n` and parameter
+`β` from `x`, driven by `B`, as a pathwise integral identity. Adaptedness to the filtration of
+`B` is not part of it. -/
+def IsDysonSolution [MeasurableSpace Ω] (β : ℝ) (n : ℕ) (x : Fin n → ℝ) (P : Measure Ω)
+    (B : Fin n → ℝ≥0 → Ω → ℝ) (X : ℝ≥0 → Ω → Fin n → ℝ) : Prop :=
+  ∀ᵐ ω ∂P, Continuous (fun t ↦ X t ω) ∧ (∀ t, StrictAnti (X t ω)) ∧
+    ∀ (t : ℝ≥0) (i : Fin n), X t ω i = x i + Real.sqrt (2 / (β * n)) * B i t ω +
+      ∫ s in (0 : ℝ)..t, (n : ℝ)⁻¹ * ∑ j ∈ Finset.univ.erase i,
+        (X s.toNNReal ω i - X s.toNNReal ω j)⁻¹
+
+/-- **The Dyson system for `β ≥ 1`** (AGZ Lemma 4.3.3, without the filtration). From a strictly
+ordered start, independent Brownian motions drive a solution that stays in the open chamber, and
+any two solutions agree almost surely. Adaptedness, uniqueness in law and closed-chamber starts
+are not stated here. -/
+theorem dysonSystem_exists_unique [MeasurableSpace Ω] (β : ℝ) (hβ : 1 ≤ β) (n : ℕ)
+    (x : Fin n → ℝ) (hx : StrictAnti x) (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : Fin n → ℝ≥0 → Ω → ℝ) (hB : ∀ i, IsBrownianReal (B i) P)
+    (hindep : iIndepFun (fun i ω t ↦ B i t ω) P) :
+    (∃ X : ℝ≥0 → Ω → Fin n → ℝ, IsDysonSolution β n x P B X) ∧
+    ∀ X Y : ℝ≥0 → Ω → Fin n → ℝ, IsDysonSolution β n x P B X → IsDysonSolution β n x P B Y →
+      ∀ᵐ ω ∂P, ∀ t, X t ω = Y t ω := by
+  sorry
+
+/-! ## Layer 2: matrix Brownian motion and Dyson's theorem -/
 
 /-- The noise matrix built from real coordinates `g`, normalised by `√n`, with the coordinates of
 RandomMatrices §5.1. For `β = 1` it is real symmetric with off-diagonal entries `g(i, j)` and
@@ -82,6 +113,21 @@ theorem matrixBrownian_eigenvalues_strictAnti [MeasurableSpace Ω] (β : ℕ) (h
     ∀ᵐ ω ∂P, ∀ t : ℝ≥0, 0 < t →
       StrictAnti (matrixBrownian_isHermitian β n d B t ω).eigenvalues₀ := by
   sorry
+
+/-- **The eigenvalue equation** (AGZ Theorem 4.3.2, the case of a strictly ordered real diagonal
+start, without the filtration). For `β ∈ {1, 2}` the ordered eigenvalues of matrix Brownian motion
+solve the Dyson system for some independent Brownian motions on the same probability space. -/
+theorem matrixBrownian_eigenvalues_dyson [MeasurableSpace Ω] (β : ℕ) (hβ : β = 1 ∨ β = 2)
+    (n : ℕ) (d : Fin n → ℝ) (hd : StrictAnti d) (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : Fin n × Fin n → ℝ≥0 → Ω → ℝ) (hB : ∀ ij, IsBrownianReal (B ij) P)
+    (hindep : iIndepFun (fun ij ω t ↦ B ij t ω) P) :
+    ∃ W : Fin n → ℝ≥0 → Ω → ℝ, (∀ i, IsBrownianReal (W i) P) ∧
+      iIndepFun (fun i ω t ↦ W i t ω) P ∧
+      IsDysonSolution (β : ℝ) n d P W (fun t ω i ↦
+        (matrixBrownian_isHermitian β n d B t ω).eigenvalues₀ (Fin.cast (by simp) i)) := by
+  sorry
+
+/-! ## Layer 3: the hydrodynamic limit -/
 
 /-- **Hydrodynamic limit** (AGZ Proposition 4.3.10 and Corollary 4.3.11). For `β ∈ {1, 2}` let
 the starting diagonals `dₙ` have empirical measures converging weakly to `ν` with
