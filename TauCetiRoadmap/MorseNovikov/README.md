@@ -734,7 +734,7 @@ The API includes:
 - For H=0, the total quotient of ℤ is ℚ.
 - For H=ℤ/2 and N=0, Q(ℤ[H])=ℚ×ℚ with g↦(1,−1); 1−g maps to (0,2).
 - For H=ℤ/3, Q(ℤ[H])=ℚ×ℚ(ζ₃), two fields of different degrees; for H=ℤ it is the single field ℚ(t).
-- For H=ℤ⊕ℤ/2 and N(n,e)=−n, with t=e^(−1,0) the downward monomial of §2.3 (so N(t)=1), Q(Nov)=ℚ((t))×ℚ((t)) and the map from Q(ℤ[H]) is ℚ(t)→ℚ((t)) in each component; the splitting with free generator (1,1) gives the same two minimal ideals.
+- For H=ℤ⊕ℤ/2 and N(n,e)=−n, with t=e^(−1,0) the downward monomial of §2.3 (so N(t)=1) and g=e^(0,1), Nov=ℤ((t))[g]/(g²−1), and the idempotents (1±g)/2 give Q(Nov)=F×F with F the fraction field of ℤ((t)). The map from Q(ℤ[H])=ℚ(t)×ℚ(t) is ℚ(t)→F in each component, followed by §4.3's embedding F⊂ℚ((t)). F is neither ℚ((t)) nor ℚ⊗ℤ((t)): a quotient f/h of integral Laurent series lies in ℤ[1/c]((t)) for c the lowest nonzero coefficient of h, so exp(t)=Σtⁿ/n!, whose coefficient of t^p has p in its denominator for every prime p, is not in F; and 1/(2−t)=Σtⁿ/2ⁿ⁺¹ is in F but has unbounded denominators. The splitting with free generator (1,1) gives the same two minimal ideals.
 - Over 𝔽₂, (1+g)²=0 with 1+g≠0, so the characteristic-zero component statement cannot be exported unchanged.
 
 *Needs:* Layer 1 leading coefficients; Mathlib `Localization` and `nonZeroDivisors`; finite abelian groups and cyclotomic fields.
@@ -752,7 +752,7 @@ completeness claim for this quotient. Prove rt3 Lemma 2.8's cutoff continuity
 of based torsion when the acyclic component set is fixed: a nonzero limiting
 minor remains nonzero, and high-order changes in its inverse remain high order.
 
-Use rt3 §2.1, Definition 2.6 and Lemmas 2.7–2.9, pp. 220–221; in particular the proof of Lemma 2.8 fixes the acyclic component set.
+Use rt3 §2.1, Definition 2.6 and Lemmas 2.7–2.9, pp. 220–221; in particular the proof of Lemma 2.8 fixes the acyclic component set. rt3 §2.1, p. 220 identifies each field component with a tensor product of Nov(G/Ker N, N) with a field; only the embedding above holds (the ℤ⊕ℤ/2 Check of §4.2), and the order O(C) is defined through it.
 
 The API includes:
 
