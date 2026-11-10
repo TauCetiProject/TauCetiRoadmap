@@ -287,7 +287,9 @@ later layers use this system and its root bijection for every subgroup, centrali
 of `G`. *Needs:* Mathlib `IsDiscreteValuationRing`, the completion at a finite place; Tau Ceti
 `TauCeti.Cyclotomic.complexRoot`; CharacterTheory §4.5.
 
-- The canonical map `F → K` is injective and the roots of unity of `F` map onto those of `K`.
+- The canonical map `F → K` is injective and restricts to a bijection from the `e`-th roots of unity
+  of `F` onto the `e`-th roots of unity of `K`; `K` can contain further roots of unity (for `e = 1` and
+  `p = 5`, `F = ℚ` has two and `K = ℚ₅` has four).
 - For a subgroup `H ≤ G`, the system is splitting for `H`, with the same root bijection.
 
 **Checks.**
@@ -312,7 +314,7 @@ Theorem 1.7 and Lemma 1.8, p. 4). The class is additive on short exact sequences
 
 **Checks.**
 - `G = 1`, `V = K`: the lattices `O` and `mO` both reduce to the class `1`, although the reductions
-  are different submodules of `V/mV`.
+  `O/m` and `m/m²` are different subquotients of `V`.
 - `G = C₂`, `p = 2`, `V = K[C₂]`: the lattices `O[C₂]` and `O(1 + t) ⊕ O(1 − t)` reduce to the
   non-split regular module and to `k ⊕ k`; the two are not isomorphic but have class `2` in
   `modRepK0 k C₂`.
@@ -612,19 +614,15 @@ Prove, for `u, v ∈ R`, `φ ∈ IBr(C_G(u))` and `ψ ∈ IBr(C_G(v))`,
 
     ∑_{χ ∈ Irr(G)} d^u_{χφ} · conj(d^v_{χψ}) = (if u = v then c^u_{φψ} else 0),
 
-where `c^u` is the Cartan matrix of `k[C_G(u)]`, and its block form: for a block `B` of `G`,
-`∑_{χ ∈ Irr(B)} d^u_{χφ} conj(d^v_{χψ})` equals `c^u_{φψ}` when `u = v`, `φ` and `ψ` lie in one
-block `b` of `C_G(u)` and `b^G = B`, and `0` otherwise (Sambale, Theorem 1.14, p. 16; the block
-form uses the second main theorem, §7.2). In matrix form: the matrix `Q` with rows `Irr(G)` and
+where `c^u` is the Cartan matrix of `k[C_G(u)]`; the route is the column orthogonality of the
+character table of `G` together with §3.1 for each `C_G(u)`, and the statement is the sum over the
+blocks of `G` of Sambale, Theorem 1.14, p. 16. In matrix form: the matrix `Q` with rows `Irr(G)` and
 columns the pairs `(u, φ)` is square, by the class count of §0.1, and `Q* Q` is the block-diagonal
 matrix of the `c^u`; hence `Q` is invertible over `ℂ` and `|det Q|² = ∏_{u ∈ R} det c^u`. `Q` is not
-in general invertible over `ℤ[ζ_{|G|_p}]` or its localization at `p`. *Needs:* §§3.1, 5.1;
-§7.2 for the block form.
+in general invertible over `ℤ[ζ_{|G|_p}]` or its localization at `p`. The refinement of these
+relations to a single block of `G` is a consequence of the second main theorem and is stated in
+§7.2. *Needs:* §§3.1, 5.1.
 
-- Block-section orthogonality: if the `p`-parts of `g` and `h` are not conjugate, then
-  `∑_{χ ∈ Irr(B)} χ(g) conj(χ(h)) = 0` for each block `B` (Martínez, Corollary 2.4, p. 11, for `g`
-  `p`-regular and `h` `p`-singular; the general case from the block form above, with the trace
-  argument of the Axiom section-orthogonality formalization as a proof source).
 - Within one section the sum over all of `Irr(G)` is the native column orthogonality
   `TauCeti.sum_characterTable_mul_conj`.
 
@@ -634,10 +632,6 @@ in general invertible over `ℤ[ζ_{|G|_p}]` or its localization at `p`. *Needs:
 - `S₃`, `p = 3`: `Q = [[1,0,1],[0,1,1],[1,1,−1]]`, `Q* Q = diag([[2,1],[1,2]], 3)`, `det Q = −3`.
 - `C₃`, `p = 3`, `u = v = r`: with conjugation the sum is `1 + 1 + 1 = 3 = c^r`; without it,
   `1 + ζ₃² + ζ₃ = 0`.
-- `S₃`, `p = 2`, `B = B₀`, `g = 1`, `h = (12)` (non-conjugate `2`-parts): `1·1 + 1·(−1) = 0`. For
-  `g = h = 1` the block sums `∑_{χ ∈ Irr(B)} χ(1)²` are `2` for `B₀` (equal to `c^1_{11} φ₁(1)² = 2`)
-  and `4` for the defect-zero block (equal to `c^1_{std,std} φ_std(1)² = 1 · 4`), with total
-  `6 = |C_G(1)|`; replacing each block sum by `|C_G(1)|` would be false.
 
 ### Examples
 
@@ -646,7 +640,7 @@ in general invertible over `ℤ[ζ_{|G|_p}]` or its localization at `p`. *Needs:
 
 ### Dependencies
 
-Layers 0, 2–4; §7.2 for the block form.
+Layers 0, 2–4.
 
 ## Layer 6: relative traces, Brauer maps and defect
 
@@ -759,15 +753,26 @@ Theorem 4.5 and Corollary 4.6, p. 26).
 - `brauer_first_main`: over an algebraically closed field `k` of characteristic `p`, for a
   `p`-subgroup `D`, the rule `b ↦ B` with `Br_D(e_B) e_b ≠ 0` is a
   bijection from the blocks of `k[N_G(D)]` with defect group `D` to the blocks of `k[G]` with
-  defect group `D` (Webb, Theorem 12.6.4, p. 250; Martínez, Theorem 4.10, p. 27). For
-  `N_G(D) ≤ H ≤ G` the same holds with `H` in place of `N_G(D)`, by applying the theorem to `H` and
-  `G` and identifying `N_H(D) = N_G(D)` (Sambale, Theorem 1.12, p. 16).
+  defect group `D` (Webb, Theorem 12.6.4, p. 250; Martínez, Theorem 4.10, p. 27). By the formula
+  for `Br_D(e_B)` above with `H = N_G(D)`, this rule is block induction `b ↦ b^G`.
+- For `N_G(D) ≤ H ≤ G`, block induction `b ↦ b^G` is a bijection from the blocks of `k[H]` with
+  defect group `D` to the blocks of `k[G]` with defect group `D`, by applying the first main theorem
+  to `H` and to `G` and identifying `N_H(D) = N_G(D)` (Sambale, Theorem 1.12, p. 16). The product
+  criterion `Br_D(e_B) e_b ≠ 0` describes `b^G = B` for `D C_G(D) ≤ H ≤ N_G(D)`; for larger `H` it
+  need not single out one block `B`.
 
 **Checks.**
 - `S₃`, `p = 2`, `D = ⟨(12)⟩`: `N_G(D) = D` has one block, of defect `D`, corresponding to
   `B₀(S₃)`; the defect-zero block of `S₃` is not in the image.
 - `D = 1`: `N_G(D) = G` and the bijection is the identity on blocks of defect zero.
 - `S₃`, `p = 3`, `D = C₃`: `N_G(D) = S₃`, and the bijection is the identity on the single block.
+- `G = H = S₅`, `p = 3`, `D = ⟨(123)⟩`, `s = (45)`: `N_G(D) = S₃ × ⟨s⟩` has the two blocks
+  `(1 ± s)/2`, and `S₅` has two blocks `B₁ ∋ 1` and `B₂ ∋ sgn` with defect group `D`, with
+  `Br_D(e_{B₁}) = (1 + s)/2` and `Br_D(e_{B₂}) = (1 − s)/2`. On the reduction of a lattice
+  of the degree-`4` character of `B₂` with value `2` at `s`, `e_{B₂}` acts as the identity and `s`
+  has eigenvalues `1, 1, 1, −1`, so both `Br_D(e_{B₁}) e_{B₂}` and
+  `Br_D(e_{B₂}) e_{B₂}` are nonzero: for `H = G` the product criterion relates `B₂` to both blocks,
+  while `b ↦ b^G` is the identity.
 
 ### 7.2 The second main theorem
 
@@ -777,10 +782,23 @@ Theorem 1.13 and Proposition 1.11, p. 16). Equivalently, `d^u_{χφ} ≠ 0` impl
 `Br_{⟨u⟩}(e_B) e_b ≠ 0` for the block `B` of `χ`, so `(⟨u⟩, b)` is a `B`-Brauer pair. *Needs:*
 §§5.1, 6.3, 7.1.
 
+- Block form of the orthogonality relations of §5.2: for a block `B` of `G`, `u, v ∈ R`,
+  `φ ∈ IBr(C_G(u))` and `ψ ∈ IBr(C_G(v))`, the sum `∑_{χ ∈ Irr(B)} d^u_{χφ} conj(d^v_{χψ})` equals
+  `c^u_{φψ}` when `u = v`, `φ` and `ψ` lie in one block `b` of `C_G(u)` and `b^G = B`, and `0`
+  otherwise (Sambale, Theorem 1.14, p. 16). *Needs:* §5.2 and the theorem above.
+- Block-section orthogonality: if the `p`-parts of `g` and `h` are not conjugate, then
+  `∑_{χ ∈ Irr(B)} χ(g) conj(χ(h)) = 0` for each block `B` (Martínez, Corollary 2.4, p. 11, for `g`
+  `p`-regular and `h` `p`-singular; the general case from the block form, with the trace
+  argument of the Axiom section-orthogonality formalization as a proof source).
+
 **Checks.**
 - `S₃`, `p = 2`, `u = (12)`: `d^u = (1, −1, 0)`, nonzero exactly on `B₀`.
 - `S₃`, `p = 3`, `u = r`: `d^r = (1, 1, −1)`, all in the single block.
 - `C₂ × C₃` at `p = 2`, `u` the involution: the three blocks of `C_G(u) = G` each induce themselves.
+- `S₃`, `p = 2`, `B = B₀`, `g = 1`, `h = (12)` (non-conjugate `2`-parts): `1·1 + 1·(−1) = 0`. For
+  `g = h = 1` the block sums `∑_{χ ∈ Irr(B)} χ(1)²` are `2` for `B₀` (equal to `c^1_{11} φ₁(1)² = 2`)
+  and `4` for the defect-zero block (equal to `c^1_{std,std} φ_std(1)² = 1 · 4`), with total
+  `6 = |C_G(1)|`; replacing each block sum by `|C_G(1)|` would be false.
 
 ### 7.3 The third main theorem
 
@@ -874,7 +892,7 @@ act trivially. *Needs:* §§3.1, 4.2, 8.2.
 
 ### 8.4 Interfaces for local group theory
 
-Export the sections (§0.1), block-section orthogonality (§5.2), the principal block (§4.3), the
+Export the sections (§0.1), block-section orthogonality (§7.2), the principal block (§4.3), the
 kernel theorem (§8.3) and the third main theorem (§7.3) at `p = 2` for GlaubermanZStar, whose
 fusion argument stays outside this roadmap.
 
