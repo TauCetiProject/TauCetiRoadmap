@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.Analysis.Normed.Algebra.LogOneAdd.Basic
+import TauCeti.Analysis.Normed.Algebra.Logarithm.Basic
 import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.NumberTheory.Padics.PadicIntegers
@@ -103,7 +103,7 @@ def HasIwasawaDecomposition (p : ℕ) (K : Type*) [NormedField K] : Prop :=
 logarithm series on the open unit disc around `1`. -/
 def IsIwasawaLog (p : ℕ) {K : Type*} [NormedField K] [CharZero K] (L : K → K) : Prop :=
   L 0 = 0 ∧ L p = 0 ∧ (∀ x y : K, x ≠ 0 → y ≠ 0 → L (x * y) = L x + L y) ∧
-    ∀ z : K, ‖z‖ < 1 → L (1 + z) = NormedSpace.logOneAdd K K z
+    ∀ z : K, ‖z‖ < 1 → L (1 + z) = NormedSpace.log (1 + z)
 
 /-- The Iwasawa logarithm exists and is unique under the decomposition hypothesis. -/
 theorem existsUnique_isIwasawaLog (p : ℕ) [Fact p.Prime] (K : Type*) [NormedField K]
@@ -245,7 +245,7 @@ theorem principalNumerator_mass (p : ℕ) [Fact p.Prime]
         PowerSeries.C ((p + 1 : ℕ) : ℤ_[p]))
     (f : C(ℤ_[p], ℤ_[p])) (hf : ∀ x, (IsUnit x → x * f x = 1) ∧ (¬IsUnit x → f x = 0)) :
     ((μ f : ℤ_[p]) : ℚ_[p]) =
-      -(1 - (p : ℚ_[p])⁻¹) * NormedSpace.logOneAdd ℚ_[p] ℚ_[p] (p : ℚ_[p]) := by
+      -(1 - (p : ℚ_[p])⁻¹) * NormedSpace.log (1 + (p : ℚ_[p])) := by
   sorry
 
 /-- The positive even weight sequence recovers the principal residue from Bernoulli numbers. -/
