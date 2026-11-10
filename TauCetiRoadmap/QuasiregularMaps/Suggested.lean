@@ -117,7 +117,8 @@ theorem IsQuasiregularOn.of_det_le_mul_minimalStretch_pow {E : Type*} [NormedAdd
 /-- The **formal derivative** of `u : ℝⁿ → F` at `x` (MartioRickmanVaisala1969 lines 118–121):
 the linear map sending the `i`-th standard basis vector `eᵢ` to the
 partial derivative `∂ᵢu(x)`, Mathlib's `lineDeriv ℝ u x eᵢ`. Where a partial derivative does not
-exist, `lineDeriv` is `0`; for an `ACL` map this happens only on a null set. -/
+exist, `lineDeriv` is `0`; for an `ACL` map into finite-dimensional `F`, this happens only
+on a null set. -/
 def formalDeriv {n : ℕ} {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
     (u : EuclideanSpace ℝ (Fin n) → F) (x : EuclideanSpace ℝ (Fin n)) :
     EuclideanSpace ℝ (Fin n) →L[ℝ] F :=
@@ -169,7 +170,8 @@ theorem isACLpOn_iff_exists_hasWeakFDerivOn {n : ℕ} {F : Type*} [NormedAddComm
 
 /-- **The weak derivative of a continuous map is its derivative along coordinate lines**
 (Vaisala1971 Ch. 3; Rickman1993 Ch. I; README §5.2). If `u` is continuous on the open set
-`Ω ⊆ ℝⁿ` and `Du` is a weak derivative of `u` on `Ω`, then for almost every `x ∈ Ω` and every
+`Ω ⊆ ℝⁿ`, with finite-dimensional real normed target `F`, and `Du` is a weak derivative of `u`
+on `Ω`, then for almost every `x ∈ Ω` and every
 coordinate `i` the partial derivative `∂ᵢu(x)` exists and equals `Du(x) eᵢ`. In particular `Du`
 agrees almost everywhere on `Ω` with the formal derivative `formalDeriv u`. -/
 theorem ae_hasLineDerivAt_of_hasWeakFDerivOn {n : ℕ} {F : Type*} [NormedAddCommGroup F]

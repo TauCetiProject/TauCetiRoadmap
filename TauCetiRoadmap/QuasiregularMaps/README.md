@@ -60,6 +60,14 @@ This roadmap owns:
   discontinuous action by orientation-preserving diffeomorphisms; flat examples; simplicial
   branched coverings by tori.
 
+Already in Tau Ceti are the singular-value perturbation bound
+`LinearMap.abs_singularValues_sub_singularValues_le`, scalar law
+`LinearMap.singularValues_smul`, and isometric-equivalence laws
+`LinearMap.singularValues_linearIsometryEquiv_comp` and
+`LinearMap.singularValues_comp_linearIsometryEquiv`. Their specializations at index `n − 1`
+supply the corresponding minimal-stretch laws in §1.1; this roadmap owns the minimum
+characterisation and the distortion theory built from them.
+
 It leaves to named roadmaps:
 
 - **SobolevMapsBetweenManifolds** owns the continuous Sobolev class `W^{1,p}_loc(M, N)` with its
@@ -248,6 +256,16 @@ It leaves to named roadmaps:
 
 - `LinearMap.norm_toContinuousLinearMap_eq_singularValues_zero`
   (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean`): `‖A‖ = σ₁(A)`.
+- `LinearMap.abs_singularValues_sub_singularValues_le`
+  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean:106`):
+  `|σᵢ(A) − σᵢ(B)| ≤ ‖A − B‖` for every index and maps between finite-dimensional inner
+  product spaces. At index `n − 1` it gives the minimal-stretch perturbation bound.
+- `LinearMap.singularValues_smul`, `LinearMap.singularValues_linearIsometryEquiv_comp` and
+  `LinearMap.singularValues_comp_linearIsometryEquiv`
+  (`TauCeti/Analysis/InnerProductSpace/SingularValues.lean:602`, 589, 595): scaling by `c`
+  multiplies each singular value by `‖c‖`, and composition on either side by a linear isometric
+  equivalence preserves it. At index `n − 1` these give `ℓ(c A) = |c| ℓ(A)` and
+  `ℓ(U ∘ A ∘ U') = ℓ(A)`; the domain dimensions agree under `U'`.
 - `LinearMap.singularValues_mul_norm_le_norm_apply`
   (`TauCeti/Analysis/InnerProductSpace/SingularValues.lean`): `σ_k |x| ≤ |Ax|` on the span of the
   first `k` right singular vectors; with `k = n` it gives `ℓ(A)|v| ≤ |Av|` for all `v`.
@@ -301,6 +319,8 @@ It leaves to named roadmaps:
   target and local integrability of `u` and of every `x ↦ Du(x) v` on the open set; it puts no
   condition on `u` off the open set. In the same file, `TauCeti.HasWeakFDerivOn.ae_eq` (two weak
   derivatives agree almost everywhere on the open set, in finite dimension),
+  `TauCeti.HasWeakFDerivOn.congr_ae_deriv` (replacing the derivative by an almost-everywhere
+  equal field preserves the weak derivative),
   `TauCeti.HasWeakFDerivOn.mono` (restriction to a smaller open set) and
   `TauCeti.hasWeakFDerivOn_of_differentiableOn` (a map differentiable at every point of the open
   set, with locally integrable `fderiv`, has `fderiv` as weak derivative). `TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure`
@@ -449,10 +469,9 @@ over unit vectors `v` of `V`, the quantity written `ℓ(T)` in MartioRickmanVais
   `ℓ(A)` is attained as the minimum over the unit sphere.
 - `ℓ(A) ≤ ‖A‖`, with equality iff `A` is a non-negative multiple of a linear isometry.
 - `ℓ(A) > 0` iff `A` is injective; then `ℓ(A) · ‖A⁻¹‖ = 1`.
-- `ℓ(B ∘ A) ≥ ℓ(B) ℓ(A)`; `ℓ(c A) = |c| ℓ(A)` for real `c`; `ℓ(U ∘ A ∘ U') = ℓ(A)` for linear
-  isometric equivalences `U`, `U'`.
+- `ℓ(B ∘ A) ≥ ℓ(B) ℓ(A)`.
 - `ℓ(A)ⁿ ≤ normDet(A) ≤ ‖A‖ⁿ`, since `normDet(A) = σ₁(A) ⋯ σₙ(A)`.
-- `|ℓ(A) − ℓ(A')| ≤ ‖A − A'‖`, so `ℓ` is `1`-Lipschitz for the operator norm, hence continuous
+- The supplied perturbation bound makes `ℓ` `1`-Lipschitz for the operator norm, hence continuous
   and Borel.
 
 **Checks.**
@@ -465,6 +484,10 @@ over unit vectors `v` of `V`, the quantity written `ℓ(T)` in MartioRickmanVais
   projection has `‖A‖ = 1`. A definition as the minimum of `|Av|` over all `v`, not unit
   vectors, gives `0` for every map, including the identity.
 - In dimension one, `ℓ(a · id) = ‖a · id‖ = |a|`.
+- For `A = diag(3, 1/2)` and `A' = diag(3, 3/4)`, the supplied perturbation bound reads
+  `|1/2 − 3/4| = 1/4 ≤ ‖diag(0, −1/4)‖ = 1/4`. Scaling `A` by `−2` gives minimal stretch
+  `1 = 2 · (1/2)`, while composition on either side by the coordinate swap keeps it `1/2`;
+  using the signed scalar or the determinant of the isometry would give the wrong sign.
 - The index is the last one, not the first: for `diag(3, 1/2)` the singular values in Mathlib's
   descending order are `3, 1/2`, and index `n − 1 = 1` gives `1/2`. Index `0` would give the
   operator norm `3`, and index `n = 2`, beyond the dimension, gives `0` for every map.
@@ -473,7 +496,10 @@ over unit vectors `v` of `V`, the quantity written `ℓ(T)` in MartioRickmanVais
 `LinearMap.injective_iff_forall_lt_finrank_singularValues_pos`,
 `LinearMap.normDet_eq_prod_singularValues`; Tau Ceti
 `LinearMap.norm_toContinuousLinearMap_eq_singularValues_zero`,
-`LinearMap.singularValues_mul_norm_le_norm_apply`.
+`LinearMap.singularValues_mul_norm_le_norm_apply`,
+`LinearMap.abs_singularValues_sub_singularValues_le`, `LinearMap.singularValues_smul`,
+`LinearMap.singularValues_linearIsometryEquiv_comp`,
+`LinearMap.singularValues_comp_linearIsometryEquiv`.
 
 ### 1.2 Outer and inner distortion of a linear map
 
@@ -1170,7 +1196,9 @@ declarations.
 ## Layer 5: `ACL^p` maps and the classical definition
 
 Throughout, `Ω ⊆ ℝⁿ` is open, `ℝⁿ = EuclideanSpace ℝ (Fin n)` with coordinates `xᵢ` and standard
-basis `eᵢ`, and `F` is a real normed space, finite-dimensional in §5.2. A closed coordinate box
+basis `eᵢ`, and `F` is a real normed space. The definitions of §5.1 allow any such `F`;
+its differentiation and stability assertions below, and §5.2, assume `F` finite-dimensional.
+A closed coordinate box
 is `Q = Π_j [a_j, b_j]` with `a_j < b_j` for every `j`. For `x ∈ Q` and a coordinate `i`, the
 line function through `x` is `t ↦ u(x + (t − xᵢ) eᵢ)` on `[aᵢ, bᵢ]`: the restriction of `u` to
 the segment of `Q` through `x` parallel to the `i`-th axis, with `t` the `i`-th coordinate.
@@ -1197,12 +1225,12 @@ measurability, and no statement uses that value.
   `x ∈ Q`" is equivalent to the condition of the source, that the points of the face
   `Π_{j ≠ i} [a_j, b_j]` whose segment is exceptional form a set of `(n − 1)`-dimensional measure
   zero. The equivalence uses `aᵢ < bᵢ`.
-- The partial derivatives of an `ACL` map exist almost everywhere on `Ω`, by
-  `AbsolutelyContinuousOnInterval.ae_differentiableAt` on lines (componentwise in a basis of `F`
-  when `F` is finite-dimensional) and Fubini. The formal derivative of a map continuous on `Ω` is
-  measurable on `Ω`, by the argument of Mathlib's `measurable_lineDeriv`. So for an `ACL` map
-  `u'` is the derivative along the coordinate lines up to a null set, and its value `0` where a
-  partial derivative fails to exist plays no role.
+- For finite-dimensional `F`, the partial derivatives of an `ACL` map exist almost everywhere
+  on `Ω`, by the scalar `AbsolutelyContinuousOnInterval.ae_differentiableAt` on lines,
+  componentwise in a basis of `F`, and Fubini. The formal derivative of a map continuous on `Ω`
+  is measurable on `Ω`, by the argument of Mathlib's `measurable_lineDeriv`. Thus for an `ACL`
+  map into this `F`, `u'` is the derivative along coordinate lines up to a null set, and its
+  value `0` where a partial derivative fails to exist plays no role.
 - `u'(x) = fderiv ℝ u x` wherever `u` is differentiable at `x`.
 - `ACL^p` is local, passes to open subsets, is closed under linear combinations and under
   composition with continuous linear maps `F → F'`, and `ACL^q` implies `ACL^p` for `p ≤ q`.
@@ -1210,6 +1238,12 @@ measurability, and no statement uses that value.
 
 **Checks.**
 
+- For `F = C([0, 1], ℝ)` with the supremum norm, `u(t)(s) = |t − s|` on `(0, 1)` satisfies
+  `‖u(t) − u(r)‖ = |t − r|`, so it is `1`-Lipschitz and `ACL`. At every `t`, evaluation at
+  `s = t` gives difference quotients `+1` for positive increments and `−1` for negative ones;
+  no norm derivative exists. The finite-dimensional hypothesis is essential for the
+  almost-everywhere differentiation assertion. For the scalar map `t ↦ |t − s₀|`, the
+  derivative is `−1` for `t < s₀` and `+1` for `t > s₀`, failing only at `s₀`.
 - `u(x) = |x₁|` on `ℝ²` is `ACL^∞`, with `u'(x)` the row `(sign x₁, 0)` off the line `x₁ = 0`.
   On that line `∂₁u` does not exist and `u'` has first entry `0`; the line is a null set.
 - `u(x) = c(x₁)` on `ℝ²`, with the Cantor function `c` (Tau Ceti's `TauCeti.cantorFunction`),
@@ -1451,8 +1485,12 @@ HeikkilaPankka2025 Proposition B.1, lines 1247–1251.
 - Take a locally finite triangulation of `ℝ²` symmetric under `x₁ ↦ −x₁`, with the line `x₁ = 0`
   in its `1`-skeleton. The fold `(x₁, x₂) ↦ (|x₁|, x₂)` is then simplicial and non-degenerate,
   but orientation reversing on `x₁ < 0`.
-- A simplicial map that identifies two vertices of an `n`-simplex is degenerate. It collapses
-  that simplex onto an `(n−1)`-simplex.
+- A simplicial map with exactly one pair of identified vertices in an `n`-simplex and all
+  other vertex images distinct collapses that simplex onto an `(n−1)`-simplex. For a triangle
+  the affine map has rank `1`; sending all three vertices to one vertex instead gives rank `0`.
+- Sending every vertex of a triangulated manifold to one target vertex gives a constant
+  simplicial map. For `n ≥ 1` its differential has rank `0`, norm `0` and Jacobian `0`, so it
+  satisfies `0 ≤ 1 · 0` and is `1`-quasiregular despite being degenerate.
 
 *Needs:* §6.1; Tau Ceti `PreAbstractSimplicialComplex.SimplicialMap`,
 `PreAbstractSimplicialComplex.SimplicialMap.realizationMap`,
@@ -1463,7 +1501,10 @@ HeikkilaPankka2025 Proposition B.1, lines 1247–1251.
 Let `κ` be a `C¹` smooth triangulation of `M` and `p : M → N` a map such that for every
 `n`-simplex `σ` the composite `p ∘ κ` is `C¹` within `σ`. Prove that `p` is continuous and
 locally Lipschitz in charts. By §2.8 it then lies in `W^{1,∞}_loc(M, N) ⊆ W^{1,n}_loc(M, N)`, and
-`Dp(x)` is the differential of `p|κ(σ°)` at every `x ∈ κ(σ°)`, hence almost everywhere.
+the classical differential of `p|κ(σ°)` exists at every `x ∈ κ(σ°)`. The chosen weak
+differential `Dp` agrees with this classical differential almost everywhere on each simplex
+interior, hence almost everywhere on `M` by the null lower skeleton and countable local
+finiteness of §6.1.
 HeikkilaPankka2025 Lemma B.2, lines 1255–1260, gives the case of closed `M` with a proof through
 Stokes' theorem (lines 1261–1316). Route here:
 
@@ -1486,10 +1527,16 @@ Stokes' theorem (lines 1261–1316). Route here:
   triangle and `1`-Lipschitz.
 - The eight-sector map of the Worked examples is linear on eight sectors, Lipschitz, and has
   `q_O = 1 + √2` on each sector.
+- For `p = id` on a triangulated `ℝ²`, let `D(x) = id` except at one simplex-interior point
+  `x₀`, where `D(x₀) = 0`. This remains a weak differential since `{x₀}` has measure `0`
+  (`TauCeti.HasWeakFDerivOn.congr_ae_deriv`), but `D(x₀) = 0 ≠ dp(x₀) = id`. Equality holds
+  off `{x₀}`, which is exactly what the distortion conclusions require.
 - Continuity of `p` is not a hypothesis: a function that is `C¹` on each closed `κ(σ)` agrees on
   shared faces because it is a single function on `M`.
 
-*Needs:* §2.8, §6.1; Mathlib `Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le`.
+*Needs:* §2.8, §6.1; SobolevMapsBetweenManifolds §4.3;
+Mathlib `Convex.norm_image_sub_le_of_norm_hasFDerivWithin_le`;
+Tau Ceti `TauCeti.HasWeakFDerivOn.congr_ae_deriv` (for the Check).
 
 ### 6.4 Simplicial maps are quasiregular
 
@@ -1514,8 +1561,13 @@ essential supremum with the supremum.
   the `6 × 3` grid. The doubling `(x, y) ↦ (2x, y)` is simplicial with `dp = diag(2, 1)`, so
   `K_O = 4/2 = 2`.
 - The fold of §6.2 violates orientation preservation and is not quasiregular.
-- A degenerate map that collapses an `n`-simplex, `n ≥ 2`, has `dp` of rank `n − 1 ≥ 1` and
-  `J = 0` on a set of positive measure, so it is not quasiregular. Non-degeneracy is used.
+- A simplicial map with exactly one pair of identified vertices on an `n`-simplex, `n ≥ 2`,
+  and all other vertex images distinct has `dp` of rank `n − 1 ≥ 1` on its interior. There
+  `‖dp‖ > 0` and `J = 0`, so the distortion inequality fails on a set of positive measure.
+  On a standard triangle, `(x, y) ↦ (x, 0)` gives `‖dp‖² = 1 > K · 0 = 0` for every finite `K`.
+- Total collapse to one target vertex instead has rank `0`, norm `0` and Jacobian `0`, so
+  `0 ≤ 0` holds and the map is `1`-quasiregular (§2.1). Non-degeneracy is sufficient in the
+  theorem, not necessary for every quasiregular simplicial map.
 - Let `h : ℝ → ℝ` be continuous and piecewise linear, with slope `1` on `(−∞, 1]` and slope `k`
   on `[k, k + 1]` for each integer `k ≥ 1`. The homeomorphism `(x, y) ↦ (h(x), y)` of `ℝ²` is
   simplicial for the integer grid with diagonals, triangulating source and target compatibly. It
@@ -1581,7 +1633,8 @@ non-constant because `R` is a bijection, so it is a witness in the sense of the 
 
 ### 7.3 Independence of the metric
 
-Prove that if `α|w| ≤ |w|' ≤ β|w|` on `TN` and `N` is `K`-quasiregularly elliptic for `g_N`,
+Prove that if `0 < α ≤ β`, `α|w| ≤ |w|' ≤ β|w|` on `TN`, and `N` is
+`K`-quasiregularly elliptic for `g_N`,
 then it is `(β/α)ⁿ K`-quasiregularly elliptic for `g'_N` (the definition on a Riemannian
 manifold is HeikkilaPankka2025 lines 20–21; the comparison is §4.1). Hence for closed `N`,
 quasiregular ellipticity does not depend on the metric. This is the reading HeikkilaPankka2025
@@ -1593,7 +1646,11 @@ Route: §4.1 with `a = b = 1` on `ℝⁿ`.
 
 **Checks.**
 
-- A constant rescaling `g'_N = c² g_N` keeps `K` (factor `(c/c)ⁿ = 1`).
+- Equal metrics with `α = β = 1` give factor `1`. A constant rescaling `g'_N = c² g_N`,
+  `c > 0`, keeps `K` (factor `(c/c)ⁿ = 1`).
+- For equal metrics on `ℝ`, `α = −2`, `β = 1` satisfy the norm inequalities but give factor
+  `−1/2`; `α = 0` also satisfies them but supplies no nonzero denominator. Positivity of `α`
+  excludes both, and `α ≤ β` ensures `(β/α)ⁿ K ≥ 1`.
 - `T²` with `dx² + 4 dy²`: the bound from the flat case is `4`, although this torus is isometric
   to the flat `ℝ²/(ℤ × 2ℤ)` and so is `1`-quasiregularly elliptic. The bound is not sharp.
 
