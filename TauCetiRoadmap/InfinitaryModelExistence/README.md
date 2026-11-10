@@ -1014,9 +1014,10 @@ universe-general statements here are part of the work. The map below says where 
 At Tau Ceti `2fd255d99`, the revision this repository pins, the declarations below implement
 targets of this roadmap. Files are under `TauCeti/ModelTheory/` and names are in the namespace
 `FirstOrder.Language` unless written with `TauCeti`. `Suggested.lean` uses these definitions under
-their Tau Ceti names and proves its statement of each listed theorem by the Tau Ceti theorem.
-Where the two statements differ, the roadmap's statement remains the target and the difference is
-recorded in the last column.
+their Tau Ceti names and states only the targets the pin lacks, together with
+`model_existence_omitting`, which derives the set-indexed form of Layer 3 from Tau Ceti's
+family-indexed theorem. Where the two statements differ, the roadmap's statement remains the target
+and the difference is recorded in the last column.
 
 | Layer | Files | Declarations | Difference from the roadmap |
 |---|---|---|---|
@@ -1026,7 +1027,7 @@ recorded in the last column.
 | L3 | `ModelExistence/{ConsistencyProperty,ModelExistence}.lean` | `ConsistencyProperty`, `ConsistencyProperty.model_existence`, `ConsistencyProperty.model_existence_omitting`, `ConsistencyProperty.ofModel` | `model_existence` also gives `Nonempty M`; `model_existence_omitting` takes the types as a countable indexed family; `ofModel` takes an `L[[ℕ]]`-structure whose constants exhaust it in place of a surjection `e : ℕ → M` |
 | L4 | `ModelExistence/{Types,Isolation}.lean` | `infinitaryType`, `realizedTypes`, `StrongHomClass.realizedTypes_eq`, `TauCeti.infEquivAt_nat_iff_realizedTypes_zero_eq`, `exists_isolatingFormula`, `Theoryω.IsolatesIn` | none |
 | L5 | `ModelExistence/Morleyization.lean` | `morleyize`, `lhomMorleyize`, `morleyExpansion` with the instance `isExpansionOn_morleyExpansion`, `isRelational_morleyize`, `countable_relations_morleyize`, `definingTheory`, `eq_morleyExpansion_of_model_definingTheory`, `BoundedFormulaInf.unMorleyize`, `nonempty_morleyEquiv_iff`, `exists_morleyEmbedding_iff_aElementary` | none |
-| L6 | `Infinitary/GraphTranslation/{Language,Relationalize,Reconstruct,BackTranslate}.lean` | `GraphRelation`, `graphLanguage`, `graphExpansion`, `relSym`, `relSym_inter`; `BoundedFormulaInf.relationalize`, `realize_relationalize`, `relationsIn_relationalize`; `graphAxioms`, `reconstructStructure`, `BoundedFormulaInf.realize_relationalize_reconstructStructure`; `Term.backTranslate` (the roadmap's `ungraphTerm`), `BoundedFormulaInf.backTranslate`, `realize_backTranslate` | `relationalize` is a definition, which witnesses `exists_relationalize`; `backTranslate` works at every carrier; `graphAxioms F` is a theory, for any `F`, not one sentence |
+| L6 | `Infinitary/GraphTranslation/{Language,Relationalize,Reconstruct,BackTranslate}.lean` | `GraphRelation`, `graphLanguage`, `graphExpansion`, `relSym`, `relSym_inter`; `BoundedFormulaInf.relationalize`, `realize_relationalize`, `relationsIn_relationalize`; `graphAxioms`, `reconstructStructure`, `BoundedFormulaInf.realize_relationalize_reconstructStructure`; `Term.backTranslate` (the roadmap's `ungraphTerm`), `BoundedFormulaInf.backTranslate`, `realize_backTranslate` | `backTranslate` works at every carrier; `graphAxioms F` is a theory, for any `F`, not one sentence |
 | L7 | `Interpolation/PCClass.lean` | `LHom.PCMem` (the roadmap's `PCMem`), `StrongHomClass.pcMem_iff`, `LHom.pcMem_id_iff`, `LHom.pcMem_comp_iff`, `LHom.pcMem_sumInl_inf_iff`, `LHom.pcMem_sumInl_sup_iff` | `pcMem_sumInl_sup_iff` assumes `[Nonempty (L₁.Structure M)]` and `[Nonempty (L₂.Structure M)]` in place of relational `L₁` and `L₂` |
 | L8 | `WellOrdering.lean` | `RelChain`, `RelChain.not_wellFounded`, `Sentenceω.HasWellOrderedChains`, `Sentenceω.exists_model_relChain_rat`, `Sentenceω.wellFounded_boundedness`, `Sentenceω.wellOrder_type_boundedness`, `wellOrdering_undefinable` | proved for arbitrary languages directly, with no relational core stated |
 
