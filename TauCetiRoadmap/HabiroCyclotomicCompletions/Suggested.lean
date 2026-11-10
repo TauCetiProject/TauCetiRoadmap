@@ -283,7 +283,8 @@ def valuationOrders (Δ : ℕ) (a : ValuationTuple Δ) : Set ℕ :=
 theorem component_decomposition (Δ : ℕ) (hΔ : 0 < Δ) :
     ∃ e : CycloCompletion (LocalizedIntegers Δ) {n | 0 < n} ≃ₐ[LocalizedIntegers Δ]
         (∀ a : ValuationTuple Δ, CycloCompletion (LocalizedIntegers Δ) (valuationOrders Δ a)),
-      (∀ x a, e x a = restrict (LocalizedIntegers Δ) (fun _ hn => hn.1) x) ∧
+      (∀ x a, e x a = restrict (LocalizedIntegers Δ)
+          (show valuationOrders Δ a ⊆ {n | 0 < n} from fun _ hn => hn.1) x) ∧
         Continuous e ∧ Continuous e.symm := by
   sorry
 
