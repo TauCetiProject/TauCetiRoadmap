@@ -615,21 +615,36 @@ separably closed field k of characteristic p and commutative
 one-dimensional formal groups F and G over k, `TauCeti.FormalGroupIso F G`
 is nonempty precisely when `FormalGroup.height F p` equals
 `FormalGroup.height G p`, the infinite-height class included
-(`nonempty_formalGroupIso_iff_height_eq`; Ravenel, Theorem A2.2.12, which
-says that every commutative law of height n over k is isomorphic to
-Ravenel's standard law F_n of Definition A2.2.11, F3.2's height-n Honda
-law, and to the additive law for n=∞). The forward direction
+(`nonempty_formalGroupIso_iff_height_eq`; Ravenel, Theorem A2.2.12,
+p. 367, which says that every commutative law of height n over k is
+isomorphic to one standard law, his F_n of Definition A2.2.11, and to the
+additive law for n=∞; F3.2 defines F_n as the height-n Honda law and
+consumes this classification, while the statement here compares two
+arbitrary laws and its route below does not use F_n). The forward direction
 is `TauCeti.FormalGroupIso.height_eq` and the infinite-height case is
 `height_eq_top_iff_nonempty_formalGroupIso_𝔾ₐ`. Ravenel's route for finite
-height: by Cartier's theorem (A2.1.18) replace F and G by isomorphic
-p-typical laws, parametrized by the images of the generators v_i of the
-ring V of the p-typical paragraph above (Theorem A2.1.25), and seek the
-isomorphism in
-the form of a formal sum Σ^F t_i x^(p^i); the coefficient equations
-(A2.2.13), from the right-unit formula of Theorem A2.2.6, begin with
-t₀·θ(v_h)=t₀^(p^h) and continue degree by degree with equations whose
-derivative in the new unknown is a unit, so each is separable and has a
-root in k. The degree-by-degree obstruction theory for this induction is
+height h, run for two arbitrary laws: by Cartier's theorem (A2.1.18)
+replace F and G by isomorphic p-typical laws, classified by ring maps
+φ,θ:V→k from the ring V of the p-typical paragraph above (Theorem
+A2.1.25), with Araki's generators; since p=0 in k, the p-series formula
+(A2.2.4) shows that height h means φ(v_i)=θ(v_i)=0 for 1≤i<h and
+φ(v_h),θ(v_h)≠0. Seek f:F→G with f⁻¹(x)=Σ^F_(i≥0) t_i x^(p^i) and t₀ a
+unit; the law that f transports F to is then p-typical whatever the unit
+t₀ (Lemma A2.1.26, p. 360), and it is G once the t_i satisfy the
+equations below, which determine the classifying map of that law. Comparing
+f⁻¹([p]_G(x)) with [p]_F(f⁻¹(x)) by (A2.2.4) gives the identity of
+Theorem A2.2.6 with φ(v_i) for v_i and θ(v_j) for η_R(v_j),
+`Σ^F_(i,j≥0) t_i θ(v_j)^(p^i) x^(p^(i+j)) = Σ^F_(i,j≥0) φ(v_i) t_j^(p^i) x^(p^(i+j))`,
+whose proof holds for t₀≠1 (Ravenel, proof of Theorem A2.2.12, p. 367).
+Its coefficient of x^(p^h) gives t₀·θ(v_h)=φ(v_h)·t₀^(p^h), that is
+t₀^(p^h−1)=θ(v_h)/φ(v_h), and its coefficient of x^(p^(h+i)), i≥1, gives
+t_i·θ(v_h)^(p^i)+c_i=φ(v_h)·t_i^(p^h) with c_i∈k determined by
+t₀,…,t_(i−1) (and c₀=0). Each equation says that its new unknown is a
+root of φ(v_h)·T^(p^h)−θ(v_h)^(p^i)·T−c_i, whose derivative in
+characteristic p is the nonzero constant −θ(v_h)^(p^i); so the
+polynomial is separable of degree p^h and has p^h distinct roots in k,
+and for i=0 all but the root 0 are units. For F=F_h, where φ(v_h)=1,
+these are Ravenel's equations (A2.2.13). The degree-by-degree obstruction theory for this induction is
 at the pin: when an approximate homomorphism f from F to G has
 homomorphism defect vanishing below degree n, the degree-n part of the
 defect is c·C_n (`exists_homogeneousComponent_homDefect_eq_smul_lazardCocycle`,
@@ -647,7 +662,8 @@ and for f the identity series, whose defect is F−G, this is
 Frobenius, obstruction and leading-difference APIs named above; for
 Ravenel's route also the p-typical paragraph above (Cartier's theorem, V
 with Araki's generators, the p-series formula and the right-unit
-formula), which is a route input, not an input of the statement.
+formula) and Lemma A2.1.26 for a unit t₀, which are route inputs, not
+inputs of the statement.
 This supplies ModularCurves' height-classification application.
 EllipticCurves Layer 1 owns the elliptic logarithm/exponential instances;
 it consumes the pinned generic API.
@@ -665,6 +681,19 @@ it consumes the pinned generic API.
   the Frobenius endomorphism X^p, which these twists send to different
   elements of the common endomorphism ring ℤ_p; so separable closure is
   needed.
+- At h=1 the route's first equation can be read off a scaling: for
+  nonzero a,b∈k let F and G be the p-typical laws classified by v₁↦a and
+  v₁↦b, v_i↦0 for i≥2, so [p]_F(x)=ax^p and [p]_G(x)=bx^p by (A2.2.4).
+  Transporting F along x↦cx gives a p-typical law with p-series
+  c·a(x/c)^p=ac^(1−p)x^p, hence classified by v₁↦ac^(1−p), v_i↦0 for
+  i≥2; it is G exactly when c^(p−1)=a/b, that is when t₀=1/c satisfies
+  t₀^(p−1)=θ(v₁)/φ(v₁)=b/a. The equation t₀θ(v₁)=t₀^p, which is the case
+  F=F₁, would give c^(p−1)=1/b and transport F to the law classified by
+  v₁↦ab, which is not G when a≠1. For p odd and a≠b in 𝔽_p^× the
+  equation has no root in 𝔽_p, where t₀^(p−1)=1 for every t₀≠0; since
+  every isomorphism of p-typical laws is a strict one of the form in the
+  p-typical paragraph above followed by a scaling, F and G are not
+  isomorphic over 𝔽_p, and become isomorphic over its separable closure.
 
 ### Examples
 
@@ -2250,7 +2279,8 @@ BP-module category. Construct the K(j) field Künneth and graded
 module-basis splitting at this point: every nonzero homotopy K(j)-module
 is a wedge of suspensions of K(j), by choosing a graded coefficient
 basis and using its unit/action maps. Deduce the Bousfield minimality
-`⟨Z⟩∧⟨K(j)⟩∈{0,⟨K(j)⟩}` for every spectrum Z.
+`⟨Z⟩∧⟨K(j)⟩∈{0,⟨K(j)⟩}` for every spectrum Z (Ravenel, *Nilpotence and
+Periodicity*, Theorem 7.3.2(f), p. 82).
 Prove `P(∞)≃H𝔽_p` by the homotopy-cofiber coefficient computation
 and connectivity. Construct the Johnson–Wilson–Würgler stable natural homology
 comparison
@@ -2325,11 +2355,13 @@ identities wherever those structures are used.
 
 For any suspended self-map f:Σ^dZ→Z prove
 `⟨Z⟩=⟨cofib(f)⟩∨⟨Tel(f)⟩` by smashing with an arbitrary
-spectrum. A zero smashed cofiber makes f invertible and identifies
+spectrum (Ravenel, *Nilpotence and Periodicity*, Proposition 7.2.6(iii),
+p. 79). A zero smashed cofiber makes f invertible and identifies
 the initial object with its telescope. This needs no centrality or ring
 hypothesis; central coefficient localization is a specialization.
 Use this to prove
-`⟨P(n)⟩=⟨K(n)⟩∨⟨P(n+1)⟩` and `⟨B(n)⟩=⟨K(n)⟩`.
+`⟨P(n)⟩=⟨K(n)⟩∨⟨P(n+1)⟩` and `⟨B(n)⟩=⟨K(n)⟩` (Ravenel, *Nilpotence and
+Periodicity*, Theorem 7.3.2(c) and (a), p. 82).
 The second equality follows on all CW spectra directly from the
 stable natural homology comparison just constructed, with its
 filtered-colimit extension. The rational branch B(0)=p⁻¹BP is a
@@ -2356,14 +2388,14 @@ its telescope is the colimit of zero transition maps and vanishes;
 spectral Whitehead gives v_n⁻¹P(n+1)≃0. No nullhomotopy of
 the individual coefficient-action map is inferred from this fact.
 Deduce
-`⟨v_n⁻¹BP⟩=⟨K(0)∨⋯∨K(n)⟩`.
+`⟨v_n⁻¹BP⟩=⟨K(0)∨⋯∨K(n)⟩` (Theorem 7.3.2(b) and (d), p. 82).
 Apply the same finite decomposition to E(n)/I_j, j=0,…,n+1.
 Construct its localized term v_j⁻¹(E(n)/I_j) as the compatible
 higher-generator quotient/localization of B(j), so its class lies
 below K(j). Its explicit nonzero coefficient ring and pairing certificate
 give equality by the same test. The terminal quotient is zero since
 v_n is a unit. This proves
-`⟨E(n)⟩=⟨K(0)∨⋯∨K(n)⟩=⟨v_n⁻¹BP⟩`.
+`⟨E(n)⟩=⟨K(0)∨⋯∨K(n)⟩=⟨v_n⁻¹BP⟩` (Theorem 7.3.2(d) and (b), p. 82).
 All coefficient maps, centrality homotopies and products used in
 these finite diagrams are construction targets here, compatible with
 F3's ordered quotient models. In particular compute
@@ -2384,6 +2416,21 @@ BP→MU_(p), its unit/product homotopies and the MU_(p) homotopy
 BP-algebra action from F3's p-typicalization. It transports a null
 BP-smashed map to a null MU_(p)-smashed map. It does not assert
 an A∞ structure on BP.
+
+**Checks.**
+- π_*B(1)=v₁⁻¹(BP_*/p)=𝔽_p[v₁^(±1),v₂,v₃,…], while
+  π_*K(1)=𝔽_p[v₁^(±1)]: B(1) and K(1) are different spectra with the
+  same Bousfield class, so ⟨B(n)⟩=⟨K(n)⟩ is an identity of classes, and
+  defining B(n) as K(n) would lose the generators v_i, i>n.
+- P(1) and the graded Eilenberg–MacLane spectrum H(BP_*/p), a wedge of
+  suspensions of H𝔽_p, have the same homotopy groups 𝔽_p[v₁,v₂,…]. But
+  K(1)∧H(BP_*/p)≃0, since K(1)∧H𝔽_p≃0 (F3.3) and smash products commute
+  with wedges, while K(1)∧P(1)≠0, since ⟨P(1)⟩=⟨K(1)⟩∨⟨P(2)⟩ and
+  K(1)∧K(1)≠0. So P(n) is the ordered cofiber, not any spectrum with
+  homotopy BP_*/I_n.
+- π_*P(∞)=colim_n BP_*/I_n is 𝔽_p in degree 0: BP_*/I_n=𝔽_p[v_n,v_(n+1),…]
+  vanishes in each positive degree below 2(p^n−1). A spectrum whose
+  homotopy is 𝔽_p in degree 0 is H𝔽_p, as P(∞)≃H𝔽_p requires.
 
 Construct Smith's idempotent toolkit before its finite-spectrum
 applications. Consume SchurWeyl Layers 0, 2 and 5's native Young-diagram,
@@ -2733,7 +2780,9 @@ supplied algebra models and comparison maps. This does not assert
 existence of all small-exponent Smith–Toda complexes.
 
 Construct telescopes T(n) of chosen v_n maps, with T(0)=S_(p)[1/p],
-their independence in Bousfield class, the inequality
+their independence in Bousfield class of the chosen map and of the
+chosen type-n spectrum (Ravenel, *Nilpotence and Periodicity*, the
+paragraph of (7.2.8), p. 80, from the class invariance Theorem 7.2.7), the inequality
 ⟨K(n)⟩≤⟨T(n)⟩ and the resulting localization-unit comparisons.
 Construct finite localization L_n^f away from the finite type-(n+1)
 spectra, its smashing universal property, its class
@@ -2763,6 +2812,21 @@ into the telescope with their colimit, so that telescope is finite-local.
 Its unit is a finite-local equivalence, proving the comparison.
 Use p-inversion and rationalization for k=0. Construct the naturality
 of these comparisons under the equal-power intertwining maps above.
+
+**Checks.**
+- T(0)=S_(p)[1/p] has π_*=π_*(S_(p))⊗ℚ, which is ℚ in degree 0 and zero
+  in every other degree because the positive stable stems are finite. So
+  L_0^f is rationalization, L_0^fS_(p)=S_(p)[1/p], and
+  L_0^f(S/p)=S/p∧S_(p)[1/p]≃0, as S/p has type 1.
+- Replacing v by a power v^a leaves the telescope unchanged: the sequence
+  along v^a is the subsequence of every a-th term of the sequence along
+  v, which is cofinal, so the two homotopy colimits agree. With v^a=w^b
+  for two chosen v_n maps this gives the independence of the choice.
+- L_1^f kills the type-2 cofiber of a v₁ self-map of S/p, while
+  L_1^f(S/p)≃v₁⁻¹S/p by the finite-source telescope comparison, and
+  v₁⁻¹S/p≠0 because v₁ acts invertibly on K(1)_*(S/p)≠0, so
+  K(1)_*(v₁⁻¹S/p)=K(1)_*(S/p). A localization that also killed the
+  type-1 spectra would be L_0^f, which kills S/p.
 
 Also prove generalized-Moore pro-recovery here, before any use of
 L_n or smashing. For each length k≥1 choose the coherent cofinal
@@ -2820,6 +2884,25 @@ the Johnson–Wilson class identity above; GeneralizedCohomology G2.3–G2.4
 stable category, on which the finite localizations are built), G3.4
 (telescopes of spectra) and G5.1 (finite duality).
 
+**Checks.**
+- Γ_0^fS=S_(p), since L_(−1)^f=0.
+- Γ_1^fS=fib(S_(p)→S_(p)[1/p]) is the desuspension Σ^(−1)S/p^∞ of the
+  Moore spectrum of ℚ/ℤ_(p): in the long exact sequence ℤ_(p)→ℚ is
+  injective in degree 0 and π_*(S_(p)[1/p]) vanishes in other degrees,
+  so π_(−1)=ℚ/ℤ_(p)≅ℤ/p^∞, π_0=0 and π_m=π_m(S_(p)) for m≥1. With
+  M_a=S/p^(a₀) and D(S/p^a)=Σ^(−1)S/p^a this is hocolim_a D(M_a), and
+  smashing with BP gives the k=1 case Σ^(−1)BP/p^(a₀) of the dual-quotient
+  formula above, as |v₀|=0. Taking the cofiber S/p^∞ instead of the fiber
+  would put ℤ/p^∞ in degree 0.
+- k=2 tests the degrees |v_i| in the shift: for a in the system, M_a is
+  the cofiber of a v₁ self-map Σ^(a₁|v₁|)S/p^(a₀)→S/p^(a₀) acting on BP_*
+  as v₁^(a₁), so it has
+  cells in dimensions 0, 1, a₁|v₁|+1 and a₁|v₁|+2, and D(M_a) has cells in
+  their negatives, from −2−a₁|v₁| to 0. The ordered cofiber
+  BP/(p^(a₀),v₁^(a₁)) has BP-cells in dimensions 0, 1, a₁|v₁|+1 and
+  a₁|v₁|+2, so the shift −k−a₁|v₁|=−2−a₁|v₁| of the formula matches
+  them; a shift of −k alone would put the bottom cell at −2.
+
 ### 6.4 Johnson–Wilson classes, smashing and fracture (F6.4)
 
 For each prime p construct the p-typical polynomial coefficient isomorphism, using F3's
@@ -2844,7 +2927,8 @@ and their map-level quotient/transition equivalences. The class comparisons
 precede finite-height nilpotence and periodicity; the Moore systems are
 constructed after periodicity and before this item.
 Prove K(i)∧K(j)≃0 for distinct finite heights, including rational
-height 0, on the actual spectra. No identity of a finite localization
+height 0, on the actual spectra (Ravenel, *Nilpotence and Periodicity*,
+Theorem 7.3.2(e), p. 82). No identity of a finite localization
 with L_n is inferred.
 
 Set L_n=L_(E(n)) and C_nX=fib(X→L_nX) for the acyclic fiber,
@@ -3104,10 +3188,16 @@ L_(n−1) X ────────→ L_(n−1)L_(K(n)) X.
 ```
 
 For every p-local spectrum X and n≥1 prove this square homotopy
-cartesian. First prove the homotopy pullback of the lower and right
-corners is E(n)-local. Then prove X→that pullback is an E(n)-equivalence
-by applying L_(n−1) and L_(K(n)), using the correctly ordered vanishing
-above and the class identity. Include n=1 with rational L₀; retain the
+cartesian. This is the case E=E(n−1), K=K(n) of the general fracture
+square (Lawson, *An introduction to Bousfield localization*,
+arXiv:2002.03888v1, Proposition 9.26, p. 30): its hypothesis
+L_K L_E≃0 is the vanishing L_(K(n))L_(n−1)≃0 above, and its corner
+L_(E∨K) is L_n because ⟨E(n−1)∨K(n)⟩=⟨E(n)⟩ by Theorem 7.3.2(d).
+Lawson's proof has the two steps below, detecting equivalences by
+smashing with E and K. First prove the homotopy pullback of
+the lower and right corners is E(n)-local. Then prove X→that pullback
+is an E(n)-equivalence by applying L_(n−1) and L_(K(n)), using the
+correctly ordered vanishing above and the class identity. Include n=1 with rational L₀; retain the
 lower-right corner. Prove functoriality in X, comparisons with the
 chromatic tower L_n→L_(n−1), the fibre/Mayer–Vietoris sequences on
 true π_*, and product/module comparisons with the actual derived
@@ -3665,6 +3755,7 @@ module-extension nullhomotopy on its moment-map stratification.
 - Carrick–Davies–van Nigtevecht, [*The descent spectral sequence for topological modular forms*](https://arxiv.org/abs/2412.01640v2), §3 (Definitions 3.3 and 3.7, Lemma 3.9, Propositions 3.14–3.15 and Theorem 3.16), for the higher Toda conventions and the synthetic Moss theorem.
 - Bauer, [*Computation of the homotopy of the spectrum tmf*](https://arxiv.org/abs/math/0311328v3), Geom. Topol. Monogr. 13 (2008), 11–40, §8 (Lemma 8.6 and Corollary 8.7), for the bracket forms of F4.2.
 - Bousfield, [*The localization of spectra with respect to homology*](https://doi.org/10.1016/0040-9383(79)90018-1), Topology 18 (1979), §1, for the existence of homological localizations, and §6, Theorem 6.6, for the identification of the HF_p-nilpotent completion of a bounded-below spectrum with its derived p-completion.
+- Lawson, [*An introduction to Bousfield localization*](https://arxiv.org/abs/2002.03888v1), arXiv version 1 (2020), whose numbering is used here: Proposition 9.26, p. 30, for the fracture square of two localizations with L_K L_E≃0, whose case E=E(n−1), K=K(n) is F6.4's chromatic fracture square.
 - Landweber–Ravenel–Stong, [*Periodic cohomology theories defined by elliptic curves*](https://people.math.rochester.edu/faculty/doug/mypapers/lrs.pdf), for exactness and elliptic examples.
 - Wilson, *The Ω-spectrum for Brown–Peterson cohomology II*, Amer. J. Math. 97 (1975), Corollary 5.1, and Hovey, [*The homotopy of MString and MU⟨6⟩ at large primes*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Hovey-bpbp1.pdf), Algebr. Geom. Topol. 8 (2008), Theorem 1.2, Corollary 1.6 and Theorem 1.7, for the Hopf-ring interfaces.
 - Lubin–Tate, [*Formal moduli for one-parameter formal Lie groups*](https://www.numdam.org/item/BSMF_1966__94__49_0.pdf), Bull. Soc. Math. France 94 (1966), 49–59: the ⋆-isomorphisms (p. 49), Proposition 1.1 (p. 50), Proposition 2.4 (p. 52) for rigidity, Proposition 2.6 (p. 54), Theorem 3.1 (p. 56), §3.2 and Proposition 3.3 (p. 57) and §§3.4–3.5 (p. 58), for the universal deformation theorem, its automorphism action and the height-two elliptic example.
@@ -3678,7 +3769,7 @@ module-extension nullhomotopy on its moment-map stratification.
 
 - Devinatz–Hopkins–Smith, [*Nilpotence and stable homotopy theory I*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/dhs-ocr.pdf), for the three nilpotence scopes and the Thom/James/vanishing-line proof.
 - Hopkins–Smith, [*Nilpotence and stable homotopy theory II*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/HS.pdf), Theorems 3, 7 and 9, for the Morava K-theory form of nilpotence and finite support, thick classification and periodicity.
-- Ravenel, [*Nilpotence and Periodicity in Stable Homotopy Theory*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf), §§3.3, 7.3 and 7.5, Chapters 6–8 and Appendices B and C, for invariant primes, the Landweber filtration and exact functor theorems (Theorem 3.3.7, p. 33, (B.5.19) and Theorem B.6.2, pp. 182–183), the thick subcategory and periodicity theorems (Theorem 3.4.3, p. 37, and Theorem 1.5.4, p. 9), Bousfield localization (Theorem 7.1.3, p. 76), Bousfield classes, periodicity (§6.2: the operations P_t^s for t>s≥0, p. 63, Definition 6.2.3 of strong type and Theorem 6.2.4, pp. 64–65), the smash product theorem (Theorem 7.5.6, p. 87), the Hopkins–Ravenel smashing proof and Smith idempotents.
+- Ravenel, [*Nilpotence and Periodicity in Stable Homotopy Theory*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf), §§3.3, 7.2, 7.3 and 7.5, Chapters 6–8 and Appendices B and C, for invariant primes, the Landweber filtration and exact functor theorems (Theorem 3.3.7, p. 33, (B.5.19) and Theorem B.6.2, pp. 182–183), the thick subcategory and periodicity theorems (Theorem 3.4.3, p. 37, and Theorem 1.5.4, p. 9), Bousfield localization (Theorem 7.1.3, p. 76), Bousfield classes (Proposition 7.2.6(iii), p. 79, for the class of the source of a self-map; Theorem 7.2.7 and the telescopes of (7.2.8), p. 80; Theorem 7.3.2, p. 82, for the classes of P(n), B(n), v_n⁻¹BP, E(n) and K(n)), periodicity (§6.2: the operations P_t^s for t>s≥0, p. 63, Definition 6.2.3 of strong type and Theorem 6.2.4, pp. 64–65), the smash product theorem (Theorem 7.5.6, p. 87), the Hopkins–Ravenel smashing proof and Smith idempotents.
 - Hovey–Strickland, [*Morava K-Theories and Localisation*](https://doi.org/10.1090/memo/0666), for generalized Moore systems, their local categories and completion comparisons.
 - Greenlees–Sadofsky, [*The Tate spectrum of v_n-periodic complex oriented theories*](https://people.math.rochester.edu/faculty/doug/otherpapers/greenlees-sadofsky.pdf), Math. Z. 222 (1996), Theorem 1.1 (the number under which Hovey–Sadofsky, p. 3580, cite it), for the vanishing of the Tate spectrum of K(n), and Kuhn, [*Tate cohomology and periodic localization of polynomial functors*](https://arxiv.org/abs/math/0307173), Theorem 1.5, p. 4 (arXiv version), for its telescopic form, the two sources of F6.5's Tate vanishing.
 
