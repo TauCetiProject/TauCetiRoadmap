@@ -999,12 +999,12 @@ local parametrization and the Weierstrass-polynomial description on the
 branched cover, and applying the preceding Oka relations theorem. Recombine
 local irreducible components using `I_A=⋂I_(A_k)`; generate each finite
 intersection from Oka relations of concatenated generating tuples `(f,−g)`.
-Follow Demailly chapter II §4.4, Theorem4.29. Give also the local-generator statement for ideals
+Follow Demailly chapter II §4.4, Theorem 4.29. Give also the local-generator statement for ideals
 locally specified by a finite holomorphic tuple; `cartan_coherence_reducedIdeal` states it for
 the common zero set of finitely many holomorphic functions on an open subset of `ℂⁿ`: near
 every point there are finitely many holomorphic functions vanishing on the zero set whose
 germs generate, at every nearby point, the germs vanishing on the zero set.
-RealAnalyticGeometry R3.2 item0 owns the native coherent `SheafOfModules`
+RealAnalyticGeometry R3.2 item 0 owns the native coherent `SheafOfModules`
 predicate and the translation of these primitive statements to that predicate;
 these local proofs consume only the preceding convergent local algebra.
 Prove that the singular locus of every reduced analytic subset is a closed analytic
@@ -1548,9 +1548,9 @@ operator action.
 Own the continuous-primitive and supported
 finite-jet structure on these distribution carriers, before their consumers.
 
-For an interval I and J relatively compact in I, choose χ∈C_c∞(I), equal1
-near closure J, and χ̃∈C_c∞(I), equal1 near supp χ. Put w=χu, extended
-by0 to ℝ. Choose compact support stages around both cutoffs and prove a
+For an interval I and J relatively compact in I, choose χ∈C_c∞(I), equal 1
+near closure J, and χ̃∈C_c∞(I), equal 1 near supp χ. Put w=χu, extended
+by 0 to ℝ. Choose compact support stages around both cutoffs and prove a
 finite order k for w there. Prove the density/extension theorem from smooth
 tests to C^k compact tests on a slightly larger stage, using mollification
 with support control and the C^k bound; express the result on the native
@@ -1584,7 +1584,7 @@ tangential distribution coefficients (Hörmander, *The Analysis of Linear
 Partial Differential Operators I*, Theorem 2.3.5, in the product chart). N may
 depend on the compact stage.
 Construct coefficients by proper normal projection of z^β times u with a
-cutoff equal1 near S, giving `(-1)^|β|β!u_β`, and prove the Taylor/Hadamard
+cutoff equal 1 near S, giving `(-1)^|β|β!u_β`, and prove the Taylor/Hadamard
 remainder argument that the remaining distribution vanishes. Prove restriction,
 chart/density/bundle transport and compatibility of finite stages; coordinate
 normal jets transform by their actual normal-jet law. For S a point, deduce
@@ -1599,10 +1599,10 @@ For every real n≥1 own the distribution nonextension example
 example, whose proof is the estimate that follows. Choose a nonzero nonnegative
 smooth bump φ supported in the unit ball and `0<c<1/4`, and put
 `φ_ε(x)=φ((x−εe₁)/(cε))`. All small supports lie in one fixed compact ball
-and avoid0. A finite-order extension would bound its value by `Cε^(−N)`,
+and avoid 0. A finite-order extension would bound its value by `Cε^(−N)`,
 while its positive punctured-domain integral is at least
 `C'ε^n exp((1+c)^(−2)ε^(−2))`. Prove this contradicts every finite N.
-Transport by the native Euclidean/chart comparison. Dimension0 is separate.
+Transport by the native Euclidean/chart comparison. Dimension 0 is separate.
 This theorem uses no hyperfunction or renormalization theorem.
 
 The literal delta-series failure at distribution level is Tau Ceti's
@@ -1761,7 +1761,7 @@ boundedness and density in every real-order space, then extend
 these estimates to every real s. Prove choice-independent equivalent norms,
 smooth density, connection W^(k,2) comparison and localization naturality.
 Own global matrix multiplication by every smooth A:ℝⁿ→Hom(F,G)
-with all derivatives, including order0, uniformly bounded: prove bounded
+with all derivatives, including order 0, uniformly bounded: prove bounded
 H^s→H^s for each real s by the integer Leibniz estimates, density transpose
 and this Hilbert interpolation. This includes the bounded Jacobian factors
 in the global diffeomorphism theorem and precedes its negative-order proof.
@@ -2337,10 +2337,10 @@ Derive zero Chern torsion directly from dω=0; Levi-Civita uniqueness then
 identifies the two connections before the coordinate construction. Write `∇_(∂_j)∂_k=Σ_i Γ^i_jk ∂_i` for the common Levi-Civita/Chern
 connection on `T^(1,0)M`. Torsion-freeness makes Γ symmetric in j,k.
 Construct the polynomial map from the new coordinates to the old ones,
-`z^i(w)=w^i−(1/2)Σ_(j,k) Γ^i_jk(p)w^j w^k`. Its derivative at0 is I;
+`z^i(w)=w^i−(1/2)Σ_(j,k) Γ^i_jk(p)w^j w^k`. Its derivative at 0 is I;
 K1's holomorphic inverse-function theorem makes it a biholomorphic chart
 change on specified neighborhoods. Prove by the connection and metric
-transformation laws that the new Γ and first metric derivatives vanish at0.
+transformation laws that the new Γ and first metric derivatives vanish at 0.
 Its two-jet at 0 is pinned: the first differential is the identity and the
 second differential is `(u,v)↦−Γ(p)(u,v)`, using the symmetry of Γ.
 
@@ -2415,7 +2415,7 @@ finite-dimensional Hermitian linear algebra for the Nakano eigenvalue bound.
 - Negative control, the Kähler hypothesis: the Hopf surface
   `(ℂ²∖{0})/(z↦2z)` carries the Hermitian metric with
   `ω=(i/2)|z|⁻²Σ_j dz_j∧dz̄_j`, invariant under z↦2z, and
-  `dω=(i/2)d(|z|⁻²)∧Σ_j dz_j∧dz̄_j≠0` (its `z̄₁dz₁∧dz₂∧dz̄₂` coefficient is
+  `dω=(i/2)d(|z|⁻²)∧Σ_j dz_j∧dz̄_j≠0` (its `dz₁∧dz₂∧dz̄₂` coefficient is
   `−(i/2)|z|⁻⁴z̄₁`). If `Δ_d=2Δ_∂̄=2Δ_∂` held for it, the `Δ_∂`- and
   `Δ_∂̄`-harmonic forms would coincide, conjugation would carry harmonic `(p,q)`-forms
   to harmonic `(q,p)`-forms, and K5b's Hodge isomorphism would give
@@ -2959,7 +2959,7 @@ On its overlap with chart k prove `a'=a z_k`, `z'_i=1/z_k` and
 the zero section and the map b:E→V, (v,ℓ)↦v. Off that section construct
 the holomorphic inverse v↦(v,[v]); identify b⁻¹(0) with P(V).
 
-Consume [StableReduction Layer4](../StableReduction/README.md#layer-4-blowups-and-intersection-theory-on-arithmetic-surfaces)'s
+Consume [StableReduction Layer 4](../StableReduction/README.md#layer-4-blowups-and-intersection-theory-on-arithmetic-surfaces)'s
 Rees blowup of the origin ideal in affine V. Compare, on ℂ-points, its affine
 charts `v_j=v_i z_j`, their inverses, transitions and blowdown with the
 preceding incidence charts, and identify the incidence projection E→P(V)
@@ -3196,7 +3196,7 @@ Use K4's holomorphic bundle descent to construct the line L_ρ from
 charts and the tensor/dual/pullback comparisons
 `L_ρ⊗L_σ≃L_(ρσ)` and `L_ρ*≃L_(ρ⁻¹)`. Here ρ is a factor of automorphy:
 the descended flat connection has source-to-target holonomy ρ(λ)⁻¹ around
-the loop lifting from0 to λ. Prove this inverse against K4/B5's actual
+the loop lifting from 0 to λ. Prove this inverse against K4/B5's actual
 parallel-transport convention.
 
 Identify holomorphic sections with entire functions satisfying
@@ -3220,7 +3220,7 @@ to the bounded-function argument above. Between two unitary characters the
 criterion forces a=0 and ρ=σ. Export the full isomorphism spaces: they are
 empty for distinct unitary characters and are ℂ× for equal ones.
 
-Prove L_ρ is smoothly trivial, with integral c₁=0 and degree0. For unitary
+Prove L_ρ is smoothly trivial, with integral c₁=0 and degree 0. For unitary
 `ρ(1)=exp(2πiα)`, `ρ(τ)=exp(2πiβ)`, a smooth nowhere-zero section is
 represented by `f(x+τy)=exp(2πi(αx+βy))`; changing the real lifts α,β changes
 the frame, not the line. Transfer this result through the exponential gauge
@@ -3236,7 +3236,7 @@ products and duals; it does not construct a second Picard functor.
 
 Trivialize the canonical line by dz. K5b's Serre pairing then identifies
 H¹(E_τ,L_ρ) with the dual of H⁰(E_τ,L_(ρ⁻¹)); higher cohomology vanishes.
-For unitary ρ≠1 both H⁰ and H¹ vanish, whereas for ρ=1 both have dimension1.
+For unitary ρ≠1 both H⁰ and H¹ vanish, whereas for ρ=1 both have dimension 1.
 Give the perfect pairing and the invariant dz/dbar(z) representatives in
 that trivial case. For the square torus take ρ(m+ni)=(−1)^m as an explicit
 smoothly trivial, holomorphically nontrivial acyclic line. These targets
@@ -3387,7 +3387,12 @@ Chevalley–Eilenberg differential and own its scalar-extension and complex-summ
 on the underlying real algebra, identify the complexification with `𝔤⊕bar(𝔤)`, with zero
 mixed bracket, and construct the complex-linear CE complex of `bar(𝔤)` and the invariant
 Dolbeault bicomplex. Own Nomizu's real de Rham comparison for compact nilmanifolds and
-Sakane's Dolbeault comparison for compact complex parallelizable nilmanifolds.
+Sakane's Dolbeault comparison for compact complex parallelizable nilmanifolds: for a simply
+connected nilpotent Lie group G with a lattice Γ, the inclusion of the left-invariant forms
+into the forms of `Γ\G` induces an isomorphism from the Chevalley–Eilenberg cohomology of 𝔤
+to the de Rham cohomology of `Γ\G` (Nomizu, Theorem 1, as restated in Angella, Theorem 2.1,
+p. 5); for G complex, the invariant Dolbeault bicomplex computes the Dolbeault cohomology of
+the quotient (Sakane, Theorem 1, p. 189).
 
 *Needs:* 8.1; ComplexManifolds Milestone 4; LieGroupoidsPoisson G1.3's Chevalley–Eilenberg
 differential; 8.3's central reduction; Angella, §§4.1–4.2, and Sakane at the steps that cite them.
@@ -3551,7 +3556,7 @@ filtered-complex spectral sequence supplies convergence after those inputs.
   Theorem 10.3, p. 24, for the reconstruction formula, Theorem 11.1, p. 25, for Runge's theorem in
   K2.FiniteRankRunge, and Theorem 12.2, p. 31, for the scalar `∂̄` solver on a domain used in
   K5a.PlanarTwoForms.
-- [Sakane, *On compact complex parallelisable solvmanifolds*](https://ir.library.osaka-u.ac.jp/repo/ouka/all/5964/ojm13_01_13.pdf), Theorem 1 and the nilpotent case, for the invariant Dolbeault comparison.
+- [Sakane, *On compact complex parallelisable solvmanifolds*](https://ir.library.osaka-u.ac.jp/repo/ouka/all/5964/ojm13_01_13.pdf), Theorem 1, p. 189, and the nilpotent case, pp. 188–189, for the invariant Dolbeault comparison.
 - Wells, *Differential Analysis on Complex Manifolds*, for Dolbeault, elliptic
   Hodge theory and duality.
 - [Hörmann and Steinbauer, *Lecture Notes on the Theory of Distributions*, Universität Wien, 2009](https://mat.univie.ac.at/~stein/teaching/courses/SoSem09/distrvo.pdf),
@@ -3561,7 +3566,11 @@ filtered-complex spectral sequence supplies convergence after those inputs.
   Theorems 2.3.4 and 2.3.5, for distributions supported in a point and in a
   submanifold in K5a.DistributionLocalStructure.
 - [Angella, *The cohomologies of the Iwasawa manifold and of its small deformations*](https://arxiv.org/abs/1212.4351),
-  §§4.1–4.2, p. 13, for the explicit non-Kähler cohomology comparison.
+  Theorem 2.1, p. 5, for the statement of Nomizu's comparison, and §§4.1–4.2, p. 13, for
+  the explicit non-Kähler cohomology comparison.
+- Nomizu, *On the cohomology of compact homogeneous spaces of nilpotent Lie groups*,
+  Ann. of Math. (2) 59 (1954), 531–538, Theorem 1, for the real de Rham comparison of
+  compact nilmanifolds in 8.2, read in the form of Angella, Theorem 2.1, p. 5.
 - Raghunathan, *Discrete Subgroups of Lie Groups*, Springer, 1972, Theorem 1.13, p. 23,
   and Corollary 1, p. 31, for the lattice steps of K8.NilpotentCentralReduction.
 
