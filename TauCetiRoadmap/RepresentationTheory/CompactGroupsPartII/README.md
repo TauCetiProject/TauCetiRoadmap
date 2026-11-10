@@ -158,20 +158,20 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
 - `Compact/Haar.lean`: `TauCeti.haarProb`, `TauCeti.haarProb_def`,
   `TauCeti.haarProb_apply_univ` and the probability, Haar and bi-invariance instances.
   `Compact/Averaging.lean`: `TauCeti.haarAverage`, for complete normed targets.
-- `Compact/Unitarizable.lean`: `TauCeti.ContRepresentation.gramOperator` and
-  `TauCeti.ContRepresentation.isUnitarizable`, for finite-dimensional actions with
+- `Compact/Unitarizable.lean`: `ContRepresentation.gramOperator` and
+  `ContRepresentation.isUnitarizable`, for finite-dimensional actions with
   continuous parameter; `Compact/UnitaryModel.lean`:
-  `TauCeti.ContRepresentation.exists_isUnitary_congr`.
-- `Continuous/Unitary/Basic.lean`: `TauCeti.ContRepresentation.IsUnitary`;
+  `ContRepresentation.exists_isUnitary_congr`.
+- `Continuous/Unitary/Basic.lean`: `ContRepresentation.IsUnitary`;
   `Continuous/OrthogonalDecomposition.lean`:
-  `TauCeti.ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition`;
+  `ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition`;
   `Continuous/Schur.lean`:
   `ContRepresentation.exists_eq_smul_one_of_isIrreducible`.
 - `Continuous/MatrixCoefficient.lean` and `Compact/MatrixCoefficient.lean`:
-  `TauCeti.ContRepresentation.matrixCoeff` and `TauCeti.ContRepresentation.matrixCoeffLp`;
+  `ContRepresentation.matrixCoeff` and `ContRepresentation.matrixCoeffLp`;
   `Compact/SchurOrthogonality.lean`:
-  `TauCeti.ContRepresentation.schur_orthogonality_self` and
-  `TauCeti.ContRepresentation.schur_orthogonality_basis`, with unitary irreducible hypotheses.
+  `ContRepresentation.schur_orthogonality_self` and
+  `ContRepresentation.schur_orthogonality_basis`, with unitary irreducible hypotheses.
 - `Compact/Convolution.lean`, `Compact/ApproximateIdentity.lean`,
   `Compact/EigenspaceRepresentation.lean`, `Compact/RepresentativeDensity.lean`:
   the continuous-kernel convolution, approximate identities and noncircular density route;
@@ -430,7 +430,7 @@ invariant positive Hermitian forms are exactly `c⟪−,−⟫` with a unique re
 For two such forms, construct the identity-times-`1/√c` equivariant isometry
 from the first metric to the second when `h₂=c h₁`, and prove both metric and
 inverse identities. Consume the native
-`TauCeti.ContRepresentation.exists_linearIsometryEquiv_congr_eq` theorem and
+`ContRepresentation.exists_linearIsometryEquiv_congr_eq` theorem and
 compare its normalization with this particular scalar map. For an initially
 nonunitary representation, use native unitarization's Gram conjugacy to transport this
 classification; no extra choice of an inner-product instance is implicit.

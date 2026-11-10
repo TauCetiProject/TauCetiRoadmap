@@ -136,7 +136,7 @@ theorem separable_L2_iff_countable_irrepClass :
 
 end
 
-/-! ## Layer 4: duals of arbitrary products -/
+/-! ## Layer 4: characters of arbitrary products -/
 
 section
 
