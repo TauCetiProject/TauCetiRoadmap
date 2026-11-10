@@ -495,14 +495,26 @@ invariance of `Sheaf.H` under `Functor.IsDenseSubsite.sheafEquiv` is SchemeAndSt
 §2.1's `Sheaf.H.pullback` for the underlying morphism of sites, an isomorphism for such a
 functor (Stacks 03YU), and it is applied here to §0.23a's equivalence. Apply this to the
 absolute and relative scheme Frobenius of SchemeAndStackFoundations §0.29.
+Prove that the equivalence restricts to an equivalence from `TauCeti.FiniteEtaleScheme Y` to
+`TauCeti.FiniteEtaleScheme X`, compatible with the geometric fibre functors of §F.0.2: an étale
+`V → Y` is finite exactly when its base change `V ×_Y X → X` is, because `f` is integral,
+universally injective and surjective. Hence `EtaleFundamentalGroup.map f x̄` is an isomorphism
+for every geometric point `x̄` of `X`; for connected `X` and `Y` this is Stacks, Proposition
+58.8.4, tag 0BQN.
 (Stacks §59.45, Theorem 59.45.2, 04DZ.)
-*Needs:* SchemeAndStackFoundations §§0.23–0.23a, §0.29 and Layer 2; EnhancedDerivedSheaves §§0.1–0.4 for generic sheaf equivalences and derived transport.
+*Needs:* SchemeAndStackFoundations §§0.23–0.23a, §0.29 and Layer 2; EnhancedDerivedSheaves §§0.1–0.4 for generic sheaf equivalences and derived transport; §F.0.2 (finite étale covers, fibre functors and `EtaleFundamentalGroup`).
 
 **Checks.**
 
 - A nilpotent thickening induces an equivalence of étale sites.
 - The normalization of a cuspidal curve, a universal homeomorphism, induces the equivalence.
 - Normalization of a nodal curve is not universally injective and does not meet the hypothesis.
+- For `k = 𝔽_p(t)` and its perfection `k^perf`, the universal homeomorphism
+  `Spec k^perf → Spec k` keeps the Artin–Schreier field `k[y]/(y^p − y − t)` a field of degree `p`
+  after base change, as the equivalence on finite étale covers requires: `t` is not of the form
+  `b^p − b` in `k^perf`. The homeomorphism `Spec 𝔽_(p²) → Spec 𝔽_p` is not universally injective,
+  and base change along it splits the connected cover `Spec 𝔽_(p²)` into two points, so it is not
+  an equivalence of finite étale covers.
 
 ## F.0.A1 Decomposition and inertia groups of a cover
 
@@ -618,11 +630,19 @@ after the choice of an étale path from `x̄` to the geometric point over `a`; f
 the path changes `s_a` by conjugation by an element of `π₁^ét(X_{k̄}, x̄)`. Different rational points
 can give sections that are not conjugate under `π₁^ét(X, x̄)`. Exactness alone chooses no section. The
 induced outer action `Γ_k → Out(π₁^ét(X_{k̄}, x̄))` does not depend on any section, and is a separate
-datum from the conjugacy class of a section. *Proof sketch.* Descend finite étale
-covers of `X_{k̄}` and their morphisms to `X_{k'}` for finite separable `k'/k`, which is where
-quasi-separatedness enters (descent along the limit `X_{k̄} = lim X_{k'}` of qcqs schemes, Stacks,
-Lemma 58.14.1, tag 0BTV); apply the exact sequence of the finite Galois cover `X_{k'} → X` and
-pass to the inverse limit; a rational point gives a section of schemes and hence of groups.
+datum from the conjugacy class of a section. *Proof sketch.* Let `k^sep` be the separable
+closure of `k` in `k̄`. Pass from `X_{k̄}` to `X_{k^sep}` first: the projection
+`X_{k̄} → X_{k^sep}` is the base change of `Spec k̄ → Spec k^sep`, a universal homeomorphism
+because `k̄/k^sep` is purely inseparable, so §F.0.4 identifies the finite étale covers of
+`X_{k^sep}` with those of `X_{k̄}` and the two fundamental groups (Stacks, Proposition 58.8.4,
+tag 0BQN). Stacks and SGA 1 instead reduce to a perfect `k` (Stacks, Lemma 58.14.2, tag 0BTW;
+SGA 1, proof of Exposé IX, Theorem 6.1, p. 195, through Corollary 4.11, p. 187). Then descend finite
+étale covers of `X_{k^sep}` and their morphisms to `X_{k'}` for finite separable `k'/k`, which is
+where quasi-separatedness enters (descent along the limit `X_{k^sep} = lim X_{k'}` of qcqs
+schemes with affine transition maps, Stacks, Lemma 58.14.1, tag 0BTV); apply the exact sequence
+of the finite Galois cover `X_{k'} → X` and pass to the inverse limit; a rational point gives a
+section of schemes and hence of groups. The limit over finite separable extensions is
+`X_{k^sep}`, which is `X_{k̄}` only for perfect `k` (Checks).
 Sources: Stacks, Lemma 58.14.3 (tag 0BTX), for qcqs `X`;
 [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé IX, Theorem 6.1 and Corollary 6.4,
 pp. 195–196, where Theorem 6.1 is stated over an Artinian base with residue field `k` (the field
@@ -630,7 +650,8 @@ case is the one used here), assumes only that the closed fibre is quasi-compact 
 descent of covers to the reader; that descent needs quasi-separatedness (Checks).
 *Needs:* §F.0.A0; Supplied by §F.0.2 /
 VanishingCycles.finiteEtaleGaloisCategory (fundamental groups, paths, functoriality, and descent
-of finite étale covers along limits and étale coverings); SchemeAndStackFoundations §0.9 (limits).
+of finite étale covers along limits and étale coverings); §F.0.4 (finite étale covers along the
+universal homeomorphism `X_{k̄} → X_{k^sep}`); SchemeAndStackFoundations §0.9 (limits).
 Finite lisse coefficients require no invertibility; `π₁` and paths are §F.0.2's
 `EtaleFundamentalGroup` and EtalePath, defined for every scheme and geometric point.
 
@@ -646,6 +667,12 @@ Finite lisse coefficients require no invertibility; `π₁` and paths are §F.0.
   `z² = t` is a quotient `π₁^ét(𝔾_{m,ℚ}) ↠ C₂`; composed with `s_1` it is the trivial character of
   `Γ_ℚ`, the fibre over `1` being split, and composed with `s_2` it is the character of `ℚ(√2)`.
   Conjugate sections have equal composites with a map to the abelian group `C₂`.
+- Over an imperfect field the descent step reaches `X_{k^sep}`, not `X_{k̄}`. Take `k = 𝔽_p(t)`,
+  `L = k(t^(1/p))` and `X = Spec L`. The limit of the `X_{k'}` over finite separable `k'/k` is
+  `Spec (L ⊗_k k^sep)`, the spectrum of the field `k^sep(t^(1/p))`, since `t` is not a `p`-th power
+  in `k^sep`; but `X_{k̄} = Spec k̄[y]/((y − t^(1/p))^p)` is not reduced. Both are one point with
+  trivial `π₁`, the map between them being a universal homeomorphism, and `π₁^ét(X) = Gal(L^sep/L)`
+  maps isomorphically onto `Γ_k` because `L/k` is purely inseparable, so the sequence is exact.
 - Quasi-separatedness cannot be dropped. Over `k = 𝔽_p` let `A` be the ring of sequences
   `(fₙ)_(n≥1)` with `fₙ ∈ 𝔽_(pⁿ)[t]`, all constant terms equal to one element of `k`, and `fₙ`
   constant for all but finitely many `n`. Its spectrum is one closed point together with the open
