@@ -5,13 +5,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 module
 
 public import Mathlib
-public import TauCeti.Algebra.Category.FiniteHopfModuleCat.Pivotal
-public import TauCeti.Algebra.Category.FiniteHopfModuleCat.Rigid
 public import TauCeti.Algebra.Coalgebra.Comodule.MatrixCoefficient.Matrix
-public import TauCeti.Algebra.Coalgebra.Star
 public import TauCeti.Algebra.Coalgebra.Subcomodule.Basic
-public import TauCeti.CategoryTheory.Monoidal.Pivotal.Spherical
-public import TauCeti.QuantumGroups.UqSl2.Antipode
 
 /-!
 # Quantum groups: target signatures
@@ -23,18 +18,18 @@ with the few definitions (real bodies on native carriers) that those statements 
 Stated here: the weighted Schur orthogonality relations on a Hopf *-algebra with a positive
 invariant functional (§3.1); the algebraic compact-type equivalence, the existence and uniqueness
 of the modular automorphism of the Haar functional and the Kac equivalence between traciality of
-the Haar functional and involutivity of the antipode (§4.1); and the sphericity of the finite
-`U_q(sl₂)`-modules with pivot `K⁻¹` for `q − q⁻¹ ≠ 0` (§8.5), with the rigid and pivotal
-instances on those modules that it needs. A Hopf *-algebra is a native complex Hopf algebra with
-a compatible star structure whose comultiplication preserves the star, `Δ(a*) = Δ(a)*` for the
-tensor star `(x ⊗ y)* = x* ⊗ y*`; the statements of Layers 3 and 4 take this as the instance
-hypothesis `TauCeti.StarCoalgebra ℂ A`.
+the Haar functional and involutivity of the antipode (§4.1). A Hopf *-algebra is a native complex
+Hopf algebra with a compatible star structure whose comultiplication preserves the star; these
+statements take that condition, `Δ(a*) = Δ(a)*` for the tensor star `(x ⊗ y)* = x* ⊗ y*`, as the
+hypothesis `hΔ`. Tau Ceti bundles the same equation as the class `TauCeti.StarCoalgebra`
+(`Algebra/Coalgebra/Star.lean`), a module that the pinned Tau Ceti does not contain.
 
-Proved in the pinned Tau Ceti and not restated: the Layer 8 algebra `TauCeti.UqSl2` with its
-universal property, Ore-tower presentation, PBW basis and domain property for every `q ≠ 0`, its
-Hopf structure, Casimir element and centre `ℂ[Ω]`, the Verma and signed ladder modules with the
-classification of finite-dimensional simples, finite complete reducibility, the semisimplicity,
-ladder decomposition and type-1 characterisations of locally finite modules (in particular
+Proved in Tau Ceti and not restated, in modules that the pinned Tau Ceti does not contain (README
+Layer 8 names the declarations): the Layer 8 algebra `TauCeti.UqSl2` with its universal property,
+Ore-tower presentation, PBW basis and domain property for every `q ≠ 0`, its Hopf structure,
+Casimir element and centre `ℂ[Ω]`, the Verma and signed ladder modules with the classification of
+finite-dimensional simples, finite complete reducibility, the semisimplicity, ladder decomposition
+and type-1 characterisations of locally finite modules (in particular
 `TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`),
 the Clebsch–Gordan isomorphisms and triple recoupling, contragredients, quantum traces, the
 compact real form with its invariant metric and the classical specialisation, together with the
@@ -71,9 +66,18 @@ Not statable at the pins:
   about the universal C*-algebras of Layer 5, which need the minimal tensor product for their
   coproduct.
 * §8.5 Biedenharn–Elliott pentagon: it needs the recoupling isomorphisms between the five
-  bracketings of a quadruple tensor product of signed ladder modules, in channel coordinates;
-  the pins supply recoupling only for triple products
-  (`TauCeti.UqSl2.clebschGordanRecouplingEquiv`).
+  bracketings of a quadruple tensor product of signed ladder modules, in channel coordinates,
+  and Tau Ceti has recoupling only for triple products
+  (`TauCeti.UqSl2.clebschGordanRecouplingEquiv`), in a module that the pinned Tau Ceti does not
+  contain.
+* §8.5 sphericity of the finite `U_q(sl₂)`-modules for `q ≠ 0` with `q − q⁻¹ ≠ 0`, with the rigid
+  structure of the bijective antipode and the pivotal structure of the pivot `K⁻¹`: its carriers
+  are Tau Ceti's `TauCeti.FiniteHopfModuleCat` with `TauCeti.FiniteHopfModuleCat.rigidCategory`
+  and `TauCeti.FiniteHopfModuleCat.unitEvalNatIso`, the classes `TauCeti.PivotalCategory` and
+  `TauCeti.SphericalCategory`, and `TauCeti.UqSl2` with `TauCeti.UqSl2.antipode_antipode`, in the
+  modules `Algebra/Category/FiniteHopfModuleCat/{Rigid,Pivotal}.lean`,
+  `CategoryTheory/Monoidal/Pivotal/Spherical.lean` and `QuantumGroups/UqSl2/Antipode.lean`; the
+  pinned Tau Ceti contains none of these modules, so no statement of it elaborates here.
 * §8.6 comparison of finite positive-`K` modules with the finite unitary corepresentations of
   `SUq(2)`: it needs the universal C*-algebra `C(SUq(2))` of Layer 5, which needs the minimal
   tensor product above.
@@ -118,7 +122,7 @@ irreducible finite comodule with unitary coefficient matrix `u` there is a posit
 `h(u_ij u_kl*) = δ_ik F̃_jl / Tr F̃`. The matrix is the README's pre-antipode `F̃`, not its
 transpose `F`. -/
 theorem schur_orthogonality
-    [TauCeti.StarCoalgebra ℂ A]
+    (hΔ : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) = star (Coalgebra.comul (R := ℂ) a))
     [IsSimpleOrder (TauCeti.Subcomodule ℂ A H)]
     (h : AlgebraicHaar (A := A)) (b : OrthonormalBasis ι ℂ H)
     (hu : TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis ∈ unitary (Matrix ι ι A)) :
@@ -151,7 +155,7 @@ normalized positive two-sided invariant integral exactly when it is spanned by t
 of its finite unitary comodules. -/
 theorem compactType_iff (A : Type u) [Ring A] [Nontrivial A] [HopfAlgebra ℂ A]
     [StarRing A] [StarModule ℂ A]
-    [TauCeti.StarCoalgebra ℂ A] :
+    (hΔ : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) = star (Coalgebra.comul (R := ℂ) a)) :
     Nonempty (AlgebraicHaar (A := A)) ↔
       Submodule.span ℂ (unitaryCoefficientSet A) = ⊤ := by
   sorry
@@ -162,7 +166,7 @@ exactly one algebra automorphism `θ` with `h(ab) = h(b θ(a))` for all `a, b`. 
 coefficient matrix `θ(u) = F u F`; uniqueness is the faithfulness of `h`. -/
 theorem haar_modular_automorphism {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
     [StarModule ℂ A]
-    [TauCeti.StarCoalgebra ℂ A]
+    (hΔ : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) = star (Coalgebra.comul (R := ℂ) a))
     (h : AlgebraicHaar (A := A)) :
     ∃! θ : A ≃ₐ[ℂ] A, ∀ a b : A, h.functional (a * b) = h.functional (b * θ a) := by
   sorry
@@ -172,40 +176,10 @@ normalized invariant integral `h` on a Hopf *-algebra is a trace exactly when th
 involutive. -/
 theorem haar_trace_iff_antipode_involutive {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
     [StarModule ℂ A]
-    [TauCeti.StarCoalgebra ℂ A]
+    (hΔ : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) = star (Coalgebra.comul (R := ℂ) a))
     (h : AlgebraicHaar (A := A)) :
     (∀ a b : A, h.functional (a * b) = h.functional (b * a)) ↔
       ∀ a : A, HopfAlgebra.antipode ℂ (HopfAlgebra.antipode ℂ a) = a := by
-  sorry
-
-/-! ## Layer 8: Generic U_q(sl₂), signed modules and integrability -/
-
-/-- The rigid structure on the finite `U_q(sl₂)`-modules for `q ≠ 0` (§8.5): right duals are the
-contragredients through the antipode `S`, and left duals the contragredients through `S⁻¹`, which
-exists because `S²` is conjugation by `K⁻¹`. -/
-noncomputable instance uqSl2RigidCategory (q : ℂ) [Fact (q ≠ 0)] :
-    CategoryTheory.RigidCategory (TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)) :=
-  TauCeti.FiniteHopfModuleCat.rigidCategory (TauCeti.UqSl2.antipode_bijective q)
-
-/-- The pivotal structure on the finite `U_q(sl₂)`-modules for `q ≠ 0` with pivot `K⁻¹` (§8.5):
-`K⁻¹` is group-like and implements the square of the antipode, `S²(x) = K⁻¹ x K`, so the
-double-dual isomorphisms `v ↦ (φ ↦ φ(K⁻¹ v))` form a monoidal natural isomorphism from the
-identity functor to the double right dual functor. -/
-noncomputable instance uqSl2PivotalCategory (q : ℂ) [Fact (q ≠ 0)] :
-    TauCeti.PivotalCategory (TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)) where
-  pivotalIso := TauCeti.FiniteHopfModuleCat.unitEvalNatIso (TauCeti.UqSl2.kUnit q)⁻¹
-    (fun x => by simpa using TauCeti.UqSl2.antipode_antipode q x)
-  pivotalIso_isMonoidal := TauCeti.FiniteHopfModuleCat.unitEvalNatIso_isMonoidal _
-    ⟨by simp, by simp⟩
-
-/-- Sphericity of the finite `U_q(sl₂)`-modules (§8.5): for `q ≠ 0` with `q − q⁻¹ ≠ 0`, the finite
-modules over `U_q(sl₂)`, with the rigid structure `uqSl2RigidCategory` and the pivotal structure
-`uqSl2PivotalCategory` of the pivot `K⁻¹`, form a spherical category: for every module
-endomorphism `f` of `V` the right trace `tr_V(K⁻¹ f)` equals the left trace `tr_V(K f)`. The
-hypothesis cannot be dropped: at `q = ±1` the one-dimensional module with `K = 2` and `E = F = 0`
-has right and left traces `1/2` and `2` of its identity. -/
-theorem uqSl2_sphericalCategory (q : ℂ) [Fact (q ≠ 0)] (hq : q - q⁻¹ ≠ 0) :
-    TauCeti.SphericalCategory (TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)) := by
   sorry
 
 end

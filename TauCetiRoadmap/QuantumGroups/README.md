@@ -675,7 +675,7 @@ coalgebra/bialgebra/Hopf structure with `ε(u_ij)=δ_ij` and
 A Hopf *-algebra means a native complex Hopf algebra with compatible
 star algebra structure and star-preserving Δ, `Δ(a*)=Δ(a)*`, which is Tau
 Ceti's class `TauCeti.StarCoalgebra ℂ A`; the headlines of Layers 3 and 4 take
-this class as an instance hypothesis. Consume from Tau Ceti that ε is
+this defining equation as the hypothesis `hΔ`. Consume from Tau Ceti that ε is
 star-preserving (`TauCeti.StarCoalgebra.counit_star`), that S is bijective
 (`TauCeti.HopfAlgebra.antipode_bijective`) and that `S⁻¹(a)=S(a*)*`
 (`TauCeti.HopfAlgebra.antipode_star_antipode_star`, `S(S(a*)*)=a`), and Mathlib's
@@ -1514,7 +1514,7 @@ on W. The multiplicity of L_m^ε in a finite-dimensional V is
 dim Hom_U(L_m^ε,V), read off the formal character
 (`TauCeti.UqSl2.finrank_linearMap_ladderModule_eq_formalCharacter_coeff_sub`).
 
-Two consequences at generic q are already in the pinned libraries. K acts
+Two consequences at generic q are already in Tau Ceti and Mathlib. K acts
 diagonalizably on every finite-dimensional module with eigenvalues ±q^k, k∈ℤ:
 a finite-dimensional module is locally finite by the instance
 `TauCeti.IsLocallyFiniteModule.of_finite`, and the reverse direction of
@@ -1624,8 +1624,7 @@ installed locally. Instantiate it at U_q with g=K⁻¹, which is group-like
 `TauCeti.UqSl2.antipode_antipode`: for every q≠0 the rigid structure
 `TauCeti.FiniteHopfModuleCat.rigidCategory` of
 `TauCeti.UqSl2.antipode_bijective` and the pivotal structure with pivot K⁻¹
-are the instances `uqSl2RigidCategory` and `uqSl2PivotalCategory` on
-`TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)`.
+are instances on `TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)`.
 For H=k[G], restrict native
 `Rep.equivalenceModuleMonoidAlgebra` to finite objects and identify this
 monoidal category, its duals and the trivial pivot g=1 with PivotalSpherical
@@ -1683,9 +1682,9 @@ leftTrace(f)=tr_V(g⁻¹f) for the pivot j_V(v)(φ)=φ(gv): on a basis e_i with 
 basis e^i the pivotal coevaluation is 1↦Σ_i e^i⊗g⁻¹e_i and the pivotal
 evaluation is v⊗φ↦φ(gv). Compare them with PivotalSpherical's rightTrace and
 leftTrace in its right-dual convention, and deduce from the trace identity
-above the headline `uqSl2_sphericalCategory`: for q≠0 with q−q⁻¹≠0 the finite
-U_q-modules, with the instances `uqSl2RigidCategory` and `uqSl2PivotalCategory`,
-form a `TauCeti.SphericalCategory`, with common pivotal dimension ε[m+1]_q on L_m^ε
+above the sphericity theorem: for q≠0 with q−q⁻¹≠0 the finite U_q-modules,
+with these rigid and pivotal instances, form a `TauCeti.SphericalCategory`,
+with common pivotal dimension ε[m+1]_q on L_m^ε
 and [m+1]_q on the positive family; at generic q the hypothesis holds because
 q²≠1. Construct the representation ring, the Grothendieck ring of finite
 modules with the tensor product, and identify it through the formal character
@@ -1696,7 +1695,7 @@ module actions, independent of Q1–Q7's C*-tensor-category construction.
 The defining objects have the following API.
 
 - The finite Hopf-module category has tensor over the base field, counit unit, antipode duals and faithful forgetful functors.
-- A group-like unit g with S²=Ad(g) gives a pivotal structure whose right and left traces of an endomorphism f are tr(gf) and tr(g⁻¹f); at U_q the rigid and pivotal structures with pivot K⁻¹ are the instances `uqSl2RigidCategory` and `uqSl2PivotalCategory` for every q≠0, and the finite-module category is spherical for q−q⁻¹≠0 (`uqSl2_sphericalCategory`).
+- A group-like unit g with S²=Ad(g) gives a pivotal structure whose right and left traces of an endomorphism f are tr(gf) and tr(g⁻¹f); at U_q the rigid and pivotal structures with pivot K⁻¹ are instances for every q≠0, and the finite-module category with them is spherical for q−q⁻¹≠0, a hypothesis that cannot be dropped.
 - Normalized Clebsch–Gordan maps obey the stated recurrence, invertibility, dual compatibility and pentagon.
 
 **Checks.**
