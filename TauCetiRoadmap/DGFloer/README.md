@@ -177,7 +177,10 @@ there:
 
 Layer 1 item 2 keeps its number for the cubical transport, and Layer 1 item 4 for the mod-2
 chain comparison, the mod-2 vanishing of `K(A, n)`, the one-step lemma and the mod-2 vanishing
-theorem.
+theorem. A citation of Layer 1 item 3 for the spectral sequence of a filtered cochain complex
+itself, its first page, its naturality, its comparison theorem or its convergence for a finite
+or an exhaustive filtration resolves to Tau Ceti's `CochainComplex.spectralSequence` and the API
+listed with it (From Tau Ceti), which Layer 1 item 3 consumes.
 
 The following ids resolve outside their original numbering:
 
@@ -4478,9 +4481,11 @@ Bott, *An application of the Morse theory to the topology of Lie-groups*, §1.
   Layer 6 items 3–4, Layer 10 and Layer 11, for Theorem B, the manifolds abundant with
   2-spheres, the projective loop-space computations and the knotted hypersurfaces.
 - Every citation of Layer 1 items 2–4 for the ordinary theory, whichever roadmap makes it,
-  resolves to AlgebraicTopology through the numbering note (Scope and ownership). Among them are
+  resolves through the numbering note (Scope and ownership) to AlgebraicTopology, except that a
+  citation of Layer 1 item 3 for the spectral sequence of a filtered complex itself, such as
+  MorseTheory M5's, resolves to Tau Ceti's `CochainComplex.spectralSequence`. Among them are
   those of GeneralizedCohomology (G2.10, G5), CharacteristicClasses (the connected-map
-  comparison), MorseTheory M5, ComplexKahlerGeometry, RiemannianGeometry R3,
+  comparison), ComplexKahlerGeometry, RiemannianGeometry R3,
   StableHomotopyKTheory, StringOrientation (the homotopy-fibre exact sequence, the homological
   and multiplicative cohomological Serre spectral sequences, and Hurewicz modulo a Serre class),
   HeegaardFloer, TopologicalKTheory T1.5, SeibergWittenTheory SW3.3a, ReductiveGroups,
