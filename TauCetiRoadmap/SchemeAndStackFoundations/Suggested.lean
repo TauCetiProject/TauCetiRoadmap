@@ -17,8 +17,6 @@ public import TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint
 public import TauCeti.AlgebraicGeometry.Scheme.Regular.Scheme
 public import TauCeti.AlgebraicGeometry.VectorBundle.Degree
 public import TauCeti.CategoryTheory.Limits.Replete
-public import TauCeti.RingTheory.Etale.IndEtale
-public import TauCeti.RingTheory.Henselization.Local
 public import TauCeti.RingTheory.KrullDimension.FiniteType
 public import TauCeti.RingTheory.Nagata
 public import TauCeti.RingTheory.RegularLocalRing.GRing
@@ -33,9 +31,10 @@ theorems against the pinned Mathlib and Tau Ceti, with the few definitions they 
 Headline theorems that are not statable at the pins, and what each lacks:
 
 * §0.12: the étale local ring at a geometric point is a strict henselization of the Zariski
-  local ring (Stacks 04HX). The pins have no ring map from the Zariski stalk to the fibre of the
-  étale structure presheaf; the file states the consequences that need none (henselian, with
-  separably closed residue field).
+  local ring (Stacks 04HX). Its recognition predicate is ModularCurves Layer 4D's
+  `IsHenselization`, a roadmap declaration that this file does not import, and the pins have no
+  ring map from the Zariski stalk to the fibre of the étale structure presheaf; the file states
+  the consequences that need neither (henselian, with separably closed residue field).
 * §2.10: full faithfulness of the étale-to-pro-étale comparison. Its statement needs the left
   adjoint `ν^*` composed with the universe lift of coefficients, both targets of README.md
   §2.10; the file states only that `ν` is a morphism of sites.
@@ -133,32 +132,7 @@ theorem unibranch_finite_components {X Y : Scheme.{u}} [IsLocallyNoetherian X]
         IsClosed (U : Set Y) ∧ IsFinite (U.ι ≫ p) ∧ Etale (U.ι ≫ p) := by
   sorry
 
-/-! ### §0.12 Henselizations of local rings and strict local rings -/
-
-/-- `Rh` is a henselization of the local ring `R` with residue field `L`: a henselian local ring
-that is an ind-étale `R`-algebra, whose residue field is `L` compatibly with the residue map of
-`R`. With `L` the residue field of `R` it recognises the henselization, with `L` a separable
-closure the strict henselization. Stacks, Definition 10.155.3 (04GQ). -/
-class IsLocalRing.IsHenselization (R : Type u) [CommRing R] [IsLocalRing R]
-    (L : Type u) [Field L] [Algebra (IsLocalRing.ResidueField R) L]
-    (Rh : Type u) [CommRing Rh] [IsLocalRing Rh] [Algebra R Rh] : Prop where
-  henselianRing : HenselianRing Rh (IsLocalRing.maximalIdeal Rh)
-  indEtale : TauCeti.Algebra.IndEtale R Rh
-  exists_residueFieldEquiv : ∃ e : L ≃+* IsLocalRing.ResidueField Rh, ∀ r : R,
-    e (algebraMap (IsLocalRing.ResidueField R) L (IsLocalRing.residue R r)) =
-      IsLocalRing.residue Rh (algebraMap R Rh r)
-
-namespace Henselization
-
-/-- The henselization of a local ring along its maximal ideal, built in Tau Ceti as the colimit
-of its étale neighbourhoods, is a henselization with the residue field of `R`.
-Stacks, Lemma 15.12.3 (0A03). -/
-theorem local_henselization (R : Type u) [CommRing R] [IsLocalRing R] :
-    IsLocalRing.IsHenselization R (IsLocalRing.ResidueField R)
-      (TauCeti.Henselization.algebra (IsLocalRing.maximalIdeal R)) := by
-  sorry
-
-end Henselization
+/-! ### §0.12 Strict local rings of schemes -/
 
 /-- The étale local ring of `S` at a geometric point `s : Spec Ω ⟶ S`, `Ω` separably closed: the
 fibre at Mathlib's point `pointSmallEtale s` of the structure presheaf `U ↦ Γ(U, 𝒪_U)` of the
@@ -539,14 +513,6 @@ end SiteCohomology
 namespace QCoh
 
 open TauCeti.AlgebraicGeometry
-
-/-- Over an affine base, the cohomology of quasi-coherent modules on the source of a qcqs
-morphism vanishes in a range depending only on the morphism. Stacks, Lemmas 30.4.1–30.4.6 (01XH). -/
-theorem higherDirectImage_vanishing {X S : Scheme.{u}} (f : X ⟶ S) [QuasiCompact f]
-    [QuasiSeparated f] [IsAffine S] :
-    ∃ N : ℕ, ∀ (F : X.Modules) [F.IsQuasicoherent] (p : ℕ), N ≤ p →
-      Subsingleton (Scheme.Modules.Cohomology F p) := by
-  sorry
 
 /-- Serre's criterion: a quasi-compact scheme on which `H¹` of every quasi-coherent module
 vanishes is affine. Stacks, Lemmas 30.3.1, 30.3.2 and 30.3.4 (01XE). -/

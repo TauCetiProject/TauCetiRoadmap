@@ -7,7 +7,7 @@ on and that neither Mathlib nor another Tau Ceti roadmap owns. From Mathlib's `A
 its morphism classes and its big and small sites, and from the Tau Ceti library's quasi-coherent
 algebras, line-bundle classes, divisors and models of curves, it builds six layers: the
 scheme-theoretic base (relative Proj, extension of coherent sheaves, the local structure of morphisms
-locally of finite type, henselization of pairs, excellent rings, perfect schemes, ideal sheaves);
+locally of finite type, henselian pairs, excellent rings, perfect schemes, ideal sheaves);
 descent, algebraic spaces, torsors, quotients and algebraic stacks; sheaf cohomology on sites with
 the comparison of the Zariski, Nisnevich, étale, fppf and pro-étale topologies, coherent Grothendieck
 duality, Brauer groups and equivariant cohomology; the curve, divisor and Picard theory that glues the
@@ -26,7 +26,7 @@ hypotheses.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), ideal-sheaf comparisons; Tau Ceti's scheme Frobenius (§0.29) and normal schemes with ramification at a point (§0.30) are consumed |
+| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, fibre dimension and limits, strict local rings of schemes and henselian-pair theorems, the Hartogs characterisation of `(S_2)`, CM- and `(S_n)`-quasi-excellence, Nagata theorems, J-2 and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), ideal-sheaf comparisons; Tau Ceti's dimension theory over a field (§0.7), unibranch predicates (§0.10), henselization of pairs (§0.12), catenary, Cohen–Macaulay, Japanese and Nagata predicates (§§0.16–0.18, 0.20), scheme Frobenius (§0.29) and normal schemes with ramification at a point (§0.30) are consumed |
 | [1](#layer-1-descent-algebraic-spaces-and-stacks) | Descent, algebraic spaces and stacks | fpqc/fppf descent, algebraic spaces, group spaces, groupoids, torsors and quotients, algebraic and Deligne–Mumford stacks, moduli spaces, Galois gerbs |
 | [2](#layer-2-sites-and-scheme-cohomology) | Sites and scheme cohomology | site cohomology and torsors, quasi-coherent cohomology and supports, topology comparisons, the Nisnevich site, pro-étale site foundations, coherent duality, Brauer groups, equivariant cohomology |
 | [3](#layer-3-curves-divisors-and-picard-objects) | Curves, divisors and Picard objects | genus checks, degrees and duality for vector bundles on curves, Picard groups, groupoids, norms and torsors, Picard stacks and Abel maps |
@@ -55,9 +55,11 @@ the construction of the gerbe of local splittings.
 
 
 **This roadmap owns** the shared scheme-, space-, site- and coherent-sheaf foundations: the general
-relative Proj and its comparison with the finitely generated case, extension of coherent modules,
-henselization of pairs, the catenary, Cohen–Macaulay, Nagata and excellent packages, perfect schemes
-and perfection, the universal-homeomorphism equivalence of small étale sites (§0.23a),
+relative Proj and its comparison with the finitely generated case, the extension of finite-type,
+finitely presented and coherent modules, the henselian-pair theorems that Tau Ceti's henselization
+of pairs lacks, the Hartogs characterisation of `(S_2)`, CM- and `(S_n)`-quasi-excellence, the Nagata
+theorems that Tau Ceti's Japanese and Nagata predicates lack, the J-2, quasi-excellent and excellent
+predicates, perfect schemes and perfection, the universal-homeomorphism equivalence of small étale sites (§0.23a),
 the pointwise rank of the relative Frobenius of a smooth morphism of varying relative dimension
 (§0.29), the ideal-sheaf comparison API, algebraic spaces with their small étale sites,
 group algebraic spaces, groupoids, torsors and their classes, categorical and geometric quotient predicates,
@@ -108,14 +110,19 @@ comparisons to them and never a second carrier.
   of finite locally free schemes along a faithfully flat morphism, polarised descent of projective
   curves, Weil restriction, the
   relative Grassmannian, the Artinian test algebras `ArtinianTestAlgebra` over `W(k)`,
-  coarse schemes of finite quotient problems*: [ModularCurves](../ModularCurves/README.md) Layers
-  0B–0G, 7D and 9D. Group algebraic spaces here are `GrpObj` in `Over h_S`; the comparison
+  coarse schemes of finite quotient problems, the recognition predicate of henselizations*:
+  [ModularCurves](../ModularCurves/README.md) Layers
+  0B–0G, 4D, 7D and 9D. Group algebraic spaces here are `GrpObj` in `Over h_S`; the comparison
   functor from ModularCurves' group schemes is a target of Layer 1. The strict henselization of a
   local ring is the pinned Tau Ceti carrier `TauCeti.StrictHenselization.algebra` (the colimit of
   pointed étale neighbourhoods; Stacks, Definition 10.155.3 (04GQ), in the colimit form of Lemma
-  10.155.11 (04GW)), recognised by §0.12's `IsLocalRing.IsHenselization`. ModularCurves Layer 4D
-  states its further properties, miracle flatness and the openness of the regular locus over an
-  excellent base; it consumes §0.12 and supplies nothing here.
+  10.155.11 (04GW)), recognised by ModularCurves Layer 4D's `IsHenselization` (a henselian local
+  ring, ind-étale over the base, with a surjection onto the prescribed field), with
+  `StrictHenselization.isHenselization`, `IsHenselization.existsUnique_comp_eq` (Stacks 08HR) and
+  `IsHenselization.bijective_of_comp_eq` (08HT); §0.12 states the strict local rings of schemes on
+  that predicate. Layer 4D also states the further properties of the strict henselization, miracle
+  flatness and the openness of the regular locus over an excellent base; this roadmap consumes
+  Layer 4D and supplies nothing to it.
 - *Invertible sheaves and the Picard group (`TauCeti.AlgebraicGeometry.LineBundleClass`, a
   commutative group), coherent cohomology of a proper curve over a field with the genus,
   Riemann–Roch and Serre duality for line bundles, relative cohomology and base change, the Picard
@@ -144,7 +151,7 @@ The sites, the coefficient sheaves `𝔾_a`, `𝔾_m`, `μ_n`, Hilbert 90, the K
 sequences, `𝔾_m` on curves, Tsen and Brauer groups remain owned here, together with the Galois,
 limit, Hochschild–Serre, Gabber and hypercovering theorems for arbitrary abelian sheaves and the
 pro-étale site foundations. In particular, §§2.1–2.2 own *Sheaf.derivedPushforward*,
-`Sheaf.higherDirectImage` and *leray_spectral_sequence* for generic sites and abelian D⁺ complexes.
+*Sheaf.higherDirectImage* and *leray_spectral_sequence* for generic sites and abelian D⁺ complexes.
 Scheme compactifications, Nagata existence and common refinements are constructed downstream
 in EtaleCohomologyFoundations. The full cotangent complex, polynomial resolutions, general
 square-zero obstruction API and derived module algebra are constructed downstream in
@@ -167,6 +174,15 @@ pinned libraries; each is cited where it lives and is not a target here.
   AlgebraicVectorBundles L1A (`pullbackQuasicoherentAlgebra`), L1B (`relativeSpecHomEquiv`,
   `relativeSpecEquiv`, `relativeSpecBaseChangeIso`) and L2A (`GradedQuasicoherentAlgebra`,
   `symmetricAlgebra`, `gradedSymmetricAlgebra`; graded pieces `SheafOfModules.symmetricPower`).
+- Much of the commutative algebra and local scheme theory of Layer 0 is in the pinned Tau Ceti,
+  and each subsection opens with its pinned declarations and keeps as targets only what they lack:
+  the morphism properties of relative spectra (§0.2), the closure properties of quasi-coherent
+  modules and their extension along quasi-compact open immersions (§0.4), the dimension theory of
+  schemes locally of finite type over a field (§0.7), étale coordinates (§0.8), the unibranch
+  predicates (§0.10), the henselization of a pair with its universal property (§0.12), the
+  characterisation of henselian pairs by étale sections and most of their permanence (§0.14), the
+  catenary, depth, Cohen–Macaulay and Serre packages (§§0.16–0.18), and the Japanese and Nagata
+  predicates with the criteria of Stacks, Section 10.161 and finite normalization (§0.20).
 - A connected locally Noetherian scheme with domain stalks is irreducible:
   `TauCeti.AlgebraicGeometry.irreducibleSpace_of_connected_of_isDomain_stalk`, which with Mathlib's
   `AlgebraicGeometry.isReduced_of_isReduced_stalk` and `isIntegral_of_irreducibleSpace_of_isReduced` gives the
@@ -250,18 +266,16 @@ Props. 3.19–3.21) are consumed with derived tensor products and Frobenius twis
 invertible, are defined by the ℓ-adic roadmaps on §5.1 and §5.6 (Milne LEC, §23, Thm. 23.4), compatible
 with products, proper pushforward and Gysin maps.
 
-**Owned here for others.** Henselization of pairs (§0.12, on the pinned `TauCeti.Henselization.algebra`), the Hartogs
-characterisation of `(S_2)` (§0.17) and the CM- and `(S_n)`-quasi-excellence predicates
+**Owned here for others.** The henselian-pair theorems that the pins lack (§0.14, on the pinned
+`TauCeti.Henselization.algebra` of §0.12), the Hartogs characterisation of `(S_2)` (§0.17) and the CM- and `(S_n)`-quasi-excellence predicates
 (§0.19), site-cohomology functoriality and étale cohomology of limits (§§2.1, 2.15), the
 pro-étale site foundations (§2.17), Picard torsors (§3.6), adic thickening systems and algebraization of compatible morphisms
 (§§4.7–4.10), deformation functors and Schlessinger's theorem (§§4.3–4.5), Hilbert and Quot schemes
 and Chow's lemma (§§4.12, 4.14), the moduli stack of stable pointed curves with its finite projective
 cover (§4.15), de Jong's alterations (§§4.16–4.20), the theorem on formal functions (§4.9, consumed by
 JacobianChallenge Layer C), and projective bundles with the splitting principle (§5.4) are planned
-here for the roadmaps that import them. So are the recognition predicate of henselizations and
-strict henselizations of local rings (§0.12, `IsLocalRing.IsHenselization`, with uniqueness
-through the canonical lifts), which ModularCurves Layer 4D consumes together with
-`local_henselization`, and the strict local rings of schemes (§0.12), the étale-site functor of a morphism (§0.23a), the
+here for the roadmaps that import them. So are the strict local rings of schemes (§0.12, on
+ModularCurves Layer 4D's recognition predicate), the étale-site functor of a morphism (§0.23a), the
 sheaf functors `f^{-1} ⊣ f_*` of the small étale sites (§2.1), their slices (§2.5) and the single
 étale/pro-étale comparison `ν` with its change of coefficient universe (§2.10).
 
@@ -433,6 +447,51 @@ used with its pinned meaning; the section that consumes it is in parentheses).
 - `AlgebraicGeometry.Proj.isPullback_baseChange`
   (`TauCeti/AlgebraicGeometry/ProjectiveSpectrum/BaseChange.lean`): `Proj` of a graded algebra
   commutes with base change, with both maps of the square named (§0.3).
+- `AlgebraicGeometry.Scheme.Hom.pushforwardStructureAlgebra`
+  (`TauCeti/AlgebraicGeometry/Modules/Algebra/RegularFunctions.lean`),
+  `AlgebraicGeometry.Scheme.Hom.isBaseChange_pullbackSections_of_isQuasiSeparated`
+  (`TauCeti/AlgebraicGeometry/Modules/Pullback/BaseChange.lean`) (§0.1);
+  `CategoryTheory.CommMon.isAffineHom_relativeSpecToBase`, `relativeSpecPushforwardIso` and the
+  criteria `relativeSpec_finiteType_iff`, `relativeSpec_finitePresentation_iff`,
+  `relativeSpec_finite_iff`, `relativeSpec_etale_iff`, `relativeSpec_integral_iff`,
+  `relativeSpec_isClosedImmersion_iff` (`TauCeti/AlgebraicGeometry/RelativeSpec/Basic.lean`,
+  `Unit.lean`, `MorphismProperties.lean`) (§0.2).
+- The closure properties and extension of quasi-coherent modules in
+  `TauCeti/AlgebraicGeometry/Modules/Quasicoherent/` (`Kernels.lean`, `Cokernels.lean`,
+  `Images.lean`, `Colimits.lean`, `Pushforward/QuasiSeparated.lean` with
+  `AlgebraicGeometry.Scheme.Modules.isQuasicoherent_pushforward`, and `Extension.lean` with
+  `AlgebraicGeometry.Scheme.Modules.exists_isQuasicoherent_restrict_iso` and
+  `exists_mono_restrict_iso_of_isQuasicoherent`) (§§0.1, 0.4).
+- The dimension theory of schemes locally of finite type over a field in
+  `TauCeti/AlgebraicGeometry/Scheme/LocalDimension.lean` and `Scheme/KrullDimension.lean` (§0.7).
+- `AlgebraicGeometry.SmoothOfRelativeDimension.exists_etale_affineSpace` and
+  `AlgebraicGeometry.Smooth.exists_etale_affineSpace`
+  (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/EtaleCoordinates.lean`) (§0.8).
+- `IsLocalRing.IsUnibranch`, `IsLocalRing.IsGeometricallyUnibranch` and their API
+  (`TauCeti/RingTheory/LocalRing/Unibranch.lean`), `AlgebraicGeometry.Scheme.IsGeometricallyUnibranchAt`
+  and `AlgebraicGeometry.IsGeometricallyUnibranch` (`TauCeti/AlgebraicGeometry/Scheme/Unibranch.lean`)
+  (§0.10).
+- `AlgebraicGeometry.FormallyUnramified.iff_formallyUnramified_fiberToSpecResidueField`
+  (`TauCeti/AlgebraicGeometry/Morphisms/FormallyUnramified.lean`) (§0.11).
+- The henselization of a pair and its API in `TauCeti/RingTheory/Henselization/` and
+  `TauCeti.Algebra.FormallyUnramified.ext_of_quotient_eq` (`TauCeti/RingTheory/Unramified/Diagonal.lean`)
+  (§§0.12, 0.13); the henselian-pair API in `TauCeti/RingTheory/Henselian/` (`Section.lean`,
+  `Idempotent.lean`, `Quotient.lean`, `Product.lean`, `DirectLimit.lean`, `Radical.lean`,
+  `Ideal.lean`, `Etale.lean`) (§0.14).
+- The Japanese and Nagata criteria `TauCeti.Ring.isJapanese_iff_isN1`,
+  `isJapanese_iff_isPurelyInseparable`, `IsJapanese.of_isIntegrallyClosed`,
+  `isJapanese_of_isLocalization`, `IsJapanese.of_finite` and the N-1 local criterion
+  (`TauCeti/RingTheory/Japanese.lean`), `TauCeti.Ring.IsJapanese.polynomial` and `.mvPolynomial`
+  (`TauCeti/RingTheory/IntegralClosure/MvPolynomial.lean`), `TauCeti.Ring.isNagata_iff_isJapanese`
+  (`Nagata.lean`), `IsUniversallyJapanese.of_finiteType` and `.isNagata_of_finiteType`
+  (`UniversallyJapanese.lean`), and `TauCeti.AlgebraicGeometry.isFinite_fromNormalization_of_isJapanese`
+  (`TauCeti/AlgebraicGeometry/Normalization/Finite.lean`) (§0.20).
+- `AlgebraicGeometry.Scheme.Hom.exists_subsingleton_cohomology_of_isAffine`,
+  `AlgebraicGeometry.Scheme.Modules.exists_subsingleton_cohomology` and
+  `AlgebraicGeometry.Scheme.Hom.exists_isZero_higherDirectImage`
+  (`TauCeti/AlgebraicGeometry/Cohomology/QuasiSeparated.lean`), and the twisting-sheaf cohomology of
+  projective space in `TauCeti/AlgebraicGeometry/Cohomology/ProjectiveSpace/` and
+  `Cohomology/ProjectiveLine/NegativeTwist.lean` (§2.6).
 - `TauCeti.Huber.IsPseudoCoherentOver` (`TauCeti/Algebra/Module/PseudoCoherent/Basic.lean`, with
   `BaseChange.lean`, `TwoOutOfThree.lean`, `Descent.lean`) and
   `AlgebraicGeometry.Scheme.Modules.IsPseudoCoherent`,
@@ -509,7 +568,7 @@ used with its pinned meaning; the section that consumes it is in parentheses).
   `TauCeti/AlgebraicGeometry/Curves/HighDegree.lean` (§§3.2–3.3).
 - `TauCeti.AlgebraicGeometry.IsThickening`, `IsFirstOrderThickening`,
   `isThickening_iff_ker_le_nilradical`, `IsFirstOrderThickening.SpecMap_iff`,
-  *IsThickening.isUniversalHomeomorphism* (`TauCeti/AlgebraicGeometry/Morphisms/Thickening.lean`)
+  `TauCeti.AlgebraicGeometry.IsThickening.isUniversalHomeomorphism` (`TauCeti/AlgebraicGeometry/Morphisms/Thickening.lean`)
   (§§4.1, 4.7).
 - `TauCeti.AlgebraicGeometry.IsModification` (`TauCeti/AlgebraicGeometry/Morphisms/Modification/Basic.lean`),
   `TauCeti.AlgebraicGeometry.IsRegular` (`TauCeti/AlgebraicGeometry/Scheme/Regular/Scheme.lean`),
@@ -538,8 +597,10 @@ finitely generated algebras, relative ampleness, polarised descent), Layer 3 (pr
 stable and `n`-pointed families), Layer 4 (blow-ups, strict transforms along blow-ups, intersection
 numbers on arithmetic surfaces). **From ModularCurves**: 0B (group objects and finite locally free
 group schemes), 0C (affine invariant quotients), 0D (finite étale schemes and Galois sets), 0E
-(effective descent), 0F (Weil restriction), 0G (the Grassmannian), 7D (`ArtinianTestAlgebra`), 9D
-(coarse schemes). **From JacobianChallenge**: A
+(effective descent), 0F (Weil restriction), 0G (the Grassmannian), 4D (`IsHenselization`,
+`StrictHenselization.isHenselization`, `IsHenselization.existsUnique_comp_eq`,
+`IsHenselization.bijective_of_comp_eq`, the regular locus), 7D (`ArtinianTestAlgebra`), 9D (coarse
+schemes). **From JacobianChallenge**: A
 (`Pic`, degree), B (coherent cohomology over `k`, genus, Riemann–Roch and Serre duality for line
 bundles), C (relative cohomology and base change, symmetric powers), D (Picard functor, `Pic⁰`,
 Picard–Brauer obstruction), E (abelian varieties), F (Abel–Jacobi). **From AlgebraicCurves**: 3
@@ -572,7 +633,7 @@ of pointed étale neighbourhoods:
 | Section | Interface and convention |
 | --- | --- |
 | §0.23a / `universalHomeomorphismEtaleEquivalence` | Scheme base change gives the equivalence of small étale sites, preserving and reflecting covers, with coherent composition and arbitrary base change. |
-| §0.12 / `IsLocalRing.IsHenselization`, `Scheme.strictLocalRing` | One recognition predicate for every model of the henselization and of the strict henselization of a local ring (henselian, ind-étale, prescribed residue field); the étale local ring at an unbundled geometric point `Spec (.of Ω) ⟶ S`, `Ω` separably closed, is a strict henselization of the Zariski local ring. |
+| §0.12 / `Scheme.strictLocalRing` | The étale local ring at an unbundled geometric point `Spec (.of Ω) ⟶ S`, `Ω` separably closed, as the fibre of the étale structure presheaf; it is strictly henselian, and a strict henselization of the Zariski local ring under ModularCurves Layer 4D's `IsHenselization`. |
 | §0.23a / `Scheme.Hom.etaleSite`, *Scheme.Hom.etaleSiteComp* | Base change on Mathlib's small étale sites for every morphism of schemes: continuous, finite-limit preserving and pseudofunctorial; the universal-homeomorphism equivalence is this functor. |
 | §2.1 / `Scheme.etalePullback`, `Scheme.etalePushforward`, *Scheme.etaleAdjunction* | `f^{-1} ⊣ f_*` on `Sheaf (Scheme.smallEtaleTopology X) A` for every `A` with `Category.{u} A`, `X : Scheme.{u}`; `f^{-1}` is exact for Grothendieck abelian `A`; no Noetherian, separatedness or finiteness hypothesis. |
 | §2.5 / *Etale.overEquiv* | The slice of the small étale site of `X` at `U` is the small étale site of `U.left`, as a site. |
@@ -604,9 +665,10 @@ gluing, fibre products and the named morphism classes with their base-change sta
 AlgebraicVectorBundles provide quasi-coherent algebras, the relative spectrum and graded algebras.
 Layer 0 adds the sheaf comparison and direct-image algebras, the general relative Proj compared with
 StableReduction's finitely generated case, extension of coherent sheaves and Hartogs statements, the
-dimension theory and limit theory of morphisms locally of finite type, henselization of pairs as a
-small colimit of étale neighbourhoods, the catenary, Cohen–Macaulay, Nagata and excellent packages,
-perfect schemes and perfection, flat base change of annihilators and cokernels, and the ideal-sheaf
+fibre dimension and limit theory of morphisms locally of finite type, the strict local rings of
+schemes and the henselian-pair theorems on Tau Ceti's henselization of pairs, the Hartogs and
+quasi-excellence statements on Tau Ceti's Cohen–Macaulay package, the Nagata theorems that Tau
+Ceti's Japanese and Nagata predicates lack, the excellent packages, perfect schemes and perfection, flat base change of annihilators and cokernels, and the ideal-sheaf
 comparison API that closed immersions need.
 
 **Conventions of this layer.** `S_aff` is Mathlib's small affine Zariski site `S.AffineZariskiSite`.
@@ -626,15 +688,24 @@ Construct, for a quasi-coherent `O_S`-algebra `A`, the coequifibered presheaf of
 that Mathlib's relative gluing consumes, `U ↦ A(U)` with the localisation maps
 `CommMon.isLocalization_basicOpen`, and prove the comparison *sectionsPresheaf_iso*: the sheaf of
 algebras it generates is `A` itself as a sheaf of `O_S`-algebras, naturally in `A` (Stacks, Situation
-27.3.1 (01LM), Lemma 27.3.2 (01LN)). Define *pushforwardAlgebra* `f`, the direct image `f_* O_X` for
-`f : X → S` quasi-compact and quasi-separated, as a quasi-coherent `O_S`-algebra (the direct image of
-a quasi-coherent module along such an `f` is quasi-coherent by Stacks, Lemma 26.24.1 (01LC)), and
-prove *pushforwardAlgebra_affine*: for `f` affine it is AlgebraicVectorBundles L1A's
-`affineFunctions`, and *pushforwardAlgebra_baseChange*: for a flat `g : S' → S` with base change
-`f' : X' → S'`, the base change map `g^* f_* O_X → f'_* O_{X'}` is an isomorphism of
-`O_{S'}`-algebras (Stacks, Lemma 30.5.2 (02KH), the case `i = 0`).
-*Needs:* Tau Ceti `QuasicoherentAlgebra`, `CommMon.sectionsPresheaf`; AlgebraicVectorBundles L1A;
-Mathlib `QuasiCompact`, `QuasiSeparated`.
+27.3.1 (01LM), Lemma 27.3.2 (01LN)). The direct image `f_* O_X` as a commutative `O_S`-algebra is
+Tau Ceti's `AlgebraicGeometry.Scheme.Hom.pushforwardStructureAlgebra f`
+(`TauCeti/AlgebraicGeometry/Modules/Algebra/RegularFunctions.lean`), defined for every morphism
+`f : X → S`; for `f` quasi-compact and quasi-separated its underlying module is quasi-coherent by
+Tau Ceti's instance `AlgebraicGeometry.Scheme.Modules.isQuasicoherent_pushforward`
+(`TauCeti/AlgebraicGeometry/Modules/Quasicoherent/Pushforward/QuasiSeparated.lean`; Stacks, Lemma
+26.24.1 (01LC)), so it is then a quasi-coherent `O_S`-algebra. The name *pushforwardAlgebra* cited
+from this section denotes it; for `f` affine, AlgebraicVectorBundles L1A's `affineFunctions` is
+built on it (Tau Ceti's `TauCeti.AlgebraicGeometry.affineFunctions_obj_unop_obj`), so the affine
+comparison is not a target. Prove *pushforwardAlgebra_baseChange*: for a flat `g : S' → S` with
+base change `f' : X' → S'` of a quasi-compact quasi-separated `f`, the base change map
+`g^* f_* O_X → f'_* O_{X'}` is an isomorphism of `O_{S'}`-algebras (Stacks, Lemma 30.5.2 (02KH), the
+case `i = 0`); over affine opens of `S` and `S'` this is Tau Ceti's
+`AlgebraicGeometry.Scheme.Hom.isBaseChange_pullbackSections_of_isQuasiSeparated` applied to
+`O_X`. *Needs:* Tau Ceti `QuasicoherentAlgebra`, `CommMon.sectionsPresheaf`,
+`Scheme.Hom.pushforwardStructureAlgebra`, `Scheme.Modules.isQuasicoherent_pushforward`,
+`AlgebraicGeometry.Scheme.Hom.isBaseChange_pullbackSections_of_isQuasiSeparated`; AlgebraicVectorBundles L1A;
+Mathlib `QuasiCompact`, `QuasiSeparated`, `Flat`.
 
 **Checks.**
 - *sectionsPresheaf_structureSheaf*: for `A = O_S` the presheaf is `U ↦ Γ(U, O_S)` and the
@@ -664,17 +735,23 @@ pushforward theorem is [Lemma 26.24.1 (01LC)](https://stacks.math.columbia.edu/t
 
 ### 0.2 Morphism properties of relative spectra and modules on them
 
-Prove, for `p : Spec_S(A) → S` the relative spectrum of a quasi-coherent algebra: `p` is affine,
-with `p_* O = A` (Stacks, Lemma 27.4.6 (01LX)); `p` is of finite type, of finite presentation,
-finite, integral, a closed immersion, respectively, iff `A` is locally of finite type, of finite
-presentation, finite, integral, a quotient of `O_S`, as an `O_S`-algebra
-(`relativeSpec_finiteType_iff` and the four companions). Over an affine open `U ⊆ S` the preimage
-is `Spec A(U)`, so each equivalence is the affine-local description of the morphism property:
-Stacks, Lemma 29.15.2 (01T2) for finite type and Lemma 29.22.2 (01TQ) for finite presentation, each
-with Lemma 29.11.2 (01S7) (an affine morphism is quasi-compact and separated); Lemma 29.45.2 (02K8)
-for integral; Lemma 29.45.3 (01WI) for finite; Lemma 29.2.1 (01QO) for closed immersions. Prove *relativeSpec_modulesEquiv*: quasi-coherent `O_{Spec_S(A)}`-modules are equivalent to
+The morphism properties of the relative spectrum `p : Spec_S(A) → S` of a quasi-coherent algebra
+are Tau Ceti's. `p` is affine by the instance `CategoryTheory.CommMon.isAffineHom_relativeSpecToBase`
+(`TauCeti/AlgebraicGeometry/RelativeSpec/Basic.lean`), and `p_* O ≅ A` is
+`CategoryTheory.CommMon.relativeSpecPushforwardIso` (`Unit.lean`; Stacks, Lemma 27.4.6 (01LX)). In
+`TauCeti/AlgebraicGeometry/RelativeSpec/MorphismProperties.lean`,
+`CategoryTheory.CommMon.relativeSpec_finiteType_iff`, `relativeSpec_finitePresentation_iff`,
+`relativeSpec_finite_iff`, `relativeSpec_etale_iff`, `relativeSpec_integral_iff` and
+`relativeSpec_isClosedImmersion_iff` say that `p` is locally of finite type, locally of finite
+presentation, finite, étale, integral, respectively a closed immersion, iff for every affine open
+`U ⊆ S` the algebra `A(U)` is of finite type, finitely presented, module-finite, étale, integral,
+respectively a quotient of `O_S(U)`; as `p` is affine, hence quasi-compact and separated (Stacks,
+Lemma 29.11.2 (01S7)), the first two are the global finite-type and finite-presentation conditions
+(Lemmas 29.15.2 (01T2), 29.22.2 (01TQ), 29.45.2 (02K8), 29.45.3 (01WI), 29.2.1 (01QO)). This
+subsection keeps one target. Prove *relativeSpec_modulesEquiv*: quasi-coherent `O_{Spec_S(A)}`-modules are equivalent to
 quasi-coherent `O_S`-modules with an `A`-module structure, by `p_*`, with quasi-inverse
-`G ↦ p^*G ⊗_{p^*A} O_{Spec_S A}` using the canonical algebra map `p^*A → O_{Spec_S A}` (Stacks, Lemma 29.11.7 (01SB)). *Needs:* §0.1; Tau Ceti `CommMon.relativeSpec`;
+`G ↦ p^*G ⊗_{p^*A} O_{Spec_S A}` using the canonical algebra map `p^*A → O_{Spec_S A}` (Stacks, Lemma
+29.11.7 (01SB)). *Needs:* §0.1; Tau Ceti `CommMon.relativeSpec`, `relativeSpecPushforwardIso`;
 AlgebraicVectorBundles L1B.
 
 **Checks.**
@@ -752,16 +829,25 @@ in this README only.
 
 ### 0.4 Direct images and extension of quasi-coherent and coherent modules
 
-Prove *qcoh_pushforward*: kernels, cokernels, images, direct sums and colimits of quasi-coherent
-modules are quasi-coherent, and for `f : X → Y` quasi-compact and quasi-separated `f_*` sends
-quasi-coherent modules to quasi-coherent modules, the enumerated list of Stacks, Section 26.24 (01LA)
-and Lemma 26.24.1 (01LC). Prove *qcoh_extension*: for `j : U → X` a quasi-compact open immersion into
-a quasi-compact quasi-separated scheme, every quasi-coherent `O_U`-module `F` is `j^*G` for a
-quasi-coherent `G` on `X` (Stacks, Lemma 28.23.1 (01PE), part (1)); for a quasi-coherent `G` on `X`,
-every quasi-coherent submodule of `j^*G` is `j^*G'` for a quasi-coherent submodule `G' ⊆ G`
-(Lemma 28.23.1 (01PE), part (2)), and a finite-type quasi-coherent submodule of `j^*G` is `j^*G'`
-for a finite-type quasi-coherent submodule `G' ⊆ G` (Lemma 28.23.2 (01PF)); a finite-type
-quasi-coherent `F` extends to a finite-type quasi-coherent `G`, and a finitely presented `F` to a
+The closure properties of quasi-coherent modules and their extension along quasi-compact open
+immersions are Tau Ceti's: the instances `AlgebraicGeometry.Scheme.Modules.isQuasicoherent_kernel`,
+`isQuasicoherent_cokernel`, `isQuasicoherent_image`, `isQuasicoherent_sigma` and
+`isQuasicoherent_isClosedUnderColimitsOfShape` with `TauCeti.AlgebraicGeometry.isQuasicoherent_of_isColimit`
+(`TauCeti/AlgebraicGeometry/Modules/Quasicoherent/Kernels.lean`, `Cokernels.lean`, `Images.lean`,
+`Colimits.lean`: kernels, cokernels, images, coproducts and small colimits of quasi-coherent
+modules), and `AlgebraicGeometry.Scheme.Modules.isQuasicoherent_pushforward`
+(`Pushforward/QuasiSeparated.lean`: `f_*` preserves quasi-coherence for `f` quasi-compact and
+quasi-separated) are the enumerated list of Stacks, Section 26.24 (01LA) and Lemma 26.24.1 (01LC);
+the name *qcoh_pushforward* cited from this section denotes them. For a quasi-compact open immersion
+`j : U → X`, with no hypothesis on `X`, `AlgebraicGeometry.Scheme.Modules.exists_isQuasicoherent_restrict_iso`
+(every quasi-coherent `O_U`-module is `j^*G` for a quasi-coherent `G`, namely `j_*F`) and
+`AlgebraicGeometry.Scheme.Modules.exists_mono_restrict_iso_of_isQuasicoherent` (a quasi-coherent
+submodule of `j^*G` is `j^*G'` for a quasi-coherent submodule `G' ⊆ G`, unchanged over every open
+where the submodule is everything) are parts (1) and (2) of Lemma 28.23.1 (01PE)
+(`Extension.lean`). Prove what the pin lacks, *qcoh_extension*: for `j : U → X` a quasi-compact open
+immersion into a quasi-compact quasi-separated scheme and a quasi-coherent `G` on `X`, a finite-type
+quasi-coherent submodule of `j^*G` is `j^*G'` for a finite-type quasi-coherent submodule
+`G' ⊆ G` (Lemma 28.23.2 (01PF)); a finite-type quasi-coherent `F` extends to a finite-type quasi-coherent `G`, and a finitely presented `F` to a
 finitely presented `G` (Lemma 28.23.5 (0G41)), and a map from a finitely presented `F` to `j^*H`,
 for `H` quasi-coherent on `X`, extends to a map from a finitely presented extension of `F` to `H`
 (Lemma 28.23.4 (01PI)). Prove *coherent_extension*: on a Noetherian scheme, where coherent means
@@ -771,8 +857,9 @@ quasi-coherent of finite type (Stacks, Lemma 30.9.1 (01XZ)), every coherent `O_U
 subsheaf of `G` (Stacks, Lemma 28.23.2 (01PF)). Prove
 *locallyFree_coherent_extension*: a finite locally free sheaf on an open `U` of a Noetherian scheme
 extends to a coherent sheaf on `X` (Stacks, Lemma 28.23.5 (0G41)); it need not extend to a locally
-free one, which is the content of §0.6's reflexive hull. *Needs:* Mathlib `QuasiCompact`,
-`QuasiSeparated`, `SheafOfModules.IsQuasicoherent`, `IsFinitePresentation`; JacobianChallenge Layer B.
+free one, which is the content of §0.6's reflexive hull. *Needs:* Tau Ceti as above; Mathlib
+`QuasiCompact`, `QuasiSeparated`, `SheafOfModules.IsQuasicoherent`, `IsFinitePresentation`;
+JacobianChallenge Layer B.
 
 ### 0.5 Pseudo-coherent modules
 
@@ -921,14 +1008,21 @@ open neighbourhoods `U` of `x` of Mathlib's `topologicalKrullDim` of the subspac
 `topologicalKrullDimAt_le` (`dim_x X ≤ dim X`), `topologicalKrullDimAt_nonneg`,
 `iSup_topologicalKrullDimAt` (`dim X = sup_x dim_x X`), `topologicalKrullDimAt_eq` (invariance
 under open embeddings), `topologicalKrullDimAt_of_isHomeomorph` and
-`topologicalKrullDimAt_eq_zero_of_isOpen_singleton`. Prove *topologicalKrullDimAt_eq_stalk* (for a
-scheme locally of finite type over a field, `dim_x X = dim O_{X,x} + trdeg κ(x)`) and define
-*fiberDimAt* for a morphism, the local dimension of the fibre through a point.
-Prove *dimension_theory_finiteType*: for `X` locally of finite type over a field `k` and `x ∈ X`,
-`dim_x X` is the maximum of `trdeg_k κ(ξ)` over generic points of components through `x`,
-`dim O_{X,x} + trdeg_k κ(x) = dim_x X`, and `dim X = dim X_{k'}` for every field extension (Stacks,
-Lemmas 10.116.1 (00P0), 10.116.2 (06RP), 10.116.3 (00P1), 10.116.5 (00P3), 10.116.6 (00P4)).
-Prove
+`topologicalKrullDimAt_eq_zero_of_isOpen_singleton`. The dimension theory of schemes locally of
+finite type over a field `k` is Tau Ceti's too, for `X` with `[X.Over (Spec k)]` and
+`LocallyOfFiniteType (X ↘ Spec k)`: in `TauCeti/AlgebraicGeometry/Scheme/LocalDimension.lean`,
+`TauCeti.AlgebraicGeometry.topologicalKrullDimAt_eq_ringKrullDim_stalk_add_toNat_trdeg_residueField`
+(`dim_x X = dim O_{X,x} + trdeg_k κ(x)`), `topologicalKrullDim_closure_singleton_eq_toNat_trdeg_residueField`
+(`dim {x}⁻ = trdeg_k κ(x)`), `topologicalKrullDimAt_eq_iSup_toNat_trdeg_residueField` and
+`topologicalKrullDimAt_eq_iSup_topologicalKrullDim_irreducibleComponents` (`dim_x X` is the
+supremum of `trdeg_k κ(ξ)` over the generic points `ξ` of the irreducible components through `x`);
+and in `TauCeti/AlgebraicGeometry/Scheme/KrullDimension.lean`,
+`TauCeti.AlgebraicGeometry.topologicalKrullDim_pullback_Spec_map_of_field` (`dim X_{k'} = dim X` for
+every field extension `k'/k`) (Stacks, Lemmas 10.116.1 (00P0), 10.116.2 (06RP), 10.116.3 (00P1),
+10.116.5 (00P3), 10.116.6 (00P4)). The names *topologicalKrullDimAt_eq_stalk* and
+*dimension_theory_finiteType* cited from this section denote these declarations. Define
+*fiberDimAt* for a morphism `f : X → Y`: at `x`, the local dimension `dim_x X_{f(x)}` of the fibre
+through `x`, read on the scheme-theoretic fibre with its point over `x`. Prove
 *geometric_irreducible_components*: for a scheme `X` of finite type over `k` and a field extension
 `k'/k`, the irreducible components of `X_{k'}` map onto those of `X` (Stacks, Lemma 33.8.11 (04KX)),
 bijectively when `k` is separably closed (Lemma 33.8.8 (038H)); the number of irreducible components
@@ -945,7 +1039,8 @@ upper semicontinuous, and for `f` flat and locally of finite presentation the lo
 29.29.6 (02G0)). Prove *fibre_dimension_formula*: for a dominant morphism `f : X → Y` of integral
 schemes of finite type over `k`, `dim_x X_{f(x)} ≥ dim X − dim Y` for every `x`, with equality on a
 dense open (Stacks, Lemma 33.20.4 (0B2L)). *Needs:* Tau Ceti as above; Mathlib `topologicalKrullDim`,
-`topologicalKrullDim_subspace_le`, `ringKrullDim`, `Algebra.trdeg`, `LocallyOfFiniteType`.
+`topologicalKrullDim_subspace_le`, `ringKrullDim`, `Algebra.trdeg`, `LocallyOfFiniteType`,
+`Scheme.Hom.fiber`.
 
 **Checks.**
 - *topologicalKrullDimAt_sum_affineSpace*: for `X = Spec(k[s, t] × k[u])` over a field, the local
@@ -1067,9 +1162,15 @@ geometrically irreducible fibres over `S` (its fibre over `s` is a fibre power o
 and the projection from a product with a geometrically irreducible factor is a bijection on
 irreducible components, Stacks, Lemma 33.8.4 (038F)) and is irreducible when `S` is (the fibre power is flat of
 finite presentation over `S`, hence open by Lemma 29.26.10 (01UA), and a space with an open map onto
-an irreducible space with irreducible fibres is irreducible, Topology, Lemma 5.8.14 (004Z)). Prove *etale_coordinates*: a morphism `f : X → S` smooth at `x` of relative dimension `d`
-admits, on an open neighbourhood `U` of `x`, an étale morphism `U → 𝔸^d_S` over `S` (Stacks, Lemma
-29.37.21 (054L)). Prove *rational_point_component*: a connected scheme smooth over a field with a
+an irreducible space with irreducible fibres is irreducible, Topology, Lemma 5.8.14 (004Z)). Étale coordinates are Tau Ceti's
+`AlgebraicGeometry.SmoothOfRelativeDimension.exists_etale_affineSpace`
+(`TauCeti/AlgebraicGeometry/Morphisms/Smooth/EtaleCoordinates.lean`: for `f : X → S` smooth of
+relative dimension `d`, every point has an affine open neighbourhood `V` with an étale `V → 𝔸^d_S`
+over `S`) and `AlgebraicGeometry.Smooth.exists_etale_affineSpace` (the same for smooth `f`, with `d`
+depending on the point) (Stacks, Lemma 29.37.21 (054L)); for `f` smooth of relative dimension `d`
+only near `x`, apply the first to the restriction of `f` to an open neighbourhood of `x` on which
+it is. The name *etale_coordinates* cited from this section denotes these. Prove
+*rational_point_component*: a connected scheme smooth over a field with a
 rational point is geometrically integral: it is geometrically connected because it is connected
 with a rational point (Stacks, Lemma 33.7.14 (04KV)), geometrically normal and geometrically reduced
 because it is smooth (Lemma 33.25.4 (056T)), so every `X_{k'}` is connected, normal and locally
@@ -1078,8 +1179,9 @@ Noetherian, hence integral (Properties, Lemma 28.7.7 (033N)). Prove *quasi_secti
 and for `f` smooth at `x`, with `x` closed in its fibre and
 `κ(x)/κ(f(x))` separable, there is an étale map `S' → S` and a point `s'`
 over `f(x)`, with `κ(s') ≅ κ(x)` over `κ(f(x))`, and a section whose value
-at `s'` maps to `x` (Stacks, Lemmas 37.38.5 (057G), 37.38.6 (055U)). *Needs:* §0.7; Mathlib `Flat`,
-`Smooth`, `SmoothOfRelativeDimension`, `Etale`, `AffineSpace`, `IsProper`, `Geometrically.Integral`.
+at `s'` maps to `x` (Stacks, Lemmas 37.38.5 (057G), 37.38.6 (055U)). *Needs:* §0.7; Tau Ceti
+`Smooth.exists_etale_affineSpace`; Mathlib `Flat`, `Smooth`, `SmoothOfRelativeDimension`, `Etale`,
+`AffineSpace`, `IsProper`, `Geometrically.Integral`.
 
 **Checks.**
 - *flat_over_dedekind_mixed_dimensions*: over `S = Spec k[t]`, the morphism
@@ -1129,17 +1231,29 @@ through `S` (Stacks, Lemma 30.8.1 (01XT), case `q = 0, d = 0`: `Γ(ℙ^1_S, O) =
 
 ### 0.10 Geometrically unibranch local rings and schemes
 
-Define *IsLocalRing.IsUnibranch* `A`: the reduction `A_red` is a domain and the integral closure `A'`
-of `A_red` in its fraction field is local; *IsLocalRing.IsGeometricallyUnibranch* `A`: unibranch and
-the residue field of `A'` is purely inseparable over that of `A` (Stacks, Definition 15.108.1
-(0BPZ)). Define *Scheme.IsGeometricallyUnibranchAt* `X x` on stalks and `IsGeometricallyUnibranch X`
-at every point. API: `IsGeometricallyUnibranch.of_isIntegrallyClosed` (normal local domains are
-geometrically unibranch), *isUnibranch_iff_irreducible_henselization* and
-*isGeometricallyUnibranch_iff_irreducible_strictHenselization* (the strict henselization
-`TauCeti.StrictHenselization.algebra` at a separable closure of the residue field; Stacks, Lemma
-15.108.5), *IsGeometricallyUnibranch.of_etale*,
-*IsGeometricallyUnibranch.baseChange_sepClosed* (invariance under separable field extension).
-Prove `unibranch_finite_components`: let `X` be locally Noetherian and let `p : Y → X`
+The unibranch predicates are Tau Ceti's. `IsLocalRing.IsUnibranch A`
+(`TauCeti/RingTheory/LocalRing/Unibranch.lean`): the reduction `A_red = A ⧸ nilradical A` is a
+domain and the integral closure `A'` of `A_red` in its fraction field is local;
+`IsLocalRing.IsGeometricallyUnibranch A` for a local ring `A`: moreover the residue field of `A'` is
+purely inseparable over that of `A`, through the local map `A → A'`
+(`IsLocalRing.isLocalHom_algebraMap_integralClosure`) (Stacks, Definition 15.108.1 (0BPZ)); with
+`IsLocalRing.isUnibranch_iff_isLocalRing_integralClosure` for domains, the instance
+`IsLocalRing.IsGeometricallyUnibranch.of_isIntegrallyClosed` (normal local domains) and
+`IsGeometricallyUnibranch.of_isIntegrallyClosed_quotient`. On schemes,
+`AlgebraicGeometry.Scheme.IsGeometricallyUnibranchAt X x` (the stalk at `x` is geometrically
+unibranch) and the class `AlgebraicGeometry.IsGeometricallyUnibranch X` (at every point), with the
+instance `AlgebraicGeometry.IsGeometricallyUnibranch.of_isNormalScheme`
+(`TauCeti/AlgebraicGeometry/Scheme/Unibranch.lean`). Names cited by other roadmaps:
+*IsLocalRing.IsUnibranch*, *IsLocalRing.IsGeometricallyUnibranch* and
+*Scheme.IsGeometricallyUnibranchAt* denote the pinned declarations of the same names. Prove
+*isUnibranch_iff_irreducible_henselization* and
+*isGeometricallyUnibranch_iff_irreducible_strictHenselization* (a local ring is unibranch iff the
+spectrum of its henselization `TauCeti.Henselization.algebra 𝔪` is irreducible, and geometrically
+unibranch iff that of its strict henselization `TauCeti.StrictHenselization.algebra` at a separable
+closure of the residue field is irreducible; Stacks, Lemma 15.108.5),
+*IsGeometricallyUnibranch.of_etale* (a scheme étale over a geometrically unibranch scheme is
+geometrically unibranch) and *IsGeometricallyUnibranch.baseChange_sepClosed* (invariance under
+separable field extension). Prove `unibranch_finite_components`: let `X` be locally Noetherian and let `p : Y → X`
 represent a finite locally constant étale sheaf. Every connected component `C` of `Y` is open
 and closed, and the composite `C ↪ Y → X` is finite étale. Use the existing finite étale
 morphism predicates for the representing map, by [Stacks, Lemma 59.64.4
@@ -1155,8 +1269,8 @@ the stronger component result used there over a Noetherian semilocal base. Prove
 étale, with degree bounded by the product of the degrees, only under the finiteness hypotheses
 of Couveignes's construction (Couveignes 2019, Theorem 1 (p. 1) and Proposition 2 (p. 7)), not
 from the Jacobian condition alone. *Needs:* Mathlib `Scheme.Hom.normalization`,
-`Scheme.Hom.normalizationObjIso`, `IsIntegrallyClosed`, `IsPurelyInseparable`; §0.12 (henselizations
-of local rings); Tau Ceti `TauCeti.StrictHenselization.algebra`.
+`Scheme.Hom.normalizationObjIso`, `IsIntegrallyClosed`, `IsPurelyInseparable`; Tau Ceti as above,
+`TauCeti.Henselization.algebra`, `TauCeti.StrictHenselization.algebra`.
 
 **Checks.**
 - *unibranch_finite_components_eventual_sequences*: let `A ⊆ (ℕ → 𝔽₂)` be the subring of
@@ -1185,9 +1299,9 @@ of local rings); Tau Ceti `TauCeti.StrictHenselization.algebra`.
   not geometrically unibranch (residue extension `ℂ/ℝ` is separable of degree `2`).
 - *IsLocalRing.isGeometricallyUnibranch_of_field*: every field is geometrically unibranch.
 
-*Lean:* `unibranch_finite_components` (for `p` finite and étale);
-*unibranch_finite_components_eventual_sequences*, the unibranch predicates, their
-API and *jacobian_etale_algebra* are specified in this README only.
+*Lean:* `unibranch_finite_components` (for `p` finite and étale); the unibranch predicates are
+Tau Ceti's; *unibranch_finite_components_eventual_sequences*, the henselization characterisations,
+the étale and base-change permanence and *jacobian_etale_algebra* are specified in this README only.
 
 ### 0.11 Descent along field extensions, absolute integral closure, unramified morphisms
 
@@ -1217,51 +1331,68 @@ Prove *unramified_criteria*: a morphism locally of finite type is
 unramified iff every fibre is a disjoint union of spectra of finite separable field extensions; an
 unramified morphism is locally quasi-finite; `f` is unramified at `x` iff `Ω_{X/Y, x} = 0` iff the
 diagonal is an open immersion near `x` (Stacks, Lemmas 29.36.10 (02V5), 29.36.11 (02G7), 29.36.12
-(02G8), 29.36.13 (02GE), 29.36.14 (02GF)). *Needs:* §0.9; Mathlib `FormallyUnramified`,
-`LocallyQuasiFinite`, `Scheme.Hom.normalization`.
+(02G8), 29.36.13 (02GE), 29.36.14 (02GF)). Two inputs are pinned and not restated: Tau Ceti's
+`AlgebraicGeometry.FormallyUnramified.iff_formallyUnramified_fiberToSpecResidueField`
+(`TauCeti/AlgebraicGeometry/Morphisms/FormallyUnramified.lean`: a morphism locally of finite type
+is formally unramified iff all its residue-field fibres are), which reduces the fibre criterion to
+schemes over a field, and Mathlib's instance
+`AlgebraicGeometry.FormallyUnramified.isOpenImmersion_diagonal` (the diagonal of a formally
+unramified morphism locally of finite type is an open immersion), the global form of one direction
+of the diagonal criterion. *Needs:* §0.9; Tau Ceti and Mathlib as above; Mathlib
+`FormallyUnramified`, `LocallyQuasiFinite`, `Scheme.Hom.normalization`.
 
 ### 0.12 Étale neighbourhoods and the henselization of a pair
 
-The pinned Tau Ceti library implements the definitions, the main theorem and the universal
-properties of the first paragraph under `TauCeti.Henselization` (listed under the supplier contracts);
-`Suggested.lean` states the recognition predicate and the strict local rings of the last two
-paragraphs against that implementation, and the other lemmas of this subsection are specified in
-this README only.
-For a ring `R` and ideal `I`, define `IsNeighbourhood I : ObjectProperty
-(CommAlgCat R)`: `B` is an étale `R`-algebra (Mathlib `Algebra.Etale`) such that the canonical map
-`reducedMap I B : R/I → B/IB` is bijective; `Neighbourhood I` is the full subcategory (Stacks, Lemma
-15.12.1, the construction paragraph). Prove *isNeighbourhood_self* (the identity algebra `R`),
-*isNeighbourhood_localization* (`R[1/x]` for `x` a unit modulo `I`, for instance
-`x ≡ 1 mod I`), *isNeighbourhood_tensor* (the tensor
-product of two neighbourhoods is a neighbourhood, so parallel pairs have a common target),
-`parallel_equalization` (two parallel maps of neighbourhoods are equalised by a neighbourhood),
-`neighbourhood_isFiltered` (`Neighbourhood I` is filtered) and `neighbourhood_essentiallySmall`
-(a small model `SmallModel (Neighbourhood I)` in universe `u` exists). Define the **henselization**
-`TauCeti.Henselization.algebra I := colimit (diagram I)` of the small model, with the stage maps
-`stage I B : B → algebra I` and `stage_naturality`, and the extended ideal
-`extended I := I · algebra I`. Prove the stage lemmas: `mem_extended_iff_exists_stage` (an element of
-the extended ideal comes from `I B` at some stage), *exists_stage_monic_polynomial* (a monic
-polynomial over the colimit comes from a stage), *exists_stage_quotient_unit* (a unit modulo the
-extended ideal comes from a unit modulo `IB` at a stage), *exists_stage_simple_root* (a simple root
-modulo the extended ideal is realised at a stage), `quotient_bijective` (`R/I → algebra I / extended
-I` is bijective), *extended_le_jacobson* (`extended I` lies in the Jacobson radical) and
-*simple_root_lift* (a simple root modulo `extended I` lifts). Prove the **main theorem** `henselian`:
-`HenselianRing (algebra I) (extended I)` (Stacks, Lemma 15.12.1). Prove the **universal property**:
-`existsUnique_lift`: for every henselian pair `(S, J)` and ring map `f : R → S` with `f(I) ⊆ J` there
-is a unique `R`-algebra map `algebra I → S` carrying `extended I` into `J`; *fixed_of_henselian*: if
-`(R, I)` is henselian then `R → algebra I` is an isomorphism; `local_henselization`: for a local ring
-`R` with maximal ideal `m` and residue field `κ`, `IsLocalRing.IsHenselization R κ (algebra m)`,
-the recognition predicate of the next paragraph (Stacks, Lemma 15.12.3 (0A03)). The étale-section lemmas that the universal property rests on: *etale_section_selector*
-(an `R`-algebra section `σ : B → R` of an étale algebra is given by an idempotent `e` with
-`B[1/e] ≅ R`), *etale_selector_kernel* (its kernel is generated by `1 − e`),
-*etale_section_product*, *etale_section_localization*, *etale_lift_unique* (two sections agreeing
-modulo an ideal inside the Jacobson radical agree) and *exists_etale_lift* (over a henselian pair a
-section modulo `I` lifts uniquely; Stacks, Lemma 15.11.6 (5)⇒(2) with Lemma 15.11.5). Define
-`TauCeti.Henselization.map f hf : algebra I → algebra J` for a morphism of pairs `f : (R, I) → (S, J)` by
-the universal property, with *map_comp_unit*, `map_extended_le`, `map_id`, `map_comp` and
-*quotient_naturality* (the residue identification is natural). *Needs:* Mathlib `CommAlgCat`,
-`CommAlgCat.Hom`, `IsFiltered`, `SmallModel`, `Limits.colimit`, `Algebra.Etale`, `HenselianRing`,
-`Ideal.jacobson`, `Polynomial`.
+The henselization of a pair is Tau Ceti's, in `TauCeti/RingTheory/Henselization/`; this subsection
+consumes it, pins its conventions in its Checks, and states the strict local rings of schemes on it.
+For a ring `R` and an ideal `I`: `TauCeti.Henselization.reducedMap I B : R/I → B/IB` and
+`TauCeti.Henselization.IsNeighbourhood I : ObjectProperty (CommAlgCat R)` (`B` an étale `R`-algebra,
+Mathlib `Algebra.Etale`, with `reducedMap I B` bijective; Stacks, Lemma 15.12.1, the construction
+paragraph), its full subcategory `TauCeti.Henselization.Neighbourhood I`, and
+`isNeighbourhood_self`, `isNeighbourhood_localization` (`R[1/x]` for `x` a unit modulo `I`),
+`isNeighbourhood_tensor`, `exists_common_target`, `parallel_equalization`,
+`neighbourhood_isFiltered` and `neighbourhood_essentiallySmall` (`Neighbourhood.lean`,
+`Filtered.lean`, `SmallModel.lean`). The **henselization** `TauCeti.Henselization.algebra I` is the
+colimit of a small model of `Neighbourhood I`, with `stage`, `stage_naturality`, `exists_stage_eq`,
+`exists_stage_family` (finitely many elements, for instance the coefficients of a monic polynomial,
+come from one stage) and the extended ideal `TauCeti.Henselization.extended I = I · algebra I`
+(`Algebra.lean`); `mem_extended_iff_exists_stage` and `quotient_bijective` (`R/I → algebra I /
+extended I` is bijective; `Residue.lean`); `isUnit_quotient_stage_iff` and
+`exists_hom_isRoot_sub_mem` (units and simple roots modulo the extended ideal are realised at a
+stage; `Henselian.lean`); `extended_le_jacobson` (`Jacobson.lean`); the **main theorem**, the
+instance `TauCeti.Henselization.henselian : HenselianRing (algebra I) (extended I)` (Stacks, Lemma
+15.12.1); the **universal property** `TauCeti.Henselization.existsUnique_lift` with `lift` and
+`eq_lift` (for a henselian pair `(S, J)` and `R → S` carrying `I` into `J`, exactly one `R`-algebra
+map `algebra I → S` carries `extended I` into `J`), `algHom_ext_of_map_le_jacobson`,
+`algEquivOfHenselianRing` and `bijective_algebraMap_of_henselianRing` (`R → algebra I` is bijective
+when `(R, I)` is henselian; `Lift.lean`); the sections of étale neighbourhoods
+`nonempty_unique_algHom_of_isNeighbourhood` (an étale neighbourhood of a henselian pair `(S, J)`
+has exactly one `S`-algebra map to `S`; Stacks, Lemma 15.11.6 (09XI), condition (2); `Section.lean`);
+and functoriality `TauCeti.Henselization.map f hf : algebra I → algebra J` for `f : R → S` with
+`f(I) ⊆ J`, with `map_comp_algebraMap`, `map_extended_le`, `map_unique`, `map_id`, `map_comp` and
+`quotientMap_comp_reducedMap` (`Map.lean`). For a local ring `R` with maximal ideal `𝔪`,
+`Local.lean` gives the instance `TauCeti.Henselization.henselianLocalRing`, `isLocalHom_algebraMap`,
+`residueField_map_bijective` and `existsUnique_isLocalHom` (Stacks, Lemma 15.12.3 (0A03)).
+This subsection owns no target on pairs. Names cited by other roadmaps: *Henselization.algebra*,
+*Henselization.extended*, *Henselization.henselian*, *Henselization.existsUnique_lift*,
+*Henselization.map*, *Henselization.parallel_equalization*, *isNeighbourhood_self*,
+*isNeighbourhood_localization*, *isNeighbourhood_tensor* and *extended_le_jacobson* denote the
+pinned `TauCeti.Henselization` declarations of the same names; *fixed_of_henselian* →
+`TauCeti.Henselization.algEquivOfHenselianRing`; *exists_stage_monic_polynomial* →
+`TauCeti.Henselization.exists_stage_family`; *exists_stage_quotient_unit* →
+`TauCeti.Henselization.isUnit_quotient_stage_iff`; *exists_stage_simple_root* and
+*simple_root_lift* → `TauCeti.Henselization.exists_hom_isRoot_sub_mem` with the instance
+`TauCeti.Henselization.henselian`; *map_comp_unit* → `TauCeti.Henselization.map_comp_algebraMap`;
+*quotient_naturality* → `TauCeti.Henselization.quotientMap_comp_reducedMap`; *exists_etale_lift*
+(over a henselian pair a section of an étale algebra modulo `I` lifts uniquely) →
+`TauCeti.HenselianRing.comp_bijective` (§0.14); *etale_lift_unique* →
+`TauCeti.Algebra.FormallyUnramified.ext_of_quotient_eq`; *local_henselization* → the Check of
+ModularCurves Layer 4D that `TauCeti.Henselization.algebra 𝔪` with its residue map satisfies
+`IsHenselization`. The étale-section lemmas *etale_section_selector*, *etale_selector_kernel*,
+*etale_section_product* and *etale_section_localization* are steps of the proof of the pinned
+`nonempty_unique_algHom_of_isNeighbourhood` and are not targets.
+*Needs:* Tau Ceti as above; Mathlib `CommAlgCat`, `IsFiltered`, `SmallModel`, `Algebra.Etale`,
+`HenselianRing`, `Ideal.jacobson`.
 
 **Checks.**
 - *neighbourhood_identity*: `R` belongs to `Neighbourhood I` for every `(R, I)`.
@@ -1275,46 +1406,32 @@ the universal property, with *map_comp_unit*, `map_extended_le`, `map_id`, `map_
 - *map_field_identity*, *map_scalar_seven*, *map_quotient_nine*: the induced maps for
   `id : (𝔽_5, 0) → (𝔽_5, 0)`, for `ℤ → 𝔽_5`, and for `(ℤ/9, (3)) → (ℤ/9, (3))`, computed on `1`.
 - *map_can_collapse*: the induced map of `(ℤ, 0) → (ℤ/5, 0)` is not injective.
-- *etale_section_idempotent*: for `𝔽_5 × 𝔽_5 → 𝔽_5` the selector is `(1, 0)` and the kernel is
-  `(0, 1)`; *derivative_not_unit*: `x² − 1` over `𝔽_2` has a non-simple root at `1`.
+- *etale_section_idempotent*: the first projection `𝔽_5 × 𝔽_5 → 𝔽_5`, a section of the étale
+  `𝔽_5`-algebra `𝔽_5 × 𝔽_5`, is cut out by the idempotent `(1, 0)`, its kernel generated by
+  `(0, 1)`; *derivative_not_unit*: `x² − 1` over `𝔽_2` has a non-simple root at `1`, so the
+  simple-root hypothesis of `exists_hom_isRoot_sub_mem` is needed.
 
-*Lean:* none for the first paragraph: its carrier is the pinned Tau Ceti implementation
-`TauCeti.Henselization.reducedMap`, `TauCeti.Henselization.IsNeighbourhood`,
-`TauCeti.Henselization.Neighbourhood`, `TauCeti.Henselization.neighbourhood_isFiltered`,
-`TauCeti.Henselization.neighbourhood_essentiallySmall`, `TauCeti.Henselization.diagram`,
-`TauCeti.Henselization.algebra`, `TauCeti.Henselization.extended`, the `HenselianRing` instance
-`TauCeti.Henselization.henselian`, `TauCeti.Henselization.existsUnique_lift` and
-`TauCeti.Henselization.algEquivOfHenselianRing` (the fixed-pair isomorphism); the identity and
-three `(ℤ, (5))` neighbourhood Checks, the zero- and unit-ideal henselizations, the fixed-pair case
-and the finite-field case are specified in this README only.
+*Lean:* none for the henselization of pairs: its carriers and theorems are the pinned Tau Ceti
+declarations above, and its Checks are specified in this README only.
 
-**Henselizations of local rings.** For a local ring `R` with residue field `κ`, a field `L` with a
-`κ`-algebra structure and a local ring `Rh` with an `R`-algebra structure, define the class
-`IsLocalRing.IsHenselization R L Rh`: `Rh` is henselian (Mathlib `HenselianRing Rh 𝔪_{Rh}`), `Rh`
-is an ind-étale `R`-algebra (§0.13's ind-étale predicate, implemented in the pinned Tau Ceti library as
-`TauCeti.Algebra.IndEtale`), and some ring isomorphism `L ≅ κ(Rh)` carries the image in `L` of
-every `r ∈ R` to the residue of the image of `r` in `Rh`; the structure map is then local. One
-predicate recognises every model of the henselization (`L = κ`) and of the strict henselization
-(`L` a separable closure of `κ`) (Stacks, Definition 10.155.3 (04GQ)); it carries no hypothesis on
-`L`, and no model exists unless `L` is separable algebraic over `κ`. A field-valued point
-`R → L` of an arbitrary ring, with kernel `𝔭`, is treated by applying the predicate to the local
-ring `R_𝔭`, whose henselization is that of `R` at `𝔭` (§0.13's *henselization_at_prime*); no
-second predicate is introduced for a general base. `local_henselization` is its
-instance for `TauCeti.Henselization.algebra 𝔪`. Prove uniqueness through the canonical lifts,
-with no choice in the comparison maps: *IsLocalRing.IsHenselization.bijective_lift*, for
-`IsHenselization R κ Rh` the lift `TauCeti.Henselization.lift : algebra 𝔪 → Rh` of the universal
-property is bijective; and *IsLocalRing.IsHenselization.bijective_strictLift*, for
-`IsHenselization R L Rh` and an `R`-algebra map `φ : L → κ(Rh)` realising its residue
-identification, `TauCeti.StrictHenselization.lift φ : TauCeti.StrictHenselization.algebra R L → Rh`
-is bijective (Stacks, Lemma 10.154.7 (08HT)). With *IsLocalRing.isHenselization_strictHenselization*
-(the pinned carrier `TauCeti.StrictHenselization.algebra R Ω` satisfies
-`IsHenselization R Ω` for every separable closure `Ω` of `κ`) this identifies every strict
-henselization with that carrier. *Needs:* §0.13 (ind-étale algebras); Mathlib
-`HenselianRing`, `HenselianLocalRing`, `IsLocalRing.ResidueField`, `IsLocalRing.residue`; Tau Ceti
-`TauCeti.Henselization.algebra`, `TauCeti.Henselization.lift`,
-`TauCeti.Henselization.henselianLocalRing`, `TauCeti.Henselization.residueField_map_bijective`,
-`TauCeti.Henselization.existsUnique_isLocalHom`, `TauCeti.Algebra.IndEtale`,
-`TauCeti.StrictHenselization.algebra`, `TauCeti.StrictHenselization.lift`.
+**Recognising henselizations.** The recognition predicate of henselizations of local rings, and of
+strict henselizations, is ModularCurves Layer 4D's `IsHenselization ψ`, for an `R`-algebra map
+`ψ : A → L` to a field: `A` is a henselian local ring, ind-étale over `R` (Tau Ceti's
+`TauCeti.Algebra.IndEtale`, §0.13), and `ψ` is surjective, so that it identifies `L` with the
+residue field of `A`. With it, Layer 4D states `StrictHenselization.isHenselization` (for `R` local
+and `Ω` separable algebraic over its residue field, `toTarget : TauCeti.StrictHenselization.algebra
+R Ω → Ω` is a henselization), `IsHenselization.existsUnique_comp_eq` (Stacks, Lemma 10.154.6
+(08HR): maps out of an ind-étale algebra into a henselian local ring over a surjection to `L`) and
+`IsHenselization.bijective_of_comp_eq` (Lemma 10.154.7 (08HT): every compatible map between two
+henselizations at the same point is bijective). This roadmap consumes them and states no second
+predicate; a field-valued point `R → L` of an arbitrary ring, with kernel `𝔭`, is a henselization
+of `R_𝔭` under that predicate. The names *IsLocalRing.IsHenselization*,
+*IsLocalRing.IsHenselization.bijective_lift*, *IsLocalRing.IsHenselization.bijective_strictLift*
+and *IsLocalRing.isHenselization_strictHenselization* cited from this section denote Layer 4D's
+`IsHenselization`, `IsHenselization.bijective_of_comp_eq` (for the first two, with
+`IsHenselization.existsUnique_comp_eq`) and `StrictHenselization.isHenselization`.
+*Needs:* ModularCurves Layer 4D (`IsHenselization`, `StrictHenselization.isHenselization`,
+`IsHenselization.existsUnique_comp_eq`, `IsHenselization.bijective_of_comp_eq`).
 
 **Strict local rings of schemes.** For a scheme `S`, a separably closed field `Ω : Type u` and an
 unbundled geometric point `s : Spec (.of Ω) ⟶ S`, as Mathlib's `Scheme.pointSmallEtale` takes it,
@@ -1324,12 +1441,19 @@ define `Scheme.strictLocalRing s : CommRingCat`, the fibre at `Scheme.pointSmall
 (Stacks, Definition 59.33.2 (03PS)). Write `x` for the image of `s` and `κ^sep` for the separable
 closure of `κ(x)` in `Ω` (Mathlib `separableClosure`). Define the canonical map
 *Scheme.stalkToStrictLocalRing s* `: 𝒪_{S,x} → strictLocalRing s` (an open neighbourhood of `x` is
-an étale neighbourhood of `s`) and prove *Scheme.isHenselization_strictLocalRing*:
-`IsHenselization 𝒪_{S,x} κ^sep (strictLocalRing s)` through that map (Stacks, Lemma 59.33.1 (04HX)).
-Its consequences `Scheme.henselianLocalRing_strictLocalRing` and
+an étale neighbourhood of `s`) and the evaluation *Scheme.strictLocalRingToField s*
+`: strictLocalRing s → κ^sep` at the geometric point (an étale neighbourhood maps to `Ω` through
+its lift of `s`, and the residue fields of the points of an étale `S`-scheme over `x` are finite
+separable over `κ(x)`, so the values lie in `κ^sep`), an `𝒪_{S,x}`-algebra map through
+*Scheme.stalkToStrictLocalRing s*. Prove *Scheme.isHenselization_strictLocalRing*: ModularCurves
+Layer 4D's `IsHenselization (Scheme.strictLocalRingToField s)` holds over `𝒪_{S,x}` (Stacks, Lemma
+59.33.1 (04HX)). Its consequences `Scheme.henselianLocalRing_strictLocalRing` and
 `Scheme.isSepClosed_residueField_strictLocalRing` say that the étale local ring is strictly
-henselian (Stacks, Definition 59.32.6 (03QK)), and with the previous paragraph it is
-`TauCeti.StrictHenselization.algebra 𝒪_{S,x} κ^sep`. Define *Scheme.strictLocalization s*
+henselian (Stacks, Definition 59.32.6 (03QK)), and with Layer 4D's
+`StrictHenselization.isHenselization`, `IsHenselization.existsUnique_comp_eq` and
+`IsHenselization.bijective_of_comp_eq` it is identified with
+`TauCeti.StrictHenselization.algebra 𝒪_{S,x} κ^sep` by the unique isomorphism compatible with the
+maps to `κ^sep`. Define *Scheme.strictLocalization s*
 `:= Spec (strictLocalRing s)` with its morphism to `S` and prove
 *Scheme.isLimitStrictLocalizationCone s*: it is the limit in schemes of the cofiltered diagram of
 affine étale neighbourhoods of `s`, whose transition maps are affine (Stacks, Definition 59.33.2
@@ -1340,21 +1464,12 @@ residue field, then the canonical map `P(S) → P_s` (Mathlib
 `GrothendieckTopology.Point.toPresheafFiber` at the identity neighbourhood) is an isomorphism,
 because the identity neighbourhood is cofinal (Stacks, Lemma 59.55.1 (03QO), stated there for
 sheaves of sets). The case `R = Ω` is the identification of sections over a separably closed field
-with stalks, for every coefficient category. *Needs:* the previous paragraph; Mathlib
-`Scheme.pointSmallEtale`, `GrothendieckTopology.Point.presheafFiber`,
+with stalks, for every coefficient category. *Needs:* ModularCurves Layer 4D as in the previous
+paragraph; Tau Ceti `TauCeti.StrictHenselization.algebra`; Mathlib `Scheme.pointSmallEtale`, `GrothendieckTopology.Point.presheafFiber`,
 `GrothendieckTopology.Point.toPresheafFiber`, `Scheme.Etale.forget`, `Scheme.Γ`, `separableClosure`,
 `IsSepClosed`.
 
 **Checks.**
-- *isHenselization_field*: a field `k` satisfies `IsHenselization k k k`, and every henselian local
-  ring `R` satisfies `IsHenselization R κ R`.
-- *isHenselization_reject_completion*: `ℤ_p` is henselian local with residue field `𝔽_p` but is not
-  `IsHenselization ℤ_(p) 𝔽_p ℤ_p`: it is not ind-étale over `ℤ_(p)`, since by uniqueness it would be
-  the countable ring `ℤ_(p)^h` of §0.13's *henselization_padic*. Dropping the ind-étale clause
-  admits it.
-- *isHenselization_reject_residue*: `TauCeti.StrictHenselization.algebra ℤ_(p) 𝔽̄_p` is henselian
-  local and ind-étale with residue field `𝔽̄_p`; it satisfies `IsHenselization ℤ_(p) 𝔽̄_p` and not
-  `IsHenselization ℤ_(p) 𝔽_p`.
 - *strictLocalRing_finiteField*: for `S = Spec 𝔽_p` and `s : Spec 𝔽̄_p → S`, `strictLocalRing s` is
   the separable closure `𝔽̄_p` of `𝔽_p`, while the henselization of the local ring is `𝔽_p`.
 - *zariski_stalk_not_henselian*: for `S = Spec ℤ_(5)` the Zariski stalk at the closed point is
@@ -1366,10 +1481,11 @@ with stalks, for every coefficient category. *Needs:* the previous paragraph; Ma
   `5`, `P(S)` is empty while `P_s` is not: the separably closed residue field is needed for
   sections to be the stalk.
 
-*Lean:* `IsLocalRing.IsHenselization`, `Henselization.local_henselization`,
-`Scheme.strictLocalRing`, `Scheme.henselianLocalRing_strictLocalRing`,
-`Scheme.isSepClosed_residueField_strictLocalRing`; the uniqueness and comparison targets, the
-strict localization, the sections theorem and the six controls are specified in this README only.
+*Lean:* `Scheme.strictLocalRing`, `Scheme.henselianLocalRing_strictLocalRing`,
+`Scheme.isSepClosed_residueField_strictLocalRing`. *Scheme.isHenselization_strictLocalRing* is
+stated on ModularCurves Layer 4D's predicate, which `Suggested.lean` does not import; it, the
+comparison maps, the strict localization, the sections theorem and the three Checks are specified
+in this README only.
 
 ### 0.13 Ind-étale algebras and the properties of the henselization
 
@@ -1423,25 +1539,54 @@ of `ℤ_p`, and `ℤ_{(p)}^h ≠ ℤ_p` (Stacks, Lemma 10.155.7 (04GV)). *Needs:
 
 ### 0.14 Henselian pairs: characterisations, permanence, finite étale algebras, Elkik
 
-Prove *henselian_pair_characterisations*: for `I ⊆ R` the following are equivalent: `(R, I)` is
-henselian (Mathlib's `HenselianRing R I`); `I` lies in the Jacobson radical and every monic
-polynomial with a simple root modulo `I` has a root lifting it; every finite `R`-algebra `S` has
-`Idem(S) → Idem(S/IS)` bijective; every étale `R`-algebra with a section modulo `I` has a section;
-for every integral `R`-algebra `S`, `(S, IS)` is henselian (Stacks, Lemma 15.11.6 (09XI)). Prove
-*henselian_pair_permanence*: henselian pairs are stable under quotients, integral extensions, finite
-products, filtered colimits, taking radicals, and passage to `(R, J)` for `J ⊆ I` radical-equivalent;
-the pair `(R, I)` is henselian when `R` is `I`-adically complete, and permanence fails for
-non-filtered colimits: the coproduct `(ℤ_p ⊗_ℤ ℤ_p, p)` of two copies of `(ℤ_p, (p))` is not henselian
-(Stacks, Lemmas 15.11.2–15.11.4, 15.11.7–15.11.16, and Example 15.11.14 (0FWU)). Prove
+Much of the theory of henselian pairs is in the pins, on Mathlib's `HenselianRing R I` (`I` in the
+Jacobson radical, and every monic polynomial with a simple root modulo `I` has a root lifting it):
+Tau Ceti's `TauCeti.henselianRing_iff_forall_comp_surjective` and
+`TauCeti.HenselianRing.comp_bijective` (`TauCeti/RingTheory/Henselian/Section.lean`: `(R, I)` is
+henselian iff every `R`-algebra map from an étale `R`-algebra to `R/I` lifts to `R`, and then
+uniquely; condition (2) of Stacks, Lemma 15.11.6 (09XI)),
+`TauCeti.HenselianRing.bijOn_quotient_mk_isIdempotentElem` and
+`TauCeti.HenselianRing.injOn_quotient_mk_map_isIdempotentElem` (`Idempotent.lean`: idempotents of
+`R` and of `R/I` correspond, and idempotents of an integral `R`-algebra congruent modulo `I` are
+equal); for permanence, `RingHom.henselianRing_of_surjective` and the instance
+`Ideal.henselianRing_quotient` (quotients; `Quotient.lean`), the instance `Ideal.henselianRing_pi`
+and `Ideal.henselianRing_pi_iff` (products; `Product.lean`), `Ring.DirectLimit.henselianRing`
+(directed colimits; Lemma 15.11.13 (0FWT); `DirectLimit.lean`), the instance
+`Ideal.henselianRing_radical`, `Ideal.henselianRing_radical_iff` and `Ideal.henselianRing_of_le`
+(radicals and smaller ideals; `Radical.lean`, `Ideal.lean`), and Mathlib's instance
+`IsAdicComplete.henselianRing` (an `I`-adically complete `R`); and for henselian local rings,
+`TauCeti.HenselianLocalRing.comp_bijective`, `comp_bijective_of_algebra` (Lemma 10.153.11 (08HQ)),
+the instance `TauCeti.IsFiniteEtaleSplit.of_henselianLocalRing` and
+`Algebra.IsFiniteSplit.of_henselianLocalRing` (`Etale.lean`: sections of étale algebras through
+residue-field points, and the splitting of finite étale algebras over a strictly henselian local
+ring; Lemma 10.153.3 (04GG)). This subsection keeps as targets what the pins lack, under the names
+other roadmaps cite, each of which denotes the whole statement with its pinned clauses. Prove
+*henselian_pair_characterisations*: for `I ⊆ R` the following are equivalent: `(R, I)` is
+henselian; every `R`-algebra map from an étale `R`-algebra to `R/I` lifts to `R`; every finite
+`R`-algebra `S` has `Idem(S) → Idem(S/IS)` bijective; every integral `R`-algebra `S` has
+`Idem(S) → Idem(S/IS)` bijective (Stacks, Lemma 15.11.6 (09XI), conditions (1)–(4)); the second
+condition is the pinned `henselianRing_iff_forall_comp_surjective`, and the pinned idempotent
+statements give the case `S = R` and injectivity, so the target is bijectivity for finite and for
+integral `S`. Prove *henselian_pair_permanence*: henselian pairs are stable under quotients, integral
+extensions (`(S, IS)` for `S` integral over `R`), finite products, colimits over a small filtered
+category, taking radicals, and passage to `(R, J)` for `J ⊆ I` radical-equivalent; the pair
+`(R, I)` is henselian when `R` is `I`-adically complete; and permanence fails for non-filtered
+colimits: the coproduct `(ℤ_p ⊗_ℤ ℤ_p, p)` of two copies of `(ℤ_p, (p))` is not henselian (Stacks,
+Lemmas 15.11.2–15.11.4, 15.11.7–15.11.16, and Example 15.11.14 (0FWU)). The quotient, product,
+directed-colimit (Lemma 15.11.13 (0FWT)), radical, smaller-ideal and complete cases are the pinned
+declarations above, so the target is the integral case, the passage from directed to filtered
+colimits, and the counterexample. Prove
 *henselian_finiteEtale_equivalence*: for a henselian pair `(R, I)`, base change is an equivalence
 from finite étale `R`-algebras to finite étale `R/I`-algebras (Stacks, Lemmas 15.13.1 (0D4A), 15.13.2
 (09ZL)). Prove *henselian_local_finite_algebras*: for a henselian local ring `R`, every finite
 `R`-algebra is a product of local rings, every quasi-finite `R`-algebra is a product of a finite
-algebra and an algebra with empty closed fibre, and the three implications (8)⇒(10), (8)⇒(11),
-(10)⇒(1) of Stacks, Lemma 10.153.3 (04GG), items (1), (8), (10), (11), (13). Prove
+algebra and an algebra with empty closed fibre, and the implications (8)⇒(10), (8)⇒(11),
+(10)⇒(1) of Stacks, Lemma 10.153.3 (04GG), items (1), (8), (10), (11), (13), beyond the section
+property that `TauCeti.HenselianLocalRing.comp_bijective` gives. Prove
 *henselian_smooth_lifting* (Elkik): for a henselian pair `(R, I)` and a smooth `R`-algebra `A`, every
 `R`-algebra map `A → R/I` lifts to `A → R` (Stacks, Lemma 15.13.3 (0H74)). *Needs:* §0.12, §0.13;
-Mathlib `HenselianRing`, `Algebra.Etale`, `Algebra.Smooth`, `Module.Finite`, `IsLocalRing`.
+Tau Ceti as above; Mathlib `HenselianRing`, `IsAdicComplete.henselianRing`, `Algebra.Etale`,
+`Algebra.Smooth`, `Module.Finite`, `IsLocalRing`.
 
 ### 0.15 Néron–Popescu desingularization
 
@@ -1521,7 +1666,7 @@ local ring `R` unless said otherwise:
 `depth_add_length_eq_depth_of_isRegular` (the same for an `M`-regular sequence),
 `depth_prod` and `depth_eq_depth_self_of_free`, `depth_hom_ge`
 (for finite `M`, `N` and `n ≤ 2`, `n ≤ depth N` implies `n ≤ depth (M →ₗ[R] N)`; More on Algebra,
-Lemma 15.24.10 (0AV5)), the localisation lemmas `TauCeti.depth_localizedModule_self`,
+Lemma 15.24.10 (0AV5)), the localisation lemmas `Ideal.depth_localizedModule_self`,
 `TauCeti.depth_localizedModule_eq_zero_iff` and `TauCeti.one_le_depth_localizedModule_iff` (`R`
 Noetherian, not necessarily local), `LinearMap.injective_of_forall_localization` (`R` Noetherian,
 `M`, `N` arbitrary: an `R`-linear `φ : M → N` is injective when at every prime `p` either `φ_p` is
@@ -1560,8 +1705,8 @@ chain from a minimal prime to `q` has length `height q`; Lemma 10.103.9 (0AAE); 
 support dimension down by its length, so systems of parameters are regular; Proposition 10.103.4
 (00N6); `RegularSequence.lean`), `Module.isCohenMacaulay_self_iff_of_flat` (for a flat local
 homomorphism `R → S` of Noetherian local rings, `S` is Cohen–Macaulay iff `R` and `S ⧸ m_R S` are;
-Lemma 10.163.3 (045J)) and `Module.Polynomial.isCohenMacaulay_localization_atPrime`,
-`Module.MvPolynomial.isCohenMacaulay_localization_atPrime` (polynomial rings in finitely many
+Lemma 10.163.3 (045J)) and `Polynomial.isCohenMacaulay_localization_atPrime`,
+`MvPolynomial.isCohenMacaulay_localization_atPrime` (polynomial rings in finitely many
 variables over a Noetherian ring whose local rings are Cohen–Macaulay have Cohen–Macaulay local
 rings; Lemma 10.103.13 (0AAI); `Flat.lean`). For a general Noetherian Cohen–Macaulay ring these local
 results apply in its localisations; they impose no common global dimension on its components.
@@ -1623,7 +1768,7 @@ height `≤ 1` are covered by `(S_1)`. Names cited by other roadmaps: *Module.de
 *IsCohenMacaulay.localization* → `Module.IsCohenMacaulay.localizedModule`;
 *IsCohenMacaulay.unmixed* → `Module.IsCohenMacaulay.associatedPrimes_eq_minimalPrimes`;
 *IsCohenMacaulay.height_add_dim* → `Module.IsCohenMacaulay.height_add_ringKrullDim_quotient`;
-*IsCohenMacaulay.polynomial* → `Module.Polynomial.isCohenMacaulay_localization_atPrime`;
+*IsCohenMacaulay.polynomial* → `Polynomial.isCohenMacaulay_localization_atPrime`;
 *isCohenMacaulay_iff_forall_satisfiesSerreS* →
 `TauCeti.Ring.isCohenMacaulay_iff_forall_satisfiesSerreS`; *Module.SatisfiesSerreS* →
 `Module.SatisfiesSerreS`; *Ring.SatisfiesSerreR* → `Ring.SatisfiesSerreR`; *isReduced_iff_R0_S1* →
@@ -1768,35 +1913,67 @@ universally Japanese does not. Their pinned API includes `IsJapanese.isN1`, `IsJ
 → `TauCeti.Ring.IsJapanese`; *Ring.IsNagata* → `TauCeti.Ring.IsNagata`; *Ring.IsN1* →
 `TauCeti.Ring.IsN1`; *Ring.IsUniversallyJapanese* → `TauCeti.Ring.IsUniversallyJapanese`.
 
-Prove what the pin lacks: *isJapanese_iff_isN1_of_charZero* (for Noetherian domains whose fraction
-field has characteristic zero; Lemma 10.161.11 (032M)), *isJapanese_iff_purelyInseparable* (for a
-Noetherian domain whose fraction field has characteristic `p > 0` it suffices to test purely
-inseparable `L`; Lemma 10.161.12 (032N)), *of_isIntegrallyClosed_charZero*, *IsJapanese.localization*
-(Lemma 10.161.3 (032G)), *IsJapanese.of_finite_extension* (a finite, more generally quasi-finite,
-extension domain of a Noetherian N-2 domain is N-2; Lemma 10.161.5 (032I)), *IsJapanese.polynomial*
-(Lemma 10.161.13 (032O)), *isJapanese_of_dedekind_charZero* (Lemma 10.161.8 (032L), equivalently
-Lemma 10.161.11 (032M)), `Ring.IsJapanese.of_complete_local` (a complete Noetherian local domain is
-Japanese; Lemma 10.162.8 (032W)), the N-1 local criterion (Lemma 10.161.15 (0333)),
-*isNagata_iff_isUniversallyJapanese* (for Noetherian rings; Proposition 10.162.15 (0334)),
-*IsNagata.of_finiteType* (Proposition 10.162.16 (0335)), `Ring.IsNagata.of_complete_local` (a
-complete Noetherian local ring is Nagata; Lemma 10.162.8 (032W)), *IsNagata.polynomial*,
+The criteria and permanence results for these predicates that Stacks proves in Sections 10.161
+and 10.162 are largely pinned too. In `TauCeti/RingTheory/Japanese.lean`, for a Noetherian domain:
+`TauCeti.Ring.isJapanese_iff_isN1` (Japanese iff N-1 when the fraction field is perfect, in
+particular of characteristic zero; Lemma 10.161.11 (032M)), `TauCeti.Ring.isJapanese_iff_isPurelyInseparable`
+(it suffices to test purely inseparable extensions, in every characteristic; Lemma 10.161.12
+(032N)), the instance `TauCeti.Ring.IsJapanese.of_isIntegrallyClosed` (an integrally closed
+Noetherian domain with perfect fraction field, for instance a Dedekind domain of characteristic
+zero, is Japanese; with `TauCeti.Ring.finite_integralClosure_of_isSeparable`, Lemma 10.161.8
+(032L)), `TauCeti.Ring.isN1_of_isLocalization` and `TauCeti.Ring.isJapanese_of_isLocalization`
+(localizations; Lemma 10.161.3 (032G)), `TauCeti.Ring.IsJapanese.of_finite` (a domain finite over a
+Japanese domain is Japanese; Lemma 10.161.5 (032I), finite case), `IsN1.of_span_eq_top` and
+`IsJapanese.of_span_eq_top` (Lemma 10.161.6 (032J)) and
+`TauCeti.Ring.isN1_iff_exists_isIntegrallyClosed_localization_away_and_isN1_localization_atPrime`
+(the N-1 local criterion; Lemma 10.161.15 (0333)); the instances `TauCeti.Ring.IsJapanese.polynomial`
+and `TauCeti.Ring.IsJapanese.mvPolynomial` (a polynomial ring in finitely many variables over a
+Noetherian Japanese domain is Japanese; Lemma 10.161.13 (032O);
+`TauCeti/RingTheory/IntegralClosure/MvPolynomial.lean`); `TauCeti.Ring.isNagata_iff_isJapanese` (a
+Noetherian domain of dimension at most one is Nagata iff Japanese; Example 10.162.17 (09E1);
+`Nagata.lean`); `TauCeti.Ring.IsUniversallyJapanese.isNagata` (a Noetherian universally Japanese
+ring is Nagata, one direction of Proposition 10.162.15 (0334)), `IsUniversallyJapanese.of_finiteType`
+(Lemma 10.162.4 (032S)), the instance `IsUniversallyJapanese.of_field` and
+`IsUniversallyJapanese.isNagata_of_finiteType` (algebras of finite type over a field are Nagata, the
+field case of Proposition 10.162.16 (0335); `UniversallyJapanese.lean`); and on schemes
+`TauCeti.AlgebraicGeometry.isFinite_fromNormalization_of_isJapanese`
+(`TauCeti/AlgebraicGeometry/Normalization/Finite.lean`: for `Y` integral with Japanese rings of
+sections on its nonempty affine opens, the normalization of `Y` in a finite extension of its
+function field is finite over `Y`; Lemma 29.54.14 (0AVK), whose Nagata hypothesis gives the Japanese
+one through the instance `TauCeti.Ring.IsNagata.isJapanese`). Names cited by other roadmaps:
+*isJapanese_iff_isN1_of_charZero* → `TauCeti.Ring.isJapanese_iff_isN1`;
+*isJapanese_iff_purelyInseparable* → `TauCeti.Ring.isJapanese_iff_isPurelyInseparable`;
+*of_isIntegrallyClosed_charZero* and *isJapanese_of_dedekind_charZero* →
+`TauCeti.Ring.IsJapanese.of_isIntegrallyClosed`; *IsJapanese.localization* →
+`TauCeti.Ring.isJapanese_of_isLocalization`; *IsJapanese.polynomial* →
+`TauCeti.Ring.IsJapanese.polynomial`; *nagata_normalization_finite* →
+`TauCeti.AlgebraicGeometry.isFinite_fromNormalization_of_isJapanese`; *IsNagata.not_nonJapaneseDVR*
+→ `TauCeti.Ring.isNagata_iff_isJapanese` applied to the discrete valuation ring of §0.22.
+
+Prove what the pins lack: *IsJapanese.of_finite_extension* in its quasi-finite case (a quasi-finite
+extension domain of a Noetherian N-2 domain is N-2; Lemma 10.161.5 (032I)),
+`Ring.IsJapanese.of_complete_local` (a complete Noetherian local domain is Japanese; Lemma 10.162.8
+(032W)), *isNagata_iff_isUniversallyJapanese* in the remaining direction (a Nagata ring is
+universally Japanese; Proposition 10.162.15 (0334)), *IsNagata.of_finiteType* (an algebra of finite
+type over a Nagata ring is Nagata; Proposition 10.162.15 (0334) with the pinned
+`IsUniversallyJapanese.of_finiteType`), `Ring.IsNagata.of_complete_local` (a complete Noetherian
+local ring is Nagata; Lemma 10.162.8 (032W)), *IsNagata.polynomial* (a polynomial ring in finitely
+many variables over a Nagata ring is Nagata, the case of *IsNagata.of_finiteType*), and
 *IsNagata.integralClosure_finite* (for `R` Nagata and `R → S` essentially of finite type with `S`
-reduced, the integral closure of `R` in `S` is finite over `R`; Lemma 10.162.2 (03GH)), and Example
-10.162.17 (09E1) as *IsNagata.not_nonJapaneseDVR*: a discrete valuation ring is Nagata iff it is
-N-2, so the non-Japanese discrete valuation ring of §0.22 is not Nagata. The two complete-local
-statements are the suppliers of finite normalization in inseparable extensions used by
-IntegralHeckeAndGaloisDeterminants. Prove `Excellence.IsQuasiExcellentRing.isNagata`:
-quasi-excellent rings are Nagata (Stacks, Lemma 15.53.5 (07QV)). Prove *nagata_normalization_finite*:
-for `X` integral and Nagata (every affine open ring Nagata), the normalisation of `X` in a finite
-extension of its function field is finite over `X` (Stacks, Lemma 29.54.14 (0AVK)). *Needs:* Tau
-Ceti as above, `TauCeti.IsIntegralClosure.finite_mvPolynomial_of_isPurelyInseparable`,
-`finite_of_injective`; Mathlib `integralClosure`, `IsIntegralClosure`, `FractionRing`,
-`IsPurelyInseparable`, `Module.Finite`, `Algebra.FiniteType`, `IsNoetherianRing`, `IsAdicComplete`.
+reduced, the integral closure of `R` in `S` is finite over `R`; Lemma 10.162.2 (03GH)). The two
+complete-local statements are the suppliers of finite normalization in inseparable extensions used
+by IntegralHeckeAndGaloisDeterminants. Prove `Excellence.IsQuasiExcellentRing.isNagata`:
+quasi-excellent rings are Nagata (Stacks, Lemma 15.53.5 (07QV)). *Needs:* Tau Ceti as above,
+`TauCeti.IsIntegralClosure.finite_mvPolynomial_of_isPurelyInseparable`, `finite_of_injective`;
+Mathlib `integralClosure`, `IsIntegralClosure`, `FractionRing`, `IsPurelyInseparable`,
+`Module.Finite`, `Algebra.FiniteType`, `IsNoetherianRing`, `IsAdicComplete`.
 
 **Checks.**
 - *IsJapanese.test_field*, *test_int*: fields and `ℤ` are N-2.
 - *IsN1.test_isIntegrallyClosed*: every integrally closed domain is N-1 (closure equals `R`).
-- *IsJapanese.test_not_japanese_dvr*: the DVR of §0.22 is N-1 (integrally closed) and not N-2.
+- *IsJapanese.test_not_japanese_dvr*: the DVR of §0.22 is N-1 (integrally closed) and not N-2, so
+  by `TauCeti.Ring.isNagata_iff_isJapanese` it is not Nagata although it is Noetherian: a predicate
+  that asked only Noetherianity and N-1 would accept it.
 - *IsNagata.test_field*, *test_int*: fields and `ℤ` are Nagata (`ℤ/p` is a field for `p ≠ 0`).
 - *IsNagata.test_zero*: the zero ring is Nagata: Noetherian with no primes.
 - *IsNagata.test_not_noetherian*: the polynomial ring `MvPolynomial ℕ ℚ` in countably many
@@ -1841,7 +2018,7 @@ Ceti as above, `TauCeti.IsIntegralClosure.finite_mvPolynomial_of_isPurelyInsepar
 
 *Lean:* `Ring.IsJapanese.of_complete_local`, `Ring.IsNagata.of_complete_local` (on the Tau Ceti
 predicates); `Excellence.IsQuasiExcellentRing.isNagata` is in the strand of §0.21. The rest of the
-targets above and *nagata_normalization_finite* are specified in this README only.
+targets above are specified in this README only.
 
 ### 0.21 Regular maps, G-rings, J-2 rings, excellent rings and schemes
 
@@ -2122,15 +2299,15 @@ The local property is stable under composition and base change and holds for ét
 open immersions; prove its equivalence with the global predicate when `X,Y` are qcqs.
 Every global pfp API result below carries that qcqs scope, including the source and target of
 base changes. API: *PerfectlyFinitelyPresented.perfection* (the
-perfection of a finitely presented morphism is pfp), `.comp`, `.of_etale`, `.baseChange`,
-`.of_isOpenImmersion`. Prove *pfp_characterisations*: pfp is local on source and target, stable
+perfection of a finitely presented morphism is pfp), *.comp*, *.of_etale*, *.baseChange*,
+*.of_isOpenImmersion*. Prove *pfp_characterisations*: pfp is local on source and target, stable
 under composition and base change, and every pfp morphism of affine perfect schemes is a cofiltered
 limit of finitely presented ones (Bhatt–Scholze 2017, Proposition 3.11, p. 12); and *pfp_models*:
 every pfp morphism `X → Y` is the perfection of a finitely presented morphism `X_0 → Y_0` of
 `𝔽_p`-schemes with `Y = Y_0^perf` (Proposition 3.13, p. 13). Define *PerfectlyProper* `f`: pfp,
 separated and universally closed (Bhatt–Scholze 2017, Definition 3.14, p. 13), with *.perfection*,
 *.iff_model* (`f` is perfectly proper iff some, equivalently every, finitely presented model is
-proper), `.comp`, `.baseChange`. Prove *perfect_valuative_criterion*: a pfp separated morphism of
+proper), *.comp*, *.baseChange*. Prove *perfect_valuative_criterion*: a pfp separated morphism of
 perfect schemes is perfectly proper iff it satisfies the valuative criterion with perfect valuation
 rings (Zhu 2017, Proposition A.20 and proof, p. 51). *Needs:* §0.24; Mathlib
 `LocallyOfFinitePresentation`, `QuasiCompact`, `IsSeparated`, `UniversallyClosed`, `ValuationRing`.
@@ -2233,7 +2410,8 @@ for `R → S` flat and `M` a finite `R`-module, `TauCeti.annihilator_flat_baseCh
 `Ann_S(1 ⊗ m) = Ann_R(m) · S` for every `m ∈ M` with no finiteness assumption on `M`; and
 `LinearMap.cokernel_annihilator_flat_baseChange` gives `Ann(coker (S ⊗ f)) = Ann(coker f) · S` for a
 map `f : M → N` with finite cokernel. The cokernel comparison
-`LinearMap.cokernelBaseChangeEquiv : S ⊗ coker f ≃ coker (S ⊗ f)`, with `_tmul`, `_symm_mk_tmul` and
+`LinearMap.cokernelBaseChangeEquiv : S ⊗ coker f ≃ coker (S ⊗ f)`, with
+`LinearMap.cokernelBaseChangeEquiv_tmul`, `LinearMap.cokernelBaseChangeEquiv_symm_mk_tmul` and
 `LinearMap.cokernel_baseChange_square` (Stacks, Lemma 10.12.10), is
 `TauCeti/LinearAlgebra/TensorProduct/Quotient.lean`; the quotient case `Q ⊆ M` is the cokernel of
 the inclusion, with Mathlib's `TensorProduct.AlgebraTensorModule.tensorQuotientEquiv`. This
@@ -2267,38 +2445,38 @@ other roadmaps: *FlatAnnihilator.annihilator_flat_baseChange* → `TauCeti.annih
 
 This subsection specifies the strand `IdealPullback` in this README only (`Suggested.lean` has
 no declaration for it), organised around one canonical comparison API; every other statement of
-the strand is a characterising `_mk` lemma or a coherence lemma of the declarations named here.
+the strand is a characterising *_mk* lemma or a coherence lemma of the declarations named here.
 Fix a scheme `Y`,
 `I : Y.IdealSheafData` and `f : X → Y`. Define *preimageFunctor* `g` for `g` affine (the functor
 `affineOpens Z ⥤ affineOpens Y`, `U ↦ g⁻¹ U`), *comapObjIso* `I f U` (for `U` an affine open of `Y`,
 `(I.comap f).ideal (f⁻¹U) ≅ I(U) · Γ(X, f⁻¹U)` when `f` is affine; Stacks, Lemma 26.17.6 (1)) with
-*comapObjIso_inclusion*, `_mk`, `_inv_mk`, `_naturality`; *ideal_comap_top*, `comap_restrict`,
+*comapObjIso_inclusion*, *_mk*, *_inv_mk*, *_naturality*; *ideal_comap_top*, *comap_restrict*,
 *ideal_restrict_top*, *ideal_comap_affineOpen*, *ideal_comap_of_isAffineHom*. Define the
 **image-ideal quotient presheaf** *quotientPresheaf* `I f : Y.affineOpensᵒᵖ ⥤ CommRingCat`,
-`U ↦ Γ(X, f⁻¹U) / I(U)·Γ(X, f⁻¹U)`, with restriction *quotientRestriction* (`_mk`, `_id`, `_comp`),
+`U ↦ Γ(X, f⁻¹U) / I(U)·Γ(X, f⁻¹U)`, with restriction *quotientRestriction* (*_mk*, *_id*, *_comp*),
 *quotientPresheaf_obj*, *quotientPresheaf_map*, and *comapObjNatIso* `I f` (for affine `f`, the
 natural isomorphism with the presheaf of sections of `(I.comap f).subscheme`). Define the
 **section-kernel quotient presheaf** *allOpenQuotient* `I : X.Opensᵒᵖ ⥤ CommRingCat`,
-`U ↦ Γ(X, U) / ker(Γ(X, U) → Γ(V(I), U ∩ V(I)))`, with *allOpenRestriction* (`_mk`, `_id`, `_comp`),
-*allOpenQuotient_obj*, `_map` (Stacks, Example 26.4.3). Define the three canonical comparisons:
+`U ↦ Γ(X, U) / ker(Γ(X, U) → Γ(V(I), U ∩ V(I)))`, with *allOpenRestriction* (*_mk*, *_id*, *_comp*),
+*allOpenQuotient_obj*, *_map* (Stacks, Example 26.4.3). Define the three canonical comparisons:
 *quotientToClosedNatTrans* `I f : quotientPresheaf I f ⟶ (sections of (I.comap f).subscheme)` with
-`_app`, *quotientToClosed_mk*, `_unique`, `_naturality`, `_injective`, `_surjective`, and
-*quotientToClosedNatTrans_isIso* for affine `f`; `quotientToKernelNatTrans I f : quotientPresheaf
-I f ⟶ allOpenQuotient (I.comap f) ∘ preimage` with `_app`, `quotientToKernel_mk`, `_surjective`
-(always), `_injective_iff`, `_bijective` and `_factor`; *allOpenSheafComparison* `I : sheafify`
-`(allOpenQuotient I) ⟶ i_* O_{V(I)}` with `_factor`, `_mk`, `_unique`, `_isIso`, through
-*allOpenToClosed* with `_mk`, `_injective`, `_affine_bijective`, `_affine_agreement`,
-`_locally_surjective`, `_locally_injective`; and *quotientToSheafNatTrans* `I f` (image-ideal
-quotient to the sheafified quotient) with `_mk`, `_factor`, `_unique`, `_app_isIso`,
-`_injective_iff`, `_surjective_iff` and `_isIso` for affine `f`. Define the **composite comparison**
-`quotientCompNatIso I f g : quotientPresheaf I (f ≫ g) ≅ (preimageFunctor g).op ⋙ quotientPresheaf
-(I.comap g) f` for `g` affine, from `extendedIdeal_comp` and `quotientCompIso` (`_mk`, `_inv_mk`,
-`_naturality`), with its coherence *quotientCompNatIso_id_left* (Stacks, Lemma 26.17.6, the left
-unit), `_id_right`, `_assoc`, `_eqToIso_mk` (transport along equal ideals) and the three transport
-lemmas *quotientCompNatIso_kernel*, `_closed`, `_sheaf`: the composite comparison is carried by the
+*_app*, *quotientToClosed_mk*, *_unique*, *_naturality*, *_injective*, *_surjective*, and
+*quotientToClosedNatTrans_isIso* for affine `f`; *quotientToKernelNatTrans* `I f : quotientPresheaf
+I f ⟶ allOpenQuotient (I.comap f) ∘ preimage` with *_app*, *quotientToKernel_mk*, *_surjective*
+(always), *_injective_iff*, *_bijective* and *_factor*; *allOpenSheafComparison* `I : sheafify`
+`(allOpenQuotient I) ⟶ i_* O_{V(I)}` with *_factor*, *_mk*, *_unique*, *_isIso*, through
+*allOpenToClosed* with *_mk*, *_injective*, *_affine_bijective*, *_affine_agreement*,
+*_locally_surjective*, *_locally_injective*; and *quotientToSheafNatTrans* `I f` (image-ideal
+quotient to the sheafified quotient) with *_mk*, *_factor*, *_unique*, *_app_isIso*,
+*_injective_iff*, *_surjective_iff* and *_isIso* for affine `f`. Define the **composite comparison**
+*quotientCompNatIso* `I f g : quotientPresheaf I (f ≫ g) ≅ (preimageFunctor g).op ⋙ quotientPresheaf
+(I.comap g) f` for `g` affine, from *extendedIdeal_comp* and *quotientCompIso* (*_mk*, *_inv_mk*,
+*_naturality*), with its coherence *quotientCompNatIso_id_left* (Stacks, Lemma 26.17.6, the left
+unit), *_id_right*, *_assoc*, *_eqToIso_mk* (transport along equal ideals) and the three transport
+lemmas *quotientCompNatIso_kernel*, *_closed*, *_sheaf*: the composite comparison is carried by the
 three canonical natural transformations to the corresponding composite isomorphisms of kernel
 quotients, closed-subscheme sections and sheafified quotients (there are no separate composite
-isomorphisms for those three: each is the transport, and its `_mk`, `_naturality`, unit and
+isomorphisms for those three: each is the transport, and its *_mk*, *_naturality*, unit and
 associativity laws are consequences of the ones above). Uniqueness lemmas *quotientPresheaf_hom_ext*
 and *allOpenSheafComparison_unique* give extensionality on representatives. *Needs:* Mathlib
 `Scheme.IdealSheafData`, `IdealSheafData.comap`, `subscheme`, `subschemeι`, `IsAffineHom`,
@@ -2354,8 +2532,9 @@ opens, products and fibre products.
   finite and locally of finite presentation, of constant rank `p ^ n` when `π` is smooth of
   relative dimension `n` (`finrank_relativeFrobenius_of_smoothOfRelativeDimension`, `Smooth.lean`;
   étale coordinates, Stacks, Lemma 29.37.21 (054L)).
-- *Iterates and finite fields*: `Scheme.iterateFrobenius` (`Iterate.lean`, with `_zero`, `_succ`,
-  `_add`, `_naturality`), `Scheme.Hom.iterateRelativeFrobenius` and the twist isomorphisms
+- *Iterates and finite fields*: `Scheme.iterateFrobenius` (`Iterate.lean`, with
+  `AlgebraicGeometry.Scheme.iterateFrobenius_zero`, `AlgebraicGeometry.Scheme.iterateFrobenius_succ`,
+  `AlgebraicGeometry.Scheme.iterateFrobenius_add`, `AlgebraicGeometry.Scheme.iterateFrobenius_naturality`), `Scheme.Hom.iterateRelativeFrobenius` and the twist isomorphisms
   `iterateFrobeniusTwistZeroIso`, `iterateFrobeniusTwistSuccIso`, `iterateFrobeniusTwistAddIso`
   with their coherence laws (`Twist.lean`, `Coherence.lean`), and over a finite field `k` of order
   `q = p^a`, `Scheme.qPowerFrobenius` with `qPowerFrobenius_eq_iterated`, `qPowerFrobenius_over`,
@@ -2412,7 +2591,7 @@ closed), `IsNormalScheme.isIntegrallyClosed_of_isAffineOpen` and
 `IsNormalScheme.isDiscreteValuationRing_stalk` (on a locally Noetherian normal scheme the stalk at a
 point of coheight one is a discrete valuation ring; Algebra, Lemma 10.119.7 (00PD)). Regular
 schemes are normal by the instance `TauCeti.AlgebraicGeometry.IsRegular.isNormal`
-(`TauCeti/AlgebraicGeometry/Scheme/Regular/Scheme.lean`), which is §4.13's *IsRegular.isNormal*.
+(`TauCeti/AlgebraicGeometry/Scheme/Regular/Scheme.lean`), which §4.13 consumes.
 
 *Codimension-one points.* In `TauCeti/AlgebraicGeometry/Morphisms/CodimensionOne/`:
 `AlgebraicGeometry.Scheme.Hom.coheight_eq_one_of_coheight_apply_eq_one` (a point over a point of
@@ -2476,7 +2655,8 @@ integers (§0.13); `ℤ` and every field are excellent, Nagata, universally cate
 ### Dependencies
 
 Mathlib and Tau Ceti as listed under supplier contracts; AlgebraicVectorBundles L0A–L2A (§§0.1–0.3);
-StableReduction Layer 2 (§0.3); JacobianChallenge Layer B (§§0.4–0.6);
+StableReduction Layer 2 (§0.3); JacobianChallenge Layer B (§§0.4–0.6); ModularCurves Layer 4D
+(`IsHenselization`, for §0.12's strict local rings);
 Tau Ceti's `AlgebraicGeometry.Scheme.frobenius` and `Scheme.iterateFrobenius`, through §0.29
 (§§0.24–0.26, characteristic-`p` schemes);
 §0.23a / `universalHomeomorphismEtaleEquivalence`
@@ -2618,9 +2798,9 @@ initial objects and *AlgSpace.overEquiv* are specified in this README only.
 ### 1.5 Étale equivalence relations and the quotient sheaf
 
 For schemes (or algebraic spaces) `R, U` over `S`, a pre-relation is a morphism `j = (t, s) : R → U
-×_S U`. Define `IsEquivRel s t`: `j` is a monomorphism and for every scheme `T` the image of `R(T)` in
+×_S U`. Define *IsEquivRel* `s t`: `j` is a monomorphism and for every scheme `T` the image of `R(T)` in
 `U(T) × U(T)` is an equivalence relation; *EtaleEquivRel* `s t`: an equivalence relation with `s` and
-`t` étale (Stacks, Definition 39.3.1 (022P)). API: *EtaleEquivRel.refl*, `.symm`, `.trans` (the
+`t` étale (Stacks, Definition 39.3.1 (022P)). API: *EtaleEquivRel.refl*, *.symm*, *.trans* (the
 diagonal, inverse and composition morphisms as data, `e : U → R`, `i : R → R`, `c : R ×_U R → R`),
 *EtaleEquivRel.restrict* along an étale `U' → U` (the pullback relation `R ×_{U×U} (U'×U')`),
 *EtaleEquivRel.ofAtlas* (the kernel pair of an étale atlas of an algebraic space, §1.6). Define
@@ -2722,7 +2902,7 @@ morphism `f : F → G` of algebraic spaces: there is a commutative square with �
 (04RD)). API: *EtaleLocal.iff_forall_square* (independence of the square), *.ofScheme_iff*
 (agreement with `P` on schemes), *.iff_presheaf* (agreement with `MorphismProperty.presheaf P` when
 `f` is representable and `P` is stable under base change and fppf local on the base, the hypotheses
-of the last clause of Lemma 67.22.1 (03MJ)), `.comp`, `.baseChange`. *Needs:* §1.3,
+of the last clause of Lemma 67.22.1 (03MJ)), *.comp*, *.baseChange*. *Needs:* §1.3,
 §1.6; Mathlib `IsLocalAtSource`, `IsLocalAtTarget`, `IsStableUnderBaseChange`,
 `IsStableUnderComposition`.
 
@@ -3222,14 +3402,14 @@ Mathlib's `presheafToSheaf`), *Stack.stackification_isom_sheafify* (the `Isom` p
 stackification are the `J`-sheafifications of those of `F`) and
 *Stack.stackification_locally_essSurj* (every object of the stackification is `J`-locally in the
 image of the unit). Then *stackification* of a prestack in groupoids on `Scheme.{u}` for the fppf
-topology, with `stackification.η`, `.lift`, *.isom_sheafify* and *.locally_essSurj*, is
+topology, with *stackification.η*, *.lift*, *.isom_sheafify* and *.locally_essSurj*, is
 *Stack.stackification* `fppfTopology` applied to a groupoid-valued `SchPseudofunctor`, and the
 v-stacks of DiamondsAndVStacks D0.25 are *Stack.stackification* on `(Perfd, v)`; neither is a
 second construction. Likewise define the generic 2-fibre product *Stack.twoFibreProduct* of two
 maps of `J`-stacks over a common target on any site, objectwise Mathlib's
 `CategoryTheory.Limits.CategoricalPullback` with its restriction functors and constraints, with
-`.fst`, `.snd`, `.iso` (the 2-cell), `.lift` and its 2-universal property, and let
-*twoFiberProduct* `X Y Z` with `.fst`, `.snd`, `.iso`, `.lift`, *.ofSheaf* (for sheaves it is the
+*.fst*, *.snd*, *.iso* (the 2-cell), *.lift* and its 2-universal property, and let
+*twoFiberProduct* `X Y Z` with *.fst*, *.snd*, *.iso*, *.lift*, *.ofSheaf* (for sheaves it is the
 fibre product of sheaves) be its fppf scheme instance (Stacks, Lemma 8.4.6 (026G) for 2-fibre
 products of stacks, Lemma 8.5.6 (02ZL) for stacks in groupoids; Section 4.31 (003O)); DiamondsAndVStacks D0.26 is the `(Perf, v)` instance. The geometric separatedness
 conventions stay separate from the carrier: proper-diagonal separatedness of algebraic stacks
@@ -3273,13 +3453,13 @@ Define *IsRepresentableBySpaces* `f` for a 1-morphism of stacks in groupoids: fo
 object of `Y(T)` the 2-fibre product `T ×_Y X` is equivalent to the stack of an algebraic space over
 `T` (Stacks, Definition 94.9.1 (02ZW)); *RepresentableProperty* `P f` for a property `P` of morphisms
 of spaces stable under base change and fppf local on the base (Section 94.10 (03YJ)). API: *IsRepresentableBySpaces.baseChange*,
-`.comp`, *diag_representable_iff* (the diagonal is representable iff every `T → X` is). Define
+*.comp*, *diag_representable_iff* (the diagonal is representable iff every `T → X` is). Define
 *IsAlgebraicStack* `X`: the diagonal is representable by algebraic spaces and there is a scheme `U`
-with a smooth surjective `U → X` (Stacks, Definition 94.12.1 (026O)), with `.diagonal`, `.atlas`,
+with a smooth surjective `U → X` (Stacks, Definition 94.12.1 (026O)), with *.diagonal*, *.atlas*,
 *.ofSpace*, *.twoFiberProduct* (a 2-fibre product of algebraic stacks is an algebraic stack and is
-the 2-fibre product among algebraic stacks; Lemma 94.14.3 (04T2)), `.of_equiv`. Define
+the 2-fibre product among algebraic stacks; Lemma 94.14.3 (04T2)), *.of_equiv*. Define
 *IsDeligneMumford* `X`: an algebraic stack with an étale surjective `W → X` from a scheme (Definition
-94.12.2 (03YO)), with *.iff_unramified_diagonal* (Theorem 101.21.6 (06N3)), `.isAlgebraic`, *.ofSpace*,
+94.12.2 (03YO)), with *.iff_unramified_diagonal* (Theorem 101.21.6 (06N3)), *.isAlgebraic*, *.ofSpace*,
 *.twoFiberProduct*. *Needs:* §1.4, §1.9, §1.18; Mathlib `Smooth`, `Surjective`, `Etale`,
 `FormallyUnramified`.
 
@@ -3308,7 +3488,7 @@ finite presentation or type, surjective): `f : X → Y` has `P` if for smooth at
 for an algebraic stack `X` by field-valued objects modulo isomorphism after a common field
 extension, with the quotient topology from a smooth surjective scheme atlas. Prove
 *Stacks.points.ofSpace* and *.ofScheme* (agreement with §1.7 and the native scheme topology),
-*.atlasIndependent* (comparison through `U ×_X U'`), `.map` (continuous, unchanged by
+*.atlasIndependent* (comparison through `U ×_X U'`), *.map* (continuous, unchanged by
 2-isomorphism, preserving identities and composition), and *.atlasOpenSurjective*.
 Prove *.pullbackSurjective*: the map `|X ×_Y Z| → |X| ×_|Y| |Z|` is surjective, and
 *.baseChangeImage*: the image of the base change of `h : W → X` along `Z → X` is the
@@ -3335,7 +3515,7 @@ by quasi-compactness of `|X ×_Y T|` for every affine scheme `T → Y`, and fini
 Noetherian algebraic stack by a locally Noetherian smooth scheme atlas, and prove independence
 of that atlas (Stacks, Definition 100.7.2 (04YG), Remark 100.7.3 (04YH),
 Definition 101.17.1). Define *IsProperStack* as separated, of finite type and universally
-closed, with *IsProperStack.of_representable*, `.baseChange`
+closed, with *IsProperStack.of_representable*, *.baseChange*
 (Stacks, Definitions 101.4.1 (04YW), 101.13.2 (0513), 101.16.2 (06FN), 101.37.1 (0CL5)). Prove
 *stack_presentation*: every algebraic stack is `[U/R]` for a smooth groupoid `(U, R)` of §1.14, and
 the quotient stack of a smooth groupoid is algebraic; atlas independence (Stacks, Theorem 94.17.3
@@ -3403,11 +3583,11 @@ topology and the properness criterion are specified in this README only.
 ### 1.21 Quotient stacks, line bundles with a section, root stacks
 
 Define first the generic quotient stack on any site `(C, J)`: for a groupoid object `(X, R)` in
-`J`-sheaves (source and target `s, t : R → X`, composition, identity, inverse), `Stack.quotient J
-(X, R) = [X/R]` is the `Stack.stackification` (§1.18) of the objectwise groupoid prestack with
-objects `X(T)` and arrows `R(T)`, with `Stack.quotient.π : X → [X/R]`, the equivalence
+`J`-sheaves (source and target `s, t : R → X`, composition, identity, inverse), *Stack.quotient* `J (X, R) = [X/R]`
+is the *Stack.stackification* (§1.18) of the objectwise groupoid prestack with
+objects `X(T)` and arrows `R(T)`, with *Stack.quotient.π* `: X → [X/R]`, the equivalence
 `R ≃ X ×_{[X/R]} X` (from the groupoid axioms), the description of its objects over `T` as
-locally trivial `R`-torsors, `.desc` and the sheafification of `X/R` as its sheaf of isomorphism
+locally trivial `R`-torsors, *.desc* and the sheafification of `X/R` as its sheaf of isomorphism
 classes (Stacks, Definition 78.20.1 (044Q) with the unit and 2-cell of Lemmas 78.20.2 (044R) and
 78.20.3 (044S); the 2-cartesian square, Lemma 78.22.2 (04M9); the 2-coequaliser property, Lemma
 78.23.2 (044U); objects as descent data `(u_i, r_ij)` along a covering, which are the locally trivial
@@ -3415,17 +3595,17 @@ classes (Stacks, Definition 78.20.1 (044Q) with the unit and 2-cell of Lemmas 78
 Lemma 78.24.1 (044X); the arguments are site-independent); DiamondsAndVStacks D0.26 is the `(Perf, v)` instance.
 Then *quotientStack* `(U, R)` for a groupoid scheme and *actionQuotient* `G X = [X/G]` with
 *actionQuotient.torsorEquiv* (objects over `T` are `G_T`-torsors with equivariant maps to `X`),
-`quotientStack.π : U → [U/R]`, `.isCartesian`, `.desc`, `.torsor` (`π` is a `G`-torsor for
-`[X/G]`) are the fppf scheme instances of `Stack.quotient`. Prove *quotientStack_algebraic*: `[U/R]` is algebraic for a flat locally finitely
+*quotientStack.π* `: U → [U/R]`, *.isCartesian*, *.desc*, *.torsor* (`π` is a `G`-torsor for
+`[X/G]`) are the fppf scheme instances of *Stack.quotient*. Prove *quotientStack_algebraic*: `[U/R]` is algebraic for a flat locally finitely
 presented groupoid (Stacks, Theorem 97.17.2 (06FI); Theorem 94.17.3 (04TK) is the smooth case), and
 `[X/G]` is Deligne–Mumford iff its diagonal is unramified, that is iff the stabilizer group spaces
 of the action are unramified (Morphisms of Stacks, Definition 101.4.1 (04YW) and Theorem 101.21.6
 (06N3)). Prove *lineBundleSectionStack*: `[𝔸¹/𝔾_m]` classifies pairs `(L, s)` of a
 line bundle with a section (Cadman 2005, §2.2, p. 6). Define *rootStack* `n (L, s)` for a line bundle
 with a section and `n ≥ 1`, the fibre product `X ×_{[𝔸¹/𝔾_m]} [𝔸¹/𝔾_m]` along the `n`-th power
-map, with `.baseChange`, `.one` (`n = 1` is `X`), *.isIso_away* (an isomorphism over `s ≠ 0`),
-`.affineChart` (`Spec A[t]/(t^n − s)` modulo `μ_n` over `Spec A` with `L` trivial), *.isDeligneMumford_of_invertible*
-(`n` invertible on the base), `.transition` (Cadman 2005, Definitions 2.1, 2.3, 2.5, Theorem 2.2, Proposition
+map, with *.baseChange*, *.one* (`n = 1` is `X`), *.isIso_away* (an isomorphism over `s ≠ 0`),
+*.affineChart* (`Spec A[t]/(t^n − s)` modulo `μ_n` over `Spec A` with `L` trivial), *.isDeligneMumford_of_invertible*
+(`n` invertible on the base), *.transition* (Cadman 2005, Definitions 2.1, 2.3, 2.5, Theorem 2.2, Proposition
 2.4, §§2.1–2.2, pp. 3–6). *Needs:* §1.13, §1.14, §1.15, §1.19, §1.20.
 
 **Checks.**
@@ -3472,14 +3652,14 @@ ordinary big-site direct image need not preserve quasi-coherence (Stacks, Propos
 
 ### 1.23 Moduli functors, fine and coarse moduli spaces, Keel–Mori, tame stacks
 
-Define *moduliFunctor* `X : SchemePresheaf`, `T ↦ π₀ X(T)`, with `.map`, *toModuliSheaf* (its fppf
+Define *moduliFunctor* `X : SchemePresheaf`, `T ↦ π₀ X(T)`, with *.map*, *toModuliSheaf* (its fppf
 sheafification), *isSetoid_iff_moduliFunctor*, *moduliFunctor_classifying* (Stacks, Lemma 8.6.3
 (0432); Section 4.39 (04S9)). Define *FineModuliSpace* `X`: an algebraic space `M` with an equivalence
-`h_M ≃ X`, with `.universal` (the object over `M` corresponding to `𝟙_M`), `.unique`,
+`h_M ≃ X`, with *.universal* (the object over `M` corresponding to `𝟙_M`), *.unique*,
 *.inertia_trivial*, *.toCoarse* (Stacks, Proposition 94.13.3 (04SZ)). Define
 *IsCategoricalModuliSpace* `π` for `π : X → M` to an algebraic space: every `X → W` to an algebraic
 space factors uniquely through `π`; *IsCoarseModuliSpace* `π`: categorical and a bijection on
-`k`-points for every algebraically closed field `k`, with `.unique`, *.ofFine*,
+`k`-points for every algebraically closed field `k`, with *.unique*, *.ofFine*,
 *IsCategoricalModuliSpace.quotient_iff* (for `[U/R]`, categorical quotients of §1.17),
 `IsUniform` (formation commutes with flat base change) (Stacks, Definition 106.12.1, Lemmas
 106.12.2–106.12.4 (0DUF)). Prove *keel_mori*: an algebraic stack locally of finite presentation over
@@ -3497,7 +3677,7 @@ standing quasi-compact separated diagonal convention. Prove *finite_quotient_coa
 *IsTame* `M` for `M` locally of finite presentation with finite inertia and coarse space `ρ : M → M`:
 `ρ_* : QCoh(M) → QCoh(M)` is exact (Abramovich–Olsson–Vistoli 2008, Definition 3.1 and the remark
 after it), with *.classifying_iff* (`BG` is tame iff `G` is linearly reductive, Tau Ceti's
-`linearlyReductiveAffineGroupSchemeProperty`), `.baseChange`, *.geometric_fibres* (tame iff every
+`linearlyReductiveAffineGroupSchemeProperty`), *.baseChange*, *.geometric_fibres* (tame iff every
 geometric stabilizer is linearly reductive). Prove *tame_local_structure*: a tame stack is
 étale-locally on its coarse space a quotient `[Spec A/G]` with `G` linearly reductive, and tameness
 is stable under base change (Abramovich–Olsson–Vistoli 2008, Theorem 3.2, Corollaries 3.3–3.5,
@@ -3523,8 +3703,8 @@ Let `k'/k` be Galois with `Γ = Gal(k'/k)` (Krull topology) and `H` a linear alg
 (an affine `k'`-group scheme of finite type, a finitely generated commutative Hopf `k'`-algebra
 `O(H)`). Define *SemilinearAut* `H σ` for `σ ∈ Γ`: a ring automorphism of `O(H)` that is
 `σ`-semilinear over `k'` and respects the Hopf structure (Kisin 2017, §3.1.1, condition (1),
-pp. 34–35), with *.toPointsAut* (the induced `σ`-semilinear bijection of `H(k')`), `.comp`,
-`.standard` (for `H = H_0 ⊗_k k'` the standard `σ`-action), `.linear_iff` (`σ = 1`). Prove
+pp. 34–35), with *.toPointsAut* (the induced `σ`-semilinear bijection of `H(k')`), *.comp*,
+*.standard* (for `H = H_0 ⊗_k k'` the standard `σ`-action), *.linear_iff* (`σ = 1`). Prove
 `galois_descent_affine`: for an algebraic Galois extension `k'/k`, fpqc descent
 data on affine `k'`-schemes are equivalent to **continuous semilinear actions** on
 their coordinate algebras. Define `ContinuousSemilinearAction k k' A` by a group
@@ -3532,7 +3712,7 @@ homomorphism `ρ : Gal(k'/k) → RingAut A`, the scalar identity
 `ρ(σ)(c·a) = σ(c)·ρ(σ)(a)`, and openness of `{σ | ρ(σ)(a) = a}` for each `a : A`.
 Thus the coordinate algebra has the discrete topology. Prove
 *ContinuousSemilinearAction.continuous_iff* (this condition is joint continuity for
-that topology), `.standard` (scalar extension gives such an action), `.finite`
+that topology), *.standard* (scalar extension gives such an action), *.finite*
 (every semilinear action for a finite Galois extension satisfies it), and
 `galois_descent_affine`: the invariant `k`-algebra `A₀` has an equivariant
 isomorphism `k' ⊗_k A₀ ≅ A`, functorial in equivariant algebra maps. Prove
@@ -3543,7 +3723,7 @@ on the algebra element: no single finite quotient is required to carry the whole
 semilinear action, including its scalar action. Define *CrossedModule* `Ht H`: a
 homomorphism `∂ : H̃ → H` and an action of `H` on `H̃` by automorphisms with `∂(h·x) = h ∂(x) h⁻¹`
 and `∂(x)·y = x y x⁻¹` (Kisin 2017, §3.2.1, pp. 39–40), with *.quotientCategory* (objects `H`,
-morphisms `H̃`), `.isGroupoid`, `.isoClasses` (`coker ∂`), `.aut` (`ker ∂`, central), *.kernel_central*.
+morphisms `H̃`), *.isGroupoid*, *.isoClasses* (`coker ∂`), *.aut* (`ker ∂`, central), *.kernel_central*.
 *Needs:* Mathlib `CommHopfAlgCat`, `krullTopology`, `MonoidHom.ker`, `IsGroupoid`; Tau Ceti
 `ScalarAut.instMulSemiringAction`.
 
@@ -3590,8 +3770,8 @@ of `H` (§1.24). These chosen automorphisms form an action of `E`, restricting t
 conjugation on kernel elements, witnessed on a splitting chart whose induced semilinear action on
 `O(H)` has open stabilizers of individual algebra elements. Descent on every such
 chart uses `ContinuousSemilinearAction`, with Hopf compatibility; a bare topological extension is not a gerb (Kisin
-2017, §3.1.1–3.1.2, pp. 34–36), with `.kernel`, *.local_chart* (every gerb has a local splitting
-chart), `.conjugation` (the semilinear automorphism of `H` induced by an element of `E` over `σ`,
+2017, §3.1.1–3.1.2, pp. 34–36), with *.kernel*, *.local_chart* (every gerb has a local splitting
+chart), *.conjugation* (the semilinear automorphism of `H` induced by an element of `E` over `σ`,
 through §1.24), *neutral* `H` for `H = H₀ ⊗_k k'` (the neutral gerb `H(k') ⋊ Γ`
 with its continuous standard coordinate action), *.base_extension* (preserving open
 coordinate stabilizers). Define
@@ -3630,7 +3810,7 @@ For `f_1 = f_2 = f`, descend multiplication and inversion: `I_f` is an affine `k
 fppf-locally nonempty, prove that it is an `(I_{f_2}, I_{f_1})`-bitorsor, with left and right
 multiplication, rather than assigning it a group structure. Define *ProGerb*: a compatible
 projective system of gerbs with continuous extension transitions and algebraic kernel transitions,
-with `.stage`, `.transition`, *.stagewise_conjugate*, and pro-morphisms; all chartwise Hopf descent
+with *.stage*, *.transition*, *.stagewise_conjugate*, and pro-morphisms; all chartwise Hopf descent
 retains the open-stabilizer condition. Prove *splitting_field_extension*: for
 `k'' ⊇ k'` Galois over `k`, a `k'/k`-gerb induces a `k''/k`-gerb by pulling back along `Gal(k''/k) →
 Gal(k'/k)` and extending the kernel, compatibly with morphisms and conjugacy (Kisin 2017, §3.1.2).
@@ -3719,24 +3899,24 @@ a general coefficient category `A` has `Category.{u} A`; the one change of coeff
 ### 2.1 Pullback and higher direct images on sites
 
 For cohomology transport through an exact additive coefficient functor `pb`,
-`Sheaf.H.pullback` also requires a specified map `ℤ_J → pb(ℤ_K)` between constant sheaves.
+*Sheaf.H.pullback* also requires a specified map `ℤ_J → pb(ℤ_K)` between constant sheaves.
 For a morphism of sites this is the canonical comparison of its inverse-image functor;
 an arbitrary exact functor without this comparison does not specify cohomology pullback.
 
 For a morphism of sites given by a continuous functor `u : D ⥤ C` with exact inverse image `pb =
-u.sheafPullback` (Mathlib `Functor.sheafPullback`), define `Sheaf.H.pullback pb G n : G.H n →+`
+u.sheafPullback` (Mathlib `Functor.sheafPullback`), define *Sheaf.H.pullback* `pb G n : G.H n →+`
 `(pb.obj G).H n` for every abelian sheaf `G` on `D` and `n ≥ 0`, writing `f^{-1} = pb`: the composite
 `H^n(D, G) → H^n(D, f_* f^{-1} G) → H^n(D, Rf_* f^{-1} G) = H^n(C, f^{-1} G)` of the unit with the
 identification `RΓ(D, Rf_* F) = RΓ(C, F)` (Stacks, Remark 21.14.4 (08J6), which rests on the total
 acyclicity of `f_*` of an injective, Lemma 21.14.1 (072Z)); on a slice `C/U` this is the
 identification of Lemma 21.7.1 (03F3), and for functors as in Lemma 21.7.2 (03YU) it is an
-isomorphism. It comes with `pullback_zero` (in degree `0`, composed with `Sheaf.H.equiv₀`, it
-is restriction of sections), `pullback_naturality` (in `G`), `pullback_id`, `pullback_comp` (along a
-composite, through `u⁻¹ v⁻¹ ≅ (v u)⁻¹`), `pullback_δ` (commutes with the connecting homomorphisms of
-a short exact sequence and its exact pullback). Define `Sheaf.higherDirectImage pf i := pf.rightDerived
+isomorphism. It comes with *pullback_zero* (in degree `0`, composed with `Sheaf.H.equiv₀`, it
+is restriction of sections), *pullback_naturality* (in `G`), *pullback_id*, *pullback_comp* (along a
+composite, through `u⁻¹ v⁻¹ ≅ (v u)⁻¹`), *pullback_δ* (commutes with the connecting homomorphisms of
+a short exact sequence and its exact pullback). Define *Sheaf.higherDirectImage* `pf i := pf.rightDerived
 i` for the sheaf pushforward `pf` of a morphism of sites (Grothendieck abelian source), with
 *higherDirectImage_zero* (`R⁰f_* ≅ f_*`), *higherDirectImage_iso_sheafify* (`R^i f_* F` is the
-sheafification of `V ↦ H^i(u(V), F)`), `higherDirectImage_δ` (long exact sequence),
+sheafification of `V ↦ H^i(u(V), F)`), *higherDirectImage_δ* (long exact sequence),
 *Sheaf.derivedPushforward* (`Rf_* : D⁺(Ab(C)) → D⁺(Ab(D))`) and *derivedPushforward_comp* (`R(g∘f)_* ≅
 Rg_* Rf_*`, pushforward preserves injectives) (Stacks, Lemma 21.7.4 (072W) for the sheafification
 description; for abelian sheaves the morphism of ringed topoi is flat, so `f_*` preserves injectives
@@ -3979,11 +4159,28 @@ The slice-site targets of this paragraph and their four controls are specified i
 
 Prove *qcoh_higherDirectImages*: for `f : X → S` quasi-compact and quasi-separated and `F`
 quasi-coherent, `R^p f_* F` is quasi-coherent, computed on affines by `H^p(f⁻¹ U, F)`, commutes with
-flat base change and commutes with filtered colimits. For **affine `S`**,
-`QCoh.higherDirectImage_vanishing` gives a bound depending only on the qcqs map `f`
-for all quasi-coherent `F`; on a general base the bound is local on affine opens (Stacks, Lemmas 30.4.1–30.4.6 (01XH)). Prove *projectiveSpace_cohomology*:
-`H^q(ℙ^n_A, O(d))` for every `q`, `d` and ring `A`: `Sym^d` in degree `0`, the dual module in degree
-`n`, zero otherwise (Stacks, Lemmas 30.8.1–30.8.3 (01XS)). Prove *ample_serre_vanishing*: for `X`
+flat base change and commutes with filtered colimits. The uniform vanishing is Tau Ceti's
+(`TauCeti/AlgebraicGeometry/Cohomology/QuasiSeparated.lean`; Stacks, Lemmas 30.4.1–30.4.6 (01XH)):
+`AlgebraicGeometry.Scheme.Hom.exists_subsingleton_cohomology_of_isAffine` (for `f` quasi-compact
+and quasi-separated over an affine `S`, `H^p(X, F) = 0` for all quasi-coherent `F` and all `p`
+beyond a bound depending only on `f`), `AlgebraicGeometry.Scheme.Modules.exists_subsingleton_cohomology`
+(the same on a quasi-compact quasi-separated scheme) and
+`AlgebraicGeometry.Scheme.Hom.exists_isZero_higherDirectImage` (`R^p f_* F = 0` beyond such a bound,
+over a quasi-compact base `S`); on a general base the bound is local on affine opens. The
+cohomology of the twisting sheaves on `ℙ^n_A = Proj (Sym A^{n+1})`, for every ring `A`, is Tau
+Ceti's in degrees other than `n` (`TauCeti/AlgebraicGeometry/Cohomology/ProjectiveSpace/`):
+`TauCeti.SymmetricAlgebra.free_cohomology_zero_twistingSheaf` (`H^0(ℙ^n_A, O(d))` is the free
+module `Sym^d`), `Module.Basis.subsingleton_cohomology_twistingSheaf_of_lt_card` (`H^q = 0` for
+`0 < q < n` and every `d`), `Module.Basis.subsingleton_cohomology_twistingSheaf_of_neg_card_lt`
+(`H^q = 0` for every `q > 0` when `d > −n − 1`) and `Module.Basis.subsingleton_cohomology_proj_of_card_le`
+(`H^q = 0` for `q > n`); for `n = 1` the top degree is
+`TauCeti.AlgebraicGeometry.projectiveLine.cohomologyOneTwistingSheafLinearEquiv`.
+*projectiveSpace_cohomology*, the name other roadmaps cite, is the full computation of
+`H^q(ℙ^n_A, O(d))` for every `q`, `d` and ring `A` (`Sym^d` in degree `0`, the dual module in degree
+`n`, zero otherwise; Stacks, Lemmas 30.8.1–30.8.3 (01XS)); its cases other than the top degree are
+the pinned declarations above, and the target is the top degree: for `d ≤ −n − 1`,
+`H^n(ℙ^n_A, O(d))` is the `A`-dual of `H^0(ℙ^n_A, O(−d − n − 1))`, free with basis the Laurent
+monomials `x^e` with every `e_i < 0` and `Σ e_i = d`. Prove *ample_serre_vanishing*: for `X`
 proper over a Noetherian ring and `L` ample, every coherent `F` has `H^q(X, F ⊗ L^n) = 0` for `q > 0`
 and `n ≫ 0` (Stacks, Lemma 30.17.1 (0B5U), in Section 30.17 (01XO)).
 For the same proper Noetherian-base hypotheses, `H^q(X, F)` is a finite module over the base ring
@@ -3997,8 +4194,8 @@ Noetherian, so `F` is there the filtered colimit of its coherent submodules (Lem
 and `R^q f_*` commutes with filtered colimits (Lemma 30.6.1 (07TB)). Prove *serre_affineness_criterion*:
 a quasi-compact scheme `X` is affine iff `H¹(X, I) = 0` for every quasi-coherent ideal `I`, iff
 `H^q(X, F) = 0` for all `q > 0` and quasi-coherent `F` (Stacks, Lemmas 30.3.1, 30.3.2, 30.3.4
-(01XE)). *Needs:* §0.3, §0.4; Tau Ceti `Scheme.Modules.Cohomology`; StableReduction Layer 2 (relative
-ampleness); JacobianChallenge Layer B.
+(01XE)). *Needs:* §0.3, §0.4; Tau Ceti `Scheme.Modules.Cohomology` and the declarations above;
+StableReduction Layer 2 (relative ampleness); JacobianChallenge Layer B.
 
 **Checks.**
 - *higherDirectImage_unbounded_base*: for `S = ⨿_{n≥0} Spec k` and
@@ -4011,10 +4208,10 @@ ampleness); JacobianChallenge Layer B.
 - *test_affine_vanishing*: on `Spec A` every quasi-coherent module is acyclic.
 - *test_not_affine_punctured_plane*: `H¹(𝔸² ∖ {0}, O) ≠ 0`, so `𝔸² ∖ {0}` is not affine.
 
-*Lean:* `QCoh.higherDirectImage_vanishing` (over an affine base), `QCoh.isAffine_of_H1_vanishing`
-(the direction of *serre_affineness_criterion* from the vanishing of `H¹` of every quasi-coherent
-module to affineness); *higherDirectImage_unbounded_base* (qcqs over the non-affine base
-`⨿_n Spec k`, and no uniform bound on the source) is specified in this README only.
+*Lean:* `QCoh.isAffine_of_H1_vanishing` (the direction of *serre_affineness_criterion* from the
+vanishing of `H¹` of every quasi-coherent module to affineness); the uniform vanishing is Tau
+Ceti's (above), and *higherDirectImage_unbounded_base* (qcqs over the non-affine base `⨿_n Spec k`,
+and no uniform bound on the source) is specified in this README only.
 
 ### 2.7 Cohomology with supports and local cohomology
 
@@ -4292,7 +4489,7 @@ there are `i` and `u ∈ U_i` with `p_i(u) = x` and `κ(x) → κ(u)` an isomorp
 `Scheme.Hom.residueFieldMap`) (Morel–Voevodsky 1999, §3.1, Proposition 1.1, Definition 1.2, pp.
 95–96); `nisnevichPrecoverage` and `nisnevichTopology := nisnevichPrecoverage.toGrothendieck` on
 `Scheme`; *smallNisnevichTopology* `X` on `X.Etale`. API: *isNisnevichCovering_of_zariski*,
-*nisnevichPrecoverage_le_etale*, *IsNisnevichCovering.pullback*, `.comp`,
+*nisnevichPrecoverage_le_etale*, *IsNisnevichCovering.pullback*, *.comp*,
 *isNisnevichCovering_iff_henselization* (for a finite family over a Noetherian base: Nisnevich iff
 the base change to every `Spec O^h_{X,x}` of §0.13 has a section), `zariskiTopology_le_nisnevichTopology`,
 `nisnevichTopology_le_etaleTopology`, *nisnevichTopology_subcanonical*, *mem_nisnevichTopology_iff*,
@@ -4734,11 +4931,16 @@ comparison model. The local construction and its pasting are supplied here. API:
 immersion case Lemma 48.17.1 (0AU0)),
 *upperShriek_flat_baseChange* (for `g` flat, `g'^* f^! ≅ f'^! g^*` on `D⁺_QCoh(O_Y)`; Lemma 48.18.1
 (0E9U)),
-*upperShriek_smooth* (for `f` smooth of relative dimension `d`, `f^! K ≅ f^* K ⊗ Ω^d_{X/Y}[d]`;
-Lemmas 48.17.3, 48.17.11), *upperShriek_lci* (for `f` a local complete intersection,
+*upperShriek_smooth* (for `f` smooth of relative dimension `d`, `f^! K ≅ f^* K ⊗ Ω^d_{X/Y}[d]`:
+`f^! K ≅ Lf^* K ⊗ f^! O_Y` by Lemma 48.17.9 (e) (0B6U), `f^! O_Y` is invertible by Lemma 48.17.11
+(0B6V), and its identification with `Ω^d_{X/Y}[d]` is Lemma 48.15.7 (0BRT) for `f` smooth and proper
+and Lemma 48.29.2 (0E9Z) at the points where `f` is smooth, for `f` factoring through an immersion
+into a proper smooth scheme over `Y`; Lemma 48.17.3 (0AA1) gives the local form `f^! ≅ Lf^*[1]`
+for `𝔸¹_Y → Y`, and the general smooth case is glued from these local identifications by the
+Čech pasting construction of this subsection), *upperShriek_lci* (for `f` a local complete intersection,
 `f^! K ≅ Lf^* K ⊗^L f^! O_Y`, using §2.18's *derivedPullback* `f`.
 The object `f^! O_Y` is tensor-invertible in the derived category, locally a shifted line bundle; for Gorenstein `f` of relative dimension `d`, `f^! O_Y`
-`≅ ω_{X/Y}[d]`; [Stacks, Lemmas 48.17.9(5) and 48.17.11](https://stacks.math.columbia.edu/tag/0ATZ)), *upperShriek_unit*, *upperShriek_counit* (the adjunction maps on
+`≅ ω_{X/Y}[d]`; [Stacks, Lemmas 48.17.9 (e) and 48.17.11](https://stacks.math.columbia.edu/tag/0ATZ)), *upperShriek_unit*, *upperShriek_counit* (the adjunction maps on
 the proper part). The regime is bounded-below complexes with quasi-coherent cohomology on
 Noetherian schemes, separated finite-type morphisms; nothing is asserted for unbounded complexes or
 non-Noetherian bases. *Needs:* §2.18; the finite-map right adjoint above; affine polynomial
@@ -4890,12 +5092,12 @@ over `O_S` (Stacks, Chapter 36, the section on relatively perfect objects); this
 dualising complex, which is defined in terms of it. Define *RelativeDualizingComplex* `f`: a pair
 `(K, ξ)` with `K ∈ D(O_X)` `S`-perfect and `ξ : Δ_* O_X → L pr_1^* K|_W` in `D(O_W)` inducing an
 isomorphism `Δ_* O_X ≅ RHom_{O_W}(Δ_* O_X, L pr_1^* K|_W)` (Stacks, Definition 48.28.1 (0E2T)). API:
-*RelativeDualizingComplex.unique*, `.exists`, `.baseChange` (derived pullback along `S' → S`),
+*RelativeDualizingComplex.unique*, *.exists*, *.baseChange* (derived pullback along `S' → S`),
 *.homothety_iso* (`O_X ≅ RHom(K, K)`), *.upperShriek* (for `f` flat in `FTS_S`, `f^! O_S` with its
 canonical `ξ` is one) (Lemmas 48.28.2–48.28.7, 48.28.9).
 
 **Construction of relative dualising pairs.** This subsection owns the affine construction
-and comparison used by *RelativeDualizingComplex.exists*, `.unique` and `.baseChange` for every
+and comparison used by *RelativeDualizingComplex.exists*, *.unique* and *.baseChange* for every
 flat locally finitely presented `f : X → S`, including non-quasi-compact and non-quasi-separated
 schemes. Build them in the following order, using
 [Stacks, Lemmas 47.27.2–47.27.5](https://stacks.math.columbia.edu/tag/0E2D) and
@@ -4936,7 +5138,7 @@ schemes. Build them in the following order, using
    rigidifications. For arbitrary `S' → S`, pull back `K` and the diagonal morphism by the
    derived functors; flatness supplies the diagonal Tor-independence identifying the pulled-back
    `Δ_*O_X` with `Δ'_*O_{X'}`. Check the defining property by the affine base-change result
-   in step 1, then compare with the constructed pair by `.unique`
+   in step 1, then compare with the constructed pair by *.unique*
    ([Lemma 48.28.6 (0E2Y)](https://stacks.math.columbia.edu/tag/0E2Y)). These comparisons commute
    with refinement and composition of base changes because they preserve the rigidifications.
 
@@ -5003,7 +5205,7 @@ The strand `Coherent` of `Suggested.lean` contains `D_QCoh(O_X)` and the affine 
 *DualizingComplex* `A ω` for a Noetherian ring `A` and `ω ∈ D(A)`: `ω` has finite injective dimension,
 finite cohomology modules, and `A → RHom_A(ω, ω)` is a quasi-isomorphism (Stacks, Definition
 47.15.1 (0A7B)), with *homothety*, *cohomology_finite*, *biduality* (`M ≅ RHom(RHom(M, ω), ω)` for `M ∈
-D^b_Coh(A)`), `DualizingComplex.localization`, `.quotient`, `.unique_up_to_shift_twist`. Define
+D^b_Coh(A)`), *DualizingComplex.localization*, *.quotient*, *.unique_up_to_shift_twist*. Define
 *SchemeDualizing* `X K` for `X` locally Noetherian: for every affine open `U = Spec A`, `K|_U ≅ ω_A~`
 with `ω_A` dualising (Stacks, Definition 48.2.2 (0A87)), with `affine`, *cover_iff* (it suffices to check an
 affine open cover; Lemma 48.2.1 (0A86)), `restrict`, *SchemeDualizing.biduality* (on `D^b_Coh(X)`),
@@ -5193,7 +5395,7 @@ an injective equivariant module `I`, `Γ(X, I)` is an acyclic `Γ`-module (`H^p(
 `p > 0`), and `Γ(X, −)^Γ = Γ(Γ, −) ∘ Γ(X, −)` on injectives (Kings–Sprang 2019, Appendix A.1,
 display (A.1.1), p. 80). Define *invariantSections* `F := Γ(X, F)^Γ` and the equivariant cohomology
 *equivariantCohomology* `F n := R^n (invariantSections) F`, with *equivariantCohomology_zero*,
-*equivariantCohomology_trivial_group* (for `Γ = 1` it is `H^n(X, F)`), `equivariantCohomology_δ`;
+*equivariantCohomology_trivial_group* (for `Γ = 1` it is `H^n(X, F)`), *equivariantCohomology_δ*;
 *equivariantExt* `F G n := Ext^n` in *EquivariantModules* with *equivariantExt_zero*;
 *equivariantCohomologyWithSupport* `Z F n` for a `Γ`-stable closed `Z`, with the localisation
 sequence; and the two spectral sequences `H^p(Γ, H^q(X, F)) ⇒ H^{p+q}_Γ(X, F)` and `H^p(Γ, Ext^q(F,`
@@ -5520,9 +5722,9 @@ free (finite, flat and locally of finite presentation, ModularCurves 0B's conven
 of a line bundle along a finite locally free morphism; the degree enters only the statements that
 need it, through `Scheme.Hom.finrank`: `Norm_π(L)` is the invertible sheaf whose local
 trivialisations are the determinants of `π_* L` relative to `π_* O_X` (Stacks, Lemmas 0BCY, 0BCZ,
-0BD2). API: *lineBundleNorm_tensor*, `_one` (a group homomorphism), `_pullback` (`Norm(π^* N) = N^{⊗ d}`
-when `π.finrank` is constantly `d`), `_comp` (`Norm_{π∘ρ} = Norm_π ∘ Norm_ρ`), `_baseChange`,
-`_det` (`Norm_π(L) ⊗ det(π_* O_X) ≅ det(π_* L)`, with AlgebraicVectorBundles L0C's `determinant`),
+0BD2). API: *lineBundleNorm_tensor*, *_one* (a group homomorphism), *_pullback* (`Norm(π^* N) = N^{⊗ d}`
+when `π.finrank` is constantly `d`), *_comp* (`Norm_{π∘ρ} = Norm_π ∘ Norm_ρ`), *_baseChange*,
+*_det* (`Norm_π(L) ⊗ det(π_* O_X) ≅ det(π_* L)`, with AlgebraicVectorBundles L0C's `determinant`),
 *sectionNorm* (every section `s` of `L` has a norm section of `Norm_π L`; when `s` is regular,
 its norm is regular and `div(Norm(s)) = π_*(div(s))`), *lineBundleNorm_divisor* (`Norm_π O(D) = O(π_* D)` on regular curves). Hypotheses: `π` finite
 locally free; where a degree appears it is `π`'s `finrank`, never a free parameter. *Needs:* §3.4;
@@ -5584,9 +5786,9 @@ sheaves on `X_T`, morphisms isomorphisms (the fibre over `T` is *picardGroupoid*
 JacobianChallenge's `Pic_{X/k}`), *isGerbe* (a `𝔾_m`-gerbe over `Pic_{X/k}`, not in general the
 product `Pic_{X/k} × B𝔾_m`), *universalBundle* (a line bundle on `X × picardStack X`; a universal
 bundle on `X × Pic^d_{X/k}` exists only when the gerbe is split), *split_of_point* (split by a
-rational point), `tensor`, `baseChange` (Yun–Zhang 2017, §3.2.1, p. 16). Define `sectionStack
-X` over `picardStack X`: pairs `(L, s)` with `s ∈ Γ(X_T, L)`, with `forget`, `zeroSection`,
-*eq_of_neg* (the fibre over degree `d < 0` is the zero section), `symmetricPowerEquiv` (in degree
+rational point), *tensor*, *baseChange* (Yun–Zhang 2017, §3.2.1, p. 16). Define *sectionStack*
+`X` over *picardStack* `X`: pairs `(L, s)` with `s ∈ Γ(X_T, L)`, with *forget*, *zeroSection*,
+*eq_of_neg* (the fibre over degree `d < 0` is the zero section), *symmetricPowerEquiv* (in degree
 `d ≥ 0`, the open substack of pairs with `s|_{X_t} ≠ 0` for every `t ∈ T` is `X^{(d)}`,
 JacobianChallenge Layer C's symmetric power: the zero scheme of such an `s` is a relative effective
 Cartier divisor of `X_T/T`, finite locally free of degree `d` over `T`, and conversely; Stacks,
@@ -5594,7 +5796,7 @@ Lemmas 31.19.9 (062Y) and 44.3.1 (0B9D)),
 *isTotalSpace* (over the degree-`d` Picard stack with `d > 2g − 2` the section stack is the total
 space of the vector bundle `p_* L^{univ}` of rank `d + 1 − g`, and its open substack of fibrewise
 nonzero sections is that bundle minus its zero section, not a projective bundle over the stack; `X^{(d)}` is
-recovered by forgetting the scalar identifications), `add`, *add_symmetricPower* (Yun–Zhang
+recovered by forgetting the scalar identifications), *add*, *add_symmetricPower* (Yun–Zhang
 2017, §3.2.1, p. 16; proof of Proposition 3.1 (2), p. 18). Prove *abelMaps_highDegree*: the Abel
 map `a_d : X^{(d)} → Pic^d_{X/k}`, sending an effective divisor to its line-bundle class, is
 surjective as a morphism of schemes for `d ≥ g` (nothing is asserted about `k`-points), and for
@@ -5609,8 +5811,8 @@ cover `ν : X' → X` of smooth proper curves with involution `σ`, in odd chara
 sequence of sheaves `1 → 𝔾_m → ν_* 𝔾_m → ν_* 𝔾_m → 𝔾_m → 1` on `X_ét` is exact, the middle map
 being `a ↦ a / σ(a)` and the last the norm (§3.5); hence the norm `Nm` on Picard stacks has as
 homotopy fibre the stack of line bundles with a trivialised norm, and on Picard schemes the kernel
-of `Nm : Pic_{X'} → Pic_X` has two connected components (Yun–Zhang 2017, §6.1, proof of
-Proposition 6.1 (1), p. 40); no exact sequence of groups of rational points is asserted beyond
+of `Nm : Pic_{X'} → Pic_X` has two connected components (Yun–Zhang 2017, §5.4.1, p. 35, with the
+exact sequence in the proof of Proposition 6.1 (1), p. 40); no exact sequence of groups of rational points is asserted beyond
 what the stack sequence gives. *Needs:* §1.18, §1.19, §3.4,
 §3.5, §3.6; JacobianChallenge Layers C–D.
 
@@ -5623,7 +5825,7 @@ what the stack sequence gives. *Needs:* §1.18, §1.19, §3.4,
 - *sectionStack_nodal_cubic*: on a proper nodal cubic over an algebraically closed field the node is
   a point of `X^{(1)} = X`, but the reduced node is not an effective Cartier divisor (the maximal
   ideal of its local ring needs two generators), so it is the zero scheme of no section of a line
-  bundle; the nodal cubic is outside `symmetricPowerEquiv`.
+  bundle; the nodal cubic is outside *symmetricPowerEquiv*.
 - *sectionStack_negative* (degree `−1`: the zero section only), *sectionStack_projectiveLine*,
   *sectionStack_rank*, *sectionStack_not_bundle* (on an elliptic curve, in degree zero, `h⁰(O)=1`
   and `h⁰(L)=0` for every nontrivial degree-zero `L`; hence it is not a vector bundle).
@@ -5709,10 +5911,10 @@ Thickenings are Tau Ceti's (`TauCeti/AlgebraicGeometry/Morphisms/Thickening.lean
 `TauCeti.AlgebraicGeometry.IsThickening i` for `i : Z → X` is a closed immersion surjective on
 points, equivalently with ideal sheaf in the nilradical (`isThickening_iff_ker_le_nilradical`), and
 `TauCeti.AlgebraicGeometry.IsFirstOrderThickening i` a closed immersion with `i.ker * i.ker = ⊥`
-(Stacks, Definition 37.2.1 (04EX)), with the pinned instances *IsFirstOrderThickening.isThickening*,
+(Stacks, Definition 37.2.1 (04EX)), with the pinned instances `TauCeti.AlgebraicGeometry.IsFirstOrderThickening.isThickening`,
 stability under composition and base change (`IsThickening.pullback_fst`, `.pullback_snd`,
-`IsFirstOrderThickening.pullback_fst`, `.pullback_snd`), *IsThickening.isUniversalHomeomorphism*
-(§0.23), and the affine criteria `IsThickening.SpecMap_iff` and `IsFirstOrderThickening.SpecMap_iff`
+`IsFirstOrderThickening.pullback_fst`, `.pullback_snd`),
+`TauCeti.AlgebraicGeometry.IsThickening.isUniversalHomeomorphism` (§0.23), and the affine criteria `IsThickening.SpecMap_iff` and `IsFirstOrderThickening.SpecMap_iff`
 (`Spec (B/J) → Spec B` is a first-order thickening iff `J² = 0`). Names cited by other roadmaps:
 *Formal.IsThickening* → `TauCeti.AlgebraicGeometry.IsThickening`; *Formal.IsFirstOrderThickening* →
 `TauCeti.AlgebraicGeometry.IsFirstOrderThickening`. Prove *IsThickening.factor_firstOrder* (a
@@ -5722,7 +5924,7 @@ Define `FormallySmooth f` (respectively
 thickening `T → T'` of **affine** schemes over `S`, every `S`-morphism `T → X` extends to at least
 one (at most one, exactly one) `S`-morphism `T' → X` (Stacks, Definitions 37.11.1 (02H0), 37.6.1
 (02H8), 37.8.1 (02HG)). API: *formallySmooth_specMap_iff* (Mathlib's `RingHom.FormallySmooth`),
-*FormallySmooth.iff_affineLocally*, `.comp`, `.pullback`, *FormallyEtale.of_isOpenImmersion*,
+*FormallySmooth.iff_affineLocally*, *.comp*, *.pullback*, *FormallyEtale.of_isOpenImmersion*,
 *formallyEtale_iff* (`FormallySmooth ∧ FormallyUnramified`), *FormallySmooth.of_smooth* (Lemmas
 37.11.4 (02HH), 37.11.6 (02H4), 37.11.10 (0D0F)). Prove `smooth_iff_formallySmooth` and
 `etale_iff_formallyEtale`: for `f` locally of finite presentation, smooth iff formally smooth, étale
@@ -5789,7 +5991,7 @@ Remark 90.6.3 (06GT), the set-valued case of Definition 90.6.2 (06GS)). For `A' 
 the second surjective, define `θ : F(A' ×_A A'') → F(A') ×_{F(A)} F(A'')` and the conditions `H1`
 (`θ` surjective whenever `A'' → A` is a small extension), `H2` (`θ` bijective for `A = k`,
 `A'' = k[ε]`), *tangentSpace* `:= F(k[ε])` with the `k`-vector space structure under `H2`
-(`tangentSpace.addCommGroup`, `.module`, `add_def`: the sum is computed by *dualAdd*; Lemma 90.12.2
+(*tangentSpace.addCommGroup*, *.module*, *add_def*: the sum is computed by *dualAdd*; Lemma 90.12.2
 (06IH)), `H3` (finite-dimensional tangent space), `H4` (`θ` bijective for `A' = A''` a small
 extension of `A`), and `RS` (`θ` bijective whenever `A'' → A` is surjective) (Stacks, Definitions
 90.10.1 (06HW), 90.12.1 (06IG), 90.16.1 (06J2), 90.16.8 (06J9); Remarks 90.10.3 (06HY), 90.13.5
@@ -5997,11 +6199,11 @@ sheaves `Spec(A/I)` over the ideals of definition; here the same data are kept a
 schemes: its morphisms carry the chosen ideal of definition into the target's at the same level,
 and a continuous morphism of formal schemes need not do so (*not_levelPreserving_powerSeries*
 below). This section uses the category of adic thickening systems with the stated level-preserving morphisms.
-Define `Spf A` for an adic ring as
+Define *Spf* `A` for an adic ring as
 the system `Spec (A/I^{n+1})`; `A = lim A/I^{n+1}` is Mathlib `AdicCompletion.of_bijective`. Define *Spf.homEquiv* (adic
 thickening system morphisms `Spf B → Spf A` are ring maps `A → B` with `φ(I) ⊆ J`, the
-level-preserving ones), `Spf.ofScheme` (for `I = 0`, `Spf A = Spec A`),
-`Spf.map` (Stacks, Section 87.2, Definitions 87.9.7, 87.9.9). *Needs:* §4.1; Mathlib
+level-preserving ones), *Spf.ofScheme* (for `I = 0`, `Spf A = Spec A`),
+*Spf.map* (Stacks, Section 87.2, Definitions 87.9.7, 87.9.9). *Needs:* §4.1; Mathlib
 `IsAdicComplete`, `AdicCompletion`, `Ideal.Quotient.factor`, `IsPullback`.
 
 **Checks.**
@@ -6742,10 +6944,10 @@ every nonempty `D_J` is regular (§4.13) of codimension `|J|` in `X` at every po
 `IsStrictNormalCrossings D` for `D : X.IdealSheafData` on a Noetherian `X`: `D` is the divisor of some
 transverse `SNCData` and `X` is regular at every point of `D` (de Jong 1996, 2.3–2.4, p. 55; 3.1, p.
 62); *IsNormalCrossings* `D`: strict normal crossings after a surjective étale base change. API:
-*IsStrictNormalCrossings.isNormalCrossings*, *.pullback_smooth*, `.component` (each component is a
+*IsStrictNormalCrossings.isNormalCrossings*, *.pullback_smooth*, *.component* (each component is a
 regular effective Cartier divisor), *.local_equation* (at a point of `D` the ideal is generated by a
-product of part of a regular system of parameters), `.of_subset` (a sub-family of components is
-SNC), `.isEffectiveCartier` (Tau Ceti's `CartierDivisor`). Prove *nc_to_snc*: for a normal crossings
+product of part of a regular system of parameters), *.of_subset* (a sub-family of components is
+SNC), *.isEffectiveCartier* (Tau Ceti's `CartierDivisor`). Prove *nc_to_snc*: for a normal crossings
 divisor `D` on a regular scheme there is a finite sequence of blow-ups in strata `φ : X' → X` whose
 reduced inverse image `φ⁻¹(D)_red`, the radical of `D·O_{X'}`, is strict normal crossings; the total
 transform `D·O_{X'}` carries exceptional divisors with multiplicity and is never SNC when a
@@ -7100,10 +7302,10 @@ semistability of an `S`-variety with smooth generic fibre is: the special fibre 
 *.smooth_over_model* (Zariski-locally `X` is smooth over `R[t_1..t_r]/(t_1 ⋯ t_r − π)`),
 *.local_form* (complete local rings `B[[t_1..t_r]]/(t_1 ⋯ t_r − π)` with `B` formally smooth over
 `R`), *.baseChange_etale* (stability under finite unramified extensions of traits). Define
-`IsStrictSemistablePair K f H` for an `SNCData` `H` (the horizontal part): `X` strictly semistable,
+*IsStrictSemistablePair* `K f H` for an `SNCData` `H` (the horizontal part): `X` strictly semistable,
 `X_s ∪ H` strict normal crossings, and every horizontal stratum satisfies the semistable
 conditions over `S` (de Jong 1996, 6.2–6.4, pp. 82–83), with *.of_strictlySemistable* (`H = ∅`),
-`.horizontal` (horizontal components are flat over `S`), `.restrict` (to opens), *.local_form*
+*.horizontal* (horizontal components are flat over `S`), *.restrict* (to opens), *.local_form*
 (complete local rings `C[[t, s]]/(π − t_1 ⋯ t_n)`). Prove *faltings_formal_smoothness* in its local form: let `R` be an excellent DVR,
 `X` normal and integral, flat of finite type over `Spec R`, and `ξ` a generic point of the special
 fibre. A finite extension of fraction fields, with an extending DVR `R'`, makes the normalization
@@ -7406,7 +7608,7 @@ exact sequence), *splitting_principle* (there is a flat `f : X' → X` with `f^*
 and `f^* E` carrying a filtration with invertible quotients; Fulton, §3.2), *chernCharacterOp* and
 *toddClassOp* (`ch(E) = Σ e^{x_i}`, `td(E) = ∏ x_i/(1 − e^{−x_i})` as operators on `CH_*(X)_ℚ` by
 the splitting principle, graded by degree, with `td_1 = c_1/2` and `td_2 = (c_1² + c_2)/12`),
-`c1_eq` (agreement with §5.3 in rank one). *Needs:* §0.3, §5.2, §5.3; AlgebraicVectorBundles
+*c1_eq* (agreement with §5.3 in rank one). *Needs:* §0.3, §5.2, §5.3; AlgebraicVectorBundles
 L0B–L0C, L2A–L2B; StableReduction Layer 2.
 
 **Checks.**
@@ -7479,8 +7681,8 @@ throughout. Here *homotopy_invariance* is an alias for §5.2's *chow_affine_bund
 After constructing Gysin, prove *zeroSection_gysin_eq_homotopy_inverse*: for the zero section of
 a constant-rank vector bundle, its Gysin map is this inverse (Fulton 1998, Chapter 6). Define the
 external product *Chow.externalProduct* `: CH_k(X) ⊗ CH_l(Y) → CH_{k+l}(X ×_{Spec κ} Y)` over the fixed field `κ`, with
-*external_product_pushforward* and `_pullback` (Fulton 1998, §1.10). Define `Chow.IsRegularImmersion
-i d` for a closed immersion `i`: around every point the ideal of `i` is generated by a regular sequence of length `d`, and the
+*external_product_pushforward* and *_pullback* (Fulton 1998, §1.10). Define *Chow.IsRegularImmersion*
+`i d` for a closed immersion `i`: around every point the ideal of `i` is generated by a regular sequence of length `d`, and the
 refined Gysin map *Chow.gysin* `i f : CH_k(Y') → CH_{k−d}(X')` for such a closed `i : X → Y` with normal
 bundle `N` and any `f : Y' → Y`, `X' := X ×_Y Y'`: specialise to the normal cone `C_{X'} Y' ⊆ f^* N`
 and apply the inverse of *homotopy_invariance* for `f^* N` (Fulton 1998, §6.1; Stacks, Section 42.54
@@ -7836,7 +8038,7 @@ intersection matrix) (Liu 2002, §9.1, Definition 9.1.14, Proposition 9.1.21). *
 ### 5.10 Adjunction, Riemann–Roch on surfaces, Noether's formula, numerical equivalence, Hodge index
 
 For `S` smooth projective over an algebraically closed field `k` with canonical class `K` (the
-class of `Ω²_S`, `ω_S` of §2.20): prove `adjunction`: `2p_a(C) − 2 = C · (C + K)` for an integral
+class of `Ω²_S`, `ω_S` of §2.20): prove *adjunction*: `2p_a(C) − 2 = C · (C + K)` for an integral
 curve `C ⊆ S` with `p_a` its arithmetic genus (Hartshorne 1977, V.1, Proposition 1.5 for smooth `C`,
 Exercise 1.3 for the `p_a` form); *surface_riemann_roch*: `χ(O(D)) = ½ D · (D − K) + χ(O_S)` with
 Serre duality `h²(D) = h⁰(K − D)` from §2.20 (Hartshorne 1977, V.1, Theorem 1.6, Remark 1.6.1); and
@@ -8004,10 +8206,10 @@ L0B–L2B; StableReduction Layers 2, 4; JacobianChallenge Layer B; AlgebraicCurv
 
 ## Downstream consumers
 
-The perfectoid and adic roadmaps import henselization of pairs (§0.12), the excellence package
-(§0.21) and the pro-étale site foundations (§2.17). ModularCurves Layer 4D consumes §0.12's
-henselization of a local ring (`local_henselization`, stated through the recognition predicate
-`IsLocalRing.IsHenselization`) for clause (1) of Stacks Lemma 10.155.2 (04GP) and for 06LJ. EtaleCohomologyFoundations §§F.0–F.4 /
+The perfectoid and adic roadmaps import the henselian-pair theorems of §0.14 (on Tau Ceti's
+henselization of pairs, §0.12), the excellence package (§0.21) and the pro-étale site foundations
+(§2.17). ModularCurves consumes nothing from this roadmap: this roadmap consumes its Layers 0B–0G,
+4D, 7D and 9D. EtaleCohomologyFoundations §§F.0–F.4 /
 `VanishingCycles.constructibleEtale`, `VanishingCycles.etaleTateTwists`,
 `VanishingCycles.universalHomeomorphismEtaleEquivalence`,
 `VanishingCycles.finiteCoefficientCohomology`, `VanishingCycles.etaleBaseChange`,
