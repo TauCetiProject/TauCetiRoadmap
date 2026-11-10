@@ -506,8 +506,8 @@ down to `ρ c` and isolation), hence has Borel graph. Build:
   each `Fin n`, the finite-tier dichotomy of Layer 0; then the summand bounds. A perfect set may
   appear at a finite tier only (Layer 0 acceptance check).
 * `countableModelCount_le_aleph0_or_eq_continuum_of_bounded`: the cardinal form, by
-  `HasPerfectlyManyCountableModels.countableModelCount_eq`; the cardinality form (E2) applied to
-  the same relations is an alternative proof and is stated as `..._of_bounded'`.
+  `HasPerfectlyManyCountableModels.countableModelCount_eq`; an alternative proof applies the
+  cardinality form (E2) to the same relations.
 * The textbook form with external Scott height: if `scottHeight M ≤ β < ω₁` for every countable
   model `M : Type` of `φ`, the same two conclusions.
 * The internal form: if `internalScottRank` of every model on `ℕ` is at most `β < ω₁`, the same
@@ -538,10 +538,9 @@ Build:
   tier `ℕ` with the finite-tier dichotomy (each perfect alternative comes from (E1)'s Cantor family,
   at whichever tier it occurs); and `morley_countableModelCount`, the cardinal form,
   obtained from it with `countableModelCount_le_continuum` and
-  `HasPerfectlyManyCountableModels.countableModelCount_eq`, without (E2). The route through (E2)
-  (each level `≤ ℵ₀` or `= 𝔠`; if some level has `𝔠` classes so does isomorphism) is a second proof
-  of the cardinal form and is also built, as `morley_countableModelCount'`, since it uses only the
-  cardinal dichotomy.
+  `HasPerfectlyManyCountableModels.countableModelCount_eq`, without (E2). An alternative proof
+  applies (E2) to the same relations: each level has `≤ ℵ₀` or `𝔠` classes, and if some level has
+  `𝔠` classes so does isomorphism.
 * **Thin sentences.** `IsThinOnNatModels φ` (no perfect set of pairwise non-isomorphic models on
   `ℕ`); a thin sentence has at most `ℵ₁` models on `ℕ`, and countably many classes at every level;
   fewer than `𝔠` models on `ℕ` implies thin.
