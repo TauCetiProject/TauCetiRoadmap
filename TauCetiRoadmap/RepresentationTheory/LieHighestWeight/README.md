@@ -1042,8 +1042,9 @@ normalized simple-root `sl₂` triples. `TauCeti.serreLift` sends the generators
 Prove `serreLift_injective_of_base`: for every family `e, f` that satisfies the Serre relations
 for the transposed Cartan matrix of `base` together with the simple coroots and generates `L`, the
 lift `TauCeti.serreLift hS` from Mathlib's Serre-presented algebra to `L` is injective
-(EtingofLieGroupsLieAlgebras Theorem 24.2, p. 122, line 4818, over `ℂ`, for every reduced root
-system, reducible ones included, its proof starting from `g(R₁ ⊔ R₂) = g(R₁) ⊕ g(R₂)`, line 4827;
+(EtingofLieGroupsLieAlgebras Theorem 24.2, p. 122, line 4818, over an algebraically closed field
+of characteristic zero fixed in §24.1, p. 120, line 4766, for every reduced root system, reducible
+ones included, its proof starting from `g(R₁ ⊔ R₂) = g(R₁) ⊕ g(R₂)`, line 4827;
 HumphreysIntroLieAlgebras §18.3). Route: the presented algebra is graded by the root lattice, its
 degree-`0` piece is spanned by the `Hᵢ`, and every other nonzero degree is a nonnegative or a
 nonpositive combination of the simple roots; each graded piece is finite-dimensional, spanned by
@@ -1340,7 +1341,8 @@ Independently of the Vinberg and Freudenthal models, prove `finrank_e₆`, `finr
 `finrank_e₈`: over every field of characteristic zero, Mathlib's Serre-presented algebras
 `LieAlgebra.e₆ K`, `LieAlgebra.e₇ K`, `LieAlgebra.e₈ K` have dimensions `78 = 6 + 72`,
 `133 = 7 + 126` and `248 = 8 + 240` (rank plus number of roots; EtingofLieGroupsLieAlgebras Theorem
-24.2(iv), p. 122, line 4826, over `ℂ`; BaezOctonions §4.6, p. 49, line 2175, for `248`). Route,
+24.2(iv), p. 122, line 4826, over an algebraically closed field of characteristic zero;
+BaezOctonions §4.6, p. 49, line 2175, for `248`). Route,
 for the type `t = E6`, `E7`, `E8`. The lower bound comes from the pinned split algebra of the type:
 `TauCeti.DynkinType.lieAlgebra` over `ℚ` is Killing (`TauCeti.DynkinType.instIsKillingLieAlgebra`)
 with a split Cartan of dimension the rank (`TauCeti.DynkinType.finrank_cartanSubalgebra`) and roots

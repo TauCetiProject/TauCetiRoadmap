@@ -72,8 +72,9 @@ non-degenerate Killing form over a field `K` of characteristic zero, simple or n
 Cartan subalgebra and `base` a base of its root system. For raising and lowering families `e`, `f`
 which, with the simple coroots, satisfy the Serre relations for the transposed Cartan matrix and
 generate `L`, the induced map from Mathlib's Serre-presented algebra to `L` is injective
-(Etingof, *Lie groups and Lie algebras*, Theorem 24.2, p. 122, over `ℂ`, for every reduced root
-system; Humphreys, *Introduction to Lie Algebras*, §18.3). -/
+(Etingof, *Lie groups and Lie algebras*, Theorem 24.2, p. 122, over an algebraically closed field
+of characteristic zero, for every reduced root system; Humphreys, *Introduction to Lie Algebras*,
+§18.3). -/
 theorem serreLift_injective_of_base {K : Type u} [Field K] [CharZero K]
     {L : Type v} [LieRing L] [LieAlgebra K L] [FiniteDimensional K L] [LieAlgebra.IsKilling K L]
     {H : LieSubalgebra K L} [H.IsCartanSubalgebra]
