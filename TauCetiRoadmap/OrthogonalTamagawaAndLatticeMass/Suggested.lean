@@ -143,7 +143,8 @@ positive definite integral binary Gram matrix `G`, the partial products
 `(2/π) · (det G)^(3/2) · ∏_{p < N prime} (α_p(G)/2)⁻¹` tend to the full mass of the genus of `G` as
 `N → ∞`. Here `2 π^(−3/2) Γ(1/2) Γ(1) = 2/π`; at the primes not dividing `2 det G` the factor is
 `(1 − χ(p)/p)⁻¹` for the nontrivial quadratic character `χ` of `−det G`, so the product converges
-conditionally, in this order, and not absolutely (Conway–Sloane, equation (2), p.263, stated for `n ≥ 2`). -/
+conditionally, in this order, and not absolutely (Conway–Sloane, equation (2), p.263, stated for
+`n ≥ 2`, with the density `α_p` and the `p`-mass related in §12, p.281). -/
 theorem genusMass_eq_rank_two (G : PositiveGram 2) :
     Filter.Tendsto
       (fun N : ℕ => 2 / Real.pi * (G.1.det : ℝ) ^ ((3 : ℝ) / 2) *
