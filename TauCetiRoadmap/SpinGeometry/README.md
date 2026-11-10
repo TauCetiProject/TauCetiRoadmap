@@ -429,13 +429,12 @@ from the native complex-linear Clifford `star` and the conjugate-linear
      invariance under involute and under reverse (`scalarTrace_one`,
      `scalarTrace_mul_comm`, `scalarTrace_involute`, `scalarTrace_reverse`);
      for every Q on a finite-dimensional V, `2^(dim V)τ(a)=trace(L_a)` on the
-     regular module (`trace_mulLeft_eq_two_pow_mul_scalarTrace`; Nicolaescu
-     §12.1.2, pp. 626–629), and τ_Q′∘φ=τ_Q for every algebra equivalence φ
+     regular module (`trace_mulLeft_eq_two_pow_mul_scalarTrace`), and τ_Q′∘φ=τ_Q for every algebra equivalence φ
      of Clifford algebras of finite-dimensional spaces
      (`scalarTrace_eq_of_algEquiv`). For an orthogonal basis b=(e_i) and any
      Q, degenerate Q included, the native basis `CliffordAlgebra.basis Q b`
      transported from the increasing wedge basis is the ordered-product basis
-     e_I (`basis_eq_prod_map_sort`), its empty coordinate is τ
+     e_I (`basis_eq_prod_map_sort`; Nicolaescu §12.1.2, p. 629), its empty coordinate is τ
      (`basis_repr_empty`) and `τ(reverse(e_I)e_J)=δ_(I,J)Π_(i∈I)Q(e_i)`
      (`scalarTrace_reverse_basis_mul_basis`). If Q is nonnegative on the
      basis, `τ(reverse(a)a)≥0`, with equality only at a=0 when Q is positive
@@ -1581,8 +1580,7 @@ carrier.
    restrictions are quaternionic, using elliptic regularity to compare smooth
    and Sobolev kernels. Equip each finite-dimensional kernel/cokernel with the
    trivial Spin representation; verify the quaternionic structure for this
-   representation and apply the G6.7-owned parity theorem
-   `even_finrank_of_conjLinear_square_neg` (a conjugate-linear J with J²=−1
+   representation and apply the G6.7-owned parity theorem (a conjugate-linear J with J²=−1
    on a finite-dimensional complex space forces even complex dimension; the
    Spin-equivariance of J is not needed for the parity) to obtain even
    complex dimension. Do not claim these kernels carry a
@@ -1611,8 +1609,8 @@ carrier.
    real Clifford classification; Tau Ceti
    `Representation.IsQuaternionicStructure`; Mathlib `Quaternion.ofComplex`;
    G5.1; G6.0; G6.1's domains and chiral adjoints; ComplexKahlerGeometry
-   K5a's H¹/L² carriers; TopologicalKTheory T7's class a;
-   `even_finrank_of_conjLinear_square_neg`.
+   K5a's H¹/L² carriers; TopologicalKTheory T7's class a; the parity
+   theorem stated in this item.
 
    **Checks.**
    - Parity: on ℂ², J(z₁,z₂)=(−z̄₂,z̄₁) is conjugate-linear with J²=−1,

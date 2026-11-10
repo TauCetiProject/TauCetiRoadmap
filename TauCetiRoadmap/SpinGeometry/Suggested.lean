@@ -7,8 +7,7 @@ public import Mathlib
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib and Tau Ceti, each admitted with `sorry`,
 together with the few definitions those statements need: the negative-metric Clifford relation of
-a geometric Clifford action (G1.2), the frame independence of the Dirac contraction (G6.1), and the
-parity theorem for conjugate-linear square roots of `−1` (G6.7).
+a geometric Clifford action (G1.2) and the frame independence of the Dirac contraction (G6.1).
 
 The finite Clifford-module algebra of G1–G2 is proved by the pinned Tau Ceti and is therefore not
 restated here:
@@ -32,8 +31,9 @@ Not statable at the pins, and therefore stated nowhere in this file:
 * the closed-base self-adjoint realization with `H¹` domain and compact resolvent (G6.1):
   the pins have no bundle Sobolev spaces;
 * existence of a spin structure iff `w₂ = 0`, and the `H¹(X; ℤ/2)` torsor of spin structures
-  (G4.3, G4.4): the pins have no principal `Spin(n)`-bundle over the oriented frame bundle and
-  no Čech `w₂`;
+  (G4.3, G4.4): the pins have no second Stiefel–Whitney class of a real vector bundle (their
+  Stiefel–Whitney classes are those of quadratic forms over fields) and no twist of a principal
+  `Spin(n)`-bundle by a principal `ℤ/2`-bundle;
 * the `KO`-valued analytic index class of the real spin Dirac operator (G6.0): the pins have no
   real Clifford Hilbert-module classifier and no `KO`;
 * the quaternionic four-dimensional index formula `ind D⁺ = 2α` (G6.7): the pins have no spinor
@@ -112,51 +112,5 @@ theorem diracInFrame_eq {n : ℕ}
   sorry
 
 end ConnectionContraction
-
-section QuaternionicKernelParity
-
-variable {V : Type*} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
-
-/-- G6.7: a finite-dimensional complex space carrying a conjugate-linear `J` with `J² = −1` has
-even complex dimension: in a basis `J` is `v ↦ A v̄` with `A Ā = −1`, so
-`|det A|² = (−1)^(dim V)`. -/
-theorem even_finrank_of_conjLinear_square_neg
-    (J : V →ₛₗ[starRingEnd ℂ] V) (hsq : ∀ v, J (J v) = -v) :
-    Even (Module.finrank ℂ V) := by
-  classical
-  let b := Module.finBasis ℂ V
-  let A : Matrix (Fin (Module.finrank ℂ V)) (Fin (Module.finrank ℂ V)) ℂ :=
-    fun i j => b.repr (J (b j)) i
-  have hmatrix : A * A.map (starRingEnd ℂ) = -1 := by
-    ext i j
-    have h := congrArg (fun v => b.repr v i) (hsq (b j))
-    have hsum : J (J (b j)) = ∑ k, star (b.repr (J (b j)) k) • J (b k) := by
-      calc
-        J (J (b j)) = J (∑ k, b.repr (J (b j)) k • b k) :=
-          congrArg J (b.sum_repr (J (b j))).symm
-        _ = _ := by simp only [map_sum, map_smulₛₗ, starRingEnd_apply]
-    rw [hsum] at h
-    change (∑ k, A i k * (starRingEnd ℂ) (A k j)) =
-      -(1 : Matrix _ _ ℂ) i j
-    simpa [A, map_sum, mul_comm, Matrix.one_apply,
-      Finsupp.single_apply, eq_comm] using h
-  have hd := congrArg Matrix.det hmatrix
-  have heq : A.det * star A.det = (-1 : ℂ) ^ Module.finrank ℂ V := by
-    have hmap : (A.map (starRingEnd ℂ)).det = star A.det := by
-      simpa only [RingHom.mapMatrix_apply, starRingEnd_apply] using
-        ((starRingEnd ℂ).map_det A).symm
-    rw [Matrix.det_mul, hmap, Matrix.det_neg,
-      Matrix.det_one, mul_one] at hd
-    simpa only [Fintype.card_fin, starRingEnd_apply] using hd
-  by_contra hnot
-  have hodd : Odd (Module.finrank ℂ V) := Nat.not_even_iff_odd.mp hnot
-  rw [hodd.neg_one_pow] at heq
-  have hr := congrArg Complex.re heq
-  simp only [Complex.star_def, Complex.mul_conj, Complex.ofReal_re,
-    Complex.neg_re, Complex.one_re] at hr
-  have hp := Complex.normSq_nonneg A.det
-  linarith
-
-end QuaternionicKernelParity
 
 end TauCetiRoadmap.SpinGeometry
