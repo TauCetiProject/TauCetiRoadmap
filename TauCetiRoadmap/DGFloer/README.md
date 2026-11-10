@@ -2599,15 +2599,15 @@ module comparison does not replace it. *Needs:* items 1–3, 7.C.5b, Layer 6 ite
 
 Define `SH_*(W)` of a Liouville domain as a direct limit over slopes, with classical local
 coefficients (Seidel §3(3e), `seidel-biased` lines 486–515; for cotangent bundles Abouzaid
-Chapter 1, §§1.5–1.6). For a local system `𝓛` on the free loop space and the inclusion `i_W`
-of the constant loops, define the zero-energy part `SH^{=0}_*(W; 𝓛)` and the positive part
-`SH^{>0}_*(W; 𝓛)`, the action windows `(−ε, ε)` and `(ε, ∞)` for `ε` below every Reeb period,
-and prove `SH^{=0}_*(W; 𝓛) ≅ H_{*+n}(W, ∂W; i_W^*𝓛)` and the tautological long exact sequence
-`… → H_{*+n}(W, ∂W; i_W^*𝓛) → SH_*(W; 𝓛) → SH^{>0}_*(W; 𝓛) → H_{*+n−1}(W, ∂W; i_W^*𝓛) → …`:
+Chapter 1, §§1.5–1.6). For a local system `L` on the free loop space and the inclusion `i_W`
+of the constant loops, define the zero-energy part `SH^{=0}_*(W; L)` and the positive part
+`SH^{>0}_*(W; L)`, the action windows `(−ε, ε)` and `(ε, ∞)` for `ε` below every Reeb period,
+and prove `SH^{=0}_*(W; L) ≅ H_{*+n}(W, ∂W; i_W^*L)` and the tautological long exact sequence
+`… → H_{*+n}(W, ∂W; i_W^*L) → SH_*(W; L) → SH^{>0}_*(W; L) → H_{*+n−1}(W, ∂W; i_W^*L) → …`:
 these are the classical-coefficient cases of the source's Propositions 3.44 and 3.45
 (`bdho-cotangent` lines 2916–2930), whose DG forms are Layer 8 item 7. Construct the Viterbo
-transfer `ι_! : SH_*(W; 𝓛) → SH_*(V; ι^*𝓛)` for an exact codimension-zero embedding
-`ι : V → W` (`TauCeti.IsExactLiouvilleEmbedding`), with `ι^*𝓛` the pullback along the induced
+transfer `ι_! : SH_*(W; L) → SH_*(V; ι^*L)` for an exact codimension-zero embedding
+`ι : V → W` (`TauCeti.IsExactLiouvilleEmbedding`), with `ι^*L` the pullback along the induced
 map of free loop spaces: Seidel §7(7a), `seidel-biased` lines 1323–1329, whose
 Liouville embeddings allow a conformal factor `e^ρ` that is `1` here, and the classical case of
 the source's Proposition 3.46 (lines 2931–2935). *Needs:* items 1–4, Layer 6 item 2.
@@ -2622,7 +2622,7 @@ the source's Proposition 3.46 (lines 2931–2935). *Needs:* items 1–4, Layer 6
   admissible.
 - `SH_*(T*S¹) ≅ H_*(𝓛S¹)` (worked example 7).
 - The transfer for `W ⊆ W` is the identity, and for `D²ⁿ ⊆ W` it is zero.
-- The shift in the long exact sequence. For `W = D²ⁿ` and `𝓛` trivial, `SH_* = 0` makes the
+- The shift in the long exact sequence. For `W = D²ⁿ` and `L` trivial, `SH_* = 0` makes the
   connecting map an isomorphism `SH^{>0}_*(D²ⁿ) ≅ H_{*+n−1}(D²ⁿ, S²ⁿ⁻¹)`, which is `ℤ` exactly
   in degree `n + 1`, one above `SH^{=0}_*(D²ⁿ) ≅ H_{*+n}(D²ⁿ, S²ⁿ⁻¹)`, which is `ℤ` exactly in
   degree `n`. A connecting map raising the degree, into `H_{*+n+1}`, would put `SH^{>0}_*(D²ⁿ)`
