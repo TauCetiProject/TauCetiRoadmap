@@ -15,6 +15,10 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
 with the few definitions (real bodies on native carriers) that those statements need.
 
+The README cites Tau Ceti at revision `2fd255d9`. This file elaborates against revision
+`358314d4`, which is "the pinned Tau Ceti" below; every module named below as not contained in it
+is a module of `2fd255d9`.
+
 Stated here: the weighted Schur orthogonality relations on a Hopf *-algebra with a positive
 invariant functional (§3.1); the algebraic compact-type equivalence, the existence and uniqueness
 of the modular automorphism of the Haar functional and the Kac equivalence between traciality of
@@ -150,11 +154,11 @@ def unitaryCoefficientSet (A : Type u) [Ring A] [HopfAlgebra ℂ A] [StarRing A]
     let U := TauCeti.Comodule.coefficientMatrix (C := A) (Pi.basisFun ℂ (Fin n))
     U ∈ unitary (Matrix (Fin n) (Fin n) A) ∧ ∃ i j, a = U i j}
 
-/-- Algebraic compact type (§4.1; Timmermann, Theorem 3.2.12): a nonzero Hopf *-algebra has a
+/-- Algebraic compact type (§4.1; Timmermann, Theorem 3.2.12): a Hopf *-algebra has a
 normalized positive two-sided invariant integral exactly when it is spanned by the coefficients
 of its finite unitary comodules. -/
-theorem compactType_iff (A : Type u) [Ring A] [Nontrivial A] [HopfAlgebra ℂ A]
-    [StarRing A] [StarModule ℂ A]
+theorem compactType_iff (A : Type u) [Ring A] [HopfAlgebra ℂ A] [StarRing A]
+    [StarModule ℂ A]
     (hΔ : ∀ a : A, Coalgebra.comul (R := ℂ) (star a) = star (Coalgebra.comul (R := ℂ) a)) :
     Nonempty (AlgebraicHaar (A := A)) ↔
       Submodule.span ℂ (unitaryCoefficientSet A) = ⊤ := by

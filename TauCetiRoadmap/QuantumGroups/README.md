@@ -152,7 +152,10 @@ Cauchy–Schwarz for positive functionals is
 `PositiveLinearMap.norm_map_star_mul_le` in
 `Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`.
 
-**From Tau Ceti.** `Algebra.Coalgebra.Comodule` provides
+**From Tau Ceti.** Every Tau Ceti declaration, module and file named in this
+roadmap is cited as it is at the revisions the content repository's manifest
+records: Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`. `Algebra.Coalgebra.Comodule` provides
 comodules, comodule homomorphisms, categories, corestriction, duals and finite
 matrix coefficients. Consume its `Subcomodule`, `IsCompletelyReducible`,
 `fixedSubcomodule`, `Finite/Monoidal`, `Finite/RightRigid` and
@@ -850,7 +853,7 @@ Layer 2; native Hopf/comodule API; PivotalSpherical Layers 0–2,7 and §0.2 for
 
 ### 4.1 Algebraic compact type
 
-Develop nonzero Hopf *-algebras of compact type over ℂ on the native Hopf API.
+Develop Hopf *-algebras of compact type over ℂ on the native Hopf API.
 The headline `compactType_iff` equates a normalized positive Haar integral
 with linear spanning by `unitaryCoefficientSet`, the coefficients of all finite
 unitary native comodules in coordinate bases. Prove the equivalence with all
@@ -896,7 +899,7 @@ exactly when S∘S is the identity (Neshveyev–Tuset Proposition 1.7.7, p.23).
 
 The defining objects have the following API.
 
-- For a nonzero Hopf star algebra, positive normalized Haar and spanning by finite unitary coefficients are equivalent.
+- For a Hopf star algebra, positive normalized Haar and spanning by finite unitary coefficients are equivalent.
 - A positive normalized invariant integral has exactly one modular automorphism, and it is a trace exactly when the antipode is involutive.
 - Every finite comodule is unitarizable; coefficient independence gives the algebraic Peter–Weyl sum.
 - The algebraic cancellation maps, consumed from Tau Ceti, have inverses determined by the antipode, so `Δ(A)(1⊗A)` and `Δ(A)(A⊗1)` both span `A⊗A`.
@@ -905,7 +908,7 @@ The defining objects have the following API.
 
 - For ℂ with Δ1=1⊗1, h(z)=z, the coefficient 1 spans ℂ; both sides of the compact-type equivalence hold.
 - For ℂ[C₂], the two group-like unitary coefficients 1,u form a basis and h((a+bu)*(a+bu))=|a|²+|b|², positive for every nonzero pair.
-- For the zero algebra, coefficient span equals the whole zero space, but a linear functional sends 1=0 to 0≠1. Nontriviality is necessary for the equivalence.
+- The zero ring is not an instance: the counit of a complex bialgebra is unital, so ε(1)=1 forces 1≠0 in A, and the equivalence needs no nontriviality hypothesis. A definition of Hopf *-algebra without the counit axiom would admit the zero ring, with coefficient span everything and no normalized functional.
 - For primitive self-adjoint x in ℂ[x], invariance would give (id⊗h)Δx=x+h(x) and h(x)1 on the two sides, forcing x=0. Thus no normalized invariant integral exists.
 - On ℂ[S₃] with h(u_g)=δ_(g,e), h(u_g u_k)=δ_(gk,e)=δ_(kg,e), so h is a trace, θ=id and S²(u_g)=u_g. On the SUq(2) core at q=1/2, θ(a)=4a gives h(aa*)=4/5=h(a*θ(a)), while h(a*a)=1/5 and S²(c)=c/4: both sides of the Kac equivalence fail. The inverse automorphism, θ⁻¹(a)=a/4, would give h(a*θ⁻¹(a))=1/20.
 
