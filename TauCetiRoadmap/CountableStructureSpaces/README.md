@@ -18,7 +18,7 @@ Mathlib supplies the ambient descriptive set theory: `PolishSpace`, `StandardBor
 (`Descriptive.tree`), group actions (`MulAction.orbitRel`, `fixingSubgroup`, `arrowAction`) and
 `MeasurableSpace.invariants`. The [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md),
 implemented in Tau Ceti, supplies Lω₁ω, back-and-forth equivalence, Karp's theorem, Scott
-sentences and the internal Scott rank. At this repository's Tau Ceti pin (2fd255d99), Tau Ceti also
+sentences and the internal Scott rank. At Tau Ceti revision `2fd255d99`, Tau Ceti also
 has the coding space `RelationalConfiguration` with decoding, encoding, transport, its topology
 and Polish structure; the pointwise topology on `Equiv.Perm α` with S∞ as a Polish group; the logic
 action; model classes with Borel satisfaction; the isomorphism and back-and-forth setoids with
@@ -50,8 +50,8 @@ milestones and an acceptance check that compiles without later layers.
 | 6 | Invariant analytic separation; the well-order class: boundedness, not analytic, not Borel, coded undefinability | 1–5; BorelEquivalenceRelations (invariant Lusin separation) |
 
 Besides Mathlib and Tau Ceti, the layers consume four general lemmas of the sibling roadmap
-[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)) (Layers 1, 2 and 6) and one theorem of the sibling roadmap
-[InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) (Layer 5), all stated exactly under
+[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) (Layers 1, 2 and 6) and one theorem of the sibling roadmap
+[InfinitaryModelExistence](../InfinitaryModelExistence/README.md) (Layer 5), all stated exactly under
 [ownership](#existing-library-and-ownership). In Layer 6 only `exists_sentence_separating` uses
 Layer 5; the well-order results use Layers 0–3 and the easy direction of López–Escobar.
 
@@ -133,7 +133,7 @@ The following are suppliers, not requests to rebuild their objects.
 | Tau Ceti, `ModelTheory/Scott/Height.lean` (most of Layer 4.2 here) | `StabilizesCompletely` with `bfEquiv_of_le` and `mono`; `scottHeight` with `stabilizesCompletely_scottHeight`, `scottHeight_lt_omega_one`, `Language.Equiv.scottHeight_eq`, `scottHeight_le_selfStabilizationOrdinal_add_omega0`, `scottHeight_le_internalScottRank_add_omega0` and `nonempty_equiv_of_bfEquiv_of_scottHeight_le` (with `N` in any universe); the countable constant-chain case `SelfStabilizesCompletely.stabilizesCompletely_add_omega0` |
 | Tau Ceti, `ModelTheory/RelationalConfiguration/` (most of Layers 0, 1.2, 2 and 4.1 here) | `RelationalConfiguration` with `Atom`, `atom` and `eval`, its topology, σ-algebra, compactness and, for countably many relation symbols and a countable carrier, its Polish and Borel instances, `isClopen_setOf_eval`, `mk_le_continuum`; `toStructure` and `ofStructure` with both round trips; `Equiv.encodeVia` with `nonempty_equiv_encodeVia`, `encodeVia_trans` and `realize_encodeVia`; the action of `Equiv.Perm α` with `eval_perm_smul`; `isoSetoid` with `isoSetoid_eq_orbitRel` and `analyticSet_setOf_isoSetoid`; `IsomorphismInvariant` with its lattice API and `analyticSet_iUnion_smul`; `modelsOf` with its constructor equations, `measurableSet_setOf_realize`, `measurableSet_modelsOf` and `standardBorelSpace_modelsOf`; `measurableSet_setOf_bfEquiv`; `bfEquivSetoid` with `measurableSet_setOf_bfEquivSetoid` and `isoSetoid_le_bfEquivSetoid`. In `Combinatorics/SimpleGraph/RelationalConfiguration.lean`: `SimpleGraph.toRelationalConfiguration` with `measurableEmbedding_toRelationalConfiguration`. The orbit, saturation and isomorphism-invariance results there assume `[L.IsRelational]`; the targets here that are stated for every language stay targets |
 | Tau Ceti, `Topology/Algebra/Group/Perm.lean` (most of Layer 1.1 here) | the topology on `Equiv.Perm α`, `Equiv.Perm.hasBasis_nhds_one_fixingSubgroup` (indexed by finite sets), the topological-group instance and, for countable `α`, the Polish instance |
-| BorelEquivalenceRelations, as implemented at the pin | `IsGδ.polishSpace` (now in Mathlib) and `IsGδ.standardBorelSpace` (a Gδ subset of a Polish space is Polish, resp. standard Borel, in the subspace structures), `MeasureTheory.AnalyticSet.prod`, and `Setoid.exists_invariant_measurableSet_separating` (for an analytic equivalence relation `E` on a Hausdorff space whose open sets are measurable, and analytic `A`, `B` with disjoint `E`-saturations, some `E`-saturated Borel `C` contains `A` and is disjoint from `B`; for `B` saturated, disjointness of the saturations is disjointness of `A` and `B`). Nothing else |
+| BorelEquivalenceRelations, as implemented at the pin | `IsGδ.polishSpace` (Mathlib's declaration) and `IsGδ.standardBorelSpace` (a Gδ subset of a Polish space is Polish, resp. standard Borel, in the subspace structures), `MeasureTheory.AnalyticSet.prod`, and `Setoid.exists_invariant_measurableSet_separating` (for an analytic equivalence relation `E` on a Hausdorff space whose open sets are measurable, and analytic `A`, `B` with disjoint `E`-saturations, some `E`-saturated Borel `C` contains `A` and is disjoint from `B`; for `B` saturated, disjointness of the saturations is disjointness of `A` and `B`). Nothing else |
 | InfinitaryModelExistence, PC classes and Craig interpolation | `LHom.PCMem`, Tau Ceti's implementation of that roadmap's projective-class predicate (`ModelTheory/Interpolation/PCClass.lean`), and the single theorem `pcSeparation` stated below, which is that roadmap's contract and is not at the pin; nothing else |
 
 **The dependency on InfinitaryModelExistence.** Layer 5 consumes exactly the following theorem
@@ -181,7 +181,7 @@ models. Its PC sentences are relational, and every model of them is countable by
 permutation groups of discrete spaces, the logic action, model classes, Borelness of
 back-and-forth equivalence and isomorphism, the external Scott height and its comparison with the
 internal rank, the tree material of Layer 3, the forms of López–Escobar in Layers 5 and 6.1 (a
-relative form belongs to the [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) roadmap), separation by invariant Borel sets and sentences for the logic
+relative form belongs to the [CountableModelCounting](../CountableModelCounting/README.md) roadmap), separation by invariant Borel sets and sentences for the logic
 action, and the well-order class. Where Tau Ceti at the pin already implements a target (the
 supplier rows above that name layers of this roadmap), the implementation is the interface: the
 remaining targets are stated over it. `Suggested.lean` cites the implemented milestones and
@@ -766,33 +766,33 @@ These belong to separate roadmaps.
   leaves the internal objects unchanged. The free-variable support
   `BoundedFormulaInf.freeVarSupport` is used in Layer 2. Tau Ceti's random-graph file
   (`ModelTheory/Scott/RandomGraph.lean`) supplies the extension axioms of worked example 4.
-- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)** ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)). The single dependency is `pcSeparation`, with `LHom.PCMem`, as stated
-  under ownership. That roadmap owns both. Tau Ceti implements the predicate as `LHom.PCMem`;
-  `pcSeparation` is not at the pin, and `Suggested.lean` carries a copy of that roadmap's statement
-  as a marked stand-in, which is prototype scaffolding only. Its application here uses relational PC sentences whose models are countable by
-  construction, so it needs neither Löwenheim–Skolem, nor graph translation, nor that roadmap's
-  boundedness of well-ordered models.
-- **[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317)). This roadmap consumes exactly four general results of that
-  roadmap, all implemented at the pin: `IsGδ.polishSpace` and `IsGδ.standardBorelSpace` (its
-  Layer 0.2), `AnalyticSet.prod` (Layer 0.3) and `exists_invariant_measurableSet_separating`
-  (Layer 2.2).
+- **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md).** The single dependency is
+  `pcSeparation`, with `LHom.PCMem`, as stated under ownership. That roadmap owns both. Tau Ceti
+  implements the predicate as `LHom.PCMem`; `pcSeparation` is not at the pin, so `Suggested.lean`
+  repeats that roadmap's statement verbatim, marked with its owner and the owner's revision it
+  matches, for Layer 5 to be stated against. Its application here uses relational PC sentences
+  whose models are countable by construction, so it needs neither Löwenheim–Skolem, nor graph
+  translation, nor that roadmap's boundedness of well-ordered models.
+- **[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md).** This roadmap consumes
+  exactly four general results of that roadmap, all implemented at the pin: `IsGδ.polishSpace`
+  and `IsGδ.standardBorelSpace` (its Layer 0.2; the first is Mathlib's declaration),
+  `AnalyticSet.prod` (Layer 0.3) and `exists_invariant_measurableSet_separating` (Layer 2.2).
   That roadmap consumes nothing from this one.
-- **[CountableModelCounting](../CountableModelCounting/README.md)** ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) uses the Tau Ceti declarations directly and the targets of this roadmap listed under ownership.
+- **[CountableModelCounting](../CountableModelCounting/README.md)** uses the Tau Ceti declarations
+  directly and the targets of this roadmap listed under ownership.
 - **Mathlib.** [#41946](https://github.com/leanprover-community/mathlib4/pull/41946) (bodies of
   trees) fixes the shape of the corresponding targets; build them here now and replace them by
-  imports when it lands. [#42693](https://github.com/leanprover-community/mathlib4/pull/42693)
-  (Gδ subsets of Polish spaces) has landed as `IsGδ.polishSpace`. Opening an upstream PR
-  is not a target of this roadmap.
+  imports when it lands. Opening an upstream PR is not a target of this roadmap.
 
 ## Provenance
 
 A Lean formalization of most of this material exists in
-[`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic) at checkpoint
+[`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic) at revision
 [`518a366`](https://github.com/cameronfreer/infinitary-logic/tree/518a366cba97b1ae8c4dc64a297a396939bc3e0b)
 (Apache-2.0, sorry-free, axioms `propext`, `Classical.choice`, `Quot.sound`). It is a proof
 reference, not the specification. Credit `cameronfreer/infinitary-logic` in ported files, and
 record where a Tau Ceti file diverges from it. Paths below are under `InfinitaryLogic/` at that
-checkpoint.
+revision.
 
 | Layer | Source files | Differences from this specification |
 | --- | --- | --- |
