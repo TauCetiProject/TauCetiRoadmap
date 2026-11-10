@@ -908,7 +908,7 @@ The defining objects have the following API.
 
 - For ℂ with Δ1=1⊗1, h(z)=z, the coefficient 1 spans ℂ; both sides of the compact-type equivalence hold.
 - For ℂ[C₂], the two group-like unitary coefficients 1,u form a basis and h((a+bu)*(a+bu))=|a|²+|b|², positive for every nonzero pair.
-- The zero ring is not an instance: the counit of a complex bialgebra is unital, so ε(1)=1 forces 1≠0 in A, and the equivalence needs no nontriviality hypothesis. A definition of Hopf *-algebra without the counit axiom would admit the zero ring, with coefficient span everything and no normalized functional.
+- The zero ring is not an instance: the counit of a complex bialgebra is unital, so ε(1)=1 forces 1≠0 in A, and the equivalence needs no nontriviality hypothesis. A definition of Hopf *-algebra whose counit need not be unital would admit the zero ring with Δ=0 and ε=0: coassociativity and both counit laws hold there, since each is an equation between linear maps out of the zero space, but ε(1)=0≠1. On it the coefficient span is everything while every functional sends 1=0 to 0≠1, so the equivalence would fail. Dropping only the counit laws keeps ε(1)=1 and still excludes the zero ring.
 - For primitive self-adjoint x in ℂ[x], invariance would give (id⊗h)Δx=x+h(x) and h(x)1 on the two sides, forcing x=0. Thus no normalized invariant integral exists.
 - On ℂ[S₃] with h(u_g)=δ_(g,e), h(u_g u_k)=δ_(gk,e)=δ_(kg,e), so h is a trace, θ=id and S²(u_g)=u_g. On the SUq(2) core at q=1/2, θ(a)=4a gives h(aa*)=4/5=h(a*θ(a)), while h(a*a)=1/5 and S²(c)=c/4: both sides of the Kac equivalence fail. The inverse automorphism, θ⁻¹(a)=a/4, would give h(a*θ⁻¹(a))=1/20.
 
