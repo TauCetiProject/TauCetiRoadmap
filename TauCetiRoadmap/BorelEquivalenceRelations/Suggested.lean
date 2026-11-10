@@ -1,5 +1,15 @@
 import Mathlib
+import TauCeti.Topology.Perfect
+import TauCeti.Topology.Baire.Perfect
+import TauCeti.Topology.Baire.KuratowskiUlam
+import TauCeti.Topology.Baire.Mycielski
+import TauCeti.Topology.MetricSpace.Perfect
 import TauCeti.Topology.MetricSpace.Polish.GDelta
+import TauCeti.Topology.MetricSpace.Polish.Pi
+import TauCeti.MeasureTheory.Constructions.Polish.Analytic
+import TauCeti.MeasureTheory.Constructions.Polish.GDelta
+import TauCeti.MeasureTheory.Constructions.Polish.Graph
+import TauCeti.MeasureTheory.Constructions.Polish.Perfect
 
 /-!
 # Borel equivalence relations, the G₀ dichotomy and Silver's theorem: suggested signatures
@@ -13,13 +23,14 @@ neither finishes a layer nor the roadmap.
 
 Every definition below has an actual mathematical body; no proposition-valued placeholder stands
 for an unstated condition. The roadmap has no model-theoretic dependency, so this file imports
-Mathlib and, for Alexandrov's converse, one Tau Ceti topology module. Names and namespaces are provisional: implementations put general topology and
-measure theory lemmas in Mathlib's namespaces (`MeasureTheory.AnalyticSet.prod`,
-`IsGδ.polishSpace`, ...) and the descriptive-set-theoretic objects in a shared namespace. Tau Ceti
-already declares `Set.Countable.isMeagre`, `IsGδ.standardBorelSpace`, `AnalyticSet.inter`,
-`AnalyticSet.prod`, `AnalyticSet.offDiag`, `MeasurableSet.exists_nat_bool_injection_of_not_countable`
-and `Perfect.mk_eq_continuum` under those root names at the pin, so they are stated here in the
-roadmap namespace, and the file can be imported beside Tau Ceti.
+Mathlib and the Tau Ceti topology and measure-theory modules that supply Layers 0.1–0.4 and
+1.1–1.2: the Cantor-space instances, `Set.Countable.isMeagre`, Alexandrov's theorem,
+`IsGδ.standardBorelSpace`, the closure of analytic sets under intersection, products,
+off-diagonals and saturation, the Borel graph theorem, the Borel perfect set theorem,
+`Perfect.mk_eq_continuum`, Kuratowski–Ulam and Mycielski. Those are used from Tau Ceti and not
+restated here; the README names each declaration. Names and namespaces are provisional:
+implementations put general topology and measure theory lemmas in Mathlib's namespaces and the
+descriptive-set-theoretic objects in a shared namespace.
 -/
 
 set_option autoImplicit false
@@ -34,20 +45,11 @@ namespace TauCetiRoadmap.BorelEquivalenceRelations
 
 section CantorSpace
 
-/-- At the pinned Mathlib, instance search does not find `PolishSpace (ℕ → Bool)`, although both
-of its fields are found; Layer 0 registers the instance. -/
-instance instPolishSpaceCantor : PolishSpace (ℕ → Bool) := PolishSpace.mk
-
-/-- A product of infinitely many nontrivial spaces has no isolated points. This covers Cantor
-space `ℕ → Bool` and Baire space `ℕ → ℕ`. -/
-theorem perfectSpace_pi {ι : Type u} {π : ι → Type v} [∀ i, TopologicalSpace (π i)]
-    [Infinite ι] [∀ i, Nontrivial (π i)] : PerfectSpace (∀ i, π i) := by
-  sorry
-
-/-- In a perfect `T₁` space every countable set is meagre. -/
-theorem Set.Countable.isMeagre {X : Type u} [TopologicalSpace X] [T1Space X]
-    [PerfectSpace X] {s : Set X} (hs : s.Countable) : IsMeagre s := by
-  sorry
+/-- With Tau Ceti imported, instance search finds the Polish and perfect structures of Cantor
+space (`TauCeti.polishSpace_pi_of_discreteTopology`, `TauCeti.perfectSpace_pi`), which it does
+not find from Mathlib alone. -/
+example : PolishSpace (ℕ → Bool) ∧ PerfectSpace (ℕ → Bool) ∧ PerfectSpace (ℕ → ℕ) :=
+  ⟨inferInstance, inferInstance, inferInstance⟩
 
 /-- The point of Cantor space that starts with the finite word `w`, read left to right, and
 continues with `x`. -/
@@ -69,71 +71,14 @@ theorem wordCylinder_reverse_res (x : ℕ → Bool) (n : ℕ) :
 
 end CantorSpace
 
-section GDelta
-
-/-! Mathlib's `IsGδ.polishSpace` and `IsGδ.isCompletelyMetrizableSpace` (from Mathlib PR #42693)
-are the forward direction. -/
-
-/-- The converse (Alexandrov), as in Mathlib PR #42912: a subset of a `T6` space that is
-completely metrizable in the subspace topology is Gδ. Metrizable spaces are `T6`, and Polish
-subspaces are the separable case. Tau Ceti proves it as `TauCeti.isGδ_of_isCompletelyMetrizableSpace`
-for perfectly normal Hausdorff spaces, which is the same class: a `T6` space is perfectly normal
-and `T1`, hence normal and Hausdorff. -/
-theorem _root_.TopologicalSpace.IsCompletelyMetrizableSpace.isGδ {X : Type u}
-    [TopologicalSpace X] [T6Space X] {s : Set X}
+/-- Alexandrov's theorem in the generality the README states, for `T6` spaces: Tau Ceti's
+`TauCeti.isGδ_of_isCompletelyMetrizableSpace` assumes a perfectly normal Hausdorff space, which
+a `T6` space is, and takes the complete metrizability of the subspace as an instance. -/
+example {X : Type u} [TopologicalSpace X] [T6Space X] {s : Set X}
     (hs : TopologicalSpace.IsCompletelyMetrizableSpace s) : IsGδ s :=
   TauCeti.isGδ_of_isCompletelyMetrizableSpace
 
-theorem IsGδ.standardBorelSpace {X : Type u} [TopologicalSpace X] [PolishSpace X]
-    [MeasurableSpace X] [BorelSpace X] {s : Set X} (hs : IsGδ s) : StandardBorelSpace s := by
-  sorry
-
-end GDelta
-
-section Analytic
-
-variable {X : Type u} [TopologicalSpace X]
-
-theorem AnalyticSet.inter [T2Space X] {A B : Set X}
-    (hA : AnalyticSet A) (hB : AnalyticSet B) : AnalyticSet (A ∩ B) := by
-  sorry
-
-theorem AnalyticSet.prod {Y : Type v} [TopologicalSpace Y] {A : Set X}
-    {B : Set Y} (hA : AnalyticSet A) (hB : AnalyticSet B) : AnalyticSet (A ×ˢ B) := by
-  sorry
-
-theorem AnalyticSet.offDiag [T2Space X] {A : Set X} (hA : AnalyticSet A) :
-    AnalyticSet A.offDiag := by
-  sorry
-
-/-- The `E`-saturation `Quotient.mk E ⁻¹' (Quotient.mk E '' A)` of an analytic set is analytic
-when the graph of `E` is analytic. -/
-theorem analyticSet_saturation [T2Space X] (E : Setoid X)
-    (hE : AnalyticSet {p : X × X | E p.1 p.2}) {A : Set X} (hA : AnalyticSet A) :
-    AnalyticSet (Quotient.mk E ⁻¹' (Quotient.mk E '' A)) := by
-  sorry
-
-/-- The Borel graph theorem, in the shape of Mathlib PR #41945. -/
-theorem analyticSet_graph_iff_measurable {Y : Type v} [PolishSpace X] [MeasurableSpace X]
-    [BorelSpace X] [TopologicalSpace Y] [PolishSpace Y] [MeasurableSpace Y] [BorelSpace Y]
-    (f : X → Y) : Measurable f ↔ AnalyticSet {p : X × Y | p.2 = f p.1} := by
-  sorry
-
-/-- The perfect set theorem for Borel sets. Mathlib has only the closed case,
-`IsClosed.exists_nat_bool_injection_of_not_countable`. -/
-theorem MeasurableSet.exists_nat_bool_injection_of_not_countable [PolishSpace X]
-    [MeasurableSpace X] [BorelSpace X] {s : Set X} (hs : MeasurableSet s)
-    (hunc : ¬ s.Countable) :
-    ∃ f : (ℕ → Bool) → X, Set.range f ⊆ s ∧ Continuous f ∧ Injective f := by
-  sorry
-
-end Analytic
-
 section Cardinality
-
-theorem Perfect.mk_eq_continuum {X : Type u} [TopologicalSpace X] [PolishSpace X]
-    {C : Set X} (hC : Perfect C) (hne : C.Nonempty) : #C = 𝔠 := by
-  sorry
 
 theorem mk_le_continuum_of_standardBorelSpace (X : Type u) [MeasurableSpace X]
     [StandardBorelSpace X] : #X ≤ 𝔠 := by
@@ -215,47 +160,6 @@ theorem exists_countable_exceptions_of_splits
 end Splits
 
 /-! ## Layer 1: Baire category on products and on Cantor space -/
-
-section KuratowskiUlam
-
-variable {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y]
-
-/-- Kuratowski–Ulam, in the shape of Mathlib PR #17368. -/
-theorem curry_le_residual [SecondCountableTopology Y] :
-    (residual X).curry (residual Y) ≤ residual (X × Y) := by
-  sorry
-
-theorem _root_.BaireMeasurableSet.eventually_eventually_left_iff_mem_residual
-    [SecondCountableTopology X] [SecondCountableTopology Y] {s : Set (X × Y)}
-    (hs : BaireMeasurableSet s) :
-    (∀ᶠ x in residual X, ∀ᶠ y in residual Y, (x, y) ∈ s) ↔ s ∈ residual (X × Y) := by
-  sorry
-
-/-- The meagre-sections form used by the Silver route. -/
-theorem isMeagre_of_forall_isMeagre_sections [SecondCountableTopology X]
-    [SecondCountableTopology Y] {s : Set (X × Y)} (hs : BaireMeasurableSet s)
-    (hsec : ∀ x : X, IsMeagre {y : Y | (x, y) ∈ s}) : IsMeagre s := by
-  sorry
-
-end KuratowskiUlam
-
-section Mycielski
-
-/-- Mycielski's theorem: in a nonempty perfect Polish space, countably many meagre relations of
-finite arities are avoided by all injective tuples from one Cantor copy. -/
-theorem mycielski {X : Type u} [TopologicalSpace X] [PolishSpace X] [PerfectSpace X]
-    [Nonempty X] (k : ℕ → ℕ) (R : ∀ n, Set (Fin (k n) → X)) (hR : ∀ n, IsMeagre (R n)) :
-    ∃ f : (ℕ → Bool) → X, Continuous f ∧ Injective f ∧
-      ∀ n (a : Fin (k n) → ℕ → Bool), Injective a → f ∘ a ∉ R n := by
-  sorry
-
-/-- The binary Cantor-space case consumed by Silver's theorem. -/
-theorem mycielski_cantor {M : Set ((ℕ → Bool) × (ℕ → Bool))} (hM : IsMeagre M) :
-    ∃ ψ : (ℕ → Bool) → (ℕ → Bool), Continuous ψ ∧ Injective ψ ∧
-      ∀ a b, a ≠ b → (ψ a, ψ b) ∉ M := by
-  sorry
-
-end Mycielski
 
 section BaireMeasurableFunctions
 
