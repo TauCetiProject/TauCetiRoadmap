@@ -13,11 +13,13 @@ import TauCeti.NumberTheory.IntegralLattice.LocalDensity.Basic
 # Orthogonal Tamagawa comparison and lattice masses: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
-and Tau Ceti, the headline theorems of the positive-definite branch: the numerical mass formula for
-an arbitrary positive definite integral lattice of rank at least three (1.3), its rank-two form
-with the product over the primes taken in increasing order (1.3, through 1.4), the even-unimodular
-mass formula (3.1) and the unconditional class counts in ranks 16, 24, 32 and 40. They are stated
-on Tau Ceti's native integral lattices, with Tau Ceti's mass `IntegralLattice.mass`, class number
+and Tau Ceti, the class finiteness of indefinite lattices of rank at least three that follows from
+Eichler's theorem (0.3), and the headline theorems of the positive-definite branch: the numerical
+mass formula for an arbitrary positive definite integral lattice of rank at least three (1.3), its
+rank-two form with the product over the primes taken in increasing order (1.3, through 1.4), the
+even-unimodular mass formula (3.1) and the unconditional class counts in ranks 16, 24, 32 and 40.
+They are stated on Tau Ceti's native integral lattices, with Tau Ceti's class set
+`IntegralLattice.genusClasses`, mass `IntegralLattice.mass`, class number
 `IntegralLattice.classNumber`, Gram matrix `IntegralLattice.gramMatrix`, determinant
 `IntegralLattice.determinant` and local density `Matrix.localDensity`; the only definition made
 here is the Bernoulli product of 3.1.
@@ -36,9 +38,13 @@ Not statable at the pins, and therefore not stated here:
   do not supply the quadratic-preserving scheme and its reduction in characteristic two;
 * Cho's smooth dyadic model and density formula of 2.1–2.2: there is no smooth integral model
   attached to a Jordan splitting over an unramified extension of `ℤ₂`;
-* the away-S Spin approximation and Eichler applications of 0.3: the algebraic Spin group
-  with its almost-simple factors and its comparison with the native restricted product is
-  missing, as is the proper spinor-genus class carrier needed by the Eichler conclusion.
+* the away-S Spin approximation of 0.3, over a number field `K` with a noncompactness hypothesis
+  on every almost-`K`-simple factor: there is no algebraic Spin group of an arbitrary form over a
+  number field with its almost-simple factors, and the native adelic Spin point groups are over
+  `ℚ` only;
+* Eichler's theorem in 0.3, the equality of proper classes and proper spinor genera for
+  indefinite lattices of rank at least three: there is no proper spinor genus. Its class-finiteness
+  consequence needs no spinor genus and is stated below as `finite_genusClasses_of_isIndefinite`.
 
 The comparisons of 1.4 (from a binary lattice to its primitive quadratic order and signed
 character, the ordered Euler product at `s = 1`, and the class-number, unit, regulator and
@@ -51,6 +57,17 @@ noncomputable section
 open TauCeti
 
 namespace TauCetiRoadmap.OrthogonalTamagawaAndLatticeMass
+
+/-! ## Layer 0: native and scheme dictionaries -/
+
+/-- Class finiteness for indefinite lattices, the application of Eichler's theorem in 0.3: the
+genus of a nondegenerate indefinite integral lattice of rank at least three contains finitely many
+isometry classes. By Eichler's theorem a proper spinor genus of such a lattice is a single proper
+class, and a genus contains finitely many proper spinor genera (O'Meara, 104:5). -/
+theorem finite_genusClasses_of_isIndefinite {V : Type*} [AddCommGroup V] [Module ℚ V]
+    (L : IntegralLattice V) [L.IsNondegenerate] (hL : L.IsIndefinite)
+    (hn : 3 ≤ Module.finrank ℤ L) : L.genusClasses.Finite := by
+  sorry
 
 /-! ## Layer 1: quotient and gauge transport -/
 
@@ -88,7 +105,7 @@ theorem genusMass_eq_rank_two {V : Type*} [AddCommGroup V] [Module ℚ V] (L : I
       Filter.atTop (nhds (L.mass : ℝ)) := by
   sorry
 
-/-! ## Layer 3: The even-unimodular mass -/
+/-! ## Layer 3: even-unimodular specialization and exact arithmetic -/
 
 /-- `|B_m/(2m)| · ∏_{j=1}^{m−1} |B_{2j}/(4j)|`, with Mathlib's Bernoulli numbers `bernoulli`
 (`B₁ = −1/2`); at `m = 0` the division by zero makes it `0`. -/
@@ -109,7 +126,7 @@ theorem evenUnimodularMass_eq {V : Type*} [AddCommGroup V] [Module ℚ V] (L : I
     L.mass = bernoulliFullMass (Module.finrank ℤ L / 2) := by
   sorry
 
-/-! ## Layer 4: Classification and class-count bounds -/
+/-! ## Layer 4: automorphism orders and class counts -/
 
 /-- There are exactly two isometry classes of positive definite even unimodular integral lattices
 of rank 16: the genus of `E₈ ⊕ E₈`, which contains every such lattice, has class number two. -/
