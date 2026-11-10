@@ -21,12 +21,12 @@ The general classifications need the following additional interfaces:
    for a geometrically connected affine group. The full conjugacy classification needs
    the reductive-group Tits system and the standard-parabolic scheme bridge.
 4. Classification of projective homogeneous schemes: the scheme action and stabilizer/quotient
-   comparison, the standard-parabolic scheme bridge and the fixed point for proper schemes.
+   comparison and the standard-parabolic scheme bridge.
 5. Equivariant morphism classification: represented `G/P_J` schemes, scheme-level equivariant
    morphisms, quotient descent and the ingredients of 1 and 2.
 
 Headline 3 is stated below using the native parabolic predicate and represented projective
-orbit scheme. Its proof needs the Borel fixed-point theorem for general proper schemes.
+orbit scheme.
 
 The declarations use native Hopf ideals. They introduce no point-set replacement for a scheme
 statement.
