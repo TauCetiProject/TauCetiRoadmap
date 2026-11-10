@@ -76,8 +76,11 @@ Ownership against other developments is as follows.
 * [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G2, owns the weighted area
   formula for Lipschitz maps.  Layer 6 here owns only its extension to approximately
   differentiable gradients of convex functions.
-* The [PDE roadmap](../PDE/README.md), Layers 1, 2 and 6, owns weak-derivative Sobolev spaces,
-  Hölder spaces, bounded mean oscillation, and the concrete heat semigroup; the
+* Tau Ceti implements weak derivatives and the weak Sobolev spaces (`TauCeti.HasWeakFDerivOn`,
+  `TauCeti.W1p`, `TauCeti.Wkp`), which Layers 5.9 and 6 consume directly.  The
+  [PDE roadmap](../PDE/README.md), Layers 1, 2 and 6, builds on them and owns
+  Rellich--Kondrachov on Lipschitz domains, Hölder spaces, bounded mean oscillation, and the
+  concrete heat semigroup; the
   [one-parameter-semigroups roadmap](../../Completed/OneParameterSemigroups/README.md) owns
   C₀ semigroups, generators, resolvents, and the Hille--Yosida theorem.
 * Mathlib owns the Kullback--Leibler divergence `InformationTheory.klDiv`, its
@@ -363,9 +366,24 @@ meaning stated.
 The following theorems of Tau Ceti prove targets of the layers below, which cite them; each is
 consumed with exactly the hypotheses recorded here.
 
+* `TauCeti.isClosed_setOfPred_isCoupling`, `TauCeti.isCompact_setOfPred_isCoupling` and
+  `TauCeti.isCompact_setOfPred_isCoupling_of_polishSpace` (`…/OptimalTransport/Compactness.lean`):
+  for topological factors whose opens, and those of their product, are measurable, and whose spaces
+  of probability measures are `T1`, the couplings of two probability measures form a weakly closed
+  set; when moreover the product is Hausdorff and Borel and both marginals are tight, a weakly
+  compact set; on Polish spaces with their Borel σ-algebras, a compact set with no further
+  hypothesis (Layers 1.2 and 1.3).
 * `TauCeti.exists_isOptimalCoupling` (`…/OptimalTransport/Existence/Basic.lean`): an optimal
   coupling exists for a lower semicontinuous cost `c : X × Y → ℝ≥0∞` between probability measures
   on Polish spaces with their Borel σ-algebras (Layer 1.5).
+* `TauCeti.MeasureTheory.AnalyticSet.nullMeasurableSet` (`…/MeasurableSpace/Analytic.lean`),
+  `TauCeti.analyticSet_setOf_cTransform_lt` and `TauCeti.nullMeasurable_cTransform`
+  (`…/OptimalTransport/CTransform/Analytic.lean`): an analytic subset of a metrizable space with
+  measurable opens is null-measurable for every s-finite measure; for Polish `X`, `Y` with their
+  Borel σ-algebras, a real cost `c` and `φ : X → [-∞,∞]`, if the strict sublevel
+  `{(x,y) | c(x,y) - φ(x) < a}` is Borel then `{y | φᶜ(y) < a}` is analytic, and if the integrand
+  `(x,y) ↦ c(x,y) - φ(x)` is Borel then the infimal transform `φᶜ` is null-measurable for every
+  s-finite measure on `Y` (Layer 2.2).
 * `TauCeti.transportCost_eq_sSup_ofReal_kantorovichDualValue_integrable_of_lowerSemicontinuous`
   (`…/OptimalTransport/Duality/LowerSemicontinuous.lean`): for a lower semicontinuous cost
   `c : X × Y → ℝ≥0∞` between probability measures on Polish spaces, the transport cost is the
@@ -401,6 +419,16 @@ consumed with exactly the hypotheses recorded here.
   Pratelli's theorem, the Monge and Kantorovich values agree, finite or not, for a continuous
   cost `c : X × Y → ℝ≥0∞` on second-countable standard Borel spaces, a finite source measure
   without atoms and a nonempty target (Layer 4.3).
+* `TauCeti.Coupling.dense_graphPlans` (`…/OptimalTransport/GraphPlanDensity.lean`): on Polish
+  metric spaces with their Borel σ-algebras, for a source probability law with null singletons
+  (Mathlib's `MeasureTheory.NullSingletonClass`), the graph plans of measure-preserving maps are
+  weakly dense in the bundled couplings (Layer 4.3).
+* `TauCeti.tendsto_map_prodMk_self_iff_tendstoInMeasure`
+  (`…/OptimalTransport/GraphPlan/Convergence.lean`): for a weakly regular probability measure `μ`
+  on a space with measurable opens, a second-countable pseudo-extended-metric target with
+  measurable opens, closed subsets of the product approximable from outside (Mathlib's
+  `HasOuterApproxClosed`), and almost everywhere measurable maps, the graph plans of `T_n` converge
+  narrowly to that of `T` exactly when `T_n → T` in `μ`-measure (Layer 4.4).
 * `TauCeti.hasFDerivAt_eq_of_mem_contactSet`, `TauCeti.ae_subsingleton_setOf_mem_contactSet` and
   `TauCeti.IsDualCertificate.ae_exists_condKernel_eq_dirac` (`…/OptimalTransport/Twist/Basic.lean`),
   and `TauCeti.IsDualCertificate.exists_optimal_transportMap_unique_ae`
@@ -422,6 +450,14 @@ consumed with exactly the hypotheses recorded here.
 * `TauCeti.exists_hasLaw_and_ae_eq_gradient_comp` (`…/OptimalTransport/PolarFactorization.lean`):
   Brenier's polar factorization `U = ∇u ∘ s` of a map `U` on a probability space whose law and the
   target law `P` are absolutely continuous, at finite quadratic cost between them (Layer 5.9).
+* `TauCeti.HasWeakFDerivOn μ Ω u U` (`TauCeti/Analysis/Sobolev/WeakDeriv/Basic.lean`) and
+  `TauCeti.W1p` (`TauCeti/Analysis/Sobolev/W1p/Basic.lean`): on an open set `Ω` of a real normed
+  space with a measure `μ`, `U` is a weak Fréchet derivative of `u` (for every direction `v`,
+  `x ↦ U x v` is the weak derivative of `u` along `v` against every test function on `Ω`, with `u`
+  and `U` locally `μ`-integrable on `Ω`); and, on a real inner product space with an additive Haar
+  measure and for `1 ≤ p`, the complete first-order space `W^{1,p}(Ω)` of real functions; with
+  `TauCeti.Wkp` (`TauCeti/Analysis/Sobolev/Wkp/Basic.lean`), the space `W^{k,p}(Ω)` of every order
+  `k`, equal to `Lᵖ(Ω)` at `k = 0` and to `W^{1,p}(Ω)` at `k = 1` (Layers 5.9 and 6).
 * `TauCeti.mongeAmpereMeasure_eq_of_hasLaw`, `TauCeti.mongeAmpereMeasure_eq_withDensity_inv_add`
   and `TauCeti.mongeAmpereMeasure_eq_withDensity_inv_of_convex`
   (`TauCeti/Analysis/Convex/MongeAmpere/Transport.lean`), and
@@ -502,6 +538,44 @@ consumed with exactly the hypotheses recorded here.
 * `TauCeti.existsUnique_isCoupling_klDiv_eq_schroedingerValue`
   (`…/OptimalTransport/Entropic/Basic.lean`): for a finite source `μ` and a finite reference `R`,
   a finite Schrödinger value is attained by exactly one coupling (Layer 13.2).
+* `TauCeti.exists_entropicDualValue_eq_toReal_entropicTransportCost` and
+  `TauCeti.exists_ae_eq_add_const_of_entropicDualValue_eq_toReal_entropicTransportCost`
+  (`…/OptimalTransport/Entropic/Duality.lean`): for probability measures, a bounded measurable cost
+  `c : X × Y → ℝ≥0∞` and `ε > 0`, the entropic dual problem is attained by bounded measurable
+  potentials with value `OT_ε(μ,ν)`, and two integrable maximizing pairs whose Gibbs factors
+  `exp((φ ⊕ ψ - c)/ε)` are `μ⊗ν`-integrable agree up to one additive constant almost everywhere
+  (Layer 13.3).
+* `TauCeti.sinkhornDivergence`, `TauCeti.sinkhornDivergence_nonneg` and
+  `TauCeti.sinkhornDivergence_eq_zero_iff` (`…/OptimalTransport/Entropic/SinkhornDivergence.lean`):
+  the debiased value `OT_ε(μ,ν) - OT_ε(μ,μ)/2 - OT_ε(ν,ν)/2`; on a compact space, for a bounded
+  measurable cost whose Gibbs kernel `exp(-c/ε)` is continuous and positive semidefinite and for
+  `ε > 0`, it is nonnegative on probability measures, and if moreover the space is Borel with
+  `HasOuterApproxClosed` and the kernel is universal, it vanishes exactly on the diagonal (Layer
+  13.4).
+* `TauCeti.tendsto_entropicTransportCost_nhdsGT_zero`,
+  `TauCeti.tendsto_entropicTransportCost_transportCost`,
+  `TauCeti.tendsto_entropicTransportCost_transportCost_of_le_add` and
+  `TauCeti.isOptimalCoupling_of_tendsto_of_entropicTransportCost`
+  (`…/OptimalTransport/Entropic/ZeroTemperature.lean`), and
+  `TauCeti.IsOptimalCoupling.tendsto_entropicTransportCost`,
+  `TauCeti.existsUnique_isOptimalCoupling_isMinOn_klDiv` and
+  `TauCeti.tendsto_of_entropicTransportCost_eq` (`…/OptimalTransport/Entropic/Selection.lean`): the
+  zero-temperature limit of Layer 13.5, with the hypotheses recorded there.
+* `TauCeti.entropicBarycenterCost`, `TauCeti.tendstoGamma_entropicBarycenterCost`,
+  `TauCeti.exists_isMinOn_entropicBarycenterCost` and
+  `TauCeti.tendsto_of_isMinOn_entropicBarycenterCost`
+  (`…/OptimalTransport/Entropic/Barycenter.lean`): the objective `F_ε` of Layer 13.6 for the cost
+  `d^p`; on a Polish metric space, for `0 < p < ∞` and inputs of finite `p`-moment, its
+  Γ-convergence as `ε → 0⁺` to the weighted cost `∑ λ_i W_p(·,μ_i)^p` for the weak topology; on a
+  nonempty compact metric space, existence of its minimizers at every `ε`, and their weak
+  convergence to the unregularized barycenter when that is unique (Layer 13.6).
+* `TauCeti.dynamicSchroedingerValue`, `TauCeti.dynamicSchroedingerValue_eq_schroedingerValue`,
+  `TauCeti.existsUnique_isCoupling_map_klDiv_eq_dynamicSchroedingerValue` and
+  `TauCeti.klDiv_eq_dynamicSchroedingerValue_iff` (`…/OptimalTransport/Entropic/Dynamic.lean`): for a
+  measurable endpoint map `e : Ω → X × Y`, a finite source measure and a finite reference `R` on
+  `Ω`, the dynamic value equals the static value of `e₊R`, a finite dynamic value is attained by
+  exactly one measure, and a feasible measure is the minimizer exactly when its endpoint law is the
+  static minimizer and its density against `R` is `d(e₊P)/d(e₊R) ∘ e` (Layer 13.11).
 * `TauCeti.GromovWassersteinSpace` with `TauCeti.GromovWassersteinSpace.instMetricSpace`
   (`…/OptimalTransport/GromovWasserstein/Space.lean`): for `1 ≤ p ≤ ∞` and a metric target `Z`,
   the weak-isomorphism classes of finite-size, almost everywhere strongly measurable `Z`-valued
@@ -534,9 +608,9 @@ Here `…/` abbreviates `TauCeti/MeasureTheory/`.
   (Layers 8.9, 11.10 and 14.6).
 * [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G2: the weighted area
   formula for Lipschitz maps `f : ℝᵐ → ℝⁿ`, `m ≤ n`, with extended multiplicity (Layer 6.6).
-* [PDE](../PDE/README.md), §1.1 (A1), §1.6 (A6), §1.7 (A7), §2.4 (B11) and §6.3 (F26): weak
-  derivatives and Sobolev spaces, Rellich--Kondrachov, Hölder spaces, bounded and vanishing
-  mean oscillation, and the concrete heat semigroup (Layers 5.9, 6 and 11).
+* [PDE](../PDE/README.md), §1.6 (A6), §1.7 (A7), §2.4 (B11) and §6.3 (F26):
+  Rellich--Kondrachov, Hölder spaces, bounded and vanishing mean oscillation, and the concrete
+  heat semigroup (Layers 5.9, 6 and 11).
 * [One-parameter semigroups](../../Completed/OneParameterSemigroups/README.md), Part A:
   C₀ semigroups, generators, resolvents, and Hille--Yosida (Layer 11.9).
 
@@ -769,10 +843,13 @@ fixed-marginal coupling subtype by inheritance from `ProbabilityMeasure`.  Consu
 `MeasureTheory.ProbabilityMeasure.continuous_map` for the continuous coordinate
 projections.  Prove that the coupling set is closed when the marginal
 probability-measure spaces are `T1`, and give the Polish/Borel theorem as the canonical
-specialization.  Do not introduce another notion of weak convergence.
+specialization.  The closedness theorem, for factors and product with measurable opens, is Tau
+Ceti's `TauCeti.isClosed_setOfPred_isCoupling`.  Do not introduce another notion of weak
+convergence.
 
 *Needs:* Layer 0.1; Mathlib `MeasureTheory.ProbabilityMeasure` with its weak topology,
-`MeasureTheory.ProbabilityMeasure.continuous_map` and `OpensMeasurableSpace` on the factors.
+`MeasureTheory.ProbabilityMeasure.continuous_map` and `OpensMeasurableSpace` on the factors; Tau
+Ceti `TauCeti.isClosed_setOfPred_isCoupling`.
 
 **Checks.**
 
@@ -788,12 +865,18 @@ specialization.  Do not introduce another notion of weak convergence.
 
 Consume `MeasureTheory.IsTightMeasureSet.prodMk` to derive tightness of the coupling
 family from tightness of its two fixed marginals.  Prove relative compactness by
-Prokhorov and compactness of the coupling set on Polish spaces.  Supply compact
+Prokhorov and compactness of the coupling set on Polish spaces (Nutz, *Introduction to Entropic
+Optimal Transport*, Lemma 5.7, p. 46, for weakly compact families of marginals on Polish spaces).
+Compactness for two tight marginals on factors with measurable opens and `T1` spaces of
+probability measures, with a Hausdorff Borel product, is Tau Ceti's
+`TauCeti.isCompact_setOfPred_isCoupling`, and its Polish specialization is
+`TauCeti.isCompact_setOfPred_isCoupling_of_polishSpace`.  Supply compact
 metrizable corollaries and a separate abstract theorem for spaces satisfying the
 Prokhorov compactness property; do not infer it from Radon regularity alone.
 
-*Needs:* item 2; Mathlib `MeasureTheory.IsTightMeasureSet.prodMk` and Prokhorov's theorem; Polish
-factors.
+*Needs:* item 2; Mathlib `MeasureTheory.IsTightMeasureSet.prodMk` and Prokhorov's theorem; Tau
+Ceti `TauCeti.isCompact_setOfPred_isCoupling` and
+`TauCeti.isCompact_setOfPred_isCoupling_of_polishSpace`.
 
 ### 1.4 Lower semicontinuity of the cost functional
 
@@ -808,7 +891,8 @@ theorem.
 ### 1.5 Primal attainment
 
 Prove primal attainment for lower-semicontinuous costs on Polish spaces (Tau Ceti's
-`TauCeti.exists_isOptimalCoupling`) and the direct method theorem under abstract
+`TauCeti.exists_isOptimalCoupling`; Ambrosio--Gigli, *A user's guide to optimal transport*,
+Theorem 1.5, p. 5, for costs bounded below) and the direct method theorem under abstract
 compactness/lower-semicontinuity hypotheses.  Separate
 finite-value existence from the fact that an optimizer exists with value `∞`.
 
@@ -871,9 +955,11 @@ an extended-real codomain.  Pin safe subtraction/normalization rules so no theor
 hides `∞-∞`.  Prove order reversal, double-transform inequalities, feasibility, and
 improvement of a feasible pair by `c`-transformation.  For Polish `X,Y`, if the safely
 defined integrand `(x,y) ↦ c(x,y)-φ(x)` is Borel, prove that
-`{y | φᶜ(y)<a}` is analytic for every `a`.  Build the missing reusable theorem that
-every analytic subset of a Polish space is measurable in `η.completion` for every
-finite Borel measure `η`; apply it to each such sublevel, use that explicit
+`{y | φᶜ(y)<a}` is analytic for every `a`, and hence that `φᶜ` is measurable in the completion
+of every s-finite Borel measure on `Y`; for a real cost these are Tau Ceti's
+`TauCeti.analyticSet_setOf_cTransform_lt` and `TauCeti.nullMeasurable_cTransform`, through Tau
+Ceti's `TauCeti.MeasureTheory.AnalyticSet.nullMeasurableSet` (an analytic subset of a metrizable
+space with measurable opens is null-measurable for every s-finite measure).  Use that explicit
 completion-level statement in downstream integration, and do not claim Borel
 measurability in general.
 If every section `y ↦ c(x,y)` is continuous, prove that the infimal transform is upper
@@ -883,7 +969,8 @@ transform; with both hypotheses it is continuous.  Record Borel measurability as
 corollary in these topological regimes.
 
 *Needs:* item 1; Mathlib `EReal` and analytic sets `MeasureTheory.AnalyticSet` with measure
-completions.
+completions; Tau Ceti `TauCeti.analyticSet_setOf_cTransform_lt`, `TauCeti.nullMeasurable_cTransform`
+and `TauCeti.MeasureTheory.AnalyticSet.nullMeasurableSet`.
 
 **Checks.**
 
@@ -1022,7 +1109,10 @@ ground `edist`, prove symmetry and monotonicity in `p`.  Under a standard-Borel
 measurable structure and measurable ground `edist`, prove the triangle inequality by
 gluing plus Minkowski.  Under the Polish/Borel metric hypotheses, prove
 `W_p=0 ↔ μ=ν` on a genuine metric base; on a pseudometric base give the induced
-measurable quotient/pushforward statement instead.  For `p < ∞`, prove the exact
+measurable quotient/pushforward statement instead.  These are the metric axioms of
+Peyré--Cuturi, *Computational Optimal Transport*, Proposition 2.3, p. 21, for `1 ≤ p < ∞`,
+proved by gluing two optimal plans, and of Ambrosio--Gigli, *A user's guide to optimal
+transport*, Lemma 2.1 and Theorem 2.2, p. 25, for `p = 2` on `P₂(X)` over a Polish space.  For `p < ∞`, prove the exact
 bridge to the integral-of-`edist^p`/root formula and Layer 1's transport cost.
 
 *Needs:* Layers 0.1, 0.4 and 1.1; Mathlib `MeasureTheory.eLpNorm`, `MeasureTheory.MemLp` and
@@ -1254,19 +1344,21 @@ Build the basic feasibility theory.  Under `MeasurableSingletonClass Y`, for a p
 atom `x`, every transport map satisfies `ν({T x}) ≥ μ({x})`; a standard-Borel target
 is a sufficient corollary.  If `A` is measurable, `0 < μ A`, and every measurable
 `B ⊆ A` has `μ B = 0` or `μ B = μ A`, prove the corresponding atom-set theorem under
-its standard-Borel target hypothesis.  Use Mathlib's `MeasureTheory.NoAtoms μ` for the
-nonatomic corollaries: a nonatomic standard probability space admits a measurable map
-to every standard-Borel target law.  Include exact atomic/nonatomic decompositions
-rather than claiming every Monge problem is feasible.
+its standard-Borel target hypothesis.  Use Mathlib's `MeasureTheory.NullSingletonClass μ`
+(every singleton is `μ`-null; on a standard Borel space a finite measure with this property has
+no atoms) for the nonatomic corollaries: a nonatomic standard probability space admits a
+measurable map to every standard-Borel target law.  Include exact atomic/nonatomic
+decompositions rather than claiming every Monge problem is feasible.
 
-*Needs:* Layer 0.2; Mathlib `MeasureTheory.NoAtoms` and standard-Borel spaces.
+*Needs:* Layer 0.2; Mathlib `MeasureTheory.NullSingletonClass` and standard-Borel spaces.
 
 ### 4.3 Density of graph couplings and Pratelli's theorem
 
 Let `X,Y` be Polish, `μ ∈ P(X)` nonatomic, and `ν ∈ P(Y)`.  Prove that the
 graph couplings `{(id,T)_{#}μ | T : X → Y Borel, T_{#}μ=ν}` are narrowly dense
-in `Π(μ,ν)`.  Hence Monge and Kantorovich values agree for bounded continuous real
-costs, while the Monge infimum need not be attained.  Then formalize
+in `Π(μ,ν)`; for Polish metric `X`, `Y` and a source law with null singletons this is Tau
+Ceti's `TauCeti.Coupling.dense_graphPlans`.  Hence Monge and Kantorovich values agree for
+bounded continuous real costs, while the Monge infimum need not be attained.  Then formalize
 [Pratelli Theorem B](https://www.numdam.org/item/AIHPB_2007__43_1_1_0/): for
 continuous `c : X×Y → [0,∞]`, possibly unbounded or infinite-valued,
 the Monge infimum equals the Kantorovich minimum, possibly `∞`, under the same
@@ -1274,15 +1366,19 @@ nonatomic-source hypothesis; this is Tau Ceti's
 `TauCeti.mongeCost_eq_transportCost_of_continuous`.  For finite equal-mass measures, normalize
 and handle zero mass separately.
 
-*Needs:* items 1--2; Layer 1.2; Pratelli Theorem B; Tau Ceti
-`TauCeti.mongeCost_eq_transportCost_of_continuous`.
+*Needs:* items 1--2; Layer 1.2; Pratelli Theorem B; Tau Ceti `TauCeti.Coupling.dense_graphPlans`
+and `TauCeti.mongeCost_eq_transportCost_of_continuous`.
 
 ### 4.4 Convergence of graph plans
 
 For Polish `X,Y`, fixed `μ ∈ P(X)`, Borel maps `T_n,T : X → Y`, and graph plans
 `(ι,T_n)_{#}μ`, prove the AGS graph-plan theorem: narrow convergence to
 `(ι,T)_{#}μ` is equivalent to
-`MeasureTheory.TendstoInMeasure μ atTop T_n T`.  Under this convergence, prove `Lᵖ`
+`MeasureTheory.TendstoInMeasure μ atTop T_n T`.  This equivalence is Tau Ceti's
+`TauCeti.tendsto_map_prodMk_self_iff_tendstoInMeasure`, for a weakly regular source law on a
+space with measurable opens, a second-countable pseudo-extended-metric target with measurable
+opens, a product with `HasOuterApproxClosed`, and almost everywhere measurable maps; Polish `X`,
+`Y` satisfy these hypotheses.  Under this convergence, prove `Lᵖ`
 convergence for `1 ≤ p < ∞` exactly when `{d_Y(T_n(·),ȳ)ᵖ}` satisfies Mathlib's
 `MeasureTheory.UniformIntegrable` predicate for one (hence every) basepoint `ȳ`.
 Consume the existing convergence-in-measure and uniform-integrability lemmas.
@@ -1291,7 +1387,7 @@ do not define convergence in a moving source measure or recover pointwise conver
 from narrow convergence alone.
 
 *Needs:* Layer 1.2; Mathlib `MeasureTheory.TendstoInMeasure` and
-`MeasureTheory.UniformIntegrable`.
+`MeasureTheory.UniformIntegrable`; Tau Ceti `TauCeti.tendsto_map_prodMk_self_iff_tendstoInMeasure`.
 
 ### 4.5 The abstract twist theorem
 
@@ -1352,7 +1448,7 @@ from complementary slackness.
 
 ### Dependencies
 
-Layers 0--3; Mathlib `ProbabilityTheory.HasLaw`, `MeasureTheory.NoAtoms`, `MeasureTheory.TendstoInMeasure`, and `MeasureTheory.UniformIntegrable`.
+Layers 0--3; Mathlib `ProbabilityTheory.HasLaw`, `MeasureTheory.NullSingletonClass`, `MeasureTheory.TendstoInMeasure`, and `MeasureTheory.UniformIntegrable`.
 
 ## Layer 5: convex analysis, Brenier, and polar factorization
 
@@ -1501,9 +1597,13 @@ The quadratic tier is Tau Ceti's `TauCeti.exists_hasLaw_and_ae_eq_gradient_comp`
 probability space `(α,m)`, a map `U` into a finite-dimensional real inner product space whose law
 and a target law `P` are both absolutely continuous, at finite quadratic cost between them,
 factors as `U = ∇u ∘ s` `m`-a.e. with `u` convex and `s = ∇u* ∘ U` of law `P` (Brenier 1991,
-Theorem 1.2).  Formalize Brenier's original polar factorization for `1 ≤ p < ∞`.  First consume
-PDE §1.1 (A1)'s weak derivatives to define the weighted space `W¹,p(Ω,P)`, its norm
-`(∫Ω (|v|^p+‖∇v‖^p) dP)^(1/p)`, and its completeness.  Express the required
+Theorem 1.2).  Formalize Brenier's original polar factorization for `1 ≤ p < ∞`.  First, for
+an open `Ω ⊂ ℝᵈ` and a probability `P` on `Ω` with a density bounded away from zero on every
+compact subset of `Ω` (so that every element of `Lᵖ(Ω,P)` is locally Lebesgue integrable), define
+the weighted space `W¹,p(Ω,P)` of `v ∈ Lᵖ(Ω,P)` having a weak gradient `∇v ∈ Lᵖ(Ω,P;ℝᵈ)` in
+the sense of Tau Ceti's `TauCeti.HasWeakFDerivOn` against Lebesgue measure on `Ω`, its norm
+`(∫Ω (|v|^p+‖∇v‖^p) dP)^(1/p)`, and its completeness; for normalized Lebesgue `P` on a bounded
+`Ω` it is Tau Ceti's `TauCeti.W1p` with an equivalent norm.  Express the required
 compact inclusion concretely: every sequence bounded in this norm has an
 `Lᵖ(Ω,P)`-convergent subsequence.  Let `(X,μ)` be a
 probability space isomorphic modulo null sets to the nonatomic unit interval.  Let
@@ -1525,8 +1625,21 @@ with normalized Lebesgue `P`
 specialization, where the compact-embedding hypothesis follows by bridging PDE §1.6
 (A6)'s Rellich--Kondrachov theorem to the weighted definition.
 
-*Needs:* item 5; PDE §1.1 (A1) and §1.6 (A6); Tau Ceti
+*Needs:* item 5; PDE §1.6 (A6); Tau Ceti `TauCeti.HasWeakFDerivOn`, `TauCeti.W1p` and
 `TauCeti.exists_hasLaw_and_ae_eq_gradient_comp`.
+
+**Checks.**
+
+* For `P` uniform on `Ω = (0,1)` and `v(x) = x`, the norm is `(1/(p+1) + 1)^(1/p)`; omitting the
+  gradient term would give `(1/(p+1))^(1/p)`.
+* The indicator `1_{(1/2,1)}` on `(0,1)` is not in the space: its distributional derivative is the
+  point mass at `1/2`, not a function.  A definition through the almost-everywhere classical
+  derivative, which is `0`, would admit it with norm `2^(-1/p)` for uniform `P`.
+* For `p = 1`, `P = 2x dx` on `(0,1)` and `v(x) = x^(-1/2)`, `∫|v| dP = 4/3` and
+  `∫|v'| dP = ∫₀¹ x^(-1/2) dx = 2`, so `v` lies in the weighted space with norm `10/3`, although
+  `∫₀¹ |v'| dx = ∞`: the weighted space is not the Lebesgue one.
+* For `P` normalized Lebesgue measure on a bounded `Ω`, the norm is `|Ω|^(-1/p)` times the
+  unweighted norm `(∫Ω (|v|^p+‖∇v‖^p) dx)^(1/p)`.
 
 The main primary source is Brenier's [polar factorization
 paper](https://doi.org/10.1002/cpa.3160440402); the strictly convex difference-cost route
@@ -1542,7 +1655,7 @@ saturates the quadratic dual constraint.
 
 ### Dependencies
 
-Layers 0--4; Mathlib convexity, `SeparatingDual`, `LocallyConvexSpace`, `intrinsicInterior`, `LipschitzOnWith.ae_differentiableWithinAt`, `ProbabilityTheory.multivariateGaussian`, and the matrix continuous functional calculus; PDE §1.1 (A1) and §1.6 (A6) for item 9.
+Layers 0--4; Mathlib convexity, `SeparatingDual`, `LocallyConvexSpace`, `intrinsicInterior`, `LipschitzOnWith.ae_differentiableWithinAt`, `ProbabilityTheory.multivariateGaussian`, and the matrix continuous functional calculus; Tau Ceti's `TauCeti.HasWeakFDerivOn` and `TauCeti.W1p` and PDE §1.6 (A6) for item 9.
 
 ## Layer 6: Monge--Ampère measures, equations, and regularity
 
@@ -1712,8 +1825,9 @@ equality on Borel subsets of `X`.
 * A statement of the upper bound without convexity of `Y` is refuted by the same example, since
   `λ⁻² Leb({x₁ = 0} ∩ B₁) = 0 < 4`; the lower bound of the first assertion still holds there.
 
-The regularity sublayers consume the [PDE roadmap](../PDE/README.md), §1.1 (A1), for the
-weak-derivative Sobolev API, §1.7 (A7) for Hölder spaces, and §2.4 (B11) for
+The regularity sublayers consume Tau Ceti's weak Sobolev spaces `TauCeti.Wkp` (built on
+`TauCeti.HasWeakFDerivOn`) for the `W²,p` statements, the [PDE roadmap](../PDE/README.md)'s
+§1.7 (A7) for Hölder spaces, and its §2.4 (B11) for
 vanishing mean oscillation (VMO) on `ℝⁿ` with its modulus `η(r)`.  Build here only the
 local version on a domain and the quantitative oscillation modulus used in section-local
 estimates, with its bridge to §2.4.
@@ -1738,7 +1852,8 @@ source, for bounded open `X` and bounded open convex `Y` with both densities bet
 sections compactly contained in the domain, carry `0 < λ ≤ f ≤ Λ`, strict convexity,
 section normalization/distance, and quantitative dependence of constants visibly.
 
-*Needs:* items 1--7; De Philippis--Figalli survey Theorems 2.14, 2.21 and 3.3.
+*Needs:* items 1--7; Tau Ceti `TauCeti.Wkp`; De Philippis--Figalli survey Theorems 2.14, 2.21 and
+3.3.
 
 **Checks.**
 
@@ -1770,17 +1885,22 @@ strict-convexity input at the base step, the distance to the boundary, `λ`, `Λ
 the relevant `C^{k,α}` norm of `f`.  Do not state any of these from positivity without
 the normalized-section and oscillation hypotheses.
 
-*Needs:* item 8; PDE §1.7 (A7) and §2.4 (B11); De Philippis--Figalli survey Theorems 2.19--2.21;
-Huang 2009 for the VMO tier.
+*Needs:* item 8; Tau Ceti `TauCeti.Wkp`; PDE §1.7 (A7) and §2.4 (B11); De Philippis--Figalli
+survey Theorems 2.19--2.21; Huang 2009 for the VMO tier.
 
 ### 6.10 Global regularity
 
-Prove global boundary regularity and smooth-diffeomorphism results for smooth uniformly
-convex source and target domains with smooth densities bounded away from zero and
-infinity.  Build the boundary estimates they consume rather than importing a theorem
-name as an axiom.
+Let `X, Y ⊂ ℝⁿ` be bounded open sets that are smooth and uniformly convex, and let `f` and `g`
+be probability densities on `X` and `Y`, bounded away from zero and infinity, with
+`f ∈ C^{k,β}(cl X)` and `g ∈ C^{k,β}(cl Y)` for an integer `k ≥ 0` and `0 < β < 1`.  Prove that
+the Brenier map `∇u : X → Y` for the cost `‖x-y‖²/2` extends to a diffeomorphism
+`cl X → cl Y` of class `C^{k+1,β}` (Caffarelli's boundary regularity; De Philippis--Figalli
+survey, Theorem 3.3, third assertion, p. 26).  Build the boundary estimates this consumes
+rather than importing a theorem name as an axiom.  Convexity of the target is not removable:
+item 7's two-half-disc target, which is not convex, has a Brenier map that jumps across the
+diameter although both densities are constant.
 
-*Needs:* items 7--9.
+*Needs:* items 7--9; De Philippis--Figalli survey Theorem 3.3.
 
 ### 6.11 Regression examples
 
@@ -1799,7 +1919,10 @@ A1* target twist, A2 mixed-Hessian nondegeneracy, the `c`-exponential, `c`-segme
 mutual and uniform source/target `c`-convexity, and the weak A3w and strong A3s
 Ma--Trudinger--Wang conditions.  Each is a separate predicate with bridge lemmas to the
 abstract twist layer; MTW derivative statements carry at least the cited `C⁴` cost
-regularity.
+regularity.  The conventions are those of the De Philippis--Figalli survey: A1, A1* and A2 are
+its conditions (C1), (C2) and (C3), p. 29, under the `C⁴` bound (C0); the `c`-exponential is
+`c-exp_x(p) = y ⇔ p = -Dₓc(x,y)`, (3.11), p. 30; the Ma--Trudinger--Wang tensor is (4.4),
+p. 33; and A3w and A3s are `MTW(0)` and `MTW(K)` for some `K > 0` in Definition 4.1, p. 34.
 
 *Needs:* Layers 4.5 and 5.1; Mathlib `ContDiff` and Fréchet derivatives.
 
@@ -1891,7 +2014,7 @@ uniform laws on `[0,1]` and on `[0,2]`, the Brenier potential is `u(x) = x²`, t
 
 ### Dependencies
 
-Layer 5; GeometricMeasureTheory G2 for the Lipschitz area formula; PDE §1.1 (A1), §1.7 (A7), and §2.4 (B11).
+Layer 5; GeometricMeasureTheory G2 for the Lipschitz area formula; Tau Ceti's `TauCeti.Wkp`; PDE §1.7 (A7) and §2.4 (B11).
 
 ## Layer 7: Riemannian Brenier--McCann transport
 
@@ -1942,7 +2065,10 @@ Using those consumed geodesic results and Tau Ceti's `TauCeti.riemannianVolume`,
 boundaryless, geodesically complete smooth Riemannian manifold, with source absolutely
 continuous with respect to Riemannian volume, the unique quadratic optimal plan is induced by
 `T(x)=exp_x(-∇φ(x))`.  Give the compact-manifold statement, where moments are
-automatic, as a corollary rather than the root theorem.  Existence of a
+automatic, as a corollary rather than the root theorem (McCann 2001, Theorem 9, p. 13, existence
+and characterization of `T`, and Theorem 8, pp. 12--13, its uniqueness among maps, on a
+connected compact `C³` boundaryless manifold; Ambrosio--Gigli, *A user's guide to optimal
+transport*, Theorem 1.33, p. 19, on a smooth compact boundaryless manifold).  Existence of a
 Kantorovich-optimal map whose graph plan is the only optimal coupling, for the cost
 `d²/2` of the Riemannian distance and without the exponential formula, is
 `exists_isKantorovichOptimalTransportMap_riemannian`.
@@ -1951,19 +2077,25 @@ Kantorovich-optimal map whose graph plan is the only optimal coupling, for the c
 
 ### 7.4 Inverse maps, interpolation, and Riemannian polar factorization
 
-Prove the inverse-map result when the target is also absolutely continuous.  Define the
+Prove the inverse-map result when the target is also absolutely continuous: the map
+`y ↦ exp_y(-∇φᶜ(y))` inverts `T` almost everywhere on both sides (McCann 2001, Corollary 10,
+pp. 14--15, on compact manifolds).  Define the
 Riemannian interpolation explicitly by
 `μ_t = Measure.map (fun x ↦ exp_x (-t • ∇φ x)) μ`, prove its minimizing-geodesic and
 cut-locus properties, and require Layer 9 to identify it with the generic displacement
 interpolation.  For Riemannian polar factorization, let `M` be a connected compact
-`C³` boundaryless Riemannian manifold with normalized volume `m`, and let
-`s : M → M` be Borel with `s_#m ≪ m`.  Prove the a.e.-unique factorization
+`C³` boundaryless Riemannian manifold, let `m` be a finite Borel measure with `m ≪ volume`
+(normalized volume is the case of Brenier's factorization), and let
+`s : M → M` be Borel with `s_#m ≪ volume`.  Prove the `m`-a.e.-unique factorization
 `s=T∘u`, where `u_#m=m` and `T(x)=exp_x(-∇ψ(x))` is the unique quadratic optimal
-map from `m` to `s_#m`, with the `c`-concavity convention `ψᶜᶜ=ψ`.  Prove
-uniqueness of the potential modulo constants, select the representative satisfying
-`∫ ψ dm=0`, and distinguish uniqueness of `u`, `T`, and that representative.
+map from `m` to `s_#m`, with the `c`-concavity convention `ψᶜᶜ=ψ`, and `u` and `T` are Borel
+(McCann 2001, Theorem 11, p. 15).  When `m` is equivalent to volume, as normalized volume is,
+prove uniqueness of the potential modulo constants (the Lipschitz potentials then have equal
+gradients volume-a.e. on the connected `M`), select the representative satisfying `∫ ψ dm=0`,
+and distinguish uniqueness of `u`, `T`, and that representative; for an `m` vanishing on an open
+set the potential is not determined there.
 
-*Needs:* item 3; Layer 5.9.
+*Needs:* item 3; Layer 5.9; McCann 2001, Corollary 10 and Theorem 11.
 
 **Checks.**
 
@@ -2234,6 +2366,17 @@ relation.
 *Needs:* items 3, 4 and 7; Layer 4; Tau Ceti `TauCeti.isLeast_lintegral_isContinuityEquation` and
 `TauCeti.wassersteinEDist_rpow_eq_sInf_lintegral_isContinuityEquation`.
 
+**Checks.**
+
+* For `T(x) = x + w`, `F_t(x) = x + tw` is injective and the barycentric velocity is `v_t ≡ w`.
+* For `μ = (δ₀+δ₂)/2` and `T ≡ 1`, `F_t(0) = t` and `F_t(2) = 2 - t`, so `F_{1/2}` is injective
+  with `v_{1/2}(1/2) = 1` and `v_{1/2}(3/2) = -1`; `F_1 ≡ 1` is not injective, and there the
+  barycentric velocity is `v_1(1) = E_μ[1 - X] = 0` while `T(x) - x = ±1`, so the pullback formula
+  needs its injectivity hypothesis.
+* For the optimal map `T(x) = 2x` from the uniform law on `[0,1]` and `p = 2`,
+  `v_t(y) = y/(1+t)` and `∫‖v_t‖² dμ_t = ∫₀¹ x² dx = 1/3` for every `t`, so the action equals
+  `∫‖T-id‖² dμ = 1/3 = W₂(μ₀,μ₁)²`, as the equality case requires.
+
 ### 8.9 The Riemannian Benamou--Brenier formula
 
 Let `M` be a finite-dimensional, connected, complete, boundaryless smooth Riemannian manifold
@@ -2247,10 +2390,21 @@ minimizer for `p = 2` is Layer 7.4's Riemannian displacement interpolation with 
 `-∇φ` transported along the geodesics, and for general `p` the minimizer is the displacement
 interpolation of an optimal plan from item 4.  The divergence theorem of DifferentialGeometry
 Layer 12.5 and Tau Ceti's `TauCeti.riemannianVolume` give the bridge to densities
-`∂ₜρ + div(ρ v) = 0` for `μₜ = ρₜ vol`.
+`∂ₜρ + div(ρ v) = 0` for `μₜ = ρₜ vol`.  For `p = 2` on a smooth compact boundaryless manifold
+this is Ambrosio--Gigli, *A user's guide to optimal transport*, Proposition 2.30, p. 45.
 
 *Needs:* items 3, 4 and 7; Layer 7.4; DifferentialGeometry Layer 12 (gradient, divergence and
 divergence theorem); Tau Ceti `TauCeti.riemannianVolume`.
+
+**Checks.**
+
+* On flat `ℝⁿ`, `mgradient` is the Euclidean gradient and the definition is item 7's.
+* On the circle `ℝ/2πℤ`, for a fixed `θ`, `μ_t = δ_{tθ}` with the constant field `v ≡ θ ∂_θ`
+  solves the equation: `∫₀¹ (∂ₜφ + θ ∂_θ φ)(t, tθ) dt = φ(1,θ) - φ(0,0) = 0` for `φ` compactly
+  supported in `(0,1) × M`; with the opposite sign the same curve would need `v ≡ -θ ∂_θ`.
+* On the same circle with `p = 2`, `μ₀ = δ₀` and `μ₁ = δ_{3π/2}`, the curve `δ_{t·3π/2}` has action
+  `(3π/2)²`, while `W₂(μ₀,μ₁)² = d(0,3π/2)² = (π/2)²` is attained by `δ_{-tπ/2}` with `v ≡ -(π/2) ∂_θ`:
+  the minimum runs along the minimizing geodesic.
 
 The original Euclidean theorem is Benamou--Brenier,
 [doi:10.1007/s002110050002](https://doi.org/10.1007/s002110050002).  The more general
@@ -2305,7 +2459,9 @@ plan).
 ### 9.2 The geodesic structure of `P_p(X)`
 
 Prove that `P_p(X)` is geodesic when `X` is complete, separable, and geodesic, and
-characterize constant-speed geodesics in the finite `1 < p < ∞` regime.  Prove
+characterize constant-speed geodesics in the finite `1 < p < ∞` regime as the time marginals of
+a law on constant-speed geodesics whose endpoint law is optimal (Ambrosio--Gigli, *A user's
+guide to optimal transport*, Theorem 2.10, p. 31, for `p = 2` on Polish geodesic spaces).  Prove
 uniqueness only from the
 combination of almost-everywhere unique base geodesics and uniqueness of the endpoint
 optimizer; nonbranching alone is not silently promoted to uniqueness.
@@ -2657,7 +2813,11 @@ finite-reference bridge
 statements in the following reference regime.  On a complete separable metric space,
 assume the Borel reference satisfies
 `0<Z_a=∫ exp(-a d(x,x₀)²)dm<∞` for some `a>0`--both bounds, since `m_a` below must be a
-probability measure--and define `m_a=Z_a⁻¹ exp(-a d(x,x₀)²)m`.  Keep the mass
+probability measure--and define `m_a=Z_a⁻¹ exp(-a d(x,x₀)²)m` (Ambrosio--Gigli--Savaré,
+*Calculus and heat flow in metric measure spaces*, arXiv:1106.2090v4, Definition 7.1, p. 55, for
+the entropy of probability measures with a moment weight `V`, here `V² = a d(·,x₀)²`, and
+(7.3) and (7.5)--(7.7), pp. 55--56, for the change of reference and the lower semicontinuity
+under convergence with moments and under `W₂` convergence).  Keep the mass
 correction visible in the change-of-reference identity, because this item admits finite
 measures and not only probability measures: with `M=μ(univ)`, Mathlib's finite-measure
 convention gives
@@ -3147,7 +3307,12 @@ everywhere--and for separable probability spaces `(X,μ)`, `(Y,ν)` (Nutz's stan
 §2, p. 16: a countable family of measurable sets approximates every measurable set in
 measure, Mathlib's `MeasureTheory.IsSeparable`), Nutz's Theorem 2.1(a) gives real measurable
 potentials, unique modulo one global additive constant
-(`exists_rnDeriv_eq_exp_add_of_isCoupling_of_forall_klDiv_le`).  Integrability of the potentials is a further conclusion,
+(`exists_rnDeriv_eq_exp_add_of_isCoupling_of_forall_klDiv_le`).  For probability marginals, a
+bounded measurable cost and `ε > 0`, dual attainment by bounded measurable potentials with value
+`OT_ε(μ,ν)`, and uniqueness up to one additive constant of integrable maximizing pairs with
+integrable Gibbs factors, are Tau
+Ceti's `TauCeti.exists_entropicDualValue_eq_toReal_entropicTransportCost` and
+`TauCeti.exists_ae_eq_add_const_of_entropicDualValue_eq_toReal_entropicTransportCost`.  Integrability of the potentials is a further conclusion,
 under `log(dR/d(μ⊗ν)) ∈ L¹(μ⊗ν)`, equivalently `c ∈ L¹(μ⊗ν)` after normalization; state
 it as such.  If only `R ≪ μ⊗ν` and the reference has support zeros, uniqueness weakens
 to one normalization per connected component of the bipartite support graph, not one
@@ -3156,7 +3321,9 @@ diagonal equations constrain `φ_i+ψ_i` independently and leave a constant on e
 component.  Name that support-component theorem separately, and treat infinite costs
 under it.
 
-*Needs:* items 1--2; Layer 2.1; Mathlib `MeasureTheory.IsSeparable`.
+*Needs:* items 1--2; Layer 2.1; Mathlib `MeasureTheory.IsSeparable`; Tau Ceti
+`TauCeti.exists_entropicDualValue_eq_toReal_entropicTransportCost` and
+`TauCeti.exists_ae_eq_add_const_of_entropicDualValue_eq_toReal_entropicTransportCost`.
 
 ### 13.4 Differentiability and Sinkhorn divergences
 
@@ -3191,12 +3358,17 @@ signed-Radon-measure energy/separation lemmas used below.  Then formalize
 for a symmetric Lipschitz cost `C` whose Gibbs kernel
 `k_ε(x,y)=exp(-C(x,y)/ε)` is positive universal, define the Sinkhorn negentropy
 `F_ε(α)=-OT_ε(α,α)/2`, prove its strict convexity, and prove `S_ε ≥ 0`, definiteness,
-separate convexity/smoothness, and metrization of weak convergence.  Distinguish pointwise
+separate convexity/smoothness, and metrization of weak convergence.  Nonnegativity and
+definiteness on a compact space, for a bounded measurable cost whose Gibbs kernel is continuous
+and positive semidefinite (and universal, for definiteness, on a Borel space with
+`HasOuterApproxClosed`), are Tau Ceti's `TauCeti.sinkhornDivergence_nonneg` and
+`TauCeti.sinkhornDivergence_eq_zero_iff` for `TauCeti.sinkhornDivergence`.  Distinguish pointwise
 positivity from positive-definiteness and universality.  Give bounded-support
 Euclidean `C(x,y)=‖x-y‖` and `‖x-y‖²` specializations.  Strict convexity of the plan
 objective alone does not imply these claims as functions of marginals or cost.
 
-*Needs:* items 1--3; Layer 2.3.
+*Needs:* items 1--3; Layer 2.3; Tau Ceti `TauCeti.sinkhornDivergence`,
+`TauCeti.sinkhornDivergence_nonneg` and `TauCeti.sinkhornDivergence_eq_zero_iff`.
 
 **Checks.**
 
@@ -3208,13 +3380,66 @@ objective alone does not imply these claims as functions of marginals or cost.
 
 ### 13.5 The zero-temperature limit
 
-Prove the zero-temperature limit: Γ-convergence/equicoercivity of regularized problems,
-convergence of values, and optimality of weak cluster points under continuous or
-integrably dominated costs.  If the optimal face contains a plan with finite
-`klDiv (·) (μ⊗ν)`, prove selection of the optimal plan minimizing that exact KL
-functional.  Do not claim potential convergence from plan convergence alone.
+Write `C_ε = inf_π [∫ c dπ + ε klDiv π (μ⊗ν)]` for `ε > 0` and `C₀` for the transport cost of
+`c : X × Y → [0,∞]`.  With no hypothesis on the cost or the spaces, `C_ε` decreases as `ε ↓ 0` to
+the infimum of `∫ c dπ` over the couplings of finite `klDiv π (μ⊗ν)` (Tau Ceti's
+`TauCeti.tendsto_entropicTransportCost_nhdsGT_zero`), and this limit can exceed `C₀`.  Prove the
+following three parts, each under its own hypotheses.
 
-*Needs:* items 1--2; Layers 1.6 and 10.6.
+1. *Convergence of values.*  `C_ε → C₀` for a finite `μ` and a cost that, for every `η > 0`,
+   varies by at most `η` on the product cells of some finite measurable partitions of `X` and `Y`
+   (Tau Ceti's `TauCeti.tendsto_entropicTransportCost_transportCost`; uniformly continuous costs on
+   totally bounded spaces are of this kind).  `C_ε → C₀` also for a continuous cost
+   `c : X × Y → [0,∞)` on pseudometric spaces with measurable opens, tight marginals with `μ`
+   finite, and a split bound `c(x,y) ≤ c₁(x) + c₂(y)` with `∫ c₁ dμ < ∞` and `∫ c₂ dν < ∞` (Tau
+   Ceti's `TauCeti.tendsto_entropicTransportCost_transportCost_of_le_add`; Nutz, *Introduction to
+   Entropic Optimal Transport*, Theorem 5.10(a), p. 47, on Polish spaces, and Corollary 5.4,
+   p. 43, for bounded continuous costs).  Lower semicontinuity and boundedness of the cost do not
+   suffice (Nutz, Example 5.1, p. 41, recorded below).
+2. *Optimality of cluster points.*  For probability marginals and a lower semicontinuous cost with
+   `C_ε → C₀`, every weak limit of `ε`-optimizers along `ε → 0⁺` is an optimal plan (Tau Ceti's
+   `TauCeti.isOptimalCoupling_of_tendsto_of_entropicTransportCost`, on factors with measurable
+   opens and `T1` spaces of probability measures and a pseudometrizable product with measurable
+   opens; Nutz, Proposition 5.9, p. 46).  Under part 1's hypotheses on Polish spaces the
+   optimizers have weak cluster points by Layer 1.3, and all of them are optimal (Nutz,
+   Theorem 5.10(b), p. 47).  Package this as Γ-convergence of the regularized functionals to the
+   transport functional with equicoercivity (Layer 10.6) only under part 1's hypotheses, which
+   supply the recovery sequences.
+3. *Selection.*  If some optimal plan `σ` has finite `klDiv σ (μ⊗ν)`, then `C_ε → C₀` with no
+   hypothesis on the cost, since `C₀ ≤ C_ε ≤ C₀ + ε klDiv σ (μ⊗ν)` (Tau Ceti's
+   `TauCeti.IsOptimalCoupling.tendsto_entropicTransportCost`).  On Polish spaces, for a lower
+   semicontinuous cost, the optimal face then has exactly one plan `π*` of least
+   `klDiv (·) (μ⊗ν)` (`TauCeti.existsUnique_isOptimalCoupling_isMinOn_klDiv`), and when moreover
+   `C₀ < ∞` the `ε`-optimizers converge weakly to `π*` as `ε → 0⁺`
+   (`TauCeti.tendsto_of_entropicTransportCost_eq`).  On arbitrary measurable spaces, for a
+   measurable cost with `C₀ < ∞`, prove Nutz's stronger conclusion: the `ε`-optimizers converge in
+   total variation to the unique optimal plan `π*` of least `klDiv (·) (μ⊗ν)`, and
+   `klDiv π_ε (μ⊗ν) → klDiv π* (μ⊗ν)` (Nutz, Theorem 5.5, p. 44).
+
+Do not claim potential convergence from plan convergence alone.
+
+*Needs:* items 1--2; Layers 1.3, 1.6 and 10.6; Tau Ceti
+`TauCeti.tendsto_entropicTransportCost_nhdsGT_zero`,
+`TauCeti.tendsto_entropicTransportCost_transportCost`,
+`TauCeti.tendsto_entropicTransportCost_transportCost_of_le_add`,
+`TauCeti.isOptimalCoupling_of_tendsto_of_entropicTransportCost`,
+`TauCeti.IsOptimalCoupling.tendsto_entropicTransportCost`,
+`TauCeti.existsUnique_isOptimalCoupling_isMinOn_klDiv` and
+`TauCeti.tendsto_of_entropicTransportCost_eq`.
+
+**Checks.**
+
+* For `μ = ν` uniform on `[0,1]` and `c = 1` off the diagonal and `0` on it, a bounded lower
+  semicontinuous cost, `C₀ = 0` through the diagonal coupling; every coupling of finite entropy is
+  absolutely continuous with respect to `μ⊗ν`, which gives the diagonal measure `0`, so `C_ε = 1`
+  for every `ε > 0`, attained by `μ⊗ν`, which is not optimal.  The cost is not continuous, so
+  part 1 does not apply.
+* For the continuous cost `c = |x-y|` on the same marginals, `c ≤ 1`, so part 1 applies and
+  `C_ε → C₀ = 0`.
+* For `μ = ν = (δ₀+δ₁)/2` and `c = |x-y|`, the only optimal plan is `(δ_{(0,0)}+δ_{(1,1)})/2`, of
+  relative entropy `log 2`, and the Gibbs form of item 1 (13.1) gives the optimizer
+  `π_{00} = π_{11} = 1/(2(1+e^{-1/ε}))`, `π_{01} = π_{10} = e^{-1/ε}/(2(1+e^{-1/ε}))`, which
+  converges to it as `ε → 0⁺`, as part 3 requires.
 
 ### 13.6 Entropic barycenters
 
@@ -3230,9 +3455,16 @@ outer-regularized, Schrödinger and Sinkhorn-divergence barycenters).  Fix the o
 domain and every entropy reference explicitly.  Then state the convergence theorem with its topology and
 its mechanism: Γ-convergence of exactly these objectives, equicoercivity giving cluster
 points, and uniqueness of the unregularized barycenter giving convergence of the full
-sequence.
+sequence.  On a Polish metric space, for `0 < p < ∞` and inputs of finite `p`-moment, the
+Γ-convergence of `F_ε` to `∑ λ_i W_p(·,μ_i)^p` for the weak topology is Tau Ceti's
+`TauCeti.tendstoGamma_entropicBarycenterCost` for `TauCeti.entropicBarycenterCost`; on a nonempty
+compact metric space, existence of minimizers of `F_ε` and their weak convergence to the
+unregularized barycenter when it is unique are `TauCeti.exists_isMinOn_entropicBarycenterCost`
+and `TauCeti.tendsto_of_isMinOn_entropicBarycenterCost`.
 
-*Needs:* items 1--2; Layers 10.6 and 12.
+*Needs:* items 1--2; Layers 10.6 and 12; Tau Ceti `TauCeti.entropicBarycenterCost`,
+`TauCeti.tendstoGamma_entropicBarycenterCost`, `TauCeti.exists_isMinOn_entropicBarycenterCost` and
+`TauCeti.tendsto_of_isMinOn_entropicBarycenterCost`.
 
 **Checks.**
 
@@ -3249,8 +3481,16 @@ sequence.
 Define alternating marginal normalization as alternating relative-entropy projections
 on general measurable spaces.  Prove that each half-step enforces one marginal, the KL
 Pythagorean/telescoping identities, and convergence of marginal errors under a feasible
-finite-entropy hypothesis.  Add convergence of couplings and potentials only with the
-required tightness, exponential-integrability, or bounded-kernel hypotheses.
+finite-entropy hypothesis (Nutz, *Introduction to Entropic Optimal Transport*, §6, p. 51, for
+probability spaces and a reference `R ≪ μ⊗ν` admitting a coupling of finite entropy; Lemma 6.4,
+p. 55, for the half-step identities, Proposition 6.5, p. 56, for the Pythagorean identity
+`klDiv π* πₙ = klDiv π* R - ∑_{0 ≤ t ≤ n} klDiv π_t π_{t-1}` with `π_{-1} = R`, and Corollary 6.6, p. 56, for
+convergence of the marginals in relative entropy and in total variation).  Add convergence of
+couplings and potentials only with the required tightness, exponential-integrability, or
+bounded-kernel hypotheses: for `dR = e^{-c} d(μ⊗ν)` with `c` bounded below and
+`∫ e^{rc} d(μ⊗ν) < ∞` for some `r > 1`, the potentials converge pointwise and in every `Lᵖ`,
+`1 ≤ p < ∞`, and the couplings converge in relative entropy and in total variation to the
+Schrödinger bridge (Nutz, Theorem 6.15, p. 62).
 
 *Needs:* items 1--2; Layer 11.1.
 
@@ -3320,9 +3560,18 @@ statement is a prototype only; this equivalence is the acceptance boundary.
 For a reference law `R` on path space, define endpoint-constrained entropy
 minimization.  Entropy disintegration first yields
 `dP*/dR=(dπ*/dR₀₁)(X₀,X₁)` for the optimal endpoint coupling.  Derive the stronger
-factorization `f(X₀)g(X₁)R` only under Layer 13A's static dual-potential hypotheses.
+factorization `f(X₀)g(X₁)R` only under Layer 13A's static dual-potential hypotheses.  For a
+measurable endpoint map, a finite source measure and a finite reference `R`, the reduction of the
+dynamic value to the static value of the endpoint law, existence and uniqueness of the dynamic
+minimizer at finite value, and the endpoint form of its density are Tau Ceti's
+`TauCeti.dynamicSchroedingerValue_eq_schroedingerValue`,
+`TauCeti.existsUnique_isCoupling_map_klDiv_eq_dynamicSchroedingerValue` and
+`TauCeti.klDiv_eq_dynamicSchroedingerValue_iff` for `TauCeti.dynamicSchroedingerValue`.
 
-*Needs:* items 1--3; Layer 11.1.
+*Needs:* items 1--3; Layer 11.1; Tau Ceti `TauCeti.dynamicSchroedingerValue`,
+`TauCeti.dynamicSchroedingerValue_eq_schroedingerValue`,
+`TauCeti.existsUnique_isCoupling_map_klDiv_eq_dynamicSchroedingerValue` and
+`TauCeti.klDiv_eq_dynamicSchroedingerValue_iff`.
 
 **Checks.**
 
@@ -3509,17 +3758,28 @@ to `D` rather than duplicate this construction.
 
 ### 14.5 Stability, tensorization, and globalization
 
-For normalized finite-variance `RCD(K,∞)` spaces, prove stability under Sturm
-`D`-convergence and convergence of heat flows (AGS Theorem 6.11), and prove
-nonbranching `ℓ²`-product tensorization (Theorem 6.13).  Formalize the precise global-
-to-local and local-to-global statements of AGS Theorems 6.20 and 6.22, including their
-geodesicity, null-boundary, quadratic-Cheeger-energy, and nonbranching assumptions.
+For normalized finite-variance metric-measure spaces (complete separable, reference law in
+`P₂(X)`), prove that a `D`-limit of `RCD(K,∞)` spaces is `RCD(K,∞)` (Ambrosio--Gigli--Savaré,
+*Metric measure spaces with Riemannian Ricci curvature bounded from below*, arXiv:1109.0222v2,
+Theorem 6.10, p. 50), and that the `ℓ²` product of two nonbranching `RCD(K,∞)` spaces is a
+nonbranching `RCD(K,∞)` space (Theorem 6.11, p. 51).  Formalize the global-to-local theorem
+(Theorem 6.18, pp. 56--57: a closed convex `Y` with `m(∂Y) = 0` and `m(Y) > 0`, with the
+normalized restricted reference, is `RCD(K,∞)`) and the local-to-global theorem (Theorem 6.20,
+p. 57: a nonbranching `CD(K,∞)` space covered by finitely or countably many closed sets of
+positive measure, on each of which the normalized restriction has a quadratic Cheeger energy, is
+`RCD(K,∞)`).  Prove convergence of the heat flows separately, under pointed measured Gromov
+convergence: for `CD(K,∞)` spaces, initial data converging in `W₂` with converging entropies give
+`W₂` convergence of the flows at every time, of their entropies, and of their metric speeds for
+almost every time (Gigli--Mondino--Savaré, *Convergence of pointed non-compact metric measure
+spaces and stability of Ricci curvature bounds and heat flows*, arXiv:1311.4907v1, Theorem 5.7,
+p. 39); for `RCD(K,∞)` spaces `W₂` convergence of the initial data to a law concentrated on
+the support of the limit reference suffices (Theorem 7.7, p. 57), and stability of `RCD(K,∞)` holds in that convergence (Theorem 7.2, p. 54).
 Treat finite-`N` `CD*` tensorization/local-to-global separately and incorporate Sturm's
 2024 corrigendum: do not state blanket tensorization from the original Bacher--Sturm
 proof.  Prove the elementary implications among curvature-dimension conditions, and
 do not infer nonbranching from a curvature bound unless the theorem supplies it.
 
-*Needs:* items 2--4.
+*Needs:* items 2--4; Layer 10.3.
 
 ### 14.6 Smooth weighted manifolds
 
@@ -3533,7 +3793,13 @@ accounting for the selected `CD` versus `CD*` convention, which encodes the same
 inequality in the smooth setting.  Pin the sign convention `m=e^{-V} vol_g`.  Prove that
 at `N=n` a finite lower bound forces `V` constant, record that an `n`-dimensional smooth
 weighted manifold with `N<n` lies outside the finite-`N` theory, and treat a manifold
-with boundary through a separate convex-boundary formulation.  This consumes the Ricci tensor
+with boundary through a separate convex-boundary formulation.  The `N`-Ricci tensor and its
+conventions at `N = n` and `N < n` are Lott--Villani, *Ricci curvature for metric-measure spaces
+via optimal transport*, arXiv:math/0412127v4, Definition 0.10, p. 4, and on a smooth compact
+connected manifold with a smooth weight their Theorem 0.12, p. 4 (with Theorem 7.3, p. 41),
+proves that `∞`-Ricci curvature at least `K` in the transport sense is `Ric + Hess V ≥ K g`, and
+that nonnegative `N`-Ricci curvature is `Ric_N ≥ 0`; the complete noncompact case and finite `N`
+with `K ≠ 0` follow the two parts of Sturm's *On the geometry of metric measure spaces*.  This consumes the Ricci tensor
 `CovariantDerivative.ricciTensor` of the Levi-Civita connection with RiemannianGeometry R1's
 curvature calculus, the Hessian of DifferentialGeometry Layer 12.3, and Tau Ceti's
 `TauCeti.riemannianVolume`.  On weighted `ℝ` with `V(x) = x²/2`, `Ric_g = 0` and `Hess V = 1`,
@@ -3548,13 +3814,20 @@ is `RCD*(K,N)` for no `K`.
 
 Prove that on `RCD(K,∞)` spaces the `L²(m)` gradient flow of Cheeger energy on
 densities/functions corresponds, through `ρ ↦ ρ m` in the unit-mass finite-entropy
-regime, to the `W₂` `EVI_K` gradient flow of Boltzmann entropy on `P₂(X)`.  The two flows
-do not literally have the same carrier.  Then enumerate the consequences instead of
+regime, to the `W₂` `EVI_K` gradient flow of Boltzmann entropy on `P₂(X)` (Ambrosio--Gigli--Savaré,
+*Calculus and heat flow*, Theorem 9.3, p. 68, under `CD(K,∞)`; AGS arXiv:1109.0222v2,
+Theorem 5.1, p. 40, for the equivalence of `RCD(K,∞)` with the existence of `EVI_K` flows).  The
+two flows do not literally have the same carrier.  Then enumerate the consequences instead of
 claiming the estimates "available" from the theory.  The two intended statements are the
 dual heat-flow contraction
 `W_p(H_t^* μ, H_t^* ν) ≤ exp(-K t) W_p(μ,ν)`
+(AGS arXiv:1109.0222v2, (6.1), p. 44, for `p = 2`; Savaré, *Self-improvement of the
+Bakry--Émery condition and Wasserstein contraction of the heat flow in `RCD(K,∞)` metric measure
+spaces*, arXiv:1304.0643v2, Theorem 4.4(iii), p. 20, for every `p ∈ [1,∞]`)
 and the Bakry--Émery gradient estimate
-`|D H_t f|² ≤ exp(-2 K t) H_t(|Df|²)`,
+`|D H_t f|² ≤ exp(-2 K t) H_t(|Df|²)`
+(AGS arXiv:1109.0222v2, Theorem 6.2, p. 45, for `f` in the domain of the Cheeger energy; Savaré,
+Corollary 4.3, p. 20, for the self-improved exponents `β ∈ [1,2]`),
 the latter `m`-almost everywhere on its precise Sobolev domain--`W^{1,2} ∩ L∞` in
 Savaré's formulation--with `|Df|` the minimal weak upper gradient of item 3.  Make the
 ambient assumptions on `(X,d,m)`, `H_t`, and its dual `H_t^*` visible; Savaré's
@@ -3690,7 +3963,8 @@ rather than the foundation.
 ### 15.4 Zero distance and the quotient
 
 In the Polish-carrier category of item 3, characterize zero distance as weak
-isomorphism, form the quotient, and give the quotient a genuine metric; the quotient and its
+isomorphism, form the quotient, and give the quotient a genuine metric (BMNN Theorem 29, p. 26,
+for a separable metric target `Z`); the quotient and its
 metric are Tau Ceti's `TauCeti.GromovWassersteinSpace` and
 `TauCeti.GromovWassersteinSpace.instMetricSpace`.  For
 full-support metric-measure spaces, prove that weak isomorphism reduces to a
@@ -4028,7 +4302,8 @@ guardrails.
 
 ## Cross-roadmap dependencies
 
-* The [PDE roadmap](../PDE/README.md) builds weak Sobolev spaces, compactness, parabolic
+* Tau Ceti implements weak derivatives and the weak Sobolev spaces; the
+  [PDE roadmap](../PDE/README.md) builds on them the Sobolev compactness, parabolic
   solution theory, and the concrete heat semigroup consumed by Monge--Ampère estimates and
   the PDE/semigroup identification of JKO limits.  Nonlinear Monge--Ampère, continuity
   equations of measure-valued curves, Fokker--Planck semigroup construction, and OT first
@@ -4217,7 +4492,15 @@ stage of which is reusable on its own.
 * C. Léonard, [From the Schrödinger problem to the Monge--Kantorovich
   problem](https://arxiv.org/abs/1011.2564), 2012; L. Ambrosio, N. Gigli, and G. Savaré,
   [Calculus and heat flow in metric measure spaces and applications to spaces with Ricci
-  bounds from below](https://arxiv.org/abs/1106.2090), 2014.
+  bounds from below](https://arxiv.org/abs/1106.2090), 2014, theorem numbers from arXiv v4.
+* L. Ambrosio, N. Gigli, and G. Savaré, [Metric measure spaces with Riemannian Ricci curvature
+  bounded from below](https://arxiv.org/abs/1109.0222), 2014, theorem numbers from arXiv v2;
+  G. Savaré, [Self-improvement of the Bakry--Émery condition and Wasserstein contraction of the
+  heat flow in `RCD(K,∞)` metric measure spaces](https://arxiv.org/abs/1304.0643), 2014;
+  N. Gigli, A. Mondino, and G. Savaré, [Convergence of pointed non-compact metric measure spaces
+  and stability of Ricci curvature bounds and heat flows](https://arxiv.org/abs/1311.4907), 2015;
+  J. Lott and C. Villani, *Ricci curvature for metric-measure spaces via optimal transport*,
+  [arXiv:math/0412127](https://arxiv.org/abs/math/0412127), theorem numbers from arXiv v4.
 
 ## Acknowledgements and provenance
 

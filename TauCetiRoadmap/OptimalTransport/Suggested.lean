@@ -47,6 +47,11 @@ not restated here.
   `TauCeti.WassersteinSpace.exists_isFrechetBarycenter`.
 * Existence and uniqueness of the static Schrödinger bridge (Layer 13.2):
   `TauCeti.existsUnique_isCoupling_klDiv_eq_schroedingerValue`.
+* The zero-temperature limit of entropic transport for a continuous cost with an integrable
+  split upper bound and tight marginals (Layer 13.5):
+  `TauCeti.tendsto_entropicTransportCost_transportCost_of_le_add`.
+* Existence and uniqueness of the dynamic Schrödinger minimizer (Layer 13.11):
+  `TauCeti.existsUnique_isCoupling_map_klDiv_eq_dynamicSchroedingerValue`.
 * The Gromov–Wasserstein metric on weak-isomorphism classes of measured kernels (Layer 15.4):
   `TauCeti.GromovWassersteinSpace.instMetricSpace`.
 * Existence of fixed-law finite Gromov–Wasserstein barycenters (Layer 15.10):
