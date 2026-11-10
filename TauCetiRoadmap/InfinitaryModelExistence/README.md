@@ -1046,10 +1046,11 @@ Among the targets that `Suggested.lean` states, Tau Ceti `2fd255d99` does not im
 `OmitsFOType`, `IsolatesFO`, `exists_countable_model_omitting_fo`,
 `exists_firstOrder_presentation`, `craig_interpolation_relational`, `craig_interpolation`,
 `pcSeparation`, `relationsInSigned`, `lyndon_interpolation`, `universalSigned` or
-`malitz_interpolation`. Tau Ceti main at `d2083f0` (2026-11-08) implements all of them except the
-three first-order omitting-types items, Lyndon and Malitz. In particular it has `pcSeparation` in
-`Interpolation/Craig.lean`, whose hypothesis ranges over countable structures in an arbitrary
-universe rather than in `Type`.
+`malitz_interpolation`. Tau Ceti commit `d2083f0` has declarations for all of them except the three
+first-order omitting-types items, Lyndon and Malitz, with the first-order presentation stated as
+`model_morleyTheory_and_omitsType_iff_eq_morleyExpansion`; its `pcSeparation`, in
+`Interpolation/Craig.lean`, takes the hypothesis over countable structures in an arbitrary universe
+rather than in `Type`.
 
 ## References
 
