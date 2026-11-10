@@ -384,6 +384,15 @@ consumed with exactly the hypotheses recorded here.
 * `TauCeti.wassersteinEDist_top_eq_iSup` (`…/OptimalTransport/Wasserstein/Infinity/Basic.lean`):
   `W_∞(μ,ν) = ⨆ p < ∞, W_p(μ,ν)` in `[0,∞]` for a probability measure `μ` on a complete
   second-countable metric space with its Borel σ-algebra (Layer 3.6).
+* `TauCeti.wassersteinEDist_eq_eLpNorm_quantile_sub` and
+  `MeasureTheory.Measure.isOptimalCoupling_quantileCoupling`
+  (`…/OptimalTransport/Wasserstein/Rearrangement.lean`), with the monotone coupling
+  `MeasureTheory.Measure.quantileCoupling` (`…/OptimalTransport/Wasserstein/Quantile/Basic.lean`),
+  the quantile `MeasureTheory.Measure.quantile` and
+  `MeasureTheory.Measure.measurePreserving_quantile` (`TauCeti/Probability/Quantile.lean`): for
+  probability measures `μ`, `ν` on `ℝ` and every `1 ≤ p ≤ ∞`, `W_p(μ,ν)` is the `Lᵖ(0,1)` distance
+  of the quantiles in `[0,∞]`, with no moment hypothesis, and the monotone coupling is optimal for
+  `|x - y|^p` for every real `p ≥ 1` (Layer 3.7).
 * `TauCeti.wassersteinEDist_one_eq_iSup`
   (`…/OptimalTransport/Wasserstein/KantorovichRubinstein.lean`): Kantorovich--Rubinstein duality
   for probability measures of finite first moment on a second-countable pseudometric space with
@@ -392,6 +401,17 @@ consumed with exactly the hypotheses recorded here.
   Pratelli's theorem, the Monge and Kantorovich values agree, finite or not, for a continuous
   cost `c : X × Y → ℝ≥0∞` on second-countable standard Borel spaces, a finite source measure
   without atoms and a nonempty target (Layer 4.3).
+* `TauCeti.hasFDerivAt_eq_of_mem_contactSet`, `TauCeti.ae_subsingleton_setOf_mem_contactSet` and
+  `TauCeti.IsDualCertificate.ae_exists_condKernel_eq_dirac` (`…/OptimalTransport/Twist/Basic.lean`),
+  and `TauCeti.IsDualCertificate.exists_optimal_transportMap_unique_ae`
+  (`…/OptimalTransport/Twist/Map.lean`): for a real cost on `E × Y`, `E` a real normed space, the
+  first-order condition `∇φ(x) = Dₓc(x,y)` at a contact point of a dual pair; almost every contact
+  fiber is a subsingleton when the first potential is finite near and differentiable at almost
+  every point, the cost sections are differentiable at contact partners, and `y ↦ Dₓc(x,y)` is
+  injective among differentiable sections; and, for a nonnegative cost, a nonempty standard Borel
+  target and real potentials certifying a plan, Dirac conditional laws for every finite optimal
+  coupling and, for a measurable cost and a finite source, a measurable Kantorovich-optimal map
+  inducing the plan and unique `μ`-a.e. (Layers 4.5 and 4.6).
 * `TauCeti.wassersteinEDist_two_multivariateGaussian`
   (`…/OptimalTransport/Wasserstein/Gaussian/Basic.lean`): the Bures formula for `W₂` from a
   nondegenerate Gaussian law to any Gaussian law (Layer 5.3).
@@ -402,6 +422,21 @@ consumed with exactly the hypotheses recorded here.
 * `TauCeti.exists_hasLaw_and_ae_eq_gradient_comp` (`…/OptimalTransport/PolarFactorization.lean`):
   Brenier's polar factorization `U = ∇u ∘ s` of a map `U` on a probability space whose law and the
   target law `P` are absolutely continuous, at finite quadratic cost between them (Layer 5.9).
+* `TauCeti.mongeAmpereMeasure_eq_of_hasLaw`, `TauCeti.mongeAmpereMeasure_eq_withDensity_inv_add`
+  and `TauCeti.mongeAmpereMeasure_eq_withDensity_inv_of_convex`
+  (`TauCeti/Analysis/Convex/MongeAmpere/Transport.lean`), and
+  `TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_mongeAmpereMeasure_eq` and
+  `TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_mongeAmpereMeasure_eq_withDensity`
+  (`…/OptimalTransport/Brenier.lean`): on a finite-dimensional real inner product space with an
+  additive Haar measure `ρ`, for a convex potential with values in `(-∞,∞]` and a map pushing `μ`
+  to `ν`, carried by the interior of the domain and selecting subgradients `μ`-a.e., the weighted
+  identity `MA_{u,ν} = μ` when `ν ≪ ρ`; for `ν = g ρ` with `g` finite a.e., the decomposition of
+  the Aleksandrov measure as `(g ∘ T)⁻¹ μ` plus the subgradient mass in `{g = 0}`, which vanishes
+  when every subgradient at an interior point of the domain lies in the closure of a convex set on
+  which `g` is a.e. positive; and the Brenier corollaries, for an absolutely continuous source at
+  finite quadratic cost: a weak solution for an absolutely continuous target, and, for a closed
+  convex set carrying `ν = g ρ` on which `g` is a.e. positive, a Brenier potential with all
+  subgradients in that set that is an Aleksandrov solution (Layers 6.5 and 6.7).
 * `TauCeti.exists_map_IccExtend_eq_lintegral_curveAction_eq`
   (`…/OptimalTransport/Wasserstein/Superposition.lean`): Lisini's superposition principle on a
   complete separable metric space for `1 < p < ∞` (Layer 8.3).
@@ -410,6 +445,24 @@ consumed with exactly the hypotheses recorded here.
   (`…/OptimalTransport/ContinuityEquation/BenamouBrenier.lean`): the Benamou--Brenier formula for
   `1 ≤ p < ∞` on a finite-dimensional real normed space, with the minimum attained when
   `W_p(μ₀,μ₁)` is finite (Layer 8.8).
+* `TauCeti.IsGeneralizedGeodesicPlan`, `TauCeti.exists_isGeneralizedGeodesicPlan`,
+  `TauCeti.generalizedGeodesic`, `TauCeti.IsGeneralizedGeodesicPlan.wassersteinEDist_sq_add_le` and
+  `TauCeti.IsGeneralizedGeodesicPlan.wassersteinEDist_sq_add_wassersteinEDist_sq_le`
+  (`…/OptimalTransport/Wasserstein/GeneralizedGeodesic/Basic.lean`): three-plans whose `(1,2)` and
+  `(1,3)` marginals are `p`-optimal, their existence on a Polish metric space for a finite base
+  measure coupled with both endpoints and `p ≠ 0`, the generalized geodesic in a real vector space,
+  and, on a separable real inner product space and for `t ∈ [0,1]`, the convexity of `W₂(μ,·)²`
+  along it with remainder `t(1-t)∫‖x₂-x₃‖² dγ ≥ t(1-t)W₂(ν₀,ν₁)²`, in `[0,∞]` (Layers 9.1 and 9.4).
+* `TauCeti.WassersteinSpace.isometry_quantileLp`
+  (`…/OptimalTransport/Wasserstein/Quantile/Isometry.lean`),
+  `TauCeti.WassersteinSpace.isGeodesicSegment_iff_coe_eq_quantileBarycenter`
+  (`…/OptimalTransport/Wasserstein/Quantile/Geodesic.lean`), and `TauCeti.quantileBarycenter`,
+  `TauCeti.quantile_quantileBarycenter_ae`, `TauCeti.exists_isGeodesicSegment_quantileBarycenter`
+  and `TauCeti.sum_mul_wassersteinEDist_sq_quantileBarycenter_le`
+  (`…/OptimalTransport/Wasserstein/Barycenter/Basic.lean`): the quantile isometry
+  `P_p(ℝ) → Lᵖ(0,1)` for `1 ≤ p ≤ ∞`; the quantile interpolation, a geodesic for `1 ≤ p ≤ ∞` and
+  the only one for `1 < p < ∞`; and minimality of the law with averaged quantile for the weighted
+  quadratic cost, for probability laws and weights of sum `1` (Layer 9.6).
 * `TauCeti.klDiv_compProd_eq_add_lintegral`
   (`TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`): the conditional chain rule for
   finite `μ`, `ν`, Markov `κ`, `η`, and a countably generated target or countable source; with
@@ -420,6 +473,13 @@ consumed with exactly the hypotheses recorded here.
   (`TauCeti/InformationTheory/KullbackLeibler/Pinsker.lean`) and
   `TauCeti.klDiv_eq_iSup_integral_sub_log_integral_exp`
   (`TauCeti/InformationTheory/KullbackLeibler/Variational.lean`) (Layer 11.1).
+* `TauCeti.GeneralizedGeodesicallyConvex`, `TauCeti.GeneralizedGeodesicallyConvex.add_edist_sq_div`
+  and `TauCeti.GeneralizedGeodesicallyConvex.subsingleton_moreauYosidaResolvent`
+  (`…/OptimalTransport/Wasserstein/GeneralizedGeodesic/Convex.lean`): on `P₂(E)` for a separable
+  real Hilbert space `E`, `m`-convexity of an energy `P₂(E) → [-∞,∞]` along generalized geodesics
+  based at `μ`, with the remainder `(m/2)t(1-t)∫‖x₂-x₃‖² dγ` of the plan; the JKO functional with
+  step `τ > 0` is `(m + 1/τ)`-convex along the same plans, and has at most one minimizer when
+  `1 + mτ > 0`, the energy never takes the value `-∞`, and it is finite somewhere (Layer 11.6).
 * `TauCeti.WassersteinSpace.exists_isFrechetBarycenter`
   (`…/OptimalTransport/Wasserstein/PopulationBarycenter.lean`): a probability law of finite `p`-th
   moment on `P_p(X)`, for `1 ≤ p < ∞` and a proper metric space `X` with its Borel σ-algebra, has
@@ -429,6 +489,16 @@ consumed with exactly the hypotheses recorded here.
   (`…/OptimalTransport/Wasserstein/Gaussian/FixedPoint.lean`): a positive-definite solution `S` of
   the Gaussian fixed-point equation gives a barycenter, the only one when an input of positive
   weight is nondegenerate (Layer 12.8).
+* `TauCeti.isFrechetBarycenter_two_iff_quantile_ae_eq` and
+  `TauCeti.existsUnique_isFrechetBarycenter_two`
+  (`…/OptimalTransport/Wasserstein/Barycenter/Basic.lean`), and
+  `TauCeti.IsGeodesicSegment.isFrechetBarycenter_two`,
+  `TauCeti.IsGeodesicSegment.isFrechetBarycenter_twoPointBarycenterTime` and
+  `TauCeti.twoPointBarycenterTime` (`…/Measure/FrechetMean/TwoPoint.lean`): for weights of sum `1`,
+  the unique quadratic barycenter in `P₂(ℝ)` of finitely many laws, characterized by the averaged
+  quantile a.e.; and, in a pseudometric space, the point of a geodesic segment at time `t`
+  (`p = 2`), respectively at time `t^(1/(p-1)) / ((1-t)^(1/(p-1)) + t^(1/(p-1)))` for
+  `1 < p < ∞`, is a barycenter of `(1-t)δ_x + tδ_y` (Layer 12.8).
 * `TauCeti.existsUnique_isCoupling_klDiv_eq_schroedingerValue`
   (`…/OptimalTransport/Entropic/Basic.lean`): for a finite source `μ` and a finite reference `R`,
   a finite Schrödinger value is attained by exactly one coupling (Layer 13.2).
@@ -1099,9 +1169,14 @@ Borel probability law, its measurability and pushforward of uniform measure, and
 optimal monotone quantile coupling.  For every `p ∈ [1,∞]`, prove that `W_p` is the
 `Lᵖ(0,1)` distance of the two quantiles, with the integral/root and essential-supremum
 formulas at the corresponding endpoints (for `p < ∞`: Peyré--Cuturi, *Computational Optimal
-Transport*, Remark 2.30, (2.34)--(2.36), pp. 31--32).
+Transport*, Remark 2.30, (2.34)--(2.36), pp. 31--32).  This is Tau Ceti's
+`TauCeti.wassersteinEDist_eq_eLpNorm_quantile_sub`, for every `1 ≤ p ≤ ∞` and with no moment
+hypothesis, built on the quantile `MeasureTheory.Measure.quantile`, its pushforward property
+`MeasureTheory.Measure.measurePreserving_quantile`, and the optimality of the monotone coupling
+`MeasureTheory.Measure.isOptimalCoupling_quantileCoupling`.
 
-*Needs:* item 1; Mathlib `ProbabilityTheory.cdf` and Lebesgue measure on `(0,1)`.
+*Needs:* item 1; Mathlib `ProbabilityTheory.cdf` and Lebesgue measure on `(0,1)`; Tau Ceti
+`TauCeti.wassersteinEDist_eq_eLpNorm_quantile_sub`.
 
 **Checks.**
 
@@ -1225,22 +1300,48 @@ potential differentiable `μ`-a.e., source differentiability of `c`, and injecti
 `y ↦ Dₓc(x,y)`, show that each contact fiber is a singleton almost everywhere and that
 an optimizer concentrated on contact has singleton conditional fibers there.  Formulate
 local semiconcavity or superdifferentiability assumptions separately from twist.  The
-mechanism is the first-order condition `∇u(x) + Dₓc(x,y) = 0` at a contact point where the
-potential is differentiable (De Philippis--Figalli, *The Monge--Ampère equation and its link to
-optimal transportation*, condition (C1), p. 29, and Theorem 3.6 with the last step of its
+mechanism is the first-order condition `∇φ(x) = Dₓc(x,y)` at a contact point `(x,y)` where the
+potential `φ` of the dual constraint `φ x + ψ y ≤ c(x,y)` of Layer 2.2 is differentiable:
+`x' ↦ c(x',y) - φ(x')` is minimal at `x`.  On `ℝ` with `c(x,y) = (x-y)²/2`, `φ(x) = -x` and
+`ψ(y) = y - 1/2`, the slack `c - φ - ψ = (x-y+1)²/2` vanishes exactly on `y = x+1`, where
+`∇φ = -1 = Dₓc(x,x+1)`.  (De Philippis--Figalli, *The Monge--Ampère equation and its link to
+optimal transportation*, twist condition (C1), p. 29, and Theorem 3.6 with Step 4 of its
 proof sketch, pp. 30--32, proved there for bounded `C⁴` costs on open subsets of `ℝⁿ` and an
-absolutely continuous source; Villani 2009, Chapter 10, for the general statement).
+absolutely continuous source; Step 4 writes the condition as `∇u(x) + ∇ₓc(x,y) = 0` for the
+`c`-convex `u = -φ`.  Villani 2009, Chapter 10, for the general statement.)  Tau Ceti proves
+the theorem in this form for a real cost on `E × Y` with `E` a real normed space:
+`TauCeti.hasFDerivAt_eq_of_mem_contactSet` is the first-order condition at a contact point where
+the dual constraint holds near `x`, the potential is finite near `x`, and both the potential
+and the section `c(·,y)` are differentiable at `x`;
+`TauCeti.ae_subsingleton_setOf_mem_contactSet` gives subsingleton contact fibers `μ`-a.e. for an
+everywhere dual-feasible pair whose first potential is finite near and differentiable at
+`μ`-a.e. point, with `c(·,y)` differentiable at contact partners and `y ↦ Dₓc(x,y)` injective
+among differentiable sections at `μ`-a.e. `x`; and
+`TauCeti.IsDualCertificate.ae_exists_condKernel_eq_dirac` gives, under the same differentiability
+and twist hypotheses, Dirac conditional laws at contact partners for every finite optimal
+coupling, for a nonnegative cost almost everywhere measurable along it, real potentials
+certifying optimality of some plan, and a nonempty standard Borel target.
 
-*Needs:* Layers 2.2 and 2.8; Mathlib Fréchet derivatives.
+*Needs:* Layers 2.2 and 2.8; Mathlib Fréchet derivatives; Tau Ceti
+`TauCeti.hasFDerivAt_eq_of_mem_contactSet`, `TauCeti.ae_subsingleton_setOf_mem_contactSet` and
+`TauCeti.IsDualCertificate.ae_exists_condKernel_eq_dirac`.
 
 ### 4.6 Measurable selection of optimal maps
 
 Build measurable-selection lemmas that turn the pointwise singleton formula into a
 measurable/a.e.-measurable map.  Then prove that the optimizer is induced by that map
 and that the map is unique `μ`-a.e.  The formula involving an inverse derivative is a
-theorem, not a noncomputable definition with hidden existence.
+theorem, not a noncomputable definition with hidden existence.  For a nonnegative measurable
+real cost on `E × Y`, `E` a real normed space, a finite source `μ` and a nonempty standard Borel
+target, this is Tau Ceti's `TauCeti.IsDualCertificate.exists_optimal_transportMap_unique_ae`: a
+plan certified by real potentials, with the first potential differentiable `μ`-a.e., the cost
+sections differentiable at contact partners and the twist condition of item 5, is the graph plan
+of a measurable Kantorovich-optimal map `T`, with `(x,T x)` in the contact set and
+`∇φ(x) = Dₓc(x,T x)` for `μ`-a.e. `x`, and every Kantorovich-optimal map agrees with `T`
+`μ`-a.e.
 
-*Needs:* item 5; Layers 0.3 and 2.2 (the analytic-set and completion bridge).
+*Needs:* item 5; Layers 0.3 and 2.2 (the analytic-set and completion bridge); Tau Ceti
+`TauCeti.IsDualCertificate.exists_optimal_transportMap_unique_ae`.
 
 ### Examples
 
@@ -1530,9 +1631,18 @@ topology and the hypotheses that preserve the boundary trace.
 For source and target densities `f` and `g`, define the weighted weak measure
 `MA_{u,g}(E)=∫_{∂u(E)} g(y)dy`.  Under essential injectivity and target-coverage
 hypotheses, prove `MA_{u,g}=f dx` for the Brenier potential before dividing by
-`g(∇u)`.
+`g(∇u)`.  On a finite-dimensional real inner product space this is Tau Ceti's
+`TauCeti.mongeAmpereMeasure_eq_of_hasLaw`: for a convex `u` with values in `(-∞,∞]`, a target
+law absolutely continuous with respect to an additive Haar measure, and a map pushing the source
+to the target, carried by the interior of the domain of `u` and selecting subgradients
+`μ`-a.e., the weighted measure `TauCeti.mongeAmpereMeasure ν u` is the source; absolute
+continuity of the target supplies the essential injectivity.  The Brenier case, for absolutely
+continuous source and target at finite quadratic cost, is
+`TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_mongeAmpereMeasure_eq`, which also
+gives target coverage: `ν`-a.e. point is a subgradient at an interior point of the domain.
 
-*Needs:* item 1; Layer 5.5.
+*Needs:* item 1; Layer 5.5; Tau Ceti `TauCeti.mongeAmpereMeasure_eq_of_hasLaw` and
+`TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_mongeAmpereMeasure_eq`.
 
 **Checks.**
 
@@ -1570,9 +1680,25 @@ that if `Y` is convex then `∂u(X) ⊆ closure Y`, equality holds in that bound
 right side `f/g(∇u)` (De Philippis--Figalli, *The Monge--Ampère equation and its link to optimal
 transportation*, §3.2, p. 25, and Steps 1--3 of the proof of Theorem 3.3, pp. 26--27).
 Convexity of the target is load-bearing: singular subgradient mass not seen by `g` cannot be
-discarded in general.
+discarded in general.  Tau Ceti proves the measure identities:
+`TauCeti.mongeAmpereMeasure_eq_withDensity_inv_add` decomposes the Aleksandrov measure of a
+convex potential transporting `μ` to `g ρ` by a subgradient selection as
+`(g ∘ T)⁻¹ μ` plus the subgradient mass falling in `{g = 0}`, which gives the lower bound;
+`TauCeti.mongeAmpereMeasure_eq_withDensity_inv_of_convex` removes that mass when every
+subgradient at an interior point of the domain lies in the closure of a convex set on which `g`
+is a.e. positive; and
+`TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_mongeAmpereMeasure_eq_withDensity`
+chooses, for a closed convex set carrying `ν` on which `g` is a.e. positive, a Brenier potential
+all of whose subgradients lie in that set and which is an Aleksandrov solution.  This roadmap's
+own clause is the inclusion `∂u(X) ⊆ closure Y` for every Brenier potential `u` when `Y` is
+convex (at a differentiability point `∇u` lies in `closure Y` a.e. on `X`, and every subgradient
+at a point of the open set `X` is a convex combination of limits of such gradients), and with it
+equality on Borel subsets of `X`.
 
-*Needs:* items 3, 5 and 6; Layer 5.5.
+*Needs:* items 3, 5 and 6; Layer 5.5; Tau Ceti
+`TauCeti.mongeAmpereMeasure_eq_withDensity_inv_add`,
+`TauCeti.mongeAmpereMeasure_eq_withDensity_inv_of_convex` and
+`TauCeti.exists_isKantorovichOptimalTransportMap_gradient_and_mongeAmpereMeasure_eq_withDensity`.
 
 **Checks.**
 
@@ -2157,9 +2283,15 @@ measure-relative geodesic selector when no Borel bicombing is supplied, and prov
 independence from presentation only when the relevant optimal plan/geodesic is unique.
 Prove that Layers 7 and 8's explicit Riemannian and Euclidean map-induced curves agree
 with this generic relation.  Define generalized geodesics based at a third measure
-through a glued three-plan.
+through a glued three-plan.  These are Tau Ceti's `TauCeti.IsGeneralizedGeodesicPlan` (a measure
+on `X × X × X` whose `(1,2)` and `(1,3)` marginals are `p`-optimal couplings of the base with the
+two endpoints), `TauCeti.exists_isGeneralizedGeodesicPlan` (existence on a Polish metric space,
+for a finite base measure coupled with both endpoints and every exponent `p ≠ 0`), and
+`TauCeti.generalizedGeodesic` (in a real vector space, the law of `(1-t)x₂ + t x₃` under the
+plan).
 
-*Needs:* Layers 7.4 and 8.2--8.4; Layer 0.4 (gluing).
+*Needs:* Layers 7.4 and 8.2--8.4; Layer 0.4 (gluing); Tau Ceti
+`TauCeti.IsGeneralizedGeodesicPlan` and `TauCeti.exists_isGeneralizedGeodesicPlan`.
 
 **Checks.**
 
@@ -2212,9 +2344,16 @@ regular base `μ`, where `γ = (id,T₀,T₁)_# μ`, it is Ambrosio--Gigli, *A u
 transport*, Definition 3.29 and inequality (3.43), pp. 70--71; for a general base it is
 Ambrosio--Gigli--Savaré, §9.2, Lemma 9.2.1.  This is the load-bearing estimate for resolvents
 and minimizing movements and cannot be replaced by an incorrect assertion of convexity along
-every ordinary geodesic.
+every ordinary geodesic.  Tau Ceti proves both inequalities in `[0,∞]`, with no moment
+hypothesis, on a separable real inner product space:
+`TauCeti.IsGeneralizedGeodesicPlan.wassersteinEDist_sq_add_le` (the remainder
+`t(1-t)∫‖x₂-x₃‖² dγ`) and
+`TauCeti.IsGeneralizedGeodesicPlan.wassersteinEDist_sq_add_wassersteinEDist_sq_le` (the
+remainder `t(1-t)W₂(ν₀,ν₁)²`), for `t ∈ [0,1]` and a quadratic generalized-geodesic plan.
 
-*Needs:* items 1 and 3; Layer 0.4.
+*Needs:* items 1 and 3; Layer 0.4; Tau Ceti
+`TauCeti.IsGeneralizedGeodesicPlan.wassersteinEDist_sq_add_le` and
+`TauCeti.IsGeneralizedGeodesicPlan.wassersteinEDist_sq_add_wassersteinEDist_sq_le`.
 
 **Checks.**
 
@@ -2269,7 +2408,15 @@ formulas.  The statements are: `μ ↦ Q_μ` is an isometry of `P_p(ℝ)` into `
 pp. 31--32); the displacement interpolation between `μ₀` and `μ₁` given by the quantile
 coupling has quantile `(1-t)Q_{μ₀} + tQ_{μ₁}` (same source, (7.7), p. 104); and for weights
 `λ_i ≥ 0` of sum `1` the law with quantile `∑ λ_i Q_{μ_i}` minimizes `ν ↦ ∑ λ_i W₂(ν,μ_i)²`
-(same source, Remark 9.6, p. 143).
+(same source, Remark 9.6, p. 143).  Tau Ceti proves the three statements:
+`TauCeti.WassersteinSpace.isometry_quantileLp` is the isometry, for `1 ≤ p ≤ ∞`;
+`TauCeti.quantileBarycenter w μ` is the law of `∑ i, w i Q_{μ_i}` under the uniform law on
+`(0,1)`, with quantile `∑ i, w i Q_{μ_i}` a.e. (`TauCeti.quantile_quantileBarycenter_ae`);
+`TauCeti.exists_isGeodesicSegment_quantileBarycenter` gives, for `1 ≤ p ≤ ∞`, a geodesic of
+`P_p(ℝ)` through the quantile interpolations, and
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_coe_eq_quantileBarycenter` shows that for
+`1 < p < ∞` every geodesic is one; and `TauCeti.sum_mul_wassersteinEDist_sq_quantileBarycenter_le`
+is the minimization, for probability laws and weights of sum `1`, in `[0,∞]`.
 
 **Checks.**
 
@@ -2282,7 +2429,9 @@ coupling has quantile `(1-t)Q_{μ₀} + tQ_{μ₁}` (same source, (7.7), p. 104)
   distance `2` from `Q_μ`, while `W₂(μ,μ) = 0`: only the nondecreasing representative enters the
   isometry.
 
-*Needs:* Layer 3.7; items 1--3.
+*Needs:* Layer 3.7; items 1--3; Tau Ceti `TauCeti.WassersteinSpace.isometry_quantileLp`,
+`TauCeti.WassersteinSpace.isGeodesicSegment_iff_coe_eq_quantileBarycenter` and
+`TauCeti.sum_mul_wassersteinEDist_sq_quantileBarycenter_le`.
 
 The public API must distinguish a selected interpolation from the proposition that a
 curve is a displacement interpolation.  This lets later uniqueness theorems improve a
@@ -2601,9 +2750,19 @@ to optimal transport*: Assumption 3.24 and the first assertion of Theorem 3.25, 
 unique discrete solution for `0 < τ < 1/λ⁻`, which is `1+λτ>0`), with Definition 3.29 and
 inequality (3.43), pp. 70--71, for the `1`-convexity of `W₂(μ,·)²/2` along interpolating curves
 with base `μ` (Layer 9.4; the remainder of (3.43) is `-t(1-t)W₂(ν₀,ν₁)²` for `W₂(μ,·)²`
-itself, which is `λ = 2` in the Conventions), stated there for a regular base.
+itself, which is `λ = 2` in the Conventions), stated there for a regular base.  On `P₂(E)` for
+a separable real Hilbert space `E`, Tau Ceti proves the convexity and the uniqueness:
+`TauCeti.GeneralizedGeodesicallyConvex m Φ μ` is `m`-convexity along generalized geodesics based
+at `μ` with the remainder `(m/2)t(1-t)∫‖x₂-x₃‖² dγ` of the plan, as in Ambrosio--Gigli--Savaré;
+`TauCeti.GeneralizedGeodesicallyConvex.add_edist_sq_div` makes the penalized functional
+`(m + 1/τ)`-convex along the same plans for `τ > 0`; and
+`TauCeti.GeneralizedGeodesicallyConvex.subsingleton_moreauYosidaResolvent` gives at most one
+minimizer when `τ > 0`, `1 + mτ > 0`, `Φ` never takes the value `-∞`, and `Φ` is finite
+somewhere.
 
-*Needs:* items 2 and 4; Layers 9.4 and 10.4.
+*Needs:* items 2 and 4; Layers 9.4 and 10.4; Tau Ceti
+`TauCeti.GeneralizedGeodesicallyConvex.add_edist_sq_div` and
+`TauCeti.GeneralizedGeodesicallyConvex.subsingleton_moreauYosidaResolvent`.
 
 **Checks.**
 
@@ -2880,7 +3039,14 @@ the all-semidefinite tier separately without importing uniqueness or inverse-mat
 claims from the nondegenerate theorem.
 For two inputs with weights `1-t,t`, prove that the `p=2` barycenter is at geodesic time
 `t`; for `1<p<∞`, pin the general time
-`t^(1/(p-1)) / ((1-t)^(1/(p-1)) + t^(1/(p-1)))`.  For i.i.d. random input laws with
+`t^(1/(p-1)) / ((1-t)^(1/(p-1)) + t^(1/(p-1)))`.  Tau Ceti proves the one-dimensional formula
+and the two-input statements: `TauCeti.isFrechetBarycenter_two_iff_quantile_ae_eq` and
+`TauCeti.existsUnique_isFrechetBarycenter_two` (for weights of sum `1`, the quadratic barycenter
+in `P₂(ℝ)` of finitely many laws exists, is unique, and has quantile `∑ λ_i Q_i` a.e.), and, in
+any pseudometric space, `TauCeti.IsGeodesicSegment.isFrechetBarycenter_two` and
+`TauCeti.IsGeodesicSegment.isFrechetBarycenter_twoPointBarycenterTime` (the point of a geodesic
+segment at time `t`, respectively at the time `TauCeti.twoPointBarycenterTime p t` displayed above
+for `1 < p < ∞`, is a barycenter of `(1-t)δ_x + tδ_y`).  For i.i.d. random input laws with
 distribution `P ∈ P_p(P_p(X))` in item 3's carrier regime, prove the empirical laws
 converge almost surely to `P` in `W_p` by building the required finite-moment strong
 law.  Each empirical law is finitely supported, so item 3 already gives it a barycenter;
@@ -2893,7 +3059,9 @@ not silently treat "the" empirical barycenter as a random element; a statement a
 random element needs its own measurable-selection theorem, stated and proved here.
 
 *Needs:* items 3--4; Layers 3.7, 5.3 and 9.6; Tau Ceti
-`TauCeti.Probability.isFrechetBarycenter_sum_smul_dirac_multivariateGaussian`.
+`TauCeti.Probability.isFrechetBarycenter_sum_smul_dirac_multivariateGaussian`,
+`TauCeti.isFrechetBarycenter_two_iff_quantile_ae_eq` and
+`TauCeti.IsGeodesicSegment.isFrechetBarycenter_twoPointBarycenterTime`.
 
 The population theory follows Le Gouic--Loubes,
 [arXiv:1506.04153](https://arxiv.org/abs/1506.04153); the finite Euclidean theory follows
@@ -3232,7 +3400,7 @@ endpoint domain deduce convergence of values, global minimizers, and entropic
 interpolations to Layer 9 displacement interpolations, giving full convergence when
 the quadratic optimizer is unique and only cluster-point convergence otherwise.
 
-*Needs:* items 11--12; Layers 9.1 and 10.6.
+*Needs:* items 11--12; Layers 9.1, 10.6 and 11.2.
 
 **Checks.**
 
