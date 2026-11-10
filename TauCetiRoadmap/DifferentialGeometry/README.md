@@ -49,11 +49,13 @@ Already in the library (*From Tau Ceti*, the differential-form, flow, orientatio
 Riemannian, de Rham and orientation-cover modules): the flip, associativity, graded Jacobi and
 interior-product identities of the paired wedge (0.1), the smooth alternating bundle (0.2),
 coefficient postcomposition of rough and smooth forms with its laws (0.3–0.4), the
-wedge of smooth forms (0.4), naturality, commutation with coefficient postcomposition,
+wedge of smooth forms and the degree-two forms `TauCeti.SmoothTwoForm` of the symplectic API
+(0.4), the closedness predicate (1.3), naturality, commutation with coefficient postcomposition,
 `d ∘ d = 0`, regularity, the Leibniz rule, the invariant formula of the exterior derivative,
 the Lie derivative of forms and Cartan's formula (1.2–1.4), the two-orientation theorem, the
 pullback and product orientations and the orientation of a nowhere-vanishing top form
-(2.1–2.2), compactly supported completeness, conjugate flows and the Lie derivative of forms
+(2.1–2.2), compactly supported and compact-manifold completeness, the global flow of a complete
+field on a finite-dimensional manifold, conjugate flows and the Lie derivative of forms
 along the flow of a complete field (3.3–3.4), the finite-dimensional time-dependent flow on
 the time slab `ℝ` (3.5), the outward field along the boundary,
 the restriction of forms to the boundary, the outward-first boundary orientation, the
@@ -70,7 +72,9 @@ absolutely continuous cycles with its curl, circulation integrand and area weigh
 the acceptance examples of 5.6, the
 existence of Riemannian metrics, pulled-back, product, open-subset and boundary metrics and
 the round metric of the circle, the gradient with its calculus, the divergence, the Hessian
-with its symmetry, the Laplace–Beltrami operator, the Riemannian volume form and the
+with its symmetry, the Laplace–Beltrami operator with its orthonormal-basis trace formula and
+its flat comparison, the Riemannian volume form, the full support of the Riemannian volume
+and the positivity of its lower integrals, the
 boundaryless divergence theorem with Green's identities (12.1–12.5), and the comparison of
 the planar Green theorems with the integral of top forms and half-space Stokes (12.6); the paired and bracket
 wedges of 0.1 and the pointwise wedge of rough forms of 0.3 are Tau Ceti's
@@ -151,8 +155,7 @@ One owner per shared construction, stated identically on both sides.
 - **CKG K5a** owns compact real/complex bundle Laplace analysis beyond 12.5;
   **PDE** supplies scalar Euclidean/weak inputs and **PDO** the broader
   symbol calculus. **DG and `A∞`** owns the generic DGA
-  packaging. **Heegaard Floer (analytic)** consumes orientations, the time-dependent flows of 3.5, the de Rham theorem and the degree (8.5, 10); layer 0.4 owns
-  migration of its existing 2-form API and consumers to the generic carrier. **Contour integration** owns contour integrals; 5.3 only reconciles with
+  packaging. **Heegaard Floer (analytic)** consumes orientations, the time-dependent flows of 3.5, the de Rham theorem and the degree (8.5, 10). **Contour integration** owns contour integrals; 5.3 only reconciles with
   `curveIntegral`. **One-parameter semigroups** owns the operator-semigroup analogue of flows.
   **Modular forms** may refactor its region-Stokes onto layer 5 at its own choice.
 
@@ -319,7 +322,7 @@ Checked against the pin; re-grep before citing anything in code.
   a `C^k` manifold over `𝓡∂ (n+1)` is a `C^k` manifold over `EuclideanSpace ℝ (Fin n)`) with the
   inclusion a closed smooth embedding; corners out of scope there.
 - **The manifold inverse function theorem** (Hopf–Rinow roadmap):
-  `Geometry/Manifold/LocalDiffeomorph.lean`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq` at
+  `Geometry/Manifold/LocalDiffeomorph/Basic.lean`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq` at
   interior points over any model, hence at every point of a boundaryless manifold, and the global
   form `TauCeti.isLocalDiffeomorph_of_mfderiv_eq`.
 - **Maximal integral curves and the maximal flow** (Hopf–Rinow roadmap):
@@ -357,7 +360,10 @@ Checked against the pin; re-grep before citing anything in code.
 - **The Riemannian volume measure** (geometric-topology roadmap):
   `Geometry/Manifold/Riemannian/VolumeDensity/` — `TauCeti.riemannianVolume`, glued from the chart
   volumes with density `chartVolumeDensity`, orientation-free, characterized by
-  `eq_riemannianVolume_iff`, locally finite; 12.4 connects densities and form integration to it.
+  `eq_riemannianVolume_iff`, locally finite, of full support
+  (`TauCeti.isOpenPosMeasure_riemannianVolume`, `Support.lean`) and with positive lower integral
+  of every continuous function positive somewhere (`TauCeti.lintegral_riemannianVolume_pos`,
+  `Positivity.lean`); 12.4 connects densities and form integration to it.
 
 - **De Rham cohomology, smooth chains, null sets, Sard, the degree and the orientation double
   cover**:
@@ -390,10 +396,15 @@ Checked against the pin; re-grep before citing anything in code.
   `TauCeti.smoothForms_wedgeWith_mem` (0.4), `TauCeti.mextDeriv_add`, `TauCeti.mextDeriv_smul`,
   `TauCeti.mpullback_mextDeriv`, `TauCeti.mextDeriv_mextDeriv`, `TauCeti.isSmoothForm_mextDeriv`,
   `TauCeti.mextDeriv_wedgeWith` and `TauCeti.mextDeriv_apply_one` (1.1–1.4);
-  `Geometry/Manifold/Flow/{Basic,Complete,Related}.lean` — `TauCeti.flowDomain`,
+  `Geometry/Manifold/DifferentialForm/Closed.lean` and `Geometry/Manifold/TwoForm/Basic.lean` —
+  `TauCeti.SmoothForm.IsClosed` with its defining equation and chartwise description, and the
+  degree-two abbreviation `TauCeti.SmoothTwoForm` (0.4, 1.3);
+  `Geometry/Manifold/Flow/{Basic,Complete,Related}.lean` and
+  `Geometry/Manifold/IntegralCurve/GlobalFlow.lean` — `TauCeti.flowDomain`,
   `TauCeti.flowOf`, `TauCeti.IsCompleteVectorField`,
   `TauCeti.isCompleteVectorField_of_isCompact_of_eq_zero_off`,
-  `TauCeti.isCompleteVectorField_of_compactSpace`,
+  `TauCeti.isCompleteVectorField_of_compactSpace`, `TauCeti.globalFlow` with
+  `TauCeti.flowOf_eq_globalFlow`,
   `MDifferentiable.maximalIntegralCurveInterval_subset` and `MDifferentiable.apply_flowOf`
   (3.2–3.4); `Geometry/Manifold/Boundary/{Orientation,OutwardExistence}.lean` —
   `TauCeti.IsOutwardPointing`, `TauCeti.IsOutwardPointingField` and
@@ -410,7 +421,8 @@ Checked against the pin; re-grep before citing anything in code.
   `mgradient_mul`, `mgradient_smul`, `mgradient_comp`, `mgradient_comp_deriv`,
   `contMDiff_mgradient` and `mgradient_eq_gradient` (all in the namespace `TauCeti.Manifold`),
   `TauCeti.Manifold.divergence`, `TauCeti.Manifold.hessian`, `TauCeti.Manifold.laplaceBeltrami`,
-  `TauCeti.Manifold.hessian_symm`, `TauCeti.riemannianVolumeForm` with
+  `TauCeti.Manifold.hessian_symm`, `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian`,
+  `TauCeti.Manifold.laplaceBeltrami_eq_laplacian`, `TauCeti.riemannianVolumeForm` with
   `TauCeti.riemannianVolumeForm_apply_orthonormal`,
   `TauCeti.riemannianVolumeForm_apply_orthonormal_of_opposite` and
   `TauCeti.isSmoothForm_riemannianVolumeForm`, `TauCeti.Manifold.integral_divergence_eq_zero`,
@@ -527,15 +539,19 @@ Checked against the pin; re-grep before citing anything in code.
 
 ## Existing code to refactor
 
-**Smooth 2-forms**, defined in `Geometry/Manifold/TwoForm/Basic.lean` as
-`TauCeti.SmoothTwoForm`, with closedness `TauCeti.SmoothTwoForm.IsClosed` defined chartwise in
-`TwoForm/Closed.lean` and symplectic forms (`IsSymplectic`) built on both, migrate to the generic
-`SmoothForm I M ℝ 2` in layer 0.4. Refactor the existing implementation, its API and its
-symplectic consumers onto that carrier. Any retained `SmoothTwoForm` name is an abbreviation for
-the generic type, with compatibility operations derived from the generic API. Closedness becomes
-layer 1's `mextDeriv φ = 0`, with the chartwise description a theorem about it. The migration
-equivalence and its preservation laws are targets of 0.4; `Suggested.lean` states nothing against
-the old carrier.
+**Smooth 2-forms.** `TauCeti.SmoothTwoForm I M` is Tau Ceti's abbreviation for the generic
+carrier `SmoothForm I M ℝ 2` (`Geometry/Manifold/TwoForm/Basic.lean`), with its constant forms
+`TauCeti.SmoothTwoForm.const` derived from the generic API. Closedness is the generic
+`TauCeti.SmoothForm.IsClosed`, defined as the equation `mextDeriv φ = 0`
+(`Geometry/Manifold/DifferentialForm/Closed.lean`, which also proves the chartwise description on
+a `C²` manifold: every chart expression has vanishing flat exterior derivative within the model
+range). The symplectic API of
+`Geometry/Symplectic/Manifold/{TwoForm,Energy}.lean` (`TauCeti.SmoothTwoForm.IsSymplectic` and its
+companions) is stated on that carrier. Nothing about them is planned here. Consumers that cite
+0.4's migration equivalence from `TauCeti.SmoothTwoForm I M` to `SmoothForm I M ℝ 2` (the
+HamiltonianReduction part of SymplecticGeometry, and LieGroupoidsPoisson) read it as the identity,
+the two types being equal by definition: its tuple-evaluation law holds by definition and its
+closedness comparison is the defining equation of `TauCeti.SmoothForm.IsClosed`.
 
 ### Existing distribution and Frobenius implementation
 
@@ -597,7 +613,7 @@ Everything the layers specify beyond the inventory above. The layer order is the
 dependence, and the hardest item, Banach smooth dependence (3.1), gates what follows it. `Suggested.lean` states the
 headline theorems of these layers against the pinned libraries; it is a nonexhaustive
 illustration of particular signatures, and this README is definitive. A definition in
-`Suggested.lean` has a real body (`mpullback`, `flowDomain`/`flowOf`, `toFlow`,
+`Suggested.lean` has a real body (`mpullback`, `flowDomain`/`flowOf`,
 `planarRadialPrimitive`, `fullSimplexEquivStdSimplex`, `divergence`, …). A construction whose
 body is itself a theorem (integration of densities, the smooth face structure of 5.5b, the
 degree) is a target of this README with its intended signature and laws, and is never
@@ -812,17 +828,8 @@ hypotheses.
   `DifferentialForm/Wedge/Smooth/Basic.lean`). General fibrewise products use a smooth bundle
   pairing.
   In particular, `V x →L[ℝ] V x` is an allowed value fibre: curvature can be typed as an
-  endomorphism-valued 2-form (`CurvatureForm`). Refactor Tau Ceti's existing `SmoothTwoForm`
-  implementation and its callers to use `SmoothForm I M ℝ 2`; retain the old name only as an
-  abbreviation if needed. The existing bilinear evaluation, algebraic bilinear-form view,
-  smooth evaluation and constant-form API must follow from the generic API, reusing its algebra
-  instances. Callers use tuple evaluation or a named two-vector adapter, without a competing
-  coercion on degree-two forms. The linear equivalence from `TauCeti.SmoothTwoForm I M` to `SmoothForm I M ℝ 2`, its
-  evaluation law and its closedness comparison (the pinned chartwise closedness is
-  `mextDeriv = 0`) compare with the pinned old definitions as a migration check. *Acceptance:*
-  the old independent carrier is removed; `Geometry/Symplectic/Manifold/{TwoForm,Energy}.lean`
-  compiles on the generic carrier with closedness, nondegeneracy, the symplectic predicate,
-  tameness, compatibility, constant-form normalization and energy identities preserved; and over
+  endomorphism-valued 2-form (`CurvatureForm`). Degree-two scalar forms are Tau Ceti's
+  `TauCeti.SmoothTwoForm I M`, by definition `SmoothForm I M ℝ 2`. *Acceptance:* over
   `𝓘(ℝ, E)`, `mpullback` at a point where `f` is differentiable is the flat pullback
   `(φ (f x)).compContinuousLinearMap (fderiv ℝ f x)`. Fixed-coefficient
   postcomposition on smooth forms is Tau Ceti's linear map `TauCeti.SmoothForm.mapCoeff L`
@@ -830,16 +837,14 @@ hypotheses.
   `mapCoeff_comp` and the bundled wedge compatibility
   `mapCoeff_wedgeWith_eq_postcomp` (all in the namespace `TauCeti.SmoothForm`), for normed real coefficient spaces
   without completeness; 0.4 consumes them and plans nothing about them again.
-  *Needs:* 0.2–0.3; for the migration, Tau Ceti's `TauCeti.SmoothTwoForm` API and
-  `Geometry/Symplectic/Manifold/{TwoForm,Energy}.lean`, and 1.1's `mextDeriv` for the closedness
-  comparison.
+  *Needs:* 0.2–0.3.
   **Checks.**
   - Membership in `smoothForms I M F k` is `IsSmoothForm I ∞` by definition: `x dy` on `ℝ²` is a
     member, the indicator form of 0.3 is not, and the zero form is; `smoothForms I M F k = 0` for
     `k > dim E`.
   - `SmoothForm I M ℝ 2` on `ℝ²` contains `dx ∧ dy` (`TauCeti.smoothForms_wedgeWith_mem`), and
-    the migration of `TauCeti.SmoothTwoForm` sends a closed two-form to one with
-    `mextDeriv = 0`; on `ℝ²` every `2`-form is closed because `3`-forms vanish, while
+    closedness of a smooth form (`TauCeti.SmoothForm.IsClosed`) is `mextDeriv = 0`; on `ℝ²` every
+    `2`-form is closed because `3`-forms vanish, while
     `d(x dy) = dx ∧ dy ≠ 0` shows the predicate is not vacuous in degree `1`.
   - `CurvatureForm I ℝ (Trivial M ℝ)` is `SmoothBundleForm I (ℝ →L[ℝ] ℝ) (fun _ ↦ ℝ →L[ℝ] ℝ) 2`,
     where the curvature `dA` of a connection `d + A` on the trivial line bundle lives: for
@@ -965,7 +970,8 @@ hypotheses.
   the pullback along the source path equals the integral of `ω` along the mapped path. For the
   raw-curve version, take `γ:ℝ→ℂ` with `ContDiffOn ℝ 1 γ (Icc s₀ s₁)`, `s₀<s₁`, and
   trace in `U₀`; retain the C¹ hypothesis on `φ₀` near the trace. Include affine reparameterization for a
-  different interval. For `TauCeti.Contour.IsPiecewiseC1On γ s₀ s₁`, use its actual continuity and
+  different interval. For `TauCeti.IsPiecewiseC1On γ s₀ s₁`
+  (`Analysis/Calculus/ContDiff/PiecewiseC1On.lean`), use its actual continuity and
   finite-breakpoint witness, prove the identity on each closed piece, and sum adjacent
   interval integrals using the native adjacent-interval summation law; do not replace the
   raw-curve predicate by a `Path.trans` decomposition.
@@ -980,7 +986,7 @@ hypotheses.
   1.1's derivative comparisons; Mathlib's `Complex.contDiffAt_log`, `curveIntegral`,
   `curveIntegral_eq_intervalIntegral_deriv`, `ContinuousOn.curveIntegrable_of_contDiffOn`,
   `intervalIntegral.sum_integral_adjacent_intervals` and `curveIntegral_trans`; Tau Ceti's
-  `TauCeti.Contour.IsPiecewiseC1On`.
+  `TauCeti.IsPiecewiseC1On`.
 
 The general bundle carrier does not supply a canonical exterior derivative. A connection supplies
 `d_∇`, whose square is curvature acting by wedge, `(d_∇)²ω = R_∇ ∧ ω`, rather than zero in general.
@@ -1254,33 +1260,35 @@ Geometric Topology.
   `maximalIntegralCurveFlowDomain`, `isOpen_maximalIntegralCurveFlowDomain`,
   `contMDiffOn_maximalIntegralCurve` and `maximalIntegralCurve_add`
   (`Geometry/Manifold/IntegralCurve/{Maximal,Flow}.lean`).
-- **3.3 Completeness and homogeneity.** `IsCompleteVectorField`, the uniform-time criterion and
-  compactly supported completeness, Tau Ceti's
-  `TauCeti.isCompleteVectorField_of_isCompact_of_eq_zero_off` (`Flow/Complete.lean`,
-  [Lee, Thm. 9.16]);
-  compact-manifold completeness is not a target: it is Tau Ceti's
-  `maximalIntegralCurveInterval_eq_univ_of_isCompact_of_mapsTo`, with the whole manifold as the
-  compact set, read in the `flowDomain` form (`isCompleteVectorField_of_compactSpace`, proved from
-  it by one rewriting, as Tau Ceti's `TauCeti.isCompleteVectorField_of_compactSpace` is). The
-  flow of a complete vector field as a Mathlib `Flow ℝ M` (`toFlow`,
-  whose maps are `flowOf` by definition, `toFlow_apply`); and homogeneity `exists_flowOf_one_eq`
-  on connected boundaryless finite-dimensional `M` — ⚠ false Banach-generally, where every
-  compactly supported continuous field is zero. The flow of a left-invariant field on a Lie group
-  is Tau Ceti's `mulInvariantIntegralCurve`, reconciling with the Lie-groups roadmap's invariant
-  curves. *Needs:* 3.2; Mathlib's uniform-time globalization
-  (`Geometry/Manifold/IntegralCurve/UniformTime.lean`) and `Flow`; Tau Ceti's
-  `maximalIntegralCurveInterval_eq_univ_of_isCompact_of_mapsTo` and `maximalIntegralCurve_add`;
+- **3.3 Completeness and homogeneity.** Completeness, `flowDomain v = univ`, is Tau Ceti's
+  `TauCeti.IsCompleteVectorField` (`Flow/Complete.lean`) over Banach models, with the uniform-time
+  criterion, compactly supported completeness
+  `TauCeti.isCompleteVectorField_of_isCompact_of_eq_zero_off` [Lee, Thm. 9.16] and completeness
+  of every `C¹` field on a compact boundaryless Hausdorff manifold,
+  `TauCeti.isCompleteVectorField_of_compactSpace`; 3.3 consumes them by name and plans nothing
+  about them again. The flow of a complete `C¹` field as a Mathlib `Flow ℝ M`, whose time-`t` map
+  is `flowOf v t`, is Tau Ceti's `TauCeti.globalFlow` with `TauCeti.flowOf_eq_globalFlow`
+  (`IntegralCurve/GlobalFlow.lean`) on finite-dimensional boundaryless Hausdorff manifolds. The
+  targets are the same `Flow ℝ M` for a complete `C¹` field on a boundaryless Hausdorff manifold
+  over a Banach model, its continuity being 3.2's Banach joint smoothness on the domain
+  `flowDomain v = univ` and its group law `maximalIntegralCurve_add`; and homogeneity
+  `exists_flowOf_one_eq` on connected boundaryless finite-dimensional `M` — ⚠ false
+  Banach-generally, where every compactly supported continuous field is zero. The flow of a
+  left-invariant field on a Lie group is Tau Ceti's `mulInvariantIntegralCurve`, reconciling with
+  the Lie-groups roadmap's invariant curves. *Needs:* 3.2; Mathlib's `Flow`; Tau Ceti's
+  `TauCeti.IsCompleteVectorField`, `TauCeti.globalFlow` and `maximalIntegralCurve_add`;
   for homogeneity, Mathlib's smooth bump functions; for the reconciliation, Tau Ceti's
   `mulInvariantIntegralCurve`.
   **Checks.**
-  - `v = 1` on `ℝ`: `flowOf v t x = x + t`, `flowDomain v = univ`, so `IsCompleteVectorField v`,
-    and `toFlow` is the translation flow, its group law `(x + t) + s = x + (t + s)`.
+  - `v = 1` on `ℝ`: `flowOf v t x = x + t`, `flowDomain v = univ`, so
+    `TauCeti.IsCompleteVectorField v`, and its flow is the translation flow, the group law
+    `(x + t) + s = x + (t + s)`.
   - `v = x²` on `ℝ` from `x = 1`: the maximal curve is `t ↦ 1/(1 − t)`, so `(t, 1) ∈ flowDomain v`
     exactly for `t < 1`, the field is smooth but not complete, and the group law is asserted
     only on the domain: `(½, 1)` and `(½, flowOf v ½ 1) = (½, 2)` are both in it only if
     `(1, 1)` is, and it is not.
   - `v = 0`: `flowOf v t x = x` and `flowDomain v = univ`; the rotation field `(−y, x)` of `ℝ²`
-    flows by rotation, `toFlow` at time `π/2` sending `e₁` to `e₂`, and is complete although
+    flows by rotation, its flow at time `π/2` sending `e₁` to `e₂`, and is complete although
     not compactly supported, so compact support is sufficient and not necessary.
 - **3.4 Naturality, straightening, commuting flows.** Conjugate flows of related fields, Tau
   Ceti's `MDifferentiable.apply_flowOf` with `MDifferentiable.maximalIntegralCurveInterval_subset`
@@ -2065,8 +2073,9 @@ curves `γ : ℝ → ℂ` on `a..b` is Tau Ceti's; 5.6.1 names it and plans noth
   proximity theorems of the contour roadmap are not applied to an arbitrary absolutely
   continuous curve, whose exceptional set need only be null.
 - *Curve calculus.* A piecewise `C¹` curve is absolutely continuous
-  (`IsPiecewiseC1On.absolutelyContinuousOnInterval`), so contour cycles specialize every
-  statement here. The index is invariant under increasing absolutely continuous
+  (`TauCeti.IsPiecewiseC1On.absolutelyContinuousOnInterval`,
+  `Analysis/Calculus/ContDiff/PiecewiseC1On/AbsolutelyContinuous.lean`), so contour cycles
+  specialize every statement here. The index is invariant under increasing absolutely continuous
   reparametrizations onto the parameter interval and changes sign under decreasing ones
   (`AbsolutelyContinuousOnInterval.windingNumber_comp_of_monotoneOn`, `…_of_antitoneOn`),
   agrees with the `curveIntegral` form and is compatible with reversal and concatenation of
@@ -2815,10 +2824,13 @@ Riesz duality.*
   of `leviCivitaConnection X`), `TauCeti.Manifold.hessian` (`⟪∇_v grad f, w⟫`, symmetric at
   every point where `f` is `C²`, `TauCeti.Manifold.hessian_symm`, from torsion-freeness) and
   `TauCeti.Manifold.laplaceBeltrami`, the divergence of the gradient (`Riemannian/Laplacian.lean`),
-  all on a `C²` manifold with a `C¹` metric; 12.3 consumes them by name and plans the trace
-  formula for the Laplacian in an orthonormal basis of the Hessian and the `Δ` notation
-  instance. `divergence` of `Suggested.lean` is the signature of `TauCeti.Manifold.divergence`,
-  with the same body, kept because the divergence theorem of 12.5 is stated on it.
+  all on a `C²` manifold with a `C¹` metric, with the trace formula
+  `Δf(x) = Σᵢ Hess f(bᵢ, bᵢ)` for every orthonormal basis `b` of `T_x M`
+  (`TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian`) and, for a `C²` function on a
+  finite-dimensional inner product space with its constant metric, agreement with Mathlib's flat
+  Laplacian (`TauCeti.Manifold.laplaceBeltrami_eq_laplacian`); 12.3 consumes them by name and
+  plans the `Δ` notation instance. `divergence` of `Suggested.lean` is the signature of
+  `TauCeti.Manifold.divergence`, with the same body, kept because the divergence theorem of 12.5 is stated on it.
   *Needs:* 12.2; Mathlib's
   `CovariantDerivative.leviCivitaConnection` and `InnerProductSpace.instLaplacian`; Tau Ceti's
   `CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`.
@@ -2845,10 +2857,15 @@ Riesz duality.*
   `TauCeti.isLocallyFiniteMeasure_riemannianVolume` instance from
   `TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume`, with its
   finite-dimensional, continuous-metric, Borel and Lindelöf hypotheses.
-  No second measure or locally-finite instance is defined; the targets are
-  its bridge to densities, agreement with the integral of densities on compactly supported continuous
-  functions, full support, and positivity through
-  `lintegral` (⚠ never the junk-valued Bochner integral); and `d(ι_X dV) = (div X) dV`.
+  No second measure or locally-finite instance is defined. Full support is Tau Ceti's instance
+  `TauCeti.isOpenPosMeasure_riemannianVolume` (`Riemannian/VolumeDensity/Support.lean`, on a
+  finite-dimensional `C¹` manifold with a continuous metric, Borel and Lindelöf), and positivity
+  through `lintegral` (⚠ never the junk-valued Bochner integral) is
+  `TauCeti.lintegral_riemannianVolume_pos` (`Riemannian/VolumeDensity/Positivity.lean`: a
+  continuous function positive somewhere on a σ-compact manifold has positive lower integral);
+  12.4 consumes both by name. The targets are the measure's bridge to densities, agreement with
+  the integral of densities on compactly supported continuous functions, and
+  `d(ι_X dV) = (div X) dV`.
   *Needs:* 0.4 and 2.1–2.2 (the volume form as an oriented top form); 5.2 and 5.5a (the two
   integrals); Tau Ceti's `TauCeti.riemannianVolume`, `chartVolumeDensity` and
   `TauCeti.isLocallyFiniteMeasure_riemannianVolume`; 12.3 and 1.4 for `d(ι_X dV) = (div X) dV`.
@@ -3089,7 +3106,7 @@ constructions they share with it and their single owners.
   product charts (5.5b) for collars and gluing.
 - **ComplexKahlerGeometry**: the forms and wedge of layers 0–1, 2.1's orientations, 5.5a's
   `Density`, and layer 12's sign convention for the Laplacian.
-- **SymplecticGeometry**: the migration of 0.4 and the Cartan and homotopy formulas (1.4, 5.4);
+- **SymplecticGeometry**: the Cartan and homotopy formulas (1.4, 5.4);
   its ContactGeometry consumes the forms and `mextDeriv` of layers 0–1, HamiltonianReduction
   0.4, 3.5 and the de Rham carrier, CotangentLagrangian layer 4, 5.4 and the de Rham comparison
   of layer 8, IntegrableSystems layers 0–1, Frobenius (4) and 8.4, and ConvexityToric forms and
@@ -3097,9 +3114,9 @@ constructions they share with it and their single owners.
 - **HeegaardFloer**: orientations and the orientation cover (2), flows and time-dependent flows
   (3, 3.5), the de Rham theorem (8.5) and the degree (10).
 - **MorseTheory**: flows (3), 5.1's boundary orientation, the degree (10) and 12.2's gradient
-  (Tau Ceti's `TauCeti.Manifold.mgradient`); **MorseNovikov**: layers 0–3, 5–6, 8, 10 and 12,
-  importing `toFlow`, `isCompleteVectorField_of_compactSpace`, `toFlow_apply`, `flowOf` and
-  `closedForms` from `Suggested.lean`.
+  (Tau Ceti's `TauCeti.Manifold.mgradient`); **MorseNovikov**: layers 0–3, 5–6, 8, 10 and 12, and
+  `circleAngularForm`, the flow of a `C¹` field on a closed manifold being Tau Ceti's
+  `TauCeti.globalFlow`, complete by `TauCeti.isCompleteVectorField_of_compactSpace` (3.3).
 - **RiemannianGeometry**: layers 0–3, 5–10 and 12, with 12.3's Laplace–Beltrami operator
   (Tau Ceti's `TauCeti.Manifold.laplaceBeltrami`).
 - **RepresentationTheory/LieGroups**: flows (3), smooth structures on covers (2.3), Frobenius (4),

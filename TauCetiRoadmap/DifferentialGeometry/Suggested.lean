@@ -71,10 +71,9 @@ corners (5.5b) lacks the smooth face structure with its abstract boundary; the f
 divergence theorem (12.5) lacks the same face structure; the sign of the antipodal map of `Sⁿ`
 (2.4) lacks the outward orientation of the sphere, a construction; agreement of densities with
 the integral of top forms (5.5a) and of the Riemannian volume form with the Riemannian density
-(12.4) lack the integral of densities; the migration equivalence of 0.4 lacks the generic carrier
-in Tau Ceti; the de Rham theorem (8.5) and the multiplicativity of the de Rham homomorphism lack
-the de Rham homomorphism on smooth singular chains, a cochain map whose well-definedness is
-Stokes for chains (8.4) (singular cohomology with real coefficients is
+(12.4) lack the integral of densities; the de Rham theorem (8.5) and the multiplicativity of the
+de Rham homomorphism lack the de Rham homomorphism on smooth singular chains, a cochain map whose
+well-definedness is Stokes for chains (8.4) (singular cohomology with real coefficients is
 `TauCeti.singularCohomologyFunctor` over `ModuleCat ℝ` with `R`, `k` and `M` all `ℝ`); the
 homotopy invariance of the degree (10.5) lacks the degree as one integer, whose independence of
 the regular value is 10.4. Four further headlines are not statable against the Tau Ceti
