@@ -378,7 +378,7 @@ supply the exact norm comparison inputs in1H. Do not replace them by opaque sugg
 The native topology and number-theory modules supply substantial parts of Layers2–3, including
 `TauCeti.Topology.Algebra.CliffordAlgebra.Spin.SpinorNorm`,
 `TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.CompactOpen`, `.FiniteAdelic` and
-`.AdelicSpinorNorm`. Their hypotheses and codomains are part of the import contract. For example,
+`.AdelicSpinorNorm.Basic`. Their hypotheses and codomains are part of the import contract. For example,
 the native openness theorem assumes a locally compact nontrivially normed field; the general
 Hausdorff topological-field result retained in2E additionally owns the reflection-section argument
 below. A theorem index is not evidence that every generality of every layer is implemented.

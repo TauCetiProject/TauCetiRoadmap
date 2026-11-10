@@ -3,17 +3,19 @@ Copyright (c) 2026 The Tau Ceti contributors. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: The Tau Ceti contributors
 -/
-import Mathlib
-import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.SpinorNorm.Binary
-import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.Quaternion
-import TauCeti.FieldTheory.SquareClassGroup.Multiplicative
-import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.LowRank.Three
-import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.LowRank.Five
-import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.LowRank.Six
-import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.Transvection
-import TauCeti.Topology.Algebra.CliffordAlgebra.Spin.SpinorNorm
-import TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.AdelicSpinorNorm
-import TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.Integral.Spin
+module
+
+public import Mathlib
+public import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.SpinorNorm.Binary
+public import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.Quaternion
+public import TauCeti.FieldTheory.SquareClassGroup.Multiplicative
+public import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.LowRank.Three
+public import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.LowRank.Five
+public import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.LowRank.Six.Basic
+public import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.Transvection
+public import TauCeti.Topology.Algebra.CliffordAlgebra.Spin.SpinorNorm
+public import TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.AdelicSpinorNorm.Basic
+public import TauCeti.NumberTheory.QuadraticForm.OrthogonalGroup.Integral.Spin
 
 /-!
 # Suggested forms: native determinant–spinor kernels
@@ -31,6 +33,8 @@ finite and rational tables, action-intertwining, norm/Hilbert algorithms, base c
 all low ranks and worked examples remain mandatory README targets even if no selected
 signature appears here. Native validation of this exact successor is a separate step.
 -/
+
+@[expose] public section
 
 open QuadraticMap
 
@@ -128,7 +132,10 @@ theorem quadraticNormSquareClass_range (d : K) :
       (Units.map (QuadraticAlgebra.norm : QuadraticAlgebra K d 0 →* K))).range =
       ((TauCeti.quadraticNormSubgroup d).map TauCeti.squareClassHom :
         Subgroup (Multiplicative (TauCeti.SquareClassGroup K))) := by
-  rw [TauCeti.quadraticNormSubgroup_def]
+  have h : TauCeti.quadraticNormHom d =
+      Units.map (QuadraticAlgebra.norm : QuadraticAlgebra K d 0 →* K) :=
+    MonoidHom.ext fun z => Units.ext (TauCeti.quadraticNormHom_apply d z)
+  rw [TauCeti.quadraticNormSubgroup_def, h]
   exact (MonoidHom.map_range _ _).symm
 
 /-- The native binary marginal theorem, on its native carriers and full general-field scope. -/
@@ -182,7 +189,7 @@ end TauCetiRoadmap.OrthogonalSpinGroups.Joint
 /-! ## Compatibility for the existing IntegralLattices consumer
 
 These aliases preserve its checked names and reflection-product expression while using
-implemented carriers. Its raw unit-square quotient is reached by the canonical equivalence.
+implemented carriers.
 The transvection-lift alias carries native nondegeneracy: for Q=0 the specified Clifford
 lift is not in Mathlib's vector-generated Lipschitz group, so the old omitted premise was
 not a valid general theorem about that lift.
@@ -211,8 +218,7 @@ theorem reflection_mem (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0) :
 
 noncomputable def spinorNorm [FiniteDimensional K V] (Q : QuadraticForm K V)
     (hQ : Q.Nondegenerate) : orthogonalGroup Q →* (Kˣ ⧸ Subgroup.square Kˣ) :=
-  TauCeti.multiplicativeSquareClassEquiv.symm.toMonoidHom.comp
-    (CliffordAlgebra.orthogonalSpinorNorm Q hQ)
+  CliffordAlgebra.orthogonalSpinorNorm Q hQ
 
 theorem spinorNorm_reflection [FiniteDimensional K V] (Q : QuadraticForm K V)
     (hQ : Q.Nondegenerate) {v : V} (hv : Q v ≠ 0) (a : Kˣ) (ha : (a : K) = Q v) :
@@ -220,20 +226,20 @@ theorem spinorNorm_reflection [FiniteDimensional K V] (Q : QuadraticForm K V)
       QuotientGroup.mk' (Subgroup.square Kˣ) a := by
   let : Invertible (Q v) := invertibleOfNonzero hv
   have he : unitOfInvertible (Q v) = a := Units.ext ha.symm
-  apply TauCeti.multiplicativeSquareClassEquiv.injective
-  change TauCeti.multiplicativeSquareClassEquiv
-      (TauCeti.multiplicativeSquareClassEquiv.symm
-        (CliffordAlgebra.orthogonalSpinorNorm Q hQ
-          (TauCeti.QuadraticMap.reflectionOrthogonal Q v))) = _
-  rw [MulEquiv.apply_symm_apply,
-    CliffordAlgebra.orthogonalSpinorNorm_reflectionOrthogonal, he]
-  exact (TauCeti.multiplicativeSquareClassEquiv_mk a).symm
+  have hr : (⟨reflection Q hv, reflection_mem Q hv⟩ : orthogonalGroup Q) =
+      TauCeti.QuadraticMap.reflectionOrthogonal Q v :=
+    Subtype.ext (TauCeti.QuadraticMap.coe_reflectionOrthogonal Q v).symm
+  rw [hr]
+  change CliffordAlgebra.orthogonalSpinorNorm Q hQ
+      (TauCeti.QuadraticMap.reflectionOrthogonal Q v) = _
+  rw [CliffordAlgebra.orthogonalSpinorNorm_reflectionOrthogonal, he, TauCeti.squareClassHom_apply,
+    QuotientGroup.mk'_apply]
 
 noncomputable abbrev transvection (Q : QuadraticForm K V) {u w : V}
     (hu : Q u = 0) (huw : polar Q u w = 0) := QuadraticMap.transvection Q hu huw
 
 noncomputable abbrev transvectionLiftHom (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
-    {u : V} (hu : Q u = 0) := CliffordAlgebra.spinTransvectionHom hQ hu
+    {u : V} (hu : Q u = 0) := CliffordAlgebra.transvectionLiftHom hQ hu
 
 section AdelicCompatibility
 variable {W : Type v} [AddCommGroup W] [Module ℚ W] [FiniteDimensional ℚ W]
