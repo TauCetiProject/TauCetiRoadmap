@@ -71,6 +71,7 @@ body:
         - FiniteGroupExtensionSplitting
         - FiniteSamplingDiscrepancy
         - FlagVarieties
+        - Foams
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
