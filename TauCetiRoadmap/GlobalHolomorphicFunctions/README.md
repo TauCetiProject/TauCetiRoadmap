@@ -89,9 +89,10 @@ convergence of its positive part on the outer disc and of its negative part off 
 the splitting of the function as their sum, and the uniqueness of the coefficients and of the
 splitting. Layers 2.5 and 4.1 consume it.
 
-The native sine product, the paired cotangent series, Tau Ceti's odd-pole part of that series
-and the exponential finite-product majorant are supplied results; Layers 1 and 6 consume them
-and do not prove them again. The
+The native sine product, the paired cotangent series, Tau Ceti's odd-pole part of that series,
+Tau Ceti's residue of a logarithmic derivative (the order of the function, of either sign) and
+the exponential finite-product majorant are supplied results; Layers 1 and 6 consume them and
+do not prove them again. The
 sharp finite-product inequality of Layer 1.4 is a distinct target.
 
 ## Conventions
@@ -281,6 +282,16 @@ the two-circle Cauchy formula
 annulus and complex-differentiable off `s` in the open one, `f(w)` is `(2πi)⁻¹` times the
 integral of `(z − w)⁻¹ f(z)` over the circle of radius `R` minus that over the circle of
 radius `r`, even for `w ∈ s`).
+Use the residue of `TauCeti/Analysis/Contour/Residue/Basic.lean`: `TauCeti.Contour.residue f a`
+is the coefficient of degree `−1` of `f` at `a` when `f` is meromorphic at `a` with negative
+order, and `0` otherwise. From `TauCeti/Analysis/Contour/Residue/LogDeriv.lean` use
+`TauCeti.Contour.residue_logDeriv_eq_meromorphicOrderAt` (for `f` meromorphic at `a` with
+`meromorphicOrderAt f a = k`, `k ∈ ℤ`, the residue of `logDeriv f` at `a` is `k`: positive at a
+zero, negative at a pole, `0` at a regular nonzero point), and from
+`TauCeti/Analysis/Contour/Argument/Principle.lean` the splitting behind it,
+`TauCeti.Contour.logDeriv_eventuallyEq_principalPart` (under the same hypotheses there is `g`
+analytic and nonzero at `a` with `logDeriv f = k (z − a)⁻¹ + logDeriv g` on a punctured
+neighbourhood of `a`). Neither covers a function that vanishes near `a`, whose order is `⊤`.
 Use `TauCeti.hasSum_cotTerm_two_mul` from
 `TauCeti/Analysis/SpecialFunctions/Trigonometric/TanhSeries.lean`: for `z` in the integer
 complement `ℂ_ℤ`, the odd-pole terms `cotTerm z (2n) = 1/(z−(2n+1)) + 1/(z+(2n+1))`, `n : ℕ`, have
@@ -2199,11 +2210,15 @@ residue one; the regularized series is `1/z+Σ_{n≥1}2z/(z²-n²)`, Mathlib's `
 with its symmetric pairing and the local-uniform convergence of 6.1; no value is assigned to an
 unpaired bilateral sum.
 The same rule applies to shifted lattices and logarithmic derivatives of products. Preserve the
-local pole exclusions and verify residues directly: at a zero of order `m` of a meromorphic `f`
-the logarithmic derivative `f′/f` has a simple pole with residue `m`, and at a pole of order `m`
-one with residue `−m`, since `f(z)=(z−a)^m g(z)` with `g` holomorphic and nonzero near `a` gives
-`f′/f = m/(z−a) + g′/g` (Rainer, Theorem 8.2 and its proof, pp. 18–19, rainer lines 941 and
-963). The cotangent case is `f(z)=sin(πz)`, whose logarithmic derivative is `π cot(πz)`.
+local pole exclusions and read the residues of logarithmic derivatives from Tau Ceti's
+`TauCeti.Contour.residue_logDeriv_eq_meromorphicOrderAt`: for `f` meromorphic at `a` of integer
+order `k`, the residue of `f′/f` at `a` is `k`, so it is `m` at a zero of order `m` and `−m` at a
+pole of order `m`. Both signs come from one factorization: `f(z)=(z−a)^k g(z)` for `z≠a` near
+`a`, with `g` holomorphic and nonzero at `a`, where `k=m` at a zero of order `m` and `k=−m` at a
+pole of order `m`, gives `f′/f = k/(z−a) + g′/g` there, with `g′/g` holomorphic at `a`
+(`TauCeti.Contour.logDeriv_eventuallyEq_principalPart`; Rainer, Theorem 8.2 and its proof,
+pp. 18–19, rainer lines 941 and 959–964). The cotangent case is `f(z)=sin(πz)`, whose
+logarithmic derivative is `π cot(πz)`.
 
 For arbitrary-domain boundary noncontinuation, consume
 GH1’s branchwise meromorphic noncontinuation theorem
@@ -2216,10 +2231,15 @@ logarithmic-derivative calculations.
 - Near z=0 the cotangent principal part is 1/z, with residue 1.
 - Near a simple product zero a, the logarithmic derivative has principal part 1/(z−a);
   a double zero changes the residue to 2.
+- f(z)=1/(z−1)² has a pole of order 2 at 1, and f′/f=−2/(z−1), with residue −2; reading the
+  zero factorization with exponent +2 at this pole would give +2.
+- Γ′/Γ has residue −1 at each nonpositive integer, where Γ has a simple pole, while the
+  logarithmic derivative of the reciprocal-Gamma product of 6.1, which has a simple zero there,
+  is −Γ′/Γ, with residue +1.
 - The shifted sine at α=1/2 has poles at half-integers in its logarithmic derivative,
   with residue 1 and none at the integers.
 
-*Needs:* Layers 1 and 3, AnalyticNumberTheoryPartI §0.15a, the native paired cotangent formula and local meromorphic orders.
+*Needs:* Layers 1 and 3, AnalyticNumberTheoryPartI §0.15a, the native paired cotangent formula, local meromorphic orders and Tau Ceti's `TauCeti.Contour.residue_logDeriv_eq_meromorphicOrderAt`.
 
 
 
@@ -2537,10 +2557,11 @@ remains an earlier supplier.
 - Armin Rainer, *Advanced Complex Analysis*, 112-page institutional version hosted in 2025,
   based on the Vienna 2016–2017 course. [Legal institutional text](https://www.tuwien.at/mg/arainer/wp-content/uploads/2025/03/advanced-complex-analysis.pdf).
   Lemma 7.1, Corollary 7.2, Lemma 7.3, Theorem 7.4, Corollary 7.5 and Theorem 7.6, pp. 14–16
-  (rainer lines 674–790); Proposition 10.1 and Theorems 10.2–10.3, pp. 23–24; §11, equation (11.2), Exercises 19–20,
-  Theorem 11.1, Lemma 11.3 and Theorem 11.7, pp. 25–29; Theorems 12.1–12.4,
+  (rainer lines 674–790); Theorem 8.2 and its proof, pp. 18–19; equation (10.1), Proposition 10.1
+  and Theorems 10.2–10.3, pp. 23–24; §11, equation (11.2), Exercises 19–20,
+  Theorem 11.1, Lemma 11.3 and Theorem 11.7, pp. 25–29; Exercise 22, p. 30; Theorems 12.1–12.4,
   pp. 31–32; Propositions 14.1–14.2 and Theorem 14.3, pp. 34–36;
-  Proposition 15.2, Theorem 15.3, Remark 15.4 and Theorems 15.5–15.7, pp. 36–40.
+  Lemma 15.1, Proposition 15.2, Theorem 15.3, Remark 15.4 and Theorems 15.5–15.7, pp. 36–40.
   Locators use printed pages, not PDF page numbers; rainer lines 674–2136.
 - F. W. J. Olver, A. B. Olde Daalhuis, D. W. Lozier, B. I. Schneider, R. F. Boisvert,
   C. W. Clark, B. R. Miller, B. V. Saunders, H. S. Cohl and M. A. McClain (eds.), *NIST Digital
