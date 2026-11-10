@@ -458,7 +458,7 @@ def constZMod (X : Scheme.{u}) (p : ℕ) :
     (AddCommGrpCat.of (ULift.{u} (ZMod p)))
 
 /-- On an affine scheme of characteristic `p`, `H^q(X_ét, ℤ/p) = 0` for `q ≥ 2`.
-Stacks, Lemmas 59.63.1–59.63.6 (0A3J). -/
+Stacks, Lemma 59.63.1 (0A3K), part (1). -/
 theorem artinSchreier_vanishing (p : ℕ) [Fact p.Prime] (X : Scheme.{u}) [IsAffine X]
     [CharP Γ(X, ⊤) p] (q : ℕ) (hq : 2 ≤ q) : Subsingleton ((constZMod X p).H q) := by
   sorry
@@ -537,8 +537,9 @@ preserve and reflect epimorphisms (`TauCeti.IsReplete.of_reflectsEpimorphisms`).
 under which EnhancedDerivedSheaves imports §2.17's predicate. -/
 abbrev IsReplete (T : Type w) [Category.{v} T] : Prop := TauCeti.IsReplete T
 
-/-- The pro-étale topos is replete (Tau Ceti's `TauCeti.IsReplete`).
-Bhatt–Scholze 2014, Proposition 4.2.8. -/
+/-- The pro-étale topos is replete (Tau Ceti's `TauCeti.IsReplete`): it is locally weakly
+contractible (Bhatt–Scholze 2014, Proposition 4.2.8), and a locally weakly contractible topos is
+replete (Proposition 3.2.3 (1)). -/
 theorem isReplete_proetale (X : Scheme.{u}) :
     TauCeti.IsReplete (Sheaf (Scheme.ProEt.topology X) (Type u)) := by
   sorry
@@ -939,8 +940,10 @@ def levelIncl (A : AdicRing.{u}) {X : Scheme.{u}} (fX : X ⟶ Spec (CommRingCat.
         Ideal.Quotient.factor_comp_mk])
 
 /-- Algebraization of morphisms: a compatible family of morphisms between the reductions of a
-proper `X` and a separated finite-type `Y` comes from a unique morphism.
-Stacks, Lemmas 30.28.1 (0899), 30.28.2 (09ZT) and 30.28.3 (0A42). -/
+proper `X` and a separated `Y` locally of finite type comes from a unique morphism.
+Stacks, Lemmas 30.28.1 (0899), 30.28.2 (09ZT) and 30.28.3 (0A42), the last for `Y` of finite type;
+in general the family and every morphism reducing to it factor through a quasi-compact open of `Y`
+containing the image of the closed fibre, to which 0A42 applies. -/
 theorem algebraize_hom (A : AdicRing.{u}) [IsNoetherianRing A.carrier]
     {X Y : Scheme.{u}} (fX : X ⟶ Spec (CommRingCat.of A.carrier))
     (fY : Y ⟶ Spec (CommRingCat.of A.carrier)) [IsProper fX] [IsSeparated fY]

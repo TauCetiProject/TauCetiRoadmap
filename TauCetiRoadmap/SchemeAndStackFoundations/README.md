@@ -965,14 +965,15 @@ every locally Noetherian `X`). API: `isReflexive_iff_forall_affine` (affine-loca
 `Module.IsReflexive` of the sections; Lemma 31.13.2 (0AY0)), `isReflexive_iff_forall_stalk`
 (reflexivity of every stalk, equivalently of the stalks at closed points; Lemma 31.13.5 (0AY3)),
 `IsReflexive.locallyFree` (finite locally free sheaves are reflexive), `IsReflexive.dual` (the dual
-of a coherent sheaf on a normal integral locally Noetherian scheme is reflexive; Lemma 31.13.8 (0AY4)
-with target `O_X`), `reflexiveHull F := F^{∨∨}` for `X` normal integral with
+of a coherent sheaf on an integral locally Noetherian scheme is reflexive; Lemma 31.13.8 (0AY4)
+with target `O_X`, which is reflexive), `reflexiveHull F := F^{∨∨}` for `X` integral with
 `reflexiveHull_isReflexive` (Lemma 31.13.8 (0AY4) again), `reflexiveHull.unit : F → reflexiveHull F`
 (injective exactly when `F` is torsion free, Lemma 31.13.4 (0AY2); an isomorphism on the open where
 `F` is locally free, by `IsReflexive.locallyFree` on that open) and `reflexiveHull.lift` (its
 universal property among maps to reflexive sheaves: the hull is left adjoint to the inclusion of
 coherent reflexive sheaves into coherent sheaves; Remark 31.13.9 (0EBH)). Hypotheses: `X` locally
-Noetherian; `F` coherent; the hull statements assume `X` normal integral. Prove `reflexive_extension_normal`:
+Noetherian; `F` coherent; the dual and hull statements assume `X` integral, as Lemmas 0AY4 and 0AY2 and
+Remark 0EBH do; only the extension, `(S_2)` and generic-fibre statements below assume `X` normal. Prove `reflexive_extension_normal`:
 on a normal locally Noetherian scheme `X`, a reflexive sheaf on an open `U` whose complement has
 codimension `≥ 2` extends uniquely to a reflexive sheaf `j_* F` on `X` (Stacks, Lemma 31.13.12 (0EBJ):
 for integral `X` with depth `≥ 2` at every point of the complement, `j^*` and `j_*` are inverse
@@ -1020,6 +1021,13 @@ makes the map an isomorphism. On a normal `X` the codimension-two hypothesis of
   and its hull is `0`.
 - On `X = Spec k[x, y]`, the ideal sheaf `I` of the origin is torsion-free with
   `I^{∨∨} = O_X ≠ I`; a torsion-free sheaf need not be reflexive.
+- On the cusp `X = Spec A`, `A = k[t², t³]`, which is integral and not normal, the maximal ideal
+  `m = (t², t³) = t²k[t]` has dual `(A : m) = k[t]` and double dual `(A : k[t]) = t²k[t] = m`. So
+  the dual `k[t]` is reflexive, as the integral case of the dual statement says, and the reflexive
+  hull of `m` is `m` itself with the evaluation map an isomorphism, although `m` is not locally free
+  at the origin (`dim_k m/m² = 2` for a module of rank one). Hull statements restricted to normal `X`
+  would not cover this example; on the normal `Spec k[t]` every torsion-free coherent sheaf is
+  locally free.
 - `Γ(𝔸² ∖ {0}, O) = k[x, y]` by `coherent_hartogs`; on `𝔸¹`, removing the
   origin gives `k[x, x^{-1}]`, so the depth hypothesis is essential.
 - Over a field `k`, `X = Spec k[x, y, z, w]/(xw)` is reducible
@@ -3073,8 +3081,9 @@ Definitions 67.4.2 (03HL), 67.9.2 (03HI), 67.40.1 (03ZM), 65.13.2 (02X5)). API:
 
 Define `smallEtale F`: the category whose objects are **algebraic spaces** `V` with an étale morphism
 `V → F` (étale in the sense of §1.8) and whose morphisms are morphisms over `F`; it is closed under
-fibre products by §1.9 and §1.8, and the Nisnevich-free étale coverings make `smallEtaleTopology F`
-(Stacks, Definitions 66.18.1 (03ED), 66.18.2 (03G0)). Define `smallEtaleSchemeSite F`: the full
+fibre products by §1.9 and §1.8, and the families `{V_i → V}` of étale morphisms over `F` that are
+jointly surjective, `|V| = ⋃ φ_i(|V_i|)`, are the coverings of `smallEtaleTopology F`
+(Stacks, Definitions 66.18.1 (03ED), 66.18.2 (03G0), condition (3)). Define `smallEtaleSchemeSite F`: the full
 subcategory of schemes étale over `F`, with `smallEtaleSchemeSite_equiv` (the restriction of sheaves
 along the inclusion is an equivalence of topoi, because every algebraic space étale over `F` has an
 étale cover by schemes). Define `structureSheaf F` on `smallEtale F`, `V ↦ Γ(V, O_V)`, a sheaf of
@@ -3734,13 +3743,29 @@ map, with `.baseChange`, `.one` (`n = 1` is `X`), `.isIso_away` (an isomorphism 
 2.4, §§2.1–2.2, pp. 3–6). *Needs:* §1.13, §1.14, §1.15, §1.19, §1.20.
 
 **Checks.**
-- `[X/1] = X`, while `BG(T)` is the groupoid of `G_T`-torsors; `B(ℤ/2)(ℝ)` has two
-  isomorphism classes. The map `X → [X/G]` is a `G`-torsor.
-- The first root stack is `X`. Over a DVR with `s = π`, the nth root stack has chart
-  `[Spec R[t]/(t^n − π) / μ_n]`; its fibre over `s = 0` is
-  `[Spec k[t]/(t^n) / μ_n]` with the scaling action, not a product with `Bμ_n`.
-  When `n = p` in characteristic `p`, a zero of `s` has non-étale stabilizer `μ_p`,
-  so the stack is not DM there; for nowhere-vanishing `s` it is `X`.
+- For the trivial group, `[X/1] = X`.
+- `BG(T)` is the groupoid of `G_T`-torsors, and `B(ℤ/2)(ℝ)` has two isomorphism classes, the
+  trivial torsor and `Spec ℂ`; the quotient sheaf of the point by `ℤ/2` is the point, with one
+  section over `ℝ`, so the stack and the sheaf quotient differ.
+- The map `X → [X/G]` is a `G`-torsor.
+- Over `(Sch/ℝ)_fppf`, take the Galois groupoid `X = Spec ℂ`,
+  `R = X ×_{Spec ℝ} X ≅ Spec ℂ ⊔ Spec ℂ`. The prestack before stackification has no object over
+  `Spec ℝ`, as `X(ℝ) = ∅`. The quotient stack `[X/R]` has one: `R → X × X` is a
+  monomorphism, so its isomorphism sheaves have at most one section (Stacks, Lemma 78.22.1 (044V)),
+  and its sheaf of isomorphism classes is `X/R = Spec ℝ` (Lemma 39.20.3 (03C5), for the fppf covering
+  `Spec ℂ → Spec ℝ`), so `[X/R] ≃ Spec ℝ`. A quotient defined without the stackification step fails
+  this Check.
+- The first root stack is `X`.
+- Over a DVR with `s = π`, the nth root stack has chart `[Spec R[t]/(t^n − π) / μ_n]`; its fibre
+  over `s = 0` is `[Spec k[t]/(t^n) / μ_n]` with the scaling action, not a product with `Bμ_n`.
+- When `n = p` in characteristic `p`, a zero of `s` has non-étale stabilizer `μ_p`, so the stack is
+  not DM there.
+- For nowhere-vanishing `s` the root stack is `X`.
+- On `X = 𝔸¹_k = Spec k[t]` with `L = O` and `s = t`, the square root stack is
+  `[Spec k[t, u]/(u² − t) / μ_2] ≅ [𝔸¹_u / μ_2]`, with `μ_2` scaling `u`. The stabilizer at the
+  origin is `μ_2`, and over `t ≠ 0` the map to `𝔸¹_t` is an isomorphism, since `u ↦ u² = t` is a
+  `μ_2`-torsor over `𝔾_m` in every characteristic. Neither the double cover `𝔸¹_u → 𝔸¹_t`, of
+  degree two over `t ≠ 0`, nor `𝔸¹_t` itself, with trivial stabilizer at the origin, is this stack.
 
 ### 1.22 Quasi-coherent modules on stacks
 
@@ -4876,7 +4901,8 @@ along functors that preserve sequential limits and preserve and reflect epimorph
 the name under which EnhancedDerivedSheaves consumes it. API:
 *isReplete_of_locallyWeaklyContractible* (a locally weakly
 contractible topos is replete; Proposition 3.2.3, pp. 17–18), `isReplete_proetale` (`Sh(X_proét)` is
-replete for every scheme `X`, Mathlib's `Scheme.ProEt.topology`; Proposition 4.2.8, p. 29),
+replete for every scheme `X`, Mathlib's `Scheme.ProEt.topology`: it is locally weakly contractible,
+Proposition 4.2.8, p. 29, and then replete by Proposition 3.2.3 (1)),
 *IsReplete.derivedCategory_leftComplete* (if `T` is replete then `D(T)` is left-complete: `K ≅ R lim τ_{≥ −n} K`; Proposition 3.3.3, p. 19), *IsReplete.derived_limits* (in a replete topos, `R lim` of a
 tower of abelian sheaves with epimorphic transitions is computed by `lim`, and `lim¹ = 0`;
 Proposition 3.1.10). Prove `w_contractible_cover`: every affine scheme admits a pro-étale cover by a
@@ -6442,7 +6468,16 @@ The exact two-term declarations are
 `Mathlib/RingTheory/Extension/Cotangent/Basic.lean`; §4.6 packages this map in
 degrees `−1,0` before taking `Ext¹`. Prove
 `deformations_of_smooth_schemes`: for `X` smooth proper over `k` and a small extension `A' → A`,
-the obstruction to deforming a deformation over `A` to `A'` lies in `H²(X, T_X) ⊗ I`, the
+the obstruction to deforming a deformation `X_A` over `A` to `A'` lies in `H²(X, T_X) ⊗ I`
+(Stacks, Lemma 92.23.1 (08V5), part (1), for `X_A → Spec A ⊂ Spec A'` and `G = O_X ⊗_k I`. A solution
+with this `G` is a scheme by Lemma 37.2.2 (05YV) and flat over `A'` by Lemma 91.5.2 (08LI). `X_A` is
+smooth over `A` by Lemma 37.10.3 (06AG), part (17); on affine opens `L_{X_A/A}` is `L_{B/A}`
+(Lemma 92.24.2 (08T3)), which is `Ω_{B/A}[0]` for smooth `A → B` (Lemma 92.9.1 (08R5)), so
+`Ext²(L_{X_A/A}, G) = H²(X, T_X) ⊗ I` as `Ω_{X_A/A}` is finite locally free. A Čech route lifts the
+affine opens of `X_A`, where this group vanishes. Over each overlap, affine as `X_A` is separated (06AG, part (6)), two
+lifts are isomorphic, the torsor of Lemma 91.8.1 (0D14), part (1), being under an `H¹` that vanishes
+there, and their isomorphisms form a torsor under `Γ(T_X ⊗ I)` (part (2)); the discrepancy of chosen
+isomorphisms on triple overlaps is a Čech 2-cocycle whose class is the obstruction), the
 deformations form a torsor under `H¹(X, T_X) ⊗ I`, and automorphisms are `H⁰(X, T_X) ⊗ I`; for an
 invertible sheaf `L` on `X_A`, the obstruction to deforming `L` lies in `H²(X, O_X) ⊗ I` with
 deformations a torsor under `H¹(X, O_X) ⊗ I` (Stacks, Example 93.9.1 (0DY7), Lemmas 93.9.2–93.9.5
@@ -6465,7 +6500,9 @@ convention is the rational split-node convention used in §4.18. *Needs:* §2.6,
 **Checks.**
 - A smooth algebra deforms uniquely up to isomorphism (`NL`
   is `Ω` in degree `0`, its `Ext¹` vanishes; formal smoothness supplies existence).
-- `ℙ¹` is rigid (`H¹(T) = 0`) and unobstructed.
+- `ℙ¹` is rigid (`H¹(ℙ¹, T) = H¹(ℙ¹, O(2)) = 0`) and unobstructed (`H²(ℙ¹, O(2)) = 0`, as `ℙ¹`
+  has dimension one), so every deformation of `ℙ¹` over `A` lifts to `A'`, uniquely up to
+  isomorphism.
 - An elliptic curve has one-dimensional `H¹(T)` and `H²(T) = 0`.
 - The fibre of `uv = t` over `t ≠ 0` is smooth.
 - Over algebraically closed `k`, a stable curve with `δ`
@@ -6641,12 +6678,21 @@ come from unique morphisms of coherent modules, so that completion is an equival
 (Stacks, Section 30.24
 (087V), Lemmas 30.24.1 (0883), 30.24.3 (0885), Section 30.25 (0886), Lemmas 30.25.2–30.25.3 (088A,
 088B), Proposition 30.25.4 (088C), Theorem 30.27.1 (088E), Remark 30.27.2 (088F)). Prove
-`algebraize_hom`: for `X` proper and `Y` separated of finite type over
+`algebraize_hom`: for `X` proper and `Y` separated and locally of finite type over
 `Spec A`, a **morphism of adic thickening systems** `g : (X_n) → (Y_n)` over `(Spec A/I^{n+1})_n`,
 that is a family `g_n : X_n → Y_n` over `A/I^{n+1}` with `g_n = g_{n+1} ×_{Y_{n+1}} Y_n` on
 `X_n = X_{n+1} ×_{Spec A/I^{n+2}} Spec A/I^{n+1}` (the transition squares commute), comes from a
 unique morphism `G : X → Y` over `A` with `G_n = g_n` for all `n` (Stacks, Lemmas 30.28.1 (0899),
-30.28.2 (09ZT), 30.28.3 (0A42)). The compatibility with transitions is essential: for `A = k[[t]]`,
+30.28.2 (09ZT), 30.28.3 (0A42), the last for `Y` of finite type). The locally-finite-type case
+reduces to 0A42. `X_0` is quasi-compact, so `g_0(X_0)` lies in a quasi-compact open `V ⊆ Y`, which
+is separated and of finite type over `Spec A` (Schemes, Lemma 26.19.2 (01K4)). Every `g_n` lands in
+`V`, since `X_n` has the points of `X_0` and `g_n` restricts to `g_0`. Every `G : X → Y` over `A`
+with `G_0 = g_0` lands in `V` as well: each point of the Noetherian `X` specialises to a closed point
+(Properties, Lemma 28.5.9 (02IL)); a closed point maps to a closed point of `Spec A`, as `X → Spec A`
+is closed; every maximal ideal of `A` contains `I` (Algebra, Lemma 10.96.6 (05GI), part (4)), so the
+closed points of `X` lie in `X_0`; and the open `V` contains every generalisation of a point of
+`G(X_0) ⊆ V`. Lemma 0A42 for `V` then gives existence and uniqueness. The compatibility with
+transitions is essential: for `A = k[[t]]`,
 `X = Spec A` and `Y = 𝔸¹_A`, the maps `g_0 : Spec k → 𝔸¹_k` at `0` and `g_1 : Spec k[t]/(t²) → 𝔸¹_{k[t]/(t²)}` at `1` do not form a system and come from no morphism (the incompatible-reductions Check below). The scope here is coherent modules and compatible morphisms on given proper
 schemes. Algebraization of a polarized adic system, the corresponding category equivalence,
 and effective formal deformations of curves are outside this subsection. Theorem 30.28.4
@@ -6664,6 +6710,11 @@ by properness of the initial fibre alone. *Needs:* §4.7, §4.8, §4.9; Mathlib 
 - The family `g_n` with `g_0 = 0` and `g_1 = 1` (mod `t²`) is not
   a morphism of adic thickening systems (`g_1` restricts to `1 ≠ 0` on `X_0`), and no `G : Spec
   k[[t]] → 𝔸¹` has both reductions.
+- For `A = k[[t]]`, `X = Spec A` and `Y = ∐_{m ∈ ℕ} 𝔸¹_A`, which is separated and locally of
+  finite type but not quasi-compact, a compatible system `g_n` sends the point `X_0` into one copy
+  `V ≅ 𝔸¹_A`, every `g_n` lands in that copy, and the system is a point `a ∈ A` of it as in the
+  Check on `𝔸¹` above. Lemma 0A42 does not apply to `Y` itself; the reduction to the quasi-compact
+  open `V` does.
 - For `A = k[[t]]`, `X = Spec A` and
   `M = N = O_X`, a compatible family of maps on the levels is multiplication by residues
   `a_n ∈ k[t]/(t^{n+1})` with `a_{n+1} ≡ a_n mod t^{n+1}`; it is the family of restrictions of
