@@ -229,6 +229,13 @@ theorem fderiv_fderiv_logPartition_apply (ν : Measure E) (hne : ν ≠ 0) {η :
     fderiv ℝ (fderiv ℝ (logPartition ν id)) η u v =
       cov[fun x ↦ inner ℝ u x, fun x ↦ inner ℝ v x; exponentialFamilyMeasure ν id η] := sorry
 
+/-- **3.4** Completeness of the natural statistic: `T` is complete for the family laws with
+natural parameter in a nonempty open subset of the natural parameter space. -/
+theorem isCompleteStatistic_exponentialFamilyMeasure (ν : Measure X) (T : X → E)
+    (hT : Measurable T) (U : Set E) (hU : IsOpen U) (hne : U.Nonempty)
+    (hUN : U ⊆ naturalParameterSpace ν T) :
+    IsCompleteStatistic (fun η : U ↦ exponentialFamilyMeasure ν T η.val) T := sorry
+
 /-- **3.5** The mean parametrization of a regular minimal family. -/
 theorem exists_analytic_inverse_exponential_family_mean (ν : Measure E) [SigmaFinite ν]
     (hne : ν ≠ 0) (hminimal : IsMinimalExponentialFamily ν id)
@@ -253,17 +260,6 @@ theorem exists_isMaxOn_logLikelihood_iff_mem_interior_convexHull_support (ν : M
       t ∈ interior (convexHull ℝ ν.support) := sorry
 
 end Layer3
-
-/-- **3.4** Completeness of the natural statistic. -/
-theorem isCompleteStatistic_withDensity_exp_inner {X : Type*} [MeasurableSpace X] {d : ℕ}
-    (ν : Measure X) (T : X → EuclideanSpace ℝ (Fin d)) (hT : Measurable T)
-    (U : Set (EuclideanSpace ℝ (Fin d))) (hU : IsOpen U) (hne : U.Nonempty)
-    (Z : EuclideanSpace ℝ (Fin d) → ℝ)
-    (hZ : ∀ η ∈ U, Integrable (fun x ↦ Real.exp (inner ℝ η (T x))) ν ∧
-      Z η = ∫ x, Real.exp (inner ℝ η (T x)) ∂ν ∧ 0 < Z η) :
-    IsCompleteStatistic (fun η : U ↦ ν.withDensity
-      (fun x ↦ ENNReal.ofReal (Real.exp (inner ℝ η.val (T x)) / Z η.val))) T := sorry
-
 
 /-- **3.7** The fibrewise normalized exponential tilt of a kernel. -/
 def conditionalExponentialKernel {E F : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
@@ -336,12 +332,18 @@ theorem ae_eq_of_isCompleteStatistic_of_isUnbiasedEstimator (P : Θ → Measure 
     (g : Θ → ℝ) (hu : IsUnbiasedEstimator P (r ∘ T) g) (hu' : IsUnbiasedEstimator P (r' ∘ T) g)
     (θ : Θ) : r ∘ T =ᵐ[P θ] r' ∘ T := sorry
 
-/-- **4.2** Lehmann–Scheffé, optimality. -/
+/-- **4.2** Lehmann–Scheffé, optimality: an unbiased square-integrable function of a complete
+sufficient statistic is UMVU, and it is the Rao–Blackwellization of every square-integrable
+unbiased estimator, along every disintegration kernel. -/
 theorem isMinimumVarianceUnbiasedEstimator_of_isCompleteStatistic (P : Θ → Measure X)
     [∀ θ, IsProbabilityMeasure (P θ)] (T : X → S) (hs : IsSufficientStatistic P T)
     (hc : IsCompleteStatistic P T) (r : S → ℝ) (hr : Measurable r) (g : Θ → ℝ)
     (hu : IsUnbiasedEstimator P (r ∘ T) g) (h2 : ∀ θ, MemLp (r ∘ T) 2 (P θ)) :
-    IsMinimumVarianceUnbiasedEstimator P (r ∘ T) g := sorry
+    IsMinimumVarianceUnbiasedEstimator P (r ∘ T) g ∧
+      ∀ δ : X → ℝ, IsUnbiasedEstimator P δ g → (∀ θ, MemLp δ 2 (P θ)) →
+        ∀ K : Kernel S X, IsMarkovKernel K →
+          (∀ θ, (P θ).map (fun x ↦ (T x, x)) = (P θ).map T ⊗ₘ K) →
+            ∀ θ, ∀ᵐ x ∂P θ, r (T x) = ∫ y, δ y ∂K (T x) := sorry
 
 /-- **4.2** In the `n`-sample model over a complete family closed under binary mixtures, a
 square-integrable U-statistic is UMVU for its mean. -/
@@ -638,12 +640,13 @@ def IsMinimaxRule (R : D → Θ → ℝ) (δ : D) : Prop :=
   BddAbove (range (R δ)) ∧ ∀ δ', BddAbove (range (R δ')) → ⨆ θ, R δ θ ≤ ⨆ θ, R δ' θ
 
 /-- **7.1** A Bayes rule for a probability prior whose risk is at most its Bayes risk is minimax,
-when every rule has integrable risk. -/
+when every rule has integrable risk, and the prior is least favorable: no probability prior
+under which the rule's risk is integrable has a larger Bayes risk. -/
 theorem IsMinimaxRule.of_isBayesRule_of_risk_le [MeasurableSpace Θ] (R : D → Θ → ℝ)
     (π : Measure Θ) [IsProbabilityMeasure π] (hint : ∀ δ, Integrable (R δ) π) (δ : D)
     (hδ : IsBayesRule R π δ) (hle : ∀ θ, R δ θ ≤ ∫ θ', R δ θ' ∂π) :
     IsMinimaxRule R δ ∧ ∀ π' : Measure Θ, IsProbabilityMeasure π' → Integrable (R δ) π' →
-      ∫ θ, R δ θ ∂π' ≤ ∫ θ, R δ θ ∂π := sorry
+      ∀ δ', IsBayesRule R π' δ' → ∫ θ, R δ' θ ∂π' ≤ ∫ θ, R δ θ ∂π := sorry
 
 /-- **7.1** A Bayes rule that is unique up to its risk function is admissible, when every rule
 has integrable risk. -/

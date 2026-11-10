@@ -66,12 +66,13 @@ The roadmap is complete when Tau Ceti proves all of the following.
 8. **Convergence and stochastic algebra.** Boundedness in probability, the adapters to Mathlib's
    convergence in law and in measure, Slutsky's lemma without separability, the delta method,
    i.i.d. sequences with the weak law of large numbers, and contiguity.
-9. **Shared vocabulary.** Empirical distributions and quantiles; Kolmogorov and total variation
-   distances; the Huber score; kernel density estimators; sparse vectors and the restricted
-   isometry property; the Benjamini–Hochberg count; the Poisson likelihood, Metropolis–Hastings
-   and leapfrog maps and the normal-location posterior; sample means, scatter matrices and the
-   Gaussian likelihood; simple random sampling and Latin squares; weak stationarity, i.i.d.
-   noise and the sample autocovariance; the Nelson–Aalen and Kaplan–Meier estimators.
+9. **Shared vocabulary.** Empirical distributions and quantiles; total variation and the
+   distribution-function bound; the Huber score; kernel density estimators; sparse vectors and the
+   restricted isometry property; the Benjamini–Hochberg count; the Poisson likelihood,
+   Metropolis–Hastings and leapfrog maps and the normal-location posterior; sample means, scatter
+   matrices and the Gaussian likelihood; simple random sampling and Latin squares; second-order
+   stationarity, i.i.d. noise and the sample autocovariance; the Nelson–Aalen and Kaplan–Meier
+   estimators.
 
 The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
 
@@ -95,6 +96,9 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   by [Exchangeability (completed)](../../Completed/Exchangeability/README.md), Layer 8. The
   simple random sampling design of 9.5 is Mathlib's `uniformOn` on the `n`-subsets, and 9.5
   relates the two;
+- Gaussian integration by parts:
+  [RandomMatrices](../RandomMatrices/README.md) §2.5 owns it. 4.4 keeps only the coordinate form
+  for `N(θ, v I)` on `EuclideanSpace ℝ (Fin p)` with a `C¹` field, as James–Stein needs it;
 - the central limit theorem: Mathlib's `tendstoInDistribution_inv_sqrt_mul_sum_sub`, applied to
   a statistic `s ∘ Xᵢ` of an i.i.d. sequence through the i.i.d. adapters of 8.5.
 
@@ -241,6 +245,11 @@ only that the Metropolis–Hastings kernel satisfies `Kernel.IsReversible`, and 
 laws `sampleWithoutReplacement` and `sampleWithReplacement`. 9.5 consumes the first and proves
 that the law of its image set is the simple random sampling design.
 
+### From RandomMatrices
+
+[RandomMatrices](../RandomMatrices/README.md) §2.5 owns Gaussian integration by parts. 4.4
+consumes it for Stein's identity, in the coordinate form for `N(θ, v I)` that James–Stein needs.
+
 ## How to read the build
 
 Layers 1–7 are finite-sample theory. Layer 1 fixes the objects. Layer 2 represents sufficiency
@@ -375,8 +384,8 @@ tests (Schervish, Def 4.91, p. 254).
 
 ### 1.4 Confidence sets
 
-- `HasConfidenceCoverage P C α`: for every `θ` the event `{x | θ ∈ C x}` is measurable and has
-  probability at least `1 - α`.
+- A confidence set `C` has coverage `1 - α` when for every `θ` the event `{x | θ ∈ C x}` is
+  measurable and has probability at least `1 - α`.
 - Duality: inverting level-`α` tests with measurable rejection regions `reject θ` gives the
   confidence set `{θ | x ∉ reject θ}` of coverage `1 - α`, and a confidence set of coverage
   `1 - α` gives the level-`α` tests with rejection regions `{x | θ ∉ C x}` (Schervish,
@@ -386,8 +395,8 @@ tests (Schervish, Def 4.91, p. 254).
 
 **Checks.**
 
-- For `P θ = N(θ, 1)`, `C x = [x - 1.96, x + 1.96]` has coverage `0.95`, so
-  `HasConfidenceCoverage P C 0.05` holds and `HasConfidenceCoverage P C 0.01` fails.
+- For `P θ = N(θ, 1)`, `C x = [x - 1.96, x + 1.96]` has coverage `0.95`, so it has coverage
+  `1 - α` at `α = 0.05` and not at `α = 0.01`.
 - `C x = ∅` has coverage `1 - α` only for `α ≥ 1`; `C x = univ` has every coverage.
 - The `z`-tests rejecting `θ` when `|x - θ| > 1.96` invert to the interval above.
 
@@ -628,11 +637,11 @@ family of `ν.map T`.
 
 ### 3.4 Completeness
 
-- `isCompleteStatistic_withDensity_exp_inner`: for `T : X → EuclideanSpace ℝ (Fin d)` and `η`
-  ranging over a nonempty open set `U` inside the natural parameter space, `T` is complete for
-  the family `exp ⟪η, T⟫ / Z(η) · ν` (Brown, Thm 2.12, p. 43; Pfanzagl, Thm 1.6.10, p. 26;
-  Schervish, Thm 2.74, p. 108). Each of the two Laplace transforms of `g⁺ ∘ T` and `g⁻ ∘ T` is
-  finite on `U`, and the two agree there, so 3.2 applies after a shift.
+- `isCompleteStatistic_exponentialFamilyMeasure`: for `T : X → E` into a finite-dimensional real
+  inner product space and `η` ranging over a nonempty open set `U` inside the natural parameter
+  space, `T` is complete for the family `exponentialFamilyMeasure ν T η` (Brown, Thm 2.12, p. 43;
+  Pfanzagl, Thm 1.6.10, p. 26; Schervish, Thm 2.74, p. 108). Each of the two Laplace transforms of
+  `g⁺ ∘ T` and `g⁻ ∘ T` is finite on `U`, and the two agree there, so 3.2 applies after a shift.
 
 *Needs:* 2.1, 3.1, 3.2.
 
@@ -780,9 +789,11 @@ Layers 1–2 (2.1 for completeness in 3.4).
 - **Lehmann–Scheffé, uniqueness** (`ae_eq_of_isCompleteStatistic_of_isUnbiasedEstimator`):
   unbiased functions of a complete statistic agree a.e. (Schervish, Thm 5.5, p. 298).
 - **Lehmann–Scheffé, optimality** (`isMinimumVarianceUnbiasedEstimator_of_isCompleteStatistic`):
-  if `T` is complete and sufficient and `r ∘ T` is a square-integrable unbiased estimator of
-  `g`, then `r ∘ T` is UMVU, and it is the Rao–Blackwellization of every square-integrable
-  unbiased estimator of `g` (Schervish, Thm 5.5, p. 298; Pfanzagl, Thm 3.2.5, pp. 106–107).
+  if `T` is complete and sufficient and `r ∘ T` is a square-integrable unbiased estimator of `g`,
+  then `r ∘ T` is UMVU, and it is the Rao–Blackwellization of every square-integrable unbiased
+  estimator `δ` of `g`: for every Markov kernel `K` disintegrating the joint laws of `(T, X)`,
+  `r (T x) = ∫ δ dK (T x)` for `P θ`-almost every `x` (Schervish, Thm 5.5, p. 298; Pfanzagl,
+  Thm 3.2.5, pp. 106–107).
 - **U-statistics are UMVU** (`isMinimumVarianceUnbiasedEstimator_uStatistic`): let `C` be a set
   of probability laws on `X` that is closed under binary mixtures and complete for the identity
   statistic, as in 2.4, and let `h : (Fin m → X) → ℝ` be measurable with `m ≤ n` and
@@ -838,7 +849,8 @@ Layers 1–2 (2.1 for completeness in 3.4).
 - **Stein's identity** (`gaussian_integration_by_parts`): for `X ~ N(θ, v I)` with `v > 0` and a
   `C¹` field `g ∈ L²` with integrable partial derivatives,
   `E[(Xᵢ - θᵢ) gᵢ(X)] = v E[∂ᵢ gᵢ(X)]` (Schervish, Lemmas 3.51–3.52, pp. 163–164, for `v = 1`;
-  the factor `v` follows by scaling `X = θ + √v Z`).
+  the factor `v` follows by scaling `X = θ + √v Z`). This is the coordinate form of the Gaussian
+  integration by parts that RandomMatrices §2.5 owns.
 - **James–Stein** (`james_stein_risk_eq_and_lt`): for `p ≥ 3` and `X ~ N(θ, I)`, the estimator
   `(1 - (p - 2)/‖X‖²) X` has risk `p - (p - 2)² E‖X‖⁻²`, strictly less than `p` (Schervish,
   Thm 3.50, p. 163, and (3.54), pp. 164–165). The proof:
@@ -846,8 +858,9 @@ Layers 1–2 (2.1 for completeness in 3.4).
   - lets `ε → 0` by dominated convergence;
   - bounds `E‖X‖⁻²` by `integrableOn_norm_rpow_ball`.
 
-*Needs:* Tau Ceti `multivariateGaussianPDFReal`, `multivariateGaussian_eq_withDensity`,
-`integrableOn_norm_rpow_ball`; Mathlib `integral_mul_fderiv_eq_neg_fderiv_mul_of_integrable`.
+*Needs:* RandomMatrices §2.5; Tau Ceti `multivariateGaussianPDFReal`,
+`multivariateGaussian_eq_withDensity`, `integrableOn_norm_rpow_ball`; Mathlib
+`integral_mul_fderiv_eq_neg_fderiv_mul_of_integrable`.
 
 ### 4.5 The Pitman estimator
 
@@ -883,7 +896,7 @@ Layers 1–2 (2.1 for completeness in 3.4).
 
 ### Dependencies
 
-Layers 1–2; Tau Ceti's Gaussian density `multivariateGaussianPDFReal` and
+Layers 1–2; RandomMatrices §2.5; Tau Ceti's Gaussian density `multivariateGaussianPDFReal` and
 `integrableOn_norm_rpow_ball`.
 
 ## Layer 5: order statistics and Gaussian samples
@@ -1160,18 +1173,19 @@ measurable losses and a finite prior. Without it they are false: on `Θ = ℕ` w
 `π {n} = 2^{-(n+1)}`, the risks `0` and `-2^{n+1}` make the first rule the unique Bayes rule,
 although the second dominates it everywhere and has smaller supremum.
 - `IsBayesRule.isAdmissibleRisk_of_unique`: for a finite prior `π`, if every rule of `D` has
-  `π`-integrable risk and every Bayes rule for `π` has the same risk function as `δ`, then `δ`
-  is admissible (Ferguson, Thm 2.3.1, p. 60; Berger, Thm 8, p. 253).
+  `π`-integrable risk, `δ` is Bayes for `π`, and every Bayes rule for `π` has the same risk
+  function as `δ`, then `δ` is admissible (Ferguson, Thm 2.3.1, p. 60; Berger, Thm 8, p. 253).
 - For a topological `Θ` with an opens-measurable structure and a finite prior `π` that charges
   every nonempty open set, if every rule of `D` has continuous `π`-integrable risk, then every
   Bayes rule for `π` is admissible (Berger, Thm 9, p. 254; Ferguson, Thm 2.3.3, p. 62, for
   `Θ = ℝ`).
 - `IsMinimaxRule.of_isBayesRule_of_risk_le`: for a probability prior `π`, if every rule of `D` has
   `π`-integrable risk and `δ` is Bayes for `π` with `R δ θ ≤ ∫ R δ dπ` for every `θ`, then `δ` is
-  minimax, and `π` is least favorable: `∫ R δ dπ' ≤ ∫ R δ dπ` for every probability prior `π'` under
-  which `R δ` is integrable (Ferguson, Thm 2.11.1, p. 90; Berger, Thm 17, p. 350). The prior must be
-  a probability: with risk vectors `(1, 2)` and `(1.1, 1.1)` and the prior `2 δ₀`, the first rule is
-  the unique Bayes rule and satisfies the risk bound, but it is not minimax.
+  minimax, and `π` is least favorable among the probability priors `π'` under which `R δ` is
+  integrable: every rule `δ'` Bayes for `π'` has `∫ R δ' dπ' ≤ ∫ R δ dπ` (Ferguson,
+  Thm 2.11.1, p. 90; Berger, Thm 17, p. 350). The prior must be a probability: with risk vectors
+  `(1, 2)` and `(1.1, 1.1)` and the prior `2 δ₀`, the first rule is the unique Bayes rule and
+  satisfies the risk bound, but it is not minimax.
 
 *Needs:* 1.5; Mathlib `IsBayesEstimator`, `avgRisk`.
 
@@ -1496,14 +1510,15 @@ The U-statistic is 2.4.
   development of the supremum theory. For probability measures: `|P A - Q A| ≤ tvDist P Q / 2`
   for measurable `A`; `tvDist P Q = 2 ⨆_{A measurable} |P A - Q A|`; and the supremum is attained
   at `{dP/d(P+Q) > dQ/d(P+Q)}` (Tsybakov, Lemma 2.1, p. 84, whose `V` is `tvDist / 2`).
-- The Kolmogorov distance `sup_t |cdf P t - cdf Q t|`. It is a metric on probability measures on
-  `ℝ`: symmetric, satisfies the triangle inequality, and is `0` iff `P = Q` (`ProbabilityTheory.cdf`
-  determines the law); and it is at most `tvDist P Q / 2`.
+- The distribution-function bound: for probability measures on `ℝ`,
+  `|cdf P t - cdf Q t| ≤ tvDist P Q / 2` for every `t`, the case `A = (-∞, t]` of the first bound.
+  The Kolmogorov distance `sup_t |cdf P t - cdf Q t|` is not defined here.
 - The Kolmogorov–Smirnov statistic `sup_{t ∈ ℚ} |F̂ₙ(t) - cdf P t|`. For `n > 0` and a
-  probability measure `P`, it is the Kolmogorov distance from the empirical distribution to `P`,
-  the rational supremum being the real one by right continuity. At `n = 0` the empirical
-  distribution function is `0` while Mathlib's `cdf` of the zero measure is a distribution
-  function, so the identity fails there. Hence it is measurable in `ω` for measurable `X i`.
+  probability measure `P`, it equals `sup_{t ∈ ℝ} |F̂ₙ(t) - cdf P t|` with `F̂ₙ` the distribution
+  function of the empirical distribution, the rational supremum being the real one by right
+  continuity. At `n = 0` the empirical distribution function is `0` while Mathlib's `cdf` of the
+  zero measure is a distribution function, so the identity fails there. Hence the statistic is
+  measurable in `ω` for measurable `X i`.
 - The Huber score `max (-k) (min k x)`. For `k ≥ 0` it is monotone, bounded by `k`, odd and
   `1`-Lipschitz, and it is the derivative of the Huber loss (`x²/2` for `|x| ≤ k` and
   `k|x| - k²/2` otherwise) (van der Vaart, Examples 5.4 and 5.28, pp. 42–43 and 58).
@@ -1515,8 +1530,9 @@ The U-statistic is 2.4.
 
 - Total variation: `tvDist δ₀ δ₁ = 2`, and `A = {0}` gives `|1 - 0| = 1 = 2/2`; with the supremum
   normalization the bound `|P A - Q A| ≤ tvDist / 2` would read `1 ≤ 1/2`.
-- Kolmogorov distance: `δ₀` and `δ₁` are at distance `1`; `δ₀` and `δ_ε` are at distance `1` for
-  every `ε > 0`, while their total variation is `2`.
+- Distribution-function bound: for `δ₀` and `δ_ε`, `ε > 0`, at `t = 0` it reads `1 ≤ 2/2`, with
+  equality; for `δ₀` and `(δ₀ + δ₁)/2` at `t = 0` it reads `1/2 ≤ 1/2`, and at `t = 1` it reads
+  `0 ≤ 1/2`.
 - Huber score: at `k = 1` it takes the values `-1, 1/2, 1` at `-3, 1/2, 3`; at `k = 0` it is `0`.
 - Kolmogorov–Smirnov statistic: for `n = 1` and `P` uniform on `[0, 1]` it is `1/2` at `X 0 = 1/2`
   (at `t = 1/2`) and `1` at `X 0 = 0` (at `t = 0`).
@@ -1642,14 +1658,17 @@ Exchangeability (completed), Layer 8.
 
 ### 9.6 Dependent-data and survival objects
 
-- Weak stationarity of `X : ℤ → H` in an inner product space over `𝕜`:
-  `⟪X s, X t⟫ = ⟪X 0, X (t - s)⟫`. The autocovariance `γ h = ⟪X 0, X h⟫` has
-  `γ (-h) = conj (γ h)`, and the matrix `(γ (j - i))_{i, j ∈ s}` is positive semidefinite for every
-  finite set `s` of indices (Brockwell–Davis, Thm 4.1.1, p. 115).
+- Second-order stationarity of `X : ℤ → H` in an inner product space over `𝕜`:
+  `⟪X s, X t⟫ = ⟪X 0, X (t - s)⟫`. In `H = L²(μ)` this constrains the second moments only; for
+  centred variables (mean `0`) it is weak stationarity, and only then is `γ h = ⟪X 0, X h⟫` the
+  autocovariance (Brockwell–Davis, Def 1.3.2, p. 12, which also requires a constant mean). The
+  function `γ` has `γ (-h) = conj (γ h)`, and the matrix `(γ (j - i))_{i, j ∈ s}` is positive
+  semidefinite for every finite set `s` of indices (Brockwell–Davis, Thm 4.1.1, p. 115).
 - i.i.d. noise of variance `σ² > 0` under a probability measure `μ`: an i.i.d. family indexed by
   `ℤ` (8.5), integrable with mean `0`, and with second moment `σ²`. Each variable is
   square-integrable, by `memLp_two_of_variance_ne_zero`, with mean `0` and second moment `σ²`,
-  and in `L²` the noise is weakly stationary with `γ h = σ² 1_{h = 0}`.
+  and in `L²` the noise is centred and second-order stationary, hence weakly stationary, with
+  `γ h = σ² 1_{h = 0}`.
 - The sample autocovariance `n⁻¹ ∑_{i < n-h} (X_{i+h} - X̄)(X_i - X̄)`. With divisor `n`, the
   matrix `(γ̂(|i - j|))_{i, j < k}` is positive semidefinite for every `k` (Brockwell–Davis, §7.2,
   pp. 220–221, for `k = n`; for `k > n` the extra entries vanish).
@@ -1677,7 +1696,10 @@ Exchangeability (completed), Layer 8.
 - Kaplan–Meier: two tied failures at the only failure time give `0`, and `0 ≤ e^{-1}`; for
   `T = (1, 2)` uncensored, at `t = 2` it is `(1 - 1/2)(1 - 1) = 0`, and Nelson–Aalen is `1.5`.
 - Kaplan–Meier: for `T = (1, 2)` with the second censored at `1.5`, at `t = 2` it is `1/2`.
-- Weak stationarity: a constant sequence `X t = v` is stationary; `X t = t v` is not.
+- Second-order stationarity: a constant sequence `X t = v` is stationary; `X t = t v` is not.
+- Second-order stationarity without a constant mean: `X t = (-1)^t · 1` in `L²(μ)` has
+  `⟪X s, X t⟫ = (-1)^(t-s) = ⟪X 0, X (t - s)⟫`, while its mean `(-1)^t` is not constant, so it is
+  not weakly stationary.
 - Sample autocovariance: for `(1, -1)` at `h = 0` it is `1`, at `h = 1` it is `-1/2`.
 - i.i.d. noise: i.i.d. Rademacher signs `±1` are i.i.d. noise of variance `1`, with
   `γ h = 1_{h = 0}`; one sign repeated at every time is not independent, and i.i.d. `N(1, 1)`
