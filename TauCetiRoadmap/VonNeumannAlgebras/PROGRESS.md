@@ -1,0 +1,12 @@
+# Progress log: VonNeumannAlgebras
+
+An append-only record of what landed on the VonNeumannAlgebras roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"3160b490d09a54183928370b8557804e3df3c6c3","prs":[28517,31222],"roadmap":"VonNeumannAlgebras","to_sha":"7ca783d4c8d324c9c74efaacd641c8a40f69f284"}-->
+## VonNeumannAlgebras: 2026-11-06 to 2026-11-09 (`3160b49` to `7ca783d`)
+
+The first window of this roadmap delivered von Neumann's bicommutant theorem: [a unital star subalgebra of bounded operators equals its double commutant exactly when it is closed in the weak operator topology](https://taucetiproject.org/docs/TauCeti/Analysis/VonNeumannAlgebra/Bicommutant.html#StarSubalgebra.double_commutant_iff_isClosed_image_ofCLM) (TauCeti#28517). It comes from the sharper identification of both the [weak](https://taucetiproject.org/docs/TauCeti/Analysis/VonNeumannAlgebra/Bicommutant.html#StarSubalgebra.closure_image_ofCLM) and the [strong](https://taucetiproject.org/docs/TauCeti/Analysis/VonNeumannAlgebra/Bicommutant.html#StarSubalgebra.closure_image_toPointwiseConvergenceCLM) operator closure of such an algebra with its double commutant, over real or complex Hilbert spaces. So every concrete von Neumann algebra is [weakly closed](https://taucetiproject.org/docs/TauCeti/Analysis/VonNeumannAlgebra/Bicommutant.html#VonNeumannAlgebra.isClosed_image_ofCLM). The closures are taken in Mathlib's separate topology copies, so the norm topology on operators is untouched. The ultraweak and ultrastrong closures that the roadmap also asks for are still missing, because those topologies have no wrappers yet.
+
+Around this, the strong operator topology got the bounded-composition API it needed. By Banach–Steinhaus, [strongly convergent sequences are norm bounded](https://taucetiproject.org/docs/TauCeti/Analysis/LocallyConvex/StrongOperatorTopology.html#ContinuousLinearMap.exists_norm_le_of_tendsto_pointwise), and composition preserves strong convergence once the outer operators are uniformly bounded. As an application, [a strong limit of orthogonal projections is again a projection](https://taucetiproject.org/docs/TauCeti/Analysis/LocallyConvex/StrongOperatorTopology.html#IsStarProjection.of_tendsto_pointwise), for arbitrary nets and with no separability assumption (TauCeti#31222). Kaplansky density is not yet stated.

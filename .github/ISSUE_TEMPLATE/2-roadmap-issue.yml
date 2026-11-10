@@ -25,6 +25,8 @@ body:
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
+        - AnalyticNumberTheoryPartI
+        - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -38,6 +40,7 @@ body:
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - ClusterAlgebras
         - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
@@ -46,9 +49,11 @@ body:
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
+        - ConformalMappingPartII
         - CountableModelCounting
         - DGAInfinity
         - DGFloer
+        - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
         - DifferentialGeometry
@@ -58,6 +63,7 @@ body:
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
+        - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleMassFormula
         - FactorRigidity
@@ -92,6 +98,7 @@ body:
         - KhovanovHomology
         - LFunctions
         - LieGroupoidsPoisson
+        - LinearFormsInLogarithms
         - LocalPurity
         - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
@@ -106,6 +113,7 @@ body:
         - NilpotentOrbits
         - NoncommutativeGeometry
         - NoncommutativeIntegration
+        - NoncongruenceModularForms
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
@@ -116,16 +124,19 @@ body:
         - PerfectoidSpaces
         - PivotalSpherical
         - Poincare3D
+        - PolylogarithmFunctions
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
         - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
@@ -138,6 +149,7 @@ body:
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - RootSystemsPartII
         - SNumbers
         - ScatteringDiagrams
         - SchemeAndStackFoundations
@@ -145,6 +157,9 @@ body:
         - SeibergWittenTheory
         - SmoothBundlesConnections
         - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
