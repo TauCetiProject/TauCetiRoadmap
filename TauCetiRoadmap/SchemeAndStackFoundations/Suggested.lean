@@ -5,6 +5,7 @@ import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
 import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
 import TauCeti.AlgebraicGeometry.Modules.Differentials.Basic
+import TauCeti.AlgebraicGeometry.Modules.Quasicoherent.Kernels
 import TauCeti.AlgebraicGeometry.Modules.Tilde.Basic
 import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
 import TauCeti.AlgebraicGeometry.VectorBundle.FixedRank
@@ -17,9 +18,6 @@ theorems against the pinned Mathlib and Tau Ceti, with the few definitions they 
 
 Headline theorems that are not statable at the pins, and what each lacks:
 
-* §2.18: gluing of derived morphisms and of derived objects on an open basis (Stacks 0D66,
-  0D6C). Derived restriction to an open needs `Scheme.Modules.restrictFunctor` to be additive and
-  exact, which the pins do not provide.
 * §5.7: `K_0(X) → G_0(X)` is bijective on a regular Noetherian scheme with the resolution
   property (Stacks, Lemma 36.37.4). The exact structures on finitely presented and on finite
   locally free module sheaves need their extension closure, which the pins do not prove.
@@ -35,9 +33,11 @@ Headline theorems that are not statable at the pins, and what each lacks:
   scheme; the affine matrix-splitting theorems below are not this map.
 * §3.6: the Picard torsors `Pic^d_{X/k}` of a smooth projective curve without a rational point,
   with `Pic(X) → Pic_{X/k}(k)` of cokernel in `Br(k)` (on a pointless real conic the degrees of
-  line bundles are `2ℤ` and those of `Pic_{X/k}(ℝ)` are `ℤ`). The pins have the presheaf
-  `TauCeti.AlgebraicGeometry.relativePicardPresheaf` but not its fppf sheafification, its degree
-  decomposition or its representability.
+  line bundles are `2ℤ` and those of `Pic_{X/k}(ℝ)` are `ℤ`). Neither pin has a scheme
+  representing the relative Picard functor or its degree-`d` parts, nor a map from its `k`-points
+  to `Br(k)`. Tau Ceti has the presheaf `TauCeti.AlgebraicGeometry.relativePicardPresheaf` at both
+  pins, and at `2fd255d9` also its fppf sheafification `relativePicardFppfSheaf` and the
+  degree-zero subsheaf `relativePicardDegreeZeroFppfSheaf`, neither with a representability claim.
 * §4.4: Schlessinger's theorem. Its statement needs the Artinian coefficient category `C_Λ` with
   its fibre products along small extensions, the dual numbers as an object, the vector-space
   structure on tangent spaces and pro-representable hulls in `Ĉ_Λ`; none is at the pins, and
@@ -585,6 +585,89 @@ theorem DQCoh.affineEquiv (A : CommRingCat.{u}) :
     (tilde.functor A).mapDerivedCategory.Full ∧ (tilde.functor A).mapDerivedCategory.Faithful ∧
       ∀ K : DerivedCategory (Spec A).Modules, (tilde.functor A).mapDerivedCategory.essImage K ↔
         ∀ n : ℤ, ((DerivedCategory.homologyFunctor (Spec A).Modules n).obj K).IsQuasicoherent := by
+  sorry
+
+/-- Derived restriction `K ↦ K|_X` along an open immersion `f : X ⟶ Y`: the functor
+`D(O_Y) ⥤ D(O_X)` induced by the exact functor `Scheme.Modules.restrictFunctor f` (additive and a
+right adjoint by Tau Ceti, a left adjoint in Mathlib). -/
+abbrev derivedRestrict {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f] :
+    DerivedCategory Y.Modules ⥤ DerivedCategory X.Modules :=
+  (Scheme.Modules.restrictFunctor f).mapDerivedCategory
+
+/-- The canonical comparison `(K|_Y)|_X ≅ K|_X` for open immersions `f : X ⟶ Y`, `g : Y ⟶ Z`
+and `h : X ⟶ Z` with `f ≫ g = h`, induced by `Scheme.Modules.restrictFunctorComp` and
+`Scheme.Modules.restrictFunctorCongr` through `Functor.mapDerivedCategoryCompIso`. -/
+def derivedRestrictComp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) (h : X ⟶ Z)
+    (w : f ≫ g = h) [IsOpenImmersion f] [IsOpenImmersion g] [IsOpenImmersion h] :
+    derivedRestrict g ⋙ derivedRestrict f ≅ derivedRestrict h :=
+  Functor.mapDerivedCategoryCompIso _ _ ≪≫
+    Localization.liftNatIso DerivedCategory.Q
+      (HomologicalComplex.quasiIso Z.Modules (ComplexShape.up ℤ)) _ _ _ _
+      (Functor.isoWhiskerRight (NatIso.mapHomologicalComplex
+        ((Scheme.Modules.restrictFunctorComp f g).symm ≪≫
+          Scheme.Modules.restrictFunctorCongr w) (ComplexShape.up ℤ)) DerivedCategory.Q)
+
+/-- Derived morphisms glue under vanishing of negative local `Ext`. Let `B` be a basis of the
+opens of `X` and `K, L ∈ D(O_X)` with `Hom(K|_U, L|_U[i]) = 0` for `U ∈ B` and `i < 0`. Then the
+same vanishing holds on every open, and `U ↦ Hom(K|_U, L|_U)` is a sheaf: on every open `W`, a
+family of morphisms on the members of `B` inside `W`, compatible under restriction, is the
+restriction of exactly one morphism `K|_W ⟶ L|_W`. Stacks, Lemma 20.45.2 (2) (0D66), p. 1896,
+for the identity of `X`. -/
+theorem derivedHom_isSheaf {X : Scheme.{u}} {B : Set X.Opens}
+    (hB : TopologicalSpace.Opens.IsBasis B) (K L : DerivedCategory X.Modules)
+    (hExt : ∀ U ∈ B, ∀ i : ℤ, i < 0 →
+      Subsingleton ((derivedRestrict U.ι).obj K ⟶ ((derivedRestrict U.ι).obj L)⟦i⟧)) :
+    (∀ (W : X.Opens) (i : ℤ), i < 0 →
+      Subsingleton ((derivedRestrict W.ι).obj K ⟶ ((derivedRestrict W.ι).obj L)⟦i⟧)) ∧
+    ∀ (W : X.Opens)
+      (φ : ∀ U ∈ B, U ≤ W → ((derivedRestrict U.ι).obj K ⟶ (derivedRestrict U.ι).obj L)),
+      (∀ (U : X.Opens) (hU : U ∈ B) (hUW : U ≤ W) (V : X.Opens) (hV : V ∈ B) (hVW : V ≤ W)
+        (h : V ≤ U),
+        (derivedRestrict (X.homOfLE h)).map (φ U hU hUW) =
+          (derivedRestrictComp (X.homOfLE h) U.ι V.ι (X.homOfLE_ι h)).hom.app K ≫
+            φ V hV hVW ≫
+              (derivedRestrictComp (X.homOfLE h) U.ι V.ι (X.homOfLE_ι h)).inv.app L) →
+      ∃! ψ : (derivedRestrict W.ι).obj K ⟶ (derivedRestrict W.ι).obj L,
+        ∀ (U : X.Opens) (hU : U ∈ B) (hUW : U ≤ W),
+          (derivedRestrict (X.homOfLE hUW)).map ψ =
+            (derivedRestrictComp (X.homOfLE hUW) W.ι U.ι (X.homOfLE_ι hUW)).hom.app K ≫
+              φ U hU hUW ≫
+                (derivedRestrictComp (X.homOfLE hUW) W.ι U.ι (X.homOfLE_ι hUW)).inv.app L := by
+  sorry
+
+/-- The BBD gluing lemma without boundedness. Let `B` be a set of opens of `X` covering `X`,
+with each `U ∩ V` (`U, V ∈ B`) covered by members of `B` contained in it. Given `K_U ∈ D(O_U)`
+for `U ∈ B` with `Hom(K_U, K_U[i]) = 0` for `i < 0`, and isomorphisms `ρ^U_V : K_U|_V ≅ K_V` for
+`V ⊆ U` in `B` satisfying the cocycle condition `ρ^U_W = ρ^V_W ∘ ρ^U_V|_W`, there is `K ∈ D(O_X)`
+with isomorphisms `ρ_U : K|_U ≅ K_U` such that `ρ^U_V ∘ ρ_U|_V = ρ_V`, and the pair `(K, ρ_U)` is
+unique up to a unique compatible isomorphism. Stacks, Situation 20.45.3 (0D67) and
+Theorem 20.45.8 (0D6C), pp. 1896–1900. -/
+theorem derivedObject_gluing {X : Scheme.{u}} (B : Set X.Opens)
+    (hcov : ∀ x : X, ∃ U ∈ B, x ∈ U)
+    (hint : ∀ U ∈ B, ∀ V ∈ B, ∀ x ∈ U ⊓ V, ∃ W ∈ B, x ∈ W ∧ W ≤ U ⊓ V)
+    (K : ∀ U ∈ B, DerivedCategory U.toScheme.Modules)
+    (ρ : ∀ (U : X.Opens) (hU : U ∈ B) (V : X.Opens) (hV : V ∈ B) (h : V ≤ U),
+      (derivedRestrict (X.homOfLE h)).obj (K U hU) ≅ K V hV)
+    (hρ : ∀ (U : X.Opens) (hU : U ∈ B) (V : X.Opens) (hV : V ∈ B) (W : X.Opens) (hW : W ∈ B)
+      (hVU : V ≤ U) (hWV : W ≤ V),
+      ρ U hU W hW (hWV.trans hVU) =
+        (derivedRestrictComp (X.homOfLE hWV) (X.homOfLE hVU) (X.homOfLE (hWV.trans hVU))
+          (X.homOfLE_homOfLE hWV hVU)).symm.app (K U hU) ≪≫
+          (derivedRestrict (X.homOfLE hWV)).mapIso (ρ U hU V hV hVU) ≪≫ ρ V hV W hW hWV)
+    (hExt : ∀ (U : X.Opens) (hU : U ∈ B) (i : ℤ), i < 0 →
+      Subsingleton (K U hU ⟶ (K U hU)⟦i⟧)) :
+    ∃ (L : DerivedCategory X.Modules)
+      (σ : ∀ (U : X.Opens) (hU : U ∈ B), (derivedRestrict U.ι).obj L ≅ K U hU),
+      (∀ (U : X.Opens) (hU : U ∈ B) (V : X.Opens) (hV : V ∈ B) (h : V ≤ U),
+        (derivedRestrictComp (X.homOfLE h) U.ι V.ι (X.homOfLE_ι h)).symm.app L ≪≫
+          (derivedRestrict (X.homOfLE h)).mapIso (σ U hU) ≪≫ ρ U hU V hV h = σ V hV) ∧
+      ∀ (L' : DerivedCategory X.Modules)
+        (σ' : ∀ (U : X.Opens) (hU : U ∈ B), (derivedRestrict U.ι).obj L' ≅ K U hU),
+        (∀ (U : X.Opens) (hU : U ∈ B) (V : X.Opens) (hV : V ∈ B) (h : V ≤ U),
+          (derivedRestrictComp (X.homOfLE h) U.ι V.ι (X.homOfLE_ι h)).symm.app L' ≪≫
+            (derivedRestrict (X.homOfLE h)).mapIso (σ' U hU) ≪≫ ρ U hU V hV h = σ' V hV) →
+        ∃! e : L ≅ L', ∀ (U : X.Opens) (hU : U ∈ B),
+          (derivedRestrict U.ι).mapIso e ≪≫ σ' U hU = σ U hU := by
   sorry
 
 end Coherent

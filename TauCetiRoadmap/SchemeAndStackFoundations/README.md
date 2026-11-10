@@ -383,6 +383,10 @@ here for the roadmaps that import them.
 - `DerivedCategory.Q`, `DerivedCategory.singleFunctor`,
   `Mathlib/Algebra/Homology/DerivedCategory/Basic.lean`: localization and degree-zero complexes;
   §2.18's pseudo-coherence criterion is a property of this existing derived category.
+- `Functor.mapDerivedCategory`, `Functor.mapDerivedCategoryCompIso`,
+  `Mathlib/Algebra/Homology/DerivedCategory/ExactFunctor.lean`: the derived functor of an exact
+  functor and its composition comparison; §2.18's derived restriction and its nested-open
+  comparisons are these, applied to `Scheme.Modules.restrictFunctor`.
 - `AlgebraicGeometry.Scheme.ord`, `Mathlib/AlgebraicGeometry/OrderOfVanishing.lean`: the
   principal-divisor coefficients in §5.1. Rational equivalence additionally allows locally
   finite families of integral closed subschemes.
@@ -464,6 +468,11 @@ not another module local-cohomology functor. The affine Ext computations in §3.
 **From Tau Ceti** (`2fd255d9`). `TauCeti.AlgebraicGeometry.preservesFiniteLimits_tildeFunctor`
 (`TauCeti/AlgebraicGeometry/Modules/Tilde/Basic.lean`: `M ↦ M~` is left exact, so with Mathlib's
 right exactness it is exact and has `Functor.mapDerivedCategory`);
+`AlgebraicGeometry.Scheme.Modules.restrictFunctorAdditive` and
+`AlgebraicGeometry.Scheme.Modules.restrictFunctorIsRightAdjoint` (restriction of module sheaves
+along an open immersion is additive and a right adjoint; with Mathlib's left adjoint it is exact,
+which §2.18's `derivedRestrict` uses; `TauCeti/AlgebraicGeometry/Modules/Restriction/Basic.lean`,
+imported through `TauCeti.AlgebraicGeometry.Modules.Quasicoherent.Kernels`);
 `TauCeti.AlgebraicGeometry.QuasicoherentAlgebra`,
 `CategoryTheory.CommMon.relativeSpec`, `CommMon.sectionsPresheaf`,
 `CommMon.isLocalization_basicOpen`; `Scheme.Modules.Cohomology`, `Scheme.Modules.eulerCharBelow`
@@ -3216,7 +3225,8 @@ projective system of gerbs with continuous extension transitions and algebraic k
 with `.stage`, `.transition`, `.stagewise_conjugate`, and pro-morphisms; all chartwise Hopf descent
 retains the open-stabilizer condition. Prove `splitting_field_extension`: for
 `k'' ⊇ k'` Galois over `k`, a `k'/k`-gerb induces a `k''/k`-gerb by pulling back along `Gal(k''/k) →
-Gal(k'/k)` and extending the kernel, compatibly with morphisms and conjugacy (Kisin 2017, §3.1.2).
+Gal(k'/k)` and extending the kernel, compatibly with morphisms and conjugacy (Kisin 2017, §3.1.1,
+p. 35, for the passage from `k'/k`-gerbs to Galois gerbs).
 *Needs:* §1.24; Mathlib `GroupExtension`, `Topology.IsEmbedding`, `IsQuotientMap`, `Homeomorph`,
 `krullTopology`.
 
@@ -4093,27 +4103,34 @@ Lemmas 36.22.3, 36.22.5 (08IB)). *Needs:* §0.5, §2.6; Mathlib `DerivedCategory
 `Coherent.instHasDerivedCategoryModuleCat` (the same for `ModuleCat A`),
 `Coherent.DQCoh`, `Coherent.DQCoh.affineEquiv` (the derived functor
 `(tilde.functor A).mapDerivedCategory` is full and faithful with essential image the complexes
-with quasi-coherent cohomology; the t-structures are specified here).
+with quasi-coherent cohomology; the t-structures are specified here), `Coherent.derivedRestrict`,
+`Coherent.derivedRestrictComp`, `Coherent.derivedHom_isSheaf`, `Coherent.derivedObject_gluing` (the
+two gluing theorems below).
 
-**Derived morphism gluing.** This subsection owns *derivedHom_isSheaf*: for a scheme
-`X`, an open basis `B`, and `K,L ∈ D(O_X)`, assume
-`Ext^i_{O_U}(K|_U,L|_U) = Hom(K|_U,L|_U[i]) = 0` for every `U ∈ B` and every `i < 0`.
-Then the same vanishing holds on every open, and `U ↦ Hom(K|_U,L|_U)` is a sheaf of
-abelian groups. Compatible morphisms on any open covering therefore glue uniquely; equality
-is local under these hypotheses. Use *derivedRestrict*, the functor induced by
-Mathlib's `Scheme.Modules.restrictFunctor` (exact, since restriction to an open is computed
-sectionwise), with the canonical nested-open comparisons
-*derivedRestrictComp* and *derivedRestrictOpens* induced by
-`Scheme.Modules.restrictFunctorComp`. Their identity and composition coherence define the
-restriction maps of *derivedHomPresheaf*; its sections on `U` are the displayed Hom
-group. Ext vanishing is the triviality (`Subsingleton`) of the shifted Hom types, and the Hom sheaf is
-taken as the underlying sheaf of sets. These gluing statements are specified in this README only:
-derived restriction needs `Scheme.Modules.restrictFunctor` to be additive and exact, which the
-pinned Mathlib does not provide. Construct these interfaces before §2.20's
-comparisons of local dualising objects. Source:
-[Stacks, Lemma 20.45.2(2) (0D66)](https://stacks.math.columbia.edu/tag/0D66), applied to the
-identity of the underlying ringed space. *Needs:* the ambient derived category and restriction
-to opens of this subsection; Mathlib's exact-functor localization API.
+**Derived morphism gluing.** Define `derivedRestrict f : D(O_Y) ⥤ D(O_X)` for an open immersion
+`f : X → Y`, the functor `Functor.mapDerivedCategory` of Mathlib's `Scheme.Modules.restrictFunctor f`.
+That functor is exact: Tau Ceti makes it additive and a right adjoint
+(`Scheme.Modules.restrictFunctorAdditive`, `Scheme.Modules.restrictFunctorIsRightAdjoint`, re-exported
+by `TauCeti.AlgebraicGeometry.Modules.Quasicoherent.Kernels`), and Mathlib makes it a left adjoint. Define `derivedRestrictComp f g h w`, for open immersions with `w : f ≫ g = h`, the canonical
+comparison `(K|_Y)|_X ≅ K|_X`: Mathlib's `Functor.mapDerivedCategoryCompIso` followed by the
+derived functor of `Scheme.Modules.restrictFunctorComp` and `Scheme.Modules.restrictFunctorCongr`.
+For nested opens `W ⊆ V ⊆ U` of `X` it is applied to `X.homOfLE` with Mathlib's
+`Scheme.homOfLE_ι` and `Scheme.homOfLE_homOfLE`.
+This subsection owns `derivedHom_isSheaf`: for a scheme `X`, an open basis `B`, and
+`K,L ∈ D(O_X)`, assume `Ext^i_{O_U}(K|_U,L|_U) = Hom(K|_U,L|_U[i]) = 0` for every `U ∈ B` and every
+`i < 0`. Then the same vanishing holds on every open, and `U ↦ Hom(K|_U,L|_U)` is a sheaf of
+abelian groups: on every open `W`, a family of morphisms on the members of `B` contained in `W`,
+compatible under restriction through `derivedRestrictComp`, is the restriction of exactly one
+morphism `K|_W → L|_W`. Compatible morphisms on any open covering therefore glue uniquely, and
+equality is local under these hypotheses. Ext vanishing is the triviality (`Subsingleton`) of the
+shifted Hom types. Define *derivedHomPresheaf*, the presheaf of abelian groups
+`U ↦ Hom(K|_U,L|_U)` whose restriction maps are conjugation by `derivedRestrictComp`, and prove its
+identity and composition laws from the coherence of `Scheme.Modules.restrictFunctorComp`; the
+theorem says it is a sheaf. Source:
+[Stacks, Lemma 20.45.2(2) (0D66)](https://stacks.math.columbia.edu/tag/0D66), p. 1896, applied to
+the identity of the underlying ringed space. *Needs:* the ambient derived category of this
+subsection; Mathlib's `Functor.mapDerivedCategory`, `Functor.mapDerivedCategoryCompIso`,
+`Scheme.Modules.restrictFunctor`; Tau Ceti's restriction instances above.
 
 **Checks.**
 - For `K=L=O_X[0]`, negative Ext vanishes on every open and the Hom sheaf is `O_X`.
@@ -4126,28 +4143,39 @@ to opens of this subsection; Mathlib's exact-functor localization API.
 - For pairs satisfying the hypothesis, refining an affine basis by principal opens preserves
   the glued morphism. If the local maps are isomorphisms, glue their inverses as well: their
   compositions are identities by the qualified equality assertion.
+- On `X = Spec ℤ` with `U = D(2)`, `derivedRestrict U.ι` sends `(ℤ/2)~[0]` to `0` (its support
+  `{(2)}` misses `U`) and `O_X[0]` to `O_U[0] = ℤ[1/2]~[0]`. A functor that kept the stalk at `(2)`,
+  such as the identity of `D(O_X)`, would send the first object to a nonzero complex.
+- Restriction is exact, so `H^n(K|_U) = H^n(K)|_U`: the complex `O_X →(·2) O_X` in degrees `0, 1`
+  on `Spec ℤ` has `H⁰ = 0` and `H¹ = (ℤ/2)~`, and on `D(2)` both vanish because `·2` becomes an
+  isomorphism, so its restriction to `D(2)` is `0` in `D(O_U)`.
+- For nested opens `W ⊆ V ⊆ U` the two comparisons `((K|_U)|_V)|_W ≅ K|_W` built from
+  `derivedRestrictComp` in either order agree, by the associativity of
+  `Scheme.Modules.restrictFunctorComp`; for `K = O_X[0]` both are the identification of the three
+  restrictions with `O_W[0]`. For `U = X`, `derivedRestrict` along the isomorphism `⊤.ι` is an
+  equivalence.
 
-**Derived object gluing.** This subsection owns *derivedObject_gluing*. On an open
-basis `B` of a scheme `X`, give `K_U ∈ D(O_U)` for each `U ∈ B` and restriction isomorphisms
-`ρ^U_V : K_U|_V ≅ K_V` whenever `V ⊆ U` are in `B`, with
-`ρ^U_W = ρ^V_W ∘ (ρ^U_V)|_W` for `W ⊆ V ⊆ U`, using the canonical restriction comparisons.
-Assume `Ext^i_{O_U}(K_U,K_U)=0` for all `U ∈ B`, `i<0`. Construct `K ∈ D(O_X)` and
-`ρ_U : K|_U ≅ K_U` satisfying `ρ_V = ρ^U_V ∘ ρ_U|_V`, unique up to unique isomorphism
-compatible with every `ρ_U`. *DerivedGluingData* packages the local `obj`,
-`transition` and `cocycle`; *DerivedGluingSolution* packages the global `obj`,
-`iso` and `compatibility`. *restrictedGluingData X B K* is the canonical
-restriction cocycle of a global object, using the inverse of *derivedRestrictOpens* for each
-transition; it supplies the cocycles in the shifted-line-bundle Checks. Their Laurent
-coordinate computation explicitly tests `dy=−x⁻²dx` in the Kähler differential module
-of `k[x,x⁻¹]`, together with the gluing conclusion.
-The basis can be infinite: it covers `X`, and each intersection is covered by basis members
-contained in it; no quasi-compactness or quasi-separatedness is assumed. Prove that restriction
-and refinement of the basis give the same solution up to the unique compatible isomorphism,
-with identity and composition compatibility. Source:
-[Stacks, Situation 20.45.3 (0D67)](https://stacks.math.columbia.edu/tag/0D67) and
-[Theorem 20.45.8 (0D6C), the BBD gluing lemma](https://stacks.math.columbia.edu/tag/0D6C).
-*Needs:* *derivedHom_isSheaf*, the ambient derived category and restriction comparisons
-above. This is the object-gluing input to §2.20, distinct from §1.1's descent of module sheaves.
+**Derived object gluing.** This subsection owns `derivedObject_gluing`. Let `B` be a set of
+opens of a scheme `X` that covers `X` and such that each `U ∩ V` with `U, V ∈ B` is covered by
+members of `B` contained in it (an open basis is the main case). Give `K_U ∈ D(O_U)` for each
+`U ∈ B` and restriction isomorphisms `ρ^U_V : K_U|_V ≅ K_V` whenever `V ⊆ U` are in `B`, with
+`ρ^U_W = ρ^V_W ∘ (ρ^U_V)|_W` for `W ⊆ V ⊆ U`, the restriction comparison `(K_U|_V)|_W ≅ K_U|_W`
+being `derivedRestrictComp`. Assume `Ext^i_{O_U}(K_U,K_U)=0` for all `U ∈ B`, `i<0`. Then there
+are `K ∈ D(O_X)` and `ρ_U : K|_U ≅ K_U` satisfying `ρ_V = ρ^U_V ∘ ρ_U|_V`, and any two such pairs
+are related by exactly one isomorphism compatible with every `ρ_U`. *DerivedGluingData* packages
+the local `obj`, `transition` and `cocycle`; *DerivedGluingSolution* packages the global `obj`,
+`iso` and `compatibility`. *restrictedGluingData X B K* is the canonical restriction cocycle of a
+global object, using the inverse of `derivedRestrictComp` for each transition; it supplies the
+cocycles in the shifted-line-bundle Checks. Their Laurent coordinate computation explicitly tests
+`dy=−x⁻²dx` in the Kähler differential module of `k[x,x⁻¹]`, together with the gluing conclusion.
+The set `B` can be infinite; no quasi-compactness or quasi-separatedness is assumed. Prove that
+restriction and refinement of `B` give the same solution up to the unique compatible
+isomorphism, with identity and composition compatibility. Source:
+[Stacks, Situation 20.45.3 (0D67)](https://stacks.math.columbia.edu/tag/0D67), p. 1896, and
+[Theorem 20.45.8 (0D6C), the BBD gluing lemma](https://stacks.math.columbia.edu/tag/0D6C),
+pp. 1899–1900. *Needs:* `derivedHom_isSheaf`, the ambient derived category and the restriction
+comparisons above. This is the object-gluing input to §2.20, distinct from §1.1's descent of module
+sheaves.
 
 **Checks.**
 - On `ℙ¹_k` the standard affine restrictions of `O(−2)[1]=Ω¹[1]`, with coordinates
@@ -4193,10 +4221,19 @@ comparison model. The local construction and its pasting are supplied here. API:
 immersion case Lemma 48.17.1 (0AU0)),
 `upperShriek_flat_baseChange` (for `g` flat, `g'^* f^! ≅ f'^! g^*` on `D⁺_QCoh(O_Y)`; Lemma 48.18.1
 (0E9U)),
-`upperShriek_smooth` (for `f` smooth of relative dimension `d`, `f^! K ≅ f^* K ⊗ Ω^d_{X/Y}[d]`;
-Lemmas 48.17.3, 48.17.11), `upperShriek_lci` (for `f` a local complete intersection,
-`f^! K ≅ Lf^* K ⊗^L f^! O_Y`, using §2.18's **`derivedPullback f`**.
-The object `f^! O_Y` is tensor-invertible in the derived category, locally a shifted line bundle; for Gorenstein `f` of relative dimension `d`, `f^! O_Y ≅ ω_{X/Y}[d]`; [Stacks, Lemmas 48.17.9(5) and 48.17.11](https://stacks.math.columbia.edu/tag/0ATZ)), `upperShriek_unit`, `upperShriek_counit` (the adjunction maps on
+`upperShriek_smooth` (for `f` smooth of relative dimension `d`, `f^! K ≅ f^* K ⊗ Ω^d_{X/Y}[d]`:
+`f` is flat, so [Stacks, Lemma 48.17.9 (0B6U) (e)](https://stacks.math.columbia.edu/tag/0B6U),
+p. 4129, gives `f^! K ≅ f^* K ⊗ f^! O_Y`, and `f^! O_Y ≅ Ω^d_{X/Y}[d]` by Lemma 48.15.7 (0BRT),
+p. 4119, for `f` proper and by Lemma 48.29.2 (0E9Z), p. 4158, wherever `f` factors as an
+immersion followed by a proper smooth morphism, in particular on every affine open of `X`;
+Lemma 48.17.3 (0AA1) is the case `X = 𝔸¹_Y`), `upperShriek_lci` (for `f` a local complete
+intersection, `f^! K ≅ Lf^* K ⊗^L f^! O_Y`, using §2.18's `derivedPullback f`: an lci morphism is
+perfect (Lemma 37.62.4 (069H)), so this is Lemma 48.17.9 (e).
+The object `f^! O_Y` is tensor-invertible in the derived category, locally a shifted line bundle
+([Lemma 48.17.11 (0B6V) (1)](https://stacks.math.columbia.edu/tag/0B6V), p. 4130). For
+Gorenstein `f` of relative dimension `d`, `f^! O_Y ≅ ω_{X/Y}[d]`: a Gorenstein morphism is
+Cohen–Macaulay (Lemma 48.25.4 (0C06)), so this is Lemma 48.21.7 (0BV8), p. 4140, and
+Remark 48.23.4 (0C10), p. 4144, gives `f^! K ≅ Lf^* K ⊗^L ω_{X/Y}[d]`), `upperShriek_unit`, `upperShriek_counit` (the adjunction maps on
 the proper part). The regime is bounded-below complexes with quasi-coherent cohomology on
 Noetherian schemes, separated finite-type morphisms; nothing is asserted for unbounded complexes or
 non-Noetherian bases. *Needs:* §2.18; the finite-map right adjoint above; affine polynomial
@@ -4371,13 +4408,13 @@ schemes. Build them in the following order, using
 2. These opens form a possibly infinite basis. The generator-preserving restriction
    isomorphisms satisfy the cocycle condition by uniqueness. Locally
    `RHom(K_U,K_U) ≅ O_U[0]`, hence all negative self-Ext groups vanish. Apply
-   *derivedObject_gluing* to construct `K` with compatible affine identifications.
+   `derivedObject_gluing` to construct `K` with compatible affine identifications.
    Quasi-coherence of cohomology is local, so `K ∈ DQCoh X`; its relative perfectness follows
    from the affine-local criterion, included in
    `IsRelativelyPerfect` for flat locally finitely presented `f` and `K ∈ DQCoh X`
    ([Lemma 36.35.3 (0DI2)](https://stacks.math.columbia.edu/tag/0DI2)). For two global pairs the
    affine comparisons give vanishing of negative cross-Ext as well, so
-   *derivedHom_isSheaf* glues their unique generator-preserving isomorphism
+   `derivedHom_isSheaf` glues their unique generator-preserving isomorphism
    ([Lemma 48.28.4 (0E2W)](https://stacks.math.columbia.edu/tag/0E2W)).
 3. Construct `ξ` separately. Choose `W = ⋃_{U∈B} U ×_S U`, on which the diagonal is closed,
    and put `E = RHom_W(Δ_*O_X,L pr_1^*K|_W)`. The affine rigidifications show that `E`
@@ -4396,8 +4433,8 @@ schemes. Build them in the following order, using
    ([Lemma 48.28.6 (0E2Y)](https://stacks.math.columbia.edu/tag/0E2Y)). These comparisons commute
    with refinement and composition of base changes because they preserve the rigidifications.
 
-*Needs:* §2.18's affine equivalence, derived operations, *derivedHom_isSheaf* and
-*derivedObject_gluing*; the local criterion for relative perfectness. The comparison
+*Needs:* §2.18's affine equivalence, derived operations, `derivedHom_isSheaf` and
+`derivedObject_gluing`; the local criterion for relative perfectness. The comparison
 `.upperShriek` uses §2.19 in its Noetherian separated finite-type regime.
 
 Define `relativeDualizingModule f d hd hCM := H^{−d}(f^! O_Y)` for `f : X → Y` flat, separated, quasi-compact and locally of finite type with
@@ -7509,9 +7546,17 @@ StableReduction Layer 2's notion ("some power is very ample"); it is not an inpu
 - On `ℙ¹ × ℙ¹`, `χ(O(a, b)) = (a + 1)(b + 1)`.
 - `12 · 1 = 8 + 4`; `12 · 1 = 9 + 3`.
 - `Num ℙ² = ℤ`, generated by a line `L` with `L² = 1`. For an elliptic curve `E` over `k̄`,
-  `Num(E × E)` has rank `2 + rank End(E)`: `3` without complex multiplication (possible only in
-  characteristic zero), `4` with complex multiplication or for an ordinary curve in
-  characteristic `p`, and `6` for a supersingular curve; `Num ≠ Pic`, since `Pic⁰(E × E) ≠ 0`.
+  `Num(E × E)` has rank `2 + rank End(E)`: `3` when `End(E) = ℤ`, `4` when `End(E)` is an order
+  in an imaginary quadratic field, and `6` for a supersingular curve, whose `End(E)` is an order
+  in a quaternion algebra; `Num ≠ Pic`, since `Pic⁰(E × E) ≠ 0`. Rank `3` occurs in every
+  characteristic: in characteristic `p` an endomorphism outside `ℤ` forces `j(E) ∈ 𝔽̄_p` (by
+  Deuring's lifting theorem `(E, α)` lifts to a curve with complex multiplication in
+  characteristic zero, whose `j` is a root of a monic integral class polynomial), so for `p` odd
+  the Legendre curve `y² = x(x − 1)(x − t)` over an algebraic closure of `𝔽_p(t)`, with
+  `j = 2⁸(t² − t + 1)³/(t²(t − 1)²)` transcendental over `𝔽_p`, has `End(E) = ℤ` and rank `3`. An
+  ordinary curve in characteristic `p` has rank `4` exactly when `j(E) ∈ 𝔽̄_p`: `y² = x³ + x` over
+  `𝔽̄_p` has `j = 1728`, rank `4` for `p ≡ 1 mod 4` (ordinary, `End(E) ⊇ ℤ[i]`) and rank `6` for
+  `p ≡ 3 mod 4` (supersingular).
 - On `ℙ¹ × ℙ¹`, in every characteristic, `O(a, b)` is ample iff `a, b > 0`: the two fibre classes
   give `O(a, b) · O(1, 0) = b` and `O(a, b) · O(0, 1) = a`, and `O(a, b)² = 2ab`.
 - `D = (1, −1)` has `D · H = 0` for `H = (1, 1)` and `D² = −2 < 0`.
@@ -7739,7 +7784,10 @@ consumes nothing from this roadmap.
 - Klevdal–Patrikis 2024: *Compatibility of canonical ℓ-adic local systems on adjoint Shimura
   varieties*, https://arxiv.org/abs/2303.03863v2.
 - Couveignes 2019: *Enumerating number fields*, https://arxiv.org/abs/1907.13617v2.
-- Kisin 2017: *Mod p points on Shimura varieties of abelian type*, J. AMS 30.
+- Kisin 2017: *Mod p points on Shimura varieties of abelian type*, J. AMS 30 (2017), 819–914,
+  https://doi.org/10.1090/jams/867. Section numbers and pages here are those of the
+  [author manuscript](https://people.math.harvard.edu/~kisin/dvifiles/lr.pdf), whose pagination
+  is 1–99.
 - van Hoften 2024: *Mod p points on Shimura varieties of parahoric level*,
   https://arxiv.org/abs/2010.10496v4.
 - Poonen 2017: *Rational points on varieties*, GSM 186, AMS.
