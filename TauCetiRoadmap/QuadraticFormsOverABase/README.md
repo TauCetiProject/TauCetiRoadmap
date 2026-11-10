@@ -975,9 +975,7 @@ HyperellipticCurves §0.1; Mathlib `Polynomial.resultant`, `Polynomial.discr`; T
 
 ## Downstream consumers
 
-- ArithmeticStatisticsPartIII §2.8 defines `Counting.ternaryDet4` as the value of
-  `univHalfDisc 3` (1.1) at the coefficient matrix, and uses `halfDisc_mapCoeffs` and
-  `halfDisc_comp` (1.3) for its compatibility with ring maps and its factor `det(δ)²`.
+No roadmap consumes this one.
 
 ## Research context
 
