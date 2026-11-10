@@ -40,6 +40,7 @@ body:
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - ClusterAlgebras
         - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
@@ -156,6 +157,7 @@ body:
         - SeibergWittenTheory
         - SmoothBundlesConnections
         - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
