@@ -55,6 +55,7 @@ and direct categories finds no other owner.
 | --- | --- | --- |
 | Kan–Quillen model structure on `SSet`, simplicial weak equivalences | GeneralizedCohomology, G2 item 1 | Layers 4–5 |
 | Classifying spaces of small categories, homotopy colimits and Thomason's comparison, Quillen's Theorem B, the homology spectral sequence of a functor | StableHomotopyKTheory, §§1.21, 2.26, 2.29, 2.30, 2.34 | Layer 4 |
+| The characterization of Reedy structures by unique factorization, no endomorphisms in either class and no infinite descending chains | HigherToposTheory, F1.8 | 7.2 |
 | The generic `PicardGroupoid` and the graded Picard groupoids of schemes | SchemeAndStackFoundations, §3.4 | Layer 12 |
 | `CrossedModule` with its quotient groupoid, `coker ∂` and `ker ∂` | SchemeAndStackFoundations, §1.24 | Layer 12 |
 | The site-level `Stack.stackification` | SchemeAndStackFoundations, §1.18 | Layer 13 |
@@ -71,6 +72,14 @@ in a derivator, direct categories, non-singular presheaves or monoidal groupoids
 passes through the topological realisation of a nerve, is about simplicial sets or spaces alone,
 about topoi, or about stacks on schemes, it belongs to the owner named above. Sites appear here only
 as bases of coefficient stacks (Layer 13).
+
+**Comparisons.** Theorem A for an arbitrary basic localizer (2.4) is owned here.
+StableHomotopyKTheory §2.31 states it for realised nerves, with homotopy equivalences, and
+HigherToposTheory L5.4 for cofinal maps of simplicial sets; each is compared with 2.4 and none is an
+input to it.
+StableHomotopyKTheory §§1.10–1.12 (natural transformations, adjunctions and initial objects give
+homotopies of realised nerves) are the homotopy forms of 2.3, which asserts only membership in the
+class.
 
 **Out of scope.** Generalized, elegant and Eilenberg–Zilber Reedy categories; weighted
 (co)limits and skeletal filtrations; geometric realisation of non-singular presheaves; regular CW
@@ -188,6 +197,11 @@ weak equivalence), for 4.1; §1.21 (`π₁` of `BC` is the automorphism group in
 the homotopy fibre is a weak equivalence when every `d → d′` induces a homotopy equivalence), for
 4.4; §2.30, the homology spectral sequence of a functor, for 4.3.
 
+**From HigherToposTheory.** F1.8, the characterization of Reedy structures: a category admits a
+`ReedyStructure W₁ W₂ α` exactly when every morphism factors uniquely as a `W₁`-morphism followed
+by a `W₂`-morphism, no non-identity endomorphism lies in `W₁` or `W₂`, and the relation `≺₀` has no
+infinite descending chain, for 7.2.
+
 **From SchemeAndStackFoundations.** §1.18, `Stack.stackification` for an arbitrary small site, for
 13.2; §1.24, `CrossedModule Ht H` with `.quotientCategory`, `.isGroupoid`, `.isoClasses`
 (`coker ∂`) and `.aut` (`ker ∂`), `H` acting on `H̃`, for 12.3; §3.4, `PicardGroupoid C` with
@@ -210,8 +224,9 @@ StableHomotopyKTheory's homotopy colimits and Theorem B to identify `W∞` with 
 equivalences and to characterize it, and proves that `W₁` is a basic localizer. Layer 5 builds
 Thomason's model structure on Layer 4. Layer 6 defines test categories on Layers 3–4. Layers 7–9
 (direct categories, their examples, non-singular presheaves) use Mathlib's `ReedyStructure` and none
-of Layers 1–6. Layer 10 builds derivators, Layer 11 cofibration categories with their derivator on
-Layer 7's direct categories. Layer 12 builds gr-categories and Picard groupoids on
+of Layers 1–6, and 7.2 compares its characterization with HigherToposTheory F1.8. Layer 10 builds
+derivators, Layer 11 cofibration categories with their derivator on Layer 7's direct categories.
+Layer 12 builds gr-categories and Picard groupoids on
 SchemeAndStackFoundations §§1.24 and 3.4, and Layer 13 Picard stacks on Layer 12 and
 SchemeAndStackFoundations §1.18.
 
@@ -493,8 +508,10 @@ cofibred over `S` that is fibrewise in `W` is in `W` (Proposition 1.1.13).
 Prove `mem_of_isAsphericalFunctor`: every `W`-aspherical functor is in `W`, and the relative
 version, a functor over `C` with every `A/c ⥤ B/c` in `W` is in `W` (Cisinski 2004, Remark 1.1.4,
 after Quillen 1973, §1, Theorem A). This is the general owner of Theorem A; the dual statement for
-`b\A` is proved for `W∞` in 4.2. For `F ⟶ G` in `I ⥤ Cat` objectwise in `W`, the induced functor
-of Mathlib Grothendieck constructions is in `W` (Cisinski 2004, Proposition 1.2.4).
+`b\A` is proved for `W∞` in 4.2. For `W∞` it is the form of Theorem A in StableHomotopyKTheory
+§2.31 and HigherToposTheory L5.4 (HTT Corollary 4.1.3.3), with comma categories `d\F`. For
+`F ⟶ G` in `I ⥤ Cat` objectwise in `W`, the induced functor of Mathlib
+Grothendieck constructions is in `W` (Cisinski 2004, Proposition 1.2.4).
 *Needs:* 2.1.
 
 **Checks.**
@@ -903,14 +920,19 @@ products of direct categories are direct.
 
 Prove `IsDirect.of_reedyStructure` (a `ReedyStructure (identities C) ⊤ α` for any `α` as in
 convention 15 makes `C` direct) and `isDirect_iff_nonempty_reedyStructure` (with
-`α = Ordinal.{u}`). A direct factorization of `f` is unique: the identity followed by `f`. The
+`α = Ordinal.{u}`). The equivalence is the case `W₁ = identities`, `W₂ = ⊤` of the
+characterization of HigherToposTheory F1.8: the factorization of `f` is the identity followed by
+`f`, unique; a direct category has no non-identity endomorphism (7.1); and `≺₀` is `DirectRel`,
+whose absence of infinite descending chains is `IsDirect`. A direct factorization of `f` is
+unique: the identity followed by `f`. The
 canonical degree `IsDirect.rank X := WellFounded.rank (DirectRel C) X` is raised by non-identity
 morphisms, satisfies `rank X = ⨆ (f : Y ⟶ X non-identity), Order.succ (rank Y)`, and is minimal:
 for every direct Reedy structure `r` with values in `α : Type w`,
 `Ordinal.lift.{w} (rank X) ≤ Ordinal.lift.{u} (Ordinal.typein (· < ·) (r.deg X))`. Well-founded
 induction and recursion over the objects of a direct category and over the degree of a Reedy
 structure, with the unfolding equation of the recursor.
-*Needs:* 7.1; Mathlib `HomotopicalAlgebra.ReedyStructure`, `WellFounded.rank`.
+*Needs:* 7.1, HigherToposTheory F1.8; Mathlib `HomotopicalAlgebra.ReedyStructure`,
+`WellFounded.rank`.
 
 **Checks.**
 
@@ -976,7 +998,8 @@ parts.
 
 ### Dependencies
 
-Mathlib only. Within the layer, 7.2–7.5 use 7.1, and 7.3 and 7.4 use 7.2.
+Mathlib, and HigherToposTheory F1.8 for 7.2. Within the layer, 7.2–7.5 use 7.1, and 7.3 and 7.4
+use 7.2.
 
 ## Layer 8: examples of direct and Reedy categories
 
@@ -1553,7 +1576,9 @@ uses 13.2.
 
 ## Downstream consumers
 
-No roadmap on main cites this one. GrothendieckNotesLemmas names this roadmap as the owner of
+No roadmap on main cites this one. StableHomotopyKTheory records this roadmap as the owner of
+Theorem A for an arbitrary basic localizer (2.3–2.4) and compares it with its §§1.10–1.12 and 2.31,
+taking none of it as an input. GrothendieckNotesLemmas names this roadmap as the owner of
 idempotent adjunctions, additive functors on a Karoubi envelope and Beck's theorem as a
 characterization (0.1–0.3) and of the semi-simplex category (8.4). GrothendieckInfinityGroupoids
 lists this roadmap as the consumer of its globe category in 8.6, and GrothendieckTopoi records that
