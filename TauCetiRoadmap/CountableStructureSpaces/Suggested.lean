@@ -42,7 +42,7 @@ README gives its explicit construction. Names and namespaces are provisional.
 
 @[expose] public section
 
-universe u v w w' u' v' u₁ v₁ u₂ v₂
+universe u v w w' u₁ v₁ u₂ v₂
 
 namespace TauCetiRoadmap.CountableStructureSpaces
 
