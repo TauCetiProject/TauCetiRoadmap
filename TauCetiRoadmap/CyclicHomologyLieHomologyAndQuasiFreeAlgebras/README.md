@@ -1029,9 +1029,9 @@ Institute) work on these questions.
 
 Quillen asked whether the firm modules over a nonunital ring always form an abelian category
 (González-Férez–Marín 2010, p. 83). González-Férez and Marín (2007) answered no, by a ring with a
-monomorphism of firm modules that is not a kernel (loc. cit., p. 83); the category of firm modules
-is abelian if and only if the composite of two kernels is a kernel (González-Férez–Marín 2010,
-Theorem 3, p. 86).
+monomorphism of firm modules that is not a kernel (González-Férez–Marín 2010, p. 83); the category
+of firm modules is abelian if and only if the composite of two kernels is a kernel
+(González-Férez–Marín 2010, Theorem 3, p. 86).
 
 ## References
 
