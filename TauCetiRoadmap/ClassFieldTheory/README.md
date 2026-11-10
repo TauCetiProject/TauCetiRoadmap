@@ -285,11 +285,13 @@ declaration in the middle column, at the pinned Tau Ceti or in `Suggested.lean`.
 |---|---|---|
 | H n F i A | Mathlib's `continuousCohomology i A` | none |
 | TateCohomology.isZero_res_of_projective, TateCohomology.projective_of_isZero_res, TateCohomology.projective_ker_of_isZero_res, TateCohomology.isZero_res_of_exact | `Rep.isZero_res_of_projective`, `Rep.projective_of_isZero_res`, `Rep.projective_ker_of_isZero_res`, `Rep.isZero_res_of_exact` | in the namespace `Rep` rather than `TateCohomology`; `Rep.projective_ker_of_isZero_res` has the same hypotheses, `Rep.projective_of_isZero_res` assumes `k` a domain of characteristic zero without the principal-ideal hypothesis and `A` projective rather than free over `k`, and `Rep.isZero_res_of_projective` and `Rep.isZero_res_of_exact` do not assume `G` finite, the latter taking `d` and `q` implicitly |
+| TateCohomology.primaryComponent_tateCohomology_eq_bot | `TauCeti.TateCohomology.primaryComponent_tateCohomology_eq_bot` | in the namespace `TauCeti.TateCohomology`; it assumes neither that `p` is prime nor that `G` is finite, only that the subgroup `S` is finite |
 | kummerEquiv_mixed | `kummerEquivOfCharZero` | assumes `[CharZero F]` instead of a finite `ℚ_p`-algebra structure |
 | h2FpEquivZMod_of_mu | `h2EquivZModOfMuNRepIso` | assumes `IsUnit (n : F)` and an isomorphism `muNRep n F ≅ T`, needs no root of unity, and returns the equivalence rather than its existence |
 | muNRep_ρ_eq_self | `muNRep_ρ_apply_eq_self` | none |
 | muNRepCoeffDictionary, with its continuity and equivariance | `kummerCoeffEquivMuNRep`, `continuous_kummerCoeffEquivMuNRep`, `kummerCoeffEquivMuNRep_smul` | none |
 | absoluteGaloisGroupComparison | `absoluteGaloisGroupRestrictEquiv` | none |
+| absoluteGaloisGroupExtend | `TauCeti.absoluteGaloisGroupExtend` | in the namespace `TauCeti` and universe-polymorphic; defined for every finite extension `L/K` of fields (`[FiniteDimensional K L]`), with no local-field hypotheses |
 | kummerClass_eq_kummerCocycleClass | `kummerClass_eq_muNRepH1Equiv_kummerCocycleClass` | the explicit class is read through `muNRepH1Equiv` |
 | localSymbol_kummerClass_eq_zero_iff | `forall_localSymbol_kummerClass_eq_zero_iff` | nondegeneracy in the second variable; the first-variable form follows by `localSymbol_antisymm` |
 | cyclotomicCharacter_artinMap_padic, cyclotomicCharacter_artinMap_padic_uniformizer | `localCyclotomicCharacter_artinMap_padic`, `localCyclotomicCharacter_artinMap_padic_uniformizer` | read through Tau Ceti's `localCyclotomicCharacter` |
@@ -300,6 +302,7 @@ declaration in the middle column, at the pinned Tau Ceti or in `Suggested.lean`.
 | gal_ringClassField_equiv_pic | `ringClassArtinEquiv` | every order of every number field, with no degree hypothesis, and an explicit isomorphism `Pic O ≃* Gal(ringClassField O / K)` |
 | map_unitFiltration_normResidue | `normResidue_map_unitFiltration` | none |
 | closure_map_artinMap_unitFiltration | `map_artinMap_unitFiltration_eq_upper` | the absolute upper group is the constructed `localAbsoluteUpperRamificationGroup`, not an argument with a defining hypothesis; the image of `U(K,n)` is stated without a closure, since it is already closed |
+| TauCetiRoadmap.ClassFieldTheory.WeilGroup | `TauCeti.ClassFieldTheory.WeilGroup` | in the namespace `TauCeti.ClassFieldTheory`, with `K : Type u` universe-polymorphic rather than `K : Type` |
 
 ---
 
