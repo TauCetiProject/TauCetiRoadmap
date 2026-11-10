@@ -86,8 +86,9 @@ Layer 5; the well-order results use Layers 0–3 and the easy direction of Lópe
    `MulAction.IsFixedBlock (Equiv.Perm α) B`: `σ • B = B` for every `σ`, equivalently
    `(σ • ·) ⁻¹' B = B`. Mathlib's `isInvariantBlock_iff_isFixedBlock` identifies it with the
    one-sided `MulAction.IsInvariantBlock`, the form Tau Ceti states its results in; there is no
-   separate invariance predicate. `IsomorphismInvariant B` is Tau Ceti's `RelationalConfiguration.IsomorphismInvariant`:
-   membership passes to every code naming an isomorphic structure. The two coincide (Layer 1). The invariant σ-algebra is
+   separate invariance predicate. `IsomorphismInvariant B` is Tau Ceti's
+   `RelationalConfiguration.IsomorphismInvariant`: membership passes to every code naming an
+   isomorphic structure. The two coincide (Layer 1). The invariant σ-algebra is
    `⨅ σ, MeasurableSpace.invariants (σ • ·)`, Mathlib's single-map construction taken over the
    group; there is no new σ-algebra constructor.
 7. **Ordinals.** `ω₁` is `Ordinal.omega 1`. Back-and-forth levels and tree heights for codes live
@@ -218,10 +219,12 @@ TauCeti/ModelTheory/Descriptive/WellOrder.lean          -- Layer 6
 **At the pin.** Tau Ceti's `RelationalConfiguration` provides the coding space, decoding and
 encoding with both round trips, transport with `nonempty_equiv_encodeVia`, composition and
 realization, the topology and σ-algebra with clopen and measurable cylinders, compactness, the
-Polish and Borel instances, the cardinality bound and the graph coding as a measurable embedding.
-Still to build: the finite-cylinder basis, continuity of decoding in each relation and the
-coordinatewise continuity criterion, the query code, the equality case of the cardinality bound
-and the range of the graph coding.
+Polish and Borel instances, the cardinality bound, continuity of each coordinate
+(`continuous_eval`; with `toStructure_relMap` it makes decoding locally constant in each relation)
+and the coordinatewise continuity criterion (`continuous_iff`), and the graph coding as a
+measurable embedding whose range is the set of symmetric irreflexive codes
+(`range_toRelationalConfiguration`). Still to build: the finite-cylinder basis, the query code,
+the equality case of the cardinality bound and closedness of the range of the graph coding.
 
 The specification, for every language `L` and carrier `α`:
 
@@ -272,9 +275,11 @@ on the synonym.
 
 ### 1.1 The permutation group of a discrete space
 
-**At the pin.** Tau Ceti provides the topology of Convention 4, the basis lemma indexed by finite
-`Set`s, `IsTopologicalGroup` and, for countable `α`, `PolishSpace`. The roadmap's statements below
-are checked against them.
+**At the pin.** Tau Ceti provides all of 1.1: the topology of Convention 4, continuity of the
+evaluations (`Equiv.Perm.continuous_apply`, `continuous_inv_apply`), the closed embedding
+`isClosedEmbedding_prodMk_coe_coe_inv`, the basis lemma indexed by finite `Set`s (restated here
+over `Finset`s by `Filter.HasBasis.to_hasBasis`), `IsTopologicalGroup` and, for countable `α`,
+`PolishSpace`.
 
 For `[TopologicalSpace α] [DiscreteTopology α]`, the topology of Convention 4 satisfies:
 
@@ -287,12 +292,17 @@ For `[TopologicalSpace α] [DiscreteTopology α]`, the topology of Convention 4 
 - `isTopologicalGroup_perm`, and `polishSpace_perm` for countable `α`, from the closed embedding
   into a Polish product. For `α = ℕ` this is S∞; for finite `α` the topology is discrete.
 
-The continuity proofs rest on one reusable lemma: if `f : X → I → Y` is continuous and
-`e : X → I` is continuous into a discrete space, then `x ↦ f x (e x)` is continuous, because `e`
-is locally constant. It gives the closed range, continuity of multiplication
-(`(σ * τ) a = σ (τ a)`) and, in 1.2, continuity of the action.
-
 ### 1.2 The logic action
+
+**At the pin.** Tau Ceti provides the action with `eval_perm_smul`, joint continuity of
+restriction (`continuous_uncurry_restrict`), from which joint continuity of the action follows with
+`Equiv.Perm.continuous_inv_apply`, `isoSetoid_eq_orbitRel`,
+`isomorphismInvariant_iff_isInvariantBlock`, the closure properties of `IsomorphismInvariant`
+(`IsomorphismInvariant.compl`, `inter`, `union`, `isomorphismInvariant_iUnion`, `_iInter`,
+`_empty`, `_univ`) and, for relational `L`, `analyticSet_iUnion_smul`. Mathlib's
+`MeasurableSpace.measurableSet_iInf` and `measurableSet_invariants` give the invariant σ-algebra.
+Still to build: `mem_stabilizer_iff` and closedness of stabilizers, and the two saturation results
+for languages with function symbols.
 
 - The relabelling action of `Equiv.Perm α` on `RelationalConfiguration L α` (Tau Ceti's), with
   `eval_smul_atom`: `(σ • c).eval (atom R v) = c.eval (atom R (σ⁻¹ ∘ v))`.
@@ -331,8 +341,10 @@ Keep those hypotheses off the action itself.
 **At the pin.** Tau Ceti provides `modelsOf` (for sentences with any index type) with `mem_modelsOf`
 and the constructor equations, measurability of satisfaction (`measurableSet_setOf_realize`,
 `measurableSet_modelsOf`) and `standardBorelSpace_modelsOf`, all on every countable carrier, and
-`Language.Equiv.mem_modelsOf_iff` across carriers. Still to build: the named sets `modelsOfBounded`,
-locality, `isomorphismInvariant_modelsOf`, clopenability, the Gδ model classes and the graph events.
+`Language.Equiv.mem_modelsOf_iff` across carriers, from which `isomorphismInvariant_modelsOf`
+follows in one step; clopenability is Mathlib's `MeasurableSet.isClopenable` applied to
+`measurableSet_modelsOf`. Still to build: the named sets `modelsOfBounded`, locality, the Gδ model
+classes and the graph events.
 
 The specification, for relational `L`:
 
@@ -416,8 +428,10 @@ relation symbols.
 
 **At the pin.** Tau Ceti provides the measurability of back-and-forth equivalence below `ω₁`,
 `isoSetoid` with `isoSetoid_eq_orbitRel` and (relational, countable) analyticity of its graph, and
-`bfEquivSetoid` with its measurability and `isoSetoid_le_bfEquivSetoid`. Still to build: the named
-pair sets `bfEquivSet` and `setOf_iso_eq_modelsOf_scottSentence`.
+`bfEquivSetoid` with its measurability and `isoSetoid_le_bfEquivSetoid`; and
+`realize_scottSentence_iff` (`ModelTheory/Scott/Isomorphism.lean`), which gives
+`setOf_iso_eq_modelsOf_scottSentence` directly. Still to build: the named pair sets
+`bfEquivSet`.
 
 - `bfEquivSet β n a b`, the code pairs whose decoded structures satisfy `BFEquiv β n a b`, and
   `measurableSet_bfEquivSet` for `β < ω₁` and countable relation symbols, by induction on `β`:
@@ -444,10 +458,12 @@ pair sets `bfEquivSet` and `setOf_iso_eq_modelsOf_scottSentence`.
 `bfEquiv_of_le`, `mono`, `stabilizesCompletely_scottHeight`, `scottHeight_lt_omega_one`,
 `scottHeight_congr` (as `Language.Equiv.scottHeight_eq`), the countable case
 `stabilizesCompletely_add_omega0`, `scottHeight_le_selfStabilizationOrdinal_add_omega0`,
-`scottHeight_le_internalScottRank_add_omega0` and the height comparison. Still to build:
-`stabilizesCompletely_iff_univ`, the constant-chain bound for arbitrary `N`,
-`selfStabilizationOrdinal_le_scottHeight`, `internalScottRank_le_succ_scottHeight` and
-`orbitRank_le_scottHeight`. The statements:
+`scottHeight_le_internalScottRank_add_omega0` and the height comparison, and the constant-chain
+bound for arbitrary `N` follows from `SelfStabilizesCompletely.bfEquiv_add_one_of_isSuccLimit` at
+the limit level `β + ω` and `bfEquiv_of_le_of_forall_add_one`
+(`ModelTheory/Scott/Stabilization.lean`).
+Still to build: `stabilizesCompletely_iff_univ`, `selfStabilizationOrdinal_le_scottHeight`,
+`internalScottRank_le_succ_scottHeight` and `orbitRank_le_scottHeight`. The statements:
 
 - `StabilizesCompletely.bfEquiv_of_le` and `StabilizesCompletely.mono`: external stabilization at
   `β` makes `BFEquiv β` imply `BFEquiv γ` for every `γ ≥ β`, and persists at every `γ ≥ β`, by
@@ -456,16 +472,12 @@ pair sets `bfEquivSet` and `setOf_iso_eq_modelsOf_scottSentence`.
   same predicate;
 - **the constant-chain bound** `bfEquiv_of_selfStabilizesCompletely`: if `M` self-stabilizes at
   `β`, then for every structure `N`, of any cardinality and in any universe, and all tuples `a`
-  of `M` and `b` of `N`, `BFEquiv (β + ω) n a b` implies `BFEquiv γ n a b` for every `γ`. Suppose
-  `BFEquiv (β + k) n a b` for every `k`. A forth witness `m'` chosen at level `β` for `m` already
-  works at every level `β + k`: given `BFEquiv (β + k) (a m) (b m')`, the back clause of
-  `BFEquiv (β + k + 2) n a b` gives `w` with `BFEquiv (β + k + 1) (a w) (b m')`; then `a m` and
-  `a w` are `BFEquiv β` inside `M` (transitivity through `b m'`), hence equivalent at every level by
-  self-stabilization, and transitivity gives `BFEquiv (β + k + 1) (a m) (b m')`. Transfinite
-  induction then upgrades `BFEquiv (β + k)` for all `k` to
-  every level. This needs only `BFEquiv.trans` across three structures, and no countability of
-  `N`. The countable case, `stabilizesCompletely_add_omega0`, says that `M` stabilizes externally
-  at `β + ω` in the sense of Convention 8;
+  of `M` and `b` of `N`, `BFEquiv (β + ω) n a b` implies `BFEquiv γ n a b` for every `γ`: the
+  library's one-step upgrade at the limit level `β + ω > β`
+  (`SelfStabilizesCompletely.bfEquiv_add_one_of_isSuccLimit`, for any `N`), propagated upward by
+  `bfEquiv_of_le_of_forall_add_one`, with monotonicity below `β + ω`. The countable case,
+  `stabilizesCompletely_add_omega0`, says that `M` stabilizes externally at `β + ω` in the sense of
+  Convention 8;
 - `stabilizesCompletely_scottHeight` (the infimum is attained, the set being nonempty by the
   constant-chain bound), `scottHeight_lt_omega_one` for countable `M`, and `scottHeight_congr`;
 - **comparison with the internal rank**, for countable `M` where stated:

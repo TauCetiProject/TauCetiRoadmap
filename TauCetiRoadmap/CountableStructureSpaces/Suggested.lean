@@ -11,6 +11,7 @@ public import TauCeti.ModelTheory.RelationalConfiguration.ModelsOf
 public import TauCeti.ModelTheory.RelationalConfiguration.Structure
 public import TauCeti.ModelTheory.RelationalConfiguration.Topology
 public import TauCeti.ModelTheory.Scott.Height
+public import TauCeti.ModelTheory.Scott.Isomorphism
 public import TauCeti.ModelTheory.Scott.Rank
 public import TauCeti.ModelTheory.Scott.Sentence
 public import TauCeti.ModelTheory.Scott.Stabilization
@@ -124,12 +125,14 @@ section PermTopology
 variable [TopologicalSpace α] [DiscreteTopology α]
 
 /-- **Layer 1 acceptance lemma.** The pointwise stabilizers of finite sets form a neighbourhood
-basis of the identity, so the induced topology is the pointwise one. The library states it indexed
-by finite sets (`Equiv.Perm.hasBasis_nhds_one_fixingSubgroup`). -/
+basis of the identity, so the induced topology is the pointwise one. The library indexes the basis
+by finite `Set`s (`Equiv.Perm.hasBasis_nhds_one_fixingSubgroup`); here it is indexed by
+`Finset`s. -/
 theorem hasBasis_nhds_one_fixingSubgroup :
     (𝓝 (1 : Equiv.Perm α)).HasBasis (fun _ : Finset α => True)
-      (fun s => (fixingSubgroup (Equiv.Perm α) (s : Set α) : Set (Equiv.Perm α))) := by
-  sorry
+      (fun s => (fixingSubgroup (Equiv.Perm α) (s : Set α) : Set (Equiv.Perm α))) :=
+  Equiv.Perm.hasBasis_nhds_one_fixingSubgroup.to_hasBasis
+    (fun s hs => ⟨hs.toFinset, trivial, by simp⟩) (fun s _ => ⟨s, s.finite_toSet, subset_rfl⟩)
 
 /-- **Layer 1 milestone.** The permutation group of a discrete space is a topological group. -/
 theorem isTopologicalGroup_perm : IsTopologicalGroup (Equiv.Perm α) :=
@@ -150,10 +153,16 @@ theorem eval_smul_atom (σ : Equiv.Perm α) (c : RelationalConfiguration L α) {
   rw [eval_perm_smul, Atom.map_atom]
   rfl
 
-/-- **Layer 1 milestone.** The logic action is jointly continuous, for every language. -/
+/-- **Layer 1 milestone.** The logic action is jointly continuous, for every language: the
+library's joint continuity of restriction (`RelationalConfiguration.continuous_uncurry_restrict`)
+composed with `Equiv.Perm.continuous_inv_apply`. -/
 theorem continuousSMul_relationalConfiguration [TopologicalSpace α] [DiscreteTopology α] :
     ContinuousSMul (Equiv.Perm α) (RelationalConfiguration L α) := by
-  sorry
+  refine ⟨?_⟩
+  simp only [perm_smul_def]
+  exact (continuous_uncurry_restrict (L := L) (V := α) (W := α)).comp
+    ((continuous_pi fun x => (Equiv.Perm.continuous_inv_apply x).comp continuous_fst).prodMk
+      continuous_snd)
 
 /-- **Layer 1 milestone, orbits are isomorphism classes.** -/
 theorem orbitRel_iff_nonempty_equiv [L.IsRelational] (c d : RelationalConfiguration L α) :
@@ -170,11 +179,13 @@ theorem mem_stabilizer_iff [L.IsRelational] (σ : Equiv.Perm α) (c : Relational
   sorry
 
 /-- **Layer 1 milestone.** Action invariance, Mathlib's `MulAction.IsFixedBlock`, is the
-library's isomorphism invariance `RelationalConfiguration.IsomorphismInvariant`. -/
+library's isomorphism invariance `RelationalConfiguration.IsomorphismInvariant`, through Tau Ceti's
+`isomorphismInvariant_iff_isInvariantBlock` and Mathlib's `isInvariantBlock_iff_isFixedBlock`. -/
 theorem isFixedBlock_iff_isomorphismInvariant [L.IsRelational]
     (B : Set (RelationalConfiguration L α)) :
-    MulAction.IsFixedBlock (Equiv.Perm α) B ↔ IsomorphismInvariant B := by
-  sorry
+    MulAction.IsFixedBlock (Equiv.Perm α) B ↔ IsomorphismInvariant B :=
+  (isomorphismInvariant_iff_isInvariantBlock.trans
+    MulAction.isInvariantBlock_iff_isFixedBlock).symm
 
 /-- **Layer 1 milestone, the invariant σ-algebra.** Measurability for the infimum over `σ` of
 Mathlib's `MeasurableSpace.invariants (σ • ·)` is measurability together with action
@@ -183,7 +194,9 @@ theorem measurableSet_iInf_invariants_iff (B : Set (RelationalConfiguration L α
     MeasurableSet[⨅ σ : Equiv.Perm α,
         MeasurableSpace.invariants (fun c : RelationalConfiguration L α => σ • c)] B ↔
       MeasurableSet B ∧ MulAction.IsFixedBlock (Equiv.Perm α) B := by
-  sorry
+  simp only [MeasurableSpace.measurableSet_iInf, MeasurableSpace.measurableSet_invariants]
+  exact ⟨fun h => ⟨(h 1).1, fun σ => by simpa [Set.preimage_smul] using (h σ⁻¹).2⟩,
+    fun ⟨hB, hfix⟩ σ => ⟨hB, by rw [Set.preimage_smul, hfix]⟩⟩
 
 /-- **Layer 1 milestone.** The saturation of an analytic class is analytic, for every language.
 The library proves the relational case (`RelationalConfiguration.analyticSet_iUnion_smul`). -/
@@ -233,10 +246,12 @@ theorem measurableSet_modelsOf [L.IsRelational] [Countable α] (φ : L.Sentence�
     MeasurableSet (modelsOf φ : Set (RelationalConfiguration L α)) :=
   RelationalConfiguration.measurableSet_modelsOf φ
 
-/-- **Layer 2 milestone.** Model classes are isomorphism invariant. -/
+/-- **Layer 2 milestone.** Model classes are isomorphism invariant, by the library's
+`Language.Equiv.mem_modelsOf_iff`. -/
 theorem isomorphismInvariant_modelsOf [L.IsRelational] (φ : L.Sentenceω) :
-    IsomorphismInvariant (modelsOf φ : Set (RelationalConfiguration L α)) := by
-  sorry
+    IsomorphismInvariant (modelsOf φ : Set (RelationalConfiguration L α)) :=
+  isomorphismInvariant_iff.2 fun _ _ h hc =>
+    ((Classical.choice (isoSetoid_apply.1 h)).mem_modelsOf_iff φ).1 hc
 
 /-- **Layer 2 milestone.** A model class is standard Borel in the subspace σ-algebra. -/
 theorem standardBorelSpace_modelsOf [L.IsRelational] [∀ n, Countable (L.Relations n)]
@@ -360,12 +375,14 @@ theorem isoSetoid_le_bfEquivSetoid [L.IsRelational] (β : Ordinal.{0}) :
   RelationalConfiguration.isoSetoid_le_bfEquivSetoid β
 
 /-- **Layer 4 milestone, isomorphism classes are Borel**: the class of a code is the model class
-of the Scott sentence of the structure it names. -/
+of the Scott sentence of the structure it names, by the library's `realize_scottSentence_iff`. -/
 theorem setOf_iso_eq_modelsOf_scottSentence [L.IsRelational] [∀ n, Countable (L.Relations n)]
     (c : RelationalConfiguration L ℕ) :
     {d | (isoSetoid L ℕ) c d} =
       modelsOf (letI : L.Structure ℕ := c.toStructure; scottSentence (L := L) ℕ) := by
-  sorry
+  ext d
+  rw [Set.mem_ofPred_eq, isoSetoid_apply, mem_modelsOf]
+  exact (@realize_scottSentence_iff L _ _ ℕ c.toStructure _ ℕ d.toStructure _).symm
 
 /-- **Layer 4 milestone, upward closure.** External stabilization persists at every higher
 level. -/
@@ -386,16 +403,19 @@ theorem scottHeight_congr [L.IsRelational] {M N : Type w} [L.Structure M] [L.Str
 
 /-- **Layer 4 milestone, the constant-chain bound.** If `M` stabilizes internally at `β`, then
 back-and-forth equivalence at `β + ω` between a tuple of `M` and a tuple of any structure `N`, of
-any cardinality and in any universe, implies equivalence at every level. The library has the
-countable case (`SelfStabilizesCompletely.stabilizesCompletely_add_omega0`, testing countable
-`N : Type`) and the single step at a limit level for any `N`
-(`SelfStabilizesCompletely.bfEquiv_add_one_of_isSuccLimit`). -/
+any cardinality and in any universe, implies equivalence at every level: the library's step at the
+limit level `β + ω` for any `N` (`SelfStabilizesCompletely.bfEquiv_add_one_of_isSuccLimit`),
+propagated upward by `bfEquiv_of_le_of_forall_add_one`. -/
 theorem bfEquiv_of_selfStabilizesCompletely [L.IsRelational] {M : Type w} {N : Type w'}
     [L.Structure M] [L.Structure N] {β : Ordinal.{w}}
     (h : SelfStabilizesCompletely (L := L) M β) {n : ℕ} {a : Fin n → M} {b : Fin n → N}
     (hab : BFEquiv (L := L) (β + Ordinal.omega0) n a b) (γ : Ordinal.{w}) :
     BFEquiv (L := L) γ n a b := by
-  sorry
+  rcases le_total (β + Ordinal.omega0) γ with hγ | hγ
+  · refine bfEquiv_of_le_of_forall_add_one (fun n a b => ?_) hγ hab
+    exact h.bfEquiv_add_one_of_isSuccLimit (Ordinal.isSuccLimit_add β Ordinal.isSuccLimit_omega0)
+      (lt_add_of_pos_right β Ordinal.omega0_pos)
+  · exact hab.mono hγ
 
 /-- **Layer 4 milestone, the countable case.** Internal stabilization at `β` gives external
 stabilization at `β + ω`: the case of `bfEquiv_of_selfStabilizesCompletely` with `N` countable
