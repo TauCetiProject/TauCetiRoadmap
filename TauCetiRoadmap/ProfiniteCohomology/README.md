@@ -471,14 +471,14 @@ section, in Scope and ownership, in the layers, on the *Needs:* lines, in Downst
 in the imports of `Suggested.lean`) are cited as they are at Tau Ceti
 `2fd255d997f47c0b5d834ee416c7015d55444ce5` and Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`;
 "the pin", "the pinned Tau Ceti" and "the pinned Mathlib" in this README mean these two revisions.
-At these revisions two statements that `Suggested.lean` carries with `sorry` under this roadmap's
-names are statements of Tau Ceti theorems, which prove them: `abelianizationProPClass_generates` is
-the statement of `TauCeti.abelianizationProPClass_generates`
+At these revisions two theorems that `Suggested.lean` states under this roadmap's names are
+statements of Tau Ceti theorems, and `Suggested.lean` proves each from the Tau Ceti theorem:
+`abelianizationProPClass_generates` is the statement of `TauCeti.abelianizationProPClass_generates`
 (`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/ClassModule/Sylow.lean`),
 with the primality of `p` supplied as a `Fact`, and `galoisEvens_galoisRes` is the statement of
 `TauCeti.galoisEvens_galoisRes` (`TauCeti/FieldTheory/GaloisCohomology/EvensNorm.lean`). The two
-universe-independence theorems of 11.2 are the only statements of `Suggested.lean` that these
-revisions do not prove.
+universe-independence theorems of 11.2 are the only statements that `Suggested.lean` carries with
+`sorry`, and the only ones these revisions do not prove.
 
 ### From Mathlib
 

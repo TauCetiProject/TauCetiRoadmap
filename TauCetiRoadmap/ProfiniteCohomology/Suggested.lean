@@ -3,6 +3,7 @@ module
 public import Mathlib
 public import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.Basic
 public import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.ClassModule.Basic
+public import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.ClassModule.Sylow
 public import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologyComparison
 public import TauCeti.RepresentationTheory.Homological.ContCohomology.Cup.Cohomology
 public import TauCeti.RepresentationTheory.Homological.ContCohomology.Cup.Functoriality
@@ -77,12 +78,13 @@ names declared below besides the headline theorems; `README.md`, "Downstream con
 them. Each is the pinned Tau Ceti declaration under this roadmap's name and argument order (an
 abbreviation, or a theorem proved by the Tau Ceti theorem), except for three short definitions on
 the same carriers (`degreeCast`, `cup` read as a function, `galoisConj`), the coordinate table
-`WreathC2.sectionTable` with the section `wreathSection` it defines, and two theorems stated with
-`sorry` whose statements are those of Tau Ceti theorems: NSW (3.6.4) as
-`abelianizationProPClass_generates`, the statement of `TauCeti.abelianizationProPClass_generates`
-(`CohomologicalDimension/ClassModule/Sylow.lean`), and the restriction formula
-`galoisEvens_galoisRes` for the Evens norm of a quadratic extension, the statement of
-`TauCeti.galoisEvens_galoisRes` (`FieldTheory/GaloisCohomology/EvensNorm.lean`).
+`WreathC2.sectionTable` with the section `wreathSection` it defines. Two of the theorems proved by
+a Tau Ceti theorem differ from it in form: NSW (3.6.4) as `abelianizationProPClass_generates`, the
+statement of `TauCeti.abelianizationProPClass_generates`
+(`CohomologicalDimension/ClassModule/Sylow.lean`) with the primality of `p` as a `Fact`, and the
+restriction formula `galoisEvens_galoisRes` for the Evens norm of a quadratic extension, the
+statement of `TauCeti.galoisEvens_galoisRes` (`FieldTheory/GaloisCohomology/EvensNorm.lean`) with
+the pairing written as `cup (f2Pairing _)`.
 -/
 
 @[expose] public section
@@ -312,8 +314,8 @@ theorem abelianizationProPClass_generates (p : ℕ) [Fact p.Prime] (G : Type u) 
     (hG : scd_p p G ≤ 2) (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G)) :
     AddSubgroup.zmultiples (abelianizationProPClass p G V hV) = ⊤ ∧
       Nat.card (H2 (G ⧸ V) (Additive (abelianizationProP p G V))) =
-        p ^ padicValNat p (Nat.card (G ⧸ V)) := by
-  sorry
+        p ^ padicValNat p (Nat.card (G ⧸ V)) :=
+  TauCeti.abelianizationProPClass_generates Fact.out hG hV
 
 /-! ## Layer 12: the graded cup product in all degrees -/
 
@@ -571,8 +573,8 @@ theorem galoisEvens_galoisRes (K : Type u) [Field K] (L : Type u) [Field L] [Alg
     (y : continuousCohomology 1 (trivialF2 (AbsoluteGaloisGroup K))) :
     galoisEvens K L σ hdeg ((galoisRes K L σ 1).hom y) =
       cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 y y +
-        cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (galoisCharacter K L σ hdeg) y := by
-  sorry
+        cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (galoisCharacter K L σ hdeg) y :=
+  TauCeti.galoisEvens_galoisRes K L σ hdeg y
 
 /-- **The kernel of restriction in degree two** for a quadratic extension:
 `ker (res : H²(G_K, 𝔽₂) → H²(G_L, 𝔽₂)) = χ_{L/K} ⌣ H¹(G_K, 𝔽₂)`. Tau Ceti's
