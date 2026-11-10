@@ -4,9 +4,11 @@
 spinor bundles and their compatible connections. The resulting library must
 support the de Rham, signature and twisted spin Dirac operators, with their
 metrics, gradings and curvature formulas pinned. This README is definitive.
-No headline theorem is statable against the pinned APIs: the pointwise algebra
-of Layers 1 and 2 is consumed from Tau Ceti, and `Suggested.lean` lists in its
-module docstring the geometric headlines and the carrier each one lacks.
+`Suggested.lean` states the one geometric headline statable against the pinned
+APIs, the rank-two Spin criterion of G4.4a, with G4.2's Spin structure as its
+only definition. The pointwise algebra of Layers 1 and 2 is consumed from Tau
+Ceti, and the module docstring of `Suggested.lean` lists the other geometric
+headlines and the carrier each one lacks.
 
 ## Scope and ownership
 
@@ -26,9 +28,14 @@ normalized Fock action and its metric, the frame-free real and normalized
 complex volume elements, the chirality decomposition of every module, the
 Hodge-star action of the volume, the graded tensor product of Clifford modules
 and graded twists. These are listed by declaration under From Tau Ceti and are
-not targets here. G1–G2 own only what lies beyond them: the identification of
-the Fock and wedge-basis forms and of the complex-linear Hodge star with
-ComplexKahlerGeometry K5's exterior Gram metric and pointwise star (G1.2, G2.2),
+not targets here. The pointwise exterior metric and Hodge stars are in the
+library as well: Mathlib's Gram-determinant inner product and Hodge star on
+exterior powers, and Tau Ceti's oriented Hodge star with its complex-linear
+extension, the conjugate star and the Gram metric on complexified forms. They
+are consumed, not planned; ComplexKahlerGeometry K5 is cited only for their
+bundle transport and for the analysis. G1–G2 own only what lies beyond them: the Gram-determinant formula
+for the Fock metric (G1.2), the agreement of the wedge-basis form on
+complexified forms with the complexified Gram metric (G2.2),
 the two-factor evaluation and restriction intertwiners in odd dimension (G1.4),
 the forms-to-endomorphisms module equivalence (G2.2), and the associativity,
 graded symmetry, unit, orientation, duality and Mathlib comparison laws of the
@@ -36,7 +43,9 @@ graded product (G2.3). They do not construct another abstract Fock
 action, classification table or Bott-periodicity proof. Real algebraic
 periodicity is distinct from the topological Bott theorem. G3 owns smooth Clifford
 module and connection comparisons, G4 the geometric lift data, G5 associated
-spinors and G6 the geometric Dirac and real analytic index comparisons. Generic
+spinors and G6 the geometric Dirac and real analytic index comparisons. G4's
+lift data and rank-two criterion are stated on Tau Ceti's principal bundles,
+orthonormal frame bundle and integral Thom and Euler classes. Generic
 bundle descent, characteristic classes, elliptic analysis and KO models remain
 with the named suppliers below.
 
@@ -119,6 +128,19 @@ module equivalence, scalar extension and graded tensor product named above.
 G2.3 compares Tau Ceti's graded product action with `CliffordAlgebra.prodEquiv`
 from `Mathlib/LinearAlgebra/CliffordAlgebra/Prod.lean`.
 
+G1.2 and G2.2 use the Gram-determinant inner product on real exterior powers,
+`exteriorPower.inner_ιMulti_ιMulti`, with the orthonormal wedge basis
+`OrthonormalBasis.exteriorPower`, from
+`Mathlib/Analysis/InnerProductSpace/ExteriorPower.lean` (finite-dimensional real
+spaces only), the Hodge star `exteriorPower.hodgeStar` of a nondegenerate
+bilinear form and a volume, from `Mathlib/LinearAlgebra/ExteriorPower/HodgeStar.lean`,
+and the scalar-extension equivalence `ExteriorAlgebra.baseChangeEquiv` from
+`Mathlib/LinearAlgebra/ExteriorAlgebra/BaseChange.lean`. G4.2 and G4.4a use
+CW complexes `Topology.CWComplex` (with weak topology, closed cells and closure
+finiteness, `Mathlib/Topology/CWComplex/Classical/Basic.lean`) and continuous
+Riemannian bundles `IsContinuousRiemannianBundle`
+(`Mathlib/Topology/VectorBundle/Riemannian.lean`).
+
 ### From Tau Ceti
 
 Use the spin representation and periodicity declarations named in Scope
@@ -170,7 +192,34 @@ unless its statement says so.
 - G2.2: `LinearAlgebra/ExteriorAlgebra/CliffordAction.lean`
   (`CliffordAlgebra.exteriorAction`),
   `LinearAlgebra/CliffordAlgebra/VolumeElement/HodgeStar.lean`,
-  `VolumeElement/Dual.lean` and `ScalarTrace/Representation.lean`.
+  `VolumeElement/Dual.lean` and `ScalarTrace/Representation.lean`; and the
+  pointwise Hodge package in `Analysis/InnerProductSpace/HodgeStar/`:
+  `Basic.lean` (`Orientation.hodgeStar`, Mathlib's star for the inner product
+  and the orientation volume, with `Orientation.inner_hodgeStar_apply`),
+  `Isometry.lean` (`Orientation.wedgePairing_hodgeStar`, which is `α∧*β=⟨α,β⟩vol`,
+  and `Orientation.hodgeStarIsometry`) and `Complex.lean`
+  (`Orientation.complexHodgeStar`, defined as the scalar extension of the real
+  star, `Orientation.complexWedgePairing_complexHodgeStar`, which is
+  `α∧*β=B_ℂ(α,β)vol` for the bilinear extension B_ℂ of the Gram metric,
+  `Orientation.sesqComplexification_complexHodgeStar` for the Gram metric
+  `LinearMap.BilinForm.sesqComplexification` of complexified forms, and the
+  conjugate star `Orientation.barHodgeStar`).
+- G4.2 and G4.4a: `Topology/FiberBundle/Principal.lean`
+  (`TauCeti.PrincipalBundle`: a fibre bundle with model fibre a group, right
+  action on the fibres and equivariant atlas trivializations; the fibres are
+  torsors), `Topology/VectorBundle/OrthonormalFrame/Basic.lean`
+  (`TauCeti.OrthonormalFrameBundle`: pairs of a base point and a linear isometric
+  equivalence from the model space to the fibre, with the topology of pointwise
+  convergence in the total space), `LinearAlgebra/CliffordAlgebra/Spin/Real/Basic.lean`
+  (`CliffordAlgebra.realCliffordSpinGroupZero`, the Spin group of the positive
+  form `realCliffordForm n 0`), `LinearAlgebra/CliffordAlgebra/Spin/Action.lean`
+  (`CliffordAlgebra.spinVectorAction`, conjugation `v↦g v g⁻¹`),
+  `Topology/Algebra/CliffordAlgebra/Basic.lean` and `Spin/Compact.lean` in that
+  folder (module topology of the Clifford algebra, subspace topology and
+  compactness of the Spin group), and `Topology/VectorBundle/EulerClass.lean`
+  (`TauCeti.thomPair`, the pair (E,E₀); `TauCeti.IsThomClass`, a class
+  generating the cohomology of every fibre pair; `TauCeti.eulerClass`, the
+  pullback along the zero section).
 - G2.3: `LinearAlgebra/CliffordAlgebra/Prod.lean`
   (`AlgHom.cliffordProdTensor`), `VolumeElement/Prod.lean`
   (`CliffordAlgebra.complexProdTensor`), `VolumeElement/GradedModule.lean` and
@@ -201,12 +250,12 @@ The following contracts name the supplying sections and the structures consumed:
   supplies forms, exterior calculus, orientation, densities, integration,
   Stokes and de Rham comparison.
   [ComplexKahlerGeometry K5](../ComplexKahlerGeometry/README.md) supplies
-  the shared exterior Gram metrics, pointwise real Hodge star and its
-  complex-linear extension, complex-type stars, formal adjoints, p=2 bundle Sobolev/distribution theory,
+  the smooth transport of the pinned pointwise Gram metric and Hodge stars
+  (From Mathlib and From Tau Ceti above) to exterior-form bundles, formal
+  adjoints, p=2 bundle Sobolev/distribution theory,
   Laplace-type regularity, Hodge theorem and compact resolvent. Its K1/K4
   complex/type and Hermitian bundle interfaces supply the almost-complex
-  pointwise comparisons below. The pointwise exterior metric/star API
-  precedes the analytic Hodge theorem.
+  pointwise comparisons below.
 - [CharacteristicClasses C1,C3.5](../CharacteristicClasses/README.md) owns
   mod2 cohomology, universal w₂ and its equality with the real spin-cover
   transition obstruction. G4.3 consumes that universal equality for lift
@@ -349,17 +398,17 @@ Consume, for an orthogonal complex structure J on V:
   native action is one for the pullback of H along T, which is `2^p H` in degree
   p (`TauCeti.AlmostComplexStructure.toLinearMapₛₗ₂_degreeScaling_of_mem_exteriorPower`).
 
-The target kept here is the comparison with the shared exterior metric. Prove
-that H equals ComplexKahlerGeometry K5's exterior Gram metric of `h_ℂ|_W`, the
-form with `⟨x₁∧…∧x_p, y₁∧…∧y_p⟩=det(h_ℂ(x_i,y_j))` and distinct degrees
-orthogonal, on all of ΛW. The required API includes:
+The target kept here is the Gram-determinant formula for H. Prove that H is the
+exterior Gram metric of `h_ℂ|_W`: `H(x₁∧…∧x_p, y₁∧…∧y_p)=det(h_ℂ(x_i,y_j))` for
+all x_i, y_j in W, with distinct degrees orthogonal, on all of ΛW. The required
+API includes:
 
-- The two forms agree in every degree, including degree zero and the top degree, for every finite-dimensional W.
-- The normalized Fock action is a *-representation for K5's Gram metric, and real vectors act skew-Hermitianly for it.
+- The formula holds in every degree, including degree zero (empty determinant 1) and the top degree, for every finite-dimensional W.
+- The normalized Fock action is a *-representation for the Gram metric, and real vectors act skew-Hermitianly for it.
 
 (Nicolaescu, Proposition 12.1.19, pp. 630–631.)
 
-*Needs:* the declarations above; ComplexKahlerGeometry K5 exterior Gram metric.
+*Needs:* the declarations above.
 
 **Checks.**
 
@@ -515,17 +564,20 @@ fix the normalization; G1.3 also tests an infinite-dimensional multiplicity modu
 
 ### Dependencies
 
-Mathlib's Clifford algebra and the Tau Ceti declarations named above;
-ComplexKahlerGeometry K5 only for the pointwise exterior metric.
+Mathlib's Clifford and exterior algebras and the Tau Ceti declarations named
+above; no roadmap supplier.
 ## Layer 2: Volume, chirality and exterior-form comparisons
 
-Consume K5's pointwise real Hodge star, characterized by
-`α∧*β=⟨α,β⟩vol`, its complex-linear extension and native exterior-power
-Gram metric. This finite-dimensional metric package is available before K5's
-bundle/analytic Hodge theory and independently of Clifford representations.
-G2 names the Tau Ceti chirality declarations and keeps the comparisons with
-that package; R7 retains its real-bundle Weitzenböck/star specialization on the
-same carrier.
+Consume the pinned pointwise metric package: Mathlib's Gram metric on exterior
+powers (`exteriorPower.inner_ιMulti_ιMulti`), the real Hodge star
+`Orientation.hodgeStar`, characterized by `α∧*β=⟨α,β⟩vol`
+(`Orientation.wedgePairing_hodgeStar`), its complex-linear extension
+`Orientation.complexHodgeStar` and the Gram metric
+`LinearMap.BilinForm.sesqComplexification` of complexified forms. This
+finite-dimensional package precedes ComplexKahlerGeometry K5's bundle and
+analytic Hodge theory and is independent of Clifford representations. G2 names
+the Tau Ceti chirality declarations and keeps the comparisons with that package;
+R7 retains its real-bundle Weitzenböck/star specialization on the same carrier.
 
 ### 2.1 Intrinsic chirality (G2.1)
 
@@ -607,14 +659,20 @@ Consume:
   those of S up to that sign
   (`AlgHom.cliffordReverseDualComplexVolumeEigenspaceEquiv`).
 
-Two targets are kept. First, prove that `Orientation.complexHodgeStar` is the
-complex-linear extension of K5's pointwise real Hodge star, and that the wedge
-form above is K5's exterior Gram metric on complexified real forms. Second, for
+Two targets are kept. The complex-linear star needs no comparison:
+`Orientation.complexHodgeStar` is by definition the scalar extension of
+`Orientation.hodgeStar` (`Orientation.complexHodgeStar_tmul`). First, prove
+that the wedge form above, the Hermitian form on `ExteriorAlgebra ℂ (ℂ⊗V)` for
+which the increasing wedges of the complexified orthonormal frame
+`e.toBasis.baseChange ℂ` are orthonormal, is the
+Gram metric of complexified forms: under `ExteriorAlgebra.baseChangeEquiv`, its
+restriction to degree k is `LinearMap.BilinForm.sesqComplexification` of the
+Gram metric of `⋀[ℝ]^k V`, and distinct degrees are orthogonal. Second, for
 a spinor module S of an even-dimensional V with `ρ : Cl_ℂ ≃ End_ℂ(S)`, define
 the forms-to-endomorphisms map `Φ : Λ*V_ℂ → End_ℂ(S)` as the inverse of
 `CliffordAlgebra.equivExterior` followed by ρ, with the identification of
-`ℂ⊗Λ*V` and the exterior algebra of `ℂ⊗V` made explicit. The required API
-includes:
+`ℂ⊗Λ*V` and the exterior algebra of `ℂ⊗V` given by
+`ExteriorAlgebra.baseChangeEquiv`. The required API includes:
 
 - Φ is a ℂ-linear isomorphism, sends the increasing orthonormal wedge e_I to c(e_I), and intertwines the exterior Clifford action with left multiplication on End(S).
 - Under `S⊗S* ≃ End(S)`, s⊗φ↦φ(·)s, with S* the linear dual, left multiplication is ρ⊗Id, so the chiral action is Γ_S⊗Id.
@@ -622,7 +680,7 @@ includes:
 
 (Nicolaescu, Example 12.1.25, equation (12.1.1), p. 633.)
 
-*Needs:* the declarations above; G1.3 reverse dual; G2.1; ComplexKahlerGeometry K5 pointwise Hodge star and exterior Gram metric.
+*Needs:* the declarations above; G1.3 reverse dual; G2.1; Mathlib's exterior-power Gram metric and `ExteriorAlgebra.baseChangeEquiv`; Tau Ceti's pointwise Hodge stars.
 
 **Checks.**
 
@@ -697,7 +755,8 @@ exterior parity and reverse-dual parity.
 ### Dependencies
 
 G1, the Tau Ceti volume and graded-product declarations named above and the
-pointwise K5 Hodge metric; no bundle elliptic theorem is needed.
+pinned pointwise Gram metric and Hodge stars; no bundle elliptic theorem and no
+roadmap supplier is needed.
 ## Layer 3: Smooth Clifford bundles and compatible connections
 
 ### 3.1 Clifford algebra bundles (G3.1)
@@ -913,9 +972,11 @@ The required API includes:
 - Equivalences of lifts commute with pullback and descent and preserve the map to the fixed frame bundle.
 - Positive-square-root metric transport is smooth and composite metric changes agree up to the specified homotopy.
 
-On TopologicalKTheory T6.4's continuous principal-bundle carrier and
-CharacteristicClasses C1's actual oriented orthonormal frame bundle,
-use G4.1a's native Spin units range when n≥1 and G1.1's
+The carriers are Tau Ceti's principal bundles `TauCeti.PrincipalBundle` and
+orthonormal frame bundle `TauCeti.OrthonormalFrameBundle`, with
+TopologicalKTheory T6.4's numerable principal-bundle category for pullback and
+descent and CharacteristicClasses C1.0's positively oriented SO(n) subbundle.
+Use G4.1a's native Spin units range when n≥1 and G1.1's
 μ₂=`evenUnitaryGroup (realCliffordForm 0 0)` when n=0 as the
 topological structure group. Smooth bundles use G4.1b's Lie structure
 for n≥1. For rank0 equip G1.1's same μ₂ subgroup of Cl(0)ˣ with
@@ -925,6 +986,23 @@ topology discrete, giving the zero-dimensional smooth structure.
 A spin structure on an
 oriented metric V of rank n is a numerable principal Spin(n)-bundle P with an equivariant map P→Fr⁺_SO(V) over the
 identity, inducing an isomorphism `P×_Spin SO(n)≃Fr⁺_SO(V)`.
+For n≥1 this is the structure `SpinStructure` of `Suggested.lean`: a family P
+with `TauCeti.PrincipalBundle` structure for `CliffordAlgebra.realCliffordSpinGroupZero n`
+(identified with the units range by G4.1a's
+`TauCeti.CliffordAlgebra.realCliffordSpinContinuousMulEquivUnitsRange`) and a
+continuous map to `TauCeti.OrthonormalFrameBundle` over the identity, sending
+p·g to the frame v↦(frame of p)(g v g⁻¹) (`CliffordAlgebra.spinVectorAction`).
+It differs from the definition above in two clauses. It has no numerability
+field; on the paracompact Hausdorff bases of the Conventions every principal
+bundle is numerable. Its frame map lands in the full orthonormal frame bundle;
+each fibre of P is a Spin(n)-torsor, so the image is one SO(n)-orbit of frames,
+and the orientation of V is the one for which these frames are positive. The
+isomorphism with the oriented frame bundle then follows, both fibres being
+SO(n)-torsors. At n=0 the native group `CliffordAlgebra.realCliffordSpinGroupZero 0`
+is trivial, so the geometric μ₂ branch is not this structure, and the Lean
+structure requires n≠0. (Kirby, *The topology of 4-manifolds*, Chapter IV,
+p. 33, for this principal description over CW complexes; Lawson–Michelsohn,
+Chapter II, §1.)
 Define equivalences, pullback and descent; prove metric-change independence
 by constructing the unique positive g-self-adjoint B with
 g'(u,v)=g(Bu,v), its positive square root, and the frame map B^(−1/2).
@@ -942,7 +1020,7 @@ The paracompact-base generality uses the named numerable-bundle and Čech
 descent suppliers; the cited smooth tangent-bundle statement alone does not
 establish that extension.
 
-*Needs:* G4.1a–G4.1b; TopologicalKTheory T6.4; CharacteristicClasses C1; SmoothBundlesConnections B1–B2.
+*Needs:* G4.1a–G4.1b; Tau Ceti's principal and orthonormal frame bundles; TopologicalKTheory T6.4; CharacteristicClasses C1; SmoothBundlesConnections B1–B2.
 
 **Checks.**
 
@@ -1069,7 +1147,13 @@ SO(1), and at n=2 it is the circle squaring cover. Apply the skeletal model
 to this stabilized rank-three bundle. For rank two, an unstabilized frame
 over X¹ extending to X² instead forces e(V)=0. Prove Spin existence iff
 e(V) belongs to 2H²(X;Z), including torsion, using ρe=w₂ and the integral
-coefficient exact sequence. For rank one an
+coefficient exact sequence. This is
+`nonempty_spinStructure_iff_exists_eulerClass_eq_two_smul`: for a real
+rank-two bundle with a continuous fibre metric over a Hausdorff CW complex and
+an integral Thom class u (`TauCeti.IsThomClass`), a structure `SpinStructure`
+exists iff `TauCeti.eulerClass` of u is twice an integral class. Divisibility
+by two does not depend on the sign of u, and w₂ does not depend on the
+orientation, so this is the condition for either orientation. For rank one an
 orientation trivializes V, but its Spin lifts still form the H¹ torsor.
 Rank zero retains G4.4's separate geometric μ₂ and orientation conventions.
 
@@ -1085,7 +1169,7 @@ The cellular cochains, moving-vertex homotopies and infinite-CW naturality
 use AlgebraicTopology §8.9; the integral rank-two criterion uses
 CharacteristicClasses C3.2's equality w₂=ρe and the coefficient exact sequence.
 
-*Needs:* G4.2–G4.4; AlgebraicTopology §8.9; SpinRepresentations Layer 2; CharacteristicClasses C3.2 and C7.3 for the Euler comparison and radial stable framing.
+*Needs:* G4.2–G4.4; AlgebraicTopology §8.9; SpinRepresentations Layer 2; CharacteristicClasses C3.2 and C7.3 for the Euler comparison and radial stable framing; Tau Ceti's Thom and Euler classes for the rank-two statement.
 
 **Checks.**
 
@@ -1093,6 +1177,7 @@ CharacteristicClasses C3.2's equality w₂=ρe and the coefficient exact sequenc
 - For the trivial rank-three bundle on S¹, the two loop classes in SO(3) give two skeletal classes and two lifts; keeping only globally constant frames loses one.
 - The plane bundle on S² with e=1 stabilizes with w₂=1 and has neither extendible skeletal data nor a spin lift.
 - If H²(X;Z)=Z/2 and e is its nonzero class, 2H²=0 so no root exists; rational vanishing of e does not establish divisibility by 2.
+- Reversing the orientation replaces u by −u and e by −e: on S² the plane bundle with e=1 gets e=−1, still not twice a class, and TS² gets −2=2·(−1), still twice a class; a criterion asking for e=2c with c≥0 in H²(S²;Z)=Z would wrongly exclude the reversed TS².
 
 ### Examples
 
