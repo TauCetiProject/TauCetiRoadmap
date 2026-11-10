@@ -1,36 +1,52 @@
 module
 
 public import Mathlib
-public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
-public import TauCeti.Geometry.Symplectic.Lagrangian.Basic
-public import TauCeti.Geometry.Symplectic.StandardCompatible
+public import TauCeti.Geometry.Manifold.Instances.AddCircle
+public import TauCeti.Geometry.Manifold.IsManifold.Pi
+public import TauCeti.Geometry.Manifold.RegularValue
+public import TauCeti.Geometry.Symplectic.Cotangent.Bundle.Legendre
+public import TauCeti.Geometry.Symplectic.Cotangent.Bundle.Liouville
+public import TauCeti.Geometry.Symplectic.Hamiltonian.Integrable
+public import TauCeti.Geometry.Symplectic.Hamiltonian.Manifold
 
 /-!
 # Completely integrable systems and classical mechanics: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, with only the
-simple definitions those statements need. Stated: the Lagrangian regular-level theorem of I1
-(`regularLevel_lagrangian`, for an `IntegrableSystem` whose bracket `bracketValue` restates the
-family convention in this roadmap's own namespace), the conservation of planar angular momentum under a central force of I4
-(`centralForce_commutes`), and the strict annulus fixed-point theorem of I5
-(`strict_annulus_two_fixed_points`), in its lifted form on the strip for a smooth positive
-periodic density; the constant density is the standard-area case.
+simple definitions those statements need. Hamiltonian vector fields, Poisson brackets and
+integrable systems are Tau Ceti's `TauCeti.SmoothTwoForm.hamiltonianVectorField`,
+`TauCeti.SmoothTwoForm.poissonBracket` and `TauCeti.SmoothTwoForm.IsIntegrableSystem`, in the
+family convention `ι_(X_f) σ = df`, `{f, g} = σ(X_f, X_g) = df(X_g)`; the canonical form of a
+cotangent bundle is `TauCeti.CotangentBundle.symplecticForm`, `ω = -dλ`.
+
+Stated: the Liouville–Arnold action–angle theorem of I2 (`exists_actionAngle`), on the cotangent
+bundle of the angle torus `Fin n → AddCircle p`; the second-order property of the Lagrangian
+vector field (`mfderiv_proj_lagrangianVectorField`) and its transport by the Legendre map to the
+Hamiltonian vector field (`mfderiv_legendreMap_lagrangianVectorField`) of I3; and the strict
+annulus fixed-point theorem of I5 (`strict_annulus_two_fixed_points`), in its lifted form on the
+strip for a smooth positive periodic density, the constant density being the standard-area case.
+
+Proved at the pinned Tau Ceti, and therefore not restated: the Lagrangian regular-level theorem
+of I1 (`TauCeti.SmoothTwoForm.IsIntegrableSystem.isLagrangian_ker_mfderiv`); the topological
+part of I2, a compact regular component of a level being the quotient of `ℝⁿ` by a discrete
+cocompact stabilizer
+(`TauCeti.SmoothTwoForm.IsSymplectic.quotientHamiltonianFlowStabilizerHomeomorph`,
+`TauCeti.SmoothTwoForm.IsSymplectic.compactSpace_quotient_hamiltonianFlowStabilizer`); and the
+conservation of angular momentum under a central force of I4
+(`TauCeti.stdSymplecticForm_poissonBracket_centralForceHamiltonian_angularMomentum`).
 
 Not statable at the pins, and therefore absent:
 
-* the Liouville–Arnold action-angle normal form of I2, the period lattice bundle, its Chern and
-  Lagrangian classes and the global action-angle criteria: `AddCircle (2 * Real.pi)` carries no
-  `ChartedSpace` or `IsManifold` instance at the pinned Mathlib or Tau Ceti, so the angle torus is
-  not a smooth manifold there and no symplectic form on an action-angle domain can be written;
-* the positive-period circle atlas, its time form and the parameter families of I2.0, for the
-  same reason;
-* the Euler–Lagrange/Hamilton equivalence of I3: the Legendre transform is definable (the fibre
-  derivative of `L : TangentBundle I Q → ℝ` is `fderiv ℝ (fun v ↦ L ⟨q, v⟩) v`, since the fibre
-  `TangentSpace I q` is the model space), but the equivalence needs the canonical symplectic form
-  on the cotangent bundle of a manifold, which Tau Ceti has (`cotangentLiouvilleForm`) only on a
-  vector space times its dual;
-* the spherical-pendulum monodromy of I4: it needs the period lattice bundle of I2.
+* the period lattice `Λ ⊂ T*B` of a regular Lagrangian torus fibration `M → B`, its linear
+  monodromy, its Chern and Lagrangian classes and the global action–angle criteria of I2: the
+  pins have the stabilizer lattice at a single point
+  (`TauCeti.SmoothTwoForm.IsSymplectic.hamiltonianFlowStabilizer`) and lattice families given
+  by a global period map, but neither the lattice bundle `Λ ⊂ T*B` as a locally constant sheaf
+  of lattices over `B` nor the sheaf `Z¹/Λ` of local Lagrangian sections, in whose cohomology
+  the two classes live;
+* the spherical-pendulum monodromy of I4: it is the transport of that period lattice around a
+  loop of regular values, and needs the lattice bundle above.
 -/
 noncomputable section
 @[expose] public section
@@ -40,68 +56,79 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
 
-/-! ## I1: involutive functions and regular fibers -/
+/-! ## I2: Liouville–Arnold and action–angle coordinates -/
 
-open Classical in
-/-- The Hamiltonian vector field of `g` in the family convention `ι_(X_g) σ = dg`, that is the
-tangent vector `v` at `x` with `σ x v w = dg_x(w)` for every `w`; it is unique when `σ` is
-nondegenerate, and the value is `0` where no such vector exists. -/
-def chosenHamiltonianField (σ : TauCeti.SmoothTwoForm I M) (g : M → ℝ) (x : M) :
-    TangentSpace I x :=
-  if h : ∃ v : TangentSpace I x, ∀ w, TauCeti.SmoothBundleForm.eval₂ σ x v w = mvfderiv I g x w
-    then h.choose else 0
-
-/-- The Poisson bracket value `{f, g}(x) = df_x(X_g)` of the family conventions. -/
-def bracketValue (σ : TauCeti.SmoothTwoForm I M) (f g : M → ℝ) (x : M) : ℝ :=
-  mvfderiv I f x (chosenHamiltonianField σ g x)
-
-/-- Complete integrability on a 2n-dimensional symplectic manifold: n smooth Poisson-commuting
-integrals of a smooth Hamiltonian, independent on a dense set. -/
-structure IntegrableSystem [FiniteDimensional ℝ E]
-    (σ : TauCeti.SmoothTwoForm I M) (Hamiltonian : M → ℝ) (n : ℕ) where
-  symplectic : σ.IsSymplectic
-  dimension : Module.finrank ℝ E = 2 * n
-  integral : Fin n → M → ℝ
-  smooth : ∀ i, ContMDiff I 𝓘(ℝ, ℝ) ∞ (integral i)
-  smoothHamiltonian : ContMDiff I 𝓘(ℝ, ℝ) ∞ Hamiltonian
-  involution : ∀ i j x, bracketValue σ (integral i) (integral j) x = 0
-  firstIntegral : ∀ i x, bracketValue σ (integral i) Hamiltonian x = 0
-  denseRegular : Dense {x : M | Function.Surjective
-    (mfderiv I 𝓘(ℝ, Fin n → ℝ) (fun y i ↦ integral i y) x)}
-
-/-- At a regular point of the integral map, the tangent space of the common level, which is the
-kernel of the derivative of the integral map, is a Lagrangian subspace of the symplectic tangent
-space (I1; Cannas da Silva, Lectures on Symplectic Geometry, §18.4, Theorem 18.12, p. 110). -/
-theorem regularLevel_lagrangian [FiniteDimensional ℝ E]
-    {σ : TauCeti.SmoothTwoForm I M} {Hamiltonian : M → ℝ} {n : ℕ}
-    (s : IntegrableSystem σ Hamiltonian n) (x : M)
-    (hx : Function.Surjective
-      (mfderiv I 𝓘(ℝ, Fin n → ℝ) (fun y i ↦ s.integral i y) x)) :
-    (s.symplectic.isNondegenerate.symplecticFormAt x).IsLagrangian
-      (LinearMap.ker
-        (mfderiv I 𝓘(ℝ, Fin n → ℝ) (fun y i ↦ s.integral i y) x).toLinearMap) := by
+/-- **The Liouville–Arnold theorem: action–angle coordinates** (I2; Arnold, Mathematical
+Methods of Classical Mechanics, §§49–50; Cannas da Silva, Lectures on Symplectic Geometry,
+§18.4, Theorem 18.12(b)). Let `F : M → ℝⁿ` be an integrable system on a Hausdorff boundaryless
+symplectic manifold `(M, σ)` of dimension `2n`, and let `L` be the connected component through
+`x₀` of the level `F⁻¹(F x₀)`; assume `L` compact and every point of `L` a regular point of `F`;
+other components of the level need not be regular, and no completeness is assumed. Then for every
+positive period `p` there are an open neighbourhood `U` of `L`, an open set `D ⊆ ℝⁿ` and a map
+`φ` from `M` to the cotangent bundle of the angle torus `Tⁿ = (ℝ/pℤ)ⁿ` which, on `U`, is an
+injective local diffeomorphism onto the covectors `ξ` whose actions `Iᵢ(ξ) = ξ(eᵢ)` lie in `D`,
+that is onto `Tⁿ × D`; which pulls the canonical form `ω = -dλ = Σ dθᵢ ∧ dIᵢ` back to `σ`; and
+along which `F` is a function of the actions. For `p = 2π` these are the classical action–angle
+coordinates. -/
+theorem exists_actionAngle [FiniteDimensional ℝ E] [I.Boundaryless] [T2Space M]
+    {σ : TauCeti.SmoothTwoForm I M} (hσ : σ.IsSymplectic) {n : ℕ} {F : M → Fin n → ℝ}
+    (hF : σ.IsIntegrableSystem F) {L : Set M} {x₀ : M}
+    (hL : L = connectedComponentIn (F ⁻¹' {F x₀}) x₀) (hLc : IsCompact L)
+    (hreg : ∀ x ∈ L, TauCeti.IsRegularPoint I 𝓘(ℝ, Fin n → ℝ) F x)
+    (p : ℝ) [Fact (0 < p)] :
+    ∃ U : Set M, IsOpen U ∧ L ⊆ U ∧ ∃ D : Set (Fin n → ℝ), IsOpen D ∧
+      ∃ φ : M → TauCeti.CotangentBundle (ModelWithCorners.pi fun _ : Fin n ↦ 𝓘(ℝ))
+          (Fin n → AddCircle p),
+        Set.InjOn φ U ∧
+        IsLocalDiffeomorphOn I ((ModelWithCorners.pi fun _ : Fin n ↦ 𝓘(ℝ)).prod
+          𝓘(ℝ, (Fin n → ℝ) →L[ℝ] ℝ)) ∞ φ U ∧
+        φ '' U = {ξ | (fun i ↦ ξ.2 (Pi.single i 1)) ∈ D} ∧
+        (∀ x ∈ U, ∀ v w : TangentSpace I x,
+          TauCeti.SmoothBundleForm.eval₂
+              (TauCeti.CotangentBundle.symplecticForm
+                (ModelWithCorners.pi fun _ : Fin n ↦ 𝓘(ℝ)) (Fin n → AddCircle p)) (φ x)
+              (mfderiv I ((ModelWithCorners.pi fun _ : Fin n ↦ 𝓘(ℝ)).prod
+                𝓘(ℝ, (Fin n → ℝ) →L[ℝ] ℝ)) φ x v)
+              (mfderiv I ((ModelWithCorners.pi fun _ : Fin n ↦ 𝓘(ℝ)).prod
+                𝓘(ℝ, (Fin n → ℝ) →L[ℝ] ℝ)) φ x w) =
+            TauCeti.SmoothBundleForm.eval₂ σ x v w) ∧
+        ∃ h : (Fin n → ℝ) → Fin n → ℝ, ∀ x ∈ U, F x = h (fun i ↦ (φ x).2 (Pi.single i 1)) := by
   sorry
 
-/-! ## I4: the planar central force -/
+/-! ## I3: Hamiltonian and Lagrangian mechanics -/
 
-/-- The planar central-force Hamiltonian `‖p‖²/(2m) + V(‖q‖)` on the ambient phase space
-`ℝ² × ℝ²`; its conservation theorem is restricted to the punctured configuration space. -/
-def planarCentralHamiltonian (mass : ℝ) (V : ℝ → ℝ)
-    (z : EuclideanSpace ℝ (Fin 2) × EuclideanSpace ℝ (Fin 2)) : ℝ :=
-  (z.2 0 ^ 2 + z.2 1 ^ 2) / (2 * mass) +
-    V (Real.sqrt (z.1 0 ^ 2 + z.1 1 ^ 2))
+/-- **The Lagrangian vector field is second order** (I3; Marsden–Ratiu, Introduction to
+Mechanics and Symmetry, Chapter 7). Let `L : TM → ℝ` be a smooth regular Lagrangian on a
+finite-dimensional boundaryless manifold `M`, and let `X_E` be the Lagrangian vector field on
+`TM`: the Hamiltonian vector field of the energy `E_L(v) = FL(v)(v) - L(v)` for the Cartan
+two-form `ω_L = FL^*ω`. Then the projection `π : TM → M` maps `X_E(v)` to `v` itself,
+`dπ(X_E(v)) = v`, at every tangent vector `v`. So the integral curves of `X_E` are the velocity
+curves of curves in `M`, and these curves are the solutions of the Euler–Lagrange equations
+`d/dt (∂L/∂v) = ∂L/∂q` in every chart. -/
+theorem mfderiv_proj_lagrangianVectorField [FiniteDimensional ℝ E] [I.Boundaryless]
+    {L : TangentBundle I M → ℝ} (hL : ContMDiff I.tangent 𝓘(ℝ, ℝ) ∞ L)
+    (hreg : TauCeti.IsRegularLagrangian L) (v : TangentBundle I M) :
+    mfderiv I.tangent I (Bundle.TotalSpace.proj : TangentBundle I M → M) v
+        ((TauCeti.cartanTwoForm L hL).hamiltonianVectorField (TauCeti.lagrangianEnergy L) v) =
+      v.2 := by
+  sorry
 
-/-- The angular momentum `q₁p₂ − q₂p₁`, the momentum of the positive planar rotation. -/
-def planarAngularMomentum (z : EuclideanSpace ℝ (Fin 2) × EuclideanSpace ℝ (Fin 2)) : ℝ :=
-  z.1 0 * z.2 1 - z.1 1 * z.2 0
-
-/-- Angular momentum Poisson-commutes with every central-force Hamiltonian at positive mass,
-pointwise on the noncollision domain `q ≠ 0`, where the potential is smooth (I4). -/
-theorem centralForce_commutes (mass : ℝ) (hmass : 0 < mass) (V : ℝ → ℝ)
-    (hV : ContDiffOn ℝ ∞ V (Set.Ioi 0))
-    (z : EuclideanSpace ℝ (Fin 2) × EuclideanSpace ℝ (Fin 2)) (hq : z.1 ≠ 0) :
-    bracketValue (TauCeti.stdSymplecticForm (V := EuclideanSpace ℝ (Fin 2))).constSmooth
-      (planarCentralHamiltonian mass V) planarAngularMomentum z = 0 := by
+/-- **The Legendre map carries the Euler–Lagrange flow to Hamilton's equations** (I3;
+Marsden–Ratiu, Introduction to Mechanics and Symmetry, Chapter 7). Let `L : TM → ℝ` be a smooth
+hyperregular Lagrangian on a finite-dimensional boundaryless manifold `M`: regular, with
+bijective Legendre map `FL : TM → T*M`, which is then a diffeomorphism. Put `H = E_L ∘ FL⁻¹` on
+the cotangent bundle. Then the derivative of `FL` carries the Lagrangian vector field `X_E` to the
+Hamiltonian vector field of `H` for the canonical form `ω = -dλ`: `dFL(X_E(v)) = X_H(FL v)` for
+every tangent vector `v`. -/
+theorem mfderiv_legendreMap_lagrangianVectorField [FiniteDimensional ℝ E] [I.Boundaryless]
+    {L : TangentBundle I M → ℝ} (hL : ContMDiff I.tangent 𝓘(ℝ, ℝ) ∞ L)
+    (hreg : TauCeti.IsRegularLagrangian L)
+    (hbij : Function.Bijective (TauCeti.legendreMap L)) (v : TangentBundle I M) :
+    mfderiv I.tangent (I.prod 𝓘(ℝ, E →L[ℝ] ℝ)) (TauCeti.legendreMap L) v
+        ((TauCeti.cartanTwoForm L hL).hamiltonianVectorField (TauCeti.lagrangianEnergy L) v) =
+      (TauCeti.CotangentBundle.symplecticForm I M).hamiltonianVectorField
+        (TauCeti.lagrangianEnergy L ∘ (Equiv.ofBijective _ hbij).symm)
+        (TauCeti.legendreMap L v) := by
   sorry
 
 /-! ## I5: the strict annulus fixed-point theorem -/

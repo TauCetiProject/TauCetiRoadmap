@@ -10,8 +10,13 @@ mechanical system must be related by proved maps and equations.
 Use [family conventions](../README.md): real finite-dimensional smooth boundaryless manifolds,
 ω=−dλ, ι_XHω=dH, {f,g}=df(Xg). For singular central potentials the phase space is the cotangent
 bundle of the **punctured** configuration space; collision is not a smooth point. Hamiltonian vector
-fields, conservation and brackets are used in the family convention, on this roadmap's own
-carrier `bracketValue`, with flows from DifferentialGeometry Layer 3; cotangent forms and canonical transformations from [CotangentLagrangian](../CotangentLagrangian/README.md),
+fields and Poisson brackets are Tau Ceti's `TauCeti.SmoothTwoForm.hamiltonianVectorField`,
+X_f=(σ♭)⁻¹df, so that ι_(X_f)σ=df for a nondegenerate form on a finite-dimensional manifold, and
+`TauCeti.SmoothTwoForm.poissonBracket`, {f,g}=σ(X_f,X_g), which equals df(X_g) there
+(`TauCeti.SmoothTwoForm.IsNondegenerate.poissonBracket_eq_mvfderiv`). The canonical form of a
+cotangent bundle is `TauCeti.CotangentBundle.symplecticForm`, ω=−dλ for the Liouville form
+`TauCeti.CotangentBundle.liouvilleForm`, equal to Σdqᵢ∧dpᵢ in bundle charts. Flows come from
+DifferentialGeometry Layer 3; cotangent forms and canonical transformations from [CotangentLagrangian](../CotangentLagrangian/README.md),
 regular quotients from [HamiltonianReduction](../HamiltonianReduction/README.md), and torus/lattice API
 from [ConvexityToric Layer 1 (1.1)](../ConvexityToric/README.md#layer-1-compact-symplectic-actions-and-local-models).
 LieGroups supplies the exponential floor, HopfRinow the inverse function theorem, and
@@ -25,22 +30,69 @@ owns the annulus isotopy theorem (I5.1), the compact-pair Čech theory with its 
 comparison (I5.4), the index-pair data of its block (I5.3) and the Conley–Zehnder injectivity and
 cup-length statements (I5.4): no roadmap on main states them.
 
+**Supplied by Tau Ceti.** The pinned Tau Ceti proves the following parts of the sections below;
+those sections consume them and do not prove them again.
+
+- I1: integrable systems `TauCeti.SmoothTwoForm.IsIntegrableSystem` (a smooth F:M→ℝⁿ with
+  pairwise Poisson-commuting components, independent differentials on a dense set and 2n=dim M)
+  and first integrals `TauCeti.SmoothTwoForm.IsFirstIntegral`. For finitely many functions at a
+  point: the symplectic orthogonal of ker dF_x is the span of the X_(F_i)
+  (`TauCeti.SmoothTwoForm.IsNondegenerate.orthogonal_ker_mfderiv`), ker dF_x is coisotropic
+  exactly when they Poisson-commute (`TauCeti.SmoothTwoForm.IsNondegenerate.isCoisotropic_ker_mfderiv_iff`),
+  k Poisson-commuting functions regular at a point of a 2n-manifold have k≤n
+  (`TauCeti.SmoothTwoForm.IsNondegenerate.two_mul_card_le_finrank`), and
+  for an integrable system ker dF_x is Lagrangian at a regular point
+  (`TauCeti.SmoothTwoForm.IsIntegrableSystem.isLagrangian_ker_mfderiv`) and spanned by the
+  Hamiltonian vectors (`TauCeti.SmoothTwoForm.IsNondegenerate.ker_mfderiv_eq_span_hamiltonianVectorField`).
+  A function Poisson-commuting with every F_i is a function of F near a regular point and on
+  every open set of regular points with connected fibers
+  (`TauCeti.SmoothTwoForm.IsIntegrableSystem.exists_eventuallyEq_comp`,
+  `TauCeti.SmoothTwoForm.IsIntegrableSystem.exists_eqOn_comp`). Integrability is invariant under
+  local diffeomorphisms pulling the form back to the form and under reparametrization of the
+  values (`TauCeti.SmoothTwoForm.IsIntegrableSystem.comp_isLocalDiffeomorph`,
+  `TauCeti.SmoothTwoForm.IsIntegrableSystem.comp_left`). Complete Poisson-commuting Hamiltonian
+  flows commute (`TauCeti.SmoothTwoForm.IsSymplectic.commute_globalFlowDiffeomorph`).
+- I2: for a proper integrable system every X_(F_i) is complete
+  (`TauCeti.SmoothTwoForm.IsIntegrableSystem.isCompleteVectorField_hamiltonianVectorField_of_isProperMap`).
+  Complete Poisson-commuting fields give an action of ℝⁿ
+  (`TauCeti.SmoothTwoForm.IsSymplectic.hamiltonianFlowAction`) which is transitive on every
+  connected component of a level consisting of regular points
+  (`TauCeti.SmoothTwoForm.IsSymplectic.range_hamiltonianFlowAction_apply`), with discrete
+  stabilizer Λ (`TauCeti.SmoothTwoForm.IsSymplectic.discreteTopology_hamiltonianFlowStabilizer`),
+  a homeomorphism ℝⁿ/Λ≅L (`TauCeti.SmoothTwoForm.IsSymplectic.quotientHamiltonianFlowStabilizerHomeomorph`)
+  and Λ cocompact when L is compact
+  (`TauCeti.SmoothTwoForm.IsSymplectic.compactSpace_quotient_hamiltonianFlowStabilizer`).
+- I2.0: the circle, torus and circle-family constructions listed at the start of I2.0.
+- I3: the Legendre map, energy, fibre Hessian, regularity and Cartan forms listed at the start of
+  I3, with the mechanical Lagrangian `TauCeti.mechanicalLagrangian`.
+- I4: the central-force Hamiltonian `TauCeti.centralForceHamiltonian` and angular momentum
+  `TauCeti.angularMomentum` with {H,L}=0 off the collision set
+  (`TauCeti.stdSymplecticForm_poissonBracket_centralForceHamiltonian_angularMomentum`, for the
+  linear bracket of the standard form, which is the manifold bracket of its constant form by
+  `TauCeti.SymplecticForm.poissonBracket_constSmooth`); the planar Runge–Lenz identity
+  |A|²=m²κ²+2mHL² (`TauCeti.norm_rungeLenz_sq_of_orthonormalBasis`), the conic orbit
+  (`TauCeti.norm_fst_eq_div_one_add_sqrt_mul_cos_angle`) and the Kepler radial action on the
+  whole bound-energy domain (`TauCeti.kepler_radialAction_turningRadii`); and the action–angle
+  parametrization of the harmonic oscillator (`TauCeti.oscillatorActionAngle`).
+
 ## I1. Involutive functions and regular fibers
 
-Define an n-tuple f=(f₁,…,fₙ) of smooth functions on a 2n-dimensional symplectic manifold, pairwise
-Poisson commuting and with independent differentials on a dense open regular set. Independence means
-surjectivity of df_x:T_xM→Rⁿ at each point, invariant under reparametrization and canonical transformations. A Hamiltonian
-H belongs to the system when it Poisson-commutes with every fᵢ; prove local H=h(f) in a connected submersion chart. On the saturated neighborhood of I2 prove
-H=h(f) by transitivity on its connected fibers; arbitrary disconnected fibers do not give global
-factorization.
+The system is an n-tuple f=(f₁,…,fₙ) of smooth functions on a 2n-dimensional symplectic manifold,
+pairwise Poisson commuting and with independent differentials on a dense open regular set:
+Tau Ceti's `TauCeti.SmoothTwoForm.IsIntegrableSystem`. Independence means surjectivity of
+df_x:T_xM→Rⁿ at each point, invariant under reparametrization and canonical transformations. A
+Hamiltonian H belongs to the system when it Poisson-commutes with every fᵢ; then H=h(f) near each
+regular point and on every open set of regular points with connected fibers, in particular on the
+saturated neighborhood of I2 (Tau Ceti, as listed above); arbitrary disconnected fibers do not
+give global factorization.
 
-For k≤n independent involutive functions prove regular common levels have tangent ker df
-(SmoothBundlesConnections B1.0), symplectic orthogonal spanned by X_fi, hence are coisotropic; derive the k≤n bound. For k=n they are
-Lagrangian and the Hamiltonian fields span their tangent spaces; `IntegrableSystem` packages the
-system data, with the bracket `bracketValue` evaluated on the Hamiltonian field
-`chosenHamiltonianField` of the family convention, and `regularLevel_lagrangian` states the
-Lagrangian conclusion at a regular point. Prove commuting flows wherever their
-compositions are defined; completeness is separate. Build the local Carathéodory–Jacobi–Lie normal
+For k≤n independent involutive functions, regular common levels have tangent ker df
+(SmoothBundlesConnections B1.0). At each point the symplectic orthogonal of ker df_x is spanned by
+the X_fi, so the levels are coisotropic and k≤n, and for k=n they are Lagrangian and the
+Hamiltonian fields span their tangent spaces: these linear statements are Tau Ceti's, the
+Lagrangian one being `TauCeti.SmoothTwoForm.IsIntegrableSystem.isLagrangian_ker_mfderiv`. Tau
+Ceti proves that complete Poisson-commuting flows commute; prove here that the flows commute
+wherever their compositions are defined, with no completeness. Build the local Carathéodory–Jacobi–Lie normal
 form: k commuting independent functions can be chosen as k momenta in a Darboux coordinate system,
 with canonical conjugate variables. This refines ordinary Darboux and needs Frobenius plus the
 Hamiltonian identities, not a second proof of general Darboux.
@@ -54,12 +106,27 @@ classify the rank-zero Hessian data there. This is explicit work here on the exi
 
 ## I2.0. Positive-period circles and families
 
-Construct the following reusable foundation independently of the integrable map in I1. The carrier is
-Mathlib's existing topological `AddCircle p`, for every real `p>0`; the quotient projection is
-`q_p(t)=[t]_p`. Generic smooth free/proper discrete quotients belong to TauCeti's existing manifold
-quotient API. This section owns their positive-period application, the comparison with the additive
-circle, and the resulting circle, torus and parameter-family interfaces. Generic forms, wedge,
-exterior differentiation and integration belong to
+This reusable foundation is independent of the integrable map in I1. The carrier is Mathlib's
+topological `AddCircle p`, for every real `p>0`; the quotient projection is `q_p(t)=[t]_p`. The
+pinned Tau Ceti implements the constructions of the paragraphs below, and I2 and S0 consume them
+from there: the real line `TauCeti.PeriodLine p` with its free, properly discontinuous action of
+`Multiplicative ℤ`, the transported atlas `AddCircle.instIsManifold` whose charts are local real
+lifts, the smooth local diffeomorphism `AddCircle.isLocalDiffeomorph_coe`, the Lie group
+`AddCircle.instLieAddGroup` and the orientation `AddCircle.instOrientable`; the time form
+`AddCircle.timeForm`, the unique form with q_p^*dt_p=dt (`AddCircle.eq_timeForm_iff`), of
+integral p over one circuit (`AddCircle.pathIntegral_timeForm_coe`); the rescalings
+`AddCircle.diffeomorphAddCircle`, with derivative q/p (`AddCircle.mfderiv_diffeomorphAddCircle`)
+and D_(p,q)^*dt_q=(q/p)dt_p (`AddCircle.mpullback_diffeomorphAddCircle_timeForm`); the torus
+time and volume forms `TauCeti.torusTimeForm` and `TauCeti.torusVolumeForm` with the torus
+orientation `TauCeti.torusOrientation`; the total family `TauCeti.CircleFamily` with its forms
+`TauCeti.CircleFamily.angleForm`, `TauCeti.CircleFamily.timeForm` and
+`TauCeti.CircleFamily.totalForm`; and the families `TauCeti.CircleFamily.Pullback` over a base,
+with base change, fiberwise rescaling and their forms. This section proves what those
+declarations do not contain: the restriction of the torus charts, forms and maps to open subsets
+with its compatibilities, naturality under association and insertion or deletion of point
+factors, the families for finite collections of periods with their product laws, and the uniform
+estimates of the last paragraph. Generic smooth free/proper discrete quotients belong to Tau
+Ceti's manifold quotient API, and generic forms, wedge, exterior differentiation and integration to
 [DifferentialGeometry Layers0–1 and8.4](../../DifferentialGeometry/README.md).
 
 **Quotient and atlas.** Put the real line on a p-indexed type synonym with transported topology and
@@ -159,19 +226,20 @@ there. Both use this single construction and its proved normalization conversion
 
 ## I2. Liouville–Arnold and local action-angle coordinates
 
-First prove the global completeness statement: if the commuting integrable map
-f is proper, every Hamiltonian field X_fi is complete. Each trajectory stays in
-the compact fiber f⁻¹(f(x)); apply the compact-escape extension criterion at
-both ends of its maximal time interval. This also treats critical fibers;
-transitivity and torus conclusions require the regularity below. Complete
-commuting fields give a global ℝⁿ-action, with its restriction/flow identities.
+The global completeness statement is Tau Ceti's: if the commuting integrable map f is proper,
+every Hamiltonian field X_fi is complete, critical fibers included; transitivity and torus
+conclusions require the regularity below. Complete commuting fields give a global ℝⁿ-action, with
+its restriction/flow identities (Tau Ceti, as listed above).
 
 Let L be a nonempty compact connected component of f⁻¹(c₀) and assume df is surjective
 at every point of L; other components of this level need not be regular. The commuting
-Hamiltonian fields are complete on L because L is compact and invariant. Construct the transitive
-Rⁿ-action on L, prove its isotropy subgroup is discrete and cocompact, and identify L smoothly with
-Rⁿ/Λ. For a regular fiber without compactness the statement is a cylinder R^(n−r)×T^r only if
-these fields are complete and the discrete stabilizer is specified; no torus conclusion is asserted.
+Hamiltonian fields are complete on L because L is compact and invariant. When the fields are
+complete on all of M, Tau Ceti proves that the ℝⁿ-action is transitive on L with discrete
+cocompact stabilizer Λ and that L is homeomorphic to Rⁿ/Λ. Prove here the same conclusions when
+the fields are complete only along L, by restricting the flows to the invariant compact set L,
+and identify L smoothly with Rⁿ/Λ. For a regular fiber without compactness the statement is a
+cylinder R^(n−r)×T^r only if these fields are complete and the discrete stabilizer is specified;
+no torus conclusion is asserted.
 
 Construct a local product around the fixed compact connected regular component L. Choose a
 smooth complement to ker(df) near L. Horizontal lifts of radial paths in a sufficiently small
@@ -189,7 +257,31 @@ proper-submersion theorem is a second reusable route with the same derived local
 Choose a local integral basis and construct actions I₁,…,Iₙ and angles
 θ∈(R/2πZ)^n with **ω=Σdθᵢ∧dIᵢ**, f=f(I), and X_H=Σ(∂h/∂Iᵢ)∂θᵢ.
 The chart is a symplectomorphism of a neighborhood with an open action domain times the whole torus,
-not a single ordinary Euclidean coordinate chart on the torus.
+not a single ordinary Euclidean coordinate chart on the torus. `exists_actionAngle` states this
+normal form on the cotangent bundle of the torus `Fin n → AddCircle p` with its canonical form
+`TauCeti.CotangentBundle.symplecticForm`: for an integrable system on a Hausdorff boundaryless
+2n-manifold and a compact connected component L of a level consisting of regular points, there
+are an open U⊇L, an open D⊆Rⁿ and a map which on U is an injective local diffeomorphism onto the
+covectors ξ with actions (ξ(e₁),…,ξ(eₙ))∈D, pulls the canonical form back to ω, and along which
+f is a function of the actions. It is stated for every period p>0: p=2π gives the angles above,
+and the cotangent lift of the rescaling θ↦(p/2π)θ of the torus converts them to period p,
+multiplying the actions by 2π/p and preserving Σdθᵢ∧dIᵢ.
+
+**Checks.**
+- For the oscillator H=(q²+p²)/2 on R² with ω=dq∧dp, n=1 and x₀=(1,0), L is the unit circle. With
+  I=(q²+p²)/2 and θ measured clockwise from the p-axis, (q,p)=(√(2I)sinθ,√(2I)cosθ) gives
+  dq=sinθ dr+r cosθ dθ and dp=cosθ dr−r sinθ dθ for r=√(2I), so dq∧dp=r dθ∧dr=dθ∧dI and H=I;
+  this is Tau Ceti's `TauCeti.oscillatorActionAngle` at unit mass and frequency. The
+  counterclockwise angle gives dq∧dp=−dθ∧dI, the wrong sign for ω=−dλ=Σdθᵢ∧dIᵢ.
+- At the critical point x₀=(0,0) of the same oscillator the level is the point {0}, where dH=0,
+  so the regularity hypothesis fails. The conclusion fails too: H would be constant on the circle
+  of the chart through 0, so that circle would lie in the level {0}.
+- For n=0 the manifold is discrete, L={x₀}, the torus is a point and its cotangent bundle a point;
+  U={x₀}, D=R⁰ and the constant map satisfy every clause, the form condition being one on zero
+  spaces.
+- For f(q,p)=p on T*R=R², every level is a line: L is not compact, and the conclusion fails,
+  since f would be constant on the compact circles of the chart while its levels in U are open
+  pieces of lines; so the compactness hypothesis is not removable.
 
 Orient γᵢ by t↦φ_(tλ^(i))(s(c)), t∈[0,1], and prove
 dIᵢ=(1/2π)Σ_j λ^(i)_j(c)dc_j; equivalently the lattice is
@@ -221,13 +313,21 @@ integral-affine change of a. Thus it has no global action chart onto an open V�
 
 ## I3. Hamiltonian and Lagrangian mechanics
 
-For a smooth L:TQ→R construct the fiber derivative/Legendre map FL:TQ→T*Q intrinsically.
-A regular Lagrangian has invertible fiber Hessian and local FL diffeomorphism; a hyperregular one has
-a **global** FL diffeomorphism. Define energy E_L=⟨FL(v),v⟩−L(v), Cartan form
-θ_L=FL*λ and ω_L=−dθ_L, and H=E_L∘FL⁻¹ in the hyperregular setting. Derive equivalence of
-Euler–Lagrange equations and Hamilton's equations, including second-order property of the flow and
-invariance under configuration coordinate changes. Build kinetic-plus-potential systems from a smooth
-positive definite metric and potential, and prove fiber Hessian/Legendre/energy formulas. Metric
+For a smooth L:TQ→R the intrinsic fiber derivative FL:TQ→T*Q, the energy E_L=⟨FL(v),v⟩−L(v),
+the fiber Hessian, regularity (invertible fiber Hessian, equivalently FL a local diffeomorphism on
+a boundaryless Q), the Cartan forms θ_L=FL*λ and ω_L=−dθ_L=FL*ω, and the kinetic-plus-potential
+Lagrangian of a metric and a potential with its Legendre, energy and fiber-Hessian formulas are
+Tau Ceti's: `TauCeti.legendreMap`, `TauCeti.lagrangianEnergy`, `TauCeti.fiberHessian`,
+`TauCeti.IsRegularLagrangian`, `TauCeti.isLocalDiffeomorph_legendreMap_iff`,
+`TauCeti.cartanForm`, `TauCeti.cartanTwoForm`, `TauCeti.mpullback_legendreMap_symplecticForm` and
+`TauCeti.mechanicalLagrangian`. A hyperregular Lagrangian is a regular one whose FL is bijective,
+hence a **global** diffeomorphism; then put H=E_L∘FL⁻¹. The Lagrangian vector field X_E is the
+Hamiltonian vector field of E_L for ω_L. Prove that for regular L it is second order,
+dπ(X_E(v))=v (`mfderiv_proj_lagrangianVectorField`), so that its integral curves are the velocity
+curves of the solutions of the Euler–Lagrange equations d/dt(∂L/∂v)=∂L/∂q in every chart, and
+that for hyperregular L the Legendre map carries it to Hamilton's equations,
+dFL(X_E(v))=X_H(FL v) (`mfderiv_legendreMap_lagrangianVectorField`); prove the invariance of these
+equations under configuration coordinate changes. Metric
 geodesic flow is the kinetic Hamiltonian flow via Legendre and the Levi–Civita connection of [HopfRinow](../../../Completed/HopfRinow/README.md).
 
 For time-dependent L or H build extended phase space T*(Q×R), Hamiltonian p_t+H(t,q,p), and
@@ -238,6 +338,17 @@ Hamiltonian conservation of [R1](../HamiltonianReduction/README.md#r1-smooth-act
 If the infinitesimal symmetry variation of L equals dB_ξ(t,q)/dt along curves,
 prove conservation of J_ξ=⟨FL,ξ_Q⟩−B_ξ and its coordinate-independent transformation law.
 
+**Checks.**
+- On Q=R with L=½mv²−V(q), m>0: FL(q,v)=(q,mv), θ_L=mv dq, ω_L=m dq∧dv and E_L=½mv²+V(q).
+  Writing X_E=(a,b), ι_(X_E)ω_L=m(a dv−b dq) equals dE_L=mv dv+V′dq exactly when a=v and
+  b=−V′/m: the field is second order and its base curves solve mq̈=−V′(q). With
+  H=p²/(2m)+V, X_H=(∂H/∂p,−∂H/∂q)=(p/m,−V′), and at p=mv this is dFL(v,−V′/m)=(v,−V′).
+  Defining X_E by ι_Xω_L=−dE_L instead gives (−v,V′/m), which fails dπ(X_E(v))=v.
+- L(q,v)=v on Q=R is not regular: θ_L=dq, so ω_L=0 and the Hamiltonian vector field of E_L=0 is
+  0, whose projection is 0≠v for v≠0; the regularity hypothesis is not removable.
+- L(q,v)=e^v on Q=R is regular, with fiber Hessian e^v>0, but FL(q,v)=(q,e^v) misses the
+  covectors p≤0: L is not hyperregular and H=E_L∘FL⁻¹ is not defined on T*Q.
+
 ## I4. Examples that exercise the full API
 
 - Free particle: H=‖p‖²/(2m), m>0, linear flow with C3’s convention (q,p) the source and mass generalization, generating S=−m‖q−Q‖²/(2t), t≠0.
@@ -245,8 +356,11 @@ prove conservation of J_ξ=⟨FL,ξ_Q⟩−B_ξ and its coordinate-independent t
   frequency: actions Eᵢ/νᵢ on {all Eᵢ>0}, angles and period lattice;
   resonant versus nonresonant orbit closure on a fixed invariant torus.
 - Planar central force Q=R²\{0}, H=‖p‖²/(2m)+V(r), L=q₁p₂−q₂p₁. Prove rotational
-  moment map, {H,L}=0 (`centralForce_commutes`, for `planarCentralHamiltonian` and
-  `planarAngularMomentum` on the punctured domain), functional independence precisely away from p_r=0 and V_ℓ′(r)=0 simultaneously,
+  moment map; {H,L}=0 on the punctured domain is Tau Ceti's
+  `TauCeti.stdSymplecticForm_poissonBracket_centralForceHamiltonian_angularMomentum`, for
+  `TauCeti.centralForceHamiltonian` and `TauCeti.angularMomentum` with the standard basis vectors
+  of R² as the plane, in every dimension and for a potential differentiable at ‖q‖. Prove
+  functional independence precisely away from p_r=0 and V_ℓ′(r)=0 simultaneously,
   and global polar cotangent coordinates with θ∈R/(2πZ) obtained from the base diffeomorphism
   R²\{0}≅R_>0×R/(2πZ). Prove polar canonical
   coordinates `(r,θ,p_r,L)` with λ=p_r dr+L dθ. Reduce at L=ℓ to
