@@ -12,7 +12,8 @@ geometric morphisms `E → Sh(C, J)` are the opposite of the category of `J`-fil
 `C ⥤ E`; the surjection–embedding and hyperconnected–localic factorizations of every geometric
 morphism between Grothendieck topoi; the order-reversing correspondence between universal closure
 operators and subtopoi of a Grothendieck topos; the points of a small site as the points of its
-topos, and Deligne's theorem for a small precoherent category with pullbacks; localic topoi as the
+topos, and the generalisation of Deligne's theorem (AdicEtaleGeometry A1.15) to a small
+precoherent category with pullbacks; localic topoi as the
 topoi `Sh(L)` of frames `L : Type u`, with sublocales of `L` as subtopoi of `Sh(L)`; and, for
 spaces `S, T : Type u` with `S` core-compact, `Opens (S × T)` as the frame coproduct of `Opens S`
 and `Opens T`, which fails for `S = T = ℚ`. Essential geometric morphisms are the ones whose
@@ -41,7 +42,8 @@ theorem (Layer 2); slices and étale morphisms (Layer 3); subtopoi, universal cl
 Lawvere–Tierney topologies, open and closed subtopoi, gluing and the surjection–embedding
 factorization (Layer 4); connected, locally connected, local, hyperconnected, localic and essential
 morphisms (Layer 5); points of a topos, essential points, Roos's characterization of presheaf topoi
-and Deligne's theorem (Layer 6); localic topoi (Layer 7); fibre products of topoi, coproducts of
+and the generalisation of Deligne's theorem to locally coherent topoi (Layer 6); localic topoi
+(Layer 7); fibre products of topoi, coproducts of
 frames, the way-below relation, core-compact and scattered spaces, and products of sober spaces
 (Layer 8); and abelian sheaves on a slice and on an open–closed decomposition of a topos: extension
 by zero, the recollement sequence, sections with support and `i^!`, local cohomology sheaves,
@@ -60,7 +62,10 @@ of topoi of Layer 8 are pseudo-pullbacks of topoi, not 2-fibre products of stack
 sites (Mathlib's `Sheaf.H`, Tau Ceti's `TauCeti/CategoryTheory/Sites/SheafCohomology/`, and
 SchemeAndStackFoundations §§2.1–2.5) does not appear here. Quasicompact and quasiseparated objects
 and morphisms of a sheaf topos and algebraic topoi are AdicSpacesPartII R0.19.10, consumed by
-Layer 6. Enhanced and derived categories of sheaves on ringed topoi are EnhancedDerivedSheaves;
+Layer 6. Deligne's theorem that a coherent topos has enough points, for sites in arbitrary
+universes, is AdicEtaleGeometry A1.15, consumed by target 6.4, which relaxes its hypothesis to
+locally coherent topoi. Enhanced and derived categories of sheaves on ringed topoi are
+EnhancedDerivedSheaves;
 the ringed topoi of rigid and adic spaces are AdicSpacesPartII and RigidAnalyticGeometry §8.3;
 the underlying morphism of each of their morphisms of ringed topoi is a `GeometricMorphism`. The
 classifying topos `B G` of a group (Layer 1, Examples) is not the topological classifying space of
@@ -85,7 +90,9 @@ SchemeAndStackFoundations §2.7. The slice-free module
 `O_U = j_{U!}(O|_U)` of a ringed site, with its representing property and the generating family it
 forms, is EnhancedDerivedSheaves E1.1. Tau Ceti's
 `TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback` is the case of
-target 9.1 on a preorder site, in particular on `Opens X`. Pro-categories are AdicSpacesPartII
+target 9.1 on a preorder site, in particular on `Opens X`. The stalks of extension by zero on a
+space, in 9.1, are the case `Λ = ℤ` of DiamondEtaleCohomology, "Topological open extension by
+zero", which states them for modules over any ring `Λ`. Pro-categories are AdicSpacesPartII
 R0.19.9; the points of Layer 6 are described by filtering functors (2.5), not by pro-objects.
 
 **Mathlib's open work.** Mathlib has open work on power objects in cartesian monoidal categories,
@@ -235,6 +242,16 @@ Targets 9.3 and 9.4 consume them. Tau Ceti has no topos-level declaration.
 `Topos.IsQuasiseparated`, `Topos.Hom.IsQuasicompact`, `Topos.Hom.IsQuasiseparated` and
 `Topos.IsAlgebraic`, with the permanence lemmas stated there for composition, pullback and the
 diagonal (target 6.3).
+
+**From AdicEtaleGeometry.** A1.15, *coherent-topos-enough-points*: for a site with `C : Type u`,
+morphisms in `Type v`, `EssentiallySmall.{w} C` and `Sh(C, J)` coherent (algebraic, with a
+quasicompact and quasiseparated terminal object; for instance `C` has finite limits and every
+covering family has a finite covering subfamily), `GrothendieckTopology.HasEnoughPoints.{w} J`
+(target 6.4).
+
+**From DiamondEtaleCohomology.** "Topological open extension by zero" (Exact supplier contracts):
+for a ring `Λ`, a space `X` and `U : Opens X`, extension by zero of sheaves of `Λ`-modules along
+`U` has stalk the input stalk at `x ∈ U` and `0` at `x ∉ U` (target 9.1, for `Λ = ℤ`).
 
 Neither pin has the predicate of a Grothendieck topos, geometric morphisms, subtopoi, the canonical
 topology of a frame, the way-below relation, core-compact or scattered spaces, or an instance
@@ -990,16 +1007,21 @@ last step has no argument, and 6.4 does not use it.
 Prove that a locally coherent topos has enough points (SGA 4 VI 9.0, proved in VI §9;
 Mac Lane–Moerdijk IX.11), and `hasEnoughPoints_coherentTopology`:
 `GrothendieckTopology.HasEnoughPoints.{u} (coherentTopology C)` for every small `C` with
-`[Precoherent C]` and `[HasPullbacks C]`. Route for the latter, which does not go through 6.3: for
-`c : C`, `Over c` has finite limits (products over `c` are pullbacks in `C`; the equalizer of
-`f, g : (d → c) ⇉ (e → c)` is the pullback of `(f, g) : d → e ×_c e` along the diagonal of `e`),
-and the induced topology `(coherentTopology C).over c` is generated by finite families, so
+`[Precoherent C]` and `[HasPullbacks C]`. This generalises AdicEtaleGeometry A1.15, which proves
+it for a coherent topos, by dropping the quasicompactness of the terminal object: `C` needs no
+terminal object. A1.15 is the more general in universes (`C : Type u`, morphisms in `Type v`,
+points in `Type w`), where here all three are `u`. Route for `hasEnoughPoints_coherentTopology`,
+which does not go through 6.3: for `c : C`, `Over c` has finite limits (products over `c` are
+pullbacks in `C`; the equalizer of `f, g : (d → c) ⇉ (e → c)` is the pullback of
+`(f, g) : d → e ×_c e` along the diagonal of `e`), and the induced topology
+`(coherentTopology C).over c` is generated by finite families, so
 `Sheaf (coherentTopology C) (Type u) / ℓ c ≌ Sheaf ((coherentTopology C).over c) (Type u)` (3.1)
-is a coherent topos and has enough points (Mac Lane–Moerdijk IX.11). Since the `ℓ c` generate, a
-morphism of sheaves is an isomorphism when its pullback to every slice over an `ℓ c` is, so the
-points of the slices form a `u`-small conservative family (6.2).
-*Needs:* 3.1, 6.2, 6.3; Mathlib `coherentTopology`, `GrothendieckTopology.HasEnoughPoints`,
-`GrothendieckTopology.over`.
+is a coherent topos and has enough points (AdicEtaleGeometry A1.15 with `v = w = u`;
+Mac Lane–Moerdijk IX.11). Since the `ℓ c` generate, a morphism of sheaves is an isomorphism when
+its pullback to every slice over an `ℓ c` is, so the points of the slices form a `u`-small
+conservative family (6.2).
+*Needs:* 3.1, 6.2, 6.3; AdicEtaleGeometry A1.15; Mathlib `coherentTopology`,
+`GrothendieckTopology.HasEnoughPoints`, `GrothendieckTopology.over`.
 
 **Checks.**
 
@@ -1054,8 +1076,8 @@ epimorphism (`epi_piMap_presheaf`) and `u`-small products distribute over `u`-sm
 
 ### Dependencies
 
-Layers 1–5, AdicSpacesPartII R0.19.10, and Mathlib. Within the layer, 6.2 uses 6.1, 6.4 uses 3.1
-and 6.2–6.3, and 6.5 uses 6.2 and 5.6.
+Layers 1–5, AdicSpacesPartII R0.19.10, AdicEtaleGeometry A1.15 (6.4), and Mathlib. Within the
+layer, 6.2 uses 6.1, 6.4 uses 3.1 and 6.2–6.3, and 6.5 uses 6.2 and 5.6.
 
 ## Layer 7: locales and localic topoi
 
@@ -1317,10 +1339,12 @@ extension by zero `(Over.forget c).sheafPullback AddCommGrpCat.{u} (J.over c) J`
 limits, so it is exact, and it is faithful (SGA 4 IV 11.3.1). Route: on presheaves it is
 `(j_!N)(d) = ⨁_{u : d ⟶ c} N(u)`, which is exact and has a monomorphic unit `N ⟶ j^*j_!N`; since
 `Over.forget c` is continuous and cocontinuous, the sheaf version is the sheafification of the
-presheaf one, and sheafification is exact. For a space `X` and `U : Opens X`, prove that the stalk
-of `j_!F` at `x` is `F_x` for `x ∈ U` and `0` otherwise (`TopCat.Presheaf.stalk`), and that a
+presheaf one, and sheafification is exact. For a space `X` and `U : Opens X`, the stalk
+of `j_!F` at `x` is `F_x` for `x ∈ U` and `0` otherwise (`TopCat.Presheaf.stalk`), which is the
+case `Λ = ℤ` of DiamondEtaleCohomology, "Topological open extension by zero"; prove that a
 section of `j_!F` over `V` is a section of `F` over `V ∩ U` whose support is closed in `V`.
-*Needs:* 3.1; Mathlib `Functor.sheafPullback`, `Functor.sheafAdjunctionContinuous`,
+*Needs:* 3.1; DiamondEtaleCohomology, "Topological open extension by zero"; Mathlib
+`Functor.sheafPullback`, `Functor.sheafAdjunctionContinuous`,
 `GrothendieckTopology.overPullback`, `sheafIsAbelian`, `TopCat.Presheaf.stalk`.
 
 **Checks.**
@@ -1473,19 +1497,20 @@ nonzero projective; hence it has no disjointly refinable basis either.
 
 ### Dependencies
 
-Layers 3 and 4, Mathlib, and Tau Ceti's supported sections and local cohomology sheaves (9.3,
-9.4). Within the layer, 9.2 uses 9.1, 9.3 uses 9.2, 9.4 uses 9.1 and 9.3,
-and 9.5 uses 9.1 and 9.2.
+Layers 3 and 4, DiamondEtaleCohomology (9.1), Mathlib, and Tau Ceti's supported sections and
+local cohomology sheaves (9.3, 9.4). Within the layer, 9.2 uses 9.1, 9.3 uses 9.2, 9.4 uses 9.1
+and 9.3, and 9.5 uses 9.1 and 9.2.
 
 ## Downstream consumers
 
 No roadmap on main cites this one. HomotopyTheoryOfCategories names it as the owner of
 Grothendieck topoi, their points and morphisms and the classifying topos `B G`, and uses none of
 that material: sites appear there only as bases of coefficient stacks. TotallyDistributiveTopoi
-consumes 1.1, 1.2, 1.4, 2.3, 5.2, 5.6, 6.5 and 7.1. The converse of the two exactness properties of presheaf topoi in
-6.5 fails there: sheaves on `[0, 1)` with the lower topology satisfy both without being a presheaf
-topos (TotallyDistributiveTopoi 3.5), and the topoi satisfying both are the essential subtopoi of
-presheaf topoi (TotallyDistributiveTopoi 2.4).
+consumes 1.1, 1.2, 1.4, 2.3, 5.2, 5.6, 6.5 and 7.1. The converse of the two exactness properties
+of presheaf topoi in 6.5 fails there: sheaves on `[0, 1)` with the lower topology satisfy both
+without being a presheaf topos (TotallyDistributiveTopoi 3.5), and the topoi satisfying both are
+the essential subtopoi of presheaf topoi (TotallyDistributiveTopoi 2.4). ClassifyingTopoi consumes
+Conventions 1 and 4 and 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 4.1, 4.2 and 6.1.
 
 ## References
 
