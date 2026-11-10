@@ -442,7 +442,8 @@ Checked against the pin; re-grep before citing anything in code.
   and `Geometry/Manifold/DifferentialForm/Integration/Interval/Stokes.lean` —
   `TauCeti.integralTopForm`, `TauCeti.IntegrableTopForm`,
   `TauCeti.integralTopForm_eq_sum_disjointed_chart_integrals`,
-  `TauCeti.integralTopForm_eq_chartIntegral`, `TauCeti.integralTopForm_add`,
+  `TauCeti.integralTopForm_eq_chartIntegral`,
+  `TauCeti.integralTopForm_of_tsupport_subset_chart`, `TauCeti.integralTopForm_add`,
   `TauCeti.integralTopForm_add_of_integrable`, `TauCeti.integralTopForm_smul`,
   `TauCeti.integralTopForm_zero`, `TauCeti.integralTopForm_neg`, `TauCeti.integralTopForm_nonneg`,
   `TauCeti.integralTopForm_pos`, `TauCeti.integralTopForm_mpullback_of_isOrientationPreservingAt`,
@@ -1709,9 +1710,15 @@ stronger quantifier order.
   chart cover of the support, of the chart integrals of the coefficient in a basis of the model
   against that basis's `addHaar`, weighted by the chart signs of a representing lift
   (`TauCeti.integralTopForm_eq_sum_disjointed_chart_integrals`); the manifold needs no Hausdorff
-  or measurable-space structure, and a form supported in one chart has that chart's integral for
-  any representing lift (`TauCeti.integralTopForm_eq_chartIntegral`, the chart formula that
-  consumers cite as integralTopForm_of_tsupport_subset_chart). Its laws are Tau Ceti's as
+  or measurable-space structure, and an integrable form supported in one chart has that chart's
+  integral for any representing lift (`TauCeti.integralTopForm_eq_chartIntegral`). For a
+  continuous form with compact support inside the source of the chart at `α`, that chart
+  integral is explicit: for any representing lift `l` and any basis `b` of the model positively
+  oriented for `l`'s model orientation, `∫_M ω` is the integral, over `y` in the chart target
+  `(extChartAt I α).target` and against `b.addHaar`, of the chart sign `l.signAt α` at the point
+  `(extChartAt I α).symm y` times the coefficient on `b` at `y` of the pullback of `ω` by the
+  inverse chart (`TauCeti.integralTopForm_of_tsupport_subset_chart`, `Integration/Regularity.lean`,
+  the chart formula consumers cite under that name). Its laws are Tau Ceti's as
   well: additivity for continuous compactly supported forms and for integrable rough forms
   (`TauCeti.integralTopForm_add`, `…_add_of_integrable`), scalars and zero
   (`…_smul`, `…_zero`), sign reversal under the opposite orientation for every rough form
@@ -3143,22 +3150,32 @@ constructions they share with it and their single owners.
   with singular fundamental classes (*Scope and ownership*).
 - **AlgebraicTopology**: Layer 2's tangent orientations (`orientationAt`,
   `Manifold.Orientation.pullback`), 5.1's outward-first boundary orientation and 5.5b's
-  `fullSimplex` with `fullSimplexEquivStdSimplex`, for its 6.3; the degree of 10.5, which its 6.5
-  compares with the homological degree.
-- **GeometricTopology**: orientations (2), distributions, Frobenius and leaves for its foliations
-  (4), densities and form integration (5.5a, 12.4) and the smooth face structure with its
-  product charts (5.5b) for collars and gluing.
-- **ComplexKahlerGeometry**: the forms and wedge of layers 0–1 with 0.4's two-form migration,
-  2.1's orientations, 5.5a's `Density` with its scaling, rough densities, integral of densities
-  and agreement with the integral of top forms, 12.4's comparison of the Riemannian measure with
-  the Riemannian density, and layer 12's sign convention for the Laplacian.
+  `fullSimplex` with `fullSimplexEquivStdSimplex`, for its 6.3; 2.4's outward orientation of the
+  spheres; the degree of 10.5, which its 6.5 compares with the homological degree.
+- **GeometricTopology**: orientations (2), flows (3), distributions, Frobenius and leaves for its
+  foliations (4), densities and form integration (5.5a, 12.4), the smooth face structure with its
+  product charts (5.5b) for collars and gluing, the smoothing theorem and Stokes for chains
+  (8.3–8.4), and the metrics of layer 12.
+- **ComplexKahlerGeometry**: the forms and wedge of layers 0–1 (0.1's permutation formula, 0.3's
+  coefficient maps and pullback, 1.2's naturality of `d`, 1.5's flat curve calculus and polar
+  forms) with 0.4's two-form migration, 2.1's orientations, 2.2's pullback and product
+  orientations and orientation-preserving maps, 5.2's integral of top forms, 5.4's homotopy
+  operator and 6.2's Poincaré lemma, 5.5a's `Density` with its scaling, rough densities, integral
+  of densities and agreement with the integral of top forms, the smooth chains, chain integrals
+  with Stokes and de Rham theorem of 8.3–8.5, 9.3's duality, 12.1's pullback metrics, 12.4's
+  comparison of the Riemannian measure with the Riemannian density, and layer 12's sign
+  convention for the Laplacian.
 - **SymplecticGeometry**: the Cartan and homotopy formulas (1.4, 5.4);
-  its ContactGeometry consumes the forms and `mextDeriv` of layers 0–1, HamiltonianReduction
-  0.4, 3.5 and the de Rham carrier, CotangentLagrangian layer 4, 5.4 and the de Rham comparison
-  of layer 8, IntegrableSystems layers 0–1, Frobenius (4) and 8.4, and ConvexityToric forms and
-  integration.
-- **HeegaardFloer**: orientations and the orientation cover (2), flows and time-dependent flows
-  (3, 3.5), the de Rham theorem (8.5) and the degree (10).
+  its ContactGeometry consumes the forms and `mextDeriv` of layers 0–1 and layer 4's contact
+  non-involutivity, HamiltonianReduction 0.4, 3.5, the de Rham carrier, compact supports (6.4),
+  chain integration (8.4), Sard (10.2) and the degree (10), CotangentLagrangian layer 4, 5.4 and
+  the de Rham comparison of layer 8, IntegrableSystems layers 0–1, Frobenius (4) and 8.4, and
+  ConvexityToric forms and integration.
+- **HeegaardFloer**: the bundle calculus, interior product and Cartan calculus of layers 0–1
+  (0.1, 0.3, 0.4, 1.1–1.4), orientations and the orientation cover (2), flows and time-dependent
+  flows (3, 3.5), the homotopy operator (5.4), planar Green (5.6), the de Rham complex and the
+  Poincaré lemma (6), integration over smooth chains and the de Rham theorem (8.4–8.5), Sard
+  (10.2) and the degree (10).
 - **MorseTheory**: flows (3), 5.1's boundary orientation, the degree (10) and 12.2's gradient
   (Tau Ceti's `TauCeti.Manifold.mgradient`); **MorseNovikov**: layers 0–3, 5–6, 8, 10 and 12, and
   `TauCeti.circleAngularForm`, the flow of a `C¹` field on a closed manifold being Tau Ceti's
@@ -3172,10 +3189,11 @@ constructions they share with it and their single owners.
   **GeometricCurrents** (0–2, 5, 8–9, 12), **Poincare3D** (0–3, 5–10, 12),
   **LocalVariationalFieldTheory** (0–2, 5–6, 12), **PseudodifferentialOperators** (0–1, 5),
   **QuaternionicAnalysis** (0–2, 5.2), **Orbifolds** (forms and 8.4–8.5),
-  **LieGroupoidsPoisson** (0.1–0.2, 4, 10.1), **Yamabe** (2, 4, 12.2–12.5),
-  **IntegralLattices** (12.1, 12.4), **HilbertModules** (5.2), **TaubesGromov** (forms, metrics
-  and orientations) and **HamiltonianFloerOperations** (forms, flows, orientations and Poincaré
-  duality).
+  **LieGroupoidsPoisson** (0.1–0.2, 0.4, 1, 3, 4, 5, 6, 8.3, 10.1, 10.3–10.4, 12.1),
+  **Yamabe** (2, 4, 12.2–12.5), **IntegralLattices** (12.1, 12.4), **HilbertModules** (5.2),
+  **AnalyticNumberTheoryPartI** (5, 12), **GeneralizedCohomology** (12.1's metrics),
+  **TaubesGromov** (forms, metrics and orientations) and **HamiltonianFloerOperations** (forms,
+  flows, orientations and Poincaré duality).
 - Flows: **ComplexCurveModuli** (3, 3.5), **DiagrammaticCoherence** (3.2, 3.3, 3.5 and 10.2) and
   **KhovanovHomology** (2 and 3.2, 3.3, 3.5).
 - Orientations and the degree (2, 10): **ComplexManifolds** and **DGFloer**. Sard (10.2):
