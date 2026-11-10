@@ -9,8 +9,9 @@ Hilbert–Schmidt distortions. The roadmap proves their comparison inequalities 
 invariance under change of metric, reversal of orientation and composition with `C¹` factors.
 It proves the `ACL^p` characterisation of continuous Sobolev maps on Euclidean domains, and
 hence agreement with the classical definition of Martio, Rickman and Väisälä. It proves that
-non-degenerate orientation-preserving simplicial maps between smoothly triangulated manifolds are
-quasiregular, and it develops quasiregularly elliptic manifolds. The end theorems are:
+non-degenerate orientation-preserving simplicial maps between smoothly triangulated manifolds
+with bounded simplexwise distortion, in particular with compact source, are quasiregular, and it
+develops quasiregularly elliptic manifolds. The end theorems are:
 
 - the sharp comparison `K_I(f) ≤ K_O(f)^{n−1}`, `K_O(f) ≤ K_I(f)^{n−1}`, so the outer and
   maximal definitions give one class of maps, between manifolds and, in the original setting of
@@ -443,9 +444,9 @@ invariance under metrics, orientations and `C¹` factors. Layer 5 is Euclidean a
 Layers 2–4 except in §5.3: `ACL^p` maps, their identification with continuous `W^{1,p}_loc` maps,
 and the agreement with the classical definition. Layer 6 proves that piecewise `C¹` maps of
 `C¹`-triangulated manifolds are locally Lipschitz and that non-degenerate orientation-preserving
-simplicial maps are quasiregular. Layer 7 defines quasiregular ellipticity, proves its
-invariances, orients the orbit spaces of free, properly discontinuous orientation-preserving
-actions, and proves its examples.
+simplicial maps with bounded simplexwise distortion are quasiregular. Layer 7 defines
+quasiregular ellipticity, proves its invariances, orients the orbit spaces of free, properly
+discontinuous orientation-preserving actions, and proves its examples.
 
 Layers 1 and 5 can be built at once. Layer 2 needs Layer 1. Layers 3 and 4 need Layer 2.
 Layer 6 needs §2.8. Layer 7 needs Layers 4 and 6. The Euclidean part of the roadmap needs no
