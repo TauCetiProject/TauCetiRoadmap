@@ -154,14 +154,6 @@ section PolydiscReconciliation
 
 variable {ι : Type*} [Fintype ι]
 
-omit [Fintype ι] in
-/-- Compatibility of the old engine name with Mathlib's existing region; no new region def. -/
-theorem native_box_eq_pi_closedBall (r : ι → ℝ) (c : ℝ) :
-    TauCeti.GeometryOfNumbers.box r c =
-      Set.pi Set.univ (fun j => Metric.closedBall (0 : ℂ) (c * r j)) := by
-  ext x
-  simp
-
 /-- The count is finite before ncard is used; spanning is not required here. -/
 theorem finite_lattice_inter_polydisc (L : Submodule ℤ (ι → ℂ)) [DiscreteTopology L]
     (r : ι → ℝ) (c : ℝ) :

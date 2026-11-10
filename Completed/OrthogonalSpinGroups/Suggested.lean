@@ -232,11 +232,13 @@ noncomputable def vectorUnit (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0) :
   letI := CliffordAlgebra.invertibleιOfInvertible Q v
   unitOfInvertible (CliffordAlgebra.ι Q v)
 
+omit [Invertible (2 : K)] in
 @[simp]
 theorem vectorUnit_val (Q : QuadraticForm K V) {v : V} (hv : Q v ≠ 0) :
     ((vectorUnit Q hv : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) = CliffordAlgebra.ι Q v :=
   rfl
 
+omit [Invertible (2 : K)] in
 /-- **Layer 1B**: an anisotropic vector lies in Mathlib's carrier. This is the one place
 `Subgroup.subset_closure` is used, and everything else about the carrier goes through
 `mem_lipschitzGroup_iff_exists_list`. -/
@@ -525,6 +527,7 @@ def evenUnitaryGroup (Q : QuadraticForm K V) : Subgroup (CliffordAlgebra Q)ˣ wh
   one_mem' := by sorry
   inv_mem' := by sorry
 
+omit [Invertible (2 : K)] in
 theorem mem_evenUnitaryGroup_iff (Q : QuadraticForm K V) (x : (CliffordAlgebra Q)ˣ) :
     x ∈ evenUnitaryGroup Q ↔
       ((x : (CliffordAlgebra Q)ˣ) : CliffordAlgebra Q) ∈ CliffordAlgebra.even Q ∧
@@ -1289,6 +1292,7 @@ noncomputable def restrictAwaySpin (U : OrthogonalCompactOpens Q) (S : Set Nat.P
     finiteAdelicSpin Q U →* spinAway Q U S :=
   RestrictedProducts.restrictAway S (fun p : Nat.Primes => U.spin p)
 
+omit [FiniteDimensional ℚ V] in
 theorem restrictAwaySpin_apply (U : OrthogonalCompactOpens Q) (S : Set Nat.Primes)
     (x : finiteAdelicSpin Q U) (p : {p : Nat.Primes // p ∉ S}) :
     restrictAwaySpin Q U S x p = x p.1 := rfl
@@ -1314,6 +1318,7 @@ noncomputable def finiteAdelicSpinToSpecialOrthogonal (U : OrthogonalCompactOpen
   RestrictedProducts.restrictedProductMapOfForall (fun p => U.spin p) (fun p => U.soPart p)
     (fun p => spinToSpecialOrthogonal (localForm Q p)) U.spin_mapsTo_soPart
 
+omit [FiniteDimensional ℚ V] in
 theorem finiteAdelicSpinToSpecialOrthogonal_apply (U : OrthogonalCompactOpens Q)
     (x : finiteAdelicSpin Q U) (p : Nat.Primes) :
     finiteAdelicSpinToSpecialOrthogonal Q U x p = spinToSpecialOrthogonal (localForm Q p) (x p) :=
@@ -1325,6 +1330,7 @@ noncomputable def finiteAdelicSpecialOrthogonalToOrthogonal (U : OrthogonalCompa
   RestrictedProducts.restrictedProductMapOfForall (fun p => U.soPart p) (fun p => U.orth p)
     (fun p => specialOrthogonalToOrthogonal (localForm Q p)) (fun _ _ hg => hg)
 
+omit [FiniteDimensional ℚ V] in
 theorem finiteAdelicSpecialOrthogonalToOrthogonal_apply (U : OrthogonalCompactOpens Q)
     (x : finiteAdelicSpecialOrthogonal Q U) (p : Nat.Primes) :
     finiteAdelicSpecialOrthogonalToOrthogonal Q U x p =

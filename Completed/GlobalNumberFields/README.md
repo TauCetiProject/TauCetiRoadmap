@@ -529,11 +529,10 @@ D(r,c) = Set.pi univ (fun j => Metric.closedBall (0 : ℂ) (c * r j)).
 ```
 
 Write that set directly in declarations; `D` in the equations below is notation, not a new
-region definition or a separation predicate. Establish the exact equality with the legacy
-`TauCeti.GeometryOfNumbers.box r c`. Replace that standalone wrapper definition in the engine
-by a reducible compatibility abbreviation to the displayed Mathlib set, preserving existing
-names and all packing/doubling statements and proofs. The arithmetic engine remains the same;
-there is no second lattice or packing theory.
+region definition or a separation predicate. Tau Ceti's packing and doubling statements in
+`TauCeti.NumberTheory.GeometryOfNumbers.Doubling` are stated on the displayed Mathlib set, with
+no separate box definition. The arithmetic engine remains the same; there is no second lattice
+or packing theory.
 
 **3G.1. Complete the lattice/count/measure dictionary.** For finite `ι`, a discrete integral
 submodule `L ≤ ι → ℂ` and every real scale `c`, prove that `L ∩ D(r,c)` is finite by compactness
