@@ -141,7 +141,11 @@ This roadmap owns the objects in the layers below. Its sibling roadmaps consume 
     `Fragment.generated` and `Fragment.generated_countable`;
   * from Layer 2, `AElementary`, `aElementary_of_tarskiVaught` and
     `exists_countable_aElementary_substructure`;
-  * from 4.1, `infinitaryType`, `realizedTypes`, `exists_isolatingFormula` and the isolator seed.
+  * from 4.1, `infinitaryType`, `realizedTypes`, `exists_isolatingFormula` and the isolator seed;
+  * from Layer 6, `graphLanguage`, `graphExpansion`, `relationalize` with `realize_relationalize`,
+    `backTranslate` with `realize_backTranslate`, and `graphAxioms` with `reconstructStructure` and
+    the reconstruction law, for the countable-language forms of its complete-sentence and
+    categoricity theorems.
 
   It does not consume model existence, direct limits, the cardinal-bound Löwenheim–Skolem theorem
   or `fragmentType`. It owns smallness (`Lω₁ω`-small structures), small models, complete sentences
@@ -604,15 +608,16 @@ The omitted types do mathematical work.
 
 Suggested home: `TauCeti/ModelTheory/Infinitary/GraphTranslation.lean`.
 
-The model-existence engines of Layer 7 are run over relational languages, where every closed term
-of `L[[ℕ]]` is a constant. This layer transfers sentence-level statements between `L` and a
-relational language by the standard graph construction: an `n`-ary function symbol becomes an
-`(n + 1)`-ary relation symbol for its graph. It is a proof device for the theorems of Layer 7: it
-translates single sentences and entailments together with the totality and functionality
-axioms of the symbols they mention. This roadmap owns the graph-language translation and its
-semantic API, and no sibling roadmap builds a second one. Transferring Karp theory, back-and-forth
-analysis and Scott ranks across the translation is outside this series of roadmaps, and must reuse
-this API.
+The model-existence engines of Layer 7 are run over relational languages, where every closed term of
+`L[[ℕ]]` is a constant. This layer transfers sentence-level statements between `L` and a relational
+language by the standard graph construction: an `n`-ary function symbol becomes an `(n + 1)`-ary
+relation symbol for its graph. It is a proof device for the theorems of Layer 7: it translates
+single sentences and entailments together with the totality and functionality axioms of the symbols
+they mention. HanfNumbers uses it to move smallness and complete sentences between a language with
+countably many symbols and its graph language. This roadmap owns the graph-language translation and
+its semantic API, and no sibling roadmap builds a second one. Transferring Karp theory,
+back-and-forth analysis and Scott ranks across the translation is outside this series of roadmaps,
+and must reuse this API.
 
 * **The graph language.** `GraphRelation L n` with constructors `base (R : L.Relations n)` and
   `graph (f : L.Functions k)` at arity `k + 1`; `graphLanguage L`, with no function symbols and
