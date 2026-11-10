@@ -1,7 +1,6 @@
 module
 
 import Mathlib
-import TauCeti.LinearAlgebra.Matrix.PosDef.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.Gram
 import TauCeti.LinearAlgebra.IntegralLattice.Signature
 import TauCeti.LinearAlgebra.IntegralLattice.Even
@@ -10,7 +9,9 @@ import TauCeti.LinearAlgebra.IntegralLattice.Isometry.Group
 import TauCeti.LinearAlgebra.IntegralLattice.PosDef.Minimum
 import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Bilinear
 import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
-import TauCeti.LinearAlgebra.QuadraticForm.OrthogonalGroup.Basic
+import TauCeti.LinearAlgebra.IntegralLattice.PosDef.Gram
+import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.OrthogonalGroup
+import TauCeti.LinearAlgebra.IntegralLattice.Rank24.Leech.Basic
 
 /-!
 # Lattice packings and perfect forms: target signatures
@@ -20,25 +21,19 @@ results against the pinned Mathlib and Tau Ceti APIs, with simple definitions ne
 them and admitted theorem proofs.
 
 Headlines: the sharp Hermite bounds and constants in ranks 2–8 and 24; attainment and
-Mordell's inequality; Voronoi fundamental domains and deep holes; Voronoi's extreme-form
-criterion, finiteness of perfect and eutactic classes, neighbour-closure completeness and
-the perfect-class counts in ranks 4–8; Kitaoka's tensor-minimum equality;
+Mordell's inequality; Voronoi fundamental domains and deep holes; the covering radius `√2` of
+the Leech lattice; Voronoi's extreme-form criterion, finiteness of perfect and eutactic classes,
+neighbour-closure completeness and the perfect-class counts in ranks 4–8; Kitaoka's
+tensor-minimum equality;
 the moment criterion, strong perfection, harmonic theta modularity and Venkov's shell theorem;
 the 15 and 290 universality theorems; and the rank-one discriminant-image index formula.
 
 The integral-lattice tensor construction and its decomposition API in README §§7.1–7.3
 require a bundled integral-lattice tensor product absent at the pins; Kitaoka's minimum
 headline is stated on the form-side Kronecker Gram matrix. The perfect-class counts use
-the existing similarity quotient and need no chosen representative families. The Leech
-covering radius `μ(Λ₂₄) = √2` (README §3.4) is not stated: its carrier, Tau Ceti's
-`TauCeti.leechLattice` with `TauCeti.isPosDef_leechLattice` in the module
-`TauCeti.LinearAlgebra.IntegralLattice.Rank24.Leech.Basic`, exists at the Tau Ceti revision
-`2fd255d997f47c0b5d834ee416c7015d55444ce5` that README.md cites and is absent from the earlier
-revision this file is elaborated against. With that module the headline reads
-`(gramForm TauCeti.isPosDef_leechLattice b).coveringRadius = √2` for every `ℤ`-basis `b` of
-`Λ₂₄` indexed by `Fin 24`. The classification of the Leech deep holes is the route README §3.4 takes
-to that value and is a README target, not a headline. All other API, local checks and examples
-are in README.md.
+the existing similarity quotient and need no chosen representative families. The classification
+of the Leech deep holes is the route README §3.4 takes to the covering radius `μ(Λ₂₄) = √2` and
+is a README target, not a headline. All other API, local checks and examples are in README.md.
 
 The form carrier uses native Matrix.PosDef. Metric statements use FormSpace A, whose squared
 norm is xᵀAx. Harmonic polynomials evaluated in integral coordinates use the inverse-Gram
@@ -458,43 +453,7 @@ variable {V : Type u} [AddCommGroup V] [Module ℚ V]
 /-- **0.2.** The Gram matrix of a `ℤ`-basis of a positive definite lattice, as a form. -/
 noncomputable def gramForm {L : IntegralLattice V} (hL : L.IsPosDef) {n : ℕ}
     (b : Basis (Fin n) ℤ L) : PosDefForm n :=
-  ⟨(L.gramMatrix b).map (Int.cast : ℤ → ℝ), by
-    have hZ : (L.gramMatrix b).PosDef := by
-      rw [gramMatrix_eq_toMatrix, ← LinearMap.BilinForm.posDef_toQuadraticMap_iff_matrix b _
-        L.isSymm_integralForm]
-      intro x hx
-      simpa only [LinearMap.BilinMap.toQuadraticMap_apply, ← L.integralNorm_apply] using
-        hL.posDef_integralNorm x hx
-    have hQ := TauCeti.Matrix.posDef_map_intCast hZ
-    -- Semidefinite over `ℝ` by density of `ℚⁿ`; definite because the determinant is nonzero.
-    have hcast : ∀ q : Fin n → ℚ, (fun i => (q i : ℝ)) ⬝ᵥ
-        ((L.gramMatrix b).map (Int.cast : ℤ → ℝ) *ᵥ fun i => (q i : ℝ)) =
-          ((q ⬝ᵥ ((L.gramMatrix b).map (Int.cast : ℤ → ℚ) *ᵥ q) : ℚ) : ℝ) := by
-      intro q
-      simp only [dotProduct, mulVec, Matrix.map_apply, Rat.cast_sum, Rat.cast_mul, Rat.cast_intCast]
-    have hsemi : ((L.gramMatrix b).map (Int.cast : ℤ → ℝ)).PosSemidef := by
-      refine posSemidef_iff_dotProduct_mulVec.mpr ⟨?_, fun x => ?_⟩
-      · ext i j
-        simpa using congrArg (fun m : ℤ => (m : ℝ)) ((L.isSymm_gramMatrix b).apply i j)
-      · have hd : DenseRange (Pi.map fun (_ : Fin n) (r : ℚ) => (r : ℝ)) :=
-          DenseRange.piMap fun _ => Rat.denseRange_cast
-        have hc : Continuous fun x : Fin n → ℝ =>
-            x ⬝ᵥ ((L.gramMatrix b).map (Int.cast : ℤ → ℝ) *ᵥ x) := by fun_prop
-        rw [star_trivial]
-        refine hd.induction_on (p := fun x => 0 ≤ x ⬝ᵥ ((L.gramMatrix b).map
-          (Int.cast : ℤ → ℝ) *ᵥ x)) x (isClosed_le continuous_const hc) fun q => ?_
-        have := hQ.posSemidef.dotProduct_mulVec_nonneg q
-        rw [star_trivial] at this
-        exact (hcast q).symm ▸ (by exact_mod_cast this)
-    refine hsemi.posDef_iff_det_ne_zero.mpr ?_
-    have h1 : ((L.gramMatrix b).map (Int.cast : ℤ → ℝ)).det = ((L.gramMatrix b).det : ℝ) :=
-      ((Int.castRingHom ℝ).map_det _).symm
-    have h2 : ((L.gramMatrix b).map (Int.cast : ℤ → ℚ)).det = ((L.gramMatrix b).det : ℚ) :=
-      ((Int.castRingHom ℚ).map_det _).symm
-    have h3 := hQ.det_pos
-    rw [h2] at h3
-    rw [h1]
-    exact_mod_cast h3.ne'⟩
+  ⟨(L.gramMatrix b).map (Int.cast : ℤ → ℝ), (L.isPosDef_iff_posDef_map_gramMatrix b).mp hL⟩
 
 /-- **0.2.** Two bases give `GL_n(ℤ)`-equivalent forms. -/
 theorem gramForm_eq_actGL {L : IntegralLattice V} (hL : L.IsPosDef) {n : ℕ}
@@ -509,6 +468,11 @@ theorem minimum_eq_min {L : IntegralLattice V} (hL : L.IsPosDef) {n : ℕ}
 /-- **1.2.** Tau Ceti's `kissingNumber` is the form-side kissing number. -/
 theorem kissingNumber_eq_kissingNumber {L : IntegralLattice V} (hL : L.IsPosDef) {n : ℕ}
     (b : Basis (Fin n) ℤ L) : L.kissingNumber = (gramForm hL b).kissingNumber := sorry
+
+/-- **3.4.** The Leech lattice has covering radius `√2` in the real model of the Gram matrix of
+any `ℤ`-basis (Conway–Parker–Sloane; Conway–Sloane, Ch. 23). -/
+theorem coveringRadius_gramForm_leechLattice (b : Basis (Fin 24) ℤ TauCeti.leechLattice) :
+    (gramForm TauCeti.isPosDef_leechLattice b).coveringRadius = Real.sqrt 2 := sorry
 
 /-! ## Layer 5: spherical designs and Venkov's theorem -/
 
@@ -711,16 +675,11 @@ noncomputable def discriminantHom (L : IntegralLattice V) [L.IsNondegenerate] :
 open Classical in
 /-- **7.5.** The Festi–Veniani index `[O(D_L) : φ_L(O(L))]` of a nondegenerate lattice. For an even
 lattice `O(D_L)` is Tau Ceti's orthogonal group `O(q_L)` of the discriminant quadratic map, and the
-image of `O(L)` is the subgroup generated by the induced isometries
-`e.discriminantQuadraticIsometry he`; these compose as the lattice isometries do, so that subgroup
-is exactly the image of `O(L) → O(q_L)`. For an odd lattice the index is that of the range of
+image of `O(L)` is the range of Tau Ceti's `discriminantOrthogonalHom`. For an odd lattice the index is that of the range of
 `discriminantHom` in the bilinear discriminant isometry group. -/
 noncomputable def fvIndex (L : IntegralLattice V) [L.IsNondegenerate] : ℕ :=
   if he : L.IsEven then
-    (Subgroup.closure (Set.range fun e : TauCeti.IntegralLattice.Isometry L L =>
-      (TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv
-        (L.discriminantQuadraticModule he).quadratic).symm
-          (e.discriminantQuadraticIsometry he))).index
+    (TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom L he).range.index
   else (discriminantHom L).range.index
 
 /-- **7.5.** For a singleton integral basis of norm m ≥ 3 the index counts the roots of unity
