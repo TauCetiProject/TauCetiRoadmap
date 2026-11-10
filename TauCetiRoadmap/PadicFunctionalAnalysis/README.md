@@ -30,8 +30,8 @@ discrete-valuation and characteristic-zero assumptions are imposed locally.
 
 Every milestone and check below is required. This README is definitive;
 [Suggested.lean](Suggested.lean) states, on the pinned carriers, the headline
-theorems of §§4.4, 4.6, 4.7, 5.3, 5.4 and 5.6 that the pinned libraries do not
-prove.
+theorems of §§4.4, 4.6, 4.7, 5.3, 5.4, 5.5 and 5.6 that the pinned libraries do
+not prove.
 
 ## Scope and ownership
 
@@ -123,6 +123,10 @@ calculations in [LWX].
 
 9. **Name the norm and topology.** The normalisation is `‖p‖=p⁻¹` in
    `ℚ_p`; use normed `ℚ_p` scalar actions for the analytic estimates.
+   `r_p=p^(−1/(p−1))` is the radius of the exponential series and
+   `r_h=p^(−1/((p−1)p^h))` (`TauCeti.amiceRadius p h`) the radius of level
+   `h`; a numeral index always denotes a level, so `r_0=r_p`, and at `p=2`
+   one has `r_p=2⁻¹` while `r_2=2^(−1/4)`.
    The distribution carrier of §4.7 has stage seminorms but no new global
    topology. Integral measures retain their native carrier; field dual norms
    are taken after coefficient extension. The Iwasawa topology is profinite,
@@ -131,9 +135,13 @@ calculations in [LWX].
 10. **All primes.** Put `q=p` for odd `p`, `q=4` for `p=2`, `Δ=(ℤ/qℤ)ˣ`,
     `γ=exp(q)` and `T=[γ]−1`; in Lean `q=p^TauCeti.padicUnitsDepth p` and
     `γ=TauCeti.padicUnitsGenerator p`. At `p=2` the sign factor does not split
-    the integral group ring into two rings. A normed-ring weight has a
-    topologically nilpotent coordinate; only a multiplicative norm makes this
-    equivalent to `‖T_κ‖<1`.
+    the integral group ring into two rings. A weight with values in an
+    ultrametric normed ring with contractive `ℤ_p`-algebra structure has a
+    topologically nilpotent coordinate (`TauCeti.WeightSpace.tendsto_coord_pow`).
+    A power-multiplicative norm, in particular a multiplicative one, makes this
+    equivalent to `‖T_κ‖<1`
+    (`TauCeti.isTopologicallyNilpotent_iff_norm_lt_one_of_isPowMul`); in general
+    `‖T_κ‖` can be `1`, as for the dual-number weight in the Layer 5 Checks.
 
 ## Exact supplier contracts
 
@@ -213,7 +221,8 @@ without a namespace in the target lists (`amiceMap_bijective_and_norm_eq`,
 `binomialLA`, `amiceTransform_distribution_bijective`,
 `exists_character_of_hasEval`, `eq_aeval_binomialSeries`,
 `amiceTransform_completedGroupAlgebra_compat`, `measurePairing_injective`,
-`exists_eval_eq_weight_iff`, `mem_span_iff_forall_eval_annulus`) are the
+`exists_eval_eq_weight_iff`, `exists_powerSeries_hasSum_weight_factor`,
+`mem_span_iff_forall_eval_annulus`) are the
 declarations of
 [Suggested.lean](Suggested.lean), stated against the pinned carriers. A Check
 marked as an example in a pinned file is already formalised; the others are
@@ -428,15 +437,23 @@ theorems over complete nontrivially normed fields. In the pinned library:
 
 Target: over a complete discretely valued field `K` with value group `r^ℤ`,
 prove the orthogonal version (`t=1`, compare
-`TauCeti.isTOrthogonalFamily_one_iff`) for a finite-dimensional normed space
-`V`, using finite-dimensional distance attainment. The nonzero norms of `V` need
+`TauCeti.isTOrthogonalFamily_one_iff`) for a finite-dimensional ultrametric
+normed space `V` (`IsUltrametricDist`), using finite-dimensional distance
+attainment. A complete discretely valued field is spherically complete, and
+over a spherically complete field every finite-dimensional ultrametric
+seminormed space has an orthogonal basis ([CM] Remark 1.2.28, p. 70, and
+Corollary 1.2.31, p. 72). The ultrametric hypothesis is the one of the pinned
+`t<1` statement and of `TauCeti.isTOrthogonalFamily_one_iff`, and the route
+below uses it for the strict-triangle equality. The nonzero norms of `V` need
 not lie in `r^ℤ`, but they lie in at most `dim V` cosets `c_i r^ℤ`: vectors
 whose norms lie in distinct cosets have `‖Σ a_i v_i‖=max‖a_i v_i‖`, since the
 nonzero terms have distinct norms, so they are linearly independent. A finite
 union of such cosets, with `0`, meets every interval `[s,2s]`, `s>0`, in
 finitely many points, so a positive distance from a vector to a closed subspace
 is attained, and a zero distance is attained because the subspace is closed.
-No spherical completeness is assumed for the general field case. *Needs:*
+The route uses the discreteness of the value group directly rather than
+spherical completeness; over a general complete field the pinned statement is
+the one for `t<1`. *Needs:*
 `TauCeti.exists_basis_isTOrthogonalFamily`,
 `TauCeti.isTOrthogonalFamily_one_iff`, Mathlib
 `Submodule.closed_of_finiteDimensional`.
@@ -473,11 +490,21 @@ for a presentation `R^n→M`, `TauCeti.Huber.IsTateRing.isModuleTopology`,
   unbounded as a `ℤ_p`-linear map.
 - Include the zero-module Neumann case: the inverse of `1−t` on the zero
   module has norm zero, not one.
+- On `ℚ_p²` with `‖(x,y)‖=max(|x|,p^(−1/2)|y|)` the standard basis is
+  orthogonal, but there is no orthonormal basis: an orthonormal basis gives
+  norms in `p^ℤ∪{0}`, while `‖(0,1)‖=p^(−1/2)`. This is the case of §1.3 that
+  the condition (N) of [Serre], p. 69, norms in the closure of `|Kˣ|`,
+  excludes.
+- On `ℚ_p²` with the norm `‖(x,y)‖=|x|+|y|`, which is not ultrametric, the
+  standard basis satisfies the one-sided inequality `‖x e₁+y e₂‖≥max(|x|,|y|)`,
+  but `‖(1,1)‖=2>1`: the equality `‖Σa_iv_i‖=max‖a_iv_i‖` of
+  `TauCeti.isTOrthogonalFamily_one_iff` fails without `IsUltrametricDist`,
+  which the §1.3 target therefore assumes.
 
 ### Dependencies
 
 Layer 0, topological open mapping and finite-dimensional topology. Sources:
-[JN] §2.1, [Buz] §2 and [BGR] §3.7.
+[JN] §2.1, [Buz] §2, [BGR] §3.7 and [CM] §1.2.
 
 ## Layer 2: Model spaces and bases
 
@@ -1221,8 +1248,8 @@ Targets:
   (`PowerSeries.onOpenDisc_log`) with unbounded coefficients: a distribution but
   not a bounded measure.
 - `exp(p)` for odd `p` and `exp(4)` at `p=2` converge, since `‖p‖=p⁻¹<r_p` for
-  odd `p` and `‖4‖=4⁻¹<r_2=2⁻¹`; `exp(2)` diverges in `ℚ_2`, since
-  `‖2‖=2⁻¹=r_2`.
+  odd `p` and, at `p=2`, `‖4‖=4⁻¹<2⁻¹=r_p`; `exp(2)` diverges in `ℚ_2`, since
+  `‖2‖=2⁻¹=r_p` at `p=2`.
 
 ### Dependencies
 
@@ -1455,7 +1482,19 @@ The bound `h'≥v_p(q)` gives `‖p^(h')‖<r_p`, so `exp(p^(h'))` converges. Ex
 `κ(1+u)=exp((log(1+u)/p^(h'))·log(1+t_(h')))`, which agrees with `κ` on
 `1+p^(h')ℤ_p`, and to `ℤ_pˣ(1+p^(h')𝒪_K)` multiplicatively. For
 `d∈ℤ_pˣ(1+p^(h')𝒪_K)` and `‖c‖≤‖p^(h')‖`, expand `κ(cz+d)` on the closed unit
-disc and prove its Gauss norm is one. A radius `r>0` satisfying
+disc and prove its Gauss norm is one: `exists_powerSeries_hasSum_weight_factor`.
+It is stated with `h'=h+v_p(q)` and the hypothesis in the form `‖T_κ‖<r_h` of
+§5.4, which is `‖t_(h')‖<r_p` by §4.6's equivalence
+`‖(1+t)^(p^h)−1‖<r_p ⇔ ‖t‖<r_h`, since `1+t_(h')=(1+T_κ)^(p^h)`; with
+`d=d₁(1+u₀)`, `d₁∈ℤ_pˣ`, `‖u₀‖≤‖p^(h')‖`, so that `cz+d=d₁(1+u₀+cz/d₁)`; with
+the extension written by the formula above through Mathlib's `NormedSpace.exp`
+and `NormedSpace.log`, its agreement with `κ` on `1+p^(h')ℤ_p` being the first
+clause; and with Gauss norm one read as coefficients of norm at most one and a
+constant term `κ(d)` of norm one. The constant term has norm one because
+`κ(ℤ_pˣ)` is a compact subgroup of `Kˣ`, so `‖κ(d₁)‖=1`, and the extension
+has `‖κ(1+u₀)−1‖<1`, its exponent having norm at most `‖t_(h')‖<r_p`. The
+unit disc is the case `r=1` of the radius bound below, whose two conditions
+hold since `‖c‖≤‖p^(h')‖<r_p` and `‖t_(h')‖<r_p`. A radius `r>0` satisfying
 
 ```text
 r‖c‖ < r_p,       r‖c‖‖t_(h')‖ < ‖p^(h')‖ r_p
@@ -1473,7 +1512,8 @@ nonnegative algebraic weight the expansion agrees with `(cz+d)^k`. Matrix
 actions and the ordering convention in their cocycle identity belong to
 quaternionic modular-form theory; this section gives only scalar expansions.
 *Needs:* the §5.4 criterion at the principal-part level `h'−v_p(q)`, the
-first two targets of §4.5 for the extension to `1+p^(h')𝒪_K`,
+first two targets of §4.5 for the extension to `1+p^(h')𝒪_K`, Mathlib
+`NormedSpace.exp`, `NormedSpace.log` and `PowerSeries` for the statement,
 RestrictedPowerSeries §§1.1 and 2.2 (Gauss norms, substitution) for the
 composition and the coefficient bounds,
 `TauCeti.WeightSpace.principalChar` and
@@ -1547,7 +1587,7 @@ Fredholm series and slope bounds are outside this roadmap. *Needs:* the ring
   the trivial weight and is told apart only by its finite part. The weight
   `κ(x)=x` also has finite part `ε`, through the sign section `ω(±1)=±1`, and
   `‖T_κ‖=‖exp(4)−1‖=4⁻¹`. The choice `q=4` is forced: `exp(2)` diverges in
-  `ℚ_2`, since `‖2‖=2⁻¹=r_2`.
+  `ℚ_2`, since `‖2‖=2⁻¹=r_p` at `p=2`.
 - Specialisation at the trivial weight sends `T↦0` and every `[x]↦1`, the
   binomial formula giving `1·(1+0)^(s(x))=1`. At `κ(x)=x^k`, `k∈ℤ`, the finite
   part is `x̄↦ω(x̄)^k` and `T_κ=exp(kq)−1`, and the formula returns
@@ -1698,6 +1738,10 @@ and [LWX] §§2–3, Lemma 3.15.
 * **[KL]** K. S. Kedlaya and R. Liu,
   [*Relative p-adic Hodge theory: Foundations*](https://arxiv.org/abs/1301.0792),
   §2.4, Remark 2.4.4; retain the gauge hypotheses made explicit in §0.4.
+* **[CM]** H. Chen and A. Moriwaki,
+  [*Arakelov geometry over adelic curves*](https://arxiv.org/abs/1903.10798),
+  arXiv:1903.10798v1 (2019), §1.2; theorem and page numbers refer to that
+  version.
 * **[Mah]** K. Mahler, *An interpolation series for continuous functions of
   a p-adic variable*, J. reine angew. Math. **199** (1958), 23–34.
 * **[Am]** Y. Amice, *Interpolation p-adique*, Bull. Soc. Math. France

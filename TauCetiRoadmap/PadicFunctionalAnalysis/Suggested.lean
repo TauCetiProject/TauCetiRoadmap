@@ -23,13 +23,16 @@ definitive. This file states, against the pinned Mathlib and Tau Ceti, the headl
 the roadmap that the pinned libraries do not already prove: Amice's theorem (§4.4), the analytic
 level of an additive character (§4.6), the Amice bijection between locally analytic distributions
 and series on the open unit disc (§4.7), the adic universal character, the Amice-coordinate
-comparison and separation by weights (§5.3), the analytic level of a weight on `ℤ_pˣ` (§5.4), and
-joint injectivity of the annular evaluations (§5.6). It uses the pinned carriers
+comparison and separation by weights (§5.3), the analytic level of a weight on `ℤ_pˣ` (§5.4), the
+scalar analytic factors `κ(cz + d)` of a weight (§5.5), and joint injectivity of the annular
+evaluations (§5.6). It uses the pinned carriers
 `TauCeti.AnalyticStage` with `TauCeti.AnalyticStage.amiceMap` and `TauCeti.AnalyticStage.eval`
 (§§4.4, 4.6, 5.4), `PadicInt.addChar_of_value_at_one` and `TauCeti.amiceRadius` (§§4.6, 5.4), the
 algebraic direct limit `TauCeti.LocallyAnalytic` with `TauCeti.LocallyAnalytic.ofStage` and
 `PowerSeries.OnOpenDisc` (§4.7), `TauCeti.WeightSpace` with `TauCeti.WeightSpace.finiteChar` and
-`TauCeti.WeightSpace.coord` (§§5.3, 5.4), `TauCeti.padicUnitsDepth` (§§5.3, 5.4),
+`TauCeti.WeightSpace.coord` (§§5.3–5.5), `TauCeti.padicUnitsDepth` (§§5.3–5.5),
+`TauCeti.padicUnitsGenerator` with Mathlib's `NormedSpace.exp`, `NormedSpace.log` and `PowerSeries`
+(§5.5),
 `AbstractMeasure` with `ContinuousMonoidHom.characterIntegralAlgHom`, the completed-group-algebra
 equivalence `AbstractMeasure.completedGroupAlgebraEquiv` with the power-series coordinate
 `TauCeti.completedGroupAlgebra.powerSeriesCoordinate` (§5.3), and Mathlib's `MvPowerSeries`,
@@ -42,12 +45,11 @@ README, not restated here. The form of §5.4 for the principal part `s ↦ κ(γ
 `ℤ_pˣ` is `exists_eval_eq_weight_iff`, stated on the stage carrier with the evaluation restricted
 to the units.
 
-Two headline targets are not stated here. The scalar analytic factors of §5.5: no pinned
-declaration extends a weight analytically from `1 + p^(h') ℤ_p` to `1 + p^(h') 𝒪_K` for a unit
-level `h' ≥ v_p(q)`, and the expansion of `κ(cz + d)` needs that extension. The Banach–Tate
-structure of §5.6: the gauge on `H[1/T]`, its completeness and the continuity of the annular
-evaluations need a normed-ring structure on `H[1/T]`, which the pins lack. The remaining targets of
-§§4.4–5.6 are specified in the README.
+The analytic extension of a weight in §5.5 is written by its defining formula
+`exp((log y / p^(h')) · log(1 + t))`, so no new definition is needed for it. One headline target
+is not stated here: the Banach–Tate structure of §5.6, since the gauge on `H[1/T]`, its
+completeness and the continuity of the annular evaluations need a normed-ring structure on
+`H[1/T]`, which the pins lack. The remaining targets of §§4.4–5.6 are specified in the README.
 -/
 
 @[expose] public section
@@ -220,6 +222,36 @@ theorem exists_eval_eq_weight_iff (h : ℕ) {K : Type*} [NormedRing K] [NormMulC
     (∃ f : TauCeti.AnalyticStage p (h + TauCeti.padicUnitsDepth p) K,
         ∀ x : ℤ_[p]ˣ, TauCeti.AnalyticStage.eval ℤ_[p] f (x : ℤ_[p]) = (κ x : K)) ↔
       ‖κ.coord‖ < TauCeti.amiceRadius p h := by
+  sorry
+
+/-- **Scalar analytic factors of a weight** (§5.5; the universal form at `h' = v_p(q)` is in the
+proof of [LWX] Proposition 3.14, p. 21). Let `K` be a complete normed field over `ℚ_p`, let
+`h' = h + v_p(q)` be a unit level and let `κ` be a `K`-valued weight with `‖T_κ‖ < r_h`, the
+§5.4 criterion for analyticity on the cosets of `1 + p^(h') ℤ_p`. Put `1 + t = κ(exp(p^(h')))`,
+which is `κ(γ^(pʰ))` and satisfies `‖t‖ < r_p`. The function
+`κ̃(y) = exp((log y / p^(h')) · log(1 + t))` agrees with `κ` on `1 + p^(h') ℤ_p`, and it extends
+`κ` to `1 + p^(h') 𝒪_K`. For `d = d₁ (1 + u₀)` with `d₁ ∈ ℤ_pˣ` and `‖u₀‖ ≤ ‖p^(h')‖`, and for
+`‖c‖ ≤ ‖p^(h')‖`, the factor `κ(cz + d) = κ(d₁) κ̃(1 + u₀ + cz/d₁)` is, at every `z` of the closed
+unit disc, the sum of one power series in `z` whose coefficients have norm at most one and whose
+constant term `κ(d)` has norm one: its Gauss norm is one. -/
+theorem exists_powerSeries_hasSum_weight_factor (h : ℕ) {K : Type*} [NormedField K]
+    [NormedAlgebra ℚ_[p] K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K]
+    [CompleteSpace K] (κ : TauCeti.WeightSpace p K)
+    (hκ : ‖κ.coord‖ < TauCeti.amiceRadius p h) :
+    (∀ x : ℤ_[p]ˣ, ‖(x : ℤ_[p]) - 1‖ ≤ ‖(p : ℤ_[p]) ^ (h + TauCeti.padicUnitsDepth p)‖ →
+        (κ x : K) = NormedSpace.exp
+          (NormedSpace.log (algebraMap ℤ_[p] K x) / (p : K) ^ (h + TauCeti.padicUnitsDepth p) *
+            NormedSpace.log (κ (TauCeti.padicUnitsGenerator p ^ p ^ h) : K))) ∧
+      ∀ (d₁ : ℤ_[p]ˣ) (u₀ c : K), ‖u₀‖ ≤ ‖(p : K) ^ (h + TauCeti.padicUnitsDepth p)‖ →
+        ‖c‖ ≤ ‖(p : K) ^ (h + TauCeti.padicUnitsDepth p)‖ →
+        ∃ F : PowerSeries K, (∀ n, ‖PowerSeries.coeff n F‖ ≤ 1) ∧
+          ‖PowerSeries.coeff 0 F‖ = 1 ∧
+          ∀ z : K, ‖z‖ ≤ 1 →
+            HasSum (fun n ↦ PowerSeries.coeff n F * z ^ n)
+              ((κ d₁ : K) * NormedSpace.exp
+                (NormedSpace.log (1 + u₀ + c * z / algebraMap ℤ_[p] K d₁) /
+                    (p : K) ^ (h + TauCeti.padicUnitsDepth p) *
+                  NormedSpace.log (κ (TauCeti.padicUnitsGenerator p ^ p ^ h) : K))) := by
   sorry
 
 /-- **Joint injectivity of the annular evaluations** (§5.6). On Mathlib's model
