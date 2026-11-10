@@ -37,8 +37,6 @@ needs InfinitaryModelExistence's `fragmentType` and `Fragment.slice`.
 
 @[expose] public section
 
-set_option autoImplicit false
-
 universe u v w w' u' v'
 
 namespace TauCetiRoadmap.CountableModelCounting
