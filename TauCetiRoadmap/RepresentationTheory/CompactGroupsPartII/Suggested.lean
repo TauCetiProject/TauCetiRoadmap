@@ -8,17 +8,26 @@ import TauCeti.RepresentationTheory.SU2.Exhaustion
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: irreducible positive-scalar metric
 classification, U(2) weight recognition, Banach G-finite density, compact-group
-countability, duals of arbitrary products, compact abelian Fourier theory, and SU(2) multiplicities and faithfulness.
+countability, duals of arbitrary products, compact abelian Fourier theory, and SU(2)
+multiplicities and faithfulness.
 The implemented Haar, unitarization, Peter–Weyl, character and SU(2) theorems of the
 base roadmap are inputs, identified in the README's supplier contracts.
 
-The global representation-ring comparison and the Layer 6 root dictionary are
-not stated: the pins do not supply the continuous-representation Grothendieck
-ring, maximal tori of compact Lie groups with their character lattices, or the
-finite central covering construction. The full multiplicity-space
-metric comparison needs the chosen unitary isotypic tensor decomposition; the
-continuous-kernel comparison needs the Hilbert–Schmidt operator carrier. These
-constructions remain README targets, without substitute predicates here.
+Not stated, each for a carrier the pins lack:
+
+* the Layer 6 classification of irreducible representations by dominant characters
+  and the formal-character basis of the Weyl invariants: the pins have maximal tori
+  (`TauCeti.Lie.IsMaximalTorus`, with the character lattice `PontryaginDual`) but
+  neither the root characters with a positive system of a compact connected Lie
+  group, nor its finite central cover, nor the formal character of a continuous
+  representation restricted to a maximal torus;
+* the full multiplicity-space metric comparison: it needs the chosen unitary
+  isotypic tensor decomposition;
+* the continuous-kernel norm identity: the pins have the Hilbert–Schmidt energy and
+  norm of an operator but not the integral operator of a continuous kernel on a
+  compact space with a finite Borel measure.
+
+These constructions remain README targets, without substitute predicates here.
 -/
 
 noncomputable section
@@ -125,18 +134,6 @@ theorem separable_L2_iff_countable_irrepClass :
       Countable (TauCeti.IrrepClass ℂ G) := by
   sorry
 
--- Use the Borel sigma algebra of the product topology for every index type.
-/-- The full Borel sigma algebra of an arbitrary circle product. -/
-local instance circleProductMeasurable (J : Type u) : MeasurableSpace (J → Circle) := borel _
-/-- The circle product is measured with its Borel sigma algebra. -/
-local instance circleProductBorel (J : Type u) : BorelSpace (J → Circle) := ⟨rfl⟩
-
-/-- Coordinate characters give the uncountable orthonormal-family obstruction. -/
-theorem not_separable_L2_circleProduct (J : Type u) (hJ : ¬ Countable J) :
-    ¬ TopologicalSpace.SeparableSpace (Lp ℂ 2 (TauCeti.haarProb (J → Circle))) := by
-  sorry
-
-
 end
 
 /-! ## Layer 4: duals of arbitrary products -/
@@ -228,7 +225,7 @@ theorem exists_characterBasis :
 
 end
 
-/-! ## Layer 6: global forms and representation rings -/
+/-! ## Layer 6: global forms and formal characters -/
 
 /-- Finite torus weights characterize actual continuous U(2) representations. -/
 theorem u2_weight_character_iff (f : (ℤ × ℤ) →₀ ℕ) :
