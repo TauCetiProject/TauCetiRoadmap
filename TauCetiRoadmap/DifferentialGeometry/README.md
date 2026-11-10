@@ -1872,8 +1872,9 @@ stronger quantifier order.
   - `familyContraction` for the translation family `P(x, t) = x + t e₁` on `ℝ²` and
     `ω = x dy`: `V_t = e₁`, `p_t^* ω = (x + t) dy` has `∂_t = dy`, and the identity
     `∂_t(p_t^* ω) = d(C ω) + C(dω)` gives `d(x · dy(e₁)) + ι_{e₁}(dx ∧ dy) = 0 + dy`, as it must.
-- **5.5a Densities, for every finite-dimensional real model.** `Density`,
-  `RoughDensity`, the density `φ · sign_o` of a top form and an orientation, the integral of
+- **5.5a Densities, for every finite-dimensional real model.** `Density`, rough
+  densities (a `Density (TangentSpace I x) m` at every point `x`), the density `φ · sign_o` of a
+  top form and an orientation, the integral of
   densities, and its agreement with the integral of top forms give orientation-free integration
   [Lee, Ch. 16, "Densities"]. Prove independence of chart, basis and partition
   by the absolute determinant change-of-variables formula. This uses 5.2's
@@ -1901,9 +1902,9 @@ stronger quantifier order.
   - `TauCeti.circleAngularForm` at `z = x + iy` on the tangent vector `iz = −y + ix` is
     `x · x − y · (−y) = 1`; it vanishes nowhere, hence orients the circle, is closed, and is not
     exact, since `|∫_{S¹} dθ| = 2π ≠ 0` while an exact `df` integrates to `f(end) − f(start) = 0`
-    around the loop. `RoughDensity I M (dim)` contains `|ω|` for every top form `ω` and the
-    Riemannian density of 12.4, whose value on the standard basis of flat `ℝⁿ` is `1` and on
-    `T ∘ e` is `|det T|`.
+    around the loop. The rough densities of degree `dim` contain `|ω|` for every top form `ω`
+    and the Riemannian density of 12.4, whose value on the standard basis of flat `ℝⁿ` is `1`
+    and on `T ∘ e` is `|det T|`.
 - **5.5b Smooth faces, abstract boundary and corner Stokes.** Supply the
   following additional geometric **data**, the smooth face structure on `M` (a structure
   bundling the local quadrant data below), on a

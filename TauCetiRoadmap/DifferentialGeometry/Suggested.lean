@@ -89,9 +89,11 @@ of the quotient, which Tau Ceti's `TauCeti.Manifold.Orientation` does not expose
 `roundMetricCircle` selects the round-sphere metric that `TauCeti.roundMetricCircle` bundles, so
 that the continuity instance of the sphere applies to it in `volume_circle`. The time-dependent
 flow of 3.5 is defined on an open time slab, where Tau Ceti's is on the slab `ℝ`. `Density`,
-`RoughDensity`, `planarRadialPrimitive`, `contractionAlongMap`, `familyContraction`,
-`immersionMetric` and the boundary metric and measure of 12.5 have no Tau Ceti counterpart at the
-pin; each has a real body.
+`planarRadialPrimitive`, `contractionAlongMap` and `familyContraction` have no Tau Ceti
+counterpart at the pin. `immersionMetric` and the boundary metric of 12.5 are the instance-level
+forms, asking no regularity, of Tau Ceti's `Bundle.ContMDiffRiemannianMetric.pullback` and
+`Bundle.ContMDiffRiemannianMetric.restrictBoundaryTangentSpace`, which take a bundled `C^k`
+metric; the boundary measure is `TauCeti.riemannianVolume` of that metric. Each has a real body.
 
 Headline theorems not stated here, and what each lacks: Stokes' theorem for smooth faces and
 corners (5.5b) lacks the smooth face structure with its abstract boundary; the face-structured
@@ -800,15 +802,6 @@ by `|det|`. -/
 structure Density (V : Type*) [AddCommGroup V] [Module ℝ V] (m : ℕ) where
   toFun : (Fin m → V) → ℝ
   map_comp : ∀ (T : V →ₗ[ℝ] V) (v : Fin m → V), toFun (T ∘ v) = |LinearMap.det T| * toFun v
-
-variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-  [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
-  [ChartedSpace H M] {m : ℕ}
-
-/-- **Layer 5.5a.** Rough densities on a manifold. -/
-abbrev RoughDensity (I : ModelWithCorners ℝ E H) (M : Type*) [TopologicalSpace M]
-    [ChartedSpace H M] (m : ℕ) : Type _ :=
-  (x : M) → Density (TangentSpace I x) m
 
 end Densities
 
