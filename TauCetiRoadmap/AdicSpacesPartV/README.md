@@ -221,7 +221,7 @@ One proof route is as follows. If U′ ⊆ U are affinoid neighbourhoods of x th
 - For D^n the closed unit polydisc over K, dim_x D^n = n for every x ∈ |D^n|, including the Gauss point.
 - dim_x Spa(L) = 0 for a finite extension L/K. For X = ∅, topologicalKrullDim |X| = sup_x dim_x X = ringKrullDim 0 = ⊥ = −∞; there is no local dimension at a point of ∅.
 - For X = Spa(K × K⟨T⟩), dim_x X is 0 at the isolated point and 1 on the disc component, while topologicalKrullDim |X| = sup_x dim_x X = ringKrullDim(K × K⟨T⟩) = 1. Global dimension does not replace local dimension.
-- For X = Spa(A, A°) with A a K-affinoid domain of Krull dimension d, dim_x X = d at every point.
+- For X = Spa(A, A°) with A a K-affinoid algebra that is an integral domain of Krull dimension d, dim_x X = d at every point.
 - At the cusp of Spa(K⟨X,Y⟩/(Y² − X³)) the local dimension is 1 while the Zariski tangent space has dimension 2: a definition through tangent spaces fails.
 - For a complete rank-one field K and a rank-two valuation ring K⁺ ⊊ K°, AdicEtaleGeometry A2.6 gives topologicalKrullDim Spa(K, K⁺) = 1 while ringKrullDim K = 0. This space is outside the comparison's hypothesis of being locally of finite type over Spa(K, K°).
 
@@ -741,11 +741,11 @@ Its API has the following properties, with the hypotheses of this subsection.
 - The set of Shilov points is finite, in bijection with the minimal primes of Ã.
 - For a rank-one x, being Shilov is equivalent to its full specialization fibre being {x}.
 - For nonzero A and every f ∈ A, its spectral supremum is the maximum of |f| at the finite nonempty Shilov set; for the zero algebra the supremum is zero and the Shilov set is empty.
-- A finite injective map of affinoid domains sends Shilov points to Shilov points; use the integral finite map on canonical reductions and the componentwise dimension theorem.
+- For a finite injective homomorphism A → B of K-affinoid algebras with B an integral domain, the induced map Spa(B, B°) → Spa(A, A°) sends Shilov points to Shilov points. One route: Ã → B̃ is finite, and injective because Spa B → Spa A is surjective, so the supremum seminorm of A is the restriction of that of B; for a finite injective Noether normalization K⟨T₁,…,T_d⟩ → A, both Ã and B̃ are torsion-free over K̃[T₁,…,T_d] (the supremum seminorm of an element of a domain finite over a Tate algebra is read off its minimal polynomial, and the Gauss norm is multiplicative), so every minimal prime of B̃ lies over (0) and its contraction to Ã is minimal by incomparability.
 
 One proof route is as follows. Finiteness: Spec Ã is noetherian, so it has finitely many irreducible components; by §4.2(2) each generic point has exactly one preimage.
 
-*Needs:* §4.1; §4.2; `PrimeSpectrum`; `minimalPrimes`.
+*Needs:* §4.1; §4.2; RigidAnalyticGeometry §§1.1–1.2, 2.3; `PrimeSpectrum`; `minimalPrimes`.
 
 **Checks.**
 
@@ -754,6 +754,7 @@ One proof route is as follows. Finiteness: Spec Ã is noetherian, so it has fini
 - For A = L finite over K, the unique point of Spa L is Shilov; the zero algebra has none.
 - For f = p + T² ∈ Q_p⟨T⟩, |f|_sup = 1 = |f(η)| is attained at the Shilov point η, agreeing with the Banach-algebra Shilov boundary.
 - A classical point of the disc is not Shilov: it specialises to a closed point of Spec K̃[T].
+- Under T ↦ T² on K⟨T⟩ the Gauss point maps to the Gauss point. Both hypotheses of the finite-map property are needed: K⟨T⟩ → K, T ↦ 0, is finite and not injective, and K⟨T⟩ → K⟨T⟩ × K, T ↦ (T, 0), is finite and injective with target not a domain; in both, the single point of Spa K is Shilov and maps to the classical point T = 0.
 
 ### 4.4 Weakly Shilov points of a rigid space
 
@@ -914,11 +915,11 @@ One proof route is as follows. Quasi-compact case (Temkin Theorem 5.2.2): cover 
 
 ### 5.4 Surjectivity, density and connectedness of the resolution
 
-(*resolution-consequences*) Prove: For the resolution π : S̃ → S of any reduced rigid space over a characteristic-zero K, π is proper and surjective, S̃ is smooth, and π⁻¹(S^sm) → S^sm is an isomorphism between dense Zariski open subspaces. If S is irreducible, S̃ is connected and hence irreducible. For an arbitrary rigid T, resolving T_red gives a proper surjection onto T with the same underlying points, including when T is a fibre product of resolutions. The diamond and v-cover interpretations of these geometric facts are downstream consequences. (TEMKIN12 line 1563, Theorem 5.3.2, p. 34; HK2 line 1598, §5.3, p. 35, and line 2708, §9.3, p. 60.)
+(*resolution-consequences*) Prove: For the resolution π : S̃ → S of any reduced rigid space over a characteristic-zero K, π is proper and surjective, S̃ is smooth, and π⁻¹(S^sm) → S^sm is an isomorphism between dense Zariski open subspaces. If S is irreducible, S̃ is connected and hence irreducible. For an arbitrary rigid T, the resolution of T_red composed with the closed immersion T_red → T, which is a bijection on underlying points, is a proper surjection onto T, including when T is a fibre product of resolutions. The diamond and v-cover interpretations of these geometric facts are downstream consequences. (TEMKIN12 line 1563, Theorem 5.3.2, p. 34; HK2 line 1598, §5.3, p. 35, and line 2708, §9.3, p. 60.)
 
 No geometric irreducibility is assumed. Apply the resolution theorem to the reduction when a fibre product has nilpotents.
 
-One proof route is as follows. (i) Surjectivity: π is an isomorphism over the dense S^sm (§2.2, Layer 2/singular-locus) and proper, so its image is closed (Zariski closed, §0.4) and contains a dense set, hence is everything. Density of π⁻¹(S^sm): its complement is contained in the union of the exceptional divisors, nowhere dense Cartier divisors (§5.1). (iv) S irreducible ⇒ S^sm ≅ π⁻¹(S^sm) is a dense Zariski open of S, hence irreducible and connected (§1.8); it is dense in |S̃| by (i), and the closure of a connected set is connected; S̃ smooth and connected is irreducible. For arbitrary T, compose the closed immersion T_red → T with its resolution. This is proper and surjective on underlying points. No regular source is claimed birational to a generically nonreduced space.
+One proof route is as follows. Surjectivity: π is an isomorphism over the dense S^sm (§2.2, Layer 2/singular-locus) and proper, so its image is closed (Zariski closed, §0.4) and contains a dense set, hence is everything. Density of π⁻¹(S^sm): its complement is contained in the union of the exceptional divisors, nowhere dense Cartier divisors (§5.1). Connectedness: if S is irreducible, S^sm ≅ π⁻¹(S^sm) is a dense Zariski open of S, hence irreducible and connected (§1.8); it is dense in |S̃| by the density just proved, and the closure of a connected set is connected; S̃ smooth and connected is irreducible. For arbitrary T, compose the closed immersion T_red → T with its resolution. This is proper and surjective on underlying points. No regular source is claimed birational to a generically nonreduced space.
 
 *Needs:* §5.3; §5.1; §2.2; §2.1; §0.4; §1.8; §1.3.
 
