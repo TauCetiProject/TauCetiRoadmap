@@ -985,12 +985,9 @@ Within the layer, 7.2 uses 7.1 with `p = k` and 7.3 uses 7.2.
 
 ## Downstream consumers
 
-ImplicitAtlases Layer 6.1 stratifies each thickening over a finite poset with the sets `X^{≥s}`
-open, which is a stratification in the sense of 1.1.
-
-ComplexComparisonPartII C6.0 applies 4.3 `exists_triangulation_semialgebraic` on each affine
-algebraic chart in `ℂⁿ = ℝ²ⁿ`, with the strata as the marked subsets, and glues the resulting
-triangulations along the algebraic coordinate changes. It consumes 4.3 only.
+No roadmap cites this one. ImplicitAtlases Layer 6.1 stratifies each thickening over a finite
+poset with the sets `X^{≥s}` open, which is a stratification in the sense of 1.1, but it states
+that definition itself and takes nothing from this roadmap.
 
 ## References
 
