@@ -354,9 +354,10 @@ first-order image fragment.
 
   stated with `Cardinal.lift` into `max u v w`, since the three cardinals start in three universes.
   Function symbols appear separately because a fragment need not contain an atomic formula
-  mentioning them. Marker's bound `max(|A|, |X|)` (Marker 2016, Chapter 1), stated for fragments that
-  contain every atomic formula, is the corollary for infinite formation-closed fragments, where the
-  function-symbol term is absorbed; state the absorption lemma rather than assuming it.
+  mentioning them. Marker's bound `max(|A|, |X|)` (Marker 2016, Chapter 1; Theorem 1.23 of Marker's
+  2013 notes, p. 10), stated for fragments that contain every atomic formula, is the corollary for
+  infinite formation-closed fragments, where the function-symbol term is absorbed; state the
+  absorption lemma rather than assuming it.
 * `exists_countable_aElementary_substructure`: with countably many function symbols, a countable
   fragment and a countable `X`, the substructure is countable. This is the form the sibling
   roadmaps consume.
@@ -425,10 +426,10 @@ member `s` (writing `s + φ` for `insert φ s`):
 | `eq_subst` | for atomic `φ` with one bound position, `t = t' ∈ s` and `φ[t] ∈ s` give `s + φ[t']` |
 | `eq_name` | for every closed term `t`, `s + (c = t)` for some Henkin constant `c` |
 
-Here `φ[t]` is `inst φ t`. This follows Marker 2016, Chapter 4, and Keisler 1971, adapted to the
-implication-and-falsum syntax: the existential quantifier is `¬∀¬`, so `not_all` is the witness
-clause, and the universal clause instantiates only constants because every element of the model
-will be named by one.
+Here `φ[t]` is `inst φ t`. This follows Marker 2016, Chapter 4 (Definition 4.1 of Marker's 2013
+notes, p. 39), and Keisler 1971, adapted to the implication-and-falsum syntax: the existential
+quantifier is `¬∀¬`, so `not_all` is the witness clause, and the universal clause instantiates only
+constants because every element of the model will be named by one.
 
 Two clauses familiar from finitary presentations are deliberately absent: closure under unions of
 increasing chains, and a decision clause adding `φ` or `¬φ` to every member. The reasons differ.
@@ -443,7 +444,8 @@ term model needs and is what a countable enumeration domain can be closed under.
 
 * `model_existence`: let `L` have countably many function and relation symbols. If `s` is a
   countable member of a consistency property, then `s` has a countable model `M` in any universe,
-  and every element of `M` is the interpretation `L.con c` of a Henkin constant.
+  and every element of `M` is the interpretation `L.con c` of a Henkin constant. The countable model
+  is Theorem 4.6 of Marker's 2013 notes (p. 40).
 * `model_existence_omitting`: given in addition a countable family `P` of countable partial types
   over `L[[ℕ]]` such that for every `p ∈ P`, every member `s` and every tuple `c` of Henkin
   constants some `ψ ∈ p` has `s + ¬ψ[c]` in the family, the model also omits every `p ∈ P`.
@@ -512,11 +514,11 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
 
 * `Theoryω.IsolatesIn A T p`: some member `φ` of `A` at arity `n` has `T ∪ {∃̄φ}` satisfiable and
   `T ⊨ ∀̄(φ → ψ)` for every `ψ ∈ p`, where `∃̄` and `∀̄` close off the `n` bound positions.
-* `Theoryω.exists_countable_model_omitting`: let `A` be a countable formation-closed fragment, `T`
-  a satisfiable set of sentences of `A`, and `P` a countable family of partial types inside `A`,
-  none isolated over `T` in `A`. Then `T` has a countable nonempty model, in any universe, omitting
-  every `p ∈ P`. No separate countability of the language is assumed: it follows from countability
-  of `A` (Layer 1).
+* `Theoryω.exists_countable_model_omitting` (Theorem 4.9 of Marker's 2013 notes, p. 44): let `A` be
+  a countable formation-closed fragment, `T` a satisfiable set of sentences of `A`, and `P` a
+  countable family of partial types inside `A`, none isolated over `T` in `A`. Then `T` has a
+  countable nonempty model, in any universe, omitting every `p ∈ P`. No separate countability of the
+  language is assumed: it follows from countability of `A` (Layer 1).
 
   Route: apply `model_existence_omitting` to `ConsistencyProperty.ofSatisfiable T A`, with `P`
   mapped along `lhomWithConstants`. Take a member `T ∪ σ` and a tuple `c : Fin n → ℕ`. Each element
@@ -533,15 +535,15 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
   `lhomWithConstants` and every element is named.
 * Corollaries: for `A` and `T` as above (in particular `T` satisfiable), a partial type inside `A`
   realized in every countable model of `T` is isolated over `T` in `A`; and the **first-order
-  omitting types theorem** `exists_countable_model_omitting_fo`: for a countable language, a
-  satisfiable first-order theory `T` and countably many first-order partial types `p`, none
-  isolated by a first-order formula modulo `T`, there is a countable model `M` omitting them all.
-  For `p` a set of formulas in `n` bound positions, `IsolatesFO T p` says that some first-order
-  `φ` in the same positions has `T ∪ {∃x̄ φ}` (`insert φ.exs T`) satisfiable in the sense of
-  Mathlib's `Theory.IsSatisfiable` and `T ⊨ᵇ φ.imp ψ`, that is `T ⊨ ∀x̄ (φ → ψ)`, for every
-  `ψ ∈ p`; omission is `OmitsFOType M p`, every `n`-tuple of `M` refuting some formula of `p`. The empty type, isolated by `⊤`, shows that
-  the non-isolation hypothesis cannot be dropped. Derive the theorem by taking `A` to be the
-  first-order image fragment.
+  omitting types theorem** `exists_countable_model_omitting_fo` (Exercise 4.11 of the notes, p. 45):
+  for a countable language, a satisfiable first-order theory `T` and countably many first-order
+  partial types `p`, none isolated by a first-order formula modulo `T`, there is a countable model
+  `M` omitting them all. For `p` a set of formulas in `n` bound positions, `IsolatesFO T p` says
+  that some first-order `φ` in the same positions has `T ∪ {∃x̄ φ}` (`insert φ.exs T`) satisfiable
+  in the sense of Mathlib's `Theory.IsSatisfiable` and `T ⊨ᵇ φ.imp ψ`, that is `T ⊨ ∀x̄ (φ → ψ)`,
+  for every `ψ ∈ p`; omission is `OmitsFOType M p`, every `n`-tuple of `M` refuting some formula of
+  `p`. The empty type, isolated by `⊤`, shows that the non-isolation hypothesis cannot be dropped.
+  Derive the theorem by taking `A` to be the first-order image fragment.
 
 **Acceptance example.** A partial type realized in every countable model of a satisfiable `T` is
 isolated.
@@ -592,10 +594,11 @@ under components.
 
 * `morleyTheory_countable`, `morleyTypes_countable` for countable `A`, with no countability of the
   language.
-* `exists_firstOrder_presentation` (Marker 2016, Chapter 1): an expansion
-  `S` of an `L`-structure along `lhomMorleyize A` models `morleyTheory A` and omits every type of
-  `morleyTypes A` **iff** `S` is the canonical expansion. The backward direction is an induction
-  over `A`; omission supplies exactly the conjunction and disjunction steps.
+* `exists_firstOrder_presentation` (Marker 2016, Chapter 1; Theorem 1.31 and Exercise 1.32 of
+  Marker's 2013 notes, pp. 11–12): an expansion `S` of an `L`-structure along `lhomMorleyize A`
+  models `morleyTheory A` and omits every type of `morleyTypes A` **iff** `S` is the canonical
+  expansion. The backward direction is an induction over `A`; omission supplies exactly the
+  conjunction and disjunction steps.
 * Corollary: for a sentence `φ` with `⟨0, φ⟩ ∈ A`, the models of `φ` are exactly the reducts of the
   models of the countable first-order theory `morleyTheory A ∪ {R_φ}` that omit `morleyTypes A`.
 
@@ -668,17 +671,17 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 
 ### 7.1 Projective classes
 
-* `PCMem g Θ M` for `g : L →ᴸ L'` and `Θ : Sentenceω L'`: the `L`-structure `M` itself, on the
-  same carrier, has an `L'`-structure that is an expansion along `g` and satisfies `Θ` (Marker's
-  `PC_{ω₁ω}` classes). No nonemptiness is built in. In the case used throughout,
-  `g = LHom.sumInl : L →ᴸ L.sum L₁`, this says that `M` is the `L`-reduct of a model of `Θ`: `Θ`
-  may speak about the auxiliary symbols of `L₁`, whose interpretations are chosen existentially.
-  These are the Lω₁ω analogue of pseudo-elementary classes. For a countable relational
-  language, on the space of structures with carrier `ℕ`, these projective classes are exactly the
-  isomorphism-invariant analytic sets; Lω₁ω model classes are exactly the isomorphism-invariant
-  Borel sets (López–Escobar, in CountableStructureSpaces). A countable carrier alone does not
-  give this: it needs the countable language. `PCMem` and the theorems below are for arbitrary
-  languages.
+* `PCMem g Θ M` for `g : L →ᴸ L'` and `Θ : Sentenceω L'`: the `L`-structure `M` itself, on the same
+  carrier, has an `L'`-structure that is an expansion along `g` and satisfies `Θ` (Marker's
+  `PC_{ω₁ω}` classes, Definition 1.11 of his 2013 notes, p. 7). No nonemptiness is built in. In the
+  case used throughout, `g = LHom.sumInl : L →ᴸ L.sum L₁`, this says that `M` is the `L`-reduct of a
+  model of `Θ`: `Θ` may speak about the auxiliary symbols of `L₁`, whose interpretations are chosen
+  existentially. These are the Lω₁ω analogue of pseudo-elementary classes. For a countable
+  relational language, on the space of structures with carrier `ℕ`, these projective classes are
+  exactly the isomorphism-invariant analytic sets; Lω₁ω model classes are exactly the
+  isomorphism-invariant Borel sets (López–Escobar, in CountableStructureSpaces). A countable carrier
+  alone does not give this: it needs the countable language. `PCMem` and the theorems below are for
+  arbitrary languages.
 * API: invariance under isomorphism; every model class is projective (`g = LHom.id`);
   projective classes along `LHom.sumInl : L →ᴸ L.sum L₁` are closed under binary intersection
   and, for relational `L₁` and `L₂`, binary union (both in `L.sum (L₁.sum L₂)`), and under
@@ -689,8 +692,9 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 * `craig_interpolation_relational`, the relational core: for relational `L` of any cardinality and
   sentences with `Sentenceω.Entails φ ψ`, there is `θ` with
   `relationsIn θ ⊆ relationsIn φ ∩ relationsIn ψ`, `φ ⊨ θ` and `θ ⊨ ψ`.
-* `craig_interpolation`: the same for an arbitrary language of any cardinality, with no hypothesis
-  on `L`, and with both bounds `functionsIn θ ⊆ functionsIn φ ∩ functionsIn ψ` and
+* `craig_interpolation` (Theorem 4.21 of Marker's 2013 notes, p. 48): the same for an arbitrary
+  language of any cardinality, with no hypothesis on `L`, and with both bounds
+  `functionsIn θ ⊆ functionsIn φ ∩ functionsIn ψ` and
   `relationsIn θ ⊆ relationsIn φ ∩ relationsIn ψ`. Equality is logical, so `θ` may use it freely;
   when `φ` is unsatisfiable `θ = ⊥` works, and when `ψ` is valid `θ = ⊤` does. Proof: translate the
   entailment by `entails_iff_graphTranslation`, apply the relational core in `graphLanguage L`, use
@@ -706,13 +710,14 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 * `pcSeparation`: for arbitrary languages `L`, `L₁`, `L₂`, if no countable nonempty `L`-structure
   lies in both `PCMem LHom.sumInl Θ₁` and `PCMem LHom.sumInl Θ₂`, some `θ : Sentenceω L` holds in
   every nonempty member of the first class and fails in every nonempty member of the second, in
-  every universe. It is Craig interpolation applied to the two defining sentences after their
-  auxiliary symbols are renamed apart, and holds with no hypothesis on the languages. For a
-  countable relational language, on the space of structures with carrier `ℕ`, it plays the role
-  of Lusin separation (disjoint analytic sets are separated by a Borel set). The hypothesis is
-  only about countable structures `M : Type` (by Layer 2), and the conclusion holds for nonempty
-  `M : Type w`; this is the interface the López–Escobar theorem of CountableStructureSpaces
-  consumes, and its proposed signature is in `Suggested.lean`.
+  every universe (Corollary 4.23 of Marker's 2013 notes, p. 50, for disjoint classes). It is Craig
+  interpolation applied to the two defining sentences after their auxiliary symbols are renamed
+  apart, and holds with no hypothesis on the languages. For a countable relational language, on the
+  space of structures with carrier `ℕ`, it plays the role of Lusin separation (disjoint analytic
+  sets are separated by a Borel set). The hypothesis is only about countable structures `M : Type`
+  (by Layer 2), and the conclusion holds for nonempty `M : Type w`; this is the interface the
+  López–Escobar theorem of CountableStructureSpaces consumes, and its proposed signature is in
+  `Suggested.lean`.
 
   Route. Work in `L⁺ := L.sum (L₁.sum L₂)`, where the two new vocabularies are disjoint even when
   `L₁ = L₂`. Let `Θ₁⁺` and `Θ₂⁺` be the images of `Θ₁` and `Θ₂` along
@@ -762,10 +767,11 @@ is used.
   sign, back-translate into equalities and drop out of the signed bounds.
   `craig_of_lyndon_interpolation` recovers Craig from the two signed bounds.
 
-This is the **relation-polarity, logical-equality form** of López-Escobar's interpolation theorem:
-his polarity clause is proved in full, and his clause restricting where equality may occur in `θ`
-is not part of this theorem. The proof refines the Craig engine: only the separator class changes, the
-pair maintaining the flipped classes `(P₁ ∩ N₂, N₁ ∩ P₂)`.
+This is the **relation-polarity, logical-equality form** of López-Escobar's interpolation theorem
+(López-Escobar 1965, Theorem 4.1, p. 267): his polarity clause (.4) is proved in full, and his
+clause (.3) restricting where equality may occur in `θ` is not part of this theorem. The proof
+refines the Craig engine: only the separator class changes, the pair maintaining the flipped classes
+`(P₁ ∩ N₂, N₁ ∩ P₂)`.
 
 ### 7.4 Malitz interpolation
 
@@ -1062,11 +1068,15 @@ rather than in `Type`.
   fragment) and Chapter 4, "The model existence theorem": consistency properties and model
   existence, omitting types, interpolation and López–Escobar, and the boundedness of
   well-orderings.
-  The well-ordering theorems of Layer 8 are cited from the author's lecture notes of the same
-  title (University of Illinois at Chicago, Fall 2013,
-  [author's copy](https://homepages.math.uic.edu/~marker/math512-F13/inf.pdf)), §4.4, "The
-  Undefinability of Well-Ordering": Theorem 4.27 (p. 51), Corollary 4.28 (p. 52), and the
-  proof of Theorem 4.27 printed after the corollary (pp. 52–53). The notes number results differently from the book.
+  Exact locators are given in the author's lecture notes of the same title (University of Illinois
+  at Chicago, Fall 2013,
+  [author's copy](https://homepages.math.uic.edu/~marker/math512-F13/inf.pdf)), by result number
+  and printed page: Definition 1.11 (p. 7), Theorem 1.23 (p. 10), Theorem 1.31 and Exercise 1.32
+  (pp. 11–12), Definition 4.1 (p. 39), Theorem 4.6 (p. 40), Theorem 4.9 (p. 44), Exercise 4.11
+  (p. 45), Theorem 4.21 (p. 48) and Corollary 4.23 (p. 50); and for Layer 8, §4.4, "The
+  Undefinability of Well-Ordering": Theorem 4.27 (p. 51), Corollary 4.28 (p. 52), and the proof of
+  Theorem 4.27 printed after the corollary (pp. 52–53). The notes number results differently from
+  the book.
 * H. Jerome Keisler, *Model Theory for Infinitary Logic*, Studies in Logic and the Foundations of
   Mathematics 62, North-Holland, 1971: consistency properties, model existence, omitting types and
   interpolation over countable fragments.
