@@ -15,8 +15,11 @@ import TauCeti.MeasureTheory.OptimalTransport.Entropic.Duality
 import TauCeti.MeasureTheory.OptimalTransport.Entropic.SinkhornDivergence
 import TauCeti.MeasureTheory.OptimalTransport.MetricMeasure.Basic
 import TauCeti.MeasureTheory.OptimalTransport.MetricMeasure.CurvatureDimension
+import TauCeti.MeasureTheory.OptimalTransport.MetricMeasure.MeasureContraction
+import TauCeti.MeasureTheory.OptimalTransport.MetricMeasure.Nonbranching
 import TauCeti.MeasureTheory.OptimalTransport.GromovWasserstein.Space
 import TauCeti.MeasureTheory.Function.CheegerEnergy
+import TauCeti.Analysis.Convex.MongeAmpere.Basic
 import TauCeti.Analysis.GradientFlow.EVI.Basic
 import TauCeti.Analysis.GradientFlow.MoreauYosida.Basic
 import TauCeti.Analysis.PositiveDefinite.Kernel.Universal
@@ -38,10 +41,13 @@ The carriers are Tau Ceti's couplings `TauCeti.IsCoupling`, transport cost
 `TauCeti.HasFiniteMoment`, the Wasserstein space `TauCeti.WassersteinSpace`, evolution
 variational inequalities `TauCeti.IsEVISolution`, convexity along generalized geodesics
 `TauCeti.GeneralizedGeodesicallyConvex`, the JKO step `TauCeti.moreauYosidaResolvent`, the
-energies `TauCeti.boltzmannEntropy` and `TauCeti.potentialEnergy`, the Sinkhorn divergence
+energies `TauCeti.internalEnergy`, `TauCeti.boltzmannEntropy` and `TauCeti.potentialEnergy`, the
+Aleksandrov Monge–Ampère measure `TauCeti.mongeAmpereMeasure`, the Sinkhorn divergence
 `TauCeti.sinkhornDivergence` with its Gibbs kernel `TauCeti.entropicGibbsKernel` and universal
 kernels `TauCeti.IsUniversalKernel`, metric-measure spaces `TauCeti.MetricMeasureSpace` with the
-condition `TauCeti.MetricMeasureSpace.CurvatureDimensionInfinity`, the Cheeger energy
+conditions `TauCeti.MetricMeasureSpace.CurvatureDimensionInfinity`,
+`TauCeti.MetricMeasureSpace.MeasureContraction` and
+`TauCeti.MetricMeasureSpace.EssentiallyNonbranching`, the Cheeger energy
 `TauCeti.cheegerEnergy`, the Gromov–Wasserstein quotient `TauCeti.GromovWassersteinSpace`, Tau
 Ceti's Riemannian volume `TauCeti.riemannianVolume`, and Mathlib's Riemannian distance, Hausdorff
 dimension, Hölder maps, homeomorphisms, iterated derivatives, gradient and Laplacian,
@@ -96,11 +102,18 @@ carrier named.
   equation for a time-dependent vector field on a manifold, and with it the Riemannian
   divergence; neither library states a continuity equation on a manifold.
 * Brownian Schrödinger bridges and the Schilder limit (Layer 13.12–13.13) need the Brownian law
-  on `C([0,1]; ℝⁿ)`; Mathlib has only the predicates `ProbabilityTheory.IsPreBrownianReal` and
-  `ProbabilityTheory.IsBrownianReal` on real-valued processes.
-* The Gigli–Rajala–Sturm optimal-map theorem (Layer 14.8) needs the `RCD*(K,N)` condition, that
-  is a curvature-dimension condition with finite `N` and infinitesimal Hilbertianity; neither
-  library has a curvature-dimension condition with finite `N`.
+  on `C([0,1]; ℝⁿ)`. Mathlib has the predicates `ProbabilityTheory.IsPreBrownianReal` and
+  `ProbabilityTheory.IsBrownianReal` and the finite-dimensional laws
+  `ProbabilityTheory.BrownianReal.projectiveFamily` of real Brownian motion, and Tau Ceti adds
+  Brownian motion relative to a filtration, `TauCeti.Probability.IsFilteredPreBrownianReal`;
+  neither library has a Brownian law on a path space.
+* The Gigli–Rajala–Sturm form of the nonsmooth optimal-map theorem (Layer 14.8) needs the
+  `RCD*(K,N)` condition, that is a curvature-dimension condition with finite `N` and infinitesimal
+  Hilbertianity; neither library has a curvature-dimension condition with finite `N`. The
+  essentially nonbranching `MCP(K,N)` form of the same layer is stated below.
+* Bertrand's optimal-map theorem on Alexandrov spaces (Layer 14.8) needs curvature bounded below
+  by an arbitrary `κ` in the sense of Alexandrov; Tau Ceti has only the bound `0`,
+  `TauCeti.IsCBBZeroSpace`, and Mathlib has none.
 -/
 
 noncomputable section
@@ -156,6 +169,41 @@ theorem exists_isKantorovichOptimalTransportMap_of_strictConvexOn {d : ℕ}
   sorry
 
 /-! ## Layer 6: Monge–Ampère measures, equations, and regularity -/
+
+/-- **The Dirichlet problem for the Monge–Ampère equation on strictly convex domains**
+(Hartenstine 2006, Theorem 2.1, p. 2, after Gutiérrez, *The Monge–Ampère Equation*,
+Theorem 1.6.2). Let `Ω ⊆ ℝⁿ`, `n ≥ 1`, be a bounded open convex set whose closure is strictly
+convex, let `ν` be a finite Borel measure carried by `Ω`, and let `g` be continuous on the frontier
+of `Ω`. Then some `u`, convex on `Ω` and continuous on the closure, equals `g` on the frontier and
+has Aleksandrov Monge–Ampère measure `ν`, the measure of `u` extended by `⊤` off `Ω`. Strict
+convexity is imposed on the closure: for an open set, strict convexity in Mathlib's sense is
+convexity. The solution is unique by `TauCeti.eqOn_of_mongeAmpereMeasure_eq_of_eqOn_frontier`. -/
+theorem exists_mongeAmpereMeasure_eq_of_strictConvex_closure {n : ℕ} (hn : 0 < n)
+    {Ω : Set (EuclideanSpace ℝ (Fin n))} [DecidablePred (· ∈ Ω)] (hΩo : IsOpen Ω)
+    (hΩb : Bornology.IsBounded Ω) (hΩcv : Convex ℝ Ω) (hΩc : StrictConvex ℝ (closure Ω))
+    (ν : Measure (EuclideanSpace ℝ (Fin n))) [IsFiniteMeasure ν] (hν : ν Ωᶜ = 0)
+    {g : EuclideanSpace ℝ (Fin n) → ℝ} (hg : ContinuousOn g (frontier Ω)) :
+    ∃ u : EuclideanSpace ℝ (Fin n) → ℝ, ConvexOn ℝ Ω u ∧ ContinuousOn u (closure Ω) ∧
+      EqOn u g (frontier Ω) ∧
+      TauCeti.mongeAmpereMeasure volume (fun x => if x ∈ Ω then (u x : EReal) else ⊤) = ν := by
+  sorry
+
+/-- **The Dirichlet problem for the Monge–Ampère equation on convex domains** (Hartenstine 2006,
+Theorem 1.1, p. 1). Let `Ω ⊆ ℝⁿ`, `n ≥ 1`, be a bounded open convex set, not necessarily strictly
+convex, and `ν` a finite Borel measure carried by `Ω`. If the boundary data are the frontier
+values of a function `g` that is convex on `Ω` (which includes convexity of `Ω`) and continuous on
+the closure, then some `u`, convex on `Ω` and continuous on the closure, agrees with `g` on the
+frontier and has Aleksandrov Monge–Ampère measure `ν`. The condition on the data is also
+necessary, since `u` itself is such an extension. -/
+theorem exists_mongeAmpereMeasure_eq_of_convexOn {n : ℕ} (hn : 0 < n)
+    {Ω : Set (EuclideanSpace ℝ (Fin n))} [DecidablePred (· ∈ Ω)] (hΩo : IsOpen Ω)
+    (hΩb : Bornology.IsBounded Ω) (ν : Measure (EuclideanSpace ℝ (Fin n))) [IsFiniteMeasure ν]
+    (hν : ν Ωᶜ = 0) {g : EuclideanSpace ℝ (Fin n) → ℝ} (hg : ConvexOn ℝ Ω g)
+    (hgc : ContinuousOn g (closure Ω)) :
+    ∃ u : EuclideanSpace ℝ (Fin n) → ℝ, ConvexOn ℝ Ω u ∧ ContinuousOn u (closure Ω) ∧
+      EqOn u g (frontier Ω) ∧
+      TauCeti.mongeAmpereMeasure volume (fun x => if x ∈ Ω then (u x : EReal) else ⊤) = ν := by
+  sorry
 
 /-- **Caffarelli's interior regularity of the Brenier map** (Caffarelli 1992; De Philippis–Figalli
 survey, Theorem 3.3). Let `X, Y ⊆ ℝⁿ` be bounded open sets with `Y` convex, and let `μ = f dx` on
@@ -322,6 +370,48 @@ theorem exists_isKantorovichOptimalTransportMap_edist_riemannian
     ∃ T : M → M, TauCeti.IsKantorovichOptimalTransportMap (fun z => edist z.1 z.2) μ ν T := by
   sorry
 
+/-- **De Philippis–Figalli partial regularity on Riemannian manifolds** (De Philippis–Figalli
+2015, Theorem 1.4, p. 82, proved on pp. 89–90). Let `M` be a finite-dimensional, connected,
+boundaryless smooth Riemannian manifold, complete for its Riemannian distance, and let `f` and `g`
+be continuous probability densities with respect to Riemannian volume, bounded away from zero and
+infinity on every compact set, whose laws have finite second moment. Then every Kantorovich-optimal
+map `T` for the cost `d² / 2` agrees almost everywhere with a homeomorphism `h` from the
+complement of a closed volume-null set onto the complement of another, and `h` is Hölder of every
+exponent `β < 1` on every compact subset of its domain. No Ma–Trudinger–Wang condition, curvature
+sign or compactness is assumed. -/
+theorem exists_homeomorph_holderOnWith_of_isKantorovichOptimalTransportMap_riemannian
+    {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+    {M : Type*} [EMetricSpace M] [ChartedSpace H M] [IsManifold I (⊤ : ℕ∞) M]
+    [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
+    [Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I (⊤ : ℕ∞) E (fun x : M ↦ TangentSpace I x)]
+    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)]
+    [IsRiemannianManifold I M] [ConnectedSpace M] [CompleteSpace M]
+    {f g : M → ℝ} (hf : Continuous f) (hg : Continuous g)
+    (hfl : ∀ K : Set M, IsCompact K → ∃ l : ℝ, 0 < l ∧ ∀ x ∈ K, l ≤ f x ∧ f x ≤ l⁻¹)
+    (hgl : ∀ K : Set M, IsCompact K → ∃ l : ℝ, 0 < l ∧ ∀ y ∈ K, l ≤ g y ∧ g y ≤ l⁻¹)
+    [IsProbabilityMeasure
+      ((TauCeti.riemannianVolume I M).withDensity fun x => ENNReal.ofReal (f x))]
+    [IsProbabilityMeasure
+      ((TauCeti.riemannianVolume I M).withDensity fun y => ENNReal.ofReal (g y))]
+    (hμ2 : TauCeti.HasFiniteMoment 2
+      ((TauCeti.riemannianVolume I M).withDensity fun x => ENNReal.ofReal (f x)))
+    (hν2 : TauCeti.HasFiniteMoment 2
+      ((TauCeti.riemannianVolume I M).withDensity fun y => ENNReal.ofReal (g y)))
+    {T : M → M}
+    (hT : TauCeti.IsKantorovichOptimalTransportMap (fun z => edist z.1 z.2 ^ 2 / 2)
+      ((TauCeti.riemannianVolume I M).withDensity fun x => ENNReal.ofReal (f x))
+      ((TauCeti.riemannianVolume I M).withDensity fun y => ENNReal.ofReal (g y)) T) :
+    ∃ SX SY : Set M, IsClosed SX ∧ IsClosed SY ∧
+      TauCeti.riemannianVolume I M SX = 0 ∧ TauCeti.riemannianVolume I M SY = 0 ∧
+      ∃ h : ↥SXᶜ ≃ₜ ↥SYᶜ,
+        (∀ᵐ x ∂((TauCeti.riemannianVolume I M).withDensity fun x => ENNReal.ofReal (f x)),
+          ∀ hx : x ∈ SXᶜ, (h ⟨x, hx⟩ : M) = T x) ∧
+        ∀ β : ℝ≥0, β < 1 → ∀ K : Set ↥SXᶜ, IsCompact K →
+          ∃ C : ℝ≥0, HolderOnWith C β (fun x => (h x : M)) K := by
+  sorry
+
 /-! ## Layer 11: entropy, Wasserstein differential calculus, JKO, and PDE flows -/
 
 /-- **Convergence of the Jordan–Kinderlehrer–Otto scheme** (Ambrosio–Gigli–Savaré 2008,
@@ -369,6 +459,35 @@ theorem integral_fokkerPlanck_eq_zero_of_isEVISolution {n : ℕ}
       Laplacian.laplacian (fun y => ζ (t, y)) x -
       ⟪gradient V x, gradient (fun y => ζ (t, y)) x⟫)
         ∂((u t : ProbabilityMeasure (EuclideanSpace ℝ (Fin n))) : Measure _) = 0 := by
+  sorry
+
+/-- **The porous-medium and fast-diffusion equations as Wasserstein gradient flows**
+(Ambrosio–Gigli, *A user's guide to optimal transport*, Definition 3.32, p. 71, Theorem 3.35,
+p. 74, and Proposition 3.38, p. 75). Let `U_m(r) = r ^ m / (m - 1)` with either `1 < m` (porous
+medium) or `max (1 - 1/n) (n/(n+2)) < m < 1` (fast diffusion), and let `u` be an `EVI₀` solution
+in `P₂(ℝⁿ)` of the internal energy `μ ↦ ∫ U_m(ρ) dx + U_m'(∞) μˢ(ℝⁿ)` relative to Lebesgue
+measure, where `ρ` is the density of the absolutely continuous part and `μˢ` the singular part.
+Then the densities `ρₜ` of the laws `u t` solve `∂ₜρ = Δ(ρ ^ m)` in distributions on
+`(0, ∞) × ℝⁿ`: `∫₀^∞ ∫ (ρ ∂ₜζ + ρ ^ m Δζ) dx dt = 0` for every smooth compactly supported `ζ`
+whose support lies in `(0, ∞) × ℝⁿ`. Ambrosio–Gigli identify the equation at smooth densities; for
+an arbitrary `EVI₀` solution the route is the Euler–Lagrange equation of the JKO step. -/
+theorem integral_porousMedium_eq_zero_of_isEVISolution {n : ℕ} {m : ℝ}
+    (hm : 1 < m ∨ (max (1 - 1 / (n : ℝ)) ((n : ℝ) / (n + 2)) < m ∧ m < 1))
+    {u : ℝ → TauCeti.WassersteinSpace 2 (EuclideanSpace ℝ (Fin n))}
+    (hu : TauCeti.IsEVISolution 0
+      (fun μ : TauCeti.WassersteinSpace 2 (EuclideanSpace ℝ (Fin n)) =>
+        TauCeti.internalEnergy (fun r => r ^ m / (m - 1)) volume
+          ((μ : ProbabilityMeasure (EuclideanSpace ℝ (Fin n))) :
+            Measure (EuclideanSpace ℝ (Fin n)))) u)
+    (ζ : ℝ × EuclideanSpace ℝ (Fin n) → ℝ) (hζ : ContDiff ℝ (⊤ : ℕ∞) ζ)
+    (hζ_supp : HasCompactSupport ζ) (hζ_pos : tsupport ζ ⊆ Ioi 0 ×ˢ univ) :
+    ∫ t in Ioi (0 : ℝ), ∫ x,
+      (deriv (fun s => ζ (s, x)) t *
+          (((u t : ProbabilityMeasure (EuclideanSpace ℝ (Fin n))) :
+            Measure (EuclideanSpace ℝ (Fin n))).rnDeriv volume x).toReal +
+        (((u t : ProbabilityMeasure (EuclideanSpace ℝ (Fin n))) :
+            Measure (EuclideanSpace ℝ (Fin n))).rnDeriv volume x).toReal ^ m *
+          Laplacian.laplacian (fun y => ζ (t, y)) x) = 0 := by
   sorry
 
 /-! ## Layer 12: Fréchet and Wasserstein barycenters -/
@@ -480,6 +599,28 @@ theorem exists_isEVISolution_boltzmannEntropy_of_isEVISolution_cheegerEnergy
         M.reference.withDensity fun x => ENNReal.ofReal (f t x)) ∧
       TauCeti.IsEVISolution K (fun μ : TauCeti.WassersteinSpace 2 X =>
         TauCeti.boltzmannEntropy M.reference ((μ : ProbabilityMeasure X) : Measure X)) u := by
+  sorry
+
+/-- **Optimal maps on essentially nonbranching `MCP(K, N)` spaces** (Cavalletti–Mondino,
+arXiv:1609.00782v2, Theorem 1.1, p. 2, under the standing assumptions of §2, p. 2; the Appendix,
+p. 17, carries the theorem over to Ohta's form of `MCP(K, N)`, the form of
+`TauCeti.MetricMeasureSpace.MeasureContraction`). Let `(X, d, m)` be a proper complete separable
+metric space with a reference measure finite on bounded sets and of full support, essentially
+nonbranching and satisfying `MCP(K, N)` for some `K` and `1 < N < ∞`. For a law `μ` absolutely
+continuous with respect to `m` and any law `ν`, both of finite second moment, some map `T` attains
+the Kantorovich value for the cost `d²`, and its graph plan is the only optimal coupling. Without
+full support the uniqueness fails: points outside the support are invisible to both conditions. -/
+theorem exists_isKantorovichOptimalTransportMap_of_measureContraction
+    {X : Type*} [MetricSpace X] [MeasurableSpace X] [CompleteSpace X]
+    [SecondCountableTopology X] [BorelSpace X] [ProperSpace X]
+    (M : TauCeti.MetricMeasureSpace X) (hsupp : M.support = univ) {K N : ℝ} (hN : 1 < N)
+    (hMCP : M.MeasureContraction K N) (hENB : M.EssentiallyNonbranching)
+    (μ ν : Measure X) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+    (hμ2 : TauCeti.HasFiniteMoment 2 μ) (hν2 : TauCeti.HasFiniteMoment 2 ν)
+    (hμ : μ ≪ M.reference) :
+    ∃ T : X → X, TauCeti.IsKantorovichOptimalTransportMap (fun z => edist z.1 z.2 ^ 2) μ ν T ∧
+      ∀ γ, TauCeti.IsOptimalCoupling (fun z => edist z.1 z.2 ^ 2) γ μ ν ↔
+        γ = μ.map fun x => (x, T x) := by
   sorry
 
 /-! ## Layer 15: measured kernels and Gromov–Wasserstein -/

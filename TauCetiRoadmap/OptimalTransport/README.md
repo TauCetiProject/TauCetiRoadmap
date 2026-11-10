@@ -604,11 +604,20 @@ consumed with exactly the hypotheses recorded here.
 The remaining implemented targets are the following, by layer; each subsection named cites
 these declarations on its `*Needs:*` line (for a range of subsections, the first one does).
 
-* Layer 0.  `TauCeti.graphPlan`, `TauCeti.isCoupling_graphPlan_iff` and `TauCeti.eq_graphPlan_iff`
-  (`…/OptimalTransport/GraphPlan/Basic.lean`): the graph plan of a map, which couples `μ` and `ν`
-  exactly when the almost everywhere measurable map has law `ν`, and the plans concentrated on a
-  graph (Layer 0.2).  `TauCeti.IsCoupling.compProd_condKernel`, `TauCeti.isCoupling_compProd_iff`
-  and `TauCeti.IsCoupling.ae_eq_condKernel_iff_compProd_eq`
+* Layer 0.  `TauCeti.IsCoupling.measure_univ_eq`, `TauCeti.IsCoupling.measure_prod_univ`,
+  `TauCeti.IsCoupling.measure_univ_prod`, `TauCeti.Coupling.ext`, `TauCeti.isCoupling_prod`,
+  `TauCeti.isCoupling_inv_smul_prod`, `TauCeti.isCoupling_zero`, `TauCeti.exists_isCoupling_iff`,
+  `TauCeti.isCoupling_map_swap_iff`, `TauCeti.IsCoupling.map_left`, `TauCeti.IsCoupling.map_right`
+  and `TauCeti.isCoupling_map_prodMap_iff` (`…/OptimalTransport/Coupling.lean`): equal total mass
+  of coupled measures, the marginal formulas on measurable cylinders, extensionality of bundled
+  couplings, the product coupling of two probabilities, the normalized product coupling of finite
+  measures of equal mass (including the zero measures) and the resulting existence criterion,
+  swap, pushforward in either coordinate, and invariance under measurable equivalences
+  (Layer 0.1).  `TauCeti.graphPlan`, `TauCeti.isCoupling_graphPlan_iff` and
+  `TauCeti.eq_graphPlan_iff` (`…/OptimalTransport/GraphPlan/Basic.lean`): the graph plan of a
+  map, which couples `μ` and `ν` exactly when the almost everywhere measurable map has law `ν`,
+  and the plans concentrated on a graph (Layer 0.2).  `TauCeti.IsCoupling.compProd_condKernel`,
+  `TauCeti.isCoupling_compProd_iff` and `TauCeti.IsCoupling.ae_eq_condKernel_iff_compProd_eq`
   (`…/OptimalTransport/Disintegration.lean`): reconstruction of a finite coupling from its source
   marginal and conditional kernel, couplings built from a marginal and a Markov kernel, and
   almost everywhere uniqueness of the kernel (Layer 0.3).
@@ -730,12 +739,15 @@ these declarations on its `*Needs:*` line (for a range of subsections, the first
   (`…/OptimalTransport/Wasserstein/Pushforward.lean`), `TauCeti.wassersteinEDist_map_toLp_prod`
   (`…/OptimalTransport/Wasserstein/Product.lean`), `TauCeti.wassersteinEDist_conv_right_le`
   (`…/OptimalTransport/Wasserstein/Convolution.lean`),
-  `TauCeti.wassersteinEDist_smul_add_smul_rpow_le` (`…/OptimalTransport/Wasserstein/Mixture/Basic.lean`)
-  and `TauCeti.wassersteinEDist_comp_le_mul` (`…/OptimalTransport/Wasserstein/Kernel/Basic.lean`),
-  and `TauCeti.transportCost_prod_add` and `TauCeti.IsOptimalCoupling.prod`
-  (`…/OptimalTransport/Cost/Product.lean`): Lipschitz and isometric pushforward, tensorization,
-  convolution, mixtures, Lipschitz kernels, and the splitting of an additively separable cost on a
-  product problem (Layer 3.5).  `TauCeti.WassersteinComponent.instCompleteSpaceTop`
+  `TauCeti.wassersteinEDist_finset_sum_smul_rpow_le`, `TauCeti.wassersteinEDist_sum_smul_rpow_le`
+  and `TauCeti.wassersteinEDist_smul_add_smul_rpow_le`
+  (`…/OptimalTransport/Wasserstein/Mixture/Basic.lean`) and `TauCeti.wassersteinEDist_comp_le_mul`
+  (`…/OptimalTransport/Wasserstein/Kernel/Basic.lean`), and `TauCeti.transportCost_prod_add` and
+  `TauCeti.IsOptimalCoupling.prod` (`…/OptimalTransport/Cost/Product.lean`): Lipschitz and isometric
+  pushforward, tensorization, convolution, the mixture bound for finite and countable mixtures
+  and convexity of `W_p(μ,·)^p` in one argument, Lipschitz kernels, and the splitting of an
+  additively separable cost on a product problem (Layer 3.5).
+  `TauCeti.WassersteinComponent.instCompleteSpaceTop`
   (`…/OptimalTransport/Wasserstein/Infinity/Complete.lean`),
   `TauCeti.tendsto_wassersteinEDist_top_iff_exists_couplings`
   (`…/OptimalTransport/Wasserstein/Infinity/Convergence.lean`),
@@ -1194,6 +1206,12 @@ coordinate, and invariance under measurable equivalences.
 
 *Needs:* Mathlib `MeasureTheory.Measure.fst`, `MeasureTheory.Measure.snd` and
 `MeasureTheory.Measure.prod`; Tau Ceti `TauCeti.IsCoupling` and `TauCeti.Coupling`.
+Tau Ceti declares or proves `TauCeti.IsCoupling.measure_univ_eq`,
+`TauCeti.IsCoupling.measure_prod_univ`, `TauCeti.IsCoupling.measure_univ_prod`,
+`TauCeti.Coupling.ext`, `TauCeti.isCoupling_prod`, `TauCeti.isCoupling_inv_smul_prod`,
+`TauCeti.isCoupling_zero`, `TauCeti.exists_isCoupling_iff`, `TauCeti.isCoupling_map_swap_iff`,
+`TauCeti.IsCoupling.map_left`, `TauCeti.IsCoupling.map_right` and
+`TauCeti.isCoupling_map_prodMap_iff`.
 
 **Checks.**
 
@@ -1832,8 +1850,10 @@ splitting of an additively separable cost: for measurable `cᵢ` with values in 
 probability marginals, the cost `c₁(x₁,y₁) + c₂(x₂,y₂)` from `μ₁⊗μ₂` to `ν₁⊗ν₂` has value
 `transportCost c₁ μ₁ ν₁ + transportCost c₂ μ₂ ν₂`, finite or not, and the rearranged product of two
 optimal plans is optimal (`TauCeti.transportCost_prod_add`, `TauCeti.IsOptimalCoupling.prod`).
-For a probability vector `(a_i)`, prove the mixture bound
-`W_p(∑ a_i μ_i, ∑ a_i ν_i)^p ≤ ∑ a_i W_p(μ_i,ν_i)^p`.
+For finite or countable families of finite weights `a_i` (a probability vector in particular),
+prove the mixture bound `W_p(∑ a_i μ_i, ∑ a_i ν_i)^p ≤ ∑ a_i W_p(μ_i,ν_i)^p` for `0 < p < ∞`
+and a jointly measurable ground distance, and its consequence, convexity of `W_p(μ,·)^p` in one
+argument.
 On a normed additive group, prove `W_p(μ*η,ν*η) ≤ W_p(μ,ν)`, with translation as its
 specialization.  For a Markov kernel `K`, take the pointwise Wasserstein-Lipschitz
 hypothesis `W_p(K(x,·),K(y,·)) ≤ L d(x,y)` and deduce `W_p(μK,νK) ≤ L W_p(μ,ν)` by
@@ -1848,8 +1868,10 @@ statements for `p=∞` belong to item 6, stated separately.
 Tau Ceti declares or proves `TauCeti.wassersteinEDist_map_le_mul`,
 `TauCeti.WassersteinSpace.lipschitzWith_map`, `TauCeti.WassersteinSpace.isometry_map`,
 `TauCeti.wassersteinEDist_map_toLp_prod`, `TauCeti.wassersteinEDist_conv_right_le`,
-`TauCeti.wassersteinEDist_smul_add_smul_rpow_le`, `TauCeti.wassersteinEDist_comp_le_mul`,
-`TauCeti.transportCost_prod_add` and `TauCeti.IsOptimalCoupling.prod`.
+`TauCeti.wassersteinEDist_finset_sum_smul_rpow_le` and `TauCeti.wassersteinEDist_sum_smul_rpow_le`
+(the mixture bound), `TauCeti.wassersteinEDist_smul_add_smul_rpow_le` (convexity in one
+argument), `TauCeti.wassersteinEDist_comp_le_mul`, `TauCeti.transportCost_prod_add` and
+`TauCeti.IsOptimalCoupling.prod`.
 
 ### 3.6 The exponent-`∞` distance
 
@@ -2535,19 +2557,43 @@ that an Aleksandrov solution of `MA_u = g dx` satisfies `det H = g` almost every
 Prove the convex Dirichlet problem in its standard strictly convex form: for `Ω ⊆ ℝⁿ`
 bounded and strictly convex, a finite Borel measure `μ` on `Ω`, and `g ∈ C(∂Ω)`, there
 is a unique convex `u ∈ C(cl Ω)` with `MA_u = μ` and `u = g` on `∂Ω` (Hartenstine 2006,
-Theorem 2.1, p. 2, quoting Gutiérrez, *The Monge--Ampère Equation*, Theorem 1.6.2).  Strict
+Theorem 2.1, p. 2, quoting Gutiérrez, *The Monge--Ampère Equation*, Theorem 1.6.2).  For
+`n ≥ 1`, `Ω` open and convex with strictly convex closure (Mathlib's `StrictConvex` on an open set
+is plain convexity, so strict convexity is imposed on `closure Ω`), `μ` a finite measure on `ℝⁿ`
+with `μ(ℝⁿ ∖ Ω) = 0`, and `MA_u` Tau Ceti's `TauCeti.mongeAmpereMeasure volume` of `u` extended by
+`⊤` off `Ω`, the existence half is `exists_mongeAmpereMeasure_eq_of_strictConvex_closure`, and
+uniqueness is Tau Ceti's `TauCeti.eqOn_of_mongeAmpereMeasure_eq_of_eqOn_frontier`.  Strict
 convexity is exactly what admits arbitrary continuous boundary data; on a merely bounded convex
 `Ω` the problem is solvable, and then uniquely, exactly when `g` extends to a function in
 `C(cl Ω)` that is convex in `Ω` (Hartenstine 2006, Theorem 1.1, p. 1), a separate theorem with
-that extension hypothesis.  The zero-boundary existence theorem on a bounded open convex domain
-is De Philippis--Figalli's survey Theorem 2.9 (p. 8).  For stability prove a named theorem
-rather than the word: in the zero-boundary formulation, Hausdorff convergence of bounded convex
-domains together with a uniform mass bound and weak-* convergence of the right-hand sides gives
-uniform convergence of the solutions (survey Theorem 2.8, p. 8).  A fixed-domain, varying-boundary-data version carries its own measure
+that extension hypothesis.  Its existence half, for data given as the frontier values of a
+function convex on `Ω` and continuous on `cl Ω`, is `exists_mongeAmpereMeasure_eq_of_convexOn`;
+necessity is immediate, since a solution is such an extension.  The zero-boundary existence
+theorem on a bounded open convex domain is De Philippis--Figalli's survey Theorem 2.9 (p. 8).
+For stability prove a named theorem rather than the word: in the zero-boundary formulation,
+Hausdorff convergence of bounded convex domains together with a uniform mass bound and weak-*
+convergence of the right-hand sides gives uniform convergence of the solutions (survey
+Theorem 2.8, p. 8).  A fixed-domain, varying-boundary-data version carries its own measure
 topology and the hypotheses that preserve the boundary trace.
 
 *Needs:* items 1--2; Hartenstine 2006 Theorems 1.1 and 2.1; De Philippis--Figalli survey Theorems
-2.8--2.9.
+2.8--2.9; Tau Ceti `TauCeti.mongeAmpereMeasure` and
+`TauCeti.eqOn_of_mongeAmpereMeasure_eq_of_eqOn_frontier`.
+
+**Checks.**
+
+* On `Ω = (0,1) ⊆ ℝ` with `μ = δ_{1/2}` and zero boundary data the solution is
+  `u(x) = (|x - 1/2| - 1/2)/2`: its subdifferential at `1/2` is `[-1/2, 1/2]`, of length `1`, and
+  every other point has a single slope.  The candidate `|x - 1/2| - 1/2` has Monge--Ampère mass
+  `2`.
+* The open unit disc minus its centre has strictly convex closure and is not convex, and no
+  function is `ConvexOn` a nonconvex set, so the convexity hypothesis on `Ω` cannot be dropped
+  from the strictly convex theorem.
+* On the open square `(0,1)²`, which is convex and not strictly convex, data with
+  `g(x,0) = x(1-x)` on the bottom edge admit no solution: a function convex in the square and
+  continuous on its closure restricts to a convex function on each edge, and `x(1-x)` is concave.
+* For `n = 0` the only nonempty open set is the point, whose Aleksandrov measure is the full mass
+  `1` of the one-point gradient space for every `u`, so `μ = 0` has no solution there.
 
 ### 6B. The transport equation
 
@@ -3101,11 +3147,26 @@ finite second moment so that item 3's optimal map `T` exists.  Then there are cl
 volume-null sets `Σ_X, Σ_Y ⊆ M` such that `T : M ∖ Σ_X → M ∖ Σ_Y` is a homeomorphism that is
 locally `C⁰,β` for every `β < 1`; if moreover `f` and `g` are of class `C^{k,α}`, it is a
 `C^{k+1,α}_loc` diffeomorphism.  No Ma--Trudinger--Wang condition, curvature sign, or
-compactness is assumed.  The route localizes Layer 6.15 in charts away from the cut relation,
-on RiemannianGeometry R4.6's open set where `d²/2` is smooth, and uses item 1's
-cut-locus nullity.
+compactness is assumed.  For every Kantorovich-optimal map `T`
+(`TauCeti.IsKantorovichOptimalTransportMap` for the cost `d²/2`), read up to almost-everywhere
+equality, with the Riemannian distance as the extended distance of `M` and the Hölder bound on
+every compact subset of `M ∖ Σ_X`, the first clause is
+`exists_homeomorph_holderOnWith_of_isKantorovichOptimalTransportMap_riemannian`.  The route
+localizes Layer 6.15 in charts away from the cut relation, on RiemannianGeometry R4.6's open set
+where `d²/2` is smooth, and uses item 1's cut-locus nullity (De Philippis--Figalli 2015, proof of
+Theorem 1.4, pp. 89--90).
 
-*Needs:* items 1--3 and 5; Layer 6.15; RiemannianGeometry R4.6.
+*Needs:* items 1--3 and 5; Layer 6.15; RiemannianGeometry R4.6; Tau Ceti
+`TauCeti.riemannianVolume` and `TauCeti.IsKantorovichOptimalTransportMap`.
+
+**Checks.**
+
+* On `ℝⁿ` with the standard Gaussian density as `f` and the density of `N(0, 4I)` as `g`, the
+  optimal map is `T(x) = 2x`, the gradient of the convex `‖x‖²`, so `Σ_X = Σ_Y = ∅` and `T` is
+  Lipschitz; the map `T(x) = -2x` also pushes `f` to `g` and costs
+  `∫ ‖3x‖²/2 f dx = 9n/2` instead of `∫ ‖x‖²/2 f dx = n/2`.
+* On the circle `ℝ/2πℤ` with `f = g = 1/(2π)` the optimal map is the identity, of cost `0`, and
+  `Σ_X = Σ_Y = ∅`; a rotation by `θ ∈ (0, π]` costs `θ²/2`.
 
 McCann's original [polar factorization on Riemannian
 manifolds](https://doi.org/10.1007/PL00001679) is the primary source for compact manifolds;
@@ -4214,15 +4275,28 @@ identifies `∇(u′(ρ))` as the Wasserstein subgradient at a smooth density an
 `∂_tρ = div(ρ∇(u′(ρ)))`, that is `∂_tρ = Δ(ρ^m)` for `u = U_m`, since
 `ρ∇(U_m′(ρ)) = ∇(ρ^m)`.  That proposition assumes smooth densities; the distributional identity
 for the data above is the target here, through the Euler--Lagrange equation of the JKO step
-(item 6).  Interaction energy gives aggregation, and sums give the
-corresponding drift-diffusion equations under the named coercivity hypotheses of
+(item 6).  For every `EVI_0` solution of `μ ↦ TauCeti.internalEnergy U_m volume μ` on
+`TauCeti.WassersteinSpace 2 ℝⁿ`, in the open ranges `m > 1` and `max(1-1/n, n/(n+2)) < m < 1`, the
+identity is `integral_porousMedium_eq_zero_of_isEVISolution`, with `ρₜ` the density of the
+absolutely continuous part of `μₜ`.  Tau Ceti's internal energy adds `U_m′(∞) μˢ(ℝⁿ)` for the
+singular part `μˢ`, as Ambrosio--Gigli's Definition 3.32 does: `+∞` for `m > 1` and `0` for
+`m < 1`.  For `m < 1` the laws `μₜ`, `t > 0`, still have no singular part: spreading a singular
+mass `a` over balls of radius `r` lowers the energy by a multiple of `a^m r^{n(1-m)}` at `W₂`-cost
+of order `a^{1/2} r`, so the slope is infinite there because `n(1-m) < 1` in the range, while an
+`EVI_0` solution has finite slope at positive times.  Interaction energy gives aggregation, and
+sums give the corresponding drift-diffusion equations under the named coercivity hypotheses of
 their component energies.
 
-*Needs:* items 2 and 6--7; Layers 9.5 and 10.5.
+*Needs:* items 2 and 6--7; Layers 9.5 and 10.5; Tau Ceti `TauCeti.internalEnergy` and
+`TauCeti.IsEVISolution`.
 
 **Checks.**
 
 * `U_2(r) = r²`, and on `ℝ` the condition `s ↦ s U_2(1/s) = 1/s` convex and nonincreasing holds.
+* For `n = 1` and `m = 2` the Barenblatt profile `ρ(t,x) = t^(-1/3)(C - x² t^(-2/3)/12)₊` solves
+  `∂ₜρ = (ρ²)''`: with `ξ = x t^(-1/3)` and `F(ξ) = C - ξ²/12`, both sides equal
+  `t^(-4/3)(ξ²/12 - C/3)` where `F > 0`.  The energy `∫ρ²/2 dx`, that is the normalisation
+  `U(r) = r²/2`, gives `∂ₜρ = (ρ²/2)''`, whose profile has `ξ²/6` in place of `ξ²/12`.
 * For `n = 3` the fast-diffusion range is `2/3 < m < 1`, because `2/3 > 3/5 = n/(n+2)`:
   `m = 3/4` lies in it and `m = 1/2` does not.
 * For `m < 1`, `U_m` is negative (`U_{1/2}(r) = -2√r`), so the energy is bounded below only
@@ -5257,7 +5331,17 @@ For `1 ≤ N < ∞`, prove the Gigli--Rajala--Sturm nonsmooth optimal-map theore
 `RCD*(K,N)` spaces for `μ₀,μ₁ ∈ P₂(X)` with `μ₀ ≪ m`: the quadratic optimal
 coupling is unique and induced by a map.  For `1 < N < ∞`, separately add the
 essentially nonbranching `MCP(K,N)` version, with its boundedly-finite/full-support
-reference, moment, and source-absolute-continuity hypotheses all visible.  Consume
+reference, moment, and source-absolute-continuity hypotheses all visible.  It is
+`exists_isKantorovichOptimalTransportMap_of_measureContraction`: on a proper space carrying a
+`TauCeti.MetricMeasureSpace` whose reference measure `m` has full support, satisfies
+`TauCeti.MetricMeasureSpace.MeasureContraction` with constants `K` and `1 < N`, and is
+`TauCeti.MetricMeasureSpace.EssentiallyNonbranching`, for probability laws `μ₀ ≪ m` and `μ₁` of
+finite second moment some map is Kantorovich-optimal for the cost `d²` and its graph plan is the
+only optimal coupling (Cavalletti--Mondino, arXiv:1609.00782v2, Theorem 1.1, p. 2, which yields a
+unique optimal dynamical plan, given by a map).  Cavalletti--Mondino assume a proper complete
+separable space with a reference measure finite on bounded sets (§2, p. 2) and work with
+`supp m = X` (p. 4); Tau Ceti's condition is Ohta's form of `MCP(K,N)`, under which their
+Appendix (p. 17) carries the whole argument through.  Consume
 Layer 8's `CBB(κ)` API for Bertrand's Theorem 1.1: on a finite-dimensional complete,
 connected, locally compact geodesic `CBB(κ)` Alexandrov space with `n`-dimensional
 Hausdorff measure `Hⁿ`, if the Borel probabilities `μ₀,μ₁` have compact support
@@ -5267,7 +5351,28 @@ potential and the Alexandrov exponential on the regular set.  Separately prove t
 noncompact-support quadratic specialization of Bertrand's Theorem 4.2 under
 `∫ d(x,y)² d(μ₀⊗μ₁)(x,y) < ∞`.
 
-*Needs:* items 2--3; Layer 8.1.
+*Needs:* items 2--3; Layer 8.1; Tau Ceti `TauCeti.MetricMeasureSpace.MeasureContraction` and
+`TauCeti.MetricMeasureSpace.EssentiallyNonbranching`; Cavalletti--Mondino Theorem 1.1.
+
+**Checks.**
+
+* On `ℝ` with Lebesgue measure, `MCP(0,N)` holds for every `N ≥ 1`
+  (`TauCeti.MetricMeasureSpace.measureContraction_zero_iff_finrank_le`) and the space is
+  essentially nonbranching
+  (`TauCeti.MetricMeasureSpace.essentiallyNonbranching_of_strictConvexSpace`).
+  From the uniform law on `[0,1]` to the uniform law on `[0,2]` the map is `T(x) = 2x`, of cost
+  `∫₀¹ x² dx = 1/3`; the decreasing map `x ↦ 2 - 2x` also pushes one law to the other and costs
+  `∫₀¹ (2 - 3x)² dx = 1`.
+* Full support cannot be dropped.  In `X = [0,1] × {0} ∪ {p, q} ⊆ ℝ²` with `p = (1/2, 1)`,
+  `q = (1/2, -1)` and `m` Lebesgue measure on the segment, `MCP(0,N)` holds for every `N ≥ 1`
+  (moving `m[|A]` along segments to a point of the segment multiplies its density by `1/(1-t)` at
+  time `t`, and the weight `(1-t)^N` compensates for `N ≥ 1`) and essential nonbranching holds,
+  both conditions seeing only geodesics in `supp m`.  From `μ₀ = m` to `μ₁ = (δ_p + δ_q)/2`
+  every coupling costs `∫₀¹ ((x - 1/2)² + 1) dx = 13/12`, so the product coupling is optimal and
+  is not a graph.
+* Essential nonbranching cannot be dropped: Cavalletti--Mondino (p. 2) recall a branching space
+  satisfying `MCP(0,3)` with absolutely continuous marginals whose optimal plan is induced by no
+  map.
 
 ### 14.9 Smooth and nonsmooth transport
 
@@ -5585,12 +5690,15 @@ library.
 
 ### 16.1 Namespaces
 
-Organize general material under stable namespaces such as
-`MeasureTheory.OptimalTransport`, `MeasureTheory.ProbabilityMeasure.Wasserstein`,
-`Analysis.Convex.MongeAmpere`, `Analysis.GradientFlow`, and
-`MetricGeometry.GromovWasserstein`, following upstream naming feedback.  Avoid a single
-file or namespace that imports all PDE, Riemannian, computational, and metric-measure
-dependencies.
+Keep the declarations in the `TauCeti` namespace, with dot-notation namespaces for their
+carriers (`TauCeti.IsCoupling`, `TauCeti.WassersteinSpace`, `TauCeti.MetricMeasureSpace`,
+`TauCeti.GromovWassersteinSpace`), as Tau Ceti's implementation does.  Organize the modules by
+subject: couplings, costs, duality, Monge maps, Wasserstein spaces, entropic transport and
+metric-measure spaces under `TauCeti/MeasureTheory/OptimalTransport/`, with Gromov--Wasserstein
+in its `GromovWasserstein/` subdirectory, the Monge--Ampère measure under
+`TauCeti/Analysis/Convex/MongeAmpere/`, and metric gradient flows under
+`TauCeti/Analysis/GradientFlow/`.  Avoid a single file or namespace that imports all PDE,
+Riemannian, computational, and metric-measure dependencies.
 
 *Needs:* Layers 0--15.
 
@@ -5937,6 +6045,9 @@ stage of which is reusable on its own.
   and stability of Ricci curvature bounds and heat flows](https://arxiv.org/abs/1311.4907), 2015;
   J. Lott and C. Villani, *Ricci curvature for metric-measure spaces via optimal transport*,
   [arXiv:math/0412127](https://arxiv.org/abs/math/0412127), theorem numbers from arXiv v4.
+* F. Cavalletti and A. Mondino, [Optimal maps in essentially non-branching
+  spaces](https://arxiv.org/abs/1609.00782), Commun. Contemp. Math. 19 (2017), theorem and page
+  numbers from arXiv v2.
 
 ## Acknowledgements and provenance
 
