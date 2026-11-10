@@ -507,7 +507,7 @@ for every cotangent chart centre z₀, every w in that chart's target and every
 pair of model tangent vectors u,v, its coordinate value is
 `strongDualCotangentSymplecticForm u v`. The chart-target condition excludes
 the total chart inverse's values outside its domain. At each chart centre,
-`SmoothTwoForm.inChartAt_extChartAt_self` identifies this value with the
+`RoughForm.inChartAt_extChartAt_self` identifies this value with the
 intrinsic form, so these data determine σ uniquely.
 
 For a jointly smooth left action, R1 uses this σ to assert

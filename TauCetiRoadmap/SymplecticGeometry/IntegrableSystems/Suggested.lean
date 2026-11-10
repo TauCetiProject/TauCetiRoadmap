@@ -48,7 +48,8 @@ tangent vector `v` at `x` with `σ x v w = dg_x(w)` for every `w`; it is unique 
 nondegenerate, and the value is `0` where no such vector exists. -/
 def chosenHamiltonianField (σ : TauCeti.SmoothTwoForm I M) (g : M → ℝ) (x : M) :
     TangentSpace I x :=
-  if h : ∃ v : TangentSpace I x, ∀ w, σ x v w = mvfderiv I g x w then h.choose else 0
+  if h : ∃ v : TangentSpace I x, ∀ w, TauCeti.SmoothBundleForm.eval₂ σ x v w = mvfderiv I g x w
+    then h.choose else 0
 
 /-- The Poisson bracket value `{f, g}(x) = df_x(X_g)` of the family conventions. -/
 def bracketValue (σ : TauCeti.SmoothTwoForm I M) (f g : M → ℝ) (x : M) : ℝ :=

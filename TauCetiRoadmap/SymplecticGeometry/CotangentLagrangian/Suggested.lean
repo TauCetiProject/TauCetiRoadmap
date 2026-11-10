@@ -5,7 +5,7 @@ public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 public import TauCeti.Geometry.Symplectic.Lagrangian.Basic
 public import TauCeti.Geometry.Symplectic.Cotangent.Liouville
 public import TauCeti.Geometry.Symplectic.SymplecticTransport
-public import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
+public import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 
 /-!
 # Cotangent bundles and Lagrangian geometry: target signatures
@@ -59,14 +59,15 @@ def liouville (z : Cotangent I M) : TangentSpace (cotangentModel I) z →L[ℝ] 
 which is symplectic (closed and fiberwise nondegenerate) and whose expression in every cotangent
 chart is the linear model `strongDualCotangentSymplecticForm`, that is `Σ dqᵢ ∧ dpᵢ` in the
 family's `ω = −dλ` convention (Cannas da Silva, §§2.2–2.3). At the chart centre the chart
-expression is the form itself (`SmoothTwoForm.inChartAt_extChartAt_self`), so the chart identity
+expression is the form itself (`RoughForm.inChartAt_extChartAt_self`), so the chart identity
 fixes the form. -/
 theorem canonicalForm_exists [FiniteDimensional ℝ E] :
     ∃ σ : TauCeti.SmoothTwoForm (cotangentModel I) (Cotangent I M), σ.IsSymplectic ∧
       ∀ (z₀ : Cotangent I M) (w : E × (E →L[ℝ] ℝ)),
         w ∈ (extChartAt (cotangentModel I) z₀).target →
         ∀ v : Fin 2 → (E × (E →L[ℝ] ℝ)),
-          σ.inChartAt z₀ w v = TauCeti.strongDualCotangentSymplecticForm (v 0) (v 1) := by
+          TauCeti.RoughForm.inChartAt σ.1 z₀ w v =
+            TauCeti.strongDualCotangentSymplecticForm (v 0) (v 1) := by
   sorry
 
 /-- Liouville read in cotangent chart coordinates is the existing linear Liouville form. -/

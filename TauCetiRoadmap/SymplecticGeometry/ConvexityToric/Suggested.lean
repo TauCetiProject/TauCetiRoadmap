@@ -57,12 +57,12 @@ structure HamiltonianTorusData [IsManifold I ∞ M] (σ : TauCeti.SmoothTwoForm 
     (μ : M → StrongDual ℝ EG) : Prop where
   action_smooth : ContMDiff (IT.prod I) I ∞ (fun gx : T × M ↦ gx.1 • gx.2)
   preserves : ∀ (g : T) x v w,
-    σ (g • x) (mfderiv I I (fun y : M ↦ g • y) x v)
-      (mfderiv I I (fun y : M ↦ g • y) x w) = σ x v w
+    TauCeti.SmoothBundleForm.eval₂ σ (g • x) (mfderiv I I (fun y : M ↦ g • y) x v)
+      (mfderiv I I (fun y : M ↦ g • y) x w) = TauCeti.SmoothBundleForm.eval₂ σ x v w
   moment_smooth : ContMDiff I 𝓘(ℝ, StrongDual ℝ EG) ∞ μ
   invariant : ∀ (g : T) x, μ (g • x) = μ x
   hamiltonian : ∀ (ξ : EG) x v,
-    σ x (mfderiv IT I (fun g : T ↦ g • x) 1 ξ) v =
+    TauCeti.SmoothBundleForm.eval₂ σ x (mfderiv IT I (fun g : T ↦ g • x) 1 ξ) v =
       mfderiv I 𝓘(ℝ, ℝ) (fun y ↦ μ y ξ) x v
 
 /-! ## Layer 3: Convexity and matrix examples -/
