@@ -69,6 +69,9 @@ public import TauCeti.RingTheory.Henselization.IndEtale
 public import TauCeti.RingTheory.Henselization.Noetherian
 public import TauCeti.RingTheory.StrictHenselization.FromHenselization
 public import TauCeti.RingTheory.StrictHenselization.Equiv
+public import TauCeti.RingTheory.AdicCompletion.LocalRing
+public import TauCeti.AlgebraicGeometry.Morphisms.Smooth.Irreducible
+public import TauCeti.RingTheory.Idempotents.Connected.ScalarExtension
 
 /-!
 # Modular curves and the moduli of elliptic curves with level structure: target signatures
@@ -104,10 +107,9 @@ KM 6.6.1 (`[Γ₀(N)]` is relatively representable, finite flat of constant posi
 regular of dimension two), KM 7.1.3 (Katz–Mazur quotients), KM 7.5.1 (regularity of quotients),
 KM 8.1.1 and 8.1.5 (coarse moduli schemes and their quotients), KM 8.2.1 (the coarse `j`-line,
 over `ℤ` and over every coefficient ring), the quotient-smoothness theorem of KM's Notes Added in
-Proof (Layer 6.4), the base-change lemma for invariant rings of Layer 6.5, the algebraic reduction
-of geometric irreducibility of Layer 5.3, and the clauses of Layer 0.9 not at the pin (the
-separably closed residue field of the strict henselization, its Noetherianity, and the completion
-statements), with the characterisation of strictly henselian local rings, the recognition of the
+Proof (Layer 6.4), the base-change lemma for invariant rings of Layer 6.5, and the clauses of
+Layer 0.9 not at the pin (the separably closed residue field of the strict henselization and its
+Noetherianity), with the characterisation of strictly henselian local rings, the recognition of the
 strict henselization as a henselization, the maps out of an ind-étale algebra into a henselian
 local ring and the uniqueness of henselizations (Stacks 08HR and 08HT), and the strict
 henselization of a discrete valuation ring with its uniformizer.
@@ -128,7 +130,11 @@ these two; Layers 4.1, 4.2 and 4.4), `Y₁(N)` for `N ≥ 4` from the universal 
 5.1), the level-three rigidifier (KM 2.2.11) and the simultaneous-problem, double-rigidifier and
 free-action steps of the proof of KM 4.7.0 (Layer 3.5), the high Frobenius twists of the proof of
 KM 5.3.6 (Layer 8.7), the invariant rings of the Legendre and level-three lines (Layer 6.5), and
-the henselization of a local ring with its comparison map to the strict henselization (Layer 0.9).
+the henselization of a local ring with its comparison map to the strict henselization, the
+dimension and the regularity of the completion of a Noetherian local ring (Layer 0.9), and the
+algebraic reduction of geometric irreducibility: a connected scheme smooth over a field is
+irreducible, with the invariance of connectedness of an algebra over an algebraically closed field
+under field extension (Layer 5.3).
 
 Headline theorems not statable at the pins, and what each lacks:
 
@@ -376,6 +382,11 @@ attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
 #check @TauCeti.StrictHenselization.toTarget_comp_fromHenselization
 #check @TauCeti.StrictHenselization.eq_fromHenselization
 #check @TauCeti.StrictHenselization.algEquivOfResidueFieldEquiv
+#check @TauCeti.AdicCompletion.ringKrullDim_eq
+#check @TauCeti.AdicCompletion.isRegularLocalRing_iff
+#check @TauCeti.AlgebraicGeometry.Smooth.irreducibleSpace_of_connectedSpace
+#check @TauCeti.AlgebraicGeometry.Smooth.irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace
+#check @TauCeti.connectedSpace_primeSpectrum_tensorProduct_of_isAlgClosed
 
 universe u v
 
@@ -567,20 +578,6 @@ theorem StrictHenselization.irreducible_algebraMap {R Ω : Type u} [CommRing R] 
     Irreducible (algebraMap R (algebra R Ω) ϖ) :=
   sorry
 
-/-- **Dimension of the completion.** Stacks, Lemma 15.44.1 (07NV). -/
-@[stacks 07NV]
-theorem ringKrullDim_adicCompletion (A : Type*) [CommRing A] [IsLocalRing A] [IsNoetherianRing A] :
-    ringKrullDim (AdicCompletion (IsLocalRing.maximalIdeal A) A) = ringKrullDim A := by
-  sorry
-
-/-- **Regularity of the completion.** A Noetherian local ring is regular iff its completion is.
-Stacks, Lemma 15.44.4 (07NY). -/
-@[stacks 07NY]
-theorem isRegularLocalRing_adicCompletion_iff (A : Type*) [CommRing A] [IsLocalRing A]
-    [IsNoetherianRing A] :
-    IsRegularLocalRing A ↔ IsRegularLocalRing (AdicCompletion (IsLocalRing.maximalIdeal A) A) := by
-  sorry
-
 /-! ## Layer 2: pointed morphisms of elliptic curves -/
 
 /-- KM 2.5.1, proved in Layer 2.4 from the relative Picard theory: a scheme morphism over `S`
@@ -651,37 +648,6 @@ there (a naive structure injective on a fibre of residue characteristic `p ∣ N
 theorem exists_representableBy_gammaNaive (B : Scheme.{u}) (N : ℕ) (h3 : 3 ≤ N) :
     ∃ X : EllObj B, Nonempty ((ModuliProblem.gammaNaive B N).RepresentableBy X) ∧
       IsAffineHom X.structureMap ∧ Smooth X.structureMap :=
-  sorry
-
-/-! ## Layer 5.3: geometric irreducibility, the algebraic reduction
-
-The twisted-curve application is conditional on geometric connectedness. README Layer 5.3
-specifies an external scheme–analytic comparison contract; it is not an imported theorem or a
-milestone already supplied by another roadmap. The declarations here prove only the algebraic
-implication from that explicit hypothesis.
--/
-
-/-- A nonempty connected scheme, smooth of relative dimension one over a field, is irreducible.
-Smoothness over any field gives local noetherianness and regularity, hence normality; a connected
-locally noetherian normal scheme is irreducible. Layer 5.3 applies this with `K = ℚ̄`. -/
-theorem irreducibleSpace_of_connectedSpace {K : Type u} [Field K]
-    (Y : Scheme.{u}) (sY : Y ⟶ Spec (CommRingCat.of K))
-    [SmoothOfRelativeDimension 1 sY] [Nonempty Y] [ConnectedSpace Y] :
-    IrreducibleSpace Y :=
-  sorry
-
-/-- Geometric irreducibility of a smooth `ℚ`-curve, given geometric connectedness: the base
-change of a smooth morphism is smooth, and `hconn` contains the nonemptiness of the base change,
-so the leaf above applies over `ℚ̄` once `hconn` is supplied. This is the reduction Layer 5.3
-applies to `Y(ρ)`. The hypothesis `hconn` is not proved here; the reference route described in README Layer 5.3 uses complex uniformisation and a
-scheme–analytic connectedness comparison. -/
-theorem irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace
-    (Y : Scheme.{0}) (sY : Y ⟶ Spec (CommRingCat.of ℚ))
-    [SmoothOfRelativeDimension 1 sY]
-    (hconn : ConnectedSpace ↥(pullback sY
-      (Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ)))))) :
-    IrreducibleSpace ↥(pullback sY
-      (Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ))))) :=
   sorry
 
 /-! ## Layer 6.1: Katz–Mazur quotient problems -/

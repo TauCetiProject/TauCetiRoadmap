@@ -74,9 +74,9 @@ The following topics are not included: generalized elliptic curves, Igusa curves
 characteristic-`N` compactified geometry (crossings at supersingular points, minimal regular
 resolutions — §The Mazur interface names their owner), a general theory of algebraic stacks or algebraic spaces, modular forms and Hecke
 operators, Néron models, complex uniformisation, and geometric connectedness or irreducibility of
-the fine curves. **One deliberate exception, and it is conditional**: §Layer 5.3 owns the *algebraic
+the fine curves. **One deliberate exception, and it is conditional**: §Layer 5.3 records the *algebraic
 reduction* of geometric irreducibility for the twisted curve `Y(ρ)` — smoothness under base change,
-and connected-plus-smooth implies irreducible — because the FLT interface consumes that statement.
+and connected-plus-smooth implies irreducible, both at the pinned Tau Ceti — because the FLT interface consumes that statement.
 The connectedness input which discharges it is transcendental, is named there as an external
 supplier contract, and is not built here; no unconditional irreducibility theorem is asserted for
 `Y(ρ)` or for any fine curve. General coherent cohomology, the general Riemann–Roch theorem, and the general
@@ -507,7 +507,8 @@ and `AlgebraicGeometry.GeometricallyConnected`, every fibre over a field-valued 
   of rigidity along a morphism of moduli problems; relative representability of both problems
   over every base, by the open naive loci of `E[N]` and of `E[N] ×_S E[N]`, and, for `N`
   invertible in every residue field of `B`, étaleness, finiteness and surjectivity over `Ell/B`
-  (Loeffler 3.8.2 for these two problems). Layers 3.2 and 3.3 consume them.
+  (Loeffler, Proposition 3.8.2, for relative representability and étaleness of these two problems
+  over `Ell/ℤ[1/N]`). Layers 3.2 and 3.3 consume them.
 - `ModuliProblem.gamma`, `gammaAction` and `gammaLevelOneIso` (file `ModularCurve/FullLevel.lean`),
   `EllObj.drinfeldBasisScheme`, `gammaRelRepData` and `hasProperty_isFinite_gammaRelRepData` (file
   `ModularCurve/Gamma/Full.lean`), `gammaOne`, `gammaOneOneIso`, `gammaOneRelRepData` and
@@ -607,8 +608,25 @@ and `AlgebraicGeometry.GeometricallyConnected`, every fibre over a field-valued 
   ind-étale over `R`, and Noetherian exactly when `R` is (Tag 06LJ); the unique `R`-algebra map
   `R^h → R^{sh}`, compatible with the maps to `Ω` (Tag 04GP, (1)); and, for `R` henselian and
   `Ω ≅ κ` over `R`, the isomorphism `R^{sh} ≅ R`. Layer 0.9's `IsHenselization` is tested on these.
+- `TauCeti.AdicCompletion.ringKrullDim_eq` and `TauCeti.AdicCompletion.isRegularLocalRing_iff`
+  (file `TauCeti/RingTheory/AdicCompletion/LocalRing.lean`): for a Noetherian local ring `R`, the
+  completion `AdicCompletion 𝔪 R` has the Krull dimension of `R` (Stacks, Tag 07NV) and is regular
+  exactly when `R` is (Tag 07NY). Layer 0.9 consumes them.
+- `TauCeti.AlgebraicGeometry.Smooth.irreducibleSpace_of_connectedSpace` and
+  `Smooth.irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace` (file
+  `TauCeti/AlgebraicGeometry/Morphisms/Smooth/Irreducible.lean`): a connected scheme smooth, of
+  any relative dimension, over a locally Noetherian scheme with regular local rings is
+  irreducible; and for `f : X ⟶ Spec K` smooth over a field `K`, if the base change of `X` to
+  `AlgebraicClosure K` is connected, it is irreducible. Connectedness is assumed, not proved, and
+  a `ConnectedSpace` is nonempty. Layer 5.3 item 7 is these.
+- `TauCeti.connectedSpace_primeSpectrum_tensorProduct_of_isAlgClosed` (file
+  `TauCeti/RingTheory/Idempotents/Connected/ScalarExtension.lean`): for an algebraically closed
+  field `k`, a `k`-algebra `A` with connected spectrum and any field extension `K` of `k`, the
+  spectrum of `A ⊗_k K` is connected, with no finite-type or reducedness hypothesis. Layer 5.3
+  uses it for the affine curve `Y(ρ) ⊗ ℚ̄` and `K = ℂ`.
 
-Each of these is pinned by a `#check` in `Suggested.lean`.
+The carriers and the declarations on which the statements of `Suggested.lean` rest are pinned
+there by `#check`; the other declarations listed are cited by name and file.
 
 ### From roadmaps on main
 
@@ -715,8 +733,8 @@ three integral level problems in Layer 4.4, `[Γ₀(N)]` in Layer 9, and the reg
 does not use *further* Drinfeld-divisor theory is the naive side: once the common elliptic-curve and
 torsion foundations exist, Layer 3.2 and the direct Tate-normal-form construction may proceed in
 parallel with Layers 0.8 and 4.1–4.3. This is not a separate construction of elliptic curves avoiding Layer 0.1.
-Full-level representability in Layer 5.2 also uses the endomorphism rigidity of Layer 3.3, hence the
-Picard duality of Layer 2.4. Layer 5.3 and the determinant refinements additionally consume the Weil
+Full-level representability in Layer 5.2 also uses the rigidity of naive level structures of
+Layer 3.3, which is at the pin and uses no Picard duality. Layer 5.3 and the determinant refinements additionally consume the Weil
 pairing of Layer 2.5.
 
 **Further sources.** Stacks Project: Tag 062T for the definition and Tag 056Q for base change; Tag
@@ -1133,9 +1151,10 @@ roadmap uses:
 - comparison of a finite moduli scheme after strict henselisation and completion (used in
   Layer 8.2);
 - regular schemes in terms of regular local rings and Krull dimension at a point;
-- preservation and reflection of regularity and dimension under completion of noetherian local rings
-  (`ringKrullDim_adicCompletion`, Stacks, Tag 07NV; `isRegularLocalRing_adicCompletion_iff`,
-  Stacks, Tag 07NY);
+- preservation and reflection of regularity and dimension under completion of noetherian local
+  rings, which are at the pin (`TauCeti.AdicCompletion.ringKrullDim_eq`, Stacks, Tag 07NV;
+  `TauCeti.AdicCompletion.isRegularLocalRing_iff`, Stacks, Tag 07NY; §Exact supplier contracts)
+  and are consumed, not restated;
 - locality and invariance under isomorphism and étale morphisms;
 - openness of the regular locus for schemes locally of finite type over an excellent base,
   as in the finite-type integral rigidifiers of Layer 3.5; openness of the flat locus for the
@@ -1529,6 +1548,15 @@ statements for the universal elliptic curve in a rigidifier construction. This i
 application of the general descent machinery, not an assumption in Layer 0.5.
 
 **Dependencies.** Layers 0.1, 0.5, and 1.1–1.4.
+
+**Further sources.** Stacks Project, Tag 0E62(a): for a proper flat morphism `f : X ⟶ S` of finite
+presentation with `H⁰(X_s, 𝒪) = κ(s)` at every point `s`, the unit `𝒪_S ⟶ f_*𝒪_X` is an
+isomorphism, and remains one after every base change. This is the first statement, more generally;
+its fibre hypothesis holds here because every fibre is a smooth projective Weierstrass cubic over
+a field, hence geometrically integral. Stacks Project, Tag 0D3D: for a proper morphism and an
+invertible sheaf, the locus of the base over which the sheaf is relatively ample is open and its
+formation commutes with base change. It reduces the relative ampleness of `𝒪_E(3[0])` to the
+fibres, where a divisor of degree three on a curve of genus one is ample.
 
 ## Layer 2: isogenies, duality, and the Weil pairing
 
@@ -1937,15 +1965,16 @@ base `B` and the naive structures of KM where `N` is invertible on `B`:
 Both are relatively representable over every base, by the open naive loci of `E[N] ×_S E[N]` and
 of `E[N]` (`gammaNaiveRelRepData`, `gammaOneNaiveRelRepData`), and where `N` is invertible in
 every residue field of `B` they are étale, finite and surjective over `Ell/B`
-(`hasProperty_etale_…`, `hasProperty_isFinite_…`, `hasProperty_surjective_…`: Loeffler
-Proposition 3.8.2 for these two problems). `GL₂(ℤ/Nℤ)` acts on the right on `gammaNaive B N` in
+(`hasProperty_etale_…`, `hasProperty_isFinite_…`, `hasProperty_surjective_…`; Loeffler,
+Proposition 3.8.2, states relative representability and étaleness of these two problems over
+`Ell/ℤ[1/N]`, and finiteness and surjectivity are the pinned theorems). `GL₂(ℤ/Nℤ)` acts on the right on `gammaNaive B N` in
 the row-vector convention of Convention 5 (`gammaNaiveAction`), freely over nonempty bases
 (`eq_one_of_gammaNaiveAction_hom_app_eq_self`).
 
 Owned here is the third problem. Over `ℤ[1/N]`, define a **naive `[Γ₀(N)]`-structure** as a finite
 locally free subgroup scheme `C ⊆ E[N]` of order `N`, étale-locally generated by a single section,
 and prove that it is relatively representable and étale over `Ell/ℤ[1/N]` (Loeffler Proposition
-3.8.2 for the general `P_H` of Loeffler Definition 3.8.1). Construct the naive `[Γ₀(N)]` carrier
+3.8.2 for the general `P_H` of Loeffler Fact 3.8.1). Construct the naive `[Γ₀(N)]` carrier
 as the finite étale quotient of the full-basis carrier by the Borel, using the quotient theorem of
 Layer 0.3. Identify it with the cyclic open-and-closed locus in the subgroup parameter space of
 Layer 0.7. These are the structures in which the rigidifiers of Layer 3.5 and the fine curves of
@@ -1995,8 +2024,9 @@ Do not extend this assertion to the integral Drinfeld structures of Layer 4.2. I
 `F̄_p`, the pair `(0,0)` is a Drinfeld `[Γ(p)]`-structure, and `[-1]` fixes it; thus integral
 full-level rigidity is false even when `p≥3`.
 
-**Dependencies.** Layers 2.1, 2.6, 3.1, and 3.2. The rigidity argument uses the endomorphism
-identities of Layer 2.6 and, through them, the Picard dual of Layer 2.4.
+**Dependencies.** Layers 2.1, 3.1, and 3.2, and the pinned rigidity. The pinned proof compares an
+automorphism with the identity on three sections distinct in every fibre; it uses neither the
+endomorphism identities of Layer 2.6 nor the Picard dual of Layer 2.4.
 
 **Further sources.** Conrad, Lemma 3.1.8 and Theorem 4.2.1(2), for generalized elliptic curves: the
 automorphism scheme of a curve with level structure over an algebraically closed field is finite,
@@ -2104,8 +2134,7 @@ properties over `ℤ[1/N]` and `ℚ`, respectively; representability alone does 
 or relative dimension one.
 
 **Dependencies.** Layers 0.3, 0.5, 1.5, and 3.1–3.4. The rigidifiers are naive structures, so
-this block does not use the integral Drinfeld loci; its rigidity proof nevertheless reaches Layer
-0.1 through the Picard duality used in Layer 2.6 for the rigidity of Layer 3.3.
+this block does not use the integral Drinfeld loci.
 
 **Further sources.** Conrad, Theorem 2.2.5, is the corresponding statement in the language of
 stacks: an Artin stack whose geometric points have trivial automorphism functors is an algebraic
@@ -2383,9 +2412,9 @@ The direct Tate-atlas construction is at the pin (§Exact supplier contracts).
    affine for `B = Spec ℤ[1/N]`, and smooth over `B` (`smooth_yOne_structureMap`: `Y₁(N)` is a
    retract over `B` of the scheme of points of naive exact order `N` on the universal Tate normal
    form, which is finite étale over the smooth `B`-scheme `B × Spec ℤ[a,b,Δ⁻¹]`).
-5. The relative representing map is finite étale over `Ell/ℤ[1/N]` (Loeffler Proposition 3.8.2):
-   `hasProperty_etale_gammaOneNaiveRelRepData` and `hasProperty_isFinite_gammaOneNaiveRelRepData`
-   of Layer 3.2.
+5. The relative representing map is finite étale over `Ell/ℤ[1/N]`:
+   `hasProperty_etale_gammaOneNaiveRelRepData` (Loeffler, Proposition 3.8.2, for étaleness) and
+   `hasProperty_isFinite_gammaOneNaiveRelRepData` of Layer 3.2.
 
 For `N≥4`, this construction directly represents `Y₁(N)`; it is not routed through KM 4.7.0. No
 fine representability assertion is made for `N≤3`, where the indicated point structure does not
@@ -2468,8 +2497,7 @@ determinant. They are not asserted to be individual open-and-closed summands ove
 before that base change. Call them determinant fibres or fixed-pairing loci, not connected
 components. No connectedness or irreducibility theorem is asserted.
 
-**Dependencies.** The representability of `Y_full(N)` uses Layers 3.2, 3.3, and 3.5; through Layer 3.3
-it consumes the Picard-duality construction of Layer 2.4. The determinant map and fixed-pairing
+**Dependencies.** The representability of `Y_full(N)` uses Layers 3.2, 3.3, and 3.5. The determinant map and fixed-pairing
 decomposition additionally use the Weil pairing of Layer 2.5; they require no further
 Cartier-divisor theorem beyond it.
 
@@ -2509,37 +2537,44 @@ rigid.
 geometrically irreducible*, and the second half is not decoration: the FLT `3`–`5` switch needs
 enough rational points on the twisted curve, and that argument runs through irreducibility. Stopping
 at "smooth affine curve" would leave this roadmap one theorem short of the interface it advertises.
-The algebraic reduction is stated here with geometric connectedness as an explicit
+The algebraic reduction is at the pin, with geometric connectedness as an explicit
 hypothesis; an external contract for a reference proof is recorded below:
 
 7. prove that `Y(ρ) ⊗ ℚ̄` is nonempty and smooth — the base change of a smooth morphism is smooth —
-   and prove the leaf that a nonempty connected scheme smooth of relative dimension one over any
-   field is irreducible (smooth over a field gives local noetherianness and regularity, hence
-   normality; connected locally noetherian normal gives irreducible), applied with `K = ℚ̄`. Together these reduce geometric irreducibility of `Y(ρ)` to the single hypothesis
-   that `Y(ρ) ⊗ ℚ̄` is **connected**. Both are stated in `Suggested.lean`
-   (`irreducibleSpace_of_connectedSpace` and
-   `irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace`) and are owned here.
+   and apply the pinned theorem that a connected scheme smooth over a field is irreducible
+   (`TauCeti.AlgebraicGeometry.Smooth.irreducibleSpace_of_connectedSpace`: smooth over a field
+   gives local noetherianness and regular, hence integral, local rings, and a connected locally
+   noetherian scheme with integral local rings is irreducible), in its form over `AlgebraicClosure K`
+   (`Smooth.irreducibleSpace_baseChange_algebraicClosure_of_connectedSpace`, applied with
+   `K = ℚ`; §Exact supplier contracts). Together these reduce geometric irreducibility of `Y(ρ)`
+   to the single hypothesis that `Y(ρ) ⊗ ℚ̄` is **connected**. Neither theorem is restated in
+   `Suggested.lean`.
 
 **Geometric connectedness remains an explicit external hypothesis.** The reference route
 through Katz–Mazur 10.9.2 uses the geometric generic fibre and the complex uniformisation by a
 quotient of the upper half plane. This describes that proof, not an impossibility theorem for
-algebraic alternatives. The required contract consists of three separate statements:
+algebraic alternatives. The required contract consists of two separate statements:
 
-- geometric connectedness is insensitive to the algebraically closed extension `ℚ̄ ↪ ℂ`;
 - the uniformisation `(Y(ρ) ⊗ ℂ)^an ≅ ℍ/Γ̃` as Riemann surfaces;
 - for this finite-type smooth affine `ℂ`-curve, algebraic connectedness agrees with
   connectedness of its analytification. This is a scheme–analytic comparison, not an
   unrestricted statement about arbitrary `ℂ`-schemes.
 
-No roadmap in this repository owns these statements. The in-repository Modular Forms roadmap
+The passage between `ℂ` and `ℚ̄` is not part of the contract. If `Y(ρ) ⊗ ℂ` is connected, so is
+its image `Y(ρ) ⊗ ℚ̄` under the surjective projection; conversely, `Y(ρ)` is affine, and the
+pinned `TauCeti.connectedSpace_primeSpectrum_tensorProduct_of_isAlgClosed` (§Exact supplier
+contracts) carries connectedness from `ℚ̄` to every field extension of it.
+
+No roadmap in this repository owns the two statements. The in-repository Modular Forms roadmap
 deliberately stops at analytic carriers and takes on no scheme–analytic comparison, and the
-Algebraic Curves roadmap excludes the compact-Riemann-surface comparison from its Layer 12 for
-the same reason: all three statements sit behind a GAGA-style development that no roadmap on
-main has adopted. The roadmap in whose direction the third statement lies is ComplexComparison,
-which plans the analytification of every finite-type complex scheme; this roadmap takes no
-dependency on it and keeps the three hypotheses explicit. They are therefore an **external supplier contract** in the strict sense — three named
-hypotheses, not dependencies on any milestone — and the contract is discharged by whichever
-development eventually proves them, without this roadmap presupposing which one. Accordingly,
+Algebraic Curves roadmap excludes the compact-Riemann-surface comparison in its §Scope exclusions
+and future directions for the same reason: both statements sit behind a GAGA-style development
+that no roadmap on main has adopted. The roadmap in whose direction the second statement lies is
+ComplexComparison, which plans the analytification of every finite-type complex scheme; this
+roadmap takes no dependency on it and keeps the two hypotheses explicit. They are therefore an
+**external supplier contract** in the strict sense — two named hypotheses, not dependencies on any
+milestone — and the contract is discharged by whichever development eventually proves them,
+without this roadmap presupposing which one. Accordingly,
 every statement about `Y(ρ)` in this roadmap carries the connectedness hypothesis visibly rather
 than assuming it — an open supplier contract is a blocker on the *unconditional* statement,
 not a licence to assert it.
@@ -3965,14 +4000,12 @@ Two cross-links to other work are recorded here.
 
 ## Downstream consumers
 
-- SchemeAndStackFoundations consumes Layers 0.2–0.7 (group objects and finite locally free group
+- SchemeAndStackFoundations names Layers 0.2–0.7 (group objects and finite locally free group
   schemes, affine invariant quotients, finite étale schemes and Galois sets, effective descent,
-  Weil restriction, and the Grassmannian of Layer 0.7 with its affine charts, gluing and universal
-  property, for its Hilbert and Hom schemes), Layer 0.9 (the regular locus; the strict henselisation
-  itself is Tau Ceti's),
-  Layer 6.3 (coarse schemes of finite quotient problems) and Layer 7.4 (`ArtinianTestAlgebra`). Its
-  quotient-convention projective bundle `ℙ(E) = Proj_S(Sym E)` is Layer 0.7's rank-one
-  Grassmannian. Nothing of this roadmap consumes SchemeAndStackFoundations.
+  Weil restriction, and the Grassmannian), Layer 0.9 (strict henselisation and the regular locus),
+  Layer 6.3 (coarse schemes of finite quotient problems) and Layer 7.4 (`ArtinianTestAlgebra`) as
+  the owner of these objects in its scope, and takes none of them as an input. Nothing of this
+  roadmap consumes SchemeAndStackFoundations.
 - AlgebraicModuliForArithmeticGeometry §1.3 consumes Layer 0.7's finite locally free quotient
   Grassmannian with its universal quotient and its Plücker closed immersion into `P(∧^N E)`,
   which it restricts along a presentation to embed the Grassmannian of a finite-type
@@ -3987,14 +4020,14 @@ Two cross-links to other work are recorded here.
   `IsHenselization` serves every henselisation, including the henselisation of a local ring (the
   case `L = κ`), and compares every model of one with every other through
   `IsHenselization.existsUnique_comp_eq` and `IsHenselization.bijective_of_comp_eq`.
-  SchemeAndStackFoundations consumes Layer 0.9's strict henselisation (its scope and ownership, and
-  the geometric unibranchness of §0.10).
 
 ## Labels used by other roadmaps
 
 Other roadmaps cite sections of this roadmap by the labels in the first column. Each label
 resolves to the sections in the second column. A label with a letter is unambiguous. A bare layer
-number in the last six rows is read by the topic the citing text names.
+number in the six rows after the lettered labels is read by the topic the citing text names. An
+item label `0A.k` is item `k` of Layer 0.1, whose items 1–7 keep their numbers. The last five rows
+are former heading anchors.
 
 | Former label | Section of this roadmap |
 |---|---|
@@ -4051,6 +4084,11 @@ number in the last six rows is read by the topic the citing text names.
 | Layer 7 | Layers 7 and 8 (regularity) |
 | Layer 8 | Layers 8.4 and 9.1–9.4 (cyclicity and `[Γ₀(N)]`) |
 | Layer 9 | Layers 6, 8.5, 8.9, 9.5, and 9.6 (quotients and coarse moduli) |
+| `#0d-finite-étale-schemes-and-galois-actions` | Layer 0.4 |
+| `#5a-tate-normal-form-and-y₁n-for-n4` | Layer 5.1 |
+| `#5b-full-ordered-bases-and-fixed-pairing` | Layer 5.2 |
+| `#9d-coarse-moduli-schemes-and-finite-quotients` | Layers 6.3 and 6.4 |
+| `#9e-the-coarse-j-line-and-y₀n` | Layers 6.5 and 9.6 |
 
 ## Worked examples
 
