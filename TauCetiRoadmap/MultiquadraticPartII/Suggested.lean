@@ -96,7 +96,7 @@ theorem primeDiscriminants_positive_iff {D : ℤ} {s : Finset ℤ}
 valuation criterion becomes a no-prime-divisor criterion. Zero coordinates and
 nonprimitive representations are allowed. (Duke–Imamoḡlu–Tóth, §4, p.960.) -/
 theorem fundamental_sumTwoSquares_iff {D : ℤ}
-    (hD : 0 < D) (hfund : IsFundamentalDiscriminant D) :
+    (hD : 0 < D) (hfund : Int.IsFundamentalDiscr D) :
     (∃ x y : ℤ, D = x ^ 2 + y ^ 2) ↔
       ∀ p : ℕ, p.Prime → (p : ℤ) ∣ D → p % 4 ≠ 3 := by
   sorry

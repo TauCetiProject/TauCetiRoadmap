@@ -225,10 +225,10 @@ below are the starting interfaces, not targets of the build.
   `TauCeti.Multiquadratic.ncard_ramifiedPrimes_eq_card` provide its cardinality.
 - In namespace `TauCeti.Multiquadratic`, use `IsPrimeDiscriminant`,
   `oddPrimeDiscriminant_def`, `natCast_dvd_primeDiscriminant_iff`,
-  `IsFundamentalDiscriminant`, `fundamentalDiscriminant`,
-  `isFundamentalDiscriminant_prod` and
+  `fundamentalDiscriminant`, `isFundamentalDiscr_prod` and
   `prod_primeDiscriminant_mod_four_eq_one` for the signed factorization and
-  its subproducts.
+  its subproducts. Fundamental discriminants are Mathlib's
+  `Int.IsFundamentalDiscr`.
 - In the same namespace, `genusCharFunNarrowClassGroupHom` is the character,
   and `genusCharFunNarrowClassGroupHom_eq_prod_singleton` its product law.
   `genusCharFunNarrowClassGroupHom_mkPrincipal_gen` is the **singleton** sign
@@ -588,7 +588,7 @@ are separate hypotheses.
 
 ### 2.3 The two-square criterion for fundamental discriminants
 
-For `D>0` satisfying `IsFundamentalDiscriminant D`, prove
+For `D>0` satisfying `Int.IsFundamentalDiscr D`, prove
 `fundamental_sumTwoSquares_iff`:
 
 `(∃ x,y∈ℤ, D=x²+y²) ↔ (∀ p∈ℕ, p prime , p∣ D⇒ p≢3 (mod 4)).`
@@ -607,7 +607,7 @@ cannot divide `D`. Convert integer representations to natural ones using
 absolute values of the coordinates, and natural representations back by
 casts. Positivity of `D` must be kept during that conversion.
 
-*Needs:* `IsFundamentalDiscriminant`, its squarefree cases, and Mathlib's
+*Needs:* `Int.IsFundamentalDiscr`, its squarefree cases, and Mathlib's
 two-square valuation theorem. Do not replace the valuation theorem by a
 no-divisor criterion for arbitrary positive integers.
 
