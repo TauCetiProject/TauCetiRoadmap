@@ -170,9 +170,14 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
   `TauCeti.haarProb_apply_univ` and the probability, Haar and bi-invariance instances.
   `Compact/Averaging.lean`: `TauCeti.haarAverage`, for complete normed targets.
 - `Compact/Unitarizable.lean`: `ContRepresentation.gramOperator` and
-  `ContRepresentation.isUnitarizable`, for finite-dimensional actions with
-  continuous parameter; `Compact/UnitaryModel.lean`:
-  `ContRepresentation.exists_isUnitary_congr`.
+  `ContRepresentation.isUnitarizable`, the Haar-averaged Gram operator and
+  its self-adjoint, positive-definite and invariant form, for a representation
+  of a compact group (with its Borel structure) on a complete inner-product
+  space over ℝ or ℂ whose parameter map is continuous in the operator-norm
+  topology; no finite-dimensional hypothesis enters. `Compact/UnitaryModel.lean`:
+  `ContRepresentation.exists_isUnitary_congr`, which in finite dimension
+  conjugates such a representation by a continuous linear automorphism into
+  one that is unitary for the given inner product.
 - `Continuous/Intertwining.lean`: `ContRepresentation.intertwiningMapEquiv`,
   `ContRepresentation.intertwiningMapEquiv_id`,
   `ContRepresentation.intertwiningMapEquiv_comp` and
@@ -203,6 +208,11 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
   discrete group, the normalized Haar integral is `|G|⁻¹Σ_g` and the
   unitarizing Gram form is `⟪v,Tw⟫=|G|⁻¹Σ_g⟪π(g)v,π(g)w⟫`.
 - `Continuous/Unitary/Basic.lean`: `ContRepresentation.IsUnitary`;
+  `Continuous/Unitary/Equivalence.lean`:
+  `ContRepresentation.exists_linearIsometryEquiv_congr_eq`, which replaces an
+  equivalence between unitary representations over an algebraically closed
+  field, with finite-dimensional irreducible source, by a linear isometry
+  transporting one action onto the other;
   `Continuous/OrthogonalDecomposition.lean`:
   `ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition`;
   `Continuous/Schur.lean`:
@@ -378,7 +388,8 @@ obligation is their compatibility with the supplied correspondence.
   `ContRepresentation.character_trivial` on the line.
 
 *Needs:* CompactGroups' “What is not consumable, and is a build item here”
-comparison targets; `ContRepresentation.intertwiningMapEquiv`;
+comparison targets; `ContRepresentation.intertwiningMapEquiv`,
+`ContRepresentation.nonempty_equiv_iff`;
 `FDRep.ofShrink`, `FDRep.ofShrinkEquiv`, `FDRep.character_ofShrink`;
 `ContRepresentation.tprod`, `ContRepresentation.continuous_tprod`,
 `ContRepresentation.linHom`, `ContRepresentation.continuous_linHom`,
@@ -446,8 +457,20 @@ Checks of the supplied theory, not additional admitted theorems.
 
 ### Dependencies
 
-The native finite-dimensional compact theory, Mathlib finite-dimensional topology,
-the pinned Hilbert–Schmidt energy and norm, and OperatorTheory/OperatorIdeals Part C.
+The native finite-dimensional compact theory; the base roadmap's (CompactGroups)
+“What is not consumable, and is a build item here” comparison targets; the
+pinned Hom, equivalence and shrinking comparisons
+(`ContRepresentation.intertwiningMapEquiv`,
+`ContRepresentation.nonempty_equiv_iff`, `FDRep.ofShrink`,
+`FDRep.ofShrinkEquiv`, `FDRep.character_ofShrink`); the pinned continuous tensor
+and Hom carriers with their continuity and characters
+(`ContRepresentation.tprod`, `ContRepresentation.continuous_tprod`,
+`ContRepresentation.linHom`, `ContRepresentation.continuous_linHom`,
+`ContRepresentation.character_linHom`, `ContRepresentation.character_trivial`);
+Mathlib finite-dimensional tensors, duals, `FDRep` character identities and
+topology, and complex Stone–Weierstrass, Fubini and Parseval; the pinned
+Hilbert–Schmidt energy and norm and `TauCeti.convolutionOperator`; and
+OperatorTheory/OperatorIdeals Part C.
 
 ## Layer 1: invariant Hermitian metrics
 
@@ -574,7 +597,11 @@ The C₃ average is one third of the unnormalized sum; for the trivial action bo
 
 ### Dependencies
 
-Native unitarization, complete reducibility and scalar Schur; finite-dimensional Hermitian linear algebra.
+Native unitarization, unitary-intertwiner comparison
+(`ContRepresentation.exists_linearIsometryEquiv_congr_eq`), complete
+reducibility and scalar Schur; for finite groups,
+`ContRepresentation.inner_gramOperator_eq_inv_mul_sum` and
+`TauCeti.integral_haarProb`; finite-dimensional Hermitian linear algebra.
 
 ## Layer 2: G-finite vectors in Banach representations
 
@@ -661,7 +688,7 @@ For v=0 take the zero approximant. For v≠0 choose errors ε/2 and ε/(2C_π‖
 
 ### Dependencies
 
-Native Haar integration, approximate identities and uniform Peter–Weyl density; Mathlib Bochner integration and uniform boundedness.
+Native Haar integration, the L¹ integrated action (`ContRepresentation.integratedOperatorL1` and its bound, covariance and convergence), approximate identities and uniform Peter–Weyl density; Mathlib Bochner integration and uniform boundedness.
 
 ## Layer 3: countability and metrizability
 
@@ -1412,7 +1439,7 @@ The U(2) criterion is a deduction from the global highest-weight classification 
 
 ### Dependencies
 
-Native compact characters, complete reducibility and SU(2) classification; the pinned torus, root-system and highest-weight declarations of the supplier contracts; LieGroups Layers 0, 2–5, 5A, 6 and 7 (compact semisimple integration); ConvexityToric T1; the compact cocharacter, finite-cover and dominance targets of this layer.
+§0.1's tensor and dual comparisons; §4.1's `circleProduct_character`; Layer 5's character classification and orthogonality; native compact characters, unitarization, complete reducibility and SU(2) classification; the pinned torus, root-system and highest-weight declarations of the supplier contracts, and `TauCeti.Hodge.complexificationConjugation` with `LinearMap.map_eigenspace_baseChange`; Mathlib `AddMonoidAlgebra`; LieGroups Layers 0, 2–5, 5A, 6 and 7 (compact semisimple integration); ConvexityToric T1; the compact cocharacter, finite-cover and dominance targets of this layer.
 
 ## Layer 7: unitary SU(2) actions and embeddings
 
