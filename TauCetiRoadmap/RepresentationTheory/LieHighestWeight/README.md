@@ -77,24 +77,6 @@ by interlacing (`TauCeti.nonempty_equiv_weylRepOfShape_comp_glBlockSucc`,
   formula to the compact maximal torus with its Fourier-coefficient and Haar-norm forms, are
   compact-group statements of [LieGroups](../LieGroups/README.md) Layer 6. LieGroups consumes this
   roadmap (its Layers 0, 3 and 7), so no section here consumes LieGroups.
-- The centre theorem for a compact connected semisimple Lie group `G` with maximal torus `T` and
-  cocharacter lattice `Y`, `Z(G) ≃ P∨/Y` equivariantly for `Γ_Y`, with `Y = Q∨` when `G` is
-  simply connected, is not part of this roadmap (EtingofLieGroupsLieAlgebras Theorem 43.4, p. 216,
-  line 8891, for `π₁(G_ad) = P∨/Q∨`; Corollary 43.5(i), p. 217, line 8914, for the centre
-  `P∨/Q∨` of the simply connected group of a simple Lie algebra, and Corollary 43.5(iii), p. 217,
-  lines 8919–8924, for the semisimple case; the `Γ_Y`-equivariance is not in that source). Its
-  proof needs the maximal tori of LieGroups Layer 6, the integration of Lie algebra representations
-  of LieGroups Layer 4, and the integral cocharacter lattice `Y = (2π)⁻¹ ker(exp)` of a compact
-  torus with `Q∨ ⊆ Y` (from `2πα∨ ∈ ker(exp)`) of
-  [ConvexityToric T1](../../SymplecticGeometry/ConvexityToric/README.md);
-  LieGroups consumes this roadmap and ConvexityToric consumes LieGroups, so a section here
-  consuming them would close a cycle. Its lattice inputs come from this roadmap: the coweight
-  lattice `P∨ ⊇ Q∨` with `[P∨ : Q∨] = |det A|` is consumed in §10.1 from Tau Ceti
-  (`RootPairing.coweightLattice`, `RootPairing.Base.relIndex_corootSpan_coweightLattice`), and the
-  group `Γ_Y` of based automorphisms preserving `Y` is owned here (§10.3).
-  It is a different quotient from Layer 10's `Ω ≃ P∨/Q∨`: with translations by `Y` the alcove
-  stabilizer is `Y/Q∨`, so for `SU(2)` (`Y = Q∨`) the centre `{±I}` has order `2` while that
-  stabilizer is trivial, and for `SO(3)` (`Y = P∨`) the orders are reversed.
 - Rational cone series, vector-partition chamber polynomials and the Fourier boundary values of
   character formulas are
   [TensorProductCombinatorics §1.6 and §2.6](../../TensorProductCombinatorics/README.md#16-rational-cone-series-fourier-boundary-values-and-lattice-endpoints);
@@ -120,6 +102,25 @@ by interlacing (`TauCeti.nonempty_equiv_weylRepOfShape_comp_glBlockSucc`,
 The linkage principle of category `O` (composition factors of Verma modules, the integral Weyl
 group and blocks) is strictly stronger than the central-character orbit theorem of §7.3 and is not
 part of this roadmap.
+
+The centre theorem for a compact connected semisimple Lie group `G` with maximal torus `T` and
+cocharacter lattice `Y`, `Z(G) ≃ P∨/Y` equivariantly for `Γ_Y`, with `Y = Q∨` when `G` is simply
+connected, is not part of this roadmap either (EtingofLieGroupsLieAlgebras Theorem 43.4, p. 216,
+line 8891, for `π₁(G_ad) = P∨/Q∨`; Corollary 43.5(i), p. 217, line 8914, for the centre `P∨/Q∨`
+of the simply connected group of a simple Lie algebra, and Corollary 43.5(iii), p. 217, lines
+8919–8924, for the semisimple case; the `Γ_Y`-equivariance is not in that source). Its proof needs
+the maximal tori of LieGroups Layer 6, the integration of Lie algebra representations of LieGroups
+Layer 4, and the integral cocharacter lattice `Y = (2π)⁻¹ ker(exp)` of a compact torus with
+`Q∨ ⊆ Y` (from `2πα∨ ∈ ker(exp)`) of
+[ConvexityToric T1](../../SymplecticGeometry/ConvexityToric/README.md). LieGroups consumes this
+roadmap and ConvexityToric consumes LieGroups, so a section here consuming them would close a
+cycle. Its lattice inputs come from this roadmap: the coweight lattice `P∨ ⊇ Q∨` with
+`[P∨ : Q∨] = |det A|` is consumed in §10.1 from Tau Ceti (`RootPairing.coweightLattice`,
+`RootPairing.Base.relIndex_corootSpan_coweightLattice`), and the group `Γ_Y` of based
+automorphisms preserving `Y` is owned here (§10.3). It is a different quotient from Layer 10's
+`Ω ≃ P∨/Q∨`: with translations by `Y` the alcove stabilizer is `Y/Q∨`, so for `SU(2)` (`Y = Q∨`)
+the centre `{±I}` has order `2` while that stabilizer is trivial, and for `SO(3)` (`Y = P∨`) the
+orders are reversed.
 
 **Names cited by other roadmaps.** Other roadmaps cite the following names of this roadmap; each
 resolves as stated, one line per name.
