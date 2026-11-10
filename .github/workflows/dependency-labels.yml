@@ -1,0 +1,66 @@
+name: dependency-labels
+
+# Keep `awaiting-dependencies` on exactly the open pull requests that still wait for another one, and
+# take it off as soon as the last of those merges (and off merged pull requests that still carry it).
+#
+# `tauceti-roadmap roadmaps dependency-labels` (TauCetiRoadmapWorker, docs/OPERATORS.md, "The
+# dependency label") works it out afresh on every run, recording nothing: it fetches every open head,
+# reads every open pull request's current description and the states of the pull requests those name,
+# and counts as outstanding the supplier roadmaps a README names or its Lean files import that are not
+# on main, and the open revisions whose numbering a README cites, unless main or the merge base already
+# cites them; and the dependencies a description declares (its `<!-- depends-on -->` block, then its
+# prose) that have not merged. A progress report waits for nothing. A pull request GitHub did not
+# answer for keeps its label as it is.
+#
+# It runs when a pull request merges (the moment a dependency is met), hourly (for anything a merge
+# event missed), and on demand. A run fetches the open heads (about 140 MB) and makes a few dozen
+# GraphQL queries; it takes about four minutes.
+#
+# pull_request_target rather than pull_request so the App secrets are available when a fork's pull
+# request merges. This job never checks out or runs pull request code: it installs the worker, fetches
+# the heads into a bare mirror as data, and reads pull requests through the API. The org disables a
+# writing GITHUB_TOKEN, so the label is written with a tauceti-review-bot App token limited to reading
+# this repository and writing its pull requests. The worker is installed from its main branch, as the
+# job board's own workflow installs it.
+on:
+  pull_request_target:
+    types: [closed]
+    branches: [main]
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-labels
+  cancel-in-progress: false
+
+jobs:
+  labels:
+    if: github.event_name != 'pull_request_target' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Mint App token (contents read, pull-requests write)
+        id: token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: TauCetiProject
+          repositories: TauCetiRoadmap
+          permission-contents: read
+          permission-pull-requests: write
+      - name: State directory outside any checkout
+        run: echo "TAUCETI_PROJECT_STATE=$RUNNER_TEMP/state" >> "$GITHUB_ENV"
+      - uses: astral-sh/setup-uv@v6
+      - name: Install the worker
+        run: uv tool install git+https://github.com/TauCetiProject/TauCetiRoadmapWorker@main
+      - name: Sync the label
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+          PYTHONUNBUFFERED: "1"
+          CONF: https://raw.githubusercontent.com/TauCetiProject/TauCetiRoadmapJobs/main/tauceti-roadmap.toml
+        run: tauceti-roadmap --conf "$CONF" roadmaps dependency-labels --label awaiting-dependencies --yes

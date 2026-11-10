@@ -313,7 +313,6 @@ example [Fintype V] [Fintype E] [DecidableEq E] (O : Set E) (e : O) (he : Γ.src
     change Finsupp.single (Γ.tgt e) (1 : ZMod 2) (Γ.tgt e) -
       Finsupp.single (Γ.src e) (1 : ZMod 2) (Γ.tgt e) = 0 at hv
     simp [Ne.symm he] at hv
-    norm_num at hv
   · intro h
     have hv := congrFun (LinearMap.mem_ker.mp h) (Γ.tgt e)
     simp [cycleBoundary, he] at hv

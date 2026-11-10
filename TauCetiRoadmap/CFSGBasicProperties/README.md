@@ -6,8 +6,8 @@ isomorphic to one of them. This roadmap proves the complementary, concrete asser
 group on that list is finite and simple**. The endpoint is the pair of theorems
 
 ```lean
-theorem CFSGIndex.finite (i : CFSGIndex) : Finite i.Group
-theorem CFSGIndex.isSimpleGroup (i : CFSGIndex) : IsSimpleGroup i.Group
+theorem CFSGIndex_finite (i : TauCeti.CFSGIndex) : Finite i.Group
+theorem CFSGIndex_isSimpleGroup (i : TauCeti.CFSGIndex) : IsSimpleGroup i.Group
 ```
 
 Here `i.Group` is *exactly* the carrier defined by CFSGStatement: `Multiplicative (ZMod p)`,
@@ -24,8 +24,12 @@ The sporadic lane also develops the Monster's complete conjugacy structure in P2
 actual representative words, centralizers, power and fusion data, and the count 194 for both
 classes and irreducible complex characters. It reuses native conjugacy and character theory;
 no proof of the classification proposition or prior verification of the full Monster character
-table is a prerequisite. The companion prototype displays selected P0/P2M interfaces only;
-the full programme below remains definitive.
+table is a prerequisite. `Suggested.lean` is the acceptance test: it states the headline
+theorems named below against the pinned libraries (`CFSGIndex_finite`,
+`CFSGIndex_isSimpleGroup`, `validLieTypeIndex_finite`, `validLieTypeIndex_isSimpleGroup`,
+`sporadicName_finite`, `sporadicName_isSimpleGroup`, `sporadicName_card` against the order
+table `sporadicOrder`, and the four Monster statements of P2M); the full programme below
+remains definitive.
 
 The intended Tau Ceti home is `TauCeti/GroupTheory/SpecificGroups/CFSG/BasicProperties/` for
 family results, with reusable presentation, group-action, finite-field, and Tits-system theorems
@@ -44,18 +48,18 @@ recompute their proofs by unfolding the four-way index.
   with those points, intertwining the actual Steinberg maps. Consume that comparison when
   transporting a theorem proved on the pinned carrier; a direct proof on the designated
   explicit carrier does not wait for L5. CFSGStatement separately owns L4, identifying the
-  Suzuki branch with Mathlib's `suzukiGroup`; it can transport results but is not a prerequisite
+  Suzuki branch with Tau Ceti's `suzukiGroup`; it can transport results but is not a prerequisite
   for the basic-property theorems.
-- The [Chevalley groups roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1d6918b25647df1f606ccae78241fc75527d50ee/TauCetiRoadmap/ChevalleyGroups/README.md) owns the theory of the ambient
+- The [Chevalley groups roadmap](../ChevalleyGroups/README.md) owns the theory of the ambient
   group: root subgroups for every root, the commutator formula, the Bruhat decomposition and Tits
   system of the group over a field, its centre, Steinberg's presentation, generation of the points
   over an algebraically closed field by root subgroups, and the Frobenius, graph, and exceptional
   endomorphisms with their action on root subgroups (C2 to C5 there). Apply these results to
   their actual carrier: on a different designated explicit carrier, either transport the
   needed root calculus through a proved compatible equivalence or establish it directly as
-  part of F1/T1/T3 below. L0's numbered simple-root data alone do not supply this full theory. The
+  part of T1/T3 below. L0's numbered simple-root data alone do not supply this full theory. The
   [ReductiveGroups roadmap](../ReductiveGroups/README.md) owns abstract Borel, root-datum, and
-  Bruhat theory. The present roadmap owns everything about **finite fixed points**: the
+  Bruhat theory. The present roadmap owns the remaining structure theory of **finite fixed points**: the
   finite-field descent of a Steinberg map, the twisted root groups, the BN-pair of the fixed-point
   group, and the resulting simplicity theorem. Existing `TauCeti.TitsSystem` and its Bruhat-cell
   API are the starting interface; extend them for the general group-theoretic theorems below. The
@@ -66,21 +70,34 @@ recompute their proofs by unfolding the four-way index.
   roadmap owns its sporadic automorphism groups and their representation comparisons, not a
   second Leech construction. [AlgebraicCodingTheory](../../Completed/AlgebraicCodingTheory/README.md)
   supplies the chosen Golay code and code theory, and excludes the Mathieu identification.
-- [SporadicOrders, O0–O2][sporadic-orders] owns the ten canonical ATLAS permutation models
-  listed in P1, their orders and presentation surjections, using the Hex permutation-group
-  kernel checker. This roadmap owns their presentation upper bounds, recognition and
-  simplicity, and the four additional P1 models. Consume that checker for finite permutation
-  order/membership certificates; its certificates do not bound abstract presented groups.
-- [CertifiedPermutationComputation, §§2.1–2.2][certified-perm] owns the shared signed-word,
-  orbit-witness and primitivity interfaces. Reuse or prove adapters between those formats,
-  Mathlib actions and Hex certificates. Its Jordan recognition or randomized-search results
-  are not sporadic simplicity theorems and are not prerequisites for this programme.
-- Mathlib supplies the prime-order cyclic group theory, the simplicity of alternating groups of
-  degree at least five, and `MulAction.IwasawaStructure.isSimpleGroup`. Reuse those results and
-  prove the small transport lemmas needed by the exact CFSGStatement carriers.
-- The existing finite-field and matrix-coordinate lemmas in the CFSG files, including the
-  `fixedField` and Suzuki descent results, are inputs. Their existence alone does not make an
-  algebraic-closure-valued point group finite.
+- [SporadicOrders, Layers 0–2][sporadic-orders] owns the ten canonical ATLAS permutation
+  models listed in P1, their orders (its Layer 1) and the presentation surjections onto them
+  (its Layer 2). What it supplies to P0 is theorems, not a checker or a certificate format:
+  the stabilizer-chain order formula (its §0.1), the orbits of a generated permutation group
+  (§0.2) and the membership criterion along a base (§0.3). This roadmap owns the presentation
+  upper bounds, recognition and simplicity of those ten names, the four additional P1 models,
+  and the soundness of every permutation order or membership certificate P0 uses, proved as an
+  application of those three theorems. A permutation certificate never bounds an abstract
+  presented group.
+- CertifiedPermutationComputation, §§2.1–2.2, owns the shared signed-word, orbit-witness and
+  primitivity interfaces. Reuse or prove adapters between those formats and Mathlib actions.
+  Its Jordan recognition or randomized-search results are not sporadic simplicity theorems and
+  are not prerequisites for this programme.
+- Mathlib supplies prime-order cyclic groups (`isSimpleGroup_of_prime_card`), simplicity of
+  alternating groups (`alternatingGroup.isSimpleGroup`) and
+  `MulAction.IwasawaStructure.isSimpleGroup`. Tau Ceti supplies the carriers and Steinberg
+  maps, `fixedSubgroup`, `FixedPointCandidate` and `DerivedCentralQuotient` with their transport
+  along `fixedSubgroupCongr`, `FixedPointCandidate.congr` and `DerivedCentralQuotient.congr`,
+  the half-Frobenius square formula `steinberg_steinberg_of_usesHalfFrobenius`, the constructor
+  Frobenius formulas, `LieTypeIndex.one_lt_fieldOrder` and `card_fixedField`. At the pinned
+  revision it supplies no finiteness or simplicity theorem for any listed carrier.
+- E0, F0 and F1 below are this roadmap's targets: the elementary branches, the
+  finite-coordinate fixed-point criterion and the finiteness of every Lie-type carrier. Tau
+  Ceti revision `d7dad378` implements each of them under the names recorded in those sections
+  (its files `CFSG/BasicProperties/Elementary`, `GroupTheory/FixedSubgroup/MatrixCoordinates`,
+  `CFSG/BasicProperties/LieTypeFinite`, `CFSG/BasicProperties/TypeA` and
+  `CFSG/BasicProperties/TypeC`); an implementer working against that revision or a later one
+  consumes them, and otherwise proves them as stated here.
 
 Every proof of `IsSimpleGroup` must also establish the candidate is nontrivial. A proof that a
 quotient is simple because an assumed target is simple, or that a presentation is finite because
@@ -90,77 +107,102 @@ the source calls it a finite group, does not discharge an item.
 
 | Item | Depends on | Deliverable |
 | --- | --- | --- |
-| E0: elementary branches | CFSGStatement, Mathlib | `Finite` and `IsSimpleGroup` for every cyclic and alternating index |
-| F0: finite fixed-point criterion | Mathlib finite fields and matrices | a reusable theorem bounding Steinberg fixed points by finite matrix coordinates |
-| F1: all Lie-type groups finite | F0, actual-carrier coordinate/generation proof or compatible transport of Chevalley groups C4, CFSGStatement L1–L3 | `Finite d.FixedPoints` and `Finite d.Group` for each of the seventeen constructors |
+| E0: elementary branches | Mathlib prime-order and alternating simplicity | finiteness and simplicity of the exact cyclic and alternating carriers |
+| F0: fixed-point criterion | `fixedSubgroup`, `FixedPointCandidate`, Mathlib polynomial roots | the finite-coordinate criterion in its three forms and its transport to the derived central quotient |
+| F1: Lie-type finiteness | F0, Assembly/LieType branch formulas, CFSGStatement L0–L3 | `Finite d.FixedPoints` and `validLieTypeIndex_finite` on every designated carrier |
 | T0: abstract simplicity machinery | `TauCeti.TitsSystem`, Mathlib group actions | a normal-subgroup/simplicity criterion for a split BN-pair with root groups |
 | T1: fixed-point root calculus | T0, actual-carrier ambient calculus or compatible transport of Chevalley groups C2–C5, CFSGStatement L1–L3 | Steinberg descent, twisted root groups, BN-pairs, and root relations on the fixed points of the ordinary and graph-twisted families |
 | T2: ordinary and graph-twisted simplicity | T1, F1 | `IsSimpleGroup d.Group` on those thirteen constructors, including valid small fields |
-| P0: presentation and action certificate tools | native presentations and Schreier API, CFSGStatement S0, shared Hex/word/orbit interfaces | sound finite-index, normal-form, finite-action, and normal-closure certificate checkers |
+| P0: presentation and action certificate tools | native presentations and Schreier API, CFSGStatement S0, SporadicOrders §§0.1–0.3, CertifiedPermutationComputation §§2.1–2.2 | sound finite-index, normal-form, finite-action, and normal-closure certificate checkers |
 | T3: Suzuki, Ree, and Tits simplicity | T0, F1, P0, actual-carrier ambient calculus or compatible transport of Chevalley groups C2–C5, CFSGStatement L2–L3 | `IsSimpleGroup d.Group` on all four half-Frobenius constructors |
 | P1: externally constructed sporadics | P0, CFSGStatement S1, SporadicOrders O0–O2 for ten canonical models | proved recognition and basic properties for the fourteen names with existing Lean permutation models |
 | P2: remaining sporadics | P0, P1, T1–T3 as used by local groups, CFSGStatement S1, Rank24LatticeConstructions Layer 6, Golay code | explicit finite models, recognition, and simplicity for the other twelve presented groups |
 | P2M: Monster conjugacy structure | P0 conjugacy tools; P2 Monster model, local subgroups and recognition; native character theory | explicit complete class representatives, centralizers and power/fusion data for the exact Monster carrier; 194 classes and irreducible complex characters |
-| A0: assembly | E0, F1, T2, T3, P1, P2 | the two uniform `CFSGIndex` theorems above |
+| A0: assembly | E0, F1, T2, T3, P1, P2 | `CFSGIndex_finite` and `CFSGIndex_isSimpleGroup` |
 
 The rows are mathematical dependencies, not a requirement for one PR per row. The finite-field,
 Lie-structure, and sporadic lanes can progress independently once their listed inputs exist.
 
 ## E0: cyclic and alternating branches
 
-For `.cyclic p hp`, prove finiteness of `Multiplicative (ZMod p)` and simplicity from `hp` using
-Mathlib's prime-cardinality criterion. For `.alternating n hn`, prove finiteness of
-`alternatingGroup (Fin n)` and use Mathlib's general `n ≥ 5` simplicity theorem. State the
-results for those exact types, not for a separately named cyclic or alternating group.
+Prove, for every prime `p`, that the carrier `(CFSGIndex.cyclic p hp).Group`, which is
+`Multiplicative (ZMod p)`, has exactly `p` elements, is finite, and is simple by Mathlib's
+`isSimpleGroup_of_prime_card`; and, for every `n ≥ 5`, that `(CFSGIndex.alternating n hn).Group`,
+which is `alternatingGroup (Fin n)`, is simple by Mathlib's `alternatingGroup.isSimpleGroup`, its
+finiteness being an instance. These are statements about the exact indexed types; no new model
+is required. Tau Ceti revision `d7dad378` states them in `CFSG/BasicProperties/Elementary` as
+`CFSGIndex.natCard_cyclic`, `CFSGIndex.finite_cyclic`, `CFSGIndex.isSimpleGroup_cyclic` and
+`CFSGIndex.isSimpleGroup_alternating`.
 
-## F0–F1: finiteness of the Lie-type candidates
+## F0–F1: finiteness of the Lie-type carriers
 
-Prove a general **finite-coordinate fixed-point criterion**. Let a group embed faithfully in a
-finite matrix type over a field of characteristic `p`, and let `F` be an endomorphism. If some
-positive iterate `F^r` acts on every matrix coordinate by `x ↦ x^(p^e)` with `e > 0`, then
-`fixedSubgroup F` is finite: its entries lie among the roots of `X^(p^e) - X`. Package the
-result for a faithful finite-dimensional representation, for subgroups of `GL`, and for transport
-across an intertwining `MulEquiv`. Give the induced `Finite` instances for a subgroup's derived
-subgroup and its quotient by its centre. The latter transport is general group theory, not a
-Lie-specific calculation.
+**F0: the finite-coordinate fixed-point criterion.** Let `G` be a group, `K` an integral
+domain, `n` a finite type with decidable equality and `ρ : G → Matrix n n K` injective; let
+`F : G →* G` be an endomorphism, `r` a natural number (zero allowed) and `m > 1`. Prove that if
+`ρ (F^[r] g) i j = (ρ g i j)^m` for all `g`, `i` and `j`, then `fixedSubgroup F` is finite:
+every coordinate of a fixed point is a root of `X^m − X`, which has finitely many roots in an
+integral domain. Derive the iterate form: if `Φ : G → G` raises every coordinate to the power
+`m` and `F^[r] = Φ^[k]` with `k ≠ 0`, then `fixedSubgroup F` is finite; state it also for a
+subgroup of `GL n K` with the entries as coordinates and for a faithful representation with a
+finite basis, the coordinates being those of `LinearMap.toMatrix`. No characteristic
+hypothesis and no positive power of `F` are required, but the Frobenius iterate number `k` must
+be nonzero: with `k = 0` the hypothesis only says `F^[r] = id`, which `F = id` satisfies on an
+infinite group. Then transport finiteness: `fixedSubgroup F` is finite exactly when
+`fixedSubgroup F'` is, for `F` and `F'` intertwined by a `MulEquiv` through `fixedSubgroupCongr`,
+and a finite `fixedSubgroup F` makes `FixedPointCandidate F` finite as a quotient of a subgroup
+of it. Tau Ceti revision `d7dad378` proves these as
+`TauCeti.finite_fixedSubgroup_of_iterate_apply_eq_pow`,
+`TauCeti.finite_fixedSubgroup_of_iterate_eq_iterate`,
+`Subgroup.finite_fixedSubgroup_of_iterate_eq_iterate`,
+`Representation.finite_fixedSubgroup_of_iterate_apply_eq_pow` (file
+`GroupTheory/FixedSubgroup/MatrixCoordinates`) and the instance `finiteFixedPointCandidate`.
 
-Apply this criterion to the actual pair `(d.AmbientGroup, d.steinberg)`. If using a
-different matrix realization or pinned carrier, construct a `MulEquiv e` and prove
-`e (d.steinberg g) = F' (e g)` for the independently specified target endomorphism `F'`.
-Use native `TauCeti.fixedSubgroupCongr` and `TauCeti.FixedPointCandidate.congr` to transport
-fixed points and the derived quotient by its own centre; an ambient group equivalence alone
-does not identify fixed points. On the direct explicit-carrier route, prove a faithful
-coordinate embedding and the iterate formula for that carrier itself. Neither route assumes
-finiteness or simplicity of the candidate. L5 is required only when its pinned comparison
-is actually used, not for a direct proof on the designated carrier.
+**F1: every Lie-type carrier is finite.** For every `d : ValidLieTypeIndex` prove
+`Finite d.FixedPoints` and then `validLieTypeIndex_finite`, that is `Finite d.Group`, including
+the Tits group and every retained small parameter. Route: on the four half-Frobenius
+constructors `steinberg_steinberg_of_usesHalfFrobenius` gives `d.steinberg^[2] = d.frobenius`;
+on the thirteen ordinary and graph-twisted constructors prove the twist-order iterate formula
+`d.steinberg^[t] = d.frobenius^[t]` with `t = GraphTwistedIndex.twistOrder`, which is positive
+by `GraphTwistedIndex.twistOrder_pos`, from the constructor Frobenius and graph-automorphism
+formulas. In both cases prove that the constructor's Frobenius raises every matrix coordinate of
+the designated carrier to the field order, which exceeds one by `LieTypeIndex.one_lt_fieldOrder`,
+so that F0 applies; `card_fixedField` identifies the finite field of the fixed points. Tau Ceti
+revision `d7dad378` proves these as
+`ValidLieTypeIndex.iterate_steinberg_twistOrder_of_not_usesHalfFrobenius` (in
+`Assembly/LieType`), `ValidLieTypeIndex.finite_fixedPoints` and `ValidLieTypeIndex.finite` (in
+`CFSG/BasicProperties/LieTypeFinite`). T2, T3 and A0 consume F1.
 
-For each of the nine ordinary families (`A`, `B`, `C`, `D`, `E6`, `E7`, `E8`, `F4`, `G2`), prove
-the required coordinate formula for the CFSGStatement Steinberg map. For the four graph-twisted
-families (`twistedA`, `twistedD`, `twistedE6`, `trialityD4`), prove that the finite-order graph
-part commutes with Frobenius and that a positive iterate has the coordinate formula. For
-`suzuki`, `reeG2`, `reeF4`, and `tits`, use the proved square of the half-Frobenius Steinberg
-map, then verify the coordinate formula for the corresponding field Frobenius. Proving the
-formula merely on the named simple root subgroups is insufficient: it must hold on the whole
-faithfully represented carrier or follow from a proved generation theorem, such as generation by
-root subgroups over an algebraically closed field (C4 of the Chevalley groups roadmap).
-
-Apply F0 to each branch to obtain `Finite d.FixedPoints` and `Finite d.Group`, and assemble
-`ValidLieTypeIndex.finite` by cases. This includes the Tits group and every small parameter
-retained by `LieTypeIndex.Valid`. Record the field size and the positive iterate in branch lemmas
-for use by the simplicity proofs without unfolding the entire dispatcher.
+When T1 or T3 uses a different realization to establish root calculus or
+simplicity, that consuming milestone owns the needed comparison. For another
+algebraic-closure ambient with endomorphism `F'`, prove an intertwining
+`MulEquiv e` with `e (d.steinberg g) = F' (e g)`. Any new coordinate argument
+concerns `F'` on its own realization. For a finite-field model, compare it
+with the actual fixed points and then identify derived subgroups and centres
+to reach `d.Group`. Prove such a comparison for every family whose simplicity proof uses a
+finite-field model; Tau Ceti revision `d7dad378` gives the pattern for two families,
+`TypeALieIndex.specialLinearEquivFixedPoints` (in `CFSG/BasicProperties/TypeA`, with the
+special linear group over the fixed field) and `TypeCLieIndex.symplecticEquivFixedPoints` (in
+`CFSG/BasicProperties/TypeC`), composed with `DerivedCentralQuotient.congr`. Match ranks
+and validity ranges explicitly. CFSGStatement L5 is needed only when using
+its pinned-carrier comparison; designated-carrier finiteness itself needs no
+new comparison.
 
 ## T0: a reusable simplicity criterion
 
 Consume native `TauCeti.TitsSystem.bruhatCell_injective`, `disjoint_bruhatCell_iff`, and
 `existsUnique_mem_bruhatCell` from `TitsSystem/Bruhat/Uniqueness`; distinct generic Bruhat
-cells are already supplied. Consume native `TauCeti.TitsSystem.standardParabolicOrderIso`
-from [Parabolic/Classification](https://github.com/TauCetiProject/TauCeti/blob/a9d0ba7b634affde557687933f3cb3c9b266c29d/TauCeti/GroupTheory/TitsSystem/Parabolic/Classification.lean)
-for standard-parabolic classification. Extend the remaining Coxeter/split-structure
+cells are already supplied. Prove the classification of the subgroups containing `B`: for a
+Tits system `(G, B, N, S)` the standard parabolic subgroups `P_J = B W_J B`, `J ⊆ S`, are
+exactly the subgroups between `B` and `G`, and `J ↦ P_J` is an order isomorphism from the
+subsets of `S` onto them. Tau Ceti revision `a9d0ba7b` proves it as
+`TauCeti.TitsSystem.standardParabolicOrderIso` in `TitsSystem/Parabolic/Classification`; an
+implementer working against that revision or a later one consumes it, and otherwise proves it
+here. Extend the remaining Coxeter/split-structure
 API needed here: specify `U ≤ B`, its normality and solvability, the complement `B ∩ N`, and
 the product and intersection equations of a split BN-pair.
 Prove the Tits normal-subgroup criterion in the following form. Put
 `Z = ⋂_{h : H} hBh⁻¹` and let `H⁺` be the normal closure in `H` of `U`.
-If the Coxeter graph is connected and nonempty, `Z ∩ U = 1`, and `H⁺` is
+If `U` is solvable, the Coxeter graph is connected and nonempty, `Z ∩ U = 1`, and `H⁺` is
 perfect, then `Z ∩ H⁺` is its centre and `H⁺ / (Z ∩ H⁺)` is simple whenever nontrivial.
 Prove the normal-subgroup theorem behind this criterion, not merely its final typeclass
 instance. Supply transport across an isomorphism and a bridge from this quotient to
@@ -252,7 +294,8 @@ the order of the generated permutation group, giving a `MulEquiv` from the **exa
 `DerivedCentralQuotient`. Certify that model's order and simplicity by a normal-closure or
 primitive-action certificate. A general theorem requiring larger field order does not cover
 this entry. Conclude the four
-constructor-specific theorems and then `ValidLieTypeIndex.isSimpleGroup` by cases.
+constructor-specific theorems and then, with T2, `validLieTypeIndex_isSimpleGroup` by cases
+on the constructor.
 
 ## P0: proof-producing tools for presented groups
 
@@ -307,8 +350,13 @@ reusable, kernel-checked interfaces for:
 At the shared permutation interface retain Mathlib's `(σ * τ) x = σ (τ x)` convention.
 Use the signed-word left fold `acc * letter`; prove the source right-action/left-to-right
 dictionary, including inverse and conjugation conventions, rather than silently reusing a
-source word. Reuse Hex stabilizer-chain cardinality/membership soundness and the shared
-orbit/primitivity word witnesses. Additional matrix-local and presented-group normal-form,
+source word. Prove the soundness of the stabilizer-chain order and membership certificates that
+items 2–3 use for finite permutation groups from the SporadicOrders theorems: a certificate the
+checker accepts on a generating list yields the order of the generated permutation group (its
+§0.1 order formula along a base, with the basic orbits from §0.2) and the membership of a given
+permutation (its §0.3 criterion along a base); no kernel-checker library is a supplier. Reuse the
+shared orbit/primitivity word witnesses of CertifiedPermutationComputation §2.2. Additional
+matrix-local and presented-group normal-form,
 coset, Tietze and normal-generation checkers live here with explicit soundness proofs; a
 finite-image chain is not a presentation upper-bound certificate. No randomized complexity
 programme or Jordan theorem is required for these deterministic mathematical certificates.
@@ -322,7 +370,9 @@ kernel-visible result omits the mathematical check.
 For each name `s`, prove `Finite s.Group` and `IsSimpleGroup s.Group` for the *transcribed*
 presentation, and prove its standard [ATLAS](https://brauer.maths.qmul.ac.uk/Atlas/v3/spor/)
 order as an additional check on the presentation and recognition map. State the finite-order
-theorem by `Nat.card`; the order is not a constructor field or an assumption. Record an explicit
+theorem by `Nat.card`; the order is not a constructor field or an assumption. The uniform
+statements are `sporadicName_finite`, `sporadicName_isSimpleGroup` and `sporadicName_card`, the
+last against the table `sporadicOrder` of the twenty-six ATLAS orders. Record an explicit
 certificate or a proved structural argument for each name in its own module, then assemble the
 uniform results by cases on `SporadicName`.
 
@@ -487,7 +537,7 @@ two codes. The coding roadmap explicitly excludes this Mathieu identification; n
 code construction nor P1's abstract order theorem supplies it.
 
 Consume the canonical Leech lattice `Λ` of [Rank24LatticeConstructions Layer 6][rank24],
-on `Ω = Fin 12 ⊕ Fin 12`, with rational form `B(x,y) = (∑ i, x_i y_i)/2` and
+on `Ω = Fin 24`, with rational form `B(x,y) = (∑ i, x_i y_i)/2` and
 `Λ = K.ofIsotropicSubgroup(H_s)` from Construction B and its odd shift. Use its rank,
 positive-definiteness, evenness, unimodularity, minimum and congruence API. In particular,
 do not substitute the rootful Golay Construction-A lattice. For the Conway/Griess coordinates,
@@ -497,8 +547,11 @@ coordinates `x_i=a_i/2`, of norm `∑a_i²/8`, construct the three exhaustive fa
 two coordinates `±4`; octad-supported eight coordinates `±2` with the sum congruence;
 and one coordinate `±3` with the others `±1`, parametrized by a Golay word and a
 distinguished coordinate. Prove their disjoint counts `1104`, `97152`, `98304`, hence
-196560 minimal vectors. The code's weight/rank theorems supply the octad and codeword
-counts; the vector classification and sign/congruence checks belong here, not to the
+196560 minimal vectors. The count alone is also a corollary of the theta identity
+`Θ_Λ = E₄³ − 720Δ` ([ThetaSeries, Layer 8, item 8D](../ThetaSeries/README.md)); the explicit
+families with their sign and congruence data are what the Co0 action needs, and they are owned
+here together with the count they give. The code's weight/rank theorems supply the octad and
+codeword counts; the vector classification and sign/congruence checks belong here, not to the
 minimum-norm theorem alone. Prove the antipodal involution has no fixed point and its
 pair set has cardinality 98280 before using that permutation degree or any orbit count.
 Prove the minimal vectors span the rational ambient space, so that their faithful
@@ -590,7 +643,10 @@ exclude each proper possibility for a normal subgroup's intersection with `G`.
 
 Define `B_alg := K/⟨β⁺⟩` and obtain its finiteness and order
 `|B_alg| = |X⁻| · |S| / 2` as in Corollary 5.2. Use P0's prime-order normal-generation criterion separately for this quotient: construct
-its Sylow normal forms for primes `2,3,5,7,11,13,17,19,23,31,41,47`, certify coverage of
+its Sylow normal forms for primes `2,3,5,7,11,13,17,19,23,31,47`, the prime divisors of
+`|B| = 2^41·3^13·5^6·7^2·11·13·17·19·23·31·47` (the factorization displayed in Höhn–Seysen
+Corollary 5.2 carries a spurious factor `41`, which divides `|M|` but not the decimal value
+printed there), certify coverage of
 their prime-order elements up to quotient conjugacy, and give normal-generation words for
 each resulting representative and every quotient generator. Prove nontriviality and the
 quotient word-evaluation/central-kernel comparisons before applying that criterion. The Monster simplicity
@@ -685,7 +741,8 @@ a bare equivalence chosen from the desired cardinality is not the construction.
 
 The group-specific proof must build all its inputs. In particular establish that there are
 exactly two classes of involutions, with actual representatives and the two nonconjugacy and
-coverage assertions. Identify their actual centralizers: the central extension of the Baby
+coverage assertions (`monster_two_involution_classes`, which also records the centralizer
+orders `2·|B|` and `2^25·|Co1|`). Identify their actual centralizers: the central extension of the Baby
 Monster in the `2A` case, with the involution as its kernel, and the
 `2^{1+24}_+.Co1` local group in the `2B` case, with proved maps, kernels and quotients rather
 than an abstract group-shape label. These use the P2 Baby Monster quotient and Conway/Griess
@@ -693,7 +750,8 @@ constructions; prove the required local group and character-table facts for thos
 subgroups, or connect them by proved isomorphisms to their existing constructions. Construct
 the degree-196883 complex representation from the Griess module, identifying its fixed line
 and the complementary or quotient module in dimension 196884, and prove the resulting
-representation is irreducible independently of the Monster's full character table. Record
+representation is irreducible independently of the Monster's full character table
+(`monster_exists_irreducible_196883`). Record
 which representation values, local centralizer calculations and fusion tests separate each
 remaining pair of candidate classes. These are explicit construction and theorem targets,
 not opaque hypothesis fields for a conditional Monster-count theorem.
@@ -710,9 +768,10 @@ Do not treat the finite axis-orbit certificate that gives the group order as a c
 classification of its elements.
 
 Prove that the resulting actual representative list has length 194 and deduce
-`Nat.card (ConjClasses SporadicName.M.Group) = 194` using native `ClassData` soundness. Then
-consume native `TauCeti.card_irreducibleCharacters` over `ℂ` to deduce that the Monster has
-194 irreducible complex characters and that its ordinary character table has 194 rows and
+`Nat.card (ConjClasses SporadicName.M.Group) = 194` (`monster_card_conjClasses`) using native
+`ClassData` soundness. Then consume native `TauCeti.card_irreducibleCharacters` over `ℂ` to
+deduce that the Monster has 194 irreducible complex characters
+(`monster_card_irreducibleCharacters`) and that its ordinary character table has 194 rows and
 columns. The generic theorem requires a finite group, an algebraically closed field and
 invertible group order; P2 supplies finiteness and `ℂ` supplies the field conditions. Do not
 assume a complete 194-column character table to prove its own number of classes: the class
@@ -726,12 +785,50 @@ supplies the class-count theorem.
 
 ## A0: assemble the list properties
 
-Prove `CFSGIndex.finite` and `CFSGIndex.isSimpleGroup` by the four constructors, invoking E0,
-the uniform F1/T2/T3 Lie-type results, and the P1/P2 sporadic results. Check a test theorem for
+Prove `CFSGIndex_finite` and `CFSGIndex_isSimpleGroup` by the four constructors, invoking E0,
+F1 and the T2/T3 simplicity results, and the P1/P2 sporadic results. Check a test theorem for
 one cyclic, one alternating, one ordinary Lie, one graph-twisted, each of Suzuki/Ree/Tits, and
 one P1 and one P2 sporadic entry; these are checks of the dispatcher, not replacements for
 the uniform proofs. Audit the endpoint's axioms and confirm that no case uses
 `ClassificationStatement` or assumes the corresponding basic property.
+
+## Existing formalizations and model comparisons
+
+The following are secondary proof sources for the specified endpoints. They do
+not change the ownership or the exact-carrier requirements above. Coordinate
+with the authors before adapting code, and express reusable lemmas through
+native presentation, character, action and Tits-system interfaces.
+
+- Axiom's [sporadic converse theorem](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/FAM_sporadic_converse.lean)
+  proves finiteness and simplicity of each exact `TauCeti.SporadicName.Group`
+  at Tau Ceti revision `6e0c6acab5f4c6f42e5f5bab9bd5e4e84f74c380`.
+  Its presentation/model comparisons are proof sources for P1–P2; compare
+  current relators and generators before transport. Its
+  [Monster simplicity proof](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/FAM_M_simplicity.lean)
+  uses Feit–Thompson through the odd-order local bounds in
+  [`Monster/Existence/StdOdd/Seven`](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Monster/Existence/StdOdd/Seven.lean).
+  This source is not an alternative completion criterion: P2's selected
+  construction and recognition routes remain required, including P2-M's
+  `M_alg`, `Gx0`, `K` and `B_alg` consumed by P2M. FT-dependent proof
+  fragments must be replaced within those routes; importing the source's
+  final Monster theorem does not discharge them. This roadmap acquires no
+  new Feit–Thompson prerequisite from citing that source.
+- Its [finite simple Lie models](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/CAT_native_realization.lean)
+  and [`LieType/Catalog`](https://github.com/AxiomMath/CFSG/tree/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/LieType/Catalog)
+  supply material for T1–T3. The models in
+  [`Blueprint/Catalog`](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Blueprint/Catalog.lean)
+  are finite-field adjoint quotients, twisted derived central quotients, and
+  Ree/Suzuki matrix groups. Compare `d.Group` with the model by a proved
+  `MulEquiv`; a finite-field model need not have an ambient Steinberg map.
+  The comparison includes fixed-field descent, identification of the derived
+  subgroup with the appropriate root-generated group, and matching centres.
+  These are T1–T3 structure theorems, not consequences of finiteness alone.
+  Match `StatedLieAdmissible` with `LieTypeIndex.Valid`, including Tits versus
+  `²F₄(2)'` and the lower bound on the Suzuki parameter.
+- Ordinary character theory, including Burnside, Frobenius kernels,
+  irreducible expansions and Frobenius–Schur theory, is supplied by the native
+  `RepresentationTheory/CharacterTable` and `RepresentationTheory/FrobeniusGroup/Basic`
+  libraries. Compare a source's private character objects with these once.
 
 ## References
 
@@ -769,7 +866,7 @@ The source labels in P2-N refer to these presentations and construction argument
 
 - [C][src-c]: the exact Tau Ceti sporadic dispatcher and its imported presentations at
   revision `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`; [A][src-a]: the ATLAS representation
-  catalogue. Each selected model is linked directly in the construction table.
+  list. Each selected model is linked directly in the construction table.
 - [J3][src-j3] and [J4][src-j4]: the ATLAS Magma presentation artifacts, including their
   subgroup words and index targets. For the J4 construction, see Bolt–Bray–Curtis,
   [*Symmetric presentation of the Janko group J4*](https://doi.org/10.1112/jlms/jdm086), §5.
@@ -806,6 +903,5 @@ revision](https://raw.githubusercontent.com/lhsoicher/tcenum/fb9dd89130fca8ad7dc
 [src-ly]: https://doi.org/10.1007/978-3-0348-8716-8_14
 [src-th]: https://webspace.maths.qmul.ac.uk/r.a.wilson/pubs_files/Thpres2web.pdf
 
-[rank24]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/a838aeb54c36525aca3cef75e2ba490c13eaa6c0/TauCetiRoadmap/Rank24LatticeConstructions/README.md#layer-6-the-leech-lattice-by-construction-b-and-an-odd-shift
-[sporadic-orders]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/64862692c543bd22f7e6d7e20d5f44a4be9e8add/TauCetiRoadmap/SporadicOrders/README.md
-[certified-perm]: https://github.com/vincentqb/TauCetiRoadmap/blob/6a9ba06f2adc96eaad00849da88b225eb21c1d33/TauCetiRoadmap/CertifiedPermutationComputation/README.md
+[rank24]: ../Rank24LatticeConstructions/README.md#layer-6-the-leech-lattice-by-construction-b-and-an-odd-shift
+[sporadic-orders]: ../SporadicOrders/README.md
