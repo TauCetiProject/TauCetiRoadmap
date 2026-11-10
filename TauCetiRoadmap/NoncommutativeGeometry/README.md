@@ -1239,7 +1239,7 @@ ordinary convergence of the logarithmic means a sufficient condition.
 - Additivity needs the doubled index: on ℓ²⊕ℓ² let `S=diag(1/(j+1))⊕0`
   and `T=0⊕diag(1/(j+1))`. Then S+T has each value 1/(j+1) twice, so
   `σ_N(S)+σ_N(T)=2H_N=σ_(2N)(S+T)` while `σ_(2M)(S+T)=2H_M`; at
-  N=10⁶ the first is 28.786 and `σ_N(S+T)` is 27.399, strictly smaller,
+  N=10⁶ the first is 28.785 and `σ_N(S+T)` is 27.399, strictly smaller,
   with logarithmic means 2.084 and 1.983, both tending to 2. So
   `Tr_ω(S+T)=2=Tr_ω(S)+Tr_ω(T)`, which a comparison of `σ_N(S+T)` with
   `σ_N(S)+σ_N(T)` at the same N cannot reach: superadditivity holds only
@@ -1377,9 +1377,15 @@ resolvent estimates used in the character comparison; regularity is
 not only smoothness of π(a).
 
 For integer n≥1 of the module's parity, initially invertible D, assume
-D⁻¹∈L^(n,∞), F=sign D, and the preceding regularity and bounded
-commutators. Prove finite summability in every larger exponent and
-construct N3's character. Prove the Hochschild-class theorem: for every
+`|D|⁻ⁿ∈L^(1,∞)`, N4's logarithmic ideal (equivalently
+`(1+D²)^(−n/2)∈L^(1,∞)`, since the spectrum of |D| is bounded away from
+0), F=sign D, and the preceding regularity and bounded commutators. For
+n=1 this is D⁻¹∈L^(1,∞); for n≥2 it is strictly weaker than
+D⁻¹∈L^(n,∞), which implies it by N4. Prove finite summability in every
+larger exponent: `μ_j(|D|⁻ⁿ)≤σ_(j+1)(|D|⁻ⁿ)/(j+1)=O(log(2+j)/(j+1))`,
+so |D|⁻¹∈S_q for every q>n, and
+`[F,π(a)]=([D,π(a)]−Fδ(π(a)))|D|⁻¹` lies in S_q, continuously in a;
+taking n<q≤n+1, construct N3's character τ_n. Prove the Hochschild-class theorem: for every
 dilation-invariant generalized limit ω, with N4's linear Dixmier trace
 Tr_ω, and
 
@@ -1387,10 +1393,12 @@ Tr_ω, and
 
 with γ inserted in even parity and N3's λ_n, prove bφ_ω=0 and equality
 with the Chern-character evaluation on every Hochschild n-cycle
-(Connes IV.2, Theorem 8, p. 315, for the limits of IV.2, p. 312, a
-positive functional at infinity composed with the logarithmic Cesàro
-mean M, which are dilation invariant; Carey–Rennie–Sukochev–Zanin,
-Theorem 16, p. 9, for every dilation-invariant ω).
+(Connes IV.2, Theorem 8, p. 315, under D⁻¹∈L^(n,∞), for the limits of
+IV.2, p. 312, a positive functional at infinity composed with the
+logarithmic Cesàro mean M, which are dilation invariant;
+Carey–Rennie–Sukochev–Zanin, Theorem 16(b), p. 9, under
+`(1+D²)^(−n/2)` in the logarithmic ideal, their Definition 13(d), p. 8,
+for every dilation-invariant ω).
 Develop the trace-ideal/domain estimates, resolvent transgression and
 finite truncations that prove the comparison. The cochain can depend
 on ω, while its cycle evaluation is the same for every dilation-invariant
@@ -1413,7 +1421,7 @@ local index formula.
   and −1 for k≤−2, whose powers δ^m(z) have weights in {0,1,−1}, so z,
   z⁻¹ and their commutators with D lie in every δ-domain. The singular
   values of `|D|⁻¹` are 2,2,2/3,2/3,2/5,…, with
-  `σ_(2M)(|D|⁻¹)=4(H_(2M)−H_M/2)=2log M+O(1)`, so D⁻¹∈L^(1,∞) and
+  `σ_(2M)(|D|⁻¹)=4(H_(2M)−H_M/2)=2log M+O(1)`, so |D|⁻¹∈L^(1,∞) and
   `Tr_ω(|D|⁻¹)=2` for every ω. On the Hochschild cycle z⁻¹⊗z, a cycle
   since `b(z⁻¹⊗z)=z⁻¹z−zz⁻¹=0`, `φ_ω(z⁻¹,z)=λ₁Tr_ω(|D|⁻¹)=2λ₁`, and
   N3's character gives `λ₁τ₁(z⁻¹,z)=λ₁Tr(z⁻¹[F,z])=2λ₁`: the two
@@ -1425,6 +1433,18 @@ local index formula.
   and a cocycle built with D⁻ⁿ would vanish on z⁻¹⊗z while the character
   does not. Replacing D by cD for c>0 changes neither `[D,a]|D|⁻¹` nor
   the value 2.
+- The summability hypothesis is logarithmic, not weak-Schatten. Let T be
+  N4's block-diagonal operator in `L^(1,∞)∖S_(1,∞)` and, on ℓ²⊗ℂ² with
+  ℂ acting by scalars, `D=diag(μ_j(T)^(−1/2))⊗σ₁` with grading `1⊗σ₃`,
+  which anticommutes with D; |D|≥1, so D is invertible. Then
+  `|D|⁻²=T⊗1` has the singular values of T, each twice, and lies in
+  L^(1,∞): this even triple satisfies the hypothesis with n=2. But
+  `μ_(2j+1)(D⁻¹)²=μ_j(T)` gives `(2j+2)μ_(2j+1)(D⁻¹)²=4k` at
+  `j=2N_k−1`, so D⁻¹∉L^(2,∞), and a theorem stated under D⁻¹∈L^(n,∞)
+  would not reach this D. Its `Σ_jμ_j(D⁻¹)^q` is finite exactly for
+  q>2, as the summability step gives: for q=2 it is `2Σ_jμ_j(T)=∞`. For
+  n=1 the two hypotheses coincide, and the circle above and N7's
+  Fourier triple, off its kernel, satisfy the stronger D⁻¹∈L^(n,∞).
 
 ### Examples
 
@@ -1433,7 +1453,9 @@ D=diag(j) on ℓ²(ℕ) with compact resolvent, ⌊R⌋+1 eigenvalues in [−R,R
 and the graph-domain witnesses `1/(j+1)∉Dom(D)`, `1/(j+1)²∈Dom(D)`; the
 bounded D=diag(1−1/(j+1)) without compact resolvent; the circle
 D=diag(k+1/2) on ℓ²(ℤ) with `Tr_ω(|D|⁻¹)=2` and
-`φ_ω(z⁻¹,z)=2λ₁=λ₁τ₁(z⁻¹,z)`.
+`φ_ω(z⁻¹,z)=2λ₁=λ₁τ₁(z⁻¹,z)`; the even triple
+`D=diag(μ_j(T)^(−1/2))⊗σ₁` built from N4's block-diagonal T, with
+`|D|⁻²∈L^(1,∞)` and D⁻¹∉L^(2,∞).
 
 ### Dependencies
 
