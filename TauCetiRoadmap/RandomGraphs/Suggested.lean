@@ -36,8 +36,6 @@ further shared interfaces needed for implementation.
 
 @[expose] public section
 
-set_option autoImplicit false
-
 universe u v w w' z x
 
 open MeasureTheory ProbabilityTheory Filter FirstOrder FirstOrder.Language CategoryTheory
