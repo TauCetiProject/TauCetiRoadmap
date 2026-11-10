@@ -3153,9 +3153,9 @@ constructions they share with it and their single owners.
   `fullSimplex` with `fullSimplexEquivStdSimplex`, for its 6.3; 2.4's outward orientation of the
   spheres; the degree of 10.5, which its 6.5 compares with the homological degree.
 - **GeometricTopology**: orientations (2), flows (3), distributions, Frobenius and leaves for its
-  foliations (4), densities and form integration (5.5a, 12.4), the smooth face structure with its
-  product charts (5.5b) for collars and gluing, the smoothing theorem and Stokes for chains
-  (8.3–8.4), and the metrics of layer 12.
+  foliations (4), the integral of top forms (5.2), densities (5.5a, 12.4), the smooth face
+  structure with its product charts (5.5b) for collars and gluing, the smoothing theorem and
+  Stokes for chains (8.3–8.4), and the metrics of layer 12.
 - **ComplexKahlerGeometry**: the forms and wedge of layers 0–1 (0.1's permutation formula, 0.3's
   coefficient maps and pullback, 1.2's naturality of `d`, 1.5's flat curve calculus and polar
   forms) with 0.4's two-form migration, 2.1's orientations, 2.2's pullback and product
@@ -3165,33 +3165,40 @@ constructions they share with it and their single owners.
   with Stokes and de Rham theorem of 8.3–8.5, 9.3's duality, 12.1's pullback metrics, 12.4's
   comparison of the Riemannian measure with the Riemannian density, and layer 12's sign
   convention for the Laplacian.
-- **SymplecticGeometry**: the Cartan and homotopy formulas (1.4, 5.4);
+- **SymplecticGeometry**: 0.4's two-form migration, the Cartan and homotopy formulas (1.4,
+  5.4), 3.5's time-dependent flows and the de Rham integration comparison of layers 8–9;
   its ContactGeometry consumes the forms and `mextDeriv` of layers 0–1 and layer 4's contact
-  non-involutivity, HamiltonianReduction 0.4, 3.5, the de Rham carrier, compact supports (6.4),
-  chain integration (8.4), Sard (10.2) and the degree (10), CotangentLagrangian layer 4, 5.4 and
-  the de Rham comparison of layer 8, IntegrableSystems layers 0–1, Frobenius (4) and 8.4, and
-  ConvexityToric forms and integration.
+  non-involutivity, HamiltonianReduction 0.4, the Cartan formula (1.4), 3.5, the homotopy
+  operator (5.4), the de Rham complex of layer 6 with compact supports (6.4) and their
+  Mayer–Vietoris sequence (7.3), chain integration (8.4), the integration and Poincaré pairing of
+  layer 9, Sard (10.2) and the degree (10), CotangentLagrangian layer 4, 5.4 and the de Rham
+  comparison of layer 8, IntegrableSystems layers 0–1, Frobenius (4) and 8.4, and ConvexityToric
+  forms and integration.
 - **HeegaardFloer**: the bundle calculus, interior product and Cartan calculus of layers 0–1
   (0.1, 0.3, 0.4, 1.1–1.4), orientations and the orientation cover (2), flows and time-dependent
   flows (3, 3.5), the homotopy operator (5.4), planar Green (5.6), the de Rham complex and the
   Poincaré lemma (6), integration over smooth chains and the de Rham theorem (8.4–8.5), Sard
   (10.2) and the degree (10).
-- **MorseTheory**: flows (3), 5.1's boundary orientation, the degree (10) and 12.2's gradient
-  (Tau Ceti's `TauCeti.Manifold.mgradient`); **MorseNovikov**: layers 0–3, 5–6, 8, 10 and 12, and
+- **MorseTheory**: flows (3), 5.1's boundary orientation, Sard (10.2), the degree (10), and the
+  metrics, gradient and Hessian of 12.1–12.3 (the gradient being Tau Ceti's
+  `TauCeti.Manifold.mgradient`); **MorseNovikov**: layers 0–3, 5–6, 8, 10 and 12, and
   `TauCeti.circleAngularForm`, the flow of a `C¹` field on a closed manifold being Tau Ceti's
   `TauCeti.globalFlow`, complete by `TauCeti.isCompleteVectorField_of_compactSpace` (3.3).
-- **RiemannianGeometry**: layers 0–3, 5–10 and 12, with 12.3's Laplace–Beltrami operator
-  (Tau Ceti's `TauCeti.Manifold.laplaceBeltrami`).
+- **RiemannianGeometry**: layers 0–3, 5–10 and 12, with planar Green (5.6) and 12.3's
+  Laplace–Beltrami operator (Tau Ceti's `TauCeti.Manifold.laplaceBeltrami`); its sub-roadmap
+  Surfaces consumes Stokes with boundary and corners (5.3–5.5b), 5.6.3's Green identity for
+  piecewise `C¹` cycles, Sard (10.2), 12.2's gradient and 12.4's density and measure.
 - **RepresentationTheory/LieGroups**: flows (3), smooth structures on covers (2.3), Frobenius (4),
   Sard (10.2) and the degree (10.3–10.5).
 - **SmoothBundlesConnections**: layers 0–5, 8, 9 and 12, with 2.3, 3.5 and 4.3.
-- **CharacteristicClasses** (layers 1–2, 5–10), **SpinGeometry** (0–2, 5–9),
+- **CharacteristicClasses** (layers 0–2, 5–10), **SpinGeometry** (0–2, 5–9),
   **GeometricCurrents** (0–2, 5, 8–9, 12), **Poincare3D** (0–3, 5–10, 12),
   **LocalVariationalFieldTheory** (0–2, 5–6, 12), **PseudodifferentialOperators** (0–1, 5),
-  **QuaternionicAnalysis** (0–2, 5.2), **Orbifolds** (forms and 8.4–8.5),
+  **QuaternionicAnalysis** (0–2, 5.2), **Orbifolds** (forms (0–1), orientations (2), 5.1's
+  outward-first boundary orientation, integration (5.2) and 8.4–8.5),
   **LieGroupoidsPoisson** (0.1–0.2, 0.4, 1, 3, 4, 5, 6, 8.3, 10.1, 10.3–10.4, 12.1),
   **Yamabe** (2, 4, 12.2–12.5), **IntegralLattices** (12.1, 12.4), **HilbertModules** (5.2),
-  **AnalyticNumberTheoryPartI** (5, 12), **GeneralizedCohomology** (12.1's metrics),
+  **AnalyticNumberTheoryPartI** (5, 5.6.2–5.6.3, 12), **GeneralizedCohomology** (12.1's metrics),
   **TaubesGromov** (forms, metrics and orientations) and **HamiltonianFloerOperations** (forms,
   flows, orientations and Poincaré duality).
 - Flows: **ComplexCurveModuli** (3, 3.5), **DiagrammaticCoherence** (3.2, 3.3, 3.5 and 10.2) and
