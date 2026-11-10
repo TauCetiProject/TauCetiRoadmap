@@ -354,8 +354,11 @@ sequence's increasing tuples realize the same equality pattern.
 
 Theorems: on an infinite index order, `IsIndiscernibleOn a Δ ↔ (templateOf a).RealizesOn a Δ`
 (`isIndiscernibleOn_iff_realizesOn_templateOf`); the template of an indiscernible sequence is
-coherent on any reindexing-closed `Δ`; a subsequence along `K ↪o J` with `K` infinite has the
-same template on `Δ`; and if `b : K → N` realizes the template of `a` on `Δ` then `b` is
+coherent on any reindexing-closed `Δ`; if `a` is indiscernible on `Δ`, a subsequence along
+`K ↪o J` with `K` infinite has the same template on `Δ`, since each formula of `Δ` has one truth
+value on all increasing tuples of `J` and `K` has increasing tuples of every arity (without
+indiscernibility this fails: `P(a n) ↔ n ≥ 1` along `succ : ℕ ↪o ℕ` puts `P(x₀)` in the
+template of the subsequence and not in that of `a`); and if `b : K → N` realizes the template of `a` on `Δ` then `b` is
 indiscernible on `Δ`.
 
 ### 1.3 The Morley seed
