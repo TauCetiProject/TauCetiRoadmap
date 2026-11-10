@@ -1060,6 +1060,36 @@ morphism on points, nor a scheme-level fibre-product, immersion, reduction, sepa
 local-compactness or properness comparison; these are the targets of Layer 3A.5. The topology
 and the topological group are consumed, not restated.
 
+Split maximal tori and pinnings over a commutative ring `R`, for a finite-type coordinate Hopf
+algebra, consumed by Layer 8:
+- `TauCeti.SplitMaximalTorus` (`TauCeti/Algebra/AlgebraicGroup/SplitTorus/Maximal.lean`): a
+  surjective coordinate map onto the Hopf algebra of the split torus of rank `r` whose kernel is
+  a maximal torus on every geometric fibre, with transport along an isomorphism
+  (`TauCeti.SplitMaximalTorus.comapOfIso`) and base change along `R → S`
+  (`TauCeti.SplitMaximalTorus.baseChange`). It does not ask for free root spaces or for constant
+  roots and coroots, and it carries no root datum.
+- `TauCeti.HopfIdeal.IsBorelOver` (`Borel/Over.lean`): a Hopf ideal whose quotient is smooth
+  over `R` and which cuts out a Borel subgroup on every geometric fibre, stable under base
+  change (`TauCeti.HopfIdeal.IsBorelOver.baseChange`). It records no positive system.
+- `TauCeti.Pinning` (`Pinning/Basic.lean`), for `H` smooth over `R` with
+  `ConnectedSpace (PrimeSpectrum R)`: relative reductivity, a split maximal torus, a Borel
+  ideal containing it, and for every simple root an `R`-linear equivalence from `R` onto its
+  root space. The simple roots are read off from the torus and the Borel
+  (`TauCeti.SplitMaximalTorus.IsSimpleRoot`: the adjoint weights whose weight space lies in the
+  Lie algebra of the Borel and which are not sums of two such); no root datum is an input, the
+  root spaces of the other roots are not asked to be free, and a disconnected or empty spectrum
+  is excluded by the instance.
+- `TauCeti.Pinning.comapOfIso` and `TauCeti.Pinning.comapOfIso_rootVector`
+  (`Pinning/Isomorphism.lean`): transport of a pinning along an isomorphism of coordinate Hopf
+  algebras, the root vectors being carried by its differential.
+  `TauCeti.Pinning.rootSpaceBaseChangeEquiv` (`Pinning/BaseChange.lean`) compares one
+  scalar-extended simple root space with a root space of a second, independently given pinning;
+  the library has no base change of a pinning as a whole.
+
+Layer 8 keeps what these omit: the split datum with constant roots and coroots and free root
+spaces, pinnings over disconnected bases through a constant positive system, base change of
+pinnings, and the equivalence with normalized simple-root parameterizations.
+
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
 Section 1.1 supplies effective fpqc descent of quasi-coherent modules and the
@@ -1709,7 +1739,9 @@ because every scheme over a field is universally open over it, and a subset whos
 under an open surjection is locally closed is itself locally closed (Milne, proof of
 Proposition 1.65(b), p. 27). Construct the reduced locally closed subscheme on `O_x` and its
 immersion into `X` over `k`, with the restricted action and its comparison with the orbit
-scheme after base change to `k̄`. *Needs:* the pinned
+scheme after base change to `k̄`. The local closedness is the headline `StructureAcceptance.orbit_locallyClosed` of
+`Suggested.lean`, stated on `TauCeti.SchemeAction.orbit` with `G` and `X` locally of finite
+type and quasi-compact over `Spec k`. *Needs:* the pinned
 `TauCeti.SchemeAction.isLocallyClosed_orbit` and `TauCeti.SchemeAction.orbit`; Mathlib's base
 change of schemes along a field extension and universal openness of schemes over a field.
 
@@ -1995,7 +2027,7 @@ homomorphism ρ:G→GL(V). Construct the dual action
 linearization. Consume the generic relative-Proj/tautological line and
 projective-space H⁰ calculation from SchemeAndStackFoundations §§0.3 and 2.6
 and AlgebraicVectorBundles: the relative Proj with its twisting sheaf O(1) of §0.3 and the
-computation H⁰(ℙⁿ_A, O(d)) = Sym^d(A^{n+1}) of §2.6. Prove the actual natural identification
+computation `H⁰(ℙⁿ_A, O(d)) = Sym^d(A^(n+1))` for `d ≥ 0` of §2.6. Prove the actual natural identification
 H⁰(P(V*),O(1))≃V (using finite-dimensional double duality) and its
 equivariance. Choose a closed orbit X in P(V*) by 3A.4; construct the
 G-equivariant restriction r:V→H⁰(X,O(1)|X), including multiplication,
@@ -3660,7 +3692,10 @@ presentation with connected reductive geometric fibres, together with a split ma
  coroots to be constant sections of M and M∨ and each root space to be free of rank one.
  These conditions are part of the relative split datum, even on disconnected bases. Over fields use Layer 6's predicate; over rings use the
 native relative Hopf predicate through Layer 0's dictionary. This specifies input data,
-not existence for a given root datum (Conrad, Definition 5.1.1, p. 136).
+not existence for a given root datum (Conrad, Definition 5.1.1, p. 136). The torus is the
+pinned `TauCeti.SplitMaximalTorus`, with its transport `TauCeti.SplitMaximalTorus.comapOfIso`
+and base change `TauCeti.SplitMaximalTorus.baseChange`; the constancy of roots and coroots and
+the freeness of the root spaces are the conditions this section adds to it.
 
 **API.**
 - Isomorphisms of split data identify the maximal tori and their character lattices.
@@ -3685,9 +3720,19 @@ A pinning of split data is a positive system in the constant root datum, its ass
 Borel containing T, and a generator of each simple-root line; equivalently use the corresponding normalized simple-root
 parameterizations. Transport these data under isomorphism and base change (Conrad,
 Definition 6.1.1 and Remark 6.1.2, pp. 186–187). Existence and classification are Layer 9D's targets.
+Over a connected affine base the pinning is the pinned `TauCeti.Pinning`, whose Borel is a
+`TauCeti.HopfIdeal.IsBorelOver` ideal and whose simple roots are read off from the torus and the
+Borel, and transport along an isomorphism is `TauCeti.Pinning.comapOfIso`, with
+`TauCeti.Pinning.comapOfIso_rootVector` for the root vectors; these are consumed. The targets
+here are the comparison of that index set with the simple roots of the positive system of the
+split datum of §8.1, pinnings over a disconnected base, where the positive system is constant
+and `TauCeti.Pinning` does not apply, base change of a pinning along a ring map, and the
+equivalence with normalized simple-root parameterizations.
 
 **API.**
-- A pinned isomorphism preserves the torus, Borel and every labelled simple-root parameter.
+- A pinned isomorphism preserves the torus, Borel and every labelled simple-root parameter; over
+  a connected base this is `TauCeti.Pinning.comapOfIso` with its root-vector formula, and over a
+  disconnected base it is a target of this section.
 - Base change takes each chosen root-line generator to the corresponding generator.
 - Changing generators rescales the parameters; their labels and scalars are retained.
 

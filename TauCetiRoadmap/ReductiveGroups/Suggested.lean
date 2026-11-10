@@ -16,6 +16,7 @@ import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Normal.Basic
 import TauCeti.Algebra.AlgebraicGroup.Fppf.Quotient.Homogeneous.Coinvariants
 import TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Normalizer.Character
 import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Kernel
+import TauCeti.AlgebraicGeometry.GroupAction.LocallyClosed
 import TauCeti.GroupTheory.TitsSystem.Basic
 import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
 import TauCeti.GroupTheory.Coxeter.Artin
@@ -29,7 +30,9 @@ theorems against the pinned Mathlib and Tau Ceti APIs, each admitted with `sorry
 
 Stated here, because every carrier exists at the pins: Layer 3's quotient theorem for a normal
 closed subgroup of a finite-type affine group over a field, nonreduced groups included, as the
-representing coinvariant algebra together with faithful flatness; Layer 6's characteristic-zero
+representing coinvariant algebra together with faithful flatness; Layer 3A's local closedness
+of the orbit of a rational point under a finite-type group acting on a finite-type scheme over an
+arbitrary field; Layer 6's characteristic-zero
 criterion that an affine group is linearly reductive exactly when its identity component is
 reductive, and Nagata's criterion that over a field of characteristic `p` a smooth
 geometrically connected group is linearly reductive exactly when it is a torus; Layer 6A's characteristic-zero Levi complement, as a Hopf
@@ -47,7 +50,8 @@ two definitions it needs.
 
 Proved in the pinned Tau Ceti, hence consumed and not restated: Layer 3's representability of
 the quotient by a normal closed subgroup of a geometrically reduced group,
-`TauCeti.CommHopfAlgCat.coinvariantsFppfQuotientIso`; Layer 3A's orbit theorems
+`TauCeti.CommHopfAlgCat.coinvariantsFppfQuotientIso`; Layer 3A's orbit theorems over an
+algebraically closed field
 (locally closed geometric orbits in `TauCeti.SchemeAction.isLocallyClosed_orbit`, the locally
 closed orbit scheme `TauCeti.SchemeAction.orbitScheme`, the boundary bound
 `TauCeti.SchemeAction.topologicalKrullDim_orbitBoundary_lt` and the closed orbits
@@ -151,6 +155,35 @@ theorem isIso_coinvariantsQuotient_of_isNormal {k : Type v} [Field k]
     CategoryTheory.IsIso I.fppfHomogeneousQuotientToCoinvariantsPoints ∧
       I.coinvariants.val.toRingHom.FaithfullyFlat := by
   sorry
+
+/-! ## Layer 3A: algebraic orbits -/
+
+section AlgebraicOrbits
+
+open CategoryTheory MonoidalCategory AlgebraicGeometry
+
+attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
+
+/-- Over any field `k`, the orbit of a rational point under an algebraic action of a group scheme
+of finite type over `k` on a scheme of finite type over `k` is locally closed. The orbit is the
+pinned `TauCeti.SchemeAction.orbit`, the image of the orbit morphism on underlying spaces.
+Neither smoothness nor affineness of the group, separatedness of the scheme nor algebraic
+closedness of `k` is needed (Milne, Algebraic Groups (2017), Proposition 1.65(b), pp. 26–27,
+applied to the orbit map, which is equivariant for left translation). The pinned
+`TauCeti.SchemeAction.isLocallyClosed_orbit` is the case of an algebraically closed `k`.
+Quasi-compactness of the group is needed: the constant group `ℤ` translating the affine line
+over `ℚ` has the integers as the orbit of `0`, which is dense and not open in the line. Over
+`ℝ`, `μ₃` scaling the affine line has at `1` the closed two-point orbit
+`{(t − 1), (t² + t + 1)}`, although `μ₃` has one real point. -/
+theorem orbit_locallyClosed {k : Type v} [Field k] (G X : Over (Spec (CommRingCat.of k)))
+    [GrpObj G] [ModObj G X]
+    [LocallyOfFiniteType G.hom] [QuasiCompact G.hom]
+    [LocallyOfFiniteType X.hom] [QuasiCompact X.hom]
+    (x : 𝟙_ (Over (Spec (CommRingCat.of k))) ⟶ X) :
+    IsLocallyClosed (TauCeti.SchemeAction.orbit G x) := by
+  sorry
+
+end AlgebraicOrbits
 
 /-! ## Layer 6: reductive and linearly reductive groups -/
 
