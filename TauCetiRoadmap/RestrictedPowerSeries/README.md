@@ -51,7 +51,7 @@ a supplier.
 
 | Supplier | Interface consumed here | Additional work here |
 | --- | --- | --- |
-| [AdicSpaces §§0.4–0.5](../AdicSpaces/README.md#04-weighted-restricted-series-and-topological-localisation) | Topological and subset-weighted series, module series, universal properties, iteration and quotient interfaces; field Weierstrass theory and unit-radius Tate noetherianity | Explicit Gauss estimates and arbitrary-polyradius normed interfaces in Layers 0–2; Banach-ring division without a globally multiplicative norm in Layer 4; coherence of normed and completed carriers in §6.2 |
+| [AdicSpaces §§0.4–0.5](../../Completed/AdicSpaces/README.md#04-weighted-restricted-series-and-topological-localisation) | Topological and subset-weighted series, module series, universal properties, iteration and quotient interfaces; field Weierstrass theory and unit-radius Tate noetherianity | Explicit Gauss estimates and arbitrary-polyradius normed interfaces in Layers 0–2; Banach-ring division without a globally multiplicative norm in Layer 4; coherence of normed and completed carriers in §6.2 |
 | [AdicSpaces Part III §F0.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/813), `restricted-power-series-adic` | Adic restricted series, their polynomial reductions, universal property and noetherianity, recalled in §6.3 | Compatibility of those reductions and maps with the normed comparisons of §6.2 |
 | [AdicSpaces Part IV §F1.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/815), `overconvergent-tate-algebra` and `overconvergent-tate-algebra-properties` | The algebra `W_n`, its inclusion in `T_n` and completion for the unit Gauss norm | The radius-controlled substitution and derivative comparisons in §7.3 |
 | [AdicSpaces Part II §R0.3](https://github.com/TauCetiProject/TauCetiRoadmap/pull/817), `completed-tensor-restricted-power-series` | Base change of weighted series along adic coefficient maps | The normed coefficient-map and finite-presentation interfaces of §6.4 |
@@ -188,7 +188,7 @@ The general topological foundations are the accepted
 The normed branch below does not depend on valuation spectra, adic spaces, affinoid
 geometry, compact operators or Newton polygons.
 
-## Layer 0 Coefficients and series algebras
+## Layer 0: Coefficients and series algebras
 
 ### 0.1 Native restricted-series algebra
 
@@ -242,7 +242,7 @@ Zero coefficient rings and zero modules are allowed here. Over `ℚ_p`, the seri
 **Dependencies.** Mathlib formal series, restrictedness, finite antidiagonals and
 ultrametric norm inequalities. Sources: [BGR] §5.1; [Martin] §1.3 for Banach-ring radii.
 
-## Layer 1 Gauss norms and radius calculus
+## Layer 1: Gauss norms and radius calculus
 
 ### 1.1 Norms, completeness and approximation
 
@@ -301,7 +301,7 @@ array is not jointly restricted at unit radii: its row norms do not tend to zero
 Sources: [BGR] §§5.1.1–5.1.2; the arbitrary-radius estimates follow directly from
 weighted coefficients, as in [Martin] §1.3.
 
-## Layer 2 Evaluation, substitution and functions
+## Layer 2: Evaluation, substitution and functions
 
 ### 2.1 Evaluation and its universal property
 
@@ -393,7 +393,7 @@ unqualified coefficient recovery for arbitrary coefficient rings is false.
 parts of §2.4 use §§3.2 and 4.3; maximum modulus uses §3.3. Sources: [BGR] §§5.1.3–5.1.4;
 [Martin] §1.3; [Colmez] §I.4 for the disc realisation.
 
-## Layer 3 Multiplicative units and reduction
+## Layer 3: Multiplicative units and reduction
 
 ### 3.1 Multiplicative units over Banach rings
 
@@ -449,7 +449,7 @@ rules out extending the field unit criterion to all Banach rings. Reduction of
 Sources: [Martin] Definitions 1.20 and 1.24, Lemma 1.21 and Remark 1.22;
 [BGR] §§5.1.2–5.1.3. The arbitrary-radius converse uses dominant exponents in §1.1.
 
-## Layer 4 Weierstrass theory over Banach rings
+## Layer 4: Weierstrass theory over Banach rings
 
 ### 4.1 Distinguished series and the multiplication estimate
 
@@ -515,7 +515,7 @@ is needed. Sources: [Martin] Definition 1.24, Lemma 1.26, Proposition 1.27,
 Corollary 1.28 and the several-variable remark following it; [BGR] §§5.2.1–5.2.2
 for the field specialisation.
 
-## Layer 5 Algebraic structure of Tate algebras
+## Layer 5: Algebraic structure of Tate algebras
 
 Here `T_n = K⟨X₁,…,X_n⟩` at unit polyradius. All results hold for the field
 generality of Convention 1. Unit-radius noetherianity is supplied by AdicSpaces
@@ -605,7 +605,7 @@ Mathlib polynomial, finite-module,
 integrality and dimension APIs. Sources: [BGR] §§5.2.3–5.2.7 and 7.1.1;
 [Bosch] §§1.2–1.3. The radius presentation is a weighted coefficient construction.
 
-## Layer 6 Topological and adic series comparisons
+## Layer 6: Topological and adic series comparisons
 
 ### 6.1 Topological and subset-weighted restricted series
 
@@ -699,7 +699,7 @@ which in turn uses `adic-completion-noetherian`, independently of formal schemes
 §6.4 uses §0.2 and §5.3. Sources: [Wedhorn] §5.6, especially 5.48–5.50;
 [EGA] 0, §§7.5.1–7.5.4. The general tensor supplier is [Huber] §1.2.
 
-## Layer 7 Open-disc, entire and overconvergent series
+## Layer 7: Open-disc, entire and overconvergent series
 
 ### 7.1 Series on an open disc
 
