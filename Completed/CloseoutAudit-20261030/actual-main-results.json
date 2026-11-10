@@ -1,0 +1,209 @@
+{
+  "status": "success",
+  "source_head": "daa66339a578b8c1c41c20b94839ca25444cc1e8",
+  "verified_as_actual_main": true,
+  "source_manifest_sha256": "78aac12cd88437ea05c41ccdae290d72a8ce40929cfc5d14640f88e734adf9be",
+  "lean_toolchain": "leanprover/lean4:v4.36.0-rc1",
+  "dependency_pins": {
+    "mathlib": {
+      "declared_revision": "2cabef97b63d3275776b8b060d802de6a6fa1055",
+      "actual_revision": "2cabef97b63d3275776b8b060d802de6a6fa1055",
+      "tracked_sources_clean": true,
+      "resolved_path": "/home/kim/worktrees/TauCeti/ci-fleet-reporting/.lake/packages/mathlib"
+    },
+    "plausible": {
+      "declared_revision": "c2d7840c65673533e15b499f25beecdc6227f7d8",
+      "actual_revision": "c2d7840c65673533e15b499f25beecdc6227f7d8",
+      "tracked_sources_clean": true,
+      "resolved_path": "/home/kim/worktrees/TauCeti/ci-fleet-reporting/.lake/packages/plausible"
+    },
+    "LeanSearchClient": {
+      "declared_revision": "9d39f9bb0c30aa2f6200808805ff16e6ce950890",
+      "actual_revision": "9d39f9bb0c30aa2f6200808805ff16e6ce950890",
+      "tracked_sources_clean": true,
+      "resolved_path": "/home/kim/worktrees/TauCeti/ci-fleet-reporting/.lake/packages/LeanSearchClient"
+    },
+    "importGraph": {
+      "declared_revision": "b3cc36c295aa5e3e3c0197b09a6556298e710447",
+      "actual_revision": "b3cc36c295aa5e3e3c0197b09a6556298e710447",
+      "tracked_sources_clean": true,
+      "resolved_path": "/home/kim/worktrees/TauCeti/ci-fleet-reporting/.lake/packages/importGraph"
+    },
+    "proofwidgets": {
+      "declared_revision": "17137fad38a2cc782ff00b323a13c3a991d085ab",
+      "actual_revision": "17137fad38a2cc782ff00b323a13c3a991d085ab",
+      "tracked_sources_clean": true,
+      "resolved_path": "/home/kim/worktrees/TauCeti/ci-fleet-reporting/.lake/packages/proofwidgets"
+    },
+    "aesop": {
+      "declared_revision": "29c64c56cc38211d39b306db2df11701e3d3de11",
+      "actual_revision": "29c64c56cc38211d39b306db2df11701e3d3de11",
+      "tracked_sources_clean": true,
+      "resolved_path": "/home/kim/worktrees/TauCeti/ci-fleet-reporting/.lake/packages/aesop"
+    },
+    "Qq": {
+      "declared_revision": "6d26f8bb4b2bb78f929ad160feac508866821316",
+      "actual_revision": "6d26f8bb4b2bb78f929ad160feac508866821316",
+      "tracked_sources_clean": true,
+      "resolved_path": "/home/kim/worktrees/TauCeti/ci-fleet-reporting/.lake/packages/Qq"
+    },
+    "batteries": {
+      "declared_revision": "30691c775364967184547c94468bf6b5f25400fb",
+      "actual_revision": "30691c775364967184547c94468bf6b5f25400fb",
+      "tracked_sources_clean": true,
+      "resolved_path": "/home/kim/worktrees/TauCeti/ci-fleet-reporting/.lake/packages/batteries"
+    },
+    "Cli": {
+      "declared_revision": "34d2efffcb6dc8d5f3537cf6a7f88bfaa999ec49",
+      "actual_revision": "34d2efffcb6dc8d5f3537cf6a7f88bfaa999ec49",
+      "tracked_sources_clean": true,
+      "resolved_path": "/home/kim/worktrees/TauCeti/ci-fleet-reporting/.lake/packages/Cli"
+    }
+  },
+  "module_count": 934,
+  "input_sha256": {
+    "/home/kim/worktrees/TauCetiRoadmap/goal-archive-nine-evidence/landed-whole-roadmap-endpoints.txt": "4f2dd5f6672071f4ebceba4056c04684ec8ee6853a0532b1a235ce4d936c9066",
+    "/home/kim/worktrees/TauCeti/closeout-hopf-20261028-evidence/hopf-final-main-scope-modules.txt": "7c135639a0b80647bb0bf4b6ae6bc10f00220dd034c0f067ab5d7da231623d99",
+    "/home/kim/worktrees/TauCeti/goal-evidence-numberfields-20261028/final-main-certificates/effective-inventory-modules.txt": "3944a8179d878c84c1a954134367a2a9a6580182c9b1f961896726a52adf8b58",
+    "/home/kim/worktrees/TauCeti/goal-evidence-numberfields-20261028/final-main-certificates/localfields-inventory-modules.txt": "e79866b3a6ef729e3d7d689995fb1b918110e80af389e9606473a4d86cb3766f",
+    "/home/kim/worktrees/TauCeti/closeout-evidence/geometric-critical-endpoints-20261028.txt": "2d37261eee0ae0bb56850c6530094a9d213f86e9e72c85bf3fee3cfbd61d538c",
+    "/home/kim/worktrees/TauCeti/closeout-evidence/peripheral-actual-main-all-endpoints-20261028.txt": "ba95e3f11f561a93645501f8ca240a2c42d0ef5fc65a8f38451409020f6b2d4f",
+    "/home/kim/worktrees/TauCeti/closeout-evidence/toric-actual-main-all-endpoints-20261028.txt": "60a81490c97a8f89127b72d52e25db9026845c611dc6f1981d6de28565fb448b",
+    "/home/kim/worktrees/TauCeti/closeout-evidence/spin-full-owned-endpoints-20261028.txt": "9df57ee2df723f6c2ea07a8c25a6db7a8f6197310253124c2efd499f4afcc1fe",
+    "/home/kim/worktrees/TauCetiRoadmap/goal-archive-nine-evidence/conformal-current-source-acceptance.lean": "8fd71e7bb8984fa71aceb2d99604651e491bb80d510ea4ce49e2acc8b7a3ae21",
+    "/home/kim/worktrees/TauCetiRoadmap/goal-archive-nine-evidence/global-heights-current-source-axioms.lean": "4b48a8f38fed3a7281bff54af320f7a287121e02e9184e0379e9398d50c44f63",
+    "/home/kim/worktrees/TauCeti/closeout-hopf-20261028-evidence/hopf-full-scope-axioms.lean": "cab2a0b79e2e1d7e547b155534d1526bf79e76a28d708c002911411aac79abc7",
+    "/home/kim/worktrees/TauCeti/closeout-hopf-20261028-evidence/hopf-boundary-index-acceptance.lean": "2e1c9c81a6190e426656cb0dd53c068884768a990009bccd98acfdaf38c0fef0",
+    "/home/kim/worktrees/TauCeti/closeout-hopf-20261028-evidence/hopf-corner-index-acceptance.lean": "b458b62d6b8da72637fbdd6bf1e81cd72058c3ccf485a418ade008ae4625d139",
+    "/home/kim/worktrees/TauCeti/closeout-hopf-20261028-evidence/hopf-flat-and-rejection-acceptance.lean": "3073e45f9374bb40d37edb9900fcc4488a92657c72e1c5c99d6d84bf7677d7bd",
+    "/home/kim/worktrees/TauCeti/goal-evidence-numberfields-20261028/final-main-certificates/effective-scope-probes.lean": "ff0b60eb6b68f036174170fb56185bc51b3da099baf63b018184a78e2eb68ee2",
+    "/home/kim/worktrees/TauCeti/goal-evidence-numberfields-20261028/final-main-certificates/localfields-scope-probes.lean": "0dd11bca00d2fdce704ee30dc06d14a5cbaf89863059deb97a597b69fe5b56ae",
+    "/home/kim/worktrees/TauCeti/closeout-evidence/peripheral-full-scope-replay-20261028.lean": "1a916023f943b037b842103abb3cf334beed074d94170d7cb5f929496560e377",
+    "/home/kim/worktrees/TauCeti/closeout-evidence/toric-full-scope-replay-20261028.lean": "45898f4fdfef0f03af6ea16b0b17c2c1f4aed7c9cd5a1414b4df5cb3fd06b0af",
+    "/home/kim/worktrees/TauCeti/closeout-evidence/spin-full-scope-replay-20261028.lean": "e91c3b78b2c7db4bf74099b95818595931bedb45d26b7a07424b92e9b04ce556",
+    "/home/kim/worktrees/TauCetiRoadmap/goal-archive-nine-evidence/native-markdown-blocks/AnalyticToricGeometry.lean": "fdf8360e8c2bcc4a5673a79a1d6e14b98f5c8c3c55398871d227d9ca113a4be2",
+    "/home/kim/worktrees/TauCetiRoadmap/goal-archive-nine-evidence/native-markdown-blocks/OrthogonalSpinGroups.lean": "1d5ff95f36a52059c4c4361821b8e72b4f8b1ce49b2b268454cbc7802522a358",
+    "/home/kim/worktrees/TauCetiRoadmap/goal-archive-nine-evidence/native-markdown-blocks/EffectiveBounds.lean": "310ad1bd35b3f176df99a63c03fafaf4c351a01fac5cc068001684da95c40562",
+    "/home/kim/worktrees/TauCetiRoadmap/goal-archive-nine-evidence/native-markdown-blocks/LocalFieldsRamification.lean": "4f3867a6f0f64ce6d64015308712bb2bff25670e5306c9a1f828993e49fbc3a4",
+    "/home/kim/worktrees/TauCeti/closeout-hopf-20261028-evidence/hopf-native-variation-acceptance.lean": "4402419340fa90a521e13d4aaa61dc529b69d62b3427f30b922ff056b3d00287"
+  },
+  "probes": [
+    {
+      "file": "conformal-current-source-acceptance.lean",
+      "seconds": 7.503236999997171,
+      "exit_code": 0,
+      "axiom_reports": 4,
+      "expected_axiom_reports": 4
+    },
+    {
+      "file": "global-heights-current-source-axioms.lean",
+      "seconds": 3.9711264850047883,
+      "exit_code": 0,
+      "axiom_reports": 19,
+      "expected_axiom_reports": 19
+    },
+    {
+      "file": "hopf-full-scope-axioms.lean",
+      "seconds": 3.686808032973204,
+      "exit_code": 0,
+      "axiom_reports": 35,
+      "expected_axiom_reports": 35
+    },
+    {
+      "file": "hopf-boundary-index-acceptance.lean",
+      "seconds": 3.561172143992735,
+      "exit_code": 0,
+      "axiom_reports": 0,
+      "expected_axiom_reports": 0
+    },
+    {
+      "file": "hopf-corner-index-acceptance.lean",
+      "seconds": 3.4791024000151083,
+      "exit_code": 0,
+      "axiom_reports": 0,
+      "expected_axiom_reports": 0
+    },
+    {
+      "file": "hopf-flat-and-rejection-acceptance.lean",
+      "seconds": 2.909570021001855,
+      "exit_code": 0,
+      "axiom_reports": 0,
+      "expected_axiom_reports": 0
+    },
+    {
+      "file": "effective-scope-probes.lean",
+      "seconds": 2.352577306999592,
+      "exit_code": 0,
+      "axiom_reports": 5,
+      "expected_axiom_reports": 5
+    },
+    {
+      "file": "localfields-scope-probes.lean",
+      "seconds": 3.8778606569976546,
+      "exit_code": 0,
+      "axiom_reports": 22,
+      "expected_axiom_reports": 22
+    },
+    {
+      "file": "peripheral-full-scope-replay-20261028.lean",
+      "seconds": 1.8710463749885093,
+      "exit_code": 0,
+      "axiom_reports": 7,
+      "expected_axiom_reports": 7
+    },
+    {
+      "file": "toric-full-scope-replay-20261028.lean",
+      "seconds": 2.4346715889987536,
+      "exit_code": 0,
+      "axiom_reports": 9,
+      "expected_axiom_reports": 9
+    },
+    {
+      "file": "spin-full-scope-replay-20261028.lean",
+      "seconds": 2.1318211799953133,
+      "exit_code": 0,
+      "axiom_reports": 12,
+      "expected_axiom_reports": 12
+    },
+    {
+      "file": "AnalyticToricGeometry.lean",
+      "seconds": 1.6831951789790764,
+      "exit_code": 0,
+      "axiom_reports": 3,
+      "expected_axiom_reports": 3
+    },
+    {
+      "file": "OrthogonalSpinGroups.lean",
+      "seconds": 1.5369525360001717,
+      "exit_code": 0,
+      "axiom_reports": 2,
+      "expected_axiom_reports": 2
+    },
+    {
+      "file": "EffectiveBounds.lean",
+      "seconds": 5.01413091699942,
+      "exit_code": 0,
+      "axiom_reports": 6,
+      "expected_axiom_reports": 6
+    },
+    {
+      "file": "LocalFieldsRamification.lean",
+      "seconds": 1.5009186470124405,
+      "exit_code": 0,
+      "axiom_reports": 4,
+      "expected_axiom_reports": 4
+    },
+    {
+      "file": "hopf-native-variation-acceptance.lean",
+      "seconds": 2.05055389602785,
+      "exit_code": 0,
+      "axiom_reports": 0,
+      "expected_axiom_reports": 0
+    }
+  ],
+  "actual_lean_version": "Lean (version 4.36.0-rc1, x86_64-unknown-linux-gnu, commit c9afcddf514a6772bd4d649f7cfc04eff0b9f15e, Release)",
+  "build_seconds": 230.2169615700259,
+  "standard_axioms_only": true,
+  "prepared_and_frozen_inputs_unchanged": true,
+  "axiom_report_count": 128
+}

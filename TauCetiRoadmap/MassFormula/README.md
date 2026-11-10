@@ -1,6 +1,6 @@
 # Roadmap: counting totally ramified extensions of a local field, and Serre's mass formula
 
-The [local fields and ramification roadmap](../LocalFieldsRamification/README.md) builds the
+The [local fields and ramification roadmap](../../Completed/LocalFieldsRamification/README.md) builds the
 arithmetic of a finite extension of a non-archimedean local field: total ramification, Eisenstein
 generators, monogenicity, the different and the discriminant, and the tame criterion. This
 roadmap is that theory's counting consumer. It asks how *many* such extensions there are, and
@@ -39,7 +39,7 @@ orbit statements that accompany them.
 
 It does not own the arithmetic of the individual extension. **Total ramification, Eisenstein
 generators, monogenicity, the different, the discriminant, and the tame criterion belong to the
-[local fields and ramification roadmap](../LocalFieldsRamification/README.md)**, which is where
+[local fields and ramification roadmap](../../Completed/LocalFieldsRamification/README.md)**, which is where
 they are specified and where their API accrues; the contract this roadmap consumes from it is
 listed below. It also does not own higher ramification groups, Herbrand functions or Hasse–Arf
 (same roadmap); local class field theory; adic or Huber-theoretic geometry over `K`, which is the
