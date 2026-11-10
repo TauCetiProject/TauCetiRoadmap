@@ -489,9 +489,10 @@ Targets:
   |\mathrm{EM}(J,\Phi)|\le\max\bigl(\aleph_0,\ |J|,\ |\textstyle\sum_n L'_{\mathrm{fun},n}|\bigr),
   ```
 
-  stated with `Cardinal.lift` since `J` and the symbols live in different universes. If `Φ disEq`,
-  the skeleton is injective and `|J| ≤ |EM(J, Φ)|`. When `L'` has countably many function
-  symbols, as the Skolem language `L*` does, the language term is absorbed: for infinite `J` with `Φ disEq`,
+  stated with `Cardinal.lift` since `J` and the symbols live in different universes. If `Φ`
+  declares the instance `x₀ = x₁` false, the skeleton is injective and `|J| ≤ |EM(J, Φ)|`. When
+  `L'` has countably many function symbols, as the Skolem language `L*` does, the language term is
+  absorbed: for infinite `J`, if `Φ` declares the instance `x₀ = x₁` false then
   `#EM(J, Φ) = #J`, and for finite `J`, `EM(J, Φ)` is countable.
 - **Functoriality.** An order embedding `e : J ↪o K` induces a `Γ`-elementary embedding
   `EM(J, Φ) → EM(K, Φ)` commuting with the skeletons, functorially in `e`. An order isomorphism
@@ -518,7 +519,8 @@ structure `N` and `a : ℕ → N`, **`IsEMSource Γ N a`** means:
 By `isSkolemTemplate_templateOf` (2.2) the template of `a` is a Skolem template for `(Γ, w)`,
 with `w` the Skolem terms of (3). Conversely, for a Skolem template `Φ` for `(Γ, w)`, the skeleton
 of `EM(ℕ, Φ)` is an Ehrenfeucht–Mostowski source on `Γ` (**`isEMSource_em`**: (3) with the terms
-`w` and (4) by the truth lemma of 2.3, and the skeleton is injective when `Φ disEq`). Two
+`w` and (4) by the truth lemma of 2.3, and the skeleton is injective when `Φ` declares the
+instance `x₀ = x₁` false). Two
 milestones, each with its own statement:
 
 - **`exists_emModel`** (stretching with the cardinality bound). Let `L' : Language.{0, 0}` and
