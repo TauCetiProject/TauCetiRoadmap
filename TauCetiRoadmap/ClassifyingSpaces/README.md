@@ -507,9 +507,13 @@ instance) and
 `IsQuotientCoveringMap.singularChainsRepCoinvariantsTensorIso_hom_f_coinvariantsTensorMk` (the
 class of `a ⊗ c` in `(k ⊗ C(E))_G` goes to `a • p_* c`)
 (`TauCeti/AlgebraicTopology/Singular/ModuleChains/GroupHomology.lean`);
-`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` and
-`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv_ofMul_of_mk` (the Hurewicz class of a loop is the
-class of its chain) (`TauCeti/AlgebraicTopology/Homotopy/Hurewicz/One/Basic.lean`);
+`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`,
+`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv_ofMul_of_mk` (the Hurewicz image of the class of a
+loop `γ` is the image of the class of `γ` in Tau Ceti's auxiliary `H₁` under
+`TauCeti.HurewiczOne.H₁AddEquivHomology`) and `TauCeti.HurewiczOne.H₁AddEquivHomology_loopClass`
+(that image is the homology class of any `1`-cycle whose chain is the chain of `γ`); together,
+the Hurewicz class of a loop is the homology class of its chain
+(`TauCeti/AlgebraicTopology/Homotopy/Hurewicz/One/Basic.lean`);
 `TopCat.isIso_singularCohomologyMap` (for a map with a homotopy inverse, both homotopies given)
 and `TopCat.Homotopy.congr_singularCohomologyMap` (homotopic maps induce the same map on singular
 cohomology) (`TauCeti/AlgebraicTopology/Cohomology/HomotopyInvariance.lean`);
@@ -913,8 +917,10 @@ coefficients in `M` as Brown defines it (Brown, Chapter III, Section 1). Its API
   class of the `1`-cycle `(Ψ γ)⁻¹` with coefficient `1`, which is minus the class of the
   `1`-cycle `Ψ γ`. For `k = ℤ` and `G : Type`, the Hurewicz isomorphism
   `π₁(X, x)ᵃᵇ ≅ H₁(X; ℤ)` (`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`) sends the class of `γ`
-  to the class of its chain (`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv_ofMul_of_mk`), so its
-  composite with the comparison is the
+  to the homology class of its chain (`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv_ofMul_of_mk`,
+  which lands in Tau Ceti's auxiliary `H₁`, followed by
+  `TauCeti.HurewiczOne.H₁AddEquivHomology_loopClass`, which identifies that class with the class
+  of a `1`-cycle over the chain of `γ`), so its composite with the comparison is the
   abelianization of `Ψ`, followed by negation and Mathlib's `H₁(G, ℤ) ≅ Gᵃᵇ ⊗ ℤ`
   (`groupHomology.H1AddEquivOfIsTrivial`). For `X = BG` and `Ψ` the pinned identification the
   comparison is the negative of the pinned
@@ -954,7 +960,8 @@ acceptance test; the content of this item is the canonical choice and its natura
 `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology`,
 `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology_hurewiczHomologyAddEquiv`,
 `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`,
-`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv_ofMul_of_mk`, `TauCeti.singularChains_d_pathChain`,
+`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv_ofMul_of_mk`,
+`TauCeti.HurewiczOne.H₁AddEquivHomology_loopClass`, `TauCeti.singularChains_d_pathChain`,
 `TauCeti.singularChains_map_f_pathChain`, `TauCeti.universalGSpaceBasepoint`,
 `TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`,
 `IsQuotientCoveringMap.singularHomologyIsoGroupHomology`,
