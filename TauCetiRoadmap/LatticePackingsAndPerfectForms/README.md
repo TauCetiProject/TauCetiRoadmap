@@ -71,18 +71,21 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
 - Universality, the truant, escalators, the escalation lemma, the 15 theorem and the 290 theorem
   (Layer 6).
 - Tensor products of forms and lattices, their rank, determinant, definiteness and minimum,
-  Kitaoka's theorem, tensor decomposability; the natural map `O(L) → O(D_L)` and the Festi–Veniani
-  index (Layer 7).
+  Kitaoka's theorem, tensor decomposability; the group of isometries of the discriminant bilinear
+  module and the homomorphism `discriminantHom` from `O(L)` to it (the homomorphism to `O(q_L)` of
+  an even lattice is Tau Ceti's), and the Festi–Veniani index (Layer 7).
 - The geometric meanings of the LMFDB minimum, kissing, shortest, density and Hermite columns.
 
 ### Consumed, not redefined
 
 - **From Tau Ceti at the pin**, the declarations tabulated under *From Tau Ceti*: the
-  carrier and its Gram, norm, scaling and sum API; `minimum`, `kissingNumber`, `vectorsOfNorm`,
-  `representationNumber` and their finiteness; the isometry group; the realization theory of
-  `PosDef/Covolume`; the discriminant group and pairing; the orthogonal group
-  `TauCeti.QuadraticMap.orthogonalGroup` of a quadratic map, which is `O(q_L)` in 7.4; the rank-one
-  and ADE lattices.
+  carrier and its Gram, norm, scaling and sum API, with the real Gram-matrix criterion
+  `TauCeti.IntegralLattice.isPosDef_iff_posDef_map_gramMatrix` for positive definiteness;
+  `minimum`, `kissingNumber`, `vectorsOfNorm`, `representationNumber` and their finiteness; the
+  isometry group; the realization theory of `PosDef/Covolume`; the discriminant group and pairing;
+  the orthogonal group `TauCeti.QuadraticMap.orthogonalGroup` of a quadratic map, which is `O(q_L)`
+  in 7.4, and the homomorphism `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom` from
+  `O(L)` to it for an even lattice; the rank-one and ADE lattices.
   Tau Ceti's `minimum` and `kissingNumber` **are** the LMFDB `minimum` and `kissing` columns;
   Layer 1 identifies them with the form-side definitions and adds no second minimum on the
   rational carrier.
@@ -169,7 +172,7 @@ LMFDB columns (Layers 0, 1 and 7), `TauCeti/Analysis/SphericalDesign/` and
   `ℤ`-lattices and never carry an order.
 - **Real successive minima of convex bodies** and Minkowski's second theorem: Successive Minima.
   **Lattice-point counting, transference, star bodies, critical determinants, Siegel's mean value
-  theorem, lattices from codes, LLL**: GoN. The LLL *algorithm* is `hex-lll`, cited by GoN 5.1.
+  theorem, lattices from codes, LLL-reduced bases**: GoN.
 - **Short-vector enumeration** (Fincke–Pohst) as an algorithm:
   [Effective Diophantine methods](../EffectiveDiophantineMethods/README.md) §1.8.
 - **The sphere packing problem for non-lattice packings**. The lattice Cohn–Elkies
@@ -266,7 +269,8 @@ has every factor of rank `≥ 2`. ⚠ The knowl `lattice.tensor_decomposition` o
 Ceti's. `O(D_L)` is its isometry group: Tau Ceti's orthogonal group
 `TauCeti.QuadraticMap.orthogonalGroup` of `q_L` when `L` is even, and the self-isometries of
 `(A_L, b_L)` under composition (7.4) when `L` is odd. `φ_L : O(L) → O(D_L)` is the natural map through
-`Isometry.discriminantGroupEquiv`. The Festi–Veniani index is `[O(D_L) : φ_L(O(L))]`. For a
+`Isometry.discriminantGroupEquiv`: Tau Ceti's `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom`
+when `L` is even, and `discriminantHom` (7.4) when `L` is odd. The Festi–Veniani index is `[O(D_L) : φ_L(O(L))]`. For a
 nondegenerate `L` the group `O(D_L)` is finite, so the index is a positive integer.
 
 **Rank zero.** Every definition is total. In rank zero `min = 0`, `S = ∅`, the kissing number is
@@ -348,7 +352,7 @@ lines, is cited as it is at those revisions.
 | `Nat.sum_four_squares` | `Mathlib/NumberTheory/SumFourSquares.lean` | 6.1, worked examples |
 | `TensorProduct`, `LinearMap.BilinForm.tensorDistrib`, `tensorDistrib_tmul`, `Basis.tensorProduct` | `Mathlib/LinearAlgebra/TensorProduct/Defs.lean`, `Mathlib/LinearAlgebra/BilinearForm/TensorProduct.lean`, `Mathlib/LinearAlgebra/TensorProduct/Basis.lean` | 7.1 |
 | `Matrix.kronecker`, `Matrix.det_kronecker`, `Matrix.kroneckerMap` | `Mathlib/LinearAlgebra/Matrix/Kronecker.lean` | 7.1, 7.2 |
-| `Subgroup.index`, `MonoidHom.range` | `Mathlib/GroupTheory/Index.lean`, `Mathlib/Algebra/Group/Subgroup/Ker.lean` | 7.5 |
+| `Subgroup.index`, `MonoidHom.range`, `Subgroup.closure` | `Mathlib/GroupTheory/Index.lean`, `Mathlib/Algebra/Group/Subgroup/Ker.lean`, `Mathlib/Algebra/Group/Subgroup/Lattice.lean` | 7.5 |
 
 Section 5.1 transports polynomial functions to inner product spaces; §5.4 consumes
 GeometryOfNumbersAndQuadraticArithmetic §4.3 for harmonic theory. Mathlib's level-one
@@ -359,14 +363,16 @@ dimension formula gives `S_k(SL₂(ℤ)) = 0` for `k < 12` and `dim S₁₂ = 1`
 
 | Declarations | Location | Consumed by |
 | --- | --- | --- |
-| `IntegralLattice`, `gramMatrix`, `determinant`, `discriminant`, `ofGramMatrix`, `ofGramMatrix.basis`, `Isometry.ofGramMatrixEq`, `IsPosDef`, `TauCeti.IntegralLattice.isPosDef_ofGramMatrix_iff`, `scale`, `orthogonalSum` | `TauCeti/LinearAlgebra/IntegralLattice/{Basic,Gram,Signature,Scaling,Orthogonal/Sum}.lean` | 0.2, 6.1, 6.2, 7.2, 7.3 |
+| `IntegralLattice`, `gramMatrix`, `determinant`, `discriminant`, `ofGramMatrix`, `ofGramMatrix.basis`, `Isometry.ofGramMatrixEq`, `IsPosDef`, `scale`, `orthogonalSum` | `TauCeti/LinearAlgebra/IntegralLattice/{Basic,Gram,Signature,Scaling,Orthogonal/Sum}.lean` | 0.2, 6.1, 6.2, 7.2, 7.3 |
+| `TauCeti.IntegralLattice.isPosDef_iff_posDef_map_gramMatrix` (positive definiteness read on the Gram matrix of any basis cast to `ℝ`, in both directions), `TauCeti.IntegralLattice.gramMatrix_ofGramMatrix`, `TauCeti.IntegralLattice.gramMatrix_eq_transpose_mul_gramMatrix_mul` (change of basis), `TauCeti.IntegralLattice.Isometry.gramMatrix_carrierBasisEquiv` (isometries preserve Gram matrices) | `TauCeti/LinearAlgebra/IntegralLattice/PosDef/Gram.lean`, `TauCeti/LinearAlgebra/IntegralLattice/Gram.lean` | 0.2 |
 | `IsNondegenerate`, `IsEven`, `IsUnimodular`, `ofIntegralForm` | `…/{Basic,Even,Unimodular,Rationalization}.lean` | 5.6, 5.7, 6.4, 7.1, 7.4, 7.5 |
 | `norm`, `integralNorm`, `vectorsOfNorm`, `representationNumber`, `minimum`, `kissingNumber`, `IsPosDef.finite_vectorsOfNorm`, `IsPosSemidef.isLeast_minimum`, `IsPosDef.minimum_pos`, `TauCeti.IntegralLattice.kissingNumber_eq_representationNumber`, `Isometry.minimum_eq`, `Isometry.kissingNumber_eq` | `…/Norm.lean`, `…/PosDef/{Finite,RepresentationNumber,Minimum}.lean` | 0.4, 1.2, 6.1 |
 | `Isometry`, `Isometry L L` as a group, `Isometry.det`, `specialOrthogonalGroup`, `IsPosDef.finite_isometry`, `Isometry.dualCarrierEquiv`, `Isometry.discriminantGroupEquiv` | `…/Isometry/{Basic,Group}.lean`, `…/PosDef/Finite.lean`, `…/Dual/Basic.lean`, `…/Discriminant/Group.lean` | 4.4, 7.3, 7.4, 7.5 |
 | realizations: `gram_comp_eq_map_gramMatrix`, `discreteTopology_range`, `covolume_range_sq_eq_determinant` | `…/PosDef/Covolume.lean` | 0.3 |
 | `dualCarrier`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `discriminantBilinearModule`, `discriminantQuadraticModule`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry` | `…/Dual/Basic.lean`, `…/Discriminant/{Group,Bilinear,Quadratic}.lean` | 7.1, 7.4 |
 | `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry` and the finite quadratic modules of Completed IL Layer 3 | `TauCeti/LinearAlgebra/FiniteBilinearModule/{Basic,Quadratic}.lean` | 7.4 |
-| `TauCeti.QuadraticMap.orthogonalGroup` (the group `O(q)` of a quadratic map, the codomain of the even case of 7.4), `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv` (its underlying set is the self-isometries of `q`) | `TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean` | 7.4 |
+| `TauCeti.QuadraticMap.orthogonalGroup` (the group `O(q)` of a quadratic map, the codomain of the even case of 7.4), `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv` (its underlying set is the self-isometries of `q`) | `TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean` | 7.4, 7.5 |
+| `TauCeti.FiniteQuadraticModule.orthogonalGroup` (the abbreviation of `TauCeti.QuadraticMap.orthogonalGroup` of a finite quadratic module), `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom` (the homomorphism `O(L) →* O(q_L)` of an even nondegenerate lattice, acting through `Isometry.discriminantGroupEquiv`), `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom_neg` (`−1 ↦ −1`) | `TauCeti/LinearAlgebra/FiniteBilinearModule/OrthogonalGroup.lean`, `TauCeti/LinearAlgebra/IntegralLattice/Discriminant/OrthogonalGroup.lean` | 7.4, 7.5 |
 | `rankOne`, `typeARootLattice`, `checkerboardLattice`, `typeE₆RootLattice`, `typeE₇RootLattice`, `typeE₈RootLattice`, `checkerboardPlusLattice` (`Dₙ⁺` for `8 ∣ n`) | `…/RankOne/Basic.lean`, `…/RootLattice/TypeA/Basic.lean`, `…/RootLattice/TypeD/{Basic,Plus}.lean`, `…/RootLattice/TypeE/Basic.lean` | 4.10, 7.5, worked examples |
 | `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv` (`A_⟨a⟩ ≃ ℤ/|a|` for `a ≠ 0`), `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass` (`b(kg, lg) = kl/a`), `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass` (`q(kg) = k²/(2a)` for even `a`) | `…/RankOne/{Basic,Discriminant}.lean` | 7.5 |
 | `TauCeti.leechLattice`, `TauCeti.finrank_leechLattice`, `TauCeti.isEven_leechLattice`, `TauCeti.isUnimodular_leechLattice`, `TauCeti.isPosDef_leechLattice`, `TauCeti.discriminant_leechLattice`, `TauCeti.minimum_leechLattice`, `TauCeti.vectorsOfNorm_two_leechLattice`, `TauCeti.kissingNumber_leechLattice` | `…/Rank24/Leech/{Basic,Minimum,MinimalVectors}.lean` | 3.4, 4.11, 5.7, worked examples |
@@ -437,16 +443,21 @@ API:
 
 ### 0.2 The dictionary with Tau Ceti's lattices
 
-For `L : IntegralLattice V` with `hL : L.IsPosDef` and a `ℤ`-basis `b : Basis (Fin n) ℤ L`, prove
-that `L.gramMatrix b`, cast to `ℝ`, is in `PosDefForm n` (`gramForm hL b`); prove that two bases
-give `GL_n(ℤ)`-equivalent forms (`gramForm hL b' = U • gramForm hL b` with `U = b.toMatrix b'`);
-conversely for a symmetric integral `A` with `A.PosDef`, Tau Ceti's `ofGramMatrix` on the standard
-basis of `ℚⁿ` is positive definite (the reverse direction of Tau Ceti's
-`TauCeti.IntegralLattice.isPosDef_ofGramMatrix_iff`, whose right side is positive definiteness of
-`A` read over `ℚ`, which follows from that over `ℝ` by restricting to rational vectors), and its
-Gram matrix in `ofGramMatrix.basis` is `A`. Prove that an `Isometry L M` carries a basis to a basis with the same
-Gram matrix, and that `GL_n(ℤ)`-equivalent integral forms give isometric lattices (Tau Ceti's
-`Isometry.ofGramMatrixEq`). Hence a function `f : PosDefForm n → X` constant on `GL_n(ℤ)`-orbits
+For `L : IntegralLattice V` with `hL : L.IsPosDef` and a `ℤ`-basis `b : Basis (Fin n) ℤ L`, define
+`gramForm hL b ∈ PosDefForm n` as `L.gramMatrix b` cast to `ℝ`. It is positive definite by Tau
+Ceti's `TauCeti.IntegralLattice.isPosDef_iff_posDef_map_gramMatrix`, which says, for every carrier
+basis indexed by a finite type, that `L.IsPosDef` holds exactly when the Gram matrix cast to `ℝ` is
+positive definite. Read from right to left it gives the converse dictionary: for a symmetric
+integral `A` whose real cast is positive definite, Tau Ceti's lattice `ofGramMatrix` on a `ℚ`-basis
+is positive definite, because its Gram matrix in `ofGramMatrix.basis` is `A`
+(`TauCeti.IntegralLattice.gramMatrix_ofGramMatrix`). Prove that two bases give
+`GL_n(ℤ)`-equivalent forms, `gramForm hL b' = U • gramForm hL b` with `U = b.toMatrix b'`: this is
+the cast to `ℝ` of Tau Ceti's change-of-basis identity
+`TauCeti.IntegralLattice.gramMatrix_eq_transpose_mul_gramMatrix_mul` for the identity map, with `U`
+invertible over `ℤ` because `b'.toMatrix b` is its inverse. An `Isometry L M` carries a basis to a
+basis with the same Gram matrix (Tau Ceti's
+`TauCeti.IntegralLattice.Isometry.gramMatrix_carrierBasisEquiv`), and `GL_n(ℤ)`-equivalent
+integral forms give isometric lattices (Tau Ceti's `Isometry.ofGramMatrixEq`). Hence a function `f : PosDefForm n → X` constant on `GL_n(ℤ)`-orbits
 descends to an isometry invariant `f_L` of positive definite lattices of rank `n`, defined as
 `f (gramForm hL b)` for any `b` (descend). Every lattice-side invariant below is descend of its
 form-side version, and the roadmap never defines an invariant twice.
@@ -458,7 +469,8 @@ API and acceptance statements:
 API:
 
 - Changing the integral basis changes the Gram form by an integral unimodular congruence.
-- Lattice isometries carry bases to bases with equal Gram matrices.
+- A function on forms that is constant on `GL_n(ℤ)`-orbits descends to an isometry invariant of
+  positive definite lattices of rank `n`, independent of the basis.
 
 **Checks.**
 
@@ -466,7 +478,7 @@ API:
 - Changing the I₂ basis by the shear gives [[1,1],[1,2]], with determinant 1 on both sides.
 - Gram [0] fails positive definiteness in rank one, whereas the empty Gram matrix is positive definite in rank zero.
 
-*Needs:* T `gramMatrix`, `ofGramMatrix`, `TauCeti.IntegralLattice.isPosDef_ofGramMatrix_iff`, `Isometry.ofGramMatrixEq`, `IsPosDef`; L 0.1.
+*Needs:* T `gramMatrix`, `ofGramMatrix`, `TauCeti.IntegralLattice.isPosDef_iff_posDef_map_gramMatrix`, `TauCeti.IntegralLattice.gramMatrix_ofGramMatrix`, `TauCeti.IntegralLattice.gramMatrix_eq_transpose_mul_gramMatrix_mul`, `TauCeti.IntegralLattice.Isometry.gramMatrix_carrierBasisEquiv`, `Isometry.ofGramMatrixEq`, `IsPosDef`; L 0.1.
 
 ### 0.3 `FormSpace A` and the lattice `ℤⁿ`
 
@@ -563,7 +575,7 @@ The local Checks above and the worked examples below fix the normalizations used
 | Milestone | Direct prerequisites |
 | --- | --- |
 | 0.1 | M `Matrix.PosDef`, `Matrix.GeneralLinearGroup`, `Matrix.det_mul`, `Int.isUnit_iff` |
-| 0.2 | T `gramMatrix`, `ofGramMatrix`, `TauCeti.IntegralLattice.isPosDef_ofGramMatrix_iff`, `Isometry.ofGramMatrixEq`, `IsPosDef`; L 0.1 |
+| 0.2 | T `gramMatrix`, `ofGramMatrix`, `TauCeti.IntegralLattice.isPosDef_iff_posDef_map_gramMatrix`, `TauCeti.IntegralLattice.gramMatrix_ofGramMatrix`, `TauCeti.IntegralLattice.gramMatrix_eq_transpose_mul_gramMatrix_mul`, `TauCeti.IntegralLattice.Isometry.gramMatrix_carrierBasisEquiv`, `Isometry.ofGramMatrixEq`, `IsPosDef`; L 0.1 |
 | 0.3 | M `InnerProductSpace.ofCore`, `ZSpan.instIsZLatticeRealSpan`, `ZLattice.covolume_eq_det`; T `covolume_range_sq_eq_determinant`; L 0.1 |
 | 0.4 | TS 2D, 2G; T `vectorsOfNorm`; L 0.2, 0.3 |
 | 0.5 | M `Matrix.PosDef.inv`; TS Layer 1 `dual`, 2A; L 0.1, 0.3 |
@@ -1915,19 +1927,26 @@ For a nondegenerate L, the group `O(D_L)` is, when L is even, Tau Ceti's orthogo
 `TauCeti.QuadraticMap.orthogonalGroup` of the discriminant quadratic map `q_L`: the linear
 automorphisms of `A_L` that preserve `q_L`, whose underlying set
 `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv` identifies with the self-isometries
-`FiniteQuadraticModule.Isometry` of the discriminant quadratic module. When L is odd it is the
+`FiniteQuadraticModule.Isometry` of the discriminant quadratic module; Tau Ceti names it
+`TauCeti.FiniteQuadraticModule.orthogonalGroup` for a finite quadratic module. The action of
+`O(L)` on it is Tau Ceti's homomorphism
+`TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom L he : O(L) →* O(q_L)`
+(`…/Discriminant/OrthogonalGroup.lean`), whose value at `g` acts on `A_L` as
+`g.discriminantGroupEquiv`, that is, as the induced isometry
+`Isometry.discriminantQuadraticIsometry`, and which sends `−1` to `−1`
+(`TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom_neg`). When L is odd `O(D_L)` is the
 group `bilinearIsometryGroup` of this subsection on the self-isometries
 `FiniteBilinearModule.Isometry` of the discriminant bilinear module, which Tau Ceti does not make a
 group. Both groups are finite, since `A_L` is. Bundle `Isometry.discriminantBilinearIsometry` as
-the homomorphism `discriminantHom` into `bilinearIsometryGroup`, and
-`Isometry.discriminantQuadraticIsometry`, read through `orthogonalGroupEquivIsometryEquiv`, as the
-homomorphism `discriminantQuadraticHom` into the orthogonal group. In both groups the product is
+the homomorphism `discriminantHom` into `bilinearIsometryGroup`. In both groups the product is
 composition, f · g = f ∘ g, and both maps carry the explicit nondegeneracy assumption.
 
 API:
-- Identity lattice isometries induce identity discriminant isometries.
-- Composition and inverse commute with passage to the discriminant form.
-- Forgetting the quadratic refinement recovers the bilinear action for an even lattice.
+- `discriminantHom` sends the identity isometry to the identity and a composite to the composite
+  of the induced bilinear isometries, so its range is a subgroup of `bilinearIsometryGroup`.
+- For an even lattice, forgetting the quadratic refinement turns the image of `g` in `O(q_L)` into
+  its image under `discriminantHom`: both act on `A_L` through the discriminant-group equivalence
+  of `g`.
 
 **Checks.**
 
@@ -1939,11 +1958,16 @@ API:
   composition order. Identity fixes all eight classes and f² fixes each class.
   The quadratic value of each eᵢ/2 is 1/4, with polar self-pairing 1/2 modulo ℤ.
 
-*Needs:* T `IsNondegenerate`, `IsEven`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry`, `TauCeti.QuadraticMap.orthogonalGroup`, `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv`, and the induced isometries `Isometry.discriminantBilinearIsometry` and `Isometry.discriminantQuadraticIsometry` of `discriminantBilinearModule` and `discriminantQuadraticModule`, which preserve `b_L` and, for even `L`, `q_L` (Discriminant/Bilinear and Discriminant/Quadratic); IntegralLattices §§1C–1D, 1G.
+*Needs:* T `IsNondegenerate`, `IsEven`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry`, `TauCeti.QuadraticMap.orthogonalGroup`, `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv`, `TauCeti.FiniteQuadraticModule.orthogonalGroup`, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom`, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom_neg`, and the induced isometries `Isometry.discriminantBilinearIsometry` and `Isometry.discriminantQuadraticIsometry` of `discriminantBilinearModule` and `discriminantQuadraticModule`, which preserve `b_L` and, for even `L`, `q_L` (Discriminant/Bilinear and Discriminant/Quadratic); IntegralLattices §§1C–1D, 1G.
 
 ### 7.5 The Festi–Veniani index
 
-For nondegenerate L define `fvIndex L := (φ_L.range).index` in `O(D_L)`, prove it is a positive integer, an isometry
+For nondegenerate L define `fvIndex L` as the index `(φ_L.range).index` of the image of `O(L)` in
+`O(D_L)`: for even `L` the image of Tau Ceti's
+`TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom`, which `Suggested.lean` writes as the
+subgroup of `O(q_L)` generated by the induced isometries `Isometry.discriminantQuadraticIsometry`
+(they already form that image, since the two maps agree at every `g`), and for odd `L` the range of
+`discriminantHom`. Prove it is a positive integer, an isometry
 invariant, `1` when `A_L` is trivial (unimodular `L`), and `1` whenever `O(D_L) = {±1}` (since
 `−1 ∈ O(L)` maps to `−1`), which covers `A₂` (`O(ℤ/3, q) = {±1}`). Prove the rank-one formula: for a lattice with a singleton integral basis of Gram entry
 m ≥ 3, `O(⟨m⟩) = {±1}` maps onto `{±1} ⊂ (ℤ/m)^×`, and `O(D_⟨m⟩)` is `{u ∈ (ℤ/m)^× | u² ≡ 1 (mod m)}`
@@ -1983,7 +2007,7 @@ API:
   1, 5, 7, 11 and index 2. A doubled normalization of the input turns the value 1 at `m = 6`
   into 2.
 
-*Needs:* M `Subgroup.index`; T `IsNondegenerate`, `IsEven`, `IsPosDef.finite_isometry`, `rankOne`, `Isometry.ofGramMatrixEq`, `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv`, `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`, `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass`; L 7.4.
+*Needs:* M `Subgroup.index`, `Subgroup.closure`; T `IsNondegenerate`, `IsEven`, `IsPosDef.finite_isometry`, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom`, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom_neg`, `rankOne`, `Isometry.ofGramMatrixEq`, `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv`, `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`, `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass`; L 7.4.
 
 ### Examples
 
@@ -1996,8 +2020,8 @@ The local Checks above and the worked examples below fix the normalizations used
 | 7.1 | M `TensorProduct`, `LinearMap.BilinForm.tensorDistrib`, `Basis.tensorProduct`, `Matrix.det_kronecker`; T `ofIntegralForm`, `dualCarrier`; L 0.2 |
 | 7.2 | T `scale`, `TauCeti.IntegralLattice.IsPosSemidef.exists_isMinkowskiReduced`, `TauCeti.IntegralLattice.IsMinkowskiReduced.monotone_integralNorm`, `TauCeti.IntegralLattice.IsMinkowskiReduced.two_mul_abs_integralForm_le` (the rank-two case, prose); L 1.1, 1.2, 7.1 |
 | 7.3 | T `Isometry`, `determinant`; L 7.1, 7.2 |
-| 7.4 | T `IsNondegenerate`, `IsEven`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry`, `TauCeti.QuadraticMap.orthogonalGroup`, `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry`; IL 1C, 1D, 1G |
-| 7.5 | M `Subgroup.index`; T `IsNondegenerate`, `IsEven`, `IsPosDef.finite_isometry`, `rankOne`, `Isometry.ofGramMatrixEq`, `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv`, `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`, `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass`; L 7.4 |
+| 7.4 | T `IsNondegenerate`, `IsEven`, `DiscriminantGroup`, `discriminantPairing`, `discriminantQuadraticMap`, `Isometry.discriminantGroupEquiv`, `FiniteBilinearModule.Isometry`, `FiniteQuadraticModule.Isometry`, `TauCeti.QuadraticMap.orthogonalGroup`, `TauCeti.QuadraticMap.orthogonalGroupEquivIsometryEquiv`, `TauCeti.FiniteQuadraticModule.orthogonalGroup`, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom`, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom_neg`, `Isometry.discriminantBilinearIsometry`, `Isometry.discriminantQuadraticIsometry`; IL 1C, 1D, 1G |
+| 7.5 | M `Subgroup.index`, `Subgroup.closure`; T `IsNondegenerate`, `IsEven`, `IsPosDef.finite_isometry`, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom`, `TauCeti.IntegralLattice.Isometry.discriminantOrthogonalHom_neg`, `rankOne`, `Isometry.ofGramMatrixEq`, `TauCeti.IntegralLattice.ofGramMatrix_singleton_eq_rankOne`, `TauCeti.IntegralLattice.rankOneDiscriminantEquiv`, `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`, `TauCeti.IntegralLattice.discriminantQuadraticMap_zsmul_rankOneClass`; L 7.4 |
 
 ## Downstream consumers
 
@@ -2032,7 +2056,7 @@ design strength of `S(L)`.
 | `ℤ²` (`2.1.2.1.1`) | `2, 1, 1, 4, 8` | `1/4`, `π/4 ≈ 0.78540`, `1` | `√2/2`, `π/2` | **no** / strongly / `3` | 1.4, 1.5, 3.2, 4.1, 4.2, 5.3 |
 | `A₂` (`2.3.3.1.1`) | `2, 3, 2, 6, 12` | `1/(2√3) ≈ 0.28868`, `π/√12 ≈ 0.90690`, `2/√3 ≈ 1.15470` | `√(2/3) ≈ 0.81650`, `2π/√27 ≈ 1.2092` | yes / strongly / `5` | 1.8, 2.3 (critical, `γ₂`), 3.2, 4.1, 4.2, 4.5, 5.3 |
 | `ℤ³` (`3.1.2.1.1`) | `3, 1, 1, 6, 48` | `1/8`, `π/6 ≈ 0.52360`, `1` | `√3/2`, `π√3/2 ≈ 2.7207` | no / strongly / `3` | 1.4, 3.2, 4.2 |
-| `A₃ = D₃` (`3.1.9.1.2`) | `3, 4, 2, 12, 48` | `1/(4√2) ≈ 0.17678`, `π/√18 ≈ 0.74048`, `2^{1/3} ≈ 1.25992` | `1`, `2π/3 ≈ 2.0944` | yes / strongly / `3` (not `4`) | 2.3 (critical, `γ₃`), 3.2, 4.1, 4.5, 5.3 |
+| `A₃ = D₃` (`3.4.8.1.2`) | `3, 4, 2, 12, 48` | `1/(4√2) ≈ 0.17678`, `π/√18 ≈ 0.74048`, `2^{1/3} ≈ 1.25992` | `1`, `2π/3 ≈ 2.0944` | yes / strongly / `3` (not `4`) | 2.3 (critical, `γ₃`), 3.2, 4.1, 4.5, 5.3 |
 | `A₃*` (bcc; `3.128.8.1.1`, Gram `[[6,−2,−2],[−2,6,−2],[−2,−2,6]]`, the dual of `A₃` with its bilinear form multiplied by 8 (lengths multiplied by √8)) | `3, 128, 6, 8, 48` | `3√3/32 ≈ 0.16238`, `π√3/8 ≈ 0.68017`, `6/128^{1/3} ≈ 1.19055` | `√10/2 ≈ 1.5811`, `5√5π/24 ≈ 1.4635` | **no** / strongly / `3` | 3.2, 4.1, 4.2 (eutactic, not perfect) |
 | `⟨15⟩` (Gram `[[15]]`) and `⟨12⟩` | `1, 15, 15, 2, 2` and `1, 12, 12, 2, 2` | `1/2`, `1`, `1` | `√15/2`, `1` | yes / strongly / all `t` | 7.5 (`fvIndex = 2`: `O(ℤ/15, b) = {1,4,11,14}`, `O(ℤ/12, q) = {1,5,7,11}`, image `{±1}`) |
 | `⟨5⟩` and `⟨8⟩` | `1, 5, 5, 2, 2` and `1, 8, 8, 2, 2` | `1/2`, `1`, `1` | — | yes / strongly / all `t` | 7.5 (`fvIndex = 1`; for `⟨8⟩` the bilinear group `O(ℤ/8, b)` has order `4` but `O(ℤ/8, q) = {±1}`) |
