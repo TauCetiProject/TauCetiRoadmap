@@ -1198,7 +1198,7 @@ that is, on affine real algebraic groups, by compactness of the twisted complex 
 evaluation topology, which for finite type is the usual topology on complex points. Its
 `IsCartanInvolution.exists` states existence for every connected reductive real algebraic group,
 and `IsCartanInvolution.conj` states conjugacy by a real point. The latter uses Tau Ceti's
-`TauCeti.CommHopfAlgCat.innerConjugationIso`, retaining the contravariance of coordinate pullback.
+`CommHopfAlgCat.innerConjugationIso`, retaining the contravariance of coordinate pullback.
 
 *Needs:* Mathlib `Matrix.GeneralLinearGroup`; RepresentationTheory/LieGroups, Layer 9;
 AdelicAlgebraicGroups AA.3.7 (rational inverse-adjoint data and existence).

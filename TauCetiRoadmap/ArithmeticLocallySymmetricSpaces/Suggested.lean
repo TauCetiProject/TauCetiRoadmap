@@ -60,8 +60,8 @@ theorem IsCartanInvolution.conj (H : TauCeti.FiniteTypeCommHopfAlgCat ℝ)
     (hH : TauCeti.reductiveCommHopfAlgProperty ℝ H) (θ θ' : H.obj ≅ H.obj)
     (hθ : IsCartanInvolution θ) (hθ' : IsCartanInvolution θ') :
     ∃ g : TauCeti.HopfAlgebra.points (R := ℝ) (H := H) (CommAlgCat.of ℝ ℝ),
-      θ' = ((TauCeti.CommHopfAlgCat.innerConjugationIso H.obj g).trans θ).trans
-        (TauCeti.CommHopfAlgCat.innerConjugationIso H.obj g).symm := by
+      θ' = ((CommHopfAlgCat.innerConjugationIso H.obj g).trans θ).trans
+        (CommHopfAlgCat.innerConjugationIso H.obj g).symm := by
   sorry
 
 end TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
