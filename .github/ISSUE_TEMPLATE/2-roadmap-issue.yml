@@ -71,6 +71,7 @@ body:
         - FiniteGroupExtensionSplitting
         - FiniteSamplingDiscrepancy
         - FlagVarieties
+        - Foams
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -159,12 +160,14 @@ body:
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsHypergeometric
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - StochasticCalculus
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima

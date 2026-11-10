@@ -16,78 +16,59 @@ public import TauCeti.QuantumGroups.UqSl2.Antipode
 /-!
 # Quantum groups: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
-with the few definitions (real bodies on native carriers) that those statements need.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned APIs: weighted Schur orthogonality, the
+algebraic compact-type characterization and, on every Hopf star algebra with a
+positive normalized invariant integral, the uniqueness of the modular automorphism
+of that integral and the Kac equivalence between its traciality and involutivity of
+the antipode; and, for Layer 8, the sphericity of the finite `U_q(sl₂)`-modules with
+pivot `K⁻¹` for `q - q⁻¹ ≠ 0` (§8.5), together with the rigid and pivotal instances on
+those modules, for every `q ≠ 0`, that it needs.
 
-Stated here: the weighted Schur orthogonality relations on a Hopf *-algebra with a positive
-invariant functional (§3.1); the algebraic compact-type equivalence, the existence and uniqueness
-of the modular automorphism of the Haar functional and the Kac equivalence between traciality of
-the Haar functional and involutivity of the antipode (§4.1); and the sphericity of the finite
-`U_q(sl₂)`-modules with pivot `K⁻¹` for `q − q⁻¹ ≠ 0` (§8.5), with the rigid and pivotal
-instances on those modules that it needs. A Hopf *-algebra is a native complex Hopf algebra with
-a compatible star structure whose comultiplication preserves the star, `Δ(a*) = Δ(a)*` for the
-tensor star `(x ⊗ y)* = x* ⊗ y*`; the statements of Layers 3 and 4 take this as the instance
-hypothesis `TauCeti.StarCoalgebra ℂ A`.
-
-Proved in the pinned Tau Ceti and not restated: the Layer 8 algebra `TauCeti.UqSl2` with its
-universal property, Ore-tower presentation, PBW basis and domain property for every `q ≠ 0`, its
-Hopf structure, Casimir element and centre `ℂ[Ω]`, the Verma and signed ladder modules with the
-classification of finite-dimensional simples, finite complete reducibility, the semisimplicity,
-ladder decomposition and type-1 characterisations of locally finite modules (in particular
-`TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`),
-the Clebsch–Gordan isomorphisms and triple recoupling, contragredients, quantum traces, the
-compact real form with its invariant metric and the classical specialisation, together with the
-finite Hopf-module category `TauCeti.FiniteHopfModuleCat` of §8.5.
-
-Not statable at the pins:
-
-* Layer 0: the free-module coaction legs, the C*-categories with standard conjugates and the
-  unitary Temperley–Lieb category are constructions of the roadmap; the Hilbert-module
-  adjointable and compact operators and interior tensor products they rest on are
-  HilbertModules' targets, the minimal C*-tensor product is VonNeumannAlgebras', and its
-  functoriality, flip and commutative identifications are CStarAlgebras'. No carrier for any of
-  them exists at the pins. The bicommutant theorem, Tomita–Takesaki theory and full left Hilbert
-  algebras are VonNeumannAlgebras' targets and are not restated here.
-* Layer 1 existence and uniqueness of the Haar state of a compact quantum group, and every
-  Layer 1, 2, 4 and 7 statement about a C*-bialgebra `Δ : A → A ⊗_min A`: neither Mathlib nor Tau
-  Ceti has the minimal (spatial) C*-tensor product of two C*-algebras.
-* Layer 2 decomposition of unitary corepresentations on arbitrary Hilbert spaces and the
-  analytic Peter–Weyl theorem: Mathlib's `CStarModule` exists, but the free Hilbert module
-  `H ⊗ A` and its adjointable operators, on which the coaction is defined, do not.
-* §§3.2–3.4, the Woronowicz characters `f_z` and the scaling and modular groups `τ_t`, `σ_t`:
-  they are defined blockwise by the complex powers `F^z` of the positive matrices of the
-  Peter–Weyl decomposition of the core, a construction of §3.1; the pivotal structure and
-  intrinsic dimensions of §3.3 need the C*-tensor category of §0.2; and the Tomita comparison
-  needs the full left Hilbert algebra of VonNeumannAlgebras Layer 11. None has a carrier at the
-  pins.
-* Layer 4 universal and reduced completions and the coamenability criteria: they need the
-  C*-envelope of a Hopf *-algebra and the minimal tensor product above.
-* Layer 5: the universal C*-algebras `C(SUq(2))` and `A_o(F)` as compact matrix quantum groups,
-  whose coproducts take values in the minimal tensor product above.
-* Layer 6 Tannaka–Krein reconstruction: there is no unitary rigid C*-tensor category, dagger
-  fibre functor or finite Hilbert-space dagger category at the pins.
-* Layer 7 fusion rules, dimensions and Haar laws of `SUq(2)` and `O_F^+`: they are statements
-  about the universal C*-algebras of Layer 5, which need the minimal tensor product for their
-  coproduct.
-* §8.5 Biedenharn–Elliott pentagon: it needs the recoupling isomorphisms between the five
-  bracketings of a quadruple tensor product of signed ladder modules, in channel coordinates;
-  the pins supply recoupling only for triple products
-  (`TauCeti.UqSl2.clebschGordanRecouplingEquiv`).
-* §8.6 comparison of finite positive-`K` modules with the finite unitary corepresentations of
-  `SUq(2)`: it needs the universal C*-algebra `C(SUq(2))` of Layer 5, which needs the minimal
-  tensor product above.
+The following headlines are not statable at the pins without heavy constructions:
+* Layer 0: the standard-solution, fiber-functor and Temperley–Lieb comparisons
+  need rigid C*-tensor categories with their conjugate equations and the
+  positive Temperley–Lieb quotients, none of which exist at the pins.
+* Layer 1: classical multiplier/tensor comparison and compact Haar existence and
+  uniqueness need the completed minimal C*-tensor functor and the analytic
+  compact-quantum-group carrier.
+* Layer 2: arbitrary-Hilbert complete reducibility and analytic Peter–Weyl density
+  need free Hilbert C*-modules, the legs of their adjointable operators along unital
+  star homomorphisms, their multiplier coactions and analytic CQGs.
+* Layer 3: the density of the Hopf core, the Plancherel completion, the unitary
+  pivotal comparison and intrinsic dimension of §3.3 and the Tomita comparison of
+  §3.4 need that analytic CQG, its Haar GNS completion, the full left Hilbert
+  algebra and unitary tensor-category carriers.
+* Layer 4: universal/reduced completion and coamenability criteria need the
+  constructed C*-completions and their comparison maps.
+* Layers 5–7: the SUq(2)/free orthogonal universal presentations, Tannaka–Krein and
+  commutative reconstruction, fusion, Haar laws, dimensions and coamenability
+  need the universal C*-algebras, analytic CQGs and rigid C*-fiber functors.
+* Layer 8: the presentation, PBW basis, domain property, Hopf structure, Casimir
+  and center, signed ladder modules, finite-simple classification, complete
+  reducibility, ladder decomposition of locally finite modules, Clebsch–Gordan
+  and recoupling isomorphisms, invariant metric, quantum traces and classical
+  specialization are proved in the pinned Tau Ceti (`TauCeti.QuantumGroups.UqSl2`
+  and `TauCeti.Algebra.Category.FiniteHopfModuleCat`) and are not restated; in
+  particular the local-finiteness characterization of §8.4 is the pin's
+  `TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`.
+  The rigid and pivotal instances and the sphericity of §8.5 are stated below.
+  The Biedenharn–Elliott pentagon of §8.5 is not statable: it needs channel
+  coordinates on quadruple tensor products and recoupling maps between all five
+  bracketings, which the pin's `TauCeti.UqSl2.clebschGordanRecouplingEquiv`
+  supplies only for triple products. Nor is the compact comparison of §8.6,
+  which needs analytic SUq(2).
 -/
 
 open scoped TensorProduct ComplexOrder
-
+open Module
 namespace TauCetiRoadmap.QuantumGroups
 
 @[expose] public section
 
 universe u v w
 
-/-! ## Layer 3: The Hopf *-core, orthogonality and modular data -/
+/-! ## Layer 3: The Hopf star core and weighted orthogonality -/
 
 section HopfCore
 
@@ -97,10 +78,12 @@ variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
   [TauCeti.Comodule ℂ A H]
 variable {ι : Type w} [Fintype ι] [DecidableEq ι]
 
-/-- An algebraic Haar functional on a Hopf *-algebra: a normalised positive linear functional
-`h` with `(id ⊗ h)Δ(a) = h(a)1` and `(h ⊗ id)Δ(a) = h(a)1`. -/
+/-- A positive normalized two-sided invariant integral on a complex Hopf algebra `A` with a
+star operation (§3.1): a linear functional `h : A → ℂ` with `h 1 = 1`, with
+`(id ⊗ h) (Δ a) = h a • 1` and `(h ⊗ id) (Δ a) = h a • 1` for every `a`, and with
+`0 ≤ h (star a * a)` for every `a`. The normalization and the two invariance equations are those
+of Neshveyev–Tuset, Theorem 1.6.6, Step 1, p. 18. -/
 structure AlgebraicHaar where
-  /-- The functional `h`. -/
   functional : A →ₗ[ℂ] ℂ
   normalized : functional 1 = 1
   left_invariant : ∀ a : A,
@@ -111,14 +94,16 @@ structure AlgebraicHaar where
       (Coalgebra.comul (R := ℂ) a)) = functional a • (1 : A)
   positive : ∀ a : A, 0 ≤ functional (star a * a)
 
-/-- Schur orthogonality (§3.1; Neshveyev–Tuset, *Compact Quantum Groups and Their
-Representation Categories*, Theorem 1.4.2, p. 9, whose `ρ_U` is the transpose of `F̃`): for an
-irreducible finite comodule with unitary coefficient matrix `u` there is a positive invertible
-`F̃` with `Tr F̃ = Tr F̃⁻¹`, `h(u_ij* u_kl) = δ_jl (F̃⁻¹)_ik / Tr F̃⁻¹` and
-`h(u_ij u_kl*) = δ_ik F̃_jl / Tr F̃`. The matrix is the README's pre-antipode `F̃`, not its
-transpose `F`. -/
-theorem schur_orthogonality
-    [TauCeti.StarCoalgebra ℂ A]
+/-- Weighted Schur orthogonality (§3.1). Let `A` be a complex Hopf star algebra whose coproduct
+preserves the star (the native `TauCeti.StarCoalgebra`), `h` a positive normalized two-sided
+invariant integral on `A`, and `H` an irreducible finite-dimensional comodule with an inner
+product whose coefficient matrix `u` in the orthonormal basis `b` is unitary. Then there is a
+positive definite matrix `Ft` (the README's `F̃`) with `Tr F̃ = Tr F̃⁻¹`,
+`h (u_ij⋆ u_kl) = δ_jl (F̃⁻¹)_ik / Tr F̃⁻¹` and `h (u_ij u_kl⋆) = δ_ik F̃_jl / Tr F̃`.
+`F̃` is the transpose of the matrix `F = (f₁(u_ij))` of the Woronowicz character `f₁` (§3.2):
+in Neshveyev–Tuset, Theorem 1.4.2, p. 9, the weight is `ρ = F` (Definition 1.7.1, p. 21), so
+`F̃ = ρᵗ`. -/
+theorem schur_orthogonality [TauCeti.StarCoalgebra ℂ A]
     [IsSimpleOrder (TauCeti.Subcomodule ℂ A H)]
     (h : AlgebraicHaar (A := A)) (b : OrthonormalBasis ι ℂ H)
     (hu : TauCeti.Comodule.coefficientMatrix (C := A) b.toBasis ∈ unitary (Matrix ι ι A)) :
@@ -137,43 +122,37 @@ end HopfCore
 
 /-! ## Layer 4: Algebraic compact type -/
 
-/-- The coefficients of all finite unitary native comodules of `A` in coordinate bases: the
-entries of the coefficient matrices, in the standard basis of `ℂⁿ`, of those comodule structures
-on `ℂⁿ` whose coefficient matrix is unitary. -/
+/-- Coefficients of all finite unitary native comodules, in coordinate bases. -/
 def unitaryCoefficientSet (A : Type u) [Ring A] [HopfAlgebra ℂ A] [StarRing A] : Set A :=
   {a | ∃ (n : ℕ) (ρ : TauCeti.Comodule ℂ A (Fin n → ℂ)),
     letI := ρ
     let U := TauCeti.Comodule.coefficientMatrix (C := A) (Pi.basisFun ℂ (Fin n))
     U ∈ unitary (Matrix (Fin n) (Fin n) A) ∧ ∃ i j, a = U i j}
 
-/-- Algebraic compact type (§4.1; Timmermann, Theorem 3.2.12): a Hopf *-algebra has a
-normalized positive two-sided invariant integral exactly when it is spanned by the coefficients
-of its finite unitary comodules. -/
+/-- A Hopf star algebra has a normalized positive invariant integral exactly when
+it is spanned by finite unitary coefficients (Timmermann, Theorem 3.2.12). No nontriviality
+hypothesis is needed: the counit of a complex bialgebra is unital, so `A` is nonzero. -/
 theorem compactType_iff (A : Type u) [Ring A] [HopfAlgebra ℂ A]
-    [StarRing A] [StarModule ℂ A]
-    [TauCeti.StarCoalgebra ℂ A] :
+    [StarRing A] [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] :
     Nonempty (AlgebraicHaar (A := A)) ↔
       Submodule.span ℂ (unitaryCoefficientSet A) = ⊤ := by
   sorry
 
-/-- The modular automorphism of the Haar functional (§4.1, from §3.2; Neshveyev–Tuset,
-Theorem 1.7.3, p. 22): a positive normalized invariant integral `h` on a Hopf *-algebra has
-exactly one algebra automorphism `θ` with `h(ab) = h(b θ(a))` for all `a, b`. On a unitary
-coefficient matrix `θ(u) = F u F`; uniqueness is the faithfulness of `h`. -/
+/-- The modular automorphism of the Haar integral (§4.1, from §3.2): a positive normalized
+invariant integral `h` on a Hopf star algebra admits exactly one algebra automorphism `θ` with
+`h(ab) = h(b θ(a))` for all `a, b`. It is convolution by the Woronowicz character `f₁` on both
+sides, so `θ(u) = F u F` on a unitary coefficient matrix, and uniqueness is the faithfulness of
+`h` (Neshveyev–Tuset, Theorem 1.7.3, p. 22, where `θ = σ_(-i)`). -/
 theorem haar_modular_automorphism {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
-    [StarModule ℂ A]
-    [TauCeti.StarCoalgebra ℂ A]
-    (h : AlgebraicHaar (A := A)) :
+    [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] (h : AlgebraicHaar (A := A)) :
     ∃! θ : A ≃ₐ[ℂ] A, ∀ a b : A, h.functional (a * b) = h.functional (b * θ a) := by
   sorry
 
-/-- The Kac equivalence (§4.1, from §3.3; Neshveyev–Tuset, Proposition 1.7.7, p. 23): a positive
-normalized invariant integral `h` on a Hopf *-algebra is a trace exactly when the antipode is
-involutive. -/
-theorem haar_trace_iff_antipode_involutive {A : Type u} [Ring A] [HopfAlgebra ℂ A] [StarRing A]
-    [StarModule ℂ A]
-    [TauCeti.StarCoalgebra ℂ A]
-    (h : AlgebraicHaar (A := A)) :
+/-- The Kac equivalence (§4.1, from §3.3): a positive normalized invariant integral `h` on a
+Hopf star algebra is a trace exactly when the antipode is involutive (Neshveyev–Tuset,
+Proposition 1.7.7, p. 23). -/
+theorem haar_trace_iff_antipode_involutive {A : Type u} [Ring A] [HopfAlgebra ℂ A]
+    [StarRing A] [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] (h : AlgebraicHaar (A := A)) :
     (∀ a b : A, h.functional (a * b) = h.functional (b * a)) ↔
       ∀ a : A, HopfAlgebra.antipode ℂ (HopfAlgebra.antipode ℂ a) = a := by
   sorry
@@ -198,7 +177,7 @@ noncomputable instance uqSl2PivotalCategory (q : ℂ) [Fact (q ≠ 0)] :
   pivotalIso_isMonoidal := TauCeti.FiniteHopfModuleCat.unitEvalNatIso_isMonoidal _
     ⟨by simp, by simp⟩
 
-/-- Sphericity of the finite `U_q(sl₂)`-modules (§8.5): for `q ≠ 0` with `q − q⁻¹ ≠ 0`, the finite
+/-- Sphericity of the finite `U_q(sl₂)`-modules (§8.5): for `q ≠ 0` with `q - q⁻¹ ≠ 0`, the finite
 modules over `U_q(sl₂)`, with the rigid structure `uqSl2RigidCategory` and the pivotal structure
 `uqSl2PivotalCategory` of the pivot `K⁻¹`, form a spherical category: for every module
 endomorphism `f` of `V` the right trace `tr_V(K⁻¹ f)` equals the left trace `tr_V(K f)`. The
