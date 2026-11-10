@@ -3,9 +3,10 @@
 **Summary.** Develop the geometric theory of real and complex Clifford modules, spin lifts,
 spinor bundles and their compatible connections. The resulting library must
 support the de Rham, signature and twisted spin Dirac operators, with their
-metrics, gradings and curvature formulas pinned. This README is definitive;
-`Suggested.lean` states the headline theorems expressible against the pinned APIs;
-the geometric headlines and their missing carriers are listed in its module docstring.
+metrics, gradings and curvature formulas pinned. This README is definitive.
+No headline theorem is statable against the pinned APIs: the pointwise algebra
+of Layers 1 and 2 is consumed from Tau Ceti, and `Suggested.lean` lists in its
+module docstring the geometric headlines and the carrier each one lacks.
 
 ## Scope and ownership
 
@@ -17,9 +18,21 @@ Use Mathlib's `CliffordAlgebra`, `ExteriorAlgebra`, `CliffordAlgebra.equivExteri
 `equivBaseChange`, `equivOfIsometry`, `prodEquiv`, `evenOdd`, `involute` and
 `reverse`. Tau Ceti already has `TauCeti.spinAction`,
 `SpinPolarizationData.cliffordEquivEnd`, its even/odd matrix classification,
-half-spin actions, raw orthogonal-product volume identities and real algebraic
-eight-periodicity. G1–G2 supply the geometric metric/complexification/chirality
-comparisons with those objects. They do not construct another abstract Fock
+half-spin actions and real algebraic eight-periodicity, and it already proves
+the pointwise negative-metric theory on which G1–G2 rest: the
+complexified Clifford adjoint, compatible spinor and multiplicity metrics,
+Morita evaluation, the normalized scalar trace with its positivity, the
+normalized Fock action and its metric, the frame-free real and normalized
+complex volume elements, the chirality decomposition of every module, the
+Hodge-star action of the volume, the graded tensor product of Clifford modules
+and graded twists. These are listed by declaration under From Tau Ceti and are
+not targets here. G1–G2 own only what lies beyond them: the identification of
+the Fock and wedge-basis forms and of the complex-linear Hodge star with
+ComplexKahlerGeometry K5's exterior Gram metric and pointwise star (G1.2, G2.2),
+the two-factor evaluation and restriction intertwiners in odd dimension (G1.4),
+the forms-to-endomorphisms module equivalence (G2.2), and the associativity,
+graded symmetry, unit, orientation, duality and Mathlib comparison laws of the
+graded product (G2.3). They do not construct another abstract Fock
 action, classification table or Bott-periodicity proof. Real algebraic
 periodicity is distinct from the topological Bott theorem. G3 owns smooth Clifford
 module and connection comparisons, G4 the geometric lift data, G5 associated
@@ -54,11 +67,13 @@ products follow Mathlib's convention of conjugate linearity in the first
 argument. On `CliffordAlgebra (Q.baseChange ℂ)`, Mathlib's native
 `CliffordAlgebra.star` is the complex-linear map `reverse ∘ involute`: it fixes
 coefficient scalars and sends each real generator to its negative (`star_ι`).
-G1.3 names scalar conjugation on this carrier `κ_base`; the conjugate-linear
-negative-metric Clifford involution is `*Cl_base = κ_base ∘ CliffordAlgebra.star`.
-On the tensor carrier `ℂ⊗_ℝCl_ℝ(V,−g)`, construct a local
-`StarModule ℝ (CliffordAlgebra Q)` proof instance from
-`CliffordAlgebra.star_smul` and the trivial real star; do not add a global
+Scalar conjugation on this carrier is written `κ_base`; it is Tau Ceti's
+`CliffordAlgebra.complexConj`. The conjugate-linear negative-metric Clifford
+involution is `*Cl_base = κ_base ∘ CliffordAlgebra.star`, Tau Ceti's
+`CliffordAlgebra.conjStar`.
+On the tensor carrier `ℂ⊗_ℝCl_ℝ(V,−g)`, enable locally the
+`StarModule ℝ (CliffordAlgebra Q)` law
+`CliffordAlgebra.starModule_of_trivialStar`; do not add a global
 `Star` instance. Then the existing `TensorProduct` `Star` satisfies
 `star (z⊗ₜa)=star z⊗ₜ reverse (involute a)` by
 `TensorProduct.star_tmul` and `CliffordAlgebra.star_def`. Thus its action on
@@ -101,15 +116,69 @@ Use the native Clifford universal property and relations
 `CliffordAlgebra.comp_ι_sq_scalar` and `CliffordAlgebra.ι_mul_ι_add_swap`
 from `Mathlib/LinearAlgebra/CliffordAlgebra/Basic.lean`, the Clifford/exterior
 module equivalence, scalar extension and graded tensor product named above.
-`LinearMap.trace` and `LinearMap.mulLeft` express the normalized regular trace.
-`ModuleCat.matrixEquivalence` and `moritaEquivalenceMatrix` supply matrix Morita
-transport; the evaluation identification below is the geometric module comparison.
+G2.3 compares Tau Ceti's graded product action with `CliffordAlgebra.prodEquiv`
+from `Mathlib/LinearAlgebra/CliffordAlgebra/Prod.lean`.
 
 ### From Tau Ceti
 
-Use the spin representation, volume and periodicity declarations named in Scope
+Use the spin representation and periodicity declarations named in Scope
 and ownership and the compact-real covering and Lie projection declarations
 listed in G4.1a–G4.1b. The latter use the native units-range topologies.
+
+The pointwise algebra of Layers 1 and 2 is consumed from the following files
+under `TauCeti/`; each subsection of those layers names the declarations it
+uses and the convention they fix. All of them assume `Q(v)=−|v|²` where a
+metric enters, and none assumes a module finite-dimensional or irreducible
+unless its statement says so.
+
+- G1.1: `LinearAlgebra/CliffordAlgebra/BaseChange.lean` (involutions, even
+  part and grading under scalar extension), `RealForm/Orthonormal.lean` and
+  `RealForm/OrthonormalBasis.lean` in the same folder (coordinate model
+  `realCliffordForm 0 n` and the real classification table), `Neg.lean`
+  (`CliffordAlgebra.equivNeg`), `Spin/Neg.lean` and `Spin/Real/Neg.lean`
+  (`OrthonormalBasis.realSpinGroupEquiv`), `Spin/EvenUnitary.lean` and
+  `Spin/LowRank/Zero.lean` (`CliffordAlgebra.evenUnitaryGroup` and rank zero).
+- G1.2: `RepresentationTheory/Spin/Polarization/ComplexStructure.lean`,
+  `Polarization/DegreeScaling.lean`, `Polarization/Fock/Basic.lean`
+  (`TauCeti.AlmostComplexStructure.fockAction`) and
+  `Polarization/Fock/Metric.lean`;
+  `Geometry/Symplectic/Complex/HermitianForm.lean` for the Hermitian form on
+  the (1,0)-part.
+- G1.3: `LinearAlgebra/CliffordAlgebra/Complexification.lean`
+  (`CliffordAlgebra.complexConj`, `CliffordAlgebra.conjStar`), `Star.lean`,
+  `Hermitian/Basic.lean`, `Hermitian/Complex.lean`, `Hermitian/Spinor.lean`,
+  `Hermitian/Multiplicity.lean` (`TauCeti.multiplicityMetric`),
+  `Hermitian/Dual.lean` and `Dual.lean` (`AlgHom.cliffordReverseDual`) in that
+  folder; `RingTheory/Morita/ModuleEnd.lean`
+  (`TauCeti.isotypicTensorEquivOfBijective`) and
+  `RingTheory/Semisimple/Multiplicity.lean` (`TauCeti.isotypicEval_tmul`);
+  `LinearAlgebra/CliffordAlgebra/ScalarTrace/Basic.lean`
+  (`CliffordAlgebra.scalarTrace`), `ScalarTrace/BaseChange.lean`,
+  `ScalarTrace/Positivity.lean`, `ScalarTrace/Radical.lean`,
+  `ScalarTrace/Representation.lean` and `OrthogonalBasis.lean`.
+- G1.4: `LinearAlgebra/CliffordAlgebra/OddSplitting.lean`,
+  `Even/EquivEven.lean`, `VolumeElement/EquivEven.lean`,
+  `RepresentationTheory/Spin/Polarization/OddVolume.lean` and
+  `RepresentationTheory/Spin/LineSign.lean`
+  (`TauCeti.SpinPolarizationData.cliffordEquivEndProd`).
+- G2.1: `LinearAlgebra/CliffordAlgebra/VolumeElement/Oriented.lean`
+  (`CliffordAlgebra.volumeElement`), `VolumeElement/Complex.lean`
+  (`CliffordAlgebra.complexVolume`), `VolumeElement/Eigenspace.lean`,
+  `RingTheory/Morita/Eigenspace.lean`,
+  `LinearAlgebra/Eigenspace/Separation.lean` and
+  `RepresentationTheory/Spin/Polarization/Chirality.lean`.
+- G2.2: `LinearAlgebra/ExteriorAlgebra/CliffordAction.lean`
+  (`CliffordAlgebra.exteriorAction`),
+  `LinearAlgebra/CliffordAlgebra/VolumeElement/HodgeStar.lean`,
+  `VolumeElement/Dual.lean` and `ScalarTrace/Representation.lean`.
+- G2.3: `LinearAlgebra/CliffordAlgebra/Prod.lean`
+  (`AlgHom.cliffordProdTensor`), `VolumeElement/Prod.lean`
+  (`CliffordAlgebra.complexProdTensor`), `VolumeElement/GradedModule.lean` and
+  `LinearAlgebra/Eigenspace/TensorProduct/Involution.lean`.
+- G5.0: `LinearAlgebra/CliffordAlgebra/Regular.lean`
+  (`CliffordAlgebra.parityTwistedRightAction`), the parity-twisted right action
+  on the regular module that is the fibre model of the external positive
+  action.
 
 ### From the named roadmaps
 
@@ -172,43 +241,74 @@ The following contracts name the supplying sections and the structures consumed:
 
 ## How to read the build
 
-G1 supplies the metric Clifford dictionary, Morita evaluation and trace; G2 fixes
-chirality and exterior comparisons. G3 constructs bundles and connections, G4
+G1 fixes the metric Clifford dictionary, Morita evaluation and trace on their
+Tau Ceti declarations and adds the Gram-metric and odd-factor comparisons; G2
+does the same for chirality and adds the exterior and graded-product
+comparisons. G3 constructs bundles and connections, G4
 principal lifts, and G5 associated spinors. G6.1–G6.3 construct the complex
 operator before G6.0's real analytic index; G6.7 then identifies its quaternionic
 normalization. G5.3 compares its square roots with G4.4a's rank-two criterion. Each target lists its
 statement and proof-route inputs; G labels remain the cross-roadmap locators.
 
+| Former heading | Now |
+| --- | --- |
+| G1. Negative-metric Clifford modules and their positive metrics | Layer 1 |
+| G2. Volume, chirality and exterior-form comparisons | Layer 2 |
+| G3. Smooth Clifford bundles and compatible connections | Layer 3 |
+| G4. Spin lifts, obstruction and classification | Layer 4 |
+| G5. Spinor bundles, chiral products and rank-two roots | Layer 5 |
+| G6. Dirac operators and curvature formulas | Layer 6 |
+
 ## Layer 1: Negative-metric Clifford modules and their positive metrics
+
+Each subsection names the Tau Ceti declarations consumed under its id, with the
+convention they fix, and states the comparison targets it keeps. Throughout, Q is
+a real quadratic form with `Q(v)=−|v|²` on a finite-dimensional real inner
+product space V, `Cl_ℂ` is `CliffordAlgebra (Q.baseChange ℂ)`, and a complex
+Clifford module is a `Cl_ℂ`-module E with `IsScalarTower ℂ Cl_ℂ E`; an action
+given as an algebra map into `Module.End ℂ E` is made a module by
+`Module.compHom`.
 
 ### 1.1 Negative-metric and scalar-extension dictionary (G1.1)
 
-The required API includes:
+Consume the following dictionary; this subsection keeps no target.
 
-- The scalar-extension equivalence preserves generators, products, grading and reverse.
-- The even-algebra comparison preserves the Spin vector action and central ±1.
-
-Build the real-to-complex negative-metric dictionary on the native tensor
-and Clifford carriers, with generator evaluation, isometry naturality,
-grading, involution and reverse compatibility. Compare the negative form
-`realCliffordForm 0 n` with an orthonormal coordinate model; transport its
-existing real classification and periodicity results. For n≥1 compare compact
-Spin from the positive-form supplier with the negative-form geometric model:
-construct its real even-algebra comparison, sending the positive-form
-bivector e_i e_j to −e_i e_j in the negative form, and pin its vector
-conjugation action and central ±1. In rank0 construct μ₂⊂Cl(0)=ℝ
-on native `CliffordAlgebra.evenUnitaryGroup` and compare it with the
-native trivial Spin group using `range_spinGroup_toUnits`; this
-algebraic geometric branch precedes the later frame adapters.
-Over ℂ the map from
-the positive full algebra to the negative full algebra sends v to i v.
-Its even restriction must be compared to the real group map, with the
-bivector sign made explicit. Do not infer a real full-algebra isomorphism
-from the complex multiplication by i.
+- Scalar extension. `CliffordAlgebra.ofBaseChangeAux_involute`,
+  `CliffordAlgebra.ofBaseChangeAux_reverse`, `CliffordAlgebra.ofBaseChangeAux_star`,
+  `CliffordAlgebra.ofBaseChangeAux_mem_even` and
+  `CliffordAlgebra.ofBaseChangeAux_injective` give the compatibility of the real
+  algebra's inclusion with the involutions and the even part;
+  `CliffordAlgebra.toBaseChange_mem_baseChange_evenOdd_iff` matches the gradings
+  of the two complexified carriers, and
+  `QuadraticMap.Isometry.ofBaseChangeAux_map` is isometry naturality.
+- Coordinate model. An orthonormal basis b indexed by `Fin n` gives the isometry
+  `OrthonormalBasis.isometryEquivRealCliffordForm` from Q to
+  `realCliffordForm 0 n`; the real classification of `CliffordAlgebra Q` by
+  `dim V` modulo eight is
+  `TauCeti.nonempty_algEquiv_cliffordAlgebra_realCliffordForm` with its eight
+  residue-class companions.
+- Compact Spin. `OrthonormalBasis.realSpinGroupEquiv` compares the Spin
+  group of the positive form `realCliffordForm n 0` with `spinGroup Q` along b.
+  It sends the positive-form bivector e_i e_j to −e_i e_j
+  (`CliffordAlgebra.coe_spinGroupEquivNeg_apply_of_coe_eq_ι_mul_ι`), intertwines
+  the two vector conjugation actions
+  (`OrthonormalBasis.spinVectorAction_realSpinGroupEquiv`) and sends −1 to −1
+  (`CliffordAlgebra.realCliffordSpinGroupEquivNeg_negOne`).
+- Rank zero. On `CliffordAlgebra.evenUnitaryGroup` the geometric kernel is
+  μ₂⊂Cl(0)=ℝ, of order two
+  (`CliffordAlgebra.card_evenUnitaryGroup_of_subsingleton`), whereas the
+  vector-generated Spin group is trivial
+  (`CliffordAlgebra.range_spinGroup_toUnits_eq_bot_of_subsingleton`); in every
+  rank the Spin units are the Lipschitz units of the even unitary group
+  (`range_spinGroup_toUnits`).
+- Over ℂ. `CliffordAlgebra.equivNeg` with u=i is the full-algebra map v↦i v from
+  the positive to the negative complexified algebra. It sends a bivector to its
+  negative (`CliffordAlgebra.equivNeg_ι_mul_ι`) and restricts on scalar-extended
+  Spin elements to the real group comparison
+  (`CliffordAlgebra.equivNeg_spinGroupBaseChange`). It is not the scalar
+  extension of a real isomorphism of the full algebras when V≠0.
 
 (Nicolaescu, Definition 12.1.10 and Corollary 12.1.14, pp. 626–627.)
-
-*Needs:* native base change, even algebra and involution; SpinRepresentations L0–L2/L7.
 
 **Checks.**
 
@@ -218,164 +318,125 @@ from the complex multiplication by i.
 
 ### 1.2 Polarization and the Fock metric (G1.2)
 
-The required API includes:
+Consume, for an orthogonal complex structure J on V:
 
-- The normalized creation and contraction operators satisfy the three anticommutator identities.
-- The degree rescaling intertwines the native Fock action and transports its positive metric.
+- the polarization `TauCeti.AlmostComplexStructure.spinPolarizationData` of
+  `Q.baseChange ℂ` by the i- and −i-eigenspaces W and W′ of J, with
+  `v^(1,0)=(v−iJv)/2` and `v^(0,1)=(v+iJv)/2`
+  (`TauCeti.AlmostComplexStructure.holomorphicPart`,
+  `TauCeti.AlmostComplexStructure.antiholomorphicPart`);
+- the normalized Fock action `TauCeti.AlmostComplexStructure.fockAction` on ΛW,
+  `c(v)=√2(ε(v^(1,0))−ι(v^(0,1)))` with contraction against g_ℂ
+  (`TauCeti.AlmostComplexStructure.fockAction_ι_one_tmul`), its vector square
+  `c(v)²=−|v|²Id`
+  (`TauCeti.AlmostComplexStructure.fockAction_ι_one_tmul_mul_self`) and the
+  degree rescaling `T|_(Λ^pW)=2^(p/2)Id` intertwining it with the native action
+  `ε(v^(1,0))−2ι(v^(0,1))` of `TauCeti.spinAction`
+  (`TauCeti.AlmostComplexStructure.degreeScaling_comp_spinAction_eq_fockAction_comp`);
+- the Hermitian form `h_ℂ(x,y)=g_ℂ(bar(x),y)` on W, with
+  `h_ℂ(v^(1,0),w^(1,0))=(g(v,w)−i g(v,Jw))/2`
+  (`TauCeti.AlmostComplexStructure.sesqComplexification_holomorphicPart_holomorphicPart`),
+  so that Mathlib's conjugate-first form `g(v,w)−i g(v,Jw)` on (V,J) is twice the
+  pullback of `h_ℂ|_W`;
+- the Fock form H on ΛW, for which the increasing wedges of an h_ℂ-orthonormal
+  basis of W are orthonormal, independent of that basis
+  (`TauCeti.AlmostComplexStructure.toLinearMapₛₗ₂_exteriorAlgebra_eq`): creation
+  and contraction are adjoint
+  (`TauCeti.AlmostComplexStructure.toLinearMapₛₗ₂_wedge_left`,
+  `TauCeti.AlmostComplexStructure.toLinearMapₛₗ₂_contract_left`), the normalized
+  action is a *-representation for `*Cl_base`
+  (`TauCeti.AlmostComplexStructure.toLinearMapₛₗ₂_fockAction_left`), and the
+  native action is one for the pullback of H along T, which is `2^p H` in degree
+  p (`TauCeti.AlmostComplexStructure.toLinearMapₛₗ₂_degreeScaling_of_mem_exteriorPower`).
 
-For (V,J), build the two isotropic J-eigenspaces, their perfect g_ℂ pairing
-and the adapted `SpinPolarizationData`. The native action on ΛW is
-`ε(v^(1,0))−2ι(v^(0,1))`, since polar(−g_ℂ)=−2g_ℂ.
-Conjugate it by T|_(Λ^pW)=2^(p/2)Id to obtain the √2 Fock action;
-prove this exact intertwining equation. Use h_ℂ(x,y)=g_ℂ(bar(x),y)
-restricted to W: |v^(1,0)|²=|v|²/2. On (V,J) Mathlib's conjugate-first
-Hermitian form is h_J(v,w)=g(v,w)−i g(v,Jw), twice the pullback of
-h_ℂ|_W under v↦v^(1,0). Translate the source's g+i g(·,J·) by
-conjugating its slot convention. The native-action metric pulled back
-along T has degree-p factor 2^p relative to the normalized Fock metric.
-Prove the three
-creation/annihilation anticommutators, wedge/contraction metric adjointness,
-c(v)²=−|v|²Id, and skew-Hermitian real-vector multiplication. Include
-unit orthogonal 2-plane and tensor-product computations. Use K5's exterior
-Gram metric and the increasing orthonormal wedge basis.
+The target kept here is the comparison with the shared exterior metric. Prove
+that H equals ComplexKahlerGeometry K5's exterior Gram metric of `h_ℂ|_W`, the
+form with `⟨x₁∧…∧x_p, y₁∧…∧y_p⟩=det(h_ℂ(x_i,y_j))` and distinct degrees
+orthogonal, on all of ΛW. The required API includes:
+
+- The two forms agree in every degree, including degree zero and the top degree, for every finite-dimensional W.
+- The normalized Fock action is a *-representation for K5's Gram metric, and real vectors act skew-Hermitianly for it.
 
 (Nicolaescu, Proposition 12.1.19, pp. 630–631.)
 
-*Needs:* G1.1; SpinRepresentations L3–L4; ComplexKahlerGeometry K5 exterior Gram metric.
+*Needs:* the declarations above; ComplexKahlerGeometry K5 exterior Gram metric.
 
 **Checks.**
 
 - In a unit J-plane, gℂ(v¹⁰,v⁰¹)=1/2 and the squared Hermitian norm of v¹⁰ is 1/2; omitting √2 gives the wrong vector square.
 - On the orthonormal Fock basis (1,w), c(e₁) sends 1 to w and w to −1, while c(e₂) sends 1 to iw and w to i; both squares are −Id and the mixed sum is zero.
 - T scales degrees zero and one by 1 and √2; its pulled-back squared norms are 1 and 2, excluding an isometric unrescaled intertwiner.
+- For h_ℂ-orthonormal w₁,w₂ the Gram determinant of w₁∧w₂ is 1·1−0·0=1, equal to its H-norm; the norm of the antisymmetrized tensor w₁⊗w₂−w₂⊗w₁ is 2 and that of its half is 1/2, so neither tensor convention is H in degree two.
 
 ### 1.3 Adjoints, Morita evaluation and scalar trace (G1.3)
 
-The required API includes:
+Consume the following; this subsection keeps no target.
 
-- The conjugate-linear adjoint is involutive, reverses products and makes real vectors skew-adjoint.
-- Evaluation is natural in arbitrary algebraic E and independent of matrix basis and chosen matrix unit.
-- The trace is normalized, cyclic and invariant under algebra equivalences and scalar extension.
-- Its positive-form null space is precisely the radical-generated ideal; the negative-metric adjoint gives a faithful positive trace.
-
-Construct the conjugate-linear Clifford star intrinsically and identify it
-with grade-involution followed by reversal and scalar conjugation.
-Given an algebra isomorphism
-`Cl_ℂ(ℂ⊗_ℝV,−g_ℂ)≃End_ℂ(S)` in even dimension,
-construct a positive Hermitian metric with `ρ(a^{*Cl_base})=ρ(a)†`, unique up to a
-**positive** scalar. Prove existence using the native Fock metric transported
-along the representation intertwiner, and uniqueness via Schur. For an
-arbitrary unital algebraic complex module E, define `multiplicitySpace` as the
-submodule of complex-linear intertwiners and construct
-`S⊗Hom_Cl(S,E) → E`, s⊗T↦T(s), prove it an evaluation isomorphism and
-give its inverse and naturality. Choose a finite basis of the nonzero S
-and transport Mathlib's `ModuleCat.matrixEquivalence` and
-`moritaEquivalenceMatrix` from `RingTheory/Morita/Matrix` through
-`LinearMap.toMatrixAlgEquiv` and the stated ℂ-algebra equivalence.
-Require `IsScalarTower ℂ Cl E` and prove the scalar action induced
-by the native inverse functor's matrix scalar homomorphism equals
-E's given ℂ-action. Pin S's matrix action as scoped
-`Matrix.Module.matrixModule`, compare it with the usual mulVec
-action by `Matrix.Module.smul_apply`, and transport by explicit
-equivalences rather than an instance-definitional equality.
-For a chosen basis index j identify Hom_Cl(S,E) with E_jj E by
-`T↦T(e_j)`. Under `S⊗X≃(ι→X)`, the native counit is
-`(x_i)↦Σ_i E_ij x_i`; prove `E_ij T(e_j)=T(e_i)` and hence that
-the counit is evaluation. Prove the resulting evaluation and naturality
-independent of both the basis and j. Supply universe lifts of the
-finite index and module-category comparisons when needed, so this
-construction does not restrict E's universe.
-The headline `multiplicityEvaluation_exists` explicitly assumes finite-dimensional
-nonzero S and an algebra equivalence with End(S), and asserts an equivalence
-whose value on every pure tensor is T(s).
-This algebraic statement imposes no finite-dimension
-or topological hypothesis on E. For finite-dimensional E give the
-dimension formula and Hermitian comparison. Compatible metrics are positive
-Hermitian metrics on the multiplicity space, rather than unique up to scale
-for reducible E. On S* pin the dual Clifford action as
-`(a·φ)(s)=φ(ρ(reverse(a))s)`, with the transported positive dual metric;
-distinguish it from conjugate-linear Hermitian adjunction. Treat zero
-modules and dimension-zero V.
-Own the finite Clifford scalar-part trace. For a finite-dimensional
-real V and any native Q : QuadraticForm ℝ V, use `CliffordAlgebra Q`.
-Set b=Q.associated, so Q(v)=b(v,v). Choose ℂ⊗ℝCliffordAlgebra Q
-as the complexification. Consume `(CliffordAlgebra.equivBaseChange ℂ Q).symm`
-for its equivalence with the scalar-extended Clifford algebra and the
-native generator, involute and reversal laws, stated for `toBaseChange`.
-Derive their inverse-map forms. On `CliffordAlgebra (Q.baseChange ℂ)`, prove
-both directions of the ℤ/2 eigenspace characterization: Mathlib supplies
-that even elements are fixed by involute and odd elements are negated; prove
-the converses using the ordered basis and invertibility of 2, then transport
-the grading through `equivBaseChange.symm`. Define `κ_tens=conj⊗Id` on the
-tensor complexification, distinct from real Clifford conjugation
-`involute∘reverse`. On `CliffordAlgebra (Q.baseChange ℂ)`, construct
-`κ_base` as the unique ℂ-antilinear ring automorphism fixing every
-`ι(1⊗ₜv)` for real v. Existence comes from transporting `κ_tens` under
-`equivBaseChange.symm`; prove the generator characterization and
-uniqueness by generation, together with involutivity. Using the native
-base-change intertwining laws, prove that κ_base commutes with involute and
-reverse; the transported negative-metric
-adjoint is `κ_base∘CliffordAlgebra.star` on the base-changed Clifford algebra,
-corresponding to `κ_tens∘(id⊗star_ℝ)` on the tensor carrier. Its
-intertwining law is this characterized automorphism, with explicit
-scalar, sum, product and real-generator evaluation laws. Prove explicitly
-that the negative-metric adjoints are involutive and anti-multiplicative,
-`(ab)^{*Cl_base}=b^{*Cl_base}a^{*Cl_base}` and
-`(ab)^{*Cl_tens}=b^{*Cl_tens}a^{*Cl_tens}`; derive the tensor-carrier
-formula on pure tensors and extend it, then transport it through
-`equivBaseChange`. The TensorProduct `Star` instance supplies the
-pure-tensor/additive/involutive action, not the anti-multiplicative law.
-Define the scalar-part trace, written τ, by the degree-zero
-projection under the native Clifford/exterior module equivalence,
-and prove it equals `2^(−dim V) trace(L_a)` on the regular module.
-Prove basis independence, τ(1)=1, linearity, τ(ab)=τ(ba),
-invariance under involute and under reverse separately. Define τ_ℂ as its ℂ-linear extension on
-ℂ⊗ℝCliffordAlgebra Q; prove τ_ℂ(a)=2^(−dim V)trace_ℂ(L_a),
-unit/linearity/cyclicity and `τ_ℂ(κ_tens a)=conj(τ_ℂ(a))`. Use
-this τ_ℂ in the complex-coefficient positivity statements below.
-For any orthogonal basis (e_i) and any Q,
-construct the ordered-product basis e_I, with increasing indices;
-prove its equality with the native Clifford basis transported from
-the increasing wedge basis by `equivExterior`. Export its spanning,
-independence, scalar coefficients and the pairing
-`τ(reverse(e_I)e_J)=δ_(I,J)Π_(i∈I)b(e_i,e_i)`, including
-degenerate Q. On the tensor complexification, for nonnegative b define
-`a^*=(κ_tens∘(id⊗reverse_ℝ))(a)` and prove, in an orthogonal basis,
-`τ_ℂ(a^*a)=Σ_I|a_I|²Π_(i∈I)b(e_i,e_i)≥0`. It is faithful when b
-is positive definite; for semidefinite b its null set is exactly the
-two-sided ideal generated by the radical of b, so faithfulness is equivalent
-to positive definiteness.
-For the negative-metric convention used here, the tensor-carrier adjoint is
-explicitly `κ_tens∘(id⊗(reverse_ℝ∘involute_ℝ))`; after base
-change this is `κ_base∘CliffordAlgebra.star` on the Clifford carrier.
-The real negative-metric headline `cliffordScalarTrace_exists` states the
-normalized regular-trace formula, unit, cyclicity, positivity and faithfulness
-on the native real Clifford carrier.
-Replace b by g in the same positive coefficient formula, using τ_ℂ for
-complex coefficients. In particular, the positive-form scalar-trace adjoint
-is `κ_tens∘(id⊗reverse_ℝ)`; the negative-metric adjoint adds involute.
-Keep these named operations local;
-do not install a competing global star instance. For every ℝ-algebra
-equivalence φ between finite-dimensional real Clifford carriers, prove
-`τ_Q′ ∘ φ = τ_Q`. Derive the equality of regular-trace normalizations
-from the equal Clifford dimensions under φ. Prove the analogous
-ℂ-algebra-equivalence identity for τ_ℂ, and the scalar-extension equation
-`τ_ℂ(1⊗a)=τ(a)`. Define the transported trace
-`τ_base=τ_ℂ ∘ CliffordAlgebra.equivBaseChange ℂ Q`, with its
-`2^(−dim V)trace_ℂ(L_a)` formula. Export these equations for finite
-Clifford model consumers; this uses no later real
-C*-model, Hilbert-module or Dirac-index construction. Positive generators
-are not identified with the native negative-generator star without
-an explicit transport map.
+- Adjoints. `κ_base` is `CliffordAlgebra.complexConj`, the unique
+  conjugate-linear ring endomorphism of `Cl_ℂ` fixing the real vectors
+  (`CliffordAlgebra.complexConj_unique`), and `*Cl_base` is
+  `CliffordAlgebra.conjStar`, an involutive anti-automorphism
+  (`CliffordAlgebra.conjStar_mul`, `CliffordAlgebra.conjStar_conjStar`) negating
+  real vectors. On the tensor carrier it is the tensor-product star
+  (`CliffordAlgebra.toBaseChange_conjStar`), with the real star-module law
+  `CliffordAlgebra.starModule_of_trivialStar` enabled locally.
+- Spinor metrics. For an algebra isomorphism `Cl_ℂ ≃ End_ℂ(S)`, which forces
+  even dimension, S carries a positive definite Hermitian form with
+  `ρ(a^{*Cl_base})=ρ(a)†` (`CliffordAlgebra.exists_sesqForm_map_eq_map_conjStar`),
+  unique up to a positive real scalar
+  (`CliffordAlgebra.existsUnique_pos_mul_of_surjective`). Compatibility with
+  `*Cl_base` is equivalent to skew-adjointness of the real vectors
+  (`CliffordAlgebra.adjoint_map_eq_map_conjStar_iff`).
+- Evaluation. For S on which `Cl_ℂ` acts as all of `End_ℂ(S)` and every complex
+  Clifford module E, with no finiteness or topology on E, evaluation
+  `S⊗Hom_Cl(S,E) → E`, s⊗T↦T(s), is an isomorphism
+  (`TauCeti.isotypicTensorEquivOfBijective`, `TauCeti.isotypicEval_tmul`). Its
+  inverse in a basis of S is
+  `TauCeti.isotypicTensorEquivOfBijective_symm_apply_basis`, it is natural in E
+  (`TauCeti.isotypicEval_map_apply`), and for finite-dimensional E
+  `dim E = dim S · dim Hom_Cl(S,E)`
+  (`TauCeti.finrank_eq_finrank_mul_finrank_linearMap_of_bijective_lsmul`).
+- Multiplicity metrics. For Hermitian S and E with skew-adjoint real vectors,
+  `TauCeti.multiplicityMetric` is the positive definite form on `Hom_Cl(S,E)`
+  with `⟨T s, U t⟩=⟨s,t⟩·m(T,U)` (`TauCeti.inner_map_map_eq_multiplicityMetric`),
+  and evaluation carries the product form to the metric of E
+  (`TauCeti.inner_isotypicTensorEquivOfBijective_eq`). Compatible metrics on a
+  reducible E are therefore positive Hermitian forms on the multiplicity space,
+  not single rescalings.
+- Reverse dual. On S* the action is `(a·φ)(s)=φ(ρ(reverse(a))s)`
+  (`AlgHom.cliffordReverseDual`), compatible with the Riesz-transported dual
+  metric and `*Cl_base` (`AlgHom.dualMetric_cliffordReverseDual_left`); it is
+  distinct from conjugate-linear Hermitian adjunction.
+- Scalar trace. For every quadratic form over a ring in which 2 is invertible,
+  `CliffordAlgebra.scalarTrace` is the degree-zero part under
+  `CliffordAlgebra.equivExterior`, written τ. It satisfies τ(1)=1
+  (`CliffordAlgebra.scalarTrace_one`), τ(ab)=τ(ba)
+  (`CliffordAlgebra.scalarTrace_mul_comm`), invariance under involute and
+  reverse (`CliffordAlgebra.scalarTrace_involute`,
+  `CliffordAlgebra.scalarTrace_reverse`) and, over a field on a
+  finite-dimensional space, `τ(a)=2^(−dim V)trace(L_a)`
+  (`CliffordAlgebra.scalarTrace_eq_inv_two_pow_mul_trace_mulLeft`) and
+  invariance under algebra equivalences
+  (`CliffordAlgebra.scalarTrace_eq_of_algEquiv`). In an orthogonal basis
+  `τ(reverse(e_I)e_J)=δ_(I,J)Π_(i∈I)b(e_i,e_i)`
+  (`CliffordAlgebra.scalarTrace_reverse_basis_mul_basis`), degenerate forms
+  included.
+- Complexified trace. The trace of `Cl_ℂ` is the ℂ-linear extension of τ under
+  `CliffordAlgebra.ofBaseChange` (`CliffordAlgebra.scalarTrace_ofBaseChange`,
+  `CliffordAlgebra.scalarTrace_ofBaseChangeAux`) and
+  `τ(a^{*Cl_base})=conj(τ(a))` (`CliffordAlgebra.scalarTrace_conjStar`).
+- Positivity. For negative semidefinite Q, `τ(a^{*Cl_base}a)≥0`
+  (`CliffordAlgebra.scalarTrace_conjStar_mul_self_nonneg`); its null set is the
+  two-sided ideal generated by the radical
+  (`CliffordAlgebra.scalarTrace_conjStar_mul_self_eq_zero_iff_mem_span_radical`),
+  so the trace is faithful exactly when −Q is positive definite
+  (`CliffordAlgebra.posDef_neg_iff_forall_scalarTrace_conjStar_mul_self_eq_zero`,
+  `CliffordAlgebra.scalarTrace_conjStar_mul_self_eq_zero_iff`). The positive-form
+  adjoint `κ_base∘reverse` has the same statements for positive semidefinite Q
+  (`CliffordAlgebra.scalarTrace_complexConj_reverse_mul_self_nonneg`); the two
+  conventions are not interchangeable.
 
 (Nicolaescu, Corollary 12.1.22 and Remark 12.1.23, p. 632; Proposition 12.1.27, p. 634.)
-
-The scalar-trace formulas follow by diagonal entries of left multiplication in
-the ordered orthogonal Clifford basis (Nicolaescu, §12.1.2, p. 629): only the scalar monomial contributes to
-each diagonal. Positivity uses the sum of squared coefficients; it is not an
-assertion about the native complex-linear star on complex coefficients.
-
-*Needs:* G1.1–G1.2; native matrix Morita equivalence, ordered Clifford basis and regular trace.
 
 **Checks.**
 
@@ -388,41 +449,64 @@ assertion about the native complex-linear star on complex coefficients.
 
 ### 1.4 Odd-dimensional factors (G1.4)
 
-The required API includes:
+Consume, in oriented dimension n=2ℓ+1:
 
-- The two central idempotents split every module into the two labeled multiplicity spaces.
-- The even-algebra intertwiner and orientation reversal obey the displayed volume-sign relation.
+- the central element `ω_ℂ=i^(ℓ+1)e₁⋯e_n`, which is
+  `CliffordAlgebra.complexVolume` (`CliffordAlgebra.complexVolume_mem_center`,
+  `CliffordAlgebra.complexVolume_mul_self`), the idempotents (1±ω_ℂ)/2
+  (`TauCeti.halfOneAdd`) and the splitting `CliffordAlgebra.equivEvenProd` of the
+  algebra into two copies of its even part;
+- the labels of the two irreducible modules: on an adapted spinor module with
+  remainder-line coordinate λ, c(u)=λ·exterior-parity and ω_ℂ acts by iλ
+  (`TauCeti.SpinPolarizationData.spinAction_complexVolume`), so λ=−i is the
+  ω_ℂ=+1 module S₊ and λ=i the ω_ℂ=−1 module S₋
+  (`TauCeti.SpinPolarizationData.spinAction_complexVolume_eq_one_iff`,
+  `TauCeti.SpinPolarizationData.spinAction_complexVolume_eq_neg_one_iff`), the
+  two components of `TauCeti.SpinPolarizationData.cliffordEquivEndProd`;
+- the splitting of an arbitrary module E into the ±1 eigenspaces of ω_ℂ
+  (`CliffordAlgebra.isCompl_eigenspace_complexVolume`), each preserved by the
+  whole algebra (`CliffordAlgebra.smul_mem_eigenspace_complexVolume_of_odd`);
+- the generator dictionary of `Cl_n≃Cl^even_(n+1)`: with V first and e₀ last,
+  as in Mathlib's `CliffordAlgebra.EquivEven.Q'`, an even element goes to itself
+  and an odd x to e₀x (`CliffordAlgebra.coe_toEven_of_mem_even`,
+  `CliffordAlgebra.coe_toEven_of_mem_odd`); after complexification along
+  `CliffordAlgebra.EquivEven.complexProdIsometryEquiv` the map ψ satisfies
+  `ψ(ω_ℂ)=−Γ_(V⊕ℝ)` for the orientation (e₁,…,e_n,e₀)
+  (`CliffordAlgebra.EquivEven.equivOfIsometry_toEven_complexVolume`) and
+  `ψ(ω_ℂ)=Γ_(V⊕ℝ)` with e₀ first
+  (`CliffordAlgebra.EquivEven.equivOfIsometry_toEven_complexVolume_of_cons`), and
+  ω_ℂ acts through ψ by −μ on the μ-eigenspace of Γ_(V⊕ℝ)
+  (`CliffordAlgebra.EquivEven.equivOfIsometry_toEven_complexVolume_smul`).
 
-In oriented dimension n=2ℓ+1 consume the existing Nonempty two-matrix-
-factor classification, then construct labeled factors using
-ω_ℂ=i^(ℓ+1)e₁⋯e_n, prove it central with square 1, and use the explicit
-idempotents (1±ω_ℂ)/2. Label the two irreducibles by ω_ℂ=±Id and pin
-the polarization line action to these labels: in the ordered orientation
-(u₁,Ju₁,…,u_ℓ,Ju_ℓ,u), c(u)=λ·exterior-parity and ω_ℂ=iλ,
-so λ=−i gives the + factor and λ=i gives the − factor. Arbitrary modules have one
-multiplicity space for each factor. Supply the negative-form generator
-dictionary for `Cl_n≃Cl^even_(n+1)`: e_j↦e₀e_j and
-x⁰+x¹↦x⁰+e₀x¹, with the inclusion of V into V×ℝ explicit.
-Mathlib's `EquivEven.Q'` orders V first and e₀ last. Prove
-multiplicativity, bijectivity and grading correspondence using this
-native `equivEven` design. In the ordered orientation (e₁,…,e_n,e₀),
-prove ψ(ω_ℂ)=−Γ_(V⊕ℝ); therefore the odd ω=+1 module is the
-restriction of S⁻_(V⊕ℝ), and the odd ω=−1 module restricts S⁺.
-Moving e₀ first reverses orientation for odd n and interchanges these
-two labels. Construct these specific module intertwiners. State the effect of
-reversing orientation and
-choosing the other central factor, not an even-dimensional chirality
-splitting for an ungraded odd irreducible module.
+Two targets are kept. The required API includes:
+
+- Two-factor evaluation. For every complex Clifford module E and each sign,
+  evaluation `S_±⊗Hom_Cl(S_±,E) → E` is injective with image the ±1 eigenspace
+  of ω_ℂ, and `Hom_Cl(S_∓,E^±)=0`; for finite-dimensional E,
+  `dim E^± = 2^ℓ·dim Hom_Cl(S_±,E)`. Every module therefore has one multiplicity
+  space for each factor.
+- Restriction intertwiners. For the orientation (e₁,…,e_n,e₀) and a spinor
+  module S of V⊕ℝ, the restriction along ψ of S⁻ is isomorphic to S₊ and that
+  of S⁺ to S₋, by intertwiners unique up to a nonzero scalar; with e₀ first the two labels
+  are interchanged.
+
+Prove the first by applying G1.3's evaluation to each eigenspace, on which the
+algebra acts through its quotient by (1∓ω_ℂ), identified with `End_ℂ(S_±)` by
+the matching component of `cliffordEquivEndProd`. The second follows from the
+first with the eigenvalue of ω_ℂ computed by the ψ-identity above and
+`dim S^± = 2^ℓ = dim S_±`. This labels central factors; it is not an
+even-dimensional chirality splitting of an ungraded odd irreducible module.
 
 (Nicolaescu, Lemma 12.1.29 and Proposition 12.1.30, pp. 634–635.)
 
-*Needs:* G1.1–G1.3; SpinRepresentations odd-factor classification; native equivEven.
+*Needs:* the declarations above; G1.3 evaluation; G2.1 for the half-spin spaces of V⊕ℝ.
 
 **Checks.**
 
 - In rank one c(e)=−i gives ω=i(−i)=1, while c(e)=i gives ω=−1; the labels distinguish the two factors.
 - In the ordered plane (e₁,e₀), ψ(ie₁)=ie₀e₁=−ie₁e₀=−Γ, so the positive odd factor restricts the negative half-spin space.
 - The projectors (1±ω)/2 act as (1,0) and (0,1) on the two factors; omitting either projector loses one summand.
+- In rank one let E=S₊⊕S₊⊕S₋. Then E⁺ has dimension 2 and E⁻ dimension 1, with multiplicity spaces of dimensions 2 and 1; a single multiplicity space for both factors would give equal dimensions.
 
 ### Examples
 
@@ -431,7 +515,7 @@ fix the normalization; G1.3 also tests an infinite-dimensional multiplicity modu
 
 ### Dependencies
 
-Native Clifford algebra and SpinRepresentations algebraic classification;
+Mathlib's Clifford algebra and the Tau Ceti declarations named above;
 ComplexKahlerGeometry K5 only for the pointwise exterior metric.
 ## Layer 2: Volume, chirality and exterior-form comparisons
 
@@ -439,118 +523,171 @@ Consume K5's pointwise real Hodge star, characterized by
 `α∧*β=⟨α,β⟩vol`, its complex-linear extension and native exterior-power
 Gram metric. This finite-dimensional metric package is available before K5's
 bundle/analytic Hodge theory and independently of Clifford representations.
-G2 supplies its Clifford/chirality comparisons; R7 retains its real-bundle
-Weitzenböck/star specialization on the same carrier.
+G2 names the Tau Ceti chirality declarations and keeps the comparisons with
+that package; R7 retains its real-bundle Weitzenböck/star specialization on the
+same carrier.
 
 ### 2.1 Intrinsic chirality (G2.1)
 
-The required API includes:
+Consume the following; this subsection keeps no target. V is oriented of
+dimension n, with orientation o.
 
-- Normalized volume is basis-independent for fixed orientation and changes sign under orientation reversal.
-- The actual ±1 kernels are complementary and their projections are (Id±Γ)/2.
-
-Define `cliffordMultiplication` by restricting the native algebra action to
-generators, and `IsGeometricAction` by Q(v)=−⟨v,v⟩ and skew-adjointness
-in the conjugate-first Hermitian metric. Define the normalized complex volume from the native orthogonal product.
-Prove independence under **orientation-preserving** orthonormal changes,
-sign reversal under orientation reversal, Γ²=1 and `Γ^{*Cl_base}=Γ`
-(equivalently ρ(Γ)†=ρ(Γ)). Compare with the native complex-linear
-`star Γ=(−1)^ℓ Γ`. Prove
-Γa=(−1)^deg(a)aΓ for homogeneous a and the two eigenspace/direct-sum
-decomposition of every finite module. Give canonical projections
-(Id±Γ)/2, and through G1.3's evaluation identify the eigenspaces of E
-with S⁺⊗Hom_Cl(S,E) and S⁻⊗Hom_Cl(S,E). Give restrictions, isometry/duality naturality and the graded algebra
-map to End(S). Identify Γ on the adapted Fock module with exterior parity
-and compare the eigenspaces literally with the supplier's half-spin modules.
-On an ordered orthonormal basis, `chirality` is this normalized product;
-`chirality_sq` and `chirality_anticommutes` assert its square and vector
-relations. Define `positiveSpinors` and `negativeSpinors` as its actual
-±1 eigenspaces; `isCompl_spinors` states their complementarity. These
-algebraic assertions allow arbitrary complex inner-product modules S.
-The canonical rank-zero empty frame gives Γ=Id. For every signed rank-zero
-orientation σ∈{±1}, use Γ_σ=σ·Id and interchange the half-spin labels
-for σ=−1; the canonical zero-frame carrier is unchanged.
+- The real volume element `CliffordAlgebra.volumeElement`, defined without a
+  frame and equal to c(e₁)⋯c(e_n) for every positively oriented orthonormal
+  basis (`CliffordAlgebra.volumeElement_eq`).
+- The normalized complex volume Γ, `CliffordAlgebra.complexVolume`: it is
+  `i^⌊(n+1)/2⌋` times the image of the real volume element, hence
+  `Γ=i^ℓ c(e₁)…c(e_(2ℓ))` in dimension 2ℓ (`CliffordAlgebra.complexVolume_eq`),
+  independent of the positively oriented frame, and it changes sign with the
+  orientation (`CliffordAlgebra.complexVolume_neg_orientation`). For a real
+  action ρ of `CliffordAlgebra Q` on a complex space in dimension 2ℓ, Γ acts as
+  i^ℓ times ρ of the real volume element.
+- Γ²=1 (`CliffordAlgebra.complexVolume_mul_self`), `Γ^{*Cl_base}=Γ`
+  (`CliffordAlgebra.conjStar_complexVolume`), so ρ(Γ)†=ρ(Γ) in every
+  *-representation, while the complex-linear star gives `star Γ=(−1)^ℓ Γ`
+  (`CliffordAlgebra.star_complexVolume`).
+- In even dimension Γ anticommutes with every vector
+  (`CliffordAlgebra.complexVolume_mul_ι_of_even`) and Γa=(−1)^deg(a)aΓ for
+  homogeneous a (`CliffordAlgebra.complexVolume_mul_eq_involute_mul`).
+- Every complex Clifford module E, of any dimension, is the direct sum of the
+  ±1 eigenspaces of Γ (`CliffordAlgebra.isCompl_eigenspace_complexVolume`) with
+  projections (Id±Γ)/2
+  (`CliffordAlgebra.projection_eigenspace_complexVolume_apply`); S⁺ and S⁻ are
+  these eigenspaces of a spinor module.
+- Through G1.3's evaluation the eigenspaces of E are `S⁺⊗Hom_Cl(S,E)` and
+  `S⁻⊗Hom_Cl(S,E)` (`TauCeti.eigenspaceTensorEquivOfBijective`,
+  `CliffordAlgebra.finrank_eigenspace_complexVolume_eq_mul_finrank_linearMap`).
+- Naturality: an orientation-preserving isometry carries Γ to Γ
+  (`CliffordAlgebra.map_complexVolume`) and an intertwiner along it maps
+  eigenspaces to eigenspaces (`CliffordAlgebra.map_eigenspace_complexVolume`); an
+  orientation-reversing one interchanges the labels.
+- On the adapted Fock module, for the orientation `(u₁,Ju₁,…,u_ℓ,Ju_ℓ)`, Γ is
+  exterior parity (`TauCeti.AlmostComplexStructure.fockAction_complexVolume`),
+  with the even forms, containing the vacuum, as S⁺ and the odd forms as S⁻
+  (`TauCeti.AlmostComplexStructure.eigenspace_fockAction_complexVolume_one`,
+  `TauCeti.AlmostComplexStructure.eigenspace_fockAction_complexVolume_neg_one`).
+- Rank zero: Γ=1 for the positive orientation
+  (`CliffordAlgebra.complexVolume_positiveOrientation`) and Γ=−1 for the
+  negative one, which interchanges the half-spin labels; the zero-frame carrier
+  is unchanged.
 
 (Nicolaescu, chirality discussion and Exercise 12.1.24, p. 632.)
-
-*Needs:* G1.2–G1.3; native orthogonal Clifford products.
 
 **Checks.**
 
 - On the Fock plane Γ=diag(1,−1); Γ²=Id, the positive space is the vacuum line and the negative space is the degree-one line. Both projections have rank one.
 - Reversing the plane orientation changes Γ to diag(−1,1), interchanging the eigenspaces; the mixed relation Γc(e₁)+c(e₁)Γ is zero.
-- For V=0 the empty product is Id, S⁺=S and S⁻=0; for S=0 both eigenspaces are zero and remain complementary.
-- On ℂ for the negative line, c(e)=i is skew-adjoint and squares to −1; c(e)=1 squares to +1 and fails the geometric-action equations.
+- For V=0 with its positive orientation the empty product is Id, S⁺=S and S⁻=0; for S=0 both eigenspaces are zero and remain complementary.
+- On ℂ for the negative line, c(e)=i is skew-adjoint and squares to −1; c(e)=1 squares to +1 and is not an action of the negative form.
 
 ### 2.2 Hodge and exterior-module comparison (G2.2)
 
-The required API includes:
+Consume:
 
-- The Chevalley comparison intertwines Clifford multiplication with left multiplication on End(S).
-- The Hodge and dual-parity comparisons preserve the displayed metric normalization and degree signs.
+- the Clifford action on forms, `c(v)=ε(v)−ι(v)`
+  (`CliffordAlgebra.exteriorAction`, `CliffordAlgebra.exteriorAction_ι`), graded
+  for exterior parity (`CliffordAlgebra.exteriorAction_mem_evenOdd`), and its
+  complexification `CliffordAlgebra.baseChangeExteriorAction`;
+- the action of the volume on a p-form in dimension 2ℓ,
+  `Γω=i^(ℓ+p(p−1))*ω`, for the complex-linear star
+  `Orientation.complexHodgeStar`
+  (`CliffordAlgebra.baseChangeExteriorAction_complexVolume_of_eq_two_mul`), with
+  the real statement `CliffordAlgebra.exteriorAction_volumeElement` valid for
+  both orientations;
+- the metric normalization: for a spinor module S with skew-adjoint real
+  vectors, the inverse Chevalley map followed by ρ carries the form making the
+  increasing wedges of an orthonormal frame orthonormal to the normalized
+  Hilbert–Schmidt form `2^(−ℓ)tr(A†B)`
+  (`CliffordAlgebra.inv_two_pow_mul_trace_adjoint_map_equivExterior_symm_mul`),
+  so the ordinary Hilbert–Schmidt squared norm carries the factor 2^ℓ;
+- conjugation by Γ is the grade involution
+  (`CliffordAlgebra.complexVolume_mul_mul_complexVolume`), and the chirality of
+  the reverse-dual module is `(−1)^ℓ Γ_S^transpose`
+  (`AlgHom.cliffordReverseDual_complexVolume`), with its eigenspaces dual to
+  those of S up to that sign
+  (`AlgHom.cliffordReverseDualComplexVolumeEigenspaceEquiv`).
 
-On the shared complexified real exterior algebra, construct
-c(v)=ε(v)−ι(v), with multiplication/Clifford/module comparison to
-`equivExterior`. Prove it is a ℤ/2-graded module for exterior parity,
-with even Clifford elements preserving parity and odd elements reversing it.
-Prove, on degree p,
-`Γω=i^(ℓ+p(p−1))*ω`, including star-square and orientation signs.
-Through the adapted Fock polarization construct the Clifford-module
-identification `Λ*V_ℂ≃S⊗S*≃End(S)`; the Clifford algebra acts by left
-multiplication on End(S). Specify the pairing/intertwiner and its values
-on wedge basis elements: use the inverse Chevalley/antisymmetrization map
-to Cl, then G1.2's normalized Fock action with its normalized metric and the tensor-to-endomorphism
-evaluation map. The increasing orthonormal wedge e_I maps to c(e_I).
-Its exterior Gram metric corresponds to normalized Hilbert–Schmidt
-metric `2^(−ℓ)tr(A†B)` on End(S); with the ordinary tensor/dual metrics
-the squared norm acquires the factor 2^ℓ. Prove this normalization and
-the metric/duality comparisons. Prove the chiral action is
-Γ_S⊗Id, while exterior parity is Γ_S⊗Γ_(S*) with the induced dual parity.
-These are different decompositions of forms.
-Here the induced dual parity is Γ_S transposed. The chirality of the
-reverse-dual Clifford module is `(−1)^ℓ Γ_S^transpose`; prove this
-comparison before identifying any geometric dual half-spin labels.
+Two targets are kept. First, prove that `Orientation.complexHodgeStar` is the
+complex-linear extension of K5's pointwise real Hodge star, and that the wedge
+form above is K5's exterior Gram metric on complexified real forms. Second, for
+a spinor module S of an even-dimensional V with `ρ : Cl_ℂ ≃ End_ℂ(S)`, define
+the forms-to-endomorphisms map `Φ : Λ*V_ℂ → End_ℂ(S)` as the inverse of
+`CliffordAlgebra.equivExterior` followed by ρ, with the identification of
+`ℂ⊗Λ*V` and the exterior algebra of `ℂ⊗V` made explicit. The required API
+includes:
+
+- Φ is a ℂ-linear isomorphism, sends the increasing orthonormal wedge e_I to c(e_I), and intertwines the exterior Clifford action with left multiplication on End(S).
+- Under `S⊗S* ≃ End(S)`, s⊗φ↦φ(·)s, with S* the linear dual, left multiplication is ρ⊗Id, so the chiral action is Γ_S⊗Id.
+- Φ carries exterior parity to A↦Γ_S A Γ_S, which is Γ_S⊗Γ_S^transpose on S⊗S*; the second factor is the induced dual parity, not the reverse-dual chirality `(−1)^ℓ Γ_S^transpose`, and the chiral and parity decompositions of forms are different.
 
 (Nicolaescu, Example 12.1.25, equation (12.1.1), p. 633.)
 
-*Needs:* G1.2–G1.3; G2.1; ComplexKahlerGeometry K5 pointwise Hodge star.
+*Needs:* the declarations above; G1.3 reverse dual; G2.1; ComplexKahlerGeometry K5 pointwise Hodge star and exterior Gram metric.
 
 **Checks.**
 
 - On an oriented unit plane, Γ1=i e₁₂ and Γe₁=i e₂; star-square is +1 on scalars and −1 on one-forms, yielding Γ²=1 in both cases.
 - The plane Clifford identity maps to Id on a two-dimensional spinor space: its ordinary Hilbert–Schmidt squared norm is 2, while normalized squared norm is 1.
 - On the plane S*, induced dual parity is diag(1,−1) but reverse-dual chirality is diag(−1,1); conflating them swaps the labels.
+- On the plane, Φ(e₁)=c(e₁) is odd for exterior parity and Γ_S c(e₁) Γ_S=−c(e₁), whereas left multiplication by Γ_S sends c(e₁) to Γ_S c(e₁), which is not ±c(e₁); parity and chirality differ on one-forms.
 
 ### 2.3 Graded products and twists (G2.3)
 
-The required API includes:
+Consume:
 
-- The graded product is associative and symmetric with Koszul signs, with the rank-zero unit.
-- Graded evaluation identifies the induced multiplicity grading and is natural under intertwiners.
+- the graded tensor action of an orthogonal sum,
+  `c(v,w)=c₁(v)⊗Id+γ⊗c₂(w)` for a grading operator γ of the first module
+  (`AlgHom.cliffordProdTensor`, `AlgHom.cliffordProdTensor_ι`), with the tensor
+  grading again anticommuting with every vector
+  (`AlgHom.map_mul_cliffordProdTensor_ι`);
+- for oriented V of even dimension and W, the action
+  `CliffordAlgebra.complexProdTensor` of the complexified Clifford algebra of
+  V⊕W on E⊗F with γ=Γ_V, so `c(v,0)=c_V(v)⊗Id` and `c(0,w)=Γ_V⊗c_W(w)`
+  (`CliffordAlgebra.complexProdTensor_ι_one_tmul_toLp`), and
+  `Γ_(V⊕W)=Γ_V⊗Γ_W` for the ordered product orientation when W is also even
+  (`CliffordAlgebra.complexProdTensor_complexVolume`);
+- graded twists: for a graded module E with grading γ the twisting grading
+  `γΓ` (`CliffordAlgebra.twistingGrading`) induces the grading of the
+  multiplicity space, evaluation carries γ to `Γ_S⊗γ_W`
+  (`CliffordAlgebra.isotypicEval_map_twistingGrading`), the even part of E is
+  `S⁺⊗W⁺⊕S⁻⊗W⁻` and the odd part `S⁺⊗W⁻⊕S⁻⊗W⁺`
+  (`CliffordAlgebra.eigenspaceTwistingGradingEquiv`), and for any involution
+  γ_A on a complex space A the twist S⊗A has action c(v)⊗Id, tensor grading
+  Γ_S⊗γ_A and intrinsic chirality Γ_S⊗Id
+  (`CliffordAlgebra.map_lsmul_complexVolume_ι_smul`,
+  `CliffordAlgebra.twistingGrading_map_lsmul_complexVolume_apply`);
+- the eigenspaces of a tensor product of involutions,
+  `Module.End.eigenspaceTensorMapEquiv`.
 
-Build graded direct-sum/tensor comparisons for even V and W: the action
-on S_V⊗S_W is `c(v,0)=c_V(v)⊗Id`,
-`c(0,w)=Γ_V⊗c_W(w)`, and Γ_(V⊕W)=Γ_V⊗Γ_W for the ordered product
-orientation. Prove associativity, symmetry with Koszul signs, duality and
-orientation reversal, and compare to `CliffordAlgebra.prodEquiv` and its
-native graded tensor product. No ungraded algebra tensor product replaces
-it. Give the rank-zero unit and the one-plane acceptance computations.
-For any finite-dimensional graded multiplicity space A=A⁺⊕A⁻, construct
-the graded twist S⊗̂A with even part S⁺⊗A⁺⊕S⁻⊗A⁻ and odd part
-S⁺⊗A⁻⊕S⁻⊗A⁺. Its Clifford action is c(v)⊗Id and its tensor grading
-Γ_S⊗γ_A; its intrinsic chiral grading remains Γ_S⊗Id. Give the graded
-evaluation/naturality comparison, including the induced grading on the
-multiplicity space of a graded Clifford module.
+The targets kept are the laws of the graded product, for even-dimensional
+oriented U, V, W with the negative-metric forms and complex Clifford modules
+E, F, G. No ungraded algebra tensor product replaces it. The required API
+includes:
+
+- Half-spin decomposition: for the product chirality, the +1 eigenspace of E⊗F is `E⁺⊗F⁺⊕E⁻⊗F⁻` and the −1 eigenspace is `E⁺⊗F⁻⊕E⁻⊗F⁺`.
+- Associativity: the associator `(E⊗F)⊗G ≃ E⊗(F⊗G)` intertwines the two product actions along the isometry `(U⊕V)⊕W ≃ U⊕(V⊕W)`.
+- Graded symmetry: the Koszul swap `e⊗f↦(−1)^(|e||f|) f⊗e`, for e and f homogeneous for the chiralities, intertwines the product actions of V⊕W and W⊕V along the swap isometry, which preserves orientation, and carries Γ_V⊗Γ_W to Γ_W⊗Γ_V.
+- Unit: for the zero space with its positive orientation and the module ℂ, the unitors `ℂ⊗F ≃ F` and `E⊗ℂ ≃ E` intertwine the actions.
+- Orientation reversal: reversing the orientation of V replaces `c(0,w)` by `−Γ_V⊗c_W(w)`; Id⊗Γ_W intertwines the two product actions, and the product chirality changes sign.
+- Duality: for finite-dimensional E and F with dim V=2ℓ, the canonical map `E*⊗F* → (E⊗F)*` intertwines the graded product of the reverse duals with the reverse dual of the graded product when ℓ is even; when ℓ is odd its composite with Id⊗Γ_(F*) does.
+- Comparison with Mathlib: the product action is the composite of `CliffordAlgebra.prodEquiv` with the action of the graded tensor product of the two algebras, `(a⊗b)(e⊗f)=(−1)^(|b||e|) ρ₁(a)e⊗ρ₂(b)f` for homogeneous b and e.
+
+Each law is checked on vectors, where both sides are given by the generator
+formula for `c(v,w)`; the duality sign is G2.2's reverse-dual chirality
+`(−1)^ℓ Γ^transpose`.
 
 (Nicolaescu, graded-module discussion, p. 633.)
 
-*Needs:* G2.1–G2.2; native graded tensor product; G1.3 evaluation.
+*Needs:* the declarations above; G2.1–G2.2; Mathlib's graded tensor product; G1.3 evaluation.
 
 **Checks.**
 
 - On two Fock planes, ΓV⊗ΓW has eigenvalues (1,−1,−1,1); the two-plane sum has even and odd dimensions 2 and 2.
 - The mixed generators cV⊗Id and ΓV⊗cW have anticommutator zero; omitting ΓV gives twice their nonzero product.
 - For a purely odd one-dimensional twist A, tensor parity is −ΓS while intrinsic chirality is ΓS; a purely even line preserves ΓS.
+- For odd f the Koszul swap sends c(v)e⊗f to (−1)^(|e|+1) f⊗c(v)e, equal to (Γ_W⊗c(v)) applied to (−1)^(|e|) f⊗e; the plain swap gives f⊗c(v)e against −f⊗c(v)e and is not an intertwiner.
+- For the zero space with its negative orientation Γ=−1 and the product action on ℂ⊗F has c(0,w)=−c_W(w); the unitor then fails to intertwine, so the unit is the positive point.
+- For V a plane, ℓ=1 and Γ_E^transpose=−Γ_(E*): the canonical map `E*⊗F* → (E⊗F)*` carries Γ_(E*)⊗c*(w) to minus the dual action of (0,w), and the correction Id⊗Γ_(F*) restores the sign.
 
 ### Examples
 
@@ -559,7 +696,8 @@ exterior parity and reverse-dual parity.
 
 ### Dependencies
 
-G1 and the pointwise K5 Hodge metric; no bundle elliptic theorem is needed.
+G1, the Tau Ceti volume and graded-product declarations named above and the
+pointwise K5 Hodge metric; no bundle elliptic theorem is needed.
 ## Layer 3: Smooth Clifford bundles and compatible connections
 
 ### 3.1 Clifford algebra bundles (G3.1)
@@ -992,7 +1130,9 @@ algebra-bundle comparison `P×_{Spin,Ad}Cl(0,n) ≃ Fr_SO×_{SO}Cl(0,n)`,
 using G1.1's pinned vector-conjugation action.
 Construct realCliffordSpinorPositiveRightAction of the fixed external
 native Cl(n,0): on the model C₊(w)s=ε(s)·ι₋(w), multiplication
-on the right by the negative Clifford vector after parity. This is
+on the right by the negative Clifford vector after parity; the model is
+Tau Ceti's `CliffordAlgebra.parityTwistedRightAction`, with its positive
+relation, even-element equivariance and trace-pairing symmetry. This is
 distinct from the tangent action c₋(v)s=ι₋(v)·s on the left.
 Prove its positive Clifford relation, oddness,
 self-adjointness, Spin-equivariance and anticommutation with the left
