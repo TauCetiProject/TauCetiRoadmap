@@ -3,29 +3,35 @@ module
 import Mathlib
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Ring
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.ZMod
-import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Component
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Units
 import TauCeti.Algebra.Module.Torsion.TateModule
-import TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Basic
+import TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois
 import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Basic
-import TauCeti.NumberTheory.ModularForms.CongruenceSubgroups.Basic
-import TauCeti.LinearAlgebra.Matrix.SpecialLinearGroup.Basic
+import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Hom.ComplexMultiplication
 
 /-!
 # Adelic Galois images and modular curves `X_H`: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. This file states what can be stated over Mathlib and the pinned Tau Ceti: the
-carrier `GL₂(Ẑ)` with its reductions and the inverse-limit property, open subgroups with their
-level, index, `±H`, `Γ₀(N)`, `Γ_H` and genus data, Serre's lifting theorem, the commutator
-subgroup of `GL₂(Ẑ)`, twists and Gassmann invariance, the rank of the adelic Tate module, the size
-of an isogeny class, Mazur's torsion theorem with the realisation of all fifteen groups, the
-class-size corollary of Kenku's theorem, and the order of `GSp₄(𝔽_ℓ)`. The coset invariants of a
-finite-index subgroup of `PSL₂(ℤ)` (cusp widths, elliptic counts, the integral genus formula and
-its Riemann-surface comparison) are the noncongruence roadmap's and are not restated; the
-definitions `nu2`, `nu3`, `Cusps` and `genus` below read them on `Γ_{±H}` only to state the twist
-and Gassmann invariance theorems. `sorry` is permitted for proofs in
-this human-owned repository: these are targets, not implementations.
+`README.md`. This file states the roadmap's headline theorems against the pinned Mathlib and Tau
+Ceti: the carrier `GL₂(Ẑ)` with its reductions and the inverse-limit property, open subgroups with
+their level, index, `±H`, `Γ₀(N)`, `Γ_H` and genus data, Serre's lifting theorem, the commutator
+subgroup of `GL₂(Ẑ)`, twists and Gassmann invariance, the rank of the adelic Tate module, Serre's
+index-two obstruction over `ℚ`, Serre's open image theorem (surjectivity onto `GL₂(ℤ_ℓ)` for almost
+all `ℓ` and adelic finite index) with its CM counterpart, the size of an isogeny class, Mazur's
+torsion theorem with the realisation of all fifteen groups, the class-size corollary of Kenku's
+theorem, and the order of `GSp₄(𝔽_ℓ)`. The coset invariants of a finite-index subgroup of
+`PSL₂(ℤ)` (cusp widths, elliptic counts, the integral genus formula and its Riemann-surface
+comparison) are the noncongruence roadmap's and are not restated; the definitions `nu2`, `nu3`,
+`Cusps` and `genus` below read them on `Γ_{±H}` only to state the twist and Gassmann invariance
+theorems. `sorry` is permitted for proofs in this human-owned repository: these are targets, not
+implementations.
+
+**The adelic representation without a frame.** The theorems of Layers 3.5 and 4 read `ρ_E` as the
+product `MonoidHom.pi` of Tau Ceti's `ℓ`-adic representations `tateModuleGaloisRepresentation ℓ`,
+a homomorphism from the absolute Galois group to `∏_ℓ Aut_{ℤ_ℓ}(T_ℓ E)`, which a frame identifies
+with `GL₂(Ẑ)`. Its image is compact, so finite index is openness (Mathlib
+`Subgroup.isOpen_of_isClosed_of_finiteIndex`).
 
 **Targets not stated here, and the carrier each one lacks at the pin.** The finite-group
 definitions of Layers 0–2 left to `README.md` (the Cartan subgroups of composite level and of an
@@ -33,16 +39,11 @@ imaginary quadratic order, rational cusps and cusp orbits, the entanglement inde
 `S_χ`, agreeable closures, isogeny orbits) are definitions over the carriers used below, specified
 with their Checks in `README.md`. The arithmetic and moduli headlines need carriers that do not
 exist at the pin:
-- the adelic representation `ρ_E`, its image as a conjugacy class, its level, index and
-  non-maximal primes, Serre curves and division fields (Layer 3) need a continuous Galois action
-  on `adelicTateModule`, assembled from Tau Ceti's `tateModuleGaloisRepresentation` over all `ℓ`,
-  with a frame identifying it with `GL₂(Ẑ)`; the image then lands in Tau Ceti's
+- the adelic representation as a homomorphism into `GL₂(Ẑ)`, its image as a conjugacy class of
+  closed subgroups of `GL₂(Ẑ)` with its level, genus and non-maximal primes, Serre curves and
+  division fields (Layer 3) need a frame, a `ẑ`-basis of `adelicTateModule`, whose existence is a
+  target here (3.1), so no definition can choose one; the image would then land in Tau Ceti's
   `ClosedSubgroupConjClasses`;
-- the open image theorems of Layer 4 owned here (surjectivity onto `GL₂(ℤ_ℓ)` for almost all `ℓ`,
-  adelic openness, the adelic CM counterpart; the `ℓ`-adic openness is the noncommutative Iwasawa
-  roadmap's) need, besides `ρ_E`, the geometric endomorphism ring of an elliptic curve (the
-  non-CM hypothesis `GeometricEnd E = ℤ` of the elliptic-curves roadmap) and the action of an
-  imaginary quadratic order on `T̂E`;
 - every statement about the curve `X_H` (its cusps and points, CM points, isolated points, fibre
   products, twists, local points; Layer 5) needs the coarse modular curve `X_H` of the second
   modular-curves roadmap, and the Jacobian statements need the Jacobian of a curve over `ℚ` and
@@ -71,7 +72,7 @@ level is `sInf` of the positive `N` with `Γ(N) ≤ H` (convention 3); `±H` is 
 `SpecialLinearGroup.mapGL`, and every genus-type invariant is read on `Γ_{±H}` (conventions 5–6);
 the genus is a rational number by definition and a natural number by the noncongruence roadmap's
 integral genus formula (Layer 1.2); `GSp₄` is defined by `g J gᵀ = ν J` with Mathlib's `Matrix.J`
-(convention 14).
+(convention 14); non-CM is Tau Ceti's `¬ W.HasGeometricCM` (convention 11).
 
 **Exceptions to "every proof is `sorry`".** The instances, `continuous_red`, and the openness and
 subgroup fields of the definitions are proved.
@@ -83,7 +84,7 @@ subgroup fields of the definitions are proved.
 namespace TauCetiRoadmap.AdelicImagesAndModularCurves
 
 open Matrix TauCeti
-open scoped MatrixGroups Pointwise
+open scoped MatrixGroups Pointwise WeierstrassCurve
 
 
 /-- The additive presentation of Tau Ceti's profinite integers, the ring `ẑ` of the
@@ -210,10 +211,6 @@ noncomputable def congruenceSubgroup (H : OpenSubgroup GL2Zhat) : Subgroup SL(2,
 theorem isCongruenceSubgroup_congruenceSubgroup (H : OpenSubgroup GL2Zhat) :
     CongruenceSubgroup.IsCongruenceSubgroup (congruenceSubgroup H) := sorry
 
-/-- **Layer 0.4.** The comparison with Mathlib: `Γ_{Γ₀(N)} = Gamma0 N`. -/
-theorem congruenceSubgroup_gamma0 (N : ℕ+) :
-    congruenceSubgroup (Gamma0Zhat N) = CongruenceSubgroup.Gamma0 N := sorry
-
 /-- **Layer 0.4.** The `PSL₂`-index of `H`: the index of `Γ_{±H}` in `SL(2, ℤ)`
 (`README.md`, Pinned conventions 5). -/
 noncomputable def pslIndex (H : OpenSubgroup GL2Zhat) : ℕ := (congruenceSubgroup (pm H)).index
@@ -229,7 +226,7 @@ theorem closure_range_mapGL :
     closure ((SpecialLinearGroup.mapGL ẑ : SL(2, ℤ) →* GL2Zhat).range : Set GL2Zhat) =
       ((GeneralLinearGroup.det : GL2Zhat →* ẑˣ).ker : Set GL2Zhat) := sorry
 
-/-! ## Layer 1: cusps, elliptic points and the genus -/
+/-! ## Layer 1: cusps, elliptic points and the genus of an open subgroup -/
 
 /-- **Layer 1.1.** `ν₂(H)`: the cosets of `Γ_{±H}` fixed by `S = [[0, −1], [1, 0]]` (Mathlib's
 `ModularGroup.S`; `S⁻¹ = [[0, 1], [−1, 0]]` of convention 6 has the same fixed points). Read on
@@ -263,7 +260,7 @@ It equals the noncongruence roadmap's genus of the image of `Γ_{±H}` in `PSL�
 noncomputable def genus (H : OpenSubgroup GL2Zhat) : ℚ :=
   1 + (pslIndex H : ℚ) / 12 - (nu2 H : ℚ) / 4 - (nu3 H : ℚ) / 3 - (Fintype.card (Cusps H) : ℚ) / 2
 
-/-! ## Layer 2: Serre's lifting theorem, the commutator subgroup, twists, Gassmann equivalence -/
+/-! ## Layer 2: Cartan subgroups, lifting, entanglement, twists and Gassmann equivalence -/
 
 section Lifting
 
@@ -304,15 +301,15 @@ theorem genus_eq_of_isTwist {H₁ H₂ : OpenSubgroup GL2Zhat} (h : IsTwist H₁
 
 /-- **Layer 2.8.** Gassmann-equivalent open subgroups have the same level, index and genus. The
 hypothesis is `FiniteGroupInvariants` 7.3's `Subgroup.AlmostConjugateOfFiniteIndex H₁.1 H₂.1`
-unfolded (every `γ` fixes equally many cosets of `H₁` and of `H₂`), since that roadmap's file cannot be
-imported; Tau Ceti main's `Subgroup.AlmostConjugate` is its finite-group form. No Gassmann
+unfolded (every `γ` fixes equally many cosets of `H₁` and of `H₂`), since that roadmap's file
+cannot be imported; Tau Ceti main's `Subgroup.AlmostConjugate` is its finite-group form. No Gassmann
 predicate is declared here. -/
 theorem level_index_genus_of_almostConjugate {H₁ H₂ : OpenSubgroup GL2Zhat}
     (h : ∀ γ : GL2Zhat, Nat.card (MulAction.fixedBy (GL2Zhat ⧸ H₁.1) γ) =
       Nat.card (MulAction.fixedBy (GL2Zhat ⧸ H₂.1) γ)) :
     level H₁ = level H₂ ∧ H₁.1.index = H₂.1.index ∧ genus H₁ = genus H₂ := sorry
 
-/-! ## Layer 3: the adelic Tate module -/
+/-! ## Layer 3: the adelic representation and its image -/
 
 section Arithmetic
 
@@ -340,7 +337,77 @@ theorem finrank_adelicTateModule (E : WeierstrassCurve F) [E.IsElliptic] :
 
 end Arithmetic
 
-/-! ## Layer 6: isogeny classes, Mazur and Kenku over `ℚ` -/
+/-- **Layer 3.5, the index-two obstruction (Serre 1972, §5.5, Proposition 22, p. 310).** For every
+elliptic curve `E/ℚ` the image of `G_ℚ` in `∏_ℓ Aut_{ℤ_ℓ}(T_ℓ E)` lies in a subgroup of index two:
+the sign of the permutation of the three points of order two is the character of `ℚ(√Δ)`, which
+factors through the determinant. In particular the adelic representation is never onto over
+`ℚ` (`README.md`, 3.5). -/
+theorem exists_index_eq_two_range_le_rat [DecidableEq (AlgebraicClosure ℚ)]
+    (W : WeierstrassCurve ℚ) [W.IsElliptic] :
+    ∃ H : Subgroup (∀ ℓ : Nat.Primes,
+        (Module.End ℤ_[ℓ] (TateModule ℓ (W⁄(AlgebraicClosure ℚ)).toAffine.Point))ˣ),
+      H.index = 2 ∧
+        (MonoidHom.pi fun ℓ : Nat.Primes =>
+          (W.tateModuleGaloisRepresentation (K := AlgebraicClosure ℚ) (ℓ : ℕ)).asGroupHom).range ≤
+          H :=
+  sorry
+
+/-! ## Layer 4: Serre's open image theorem and the CM counterpart -/
+
+/-- **Layer 4.3 (Serre 1972, §4.2, Théorème 2, p. 294, with the lifting theorem of 2.2).** For an
+elliptic curve without geometric complex multiplication over a number field `F`, the `ℓ`-adic
+representation is onto `Aut_{ℤ_ℓ}(T_ℓ E) ≅ GL₂(ℤ_ℓ)` for every prime `ℓ` beyond some bound
+(`README.md`, 4.3). -/
+theorem exists_surjective_tateModuleGaloisRepresentation (F : Type*) [Field F] [NumberField F]
+    [DecidableEq (AlgebraicClosure F)] (W : WeierstrassCurve F) [W.IsElliptic]
+    (hW : ¬ W.HasGeometricCM) :
+    ∃ N : ℕ, ∀ ℓ : Nat.Primes, N < (ℓ : ℕ) →
+      Function.Surjective
+        (W.tateModuleGaloisRepresentation (K := AlgebraicClosure F) (ℓ : ℕ)).asGroupHom :=
+  sorry
+
+/-- **Layer 4.4, Serre's open image theorem (Serre 1972, §4.4, Théorème 3, p. 299).** For an
+elliptic curve without geometric complex multiplication over a number field `F`, the image of
+`G_F` in `∏_ℓ Aut_{ℤ_ℓ}(T_ℓ E)` has finite index; the image is compact, so this is its openness,
+equivalently Serre's Théorème 3′ (`README.md`, 4.4). -/
+theorem finiteIndex_range_pi_tateModuleGaloisRepresentation (F : Type*) [Field F]
+    [NumberField F] [DecidableEq (AlgebraicClosure F)] (W : WeierstrassCurve F) [W.IsElliptic]
+    (hW : ¬ W.HasGeometricCM) :
+    (MonoidHom.pi fun ℓ : Nat.Primes =>
+      (W.tateModuleGaloisRepresentation (K := AlgebraicClosure F) (ℓ : ℕ)).asGroupHom).range
+      |>.FiniteIndex :=
+  sorry
+
+/-- **Layer 4.5.** The commutant of the geometric endomorphisms on the Tate modules: the families
+`(g_ℓ)` of `ℤ_ℓ`-linear automorphisms of the `T_ℓ E` commuting at every `ℓ` with the action of
+every endomorphism of `E` over `F̄`. For `E` with CM by `𝒪 = End(E_{F̄})` this is
+`C_𝒪(ẑ) = ∏_ℓ (𝒪 ⊗ ℤ_ℓ)ˣ`, as `T_ℓ E` is free of rank one over `𝒪 ⊗ ℤ_ℓ` (`README.md`, 4.5). -/
+def endCommutant (F : Type*) [Field F] [DecidableEq (AlgebraicClosure F)]
+    (W : WeierstrassCurve F) [W.IsElliptic] :
+    Subgroup (∀ ℓ : Nat.Primes,
+      (Module.End ℤ_[ℓ] (TateModule ℓ (W⁄(AlgebraicClosure F)).toAffine.Point))ˣ) where
+  carrier := {g | ∀ (ℓ : Nat.Primes) (f : Isogeny.Hom (W⁄(AlgebraicClosure F)).toAffine
+      (W⁄(AlgebraicClosure F)).toAffine),
+    Commute (g ℓ : Module.End ℤ_[ℓ] (TateModule ℓ (W⁄(AlgebraicClosure F)).toAffine.Point))
+      (TateModule.mapLinearMap f.pointMapHom)}
+  one_mem' _ _ := Commute.one_left _
+  mul_mem' ha hb ℓ f := (ha ℓ f).mul_left (hb ℓ f)
+  inv_mem' ha ℓ f := (ha ℓ f).units_inv_left
+
+/-- **Layer 4.5, the CM counterpart (Serre 1972, §4.5, Corollary to Théorème 5, p. 302).** For an
+elliptic curve with geometric complex multiplication by `𝒪` over a number field `F`, the image of
+`G_F` meets `endCommutant F W = C_𝒪(ẑ)` in a subgroup of finite index of `C_𝒪(ẑ)`. That
+intersection is the image of `G_{F·ℚ(𝒪)}`, so this is the openness of `ρ_E(G_{F·ℚ(𝒪)})` in
+`C_𝒪(ẑ)`; Serre states it over a field of definition of the endomorphisms (`README.md`, 4.5). -/
+theorem finiteIndex_range_pi_subgroupOf_endCommutant (F : Type*) [Field F] [NumberField F]
+    [DecidableEq (AlgebraicClosure F)] (W : WeierstrassCurve F) [W.IsElliptic]
+    (hW : W.HasGeometricCM) :
+    ((MonoidHom.pi fun ℓ : Nat.Primes =>
+      (W.tateModuleGaloisRepresentation (K := AlgebraicClosure F) (ℓ : ℕ)).asGroupHom).range
+      |>.subgroupOf (endCommutant F W)).FiniteIndex :=
+  sorry
+
+/-! ## Layer 6: isogeny classes, Mazur and Kenku -/
 
 section Isogeny
 
@@ -382,7 +449,7 @@ consumed and not restated here. -/
 theorem kenku_isogenyClassSize (E : WeierstrassCurve ℚ) [E.IsElliptic] :
     isogenyClassSize E.toAffine ∈ ({1, 2, 3, 4, 6, 8} : Finset ℕ) := sorry
 
-/-! ## Layer 7: `GSp₄` -/
+/-! ## Layer 7: `GSp₄(Ẑ)` and the mod-`ℓ` images of abelian surfaces -/
 
 section GSp4
 
@@ -430,5 +497,6 @@ theorem card_GSp4_zmod (ℓ : ℕ) [Fact ℓ.Prime] :
     Nat.card (GSp4 (ZMod ℓ)) = (ℓ - 1) * ℓ ^ 4 * (ℓ ^ 2 - 1) * (ℓ ^ 4 - 1) := sorry
 
 end GSp4
+
 
 end TauCetiRoadmap.AdelicImagesAndModularCurves
