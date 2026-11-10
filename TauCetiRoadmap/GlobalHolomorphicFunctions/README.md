@@ -91,8 +91,8 @@ splitting. Layers 2.5 and 4.1 consume it.
 
 The native sine product, the paired cotangent series, Tau Ceti's odd-pole part of that series,
 Tau Ceti's residue of a logarithmic derivative (the order of the function, of either sign) and
-the exponential finite-product majorant are supplied results; Layers 1 and 6 consume them and
-do not prove them again. The
+of a quotient at a simple zero of its denominator, and the exponential finite-product majorant
+are supplied results; Layers 1 and 6 consume them and do not prove them again. The
 sharp finite-product inequality of Layer 1.4 is a distinct target.
 
 ## Conventions
@@ -292,6 +292,11 @@ zero, negative at a pole, `0` at a regular nonzero point), and from
 `TauCeti.Contour.logDeriv_eventuallyEq_principalPart` (under the same hypotheses there is `g`
 analytic and nonzero at `a` with `logDeriv f = k (z − a)⁻¹ + logDeriv g` on a punctured
 neighbourhood of `a`). Neither covers a function that vanishes near `a`, whose order is `⊤`.
+From the residue files use also `TauCeti.Contour.residue_congr_nhdsNE` (`Residue/Basic.lean`:
+two functions equal on a punctured neighbourhood of `a` have the same residue at `a`) and
+`TauCeti.Contour.residue_div_of_zero_deriv_ne_zero` (`Residue/Quotient.lean`: for `g` and `h`
+analytic at `a` with `h a = 0` and `deriv h a ≠ 0`, the residue of `z ↦ g z / h z` at `a` is
+`g a / deriv h a`); a zero of `h` of order at least two is outside it.
 Use `TauCeti.hasSum_cotTerm_two_mul` from
 `TauCeti/Analysis/SpecialFunctions/Trigonometric/TanhSeries.lean`: for `z` in the integer
 complement `ℂ_ℤ`, the odd-pole terms `cotTerm z (2n) = 1/(z−(2n+1)) + 1/(z+(2n+1))`, `n : ℕ`, have
@@ -1846,18 +1851,24 @@ The respective simple zero sets are `ℤ` and `ℤ+1/2`. The paired cotangent se
 Prove that the paired series converges locally uniformly on `ℂ\ℤ`, from compact-dependent
 `O(n⁻²)` bounds on `2z/(z² − n²)` (Mathlib's local uniform summability of the paired terms,
 `summableLocallyUniformlyOn_iteratedDerivWithin_cotTerm`, concerns derivatives of order at
-least one on the upper half-plane), and that its residue at each integer is `1`.
+least one on the upper half-plane). Its residue at each integer `n` is `1` and is not a target:
+on a punctured neighbourhood of `n` the series equals `π cos(πz)/sin(πz)`, so Tau Ceti's
+`TauCeti.Contour.residue_congr_nhdsNE` and `TauCeti.Contour.residue_div_of_zero_deriv_ne_zero`,
+with numerator `π cos(πz)` and denominator `sin(πz)`, whose derivative at `n` is
+`π cos(πn) = (−1)ⁿπ ≠ 0`, give `(−1)ⁿπ/((−1)ⁿπ) = 1`.
 The half-integer shift is the expansion, for every `z ∉ ℤ+1/2`,
 `−π tan(πz) = Σ_(n≥0) (1/(z−(n+1/2)) + 1/(z+(n+1/2))) = Σ_(n≥0) 2z/(z² − (n+1/2)²)`,
 with the poles `n+1/2` and `−(n+1/2)` paired. Prove that this series converges locally uniformly
-on `ℂ\(ℤ+1/2)`, from compact-dependent `O(n⁻²)` bounds on `2z/(z² − (n+1/2)²)`, and that
-`−π tan(πz)` has a simple pole of residue `1` at each point of `ℤ+1/2`. Off `(1/2)ℤ` the
+on `ℂ\(ℤ+1/2)`, from compact-dependent `O(n⁻²)` bounds on `2z/(z² − (n+1/2)²)`. The simple pole
+of `−π tan(πz) = −π sin(πz)/cos(πz)` at each `a = n+1/2` has residue `1` by the same Tau Ceti
+quotient rule, with numerator `−π sin(πz)` and denominator `cos(πz)`, whose derivative at `a` is
+`−π sin(πa) = (−1)ⁿ⁺¹π ≠ 0`; it is not a target. Off `(1/2)ℤ` the
 pointwise identity is Tau Ceti's `TauCeti.hasSum_cotTerm_two_mul` at the argument `2z`: its
 terms there are half the paired terms above, and its sum `π cot(2πz) − (π/2) cot(πz)` equals
 `−(π/2) tan(πz)` by `cot(2w) = (cot w − tan w)/2`. At an integer, where `2z ∈ ℤ` and that
 theorem does not apply, both sides vanish, and the identity follows there by continuity from the
-local uniform convergence. The targets are the local uniform convergence, the residues and the
-identity at the integers.
+local uniform convergence. The targets are the two local uniform convergences and the identity at
+the integers.
 Also prove the one-sided genus-one product
 `∏_{n≥1}(1+z/n)e^{-z/n}`: it converges locally uniformly and its zeros are exactly the negative
 integers. Also prove the all-z identity
@@ -1924,15 +1935,16 @@ proof or global product API.
 
 The cosine product, the paired cotangent series and the reciprocal-Gamma product are DLMF
 (4.22.2), (4.22.3) and (5.8.2); off `(1/2)ℤ` the half-integer expansion is Tau Ceti's
-`TauCeti.hasSum_cotTerm_two_mul` at `2z`. The one-sided product, the half-integer residues,
-convergence and integer values, and the shifted-sine formula are derived here, with the proofs
-above, from Layer 1 and the native sine, cotangent, Gamma sequence and Euler-constant limits in
+`TauCeti.hasSum_cotTerm_two_mul` at `2z`, and the residues at `ℤ` and `ℤ+1/2` are Tau Ceti's
+quotient rule. The one-sided product, the half-integer convergence and integer values, and the
+shifted-sine formula are derived here, with the proofs above, from Layer 1 and the native sine, cotangent, Gamma sequence and Euler-constant limits in
 the supplier contracts; the shift uses absolute summability.
 *Needs:* Layer 1, AnalyticNumberTheoryPartI §0.15a's equal-divisor factorization and
 ZerosOfLFunctions Layer 5.4's entire logarithm, native sine/cosine identities, the cotangent
 series `cot_series_rep` with `cotTerm_identity`, Tau Ceti's odd-pole cotangent series
-`TauCeti.hasSum_cotTerm_two_mul`, Gamma sequence and harmonic-logarithmic limit, with the
-specified nonzero denominators.
+`TauCeti.hasSum_cotTerm_two_mul`, Tau Ceti's `TauCeti.Contour.residue_congr_nhdsNE` and
+`TauCeti.Contour.residue_div_of_zero_deriv_ne_zero`, Gamma sequence and harmonic-logarithmic
+limit, with the specified nonzero denominators.
 
 ### 6.2 Theta, hyperbolic sine, divisors, and ratio products
 
