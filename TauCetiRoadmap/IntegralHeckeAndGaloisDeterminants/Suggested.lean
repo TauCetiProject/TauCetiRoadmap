@@ -15,9 +15,12 @@ Roby algebras, support the concrete determinant, trace and coordinate-ring defin
 The statements cover coefficient reconstruction and trace comparison (IHG.0), Vaccarino's
 theorem (IHG.0.4), Azumaya reduced norms (IHG.0.6), semisimple and henselian reconstruction,
 classical Ribet lattices and coefficient descent (IHG.1),
-ghost nilpotence (IHG.2), Frobenius uniqueness and integral interpolation (IHG.4),
-coefficient descent through a Hecke comparison (IHG.5), generic regularity (IHG.6.5),
-and the local and global integral Ribet theorems (IHG.6.7).
+ghost nilpotence (IHG.2), Frobenius uniqueness, compact gluing and integral interpolation (IHG.4),
+generic regularity (IHG.6.5), and the local and global integral Ribet theorems (IHG.6.7).
+The descent of IHG.5 through a Hecke comparison `φ : T → B` is the one-map case of the IHG.4
+gluing theorem `Determinant.existsUnique_isCoefficientChange_of_compact` (index type `Unit`, the
+kernel lift `T ⧸ ker φ → B` as the map), and the trace comparison over `ℚ`-algebras is the case
+`(2d)!` invertible of `Determinant.exists_unique_trace_eq_of_isUnit`; neither is stated again.
 
 Reductive pseudocharacter comparison, its representing ring, and GL reconstruction need the
 scheme-invariant tensor coordinate algebras and word-substitution diagram of IHG.0.7;
@@ -27,7 +30,8 @@ Multiplicity-free GMA reconstruction, its Ext comparison, and local compression 
 and its labelled residual constituents from IHG.1.3–1.4. Universal Cayley–Hamilton and generic
 representation-algebra statements need the characteristic-law quotient of IHG.1.1 and IHG.1.5. Operator localization needs the derived telescope and
 its homology comparison of IHG.2.3. The invariant and relation-complex theorems of IHG.6.3–6.7
-need the rational cohomology, good filtrations, and Buchsbaum–Rim complexes specified there.
+need the rational cohomology of ReductiveGroups §1.1 and the good filtrations and Buchsbaum–Rim
+complexes specified in IHG.6.
 These headlines are not stated here, since those objects are not at the pins; none is represented
 by an unspecified predicate. The Hecke coefficient conversions of
 IHG.3a and the residual predicates of IHG.3b are specified in `README.md`.
@@ -183,13 +187,9 @@ p. 20). -/
 theorem Determinant.injective_trace {d : ℕ} (hd : IsUnit (d.factorial : A)) :
     Function.Injective fun D : Determinant A R d ↦ D.trace := sorry
 
-/-- Over a `ℚ`-algebra every pseudocharacter is the trace of a unique determinant ([Chenevier],
-Proposition 1.27, p. 20). -/
-theorem Determinant.exists_unique_trace_eq [Algebra ℚ A] {d : ℕ} (T : R →ₗ[A] A)
-    (hT : IsPseudocharacter d T) : ∃! D : Determinant A R d, D.trace = T := sorry
-
-/-- The same when `(2d)!` is a unit, or `d = 2` and `2` is a unit ([Chenevier], Proposition 1.29,
-pp. 20–22). -/
+/-- Every pseudocharacter is the trace of a unique determinant when `(2d)!` is a unit, or `d = 2`
+and `2` is a unit ([Chenevier], Proposition 1.29, pp. 20–22; over `ℚ`-algebras, Proposition
+1.27, p. 20). -/
 theorem Determinant.exists_unique_trace_eq_of_isUnit {d : ℕ}
     (hd : IsUnit ((2 * d).factorial : A) ∨ (d = 2 ∧ IsUnit (2 : A))) (T : R →ₗ[A] A)
     (hT : IsPseudocharacter d T) : ∃! D : Determinant A R d, D.trace = T := sorry
@@ -429,24 +429,6 @@ theorem existsUnique_interpolation {G V : Type*} [Group G] [TopologicalSpace G]
       E.IsContinuous ∧ ∀ v, E.charpoly (MonoidAlgebra.of A G (Frob v)) = P v := sorry
 
 end Determinant
-
-/-! ## Layer 5: quantified nilpotent comparison -/
-
-/-- Descent through a Hecke comparison `φ : T → B`: for compact `G`, compact Hausdorff `T / ker φ`
-with continuous injective lift to Hausdorff `B`, a continuous determinant over `B` whose
-coefficients on a dense set lie in the image descends uniquely to `T / ker φ`; the nilpotence
-exponent of the error ideal is quantified separately in README §5.2 ([Scholze], proof of
-Theorem 5.4.1, pp. 1058–1059). -/
-theorem Determinant.existsUnique_descent_kerLift {T B G : Type u} [CommRing T] [CommRing B]
-    [Group G] [TopologicalSpace G] [CompactSpace G] {d : ℕ} (φ : T →+* B)
-    [TopologicalSpace (T ⧸ RingHom.ker φ)] [CompactSpace (T ⧸ RingHom.ker φ)]
-    [T2Space (T ⧸ RingHom.ker φ)] [TopologicalSpace B] [T2Space B]
-    (hφ : Continuous (RingHom.kerLift φ))
-    (D : Determinant B (MonoidAlgebra B G) d) (hD : D.IsContinuous) (S : Set G) (hS : Dense S)
-    (hcoeff : ∀ g ∈ S, ∀ k, ∃ a : T ⧸ RingHom.ker φ,
-      (D.charpoly (MonoidAlgebra.of B G g)).coeff k = RingHom.kerLift φ a) :
-    ∃! E : Determinant (T ⧸ RingHom.ker φ) (MonoidAlgebra (T ⧸ RingHom.ker φ) G) d,
-      E.IsContinuous ∧ E.IsCoefficientChange (RingHom.kerLift φ) D := sorry
 
 /-! ## Layer 6: integral Ribet modules and Fitting ideals -/
 
