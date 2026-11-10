@@ -11,7 +11,8 @@ PeripheralActions roadmap consumes by name (`conjugation_transfer` and
 
 ## Headline theorems proved in Tau Ceti
 
-These are not restated here; README.md names each one at its milestone.
+These are not restated here; README.md names each one at its milestone. The names are those of
+Tau Ceti revision `2fd255d997f4`, the revision README §Exact supplier contracts declares.
 
 * Layer 3.2, the Frobenius product-one formula:
   `TauCeti.card_productOneTriples_eq_sum_characterTable`.
@@ -39,15 +40,22 @@ These are not restated here; README.md names each one at its milestone.
 
 ## Headline theorems not stated here
 
+* Layer 13.5 (`Gal(ℚ̄/ℚ)` acts faithfully on isomorphism classes of algebraic Belyi pairs over
+  `ℚ̄`). Its statement is `FaithfulSMul` of `AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ` on
+  `TauCeti.AlgebraicBelyiPair.IsoClass (AlgebraicClosure ℚ)`, for the Galois action that the module
+  `TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction` declares. Tau Ceti has that module, and
+  the carrier `TauCeti.AlgebraicBelyiPair`, from revision `2fd255d997f4`; the revision this
+  repository's `lake-manifest.json` pins for this file has neither, and Mathlib has no algebraic
+  Belyi pair, so the statement cannot be written against it.
 * Layer 9.8 (analytic and algebraic Belyi pairs over `ℂ` have the same isomorphism classes),
-  Layer 10.7 (every algebraic Belyi pair over `ℂ` is the base change of one over `ℚ̄`), Layer 11.6
-  (a pair with trivial automorphism group is defined over its field of moduli) and Layer 13.5
-  (`Gal(ℚ̄/ℚ)` acts faithfully on isomorphism classes of algebraic Belyi pairs over `ℚ̄`). Mathlib
-  has no compact Riemann surface with its meromorphic function field, no places of a function
-  field and no algebraic Belyi pair. Their carriers are Tau Ceti's `TauCeti.AnalyticBelyiPair`,
-  `TauCeti.RiemannSurface.MeromorphicFunction`, `TauCeti.AlgebraicBelyiPair` and
-  `TauCeti.AlgebraicBelyiPair.IsoClass`, which the Tau Ceti revision of this repository's
-  `lake-manifest.json` does not contain.
+  Layer 10.7 (every algebraic Belyi pair over `ℂ` is the base change of one over `ℚ̄`) and Layer
+  11.6 (a pair with trivial automorphism group is defined over its field of moduli). Besides the
+  carriers `TauCeti.AnalyticBelyiPair` and `TauCeti.AlgebraicBelyiPair`, absent from the pinned
+  revision as above, each needs a construction of the roadmap that revision `2fd255d997f4` does
+  not have either: the algebraic pair of an analytic pair, which rests on the bijection between
+  points and places (README 9.4, 9.5); base change of a pair along the transcendental extension
+  `ℚ̄ ⊂ ℂ` (README 9.1C); and the field-of-definition certificate, a pair over a number field
+  with an isomorphism of its base change (README 11.5).
 * Layer 12.6 (the geometric fundamental group is the profinite completion of `FreeGroup (Fin 2)`)
   and Layer 12.11 (the branch-cycle theorem). There is no carrier for the Galois group of the
   maximal extension of `ℚ̄(t)` unramified outside the three marked places, nor for the outer

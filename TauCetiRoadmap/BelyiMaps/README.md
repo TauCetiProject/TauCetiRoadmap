@@ -63,17 +63,18 @@ assertion semantics of LMFDB records (14). What it consumes is consumed by name 
 the roadmaps §Boundaries names, and nothing of theirs is planned again here.
 
 Tau Ceti implements a large part of it. Each milestone that Tau Ceti implements, in whole or in
-part, carries a *Tau Ceti:* line naming the declarations that realize it and saying which of
-its items remain. The headline theorems Tau Ceti proves are: the Frobenius product-one formula
+part, carries a *Tau Ceti:* line naming the declarations that realize it, at the Tau Ceti
+revision §Exact supplier contracts names, and saying which of its items remain. The headline theorems Tau Ceti proves are: the Frobenius product-one formula
 (3.2), the passport-size formula (3.4),
 the triangle-group trichotomy (4.4, 4.5), the fundamental group of the thrice-punctured sphere
 (5.6), the classification of its finite covers (6.3), the classification of topological
 branched covers by their unbranched parts (7.7), analytic Riemann existence for three-point
 covers (8.6), Belyi's polynomial lemma (10.3), the existence of a Belyi map on a function field
 over an algebraic extension of `ℚ` (10.4), and the polynomial form of faithfulness (13.5).
-`Suggested.lean` states the headline theorems that remain, as far as the pinned carriers make
-them statable, and its docstring names those Tau Ceti proves and, for the others, the missing
-carrier.
+`Suggested.lean` states the headline theorems that remain, as far as the carriers of the Tau Ceti
+revision in `lake-manifest.json` make them statable; that revision has no algebraic Belyi pair,
+so none is, and the file's docstring names the headlines Tau Ceti proves and, for each of the
+others, what is missing.
 
 What remains is:
 
@@ -303,7 +304,7 @@ definition, Weil descent, and `trueOrbitSize`.
 
 ```text
 0.1–0.6, 0.8   triple vocabulary and the threaded examples   6.1, 7.x, 8.x
-2.1, 2.2, 2.4, 2.6   dessins and the S₃-action              6.3, 7.6, 8.6, 8.7
+2.1, 2.2, 2.4, 2.6   dessins and the S₃-action              6.3, 7.6, 8.6, 8.7, 9.1
 3.1            the executable enumeration                   10.6
 4.6            the normality criterion                      6.5
 ```
@@ -589,8 +590,10 @@ conjugacy class of transitive subgroups (the counts are `16, 7, 50, 34, 45, 8` i
 `11`), completeness of the list up to conjugacy in `S_n`, and the values in degrees `1` to `5`
 unchanged.
 
-Every row naming a Tau Ceti declaration names one that exists at the Tau Ceti pin; a consumer
-fails on a spelling or carrier change rather than selecting a local replacement. The rows whose
+Every row naming a Tau Ceti declaration, and every *Tau Ceti:* line of a milestone, names
+declarations that exist at Tau Ceti revision `2fd255d997f4`, with Mathlib revision
+`1b1ccf4b088b`: the revisions pinned by `lake-manifest.json` on this repository's main branch. A
+consumer fails on a spelling or carrier change rather than selecting a local replacement. The rows whose
 right-hand column is a prose milestone of a named roadmap (analytic cohomology in ModularForms
 §10B, Riemann–Hurwitz in FuchsianOrbifolds Layer 5, the regular model in AlgebraicCurves Layer
 12) cite that roadmap's section and claim no declaration. The `ProfiniteArithmetic` row is the
@@ -607,9 +610,14 @@ form a **chain**, not four independent pieces; Layers 5–8 are topology and ana
 derived from the per-milestone prerequisite lines rather than asserted alongside them.
 
 `Suggested.lean` is the roadmap's acceptance test: it states with `sorry` each remaining headline
-theorem that the pinned Mathlib and Tau Ceti make statable, and declares the two §Pinned
-conventions lemmas PeripheralActions consumes; its docstring lists the headline theorems Tau
-Ceti proves and, for those it does not state, the missing carrier.
+theorem that Mathlib and Tau Ceti make statable at the revisions `lake-manifest.json` pins, and
+declares the two §Pinned conventions lemmas PeripheralActions consumes; its docstring lists the
+headline theorems Tau Ceti proves and, for those it does not state, what is missing. Layer 13.5
+is the one remaining headline with a native statement, `FaithfulSMul` of
+`AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ` on
+`TauCeti.AlgebraicBelyiPair.IsoClass (AlgebraicClosure ℚ)`; it enters the file with the module
+`TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction`, which Tau Ceti has from revision
+`2fd255d997f4`.
 
 ### Layer 0: permutation triples
 
@@ -1153,14 +1161,17 @@ s ∘ t       rotInv       (0 ∞ 1)     (b⁻¹ · c · b, a, a · b · a⁻¹)
 ```
 
 The last three are simplifications of the composites using `c · b · a = 1`; they are proved
-in Lean (`swap0Inf_eq`, `rot_eq`, `rotInv_eq`), not asserted as rewriting folklore. In
+in Lean, component by component (`TauCeti.PermutationTriple.swap0Inf_σ0` and `swap0Inf_σinf`,
+`rot_σ1`, `rotInv_σinf`; the remaining components hold by definition), not asserted as rewriting
+folklore. In
 particular `rot` is the cyclic rotation `(a,b,c) ↦ (b,c,a)`, with **no conjugator at all**,
 which is what makes the `S₃`-action visible.
 
 ⚠ **Reindexing is contravariant, so this is a *right* action.** Writing `Op ρ` for the
 operation in the table, `Op ρ ∘ Op ρ' = Op (ρ' · ρ)` in Mathlib's multiplication, where
 `(ρ' · ρ) i = ρ' (ρ i)`: the labels multiply in the **reverse** of the order in which the
-operations are applied. The two generator instances are `rot_eq` and `rotInv_eq`. Applying
+operations are applied. The two generator instances are the definitions of `rot` and `rotInv` themselves:
+`rot = swap1Inf ∘ swap01` and `rotInv = swap01 ∘ swap1Inf`. Applying
 `swap01` first and then `swap1Inf` gives `rot`, whose label is `(0 1 ∞)`, and indeed
 `ρ_s · ρ_t = (0 1)·(1 ∞) = (0 1 ∞)`; multiplying the labels in the same order as the
 operations would give `ρ_t · ρ_s = (1 ∞)·(0 1) = (0 ∞ 1)`, which is `rotInv`'s label and the
@@ -1191,12 +1202,14 @@ inferred.
   conjugator there is **`b`**, not `a`, so `rotInv` is not the inverse of `rot` on triples
   even though `rot³` is the identity.
 - *Functoriality.* Each operation commutes with relabeling, hence descends to `IsoClass n`;
-  each preserves connectedness (`isConnected_swap01`, `isConnected_swap1Inf`), hence restricts
+  each preserves connectedness (`isConnected_swap01_iff`, `isConnected_swap1Inf_iff`), hence restricts
   to `ConnectedTriple n` and descends to `ConnectedIsoClass n`.
 - *The action.* On `IsoClass n` the induced maps satisfy the Coxeter relations `s² = 1`,
   `t² = 1`, `(st)³ = 1`, and therefore define an `S₃`-action, right-acting as above. Prove
-  the three relations separately; the third is `rot_rot_rot` and the braid relation is
-  `braid_on_isoClass`.
+  the three relations separately; the third is `rot_rot_rot`, and the braid relation
+  `t ∘ s ∘ t = s ∘ t ∘ s` holds on classes because, on triples,
+  `swap1Inf_swap01_swap1Inf : swap1Inf (swap01 (swap1Inf t)) = b⁻¹ • swap0Inf t`, a relabeling
+  of `swap0Inf t = swap01 (swap1Inf (swap01 t))`.
 - *Preservation.* Connectedness, genus, and the monodromy subgroup up to conjugacy are
   preserved; the three cycle partitions are permuted by the corresponding element of `S₃` —
   `s` exchanges the partitions at `0` and `1`, `t` those at `1` and `∞`.
@@ -1221,7 +1234,7 @@ and the milestone is that they are one:
 
 - *combinatorial*, on `IsoClass n` and on `ConnectedIsoClass n`, as above;
 - *topological*, by pulling covers back along the six anharmonic self-homeomorphisms of Layer
-  5.1 — Layer 6.3's `isoClass_pullback_mob01` and `isoClass_pullback_mob1Inf`, which identify
+  5.1 — Layer 6.3's two pullback theorems, which identify
   the pullback along `z ↦ 1 − z` with `swap01` and along `z ↦ z/(z − 1)` with `swap1Inf`, and
   hence the four composites with the four composite operations. Equivalently, on the free
   group of 5.6 the same six formulas describe the induced automorphisms of
@@ -1237,7 +1250,7 @@ and the milestone is that they are one:
 ⚠ Only `id` and `s` act on level-1 data (literal triples and fiber-numbered covers); their
 Möbius transformations are the two that fix the basepoint `b = 1/2` (Layer 5.1). The other
 four act only on isomorphism classes, and the failure to act on the nose is measured by
-`swap1Inf_sq` and `rotInv_rot`.
+`swap1Inf_swap1Inf` and `rotInv_rot`.
 
 **The induced action on passports, and the three objects that must not be confused.** The
 passport of Layer 1.1 is **ordered** by `(0, 1, ∞)` and stays so; the branch-point action
@@ -1886,10 +1899,7 @@ Prove the four facts the rest of the layer runs on, each an explicit computation
 - *Constructors and instances.* `TopologicalSpace`, `T2Space`, `LocallyPathConnectedSpace`,
   `PathConnectedSpace`, second countability, and `TauCeti.SemilocallySimplyConnectedSpace`,
   the hypothesis class of Tau Ceti's universal-cover API. All follow from "open subset of `ℂ`",
-  and each is proved once here rather than at each use. Tau Ceti has no instance of that class
-  for open subsets of `ℂ`, so this instance is a target of this milestone; the route is
-  `TauCeti.SemilocallySimplyConnectedSpace.of_forall_exists_mem_nhds_isSimplyConnected`, with a
-  small open ball about each point, convex and hence simply connected, as the neighbourhood. `Nonempty`, the coercion to `ℂ`, and the two membership
+  and each is proved once here rather than at each use. `Nonempty`, the coercion to `ℂ`, and the two membership
   lemmas `ne_zero`, `ne_one`.
 - *Examples.* `b = 1/2`; the two circles of 5.2.
 - *Morphisms and functoriality.* The open embedding `U ↪ ℂ`; the open embedding
@@ -2308,7 +2318,7 @@ connected, and its converse is what makes 6.3(1) surjective; the degree is well-
 fiber cardinality is locally constant on the connected base, hence constant, so every fiber
 of a `ConnectedCover b n` is in bijection with `Fin n`, which is what lets the degree be
 pinned at `b` without loss); the triple is **unchanged** by an isomorphism of
-fiber-numbered covers (`connectedTriple_congr`); changing `ν` by `τ` relabels the triple by
+fiber-numbered covers; changing `ν` by `τ` relabels the triple by
 `τ` (Layer 0.2); changing the basepoint along a path conjugates it (5.7). Consequently the
 triple itself is an invariant of the fiber-numbered cover, and its **isomorphism class** is
 an invariant of the underlying cover alone.
@@ -2578,8 +2588,8 @@ self-homeomorphism of 5.1 is the topological `S₃`-action, `ConnectedCoverClass
 the milestone is that it *is* Layer 2.6's combinatorial action:
 
 ```text
-isoClass_pullback_mob01   : (c.pullback mob01).isoClass   = ⟦swap01   c.triple⟧
-isoClass_pullback_mob1Inf : (c.pullback mob1Inf).isoClass = ⟦swap1Inf c.triple⟧
+(c.pullback mob01).isoClass   = ⟦swap01   c.triple⟧
+(c.pullback mob1Inf).isoClass = ⟦swap1Inf c.triple⟧
 ```
 
 and hence the same for the four composites. For `mob01` the computation is transport-free:
@@ -2590,7 +2600,7 @@ component. ⚠ The other four basepoint-moving operations of 2.6 are **not** ind
 transformations move `b` (5.1), so they act only after a choice of connecting path, the two
 choices differ by an inner automorphism, and the statement survives only on the level-2
 quotient. That is the geometric reason Layer 2.6's `S₃`-action is stated on isomorphism
-classes, and it is the same phenomenon as `swap1Inf_sq` and `rotInv_rot` on the combinatorial
+classes, and it is the same phenomenon as `swap1Inf_swap1Inf` and `rotInv_rot` on the combinatorial
 side.
 
 *Source:* Girondo–González-Diez **Theorem 2.61**: two morphisms of the same degree with the
@@ -2989,11 +2999,11 @@ another spelling is a named target of this milestone, not an assumption. Build:
   `ℂ`, to `U` (5.1), and to `𝔻*`.
 - **the three comparisons of holomorphy**, each a named theorem, so that no later milestone
   silently switches spelling:
-  1. `mdifferentiable_iff_analyticAt_chart` — `f : X → Y` is `MDifferentiable 𝓘(ℂ) 𝓘(ℂ)` iff
+  1. chart form — `f : X → Y` is `MDifferentiable 𝓘(ℂ) 𝓘(ℂ)` iff
      its chart representatives are `AnalyticAt ℂ` at every point;
-  2. `mdifferentiable_iff_contMDiff_omega` — for maps between complex manifolds at
+  2. smooth form, `TauCeti.contMDiff_iff_mdifferentiable` — for maps between complex manifolds at
      analyticity exponent `ω`, `MDifferentiable 𝓘(ℂ) 𝓘(ℂ) f ↔ ContMDiff 𝓘(ℂ) 𝓘(ℂ) ω f`;
-  3. `mdifferentiable_toSphere_iff` — on a connected Riemann surface, a map
+  3. sphere form — on a connected Riemann surface, a map
      `f : X → OnePoint ℂ` other than the constant `∞` is holomorphic iff its affine part
      `g : X → ℂ` (the affine chart of the sphere after `f`, with any value where `f = ∞`) is
      meromorphic at every point in the charts **and** `f` is the canonical sphere extension of
@@ -5625,17 +5635,18 @@ Two tracks, joined at Layer 12. The lists below are **derived from the per-miles
 to a prerequisite line that contradicts this section makes the section wrong.
 
 - **Track A (finite mathematics):** a chain, `Layer 0 → Layer 1 → Layer 2 → Layer 3 →
-  Layer 4`. ⚠ Layers 2, 3 and 4 are **not** mutually independent: 3.1 needs 1.1–1.4 and
-  1.1–1.4, and 3.5 needs 2.6's branch-point action to state the one-representative-per-orbit
+  Layer 4`. ⚠ Layers 2, 3 and 4 are **not** mutually independent: 3.1 needs 1.1, 1.2 and
+  1.4, and 3.5 needs 2.6's branch-point action to state the one-representative-per-orbit
   comparison with the database; 4.3 needs 3.1 for the finite decision procedure it reuses. Startable immediately; everything elaborates against the pin plus the two
   finite-supplier roadmaps.
 - **Track B (geometry):** Layer 5 → Layer 6 → Layer 7 → Layer 8 → Layer 9 → Layer 10 →
-  Layer 11. It imports from Track A at exactly four places:
+  Layer 11. It imports from Track A at exactly five places:
 
   ```text
   Layer 6  ← 0.1–0.4  (triple vocabulary), 2.6 (branch-point action), 4.6 (regularity)
   Layer 7  ← 0.5, 2.2
   Layer 8  ← 0.6, 0.8 (the threaded torus example), 2.1, 2.2, 2.4
+  Layer 9  ← 2.6 (the algebraic branch-point action)
   Layer 10 ← 3.1
   ```
 
