@@ -106,9 +106,10 @@ Not statable at the pins, and therefore not stated here:
   cohomological Serre spectral sequence (the pinned
   `TauCeti.filteredSpaceSpectralSequence` is the homological spectral sequence of a filtered
   space);
-* the rational Chern-character isomorphism on finite CW pairs and its Thom
-  correction `ch(Thom_K(a)) = Thom_H(ch(a)·Td(E)⁻¹)` (C6.3–C6.4): the pins have
-  no topological K-theory and no Chern class.
+* the rational Chern-character isomorphism on finite CW pairs, its Thom
+  correction `ch(Thom_K(a)) = Thom_H(ch(a)·Td(E)⁻¹)` for the dual-Koszul Thom class
+  (C6.3–C6.4) and the resulting Riemann–Roch identity for embedding pushforwards
+  (C6.5): the pins have no topological K-theory and no Chern class.
 
 The formal power series of C6.1 and the low-degree genus polynomials of C7.1
 are proved at the pin (`TauCeti.hirzebruchLSeries`, `TauCeti.aHatSeries`,
@@ -240,7 +241,7 @@ real projective space `ℝPᵐ`, the orbit space of the antipodal action of `ℤ
 `Sᵐ ⊆ ℝᵐ⁺¹` with its quotient charts, admits no smooth immersion into `ℝ^(2m − 2)`. The proof
 computes the dual Stiefel–Whitney class `w̄_(m−1)(ℝPᵐ) = a^(m−1) ≠ 0` from
 `w(T ℝPᵐ) = (1 + a)^(m+1)`, which an immersion with normal rank `m − 2` would kill
-(Milnor–Stasheff, §4). -/
+(Cohen, *The Topology of Fiber Bundles*, Corollary 3.28, p. 106; Milnor–Stasheff, §4). -/
 theorem not_exists_isImmersion_realProjectiveSpace (k : ℕ) (hk : 1 ≤ k) :
     ¬ ∃ f : MulAction.orbitRel.Quotient ℤˣ (sphere (0 : EuclideanSpace ℝ (Fin (2 ^ k + 1))) 1) →
         EuclideanSpace ℝ (Fin (2 ^ (k + 1) - 2)),

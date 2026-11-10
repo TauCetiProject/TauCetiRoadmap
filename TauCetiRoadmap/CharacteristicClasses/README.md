@@ -169,7 +169,7 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
 | Mathlib, at the pin | `FiberBundle`, `VectorBundle`, `VectorBundleCore`, `Bundle.TotalSpace` and `ContMDiffVectorBundle` with their pullback and Hom/dual constructions; `CompactlyGenerated` and `CompactlyGenerated.compactlyGeneratedToTop`; `sSetTopAdj`, `SSet.KanComplex` and `SSet.π₀`; `cechComplexFunctor` and `CategoryTheory.Sheaf.H`; `MvPolynomial.symmetricSubalgebra`, `esymm`, `psum` and `esymmAlgEquiv`; `LieAlgebra.HasCentralRadical`, `LieAlgebra.IsKilling` and `LieModule.Cohomology.d₁₂_apply_apply_ofTrivial`; `exists_embedding_euclidean_of_compact`; `bernoulli'PowerSeries` and `bernoulliPowerSeries`; `Projectivization`; `Manifold.IsImmersion`, `Manifold.IsImmersion.id`, `MulAction.instChartedSpaceQuotient`, `contMDiff_neg_sphere` and `contMDiff_id`. |
 | Tau Ceti, at the pin | Singular cohomology `TopCat.singularCohomology`, `TopPair.singularCohomology`, `singularCohomologyMap`, `singularCup` and `singularCohomologyδ`, and the Bocksteins `TopCat.singularCohomologyBockstein` and `TopPair.singularCohomologyBockstein` (C1.2); the Serre-fibration class `TauCeti.TopCat.serreFibrations` with its membership theorems (C1.1b); `TauCeti.OrthonormalFrameBundle`, the orientation cover `TauCeti.VectorBundleOrientationCover` with its sign local system, and `TauCeti.VectorBundleOrientation` (C1.0, C1.1a); the finite Grassmannians `TauCeti.finiteGrassmannian` and `TauCeti.finiteOrientedGrassmannian` (C1.1a); `TauCeti.thomPair`, `TauCeti.IsThomClass`, `TauCeti.eulerClass` and the Thom-class gluing and existence theorems (C2.1–C2.2); `TauCeti.FiberBundle.t2Space_totalSpace` and `TauCeti.hasHomotopyExtensionProperty_base` (C2.0); `TauCeti.HomologicalOrientation.evalFundamentalClass`, `TauCeti.localOrientationOfManifoldOrientation`, `Orientation.localOrientation`, `TauCeti.eulerChar`, `TauCeti.FiniteCWType` and `TauCeti.Manifold.Orientation.toVectorBundleOrientation` (C2.3); the Milnor sequence of a tower of complexes and the Mittag–Leffler vanishing (C3.1); the real Clifford spin-cover declarations (C3.5); `TauCeti.lieCartanRestriction`, `LieSubalgebra.lieChevalleyRestrictionIso` and the Killing symmetric-algebra maps (C5.1); `PowerSeries.multiplicativeSequence`, `TauCeti.aHatSeries`, `TauCeti.hirzebruchLSeries` and the genus polynomials (C6.1, C7.1); `Quaternion.toComplexMatrix` and `Quaternion.unitaryEquivSpecialUnitaryGroup` (C7.AdjointHopfObstruction); `TauCeti.FiniteRankBundleCore.ofBundle`, `TauCeti.RealProjectiveSpace` and `TauCeti.instIsManifoldQuotient` (C7.3a). Each item names the files and the exact declarations it consumes. |
 | AlgebraicTopology | Stages 2–6 and 8.1–8.7: singular chains and cochains, local systems, cup, cap and cross products, pair sequences, excision, cellular comparison and Künneth; Stage 2.5 (the sup-ball disk homeomorphism), 4.5 (compact generation and the relative CW pushouts), 4.6 (the finite real projective spaces), 4.8 (CW approximation and the connected-map comparison), 5.5 (the fibration homotopy sequence and the Serre spectral sequences), 6.0–6.2 (the tower Milnor sequence, local-coefficient cochains, the Bockstein, products on excisive couples) and its supported-cellular supplement, 7 (the Euler characteristic of a triangulation); Stages 8.2, 8.3, 8.5, 8.7, 8.8b, 8.9, 8.10 and 8.12 (the Kan/cubical comparison, Hurewicz, Whitehead, manifold triangulations, the normalized ℤ/2 model, primary obstructions, the ordinary Eilenberg–MacLane models and representability, the native circle comparison). |
-| TopologicalKTheory | T1 (continuous finite-rank bundles, metrics, embeddings), T1.3–T1.4 (fibre metrics and the disk-bundle homotopy invariance), T1.5 and T1.5a (finite Grassmannians, Stiefel quotients, the sphere-bundle sequences of SO(k) and π₁(SO(k))), T1.6 and T1.6a (BO(n), BU(n), the finite oriented carriers and their colimits, the countable-colour producer), T2–T5 (K-rings, relative K-theory, compact supports, λ-operations, Bott periodicity, the dual-Koszul Thom class), T3.4 and T4.8 (right suspension and cone boundary), T6.4 (continuous principal and associated bundles), T7.4 (the doubled-space kernel comparison). |
+| TopologicalKTheory | T1 (continuous finite-rank bundles, metrics, embeddings), T1.3–T1.4 (fibre metrics and the disk-bundle homotopy invariance), T1.5 and T1.5a (finite Grassmannians, Stiefel quotients, the sphere-bundle sequences of SO(k) and π₁(SO(k))), T1.6 and T1.6a (BO(n), BU(n), the finite oriented carriers and their colimits, the countable-colour producer), T2–T5 (K-rings, relative K-theory, compact supports, λ-operations, Bott periodicity, the dual-Koszul Thom class and the embedding pushforward of T5 item 5), T3.4 and T4.8 (right suspension and cone boundary), T6.4 (continuous principal and associated bundles), T7.4 (the doubled-space kernel comparison). |
 | DifferentialGeometry | Layers 1–2 and 5–10: forms, wedge, d, orientations, integration and Stokes, compact supports, the multiplicative singular/de Rham comparison (Layer 8) and the manifold Sard theorem (10.2). |
 | SmoothBundlesConnections | B1.4 (free proper quotients and homogeneous spaces), B2 (associated bundles, frames, metrics, Hom/dual/sum), B3–B4 (connections, curvature, Bianchi), B6.0 (smooth good covers), B6 (the normalized circle class, rank-one Chern–Weil, the lens-space flat bundles). |
 | ComplexKahlerGeometry | K4 (Hermitian holomorphic bundles and Chern connections), K7.1–K7.2 (the projective carrier and atlas, tautological and dual lines, the Fubini–Study form and the O(1) curvature). |
@@ -1517,12 +1517,16 @@ and the Euler-weighted identity `p!(e(Tp)∪p*a)=χ(F) a` componentwise.
 ### 2.6 Flag-bundle transfer over paracompact bases (C2.6)
 
 For an associated G/T bundle over a numerable principal bundle for compact connected G over a paracompact base, construct cohomological fibre integration without assuming
-the base is a manifold. The Euler-integral input, a closed top-degree form
-on the fibre with nonzero integral and the transfer `T(φ)=π_*(Ψ∧φ)` built
-from it, is Dupont, *Curvature and Characteristic Classes*, Lemma 8.30 and
-its proof, pp. 125–129, which work with forms on a simplicial manifold; the
-construction below over a paracompact base without a manifold structure is
-this item's own. Embed G/T equivariantly as the adjoint orbit of a
+the base is a manifold. The Euler-integral input, a closed 2m-form Ψ, with
+2m=dim G/T, on the simplicial manifold N(G;G/T) whose restriction to the
+fibre G/T has nonzero integral, and the transfer `T(φ)=π_*(Ψ∧φ)` built from
+it by integration over the fibre G/T, is Dupont, *Curvature and
+Characteristic Classes*, Lemma 8.30 and its proof, pp. 125–129: closedness
+of Ψ on all of N(G;G/T), not only on the fibre, is what makes T a chain map
+(p. 126).
+That argument works with forms on a simplicial manifold; the construction
+below over a paracompact base without a manifold structure is this item's
+own. Embed G/T equivariantly as the adjoint orbit of a
 regular torus element in g, prove its normal bundle and uniform equivariant
 tubular neighbourhood using the invariant inner product and nearest-point
 uniqueness, and associate those maps over the base. Define
@@ -2151,7 +2155,7 @@ Borel `H*(BG;R)≃H*(BT;R)^W`. This is the proof spine of Dupont1978 §8.
 For disconnected compact G prove π₀(G) finite and
 `H*(BG;K)=H*(BG⁰;K)^π₀(G)` for K=Q or R by the finite-cover/transfer model of
 C1's universal bundle (Dupont, *Curvature and Characteristic Classes*,
-Theorem 8.1, the last step of its proof, p. 129). Compare with invariants of I(G⁰). For a torus of
+Theorem 8.1, the last step of its proof, pp. 129–130). Compare with invariants of I(G⁰). For a torus of
 G⁰ construct the extended normalizer group and its finite-component
 action, rather than treating a disconnected group as connected. Descend
 the rational statement by the integral character lattice, finite-degree
@@ -2769,7 +2773,8 @@ ch(λ_(−1)(E*))=∏(1−exp(−x_j)). For the wedge convention prove the corre
 `(-1)^r exp(c₁(E)) Td(E)^−1`, and its point value (-1)^r
 (Landweber, *K-theory and elliptic operators*, §1.7, pp. 13–14, compares
 the two Thom isomorphisms for the wedge convention and computes the
-correction in roots as `∏(1−exp(x_j))/x_j`, which is the displayed class;
+correction in roots as `∏(1−exp(x_j))/x_j`, which is the displayed class,
+although its closing Todd-class form on p. 14 drops the factor exp(c₁(E));
 the dual-Koszul form is the same computation for E*).
 Construct the universal correction on compact products `(CP^N)^r` and
 pass their degreewise compatible coefficients to Q[[x₁,…,x_r]]. There
@@ -2794,13 +2799,31 @@ multiplying the cohomological Thom map of real rank2r.
 For embeddings with a specified complex normal bundle prove the
 cohomological/K-theoretic pushforward comparison
 `ch(f!_K a)=f!_H(ch(a)·Td(ν)^−1)` for complex normal ν, with the normal Todd factor,
-support, orientation and composition conventions fixed. Both pushforwards
-are the Thom map of ν followed by the open extension from a tubular
-neighbourhood (Landweber, *K-theory and elliptic operators*, §2.2, p. 16,
-for the K-theory pushforward of an embedding), so the identity is C6.4's
-Thom comparison for ν (the same source, §1.7, pp. 13–14) together with
-naturality of ch for the extension map. This is a Riemann–Roch identity for the constructed
-pushforwards; analytic index equality is a separate consumer.
+support, orientation and composition conventions fixed. Here f!_K is the
+pushforward of TopologicalKTheory T5 item 5, the Thom map of the dual-Koszul
+class of ν followed by the open extension from a tubular neighbourhood, and
+f!_H is C2.4's embedding Gysin map, the cohomology Thom map of ν with its
+complex orientation followed by the same extension. So the identity is C6.4's
+dual-Koszul Thom comparison for ν together with naturality of ch for the
+extension map. Landweber, *K-theory and elliptic operators*, §2.2, p. 16,
+builds the same composite for the induced embedding of tangent bundles
+TX⊂TY, whose normal bundle `π*(N⊗_ℝ ℂ)` is complex, from the wedge class
+of §1.7. For the pushforward built from the wedge class of ν, whose
+zero-section restriction is `Σ(−1)^i Λ^i ν`, the factor is C6.4's wedge
+correction `(−1)^r exp(c₁(ν)) Td(ν)^−1`, with r the complex rank of ν, not
+`Td(ν)^−1`.
+This is a Riemann–Roch identity for the constructed pushforwards; analytic
+index equality is a separate consumer.
+
+**Checks.**
+- For the embedding of a point in ℂ, with ν trivial of rank 1 and a=1, the dual-Koszul class has
+  zero-section factor (1−e^(−x))/x, which is 1 at x=0, so ch(f!_K 1)=+f!_H(1), as the formula says; the
+  wedge pushforward of Landweber §2.2 has factor (1−e^x)/x, which is −1 there, and gives −f!_H(1).
+- For the hyperplane CP¹⊂CP² with ν=O(1)|_(CP¹) and η=c₁(ν), the formula gives
+  ch(f!_K 1)=f!_H(1−η/2)=h−h²/2, which is ch(1−[O(−1)]), the class of the Koszul resolution
+  of the hyperplane; the factor Td(ν) in place of its inverse would give h+h²/2.
+- Restricting to the submanifold, `f*f!_K a = a·λ_(−1)(ν*)` and `f*f!_H b = b·e(ν)`; for a line ν
+  with c₁=x both sides of the formula then give ch(a)·(1−e^(−x)).
 
 ### Examples
 
@@ -2812,7 +2835,8 @@ On CP², ch(O(1))=1+h+h²/2 and ch(TCP²)=2+3h+3h²/2 (C6.2); Td₁(TCP¹)=h, L�
 C6.1 uses the pinned multiplicative sequences and characteristic series and C3's splitting
 principle. C6.2 uses C3.2–C3.4, C1.2's excisive couples and TopologicalKTheory T2–T5 and T7.4.
 C6.3 uses C6.2 and TopologicalKTheory T3.4 and T4.8. C6.4 uses C6.1–C6.3 and TopologicalKTheory
-T5's dual-Koszul Thom class. C6.5 uses C6.4 and C2.4.
+T5's dual-Koszul Thom class. C6.5 uses C6.4, C2.4 and TopologicalKTheory T5 item 5's embedding
+pushforward.
 
 ## C7: Characteristic formulas and acceptance calculations
 
@@ -3123,12 +3147,12 @@ LieGroups Layer 2 and the pinned `Quaternion.toComplexMatrix`.
 - Alekseev–Meinrenken, [*Lie theory and the Chern–Weil homomorphism*](https://arxiv.org/abs/math/0308135), §3.1, for the Weil algebra and its basic subcomplex.
 - Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Theorem3C.4 for Hopf's theorem, §3.G for the degrees of the simple types and Corollary4D.3 for the integral cohomology of U(n) and SU(n).
 - Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), version 2.2: §1.1, p. 16, and §1.2, pp. 22–26, for disk and sphere bundles, clutching and the Gram–Schmidt retraction; §3.1, pp. 77–86, Theorems 3.1, 3.2 and 3.9 and Proposition 3.10, for the projective-bundle definitions of w and c, the universal mod 2 and unitary rings and the classification of line bundles; §3.2, pp. 88–95, Propositions 3.12 and 3.14 and Theorem 3.16, for the Thom pair, the mod 2 cohomology of the oriented Grassmannians, the Euler class of TSⁿ and the oriented rings after inverting 2; §3.2, p. 94, for the definition of the Pontryagin classes; §4.1, pp. 109–111, Propositions 4.2, 4.3 and 4.5, for the Chern character, its additivity and multiplicativity and the rational Chern-character isomorphism.
-- Dupont, [*Curvature and Characteristic Classes*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/dupont2.pdf), §§4–8, especially §8's restriction/fibre-integration proof and Chevalley appendix, for universal Chern–Weil and disconnected groups (Theorem 6.13, pp. 94–95; Theorem 8.1 and Lemma 8.30, pp. 125–129; Corollary 8.37, p. 131); Chapter 4, Exercise 3, for the Chern–Simons transgression forms.
+- Dupont, [*Curvature and Characteristic Classes*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/dupont2.pdf), §§4–8, especially §8's restriction/fibre-integration proof and Chevalley appendix, for universal Chern–Weil and disconnected groups (Theorem 6.13, pp. 94–95; Theorem 8.1, p. 114, with its proof on pp. 123–130; Lemma 8.30, pp. 125–129; Corollary 8.37, p. 131); Chapter 4, Exercise 3, for the Chern–Simons transgression forms.
 - Bott–Tu, *Differential Forms in Algebraic Topology*, Graduate Texts in Mathematics 82, §§6,11–14,20–23, for fibre integration, Thom and projective splitting. Cited by locator; no legal open copy.
 - tom Dieck, [*Algebraic Topology*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/diecktop.pdf), §9.5 for arbitrary-space connected-map chain compression, §§13.1–13.3 for countable partition reduction and numerable local-to-global homotopy equivalence, §14.4 for the strong Milnor join and universal bundle comparisons.
 - May, [*A Concise Course in Algebraic Topology*](https://www.irif.fr/~mellies/mpri/mpri-ens/biblio/Peter-May-A-Concise-Course-In-Algebraic-Topology.pdf), Chapter16 §§2–3, for the nondegenerate-simplex CW realization and counit weak equivalence via relative simplicial approximation.
 - Milnor, *Construction of Universal Bundles, II*, Annals of Mathematics 63 (1956), §§2–3, for the join construction of C1.1b. Cited by locator; no legal open copy.
 - Müller–Wockel, [*Equivalences of smooth and continuous principal bundles with infinite-dimensional structure group*](https://arxiv.org/abs/math/0604142), Advances in Geometry 9 (2009), arXiv version 3: Proposition I.13 and Theorems II.11 and II.12, for the smooth representatives of C1.4.
-- Landweber, [*K-theory and elliptic operators*](https://arxiv.org/abs/math/0504555), §1.7, pp. 13–14, for the comparison of the K-theory and cohomology Thom isomorphisms under the Chern character, and §2.2, p. 16, for the K-theory pushforward of an embedding.
+- Landweber, [*K-theory and elliptic operators*](https://arxiv.org/abs/math/0504555), §1.7, pp. 13–14, for the comparison of the K-theory and cohomology Thom isomorphisms under the Chern character in the wedge convention, and §2.2, p. 16, for the K-theory pushforward of an embedding built from that wedge Thom class.
 - Atiyah–Hirzebruch, [*Riemann–Roch theorems for differentiable manifolds*](https://www.ams.org/journals/bull/1959-65-04/S0002-9904-1959-10344-X/), Bulletin of the American Mathematical Society 65 (1959), §4, p. 281, for the difference of the half-spin characters.
 - Zentner, [*Instanton exercise sheet 2*](https://www.maths.dur.ac.uk/users/raphael.zentner/exercice_sheet_instantons2.pdf), Exercise 2, for the adjoint-bundle Pontryagin formula of C7.AdjointHopfObstruction.
