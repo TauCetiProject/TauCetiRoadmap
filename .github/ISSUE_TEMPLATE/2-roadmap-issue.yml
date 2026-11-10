@@ -130,6 +130,7 @@ body:
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
         - QuantumEnvelopingAlgebras
         - QuantumGroups
@@ -147,6 +148,7 @@ body:
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - RootSystemsPartII
         - SNumbers
         - ScatteringDiagrams
         - SchemeAndStackFoundations
