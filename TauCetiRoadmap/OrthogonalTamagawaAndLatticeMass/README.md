@@ -143,7 +143,7 @@ Construct the algebraic groups O(V,Q), SO(V,Q) and Spin(V,Q) of a nondegenerate 
 - Almost-K-simple factors: for n ≥ 3, n ≠ 4, Spin(V,Q) is absolutely almost simple. For n = 4 let Z be the centre of the even Clifford algebra, the étale quadratic algebra K[t]/(t² − d) with d the signed discriminant. Prove an isomorphism of K-groups Spin(V,Q) ≅ Res_(Z/K) SL₁(C₀(Q)): if d is a square this is a product of two forms of SL₂ (two almost-K-simple factors); if not, it is one almost-K-simple factor that is not absolutely almost simple. 0.3 quantifies over exactly these factors.
 - For n = 2, Spin(V,Q) is the one-dimensional norm-one torus of K[t]/(t² + det C) and is not semisimple; for n = 1 it is μ₂ and for n = 0 define it separately as the trivial group, with trivial projection kernel. None of these is used as a semisimple simply connected group.
 
-For positive rank the construction and central cover use Milne, *Algebraic Groups* (2022 corrected version), §24i, pp.535–537; the zero branch is the convention determined by native `spinGroup`. The structure and root-datum arguments use the cited ReductiveGroups contracts.
+For positive rank the construction and central cover use Milne, *Algebraic Groups* (2022 corrected version), §24i, pp.535–536; the zero branch is the convention determined by native `spinGroup`. The structure and root-datum arguments use the cited ReductiveGroups contracts.
 
 *Needs:* Mathlib Clifford algebra and native Spin; Tau Ceti form-preserving and standard SO group schemes; ReductiveGroups Layers 6/8; OrthogonalSpinGroups §3A point comparison contract.
 
@@ -607,7 +607,7 @@ IntegralLattices consumes nothing here: the statements it labels 7H, 7I and 4D a
 - Sungmun Cho, [Group schemes and local densities of quadratic lattices in residue characteristic 2](https://arxiv.org/abs/1210.7625v3), for smooth integral models and local densities over unramified dyadic extensions.
 - M. Belolipetsky and W. T. Gan, [The mass of unimodular lattices](https://arxiv.org/abs/math/0307195v2), for the parahoric/proper-SO mass comparison; retain the even-versus-odd normalization in §2, p.3, and Theorem 3.1, p.4; even unimodular correction in §5, p.11.
 - The IntegralLattices, OrthogonalSpinGroups and linked adelic/orthogonal-value specifications above, at their actual coefficient, rank and gauge hypotheses.
-- J. S. Milne, [Algebraic Groups, corrected 2022 version](https://www.jmilne.org/math/Books/iAG2022.pdf), §24i, pp.535–537, for the Clifford construction and simply connected Spin cover.
+- J. S. Milne, [Algebraic Groups, corrected 2022 version](https://www.jmilne.org/math/Books/iAG2022.pdf), §24i, pp.535–536, for the Clifford construction and simply connected Spin cover.
 - J. H. Conway and N. J. A. Sloane, *Low-dimensional lattices. IV. The mass formula*, Proc. Roy. Soc. London A 419 (1988), 259–286, DOI [10.1098/rspa.1988.0107](https://doi.org/10.1098/rspa.1988.0107), equations (2), (3), (6) and §9. Equations (2)–(3), p.263, equation (6), p.266, §9(iv), p.274, and §12, p.281, specify the mass and density conventions; an [author-hosted scan](https://neilsloane.com/doc/Me150.pdf) supplies this text.
 - O. T. O’Meara, *Introduction to Quadratic Forms* (1963), 104:4–5, for strong approximation and Eichler's theorem; source text uncertified.
 
