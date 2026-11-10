@@ -1,363 +1,159 @@
-module
-public import Mathlib
-public import TauCeti.Algebra.AlgebraicGroup.Unipotent.Radical.Construction
-public import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Coinvariants.Basic
-public import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Normal.Basic
-public import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Points.Basic
-public import TauCeti.Algebra.AlgebraicGroup.Fppf.Quotient.Homogeneous.Coinvariants
-public import TauCeti.Algebra.AlgebraicGroup.Connected.CommHopfAlgCat
-public import TauCeti.Algebra.AlgebraicGroup.FunctorOfPoints
-public import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Conjugation
-public import TauCeti.Algebra.AlgebraicGroup.Torus.Maximal
-public import TauCeti.Algebra.AlgebraicGroup.Borel.Basic
-public import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
-public import TauCeti.Algebra.AlgebraicGroup.Parabolic.Basic
-public import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
-public import TauCeti.Algebra.AlgebraicGroup.Torus.Basic
-public import TauCeti.Algebra.AlgebraicGroup.Semisimple.Basic
-public import TauCeti.Algebra.AlgebraicGroup.Isogeny.Basic
-public import TauCeti.Algebra.AlgebraicGroup.SimplyConnected.Basic
-public import TauCeti.GroupTheory.TitsSystem.Basic
-public import TauCeti.GroupTheory.SpecificGroups.Braid.Basic
-public import TauCeti.GroupTheory.Coxeter.Artin
-public import TauCeti.LinearAlgebra.RootSystem.Coxeter.Matrix
+import TauCeti.RepresentationTheory.Induction.FiniteDimensional.Basic
+import Mathlib
+import Mathlib.GroupTheory.GroupExtension.Basic
 
 /-!
 # Reductive algebraic groups: target signatures
 
-The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti APIs, each admitted with `sorry`.
+**This file is not the roadmap and is not exhaustive.** The definitive document is
+`README.md`. The statements here suggest Lean forms for particular milestones, so that
+contributors and reviewers converge on names and signatures; discharging all of them
+finishes neither a layer nor the roadmap.
 
-Stated here, because every carrier exists at the pins: Layer 3's quotient theorem for a normal
-closed subgroup of a finite-type affine group over a field, with no reducedness hypothesis
-(representability of the fppf homogeneous quotient by the right coinvariants, and faithful
-flatness over them); Layer 6A's characteristic-zero Levi complement, as a Hopf ideal whose
-quotient restricts to an isomorphism from the right coinvariants of the unipotent radical's
-defining ideal; Layer 7's conjugacy of any two maximal tori of a finite-type affine group over
-an algebraically closed field, its Bruhat decomposition in Tits-system form for a reductive
-group over an algebraically closed field, its Levi complement of a parabolic subgroup of a
-reductive group over every field, in the same coinvariant form, Nagata's theorem over every
-field of positive characteristic, and the simply connected cover of a semisimple group over
-every field; Layer 7a's Lang surjectivity
-for smooth geometrically connected groups over finite fields; Layer 11A's plane-configuration
-fundamental-group/braid-group equivalence; and Layer 11B's finite Weyl-arrangement theorem
-`π₁(V_reg/W) ≃ ArtinGroup`.
+The three synchronized models, prerequisite order, examples, and references
+are in `README.md`.
 
-Proved at the pinned Tau Ceti, hence consumed through the README's supplier contracts and not
-stated here: Layer 3A's orbit geometry of scheme actions (local closedness
-`TauCeti.SchemeAction.isLocallyClosed_orbit`, the strict boundary bound
-`TauCeti.SchemeAction.topologicalKrullDim_orbitBoundary_lt`, closed orbits
-`TauCeti.SchemeAction.exists_isClosed_orbit_subset_orbitClosure` and
-`TauCeti.SchemeAction.exists_isClosed_orbit`, the reduced locally closed orbit scheme
-`TauCeti.SchemeAction.orbitScheme` with `orbitι` and `range_orbitι`); Layer 6's
-characteristic-zero implication from reductivity to linear reductivity
-(`TauCeti.reductiveCommHopfAlgProperty.linearlyReductive`, with the converse
-`TauCeti.reductiveCommHopfAlgProperty.of_smooth_of_geometricallyConnected_of_baseChange_linearlyReductive`
-and the equivalence `TauCeti.reductiveCommHopfAlgProperty_iff_linearlyReductive`); Layer 6B's
-Matsushima representability (`TauCeti.HopfIdeal.fppfHomogeneousQuotientIsoCoinvariantsPoints`
-for a linearly reductive closed subgroup and
-`TauCeti.HopfIdeal.isIso_fppfHomogeneousQuotientToCoinvariantsPoints_of_reductive` in
-characteristic zero); and Layer 7's conjugacy of Borel subgroups over an algebraically closed
-field (`TauCeti.HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq`).
-
-Not statable at the pins, hence not stated, with the missing carrier named:
-* Layers 0–1: the category of rational algebraic group representations and its comparison
-  functors with comodules. The native Hopf/points dictionary, the embedding theorem
-  (`TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`) and the Tannakian
-  reconstruction of the points functor are supplied, so Layer 1 states no theorem here.
-* Layer 6: `G = R(G)·G_der`, that multiplication `R(G) × G_der → G` is a central isogeny. The
-  missing carrier is that multiplication as a morphism of coordinate Hopf algebras: the pinned
-  product interface identifies the points of a product group, but no pinned declaration supplies
-  the multiplication homomorphism of two commuting closed subgroups.
-* Layer 7: the equivalence of the complete-quotient and Borel-containing parabolic notions,
-  and the root datum extracted from a group. The parabolic predicate
-  (`TauCeti.HopfIdeal.IsParabolicOverAlgClosed`, `IsParabolic`), the represented dynamic
-  subgroups (`TauCeti.Cocharacter.parabolicDefiningHopfIdeal`, `leviDefiningHopfIdeal`,
-  `unipotentDefiningHopfIdeal`), the finite Weyl group `BialgHom.weylGroup` of a diagonalizable
-  subgroup, the pseudo-reductive predicate (`TauCeti.pseudoReductiveCommHopfAlgProperty`) and
-  the reductive quotient by the unipotent radical
-  (`TauCeti.FiniteTypeCommHopfAlgCat.reductive_coinvariants_unipotentRadical`) are supplied, not
-  targets here. The missing carriers are the completeness of `G/P` (the fppf quotient has no
-  pinned properness predicate), the reflection subgroup generated by the rank-one coroots, and
-  a root datum attached to a maximal torus of a reductive group.
-* Layers 7c–7f: the Harish–Chandra biadjunction, the permutation-bimodule Mackey
-  decomposition, common-Levi independence and the Gassmann application. Their subgroup
-  carriers are pinned: a parabolic subgroup defined over the finite field
-  (`TauCeti.HopfIdeal.IsParabolic`, `F`-stable because it is defined over that field) and a
-  Levi complement cut out by a Hopf ideal, as in `IsParabolic.exists_levi_complement` below.
-  The missing carriers are the Harish–Chandra functors themselves: induction and restriction
-  between the representation categories of the finite groups `L^F` and `G^F` through the
-  permutation bimodules `Λ[G^F/U^F]` and `Λ[U^F\G^F]`, built on the finite point groups of
-  `P`, `U` and `L` inside `G^F`; no pinned declaration supplies them, and Layer 7c constructs
-  them.
-* Layer 9: a pinned reductive group with its extracted root datum; the full-root-datum
-  Chevalley realization and its ordered PBW family (the native Kostant subring alone does not
-  specify these); signed ADE cover Lie algebras and their folded fixed algebras. The pinned
-  `TauCeti.Pinning` carries a Borel and simple-root trivializations over a connected base, not
-  a constant root datum.
-* Layer 9D: the isomorphism and existence theorems, split reductive groups over a nonempty base
-  corresponding to root data (Conrad, Reductive Group Schemes, Theorems 6.1.16–6.1.17,
-  pp. 196–197), and the classification of split semisimple groups by Dynkin diagrams up to
-  central isogeny (Milne, Algebraic Groups, Theorem 23.58, p. 501). The missing carrier is the
-  root datum of a split reductive group: the pinned `TauCeti.SplitMaximalTorus` supplies the
-  split torus and its character lattice, not its roots and coroots as a root datum, and root
-  data are pinned only for specific matrix groups.
-* Layer 9E: Lang–Steinberg surjectivity for a Steinberg endomorphism. The missing carrier is an
-  `𝔽_q′`-structure on the group whose `q′`-Frobenius is a positive power of the endomorphism;
-  the pinned `TauCeti.FiniteField.frobeniusPoints` gives only the `q^n`-Frobenius of the points
-  of a fixed Hopf algebra over a finite field, not an endomorphism with such a power.
-* Layer 10: rational highest-weight modules, Weyl and induced modules, and their distribution
-  actions on the constructed group.
-* Layer 11: the regular-semisimple Lie locus, its Weyl quotient and the comparison with based
-  spectral monodromy. Bare scalar or abstract-cover surrogates do not state these endpoints.
-  Layer 11A's generator and covering-permutation refinements
-  additionally need the explicit half-twist paths and covering monodromy comparison;
-  the existence theorem below uses the actual configuration quotient. The complex orbit
-  comparison of 3A.5, the biholomorphism `G(ℂ)/H(ℂ) ≃ O_x(ℂ)`, needs a complex-manifold
-  structure on the complex points of a smooth ℂ-scheme: the pinned
-  `TauCeti.SchemePointTopology.topology` supplies only the topology of `X(ℂ)`, and the smooth
-  charts and orbit/Lie comparisons are Layer 3A.5's targets.
+The declarations below are two native signature examples only: the global-sections Hopf
+instance and the group object on `Spec`. They do not prototype the anti-equivalence,
+the `Γ(Spec A) ≃ A` and `Spec Γ(G) ≃ G` identifications, or the third model. Those complete
+Layer 0 targets, including the Yoneda component convention, are specified in `README.md`.
+Mathlib's `hopfSpec.fullyFaithful` and `essImage_hopfSpec` and Tau Ceti's point functors are
+the interfaces to consume. The finite-dimensional induction example remains a specialization,
+not the general coefficient-ring adapter.
 -/
 
-open CategoryTheory
-
-@[expose] public section
+open CategoryTheory AlgebraicGeometry CommRingCat Scheme Opposite Spec
 
 namespace TauCetiRoadmap.ReductiveGroups
 
-namespace StructureAcceptance
+universe u
 
-universe v
+variable (R : Type u) [CommRing R]
 
-/-! ## Layer 3: quotients by normal closed subgroups -/
+/-- Native global-section Hopf structure of an affine group scheme over Spec R. -/
+noncomputable abbrev globalSectionsHopfAlgebra (G : Scheme.{u})
+    [G.Over (Spec (CommRingCat.of R))]
+    [GrpObj (G.asOver (Spec (CommRingCat.of R)))] [IsAffine G] :
+    HopfAlgebra R Γ(G, ⊤) :=
+  AlgebraicGeometry.instHopfAlgebraCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopOfGrpObjOverSchemeSpecAsOverOfIsAffine
+    (R := CommRingCat.of R)
 
-/-- The quotient theorem for a normal closed subgroup, with no reducedness hypothesis. Let
-`O(G)` be a commutative Hopf algebra of finite type over a field `k` and `N` the closed
-subgroup cut out by a normal Hopf ideal `I`. With `B = O(G)^{co O(G)/I}` the subalgebra of right
-coinvariants, the morphism from the fppf homogeneous quotient `G/N` to the fppf sheaf of points
-of `Spec B` induced by restricting points of `G` to `B` is an isomorphism, so `G/N` is
-represented by `Spec B`, and `O(G)` is faithfully flat over `B` (Milne, Algebraic Groups,
-Theorem 5.14, p. 102). The pinned `TauCeti.CommHopfAlgCat.coinvariantsFppfQuotientIso` assumes
-`O(G)` geometrically reduced; here `μ_p ⊂ μ_{p²}` in characteristic `p` is included, with
-quotient `μ_p` through `t ↦ t^p`. -/
-theorem isIso_quotient_of_isNormal {k : Type v} [Field k] {H : _root_.CommHopfAlgCat.{v} k}
-    [Algebra.FiniteType k H] (I : TauCeti.HopfIdeal k H) (hI : I.IsNormal) :
-    IsIso I.fppfHomogeneousQuotientToCoinvariantsPoints ∧
-      I.coinvariants.val.toRingHom.FaithfullyFlat := by
-  sorry
-
-/-! ## Layer 6A: characteristic-zero Levi complements -/
-
-/-- Mostow's theorem. Over a field of characteristic zero, a smooth geometrically connected
-finite-type affine group `G` has a Levi complement: a closed subgroup `L` mapping isomorphically
-onto `Q = G/R_u(G)`. In coordinates: with `I_u` the defining Hopf ideal of the `k`-unipotent
-radical (the geometric unipotent radical, as `k` is perfect), `O(Q)` is the subalgebra of right
-`I_u`-coinvariants of `O(G)`, and `L` is cut out by a Hopf ideal `J` for which the composite
-`O(Q) → O(G) → O(G)/J = O(L)` is bijective (McNinch, Levi decompositions of a linear algebraic
-group, §3.1, p. 6). The characteristic hypothesis is needed: in characteristic `p` the Greenberg
-transform of `SL₂` over the length-two Witt vectors has no Levi complement (McNinch, (3.2.1),
-p. 7). -/
-theorem exists_levi_complement {k : Type v} [Field k] [CharZero k]
-    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
-    (hsm : Algebra.Smooth k H)
-    (hconn : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj) :
-    ∃ J : TauCeti.HopfIdeal k H,
-      Function.Bijective
-        ((Ideal.Quotient.mkₐ k J.toIdeal).comp
-          (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal H).coinvariants.val) := by
-  sorry
-
-/-! ## Layer 7: maximal tori, the Bruhat decomposition, Levi complements of parabolics,
-Nagata's theorem and simply connected covers -/
-
-/-- Over an algebraically closed field, any two maximal tori of a finite-type affine group are
-conjugate by a rational point (Milne, Algebraic Groups, Theorem 17.10, p. 354, for a connected
-group variety). No smoothness or connectedness hypothesis is needed: a maximal torus lies in a
-Borel subgroup, any two Borel subgroups are conjugate, and the maximal tori of a Borel subgroup,
-a smooth connected solvable group, are conjugate under its rational points. The algebraic
-closedness is needed: over `ℝ` the diagonal torus and `SO₂` are maximal tori of `SL₂` that no
-real point conjugates into each other. -/
-theorem IsMaximalTorus.exists_conjugate_eq {k : Type v} [Field k] [IsAlgClosed k]
-    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k) {I J : TauCeti.HopfIdeal k H}
-    (hI : TauCeti.HopfIdeal.IsMaximalTorus k H.obj I)
-    (hJ : TauCeti.HopfIdeal.IsMaximalTorus k H.obj J) :
-    ∃ g : WithConv (H →ₐ[k] k), I.conjugate g = J := by
-  sorry
-
-/-- The Bruhat decomposition in Tits-system form. Let `G` be a reductive group (smooth and
-geometrically connected) over an algebraically closed field `k`, `B` a Borel subgroup cut out
-by `I` and `T ⊆ B` a maximal torus cut out by `J`, so `I ≤ J`. Then the group `G(k)` carries a
-Tits system whose subgroup `B` is the group `B(k)` of rational points of `B` and whose subgroup
-`N` is the normalizer of `T(k)` in `G(k)`; its Weyl group is `N_G(T)(k)/T(k)` (Milne, Algebraic
-Groups, Proposition 21.75, p. 448, for the quadruple of Example 21.47, p. 439). Through
-`TauCeti.TitsSystem.bruhatCells_eq_univ` and `TauCeti.TitsSystem.bruhatCell_injective` this gives
-`G(k) = ⨆_{w ∈ W} B(k) w B(k)` with distinct cells (Milne, Theorem 21.45, p. 438). Connectedness is needed: in the normalizer of the diagonal torus of `GL₂`, whose
-Borel subgroup is the normal subgroup `T`, no simple reflection can conjugate `B` off itself,
-while `W` has order two. -/
-theorem exists_titsSystem {k : Type v} [Field k] [IsAlgClosed k]
-    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
-    (hred : TauCeti.reductiveCommHopfAlgProperty k H) {I J : TauCeti.HopfIdeal k H}
-    (hB : TauCeti.HopfIdeal.IsBorelOverAlgClosed k H I)
-    (hT : TauCeti.HopfIdeal.IsMaximalTorus k H.obj J) (hTB : I ≤ J) :
-    ∃ τ : TauCeti.TitsSystem
-        (TauCeti.HopfAlgebra.points (R := k) (H := H.obj) (CommAlgCat.of k k)),
-      τ.subgroupB = TauCeti.CommHopfAlgCat.quotientPointsSubgroup H.obj I (CommAlgCat.of k k) ∧
-      τ.subgroupN = Subgroup.normalizer (SetLike.coe
-        (TauCeti.CommHopfAlgCat.quotientPointsSubgroup H.obj J (CommAlgCat.of k k))) := by
-  sorry
-
-/-- Levi complements of parabolic subgroups over every field. Let `G` be a connected reductive
-group over a field `k` and `P` a parabolic `k`-subgroup, cut out by the Hopf ideal `I`. With
-`U` the `k`-unipotent radical of `P` (which is the `k`-descent of the geometric unipotent
-radical) and `O(P/U)` the subalgebra of right coinvariants of its defining ideal, there is a
-closed `k`-subgroup `L` of `P`, cut out by a Hopf ideal `J` of `O(P)`, for which the composite
-`O(P/U) → O(P) → O(P)/J = O(L)` is bijective, that is, `L → P/U` is an isomorphism and
-`P = L ⋉ U` (Conrad–Feng, Reductive Groups over Fields, §12.3, p. 127). The reductivity of `G` is
-needed: in characteristic `p` the Greenberg transform of `SL₂` over the length-two Witt vectors
-is parabolic in itself and has no Levi complement (McNinch, Levi decompositions of a linear
-algebraic group, (3.2.1), p. 7). -/
-theorem IsParabolic.exists_levi_complement {k : Type v} [Field k]
-    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
-    (hred : TauCeti.reductiveCommHopfAlgProperty k H)
-    (I : TauCeti.HopfIdeal k H) (hP : TauCeti.HopfIdeal.IsParabolic k H.obj I) :
-    ∃ J : TauCeti.HopfIdeal k (TauCeti.FiniteTypeCommHopfAlgCat.quotient H I),
-      Function.Bijective
-        ((Ideal.Quotient.mkₐ k J.toIdeal).comp
-          (TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadicalDefiningIdeal
-            (TauCeti.FiniteTypeCommHopfAlgCat.quotient H I)).coinvariants.val) := by
-  sorry
-
-/-- Nagata's theorem. Over a field `k` of characteristic `p > 0`, a smooth geometrically
-connected affine group of finite type is linearly reductive exactly when it is a torus (Milne,
-Algebraic Groups, Remark 12.56, p. 249, after Proposition 12.54, p. 248, the commutative case).
-Nagata's argument is over an algebraically closed field; both sides are unchanged by extension
-to an algebraic closure, through `TauCeti.linearlyReductiveCommHopfAlgProperty_baseChange_iff`
-and `TauCeti.torusCommHopfAlgProperty.of_baseChange`. Smoothness is needed: `μ_p` is connected
-and linearly reductive but not a torus. Positive characteristic is needed: `SL₂` over `ℚ` is
-linearly reductive and not a torus. The torus need not be split: the norm-one torus of
-`𝔽_{q²}/𝔽_q` is included. -/
-theorem linearlyReductive_iff_torus {k : Type v} [Field k] (p : ℕ) [Fact p.Prime] [CharP k p]
-    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
-    (hsm : Algebra.Smooth k H)
-    (hconn : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj) :
-    TauCeti.linearlyReductiveCommHopfAlgProperty k H.obj ↔
-      TauCeti.torusCommHopfAlgProperty k H := by
-  sorry
-
-/-- The simply connected cover. Every semisimple group `G` over a field `k` admits a central
-isogeny `G̃ → G` from a simply connected semisimple group `G̃` (Milne, Algebraic Groups,
-Theorem 18.25, p. 393, for split groups, and Remark 18.27, p. 393, for all semisimple groups).
-In Hopf coordinates the arrow reverses: the cover is a morphism `O(G) ⟶ O(G̃)` of semisimple
-coordinate algebras making `O(G̃)` finite and faithfully flat over `O(G)` with central kernel.
-Milne's multiplicative isogenies between semisimple groups are exactly these central isogenies.
-For `G = PGL₂` the cover is `SL₂ → PGL₂`, with kernel `μ₂`, infinitesimal in characteristic
-`2`; on rational points it need not be onto. -/
-theorem exists_simplyConnected_centralIsogeny {k : Type v} [Field k]
-    (G : TauCeti.SemisimpleCommHopfAlgCat.{v} k) :
-    ∃ (G' : TauCeti.SemisimpleCommHopfAlgCat.{v} k) (f : G ⟶ G'),
-      TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty k G' ∧
-        TauCeti.CommHopfAlgCat.IsCentralIsogeny f.hom.hom := by
-  sorry
-
-/-! ## Layer 7a: finite-field Lang surjectivity -/
-
-/-- For a smooth geometrically connected finite-type affine group over a finite field,
-the Lang map for q-power Frobenius is surjective on points over every algebraically closed
-extension (Milne, Algebraic Groups, Corollary 17.97, p. 383). The value equation specifies
-Frobenius on the coefficient field; no reductivity or split-form hypothesis is imposed. -/
-theorem lang_surjective {k : Type v} [Field k] [Finite k]
-    (H : TauCeti.FiniteTypeCommHopfAlgCat.{v, v} k)
-    (hsm : Algebra.Smooth k H)
-    (hconn : TauCeti.geometricallyConnectedCommHopfAlgProperty k H.obj)
-    {K : Type v} [Field K] [Algebra k K] [IsAlgClosed K]
-    (F : K →ₐ[k] K) (hF : ∀ a : K, F a = a ^ Nat.card k) :
-    Function.Surjective (fun g : WithConv (H →ₐ[k] K) =>
-      g⁻¹ * AlgHom.mapValue (H := H) F g) := by
-  sorry
-
-end StructureAcceptance
-
-/-! ## Layer 11A: plane configurations and braid groups -/
-
-namespace PlaneBraidAcceptance
-
-/-- Ordered configurations of distinct complex points, with the subtype topology. -/
-abbrev OrderedPlane (n : ℕ) := {z : Fin n → ℂ // Function.Injective z}
-
-/-- A permutation acts by its inverse on coordinate indices. -/
-def permute {n : ℕ} (σ : Equiv.Perm (Fin n)) (z : OrderedPlane n) : OrderedPlane n :=
-  ⟨fun i => z.1 (σ⁻¹ i), z.property.comp σ.symm.injective⟩
-
-/-- The left permutation action on ordered plane configurations. -/
-instance planePermutationAction (n : ℕ) : MulAction (Equiv.Perm (Fin n)) (OrderedPlane n) where
-  smul := permute
-  one_smul z := Subtype.ext (by funext i; rfl)
-  mul_smul σ τ z := Subtype.ext (by funext i; rfl)
-
-/-- Unordered configurations carry the orbit quotient topology. -/
-abbrev UnorderedPlane (n : ℕ) :=
-  Quotient (MulAction.orbitRel (Equiv.Perm (Fin n)) (OrderedPlane n))
-
-/-- The standard ordered basepoint has coordinates 0, 1, ..., n−1. -/
-def planeBase (n : ℕ) : OrderedPlane n :=
-  ⟨fun i => (i.val : ℂ), by
-    intro i j h
-    apply Fin.ext
-    change (i.val : ℂ) = (j.val : ℂ) at h
-    exact_mod_cast h⟩
-
-/-- The unordered basepoint is the orbit of the standard ordered basepoint. -/
-def unorderedBase (n : ℕ) : UnorderedPlane n := Quotient.mk _ (planeBase n)
-
-/-- The fundamental group of the actual unordered plane configuration space is the
-native Artin braid group (Fox–Neuwirth, §7, pp. 122–126). -/
-theorem nonempty_plane_braid (n : ℕ) :
-    Nonempty (FundamentalGroup (UnorderedPlane n) (unorderedBase n) ≃* TauCeti.BraidGroup n) := by
-  sorry
-
-end PlaneBraidAcceptance
-
-/-! ## Layer 11B: the finite Weyl-arrangement theorem -/
-
-namespace WeylArrangementAcceptance
-
-/-- The Weyl group of a root pairing on `ℂ^κ`, acting on the coroot space: the subgroup of linear
-automorphisms generated by the coreflections `y ↦ y − ⟨α_i, y⟩ α_i^∨`. -/
-def corootWeylGroup {ι κ : Type*} (P : RootPairing ι ℂ (κ → ℂ) (κ → ℂ)) :
-    Subgroup ((κ → ℂ) ≃ₗ[ℂ] (κ → ℂ)) :=
-  Subgroup.closure (Set.range P.coreflection)
-
-/-- The complement of the root hyperplanes in the coroot space: the points `x` with
-`⟨α_i, x⟩ ≠ 0` for every root `α_i`, with the subspace topology. -/
-abbrev RegularSet {ι κ : Type*} (P : RootPairing ι ℂ (κ → ℂ) (κ → ℂ)) :=
-  {x : κ → ℂ // ∀ i, P.toLinearMap (P.root i) x ≠ 0}
-
-/-- The quotient of the root-hyperplane complement by the Weyl group acting on the coroot space,
-with the quotient topology. -/
-abbrev WeylQuotient {ι κ : Type*} (P : RootPairing ι ℂ (κ → ℂ) (κ → ℂ)) :=
-  Quotient ((MulAction.orbitRel (corootWeylGroup P) (κ → ℂ)).comap
-    (Subtype.val : RegularSet P → κ → ℂ))
-
-/-- Brieskorn's theorem for finite Weyl arrangements. For a finite reduced crystallographic root
-pairing `P` on `ℂ^κ` with a base `b`, the fundamental group of the quotient by the Weyl group of
-the complement of the root hyperplanes in the coroot space, at the class of any regular point, is
-isomorphic to the Artin group of the Coxeter matrix of `b` (Brieskorn, Sur les groupes de
-tresses, Séminaire Bourbaki exposé 401, Proposition 1, p. 25, for finite irreducible real
-reflection groups; on the spans of its roots and coroots `P` is the complexification of a
-rational root system, the subspace on which every root vanishes is a `W`-fixed contractible
-factor, and a reducible `P` is an orthogonal sum whose Weyl quotient is the product of the
-summands' quotients, while the Artin group of a block-diagonal Coxeter matrix with `2` between
-blocks is the product of the blocks' Artin groups). For the root pairing `±2`, `±1` on `ℂ` the
-quotient is `ℂ*/±1 ≅ ℂ*` and both sides are `ℤ`; for `A₁ × A₁` on `ℂ²` both sides are `ℤ²`. -/
-theorem nonempty_weylQuotient_artin {ι κ : Type*} [Finite κ]
-    (P : RootPairing ι ℂ (κ → ℂ) (κ → ℂ)) [Finite ι] [P.IsCrystallographic] [P.IsReduced]
-    (b : P.Base) (x : RegularSet P) :
-    Nonempty (FundamentalGroup (WeylQuotient P) (Quotient.mk _ x) ≃*
-      TauCeti.ArtinGroup (TauCeti.coxeterMatrixOfBase P b)) := by
-  sorry
-
-end WeylArrangementAcceptance
+/-- Native group object on Spec of a commutative Hopf algebra. -/
+noncomputable abbrev specGroupObject (A : Type u) [CommRing A] [HopfAlgebra R A] :
+    GrpObj ((Spec (CommRingCat.of A)).asOver (Spec (CommRingCat.of R))) := inferInstance
 
 end TauCetiRoadmap.ReductiveGroups
 
-end
+universe u₁ v₁ w₁
+
+namespace TauCetiRoadmap.ReductiveGroups.FiniteHC
+
+variable {k : Type u₁} {G : Type v₁} {L : Type w₁}
+variable [Field k] [Group G] [Group L]
+
+/-- Finite-group induction of the inflated L-module along P ≤ G. -/
+noncomputable def indFromProjectedLevi (P : Subgroup G) [P.FiniteIndex]
+    (π : P →* L) (M : FDRep k L) : FDRep k G :=
+  TauCeti.indFDRep (FDRep.of (M.ρ.comp π))
+
+/-- Its dimension is the subgroup index times the dimension of the Levi module. -/
+theorem finrank_indFromProjectedLevi (P : Subgroup G) [P.FiniteIndex]
+    (π : P →* L) (M : FDRep k L) :
+    Module.finrank k (indFromProjectedLevi P π M) = P.index * Module.finrank k M := by
+  change Module.finrank k (TauCeti.indFDRep (FDRep.of (M.ρ.comp π))) = _
+  exact TauCeti.finrank_indFDRep (A := FDRep.of (M.ρ.comp π))
+
+end TauCetiRoadmap.ReductiveGroups.FiniteHC
+/- Further nonexhaustive integral PBW and rational-distribution target forms are in
+IntegralRationalTargets.lean, which imports this file and the native supplier modules. -/
+
+/- Signed ADE root-cover, integral bracket and full-Cartan comparison target forms
+are in SignedADETargets.lean, which imports IntegralRationalTargets.lean. -/
+
+/- Fixed-Lie, signed-orbit, folded Serre and full-Y kernel target forms are in
+FoldingADETargets.lean, which imports SignedADETargets.lean. This pointer adds no import. -/
+
+/- Lie-algebra spectral quotients, finite Weyl arrangements and based monodromy
+are prototyped in SpectralWeylTargets.lean. That companion imports this file;
+this comment adds no reverse import or dependency on Layer11. -/
+
+/-! ## Kernel-fixing lifts of an actual central extension
+
+These generic definitions use native GroupExtension. The ADE existence/Lie action
+is in CoverLiftTargets, importing the actual lower signed carrier without a cycle. -/
+namespace TauCetiRoadmap.ReductiveGroups.CoverLifts
+
+universe uC vC wC
+variable {E : Type uC} {Q : Type vC} {A : Type wC} [Group E] [Group Q] [Group A]
+
+def liftSubgroup (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
+    Subgroup (MulAut E × A) where
+  carrier := {p | (∀ s, p.1 (S.inl s) = S.inl s) ∧
+    ∀ e, S.rightHom (p.1 e) = ρ p.2 (S.rightHom e)}
+  one_mem' := by sorry
+  mul_mem' := by sorry
+  inv_mem' := by sorry
+
+abbrev LiftGroup (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) := liftSubgroup S ρ
+
+def projection (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
+    LiftGroup S ρ →* A where
+  toFun l := l.val.2
+  map_one' := rfl
+  map_mul' _ _ := rfl
+
+def coverAutomorphism (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q) :
+    LiftGroup S ρ →* MulAut E where
+  toFun l := l.val.1
+  map_one' := rfl
+  map_mul' _ _ := rfl
+
+def coverAction (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (l : LiftGroup S ρ) (e : E) : E := coverAutomorphism S ρ l e
+
+theorem coverAction_projection (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (l : LiftGroup S ρ) (e : E) :
+    S.rightHom (coverAction S ρ l e) = ρ (projection S ρ l) (S.rightHom e) := l.property.2 e
+
+/-- Actual character twist; only the group laws use centrality. -/
+def characterTwist (S : GroupExtension ℤˣ E Q)
+    (hc : ∀ s e, S.inl s * e = e * S.inl s) (χ : Q →* ℤˣ) : MulAut E where
+  toFun e := S.inl (χ (S.rightHom e)) * e
+  invFun e := S.inl (χ (S.rightHom e))⁻¹ * e
+  left_inv := by sorry
+  right_inv := by sorry
+  map_mul' := by sorry
+
+def characterInclusion (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (hc : ∀ s e, S.inl s * e = e * S.inl s) : (Q →* ℤˣ) →* LiftGroup S ρ where
+  toFun χ := ⟨(characterTwist S hc χ, 1), by sorry⟩
+  map_one' := by sorry
+  map_mul' := by sorry
+
+/-- Honest whole family: neither extension, action nor centrality inputs are erased. -/
+noncomputable def characterKernelEquiv : (S : GroupExtension ℤˣ E Q) →
+    (ρ : A →* MulAut Q) → (hc : ∀ s e, S.inl s * e = e * S.inl s) →
+    (Q →* ℤˣ) ≃* (projection S ρ).ker := by sorry
+
+theorem characterKernelEquiv_value (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (hc : ∀ s e, S.inl s * e = e * S.inl s) (χ : Q →* ℤˣ) (e : E) :
+    coverAction S ρ (characterKernelEquiv S ρ hc χ).val e =
+      S.inl (χ (S.rightHom e)) * e := by sorry
+
+def liftableExtension (S : GroupExtension ℤˣ E Q) (ρ : A →* MulAut Q)
+    (hc : ∀ s e, S.inl s * e = e * S.inl s) :
+    GroupExtension (Q →* ℤˣ) (LiftGroup S ρ) (projection S ρ).range where
+  inl := characterInclusion S ρ hc
+  rightHom := (projection S ρ).rangeRestrict
+  inl_injective := by sorry
+  range_inl_eq_ker_rightHom := by sorry
+  rightHom_surjective := by sorry
+
+end TauCetiRoadmap.ReductiveGroups.CoverLifts
+
+/- The actual signed ADE instantiation, root-line and native Lie action are in
+CoverLiftTargets.lean. This file stays below IntegralRational/SignedADETargets. -/
+
+/- Generic algebraic actions, orbit boundaries, closed projective orbits and
+complex-point comparisons are prototyped in OrbitGeometryTargets.lean.
+That companion imports this file; no reverse import is introduced. -/
