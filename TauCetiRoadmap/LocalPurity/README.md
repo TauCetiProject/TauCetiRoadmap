@@ -272,12 +272,14 @@ Downstream consumers.
   quasi-affine) (`AlgebraicGeometry/LineBundle/Ample.lean`).
 
 **From TauCetiRoadmap.SchemeAndStackFoundations.** §0.9 `finite_presentation_limits` (over a
-cofiltered limit of quasi-compact quasi-separated schemes with affine transition maps, schemes of
-finite presentation and their morphisms descend to a finite stage, Limits, Lemma 32.10.1 (01ZM),
-and the properties proper, finite, étale and closed immersion of a morphism between them are
-inherited from a finite stage, Lemmas 32.13.1 (081F), 32.8.3 (01ZO), 32.8.10 (07RP) and 32.8.5
-(01ZP)); §0.14 *henselian_finiteEtale_equivalence* (More on Algebra, Lemma 15.13.2 (09ZL): for a
-henselian pair `(R, I)`, base change is an equivalence from finite étale `R`-algebras to finite
+cofiltered limit of quasi-compact quasi-separated schemes `S_i` with affine transition maps,
+schemes of finite presentation over the limit and their morphisms descend to a finite stage,
+Limits, Lemma 32.10.1 (01ZM), and for a morphism between schemes of finite presentation over some
+`S_i`, each of the properties proper, finite, étale and closed immersion holds for its base change
+to some `S_j` over `S_i` whenever it holds for its base change to the limit, Lemmas 32.13.1
+(081F), 32.8.3 (01ZO), 32.8.10 (07RP) and 32.8.5 (01ZP)); §0.14
+*henselian_finiteEtale_equivalence* (More on Algebra, Lemma 15.13.2 (09ZL): for a henselian pair
+`(R, I)`, base change is an equivalence from finite étale `R`-algebras to finite
 étale `R/I`-algebras) and *henselian_pair_characterisations* (for a henselian pair `(R, I)` and a
 finite `R`-algebra `S`, idempotents of `S/IS` lift uniquely to `S`); §2.6
 `serre_affineness_criterion` (higher quasi-coherent cohomology vanishes on an affine scheme); §2.7
