@@ -989,7 +989,8 @@ Layer 1.
   need nothing beyond Layer 1.
 - A roadmap for the Meijer `G`-function and the non-terminating `ₚF_q` with `p > q + 1` consumes
   Layers 1–5; SpecialFunctionsConfluent's `₂F₀` of DLMF 13.6.21 belongs there.
-- A roadmap for the Appell functions consumes Layers 1–2 and 4.
+- A roadmap for the Appell functions (DLMF §§16.13–16.16) rests on SpecialFunctionsHypergeometric,
+  not on this roadmap.
 - A roadmap for the hypergeometric orthogonal polynomials of DLMF Chapter 18 (Hahn, Racah,
   Wilson) consumes 1.5 and Layer 4.
 
