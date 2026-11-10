@@ -16,21 +16,30 @@ function. The conormal of Q⊂M uses covectors in T*_qM annihilating the image o
 
 Consume Tau Ceti's `SymplecticForm.IsIsotropic`, `IsCoisotropic`, `IsLagrangian`, linear cotangent
 form and Liouville identity. Tau Ceti also proves the following, which this roadmap consumes by
-name and does not restate: the Liouville and canonical symplectic forms of the cotangent bundle
+name and does not restate: the submersive projection and the chart transitions of the cotangent
+bundle (C1.1); the Liouville and canonical symplectic forms of the cotangent bundle
 and their chart formulas (C1.2); the cotangent lift of a diffeomorphism and of a smooth group
-action, with its preservation of both forms (C1.3); the open-restriction, product,
+action, with its preservation of both forms, and the cotangent relation of a general map (C1.3);
+the open-restriction, product,
 fibre-translation and fibre-dilation identities (C1.4); the tangent-image predicates, Lagrangian
-immersions and embeddings and their invariance under rescaling (C2); the realification of
-complex matrices and the maximal-compactness and connectedness theorems for GL(n,ℂ) and Sp(2n,ℝ)
-(C2.1); the exact-Lagrangian results for the zero section, graphs of one-forms and conormal
-maps, Lagrangian graphs of diffeomorphisms, the Liouville field, the classification of
+immersions and embeddings, their invariance under rescaling, reparametrization and
+symplectomorphisms, their dimension counts, products and open restrictions, and the linear
+complement, maximal-isotropic and coisotropic dimension statements (C2); the matrix polar
+decomposition, the positive-definite logarithm and the smooth polar deformation (C2.0); the
+realification of complex matrices as a closed topological embedding onto the matrices commuting
+with J, the closedness of the symplectic and orthogonal subgroups, the symplecticity of the polar
+factors of a symplectic matrix, the three pairwise intersections, the centre and the Cartan
+involution of Sp(2n,ℝ), and the maximal-compactness and connectedness theorems for GL(n,ℂ) and
+Sp(2n,ℝ) (C2.1); the exact-Lagrangian results for the zero section, graphs of one-forms and conormal
+maps, the dimension of conormal fibres, Lagrangian graphs of diffeomorphisms, the Liouville field,
+the classification of
 λ-preserving diffeomorphisms, the torus graphs and the contact forms and Reeb flow of the unit
 cosphere bundle (C2.2); the transpose, product and diagonal of Lagrangian correspondences and
 the generating-function calculus on open subsets of normed spaces, with the intrinsic mixed
 Hessian on a product of manifolds (C3); and the symplectic Witt extension (C4). Consume ordinary Darboux and compact-manifold Moser with a given smooth symplectic path from
 [HeegaardFloer](../../HeegaardFloer/README.md), F2.1. Generic differential-form calculus belong to
 [DifferentialGeometry](../../DifferentialGeometry/README.md); generic tubular neighborhoods belong to
-[GeometricTopology](../../GeometricTopology/README.md); bundle duals and smooth operations belong
+[GeometricTopology](../../GeometricTopology/README.md) §1.5; bundle duals and smooth operations belong
 to [SmoothBundlesConnections](../../SmoothBundlesConnections/README.md). The missing instances or
 lemmas needed to connect these interfaces are explicit work here or there, not assumptions.
 
@@ -39,9 +48,14 @@ lemmas needed to connect these interfaces are explicit work here or there, not a
 1. T*M is Tau Ceti's `TauCeti.CotangentBundle I M`, the Mathlib total space
    `Bundle.TotalSpace (E →L[ℝ] ℝ) (fun x ↦ TangentSpace I x →L[ℝ] ℝ)`, with model
    `I.prod 𝓘(ℝ,E →L[ℝ] ℝ)`; the family's statements name them `Cotangent I M` and
-   `cotangentModel I`. Use the existing continuous-linear-map bundle charts and prove
-   projection smooth with `Manifold.IsSubmersion`; zero section and smooth one-form sections; local transition
-   formula `(q,p)↦(φ(q),p∘(dφ_q)⁻¹)`; fiberwise addition/scaling and vector-bundle laws.
+   `cotangentModel I`. Use the existing continuous-linear-map bundle charts. The projection is a
+   submersion (Tau Ceti's `Bundle.isSubmersion_proj`, for every fibre bundle over a manifold
+   whose total space is a manifold), the zero
+   section is smooth (Mathlib's `Bundle.contMDiff_zeroSection`), and the change from the
+   preferred chart at one covector to that at another is `(q,p)↦(φ(q),p∘(dφ_q)⁻¹)`, with φ the
+   change of base charts (`TauCeti.CotangentBundle.extChartAt_extChartAt_symm`); consume these.
+   Smooth one-form sections, fiberwise addition and scaling and the vector-bundle laws are those
+   of Mathlib's continuous-linear-map bundle.
 2. The Liouville form λ(v)=p(dπ(v)) is Tau Ceti's `TauCeti.CotangentBundle.liouvilleForm`, a
    smooth one-form on T*M with the chart formula Σpᵢdqᵢ
    (`TauCeti.CotangentBundle.inChartAt_liouvilleForm`). Its pullback by the section s_α of a
@@ -68,8 +82,17 @@ lemmas needed to connect these interfaces are explicit work here or there, not a
    action (`TauCeti.CotangentBundle.instContMDiffSMul`), and every group element preserves both
    forms (`TauCeti.CotangentBundle.mpullback_smul_liouvilleForm`,
    `TauCeti.CotangentBundle.mpullback_smul_symplecticForm`). Consume these.
-   Define cotangent pullback along a general map as a relation over the map, rather than a false
-   total map T*M→T*N when derivatives are not invertible.
+   Pullback of covectors along a general map f:M→N is a relation over the map, not a total map
+   T*M→T*N, since df need not be invertible: Tau Ceti's `TauCeti.CotangentBundle.cotangentRel`
+   relates (x,p) to (f(x),q) when p=q∘df_x. The relation of the identity is equality
+   (`TauCeti.CotangentBundle.cotangentRel_id_iff`), the relation of a composite g∘f is the
+   composite of the relations whenever f is differentiable at x and g at f(x)
+   (`TauCeti.CotangentBundle.cotangentRel_comp_iff`), and for a diffeomorphism the relation is
+   the graph of its cotangent lift (`TauCeti.CotangentBundle.cotangentRel_diffeomorph_iff`);
+   consume these. A constant map relates each zero covector to the whole fibre over its value
+   and a nonzero covector to nothing (`TauCeti.CotangentBundle.cotangentRel_const_iff`), so for
+   nonempty M and N of positive dimension its relation is the graph of no map in either
+   direction.
 4. Tau Ceti proves the four identities of this item; consume them. The open-restriction
    diffeomorphism T*U ≅ π⁻¹(U), `TauCeti.CotangentBundle.restrictOpen`, identifies the
    Liouville and symplectic forms
@@ -102,8 +125,29 @@ satisfying the corresponding predicate; the Lagrangian case is Tau Ceti's
 `TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianEmbedding`, a smooth immersion that is a
 topological embedding with Lagrangian tangent images, which on smooth embeddings is the
 tangent-image condition alone
-(`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianEmbedding_iff_of_isSmoothEmbedding`). Prove independence of parametrization, transport by symplectomorphisms, dimension
-bounds/equalities, products and restriction to open sets. Nonzero real rescaling of a
+(`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianEmbedding_iff_of_isSmoothEmbedding`). Tau
+Ceti proves, for the isotropic, coisotropic and Lagrangian predicates, independence of
+parametrization (`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_comp_diffeomorph_iff`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.isIsotropicMap_comp_diffeomorph_iff`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.isCoisotropicMap_comp_diffeomorph_iff`), transport by
+symplectomorphisms (`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_diffeomorph_comp_iff`
+and its isotropic and coisotropic siblings),
+the dimension counts `2 dim N ≤ dim M` for isotropic maps and `2 dim N = dim M` for
+Lagrangian maps with an injective differential at some point, and `dim M ≤ 2 dim N` for
+coisotropic maps from a nonempty source
+(`TauCeti.SmoothTwoForm.IsNondegenerate.IsIsotropicMap.two_mul_finrank_le`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianMap.two_mul_finrank`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.IsCoisotropicMap.finrank_le_two_mul_finrank`), products
+of nonempty sources (`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_prodMap_iff`) and
+restriction to open sets and open covers
+(`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_comp_subtype_val_iff`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_iff_of_isOpenCover`); it proves the
+parametrization and transport statements for symplectic tangent images
+(`TauCeti.SmoothTwoForm.IsNondegenerate.hasSymplecticTangentImages_comp_diffeomorph_iff`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.hasSymplecticTangentImages_diffeomorph_comp_iff`) and
+parametrization independence of Lagrangian embeddings
+(`Diffeomorph.isLagrangianEmbedding_comp_diffeomorph_iff`). Consume these, and prove the same
+statements for the symplectic, isotropic and coisotropic embeddings defined here. Nonzero real rescaling of a
 symplectic form preserves the isotropic, coisotropic and Lagrangian predicates, Lagrangian
 immersions and, with the primitive rescaled by the same constant, exact Lagrangian maps
 (`TauCeti.SmoothTwoForm.IsNondegenerate.isIsotropicMap_smul_iff`,
@@ -113,63 +157,67 @@ immersions and, with the primitive rescaled by the same constant, exact Lagrangi
 `TauCeti.SmoothTwoForm.IsNondegenerate.isExactLagrangianMap_smul_iff`); consume these and prove
 the same invariance for symplectic tangent images. A Lagrangian immersion is a separate notion,
 Tau Ceti's `TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianImmersion`: a smooth immersion
-with isotropic tangent images from a manifold of half the dimension. Prove its
-transport/product API without replacing self-intersections by an embedded submanifold.
+with isotropic tangent images from a manifold of half the dimension. Tau Ceti proves that
+products of Lagrangian immersions are Lagrangian immersions
+(`TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianImmersion.prodMap`); consume it, and prove
+the reparametrization and symplectomorphism transport of Lagrangian immersions without
+replacing self-intersections by an embedded submanifold.
 
 For a finite-dimensional real symplectic vector space and any subspace W, reuse
 `SymplecticForm.orthogonal`, `mem_orthogonal_iff'`, `finrank_orthogonal`,
 `orthogonal_orthogonal`, `isIsotropic_iff`, `IsIsotropic.two_mul_finrank_le`,
 `IsLagrangian.two_mul_finrank` and `IsIsotropic.isLagrangian_of_finrank` from
 `TauCeti.Geometry.Symplectic.Lagrangian.Basic`. Export their tangent-image
-specializations rather than duplicate those definitions or proofs. Derive the
-additive identity `dim W + dim W^ω = dim V`. For the restriction and splitting
-equivalences, consume Mathlib's
-`LinearMap.BilinForm.restrict_nondegenerate_iff_isCompl_orthogonal` and
-`isCompl_orthogonal_iff_disjoint`: restricted nondegeneracy,
-`W ∩ W^ω = 0`, and the internal direct sum `V = W ⊕ W^ω` are equivalent.
-These two comparisons need only a reflexive bilinear form in finite dimension;
-use the existing alternating form's reflexivity. Prove Lagrangian iff
-`Maximal ω.IsIsotropic W`, using extension by an isotropic line when an
-isotropic W is properly contained in W^ω. Include the coisotropic dimension
-bound. In finite dimension, ambient nondegeneracy gives the complementary
-dimension identity and the isotropic bound `2 * finrank W ≤ finrank V`.
-For `B : LinearMap.BilinForm ℝ V` on finite-dimensional V with `B.IsRefl`,
-use `B.orthogonal W`: the general dimension formula gives
-`finrank W + finrank (B.orthogonal W) ≥ finrank V`; hence inclusion
-`B.orthogonal W ≤ W` gives `2 * finrank W ≥ finrank V`, without assuming B
-nondegenerate. Specialize this to `ω.toBilinForm` for the bundled symplectic case. The maximal-isotropic
-equivalence uses alternation without that extra hypothesis. Include
-zero-dimensional cases.
+specializations rather than duplicate those definitions or proofs. The same file proves the
+additive identity `dim W + dim W^ω = dim V`
+(`TauCeti.SymplecticForm.finrank_add_finrank_orthogonal`), the coisotropic bound
+`finrank V ≤ 2 * finrank W` (`TauCeti.SymplecticForm.IsCoisotropic.finrank_le_two_mul_finrank`),
+and, in any dimension, that W is Lagrangian iff `Maximal ω.IsIsotropic W`
+(`TauCeti.SymplecticForm.isLagrangian_iff_maximal_isIsotropic`). For the restriction and
+splitting equivalences it proves that restricted nondegeneracy, `W ∩ W^ω = 0` and, in finite
+dimension, the internal direct sum `V = W ⊕ W^ω` are equivalent
+(`TauCeti.SymplecticForm.isSymplectic_iff_nondegenerate_restrict`,
+`TauCeti.SymplecticForm.isSymplectic_iff_disjoint`, `TauCeti.SymplecticForm.isSymplectic_iff_isCompl`),
+from Mathlib's `LinearMap.BilinForm.restrict_nondegenerate_iff_isCompl_orthogonal` and
+`LinearMap.BilinForm.isCompl_orthogonal_iff_disjoint` for reflexive forms. For any
+`B : LinearMap.BilinForm ℝ V` on finite-dimensional V, with no reflexivity or nondegeneracy,
+Tau Ceti proves `finrank V ≤ finrank W + finrank (B.orthogonal W)` and that
+`B.orthogonal W ≤ W` gives `finrank V ≤ 2 * finrank W`
+(`LinearMap.BilinForm.finrank_le_finrank_add_finrank_orthogonal`,
+`LinearMap.BilinForm.finrank_le_two_mul_finrank_of_orthogonal_le`). Consume all of these,
+including their zero-dimensional cases.
 
 ### C2.0. Elementary matrix polar package
 
-This package is independent of LieGroups Layers 7 and 9. Own the elementary
-finite-dimensional matrix polar decomposition over ℝ and ℂ: for invertible A,
-construct the unique positive-definite self-adjoint `P=(AA*)^(1/2)` and
-orthogonal/unitary U with `A=PU`, using Mathlib's Hermitian spectral theorem
-and continuous functional calculus. Prove that matrix logarithm is the global inverse
-`PD_n→Sym_n` to the symmetric exponential `Sym_n→PD_n`, with the corresponding
-positive Hermitian version over ℂ. Prove both `log(exp X)=X` on `Sym_n` and
-`exp(log P)=P` on `PD_n`. The continuous functional calculus gives a continuous logarithm and the
-latter inverse identity; prove smoothness by the inverse function theorem, using the positive
-divided-difference formula for the invertible derivative of `exp` on symmetric
-(respectively Hermitian) matrices. Prove
-uniqueness, smooth dependence on A,
-unitary left/right equivariance, and the contraction `A↦P^(1−t)U` to the
-unitary factor, fixing that factor. For SL(n,ℂ), prove detP=detU=1 and that
-every positive real power of P still has determinant 1. For SL(2,ℂ), prove
-equivariance under the central ±I action before PSL(2,ℂ) descent in HF F2.6h. This is the complete C2.0 polar package consumed by HF. Export both smooth
-ambient polar coordinate diffeomorphisms for real invertible matrices
-(`A=PU=U(UᵀPU)`, with orthogonal `U` and positive symmetric factors) and complex
-invertible matrices (`A=PU=U(U*PU)`, with unitary `U` and positive Hermitian
-factors). Prove the inverse maps, smoothness, equivariance and determinant-one
-restrictions already specified above. LieGroups Layers 7 and 9 consume these
-ambient polar maps; each layer proves preservation for its own stated closed
-subgroups. C2.1 proves the Sp-specific polar-factor preservation needed for its
-Sp application. For the GL_n(ℝ) orthogonal-left example use `A=U(UᵀPU)` and
-the symmetric logarithm of `UᵀPU`. The positive spectral functional calculus
-and inverse-function argument above supply both inverse identities and
-smoothness over real symmetric and complex Hermitian matrices.
+The elementary matrix polar package over ℝ and ℂ is Tau Ceti's, independent of LieGroups Layers 7
+and 9; this roadmap consumes it and passes it on to HeegaardFloer and LieGroups. Every invertible
+A is uniquely `A=PU` with P positive definite and U unitary (orthogonal over ℝ), where
+`P=(AA*)^(1/2)` (`Matrix.GeneralLinearGroup.existsUnique_posDef_mul_unitary`); for `det A=1`,
+every real power of P and the factor U have determinant 1
+(`Matrix.GeneralLinearGroup.det_rpow_sqrt_mul_star_of_det_eq_one`,
+`Matrix.GeneralLinearGroup.det_polarUnitary_of_det_eq_one`). The logarithm `cfc Real.log` inverts
+the exponential on Hermitian (over ℝ, symmetric) matrices and the exponential inverts it on
+positive definite ones, and it is smooth on the positive definite matrices
+(`Matrix.IsHermitian.cfc_log_exp`, `Matrix.PosDef.exp_cfc_log`, `Matrix.contDiffOn_cfc_log`).
+Both factors depend smoothly on A (`Matrix.GeneralLinearGroup.contMDiff_sqrt_mul_star`,
+`Matrix.GeneralLinearGroup.contMDiff_coe_polarUnitary`). The contraction `A↦P^(1−t)U`,
+`Matrix.GeneralLinearGroup.polarDeformation`, is jointly smooth in t and A
+(`Matrix.GeneralLinearGroup.contMDiff_polarDeformation`), fixes every unitary matrix, is
+equivariant under unitary multiplication on both sides, in particular under the central ±I
+action used before PSL(2,ℂ) descent in HF F2.6h
+(`Matrix.GeneralLinearGroup.polarDeformation_unitary_mul_mul_unitary`), and gives the homotopy
+`Matrix.GeneralLinearGroup.polarHomotopy` from the identity to the unitary retraction, relative to
+the unitary subgroup. Consume these.
+
+Construct here the two smooth ambient polar-coordinate diffeomorphisms: for real invertible
+matrices `A=PU=U(UᵀPU)`, with orthogonal U and positive symmetric factors, and for complex
+invertible matrices `A=PU=U(U*PU)`, with unitary U and positive Hermitian factors, each from the
+invertible matrices onto the product of the positive definite matrices and the unitary group,
+with inverse `(P,U)↦PU`. Smoothness of both directions comes from the smooth factors above and
+from multiplication; prove their unitary equivariance and their restriction to determinant one.
+LieGroups Layers 7 and 9 consume these ambient polar maps; each layer proves preservation for its
+own stated closed subgroups. C2.1 consumes the Sp-specific polar-factor preservation. For the
+GL_n(ℝ) orthogonal-left example use `A=U(UᵀPU)` and the symmetric logarithm of `UᵀPU`.
 
 ### C2.1. Compact intersections and group applications
 
@@ -188,45 +236,52 @@ The realification of a complex matrix is Tau Ceti's `Matrix.realify`,
 `realify(X+iY)=Matrix.fromBlocks X (−Y) Y X`: an injective ℝ-algebra homomorphism
 (`Matrix.realifyAlgHom`, `Matrix.realify_injective`) that sends conjugate transpose to
 transpose (`Matrix.realify_conjTranspose`) and whose values commute with J
-(`Matrix.commute_J_realify`). Prove that its image is exactly the matrices commuting with J.
-The induced map on units `GL_C → GL_R` is Tau Ceti's `Matrix.GeneralLinearGroup.realify`.
-Prove it is a topological group isomorphism onto the commuting-J subgroup: its inverse extracts the two real
-blocks, and `realify(A⁻¹)=realify(A)⁻¹`. Prove this image is closed in `GL_R`.
-Do not use `Matrix.UnitaryGroup.embeddingGL` as a topological embedding; its
+(`Matrix.commute_J_realify`); its image is exactly the matrices commuting with J
+(`Matrix.commute_J_iff_exists_realify_eq`). The induced map on units `GL_C → GL_R` is Tau Ceti's
+`Matrix.GeneralLinearGroup.realify`. It is a closed embedding
+(`Matrix.GeneralLinearGroup.isClosedEmbedding_realify`), hence an isomorphism of topological
+groups onto its image (`Matrix.GeneralLinearGroup.realifyEquivRange`), and that image is the
+closed subgroup of units commuting with J (`Matrix.GeneralLinearGroup.mem_range_realify_iff`).
+Consume these. Do not use `Matrix.UnitaryGroup.embeddingGL` as a topological embedding; its
 comparison through matrix-to-linear-map equivalence is algebraic only.
 
 Use the native monoid homomorphism `Unitary.toUnits`, specialized to
 `Matrix (Fin n) (Fin n) ℂ`, for the inclusion `U(n)→GL_C`.
 Consume `SymplecticGroup.mem_iff`, `mem_iff'`, and `transpose_mem_iff` for
 `AJAᵀ=J` and `AᵀJA=J`, and `Matrix.mem_orthogonalGroup_iff` and
-`mem_orthogonalGroup_iff'` for orthogonality. For invertible real A, prove
-`AJ=JA ↔ AJA⁻¹=J`; combine these comparisons to derive the pairwise
-intersection identities below. In particular, commutation with J turns the
-symplectic identity into `AAᵀ=1`, and orthogonality gives the converse.
+`mem_orthogonalGroup_iff'` for orthogonality. Commutation with J turns the symplectic identity
+into `AAᵀ=1`, and orthogonality gives the converse; this is the content of the intersection
+identities below.
 
-In the single ambient group `GL_R`, define `Sp_R` and `O_R` by inverse-image
-membership under `Units.val` in the native symplectic and orthogonal
-submonoids, and define `C_R` as the realified image of `GL_C` (equivalently,
-the units commuting with J). Prove each is a subgroup; prove the native
-matrix-subspace topology agrees with the units-subgroup topology, using
-continuity of `Units.val` and the inverse map, with the explicit matrix inverse
-formulas on invertible matrices: consume
-`SymplecticGroup.inv_eq_symplectic_inv` and `coe_inv'` for
-`A⁻¹=−J AᵀJ` on `Sp_R`, and `Matrix.UnitaryGroup.inv_val` for
-`A⁻¹=Aᵀ` on `O_R` and `U⁻¹=U*` on U(n). The realification inverse
-above gives the corresponding topology comparison for `C_R`, with
-`realify(A⁻¹)=realify(A)⁻¹`. Prove these are closed subgroups
-of `GL_R` by their defining polynomial matrix identities, and identify all
-three pairwise intersections `Sp_R∩C_R`, `Sp_R∩O_R`, and `C_R∩O_R` with the
-same realified image of native `U(n)` by topological group isomorphisms.
+In the single ambient group `GL_R`, `Sp_R` is Tau Ceti's `TauCeti.GLSymplectic (Fin n) ℝ`, the
+units whose underlying matrix lies in the native symplectic submonoid; `O_R` is the unitary
+subgroup of `GL_R`, whose elements are the units with orthogonal underlying matrix; and `C_R` is
+the realified image of `GL_C`, equivalently the units commuting with J. `Sp_R` and `O_R` are
+closed (`TauCeti.isClosed_GLSymplectic`, `TauCeti.isClosed_unitarySubgroup_units`), and `C_R` is
+closed by the closed embedding above. The three pairwise intersections `Sp_R∩O_R`, `Sp_R∩C_R` and
+`C_R∩O_R` are each equal, as subgroups of `GL_R`, to the realified image of the unitary subgroup
+of `GL_C` (`TauCeti.GLSymplectic.inf_unitarySubgroup`, `TauCeti.GLSymplectic.inf_range_realify`,
+`Matrix.GeneralLinearGroup.unitarySubgroup_inf_range_realify`; on matrices,
+`Matrix.symplecticGroup_inf_orthogonalGroup`), and realification is an isomorphism of
+topological groups from `U(n)` onto `Sp_R∩O_R`
+(`Matrix.unitaryGroupEquivSymplecticInfOrthogonal`). Consume these. Prove that on `Sp_R`, `O_R`
+and `U(n)` the native matrix-subspace topology agrees with the units-subgroup topology, using
+continuity of `Units.val` and the inverse map, with the explicit matrix inverse formulas on
+invertible matrices: consume `SymplecticGroup.inv_eq_symplectic_inv` and
+`SymplecticGroup.coe_inv'` for `A⁻¹=−J AᵀJ` on `Sp_R`, and `Matrix.UnitaryGroup.inv_val` for
+`A⁻¹=Aᵀ` on `O_R` and `U⁻¹=U*` on U(n).
 
-For compactness of U(n), use `isClosed_unitary` and
-`entry_norm_bound_of_unitary` to place the native carrier in the finite
-product of closed unit discs; that product is compact, so the closed unitary
-carrier is compact. Transport compactness to its units image by the proven
-homeomorphism. Avoid relying on a global matrix norm instance.
+`U(n)` is compact in `GL_C` (`Matrix.GeneralLinearGroup.isCompact_unitarySubgroup`) and so is its
+realified image `Sp_R∩O_R` in `GL_R` (`TauCeti.GLSymplectic.isCompact_inf_unitarySubgroup`);
+consume these rather than reproving compactness from entry bounds.
 
-First prove that the C2.0 polar factors of a symplectic matrix are themselves symplectic. For A=P U∈Sp_R, use the native membership/transpose identities and functional calculus to prove `JPJ⁻¹=P⁻¹`, hence `JP^sJ⁻¹=P^(−s)` for every real s. Thus every P^s is symplectic and U=P⁻¹A belongs to Sp_R∩O_R, the realified U(n). The positive-factor path contracts P to id.
+Tau Ceti proves that the C2.0 polar factors of a symplectic matrix are symplectic. For a positive
+semidefinite symplectic S, `S^(−s)=J S^s J⁻¹` for every real s
+(`SymplecticGroup.rpow_neg_eq_J_conj_rpow`), so every real power of S is symplectic
+(`SymplecticGroup.rpow_mem`). For A=PU∈Sp_R both P and U are symplectic
+(`SymplecticGroup.sqrt_mul_star_mem`, `SymplecticGroup.polarUnitary_mem`), so U lies in
+Sp_R∩O_R, the realified U(n), and `t↦P^(1−t)U` is a path of symplectic matrices from A to U
+(`SymplecticGroup.joinedIn_polarUnitary`). Consume these.
 
 Tau Ceti proves U(n), GL(n,ℂ) and Sp(2n,ℝ) path connected, including for n=0: `Matrix.UnitaryGroup.instPathConnectedSpace` for `Matrix.unitaryGroup (Fin n) ℂ`, `TauCeti.instPathConnectedSpaceMatrixGeneralLinearGroup` for the units of the complex matrix algebra, and `Matrix.isPathConnected_symplecticGroup` for the native symplectic carrier as a subset of the real matrix space. Consume them, and prove the realified group C_R connected as the image of GL(n,ℂ) under the continuous units map `Matrix.GeneralLinearGroup.realify`.
 
@@ -234,7 +289,7 @@ U(n) is maximal compact in GL(n,ℂ): Tau Ceti proves that the unitary subgroup 
 
 The realified U(n)=Sp_R∩O_R is maximal compact in Sp_R: Tau Ceti proves that a compact subgroup of `GL (Fin n ⊕ Fin n) ℝ` contained in `TauCeti.GLSymplectic (Fin n) ℝ` and containing its orthogonal elements equals their intersection (`TauCeti.GLSymplectic.eq_inf_unitarySubgroup_of_isCompact_of_le`; as maximality among the compact subgroups of Sp_R, `TauCeti.GLSymplectic.maximal_isCompact_unitarySubgroup`), and that this intersection is the realification of U(n) (`Matrix.GeneralLinearGroup.range_realify_comp_toUnits`). Consume them. Their proof is the same trace growth, applied to the positive polar factor of a symplectic matrix, which is symplectic by the preservation theorem above. Apply LieGroups Layer2's generic closed-subgroup structure theorem to the explicitly defined closed matrix subgroups and identify their embedded structures through the established topological group equivalences.
 
-Construct the required separate Sp structural and adjoint-model comparison. For n≥1 prove its real Lie algebra semisimple, its group center `{±I}`, and that `θ(A)=A⁻ᵀ` is a smooth involutive automorphism preserving Sp_R. Compute `dθ(X)=−Xᵀ` and `B(X,Y)=(2n+2)tr(XY)`, so `−B(X,dθ(X))=(2n+2)tr(XXᵀ)>0` for X≠0. Use LieGroups Layer9's generic adjoint-model construction with this actual positive Cartan metric and finite center. Identify its compact adjoint subgroup with Ad(U(n)) and prove `Ad⁻¹(Ad(U(n)))=U(n)`, using the central kernel `{±I}⊂U(n)`. Give the matrix comparison: if A=P U and Ad(A) is orthogonal for the Cartan metric, Ad(P) is both positive self-adjoint and orthogonal, hence id; positivity and the central-kernel calculation force P=1. These structural, Killing and adjoint comparisons are required targets; they are not hypotheses of the two preceding trace-growth proofs.
+Construct the required separate Sp structural and adjoint-model comparison. For n≥1 its group centre is `{±I}`: Tau Ceti proves that in positive rank the centre consists of the scalar matrices whose scalar squares to one, over any commutative ring, on the index `Fin (n+n)` (`TauCeti.GLSymplecticFin.mem_center_iff`). The map `θ(A)=A⁻ᵀ` is an involutive automorphism of Sp_R, namely conjugation by J, whose fixed points are the orthogonal symplectic matrices (`TauCeti.GLSymplectic.cartanInvolution`, `TauCeti.GLSymplectic.coe_cartanInvolution`, `TauCeti.GLSymplectic.cartanInvolution_eq_self_iff`). Consume these; prove that the real Lie algebra is semisimple for n≥1 and that θ is smooth. Compute `dθ(X)=−Xᵀ` and `B(X,Y)=(2n+2)tr(XY)`, so `−B(X,dθ(X))=(2n+2)tr(XXᵀ)>0` for X≠0. Use LieGroups Layer9's generic adjoint-model construction with this actual positive Cartan metric and finite center. Identify its compact adjoint subgroup with Ad(U(n)) and prove `Ad⁻¹(Ad(U(n)))=U(n)`, using the central kernel `{±I}⊂U(n)`. Give the matrix comparison: if A=P U and Ad(A) is orthogonal for the Cartan metric, Ad(P) is both positive self-adjoint and orthogonal, hence id; positivity and the central-kernel calculation force P=1. These structural, Killing and adjoint comparisons are required targets; they are not hypotheses of the two preceding trace-growth proofs.
 
 Finally give the separate LieGroups Layer9 matrix-model specializations for H=C_R and H=Sp_R, both with π=id. Prove closedness and transpose stability in GL_(2n)(ℝ), use the connectedness just established, and identify `K_H=H∩O(2n)` with realified U(n). Apply the generic matrix-model theorem and compare its polar/maximality maps with the direct proofs. No semisimple or finite-center hypothesis is imposed on GL(n,ℂ). The construction order is C2.0, these concrete matrix/preservation/connectedness results and direct maximality proofs, followed by the separate generic matrix and Sp-adjoint comparisons. Generic LieGroups Layer9 owns its theorems and uses C2.0 for its own subgroup arguments; C2.1's primary results do not depend on that later comparison.
 
@@ -255,9 +310,13 @@ that its pulled-back Liouville primitive exists iff α is exact
 (`TauCeti.CotangentBundle.exists_isExactLagrangianMap_section_iff`). Consume these. For compact Q
 with at least two points, prove that the graph of df meets the zero section
 in at least two distinct points: use the minimum and maximum of f when f
-is nonconstant, and all of Q when f is constant. Construct the conormal N*Q as a smooth
-vector subbundle over an embedded Q, its inclusion as an embedded submanifold of T*M, dimension dim M,
-and λ|N*Q=0; conclude exact Lagrangian from Tau Ceti's
+is nonconstant, and all of Q when f is constant. The conormal set of a map i:Q→M is Tau Ceti's
+`TauCeti.CotangentBundle.conormal`, whose fibre over q is the annihilator of the tangent image,
+`TauCeti.CotangentBundle.conormalSpace`; where di_q is injective and M is finite-dimensional
+that fibre has dimension dim M − dim Q (`TauCeti.CotangentBundle.finrank_add_finrank_conormalSpace`).
+Consume these. Construct the conormal N*Q over an embedded Q as a smooth
+vector subbundle with these fibres, its inclusion as an embedded submanifold of T*M of dimension
+dim M, and λ|N*Q=0; conclude exact Lagrangian from Tau Ceti's
 `TauCeti.CotangentBundle.isExactLagrangianMap_of_conormal`, which proves it for every smooth
 map into T*M with injective differentials, from a manifold of the dimension of M, whose
 covectors annihilate the tangent images of the submanifold; the subbundle and its embedding are
@@ -287,14 +346,17 @@ these as the zero-section/closed-nonexact graph tests. Provide a Kodaira–Thurs
 Heisenberg-lattice quotient times a circle as a smooth manifold using
 SmoothBundlesConnections B1’s free proper discrete quotient charts; identify the
 universal cover and deck group using
-[UniversalCovers](../../../Completed/UniversalCovers/README.md), and compute π₁
-through its covering/fundamental-group correspondence, then
+[UniversalCovers](../../../Completed/UniversalCovers/README.md) Stages 1–2 (the isomorphism
+of the deck group of the universal cover with π₁, the lifting criterion and the Galois
+correspondence), and compute π₁ through that covering/fundamental-group correspondence, then
 H₁=π₁^ab using SmoothBundlesConnections B6.1’s degree-one comparison, and identify b₁=3 using
-DifferentialGeometry’s de Rham comparison. Construct its closed nondegenerate form and odd first
+the de Rham theorem of [DifferentialGeometry](../../DifferentialGeometry/README.md) Layer 8.
+Construct its closed nondegenerate form and odd first
 Betti number obstruction using the compact Kähler
-Hodge parity theorem: consume the degree-one Kähler harmonic/type decomposition and conjugation symmetry of
-[ComplexKahlerGeometry](../../ComplexKahlerGeometry/README.md), including its explicit Hodge
-parity theorem. That parity theorem is not a consequence of de Rham theory alone.
+Hodge parity theorem: consume the degree-one Kähler harmonic/type decomposition, conjugation
+symmetry and the parity of odd Betti numbers, including the degree-one obstruction, of
+[ComplexKahlerGeometry](../../ComplexKahlerGeometry/README.md) K6.1. That parity theorem is not
+a consequence of de Rham theory alone.
 
 For a Riemannian Q of positive dimension, the unit cosphere bundle is Tau Ceti's
 `TauCeti.CotangentBundle.cosphereBundle`; consume
@@ -378,10 +440,16 @@ names are in the namespace `TauCeti`.
   (`TauCeti.isInvertible_mixedHessian_iff_of_mem_maximalAtlas`), and exchanging the factors
   transposes it (`TauCeti.mixedHessian_comp_swap_apply`).
 
-The targets of this roadmap are the statements on manifolds: for S on an open subset of Q×Q′
-with invertible `TauCeti.mixedHessian` at a point, construct open sets of T*Q and T*Q′ and a
-symplectomorphism between them whose graph is the relation `p=d_qS, P=−d_QS` near that point,
-with the uniqueness of the branch and the exact primitive above, by applying the normed-space
+The targets of this roadmap are the statements on manifolds. Let Q and Q′ be finite-dimensional
+and boundaryless, W⊂Q×Q′ open, S smooth on W and x₀=(q₀,Q₀)∈W with invertible
+`TauCeti.mixedHessian` at x₀; the partial differentials `d_qS`, `d_QS` are Mathlib's `mvfderiv`
+of the restrictions of S to the two factors. Construct open sets U of T*Q and V of T*Q′ and a
+symplectomorphism φ:U→V for the canonical forms, sending `(q₀,d_qS(x₀))∈U` to `(Q₀,−d_QS(x₀))`,
+such that every z=(q,p)∈U with φ(z)=(Q,P) has `(q,Q)∈W`, `p=d_qS(q,Q)` and `P=−d_QS(q,Q)`
+(`exists_diffeomorph_opens_cotangent_of_isInvertible_mixedHessian`; in coordinates, Cannas da
+Silva, §4.2, pp. 23–24, where the nondegenerate mixed Hessian is the local condition). Prove
+the uniqueness of the
+branch and the exact primitive above for it, by applying the normed-space
 statements in cotangent charts and the chart independence of the mixed Hessian. Prove the
 manifold forms of the composition and family statements in the same way, a family being a
 function S(q,Q,a) on Q×Q′×A.
@@ -407,7 +475,8 @@ of a specified symplectomorphism φ between open cotangent domains. On
 `{q : (q,q)∈W}`, put ψ(q)=S(q,q). Prove
 `dψ_q=d_1S(q,q)+d_2S(q,q)` and the bijection between its critical points
 and the fixed phase points of φ with base pair in W, sending q to
-`(q,d_1S(q,q))` (Cannas da Silva, Prop. 5.1, p. 29).
+`(q,d_1S(q,q))` (Cannas da Silva, Prop. 5.1, p. 29). The bijection is the case N=1 of the
+chain dictionary below, `exists_equiv_periodic_of_generating`.
 
 **Chains of generating functions.** Let `S_0,…,S_(N−1)`, N≥1, be generating
 functions as above on open domains `W_i⊂Q×Q`, generating symplectomorphisms
@@ -421,6 +490,15 @@ Prove the bijection between critical configurations and the phase points
 fixed by the composite `φ_(N−1)∘…∘φ_0` whose every intermediate state
 `φ_(i−1)∘…∘φ_0(z)` lies in the domain of `φ_i`, sending a configuration to
 `(q_0,d_1S_0(q_0,q_1))` and a fixed point to its base points along the chain.
+Recording the intermediate states, such a fixed point is a cyclic sequence `z_i`, i∈ℤ/N, with
+`z_i` in the domain of `φ_i` and `φ_i(z_i)=z_(i+1)`; the dictionary is the bijection, by base
+points, between these sequences and the critical points of A on its configuration domain, the
+derivative of A being Mathlib's `mvfderiv` for the product model
+`ModelWithCorners.pi` on `ℤ/N → Q` (`exists_equiv_periodic_of_generating`). The hypothesis that
+the relation of `S_i` over `W_i` is the graph of `φ_i` says that every z in the domain of `φ_i`
+has its base pair in `W_i` and satisfies the relation, and that every point of `W_i` is the base
+pair of some such z. The dictionary uses neither finite dimension, nor a boundaryless model, nor
+the symplecticity of the `φ_i`.
 Iterates are the case of equal summands `S_i=S`: the critical points of
 `A_N(q_0,…,q_(N−1))=Σ_i S(q_i,q_(i+1 mod N))` correspond to the marked
 phase points fixed by the Nth iterate of φ with all intermediate iterates
@@ -486,11 +564,20 @@ vertices: move a repeated vertex off the chord between its neighbors and
 use the strict triangle inequality to increase the perimeter. A maximizer
 therefore lifts into the smooth configuration domain of the strip, where it
 is critical for `A_N`, and gives a periodic billiard state whose least
-period divides N. As an explicit test, for the circle of radius R and
+period divides N. The resulting existence theorem needs no billiard map:
+for χ:ℝ→`EuclideanSpace ℝ (Fin 2)` smooth, L-periodic with L>0, of unit speed, injective on
+`[0,L)` and meeting each tangent line `{χ(s)+c χ′(s)}` only at χ(s) (orientation plays no role
+here), and for every N≥2, there are `s_k`, k∈ℤ/N, with `χ(s_(k+1))≠χ(s_k)` and
+`⟨u_(k−1),χ′(s_k)⟩=⟨u_k,χ′(s_k)⟩` at every vertex, where `u_k` is the unit vector from
+`χ(s_k)` to `χ(s_(k+1))` (`exists_billiard_periodic_reflection`). As an explicit test, for the
+circle of radius R and
 L=2πR derive `β(s,v)=(s+2R arccos(v) mod L,v)`, together with its
 rational-rotation periodicity criterion and the chord-length primitive
 formula; for N=4 the perimeter maximizer is the doubled diameter, of least
-period 2, not the inscribed square.
+period 2, not the inscribed square. For N=3 it is the equilateral triangle, where both sides
+of the equal-angle law equal 1/2 at every vertex; the inscribed triangle with vertices at the
+angles 0, π/2 and π fails the law at the vertex at angle 0, where the two sides are 0 and
+1/√2. For N=2 the law says that the chord is orthogonal to both tangents, a double normal.
 
 **Finite-volume recurrence.** Consume Mathlib's
 `MeasureTheory.MeasurePreserving.conservative`,
@@ -577,9 +664,13 @@ submanifolds, and let f:Q→Q′ be a diffeomorphism. Given a smooth symplectic
 vector-bundle isomorphism `A:i*TM→j*TN` over f satisfying
 `A_q ∘ di_q = dj_(f(q)) ∘ df_q`, construct open neighborhoods U of i(Q)
 and V of j(Q′) and a symplectomorphism Φ:U→V with
-`Φ ∘ i = j ∘ f` and `dΦ_(i(q)) = A_q` (Cannas da Silva, Thm. 8.4, p. 48, and Weinstein 1971
-give the Lagrangian case without the derivative prescription; the general statement is
-proved here by the construction below). Conversely, differentiation of
+`Φ ∘ i = j ∘ f` and `dΦ_(i(q)) = A_q` (`exists_diffeomorph_opens_mfderiv_eq`; Cannas da Silva,
+Thm. 8.4, p. 48, gives the Lagrangian case without the derivative prescription, for two forms
+on one manifold; the general statement is proved here by the construction below). Here M, N, Q
+and Q′ are finite-dimensional and boundaryless, M and N Hausdorff and second countable, A is a
+family of linear isomorphisms `A_q:T_(i(q))M→T_(j(f(q)))N` with `A_q*ω_N=ω_M`, and smoothness of
+A is smoothness of its expression in tangent coordinates, Mathlib's `inTangentCoordinates`, the
+form in which Mathlib states the smoothness of `mfderiv`. Conversely, differentiation of
 any such symplectomorphism gives these bundle data. No constant-rank
 hypothesis on the pulled-back two-form is required when A is supplied.
 
@@ -615,7 +706,7 @@ nondegenerate on a neighborhood of the zero section, and show the germ is indepe
 identify the normal quotient with T*Q by `[n]↦ω(·,n)|TQ` (Cannas da Silva, Thm. 9.1, p. 51) and prove Weinstein's neighborhood theorem with zero-section
 restriction fixed (`exists_diffeomorph_opens_cotangent_of_isLagrangianEmbedding`: a neighborhood
 of Q is symplectomorphic to a neighborhood of the zero section of T*Q with the canonical form,
-each point of Q going to its zero covector; Cannas da Silva, Thm. 9.3, p. 51; Weinstein 1971). Distinguish pullback agreement on TQ from agreement on the ambient tangent bundle;
+each point of Q going to its zero covector; Cannas da Silva, Thm. 9.3, p. 51, building on Thm. 8.4, p. 48, which it attributes to Weinstein). Distinguish pullback agreement on TQ from agreement on the ambient tangent bundle;
 the linear extension/tubular realization is the step connecting them.
 
 For an abstract compact presymplectic Q with closed constant-rank σ, build its kernel smooth
@@ -683,9 +774,8 @@ momentum theorem remains R1's target.
 Cannas da Silva, [*Lectures on Symplectic Geometry*](https://people.math.ethz.ch/~acannas/Papers/lsg.pdf),
 §§2–8 (cotangent forms, Lagrangians, Darboux–Moser–Weinstein), §11 (contact example); in
 particular Prop. 5.1, Prop. 5.2 and §5.2 (generating functions of iterates, billiards), Thm. 5.3
-(recurrence), Prop. 6.8 (relative Poincaré lemma), Thm. 7.4 (relative Moser), Thms. 8.1, 8.4, 8.6
-and 9.3 (Darboux, Lagrangian and coisotropic neighborhoods). Page numbers are those of the
-author's 2006 version.
+(recurrence), Thm. 6.5 (tubular neighborhoods), Prop. 6.8 (relative Poincaré lemma), Thm. 7.4
+(relative Moser), Thms. 8.1, 8.4, 8.6 and 9.3 (Darboux, Lagrangian and coisotropic
+neighborhoods; Thm. 8.4 is Weinstein's Lagrangian neighborhood theorem) and Thm. 9.1 (the normal
+bundle of a Lagrangian). Page numbers are those of the author's 2006 version.
 The cotangent-lift Hamiltonian identity is the exercise in §18.1, p. 106.
-Weinstein, *Symplectic manifolds and their Lagrangian submanifolds*, Adv. Math. 6 (1971), 329–346
-(Lagrangian neighborhood theorem; cited by locator).
