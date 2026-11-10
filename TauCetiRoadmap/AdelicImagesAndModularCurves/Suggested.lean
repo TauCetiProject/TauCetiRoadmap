@@ -18,9 +18,13 @@ import TauCeti.LinearAlgebra.Matrix.SpecialLinearGroup.Basic
 `README.md`. This file states what can be stated over Mathlib and the pinned Tau Ceti: the
 carrier `GL₂(Ẑ)` with its reductions and the inverse-limit property, open subgroups with their
 level, index, `±H`, `Γ₀(N)`, `Γ_H` and genus data, Serre's lifting theorem, the commutator
-subgroup of `GL₂(Ẑ)`, twists and Gassmann invariance, the adelic Tate module, the size of an
-isogeny class, Mazur's torsion theorem with the realisation of all fifteen groups, the class-size
-corollary of Kenku's theorem, and the order of `GSp₄(𝔽_ℓ)`. `sorry` is permitted for proofs in
+subgroup of `GL₂(Ẑ)`, twists and Gassmann invariance, the rank of the adelic Tate module, the size
+of an isogeny class, Mazur's torsion theorem with the realisation of all fifteen groups, the
+class-size corollary of Kenku's theorem, and the order of `GSp₄(𝔽_ℓ)`. The coset invariants of a
+finite-index subgroup of `PSL₂(ℤ)` (cusp widths, elliptic counts, the integral genus formula and
+its Riemann-surface comparison) are the noncongruence roadmap's and are not restated; the
+definitions `nu2`, `nu3`, `Cusps` and `genus` below read them on `Γ_{±H}` only to state the twist
+and Gassmann invariance theorems. `sorry` is permitted for proofs in
 this human-owned repository: these are targets, not implementations.
 
 **Targets not stated here, and the carrier each one lacks at the pin.** The finite-group
@@ -34,9 +38,11 @@ exist at the pin:
   on `adelicTateModule`, assembled from Tau Ceti's `tateModuleGaloisRepresentation` over all `ℓ`,
   with a frame identifying it with `GL₂(Ẑ)`; the image then lands in Tau Ceti's
   `ClosedSubgroupConjClasses`;
-- Serre's open image theorems and the CM counterpart (Layer 4) need, besides `ρ_E`, the geometric
-  endomorphism ring of an elliptic curve (the non-CM hypothesis `GeometricEnd E = ℤ` of the
-  elliptic-curves roadmap) and the action of an imaginary quadratic order on `T̂E`;
+- the open image theorems of Layer 4 owned here (surjectivity onto `GL₂(ℤ_ℓ)` for almost all `ℓ`,
+  adelic openness, the adelic CM counterpart; the `ℓ`-adic openness is the noncommutative Iwasawa
+  roadmap's) need, besides `ρ_E`, the geometric endomorphism ring of an elliptic curve (the
+  non-CM hypothesis `GeometricEnd E = ℤ` of the elliptic-curves roadmap) and the action of an
+  imaginary quadratic order on `T̂E`;
 - every statement about the curve `X_H` (its cusps and points, CM points, isolated points, fibre
   products, twists, local points; Layer 5) needs the coarse modular curve `X_H` of the second
   modular-curves roadmap, and the Jacobian statements need the Jacobian of a curve over `ℚ` and
@@ -45,7 +51,11 @@ exist at the pin:
   6) need the predicate "cyclic isogeny of degree `n` over the base field" and `X₀(N)`; the steps
   of Mazur's chain need the rational points of the curves `X₁(N)` and `X₀(N)`;
 - the mod-`ℓ` images of abelian surfaces and their types (Layer 7) need the Jacobian of a
-  genus-two curve with its `ℓ`-torsion and Weil pairing.
+  genus-two curve with its `ℓ`-torsion and Weil pairing;
+- Mitchell's classification of the maximal subgroups of `PSp₄(𝔽_ℓ)` (Layer 7.3) needs the
+  projective symplectic group and the subgroups it lists (the stabilisers of the polar-space
+  configurations, the twisted-cubic image of `SL₂(𝔽_ℓ)`, the normalisers of extraspecial `2^{1+4}`),
+  none of which has a carrier at the pin; stating it would be a long ad hoc encoding of the list.
 
 **The carrier.** The profinite integers are Tau Ceti's `TauCeti.zHat` in its additive
 presentation `ẑ := Additive TauCeti.zHat` (at `Type`), with the ring structure of
@@ -59,15 +69,15 @@ is not defined as an inverse limit, and that it is one is the pair of theorems `
 level is `sInf` of the positive `N` with `Γ(N) ≤ H` (convention 3); `±H` is Mathlib's
 `Subgroup.adjoinNegOne` (convention 4); `Γ_H` is the preimage of `H` under
 `SpecialLinearGroup.mapGL`, and every genus-type invariant is read on `Γ_{±H}` (conventions 5–6);
-the genus is a rational number by definition and an integer by theorem (Layer 1.4); `GSp₄` is
-defined by `g J gᵀ = ν J` with Mathlib's `Matrix.J` (convention 14).
+the genus is a rational number by definition and a natural number by the noncongruence roadmap's
+integral genus formula (Layer 1.2); `GSp₄` is defined by `g J gᵀ = ν J` with Mathlib's `Matrix.J`
+(convention 14).
 
 **Exceptions to "every proof is `sorry`".** The instances, `continuous_red`, and the openness and
-subgroup fields of the definitions are proved. `pslIndex_gamma0_prime_pow` is a bridge check: its
-last step is the real application of Tau Ceti's `CongruenceSubgroup.Gamma0_prime_power_index` to
-the comparison theorem `congruenceSubgroup_gamma0`, so the elaborator checks that the roadmap's
-`Γ_H` is Mathlib's `Gamma0` on the nose. The example after `card_GL2_zmod` checks that the finite
-reductions are Mathlib's finite groups.
+subgroup fields of the definitions are proved.
+
+**Conditional route.** `mazur_torsion` is a theorem; the roadmap's proof of it rests at one step
+(the level `25`, `README.md` 6.4) on the declared supplier gap `gap:nebentypus-rank-zero`.
 -/
 
 namespace TauCetiRoadmap.AdelicImagesAndModularCurves
@@ -143,12 +153,6 @@ theorem card_GL2_zmod (N : ℕ) [NeZero N] :
       Nat.totient N * N * (N / ∏ p ∈ N.primeFactors, p) ^ 2 *
         ∏ p ∈ N.primeFactors, (p ^ 2 - 1) := sorry
 
-/-- A check that the finite reductions are Mathlib's finite groups: `|GL₂(𝔽₂)| = 6` by
-Mathlib's `Matrix.card_GL_field`. Not `sorry`. -/
-example : Nat.card (GL (Fin 2) (ZMod 2)) = 6 := by
-  rw [Matrix.card_GL_field]
-  norm_num [Fin.prod_univ_two, ZMod.card]
-
 /-- **Layer 0.2.** The level of an open subgroup: the least `N ≥ 1` with `Γ(N) ≤ H`
 (`README.md`, Pinned conventions 3). -/
 noncomputable def level (H : OpenSubgroup GL2Zhat) : ℕ :=
@@ -169,20 +173,13 @@ open because it contains the open `H`. -/
 noncomputable def pm (H : OpenSubgroup GL2Zhat) : OpenSubgroup GL2Zhat :=
   { H.1.adjoinNegOne with isOpen' := Subgroup.isOpen_mono H.1.le_adjoinNegOne H.isOpen }
 
-/-- **Layer 0.2.** `H` is fine when `−I ∉ H`, coarse otherwise (`README.md`, conventions 4). -/
-def IsFine (H : OpenSubgroup GL2Zhat) : Prop := (-1 : GL2Zhat) ∉ H.1
-
-/-- **Layer 0.2.** The projective index is the index of `±H`: `index H / 2` for fine `H`. -/
-theorem index_pm_of_isFine (H : OpenSubgroup GL2Zhat) (h : IsFine H) :
-    (pm H).1.index = H.1.index / 2 := sorry
-
 /-- **Layer 0.2.** Surjective determinant (`README.md`, 0.2, `IsFullDet`). -/
 def IsFullDet (H : OpenSubgroup GL2Zhat) : Prop :=
   H.1.map (GeneralLinearGroup.det : GL2Zhat →* ẑˣ) = ⊤
 
-/-- **Layer 0.2.** Level, index, `−I` and full determinant are conjugation invariant; stated for
-an open subgroup `H'` given as the conjugate of `H`, so that no openness proof sits in the
-statement. -/
+/-- **Layer 0.2.** The level is conjugation invariant (as are the index, `−I ∈ H` and full
+determinant, `README.md` 0.2); stated for an open subgroup `H'` given as the conjugate of `H`, so
+that no openness proof sits in the statement. -/
 theorem level_conj (H H' : OpenSubgroup GL2Zhat) (g : GL2Zhat) (h : H'.1 = MulAut.conj g • H.1) :
     level H' = level H := sorry
 
@@ -232,18 +229,6 @@ theorem closure_range_mapGL :
     closure ((SpecialLinearGroup.mapGL ẑ : SL(2, ℤ) →* GL2Zhat).range : Set GL2Zhat) =
       ((GeneralLinearGroup.det : GL2Zhat →* ẑˣ).ker : Set GL2Zhat) := sorry
 
-/-- **Bridge check (Layer 0.4), not `sorry` at its last step.** The `PSL₂`-index of `Γ₀(pᵏ)` is
-`p^(k−1)(p+1)`: after `±Γ₀(N) = Γ₀(N)` (Mathlib's `Subgroup.adjoinNegOne_eq_self_iff`) and the
-comparison theorem, this is Tau Ceti's `CongruenceSubgroup.Gamma0_prime_power_index` on the nose. -/
-theorem pslIndex_gamma0_prime_pow (p : ℕ) (hp : p.Prime) (k : ℕ) (hk : 0 < k) (N : ℕ+)
-    (hN : (N : ℕ) = p ^ k) :
-    pslIndex (Gamma0Zhat N) = p ^ (k - 1) * (p + 1) := by
-  have hpm : pm (Gamma0Zhat N) = Gamma0Zhat N :=
-    OpenSubgroup.toSubgroup_injective
-      (Subgroup.adjoinNegOne_eq_self_iff.mpr (by simp [Gamma0Zhat]))
-  rw [pslIndex, hpm, congruenceSubgroup_gamma0, hN]
-  exact CongruenceSubgroup.Gamma0_prime_power_index p hp k hk
-
 /-! ## Layer 1: cusps, elliptic points and the genus -/
 
 /-- **Layer 1.1.** `ν₂(H)`: the cosets of `Γ_{±H}` fixed by `S = [[0, −1], [1, 0]]` (Mathlib's
@@ -272,29 +257,11 @@ noncomputable instance (H : OpenSubgroup GL2Zhat) : Fintype (Cusps H) := by
   haveI : Finite (Cusps H) := Quotient.finite _
   exact Fintype.ofFinite _
 
-/-- **Layer 1.1.** The width of a cusp: the size of its `⟨T⟩`-orbit. -/
-noncomputable def width (H : OpenSubgroup GL2Zhat) (c : Cusps H) : ℕ :=
-  Nat.card (MulAction.orbitRel.Quotient.orbit (G := Subgroup.zpowers ModularGroup.T) c)
-
-/-- **Layer 1.1.** The widths sum to the `PSL₂`-index. -/
-theorem sum_width (H : OpenSubgroup GL2Zhat) : ∑ c, width H c = pslIndex H := sorry
-
-/-- **Layer 1.1, fine/coarse identity.** The counts of `H` are those of `±H`. -/
-theorem nu2_pm (H : OpenSubgroup GL2Zhat) : nu2 (pm H) = nu2 H := sorry
-
-/-- **Layer 1.2.** The genus, a rational number by definition
-(`README.md`, Pinned conventions 6). -/
+/-- **Layer 1.2.** The genus, a rational number by definition (`README.md`, Pinned conventions 6).
+It equals the noncongruence roadmap's genus of the image of `Γ_{±H}` in `PSL₂(ℤ)`, a natural number
+(that roadmap's §2.3), which is not restated here. -/
 noncomputable def genus (H : OpenSubgroup GL2Zhat) : ℚ :=
   1 + (pslIndex H : ℚ) / 12 - (nu2 H : ℚ) / 4 - (nu3 H : ℚ) / 3 - (Fintype.card (Cusps H) : ℚ) / 2
-
-/-- **Layer 1.4.** The genus is a non-negative integer: it is the genus of the compact Riemann
-surface `X(Γ_{±H})` of the modular-forms roadmap's Layer 10B. -/
-theorem exists_genus_eq_natCast (H : OpenSubgroup GL2Zhat) : ∃ g : ℕ, genus H = g := sorry
-
-/-- **Layer 1.5.** The degree `pslIndex H / pslIndex G` of `X(Γ_{±H}) → X(Γ_{±G})` for `H ≤ G`
-is an integer. -/
-theorem pslIndex_div (H G : OpenSubgroup GL2Zhat) (hHG : H ≤ G) :
-    pslIndex G ∣ pslIndex H := sorry
 
 /-! ## Layer 2: Serre's lifting theorem, the commutator subgroup, twists, Gassmann equivalence -/
 
@@ -353,7 +320,11 @@ variable {F : Type} [Field F] [CharZero F] (K : Type) [Field K] [DecidableEq K] 
   [Algebra F K]
 
 /-- **Layer 3.1.** The adelic Tate module: the product over all primes of Tau Ceti's `ℓ`-adic
-Tate modules of `E` over the separable closure `K` (`README.md`, Pinned conventions 9). -/
+Tate modules of `E` over `K` (`README.md`, Pinned conventions 9). This is the carrier of
+ArithmeticGaloisRepresentations §6.1's adelic action for `A = E`, which owns it; that roadmap's
+file cannot be imported, so this local copy exists only to state `finrank_adelicTateModule`. The
+carrier makes sense over any field; the rank statement assumes characteristic zero and `K`
+separably closed. -/
 abbrev adelicTateModule (E : WeierstrassCurve F) [E.IsElliptic] : Type :=
   ∀ ℓ : Nat.Primes, TateModule ℓ (E.baseChange K).toAffine.Point
 
@@ -386,7 +357,9 @@ noncomputable def isogenyClassSize (E : WeierstrassCurve.Affine F) : ℕ :=
 end Isogeny
 
 /-- **Layer 6.4 (Mazur's torsion theorem).** The torsion subgroup of `E(ℚ)` is isomorphic to
-`ℤ/n` with `1 ≤ n ≤ 10` or `n = 12`, or to `ℤ/2 × ℤ/2n` with `1 ≤ n ≤ 4`. -/
+`ℤ/n` with `1 ≤ n ≤ 10` or `n = 12`, or to `ℤ/2 × ℤ/2n` with `1 ≤ n ≤ 4` (Mazur 1977, Theorem (8),
+p. 35). The roadmap's route uses the declared supplier gap `gap:nebentypus-rank-zero` at the level
+`25` only. -/
 theorem mazur_torsion (E : WeierstrassCurve ℚ) [E.IsElliptic] :
     (∃ n ∈ ({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12} : Finset ℕ),
       Nonempty (AddCommGroup.torsion E.toAffine.Point ≃+ ZMod n)) ∨
