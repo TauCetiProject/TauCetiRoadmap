@@ -26,6 +26,7 @@ body:
         - AlgebraicVectorBundles
         - AmenableGroups
         - AnalyticNumberTheoryPartI
+        - ArithmeticInterpolationDeterminants
         - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
