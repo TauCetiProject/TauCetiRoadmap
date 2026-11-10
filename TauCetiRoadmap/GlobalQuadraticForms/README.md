@@ -41,8 +41,9 @@ and towers of completions; the predicates `IsLocallyIsotropic`, `LocallyRepresen
 real signatures and the real classification; finite Hasse signs, their finite support, and the
 classification at one finite place in global notation; the invariant record, admissibility and
 the record of a form; vector weak approximation and the openness of square classes; the value of
-the norm-equation symbol at a real place, the localized product formula and Hilbert sign
-prescription with and without a prescribed second argument; quaternary descent, the quaternary
+the norm-equation symbol at a real and at a complex place, its finite support at the finite
+places, the localized product formula and Hilbert sign prescription with and without a
+prescribed second argument; quaternary descent, the quaternary
 case of Hasse–Minkowski assuming the ternary case, the rank-at-least-five step assuming the rank
 below, the finiteness of anisotropic places in rank at least three, and the local values used by
 that step; the local realization of an admissible record and the reduction of 72:1 to one global
@@ -73,8 +74,13 @@ second):
   regular form of positive rank is `QuadraticForm.isAdmissible_globalInvariants`, in `Type`.
 - 4.4, the localized product formula, resolves to `TauCeti.hilbertSymbol_productFormula`, in
   `Type`.
-- 4.4, the real symbol, resolves to `TauCeti.hilbertSymbol_real` and
-  `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`.
+- 4.4, the finite support of the localized symbol (for `a, b ∈ Kˣ`, `(a, b)_v = 1` at all but
+  finitely many finite places `v`), resolves to
+  `TauCeti.hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace`.
+- 4.4, the archimedean symbol, resolves to `TauCeti.hilbertSymbol_real` and
+  `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff` at a real place, and, at a complex
+  place, to `TauCeti.hilbertSymbol_completion_eq_one_of_isComplex` (every symbol over the
+  completion is `1`).
 - 4.4, sign prescription with a prescribed second argument, resolves to
   `TauCeti.NumberField.QuadraticForm.exists_hilbertSymbol_eq_ite`, in `Type`.
 - 4.4, sign prescription for a pair, cited under the name exists_hilbertSymbol_eq_neg_one_iff_pair,
@@ -277,6 +283,8 @@ All paths are under `TauCeti/`.
   `NumberTheory/QuadraticForm/Global/ArchimedeanSymbol.lean`, `HilbertSymbol.lean`,
   `ProductFormula.lean`, `SignPrescription.lean`): `TauCeti.hilbertSymbol`,
   `TauCeti.hilbertSymbol_real`, `TauCeti.hilbertSymbol_unitAtRealPlace_eq_neg_one_iff`,
+  `TauCeti.hilbertSymbol_completion_eq_one_of_isComplex` (at a complex place every symbol over
+  the completion is `1`),
   `TauCeti.hasFiniteMulSupport_hilbertSymbol_unitAtFinitePlace` (the finite symbols of
   `a, b ∈ Kˣ` are `1` at almost every finite place), `TauCeti.hilbertSymbol_productFormula` (their
   product `∏ᶠ` over the finite places times the product over the real places is `1`),
@@ -1159,8 +1167,9 @@ Layer 8 uses 6.3 and Layer 7, and Tau Ceti's Witt ring and hyperbolicity criteri
 - Orthogonal and Spin Groups consumes 4.3 and 6.1.
 - Integral Lattices consumes `hasseMinkowski_equivalent` and `equivalent_of_locallyEquivalent` and
   owns integral localizations, genera and spinor genera.
-- Classical Arithmetic Completion consumes Layer 4's real symbol and localized product formula,
-  which the section map above resolves to Tau Ceti.
+- Classical Arithmetic Completion consumes Layer 4's archimedean symbol (its value at a real and
+  at a complex place) and localized product formula, which the section map above resolves to Tau
+  Ceti.
 
 ## References
 
