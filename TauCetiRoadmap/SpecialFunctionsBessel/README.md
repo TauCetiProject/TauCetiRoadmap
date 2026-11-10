@@ -1291,12 +1291,18 @@ makes the convergence locally uniform.
 
 DLMF 10.22.73–10.22.75 for positive `a`, `b`, `c`, with `A` of 10.22.73, each case a separate
 statement:
-- 10.22.74 for `Re ν > −½`, with its two cases `A > 0` and `A ≤ 0`;
+- 10.22.74 for `Re ν > −½`, with its cases `A > 0` and `A < 0`. At `A = 0` the value is `0` for
+  `Re ν > ½`, where the integral converges absolutely and is continuous in `a`; nothing is stated
+  for `−½ < Re ν ≤ ½`, where DLMF's `A ≤ 0` is not correct;
 - 10.22.75 for `|ν| < ½`, with its three cases `0 < a < |b − c|`, `|b − c| < a < b + c` and
   `a > b + c`. The first and third both have `A < 0`, and their values have opposite signs. At
   `a = |b − c|` and `a = b + c`, which DLMF excludes, nothing is stated.
 
 **Checks.**
+- 10.22.74 at `(a, b, c) = (3, 2, 1)`, where `A = 0`, a negative control: at `ν = 0` the integral
+  diverges, since the product of the three leading cosines has the constant term
+  `¼ cos(νπ/2 + π/4)` and the integrand has a component of size `t^{−1/2}`; at `ν = ½` it equals
+  `1/(2 (12π)^{1/2}) = 0.08143 37519 8…`, half the limit `0.16286 75…` from `A > 0`, not `0`.
 - 10.22.75 at `ν = 0`, `b = 2`, `c = 1`: `−0.2485…` at `a = ½` and `+0.0621…` at `a = 4`.
 - At `a = b + c = 3`, `ν = 0.4`, the integral of 10.22.75 diverges: the product of the three
   Bessel functions has a non-oscillating component of size `t^{−3/2}`, so the integrand has a
