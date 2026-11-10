@@ -1,6 +1,11 @@
 import Mathlib
 import TauCeti.NumberTheory.NumberField.Global.Places.Extension
 import TauCeti.RingTheory.KrullDimension.FiniteType
+import TauCeti.Algebra.Polynomial.Coeff.ToMvPolynomial
+import TauCeti.NumberTheory.DiophantineApproximation.Roth.SumEstimate
+import TauCeti.NumberTheory.Height.MvPolynomial
+import TauCeti.RingTheory.MvPolynomial.HasseDeriv.DegreeBound
+import TauCeti.RingTheory.MvPolynomial.SeparateVariable
 import TauCeti.RingTheory.Polynomial.HasseWronskian
 
 /-!
@@ -632,9 +637,8 @@ example : l1Norm ((_root_.Polynomial.X - 1) ^ 2 : ℤ[X]) = 4 := sorry
 /-- Unit test `Polynomial.l1Norm.test_one`: ‖1‖ = 1 in ℤ[X]. -/
 example : l1Norm (1 : ℤ[X]) = 1 := sorry
 
-open _root_.Polynomial (hasseWronskian)
-
-/-! README §1.4 consumes Tau Ceti's Hasse Wronskian and its API. -/
+/-! README §1.4 consumes Tau Ceti's Hasse Wronskian and its API, and the degree of a
+one-variable polynomial placed in one coordinate. -/
 
 #check @_root_.Polynomial.hasseWronskian_fin_zero
 #check @_root_.Polynomial.hasseWronskian_fin_one
@@ -646,22 +650,7 @@ open _root_.Polynomial (hasseWronskian)
 #check @_root_.Polynomial.hasseWronskian_eq_zero_of_not_linearIndependent
 #check @_root_.Polynomial.hasseWronskian_ne_zero_of_linearIndependent
 #check @_root_.Polynomial.linearIndependent_iff_hasseWronskian_ne_zero
-
-/-- A zero divisor gives a dependent singleton with a nonzero Wronskian. -/
-example : ¬ LinearIndependent (ZMod 4)
-      (fun _ : Fin 1 => (_root_.Polynomial.C 2 : Polynomial (ZMod 4))) ∧
-    hasseWronskian (fun _ : Fin 1 => (_root_.Polynomial.C 2 : Polynomial (ZMod 4))) =
-      _root_.Polynomial.C 2 ∧
-    (_root_.Polynomial.C 2 : Polynomial (ZMod 4)) ≠ 0 := by sorry
-
-/-- Unit test `Polynomial.hasseWronskian.test_one_X_X_sq`: W(1, X, X^2) = 1 over ℚ. -/
-example : hasseWronskian ![1, _root_.Polynomial.X, _root_.Polynomial.X ^ 2] = (1 : ℚ[X]) := sorry
-/-- Unit test `Polynomial.hasseWronskian.test_dependent`: W(X, 2X) = 0. -/
-example : hasseWronskian ![_root_.Polynomial.X, 2 * _root_.Polynomial.X] = (0 : ℚ[X]) := sorry
-
-/-- In characteristic two, the independent polynomials 1 and X² have zero Wronskian. -/
-example : LinearIndependent (ZMod 2) ![1, (_root_.Polynomial.X ^ 2 : Polynomial (ZMod 2))] ∧
-    hasseWronskian ![1, (_root_.Polynomial.X ^ 2 : Polynomial (ZMod 2))] = 0 := sorry
+#check @_root_.Polynomial.degreeOf_toMvPolynomial
 
 section logHeight
 
@@ -800,55 +789,26 @@ example : logHeight (2 * _root_.MvPolynomial.X 0 + 4 : MvPolynomial (Fin 1) ℚ)
 /-- Unit test `MvPolynomial.logHeight.test_C_five`: h(5) = 0. -/
 example : logHeight (_root_.MvPolynomial.C 5 : MvPolynomial (Fin 1) ℚ) = 0 := sorry
 
-section genWronskian
+/-! README §1.4 consumes Tau Ceti's generalized Wronskian, the separation of one variable, the
+Kronecker substitution, the partial-degree and height bounds for Wronskian determinants, and the
+sum estimate of Roth's lemma. -/
 
-variable {R σ : Type*} [CommRing R]
-
-/-- A generalized Wronskian `W_D(f) = det (∂^{D k} (f l))` (Pottmeyer, Definition 3.3.5); the
-admissibility condition `(D k).degree ≤ k` is a hypothesis of the theorems, not of the
-definition. -/
-noncomputable def genWronskian {m : ℕ} (D : Fin m → σ →₀ ℕ) (f : Fin m → MvPolynomial σ R) :
-    MvPolynomial σ R :=
-  Matrix.det (Matrix.of fun k l => TauCetiRoadmap.DiophantineApproximationAndTranscendence.MvPolynomial.hasseDeriv (D k) (f l))
-
-end genWronskian
-
-/-- Dependence over an integral domain makes every generalized Wronskian vanish,
-without a characteristic or row-admissibility assumption. -/
-theorem genWronskian_eq_zero_of_not_linearIndependent {R σ : Type*} [CommRing R]
-    [IsDomain R] {m : ℕ} (D : Fin m → σ →₀ ℕ) (f : Fin m → MvPolynomial σ R)
-    (hf : ¬ LinearIndependent R f) : genWronskian D f = 0 := by sorry
-
-/-- The order-zero generalized Wronskian of a dependent constant can be nonzero over ℤ/4ℤ. -/
-example : ¬ LinearIndependent (ZMod 4)
-      (fun _ : Fin 1 => (_root_.MvPolynomial.C 2 : MvPolynomial (Fin 1) (ZMod 4))) ∧
-    genWronskian (fun _ : Fin 1 => (0 : Fin 1 →₀ ℕ))
-      (fun _ : Fin 1 => (_root_.MvPolynomial.C 2 : MvPolynomial (Fin 1) (ZMod 4))) =
-        _root_.MvPolynomial.C 2 ∧
-    (_root_.MvPolynomial.C 2 : MvPolynomial (Fin 1) (ZMod 4)) ≠ 0 := by sorry
-
-/-- Unit test `MvPolynomial.genWronskian.test_X0_X1`: W_{(0, e_0)}(x_0, x_1) = −x_1. -/
-example : genWronskian ![0, Finsupp.single 0 1] ![_root_.MvPolynomial.X 0, _root_.MvPolynomial.X 1] = -(_root_.MvPolynomial.X 1 : MvPolynomial (Fin 2) ℚ) :=
-  sorry
-/-- Unit test `MvPolynomial.genWronskian.test_empty`: For m = 0 the generalized Wronskian is 1. -/
-example (D : Fin 0 → Fin 2 →₀ ℕ) (f : Fin 0 → MvPolynomial (Fin 2) ℚ) : genWronskian D f = 1 :=
-  sorry
-/-- Unit test `MvPolynomial.genWronskian.test_dependent`: W_D(x_0, x_0) = 0 for every D. -/
-example (D : Fin 2 → Fin 2 →₀ ℕ) : genWronskian D ![_root_.MvPolynomial.X 0, _root_.MvPolynomial.X 0] = (0 : MvPolynomial (Fin 2) ℚ) :=
-  sorry
-
-/-- The generalized Wronskian criterion (Pottmeyer, Theorem 3.3.7). -/
-theorem linearIndependent_iff_exists_genWronskian_ne_zero {K : Type*} [Field K] [CharZero K]
-    {n m : ℕ} (f : Fin m → MvPolynomial (Fin n) K) :
-    LinearIndependent K f ↔
-      ∃ D : Fin m → Fin n →₀ ℕ, (∀ k, (D k).degree ≤ k) ∧ genWronskian D f ≠ 0 := sorry
-
-/-- Separation of one variable (Pottmeyer, Lemma 3.3.8). -/
-theorem exists_sum_mul_linearIndependent {K σ : Type*} [Field K] [DecidableEq σ]
-    {P : MvPolynomial σ K} (hP : P ≠ 0) (i₀ : σ) :
-    ∃ s : ℕ, s ≤ P.degreeOf i₀ ∧ ∃ f g : Fin (s + 1) → MvPolynomial σ K,
-      (∀ k, i₀ ∉ (f k).vars) ∧ (∀ k, (g k).vars ⊆ {i₀}) ∧ LinearIndependent K f ∧
-        LinearIndependent K g ∧ P = ∑ k, f k * g k := sorry
+#check @_root_.MvPolynomial.genWronskian
+#check @_root_.MvPolynomial.genWronskian_fin_zero
+#check @_root_.MvPolynomial.genWronskian_fin_one
+#check @_root_.MvPolynomial.map_genWronskian
+#check @_root_.MvPolynomial.genWronskian_single_toMvPolynomial
+#check @_root_.MvPolynomial.genWronskian_eq_zero_of_not_linearIndependent
+#check @_root_.MvPolynomial.linearIndependent_iff_exists_genWronskian_ne_zero
+#check @_root_.MvPolynomial.exists_sum_mul_linearIndependent
+#check @_root_.MvPolynomial.det_hasseDeriv_sum_mul_toMvPolynomial
+#check @_root_.MvPolynomial.degreeOf_genWronskian_le
+#check @_root_.Finsupp.exists_injOn_weight
+#check @_root_.MvPolynomial.linearIndependent_aeval_X_pow
+#check @_root_.MvPolynomial.eval_hasseDeriv_aeval_X_pow
+#check @_root_.MvPolynomial.coeff_aeval_X_add_C_pow_sub_C_eq_zero
+#check @_root_.MvPolynomial.logHeight_det_hasseDeriv_le
+#check @_root_.TauCeti.mul_min_le_sum_max_sub_div
 
 end MvPolynomial
 
@@ -856,12 +816,13 @@ end MvPolynomial
 
 namespace WronskianBounds
 
-/-- The degree estimate for a nonzero Hasse Wronskian over any field: the Wronskian has degree at
-most the sum of the degrees of the family minus `0 + 1 + ⋯ + (ℓ - 1)`, because the `k`-th Hasse
-derivative lowers the degree by at least `k` (derived in README §1.4 from the Leibniz expansion of
-the determinant; Mathlib's `Polynomial.natDegree_wronskian_lt_add` is the case `ℓ = 2`). -/
-theorem natDegree_add_derivative_orders_le {K : Type*} [Field K] {ℓ : ℕ}
-    (g : Fin ℓ → K[X]) (hg : Polynomial.hasseWronskian g ≠ 0) :
+/-- The degree estimate for a nonzero Hasse Wronskian over any commutative ring: the Wronskian has
+degree at most the sum of the degrees of the family minus `0 + 1 + ⋯ + (ℓ - 1)`, because the
+`k`-th Hasse derivative lowers the degree by at least `k` or vanishes (derived in README §1.4 from
+the Leibniz expansion of the determinant; Mathlib's `Polynomial.natDegree_wronskian_lt_add` is the
+case `ℓ = 2`). -/
+theorem natDegree_add_derivative_orders_le {R : Type*} [CommRing R] {ℓ : ℕ}
+    (g : Fin ℓ → R[X]) (hg : Polynomial.hasseWronskian g ≠ 0) :
     (Polynomial.hasseWronskian g).natDegree + ∑ k : Fin ℓ, (k : ℕ) ≤
       ∑ j, (g j).natDegree := by
   sorry
@@ -3822,11 +3783,6 @@ MvPolynomial.hasseDeriv_eq_zero_of_degreeOf_lt, MvPolynomial.hasseDeriv_monomial
 MvPolynomial.hasseDeriv_zero, MvPolynomial.weightedIndex_eq_zero_iff,
 MvPolynomial.weightedIndex_map, MvPolynomial.weightedIndex_ne_top,
 MvPolynomial.weightedIndex_zero
-
-§1.4:
-MvPolynomial.genWronskian_fin_one,
-MvPolynomial.genWronskian_fin_zero, MvPolynomial.genWronskian_single_toMvPolynomial,
-MvPolynomial.map_genWronskian
 
 §1.3:
 MvPolynomial.logHeight_C, MvPolynomial.logHeight_C_mul, MvPolynomial.logHeight_eq_of_numberField,
