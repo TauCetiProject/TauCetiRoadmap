@@ -64,18 +64,32 @@ Grothendieck ring of representations and no target here uses that carrier: Layer
 states its results on formal characters in the integral group algebra of the
 character group of a maximal torus.
 
-OperatorTheory/OperatorIdeals Part C owns the generic Hilbert–Schmidt theory, and
-the base roadmap's Layer 5 keeps the step that a continuous kernel on a compact
+OperatorTheory/OperatorIdeals Part C owns the generic Hilbert–Schmidt theory; its
+column model, energy identities and compactness are already in the pinned Tau Ceti
+(`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`), and §0.2 consumes those
+declarations. The base roadmap's Layer 5 keeps the step that a continuous kernel on a compact
 space gives a Hilbert–Schmidt integral operator, as an input to the compactness of
 the Haar convolution operator. §0.2 differs from that step in two respects: it is
 stated for a general compact space with a finite Borel measure, not only for Haar
-convolution, and it proves the exact norm identity and the adjoint comparison.
+convolution, and it proves the exact energy identity and the adjoint comparison.
+AutomorphicSpectralTheory §0.8 owns square-integrable measurable kernels on σ-finite
+standard Borel spaces, whose L² spaces are separable; §0.2 keeps continuous kernels
+on a compact Hausdorff space that need not be metrizable, where L²(μ) need not be
+separable and the product sigma algebra can be strictly smaller than the Borel one,
+and it does not consume that target.
 LieHighestWeight Layers 7 and 9 own the algebraic universal-enveloping center
 and reductive trace-form comparison; CharacteristicClasses §C5.1 owns compact invariant
 polynomial restriction. Neither is a premise for group-character descent.
 BanachSpaceTheory B5 owns the equivalence between separability of a complete
 real or complex inner-product space and countability of a Hilbert-basis index.
 Layer 3 owns its Peter–Weyl application and compact-group countability criteria.
+
+NoncompactQuantumSymmetry M0 owns the isotypic decomposition `H_τ ≅ τ ⊗ Hom_K(τ,H)`
+of a strongly continuous unitary Hilbert representation of a compact group, with its
+normalized multiplicity inner product. §1.3 keeps only the finite-dimensional case,
+with standard coordinates `ℂ^{m_i}` in place of `Hom_K(S_i,V)`, built directly from
+the pinned orthogonal irreducible decomposition and Schur; it does not consume M0,
+because M0 consumes the density theorem of §2.1.
 
 ## Conventions
 
@@ -154,6 +168,10 @@ irreducibility uses closed invariant subspaces and is a different condition.
   `Module.Basis.dualBasis_apply_self` in `Mathlib/LinearAlgebra/Dual/Basis.lean`:
   the simple coroots form a basis, whose dual fundamental weights take
   values 1 and 0 on the corresponding and other simple coroots.
+- `MvPolynomial.esymmAlgEquiv` in
+  `Mathlib/RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean`: over any
+  commutative ring, the symmetric polynomials in n variables are freely generated
+  by the elementary symmetric polynomials e₁,…,e_n. §6.8 applies it over ℤ.
 
 ### From Tau Ceti
 
@@ -266,11 +284,23 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
   `ContinuousLinearMap.hilbertSchmidtEnergy`, the sum of the squared norms of the
   images of a Hilbert basis, with values in `ℝ≥0∞`, and
   `ContinuousLinearMap.hilbertSchmidtNorm`, its square root, which is 0 on an
-  operator of infinite energy; `…/HilbertSchmidt/Columns.lean`:
-  `HilbertBasis.columnOperator`; `Compact/Convolution.lean`:
+  operator of infinite energy; `ContinuousLinearMap.hilbertSchmidtEnergy_indep`
+  (the energy does not depend on the basis),
+  `ContinuousLinearMap.hilbertSchmidtEnergy_adjoint` (the adjoint has the same
+  energy), `ContinuousLinearMap.sq_hilbertSchmidtNorm` (the squared norm is the real
+  value of the energy) and `ContinuousLinearMap.norm_le_hilbertSchmidtNorm` (on
+  finite energy the operator norm is at most the Hilbert–Schmidt norm), all between
+  complete inner-product spaces. `…/HilbertSchmidt/Columns.lean`:
+  `HilbertBasis.columnOperator`, the operator `x ↦ Σ_i ⟪b_i,x⟫ f_i` of an ℓ² family of
+  columns, with `HilbertBasis.columnOperator_mk` (a finite-energy operator is the
+  operator of its columns), `HilbertBasis.norm_columnOperator_apply_le`
+  (`‖T_f‖ ≤ ‖f‖`), `HilbertBasis.tsum_norm_columnOperator_apply_self_sq` and
+  `HilbertBasis.hilbertSchmidtEnergy_columnOperator` (the energy of `T_f` is `‖f‖²`)
+  and `HilbertBasis.existsUnique_columnOperator_eq` (a finite-energy operator has a
+  unique column family). `Compact/Convolution.lean`:
   `TauCeti.convolutionOperator`, the Haar convolution operator of a continuous
-  kernel on L². These are the carriers of §0.2. The pins have no integral operator
-  of a continuous kernel on a general compact space.
+  kernel on L². These are the carriers and inputs of §0.2. The pins have no integral
+  operator of a continuous kernel on a general compact space.
 - `TauCeti/Geometry/Lie/Subgroup/Torus.lean`: `TauCeti.Lie.IsTorus` (a compact,
   connected, commutative subgroup), `TauCeti.Lie.IsMaximalTorus` (maximal among
   these; neither closedness nor a Lie structure is part of the definition),
@@ -279,8 +309,27 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
   torus of a Lie group with a finite product of circles indexed by the dimension
   of its Lie algebra; `TauCeti/Geometry/Lie/Subgroup/Weyl/Finite.lean`:
   `TauCeti.Lie.IsMaximalTorus.finite_normalizerQuotient`, finiteness of
-  `W = N_K(T)/T` for a compact Lie group. Used in §§6.1, 6.2 and 6.4. The pins
-  have no root characters, positive system or conjugacy theorem for maximal tori.
+  `W = N_K(T)/T` for a compact Lie group. Used in §§6.1, 6.2 and 6.4. For a
+  general compact connected Lie group the pins have no root characters, positive
+  system or conjugacy theorem for maximal tori; for U(n) they have all three torus
+  facts of the next item.
+- `TauCeti/Analysis/Matrix/UnitaryGroup/Torus.lean`, `MaximalTorus.lean` and
+  `Weyl.lean`: `TauCeti.unitaryTorusHom` (the injective continuous homomorphism
+  `(Fin n → Circle) → U(n)`, z ↦ diag(z)) with range `TauCeti.unitaryTorus`;
+  `TauCeti.exists_isConj_unitaryTorusHom` (every element of U(n) is conjugate to
+  some diag(z)); `TauCeti.isMaximalTorus_unitaryTorus` and
+  `TauCeti.exists_map_conj_eq_of_isMaximalTorus` (the diagonal torus is a maximal
+  torus, and any two maximal tori of U(n) are conjugate);
+  `TauCeti.unitaryTorusNormalizerQuotientMulEquivPerm` (the Weyl group of the
+  diagonal torus is `Equiv.Perm (Fin n)`, a normalizer element going to its
+  coordinate permutation σ_g) and
+  `TauCeti.unitaryTorusNormalizer_mul_unitaryTorusHom_mul_inv`
+  (`g·diag(z)·g⁻¹ = diag(z ∘ σ_g⁻¹)`). The permutation matrix
+  `Matrix.permutationUnitary σ` (`TauCeti/LinearAlgebra/Matrix/UnitaryGroup/Basic.lean`,
+  the permutation matrix of σ⁻¹ in Mathlib's indexing) sends `e_j` to `e_{σ(j)}` and has
+  coordinate permutation σ by `TauCeti.unitaryTorusNormalizerPerm_permutationUnitary`,
+  so this is the convention of the Conventions section: `n_σ diag(t) n_σ⁻¹` puts t_j
+  in position σ(j). Used in §§6.8 and 6.9.
 - `TauCeti/Algebra/Lie/Weights/WeightLattice.lean` and `Integrality.lean`:
   `TauCeti.integralWeightLattice` and `TauCeti.exists_int_apply_coroot`, the
   integral weights of a Cartan subalgebra and the integrality of the weights of a
@@ -328,8 +377,7 @@ comparison.
 BanachSpaceTheory B5 supplies: for every complete real or complex inner-product
 space with a Hilbert basis indexed by I, separability is equivalent to
 countability of I. Layer 3 applies the complex case to the native Peter–Weyl basis.
-OperatorTheory/OperatorIdeals Part C supplies Hilbert–Schmidt operators and their
-compactness for Layer 0. The base roadmap (RepresentationTheory, CompactGroups) supplies
+The base roadmap (RepresentationTheory, CompactGroups) supplies
 its Layers 0–6 and its engine case through the Tau Ceti declarations listed above:
 Layer 0 Haar averaging and bi-invariance, Layers 1–2 unitarization and complete
 reducibility, Layers 3–4 matrix coefficients and Schur orthogonality, Layer 5 the
@@ -411,32 +459,52 @@ Mathlib finite-dimensional tensors, duals, `FDRep` character identities and
 
 ### 0.2 Continuous kernels and Hilbert–Schmidt operators
 
-For every compact Hausdorff X with a finite regular Borel measure μ and continuous
-complex kernel k on X×X, compare the integral operator
-`A_k f(x)=∫ k(x,y)f(y) dμ(y)` from L²(μ) to itself with the Hilbert–Schmidt
-operator of k: prove that its energy `ContinuousLinearMap.hilbertSchmidtEnergy`
-in every Hilbert basis of L²(μ) is `∫|k|² d(μ×μ)`, which is finite, and hence
-`‖A_k‖²_HS=∫|k|² d(μ×μ)` for `ContinuousLinearMap.hilbertSchmidtNorm`. The
-identity is stated for the energy first because the pinned norm is 0 on an
-operator of infinite energy. This is a deduction from
-OperatorTheory/OperatorIdeals Part C, specifically OI-C01–OI-C11, and the
-finite-rank kernel identity: finite sums of `a(x)conj(b(y))` are uniformly
-dense in C(X×X) by complex Stone–Weierstrass, hence L²-dense among continuous
-kernels for finite μ. Their operator Hilbert–Schmidt norms equal their kernel
-L² norms by finite-sum expansion and Parseval; completeness extends this
-isometry. No separable L² basis or standard Borel assumption enters this route.
+For every compact Hausdorff X with a finite Borel measure μ and continuous
+complex kernel k on X×X, construct the integral operator
+`A_k f(x)=∫ k(x,y)f(y) dμ(y)` from L²(μ) to itself, bounded with
+`‖A_k‖ ≤ μ(X)·sup|k|`, and prove that its energy
+`ContinuousLinearMap.hilbertSchmidtEnergy` in every Hilbert basis of L²(μ) is
+`∫|k|² d(μ×μ)`, which is finite, and hence `‖A_k‖²_HS=∫|k|² d(μ×μ)` for
+`ContinuousLinearMap.hilbertSchmidtNorm`. The signature
+`exists_kernelOperator_hilbertSchmidtEnergy` states the energy identity, with A_k
+determined by its almost-everywhere formula; the identity is stated for the energy
+because the pinned norm is 0 on an operator of infinite energy. The product μ×μ
+lives on the product sigma algebra, which for X not second countable can be strictly
+smaller than the Borel sigma algebra of X×X; k is nevertheless measurable for it, being a
+uniform limit of the product-measurable kernels below, so `∫|k|²` is its true
+integral. No regularity of μ, second countability of X or separability of L²(μ)
+is assumed.
+
+This is a deduction from the pinned Hilbert–Schmidt column model and the
+finite-rank kernel identity. Finite sums of `a(x)conj(b(y))`, with a and b
+continuous, are uniformly dense in C(X×X) by complex Stone–Weierstrass. For such a
+kernel A_k is a finite sum of rank-one operators `f ↦ ⟪b,f⟫a`, and its energy
+equals the kernel's L²(μ×μ) mass by Parseval and Fubini. If finite-rank k_n
+converge uniformly to k, then `‖A_k−A_(k_n)‖ ≤ μ(X)·sup|k−k_n|` and the energy of
+`A_(k_n)−A_(k_m)` is the mass of `k_n−k_m`, so the column families of the A_(k_n)
+form a Cauchy sequence in ℓ²; by `HilbertBasis.columnOperator_mk` and
+`HilbertBasis.norm_columnOperator_apply_le` the operator of the limit family is the
+operator-norm limit A_k, and by `HilbertBasis.hilbertSchmidtEnergy_columnOperator`
+its energy is the limit of the masses, `∫|k|² d(μ×μ)`.
+`ContinuousLinearMap.hilbertSchmidtEnergy_indep` removes the choice of basis.
 
 - The map from continuous kernels to Hilbert–Schmidt operators is complex-linear
-  and sends `k*(x,y)=conj k(y,x)` to the adjoint of A_k.
+  and sends `k*(x,y)=conj k(y,x)` to the adjoint of A_k; the two have equal energy
+  by `ContinuousLinearMap.hilbertSchmidtEnergy_adjoint`.
 - Kernels equal almost everywhere give the same operator; the norm identity
   identifies the kernel of the map with continuous kernels vanishing μ×μ-a.e.
 - For normalized Haar measure and `k(x,y)=f(xy⁻¹)`, A_k is the native
   `TauCeti.convolutionOperator` of f; translation invariance gives `‖A_k‖²_HS=‖f‖²₂`.
 
 *Needs:* Tau Ceti `ContinuousLinearMap.hilbertSchmidtEnergy`,
-`ContinuousLinearMap.hilbertSchmidtNorm` and `TauCeti.convolutionOperator`;
-OperatorTheory/OperatorIdeals Part C OI-C01–OI-C11; Mathlib complex
-Stone–Weierstrass, Fubini and Parseval; native compact convolution for the specialization.
+`ContinuousLinearMap.hilbertSchmidtNorm`,
+`ContinuousLinearMap.hilbertSchmidtEnergy_indep`,
+`ContinuousLinearMap.hilbertSchmidtEnergy_adjoint`,
+`ContinuousLinearMap.sq_hilbertSchmidtNorm`, `HilbertBasis.columnOperator`,
+`HilbertBasis.columnOperator_mk`, `HilbertBasis.norm_columnOperator_apply_le` and
+`HilbertBasis.hilbertSchmidtEnergy_columnOperator`; Mathlib complex
+Stone–Weierstrass, Fubini and Parseval; `TauCeti.convolutionOperator` for the
+convolution specialization only.
 
 **Checks.**
 
@@ -447,6 +515,14 @@ Stone–Weierstrass, Fubini and Parseval; native compact convolution for the spe
 - For the same two-point measure and k(1,2)=i, all other entries zero,
   A_k has matrix entry i/2, its adjoint has entry −i/2 at (2,1), and
   both squared norms are 1/4, distinguishing adjoint from transpose.
+- On the compact ordinal space [0,ω₁] take the Dieudonné measure: mass 1 on the
+  Borel sets containing a closed unbounded subset of [0,ω₁), mass 0 on the others.
+  It is a finite Borel measure that is neither inner nor outer regular. Every
+  measurable function is a.e. constant, so L²(μ) is the line of constants. A
+  continuous k(x,·) equals k(x,ω₁) on a tail, so A_k is multiplication by
+  k(ω₁,ω₁), and both sides of the identity equal |k(ω₁,ω₁)|². Here μ agrees with
+  the point mass at ω₁ on continuous functions although μ({ω₁})=0: the identity
+  holds without regularity.
 
 ### Examples
 
@@ -469,8 +545,9 @@ and Hom carriers with their continuity and characters
 `ContRepresentation.character_linHom`, `ContRepresentation.character_trivial`);
 Mathlib finite-dimensional tensors, duals, `FDRep` character identities and
 topology, and complex Stone–Weierstrass, Fubini and Parseval; the pinned
-Hilbert–Schmidt energy and norm and `TauCeti.convolutionOperator`; and
-OperatorTheory/OperatorIdeals Part C.
+Hilbert–Schmidt energy and norm with their basis-independence, adjoint and
+column-model declarations (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`),
+and `TauCeti.convolutionOperator`.
 
 ## Layer 1: invariant Hermitian metrics
 
@@ -566,9 +643,15 @@ irreducibility hypothesis; repeated copies retain their full matrix freedom.
 - Changing multiplicity bases by U_i sends A_i to U_i A_i U_i†;
   reindexing merely reindexes the blocks.
 
-*Needs:* §1.1; native unitary complete reducibility and scalar Schur;
-finite-dimensional tensor products and matrix adjoints. The chosen unitary
-isotypic tensor decomposition and its comparison are constructed here.
+*Needs:* §1.1; native unitary complete reducibility
+(`ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition`),
+the unitary-equivalence replacement
+`ContRepresentation.exists_linearIsometryEquiv_congr_eq` and scalar Schur;
+finite-dimensional tensor products and matrix adjoints. A finite unitary
+decomposition exists: group the summands of the pinned orthogonal decomposition by
+equivalence class and identify each with its chosen S_i by a unitary intertwiner.
+Only this finite-dimensional construction is used here; Scope and ownership names
+the owner of the Hilbert-space isotypic decomposition.
 
 **Checks.**
 
@@ -939,7 +1022,10 @@ real dual Lie algebra and not an automatically simply connected weight lattice.
 For a finite-dimensional continuous complex representation V of T, define the
 χ-weight space by π(t)v=χ(t)v for every t∈T, and prove from the commuting
 unitaries of a unitarization that the nonzero weight spaces are finitely many
-and form an internal direct sum equal to V. Define the formal character of V as
+and form an internal direct sum equal to V: V is a direct sum of irreducible
+invariant subspaces, each one-dimensional because T is abelian, and each such
+line lies in one weight space (Knapp, Corollary 4.7, p.240, and the example after
+Corollary 4.9, p.241). Define the formal character of V as
 the element `Σ_χ dim(V_χ)·e^χ` of `AddMonoidAlgebra ℤ X`, written ℤ[X]. Prove
 that it is additive on direct sums, multiplicative on tensor products, sends the
 dual to the image under `e^χ ↦ e^(−χ)`, and determines V up to equivalence; and
@@ -947,6 +1033,8 @@ that every element of ℤ[X] with nonnegative coefficients is the formal charact
 of a representation, namely of the direct sum of the characters with those
 multiplicities. Prove the trace formula `tr π(t)=Σ_χ dim(V_χ)·χ(t)` and the
 uniqueness of its coefficients by the orthogonality of characters of Layer 5.
+These formal-character laws are deductions from the weight-space decomposition,
+§0.1's tensor and dual comparisons and Layer 5's orthogonality.
 
 - The distinct nonzero weight spaces form a finite internal direct sum equal to
   the whole module; an irreducible representation of T is one weight space of
@@ -1053,7 +1141,8 @@ algebra send `e^χ` to `e^(w·χ)`, with fixed subring `ℤ[X]^W`.
 This is the action induced by conjugation of T by its normalizer, on the
 normalizer quotient whose finiteness is the pinned
 `TauCeti.Lie.IsMaximalTorus.finite_normalizerQuotient`; LieGroups Layer 6
-identifies it with the Weyl group of the root system.
+identifies it with the Weyl group of the root system. The laws below are
+deductions from the definition and the commutativity of T.
 
 - Changing n by an element of T leaves the character unchanged because T
   is abelian; hence the action factors through W.
@@ -1332,7 +1421,15 @@ For a torus W is trivial and all
 irreducibles are its actual characters. For the trivial group X=0 and `ℤ[X]^W=ℤ`.
 For SU(2) all highest integers n≥0 occur, whereas for SO(3) only even SU(2) highest
 integers descend. The positive torus character `e²+e⁻²=chi_(Sym²)−1` is
-virtual but not a positive SU(2) character, testing the positive-cone distinction. For U(n), n>0, use the actual covering
+virtual but not a positive SU(2) character, testing the positive-cone distinction.
+For U(n), n>0, take T to be the pinned diagonal torus `TauCeti.unitaryTorus`,
+parametrized by `TauCeti.unitaryTorusHom`, a maximal torus by
+`TauCeti.isMaximalTorus_unitaryTorus`; by §4.1's `circleProduct_character` its
+character group X is ℤⁿ, with e^λ = t₁^(λ_1)⋯t_n^(λ_n). Its Weyl group is
+`Equiv.Perm (Fin n)` by `TauCeti.unitaryTorusNormalizerQuotientMulEquivPerm`, and
+`TauCeti.unitaryTorusNormalizer_mul_unitaryTorusHom_mul_inv` shows that it permutes
+the coordinates t_i; so `ℤ[X]^W` is the ring of symmetric Laurent polynomials in
+t₁,…,t_n. Use the actual covering
 `S¹×SU(n)→U(n), (z,A)↦zA`, with kernel `(z,z⁻¹I)` for zⁿ=1. A central exponent
 q and derived highest coefficients a_i descend exactly when
 `q≡Σ_(i=1)^(n−1) i a_i (mod n)`. Compare this with the full integer tuple
@@ -1352,13 +1449,20 @@ polynomial ring on a purported independent set of fundamental characters.
 - For SO(3), pullback identifies its irreducibles with even SU(2) highest
   weights, preserving dimension and tensor multiplication.
 
-*Needs:* §§6.5–6.7; native SU(2) weights; the pinned highest-weight
-declarations named in §§6.6–6.7, applied to `𝔰𝔩_n(ℂ)`; Mathlib exterior
-powers. Identify the i-th exterior power's top weight with the i-th fundamental
-weight and its torus character with the i-th elementary symmetric polynomial.
-For the Laurent statement, multiply a symmetric Laurent polynomial by a
-sufficient power of the determinant monomial to make all exponents nonnegative,
-then apply the fundamental theorem of symmetric polynomials.
+These statements are deductions from §§6.5–6.7, the pinned U(n) torus and Weyl
+declarations and `MvPolynomial.esymmAlgEquiv`.
+
+*Needs:* §§6.5–6.7; §4.1's `circleProduct_character`; native SU(2) weights; the
+pinned highest-weight declarations named in §§6.6–6.7, applied to `𝔰𝔩_n(ℂ)`; Tau
+Ceti `TauCeti.unitaryTorus`, `TauCeti.unitaryTorusHom`,
+`TauCeti.isMaximalTorus_unitaryTorus`,
+`TauCeti.unitaryTorusNormalizerQuotientMulEquivPerm` and
+`TauCeti.unitaryTorusNormalizer_mul_unitaryTorusHom_mul_inv`; Mathlib exterior
+powers and `MvPolynomial.esymmAlgEquiv`. Identify the i-th exterior power's top
+weight with the i-th fundamental weight and its torus character with the i-th
+elementary symmetric polynomial. For the Laurent statement, multiply a symmetric
+Laurent polynomial by a sufficient power of the determinant monomial e_n to make all
+exponents nonnegative, then apply `MvPolynomial.esymmAlgEquiv` over ℤ.
 
 **Checks.**
 
@@ -1420,7 +1524,12 @@ negative integer power is taken at a nonzero scalar.
 
 *Needs:* §§6.5–6.6's U(2) descent and exhaustion; §6.1's torus-weight
 uniqueness; native SU(2) weight strings and finite-dimensional complete
-reducibility. The basis theorem of §6.7 is not needed for this criterion.
+reducibility; Tau Ceti `TauCeti.exists_isConj_unitaryTorusHom` at n=2 (every
+element of U(2) is conjugate to a diagonal one, so the trace on the diagonal torus
+determines the character, which with compact character orthogonality determines the
+representation) and `TauCeti.unitaryTorusNormalizer_mul_unitaryTorusHom_mul_inv`
+for the coordinate swap (the symmetry `f(a,b)=f(b,a)`). The basis theorem of §6.7
+is not needed for this criterion.
 
 **Checks.**
 
@@ -1439,7 +1548,7 @@ The U(2) criterion is a deduction from the global highest-weight classification 
 
 ### Dependencies
 
-§0.1's tensor and dual comparisons; §4.1's `circleProduct_character`; Layer 5's character classification and orthogonality; native compact characters, unitarization, complete reducibility and SU(2) classification; the pinned torus, root-system and highest-weight declarations of the supplier contracts, and `TauCeti.Hodge.complexificationConjugation` with `LinearMap.map_eigenspace_baseChange`; Mathlib `AddMonoidAlgebra`; LieGroups Layers 0, 2–5, 5A, 6 and 7 (compact semisimple integration); ConvexityToric T1; the compact cocharacter, finite-cover and dominance targets of this layer.
+§0.1's tensor and dual comparisons; §4.1's `circleProduct_character`; Layer 5's character classification and orthogonality; native compact characters, unitarization, complete reducibility and SU(2) classification; the pinned torus, U(n) torus and Weyl, root-system and highest-weight declarations of the supplier contracts, and `TauCeti.Hodge.complexificationConjugation` with `LinearMap.map_eigenspace_baseChange`; Mathlib `AddMonoidAlgebra` and `MvPolynomial.esymmAlgEquiv`; LieGroups Layers 0, 2–5, 5A, 6 and 7 (compact semisimple integration); ConvexityToric T1; the compact cocharacter, finite-cover and dominance targets of this layer.
 
 ## Layer 7: unitary SU(2) actions and embeddings
 
@@ -1527,7 +1636,8 @@ characters, so a consumer placed after TopologicalKTheory reads it on that ring.
 ## References
 
 - A. W. Knapp, *Lie Groups Beyond an Introduction*, digital second edition (2021),
-  author-distributed version: Proposition 4.8 and Corollary 4.9 p.240;
+  author-distributed version: Corollary 4.7, Proposition 4.8 and Corollary 4.9
+  p.240; the example after Corollary 4.9, p.241;
   Theorem 4.29 pp.250–251;
   Propositions 4.58–4.59 pp.264–265; Proposition 4.67 p.267;
   Theorem 5.107 p.334;

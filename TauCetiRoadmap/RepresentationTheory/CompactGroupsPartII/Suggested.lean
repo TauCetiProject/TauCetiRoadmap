@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Analysis.InnerProductSpace.HilbertSchmidt.Basic
 import TauCeti.RepresentationTheory.Compact.PeterWeyl
 import TauCeti.RepresentationTheory.SU2.Exhaustion
 
@@ -6,7 +7,8 @@ import TauCeti.RepresentationTheory.SU2.Exhaustion
 # Compact groups, part II: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
-headline theorems against the pinned APIs: irreducible positive-scalar metric
+headline theorems against the pinned APIs: the Hilbert–Schmidt energy of a
+continuous-kernel integral operator, irreducible positive-scalar metric
 classification, U(2) weight recognition, Banach G-finite density, compact-group
 countability, duals of arbitrary products, compact abelian Fourier theory, and SU(2)
 multiplicities and faithfulness.
@@ -23,10 +25,7 @@ Not stated, each for a carrier the pins lack:
   group, nor its finite central cover, nor the formal character of a continuous
   representation restricted to a maximal torus;
 * the full multiplicity-space metric comparison: it needs the chosen unitary
-  isotypic tensor decomposition;
-* the continuous-kernel norm identity: the pins have the Hilbert–Schmidt energy and
-  norm of an operator but not the integral operator of a continuous kernel on a
-  compact space with a finite Borel measure.
+  isotypic tensor decomposition.
 
 These constructions remain README targets, without substitute predicates here.
 -/
@@ -39,6 +38,24 @@ open scoped DirectSum InnerProductSpace
 namespace TauCetiRoadmap.CompactGroupsPartII
 
 universe u v
+
+/-! ## Layer 0: comparisons with the base theory -/
+
+/-- The integral operator `f ↦ (x ↦ ∫ k(x,y) f(y) dμ(y))` of a continuous kernel on a
+compact Hausdorff space with a finite Borel measure is a bounded operator on `L²(μ)`
+whose Hilbert–Schmidt energy, in any Hilbert basis, is the `L²(μ × μ)` mass of the
+kernel. The almost-everywhere formula determines the operator. No regularity of `μ`,
+second countability of the space or separability of `L²(μ)` is assumed: a continuous
+kernel is a uniform limit of finite sums `a(x)b(y)`, hence measurable for the product
+sigma algebra. -/
+theorem exists_kernelOperator_hilbertSchmidtEnergy
+    {X ι : Type*} [TopologicalSpace X] [CompactSpace X] [T2Space X]
+    [MeasurableSpace X] [BorelSpace X] (μ : Measure X) [IsFiniteMeasure μ]
+    (k : C(X × X, ℂ)) (b : HilbertBasis ι ℂ (Lp ℂ 2 μ)) :
+    ∃ A : Lp ℂ 2 μ →L[ℂ] Lp ℂ 2 μ,
+      (∀ f : Lp ℂ 2 μ, (A f : X → ℂ) =ᵐ[μ] fun x => ∫ y, k (x, y) * f y ∂μ) ∧
+      A.hilbertSchmidtEnergy b = ∫⁻ p, ‖k p‖ₑ ^ 2 ∂(μ.prod μ) := by
+  sorry
 
 /-! ## Layer 1: invariant Hermitian metrics -/
 
