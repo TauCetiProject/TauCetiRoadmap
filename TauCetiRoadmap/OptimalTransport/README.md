@@ -69,8 +69,8 @@ Ownership against other developments is as follows.
   calculus over Tau Ceti's Ricci tensor `CovariantDerivative.ricciTensor`, Jacobi fields,
   conjugate points, injectivity radius, the cut locus, its measurability and volume-nullity,
   and smoothness of squared distance off the cut relation.  The
-  [DifferentialGeometry roadmap](../DifferentialGeometry/README.md), Layer 12 (12.2--12.4), owns
-  the Riemannian gradient, divergence, Hessian and volume density over Tau Ceti's Riemannian
+  [DifferentialGeometry roadmap](../DifferentialGeometry/README.md), Layer 12 (12.2--12.5), owns
+  the Riemannian gradient, divergence, Hessian, volume density and divergence theorem over Tau Ceti's Riemannian
   volume `TauCeti.riemannianVolume`.  Layer 7 here owns squared-distance semiconcavity and the
   transport-facing measurable selections.
 * [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G2, owns the weighted area
@@ -458,9 +458,10 @@ Here `…/` abbreviates `TauCeti/MeasureTheory/`.
   (Layer 14.6); R2--R3 and R4.6: Jacobi fields, conjugate points, injectivity radius, the cut
   locus with its measurability and volume-nullity, and smoothness of squared distance off the
   cut relation (Layer 7).
-* [DifferentialGeometry](../DifferentialGeometry/README.md), Layer 12, items 12.2--12.4: the
-  Riemannian gradient `mgradient`, the divergence and Hessian, and the volume form and density,
-  whose measure is Tau Ceti's `TauCeti.riemannianVolume` (Layers 8.9, 11.10 and 14.6).
+* [DifferentialGeometry](../DifferentialGeometry/README.md), Layer 12, items 12.2--12.5: the
+  Riemannian gradient `mgradient`, the divergence and Hessian, the volume form and density,
+  whose measure is Tau Ceti's `TauCeti.riemannianVolume`, and the divergence theorem
+  (Layers 8.9, 11.10 and 14.6).
 * [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G2: the weighted area
   formula for Lipschitz maps `f : ℝᵐ → ℝⁿ`, `m ≤ n`, with extended multiplicity (Layer 6.6).
 * [PDE](../PDE/README.md), §1.1 (A1), §1.6 (A6), §1.7 (A7), §2.4 (B11) and §6.3 (F26): weak
@@ -1097,7 +1098,8 @@ Consume `ProbabilityTheory.cdf` on `ℝ`; build the generalized inverse/quantile
 Borel probability law, its measurability and pushforward of uniform measure, and the
 optimal monotone quantile coupling.  For every `p ∈ [1,∞]`, prove that `W_p` is the
 `Lᵖ(0,1)` distance of the two quantiles, with the integral/root and essential-supremum
-formulas at the corresponding endpoints.
+formulas at the corresponding endpoints (for `p < ∞`: Peyré--Cuturi, *Computational Optimal
+Transport*, Remark 2.30, (2.34)--(2.36), pp. 31--32).
 
 *Needs:* item 1; Mathlib `ProbabilityTheory.cdf` and Lebesgue measure on `(0,1)`.
 
@@ -1222,7 +1224,12 @@ Prove the reusable **abstract twist theorem**.  Starting from a dual contact set
 potential differentiable `μ`-a.e., source differentiability of `c`, and injectivity of
 `y ↦ Dₓc(x,y)`, show that each contact fiber is a singleton almost everywhere and that
 an optimizer concentrated on contact has singleton conditional fibers there.  Formulate
-local semiconcavity or superdifferentiability assumptions separately from twist.
+local semiconcavity or superdifferentiability assumptions separately from twist.  The
+mechanism is the first-order condition `∇u(x) + Dₓc(x,y) = 0` at a contact point where the
+potential is differentiable (De Philippis--Figalli, *The Monge--Ampère equation and its link to
+optimal transportation*, condition (C1), p. 29, and Theorem 3.6 with the last step of its
+proof sketch, pp. 30--32, proved there for bounded `C⁴` costs on open subsets of `ℝⁿ` and an
+absolutely continuous source; Villani 2009, Chapter 10, for the general statement).
 
 *Needs:* Layers 2.2 and 2.8; Mathlib Fréchet derivatives.
 
@@ -1543,17 +1550,41 @@ a.e.-twice-differentiable gradients of convex functions, covering the set of
 approximate differentiability, up to a null set, by countably many pieces on which the
 gradient is Lipschitz.  Then derive the a.e. Jacobian equation
 `f(x)=g(∇u(x)) det(D²u(x))`.  State the second boundary condition first in its honest
-set-valued form, then upgrade it when regularity permits.
+set-valued form, then upgrade it when regularity permits (De Philippis--Figalli, *The
+Monge--Ampère equation and its link to optimal transportation*: Theorem 3.1 with the Jacobian
+identity (3.3), p. 23, for compactly supported laws with absolutely continuous source;
+Theorem 3.2, p. 24, for Aleksandrov's almost-everywhere second differentiability; (3.4)--(3.5),
+p. 24, for the equation and the boundary condition `∇u(X) = Y`; and Step 1 of the proof of
+Theorem 3.3, p. 26, for the area-formula step).
 
 *Needs:* item 5; Layer 5.2; GeometricMeasureTheory G2.
 
 ### 6.7 Brenier and Aleksandrov solutions
 
-Prove exactly when a Brenier solution is an Aleksandrov solution.  Convexity of the
-target support is load-bearing: singular subgradient mass not seen by `g` cannot be
+Let `X, Y ⊆ ℝⁿ` be bounded open sets, let `f` and `g` be probability densities vanishing
+outside `X` and `Y` with `λ ≤ f ≤ λ⁻¹` on `X` and `λ ≤ g ≤ λ⁻¹` on `Y` for some `λ > 0`, and let
+`u` be the Brenier potential of Layer 5.5, so that `∇u` pushes `f dx` to `g dy`.  Prove, with no
+hypothesis on `Y`, the lower bound `MA_u(A) ≥ ∫_A f/g(∇u) dx` for every Borel `A ⊆ X`.  Prove
+that if `Y` is convex then `∂u(X) ⊆ closure Y`, equality holds in that bound, and therefore
+`λ² Leb ≤ MA_u ≤ λ⁻² Leb` on `X`: the Brenier solution is an Aleksandrov solution of item 3 with
+right side `f/g(∇u)` (De Philippis--Figalli, *The Monge--Ampère equation and its link to optimal
+transportation*, §3.2, p. 25, and Steps 1--3 of the proof of Theorem 3.3, pp. 26--27).
+Convexity of the target is load-bearing: singular subgradient mass not seen by `g` cannot be
 discarded in general.
 
-*Needs:* items 3, 5 and 6.
+*Needs:* items 3, 5 and 6; Layer 5.5.
+
+**Checks.**
+
+* On `ℝ` with `X = Y = (0,1)` and `f = g = 1`, `u(x) = x²/2`, `∂u(E) = E` and `MA_u = Leb`:
+  both bounds hold with `λ = 1`.
+* For `n = 2`, `X` the unit disc `B₁` and `Y` the two half-discs translated apart by `±e₁`, with
+  uniform densities, the Brenier potential is `u(x) = ‖x‖²/2 + |x₁|`.  Then `det D²u = 1` almost
+  everywhere, while `∂u(0,x₂) = [-1,1] × {x₂}`, so `MA_u({x₁ = 0} ∩ B₁) = 2·2 = 4` although the
+  segment is Lebesgue-null: `u` is a Brenier solution and not an Aleksandrov one, and `Y` is not
+  convex (same source, pp. 24--25).
+* A statement of the upper bound without convexity of `Y` is refuted by the same example, since
+  `λ⁻² Leb({x₁ = 0} ∩ B₁) = 0 < 4`; the lower bound of the first assertion still holds there.
 
 The regularity sublayers consume the [PDE roadmap](../PDE/README.md), §1.1 (A1), for the
 weak-derivative Sobolev API, §1.7 (A7) for Hölder spaces, and §2.4 (B11) for
@@ -2168,11 +2199,32 @@ restriction, lower-semicontinuity, and stability lemmas for each notion.
 ### 9.4 Generalized geodesics and squared distance
 
 Prove convexity of squared Wasserstein distance along generalized geodesics in the
-Euclidean `W₂` setting.  This is the load-bearing estimate for resolvents and minimizing
-movements and cannot be replaced by an incorrect assertion of convexity along every
-ordinary geodesic.
+Euclidean `W₂` setting, with its constant.  Let `μ,ν₀,ν₁ ∈ P₂(ℝⁿ)` and let `γ` be a
+three-plan on `ℝⁿ × ℝⁿ × ℝⁿ` whose `(1,2)` and `(1,3)` marginals are optimal for `(μ,ν₀)` and
+`(μ,ν₁)`; the generalized geodesic of item 1 is `ν_t = ((1-t)x₂ + t x₃)_# γ`.  Then
+
+    W₂(μ,ν_t)² ≤ (1-t) W₂(μ,ν₀)² + t W₂(μ,ν₁)² - t(1-t) ∫‖x₂-x₃‖² dγ,
+
+and `∫‖x₂-x₃‖² dγ ≥ W₂(ν₀,ν₁)²`.  In the Conventions' normalization this is `1`-convexity of
+`ν ↦ W₂(μ,ν)²/2` along generalized geodesics based at `μ` (`2`-convexity of `W₂(μ,·)²` itself).
+The proof couples `μ` and `ν_t` by `(x₁,(1-t)x₂+t x₃)_# γ` and expands the square.  For a
+regular base `μ`, where `γ = (id,T₀,T₁)_# μ`, it is Ambrosio--Gigli, *A user's guide to optimal
+transport*, Definition 3.29 and inequality (3.43), pp. 70--71; for a general base it is
+Ambrosio--Gigli--Savaré, §9.2, Lemma 9.2.1.  This is the load-bearing estimate for resolvents
+and minimizing movements and cannot be replaced by an incorrect assertion of convexity along
+every ordinary geodesic.
 
 *Needs:* items 1 and 3; Layer 0.4.
+
+**Checks.**
+
+* On `ℝ` with `μ = ν₀ = δ₀` and `ν₁ = δ₁`, `ν_t = δ_t` and `W₂(μ,ν_t)² = t² = t - t(1-t)`:
+  equality with the remainder `t(1-t)W₂(ν₀,ν₁)²`.
+* The same instance with the remainder halved would read `t² ≤ t - t(1-t)/2`, which is true but
+  strict for `0 < t < 1`; the remainder doubled would read `t² ≤ t - 2t(1-t)`, false at
+  `t = 1/2` (`1/4 ≤ 0`).  So the constant is exactly the stated one.
+* Based at `μ = δ₀` between `δ_{-1}` and `δ₁`, `ν_t = δ_{2t-1}` and
+  `(2t-1)² = (1-t) + t - 4t(1-t)`: equality with `∫‖x₂-x₃‖² dγ = 4`.
 
 ### 9.5 Potential, interaction, and internal energies
 
@@ -2212,7 +2264,23 @@ in Layer 11 after that functional exists.
 Consume Layer 3's quantile-coupling theorem to develop the one-dimensional quantile
 isometry, geodesics, geodesic convexity, and pointwise minimization identities without
 Euclidean-density assumptions.  Layer 12 consumes those identities for barycenter
-formulas.
+formulas.  The statements are: `μ ↦ Q_μ` is an isometry of `P_p(ℝ)` into `Lᵖ(0,1)` for
+`1 ≤ p < ∞` (Peyré--Cuturi, *Computational Optimal Transport*, Remark 2.30, (2.35)--(2.36),
+pp. 31--32); the displacement interpolation between `μ₀` and `μ₁` given by the quantile
+coupling has quantile `(1-t)Q_{μ₀} + tQ_{μ₁}` (same source, (7.7), p. 104); and for weights
+`λ_i ≥ 0` of sum `1` the law with quantile `∑ λ_i Q_{μ_i}` minimizes `ν ↦ ∑ λ_i W₂(ν,μ_i)²`
+(same source, Remark 9.6, p. 143).
+
+**Checks.**
+
+* For `μ₀ = δ₀` and `μ₁ = (δ₀+δ₂)/2`, `Q_{μ_t} = 0` on `(0,1/2]` and `2t` on `(1/2,1)`, so
+  `μ_t = (δ₀+δ_{2t})/2` and `W₂(μ₀,μ_t)² = (1/2)(2t)² = 2t² = t² W₂(μ₀,μ₁)²`.
+* The `W₂` barycenter of `δ₀` and `δ₂` with weights `1/2` has quantile `(0+2)/2 = 1`, that is
+  `δ₁`, with value `(1/2)·1 + (1/2)·1 = 1`; the mixture `(δ₀+δ₂)/2` has value
+  `(1/2)·2 + (1/2)·2 = 2`, so the barycenter averages quantiles and not laws.
+* For `μ = (δ₀+δ₂)/2` the antitone rearrangement `s ↦ Q_μ(1-s)` has law `μ` and is at `L²(0,1)`
+  distance `2` from `Q_μ`, while `W₂(μ,μ) = 0`: only the nondecreasing representative enters the
+  isometry.
 
 *Needs:* Layer 3.7; items 1--3.
 
@@ -2531,8 +2599,9 @@ conditions, discrete estimates, and compactness of interpolants.  The step is th
 Jordan--Kinderlehrer--Otto 1998; the convexity mechanism is Ambrosio--Gigli, *A user's guide
 to optimal transport*: Assumption 3.24 and the first assertion of Theorem 3.25, p. 64 (a
 unique discrete solution for `0 < τ < 1/λ⁻`, which is `1+λτ>0`), with Definition 3.29 and
-inequality (3.43), pp. 70--71, for the `1`-convexity of `W₂(μ,·)²` along interpolating curves
-with base `μ`, stated there for a regular base.
+inequality (3.43), pp. 70--71, for the `1`-convexity of `W₂(μ,·)²/2` along interpolating curves
+with base `μ` (Layer 9.4; the remainder of (3.43) is `-t(1-t)W₂(ν₀,ν₁)²` for `W₂(μ,·)²`
+itself, which is `λ = 2` in the Conventions), stated there for a regular base.
 
 *Needs:* items 2 and 4; Layers 9.4 and 10.4.
 
@@ -3140,19 +3209,23 @@ result.  Marginalizing `π ≪ R^ε₀₁` gives `μ ≪ (R^ε₀₁)₀` and `�
 endpoints are unavailable for general `μ,ν ∈ P₂(ℝⁿ)`: both endpoint marginals of item
 12's reversible reference are Lebesgue, and for `μ=δ_a`, `ν=δ_b` with `a≠b` the unique
 coupling has finite quadratic cost `‖a-b‖²/2` while every `π ∈ Π(μ,ν)` has
-`klDiv(π,R^ε₀₁)=∞` at every `ε>0`.  Keep that pair as a guardrail counterexample.
+`Ent_{R^ε₀₁}(π)=∞` at every `ε>0`.  Keep that pair as a guardrail counterexample.
+Here and below the entropy against the reversible reference is Layer 11.2's signed
+functional `Ent_{R^ε₀₁}(π) = ∫ log(dπ/dR^ε₀₁) dπ` with the σ-finite reference `R^ε₀₁`, which is
+item 12's relative-entropy extension.  It is not Mathlib's `InformationTheory.klDiv`, which
+is nonnegative and whose mass correction reads the total mass of an infinite reference as `0`.
 Define the plan domain by finite quadratic cost together with finite Boltzmann entropy
 `Ent_{vol⊗vol}(π)`.  Finite quadratic cost alone does not bound the negative part of
 `∫ρ_π log ρ_π`; for `π` with both marginals in `P₂(ℝⁿ)` the second-moment bound does, by
 Layer 11.2's inequality `r log r ≥ r log s + r - s` with a Gaussian `s` on `ℝ²ⁿ`.  Define
 the endpoint domain by `μ,ν ∈ P₂(ℝⁿ)` with `Ent_vol(μ),Ent_vol(ν)<∞`,
 so that `μ⊗ν` witnesses feasibility.  On the plan domain prove the exact identity
-`ε klDiv(π,R^ε₀₁) = (1/2)∫‖x-y‖²dπ + ε Ent_{vol⊗vol}(π) + ε(n/2)log(2πε)`,
+`ε Ent_{R^ε₀₁}(π) = (1/2)∫‖x-y‖²dπ + ε Ent_{vol⊗vol}(π) + ε(n/2)log(2πε)`,
 whose error terms vanish as `ε ↓ 0`, so the constant sequence `π_ε=π` is already a
 recovery sequence with exact endpoints.  For an arbitrary `π` with both marginals in
 `P₂(ℝⁿ)`, whose quadratic cost is then finite, prove the relaxed recovery theorem instead: Gaussian mollification gives plans `π_ε`
 in the plan domain with `π_ε → π` in `W₂`, marginals converging to `μ` and `ν`, and
-`limsup ε klDiv(π_ε,R^ε₀₁) ≤ (1/2)∫‖x-y‖²dπ`; those endpoints converge and are not
+`limsup ε Ent_{R^ε₀₁}(π_ε) ≤ (1/2)∫‖x-y‖²dπ`; those endpoints converge and are not
 exact.  Prove the matching liminf along sequences of uniformly bounded second moment,
 and bridge-law tightness for fixed endpoints in the endpoint domain.  Over that same
 endpoint domain deduce convergence of values, global minimizers, and entropic
@@ -3165,15 +3238,17 @@ the quadratic optimizer is unique and only cluster-point convergence otherwise.
 
 * For `π = N(0, I₂)` on `ℝ × ℝ` and `ε = 1`, the cost is `(1/2)E|x-y|² = 1` and
   `Ent_{vol⊗vol}(π) = -log(2πe)`, so the identity gives
-  `klDiv(π,R¹₀₁) = 1 - log(2πe) + (1/2)log(2π) = -(1/2)log(2π)`; integrating
+  `Ent_{R¹₀₁}(π) = 1 - log(2πe) + (1/2)log(2π) = -(1/2)log(2π)`; integrating
   `log(dπ/dR¹₀₁) = -(1/2)log(2π) - (x²+y²)/2 + (x-y)²/2` against `π` gives the same value.  It is
-  negative because the reference has infinite mass.
+  negative because the reference has infinite mass; Mathlib's `klDiv π R¹₀₁` would instead be
+  `ofReal(-(1/2)log(2π) + 0 - 1) = 0`, which is why the signed functional is the one used.
 * On `ℝ × ℝ` let `π` be the law of `(X, X+Z)`, with `X` of density `1/(x (log x)²)` on `[e,∞)`
   and `Z` an independent standard Gaussian.  Its quadratic cost is `(1/2)E Z² = 1/2`, and
   `Ent_{vol⊗vol}(π) = Ent(X) + Ent(Z) = -∞`: finite cost does not bound the negative part, the
   plan is outside the plan domain, and neither marginal has a second moment.
-* For `μ = δ_a` and `ν = δ_b` with `a ≠ b`, the only coupling has cost `‖a-b‖²/2` and infinite
-  relative entropy at every `ε > 0`, so the endpoint domain excludes the pair.
+* For `μ = δ_a` and `ν = δ_b` with `a ≠ b`, the only coupling has cost `‖a-b‖²/2` and, not
+  being absolutely continuous with respect to `R^ε₀₁`, has `Ent_{R^ε₀₁} = +∞` at every `ε > 0`,
+  so the endpoint domain excludes the pair.
 
 Use Nutz's [entropic optimal-transport
 notes](https://www.math.columbia.edu/~mnutz/docs/EOT_lecture_notes.pdf) for the measurable
