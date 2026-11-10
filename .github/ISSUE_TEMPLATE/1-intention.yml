@@ -44,6 +44,7 @@ body:
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - ClusterAlgebras
         - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
@@ -74,6 +75,7 @@ body:
         - FiniteGroupExtensionSplitting
         - FiniteSamplingDiscrepancy
         - FlagVarieties
+        - Foams
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -127,16 +129,19 @@ body:
         - PerfectoidSpaces
         - PivotalSpherical
         - Poincare3D
+        - PolylogarithmFunctions
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
         - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
@@ -149,6 +154,7 @@ body:
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - RootSystemsPartII
         - SNumbers
         - ScatteringDiagrams
         - SchemeAndStackFoundations
@@ -156,13 +162,16 @@ body:
         - SeibergWittenTheory
         - SmoothBundlesConnections
         - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsHypergeometric
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - StochasticCalculus
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
