@@ -25,7 +25,7 @@ and `TauCeti/NumberTheory/Padics/` for measures, analytic stages and characters.
 
 | Area | Supplied here | Supplied elsewhere |
 | --- | --- | --- |
-| Banach–Tate analysis | Multiplicative pseudo-uniformisers, seminorm gauges, norm comparisons, ring-scalar operator norms and quantitative mapping theorems | Huber rings, pairs of definition and topological open mapping: [AdicSpaces](../AdicSpaces/README.md), Layer 0 |
+| Banach–Tate analysis | Multiplicative pseudo-uniformisers, seminorm gauges, norm comparisons, ring-scalar operator norms and quantitative mapping theorems | Huber rings, pairs of definition and topological open mapping: [AdicSpaces](../../Completed/AdicSpaces/README.md), Layer 0 |
 | Model spaces | Native `C₀`, bounded-family extension, bases, (Pr), matrices, finite coordinates and countable-type splitting | Complete continuity, Fredholm determinants, Riesz theory and spectral transforms: compact operator theory; geometric uses in [LocallyAnalyticDistributions, PR #854](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854), Layer 4 |
 | Restricted series | Their use as analytic charts and coefficient spaces | Carriers, norms, coefficient-model comparisons, evaluation, substitution, translation, Hasse derivatives and Strassmann: [RestrictedPowerSeries][RestrictedPowerSeries] ([PR #919](https://github.com/TauCetiProject/TauCetiRoadmap/pull/919)), Layers 0–2 and §7 |
 | Valuations | Logarithmic gauges on Banach rings and comparison with field valuations | Additive normalisations, `ℂ_p` value group and polygons: [NewtonPolygons][NewtonPolygons] ([PR #926](https://github.com/TauCetiProject/TauCetiRoadmap/pull/926)), Layer 1; local-field arithmetic: LocalFieldsRamification |
@@ -187,7 +187,7 @@ Tau Ceti's `NumberTheory/Padics/PadicIntegers.lean` already supplies
 `PadicInt.compactSpace_units` and `totallyDisconnectedSpace_units`; reuse
 these instances for the weight-pairing norms.
 
-## Layer 0 Ultrametric Banach modules and Tate gauges
+## Layer 0: Ultrametric Banach modules and Tate gauges
 
 ### 0.1 Sums and estimates
 
@@ -323,7 +323,7 @@ compatible norm.
 **Dependencies.** Mathlib sums, quotients and topological groups; AdicSpaces
 for the Huber comparison. Sources: [JN] §2.1, [Sch] §§3–4, [KL] §2.4.
 
-## Layer 1 Bounded operators and finite modules
+## Layer 1: Bounded operators and finite modules
 
 ### 1.1 Operator norms over rings
 
@@ -381,7 +381,7 @@ as a `ℤ_p`-linear map. Include the zero-module Neumann case.
 **Dependencies.** Layer 0, topological open mapping and finite-dimensional
 topology. Sources: [JN] §2.1, [Buz] §2 and [BGR] §3.7.
 
-## Layer 2 Model spaces and bases
+## Layer 2: Model spaces and bases
 
 ### 2.1 The native model space
 
@@ -547,7 +547,7 @@ the final corollary of §2.4. Sources: [Serre], [Sch] §10, [Bel] §II.1,
 [Buz] Lemmas 2.2–2.3 with the Banach–Tate extension in [JN] §2.1,
 and the proof of [Conrad] Lemma 1.1.5 (citing [BGR] 2.7.1/4).
 
-## Layer 3 Continuous functions, Mahler coordinates and bounded measures
+## Layer 3: Continuous functions, Mahler coordinates and bounded measures
 
 ### 3.1 Profinite functions
 
@@ -653,7 +653,7 @@ measure belongs to the integral dual unit ball.
 **Dependencies.** Layers 0–2, Mathlib's Mahler and measure APIs, and
 RestrictedPowerSeries §7.1. Sources: [Mah], [Am], [Col] I.3 and [RJW] §3.
 
-## Layer 4 Analytic stages and distributions on `ℤ_p`
+## Layer 4: Analytic stages and distributions on `ℤ_p`
 
 ### 4.1 Analytic coefficient models
 
@@ -832,7 +832,7 @@ the level-two criterion.
 **Dependencies.** Layers 0–3 and RestrictedPowerSeries Layers 0–2, §7.1.
 Sources: [Am], [Col] I.4 and II.2, [ST] and [RJW] Theorem 3.43.
 
-## Layer 5 Characters, specialisation and coefficient rings
+## Layer 5: Characters, specialisation and coefficient rings
 
 ### 5.1 Units and the chosen generator
 
