@@ -33,7 +33,8 @@ equivalence and the Scott analysis (`TauCeti.BFEquiv`, `TauCeti.scottSentence`,
 `TauCeti.SelfStabilizesCompletely`, `TauCeti.scottHeight`), the coding space
 `TauCeti.RelationalConfiguration` with its topology, decoding, logic action, model classes and
 isomorphism and back-and-forth setoids, the permutation-group topology, and projective classes
-(`FirstOrder.Language.LHom.PCMem`). Milestones the pin already proves are stated in the roadmap's
+(`FirstOrder.Language.LHom.PCMem`). The library's theorems are cited, not restated, except where
+the roadmap needs a milestone in a different form; such a milestone is stated in the roadmap's
 form and proved by the library's theorem. One declaration below, `pcSeparation`, is a stand-in for
 the InfinitaryModelExistence roadmap, which owns it, marked with the owner's revision it was checked
 against. The PC sentence of a tree is recorded by its specification (`exists_pcSentence`); the
