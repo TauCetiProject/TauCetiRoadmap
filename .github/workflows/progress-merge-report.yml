@@ -62,7 +62,7 @@ jobs:
         run: |
           set -euo pipefail
           # For the `record` job: the head this run starts from, and the last comment already on the
-          # pull request, so that a refusal written by this run can be told from an earlier one.
+          # pull request (a refusal written by this run is a later one).
           pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR" --jq '"\(.state) \(.head.sha)"')
           state=${pr%% *}
           echo "head=${pr#* }" >> "$GITHUB_OUTPUT"
@@ -123,14 +123,29 @@ jobs:
   # at the very end of a comment by `github-actions[bot]`: the refusal quotes text from the pull
   # request, but always ends with the gate's own closing sentence, so nothing quoted can stand last.
   #
-  # The head is the one `hold` saw, and it is noted only if it is still the head now, so the gate in
-  # between validated that head. Best effort: a refusal left without the line is handled by the
-  # commit-date rule in progress-merge.yml.
+  # Which comment, and which head. Runs overlap (a report's own event, the schedule), so a refusal
+  # that appears on the pull request during this run need not be this run's. The pinned gate has no
+  # outputs, but its job is a job of this run and its log says both things: the collector prints
+  # the head it read, and `gh pr comment` prints the link of the comment it made. So the note goes
+  # on that comment and no other, and only if the collected head is the one `hold` saw and still
+  # the head now. Nothing is noted when the gate's refusal step did not run, when its comment
+  # failed, or when the log cannot be read.
+  #
+  # The log also carries the refusal's text, which quotes the pull request. A quoted line shaped
+  # like the link cannot displace the real one, which is printed after it. Should the gate's own
+  # comment fail, such a line would stand in for it, so the comment it names is checked as well: a
+  # refusal by the Actions bot, on this pull request, made after `hold` and while that gate job
+  # ran.
+  #
+  # Best effort throughout: a refusal left without the line is handled by the commit-date rule in
+  # progress-merge.yml. A gate that names the head on its own refusal makes this job idle (a
+  # refusal that already carries the line is left alone); it can go with that pin.
   record:
     needs: [hold, gate]
     if: always() && needs.hold.outputs.go == 'true'
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       pull-requests: write
     steps:
       - name: Note the refused head on the refusal
@@ -148,11 +163,41 @@ jobs:
           if [ "$now" != "$HEAD" ]; then
             echo "the head of #$PR moved from $HEAD to ${now:-unknown} during the run; nothing noted"; exit 0
           fi
-          # `$SEEN` is digits only (checked above), so it is safe inside the filter.
-          id=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR/comments?per_page=100" \
-            --jq ".[] | select(.id > $SEEN) | select(.user.login == \"github-actions[bot]\") | select(.body | startswith(\"The automated progress gate did not merge this pull request.\")) | .id" \
-            | sort -n | tail -n 1) || id=""
+          # The gate jobs of this run (this attempt) whose refusal step ran: id, start and end.
+          jobs=$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/attempts/$GITHUB_RUN_ATTEMPT/jobs?per_page=100" \
+            --jq '.jobs[] | select(.name | endswith(" / validate")) | select(any(.steps[]?; .name == "Explain a refusal on the pull request" and .conclusion == "success")) | "\(.id) \(.started_at) \(.completed_at)"') || jobs=""
+          link="https://github.com/$GITHUB_REPOSITORY/pull/$PR#issuecomment-"
+          id=""; collected=""; from=""; to=""
+          while read -r job started completed; do
+            [[ "$job" =~ ^[0-9]+$ ]] || continue
+            gh api "repos/$GITHUB_REPOSITORY/actions/jobs/$job/logs" > gate.log || continue
+            # Each line of the log without its timestamp.
+            sed -E $'s/^\xef\xbb\xbf//; s/\r$//; s/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z //' gate.log > gate.txt
+            # The link `gh pr comment` printed: a whole line, the last such (it follows the quoted
+            # refusal). A scheduled run has one gate job per report; the link names the pull
+            # request, so only this report's job can match.
+            found=$(awk -v p="$link" 'index($0, p) == 1 { n = substr($0, length(p) + 1); if (n ~ /^[0-9]+$/) last = n } END { if (last != "") print last }' gate.txt)
+            [ -n "$found" ] || continue
+            id=$found; from=$started; to=$completed
+            # The head the collector read: its first `collected:` line, printed before anything of
+            # the pull request's reaches the log.
+            collected=$(grep -m 1 '^collected: ' gate.txt | sed -nE 's/^collected: .* head=([0-9a-f]{7,40}) main=[0-9a-f]+ .*$/\1/p')
+          done <<< "$jobs"
           if [ -z "$id" ]; then echo "no refusal of #$PR by this run"; exit 0; fi
+          if [ -z "$collected" ] || [ "${HEAD#"$collected"}" = "$HEAD" ]; then
+            echo "::warning::this run's gate refused #$PR at head ${collected:-unknown}, not $HEAD; nothing noted"; exit 0
+          fi
+          # The comment must be what the log says it is: a refusal by the Actions bot on this pull
+          # request, written after `hold` and while that gate job ran, and not noted yet.
+          what=$(gh api "repos/$GITHUB_REPOSITORY/issues/comments/$id" \
+            --jq '[.user.login, (.issue_url | split("/") | last), .created_at, (.body | startswith("The automated progress gate did not merge this pull request.")), (.body | test("\n<!-- progress-gate-refused-head: [0-9a-f]{40} -->\\s*$"))] | @tsv') || what=""
+          IFS=$'\t' read -r login issue created refusal noted <<< "$what"
+          if [ "$login" != "github-actions[bot]" ] || [ "$issue" != "$PR" ] || [ "$refusal" != true ] || [ "$id" -le "$SEEN" ] \
+             || ! at=$(date -u -d "$created" +%s) || ! lo=$(date -u -d "$from" +%s) || ! hi=$(date -u -d "$to" +%s) \
+             || [ "$at" -lt "$lo" ] || [ "$at" -gt "$hi" ]; then
+            echo "::warning::comment $id is not this run's refusal of #$PR; nothing noted"; exit 0
+          fi
+          if [ "$noted" = true ]; then echo "refusal $id of #$PR already names its head"; exit 0; fi
           if gh api "repos/$GITHUB_REPOSITORY/issues/comments/$id" --jq .body > refusal.md \
              && printf '\n\n<!-- progress-gate-refused-head: %s -->\n' "$HEAD" >> refusal.md \
              && gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$id" -F body=@refusal.md > /dev/null; then

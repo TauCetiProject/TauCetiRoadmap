@@ -111,36 +111,42 @@ jobs:
                 --jq '.[] | select(.draft | not) | select(.head.ref | startswith("progress/")) | "\(.number) \(.head.sha)"' \
                 | sort -n)
               # A report the gate refused stays open for a human, and the gate comments on every
-              # refusal. So a refused report is not offered again while its head is the one that was
-              # refused, except once the refusal is a day old: some refusals lapse with time or with
-              # `main` (the cadence, a roadmap that has since merged). A report that was only held
-              # for the queue has no refusal on its head and is always offered.
+              # refusal. So a refused report is not offered again while its head is one that was
+              # refused less than a day ago. After a day it is offered once more: some refusals
+              # lapse with time or with `main` (the cadence, a roadmap that has since merged). A
+              # report that was only held for the queue has no refusal on its head and is always
+              # offered.
               #
               # Which head was refused is read from the last line of the refusal, written by the
               # `record` job of progress-merge-report.yml; see there for why only the last line is
-              # trusted. A refusal without that line (the note failed) falls back to dates: the
-              # report waits if its head was committed before the refusal. That date is the
-              # author's to choose; a false one can only earn the author's own report more or fewer
-              # retries.
+              # trusted. If the latest refusal has no such line (the note failed, or the head moved
+              # during that run), dates decide: the report waits if its head was committed before
+              # that refusal. That date is the author's to choose; a false one can only earn the
+              # author's own report more or fewer retries.
               now=$(date -u +%s); keep=""
               while read -r number sha; do
                 [ -n "$number" ] || continue
-                # The latest refusal: when it was written and the head noted on it, `-` for none.
-                refusal=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$number/comments?per_page=100" \
+                # Every refusal under a day old: when it was written and the head noted on it, `-`
+                # for none.
+                refusals=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$number/comments?per_page=100" \
                   --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("The automated progress gate did not merge this pull request.")) | "\(.created_at) \([.body | capture("\n<!-- progress-gate-refused-head: (?<head>[0-9a-f]{40}) -->\\s*$").head][0] // "-")"' \
-                  | sort | tail -n 1) || refusal=""
-                refused=${refusal%% *}; noted=${refusal#* }
-                if [ -n "$refused" ] && [ $(( now - $(date -u -d "$refused" +%s) )) -lt 86400 ]; then
-                  if [ "$noted" = "$sha" ]; then
-                    echo "#$number was refused at $refused on its present head; not offered again yet"
+                  | sort | while read -r at noted; do
+                      if [ $(( now - $(date -u -d "$at" +%s) )) -lt 86400 ]; then echo "$at $noted"; fi
+                    done) || refusals=""
+                # Any of them on the present head holds the report, not only the latest: runs
+                # overlap, and a late refusal of an earlier head can follow the refusal of this one.
+                refused=$(awk -v sha="$sha" '$2 == sha { at = $1 } END { print at }' <<< "$refusals")
+                if [ -n "$refused" ]; then
+                  echo "#$number was refused at $refused on its present head; not offered again yet"
+                  continue
+                fi
+                # Otherwise the latest decides, and only if no head is noted on it.
+                latest=$(tail -n 1 <<< "$refusals"); refused=${latest%% *}
+                if [ -n "$refused" ] && [ "${latest#* }" = "-" ]; then
+                  changed=$(gh api "repos/$GITHUB_REPOSITORY/commits/$sha" --jq .commit.committer.date) || changed=""
+                  if [ -n "$changed" ] && [ "$(date -u -d "$changed" +%s)" -le "$(date -u -d "$refused" +%s)" ]; then
+                    echo "#$number was refused at $refused (head not noted) and its head was committed before that; not offered again yet"
                     continue
-                  fi
-                  if [ "$noted" = "-" ]; then
-                    changed=$(gh api "repos/$GITHUB_REPOSITORY/commits/$sha" --jq .commit.committer.date) || changed=""
-                    if [ -n "$changed" ] && [ "$(date -u -d "$changed" +%s)" -le "$(date -u -d "$refused" +%s)" ]; then
-                      echo "#$number was refused at $refused (head not noted) and its head was committed before that; not offered again yet"
-                      continue
-                    fi
                   fi
                 fi
                 keep="$keep $number"
@@ -190,9 +196,11 @@ jobs:
       max-parallel: 1
       matrix:
         pr: ${{ fromJSON(needs.resolve.outputs.prs) }}
-    # `write` here and nowhere else: the called workflow narrows it again to the one job that
-    # explains a refusal on the pull request, and a called workflow cannot exceed what this grants.
+    # `write` here and nowhere else: the called workflow narrows it again to the jobs that explain
+    # a refusal on the pull request, and a called workflow cannot exceed what this grants.
+    # `actions: read` is for its `record` job alone, which reads the log of this run's own gate.
     permissions:
+      actions: read
       contents: read
       pull-requests: write
     uses: ./.github/workflows/progress-merge-report.yml
