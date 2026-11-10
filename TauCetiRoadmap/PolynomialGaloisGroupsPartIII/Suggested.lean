@@ -3,6 +3,7 @@ module
 public import Mathlib
 public import TauCeti.FieldTheory.GaloisGroups.Resolvent.Quintic.Basic
 public import TauCeti.NumberTheory.ArithmeticDirichletSeries.Trivial
+public import TauCeti.GroupTheory.AlmostConjugate
 
 /-!
 # Galois groups of polynomials, part III: target signatures
@@ -86,16 +87,6 @@ theorem separable_specialize_quinticF20Spec
     (TauCeti.quinticF20Spec.specialize F f).Separable := by
   sorry
 
-/-- **Dummit's criterion for quintics, group form** (Dummit, *Solving solvable quintics*,
-Theorem 1, with Chapman's separation argument). Over a field in which `5 ≠ 0`, a monic separable
-irreducible quintic has solvable Galois group exactly when its `F₂₀` resolvent sextic has a root
-in the base field. No separation hypothesis on the sextic is needed. -/
-theorem isSolvable_gal_iff_exists_isRoot_quinticF20
-    {F : Type*} [Field F] [NeZero (5 : F)] {f : F[X]} (hf : f.Monic) (hsep : f.Separable)
-    (hirr : Irreducible f) (hdeg : f.natDegree = 5) :
-    Group.IsSolvable f.Gal ↔ ∃ a : F, (TauCeti.quinticF20Spec.specialize F f).IsRoot a := by
-  sorry
-
 /-- **Dummit's criterion for quintics** (Dummit, *Solving solvable quintics*, Theorem 1, with
 Chapman's separation argument). In characteristic zero, the roots of a monic irreducible quintic
 are expressible by radicals exactly when its `F₂₀` resolvent sextic has a root in the base field.
@@ -110,14 +101,12 @@ theorem forall_rootSet_mem_solvableByRad_iff_exists_isRoot_quinticF20
 /-! ## Layer 4: arithmetic equivalence -/
 
 /-- **Gassmann's theorem** (Perlis, Theorem 1, sufficient direction). If two subgroups of the
-Galois group of a Galois number field `E/ℚ` meet every conjugacy class in the same number of
-elements, their fixed fields have the same number of ideals of each norm, hence the same Dedekind
-zeta function. -/
+Galois group of a Galois number field `E/ℚ` are almost conjugate (`Subgroup.AlmostConjugate`: they
+meet every conjugacy class in the same number of elements), their fixed fields have the same
+number of ideals of each norm, hence the same Dedekind zeta function. -/
 theorem dedekindZetaCoeff_fixedField_eq_of_almostConjugate
     {E : Type*} [Field E] [NumberField E] [IsGalois ℚ E] (H K : Subgroup (E ≃ₐ[ℚ] E))
-    (hHK : ∀ C : ConjClasses (E ≃ₐ[ℚ] E),
-      Nat.card {g : E ≃ₐ[ℚ] E // g ∈ C.carrier ∧ g ∈ H} =
-        Nat.card {g : E ≃ₐ[ℚ] E // g ∈ C.carrier ∧ g ∈ K}) (n : ℕ) :
+    (hHK : H.AlmostConjugate K) (n : ℕ) :
     TauCeti.dedekindZetaCoeff (IntermediateField.fixedField H) n =
       TauCeti.dedekindZetaCoeff (IntermediateField.fixedField K) n := by
   sorry

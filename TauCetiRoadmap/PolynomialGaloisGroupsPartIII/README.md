@@ -57,11 +57,13 @@ native declaration.
 roadmap Layer 1); the quintic `F₂₀` resolvent and its criterion under separation (base roadmap
 Layer 4); the label predicates and classification for `n ≤ 5` (base roadmap Layer 6); the
 realization of `Sₙ` over `ℚ` (base roadmap Layer 9); almost-conjugacy, its transport along group
-isomorphisms, the orbit-sum and determinant adapters and the nonconjugate almost-conjugate pair in
-`S₁₆` (RepresentationTheory, Induction–Restriction Layers 2.1 and 2.2); the double-coset law for
-primes of a fixed field (Number Field Arithmetic Layer 1.4). Galois groups of polynomials, part II
-(ramified merging and random partitions) is a separate continuation of the same base; neither part
-uses the other.
+isomorphisms, its permutation-representation criterion, the determinant of a permutation module
+and the nonconjugate almost-conjugate pair in `S₁₆` (planned by RepresentationTheory,
+Induction–Restriction Layers 2.1 and 2.2, and consumed in their pinned Tau Ceti form); the
+restriction, quotient-invariant and orbit-sum adapters (Induction–Restriction Layer 2.1); the
+double-coset law for primes of a fixed field (Number Field Arithmetic Layer 1.4). Galois groups
+of polynomials, part II (ramified merging and random partitions) is a separate continuation of the
+same base; neither part uses the other.
 
 **Outside this roadmap.**
 
@@ -72,14 +74,17 @@ uses the other.
 - Names of abstract groups (the name column of the TransGrp library and of Conway–Hulpke–McKay)
   beyond the identifications that a Check states.
 - The converse of Gassmann's theorem (equal zeta functions force almost-conjugacy), which needs
-  Chebotarev density, the invariants that arithmetically equivalent fields share, and the number
-  of fields arithmetically equivalent to a given one: Finite Group Invariants Layer 7 states
-  Perlis' theorem as an equivalence (7.4), the shared invariants (7.5) and the count of
-  arithmetically equivalent fields (7.6). This roadmap consumes none of these: it proves the
-  coefficient-level sufficient direction (4.1) from Induction–Restriction Layer 2.1 and Number
-  Field Arithmetic Layer 1.4, the conjugacy criterion for isomorphic fixed fields (4.2) from
-  the Mathlib and Tau Ceti fixed-field API, and the existence theorem (4.3) from 4.1, 4.2, Induction–Restriction
-  Layers 2.1–2.2 and the base roadmap's Layer 9.
+  Chebotarev density, Bauer's theorem, the invariants that arithmetically equivalent fields share,
+  and the number of fields arithmetically equivalent to a given one: these are Finite Group
+  Invariants Layer 7 (the necessary direction of Perlis' theorem and Bauer's theorem in 7.4, the
+  shared invariants in 7.5 and the count of arithmetically equivalent fields in 7.6). This roadmap
+  consumes none of these. The sufficient direction of Perlis' theorem has one owner, this
+  roadmap's 4.1, and the conjugacy criterion for isomorphic fixed fields has one owner, 4.2:
+  Finite Group Invariants takes the sufficient half of its 7.4 from 4.1 and the step of its 7.6
+  that isomorphic fixed fields come from conjugate subgroups from 4.2, and plans neither again.
+  Here 4.1 is proved from the pinned almost-conjugacy API, Induction–Restriction Layer 2.1 and
+  Number Field Arithmetic Layer 1.4, 4.2 from the Mathlib and Tau Ceti fixed-field API, and the
+  existence theorem (4.3) from 4.1, 4.2, the pinned pair in `S₁₆` and the base roadmap's Layer 9.
 - Radicals in positive characteristic, Hilbert irreducibility, and the realization of `Aₙ` over
   `ℚ`.
 
@@ -101,10 +106,10 @@ uses the other.
   polynomial is solvable by radicals when **all** of its roots in `AlgebraicClosure F` lie in it;
   this is the notion of Milne's Theorem 5.34 (a radical tower containing a splitting field).
 - **Almost-conjugacy.** Subgroups `H, K` of a finite group `G` are almost conjugate when they meet
-  every conjugacy class of `G` in the same number of elements. This is
-  Induction–Restriction's `Gassmann.AlmostConjugate`, which quantifies over Mathlib's
-  `ConjClasses G`; Sutherland calls the same relation rational or Gassmann equivalence (Proposition
-  2.6 (ii)).
+  every conjugacy class of `G` in the same number of elements. This is Tau Ceti's
+  `Subgroup.AlmostConjugate`, which quantifies over Mathlib's `ConjClasses G` and counts with
+  `Nat.card` (the relation Induction–Restriction Layer 2.1 plans); Sutherland calls the same
+  relation rational or Gassmann equivalence (Proposition 2.6 (ii)).
 - **Zeta coefficients.** `TauCeti.dedekindZetaCoeff K n` is the number of ideals of `𝓞 K` of
   absolute norm `n`, the coefficient sequence of Mathlib's `NumberField.dedekindZeta K`. It counts
   the zero ideal, so its value at `n = 0` is `1`.
@@ -135,7 +140,7 @@ uses the other.
   Galois extensions of degree `n` and radical extensions `K(α)/K` with `αⁿ ∈ K`, assuming the base
   contains a primitive `n`-th root of unity.
 - `Mathlib/RingTheory/RootsOfUnity/`: `AlgebraicClosure.hasEnoughRootsOfUnity` and
-  `HasEnoughRootsOfUnity.exists_primitiveRoot`.
+  `HasEnoughRootsOfUnity.exists_isPrimitiveRoot`.
 - `Mathlib/FieldTheory/Galois/Basic.lean`: `IsGalois.normalAutEquivQuotient`,
   `IsGalois.sup_right`, `IntermediateField.restrictRestrictAlgEquivMapHom_injective`,
   `IntermediateField.fixingSubgroup_fixedField`, `IntermediateField.finrank_eq_fixingSubgroup_index`
@@ -151,6 +156,13 @@ uses the other.
   of a finite group inside a maximal one.
 - Number fields: `NumberField.dedekindZeta`, `Ideal.absNorm` with its multiplicativity (bundled as
   a monoid-with-zero homomorphism in `Mathlib/RingTheory/Ideal/Norm/AbsNorm.lean`).
+- Decomposition and inertia: `Ideal.Quotient.stabilizerHom_surjective`
+  (`Mathlib/RingTheory/Invariant/Basic.lean`: the decomposition group of a prime `Q` maps onto the
+  automorphisms of the residue extension) and `Ideal.Quotient.ker_stabilizerHom`
+  (`Mathlib/RingTheory/Ideal/Over.lean`: the kernel is the inertia group), so that `D/I` is the
+  Galois group of the residue extension; for finite residue fields that group is cyclic (the
+  `IsCyclic` instance for Galois groups of finite fields in
+  `Mathlib/FieldTheory/Finite/Basic.lean`).
 
 ### From Tau Ceti
 
@@ -185,10 +197,35 @@ uses the other.
   under `g`, with no hypothesis on `E/F`).
 - `NumberTheory/ArithmeticDirichletSeries/Trivial.lean`: `TauCeti.dedekindZetaCoeff` and
   `TauCeti.dedekindZeta_eq_LSeries_dedekindZetaCoeff`.
-- `NumberTheory/RamificationInertia/DoubleCoset/`: `Ideal.doubleCosetQuotientEquivPrimesOver` (the
-  primes of `M^H` over `p` are indexed by `H\G/D`) and
-  `Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg` (the orbit sizes of the
-  decomposition group on `G ⧸ H` are the products `e·f` over those primes).
+- `NumberTheory/RamificationInertia/DoubleCoset/IntegralClosure.lean`, for a Dedekind base `A`
+  with fraction field `K`, a finite Galois `M/K` with group `G`, the integral closures `B` of `A`
+  in `M` and `C` in `M^H`, and a prime `Q` of `B` over `p` with decomposition group `D` and inertia
+  group `I`: `Ideal.doubleCosetQuotientEquivPrimesOverOfIsIntegralClosure` (the primes of `C` over
+  `p` are indexed by `H\G/D`, the class of `σ` going to `σQ ∩ C`) and
+  `Ideal.ramificationIdx_under_smul_eq_relIndex_inertia_of_isIntegralClosure` (for `Q` maximal
+  with separable residue extension, `e(σQ ∩ C / p) = [σIσ⁻¹ : H ∩ σIσ⁻¹]`).
+- `NumberTheory/RamificationInertia/DoubleCoset/Invariant/DecompositionOrbits.lean`:
+  `Ideal.orbitQuotientEquivPrimesOver` (the same law on the left cosets: the `D`-orbits on
+  `G ⧸ H` are the primes of `C` over `p`, the coset `τH` going to `τ⁻¹Q ∩ C`) and
+  `Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg` (the multiset of the
+  sizes of those orbits is the multiset of the products `e·f` over those primes). Rings of
+  integers of number fields satisfy the hypotheses of both files.
+- `GroupTheory/AlmostConjugate.lean`: `Subgroup.AlmostConjugate` (the definition of the
+  Conventions, with no finiteness hypothesis), `Subgroup.almostConjugate_iff` (its defining
+  property) and `Subgroup.AlmostConjugate.comap` (almost-conjugacy pulls back along a group
+  isomorphism); `Algebra/Group/Subgroup/Conjugates.lean`: `Subgroup.exists_map_conj_comap_eq_iff`
+  (the preimages of two subgroups under a group isomorphism are conjugate exactly when the
+  subgroups are, so nonconjugacy pulls back as well).
+- `RepresentationTheory/CharacterTable/FixedPointCount.lean`:
+  `TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction` (subgroups `H, K` of a finite group `G`
+  are almost conjugate exactly when, over a field of characteristic zero, the permutation
+  representations on `G ⧸ H` and `G ⧸ K` are equivalent).
+- `LinearAlgebra/Charpoly/Permutation.lean`: `Representation.reverse_charpoly_ofMulAction` (over
+  any commutative ring, the reversed characteristic polynomial of `g` on the permutation module of
+  a finite set is `∏ (1 − Zᵈ)` over the full cycle type of `g`, fixed points included).
+- `GroupTheory/AlmostConjugate/GassmannPair.lean`: `TauCeti.exists_S16_gassmann_pair`, two
+  subgroups of `Equiv.Perm (Fin 16)` of order 16 (the regular actions of `C₄ × C₄` and `Q₈ × C₂`)
+  that are almost conjugate and not conjugate, `¬ ∃ σ, H.map (MulAut.conj σ) = K`.
 - `NumberTheory/NumberField/SplittingField.lean`: `Polynomial.SplittingField.instNumberField`;
   `FieldTheory/GaloisGroups/Symmetric/`: `Polynomial.HasFullSymmetricGaloisGroup` and
   `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`.
@@ -203,15 +240,16 @@ roadmap uses them in that form.
 
 ### From TauCetiRoadmap.RepresentationTheory
 
-Induction–Restriction Layer 2.1: `Gassmann.AlmostConjugate`, `Gassmann.almostConjugate_comap` and
-`Gassmann.not_conj_comap` (transport of almost-conjugacy and of nonconjugacy along a group
-isomorphism), `Gassmann.almostConjugate_iff_permutation_equiv` (almost-conjugacy iff equivalent
-permutation representations over `ℂ`), `Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`,
-`Gassmann.invariantOrbitSumBasis`, `Gassmann.orbitSumEquivariant` and
-`Gassmann.charpoly_reverse_eq_prod_fullCycleType` (the reversed characteristic polynomial of a
-permutation matrix is `∏ (1 − Zᵈ)` over its full cycle type). Layer 2.2:
-`Gassmann.exists_S16_gassmann_pair`, two subgroups of `Equiv.Perm (Fin 16)` of order 16 (the
-regular actions of `C₄ × C₄` and `Q₈ × C₂`) that are almost conjugate and not conjugate.
+Induction–Restriction Layer 2.1, for the adapters that the pinned Tau Ceti does not contain:
+`Gassmann.restrictEquiv` (an equivalence of representations restricts along a group
+homomorphism), `Gassmann.normalInvariantEquiv` (it induces an equivalence of the representations
+of `D ⧸ I` on the `I`-invariants, for `I` normal in `D`), `Gassmann.invariantOrbitSumBasis` (the
+`I`-invariants of the permutation module of a finite `I`-set have the orbit sums as a basis) and
+`Gassmann.orbitSumEquivariant` (that basis carries the permutation action of `D ⧸ I` on the
+`I`-orbits to the representation on the invariants). The rest of Layer 2.1 (almost-conjugacy, its
+transport, the permutation-representation criterion and the determinant of a permutation module)
+and the pair of Layer 2.2 are implemented by the Tau Ceti declarations listed above, and this
+roadmap uses them in that form.
 
 ### From TauCetiRoadmap.NumberFieldArithmetic
 
@@ -225,7 +263,7 @@ proves completeness by descent through transitive maximal subgroups, and extends
 reference family. Layer 2 transports the classification to polynomials and needs Layer 1 only.
 Layer 3 (radicals) and Layer 4 (arithmetic equivalence) are independent of Layers 1–2 and of each
 other; Layer 3 uses the base roadmap's quintic resolvent, and Layer 4 uses the base roadmap's
-realization of `S₁₆` and Induction–Restriction's `S₁₆` pair.
+realization of `S₁₆` and the pinned almost-conjugate, nonconjugate pair in `S₁₆`.
 
 ## Layer 1: transitive subgroups of `Sₙ` in degrees six to eleven
 
@@ -448,7 +486,7 @@ closure is taken in the algebraic closure: adjoining roots of unity can leave `E
 `solvableByRad F E` can be smaller.
 
 Route. For the forward direction put `N = Nat.card (E ≃ₐ[F] E)` and choose a primitive `N`-th root
-of unity `ζ` in `Ω = AlgebraicClosure F` (`HasEnoughRootsOfUnity.exists_primitiveRoot`; `N ≠ 0` in
+of unity `ζ` in `Ω = AlgebraicClosure F` (`HasEnoughRootsOfUnity.exists_isPrimitiveRoot`; `N ≠ 0` in
 `F` by characteristic zero); `ζ ∈ solvableByRad F Ω` by `solvableByRad.rad_mem`. In
 `L = ι(E) ⊔ F(ζ)` the extension `L/F(ζ)` is Galois (`IsGalois.sup_right`) and its group embeds in
 `E ≃ₐ[F] E` (`IntermediateField.restrictRestrictAlgEquivMapHom_injective`), so it is solvable.
@@ -462,7 +500,7 @@ root of unity, and the fixed field `M` is cyclic of degree `p` over `K`
 `isSolvable_gal_minpoly` gives solvability.
 
 *Needs:* Mathlib `solvableByRad`, `solvableByRad.rad_mem`, `isSolvable_gal_minpoly`,
-`isCyclic_tfae`, `HasEnoughRootsOfUnity.exists_primitiveRoot`,
+`isCyclic_tfae`, `HasEnoughRootsOfUnity.exists_isPrimitiveRoot`,
 `AlgebraicClosure.hasEnoughRootsOfUnity`, `IsGalois.sup_right`,
 `IntermediateField.restrictRestrictAlgEquivMapHom_injective`, `IsGalois.normalAutEquivQuotient`,
 `Field.exists_primitive_element`; Tau Ceti `Group.IsSolvable.exists_normal_index_prime`.
@@ -526,10 +564,11 @@ root of unity, and the fixed field `M` is cyclic of degree `p` over `K`
   lines 53–74) and the distinctness of the roots then force `2x₂ = x₁ + x₃ = x₄ + x₅` (in
   characteristic 2 they force `x₁ = x₃` or `x₄ = x₅` directly), so `5x₂` is the sum of the roots, an
   element of `F`, and `x₂ ∈ F` contradicts irreducibility.
-- **Dummit's criterion, group form** (`isSolvable_gal_iff_exists_isRoot_quinticF20`). Under the
-  same hypotheses (`5 ≠ 0` in `F`, `f` monic, separable and irreducible of degree five),
-  `Group.IsSolvable f.Gal` holds exactly when the sextic has a root in `F`: the native criterion
-  with the separation just proved.
+- **Dummit's criterion, group form.** Under the same hypotheses (`5 ≠ 0` in `F`, `f` monic,
+  separable and irreducible of degree five), `Group.IsSolvable f.Gal` holds exactly when the
+  sextic has a root in `F`: the separation just proved is the separation hypothesis of the native
+  criterion `TauCeti.isSolvable_gal_iff_exists_isRoot_specialize_quinticF20Spec`, so this form
+  is that criterion applied to the separation theorem.
 - **Dummit's criterion, radical form**
   (`forall_rootSet_mem_solvableByRad_iff_exists_isRoot_quinticF20`). For `F` of characteristic zero
   and `f` monic irreducible of degree five, the roots of `f` lie in
@@ -597,28 +636,40 @@ Route. Prove two lemmas first.
   residue degrees above `p`.
 - *Residue degrees from the Galois group.* Fix a prime `Q` of `E` above `p` with decomposition
   group `D` and inertia group `I`. The primes of `E^H` above `p` correspond to the `D`-orbits on
-  `Gal(E/ℚ) ⧸ H`, with `e·f` the orbit size (`Ideal.doubleCosetQuotientEquivPrimesOver`,
-  `Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg`); the residue degree of
-  the prime of an orbit is the number of `I`-orbits it contains, so the multiset of residue
-  degrees is the full cycle type of a Frobenius element of `D/I` acting on the `I`-orbits of
-  `Gal(E/ℚ) ⧸ H`.
+  `Gal(E/ℚ) ⧸ H`, the coset `τH` going to `τ⁻¹Q ∩ E^H`, with `e·f` the orbit size
+  (`Ideal.orbitQuotientEquivPrimesOver`,
+  `Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg`). The `I`-orbit of `τH`
+  has `[I : I ∩ τHτ⁻¹]` elements, which is the ramification index `e` of `τ⁻¹Q ∩ E^H`
+  (`Ideal.ramificationIdx_under_smul_eq_relIndex_inertia_of_isIntegralClosure` at `σ = τ⁻¹`,
+  after conjugating by `τ`; residue fields of number fields are finite, so the residue extension
+  is separable). Since `I` is normal in `D`, the `I`-orbits inside one `D`-orbit all have `e`
+  elements, so the residue degree `f` of the prime of a `D`-orbit is the number of `I`-orbits it
+  contains. The quotient `D/I` is the Galois group of the finite residue extension
+  (`Ideal.Quotient.stabilizerHom_surjective`, `Ideal.Quotient.ker_stabilizerHom`), hence cyclic,
+  generated by a Frobenius element `φ`, and the `I`-orbits inside one `D`-orbit form a single
+  `φ`-cycle. So the multiset of residue degrees is the full cycle type of `φ` acting on the
+  `I`-orbits of `Gal(E/ℚ) ⧸ H`.
 
 Almost-conjugacy gives equivalent complex permutation representations of `Gal(E/ℚ)` on the cosets
-of `H` and of `K` (`Gassmann.almostConjugate_iff_permutation_equiv`); restricting to `D`
+of `H` and of `K` (`TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction`); restricting to `D`
 (`Gassmann.restrictEquiv`) and taking `I`-invariants (`Gassmann.normalInvariantEquiv`) gives
 equivalent representations of `D/I` on the permutation modules of the `I`-orbits
 (`Gassmann.invariantOrbitSumBasis`, `Gassmann.orbitSumEquivariant`). Equal characteristic
-polynomials of Frobenius give equal products `∏ (1 − Zᵈ)` over the full cycle types
-(`Gassmann.charpoly_reverse_eq_prod_fullCycleType`), and such a product determines its multiset of
-exponents (strip the factor of least degree and induct). So the residue degrees above every `p`
-agree, and the local counts finish.
+polynomials of `φ` give equal products `∏ (1 − Zᵈ)` over the full cycle types
+(`Representation.reverse_charpoly_ofMulAction`), and such a product determines its multiset of
+exponents: its lowest nonconstant term is `−m Z^{d₀}`, where `d₀` is the least exponent and
+`m ≥ 1` its multiplicity, so strip `(1 − Z^{d₀})` and induct. So the residue degrees above every
+`p` agree, and the local counts finish.
 
-*Needs:* Tau Ceti `TauCeti.dedekindZetaCoeff`, `Ideal.doubleCosetQuotientEquivPrimesOver`,
-`Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg`; Mathlib `Ideal.absNorm`,
-`NumberField.dedekindZeta`; Number Field Arithmetic Layer 1.4; Induction–Restriction Layer 2.1
-(`Gassmann.AlmostConjugate`, `Gassmann.almostConjugate_iff_permutation_equiv`,
-`Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`, `Gassmann.invariantOrbitSumBasis`,
-`Gassmann.orbitSumEquivariant`, `Gassmann.charpoly_reverse_eq_prod_fullCycleType`).
+*Needs:* Tau Ceti `TauCeti.dedekindZetaCoeff`, `Subgroup.AlmostConjugate`,
+`TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction`,
+`Representation.reverse_charpoly_ofMulAction`, `Ideal.orbitQuotientEquivPrimesOver`,
+`Ideal.map_card_orbit_stabilizer_eq_map_ramificationIdx_mul_inertiaDeg`,
+`Ideal.ramificationIdx_under_smul_eq_relIndex_inertia_of_isIntegralClosure`; Mathlib
+`Ideal.absNorm`, `NumberField.dedekindZeta`, `Ideal.Quotient.stabilizerHom_surjective`,
+`Ideal.Quotient.ker_stabilizerHom`; Number Field Arithmetic Layer 1.4; Induction–Restriction
+Layer 2.1 (`Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`,
+`Gassmann.invariantOrbitSumBasis`, `Gassmann.orbitSumEquivariant`).
 
 **Checks.**
 
@@ -668,15 +719,16 @@ take a monic `f : ℤ[X]` of degree 16 whose image in `ℚ[X]` is irreducible an
 let `E` be the splitting field of that image (a number field by `Polynomial.SplittingField.instNumberField`, Galois by
 `IsGalois.of_separable_splitting_field`), and identify `E ≃ₐ[ℚ] E` with `Equiv.Perm (Fin 16)` by
 the root action and a numbering of the roots. Pull back the pair of
-`Gassmann.exists_S16_gassmann_pair` along this isomorphism (`Gassmann.almostConjugate_comap`,
-`Gassmann.not_conj_comap`), take `K` and `L` to be the two fixed fields, and apply 4.1 and 4.2; a
-ring isomorphism of number fields is a `ℚ`-algebra isomorphism.
+`TauCeti.exists_S16_gassmann_pair` along this isomorphism (`Subgroup.AlmostConjugate.comap` for
+almost-conjugacy, `Subgroup.exists_map_conj_comap_eq_iff` for nonconjugacy), take `K` and `L` to
+be the two fixed fields, and apply 4.1 and 4.2; a ring isomorphism of number fields is a
+`ℚ`-algebra isomorphism.
 
 *Needs:* 4.1, 4.2; Tau Ceti `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`,
-`Polynomial.HasFullSymmetricGaloisGroup`, `Polynomial.SplittingField.instNumberField`; Mathlib
-`IsGalois.of_separable_splitting_field`, `IntermediateField.finrank_eq_fixingSubgroup_index`;
-Induction–Restriction Layers 2.1 and 2.2 (`Gassmann.exists_S16_gassmann_pair`,
-`Gassmann.almostConjugate_comap`, `Gassmann.not_conj_comap`); the base roadmap Layer 9.
+`Polynomial.HasFullSymmetricGaloisGroup`, `Polynomial.SplittingField.instNumberField`,
+`TauCeti.exists_S16_gassmann_pair`, `Subgroup.AlmostConjugate.comap`,
+`Subgroup.exists_map_conj_comap_eq_iff`; Mathlib `IsGalois.of_separable_splitting_field`,
+`IntermediateField.finrank_eq_fixingSubgroup_index`; the base roadmap Layer 9.
 
 **Checks.**
 
@@ -695,13 +747,18 @@ trivial case of 4.1.
 
 ### Dependencies
 
-Tau Ceti number-field, Dirichlet-series and fixed-field API; Induction–Restriction Layers 2.1 and
-2.2; Number Field Arithmetic Layer 1.4; the base roadmap Layer 9.
+Tau Ceti number-field, Dirichlet-series, fixed-field, double-coset and almost-conjugacy API, with
+the pair in `S₁₆`; Mathlib decomposition and inertia groups; Induction–Restriction Layer 2.1;
+Number Field Arithmetic Layer 1.4; the base roadmap Layer 9.
 
 ## Downstream consumers
 
 - BelyiMaps Layer 1.6 and its `6T6` record comparison use the reference family through degree
   eleven and the `6T6` comparison of 1.3.
+- Finite Group Invariants Layer 7 uses 4.1 for the sufficient direction of Perlis' theorem in its
+  7.4 (the equality of zeta functions follows from the equality of coefficients by
+  `TauCeti.dedekindZeta_eq_LSeries_dedekindZetaCoeff`), and 4.2 for the step of its 7.6 that two
+  fixed fields are isomorphic exactly when their subgroups are conjugate.
 
 ## References
 
