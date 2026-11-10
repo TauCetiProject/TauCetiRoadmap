@@ -101,7 +101,9 @@ An orthogonal complex structure J uses the orientation
 `c(v)=√2(ε(v^(1,0))−ι(v^(0,1)))`, where contraction uses g_ℂ.
 This makes Γ exterior parity, with vacuum in S⁺.
 
-Use `R(X,Y)=[∇_X,∇_Y]−∇_[X,Y]`, positive round-sphere curvature,
+Use `R(X,Y)=[∇_X,∇_Y]−∇_[X,Y]`, which is Tau Ceti's
+`CovariantDerivative.curvatureOperator` for a covariant derivative on any vector
+bundle, positive round-sphere curvature,
 `D=Σ c(e_j)∇_(e_j)` and nonnegative rough Laplacian ∇*∇. The geometric
 principal symbol has `σ_geom(D)(ξ)=c(ξ♯)`; the Fourier symbol of
 `−i∂_j` is ξ_j and `σ_F(D)=i c(ξ♯)`. Thus the Fourier symbol of D² is
@@ -142,6 +144,18 @@ CW complexes `Topology.CWComplex` (with weak topology, closed cells and closure
 finiteness, `Mathlib/Topology/CWComplex/Classical/Basic.lean`) and continuous
 Riemannian bundles `IsContinuousRiemannianBundle`
 (`Mathlib/Topology/VectorBundle/Riemannian.lean`).
+
+G3–G6 use Mathlib's metric compatibility of a covariant derivative on a
+Riemannian bundle, `CovariantDerivative.IsMetricCompatible`
+(`X⟨σ,τ⟩=⟨∇_Xσ,τ⟩+⟨σ,∇_Xτ⟩`, in
+`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Metric.lean`), and
+the Levi-Civita connection `CovariantDerivative.leviCivitaConnection` of a C¹
+Riemannian metric on the tangent bundle of a C² manifold with
+finite-dimensional model, which is metric-compatible and
+torsion-free (`CovariantDerivative.isLeviCivitaConnection_leviCivitaConnection`)
+and unique on differentiable vector fields
+(`CovariantDerivative.IsLeviCivitaConnection.uniqueness`), in `LeviCivita.lean`
+in that folder.
 
 ### From Tau Ceti
 
@@ -269,6 +283,31 @@ unless its statement says so.
   d on a boundaryless, Hausdorff, σ-compact base when one of the two forms has
   compact support,
   `TauCeti.SmoothForm.integralTopForm_inner_mextDeriv_eq_inner_codifferential`).
+- G3–G6 connections and curvature, under
+  `Geometry/Manifold/VectorBundle/CovariantDerivative/`:
+  `LeviCivita/Regularity.lean`
+  (`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`:
+  the Levi-Civita connection of a C^∞ metric on a C^∞ manifold is C^∞);
+  `Curvature/Basic.lean` (`CovariantDerivative.curvatureOperator`, the
+  curvature `R(X,Y)σ=∇_X∇_Yσ−∇_Y∇_Xσ−∇_[X,Y]σ` of a covariant derivative on
+  any vector bundle, with Lee's sign; it is the R^E of G3.3 and G6.2, a
+  complex bundle entering through its underlying real bundle);
+  `Curvature/Tensor.lean` (`CovariantDerivative.curvatureTensor`, its pointwise
+  tensor for a C^∞ connection on a finite-rank C^∞ bundle over a
+  finite-dimensional Hausdorff manifold); `Curvature/Metric.lean`
+  (`CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_eq_neg`: the
+  curvature endomorphisms of a metric-compatible connection are skew-adjoint);
+  `Curvature/Bianchi.lean` (the first Bianchi identity
+  `CovariantDerivative.curvatureTensor_cyclic_eq_zero` for a torsion-free
+  connection, and pair interchange
+  `CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_swap_pairs`);
+  `Curvature/Riemann.lean` (`CovariantDerivative.riemannCurvatureTensor`,
+  `Rm(u,v,w,z)=⟨R(u,v)w,z⟩`, and the scalar curvature in an orthonormal basis,
+  `CovariantDerivative.scalarCurvature_eq_sum_riemannCurvatureTensor`, which is
+  `Σ_(j,k) Rm(e_k,e_j,e_j,e_k)`); and `Curvature/Scalar.lean`
+  (`CovariantDerivative.scalarCurvature`, the metric trace of the Ricci tensor,
+  and `Bundle.ContMDiffRiemannianMetric.scalarCurvature`, that of the
+  Levi-Civita connection of a smooth metric).
 - G5.0: `LinearAlgebra/CliffordAlgebra/Regular.lean`
   (`CliffordAlgebra.parityTwistedRightAction`), the parity-twisted right action
   on the regular module that is the fibre model of the external positive
@@ -288,10 +327,15 @@ The following contracts name the supplying sections and the structures consumed:
   multiplication and module data to those bundles; G4 adds a spin lift of the
   oriented frame bundle. B3 supplies the invariant-vector parallel-section
   theorem used in G3.
-- [HopfRinow L1](../../Completed/HopfRinow/README.md) supplies the actual Levi-Civita
-  covariant derivative. [RiemannianGeometry R1,R5,R7](../RiemannianGeometry/README.md)
-  supplies curvature identities, pullback/normal connections and the real
-  Weitzenböck comparison. The metric uses Mathlib's `RiemannianBundle` and
+- The Levi-Civita connection, its smoothness, the curvature operator and
+  tensor, the first Bianchi identity, the curvature symmetries and the scalar
+  curvature are the pinned declarations under From Mathlib and From Tau Ceti
+  above. [RiemannianGeometry R1,R7](../RiemannianGeometry/README.md) supplies
+  what lies beyond the pins: R1's orthonormal geodesic frames at a point
+  (item 4: radially parallel, so `∇E_i(p)=0`; Tau Ceti's normal coordinate
+  fields have vanishing covariant derivative at p but are not orthonormal away
+  from it) for the normal-frame calculation of G6.2, and R7's real Weitzenböck
+  comparison for G6.4. The metric uses Mathlib's `RiemannianBundle` and
   `IsContMDiffRiemannianBundle`.
 - [DifferentialGeometry L0–L2,L5–L9](../DifferentialGeometry/README.md)
   is the plan for forms, exterior calculus, orientation, densities, integration,
@@ -475,7 +519,7 @@ and its uniqueness up to a positive scalar.)
 - In a unit J-plane, gℂ(v¹⁰,v⁰¹)=1/2 and the squared Hermitian norm of v¹⁰ is 1/2; omitting √2 gives the wrong vector square.
 - On the orthonormal Fock basis (1,w), c(e₁) sends 1 to w and w to −1, while c(e₂) sends 1 to iw and w to i; both squares are −Id and the mixed sum is zero.
 - T scales degrees zero and one by 1 and √2; its pulled-back squared norms are 1 and 2, excluding an isometric unrescaled intertwiner.
-- For h_ℂ-orthonormal w₁,w₂ the Gram determinant of w₁∧w₂ is 1·1−0·0=1, equal to its H-norm; the norm of the antisymmetrized tensor w₁⊗w₂−w₂⊗w₁ is 2 and that of its half is 1/2, so neither tensor convention is H in degree two.
+- For h_ℂ-orthonormal w₁,w₂ the Gram determinant of w₁∧w₂ is 1·1−0·0=1, equal to its squared H-norm; the squared norm of the antisymmetrized tensor w₁⊗w₂−w₂⊗w₁ is 2 and that of its half is 1/2, so neither tensor convention is H in degree two.
 
 ### 1.3 Adjoints, Morita evaluation and scalar trace (G1.3)
 
@@ -794,7 +838,11 @@ Each law is checked on vectors, where both sides are given by the generator
 formula for `c(v,w)`; the duality sign is G2.2's reverse-dual chirality
 `(−1)^ℓ Γ^transpose`.
 
-(Nicolaescu, graded-module discussion, p. 633.)
+(Nicolaescu, Definition 2.2.42, p. 58, for the s-tensor product and its grading,
+and p. 633 for the graded modules over one space as S⊗̂W; Lawson–Michelsohn,
+Chapter I, §1, and Atiyah–Bott–Shapiro, §1, for the Clifford algebra of an
+orthogonal sum as the graded tensor product, and Lawson–Michelsohn, Chapter I,
+§5, for graded Clifford modules.)
 
 *Needs:* the declarations above; G2.1–G2.2; Mathlib's graded tensor product; G1.3 evaluation.
 
@@ -902,7 +950,7 @@ an arbitrary principal connection is not automatically Levi-Civita.
 
 (Nicolaescu, Lemma 12.1.31, p. 636; Definition 12.1.64(a2), p. 653.)
 
-*Needs:* G3.1–G3.2; SmoothBundlesConnections B3; the prescribed metric connection.
+*Needs:* G3.1–G3.2; SmoothBundlesConnections B3; the prescribed metric connection; Tau Ceti's `CovariantDerivative.curvatureOperator` for R^E and R^V.
 
 **Checks.**
 
@@ -927,7 +975,7 @@ tangent Dirac operators on manifolds of different dimensions.
 
 (Nicolaescu, Proposition 12.2.1, p. 657.)
 
-*Needs:* G2.2; G3.3; HopfRinow L1; Tau Ceti's smooth forms, exterior derivative and codifferential.
+*Needs:* G2.2; G3.3; Mathlib's `CovariantDerivative.leviCivitaConnection` and its smoothness `CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`; SmoothBundlesConnections B2.1 and B3.3 for the exterior-power bundle and its induced connection; Tau Ceti's smooth forms, exterior derivative and codifferential.
 
 **Checks.**
 
@@ -942,8 +990,9 @@ connection and a Clifford-compatible one.
 
 ### Dependencies
 
-G1–G2, SmoothBundlesConnections B1–B3, HopfRinow L1 and Tau Ceti's smooth forms
-and codifferential.
+G1–G2, SmoothBundlesConnections B1–B3, Mathlib's Levi-Civita connection with
+Tau Ceti's smoothness instance and curvature operator, and Tau Ceti's smooth
+forms and codifferential.
 ## Layer 4: Spin lifts, obstruction and classification
 
 ### 4.1 Topological and smooth frame adapters (G4.1)
@@ -1358,7 +1407,7 @@ the Levi-Civita connection, and prove Γ parallel.
 
 (Nicolaescu, §12.2.3 and Lemma 12.2.32, pp. 670–672.)
 
-*Needs:* G1–G3; G4.1–G4.4; SmoothBundlesConnections B2–B3; HopfRinow L1 for tangent bundles.
+*Needs:* G1–G3; G4.1–G4.4; SmoothBundlesConnections B2–B3; for tangent bundles, Mathlib's `CovariantDerivative.leviCivitaConnection` with Tau Ceti's smoothness instance.
 
 **Checks.**
 
@@ -1379,7 +1428,11 @@ sum spin lifts. On compact bases, in TopologicalKTheory T2's supplied K-ring der
 Keep actual spin structures and intertwiners in the bundle theorem; an
 equality of ungraded ranks alone does not prove this formula.
 
-(Nicolaescu, graded-module discussion, p. 633, followed by associated-bundle transport.)
+(Lawson–Michelsohn, Chapter I, §1, and Atiyah–Bott–Shapiro, §1, for the
+Clifford algebra of an orthogonal sum, and Lawson–Michelsohn, Chapter I, §5,
+for its graded modules; the bundle statement follows by associated-bundle
+transport, and the K-class identity is the ring law of TopologicalKTheory T2
+applied to the graded isomorphism.)
 
 *Needs:* G2.3; G4.4; G5.1; TopologicalKTheory T2.
 
@@ -1691,7 +1744,7 @@ canonical construction and its Laplace-type realization with K5.
 
 (Nicolaescu, Theorem 12.1.67, p. 656.)
 
-*Needs:* G3.3; G6.1; RiemannianGeometry R1; PDO P1 Bochner connection.
+*Needs:* G3.3; G6.1; Tau Ceti's `CovariantDerivative.curvatureOperator` for R^E; RiemannianGeometry R1, item 4, orthonormal geodesic frames for the normal-frame calculation; PDO P1 Bochner connection.
 
 **Checks.**
 
@@ -1718,7 +1771,7 @@ index obstructions are outside this development.
 
 (Nicolaescu, Theorem 12.2.33, p. 673; Exercise 12.1.68, p. 657, for product twists.)
 
-*Needs:* G5.1; G6.2; RiemannianGeometry R1 curvature identities.
+*Needs:* G5.1; G6.2; Tau Ceti's first Bianchi identity `CovariantDerivative.curvatureTensor_cyclic_eq_zero`, skew-adjointness `CovariantDerivative.IsMetricCompatible.inner_curvatureTensor_eq_neg`, and scalar contraction `CovariantDerivative.scalarCurvature_eq_sum_riemannCurvatureTensor`.
 
 **Checks.**
 
@@ -1916,8 +1969,10 @@ For the real KO lane, GeneralizedCohomology G5.5 and TopologicalKTheory T7 suppl
 - L. Nicolaescu, [*Lectures on the Geometry of Manifolds*](https://academicweb.nd.edu/~lnicolae/Lectures.pdf),
   Clifford modules and Dirac operators, for metric/chirality/bundle comparisons.
 - M. F. Atiyah, R. Bott and A. Shapiro,
-  [*Clifford modules*](https://doi.org/10.1016/0040-9383(64)90003-5), §§6 and 11, for
-  graded products and the distinction between algebraic and topological classes.
+  [*Clifford modules*](https://doi.org/10.1016/0040-9383(64)90003-5), §1, for the
+  Clifford algebra of an orthogonal sum as a graded tensor product, and §§6
+  and 11, for graded products and the distinction between
+  algebraic and topological classes.
 - R. C. Kirby, [*The topology of 4-manifolds*](https://math.berkeley.edu/~kirby/papers/Kirby%20-%20The%20topology%20of%204-manifolds%20-%20MR1001966.pdf)
   (1989), Chapter IV, pp. 33–34, for skeletal Spin structures, stabilization
   and comparison with principal lifts.
