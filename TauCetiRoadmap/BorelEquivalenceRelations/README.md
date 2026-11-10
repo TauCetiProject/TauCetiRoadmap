@@ -286,8 +286,9 @@ build their API:
   `ClosureAntitone.map_of_vanishingDiam` discharges it. Sibling disjointness is not assumed. This
   generalizes `CantorScheme.Disjoint.map_injective`, the case of equality;
 - transport: for a measurable embedding `g : X → Y` of Polish Borel spaces with
-  `F (g x) (g y) ↔ E x y`, `hasCantorAntichainOn_image_iff` and `isThinOn_image_iff` hold for
-  every `A ⊆ X`, with no Borel hypothesis on `A`, `E` or `F`. The witness is transported as a
+  `F (g x) (g y) ↔ E x y`, `hasCantorAntichainOn_image_iff` holds for every `A ⊆ X`, and so
+  `g '' A` is thin for `F` exactly when `A` is thin for `E`, with no Borel hypothesis on `A`, `E`
+  or `F`. The witness is transported as a
   Borel set, never as a continuous map: the range of a Cantor antichain is an uncountable Borel
   set of pairwise inequivalent points, its image (or preimage) is again one, and the Borel
   perfect set theorem extracts a new Cantor antichain;
