@@ -144,7 +144,8 @@ The following Mathlib proposals fix the shape of corresponding targets here. The
 Tau Ceti now, named and stated as these proposals do, and replaced by Mathlib's declarations
 when equivalents land.
 
-- [Mathlib #20649](https://github.com/leanprover-community/mathlib4/pull/20649):
+- [Mathlib #20649](https://github.com/leanprover-community/mathlib4/pull/20649) (closed
+  without merging; its names still fix the target shapes):
   the graph-language extension property `FirstOrder.Language.graph.ExtensionProperty`,
   `ExtensionProperty.embedding_from_countable`, and
   `ExtensionProperty.isFraisseLimit_finite_graphs`, identifying a countable structure with the
@@ -966,12 +967,12 @@ discharge its corresponding target.
 
 ## Coordination and provenance
 
-Use Mathlib's existing and emerging API shape. Coordinate the general existence
-construction with [Gabin Kolly's Fraïssé-existence pull request to Mathlib](https://github.com/leanprover-community/mathlib4/pull/18876)
-and [its prerequisite](https://github.com/leanprover-community/mathlib4/pull/18749);
-coordinate the graph characterization of Milestone 4 with his
-[Mathlib #20649](https://github.com/leanprover-community/mathlib4/pull/20649), and the
-theory-level quantifier-elimination endpoint with
+Use Mathlib's existing and emerging API shape. Follow the design of the general existence
+construction in [Gabin Kolly's Fraïssé-existence pull request to Mathlib](https://github.com/leanprover-community/mathlib4/pull/18876)
+and [its prerequisite](https://github.com/leanprover-community/mathlib4/pull/18749), and of the
+graph characterization of Milestone 4 in his
+[Mathlib #20649](https://github.com/leanprover-community/mathlib4/pull/20649); all three were
+closed without merging. Coordinate the theory-level quantifier-elimination endpoint with
 [Mathlib #41113](https://github.com/leanprover-community/mathlib4/pull/41113) and
 [#41115](https://github.com/leanprover-community/mathlib4/pull/41115).
 These are design and provenance references, not assumptions that their code has merged.
