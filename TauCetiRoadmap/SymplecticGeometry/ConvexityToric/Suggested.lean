@@ -1,6 +1,8 @@
 module
 
 public import Mathlib
+public import TauCeti.Geometry.Manifold.DifferentialForm.Pullback.Smooth
+public import TauCeti.Geometry.Symplectic.Hamiltonian.EquivariantMomentMap.Basic
 public import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 public import TauCeti.Geometry.Toric.Algebraic.Lattice
 
@@ -50,20 +52,20 @@ variable {E H M EG HG T : Type*}
   {IT : ModelWithCorners ℝ EG HG} [TopologicalSpace T] [ChartedSpace HG T]
   [CommGroup T] [MulAction T M]
 
-/-- A smooth torus action preserving a two-form, with an invariant smooth moment map
-satisfying contraction with the fundamental field equals the differential of each component.
-This is the torus specialization of the HamiltonianReduction moment-map conditions. -/
-structure HamiltonianTorusData [IsManifold I ∞ M] (σ : TauCeti.SmoothTwoForm I M)
+/-- A Hamiltonian torus action: a smooth action (`ContMDiffSMul`) of a commutative Lie group
+`T` on `M` in which every element pulls `σ` back to itself, together with a group-level moment
+map in the sense of `TauCeti.SmoothTwoForm.IsEquivariantMomentMap`. So each component `μ_ξ` is
+smooth with `σ_x(ξ_M x, v) = dμ_ξ(v)` for the fundamental field `ξ_M x = d(g ↦ g • x)_1 ξ`, and
+`μ` is coadjoint-equivariant, which for commutative `T` says `μ (g • x) = μ x`. The pinned
+predicate asks for a `C³` Lie group, obtained here from the smooth one. -/
+structure HamiltonianTorusData [IsManifold I ∞ M] [CompleteSpace E] [CompleteSpace EG]
+    [LieGroup IT ∞ T] [ContMDiffSMul IT I ∞ T M] (σ : TauCeti.SmoothTwoForm I M)
     (μ : M → StrongDual ℝ EG) : Prop where
-  action_smooth : ContMDiff (IT.prod I) I ∞ (fun gx : T × M ↦ gx.1 • gx.2)
-  preserves : ∀ (g : T) x v w,
-    TauCeti.SmoothBundleForm.eval₂ σ (g • x) (mfderiv I I (fun y : M ↦ g • y) x v)
-      (mfderiv I I (fun y : M ↦ g • y) x w) = TauCeti.SmoothBundleForm.eval₂ σ x v w
-  moment_smooth : ContMDiff I 𝓘(ℝ, StrongDual ℝ EG) ∞ μ
-  invariant : ∀ (g : T) x, μ (g • x) = μ x
-  hamiltonian : ∀ (ξ : EG) x v,
-    TauCeti.SmoothBundleForm.eval₂ σ x (mfderiv IT I (fun g : T ↦ g • x) 1 ξ) v =
-      mfderiv I 𝓘(ℝ, ℝ) (fun y ↦ μ y ξ) x v
+  preserves : ∀ g : T, TauCeti.SmoothForm.mpullback (fun x : M ↦ g • x)
+    (ContMDiffSMul.contMDiff_const_smul (I := IT) g) σ = σ
+  moment :
+    haveI : LieGroup IT (minSmoothness ℝ 3) T := LieGroup.of_le (n := ∞) (by simp)
+    σ.IsEquivariantMomentMap (I := IT) (G := T) fun x ↦ ((μ x : EG →L[ℝ] ℝ) : EG →ₗ[ℝ] ℝ)
 
 /-! ## Layer 3: Convexity and matrix examples -/
 
@@ -73,7 +75,7 @@ theorem torus_convexity
     [FiniteDimensional ℝ E] [FiniteDimensional ℝ EG]
     [IsManifold I ∞ M] [I.Boundaryless] [T2Space M] [SecondCountableTopology M]
     [CompactSpace M] [ConnectedSpace M]
-    [LieGroup IT ∞ T] [T2Space T] [CompactSpace T] [ConnectedSpace T]
+    [LieGroup IT ∞ T] [ContMDiffSMul IT I ∞ T M] [T2Space T] [CompactSpace T] [ConnectedSpace T]
     (σ : TauCeti.SmoothTwoForm I M) (hσ : σ.IsSymplectic)
     (μ : M → StrongDual ℝ EG) (hμ : HamiltonianTorusData (IT := IT) (T := T) σ μ) :
     Set.range μ = convexHull ℝ (μ '' {x | ∀ g : T, g • x = x}) ∧
@@ -145,7 +147,7 @@ theorem toric_fibers
     [FiniteDimensional ℝ E] [FiniteDimensional ℝ EG]
     [IsManifold I ∞ M] [I.Boundaryless] [T2Space M] [SecondCountableTopology M]
     [CompactSpace M] [ConnectedSpace M]
-    [LieGroup IT ∞ T] [T2Space T] [CompactSpace T] [ConnectedSpace T]
+    [LieGroup IT ∞ T] [ContMDiffSMul IT I ∞ T M] [T2Space T] [CompactSpace T] [ConnectedSpace T]
     (σ : TauCeti.SmoothTwoForm I M) (hσ : σ.IsSymplectic)
     (μ : M → StrongDual ℝ EG) (hμ : HamiltonianTorusData (IT := IT) (T := T) σ μ)
     (heffective : ∀ g : T, (∀ x : M, g • x = x) → g = 1)
@@ -200,7 +202,7 @@ theorem toricImage_delzant
     [NormedAddCommGroup EG] [NormedSpace ℝ EG] [FiniteDimensional ℝ EG]
     [TopologicalSpace HG] {IT : ModelWithCorners ℝ EG HG}
     [TopologicalSpace T] [ChartedSpace HG T] [CommGroup T] [LieGroup IT ∞ T]
-    [T2Space T] [CompactSpace T] [ConnectedSpace T] [MulAction T M]
+    [T2Space T] [CompactSpace T] [ConnectedSpace T] [MulAction T M] [ContMDiffSMul IT I ∞ T M]
     (latticeMap : N →+ EG) (hlattice : TauCeti.Toric.IsIntegralLattice latticeMap)
     (exp : EG → T)
     (hexp_smooth : ContMDiff 𝓘(ℝ, EG) IT ∞ exp)

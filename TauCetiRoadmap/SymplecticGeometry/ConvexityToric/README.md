@@ -23,7 +23,9 @@ Layer 3 adds realization of every majorized diagonal and the exact unitary-orbit
 LieGroups Layer 6 owns maximal tori, conjugacy, the Weyl comparison and the compact real
 root adapter: adjoint root characters, invariant-metric coroots and rank-one SU(2)
 representatives. Layer 1 adds only the integral period/character/isogeny normalization
-of those real data. HamiltonianReduction R2 owns coadjoint orbits, R2a.2–4 owns their
+of those real data. Tau Ceti owns fundamental vector fields and group-level moment maps
+(`TauCeti.SmoothTwoForm.IsEquivariantMomentMap`); Layer 1.1 specializes them to commutative
+Lie groups. HamiltonianReduction R2 owns coadjoint orbits, R2a.2–4 owns their
 root-plane Hessians, generic isolated-critical-point heights and even-cell consequences,
 and R3 owns reduction;
 MorseTheory M1–M5 owns ordinary Morse–Bott attachments. Algebraic/analytic toric varieties,
@@ -35,8 +37,9 @@ Use the [family conventions](../README.md). A torus is a compact connected abeli
 Lie algebra t and period lattice ker(exp); coordinates use R^m/(2πZ)^m. Define the integral cocharacter lattice Λ_Z=(2π)⁻¹ker(exp)⊂t and its dual weight
 lattice; χ maps to (1/i)dχ. Weights pair integrally with Λ_Z and into 2πZ with ker(exp).
 Normalize Lebesgue measure on t* so the weight lattice Λ* dual to Λ_Z=(2π)⁻¹ker(exp) has covolume 1;
-use Mathlib `IsZLattice`/`Basis.addHaar` and Tau Ceti `Toric.IsIntegralLattice` for scalar-extension data. A Hamiltonian action means the smooth symplectic action and
-equivariant moment map of [HamiltonianReduction](../HamiltonianReduction/README.md). Convexity below
+use Mathlib `IsZLattice`/`Module.Basis.addHaar` and Tau Ceti `Toric.IsIntegralLattice` for scalar-extension data. A Hamiltonian action means a smooth action (`ContMDiffSMul`) whose
+elements pull ω back to itself, with a coadjoint-equivariant moment map in the sense of Tau Ceti's
+`TauCeti.SmoothTwoForm.IsEquivariantMomentMap`. Convexity below
 assumes compact **connected** M unless explicitly stated otherwise. No assertion of connected fibers
 or a bounded polytope is made for arbitrary noncompact M.
 
@@ -54,21 +57,45 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   `Mathlib/LinearAlgebra/UnitaryGroup.lean`; `Submodule.starProjection` in
   `Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean`; `EuclideanSpace`,
   `convexHull`, `Set.extremePoints`, `Representation.invariants`, `mfderiv`,
-  `LieGroup`, `IsZLattice` and `Basis.addHaar`. These give matrices, fixed subspaces,
-  derivatives, convex sets and lattice-normalized Haar measure, without Hamiltonian hypotheses.
+  `LieGroup`, `ContMDiffSMul` (joint smoothness of an action), `IsZLattice` and
+  `Module.Basis.addHaar`. These give matrices, fixed subspaces, derivatives, smooth actions,
+  convex sets and lattice-normalized Haar measure, without Hamiltonian hypotheses.
 - **From Tau Ceti:** `TauCeti.SmoothTwoForm` in
   `TauCeti/Geometry/Manifold/TwoForm/Basic.lean`, with
   `TauCeti.SmoothTwoForm.IsSymplectic` in
   `TauCeti/Geometry/Symplectic/Manifold/TwoForm.lean`, and
   `TauCeti.Toric.IsIntegralLattice` in `TauCeti/Geometry/Toric/Algebraic/Lattice.lean`.
   The last includes finite freeness and real scalar extension, rather than merely an
-  injective additive map with spanning image. For smooth Riemannian isometries use
+  injective additive map with spanning image.
+  Two-forms are evaluated by `TauCeti.SmoothBundleForm.eval₂` in
+  `TauCeti/Geometry/Manifold/DifferentialForm/Smooth.lean` (σ_x(v,w), with no normalizing
+  factor on alternating forms) and pulled back by `TauCeti.SmoothForm.mpullback` in
+  `TauCeti/Geometry/Manifold/DifferentialForm/Pullback/Smooth.lean`, evaluated by
+  `TauCeti.SmoothForm.eval₂_mpullback`; `TauCeti.SmoothTwoForm.prod` in
+  `TauCeti/Geometry/Symplectic/Manifold/Prod.lean` is the product form pr₁*σ+pr₂*τ.
+  Group actions and moment maps: `TauCeti.InfinitesimalAction.fundamental` and
+  `TauCeti.fundamentalVectorField_apply` in `TauCeti/Geometry/Lie/FundamentalVectorField.lean`
+  (ξ_M(x)=d(g↦g·x)_1 ξ for a `ContMDiffSMul` action of a C³ real Lie group with complete
+  model spaces); `TauCeti.SmoothTwoForm.IsMomentMap` in
+  `TauCeti/Geometry/Symplectic/Hamiltonian/MomentMap.lean` (each component μ_ξ is smooth and
+  σ_x(ξ_M(x),v)=d(μ_ξ)_x(v), with no equivariance), with
+  `TauCeti.SmoothTwoForm.IsMomentMap.add_const` (constant shifts) and
+  `TauCeti.SmoothTwoForm.IsMomentMap.comp` (restriction along a Lie algebra homomorphism,
+  composing μ with the dual map); `TauCeti.SmoothTwoForm.IsEquivariantMomentMap` in
+  `TauCeti/Geometry/Symplectic/Hamiltonian/EquivariantMomentMap/Basic.lean` (a moment map of
+  the fundamental action with μ(g·x)=Ad*_g μ(x), where Ad*_g ν=ν∘Ad_(g⁻¹)), with
+  `TauCeti.SmoothTwoForm.IsEquivariantMomentMap.add_const_iff` (on nonempty M a shift by ν
+  stays equivariant exactly when ν is coadjoint-invariant) and
+  `TauCeti.SmoothTwoForm.IsEquivariantMomentMap.prod` in
+  `TauCeti/Geometry/Symplectic/Hamiltonian/EquivariantMomentMap/Prod.lean` (for one group
+  acting on two manifolds, (x,y)↦μ(x)+ν(y) is an equivariant moment map of the diagonal action
+  for the product form). For smooth Riemannian isometries use
   `TauCeti.RiemannianIsometry.riemannianExp_mfderiv` in
   `TauCeti/Geometry/Manifold/Riemannian/Isometry/Exponential.lean`: on finite-dimensional
   smooth boundaryless Hausdorff manifolds with smooth Riemannian metrics, it intertwines
   exponential maps with the actual differential; completeness is not assumed.
-  For abstract Weyl chambers use `TauCeti.dominantChamber` and
-  `TauCeti.openDominantChamber` in `TauCeti/LinearAlgebra/RootSystem/Chamber.lean`
+  For abstract Weyl chambers use `RootPairing.dominantChamber` and
+  `RootPairing.openDominantChamber` in `TauCeti/LinearAlgebra/RootSystem/Chamber.lean`
   (the weak and strict sign cones of the simple coroots of a base of a root pairing over an
   ordered commutative ring), `TauCeti.weylChamber` and `TauCeti.openWeylChamber` in
   `TauCeti/LinearAlgebra/RootSystem/Weyl/Chamber.lean` (their Weyl translates, with
@@ -84,11 +111,10 @@ and reduced symplectic classes use ℝ. Lean carriers have arbitrary type univer
   LieGroups Layer 6's compact comparison transports them to t*_(ss,+); the closed positive
   chamber is t*_+=z(k)*×t*_(ss,+), with the centre an unrestricted factor on which no root
   or chamber wall acts.
-- **From TauCetiRoadmap.HamiltonianReduction:** R1's smooth action and equivariant
-  moment-map equations, R2's coadjoint orbit/KKS and chamber comparisons,
-  R2a.2–4's root-plane Hessians, critical set Wμ for regular heights, generic distinct
-  values and even-cell consequences on compact connected coadjoint orbits, R3's free and
-  locally free reduction, and R3.1's proper-orbit symplectic slice normal form.
+- **From TauCetiRoadmap.HamiltonianReduction:** R2's coadjoint orbit/KKS and chamber
+  comparisons, R2a.2–4's root-plane Hessians, critical set Wμ for regular heights, generic
+  distinct values and even-cell consequences on compact connected coadjoint orbits, R3's free
+  and locally free reduction, and R3.1's proper-orbit symplectic slice normal form.
 - **From TauCetiRoadmap.LieGroups:** Layer 1's smooth adjoint representation, its
   differential ad and conjugation/exponential identities; Layer 6's maximal tori, conjugacy,
   normalizer/Weyl comparison, exponential surjectivity and compact real root adapter. For
@@ -203,15 +229,36 @@ same argument bounds the kernel of a rank-one map integrated from a section su(2
 *Needs:* LieGroups Layers 1, 2 and 6 (adjoint representation, the closed-subgroup
 theorem, maximal tori and the compact real root adapter); Tau Ceti's Weyl chambers; Mathlib `IsZLattice`; Tau Ceti's integral lattice API.
 
-Define `HamiltonianTorusData` on a smooth two-form σ, a torus action and a map
-μ:M→t* by smoothness of both maps, preservation of σ, invariance of μ and
-σ_x(d(g↦g·x)_1 ξ,v)=d(μ_ξ)_x(v). This is the abelian specialization of the
-HamiltonianReduction R1 equations on native smooth-form and manifold carriers.
-The geometric headlines separately require σ symplectic and T compact connected.
+Define `HamiltonianTorusData` for a smooth two-form σ on M, a smooth action
+(`ContMDiffSMul`) of a commutative Lie group T on M, both modelled on complete normed spaces
+(as finite-dimensional ones are), and a map μ:M→t*, where t is the model space of T
+(Mathlib's `GroupLieAlgebra`), as the commutative specialization of Tau Ceti's
+`TauCeti.SmoothTwoForm.IsEquivariantMomentMap`: every g∈T pulls σ back to itself
+(`TauCeti.SmoothForm.mpullback`), and μ is a coadjoint-equivariant moment map of the
+fundamental fields ξ_M(x)=d(g↦g·x)_1 ξ, so every component μ_ξ is smooth and
+σ_x(ξ_M(x),v)=d(μ_ξ)_x(v). The pinned predicate asks for a C³ Lie group, which the smooth
+group provides. The geometric headlines separately require σ symplectic and T compact connected.
 
-- Adding a constant in t* to μ preserves these equations.
-- Products of Hamiltonian torus data use the direct sum of the moment maps and forms.
-- Restriction along a torus homomorphism composes μ with its dual differential.
+- On a commutative Lie group conjugation is the identity map, so Ad_g=id and the coadjoint
+  action is trivial: coadjoint equivariance of μ says exactly μ(g·x)=μ(x). Hence, for a
+  jointly smooth action, `HamiltonianTorusData` holds exactly when the action preserves σ,
+  every μ_ξ is smooth, the moment equation holds and μ is T-invariant.
+- Adding any constant ν∈t* to μ preserves `HamiltonianTorusData`: the moment equation by
+  `TauCeti.SmoothTwoForm.IsMomentMap.add_const`, and equivariance by
+  `TauCeti.SmoothTwoForm.IsEquivariantMomentMap.add_const_iff` because every ν is
+  coadjoint-invariant when Ad is trivial (on empty M there is nothing to check).
+- Restriction along a smooth homomorphism φ:T'→T of commutative Lie groups: T' acts by
+  g'·x=φ(g')·x, smoothly and preserving σ. The chain rule for the orbit map g'↦φ(g')·x
+  identifies the fundamental field of ξ'∈t' with that of dφ_1(ξ'), so
+  `TauCeti.SmoothTwoForm.IsMomentMap.comp` along the linear map dφ_1, a Lie algebra
+  homomorphism because both Lie algebras are abelian, gives the moment map x↦μ(x)∘dφ_1, and
+  invariance passes to T'. The chain-rule identification is the target here.
+- External products: given the data (M₁,σ₁,μ₁) for T₁ and (M₂,σ₂,μ₂) for T₂, restrict each
+  along the projection T₁×T₂→Tᵢ and apply
+  `TauCeti.SmoothTwoForm.IsEquivariantMomentMap.prod` to the diagonal action of T₁×T₂ on
+  M₁×M₂ with `TauCeti.SmoothTwoForm.prod`. The moment map (x₁,x₂)↦μ₁(x₁)∘pr₁+μ₂(x₂)∘pr₂ is
+  μ₁⊕μ₂ under (t₁⊕t₂)*=t₁*⊕t₂*. Preservation of the product form by (g₁,g₂) is proved from
+  the pullback formula on each factor.
 
 **Checks.**
 
@@ -219,8 +266,24 @@ The geometric headlines separately require σ symplectic and T compact connected
   −y dy−x dx=d(−|z|²/2); the positive quadratic moment fails this equation.
 - Reversed rotation has field (y,−x), giving d(|z|²/2); adding 7 leaves the derivative unchanged.
 - The trivial torus on a point satisfies the equations with the unique zero-dimensional moment map.
+- The equivariance clause is not implied by the moment equation for a noncompact commutative
+  group. Let ℝ² act on itself by translations, with σ=dx∧dy, σ(u,w)=u₁w₂−u₂w₁; then ξ_M=ξ
+  is constant and μ(x)(ξ)=σ(ξ,x) satisfies d(μ_ξ)_x(v)=σ(ξ,v)=σ(ξ_M,v). But
+  μ(g+x)(ξ)−μ(x)(ξ)=σ(ξ,g), which for ξ=e₂ and g=e₁ is −1. On connected ℝ² every moment
+  map of this action is a constant shift of μ with the same nonzero defect, so none is
+  invariant and the action carries no `HamiltonianTorusData`.
+- Preservation of σ is not implied by the other clauses for a disconnected group. Let the
+  zero-dimensional group ℤ/2 act on (ℝ²,dx∧dy) by (x,y)↦(x,−y). Its Lie algebra is 0, so
+  μ=0 satisfies the moment equation and invariance, but the reflection pulls dx∧dy back to
+  dx∧d(−y)=−dx∧dy, so the preservation clause fails.
 
-*Needs:* HamiltonianReduction R1; Mathlib `mfderiv`; Tau Ceti `SmoothTwoForm`.
+*Needs:* Tau Ceti `TauCeti.SmoothTwoForm.IsEquivariantMomentMap`,
+`TauCeti.SmoothTwoForm.IsEquivariantMomentMap.add_const_iff`,
+`TauCeti.SmoothTwoForm.IsEquivariantMomentMap.prod`, `TauCeti.SmoothTwoForm.IsMomentMap`,
+`TauCeti.SmoothTwoForm.IsMomentMap.add_const`, `TauCeti.SmoothTwoForm.IsMomentMap.comp`,
+`TauCeti.fundamentalVectorField_apply`, `TauCeti.SmoothForm.mpullback`,
+`TauCeti.SmoothTwoForm.prod` and `TauCeti.SmoothTwoForm`; Mathlib `ContMDiffSMul`, `LieGroup`
+and `mfderiv`.
 
 ### 1.2 Fixed loci with a preserved metric
 
@@ -310,7 +373,7 @@ from the preserved-metric hypothesis. The weight +1 and −1 planes pin the mome
 
 ### Dependencies
 
-LieGroups Layers 1, 2 and 6, Tau Ceti's Weyl chambers, HamiltonianReduction R1/R3.1,
+LieGroups Layers 1, 2 and 6, Tau Ceti's Weyl chambers and moment maps, HamiltonianReduction R3.1,
 HopfRinow Layers 1 and 4, HeegaardFloer §4.1 and GeometricTopology Layer 1.
 
 ## Layer 2: Morse–Bott and moment-map topology
@@ -651,7 +714,8 @@ These are Hamiltonian applications of that measure, with its symplectic normaliz
 - For 2dx∧dy the same square has mass 2, excluding an unnormalized volume choice.
 - A point in dimension zero has mass 1; the product of two unit symplectic squares has mass 1.
 
-*Needs:* SmoothBundlesConnections B2.4; DifferentialGeometry §5.5; HamiltonianReduction R1.
+*Needs:* SmoothBundlesConnections B2.4; DifferentialGeometry §5.5; Layer 1.1's
+`HamiltonianTorusData`.
 
 For a Hamiltonian torus space with **proper** μ define DH measure as μ_*Liouville
 (Cannas da Silva, Definition 30.2 and Theorem 30.3, p. 191). Properness gives
