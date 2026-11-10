@@ -337,7 +337,12 @@ Exact declarations of the Tau Ceti pin, each with its file under `TauCeti/`:
 - the real signs of a ray-class character, for the gamma factor of 8.6:
   `TauCeti.GlobalNumberFields.HeckeCharacter.ofRayClassCharacter`
   (`NumberTheory/NumberField/Global/HeckeCharacter/Basic.lean`), the Hecke character of a
-  ray-class character; `TauCeti.GlobalNumberFields.HeckeCharacter.infinityType`
+  ray-class character, with
+  `TauCeti.GlobalNumberFields.HeckeCharacter.isFiniteOrder_ofRayClassCharacter`
+  (`HeckeCharacter/Basic.lean`: the Hecke character of a ray-class character has finite order,
+  the hypothesis of the first two Hecke-character lemmas below, on the infinite part of the
+  conductor and on the conductor of a ray-class character);
+  `TauCeti.GlobalNumberFields.HeckeCharacter.infinityType`
   (`HeckeCharacter/InfinityType.lean`) with its real parities
   `TauCeti.GlobalNumberFields.ContinuousInfinityType.realParity` (`Global/InfinityType/Basic.lean`),
   the real gamma shifts of L-functions Layer 5 `heckeData`;
@@ -2315,7 +2320,9 @@ the Hecke character `TauCeti.GlobalNumberFields.HeckeCharacter.ofRayClassCharact
 Ceti's `TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff`, read through
 `TauCeti.GlobalNumberFields.HeckeCharacter.conductor_ofRayClassCharacter` and
 `TauCeti.LFunctions.PrimitiveRayClassCharacter.conductor_character`, says that this parity is `1`
-exactly when `w ∈ 𝔣_∞`. For every `K`, the Weil formula of 8.4 for `χ` is
+exactly when `w ∈ 𝔣_∞`; the first two take the hypothesis that the Hecke character has finite
+order, which `TauCeti.GlobalNumberFields.HeckeCharacter.isFiniteOrder_ofRayClassCharacter`
+supplies for every ray-class character. For every `K`, the Weil formula of 8.4 for `χ` is
 `heckeLFunction_weilExplicitFormula`, stated for `χ = ψ.character` with
 `ψ : TauCeti.LFunctions.PrimitiveRayClassCharacter K`, `ψ ≠ 1`, and `m_ρ` read as in 8.4: the
 positive part of the divisor of `heckeLFunctionC ψ.character` at the points of the open strip,
@@ -2329,17 +2336,26 @@ appears; the reflection `Λ'/Λ(χ, s) = −Λ'/Λ(χ⁻¹, 1 − s)` from `comp
 where `χ⁻¹` has the conductor and the shifts of `χ` and the values `conj χ(𝔞)`; and Mellin
 inversion on `Re s = 2` against the series of `−logDeriv L(χ, ·)` and `−logDeriv L(χ⁻¹, ·)`.
 
-*Needs:* 8.1–8.5, 6.3–6.5, 5.6a, 4.5, 1.5; Arithmetic Dirichlet Series §2.3, at the pin
+*Needs:* for the truncated formula and the estimate of `ψ_K(x, χ)`: 8.1, and the arguments of
+8.2, 8.3 and 8.5 run for `Λ(χ, ·)`, with their inputs 7.2, 5.6, 1.4, 1.5 and 4.5, the region
+6.3–6.4 in place of 6.2–6.3, and 6.5 for the order of `L(χ, ·)` at `s = 0`; Arithmetic Dirichlet
+Series §2.3, at the pin
 `TauCeti.MultiplicativeIdealWeight.logDeriv_LSeries_eq_neg_tsum_vonMangoldtTransform` for the
 weight of `χ`, which makes `ψ_K(x, χ)` the summatory function of the coefficients of
 `−logDeriv (heckeLFunctionC χ.character)` on `Re s > 1`, which the Dedekind identity
-`TauCeti.hasSum_idealTerm_vonMangoldt` of 8.3 does not give; for the Weil formula, L-functions
-Layer 5 `heckeData`, `differentiable_completedHeckeLFunction` and
-`completedHeckeLFunction_one_sub`, Tau Ceti
+`TauCeti.hasSum_idealTerm_vonMangoldt` of 8.3 does not give. For the Weil formula
+`heckeLFunction_weilExplicitFormula`: the argument of 8.4 run for `Λ(χ, ·)`, with 7.2 for the
+residues and the edge bounds of 8.2 (5.6, 1.4 and 4.5 for `χ`); 1.5 for the zeros and poles of
+`γ_χ`; 5.6a and 6.5 (the zeros of `Λ(χ, ·)` on the open strip); the same Arithmetic Dirichlet
+Series §2.3 identity for the weights of `χ` and `χ⁻¹`; L-functions Layer 5 `heckeData`,
+`differentiable_completedHeckeLFunction` and `completedHeckeLFunction_one_sub`; Tau Ceti
+`TauCeti.GlobalNumberFields.HeckeCharacter.isFiniteOrder_ofRayClassCharacter` (the finite-order
+hypothesis of the next two),
 `TauCeti.GlobalNumberFields.HeckeCharacter.mem_conductor_infinitePart_iff`,
 `TauCeti.GlobalNumberFields.HeckeCharacter.conductor_ofRayClassCharacter` and
-`TauCeti.LFunctions.PrimitiveRayClassCharacter.conductor_character`, and Mathlib `mellin`,
-`mellinInv_mellin_eq`; for its statement, Tau Ceti `TauCeti.LFunctions.heckeLFunctionC`,
+`TauCeti.LFunctions.PrimitiveRayClassCharacter.conductor_character`, applied to `χ` and to `χ⁻¹`;
+and Mathlib `mellin`, `mellinInv_mellin_eq`. For its statement, Tau Ceti
+`TauCeti.LFunctions.heckeLFunctionC`,
 `TauCeti.LFunctions.PrimitiveRayClassCharacter`, `TauCeti.GlobalNumberFields.Modulus` (fields
 `finitePart` and `infinitePart`),
 `TauCeti.GlobalNumberFields.RayClassCharacter.toMultiplicativeIdealWeight` and
