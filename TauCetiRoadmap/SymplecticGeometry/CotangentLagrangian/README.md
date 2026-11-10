@@ -17,9 +17,17 @@ function. The conormal of Q⊂M uses covectors in T*_qM annihilating the image o
 Consume Tau Ceti's `SymplecticForm.IsIsotropic`, `IsCoisotropic`, `IsLagrangian`, linear cotangent
 form and Liouville identity. Tau Ceti also proves the following, which this roadmap consumes by
 name and does not restate: the Liouville and canonical symplectic forms of the cotangent bundle
-and their chart formulas (C1.2), the Lagrangian embedding predicate (C2), the realification of
+and their chart formulas (C1.2); the cotangent lift of a diffeomorphism and of a smooth group
+action, with its preservation of both forms (C1.3); the open-restriction, product,
+fibre-translation and fibre-dilation identities (C1.4); the tangent-image predicates, Lagrangian
+immersions and embeddings and their invariance under rescaling (C2); the realification of
 complex matrices and the maximal-compactness and connectedness theorems for GL(n,ℂ) and Sp(2n,ℝ)
-(C2.1), and the symplectic Witt extension (C4). Consume ordinary Darboux and compact-manifold Moser with a given smooth symplectic path from
+(C2.1); the exact-Lagrangian results for the zero section, graphs of one-forms and conormal
+maps, Lagrangian graphs of diffeomorphisms, the Liouville field, the classification of
+λ-preserving diffeomorphisms, the torus graphs and the contact forms and Reeb flow of the unit
+cosphere bundle (C2.2); the transpose, product and diagonal of Lagrangian correspondences and
+the generating-function calculus on open subsets of normed spaces, with the intrinsic mixed
+Hessian on a product of manifolds (C3); and the symplectic Witt extension (C4). Consume ordinary Darboux and compact-manifold Moser with a given smooth symplectic path from
 [HeegaardFloer](../../HeegaardFloer/README.md), F2.1. Generic differential-form calculus belong to
 [DifferentialGeometry](../../DifferentialGeometry/README.md); generic tubular neighborhoods belong to
 [GeometricTopology](../../GeometricTopology/README.md); bundle duals and smooth operations belong
@@ -50,27 +58,62 @@ lemmas needed to connect these interfaces are explicit work here or there, not a
    (`TauCeti.RoughForm.inChartAt_extChartAt_self`), this chart identity fixes the form; it is the
    evidence that no convention has changed. Consume these; none of them needs a
    finite-dimensional or boundaryless base.
-3. A diffeomorphism f:M→N has cotangent lift `(q,p)↦(f(q),p∘(df_q)⁻¹)`.
-   Prove identity/composition/inverse, preservation of λ and ω, equivariance for group actions.
+3. The cotangent lift `(q,p)↦(f(q),p∘(df_q)⁻¹)` of a diffeomorphism f:M→N is Tau Ceti's
+   `Diffeomorph.cotangent`, with its identity, composition and inverse laws
+   (`Diffeomorph.cotangent_refl`, `Diffeomorph.cotangent_trans`, `Diffeomorph.cotangent_symm`).
+   It pulls λ back to λ and ω back to ω (`Diffeomorph.mpullback_cotangent_liouvilleForm`,
+   `Diffeomorph.mpullback_cotangent_symplecticForm`). The lift of a group action by smooth maps
+   is again one (`TauCeti.CotangentBundle.instMulAction`,
+   `TauCeti.CotangentBundle.instContMDiffConstSMul`), jointly smooth for a smooth Lie group
+   action (`TauCeti.CotangentBundle.instContMDiffSMul`), and every group element preserves both
+   forms (`TauCeti.CotangentBundle.mpullback_smul_liouvilleForm`,
+   `TauCeti.CotangentBundle.mpullback_smul_symplecticForm`). Consume these.
    Define cotangent pullback along a general map as a relation over the map, rather than a false
    total map T*M→T*N when derivatives are not invertible.
-4. Prove open-restriction identification T*U ≅ π⁻¹(U) with Liouville and symplectic forms.
-   Identify T*(M×N) with T*M×T*N smoothly, including λ sum and ω product.
-   Fiber translation by a one-form α changes λ by π*α and ω by −π*dα; it is symplectic iff dα=0.
-   Fiber negation changes λ and ω signs. All formulas hold on arbitrary open restrictions.
+4. Tau Ceti proves the four identities of this item; consume them. The open-restriction
+   diffeomorphism T*U ≅ π⁻¹(U), `TauCeti.CotangentBundle.restrictOpen`, identifies the
+   Liouville and symplectic forms
+   (`TauCeti.CotangentBundle.mpullback_restrictOpen_liouvilleForm`,
+   `TauCeti.CotangentBundle.mpullback_restrictOpen_symplecticForm`). The diffeomorphism
+   T*(M×N) ≅ T*M×T*N, `TauCeti.CotangentBundle.prodDiffeomorph`, pulls the sum of the Liouville
+   forms and the product of the symplectic forms back to those of M×N
+   (`TauCeti.CotangentBundle.mpullback_prodDiffeomorph_liouvilleForm`,
+   `TauCeti.CotangentBundle.mpullback_prodDiffeomorph_symplecticForm`). Fiber translation by a
+   smooth one-form α changes λ to λ+π*α and ω to ω−π*dα, and is symplectic iff dα=0
+   (`TauCeti.CotangentBundle.mpullback_vectorBundleTranslateDiffeomorph_liouvilleForm`,
+   `TauCeti.CotangentBundle.mpullback_vectorBundleTranslateDiffeomorph_symplecticForm`,
+   `TauCeti.CotangentBundle.mpullback_vectorBundleTranslateDiffeomorph_symplecticForm_eq_self_iff`).
+   Fiber dilation by c≠0 multiplies λ and ω by c, so fiber negation changes both signs
+   (`TauCeti.CotangentBundle.mpullback_vectorBundleScalarDiffeomorph_liouvilleForm`,
+   `TauCeti.CotangentBundle.mpullback_vectorBundleScalarDiffeomorph_symplecticForm`). Prove
+   that the translation and dilation formulas hold on arbitrary open restrictions, by
+   transporting them along `TauCeti.CotangentBundle.restrictOpen`.
 
 ## C2. Embedded Lagrangians and basic examples
 
-Define symplectic tangent images by disjointness from their symplectic orthogonal and nondegenerate
-restriction, then define symplectic/isotropic/coisotropic/Lagrangian embeddings through tangent images using existing
-linear predicates; the Lagrangian case is Tau Ceti's
+The tangent-image predicates of a map into a manifold with a nondegenerate two-form are Tau
+Ceti's `TauCeti.SmoothTwoForm.IsNondegenerate.HasSymplecticTangentImages` (every tangent image
+meets its symplectic orthogonal in zero, equivalently carries a nondegenerate restriction),
+`TauCeti.SmoothTwoForm.IsNondegenerate.IsIsotropicMap`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.IsCoisotropicMap` and
+`TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianMap`, each stated through the existing linear
+predicate. Define symplectic, isotropic and coisotropic embeddings as smooth embeddings
+satisfying the corresponding predicate; the Lagrangian case is Tau Ceti's
 `TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianEmbedding`, a smooth immersion that is a
 topological embedding with Lagrangian tangent images, which on smooth embeddings is the
 tangent-image condition alone
 (`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianEmbedding_iff_of_isSmoothEmbedding`). Prove independence of parametrization, transport by symplectomorphisms, dimension
 bounds/equalities, products and restriction to open sets. Nonzero real rescaling of a
-symplectic form preserves all four tangent-subspace predicates; prove its form and primitive API. A Lagrangian immersion is a separate notion;
-define its `Manifold.IsImmersion` and tangent-isotropy/half-dimension predicate and prove its
+symplectic form preserves the isotropic, coisotropic and Lagrangian predicates, Lagrangian
+immersions and, with the primitive rescaled by the same constant, exact Lagrangian maps
+(`TauCeti.SmoothTwoForm.IsNondegenerate.isIsotropicMap_smul_iff`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.isCoisotropicMap_smul_iff`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianMap_smul_iff`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianImmersion_smul_iff`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.isExactLagrangianMap_smul_iff`); consume these and prove
+the same invariance for symplectic tangent images. A Lagrangian immersion is a separate notion,
+Tau Ceti's `TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianImmersion`: a smooth immersion
+with isotropic tangent images from a manifold of half the dimension. Prove its
 transport/product API without replacing self-intersections by an embedded submanifold.
 
 For a finite-dimensional real symplectic vector space and any subspace W, reuse
@@ -198,25 +241,49 @@ Finally give the separate LieGroups Layer9 matrix-model specializations for H=C_
 ### C2.2. Exact Lagrangians and basic examples
 
 An exact symplectic manifold carries a chosen smooth one-form λ with ω=−dλ; an embedded
-Lagrangian i is exact when i*λ=df for a specified smooth f. Prove primitive uniqueness on connected
-components and behavior under exact symplectomorphisms. The zero section is exact Lagrangian. The graph of a smooth one-form α is Lagrangian iff dα=0;
-its pulled-back Liouville primitive exists iff α is exact. For compact Q
+Lagrangian i is exact when i*λ=df for a specified smooth f; this is Tau Ceti's
+`TauCeti.SmoothTwoForm.IsNondegenerate.IsExactLagrangianMap`, a predicate on maps with Lagrangian
+tangent images that carries the primitive f. Tau Ceti proves that two primitives differ by a
+constant on a preconnected source
+(`TauCeti.SmoothTwoForm.IsNondegenerate.IsExactLagrangianMap.exists_eq_add_const`) and the
+transport by an exact symplectomorphism, with the primitive shifted by the pulled-back function
+(`Diffeomorph.isExactLagrangianMap_comp_iff`). For the cotangent bundle of a finite-dimensional
+manifold it proves that the zero section is exact Lagrangian with primitive 0
+(`TauCeti.CotangentBundle.isExactLagrangianMap_zeroSection`), that the graph of a smooth
+one-form α is Lagrangian iff dα=0 (`TauCeti.CotangentBundle.isLagrangianMap_section_iff`) and
+that its pulled-back Liouville primitive exists iff α is exact
+(`TauCeti.CotangentBundle.exists_isExactLagrangianMap_section_iff`). Consume these. For compact Q
 with at least two points, prove that the graph of df meets the zero section
 in at least two distinct points: use the minimum and maximum of f when f
 is nonconstant, and all of Q when f is constant. Construct the conormal N*Q as a smooth
 vector subbundle over an embedded Q, its inclusion as an embedded submanifold of T*M, dimension dim M,
-and λ|N*Q=0; conclude exact Lagrangian. For a symplectic diffeomorphism φ, its graph is Lagrangian in
-(M×N,ω_M−ω_N). Conversely, for equal-dimensional manifolds a smooth **diffeomorphism** has Lagrangian
-graph iff symplectic. A Lagrangian relation whose two projections are diffeomorphisms yields this
+and λ|N*Q=0; conclude exact Lagrangian from Tau Ceti's
+`TauCeti.CotangentBundle.isExactLagrangianMap_of_conormal`, which proves it for every smooth
+map into T*M with injective differentials, from a manifold of the dimension of M, whose
+covectors annihilate the tangent images of the submanifold; the subbundle and its embedding are
+the targets here. A smooth **diffeomorphism** φ:M→N has embedded Lagrangian graph in
+(M×N,ω_M−ω_N) iff it is symplectic
+(`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianEmbedding_graph_iff`, for the form
+`TauCeti.SmoothTwoForm.twistedProd`; the diagonal is
+`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianEmbedding_diagonal`); consume it. A Lagrangian relation whose two projections are diffeomorphisms yields this
 canonical transformation; local diffeomorphic projections yield it only on open neighborhoods.
 
-Build the Liouville field Z by **ι_Zω=−λ** (more generally ι_Zω=−θ when ω=−dθ), so its
-cotangent flow is `(q,p)↦(q,e^t p)` and its Lie derivative satisfies L_Zω=ω. Prove local-flow
+The Liouville field Z is fixed by **ι_Zω=−λ** (more generally ι_Zω=−θ when ω=−dθ), so its
+cotangent flow is `(q,p)↦(q,e^t p)` and its Lie derivative satisfies L_Zω=ω. On T*M it is the
+Euler field of the bundle, and Tau Ceti proves that it is a Liouville vector field of the
+canonical form (`TauCeti.CotangentBundle.isLiouvilleVectorField_vectorBundleEulerField`, for
+the predicate `TauCeti.IsLiouvilleVectorField`); consume it. Prove local-flow
 rescaling and that θ-preserving symplectomorphisms commute with local Liouville flow. On the full
-cotangent total space, including the zero section, prove every smooth λ-preserving symplectomorphism
-is the cotangent lift of a unique base diffeomorphism. Use smoothness at the zero section and dilation
-to show fiberwise linearity; no such classification is asserted just on the punctured bundle. Provide oriented surfaces with nowhere-zero area forms (automatic closedness in dimension two) and
-cotangent tori with zero-section/closed-nonexact graph tests and a Kodaira–Thurston compact symplectic non-Kähler example: construct its
+cotangent total space, including the zero section, every smooth λ-preserving diffeomorphism
+T*M→T*N is the cotangent lift of a unique base diffeomorphism: this is Tau Ceti's
+`Diffeomorph.existsUnique_cotangent_eq_of_mpullback_liouvilleForm`, with the converse in
+`Diffeomorph.exists_cotangent_eq_iff_mpullback_liouvilleForm`; consume them. No such
+classification is asserted just on the punctured bundle. Provide oriented surfaces with nowhere-zero area forms (automatic closedness in dimension two). For
+cotangent tori, Tau Ceti proves that the graph of a coordinate angle form is Lagrangian and
+admits no exact-Lagrangian primitive
+(`TauCeti.CotangentBundle.isLagrangianMap_section_torusTimeForm`,
+`TauCeti.CotangentBundle.not_exists_isExactLagrangianMap_section_torusTimeForm`); consume
+these as the zero-section/closed-nonexact graph tests. Provide a Kodaira–Thurston compact symplectic non-Kähler example: construct its
 Heisenberg-lattice quotient times a circle as a smooth manifold using
 SmoothBundlesConnections B1’s free proper discrete quotient charts; identify the
 universal cover and deck group using
@@ -229,21 +296,36 @@ Hodge parity theorem: consume the degree-one Kähler harmonic/type decomposition
 [ComplexKahlerGeometry](../../ComplexKahlerGeometry/README.md), including its explicit Hodge
 parity theorem. That parity theorem is not a consequence of de Rham theory alone.
 
-For a Riemannian Q of positive dimension, build its unit cosphere and consume
-[ContactGeometry CG1](../ContactGeometry/README.md#cg1--contact-distributions-contact-line-and-cooriented-forms)'s contact-form predicate. Prove the boundary form
+For a Riemannian Q of positive dimension, the unit cosphere bundle is Tau Ceti's
+`TauCeti.CotangentBundle.cosphereBundle`; consume
+[ContactGeometry CG1](../ContactGeometry/README.md#cg1--contact-distributions-contact-line-and-cooriented-forms)'s contact-form predicate. Tau Ceti proves that the boundary form
 `α_b=−λ_can|S*Q` is contact, where `ι_Zω_can=−λ_can` for the outward radial
-Liouville field. Its negative `α_g=+λ_can|S*Q` defines the opposite coorientation
-and has the forward unit cogeodesic Reeb flow; `R_(α_b)=−R_(α_g)`. Prove these
-flow identifications using the kinetic Hamiltonian and its derivative.
-Positive radial identification between two metrics pulls each of these forms
+Liouville field (`TauCeti.CotangentBundle.isContactForm_mpullback_neg_liouvilleForm_cosphereBundle`),
+and that its negative `α_g=+λ_can|S*Q`, which defines the opposite coorientation, is contact
+(`TauCeti.CotangentBundle.isContactForm_mpullback_liouvilleForm_cosphereBundle`). The Reeb field
+of α_g is the Hamiltonian field of the kinetic energy and its flow is the forward unit
+cogeodesic flow (`TauCeti.CotangentBundle.mfderiv_coe_reebVectorField_cosphereBundle`,
+`TauCeti.CotangentBundle.coe_flowOf_reebVectorField_cosphereBundle`), and `R_(α_b)=−R_(α_g)`
+(`TauCeti.CotangentBundle.mfderiv_coe_reebVectorField_neg_cosphereBundle`).
+The positive radial identification `Diffeomorph.cosphereRadial` between the cosphere bundles of
+two metrics pulls each of these forms
 back to a positive multiple of the corresponding form, preserving its contact
-hyperplanes and coorientation. [ContactGeometry CG4](../ContactGeometry/README.md#cg4--symplectization-and-contactization)
+hyperplanes and coorientation
+(`Diffeomorph.kerDistribution_mpullback_cosphereRadial_liouvilleForm`,
+`Diffeomorph.pos_mpullback_cosphereRadial_liouvilleForm_iff`,
+`Diffeomorph.pos_mpullback_cosphereRadial_neg_liouvilleForm_iff`). Consume these. [ContactGeometry CG4](../ContactGeometry/README.md#cg4--symplectization-and-contactization)
 and [CG5](../ContactGeometry/README.md#cg5--isotropic-and-legendrian-neighborhoods) consume this application.
 
 ## C3. Correspondences and generating functions
 
-A correspondence L:M⇝N is a Lagrangian embedding into M×N¯, with form ω_M−ω_N. Define transpose, diagonal, product
-and composition. Prove composition L₁₂×_(M₂) L₂₃→M₁×M¯₃ is Lagrangian under transverse fiber-product
+A correspondence L:M⇝N is a Lagrangian embedding into M×N¯, with form ω_M−ω_N
+(`TauCeti.SmoothTwoForm.twistedProd`). Tau Ceti proves that the transpose and the product of
+correspondences are correspondences
+(`TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianEmbedding.swap_comp`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.IsLagrangianEmbedding.prodProdProdComm_comp_prodMap`)
+and that the diagonal is one
+(`TauCeti.SmoothTwoForm.IsNondegenerate.isLagrangianEmbedding_diagonal`); consume these. Define
+composition. Prove composition L₁₂×_(M₂) L₂₃→M₁×M¯₃ is Lagrangian under transverse fiber-product
 and embedding hypotheses. For clean intersections specify the excess tangent kernel and reduction by
 it; only assert embedded composition when the quotient is a smooth manifold and its projected map is
 an embedding. Associativity is proved when all intermediate products/quotients satisfy these hypotheses.
@@ -253,23 +335,69 @@ For S:Q×Q'→R, graph dS in T*(Q×Q') is exact Lagrangian. After reversing the 
 `p=d_qS, P=−d_QS`. For equal base dimensions the nondegenerate mixed Hessian at a point supplies
 local diffeomorphic projections by the implicit function theorem, hence a local symplectomorphism.
 Pin source/target open sets, uniqueness of the chosen branch and the exact primitive
-λ_source−φ*λ_target=d(S restricted to that branch). For the other three charts work in open subsets of finite-dimensional vector spaces, with
-q,Q positions and p,P covectors: F₂(q,P)=S+⟨P,Q⟩ gives p=∂qF₂, Q=∂PF₂;
-F₃(p,Q)=S−⟨p,q⟩ gives q=−∂pF₃, P=−∂QF₃;
-F₄(p,P)=S−⟨p,q⟩+⟨P,Q⟩ gives q=−∂pF₄, Q=∂PF₄.
-Build partial Legendre transforms with their nondegenerate projection/Hessian conditions and prove
-these transition identities. The intrinsic mixed Hessian of S at (q,Q) is d_q(d_QS), a bilinear
-map T_qQ×T_QQ′→R; define it through the product derivatives and prove coordinate independence. Treat families S(q,Q,a) with ∂_aS=0: when the fiber derivative ∂aS is transverse to the zero section,
-the critical set defines an immersed Lagrangian; embeddedness is an additional hypothesis. Composition uses S₁₃=S₁₂+S₂₃ evaluated at a solution of ∂_(q₂)(S₁₂+S₂₃)=0,
-with nondegenerate q₂-Hessian giving the unique local elimination branch.
+λ_source−φ*λ_target=d(S restricted to that branch).
 
-Acceptance: S(q,Q)=−‖q−Q‖²/(2t), t≠0, generates `(q,p)↦(q+tp,p)` on Euclidean cotangent space.
+On real normed spaces V and W, complete where the inverse function theorem is used, Tau Ceti
+proves this local theory for a function S on V×W that is C² at a point x₀; consume it. All
+names are in the namespace `TauCeti`.
+
+- The two projections of the relation, `(q,Q)↦(q,∂_qS)` and `(q,Q)↦(Q,−∂_QS)`, are
+  `TauCeti.cotangentGeneratingSource` and `TauCeti.cotangentGeneratingTarget`. The mixed
+  Hessian `TauCeti.cotangentMixedHessian` is invertible exactly when the derivative of the
+  source projection is (`TauCeti.isInvertible_fderiv_cotangentGeneratingSource_iff`).
+- With invertible mixed Hessian at x₀, the local inverse of the source projection is
+  `TauCeti.cotangentGeneratingBranch` and the generated map is `TauCeti.cotangentGeneratedMap`.
+  Near the source point its derivative preserves ω
+  (`TauCeti.eventually_strongDualCotangentSymplecticForm_fderiv_cotangentGeneratedMap`), it
+  satisfies λ−φ*λ=d(S∘branch)
+  (`TauCeti.eventually_cotangentLiouvilleForm_sub_cotangentGeneratedMap`), and in finite
+  dimension its derivative is invertible
+  (`TauCeti.eventually_isInvertible_fderiv_cotangentGeneratedMap`). These statements are about
+  germs at the source point: the branch and the generated map carry no meaning away from it.
+- The other three charts, with q,Q positions and p,P covectors: F₂(q,P)=S+⟨P,Q⟩ gives p=∂qF₂,
+  Q=∂PF₂ (`TauCeti.cotangentPartialLegendre` on `TauCeti.cotangentLegendreChart`, with
+  `TauCeti.eventually_fderiv_cotangentPartialLegendre`); F₃(p,Q)=S−⟨p,q⟩ gives q=−∂pF₃,
+  P=−∂QF₃ (`TauCeti.cotangentThirdKindLegendre`,
+  `TauCeti.eventually_fderiv_cotangentThirdKindLegendre`); F₄(p,P)=S−⟨p,q⟩+⟨P,Q⟩ gives
+  q=−∂pF₄, Q=∂PF₄ (`TauCeti.cotangentFourthKind`,
+  `TauCeti.eventually_fderiv_cotangentFourthKind`). Each chart has its own invertible-Hessian
+  hypothesis (`TauCeti.cotangentLegendreHessian`, `TauCeti.cotangentSourceHessian`,
+  `TauCeti.cotangentMomentumHessian`).
+- Composition: S₁₃=S₁₂+S₂₃ evaluated at a solution of ∂_(q₂)(S₁₂+S₂₃)=0, with invertible
+  q₂-Hessian giving the unique local elimination branch
+  (`TauCeti.exists_cotangentGeneratingComposition`).
+- Families S(q,a) with ∂_aS=0, in finite dimension: when the fiber derivative ∂_aS is transverse
+  to zero along the critical set, that set is a manifold of the dimension of V and
+  `(q,a)↦(q,∂_qS)` is a Lagrangian immersion of it
+  (`TauCeti.isLagrangianImmersion_cotangentGeneratingSource_comp_coe`); embeddedness is an
+  additional hypothesis.
+- On a product of manifolds, the intrinsic mixed Hessian of S at (q,Q), the bilinear map
+  d_Q(d_qS) on T_QQ′×T_qQ, is `TauCeti.mixedHessian`. It is computed in any pair of charts of
+  the C² atlases by the linear mixed Hessian of the coordinate expression
+  (`TauCeti.mixedHessian_apply_eq_of_mem_maximalAtlas`), its invertibility is chart independent
+  (`TauCeti.isInvertible_mixedHessian_iff_of_mem_maximalAtlas`), and exchanging the factors
+  transposes it (`TauCeti.mixedHessian_comp_swap_apply`).
+
+The targets of this roadmap are the statements on manifolds: for S on an open subset of Q×Q′
+with invertible `TauCeti.mixedHessian` at a point, construct open sets of T*Q and T*Q′ and a
+symplectomorphism between them whose graph is the relation `p=d_qS, P=−d_QS` near that point,
+with the uniqueness of the branch and the exact primitive above, by applying the normed-space
+statements in cotangent charts and the chart independence of the mixed Hessian. Prove the
+manifold forms of the composition and family statements in the same way, a family being a
+function S(q,Q,a) on Q×Q′×A.
+
+Acceptance: S(q,Q)=−‖q−Q‖²/(2t), t≠0, generates `(q,p)↦(q+tp,p)` on Euclidean cotangent space
+(`TauCeti.cotangentGeneratedMap_freeParticleGeneratingFunction_eventuallyEq`, on a real Hilbert
+space, with p identified with a vector by the Riesz isomorphism).
 This is the time-t flow of H=‖p‖²/2. F₂(q,P)=⟨q,P⟩+t‖P‖²/2 generates it for every t,
 including the identity at zero. For the oscillator use
 S_t(q,Q)=(2qQ−(q²+Q²)cos t)/(2sin t), t∉πZ; its transformation is
-(q,p)↦(q cos t+p sin t,−q sin t+p cos t). Its type-one projection fails at t∈πZ
-although the flow remains smooth. The cotangent relation of R→R/(2πZ) illustrates local
-invertibility without a global inverse.
+(q,p)↦(q cos t+p sin t,−q sin t+p cos t)
+(`TauCeti.cotangentGeneratedMap_oscillatorGeneratingFunction_eventuallyEq`). Its type-one
+projection fails exactly at t∈πZ (`TauCeti.not_isInvertible_oscillatorPositionProjection_iff`)
+although the flow remains smooth. Consume these three; the F₂ statement and the cotangent
+relation of R→R/(2πZ), which illustrates local invertibility without a global inverse, are
+checked here.
 
 ### C3.1. Discrete action, iterates and convex billiards
 
@@ -400,7 +528,9 @@ lemma and prove its submanifold-fixing refinement from these relative primitives
 
 Prove relative Moser on the same ambient M: if two closed symplectic forms agree as bilinear forms on **all ambient tangent
 fibers along a compact embedded Q**, there are neighborhoods and a diffeomorphism fixing Q pointwise
-which pulls one form back to the other (Cannas da Silva, Thm. 7.4, p. 45). The relative Poincaré primitive vanishes on Q; the affine
+which pulls one form back to the other (`exists_diffeomorph_opens_of_eq_along`; Cannas da Silva, Thm. 7.4, p. 45). Here and below a
+symplectomorphism of neighborhoods is a diffeomorphism between open subsets whose pullback of
+one restricted form is the other. The relative Poincaré primitive vanishes on Q; the affine
 interpolation is symplectic on a uniform neighborhood of Q, and the time-dependent flow stays there
 after shrinking. State the symplectic-path hypothesis explicitly in every global comparison theorem; equality of
 endpoint cohomology classes alone does not imply such a path.
@@ -420,8 +550,9 @@ the pulled-back forms on TQ.
 For an arbitrary embedded submanifold Q and p∈Q, prove the point-germ relative
 Darboux theorem: two symplectic forms on an ambient manifold of the same
 dimension with equal pullbacks to Q have symplectomorphic germs at p by a map
-fixing Q as a germ (for Q a point this is Darboux, Cannas da Silva, Thm. 8.1, p. 46, proved
-from Thm. 7.4). The restricted two-form may have varying rank. First extend
+fixing Q as a germ (`exists_diffeomorph_opens_of_mpullback_eq`, in which Q need not be
+compact and the map fixes the points of Q near p; for Q a point this is Darboux, Cannas da
+Silva, Thm. 8.1, p. 46, proved from Thm. 7.4). The restricted two-form may have varying rank. First extend
 the identity of T_pQ to an ambient symplectic linear isomorphism by Tau Ceti's symplectic Witt
 extension `TauCeti.SymplecticForm.exists_isSymplectomorphism_extend_linearEquiv`: for
 finite-dimensional symplectic vector spaces of equal dimension, a linear isomorphism between
@@ -482,14 +613,18 @@ submanifolds extends to a symplectomorphism of neighborhood germs. Construct a s
 from SmoothBundlesConnections B2–B4 by preserving the fiber form. Build its model closed form,
 nondegenerate on a neighborhood of the zero section, and show the germ is independent of connection. For a compact Lagrangian Q,
 identify the normal quotient with T*Q by `[n]↦ω(·,n)|TQ` (Cannas da Silva, Thm. 9.1, p. 51) and prove Weinstein's neighborhood theorem with zero-section
-restriction fixed (Cannas da Silva, Thm. 9.3, p. 51; Weinstein 1971). Distinguish pullback agreement on TQ from agreement on the ambient tangent bundle;
+restriction fixed (`exists_diffeomorph_opens_cotangent_of_isLagrangianEmbedding`: a neighborhood
+of Q is symplectomorphic to a neighborhood of the zero section of T*Q with the canonical form,
+each point of Q going to its zero covector; Cannas da Silva, Thm. 9.3, p. 51; Weinstein 1971). Distinguish pullback agreement on TQ from agreement on the ambient tangent bundle;
 the linear extension/tubular realization is the step connecting them.
 
 For an abstract compact presymplectic Q with closed constant-rank σ, build its kernel smooth
 distribution, prove involutivity with the closed-form formula and construct its characteristic
 foliation using DifferentialGeometry Layer 4. Construct the coisotropic embedding model near the
 zero section of (ker σ)* and prove nondegeneracy there. Prove uniqueness: two coisotropic embeddings
-inducing the same σ have symplectomorphic neighborhood germs relative to Q (Cannas da Silva,
+inducing the same σ have symplectomorphic neighborhood germs relative to Q
+(`exists_diffeomorph_opens_of_isCoisotropicMap`, for smooth embeddings i:Q→M and j:Q→N with
+coisotropic tangent images and i*ω_M=j*ω_N; Cannas da Silva,
 Thm. 8.6, p. 49, for two forms on one ambient manifold). For already embedded
 coisotropics the kernel rank equals codimension automatically. This is
 consumed by regular reduction/DH, with compactness only for uniform neighborhoods, not for fiberwise
