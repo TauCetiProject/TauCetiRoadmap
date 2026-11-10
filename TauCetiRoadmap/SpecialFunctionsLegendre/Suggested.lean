@@ -20,8 +20,9 @@ order, then argument; principal powers, with `(z² − 1)^{μ/2}` written as
 `(z − 1)^{μ/2} (z + 1)^{μ/2}`; reciprocal Gamma factors; the doubly cut plane
 `D = {1 − z ∈ slitPlane ∧ 1 + z ∈ slitPlane}` for the Ferrers functions and
 `U = {z − 1 ∈ slitPlane}` for the associated Legendre functions; and `𝖰^μ_ν` by the even–odd form
-14.3.12 rather than by 14.3.2. The convergents of the continued fraction of 6.2 are written out by
-a recursion (`contFracFrom`). Theorems are stated with `sorry`.
+14.3.12 rather than by 14.3.2. The continued fraction of 6.2 is a `GenContFract` (`contFrac`,
+copying SpecialFunctionsEiLiErfIncompleteGamma), whose convergents are ratios of continuants, frozen
+at the first zero partial numerator (`cfIndex`). Theorems are stated with `sorry`.
 -/
 
 @[expose] public section
@@ -118,11 +119,19 @@ for the statements, not a new definition of `README.md`. -/
 abbrev legP (n : ℕ) (z : ℂ) : ℂ :=
   ((Polynomial.shiftedLegendre n).map (Int.castRingHom ℂ)).eval ((1 - z) / 2)
 
-/-- The convergent `a_k/(b_k + a_{k+1}/(b_{k+1} + ⋯ + a_{k+n}/b_{k+n}))` of a continued
-fraction. -/
-def contFracFrom (a b : ℕ → ℂ) : ℕ → ℕ → ℂ
-  | 0, k => a k / b k
-  | n + 1, k => a k / (b k + contFracFrom a b n (k + 1))
+/-- The continued fraction `a₁/(b₁ + a₂/(b₂ + ⋯))`, a `GenContFract` with head `0` (local copy of
+SpecialFunctionsEiLiErfIncompleteGamma's `contFrac`). Its convergents `GenContFract.convs` are
+ratios of the continuants `GenContFract.nums`, `GenContFract.dens`, so no intermediate division
+occurs. -/
+def contFrac (a b : ℕ → ℂ) : GenContFract ℂ :=
+  ⟨0, Stream'.Seq.ofStream fun n => ⟨a (n + 1), b (n + 1)⟩⟩
+
+open scoped Classical in
+/-- The index of the convergent read at step `n` when the fraction may terminate: if `a N = 0` for
+some `N ≥ 1`, the fraction ends before its `N`-th partial quotient, and every convergent from the
+`(N − 1)`-th on is `GenContFract.convs (N − 1)`. -/
+def cfIndex (a : ℕ → ℂ) (n : ℕ) : ℕ :=
+  if h : ∃ N, 1 ≤ N ∧ a N = 0 then min n (Nat.find h - 1) else n
 
 /-! ### Layer 1: definitions, the equations and analytic properties -/
 
@@ -189,9 +198,11 @@ theorem ferrersP_zero (ν μ : ℂ) :
     ferrersP ν μ 0 = 2 ^ μ * (Real.sqrt π : ℂ) * (Gamma (ν / 2 - μ / 2 + 1))⁻¹ *
       (Gamma (1 / 2 - ν / 2 - μ / 2))⁻¹ := sorry
 
-/-- **3.2** DLMF 14.3.11 on `D`, for all `ν, μ`. -/
-theorem ferrersP_eq_ferrersW (ν μ : ℂ) {z : ℂ} (hz₁ : 1 - z ∈ slitPlane)
-    (hz₂ : 1 + z ∈ slitPlane) :
+/-- **3.2** DLMF 14.3.11 on `D`, for `ν + μ ∉ {−1, −2, …}`, where the numerator Gamma factors of
+`w₁` and `w₂` are finite. At `(ν, μ, z) = (−1, 0, 0)` both `w₁` and `w₂` are `0` while
+`𝖯_{−1}(0) = 1`. -/
+theorem ferrersP_eq_ferrersW {ν μ : ℂ} (hνμ : ∀ n : ℕ, ν + μ ≠ -(n + 1)) {z : ℂ}
+    (hz₁ : 1 - z ∈ slitPlane) (hz₂ : 1 + z ∈ slitPlane) :
     ferrersP ν μ z = cos ((ν + μ) * π / 2) * ferrersW₁ ν μ z +
       sin ((ν + μ) * π / 2) * ferrersW₂ ν μ z := sorry
 
@@ -277,16 +288,20 @@ theorem tendsto_olverLegendreQ_cut {ν μ : ℂ} (hνμ : ∀ n : ℕ, ν + μ �
 
 /-! ### Layer 6: continued fractions -/
 
-/-- **6.2** DLMF 14.14.1 as corrected, with `x_k`, `y_k` of 14.14.2: for `x > 1` and real `ν, μ`
-with `x_{k+1}`, `y_k` never both zero and `P^{1−μ}_ν(x) ≠ 0`. -/
+/-- **6.2** DLMF 14.14.1 as corrected, with `x_k`, `y_k` of 14.14.2 as the `k + 1`-st partial
+numerator and denominator: for `x > 1` and real `ν, μ` with `x_{k+1}`, `y_k` never both zero and
+`P^{1−μ}_ν(x) ≠ 0`, the fraction converges in the sense of SpecialFunctionsEiLiErfIncompleteGamma
+(eventually nonzero denominators), terminating at the first zero `x_k`. -/
 theorem associatedLegendreP_continuedFraction {ν μ x : ℝ} (hx : 1 < x)
     (hxy : ∀ k : ℕ, (ν - μ - k) * (ν + μ + k + 1) ≠ 0 ∨ μ + k ≠ 0)
     (hP : associatedLegendreP ν (1 - μ) x ≠ 0) :
-    Tendsto (fun N => contFracFrom
-        (fun k => ((1 / 4 * (ν - μ - k + 1) * (ν + μ + k) * (x ^ 2 - 1) : ℝ) : ℂ))
-        (fun k => (((μ + k) * x : ℝ) : ℂ)) N 0) atTop
-      (𝓝 ((1 / 2 * Real.sqrt (x ^ 2 - 1) * (ν + μ) * (ν - μ + 1) : ℝ) *
-        associatedLegendreP ν (-μ) x / associatedLegendreP ν (1 - μ) x)) := sorry
+    let a : ℕ → ℂ := fun n =>
+      ((1 / 4 * (ν - μ - (n - 1 : ℕ) + 1) * (ν + μ + (n - 1 : ℕ)) * (x ^ 2 - 1) : ℝ) : ℂ)
+    let b : ℕ → ℂ := fun n => (((μ + (n - 1 : ℕ)) * x : ℝ) : ℂ)
+    (∀ᶠ n in atTop, (contFrac a b).dens (cfIndex a n) ≠ 0) ∧
+      Tendsto (fun n => (contFrac a b).convs (cfIndex a n)) atTop
+        (𝓝 ((1 / 2 * Real.sqrt (x ^ 2 - 1) * (ν + μ) * (ν - μ + 1) : ℝ) *
+          associatedLegendreP ν (-μ) x / associatedLegendreP ν (1 - μ) x)) := sorry
 
 /-! ### Layer 7: integral representations and integrals -/
 

@@ -110,7 +110,7 @@ Tau Ceti provides:
 | The branch identities behind the definitions: `((1 + z)/(1 − z))^{μ/2}` and `(1 − z²)^{−μ/2}` are holomorphic on the doubly cut plane, `((z + 1)/(z − 1))^{μ/2}`, `(z − 1)^{μ/2} (z + 1)^{μ/2}` and `z^{ν+μ+1}` on `ℂ \ (−∞, 1]`, and each is the principal value on the real interval | 1.1 |
 | Sturm's separation and comparison theorems for `((1 − x²) y′)′ + q(x) y = 0` on an open interval, and the continuity of the zeros of a solution in its parameters | 9.1 |
 | Adams's linearization of `Pₘ Pₙ` in Legendre polynomials | 7.4 |
-| The Abelian estimate `∫₀¹ x^σ (1 − x)^μ g(x) dx ∼ Γ(μ + 1) g(1) σ^{−μ−1}` as `σ → +∞`, for `Re μ > −1` and `g` continuous at `1` and integrable | 7.3 |
+| The Abelian estimate: for `Re μ > −1` and `g` integrable on `(0, 1)` and continuous at `1`, the integral `I(σ) = ∫₀¹ x^σ (1 − x)^μ g(x) dx` exists for `σ ≥ 0` and `σ^{μ+1} I(σ) → Γ(μ + 1) g(1)` as `σ → +∞` (so `I(σ) ∼ Γ(μ + 1) g(1) σ^{−μ−1}` when `g(1) ≠ 0`) | 7.3 |
 | The `L²` density of the polynomials restricted to `S²`, through Stone–Weierstrass | 11.3 |
 
 **What it does not own:**
@@ -226,18 +226,21 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
   convergence, for 8.1.
 - Layer 5: the Euler and Pfaff transformations 15.8.1 and the jump across the cut 15.2.3 (5.1),
   the logarithmic limiting cases 15.8.8–15.8.12 (5.2) and the connection formulas
-  15.10.11–15.10.36 (5.3–5.4), for 1.2, 1.4 and Layers 3–5.
+  15.10.11–15.10.36 (5.3–5.4), for 1.2, 1.4 and Layers 3–6.
 - 6.1: Euler's integral 15.6.1, for 7.1–7.2.
 - Layer 7: the quadratic transformations 15.8.13–15.8.30 and the values 15.4.26–15.4.30, for
-  Layer 3.
+  Layers 3 and 6.
 - 9.1: 15.9.7, `shiftedLegendre_eval_eq_ordinaryHypergeometric`, for 4.3.
 
 ### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
 
-- 4.1: Pincherle's theorem, as stated there: a continued fraction converges if and only if its
-  three-term recurrence has a minimal solution `f` with `f(0) ≠ 0`, and its value is `−f(1)/f(0)`
-  in that roadmap's normalization. 6.2 applies it to 14.10.6 in the order and to 14.10.3 in the
-  degree.
+- Its Conventions and 4.1: the continued fraction `contFrac a b`, a `GenContFract ℂ` with head
+  `0`, and its convergence (eventually nonzero `GenContFract.dens` and convergence of
+  `GenContFract.convs`); Pincherle's theorem, as stated there: a continued fraction converges if
+  and only if its three-term recurrence has a minimal solution `f` with `f(0) ≠ 0`, and its value
+  is `−f(1)/f(0)` in that roadmap's normalization; the reduction-of-order criterion for minimality;
+  and termination at a zero partial numerator. 6.2 applies it to 14.10.6 in the order and to
+  14.10.3 in the degree.
 
 ### From Tau Ceti
 
@@ -266,7 +269,9 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
   convergence, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `Asymptotics.IsEquivalent`,
   `Asymptotics.IsBigO`, `HasSum`, `fourierBasis`, `ContinuousMap.toLp_denseRange`,
   `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints` (Stone–Weierstrass),
-  `HilbertBasis`, `Laplacian.laplacian` (`Δ`, from `InnerProductSpace.instLaplacian`).
+  `HilbertBasis`, `Laplacian.laplacian` (`Δ`, from `InnerProductSpace.instLaplacian`), and
+  Tannery's theorem `tendsto_tsum_of_dominated_convergence`.
+- **Continued fractions.** `GenContFract`, `GenContFract.convs`, `GenContFract.dens`.
 
 ## How to read the build
 
@@ -436,11 +441,14 @@ Layer 1; SpecialFunctionsHypergeometric Layer 2.
 ### 3.2 The even–odd representation and 14.3.2
 
 - 14.3.11 (`ferrersP_eq_ferrersW`): `𝖯^μ_ν = cos(½(ν + μ)π) w₁ + sin(½(ν + μ)π) w₂` on `D`, for
-  all `ν, μ`. Both sides solve 14.21.1 on `D` (1.3); `w₁` is even and `w₂` odd, and `w₁(0)`,
+  `ν + μ ∉ {−1, −2, …}`, where the numerator factors `Γ(½(ν + μ + 1))` of `w₁` and `Γ(½(ν + μ) + 1)`
+  of `w₂` are finite. Both sides solve 14.21.1 on `D` (1.3); `w₁` is even and `w₂` odd, and `w₁(0)`,
   `w₂′(0)` are read off from 14.3.13–14.3.14. Comparing the values and derivatives at `0` with 3.1,
-  through the reflection and duplication formulas of `Γ`, gives the coefficients. The span
-  criterion of 1.3 then proves the identity where `𝒲{w₁, w₂} ≠ 0`, and holomorphy in the
-  parameters extends it to all parameters.
+  through the reflection and duplication formulas of `Γ`, gives the coefficients. The span criterion
+  of 1.3 then proves the identity where `𝒲{w₁, w₂} ≠ 0`, and holomorphy in the parameters extends it
+  to all `ν + μ ∉ {−1, −2, …}`. At those excluded points the Lean values of `w₁`, `w₂` are Mathlib's
+  junk `Γ = 0`, and the identity fails: at `(ν, μ, z) = (−1, 0, 0)` both are `0` while
+  `𝖯_{−1}(0) = 1` (3.1).
 - 14.3.2 (`ferrersQ_eq_div_sin`) for `μ ∉ ℤ` and `ν + μ ∉ {−1, −2, …}`, from 14.3.11 and 14.3.12
   and the same expansion of `𝖯^{−μ}_ν`; at `μ ∈ ℤ` DLMF's limit is `ferrersQ`, by holomorphy in
   `μ` (1.2).
@@ -570,12 +578,22 @@ Layers 1–3; SpecialFunctionsHypergeometric Layers 4–5, 9; Tau Ceti elliptic 
   are defined, and 14.2.7–14.2.11 on `U` (§14.21(iii)) (`wronskian_ferrersP_ferrersQ`). Each is
   1.3 with the constant computed from Layer 4 at a singular point, or from 3.1 at `x = 0`;
   14.2.5 and 14.2.11 are 14.2.4 and 14.2.10 combined with 14.10.4–14.10.5.
-- The statements of §14.2(iii): `𝖯^{−μ}_ν(x)`, `𝖯^{−μ}_ν(−x)` are linearly independent exactly
-  when `μ − ν ∉ {0, −1, −2, …}` and `μ + ν ∉ {−1, −2, …}` (by 14.2.3); for `Re μ ≥ 0` the first is
-  recessive at `1` and the second at `−1`, meaning that its ratio to any independent solution
-  tends to `0`; for `Re μ ≥ 0` and `Re ν ≥ −½`, `P^{−μ}_ν` and `𝑸^μ_ν` are independent and
-  recessive at `1` and `∞` respectively, on `(1, ∞)` and on `{z ∈ U | Re z ≥ 0}` (§14.21(ii)),
-  and `P^{−μ}_ν(−x)`, `𝑸^μ_ν(−x)` likewise on `(−∞, −1)`.
+- The statements of §14.2(iii) and §14.21(ii). A solution is *recessive* at an endpoint when its
+  ratio to every independent solution tends to `0` there; this is stronger than DLMF's
+  "numerically satisfactory".
+  - `𝖯^{−μ}_ν(x)`, `𝖯^{−μ}_ν(−x)` are linearly independent exactly when `μ − ν ∉ {0, −1, −2, …}`
+    and `μ + ν ∉ {−1, −2, …}` (by 14.2.3). For `Re μ > 0`, and for `μ = 0`, the first is recessive
+    at `1` and the second at `−1`: for `Re μ > 0` the exponents `∓μ/2` at `1` have different
+    real parts, and at the repeated exponent `μ = 0` every independent solution has the
+    logarithmic term of `𝖰_ν` (4.4). For `Re μ = 0`, `μ ≠ 0`, the exponents have equal real parts,
+    no solution is recessive at `±1`, and the statement is the independence alone: at `ν = 0`,
+    `μ = i`, `𝖯^{∓i}_0(x) = R^{∓i/2}/Γ(1 ± i)` with `R = (1 + x)/(1 − x)`, and their ratio has
+    modulus `1` on `(−1, 1)`.
+  - For `Re μ ≥ 0` and `Re ν ≥ −½`, `P^{−μ}_ν` and `𝑸^μ_ν` are independent on `(1, ∞)` and on
+    `{z ∈ U | Re z ≥ 0}`. `P^{−μ}_ν` is recessive at `1` when `Re μ > 0` or `μ = 0`, and `𝑸^μ_ν` at
+    `∞` when `Re ν > −½` or `ν = −½` (the repeated exponent, where `P^{−μ}_ν` carries a logarithm,
+    4.4); on the boundaries `Re μ = 0`, `μ ≠ 0` at `1` and `Re ν = −½`, `ν ≠ −½` at `∞`, the
+    statement is the independence alone. `P^{−μ}_ν(−x)`, `𝑸^μ_ν(−x)` likewise on `(−∞, −1)`.
 
 ### 5.2 Connection formulas
 
@@ -647,21 +665,43 @@ series at `μ = 0`, with the series of `𝖰_ν` of Hobson (1931, §132); 14.11.
 ½ (x² − 1)^{1/2} (ν + μ)(ν − μ + 1) P^{−μ}_ν(x) / P^{1−μ}_ν(x) = x₀/(y₀ + x₁/(y₁ + x₂/(y₂ + ⋯)))
 ```
 
-  with `x_k`, `y_k` of 14.14.2 (`associatedLegendreP_continuedFraction`). At
-  `(ν, μ, x) = (0.3, 0.4, 1.5)` the fraction is `0.34516 11876 28…`, which is this left side,
-  while DLMF's printed left side `½ (x² − 1)^{1/2} P^μ_ν(x)/P^{μ−1}_ν(x)` is
-  `0.81272 07082 69…`. The fraction is that of the recurrence 14.10.6 in the order, whose minimal
-  solution as the order increases is `k ↦ P^{−μ−k}_ν(x)` (4.4 and 14.3.9 give its decay like
-  `((x − 1)/(x + 1))^{k/2}/Γ(μ + k + 1)`), and Pincherle's theorem gives the ratio.
+  with `x_k`, `y_k` of 14.14.2 (`associatedLegendreP_continuedFraction`). The fraction is the
+  supplier's `contFrac` (a `GenContFract ℂ` with head `0` and `k + 1`-st partial quotient
+  `x_k/y_k`), and it converges in the supplier's sense: eventually nonzero denominators and
+  convergence of `GenContFract.convs`, which are ratios of continuants. If some `x_k = 0`, the
+  fraction terminates there and its value is the convergent before it; nested division, with Lean's
+  `a/0 = 0` at an intermediate zero, would give a different value. At `(ν, μ, x) = (5/8, −11/8, 2)`,
+  `x₃ = 0`, `P^{11/8}_{5/8}(2) = 0` and the third convergent is `0` with denominator `15/32`, while
+  nested division gives `27/44`. At `(ν, μ, x) = (0.3, 0.4, 1.5)` the fraction is
+  `0.34516 11876 28…`, which is this left side, while DLMF's printed left side
+  `½ (x² − 1)^{1/2} P^μ_ν(x)/P^{μ−1}_ν(x)` is `0.81272 07082 69…`. The fraction is that of the
+  recurrence 14.10.6 in the order, whose minimal solution as the order increases is
+  `k ↦ P^{−μ−k}_ν(x)`, and Pincherle's theorem gives the ratio. Minimality rests on the large-order
+  estimate, at fixed `x > 1`, `Γ(μ + k + 1) ((x + 1)/(x − 1))^{(μ+k)/2} P^{−μ−k}_ν(x) → 1` as
+  `k → ∞`. It follows from 14.3.9 and the Pfaff transformation 15.8.1, which write `P^{−μ−k}_ν(x)`
+  as `((x − 1)/(x + 1))^{(μ+k)/2} ((x + 1)/2)^{−ν−1}` times `𝐅(ν + 1, c + ν; c; (x − 1)/(x + 1))`
+  with `c = μ + k + 1` and argument in `(0, 1)`; `Γ(c)` times this `𝐅` tends to `((x + 1)/2)^{ν+1}`
+  by Tannery's theorem (Mathlib `tendsto_tsum_of_dominated_convergence`). The fixed-parameter limits
+  of 4.4 do not give it. With this estimate the terms `t_m` of the reduction-of-order series of the
+  supplier's 4.1 satisfy `|t_{m+1}/t_m| → ∞`, since `x_m` grows like `m²` and the Gamma factor
+  contributes another `m²`.
 - 14.14.3 for `x > 1`, real `ν, μ` with `ν ≠ μ` and the same proviso, as printed: the recurrence
-  is 14.10.3 for `Q` in the degree, whose minimal solution is `k ↦ Q^μ_{ν+k}(x)` (14.8.15); at
-  `(0.3, 0.4, 1.5)` both sides are `−0.03374 44499 30…`.
+  is 14.10.3 for `Q` in the degree, whose minimal solution is `k ↦ Q^μ_{ν+k}(x)`; at
+  `(0.3, 0.4, 1.5)` both sides are `−0.03374 44499 30…`. Minimality rests on the large-degree
+  estimate, at fixed `x > 1` with `ζ = x − (x² − 1)^{1/2} ∈ (0, 1)`,
+  `Γ(ν + k + 3/2) 𝑸^μ_{ν+k}(x) / (π^{1/2} (1 − ζ²)^{−1/2} ζ^{ν+k+1}) → 1` as `k → ∞`. It follows
+  from `𝑸^μ_ν(x) = π^{1/2} (1 − ζ²)^μ ζ^{ν+1} 𝐅(μ + ½, ν + μ + 1; ν + 3/2; ζ²)`, a quadratic
+  transformation of 14.3.7 (SpecialFunctionsHypergeometric Layer 7), by Tannery's theorem; at
+  `(ν, μ, x) = (0.3, 0.4, 1.5)` both forms give `𝑸^μ_ν(x) = 0.58454 38365 2…`.
 
-*Needs:* Layers 1–5; SpecialFunctionsEiLiErfIncompleteGamma 4.1; Mathlib `Complex.digamma`.
+*Needs:* Layers 1–5; SpecialFunctionsEiLiErfIncompleteGamma 4.1 (`contFrac` and Pincherle's
+theorem); SpecialFunctionsHypergeometric 5.1 (15.8.1) and Layer 7; Mathlib `Complex.digamma`,
+`GenContFract`, `tendsto_tsum_of_dominated_convergence`.
 
 ### Dependencies
 
-Layers 1–5; SpecialFunctionsEiLiErfIncompleteGamma 4.1.
+Layers 1–5; SpecialFunctionsEiLiErfIncompleteGamma 4.1; SpecialFunctionsHypergeometric 5.1 and
+Layer 7.
 
 ## Layer 7: integral representations and integrals
 
@@ -771,12 +811,16 @@ and 14.9.3.
 - Dougall's expansion 14.18.9 for `−1 < x ≤ 1`, `μ ≥ 0`, `ν ∉ ℤ`, as `HasSum` for `−1 < x < 1`
   (`hasSum_ferrersP_dougall`) and as the limit of the partial sums at `x = 1`, where for `μ = 0`
   the series `∑ (−1)ⁿ (2n + 1)/((ν − n)(ν + n + 1))` converges only conditionally: as a
-  function of `ν`, `π 𝖯^{−μ}_ν(x)/sin νπ` has simple poles at the integers with residues
-  `(−1)ⁿ 𝖯^{−μ}_n(x)` at `n` and `−n − 1` (14.9.5), and 14.18.9 is its Mittag-Leffler expansion.
-  The decay needed on the circles `|ν + ½| = N + ½` comes from 14.12.1 (for the order `−μ ≤ 0`),
-  which gives `|𝖯^{−μ}_ν(cos θ)| ≤ C e^{|Im ν| θ}` with `θ < π`, against
-  `|sin νπ| ≥ c e^{π|Im ν|}` on those circles; on the real axis the decay of `𝖯^{−μ}_{N+½}(x)` as
-  `N → ∞` is the Riemann–Lebesgue lemma for 14.12.1;
+  function of `ν`, `F(ν) = π 𝖯^{−μ}_ν(x)/sin νπ` has simple poles at the integers with residues
+  `(−1)ⁿ 𝖯^{−μ}_n(x)` at `n` and `(−1)^{n+1} 𝖯^{−μ}_n(x)` at `−n − 1` (degree symmetry 14.9.5),
+  whose principal parts combine to `(−1)ⁿ (2n + 1) 𝖯^{−μ}_n(x)/((ν − n)(ν + n + 1))`, and 14.18.9
+  is its Mittag-Leffler expansion. Take the circles `C_N = {|ν + ½| = N + 1}`, which meet the real
+  axis at the half-integers `N + ½` and `−N − 3/2` and avoid the poles. With `x = cos θ`,
+  `0 < θ < π`, 14.12.1 (for the order `−μ ≤ 0`) gives `|𝖯^{−μ}_ν(cos θ)| ≤ C e^{|Im ν| θ}` with `C`
+  independent of `ν`, and `|sin νπ| ≥ c e^{π|Im ν|}` on every `C_N` with `c > 0` independent of
+  `N`. So `|F| ≤ (C/c) e^{−(π−θ)|Im ν|}` on `C_N`, and for fixed `ν₀` the integral of
+  `F(ν)/(ν − ν₀)` over `C_N` is at most a constant times
+  `∫₀^{2π} e^{−(π−θ)(N+1)|sin φ|} dφ`, which tends to `0` by dominated convergence;
 - Heine's formula 14.28.2 for `z₁` outside and `z₂` inside two confocal ellipses with foci `±1`,
   `𝓔₂` properly inside `𝓔₁`, with uniform convergence for `z₁` on or outside `𝓔₁` and `z₂` on or
   inside `𝓔₂` (`hasSum_heine`); an ellipse with foci `±1` is a set `{z | |z − 1| + |z + 1| = 2a}`
@@ -811,8 +855,9 @@ DLMF §14.16 for real `ν ≥ −½` and real `μ` (the restriction to `ν ≥ �
 respectively `ν`, is not an integer) and `N₀ = max(⌈ν − |μ|⌉, 0)`. The zeros are counted as the
 cardinality of the zero set in the open interval, which is finite. The statements are DLMF's with
 three corrections:
-- **`𝖯^μ_ν` on `(−1, 1)`** (`ferrersP_zero_count`). It has `N₀` zeros if `μ ≤ 0`; or `μ = m ≥ 1`
-  is an integer and `𝖯^m_ν` is not identically zero; or `ν ∈ ℕ`; or `ν, μ ∉ ℤ`, `μ > 0`, and
+- **`𝖯^μ_ν` on `(−1, 1)`** (`ferrersP_zero_count`), when it is not identically zero there, that
+  is, `𝖯^μ_ν(x) ≠ 0` for some `x ∈ (−1, 1)` (`𝖯¹₀` and `𝖯³₂` vanish identically). It has `N₀`
+  zeros if `μ ≤ 0`; or `μ = m ≥ 1` is an integer; or `ν ∈ ℕ`; or `ν, μ ∉ ℤ`, `μ > 0`, and
   either `n ≥ m` and `δ_ν > δ_μ`, or `n < m` and `m − n` is odd. It has `N₀ + 1` zeros if
   `ν, μ ∉ ℤ`, `μ > 0`, and either `n ≥ m` and `δ_ν ≤ δ_μ` (DLMF prints `n > m`, which omits
   `n = m`), or `n < m` and `m − n` is even. At `(ν, μ) = (¼, ¾)`, `(0.3, 0.3)` and `(1.6, 1.6)`,
@@ -825,8 +870,9 @@ three corrections:
 - **`P^μ_ν` on `(1, ∞)`**, when not identically zero: exactly one zero if `μ > 0`, `μ > ν`,
   `μ ∉ ℤ` and `sin((μ − ν)π)`, `sin μπ` have opposite signs, or if `0 < μ ≤ ν`, `μ ∉ ℤ` and `⌊μ⌋`
   is odd (DLMF's second case omits `μ > 0`; at `(ν, μ) = (0.184, −0.088)`, `P^μ_ν > 0` on
-  `(1, ∞)`); no zeros otherwise. `𝑸^μ_ν` has no zeros on `(1, ∞)` when `ν > −1` and at most one
-  when `ν < −1`.
+  `(1, ∞)`); no zeros otherwise. `𝑸^μ_ν` has no zeros on `(1, ∞)` when `ν > −1`, and at most one
+  when `ν < −1` and `𝑸^μ_ν(x) ≠ 0` for some `x > 1`: at `(ν, μ) = (−3/2, ½)` the factor
+  `𝐅(½, 0; 0; x⁻²)` of 14.3.7 vanishes identically, and so does `𝑸^μ_ν`.
 
 The proof uses 9.1 with the Wronskians 14.2.3–14.2.7 (5.1), the behaviour at `±1` and `∞` (4.4)
 and, for the base counts, the polynomial cases `ν = n`, `μ = −m` (4.3).
