@@ -28,6 +28,7 @@ public import TauCeti.LowDimTopology.DehnSurgery.Cosmetic
 public import TauCeti.LowDimTopology.PrimeDecomposition
 public import TauCeti.LowDimTopology.Heegaard.RankGenus
 public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.Weeks
+public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 
 /-!
 # Geometric topology: target signatures
@@ -282,13 +283,13 @@ theorem virtual_fibering_conjecture : TauCeti.VirtualFiberingConjecture := by
   sorry
 
 /-- Agol's virtual Haken theorem (Agol, *The virtual Haken conjecture*, Doc. Math. 18 (2013),
-Theorem 9.1): a closed connected aspherical `3`-manifold, one whose homotopy groups `π_k` vanish
-for every `k ≥ 2` at every base point, has a finite cover that is a closed Haken `3`-manifold
-(Layer 7.4). Asphericity excludes `S³`, `ℝP³` and `S² × S¹`, none of which is virtually Haken. -/
+Theorem 9.1): a closed aspherical `3`-manifold, path-connected with `π_(n+2)(M, x)` trivial for
+every `n` (`TauCeti.IsAspherical M x`, which does not depend on the base point `x`), has a finite
+cover that is a closed Haken `3`-manifold (Layer 7.4). Asphericity excludes `S³`, `ℝP³` and
+`S² × S¹`, none of which is virtually Haken. -/
 theorem agol_virtually_haken_of_aspherical (M : Type u) [TopologicalSpace M] [T2Space M]
     [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) 0 M] [CompactSpace M]
-    [ConnectedSpace M]
-    (hM : ∀ (k : ℕ) (x : M), 2 ≤ k → Subsingleton (HomotopyGroup (Fin k) M x)) :
+    (x : M) (hM : TauCeti.IsAspherical M x) :
     TauCeti.IsVirtuallyHaken M := by
   sorry
 

@@ -147,8 +147,7 @@ This roadmap owns the following, by layer.
   It also owns irreducibility against primeness (`S¹ × S²` is the only closed orientable prime
   `3`-manifold that is not irreducible) and the free-product decomposition of `π₁` along a prime
   decomposition (Layer 8.2), and the comparison of the pinned geometric torus decomposition with
-  Thurston's formulation through the eight model geometries, with the statement of the Poincaré
-  conjecture in its smooth form (Layer 8.6).
+  Thurston's formulation through the eight model geometries (Layer 8.6).
 - **Layer 9.** The existence, gluing-map description and stabilization of the pinned Heegaard
   splittings, the Reidemeister–Singer theorem, Waldhausen's theorem on splittings of `S³`, the
   genus-zero and genus-one classifications and the additivity of the Heegaard genus under
@@ -283,7 +282,10 @@ This roadmap leaves the following to other roadmaps.
   carriers of the end theorems, and owns their proofs that this roadmap does not: Cerf's
   theorem and Hatcher's proof of the Smale conjecture (from Layers 3.1–3.3), the cyclic
   surgery theorem (from Layers 5.2 and 8, through the Culler–Shalen theory of essential
-  surfaces at ideal points of the character variety), the Gordon–Luecke theorem with its
+  surfaces at ideal points of the character variety), Thurston's hyperbolic Dehn surgery theorem
+  stated in Layer 7.3 (from Layers 5.2 and 7.1–7.3, through the deformation space of the holonomy
+  of the compact core near the complete structure, Thurston, Theorem 5.6 and Lemma 5.8.1, and
+  Mostow–Prasad rigidity), the Gordon–Luecke theorem with its
   corollary on `S³` fillings (from Layers 5 and 8.1), and the JSJ theorem, including its
   compact torus-boundary relative extension stated in Layer 8.5.1 (from Layers 8.1–8.4 and
   11.2). It also owns the developments that consume roadmaps downstream of this one: the torus
@@ -309,17 +311,20 @@ This roadmap leaves the following to other roadmaps.
   10.4 and 10.5 state;
   the constructive hyperbolization of closed Haken manifolds; disc bundles, clutching, plumbing and
   intersection forms; and sphere-target transversality with the Pontryagin–Thom
-  construction. It also owns the proofs of three theorems that Layers 4.8.3 and 5.4.2 state and
+  construction. It also owns the proofs of two theorems that Layers 4.8.3 and 5.4.2 state and
   consume as stated: the necessity half of the classification of lens spaces (by the
   Reidemeister–Franz torsion of 5.4.2's cellular complex of the cyclic cover, on MorseNovikov's
   based cellular torsion, or by the uniqueness up to isotopy of the torus splitting a lens space
-  into two solid tori), the Milnor conjecture `g₄(T(p, q)) = (p − 1)(q − 1)/2` (through `τ`,
-  CombinatorialHeegaardFloer Lane G, item 7) and Kawamura's theorem `u(10₁₃₉) = 4` (through the
-  Seiberg–Witten adjunction inequality). Those developments need AlgebraicTopology,
+  into two solid tori) and Kawamura's theorem `u(10₁₃₉) = 4` (through the Seiberg–Witten
+  adjunction inequality). Those developments need AlgebraicTopology,
   CharacteristicClasses, GeneralizedCohomology, TopologicalKTheory, MorseTheory, MorseNovikov,
   RiemannianGeometry, KhovanovHomology, CombinatorialHeegaardFloer, HeegaardFloer,
   TeichmullerGeometry, TangentialBordism or FourManifolds, every one of which consumes this
   roadmap.
+- **The Milnor conjecture** `u(T(p, q)) = g₄(T(p, q)) = (p − 1)(q − 1)/2` for coprime
+  `p, q ≥ 1`, which 4.8.3 consumes as stated, is CombinatorialHeegaardFloer's: its end goal v1,
+  through Lane G, items 7 (`|τ(K)| ≤ u(K)` and `τ(T(p, q))`) and 10 (`|τ(K)| ≤ g_s(K)`), carried
+  to Layer 4's knots by its Lane K. That roadmap consumes this one, so it is not a supplier here.
 - **The Kirby–Siebenmann theorem** belongs to the TOP/PL comparison of GeometricTopology, Part II:
   a closed topological manifold `M` of dimension at least five has a PL structure exactly when its
   class `ks(M) ∈ H⁴(M; ℤ/2)` vanishes, the PL structures up to concordance then forming a torsor
@@ -943,7 +948,11 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   `TauCeti.IsIncompressible` (embedding and injective on `π₁` at every base point),
   `TauCeti.IsClosedIncompressibleSurfaceEmbedding`, `TauCeti.IsHakenSurfaceEmbedding`,
   `TauCeti.IsPossiblyNonorientableHakenThreeManifold` and its closed variant,
-  `TauCeti.IsVirtuallyHaken`; `TauCeti.Orientable I M` (`Geometry/Manifold/Orientation/Basic.lean`),
+  `TauCeti.IsVirtuallyHaken`; `TauCeti.IsAspherical X x`
+  (`AlgebraicTopology/EilenbergMacLane/Basic.lean`): `X` is path-connected and `π_(n+2)(X, x)` is
+  trivial for every `n`, with `TauCeti.IsAspherical.of_basepoint` moving the base point and
+  `TauCeti.IsAspherical.of_homotopyEquiv` (`EilenbergMacLane/HomotopyEquiv.lean`) transporting it
+  along homotopy equivalences; `TauCeti.Orientable I M` (`Geometry/Manifold/Orientation/Basic.lean`),
   the existence of a manifold orientation, an orientation of the tangent spaces compatible
   with the chart Jacobians, for a model over a finite-dimensional space; it takes no
   smoothness index and needs no `IsManifold` instance. `TauCeti.IsOrientedAtlas I n A`
@@ -2017,8 +2026,9 @@ composition with open embeddings and products, prove:
   for the exterior of a locally flat slice disc or surface; smooth surfaces have the normal
   bundle of Layer 1.5, so the statement serves locally flat ones such as the slice discs of
   Freedman's theorem (Layer 6.4).
-- **Boundary variants.** The pinned predicate is boundaryless: a slice chart carries the image
-  onto the full slice `F × {0}`. Consume its API by name: restriction (`restrict`),
+- **Boundary variants.** The pinned predicate carries the image onto the full slice `F × {0}`;
+  with a Euclidean tangential model `F = ℝⁿ` it is boundaryless. Consume its API by name:
+  restriction (`restrict`),
   locality, invariance under homeomorphisms and open embeddings on either side
   (`homeomorph_comp`, `comp_homeomorph`), change of complementary model (`transHomeomorph`),
   corestriction (`TauCeti.IsLocallyFlat.codRestrict`) and local product neighbourhoods
@@ -2032,10 +2042,11 @@ composition with open embeddings and products, prove:
   three agree on their common domain (a neat embedding of a boundaryless `N` is boundary-disjoint,
   and the two predicates coincide); that each is invariant under the maps of the pinned API and
   is a local property of the domain; that a neat locally flat embedding meets `∂M` transversally
-  in `∂N`, with a half-space slice chart at every boundary point; and that the full-slice
-  predicate holds for no embedding of a manifold with nonempty boundary, by invariance of domain
-  (in dimension one, the punctured image germ of a boundary point has one component while a
-  punctured full slice has two). *Needs:* Mathlib `ModelWithCorners.boundary`, `IsBoundaryPoint`,
+  in `∂N`, with a half-space slice chart at every boundary point; and that with a Euclidean
+  tangential model the predicate holds for no embedding of a manifold with nonempty boundary, by
+  invariance of domain (in dimension one, the punctured image germ of a boundary point has one
+  component while a punctured slice `ℝ × {0}` has two). *Needs:* Mathlib
+  `ModelWithCorners.boundary`, `IsBoundaryPoint`,
   `Topology.IsEmbedding`; Layer 1.1 (the boundary manifold `∂M`).
 - **Smooth, neat and polygonal embeddings.** Consume `TauCeti.IsLocallyFlat.of_isSmoothEmbedding`
   (a `C^n` embedding into a boundaryless manifold, `n ≠ 0`, is locally flat with complementary
@@ -2086,9 +2097,14 @@ composition with open embeddings and products, prove:
 - *Composite of axes.* For the `90°` rotation of the axis `ℝ × {0} ⊂ ℝ²` and `ℝ² × {0} ⊂ ℝ³`, the
   construction gives rotation × identity as slice chart, needing no chart compatibility (by
   evaluation).
-- *Half-line.* `[0, ∞) ⊂ ℝ` is a locally flat embedding of a manifold with boundary only in the
-  half-space model: at `0` the punctured image has one local component, whereas a boundaryless
-  slice `ℝ × {0}` would have two.
+- *Half-line.* The inclusion `[0, ∞) → ℝ` is locally flat for no tangential model `F` and
+  complementary model `F'`, the half-space `EuclideanHalfSpace 1` included. A slice chart at `0`
+  carries `[0, b)` onto an open part of `F × {0}`, so the image of `0` has a box neighbourhood
+  `O × P` with `O ≅ [0, c)`, and the box is homeomorphic to an open subset of `ℝ`. Then `P`
+  embeds in `ℝ` and contains no interval (else the box would contain a disc), so the components
+  of the box are the half-open arcs `O × {p}`, whereas every component of an open subset of `ℝ`
+  is an open interval. A half-space slice chart needs an ambient manifold with boundary, as for
+  the ray in the closed half-plane below.
 - *Horned sphere.* The Alexander horned sphere is a topological embedding of `S²` in `S³` that
   is not locally flat; its exterior is not simply connected, so it is not bicollared.
 - *Neat and not neat.* The inclusion `[0, 1] → [0, 1] × S¹`, `t ↦ (t, 1)`, is neat locally flat
@@ -6101,8 +6117,9 @@ On `𝒯={T(p,q):2≤p<q, gcd(p,q)=1, (p,q)∉{(2,3),(2,5),(3,4)}}`, `u(T(p,q))=
 bound is 4.11's standard unknotting movie, the lower bound the Milnor conjecture
 `g₄(T(p,q))=(p−1)(q−1)/2` with `g₄≤u` (Kronheimer–Mrowka, *Gauge theory for embedded surfaces I*,
 Topology 32 (1993); Rasmussen, *Khovanov homology and the slice genus*, Invent. Math. 182 (2010),
-Corollary 1), consumed as stated; its proof is GeometricTopology, Part II's, through `τ`
-(CombinatorialHeegaardFloer Lane G, item 7). Prove the coordinatewise adjacency T(a,b) ≼ T(p,q) for coprime
+Corollary 1), consumed as stated; its proof is CombinatorialHeegaardFloer's (Lane G, items 7
+and 10, through its Lane K comparison with Layer 4's knots). Prove the coordinatewise adjacency
+T(a,b) ≼ T(p,q) for coprime
 positive a ≤ p, b ≤ q by monotone lifted diagrams and local crossing changes
 ([Feller, Theorems 2–3 and their thickened-torus proof](https://arxiv.org/html/1301.5248v2)).
 With T(3,5) ≼ T(p,q) for p ≥ 3, q ≥ 5 (assuming Hypothesis 4.8.3b) and the two-strand movies for
@@ -6163,7 +6180,7 @@ deficit at least n−4.
 
 *Needs:* Layers 4.2–4.4, 4.7.1, 4.9–4.11 for realized diagrams, sum balls, crossing-change movies,
 Seifert matrices and torus/pretzel models; 6.2's signature bound; the Milnor conjecture and
-Kawamura's theorem consumed as stated, both proved in GeometricTopology, Part II.
+Kawamura's theorem consumed as stated (*Scope and ownership* names their owners).
 
 ### 4.9 Prime decomposition of knots and links
 
@@ -8413,8 +8430,8 @@ Hypothesis 6.4 and Freedman's theorem (6.4), `W_(+,0)(T(2,3))`, of Seifert genus
 - *Torus knots.* `T(2, 5)` has `σ = −4` and genus `2`, so `g_s = 2`; the bound is sharp for the
   two-strand torus knots `T(2, 2k + 1)`, of signature `−2k` and genus `k`. The Milnor
   conjecture, `g_s(T(p, q)) = (p − 1)(q − 1)/2` (`2` for `T(2, 5)`, as above), is consumed as
-  stated in 4.8.3; its proof is GeometricTopology, Part II's, through the `τ` of
-  CombinatorialHeegaardFloer Lane G, and it is not proved here.
+  stated in 4.8.3; its proof is CombinatorialHeegaardFloer's (Lane G, items 7 and 10), and it is
+  not proved here.
 - *Unknot to trefoil.* A genus-one cobordism between the unknot and the trefoil exists (the
   trefoil's genus-one Seifert surface with an open disc removed, pushed into `S³ × [0, 1]`),
   consistent with `|0 − (−2)| ≤ 2`.
@@ -8798,9 +8815,19 @@ end `T² × [0, ∞)` shows that finite volume does not imply compactness.
   an embedded sphere lifts to `ℍ³ ≃ ℝ³` and bounds a ball there by Schoenflies, and distinct
   deck translates of that ball are disjoint by proper discontinuity, so the ball descends;
   the centre is trivial because a finite-covolume lattice is non-elementary.
-- Dehn filling (Layer 5.2) of all but finitely many slopes on a cusp produces hyperbolic
-  manifolds (Thurston's hyperbolic Dehn surgery theorem, Chapter 5), with volumes converging
-  to the volume of the cusped manifold from below.
+- Thurston's hyperbolic Dehn surgery theorem, stated here and proved in GeometricTopology,
+  Part II: let `M` be a connected orientable complete finite-volume hyperbolic `3`-manifold, the
+  interior of a compact `M̄` whose boundary consists of tori `T₁, …, T_k`. There are finite sets
+  `E_i` of slopes on `T_i` such that, for any slopes `s_i ∉ E_i` on some of the `T_i`, the
+  interior of the Dehn filling (Layer 5.2) of `M̄` along them, the other tori left unfilled, is
+  complete finite-volume hyperbolic (Thurston, Theorem 5.8.2, which gives a neighbourhood of
+  `(∞, …, ∞)` in `(S²)ᵏ`; a product neighbourhood inside it omits finitely many slopes on each
+  torus). When at least one torus is filled its volume is strictly smaller than `vol(M)`
+  (Thurston, Theorem 6.5.6), and it tends to `vol(M)` as the filling slopes leave every finite
+  set: the filled manifolds converge to `M` in the geometric topology (the deformations of
+  Theorem 5.8.2 tend to the complete structure; the example closing §5.12), on which volume is
+  continuous (Thurston, §5.11, after the volume inequality 5.11.2a; the ordering of volumes in
+  §6.6 after Corollary 6.6.2).
 
 **Checks.**
 - *Klein-bottle cusp.* The Gieseking manifold, doubly covered by the figure-eight complement,
@@ -8979,8 +9006,9 @@ large; his Theorem 9.1 is the virtual Haken theorem in the aspherical form, of w
 hyperbolic case is the one stated natively. State the aspherical form: a closed connected
 `3`-manifold with `π_k(M) = 0` for all `k ≥ 2` is virtually Haken (Agol, Theorem 9.1).
 `Suggested.lean` states it as `agol_virtually_haken_of_aspherical`, for `M` Hausdorff, charted on
-`ℝ³`, compact and connected, with `HomotopyGroup (Fin k) M x` trivial for every `k ≥ 2` and every
-base point `x`, concluding `TauCeti.IsVirtuallyHaken M`; and the hyperbolic case as
+`ℝ³` and compact, with `TauCeti.IsAspherical M x` at a point `x` (`M` path-connected and
+`π_(n+2)(M, x)` trivial for every `n`; independent of `x` by `TauCeti.IsAspherical.of_basepoint`),
+concluding `TauCeti.IsVirtuallyHaken M`; and the hyperbolic case as
 `virtual_haken_conjecture`, the native `TauCeti.VirtualHakenConjecture`. Prove that the aspherical
 form implies the hyperbolic one: a closed hyperbolic `3`-manifold is aspherical, its universal
 cover being `ℍ³` (the argument of the irreducibility bullet of 7.3), which is contractible.
@@ -9053,7 +9081,7 @@ manifold with finite fundamental group is not virtually fibered.
 *Needs:* Layer 5.2, Layer 7.3; Tau Ceti `TauCeti.IsWeeksManifold`,
 `TauCeti.GabaiMeyerhoffMilleyTheorem`, `TauCeti.VirtualFiberingConjecture`,
 `TauCeti.VirtualHakenConjecture`, `TauCeti.FibersOverCircle`, `TauCeti.IsVirtuallyFibered`,
-`TauCeti.IsVirtuallyHaken`.
+`TauCeti.IsVirtuallyHaken`, `TauCeti.IsAspherical`.
 For the Weeks manifold and the fibering targets also Tau Ceti `TauCeti.whiteheadLink`,
 `TauCeti.whiteheadCurve`, `TauCeti.exists_isWeeksManifold`, `TauCeti.isWeeksManifold_congr`,
 `TauCeti.IsSolidTorusLinkNeighborhood.surgerySlope`, `TauCeti.HyperbolicMetric`,
@@ -9101,8 +9129,8 @@ Dehn's lemma, the loop and sphere theorems, the prime decomposition and Kneser's
 develops Seifert fibred spaces, and states the Gordon–Luecke theorem, the JSJ theorem,
 geometrization and the Poincaré conjecture. Manifolds are smooth; by Layer 11.2 this loses
 nothing in dimension three.
-The Poincaré conjecture is stated in its topological and in its smooth form, and the eight model
-geometries of Thurston's formulation are compared with geometric structures (8.6).
+The Poincaré conjecture is stated in its topological form (its smooth form is Poincare3D's), and
+the eight model geometries of Thurston's formulation are compared with geometric structures (8.6).
 
 ### 8.1 Dehn's lemma, the loop theorem and the sphere theorem
 
@@ -9722,7 +9750,7 @@ covered by a torus bundle over the circle with Anosov monodromy (Scott, Section 
 *Needs:* Tau Ceti `TauCeti.GeometrizationConjecture`, `TauCeti.IsGeometricTorusDecomposition`,
 `TauCeti.IsFiniteVolumeHyperbolic`, `TauCeti.ModelGeometry`, `TauCeti.HasGeometricStructure`;
 Layer 7.1, Layer 7.3, Layer 8.2, Layer 8.4, Layer 8.5; Mathlib `SimplyConnectedSpace`.
-For the Poincaré route, the smooth form and the eight geometries also Tau Ceti
+For the Poincaré route and the eight geometries also Tau Ceti
 `TauCeti.ModelGeometry.Space`, `Homeomorph.hasGeometricStructure_iff`,
 `TauCeti.hasGeometricStructure_space`, `TauCeti.hasGeometricStructure_quotient`,
 `TauCeti.HasGeometricStructure.exists_hasGroupoid`,
@@ -9754,7 +9782,8 @@ Layer 1 (connected sums, gluing), Layer 5 (exteriors, fillings), Layer 7 (hyperb
 Layer 11.2 (PL structures in dimension three); Tau Ceti's irreducibility, incompressibility,
 Seifert fibration, torus decomposition and geometrization carriers; Layer 1.7.
 Also Layer 2.1 (locally flat tori), Layer 11.2 (Moise's theorem, for Kneser's finiteness in 8.2,
-and the uniqueness of smooth structures, for the smooth Poincaré conjecture) and Layer 11.3;
+and the uniqueness of smooth structures, for the Poincaré route and the eight geometries) and
+Layer 11.3;
 Tau Ceti's model geometries, geometric structures and prime-manifold declarations; HopfRinow
 Layer 1 (the developing map, for the eight geometries); AlgebraicTopology Stage 1 (van Kampen).
 
@@ -10994,8 +11023,9 @@ Kirby–Siebenmann obstruction theory is GeometricTopology, Part II's and is no 
   KhovanovHomology also consumes Layer 1's tubes and Layer 6.5's link cobordisms.
   CombinatorialHeegaardFloer's Lane K also consumes Layer 4's polynomials and Layer 6.5's link
   cobordisms, and its Lane G consumes Layer 6.5; nothing of CombinatorialHeegaardFloer is
-  consumed here (its `τ` and the bound `|τ(K)| ≤ g_s(K)`, Lane G items 7 and 10, enter only
-  GeometricTopology, Part II).
+  consumed here as a supplier. Its Lane G, items 7 and 10, proves the Milnor conjecture that
+  4.8.3 consumes as stated, and its `τ` with the bound `|τ(K)| ≤ g_s(K)` enters
+  GeometricTopology, Part II's Mazur-satellite formulas.
 - **FourManifolds** consumes Layers 1, 2, 3, 5 and 6, Layer 4's Seifert surfaces, Seifert
   matrices and Alexander polynomial, Layer 4.3.1's finite quadratic Arf algebra and its knot
   and proper-link Arf invariant (independence of the surface, additivity and the
@@ -11016,6 +11046,12 @@ Kirby–Siebenmann obstruction theory is GeometricTopology, Part II's and is no 
   geometric braid carrier with its comparison, through ReductiveGroups §11A, with the
   native braid group and its faithfulness among relative tangles; it owns the tangle
   categories, their cups and caps and the coherence theorems built on these carriers.
+- **Poincare3D** consumes Layers 1, 2, 7 and 11. It proves by Ricci flow with surgery the
+  topological Poincaré theorem that 8.6 states, with the adapter to 8.6's statement in its Layer
+  15.1, and it states and proves the smooth form, for closed simply connected smooth
+  `3`-manifolds (its Layer 13) and on Mathlib's
+  `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 3` (its target 15.2), which 8.6 does
+  not restate.
 - **GeometricTopology, Part II** consumes the foundational layers needed by each of its
   developments and owns the developments listed under *Scope and ownership*.
 
