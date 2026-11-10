@@ -27,10 +27,13 @@ Headlines not stated, with the carrier each lacks at the pins:
 * 1.1–1.3 (Connes' `Tor` description of cyclic homology, `Ext_Λ(k♮, k♮) ≅ k[u]`, the classifying
   space of `Λ`): Connes' cyclic category and cyclic modules, RefinedTraceMethods §1.1.
 * 1.4 (cyclic homology of tensor algebras), 2.3–2.6 (the Loday–Quillen–Tsygan theorem, its
-  low-degree corollary and the stability theorem), 3.1–3.2 (Goodwillie's theorems) and 4.4–4.6
-  (the X-complex theorem, the Fedosov product, excision in periodic cyclic homology): cyclic,
-  negative cyclic and periodic cyclic homology of an algebra, KTheoryFiniteLocalFields §4.0
-  (`cyclicHomologyModel`) and RefinedTraceMethods §1.4.
+  low-degree corollary and the stability theorem), 3.1–3.2 (Goodwillie's theorems), 4.4 and 4.6
+  (the X-complex theorem, excision in periodic cyclic homology): cyclic, negative cyclic and
+  periodic cyclic homology of an algebra, KTheoryFiniteLocalFields §4.0 (`cyclicHomologyModel`)
+  and RefinedTraceMethods §1.4.
+* 4.3 and 4.5 (noncommutative forms, the Fedosov product and the universal extension `RA`): the
+  differential graded algebra `ΩA = ⊕ A ⊗ Ā^⊗n` of normalised forms of a unital algebra; Tau
+  Ceti's `TauCeti.UniversalForms` is the forced-unitisation model.
 * 2.1 and 2.6 (the Chevalley–Eilenberg complex and the stability theorem): Mathlib at the pins
   has neither the Chevalley–Eilenberg complex nor `Tor` over a noncommutative ring; the complex
   with its proof of `d² = 0` is target 2.1 itself.

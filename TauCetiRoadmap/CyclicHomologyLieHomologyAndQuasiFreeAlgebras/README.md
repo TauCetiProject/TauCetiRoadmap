@@ -16,7 +16,7 @@ algebra on `HC_(*−1)(A)`, with its invariant-theory input (the permutations of
 `(kʳ)^⊗p` span the commutant of `𝔤𝔩_r(k)`, and are linearly independent exactly when `p ≤ r` by
 Tau Ceti's faithfulness threshold) and the stability of `H_i(𝔤𝔩_n(A))` for `i < n − 1`, and, over
 every field, the isomorphism `H₂(𝔰𝔩(A)) ≅ HC₁(A)` (Layer 2); Goodwillie's theorems: over every
-commutative ring a derivation acts trivially on periodic cyclic homology, and over a field of
+field a derivation acts trivially on periodic cyclic homology, and over a field of
 characteristic zero `HP_*(A) → HP_*(A/I)` is an isomorphism for every nilpotent two-sided ideal
 `I` (Layer 3); Cuntz–Quillen's quasi-free algebras, defined by lifting along
 square-zero extensions, their characterisations (nilpotent lifting, Hochschild cohomological
@@ -113,17 +113,17 @@ for `𝔬(A)` and `𝔰𝔭(A)`, and Quillen's derived categories of firm module
 ## Conventions
 
 1. **Ground rings.** Layer 1 (except 1.1's dual and the operator `S` of 1.2; 1.4 for a flat
-   `k`-module `V`), 2.1's complex and its `Tor` comparison, 2.5 (for `A` free as a `k`-module), 3.1,
-   4.1's definition and nilpotent lifting, 4.2's free algebras, 5.1, and 5.2 (for `k`-flat algebras)
-   work over a commutative ring `k`; everything else in 4.1–4.2 takes `k` a field; 1.1's dual, the
-   operator `S` of 1.2, 2.1's Hopf structure, 2.2–2.4, 2.6, 3.2 and 4.3–4.6 take `k` a field of
-   characteristic zero, as Loday–Quillen §6, Goodwillie's nil-invariance and Cuntz–Quillen do.
-   Hochschild and cyclic homology over `k` are those of RefinedTraceMethods §1.4 and
-   KTheoryFiniteLocalFields §4.0, derived (computed from a `k`-flat resolution) when the algebra is
-   not `k`-flat; on a `k`-flat algebra they are the homology of the Hochschild complex itself, which
-   is what 1.4 and 5.2 use. Witness: the reduced cyclic homology `H̄C₁(k[x])` is `0` for `k = ℚ` and
-   nonzero for `k = 𝔽₂` (1.4, Checks), so the characteristic-zero hypothesis of the later layers is
-   not decorative.
+   `k`-module `V`), 2.1's complex and its `Tor` comparison, 2.5 (for `A` free as a `k`-module),
+   4.1's definition and nilpotent lifting, 4.2's free algebras, 5.1, and 5.2 (for `k`-flat
+   algebras) work over a commutative ring `k`; 3.1 and everything else in 4.1–4.2 take `k` a
+   field; 1.1's dual, the operator `S` of 1.2, 2.1's Hopf structure, 2.2–2.4, 2.6, 3.2 and 4.3–4.6
+   take `k` a field of characteristic zero, as Loday–Quillen §6, Goodwillie's nil-invariance and
+   Cuntz–Quillen do. Hochschild and cyclic homology over `k` are those of RefinedTraceMethods §1.4
+   and KTheoryFiniteLocalFields §4.0, derived (computed from a `k`-flat resolution) when the
+   algebra is not `k`-flat; on a `k`-flat algebra they are the homology of the Hochschild complex
+   itself, which is what 1.4, 3.1 and 5.2 use. Witness: the reduced cyclic homology `H̄C₁(k[x])` is
+   `0` for `k = ℚ` and nonzero for `k = 𝔽₂` (1.4, Checks), so the characteristic-zero hypothesis of
+   the later layers is not decorative.
 2. **Cyclic operator and Connes' complex.** `t(a₀ ⊗ ⋯ ⊗ a_n) = (−1)^n a_n ⊗ a₀ ⊗ ⋯ ⊗ a_(n−1)`,
    the signed operator of RefinedTraceMethods §1.2, and `C^λ_n(A) = A^⊗(n+1)/(1 − t)` with the
    Hochschild boundary `b(a₀ ⊗ a₁) = a₀a₁ − a₁a₀` (Loday–Quillen 1984, §1). Witness: in degree
@@ -148,7 +148,7 @@ for `𝔬(A)` and `𝔰𝔭(A)`, and Quillen's derived categories of firm module
    periodic cyclic homology of `k`.
 7. **The bar complex.** `B_q(A) = A^⊗q` for `q ≥ 1`, with
    `b′(a₁ ⊗ ⋯ ⊗ a_q) = Σ_(i=1)^(q−1) (−1)^(i−1) a₁ ⊗ ⋯ ⊗ a_i a_(i+1) ⊗ ⋯ ⊗ a_q`
-   (Wodzicki 1989, §1). Witness: `b′(a ⊗ b) = ab`, so `H₁(B(A)) = A/A²`.
+   (Wodzicki 1989, (2), p. 592). Witness: `b′(a ⊗ b) = ab`, so `H₁(B(A)) = A/A²`.
 8. **Modules over nonunital rings.** Modules are left modules unless said; for a nonunital ring
    `A`, an `A`-module is a module over `Unitization ℤ A`, and `A ⊗_A M` is
    `(A ⊗_ℤ M)/⟨ab ⊗ m − a ⊗ bm⟩`. Witness: for `A = 2ℤ` and `M = ℤ/2` with `2ℤ` acting by zero,
@@ -537,18 +537,25 @@ targets, and 2.5 uses 2.1 only.
 
 ### 3.1 Derivations act trivially on periodic cyclic homology
 
-For a derivation `D` of a unital algebra `A` over a commutative ring `k`, define its
+For a derivation `D` of a unital algebra `A` over a field `k` of any characteristic, define its
 action `L_D(a₀ ⊗ ⋯ ⊗ a_n) = Σ_i a₀ ⊗ ⋯ ⊗ D a_i ⊗ ⋯ ⊗ a_n` on Hochschild chains, which commutes
 with `b` and `B` and induces endomorphisms of `HH_*(A)`, `HC_*(A)` and `HP_*(A)`. Prove:
-`L_D` acts as zero on `HP_*(A)`, and `S ∘ L_D = 0` on `HC_*(A)`
-(Goodwillie 1985, Part II). Route: the Cartan homotopy formula `L_D = [b + uB, e_D + E_D]` with
-the two operators `e_D` and `E_D` of Goodwillie on the periodic complex, from the identities
-`[b, e_D] = 0`, `[B, E_D] = 0` and `[b, E_D] + [B, e_D] = L_D`, which have integer coefficients, so
-that no hypothesis on the characteristic is used.
+`L_D` acts as zero on `HP_*(A)`, and `S ∘ L_D = 0` on `HC_*(A)`. Both are Getzler 1993,
+Theorem 2.4 (2), p. 8 of the author's text: for a Hochschild cocycle `D`, here a derivation,
+`u L_D` is chain homotopic to zero on `(C(A)[[u]], b − uB)` by a `k[u]`-linear homotopy; this
+gives `L_D = 0` on `HP_*(A)`, and on `HC_*(A)`, the homology of `C(A) ⊗_(k[u]) k[u, u⁻¹]/uk[u]`
+(Getzler's §2), where `u` acts as `S`, it gives `S ∘ L_D = 0`. Route: the Cartan homotopy formula
+`[b − uB, ι_D] = u L_D` (Getzler 1993, (2.1) and Definition 2.1), with `ι_D = b{D} − u B{D}`,
+where `B{D}` is Rinehart's operator; the identities have integer coefficients, so no hypothesis on
+the characteristic is used.
 *Needs:* RefinedTraceMethods §1.2, §1.4; KTheoryFiniteLocalFields §4.0.
 
 **Checks.**
 
+- A field, not a commutative ring: over `k = ℤ` the algebra `A = 𝔽₂[x]` is not `ℤ`-flat, and
+  `A ⊗_ℤ A = A ⊗_(𝔽₂) A`, so its Hochschild chains `A^⊗(n+1)` have `H_n = HH_n(𝔽₂[x]/𝔽₂) = 0`
+  for `n ≥ 2`, while the derived `HH₂(𝔽₂[x]/ℤ) ⊇ HH₂(𝔽₂/ℤ) ⊗ 𝔽₂[x] ≠ 0` of Convention 1: the
+  formula for `L_D` acts on a complex that does not compute the `HH_*(A)` of the statement.
 - Inner derivations `D = [x, −]` already act as zero on `HH_*(A)` and `HC_*(A)`: on `HH₀ = A/[A,
   A]`, `L_D(a) = [x, a] = 0`.
 - Over `ℚ ⊆ k`, `A = k[x]`, `D = x d/dx` (the Euler derivation): on `HC₀ = k[x]`, `L_D(xᵐ) = m xᵐ`,
@@ -556,7 +563,7 @@ that no hypothesis on the characteristic is used.
   constants), where `L_D = 0`.
 - Positive characteristic: over `𝔽_p`, `D = x d/dx` acts on the weight-`m` part of
   `H̄C_n(𝔽_p[x])`, `n ≥ 1`, by `m`, and by 1.4 this part is nonzero only when `p ∣ m`, where
-  `m = 0` in `𝔽_p`; so `L_D = 0` there, as the statement over every commutative ring predicts,
+  `m = 0` in `𝔽_p`; so `L_D = 0` there, as the statement over every field predicts,
   whereas a weight `m` prime to `p` with nonzero homology in degree `n ≥ 1` would refute it.
 
 ### 3.2 Nil-invariance of periodic cyclic homology
@@ -819,11 +826,12 @@ uses 3.2. Within the layer, each target uses the previous ones.
 
 For a nonunital algebra `A` over a commutative ring `k` (a `k`-module with an associative
 `k`-bilinear multiplication), define the bar complex `B_*(A)` of Convention 7 and call `A`
-H-unital if `B_*(A) ⊗_k V` is acyclic for every `k`-module `V` (Wodzicki 1989). Prove:
+H-unital if `B_*(A) ⊗_k V` is acyclic for every `k`-module `V` (Wodzicki 1989, (2) and the
+definition after it, p. 592). Prove:
 
 - Unital algebras are H-unital.
 - An algebra with left local units (for every finite family `a₁, …, a_n` there is `e` with
-  `e a_i = a_i`) is H-unital (Wodzicki 1989, Corollary 4.5).
+  `e a_i = a_i`) is H-unital (Wodzicki 1989, Corollary 4.5, p. 609).
 - An H-unital algebra satisfies `A² = A`, since `H₁(B(A)) = A/A²` (Convention 7).
 
 *Needs:* Mathlib `Module.Flat`, `ChainComplex`.
@@ -842,10 +850,11 @@ Prove: for a nonunital `k`-algebra `A` that is flat as a `k`-module, the followi
 equivalent: `A` is H-unital; for every extension `0 → A → R → S → 0` of `k`-algebras with `R`
 and `S` flat over `k` (such an extension is pure as an extension of `k`-modules), the Hochschild
 homology long sequence `⋯ → HH_n(A) → HH_n(R) → HH_n(S) → HH_(n−1)(A) → ⋯` is exact, with
-`HH(A)` defined through the unitisation; the same for cyclic homology (Wodzicki 1989, (3), as
-recorded in Cortiñas 2006, p. 3). Flatness makes the homology of KTheoryFiniteLocalFields §4.0
-that of the Hochschild complexes, on which Wodzicki works (Convention 1); the unitisation
-`k ⊕ A` of a flat `A` is flat, so the extension `A → k ⊕ A → k` is among those quantified.
+`HH(A)` defined through the unitisation; the same for cyclic homology (Wodzicki 1989, (3),
+p. 592, excision there meaning excision for pure extensions, p. 591). Flatness makes the homology
+of KTheoryFiniteLocalFields §4.0 that of the Hochschild complexes, on which Wodzicki works
+(Convention 1); the unitisation `k ⊕ A` of a flat `A` is flat, so the extension `A → k ⊕ A → k`
+is among those quantified.
 *Needs:* 5.1; KTheoryFiniteLocalFields §4.0 (`HH`, `HC`, relative fibres); RefinedTraceMethods
 §1.4.
 
@@ -867,10 +876,10 @@ target does not restate it and deduces from it, with 5.2, the Suslin–Wodzicki 
 `A` without unit satisfies excision in rational algebraic K-theory, in the sense of
 GeneralAlgebraicKTheory §8.10 after tensoring with `ℚ`, if and only if `A ⊗_ℤ ℚ` is H-unital
 (the "if" direction is Suslin–Wodzicki 1992, Theorem A, the "only if" direction Wodzicki 1989,
-(4), as recorded in Cortiñas 2006, p. 3). Route: by Cortiñas' theorem, rational K-excision for
-`A` inside every unital ring containing it is excision in cyclic homology for the `ℚ`-algebra
-`A ⊗_ℤ ℚ`, which 5.2 characterises by H-unitality. Deduce that every C*-algebra satisfies rational
-excision, since C*-algebras are H-unital (Suslin–Wodzicki 1992).
+(4), p. 592). Route: by Cortiñas' theorem, rational K-excision for `A` inside every unital ring
+containing it is excision in cyclic homology for the `ℚ`-algebra `A ⊗_ℤ ℚ`, which 5.2
+characterises by H-unitality. Deduce that every C*-algebra satisfies rational excision, since
+C*-algebras are H-unital (Wodzicki 1989, p. 593, proved in its Sections 4–8).
 *Needs:* 5.1, 5.2; RefinedTraceMethods §4.18; GeneralAlgebraicKTheory §8.3, §8.10.
 
 **Checks.**
@@ -1032,6 +1041,9 @@ Institute) work on these questions.
   211–264. doi:10.2307/1970615.
 - T. G. Goodwillie, « Cyclic homology, derivations, and the free loopspace », *Topology* 24
   (1985), 187–215. doi:10.1016/0040-9383(85)90055-2. Zbl 0569.16021.
+- E. Getzler, « Cartan homotopy formulas and the Gauss-Manin connection in cyclic homology », in
+  *Quantum deformations of algebras and their representations*, Isr. Math. Conf. Proc. 7, Bar-Ilan
+  University, 1993, 65–78. Zbl 0844.18007. Open: the author's page (page numbers of that text).
 - M. J. Dunwoody, « Accessibility and groups of cohomological dimension one », *Proc. London
   Math. Soc.* (3) 38 (1979), no. 2, 193–215. doi:10.1112/plms/s3-38.2.193. Zbl 0419.20040.
 - J. Cuntz, D. Quillen, « Algebra extensions and nonsingularity », *J. Amer. Math. Soc.* 8
@@ -1047,7 +1059,8 @@ Institute) work on these questions.
 - D. Quillen, « Cyclic cohomology and algebra extensions », *K-Theory* 3 (1989), 205–246.
   doi:10.1007/BF00533370. Zbl 0696.16021.
 - M. Wodzicki, « Excision in cyclic homology and in rational algebraic K-theory », *Ann. of
-  Math.* 129 (1989), 591–639. doi:10.2307/1971518. Zbl 0689.16013.
+  Math.* 129 (1989), 591–639. doi:10.2307/1971518. Zbl 0689.16013. Open scan: the author's page
+  at Berkeley.
 - A. A. Suslin, M. Wodzicki, « Excision in algebraic K-theory », *Ann. of Math.* 136 (1992),
   51–122. doi:10.2307/2946546. Zbl 0756.18008.
 - D. Quillen, « K₀ for nonunital rings and Morita invariance », *J. Reine Angew. Math.* 472
