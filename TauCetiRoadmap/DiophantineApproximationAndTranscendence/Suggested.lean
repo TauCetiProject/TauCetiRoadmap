@@ -475,18 +475,29 @@ structure IsTwistedData (L : Place K → Fin n → Fin n → K) (c : Place K →
   sum_eq_zero : ∀ v, ∑ i, c v i = 0
   sum_max_le_one : ∑ᶠ v, (⨆ i, c v i) ≤ 1
 
-/-- **The parametric Subspace theorem** (EF13, Theorem 2.1), `K`-rational and qualitative in the
-threshold: for data `(L, c)` satisfying `IsTwistedData` with at most `R` distinct forms and
-`0 < δ ≤ 1`, there are `Q₀` and at most `10⁶ 2^(2n) n¹⁰ δ⁻³ log(3R/δ) log(log(3R)/δ)` proper
-subspaces of `Kⁿ` such that, for every `Q ≥ Q₀`, the points of twisted height at most
-`Δ_L^(1/n) Q^(-δ)` lie in one of them. -/
+/-- The height `H_L` of a finite set `F` of linear forms on `Kⁿ` (EF13, (2.12)): the absolute
+projective height of the tuple of determinants `det(L_{j₁}, …, L_{jₙ})` of `n` forms of `F`. The
+tuple is indexed by the injections `Fin n ↪ F`; reordering an injection changes its determinant
+only by a sign, so this is the height of EF13's tuple indexed by the `n`-element subsets of `F`. -/
+def formSystemHeight (F : Finset (Fin n → K)) : ℝ :=
+  TauCeti.absoluteProjectiveTupleHeight fun e : Fin n ↪ F ↦
+    (Matrix.of fun i ↦ (e i : Fin n → K)).det
+
+/-- **The parametric Subspace theorem** (EF13, Theorem 2.1), `K`-rational: let the data `(L, c)`
+satisfy `IsTwistedData`, let `F` be the finite set of distinct forms occurring in `L`, let `R` be a
+real number with `R ≥ #F` and let `0 < δ ≤ 1`. There are at most
+`10⁶ 2^(2n) n¹⁰ δ⁻³ log(3R/δ) log(log(3R)/δ)` proper subspaces of `Kⁿ` such that, for every
+`Q ≥ C₀ = max(H_L^(1/R), n^(1/δ))` with `H_L = formSystemHeight F`, the points of twisted height at
+most `Δ_L^(1/n) Q^(-δ)` lie in one of them. -/
 theorem parametric_subspace_theorem (L : Place K → Fin n → Fin n → K)
     (c : Place K → Fin n → ℝ) (hLc : IsTwistedData L c) {δ : ℝ} (hδ : 0 < δ) (hδ1 : δ ≤ 1)
-    (R : ℕ) (hR : Nat.card (Set.range fun p : Place K × Fin n ↦ L p.1 p.2) ≤ R) :
-    ∃ (Q₀ : ℝ) (T : Finset (Submodule K (Fin n → K))), (∀ V ∈ T, V ≠ ⊤) ∧
+    (F : Finset (Fin n → K))
+    (hF : (F : Set (Fin n → K)) = Set.range fun p : Place K × Fin n ↦ L p.1 p.2)
+    {R : ℝ} (hR : (F.card : ℝ) ≤ R) :
+    ∃ T : Finset (Submodule K (Fin n → K)), (∀ V ∈ T, V ≠ ⊤) ∧
       (T.card : ℝ) ≤ 10 ^ 6 * 2 ^ (2 * n) * (n : ℝ) ^ 10 * δ ^ (-3 : ℝ) *
         Real.log (3 * R / δ) * Real.log (Real.log (3 * R) / δ) ∧
-      ∀ Q, Q₀ ≤ Q → ∃ V ∈ T,
+      ∀ Q, max (formSystemHeight F ^ (1 / R)) ((n : ℝ) ^ (1 / δ)) ≤ Q → ∃ V ∈ T,
         {x | TauCeti.twistedHeight L c Q x ≤ TauCeti.deltaL L ^ ((1 : ℝ) / n) * Q ^ (-δ)} ⊆ V := by
   sorry
 
