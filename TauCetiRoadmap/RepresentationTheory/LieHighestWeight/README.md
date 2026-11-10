@@ -60,9 +60,12 @@ what these do not.
 
 | Former layer numbering | Present owner and replacement |
 | --- | --- |
+| Layer 0: `sl₂` representation theory | Tau Ceti `TauCeti.exists_int_of_hasEigenvalue`, `TauCeti.finrank_eq_of_hasPrimitiveVectorWith` and `TauCeti.Sl2Std.isInternal_cgSummand` for the integer spectrum, the classification and the weight strings; the present Layer 0 holds the normalized tensor comparisons built on them. |
 | Layer 1: Cartan subalgebras and roots | Mathlib `LieSubalgebra.IsCartanSubalgebra`, `LieAlgebra.exists_isCartanSubalgebra`, `LieAlgebra.IsKilling.rootSystem`, `LieAlgebra.IsKilling.finrank_rootSpace_eq_one`; finite root geometry remains RootSystems Layers 1–6. |
 | Layer 2: weights and integrality | Mathlib `LieModule.genWeightSpace`, `LieModule.iSup_genWeightSpace_eq_top`; Tau Ceti `TauCeti.isSemisimple_toEnd_cartan`, `TauCeti.integralWeightLattice`, `TauCeti.exists_int_apply_coroot`. |
 | Layer 4: classification of finite-dimensional irreducibles | Tau Ceti `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`, `TauCeti.VermaModule` and `TauCeti.irreducibleQuotient`; complete reducibility is supplied separately by `TauCeti.exists_isCompl_of_isKilling`. |
+| Layer 5: complete reducibility (Weyl's theorem) | Tau Ceti `TauCeti.exists_isCompl_of_isKilling` and `TauCeti.casimirElement`; the present Layer 5 holds opposition and the symmetry of invariant forms. |
+| Layer 6F: Fourier boundary values of the Weyl formula | §6.2 for the finite rational Weyl and torus-character identities; the cone series, their Fourier boundary values and the endpoint reconstruction are TensorProductCombinatorics §§1.5–1.6 and 2.6, which this roadmap does not consume. |
 
 These former layer identifiers refer to the supplier contracts, not to new
 construction targets. AdoIwasawa consumes native ordered PBW directly; this
@@ -111,9 +114,17 @@ representations of U(n) to rational representations of `GL_n(ℂ)`, and the cent
 compact semisimple group with its period-lattice comparison. Each of them needs LieGroups
 Layers 4, 6 or 7 (Lie integration, maximal tori and Weyl integration, complexification), and
 LieGroups Layer 7 consumes the split Serre presentation of §7.1, so they follow LieGroups in
-the order of supply and belong to LieHighestWeight, Part II. This roadmap stops at the
-algebraic statements they use: opposition and the invariant-form sign (Layer 5), the finite
-character identities (§6.2) and the affine lattice quotients (Layer 10).
+the order of supply and are not targets of this roadmap. The type-A group character identity
+is ClassicalGroups Layer 4, and the density and irreducibility halves of the unitary comparison
+are native (`TauCeti/RepresentationTheory/ClassicalGroups/UnitaryTrick.lean`). This roadmap
+stops at the algebraic statements they use: opposition and the invariant-form sign (Layer 5),
+the finite character identities (§6.2) and the affine lattice quotients (Layer 10).
+
+The comparison of the centre and the invariant polynomials of `L` with the invariants of a
+connected reductive algebraic group (`U(L)^G = Z(U(L))`, `Sym(L)^G = Sym(L)^L`) is not a target
+of this roadmap either: ReductiveGroups consumes the split Serre presentation of Layer 7, so
+nothing of ReductiveGroups is consumed here. Layer 9 states the centre comparisons for the Lie
+invariants `Sym(L)^L` alone.
 
 ## Conventions
 
@@ -476,6 +487,20 @@ estimate is needed for that finite sum.
   `TauCeti.Algebra.wordFiltration (SymmetricAlgebra.ι K H) n` and the central-character orbit
   theorem `χ_λ = χ_μ ↔ ∃ w, w·λ = μ`. The pin states that file for `K : Type`; nothing of it
   is a target here.
+- `TauCeti.isotypicComponent_irreducibleQuotient_le_centerEigenspace`,
+  `TauCeti.disjoint_isotypicComponent_irreducibleQuotient_of_vermaCentralCharacter_ne`,
+  `TauCeti.isInternal_centerEigenspace` and
+  `TauCeti.exists_isDominantIntegral_eq_vermaCentralCharacter`, in
+  `TauCeti/Algebra/Lie/HighestWeight/CentralCharacter/Isotypic.lean`, supply the action of the
+  center on the `L(λ)`-isotypic component of any module by `χ_λ`, disjointness of components
+  with distinct central characters and, for a finite-dimensional module over an algebraically
+  closed field, the internal direct sum of center eigenspaces indexed by central characters of
+  dominant integral weights. That file does not prove that distinct dominant integral weights
+  have distinct central characters; Layer 7 does, from
+  `TauCeti.sub_dotAction_mem_posRootCone_of_dominantIntegral`
+  (`TauCeti/LinearAlgebra/RootSystem/Weyl/DominantIntegral.lean`) and
+  `TauCeti.eq_zero_of_add_eq_zero_of_mem_posRootCone`
+  (`TauCeti/LinearAlgebra/RootSystem/Positive.lean`).
 - `TauCeti.SymmetricAlgebra.lieInvariants`,
   `TauCeti.SymmetricAlgebra.mem_lieInvariants_iff_mem_maxTrivSubmodule` and
   `TauCeti.SymmetricAlgebra.decompose_mem_lieInvariants_iff`, in
@@ -658,8 +683,6 @@ estimate is needed for that finite sum.
 
 Use RootSystems Layers 1–6 for the finite root data, ClassicalGroups Layers 2–4
 for rational group representations and SchurWeyl Layer 7 for finite Schur polynomials.
-ReductiveGroups Layers 2 and 5P supply the tangent and
-characteristic-zero closed-subgroup smoothness cut used by Layer 9.
 
 ### From ReflectionInvariantTheory
 
@@ -716,9 +739,8 @@ the coefficient formulas and Checks below specify the rest of the tensor compari
    naturality for the actual native `TauCeti.symPowerRep ℂ 2 d` and its restriction
    `TauCeti.SU2.symPower d`. Here `x,y` denote standard *vectors*: a matrix
    `[[a,b],[c,d]]` substitutes `x↦a x+c y`, `y↦b x+d y`.
-   These are not the contragredient polynomial functions of ReductiveGroups10C;
-   provide the dual/action dictionary when comparing with that model rather than
-   identifying their Borel and sign conventions silently. On diagonal matrices the
+   These are not the contragredient polynomial functions of ReductiveGroups Layer 10C,
+   whose Borel and sign conventions differ. On diagonal matrices the
    weight of `e_i^d` is `(d-i,i)`.
 
    **Checks.**
@@ -1591,19 +1613,42 @@ in both directions. No new finite-group separation theorem is constructed here.
 *Needs:* ReflectionInvariantTheory §2; finite-dimensional double duality;
 the native dot action and ρ-translation in Layer 7.
 
-For dominant-integral uniqueness use the
-Mathlib `RootPairing.restrictScalarsRat` and the native ordered rational chamber theorem.
-Construct dominantIntegral_eq_of_dotAction_eq: the inverse rational Cartan matrix
-puts dominant-integral weights in the rational root span; transport the base, ρ and Weyl
-action, apply `eq_of_dotAction_eq_of_mem_dominantChamber` over ℚ, then extend scalars to K;
-no ordered-field structure on algebraically closed K is used.
-
-- **Central characters separate the dominant weights.** On dominant integral weights `λ ↦ χ_λ` is
-  injective (distinct dominant weights lie in distinct dot orbits, by the orbit theorem above), and
-  the center acts on the `λ`-isotypic component of any finite-dimensional module by `χ_λ`: the
-  eigenspace-of-the-center refinement of the Layer 6 decomposition toolkit. A single Casimir
+- **Central characters separate the dominant weights.** The action of the center on isotypic
+  components is native (`TauCeti/Algebra/Lie/HighestWeight/CentralCharacter/Isotypic.lean`) and is
+  consumed: `TauCeti.isotypicComponent_irreducibleQuotient_le_centerEigenspace` (the center acts on
+  the `L(λ)`-isotypic component of any module, finite-dimensional or not, by `χ_λ`),
+  `TauCeti.disjoint_isotypicComponent_irreducibleQuotient_of_vermaCentralCharacter_ne` (components
+  with distinct central characters are disjoint), `TauCeti.isInternal_centerEigenspace` (over an
+  algebraically closed field a finite-dimensional module is the internal direct sum of its center
+  eigenspaces) and `TauCeti.exists_isDominantIntegral_eq_vermaCentralCharacter` (every nonzero
+  eigenspace belongs to `χ_λ` for a dominant integral `λ`). The target here is the one statement
+  that file does not prove: for dominant integral `λ, μ` (`TauCeti.IsDominantIntegral`),
+  `χ_λ = χ_μ` implies `λ = μ`, so that the center-eigenspace decomposition of a finite-dimensional
+  module is its isotypic decomposition. Route: by the orbit theorem above `μ = w·λ`; the native
+  `TauCeti.sub_dotAction_mem_posRootCone_of_dominantIntegral`
+  (`TauCeti/LinearAlgebra/RootSystem/Weyl/DominantIntegral.lean`, over any characteristic-zero
+  domain, with no order on the coefficients) applied to `(λ, w)` and to `(μ, w⁻¹)` puts both
+  `λ − μ` and `μ − λ` in the positive root cone, which is pointed
+  (`TauCeti.eq_zero_of_add_eq_zero_of_mem_posRootCone`). A single Casimir
   eigenvalue does not separate distinct dominant weights in general; the full center does, which is
   why the separation is stated here and not through the native Casimir alone.
+
+  **Checks.**
+
+  - In A₁ with `ρ = 1`: `λ = 0` and `μ = s·0 = −2` have the same central character and
+    `λ − μ = 2 = α` lies in the positive cone, but `μ` is not dominant, so no pair of distinct
+    dominant weights arises; a statement without dominance of `μ` is false.
+  - In A₁ the dominant weights `0` and `1` have dot orbits `{0, −2}` and `{1, −3}`, which are
+    disjoint, and the shifted invariant `((h+1)² − 1)/3` takes the values `0` and `1` on them.
+  - In `A₁ × A₁` the weights `(2, 0)` and `(0, 2)` have the same Casimir scalar
+    `⟨λ, λ + 2ρ⟩` (the two factors contribute symmetrically) and distinct central characters,
+    since the Casimir of the first factor alone takes different values on them; a separation
+    statement through the single Casimir fails here.
+  - At rank zero the only weight is `0`, and the statement is the identity `0 = 0`.
+
+  *Needs:* the native orbit theorem `TauCeti.vermaCentralCharacter_eq_iff`; the native
+  `TauCeti.sub_dotAction_mem_posRootCone_of_dominantIntegral` and pointedness of the positive
+  root cone; the four native isotypic declarations for the reading on modules.
 - **Freudenthal's multiplicity formula.** The recursion is **anchored at the base case** `mult_λ = 1`
   (the top weight has multiplicity one); for `μ` a weight of `L(λ)`,
   `(⟨λ+ρ,λ+ρ⟩ - ⟨μ+ρ,μ+ρ⟩) · mult_μ = 2 Σ_{α>0} Σ_{j≥1} mult_{μ+jα} · ⟨μ+jα, α⟩`
@@ -2335,31 +2380,18 @@ square and degreewise compatibility; invariants of this fixed central factor are
 all its polynomials. Finite bases degree by degree justify passage through the
 invariant subspaces, not an unproved invariants/base-change assertion.
 
-**Connected groups and the three different center comparisons.** For a smooth
-connected affine reductive algebraic group G over algebraically closed
-characteristic-zero K, construct its actual adjoint actions on L, its symmetric
-algebra and U(L), using the induced enveloping maps and native PBW functoriality.
-Each symmetric degree and each PBW step is a finite-dimensional rational
-G-module. Own the finite-dimensional rational comparison at this cut: a vector
-is G-fixed iff its differential is zero. Prove it from the closed stabilizer,
-its tangent/kernel comparison and the characteristic-zero Cartier smoothness
-comparison explicitly constructed in [ReductiveGroups Layer5P](../../ReductiveGroups/README.md#layer-5p-the-shared-polynomial-unipotent-exponential-and-logarithm), using its coordinate-Hopf/invariant-derivation argument
-and Layer2 tangent smoothness criteria. Only that generic closed-subgroup
-smoothness cut is consumed, not the unipotent functions or later Bruhat
-application. Equality of Lie algebras plus connectedness gives the whole G.
-These constructions include the actual action on each finite piece and its
-compatibility with the inclusions. In characteristic p a weight-p character of
-G_m has zero differential and is not trivial; for disconnected groups the
-component action also remains. Neither case is covered by this equality.
-
-Apply that comparison to obtain `U(L)^G=Z(U(L))` by commuting with every canonical
-Lie generator, and `Sym(L)^G=Sym(L)^L`. Separate the following maps:
+**The three different center comparisons.** No algebraic group enters: the invariants
+are the Lie invariants `Sym(L)^L` (`TauCeti.SymmetricAlgebra.lieInvariants`), and an element
+of `U(L)` is central iff it commutes with every canonical Lie generator. The centre criterion
+for symmetrized tensors is the native
+`TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff`. Separate the
+following maps:
 
 - Layer 7 equivariant PBW symmetrization restricts to a **linear** equivalence
   between invariant symmetric tensors and the center, with all product words
   averaged by `1/m!`; it is not asserted multiplicative on invariant tensors.
 - Its leading symbols give the canonical graded-algebra identification
-  `gr Z(U(L))≃Sym(L)^G`, with the actual center filtration and symbol equations.
+  `gr Z(U(L))≃Sym(L)^L`, with the actual center filtration and symbol equations.
 - The chosen reductive HC isomorphism followed by inverse actual Chevalley
   restriction gives an algebra isomorphism from the center to invariant
   polynomials. Its Cartan/positive-base and rho translation conventions are
@@ -2370,7 +2402,7 @@ Lie generator, and `Sym(L)^G=Sym(L)^L`. Separate the following maps:
 infinitesimal-invariant comparison, geometric Cartan/root transport and real
 coefficient descent. Use that contract when specializing this diagram to compact
 real forms; do not add another compact Chevalley or Chern–Weil engine here.
-The connected algebraic PBW-piece comparison above has no compact form, C5
+The three Lie-algebra maps above have no compact form, C5
 cohomology, Borel–Weil, affine oper or invariant-evaluation theorem as a premise.
 
 ### 9.3 The normalized product map
@@ -2446,7 +2478,7 @@ For gl₂ at μ=(3/2,1/2), the trace Casimir scalar is 15/4−1/4=7/2; at μ=0 o
 
 ### Dependencies
 
-*Needs:* native reductive splitting, general-linear modules and the dual-standard Pieri rule `TauCeti.gl_dual_standard_pieri`; Layers 6–7; ReductiveGroups Layers 2 and 5P; the native differentiation and Littlewood–Richardson tableau contracts (From Tau Ceti).
+*Needs:* native reductive splitting, general-linear modules and the dual-standard Pieri rule `TauCeti.gl_dual_standard_pieri`; Layers 6–7; the native differentiation and Littlewood–Richardson tableau contracts (From Tau Ceti).
 
 ## Layer 10: affine Weyl geometry and the coweight quotient
 
@@ -2742,7 +2774,7 @@ A=(2), giving 1/2+(−1)^b/2=1,0,1 at b=0,1,2, and its empty-list coefficient
 is δ₀. The analytic constructions use PseudodifferentialOperators §3.1;
 the finite identities exported here do not depend on those constructions.
 
-Layer 9's reductive enveloping-product and center-factor constructions consume the native product/abelian/tensor-centralizer APIs and the existing early reductive splitting. Its HC and invariant-polynomial refinements consume Layer7; its connected algebraic fixed-vector comparison consumes only RG2/5P's tangent/Cartier cut. None consumes Borel–Weil or characteristic-class cohomology.
+Layer 9's reductive enveloping-product and center-factor constructions consume the native product/abelian/tensor-centralizer APIs and the existing early reductive splitting. Its HC and invariant-polynomial refinements consume Layer 7. None consumes an algebraic group, Borel–Weil or characteristic-class cohomology.
 
 Layer 10 consumes the native affine and extended affine Weyl groups, the fundamental alcove and the coweight lattice, the native integral-weight predicates, and RootSystems Layers 1–6 for finite root geometry and the based classification. It uses no Lie group and no period lattice. LieGroups Layer 7 consumes the split Serre presentation of §7.1; the compact-group applications named in Scope and ownership follow LieGroups and are not targets of this roadmap.
 
