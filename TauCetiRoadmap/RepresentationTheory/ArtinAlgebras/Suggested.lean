@@ -2,6 +2,7 @@ module
 
 import Mathlib
 import TauCeti.CategoryTheory.AlmostSplit.Sequence
+import TauCeti.CategoryTheory.IrreducibleMorphism
 import TauCeti.Algebra.Module.Injective.Envelope.Basic
 import TauCeti.Algebra.Category.ModuleCat.RepresentationFinite
 import TauCeti.Algebra.Category.FGModuleCat.RepresentationFinite
@@ -34,13 +35,15 @@ The headlines of the README and their Lean forms here:
 * Matlis duality (Layer 2): `exists_isInjectiveEnvelope_quotient_jacobson` and
   `bijective_applyₗ_of_isInjectiveEnvelope`.
 * Existence of almost-split sequences for Artin algebras (Layer 4): `exists_isAlmostSplit`.
-* The Harada-Sai lemma, the first Brauer-Thrall conjecture and the infinite radical (Layer 6):
-  `chainComp`, `chainComp_eq_zero_of_length_le`, `isRepresentationFinite_of_length_le` and
+* The Harada-Sai lemma, Auslander's theorem, the first Brauer-Thrall conjecture and the infinite
+  radical (Layer 6): `chainComp`, `chainComp_eq_zero_of_length_le`,
+  `forall_mem_and_isRepresentationFinite_of_length_le`, `isRepresentationFinite_of_length_le` and
   `isRepresentationFinite_iff_forall_mem_jacobsonRadicalIdeal_pow`, on Tau Ceti's
-  `TauCeti.IsRepresentationFinite` and `TauCeti.jacobsonRadicalIdeal`.
+  `TauCeti.IsRepresentationFinite`, `TauCeti.jacobsonRadicalIdeal` and
+  `TauCeti.IsIrreducibleMorphism`.
 * Auslander's theorems on Tau Ceti's global dimension `TauCeti.globalDimension` of an arbitrary
-  ring (Layer 7): `globalDimension_eq_iSup_cyclic`, `globalDimension_eq_iSup_finite`,
-  `globalDimension_mulOpposite` and `globalDimension_eq_projectiveDimension_quotient`.
+  ring (Layer 7): `globalDimension_mulOpposite` and
+  `globalDimension_eq_projectiveDimension_quotient`.
 * The Morita-Tachikawa correspondence (Layer 7), on the predicates `IsGeneratorCogenerator` and
   `HasProjectiveInjectiveCopresentation`: the forward direction
   `hasProjectiveInjectiveCopresentation_end`, the converse
@@ -55,9 +58,9 @@ the pins, so the README specifies them in prose and they are not stated here: th
 exact category, and with it Auslander-Reiten duality and the existence theorem for almost-split
 conflations in exact categories (Layer 3); the category `mod C` as an abelian category (Layer 1);
 the translate of an Artin algebra and its Auslander-Reiten formulas (Layer 4); the valued
-Auslander-Reiten quiver with its mesh and multiplicities (Layer 5), and hence Auslander's theorem on
-components of bounded length (Layer 6); and dominant dimension as a number (Layer 7), of which
-only the bound `≥ 2` is stated here, as `HasProjectiveInjectiveCopresentation`.
+Auslander-Reiten quiver with its mesh and multiplicities (Layer 5); and dominant dimension as a
+number (Layer 7), of which only the bound `≥ 2` is stated here, as
+`HasProjectiveInjectiveCopresentation`.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.ArtinAlgebras
@@ -210,25 +213,27 @@ theorem isRepresentationFinite_iff_forall_mem_jacobsonRadicalIdeal_pow :
         (∀ n : ℕ, f ∈ (TauCeti.jacobsonRadicalIdeal (FGModuleCat.{u} A) ^ n).hom X Y) → f = 0 :=
   sorry
 
+include R in
+/-- **Auslander's theorem**: over a connected Artin algebra, a nonempty class of finitely
+generated indecomposable modules that is closed under isomorphism and under irreducible maps in
+both directions, and whose lengths are bounded, contains every indecomposable module, and the
+algebra is representation-finite. -/
+theorem forall_mem_and_isRepresentationFinite_of_length_le
+    (hA : ∀ e : A, IsIdempotentElem e → (∀ a : A, e * a = a * e) → e = 0 ∨ e = 1)
+    (S : FGModuleCat.{u} A → Prop) (hS : ∀ X, S X → Indecomposable X.obj)
+    (hiso : ∀ {X Y : FGModuleCat.{u} A}, Nonempty (X ≅ Y) → S X → S Y)
+    (hirr : ∀ {X Y : FGModuleCat.{u} A} (f : X ⟶ Y), TauCeti.IsIrreducibleMorphism f →
+      Indecomposable X.obj → Indecomposable Y.obj → (S X ↔ S Y))
+    (hne : ∃ X, S X) (b : ℕ) (hb : ∀ X, S X → Module.length A X.obj ≤ b) :
+    (∀ X : FGModuleCat.{u} A, Indecomposable X.obj → S X) ∧
+      TauCeti.IsRepresentationFinite.{u} A :=
+  sorry
+
 end Finiteness
 
 /-! ## Layer 7: Morita theory, global and dominant dimension, and the correspondences -/
 
 section GlobalDimension
-
-/-- **Auslander**: the left global dimension `TauCeti.globalDimension A` is the supremum of the
-projective dimensions of the cyclic modules `A ⧸ I`. -/
-theorem globalDimension_eq_iSup_cyclic (A : Type u) [Ring A] :
-    TauCeti.globalDimension.{u} A =
-      ⨆ I : Submodule A A, projectiveDimension (ModuleCat.of A (A ⧸ I)) :=
-  sorry
-
-/-- **Auslander**: the left global dimension is the supremum of the projective dimensions of the
-finitely generated modules; it lies between the cyclic supremum and the full one. -/
-theorem globalDimension_eq_iSup_finite (A : Type u) [Ring A] :
-    TauCeti.globalDimension.{u} A =
-      ⨆ (X : ModuleCat.{u} A) (_ : Module.Finite A X), projectiveDimension X :=
-  sorry
 
 /-- **Auslander**: over a ring that is left and right Noetherian, the left and right global
 dimensions agree; the right global dimension is `TauCeti.globalDimension Aᵐᵒᵖ`. -/

@@ -53,12 +53,14 @@ categorical results are stated for arbitrary preadditive, additive or exact cate
 for categories of modules. The boundaries are as follows.
 
 - **[Quiver representations](../QuiverRepresentations/README.md), Layer 6** (sublayers 6A-6F)
-  develops Auslander-Reiten theory for a finite-dimensional algebra over a field. Layers 0 and 3 to 5
-  here state the same theory for Artin algebras and for exact categories, and the general
-  constructions **replace** the field ones: the field declarations are the case `R = k`, with
-  `E_k = k`, and where a definitional identification is unavailable they are derived from the
-  general ones through a comparison isomorphism. No parallel construction is kept. The arrow counts
-  of that layer's `arQuiver k A` (6F) are recovered from the valued quiver of Layer 5 here.
+  consumes Tau Ceti's Auslander-Reiten theory for a finite-dimensional algebra over a field: the
+  translate, duality, almost-split sequences and quiver of irreducible morphisms listed under
+  "From Tau Ceti". These pinned field-case declarations are the case `R = k`, with `E_k = k`, of
+  Layers 3 to 5 here. Layers 0 and 3 to 5 state the same theory for Artin algebras and for exact
+  categories, and the general constructions **replace** the field ones: where a definitional
+  identification is unavailable, the field declarations are derived from the general ones through
+  a comparison isomorphism. No parallel construction is kept. The arrow counts of the pinned quiver
+  of irreducible morphisms are recovered from the valued quiver of Layer 5 here.
 - **[Derived and module algebra](../../DerivedModuleAlgebra/README.md), §1.M.2** owns Matlis duality
   over a Noetherian local ring, including existence of the injective hull `E(κ)` of the residue
   field. Layer 2 here consumes it for the local factors of a commutative Artinian ring and owns only
@@ -67,23 +69,23 @@ for categories of modules. The boundaries are as follows.
   structures and conflation-exact functors. **[Stable, periodic and curved
   categories](../../StablePeriodicCurved/README.md), Layer 0**, owns relative projectives and
   injectives, enough of them, Frobenius exact categories and the stable category as the quotient by
-  the factoring ideal. This roadmap consumes both and owns `Ext¹`, almost-split conflations,
+  the factoring ideal. Their objects used here are declarations at the pinned Tau Ceti (see "From
+  Tau Ceti"), which this roadmap consumes; it owns `Ext¹`, almost-split conflations,
   Auslander-Reiten duality, and the Ext-trivial ideals `𝒫_E` and `ℐ_E` that duality needs for exact
   categories without enough projectives or injectives, compared there with the factoring ideals.
 - **[Purity of the branch locus](../../PurityOfBranchLocus/README.md), §0.3** owns the global
   dimension of a commutative ring (`TauCetiRoadmap.PurityOfBranchLocus.globalDimension`) with its
   localization bounds. Tau Ceti's `TauCeti.globalDimension` is the global dimension of an arbitrary
   ring, of left modules, with its finite-module and cyclic-module criteria for `≤ n`; on a
-  commutative ring the two are the same supremum. Layer 7 here owns only Auslander's supremum
-  identities over cyclic and finitely generated modules, the comparison of left and right global
-  dimension, and the formula for semiprimary rings; the commutative results are imported from §0.3,
-  not proved again.
+  commutative ring the two are the same supremum. Layer 7 here owns only the comparison of left and
+  right global dimension, and the formula for semiprimary rings; the commutative results are
+  imported from §0.3, not proved again.
 - **[Enhanced derived sheaves](../../EnhancedDerivedSheaves/README.md)** bounds projective
   dimensions over regular commutative rings. It is not consumed here.
-- **[Geometric representation categories](../../GeometricRepresentationCategories/README.md),
-  §R5.2** owns the generic comparison, in an abelian category with `HasExt`, between the Baer sum of
-  extensions and addition of Mathlib's extension classes. Layer 3 here reuses it and owns only the
-  exact-category `Ext¹` and its comparison with that construction.
+- The generic comparison, in an abelian category with `HasExt`, between the Baer sum of extensions
+  and addition of Mathlib's extension classes is Tau Ceti's
+  `CategoryTheory.ShortComplex.ShortExact.extClass_baerSum`. Layer 3 here reuses it and owns only
+  the exact-category `Ext¹` and its comparison with that construction.
 - Outside this roadmap: Auslander-Reiten triangles, Serre functors, derived categories and
   extriangulated categories; tilting and τ-tilting theory; covering theory; modules that are not
   finitely generated, except in the definitions of global dimension and of Morita equivalence; a
@@ -121,7 +123,9 @@ almost-split conflations), `TauCeti/RingTheory/Matlis/`, and
    endomorphism ring, `S_X = (-, X) / rad(-, X)` is the **simple functor** at `X`.
 5. An **exact category** is a Tau Ceti `ExactStructure E` on an additive category; conflations,
    inflations and deflations are Tau Ceti's. Relative projectives and injectives and the stable
-   categories are those of StablePeriodicCurved Layer 0.
+   categories are also Tau Ceti's (`TauCeti.ExactStructure.isProjective`,
+   `TauCeti.ExactStructure.isInjective`, `TauCeti.ExactStructure.ProjectiveStableCategory`,
+   `TauCeti.ExactStructure.InjectiveStableCategory`).
 6. `J(R)` is the Jacobson radical of `R`, `E_R` is an injective hull of `R ⧸ J(R)`, and
    `D_R = Hom_R(-, E_R)` is the **Matlis dual**. For a field, `E_k = k` and `D_k = Hom_k(-, k)`.
 7. `Ext¹_E(Z, X)` is the group of classes of conflations `X ↪ Y ↠ Z` under the Baer sum. For the
@@ -204,6 +208,18 @@ The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
 - Exact structures: `TauCeti.ExactStructure` (`TauCeti.CategoryTheory.Exact.Abelian` and the modules
   it imports), with the projective stable category `TauCeti.ExactStructure.ProjectiveStableCategory`
   (`TauCeti.CategoryTheory.Exact.Stable.Basic`).
+- Relative projectives and injectives `TauCeti.ExactStructure.isProjective`,
+  `TauCeti.ExactStructure.isInjective` with `TauCeti.ExactStructure.EnoughProjectives` and
+  `TauCeti.ExactStructure.EnoughInjectives` (`TauCeti.CategoryTheory.Exact.Projective`,
+  `TauCeti.CategoryTheory.Exact.Injective`); `TauCeti.ExactStructure.IsFrobenius`
+  (`TauCeti.CategoryTheory.Exact.Frobenius`); conflation-exact functors
+  `TauCeti.ExactStructure.IsConflationExact` (`TauCeti.CategoryTheory.Exact.Functor`); the abelian
+  exact structure `TauCeti.ExactStructure.abelian` (`TauCeti.CategoryTheory.Exact.Abelian`); the
+  injective stable category `TauCeti.ExactStructure.InjectiveStableCategory`
+  (`TauCeti.CategoryTheory.Exact.Stable.Injective`); the Baer sum
+  `CategoryTheory.ShortComplex.baerSum` with
+  `CategoryTheory.ShortComplex.ShortExact.extClass_baerSum`
+  (`TauCeti.Algebra.Homology.Ext.BaerSum`).
 - Injective hulls: `TauCeti.IsInjectiveEnvelope` and `TauCeti.IsInjectiveEnvelope.exists_linearEquiv`
   (`TauCeti.Algebra.Module.Injective.Envelope.Basic`), and their existence
   `TauCeti.exists_isInjectiveEnvelope` (`TauCeti.Algebra.Module.Injective.Envelope.Existence`).
@@ -228,6 +244,13 @@ The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
   (`TauCeti.Algebra.Category.ModuleCat.AuslanderReiten.Basic`), and the existence of almost-split
   sequences `ModuleCat.exists_isAlmostSplit_arTranslate`
   (`TauCeti.Algebra.Category.ModuleCat.AuslanderReiten.Sequence`).
+- The quiver of irreducible morphisms over a division ring `TauCeti.IrreducibleMorphismQuiver` with
+  `TauCeti.IrreducibleMorphismQuiver.card_arrows`
+  (`TauCeti.CategoryTheory.Preadditive.Radical.IrreducibleMorphismQuiver.Basic`); for a
+  finite-dimensional algebra, its translation `ModuleCat.arTranslation`
+  (`TauCeti.Algebra.Category.ModuleCat.AuslanderReiten.Quiver`) and the mesh count
+  `ModuleCat.card_arrows_eq_card_arrows_of_translate_eq_some`
+  (`TauCeti.Algebra.Category.ModuleCat.AuslanderReiten.Mesh`).
 - Representation-finite rings: `TauCeti.IsRepresentationFinite` and
   `TauCeti.isRepresentationFinite_iff` (`TauCeti.Algebra.Category.ModuleCat.RepresentationFinite`),
   and nilpotence of the radical of `mod A` for a representation-finite Artin algebra,
@@ -242,24 +265,18 @@ The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
   `TauCeti.globalDimension_le_tfae` (finite and cyclic criteria for `≤ n`),
   `TauCeti.globalDimension_eq_bot_iff` and `Submonoid.globalDimension_localization_le`
   (`TauCeti.RingTheory.GlobalDimension`).
+- `ModuleCat.hasProjectiveDimensionLE_of_quotients`
+  (`TauCeti.Algebra.Category.ModuleCat.Projective.Dimension`).
 
 ### From other roadmaps
 
 - DerivedModuleAlgebra §1.M.2: for a Noetherian local ring, an injective hull `E(κ)` of the residue
   field, and Matlis duality between Artinian modules and finite modules over the completion. Layer 2
   uses it for local Artinian rings, which are complete.
-- GrothendieckEulerForms: exact structures, conflation-exact functors and the abelian exact
-  structure.
-- StablePeriodicCurved Layer 0: relative projective and injective objects, enough relative
-  projectives and injectives, and the stable categories `E/[P]` and `E/[I]` as quotients by the
-  factoring ideals.
 - PurityOfBranchLocus §0.3: `TauCetiRoadmap.PurityOfBranchLocus.globalDimension` of a commutative
   ring, with
   `TauCetiRoadmap.PurityOfBranchLocus.globalDimension_le_iff_hasProjectiveDimensionLE` and the
   localization bounds.
-- GeometricRepresentationCategories §R5.2: the comparison of the Baer sum with addition of
-  `extClass` in an abelian category with `HasExt`.
-- QuiverRepresentations Layer 6 (6A-6F): the field case, which Layers 0 and 3 to 5 here replace.
 
 ## How to read the build
 
@@ -465,7 +482,8 @@ both endpoint hypotheses.
   `rad²(B, B)` is not the square of the ring radical of `End_B(B)`.
 - The endpoint hypotheses of the irreducibility criterion are needed: with `S = k` and `i : S → B`
   sending `1` to `ε`, the map `(i, 0) : S ⊞ S → B` lies in `rad \ rad²` (as `rad²(S, B) = 0`), but
-  it factors as `S ⊞ S → S → B` with neither factor split, and `End(S ⊞ S) = Mat₂(k)` is not local.
+  it factors as `S ⊞ S → S → B`, through the first projection, which is not a split monomorphism,
+  followed by `i`, which is not a split epimorphism, and `End(S ⊞ S) = Mat₂(k)` is not local.
   For `i` itself both endpoint rings are local, and the criterion shows that `i` is irreducible.
 
 *Needs:* Tau Ceti `TauCeti.jacobsonRadical`, `TauCeti.jacobsonRadicalSq`,
@@ -543,6 +561,8 @@ sum of copies), `proj C = add P`, and `Hom(P, -)` is an equivalence from `C` to 
 presented right `End P`-modules. The equivalence `proj C = add P ≃ proj (End P)` is [Kr, Prop. 2.3,
 p. 3], since an abelian category has split idempotents. The equivalence `C ≌ mod (proj C)` is the
 Yoneda argument of 1.1 applied to projective presentations; it is not located in a read source.
+For a progenerator `P` every object is a cokernel of a map in `add P`, so the equivalence
+`Hom(P, -)` onto the finitely presented right `End P`-modules is [Kr, proof of Prop. 3.10, p. 8].
 
 **Checks.**
 
@@ -700,7 +720,7 @@ isomorphism of conflations fixing `X` and `Z`, an abelian group under the Baer s
 `Z` and covariant in `X` by pullback and pushout, and an `R`-module when the category is `R`-linear
 (Yoneda). The zero class is the class of the split conflation. For the abelian exact structure on an
 abelian category it agrees with Mathlib's `CategoryTheory.Abelian.Ext Z X 1`, through the comparison
-of GeometricRepresentationCategories §R5.2.
+`CategoryTheory.ShortComplex.ShortExact.extClass_baerSum`.
 
 **The long exact sequences.** For a conflation `X ↪ Y ↠ Z` and an object `W`, the sequences
 `0 → Hom(W, X) → Hom(W, Y) → Hom(W, Z) → Ext¹(W, X) → Ext¹(W, Y) → Ext¹(W, Z)` and
@@ -713,8 +733,8 @@ of GeometricRepresentationCategories §R5.2.
   class and the class of `0 → ℤ/2ℤ → ℤ/4ℤ → ℤ/2ℤ → 0`.
 - Over `ℤ/4ℤ`, the same sequence gives a nonzero class in `Ext¹(ℤ/2ℤ, ℤ/2ℤ)`, which is again `ℤ/2ℤ`.
 
-*Needs:* GrothendieckEulerForms exact structures; GeometricRepresentationCategories §R5.2; Mathlib
-`CategoryTheory.Abelian.Ext`.
+*Needs:* Tau Ceti `TauCeti.ExactStructure`,
+`CategoryTheory.ShortComplex.ShortExact.extClass_baerSum`; Mathlib `CategoryTheory.Abelian.Ext`.
 
 ### 3.2 Ext-trivial ideals
 
@@ -736,7 +756,8 @@ for `ℐ_E`.
 - In the category of finite abelian groups, which has no nonzero projectives, the identity of
   `ℤ/pℤ` is not projectively trivial, since `Ext¹(ℤ/pℤ, ℤ/pℤ) ≠ 0`.
 
-*Needs:* 3.1's `Ext¹`; StablePeriodicCurved Layer 0; Tau Ceti `TauCeti.MorphismIdeal`,
+*Needs:* 3.1's `Ext¹`; Tau Ceti `TauCeti.ExactStructure.isProjective`,
+`TauCeti.ExactStructure.isInjective`, `TauCeti.MorphismIdeal`,
 `TauCeti.ExactStructure.ProjectiveStableCategory`.
 
 ### 3.3 Almost-split conflations
@@ -832,8 +853,8 @@ split exact structure on any Krull-Schmidt category has none.
 
 ### Dependencies
 
-Layers 0, 1 and 2; GrothendieckEulerForms; StablePeriodicCurved Layer 0;
-GeometricRepresentationCategories §R5.2.
+Layers 0, 1 and 2; Tau Ceti's exact structures, relative projectives and injectives, stable
+categories and Baer sum (see "From Tau Ceti").
 
 ## Layer 4: Auslander-Reiten theory of Artin algebras
 
@@ -907,7 +928,7 @@ categories (3.2).
 *Needs:* 4.1's translate; 3.1's exact sequences; 2.2's duality; 3.2's Ext-trivial ideals; 3.5's
 definition of duality; Tau Ceti `TauCeti.stableTransposeEquivalence`,
 `TauCeti.ExactStructure.ProjectiveStableCategory`, `LinearMap.auslanderReitenExtEquiv`;
-StablePeriodicCurved Layer 0 for the injective stable category.
+Tau Ceti `TauCeti.ExactStructure.InjectiveStableCategory`.
 
 ### 4.3 Almost-split sequences, source and sink maps
 
@@ -916,8 +937,8 @@ non-projective finitely generated module `M` there is an almost-split sequence `
 in `mod A`, unique up to isomorphism, and dually for every indecomposable non-injective module
 ([ARS, Thm. V.1.15, p. 145]); this is 3.5 applied to `mod A`. Equivalently, every simple
 contravariant functor on `mod A` is finitely presented, and dually. Over a field the existence
-theorem of QuiverRepresentations 6E and Tau Ceti's `ModuleCat.exists_isAlmostSplit_arTranslate` are
-its case `R = k`.
+theorem is Tau Ceti's `ModuleCat.exists_isAlmostSplit_arTranslate`, its case `R = k`, which
+QuiverRepresentations 6E consumes.
 
 **Source and sink maps**. Every indecomposable finitely
 generated module `M` has a minimal right almost-split map `Y → M` (for `M` projective, the inclusion
@@ -1009,8 +1030,8 @@ valuation, with `τ` defined exactly on the non-projective vertices.
 **The mesh.** The valued Auslander-Reiten quiver is a valued translation quiver.
 
 **Over a field.** For `A` over a field `k`, `dim_k Irr(M, N) = b_{MN} · dim_k F_M`; this recovers the
-arrow counts of QuiverRepresentations 6F's `arQuiver k A`. When `F_M = F_N = k`, the valuation is
-`(n, n)` with `n = dim_k Irr(M, N)`.
+arrow counts `TauCeti.IrreducibleMorphismQuiver.card_arrows` of the pinned quiver of irreducible
+morphisms. When `F_M = F_N = k`, the valuation is `(n, n)` with `n = dim_k Irr(M, N)`.
 
 **Checks.**
 
@@ -1065,7 +1086,10 @@ is the bound `2 ^ b - 1`.
 connected (`0` and `1` are its only central idempotents) and let `𝒞` be a weakly connected component
 of the valued Auslander-Reiten quiver of `A` (Mathlib's `Quiver.WeaklyConnectedComponent`). If the lengths of the modules in
 `𝒞` are bounded, then `𝒞` is the whole quiver, and `A` is representation-finite ([ARS, Thm.
-VI.1.4, p. 193]; Auslander, *Representation theory of Artin algebras II*).
+VI.1.4, p. 193]; Auslander, *Representation theory of Artin algebras II*). The unions of
+components are the classes of finitely generated indecomposable modules that are closed under
+isomorphism and under irreducible maps in both directions; in this form the theorem is
+`forall_mem_and_isRepresentationFinite_of_length_le`, in `Suggested.lean`.
 
 **The first Brauer-Thrall conjecture** (`isRepresentationFinite_of_length_le`, in `Suggested.lean`). If the
 lengths of the indecomposable finitely generated `A`-modules are bounded, then `A` is
@@ -1144,17 +1168,19 @@ Tau Ceti's `TauCeti.globalDimension A`, the supremum of the projective dimension
 `TauCeti.globalDimension_le_tfae`; the right global dimension is `TauCeti.globalDimension Aᵐᵒᵖ`. On
 a commutative ring it is the same supremum as PurityOfBranchLocus §0.3's
 `TauCetiRoadmap.PurityOfBranchLocus.globalDimension`, and the localization bounds of §0.3 are
-imported, not proved again. The targets of this subsection are Auslander's theorems.
+imported, not proved again. The targets of this subsection are the comparison of left and right
+global dimension and the formula for semiprimary rings.
 
-**Auslander's theorems.** For an arbitrary ring, the left global dimension is the supremum over the
-cyclic modules `A ⧸ I` (`globalDimension_eq_iSup_cyclic`, in `Suggested.lean`; [Au55, Thm. 1,
-p. 68]); hence, for every ring, it is the supremum over the finitely generated modules, which lies between
-the cyclic and the full supremum (`globalDimension_eq_iSup_finite`, in
-`Suggested.lean`); for a ring that is left and right Noetherian the left and right global dimensions
-agree (`globalDimension_mulOpposite`, in `Suggested.lean`; [Au55, Cor. 5, p. 70], from Thm. 4);
-and for a semiprimary ring, in particular an Artin algebra, both equal the projective dimension of
-`A ⧸ J(A)` (`globalDimension_eq_projectiveDimension_quotient`, in `Suggested.lean`; [Au55,
-Cor. 11(b) and Cor. 9, p. 73]). For Artin algebras the global dimension is written `gl.dim`.
+**Auslander's theorems.** For an arbitrary ring, the cyclic modules `A ⧸ I` bound the left global
+dimension: Tau Ceti's `TauCeti.globalDimension_le_tfae`, from
+`ModuleCat.hasProjectiveDimensionLE_of_quotients` ([Au55, Thm. 1, p. 68]); with
+`TauCeti.globalDimension_eq_bot_iff` it gives the global dimension as the supremum over the cyclic
+modules, and over the finitely generated ones; for a ring that is left and right Noetherian the
+left and right global dimensions agree (`globalDimension_mulOpposite`, in `Suggested.lean`;
+[Au55, Cor. 5, p. 70], from Thm. 4); and for a semiprimary ring, in particular an Artin algebra,
+both equal the projective dimension of `A ⧸ J(A)`
+(`globalDimension_eq_projectiveDimension_quotient`, in `Suggested.lean`; [Au55, Cor. 11(b) and
+Cor. 9, p. 73]). For Artin algebras the global dimension is written `gl.dim`.
 
 **Checks.**
 
@@ -1303,9 +1329,8 @@ Layers 0, 1 and 2; PurityOfBranchLocus §0.3.
 
 ## Downstream consumers
 
-- [Quiver representations](../QuiverRepresentations/README.md), Layer 6 (6A-6F): its field-case
-  radical, translate, almost-split sequences and Auslander-Reiten quiver are the case `R = k` of
-  Layers 0 and 3 to 5 here.
+- [Zigzag, preprojective, and Ginzburg algebras](../../ZigzagPreprojective/README.md), §4.2: the
+  translate of 4.1 and the Nakayama functor of 2.3, for the hereditary path algebra `kQ`.
 
 ## Sources and locators
 
@@ -1361,7 +1386,8 @@ Prop. 2.10, p. 12 (almost-split extensions through left and right almost-split m
 - [Kr] H. Krause, *Krull-Schmidt categories and projective covers*, Expo. Math. 33 (2015), 535–549,
   arXiv:1410.2822v1. Prop. 2.3 and Rem. 2.4, p. 3 (`add X ≃ proj End(X)` under split idempotents;
   idempotent completion);
-  Cor. 3.5, p. 6, and Prop. 3.10, p. 7 (projective covers); Prop. 4.1, p. 8 (semiperfect rings);
+  Cor. 3.5, p. 6, and Prop. 3.10, p. 7 (projective covers), with the proof of Prop. 3.10 on p. 8
+  (`Hom(P, -)` onto finitely presented `End(P)`-modules); Prop. 4.1, p. 8 (semiperfect rings);
   Thm. 4.2, Cor. 4.3 and Cor. 4.4, p. 9, with the proof of Cor. 4.4 on p. 10 (uniqueness, exchange,
   and the characterization of Krull-Schmidt categories).
 - [Kr03] H. Krause, *A short proof for Auslander's defect formula*, Linear Algebra Appl. 365 (2003),
