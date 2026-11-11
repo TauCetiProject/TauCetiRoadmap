@@ -79,18 +79,20 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   where Schur-Weyl duality and Young symmetrizers connect to the symmetric group. The highest-weight
   roadmap's reductive `gl_n` layer supplies the Lie-algebra half of the classical-groups dictionary,
   matching `DominantWeight n` up to the non-integral central direction.
-- **PBW feeds both Ado–Iwasawa and Lie highest weight.** The highest-weight roadmap owns the concrete PBW
-  project; Ado–Iwasawa consumes its injectivity, ordered-monomial, filtration, domain, and Noetherian
-  consequences, then develops the cofinite-quotient machinery that is independent of highest weights.
+- **PBW feeds both Ado–Iwasawa and Lie highest weight.** Both consume Tau Ceti's ordered PBW basis and
+  filtration directly. Ado–Iwasawa develops from them the cofinite-quotient machinery that is
+  independent of highest weights; the highest-weight roadmap adds the normalized symmetrization and the
+  first-order bracket on the Rees zero fibre.
 - **Ado–Iwasawa → Lie's third theorem.** The real specialization supplies the matrix embedding used by the
   Lie-groups roadmap to integrate an arbitrary finite-dimensional real Lie algebra. The full
   arbitrary-characteristic theorem remains algebraic and does not depend on Lie groups.
 - **Character theory is the finite case of compact groups.** Peter-Weyl, restricted to a finite group,
   recovers the finite-group character theory, and the two share the orthogonality machinery.
-- **Lie groups sit under the Lie-algebra and compact-group theory.** The Lie-group roadmap builds the
-  smooth-group ↔ Lie-algebra correspondence that the highest-weight and compact-group roadmaps
-  presuppose, and abstracts the general Weyl integration formula the compact-group roadmap proves only
-  for SU(2).
+- **Lie highest weight feeds Lie groups; Lie groups feed compact groups.** The highest-weight roadmap
+  supplies the split Serre presentation that the Lie-group roadmap's complexification layer consumes.
+  The Lie-group roadmap builds the smooth-group ↔ Lie-algebra correspondence that the compact-group
+  roadmap presupposes, and abstracts the general Weyl integration formula the compact-group roadmap
+  proves only for SU(2).
 - **Spin representations complete the classical groups.** The spin and half-spin representations are the
   fundamental representations of types B and D that are not realized in tensor powers of the standard
   representation, so they finish the classical-groups picture.
