@@ -81,8 +81,9 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   matching `DominantWeight n` up to the non-integral central direction.
 - **PBW feeds both Ado–Iwasawa and Lie highest weight.** Both consume Tau Ceti's ordered PBW basis and
   filtration directly. Ado–Iwasawa develops from them the cofinite-quotient machinery that is
-  independent of highest weights; the highest-weight roadmap adds the normalized symmetrization and the
-  first-order bracket on the Rees zero fibre.
+  independent of highest weights; the highest-weight roadmap adds the adjoint equivariance and
+  filtration of PBW symmetrization, the assembly of the centre symbols and the first-order bracket on
+  the Rees zero fibre.
 - **Ado–Iwasawa → Lie's third theorem.** The real specialization supplies the matrix embedding used by the
   Lie-groups roadmap to integrate an arbitrary finite-dimensional real Lie algebra. The full
   arbitrary-characteristic theorem remains algebraic and does not depend on Lie groups.

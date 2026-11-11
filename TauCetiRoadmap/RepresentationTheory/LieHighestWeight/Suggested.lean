@@ -23,8 +23,8 @@ public import TauCeti.LinearAlgebra.RootSystem.Weyl.Affine.Alcove
 The roadmap is README.md; this file is not the roadmap. It states the headline
 theorems against the pinned APIs: the normalized orthogonal polynomial tensor basis with
 its determinant-twisted GL2 action, the first-order bracket on the zero fibre of the PBW Rees
-algebra and its evaluation by the linear Poisson formula, normalized PBW symmetrization, the
-invariant-form symmetry sign, the split Serre
+algebra and its evaluation by the linear Poisson formula, the invariant-form symmetry sign,
+the adjoint equivariance and filtration of PBW symmetrization, the split Serre
 presentation, the split identifications G2 and F4, the dimensions of the split Serre algebras
 E6, E7 and E8, the compact real form of G2 on the division octonions and its
 complexification, the Littlewood-Richardson multiplicities of the general linear Lie algebra,
@@ -40,7 +40,9 @@ algebras of the Dynkin types with their Serre surjections, the PBW Rees algebra 
 fibres at zero and one, the Cayley-Dickson double with the real division octonions, the
 affine and extended affine Weyl groups with the fundamental alcove, and the differentiation
 of rational representations of the general linear group are supplier contracts in
-README.md, consumed by name and not restated here.
+README.md, consumed by name and not restated here. The linear symmetrization equivalence
+itself, with its permutation-average formula over commutative rational algebras, is
+ScatteringDiagrams §0.4 and is not restated either.
 
 The following headlines are not statable at the pins. The formally real Albert algebra and
 the compact form of F4 lack the Albert carrier over the division octonions: the pinned
@@ -219,23 +221,24 @@ theorem invariantForm_isSymm_iff_tits_sign
 
 end General
 
-/-! ## Layer 7: normalized PBW symmetrization and the split Serre presentation -/
+/-! ## Layer 7: equivariance and filtration of PBW symmetrization, the split Serre presentation -/
 
-/-- Over a characteristic-zero field, PBW symmetrization is the unique linear
-comparison whose value on every symmetric monomial is the average of all ordered words.
-The empty word maps to one; the map need not preserve multiplication. -/
-theorem exists_pbwSymmetrization (K : Type u) [Field K] [CharZero K]
-    (L : Type v) [LieRing L] [LieAlgebra K L] :
-    ∃ e : SymmetricAlgebra K L ≃ₗ[K] UniversalEnvelopingAlgebra K L,
-      (∀ l : List L, e ((l.map (SymmetricAlgebra.ι K L)).prod) =
-        ((l.length.factorial : K)⁻¹) •
-          ∑ sigma : Equiv.Perm (Fin l.length),
-            (List.ofFn (fun i => UniversalEnvelopingAlgebra.ι K (l.get (sigma i)))).prod) ∧
-      (∀ (x : L) (p : SymmetricAlgebra K L), e ⁅x, p⁆ =
-        UniversalEnvelopingAlgebra.ι K x * e p - e p * UniversalEnvelopingAlgebra.ι K x) ∧
-      (∀ n : ℕ, ∀ p : SymmetricAlgebra K L,
-        p ∈ (⨆ k ≤ n, TauCeti.SymmetricAlgebra.homogeneousSubmodule K L k) ↔
-        e p ∈ TauCeti.UniversalEnvelopingAlgebra.pbwFiltration K L n) := sorry
+/-- Over a characteristic-zero field, every linear map `Sym(L) → U(L)` with the
+permutation-average formula of PBW symmetrization (the empty word maps to one) is equivariant
+for the adjoint actions and identifies the degree and PBW filtrations. The map need not
+preserve multiplication. -/
+theorem pbwSymmetrization_lie_and_mem_pbwFiltration_iff (K : Type u) [Field K] [CharZero K]
+    (L : Type v) [LieRing L] [LieAlgebra K L]
+    (e : SymmetricAlgebra K L →ₗ[K] UniversalEnvelopingAlgebra K L)
+    (he : ∀ l : List L, e ((l.map (SymmetricAlgebra.ι K L)).prod) =
+      ((l.length.factorial : K)⁻¹) •
+        ∑ sigma : Equiv.Perm (Fin l.length),
+          (List.ofFn (fun i => UniversalEnvelopingAlgebra.ι K (l.get (sigma i)))).prod) :
+    (∀ (x : L) (p : SymmetricAlgebra K L), e ⁅x, p⁆ =
+      UniversalEnvelopingAlgebra.ι K x * e p - e p * UniversalEnvelopingAlgebra.ι K x) ∧
+    (∀ n : ℕ, ∀ p : SymmetricAlgebra K L,
+      p ∈ (⨆ k ≤ n, TauCeti.SymmetricAlgebra.homogeneousSubmodule K L k) ↔
+      e p ∈ TauCeti.UniversalEnvelopingAlgebra.pbwFiltration K L n) := sorry
 
 section Serre
 variable {K : Type*} [Field K] [CharZero K]

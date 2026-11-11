@@ -48,8 +48,12 @@ injectivity of the Serre lift.
 The native orbit sums, finite integral lower sets, character triangularity and dominant-weight
 density, inner-automorphism action, Cartan density/conjugacy, trace-power polynomials,
 degreewise center-symbol isomorphisms and split Albert determinant/Jordan identities
-are also inputs, with exact declarations below. Layer 7 adds global normalized
-symmetrization and multiplicative assembly of the degreewise center symbols.
+are also inputs, with exact declarations below. The linear symmetrization equivalence
+`Sym_R(g) ≃ U_R(g)` with the permutation-average formula, for every Lie algebra over a
+commutative ℚ-algebra, is [ScatteringDiagrams §0.4](../../ScatteringDiagrams/README.md)
+(`exists_pbwSymmetrizationEquiv`). Layer 7 adds its equivariance for the adjoint actions, the
+equality of the degree and PBW filtrations under it, and the multiplicative assembly of the
+degreewise center symbols.
 So are the PBW Rees algebra with its fibres at one and zero
 (`TauCeti.UniversalEnvelopingAlgebra.reesAlgebra`, `reesOneFiberEquiv`, `reesZeroFiberEquiv`);
 the Cayley–Dickson double and the real division octonions (`TauCeti.CayleyDickson`,
@@ -75,7 +79,7 @@ what these do not.
 These former layer identifiers refer to the supplier contracts, not to new
 construction targets. AdoIwasawa consumes native ordered PBW and the native finiteness of the
 enveloping algebra over central subalgebras directly; this
-roadmap's additional exports are the normalized
+roadmap's additional exports are the adjoint equivariance and filtration of PBW
 symmetrization and the first-order bracket on the native Rees zero fibre.
 
 | Former Lean statement of this roadmap | Present declaration |
@@ -863,6 +867,15 @@ estimate is needed for that finite sum.
 Use RootSystems Layers 1–6 for the finite root data, ClassicalGroups Layers 2–4
 for rational group representations and SchurWeyl Layer 7 for finite Schur polynomials.
 
+Consume [ScatteringDiagrams §0.4](../../ScatteringDiagrams/README.md) for PBW symmetrization:
+for a Lie algebra `g` over a commutative ℚ-algebra `R`, with no freeness or finiteness
+hypothesis, `exists_pbwSymmetrizationEquiv` gives an `R`-linear equivalence
+`Sym_R(g) ≃ U_R(g)` sending a product of `d` generators to `1/d!` times the sum of their
+products in all `d!` orders (the empty product to 1). The formula determines the map, since
+products of generators span `Sym_R(g)`. Layer 7 uses it with `R` a characteristic-zero field
+and assumes nothing else of it: adjoint equivariance and the two-sided filtration statement
+are proved in §7.1.
+
 ### From ReflectionInvariantTheory
 
 Consume [ReflectionInvariantTheory §2](../../ReflectionInvariantTheory/README.md#2-complex-branch-shephardtodd-in-both-directions)
@@ -1349,9 +1362,9 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
   evaluates it as `y((∂_x p)(∂_y q)−(∂_y p)(∂_x q))`. Ordered first-order
   multiplication is not alternating, including on the two generators.
 
-  When R is a ℚ-algebra, also construct the symmetrized PBW comparison by
-  averaging all permutations of each homogeneous tensor, with its degree
-  factorial inverse. Compare it with S_ord, retaining the identity at ħ=0.
+  When R is a ℚ-algebra, also take the symmetrized PBW comparison, the
+  permutation-average map of ScatteringDiagrams §0.4, applied in each homogeneous
+  degree. Compare it with S_ord, retaining the identity at ħ=0.
   Modulo ħ² the change is `S_sym=S_ord∘T`, where
   `T=Id+ħD`, `D(p)=(1/2)y∂_x∂_y p`, and `T⁻¹=Id−ħD`.
   Prove the monomial formula for this first-order change by counting the
@@ -1398,7 +1411,8 @@ For [x,y]=y, the ordered first-order coefficients are B(x,y)=y and B(y,x)=0; the
 ### Dependencies
 
 *Needs:* native ordered PBW, filtration, associated grading and Verma modules;
-for §3.1's real polynomial comparison, finite-dimensional differential calculus.
+for §3.1's real polynomial comparison, finite-dimensional differential calculus; for §3.2's
+symmetrized comparison, ScatteringDiagrams §0.4.
 
 ## Layer 5: opposition and invariant forms
 
@@ -1497,8 +1511,8 @@ For `sl₂` the modules V(1) and V(2) are both self-dual, with invariant forms o
 Consume native `TauCeti.formalCharacter K H M`,
 `formalCharacter_coeff_eq_finrank_weightSpace`, formalCharacter_tensor,
 weylDenominator/weylNumerator, coweightPairing, and the Kostant partition/
-multiplicity functions. formalCharacter_coeff pins the local alias to the
-actual Cartan weight-space dimension. Consume `finrank_weightSpace_vermaModule`
+multiplicity functions. `formalCharacter_coeff_eq_finrank_weightSpace` identifies each
+coefficient with the dimension of the Cartan weight space. Consume `finrank_weightSpace_vermaModule`
 for the Verma partition bound. The native freudenthal_multiplicity_formula
 and `casimirScalar_eq_of_coeff_formalCharacter_mul_weylDenominator_ne_zero`
 precede native `formalCharacter_mul_weylDenominator_eq_weylNumerator`;
@@ -1717,7 +1731,7 @@ its root system.
 
 - **The center `Z(U(L))` and central characters.** `Z(U(L)) = Subalgebra.center K (UniversalEnvelopingAlgebra K L)`,
   the commutative algebra in which the native Casimir element lives. The **central character**
-  `χ_(base,λ) : Z(U(L)) →ₐ[K] K`, written centralCharacter base λ below, is read from the Verma top line.
+  `χ_(base,λ) : Z(U(L)) →ₐ[K] K` is read from the Verma top line.
   Consume native `TauCeti.vermaCentralCharacter base λ`, defined through the action of the
   center on the **one-dimensional top weight line** of the Verma module
   `M(λ)` (which the center preserves), so its construction depends on the Layer 3 Verma / highest-weight
@@ -1808,7 +1822,7 @@ its root system.
   the restriction square identifies polynomial restriction S(L*)→S(H*) with
   the Killing-orthogonal map S(L)→S(H). Its forward map fixes h∈H and kills
   every nonzero root generator. Chevalley restriction and its homogeneous
-  inverse are inputs to the new global symmetrization comparison.
+  inverse are inputs to the comparison of global symmetrization with the center below.
 
   **Checks of the imported actions and trace restriction.**
 
@@ -1835,19 +1849,25 @@ its root system.
   a characteristic-zero field, without finite-dimensionality, Killing or algebraic-closure
   assumptions; state their APIs at this generality. The native HC and Lie–Chevalley
   isomorphisms use algebraically closed characteristic-zero K and finite-dimensional
-  Killing-semisimple L. The theorem `exists_pbwSymmetrization` itself applies to every
-  Lie algebra over every characteristic-zero field: average ordered monomials
-  over permutations with coefficient 1/m!, with its product formula, commutator equivariance,
-  inverse and filtration API, including the inverse-filtration statement: the inverse sends
-  the n-th PBW filtration step into the symmetric tensors of degree at most n. Consume native `pbwHomogeneousComponentMap`,
+  Killing-semisimple L. The symmetrization equivalence itself, averaging ordered monomials
+  over permutations with coefficient 1/m!, is ScatteringDiagrams §0.4. The theorem
+  `pbwSymmetrization_lie_and_mem_pbwFiltration_iff` applies to every Lie algebra over every
+  characteristic-zero field: every linear map `Sym(L) → U(L)` with that permutation-average
+  formula satisfies `e(⁅x,p⁆) = ι(x)·e(p) − e(p)·ι(x)` for the derivation action of `x ∈ L` on
+  `Sym(L)`, and a symmetric tensor has degree at most n if and only if its image lies in the
+  n-th PBW filtration step; so the inverse sends the n-th PBW filtration step into the
+  symmetric tensors of degree at most n. Equivariance holds because the derivation replaces
+  one letter of each word by its bracket with x, and the average of those words is the
+  commutator of `ι(x)` with the average; the forward filtration inclusion is degree counting,
+  and the converse uses injectivity of the leading symbols, `pbwAssociatedGradedEquiv`. Consume native `pbwHomogeneousComponentMap`,
   `pbwAssociatedGradedEquiv` and `TauCeti.SymmetricAlgebra.gradedAlgebra` for the
   direct homogeneous grading and leading symbols. The degreewise symmetrization
   `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` and its centre criterion
   `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff`
   (`PBW/Symmetrization.lean`) are native, for `L` free over a commutative ring with `n!`
-  invertible; the global map of `exists_pbwSymmetrization` restricts to them in each degree. Filter the actual center by the comaps of native
+  invertible; the global map of ScatteringDiagrams §0.4 restricts to them in each degree. Filter the actual center by the comaps of native
   PBW steps; its associated graded is the direct sum of successive submodule quotients
-  (degree 0 predecessor is⊥). The symbol and center-membership theorems identify this
+  (degree 0 predecessor is ⊥). The symbol and center-membership theorems identify this
   graded algebra with S(L)^L. Consume the native degreewise
   `TauCeti.UniversalEnvelopingAlgebra.centerPBWGradedInvariantIso` and its symbol
   equation. The additional target is the normalized multiplication of degreewise centre
@@ -1867,7 +1887,7 @@ its root system.
     filtration steps would incorrectly retain K in every degree.
 
   With the native PBW Rees algebra and the zero-fibre bracket of Layer 3, compare its first-order
-  product with this characteristic-zero PBW symmetrization. Pin the lift
+  product with the characteristic-zero PBW symmetrization of ScatteringDiagrams §0.4. Pin the lift
   of a quadratic symmetric product as
   `sym(xy)=(j(x)j(y)+j(y)j(x))/2`. In the dual-number fibre its
   transported product on linear generators is
@@ -1875,7 +1895,7 @@ its root system.
   antisymmetrized first-order coefficient with Layer 3's canonical
   Poisson bracket. No factor `1/2` is used in the arbitrary-ring Layer 3
   construction. This comparison follows the general symmetrization
-  construction here and is not an input to it or to the earlier PBW theorem.
+  statements here and is not an input to them or to the earlier PBW theorem.
 
   Compare the global symmetrization with native homogeneous symmetrization on
   each homogeneous component by their common permutation-average equation.
@@ -1897,8 +1917,8 @@ its root system.
   above sits beside them and is not an input to them.
   The dependency order is native root, weight, classification and Weyl formulas, together with
   Layer 6 → the native Chevalley restriction theorem → the native HC isomorphisms, with the
-  global normalized symmetrization and multiplicative assembly of the native degreewise
-  center symbols as separate exports. Compact-group C5 branches from the
+  adjoint equivariance and filtration of global symmetrization and the multiplicative assembly
+  of the native degreewise center symbols as separate exports. Compact-group C5 branches from the
   Lie–Chevalley restriction/infinitesimal transport step and does not consume HC.
   [CharacteristicClasses C5](../../CharacteristicClasses/README.md#c5-compact-lie-restriction-and-universal-rational-rings)
   consumes these generic Lie-algebra results, and owns compact-group invariance, its
@@ -2143,8 +2163,9 @@ defined here.
   dual spaces. Etingof, Remark 10.2(1), p. 52, describes the complex specialization. In sl₂, h
   maps to h and e, f to 0, so h²+4ef maps to h²; for L=0 the map is the identity of K.
 
-*Needs:* the native declarations above; the comparisons that use them are
-`exists_pbwSymmetrization` and the native `TauCeti.harishChandraIso` and
+*Needs:* the native declarations above; ScatteringDiagrams §0.4 for the symmetrization
+equivalence; the comparisons that use them are
+`pbwSymmetrization_lie_and_mem_pbwFiltration_iff` and the native `TauCeti.harishChandraIso` and
 `LieSubalgebra.lieChevalleyRestrictionIso`.
 
 ### Examples
@@ -2153,7 +2174,7 @@ For sl₂, the dot reflection sends t to −t−2; the raw Casimir polynomial h�
 
 ### Dependencies
 
-*Needs:* native root/weight theory and classification; Layer 6; native triangular PBW, symmetric grading, Killing duality, Serre lift and the weight theory, simple-reflection automorphisms and Chevalley involution of the presented algebra; Mathlib `RootPairing.posRootForm`; the native `LieSubalgebra.lieChevalleyRestrictionIso`, `TauCeti.harishChandraIso`, `TauCeti.harishChandraLinearIso` and `TauCeti.vermaCentralCharacter_eq_iff`; ReflectionInvariantTheory §2 for finite-orbit separation.
+*Needs:* native root/weight theory and classification; Layer 6; native triangular PBW, symmetric grading, Killing duality, Serre lift and the weight theory, simple-reflection automorphisms and Chevalley involution of the presented algebra; Mathlib `RootPairing.posRootForm`; the native `LieSubalgebra.lieChevalleyRestrictionIso`, `TauCeti.harishChandraIso`, `TauCeti.harishChandraLinearIso` and `TauCeti.vermaCentralCharacter_eq_iff`; ReflectionInvariantTheory §2 for finite-orbit separation; ScatteringDiagrams §0.4 for the PBW symmetrization equivalence.
 
 ## Layer 8: the exceptional Lie algebras, explicitly
 
@@ -3290,8 +3311,8 @@ Layer 10 consumes the native affine and extended affine Weyl groups, the fundame
   of Layer 8.
 - R. Goodman, N. R. Wallach, *Symmetry, Representations, and Invariants*, Springer GTM 255 (2009),
   highest-weight theory for `gl_n` and the classical groups, the trace-form Casimir, isotypic
-  decompositions, and the Pieri rules; the primary source for Layer 9 and the minuscule Pieri
-  targets of Layer 6.
+  decompositions, and the Pieri rules; the primary source for Layer 9 and the Pieri rules
+  consumed in Layers 6 and 9.
 - J. Dixmier, *Enveloping Algebras*, AMS GSM 11 (1996), reductive Lie algebras (§1.6) and the center
   of the enveloping algebra; the source for the reductive structure theory and the central-character
   separation of Layer 7.
