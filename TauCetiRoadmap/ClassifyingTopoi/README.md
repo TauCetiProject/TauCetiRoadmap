@@ -31,8 +31,8 @@ presentable ones being the irreducible objects of that topology (Layer 3); a com
 finitely presentable in `CommRingCat` is finitely presented, and presheaves on the opposite of
 finitely presented commutative rings classify commutative rings, with the forgetful functor and its
 pointwise operations as generic ring; that functor is a sheaf for the Zariski topology, the case of
-SchemeAndStackFoundations §2.9 for `𝔾_a` over `Spec ℤ`; and the Zariski topos classifies local
-rings, with the sheafified generic ring as generic local ring (Layer 4).
+Tau Ceti's sheaf property of `Scheme.Γ` on `Spec ℤ`; and the Zariski topos classifies local rings,
+with the sheafified generic ring as generic local ring (Layer 4).
 
 Suggested home: `TauCeti/ModelTheory/Geometric/` for Layer 1 and
 `TauCeti/CategoryTheory/Topos/Classifying/` for Layers 2–4.
@@ -73,12 +73,13 @@ writes the universal property of a classifying topos with inverse images, the le
 adjoints `Sheaf J (Type u) ⥤ Sheaf K (Type u)`, which GrothendieckTopoi 2.1 identifies with
 geometric morphisms; it restates none of those statements.
 
-**Left to SchemeAndStackFoundations.** The sheaf `𝔾_a = (O_S)^a`, `T ↦ Γ(T, O_T)`, on the big
-site over a scheme `S`, and the fact that it is a sheaf for the Zariski, étale, fppf and fpqc
-topologies (SchemeAndStackFoundations §2.9). The forgetful functor of 4.2 is its restriction, for
-`S = Spec ℤ`, to the affine schemes `Spec A` with `A` finitely presented: 4.2 cites that
-statement, and this roadmap owns only the Zariski topology on `FPRing.{u}ᵒᵖ` and the
-restriction.
+**Supplied by Tau Ceti and Mathlib.** The global sections functor `Scheme.Γ` is a sheaf for every
+subcanonical topology on schemes (Tau Ceti `CategoryTheory.GrothendieckTopology.isSheaf_Γ`,
+`TauCeti/AlgebraicGeometry/Sites/Big/StructureSheaf.lean`), in particular for Mathlib's
+`Scheme.zariskiTopology` (`Scheme.subcanonical_zariskiTopology`). On the big fpqc site over `S` its
+additive group is Tau Ceti's `AlgebraicGeometry.Scheme.Ga`. The forgetful functor of 4.2 is its
+restriction to the `Spec A` with `A` finitely presented (`Scheme.ΓSpecIso`). This roadmap owns only
+the Zariski topology on `FPRing.{u}ᵒᵖ` and the restriction.
 
 **Left to LocallyPresentableCategories.** Gabriel–Ulmer duality and the categories of models of
 small categories with finite limits (LocallyPresentableCategories 3.1–3.4), essentially algebraic
@@ -189,6 +190,9 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
   `SimplexCategory` with `SimplexCategory.δ`, `SimplexCategory.σ` and
   `SimplexCategory.isTerminalZero`; `canonicalTopology`, `Subobject.underlying`,
   `IsIdempotentComplete` and `Sieve` with its maximal element.
+- Schemes: `AlgebraicGeometry.Scheme.Γ`, `Scheme.zariskiTopology`,
+  `Scheme.subcanonical_zariskiTopology` (`AlgebraicGeometry/Sites/BigZariski`), `Spec` and
+  `Scheme.ΓSpecIso`.
 - Algebra: `MvPolynomial`, `Ideal.FG`, `Ideal.span`, `IsLocalization.Away`, `RingHom.toAlgebra`,
   `MulEquiv`, `CommRingCat`, `Algebra.FinitePresentation`, `IsFinitelyPresentable`,
   `CommRingCat.isFinitelyPresentable_under`, `CommRingCat.isFinitelyPresentable_hom`
@@ -198,7 +202,9 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
 **From Tau Ceti** (at the pin). `FirstOrder.Language.BoundedFormulaInf` with its constructors
 `equal`, `rel` and `iSup` and its `⊤`, `⊥`, `⊓` and `ex` (`TauCeti/ModelTheory/Infinitary/Syntax`),
 and `FirstOrder.Language.BoundedFormulaInf.Realize` (`TauCeti/ModelTheory/Infinitary/Semantics`),
-for 1.2.
+for 1.2; `CategoryTheory.GrothendieckTopology.isSheaf_Γ` (`Scheme.Γ` is a sheaf for every
+subcanonical topology on schemes) and `AlgebraicGeometry.Scheme.Ga`, both in
+`TauCeti/AlgebraicGeometry/Sites/Big/StructureSheaf.lean`, for 4.2.
 
 **From GrothendieckTopoi.** 1.1 (`IsGrothendieckTopos`: `Sheaf J (Type u)` is a Grothendieck topos
 for every small site and every Grothendieck topos is equivalent to one, so the quantifier over small
@@ -211,11 +217,6 @@ subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`), 6.1 
 `nonempty_point_equivalence`), 6.5 (connected nonempty projective objects, Roos's theorem), 6.6
 (`IsIrreducibleObject`, `IsRigidTopology`, `isIrreducibleObject_iff_projective_preservesCoproducts`
 and `isRigidTopology_iff_nonempty_equiv_presheaf`).
-
-**From SchemeAndStackFoundations** (on main). §2.9: for a quasi-coherent `O_S`-module `F`, the
-big-site module `F^a : (T, h) ↦ Γ(T, h^* F)` is a sheaf for the Zariski topology of the big site
-over `S` (with the étale, fppf and fpqc topologies), and `(O_S)^a` has underlying abelian sheaf
-`𝔾_a`; used in 4.2 for `S = Spec ℤ`, `F = O_S`.
 
 **From LocallyPresentableCategories.** 1.5 (finitely accessible categories are `Ind A`), 3.5
 (essentially algebraic theories), for the Examples of Layer 3.
@@ -950,16 +951,18 @@ finitely presentable set-models (`CommRingCat.isFinitelyPresentable_hom` and
 Define `zariskiCovers A` (the sieves on `A : FPRing.{u}ᵒᵖ` containing, for each `f` of a finite
 family generating the unit ideal, a map `A ⟶ B` making `B` a localization of `A` away from `f`)
 and `zariskiTopology`, the smallest Grothendieck topology containing them. That the forgetful
-functor is a Zariski sheaf is SchemeAndStackFoundations §2.9: `𝔾_a` is a sheaf for the Zariski
-topology of the big site over `Spec ℤ` (Mac Lane–Moerdijk, VIII.6, pp. 445–450, on this site).
+functor is a Zariski sheaf is Tau Ceti's `GrothendieckTopology.isSheaf_Γ` for Mathlib's
+`Scheme.zariskiTopology` (Mac Lane–Moerdijk, VIII.6, pp. 445–450, on this site).
 `isSheaf_forget_zariskiTopology` records it on `FPRing.{u}ᵒᵖ`, the form 4.3 uses; it is the
 adapter. Route: `A ↦ Spec A` sends a generating family of `zariskiCovers A`
 to a Zariski covering `{Spec A[1/fᵢ] → Spec A}` of the big site, and the forgetful functor to the
 restriction of `𝔾_a`; the pullback of a generating family along `A ⟶ A'` contains the
 localizations of `A'` away from the images of the `fᵢ`, which still generate the unit ideal, so it
 suffices to check the sheaf condition on the generating families, where it is that of `𝔾_a`.
-*Needs:* 4.1; SchemeAndStackFoundations §2.9; Mathlib `GrothendieckTopology` (complete lattice),
-`Ideal.span`, `IsLocalization.Away`, `RingHom.toAlgebra`, `Presheaf.IsSheaf`.
+*Needs:* 4.1; Tau Ceti `CategoryTheory.GrothendieckTopology.isSheaf_Γ`; Mathlib
+`Scheme.zariskiTopology`, `Scheme.subcanonical_zariskiTopology`, `Scheme.ΓSpecIso`,
+`GrothendieckTopology` (complete lattice), `Ideal.span`, `IsLocalization.Away`,
+`RingHom.toAlgebra`, `Presheaf.IsSheaf`.
 
 **Checks.**
 
@@ -1004,8 +1007,7 @@ axiom, by induction on the size of the family generating the unit ideal).
 
 ### Dependencies
 
-Layers 1–3; SchemeAndStackFoundations §2.9 for 4.2. Within the layer, 4.2 uses 4.1 and 4.3 uses
-4.1 and 4.2.
+Layers 1–3. Within the layer, 4.2 uses 4.1 and 4.3 uses 4.1 and 4.2.
 
 ## Downstream consumers
 
