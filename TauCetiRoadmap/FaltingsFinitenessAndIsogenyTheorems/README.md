@@ -2924,9 +2924,8 @@ then bounds the fibres of the map to curve isomorphism classes.
   integral commutant at almost all primes (R28.6.7).
 - *HeightsRationalPointsAndObstructions* (RP.4) takes the finiteness of curves with good reduction outside `S`
   (R28.5.15) as the hypothesis of its Parshin implication.
-- *SmallRamificationAndAbelianVarietyBaseCases*, *HeegnerPointEulerSystems*, *MotivesAndAlgebraicCycles*,
-  *EllipticModularityEffectiveComparisons* and *AbelianVarietiesIsogenousToNoJacobian* use the Tate conjecture and
-  its corollaries (Layer R28.4).
+- *SmallRamificationAndAbelianVarietyBaseCases*, *HeegnerPointEulerSystems*, *MotivesAndAlgebraicCycles* and
+  *AbelianVarietiesIsogenousToNoJacobian* use the Tate conjecture and its corollaries (Layer R28.4).
 - *MordellLawrenceVenkatesh* uses Hermite–Minkowski with prescribed ramification (R28.1.9), and the
   finiteness of Weil polynomials and the Frobenius test set in the generality of R28.5.1 and R28.5.2.
 
