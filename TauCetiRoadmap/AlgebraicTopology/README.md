@@ -872,7 +872,7 @@ named in this section is cited as it is at those revisions.
   (`Mathlib/Topology/Algebra/Projectivization.lean`), with the Hausdorff criterion for open
   quotient maps `t2Space_iff_of_isOpenQuotientMap` (`Mathlib/Topology/Separation/Hausdorff.lean`);
   Mathlib states no Hausdorff instance on this topology, and §4.6 proves it for
-  `Projectivization ℝ (Fin (n+1) → ℝ)` and `Projectivization ℂ (Fin (n+1) → ℂ)`; Tau
+  `Projectivization ℝ (Fin (n+1) → ℝ)`; Tau
   Ceti's affine-chart atlas `Projectivization.instChartedSpace` and manifold structure
   `Projectivization.instIsManifold` of `Projectivization 𝕜 (Fin (n+1) → 𝕜)`, for every
   nontrivially normed field and every order of smoothness
@@ -1827,15 +1827,11 @@ Real projective n-space is native `Projectivization ℝ (Fin (n+1) → ℝ)`, wi
    dimension 0,2,…,2n and none in odd dimensions, with the characteristic maps
    `TauCeti.ComplexProjectiveSpace.cellMap`, the closed unit disc D²ᵏ⊂ℂᵏ mapping onto ℂPᵏ by
    z↦[z:√(1−|z|²)] and attaching its boundary S²ᵏ⁻¹ along the quotient map onto ℂPᵏ⁻¹
-   (Hatcher, Example 0.6; supplier contracts). Prove that Mathlib's quotient topology on
-   `Projectivization ℂ (Fin (n+1) → ℂ)` is Hausdorff, by the argument of the real case: the
-   quotient map from the nonzero vectors is an open quotient map and the 2×2 minors
-   `v_i w_j − v_j w_i` are continuous over ℂ. Own the homeomorphism of the sphere-quotient
-   carrier with `Projectivization ℂ (Fin (n+1) → ℂ)`, sending the class of a unit vector to
-   its line, a continuous bijection from a compact space onto that Hausdorff space, and the
-   transport of the CW structure and characteristic maps along it. ComplexKahlerGeometry K7
-   consumes this transported cell structure on `Projectivization ℂ (Fin (n+1) → ℂ)` and
-   takes the quotient topology itself from Mathlib.
+   (Hatcher, Example 0.6; supplier contracts). Every statement of this roadmap about complex
+   projective space is made on this sphere-quotient carrier. The comparison of the carrier
+   with `Projectivization ℂ (Fin (n+1) → ℂ)` under Mathlib's quotient topology, and the
+   transport of the CW structure and its characteristic maps along that comparison, are
+   ComplexKahlerGeometry K7's.
 
 **Checks.**
 
@@ -1843,10 +1839,9 @@ Real projective n-space is native `Projectivization ℝ (Fin (n+1) → ℝ)`, wi
   2-cell, the disc D² mapping by z↦[z:√(1−|z|²)] with its boundary circle collapsed to the
   point [1:0], so it is S² with χ=2; in general the n+1 even cells give χ(ℂPⁿ)=n+1, Tau
   Ceti's `TauCeti.eulerChar_complexProjectiveSpace`, and all cellular differentials vanish
-  because no two cells have adjacent dimensions. Two unit vectors give the same line
-  exactly when they differ by a unit scalar, so the comparison map is a bijection: for n=0
-  the unit sphere of ℂ is the circle, a single orbit of the unit scalars, and the quotient
-  is one point, whereas a quotient by ±1 alone would leave a circle.
+  because no two cells have adjacent dimensions. For n=0 the unit sphere of ℂ is the
+  circle, a single orbit of the unit scalars, and the quotient is one point, whereas a
+  quotient by ±1 alone would leave a circle.
 - Hausdorffness of the quotient topology: the lines through v=(1,2) and w=(2,4) in ℝ² have
   every minor zero (1·4−2·2=0) and are one point of RP¹, while v=(1,0) and w=(0,1) have minor
   1·1−0·0=1 and are distinct points; the antipodal pair ±(1,0) is one point, so the Hausdorff
@@ -5292,9 +5287,9 @@ The objects consumers cite are carried by the following sections.
 - TopologicalKTheory consumes §5.5's based homotopy long exact sequence (T1.5), the CW and
   Whitehead tools of Layers 4 and 8.5 (T1.6), and §4.5's Kelley product CW structure and
   based homotopy inverses with §8.1's Kelley-product comparison of homotopy groups (T7.0).
-- ComplexKahlerGeometry consumes §4.6's cell structure of complex projective space on
-  `Projectivization ℂ (Fin (n+1) → ℂ)` (K7) and §5.0's regrading of decreasing filtrations
-  (K8).
+- ComplexKahlerGeometry consumes §4.6's cell structure of complex projective space on the
+  sphere-quotient carrier, which K7 compares with `Projectivization ℂ (Fin (n+1) → ℂ)`, and
+  §5.0's regrading of decreasing filtrations (K8).
 - CharacteristicClasses consumes §4.7's local contraction and §4.10's weak-equivalence
   comparison (C1.2), §6.2's compactly supported local-coefficient cochains (C1.2a),
   Layers 4 and 6 (C1.5), §§8.8, 8.10 and 8.12 (C1.5a, the identification of RP∞ and CP∞ as
