@@ -625,8 +625,8 @@ Prove Brauer reciprocity: `TauCeti.cartanMatrix P S … = Dᵀ D` for the famili
 (Webb, Proposition 9.5.1 and Corollary 9.5.6, pp. 157 and 160), hence `C` is symmetric and
 positive definite with `det C ≠ 0`. Relate the identity to `TauCeti.projectiveSimplePairing` and
 `TauCeti.cartanMap`, including the identification of bases. *Needs:* §§1.3, 2.1, 2.3, 2.4;
-GL2AutomorphicRepresentationsAndTransfer §R17.5.11; QuiverRepresentations Layer 3;
-GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`,
+GL2AutomorphicRepresentationsAndTransfer §R17.5.11; CharacterTheory §4.5; QuiverRepresentations
+Layer 3; GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`,
 `TauCeti.projectiveSimplePairing_isPerfPair`.
 
 - `cartanMatrix_eq_transpose_mul_decomposition`: let `O` be a complete discrete valuation ring
@@ -686,9 +686,9 @@ the projective cover of the trivial module with `Φ_1 = ∑_χ χ`, the regular 
 
 ### Dependencies
 
-Layers 1–2; GL2AutomorphicRepresentationsAndTransfer §R17.5.11; QuiverRepresentations Layer 3;
-GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`, `TauCeti.jordanHolderMultiplicity`,
-`TauCeti.IsProjectiveCover`, `Representation.baseChange`.
+Layers 1–2; GL2AutomorphicRepresentationsAndTransfer §R17.5.11; CharacterTheory §4.5;
+QuiverRepresentations Layer 3; GrothendieckEulerForms Layer 4; Tau Ceti `TauCeti.cartanMatrix`,
+`TauCeti.jordanHolderMultiplicity`, `TauCeti.IsProjectiveCover`, `Representation.baseChange`.
 
 ## Layer 4: blocks in the three coefficient rings
 
