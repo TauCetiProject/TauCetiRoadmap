@@ -201,6 +201,8 @@ not the roadmap.
 - `ValueDistribution.logCounting`, `ValueDistribution.log_counting_zero_sub_logCounting_top`,
   `Function.locallyFinsuppWithin.logCounting_divisor_eq_circleAverage_sub_const` (Nevanlinna
   counting, for the comparison of 4.6);
+- `Asymptotics.IsBigO` along `Bornology.cobounded ℂ` (the growth bound of `OrderLE`) and
+  Liouville's theorem `Differentiable.apply_eq_apply_of_bounded`, for 0.1;
 - `PhragmenLindelof.vertical_strip` (convexity on a strip);
 - `Convex.contractibleSpace`, `SimplyConnectedSpace.ofContractible` (simple connectivity of
   `Set.univ`, and of the strip `Ω_δ` of 1.1 that `exp` carries onto the sector `S_δ`, for Tau
@@ -210,11 +212,16 @@ not the roadmap.
   `IsOpen.is_const_of_deriv_eq_zero` with `Convex.isPreconnected` and `IsPreconnected.image`
   (uniqueness of the branch of 1.1 on the open preconnected sector, which omits the poles of `Γ`);
 - `Complex.differentiableOn_update_limUnder_of_bddAbove` (removable singularities);
+  `meromorphicOrderAt_mul` (the order of a product of functions meromorphic at a point is the sum
+  of their orders) and `Polynomial.rootMultiplicity`, for the pole-cleared function of 3.4;
 - `Summable.multipliableLocallyUniformlyOn_one_add`, `tprod_one_add_ne_zero_of_summable`,
-  `logDeriv_tprod_eq_tsum` (infinite products), with `multipliable_sineTerm` and
-  `cot_series_rep` as the genus-`0` model;
+  `logDeriv_tprod_eq_tsum` (infinite products), `TendstoLocallyUniformlyOn.differentiableOn`
+  (a locally uniform limit of holomorphic functions is holomorphic, for the canonical product of
+  5.3), with `multipliable_sineTerm` and `cot_series_rep` as the genus-`0` model;
 - `Complex.borelCaratheodory`;
-- `Complex.Gamma`, `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
+- `Complex.Gamma`, `Complex.GammaIntegral` (Euler's integral, for 1.2),
+  `Complex.differentiableAt_Gamma` and `Complex.Gamma_ne_zero` (`Γ` is holomorphic and nonzero
+  off the nonpositive integers, for 1.1), `Complex.digamma`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
   `Complex.differentiable_one_div_Gamma`, `Complex.differentiable_Gammaℝ_inv`,
   `Complex.differentiable_Gammaℂ_inv` (the reciprocal gamma functions are entire);
   `Complex.digamma_one_half`, `Complex.digamma_apply_add_one` (the half-integer values of
@@ -223,13 +230,17 @@ not the roadmap.
   monotone);
 - `Complex.Gammaℝ_ne_zero_of_re_pos` and `differentiableAt_completedZeta` (`Gammaℝ` has no zero on
   `Re s > 0`, and `completedRiemannZeta` is analytic off `0, 1`; for confinement in 7.4);
-- `Complex.Gamma_eq_integral`, `Real.Gamma_eq_integral`, `Real.convexOn_Gamma`,
-  `Complex.Gamma_conj`, `Complex.Gammaℝ_conj`, `Complex.Gammaℂ_conj`, `deriv_conj_conj`,
+- `Complex.Gamma_eq_integral`, `Real.Gamma_eq_integral`, `Complex.norm_cpow_eq_rpow_re_of_pos`
+  (`‖x^w‖ = x^(Re w)` for real `x > 0`), `MeasureTheory.norm_integral_le_integral_norm`,
+  `Real.convexOn_Gamma`, `Real.Gamma_one`, `Real.Gamma_two`, `Complex.Gamma_conj`,
+  `Complex.Gammaℝ_conj`, `Complex.Gammaℂ_conj`, `deriv_conj_conj`,
   `Complex.digamma_one_sub`, `Complex.digamma_two_mul`, `completedRiemannZeta_one_sub`,
   `logDeriv_riemannZeta_one_sub`, `Complex.Gammaℝ_eq_zero_iff`, `differentiableAt_riemannZeta`,
   `logDeriv_congr_nhds`, `logDeriv_congr_nhdsNE`, `logDeriv_mul`, `logDeriv_comp` (Euler's
   integral, conjugation, and the functional equation of `ζ'/ζ`, for 1.3a and 1.4a);
 - `Summable.of_nonneg_of_le` (comparison, for 5.6a);
+- `intervalIntegral.integral_mul_deriv_eq_deriv_mul` (integration by parts on an interval, for
+  8.9);
 - `completedRiemannZeta`, `completedRiemannZeta₀`, `riemannZeta`, `riemannZeta_zero`,
   `riemannZeta_def_of_ne_zero`, `riemannZetaZeros`, `isDiscrete_riemannZetaZeros`,
   `IsCompact.inter_riemannZetaZeros_finite`, `RiemannHypothesis`;
@@ -325,7 +336,9 @@ roadmap that planned them:
   with fields `coeff`, `conductor`, `gammaR`, `gammaC`, `rootNumber`, `completed`, `polarOrder`;
   `AnalyticLFunctionData.degree`, `AnalyticLFunctionData.gammaFactor`,
   `AnalyticLFunctionData.dual`, whose completed function is `s ↦ conj Λ(conj s)`
-  (`AnalyticLFunctionData.dual_completed_apply`), and `AnalyticLFunctionData.gammaFactor_dual`; the
+  (`AnalyticLFunctionData.dual_completed`, as functions, and
+  `AnalyticLFunctionData.dual_completed_apply`, pointwise), and
+  `AnalyticLFunctionData.gammaFactor_dual`; the
   predicates `AnalyticLFunctionData.HasDirichletAgreement` (fields `coeff_one`, `degree_pos` and
   `completed_eq`, the last being `Λ(s) = N^(s/2) γ(s) LSeries coeff s` on `Re s > 1`),
   `AnalyticLFunctionData.HasMeromorphicContinuation` (fields `meromorphic`;
@@ -347,7 +360,8 @@ roadmap that planned them:
   (conductor `q`), `dirichletData_gammaR` (one real gamma shift, `0` for even and `1` for odd
   `χ`), `dirichletData_completed` (the completed function is
   `q^(s/2) · χ.completedLFunction s`), `dirichletData_polarOrder` (zero for `q ≠ 1`),
-  `dirichletData_hasDirichletAgreement`, `dirichletData_hasMeromorphicContinuation` and
+  `dirichletData_dual` (the dual record is `dirichletData χ⁻¹ hχ.inv`, the record of the inverse
+  character), `dirichletData_hasDirichletAgreement`, `dirichletData_hasMeromorphicContinuation` and
   `dirichletData_hasFunctionalEquation`;
 - presented Hecke L-functions, L-functions Layers 2 and 5 in part
   (`NumberTheory/LFunctions/Hecke/Primitive.lean`, `Hecke/Basic.lean`,
@@ -403,7 +417,9 @@ roadmap that planned them:
   `TauCeti.abscissaOfAbsConv_normCoeff_one` (`Estimates.lean`); §6.1,
   `TauCeti.idealSummatory_mul_eq_sub_integral_mul` (`AbelSummation.lean`), with inclusive norm
   cutoffs; §6.2, `TauCeti.Real.logIntegral x = ∫ t in 2..x, (Real.log t)⁻¹`,
-  `TauCeti.Real.logIntegral_eq_div_log_sub_add` and `TauCeti.Real.logIntegral_isEquivalent_div_log`
+  `TauCeti.Real.logIntegral_eq_div_log_sub_add`, `TauCeti.Real.logIntegral_isEquivalent_div_log`
+  and `TauCeti.Real.isLittleO_integral_inv_log_sq` (the remainder `∫ t in 2..x, (log t)^(−2)` of
+  the first integration by parts is `o(x/log x)`, for 8.9)
   (`Analysis/SpecialFunctions/LogIntegral.lean`); §§6.3–6.4, `TauCeti.truncatedPerronKernel_one`
   (`Perron/Basic.lean`), `TauCeti.truncatedPerron_LSeries` and
   `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le` (`Perron/Formula.lean`) and
@@ -475,7 +491,8 @@ roadmap that planned them:
   6.1 and 8.3;
 - moduli and ray classes, from [Global Number Fields](../../Completed/GlobalNumberFields/README.md)
   Layers 2, 3E and 9 (`NumberTheory/NumberField/Global/RayClass/`):
-  `TauCeti.GlobalNumberFields.Modulus`, `Modulus.support`, `Modulus.one` and
+  `TauCeti.GlobalNumberFields.Modulus` (fields `finitePart`, a nonzero ideal of `𝓞 K`, and
+  `infinitePart`, a finite set of real places), `Modulus.support`, `Modulus.one` and
   `integralIdealsPrimeTo` (`Modulus.lean`), `RayClassGroup` and `idealClass` (`Basic.lean`),
   `finite_rayClassGroup` (`Finite.lean`), `RayClassCharacter` (`Character/Basic.lean`), and
   `rayClassIdealMainTerm` with `rayClassIdealMainTerm_eq` (`MainTerm.lean`), whose Euler factors
@@ -1280,27 +1297,20 @@ off `polarOrder.support`, equals `−polarOrder` at the points of `U ∩ polarOr
 `0` off `U` (Mathlib's junk value); at `U = univ` it is `−polarOrder` on the whole polar support,
 and `divisor (entireCompletion d) univ = divisor Λ univ + polarOrder`.
 
-**Checks.**
-
-- For the `ζ` record and `U = ∅`, `divisor Λ U 1 = 0` while `−polarOrder 1 = −1`: the restriction
-  to `U` is needed.
-- For the `ζ` record and `U = univ`, the divisor is `−1` at `0` and at `1`, `0` at the trivial
-  zeros `−2, −4, …` (where `Λ` is regular and nonzero), and positive exactly at the nontrivial
-  zeros.
-- For a nontrivial primitive Dirichlet character the polar support is empty, so the divisor of
-  `Λ` and of *entireCompletion* agree.
-
 *Needs:* Layer 0; L-functions Layer 0; Mathlib `MeromorphicOn.divisor_def`.
 
 **Checks.**
 
 - The `ζ` record, `polarOrder = single 0 1 + single 1 1`, with `U = ∅`:
   `divisor completedRiemannZeta ∅ 1 = 0`, while `−polarOrder 1 = −1`; a clause giving `−polarOrder`
-  on all of `polarOrder.support` for every `U` is false. With `U = univ` the value is `−1`, the
-  simple pole of `Λ` at `1`.
-- The `ζ` record at `−2`: `polarOrder (−2) = 0` and `divisor completedRiemannZeta univ (−2) = 0`,
-  since `Λ(−2) = Λ(3) ≠ 0`; the trivial zero of `ζ` is cancelled by the pole of `Gammaℝ` and is not
-  a zero of `Λ`.
+  on all of `polarOrder.support` for every `U` is false, so the restriction to `U` is needed.
+- The `ζ` record with `U = univ`: the divisor is `−1` at `0` and at `1`, the simple poles of `Λ`,
+  and positive exactly at the nontrivial zeros.
+- The `ζ` record at the trivial zero `−2`: `polarOrder (−2) = 0` and
+  `divisor completedRiemannZeta univ (−2) = 0`, since `Λ(−2) = Λ(3) ≠ 0`; the zero of `ζ` is
+  cancelled by the pole of `Gammaℝ`, so it is not a zero of `Λ`, and the same holds at `−4, −6, …`.
+- For a nontrivial primitive Dirichlet character the polar support is empty, so the divisor of
+  `Λ` and of *entireCompletion* agree at every point.
 - `divisor zetaEntireCompletion univ 1 = divisor completedRiemannZeta univ 1 + polarOrder 1 =
   −1 + 1 = 0`, in agreement with `zetaEntireCompletion 1 = 1 ≠ 0`; at a nontrivial zero `ρ`, where
   `polarOrder ρ = 0`, the two divisors agree.
