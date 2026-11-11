@@ -117,12 +117,13 @@ jobs:
               # report that was only held for the queue has no refusal on its head and is always
               # offered.
               #
-              # Which head was refused is read from the last line of the refusal, written by the
-              # `record` job of progress-merge-report.yml; see there for why only the last line is
-              # trusted. If the latest refusal has no such line (the note failed, or the head moved
-              # during that run), dates decide: the report waits if its head was committed before
-              # that refusal. That date is the author's to choose; a false one can only earn the
-              # author's own report more or fewer retries.
+              # Which head was refused is read from the last line of the refusal, which the gate
+              # writes itself. Only the last line is trusted: the refusal quotes text from the pull
+              # request, but always ends with the gate's closing sentence, so nothing quoted can
+              # stand last. If the latest refusal has no such line (it was written by a gate pinned
+              # before that line existed), dates decide: the report waits if its head was committed
+              # before that refusal. That date is the author's to choose; a false one can only earn
+              # the author's own report more or fewer retries.
               now=$(date -u +%s); keep=""
               while read -r number sha; do
                 [ -n "$number" ] || continue
@@ -161,8 +162,9 @@ jobs:
       # them back. A dispatch by hand always proceeds, unless it asks to wait as an automatic run does.
       #
       # This check keeps a busy queue from costing a runner per waiting report. It is not the one
-      # that protects the queue: each report is checked again, just before its own validation, by
-      # the same test in progress-merge-report.yml. Keep the two in step.
+      # that protects the queue: each report is checked again before its validation, by the same
+      # test in progress-merge-report.yml, and finally by the gate inside its landing step
+      # (`hold_while_queue_busy`). Keep the three in step.
       - name: Hold while the merge queue is busy
         id: hold
         env:
@@ -189,18 +191,16 @@ jobs:
     if: needs.resolve.outputs.prs != '[]'
     # One report at a time, each with its own look at the merge queue: a queue that fills while an
     # earlier report is being validated holds the later ones. This orders the reports of one run.
-    # A report's own pull request event starts a run of its own, which can let that report through
-    # at the same moment; see "What this does not cover" in progress-merge-report.yml.
+    # A report's own pull request event starts a run of its own, which can reach the gate at the
+    # same moment; the gate's look at the queue inside its landing step covers that.
     strategy:
       fail-fast: false
       max-parallel: 1
       matrix:
         pr: ${{ fromJSON(needs.resolve.outputs.prs) }}
-    # `write` here and nowhere else: the called workflow narrows it again to the jobs that explain
+    # `write` here and nowhere else: the called workflow narrows it again to the job that explains
     # a refusal on the pull request, and a called workflow cannot exceed what this grants.
-    # `actions: read` is for its `record` job alone, which reads the log of this run's own gate.
     permissions:
-      actions: read
       contents: read
       pull-requests: write
     uses: ./.github/workflows/progress-merge-report.yml
