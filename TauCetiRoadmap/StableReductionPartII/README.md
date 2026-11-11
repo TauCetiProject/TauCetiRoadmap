@@ -203,7 +203,7 @@ What JacobianChallengePartII must provide (gap:strong-torelli-faithfulness): Pro
 
 ### From TauCetiRoadmap.JacobianChallenge
 
-Layers A–F supply absolute line classes, coherent H¹, genus, duality, relative cohomology and the pointed field Jacobian. Coherent H¹ is not identified with étale H¹.
+Layers A–F supply absolute line classes, coherent H¹, genus, Riemann–Roch on smooth projective geometrically connected curves, duality, relative cohomology and the pointed field Jacobian. Coherent H¹ is not identified with étale H¹.
 
 ### From TauCetiRoadmap.AlgebraicVectorBundles
 
@@ -268,10 +268,6 @@ Use §§2.1–2.3 for generalized elliptic curves, their actions, standard polyg
 ### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
 
 §3.3 supplies the local Noetherian fibre injection criterion: for a finite B-module N flat over A and an arbitrary A-flat target P, an A-linear map N→P injective modulo the maximal ideal of A is injective with A-flat cokernel. Localizing finite windows of the projective resolutions supplies the coefficient exactness tests; no finite generation over A is inferred from finite generation over B.
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-Layers 0–12 supplies divisors, genus and Riemann–Roch with the function-field/scheme comparison. No new function-field dictionary is constructed here.
 
 ## How to read the build
 
@@ -682,13 +678,13 @@ Let C/k be a proper geometrically connected nodal curve of pure dimension one ov
 
 Properness, geometric connectedness, nodality and pure dimension one suffice for Ext² vanishing and the exact sequence; only Ext⁰ vanishing and the dimension formula require stability and g≥2. All characteristics are allowed. Ext is coherent sheaf Ext over O_C followed by global derived Hom; Ω_C is algebraic Kähler differentials on the finite-type curve. N_q is a tensor product of tangent lines, not a chosen copy of k until branch parameters are fixed.
 
-One proof uses the following inputs and comparisons. Use normalization at nodes from StableReduction Layer 1: a derivation on the node lifts to derivations vanishing on both branches. The local hypersurface resolution gives sheaf Ext¹ supported at nodes with fibres N_q and sheaf Ext^i=0 for i≥2. On the reduced nodal curve the conormal map in the hypersurface presentation is injective, so the cotangent complex is quasi-isomorphic to Ω_C for this computation. Use the local-to-global coherent Ext spectral sequence of gap:coherent-curve-deformation-ext, together with cohomological dimension one from StableReduction Layer 2. This gives the exact sequence and vanishing; the zero-dimensional support kills H¹ of sheaf Ext¹. For the stable clause, stability implies `H⁰(T_{C_v}(−D_v))=0`. Riemann–Roch gives h¹=3g_v−3+deg D_v. Use Σdeg D_v=2δ and g=Σg_v+δ−|vertices|+1 to obtain Σh¹+δ=3g−3. The global-to-local deformation map is smooth by SchemeAndStackFoundations §4.6 and Lemma 93.16.3; the displayed tangent surjection identifies its δ local smoothing directions. With unobstructedness these become independent parameters in the completed framed Hilbert charts of §1.13. Tangent surjectivity alone is not the formal smoothness assertion. No averaging over automorphism groups is used.
+One proof uses the following inputs and comparisons. Use normalization at nodes from StableReduction Layer 1: a derivation on the node lifts to derivations vanishing on both branches. The local hypersurface resolution gives sheaf Ext¹ supported at nodes with fibres N_q and sheaf Ext^i=0 for i≥2. On the reduced nodal curve the conormal map in the hypersurface presentation is injective, so the cotangent complex is quasi-isomorphic to Ω_C for this computation. Use the local-to-global coherent Ext spectral sequence of gap:coherent-curve-deformation-ext, together with cohomological dimension one from StableReduction Layer 2. This gives the exact sequence and vanishing; the zero-dimensional support kills H¹ of sheaf Ext¹. For the stable clause, stability implies `H⁰(T_{C_v}(−D_v))=0`. Riemann–Roch on the smooth projective component C_v (JacobianChallenge Layer B) gives h¹=3g_v−3+deg D_v. Use Σdeg D_v=2δ and g=Σg_v+δ−|vertices|+1 to obtain Σh¹+δ=3g−3. The global-to-local deformation map is smooth by SchemeAndStackFoundations §4.6 and Lemma 93.16.3; the displayed tangent surjection identifies its δ local smoothing directions. With unobstructedness these become independent parameters in the completed framed Hilbert charts of §1.13. Tangent surjectivity alone is not the formal smoothness assertion. No averaging over automorphism groups is used.
 
 For smooth genus two, the local-node sum is zero and h¹(T_C)=3. For an irreducible one-nodal genus-two curve, the normalization has genus one: h¹(T_E(−p−q))=2 and the local contribution is 1. For the genus-two theta curve consisting of two P¹s meeting at three nodes, both `H¹(T_{P¹}(−3 points))` vanish, and the three local directions give dimension 3. Ordinary algebraic differentials of k[[u,v]] must not replace continuous deformation theory of a complete local algebra. For the unstable smooth curve P¹, the same Ext² vanishing and exact sequence hold, while h⁰(T)=3 and Ext¹=0; neither stable-only conclusion may be applied.
 
 ([dm](#references), §1, Lemmas 1.3–1.4 and Proposition 1.5, pp. 79–82; Theorem 1.6, p. 83. The obstruction calculation and independent node parameters are expanded into the normalization and local-to-global sequence.; [mc1-def](#references), Lemmas 93.16.3–93.16.4 (0DZP, 0DZQ), pp. 28–29; Lemma 93.15.1, p. 27. For separated finite-type curves smooth outside finitely many points, Lemma 93.16.3 gives a smooth global-to-local deformation map and the henselian/completed comparisons with tangent isomorphisms; the lci hypothesis in Lemma 93.16.4 gives unobstructedness.)
 
-*Needs:* gap:coherent-curve-deformation-ext, StableReduction Layer 1, StableReduction Layer 2, StableReduction Layer 3, SchemeAndStackFoundations §4.6, SchemeAndStackFoundations §§2.1–2.2, 2.6, 2.18–2.22.
+*Needs:* gap:coherent-curve-deformation-ext, StableReduction Layer 1, StableReduction Layer 2, StableReduction Layer 3, SchemeAndStackFoundations §4.6, SchemeAndStackFoundations §§2.1–2.2, 2.6, 2.18–2.22, JacobianChallenge Layer B.
 
 ### 1.13 Completed framed Hilbert charts
 
@@ -766,7 +762,7 @@ At g=2 the Hilbert polynomial is 6T−1. A frame is projective: tensoring all fi
 
 ### Dependencies
 
-Layer 0; StableReduction Layers 1–3 and 8; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.1, 1.15, 1.18–1.23, 2.1–2.2, 2.6, 2.18–2.22, 4.1–4.10, 4.14–4.15, 4.18, 5.4; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 2.1–2.2, 3.1–3.5, 7.2–7.3, 7.6, 8.1–8.3; EnhancedDerivedSheaves §E1.9. Hilbert quotient identification uses the family object, not terminal algebraicity or properness as its own premise.
+Layer 0; StableReduction Layers 1–3 and 8; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.1, 1.15, 1.18–1.23, 2.1–2.2, 2.6, 2.18–2.22, 4.1–4.10, 4.14–4.15, 4.18, 5.4; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 2.1–2.2, 3.1–3.5, 7.2–7.3, 7.6, 8.1–8.3; EnhancedDerivedSheaves §E1.9; JacobianChallenge Layer B. Hilbert quotient identification uses the family object, not terminal algebraicity or properness as its own premise.
 
 ## Layer 2: universal curves and the full pointed stable range
 
