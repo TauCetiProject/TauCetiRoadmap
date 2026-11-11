@@ -202,7 +202,6 @@ H1.1 precedes H1.2–H1.3; H1.4 consumes those arithmetic identifications and Gl
 - EffectiveClassNumbers: H1.1–H1.3, H2.1–H2.2, the statements of H2.4 and H3.1; its §§4.8–4.9 state the effective forms of H2.4.
 - EllipticCurveModularityPartII: H3.6.
 - EllipticCurvePeriodsAndModularParametrizations: H1.4 and H3.1.
-- EllipticModularityEffectiveComparisons: H1.1–H1.4, H3.2 and H3.5–H3.6.
 - ErdosProgressionPowers: H3.1.
 - EulerSystemsAndKolyvaginSystems: H1.4.
 - ExplicitNumberFields: H2.2.
