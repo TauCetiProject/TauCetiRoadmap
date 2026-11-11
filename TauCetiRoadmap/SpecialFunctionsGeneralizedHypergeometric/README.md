@@ -433,8 +433,9 @@ the shift construction of 1.2, which near every point is one `S_{m,n}` with fixe
   being the largest nonpositive integer parameter of DLMF makes the bottom symbols nonzero
   (`terminatingSum_reverse_16_2_3`). 16.2.4 likewise, for every partial sum: the right side is the
   one printed, `(𝐚)ₘ zᵐ/((𝐛)ₘ m!)` times the terminating
-  `_{q+2}F_p(−m, 1, 1 − m − 𝐛; 1 − m − 𝐚; (−1)^{p+q+1}/z)`, as a finite sum
-  The proof reverses the order of summation, `k ↦ m − k`.
+  `_{q+2}F_p(−m, 1, 1 − m − 𝐛; 1 − m − 𝐚; (−1)^{p+q+1}/z)`, as a finite sum, for `m : ℕ`,
+  `(𝐛)ₘ ≠ 0`, `(1 − m − 𝐚)ₘ ≠ 0` and `z ≠ 0`. The proof reverses the order of summation,
+  `k ↦ m − k`.
 - **The growth bound** for `p = q`: there are `C` and `K` such that
   `|𝐅(a; b; w)| ≤ C (1 + |w|)^K e^{max(Re w, 0)}` for every `w`
   (`norm_regularizedGeneralizedHypergeometric_le`), for fixed parameters. Where
@@ -617,8 +618,9 @@ All sums at `z = 1` are Mathlib's series at `1`, as pinned.
 - 16.4.1–16.4.2 as definitions on lists of parameters, of the well-poised, very well-poised and
   `k`-balanced series: `[a₁, …, a_{q+1}]`, `[b₁, …, b_q]` is well-poised if
   `a₁ + b₁ = ⋯ = a_q + b_q = a_{q+1} + 1`, very well-poised if moreover `a₁ = b₁ + 1`, and
-  `k`-balanced if `a_{q+1} ∈ {0, −1, −2, …}` and `a₁ + ⋯ + a_{q+1} + k = b₁ + ⋯ + b_q`. Each sum
-  below states its parameters explicitly; the definitions name the classes;
+  `k`-balanced if some `a_j` lies in `{0, −1, −2, …}` and `a₁ + ⋯ + a_{q+1} + k = b₁ + ⋯ + b_q`.
+  Well-poisedness depends on the order of the lists, `k`-balancedness does not. Each sum below
+  states its parameters explicitly; the definitions name the classes;
 - 16.4.2_5 (Lerch): `∑_{k≤n} (a)ₖ/(c)ₖ = (c − 1)/(c − a − 1) · (1 − (a)_{n+1}/(c − 1)_{n+1})` for
   `c − a − 1 ≠ 0` and `(c − 1)_{n+1} ≠ 0`, and the limiting form
   `∑_{k≤n} (a)ₖ/(a + 1)ₖ = a ∑_{k≤n} 1/(a + k)` for `a ∉ {0, −1, …, −n}`, which is
@@ -626,9 +628,18 @@ All sums at `z = 1` are Mathlib's series at `1`, as pinned.
   `Complex.digamma` has the junk value `0`, so the digamma form needs every `a + k` off the poles.)
 
 **Checks.**
-- The `₇F₆` of 16.4.10 is very well-poised and, with its balance condition, `2`-balanced; the
-  `₃F₂` of Dixon's sum 16.4.4 is well-poised and, for generic parameters, not very well-poised.
-  This excludes a definition of the classes that ignores the order of the parameters.
+- The `₇F₆` of 16.4.10, with the top parameters `[a/2 + 1, b, c, d, f, −n, a]` and the bottom
+  parameters `[a/2, a − b + 1, a − c + 1, a − d + 1, a − f + 1, a + n + 1]`, is very
+  well-poised, and with its balance condition `b + c + d + f = 2a + 1 + n` it is `2`-balanced. In
+  the order printed in 16.4.10, `a₁ + b₁ = 3a/2`, so that list is not well-poised. This excludes
+  a definition of well-poisedness that ignores the order of the parameters.
+- The `₃F₂` of Dixon's sum 16.4.4 is well-poised and, for generic parameters, not very
+  well-poised.
+- The `₃F₂` of 16.4.3 at `(n, a, b, c, d) = (1, ½, ½, 3/2, −½)` has `Σ𝐚 + 1 = 1 = c + d`, so it is
+  `1`-balanced and not `2`-balanced.
+- The `₃F₂` of Watson's sum 16.4.6 at `(a, b, c) = (0.3, 0.5, 0.9)`, with bottom parameters `0.9`
+  and `1.8`, is well-poised in no order: with unpaired top parameter `u`, the two pairs sum to
+  `2(u + 1)` and to `2.7 + (1.7 − u)`, which forces `u = 0.8`, not a top parameter.
 
 *Needs:* Layer 1; Mathlib `Complex.digamma`.
 
@@ -649,13 +660,27 @@ For `n : ℕ`, as finite sums with the bottom Pochhammer symbols nonzero:
   rewritten by `Γ(x + m)/Γ(x) = (x)ₘ`. For odd `n` the term of index `j` is `(−1)ʲ` times a
   function symmetric under `j ↦ n − j`, so the terms cancel in pairs; for even `n` a WZ pair in
   `k` proves it (`terminatingSum_dixon_even`);
-- 16.4.6 at `a = −n` (terminating Watson) and 16.4.8 (Džrbasjan), by WZ pairs in `n`.
+- 16.4.6 at `a = −n` (terminating Watson), for `((b − n + 1)/2)ₙ (2c)ₙ ≠ 0` and with no condition
+  on `Re(2c − a − b)`: the sum of `[−n, b, c]`, `[(b − n + 1)/2, 2c]` is `0` for odd `n`, and for
+  `n = 2k` it is `(½)ₖ (c + (1 − b)/2)ₖ/(((1 − b)/2)ₖ (c + ½)ₖ)` (`terminatingSum_watson_even`),
+  by a WZ pair in `n`; the hypothesis makes the denominator nonzero, since `((1 − b)/2)ₖ` divides
+  `((b − 2k + 1)/2)_{2k}` up to sign and `(2c)_{2k} = 4ᵏ (c)ₖ (c + ½)ₖ`;
+- 16.4.8 (Džrbasjan), for `(d)₂ₙ ≠ 0`: the sum of `[−n, a, 1 − a]`, `[d, 1 − d − 2n]` is
+  `((a + d)/2)ₙ ((d − a + 1)/2)ₙ/((d/2)ₙ ((d + 1)/2)ₙ)` (`terminatingSum_dzrbasjan`), by a WZ pair
+  in `n`. The single hypothesis suffices, since `(1 − d − 2n)ₖ = (−1)ᵏ (d + 2n − k)ₖ` and
+  `(d/2)ₙ ((d + 1)/2)ₙ = (d)₂ₙ/4ⁿ`. It is not the case `c = −n` of 16.4.7 (4.3).
 
 **Checks.**
 - 16.4.3 at `(n, a, b, c) = (1, ½, ½, 3/2)`, `d = −½`: both sides are `4/3`.
 - 16.4.5 at `n = 2`, `b = c = −2` is `∑ⱼ (−1)ʲ C(2, j)³ = −6`, Dixon's identity
   `∑ⱼ (−1)ʲ C(2k, j)³ = (−1)ᵏ (3k)!/(k!)³` at `k = 1`, read through the Pochhammer form (the Gamma
   form has poles there).
+- 16.4.6 at `a = −n`: at `(n, b, c) = (2, 0.5, −1.4)`, where `Re(2c − a − b) = −1.3`, both sides
+  are `2.55555 55555 55…`; at `(4, 0.3 + 0.2i, −2.6 + 0.1i)` both are
+  `1.62612 38526 09… + 0.86836 15758 22… i`.
+- 16.4.8 at `(a, d) = (0.3 + 0.2i, 1.4 − 0.1i)`: both sides are
+  `1.07100 44075 34… + 0.03193 48283 17… i` for `n = 1` and
+  `1.09604 92224 04… + 0.04217 13385 85… i` for `n = 3`.
 
 *Needs:* 4.1; Layer 1; SpecialFunctionsHypergeometric 4.2 (Chu–Vandermonde) and 5.1.
 
@@ -763,14 +788,22 @@ absolutely (1.6):
 
 - 16.4.16 as a definition: the bilateral series `ₚH_q(𝐚; 𝐛; z) = ∑_{k ∈ ℤ} (𝐚)ₖ/(𝐛)ₖ zᵏ`, with the
   Pochhammer symbol at negative `k` given by `(x)ₖ = Γ(x + k)/Γ(x)`, as a `tsum` over `ℤ`;
-- 16.4.17 (Dougall's bilateral sum) for `Re(c + d − a − b) > 1` and `a, b, c, d` with every
-  `Γ` in the formula finite and nonzero: the series is summable and the sum is as printed, from
+- 16.4.17 (Dougall's bilateral sum) for `Re(c + d − a − b) > 1`, with `c`, `d`, `1 − a` and
+  `1 − b` off the poles of `Γ`: the series is summable and its sum is
+  `Γ(c) Γ(d) Γ(1 − a) Γ(1 − b) Γ(c + d − a − b − 1)` times
+  `(Γ(c − a) Γ(d − a) Γ(c − b) Γ(d − b))⁻¹`, with reciprocal Gamma factors, so that the case
+  `b = d` is covered; from
   SpecialFunctionsHypergeometric 4.2 (15.4.25) by `(x)ₖ = Γ(x + k)/Γ(x)` and the reflection formula.
 
 **Checks.**
 - 16.4.17 at `b = d`: `₁H₁(a; c; 1) = 0` for `Re(c − a) > 1`, while the sum over `k ≥ 0` alone is
   `(c − 1)/(c − a − 1)`; at `(a, c) = (0.3, 2.9)` that is `1.1875`. This excludes a one-sided
   definition.
+- The term of index `k = −1` of `₁H₁(a; c; 1)` is `(c − 1)/(a − 1)`, which is `−2.71428 57…` at
+  `(a, c) = (0.3, 2.9)`. This excludes a definition that uses the ascending Pochhammer
+  polynomial, or `1`, at negative indices.
+- 16.4.17 at `(a, b, c, d) = (0.3 + 0.1i, −0.4 + 0.2i, 1.7 − 0.3i, 1.2 + 0.5i)`: the right side is
+  `1.13072 61026 60… + 0.44353 25702 10… i`.
 
 *Needs:* Layer 1; SpecialFunctionsHypergeometric 4.2.
 
@@ -992,9 +1025,10 @@ Layers 1–4; SpecialFunctionsHypergeometric 1.2–1.4 and 4.2.
 
 ### 7.1 Confluence
 
-- 16.8.10: for `p ≤ q`, `F(a, α; b; z/α) → F(a; b; z)` as `|α| → ∞`, locally uniformly in `z`,
-  with `b_k ∉ {0, −1, −2, …}` (`tendsto_generalizedHypergeometric_confluence_top`); the
-  coefficients `(α)ₙ/αⁿ → 1` with `|(α)ₙ/αⁿ| ≤ (1 + n/|α|)ⁿ`, and dominated convergence;
+- 16.8.10: for `p ≤ q`, `F(a, α; b; z/α) → F(a; b; z)` as `|α| → ∞` for every `z`, with
+  `b_k ∉ {0, −1, −2, …}` (`tendsto_generalizedHypergeometric_confluence_top`); the convergence is
+  locally uniform in `z`. The route: the coefficients `(α)ₙ/αⁿ → 1` with
+  `|(α)ₙ/αⁿ| ≤ (1 + n/|α|)ⁿ`, and dominated convergence;
 - 16.8.11: for `p ≤ q + 1`, `F(a; b, β; βz) → F(a; b; z)` as `|β| → ∞` in the sector
   `|ph β| ≤ π − δ`, with `b_k ∉ {0, −1, −2, …}`; when `p = q + 1`, for `|z| < 1`, and moreover
   `|z| < sin δ` when `δ < π/2` (`tendsto_generalizedHypergeometric_confluence_bottom`). The
@@ -1027,7 +1061,7 @@ Layer 1.
 
 ## Downstream consumers
 
-- [SpecialFunctionsStruve](../SpecialFunctionsStruve/README.md) and the other special-function
+- SpecialFunctionsStruve and the other special-function
   roadmaps use Mathlib's `regularizedHGFun` with `p ≤ q`, which is this roadmap's `𝐅` on all of
   `ℂ` (1.3); their identifications of the Struve, Anger–Weber and Lommel functions with `₁F₂`
   need nothing beyond Layer 1.

@@ -293,6 +293,19 @@ theorem terminatingSum_dixon_even (k : ℕ) (b c : ℂ)
       ((2 * k) ! : ℂ) * poch(b + c + k, k) / ((k ! : ℂ) * poch(b + k, k) * poch(c + k, k)) :=
   sorry
 
+/-- 4.2: the terminating Watson sum, DLMF 16.4.6 at `a = −n`, for even `n = 2k`. -/
+theorem terminatingSum_watson_even (k : ℕ) (b c : ℂ)
+    (h : poch((b - 2 * k + 1) / 2, 2 * k) * poch(2 * c, 2 * k) ≠ 0) :
+    terminatingSum [-(2 * k : ℂ), b, c] [(b - 2 * k + 1) / 2, 2 * c] (2 * k) =
+      poch(1 / 2, k) * poch(c + (1 - b) / 2, k) / (poch((1 - b) / 2, k) * poch(c + 1 / 2, k)) :=
+  sorry
+
+/-- 4.2: Džrbasjan's sum, DLMF 16.4.8. -/
+theorem terminatingSum_dzrbasjan (n : ℕ) (a d : ℂ) (hd : poch(d, 2 * n) ≠ 0) :
+    terminatingSum [-(n : ℂ), a, 1 - a] [d, 1 - d - 2 * n] n =
+      poch((a + d) / 2, n) * poch((d - a + 1) / 2, n) /
+        (poch(d / 2, n) * poch((d + 1) / 2, n)) := sorry
+
 /-- 4.2: Dougall's very-well-poised `₇F₆` sum, DLMF 16.4.10. -/
 theorem terminatingSum_dougall_7F6 (n : ℕ) (a b c d f : ℂ)
     (hbal : 2 * a + 1 = b + c + d + f - n)
