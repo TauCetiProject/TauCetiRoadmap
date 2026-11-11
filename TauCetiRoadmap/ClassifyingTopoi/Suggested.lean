@@ -21,13 +21,22 @@ Headlines stated, with their README targets:
 * 3.1 `isOfPresheafType_of_isHorn`; 3.2 `isClassifyingSite_genericObject`;
   3.3 `isClassifyingSite_genericTorsor` and `moritaEquivalent_torsorTheory_iff`;
   3.4 `isClassifyingSite_genericInterval`;
+  3.5 `isOfPresheafType_iff_forall_covered`, `GeometricFormula.isIrreducible_iff_exists_presentedBy`,
+  `exists_isPresentedBy_irreducible_of_isFinitelyPresentable`,
+  `nonempty_equivalence_irreducible_fpModel` and `isIdempotentComplete_irreducible`;
+  3.6 `exists_quotient_isSetModel_iff_isHomogeneous` and `isSetModel_iff_isIrreducibleObject`;
 * 4.1 `isClassifyingSite_genericRing` and `finitePresentation_of_isFinitelyPresentable`;
   4.2 `isSheaf_forget_zariskiTopology`; 4.3 `isClassifyingSite_localRingTheory`.
 
 Not stated: README 2.2 (a), the correspondence between models of a Horn theory in
 `Sheaf K (Type u)` and the filtering functors on its classifying category, lacking
 GrothendieckTopoi's `IsFiltering`; the classifying category itself is therefore not defined here,
-no stated headline using it. Geometric morphisms and Diaconescu's theorem are GrothendieckTopoi's
+no stated headline using it. Not stated: README 3.6, the `J`-homogeneity of a model in an arbitrary
+sheaf topos and the classification by `Sh((FPModel T)ᵒᵖ, J)`, lacking the object of homomorphisms
+between two models of a theory (Caramello 2012b, Definition 4.4), which is not defined at the pins;
+the case of sets, in its elementary form, is stated. The irreducibility of formulae is written
+with Mathlib's `canonicalTopology` of the topos, since GrothendieckTopoi's `IsIrreducibleObject`
+is not importable here. Geometric morphisms and Diaconescu's theorem are GrothendieckTopoi's
 (Layer 2); the universal property here is written with their inverse images, left exact left
 adjoints between categories of sheaves, so that it is statable on Mathlib's carriers.
 -/
@@ -460,6 +469,126 @@ noncomputable def genericInterval :
 /-- **3.4.** Simplicial sets classify intervals. -/
 theorem isClassifyingSite_genericInterval :
     IsClassifyingSite intervalTheory.{u} ⊥ genericInterval.{u} :=
+  sorry
+
+/-! ### 3.5 `T`-irreducible formulae and finitely presentable models -/
+
+/-- **3.5.** A geometric formula is irreducible for a generic model `U`: the object interpreting
+it in the topos is irreducible, that is, only the maximal sieve covers it in the canonical
+topology. -/
+def GeometricFormula.IsIrreducible {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    (U : CatStructure L (Sheaf J (Type u))) {n : ℕ} (φ : GeometricFormula.{u} L n) : Prop :=
+  ∀ S : Sieve (Subobject.underlying.obj (U.interp φ)),
+    S ∈ canonicalTopology (Sheaf J (Type u)) (Subobject.underlying.obj (U.interp φ)) → S = ⊤
+
+/-- **3.5.** A set-model of a geometric theory: a structure on a type in `Type u` satisfying every
+axiom. -/
+structure SetModel (T : GeometricTheory.{u} L) where
+  /-- The underlying type. -/
+  carrier : Type u
+  /-- The structure. -/
+  [str : L.Structure carrier]
+  /-- Every axiom holds. -/
+  isModel : T.IsSetModel carrier
+
+attribute [instance] SetModel.str
+
+/-- **3.5.** The category of set-models of `T` with the homomorphisms of structures. -/
+instance (T : GeometricTheory.{u} L) : Category.{u} (SetModel T) where
+  Hom M N := M.carrier →[L] N.carrier
+  id M := FirstOrder.Language.Hom.id L M.carrier
+  comp f g := g.comp f
+
+/-- **3.5.** The finitely presentable set-models of `T`. -/
+abbrev FPModel (T : GeometricTheory.{u} L) : Type _ :=
+  ObjectProperty.FullSubcategory (fun M : SetModel T => IsFinitelyPresentable.{u} M)
+
+/-- **3.5.** A set-model `M` is presented by `φ` when some assignment `ξ` in `M` satisfying `φ`
+is sent, by a unique homomorphism, to each assignment `b` satisfying `φ` in a model `N`. -/
+def SetModel.IsPresentedBy {T : GeometricTheory.{u} L} (M : SetModel T) {n : ℕ}
+    (φ : GeometricFormula.{u} L n) : Prop :=
+  ∃ ξ : Fin n → M.carrier, φ.Realize ξ ∧ ∀ (N : SetModel T) (b : Fin n → N.carrier),
+    φ.Realize b → ∃! f : M ⟶ N, ⇑(show M.carrier →[L] N.carrier from f) ∘ ξ = b
+
+/-- **3.5.** A theory is of presheaf type exactly when every geometric formula is covered by
+irreducible formulae: an epimorphic family from their interpretations. -/
+theorem isOfPresheafType_iff_forall_covered {T : GeometricTheory.{u} L} {C : Type u}
+    [SmallCategory C] {J : GrothendieckTopology C} {U : CatStructure L (Sheaf J (Type u))}
+    (hU : IsClassifyingSite T J U) :
+    IsOfPresheafType T ↔ ∀ (n : ℕ) (φ : GeometricFormula.{u} L n),
+      ∃ (ι : Type u) (m : ι → ℕ) (ψ : ∀ i, GeometricFormula.{u} L (m i))
+        (f : ∀ i, Subobject.underlying.obj (U.interp (ψ i)) ⟶
+          Subobject.underlying.obj (U.interp φ)),
+        (∀ i, (ψ i).IsIrreducible U) ∧ Epi (Sigma.desc f) :=
+  sorry
+
+/-- **3.5.** For a theory of presheaf type, a formula is irreducible exactly when it presents a
+set-model. -/
+theorem GeometricFormula.isIrreducible_iff_exists_presentedBy {T : GeometricTheory.{u} L}
+    {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    {U : CatStructure L (Sheaf J (Type u))} (hU : IsClassifyingSite T J U)
+    (hT : IsOfPresheafType T) {n : ℕ} (φ : GeometricFormula.{u} L n) :
+    φ.IsIrreducible U ↔ ∃ M : SetModel T, M.IsPresentedBy φ :=
+  sorry
+
+/-- **3.5.** For a theory of presheaf type, every finitely presentable set-model is presented by
+an irreducible formula. -/
+theorem exists_isPresentedBy_irreducible_of_isFinitelyPresentable {T : GeometricTheory.{u} L}
+    {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    {U : CatStructure L (Sheaf J (Type u))} (hU : IsClassifyingSite T J U)
+    (hT : IsOfPresheafType T) (M : SetModel T) (hM : IsFinitelyPresentable.{u} M) :
+    ∃ (n : ℕ) (φ : GeometricFormula.{u} L n), φ.IsIrreducible U ∧ M.IsPresentedBy φ :=
+  sorry
+
+/-- **3.5.** The objects of the topos isomorphic to the interpretation of an irreducible
+formula. -/
+def irreducibleFormulaObjects {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    (U : CatStructure L (Sheaf J (Type u))) : ObjectProperty (Sheaf J (Type u)) :=
+  fun A => ∃ (n : ℕ) (φ : GeometricFormula.{u} L n), φ.IsIrreducible U ∧
+    Nonempty (A ≅ Subobject.underlying.obj (U.interp φ))
+
+/-- **3.5.** For a theory of presheaf type, the irreducible formulae form a category equivalent to
+the opposite of the finitely presentable set-models. -/
+theorem nonempty_equivalence_irreducible_fpModel {T : GeometricTheory.{u} L} {C : Type u}
+    [SmallCategory C] {J : GrothendieckTopology C} {U : CatStructure L (Sheaf J (Type u))}
+    (hU : IsClassifyingSite T J U) (hT : IsOfPresheafType T) :
+    Nonempty ((irreducibleFormulaObjects U).FullSubcategory ≌ (FPModel T)ᵒᵖ) :=
+  sorry
+
+/-- **3.5.** For a theory of presheaf type, the category of irreducible formulae is idempotent
+complete. -/
+theorem isIdempotentComplete_irreducible {T : GeometricTheory.{u} L} {C : Type u}
+    [SmallCategory C] {J : GrothendieckTopology C} {U : CatStructure L (Sheaf J (Type u))}
+    (hU : IsClassifyingSite T J U) (hT : IsOfPresheafType T) :
+    IsIdempotentComplete (irreducibleFormulaObjects U).FullSubcategory :=
+  sorry
+
+/-! ### 3.6 Quotients of a theory of presheaf type -/
+
+/-- **3.6.** A set-model is `J`-homogeneous, for a topology `J` on the opposite of the finitely
+presentable models, when every homomorphism from a finitely presentable model `c` lifts through
+a map of each `J`-covering sieve on `c`. -/
+def SetModel.IsHomogeneous {T : GeometricTheory.{u} L}
+    (J : GrothendieckTopology (FPModel T)ᵒᵖ) (M : SetModel T) : Prop :=
+  ∀ (c : FPModel T) (S : Sieve (Opposite.op c)), S ∈ J (Opposite.op c) →
+    ∀ y : c.obj ⟶ M, ∃ (d : FPModel T) (f : c ⟶ d), S.arrows f.op ∧
+      ∃ u : d.obj ⟶ M, f.hom ≫ u = y
+
+/-- **3.6.** For a theory of presheaf type, every topology on the opposite of its finitely
+presentable models gives a quotient whose set-models are the homogeneous ones. -/
+theorem exists_quotient_isSetModel_iff_isHomogeneous {T : GeometricTheory.{u} L}
+    (hT : IsOfPresheafType T) (J : GrothendieckTopology (FPModel T)ᵒᵖ) :
+    ∃ T' : GeometricTheory.{u} L, T ⊆ T' ∧
+      ∀ M : SetModel T, T'.IsSetModel M.carrier ↔ M.IsHomogeneous J :=
+  sorry
+
+/-- **3.6.** A finitely presentable model is a model of the quotient exactly when it is
+`J`-irreducible. -/
+theorem isSetModel_iff_isIrreducibleObject {T T' : GeometricTheory.{u} L}
+    (J : GrothendieckTopology (FPModel T)ᵒᵖ)
+    (hT' : ∀ M : SetModel T, T'.IsSetModel M.carrier ↔ M.IsHomogeneous J) (M : FPModel T) :
+    T'.IsSetModel M.obj.carrier ↔
+      ∀ S : Sieve (Opposite.op M), S ∈ J (Opposite.op M) → S = ⊤ :=
   sorry
 
 /-! ## Layer 4: rings, local rings and the Zariski topos -/
