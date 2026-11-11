@@ -197,7 +197,7 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   and their interval-last normalization. Layer 4.9 owns the single
   simplicial-realization product comparison, consumed by 8.10 and 8.11b; it rests on
   Layer 4.7's realization CW structure, Layer 4.5's Kelley product CW structure and this
-  coreflection, with no ordinary representability, Eilenberg–MacLane family or HA input.
+  coreflection, with no ordinary representability or Eilenberg–MacLane family input.
   [GeneralizedCohomology G2.1](../GeneralizedCohomology/README.md) consumes that
   comparison for its pointed smash/quotient versions and monoidal diagrams.
 - The generic algebra of countable towers of modules is Tau Ceti's
@@ -389,7 +389,23 @@ named in this section is cited as it is at those revisions.
   pair/triple sequences in `Singular.Triple`, `singularHomologyPretheory` in
   `Singular.HomologyPretheory`, and the `DiskSphere`, `DiscretePair` and
   `Additivity` modules. Consume their constant-coefficient objects and proofs,
-  extending the comparisons and local-coefficient theory below.
+  extending the comparisons and local-coefficient theory below. The long exact
+  sequence of a pair (Hatcher, §2.1, pp.117 and 127) is the short exact sequence
+  `TopPair.shortExact_singularChainComplexShortComplex`, the connecting morphism
+  `TopPair.singularHomologyδ`, exactness at the three terms
+  `TopPair.singularHomology_exact_subspace`, `TopPair.singularHomology_exact_space` and
+  `TopPair.singularHomology_exact_relative`, and naturality
+  `TopPair.singularHomologyδ_naturality` (`Singular/Relative.lean`). That of a triple
+  B⊆A⊆X, from `0 → C_n(A,B) → C_n(X,B) → C_n(X,A) → 0` (Hatcher, §2.1, pp.118 and 128),
+  is `TauCeti.TopTriple.shortExact_singularChainComplexShortComplex`,
+  `TauCeti.TopTriple.singularHomologyδ`, `TauCeti.TopTriple.singularHomology_exact_inner`,
+  `TauCeti.TopTriple.singularHomology_exact_total`,
+  `TauCeti.TopTriple.singularHomology_exact_outer` and
+  `TauCeti.TopTriple.singularHomologyδ_naturality` (`Singular/Triple.lean`). Both
+  connecting morphisms are Mathlib's `CategoryTheory.ShortComplex.ShortExact.δ` of these
+  short exact sequences, so the description of δ as the class of the boundary of a
+  relative cycle is `CategoryTheory.ShortComplex.ShortExact.δ_eq`. §§3.3, 5.2 and 8.4
+  consume these sequences.
 - Native `FundamentalGroupoid.CoverGeneration`, groupoid `Pushout`,
   `FundamentalGroup.VanKampen` and `WedgeSum`, and `FundamentalGroupoid.Circle`:
   cover generation, two-open-set groupoid/group pushouts, the wide-groupoid
@@ -983,9 +999,12 @@ former anchor is read as a link to the Layer in the same row.
 Items map to sections as follows.
 
 - Stage 1 items 1–6 are §§1.1–1.6.
-- Stage 2 items 1 and 3–6 are §§2.1 and 2.3–2.6; Stage 2 item 2, the relative homology
+- Stage 2 items 1 and 4–6 are §§2.1 and 2.4–2.6; Stage 2 item 2, the relative homology
   functor and its comparison with absolute homology, is Tau Ceti's
-  `TopPair.singularHomologyFunctor` and `TopPair.singularHomologyInclIso`, and Stage 2 item 7,
+  `TopPair.singularHomologyFunctor` and `TopPair.singularHomologyInclIso`; Stage 2 item 3,
+  the long exact sequences of a pair and of a triple with their connecting morphisms and
+  naturality squares (`TopPair.singularHomologyδ_naturality`,
+  `TauCeti.TopTriple.singularHomologyδ_naturality`), is Tau Ceti's; and Stage 2 item 7,
   the no-retraction and Brouwer fixed-point theorems with the finite-span form, is Tau Ceti's
   `TauCeti.noRetraction_diskBoundary` and `TauCeti.brouwerFixedPoint_*` (supplier contracts).
 - Stage 3 items 1–5 are §§3.1–3.5.
@@ -1127,15 +1146,6 @@ Consume native relative singular chains on `TopPair`, obtained by applying the `
    construction to `TopCat.toSSet`. Consume its cokernel colimit and exhibit the relative complex both as the quotient
    `C_*(X) / C_*(A)` with the boundary induced from `C_*(X)` (Hatcher, §2.1, p.115) and in
    its natural short-exact-sequence form, and prove the two forms naturally isomorphic.
-### 2.3 Pair and triple sequences
-
-*Needs:* Native pair/triple short exact sequences and their connecting maps.
-
-Consume the native short exact sequence of chain complexes for a pair and its natural long
-   exact sequence, with its connecting morphism, the class of the boundary of a relative
-   cycle (Hatcher, §2.1, p.117), and naturality square (Hatcher, §2.1, p.127).  Do the same
-   for triples `B subset A subset X`, from the short exact sequence
-   `0 → C_n(A,B) → C_n(X,B) → C_n(X,A) → 0` (Hatcher, §2.1, p.118; naturality p.128).
 ### 2.4 Homology axioms
 
 *Needs:* Native singular homology pretheory and the absolute/empty-pair comparison in the supplier contracts.
@@ -1343,7 +1353,7 @@ For constant coefficients the small-chain theorem is Tau Ceti's
   boundary +2c[p]: not a chain map.
 ### 3.3 Local-coefficient excision
 
-*Needs:* §§2.3, 2.6 and 3.2; native ordinary excision.
+*Needs:* Tau Ceti's pair sequence (supplier contracts); §§2.6 and 3.2; native ordinary excision.
 
 Consume native excision for `TopPair` and extend to local coefficients: if the closure of the excised set lies in the interior of the
    subspace, the induced map on relative homology is an isomorphism (Hatcher, Theorem 2.20,
@@ -2023,7 +2033,7 @@ adjunction. No Hurewicz, EM model or stabilization is an input.
 
 *Needs:* §4.7's realization CW structure, §4.5's Kelley product CW structure and §4.8's
 coreflection with its CW and locally compact product comparisons; native simplicial sets
-and geometric realization. No ordinary representability, Eilenberg–MacLane family or HA
+and geometric realization. No ordinary representability or Eilenberg–MacLane family
 input.
 
 Own the simplicial-realization product comparison: for native simplicial
@@ -2064,12 +2074,12 @@ and local coefficients, CW approximation of path-connected spaces with its lifts
 Consume the
    native weak-equivalence invariance: a weak homotopy equivalence in the
    native sense `ContinuousMap.IsWeakHomotopyEquivalence` induces isomorphisms
-   on singular homology with coefficients in any ring and with any local
+   on singular homology with coefficients in any ring
+   (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap`; Hatcher,
+   Proposition 4.21, p.356, for coefficient groups) and with any local
    coefficient system on the target
-   (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_singularHomologyMap`,
-   `ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap`,
-   Hatcher Proposition 4.21), on arbitrary spaces. Own its connected-map
-   refinement: the homology comparison of a k-connected map
+   (`ContinuousMap.IsWeakHomotopyEquivalence.isIso_twistedHomologyMap`), on arbitrary
+   spaces. Own its connected-map refinement: the homology comparison of a k-connected map
    on native simplicial singular and twisted chains, by the direct
    Eilenberg-subcomplex route of tom Dieck 9.5.1: formulate connectivity by
    relative disc/sphere compression and homotopy lifting, without Layer 8.1's
@@ -2228,7 +2238,7 @@ Consume native Alexander--Whitney, shuffle and Eilenberg--Zilber chain-homotopy
    projectivity hypotheses.
 ### 5.2 Wang sequence
 
-*Needs:* §2.3's pair sequences and native excision for good pairs; Tau Ceti's Wang sequence
+*Needs:* Tau Ceti's pair sequences (supplier contracts) and native excision for good pairs; Tau Ceti's Wang sequence
 for homeomorphisms.
 
 For the mapping torus of a self-homeomorphism φ the Wang sequence, its mapping-cone model with
@@ -2322,8 +2332,9 @@ The chain transfer of a finite covering, the sum of the lifts of each simplex, w
 
 The homology of a finite product of circles as the exterior powers of its first homology,
    by the Pontryagin product over every commutative ring and natural under morphisms of
-   commutative monoid objects, is Tau Ceti's (supplier contracts; Hatcher, Theorem 3B.6,
-   p.275, and Example 3.16, p.216). Add the integer-matrix form: an n×n integer matrix
+   commutative monoid objects, is Tau Ceti's (supplier contracts; Hatcher, §3.C, Exercise 11,
+   p.292, for the integral Pontryagin ring, and Example 3.16, p.216, for the cohomology ring
+   over every commutative ring). Add the integer-matrix form: an n×n integer matrix
    A=(a_ij) defines the continuous homomorphism
    `φ_A(z₁,…,z_n)=(∏_j z_j^(a_1j),…,∏_j z_j^(a_nj))` of Tⁿ=(S¹)ⁿ; prove that φ_A induces A on
    H₁(Tⁿ;ℤ)≅ℤⁿ in the basis of the coordinate circles, so that it induces `⋀ᵏA` on
@@ -3911,7 +3922,7 @@ The absolute Hurewicz map `HomotopyGroup.hurewicz`, a class p sent to p_* of the
   −[S²]; a model normalized by the opposite generator sends the identity to −[S²].
 ### 8.4 Relative Hurewicz
 
-*Needs:* §8.1 relative homotopy and §2.3 relative homology; §8.3's normalized Hurewicz map.
+*Needs:* §8.1 relative homotopy; Tau Ceti's relative homology and pair sequence (supplier contracts); §8.3's normalized Hurewicz map.
 
 Tau Ceti's relative Hurewicz map `TauCeti.RelHomotopyGroup.hurewicz`, its surjectivity
 `TauCeti.RelHomotopyGroup.surjective_hurewicz` and its bijectivity when A and X are both
@@ -4594,7 +4605,7 @@ A Serre class is
     homotopy-group identifications, zero, addition and inverses. Obtain addition
     from the simplicial abelian models. Consume §4.9's
     simplicial-realization product comparison, identifying |A•×A•|
-    with k(|A•|×|A•|); that target uses only Layer 4 and precedes HA and
+    with k(|A•|×|A•|); that target uses only Layer 4 and precedes
     ordinary representability. Consume
     Layer 4.8's right adjoint k in i⊣k, counit and CW compact-
     generation comparison, on native `CompactlyGenerated`,
