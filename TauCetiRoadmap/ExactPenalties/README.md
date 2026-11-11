@@ -1,70 +1,143 @@
-# Exact penalties with a unit violation gap
+# Roadmap: exact penalties with a unit violation gap
 
-## Purpose
+**Summary.** Build a small global exact-penalty API for real-valued functions
+whose penalty vanishes on feasible points and has a unit gap elsewhere. Use
+Mathlib's native minimization vocabulary, with explicit domain membership and
+feasible-instance conditions. The reusable steps are strict comparison,
+feasibility of a minimizer, and exact minimizer correspondence.
 
-Provide a small global exact-penalty API using Mathlib's existing minimization and set vocabulary. The API covers an arbitrary carrier and real-valued functions with a normalized positive violation gap. It has no hidden finiteness, topology, convexity, differentiability or attainment assumption. It does not cover continuous residual penalties without a positive gap, multiplier/error-bound theory, algorithms, QUBO compilation or a whole-thesis port.
+## Scope and ownership
 
-## Conventions
+The carrier and domain are arbitrary. No finiteness, topology, convexity,
+differentiability or attainment assumption is implicit. The scope is real-valued
+unit-gap exactness with a global objective-difference bound. General numerical
+gaps, rescaling, broader scalar types, continuous residual penalties without a
+positive gap, multiplier/error-bound theory, algorithms and QUBO compilation
+are outside this roadmap.
 
-Let `D : Set α`, let `P : α → Prop` express feasibility, and let `f,w : α → ℝ`. The feasible set is `F = {x | x ∈ D ∧ P x}`. Fix `B,ρ : ℝ` with:
+## Exact supplier contracts
+
+### From Mathlib
+
+- [`IsMinOn`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Order/Filter/Extr.lean#L111-L113)
+  compares the value at a candidate with every point of a set; it does not
+  include membership of that candidate.
+- [`isMinOn_iff`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Order/Filter/Extr.lean#L129-L130)
+  gives the comparison as `∀ y ∈ D, f a ≤ f y`.
+- `Set.Nonempty` supplies a witness belonging to a set. For
+  `F = {x | x ∈ D ∧ P x}`, this means `∃ x ∈ D, P x`.
+- The ordered-field arithmetic of ℝ supplies multiplication monotonicity and
+  the strict and weak order comparisons used below.
+
+These are existing suppliers; no unimplemented roadmap target is required.
+Use mathematical imports for real numbers and extrema, with the ordinary
+linear-arithmetic tactic if helpful.
+
+## How to read the build
+
+`README.md` specifies the mathematics. `Suggested.lean` provides suggested
+interfaces and proofs of the three targets at the pinned dependencies. It uses
+native `IsMinOn`, with no replacement minimizer predicate or bound structure.
+Every mathematical parameter appears explicitly in each theorem signature.
+The examples under Layer 1 specify the boundary checks for this API.
+
+## Layer 1: unit-gap penalties
+
+Let `D : Set α`, let `P : α → Prop` express feasibility, and let
+`f,w : α → ℝ`. Write `F = {x | x ∈ D ∧ P x}` and let `B,ρ : ℝ` satisfy:
 
 - `0 ≤ B` and `B < ρ`;
-- `w x = 0` for each feasible `x ∈ D`;
-- `1 ≤ w x` for each infeasible `x ∈ D`;
-- `f x - f y ≤ B` for all `x,y ∈ D`.
+- `w x = 0` for every `x ∈ D` satisfying `P x`;
+- `1 ≤ w x` for every `x ∈ D` not satisfying `P x`;
+- `f x - f y ≤ B` for every ordered pair `x,y ∈ D`.
 
-The penalized objective is `x ↦ f x + ρ * w x`. Do not introduce a new minimizer predicate or a structure wrapping the one-line range bound. Values outside `D` are unconstrained. A feasibility witness is an explicit premise for asserting that a penalized minimizer is feasible. Native [`IsMinOn`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Order/Filter/Extr.lean#L109) does not include membership of its candidate in the domain.
+The penalized objective is `x ↦ f x + ρ * w x`. Values outside `D` are
+unconstrained. Keep membership explicit alongside native `IsMinOn`.
 
-The unit-gap normalization is deliberate for this scope. General numerical gaps, rescaling and broader ordered scalar types are outside this roadmap. The specified scalar field is ℝ.
+### 1.1 Strict comparison
 
-## Target 1: comparison, feasibility and minimizer equivalence
+Prove that every feasible point of `D` has strictly smaller penalized objective
+than every infeasible point of `D`.
 
-1. Prove that every feasible point has strictly smaller penalized objective than every infeasible point in D.
-2. If `F.Nonempty`, prove that a penalized `IsMinOn` candidate **belonging to D** satisfies P.
-3. Prove the membership- and feasibility-explicit equivalence, for every a:
+The proof compares feasible `y` and infeasible `x`: positive `ρ` and the unit gap
+give `f y - f x ≤ B < ρ ≤ ρ*w x`, while `w y = 0`.
+(Source: abstraction of the comparison in [B21], Proposition 10.B.1, proof,
+printed p. 415; [B21] states the finite binary incidence specialization.)
 
-   `(a ∈ D ∧ IsMinOn (fun x ↦ f x + ρ * w x) D a ∧ F.Nonempty)`
+### 1.2 Feasibility of a minimizer
 
-   `↔ (a ∈ F ∧ IsMinOn f F a)`.
+If `F.Nonempty`, prove that a penalized `IsMinOn` candidate belonging to `D`
+satisfies `P`. Compare it with a feasible witness using 1.1.
+(Source: abstraction of the converse argument in [B21], Proposition 10.B.1,
+proof, printed pp. 415–416.)
 
-The nonempty-feasibility conjunction on the left is part of the theorem, including when F is empty. This is not an unconditional equality with the penalized minimizer set on infeasible instances. When F is nonempty it yields the usual equality of the two membership-explicit minimizer sets. It asserts no existence of an optimum: bounded functions on infinite sets can have unattained infima.
+### 1.3 Exact minimizer correspondence
 
-The proof compares a feasible y with an infeasible x. Since `f y - f x ≤ B < ρ ≤ ρ*w x`, y wins strictly. On F the two objectives agree. These observations transfer the two minimizer directions.
+For every `a`, prove
 
-## Target 2: sharpness and API boundary examples
+`(a ∈ D ∧ IsMinOn (fun x ↦ f x + ρ * w x) D a ∧ F.Nonempty)`
 
-- On Bool, take D=univ, P(x) iff x=false, f(false)=1, f(true)=0, w(false)=0 and w(true)=1. At B=ρ=1 both penalized values equal one. The infeasible point is a minimizer, so a weak threshold cannot replace the strict one.
-- On a nonempty D with P always false, f=0, w=1, B=0 and ρ=1, a penalized minimizer exists and is infeasible. The other numeric premises hold. This explains the feasible-instance guard.
-- A native `IsMinOn` comparison over an empty set is vacuous even for a point outside it. Keep membership explicit throughout the API.
+`↔ (a ∈ F ∧ IsMinOn f F a)`.
 
-These examples clarify the statement and do not count as additional research contributions.
+On `F` the two objectives agree. Use 1.2 for the forward direction and 1.1
+against infeasible competitors for the reverse direction. A feasible minimizer
+itself supplies the feasible witness on the left.
+(Source: abstraction of [B21], Proposition 10.B.1, statement and proof,
+printed pp. 414–416; the explicit bound and unit gap replace its finite
+incidence calculation.)
 
-## Dependencies and conventions for implementation
+The feasible-instance conjunction is part of the equivalence, including when
+`F` is empty. The result asserts no existence of an optimum. When `F` is
+nonempty it gives equality of the two membership-explicit minimizer sets.
 
-Use Mathlib's existing sets, real arithmetic, `IsMinOn` and `isMinOn_iff`.
-These APIs are supplied by
-`Mathlib.Basic.Real.Basic`, `Mathlib.Order.Filter.Extr` and
-`Mathlib.Tactic.Linarith`. The minimization comparison and real ordered-field
-arithmetic supply the prerequisites for Target 1; Target 2 uses finite Boolean
-examples and the empty set. Neither target depends on an unimplemented roadmap
-milestone or on a graph encoding.
+### Examples
 
-Keep domain membership explicit alongside native `IsMinOn`. Use the existing set
-intersection/predicate vocabulary for F, the explicit objective-difference bound,
-and the ordinary function `fun x ↦ f x + ρ * w x`; do not add replacement
-minimization predicates or bound structures. The complete scope is real-valued
-unit-gap exactness and the boundary examples above. No algorithm, graph adapter,
-QUBO compiler, continuous-residual theory, multiplier theory or broader scalar
-generalization is a target of this roadmap.
+**Checks.**
+
+- On Bool, let `D=univ`, let `P x` mean `x=false`, and take
+  `f false=1`, `f true=0`, `w false=0`, `w true=1`. At `B=ρ=1` both penalized
+  values equal one. The infeasible point minimizes, so the threshold must be strict.
+- On a nonempty domain with `P` always false, `f=0`, `w=1`, `B=0` and `ρ=1`,
+  a penalized minimizer exists and is infeasible. The feasible-instance guard
+  cannot be removed.
+- Let `D={false} ⊆ Bool`, let `P` always hold, let `f false=0`, `f true=-1`,
+  and take `w=0`, `B=0`, `ρ=1`. All domain-restricted hypotheses hold and `F`
+  is nonempty, yet native `IsMinOn` holds at `true`. Dropping `a ∈ D` would
+  admit that outside point.
+- A nonvacuous Bool instance with `D=univ`, `P x` meaning `x=false`, `f=0`,
+  `w false=0`, `w true=1`, `B=0` and `ρ=1` realizes every hypothesis and a
+  feasible penalized minimizer.
+
+### Dependencies
+
+1.1 uses the real-order suppliers and the zero/gap/range assumptions. 1.2 uses
+1.1, `isMinOn_iff`, and a witness in `F`. 1.3 uses 1.1–1.2 and equality of the
+objectives on `F`. The examples use finite Boolean cases and the same suppliers.
+
+## Downstream consumers
+
+A finite binary model can consume this API after proving its own unit violation
+gap and objective-difference bound. A signed-integer squared-residual penalty
+and a sum-absolute-cost bound are motivating instances. Their matrix encodings,
+fixed-coordinate transport and routing predicates remain separate mathematics;
+this roadmap does not specify them or assert their completeness.
+
+## References
+
+[B21] David E. Bernal Neira, *Modern Computational Approaches to Nonlinear
+Discrete Optimization and Applications in Process Systems Engineering*, PhD
+thesis, Carnegie Mellon University, May 2021. Chapter 10, Appendix 10.B,
+Proposition 10.B.1, printed pp. 414–416. This is the finite incidence source of
+the proof argument; the arbitrary-domain statement above is its explicit
+unit-gap/range-bound abstraction, not a quotation of the thesis proposition.
 
 ## Secondary provenance
 
-The existing Chapter 10 formalization is source material, not a prescriptive design. In particular, `Chapter10.Algebra.penalty_minimizers_exact` uses a custom minimizer predicate that includes membership. Implement this roadmap with Mathlib's native minimization API and the explicit membership conventions above.
-
-Public source and scope records:
+The existing formalization is source material, not a prescriptive design. The
+[existing minimizer proof](https://github.com/bernalde/routing-penalty-adapters/blob/95f2a288a6c50ea6eaabde90c2515885197796cf/Chapter10IntegerPenalty.lean#L32)
+uses a custom predicate that includes membership. This roadmap uses Mathlib's
+native API and the explicit membership conventions above.
 
 - [Complete retained library at 59c355eb14ed1eff9664736428ca02b4543200b8](https://github.com/bernalde/complete-retained-library/tree/59c355eb14ed1eff9664736428ca02b4543200b8)
 - [Chapter 10 integer/QUBO package at 95f2a288a6c50ea6eaabde90c2515885197796cf](https://github.com/bernalde/routing-penalty-adapters/tree/95f2a288a6c50ea6eaabde90c2515885197796cf)
 - [Palomar record PALOMAR-2026-11-08-000006 v1](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-08-000006&version=1)
-
-The source formalization and this roadmap were prepared with AI assistance under David E. Bernal Neira's direction. The source and registry record establish provenance; they do not claim new mathematical discovery or endorse a particular Tau Ceti API design.
