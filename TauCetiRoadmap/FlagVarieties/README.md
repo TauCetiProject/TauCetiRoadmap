@@ -16,11 +16,13 @@ The group G and its action are fixed throughout the classification. This does no
 
 This is a consumer roadmap for the classification and its geometric interpretation. It uses existing algebraic-group definitions, not a new matrix-group foundation.
 
-ReductiveGroups 7/7b owns the Tits system on `G(k)`, Bruhat decomposition and the general bridge to abstract standard parabolics. FlagVarieties owns the five headline classifications. The pointwise normalizer suffices; no scheme-theoretic normalizer is needed. ReductiveGroups 7C.5 owns type-A block maps.
+ReductiveGroups 7/7b owns the Tits system on `G(k)`, Bruhat decomposition and the general bridge to abstract standard parabolics. FlagVarieties owns headlines 1, 2, 4 and 5 and the variant of headline 3 described below. The pointwise normalizer suffices; no scheme-theoretic normalizer is needed. ReductiveGroups 7C.5 owns type-A block maps.
 
 The uniqueness half of the second headline holds for every smooth connected affine group over algebraically closed `k`; `conjugate_eq_of_borel_le` in `Suggested.lean` uses only geometric connectedness of the ambient finite-type group.
 
 Headline 3 and §§4.1–4.2 hold for every smooth connected affine group over algebraically closed `k` (Milne Theorem 17.16, p.356); `isProper_projectiveOrbitToSpec_iff_isParabolicOverAlgClosed` is stated at that generality.
+
+ReductiveGroups Layer 7 (Parabolic subgroup schemes and Levi decompositions) states the completeness characterization for a connected reductive group over a field. §§4.1–4.2 keep the variant without reductivity over algebraically closed `k`, for the orbit scheme representing `G/H`, with projectivity added.
 
 Realize `G/H` by `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints` (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`). This roadmap proves properness from Borel containment and then projectivity: the orbit scheme is locally closed in projective space, and properness makes that immersion closed.
 
@@ -231,7 +233,7 @@ In `GL₃`, the two maximal proper standard parabolics have equal dimension but 
 
 ### Dependencies
 
-Layer 2 classification, `HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq` (`Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean`), and `gap:tits-system-of-points` with `TitsSystem.normalizer_subgroupB` (`GroupTheory/TitsSystem/Parabolic/Normalizer.lean`).
+Layer 2 classification, `HopfIdeal.IsParabolicOverAlgClosed.exists_conjugate_le` (`Algebra/AlgebraicGroup/Parabolic/Basic.lean`), `HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq` (`Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean`), and `gap:tits-system-of-points` with `TitsSystem.normalizer_subgroupB` (`GroupTheory/TitsSystem/Parabolic/Normalizer.lean`).
 
 ## Layer 4: projectivity and the homogeneous-space dictionary
 
@@ -255,7 +257,7 @@ Export `isProper_projectiveOrbitToSpec_iff_isParabolicOverAlgClosed` in `Suggest
 
 ### 4.3 Classification of projective homogeneous G-varieties
 
-For nonempty projective homogeneous X choose x∈X(k), apply 0.3, 4.2 and 3.1, and obtain a G-equivariant k-isomorphism X≅G/P_J with unique J. Prove independence of x: stabilizers of two points are conjugate. Give both directions of the classification, including the construction of the G-action, smoothness, projectivity and geometric transitivity on each G/P_J.
+For a nonempty projective homogeneous X whose scheme-theoretic stabilizer at one k-point (equivalently, at every k-point, since the stabilizers are G(k)-conjugate) is smooth, choose x∈X(k), apply 0.3, 4.2 and 3.1, and obtain a G-equivariant k-isomorphism X≅G/P_J with unique J. Prove independence of x: stabilizers of two points are conjugate. Give both directions of the classification, including the construction of the G-action, smoothness, projectivity and geometric transitivity on each G/P_J.
 
 Do not construct a type of all varieties in a fixed universe merely to express a bijection. An existence-and-uniqueness theorem for each X, plus the comparison theorem G/P_J≅_G G/P_K iff J=K, states the classification without unnecessary size infrastructure.
 
