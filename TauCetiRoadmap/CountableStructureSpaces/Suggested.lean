@@ -492,21 +492,23 @@ theorem exists_pcSentence [L.IsRelational] [∀ n, Countable (L.Relations n)]
           (fun n => (queryCode (e.encodeVia (L := L)) n, g n)) ∈ body T) := by
   sorry
 
-/-- **Layer 5, the López–Escobar theorem, hard direction.** -/
-theorem lopez_escobar [L.IsRelational] [∀ n, Countable (L.Relations n)]
+/-- **Layer 5, the López–Escobar theorem, hard direction**, for every relational language: a Borel
+set depends on the atoms of a countable sublanguage, where the countable case applies (README §5.3,
+step 0). -/
+theorem lopez_escobar [L.IsRelational]
     {B : Set (RelationalConfiguration L ℕ)} (hB : MeasurableSet B)
     (hinv : IsomorphismInvariant B) :
     ∃ φ : L.Sentenceω, B = modelsOf φ := by
   sorry
 
 /-- **Layer 5 headline, the López–Escobar theorem.** -/
-theorem lopezEscobar_iff [L.IsRelational] [∀ n, Countable (L.Relations n)]
+theorem lopezEscobar_iff [L.IsRelational]
     {B : Set (RelationalConfiguration L ℕ)} :
     (MeasurableSet B ∧ IsomorphismInvariant B) ↔ ∃ φ : L.Sentenceω, B = modelsOf φ := by
   sorry
 
 /-- **Layer 5 headline, action form.** -/
-theorem lopezEscobar_action_iff [L.IsRelational] [∀ n, Countable (L.Relations n)]
+theorem lopezEscobar_action_iff [L.IsRelational]
     {B : Set (RelationalConfiguration L ℕ)} :
     (MeasurableSet B ∧ MulAction.IsFixedBlock (Equiv.Perm ℕ) B) ↔
       ∃ φ : L.Sentenceω, B = modelsOf φ := by
@@ -514,13 +516,16 @@ theorem lopezEscobar_action_iff [L.IsRelational] [∀ n, Countable (L.Relations 
 
 /-- **Layer 5 headline, the invariant σ-algebra is the definable one.** -/
 theorem measurableSet_iInf_invariants_iff_exists_modelsOf [L.IsRelational]
-    [∀ n, Countable (L.Relations n)] (B : Set (RelationalConfiguration L ℕ)) :
+    (B : Set (RelationalConfiguration L ℕ)) :
     MeasurableSet[⨅ σ : Equiv.Perm ℕ,
         MeasurableSpace.invariants (fun c : RelationalConfiguration L ℕ => σ • c)] B ↔
       ∃ φ : L.Sentenceω, B = modelsOf φ := by
   sorry
 
-/-- **Layer 5 milestone, invariant analytic classes are PC classes.** -/
+/-- **Layer 5 milestone, invariant analytic classes are PC classes.** Unlike the Borel form, this
+needs countably many relation symbols: with uncountably many unary predicates, the code with every
+predicate empty is an invariant analytic singleton, but a single sentence mentions only countably
+many symbols. -/
 theorem analyticSet_iff_exists_pc [L.IsRelational] [∀ n, Countable (L.Relations n)]
     {B : Set (RelationalConfiguration L ℕ)} (hinv : IsomorphismInvariant B) :
     AnalyticSet B ↔ ∃ ψ : (L.sum pcWitnessLanguage).Sentenceω,

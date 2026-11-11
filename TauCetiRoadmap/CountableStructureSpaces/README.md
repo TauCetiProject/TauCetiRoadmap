@@ -145,10 +145,11 @@ the `L`-reduct of a model of `Θ`, the symbols of `L₁` being auxiliary relatio
 existentially; Layer 5 uses them to describe a branch through a tree. For a countable relational
 language, on the space of structures with carrier `ℕ`, these projective classes are exactly the
 isomorphism-invariant analytic sets (`analyticSet_iff_exists_pc`); Lω₁ω model classes are exactly
-the isomorphism-invariant Borel sets (`lopezEscobar_iff`). There `pcSeparation` plays the role of
+the isomorphism-invariant Borel sets (`lopezEscobar_iff`, which holds for every relational
+language by a reduction to a countable sublanguage, §5.3). There `pcSeparation` plays the role of
 Lusin separation, turning the two analytic descriptions of `B` and its complement into one
-sentence. A countable carrier alone does not give this correspondence: it needs the countable
-language. `LHom.PCMem` and `pcSeparation` themselves are for arbitrary languages. For languages
+sentence. The analytic correspondence needs the countable language, not only a countable carrier
+(negative control in §5.4). `LHom.PCMem` and `pcSeparation` themselves are for arbitrary languages. For languages
 `L`, `L₁`, `L₂` in arbitrary universes and `Θ₁ : (L.sum L₁).Sentenceω`,
 `Θ₂ : (L.sum L₂).Sentenceω`: if no countable nonempty `L`-structure in `Type` lies in both
 projective classes, some `θ : L.Sentenceω` holds in every nonempty member of the first class and fails in every nonempty
@@ -579,9 +580,17 @@ Hence, for a tree representation `T` of an analytic class `B`, the codes of mode
 
 ### 5.3 The hard direction
 
-`lopez_escobar`: for countable relation symbols, if `B ⊆ RelationalConfiguration L ℕ` is Borel and
+`lopez_escobar`: for every relational `L`, if `B ⊆ RelationalConfiguration L ℕ` is Borel and
 isomorphism invariant then `B = modelsOf φ` for some `φ : L.Sentenceω`. Proof:
 
+0. **Reduction to a countable sublanguage.** A set measurable for the product σ-algebra
+   (Convention 5) is determined by countably many atoms. Let `L₀` be the countable relational
+   sublanguage of their symbols, `g : L₀ →ᴸ L` its inclusion, and `B₀` the set of `L₀`-codes whose
+   extension by `false` lies in `B`. Extension by `false` is measurable and commutes with the
+   action, so `B₀` is Borel and invariant, and `B` is the preimage of `B₀` under Tau Ceti's
+   reduct map `g.reductConfiguration`. Steps 1–4, for `L₀`, give `φ₀` with `B₀ = modelsOf φ₀`,
+   and `realize_sentenceInf_reductConfiguration` gives `B = modelsOf (g.onBoundedFormulaInf φ₀)`.
+   Steps 1–4 assume countably many relation symbols.
 1. `B` and its complement are Borel, hence analytic (`MeasurableSet.analyticSet`); take tree
    representations `T₀` of `B` and `T₁` of `Bᶜ` (Layer 3).
 2. **Disjointness.** No nonempty `L`-structure `M`, countable or not, lies in both
@@ -612,7 +621,11 @@ isomorphism invariant then `B = modelsOf φ` for some `φ : L.Sentenceω`. Proof
   `ψ : (L.sum W).Sentenceω`. The
   forward direction is 5.2 with invariance; the converse projects the Borel set
   `modelsOf ψ ⊆ RelationalConfiguration (L.sum W) ℕ` along the continuous reduct map onto
-  `RelationalConfiguration L ℕ`.
+  `RelationalConfiguration L ℕ`. Unlike the Borel form, it needs countably many relation symbols.
+  Negative control: with unary predicates `P_r` for `r ∈ ℝ`, the code with every `P_r` empty is
+  fixed by every permutation, so its singleton is invariant and analytic; but a single sentence
+  mentions only countably many symbols, so no PC class is that singleton. (The singleton is not
+  Borel either, so `lopezEscobar_iff` is not contradicted.)
 
 **Acceptance check.** In the empty language every class of codes is `∅` or `univ`, and
 `lopezEscobar_iff` is witnessed by `⊥` or `⊤`.
