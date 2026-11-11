@@ -536,12 +536,20 @@ theorem isOfPresheafType_iff_forall_covered {T : GeometricTheory.{max u₁ u₂ 
         (∀ i, (ψ i).IsIrreducible U) ∧ Epi (Sigma.desc f) :=
   sorry
 
+/-- **3.5.** The underlying type of a set-model, as a functor. -/
+def SetModel.forget (T : GeometricTheory.{u} L) : SetModel T ⥤ Type u where
+  obj M := M.carrier
+  map {M N} f := TypeCat.ofHom (show M.carrier →[L] N.carrier from f)
+
 /-- **3.5.** For a theory of presheaf type, the opposite of the finitely presentable set-models is
-equivalent to a small category whose presheaf topos classifies the theory. -/
+equivalent to a small category whose presheaf topos classifies the theory, the presheaf underlying
+the generic model being the underlying type of a set-model, along the equivalence. -/
 theorem exists_isClassifyingSite_fpModel {T : GeometricTheory.{u} L} (hT : IsOfPresheafType T) :
-    ∃ (C : Type u) (_ : SmallCategory C) (_ : C ≌ (FPModel T)ᵒᵖ)
+    ∃ (C : Type u) (_ : SmallCategory C) (e : C ≌ (FPModel T)ᵒᵖ)
       (U : CatStructure L (Sheaf (⊥ : GrothendieckTopology C) (Type u))),
-        IsClassifyingSite T ⊥ U :=
+        IsClassifyingSite T ⊥ U ∧
+        Nonempty ((sheafToPresheaf ⊥ (Type u)).obj U.carrier ≅
+          e.op.functor ⋙ unopUnop _ ⋙ ObjectProperty.ι _ ⋙ SetModel.forget T) :=
   sorry
 
 /-- **3.5.** For a theory of presheaf type, a formula is irreducible exactly when it presents a

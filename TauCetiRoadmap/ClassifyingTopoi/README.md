@@ -212,14 +212,18 @@ subcanonical topology on schemes) and `AlgebraicGeometry.Scheme.Ga`, both in
 **From GrothendieckTopoi.** 1.1 (`IsGrothendieckTopos`: `Sheaf J (Type u)` is a Grothendieck topos
 for every small site and every Grothendieck topos is equivalent to one, so the quantifier over small
 sites in 2.1 is a quantifier over Grothendieck topoi), 1.2 (epimorphisms and coproducts in
-`Sheaf J (Type u)`, and the frame property of its subobject lattices), 2.1 (`GeometricMorphism`:
-left exact left adjoints between Grothendieck topoi are the inverse images of geometric morphisms),
-2.2 (`GeometricMorphism.homEquivInverse`: 2-cells and transformations of inverse images), 2.5
-(`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`, Diaconescu's theorem), 4.2 (the
-subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`), 6.1 (points of a topos,
-`nonempty_point_equivalence`), 6.5 (connected nonempty projective objects, Roos's theorem), 6.6
-(`IsIrreducibleObject`, `IsRigidTopology`, `isIrreducibleObject_iff_projective_preservesCoproducts`
-and `isRigidTopology_iff_nonempty_equiv_presheaf`).
+`Sheaf J (Type u)`, every epimorphism being the coequalizer of its kernel pair, and the frame
+property of its subobject lattices), 1.4 (Giraud's axioms: coequalizers of internal equivalence
+relations are universal, so images are stable under pullback, for 2.2 (b)), 2.1
+(`GeometricMorphism`: left exact left adjoints between Grothendieck topoi are the inverse images of
+geometric morphisms), 2.2 (`GeometricMorphism.homEquivInverse`: 2-cells and transformations of
+inverse images), 2.4 (`GeometricMorphism.ofContinuous`: inverse images of continuous maps, for the
+Examples of Layer 1), 2.5 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`,
+Diaconescu's theorem), 4.2 (the subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for
+`J' ≥ J`), 6.1 (points of a topos, `nonempty_point_equivalence`), 6.5 (connected nonempty projective
+objects, Roos's theorem), 6.6 (`IsIrreducibleObject`, `IsRigidTopology`,
+`isIrreducibleObject_iff_projective_preservesCoproducts` and
+`isRigidTopology_iff_nonempty_equiv_presheaf`).
 
 **From LocallyPresentableCategories.** 1.5 (finitely accessible categories are `Ind A`), for 3.5
 and the Examples of Layer 3; 3.1 (Gabriel–Ulmer duality) and 3.5 (essentially algebraic theories),
@@ -401,8 +405,8 @@ induction on `φ`; the order of subobjects is preserved because `F` preserves mo
 
 ### Dependencies
 
-Mathlib; Tau Ceti for 1.2; GrothendieckTopoi 1.2 for 1.4. Within the layer, each target uses the
-previous ones.
+Mathlib; Tau Ceti for 1.2; GrothendieckTopoi 1.2 for 1.4 and 2.4 for the Examples. Within the
+layer, each target uses the previous ones.
 
 ## Layer 2: classifying topoi
 
@@ -468,12 +472,15 @@ subject to the atomic formulas of `φ`. Prove:
   `ι : Type u`, `m : ι → ℕ` and Horn formulas `θ i` in context `n + m i` such that
   `M.interp φ = M.interp (.iSup fun i => (θ i).exs)` for every structure `M` in every
   `Sheaf K (Type u)` of a small site. Route: induction on `φ` in the frames `Subobject` of
-  GrothendieckTopoi 1.2: meets distribute over joins, `Subobject.exists` commutes with joins and
-  satisfies Frobenius reciprocity, and the index types stay in `Type u` (`PUnit`, products, sigma
-  types) (Elephant, D1.3.10, as used in Caramello 2017, proof of Theorem 17.6, p. 81).
+  GrothendieckTopoi 1.2: meets distribute over joins, and `Subobject.exists` commutes with joins
+  (1.2). Images are stable under pullback, since every epimorphism is the coequalizer of its kernel
+  pair (1.2) and such coequalizers are universal (GrothendieckTopoi 1.4), so `Subobject.exists`
+  satisfies Frobenius reciprocity and commutes with pullback along projections. The index types
+  stay in `Type u` (`PUnit`, products, sigma types) (Elephant, D1.3.10, as used in Caramello 2017,
+  proof of Theorem 17.6, p. 81).
 
-*Needs:* 1.3; GrothendieckTopoi 1.2, 2.5; Mathlib `Term.subst`, `Pi.lift`, `Subobject.pullback`,
-`Subobject.exists`, `equalizerSubobject`, `AsSmall`.
+*Needs:* 1.3; GrothendieckTopoi 1.2, 1.4, 2.5; Mathlib `Term.subst`, `Pi.lift`,
+`Subobject.pullback`, `Subobject.exists`, `equalizerSubobject`, `AsSmall`.
 
 **Checks.**
 
@@ -517,18 +524,21 @@ arXiv:0905.0299v1), and GrothendieckTopoi 2.5 gives the universal property.
 
 - The empty theory over the empty language: no axiom adds a cover, so `J = ⊥` on the category of
   2.2, which is equivalent to `FintypeCat.Skeleton.{u}ᵒᵖ` (2.2, Checks): the site of 3.2.
-- One `0`-ary relation symbol `p` and no axiom: set-models are the two truth values of `p`, with
-  one homomorphism `false ⟶ true` besides the identities; the classifying topos is presheaves on
-  the arrow category `0 ⟶ 1`, the Sierpiński topos, whose points are the two points of the
-  Sierpiński space with one 2-cell between them (GrothendieckTopoi 2.2, Checks).
+- One `0`-ary relation symbol `p` and the axioms `⊢ ∃ x, ⊤` and `⊤ ⊢ x = y`: the axioms make the
+  carrier a one-point set, so the set-models are the two truth values of `p`, with one homomorphism
+  `false ⟶ true` besides the identities; the classifying topos is presheaves on the arrow category
+  `0 ⟶ 1`, the Sierpiński topos, whose points are the two points of the Sierpiński space with one
+  2-cell between them (GrothendieckTopoi 2.2, Checks). Without the axioms every pair `(M, p)` of a
+  set and a truth value is a set-model, and `(PUnit, false)`, `(Bool, false)` are not isomorphic.
 - The universe of the site is needed: take as `0`-ary relation symbols the elements of `Type u`
-  itself, a type in `Type (u + 1)` not equivalent to any type in `Type u`, and no axiom. Distinct
+  itself, a type in `Type (u + 1)` not equivalent to any type in `Type u`, and the axioms
+  `⊢ ∃ x, ⊤` and `⊤ ⊢ x = y`. Distinct
   symbols `p ≠ q` give distinct subobjects of the terminal object of any classifying topos (the
   set-model in which only `p` holds separates them), while for `C : Type u` the subterminal
   objects of `Sheaf J (Type u)` form a `u`-small set (each is determined by a set of objects of
   `C`); so no classifying site lives in `Type u`, and 2.3 gives one in `Type (u + 1)`. With two
-  symbols, `ULift.{u + 1} Bool`, the theory is classified at universe `u`, by presheaves on the
-  product of two copies of the arrow category `0 ⟶ 1`.
+  symbols, `ULift.{u + 1} Bool`, and the same axioms, the theory is classified at universe `u`, by
+  presheaves on the product of two copies of the arrow category `0 ⟶ 1`.
 
 ### 2.4 Uniqueness
 
@@ -541,9 +551,9 @@ Route: (i) for `U'` gives `F` with `U' ≅ U.map F`, and symmetrically `G`; (ii)
 Prove also `IsClassifyingSite.exists_interp_eq_of_subobject`: for
 `L : FirstOrder.Language.{u₁, u₂}`, `T : GeometricTheory.{max u₁ u₂ u} L` and a classifying site
 `(C, J, U)` of `T` in `Type (max u₁ u₂ u)`, as in 2.3, every subobject of `U.pow n` is
-`U.interp ψ` for some `ψ : GeometricFormula.{max u₁ u₂ u} L n`; and the objects underlying the
-`U.interp φ` form a separating family of `Sheaf J (Type (max u₁ u₂ u))`, a small one up to
-isomorphism, since each `U.pow n` has a small set of subobjects (Caramello 2012a, proof of
+`U.interp ψ` for some `ψ : GeometricFormula.{max u₁ u₂ u} L n`. Prove also that the objects
+underlying the `U.interp φ` form a separating family of `Sheaf J (Type (max u₁ u₂ u))`, a small one
+up to isomorphism, since each `U.pow n` has a small set of subobjects (Caramello 2012a, proof of
 Lemma 3.2, p. 182, for the geometric syntactic site). Route: both facts are invariant under the
 equivalence of the first statement, which carries `U` to `U'` and so `U.interp φ` to
 `U'.interp φ` (1.4, API), so it is enough to prove them on the site of 2.3. There the sheafified
@@ -636,7 +646,7 @@ along a composite); 2.1, 2.4.
 
 ### Dependencies
 
-Layer 1; GrothendieckTopoi 1.1, 1.2, 2.1, 2.2, 2.5, 4.2. Within the layer, 2.3–2.6 use 2.1, 2.3
+Layer 1; GrothendieckTopoi 1.1, 1.2, 1.4, 2.1, 2.2, 2.5, 4.2. Within the layer, 2.3–2.6 use 2.1, 2.3
 uses 2.2, 2.4 uses 2.2 (b) and 2.3 for the definability statement, 2.5 uses 2.3 and 2.4, and 2.6
 uses 2.4.
 
@@ -791,10 +801,11 @@ definability statement of 2.4, `L : FirstOrder.Language.{u₁, u₂}` and
   epimorphic, which makes `I` a retract of some `[[χ]]`, hence a subobject of `U.pow n`, hence some
   `[[ψ]]` (2.4).
 - (a′) `exists_isClassifyingSite_fpModel`: for `T` of presheaf type, `FPModel T` is essentially
-  small, and a small category `C ≌ (FPModel T)ᵒᵖ` with the trivial topology classifies `T`, with the
-  generic model `N ↦ N.carrier` in the functors `FPModel T ⥤ Type u`; the interpretation of a
-  geometric formula `φ` is then `N ↦ [[φ]]_N`, the set of the assignments in `N` that realize `φ`.
-  A set-model presented by a formula is finitely presentable (Caramello 2017, « Lattices of
+  small, and a small category `C ≌ (FPModel T)ᵒᵖ` with the trivial topology classifies `T`, the
+  presheaf underlying the generic model being `N ↦ N.carrier` on `FPModel T`
+  (`SetModel.forget`), along the equivalence. Prove also that the interpretation of a geometric
+  formula `φ` is then `N ↦ [[φ]]_N`, the set of the assignments in `N` that realize `φ`, and that a
+  set-model presented by a formula is finitely presentable (Caramello 2017, « Lattices of
   theories », Remark 14.2, p. 65, and §14.2, p. 68, in the numbering of arXiv:0905.0299v1;
   Caramello 2012a, §4, p. 189, for the generic model). Route: let `(C₀, ⊥, U₀)` classify `T`. By 2.1
   for the one-point site and Diaconescu's theorem (GrothendieckTopoi 2.5), the set-models and their
@@ -847,7 +858,8 @@ and the covering of (a) is the normal form of 2.2 (b).
 *Needs:* 1.4, 2.1, 2.2 (b), 2.4, 3.1; GrothendieckTopoi 1.1, 2.5, 6.5, 6.6;
 LocallyPresentableCategories 1.5; Mathlib `Sheaf.canonicalTopology`, `Subobject.underlying`,
 `Sigma.desc`, `IsFinitelyPresentable`, `IsIdempotentComplete`, `ObjectProperty.FullSubcategory`,
-`FirstOrder.Language.Hom`.
+`ObjectProperty.ι`, `FirstOrder.Language.Hom`, `Equivalence.op`, `unopUnop`, `sheafToPresheaf`,
+`TypeCat.ofHom`.
 
 **Checks.**
 
@@ -879,10 +891,10 @@ LocallyPresentableCategories 1.5; Mathlib `Sheaf.canonicalTopology`, `Subobject.
   `⊤ ⊢ f (f x) = f x`, the set-models are the sets with an idempotent endomorphism. `(1, ⊤)`
   presents `{x, f x}` (a homomorphism out of it is the image of `x`), whose endomorphisms are `𝟙`
   and `x ↦ f x`, and `(1, f x = x)` presents the one-point set, a retract of `{x, f x}` along
-  `x ↦ f x`. Both formulae are irreducible and `FPModel T` has these two objects up to
-  isomorphism: `[FPModel T, Type u]` is the presheaf topos of the monoid `{1, e}` with `e² = e`,
-  which has two irreducible objects (GrothendieckTopoi 6.5, Checks), and `(FPModel T)ᵒᵖ` is the
-  Cauchy completion of that monoid, as (a′) says, not the monoid itself.
+  `x ↦ f x`. Both formulae are irreducible (b). `(n, ⊤)` presents the free model on `n` generators,
+  which has `2n` elements, so no free model has one element. The idempotent `x ↦ f x` of
+  `{x, f x}` therefore splits in `FPModel T`, through the one-point set, but not in its full
+  subcategory on the free models; `FPModel T` is idempotent complete, as (a′) requires.
 - Degenerate and trivial cases of (a′): for `T = {⊤ ⊢ bot}` there is no set-model, so `FPModel T`
   is the empty category and its presheaf topos is the degenerate topos, the classifying topos of
   `T` (2.1, Checks). For the theory of objects (3.2), `FPModel T` is the finite sets, `C` is
