@@ -7,11 +7,11 @@ public import Mathlib
 
 This file states the headline theorems of the roadmap against the pinned Mathlib. `README.md` is
 the definitive document and states every target; this file gives suggested forms, not an exhaustive
-list. Tau Ceti `main` has the completeness of polynomial systems under one exponential moment
+list. Tau Ceti at the pin has the completeness of polynomial systems under one exponential moment
 (`TauCeti/Analysis/InnerProductSpace/PolynomialCompleteness.lean`), moment determinacy
 (`TauCeti/Probability/Moments/Determinacy.lean`) and the generating function of the Hermite
-polynomials (`TauCeti/RingTheory/Polynomial/Hermite/GeneratingFunction.lean`), which are not at
-the pins; the statements here use only Mathlib.
+polynomials (`TauCeti/RingTheory/Polynomial/Hermite/GeneratingFunction.lean`); the headline
+statements need only Mathlib carriers, so the file imports only Mathlib.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins. In Tau Ceti
 the measure-dependent ones live in the namespace `OrthogonalPolynomials`, and the purely algebraic
@@ -28,7 +28,7 @@ namespace TauCetiRoadmap.SpecialFunctionsOrthogonalPolynomialsGeneral
 open Polynomial MeasureTheory Filter Topology Finset
 open scoped ENNReal NNReal
 
-/-! ### Layer 1: difference operators -/
+/-! ## Layer 1: difference operators -/
 
 /-- The backward difference `∇_h f(x) = f(x) − f(x − h)` (DLMF §18.1(i), with `h = 1`). The
 forward difference is Mathlib's `fwdDiff h f`. -/
@@ -43,10 +43,6 @@ def imCentralDiffFun (f : ℂ → ℂ) (z : ℂ) : ℂ :=
 /-- `δ_x` on complex polynomials. -/
 def imCentralDiff (p : ℂ[X]) : ℂ[X] :=
   C Complex.I⁻¹ * (p.comp (X + C (Complex.I / 2)) - p.comp (X - C (Complex.I / 2)))
-
-theorem bwdDiff_eq_fwdDiff {M G : Type*} [AddCommGroup M] [AddCommGroup G] (h : M) (f : M → G)
-    (x : M) : bwdDiff h f x = fwdDiff h f (x - h) := by
-  sorry
 
 /-- Newton's formula for the iterated backward difference. -/
 theorem bwdDiff_iter_eq_sum {M G : Type*} [AddCommGroup M] [AddCommGroup G] (h : M)
@@ -73,10 +69,6 @@ theorem sum_range_mul_fwdDiff {R : Type*} [CommRing R] (f g : ℕ → R) (N : �
       f (N + 1) * g (N + 1) - f 0 * g 0 - ∑ x ∈ range (N + 1), g (x + 1) * fwdDiff 1 f x := by
   sorry
 
-theorem eval_imCentralDiff (p : ℂ[X]) (z : ℂ) :
-    (imCentralDiff p).eval z = imCentralDiffFun (fun w => p.eval w) z := by
-  sorry
-
 /-- `δ_x` lowers the degree by one and multiplies the leading coefficient by the degree. -/
 theorem imCentralDiff_natDegree_leadingCoeff (p : ℂ[X]) (hp : 0 < p.natDegree) :
     (imCentralDiff p).natDegree = p.natDegree - 1 ∧
@@ -88,7 +80,7 @@ theorem imCentralDiff_map_real (p : ℝ[X]) :
     ∃ q : ℝ[X], imCentralDiff (p.map (algebraMap ℝ ℂ)) = q.map (algebraMap ℝ ℂ) := by
   sorry
 
-/-! ### Layer 2: orthogonality measures and orthogonal polynomials -/
+/-! ## Layer 2: orthogonality measures and orthogonal polynomials -/
 
 /-- An orthogonality measure (DLMF 18.2.4_5): every moment is finite and the support is infinite. -/
 structure IsOrthogonalityMeasure (μ : Measure ℝ) : Prop where
@@ -144,15 +136,17 @@ theorem isOrthogonalityMeasure_sum_dirac {X : Set ℝ} (hX : X.Infinite) (w : �
     IsOrthogonalityMeasure (Measure.sum fun x : X => (w x : ℝ≥0∞) • Measure.dirac (x : ℝ)) := by
   sorry
 
+/-- `⟨q, q⟩ > 0` for every nonzero polynomial `q` (DLMF §18.2(i)). -/
 theorem pairing_self_pos {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) {q : ℝ[X]} (hq : q ≠ 0) :
     0 < pairing μ q q := by
   sorry
 
-theorem monic_monic {μ : Measure ℝ} (hint : ∀ n : ℕ, Integrable (fun x : ℝ => x ^ n) μ) {n : ℕ}
-    (hn : (n : ℕ∞) < μ.support.encard) :
+/-- `monic μ n` is monic of degree `n`, for every `μ` and `n`. -/
+theorem monic_monic (μ : Measure ℝ) (n : ℕ) :
     (monic μ n).Monic ∧ (monic μ n).natDegree = n := by
   sorry
 
+/-- `monic μ n` is orthogonal to every polynomial of lower degree (DLMF §18.2(iii)). -/
 theorem pairing_monic_eq_zero {μ : Measure ℝ} (hint : ∀ n : ℕ, Integrable (fun x : ℝ => x ^ n) μ)
     {n : ℕ} (hn : (n : ℕ∞) < μ.support.encard) {q : ℝ[X]} (hq : q.natDegree < n) :
     pairing μ (monic μ n) q = 0 := by
@@ -176,11 +170,7 @@ theorem isOrthogonal_iff {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (p
     IsOrthogonal μ p ↔ ∀ n, ∃ c : ℝ, c ≠ 0 ∧ p n = C c * monic μ n := by
   sorry
 
-/-- DLMF 18.2.5_5. -/
-theorem pairing_eq_ite {μ : Measure ℝ} {p : ℕ → ℝ[X]} (hp : IsOrthogonal μ p) (m n : ℕ) :
-    pairing μ (p m) (p n) = if m = n then normSq μ p n else 0 := by
-  sorry
-
+/-- The orthonormal standardization: `h_n = 1` and `k_n > 0` (DLMF §18.2(iii)). -/
 theorem orthonormal_spec {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) :
     IsOrthogonal μ (orthonormal μ) ∧ (∀ n, normSq μ (orthonormal μ) n = 1) ∧
       ∀ n, 0 < (orthonormal μ n).leadingCoeff := by
@@ -192,7 +182,7 @@ theorem eq_sum_pairing {μ : Measure ℝ} {p : ℕ → ℝ[X]} (hμ : IsOrthogon
     q = ∑ k ∈ range (q.natDegree + 1), C (pairing μ q (p k) / normSq μ p k) * p k := by
   sorry
 
-/-! ### Layer 3: recurrence relations -/
+/-! ## Layer 3: recurrence relations -/
 
 /-- The monic polynomials of a three-term recurrence (DLMF 18.2.11_5): `p₀ = 1`, `p₁ = X − α₀`,
 `p_{n+2} = (X − α_{n+1}) p_{n+1} − β_{n+1} p_n`. -/
@@ -213,9 +203,11 @@ def recB (μ : Measure ℝ) (p : ℕ → ℝ[X]) (n : ℕ) : ℝ :=
 def recC (μ : Measure ℝ) (p : ℕ → ℝ[X]) (n : ℕ) : ℝ :=
   if n = 0 then 0 else recA p (n - 1) * normSq μ p n / normSq μ p (n - 1)
 
-/-- The monic recurrence coefficients `α_n = b_n`, `β_n = h_n / h_{n−1}` (DLMF 18.2.11_4). -/
+/-- The monic recurrence coefficient `α_n = b_n` (DLMF 18.2.11_4). -/
 def alpha (μ : Measure ℝ) (n : ℕ) : ℝ := recB μ (monic μ) n
 
+/-- The monic recurrence coefficient `β_n = h_n / h_{n−1}` for `n ≥ 1`, and `β₀ = 0`
+(DLMF 18.2.11_4). -/
 def beta (μ : Measure ℝ) (n : ℕ) : ℝ :=
   if n = 0 then 0 else normSq μ (monic μ) n / normSq μ (monic μ) (n - 1)
 
@@ -225,6 +217,7 @@ def jacobiMatrix {R : Type*} [CommRing R] (a b c : ℕ → R) (n : ℕ) : Matrix
     if (j : ℕ) = i then b i else if (j : ℕ) = i + 1 then a i else if (i : ℕ) = j + 1 then c i
     else 0
 
+/-- The recurrence polynomials are monic of degree `n` over a nontrivial ring. -/
 theorem monicThreeTerm_monic {R : Type*} [CommRing R] [Nontrivial R] (α β : ℕ → R) (n : ℕ) :
     (monicThreeTerm α β n).Monic ∧ (monicThreeTerm α β n).natDegree = n := by
   sorry
@@ -268,12 +261,20 @@ theorem X_mul_orthonormal {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (
         C (Real.sqrt (beta μ (n + 1))) * orthonormal μ n := by
   sorry
 
+/-- The orthonormal polynomials are the Gram–Schmidt orthonormalization of the monomials in
+`L²(μ)` (the construction of RandomMatrices §8.2). -/
+theorem orthonormal_eq_gramSchmidtNormed {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ)
+    (hmem : ∀ k : ℕ, MemLp (fun x : ℝ => x ^ k) 2 μ) (n : ℕ) :
+    ((InnerProductSpace.gramSchmidtNormed ℝ (fun k : ℕ => (hmem k).toLp _) n : Lp ℝ 2 μ) :
+        ℝ → ℝ) =ᵐ[μ] fun x => (orthonormal μ n).eval x := by
+  sorry
+
 /-- The characteristic polynomial of a tridiagonal matrix. -/
 theorem charpoly_jacobiMatrix {R : Type*} [CommRing R] (a b c : ℕ → R) (n : ℕ) :
     (jacobiMatrix a b c n).charpoly = monicThreeTerm b (fun k => a (k - 1) * c k) n := by
   sorry
 
-/-! ### Layer 4: the Christoffel–Darboux formula and kernels -/
+/-! ## Layer 4: the Christoffel–Darboux formula and kernels -/
 
 /-- `K_n(x, y) = Σ_{ℓ ≤ n} p_ℓ(x) p_ℓ(y) / h_ℓ` (DLMF 18.2.12). -/
 def cdKernel (μ : Measure ℝ) (p : ℕ → ℝ[X]) (n : ℕ) (x y : ℝ) : ℝ :=
@@ -321,7 +322,7 @@ theorem integral_poissonKernel_mul {μ : Measure ℝ} {p : ℕ → ℝ[X]}
       z ^ m * (((p m).eval x : ℝ) : ℂ) := by
   sorry
 
-/-! ### Layer 5: zeros, Gauss quadrature and kernel polynomials -/
+/-! ## Layer 5: zeros, Gauss quadrature and kernel polynomials -/
 
 /-- The zeros of `monic μ n` in increasing order. -/
 def zeros (μ : Measure ℝ) (n : ℕ) (i : Fin n) : ℝ :=
@@ -336,13 +337,13 @@ def christoffelNumber (μ : Measure ℝ) (n : ℕ) (i : Fin n) : ℝ :=
 def gaussMeasure (μ : Measure ℝ) (n : ℕ) : Measure ℝ :=
   ∑ i : Fin n, ENNReal.ofReal (christoffelNumber μ n i) • Measure.dirac (zeros μ n i)
 
-/-- The zeros are real, simple, and inside the convex hull of the support (DLMF §18.2(vi),
-18.2.19). -/
+/-- The zeros are real and simple (DLMF 18.2.19). -/
 theorem zeros_spec {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (n : ℕ) :
     StrictMono (zeros μ n) ∧ (∀ i, (monic μ n).eval (zeros μ n i) = 0) ∧
       monic μ n = ∏ i, (X - C (zeros μ n i)) := by
   sorry
 
+/-- For `μ` concentrated on `[a, b]` the zeros lie in `(a, b)` (DLMF §18.2(vi)). -/
 theorem zeros_mem_Ioo {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) {a b : ℝ}
     (hab : ∀ᵐ x ∂μ, x ∈ Set.Icc a b) (n : ℕ) (i : Fin n) : zeros μ n i ∈ Set.Ioo a b := by
   sorry
@@ -364,6 +365,7 @@ theorem discr_eq_prod {K : Type*} [Field K] {n : ℕ} {c : K} (hc : c ≠ 0) (x 
       c ^ (2 * n - 2) * ∏ i, ∏ j ∈ Finset.Ioi i, (x i - x j) ^ 2 := by
   sorry
 
+/-- The discriminant of `p_n` is positive (DLMF 18.2.20). -/
 theorem discr_pos {μ : Measure ℝ} {p : ℕ → ℝ[X]} (hμ : IsOrthogonalityMeasure μ)
     (hp : IsOrthogonal μ p) (n : ℕ) : 0 < (p n).discr := by
   sorry
@@ -382,7 +384,7 @@ theorem christoffelNumber_eq {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ
       (zeros μ (n + 1) i))⁻¹ := by
   sorry
 
-/-! #### Kernel polynomials (5.6) -/
+/-! ### Kernel polynomials (5.6) -/
 
 /-- The kernel polynomial `q_n(·; y)` (DLMF 18.2.14). -/
 def kernelPolynomial (μ : Measure ℝ) (p : ℕ → ℝ[X]) (y : ℝ) (n : ℕ) : ℝ[X] :=
@@ -404,7 +406,7 @@ theorem kernelPolynomial_mul_sub {μ : Measure ℝ} {p : ℕ → ℝ[X]} (hμ : 
         kernelPolynomial μ p y n := by
   sorry
 
-/-! ### Layer 6: symmetry and quadratic transformations -/
+/-! ## Layer 6: symmetry and quadratic transformations -/
 
 /-- DLMF 18.2.21. -/
 theorem monic_comp_neg {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ)
@@ -421,8 +423,8 @@ theorem monic_even_odd {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ)
           (X ^ 2) := by
   sorry
 
-/-- DLMF 18.2.23, in measure form. -/
-theorem monic_even_odd_Icc {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ)
+/-- DLMF 18.2.23, in measure form, for every even orthogonality measure. -/
+theorem monic_even_odd_two_sq_sub_one {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ)
     (heven : μ.map (fun x => -x) = μ) (n : ℕ) :
     ∃ r s : ℝ[X],
       monic μ (2 * n) = r.comp (2 * X ^ 2 - 1) ∧ monic μ (2 * n + 1) = X * s.comp (2 * X ^ 2 - 1) ∧
@@ -431,7 +433,7 @@ theorem monic_even_odd_Icc {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ)
         monic ((μ.withDensity fun x => ENNReal.ofReal (x ^ 2)).map fun x => 2 * x ^ 2 - 1) n := by
   sorry
 
-/-! ### Layer 7: moments and Hankel determinants -/
+/-! ## Layer 7: moments and Hankel determinants -/
 
 /-- The Hankel determinant `Δ_n` of a sequence (DLMF 18.2.27); `Δ₀ = 1`. -/
 def hankelDet (m : ℕ → ℝ) (n : ℕ) : ℝ :=
@@ -442,6 +444,7 @@ def hankelDet' (m : ℕ → ℝ) (n : ℕ) : ℝ :=
   if n = 0 then 0 else
     (Matrix.of fun i j : Fin n => m (if (j : ℕ) + 1 = n then i + n else i + j)).det
 
+/-- The Hankel determinants of an orthogonality measure are positive. -/
 theorem hankelDet_pos {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (n : ℕ) :
     0 < hankelDet (moment μ) n := by
   sorry
@@ -466,7 +469,7 @@ theorem alpha_beta_eq_hankel {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ
         hankelDet (moment μ) (n + 1) ^ 2 := by
   sorry
 
-/-! ### Layer 8: Favard's theorem, uniqueness and completeness -/
+/-! ## Layer 8: Favard's theorem, uniqueness and completeness -/
 
 /-- Favard's theorem (DLMF §18.2(viii)). -/
 theorem favard (α β : ℕ → ℝ) (hβ : ∀ n, 0 < β (n + 1)) :
@@ -503,7 +506,7 @@ theorem hasSum_orthonormal_expansion {μ : Measure ℝ} (hμ : IsOrthogonalityMe
       HasSum (fun n => (∫ x, (f : ℝ → ℝ) x * (orthonormal μ n).eval x ∂μ) • g n) f := by
   sorry
 
-/-! ### Layer 9: associated polynomials, continued fractions and Markov's theorem -/
+/-! ## Layer 9: associated polynomials, continued fractions and Markov's theorem -/
 
 /-- The corecursive polynomials `p_n^{(0)}` (DLMF 18.2.32): `p₀ = 0`, `p₁ = 1`. -/
 def corecursive {R : Type*} [CommRing R] (α β : ℕ → R) : ℕ → R[X]
@@ -516,9 +519,12 @@ def corecursive {R : Type*} [CommRing R] (α β : ℕ → R) : ℕ → R[X]
 def jFraction (α β : ℕ → ℂ) (z : ℂ) : GenContFract ℂ :=
   ⟨0, Stream'.Seq.ofStream fun k => if k = 0 then ⟨1, z - α 0⟩ else ⟨-β k, z - α k⟩⟩
 
-/-- `p_n^{(0)} = p_{n−1}^{(1)}` (DLMF 18.2.32). -/
-theorem corecursive_succ {R : Type*} [CommRing R] (α β : ℕ → R) (n : ℕ) :
-    corecursive α β (n + 1) = monicThreeTerm (fun k => α (k + 1)) (fun k => β (k + 1)) n := by
+/-- The zeros of the associated polynomials `q_j^{(k)}`, `k + j ≤ N`, lie in `(a, b)` when `μ`
+is concentrated on `[a, b]`; so the tails of the J-fraction do not vanish off `[a, b]`. -/
+theorem associated_roots_mem_Ioo {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) {a b : ℝ}
+    (hab : ∀ᵐ x ∂μ, x ∈ Set.Icc a b) {k j N : ℕ} (hkj : k + j ≤ N) {x : ℂ}
+    (hx : aeval x (monicThreeTerm (fun i => alpha μ (i + k)) (fun i => beta μ (i + k)) j) = 0) :
+    x.im = 0 ∧ x.re ∈ Set.Ioo a b := by
   sorry
 
 /-- DLMF 18.2.33. -/
@@ -548,7 +554,7 @@ theorem markov {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) {a b : ℝ}
       {z : ℂ | ∀ t ∈ Set.Icc a b, (t : ℂ) ≠ z} := by
   sorry
 
-/-! ### Layer 10: structure relations, Sheffer polynomials and monotonic weights -/
+/-! ## Layer 10: structure relations, Sheffer polynomials and monotonic weights -/
 
 /-- The distributional Pearson equation `D(π μ) = τ μ`: `∫ π q′ dμ = −∫ τ q dμ` for every
 polynomial `q`. -/

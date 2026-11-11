@@ -99,23 +99,25 @@ Tau Ceti provides:
 **What it does not own:**
 - The orthogonal polynomial ensembles of random matrix theory: Andréief's identity, the
   determinantal structure and the Hermite, Laguerre and Jacobi kernels
-  ([RandomMatrices](../RandomMatrices/README.md) 8.2). That item proves the three-term recurrence
-  and the Christoffel–Darboux formula for the orthonormal functions of a weight; 3.2 and 4.1 here
-  prove them for the polynomials of every orthogonality measure, and RandomMatrices 8.2 can
-  consume them.
+  ([RandomMatrices](../RandomMatrices/README.md) §8.2). RandomMatrices §8.2 owns these statements
+  for the orthonormal polynomials of a weight with all moments finite: Gram–Schmidt of the
+  monomials, the three-term recurrence, Christoffel–Darboux and the reproducing and projection
+  identities. 3.4, 4.1 and 4.2 here are the statements for every orthogonality measure and every
+  standardization, and 3.4 identifies the two constructions.
 - The definitions and family-specific theory of the classical, Askey-scheme and other named
   families of DLMF §§18.3–18.37.
 - The Szegő class and Szegő asymptotics, the Nevai class and the Blumenthal–Nevai theorem (DLMF
   18.2.39–18.2.40), M. Riesz's theorem that a determinate measure gives a complete system, the
   indeterminate moment problem, Meixner's classification of the orthogonal Sheffer polynomials,
-  the nonnegativity of Poisson kernels, the converse of the structure relation, and the
-  `q`-Pochhammer symbols of §18.1(i).
+  the nonnegativity of Poisson kernels, the converse of the structure relation, the Euler
+  polynomials as a Sheffer system that is not orthogonal (§18.2(xii)), and the `q`-Pochhammer
+  symbols of §18.1(i).
 
 See the last section for these.
 
 **The boundary in one sentence:** this roadmap owns every statement of DLMF §§18.1–18.2 about
 general orthogonal polynomials, except 18.2.39–18.2.40 and the theorems quoted with them, M. Riesz's
-completeness theorem, Meixner's classification and the `q`-notation.
+completeness theorem, Meixner's classification, the Euler polynomials and the `q`-notation.
 
 ## Conventions
 
@@ -168,6 +170,10 @@ completeness theorem, Meixner's classification and the `q`-notation.
   `Σ_{k ≤ deg p} v_k p⁽ᵏ⁾`, and `v` is the compositional inverse `PowerSeries.substInvOfIsUnit u`.
   DLMF's `c_n` are taken equal to `1`; a system with other nonzero `c_n` is the rescaled system
   `c_n p_n`.
+- **Semi-classical measures.** `IsSemiclassical μ π τ` is the Pearson-equation definition of
+  10.1. It implies DLMF's definition, which is the structure relation 18.2.44 with `s`, `t`
+  independent of `n`: 10.1 gives it with `t = d − 1` and `s = max(deg τ, d − 1)`, `d = deg π`. The
+  converse is listed in the last section.
 - **Names.** Measure-dependent definitions and theorems live in the namespace
   `OrthogonalPolynomials`; `monicThreeTerm`, `corecursive`, `jacobiMatrix`, `imCentralDiff`,
   `derivativeAction` and `IsSheffer` live in `Polynomial`, and `bwdDiff` beside Mathlib's
@@ -177,7 +183,7 @@ completeness theorem, Meixner's classification and the `q`-notation.
 
 ### From Tau Ceti
 
-At Tau Ceti `main`:
+At the pinned Tau Ceti:
 - `TauCeti/Analysis/InnerProductSpace/PolynomialCompleteness.lean`:
   `TauCeti.orthogonal_span_range_bareNormalizedLp_eq_bot` (a polynomial family of exact degrees is
   complete in `L²(w·μ)` when `w·μ` has one finite exponential moment) and
@@ -204,7 +210,9 @@ At Tau Ceti `main`:
   `Polynomial.discr`, `Polynomial.discr_of_degree_eq_two`, `Polynomial.resultant_eq_prod_roots_sub`,
   `Polynomial.roots`, `Multiset.sort`.
 - `Matrix.charpoly`, `Matrix.IsHermitian.eigenvalues`, `Matrix.IsHermitian.charpoly_eq`,
-  `Matrix.IsHermitian.roots_charpoly_eq_eigenvalues`, `Matrix.det_succ_row`.
+  `Matrix.IsHermitian.roots_charpoly_eq_eigenvalues`, `Matrix.det_succ_row`, `eigenvalue_mem_ball`
+  (Gershgorin), `InnerProductSpace.gramSchmidtNormed`.
+- `polynomialFunctions_closure_eq_top` (Weierstrass on `[a, b]`).
 - `isCompact_closure_of_isTightMeasureSet` (Prokhorov), `MeasureTheory.IsTightMeasureSet`,
   `MeasureTheory.ProbabilityMeasure`, `MeasureTheory.resolventTransform`.
 - `GenContFract`, `GenContFract.convs'`, `GenContFract.conts`.
@@ -238,7 +246,7 @@ Layer 2 ──► Layer 3 ──► Layer 4 ──► Layer 5 ──► Layer 9
 DLMF §18.1(i): `Δ_x f(x) = f(x + 1) − f(x)` is Mathlib's `fwdDiff 1 f`, and `Δ_x^{n+1} = Δ_x Δ_x^n`
 is the iterate `(fwdDiff 1)^[n + 1]`. Define `bwdDiff h f x = f x − f (x − h)` over an additive
 group, so `∇_x = bwdDiff 1`. Targets:
-- `bwdDiff h f x = fwdDiff h f (x − h)` (`bwdDiff_eq_fwdDiff`);
+- `bwdDiff h f x = fwdDiff h f (x − h)`;
 - Newton's formula `∇ⁿ f(x) = Σ_{k=0}^{n} (−1)^k C(n, k) f(x − kh)` (`bwdDiff_iter_eq_sum`), and
   its inverse `f(x − nh) = Σ_k (−1)^k C(n, k) ∇^k f(x)`;
 - on polynomials: `∇ⁿ` of a polynomial of degree `n` is the constant `n!` times the leading
@@ -264,7 +272,7 @@ Route: induction, using Mathlib's `fwdDiff` API.
 
 DLMF §18.1(i): `δ_x f(z) = (f(z + i/2) − f(z − i/2))/i` for `f : ℂ → ℂ` (`imCentralDiffFun`), and on
 complex polynomials `imCentralDiff p = i⁻¹ (p(X + i/2) − p(X − i/2))`. Targets:
-- `(imCentralDiff p).eval z = imCentralDiffFun (eval · p) z` (`eval_imCentralDiff`);
+- `(imCentralDiff p).eval z = imCentralDiffFun (eval · p) z`;
 - for `deg p = n ≥ 1`, `deg δ_x p = n − 1` with leading coefficient `n` times that of `p`, and
   `δ_x` kills constants; hence `δ_xⁿ p` is the constant `n!` times the leading coefficient
   (`imCentralDiff_natDegree_leadingCoeff`);
@@ -276,6 +284,13 @@ Route: binomial expansion of `(X ± i/2)^k`; the even powers of `i/2` cancel.
 
 **Checks.**
 - `δ_x x = 1`, `δ_x x² = 2x`, `δ_x x³ = 3x² − 1/4`.
+- `δ_x 1 = 0`, and `δ_x x² = 2x` differs from the forward difference `Δ x² = 2x + 1`.
+- Without the factor `i⁻¹`, `p(X + i/2) − p(X − i/2)` at `p = X` is `i`, which is not real: the
+  factor is what makes `imCentralDiff_map_real` hold.
+
+### Examples
+
+- `Δ³ x³ = 3! = 6`, and `∇ x³ = 3x² − 3x + 1`.
 
 ### Dependencies
 
@@ -312,9 +327,9 @@ Define `IsOrthogonalityMeasure μ` (all moments finite, `μ.support` infinite), 
 
 ### 2.2 The monic orthogonal polynomials
 
-Define `monic μ n` by Gram–Schmidt (see [Conventions](#conventions)). For `μ` with finite moments
-and `(n : ℕ∞) < μ.support.encard`:
-- `monic μ n` is monic of degree `n` (`monic_monic`);
+Define `monic μ n` by Gram–Schmidt (see [Conventions](#conventions)). For every `μ` and `n`,
+`monic μ n` is monic of degree `n` (`monic_monic`), by strong induction on `n`. For `μ` with finite
+moments and `(n : ℕ∞) < μ.support.encard`:
 - it is orthogonal to every polynomial of lower degree (`pairing_monic_eq_zero`);
 - it is the only monic polynomial of degree `n` with this property (`eq_monic`), which is the
   uniqueness statement of DLMF §18.2(iii);
@@ -333,7 +348,7 @@ Define `IsOrthogonal μ p` and, for a system `p`, `normSq μ p n = h_n`, `normSq
 `subNextCoeff`, and `orthonormal μ n`. For an orthogonality measure `μ`:
 - `IsOrthogonal μ p ↔ ∀ n, ∃ c ≠ 0, p n = c · monic μ n` (`isOrthogonal_iff`);
 - DLMF 18.2.5–18.2.5_5: `pairing μ (p m) (p n) = h_n δ_{mn}` with `h_n > 0`, and the same with
-  sums for point masses (`pairing_eq_ite`);
+  sums for point masses;
 - DLMF 18.2.6–18.2.7: `h̃_n = ∫ x p_n² dμ` and the expansion
   `p_n = k_n xⁿ + k̃_n x^{n−1} + k̃̃_n x^{n−2} + ⋯`, with `k̃₀ = 0` and `k̃̃₀ = k̃̃₁ = 0`;
 - the monic standardization (`k_n = 1`) is `monic μ`, and the orthonormal standardization
@@ -346,6 +361,13 @@ Define `IsOrthogonal μ p` and, for a system `p`, `normSq μ p n = h_n`, `normSq
 **Checks.**
 - Lebesgue measure on `[−1, 1]` with Legendre's `P_n` (`P₂ = (3X² − 1)/2`): `h₂ = 2/5`,
   `k₂ = 3/2`, `k̃₂ = 0`, `k̃̃₂ = −1/2`.
+- Lebesgue measure on `[−1, 1]`: `orthonormal μ 0 = 1/√2` and `orthonormal μ 1 = √(3/2) X`.
+- The monomials `p n = Xⁿ` are not `IsOrthogonal` for Lebesgue measure on `[−1, 1]`:
+  `pairing μ 1 X² = 2/3 ≠ 0`.
+
+### Examples
+
+- Charlier with `a = 1` (`Σ_k e^{−1}/k! δ_k`): `monic μ 1 = X − 1`, since the mean is `1`.
 
 ### Dependencies
 
@@ -363,6 +385,9 @@ over a nontrivial ring (`monicThreeTerm_monic`); it commutes with ring homomorph
 
 **Checks.**
 - `α = 0`, `β = 1/4`: `monicThreeTerm α β n = 2^{−n} U_n` for Mathlib's `Polynomial.Chebyshev.U`.
+- `n = 2`: `(X − α₁)(X − α₀) − β₁`.
+- `α = 0`, `β_k = k`: `monicThreeTerm α β 2 = X² − 1 = He₂`; indexing `β` from `β₀ = 0` in the
+  step to `p₂` would give `X²`.
 
 ### 3.2 The second form
 
@@ -389,6 +414,7 @@ compare the top two coefficients and pair with `p_n`, `p_{n−1}`.
 - The Hermite weight `e^{−x²/2}` with Mathlib's `He_n`: `a_n = 1`, `b_n = 0`, `c_n = n`.
 - The weight `eˣ` on `[0, 1]` (monic): `b₀ = 0.58197670…` and `k̃₁/k₁ = −0.58197670…`, which
   confirms the corrected sign of 18.2.11_1.
+- At `n = 0` the second form has no `p_{−1}` term: for Hermite, `x · 1 = He₁`.
 
 ### 3.3 The first form
 
@@ -403,6 +429,7 @@ With `A_n = a_n⁻¹`, `B_n = −a_n⁻¹ b_n`, `C_n = a_n⁻¹ c_n` (DLMF 18.2.
 
 **Checks.**
 - Legendre: `A_n = (2n + 1)/(n + 1)`, `B_n = 0`, `C_n = n/(n + 1)`.
+- Hermite `He_n`: `A_n = 1`, `B_n = 0`, `C_n = n`.
 
 ### 3.4 The monic and orthonormal forms
 
@@ -412,12 +439,19 @@ Define `alpha μ n = b_n` and `beta μ n = h_n/h_{n−1}` (`beta μ 0 = 0`) for 
   `n ≥ 1` (`monic_eq_monicThreeTerm`);
 - DLMF 18.2.11_7–18.2.11_8: `q_n = p_n/√h_n` is `orthonormal μ n`, with
   `x q_{n+1} = √β_{n+2} q_{n+2} + α_{n+1} q_{n+1} + √β_{n+1} q_n`, `q₁ = (x − α₀)/√(h₀ β₁)` and
-  `q₀ = 1/√h₀` (`X_mul_orthonormal`).
+  `q₀ = 1/√h₀` (`X_mul_orthonormal`);
+- comparison with RandomMatrices §8.2: the class of `orthonormal μ n` in `L²(μ)` is
+  `InnerProductSpace.gramSchmidtNormed ℝ (fun k ↦ xᵏ) n`, the `n`-th Gram–Schmidt orthonormalization
+  of the monomials (`orthonormal_eq_gramSchmidtNormed`); for `μ = w(x) dx` this is the `n`-th
+  orthonormal polynomial of RandomMatrices §8.2.
 
-*Needs:* 3.2.
+*Needs:* 3.2; Mathlib `InnerProductSpace.gramSchmidtNormed`.
 
 **Checks.**
 - Lebesgue measure on `[−1, 1]`: `α_n = 0`, `β_n = n²/(4n² − 1)`, `h₀ = 2`.
+- The standard Gaussian measure: `α_n = 0`, `β_n = n`, `h₀ = 1`.
+- `beta μ 0 = 0` is never used as `h₀/h_{−1}`: `q₁` uses `h₀ β₁`, which for Lebesgue measure on
+  `[−1, 1]` is `2 · 1/3 = 2/3 = h₁`.
 
 ### 3.5 The Jacobi matrix
 
@@ -436,6 +470,13 @@ Route: expansion of the determinant along the last row (`Matrix.det_succ_row`).
 
 **Checks.**
 - `n = 2`: `charpoly = (X − b₀)(X − b₁) − a₀ c₁`.
+- `n = 2`: `J₂ (p₀, p₁)ᵀ = x (p₀, p₁)ᵀ − a₁ p₂ e₁`. For the transpose (`a_i` at `(i + 1, i)`, `c_i`
+  at `(i − 1, i)`) the first row reads `b₀ p₀ + c₁ p₁`, which equals `x p₀` only if `c₁ = a₀`.
+- `n = 1`: `charpoly = X − b₀`, which is `p₁/k₁`.
+
+### Examples
+
+- The standard Gaussian measure: `monic μ = He`, and `X He₂ = He₃ + 2 He₁`.
 
 ### Dependencies
 
@@ -460,6 +501,9 @@ telescope; the confluent form by letting `y → x`.
 **Checks.**
 - Lebesgue measure on `[−1, 1]`, monic, `n = 3`, `x = 0.3`, `y = −0.7`: both sides of 18.2.12 are
   `−0.287146875`.
+- `n = 0`: `K₀ = k₀²/h₀`, and the right side is `(k₀/(h₀k₁)) · k₁ k₀`.
+- Legendre `P_n`, `n = 1`: `K₁(x, y) = (1 + 3xy)/2` on both sides, with `k₁/(h₁k₂) = 1`; the
+  inverted ratio `k₂/(h₁k₁) = 9/4` would give `9/4` times that.
 
 ### 4.2 The kernel property
 
@@ -487,6 +531,16 @@ converges in `L²(μ)` in `y`, its sum is the function whose `n`-th expansion co
 **Checks.**
 - Lebesgue measure on `[−1, 1]` with Legendre `P_n`: `|P_n| ≤ 1` and `h_n = 2/(2n + 1)` give the
   hypothesis for every `|z| < 1`.
+- `z = 0`: `P₀(x, y) = k₀²/h₀` and `∫ P₀(x, y) p_m(y) dμ(y) = k₀ δ_{m0} = 0^m p_m(x)`, with
+  `0⁰ = 1`.
+- The standard Gaussian measure with `He_n`: `P_z(x, y)` is Mehler's kernel
+  `(1 − z²)^{−1/2} exp((2xyz − (x² + y²)z²)/(2(1 − z²)))`; at `(x, y, z) = (0.3, −0.7, 0.4)` both
+  are `0.9342031102`.
+
+### Examples
+
+- The standard Gaussian measure, `n = 1`: `K₁(x, y) = 1 + xy`, and
+  `(He₂(x) He₁(y) − He₁(x) He₂(y))/(x − y) = 1 + xy`.
 
 ### Dependencies
 
@@ -503,12 +557,16 @@ Define `zeros μ n i`, the `i`-th smallest root of `monic μ n`. For an orthogon
   general the zeros lie in the interior of the convex hull of `supp μ`.
 
 Route: if `p_n` changed sign at fewer than `n` points of the hull, the product of `p_n` with the
-polynomial vanishing at those points would have constant sign and zero integral.
+polynomial vanishing at those points would have constant sign and zero integral. DLMF §18.2(vi)
+cites Andrews, Askey and Roy (1999), Theorems 5.4.2 and 5.4.3.
 
 *Needs:* 2.3.
 
 **Checks.**
 - Lebesgue measure on `[−1, 1]`: `zeros μ 2 = (−1/√3, 1/√3)`.
+- The weight `eˣ` on `[0, 1]`: `zeros μ 1 = (1/(e − 1)) = (0.58197670…)`, the mean of `μ/μ(ℝ)`.
+- `δ₀ + δ₁` is not an orthogonality measure: `monic μ 2 = X² − X` has the zeros `0, 1`, on the
+  support and not in `(0, 1)`.
 
 ### 5.2 Gauss quadrature and the Christoffel numbers
 
@@ -520,7 +578,8 @@ integrand being the polynomial `p_n /ₘ (X − x_i)` divided by `p′_n(x_i)`),
 - `w_i = 1/K_{n−1}(x_i, x_i)` for the monic kernel (`christoffelNumber_eq`), and `Σ_i w_i = μ(ℝ)`;
 - if `μ` is concentrated on `[a, b]`, so is `gaussMeasure μ n`.
 
-Route: Lagrange interpolation at the zeros (`Lagrange.basis`) and division of `q` by `p_n`.
+Route: Lagrange interpolation at the zeros (`Lagrange.basis`) and division of `q` by `p_n`; see
+Szegő (1975), §3.4, and DLMF §3.5(v) (the Christoffel numbers are DLMF 3.5.18).
 
 *Needs:* 4.1, 5.1.
 
@@ -583,14 +642,25 @@ orthogonality measure, an orthogonal system and `y` with `x ≤ y` for `μ`-a.e.
 *Needs:* 4.1, 5.1 (for `p_n(y) ≠ 0`).
 
 **Checks.**
-- Lebesgue measure on `[−1, 1]`, `y = 1`: `∫ q_m q_n (1 − x) dx = 0` for `(m, n) = (1, 2), (0, 3),
-  (2, 4)`; the `q_n(·; 1)` are multiples of the Jacobi polynomials `P_n^{(1,0)}`.
+- Lebesgue measure on `[−1, 1]`, `y = 1`:
+  `∫ q_m q_n (1 − x) dx = 0` for `(m, n) = (1, 2), (0, 3), (2, 4)`;
+  the `q_n(·; 1)` are multiples of the Jacobi polynomials `P_n^{(1,0)}`.
+- `n = 0`: `q₀(·; y) = p₀(y) p₀/h₀ = k₀²/h₀`.
+- The side condition on `y` is needed: for Lebesgue measure on `[−1, 1]` and `y = 0`,
+  `q₁(·; 0) = P₀/h₀ + P₁(0) P₁/h₁ = ½` has degree `0`, not `1`.
+
+### Examples
+
+- The standard Gaussian measure, `n = 2`: nodes `±1`, weights `½, ½`; `∫ x² dμ = 1 = ½ + ½`, while
+  `∫ x⁴ dμ = 3 ≠ 1` (degree `2n`).
 
 ### Dependencies
 
 Layers 2–4.
 
 ## Layer 6: symmetry and quadratic transformations
+
+### 6.1 Parity and the quadratic transformations
 
 Let `μ` be an orthogonality measure invariant under `x ↦ −x` (an even weight in DLMF):
 - DLMF 18.2.21: `p_n(−x) = (−1)ⁿ p_n(x)` for `p_n = monic μ n` (`monic_comp_neg`), and for every
@@ -599,11 +669,14 @@ Let `μ` be an orthogonality measure invariant under `x ↦ −x` (an even weigh
   `r_n = monic (μ.map (x ↦ x²)) n` and `s_n = monic ((x² μ).map (x ↦ x²)) n` (`monic_even_odd`).
   For `μ = w(x) dx` on `ℝ` with `v(x²) = w(x)`, `μ.map (x ↦ x²) = x^{−1/2} v(x) dx` and
   `(x² μ).map (x ↦ x²) = x^{1/2} v(x) dx` on `(0, ∞)`, which is DLMF's statement.
-- DLMF 18.2.23, measure form: for `μ` concentrated on `[−1, 1]`, `monic μ (2n) = r_n(2X² − 1)` and
-  `monic μ (2n + 1) = X s_n(2X² − 1)` with `r_n = 2^{−n} monic (μ.map (x ↦ 2x² − 1)) n` and
-  `s_n = 2^{−n} monic ((x² μ).map (x ↦ 2x² − 1)) n` (`monic_even_odd_Icc`). For `μ = w(x) dx` on
-  `(−1, 1)` with `v(2x² − 1) = w(x)`, the two image measures are constant multiples of
-  `(1 + x)^{−1/2} v(x) dx` and `(1 + x)^{1/2} v(x) dx`, which is DLMF's statement.
+- DLMF 18.2.23, measure form: for every even orthogonality measure `μ`,
+  `monic μ (2n) = r_n(2X² − 1)` and `monic μ (2n + 1) = X s_n(2X² − 1)` with
+  `r_n = 2^{−n} monic (μ.map (x ↦ 2x² − 1)) n` and
+  `s_n = 2^{−n} monic ((x² μ).map (x ↦ 2x² − 1)) n` (`monic_even_odd_two_sq_sub_one`). For
+  `μ = w(x) dx` on `(−1, 1)` with `v(2x² − 1) = w(x)`, the two image measures are constant
+  multiples of `(1 + x)^{−1/2} v(x) dx` and `(1 + x)^{1/2} v(x) dx`, which is DLMF's statement. No
+  support condition is needed: `2t − 1` is affine in `t = x²`, so the statement is 18.2.22
+  composed with an affine change of variable.
 
 Route: parity from uniqueness (2.2); the even and odd parts are orthogonal by the change of
 variables `t = x²` (or `t = 2x² − 1`) in the pairing.
@@ -616,11 +689,18 @@ variables `t = x²` (or `t = 2x² − 1`) in the pairing.
 - The weight `(1 − x²)^{0.3}(1 + x²)` on `(−1, 1)`: `r₁, r₂` orthogonal for `(1 + t)^{−1/2} v(t)`.
 - `He_{2n}(x) = (−2)ⁿ n! L_n^{(−1/2)}(x²/2)`: the Laguerre case of 18.2.22.
 
+### Examples
+
+- Lebesgue measure on `[−1, 1]`: `μ.map (x ↦ x²)` is `t^{−1/2} dt` on `(0, 1)`, with mean `1/3`,
+  so `r₁ = X − 1/3` and `monic μ 2 = X² − 1/3 = r₁(X²)`.
+
 ### Dependencies
 
 Layers 2–3.
 
 ## Layer 7: moments and Hankel determinants
+
+### 7.1 Hankel determinants
 
 Define `hankelDet m n = Δ_n` and `hankelDet' m n = Δ′_n` for a sequence `m` (DLMF 18.2.27–18.2.28).
 For an orthogonality measure `μ` and its moments `μ_n = moment μ n` (DLMF 18.2.26):
@@ -640,9 +720,17 @@ because two rows coincide.
 
 **Checks.**
 - The Gaussian moments `1, 0, 1, 0, 3, …`: `Δ₃ = 0!·1!·2! = 2`.
+- `hankelDet m 0 = 1` and `hankelDet' m 1 = m₁` for every `m`.
+- `δ₀ + δ₁` (moments `2, 1, 1, 1, …`): `Δ₁ = 2`, `Δ₂ = 1`, and `Δ₃ = 0` because two rows agree; a
+  support of two points stops the positivity at `n = 2`.
 - The weight `eˣ` on `[0, 1]`: `h_n = Δ_{n+1}/Δ_n` (`1.718281828, 0.1363051216, 0.009148349372`),
   `α_n` and `β_n` from 18.2.30 agree with the recurrence (`α₁ = 0.4848434409`,
   `β₁ = 0.079326406`), and 18.2.29 at `x = 0.37`, `n = 3` gives `0.0212364801576`.
+
+### Examples
+
+- Lebesgue measure on `[−1, 1]`: moments `2, 0, 2/3`, `Δ₁ = 2`, `Δ₂ = 4/3`, and
+  `h₁ = Δ₂/Δ₁ = 2/3`.
 
 ### Dependencies
 
@@ -666,6 +754,9 @@ Given `α : ℕ → ℝ` and `β` with `β_{n+1} > 0`, let `p_n = monicThreeTerm
 
 **Checks.**
 - `α = 0`, `β = 1/4`: `L(q) = (2/π) ∫_{−1}^{1} q(x) √(1 − x²) dx`.
+- `α = 0`, `β = 1/4`: `L(p₂²) = β₁β₂ = 1/16`.
+- `n = 1`: the single node is `α₀` with weight `L(1) = 1`; `L` is normalized by `L(p₀) = 1`, so a
+  measure with `μ(ℝ) ≠ 1` represents `μ(ℝ) L`.
 
 ### 8.2 Favard's theorem
 
@@ -679,7 +770,8 @@ Prokhorov's theorem (`isCompact_closure_of_isTightMeasureSet`) gives a weakly co
 subsequence; since `∫ x^{2k} dν_n = L(x^{2k})` is bounded in `n`, the moments converge (auxiliary:
 weak convergence plus uniformly bounded higher moments gives convergence of lower moments), so the
 limit `μ` has `∫ q dμ = L(q)` for all `q`; `L(q²) > 0` gives an infinite support. This is the
-proof in Chihara, Chapter II.
+representation of the functional by a measure; DLMF §18.2(iv) cites Favard's theorem from
+Chihara (1978), p. 21, and Szegő (1975), §3.2.
 
 *Needs:* 8.1, 2.2, Mathlib Prokhorov.
 
@@ -698,14 +790,16 @@ orthogonal for the functional with moments `m`, and applies 8.2.
 
 **Checks.**
 - `m = (1, 0, 1, 0, 3, 0, 15, …)` (the Gaussian moments) has `Δ_n = ∏_{k<n} k!`.
+- The moments `2, 1, 1, 1, …` of `δ₀ + δ₁` have `Δ₃ = 0`, matching its finite support.
 
 ### 8.4 Uniqueness
 
 - Auxiliary: a finite measure `ν` with `∫ x^{2k} dν ≤ C M^{2k}` for all `k` is concentrated on
   `[−M, M]`.
 - Bounded coefficients: if `|α_n| ≤ A` and `0 < β_{n+1} ≤ B²`, the Favard measure is concentrated on
-  `[−(A + 2B), A + 2B]` (Gershgorin for the symmetric Jacobi matrices, then 8.2) and is the only
-  probability orthogonality measure with `monic μ = monicThreeTerm α β` (`favard_bounded`).
+  `[−(A + 2B), A + 2B]` (Gershgorin for the symmetric Jacobi matrices, Mathlib
+  `eigenvalue_mem_ball`, then 8.2) and is the only probability orthogonality measure with
+  `monic μ = monicThreeTerm α β` (`favard_bounded`).
 - DLMF §18.2(viii): if `μ` is concentrated on a bounded interval and `ν` is an orthogonality measure
   with `monic ν = monic μ`, then `ν = (ν(ℝ)/μ(ℝ)) μ` (`eq_smul_of_monic_eq`).
 
@@ -713,7 +807,7 @@ Route: equal monic polynomials give proportional moments (7); the moments of `ν
 like `M^{2k}`, so `ν` is concentrated on `[−M, M]`; two compactly supported measures with equal
 moments are equal (`TauCeti.Measure.ext_of_forall_integral_pow_eq_of_exists_integrable_exp`).
 
-*Needs:* Layer 7, 8.2, Tau Ceti `Determinacy`.
+*Needs:* Layer 7, 8.2, Tau Ceti `Determinacy`, Mathlib `eigenvalue_mem_ball`.
 
 **Checks.**
 - `α = 0`, `β = 1/4`: `A + 2B = 1`, and the support is `[−1, 1]`.
@@ -735,6 +829,12 @@ Route: `TauCeti.hilbertBasisOfOrthogonalSystem` with weight `1` and the complete
 **Checks.**
 - The Gaussian measure: the basis is the normalized `He_n/√(n!)`, Tau Ceti's
   `gaussianHermiteHilbertBasis`.
+- Lebesgue measure on `[−1, 1]`: the basis is `√((2n + 1)/2) P_n`.
+
+### Examples
+
+- `α = 0`, `β_n = n`: the Favard measure is the standard Gaussian; `β` is unbounded, so
+  `favard_bounded` does not apply, while 8.5 does, by the exponential moment.
 
 ### Dependencies
 
@@ -748,34 +848,49 @@ Mathlib Prokhorov.
 For `α`, `β` (here the monic coefficients `alpha μ`, `beta μ`):
 - DLMF 18.2.31: the first associated polynomials
   `p_n^{(1)} = monicThreeTerm (α ∘ succ) (β ∘ succ) n`;
-- DLMF 18.2.32: `corecursive α β (n + 1) = p_n^{(1)}` (`corecursive_succ`);
+- DLMF 18.2.32: `corecursive α β (n + 1) = p_n^{(1)}`;
 - DLMF 18.2.33: for `z ∈ ℂ` with `x ≠ z` for `μ`-a.e. `x`,
   `p_n^{(1)}(z) = μ₀⁻¹ ∫ (p_{n+1}(z) − p_{n+1}(x))/(z − x) dμ(x)` (`aeval_associated`);
 - the Casoratian: `p_n p_n^{(1)} − p_{n+1} p_{n−1}^{(1)} = β₁ ⋯ β_n` for `n ≥ 1`, and the `n` zeros
-  of `p_n^{(1)}` are real, simple and interlace with the `n + 1` zeros of `p_{n+1}`.
+  of `p_n^{(1)}` are real, simple and interlace with the `n + 1` zeros of `p_{n+1}`; the Casoratian
+  by induction on `n` from the two recurrences;
+- for `μ` concentrated on `[a, b]` and `k + j ≤ N`, the zeros of
+  `q_j^{(k)} = monicThreeTerm (α ∘ (· + k)) (β ∘ (· + k)) j` are real and lie in `(a, b)`
+  (`associated_roots_mem_Ioo`): they are the eigenvalues of the principal submatrix of the
+  symmetric `J_N` (3.5) on the rows and columns `k, …, k + j − 1`, hence lie between the extreme
+  eigenvalues of `J_N` (Rayleigh quotient), which are zeros of `p_N` (5.4) and lie in `(a, b)`
+  (5.1).
 
-*Needs:* 3.1, 3.4.
+*Needs:* 3.1, 3.4, 3.5, 5.1, 5.4.
 
 **Checks.**
-- The weight `eˣ` on `[0, 1]`, `z = 2 + i/2`: both sides of 18.2.33 agree for `n = 1, …, 4`
-  (`n = 3`: `1.959431816 + 1.508836788 i`).
+- The weight `eˣ` on `[0, 1]`, `z = 2 + i/2`: both sides of 18.2.33 agree for `n = 0, …, 3`
+  (`n = 2`: `1.959431816 + 1.508836788 i`; `n = 3`: `2.088826217 + 3.212018515 i`).
+- `corecursive α β 1 = 1` and `corecursive α β 2 = X − α₁ = p₁^{(1)}`.
+- Casoratian at `n = 1`: `(X − α₀)(X − α₁) − ((X − α₁)(X − α₀) − β₁) · 1 = β₁`.
 
 ### 9.2 The J-fraction
 
 Define `jFraction α β z` (DLMF 18.2.34). For an orthogonality measure concentrated on `[a, b]` and
 `z ∈ ℂ \ [a, b]`, DLMF 18.2.35–18.2.36:
 `F_{n+1}(z) = p_{n+1}^{(0)}(z)/p_{n+1}(z) = p_n^{(1)}(z)/p_{n+1}(z) = μ₀⁻¹ Σ_i w_i/(z − x_i)`, with
-the Christoffel numbers and zeros of `p_{n+1}` (`convs'_jFraction`). The partial denominators
-are nonzero off `[a, b]` because all zeros of `p_k^{(1)}` lie in `(a, b)`.
+the Christoffel numbers and zeros of `p_{n+1}` (`convs'_jFraction`). Evaluating `convs'` from
+the tail divides by `q_{j+1}^{(k)}(z)/q_j^{(k+1)}(z)`, where
+`q_j^{(k)} = monicThreeTerm (α ∘ (· + k)) (β ∘ (· + k)) j`; these are nonzero off `[a, b]` by
+the location of the zeros of the `q_j^{(k)}`, `k + j ≤ n + 1`, in 9.1 (with `N = n + 1`).
 
 Route: Mathlib's continuant recurrence (`GenContFract.conts`) is the recurrence of 3.1 for the
 numerators and denominators; the partial fraction is Gauss quadrature (5.2) applied to 18.2.33.
+DLMF cites Chihara (1978), Chapter III, Theorem 4.3 for 18.2.35–18.2.36.
 
 *Needs:* 5.2, 9.1.
 
 **Checks.**
 - The weight `eˣ` on `[0, 1]`, `z = 2 + i/2`: `F₄ = 0.6389990416 − 0.2410064077 i` by both the
   continued fraction and `p₃^{(1)}/p₄`.
+- `F₀ = 0` and `F₁ = 1/(z − α₀)`.
+- `F₂ = (z − α₁)/((z − α₀)(z − α₁) − β₁) = p₁^{(1)}/p₂`; with `β₁` entering with `+` instead of
+  `−` (partial numerator `β₁`), the denominator would be `(z − α₀)(z − α₁) + β₁`, not `p₂(z)`.
 
 ### 9.3 Markov's theorem
 
@@ -785,15 +900,20 @@ limit is `−μ₀⁻¹ · resolventTransform μ z`.
 
 Route: by 9.2, `F_n(z) = μ₀⁻¹ ∫ (z − x)⁻¹ d(gaussMeasure μ n)(x)`; the Gauss measures are
 concentrated on `[a, b]` and agree with `μ` on polynomials of degree `≤ 2n − 1`, so they converge
-weakly to `μ` (Weierstrass), and `(z − x)⁻¹` is continuous on `[a, b]` uniformly for `z` in a
-compact set off `[a, b]`.
+weakly to `μ` (Weierstrass, Mathlib `polynomialFunctions_closure_eq_top`), and `(z − x)⁻¹` is
+continuous on `[a, b]` uniformly for `z` in a compact set off `[a, b]`.
 
-*Needs:* 5.2, 9.2.
+*Needs:* 5.2, 9.2, Mathlib `polynomialFunctions_closure_eq_top`.
 
 **Checks.**
 - The weight `eˣ` on `[0, 1]`, `z = 2 + i/2`: `F₄ = 0.6389990416 − 0.2410064077 i` against the limit
   `0.6389985876 − 0.2410064428 i`.
 - Lebesgue measure on `[−1, 1]`, `z = 2`: the limit is `½ log 3`.
+
+### Examples
+
+- Lebesgue measure on `[−1, 1]`, `z = 2`: `F₁ = ½`, `F₂ = 2/(11/3) = 6/11 = 0.5454…`, and the
+  limit is `½ log 3 = 0.5493…`.
 
 ### Dependencies
 
@@ -808,9 +928,10 @@ Pearson equation `(π μ)′ = τ μ` in the sense of distributions). Let `d = d
 `s = max(deg τ, d − 1)`. For an orthogonality measure:
 - DLMF 18.2.44, the structure relation: `π p′_n = Σ_{j=n−s}^{n+d−1} a_{n,j} p_j`
   (`structure_relation`);
-- DLMF 18.2.42–18.2.43, the lowering and raising forms: there are polynomials `R_n`, `S_n`,
-  `R̃_n`, `S̃_n` of degree `≤ max(d, deg τ)` with `π p′_{n+1} = R_n p_{n+1} + S_n p_n` and
-  `π p′_n = R̃_n p_n + S̃_n p_{n+1}` (`lowering_raising`);
+- the fixed-`π` form of DLMF 18.2.42–18.2.43, with polynomial coefficients on `p_n` and `p_{n±1}`
+  (DLMF normalizes the second coefficient to a constant by letting `π_n` depend on `n`): there
+  are polynomials `R_n`, `S_n`, `R̃_n`, `S̃_n` of degree `≤ max(d, deg τ)` with
+  `π p′_{n+1} = R_n p_{n+1} + S_n p_n` and `π p′_n = R̃_n p_n + S̃_n p_{n+1}` (`lowering_raising`);
 - weights: if `w ≥ 0` is differentiable on an open interval `(a, b)` (`−∞ ≤ a < b ≤ ∞`), with
   `(π w)′ = τ w` there, `x^k π(x) w(x) → 0` at both ends for every `k`, and `w` gives an
   orthogonality measure, then that measure is semi-classical for `(π, τ)`.
@@ -843,8 +964,12 @@ Define `derivativeAction v` and `IsSheffer p f u` (DLMF 18.2.45 with `c_n = 1`; 
   coefficients agree with Tau Ceti's analytic generating function
   `Polynomial.hasSum_hermite_generating_function`.
 
-Route: `D` acts on `exp(x u(t))` as multiplication by `u(t)`, so `v(D)` acts as `v(u(t)) = t`; the
-converse follows Rota, Kahaner and Odlyzko.
+Route: `D` acts on `exp(x u(t))` as multiplication by `u(t)`, so `v(D)` acts as `v(u(t)) = t`.
+Conversely, given `p`, put `f(t) = Σ_n p_n(0) tⁿ/n!` and let `s_n` be the polynomials generated by
+`f(t) exp(x u(t))`; both `p` and `s` satisfy `v(D) q_{n+1} = (n + 1) q_n` and have the same values
+at `0`, and `v(D)` lowers the degree by exactly one (`v₀ = 0`, `v₁ = 1`), so its kernel is the
+constants and induction on `n` gives `p = s`. See Rota, Kahaner and Odlyzko (1973) for the
+operator calculus.
 
 *Needs:* Mathlib `PowerSeries.subst`, `PowerSeries.substInvOfIsUnit`; for the non-orthogonality,
 3.4.
@@ -854,6 +979,7 @@ converse follows Rota, Kahaner and Odlyzko.
   `β₂ = 1/6`, `β₃ = 1/4`, and then the constant term of `(x − ½) B₃ − ¼ B₂` is `−1/24`, while
   `B₄(0) = −1/30`.
 - Hermite: `v(t) = t`, `v(D) = D`, and `He′_{n+1} = (n + 1) He_n`.
+- Bernoulli: `v(D) = D`, and 18.2.46 is `B′_{n+1} = (n + 1) B_n`.
 
 ### 10.3 Monotonic weights
 
@@ -872,6 +998,11 @@ Route: Szegő, §7.2.
 - `w = (1 + x)^β` on `[−1, 1]`, `β ≥ 0`: the Jacobi polynomials `P_n^{(0,β)}` attain
   `max |P_n^{(0,β)}| (1 + x)^{β/2} = 2^{β/2}` at `x = 1` (DLMF 18.14.3_5 at `α = 0`).
 
+### Examples
+
+- The Jacobi weight `(1 − x)^a (1 + x)^b`, `a, b > −1`, is semi-classical with `π = 1 − x²` and
+  `τ = b − a − (a + b + 2)x`.
+
 ### Dependencies
 
 Layers 2–3, 5.
@@ -886,8 +1017,6 @@ Layers 2–3, 5.
 - LaguerreJacobi defines the Laguerre, Jacobi and Gegenbauer polynomials and
   proves their orthogonality and `L²` bases; Layers 3–5 then give their recurrences, kernels, zeros
   and quadrature as instances.
-- [RandomMatrices](../RandomMatrices/README.md) 8.2 can take the three-term recurrence and the
-  Christoffel–Darboux formula from 3.2 and 4.1, and the projection property from 4.2.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -904,7 +1033,10 @@ only to fix the boundary. Contributors should not attempt it under this roadmap.
 - **Meixner's classification** of the orthogonal Sheffer polynomials (DLMF §18.2(xii)): it needs
   the Hahn-class families of §18.19, and belongs with the Askey scheme.
 - **The nonnegativity of Poisson kernels** (Ismail, Theorem 4.7.12) and the **converse of the
-  structure relation** (a system with a structure relation is semi-classical).
+  structure relation** (a system with a structure relation is semi-classical in the Pearson sense
+  of 10.1).
+- **The Euler polynomials** `E_n` as a Sheffer system that is not orthogonal (§18.2(xii)), which
+  needs the Euler polynomials of DLMF §24.2; neither Mathlib nor Tau Ceti has them.
 - **The `q`-Pochhammer symbols and infinite `q`-products** of §18.1(i), which belong with the
   basic hypergeometric functions of DLMF Chapter 17.
 - **Sections with nothing to formalize**: the notation lists of §18.1(ii)–(iii) and the remarks
