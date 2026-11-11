@@ -51,9 +51,13 @@ degreewise center-symbol isomorphisms and split Albert determinant/Jordan identi
 are also inputs, with exact declarations below. The linear symmetrization equivalence
 `Sym_R(g) ≃ U_R(g)` with the permutation-average formula, for every Lie algebra over a
 commutative ℚ-algebra, is [ScatteringDiagrams §0.4](../../ScatteringDiagrams/README.md)
-(`exists_pbwSymmetrizationEquiv`). Layer 7 adds its equivariance for the adjoint actions, the
-equality of the degree and PBW filtrations under it, and the multiplicative assembly of the
-degreewise center symbols.
+(`exists_pbwSymmetrizationEquiv`). Degreewise symmetrization with its adjoint equivariance on
+each homogeneous component, its PBW degree and its leading symbol is native
+(`TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwHomogeneousSymmetrization`,
+`TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_pbwFiltration`,
+`TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization`). Layer 7 extends the equivariance to
+the whole symmetric algebra, proves the equality of the degree and PBW filtrations under the
+global map, and adds the multiplicative assembly of the degreewise center symbols.
 So are the PBW Rees algebra with its fibres at one and zero
 (`TauCeti.UniversalEnvelopingAlgebra.reesAlgebra`, `reesOneFiberEquiv`, `reesZeroFiberEquiv`);
 the Cayley–Dickson double and the real division octonions (`TauCeti.CayleyDickson`,
@@ -79,8 +83,9 @@ what these do not.
 These former layer identifiers refer to the supplier contracts, not to new
 construction targets. AdoIwasawa consumes native ordered PBW and the native finiteness of the
 enveloping algebra over central subalgebras directly; this
-roadmap's additional exports are the adjoint equivariance and filtration of PBW
-symmetrization and the first-order bracket on the native Rees zero fibre.
+roadmap's additional exports are the adjoint equivariance of global PBW symmetrization on the
+whole symmetric algebra with its filtration statement, and the first-order bracket on the native
+Rees zero fibre.
 
 | Former Lean statement of this roadmap | Present declaration |
 | --- | --- |
@@ -94,10 +99,14 @@ symmetrization and the first-order bracket on the native Rees zero fibre.
 | LieHighestWeight.ι_injective | `TauCeti.UniversalEnvelopingAlgebra.ι_injective` |
 | LieHighestWeight.pbwBasis | `Module.Basis.pbwBasis` |
 | LieHighestWeight.module_finite_of_central_monic_relations | `TauCeti.UniversalEnvelopingAlgebra.moduleFinite_of_isIntegral_of_span_eq_top`, over a central subalgebra made a ring of scalars by `Subalgebra.centralSubalgebraAlgebra` |
+| pbwSymmetrization | `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` in each degree; the equivalence of all degrees is ScatteringDiagrams §0.4 (`exists_pbwSymmetrizationEquiv`), with its global equivariance and filtration in `pbwSymmetrization_lie_and_mem_pbwFiltration_iff` |
+| pbwSymmetrization_symbol | `TauCeti.UniversalEnvelopingAlgebra.mk_pbwHomogeneousSymmetrization` on a homogeneous element, `TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization` on the symmetric power |
+| pbwSymmetrization_mem_center_iff | `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff` in each degree (with `L` free); for an arbitrary element it follows from the equivariance clause of `pbwSymmetrization_lie_and_mem_pbwFiltration_iff` and the injectivity its filtration clause gives at n = 0 |
 
-The rows above are the former names cited by CharacteristicClasses C5 and in the AdoIwasawa
-target file; each present declaration is pinned and is consumed under the supplier contracts
-below.
+The rows above are the former names cited by CharacteristicClasses C5, NoncompactQuantumSymmetry,
+QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups and in the AdoIwasawa target file; each
+present declaration is pinned, is ScatteringDiagrams §0.4's or is the Layer 7 headline, and is
+consumed under the supplier contracts below.
 
 [RootSystems, Layers 1–6](../RootSystems/README.md) owns finite root geometry,
 chambers, Weyl groups and finite-type classification. This roadmap owns the
@@ -856,11 +865,21 @@ estimate is needed for that finite sum.
   (`GeneralLinear/CAR/Decomposition.lean`) the CAR decomposition.
 - `TauCeti.coeff_formalCharacter_eq_freudenthalRHS_div`, in
   `TauCeti/Algebra/Lie/HighestWeight/Freudenthal.lean`, is Freudenthal's recursion solved for
-  the multiplicity at `μ ≠ λ`. `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` and
-  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff`, in
-  `TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Symmetrization.lean`, supply degreewise
-  symmetrization and its centre criterion for `L` free over a commutative ring with `n!`
-  invertible.
+  the multiplicity at `μ ≠ λ`. In
+  `TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Symmetrization.lean`, over a commutative ring
+  `R : Type` with `n!` a unit and with no freeness hypothesis on `L`,
+  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` is degree-n symmetrization of the
+  symmetric power `Sym[R]^n L`, `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_tprod` its
+  permutation-average formula and `TauCeti.UniversalEnvelopingAlgebra.pbwHomogeneousSymmetrization`
+  the same map on the homogeneous component of `S(L)`;
+  `TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwHomogeneousSymmetrization` (with
+  `TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwSymmetrization_tprod` on words) is its adjoint
+  equivariance on each homogeneous component,
+  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_pbwFiltration` puts it in PBW degree n
+  and `TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization` gives its leading symbol. The
+  centre criterion `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff`
+  assumes in addition `L` free over `R`. The scalar ring lies in `Type` because Mathlib's
+  `Sym[R]^n L` puts `R` in the universe of `Fin n`.
 
 ### From other roadmaps
 
@@ -872,9 +891,11 @@ for a Lie algebra `g` over a commutative ℚ-algebra `R`, with no freeness or fi
 hypothesis, `exists_pbwSymmetrizationEquiv` gives an `R`-linear equivalence
 `Sym_R(g) ≃ U_R(g)` sending a product of `d` generators to `1/d!` times the sum of their
 products in all `d!` orders (the empty product to 1). The formula determines the map, since
-products of generators span `Sym_R(g)`. Layer 7 uses it with `R` a characteristic-zero field
-and assumes nothing else of it: adjoint equivariance and the two-sided filtration statement
-are proved in §7.1.
+products of generators span `Sym_R(g)`. Layer 3 (§3.2, with `R` a commutative ℚ-algebra and
+`g = Rx ⊕ Ry`, `[x,y] = y`) and Layer 7 (with `R` a characteristic-zero field) use it and assume
+nothing else of it. In §3.2 the formula alone puts the image of a product of n generators among
+words of length n, hence in Rees degree n; the global adjoint equivariance and the two-sided
+filtration statement are §7.1's `pbwSymmetrization_lie_and_mem_pbwFiltration_iff`.
 
 ### From ReflectionInvariantTheory
 
@@ -1856,16 +1877,36 @@ its root system.
   formula satisfies `e(⁅x,p⁆) = ι(x)·e(p) − e(p)·ι(x)` for the derivation action of `x ∈ L` on
   `Sym(L)`, and a symmetric tensor has degree at most n if and only if its image lies in the
   n-th PBW filtration step; so the inverse sends the n-th PBW filtration step into the
-  symmetric tensors of degree at most n. Equivariance holds because the derivation replaces
-  one letter of each word by its bracket with x, and the average of those words is the
-  commutator of `ι(x)` with the average; the forward filtration inclusion is degree counting,
-  and the converse uses injectivity of the leading symbols, `pbwAssociatedGradedEquiv`. Consume native `pbwHomogeneousComponentMap`,
-  `pbwAssociatedGradedEquiv` and `TauCeti.SymmetricAlgebra.gradedAlgebra` for the
-  direct homogeneous grading and leading symbols. The degreewise symmetrization
-  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` and its centre criterion
-  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff`
-  (`PBW/Symmetrization.lean`) are native, for `L` free over a commutative ring with `n!`
-  invertible; the global map of ScatteringDiagrams §0.4 restricts to them in each degree. Filter the actual center by the comaps of native
+  symmetric tensors of degree at most n. Over ℂ, Etingof, *Representations of Lie Groups*,
+  proof of Theorem 13.5, p. 69, states that symmetrization is an isomorphism of g-modules
+  and that `gr U(g) = Sg`. Route: products of n generators span the degree-n homogeneous
+  component, and on them the formula of e is that of
+  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_tprod`, so e agrees there with
+  `TauCeti.UniversalEnvelopingAlgebra.pbwHomogeneousSymmetrization`. For `K : Type` the
+  degreewise statements are then native: equivariance on each component is
+  `TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwHomogeneousSymmetrization`, the forward
+  inclusion is `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_pbwFiltration`, and the
+  leading symbol is `TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization`. The target adds
+  the assembly over the grading `TauCeti.SymmetricAlgebra.gradedAlgebra`, which the derivation
+  action preserves (`TauCeti.SymmetricAlgebra.lieModuleDerivation_mem_homogeneousSubmodule`), and
+  the converse filtration inclusion: if the top component of p has degree m > n and
+  e(p) lies in step n, that component has zero leading symbol in degree m, so it is zero by
+  `TauCeti.UniversalEnvelopingAlgebra.pbwHomogeneousComponentMap_injective` (L is free over the
+  field K). For K in a larger universe the native degreewise lemmas do not apply as stated, and
+  their word computations are made directly on the formula of e: the derivation replaces one
+  letter of each word by its bracket with x, as in
+  `TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwSymmetrization_tprod`; a word of length n lies in
+  step n (`TauCeti.UniversalEnvelopingAlgebra.prod_map_ι_mem_pbwFiltration`); and a permuted word
+  differs from it by an element of step n − 1
+  (`TauCeti.UniversalEnvelopingAlgebra.prod_map_ι_sub_prod_map_ι_mem_pbwFiltrationPrevious_of_perm`).
+  The last two lemmas and the injectivity above take the scalar ring in any universe. Consume native
+  `pbwHomogeneousComponentMap`, `pbwAssociatedGradedEquiv` and
+  `TauCeti.SymmetricAlgebra.gradedAlgebra` for the direct homogeneous grading and leading
+  symbols. The degreewise symmetrization `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization`
+  (`PBW/Symmetrization.lean`) needs only `n!` to be a unit of the commutative scalar ring; its
+  centre criterion `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff` needs
+  in addition `L` free. The global map of ScatteringDiagrams §0.4 restricts to the degreewise
+  map in each degree. Filter the actual center by the comaps of native
   PBW steps; its associated graded is the direct sum of successive submodule quotients
   (degree 0 predecessor is ⊥). The symbol and center-membership theorems identify this
   graded algebra with S(L)^L. Consume the native degreewise
