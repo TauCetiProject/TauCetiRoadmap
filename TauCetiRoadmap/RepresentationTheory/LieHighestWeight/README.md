@@ -149,6 +149,10 @@ of this roadmap either: ReductiveGroups consumes the split Serre presentation of
 nothing of ReductiveGroups is consumed here. Layer 9 states the centre comparisons for the Lie
 invariants `Sym(L)^L` alone.
 
+The linkage principle of category `O` (composition factors of Verma modules, the integral Weyl
+group and the block decomposition) is strictly stronger than the native central-character orbit
+theorem `TauCeti.vermaCentralCharacter_eq_iff` and is not a target of this roadmap.
+
 ## Conventions
 
 - **The base field.** Work over a field `K` that is **algebraically closed and of characteristic
@@ -494,7 +498,11 @@ estimate is needed for that finite sum.
   companions `TauCeti.tensorMultiplicity_eq_one_iff_of_isMinuscule` and
   `TauCeti.tensorMultiplicity_eq_zero_iff_of_isMinuscule`; Layer 6 consumes the rule.
 - `TauCeti.invForm` and `TauCeti.invForm_coroot`, in
-  `TauCeti/Algebra/Lie/Weights/InvariantForm.lean`, and `TauCeti.casimirElement`
+  `TauCeti/Algebra/Lie/Weights/InvariantForm.lean`, with
+  `TauCeti.weylGroupCorootRep_cartanEquivDual_symm` there (for a split Cartan subalgebra of a
+  finite-dimensional Killing algebra over a characteristic-zero field, the opposite of a Weyl
+  group element w, acting on H through the coroot representation, sends the Killing dual `t_λ`
+  of a weight λ to `t_(w⁻¹λ)`), and `TauCeti.casimirElement`
   and `TauCeti.casimir_smul_of_isHighestWeightVector_of_lieSpan_eq_top`, in
   `TauCeti/Algebra/Lie/HighestWeight/Casimir.lean`, supply the Killing normalization.
   `TauCeti.exists_isCompl_of_isKilling`, in
@@ -777,9 +785,32 @@ estimate is needed for that finite sum.
   ordered field, with a finite nonempty root index set, crystallographic, reduced and
   irreducible, and a base; covering and transitivity assume the field Archimedean, freeness
   does not. The closed alcove is defined by the weak inequalities and is not stated to be a
-  topological closure. The pin does not prove that `Ω → P∨/Q∨` is injective, that a closed-alcove
-  representative is unique, or anything about point stabilizers, quotient topology,
-  intermediate lattices or diagram automorphisms; those are Layer 10 targets.
+  topological closure.
+- `RootPairing.Base.affineCartanMatrix`, `RootPairing.Base.affineMarks`,
+  `RootPairing.Base.specialNodes`, `RootPairing.Base.affineMarks_apply_of_mem_matrixSymmetryGroup`
+  and `RootPairing.Base.apply_mem_specialNodes_iff`, in
+  `TauCeti/LinearAlgebra/RootSystem/AffineCartanMatrix.lean`, with
+  `TauCeti.matrixSymmetryGroup` in `TauCeti/LinearAlgebra/Matrix/Submatrix.lean`, supply the
+  untwisted affine Cartan matrix of a base (the affine node is `none`, with `α₀ = −θ`), its
+  marks (1 at the affine node and the coefficients of θ in the simple roots), the special nodes
+  (the nodes of mark 1), the group of node permutations preserving a square matrix, and the
+  theorem that every permutation preserving the affine Cartan matrix, including one that moves
+  the affine node, preserves the marks and so permutes the special nodes. The hypotheses are a
+  root system over a characteristic-zero domain with finite nonempty index set; reducedness and
+  irreducibility are not assumed, and for a reducible system θ is a root of maximal height
+  and the affine node is attached to its component only.
+  `RootPairing.Base.coweightLatticeBasis` and
+  `RootPairing.Base.relIndex_corootSpan_coweightLattice`, in
+  `TauCeti/LinearAlgebra/RootSystem/CoweightLattice/Basis.lean`, supply the ℤ-basis of `P∨`
+  by the fundamental coweights, whose coordinates are the pairings with the simple roots, and
+  the index `[P∨ : Q∨] = |det C|` for the Cartan matrix C of a crystallographic root system
+  over a characteristic-zero ring.
+  The pin does not prove that `Ω → P∨/Q∨` is injective, that a closed-alcove representative
+  is unique, or anything about point stabilizers, quotient topology or intermediate lattices.
+  For diagram automorphisms it has the action of Ω on the nodes by symmetries of the affine
+  Cartan matrix and special-node preservation, but not the simply transitive action of Ω on
+  the special nodes or the isomorphism `Ω ⋊ Γ_root ≃ Aut(affine Cartan matrix)`; those are
+  Layer 10 targets.
 - `TauCeti.IsRationalRep.differential`, `differential_tprod`,
   `mem_invtSubmodule_iff_forall_mem_invtSubmodule_differential`, `isIrreducible_differential`,
   `isIntertwiningMap_iff_forall_map_differential` and `tprodLieModuleEquiv`, in
@@ -962,7 +993,7 @@ formulas and Checks below specify the rest of the tensor comparison.
    comparison, annihilation by E, invariance under the upper unipotent subgroup,
    GL₂ highest weight `(m+n-r,r)`, and SL₂ highest weight `N_r=m+n-2r`.
    Prove that the simultaneous E-kernel and fixed weight line is spanned by this
-   vector; the completed string basis in item4 then proves that the whole
+   vector; the completed string basis in item 4 then proves that the whole
    E-kernel is the direct sum of these lines.
    Construct every `F_tot^k v_r`, its finite binomial/Leibniz coefficient formula,
    weight `(m+n-r-k,r+k)`, and the ladder identities
@@ -1213,38 +1244,67 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
     does not see the lift.
   - For the zero ring, or L=0, both sides are 0, respectively the bracket on R is 0.
 
-  For a finite-dimensional real Lie algebra L, construct the algebra map
-  E:Sym_ℝ(L)→C∞(L*,ℝ) by x↦ℓ_x, where ℓ_x(ξ)=ξ(x), and prove
-  injectivity. For every p,q∈Sym_ℝ(L) and ξ∈L*, prove
-  `E({p,q})(ξ)=ξ([d(E(p))_ξ,d(E(q))_ξ])`, identifying the derivatives
-  in L** with vectors of L through the finite-dimensional evaluation
-  isomorphism. This is an identity on polynomial evaluations, proved from
-  the generator equation and the product rule (Gutt, *Deformation
-  Quantization and Symmetries*, Lecture 1, slide 14). It gives the comparison
-  with any smooth bracket having the displayed differential formula without
-  using the construction or Jacobi identity of a bracket on all smooth functions.
+  For a finite-dimensional real Lie algebra L, evaluation at ξ∈L* is Mathlib's
+  `SymmetricAlgebra.lift ξ`, the ℝ-algebra map `Sym_ℝ(L) → ℝ` with x↦ξ(x). Construct the
+  algebra map E:Sym_ℝ(L)→C∞(L*,ℝ) with E(p)(ξ) the evaluation of p at ξ, so that E(x)=ℓ_x
+  with ℓ_x(ξ)=ξ(x), and prove injectivity. For a finite basis b of L define
+  `symmetricGradient b p ξ` as the vector `Σᵢ (∂ᵢP)(ξ(b₁),…,ξ(bₙ)) bᵢ` of L, where
+  P is the polynomial of p in the coordinates of b (Mathlib `SymmetricAlgebra.equivMvPolynomial`,
+  sending bᵢ to the i-th variable) and ∂ᵢ is `MvPolynomial.pderiv`.
+
+  - For every η∈L*, η applied to `symmetricGradient b p ξ` is the derivative at t=0 of
+    t↦E(p)(ξ+tη). So under the finite-dimensional evaluation isomorphism L≃L** the
+    gradient is the derivative d(E(p))_ξ, and two finite bases give the same vector.
+  - The gradient is ℝ-linear in p, sends every symmetric generator x to x and every
+    scalar to 0, and obeys the product rule: the gradient of pq at ξ is
+    E(p)(ξ) times the gradient of q plus E(q)(ξ) times the gradient of p.
+
+  **Checks.**
+
+  - The gradient of a generator x is x at every ξ, which excludes the zero map and the
+    scalar multiple ξ(x)x; the gradient of 1 is 0.
+  - On L=ℝx⊕ℝy with b=(x,y) and ξ(x)=2, ξ(y)=3, the gradient of x² is 4x and that of
+    xy is 3x+2y; evaluating the partial derivatives at the coordinates (1,1) of the basis
+    instead of at ξ would give 2x and x+y.
+  - With the basis b′=(x+y,y), the polynomial of x² is (u−v)², whose partial derivatives at
+    (ξ(x+y),ξ(y))=(5,3) are 4 and −4, so the gradient is 4(x+y)−4y=4x again; returning
+    the coordinate vector, (4,−4) here and (4,0) for b, would depend on the basis.
+
+  Prove `lift_reesZeroFiberBracket_eq_lie_symmetricGradient`: for every finite basis b of
+  L, every ℝ-bilinear map B on `Sym_ℝ(L)` with the defining equation of
+  `exists_reesZeroFiberBracket`, every p,q∈Sym_ℝ(L) and every ξ∈L*, the evaluation of
+  B(p,q) at ξ is `ξ([symmetricGradient b p ξ, symmetricGradient b q ξ])`. The defining
+  equation determines B, so this is the identity
+  `E({p,q})(ξ)=ξ([d(E(p))_ξ,d(E(q))_ξ])` for the bracket of `exists_reesZeroFiberBracket`.
+  It is an identity on polynomial evaluations, proved from the generator equation and the
+  product rule on both sides (Gutt, *Deformation Quantization and Symmetries*, Lecture 1,
+  slide 14, GuttDeformationQuantization line 902, for the convention `P_ξ(X,Y)=ξ([X,Y])`).
+  It gives the comparison with any smooth bracket having the displayed differential formula
+  without using the construction or Jacobi identity of a bracket on all smooth functions.
 
   - E sends 1 to 1 and E({x,y})(ξ) to ξ([x,y]); sums and products are preserved.
   - For any real Lie homomorphism u:L→M, its symmetric-algebra map and
     pullback along u*:M*→L* give a commuting square of evaluations.
-  - Polynomial evaluation is injective over ℝ. Its derivative obeys the
-    product rule, and the derivative identity holds for all polynomials,
-    without a nonzero or nonconstant hypothesis.
+  - Polynomial evaluation is injective over ℝ, and the derivative identity holds for all
+    polynomials, without a nonzero or nonconstant hypothesis.
 
   **Checks.**
 
   - For L=0 and for an abelian real line the two sides of the derivative
     identity are 0; E(1)=1, excluding the zero map.
-  - For [x,y]=y, at ξ(x)=2, ξ(y)=3, both sides for p=x,q=y are 3;
+  - For [x,y]=y, at ξ(x)=2, ξ(y)=3, both sides for p=x,q=y are ξ(y)=3;
     reversing p,q gives −3, excluding the negative bracket convention.
-  - For the same algebra, p=x²,q=y gives 12 on both sides at (2,3),
-    testing the product rule beyond linear generators.
-  - For sl₂, {h,e}=2e and {e,f}=h, so {e,h²+4ef}=−4eh+4eh=0.
-    The polynomial e is not central since {h,e}=2e is nonzero.
+  - For the same algebra, p=x²,q=y: the bracket {x²,y}=2xy has value 12 at (2,3), and
+    with the gradient 4x of x², ξ([4x,y])=4ξ(y)=12, testing the product rule beyond
+    linear generators.
+  - For sl₂, {h,e}=2e and {e,f}=h, so {e,h²+4ef}=−4eh+4eh=0. On the right, the gradient
+    of h²+4ef at ξ is 2ξ(h)h+4ξ(f)e+4ξ(e)f, and ξ applied to its bracket with e is
+    −4ξ(h)ξ(e)+4ξ(e)ξ(h)=0. The polynomial e is not central since {h,e}=2e is nonzero.
 
-  *Needs:* the algebraic bracket above; symmetric-algebra evaluation;
-  finite-dimensional biduality, the derivative product rule and polynomial
-  identity over ℝ.
+  *Needs:* the algebraic bracket above (`exists_reesZeroFiberBracket`); Mathlib
+  `SymmetricAlgebra.lift`, `SymmetricAlgebra.equivMvPolynomial` and `MvPolynomial.pderiv`;
+  for the smooth reading, finite-dimensional biduality and the derivative of a polynomial
+  function over ℝ.
   The noncommutative Rees carrier is distinct from the commutative
   weight-Rees families of GroebnerGeometry G4.
 
@@ -1302,14 +1362,14 @@ V(2) has weights 2,0,−2 and dimension 3; the d=2 monomial xy has norm squared 
 
   Thus even the symmetric splitting gives half the bracket as its product
   coefficient; the full first-order commutator gives the bracket. Retain this distinction with the fixed parameter. The
-  ordered integral construction remains valid in characteristic2; the
+  ordered integral construction remains valid in characteristic 2; the
   averaging/half-bracket comparison has its stated ℚ-algebra hypothesis.
   This example uses only the native arbitrary-ring Rees algebra, the bracket of §3.1
   and native polynomial derivatives. General formal deformation quantization
   and convergence are not prerequisites. These formulas are derived here from
   the commutation rule `X^bY^c=Y^c(X+cħ)^b`; for the real characteristic-zero
   symmetrization framework see
-  [Gutt, Deformation Quantization and Symmetries, Lecture1](https://simone.gutt.web.ulb.be/DQWurzOct2019Lect1%262.pdf).
+  [Gutt, Deformation Quantization and Symmetries, Lecture 1](https://simone.gutt.web.ulb.be/DQWurzOct2019Lect1%262.pdf).
 
   **Checks.**
 
@@ -1739,9 +1799,10 @@ its root system.
   killed by native `TauCeti.SymmetricAlgebra.lieModuleDerivation`
   (`LinearAlgebra/SymmetricAlgebra/LieModule.lean`), with its maximal-trivial-submodule and
   degreewise characterizations. Consume the canonical
-  Mathlib `Module.Dual` action `⁅x,φ⁆(y)=−φ(⁅x,y⁆)`, with the coadjoint representation
-  coadjointRepresentation given by Mathlib's `LieModule.toEnd K L (Module.Dual K L)`, and its
-  coadjointDerivation through native `derivationOfEnd`, with the generator equation.
+  Mathlib `Module.Dual` action `⁅x,φ⁆(y)=−φ(⁅x,y⁆)`, with the coadjoint module
+  `Module.Dual K L`, whose action is Mathlib's `LieModule.toEnd K L (Module.Dual K L)`, and
+  its derivation of `S(L*)` through native `SymmetricAlgebra.derivationOfEnd`, with
+  the generator equation.
   Use the native Killing-duality, inner-action, polynomial-density, Cartan-conjugacy
   and trace-power contracts below. Under the Killing identifications L≃L* and H≃H*,
   the restriction square identifies polynomial restriction S(L*)→S(H*) with
@@ -1777,7 +1838,8 @@ its root system.
   Killing-semisimple L. The theorem `exists_pbwSymmetrization` itself applies to every
   Lie algebra over every characteristic-zero field: average ordered monomials
   over permutations with coefficient 1/m!, with its product formula, commutator equivariance,
-  inverse and filtration API, including pbwSymmetrization_symm_mem_degreeLE. Consume native `pbwHomogeneousComponentMap`,
+  inverse and filtration API, including the inverse-filtration statement: the inverse sends
+  the n-th PBW filtration step into the symmetric tensors of degree at most n. Consume native `pbwHomogeneousComponentMap`,
   `pbwAssociatedGradedEquiv` and `TauCeti.SymmetricAlgebra.gradedAlgebra` for the
   direct homogeneous grading and leading symbols. The degreewise symmetrization
   `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` and its centre criterion
@@ -1788,10 +1850,10 @@ its root system.
   (degree 0 predecessor is⊥). The symbol and center-membership theorems identify this
   graded algebra with S(L)^L. Consume the native degreewise
   `TauCeti.UniversalEnvelopingAlgebra.centerPBWGradedInvariantIso` and its symbol
-  equation. The additional target is normalized representative multiplication
-  centerPBWGradedMul and its compatibility under these isomorphisms; direct-sum
-  assembly gives the graded algebra identification; centerPBWGradedMul is bilinear
-  in the two native quotient modules. Symmetrization itself is linear, not multiplicative.
+  equation. The additional target is the normalized multiplication of degreewise centre
+  symbols, by multiplying representatives, and its compatibility under these isomorphisms;
+  direct-sum assembly gives the graded algebra identification; this multiplication is
+  bilinear in the two native quotient modules. Symmetrization itself is linear, not multiplicative.
 
   **Checks of the symbol assembly.**
   - In sl₂, Ω=h²+2h+4fe has symbol h²+4ef in degree 2;
@@ -1825,9 +1887,9 @@ its root system.
   The homogeneous components of ordinary invariants and of Lie invariants are native
   (`TauCeti.isHomogeneous_linearInvariants`,
   `TauCeti.SymmetricAlgebra.decompose_mem_lieInvariants_iff`); ordinary invariants form a
-  graded subalgebra, whereas dot invariants need not. Export cartanEquivDual_weylGroup
-  from native `rootInvariantForm.isOrthogonal_reflection` and simple-coreflection
-  generation, to transport polynomial restrictions between S(H*) and S(H).
+  graded subalgebra, whereas dot invariants need not. The Weyl equivariance of the Killing
+  duality `H ≃ H*` is native (`TauCeti.weylGroupCorootRep_cartanEquivDual_symm`); consume it
+  to transport polynomial restrictions between S(H*) and S(H).
   HC injectivity, surjectivity and inverse filtration are native
   (`TauCeti.hcProjection_injective`, `TauCeti.range_hcProjection`,
   `TauCeti.harishChandraIso_symm_mem_pbwFiltration`,
@@ -1850,8 +1912,8 @@ its root system.
   `TauCeti.forall_mem_dotInvariants_lift_eq_iff` (`CentralCharacter/OrbitSeparation.lean`).
   This is the central-character / orbit theorem behind Verma-module homomorphisms. The full **linkage
   principle** of category `O` (the precise statement about composition factors of `M(λ)`, the integral
-  Weyl group, and the order constraints of the block decomposition) is strictly stronger and is a
-  separate development, not identified with this orbit statement.
+  Weyl group, and the order constraints of the block decomposition) is strictly stronger, is
+  excluded in Scope and ownership, and is not identified with this orbit statement.
 The orbit-separation step is native as well; ReflectionInvariantTheory §2's finite-orbit
 separation theorem with V=H* gives the same statement once its polynomial invariants are
 identified with `TauCeti.linearInvariants H` through finite-dimensional double duality and evaluation.
@@ -2119,7 +2181,7 @@ the stated scalar extension; “formally real” is never asserted over algebrai
   `LieAlgebra.g₂ ℝ`.
 - **`G₂ = Der(𝕆)`.** The derivation algebra of the split `𝕆` is a `14`-dimensional simple Lie algebra of
   type `G₂`, with its `7`-dimensional **fundamental representation** the imaginary octonions `Im 𝕆`
-  (imaginaryOctonion). Use `TauCeti.derivationLieAlgebra K (TauCeti.Octonion K)` with its native
+  (`TauCeti.Octonion.imaginaryLieSubmodule`). Use `TauCeti.derivationLieAlgebra K (TauCeti.Octonion K)` with its native
   commutator bracket and dimension theorem. Its simplicity, the nondegeneracy of its Killing
   form, its split Cartan subalgebra `TauCeti.Octonion.cartanSubalgebra` and the Chevalley
   generators `TauCeti.Octonion.lieBasis` with Cartan matrix `CartanMatrix.G₂ᵀ` are native
@@ -2286,7 +2348,7 @@ classification is used.
   `trace((A∘B)∘C)=trace(A∘(B∘C))`, and intrinsic real spectral
   decomposition into orthogonal primitive Jordan idempotents. Prove
   primitive idempotents are exactly the trace-one idempotents, and any
-  complete orthogonal primitive frame summing to1 has exactly three
+  complete orthogonal primitive frame summing to 1 has exactly three
   elements. Prove that
   commutators `[L_A,L_B]` are derivations skew-adjoint for the trace form.
   This algebraic decomposition does not assert automorphism transitivity
@@ -2479,7 +2541,10 @@ classification is used.
       Freudenthal triple system on `J`) each need an **explicit carrier and bracket**, not merely a
       dimension count. Use the Tits construction on split composition algebras
       and the split Albert algebra, keeping the two bracketed carriers distinct;
-      they are not summands of the `sl₉ ⊕ Λ³ ⊕ Λ³*` model. Baez §4.3,
+      they are not summands of the `sl₉ ⊕ Λ³ ⊕ Λ³*` model. Over ℂ, the construction
+      `Der A ⊕ (A₀ ⊗ J₃(B)₀) ⊕ Der J₃(B)` from a pair of composition algebras, and the
+      square of Lie algebras it produces, are Landsberg–Manivel, §1.1, p. 2
+      (LandsbergManivelMagicSquare lines 66–79). Baez §4.3,
       pp. 42–44 gives the magic-square construction; §4.4, Theorem 6, pp. 45–46
       gives the E₆ models and 52+26=78, and §4.5, Theorem 7, pp. 47–48 gives
       the E₇ models and 52+3·27=133. Those statements concern compact real
@@ -2820,10 +2885,10 @@ actual conjugation-invariant polynomial functions to diagonal matrices. For
 n≥2 the nonzero discriminant locus is a dense open of diagonalizable matrices,
 so restriction is injective. Permutation conjugation makes its image symmetric;
 the elementary characteristic coefficients supply the inverse by the fundamental
-symmetric-polynomial theorem. Treat n=0 and1 directly. Export the full algebra
+symmetric-polynomial theorem. Treat n=0 and 1 directly. Export the full algebra
 maps, their generator evaluations, both inverse identities and homogeneous
-filtrations: gl_n has generators of degrees1,…,n, whereas sl_n has trace zero
-and generators of degrees2,…,n. Compose these actual maps with the reductive HC
+filtrations: gl_n has generators of degrees 1,…,n, whereas sl_n has trace zero
+and generators of degrees 2,…,n. Compose these actual maps with the reductive HC
 and trace squares. The three comparisons are respectively linear, graded algebraic and filtered
 algebraic (Etingof, arXiv:2401.01446v2, Theorem 13.5 and its proof, p. 69;
 Theorem 14.1(iv)–(v), pp. 70–71; Example 10.3, pp. 52–53).
@@ -2914,7 +2979,9 @@ The targets of this subsection are what the native engine does not state.
   `RootPairing.coweightLattice` of its real form with `Hom_ℤ(Q, ℤ)` through
   `RootPairing.toDualRootSpan`, and the real coweight space with `Hom_ℤ(Q, ℝ)`, by the explicit
   comparison from `ℝ ⊗[ℤ] Hom_ℤ(Q,ℤ)` given by `a⊗f ↦ (q ↦ a*(f(q):ℝ))`, with inverse
-  constructed from a finite integral basis of the root lattice.
+  constructed from a finite integral basis of the root lattice. The native fundamental-coweight
+  basis `RootPairing.Base.coweightLatticeBasis`, whose coordinates are the pairings with the
+  simple roots, is the input for the lattice comparison.
 - Compare the native highest root `b.highestRoot` with the highest long root determined by the
   finite-type symmetrizer, transported from `DynkinType.IsLongSimpleRoot` along Weyl orbits,
   including its coefficients in Δ.
@@ -2991,11 +3058,13 @@ construct the concrete isomorphism
 `Ω ⋊ Γ_root ≃ Aut(affine Cartan matrix)`
 (Garnier, Corollary 2.2.7, p. 10, with the oriented Cartan data retained).
 
-Here an affine Cartan automorphism is a permutation of the finite simple nodes together with node
-`0` that preserves the full untwisted affine Cartan matrix, including multiple-edge orientation. A
-special node is one with coefficient `1` in the affine null-root relation; node `0` is special.
-Prove injectivity by the action on the alcove walls. For surjectivity, prove every affine-diagram
-automorphism sends special nodes to special nodes, use the simply transitive `Ω`-action on special
+Here `Aut(affine Cartan matrix)` is the native `TauCeti.matrixSymmetryGroup b.affineCartanMatrix`:
+the permutations of the finite simple nodes together with node `0` (the native `none`) that
+preserve the full untwisted affine Cartan matrix, including multiple-edge orientation. The
+special nodes are the native `b.specialNodes`, the nodes with coefficient `1` in the affine
+null-root relation; node `0` is special. Prove injectivity by the action on the alcove walls.
+For surjectivity, an affine-diagram automorphism sends `0` to a special node by the native
+`RootPairing.Base.apply_mem_specialNodes_iff`; use the simply transitive `Ω`-action on special
 nodes to move it back to `0`, then identify the stabilizer of `0` with `Γ_root`.
 
 For a reducible finite root system, do the construction on each irreducible component and include
@@ -3006,7 +3075,9 @@ trivial.
 The two lattice quotients have different meanings and remain distinct. For a W-stable lattice
 `Q∨ ⊆ Y ⊆ P∨`, the stabilizer of the alcove in `Y⋊W` is `Y/Q∨`, whereas the dual quotient is
 `P∨/Y`; for `Y=Q∨` the first is trivial and the second is `P∨/Q∨`, and for `Y=P∨` the sizes are
-reversed. Check the constructions and actions in types `A₁`, `A_r`, `D₄`, and `E₆`:
+reversed. Check the constructions and actions in types `A₁`, `A_r`, `D₄`, and `E₆`
+(the orders 2, r+1, 4 and 3 of Ω are the values of |det C| in the native
+`RootPairing.Base.relIndex_corootSpan_coweightLattice`):
 respectively `Ω ≅ C₂`; `Ω ≅ C_{r+1}` with the nontrivial finite diagram involution acting by
 inversion for `r ≥ 2`; `Ω ≅ C₂ × C₂` and the `S₃` triality action permuting its three nonzero
 elements; and `Ω ≅ C₃` with the diagram involution acting by inversion. These checks fix the affine
@@ -3020,7 +3091,7 @@ In type A₁ with the coordinate α(x), the closed alcove is [0,1], `P∨/Q∨` 
 
 ### Dependencies
 
-*Needs:* the native affine and extended affine Weyl groups, fundamental alcove and coweight lattice (From Tau Ceti); RootSystems Layers 1–6; the native integral-weight lattice.
+*Needs:* the native affine and extended affine Weyl groups, fundamental alcove and coweight lattice, with the native affine Cartan matrix, marks, special nodes and coweight-lattice basis (From Tau Ceti); RootSystems Layers 1–6; the native integral-weight lattice.
 
 ## Worked examples
 
@@ -3045,13 +3116,13 @@ In type A₁ with the coordinate α(x), the closed alcove is [0,1], `P∨/Q∨` 
   non-split-looking submodule of `V(1) ⊗ V(1)`) is split by the native complete reducibility
   `TauCeti.exists_isCompl_of_isKilling`, decomposing as predicted by
   Clebsch-Gordan and the character ring.
-- **The center and linkage for `sl₂`.** Consume native
+- **The center and central characters for `sl₂`.** Consume native
   `TauCeti.SpecialLinear.instHasTrivialRadicalSl` from `GeneralLinear.Radical` and
   Mathlib `HasTrivialRadical.instIsKilling`. The diagonal Cartan subalgebra is the native
   `TauCeti.specialLinearDiagonalCartan 1 K` (`TauCeti/Algebra/Lie/SpecialLinear/Diagonal.lean`),
   spanned by h=E₀₀−E₁₁ (`TauCeti.specialLinearDiagonalCartanBasis`), with its Cartan instance
   `TauCeti.instIsCartanSubalgebraSpecialLinearDiagonalCartanOfNoZeroDivisors` (a domain in
-  which 2 ≠ 0); construct its root decomposition and slTwoPositiveBase selecting e=E₀₁ as
+  which 2 ≠ 0); construct its root decomposition and the positive base selecting e=E₀₁ as
   positive (with f=E₁₀). These concrete root/base targets belong here before any application
   of Layer 7; triangularizability is the native
   `instIsTriangularizableOfIsAlgClosed` consequence. Consume the existing native standard
@@ -3133,7 +3204,8 @@ Layer 7; the compact Albert geometry in TangentialBordism §§9.1–9.2 (B3.6–
 separate positive real algebra track. SpinRepresentations consumes the native dual-standard
 Pieri rule `TauCeti.gl_dual_standard_pieri`, which Layer 9 applies.
 
-The polynomial derivative identity in §3.1 identifies the PBW zero-fibre
+The polynomial derivative identity of §3.1
+(`lift_reesZeroFiberBracket_eq_lie_symmetricGradient`) identifies the PBW zero-fibre
 bracket with the differential formula used by LieGroupoidsPoisson G4.6A.
 Its smooth Poisson structure supplies the geometric interpretation of that
 identity. Likewise §6.2's finite Laurent identity is an input to
@@ -3169,12 +3241,6 @@ Layer 10 consumes the native affine and extended affine Weyl groups, the fundame
   Proposition-Definition 2.2.1, pp. 7–8; Corollary 2.2.7, p. 10;
   Proposition 2.3.1, pp. 16–17,
   [author's manuscript](https://www.lamfa.u-picardie.fr/agarnier/unpub/fund_dom_KP.pdf).
-
-- C. De Concini, C. Procesi, M. Vergne, *Box splines and the equivariant index
-  theorem*, arXiv:1012.1049v3 (2012), §1, pp. 6–7; Definitions 2.5–2.9,
-  pp. 8–10; Theorems 2.15 and 2.29, pp. 11 and 15; §3.1,
-  Propositions 3.2 and 3.4 and Theorem 3.3, pp. 19–20. These locators
-  refer to the arXiv version.
 
 - P. Etingof, *Representations of Lie Groups*, arXiv:2401.01446v2 (2024),
   Theorem 10.1 and Remark 10.2, pp. 51–52; Theorem 13.5, p. 69;
@@ -3219,8 +3285,9 @@ Layer 10 consumes the native affine and extended affine Weyl groups, the fundame
   §§4.3–4.5, pp. 42–48, Theorems 6–7, for magic-square E₆/E₇ and
   the Freudenthal 56-dimensional carrier. The split-field route is stated in Layer 8.
 - J. M. Landsberg and L. Manivel, *The projective geometry of Freudenthal’s magic square*,
-  arXiv:math/9908039v1 (1999), §1.1, pp. 2–3, for the complex magic-square background.
-  This background does not supply the arbitrary-field bracket comparisons of Layer 8.
+  arXiv:math/9908039v1 (1999), §1.1, p. 2, for the complex Freudenthal–Tits construction
+  cited in Layer 8. This background does not supply the arbitrary-field bracket comparisons
+  of Layer 8.
 - R. Goodman, N. R. Wallach, *Symmetry, Representations, and Invariants*, Springer GTM 255 (2009),
   highest-weight theory for `gl_n` and the classical groups, the trace-form Casimir, isotypic
   decompositions, and the Pieri rules; the primary source for Layer 9 and the minuscule Pieri

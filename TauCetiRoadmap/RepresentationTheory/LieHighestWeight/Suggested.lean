@@ -23,7 +23,8 @@ public import TauCeti.LinearAlgebra.RootSystem.Weyl.Affine.Alcove
 The roadmap is README.md; this file is not the roadmap. It states the headline
 theorems against the pinned APIs: the normalized orthogonal polynomial tensor basis with
 its determinant-twisted GL2 action, the first-order bracket on the zero fibre of the PBW Rees
-algebra, normalized PBW symmetrization, the invariant-form symmetry sign, the split Serre
+algebra and its evaluation by the linear Poisson formula, normalized PBW symmetrization, the
+invariant-form symmetry sign, the split Serre
 presentation, the split identifications G2 and F4, the dimensions of the split Serre algebras
 E6, E7 and E8, the compact real form of G2 on the division octonions and its
 complexification, the Littlewood-Richardson multiplicities of the general linear Lie algebra,
@@ -45,11 +46,7 @@ The following headlines are not statable at the pins. The formally real Albert a
 the compact form of F4 lack the Albert carrier over the division octonions: the pinned
 `TauCeti.AlbertAlgebra` is the split one. The Vinberg E8 and Freudenthal E6/E7 model
 comparisons lack their constructed brackets and modules; the dimensions of the native Serre
-algebras are stated below. The polynomial derivative comparison of the zero-fibre bracket
-with the linear Poisson formula needs that bracket as a constructed map; the pin has the
-zero-fibre specialization but no bracket, so only its existence and defining equation are
-stated. Category-O linkage lacks its category and integral block carriers. None is replaced
-here by admitted data.
+algebras are stated below. None is replaced here by admitted data.
 
 The rational Weyl and finite Fourier identities are adapters of the native character
 theorem and Fourier orthogonality; the generic distributional reconstruction belongs to
@@ -154,10 +151,11 @@ theorem normalizedPolynomialTensorBasis (m n : ℕ) :
                 (polynomialAction g (polynomialMonomial (m + n - 2 * r.val) k.val))) •
               polynomialTensorString m n r i.val) := sorry
 
-/-! ## Layer 3: normalized PBW symmetrization -/
+/-! ## Layer 3: the PBW Rees zero fibre and the linear Poisson bracket -/
 
-/-- On the zero fibre of the PBW Rees algebra of a free Lie algebra over a commutative ring,
-the commutator divided by the central parameter is a well-defined bilinear bracket on the
+/-- On the zero fibre of the PBW Rees algebra of a Lie algebra that is free as a module over a
+commutative ring, the commutator divided by the central parameter is a well-defined bilinear
+bracket on the
 symmetric algebra: whenever `a * b - b * a = ħ * c` in the Rees algebra, the bracket of the
 zero-fibre classes of `a` and `b` is the class of `c`. -/
 theorem exists_reesZeroFiberBracket (R : Type u) [CommRing R]
@@ -169,21 +167,31 @@ theorem exists_reesZeroFiberBracket (R : Type u) [CommRing R]
             (TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero R L b) =
           TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero R L c := sorry
 
-/-- Over a characteristic-zero field, PBW symmetrization is the unique linear
-comparison whose value on every symmetric monomial is the average of all ordered words.
-The empty word maps to one; the map need not preserve multiplication. -/
-theorem exists_pbwSymmetrization (K : Type u) [Field K] [CharZero K]
-    (L : Type v) [LieRing L] [LieAlgebra K L] :
-    ∃ e : SymmetricAlgebra K L ≃ₗ[K] UniversalEnvelopingAlgebra K L,
-      (∀ l : List L, e ((l.map (SymmetricAlgebra.ι K L)).prod) =
-        ((l.length.factorial : K)⁻¹) •
-          ∑ sigma : Equiv.Perm (Fin l.length),
-            (List.ofFn (fun i => UniversalEnvelopingAlgebra.ι K (l.get (sigma i)))).prod) ∧
-      (∀ (x : L) (p : SymmetricAlgebra K L), e ⁅x, p⁆ =
-        UniversalEnvelopingAlgebra.ι K x * e p - e p * UniversalEnvelopingAlgebra.ι K x) ∧
-      (∀ n : ℕ, ∀ p : SymmetricAlgebra K L,
-        p ∈ (⨆ k ≤ n, TauCeti.SymmetricAlgebra.homogeneousSubmodule K L k) ↔
-        e p ∈ TauCeti.UniversalEnvelopingAlgebra.pbwFiltration K L n) := sorry
+/-- The gradient at `ξ ∈ L*` of a symmetric tensor read as a polynomial function on `L*`: the
+vector `Σᵢ (∂ᵢ P)(ξ(b₁), …, ξ(bₙ)) • bᵢ` of `L`, where `P` is the polynomial of `p` in the
+coordinates of the finite basis `b`. Under biduality it is the derivative of `η ↦ p(η)` at `ξ`,
+so it does not depend on `b`. -/
+noncomputable def symmetricGradient {L : Type*} [AddCommGroup L] [Module ℝ L] {ι : Type*}
+    [Fintype ι] (b : Module.Basis ι ℝ L) (p : SymmetricAlgebra ℝ L) (ξ : Module.Dual ℝ L) : L :=
+  ∑ i, MvPolynomial.eval (fun j => ξ (b j))
+      (MvPolynomial.pderiv i (SymmetricAlgebra.equivMvPolynomial b p)) • b i
+
+/-- For a finite-dimensional real Lie algebra, every bilinear bracket with the defining equation
+of the zero-fibre bracket of `exists_reesZeroFiberBracket` evaluates at `ξ ∈ L*` by the linear
+Poisson formula `{p, q}(ξ) = ξ([dp_ξ, dq_ξ])`, the derivatives being the gradients
+`symmetricGradient b p ξ` and `symmetricGradient b q ξ` (Gutt, *Deformation Quantization and
+Symmetries*, Lecture 1, slide 14, for the convention `P_ξ(X, Y) = ξ([X, Y])`). -/
+theorem lift_reesZeroFiberBracket_eq_lie_symmetricGradient (L : Type*) [LieRing L]
+    [LieAlgebra ℝ L] {ι : Type*} [Fintype ι] (b : Module.Basis ι ℝ L)
+    (B : SymmetricAlgebra ℝ L →ₗ[ℝ] SymmetricAlgebra ℝ L →ₗ[ℝ] SymmetricAlgebra ℝ L)
+    (hB : ∀ a c d : TauCeti.UniversalEnvelopingAlgebra.reesAlgebra ℝ L,
+      a * c - c * a = TauCeti.UniversalEnvelopingAlgebra.reesParameter ℝ L * d →
+      B (TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero ℝ L a)
+          (TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero ℝ L c) =
+        TauCeti.UniversalEnvelopingAlgebra.reesSpecializationZero ℝ L d)
+    (p q : SymmetricAlgebra ℝ L) (ξ : Module.Dual ℝ L) :
+    SymmetricAlgebra.lift ξ (B p q) = ξ ⁅symmetricGradient b p ξ, symmetricGradient b q ξ⁆ :=
+  sorry
 
 section General
 variable {K : Type*} [Field K] [CharZero K] [algClosedK : IsAlgClosed K]
@@ -211,7 +219,23 @@ theorem invariantForm_isSymm_iff_tits_sign
 
 end General
 
-/-! ## Layer 7: the split Serre presentation -/
+/-! ## Layer 7: normalized PBW symmetrization and the split Serre presentation -/
+
+/-- Over a characteristic-zero field, PBW symmetrization is the unique linear
+comparison whose value on every symmetric monomial is the average of all ordered words.
+The empty word maps to one; the map need not preserve multiplication. -/
+theorem exists_pbwSymmetrization (K : Type u) [Field K] [CharZero K]
+    (L : Type v) [LieRing L] [LieAlgebra K L] :
+    ∃ e : SymmetricAlgebra K L ≃ₗ[K] UniversalEnvelopingAlgebra K L,
+      (∀ l : List L, e ((l.map (SymmetricAlgebra.ι K L)).prod) =
+        ((l.length.factorial : K)⁻¹) •
+          ∑ sigma : Equiv.Perm (Fin l.length),
+            (List.ofFn (fun i => UniversalEnvelopingAlgebra.ι K (l.get (sigma i)))).prod) ∧
+      (∀ (x : L) (p : SymmetricAlgebra K L), e ⁅x, p⁆ =
+        UniversalEnvelopingAlgebra.ι K x * e p - e p * UniversalEnvelopingAlgebra.ι K x) ∧
+      (∀ n : ℕ, ∀ p : SymmetricAlgebra K L,
+        p ∈ (⨆ k ≤ n, TauCeti.SymmetricAlgebra.homogeneousSubmodule K L k) ↔
+        e p ∈ TauCeti.UniversalEnvelopingAlgebra.pbwFiltration K L n) := sorry
 
 section Serre
 variable {K : Type*} [Field K] [CharZero K]
